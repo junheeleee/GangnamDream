@@ -117,6 +117,37 @@ deferred 기본 포커스를 비우고 **동일한 실제 Button**에 raw Enter�
 금지한다. 분기 삭제·카드 뒤 이동·무조건 반환 약화를 변조 fixture가 거부하고, 실제
 W1 프로브 뒤 새 제품 commit/tree에서 세 profile W1→W240을 처음부터 다시 실행한다.
 
+### 2026-09-01 두 번째 exact 행렬 반려 · `e5c2ae0b`
+
+같은 후보의 `baseline_safe_people`은 W1→W240·1,588 record·244 story
+occurrence·`with_daeun` ending과 clean teardown을 통과했다. 그러나
+`investment_property_daeun`은 W82 `arc_opp_sangchul_realty`에서 설계 기준인
+작성 선택 1이 아니라 profile 기본 선택 0을 사용해 손실을 냈다. 그 결과 W112~143의
+8천만원 문턱을 열지 못했고, 필수 연쇄 8/22·최종 자산 85,139,391원으로 fail-closed했다.
+경제 수치·확률·seed·상태를 바꾸지 않고 property ladder 정본과 같은 작성 선택 1을
+exact override로 고정하며, 누락·index 0·timed 변조를 profile audit가 거부한다.
+
+이 실패 뒤 비영 종료에서 ObjectDB 5 resource leak도 재현됐다. 성공 표식으로
+덮지 않고 마지막 제품 장면의 audio stream과 active scene을 모두 해제한 뒤 종료해,
+실패는 깨끗한 profile 실패로 남긴다. 독립 정적 검토가 찾은 tutorial 전 입력 우회,
+재귀 탐색 무력화, exact focus 확인 제거도 모두 새 변조 fixture로 차단한다. 이 후보의
+행렬은 증거로 쓰지 않고 새 제품 commit/tree에서 세 profile을 다시 처음부터 실행한다.
+
+같은 행렬의 `general_near_goal_father_passed`는 W112 재개발 실패 뒤 7.49억원에
+머물렀고, W188 빈 병실의 정신력 하락으로 `mental_break`가 나서 필수 연쇄 2/10에서
+끝났다. 기본 index 0이 고른 3년차 후반의 단절·과로 선택 여섯 건도 이 프로필의
+사람/아버지 정체성과 반대로 누적됐다. 수치를 주입하지 않고 이미 작성된 절제·회복
+선택만 exact override로 고정하며, 누락·다른 index·timed 변조를 거부한다. 25억
+진입은 합법적인 투자 선택과 seed의 실제 결과로만 증명하고 자산 상·하한은 완화하지
+않는다.
+
+후속 property 진단은 W82 선택 1로 손실을 작게 제한해 W141 재개발 진입·승인과
+W189 26억원 매각까지 실제로 열었지만, 기존 필수 순서가 W160 민서를 W189 매각
+뒤에 잘못 적어 성공 런도 10/22에서 멈췄다. 또한 W132 상철 결산의 기본 신고 선택이
+M49 네 사람 진입에 필요한 상철 관계를 닫았다. 필수 순서를 실제 주차 순서로 고치고,
+작성된 상철 수용 선택 1을 고정한다. 이는 장면·경제·확률 변경이 아니라 화면에 있는
+합법 선택을 해당 경로가 일관되게 수행하도록 하는 profile 수리다.
+
 ## L1 / L2 / L3
 
 - **L1:** trace/profile contract와 mutation self-test가 초점 신원 오염, W13 선택

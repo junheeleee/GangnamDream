@@ -142,6 +142,30 @@ PROFILE_STUDY_TYPES = {
 GENERAL_PROFILE_ID = "general_near_goal_father_passed"
 GENERAL_REQUIRED_CHOICE_OVERRIDE_EVENT = "cafe_cb_honest_in"
 GENERAL_REQUIRED_CHOICE_OVERRIDE = {"index": 1, "selection_mode": "direct"}
+GENERAL_SURVIVAL_CHOICE_OVERRIDES = {
+    "arc_36_night_doubt": {"index": 2, "selection_mode": "direct"},
+    "amb_guarantee_00": {"index": 2, "selection_mode": "direct"},
+    "arc_36_trust_crack": {"index": 1, "selection_mode": "direct"},
+    "arc_35_path_cost": {"index": 1, "selection_mode": "direct"},
+    "arc_35_habit_check": {"index": 1, "selection_mode": "direct"},
+    "arc_36_reality_check": {"index": 1, "selection_mode": "direct"},
+    "arc_year_three_crossroads": {"index": 1, "selection_mode": "direct"},
+    "arc_36_body_signal": {"index": 1, "selection_mode": "direct"},
+}
+PROPERTY_PROFILE_ID = "investment_property_daeun"
+PROPERTY_LADDER_PROFILE_IDS = {
+    "investment_property_daeun",
+    "general_near_goal_father_passed",
+}
+PROPERTY_REQUIRED_CHOICE_OVERRIDE_EVENT = "arc_opp_sangchul_realty"
+PROPERTY_REQUIRED_CHOICE_OVERRIDE = {"index": 1, "selection_mode": "direct"}
+PROPERTY_CAST_GUARD_CHOICE_OVERRIDE_EVENT = "arc_sangchul_reckoning"
+PROPERTY_CAST_GUARD_CHOICE_OVERRIDE = {"index": 1, "selection_mode": "direct"}
+PROPERTY_REQUIRED_SEQUENCE_SLICE = (
+    "inv_redev_zone_tip",
+    "arc_minseo_02_real",
+    "inv_redev_completion_sale",
+)
 INVESTMENT_EVIDENCE = {"kind": "invest", "weight": 4, "version": 2}
 INVESTMENT_EVIDENCE_ACTIONS = {
     "study_invest": ("study", "_ap_study"),
@@ -304,6 +328,24 @@ def validate_profiles(path: Path = DEFAULT_PROFILES, *, check_events: bool = Tru
                 f"{label} must choose authored choice 1 for "
                 f"{GENERAL_REQUIRED_CHOICE_OVERRIDE_EVENT}"
             )
+        if profile_id == GENERAL_PROFILE_ID:
+            for event_id, required_choice in GENERAL_SURVIVAL_CHOICE_OVERRIDES.items():
+                if overrides.get(event_id) != required_choice:
+                    raise ContractError(
+                        f"{label} must choose the authored survival choice for {event_id}"
+                    )
+        if profile_id in PROPERTY_LADDER_PROFILE_IDS and overrides.get(
+                PROPERTY_REQUIRED_CHOICE_OVERRIDE_EVENT) != PROPERTY_REQUIRED_CHOICE_OVERRIDE:
+            raise ContractError(
+                f"{label} must choose authored choice 1 for "
+                f"{PROPERTY_REQUIRED_CHOICE_OVERRIDE_EVENT}"
+            )
+        if profile_id == PROPERTY_PROFILE_ID and overrides.get(
+                PROPERTY_CAST_GUARD_CHOICE_OVERRIDE_EVENT) != PROPERTY_CAST_GUARD_CHOICE_OVERRIDE:
+            raise ContractError(
+                f"{label} must preserve the authored Chapter 5 cast through "
+                f"{PROPERTY_CAST_GUARD_CHOICE_OVERRIDE_EVENT} choice 1"
+            )
         _string_list(profile["main_action_priority"], f"{label}.main_action_priority")
         functions = _string_list(profile["main_function_priority"], f"{label}.main_function_priority")
         if any(not value.startswith("_ap_") for value in functions):
@@ -397,6 +439,16 @@ def validate_profiles(path: Path = DEFAULT_PROFILES, *, check_events: bool = Tru
             unknown = sorted(set(sequence) - event_ids)
             if unknown:
                 raise ContractError(f"{label} required sequence has unknown events: {unknown}")
+        if profile_id == PROPERTY_PROFILE_ID:
+            required_slice_size = len(PROPERTY_REQUIRED_SEQUENCE_SLICE)
+            if not any(
+                    tuple(sequence[start:start + required_slice_size])
+                    == PROPERTY_REQUIRED_SEQUENCE_SLICE
+                    for start in range(len(sequence) - required_slice_size + 1)):
+                raise ContractError(
+                    f"{label} must order the property ladder by actual runtime: "
+                    "redev attempt, Minseo, then deferred completion sale"
+                )
         edges = profile["required_edges"]
         if not isinstance(edges, list) or not edges:
             raise ContractError(f"{label}.required_edges must be non-empty")
@@ -523,6 +575,8 @@ def _validate_trace_script_source(source: str) -> None:
         "func _graceful_shutdown(exit_code: int) -> void:",
         "await _release_audio_for_exit()",
         "func _release_audio_for_exit() -> void:",
+        "await _release_active_scene_for_exit()",
+        "func _release_active_scene_for_exit() -> void:",
         "_detach_audio_streams(get_tree().root)",
         "player.stream = null",
         "(raw_sounds as Dictionary).clear()",
@@ -626,6 +680,29 @@ def _validate_trace_script_source(source: str) -> None:
         raise ContractError(
             "visible TutorialOverlay must be driven before MainGame modal/cards"
         )
+    pending_guard = (
+        "\tif not GameState.pending_story_queue.is_empty():\n"
+        "\t\treturn false\n"
+    )
+    guard_start = drive_body.find(pending_guard)
+    if guard_start < 0 or guard_start >= tutorial_start:
+        raise ContractError(
+            "queued-story guard must precede the TutorialOverlay input owner"
+        )
+    pre_tutorial_gap = drive_body[
+        guard_start + len(pending_guard):tutorial_start
+    ]
+    for forbidden_dispatch in (
+        "_activate_button(",
+        "_activate_settled_main_action_button(",
+        "_send_key(",
+        "Input.parse_input_event",
+    ):
+        if forbidden_dispatch in pre_tutorial_gap:
+            raise ContractError(
+                "input dispatch bypasses the visible TutorialOverlay owner: "
+                + forbidden_dispatch
+            )
     tutorial_block = drive_body[tutorial_start:modal_start]
     tutorial_pattern = re.compile(
         r"(?m)^\tvar tutorial_overlay := _active_main_tutorial_overlay\(main\)\n"
@@ -642,16 +719,62 @@ def _validate_trace_script_source(source: str) -> None:
     tutorial_helper_body = _gdscript_function_body(
         source, "_active_main_tutorial_overlay"
     )
-    for marker in (
+    ordered_tutorial_markers = (
+        "for child in root.get_children():",
+        "if child is Control",
         "not child.is_queued_for_deletion()",
         "(child as Control).is_visible_in_tree()",
         "_scene_script_path(child) == TUTORIAL_OVERLAY_SCRIPT",
+        "return child as Control",
         "var nested := _active_main_tutorial_overlay(child)",
-    ):
+        "if nested != null:",
+        "return nested",
+    )
+    previous_marker = -1
+    for marker in ordered_tutorial_markers:
         if marker not in tutorial_helper_body:
             raise ContractError(
                 f"TutorialOverlay discovery contract is missing {marker!r}"
             )
+        marker_index = tutorial_helper_body.index(marker)
+        if marker_index <= previous_marker:
+            raise ContractError(
+                "TutorialOverlay discovery order drifted at " + repr(marker)
+            )
+        previous_marker = marker_index
+    for required_and in (
+        "and not child.is_queued_for_deletion()",
+        "and (child as Control).is_visible_in_tree()",
+        "and _scene_script_path(child) == TUTORIAL_OVERLAY_SCRIPT",
+    ):
+        if required_and not in tutorial_helper_body:
+            raise ContractError(
+                f"TutorialOverlay discovery must keep conjunctive guard {required_and!r}"
+            )
+    if tutorial_helper_body.rfind("return null") <= previous_marker:
+        raise ContractError("TutorialOverlay discovery must fail closed after recursion")
+
+    activation_body = _gdscript_function_body(source, "_activate_button")
+    for marker in (
+        "button.grab_focus()",
+        "var focused := get_viewport().gui_get_focus_owner()",
+        "if focused != button:",
+        "await _send_key(KEY_ENTER)",
+    ):
+        if marker not in activation_body:
+            raise ContractError(
+                f"visible button activation focus contract is missing {marker!r}"
+            )
+    activation_grab = activation_body.index("button.grab_focus()")
+    activation_owner = activation_body.index(
+        "var focused := get_viewport().gui_get_focus_owner()"
+    )
+    activation_exact = activation_body.index("if focused != button:")
+    activation_enter = activation_body.index("await _send_key(KEY_ENTER)")
+    if not activation_grab < activation_owner < activation_exact < activation_enter:
+        raise ContractError(
+            "visible button activation must grab, verify exact owner, then send Enter"
+        )
 
     focus_body = _gdscript_function_body(
         source, "_activate_settled_main_action_button"
@@ -729,6 +852,32 @@ def _validate_trace_script_source(source: str) -> None:
         )
     if release_body.count("await get_tree().process_frame") < 2:
         raise ContractError("runtime audio teardown must drain two process frames")
+
+    shutdown_body = _gdscript_function_body(source, "_graceful_shutdown")
+    audio_release = shutdown_body.index("await _release_audio_for_exit()")
+    scene_release = shutdown_body.index("await _release_active_scene_for_exit()")
+    tree_quit = shutdown_body.index("get_tree().quit(exit_code)")
+    if not audio_release < scene_release < tree_quit:
+        raise ContractError(
+            "runtime teardown must release audio and active scene before quit"
+        )
+    scene_release_body = _gdscript_function_body(
+        source, "_release_active_scene_for_exit"
+    )
+    for marker in (
+        "var active_scene := get_tree().current_scene",
+        "active_scene == self",
+        "get_tree().current_scene = null",
+        "active_scene.queue_free()",
+    ):
+        if marker not in scene_release_body:
+            raise ContractError(
+                f"runtime active-scene teardown is missing {marker!r}"
+            )
+    if scene_release_body.count("await get_tree().process_frame") < 2:
+        raise ContractError(
+            "runtime active-scene teardown must drain two process frames"
+        )
 
 
 def _validate_main_game_timer_source(source: str) -> None:
@@ -2172,6 +2321,63 @@ def self_test() -> None:
     )
     cases += 1
 
+    queued_guard = (
+        "\tif not GameState.pending_story_queue.is_empty():\n"
+        "\t\treturn false\n"
+    )
+    pre_tutorial_bypass = trace_source.replace(
+        queued_guard,
+        queued_guard
+        + "\tvar bypass := get_viewport().gui_get_focus_owner() as Button\n"
+        + "\tif bypass != null:\n"
+        + "\t\tawait _activate_button(bypass)\n",
+        1,
+    )
+    _expect_failure(
+        "main-action-pre-tutorial-input-bypass",
+        lambda: _validate_trace_script_source(pre_tutorial_bypass),
+    )
+    cases += 1
+
+    tutorial_helper_body = _gdscript_function_body(
+        trace_source, "_active_main_tutorial_overlay"
+    )
+    disabled_tutorial_recursion = trace_source.replace(
+        tutorial_helper_body,
+        tutorial_helper_body.replace(
+            "for child in root.get_children():", "for child in []:", 1
+        ),
+        1,
+    )
+    _expect_failure(
+        "main-action-disabled-tutorial-recursion",
+        lambda: _validate_trace_script_source(disabled_tutorial_recursion),
+    )
+    cases += 1
+
+    activation_body = _gdscript_function_body(trace_source, "_activate_button")
+    stripped_activation_focus = trace_source.replace(
+        activation_body,
+        activation_body.replace(
+            "\tbutton.grab_focus()\n"
+            "\tif not _button_is_usable(button):\n"
+            "\t\treturn\n"
+            "\tif not button.has_focus():\n"
+            "\t\tbutton.grab_focus()\n"
+            "\tvar focused := get_viewport().gui_get_focus_owner()\n"
+            "\tif focused != button:\n"
+            "\t\treturn\n",
+            "",
+            1,
+        ),
+        1,
+    )
+    _expect_failure(
+        "visible-button-enter-without-exact-focus",
+        lambda: _validate_trace_script_source(stripped_activation_focus),
+    )
+    cases += 1
+
     moved_tutorial_branch = trace_source.replace(tutorial_branch, "", 1).replace(
         "\tvar focused := get_viewport().gui_get_focus_owner() as Button\n",
         tutorial_branch
@@ -2244,6 +2450,15 @@ def self_test() -> None:
     _expect_failure(
         "main-action-direct-pressed-emit",
         lambda: _validate_trace_script_source(direct_pressed_emit),
+    )
+    cases += 1
+
+    disabled_scene_teardown = trace_source.replace(
+        "\tawait _release_active_scene_for_exit()\n", "", 1
+    )
+    _expect_failure(
+        "runtime-disabled-active-scene-teardown",
+        lambda: _validate_trace_script_source(disabled_scene_teardown),
     )
     cases += 1
 
@@ -2336,6 +2551,141 @@ def self_test() -> None:
                 ),
             )
             cases += 1
+
+    for survival_event, survival_choice in GENERAL_SURVIVAL_CHOICE_OVERRIDES.items():
+        for mutation_name, mutation_value in (
+            ("missing", None),
+            ("wrong-index", {"index": 0, "selection_mode": "direct"}),
+            ("timed", {**survival_choice, "selection_mode": "timed"}),
+        ):
+            with tempfile.TemporaryDirectory() as temp_dir:
+                drifted_general = _load_json(DEFAULT_PROFILES)
+                general_profile = next(
+                    profile for profile in drifted_general["profiles"]
+                    if profile["id"] == GENERAL_PROFILE_ID
+                )
+                if mutation_value is None:
+                    general_profile["choice_overrides"].pop(survival_event)
+                else:
+                    general_profile["choice_overrides"][
+                        survival_event
+                    ] = mutation_value
+                drifted_path = Path(temp_dir) / (
+                    f"general-{survival_event}-{mutation_name}.json"
+                )
+                drifted_path.write_text(
+                    json.dumps(drifted_general), encoding="utf-8"
+                )
+                _expect_failure(
+                    f"general-survival-{survival_event}-{mutation_name}",
+                    lambda path=drifted_path: validate_profiles(
+                        path, check_events=False
+                    ),
+                )
+                cases += 1
+
+    for mutation_name, mutation_value in (
+        ("missing", None),
+        ("wrong-index", {"index": 0, "selection_mode": "direct"}),
+        ("timed", {"index": 1, "selection_mode": "timed"}),
+    ):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            drifted_property = _load_json(DEFAULT_PROFILES)
+            property_profile = next(
+                profile for profile in drifted_property["profiles"]
+                if profile["id"] == PROPERTY_PROFILE_ID
+            )
+            if mutation_value is None:
+                property_profile["choice_overrides"].pop(
+                    PROPERTY_REQUIRED_CHOICE_OVERRIDE_EVENT
+                )
+            else:
+                property_profile["choice_overrides"][
+                    PROPERTY_REQUIRED_CHOICE_OVERRIDE_EVENT
+                ] = mutation_value
+            drifted_path = Path(temp_dir) / f"property-{mutation_name}.json"
+            drifted_path.write_text(
+                json.dumps(drifted_property), encoding="utf-8"
+            )
+            _expect_failure(
+                f"property-ladder-realty-choice-{mutation_name}",
+                lambda path=drifted_path: validate_profiles(
+                    path, check_events=False
+                ),
+            )
+            cases += 1
+
+    with tempfile.TemporaryDirectory() as temp_dir:
+        general_without_property_choice = _load_json(DEFAULT_PROFILES)
+        general_profile = next(
+            profile for profile in general_without_property_choice["profiles"]
+            if profile["id"] == GENERAL_PROFILE_ID
+        )
+        general_profile["choice_overrides"].pop(
+            PROPERTY_REQUIRED_CHOICE_OVERRIDE_EVENT
+        )
+        missing_path = Path(temp_dir) / "general-missing-property-choice.json"
+        missing_path.write_text(
+            json.dumps(general_without_property_choice), encoding="utf-8"
+        )
+        _expect_failure(
+            "general-property-ladder-realty-choice-missing",
+            lambda: validate_profiles(missing_path, check_events=False),
+        )
+        cases += 1
+
+    for mutation_name, mutation_value in (
+        ("missing", None),
+        ("wrong-index", {"index": 0, "selection_mode": "direct"}),
+        ("timed", {"index": 1, "selection_mode": "timed"}),
+    ):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            drifted_property = _load_json(DEFAULT_PROFILES)
+            property_profile = next(
+                profile for profile in drifted_property["profiles"]
+                if profile["id"] == PROPERTY_PROFILE_ID
+            )
+            if mutation_value is None:
+                property_profile["choice_overrides"].pop(
+                    PROPERTY_CAST_GUARD_CHOICE_OVERRIDE_EVENT
+                )
+            else:
+                property_profile["choice_overrides"][
+                    PROPERTY_CAST_GUARD_CHOICE_OVERRIDE_EVENT
+                ] = mutation_value
+            drifted_path = Path(temp_dir) / f"property-cast-{mutation_name}.json"
+            drifted_path.write_text(
+                json.dumps(drifted_property), encoding="utf-8"
+            )
+            _expect_failure(
+                f"property-cast-guard-choice-{mutation_name}",
+                lambda path=drifted_path: validate_profiles(
+                    path, check_events=False
+                ),
+            )
+            cases += 1
+
+    with tempfile.TemporaryDirectory() as temp_dir:
+        drifted_property_order = _load_json(DEFAULT_PROFILES)
+        property_profile = next(
+            profile for profile in drifted_property_order["profiles"]
+            if profile["id"] == PROPERTY_PROFILE_ID
+        )
+        sequence = property_profile["required_event_sequence"]
+        minseo_index = sequence.index("arc_minseo_02_real")
+        sale_index = sequence.index("inv_redev_completion_sale")
+        sequence[minseo_index], sequence[sale_index] = (
+            sequence[sale_index], sequence[minseo_index]
+        )
+        drifted_path = Path(temp_dir) / "property-runtime-sequence-order.json"
+        drifted_path.write_text(
+            json.dumps(drifted_property_order), encoding="utf-8"
+        )
+        _expect_failure(
+            "property-runtime-sequence-order",
+            lambda: validate_profiles(drifted_path, check_events=False),
+        )
+        cases += 1
 
     with tempfile.TemporaryDirectory() as temp_dir:
         missing_asset_band = _load_json(DEFAULT_PROFILES)

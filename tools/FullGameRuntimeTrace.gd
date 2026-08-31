@@ -1059,6 +1059,7 @@ func _graceful_shutdown(exit_code: int) -> void:
 	if GameState.game_over.is_connected(_on_game_over):
 		GameState.game_over.disconnect(_on_game_over)
 	await _release_audio_for_exit()
+	await _release_active_scene_for_exit()
 	get_tree().quit(exit_code)
 
 
@@ -1100,6 +1101,19 @@ func _detach_audio_streams(root: Node) -> void:
 		(root as AudioStreamPlayer3D).stream = null
 	for child in root.get_children():
 		_detach_audio_streams(child)
+
+
+func _release_active_scene_for_exit() -> void:
+	# A failed target can finish while the last ending surface still owns loaded
+	# textures/resources. Release that product scene before the non-zero quit so
+	# a profile failure stays a clean profile failure instead of an ObjectDB leak.
+	var active_scene := get_tree().current_scene
+	if not is_instance_valid(active_scene) or active_scene == self:
+		return
+	get_tree().current_scene = null
+	active_scene.queue_free()
+	await get_tree().process_frame
+	await get_tree().process_frame
 
 
 func _fail(message: String) -> void:
@@ -1576,6 +1590,9 @@ func _activate_button(button_raw: Variant) -> void:
 		return
 	if not button.has_focus():
 		button.grab_focus()
+	var focused := get_viewport().gui_get_focus_owner()
+	if focused != button:
+		return
 	await _send_key(KEY_ENTER)
 
 
