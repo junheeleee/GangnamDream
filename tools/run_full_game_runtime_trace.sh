@@ -126,7 +126,13 @@ run_profile() {
   local trace_output
   local stdout_log
   local godot_log
+  local import_log
+  local import_godot_log
+  local import_status=0
   local runtime_status=0
+  local post_commit
+  local post_tree
+  local post_untracked
   local -a limited_prefix=()
 
   profile_hash="$(python3 "${audit_path}" --profile "${profile_id}" --print-profile-hash)"
@@ -136,7 +142,8 @@ run_profile() {
   fi
   trace_output="${output_dir}/${profile_id}.jsonl"
   stdout_log="${output_dir}/${profile_id}.stdout.log"
-  if [[ -e "${trace_output}" || -e "${stdout_log}" ]]; then
+  import_log="${output_dir}/${profile_id}.import.log"
+  if [[ -e "${trace_output}" || -e "${stdout_log}" || -e "${import_log}" ]]; then
     echo "FULL_GAME_RUNTIME_TRACE_PENDING profile=${profile_id} reason=output_exists path=${trace_output}" >&2
     return 2
   fi
@@ -149,6 +156,7 @@ run_profile() {
     "${trace_root}/xdg-config" \
     "${trace_root}/xdg-cache"
   godot_log="${trace_root}/godot.log"
+  import_godot_log="${trace_root}/import-godot.log"
 
   cleanup_trace_root() {
     case "${trace_root}" in
@@ -188,6 +196,57 @@ run_profile() {
     return 2
   fi
 
+  # A fresh detached checkout has no ignored `.godot` class cache. Build it
+  # inside the same isolated user environment before loading the trace scene;
+  # otherwise global class_name references can fail before the recorder boots.
+  local -a import_command=(
+    "${godot_bin}"
+    --headless
+    --import
+    --quit-after 2000
+    --audio-driver Dummy
+    --path "${project_root}"
+    --log-file "${import_godot_log}"
+  )
+  set +e
+  HOME="${trace_home}" \
+  XDG_DATA_HOME="${trace_root}/xdg-data" \
+  XDG_CONFIG_HOME="${trace_root}/xdg-config" \
+  XDG_CACHE_HOME="${trace_root}/xdg-cache" \
+    "${limited_prefix[@]}" "${import_command[@]}" >"${import_log}" 2>&1
+  import_status=$?
+  set -e
+  if ((import_status == 124 || import_status == 142)); then
+    echo "FULL_GAME_RUNTIME_TRACE_PENDING profile=${profile_id} reason=import_timeout seconds=${timeout_seconds} log=${import_log}" >&2
+    return 1
+  fi
+  if ((import_status != 0)); then
+    echo "FULL_GAME_RUNTIME_TRACE_PENDING profile=${profile_id} reason=import_failed exit=${import_status} log=${import_log}" >&2
+    return 1
+  fi
+  if [[ ! -f "${project_root}/.godot/global_script_class_cache.cfg" ]]; then
+    echo "FULL_GAME_RUNTIME_TRACE_PENDING profile=${profile_id} reason=class_cache_missing_after_import log=${import_log}" >&2
+    return 1
+  fi
+  if {
+    grep -iE 'ERROR:|SCRIPT ERROR|Parse Error|Compile Error|Failed to load script' "${import_log}" 2>/dev/null || true
+    grep -iE 'ERROR:|SCRIPT ERROR|Parse Error|Compile Error|Failed to load script' "${import_godot_log}" 2>/dev/null || true
+  } | grep -viE 'ERROR: [0-9]+ resources still in use at exit' >/dev/null; then
+    echo "FULL_GAME_RUNTIME_TRACE_PENDING profile=${profile_id} reason=import_engine_or_script_error log=${import_log}" >&2
+    return 1
+  fi
+  post_commit="$(git rev-parse HEAD)"
+  post_tree="$(git rev-parse 'HEAD^{tree}')"
+  post_untracked="$(git ls-files --others --exclude-standard)"
+  if [[ "${post_commit}" != "${candidate_commit}" \
+      || "${post_tree}" != "${candidate_tree}" \
+      || -n "${post_untracked}" ]] \
+      || ! git diff --quiet -- \
+      || ! git diff --cached --quiet --; then
+    echo "FULL_GAME_RUNTIME_TRACE_PENDING profile=${profile_id} reason=candidate_changed_during_import" >&2
+    return 1
+  fi
+
   set +e
   HOME="${trace_home}" \
   XDG_DATA_HOME="${trace_root}/xdg-data" \
@@ -196,6 +255,21 @@ run_profile() {
     "${limited_prefix[@]}" "${trace_command[@]}" >"${stdout_log}" 2>&1
   runtime_status=$?
   set -e
+
+  # Seal the mutable checkout again after the potentially multi-hour run.
+  # Evidence is invalid if HEAD, tree, index, tracked bytes, or untracked source
+  # changed after the identity embedded in JSONL was captured.
+  post_commit="$(git rev-parse HEAD)"
+  post_tree="$(git rev-parse 'HEAD^{tree}')"
+  post_untracked="$(git ls-files --others --exclude-standard)"
+  if [[ "${post_commit}" != "${candidate_commit}" \
+      || "${post_tree}" != "${candidate_tree}" \
+      || -n "${post_untracked}" ]] \
+      || ! git diff --quiet -- \
+      || ! git diff --cached --quiet --; then
+    echo "FULL_GAME_RUNTIME_TRACE_PENDING profile=${profile_id} reason=candidate_changed_during_runtime" >&2
+    return 1
+  fi
 
   if ((runtime_status == 124 || runtime_status == 142)); then
     echo "FULL_GAME_RUNTIME_TRACE_PENDING profile=${profile_id} reason=timeout seconds=${timeout_seconds} trace=${trace_output} log=${stdout_log}" >&2
@@ -222,11 +296,14 @@ run_profile() {
     echo "FULL_GAME_RUNTIME_TRACE_PENDING profile=${profile_id} reason=success_marker_missing trace=${trace_output}" >&2
     return 1
   fi
-  python3 "${audit_path}" \
-    --trace "${trace_output}" \
-    --profile "${profile_id}" \
-    --candidate-commit "${candidate_commit}" \
-    --candidate-tree "${candidate_tree}"
+  if ! python3 "${audit_path}" \
+      --trace "${trace_output}" \
+      --profile "${profile_id}" \
+      --candidate-commit "${candidate_commit}" \
+      --candidate-tree "${candidate_tree}"; then
+    echo "FULL_GAME_RUNTIME_TRACE_PENDING profile=${profile_id} reason=trace_contract_rejected trace=${trace_output}" >&2
+    return 1
+  fi
   echo "FULL_GAME_RUNTIME_TRACE_EVIDENCE profile=${profile_id} commit=${candidate_commit} tree=${candidate_tree} trace=${trace_output} log=${stdout_log} product_go=HOLD human_density_gate=OPEN"
 }
 

@@ -353,6 +353,17 @@ func _drive_story(story: Node) -> void:
 		return
 	if bool(story.get("_pending_after_result")):
 		_record_story_result(story, current)
+	var paragraphs_raw: Variant = story.get("_paragraphs")
+	if not bool(story.get("_typing")) \
+			and not bool(story.get("_pending_after_result")) \
+			and paragraphs_raw is Array \
+			and int(story.get("_para_index")) >= (paragraphs_raw as Array).size() - 1:
+		var direct_choice_index := int(
+			story.call("_direct_continue_choice_index"))
+		if direct_choice_index >= 0:
+			await _drive_story_direct_choice(
+				story, current, direct_choice_index)
+			return
 	await _send_key(KEY_ENTER)
 
 
@@ -497,6 +508,59 @@ func _drive_story_choices(story: Node, current: Dictionary) -> void:
 	_story_choice_recorded[_story_occurrence_id] = true
 
 
+func _drive_story_direct_choice(
+		story: Node, current: Dictionary, direct_choice_index: int) -> void:
+	if _story_occurrence_id.is_empty() \
+			or _story_choice_recorded.has(_story_occurrence_id):
+		return
+	var choices: Array = current.get("choices", [])
+	if direct_choice_index < 0 or direct_choice_index >= choices.size() \
+			or not choices[direct_choice_index] is Dictionary:
+		_fail("direct continue lost authored choice identity")
+		return
+	var choice_contract: Dictionary = _profile.get(
+		"choice_overrides", {}).get(
+		str(current.get("id", "")), _profile.get("default_choice", {}))
+	var requested_index := int(choice_contract.get("index", 0))
+	if requested_index != direct_choice_index:
+		_fail("profile choice %d does not match direct continue %d for %s" % [
+			requested_index, direct_choice_index, str(current.get("id", ""))])
+		return
+	var choice: Dictionary = choices[direct_choice_index]
+	var displayed_text := GameState.format_event_text(str(choice.get("text", "")))
+	if not _story_offer_recorded.has(_story_occurrence_id):
+		_record("choice_offer", _story_occurrence_id, {
+			"event_id": str(current.get("id", "")),
+			"choices": [{
+				"authored_index": direct_choice_index,
+				"display_index": 1,
+				"text": displayed_text,
+				"text_sha256": _sha256_text(displayed_text),
+			}],
+			"countdown_active": false,
+			"surface_kind": "direct_continue",
+		}, STORY_SCRIPT)
+		_story_offer_recorded[_story_occurrence_id] = true
+	var before := _state_snapshot()
+	_previous_selected_follow_up = str(choice.get("follow_up_event", ""))
+	await _send_key(KEY_ENTER)
+	await get_tree().process_frame
+	var after := _state_snapshot()
+	_record("story_choice", _story_occurrence_id, {
+		"event_id": str(current.get("id", "")),
+		"authored_index": direct_choice_index,
+		"display_index": 1,
+		"selection_mode": str(choice_contract.get("selection_mode", "direct")),
+		"countdown_active": false,
+		"choice_text": displayed_text,
+		"choice_text_sha256": _sha256_text(displayed_text),
+		"surface_kind": "direct_continue",
+		"state_delta": _state_delta(before, after),
+	}, STORY_SCRIPT)
+	_story_choice_by_occurrence[_story_occurrence_id] = direct_choice_index
+	_story_choice_recorded[_story_occurrence_id] = true
+
+
 func _record_story_result(story: Node, current: Dictionary) -> void:
 	if _story_occurrence_id.is_empty() \
 			or _story_result_recorded.has(_story_occurrence_id) \
@@ -539,6 +603,7 @@ func _drive_main(main: Node) -> bool:
 	if GameState.is_game_over:
 		return await _drive_ending(main)
 	if current_turn > 240:
+		_fail("product advanced past exact Week 240")
 		return false
 	# MainGame can render the next week's action board for a few frames before
 	# handing an already-queued story to StoryMode. A human cannot reliably
@@ -756,8 +821,8 @@ func _drive_ending(main: Node) -> bool:
 func _target_errors() -> Array[String]:
 	var result: Array[String] = []
 	var target: Dictionary = _profile.get("target", {})
-	if int(GameState.turn) < int(target.get("minimum_week", 240)):
-		result.append("profile ended before Week 240")
+	if int(GameState.turn) != int(target.get("minimum_week", 240)):
+		result.append("profile ended outside exact Week 240")
 	if _ending_pages_seen != [0, 1, 2, 3, 4, 5]:
 		result.append("ending pages were not traversed exactly 0..5")
 	var event_ids: Array[String] = []
@@ -819,7 +884,7 @@ func _finish_run(success: bool) -> void:
 			"human_density_gate": "OPEN",
 			"state_injection_detected": false,
 			"final_state": {
-				"week": mini(240, maxi(1, int(GameState.turn))),
+				"week": int(GameState.turn),
 				"total_assets": float(GameState.get_total_asset_value()),
 				"flags": GameState.flags.duplicate(true),
 				"ending_id": _ending_id,
@@ -858,7 +923,6 @@ func _record(
 		return
 	_sequence += 1
 	var week := forced_week if forced_week > 0 else int(GameState.turn)
-	week = mini(240, maxi(1, week))
 	var resolved_scene_path := scene_path
 	if resolved_scene_path.is_empty():
 		resolved_scene_path = "res://tools/FullGameRuntimeTrace.gd"

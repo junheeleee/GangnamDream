@@ -344,10 +344,69 @@ def _validate_trace_script_source(source: str) -> None:
             raise ContractError(f"GDScript appears to deduplicate event IDs: {dedup_pattern}")
     if re.search(r"\bcallv\s*\(", source):
         raise ContractError("GDScript recorder must not execute a dynamic callv action")
+    if re.search(
+        r"\bGameState\.\w+\s*(?:\+=|-=|\*=|/=|(?<![=!<>])=(?!=))",
+        source,
+    ) or re.search(
+        r"\bGameState\.\w+\s*\[[^\]]+\]\s*(?:\+=|-=|\*=|/=|(?<![=!<>])=(?!=))",
+        source,
+    ) or re.search(
+        r"\bGameState\.\w+\.(?:append|append_array|assign|clear|erase|merge|pop_at|pop_back|push_back|remove_at)\s*\(",
+        source,
+    ):
+        raise ContractError("GDScript recorder directly mutates GameState")
+    if re.search(r"\bGameState\s*\[[^\]]+\]\s*=", source) \
+            or re.search(
+                r"\bGameState\.\w+\.\w+\s*(?:\+=|-=|\*=|/=|(?<![=!<>])=(?!=))",
+                source,
+            ) \
+            or re.search(
+                r"\b(?:var|const)\s+\w+(?:\s*:[^=\n]+)?\s*(?::=|=)\s*GameState\b(?!\s*\.)",
+                source,
+            ) \
+            or re.search(
+                r"\b(?:var|const)\s+\w+(?:\s*:[^=\n]+)?\s*(?::=|=)\s*GameState\.[A-Za-z_]\w*\s*(?:$|[;#])",
+                source,
+                re.MULTILINE,
+            ):
+        raise ContractError("GDScript recorder aliases or indexes mutable GameState")
+    allowed_state_methods = {
+        "chapter5_causal_is_owned_event",
+        "chapter5_finale_is_owned_event",
+        "format_event_text",
+        "get_total_asset_value",
+        "is_story_weekly_commitment_record",
+    }
+    direct_state_methods = set(re.findall(
+        r"\bGameState\.([A-Za-z_]\w*)\s*\(", source
+    ))
+    unexpected_state_methods = sorted(direct_state_methods - allowed_state_methods)
+    if unexpected_state_methods:
+        raise ContractError(
+            "GDScript recorder calls a mutating/unapproved GameState method: "
+            + ", ".join(unexpected_state_methods)
+        )
+    allowed_nested_state_methods = {
+        "connect", "disconnect", "duplicate", "get", "is_connected", "is_empty",
+    }
+    nested_state_methods = set(re.findall(
+        r"\bGameState\.[A-Za-z_]\w*\.([A-Za-z_]\w*)\s*\(", source
+    ))
+    unexpected_nested_methods = sorted(
+        nested_state_methods - allowed_nested_state_methods
+    )
+    if unexpected_nested_methods:
+        raise ContractError(
+            "GDScript recorder mutates a GameState-owned container/signal: "
+            + ", ".join(unexpected_nested_methods)
+        )
     # The sole product method call is a read-only surface-state query. All
     # actions must resolve to an actually visible Button and then use input.
     method_calls = re.findall(r"\b[A-Za-z_]\w*\.call\s*\([^\n)]*\)", source)
-    allowed_calls = {'main.call("_demo_director_requires_player_input")'}
+    allowed_calls = {
+        'main.call("_demo_director_requires_player_input")',
+        'story.call("_direct_continue_choice_index")',
+    }
     unexpected_calls = sorted(set(method_calls) - allowed_calls)
     if unexpected_calls:
         raise ContractError(
@@ -376,11 +435,26 @@ def validate_tool_sources() -> None:
         "FULL_GAME_RUNTIME_TRACE_PENDING",
         'GANGNAM_TRACE_TIMEOUT_SECONDS:-7200',
         "local -a trace_command",
+        "local -a import_command",
+        "--import",
+        "--quit-after 2000",
+        "global_script_class_cache.cfg",
         "--audio-driver Dummy",
         "reason=timeout",
+        "reason=candidate_changed_during_import",
+        "reason=candidate_changed_during_runtime",
+        "reason=trace_contract_rejected",
     ):
         if needle not in runner:
             raise ContractError(f"runner isolation/identity contract is missing {needle!r}")
+    if runner.count('post_commit="$(git rev-parse HEAD)"') < 2 \
+            or runner.count('post_tree="$(git rev-parse \'HEAD^{tree}\')"') < 2 \
+            or runner.count("git diff --quiet --") < 3 \
+            or runner.count("git diff --cached --quiet --") < 3 \
+            or runner.count("git ls-files --others --exclude-standard") < 3:
+        raise ContractError("runner does not reseal commit/tree/clean state around runtime")
+    if 'if ! python3 "${audit_path}"' not in runner:
+        raise ContractError("runner does not propagate trace validator failure")
     command_region = runner.split("trace_command=", 1)[-1]
     for forbidden in FORBIDDEN_USER_ARGS:
         if forbidden in command_region:
@@ -449,13 +523,20 @@ def validate_trace_rows(
     story_enter_rows: list[dict[str, Any]] = []
     story_occurrences: set[str] = set()
     story_serials: set[tuple[int, int]] = set()
+    story_event_by_occurrence: dict[str, str] = {}
+    story_week_by_occurrence: dict[str, int] = {}
     story_offer_occurrences: set[str] = set()
+    story_offer_choices: dict[str, set[tuple[int, int]]] = {}
     story_choice_occurrences: set[str] = set()
+    story_choice_indices: dict[str, tuple[int, int]] = {}
     story_result_occurrences: set[str] = set()
     week_opens: list[int] = []
     week_closes: list[int] = []
+    week_close_sequences: dict[int, int] = {}
     ending_pages: list[int] = []
     ending_open_count = 0
+    ending_open_sequence = -1
+    ending_open_id = ""
     run_end_rows: list[dict[str, Any]] = []
     trace_errors: list[dict[str, Any]] = []
 
@@ -483,10 +564,10 @@ def validate_trace_rows(
             raise ContractError(f"{label} profile identity/hash drifted")
         if row["seed"] != profile["seed"] or row["locale"] != profile["locale"]:
             raise ContractError(f"{label} seed/locale drifted")
-        if not isinstance(row["week"], int) or row["week"] < 1:
-            raise ContractError(f"{label}.week must be >=1")
-        expected_month = min(60, ((min(row["week"], 240) - 1) // 4) + 1)
-        expected_chapter = min(5, ((min(row["week"], 240) - 1) // 48) + 1)
+        if not isinstance(row["week"], int) or not 1 <= row["week"] <= 240:
+            raise ContractError(f"{label}.week must be inside exact W1..W240")
+        expected_month = min(60, ((row["week"] - 1) // 4) + 1)
+        expected_chapter = min(5, ((row["week"] - 1) // 48) + 1)
         if row["month"] != expected_month or row["chapter"] != expected_chapter:
             raise ContractError(f"{label} calendar does not match its week")
         if not isinstance(row["scene_path"], str) or not row["scene_path"].startswith("res://"):
@@ -520,6 +601,7 @@ def validate_trace_rows(
             week_opens.append(row["week"])
         elif record_type == "week_close":
             week_closes.append(row["week"])
+            week_close_sequences[row["week"]] = row["sequence"]
             if not isinstance(payload.get("state_delta"), dict):
                 raise ContractError(f"{label} lacks a state_delta")
         elif record_type == "story_enter":
@@ -537,6 +619,8 @@ def validate_trace_rows(
                 raise ContractError(f"duplicate StoryMode instance/event serial {serial_key}")
             story_occurrences.add(row["occurrence_id"])
             story_serials.add(serial_key)
+            story_event_by_occurrence[row["occurrence_id"]] = event_id
+            story_week_by_occurrence[row["occurrence_id"]] = row["week"]
             if payload.get("provenance") not in PROVENANCE_VALUES:
                 raise ContractError(f"{label} has invalid provenance")
             for stats_key in ("source_paragraph_count", "source_char_count", "runtime_page_count", "runtime_char_count"):
@@ -553,6 +637,13 @@ def validate_trace_rows(
                 raise ContractError(f"{label} points to an unknown story occurrence")
             if row["occurrence_id"] in story_offer_occurrences:
                 raise ContractError(f"{label} duplicates a choice_offer occurrence")
+            expected_event_id = story_event_by_occurrence[row["occurrence_id"]]
+            if payload.get("event_id") != expected_event_id:
+                raise ContractError(
+                    f"{label}.event_id does not match its story_enter occurrence"
+                )
+            if row["week"] != story_week_by_occurrence[row["occurrence_id"]]:
+                raise ContractError(f"{label}.week differs from its story_enter occurrence")
             choices = payload.get("choices")
             if not isinstance(choices, list) or not choices:
                 raise ContractError(f"{label} must expose at least one visible choice")
@@ -561,6 +652,10 @@ def validate_trace_rows(
             if len(authored) != len(choices) or len(set(authored)) != len(authored) \
                     or len(displayed) != len(choices) or len(set(displayed)) != len(displayed):
                 raise ContractError(f"{label} choice authored/display indices are invalid")
+            if any(not isinstance(value, int) or value < 0 for value in authored) \
+                    or any(not isinstance(value, int) or value < 1 for value in displayed):
+                raise ContractError(f"{label} choice indices must be non-negative/one-based integers")
+            story_offer_choices[row["occurrence_id"]] = set(zip(authored, displayed))
             story_offer_occurrences.add(row["occurrence_id"])
         elif record_type == "story_choice":
             if row["occurrence_id"] not in story_offer_occurrences:
@@ -569,16 +664,43 @@ def validate_trace_rows(
                 raise ContractError(f"{label} duplicates a story_choice occurrence")
             if payload.get("selection_mode") not in ("direct", "timed"):
                 raise ContractError(f"{label} selection mode is invalid")
+            expected_event_id = story_event_by_occurrence[row["occurrence_id"]]
+            if payload.get("event_id") != expected_event_id:
+                raise ContractError(
+                    f"{label}.event_id does not match its story_enter occurrence"
+                )
+            if row["week"] != story_week_by_occurrence[row["occurrence_id"]]:
+                raise ContractError(f"{label}.week differs from its story_enter occurrence")
             if not isinstance(payload.get("authored_index"), int) or not isinstance(payload.get("display_index"), int):
                 raise ContractError(f"{label} lacks authored/display choice indices")
+            selected_indices = (
+                payload["authored_index"], payload["display_index"]
+            )
+            if selected_indices not in story_offer_choices[row["occurrence_id"]]:
+                raise ContractError(
+                    f"{label} selected a choice not present in its choice_offer"
+                )
             if not isinstance(payload.get("state_delta"), dict):
                 raise ContractError(f"{label} lacks state_delta")
+            story_choice_indices[row["occurrence_id"]] = selected_indices
             story_choice_occurrences.add(row["occurrence_id"])
         elif record_type == "story_result":
             if row["occurrence_id"] not in story_choice_occurrences:
                 raise ContractError(f"{label} has no preceding story_choice")
             if row["occurrence_id"] in story_result_occurrences:
                 raise ContractError(f"{label} duplicates a story_result occurrence")
+            expected_event_id = story_event_by_occurrence[row["occurrence_id"]]
+            if payload.get("event_id") != expected_event_id:
+                raise ContractError(
+                    f"{label}.event_id does not match its story_enter occurrence"
+                )
+            if row["week"] != story_week_by_occurrence[row["occurrence_id"]]:
+                raise ContractError(f"{label}.week differs from its story_enter occurrence")
+            if payload.get("authored_index") != story_choice_indices[
+                    row["occurrence_id"]][0]:
+                raise ContractError(
+                    f"{label}.authored_index does not match its story_choice"
+                )
             for stats_key in ("source_paragraph_count", "source_char_count", "runtime_page_count", "runtime_char_count"):
                 if not isinstance(payload.get(stats_key), int) or payload[stats_key] < 0:
                     raise ContractError(f"{label}.{stats_key} must be non-negative")
@@ -598,17 +720,27 @@ def validate_trace_rows(
                 raise ContractError(f"{label} lacks state_delta")
         elif record_type == "ending_open":
             ending_open_count += 1
+            if row["week"] != 240:
+                raise ContractError(f"{label} must open the ending on exact Week 240")
             if not isinstance(payload.get("ending_id"), str) or not payload["ending_id"]:
                 raise ContractError(f"{label} lacks ending_id")
+            ending_open_sequence = row["sequence"]
+            ending_open_id = payload["ending_id"]
             if payload.get("page_count") != profile["target"]["ending_page_count"]:
                 raise ContractError(f"{label} ending page count drifted")
         elif record_type == "ending_page":
+            if row["week"] != 240:
+                raise ContractError(f"{label} must render on exact Week 240")
+            if ending_open_sequence < 0 or row["sequence"] <= ending_open_sequence:
+                raise ContractError(f"{label} appears before ending_open")
             if not isinstance(payload.get("page_index"), int):
                 raise ContractError(f"{label} lacks page_index")
             ending_pages.append(payload["page_index"])
         elif record_type == "trace_error":
             trace_errors.append(row)
         elif record_type == "run_end":
+            if row["week"] != 240:
+                raise ContractError(f"{label} must be recorded on exact Week 240")
             run_end_rows.append(row)
 
     if sequences != list(range(1, len(rows) + 1)):
@@ -631,15 +763,15 @@ def validate_trace_rows(
         raise ContractError("passing trace must close each week exactly once from W1 through W240")
     if ending_open_count != 1 or ending_pages != list(range(profile["target"]["ending_page_count"])):
         raise ContractError("passing trace must open one ending and traverse pages 0..5 exactly once")
+    if ending_open_sequence <= week_close_sequences.get(240, -1):
+        raise ContractError("ending_open must occur after the exact W240 week_close")
     if run_end.get("product_go") != "HOLD" or run_end.get("human_density_gate") != "OPEN":
         raise ContractError("runtime success must not claim product/human GO")
     if run_end.get("state_injection_detected") is not False:
         raise ContractError("run_end reports state injection")
-    missing_story_results = sorted(story_choice_occurrences - story_result_occurrences)
-    if missing_story_results:
+    if not story_offer_occurrences == story_choice_occurrences == story_result_occurrences:
         raise ContractError(
-            "story_choice occurrences lack story_result: "
-            + ", ".join(missing_story_results)
+            "choice_offer/story_choice/story_result occurrence sets are not identical"
         )
 
     event_sequence = [_payload(row, "story_enter")["event_id"] for row in story_enter_rows]
@@ -664,8 +796,8 @@ def validate_trace_rows(
     final_state = run_end.get("final_state")
     if not isinstance(final_state, dict):
         raise ContractError("run_end lacks final_state")
-    if not isinstance(final_state.get("week"), int) or final_state["week"] < profile["target"]["minimum_week"]:
-        raise ContractError("run ended before the profile minimum week")
+    if final_state.get("week") != profile["target"]["minimum_week"]:
+        raise ContractError("run must end on exact Week 240")
     assets = final_state.get("total_assets")
     if not isinstance(assets, (int, float)):
         raise ContractError("run_end final_state.total_assets must be numeric")
@@ -687,6 +819,8 @@ def validate_trace_rows(
     ending_id = final_state.get("ending_id")
     if not isinstance(ending_id, str) or not ending_id:
         raise ContractError("run_end final_state.ending_id must be non-empty")
+    if ending_id != ending_open_id:
+        raise ContractError("ending_open and run_end ending identities differ")
     required_endings = profile["target"]["required_ending_ids"]
     if required_endings and ending_id not in required_endings:
         raise ContractError(f"ending {ending_id} is outside the required set")
@@ -818,15 +952,19 @@ def _fixture_rows(profile: dict[str, Any], profile_hash: str) -> list[dict[str, 
                     "volume_class": "narrative",
                 }, "res://scenes/StoryMode.gd")
             add("choice_offer", week, "story:4", {
+                "event_id": "fixture_end",
                 "choices": [{"authored_index": 0, "display_index": 1, "text": "x"}],
             }, "res://scenes/StoryMode.gd")
             add("story_choice", week, "story:4", {
+                "event_id": "fixture_end",
                 "authored_index": 0,
                 "display_index": 1,
                 "selection_mode": "direct",
                 "state_delta": {},
             }, "res://scenes/StoryMode.gd")
             add("story_result", week, "story:4", {
+                "event_id": "fixture_end",
+                "authored_index": 0,
                 "source_paragraph_count": 1,
                 "source_char_count": 1,
                 "source_sha256": hashlib.sha256(b"r").hexdigest(),
@@ -870,6 +1008,50 @@ def _renumber(rows: list[dict[str, Any]]) -> None:
         row["sequence"] = index
 
 
+def _move_first_ending_page_before_open(rows: list[dict[str, Any]]) -> None:
+    page_index = next(
+        i for i, row in enumerate(rows) if row["record_type"] == "ending_page"
+    )
+    open_index = next(
+        i for i, row in enumerate(rows) if row["record_type"] == "ending_open"
+    )
+    page = rows.pop(page_index)
+    rows.insert(open_index, page)
+    _renumber(rows)
+
+
+def _move_ending_open_before_week_close(rows: list[dict[str, Any]]) -> None:
+    open_index = next(
+        i for i, row in enumerate(rows) if row["record_type"] == "ending_open"
+    )
+    close_index = next(
+        i for i, row in enumerate(rows)
+        if row["record_type"] == "week_close" and row["week"] == 240
+    )
+    ending_open = rows.pop(open_index)
+    rows.insert(close_index, ending_open)
+    _renumber(rows)
+
+
+def _move_story_triad_to_week_two(rows: list[dict[str, Any]]) -> None:
+    for row in rows:
+        if row["occurrence_id"] == "story:4" \
+                and row["record_type"] in {
+                    "choice_offer", "story_choice", "story_result",
+                }:
+            row["week"] = 2
+            row["month"] = 1
+            row["chapter"] = 1
+
+
+def _move_ending_surface_to_week_239(rows: list[dict[str, Any]]) -> None:
+    for row in rows:
+        if row["record_type"] in {"ending_open", "ending_page"}:
+            row["week"] = 239
+            row["month"] = 60
+            row["chapter"] = 5
+
+
 def _expect_failure(name: str, callback: Any) -> None:
     try:
         callback()
@@ -902,6 +1084,18 @@ def self_test() -> None:
     mutations.append(("run-not-pass", lambda rows: rows[-1]["payload"].__setitem__("status", "fail")))
     mutations.append(("missing-state-delta", lambda rows: next(row for row in rows if row["record_type"] == "main_action_commit")["payload"].pop("state_delta")))
     mutations.append(("missing-story-result", lambda rows: rows.pop(next(i for i, row in enumerate(rows) if row["record_type"] == "story_result"))))
+    mutations.append(("offer-event-mismatch", lambda rows: next(row for row in rows if row["record_type"] == "choice_offer")["payload"].__setitem__("event_id", "wrong_event")))
+    mutations.append(("choice-event-mismatch", lambda rows: next(row for row in rows if row["record_type"] == "story_choice")["payload"].__setitem__("event_id", "wrong_event")))
+    mutations.append(("result-event-mismatch", lambda rows: next(row for row in rows if row["record_type"] == "story_result")["payload"].__setitem__("event_id", "wrong_event")))
+    mutations.append(("choice-not-offered", lambda rows: next(row for row in rows if row["record_type"] == "story_choice")["payload"].__setitem__("authored_index", 97)))
+    mutations.append(("result-index-mismatch", lambda rows: next(row for row in rows if row["record_type"] == "story_result")["payload"].__setitem__("authored_index", 98)))
+    mutations.append(("final-week-241", lambda rows: rows[-1]["payload"]["final_state"].__setitem__("week", 241)))
+    mutations.append(("story-triad-week-mismatch", _move_story_triad_to_week_two))
+    mutations.append(("ending-surface-week-239", _move_ending_surface_to_week_239))
+    mutations.append(("run-end-row-week-239", lambda rows: rows[-1].update({"week": 239, "month": 60, "chapter": 5})))
+    mutations.append(("ending-id-mismatch", lambda rows: next(row for row in rows if row["record_type"] == "ending_open")["payload"].__setitem__("ending_id", "different_ending")))
+    mutations.append(("ending-page-before-open", _move_first_ending_page_before_open))
+    mutations.append(("ending-open-before-week-close", _move_ending_open_before_week_close))
 
     for name, mutate in mutations:
         rows = copy.deepcopy(valid)
@@ -927,6 +1121,28 @@ def self_test() -> None:
         lambda: _validate_trace_script_source(story_race_source),
     )
     cases += 1
+
+    for name, injected_line in (
+        ("direct-turn-injection", "GameState.turn = 240"),
+        ("direct-money-injection", "GameState.money += 3000000000"),
+        ("direct-flag-injection", 'GameState.flags["route_invest"] = true'),
+        ("state-set-injection", 'GameState.set("turn", 240)'),
+        ("state-indexed-set-injection", 'GameState.set_indexed("flags.route_invest", true)'),
+        ("calendar-advance-injection", "GameState.advance_calendar()"),
+        ("state-alias-injection", "var injected_state = GameState\ninjected_state.turn = 240"),
+        ("container-alias-injection", 'var injected_flags = GameState.flags\ninjected_flags["route_invest"] = true'),
+        ("queue-push-injection", "GameState.pending_story_queue.push_front({})"),
+        ("flag-set-injection", 'GameState.flags.set("route_invest", true)'),
+        ("state-bracket-injection", 'GameState["turn"] = 240'),
+        ("flag-property-injection", "GameState.flags.route_invest = true"),
+    ):
+        injected_source = TRACE_SCRIPT.read_text(encoding="utf-8") + \
+            f"\n{injected_line}\n"
+        _expect_failure(
+            name,
+            lambda source=injected_source: _validate_trace_script_source(source),
+        )
+        cases += 1
 
     with tempfile.TemporaryDirectory() as temp_dir:
         malformed = Path(temp_dir) / "malformed.jsonl"
