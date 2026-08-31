@@ -166,6 +166,7 @@ PROPERTY_REQUIRED_SEQUENCE_SLICE = (
     "arc_minseo_02_real",
     "inv_redev_completion_sale",
 )
+FIRST_INVESTMENT_BUY_DEADLINE_WEEK = 48
 INVESTMENT_EVIDENCE = {"kind": "invest", "weight": 4, "version": 2}
 INVESTMENT_EVIDENCE_ACTIONS = {
     "study_invest": ("study", "_ap_study"),
@@ -1309,10 +1310,28 @@ def _validate_early_investment_identity(
         raise ContractError(
             f"{profile_id} did not study three times before its first investment buy"
         )
-    if first_buy_week > 24:
+    if first_buy_week > FIRST_INVESTMENT_BUY_DEADLINE_WEEK:
         raise ContractError(
-            f"{profile_id} first investment buy arrived after the M06 boundary"
+            f"{profile_id} first investment buy arrived after Chapter 1"
         )
+    for row in rows:
+        if row.get("record_type") != "main_action_offer":
+            continue
+        offer_week = int(row.get("week", -1))
+        if offer_week < third_study_week or offer_week >= first_buy_week:
+            continue
+        actions = _payload(row, "main_action_offer").get("actions")
+        if not isinstance(actions, list):
+            raise ContractError(
+                f"{profile_id} W{offer_week:03d} main action offer is malformed"
+            )
+        if any(
+                isinstance(action, dict) and action.get("action_id") == "invest"
+                for action in actions):
+            raise ContractError(
+                f"{profile_id} skipped a visible investment action at "
+                f"W{offer_week:03d} before its first buy"
+            )
     buy_payload = _payload(first_buy, "first investment buy")
     _, buy_before, buy_after = validate_evidence_commit(
         first_buy, "first investment buy",
@@ -1906,12 +1925,32 @@ def _identity_fixture_rows() -> list[dict[str, Any]]:
         ),
         commit(6, "save", {}, "save", "_ap_save_money"),
         commit(
-            23, "invest_buy", {"trade": "buy"}, "invest", "_ap_invest",
+            35, "invest_buy", {"trade": "buy"}, "invest", "_ap_invest",
             identity(4, 12, 1, realized=True),
             identity(4, 16, 1, realized=True),
         ),
     ]
-    for week in range(5, 24):
+    rows.extend([
+        {
+            "record_type": "main_action_offer",
+            "week": 23,
+            "payload": {"actions": [
+                {"action_id": "rest", "function": "_ap_free_time"},
+                {"action_id": "side_shift", "function": "_ap_side_job"},
+                {"action_id": "contact", "function": "_ap_contact_person"},
+            ]},
+        },
+        {
+            "record_type": "main_action_offer",
+            "week": 35,
+            "payload": {"actions": [
+                {"action_id": "invest", "function": "_ap_invest"},
+                {"action_id": "save", "function": "_ap_save_money"},
+                {"action_id": "contact", "function": "_ap_contact_person"},
+            ]},
+        },
+    ])
+    for week in range(5, 50):
         rows.append({
             "record_type": "week_close",
             "week": week,
@@ -1919,7 +1958,7 @@ def _identity_fixture_rows() -> list[dict[str, Any]]:
                 "player_route": "투자형",
                 "tendency": {
                     "career": 4 if week >= 6 else 0,
-                    "invest": 16 if week >= 23 else 12,
+                    "invest": 16 if week >= 35 else 12,
                     "found": 1,
                 },
                 "tendency_realized": "invest",
@@ -2185,7 +2224,13 @@ def self_test() -> None:
         })),
         ("identity-third-study-dual-route", lambda rows: rows[3]["payload"]
             ["identity_after"]["route_flags"].update({"route_career": True})),
-        ("identity-late-first-buy", lambda rows: rows[5].update({"week": 25})),
+        ("identity-late-first-buy", lambda rows: rows[5].update({"week": 49})),
+        ("identity-skipped-visible-buy", lambda rows: next(
+            row for row in rows
+            if row["record_type"] == "main_action_offer" and row["week"] == 23
+        )["payload"]["actions"][0].update({
+            "action_id": "invest", "function": "_ap_invest",
+        })),
         ("identity-hidden-first-buy", lambda rows: rows[5]["payload"]
             ["visible_button"].update({"action_id": "save"})),
         ("identity-missing-buy-receipt", lambda rows: rows[5]["payload"]
