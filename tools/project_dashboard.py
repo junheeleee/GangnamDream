@@ -612,6 +612,16 @@ def human_gate_ledger() -> dict[str, Any]:
     return data if isinstance(data, dict) else {}
 
 
+def public_demo_candidate(candidates: Any) -> tuple[str, dict[str, Any]]:
+    """Return only the public story demo; never promote the internal demo."""
+    if not isinstance(candidates, dict):
+        return "story_demo_rc", {}
+    story_demo = candidates.get("story_demo_rc", {})
+    if isinstance(story_demo, dict) and story_demo.get("status") == "active":
+        return "story_demo_rc", story_demo
+    return "story_demo_rc", {}
+
+
 def human_gate_scope(gate: dict) -> str:
     scope = gate.get("scope", {})
     if not isinstance(scope, dict):
@@ -733,13 +743,14 @@ def markdown() -> str:
 
     gate_ledger = human_gate_ledger()
     release_candidates = gate_ledger.get("release_candidates", {})
-    demo_candidate = (
-        release_candidates.get("demo_rc", {})
-        if isinstance(release_candidates, dict) else {}
-    )
+    demo_candidate_id, demo_candidate = public_demo_candidate(release_candidates)
     demo_candidate_note = (
         demo_candidate.get("note", "")
         if isinstance(demo_candidate, dict) else ""
+    )
+    demo_candidate_active = (
+        isinstance(demo_candidate, dict)
+        and demo_candidate.get("status") == "active"
     )
     gate_source = gate_ledger.get("gates", [])
     gates = [
@@ -751,9 +762,21 @@ def markdown() -> str:
     add("**초록불은 계약을 지켰다는 뜻이지 좋다는 뜻이 아니다.** 아래는 자동 검사가")
     add("대신할 수 없어 남아 있는 것이며, 원장은")
     add("[`human_gates.json`](human_gates.json)이 소유한다.")
-    if isinstance(demo_candidate_note, str) and demo_candidate_note.strip():
+    if demo_candidate_active:
         add("")
-        add(f"> **활성 demo_rc 주의:** {md_escape(demo_candidate_note.strip())}")
+        if isinstance(demo_candidate_note, str) and demo_candidate_note.strip():
+            add(
+                f"> **활성 공개 {md_escape(demo_candidate_id)} 주의:** "
+                f"{md_escape(demo_candidate_note.strip())}"
+            )
+        else:
+            add(f"> **활성 공개 {md_escape(demo_candidate_id)}:** 원장에 active로 등록됨.")
+    else:
+        add("")
+        add("> **공개 story_demo_rc:** active 후보가 없어 재발급이 필요하다.")
+    if isinstance(release_candidates, dict) \
+            and isinstance(release_candidates.get("demo_rc"), dict):
+        add("> **legacy/internal demo_rc:** W1~W24 내부 후보는 공개 출시 데모가 아니다.")
     add("")
     add("| 범위 | 판정 | 후보 | 표본·환경 | 합격 기준 | 소유 |")
     add("|---|---|---|---|---|---|")
@@ -930,18 +953,38 @@ def build() -> str:
     dom = dominant_choices(by)
     gate_ledger = human_gate_ledger()
     release_candidates = gate_ledger.get("release_candidates", {})
-    demo_candidate = (
-        release_candidates.get("demo_rc", {})
-        if isinstance(release_candidates, dict) else {}
-    )
+    demo_candidate_id, demo_candidate = public_demo_candidate(release_candidates)
     demo_candidate_note = (
         demo_candidate.get("note", "")
         if isinstance(demo_candidate, dict) else ""
     )
-    demo_candidate_note_html = (
-        '<p class="warnbar"><strong>활성 demo_rc 주의:</strong> '
-        f'{html.escape(demo_candidate_note.strip())}</p>'
-        if isinstance(demo_candidate_note, str) and demo_candidate_note.strip()
+    demo_candidate_active = (
+        isinstance(demo_candidate, dict)
+        and demo_candidate.get("status") == "active"
+    )
+    if demo_candidate_active:
+        if isinstance(demo_candidate_note, str) and demo_candidate_note.strip():
+            demo_candidate_note_html = (
+                '<p class="warnbar"><strong>활성 공개 '
+                f'{html.escape(demo_candidate_id)} 주의:</strong> '
+                f'{html.escape(demo_candidate_note.strip())}</p>'
+            )
+        else:
+            demo_candidate_note_html = (
+                '<p class="warnbar"><strong>활성 공개 '
+                f'{html.escape(demo_candidate_id)}:</strong> '
+                '원장에 active로 등록됨.</p>'
+            )
+    else:
+        demo_candidate_note_html = (
+            '<p class="warnbar"><strong>공개 story_demo_rc:</strong> '
+            'active 후보가 없어 재발급이 필요하다.</p>'
+        )
+    legacy_demo_note_html = (
+        '<p class="warnbar"><strong>legacy/internal demo_rc:</strong> '
+        'W1~W24 내부 후보는 공개 출시 데모가 아니다.</p>'
+        if isinstance(release_candidates, dict)
+        and isinstance(release_candidates.get("demo_rc"), dict)
         else ""
     )
     gate_source = gate_ledger.get("gates", [])
@@ -1034,6 +1077,7 @@ def build() -> str:
   <p class="lede"><strong>초록불은 계약을 지켰다는 뜻이지 좋다는 뜻이 아니다.</strong>
   범위·후보·표본·합격 기준이 같은 행에서 확인돼야 사람 판정을 출시 근거로 쓸 수 있다.</p>
   {demo_candidate_note_html}
+  {legacy_demo_note_html}
   <div class="scroll"><table>
     <thead><tr><th>범위</th><th>판정</th><th>후보</th><th>표본·환경</th><th>합격 기준</th><th>소유</th></tr></thead>
     <tbody>{human_gate_rows}</tbody></table></div>
