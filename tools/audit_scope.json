@@ -24,7 +24,8 @@
         "tools/Year5ReferenceRouteR1Check.gd.uid",
         "tools/Year5ReferenceRouteR1Check.tscn",
         "tools/year5_reference_route_audit.py",
-        "tools/story_map_strategy_sim.py"
+        "tools/story_map_strategy_sim.py",
+        "tools/full_body_translation_scope.py"
       ],
       "owned_paths": [
         "CLAUDE.md",
@@ -51,6 +52,7 @@
         "tools/story_map_strategy_sim.py",
         "tools/full_game_volume_audit.py",
         "tools/full_game_volume_baseline.json",
+        "tools/full_body_translation_scope.py",
         "tools/Year5ReferenceRouteR1Check.gd",
         "tools/Year5ReferenceRouteR1Check.gd.uid",
         "tools/Year5ReferenceRouteR1Check.tscn",
@@ -65,6 +67,7 @@
         "tools/narrative_spine_audit.py",
         "tools/full_game_volume_audit.py",
         "tools/full_game_volume_audit.py --self-test",
+        "tools/full_body_translation_scope.py --self-test",
         "tools/story_map_strategy_sim.py --self-test",
         "tools/year5_reference_route_audit.py --self-test",
         "tools/Year5ReferenceRouteR1Check.tscn"
@@ -177,6 +180,22 @@
         "tools/audit_select.py --verify"
       ],
       "why": "감사 범위 선언만 바뀌면 폐기된 후보 검사를 대신 고르지 않고 등록 정합만 확인한다"
+    },
+    {
+      "id": "full-body-translation-scope",
+      "paths": [
+        "tools/full_body_translation_scope.py",
+        "tools/audit_scope.json"
+      ],
+      "owned_paths": [
+        "tools/full_body_translation_scope.py",
+        "tools/audit_scope.json"
+      ],
+      "tools": [
+        "tools/full_body_translation_scope.py --self-test",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "번역문을 만들지 않고 lifecycle shipping 원문과 M07~M60 정적 closure·보호 재사용만 빠르게 검증한다"
     },
     {
       "id": "order103-macos-package",
@@ -430,6 +449,22 @@
         "ui_components/**",
         "tools/event_lifecycle.py",
         "tools/event_schedule.py"
+      ]
+    },
+    {
+      "tool": "tools/full_body_translation_scope.py --self-test",
+      "why": "전체 출시 포함 원문 1702/11631과 M07~M60 정적 closure 190/1730·Chapter 5 reader·author-only 제외·데모 보호 재사용을 잠근다",
+      "paths": [
+        "content/meta/event_lifecycle.json",
+        "content/meta/story_map.json",
+        "content/events/**",
+        "content/events_ja/**",
+        "content/events_zh-CN/**",
+        "content/events_zh-TW/**",
+        "tools/event_lifecycle.py",
+        "tools/event_schedule.py",
+        "tools/story_demo_localization_audit.py",
+        "tools/full_body_translation_scope.py"
       ]
     },
     {
