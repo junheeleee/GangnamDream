@@ -1,6 +1,6 @@
 # Gangnam Dream Master Release Audit
 
-Updated: 2026-08-12
+Updated: 2026-09-01
 
 ## Mission
 
@@ -15,36 +15,38 @@ Adjacent and top-selling execution references are assigned by surface in `docs/S
 - The demo must create desire for another week, another relationship scene, and another run before asking for a wishlist.
 - Market appeal is tested with strangers and store data, not inferred from content volume.
 
-## Current W1–24 Audited-Prefix RC Boundary
+## Current Public Demo Release Boundary
 
-BUILD `2026.08.11.3` is an automated save-recovery and audited-prefix candidate,
-not a completed Chapter One or a human release approval. Weeks 1–24 use the
-monthly four-promise loop on a full-width planning
-board; a separate portrait contact phone contains only real messages, call
-history, and reachable contacts. Week 24 ends at the midpoint of the 48-week
-first chapter. Existing legacy carryover evidence continues those receipts to
-Hyunsu's Week-27 result, the City Facilities Week-28 result, the exact
-Week-48/96/144/192 closes and the Week-197 reckoning without replacing the
-240-week ending, but it is not playable W25–48 Seoul Cycle evidence.
+The current public release demo is the exact `story_demo_rc` BUILD
+`2026.08.31.1`. It begins at M01, ends at M06, and covers 24 internal weeks and
+six settlements. The player surface is StoryMode scenes and in-scene choices;
+it exposes no AP cards, monthly planning board, or `주력/함께/여력`
+allocation surface. The user has given this M01–M06 structure and release-demo
+scope GO. Preserve that verdict and do not expand the public demo to M07–M24.
 
-Automated gates cover exact economy ledgers, choice/state round trips, one
-fresh-boundary autosave, completed-save resume without another write, Korean
-and English 720p surfaces, controller navigation contracts, all five chapter
-handoffs and zero representative-path scheduler jams. Device tiers, purchases,
-favorites, and phone-hosted finance or leisure are retired; valid legacy
-refurbished-phone receipts receive one idempotent KRW 180,000 migration refund.
-The demo product boundary is **W1–24 and its W24 CTA**. Its default and public
-package stay locked until one unchanged clean W1–24 `demo_rc` passes the
-24-week product-route regressions, measured normal-speed play, physical Steam
-Deck/DualSense input, continuous headphone/laptop/TV A/V review, external
-comprehension, and a human desire-to-continue verdict. BUILD `2026.08.11.3`
-has the right week boundary but remains a save-recovery checkpoint, not that
-approval. W25–48 and the completion-only W48 gate remain full Chapter One
-construction work; they are not demo release, RC, or human-verdict conditions.
+The exact identity is product commit `4e80a63e89821094b8bab21b8d5c73ecfc9b6278`,
+package source `362578d8f4c0781fe35f643a74cc3037e7a80b21`, and manifest SHA-256
+`50eed10b18c2c2b056f875a8df55230dc07b5535c55e59ddb89fff1d64e91870`.
+Changing any product, package, or manifest identity creates a new candidate and
+does not inherit the GO automatically. Korean and English release surfaces are
+part of the approved candidate. Japanese, Simplified Chinese, and Traditional
+Chinese are packaged and automatically checked, but their native-language
+release claims remain OPEN.
+
+The older W1–W24 `demo_rc`, including BUILD `2026.08.11.3` and later V2
+artifacts, is **legacy/internal compatibility and regression evidence only**.
+Its planning board, AP loop, sealed W24 CTA, save bridge, platform matrices, and
+normal-speed verdicts must not be described as the public demo, the Next Fest
+submission, or the default external-test candidate. Those exact historical
+facts remain valid for the artifact that produced them.
+
+The full game remains M01–M60/W1–W240 and is HOLD. Chapter 5 remains HOLD until
+the required exact candidate and two normal-speed M49–M60 human replays close.
+Neither public-demo GO nor a legacy W1–W24 regression can close those gates.
 
 ## Artifact Identity, Save, and Third-Party Notice Gate
 
-Every full, demo, and V2 artifact must carry the same four canonical fields in
+Every full and legacy demo/V2 artifact must carry the same four canonical fields in
 its StartMenu identity metadata, new save root, and build manifest:
 `game_version`, `build_id`, `build_flavor`, and `save_namespace`; the visible
 label renders version, build ID, and channel. Full is `full/legacy`, demo is
@@ -91,11 +93,11 @@ or legal review.
 
 The machine-readable owner is `content/meta/release_content_inventory.json`;
 the generated reviewer view is `docs/CONTENT_RATING_INVENTORY.md`. Every release
-candidate must keep three scopes separate: content reachable in the 24-week V2
-demo, content reachable in the 240-week full game, and content included in the
-uploaded package but not currently reachable in that build. The current ten
-export presets all use `all_resources`, so an inaccessible scene or minigame is
-not absent from a V2 package merely because the demo route cannot enter it.
+candidate must keep the current M01–M06 story-demo reachability, legacy/internal
+W1–W24 V2 reachability, 240-week full-game reachability, and packaged-but-
+currently-unreachable content separate. The current ten product export presets
+use `all_resources`; a source-tree or legacy V2 package result must not be
+silently applied to the separately staged `story_demo_rc` artifact.
 
 The ledger covers gambling, sexuality, violence, fear, language, crime,
 alcohol/tobacco/drugs, generative AI, and online features. Every material fact
@@ -159,7 +161,7 @@ These are confidence bands, not review scores. Every band must be replaced by pl
 | First impression / IP | Developing to strong | One identity-locked Minjun/Daeun/Jiyeon key art now owns splash, StartMenu, and Steam capsules; external character recall and conversion remain unverified |
 | Flagship character appeal | Developing | Portrait/CG outfit pairs, gaze contracts, scene-specific Minjun expressions, first-snow winter pairs, season-gated dates, and heroine-specific first-morning scenes now protect key heroine moments; general-cast seasonal coverage, leitmotifs, merchandise recall, and remaining T1/T2 work are incomplete |
 | Core weekly loop | Scene-first weekly commitment passes, fun unproven | The current story-first calendar exposes 77 scheduled Decision/Boss weeks distributed 13/9/10/15/30, 19 Echoes, 20 blocking summaries, and a final week-240 ledger absorbed into the ending. Those counts describe the authored schedule rather than a permanent quota. AP remains an internal economy budget, but a direct week now hides the AP chip, portrait rail, calculation board, Seoul Trace, and separate Next Week command. The random director permits only reviewed foreground scenes and state-causal single-choice bridges. The prior Korean PlayStation and English Xbox full-input runs remain legacy reachability evidence; Chapter 5 has separate exact route, targeted input, and finale screenshot gates. This is reachability and consequence-legibility evidence rather than a fun pass |
-| Story architecture | Structural recomposition passed, Round 2 fun unproven | Seven demo sequences and a five-chapter causal spine now replace the original event-card schedule. Chapter 2 binds four causal sequences from the year ledger to the hospital door; Chapter 3 binds Jiyeon's distance, Jaehyuk's offer and consequence, Father's buried debt, and Minjun's changing definition of Gangnam across multiple weeks; Chapters 4-5 bind the guarantee bill, Hyunsu, Father visit/defer/KTX/passing/legacy, romance verdicts, and last signature. All 32 Tier-1 chains pass. Only a fresh human playthrough can overturn the user's narrative NO-GO |
+| Story architecture | Public demo GO; full game HOLD | The exact M01–M06 `story_demo_rc` structure is user-approved. The five-chapter causal spine remains a separate full-game claim: Chapter 2 binds four causal sequences from the year ledger to the hospital door; Chapter 3 binds Jiyeon's distance, Jaehyuk's offer and consequence, Father's buried debt, and Minjun's changing definition of Gangnam across multiple weeks; Chapters 4–5 bind the guarantee bill, Hyunsu, Father visit/defer/KTX/passing/legacy, romance verdicts, and last signature. All 32 Tier-1 chains pass structurally, but full-game and Chapter 5 human gates remain HOLD |
 | Chapter pacing | Causal distribution implemented, late path still lean | Representative roots now distribute `30/25/25/18/13` and `33/26/31/26/16`. Each route has one isolated Chapter-3 micro-scene; the curated random foreground appears 28/24 times with at least one window in every chapter. Chapter 1 holds eight chains, Chapter 2 four, Chapter 3 four temporal spines, and the late chapters preserve week-spanning body, family, relationship, and money consequences. Path A and Chapter 5 remain numerically lean; add no filler until recall and emotional carry are tested |
 | Choice consequence | Bounded path debt automated, human regret unproven | Generic forgone applications, relationships, rest, study, shifts, savings, and market windows now persist by action/person and disclose a bounded delayed cost before the path is reopened. Costs are consumed only after successful completion; cancellation is free, investment uses actual price movement, missed income is never deducted twice, and declining gambling is unpunished. Authored event consequence quality still varies, and only human replay can prove regret rather than bookkeeping |
 | Strategy /攻略 readability | Weak | The player cannot yet explain a viable 3B plan, risk bands, or why one run failed without external knowledge |
@@ -181,7 +183,10 @@ These are confidence bands, not review scores. Every band must be replaced by pl
 
 The reproducible source is `python3 tools/game_structure_audit.py`; the design response is `docs/GAME_RECOMPOSITION_PLAN.md`.
 
-This dated table is a frozen historical baseline. The current inventory is the table above; do not copy these 2026-07-17 counts into a release submission.
+This dated table and the development-round narrative that follows it are frozen
+historical W1–W24 V2/full-game evidence. They do not identify the current public
+demo or override its later user GO. The current inventory is the table above;
+do not copy these 2026-07-17 counts into a release submission.
 
 | Measured surface | Baseline | Release implication |
 |---|---:|---|
@@ -255,17 +260,19 @@ If a feature does not strengthen one of these, improve usability or create delig
 
 - A stranger can name Minjun, the 500K/3B/five-year premise, and one person they want to meet again.
 - Title screen reads as a character drama at capsule distance and as a game under controller focus.
-- Opening interview and AP job search feel like one career pipeline.
+- The M01 opening enters the authored StoryMode flow without exposing an AP card,
+  monthly planning board, or a second competing choice layer.
 - No tutorial paragraph explains Moral Tint.
-- The first meaningful choice has an immediate visible cost and a later promised echo.
+- The first meaningful choice reads as Minjun's concrete action, not a hidden-system lesson.
 
 ### Gate B: First 30 Minutes
 
-- The player can state a short-term plan for the next three weeks.
-- Each playable demo week presents one legible pressure and exactly three contextual responses before exposing the full action catalog.
-- Every primary response shows expectation, cost, a qualitative risk band, and a one-to-three-week echo before commitment without exposing Moral Tint or route scores.
-- Every scheduled Echo names at least one exact committed action from the recent-action ledger; two different actions from the same money/human axis must not collapse into the same visible echo.
-- At least one AP action contains anticipation, performance, and payoff rather than a single menu click.
+- The player can name one concrete decision, the person or value placed under
+  pressure, and what they expect the later story to remember.
+- StoryMode choices remain the only player-facing decision layer; no legacy V2
+  board, `주력/함께/여력` allocation, or generic AP catalog interrupts the scene.
+- At least one earlier choice is recalled by a later line, availability change,
+  cost, or absence without exposing Moral Tint or route scores.
 - A relationship hook, financial hook, and moral discomfort are all active.
 - No required text is below the Steam Deck readability floor.
 - The player voluntarily reads at least one result instead of skipping every card.
@@ -273,13 +280,18 @@ If a feature does not strengthen one of these, improve usability or create delig
 
 ### Gate C: Demo End
 
-- Six months ends on a dramatic question or irreversible consequence, not a calendar stop.
+- M06 ends on a dramatic question or irreversible consequence, not a calendar stop.
 - The player understands what another run could change.
 - EN and KO players receive the same events, choices, effects, CG timing, and ending teaser.
-- Demo completion, replay intent, and wishlist intent are measured with external testers.
-- Korean and English controller-input runs complete all 24 weeks, commit once in all nine direct weeks, exercise both money and human time through direct and automatic weeks, and stop on the week-25 CTA with no stale commitment overlay.
-- PlayStation-position Korean and Xbox-position English routes start at the title, cross the splash/opening, use no keyboard or mouse, perform the real first-week Job Hunt, expose no fallback action catalog, and close each direct week only after one real commitment.
-- Automated routing alone is not a pacing pass: the shipping slice must reduce 24 direct decision weeks to 8-10 decisions, two pressure peaks, and three to five short echoes without losing monthly economy, guaranteed arcs, or callbacks.
+- The exact `story_demo_rc` BUILD `2026.08.31.1` completes M01–M06, 24
+  internal weeks, six settlements, save/resume, and return from transitions
+  without a black cover or duplicate input owner.
+- The user's GO belongs only to the exact product/package/manifest identity
+  recorded above. Any changed candidate needs a new human verdict.
+- Japanese, Simplified Chinese, and Traditional Chinese automation may prove
+  parity and packaging, but native-language release claims remain OPEN.
+- Legacy W1–W24 V2 controller routes remain regression evidence only and cannot
+  substitute for this story-demo identity or reopen its public scope.
 
 ### Gate D: Full Run
 
@@ -341,11 +353,10 @@ If a feature does not strengthen one of these, improve usability or create delig
 
 ## Current Execution Order
 
-1. IP identity and title-screen rebuild.
-2. Six-month demo black-box pass and AP loop redesign.
-3. Bilingual prose and chapter/ending dramatic trace.
-4. Controller/Deck task audit across every dense surface.
-5. Image, audio, motion, and Moral Tint climax pass.
-6. Full-run stability and commercial package gate.
+1. Freeze the exact M01–M06 `story_demo_rc` public-demo scope and identity.
+2. Keep JA, zh-CN, and zh-TW native-language release claims OPEN until reviewed.
+3. Manage story, choice, callback, and climax density across M01–M60 as one full game.
+4. Repair and replay the two Chapter 5 M49–M60 paths on one new exact candidate.
+5. Close full-run stability, platform, localization, and commercial package gates.
 
 This order can move only when a newly discovered P0 blocks it.

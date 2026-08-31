@@ -1,6 +1,11 @@
 # Controller UX Strategy
 
-Updated: 2026-08-11
+Updated: 2026-09-01
+
+> **Release scope:** the current public demo is `story_demo_rc` M01-M06 (24
+> internal weeks). The `demo_rc` W1-W24 Core Loop V2 planner, AP, CTA, and their
+> automated routes are retained only as legacy/internal compatibility and
+> regression contracts. They never identify the current public candidate.
 
 ## Why This Exists
 
@@ -52,7 +57,7 @@ Button labels shown to the player must come from `ControllerHints`, not hardcode
 
 ## Acceptance Gates
 
-Before demo/release candidate builds:
+Before current public `story_demo_rc` or full-game release candidate builds:
 
 - A new player must be able to complete the first 15 minutes on controller without touching mouse or keyboard.
 - No core screen may require navigating more than 12 focusable controller targets in a single uninterrupted rail.
@@ -68,11 +73,12 @@ Before demo/release candidate builds:
 
 ## Screen Models
 
-### Core Loop V2 Monthly Planner / Contact Phone
+### Legacy/Internal Core Loop V2 Monthly Planner / Contact Phone
 
-Implementation status: the 24-week planner and communication phone use separate
-focus contexts. The existing AP surface remains the post-V2 fallback until the
-human GO.
+Implementation status: the legacy `demo_rc` W1-W24 V2 planner and communication
+phone use separate focus contexts. The existing AP surface remains its broader
+runtime fallback. This section preserves compatibility and regression behavior;
+neither surface is the current public `story_demo_rc` M01-M06 candidate.
 
 Fresh Month One is a bounded episode prototype, not the three-step planner
 compressed into a smaller modal:
@@ -96,7 +102,8 @@ compressed into a smaller modal:
 
 Already committed/in-progress Month-One saves and Months Two through Six use the
 legacy planner contract below. This is deliberate comparison evidence until the
-same-build human playtest approves the prototype.
+same-build human playtest approves the prototype inside the legacy/internal lane;
+it does not gate or identify the public `story_demo_rc` candidate.
 
 - The full-width planner shows exactly four vertical week slots beside the
   current offers at 1280×800. At 960×600, reference surfaces may scroll
@@ -150,10 +157,11 @@ same-build human playtest approves the prototype.
 
 Use a vertical action rail.
 
-Implementation status: retained as the week 9-240 fallback while Core Loop V2
-is evaluated. Main AP rail first pass, slot numbering/keycaps, 1280x800
-no-scroll, and cancelable AP/menu back behavior are complete in
-`scenes/MainGame.gd`.
+Implementation status: retained as a legacy week 9-240 compatibility/fallback
+surface. Main AP rail first pass, slot numbering/keycaps, 1280x800 no-scroll, and
+cancelable AP/menu back behavior are complete in `scenes/MainGame.gd`. This
+preserved surface is not the current public demo claim or a decision to restore
+an AP layer to `story_demo_rc`.
 
 - D-pad up/down: move between action cards.
 - A: choose action.
@@ -386,9 +394,10 @@ must remain optional in title, MainGame, and in-scene settings.
 
 ## Implementation Order
 
-1. Core Loop V2 month planner and portrait contact phone: separate focus
-   contexts, four-week semantic schedule, cancellation, and human ownership GO.
-   ✅ 24-week automated contract complete; physical Deck pass pending
+1. Legacy/internal Core Loop V2 month planner and portrait contact phone:
+   separate focus contexts, four-week semantic schedule, and cancellation.
+   ✅ W1-W24 automated compatibility/regression contract complete; this is not
+   public `story_demo_rc` candidate evidence
 2. AP and VN fallback: lock main rail behavior and default focus.
 3. Slots and Blackjack: simple action rail first. ✅ first pass complete
 4. Dai Sai: replace flat controller traversal with Simple/Face/Total mode model. ✅ first pass complete
@@ -427,7 +436,13 @@ All on controller only.
 
 `ControllerSemanticCheck.tscn` owns the cross-surface trigger contract. It drives title load/archive pages, Story save/settings, the six-month completion ledger, and MainGame save/ending pages; checks the `0.55` press and `0.35` release gate; and rejects modal leakage, prose advance, finishing, exiting, saving, loading, or any other destructive trigger fallthrough. `GameAudioContractCheck.tscn` rejects ordinary-UI vibration, raw scene motor numbers, unused profile IDs, and output after Off or 0% strength.
 
-The title-to-demo route has completed all 24 weeks with actual keyboard events and zero mouse events, then with actual mouse events and zero keyboard events. Sixteen Korean/English display-matrix renders cover eight release resolutions, and each language has Xbox, PlayStation, and Nintendo title-glyph evidence at 1080p. The exact contract and remaining physical-device gates are recorded in `docs/INPUT_MATRIX.md`.
+The legacy/internal `demo_rc` title-to-W24 V2 route has completed all 24 weeks
+with actual keyboard events and zero mouse events, then with actual mouse events
+and zero keyboard events. Sixteen Korean/English display-matrix renders cover
+eight release resolutions, and each language has Xbox, PlayStation, and Nintendo
+title-glyph evidence at 1080p. These protect shared regressions but do not identify
+or approve the public `story_demo_rc` M01-M06 candidate. The exact contract and
+remaining physical-device gates are recorded in `docs/INPUT_MATRIX.md`.
 
 `CoreLoopV2Check.tscn` verifies explicit activation, the fixed three-step
 workflow rail and information actions for the legacy Month-One and Month-Two-to-

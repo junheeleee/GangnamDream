@@ -6,6 +6,10 @@
 > 선택의 표현·기억·결정 분류는
 > [`CHOICE_CONSEQUENCE_SYSTEM.md`](CHOICE_CONSEQUENCE_SYSTEM.md), 연출 키의
 > 스키마는 [`SCENE_DIRECTION.md`](SCENE_DIRECTION.md)가 소유한다.
+>
+> **범위 식별:** 현재 공개 출시 데모는 `story_demo_rc` M01~M06(내부 24주)다.
+> 아래 `CORE_LOOP_V2`·`demo_core_loop_v2.json`의 W1~W24 정점 계약은 옛
+> `demo_rc`의 legacy/internal 호환·회귀 증거이며 현재 공개 후보를 뜻하지 않는다.
 
 ## 왜 계층이 필요한가
 
@@ -117,9 +121,9 @@
   등을 의식적으로 변주한다. 다만 병렬 몽타주나 의도한 반복은 예외다. 이 원칙은
   어미 비율이나 정규식으로 자동 합격·실패시키는 기계 규칙이 아니다.
 - 시각은 아라비아 숫자로 쓴다. 분 단위 정밀도는 그 분 자체가 마감·약속·인과의
-  압박을 만드는 경우에만 허용한다. 현 데모에서는 `첫 청구서`의 마감 압박이
-  대표 사례다. 분위기만 필요한 장면은 `오전`, `늦은 밤`, `오후 2시`처럼
-  정밀도를 낮춘다.
+  압박을 만드는 경우에만 허용한다. legacy/internal `demo_rc` W1~W24 V2에서는
+  `첫 청구서`의 마감 압박이 대표 사례다. 분위기만 필요한 장면은 `오전`,
+  `늦은 밤`, `오후 2시`처럼 정밀도를 낮춘다.
 
 ### M49~M55 제품 T2 레지스트리
 
@@ -250,7 +254,7 @@ W211·W220까지 포함한 작성 종막 표면은 10루트·21선택, 한 런 8
 | 장 구조·가족·진실 | `content/meta/narrative_spine.json`의 각 장 `boss` |
 | 챕터 마감 | 이 문서 §5 |
 | 도덕 분기 | `MORAL_TINT.md` |
-| 24주 데모 정점 | `CORE_LOOP_V2.md` §13·§14 E와 `demo_core_loop_v2.json`의 `first_bill_finale` |
+| legacy/internal `demo_rc` W1~W24 V2 정점 | `CORE_LOOP_V2.md` §13·§14 E와 `demo_core_loop_v2.json`의 `first_bill_finale` |
 
 여러 문서가 같은 사건을 지정해도 계층은 하나이며, 더 높은 쪽을 따른다.
 

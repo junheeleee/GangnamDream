@@ -59,9 +59,11 @@
 현재 주장 문서인 `docs/{CODEX_QUEUE,CONTEXT_INDEX,HANDOFF,MASTER_RELEASE_AUDIT,
 QA_CHECKLIST,BUILD_PIPELINE,PLAYTEST_KIT,NEXTFEST_CHECKLIST,STEAM_PAGE,
 CORE_LOOP_V2,AP_REDESIGN,I18N_GLOSSARY,INPUT_MATRIX,CONTROLLER_UX_STRATEGY,
-SCENE_TIER}.md`, `docs/human_gates.json`, 생성본 `docs/STATUS.md`,
+SCENE_TIER,AUDIO_QA,I18N_GLOSSARY_ZH}.md`, `docs/human_gates.json`, 생성본 `docs/STATUS.md`,
 `content/meta/release_content_inventory.json`, 그 원장을 검증·렌더하는
-`tools/release_content_inventory.py`, 마감용 `CLAUDE.md`, `docs/WORK_LOG.md`,
+`tools/release_content_inventory.py`, 생성본 `docs/CONTENT_RATING_INVENTORY.md`,
+문서·원장 해시 ratchet `tools/chapter1_core_loop_v2_causal_ledger_check.py`,
+마감용 `CLAUDE.md`, `docs/WORK_LOG.md`,
 이 사양만 소유한다. 제품 코드·사건·번역·패키지·`project.godot`은 read-only다.
 
 ## L1 / L2 / L3

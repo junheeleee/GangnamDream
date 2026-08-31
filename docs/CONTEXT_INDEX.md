@@ -1,6 +1,6 @@
 # Gangnam Dream Context Index
 
-Updated: 2026-08-21
+Updated: 2026-09-01
 
 이 문서는 “무엇이 정본인가”를 다시 설명하는 바이블이 아니라, 작업에 필요한 정본만 고르는 라우터다. 상세 규칙은 아래 소유 문서 한 곳에만 둔다. 기계 판독 버전은 `docs/context_manifest.json`이다.
 
@@ -29,10 +29,11 @@ Updated: 2026-08-21
 | 영역 | 정본 | 역할 |
 |---|---|---|
 | 상품 정체성·현재 상태 | `CLAUDE.md` | 현재 목표와 불변 규칙. 실행 우선순위·상태는 `CODEX_QUEUE.md`만 소유 |
+| 공개 출시 데모 | `CLAUDE.md`, `docs/human_gates.json`, `content/meta/release_content_inventory.json` | active `story_demo_rc` M01~M06의 후보 신원·사용자 GO·원어민 OPEN. 내부 24주 계측과 월 범위를 구분 |
 | 세계·인물·5장 서사 | `docs/STORY_BIBLE.md`, `docs/CANON_MAP.md` | 의도된 이야기와 세계 사실 |
 | 60개월 배치·분기 예산 | `content/meta/story_map.json`, `docs/CHOICE_CONSEQUENCE_SYSTEM.md` | M01~M60의 실제 후보 2~4개·기한, 장면 전체 기억+carryover 2와 결정 1 상한, branch별 실제 참가자 receipt binding, KEEP/MOVE/EXPAND/NEW 상태 |
 | 마지막 해 reference 경로 | `content/meta/year5_reference_routes.json`, `systems/Year5ReferenceRouteKernel.gd` | pure dormant reducer는 보존하되 기존 career·startup 9+9 주입 계약은 Claude 위임 L3로 `invalidated`다. 새 원고·새 계약 전 R1b 금지, non-live·비도달·product consumer 0 |
-| 현재 W1~24 주간 구현 | `docs/CORE_LOOP_V2.md`, `content/meta/chapter1_core_loop_v2_causal_ledger.json`, `content/meta/demo_core_loop_v2.json`, `docs/AP_REDESIGN.md`, `docs/GAME_RECOMPOSITION_PLAN.md` | 기존 데모 런타임·저장 이관 기준선·48주 gap 증거. 최종 월간 코어의 분기 정본이 아님 |
+| legacy W1~24 V2 구현 | `docs/CORE_LOOP_V2.md`, `content/meta/chapter1_core_loop_v2_causal_ledger.json`, `content/meta/demo_core_loop_v2.json`, `docs/AP_REDESIGN.md`, `docs/GAME_RECOMPOSITION_PLAN.md` | 옛 내부 `demo_rc`의 `runtime_default=false` 저장 호환·회귀 기준선과 48주 gap 증거. 공개 출시 데모나 최종 월간 코어의 분기 정본이 아님 |
 | 참조 시스템 판정 | `docs/REFERENCE_SYSTEM_VERDICTS.md` | 외부 참조 구조의 채택·보류·폐기, 기존 여력·노드·클록·영수증 부착 경계 |
 | 선택·5장 결과 | `docs/CHOICE_CONSEQUENCE_SYSTEM.md` | 표현·기억·결정 선택, 영수증·사실·반복 패턴, 챕터 간 스노우볼과 엔딩 입력 |
 | 인과·장소·대화 채널 | `content/meta/story_rules.json`, `docs/STORY_CONSISTENCY_SYSTEM.md` | 선행조건, 통화/기억, 장면 전환 |
@@ -46,7 +47,7 @@ Updated: 2026-08-21
 | 오디오 | `assets/game_audio_manifest.json`, `assets/scene_audio_manifest.json`, `assets/audio/AUDIO_SOURCE_MANIFEST.json`, `docs/AUDIO_QA.md` | 키, 장면 배선, 출처, 청취 |
 | UI·입력 | `docs/UI_ART_DIRECTION.md`, `docs/CONTROLLER_UX_STRATEGY.md`, `docs/INPUT_MATRIX.md` | 표면, 포커스, 패드, 해상도 |
 | QA·출시 | `docs/MASTER_RELEASE_AUDIT.md`, `docs/QA_CHECKLIST.md`, `docs/BUILD_PIPELINE.md` | 출시 차단 게이트 |
-| 심의·콘텐츠 설문 | `content/meta/release_content_inventory.json`, `docs/CONTENT_RATING_INVENTORY.md` | 패키지 포함 범위, 24주/240주 도달성, 내용 축, 생성형 AI·온라인 사실 |
+| 심의·콘텐츠 설문 | `content/meta/release_content_inventory.json`, `docs/CONTENT_RATING_INVENTORY.md` | frozen `story_demo_rc` exact 1,806사건/PCK와 현재 본편 코퍼스를 분리한 패키지 범위·도달성·내용 축·생성형 AI·온라인 사실 |
 | Steam·마케팅 | `docs/STEAM_PAGE.md`, `docs/STORE_SHOTLIST.md`, `docs/TRAILER_PRODUCTION.md` | 외부 판매 표면 |
 | 최신 결정 이유 | `docs/DECISIONS.md` | 날짜순 결정 원장, 필요한 절만 검색 |
 | 작업 증거 | `docs/WORK_LOG.md`, `docs/history/` | 최근 결과와 과거 원문 |
@@ -69,7 +70,7 @@ Updated: 2026-08-21
 조건부:
 
 - 관계 장면: `docs/ROMANCE_SYSTEM.md`
-- Chapter 1의 1~48주 편성: `docs/CODEX_QUEUE.md`가 가리키는 현재 활성 Chapter 1 오더, `docs/CORE_LOOP_V2.md`, `content/meta/chapter1_core_loop_v2_causal_ledger.json`, `content/meta/demo_core_loop_v2.json`. 현재 제품에 구현된 전반부는 1~24주다.
+- legacy Chapter 1 V2의 1~48주 편성·저장 호환을 조사할 때만: `docs/CODEX_QUEUE.md`가 가리키는 현재 활성 Chapter 1 오더, `docs/CORE_LOOP_V2.md`, `content/meta/chapter1_core_loop_v2_causal_ledger.json`, `content/meta/demo_core_loop_v2.json`. 구현된 전반부 W1~W24는 공개 데모가 아니라 내부 회귀 기준선이다.
 - 본편 폴백 편성: `docs/GAME_RECOMPOSITION_PLAN.md`, 현재 `ORDER-28`
 - 엔딩 라우팅: `content/endings.json`, `systems/EndingSystem.gd`, 관련 `DECISIONS` 절
 
@@ -94,12 +95,16 @@ Updated: 2026-08-21
 - 참조작에서 가져올 구조·버릴 외형 판정: `docs/REFERENCE_SYSTEM_VERDICTS.md`
 - 수치 변경: 관련 시뮬레이터와 `tools/balance_check.py`
 
-본편 Chapter 1의 제작 단위는 1~48주고 데모 제품 범위는 1~24주·W24 CTA다.
-현재 구현된 데모에서는 Core Loop V2가 화면·관계 주도권·월간 편성의 우선
-정본이고, 25~48주는 48행 인과 원장이 채워질 때까지 기존 폴백의 증거일 뿐
-본편 완성 제품으로 세지 않는다. W25~48은 데모 출시·RC·사람 판정 조건이 아니다.
-기존 AP/Decision 문서는 내부 경제와 49~240주 폴백의 증거이며, 별도 본편
-승격 전까지 삭제하거나 후속 장에 확산하지 않는다.
+공개 출시 데모는 active `story_demo_rc`의 M01~M06이며 사용자 GO다. 한 달 네
+주라 내부 실행이 24주·정산 6회인 것은 옛 W1~W24 V2 `demo_rc`와 같은 제품이라는
+뜻이 아니다. 공개 데모 작업은 M01~M06 전용 StoryMode·패키지·사람 게이트를
+따르고, legacy V2 문서를 출시 근거로 읽지 않는다.
+
+W1~W24 Core Loop V2와 W25~W48 gap은 `runtime_default=false` 저장 호환·회귀·
+역사 증거다. 기존 AP/Decision 문서는 내부 경제와 옛 W49~W240 폴백을 설명하므로
+삭제하지 않지만, 월간 행동판을 복구하거나 본편 M07~M60으로 확산하는 근거가
+아니다. 본편은 story map과 선택 결과 계약에서 M01~M60 전체를 관리하며 현재
+`product_go=HOLD`, `human_density_gate=OPEN`이다.
 `docs/CORE_LOOP_V2_REVIEW.md`는 대안 비용을 비교한 논의 자료이며 정본이나
 실행 오더가 아니다. 요청받아 대안을 재검토할 때만 읽는다.
 
@@ -184,9 +189,10 @@ Updated: 2026-08-21
 - 외부 테스트: `docs/PLAYTEST_KIT.md`, `docs/DEMO_FIXLOG.md`
 - Steam 표면: `docs/STEAM_PAGE.md`, `docs/STORE_SHOTLIST.md`
 
-심의·설문에서는 `24주 V2 도달 / 240주 본편 도달 / 패키지 포함·현재 비도달`을
-합치지 않는다. 보고서는 사실 근거를 라우팅할 뿐 최종 연령 등급·삭제·export
-필터를 결정하지 않으며, 제출 시점의 실제 파트너·심의 화면을 다시 확인한다.
+심의·설문에서는 `story_demo_rc M01~M06(내부 24주) / legacy V2 demo_rc W1~W24 /
+본편 M01~M60·W1~W240 / 패키지 포함·현재 비도달`을 합치지 않는다. 보고서는
+사실 근거를 라우팅할 뿐 최종 연령 등급·삭제·export 필터를 결정하지 않으며,
+제출 시점의 실제 파트너·심의 화면을 다시 확인한다.
 
 ## 기록 규칙
 

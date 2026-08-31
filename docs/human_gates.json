@@ -14,7 +14,7 @@
       "commit": "ebc58a839d64d8810b9da5548c20e58bc43c9e30",
       "tree": "f978a22525b678ef83619dc50094a6dada75f190",
       "manifest_sha256": "8a34920038962a4ba0885ad6189d92dc6d3c3ee2780020f3894938d380613177",
-      "note": "데모 제품 경계는 W1~24 CTA다. BUILD 2026.08.22.1은 숫자 여력 네 장을 쓰는 `서울의 네 주` active 내부 demo_rc다. exact clean revision ebc58a839d64d8810b9da5548c20e58bc43c9e30 / tree f978a22525b678ef83619dc50094a6dada75f190, manifest 8a34920038962a4ba0885ad6189d92dc6d3c3ee2780020f3894938d380613177와 세 artifact hash를 BUILD_PIPELINE이 소유한다. exact detached 재검증에서 full/surface matrix와 InputMatrix·Controller·GameAudio·DemoBuild·PlaytestFlavor marker가 PASS했고, InputMatrix의 계약상 허용된 리소스 3개 종료 noise 밖 금지 오류는 0이다. 증거 root는 build/qa/order98-demo-rc-rebind다. BUILD 2026.08.11.2 / 573606은 역사 후보이고 order99 BUILD .3 저장 게이트는 별도 고정이다. 자동 증거는 사람·실기기·연속 A/V·원어민·출시 GO를 대신하지 않으며 외부 30분 package/session은 미발급이다. ORDER-124 BUILD 2026.08.24.3은 story_demo_rc가 대체한 역사 후보이고 story-first 본편 이관은 HOLD다."
+      "note": "Legacy/internal W1~W24 V2 호환 후보이며 공개 출시 데모가 아니다. BUILD 2026.08.22.1은 숫자 여력 네 장을 쓰는 `서울의 네 주` 내부 demo_rc다. exact clean revision ebc58a839d64d8810b9da5548c20e58bc43c9e30 / tree f978a22525b678ef83619dc50094a6dada75f190, manifest 8a34920038962a4ba0885ad6189d92dc6d3c3ee2780020f3894938d380613177와 세 artifact hash를 BUILD_PIPELINE이 소유한다. exact detached 재검증에서 full/surface matrix와 InputMatrix·Controller·GameAudio·DemoBuild·PlaytestFlavor marker가 PASS했고, InputMatrix의 계약상 허용된 리소스 3개 종료 noise 밖 금지 오류는 0이다. 증거 root는 build/qa/order98-demo-rc-rebind다. BUILD 2026.08.11.2 / 573606은 역사 후보이고 order99 BUILD .3 저장 게이트는 별도 고정이다. 이 후보의 열린 판정은 legacy V2 회귀·호환 범위이며 공개 M01~M06 GO나 출시 claim을 막지 않는다. ORDER-124 BUILD 2026.08.24.3은 현재 공개 story_demo_rc가 대체한 역사 후보이고 story-first 본편 이관은 HOLD다."
     },
     "order99_build_3_rc": {
       "status": "active",
@@ -28,7 +28,7 @@
       "commit": "362578d8f4c0781fe35f643a74cc3037e7a80b21",
       "tree": "e7f50b065b3369afa1894df8292756a95f94fd11",
       "manifest_sha256": "50eed10b18c2c2b056f875a8df55230dc07b5535c55e59ddb89fff1d64e91870",
-      "note": "BUILD 2026.08.31.1 macOS 공개 M01~M06 story-first 후보가 active다. package source는 362578d8f4c0781fe35f643a74cc3037e7a80b21 / tree e7f50b065b3369afa1894df8292756a95f94fd11, 제품은 4e80a63e89821094b8bab21b8d5c73ecfc9b6278 / tree 0fdddf11e2ef030cd172d23e691e3d7da4ea29ff, 별도 review wrapper는 d149ce65a0cb397fe4d18cc9932561f828405dce다. manifest SHA-256 50eed10b18c2c2b056f875a8df55230dc07b5535c55e59ddb89fff1d64e91870, app tree 56a4f2997256e68baa21c02807fcf1f0e995ce114f57f96f26d309b300b7ec14, ZIP 956ac93524df6030ef984521550cec7dddafea381387a3df52194e43f5e61289다. KO·EN·JA·zh-CN·zh-TW 14사건·100 leaf·도달 UI 121과 JP/SC/TC 전용 primary font·OFL을 고정했다. 실제 StoryMode clean/ko 9, restitution/en 10, escalation/zh-CN 10 영수증 경로가 각각 M01~M06·24주·정산 6·수동 저장·별도 프로세스 cold restart exact resume·overlay/input clear·AP 원장 0으로 통과했고, BUILD 2026.08.25.1의 M2 저장 복사본도 원본 변경 없이 이어졌다. 14 variant·29 visible option·28 receipt selector·1,800 합법 서명 자동 증거는 사용자 정상 속도 밀도·재미·화면 판정과 JA·zh-CN·zh-TW 원어민 출시 claim을 대신하지 않는다. 해당 게이트는 OPEN, main과 본편 이관은 HOLD이며 저장 호환 AP 데이터·엔진 삭제 GO가 아니다."
+      "note": "BUILD 2026.08.31.1 macOS 공개 M01~M06 story-first 후보가 active이며 범위·구조·사용자 체험은 최종 GO다. package source는 362578d8f4c0781fe35f643a74cc3037e7a80b21 / tree e7f50b065b3369afa1894df8292756a95f94fd11, 제품은 4e80a63e89821094b8bab21b8d5c73ecfc9b6278 / tree 0fdddf11e2ef030cd172d23e691e3d7da4ea29ff, 별도 review wrapper는 d149ce65a0cb397fe4d18cc9932561f828405dce다. manifest SHA-256 50eed10b18c2c2b056f875a8df55230dc07b5535c55e59ddb89fff1d64e91870, app tree 56a4f2997256e68baa21c02807fcf1f0e995ce114f57f96f26d309b300b7ec14, ZIP 956ac93524df6030ef984521550cec7dddafea381387a3df52194e43f5e61289다. KO·EN·JA·zh-CN·zh-TW 14사건·100 leaf·도달 UI 121과 JP/SC/TC 전용 primary font·OFL을 고정했다. 실제 StoryMode clean/ko 9, restitution/en 10, escalation/zh-CN 10 영수증 경로가 각각 M01~M06·24주·정산 6·수동 저장·별도 프로세스 cold restart exact resume·overlay/input clear·AP 원장 0으로 통과했고, BUILD 2026.08.25.1의 M2 저장 복사본도 원본 변경 없이 이어졌다. 사용자 최종 GO는 M01~M06 범위와 StoryMode 구조를 닫았고 JA·zh-CN·zh-TW 원어민 출시 claim 세 건만 별도 OPEN이다. main과 본편 이관은 HOLD이며 저장 호환 AP 데이터·엔진 삭제 GO가 아니다."
     },
     "chapter5_finale_rc": {
       "status": "active",
@@ -163,15 +163,15 @@
     {
       "id": "demo_normal_speed_24w",
       "domain": "pacing",
-      "gate": "정상 속도 데모 24주 플레이",
+      "gate": "Legacy V2 내부 검증 · 정상 속도 W1~W24 플레이",
       "why": "페이싱 검사는 사건 수와 간격을 센다. 지루한지는 세어지지 않는다.",
       "owner": "ORDER-22",
       "state": "open",
       "scope": {
         "blocks": [
-          "demo"
+          "legacy-v2-demo"
         ],
-        "content": "KO/EN 데모 1~24주를 정상 독해 속도로 진행하는 체험"
+        "content": "Legacy/internal V2 demo_rc의 KO/EN W1~W24를 정상 독해 속도로 진행하는 내부 회귀 체험"
       },
       "revision": "demo_rc",
       "sample": {
@@ -191,13 +191,13 @@
     {
       "id": "demo_month1_seoul_cycle_fun",
       "domain": "gameplay",
-      "gate": "첫 달 서울 사이클이 게임으로 읽히는가",
+      "gate": "Legacy V2 내부 검증 · 첫 달 서울 사이클이 게임으로 읽히는가",
       "why": "자동 검사는 네 여력·네 노드, 진전·대가·기한, 저장과 인과 소유권을 증명한다. 배치할 때 실제로 망설이고 다음 주 결과를 자기 결정으로 느끼는지는 사용자 플레이만 판정한다.",
       "owner": "ORDER-94",
       "state": "open",
       "scope": {
         "blocks": [
-          "core_loop_v2_month1_expansion"
+          "legacy-v2-core-loop-month1"
         ],
         "content": "새 V2 저장 1개월차의 네 주간 여력 배치부터 W3 현수 세계 사건과 W4 첫 유혹·월말 수첩까지"
       },
@@ -220,13 +220,13 @@
     {
       "id": "demo_inventory_task_hand_feel",
       "domain": "gameplay",
-      "gate": "재고조사 약속 수행 장면의 행동감",
+      "gate": "Legacy V2 내부 검증 · 재고조사 약속 수행 장면의 행동감",
       "why": "자동 검사는 조합·수치·저장·입력을 증명한다. 두 번의 선택이 실제 일을 처리한 감각인지, 웹 버튼 퀴즈인지 판단하지 못한다.",
       "owner": "ORDER-92",
       "state": "open",
       "scope": {
         "blocks": [
-          "activity_task_expansion"
+          "legacy-v2-activity-task-expansion"
         ],
         "content": "3개월 나흘 야간 재고조사의 세 작업 대상, 보통 완료, 무리하기, 결과 장면과 다음 달 기억"
       },
@@ -273,15 +273,15 @@
     {
       "id": "demo_audio_continuous_listen",
       "domain": "audio",
-      "gate": "데모 24주 연속 A/V 청취",
+      "gate": "Legacy V2 내부 검증 · W1~W24 연속 A/V 청취",
       "why": "계약 검사는 큐 존재와 파일 재생을 본다. 24주 동안 침묵·반복·음량 피로가 장면 흐름을 깨는지는 연속해서 들어야 안다.",
       "owner": "ORDER-57",
       "state": "open",
       "scope": {
         "blocks": [
-          "demo"
+          "legacy-v2-demo"
         ],
-        "content": "KO/EN 데모 1~24주의 장면·폰·월간 계획·첫 청구서 연속 A/V"
+        "content": "Legacy/internal V2 demo_rc의 KO/EN W1~W24 장면·폰·월간 계획·첫 청구서 연속 A/V"
       },
       "revision": "demo_rc",
       "sample": {
@@ -299,15 +299,15 @@
     {
       "id": "physical_controllers",
       "domain": "input",
-      "gate": "물리 Steam Deck·DualSense·Switch Pro 실기기",
+      "gate": "Legacy V2 내부 검증 · 물리 Steam Deck·DualSense·Switch Pro 실기기",
       "why": "InputMatrixCheck는 매핑과 글리프를 본다. 손에 쥐었을 때의 오작동은 실기기에서만 나온다.",
       "owner": "USER-P0N",
       "state": "open",
       "scope": {
         "blocks": [
-          "claim:controller"
+          "legacy-v2-controller"
         ],
-        "content": "공개 데모의 Steam Deck·DualSense·Switch Pro 지원 주장"
+        "content": "Legacy/internal V2 demo_rc의 Steam Deck·DualSense·Switch Pro 호환 회귀"
       },
       "revision": "demo_rc",
       "sample": {
@@ -325,14 +325,14 @@
     {
       "id": "order98_semantic_controller_batch_a_random_three",
       "domain": "input",
-      "gate": "ORDER-98 Batch A 의미 입력 임의 3표면 실기기 대조",
+      "gate": "Legacy V2 내부 검증 · ORDER-98 Batch A 의미 입력 임의 3표면 실기기 대조",
       "why": "자동 입력은 action·edge·상태 불변을 증명하지만, 처음 잡은 사람이 포커스 레일을 훑지 않고 L1/R1과 L2/R2의 역할을 바로 읽는지는 실제 손으로 판정해야 한다.",
       "owner": "ORDER-98",
       "state": "open",
       "scope": {
         "blocks": [
           "order98-close",
-          "claim:controller"
+          "legacy-v2-controller"
         ],
         "content": "Batch A 15단위의 title/archive/save/completion/MainGame/Story 페이지·탭·화면 도구와 세 브랜드 글리프"
       },
@@ -355,14 +355,14 @@
     {
       "id": "order98_semantic_controller_batch_b_random_three",
       "domain": "input",
-      "gate": "ORDER-98 Batch B 직접 게임·진동 임의 3표면 실기기 대조",
+      "gate": "Legacy V2 내부 검증 · ORDER-98 Batch B 직접 게임·진동 임의 3표면 실기기 대조",
       "why": "자동화는 stake와 profile 호출을 셀 수 있지만, trigger 방향이 손에 자연스럽고 의미 진동은 구별되면서 30분 동안 피로하지 않은지는 실제 패드로만 판정할 수 있다.",
       "owner": "ORDER-98",
       "state": "open",
       "scope": {
         "blocks": [
           "order98-close",
-          "claim:controller"
+          "legacy-v2-controller"
         ],
         "content": "Batch B의 8 직접 게임, 큰 단위 값 조절, 중앙 진동 profile과 title/MainGame/Story 진동 설정"
       },
@@ -386,13 +386,13 @@
     {
       "id": "external_readthrough",
       "domain": "narrative",
-      "gate": "외부 정상 독해 10인 플레이 (현재 0/10)",
+      "gate": "Legacy V2 내부 검증 · 외부 정상 독해 10인 플레이 (현재 0/10)",
       "why": "정합 검사는 모순을 잡지 재미를 잡지 않는다. 처음 읽는 사람만 아는 것이 있다.",
       "owner": "ORDER-28",
       "state": "open",
       "scope": {
         "blocks": [
-          "demo"
+          "legacy-v2-demo"
         ],
         "content": "무설명 30분 외부 정상 독해 — 24주 완주·위시리스트 판정과는 별도"
       },
@@ -415,13 +415,13 @@
     {
       "id": "motivation_recall",
       "domain": "narrative",
-      "gate": "동기 문장을 플레이어가 실제로 기억하는가",
+      "gate": "Legacy V2 내부 검증 · 동기 문장을 플레이어가 실제로 기억하는가",
       "why": "각인 검사는 문장이 노출됐는지만 안다. 기억은 사람에게 물어야 한다.",
       "owner": "ORDER-23",
       "state": "open",
       "scope": {
         "blocks": [
-          "demo"
+          "legacy-v2-demo"
         ],
         "content": "프롤로그 정체성 선택과 24주 동안 반복된 민준의 동기"
       },
@@ -441,13 +441,13 @@
     {
       "id": "demo_opening_125_year_flow",
       "domain": "narrative",
-      "gate": "첫 계획 전 125년 장면이 동기를 만드는가",
+      "gate": "Legacy V2 내부 검증 · 첫 계획 전 125년 장면이 동기를 만드는가",
       "why": "자동 검사는 숫자·순서·저장을 증명한다. 목표의 벽을 이해했는지, 정답을 강요받았는지, 장면이 하나처럼 이어졌는지는 사람에게 물어야 한다.",
       "owner": "ORDER-87",
       "state": "open",
       "scope": {
         "blocks": [
-          "demo"
+          "legacy-v2-demo"
         ],
         "content": "새 V2의 프롤로그 지원부터 면접·125년 계산·아버지 부재중 전화·첫 계획까지"
       },
@@ -468,13 +468,13 @@
     {
       "id": "demo_father_memory_small_completion",
       "domain": "narrative",
-      "gate": "아버지 응답의 작은 차이가 다음 장면에서 느껴지는가",
+      "gate": "Legacy V2 내부 검증 · 아버지 응답의 작은 차이가 다음 장면에서 느껴지는가",
       "why": "자동 검사는 여섯 기억이 기존 장면의 정확한 문구 하나만 읽고 추가 카드나 점수를 만들지 않는다고 증명한다. 앞선 응답이 되돌아온 차이를 플레이어가 자연스럽게 알아차리는지는 사람이 정상 속도로 읽어야 한다.",
       "owner": "ORDER-88",
       "state": "open",
       "scope": {
         "blocks": [
-          "demo"
+          "legacy-v2-demo"
         ],
         "content": "아버지에게 한 응답 하나만 다른 두 24주 경로와 기존 21주 건강 신호·24주 첫 청구서의 후속 문구"
       },
@@ -496,13 +496,13 @@
     {
       "id": "weekly_loop_fun",
       "domain": "pacing",
-      "gate": "주간 루프가 재미있는가 — 망설임과 전략",
+      "gate": "Legacy V2 내부 검증 · 주간 루프가 재미있는가 — 망설임과 전략",
       "why": "루프 검사는 선택지 수와 도달성을 본다. 망설였는지는 사람만 안다.",
       "owner": "ORDER-26",
       "state": "open",
       "scope": {
         "blocks": [
-          "demo"
+          "legacy-v2-demo"
         ],
         "content": "Core Loop V2의 1~6개월 네 여력·직업/생계/사람/회복 노드·세계 시계·임계 수행·다음 달 영수증으로 이어지는 24주 전략"
       },
@@ -525,15 +525,15 @@
     {
       "id": "cast_silhouette_64px",
       "domain": "identity",
-      "gate": "64 px 실루엣 — 인물이 64픽셀에서 구분되는가",
+      "gate": "Legacy V2 내부 검증 · 64 px 실루엣 — 인물이 64픽셀에서 구분되는가",
       "why": "서명표는 소품과 모티프의 존재를 센다. 알아보는지는 눈으로 봐야 한다.",
       "owner": "ORDER-64",
       "state": "open",
       "scope": {
         "blocks": [
-          "demo"
+          "legacy-v2-demo"
         ],
-        "content": "데모에 노출되는 주연 6인의 64 px 실루엣"
+        "content": "Legacy/internal V2 demo_rc에 노출되는 주연 6인의 64 px 실루엣"
       },
       "revision": "demo_rc",
       "sample": {
@@ -550,15 +550,15 @@
     {
       "id": "cast_scene_ownership",
       "domain": "identity",
-      "gate": "장면 소유 — 다른 인물로 대체 불가능한 장면을 갖는가",
+      "gate": "Legacy V2 내부 검증 · 장면 소유 — 다른 인물로 대체 불가능한 장면을 갖는가",
       "why": "기계는 인물이 등장하는 장면 수를 센다. 대체 가능한지는 읽어야 안다.",
       "owner": "ORDER-64",
       "state": "open",
       "scope": {
         "blocks": [
-          "demo"
+          "legacy-v2-demo"
         ],
-        "content": "데모에 노출되는 주연의 대표 장면과 고유 소품·욕망·모순"
+        "content": "Legacy/internal V2 demo_rc에 노출되는 주연의 대표 장면과 고유 소품·욕망·모순"
       },
       "revision": "demo_rc",
       "sample": {
@@ -575,13 +575,13 @@
     {
       "id": "cast_expression_grammar",
       "domain": "identity",
-      "gate": "표정 문법 — 같은 감정을 인물마다 다르게 연기하는가",
+      "gate": "Legacy V2 내부 검증 · 표정 문법 — 같은 감정을 인물마다 다르게 연기하는가",
       "why": "자산 검사는 파일 유무를 본다. 연기의 차이는 나란히 놓고 봐야 안다.",
       "owner": "ORDER-64",
       "state": "open",
       "scope": {
         "blocks": [
-          "demo"
+          "legacy-v2-demo"
         ],
         "content": "데모 주연의 같은 감정군 표정·자세·시선 연기"
       },
@@ -600,13 +600,13 @@
     {
       "id": "surface_not_cheap",
       "domain": "surface",
-      "gate": "화면이 싸구려 웹 모달이 아니라 이 게임의 물건으로 보이는가",
+      "gate": "Legacy V2 내부 검증 · 화면이 싸구려 웹 모달이 아니라 이 게임의 물건으로 보이는가",
       "why": "surface_coherence는 분열의 흔적을 센다. 세지 못하는 것은 통일된 화면이 좋은가다.",
       "owner": "ORDER-63",
       "state": "open",
       "scope": {
         "blocks": [
-          "demo"
+          "legacy-v2-demo"
         ],
         "content": "데모 시작 흐름·장면·폰·선택·결산·CTA의 표면 물성"
       },
@@ -626,13 +626,13 @@
     {
       "id": "demo_transition_go",
       "domain": "pacing",
-      "gate": "데모 24주 전환·사람 GO",
+      "gate": "Legacy V2 내부 검증 · W1~W24 전환·사람 판정",
       "why": "자동 게이트는 도달성과 계약을 본다. 24주가 하나의 이야기로 읽히는지는 사람 판정이 남는다.",
       "owner": "ORDER-57",
       "state": "open",
       "scope": {
         "blocks": [
-          "demo"
+          "legacy-v2-demo"
         ],
         "content": "Core Loop V2의 1~24주 전체와 주 25 진입 전 기록 CTA"
       },
@@ -653,13 +653,13 @@
     {
       "id": "demo_month3_month4_deep_scene_review",
       "domain": "narrative",
-      "gate": "3·4개월차 생활 장면과 장기 기억 판정",
+      "gate": "Legacy V2 내부 검증 · 3·4개월차 생활 장면과 장기 기억 판정",
       "why": "자동 검사는 일반 결과 카드가 사라지고 기억이 다시 읽히는지 증명한다. 장면이 실제 경험으로 남고 후대 회상이 같은 선택을 새 의미로 돌려주는지는 사람이 읽어야 안다.",
       "owner": "ORDER-83",
       "state": "open",
       "scope": {
         "blocks": [
-          "demo"
+          "legacy-v2-demo"
         ],
         "content": "3월 방 안의 장부와 4월 주거복지 상담, 1년·5년 뒤 기억 회수"
       },
@@ -681,13 +681,13 @@
     {
       "id": "demo_prose_style_random_three",
       "domain": "narrative",
-      "gate": "24주 산문 임의 3단위 정상 독해",
+      "gate": "Legacy V2 내부 검증 · W1~W24 산문 임의 3단위 정상 독해",
       "why": "자동 검사는 도달 범위·시각·구조·플레이스홀더를 잠글 수 있지만, 설명형 꼬리가 실제로 사라졌는지와 이미지·행동의 여운이 자연스러운지는 사람이 정상 속도로 읽어야 판정할 수 있다.",
       "owner": "ORDER-85",
       "state": "open",
       "scope": {
         "blocks": [
-          "demo-release"
+          "legacy-v2-demo-release"
         ],
         "content": "P-9의 정본 2단위·자동 검사 1단위·24주 원고 16단위·한영 대조 1단위로 구성된 20단위 전수 원장"
       },
@@ -709,13 +709,13 @@
     {
       "id": "demo_en_voice_random_three",
       "domain": "localization",
-      "gate": "24주 영어 목소리 임의 3단위 원어민 대조",
+      "gate": "Legacy V2 내부 검증 · W1~W24 영어 목소리 임의 3단위 원어민 대조",
       "why": "구조·누출 검사는 문장이 존재하고 사실이 맞는지 확인한다. 이름을 가려도 화자와 관계 단계가 들리는지, 자연스러운 영어이면서 한국어의 거리와 함축을 보존하는지는 사람이 읽어야 판정할 수 있다.",
       "owner": "ORDER-86",
       "state": "open",
       "scope": {
         "blocks": [
-          "demo-release"
+          "legacy-v2-demo-release"
         ],
         "content": "P-10의 ORDER-86 exact 22단위 원장(72사건/447본문·543동적 호출/536고유키·활동 147), ORDER-88 중간 snapshot(73/471·686/657), active demo_rc 실측(72/467·730/701) 사이의 set/hash delta 전수 재대조"
       },
@@ -733,20 +733,20 @@
       "acceptance": [
         "이름을 가려도 화자와 상대 관계가 문장 길이·직접성·머뭇거림·축약형·호칭으로 구별됨",
         "자연스러운 영어이면서 한국어의 의미·함축·사실·관계 거리를 바꾸지 않음",
-        "데모에서 oppa와 -ssi는 0이고 hyung은 관계가 작동하는 자리에서만 선택적으로 쓰임",
+        "Legacy/internal V2 demo_rc에서 oppa와 -ssi는 0이고 hyung은 관계가 작동하는 자리에서만 선택적으로 쓰임",
         "사용자 최종 GO"
       ]
     },
     {
       "id": "reference_system_verdicts_random_three",
       "domain": "gameplay",
-      "gate": "참조 시스템 판정표 채택 항목 임의 3단위 대조",
-      "why": "자동 검사는 44단위 판정표의 구조와 기존 시스템 소유자를 확인할 수 있지만, 채택 항목이 강남드림 안에서 구체적으로 그려지고 서로를 지우지 않는지는 사람이 함께 읽어야 판정할 수 있다. active demo_rc는 발급됐지만 사람 판정 증거는 아직 없다.",
+      "gate": "Legacy V2 내부 검증 · 참조 시스템 판정표 채택 항목 임의 3단위 대조",
+      "why": "자동 검사는 44단위 판정표의 구조와 기존 시스템 소유자를 확인할 수 있지만, 채택 항목이 강남드림 안에서 구체적으로 그려지고 서로를 지우지 않는지는 사람이 함께 읽어야 판정할 수 있다. legacy/internal demo_rc의 사람 판정 증거는 아직 없다.",
       "owner": "ORDER-95",
       "state": "open",
       "scope": {
         "blocks": [
-          "reference-system-implementation"
+          "legacy-v2-reference-system"
         ],
         "content": "REFERENCE_SYSTEM_VERDICTS.md의 44단위 전수 판정표와 그중 가져온다로 판정된 32단위"
       },
@@ -768,14 +768,14 @@
     {
       "id": "order97_ui_format_batch_a_random_three",
       "domain": "localization",
-      "gate": "ORDER-97 Batch A 실제 UI 임의 3표면 대조",
+      "gate": "Legacy V2 내부 검증 · ORDER-97 Batch A 실제 UI 임의 3표면 대조",
       "why": "템플릿·인자·키 수 자동 검사는 lookup provenance를 증명하지만 시작·기록·설정·장면 화면의 최종 문맥과 값이 사람에게 맞게 읽히는지는 실제 후보 표면을 봐야 한다. 최신 demo_rc는 발급됐고 사람 판정만 남는다.",
       "owner": "ORDER-97",
       "state": "open",
       "scope": {
         "blocks": [
           "order97-close",
-          "claim:ja-demo"
+          "legacy-v2-ja-ui"
         ],
         "content": "Batch A의 StartMenu 16호출과 StoryMode 7호출, 총 23개 lookup-before-format 이동 표면"
       },
@@ -786,7 +786,7 @@
           "현재 소스로 다시 발급한 같은 demo_rc와 ORDER-97 exact registry에서 사용자가 서로 다른 실제 표면 3개를 임의 선택",
           "각 표면의 KO와 EN 최종 문자열이 migration 전 authored byte와 같은지 대조",
           "일본어 사전 hit가 안정 템플릿과 대상 인자를 쓰며 영어 fallback이나 교차 언어 금액을 남기지 않는지 실제 화면에서 확인",
-          "같은 최종 demo_rc의 JA StartMenu·gallery·Story·i18n-layout에서 가나·한자·일본어 문장부호가 한 Noto Sans JP 굵기로 읽히고 줄바꿈·잘림이 없는지 확인",
+          "같은 legacy/internal demo_rc의 JA StartMenu·gallery·Story·i18n-layout에서 가나·한자·일본어 문장부호가 한 Noto Sans JP 굵기로 읽히고 줄바꿈·잘림이 없는지 확인",
           "세 표면 중 하나라도 틀리면 표본만 고치지 않고 Batch A 23호출을 전량 재검토"
         ]
       },
@@ -800,14 +800,14 @@
     {
       "id": "order97_ui_format_batch_b_random_three",
       "domain": "localization",
-      "gate": "ORDER-97 Batch B 실제 UI 임의 3표면 대조",
+      "gate": "Legacy V2 내부 검증 · ORDER-97 Batch B 실제 UI 임의 3표면 대조",
       "why": "정적 원장은 남은 호출과 돈 formatter의 소유권을 증명하지만 계획판·연락폰·배달·재고조사 표면의 최종 문맥, 복수형, 고정 일정과 돈 단위는 같은 후보의 실제 화면에서 사람이 확인해야 한다. 최신 demo_rc는 발급됐고 사람 판정만 남는다.",
       "owner": "ORDER-97",
       "state": "open",
       "scope": {
         "blocks": [
           "order97-close",
-          "claim:ja-demo"
+          "legacy-v2-ja-ui"
         ],
         "content": "Batch B의 GameState 4·MainGame 1·CommunicationPhone 3·ArubaGame 1·SeoulCycleBoard 2·CoreLoopPlanner 13, 총 24개 lookup-before-format 이동 표면"
       },
@@ -818,7 +818,7 @@
           "현재 소스로 다시 발급한 같은 demo_rc와 ORDER-97 exact registry에서 사용자가 서로 다른 실제 표면 3개를 임의 선택",
           "각 표면의 KO와 EN 최종 문자열이 migration 전 authored byte와 같은지 대조",
           "일본어 사전 hit와 영어 fallback의 인자 provenance, placeholder 결과, 고정 일정·복수형·원화 의미를 실제 화면에서 확인",
-          "같은 최종 demo_rc의 JA core-loop 계획판·서울 보드·연락폰·i18n-layout에서 가나·한자·일본어 문장부호가 한 Noto Sans JP 굵기로 읽히고 줄바꿈·잘림이 없는지 확인",
+          "같은 legacy/internal demo_rc의 JA core-loop 계획판·서울 보드·연락폰·i18n-layout에서 가나·한자·일본어 문장부호가 한 Noto Sans JP 굵기로 읽히고 줄바꿈·잘림이 없는지 확인",
           "세 표면 중 하나라도 틀리면 표본만 고치지 않고 Batch B 24호출을 전량 재검토"
         ]
       },
@@ -832,16 +832,16 @@
     {
       "id": "ja_demo_native_review",
       "domain": "localization",
-      "gate": "일본어 24주 데모 원어민 문맥 검수",
+      "gate": "Legacy V2 내부 검증 · 일본어 W1~W24 원어민 문맥 검수",
       "why": "완전성 검사는 누락과 영어 우회를 잡는다. 한국어 정본의 인물 목소리·관계 거리·함축·돈의 체감·선택 인과가 자연스러운 일본어 장면으로 남았는지는 원어민의 직접 대조가 필요하다.",
       "owner": "ORDER-81",
       "state": "open",
       "scope": {
         "blocks": [
-          "claim:ja-demo",
-          "demo-release"
+          "legacy-v2-ja",
+          "legacy-v2-demo-release"
         ],
-        "content": "같은 demo_rc의 실제 24주 일본어 장면·선택·계획판·연락폰·오프닝·CTA"
+        "content": "Legacy/internal V2 demo_rc의 실제 W1~W24 일본어 장면·선택·계획판·연락폰·오프닝·CTA"
       },
       "revision": "demo_rc",
       "sample": {
@@ -856,22 +856,22 @@
       "acceptance": [
         "오역·누락·한글 누출·불필요한 영어 혼용·번역투가 없음",
         "인물별 말투와 관계 거리, 대화의 함축과 여운, 원화 금액의 체감, 선택과 결과의 인과가 한국어 정본과 같은 장면으로 읽힘",
-        "원어민이 일본어 24주 데모 주장에 GO"
+        "원어민이 legacy V2 W1~W24 일본어 내부 회귀에 GO"
       ]
     },
     {
       "id": "zh_cn_demo_native_review",
       "domain": "localization",
-      "gate": "중국어 간체 24주 데모 중국 본토 원어민 문맥 검수",
+      "gate": "Legacy V2 내부 검증 · 중국어 간체 W1~W24 중국 본토 원어민 문맥 검수",
       "why": "엄격 검사는 누락·문자권·원화·글꼴을 잡지만 한국어 정본의 인물 목소리·관계 거리·함축·여운·한국 문화 설명량이 중국 본토의 자연스러운 장면으로 남았는지는 원어민의 직접 대조가 필요하다.",
       "owner": "ORDER-82",
       "state": "open",
       "scope": {
         "blocks": [
-          "claim:zh-CN-demo",
-          "demo-release"
+          "legacy-v2-zh-CN",
+          "legacy-v2-demo-release"
         ],
-        "content": "같은 demo_rc의 실제 24주 zh-CN 장면·선택·정적 UI·계획판·연락폰·오프닝·CTA"
+        "content": "Legacy/internal V2 demo_rc의 실제 W1~W24 zh-CN 장면·선택·정적 UI·계획판·연락폰·오프닝·CTA"
       },
       "revision": "demo_rc",
       "sample": {
@@ -888,22 +888,22 @@
         "오역·누락·한글·가나·미번역 영어·지역 문자 혼용·번역투가 없음",
         "인물별 말투와 관계 거리, 대화의 함축과 여운, 원화 금액의 체감과 모든 날짜·시각·기간·횟수·부호, 한국 문화 설명량, 선택과 결과의 인과가 한국어 정본과 같은 장면으로 읽힘",
         "공식 근거 없는 인명 한자가 없고 실제 SC 자형·줄바꿈·안전영역이 자연스러움",
-        "중국 본토 원어민이 zh-CN 24주 데모 주장에 GO"
+        "중국 본토 원어민이 legacy V2 W1~W24 zh-CN 내부 회귀에 GO"
       ]
     },
     {
       "id": "zh_tw_demo_native_review",
       "domain": "localization",
-      "gate": "중국어 번체 24주 데모 대만 원어민 문맥 검수",
+      "gate": "Legacy V2 내부 검증 · 중국어 번체 W1~W24 대만 원어민 문맥 검수",
       "why": "간체 검수나 문자 변환은 대만의 어휘·관계 말투·자형·문화 설명을 승인할 수 없다. 한국어 정본의 장면성과 돈의 체감을 보존했는지는 대만 원어민의 별도 직접 대조가 필요하다.",
       "owner": "ORDER-82",
       "state": "open",
       "scope": {
         "blocks": [
-          "claim:zh-TW-demo",
-          "demo-release"
+          "legacy-v2-zh-TW",
+          "legacy-v2-demo-release"
         ],
-        "content": "같은 demo_rc의 실제 24주 zh-TW 장면·선택·정적 UI·계획판·연락폰·오프닝·CTA"
+        "content": "Legacy/internal V2 demo_rc의 실제 W1~W24 zh-TW 장면·선택·정적 UI·계획판·연락폰·오프닝·CTA"
       },
       "revision": "demo_rc",
       "sample": {
@@ -920,7 +920,7 @@
         "오역·누락·한글·가나·미번역 영어·지역 문자 혼용·번역투가 없음",
         "인물별 말투와 관계 거리, 대화의 함축과 여운, 원화 금액의 체감과 모든 날짜·시각·기간·횟수·부호, 한국 문화 설명량, 선택과 결과의 인과가 한국어 정본과 같은 장면으로 읽힘",
         "공식 근거 없는 인명 한자가 없고 실제 TC 자형·줄바꿈·안전영역이 자연스러움",
-        "대만 원어민이 zh-TW 24주 데모 주장에 GO"
+        "대만 원어민이 legacy V2 W1~W24 zh-TW 내부 회귀에 GO"
       ]
     },
     {
@@ -1030,12 +1030,12 @@
     {
       "id": "order99_build_3_user_save_recovery",
       "domain": "gameplay",
-      "gate": "ORDER-99 BUILD 2026.08.11.3 실제 저장 복구 사용자 확인",
+      "gate": "Legacy V2 저장 호환 · ORDER-99 BUILD 2026.08.11.3 실제 저장 복구 사용자 확인",
       "why": "자동 회귀는 격리 복사본의 저장 정합과 Month 2 진입을 증명하지만, 실제 사용자의 원래 막힌 저장이 정상 입력만으로 이어지는지는 사용자가 같은 후보에서 확인해야 한다.",
       "owner": "ORDER-99",
       "state": "open",
       "scope": {
-        "blocks": ["order99-close", "demo"],
+        "blocks": ["order99-close", "legacy-v2-save"],
         "content": "BUILD 2026.08.11.3에서 사용자 원본 autosave의 격리 복사본으로 1월 4주차 완료 상태부터 월말 수첩과 2월 1주차 보드까지 복구하는 경로"
       },
       "revision": "order99_build_3_rc",
@@ -1056,19 +1056,19 @@
     {
       "id": "order119_player_surface_user_final_go",
       "domain": "surface",
-      "gate": "ORDER-119 결과 산문·시스템 언어 제거 사용자 최종 판정",
+      "gate": "Legacy V2 내부 검증 · ORDER-119 결과 산문·시스템 언어 제거 사용자 최종 판정",
       "why": "자동 검사는 금지 토큰·수치 폴백·한영 구조·도달성과 네 렌더 경로의 계약을 증명하지만, 실제 화면의 결과가 스탯 정산표가 아니라 세계 안의 변화로 읽히는지는 사람이 판정해야 한다.",
       "owner": "ORDER-119",
       "state": "open",
       "scope": {
-        "blocks": ["order119-close", "demo", "full"],
-        "content": "active demo_rc에서 ORDER-119가 교체한 KO/EN 결과·영수증·임계 변화·wrapper·칭호 표면과 같은 후보의 KO PlayStation full-gamepad 결과 산문"
+        "blocks": ["order119-close", "legacy-v2-demo", "full"],
+        "content": "legacy/internal demo_rc에서 ORDER-119가 교체한 KO/EN 결과·영수증·임계 변화·wrapper·칭호 표면과 같은 후보의 KO PlayStation full-gamepad 결과 산문"
       },
       "revision": "demo_rc",
       "sample": {
         "cohort": "order119_real_render_surface_review",
         "requirements": [
-          "active demo_rc BUILD 2026.08.22.1의 exact commit/tree/manifest를 사용",
+          "legacy/internal demo_rc BUILD 2026.08.22.1의 exact commit/tree/manifest를 사용",
           "서로 다른 HOME/XDG/OUT에서 직렬 캡처한 1280×800 KO/EN demo-experience 실렌더",
           "같은 후보의 KO PlayStation full-gamepad 실렌더",
           "같은 후보의 1280×800 KO/EN 칭호 도감 실렌더"

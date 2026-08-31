@@ -249,15 +249,16 @@ Hyunsu's reunion remains scoreless on the live housing room tone through the emp
 
 ## Human Listening Gate
 
-The exact current listening candidate is owned only by
-`docs/human_gates.json` at `release_candidates.demo_rc`; do not copy its
-commit, tree, or manifest hash into this durable contract. The active candidate
-has verified three-platform artifact hashes, and its extracted macOS package
-boots while loading the audio resources without an error. Automated routing,
-Korean/English rendering, complete 24-week parity, export, and package boot
-pass; this is not a listening approval.
+This section preserves the legacy/internal W1–W24 listening gate. Its exact
+candidate is owned only by `docs/human_gates.json` at
+`release_candidates.demo_rc`; do not copy its commit, tree, or manifest hash
+into this durable contract. That candidate's three-platform artifacts,
+24-week parity, export, and package boot are historical regression evidence,
+not the current public `story_demo_rc` identity or a listening approval.
 
-Before demo lock, listen at the real 1280x800/Steam Deck presentation and on headphones, laptop speakers, and a living-room TV:
+Before closing that legacy/internal listening gate, listen at the real
+1280x800/Steam Deck presentation and on headphones, laptop speakers, and a
+living-room TV:
 
 1. Play the complete Knee memory without skipping. The player must hear a modest family home before seeing the room, recognize one unbroken family motif, and feel the door/paper beats without hearing a tragedy jingle.
 2. Play the goshiwon arrival, Father's call, Hyunsu corridor scenes, and one quiet weekly return in sequence. The room may contain refrigerator, clock, cloth, plumbing, a distant cough, or corridor footfall; it must never resemble a station, food court, street, or outdoor crowd.

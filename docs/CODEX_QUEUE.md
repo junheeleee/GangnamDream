@@ -76,37 +76,39 @@
 | 15 | [~] | ORDER-97 · LOC-0.5 | [97](queue_active/ORDER-97.md) | L3 대기 |
 | 16 | [~] | ORDER-98 · PAD-1 | [98](queue_active/ORDER-98.md) | 물리 패드 L3 OPEN |
 
-### 남은 데모 출시선
+### legacy V2 보존선과 본편 M07~M60 관리선
 
-아래는 순서가 확정된 **자식 생성 대기선**이다. 앞 작업의 실측값을 입력으로 써야
-하므로 아직 사양을 미리 굳히지 않는다. 차례가 오면 한 항목씩 1~2배치 자식
-오더를 만들고 위 표에 올린다.
+공개 출시 데모는 active `story_demo_rc` BUILD `2026.08.31.1`의 **M01~M06**에서
+끝나며 사용자 GO다. 한 달 네 주라 내부 계측이 `weeks=24`인 것은 범위를
+M07~M24로 늘린다는 뜻이 아니다. M01~M06 공개 데모를 더 확장하거나 새
+`demo_rc`로 교체하는 자식 대기선은 없다. JA·zh-CN·zh-TW 원어민 판정은 각각
+OPEN으로 남는다.
 
-W9~16 exact-scope 자식 계획은 2026-08-14 사용자 지시에 따라 ORDER-102의
-60개월 story map 뒤로 내려간다. 맵 없이 W9~16 노드부터 늘리지 않는다. 기존
-ORDER-101 baseline 47·blocked 3, W1~8 save matrix, W24 뒤 U01..U20 사람 모집단은
-폐기하지 않고 M1~M6 이관 입력으로 보존한다. story map 승인 뒤 데모의 남은
-W9~24 수리와 clean demo_rc를 작은 자식 오더로 다시 연다. W25~48은 계속 데모
-출시·RC·사람 판정 조건이 아니다.
+옛 W1~W24 V2 `demo_rc`는 `runtime_default=false`인 내부 저장 호환·회귀·역사
+증거다. ORDER-101 baseline 47·blocked 3, W1~8 save matrix, W24 뒤 U01..U20
+모집단과 관련 코드·데이터·검사는 삭제하지 않지만, 이를 미래 공개 데모나
+M01~M06 GO의 대체 후보로 다시 발급하지 않는다.
 
-1. 축·위험 실측이 표면 또는 장면 결함을 증명할 때만 정확한 최소 수리
-2. E 이후 변경분만 데모 계층/T1·T2 계약 재감사
-3. 데모 도달 기능의 생존·킬링포인트를 판정하고, 제거/완성은 건별 사용자 승인
-4. `MainGame.gd` 전체 이사가 아니라 데모 UI 한 이음새만 무행동 추출
-5. 데모 접근성·성능 예산을 실측한 뒤 테마 단일 출처와 KO/EN 대조 시트 적용
-6. 데모 인물 모티프·64px 실루엣·장면 소유·표정 문법을 비교 시트로 판정
-7. clean main에서 새 W1~24 demo_rc를 발급하고 24주 회귀·정상 속도·물리 입력·
-   연속 A/V·외부 30분 이해도를 **같은 리비전**에서 각각 판정
-8. 데모 사람 GO와 심의/스토어 결정을 받은 뒤에만 데모 기본 진입·출고 패키지를 전환
+이후 자식 작업은 공개 데모 증량이 아니라 **본편 M07~M60**의 장면·선택·회수·
+정점 밀도를 M01~M60 전체에서 관리한다. 앞 작업의 실측값을 입력으로 쓰고, 차례가
+오면 서로 의존하지 않는 15~25단위의 1~2배치 오더로 위 표에 올린다.
 
-### 부모 계획과 데모 뒤 범위
+1. M01~M06 제품 바이트와 사용자 GO를 동결하고 세 원어민 게이트만 별도로 닫는다.
+2. legacy W1~W24 V2의 저장·영수증·회귀 계약은 호환 경로에서만 보존한다.
+3. M07~M60은 story map·typed graph·fresh-title trace로 공백과 잘못된 ingress를 먼저 찾는다.
+4. 장면 수를 맞추지 않고 실측 결손만 15~25단위 표적 원고·연출 배치로 수리한다.
+5. Chapter 5 두 경로는 새 exact 후보의 M49~M60 정상 속도 재플레이 전까지 HOLD다.
+6. 본편 KO/EN·런타임 원고가 동결된 뒤에만 M07~M60 JA·zh-CN·zh-TW 번역을 확장한다.
+7. 전체 본편은 `product_go=HOLD`, `human_density_gate=OPEN`을 닫기 전 승격하지 않는다.
 
-- 데모 부모: [57](queue_backlog/ORDER-57.md), [58](queue_backlog/ORDER-58.md),
+### legacy 부모 계획과 본편 범위
+
+- legacy V2 부모: [57](queue_backlog/ORDER-57.md), [58](queue_backlog/ORDER-58.md),
   [59](queue_backlog/ORDER-59.md), [61](queue_backlog/ORDER-61.md),
   [62](queue_backlog/ORDER-62.md), [63](queue_backlog/ORDER-63.md),
   [64](queue_backlog/ORDER-64.md), [66](queue_backlog/ORDER-66.md),
   [67](queue_backlog/ORDER-67.md)
-- Chapter 1 뒤 49~240주: [60](queue_backlog/ORDER-60.md),
+- 본편 M07~M60 / Chapter 1 뒤 49~240주: [60](queue_backlog/ORDER-60.md),
   [65](queue_backlog/ORDER-65.md), [77](queue_backlog/ORDER-77.md),
   `ORDER-64` 전 자산 확산, `ORDER-67` 나머지 구조화
 - 열린 사람 판정과 정확한 scope/RC/표본/합격 기준은

@@ -12,12 +12,12 @@
 | 상품 정의 | **"나는 민준이다. 눈앞의 사람·돈·몸 사이에서 실제로 무엇을 할지 고르고, 흐른 시간 속에서 그 대가를 산다."** 240주를 카드 목록이 아니라 한 편의 소설·영화처럼 인과·장면·연기·전환·여운으로 겪는다. 플레이어를 구경꾼으로 부르거나 숨은 도덕 점수를 설명하지 않는다. |
 | 현재 범위 | 1턴=1주, 240주·60개월(5년). **출시 데모는 M01~M06에서 끝나는** `story_demo_rc` BUILD `2026.08.31.1`이고 사용자 GO다. 본편은 M01~M60 전체의 장면·선택·회수·정점 상승을 한 작품으로 관리한다. 반복 행동판은 0이며 저장 호환 AP 데이터·엔진 삭제 GO는 아니다. |
 | 품질 게이트 | [`docs/MASTER_RELEASE_AUDIT.md`](docs/MASTER_RELEASE_AUDIT.md). 콘텐츠 수량보다 블랙박스 플레이, 한영 패리티, 패드 과업, 사람 기억·전환 증거로 판정한다. |
-| 최근 완료 | exact `story_demo_rc` package `362578d` / 제품 `4e80a63` / manifest `50eed10b`의 M01~M06 출시 범위와 StoryMode 중심 구조에 사용자가 최종 GO했다. JA·zh-CN·zh-TW 원어민 claim은 별도 OPEN이다. |
-| 바로 다음 | 기준선 `06277c3`에서 ORDER-143은 월경계 8개 edge와 Ch2 무가드 보스 chain을 typed graph로 수리하고, ORDER-144는 제품 파일을 바꾸지 않는 fresh-title W1→W240 occurrence trace를 병렬 구축한다. 둘 다 M01~M06 출시 데모 GO를 보호하며 숫자를 맞추는 일괄 증량은 하지 않는다. |
+| 최근 완료 | exact `story_demo_rc` package `362578d` / 제품 `4e80a63` / manifest `50eed10b`의 M01~M06 공개 데모를 사용자 GO로 고정했다. 공개 PCK의 1,806사건 원장과 현재 본편 개발 소스 1,812사건 원장을 분리했고, 옛 W1~W24 `demo_rc`는 legacy/internal 회귀로만 남긴다. JA·zh-CN·zh-TW 원어민 claim은 별도 OPEN이다. |
+| 바로 다음 | ORDER-147의 두 AudioServer mix 경계 teardown을 새 exact clean wrapper에서 12회 독립 stress와 전체 감사로 검증한 뒤, 세 fresh-title profile을 W1→W240까지 다시 실행한다. 하나라도 leak·신원 불일치·중도 종료면 후보를 발급하지 않는다. |
 | 열려 있는 사람 게이트 | [`docs/human_gates.json`](docs/human_gates.json)이 정본이다. `chapter5_finale_rc` 두 경로와 JA·zh-CN·zh-TW 원어민 판정은 OPEN이다. **초록불은 재미 판정이 아니다.** |
-| 그다음 | 전체 볼륨 finding을 15~25단위 표적 원고 배치로 수리하고 각 배치의 무작위 3장면·정상 속도 경로를 판정한다. 240주 번역은 한국어·런타임 동결 뒤 별도다. |
+| 그다음 | clean 세 profile 뒤 새 exact 본편 후보와 Chapter 5 두 M49~M60 정상 속도 재플레이를 요청한다. 다음 제품 배치는 M06 실제 영수증→M07~M12를 잇고 runtime occurrence와 story-map 월 소유권을 대조해 M08·M10·M11 공백과 선소비를 15~25단위로 수리한다. 240주 번역은 한국어·런타임 동결 뒤 별도다. |
 | 자산 조달 | **외주 0원.** 인물 디자인·작곡·UI 아트·유료 서체를 사지 않고 Codex와 무료 라이선스(임베딩이 허용된 OFL·CC0 등)로만 만든다. 인력·구매를 전제한 계획을 세우지 않는다. 생성 자산의 결함은 품질이 아니라 평균성이므로 동일 후처리·고정 서명·채택률로 이긴다. 정본은 `docs/DECISIONS.md` 2026-07-30 항목이 소유한다. |
-| 마지막 갱신 | 2026-08-31 (M01~M60 정적 기준선 `06277c3` / ORDER-143 graph·ORDER-144 runtime trace 착수) |
+| 마지막 갱신 | 2026-09-01 (공개 M01~M06 truth 정렬 / 본편 M01~M60 runtime proof·사람 밀도 HOLD) |
 
 사용자가 새 지시를 주면 그것이 위 순서보다 우선한다.
 
@@ -73,10 +73,10 @@
   합류할 수 있고, 기억에는 이름 있는 미래 독자, 결정에는 닫힌 길과 다음 장의
   변화가 있어야 한다. 마지막 장의 결정은 엔딩과 사람들의 이후가 직접 읽는다.
   모든 선택에 영구 플래그나 호감도를 붙이지 않는다.
-- 최종 장면 배치와 분기 정본은 `content/meta/story_map.json`의 beat·장기 결정과 [`docs/CHOICE_CONSEQUENCE_SYSTEM.md`](docs/CHOICE_CONSEQUENCE_SYSTEM.md)다. 같은 맵의 월간 commitment·여유 계약은 반려된 작가용 역사 자료이며 새 제품 consumer가 읽지 않는다. [`docs/CORE_LOOP_V2.md`](docs/CORE_LOOP_V2.md)는 현재 W1~W24 런타임·저장 이관 기준선과 W25~48 gap 증거다. 첫 만남 이후 관계는 플레이어의 선제 행동이나 그 행동에 근거한 상호 회신 없이 진전하지 않는다.
+- 최종 장면 배치와 분기 정본은 `content/meta/story_map.json`의 beat·장기 결정과 [`docs/CHOICE_CONSEQUENCE_SYSTEM.md`](docs/CHOICE_CONSEQUENCE_SYSTEM.md)다. 같은 맵의 월간 commitment·여유 계약은 반려된 작가용 역사 자료이며 새 제품 consumer가 읽지 않는다. [`docs/CORE_LOOP_V2.md`](docs/CORE_LOOP_V2.md)는 legacy/internal W1~W24 런타임·저장 호환 기준선과 W25~48 gap 증거다. 첫 만남 이후 관계는 플레이어의 선제 행동이나 그 행동에 근거한 상호 회신 없이 진전하지 않는다.
 - 주간 행동·생활 빌드·스토리를 별도 선택층으로 겹치지 않는다. 직업·생계·회복 루틴과 시간·경제는 자동으로 흐르고 `쌓인 이력 → 지금 가능한 일`을 만든다. 플레이어가 고르는 구체 행동은 실제 StoryMode 장면의 표현·기억·결정이 소유하며, 선택의 exact fact/receipt가 다음 장면의 가능성·비용·참가자·결과를 바꾼다. 새 XP·스킬 포인트·상시 패시브나 이름만 바꾼 월간 행동판으로 이 연결을 흉내 내지 않는다.
 - 새 고유 행동은 같은 사양과 기계 원장에 비용, 완료/만료, 다음 플레이 동사, 근거리 독자, 월말/장기 독자를 함께 선언해야 한다. 독자가 없는 플래그, 완료 뒤 죽은 카드, 문장만 달라지는 가짜 빌드는 완성 기능으로 세지 않는다. 끝까지 책임질 수 없는 반쪽 기능은 조용히 존치하거나 확장하지 않고 사용자에게 완성/제거 판정을 올린다.
-- 현재 W1~24 V2의 저장·영수증을 고칠 때만 `CORE_LOOP_V2 → 48주 인과 원장` 체인을 유지한다. 새 월간 코어와 후속 장은 story map에서 시작하며 거대 원장과 source hash를 복제하지 않는다. 각 배치의 파일 소유권·L1/L2/L3 증거·다음 세션 시작점을 WORK_LOG와 active spec에 남긴다.
+- legacy/internal W1~W24 V2의 저장·영수증을 고칠 때만 `CORE_LOOP_V2 → 48주 인과 원장` 체인을 유지한다. 새 월간 코어와 후속 장은 story map에서 시작하며 거대 원장과 source hash를 복제하지 않는다. 각 배치의 파일 소유권·L1/L2/L3 증거·다음 세션 시작점을 WORK_LOG와 active spec에 남긴다.
 - 직접 주의 핵심은 한 번의 장면 약속이다. 작성형 아크가 주간 갈등을 소유하면 일반 AP 3택을 다시 열지 않는다.
 - 기억·결정 선택은 실제 비용, 놓친 길, 늦은 회수를 가져야 한다. 표현 선택은
   수치 없이 상대의 고유 반응 뒤 합류할 수 있다. 미래 결과를 선택 전에

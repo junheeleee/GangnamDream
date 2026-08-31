@@ -1,6 +1,6 @@
 # 강남드림 Steam 스토어 페이지 정본
 
-> 최종 현행화: 2026-08-03. Steam 파트너 대시보드의 문구, 태그, 스크린샷은 이 문서를 기준으로 한다.
+> 최종 현행화: 2026-09-01. Steam 파트너 대시보드의 문구, 태그, 스크린샷은 이 문서를 기준으로 한다.
 > 과거 초안인 `docs/STORE_PAGE.md`는 사용하지 않는다.
 
 ## 1. 상품 정의
@@ -254,12 +254,20 @@ Across more than 1,400 events, a single life can reveal only part of the story. 
 
 ## 9. 데모 표기
 
-- 공개 데모 제품 범위는 **W1~24·6개월**이며 W24 회고와 CTA에서 끝난다.
-  BUILD `2026.08.11.3`은 같은 경계의 저장 복구/전반부 체크포인트일 뿐 사람·
-  플랫폼 GO를 받지 않아 공개 승인본이나 스토어 약속으로 쓰지 않는다.
-- 정확한 장면·기능 목록은 clean W1~24 demo_rc가 생긴 뒤 실제 패키지에서 다시 쓴다.
-- W25~48은 데모 뒤 본편 Chapter 1 후반부다. 데모 저장을 정식판 W25로 잇는
-  P-4 제품 bridge는 별도 OPEN 이월·출시 게이트이며 데모 길이를 늘리지 않는다.
+- 공개 데모 제품 범위는 **M01~M06**이며, exact `story_demo_rc` BUILD
+  `2026.08.31.1`에 사용자가 구조·범위 GO를 했다. 한 달 네 주인 내부 계측은
+  24주·정산 6회지만 M07~M24를 공개 범위에 포함하지 않는다.
+- 데모 표면은 StoryMode 선택과 장면 현지 행동이다. AP 카드,
+  `주력/함께/여력`, 주간·월간 계획판을 기능으로 소개하거나 스크린샷에 쓰지 않는다.
+- 제품 commit `4e80a63e89821094b8bab21b8d5c73ecfc9b6278`, package source
+  `362578d8f4c0781fe35f643a74cc3037e7a80b21`, manifest SHA-256
+  `50eed10b18c2c2b056f875a8df55230dc07b5535c55e59ddb89fff1d64e91870`이
+  현재 claim의 exact identity다. 다른 identity는 새 판정 전까지 공개하지 않는다.
+- 옛 W1~W24 `demo_rc`, V2 서울 보드, W24 CTA와 BUILD
+  `2026.08.11.3`/`2026.08.22.1`은 legacy/internal 회귀·저장 호환 증거다.
+  공개 데모, Next Fest 제출물, 기본 외부 후보로 부르지 않는다.
+- 본편은 M01~M60 전체이며 HOLD다. Chapter 5 두 정상 속도 사람 게이트와 새
+  exact 후보도 OPEN/HOLD이며 데모 GO로 닫히지 않는다.
 - 금지: “전체 게임의 10%” 같은 양적 표현, 연애 결말이나 히든 업적 이름의 선공개.
 - Next Fest의 행사 일정과 제출 요건은 `ORDER-10`에서 공식 문서로 별도 확정한다. 이 문서에 날짜를 하드코딩하지 않는다.
 
@@ -267,7 +275,10 @@ Across more than 1,400 events, a single life can reveal only part of the story. 
 
 - 출시 언어 정본: 한국어와 영어 모두 첫날 완전 지원.
 - 영어는 번역 예정 기능이 아니다. 스토어 캡처와 데모도 영문으로 검증한다.
-- 일본어, 중국어 간체, 중국어 번체는 콘텐츠 동결 뒤 인프라와 번역 품질 게이트를 통과한 경우에만 지원 언어로 표시한다.
+- 현재 M01~M06 패키지에는 일본어, 중국어 간체, 중국어 번체 번역과 자동
+  패리티 검사가 들어 있지만 원어민 자연스러움 판정은 각각 OPEN이다. 그
+  게이트를 닫기 전에는 Steam 지원 언어로 표시하지 않는다. 본편 240주 번역
+  claim은 한국어 원고·런타임 동결 뒤 별도다.
 - 가격 작업안: USD 14.99 / KRW 19,500. 최종 가격과 출시 할인은 데모 외부 플레이테스트, 플레이타임, 지역 가격표 확인 뒤 확정한다.
 
 ## 11. 한 줄 피치
@@ -309,9 +320,12 @@ Generative AI tools assisted with early production of some 2D art, writing, Engl
 ### 제출 사실 경계 — 공개 마케팅 문구가 아님
 
 심의·설문에 답할 실제 패키지 내용은 `docs/CONTENT_RATING_INVENTORY.md`가
-`24주 V2 도달 / 240주 본편 도달 / 패키지 포함·현재 비도달`로 나눠 보여 준다.
-현재 export preset은 모두 `all_resources`이므로 데모에서 닿지 않는 내용도 업로드
-패키지에 포함될 수 있다. Steam 공개 문서는 업로드된 성인 콘텐츠는 접근 불가여도
+`현재 M01~M06 story_demo_rc 도달 / legacy W1~W24 V2 도달 / 240주 본편 도달 /
+패키지 포함·현재 비도달`을 분리해 보여 준다.
+제품 export preset은 모두 `all_resources`이므로 package 대상으로 분류된
+런타임 비도달 내용도 업로드 패키지에 포함된다. 별도 staging으로 만든
+`story_demo_rc`의 파생 macOS preset 역시 `all_resources`를 유지하며 actual
+package inventory를 따로 대조한다. Steam 공개 문서는 업로드된 성인 콘텐츠는 접근 불가여도
 공개하라고 안내하므로, 런타임 도달성만 보고 설문 답을 줄이지 않는다.
 
 현재 게임은 **오프라인 싱글플레이**다. 런타임 네트워크 API·멀티플레이·채팅·
@@ -340,6 +354,9 @@ Generative AI tools assisted with early production of some 2D art, writing, Engl
 - [ ] 모든 스크린샷이 실제 영문 인게임 UI이며 외부 합성 문구가 없는지 확인.
 - [ ] 첫 4장만 보고도 목표, 선택, 시간 압축, 장기 결과가 각각 하나씩 읽히는지 확인.
 - [ ] 지원 언어, 엔딩 수, 데모 범위가 현재 빌드와 일치하는지 출시 후보마다 재확인.
+- [ ] 데모 업로드가 exact `story_demo_rc` BUILD `2026.08.31.1` identity와
+      일치하고 legacy W1~W24 앱이 아닌지 확인.
+- [ ] JA·zh-CN·zh-TW를 지원 언어로 표시하기 전에 각 원어민 게이트를 확인.
 - [ ] 제출 후보의 실제 export와 `docs/CONTENT_RATING_INVENTORY.md`의 패키지·도달 범위를 대조.
 - [ ] 제출 당일 Steam 파트너 설문과 국내 접수 화면을 캡처하고 공개 근거의 최신성을 재확인.
 - [x] AI 보조 콘텐츠 공시 초안이 실제 사용 범위와 `docs/ART_AI_AUDIT.md` 전수 감사 결과를 반영함.

@@ -3467,7 +3467,7 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "content/meta/demo_localization_scope.json":
         "3b12244d7e63915513cc537c956e2f72b35d45ca59a5fd927fa90f0a37cb4157",
     "content/meta/release_content_inventory.json":
-        "1b6f743113632e095abe8fb4048f10aa08b9eb7fe75269a2d52a0a18c3a2cecd",
+        "c61c68d4c0eff52f8825eebbd6fe52596408164503357a1ff8bb99934ea71099",
     "content/meta/story_rules.json":
         "9c4d7ee013184577744da3779f6a505e2c20f0fc6dcca74c60b8edbf5c373e7c",
     "content/jobs.json":
@@ -3483,7 +3483,7 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "content/events/scenario_cafe.json":
         "748fa21586b928419a7e7cf336b7c737ba3f09ecfdddafdbb38bff1698ebbe85",
     "docs/CORE_LOOP_V2.md":
-        "b9d1c5f6cb4d682afea00018f1949337150c0d909a428f0505bc4ae562717eb5",
+        "3b8e82dd311869b14c8c4278080b5d01874efab00ebdfa80414b5ee2d7c24af5",
     "docs/BALANCE.md":
         "c413a2b957a19ceb394876f28032d73fdd71a98ebfe210b7a78647b19e7946cf",
     "docs/queue_archive/ORDER-101.md":
@@ -3497,7 +3497,7 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "tools/first_session_pacing_audit.py":
         "91beb389fc0362e4769d0e5f15ae45e4d1b354ba2f51c500f9b903608f2545a0",
     "tools/release_content_inventory.py":
-        "2563a8f4ecef128e6a6ecbb4377374fd4e40b0e1080a81ba12144913f0dba4d1",
+        "2f38afaf1fbbf30ed91c2aff194c1d7f61e73830f98b70a3e43fddc3f0addae2",
     "tools/story_consistency_audit.py":
         "c74704f63af16e7b498ba7704e94c56d580f7622d74de8a92d62fa95847b03d5",
 }

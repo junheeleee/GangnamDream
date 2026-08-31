@@ -1,21 +1,31 @@
 # Input and Display Matrix
 
-Updated: 2026-08-11
+Updated: 2026-09-01
 
 ## Release Position
 
 Gangnam Dream is designed around one semantic command model rather than literal focus traversal. Keyboard, mouse, and gamepad may present different labels, but they must reach the same decisions and never change simulation results.
 
-The automated evidence below is sufficient for continued demo production. It is not yet sufficient to claim Steam "Full Controller Support": a physical Steam Deck/DualSense/Switch Pro blind pass, suspend/resume, and Steam overlay verification remain release-candidate gates.
+The current public release demo is `story_demo_rc` M01-M06 (24 internal weeks),
+whose structure and scope have user GO. The recorded 24-week keyboard, mouse,
+planner, AP, and CTA runs below belong to the legacy/internal `demo_rc` W1-W24 V2
+compatibility and regression lane; they are not the identity or public-candidate
+proof of `story_demo_rc`.
+
+This automated evidence may continue to protect shared input and display behavior.
+It is not sufficient to claim Steam "Full Controller Support": the current
+`story_demo_rc` still needs the named physical Steam Deck/DualSense/Switch Pro
+blind passes, suspend/resume, and Steam overlay verification at release-candidate
+time.
 
 ## Input Contract
 
 | Surface | Keyboard | Mouse | Xbox / Steam Deck | DualSense | Switch Pro | Evidence |
 |---|---|---|---|---|---|---|
-| Title to demo ending | PASS | PASS | Contract only | Contract only | Contract only | Real 24-week keyboard and mouse routes |
+| Legacy `demo_rc` title to W24 CTA | PASS | PASS | Contract only | Contract only | Contract only | Real W1-W24 V2 keyboard and mouse regression routes; not current public-candidate identity |
 | Title load/archive pages | PageUp/PageDown, Q/E | Direct click | LT/RT pages, LB/RB archive tabs | L2/R2 pages, L1/R1 archive tabs | ZL/ZR pages, L/R archive tabs | Raw trigger edge and modal-capture gate |
 | VN choices | Arrows + Enter/Esc | Direct click | D-pad + South/East | D-pad + Cross/Circle | D-pad + B/A | StoryMode route and brand screenshots |
-| AP decision | Arrows + Enter | Direct click | D-pad + A/B | D-pad + Cross/Circle | D-pad + B/A | One-screen decision board, no scroll |
+| Legacy/internal AP decision | Arrows + Enter | Direct click | D-pad + A/B | D-pad + Cross/Circle | D-pad + B/A | Preserved one-screen regression board, no scroll; not a public `story_demo_rc` layer |
 | Fresh Seoul Cycle | Arrows, Enter/Esc | Direct click | D-pad, A/B | D-pad, Cross/Circle | D-pad, B/A | Four local nodes; no fake trigger action |
 | Legacy V2 planner | Arrows, Enter, X, Q/E | Direct click | D-pad, A/X, LB/RB | D-pad, Cross/Square, L1/R1 | D-pad, B/Y, L/R | Four-week planner, review, immutable reopen |
 | Portrait contact phone | P, arrows, Enter/Esc, Q/E | Direct click | Y, D-pad, A/B, LB/RB | Triangle, D-pad, Cross/Circle, L1/R1 | X, D-pad, B/A, L/R | Messages/Contacts only, modal focus restore |
@@ -28,7 +38,7 @@ Physical-position names are canonical: South confirms, East cancels, West perfor
 
 The keyboard equivalent is equally semantic: `Enter` confirms, `Esc` backs out, `X` performs the contextual secondary action, `Y` opens rules/details, `Q/E` change groups, `PageUp/PageDown` move pages or coarse values, `F10` opens settings, and `N` advances a finished week. Analog triggers press at `0.55`, re-arm only below `0.35`, and produce exactly one change per press. Keyboard input immediately replaces pad letters in visible hints.
 
-Keyboard-only demo evidence:
+Legacy/internal `demo_rc` W1-W24 V2 keyboard-only regression evidence:
 
 ```text
 DEMO_INPUT_RUN_OK device=keyboard weeks=24 inputs=1101 events=59
@@ -36,7 +46,7 @@ start_job=unemployed end_job=job_01 axes=15/24
 key_events=2206 mouse_events=0 cutoff=cta
 ```
 
-Mouse-only demo evidence:
+Legacy/internal `demo_rc` W1-W24 V2 mouse-only regression evidence:
 
 ```text
 DEMO_INPUT_RUN_OK device=mouse weeks=24 inputs=1035 events=59
@@ -44,7 +54,9 @@ start_job=unemployed end_job=job_01 axes=15/24
 key_events=0 mouse_events=3111 cutoff=cta
 ```
 
-The mouse run exposed a clipped month-summary progression button. The summary is now a single no-scroll surface and the demo CTA remains fully visible at 1280x800.
+The legacy mouse run exposed a clipped month-summary progression button. The
+summary is now a single no-scroll surface and the legacy W24 CTA remains fully
+visible at 1280x800. This preserved regression does not redefine the public demo.
 
 ## Display Contract
 
@@ -52,7 +64,7 @@ The mouse run exposed a clipped month-summary progression button. The summary is
 |---|---:|---:|---|---|
 | 960x600 | 16:10 | Settings, AP, Living Scene | PASS | Minimum free-window contract; functional layout, not a handheld readability target |
 | 1280x720 | 16:9 | Settings, AP, Living Scene | PASS | Low-height reference; hardware spot pass still required |
-| 1280x800 | 16:10 | Repeated demo and Steam Deck QA | PASS | Primary Deck reference |
+| 1280x800 | 16:10 | Repeated legacy V2 and Steam Deck regression QA | PASS | Primary Deck reference; public `story_demo_rc` candidate pass remains separate |
 | 1600x900 | 16:9 | Settings, AP, Living Scene | PASS | Common desktop window size |
 | 1920x1080 | 16:9 | Settings, AP, Living Scene, three glyph families | PASS | TV safe margin enforced |
 | 2560x1440 | 16:9 | Settings, AP, Living Scene | PASS | Same command hierarchy |
@@ -94,13 +106,13 @@ trigger_gate=1 reconnect_gate=2 modal_leaks=0 vibration=1
 
 The ten keyboard tasks do more than toggle a control: Blackjack deals, Baccarat places a Player bet and deals, Slots starts the reels, Roulette stages a bet and spins, Big Wheel selects and spins, Dai Sai selects and rolls, Holdem buys in and deals, RaceTrack selects a horse and starts the race, the casino hub launches the highlighted table, and the resume assessment returns control to the AP surface. The same gate sends raw L2/R2 press, held jitter, and release events through all eight direct games. Each first-entry/rules tutorial consumes those edges without changing the hidden stake or buy-in. A valid setup changes one value step; all sixteen endpoint routes clamp instead of wrapping; an in-flight/result phase preserves value, money, round/session count, focus, phase, and visibility. A held trigger carried through disconnect/reconnect cannot fire until a neutral release has been observed, while a neutral reconnect preserves the first intentional press.
 
-`ScreenshotQA --qa=display-matrix` passes in both Korean and English at 960x600, 1280x720, 1280x800, 1600x900, 1920x1080, 2560x1440, 3440x1440, and 3840x2160. Each of the sixteen runs captures title settings, the demo AP decision, and a StoryMode choice, and verifies exact PNG dimensions, TV-safe controls, active keyboard/controller focus, and distortion-free background cover. The 1080p passes also capture Xbox, PlayStation, and Nintendo title hints in both languages.
+`ScreenshotQA --qa=display-matrix` passes in both Korean and English at 960x600, 1280x720, 1280x800, 1600x900, 1920x1080, 2560x1440, 3440x1440, and 3840x2160. Each of the sixteen runs captures title settings, a legacy `demo_rc` AP decision, and a StoryMode choice, and verifies exact PNG dimensions, TV-safe controls, active keyboard/controller focus, and distortion-free background cover. The 1080p passes also capture Xbox, PlayStation, and Nintendo title hints in both languages. These shared-surface renders remain regression evidence rather than a new public demo candidate.
 
 This is a layout and routing result. The active AP stills, the sampled romance CG, and many world backgrounds are 1280x800 raster masters, so QHD and 4K currently use filtered enlargement rather than native high-resolution art. Native-master review remains a separate image-production gate and must not be inferred from a successful 4K screenshot.
 
 ## Remaining Hardware Gates
 
-- Steam Deck LCD/OLED: cold boot, 30-minute controller-only demo, suspend/resume, overlay, on-screen keyboard, and battery/performance sample.
+- Steam Deck LCD/OLED: cold boot, 30-minute controller-only current `story_demo_rc` M01-M06 pass, suspend/resume, overlay, on-screen keyboard, and battery/performance sample.
 - DualSense over USB and Bluetooth: glyph detection, confirm/cancel, vibration intensity, reconnect, and no duplicate input.
 - Switch Pro through Steam Input: Nintendo face labels, confirm/cancel orientation, reconnect, and rules/secondary actions.
 - Mouse drag-resize at arbitrary in-between window sizes, including repeated resize while a modal is open.

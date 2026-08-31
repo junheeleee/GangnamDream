@@ -18,6 +18,47 @@
 > [`7/25`](history/WORK_LOG_2026-07-25.md)에 손실 없이 보존한다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
 
+## 2026-09-01 (Codex — 공개 M01~M06와 본편 M01~M60 범위 정렬)
+
+- 공개 출시 데모는 exact `story_demo_rc` BUILD `2026.08.31.1`의 M01~M06으로
+  고정했다. 한 달 네 주인 내부 `W1~W24`·정산 6회 계측은 그대로지만 M07~M24를
+  공개 범위로 늘리지 않는다. 공개 제품 바이트와 package/product/manifest hash는
+  바꾸지 않았다.
+- 옛 `demo_rc` W1~W24 V2는 `runtime_default=false` 저장 호환·회귀·역사
+  증거로만 남겼다. 연결된 사람 게이트 27건을 삭제하거나 거짓 완료하지 않고 모두
+  legacy scope로 옮겼다. 공개 `story_demo_rc`에는 사용자 GO 1건과
+  JA·zh-CN·zh-TW 원어민 OPEN 3건만 연결된다.
+- 열 개 checked-in `export_presets.cfg` profile 행과 별도로 `story_demo_rc`의
+  외부 clean-source staging 계약을 release content inventory에 등록했다. 빌더는
+  기존 macOS preset을 파생하고 `all_resources`를 유지하므로 M01~M06에서 실행되지
+  않는 본편 리소스도 package 심의 범위에 포함한다. 공개 월 범위·내부 주차·
+  StoryMode entry·다섯 locale과 사용자 GO 1건·native OPEN 3건을 함께 기계 검증한다.
+- 공개 후보의 exact 원장은 package source `362578d`에서 KO/EN 사건
+  `1,806/1,806`, shipping `1,696`, author-only `110`으로 다시 산출했고, 현재 개발
+  소스 `1,812/1,707/105`와 별도 namespace로 분리했다. 실제 app ZIP
+  `956ac935` 안 PCK `0e606643`의 1,481 entry·raw JSON 309개·raster import
+  298개·audio import 139개를 exact source와 직접 대조했다. 공개 후보의 20개
+  정성 사실·검색 축·자산 review도 frozen source ledger에서 렌더하므로 이후
+  M07~M60 본편 원장이 늘어나도 M01~M06 패키지 사실과 섞이지 않는다.
+- exact app ZIP은 실행 앱 7파일과 AppleDouble provenance 11파일의 경로·모드·
+  payload를 고정했다. PCK 1,481개 payload의 directory MD5를 전수 대조하고,
+  raster/audio 437개 `.import`가 frozen source와 같은 importer·type·유일 target을
+  가리키는지 검사한다. PCK-only ZIP, 다른 CG target 치환, type 치환, payload
+  손상과 중간 성공 marker를 self-test 45건이 거부한다. `human_gates.json`의
+  active 후보와 네 공개 데모 행도 whole-row digest로 묶어 M01~M60 GO나 원어민
+  완료 문구가 acceptance·sample·note에 삽입되는 변조를 거부한다.
+- 현 작업 tree의 전체 볼륨 감사는 60개월·169 scheduled refs·139 shipping-eligible
+  refs·478 static paths·471 choices를 관측했다. 알려진 debt는 30건으로,
+  M52~M60의 `NEW/planned` 11건과 제품 ingress 없는 `author_only` 19건이다.
+  이는 실제 한 경로의 분량이나 재미 점수가 아니며 본편 `HOLD`, runtime 사람 밀도
+  `OPEN`을 유지한다.
+- 다음은 ORDER-147의 audio teardown을 clean exact에서 12회 stress·전체 감사로
+  봉인하고 세 fresh-title profile을 W1→W240까지 재실행하는 일이다. 그 뒤에만 새
+  exact Chapter 5 사람 재플레이 후보를 발급한다. 다음 15~25단위 제품 배치는
+  M06 실제 영수증→M07~M12를 잇고 runtime occurrence와 story-map 월 소유권을
+  대조한다. 진단 trace에서 세 경로 모두 비었던 M11 W41~W44와 M08·M10의
+  상태별 장면, M11 receipt를 읽는 M12 보스를 먼저 수리한다.
+
 ## 2026-08-31 (Codex — 전체 볼륨 자식 배치 선언)
 
 - ORDER-142 배치 A를 제품 변경 없이 `06277c30e61ed54c99069e16fd591ec0ef26c388`로

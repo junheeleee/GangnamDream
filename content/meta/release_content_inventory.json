@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated": "2026-08-31",
+  "updated": "2026-09-01",
   "scope": "Factual release-content evidence for the current source and uploaded package; not a rating or legal opinion.",
   "decision_boundary": {
     "final_age_rating": "user_required",
@@ -55,6 +55,33 @@
         "official_weeks": [1, 24]
       }
     },
+    "staged_public_demo": {
+      "profile": "story_demo_rc",
+      "build_pipeline": "tools/build_story_demo_macos.sh",
+      "package_audit": "tools/story_demo_package_audit.py",
+      "package_mode": "external_clean_source_staging",
+      "preset_origin": "derived_from_checked_in_macOS",
+      "checked_in_profile_entry": false,
+      "derived_preset_name": "Story Demo macOS",
+      "export_filter": "all_resources",
+      "package_source_commit": "362578d8f4c0781fe35f643a74cc3037e7a80b21",
+      "package_source_tree": "e7f50b065b3369afa1894df8292756a95f94fd11",
+      "product_commit": "4e80a63e89821094b8bab21b8d5c73ecfc9b6278",
+      "product_tree": "0fdddf11e2ef030cd172d23e691e3d7da4ea29ff",
+      "manifest_sha256": "50eed10b18c2c2b056f875a8df55230dc07b5535c55e59ddb89fff1d64e91870",
+      "entry_scene": "res://playtests/order124/StoryChoiceM1M6Playtest.tscn",
+      "public_months": [1, 6],
+      "internal_weeks": [1, 24],
+      "settlements": 6,
+      "locales": ["ko", "en", "ja", "zh-CN", "zh-TW"],
+      "range_and_structure_verdict": "user_go",
+      "native_claims": {
+        "ja": "open",
+        "zh-CN": "open",
+        "zh-TW": "open"
+      },
+      "identity_owner": "docs/human_gates.json"
+    },
     "boot_registered_owner": "autoloads/DataRegistry.gd",
     "main_entry_eager_paths": [
       "scenes/RaceTrack.gd",
@@ -99,7 +126,130 @@
       "assets/cg/romance/sea_jiyeon_v2.png"
     ]
   },
+  "public_story_demo_package_contract": {
+    "profile": "story_demo_rc",
+    "inventory_basis": "exact package-source Git snapshot plus exact app ZIP/PCK directory",
+    "package_source_commit": "362578d8f4c0781fe35f643a74cc3037e7a80b21",
+    "package_source_tree": "e7f50b065b3369afa1894df8292756a95f94fd11",
+    "product_commit": "4e80a63e89821094b8bab21b8d5c73ecfc9b6278",
+    "product_tree": "0fdddf11e2ef030cd172d23e691e3d7da4ea29ff",
+    "ko_event_files": 127,
+    "en_event_files": 127,
+    "ko_events": 1806,
+    "en_events": 1806,
+    "event_ids_sha256": "4cfe41e9e2898bc4d21fbc44c39d6efac30b160152f38388cedb69efe4062f65",
+    "event_content_sha256": "93882c37bb2ddaf757a69daad83f36dc989b42aab740a49a439924f51991d19b",
+    "shipping_ko_events": 1696,
+    "shipping_en_events": 1696,
+    "shipping_event_ids_sha256": "a41bf8f8d192beeecc255b38146c530a5dab11fa1b265d2b62a09da75064845c",
+    "author_only_events": 110,
+    "author_only_event_ids_sha256": "5ae01514f11811a91494fa88fb4b5aca30659bd5cea727d9c390508db3932fd4",
+    "ko_endings": 35,
+    "en_endings": 35,
+    "ending_ids_sha256": "3c26984721dc1ee6a18d472b854b30578982f43632d05a3d004ad99cb247c118",
+    "ending_content_sha256": "81f1599053907f43b59021e2baccaff249a7bcc7b2c630dde389021b3d395eca",
+    "axis_fingerprints": {
+      "gambling": {
+        "event_count": 137,
+        "file_count": 43,
+        "ids_sha256": "e324a22a603bda179d3be12bee23fb8e8af3134e9cab56e953416e42d02bba7b",
+        "content_sha256": "c6742aed2d813855eff4369aecc1a66f7c101ba214bff6fa90553bfe718200a9"
+      },
+      "sexuality": {
+        "event_count": 123,
+        "file_count": 25,
+        "ids_sha256": "f89bbbc2fe99a3b4f4ba265406dbb62623c251cdbcf3addc7c525c5764469e72",
+        "content_sha256": "f198a07d3a814101aecf1710a5d9f405fa85cad6ba4ecdb115b283f31393a6bf"
+      },
+      "violence": {
+        "event_count": 18,
+        "file_count": 15,
+        "ids_sha256": "1d403db1107800e1e7c4a8d9d78c08361a840c6901fd8e93de83e609bf585a70",
+        "content_sha256": "ca092987894afe0f87d3cd9d17234c77a666f56c6d7bdb631f3d6b3ba3bb2be8"
+      },
+      "fear": {
+        "event_count": 146,
+        "file_count": 51,
+        "ids_sha256": "2c0b31f28649c41920b109674331366623b3600076d16a694a647fae6f26a5cb",
+        "content_sha256": "261c9def4d217e4a82aaaa8f1900c456c94d7859232ac9dcaee66a1e36b982c5"
+      },
+      "language": {
+        "event_count": 2,
+        "file_count": 2,
+        "ids_sha256": "09cf036c8dac9dcefd776b9cf27b96efa7ed0ee396e74264bea545b480c8eca1",
+        "content_sha256": "fc1a0465f31a6a2df2deb4559825e67c7f762fa2ebfdbaa45ae63e2fb75131c3"
+      },
+      "crime": {
+        "event_count": 73,
+        "file_count": 40,
+        "ids_sha256": "4e0463a4d699a58c1c3fc7fa856c80b4218417badce2d62ec0403d389294c0dd",
+        "content_sha256": "91b70d2bd432c47784ab9e442e8d5e7cd8710794da4a59a2c55f767ea8f17e70"
+      },
+      "alcohol_tobacco_drugs": {
+        "event_count": 81,
+        "file_count": 38,
+        "ids_sha256": "3f79054d4c6640978ba106481fcd40aa5135292050de407217908e04f9a72dcc",
+        "content_sha256": "8e82587453c1d090c036bbb328a91bb5dc920199e3aa2c730c5d3a5d2351e467"
+      }
+    },
+    "qualitative_fact_count": 20,
+    "active_art_assets": 250,
+    "source_raster_assets": 306,
+    "packaged_raster_assets": 298,
+    "registry_external_source_raster_assets": 56,
+    "registry_external_packaged_raster_assets": 48,
+    "source_only_gdignored_raster_assets": 8,
+    "registry_external_raster_paths_sha256": "9383fb0901e3a143bce9bffaa90ffe27e245615b8152b46a20f603d36165fea6",
+    "registry_external_packaged_paths_sha256": "682e9eb67aa7987d76f1275460a23a66b56ead72b7148d7e097a5585b2e05760",
+    "source_only_gdignored_paths_sha256": "f53a4433d398f59a1f71b77af81a840587083f9eca7a7d89ba4d6b1e46dfb2a4",
+    "audio_source_assets": 139,
+    "audio_manifest_sha256": "2a4b96e916c0241837cd5c536ee9a9e06b15d0182567aaa1717d77095601244a",
+    "network_api_hits": 0,
+    "live_ai_api_hits": 0,
+    "zip": {
+      "path": "build/story_demo/macos/GangnamDream-StoryDemo.zip",
+      "sha256": "956ac93524df6030ef984521550cec7dddafea381387a3df52194e43f5e61289",
+      "size_bytes": 413881598,
+      "logical_file_count": 7,
+      "logical_members": [
+        "GangnamDream-StoryDemo.app/Contents/Info.plist",
+        "GangnamDream-StoryDemo.app/Contents/MacOS/GangnamDream-StoryDemo",
+        "GangnamDream-StoryDemo.app/Contents/PkgInfo",
+        "GangnamDream-StoryDemo.app/Contents/Resources/GangnamDream-StoryDemo.pck",
+        "GangnamDream-StoryDemo.app/Contents/Resources/PrivacyInfo.xcprivacy",
+        "GangnamDream-StoryDemo.app/Contents/Resources/icon.icns",
+        "GangnamDream-StoryDemo.app/Contents/_CodeSignature/CodeResources"
+      ],
+      "logical_paths_sha256": "fbe415a3c0b831d0a60611aa8e9920173fd2a9cc650ada0a42b56319d704e9f0",
+      "logical_entries_sha256": "3a8a346b2cfdb757b77e64b2bd04d20d937613ecc47b7eee7ca56f9f2a62a470",
+      "logical_uncompressed_size_bytes": 549375435,
+      "metadata_file_count": 11,
+      "metadata_paths_sha256": "45bbbf1663b759235fd889f91125a1ebf31e75a8a1a9b8e56dadb179646f5e51",
+      "app_tree_sha256": "56a4f2997256e68baa21c02807fcf1f0e995ce114f57f96f26d309b300b7ec14",
+      "launcher_sha256": "f1e2ce4faf3849e84843947db33405496393452ae68f1df1ca1279e4923aef5f",
+      "launcher_size_bytes": 184222320
+    },
+    "pck": {
+      "member": "GangnamDream-StoryDemo.app/Contents/Resources/GangnamDream-StoryDemo.pck",
+      "sha256": "0e6066434bd6679292ae5f41ae506da90bf06d1bef3af05acf419f7bea8f4c89",
+      "size_bytes": 362597916,
+      "format_version": 3,
+      "engine_version": [4, 6, 2],
+      "flags": 2,
+      "base_offset": 112,
+      "directory_offset": 362458848,
+      "entry_count": 1481,
+      "entry_paths_sha256": "e85f8526143f3d634f1b049bc5bc8086e1d8e6f6d0d9c3550d252151e4fa3f40",
+      "entry_metadata_sha256": "a60ea87a0892b0524274918bc763ebae3cc3becaa9d564de990e1e89e15cc388",
+      "raw_json_files": 309,
+      "packaged_raster_imports": 298,
+      "packaged_audio_imports": 139,
+      "import_binding_count": 437,
+      "import_bindings_sha256": "2181c5c7259f9bbe34d1ee04dc685a021eb43062f700e765d38d2168a5a6363c"
+    }
+  },
   "corpus_contract": {
+    "scope": "current_worktree_full_and_legacy_profiles",
     "ko_event_files": 127,
     "en_event_files": 127,
     "ko_events": 1812,

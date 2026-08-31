@@ -1,6 +1,9 @@
 # Gangnam Dream Build Pipeline
 
-> 기준 엔진: Godot 4.6.2 stable. 공개 빌드는 `main`의 깨끗한 커밋에서만 만든다.
+> 기준 엔진: Godot 4.6.2 stable. 공개 빌드는 깨끗한 exact source commit에서만
+> 만든다. 현재 공개 출시 데모는 `story_demo_rc` BUILD `2026.08.31.1`
+> M01~M06이다. 사용자 GO를 보존하며 공개, Next Fest, 기본 외부 테스트는
+> 해당 차선만 쓴다.
 
 ## 1. 빌드 flavor
 
@@ -9,13 +12,17 @@
 | 정식 Windows | `Windows` | 없음 | `build/windows/GangnamDream.exe` |
 | 정식 macOS | `macOS` | 없음 | `build/macos/GangnamDream.zip` |
 | 정식 Linux/Deck | `Linux / Steam Deck` | 없음 | `build/linux/GangnamDream.x86_64` |
-| 데모 Windows | `Windows Demo` | `gangnam_demo` | `build/demo/windows/GangnamDreamDemo.exe` |
-| 데모 macOS | `macOS Demo` | `gangnam_demo` | `build/demo/macos/GangnamDreamDemo.zip` |
-| 데모 Linux/Deck | `Linux / Steam Deck Demo` | `gangnam_demo` | `build/demo/linux/GangnamDreamDemo.x86_64` |
-| V2 테스트 Windows | `Windows V2 Playtest` | `gangnam_demo,core_loop_v2_playtest` | `build/playtest/windows/GangnamDreamV2Playtest.exe` |
-| V2 테스트 macOS | `macOS V2 Playtest` | `gangnam_demo,core_loop_v2_playtest` | `build/playtest/macos/GangnamDreamV2Playtest.zip` |
-| V2 테스트 Linux/Deck | `Linux / Steam Deck V2 Playtest` | `gangnam_demo,core_loop_v2_playtest` | `build/playtest/linux/GangnamDreamV2Playtest.x86_64` |
-| M01~M06 스토리 데모 macOS | `Story Demo macOS` (staging 전용) | `story_demo_rc` profile | `build/story_demo/macos/GangnamDream-StoryDemo.app`·`.zip` |
+| legacy/internal 데모 Windows | `Windows Demo` | `gangnam_demo` | `build/demo/windows/GangnamDreamDemo.exe` |
+| legacy/internal 데모 macOS | `macOS Demo` | `gangnam_demo` | `build/demo/macos/GangnamDreamDemo.zip` |
+| legacy/internal 데모 Linux/Deck | `Linux / Steam Deck Demo` | `gangnam_demo` | `build/demo/linux/GangnamDreamDemo.x86_64` |
+| legacy/internal V2 테스트 Windows | `Windows V2 Playtest` | `gangnam_demo,core_loop_v2_playtest` | `build/playtest/windows/GangnamDreamV2Playtest.exe` |
+| legacy/internal V2 테스트 macOS | `macOS V2 Playtest` | `gangnam_demo,core_loop_v2_playtest` | `build/playtest/macos/GangnamDreamV2Playtest.zip` |
+| legacy/internal V2 테스트 Linux/Deck | `Linux / Steam Deck V2 Playtest` | `gangnam_demo,core_loop_v2_playtest` | `build/playtest/linux/GangnamDreamV2Playtest.x86_64` |
+| **현재 공개 M01~M06 스토리 데모 macOS** | `Story Demo macOS` (staging 전용) | `story_demo_rc` profile | `build/story_demo/macos/GangnamDream-StoryDemo.app`·`.zip` |
+
+공개 산출물은 아래 `공개 M01~M06 다섯 언어 스토리 데모` 절에서 만든다.
+위 legacy demo/V2 행과 그 뒤의 24주 명령은 저장 호환, 회귀, 과거 산출물
+재현용이며 공개 후보를 만드는 기본 명령이 아니다.
 
 스토리 데모 행은 제품 `export_presets.cfg`에 새 preset을 추가한다는 뜻이 아니다.
 `build_story_demo_macos.sh`가 clean commit을 저장소 밖에 풀고 그 staging 복사본의
@@ -36,7 +43,7 @@ Retail은 기존 `gangnam_dream_{autosave,slot_N,settings,display,meta}.json`을
 삭제하거나 파일이 없을 때 폴백하지 않는다. `v1`은 저장 schema와 별개인
 테스트 네임스페이스 버전이다.
 
-### 산출물 식별과 저장 호환
+### legacy/full 산출물 식별과 저장 호환
 
 시작 화면의 기계 판독 메타, 새 세이브 루트, 빌드 매니페스트는
 `BuildInfo.artifact_identity()`의 네 필드를 같은 값으로 쓴다. 플레이어가 보는
@@ -80,13 +87,16 @@ HEAD 커밋 날짜와 같은지, 첫 부모가 쓴 ID를 그대로 재사용하�
 불능이면 호환되는 verified backup만 읽어 primary를 같은 바이트로 복구한다.
 이 계약은 프로세스 내 교체·복구 증거이며 OS 전원 상실 시나리오까지 승인하지는 않는다.
 
-기존 demo flavor 저장을 full loader가 인식할 수 있다는 호환 방향과 공개 제품
-bridge는 다른 판정이다. 현재 BUILD `.3`의 V2 playtest 저장은 정식판과 격리돼
-W25 이월 후보가 아니다. 공개 제품 bridge는 clean W1~24 demo_rc의 실제 W24 CTA
-저장을 full build가 열고 W25를 정확히 한 번 시작하는 경로다. 이 별도 OPEN
-이월·full-release 게이트는 데모 길이나 W1~24 사람 판정을 바꾸지 않는다.
+기존 demo flavor 저장을 full loader가 인식할 수 있다는 호환 방향은 legacy
+W1~W24 V2 계약이다. 현재 BUILD `.3`의 V2 playtest 저장은 정식판과 격리돼
+W25 이월 후보가 아니다. 과거 clean W1~24 `demo_rc`의 W24 CTA→full W25
+bridge 설계도 현재 공개 `story_demo_rc`의 지원 약속이나 제출 조건이 아니다.
+현재 공개 데모의 정식판 이어하기는 full-release HOLD에서 별도로 판정한다.
 
-## 2. 준비
+## 2. legacy/internal V2 준비
+
+이 절과 다음 V2 생성 절은 호환·회귀 증거를 재현할 때만 쓴다. 현재 공개
+`story_demo_rc` 발급은 아래 전용 절로 바로 이동한다.
 
 1. Godot 4.6.2 stable editor를 설치한다.
 2. Godot에서 `Editor > Manage Export Templates`를 열고 **4.6.2.stable** 템플릿을 설치한다.
@@ -123,7 +133,7 @@ revision**에서 나와야 하며 하나라도 없으면 출고 후보가 아니
 
 참고: [Godot feature tags](https://docs.godotengine.org/en/stable/tutorials/export/feature_tags.html), [command-line export](https://docs.godotengine.org/en/stable/tutorials/export/exporting_projects.html).
 
-## 3. V2 플레이테스트 생성
+## 3. legacy/internal V2 플레이테스트 생성
 
 세 플랫폼을 한 번에 만든다. `playtest`는 tracked·untracked 변경이 하나라도 있는 작업트리를 거부하므로, 사용자의 진행 중 변경을 버리지 말고 커밋하거나 별도 clean worktree에서 실행한다.
 
@@ -381,8 +391,9 @@ ORDER-124의 스토리 선택형 흐름을 공개 데모 identity로 옮기고, 
 일본어·간체·번체를 한 앱에서 고르게 한다. 플레이 표면은 StoryMode 선택과
 장면 현지 행동뿐이며 `주력/함께/여력`, AP 카드, 주간·월간 계획판은 노출하지
 않는다. 내부 AP/경제 데이터와 기존 retail/V2·ORDER-124 저장은 삭제하거나
-이전하지 않는다. BUILD `2026.08.31.1` `story_demo_rc`가 현재 사용자 L3의
-유일한 후보이며 BUILD `2026.08.25.1`과 ORDER-124 BUILD `.3`은 역사 증거다.
+이전하지 않는다. BUILD `2026.08.31.1` `story_demo_rc`가 현재 공개 출시
+데모이며 사용자가 M01~M06 구조와 범위에 GO했다. BUILD `2026.08.25.1`,
+ORDER-124 BUILD `.3`, W1~W24 `demo_rc`는 역사·내부 증거다.
 
 고정 identity는 다음과 같다.
 
@@ -447,11 +458,15 @@ L1/L2는 같은 clean source에서 순서대로 다음을 요구한다.
    보존한다.
 
 이 차선은 기존 24주 AP/V2·240주 전체 감사를 실행하거나 그 결과를 재사용하지
-않는다. 다섯 언어 자동 PASS는 플레이 가능한 macOS 후보의 조건일 뿐 번역의
-자연스러움이나 Steam 언어 claim이 아니다. 일본어·간체·번체 원어민 출고 게이트는
-각각 OPEN으로 남고, 이 후보를 240주 본편 완성으로 표시하지 않는다.
+않는다. 다섯 언어 자동 PASS와 사용자 GO는 서로 다른 증거다. GO는 exact
+M01~M06 구조·범위에만 속하고, 자동 PASS는 패키징·계약을 증명한다. 일본어·
+간체·번체 원어민 출고 게이트는 각각 OPEN이며 Steam 지원 언어 claim으로
+승격하지 않는다. 본편 M01~M60과 Chapter 5는 HOLD다.
 
-## 4. 자동 스모크
+## 4. legacy/internal V2 자동 스모크
+
+아래 `--demo-build`, V2 24주, W24 CTA 검사는 현재 공개 스토리 데모 검사가
+아니다. legacy 저장·런타임 회귀에만 사용한다.
 
 ### 계약 스모크
 
@@ -553,7 +568,7 @@ done
 누출 0, East/Esc 닫기와 설정 버튼 포커스 복귀를 확인한다. 자동 렌더는
 가독성과 법무 판단을 대신하지 않는다.
 
-## 5. 실제 패키지 스모크
+## 5. legacy/internal V2 실제 패키지 스모크
 
 교차 export 성공은 해당 OS 실행 성공을 뜻하지 않는다. 공개 테스트에 보낼 플랫폼마다 그 플랫폼에서 아래를 한 번 통과해야 한다.
 
@@ -617,14 +632,14 @@ manifest 파일 SHA-256은
 macOS 패키지는 일반 앱 실행으로 타이틀, `Start 24-Week Demo`, 설정의 진동
 ON/OFF·강도까지 실제 확인했다. Windows와 Linux/Steam Deck는 생성·해시만
 확인했다. 이 provenance는 당시 후보의 역사 증거로 보존하지만 BUILD
-`2026.08.22.1`이 active `demo_rc`를 이어받았으므로 새 표본·현재 PASS·출시 GO에
+`2026.08.22.1`이 당시 active `demo_rc`를 이어받았으므로 새 표본·현재 PASS·출시 GO에
 재사용하지 않는다.
 
-### 현재 내부 V2 demo_rc (2026-08-22, 자동 재검증 PASS·사람 판정 OPEN)
+### legacy/internal V2 demo_rc (2026-08-22, 자동 재검증 PASS·당시 사람 판정 OPEN)
 
 BUILD `2026.08.22.1`은 exact clean revision
 `ebc58a839d64d8810b9da5548c20e58bc43c9e30`, tree
-`f978a22525b678ef83619dc50094a6dada75f190`의 active 내부 `demo_rc`다. manifest
+`f978a22525b678ef83619dc50094a6dada75f190`의 당시 active 내부 `demo_rc`였다. manifest
 SHA-256은 `8a34920038962a4ba0885ad6189d92dc6d3c3ee2780020f3894938d380613177`,
 artifact SHA-256은 Windows
 `515bc3c94a96f3874d681f409bbe0863734f44aced95d2e45b82c77e720d2ad7`, macOS ZIP
@@ -654,7 +669,7 @@ teardown noise이며 다른 `ERROR:`의 허용 근거가 아니다.
 native 실행, 실제 물리 패드 Batch A 3표면·Batch B 3게임, 정상 속도 W1~24,
 연속 A/V·외부 독해·원어민·재미 판정은 계속 `OPEN`이며 출시 GO가 아니다.
 
-### 외부 정상 독해 RC 게이트 (2026-07-21)
+### legacy/internal V2 외부 정상 독해 RC 게이트 (2026-07-21)
 
 | 대상 | 결과 | 범위 |
 |---|---|---|
@@ -665,8 +680,9 @@ native 실행, 실제 물리 패드 Batch A 3표면·Batch B 3게임, 정상 속
 | Aggregator fixtures | PASS | 10건: 준비/미달/NO-GO/P0/중복/혼합/점수/enum/망설임 저표본·필수 원문 |
 | Human evidence | OPEN | 같은 RC 10명, EN 3명, 경험 양 군, 구체 계획 70% 필요 |
 
-**외부 30분 표본 package/session 묶음은 아직 미발급이다.** 위 active 내부
-`demo_rc` 등록은 자동 재검증과 집 플레이 기준선을 뜻할 뿐 외부 모집 승인이 아니다.
+**외부 30분 표본 package/session 묶음은 당시 미발급이었다.** 위에서 당시
+active였던 내부 `demo_rc` 등록은 자동 재검증과 집 플레이 기준선을 뜻할 뿐
+외부 모집 승인이 아니었다.
 외부 세션에는 같은 candidate의 package hash와 session schema를 별도로 봉인해야
 하며, 다른 후보의 해시는 `playtest_report.py`가 거부해야 한다.
 
@@ -682,23 +698,28 @@ Linux·Steam Deck `6858217e11fc6820d00f5be4cacb13e16e7f859ad534aefbfa572449bd95a
 뒤 재검산, 격리 HOME macOS 부팅을 통과한 당시 빌드지만 V2 이전이며 표본은
 `0/10`이다. 이후 게임플레이·콘텐츠가 크게 바뀌었으므로 새 후보를 대신하지 않는다.
 
-자동 게이트는 표본이 `READY_FOR_HUMAN_VERDICT`인지만 판정하며 재미·출시 GO를 선언하지 않는다. Windows와 Linux/Deck의 물리 기기 실행 스모크도 계속 OPEN이다.
+이 legacy 자동 게이트는 표본이 `READY_FOR_HUMAN_VERDICT`인지만 판정하며 현재
+재미·출시 GO를 선언하지 않는다. 당시 Windows와 Linux/Deck 물리 기기 실행
+스모크도 OPEN이었다.
 
 이 절의 PASS는 저장 복구 체크포인트와 전반부 회귀만 증명한다. W25~48의 24개
 실제 행동 행, W48 정산/생존 분기, Chapter 1 완료를 대신하지 않는다.
 
-### 공개 데모→정식판 Week 25 이월 `[OPEN full-release/continuation 블로커]`
+### legacy W1~W24 demo_rc→정식판 Week 25 이월 `[OPEN 역사 설계·현재 공개 약속 아님]`
 
 봉인된 V2 playtest turn-25 저장을 다시 열거나 legacy component를 W48까지
-돌리는 것은 이월 증거가 아니다. V2가 공개 demo flavor로 승격된 뒤에는 같은
-산출물의 실제 프롤로그→W24 행동·6월 정산→First Bill→CTA가 만든 저장을 별도
+돌리는 것은 이월 증거가 아니다. 아래는 V2를 공개 demo flavor로 승격한다고
+가정했던 역사 설계다. 현재 `story_demo_rc`에 적용하거나 지원을 약속하지 않는다.
+당시 설계에서는 같은 산출물의 실제 프롤로그→W24 행동·6월 정산→First
+Bill→CTA가 만든 저장을 별도
 full-build 프로세스에서 연다. 데모에서는 W25가 절대 시작되지 않아야 하며,
 full build에서만 정상 경제·조작을 복구하고 W25를 정확히 한 번 시작해 W28까지
 주행한다. 24개 행동 영수증·프롤로그·실제 본 장면 이력이 보존되는지 같은
 플랫폼 패키지에서 확인한다. 이 게이트 전에는 공개 데모 저장의 정식판 이어하기를
-지원한다고 표시하지 않는다. 데모 자체의 W1~24 출시·사람 GO와는 별도다.
+지원한다고 표시하지 않는다. 현재 공개 M01~M06 데모와 본편 이월은 full-release
+HOLD에서 별도 설계·검증한다.
 
-## 6. 스모크 기록
+## 6. legacy/internal V2 스모크 기록
 
 | 항목 | 기록 |
 |---|---|
