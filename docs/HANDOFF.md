@@ -14,10 +14,9 @@
   `story_demo_rc` package source `362578d8f4c0781fe35f643a74cc3037e7a80b21`
   / tree `e7f50b065b3369afa1894df8292756a95f94fd11`, 제품 `4e80a63e`다.
   manifest는 `50eed10b18c2c2b056f875a8df55230dc07b5535c55e59ddb89fff1d64e91870`이다.
-  실제 ZIP `956ac935` 안 PCK `0e606643`은 1,481 entry·KO/EN 사건 1,806건·
-  shipping 1,696건·author-only 110건이며, 현재 본편 개발 소스의
-  1,812/1,707/105와 별도 원장으로 검증한다. ZIP의 실행 앱 7파일과 PCK의
-  raster/audio import 437개·모든 payload MD5도 frozen source와 직접 대조한다.
+  ZIP `956ac935` / PCK `0e606643`은 1,481 entry·사건 1,806·shipping 1,696·
+  author-only 110이며 현재 본편 1,812/1,707/105와 별도다. 앱 7파일,
+  import 437개와 모든 PCK payload MD5를 frozen source에 대조한다.
   BUILD `2026.08.25.1`과 ORDER-124 BUILD `.3`은 역사 증거다. 이 GO는 저장 호환
   AP 데이터·엔진 삭제나 legacy V2 기본 활성화 승인으로 해석하지 않는다.
 - 옛 W1~W24 V2 `demo_rc` BUILD `2026.08.22.1`, exact

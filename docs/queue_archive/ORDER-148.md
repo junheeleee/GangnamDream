@@ -1,15 +1,26 @@
-# Active Queue Spec: ORDER-148
+# Archived Queue Spec: ORDER-148
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-148 [P0·public demo truth] 공개 데모 M01~M06과 legacy V2 W1~W24를 모든 현재 출시 문서에서 분리한다
+#### [x] ORDER-148 [P0·public demo truth] 공개 데모 M01~M06과 legacy V2 W1~W24를 모든 현재 출시 문서에서 분리한다
 
-**[~] 2026-09-01 Codex 착수 · 기준선
+**착수 선언 (2026-09-01, Codex) · 기준선
 `9996952aded09b0b53b94af2e2b47fe033ba68d4`:** 사용자는 exact
 `story_demo_rc` BUILD `2026.08.31.1`의 M01~M06 범위와 StoryMode 중심 구조에
 최종 GO했다. `CLAUDE.md`와 완료 사람 게이트는 이를 반영하지만, 일부 현재 출시
 문서와 legacy `demo_rc` 사람 게이트는 아직 W1~W24 V2를 공개 데모로 부른다.
 제품 바이트를 바꾸지 않고 현재 주장과 역사·호환 증거를 분리한다.
+
+**완료 (2026-09-01, Codex):** 구현
+`b18aa03f5e469c19cdfe40e71e644b5549482200` / tree
+`aeddecc28d5a7fbe6036a08b6f0816bb38111e95`에서 공개 M01~M06
+`story_demo_rc`와 legacy/internal W1~W24 `demo_rc`를 모든 현재 출시 문서·
+사람 게이트·생성 현황판에서 분리했다. 공개 후보는 frozen source 사건
+1,806건과 현재 본편 개발 사건 1,812건을 별도 namespace로 검증한다. 실제 ZIP의
+실행 앱 7파일·AppleDouble 11파일, PCK 1,481 payload MD5, raw JSON 309개,
+raster/audio import 437개 1:1 연결을 exact source에 묶었다. 사용자 GO는
+M01~M06 한 건만 done이고 JA·zh-CN·zh-TW와 본편은 OPEN/HOLD다. 제품·원고·
+번역·runtime 바이트 diff는 0이다.
 
 ## 깊이 3문
 
@@ -73,3 +84,36 @@ SCENE_TIER,AUDIO_QA,I18N_GLOSSARY_ZH}.md`, `docs/human_gates.json`, 생성본 `d
 - **L2:** 생성 STATUS/출시 문서의 공개 후보·GO·원어민 OPEN·본편 HOLD를 서로 대조한다.
 - **L3:** M01~M06 제품 사용자 GO는 기존 exact 증거를 보존한다. 새 플레이 판정은
   만들지 않으며 원어민 세 언어 게이트는 계속 OPEN이다.
+
+## 완료 증거
+
+```bash
+python3 tools/release_content_inventory.py --self-test
+python3 tools/release_content_inventory.py \
+  --pack-zip story_demo_rc=build/story_demo/macos/GangnamDream-StoryDemo.zip
+python3 tools/chapter1_core_loop_v2_causal_ledger_check.py --self-test
+bash tools/audit.sh
+python3 tools/human_gates.py
+python3 tools/project_dashboard.py --md docs/STATUS.md --check
+git diff --check
+```
+
+- release inventory의 45개 변이는 PCK-only ZIP, 다른 CG target 치환,
+  importer/type 치환, payload 손상, 조기 성공 marker, M01~M60 GO 확장과 원어민
+  허위 완료를 모두 거부했다.
+- Chapter 1 인과 원장 478개 변이와 snapshot, 전체 Godot 감사, 독립 적대 검토가
+  모두 통과했다. human gate는 done 1 / open 45이며 초록 자동 검사는 본편 GO나
+  원어민 판정을 대신하지 않는다.
+
+## 규범 판정
+
+- **승격:** 공개 데모 M01~M06·legacy W1~W24·본편 M01~M60의 범위 구분과
+  AP-free StoryMode 방향은 `CLAUDE.md`의 현재 상태·불변 규칙과
+  `docs/CODEX_QUEUE.md`의 본편 관리선에 승격했다.
+- **승격:** frozen 공개 package와 현재 본편 corpus를 분리하고 실제 ZIP/PCK를
+  fail-closed로 대조하는 규칙은 `content/meta/release_content_inventory.json`과
+  `tools/release_content_inventory.py`가 소유한다.
+- **승격:** 사용자 M01~M06 GO 1건과 JA·zh-CN·zh-TW OPEN 3건의 정확한 의미는
+  `docs/human_gates.json`이 소유하며 whole-row digest가 확장을 거부한다.
+- **일회성:** 20단위 문서 정렬 목록, exact BUILD hash, 45·478 mutation 수와
+  이 오더의 실행 명령은 이 후보를 닫기 위한 증거이므로 아카이브에만 남긴다.

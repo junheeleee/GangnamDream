@@ -59,22 +59,21 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-148 · public demo truth | [148](queue_active/ORDER-148.md) | M01~M06 GO 보호 · 정본 정렬 |
-| 2 | [~] | ORDER-147 · runtime identity | [147](queue_active/ORDER-147.md) | matrix · HOLD |
-| 3 | [~] | ORDER-146 · ledger | [146](queue_active/ORDER-146.md) | trace · HOLD |
-| 4 | [~] | ORDER-145 · 후보 | [145](queue_active/ORDER-145.md) | HOLD |
-| 5 | [~] | ORDER-143 · graph | [143](queue_active/ORDER-143.md) | M01~M06 보호 · HOLD |
-| 6 | [~] | ORDER-144 · trace | [144](queue_active/ORDER-144.md) | PENDING · human OPEN |
-| 7 | [~] | ORDER-142 · volume | [142](queue_active/ORDER-142.md) | M01~M60 · HOLD |
-| 8 | [~] | ORDER-138 · finale | [138](queue_active/ORDER-138.md) | 두 사람 게이트 OPEN · HOLD |
-| 9 | [~] | ORDER-137 · Ch5 수리 | [137](queue_active/ORDER-137.md) | 두 L3 OPEN · HOLD |
-| 10 | [~] | ORDER-135 · 일반 경로 | [135](queue_active/ORDER-135.md) | 사용자 GO OPEN · HOLD |
-| 11 | [~] | ORDER-119 · 표면 언어 | [119](queue_active/ORDER-119.md) | 사용자 GO OPEN |
-| 12 | [~] | ORDER-118 · startup | [118](queue_active/ORDER-118.md) | 사용자 GO OPEN · R1b HOLD |
-| 13 | [~] | ORDER-117 · career | [117](queue_active/ORDER-117.md) | 사용자 GO OPEN · R1b HOLD |
-| 14 | [~] | ORDER-99 · SAVE-P0 | [99](queue_active/ORDER-99.md) | 사용자 확인 대기 |
-| 15 | [~] | ORDER-97 · LOC-0.5 | [97](queue_active/ORDER-97.md) | L3 대기 |
-| 16 | [~] | ORDER-98 · PAD-1 | [98](queue_active/ORDER-98.md) | 물리 패드 L3 OPEN |
+| 1 | [~] | ORDER-147 · runtime identity | [147](queue_active/ORDER-147.md) | matrix · HOLD |
+| 2 | [~] | ORDER-146 · ledger | [146](queue_active/ORDER-146.md) | trace · HOLD |
+| 3 | [~] | ORDER-145 · 후보 | [145](queue_active/ORDER-145.md) | HOLD |
+| 4 | [~] | ORDER-143 · graph | [143](queue_active/ORDER-143.md) | M01~M06 보호 · HOLD |
+| 5 | [~] | ORDER-144 · trace | [144](queue_active/ORDER-144.md) | PENDING · human OPEN |
+| 6 | [~] | ORDER-142 · volume | [142](queue_active/ORDER-142.md) | M01~M60 · HOLD |
+| 7 | [~] | ORDER-138 · finale | [138](queue_active/ORDER-138.md) | 두 사람 게이트 OPEN · HOLD |
+| 8 | [~] | ORDER-137 · Ch5 수리 | [137](queue_active/ORDER-137.md) | 두 L3 OPEN · HOLD |
+| 9 | [~] | ORDER-135 · 일반 경로 | [135](queue_active/ORDER-135.md) | 사용자 GO OPEN · HOLD |
+| 10 | [~] | ORDER-119 · 표면 언어 | [119](queue_active/ORDER-119.md) | 사용자 GO OPEN |
+| 11 | [~] | ORDER-118 · startup | [118](queue_active/ORDER-118.md) | 사용자 GO OPEN · R1b HOLD |
+| 12 | [~] | ORDER-117 · career | [117](queue_active/ORDER-117.md) | 사용자 GO OPEN · R1b HOLD |
+| 13 | [~] | ORDER-99 · SAVE-P0 | [99](queue_active/ORDER-99.md) | 사용자 확인 대기 |
+| 14 | [~] | ORDER-97 · LOC-0.5 | [97](queue_active/ORDER-97.md) | L3 대기 |
+| 15 | [~] | ORDER-98 · PAD-1 | [98](queue_active/ORDER-98.md) | 물리 패드 L3 OPEN |
 
 ### legacy V2 보존선과 본편 M07~M60 관리선
 

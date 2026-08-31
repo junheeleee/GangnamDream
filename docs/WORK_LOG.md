@@ -52,6 +52,10 @@
   M52~M60의 `NEW/planned` 11건과 제품 ingress 없는 `author_only` 19건이다.
   이는 실제 한 경로의 분량이나 재미 점수가 아니며 본편 `HOLD`, runtime 사람 밀도
   `OPEN`을 유지한다.
+- 정본 정렬 구현 `b18aa03f5e469c19cdfe40e71e644b5549482200` / tree
+  `aeddecc28d5a7fbe6036a08b6f0816bb38111e95`에서 전체 Godot 감사,
+  causal self-test 478건, release self-test 45건, 실제 ZIP/PCK와 독립 적대 검토가
+  모두 통과했다. 제품/runtime diff 0을 확인하고 ORDER-148을 완료 보관했다.
 - 다음은 ORDER-147의 audio teardown을 clean exact에서 12회 stress·전체 감사로
   봉인하고 세 fresh-title profile을 W1→W240까지 재실행하는 일이다. 그 뒤에만 새
   exact Chapter 5 사람 재플레이 후보를 발급한다. 다음 15~25단위 제품 배치는

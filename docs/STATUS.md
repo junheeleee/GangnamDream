@@ -7,7 +7,7 @@
 > 전 구간 선택 그래프를 대화형으로 보려면:
 > `python3 tools/project_dashboard.py` → `build/project_dashboard.html`
 >
-> 생성 시각 · 커밋: `2026-08-31 20:14 UTC · 8ffdc01c`
+> 생성 시각 · 커밋: `2026-08-31 22:25 UTC · b18aa03f`
 
 **개발용이다.** 아래는 `tint`·`route_*`와 정확한 수치를 그대로 적는다.
 플레이어에게 노출하지 않는 값이므로 이 문서를 플레이어 대상 자료로 쓰지 않는다.
@@ -101,7 +101,6 @@
 
 | ID | 제목 | 상태 | 현재 게이트 |
 |---|---|---|---|
-| `ORDER-148` | public demo truth | 진행 | M01~M06 GO 보호 · 정본 정렬 |
 | `ORDER-147` | runtime identity | 진행 | matrix · HOLD |
 | `ORDER-146` | ledger | 진행 | trace · HOLD |
 | `ORDER-145` | 후보 | 진행 | HOLD |
