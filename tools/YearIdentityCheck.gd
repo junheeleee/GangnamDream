@@ -27,7 +27,7 @@ func _ready() -> void:
 			push_error("YEAR_IDENTITY_CHECK_FAIL " + failure)
 		get_tree().quit(1)
 		return
-	print("YEAR_IDENTITY_CHECK_OK chapters=5 curated=5 choices=4 localized=2 timed=3 y2=3 y4_cap=3 y5_weeks=48 serialized=1")
+	print("YEAR_IDENTITY_CHECK_OK chapters=5 curated=5 choices=4 localized=2 timed=3 y2_windows=4 y4_cap=3 y5_weeks=48 serialized=1")
 	get_tree().quit(0)
 
 func _check_chapter_identity() -> void:
@@ -135,11 +135,19 @@ func _check_signature_spotlights() -> void:
 	story._choice_box.free()
 	story.free()
 
-	for event_id in ["inv_real_estate_bubble_fear", "inv_crypto_mania", "inv_ipo_hot_tip"]:
+	var y2_expansion_windows: Dictionary = {
+		"inv_real_estate_bubble_fear": {"min_turn": 49, "max_turn": 96},
+		"inv_crypto_mania": {"min_turn": 49, "max_turn": 96},
+		"inv_ipo_hot_tip": {"min_turn": 49, "max_turn": 72},
+		"sangchul_tip_redev": {"min_turn": 73, "max_turn": 96},
+	}
+	for event_id in y2_expansion_windows:
 		var event: Dictionary = DataRegistry.find_event(event_id)
 		var conditions: Dictionary = event.get("conditions", {})
-		if int(conditions.get("min_turn", 0)) != 49 or int(conditions.get("max_turn", 0)) != 96:
-			_fail("%s is not locked to the Y2 expansion window" % event_id)
+		var expected: Dictionary = y2_expansion_windows[event_id]
+		if int(conditions.get("min_turn", 0)) != int(expected["min_turn"]) \
+				or int(conditions.get("max_turn", 0)) != int(expected["max_turn"]):
+			_fail("%s is not locked to its Y2 expansion window" % event_id)
 
 	var game = MainGameScript.new()
 	GameState.turn = 145

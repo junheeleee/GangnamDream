@@ -3451,7 +3451,7 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "scenes/StoryMode.tscn":
         "b7688a883323a196e74271c1e76f1d88c91310b3fe1a287cb051b33dd2fb76ca",
     "scenes/MainGame.gd":
-        "329e82d0fe5b427406898cf9f360b01542869ab8799c59543dcdb96b467f971b",
+        "4ecc6df59bf4b8be378b28c49c2c220042a93bf99f2780d8a34ac546f0bc4ddd",
     "scenes/MainGame.tscn":
         "71a9590d43c755fa6b409ee0eb0f1950c6aba4517c64192b83038d22a45d9979",
     "scenes/SeoulCycleBoard.gd":
@@ -3485,7 +3485,7 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "docs/CORE_LOOP_V2.md":
         "b9d1c5f6cb4d682afea00018f1949337150c0d909a428f0505bc4ae562717eb5",
     "docs/BALANCE.md":
-        "a8745d448c71edbcbb32f78cb0d6a67585741f3a0af5c97c2100cfc8d6a7455e",
+        "c413a2b957a19ceb394876f28032d73fdd71a98ebfe210b7a78647b19e7946cf",
     "docs/queue_archive/ORDER-101.md":
         "732f49ac40efb644a7321cd425160fae9a8123ead11eb2cc7ebc5b238952ee48",
     "docs/CHOICE_CONSEQUENCE_SYSTEM.md":

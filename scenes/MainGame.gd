@@ -279,6 +279,9 @@ var pending_result_text: String = ""
 var _last_chosen_foreshadow: String = ""
 var _choice_countdown_timer: Timer = null
 var _choice_countdown_remaining: int = 0
+var _critical_portrait_timer: Timer = null
+var _milestone_portrait_timer: Timer = null
+var _milestone_portrait_active: bool = false
 var racetrack      # 경마 미니게임 오버레이
 var holdem_club    # 홀덤 클럽 미니게임 오버레이
 var scalping_game  # 스캘핑 아케이드 미니게임 오버레이
@@ -322,6 +325,7 @@ func _load_fonts():
 func _ready():
 	# Camera drift and feedback particles must never consume gameplay randomness.
 	_presentation_rng.randomize()
+	_init_transient_portrait_timers()
 	_load_fonts()
 	_init_systems()
 	_build_ui()
@@ -404,6 +408,59 @@ func _ready():
 	else:
 		SceneTransition.fade_in()
 		_begin_month()
+
+func _exit_tree() -> void:
+	if is_instance_valid(_critical_portrait_timer):
+		_critical_portrait_timer.stop()
+	if is_instance_valid(_milestone_portrait_timer):
+		_milestone_portrait_timer.stop()
+	_milestone_portrait_active = false
+	GameState.flags["just_critical_event"] = false
+	GameState.flags["just_hit_milestone"] = false
+
+func _init_transient_portrait_timers() -> void:
+	# These timers belong to this MainGame instance. A scene transition frees
+	# them with their owner instead of leaving suspended SceneTreeTimer awaits.
+	if not is_instance_valid(_critical_portrait_timer):
+		GameState.flags["just_critical_event"] = false
+		_critical_portrait_timer = Timer.new()
+		_critical_portrait_timer.name = "CriticalPortraitTimer"
+		_critical_portrait_timer.one_shot = true
+		_critical_portrait_timer.wait_time = 1.2
+		_critical_portrait_timer.process_mode = Node.PROCESS_MODE_ALWAYS
+		add_child(_critical_portrait_timer)
+		_critical_portrait_timer.timeout.connect(_on_critical_portrait_timeout)
+
+	if not is_instance_valid(_milestone_portrait_timer):
+		GameState.flags["just_hit_milestone"] = false
+		_milestone_portrait_active = false
+		_milestone_portrait_timer = Timer.new()
+		_milestone_portrait_timer.name = "MilestonePortraitTimer"
+		_milestone_portrait_timer.one_shot = true
+		_milestone_portrait_timer.wait_time = 2.0
+		_milestone_portrait_timer.process_mode = Node.PROCESS_MODE_ALWAYS
+		add_child(_milestone_portrait_timer)
+		_milestone_portrait_timer.timeout.connect(_on_milestone_portrait_timeout)
+
+func _arm_critical_portrait_feedback() -> void:
+	if not is_instance_valid(_critical_portrait_timer):
+		_init_transient_portrait_timers()
+	GameState.flags["just_critical_event"] = true
+	_update_portrait()
+	# Timer.start() restarts the same one-shot timer, so repeated shocks keep the
+	# portrait for 1.2 seconds after the most recent event.
+	_critical_portrait_timer.start()
+
+func _on_critical_portrait_timeout() -> void:
+	GameState.flags["just_critical_event"] = false
+	_update_portrait()
+
+func _on_milestone_portrait_timeout() -> void:
+	GameState.flags["just_hit_milestone"] = false
+	_update_portrait()
+	_milestone_portrait_active = false
+	if is_inside_tree() and not is_queued_for_deletion():
+		call_deferred("_check_milestones")
 
 ## 언어 전환 시 대시보드 전체 다시 그림 (인게임 토글 대응)
 func _on_language_changed(_lang: String) -> void:
@@ -8652,14 +8709,7 @@ func _choose(index):
 		or effective_mental_delta <= -15
 		or int(effects.get("money", 0)) <= -1_000_000)
 	if is_critical:
-		GameState.flags["just_critical_event"] = true
-		_update_portrait()
-		# 1.2초 후 플래그 해제
-		var _t = get_tree().create_timer(1.2)
-		_t.timeout.connect(func():
-			GameState.flags["just_critical_event"] = false
-			_update_portrait()
-		)
+		_arm_critical_portrait_feedback()
 
 	if not effects.is_empty():
 		_show_effects_float(effects)
@@ -22761,7 +22811,11 @@ func _get_ap_pattern_comment(actions: Array) -> String:
 	return ""
 
 
-func _check_milestones():
+func _check_milestones() -> void:
+	if _milestone_portrait_active:
+		return
+	if not is_instance_valid(_milestone_portrait_timer):
+		_init_transient_portrait_timers()
 	var total = GameState.get_total_asset_value()
 	var milestones = [
 		{"id": "10m",  "amount": 10_000_000.0,    "msg": _tr("💰 자산 1천만원 돌파!", "💰 Assets passed KRW 10M!"),            "color": "#fbbf24"},
@@ -22780,9 +22834,11 @@ func _check_milestones():
 			# 기쁜 표정 2초간 표시
 			GameState.flags["just_hit_milestone"] = true
 			_update_portrait()
-			await get_tree().create_timer(2.0).timeout
-			GameState.flags["just_hit_milestone"] = false
-			_update_portrait()
+			_milestone_portrait_active = true
+			_milestone_portrait_timer.start()
+			# Only one newly reached threshold owns the portrait at a time. The
+			# timeout schedules the next still-unmarked threshold in ascending order.
+			return
 
 func _on_promoted(job: Dictionary, bonus: float):
 	var msg = _tr("⬆ 승진! %s  월급 +%s", "⬆ Promoted! %s  Salary +%s") % [GameState.get_job_display_name(job), GameState.format_money(bonus)]

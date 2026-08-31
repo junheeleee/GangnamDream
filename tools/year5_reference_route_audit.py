@@ -1338,6 +1338,19 @@ FULL_VOLUME_STORY_RECEIPT_PROTECTED_FILE_TRANSITIONS = {
     ),
 }
 
+# ORDER-147 replaces two free SceneTreeTimer lifetimes with MainGame-owned
+# one-shot Timers.  This runtime-lifetime repair is an additive layer over the
+# exact 6ae555f product byte; older identity-agency and story receipts remain
+# pinned to their own predecessors instead of being rewritten to accept it.
+ORDER147_RUNTIME_IDENTITY_BASELINE = \
+    "6ae555f905c95f36424475b0c6da82e100cc97a1"
+ORDER147_RUNTIME_IDENTITY_PROTECTED_FILE_TRANSITIONS = {
+    "scenes/MainGame.gd": (
+        "329e82d0fe5b427406898cf9f360b01542869ab8799c59543dcdb96b467f971b",
+        "4ecc6df59bf4b8be378b28c49c2c220042a93bf99f2780d8a34ac546f0bc4ddd",
+    ),
+}
+
 # These three roots are the only post-a57 event-object rewrites admitted by
 # the father bridge.  The projection below restores them only from their exact
 # canonical successors, so a one-byte edit or a neighboring object remains
@@ -6676,6 +6689,9 @@ def validate_protected_hashes(
         full_volume_story_transition = \
             FULL_VOLUME_STORY_RECEIPT_PROTECTED_FILE_TRANSITIONS.get(
                 relative)
+        order147_runtime_identity_transition = \
+            ORDER147_RUNTIME_IDENTITY_PROTECTED_FILE_TRANSITIONS.get(
+                relative)
         effective_expected_hash = advance_exact_hash(
             expected_hash, order135_transition)
         effective_expected_hash = advance_exact_hash(
@@ -6716,6 +6732,9 @@ def validate_protected_hashes(
         pre_full_volume_story_expected_hash = effective_expected_hash
         effective_expected_hash = advance_exact_hash(
             effective_expected_hash, full_volume_story_transition)
+        pre_order147_runtime_identity_expected_hash = effective_expected_hash
+        effective_expected_hash = advance_exact_hash(
+            effective_expected_hash, order147_runtime_identity_transition)
         if actual_hash != effective_expected_hash:
             errors.append(f"{owner}: working-tree byte hash drifted")
         transition = ORDER134_PROTECTED_FILE_TRANSITIONS.get(relative)
@@ -6897,7 +6916,8 @@ def validate_protected_hashes(
                 errors.append(
                     f"{owner}: identity-agency receipt transition does not "
                     "extend the latest exact product byte")
-            if actual_hash != identity_agency_receipt_transition[1]:
+            if order147_runtime_identity_transition is None \
+                    and actual_hash != identity_agency_receipt_transition[1]:
                 errors.append(
                     f"{owner}: identity-agency receipt current hash drifted")
         if full_volume_story_transition is not None:
@@ -6909,6 +6929,16 @@ def validate_protected_hashes(
             if actual_hash != full_volume_story_transition[1]:
                 errors.append(
                     f"{owner}: full-volume story receipt current hash "
+                    "drifted")
+        if order147_runtime_identity_transition is not None:
+            if order147_runtime_identity_transition[0] \
+                    != pre_order147_runtime_identity_expected_hash:
+                errors.append(
+                    f"{owner}: ORDER-147 runtime-identity transition does "
+                    "not extend the latest exact product byte")
+            if actual_hash != order147_runtime_identity_transition[1]:
+                errors.append(
+                    f"{owner}: ORDER-147 runtime-identity current hash "
                     "drifted")
         try:
             baseline_hash = byte_sha256(git_blob(EXPECTED_BASELINE, relative))
@@ -7088,6 +7118,18 @@ def validate_protected_hashes(
                         != full_volume_story_transition[0]:
                     errors.append(
                         f"{owner}: full-volume story receipt baseline hash "
+                        "drifted")
+        if order147_runtime_identity_transition is not None:
+            try:
+                order147_runtime_identity_baseline_hash = byte_sha256(
+                    git_blob(ORDER147_RUNTIME_IDENTITY_BASELINE, relative))
+            except ValueError as exc:
+                errors.append(f"{owner}: {exc}")
+            else:
+                if order147_runtime_identity_baseline_hash \
+                        != order147_runtime_identity_transition[0]:
+                    errors.append(
+                        f"{owner}: ORDER-147 runtime-identity baseline hash "
                         "drifted")
 
     objects = protected.get("objects")
@@ -8064,6 +8106,9 @@ def run_invalidated_self_test(
         ("full_volume_narrative_spine_hash_transition",
          FULL_VOLUME_STORY_RECEIPT_PROTECTED_FILE_TRANSITIONS[
              "content/meta/narrative_spine.json"]),
+        ("order147_runtime_identity_hash_transition",
+         ORDER147_RUNTIME_IDENTITY_PROTECTED_FILE_TRANSITIONS[
+             "scenes/MainGame.gd"]),
     ):
         case_count += 1
         tampered_predecessor = "0" * 64
@@ -8435,7 +8480,12 @@ def run_invalidated_self_test(
         try:
             actual_baseline = byte_sha256(
                 git_blob(IDENTITY_AGENCY_RECEIPT_BASELINE, relative))
-            actual_current = byte_sha256((ROOT / relative).read_bytes())
+            if relative in \
+                    ORDER147_RUNTIME_IDENTITY_PROTECTED_FILE_TRANSITIONS:
+                actual_current = byte_sha256(
+                    git_blob(ORDER147_RUNTIME_IDENTITY_BASELINE, relative))
+            else:
+                actual_current = byte_sha256((ROOT / relative).read_bytes())
         except (OSError, ValueError) as exc:
             transition_failures.append(f"{relative}:{exc}")
             continue
@@ -8463,6 +8513,25 @@ def run_invalidated_self_test(
     if transition_failures:
         failures.append(
             "full_volume_story_receipt_transition_inverse: exact "
+            "baseline/current transition drifted "
+            f"{transition_failures}")
+
+    case_count += 1
+    transition_failures = []
+    for relative, (baseline_hash, current_hash) in \
+            ORDER147_RUNTIME_IDENTITY_PROTECTED_FILE_TRANSITIONS.items():
+        try:
+            actual_baseline = byte_sha256(
+                git_blob(ORDER147_RUNTIME_IDENTITY_BASELINE, relative))
+            actual_current = byte_sha256((ROOT / relative).read_bytes())
+        except (OSError, ValueError) as exc:
+            transition_failures.append(f"{relative}:{exc}")
+            continue
+        if actual_baseline != baseline_hash or actual_current != current_hash:
+            transition_failures.append(relative)
+    if transition_failures:
+        failures.append(
+            "order147_runtime_identity_transition_inverse: exact "
             "baseline/current transition drifted "
             f"{transition_failures}")
 

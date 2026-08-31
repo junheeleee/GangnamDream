@@ -139,6 +139,15 @@ PROFILE_STUDY_TYPES = {
     "investment_property_daeun": 3,
     "general_near_goal_father_passed": 3,
 }
+GENERAL_PROFILE_ID = "general_near_goal_father_passed"
+GENERAL_REQUIRED_CHOICE_OVERRIDE_EVENT = "cafe_cb_honest_in"
+GENERAL_REQUIRED_CHOICE_OVERRIDE = {"index": 1, "selection_mode": "direct"}
+INVESTMENT_EVIDENCE = {"kind": "invest", "weight": 4, "version": 2}
+INVESTMENT_EVIDENCE_ACTIONS = {
+    "study_invest": ("study", "_ap_study"),
+    "invest_buy": ("invest", "_ap_invest"),
+    "invest_leverage": ("invest", "_ap_invest"),
+}
 PROVENANCE_VALUES = {"main_ingress", "queued", "follow_up", "same_turn", "deferred"}
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
@@ -212,6 +221,17 @@ def _validate_choice(value: Any, label: str) -> None:
         raise ContractError(f"{label}.selection_mode must be direct or timed")
 
 
+def _gdscript_function_body(source: str, function_name: str) -> str:
+    match = re.search(
+        rf"(?ms)^func\s+{re.escape(function_name)}\s*\([^\n]*\)"
+        rf"(?:\s*->\s*[^:\n]+)?\s*:\s*\n(.*?)(?=^func\s+|\Z)",
+        source,
+    )
+    if match is None:
+        raise ContractError(f"missing GDScript function {function_name}")
+    return match.group(1)
+
+
 def validate_profiles(path: Path = DEFAULT_PROFILES, *, check_events: bool = True) -> dict[str, dict[str, Any]]:
     raw = _load_json(path)
     if not isinstance(raw, dict) or set(raw) != {
@@ -278,6 +298,12 @@ def validate_profiles(path: Path = DEFAULT_PROFILES, *, check_events: bool = Tru
                     f"{label} choice override index {choice['index']} is outside "
                     f"{event_id}'s {event_choice_counts.get(event_id, 0)} authored choices"
                 )
+        if profile_id == GENERAL_PROFILE_ID and overrides.get(
+                GENERAL_REQUIRED_CHOICE_OVERRIDE_EVENT) != GENERAL_REQUIRED_CHOICE_OVERRIDE:
+            raise ContractError(
+                f"{label} must choose authored choice 1 for "
+                f"{GENERAL_REQUIRED_CHOICE_OVERRIDE_EVENT}"
+            )
         _string_list(profile["main_action_priority"], f"{label}.main_action_priority")
         functions = _string_list(profile["main_function_priority"], f"{label}.main_function_priority")
         if any(not value.startswith("_ap_") for value in functions):
@@ -482,7 +508,13 @@ def _validate_trace_script_source(source: str) -> None:
         '_main_selection_policy = "asset_band_hold"',
         '"asset band policy has no visible safe action"',
         '_pending_main_action["selection_policy"] = _main_selection_policy',
-        "await _activate_button(selected)",
+        "const MAX_MAIN_ACTION_FOCUS_ATTEMPTS := 3",
+        "await _activate_settled_main_action_button(selected)",
+        "func _activate_settled_main_action_button(button_raw: Variant) -> void:",
+        "for _attempt in range(MAX_MAIN_ACTION_FOCUS_ATTEMPTS):",
+        '"visible MainGame action could not retain exact keyboard focus: "',
+        '"visible MainGame action identity drift: "',
+        "committed_action_id != expected_action_id",
         "if not GameState.pending_story_queue.is_empty():",
         'call_deferred("_graceful_shutdown", 0)',
         "func _graceful_shutdown(exit_code: int) -> void:",
@@ -492,7 +524,6 @@ def _validate_trace_script_source(source: str) -> None:
         "player.stream = null",
         "(raw_sounds as Dictionary).clear()",
         "await AudioManager.drain_pending_timers_for_exit()",
-        "await get_tree().create_timer(2.05).timeout",
     ):
         if needle not in source:
             raise ContractError(f"GDScript recorder contract is missing {needle!r}")
@@ -505,6 +536,11 @@ def _validate_trace_script_source(source: str) -> None:
             raise ContractError(f"GDScript appears to deduplicate event IDs: {dedup_pattern}")
     if re.search(r"\bcallv\s*\(", source):
         raise ContractError("GDScript recorder must not execute a dynamic callv action")
+    if re.search(r"\bpressed\.emit\s*\(", source) \
+            or re.search(r"\bemit_signal\s*\(\s*['\"]pressed['\"]", source):
+        raise ContractError(
+            "GDScript recorder must use real input, not emit Button.pressed"
+        )
     if re.search(
         r"\bGameState\.\w+\s*(?:\+=|-=|\*=|/=|(?<![=!<>])=(?!=))",
         source,
@@ -574,6 +610,197 @@ def _validate_trace_script_source(source: str) -> None:
             "GDScript recorder directly calls a product method: "
             + ", ".join(unexpected_calls)
         )
+
+    focus_body = _gdscript_function_body(
+        source, "_activate_settled_main_action_button"
+    )
+    if focus_body.count("await get_tree().process_frame") < 2:
+        raise ContractError(
+            "MainGame action focus must settle across product-deferred frames"
+        )
+    for marker in (
+        "button.grab_focus()",
+        "focused == button",
+        "await _send_key(KEY_ENTER)",
+        "_fail(",
+    ):
+        if marker not in focus_body:
+            raise ContractError(
+                f"MainGame action focus contract is missing {marker!r}"
+            )
+    for forbidden in (
+        "_activate_button(",
+        "_find_first_enabled_button(",
+        "_focused_or_first_button(",
+        "pressed.emit(",
+        'emit_signal("pressed"',
+    ):
+        if forbidden in focus_body:
+            raise ContractError(
+                f"MainGame action focus uses a forbidden fallback: {forbidden}"
+            )
+    first_settle = focus_body.index("await get_tree().process_frame")
+    grab_focus = focus_body.index("button.grab_focus()")
+    post_grab_settle = focus_body.index(
+        "await get_tree().process_frame", grab_focus
+    )
+    exact_focus = focus_body.index("if focused == button:")
+    send_enter = focus_body.index("await _send_key(KEY_ENTER)")
+    if not first_settle < grab_focus < post_grab_settle < exact_focus < send_enter:
+        raise ContractError(
+            "MainGame action focus must settle, grab, verify, then send Enter"
+        )
+    send_key_body = _gdscript_function_body(source, "_send_key")
+    if send_key_body.count("Input.parse_input_event") != 2 \
+            or "InputEventKey.new()" not in send_key_body:
+        raise ContractError(
+            "runtime trace must send exact press/release InputEventKey edges"
+        )
+
+    commitment_body = _gdscript_function_body(
+        source, "_on_weekly_commitment_finalized"
+    )
+    identity_guard = (
+        "if expected_action_id.is_empty() "
+        "or committed_action_id != expected_action_id:"
+    )
+    for marker in (
+        '_pending_main_action.get("action_id", "")',
+        'commitment.get("choice_id", "")',
+        identity_guard,
+        '"action_id": committed_action_id',
+    ):
+        if marker not in commitment_body:
+            raise ContractError(
+                f"MainGame action commitment identity seal is missing {marker!r}"
+            )
+    if commitment_body.index(identity_guard) > commitment_body.index(
+            '_record("main_action_commit"'):
+        raise ContractError(
+            "MainGame action commitment identity must fail before recording"
+        )
+
+    release_body = _gdscript_function_body(source, "_release_audio_for_exit")
+    if "get_tree().create_timer" in release_body:
+        raise ContractError(
+            "runtime exit must not wait on an obsolete free SceneTreeTimer"
+        )
+    if release_body.count("await get_tree().process_frame") < 2:
+        raise ContractError("runtime audio teardown must drain two process frames")
+
+
+def _validate_main_game_timer_source(source: str) -> None:
+    for marker in (
+        "var _critical_portrait_timer: Timer",
+        "var _milestone_portrait_timer: Timer",
+        "var _milestone_portrait_active: bool",
+        "func _init_transient_portrait_timers() -> void:",
+        "func _arm_critical_portrait_feedback() -> void:",
+        "func _on_critical_portrait_timeout() -> void:",
+        "func _on_milestone_portrait_timeout() -> void:",
+        "func _exit_tree() -> void:",
+    ):
+        if marker not in source:
+            raise ContractError(
+                f"MainGame transient portrait timer contract is missing {marker!r}"
+            )
+
+    init_body = _gdscript_function_body(
+        source, "_init_transient_portrait_timers"
+    )
+    for marker in (
+        "_critical_portrait_timer.one_shot = true",
+        "_critical_portrait_timer.wait_time = 1.2",
+        "_critical_portrait_timer.process_mode = Node.PROCESS_MODE_ALWAYS",
+        "add_child(_critical_portrait_timer)",
+        "_critical_portrait_timer.timeout.connect(_on_critical_portrait_timeout)",
+        "_milestone_portrait_timer.one_shot = true",
+        "_milestone_portrait_timer.wait_time = 2.0",
+        "_milestone_portrait_timer.process_mode = Node.PROCESS_MODE_ALWAYS",
+        "add_child(_milestone_portrait_timer)",
+        "_milestone_portrait_timer.timeout.connect(_on_milestone_portrait_timeout)",
+    ):
+        if marker not in init_body:
+            raise ContractError(
+                f"MainGame child Timer initialization is missing {marker!r}"
+            )
+
+    critical_body = _gdscript_function_body(
+        source, "_arm_critical_portrait_feedback"
+    )
+    for marker in (
+        'GameState.flags["just_critical_event"] = true',
+        "_update_portrait()",
+        "_critical_portrait_timer.start()",
+    ):
+        if marker not in critical_body:
+            raise ContractError(
+                f"MainGame critical timer path is missing {marker!r}"
+            )
+    choose_body = _gdscript_function_body(source, "_choose")
+    if "_arm_critical_portrait_feedback()" not in choose_body:
+        raise ContractError("critical event choice no longer arms its owned Timer")
+
+    critical_timeout_body = _gdscript_function_body(
+        source, "_on_critical_portrait_timeout"
+    )
+    for marker in (
+        'GameState.flags["just_critical_event"] = false',
+        "_update_portrait()",
+    ):
+        if marker not in critical_timeout_body:
+            raise ContractError(
+                f"MainGame critical timeout is missing {marker!r}"
+            )
+
+    milestone_body = _gdscript_function_body(source, "_check_milestones")
+    if "get_tree().create_timer" in milestone_body \
+            or re.search(r"(?m)^\s*await\b", milestone_body):
+        raise ContractError(
+            "_check_milestones must not suspend on a free SceneTreeTimer"
+        )
+    for marker in (
+        "_milestone_portrait_active",
+        "_milestone_portrait_active = true",
+        "_milestone_portrait_timer.start()",
+        "return",
+    ):
+        if marker not in milestone_body:
+            raise ContractError(
+                f"_check_milestones state machine is missing {marker!r}"
+            )
+    if milestone_body.index("_milestone_portrait_active = true") \
+            > milestone_body.index("_milestone_portrait_timer.start()"):
+        raise ContractError(
+            "milestone reentry guard must arm before its Timer starts"
+        )
+
+    milestone_timeout_body = _gdscript_function_body(
+        source, "_on_milestone_portrait_timeout"
+    )
+    for marker in (
+        'GameState.flags["just_hit_milestone"] = false',
+        "_update_portrait()",
+        "_milestone_portrait_active = false",
+        'call_deferred("_check_milestones")',
+    ):
+        if marker not in milestone_timeout_body:
+            raise ContractError(
+                f"milestone timeout continuation is missing {marker!r}"
+            )
+
+    exit_body = _gdscript_function_body(source, "_exit_tree")
+    for marker in (
+        "_critical_portrait_timer.stop()",
+        "_milestone_portrait_timer.stop()",
+        "_milestone_portrait_active = false",
+        'GameState.flags["just_critical_event"] = false',
+        'GameState.flags["just_hit_milestone"] = false',
+    ):
+        if marker not in exit_body:
+            raise ContractError(
+                f"MainGame exit cleanup is missing {marker!r}"
+            )
 
 
 def _validate_audio_manager_source(source: str) -> None:
@@ -692,13 +919,19 @@ def _validate_identity_trace_source(source: str) -> None:
 
 
 def validate_tool_sources() -> None:
-    required_paths = (TRACE_SCRIPT, TRACE_SCENE, TRACE_RUNNER, AUDIO_MANAGER_SCRIPT)
+    required_paths = (
+        TRACE_SCRIPT, TRACE_SCENE, TRACE_RUNNER, MAIN_GAME_SCRIPT,
+        AUDIO_MANAGER_SCRIPT,
+    )
     for path in required_paths:
         if not path.is_file():
             raise ContractError(f"missing runtime trace tool: {path.relative_to(ROOT)}")
     source = TRACE_SCRIPT.read_text(encoding="utf-8")
     _validate_trace_script_source(source)
     _validate_identity_trace_source(source)
+    _validate_main_game_timer_source(
+        MAIN_GAME_SCRIPT.read_text(encoding="utf-8")
+    )
     _validate_audio_manager_source(AUDIO_MANAGER_SCRIPT.read_text(encoding="utf-8"))
     runner = TRACE_RUNNER.read_text(encoding="utf-8")
     _validate_runner_isolation_contract(runner)
@@ -743,7 +976,7 @@ def _payload(row: dict[str, Any], label: str) -> dict[str, Any]:
 def _validate_early_investment_identity(
     rows: list[dict[str, Any]], profile_id: str
 ) -> None:
-    """Prove survival pressure cannot steal an explicitly earned investor route."""
+    """Prove three visible study choices earn and preserve one investor route."""
     if profile_id not in EARLY_INVESTMENT_IDENTITY_PROFILES:
         return
     commits = [row for row in rows if row.get("record_type") == "main_action_commit"]
@@ -752,93 +985,166 @@ def _validate_early_investment_identity(
         if _payload(row, "main_action_commit").get("actual_action_id")
         == "study_invest"
     ]
-    if len(studies) < 2:
+    if len(studies) < 3:
         raise ContractError(
-            f"{profile_id} must visibly commit investment study at least twice"
+            f"{profile_id} must visibly commit investment study at least three times"
+        )
+    studies = studies[:3]
+
+    def identity_snapshot(value: Any, label: str) -> dict[str, Any]:
+        if not isinstance(value, dict):
+            raise ContractError(f"{profile_id} {label} identity snapshot is missing")
+        for key in (
+            "player_route", "tendency", "tendency_realized",
+            "route_flags", "pending_flags",
+        ):
+            if key not in value:
+                raise ContractError(
+                    f"{profile_id} {label} identity snapshot lacks {key}"
+                )
+        if not isinstance(value["tendency"], dict) \
+                or not isinstance(value["route_flags"], dict) \
+                or not isinstance(value["pending_flags"], dict):
+            raise ContractError(
+                f"{profile_id} {label} identity containers are malformed"
+            )
+        return value
+
+    def validate_evidence_commit(
+        row: dict[str, Any], label: str, expected_actual: str
+    ) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
+        payload = _payload(row, label)
+        expected_surface = INVESTMENT_EVIDENCE_ACTIONS.get(expected_actual)
+        visible = payload.get("visible_button")
+        commitment = payload.get("commitment")
+        details = payload.get("details")
+        if expected_surface is None \
+                or not isinstance(visible, dict) \
+                or not isinstance(commitment, dict) \
+                or not isinstance(details, dict):
+            raise ContractError(f"{profile_id} {label} evidence payload is malformed")
+        expected_action, expected_function = expected_surface
+        expected_trade = {
+            "invest_buy": "buy",
+            "invest_leverage": "leverage_buy",
+        }.get(expected_actual)
+        if payload.get("action_id") != expected_action \
+                or payload.get("actual_action_id") != expected_actual \
+                or visible.get("action_id") != expected_action \
+                or visible.get("function") != expected_function \
+                or commitment.get("choice_id") != expected_action \
+                or commitment.get("actual_action_id") != expected_actual \
+                or commitment.get("details") != details \
+                or commitment.get("identity_evidence") != INVESTMENT_EVIDENCE:
+            raise ContractError(
+                f"{profile_id} {label} does not bind one visible investment receipt"
+            )
+        if expected_actual == "study_invest" and details.get("study_type") != 3:
+            raise ContractError(f"{profile_id} {label} is not investment study")
+        if expected_trade is not None and details.get("trade") != expected_trade:
+            raise ContractError(f"{profile_id} {label} trade receipt drifted")
+        before = identity_snapshot(payload.get("identity_before"), f"{label} before")
+        after = identity_snapshot(payload.get("identity_after"), f"{label} after")
+        return payload, before, after
+
+    def require_neutral(snapshot: dict[str, Any], label: str) -> None:
+        if snapshot.get("player_route") != "none" \
+                or snapshot.get("tendency_realized") not in {"", None} \
+                or any(snapshot["route_flags"].get(flag) is True for flag in (
+                    "route_career", "route_invest", "route_startup",
+                )) \
+                or any(snapshot["pending_flags"].get(flag) is True for flag in (
+                    "pending_spec_career", "pending_spec_invest",
+                    "pending_spec_found",
+                )):
+            raise ContractError(
+                f"{profile_id} {label} invented a route before the third study"
+            )
+
+    previous_week = 0
+    for index, row in enumerate(studies):
+        ordinal = index + 1
+        week = int(row.get("week", -1))
+        if week <= previous_week:
+            raise ContractError(
+                f"{profile_id} investment studies are not strictly ordered"
+            )
+        previous_week = week
+        _, before, after = validate_evidence_commit(
+            row, f"investment study {ordinal}", "study_invest"
+        )
+        require_neutral(before, f"investment study {ordinal} before")
+        before_tendency = before["tendency"]
+        after_tendency = after["tendency"]
+        if int(before_tendency.get("invest", -1)) != index * 4 \
+                or int(after_tendency.get("invest", -1)) != ordinal * 4 \
+                or any(
+                    int(before_tendency.get(kind, 0))
+                    != int(after_tendency.get(kind, 0))
+                    for kind in ("career", "found")
+                ):
+            raise ContractError(
+                f"{profile_id} investment study {ordinal} did not add exact evidence"
+            )
+        if ordinal < 3:
+            require_neutral(after, f"investment study {ordinal} after")
+        elif after.get("player_route") != "투자형" \
+                or after.get("tendency_realized") != "invest" \
+                or after["route_flags"].get("route_invest") is not True \
+                or after["route_flags"].get("route_career") is True \
+                or after["route_flags"].get("route_startup") is True \
+                or after["pending_flags"].get("pending_spec_invest") is not True \
+                or after["pending_flags"].get("pending_spec_career") is True \
+                or after["pending_flags"].get("pending_spec_found") is True:
+            raise ContractError(
+                f"{profile_id} third investment study did not atomically seal invest-only"
+            )
+
+    third_study_week = int(studies[2].get("week", -1))
+    if third_study_week > 24:
+        raise ContractError(
+            f"{profile_id} did not earn investor identity within the M06 boundary"
         )
     first_buy = next((
         row for row in commits
         if _payload(row, "main_action_commit").get("actual_action_id")
         in {"invest_buy", "invest_leverage"}
+        and int(row.get("week", -1)) >= third_study_week
     ), None)
     if first_buy is None:
         raise ContractError(f"{profile_id} lacks its first visible investment buy")
-    second_study_week = int(studies[1].get("week", -1))
     first_buy_week = int(first_buy.get("week", -1))
-    if second_study_week >= first_buy_week:
+    if third_study_week >= first_buy_week:
         raise ContractError(
-            f"{profile_id} did not study twice before its first investment buy"
+            f"{profile_id} did not study three times before its first investment buy"
         )
     if first_buy_week > 24:
         raise ContractError(
             f"{profile_id} first investment buy arrived after the M06 boundary"
         )
-    pressure_actions = {
-        str(_payload(row, "main_action_commit").get("actual_action_id", ""))
-        for row in commits if int(row.get("week", -1)) < first_buy_week
-    }
-    for required in ("side_shift", "save", "apply"):
-        if required not in pressure_actions:
-            raise ContractError(
-                f"{profile_id} identity proof lacks pre-buy {required} pressure"
-            )
     buy_payload = _payload(first_buy, "first investment buy")
-    visible = buy_payload.get("visible_button")
-    actual_buy_action = buy_payload.get("actual_action_id")
-    expected_trade = {
-        "invest_buy": "buy",
-        "invest_leverage": "leverage_buy",
-    }.get(actual_buy_action)
-    commitment = buy_payload.get("commitment")
-    if (not isinstance(visible, dict)
-            or visible.get("action_id") != "invest"
-            or visible.get("function") != "_ap_invest"
-            or expected_trade is None
-            or not isinstance(buy_payload.get("details"), dict)
-            or buy_payload["details"].get("trade") != expected_trade
-            or not isinstance(commitment, dict)
-            or commitment.get("identity_evidence") != {
-                "kind": "invest", "weight": 4, "version": 2,
-            }):
+    _, buy_before, buy_after = validate_evidence_commit(
+        first_buy, "first investment buy",
+        str(buy_payload.get("actual_action_id", "")),
+    )
+    for label, snapshot in (("before", buy_before), ("after", buy_after)):
+        if snapshot.get("player_route") != "투자형" \
+                or snapshot.get("tendency_realized") != "invest" \
+                or snapshot["route_flags"].get("route_invest") is not True \
+                or snapshot["route_flags"].get("route_career") is True \
+                or snapshot["route_flags"].get("route_startup") is True:
+            raise ContractError(
+                f"{profile_id} first buy {label} lost invest-only identity"
+            )
+    if int(buy_after["tendency"].get("invest", -1)) \
+            != int(buy_before["tendency"].get("invest", -1)) + 4 \
+            or any(
+                int(buy_before["tendency"].get(kind, 0))
+                != int(buy_after["tendency"].get(kind, 0))
+                for kind in ("career", "found")
+            ):
         raise ContractError(
-            f"{profile_id} first investment buy did not come from its visible product button"
-        )
-
-    expected_before = {
-        "player_route": "none",
-        "tendency": {"career": 8, "invest": 8, "found": 0},
-        "tendency_realized": "",
-        "route_flags": {
-            "route_career": False,
-            "route_invest": False,
-            "route_startup": False,
-        },
-        "pending_flags": {
-            "pending_spec_career": False,
-            "pending_spec_invest": False,
-            "pending_spec_found": False,
-        },
-    }
-    expected_after = copy.deepcopy(expected_before)
-    expected_after.update({
-        "player_route": "투자형",
-        "tendency": {"career": 8, "invest": 12, "found": 0},
-        "tendency_realized": "invest",
-        "route_flags": {
-            "route_career": False,
-            "route_invest": True,
-            "route_startup": False,
-        },
-        "pending_flags": {
-            "pending_spec_career": False,
-            "pending_spec_invest": True,
-            "pending_spec_found": False,
-        },
-    })
-    if buy_payload.get("identity_before") != expected_before \
-            or buy_payload.get("identity_after") != expected_after:
-        raise ContractError(
-            f"{profile_id} first buy did not atomically create the exact investor identity"
+            f"{profile_id} first buy did not add one investment evidence receipt"
         )
 
     closes: dict[int, dict[str, Any]] = {}
@@ -848,7 +1154,7 @@ def _validate_early_investment_identity(
         state = _payload(row, "week_close").get("state_after")
         if isinstance(state, dict):
             closes[int(row.get("week", -1))] = state
-    for week in range(second_study_week, first_buy_week):
+    for week in range(third_study_week, first_buy_week + 1):
         state = closes.get(week)
         if not isinstance(state, dict):
             raise ContractError(
@@ -859,29 +1165,14 @@ def _validate_early_investment_identity(
             raise ContractError(
                 f"{profile_id} W{week:03d} identity snapshot is incomplete"
             )
-        if any(flags.get(flag) is True for flag in (
-            "route_career", "route_invest", "route_startup",
-            "pending_spec_career", "pending_spec_invest", "pending_spec_found",
-        )) or state.get("tendency_realized") not in {"", None} \
-                or state.get("player_route") != "none":
+        if state.get("player_route") != "투자형" \
+                or state.get("tendency_realized") != "invest" \
+                or flags.get("route_invest") is not True \
+                or flags.get("route_career") is True \
+                or flags.get("route_startup") is True:
             raise ContractError(
-                f"{profile_id} survival pressure stole the route before its first buy"
+                f"{profile_id} W{week:03d} did not preserve invest-only identity"
             )
-    buy_state = closes.get(first_buy_week)
-    if not isinstance(buy_state, dict):
-        raise ContractError(
-            f"{profile_id} first-buy week lacks its identity state snapshot"
-        )
-    buy_flags = buy_state.get("flags")
-    if (not isinstance(buy_flags, dict)
-            or buy_state.get("player_route") != "투자형"
-            or buy_state.get("tendency_realized") != "invest"
-            or buy_flags.get("route_invest") is not True
-            or buy_flags.get("route_career") is True
-            or buy_flags.get("route_startup") is True):
-        raise ContractError(
-            f"{profile_id} first visible buy did not seal one exact investor identity"
-        )
 
 
 def validate_trace_rows(
@@ -1108,10 +1399,22 @@ def validate_trace_rows(
             actual_action_id = payload.get("actual_action_id")
             details = payload.get("details")
             commitment = payload.get("commitment")
+            action_id = payload.get("action_id")
+            visible_button = payload.get("visible_button")
             if not isinstance(actual_action_id, str) or not actual_action_id:
                 raise ContractError(f"{label} lacks actual_action_id")
             if not isinstance(details, dict) or not isinstance(commitment, dict):
                 raise ContractError(f"{label} lacks actual commitment details")
+            if not isinstance(action_id, str) or not action_id \
+                    or not isinstance(visible_button, dict):
+                raise ContractError(
+                    f"{label} lacks its exact visible MainGame action identity"
+                )
+            if commitment.get("choice_id") != action_id \
+                    or visible_button.get("action_id") != action_id:
+                raise ContractError(
+                    f"{label} visible/selected/committed MainGame action identity drifted"
+                )
             if commitment.get("actual_action_id") != actual_action_id \
                     or commitment.get("details") != details:
                 raise ContractError(f"{label} flattened commitment fields drifted")
@@ -1125,12 +1428,6 @@ def validate_trace_rows(
                 "profile", "survival", "profile_fallback", "asset_band_hold",
             }:
                 raise ContractError(f"{label} has an invalid selection_policy")
-            if selection_policy in {"survival", "asset_band_hold"}:
-                visible_button = payload.get("visible_button")
-                if not isinstance(visible_button, dict):
-                    raise ContractError(
-                        f"{label} policy selection lacks its visible Button"
-                    )
             if selection_policy == "survival":
                 if visible_button.get("action_id") not in profile["survival_policy"]["action_priority"] \
                         and visible_button.get("function") not in profile["survival_policy"]["function_priority"]:
@@ -1348,56 +1645,51 @@ def _fixture_profile() -> dict[str, Any]:
 
 
 def _identity_fixture_rows() -> list[dict[str, Any]]:
-    identity_before = {
-        "player_route": "none",
-        "tendency": {"career": 8, "invest": 8, "found": 0},
-        "tendency_realized": "",
-        "route_flags": {
-            "route_career": False,
-            "route_invest": False,
-            "route_startup": False,
-        },
-        "pending_flags": {
-            "pending_spec_career": False,
-            "pending_spec_invest": False,
-            "pending_spec_found": False,
-        },
-    }
-    identity_after = copy.deepcopy(identity_before)
-    identity_after.update({
-        "player_route": "투자형",
-        "tendency": {"career": 8, "invest": 12, "found": 0},
-        "tendency_realized": "invest",
-        "route_flags": {
-            "route_career": False,
-            "route_invest": True,
-            "route_startup": False,
-        },
-        "pending_flags": {
-            "pending_spec_career": False,
-            "pending_spec_invest": True,
-            "pending_spec_found": False,
-        },
-    })
+    def identity(
+        career: int, invest: int, found: int, *, realized: bool
+    ) -> dict[str, Any]:
+        return {
+            "player_route": "투자형" if realized else "none",
+            "tendency": {"career": career, "invest": invest, "found": found},
+            "tendency_realized": "invest" if realized else "",
+            "route_flags": {
+                "route_career": False,
+                "route_invest": realized,
+                "route_startup": False,
+            },
+            "pending_flags": {
+                "pending_spec_career": False,
+                "pending_spec_invest": realized,
+                "pending_spec_found": False,
+            },
+        }
 
-    def commit(week: int, action: str, details: dict[str, Any],
-               button_action: str, function: str) -> dict[str, Any]:
+    def commit(
+        week: int, actual_action: str, details: dict[str, Any],
+        button_action: str, function: str,
+        before: dict[str, Any] | None = None,
+        after: dict[str, Any] | None = None,
+    ) -> dict[str, Any]:
+        commitment = {
+            "choice_id": button_action,
+            "actual_action_id": actual_action,
+            "details": copy.deepcopy(details),
+        }
+        if actual_action in INVESTMENT_EVIDENCE_ACTIONS:
+            commitment["identity_evidence"] = copy.deepcopy(INVESTMENT_EVIDENCE)
         payload: dict[str, Any] = {
-            "actual_action_id": action,
-            "details": details,
+            "action_id": button_action,
+            "actual_action_id": actual_action,
+            "details": copy.deepcopy(details),
             "visible_button": {
                 "action_id": button_action,
                 "function": function,
             },
+            "commitment": commitment,
         }
-        if action in {"invest_buy", "invest_leverage"}:
-            payload.update({
-                "commitment": {"identity_evidence": {
-                    "kind": "invest", "weight": 4, "version": 2,
-                }},
-                "identity_before": copy.deepcopy(identity_before),
-                "identity_after": copy.deepcopy(identity_after),
-            })
+        if before is not None and after is not None:
+            payload["identity_before"] = copy.deepcopy(before)
+            payload["identity_after"] = copy.deepcopy(after)
         return {
             "record_type": "main_action_commit",
             "week": week,
@@ -1405,31 +1697,45 @@ def _identity_fixture_rows() -> list[dict[str, Any]]:
         }
 
     rows = [
-        commit(1, "study_invest", {"study_type": 3}, "study", "_ap_study"),
-        commit(2, "study_invest", {"study_type": 3}, "study", "_ap_study"),
+        commit(
+            1, "study_invest", {"study_type": 3}, "study", "_ap_study",
+            identity(0, 0, 0, realized=False),
+            identity(0, 4, 0, realized=False),
+        ),
+        commit(
+            2, "study_invest", {"study_type": 3}, "study", "_ap_study",
+            identity(0, 4, 0, realized=False),
+            identity(0, 8, 0, realized=False),
+        ),
         commit(3, "side_shift", {}, "side_shift", "_ap_side_job"),
-        commit(9, "save", {}, "save", "_ap_save_money"),
-        commit(10, "apply", {}, "apply", "_ap_job_hunt"),
-        commit(23, "invest_buy", {"trade": "buy"}, "invest", "_ap_invest"),
+        commit(
+            5, "study_invest", {"study_type": 3}, "study", "_ap_study",
+            identity(0, 8, 1, realized=False),
+            identity(0, 12, 1, realized=True),
+        ),
+        commit(6, "save", {}, "save", "_ap_save_money"),
+        commit(
+            23, "invest_buy", {"trade": "buy"}, "invest", "_ap_invest",
+            identity(4, 12, 1, realized=True),
+            identity(4, 16, 1, realized=True),
+        ),
     ]
-    for week in range(2, 24):
-        invested = week >= 23
-        career_score = 0 if week < 9 else (4 if week < 10 else 8)
+    for week in range(5, 24):
         rows.append({
             "record_type": "week_close",
             "week": week,
             "payload": {"state_after": {
-                "player_route": "투자형" if invested else "none",
+                "player_route": "투자형",
                 "tendency": {
-                    "career": career_score,
-                    "invest": 12 if invested else 8,
-                    "found": 0,
+                    "career": 4 if week >= 6 else 0,
+                    "invest": 16 if week >= 23 else 12,
+                    "found": 1,
                 },
-                "tendency_realized": "invest" if invested else "",
-                "flags": (
-                    {"route_invest": True, "pending_spec_invest": True}
-                    if invested else {}
-                ),
+                "tendency_realized": "invest",
+                "flags": {
+                    "route_invest": True,
+                    "pending_spec_invest": True,
+                },
             }},
         })
     return rows
@@ -1528,7 +1834,11 @@ def _fixture_rows(profile: dict[str, Any], profile_hash: str) -> list[dict[str, 
                 "action_id": "rest",
                 "actual_action_id": "rest",
                 "details": {},
-                "commitment": {"actual_action_id": "rest", "details": {}},
+                "commitment": {
+                    "choice_id": "rest",
+                    "actual_action_id": "rest",
+                    "details": {},
+                },
                 "selection_policy": "asset_band_hold",
                 "visible_button": {
                     "action_id": "rest",
@@ -1643,45 +1953,65 @@ def self_test() -> None:
     )
     leverage_buy["payload"]["actual_action_id"] = "invest_leverage"
     leverage_buy["payload"]["details"]["trade"] = "leverage_buy"
+    leverage_buy["payload"]["commitment"]["actual_action_id"] = \
+        "invest_leverage"
+    leverage_buy["payload"]["commitment"]["details"]["trade"] = \
+        "leverage_buy"
     _validate_early_investment_identity(
         leverage_identity_rows, "investment_property_daeun")
     cases += 1
 
+    no_pressure_identity_rows = [
+        row for row in copy.deepcopy(identity_rows)
+        if not (
+            row.get("record_type") == "main_action_commit"
+            and row["payload"].get("actual_action_id") in {"side_shift", "save"}
+        )
+    ]
+    _validate_early_investment_identity(
+        no_pressure_identity_rows, "investment_property_daeun")
+    cases += 1
+
     identity_mutations: list[tuple[str, Any]] = [
-        ("identity-missing-second-study", lambda rows: rows[1]["payload"].update(
+        ("identity-missing-third-study", lambda rows: rows[3]["payload"].update(
             {"actual_action_id": "study_read"})),
-        ("identity-missing-side-shift", lambda rows: rows.pop(2)),
-        ("identity-missing-save", lambda rows: rows.pop(3)),
-        ("identity-missing-application", lambda rows: rows.pop(4)),
+        ("identity-first-study-wrong-weight", lambda rows: rows[0]["payload"]
+            ["commitment"]["identity_evidence"].update({"weight": 1})),
+        ("identity-third-study-missing-receipt", lambda rows: rows[3]["payload"]
+            ["commitment"].pop("identity_evidence")),
+        ("identity-third-study-hidden", lambda rows: rows[3]["payload"]
+            ["visible_button"].update({"action_id": "save"})),
+        ("identity-third-study-late", lambda rows: rows[3].update({"week": 25})),
+        ("identity-third-study-invest-before-drift", lambda rows: rows[3]
+            ["payload"]["identity_before"]["tendency"].update({"invest": 4})),
+        ("identity-third-study-already-realized", lambda rows: rows[3]
+            ["payload"]["identity_before"].update({
+                "player_route": "투자형", "tendency_realized": "invest",
+            })),
+        ("identity-third-study-no-transition", lambda rows: rows[3]["payload"].update({
+            "identity_after": copy.deepcopy(
+                rows[3]["payload"]["identity_before"]),
+        })),
+        ("identity-third-study-dual-route", lambda rows: rows[3]["payload"]
+            ["identity_after"]["route_flags"].update({"route_career": True})),
         ("identity-late-first-buy", lambda rows: rows[5].update({"week": 25})),
         ("identity-hidden-first-buy", lambda rows: rows[5]["payload"]
             ["visible_button"].update({"action_id": "save"})),
         ("identity-missing-buy-receipt", lambda rows: rows[5]["payload"]
             ["commitment"].pop("identity_evidence")),
-        ("identity-prebuy-already-investor", lambda rows: rows[5]["payload"]
+        ("identity-buy-lost-route", lambda rows: rows[5]["payload"]
             ["identity_before"].update({
-                "player_route": "투자형", "tendency_realized": "invest",
+                "player_route": "none", "tendency_realized": "",
             })),
-        ("identity-prebuy-career-zero", lambda rows: rows[5]["payload"]
-            ["identity_before"]["tendency"].update({"career": 0})),
-        ("identity-buy-no-transition", lambda rows: rows[5]["payload"].update({
-            "identity_after": copy.deepcopy(
-                rows[5]["payload"]["identity_before"]),
-        })),
+        ("identity-buy-wrong-delta", lambda rows: rows[5]["payload"]
+            ["identity_after"]["tendency"].update({"invest": 20})),
         ("identity-career-stolen", lambda rows: next(
             row for row in rows
             if row["record_type"] == "week_close" and row["week"] == 19
         )["payload"]["state_after"].update({
-            "player_route": "직장형", "tendency_realized": "career",
-            "flags": {"route_career": True, "pending_spec_career": True},
-        })),
-        ("identity-investor-realized-before-buy", lambda rows: next(
-            row for row in rows
-            if row["record_type"] == "week_close" and row["week"] == 19
-        )["payload"]["state_after"].update({
-            "player_route": "투자형", "tendency_realized": "invest",
-            "flags": {"route_invest": True, "pending_spec_invest": True},
-        })),
+                "player_route": "직장형", "tendency_realized": "career",
+                "flags": {"route_career": True, "pending_spec_career": True},
+            })),
         ("identity-missing-invest-route", lambda rows: next(
             row for row in rows
             if row["record_type"] == "week_close" and row["week"] == 23
@@ -1731,8 +2061,15 @@ def self_test() -> None:
     mutations.append(("run-not-pass", lambda rows: rows[-1]["payload"].__setitem__("status", "fail")))
     mutations.append(("missing-state-delta", lambda rows: next(row for row in rows if row["record_type"] == "main_action_commit")["payload"].pop("state_delta")))
     mutations.append(("missing-actual-action-id", lambda rows: next(row for row in rows if row["record_type"] == "main_action_commit")["payload"].pop("actual_action_id")))
+    mutations.append(("main-action-focus-identity-drift", lambda rows: next(row for row in rows if row["record_type"] == "main_action_commit")["payload"]["visible_button"].update({"action_id": "invest"})))
+    mutations.append(("main-action-selected-identity-drift", lambda rows: next(row for row in rows if row["record_type"] == "main_action_commit")["payload"].update({"action_id": "invest"})))
+    mutations.append(("main-action-commitment-identity-drift", lambda rows: next(row for row in rows if row["record_type"] == "main_action_commit")["payload"]["commitment"].update({"choice_id": "invest"})))
     mutations.append(("commitment-details-drift", lambda rows: next(row for row in rows if row["record_type"] == "main_action_commit")["payload"]["commitment"].__setitem__("details", {"study_type": 3})))
-    mutations.append(("asset-band-unsafe-button", lambda rows: next(row for row in rows if row["record_type"] == "main_action_commit")["payload"]["visible_button"].update({"action_id": "invest", "function": "_ap_invest"})))
+    mutations.append(("asset-band-unsafe-button", lambda rows: next(row for row in rows if row["record_type"] == "main_action_commit")["payload"].update({
+        "action_id": "invest",
+        "visible_button": {"action_id": "invest", "function": "_ap_invest"},
+        "commitment": {"choice_id": "invest", "actual_action_id": "rest", "details": {}},
+    })))
     mutations.append(("missing-story-result", lambda rows: rows.pop(next(i for i, row in enumerate(rows) if row["record_type"] == "story_result"))))
     mutations.append(("offer-event-mismatch", lambda rows: next(row for row in rows if row["record_type"] == "choice_offer")["payload"].__setitem__("event_id", "wrong_event")))
     mutations.append(("choice-event-mismatch", lambda rows: next(row for row in rows if row["record_type"] == "story_choice")["payload"].__setitem__("event_id", "wrong_event")))
@@ -1771,6 +2108,59 @@ def self_test() -> None:
     _expect_failure(
         "direct-hidden-ap-call",
         lambda: _validate_trace_script_source(direct_call_source),
+    )
+    cases += 1
+
+    trace_source = TRACE_SCRIPT.read_text(encoding="utf-8")
+    missing_initial_focus_settle = trace_source.replace(
+        "\tawait get_tree().process_frame\n"
+        "\tif not _button_is_usable(button_raw):\n",
+        "\tif not _button_is_usable(button_raw):\n",
+        1,
+    )
+    _expect_failure(
+        "main-action-missing-initial-focus-settle",
+        lambda: _validate_trace_script_source(missing_initial_focus_settle),
+    )
+    cases += 1
+
+    weakened_exact_focus = trace_source.replace(
+        "\t\tif focused == button:\n",
+        "\t\tif focused != null:\n",
+        1,
+    )
+    _expect_failure(
+        "main-action-weakened-exact-focus",
+        lambda: _validate_trace_script_source(weakened_exact_focus),
+    )
+    cases += 1
+
+    legacy_main_activation = trace_source.replace(
+        "await _activate_settled_main_action_button(selected)",
+        "await _activate_button(selected)",
+        1,
+    )
+    _expect_failure(
+        "main-action-legacy-focus-race",
+        lambda: _validate_trace_script_source(legacy_main_activation),
+    )
+    cases += 1
+
+    disabled_commitment_identity = trace_source.replace(
+        "if expected_action_id.is_empty() or committed_action_id != expected_action_id:",
+        "if false:",
+        1,
+    )
+    _expect_failure(
+        "main-action-disabled-commitment-identity",
+        lambda: _validate_trace_script_source(disabled_commitment_identity),
+    )
+    cases += 1
+
+    direct_pressed_emit = trace_source + "\nbutton.pressed.emit()\n"
+    _expect_failure(
+        "main-action-direct-pressed-emit",
+        lambda: _validate_trace_script_source(direct_pressed_emit),
     )
     cases += 1
 
@@ -1835,6 +2225,35 @@ def self_test() -> None:
         )
         cases += 1
 
+    for mutation_name, mutation_value in (
+        ("missing", None),
+        ("wrong-index", {"index": 0, "selection_mode": "direct"}),
+        ("timed", {"index": 1, "selection_mode": "timed"}),
+    ):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            drifted_general = _load_json(DEFAULT_PROFILES)
+            general_profile = next(
+                profile for profile in drifted_general["profiles"]
+                if profile["id"] == GENERAL_PROFILE_ID
+            )
+            if mutation_value is None:
+                general_profile["choice_overrides"].pop(
+                    GENERAL_REQUIRED_CHOICE_OVERRIDE_EVENT
+                )
+            else:
+                general_profile["choice_overrides"][
+                    GENERAL_REQUIRED_CHOICE_OVERRIDE_EVENT
+                ] = mutation_value
+            drifted_path = Path(temp_dir) / f"general-{mutation_name}.json"
+            drifted_path.write_text(json.dumps(drifted_general), encoding="utf-8")
+            _expect_failure(
+                f"general-unfunded-cafe-choice-{mutation_name}",
+                lambda path=drifted_path: validate_profiles(
+                    path, check_events=False
+                ),
+            )
+            cases += 1
+
     with tempfile.TemporaryDirectory() as temp_dir:
         missing_asset_band = _load_json(DEFAULT_PROFILES)
         missing_asset_band["profiles"][2].pop("asset_band_policy")
@@ -1889,6 +2308,52 @@ def self_test() -> None:
     _expect_failure(
         "missing-audio-teardown-drain",
         lambda: _validate_trace_script_source(missing_audio_drain_source),
+    )
+    cases += 1
+
+    obsolete_exit_wait_source = TRACE_SCRIPT.read_text(encoding="utf-8").replace(
+        "\tawait AudioManager.drain_pending_timers_for_exit()\n",
+        "\tawait AudioManager.drain_pending_timers_for_exit()\n"
+        "\tawait get_tree().create_timer(2.05).timeout\n",
+        1,
+    )
+    _expect_failure(
+        "obsolete-main-game-timer-expiry-wait",
+        lambda: _validate_trace_script_source(obsolete_exit_wait_source),
+    )
+    cases += 1
+
+    main_game_source = MAIN_GAME_SCRIPT.read_text(encoding="utf-8")
+    free_milestone_timer_source = main_game_source.replace(
+        "\t\t\t_milestone_portrait_timer.start()\n",
+        "\t\t\tawait get_tree().create_timer(2.0).timeout\n",
+        1,
+    )
+    _expect_failure(
+        "main-game-free-milestone-timer-regression",
+        lambda: _validate_main_game_timer_source(free_milestone_timer_source),
+    )
+    cases += 1
+
+    non_one_shot_timer_source = main_game_source.replace(
+        "_critical_portrait_timer.one_shot = true",
+        "_critical_portrait_timer.one_shot = false",
+        1,
+    )
+    _expect_failure(
+        "main-game-critical-timer-not-one-shot",
+        lambda: _validate_main_game_timer_source(non_one_shot_timer_source),
+    )
+    cases += 1
+
+    missing_exit_flag_cleanup = main_game_source.replace(
+        '\tGameState.flags["just_hit_milestone"] = false\n',
+        "",
+        1,
+    )
+    _expect_failure(
+        "main-game-missing-exit-transient-cleanup",
+        lambda: _validate_main_game_timer_source(missing_exit_flag_cleanup),
     )
     cases += 1
 

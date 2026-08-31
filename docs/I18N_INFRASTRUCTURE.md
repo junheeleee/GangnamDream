@@ -85,10 +85,11 @@ historical context meanings. Its migration revision measured `3,310 calls = 3,27
 37 context` and 2,780 unique legacy Korean keys. Later W1 and controller surfaces
 and the later removal of three superseded context call sites changed the reached
 inventory without changing the surviving meanings. The current measured inventory
-is exactly `3,320 calls = 3,286 legacy + 34 context`, with 2,821 unique legacy
+is exactly `3,326 calls = 3,292 legacy + 34 context`, with 2,822 unique legacy
 Korean keys and 29 reached context IDs. Japanese owns all
-`2,821 legacy + 29 context = 2,850` rows; both Chinese skeletons remain
-`legacy 0/2,821 + context 0/29`.
+`2,822 legacy + 29 context = 2,851` rows; both Chinese regions currently hold
+`legacy 85/2,822 + context 0/29`, plus their separate 37/37 narrow story-demo
+UI overlay.
 
 `LocaleManager.ui_format(ko_template, en_template, ko_args, en_args)` performs a
 stable legacy-template lookup before inserting values. Korean and English each
@@ -288,7 +289,7 @@ shipping state without pretending missing prose is complete. Per-language
 keys, 4/4 catalog names, and zero direct English bypasses. It is expected to fail
 until an approved body-translation wave is finished. Japanese has the required
 terminology and source-shape validator now. `zh_translation_audit.py --strict`
-adds 2,821/2,821 legacy UI keys and 29/29 context IDs, separate
+adds 2,822/2,822 legacy UI keys and 29/29 context IDs, separate
 Simplified/Traditional script and
 terminology, Korean-won semantics, romanized-name locks, and a project-owned
 regional font route. It cannot certify one region from the other region's text.
@@ -406,10 +407,10 @@ The 30 months and 120 weeks are the five locale runs combined; one player run
 is still M01-M06, 24 weeks, and six settlements.
 
 The default full-game coverage command keeps English strict and prepared locales
-in skeleton mode. Its current strict collector scans all 1,758 packaged event
-descriptions and 35 endings: 1,603 shipping events plus 155 author-only events.
-That pass contains the 1,603-event shipping release claim but is not the same
-denominator. `ja_translation_audit.py --scope ui` requires all 2,821 legacy
+in skeleton mode. Its current strict collector scans all 1,812 packaged event
+descriptions and 35 endings: 1,707 shipping events plus 105 author-only events.
+That pass contains the 1,707-event shipping release claim but is not the same
+denominator. `ja_translation_audit.py --scope ui` requires all 2,822 legacy
 UI keys and all 29 reached context IDs. It also
 requires exact placeholder/newline parity, zero Hangul or yen conversion,
 canonical names and casino terms, and no lock/unlock polarity reversal. The
@@ -432,8 +433,8 @@ with `BODY_TRANSLATION_HELD` unless `--allow-body` is passed after the approved
 24-week source text is declared final; it merges those rows without deleting
 existing static UI or out-of-demo translations. Every full-body scope requires
 the separate `--allow-full-body` gate and does not accept that demo-text freeze.
-The event-bearing `events` and `all` scopes collect the complete 1,758-event
-packaged corpus (1,603 shipping + 155 author-only); `endings` and `catalog`
+The event-bearing `events` and `all` scopes collect the complete 1,812-event
+packaged corpus (1,707 shipping + 105 author-only); `endings` and `catalog`
 collect only their own full targets.
 The source-hash cache lives under `.git` so generated drafts do not become release
 assets.
@@ -442,7 +443,7 @@ assets.
 Its normal mode reports the still-incomplete legacy denominator without
 claiming completion; the SC/TC font routes are now present, while the separate
 story-demo audit owns the narrow translated slice. Its region-specific strict
-mode requires 2,821/2,821 legacy
+mode requires 2,822/2,822 legacy
 UI keys and 29/29 context IDs, the exact 72/467/701/4 demo body (1,172 unique demo translation sources),
 zero direct English bypasses, every
 context-unambiguous wrong-region character in the pinned OpenCC 1.3.1 classifier
@@ -497,7 +498,7 @@ Once the approved 24-week source text is declared final, the remaining wave requ
 The current story-demo candidate, introduced by ORDER-126 and extended by
 ORDER-140, the legacy 24-week Japanese claim, and the
 eventual full-game Japanese release claim are separate. Passing the narrow
-candidate does not satisfy the legacy denominator or 1,603-event/35-ending
+candidate does not satisfy the legacy denominator or 1,707-event/35-ending
 full-game coverage. Passing its structure/font gates must never add `ja` to
 retail `SHIPPING_LANGUAGES` or Steam metadata. Native review remains OPEN and
 blocks the Japanese shipping claim, while the exact five-language candidate may
@@ -520,7 +521,7 @@ the isolated candidate, not in retail.
 
 Before either legacy 24-week Chinese claim, that region requires:
 
-1. 2,821/2,821 legacy UI keys, 29/29 context IDs, and strict parity for all 72 demo events, 467 event
+1. 2,822/2,822 legacy UI keys, 29/29 context IDs, and strict parity for all 72 demo events, 467 event
    leaves, 701 dynamic keys, and four catalog names: 1,172 unique demo translation
    sources in total; no ending is fabricated.
 2. Zero Hangul, kana, untranslated English prose, direct English bypass, wrong-
@@ -538,5 +539,5 @@ cultural explanation, KRW weight, causal meaning, regional glyph forms, and real
 layout. Each OPEN gate blocks its regional Steam/shipping claim, but it does not
 block local play of the exact ORDER-126 candidate after package L1/L2. A narrow
 demo approval never authorizes the legacy 24-week denominator, the
-1,603-event/35-ending full-game Chinese release, or a retail addition to
+1,707-event/35-ending full-game Chinese release, or a retail addition to
 `SHIPPING_LANGUAGES` or Steam metadata.

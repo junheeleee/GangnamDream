@@ -27,6 +27,7 @@ const VALID_PROVENANCE: Array[String] = [
 ]
 const MAX_DRIVER_STEPS := 160000
 const MAX_STAGNANT_STEPS := 2400
+const MAX_MAIN_ACTION_FOCUS_ATTEMPTS := 3
 
 var _profile_id := ""
 var _profiles_path := DEFAULT_PROFILES_PATH
@@ -672,7 +673,7 @@ func _drive_main(main: Node) -> bool:
 			_pending_main_action["week"] = current_turn
 			_pending_main_action["selection_policy"] = _main_selection_policy
 			_pending_main_action_state = _state_snapshot()
-			await _activate_button(selected)
+			await _activate_settled_main_action_button(selected)
 		return false
 
 	var focused := get_viewport().gui_get_focus_owner() as Button
@@ -863,14 +864,28 @@ func _on_weekly_commitment_finalized(commitment: Dictionary) -> void:
 	if int(commitment.get("turn", -1)) != expected_week:
 		_fail("visible MainGame action finalized on a different week")
 		return
+	var expected_action_id := str(
+		_pending_main_action.get("action_id", "")).strip_edges()
+	var committed_action_id := str(commitment.get("choice_id", "")).strip_edges()
+	if expected_action_id.is_empty() or committed_action_id != expected_action_id:
+		_fail(
+			"visible MainGame action identity drift: "
+			+ "week=%d selected=%s committed=%s grid=%d button=%d" % [
+				expected_week,
+				expected_action_id,
+				committed_action_id,
+				int(_pending_main_action.get("grid_index", -1)),
+				int(_pending_main_action.get("button_instance_id", 0)),
+			]
+		)
+		return
 	_main_commit_counter += 1
 	var after := _state_snapshot()
 	_record("main_action_commit", "main:%s:commit:%06d" % [
 		_profile_id, _main_commit_counter], {
 		"volume_class": "control",
 		"narrative_volume_counted": false,
-		"action_id": str(commitment.get(
-			"choice_id", _pending_main_action.get("action_id", ""))),
+		"action_id": committed_action_id,
 		"actual_action_id": str(commitment.get("actual_action_id", "")),
 		"details": (commitment.get("details", {}) as Dictionary).duplicate(true),
 		"selection_policy": str(_pending_main_action.get(
@@ -1058,10 +1073,6 @@ func _release_audio_for_exit() -> void:
 	if raw_sounds is Dictionary:
 		(raw_sounds as Dictionary).clear()
 	await AudioManager.drain_pending_timers_for_exit()
-	# MainGame owns two short portrait-reset timers (1.2 s critical event and
-	# 2.0 s asset milestone). SceneTreeTimer cannot be canceled; let either real
-	# timer expire so failure exits are held to the same zero-leak policy.
-	await get_tree().create_timer(2.05).timeout
 	await get_tree().process_frame
 	await get_tree().process_frame
 
@@ -1540,6 +1551,36 @@ func _activate_button(button_raw: Variant) -> void:
 	if not button.has_focus():
 		button.grab_focus()
 	await _send_key(KEY_ENTER)
+
+
+func _activate_settled_main_action_button(button_raw: Variant) -> void:
+	# MainGame assigns its default AP focus with call_deferred after rebuilding
+	# the board. Drain that product-owned request before choosing the profile's
+	# exact visible card; otherwise the queued Enter can land on grid slot zero.
+	await get_tree().process_frame
+	if not _button_is_usable(button_raw):
+		_fail("selected MainGame action disappeared before exact keyboard focus")
+		return
+	var button := button_raw as Button
+	for _attempt in range(MAX_MAIN_ACTION_FOCUS_ATTEMPTS):
+		button.grab_focus()
+		await get_tree().process_frame
+		if not _button_is_usable(button):
+			_fail("selected MainGame action disappeared while settling exact keyboard focus")
+			return
+		var focused := get_viewport().gui_get_focus_owner()
+		if focused == button:
+			await _send_key(KEY_ENTER)
+			return
+	_fail(
+		"visible MainGame action could not retain exact keyboard focus: "
+		+ "week=%d action=%s grid=%d button=%d" % [
+			int(_pending_main_action.get("week", -1)),
+			str(_pending_main_action.get("action_id", "")),
+			int(_pending_main_action.get("grid_index", -1)),
+			int(_pending_main_action.get("button_instance_id", 0)),
+		]
+	)
 
 
 func _send_key(keycode: Key) -> void:

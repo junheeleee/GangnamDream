@@ -29,6 +29,8 @@ func _run() -> void:
 	_check_demo_pacing()
 	_check_arc_preview_read_only()
 	_check_sfx_mix()
+	_check_transient_portrait_timer_source_contract()
+	await _check_transient_portrait_timer_contract()
 	await _check_quiet_week_reading_contract()
 	LocaleManager.language = _original_language
 	DataRegistry.reload()
@@ -38,7 +40,7 @@ func _run() -> void:
 			push_error("IMMERSION_LOOP_CHECK_FAIL " + failure)
 		get_tree().quit(1)
 		return
-	print("IMMERSION_LOOP_CHECK_OK memory=2 action_ids=8 commitments=1x3 forgone=relationship/body/career/market scene_first=1 no_ap_surface=1 quiet_compressed=1 meaningful_confirm=1 month_manual=1 outcomes=2 completion_boundary=1 consequence_paths=4 echo=2.6 prior=1.88 filler=0.42 quiet=3 causal=4 bridges=ko/en vignette=2 omen=1 preview=2 bills=1 rungs=4 reserve=1 pressures=11 families=6 cards=3 pacing=9/2/4 sfx=8")
+	print("IMMERSION_LOOP_CHECK_OK memory=2 action_ids=8 commitments=1x3 forgone=relationship/body/career/market scene_first=1 no_ap_surface=1 quiet_compressed=1 meaningful_confirm=1 month_manual=1 outcomes=2 completion_boundary=1 consequence_paths=4 echo=2.6 prior=1.88 filler=0.42 quiet=3 causal=4 bridges=ko/en vignette=2 omen=1 preview=2 bills=1 rungs=4 reserve=1 pressures=11 families=6 cards=3 pacing=9/2/4 sfx=8 transient_timers=2")
 	get_tree().quit(0)
 
 func _release_audio_for_exit() -> void:
@@ -1919,6 +1921,160 @@ func _check_pressure_contract(game: Node, pressure: Dictionary, expected_id: Str
 				_fail("demo action %s lacks %s preview: %s" % [action_id, key, preview])
 		if LocaleManager.is_english() and _contains_hangul(" ".join(preview.values())):
 			_fail("English demo action preview leaked Hangul: %s" % preview)
+
+func _check_transient_portrait_timer_source_contract() -> void:
+	var source := FileAccess.get_file_as_string("res://scenes/MainGame.gd")
+	var marker := "func _check_milestones()"
+	var start := source.find(marker)
+	if source.is_empty() or start < 0:
+		_fail("MainGame milestone source contract could not find _check_milestones")
+		return
+	var function_tail := source.substr(start)
+	var next_function := function_tail.find("\nfunc ", marker.length())
+	var function_source := function_tail if next_function < 0 \
+		else function_tail.substr(0, next_function)
+	for forbidden in ["create_timer(", "await "]:
+		if function_source.contains(forbidden):
+			_fail("_check_milestones reintroduced a free SceneTreeTimer coroutine: %s" \
+				% forbidden)
+
+func _check_transient_portrait_timer_contract() -> void:
+	var language_before := LocaleManager.language
+	LocaleManager.language = "ko"
+	DataRegistry.reload()
+
+	# A single refresh can cross several thresholds. Only the first threshold may
+	# own the happy portrait; repeated refreshes must not duplicate it, and the
+	# same child Timer must advance the queue in ascending order.
+	_prepare_week_runtime_fixture(12)
+	GameState.money = 8_000_000.0
+	GameState.milestones_reached = {}
+	var game := await _boot_week_runtime()
+	if not is_instance_valid(game):
+		LocaleManager.language = language_before
+		DataRegistry.reload()
+		return
+	var milestone_timer := game.get("_milestone_portrait_timer") as Timer
+	var critical_timer := game.get("_critical_portrait_timer") as Timer
+	if not is_instance_valid(milestone_timer) or not is_instance_valid(critical_timer):
+		_fail("MainGame did not create both view-owned portrait timers")
+		await _dispose_week_runtime(game)
+		LocaleManager.language = language_before
+		DataRegistry.reload()
+		return
+	if milestone_timer.get_parent() != game or critical_timer.get_parent() != game \
+			or not milestone_timer.one_shot or not critical_timer.one_shot \
+			or not is_equal_approx(milestone_timer.wait_time, 2.0) \
+			or not is_equal_approx(critical_timer.wait_time, 1.2) \
+			or milestone_timer.process_mode != Node.PROCESS_MODE_ALWAYS \
+			or critical_timer.process_mode != Node.PROCESS_MODE_ALWAYS:
+		_fail("portrait timers are not reusable one-shot children of MainGame")
+	milestone_timer.wait_time = 0.2
+	GameState.money = 60_000_000.0
+	game.call("_check_milestones")
+	var milestone_timer_id := milestone_timer.get_instance_id()
+	game.call("_check_milestones")
+	game.call("_check_milestones")
+	if GameState.milestones_reached.size() != 1 \
+			or not GameState.milestones_reached.has("10m") \
+			or _count_action_logs_containing("자산 1천만원 돌파") != 1 \
+			or not bool(GameState.flags.get("just_hit_milestone", false)):
+		_fail("simultaneous milestone crossing duplicated or skipped the first threshold")
+	await milestone_timer.timeout
+	for _frame in range(3):
+		await get_tree().process_frame
+		if GameState.milestones_reached.has("50m"):
+			break
+	if not is_instance_valid(milestone_timer) \
+			or milestone_timer.get_instance_id() != milestone_timer_id \
+			or GameState.milestones_reached.size() != 2 \
+			or not GameState.milestones_reached.has("50m") \
+			or _count_action_logs_containing("자산 5천만원 돌파") != 1 \
+			or not bool(GameState.flags.get("just_hit_milestone", false)):
+		_fail("milestone timeout did not reuse the timer for the next threshold")
+	else:
+		await milestone_timer.timeout
+		await get_tree().process_frame
+		if bool(GameState.flags.get("just_hit_milestone", false)) \
+				or bool(game.get("_milestone_portrait_active")):
+			_fail("final milestone timeout left the happy portrait active")
+
+	# Repeated critical outcomes restart one child Timer. The flag must survive
+	# the first deadline and clear only after the latest trigger's timeout.
+	critical_timer.wait_time = 0.3
+	game.call("_arm_critical_portrait_feedback")
+	var critical_timer_id := critical_timer.get_instance_id()
+	await get_tree().create_timer(0.12).timeout
+	var time_left_before_restart := critical_timer.time_left
+	game.call("_arm_critical_portrait_feedback")
+	var time_left_after_restart := critical_timer.time_left
+	if critical_timer.get_instance_id() != critical_timer_id \
+			or time_left_after_restart <= time_left_before_restart:
+		_fail("repeated critical feedback replaced or failed to restart its timer")
+	await get_tree().create_timer(0.19).timeout
+	if not bool(GameState.flags.get("just_critical_event", false)):
+		_fail("critical portrait cleared at the first trigger's obsolete deadline")
+	else:
+		await critical_timer.timeout
+		if bool(GameState.flags.get("just_critical_event", false)):
+			_fail("critical portrait did not clear after the restarted timer")
+	await _dispose_week_runtime(game)
+
+	# Freeing MainGame before either timeout must synchronously clear global
+	# transient state and free both child timers. A replacement view then handles
+	# the next unmarked milestone once, without replaying the first.
+	_prepare_week_runtime_fixture(12)
+	GameState.money = 8_000_000.0
+	GameState.milestones_reached = {}
+	game = await _boot_week_runtime()
+	if not is_instance_valid(game):
+		LocaleManager.language = language_before
+		DataRegistry.reload()
+		return
+	milestone_timer = game.get("_milestone_portrait_timer") as Timer
+	critical_timer = game.get("_critical_portrait_timer") as Timer
+	milestone_timer.wait_time = 10.0
+	critical_timer.wait_time = 10.0
+	GameState.money = 60_000_000.0
+	game.call("_check_milestones")
+	game.call("_arm_critical_portrait_feedback")
+	var abandoned_milestone_timer_id := milestone_timer.get_instance_id()
+	var abandoned_critical_timer_id := critical_timer.get_instance_id()
+	game.free()
+	await get_tree().process_frame
+	if is_instance_id_valid(abandoned_milestone_timer_id) \
+			or is_instance_id_valid(abandoned_critical_timer_id) \
+			or bool(GameState.flags.get("just_hit_milestone", false)) \
+			or bool(GameState.flags.get("just_critical_event", false)):
+		_fail("freeing MainGame retained a portrait timer or transient flag")
+
+	var replacement := await _boot_week_runtime()
+	if is_instance_valid(replacement):
+		replacement.call("_check_milestones")
+		if GameState.milestones_reached.size() != 2 \
+				or not GameState.milestones_reached.has("10m") \
+				or not GameState.milestones_reached.has("50m") \
+				or _count_action_logs_containing("자산 1천만원 돌파") != 1 \
+				or _count_action_logs_containing("자산 5천만원 돌파") != 1:
+			_fail("replacement MainGame did not continue with exactly one next milestone")
+		replacement.free()
+		await get_tree().process_frame
+		if bool(GameState.flags.get("just_hit_milestone", false)) \
+				or bool(GameState.flags.get("just_critical_event", false)):
+			_fail("replacement MainGame teardown retained transient portrait state")
+	else:
+		_fail("replacement MainGame could not boot after timer-owner teardown")
+
+	LocaleManager.language = language_before
+	DataRegistry.reload()
+
+func _count_action_logs_containing(fragment: String) -> int:
+	var count := 0
+	for raw_entry in GameState.action_log:
+		var entry: Dictionary = raw_entry if raw_entry is Dictionary else {}
+		if str(entry.get("message", "")).contains(fragment):
+			count += 1
+	return count
 
 func _check_quiet_week_reading_contract() -> void:
 	var language_before := LocaleManager.language

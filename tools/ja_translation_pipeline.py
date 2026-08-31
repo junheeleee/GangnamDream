@@ -3281,8 +3281,8 @@ def main() -> int:
             )
         cases += 1
         exact_parameter_stats = {
-            "source_calls": 3320,
-            "legacy_calls": 3286,
+            "source_calls": 3326,
+            "legacy_calls": 3292,
             "format_calls": 50,
             "parameter_raw_candidates": 56,
             "parameter_migrate_calls": 48,

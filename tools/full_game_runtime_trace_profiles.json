@@ -240,6 +240,7 @@
         "arc_temptation_01": {"index": 0, "selection_mode": "direct"},
         "amb_coin_00": {"index": 1, "selection_mode": "direct"},
         "drama_crypto_allin": {"index": 2, "selection_mode": "direct"},
+        "cafe_cb_honest_in": {"index": 1, "selection_mode": "direct"},
         "inv_ipo_hot_tip": {"index": 0, "selection_mode": "direct"},
         "sangchul_tip_redev": {"index": 0, "selection_mode": "direct"},
         "inv_redev_zone_tip": {"index": 1, "selection_mode": "direct"},
