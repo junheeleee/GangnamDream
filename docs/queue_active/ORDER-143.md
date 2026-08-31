@@ -20,6 +20,12 @@ ORDER-142 정적 감사가 찾은 cross-month overlap 8개를 원고·story map�
 `tools/story_consistency_audit.py`를 검사 소유권에 추가한다. 다른 prerequisite
 문법은 넓히지 않는다.
 
+**2026-08-31 생명주기 self-test 확장 선언:** M10 생활 beat, M14 bank fallback,
+M22 unattached fallback 세 root를 author-only에서 실제 제품 ingress로 승격하면
+`event_lifecycle.json`의 정확한 집합뿐 아니라 그 현재 집합 크기를 반례로 잠그는
+`tools/event_lifecycle.py` self-test도 함께 바뀐다. 이 검사 파일을 소유권에
+추가하되 면제 규칙이나 다른 event의 생명주기는 넓히지 않는다.
+
 ## 깊이 3문
 
 1. **다른 달 root로 이어진다고 항상 끊어야 하는가?** 아니다. 퇴실→새 방,
@@ -84,7 +90,7 @@ ORDER-142 정적 감사가 찾은 cross-month overlap 8개를 원고·story map�
 `content/events{,_en}/{arc_midgame,arc_chapter_themes,arc_daeun,arc_drama,arc_events,arc_year3_drama}.json`,
 `scenes/MainGame.gd`, `assets/scene_direction_manifest.json`,
 `tools/{peak_scene_chain_audit,arc_flow_sim,scene_direction_catalog}.py`,
-`tools/story_consistency_audit.py`,
+`tools/{story_consistency_audit,event_lifecycle}.py`,
 `tools/{HiddenFeatureCheck,CoreChoiceSliceCheck}.gd`,
 `tools/full_game_volume_baseline.json`, `tools/audit_scope.json`과 선언·마감 문서만
 소유한다. 범위 밖 제품 파일은 증거 없이 넓히지 않는다.
