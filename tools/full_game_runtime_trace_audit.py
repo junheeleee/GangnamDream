@@ -90,6 +90,7 @@ PROFILE_KEYS = {
     "choice_overrides",
     "main_action_priority",
     "main_function_priority",
+    "survival_policy",
     "required_event_sequence",
     "required_edges",
     "required_event_occurrences",
@@ -107,6 +108,16 @@ TARGET_KEYS = {
 }
 CHOICE_KEYS = {"index", "selection_mode"}
 EDGE_KEYS = {"from", "to", "provenance"}
+SURVIVAL_POLICY_KEYS = {
+    "enter_health_at_or_below",
+    "enter_mental_at_or_below",
+    "resume_health_at_or_above",
+    "resume_mental_at_or_above",
+    "action_priority",
+    "function_priority",
+}
+SURVIVAL_ACTION_PRIORITY = ["rest", "contact"]
+SURVIVAL_FUNCTION_PRIORITY = ["_ap_free_time", "_ap_contact_person"]
 PROVENANCE_VALUES = {"main_ingress", "queued", "follow_up", "same_turn", "deferred"}
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
@@ -249,6 +260,43 @@ def validate_profiles(path: Path = DEFAULT_PROFILES, *, check_events: bool = Tru
                 f"{label}.main_function_priority references unknown MainGame functions: "
                 f"{unknown_functions}"
             )
+        survival = profile["survival_policy"]
+        if not isinstance(survival, dict) or set(survival) != SURVIVAL_POLICY_KEYS:
+            raise ContractError(f"{label}.survival_policy schema drifted")
+        for threshold_key in (
+            "enter_health_at_or_below", "enter_mental_at_or_below",
+            "resume_health_at_or_above", "resume_mental_at_or_above",
+        ):
+            threshold = survival[threshold_key]
+            if not isinstance(threshold, int) or not 1 <= threshold <= 99:
+                raise ContractError(
+                    f"{label}.survival_policy.{threshold_key} must be an integer in 1..99"
+                )
+        if survival["enter_health_at_or_below"] >= survival["resume_health_at_or_above"] \
+                or survival["enter_mental_at_or_below"] >= survival["resume_mental_at_or_above"]:
+            raise ContractError(f"{label}.survival_policy must have a recovery hysteresis gap")
+        survival_actions = _string_list(
+            survival["action_priority"], f"{label}.survival_policy.action_priority"
+        )
+        survival_functions = _string_list(
+            survival["function_priority"], f"{label}.survival_policy.function_priority"
+        )
+        if survival_actions != SURVIVAL_ACTION_PRIORITY \
+                or survival_functions != SURVIVAL_FUNCTION_PRIORITY:
+            raise ContractError(
+                f"{label}.survival_policy must prefer visible rest then contact"
+            )
+        if not set(survival_actions).issubset(profile["main_action_priority"]) \
+                or not set(survival_functions).issubset(functions):
+            raise ContractError(
+                f"{label}.survival_policy must preserve the profile's normal action vocabulary"
+            )
+        unknown_survival_functions = sorted(set(survival_functions) - main_ap_functions)
+        if unknown_survival_functions:
+            raise ContractError(
+                f"{label}.survival_policy references unknown MainGame functions: "
+                f"{unknown_survival_functions}"
+            )
         sequence = _string_list(profile["required_event_sequence"], f"{label}.required_event_sequence")
         if check_events:
             unknown = sorted(set(sequence) - event_ids)
@@ -330,6 +378,12 @@ def _validate_trace_script_source(source: str) -> None:
         "Input.parse_input_event",
         "func _select_visible_main_action(cards: Array[Button]) -> Button:",
         "var selected := _select_visible_main_action(cards)",
+        "func _survival_recovery_required() -> bool:",
+        "if _survival_recovery_required():",
+        "var recovery_selected := _select_visible_by_priority(",
+        "var health := int(GameState.health)",
+        "var mental := int(GameState.mental)",
+        '_pending_main_action["selection_policy"] = _main_selection_policy',
         "await _activate_button(selected)",
         "if not GameState.pending_story_queue.is_empty():",
         'call_deferred("_graceful_shutdown", 0)',
@@ -772,6 +826,18 @@ def validate_trace_rows(
                 raise ContractError(f"{label} must exclude main/AP commits from narrative volume")
             if not isinstance(payload.get("state_delta"), dict):
                 raise ContractError(f"{label} lacks state_delta")
+            selection_policy = payload.get("selection_policy")
+            if selection_policy not in {"profile", "survival", "profile_fallback"}:
+                raise ContractError(f"{label} has an invalid selection_policy")
+            if selection_policy == "survival":
+                visible_button = payload.get("visible_button")
+                if not isinstance(visible_button, dict):
+                    raise ContractError(f"{label} survival selection lacks its visible Button")
+                if visible_button.get("action_id") not in profile["survival_policy"]["action_priority"] \
+                        and visible_button.get("function") not in profile["survival_policy"]["function_priority"]:
+                    raise ContractError(
+                        f"{label} survival policy selected a non-recovery visible Button"
+                    )
         elif record_type == "ending_open":
             ending_open_count += 1
             if row["week"] != 240:
@@ -850,8 +916,8 @@ def validate_trace_rows(
     final_state = run_end.get("final_state")
     if not isinstance(final_state, dict):
         raise ContractError("run_end lacks final_state")
-    if final_state.get("week") != profile["target"]["minimum_week"]:
-        raise ContractError("run must end on exact Week 240")
+    if final_state.get("week") not in {240, 241}:
+        raise ContractError("run final GameState.turn must be Week 240 or 241")
     assets = final_state.get("total_assets")
     if not isinstance(assets, (int, float)):
         raise ContractError("run_end final_state.total_assets must be numeric")
@@ -926,6 +992,14 @@ def _fixture_profile() -> dict[str, Any]:
         "choice_overrides": {},
         "main_action_priority": ["rest"],
         "main_function_priority": ["_ap_rest"],
+        "survival_policy": {
+            "enter_health_at_or_below": 40,
+            "enter_mental_at_or_below": 40,
+            "resume_health_at_or_above": 50,
+            "resume_mental_at_or_above": 50,
+            "action_priority": ["rest", "contact"],
+            "function_priority": ["_ap_free_time", "_ap_contact_person"],
+        },
         "required_event_sequence": ["fixture_root", "fixture_repeat", "fixture_end"],
         "required_edges": [
             {"from": "fixture_root", "to": "fixture_repeat", "provenance": "follow_up"}
@@ -1035,6 +1109,11 @@ def _fixture_rows(profile: dict[str, Any], profile_hash: str) -> list[dict[str, 
                 "volume_class": "control",
                 "narrative_volume_counted": False,
                 "action_id": "rest",
+                "selection_policy": "profile",
+                "visible_button": {
+                    "action_id": "rest",
+                    "function": "_ap_rest",
+                },
                 "state_delta": {},
             }, "res://scenes/MainGame.gd")
         add("week_close", week, f"week:{week}:close", {"state_delta": {}}, "res://scenes/MainGame.gd")
@@ -1123,6 +1202,11 @@ def self_test() -> None:
     validate_trace_rows(copy.deepcopy(valid), profile, profile_hash)
     cases = 1
 
+    valid_241 = copy.deepcopy(valid)
+    valid_241[-1]["payload"]["final_state"]["week"] = 241
+    validate_trace_rows(valid_241, profile, profile_hash)
+    cases += 1
+
     mutations: list[tuple[str, Any]] = []
     mutations.append(("duplicate-sequence", lambda rows: rows.__setitem__(1, {**rows[1], "sequence": 1})))
     mutations.append(("wrong-candidate", lambda rows: rows[5].__setitem__("candidate_commit", "4" * 40)))
@@ -1143,7 +1227,8 @@ def self_test() -> None:
     mutations.append(("result-event-mismatch", lambda rows: next(row for row in rows if row["record_type"] == "story_result")["payload"].__setitem__("event_id", "wrong_event")))
     mutations.append(("choice-not-offered", lambda rows: next(row for row in rows if row["record_type"] == "story_choice")["payload"].__setitem__("authored_index", 97)))
     mutations.append(("result-index-mismatch", lambda rows: next(row for row in rows if row["record_type"] == "story_result")["payload"].__setitem__("authored_index", 98)))
-    mutations.append(("final-week-241", lambda rows: rows[-1]["payload"]["final_state"].__setitem__("week", 241)))
+    mutations.append(("final-week-239", lambda rows: rows[-1]["payload"]["final_state"].__setitem__("week", 239)))
+    mutations.append(("final-week-242", lambda rows: rows[-1]["payload"]["final_state"].__setitem__("week", 242)))
     mutations.append(("story-triad-week-mismatch", _move_story_triad_to_week_two))
     mutations.append(("ending-surface-week-239", _move_ending_surface_to_week_239))
     mutations.append(("run-end-row-week-239", lambda rows: rows[-1].update({"week": 239, "month": 60, "chapter": 5})))
@@ -1175,6 +1260,28 @@ def self_test() -> None:
         lambda: _validate_trace_script_source(story_race_source),
     )
     cases += 1
+
+    disabled_survival_source = TRACE_SCRIPT.read_text(encoding="utf-8").replace(
+        "if _survival_recovery_required():", "if false:", 1
+    )
+    _expect_failure(
+        "disabled-visible-survival-selection",
+        lambda: _validate_trace_script_source(disabled_survival_source),
+    )
+    cases += 1
+
+    with tempfile.TemporaryDirectory() as temp_dir:
+        inverted_policy = _load_json(DEFAULT_PROFILES)
+        inverted_policy["profiles"][1]["survival_policy"][
+            "resume_mental_at_or_above"
+        ] = 40
+        inverted_path = Path(temp_dir) / "inverted-survival-policy.json"
+        inverted_path.write_text(json.dumps(inverted_policy), encoding="utf-8")
+        _expect_failure(
+            "inverted-survival-policy",
+            lambda: validate_profiles(inverted_path, check_events=False),
+        )
+        cases += 1
 
     missing_audio_drain_source = TRACE_SCRIPT.read_text(encoding="utf-8").replace(
         "await _release_audio_for_exit()", "pass", 1

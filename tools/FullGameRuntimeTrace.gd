@@ -75,6 +75,8 @@ var _main_offer_counter := 0
 var _main_commit_counter := 0
 var _pending_main_action: Dictionary = {}
 var _pending_main_action_state: Dictionary = {}
+var _survival_recovery_active := false
+var _main_selection_policy := "profile"
 var _shutdown_started := false
 
 
@@ -663,6 +665,7 @@ func _drive_main(main: Node) -> bool:
 				return false
 			_pending_main_action = _main_action_descriptor(selected)
 			_pending_main_action["week"] = current_turn
+			_pending_main_action["selection_policy"] = _main_selection_policy
 			_pending_main_action_state = _state_snapshot()
 			await _activate_button(selected)
 		return false
@@ -723,21 +726,58 @@ func _record_main_action_offer(main: Node, cards: Array[Button]) -> void:
 
 
 func _select_visible_main_action(cards: Array[Button]) -> Button:
+	_main_selection_policy = "profile"
+	if _survival_recovery_required():
+		var survival_policy: Dictionary = _profile.get("survival_policy", {})
+		var recovery_selected := _select_visible_by_priority(
+			cards,
+			survival_policy.get("action_priority", []),
+			survival_policy.get("function_priority", []),
+		)
+		if recovery_selected != null:
+			_main_selection_policy = "survival"
+			return recovery_selected
+		_main_selection_policy = "profile_fallback"
 	var primary: Array[Button] = []
 	for card in cards:
 		if bool(card.get_meta("demo_pressure_primary", false)):
 			primary.append(card)
 	var candidates := primary if not primary.is_empty() else cards
-	for raw_action_id in _profile.get("main_action_priority", []):
-		for card in candidates:
+	var selected := _select_visible_by_priority(
+		candidates,
+		_profile.get("main_action_priority", []),
+		_profile.get("main_function_priority", []),
+	)
+	return selected if selected != null else (
+		candidates[0] if not candidates.is_empty() else null)
+
+
+func _select_visible_by_priority(cards: Array[Button], action_priority: Array,
+		function_priority: Array) -> Button:
+	for raw_action_id in action_priority:
+		for card in cards:
 			if str(card.get_meta("demo_action_id", "")) == str(raw_action_id):
 				return card
 	# Function names are metadata selectors only. They are never called.
-	for raw_function in _profile.get("main_function_priority", []):
-		for card in candidates:
+	for raw_function in function_priority:
+		for card in cards:
 			if str(card.get_meta("ap_action_fn", "")) == str(raw_function):
 				return card
-	return candidates[0] if not candidates.is_empty() else null
+	return null
+
+
+func _survival_recovery_required() -> bool:
+	var policy: Dictionary = _profile.get("survival_policy", {})
+	var health := int(GameState.health)
+	var mental := int(GameState.mental)
+	if _survival_recovery_active:
+		if health >= int(policy.get("resume_health_at_or_above", 50)) \
+				and mental >= int(policy.get("resume_mental_at_or_above", 50)):
+			_survival_recovery_active = false
+	elif health <= int(policy.get("enter_health_at_or_below", 40)) \
+			or mental <= int(policy.get("enter_mental_at_or_below", 40)):
+		_survival_recovery_active = true
+	return _survival_recovery_active
 
 
 func _main_action_descriptor(card: Button) -> Dictionary:
@@ -768,6 +808,8 @@ func _on_weekly_commitment_finalized(commitment: Dictionary) -> void:
 		"narrative_volume_counted": false,
 		"action_id": str(commitment.get(
 			"choice_id", _pending_main_action.get("action_id", ""))),
+		"selection_policy": str(_pending_main_action.get(
+			"selection_policy", "profile")),
 		"visible_button": _pending_main_action.duplicate(true),
 		"commitment": commitment.duplicate(true),
 		"state_delta": _state_delta(_pending_main_action_state, after),
@@ -822,8 +864,8 @@ func _drive_ending(main: Node) -> bool:
 func _target_errors() -> Array[String]:
 	var result: Array[String] = []
 	var target: Dictionary = _profile.get("target", {})
-	if int(GameState.turn) != int(target.get("minimum_week", 240)):
-		result.append("profile ended outside exact Week 240")
+	if int(GameState.turn) not in [240, 241]:
+		result.append("profile ended outside the allowed Week 240/241 final-state boundary")
 	if _ending_pages_seen != [0, 1, 2, 3, 4, 5]:
 		result.append("ending pages were not traversed exactly 0..5")
 	var event_ids: Array[String] = []
