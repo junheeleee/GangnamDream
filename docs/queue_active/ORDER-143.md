@@ -32,6 +32,12 @@ same-location chain은 이벤트 JSON만 바꾸면 `story_consistency_audit`의 
 `assets/event_visual_contracts.json`을 추가한다. 새 그림을 만들거나 M01~M06
 계약을 바꾸지 않는다.
 
+**2026-08-31 지도 감사 기대값 확장 선언:** M34 `cost_of_knowing`은 더 이상 M35
+원고를 앞당긴 relocation/분기 재생이 아니라 M33 결단 뒤 W133~W136에서 일어나는
+새 후폭풍 단일 beat다. 따라서 옛 `M34 EXPAND from M35`와 M34 route coverage를
+강제하는 `tools/story_map_audit.py`의 두 고정 기대값 및 해당 반례만 이 설계에 맞게
+바꾼다. 다른 relocation·coverage 보호선은 완화하지 않는다.
+
 ## 깊이 3문
 
 1. **다른 달 root로 이어진다고 항상 끊어야 하는가?** 아니다. 퇴실→새 방,
@@ -96,7 +102,7 @@ same-location chain은 이벤트 JSON만 바꾸면 `story_consistency_audit`의 
 `content/events{,_en}/{arc_midgame,arc_chapter_themes,arc_daeun,arc_drama,arc_events,arc_year3_drama}.json`,
 `scenes/MainGame.gd`, `assets/{event_visual_contracts,scene_direction_manifest}.json`,
 `tools/{peak_scene_chain_audit,arc_flow_sim,scene_direction_catalog}.py`,
-`tools/{story_consistency_audit,event_lifecycle}.py`,
+`tools/{story_consistency_audit,story_map_audit,event_lifecycle}.py`,
 `tools/{HiddenFeatureCheck,CoreChoiceSliceCheck}.gd`,
 `tools/full_game_volume_baseline.json`, `tools/audit_scope.json`과 선언·마감 문서만
 소유한다. 범위 밖 제품 파일은 증거 없이 넓히지 않는다.
