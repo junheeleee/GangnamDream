@@ -99,6 +99,21 @@ MainGame 바이트 전이를 아직 모르는 보호 검사 둘과 직전 제품
 Chapter 5 HOLD, 사람 실플레이 요구를 바꾸지 않는다. `tools/project_dashboard.py`와
 `docs/STATUS.md`는 clean 세-profile matrix가 끝난 뒤 exact wrapper에서만 정리한다.
 
+### 2026-08-31 첫 exact 실행 반려 · `0924d279`
+
+clean detached 후보 `0924d279edf6f95cb85ea79bc584e21f90f4c570`의 첫 profile은
+W1에서 `side_shift` 카드가 정확한 키보드 포커스를 유지하지 못해 fail-closed했다.
+수치·사건·경로 판정 전 실패이며 이 commit/tree의 trace는 후보 증거로 쓰지 않는다.
+
+기존 소유 파일 `tools/{FullGameRuntimeTrace,ImmersionLoopCheck}.gd`와
+`tools/full_game_runtime_trace_audit.py` 안에서만, MainGame의 deferred 기본 포커스와
+카드 진입 애니메이션이 모두 끝난 뒤 **동일한 실제 Button**에 raw Enter press/release가
+도달하도록 입력 장벽을 수리한다. `pressed.emit`, 제품 함수 직접 호출, 첫-visible
+폴백, action id 재탐색은 계속 금지한다. 회귀 검사는 목표 카드가 아닌 형제 카드나
+null이 focus owner이면 Enter를 보내지 않고, 정확한 목표가 owner인 같은 프레임에만
+키 입력을 보낸다는 계약을 변조 fixture와 실제 W1 프로브로 고정한다. 그 뒤 새 제품
+commit/tree에서 세 profile W1→W240을 처음부터 다시 실행한다.
+
 ## L1 / L2 / L3
 
 - **L1:** trace/profile contract와 mutation self-test가 초점 신원 오염, W13 선택
