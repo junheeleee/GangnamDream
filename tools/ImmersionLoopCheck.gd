@@ -2,9 +2,12 @@ extends Node
 ## ORDER-22: 행동→사건→주간 장면→소리의 연결을 런타임으로 검증한다.
 
 const MainGameScript = preload("res://scenes/MainGame.gd")
+const AUDIO_MIX_DRAIN_MARGIN_SECONDS := 0.02
+const AUDIO_MIX_DRAIN_MAX_SECONDS := 0.25
 
 var _failures: Array[String] = []
 var _original_language := "ko"
+var _audio_mix_drain_timer: Timer
 
 func _ready() -> void:
 	call_deferred("_run")
@@ -34,14 +37,28 @@ func _run() -> void:
 	await _check_quiet_week_reading_contract()
 	LocaleManager.language = _original_language
 	DataRegistry.reload()
+	await _arm_audio_teardown_probe()
 	await _release_audio_for_exit()
 	if not _failures.is_empty():
 		for failure in _failures:
 			push_error("IMMERSION_LOOP_CHECK_FAIL " + failure)
 		get_tree().quit(1)
 		return
-	print("IMMERSION_LOOP_CHECK_OK memory=2 action_ids=8 commitments=1x3 forgone=relationship/body/career/market scene_first=1 no_ap_surface=1 quiet_compressed=1 meaningful_confirm=1 month_manual=1 outcomes=2 completion_boundary=1 consequence_paths=4 echo=2.6 prior=1.88 filler=0.42 quiet=3 causal=4 bridges=ko/en vignette=2 omen=1 preview=2 bills=1 rungs=4 reserve=1 pressures=11 families=6 cards=3 pacing=9/2/4 sfx=8 transient_timers=2")
+	print("IMMERSION_LOOP_CHECK_OK memory=2 action_ids=8 commitments=1x3 forgone=relationship/body/career/market scene_first=1 no_ap_surface=1 quiet_compressed=1 meaningful_confirm=1 month_manual=1 outcomes=2 completion_boundary=1 consequence_paths=4 echo=2.6 prior=1.88 filler=0.42 quiet=3 causal=4 bridges=ko/en vignette=2 omen=1 preview=2 bills=1 rungs=4 reserve=1 pressures=11 families=6 cards=3 pacing=9/2/4 sfx=8 transient_timers=2 audio_teardown=5x2")
 	get_tree().quit(0)
+
+
+func _arm_audio_teardown_probe() -> void:
+	# Five just-started playbacks reproduce the tail of a full ending. They must
+	# be observed and deleted across two real AudioServer mix boundaries.
+	for index in range(5):
+		var player := AudioStreamPlayer.new()
+		player.name = "AudioTeardownProbe%d" % index
+		player.stream = AudioStreamGenerator.new()
+		add_child(player)
+		player.play()
+	await get_tree().process_frame
+
 
 func _release_audio_for_exit() -> void:
 	for raw_tween in get_tree().get_processed_tweens():
@@ -68,9 +85,32 @@ func _release_audio_for_exit() -> void:
 			raw_player.free()
 	AudioManager._pool.clear()
 	AudioManager._sounds.clear()
-	await get_tree().create_timer(0.25).timeout
+	await _drain_audio_server_after_stop()
 	for _release_frame in range(8):
 		await get_tree().process_frame
+
+
+func _drain_audio_server_after_stop() -> void:
+	if not is_instance_valid(_audio_mix_drain_timer):
+		_audio_mix_drain_timer = Timer.new()
+		_audio_mix_drain_timer.name = "AudioMixDrainTimer"
+		_audio_mix_drain_timer.one_shot = true
+		_audio_mix_drain_timer.process_mode = Node.PROCESS_MODE_ALWAYS
+		add_child(_audio_mix_drain_timer)
+	# Read elapsed time first so a boundary between the two samples can only
+	# lengthen this teardown window; it must never collapse it to the margin.
+	var time_since_last_mix: float = maxf(
+		0.0, float(AudioServer.get_time_since_last_mix()))
+	var time_to_next_mix: float = maxf(
+		0.0, float(AudioServer.get_time_to_next_mix()))
+	var mix_period_seconds := time_since_last_mix + time_to_next_mix
+	var drain_seconds := clampf(
+		time_to_next_mix + mix_period_seconds
+			+ AUDIO_MIX_DRAIN_MARGIN_SECONDS,
+		AUDIO_MIX_DRAIN_MARGIN_SECONDS,
+		AUDIO_MIX_DRAIN_MAX_SECONDS)
+	_audio_mix_drain_timer.start(drain_seconds)
+	await _audio_mix_drain_timer.timeout
 
 func _detach_audio_streams(root: Node) -> void:
 	if root is AudioStreamPlayer:

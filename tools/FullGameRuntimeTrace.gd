@@ -29,7 +29,7 @@ const VALID_PROVENANCE: Array[String] = [
 const MAX_DRIVER_STEPS := 160000
 const MAX_STAGNANT_STEPS := 2400
 const MAX_MAIN_ACTION_FOCUS_ATTEMPTS := 3
-const AUDIO_MIX_DRAIN_MARGIN_SECONDS := 0.05
+const AUDIO_MIX_DRAIN_MARGIN_SECONDS := 0.02
 const AUDIO_MIX_DRAIN_MAX_SECONDS := 0.25
 
 var _profile_id := ""
@@ -1094,18 +1094,25 @@ func _release_audio_for_exit() -> void:
 
 
 func _drain_audio_server_after_stop() -> void:
-	# Godot 4.6 removes a stopped playback from AudioServer on the next real
-	# audio mix, not on the render/process frame that called stop(). Measure that
-	# boundary and let one owned Timer cross it before the runner quits. This does
-	# not hide teardown warnings: the shell still fails closed on every leak.
+	# Godot 4.6 observes a newly stopped playback on one audio-mix boundary and
+	# can leave its deletion until the following boundary. Measure the current
+	# phase plus one complete mix period, then let one owned Timer cross both
+	# boundaries before quitting. The shell still fails closed on every leak.
 	if not is_instance_valid(_audio_mix_drain_timer):
 		_audio_mix_drain_timer = Timer.new()
 		_audio_mix_drain_timer.name = "AudioMixDrainTimer"
 		_audio_mix_drain_timer.one_shot = true
 		_audio_mix_drain_timer.process_mode = Node.PROCESS_MODE_ALWAYS
 		add_child(_audio_mix_drain_timer)
+	# Read elapsed time first. If a mix lands between these two calls, the
+	# resulting window grows conservatively instead of collapsing to the margin.
+	var time_since_last_mix: float = maxf(
+		0.0, float(AudioServer.get_time_since_last_mix()))
+	var time_to_next_mix: float = maxf(
+		0.0, float(AudioServer.get_time_to_next_mix()))
+	var mix_period_seconds := time_since_last_mix + time_to_next_mix
 	var drain_seconds := clampf(
-		float(AudioServer.get_time_to_next_mix())
+		time_to_next_mix + mix_period_seconds
 			+ AUDIO_MIX_DRAIN_MARGIN_SECONDS,
 		AUDIO_MIX_DRAIN_MARGIN_SECONDS,
 		AUDIO_MIX_DRAIN_MAX_SECONDS)

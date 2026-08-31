@@ -72,8 +72,11 @@ godot_check_passed() {
     return 1
   fi
   local error_lines
-  error_lines=$(printf '%s\n' "$output" \
-    | grep -iE 'ERROR:|SCRIPT ERROR|Parse Error|Compile Error|Failed to load script')
+  local engine_error_pattern='ERROR:|SCRIPT ERROR|Parse Error|Compile Error|Failed to load script'
+  if [ "$error_mode" = "strict" ]; then
+    engine_error_pattern="$engine_error_pattern|WARNING: ObjectDB instances leaked at exit"
+  fi
+  error_lines=$(printf '%s\n' "$output" | grep -iE "$engine_error_pattern")
   if [ "$error_mode" != "strict" ]; then
     error_lines=$(printf '%s\n' "$error_lines" \
       | grep -viE 'ERROR: [0-9]+ resources still in use at exit')
@@ -93,6 +96,11 @@ fi
 if godot_check_passed "AUDIT_GUARD_SELF_TEST_OK" \
     7 "AUDIT_GUARD_SELF_TEST_OK" >/dev/null; then
   echo "❌ 내부 감사 오류 — Godot 비정상 종료코드 감지가 작동하지 않습니다."
+  exit 1
+fi
+if godot_check_passed $'AUDIT_GUARD_OBJECTDB_SELF_TEST_OK\nWARNING: ObjectDB instances leaked at exit' \
+    0 "AUDIT_GUARD_OBJECTDB_SELF_TEST_OK" strict >/dev/null; then
+  echo "❌ 내부 감사 오류 — ObjectDB 종료 누수 감지가 작동하지 않습니다."
   exit 1
 fi
 
@@ -947,7 +955,7 @@ if [ -x "$GODOT" ]; then
   cleanup_isolated_home "$IMMERSION_HOME"
   echo "$IMMERSION_RAW" | grep -E "IMMERSION_LOOP_CHECK_(OK|FAIL)|SCRIPT ERROR|Parse Error|Compile Error" | sed 's/^/  /'
   if godot_check_passed "$IMMERSION_RAW" "$IMMERSION_STATUS" \
-      "IMMERSION_LOOP_CHECK_OK"; then
+      "IMMERSION_LOOP_CHECK_OK" strict; then
     IMMERSION_EXIT=0
   else
     IMMERSION_EXIT=1

@@ -29,6 +29,8 @@ DEFAULT_PROFILES = ROOT / "tools" / "full_game_runtime_trace_profiles.json"
 TRACE_SCRIPT = ROOT / "tools" / "FullGameRuntimeTrace.gd"
 TRACE_SCENE = ROOT / "tools" / "FullGameRuntimeTrace.tscn"
 TRACE_RUNNER = ROOT / "tools" / "run_full_game_runtime_trace.sh"
+AUDIT_RUNNER = ROOT / "tools" / "audit.sh"
+IMMERSION_LOOP_SCRIPT = ROOT / "tools" / "ImmersionLoopCheck.gd"
 MAIN_GAME_SCRIPT = ROOT / "scenes" / "MainGame.gd"
 AUDIO_MANAGER_SCRIPT = ROOT / "autoloads" / "AudioManager.gd"
 
@@ -592,6 +594,7 @@ def _validate_trace_script_source(source: str) -> None:
         "var _audio_mix_drain_timer: Timer",
         "func _drain_audio_server_after_stop() -> void:",
         "AudioServer.get_time_to_next_mix()",
+        "AudioServer.get_time_since_last_mix()",
         "await _audio_mix_drain_timer.timeout",
     ):
         if needle not in source:
@@ -885,7 +888,9 @@ def _validate_trace_script_source(source: str) -> None:
         "_audio_mix_drain_timer.one_shot = true",
         "_audio_mix_drain_timer.process_mode = Node.PROCESS_MODE_ALWAYS",
         "add_child(_audio_mix_drain_timer)",
+        "AudioServer.get_time_since_last_mix()",
         "AudioServer.get_time_to_next_mix()",
+        "time_since_last_mix + time_to_next_mix",
         "AUDIO_MIX_DRAIN_MARGIN_SECONDS",
         "AUDIO_MIX_DRAIN_MAX_SECONDS",
         "_audio_mix_drain_timer.start(drain_seconds)",
@@ -907,6 +912,16 @@ def _validate_trace_script_source(source: str) -> None:
         raise ContractError(
             "audio mix drain must use its owned child Timer"
         )
+    for exact_contract in (
+        "const AUDIO_MIX_DRAIN_MARGIN_SECONDS := 0.02",
+        "const AUDIO_MIX_DRAIN_MAX_SECONDS := 0.25",
+        "time_since_last_mix + time_to_next_mix",
+        "time_to_next_mix + mix_period_seconds",
+    ):
+        if exact_contract not in source:
+            raise ContractError(
+                f"audio mix drain numeric/data-flow contract is missing {exact_contract!r}"
+            )
 
     shutdown_body = _gdscript_function_body(source, "_graceful_shutdown")
     audio_release = shutdown_body.index("await _release_audio_for_exit()")
@@ -1068,6 +1083,69 @@ def _validate_audio_manager_source(source: str) -> None:
         raise ContractError("AudioManager delayed cue call sites escaped timer tracking")
 
 
+def _validate_immersion_audio_teardown_source(source: str) -> None:
+    for marker in (
+        "const AUDIO_MIX_DRAIN_MARGIN_SECONDS := 0.02",
+        "const AUDIO_MIX_DRAIN_MAX_SECONDS := 0.25",
+        "var _audio_mix_drain_timer: Timer",
+        "await _arm_audio_teardown_probe()",
+        "func _arm_audio_teardown_probe() -> void:",
+        "for index in range(5):",
+        "player.stream = AudioStreamGenerator.new()",
+        "player.play()",
+        "await get_tree().process_frame",
+        "await _drain_audio_server_after_stop()",
+        "func _drain_audio_server_after_stop() -> void:",
+        "_audio_mix_drain_timer.one_shot = true",
+        "_audio_mix_drain_timer.process_mode = Node.PROCESS_MODE_ALWAYS",
+        "AudioServer.get_time_since_last_mix()",
+        "AudioServer.get_time_to_next_mix()",
+        "time_since_last_mix + time_to_next_mix",
+        "time_to_next_mix + mix_period_seconds",
+        "await _audio_mix_drain_timer.timeout",
+        "audio_teardown=5x2",
+    ):
+        if marker not in source:
+            raise ContractError(
+                f"focused audio teardown runtime fixture is missing {marker!r}"
+            )
+    release_body = _gdscript_function_body(source, "_release_audio_for_exit")
+    drain_body = _gdscript_function_body(
+        source, "_drain_audio_server_after_stop"
+    )
+    if "get_tree().create_timer" in release_body + drain_body:
+        raise ContractError(
+            "focused audio teardown fixture must not use a free SceneTreeTimer"
+        )
+    previous_marker = -1
+    for marker in (
+        "AudioServer.get_time_since_last_mix()",
+        "AudioServer.get_time_to_next_mix()",
+        "time_since_last_mix + time_to_next_mix",
+        "time_to_next_mix + mix_period_seconds",
+        "await _audio_mix_drain_timer.timeout",
+    ):
+        marker_index = drain_body.index(marker)
+        if marker_index <= previous_marker:
+            raise ContractError(
+                "focused audio teardown sample/data-flow order drifted at "
+                + repr(marker)
+            )
+        previous_marker = marker_index
+
+
+def _validate_audit_runtime_guard(source: str) -> None:
+    for marker in (
+        "WARNING: ObjectDB instances leaked at exit",
+        "AUDIT_GUARD_OBJECTDB_SELF_TEST_OK",
+        '"IMMERSION_LOOP_CHECK_OK" strict',
+    ):
+        if marker not in source:
+            raise ContractError(
+                f"audit runtime teardown guard is missing {marker!r}"
+            )
+
+
 def _validate_runner_error_policy(runner: str) -> None:
     if "Could not create ObjectDB Snapshots directory" in runner:
         raise ContractError("runner must not whitelist the ObjectDB Profiler engine error")
@@ -1166,8 +1244,8 @@ def _validate_identity_trace_source(source: str) -> None:
 
 def validate_tool_sources() -> None:
     required_paths = (
-        TRACE_SCRIPT, TRACE_SCENE, TRACE_RUNNER, MAIN_GAME_SCRIPT,
-        AUDIO_MANAGER_SCRIPT,
+        TRACE_SCRIPT, TRACE_SCENE, TRACE_RUNNER, AUDIT_RUNNER,
+        IMMERSION_LOOP_SCRIPT, MAIN_GAME_SCRIPT, AUDIO_MANAGER_SCRIPT,
     )
     for path in required_paths:
         if not path.is_file():
@@ -1179,6 +1257,10 @@ def validate_tool_sources() -> None:
         MAIN_GAME_SCRIPT.read_text(encoding="utf-8")
     )
     _validate_audio_manager_source(AUDIO_MANAGER_SCRIPT.read_text(encoding="utf-8"))
+    _validate_immersion_audio_teardown_source(
+        IMMERSION_LOOP_SCRIPT.read_text(encoding="utf-8")
+    )
+    _validate_audit_runtime_guard(AUDIT_RUNNER.read_text(encoding="utf-8"))
     runner = TRACE_RUNNER.read_text(encoding="utf-8")
     _validate_runner_isolation_contract(runner)
     scene = TRACE_SCENE.read_text(encoding="utf-8")
@@ -2885,6 +2967,27 @@ def self_test() -> None:
     )
     cases += 1
 
+    safe_mix_sample_block = (
+        "\tvar time_since_last_mix: float = maxf(\n"
+        "\t\t0.0, float(AudioServer.get_time_since_last_mix()))\n"
+        "\tvar time_to_next_mix: float = maxf(\n"
+        "\t\t0.0, float(AudioServer.get_time_to_next_mix()))\n"
+    )
+    unsafe_mix_sample_block = (
+        "\tvar time_to_next_mix: float = maxf(\n"
+        "\t\t0.0, float(AudioServer.get_time_to_next_mix()))\n"
+        "\tvar time_since_last_mix: float = maxf(\n"
+        "\t\t0.0, float(AudioServer.get_time_since_last_mix()))\n"
+    )
+    next_mix_sampled_first_source = TRACE_SCRIPT.read_text(
+        encoding="utf-8"
+    ).replace(safe_mix_sample_block, unsafe_mix_sample_block, 1)
+    _expect_failure(
+        "next-mix-sampled-before-elapsed-mix",
+        lambda: _validate_trace_script_source(next_mix_sampled_first_source),
+    )
+    cases += 1
+
     unmeasured_mix_drain_source = TRACE_SCRIPT.read_text(encoding="utf-8").replace(
         "float(AudioServer.get_time_to_next_mix())",
         "0.0",
@@ -2893,6 +2996,39 @@ def self_test() -> None:
     _expect_failure(
         "unmeasured-audio-mix-drain",
         lambda: _validate_trace_script_source(unmeasured_mix_drain_source),
+    )
+    cases += 1
+
+    missing_mix_period_source = TRACE_SCRIPT.read_text(encoding="utf-8").replace(
+        "time_to_next_mix + mix_period_seconds",
+        "time_to_next_mix",
+        1,
+    )
+    _expect_failure(
+        "next-boundary-only-audio-drain",
+        lambda: _validate_trace_script_source(missing_mix_period_source),
+    )
+    cases += 1
+
+    zero_mix_margin_source = TRACE_SCRIPT.read_text(encoding="utf-8").replace(
+        "const AUDIO_MIX_DRAIN_MARGIN_SECONDS := 0.02",
+        "const AUDIO_MIX_DRAIN_MARGIN_SECONDS := 0.0",
+        1,
+    )
+    _expect_failure(
+        "zero-audio-mix-drain-margin",
+        lambda: _validate_trace_script_source(zero_mix_margin_source),
+    )
+    cases += 1
+
+    tiny_mix_max_source = TRACE_SCRIPT.read_text(encoding="utf-8").replace(
+        "const AUDIO_MIX_DRAIN_MAX_SECONDS := 0.25",
+        "const AUDIO_MIX_DRAIN_MAX_SECONDS := 0.001",
+        1,
+    )
+    _expect_failure(
+        "truncated-audio-mix-drain-window",
+        lambda: _validate_trace_script_source(tiny_mix_max_source),
     )
     cases += 1
 

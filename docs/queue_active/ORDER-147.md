@@ -63,7 +63,7 @@ profile, MainGame 장면 교체 뒤 남는 두 SceneTreeTimer를 각각 재현�
 ## 정확한 파일 소유권
 
 `scenes/MainGame.gd`,
-`tools/{FullGameRuntimeTrace,ImmersionLoopCheck}.gd`,
+`tools/{FullGameRuntimeTrace,ImmersionLoopCheck}.gd`, `tools/audit.sh`,
 `tools/full_game_runtime_trace_profiles.json`,
 `tools/full_game_runtime_trace_audit.py`와 이 사양·큐 인덱스만 소유한다.
 
@@ -204,10 +204,14 @@ leak를 남겼다. 이 trace는 계약대로 즉시 반려하고 matrix를 PENDI
 실제 mix보다 먼저 끝나면 clean과 leak가 같은 trace에서 경합한다.
 
 runner의 leak fail-closed나 오류 탐지를 완화하지 않는다. 대신 모든 player를
-정지·detach한 뒤 `AudioServer.get_time_to_next_mix()`로 다음 mix 경계를 측정하고,
-trace node가 소유한 one-shot child Timer로 그 경계를 한 번 넘는다. 자유
+정지·detach한 뒤 `get_time_since_last_mix()`를 먼저, `get_time_to_next_mix()`를
+나중에 읽어 현재 phase와 한 mix 주기를 계산한다. 두 호출 사이에 경계가 와도
+대기 시간이 축소되지 않는 보수적 순서다. 새 playback의 stop 반영과 제거가
+서로 다른 경계에서 일어나는 Dummy probe를 따라, trace node가 소유한
+one-shot child Timer로 **두 mix 경계**를 넘는다. 자유
 SceneTreeTimer·2초 대기·경고 whitelist는 계속 금지하며, exact 계측·Timer
-소유·호출 순서 변조를 self-test가 거부한다. 수리한 새 exact
+소유·수치·데이터 흐름 변조를 self-test가 거부한다. ImmersionLoop의
+새 playback 5개 종료 fixture와 strict ObjectDB 감지도 같이 고정한다. 수리한 새 exact
 candidate에서 세 profile W1→W240을 모두 처음부터 다시 실행한다.
 
 ## L1 / L2 / L3
