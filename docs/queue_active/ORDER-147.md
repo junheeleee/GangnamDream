@@ -72,6 +72,33 @@ profile, MainGame 장면 교체 뒤 남는 두 SceneTreeTimer를 각각 재현�
 `project.godot`은 읽기만 한다. `tools/project_dashboard.py`의 ORDER-146 변경은
 별도 미완료 작업으로 보존하고 이 제품 커밋에 섞지 않는다.
 
+### 2026-08-31 전체 감사 보충 소유권
+
+최초 선언 뒤 exact `6ae555f`와 현재 작업 트리에서 전체 감사를 실행해, 이번
+MainGame 바이트 전이를 아직 모르는 보호 검사 둘과 직전 제품부터 남아 있던 생성
+목록·검사 기준선 세 건을 재현했다. JSON 정본 원장을 덮어쓰거나 기존 승인 전이를
+바꾸지 않고, 다음 파일만 가산 전이·현재 inventory·생성 결과에 맞춘다.
+
+- `tools/year5_reference_route_audit.py`: `6ae555f`의 MainGame blob에서 이번
+  MainGame blob으로 이어지는 exact 가산 전이를 추가한다.
+- `tools/chapter1_core_loop_v2_causal_ledger_check.py`: 의미 원장은 그대로 두고
+  감사 대상 MainGame source snapshot만 현재 exact hash로 갱신한다.
+- `tools/ja_translation_pipeline.py`, `docs/{I18N_INFRASTRUCTURE,I18N_GLOSSARY_JA}.md`:
+  이미 사전에 존재하는 합법 `_tr` 여섯 호출을 반영한 3,326/3,292 호출·2,822
+  legacy key 기준선으로 맞춘다. 번역 본문이나 출시 언어 범위는 바꾸지 않는다.
+- `assets/scene_direction_manifest.json`: 이미 제품에 존재하는 3년차 아버지 장면
+  `arc_y3_father_avoidance_document`, `arc_y3_father_deferred_call` 두 건만 생성
+  목록에 편입한다.
+- `tools/YearIdentityCheck.gd`, `docs/BALANCE.md`: 의도적으로 W49~72로 좁힌 IPO
+  입구와 W73~96 상철 후속 구간을 하나의 W49~96 사건으로 오판한 구 검사·설명을
+  실제 property ladder의 두 구간 계약에 맞춘다. 경제 수치와 사건 데이터는 바꾸지
+  않는다.
+
+`content/meta/{year5_reference_routes,chapter1_core_loop_v2_causal_ledger}.json`은
+기존 의미 정본이므로 계속 read-only다. 위 보충은 공개 M01~M06 데모의 내용·범위,
+Chapter 5 HOLD, 사람 실플레이 요구를 바꾸지 않는다. `tools/project_dashboard.py`와
+`docs/STATUS.md`는 clean 세-profile matrix가 끝난 뒤 exact wrapper에서만 정리한다.
+
 ## L1 / L2 / L3
 
 - **L1:** trace/profile contract와 mutation self-test가 초점 신원 오염, W13 선택
