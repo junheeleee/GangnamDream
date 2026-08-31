@@ -1,0 +1,263 @@
+{
+  "schema_version": 1,
+  "trace_schema_version": 1,
+  "scope": {
+    "start": "fresh StartMenu -> New Story -> first-run content notice -> OpeningCinematic",
+    "end": "Week 240 -> ending open -> six ending pages -> run end",
+    "product_go": "HOLD",
+    "human_density_gate": "OPEN",
+    "forbidden_user_args": [
+      "--demo-build",
+      "--core-loop-v2",
+      "--core-loop-v2-playtest-build"
+    ],
+    "forbidden_state_sources": [
+      "save_slot",
+      "fixture",
+      "state_injection",
+      "week_jump",
+      "money_injection",
+      "flag_injection"
+    ],
+    "required_record_types": [
+      "run_start",
+      "week_open",
+      "story_enter",
+      "choice_offer",
+      "story_choice",
+      "story_result",
+      "main_action_offer",
+      "main_action_commit",
+      "week_close",
+      "ending_open",
+      "ending_page",
+      "run_end",
+      "trace_error"
+    ]
+  },
+  "profiles": [
+    {
+      "id": "baseline_safe_people",
+      "description": "Clean, family-and-people-first, low-risk fresh run.",
+      "seed": 2026083101,
+      "locale": "ko",
+      "input_mode": "keyboard",
+      "default_choice": {
+        "index": 0,
+        "selection_mode": "direct"
+      },
+      "choice_overrides": {
+        "story_prologue_goal": {"index": 0, "selection_mode": "direct"},
+        "arc_temptation_01": {"index": 0, "selection_mode": "direct"},
+        "arc_daeun_01_meet": {"index": 0, "selection_mode": "direct"},
+        "arc_minseo_02_real": {"index": 1, "selection_mode": "direct"},
+        "arc_jaehyuk_01_reunion": {"index": 0, "selection_mode": "direct"}
+      },
+      "main_action_priority": [
+        "contact",
+        "rest",
+        "side_shift",
+        "apply",
+        "resume",
+        "study",
+        "save",
+        "invest"
+      ],
+      "main_function_priority": [
+		"_ap_contact_person",
+		"_ap_free_time",
+		"_ap_side_job",
+		"_ap_job_hunt",
+		"_ap_write_resume",
+		"_ap_study",
+		"_ap_save_money",
+		"_ap_invest"
+      ],
+      "required_event_sequence": [
+        "story_flashforward",
+        "story_arrival",
+        "chapter_card_33",
+        "chapter_card_34",
+        "chapter_card_35",
+        "chapter_card_36",
+        "chapter_card_37"
+      ],
+      "required_edges": [
+        {"from": "story_flashforward", "to": "story_arrival", "provenance": "follow_up"}
+      ],
+      "required_event_occurrences": {},
+      "target": {
+        "minimum_week": 240,
+        "ending_page_count": 6,
+        "minimum_total_assets": null,
+        "maximum_total_assets": null,
+        "required_flags_true": [],
+        "required_flags_false": [],
+        "required_ending_ids": [],
+        "forbidden_ending_ids": [
+          "burnout",
+          "mental_break",
+          "bankruptcy",
+          "debt_spiral",
+          "crypto_ghost",
+          "instant_legend"
+        ]
+      }
+    },
+    {
+      "id": "investment_property_daeun",
+      "description": "Fresh investment run attempting the Daeun/Sangchul/Minseo/Jaehyuk property safe-no-execution finale without injected state.",
+      "seed": 2026083102,
+      "locale": "ko",
+      "input_mode": "keyboard",
+      "default_choice": {
+        "index": 0,
+        "selection_mode": "direct"
+      },
+      "choice_overrides": {
+        "story_prologue_goal": {"index": 1, "selection_mode": "direct"},
+        "arc_temptation_01": {"index": 0, "selection_mode": "direct"},
+        "arc_daeun_01_meet": {"index": 0, "selection_mode": "direct"},
+        "arc_sangchul_01_meet": {"index": 0, "selection_mode": "direct"},
+        "arc_jaehyuk_01_reunion": {"index": 0, "selection_mode": "direct"},
+        "arc_minseo_02_real": {"index": 1, "selection_mode": "direct"},
+        "arc_daeun_04b_future": {"index": 3, "selection_mode": "direct"},
+        "arc_daeun_y5_feelings": {"index": 0, "selection_mode": "direct"},
+        "arc_sangchul_final_door": {"index": 1, "selection_mode": "direct"},
+        "arc_y5_three_in_room_decision": {"index": 1, "selection_mode": "direct"},
+        "arc_y5_father_trace_custody": {"index": 0, "selection_mode": "direct"}
+      },
+      "main_action_priority": [
+        "invest",
+        "save",
+        "study",
+        "apply",
+        "resume",
+        "side_shift",
+        "contact",
+        "rest"
+      ],
+      "main_function_priority": [
+		"_ap_invest",
+		"_ap_save_money",
+		"_ap_study",
+		"_ap_job_hunt",
+		"_ap_write_resume",
+		"_ap_side_job",
+		"_ap_contact_person",
+		"_ap_free_time"
+      ],
+      "required_event_sequence": [
+        "story_flashforward",
+        "story_arrival",
+        "arc_daeun_01_meet",
+        "arc_sangchul_01_meet",
+        "arc_jaehyuk_01_reunion",
+        "arc_minseo_02_real",
+        "arc_y5_contract_cover_investment",
+        "arc_y5_final_offer",
+        "arc_y5_three_in_room",
+        "arc_y5_room_consent_receipt",
+        "arc_y5_father_trace_passed_exact",
+        "arc_y5_name_on_line_daeun_routed",
+        "arc_y5_people_verdict_daeun_exact",
+        "arc_y5_property_not_executed_notice",
+        "arc_y5_remaining_jaehyuk_or_self",
+        "arc_final_countdown_property_not_executed",
+        "arc_y5_final_week_daeun_outbound"
+      ],
+      "required_edges": [
+        {"from": "story_flashforward", "to": "story_arrival", "provenance": "follow_up"},
+        {"from": "arc_final_countdown_property_not_executed", "to": "arc_y5_final_week_daeun_outbound", "provenance": "same_turn"}
+      ],
+      "required_event_occurrences": {},
+      "target": {
+        "minimum_week": 240,
+        "ending_page_count": 6,
+        "minimum_total_assets": 2000000000,
+        "maximum_total_assets": null,
+        "required_flags_true": [
+          "route_invest",
+          "arc_daeun_met",
+          "arc_sangchul_met_seen",
+          "arc_minseo_02_seen",
+          "arc_jaehyuk_reunion_seen",
+          "arc_jaehyuk_aftermath_seen"
+        ],
+        "required_flags_false": [],
+        "required_ending_ids": [],
+        "forbidden_ending_ids": ["instant_legend"]
+      }
+    },
+    {
+      "id": "general_near_goal_father_passed",
+      "description": "Fresh non-property run attempting the father-passed near-goal general chain without injected state.",
+      "seed": 2026083103,
+      "locale": "ko",
+      "input_mode": "keyboard",
+      "default_choice": {
+        "index": 0,
+        "selection_mode": "direct"
+      },
+      "choice_overrides": {
+        "story_prologue_goal": {"index": 0, "selection_mode": "direct"},
+        "arc_temptation_01": {"index": 0, "selection_mode": "direct"},
+        "arc_daeun_01_meet": {"index": 1, "selection_mode": "direct"},
+        "arc_minseo_02_real": {"index": 1, "selection_mode": "direct"},
+        "arc_minseo_03_arrival": {"index": 1, "selection_mode": "direct"},
+        "arc_y5_general_name_boundary_exact": {"index": 1, "selection_mode": "direct"},
+        "arc_y5_general_debt_memory_reconnect": {"index": 1, "selection_mode": "direct"},
+        "arc_y5_general_final_record_seal": {"index": 0, "selection_mode": "direct"},
+        "arc_final_countdown_general_near_goal_passed": {"index": 0, "selection_mode": "direct"},
+        "arc_y5_final_week_general_people_outbound": {"index": 0, "selection_mode": "direct"}
+      },
+      "main_action_priority": [
+        "invest",
+        "save",
+        "study",
+        "apply",
+        "resume",
+        "side_shift",
+        "contact",
+        "rest"
+      ],
+      "main_function_priority": [
+		"_ap_invest",
+		"_ap_save_money",
+		"_ap_study",
+		"_ap_job_hunt",
+		"_ap_write_resume",
+		"_ap_side_job",
+		"_ap_contact_person",
+		"_ap_free_time"
+      ],
+      "required_event_sequence": [
+        "story_flashforward",
+        "story_arrival",
+        "arc_minseo_03_arrival",
+        "arc_y5_general_name_boundary_exact",
+        "arc_y5_general_debt_memory_reconnect",
+        "arc_y5_general_father_legacy_cafe_exact",
+        "arc_y5_general_pre_ending_summit_exact",
+        "arc_y5_general_final_record_seal",
+        "arc_final_countdown_general_near_goal_passed",
+        "arc_y5_final_week_general_people_outbound"
+      ],
+      "required_edges": [
+        {"from": "story_flashforward", "to": "story_arrival", "provenance": "follow_up"},
+        {"from": "arc_final_countdown_general_near_goal_passed", "to": "arc_y5_final_week_general_people_outbound", "provenance": "same_turn"}
+      ],
+      "required_event_occurrences": {},
+      "target": {
+        "minimum_week": 240,
+        "ending_page_count": 6,
+        "minimum_total_assets": 2500000000,
+        "maximum_total_assets": 2999999999,
+        "required_flags_true": ["route_invest", "father_passed"],
+        "required_flags_false": [],
+        "required_ending_ids": [],
+        "forbidden_ending_ids": ["instant_legend"]
+      }
+    }
+  ]
+}
