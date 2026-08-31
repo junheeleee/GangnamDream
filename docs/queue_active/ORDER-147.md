@@ -105,14 +105,17 @@ clean detached 후보 `0924d279edf6f95cb85ea79bc584e21f90f4c570`의 첫 profile�
 W1에서 `side_shift` 카드가 정확한 키보드 포커스를 유지하지 못해 fail-closed했다.
 수치·사건·경로 판정 전 실패이며 이 commit/tree의 trace는 후보 증거로 쓰지 않는다.
 
-기존 소유 파일 `tools/{FullGameRuntimeTrace,ImmersionLoopCheck}.gd`와
-`tools/full_game_runtime_trace_audit.py` 안에서만, MainGame의 deferred 기본 포커스와
-카드 진입 애니메이션이 모두 끝난 뒤 **동일한 실제 Button**에 raw Enter press/release가
-도달하도록 입력 장벽을 수리한다. `pressed.emit`, 제품 함수 직접 호출, 첫-visible
-폴백, action id 재탐색은 계속 금지한다. 회귀 검사는 목표 카드가 아닌 형제 카드나
-null이 focus owner이면 Enter를 보내지 않고, 정확한 목표가 owner인 같은 프레임에만
-키 입력을 보낸다는 계약을 변조 fixture와 실제 W1 프로브로 고정한다. 그 뒤 새 제품
-commit/tree에서 세 profile W1→W240을 처음부터 다시 실행한다.
+후속 W1 진단에서 원인을 더 좁혔다. 첫 주에는 전면 `TutorialOverlay`가 살아 있고
+그 `_process()`가 매 frame 실제 다음 버튼으로 초점을 회수한다. 뒤쪽 행동 카드는
+`visible_in_tree`여도 플레이어가 누를 수 있는 표면이 아니다. 따라서 기존 소유 파일
+`tools/FullGameRuntimeTrace.gd`와 `tools/full_game_runtime_trace_audit.py` 안에서만,
+활성 튜토리얼의 실제 enabled 버튼을 카드보다 먼저 raw Enter press/release로
+진행하고 오버레이가 존재하는 동안은 버튼의 일시 disabled 여부와 무관하게 카드로
+내려가지 않도록 입력 장벽을 수리한다. 오버레이가 끝난 뒤 행동 카드는 기존처럼
+deferred 기본 포커스를 비우고 **동일한 실제 Button**에 raw Enter가 도달해야 한다.
+`pressed.emit`, 제품 함수 직접 호출, 첫-visible 행동 폴백, action id 재탐색은 계속
+금지한다. 분기 삭제·카드 뒤 이동·무조건 반환 약화를 변조 fixture가 거부하고, 실제
+W1 프로브 뒤 새 제품 commit/tree에서 세 profile W1→W240을 처음부터 다시 실행한다.
 
 ## L1 / L2 / L3
 

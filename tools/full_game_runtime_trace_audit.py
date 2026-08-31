@@ -516,6 +516,9 @@ def _validate_trace_script_source(source: str) -> None:
         '"visible MainGame action identity drift: "',
         "committed_action_id != expected_action_id",
         "if not GameState.pending_story_queue.is_empty():",
+        'const TUTORIAL_OVERLAY_SCRIPT := "res://scenes/TutorialOverlay.gd"',
+        "var tutorial_overlay := _active_main_tutorial_overlay(main)",
+        "func _active_main_tutorial_overlay(root: Node) -> Control:",
         'call_deferred("_graceful_shutdown", 0)',
         "func _graceful_shutdown(exit_code: int) -> void:",
         "await _release_audio_for_exit()",
@@ -610,6 +613,45 @@ def _validate_trace_script_source(source: str) -> None:
             "GDScript recorder directly calls a product method: "
             + ", ".join(unexpected_calls)
         )
+
+    drive_body = _gdscript_function_body(source, "_drive_main")
+    tutorial_start = drive_body.find(
+        "\tvar tutorial_overlay := _active_main_tutorial_overlay(main)"
+    )
+    modal_start = drive_body.find('\tvar modal := main.get("modal_layer") as Control')
+    cards_start = drive_body.find(
+        '\tvar cards_raw: Variant = main.get("_ap_grid_cards")'
+    )
+    if not 0 <= tutorial_start < modal_start < cards_start:
+        raise ContractError(
+            "visible TutorialOverlay must be driven before MainGame modal/cards"
+        )
+    tutorial_block = drive_body[tutorial_start:modal_start]
+    tutorial_pattern = re.compile(
+        r"(?m)^\tvar tutorial_overlay := _active_main_tutorial_overlay\(main\)\n"
+        r"\tif tutorial_overlay != null:\n"
+        r"\t\tvar tutorial_button := _focused_or_first_button\(tutorial_overlay\)\n"
+        r"\t\tif tutorial_button != null:\n"
+        r"\t\t\tawait _activate_button\(tutorial_button\)\n"
+        r"\t\treturn false\n"
+    )
+    if tutorial_pattern.search(tutorial_block) is None:
+        raise ContractError(
+            "TutorialOverlay must use its real button and block card fallthrough"
+        )
+    tutorial_helper_body = _gdscript_function_body(
+        source, "_active_main_tutorial_overlay"
+    )
+    for marker in (
+        "not child.is_queued_for_deletion()",
+        "(child as Control).is_visible_in_tree()",
+        "_scene_script_path(child) == TUTORIAL_OVERLAY_SCRIPT",
+        "var nested := _active_main_tutorial_overlay(child)",
+    ):
+        if marker not in tutorial_helper_body:
+            raise ContractError(
+                f"TutorialOverlay discovery contract is missing {marker!r}"
+            )
 
     focus_body = _gdscript_function_body(
         source, "_activate_settled_main_action_button"
@@ -2112,6 +2154,47 @@ def self_test() -> None:
     cases += 1
 
     trace_source = TRACE_SCRIPT.read_text(encoding="utf-8")
+    tutorial_branch = (
+        "\tvar tutorial_overlay := _active_main_tutorial_overlay(main)\n"
+        "\tif tutorial_overlay != null:\n"
+        "\t\tvar tutorial_button := _focused_or_first_button(tutorial_overlay)\n"
+        "\t\tif tutorial_button != null:\n"
+        "\t\t\tawait _activate_button(tutorial_button)\n"
+        "\t\treturn false\n"
+    )
+    if tutorial_branch not in trace_source:
+        raise AssertionError("self-test fixture lost exact TutorialOverlay branch")
+
+    missing_tutorial_branch = trace_source.replace(tutorial_branch, "", 1)
+    _expect_failure(
+        "main-action-missing-tutorial-surface",
+        lambda: _validate_trace_script_source(missing_tutorial_branch),
+    )
+    cases += 1
+
+    moved_tutorial_branch = trace_source.replace(tutorial_branch, "", 1).replace(
+        "\tvar focused := get_viewport().gui_get_focus_owner() as Button\n",
+        tutorial_branch
+        + "\n\tvar focused := get_viewport().gui_get_focus_owner() as Button\n",
+        1,
+    )
+    _expect_failure(
+        "main-action-tutorial-after-cards",
+        lambda: _validate_trace_script_source(moved_tutorial_branch),
+    )
+    cases += 1
+
+    weakened_tutorial_return = trace_source.replace(
+        tutorial_branch,
+        tutorial_branch.replace("\t\treturn false\n", "\t\t\treturn false\n", 1),
+        1,
+    )
+    _expect_failure(
+        "main-action-tutorial-conditional-fallthrough",
+        lambda: _validate_trace_script_source(weakened_tutorial_return),
+    )
+    cases += 1
+
     missing_initial_focus_settle = trace_source.replace(
         "\tawait get_tree().process_frame\n"
         "\tif not _button_is_usable(button_raw):\n",

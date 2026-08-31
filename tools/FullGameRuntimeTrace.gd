@@ -16,6 +16,7 @@ const START_MENU_SCRIPT := "res://scenes/StartMenu.gd"
 const OPENING_SCRIPT := "res://scenes/OpeningCinematic.gd"
 const STORY_SCRIPT := "res://scenes/StoryMode.gd"
 const MAIN_SCRIPT := "res://scenes/MainGame.gd"
+const TUTORIAL_OVERLAY_SCRIPT := "res://scenes/TutorialOverlay.gd"
 const DEFAULT_PROFILES_PATH := "res://tools/full_game_runtime_trace_profiles.json"
 const FORBIDDEN_USER_ARGS: Array[String] = [
 	"--demo-build",
@@ -617,6 +618,16 @@ func _drive_main(main: Node) -> bool:
 	# be freed, leaving the fresh replacement with no live activity surface.
 	# Wait for the product-owned story handoff instead of racing it.
 	if not GameState.pending_story_queue.is_empty():
+		return false
+
+	# TutorialOverlay owns the entire visible input surface and deliberately
+	# reclaims focus every frame. Drive its real enabled button first; cards
+	# behind it can still report visible_in_tree but are not player-reachable.
+	var tutorial_overlay := _active_main_tutorial_overlay(main)
+	if tutorial_overlay != null:
+		var tutorial_button := _focused_or_first_button(tutorial_overlay)
+		if tutorial_button != null:
+			await _activate_button(tutorial_button)
 		return false
 
 	var modal := main.get("modal_layer") as Control
@@ -1443,6 +1454,21 @@ func _button_is_usable(button_raw: Variant) -> bool:
 		and button.focus_mode != Control.FOCUS_NONE
 
 
+func _active_main_tutorial_overlay(root: Node) -> Control:
+	if not is_instance_valid(root):
+		return null
+	for child in root.get_children():
+		if child is Control \
+				and not child.is_queued_for_deletion() \
+				and (child as Control).is_visible_in_tree() \
+				and _scene_script_path(child) == TUTORIAL_OVERLAY_SCRIPT:
+			return child as Control
+		var nested := _active_main_tutorial_overlay(child)
+		if nested != null:
+			return nested
+	return null
+
+
 func _focused_or_first_button(root: Node) -> Button:
 	if not is_instance_valid(root):
 		return null
@@ -1564,26 +1590,11 @@ func _activate_settled_main_action_button(button_raw: Variant) -> void:
 	var button := button_raw as Button
 	for _attempt in range(MAX_MAIN_ACTION_FOCUS_ATTEMPTS):
 		button.grab_focus()
-		var immediate_focus := get_viewport().gui_get_focus_owner()
-		print("FULL_GAME_RUNTIME_TRACE_FOCUS_DEBUG attempt=%d target=%s:%d immediate=%s:%d" % [
-			_attempt,
-			button.name,
-			button.get_instance_id(),
-			immediate_focus.name if is_instance_valid(immediate_focus) else "null",
-			immediate_focus.get_instance_id() if is_instance_valid(immediate_focus) else 0,
-		])
 		await get_tree().process_frame
 		if not _button_is_usable(button):
 			_fail("selected MainGame action disappeared while settling exact keyboard focus")
 			return
 		var focused := get_viewport().gui_get_focus_owner()
-		print("FULL_GAME_RUNTIME_TRACE_FOCUS_DEBUG attempt=%d target=%s:%d settled=%s:%d" % [
-			_attempt,
-			button.name,
-			button.get_instance_id(),
-			focused.name if is_instance_valid(focused) else "null",
-			focused.get_instance_id() if is_instance_valid(focused) else 0,
-		])
 		if focused == button:
 			await _send_key(KEY_ENTER)
 			return
