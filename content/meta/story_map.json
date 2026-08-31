@@ -603,13 +603,13 @@
         },
         {
           "month": 10,
-          "design_label": "새 방 첫 저녁",
+          "design_label": "새 방의 첫 공과금",
           "phase": "reversal",
           "contract": {
-            "pressure": "새 집의 비용과 혼자 남은 저녁",
-            "opportunity": "현재 주거에서 삶의 다음 기준을 세운다",
+            "pressure": "이사 한 달 뒤 도착한 첫 공과금과 다음 월세 날짜",
+            "opportunity": "실제 한 달의 소비 기록으로 새 주거의 생활 기준을 다시 세운다",
             "person_promise": "부유한 저장을 과거 고시원으로 되돌리지 않는다",
-            "deadline": "이사 첫날의 감각은 그날만 기록된다"
+            "deadline": "첫 공과금과 다음 월세가 겹치기 전에 한 달 생활비 기준을 고정한다"
           },
           "commitments": [
             {"id": "m10_first_room_bill", "source": "pressure", "axis": "cash", "label": "새 방의 공과금과 다음 월세 날짜를 장부에 고정한다", "due_week": 37, "miss": "expired", "after": null},
@@ -618,14 +618,14 @@
           ],
           "beats": [
             {
-              "id": "m10_new_room_night",
-              "scene_id": "m10_new_room_night",
+              "id": "m10_new_room_first_month",
+              "scene_id": "m10_new_room_first_month",
               "kind": "scene",
               "delivery": "flow",
               "work": "EXPAND",
-              "root": "arc_housing_new_life",
+              "root": "arc_y1_new_room_first_month",
               "rule_status": "mapped",
-              "intent": "주소가 바뀌어도 몸에 밴 서울의 습관이 남는 장면을 만든다.",
+              "intent": "이사 첫날을 재방송하지 않고, 한 달치 공과금과 생활 기록으로 새 방의 실제 비용을 결정한다.",
               "channel": "internal",
               "cast": ["player"],
               "reads": {"memories": ["memory.m08_goshiwon_exit"], "decision": null, "carryovers": []},
@@ -729,7 +729,7 @@
               "delivery": "flow",
               "work": "EXPAND",
               "root": "arc_year_one_mark",
-              "rule_status": "needs_rule",
+              "rule_status": "mapped",
               "intent": "첫해 보스와 지킨 약속을 두 번째 해의 현실로 번역한다.",
               "channel": "internal",
               "cast": ["player"],
@@ -749,10 +749,14 @@
             "person_promise": "열린 빚의 출처를 지우지 않는다",
             "deadline": "다음 소개가 오기 전에 첫해 미해결 비용을 확인한다"
           },
+          "availability": {
+            "axis": "route.m14.network_access",
+            "values": ["eligible", "ineligible"]
+          },
           "commitments": [
-            {"id": "m14_pay_open_debt", "source": "pressure", "axis": "cash", "label": "열린 빚의 첫 상환액을 기한 안에 실제 이체한다", "due_week": 53, "miss": "deferred", "after": null},
-            {"id": "m14_bank_limit_review", "source": "opportunity", "axis": "cash", "label": "은행 예약 창구에서 현재 소득으로 가능한 한도를 통보받는다", "due_week": 55, "miss": "expired", "after": null},
-            {"id": "m14_ask_sangchul_source", "source": "person_promise", "axis": "trust", "label": "상철의 소개 자리에 가서 소개인과 수수료를 당사자 앞에서 묻는다", "due_week": 56, "miss": "expired", "after": null}
+            {"id": "m14_pay_open_debt", "source": "pressure", "axis": "cash", "label": "열린 빚의 첫 상환액을 기한 안에 실제 이체한다", "due_week": 53, "miss": "deferred", "after": null, "available_values": ["*"]},
+            {"id": "m14_bank_limit_review", "source": "opportunity", "axis": "cash", "label": "은행 예약 창구에서 현재 소득으로 가능한 한도를 통보받는다", "due_week": 55, "miss": "expired", "after": null, "available_values": ["ineligible"]},
+            {"id": "m14_ask_sangchul_source", "source": "person_promise", "axis": "trust", "label": "상철에게 이번 소개가 열렸는지와 소개인·수수료 출처를 직접 묻는다", "due_week": 56, "miss": "expired", "after": null, "available_values": ["*"]}
           ],
           "beats": [
             {
@@ -761,13 +765,20 @@
               "kind": "bridge",
               "delivery": "flow",
               "work": "EXPAND",
-              "root": "arc_34_money_attracts_money",
-              "rule_status": "needs_rule",
-              "intent": "시간당 노동과 사람을 거치는 돈의 차이를 보여 준다.",
-              "channel": "internal",
-              "cast": ["player"],
+              "root": "arc_sangchul_03_network",
+              "rule_status": "mapped",
+              "intent": "상철을 실제로 알고 자산 기준을 넘긴 경로에서만 사람을 거치는 돈의 구조를 대면하게 한다.",
+              "channel": "in_person",
+              "cast": ["player", "sangchul"],
               "reads": {"memories": [], "decision": null, "carryovers": ["expired_obligation", "open_debt"]},
               "writes": {"memories": [], "decision": null, "carryovers": []},
+              "coverage": {
+                "axis": "route.m14.network_access",
+                "base_values": ["eligible"],
+                "fallbacks": [
+                  {"values": ["*"], "root": "arc_y2_bank_limit_review", "work": "EXPAND", "rule_status": "mapped", "channel": "in_person", "cast": ["player", "banker"], "reads": {"memories": [], "decision": null, "carryovers": ["expired_obligation", "open_debt"]}, "forgone": ["상철 인맥을 통한 소개"]}
+                ]
+              },
               "forgone": []
             }
           ]
@@ -979,7 +990,7 @@
               "delivery": "stop",
               "work": "EXPAND",
               "root": "arc_34_doors_open",
-              "rule_status": "needs_rule",
+              "rule_status": "mapped",
               "intent": "기회가 사람의 얼굴로 올 때 유지비와 위험을 같이 보인다.",
               "channel": "mixed",
               "cast": ["player", "sangchul"],
@@ -1059,7 +1070,7 @@
               "delivery": "stop",
               "work": "EXPAND",
               "root": "arc_daeun_03_fork",
-              "rule_status": "needs_rule",
+              "rule_status": "mapped",
               "intent": "호감도 임계 대신 함께 살 방향을 실제 대화로 묻는다.",
               "channel": "in_person",
               "cast": ["player", "daeun"],
@@ -1083,7 +1094,7 @@
                     "values": ["*"],
                     "root": "arc_y2_relationship_fork_unattached",
                     "work": "EXPAND",
-                    "rule_status": "needs_rule",
+                    "rule_status": "mapped",
                     "channel": "internal",
                     "cast": ["player"],
                     "reads": {"memories": ["memory.m15_first_priority"], "decision": null, "carryovers": []},
@@ -1117,13 +1128,28 @@
           ],
           "beats": [
             {
+              "id": "m23_parents_visit_crisis_chain",
+              "scene_id": "m23_parents_visit_crisis_chain",
+              "kind": "bridge",
+              "delivery": "flow",
+              "work": "EXPAND",
+              "root": "arc_34_parents_visit",
+              "rule_status": "mapped",
+              "intent": "약 이름을 확인한 생존 경로에서 부모님의 서울 방문을 치르고, 나흘 뒤 병원 전화를 같은 M23 시간 절단으로 연결한다.",
+              "channel": "in_person",
+              "cast": ["player", "father", "mother"],
+              "reads": {"memories": ["memory.m15_first_priority"], "decision": null, "carryovers": []},
+              "writes": {"memories": [], "decision": null, "carryovers": []},
+              "forgone": ["부모님과 보내지 않은 서울의 시간"]
+            },
+            {
               "id": "m23_hospital_door",
               "scene_id": "m23_hospital_door",
               "kind": "decision",
               "delivery": "stop",
               "work": "EXPAND",
-              "root": "arc_34_parents_visit",
-              "rule_status": "needs_rule",
+              "root": "arc_father_04_visit",
+              "rule_status": "mapped",
               "intent": "호의의 가격과 가족에게 쓸 시간을 한 문턱에 놓는다.",
               "channel": "in_person",
               "cast": ["player", "father"],
@@ -1571,7 +1597,6 @@
               "kind": "decision",
               "delivery": "stop",
               "work": "EXPAND",
-              "source_month": 35,
               "root": "arc_y3_cost_of_knowing",
               "rule_status": "needs_rule",
               "intent": "진실을 안 뒤의 첫 행동으로 도덕적 태도를 증명한다.",
@@ -1579,14 +1604,6 @@
               "cast": ["player"],
               "reads": {"memories": ["memory.m33_truth_resolution"], "decision": "story.sangchul_truth_resolution", "carryovers": []},
               "writes": {"memories": ["memory.m34_network_after_truth"], "decision": null, "carryovers": []},
-              "coverage": {
-                "axis": "story.sangchul_truth_resolution",
-                "base_values": ["confronted", "used"],
-                "fallbacks": [
-                  {"values": ["refused_to_know"], "root": "arc_sangchul_buried_silence", "work": "EXPAND", "rule_status": "needs_rule", "channel": "internal", "cast": ["player"], "reads": {"memories": ["memory.m33_truth_resolution"], "decision": "story.sangchul_truth_resolution", "carryovers": []}, "forgone": ["상철 인맥의 다음 거래"]},
-                  {"values": ["cut_ties"], "root": "arc_sangchul_reckoning", "work": "EXPAND", "rule_status": "needs_rule", "channel": "internal", "cast": ["player"], "reads": {"memories": ["memory.m33_truth_resolution"], "decision": "story.sangchul_truth_resolution", "carryovers": []}, "forgone": ["관계를 이용해 얻을 마지막 이익"]}
-                ]
-              },
               "forgone": ["상철 인맥의 다음 기회", "관계를 끊은 안전"]
             }
           ]
@@ -2368,30 +2385,6 @@
           ],
           "beats": [
             {
-              "id": "m50_final_year_start",
-              "scene_id": "m50_final_year_start",
-              "kind": "bridge",
-              "delivery": "flow",
-              "work": "EXPAND",
-              "root": "arc_final_year_start",
-              "rule_status": "needs_rule",
-              "intent": "4장에서 보호한 사람과 직전 검토자 선택을 마지막 해의 보호 맥락으로 바꾸고, 같은 인물이 두 역할이면 역할을 합쳐 기록한다.",
-              "channel": "internal",
-              "cast": ["player"],
-              "reads": {"memories": [], "decision": "story.partner_commitment", "carryovers": ["protected_commitment"]},
-              "writes": {"memories": ["memory.m50_protection_context"], "decision": null, "carryovers": []},
-              "actor_outputs": {
-                "memory.m50_protection_context": {
-                  "roles": {
-                    "protected_person": {"kind": "receipt_actor", "source_type": "carryover", "source_id": "protected_commitment", "actor_role": "actor", "fallback": {"kind": "first_distinct", "actor_ids": ["hyunsu", "minseo"]}},
-                    "reviewer": {"kind": "commitment_actor", "source": {"kind": "commitment_receipt", "source_receipt_id": "m49_choose_reviewer", "state": ["completed"]}, "actor_role": "reviewer", "fallback": {"kind": "first_distinct", "actor_ids": ["minseo", "hyunsu"]}}
-                  },
-                  "coalesced": [["protected_person", "reviewer"]]
-                }
-              },
-              "forgone": []
-            },
-            {
               "id": "m50_final_push_deadline_product",
               "scene_id": "m50_final_push_deadline_product",
               "kind": "decision",
@@ -2417,8 +2410,17 @@
               "intent": "W200에 다은 이름 삭제와 그 때문에 낮아진 조달 상한을 같은 원문으로 보여 준다.",
               "channel": "in_person",
               "cast": ["player", "daeun"],
-              "reads": {"memories": [], "decision": null, "carryovers": []},
-              "writes": {"memories": [], "decision": null, "carryovers": []},
+              "reads": {"memories": [], "decision": "story.partner_commitment", "carryovers": ["protected_commitment"]},
+              "writes": {"memories": ["memory.m50_protection_context"], "decision": null, "carryovers": []},
+              "actor_outputs": {
+                "memory.m50_protection_context": {
+                  "roles": {
+                    "protected_person": {"kind": "receipt_actor", "source_type": "carryover", "source_id": "protected_commitment", "actor_role": "actor", "fallback": {"kind": "first_distinct", "actor_ids": ["hyunsu", "minseo"]}},
+                    "reviewer": {"kind": "commitment_actor", "source": {"kind": "commitment_receipt", "source_receipt_id": "m49_choose_reviewer", "state": ["completed"]}, "actor_role": "reviewer", "fallback": {"kind": "first_distinct", "actor_ids": ["minseo", "hyunsu"]}}
+                  },
+                  "coalesced": [["protected_person", "reviewer"]]
+                }
+              },
               "forgone": ["다은에게 이번 대화에서 먼저 꺼내지 않은 두 사실의 설명 순서"]
             }
           ]

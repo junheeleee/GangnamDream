@@ -689,6 +689,63 @@
       "arrival_cue_ko": "마지막 상자를 열었다",
       "arrival_cue_en": "{name} opened the last box"
     },
+    "arc_year_one_mark->arc_34_money_attracts_money": {
+      "mode": "same_location",
+      "from_location": "current_housing",
+      "to_location": "current_housing"
+    },
+    "arc_34_parents_visit->arc_father_03_hospital": {
+      "mode": "time_cut",
+      "from_location": "current_housing",
+      "to_location": "current_housing",
+      "arrival_cue_ko": "부모님이 서울에서 내려간 지 나흘째",
+      "arrival_cue_en": "Four days after his parents returned from Seoul"
+    },
+    "arc_daeun_03_fork->arc_daeun_03_fork_hold_receipt": {
+      "mode": "same_location",
+      "from_location": "convenience_night",
+      "to_location": "convenience_night"
+    },
+    "arc_daeun_03_fork->arc_daeun_03_fork_release_receipt": {
+      "mode": "same_location",
+      "from_location": "convenience_night",
+      "to_location": "convenience_night"
+    },
+    "arc_sangchul_mirror->arc_sangchul_mirror_receipt": {
+      "mode": "same_location",
+      "from_location": "pojangmacha",
+      "to_location": "pojangmacha"
+    },
+    "arc_sangchul_confrontation->arc_sangchul_reckoning": {
+      "mode": "same_location",
+      "from_location": "cafe",
+      "to_location": "cafe"
+    },
+    "arc_sangchul_card_at_confrontation->arc_sangchul_confrontation": {
+      "mode": "same_location",
+      "from_location": "cafe",
+      "to_location": "cafe"
+    },
+    "arc_sangchul_confrontation->arc_sangchul_buried_silence": {
+      "mode": "same_location",
+      "from_location": "cafe",
+      "to_location": "cafe"
+    },
+    "arc_sangchul_confrontation->arc_sangchul_stairwell": {
+      "mode": "same_location",
+      "from_location": "cafe",
+      "to_location": "cafe"
+    },
+    "arc_sangchul_buried_silence->arc_sangchul_reckoning": {
+      "mode": "same_location",
+      "from_location": "cafe",
+      "to_location": "cafe"
+    },
+    "arc_sangchul_stairwell->arc_sangchul_reckoning": {
+      "mode": "same_location",
+      "from_location": "cafe",
+      "to_location": "cafe"
+    },
     "amb_hoesik_00->amb_hoesik_drink": {
       "mode": "time_cut",
       "from_location": "company_dinner_restaurant",
@@ -747,10 +804,244 @@
     }
   },
   "events": {
+    "arc_y1_new_room_first_month": {
+      "logic": {
+        "prerequisites": {
+          "all": [
+            {"path": "turn", "op": "eq", "value": 37},
+            {"path": "flags.arc_housing_new_life_seen", "op": "eq", "value": true}
+          ]
+        },
+        "legacy": {
+          "requires_flags": ["arc_housing_new_life_seen"],
+          "forbids_flags": ["arc_y1_new_room_first_month_seen"],
+          "produces_all": ["arc_y1_new_room_first_month_seen"]
+        }
+      },
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "current_housing",
+        "participants": ["player"],
+        "portrait_role": "local"
+      }
+    },
+    "arc_year_one_mark": {
+      "logic": {
+        "prerequisites": {
+          "all": [
+            {"path": "turn", "op": "gte", "value": 49},
+            {"path": "turn", "op": "lte", "value": 52}
+          ]
+        },
+        "legacy": {
+          "forbids_flags": ["arc_year_one_mark_seen"],
+          "produces_all": ["arc_year_one_mark_seen"]
+        }
+      },
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "current_housing",
+        "participants": ["player"],
+        "portrait_role": "local",
+        "expected_background": "current_housing",
+        "expected_portrait": "player_tired"
+      }
+    },
+    "arc_34_money_attracts_money": {
+      "logic": {
+        "legacy": {
+          "requires_flags": ["arc_year_one_mark_seen"],
+          "forbids_flags": ["arc_34_money_attracts_seen"],
+          "produces_all": ["arc_34_money_attracts_seen"]
+        }
+      },
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "current_housing",
+        "participants": ["player"],
+        "portrait_role": "local",
+        "expected_background": "current_housing",
+        "expected_portrait": "player_normal"
+      }
+    },
+    "arc_sangchul_03_network": {
+      "logic": {
+        "prerequisites": {
+          "all": [
+            {"path": "turn", "op": "gte", "value": 53},
+            {"path": "turn", "op": "lte", "value": 56},
+            {"path": "flags.arc_34_money_attracts_seen", "op": "eq", "value": true},
+            {"path": "flags.arc_sangchul_02_seen", "op": "eq", "value": true},
+            {"path": "player.total_asset_value", "op": "gte", "value": 1000000}
+          ]
+        },
+        "legacy": {
+          "requires_flags": ["arc_34_money_attracts_seen", "arc_sangchul_02_seen"],
+          "forbids_flags": ["arc_sangchul_03_seen"],
+          "produces_all": ["arc_sangchul_03_seen"]
+        }
+      },
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "sangchul_private_dining",
+        "participants": ["player", "sangchul"],
+        "portrait_role": "present",
+        "expected_background": "sangchul_private_dining",
+        "expected_portrait": "sangchul_normal"
+      }
+    },
+    "arc_y2_bank_limit_review": {
+      "logic": {
+        "legacy": {
+          "forbids_flags": ["arc_y2_bank_limit_review_seen"],
+          "produces_all": ["arc_y2_bank_limit_review_seen"]
+        }
+      },
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "office_interview_day",
+        "participants": ["player", "banker"],
+        "portrait_role": "local",
+        "expected_background": "office_interview_day",
+        "expected_portrait": "player_normal"
+      }
+    },
+    "arc_father_medication": {
+      "logic": {
+        "requires": [{"fact": "father.life", "is": "concern"}],
+        "prerequisites": {
+          "all": [
+            {"path": "turn", "op": "gte", "value": 57},
+            {"path": "turn", "op": "lte", "value": 60},
+            {"path": "flags.arc_father_02_done", "op": "eq", "value": true},
+            {"path": "flags.father_passed", "op": "neq", "value": true}
+          ]
+        },
+        "legacy": {
+          "requires_flags": ["arc_father_02_done"],
+          "forbids_flags": ["arc_father_medication_seen", "father_passed"],
+          "produces_all": ["arc_father_medication_seen"]
+        }
+      },
+      "presentation": {
+        "channel": "message",
+        "state": "received",
+        "scene_location": "subway",
+        "remote_location": "changwon_home",
+        "remote_actor": "mother",
+        "portrait_role": "local",
+        "expected_portrait": "player_tired",
+        "expected_background": "subway",
+        "expected_ambience": "subway"
+      }
+    },
+    "arc_34_doors_open": {
+      "logic": {
+        "prerequisites": {
+          "all": [
+            {"path": "turn", "op": "gte", "value": 77},
+            {"path": "turn", "op": "lte", "value": 80}
+          ]
+        },
+        "legacy": {
+          "forbids_flags": ["arc_34_doors_open_seen"],
+          "produces_all": ["arc_34_doors_open_seen"]
+        }
+      },
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "meeting",
+        "participants": ["player"],
+        "portrait_role": "local",
+        "expected_background": "meeting",
+        "expected_portrait": "player_normal"
+      }
+    },
+    "arc_daeun_03_fork": {
+      "logic": {
+        "legacy": {
+          "requires_flags": ["arc_daeun_regular_seen"],
+          "forbids_flags": ["arc_daeun_fork_seen"],
+          "produces_all": ["arc_daeun_fork_seen"]
+        }
+      },
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "convenience_night",
+        "participants": ["player", "daeun"],
+        "portrait_role": "present"
+      }
+    },
+    "arc_daeun_03_fork_hold_receipt": {
+      "logic": {},
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "convenience_night",
+        "participants": ["player", "daeun"],
+        "portrait_role": "present",
+        "expected_background": "convenience_night",
+        "expected_portrait": "daeun_sad"
+      }
+    },
+    "arc_daeun_03_fork_release_receipt": {
+      "logic": {},
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "convenience_night",
+        "participants": ["player", "daeun"],
+        "portrait_role": "present",
+        "expected_background": "convenience_night",
+        "expected_portrait": "daeun_sad"
+      }
+    },
+    "arc_y2_relationship_fork_unattached": {
+      "logic": {
+        "legacy": {
+          "forbids_flags": ["arc_y2_relationship_fork_unattached_seen"],
+          "produces_all": ["arc_y2_relationship_fork_unattached_seen"]
+        }
+      },
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "current_housing",
+        "participants": ["player"],
+        "portrait_role": "local"
+      }
+    },
+    "arc_daeun_money_gap": {
+      "logic": {
+        "prerequisites": {
+          "all": [
+            {"path": "turn", "op": "eq", "value": 95},
+            {"path": "flags.daeun_chose_her", "op": "eq", "value": true},
+            {"path": "flags.daeun_let_her_go", "op": "neq", "value": true}
+          ]
+        },
+        "legacy": {
+          "requires_flags": ["daeun_chose_her"],
+          "forbids_flags": ["daeun_let_her_go", "arc_daeun_money_gap_seen"],
+          "produces_all": ["arc_daeun_money_gap_seen"]
+        }
+      },
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "cafe",
+        "participants": ["player", "daeun"],
+        "portrait_role": "present",
+        "expected_background": "cafe",
+        "expected_portrait": "daeun_smile"
+      }
+    },
     "arc_y5_contract_cover_investment": {"logic": {}},
     "arc_y5_contract_reviewer_delivery_sangchul": {"logic": {}},
     "arc_y5_final_push_deadline_investment": {"logic": {}},
-    "arc_y5_protection_boundary_daeun": {"logic": {}},
+    "arc_y5_protection_boundary_daeun": {
+      "logic": {
+        "requires": [
+          {"fact": "story.partner_commitment", "is": "daeun"}
+        ]
+      }
+    },
     "arc_y5_burnout_check_reference": {"logic": {}},
     "arc_y5_minseo_goal_cost_reference": {"logic": {}},
     "arc_y5_after_goal_daeun": {"logic": {}},
@@ -1737,6 +2028,21 @@
       }
     },
     "arc_jiyeon_03_offer": {
+      "logic": {
+        "prerequisites": {
+          "all": [
+            {"path": "turn", "op": "gte", "value": 85},
+            {"path": "turn", "op": "lte", "value": 88},
+            {"path": "flags.arc_jiyeon_store_seen", "op": "eq", "value": true},
+            {"path": "flags.arc_jiyeon_offer_seen", "op": "neq", "value": true}
+          ]
+        },
+        "legacy": {
+          "requires_flags": ["arc_jiyeon_store_seen"],
+          "forbids_flags": ["arc_jiyeon_offer_seen"],
+          "produces_all": ["arc_jiyeon_offer_seen"]
+        }
+      },
       "presentation": {
         "channel": "in_person",
         "scene_location": "street_rainy",
@@ -2185,7 +2491,17 @@
     "arc_34_parents_visit": {
       "logic": {
         "requires": [{"fact": "father.life", "is": "concern"}],
+        "prerequisites": {
+          "all": [
+            {"path": "turn", "op": "gte", "value": 89},
+            {"path": "turn", "op": "lte", "value": 92},
+            {"path": "flags.arc_father_02_done", "op": "eq", "value": true},
+            {"path": "flags.arc_father_medication_seen", "op": "eq", "value": true},
+            {"path": "flags.father_passed", "op": "neq", "value": true}
+          ]
+        },
         "legacy": {
+          "requires_flags": ["arc_father_02_done", "arc_father_medication_seen"],
           "forbids_flags": ["arc_34_parents_visit_seen", "father_passed"],
           "produces_all": ["arc_34_parents_visit_seen", "arc_34_parents_visited"]
         }
@@ -2203,7 +2519,11 @@
         "requires": [{"fact": "father.life", "is": "concern"}],
         "produces": [{"fact": "father.life", "set": "hospitalized"}],
         "legacy": {
-          "requires_flags": ["arc_father_02_done"],
+          "requires_flags": [
+            "arc_father_02_done",
+            "arc_father_medication_seen",
+            "arc_34_parents_visit_seen"
+          ],
           "forbids_flags": ["arc_father_03_seen", "father_passed"],
           "produces_all": ["arc_father_03_seen"]
         }
@@ -2215,19 +2535,6 @@
         "remote_location": "changwon_hospital",
         "remote_actor": "mother",
         "portrait_role": "local"
-      }
-    },
-    "arc_father_medication": {
-      "presentation": {
-        "channel": "message",
-        "state": "received",
-        "scene_location": "subway",
-        "remote_location": "changwon_home",
-        "remote_actor": "mother",
-        "portrait_role": "local",
-        "expected_portrait": "player_tired",
-        "expected_background": "subway",
-        "expected_ambience": "subway"
       }
     },
     "arc_father_06_confession": {
@@ -2271,6 +2578,20 @@
       }
     },
     "arc_father_04_visit": {
+      "logic": {
+        "requires": [{"fact": "father.life", "is": "hospitalized"}],
+        "legacy": {
+          "requires_flags": ["arc_father_03_seen"],
+          "forbids_flags": ["father_passed"],
+          "produces_any": ["visited_father", "father_visit_deferred"]
+        },
+        "choice_produces": {
+          "0": [{"fact": "story.father_hospital_door", "set": "visited"}],
+          "1": [{"fact": "story.father_hospital_door", "set": "visited"}],
+          "2": [{"fact": "story.father_hospital_door", "set": "visited"}],
+          "3": [{"fact": "story.father_hospital_door", "set": "deferred"}]
+        }
+      },
       "presentation": {
         "channel": "in_person",
         "scene_location": "changwon_hospital",
@@ -2597,6 +2918,68 @@
         "portrait_role": "local"
       }
     },
+    "arc_sangchul_mirror": {
+      "logic": {
+        "requires": [{"fact": "father.life", "is": "hospitalized"}],
+        "prerequisites": {
+          "all": [
+            {"path": "turn", "op": "eq", "value": 93},
+            {"path": "flags.arc_father_03_seen", "op": "eq", "value": true},
+            {"path": "flags.arc_sangchul_human_seen", "op": "eq", "value": true},
+            {"path": "flags.sangchul_truth_known", "op": "neq", "value": true}
+          ]
+        },
+        "legacy": {
+          "requires_flags": ["arc_father_03_seen", "arc_sangchul_human_seen"],
+          "forbids_flags": ["father_passed", "sangchul_truth_known", "arc_sangchul_mirror_seen"],
+          "produces_all": ["arc_sangchul_mirror_seen"]
+        }
+      },
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "pojangmacha",
+        "participants": ["player", "sangchul"],
+        "portrait_role": "present",
+        "expected_background": "pojangmacha",
+        "expected_portrait": "sangchul_serious"
+      }
+    },
+    "arc_sangchul_mirror_receipt": {
+      "logic": {},
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "pojangmacha",
+        "participants": ["player", "sangchul"],
+        "portrait_role": "present",
+        "expected_background": "pojangmacha",
+        "expected_portrait": "sangchul_serious"
+      }
+    },
+    "arc_career_ceiling": {
+      "logic": {
+        "prerequisites": {
+          "all": [
+            {"path": "turn", "op": "gte", "value": 94},
+            {"path": "turn", "op": "lte", "value": 96},
+            {"path": "player.job.id", "op": "truthy"},
+            {"path": "flags.arc_sangchul_mirror_seen", "op": "eq", "value": true}
+          ]
+        },
+        "legacy": {
+          "requires_flags": ["arc_sangchul_mirror_seen"],
+          "forbids_flags": ["arc_career_ceiling_seen"],
+          "produces_all": ["arc_career_ceiling_seen"]
+        }
+      },
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "office",
+        "participants": ["player"],
+        "portrait_role": "local",
+        "expected_background": "office",
+        "expected_portrait": "player_tired"
+      }
+    },
     "arc_sangchul_confrontation": {
       "logic": {
         "requires": [{"fact": "sangchul.truth_resolution", "is": "known"}],
@@ -2612,9 +2995,11 @@
       },
       "presentation": {
         "channel": "in_person",
-        "scene_location": "seoul_cafe",
+        "scene_location": "cafe",
         "participants": ["player", "sangchul"],
-        "portrait_role": "present"
+        "portrait_role": "present",
+        "expected_background": "cafe",
+        "expected_portrait": "sangchul_serious"
       }
     },
     "arc_sangchul_buried_silence": {
@@ -2623,6 +3008,14 @@
         "choice_produces": {
           "0": [{"fact": "sangchul.truth_resolution", "set": "buried"}]
         }
+      },
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "cafe",
+        "participants": ["player", "sangchul"],
+        "portrait_role": "present",
+        "expected_background": "cafe",
+        "expected_portrait": "sangchul_serious"
       }
     },
     "arc_sangchul_stairwell": {
@@ -2631,6 +3024,14 @@
         "choice_produces": {
           "0": [{"fact": "sangchul.truth_resolution", "set": "distanced"}]
         }
+      },
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "cafe",
+        "participants": ["player", "sangchul"],
+        "portrait_role": "present",
+        "expected_background": "cafe",
+        "expected_portrait": "sangchul_serious"
       }
     },
     "arc_sangchul_reckoning": {
@@ -2649,6 +3050,14 @@
           "2": [{"fact": "sangchul.truth_resolution", "set": "leveraged"}],
           "3": [{"fact": "sangchul.truth_resolution", "set": "repaid"}]
         }
+      },
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "cafe",
+        "participants": ["player", "sangchul"],
+        "portrait_role": "present",
+        "expected_background": "cafe",
+        "expected_portrait": "sangchul_serious"
       }
     },
     "callback_sangchul_leveraged_cost": {

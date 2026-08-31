@@ -77,11 +77,41 @@
     "choices": [
       {
         "text": "\"Don't go. Let's hold on here together\" — reach for her",
-        "result_text": "She was quiet for a moment. Then smiled softly.\n\"...Okay. I'll stay a little longer.\"\nShe didn't ask why. {name} didn't explain."
+        "result_text": "She was quiet for a moment, then smiled softly.\n\"...Okay. I'll stay a little longer. But don't leave 'we'll endure it together' as something you only said tonight.\"\n\nDaeun reached beneath the counter and brought out two sheets she had folded and unfolded all night."
       },
       {
         "text": "Say nothing. Let her go",
-        "result_text": "{name} couldn't open his mouth. Told himself: you can't afford to be anchored right now.\nDaeun smiled faintly, said \"Take care,\" and turned away.\nAfter that, the late-night convenience store was once again a world of one.\nThe goal was sharp and clear — and one corner of the heart was permanently empty."
+        "result_text": "{name} could not open his mouth. He told himself he could not afford to be anchored now.\n\nDaeun smiled faintly, said \"Take care,\" then turned and removed her store badge. Just as the goal felt sharp again, the sound of her unfolding the bus sheet kept that conclusion from closing."
+      }
+    ]
+  },
+  {
+    "id": "arc_daeun_03_fork_hold_receipt",
+    "title": "The Cost of 'Together'",
+    "description": "One sheet listed a month of Seoul rent, transit, and night shifts. The other showed the first bus home and the terms of the mart job.\n\nDaeun pushed the Seoul sheet toward {name}. \"Write down a promise that will still be alive next week, when you're busy. If the plan makes me pay the whole cost of staying, that isn't us enduring it together.\"\n\nThe first commuter bus passed beyond the automatic doors. The words asking her to stay were over. Now he had to write the time and cost those words would occupy.",
+    "choices": [
+      {
+        "text": "Place his housing notice beside hers and write Saturday at two and the costs he will carry",
+        "result_text": "{name} placed his housing notice beside Daeun's table. He circled Saturday at two, then divided the rent and travel time into the parts he would carry.\n\n\"Don't just write half. Write the days you can't come too.\"\n\nDaeun slid him the calculator. They wrote the dates most likely to fail before the easy promises. One sentence about enduring together became a full page of responsibility."
+      },
+      {
+        "text": "Book two seats on the first bus home and ask to hear her answer again there",
+        "result_text": "Instead of touching the Seoul budget, {name} opened the bus app. \"I shouldn't decide Seoul for you just because I asked you to stay. This weekend I'll go with you and see your mother and the mart. I'll hear your answer again there.\"\n\nDaeun did not thank him right away. After a long pause, she wrote both names beside the first Saturday bus. Neither the Seoul sheet nor the hometown sheet was thrown away. Only the hours of that weekend were settled."
+      }
+    ]
+  },
+  {
+    "id": "arc_daeun_03_fork_release_receipt",
+    "title": "The Sentence of the One Who Lets Go",
+    "description": "Daeun opened two sheets beside the badge she had removed. Seoul rent and night shifts filled one set of columns; daytime work and hours near her mother filled the other.\n\n\"Don't say you're letting me go for my sake. I lose something if I leave too.\" Daeun turned the pen toward {name}. \"Tell me what you preserve by not asking me to stay. Then this won't be only my choice.\"\n\nThe first bus appeared on the arrival board beyond the glass. Even silence now needed the name of the person who chose it.",
+    "choices": [
+      {
+        "text": "Say, \"Right now, I'm choosing Seoul and the goal over us\"",
+        "result_text": "{name} did not avoid her eyes. \"Right now, I'm choosing Seoul and the goal over us. I won't pretend you're leaving because home is easier.\"\n\nDaeun did not thank him. She crossed his name out of one line on the Seoul budget and folded the sheet for home. Without an excuse, the sentence that remained belonged to both of them."
+      },
+      {
+        "text": "Do not call it Daeun's choice; write that he did not ask her to stay",
+        "result_text": "On the back of the Seoul sheet, {name} wrote one line. Not 'Daeun is leaving,' but 'I did not ask her to stay.'\n\nDaeun read it and capped the pen. \"That's enough.\"\n\nCold dawn air entered when the automatic doors opened. Daeun promised no next meeting, and {name} did not add another take-care."
       }
     ]
   },

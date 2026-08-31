@@ -1,0 +1,193 @@
+{
+  "schema_version": 1,
+  "scope": {
+    "month_range": [8, 50],
+    "owned_months": [8, 10, 13, 14, 15, 20, 22, 23, 24, 33, 34, 49, 50],
+    "public_demo_months": [1, 6],
+    "weeks_per_month": 4,
+    "scheduler": "scenes/MainGame.gd::_story_graph_contract_event_id"
+  },
+  "demo_protection": {
+    "fixture": "tools/fixtures/story_demo_density_contract.json",
+    "fixture_sha256": "208755a56c09943c033c653efca9f2fda65bfacf43abd91780483c513c4e0ca3",
+    "profile": "story_demo_rc",
+    "scope": "M01-M06",
+    "source_tree": "0fdddf11e2ef030cd172d23e691e3d7da4ea29ff",
+    "build_id": "2026.08.31.1",
+    "topology_sha256": "6816908a0782122d08f7b7699493c89e840cb3b9e2582cb9c5e931c59bf558af",
+    "source_event_semantics_sha256": "200667077139b4f7f407e441f31de14f87fef575de019f88e8e77d6a595906df",
+    "story_map_m01_m06_sha256": "5317c21312254602b9c56a531a4d203adf133e97c2b4ed2c73819ea7655acf36",
+    "forbid_story_map_months": [1, 2, 3, 4, 5, 6],
+    "forbid_project_godot_change": true
+  },
+  "overlap_edges": [
+    {
+      "id": "m08_goodbye_to_new_life",
+      "source": "arc_goshiwon_goodbye",
+      "target": "arc_housing_new_life",
+      "class": "same_scene_closure",
+      "raw_follow_up": "required",
+      "source_owner": {"month": 8, "weeks": [29, 32]},
+      "target_owner": {"month": 8, "weeks": [29, 32]},
+      "recovery": "source_seen_target_missing_same_owner_window",
+      "later_map_root_forbidden": true
+    },
+    {
+      "id": "m13_year_mark_to_money",
+      "source": "arc_year_one_mark",
+      "target": "arc_34_money_attracts_money",
+      "class": "same_scene_closure",
+      "raw_follow_up": "required",
+      "source_owner": {"month": 13, "weeks": [49, 52]},
+      "target_owner": {"month": 13, "weeks": [49, 52]},
+      "recovery": "source_seen_target_missing_same_owner_window",
+      "later_map_root_forbidden": true
+    },
+    {
+      "id": "m13_money_to_m14_network",
+      "source": "arc_34_money_attracts_money",
+      "target": "arc_sangchul_03_network",
+      "class": "scheduled_guarded",
+      "raw_follow_up": "forbidden",
+      "source_owner": {"month": 13, "weeks": [49, 52]},
+      "target_owner": {"month": 14, "weeks": [53, 56]},
+      "requires_flags": ["arc_34_money_attracts_seen", "arc_sangchul_02_seen"],
+      "forbids_flags": ["arc_sangchul_03_seen"],
+      "requires": [{"path": "player.total_asset_value", "op": "gte", "value": 1000000}],
+      "fallback": "arc_y2_bank_limit_review",
+      "recovery": "none_after_target_window"
+    },
+    {
+      "id": "m20_doors_to_m23_parents",
+      "source": "arc_34_doors_open",
+      "target": "arc_34_parents_visit",
+      "class": "separated_months",
+      "raw_follow_up": "forbidden",
+      "source_owner": {"month": 20, "weeks": [77, 80]},
+      "target_owner": {"month": 23, "weeks": [89, 92]},
+      "requires_flags": ["arc_father_02_done", "arc_father_medication_seen"],
+      "forbids_flags": ["arc_34_parents_visit_seen", "father_passed"],
+      "recovery": "none_after_target_window"
+    },
+    {
+      "id": "m22_daeun_to_m15_medication",
+      "source": "arc_daeun_03_fork",
+      "target": "arc_father_medication",
+      "class": "temporal_inversion_removed",
+      "raw_follow_up": "forbidden",
+      "source_owner": {"month": 22, "weeks": [85, 88]},
+      "target_owner": {"month": 15, "weeks": [57, 60]},
+      "requires_flags": ["arc_father_02_done"],
+      "forbids_flags": ["arc_father_medication_seen", "father_passed"],
+      "recovery": "none_after_target_window"
+    },
+    {
+      "id": "m15_medication_to_m22_jiyeon",
+      "source": "arc_father_medication",
+      "target": "arc_jiyeon_03_offer",
+      "class": "separated_months",
+      "raw_follow_up": "forbidden",
+      "source_owner": {"month": 15, "weeks": [57, 60]},
+      "target_owner": {"month": 22, "weeks": [85, 88]},
+      "requires_flags": ["arc_jiyeon_store_seen"],
+      "forbids_flags": ["arc_jiyeon_offer_seen"],
+      "selector_priority": ["arc_daeun_03_fork", "arc_jiyeon_03_offer", "arc_y2_relationship_fork_unattached"],
+      "recovery": "none_after_target_window"
+    },
+    {
+      "id": "m33_truth_table_chain",
+      "source": "arc_sangchul_confrontation",
+      "targets": [
+        "arc_sangchul_buried_silence",
+        "arc_sangchul_stairwell",
+        "arc_sangchul_reckoning"
+      ],
+      "terminal_target": "arc_sangchul_reckoning",
+      "class": "same_location_table_chain",
+      "raw_follow_up": "required",
+      "source_owner": {"month": 33, "weeks": [129, 132]},
+      "target_owner": {"month": 33, "weeks": [129, 132]},
+      "scene_location": "cafe",
+      "optional_prelude": "arc_sangchul_card_at_confrontation",
+      "delayed_aftermath": {"month": 34, "weeks": [133, 136], "root": "arc_y3_cost_of_knowing"},
+      "recovery": "terminal_flags_are_authoritative"
+    },
+    {
+      "id": "m49_reckoning_to_final_year",
+      "source": "arc_37_reckoning",
+      "target": "arc_final_year_start",
+      "class": "same_scene_closure",
+      "raw_follow_up": "required",
+      "source_owner": {"month": 49, "weeks": [193, 196]},
+      "target_owner": {"month": 49, "weeks": [193, 196]},
+      "recovery": "source_seen_target_missing_same_owner_window",
+      "later_map_root_forbidden": true
+    }
+  ],
+  "chapter2_boss_chain": {
+    "raw_edges_forbidden": [
+      "arc_sangchul_mirror->arc_career_ceiling",
+      "arc_career_ceiling->arc_father_04_visit"
+    ],
+    "mirror": {
+      "weeks": [93, 93],
+      "requires_flags": ["arc_father_03_seen", "arc_sangchul_human_seen"],
+      "forbids_flags": ["father_passed", "sangchul_truth_known", "arc_sangchul_mirror_seen"]
+    },
+    "career": {
+      "weeks": [94, 96],
+      "requires_flags": ["arc_sangchul_mirror_seen"],
+      "requires": [{"path": "player.job.id", "op": "truthy"}],
+      "fallback": "skip_office_scene"
+    },
+    "father_decision": {
+      "owner_month": 23,
+      "weeks": [89, 92],
+      "root": "arc_father_04_visit",
+      "requires_flags": ["arc_father_03_seen"],
+      "forbids_flags": ["father_passed", "visited_father", "father_visit_deferred"]
+    }
+  },
+  "hospital_recovery": {
+    "weeks": [82, 88],
+    "root": "arc_father_03_hospital",
+    "requires_flags": [
+      "arc_father_02_done",
+      "arc_father_medication_seen",
+      "arc_34_parents_visit_seen"
+    ],
+    "forbids_flags": ["arc_father_03_seen", "father_passed"],
+    "normal_prelaunch_forbidden": true
+  },
+  "preserved_choice_topology_sha256": {
+    "arc_sangchul_confrontation": "b1dd804dd3f425d24bdda35eab8f610b02e828290aa67520c8da0ce2a42c8a43",
+    "arc_sangchul_buried_silence": "cc4df8102d0764899cc9cdc58e13e8044c22b762a0594f1d4c35233dcaa10cf7",
+    "arc_sangchul_stairwell": "f95e305d57a30f77ada5ab275c42364e302c3672761a1b4286b1a993feec6938",
+    "arc_sangchul_reckoning": "f6175e58b19965a5097b2d2149b25feba10ecd4756116a8f2e3b8c50653b7060"
+  },
+  "raw_edge_policy": {
+    "forbidden": [
+      "arc_34_money_attracts_money->arc_sangchul_03_network",
+      "arc_34_doors_open->arc_34_parents_visit",
+      "arc_daeun_03_fork->arc_father_medication",
+      "arc_father_medication->arc_jiyeon_03_offer",
+      "arc_sangchul_mirror->arc_career_ceiling",
+      "arc_career_ceiling->arc_father_04_visit"
+    ],
+    "required": [
+      "arc_goshiwon_goodbye->arc_housing_new_life",
+      "arc_year_one_mark->arc_34_money_attracts_money",
+      "arc_34_parents_visit->arc_father_03_hospital",
+      "arc_daeun_03_fork->arc_daeun_03_fork_hold_receipt",
+      "arc_daeun_03_fork->arc_daeun_03_fork_release_receipt",
+      "arc_sangchul_mirror->arc_sangchul_mirror_receipt",
+      "arc_sangchul_card_at_confrontation->arc_sangchul_confrontation",
+      "arc_sangchul_confrontation->arc_sangchul_reckoning",
+      "arc_sangchul_confrontation->arc_sangchul_buried_silence",
+      "arc_sangchul_confrontation->arc_sangchul_stairwell",
+      "arc_sangchul_buried_silence->arc_sangchul_reckoning",
+      "arc_sangchul_stairwell->arc_sangchul_reckoning",
+      "arc_37_reckoning->arc_final_year_start"
+    ]
+  }
+}

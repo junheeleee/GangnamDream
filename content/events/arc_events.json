@@ -4397,10 +4397,10 @@
       "artifact"
     ],
     "cooldown": 9999,
-    "description": "대면하기 전날 밤.\n\n주머니를 뒤지다 손에 걸렸다.\n그의 명함. 처음 만난 날 직접 건넨 것.\n뒷면에 직접 쓴 개인 번호.\n\n'이거 줄 사람 없어요. 민준 씨한테만 드리는 거니까.'\n\n{name}은 명함을 뒤집어봤다.\n같은 글씨. 같은 사람. 다른 이야기.",
+    "description": "약속 시간 10분 전, 같은 카페. 상철은 아직 오지 않았다.\n\n{name}은 빈 맞은편 의자를 보다가 주머니에서 명함을 꺼냈다. 처음 만난 날 상철이 직접 건넨 것. 뒷면에는 그가 손으로 쓴 개인 번호가 남아 있었다.\n\n'이거 줄 사람 없어요. 민준 씨한테만 드리는 거니까.'\n\n{name}은 명함을 뒤집어봤다.\n같은 글씨. 같은 사람. 다른 이야기.",
     "choices": [
       {
-        "text": "명함을 그대로 가지고 내일 만나기로 했다",
+        "text": "명함을 그대로 주머니에 넣고 상철을 기다렸다",
         "effects": {
           "tint": 3,
           "mental": -5
@@ -4409,10 +4409,11 @@
           "arc_sangchul_card_at_confrontation_seen",
           "confronted_with_card"
         ],
-        "result_text": "버리지 않았다.\n아는 것과 모르는 척하는 것 사이 어딘가에서,\n그 명함을 주머니에 다시 넣었다."
+        "follow_up_event": "arc_sangchul_confrontation",
+        "result_text": "버리지 않았다.\n아는 것과 모르는 척하는 것 사이 어딘가에서,\n그 명함을 주머니에 다시 넣었다.\n\n잠시 뒤 카페 유리문이 열렸다."
       },
       {
-        "text": "명함을 서랍에 넣었다. 가지고 싶지 않았다",
+        "text": "명함을 가방 안쪽에 넣었다. 테이블에는 꺼내지 않기로 했다",
         "effects": {
           "tint": -3,
           "mental": -3
@@ -4421,7 +4422,8 @@
           "arc_sangchul_card_at_confrontation_seen",
           "discarded_card_before_confrontation"
         ],
-        "result_text": "서랍을 닫았다.\n{name}은 내일 아무것도 없이 가기로 했다."
+        "follow_up_event": "arc_sangchul_confrontation",
+        "result_text": "가방 지퍼를 닫았다.\n{name}은 명함 없이 질문하기로 했다.\n\n잠시 뒤 카페 유리문이 열렸다."
       }
     ]
   },

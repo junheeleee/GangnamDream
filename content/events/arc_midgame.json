@@ -481,7 +481,6 @@
           "arc_career_ceiling_seen",
           "kept_job_as_base"
         ],
-        "follow_up_event": "arc_father_04_visit",
         "result_text": "주식 앱 알림을 끄고 폰을 엎어두었다. 근무 시간에는 월급을 지키고, 퇴근 뒤에 다른 가능성을 키우기로 했다. 회사는 목표가 아니라 자본을 공급하는 기반이었다.\n\n다음 날 {name}은 평소보다 일찍 출근해 맡은 일을 끝냈다. 아무도 그가 밤마다 다른 장부를 연다는 걸 몰랐다.\n\n두 삶을 동시에 붙드는 선택이었다. 어느 쪽 손이 먼저 풀릴지는 아직 몰랐다."
       },
       {
@@ -495,7 +494,6 @@
           "arc_career_ceiling_seen",
           "career_pivot_intent"
         ],
-        "follow_up_event": "arc_father_04_visit",
         "result_text": "퇴근길 지하철에서 이직 사이트를 열었다. 연봉 필터를 올릴수록 공고 수가 줄고, 요구 경력은 길어졌다. 그래도 지금 월급으로는 안 된다는 계산만큼은 분명했다.\n\n{name}은 관심 공고 세 개를 저장했다. 어느 판으로 옮길지, 그 판이 정말 다른지 아직 몰랐다.\n\n열차 문에 비친 사원증이 흔들렸다. 떠나기로 한 사람보다, 떠날 곳을 찾기 시작한 사람의 얼굴이었다."
       },
       {
@@ -507,7 +505,6 @@
         "flags": [
           "arc_career_ceiling_seen"
         ],
-        "follow_up_event": "arc_father_04_visit",
         "result_text": "계산기를 뒤집어 놓았다. 처음부터 월급만으로 갈 생각은 없었다. 이 숫자는 실패 통보가 아니라 역할을 확인한 것뿐이라고 스스로에게 말했다.\n\n월급은 생활을 버티게 하고, 남은 시간은 다른 것을 키운다. {name}은 다시 업무 화면을 켰다.\n\n모니터가 밝아지자 방금 본 천장이 사라졌다. 사라진 것과 없어진 것은 다르다는 걸 알면서도."
       }
     ]
@@ -1316,10 +1313,6 @@
           "arc_father_medication_seen",
           "called_about_medication"
         ],
-        "follow_up_event": "arc_jiyeon_03_offer",
-        "follow_up_requires_flags": [
-          "arc_jiyeon_store_seen"
-        ],
         "cast_effects": {
           "father": {
             "affinity": 3
@@ -1338,10 +1331,6 @@
         ],
         "deferred_follow_up": "callback_medication_ignored_echo",
         "deferred_delay": 12,
-        "follow_up_event": "arc_jiyeon_03_offer",
-        "follow_up_requires_flags": [
-          "arc_jiyeon_store_seen"
-        ],
       "result_text": "{name}은 ‘알겠어요. 잘 챙겨 주세요’라고 적어 어머니에게만 보냈다. 약 이름을 묻던 문장은 전송 버튼 앞에서 지웠다.\n\n열차가 들어오자 그는 사람들 사이에 섞여 탔다. 두 정거장을 지나는 동안 어머니의 읽음 표시만 켜졌고, 아버지 대화창은 열지 않았다.\n\n집에 도착했을 때도 확인한 사실은 하나도 늘지 않았다. 짧은 답장 시각만 가족 대화방에 남았다."
       },
       {
@@ -1357,10 +1346,6 @@
         ],
         "deferred_follow_up": "callback_medication_visited_echo",
         "deferred_delay": 12,
-        "follow_up_event": "arc_jiyeon_03_offer",
-        "follow_up_requires_flags": [
-          "arc_jiyeon_store_seen"
-        ],
         "cast_effects": {
           "father": {
             "affinity": 4
@@ -3713,6 +3698,8 @@
   {
     "id": "arc_y1_new_room_first_month",
     "title": "첫 공과금",
+    "background": "current_housing",
+    "portrait": "player_tired",
     "category": "story",
     "rarity": "story",
     "weight": 0,
@@ -3724,14 +3711,23 @@
     "choices": [
       {
         "text": "이체확인증을 책상 앞에 붙인다",
+        "flags": [
+          "arc_y1_new_room_first_month_seen"
+        ],
         "result_text": "{name}은 월세 날짜 아래에 전기요금 금액을 적고 이체확인증을 투명테이프로 붙였다. 종이 한쪽이 들뜨자 손톱으로 오래 눌렀다.\n\n다음 달 칸에도 같은 금액을 옮겨 적었다. 이제 이 방은 새 방이 아니라 매달 값을 내야 하는 현재 주소였다."
       },
       {
         "text": "아버지에게 방이 잘 돌아간다고 한 줄 보낸다",
+        "flags": [
+          "arc_y1_new_room_first_month_seen"
+        ],
           "result_text": "{name}은 보일러 표시등과 고지서가 함께 나오도록 사진을 찍었다. ‘전기 잘 들어오고 방 안 춥습니다’라고 보냈다.\n\n한참 뒤 아버지가 ‘그래’라고 답했다. 두 글자가 방 사진 아래에 남았다. {name}은 휴대폰을 고지서 위에 엎어 놓았다."
       },
       {
         "text": "비어 버린 생활표를 오늘 시각부터 다시 쓴다",
+        "flags": [
+          "arc_y1_new_room_first_month_seen"
+        ],
         "result_text": "{name}은 지키지 못한 칸에 뒤늦은 체크를 채우지 않았다. 오늘 저녁 식사, 내일 기상, 이번 주 쉬는 시간을 빈 칸부터 다시 적었다.\n\n펜을 내려놓자 냉장고 모터가 멎었다. 고시원에서는 들을 수 없었던, 자기 방만의 짧은 정적이 왔다."
       }
     ]
@@ -3759,14 +3755,23 @@
     "choices": [
       {
         "text": "오른 월세를 감수하고 일 년 갱신에 서명한다",
+        "flags": [
+          "arc_y2_relationship_fork_unattached_seen"
+        ],
         "result_text": "{name}은 새 월세와 종료일을 다시 읽고 일 년 갱신란에 서명했다. 집주인은 5시 49분에 확인 답을 보냈다.\n\n주소는 그대로 남았다. 대신 {name}은 매달 줄여야 할 금액을 수첩 첫 줄에 적었다. 빈 서명 칸 하나가 채워지자 다음 열두 달의 비용도 함께 고정됐다."
       },
       {
         "text": "여섯 달만 갱신하는 조건을 묻고 더 큰 보증금을 비교한다",
+        "flags": [
+          "arc_y2_relationship_fork_unattached_seen"
+        ],
         "result_text": "{name}은 일 년 대신 여섯 달 조건을 물었다. 집주인은 월세는 그대로 두되 보증금을 더 올린 답을 보내 왔다.\n\n{name}은 계좌 잔액과 추가 보증금을 나란히 적고 짧은 계약에 서명했다. 이동할 자유는 일찍 돌아왔지만, 당장 쓸 수 있는 현금은 그만큼 방 안에 묶였다."
       },
       {
         "text": "갱신을 거절하고 퇴실 점검 날짜를 지금 잡는다",
+        "flags": [
+          "arc_y2_relationship_fork_unattached_seen"
+        ],
         "result_text": "{name}은 갱신하지 않겠다고 보내고 집주인과 퇴실 점검 날짜를 정했다. 6시 2분, 달력에 이삿짐을 빼야 할 시각이 들어왔다.\n\n오른 월세는 피했지만 이 방의 종료일도 확정됐다. 책상 위에는 서명하지 않은 갱신서와, 아직 주소가 비어 있는 다음 달 일정이 나란히 남았다."
       }
     ]

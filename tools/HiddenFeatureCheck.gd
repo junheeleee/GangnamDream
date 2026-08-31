@@ -47,7 +47,7 @@ func _ready() -> void:
 			push_error("HIDDEN_FEATURE_CHECK_FAIL " + failure)
 		get_tree().quit(1)
 		return
-	print("HIDDEN_FEATURE_CHECK_OK artifact_choices=3 choice_grants=3 follow_up=1 conditional_follow_up=3x2 jiyeon_dik=1 daeun_route=1 dawn=5 drawer=1 keepsakes=6")
+	print("HIDDEN_FEATURE_CHECK_OK artifact_choices=3 choice_grants=3 follow_up=1 typed_delay=medication_blocked+w85_route_priority jiyeon_dik=1 daeun_route=1 dawn=5 drawer=1 keepsakes=6")
 	get_tree().quit(0)
 
 func _check_artifact_choice_visibility() -> void:
@@ -143,11 +143,34 @@ func _check_father_medication_follow_up_gate() -> void:
 	for choice_index in range(choices.size()):
 		var choice: Dictionary = choices[choice_index]
 		if story._choice_follow_up_id(
-				choice, "arc_father_medication", choice_index) \
-				!= "arc_jiyeon_03_offer":
+				choice, "arc_father_medication", choice_index) != "":
 			_fail(
-				"Father medication choice %d lost the eligible Jiyeon chain"
+				"Father medication choice %d restored the old immediate Jiyeon chain"
 					% choice_index)
+	GameState.flags["arc_father_medication_seen"] = true
+	GameState.flags.erase("arc_jiyeon_offer_seen")
+	GameState.flags["chapter_33_seen"] = true
+	GameState.flags["chapter_34_seen"] = true
+	var game = MainGameScript.new()
+	if game._next_arc_id(58, true, false) == "arc_jiyeon_03_offer":
+		_fail("Father medication still opened Jiyeon in the M15 source week")
+	game.free()
+
+	# Jiyeon's reunion is a typed M22 ingress. It opens only when Daeun's
+	# established route does not own the month, and Daeun retains priority when
+	# both people's historical facts exist.
+	GameState.flags.erase("arc_daeun_regular_seen")
+	GameState.flags.erase("arc_daeun_fork_seen")
+	game = MainGameScript.new()
+	if game._next_arc_id(85, true, false) != "arc_jiyeon_03_offer":
+		_fail("Eligible Jiyeon history did not open in the exact M22 window")
+	game.free()
+	GameState.flags["arc_daeun_regular_seen"] = true
+	GameState.apply_cast_effect("daeun", {"affinity": 20})
+	game = MainGameScript.new()
+	if game._next_arc_id(85, true, false) != "arc_daeun_03_fork":
+		_fail("M22 route priority did not preserve Daeun before Jiyeon")
+	game.free()
 	var health_call: Dictionary = DataRegistry.find_event(
 		"father_health_call")
 	var no_flags: Variant = (
@@ -159,7 +182,8 @@ func _check_father_medication_follow_up_gate() -> void:
 		_fail("Father's random health call can repeat known medication news")
 	print(
 		"HIDDEN_FEATURE_EVIDENCE father_medication "
-		+ "jiyeon_gate=3x2 repeated_health_news=blocked")
+		+ "raw_follow_up=blocked source_week=blocked m22_jiyeon=eligible "
+		+ "m22_daeun=priority repeated_health_news=blocked")
 	story.free()
 
 func _check_jiyeon_third_path() -> void:

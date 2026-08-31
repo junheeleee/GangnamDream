@@ -53,8 +53,8 @@ PEAK_ROOTS = (
     ("Jaehyuk Ghost", "arc_jaehyuk_04a_ghost"),
     ("Jaehyuk's True Face", "arc_jaehyuk_mirror"),
     ("The Last Signature", "arc_final_countdown"),
-    ("Three Claims in One Week", "arc_daeun_03_fork"),
-    ("The Mirror and the Hospital Door", "arc_sangchul_mirror"),
+    ("The Cost of Staying or Leaving", "arc_daeun_03_fork"),
+    ("The Mirror Receipt", "arc_sangchul_mirror"),
 )
 
 MIN_LINKS = 2
@@ -96,6 +96,18 @@ REQUIRED_PASS = {
     "arc_season_sea_jiyeon",
     "arc_season_fireworks_daeun",
     "arc_season_fireworks_jiyeon",
+}
+
+ORDER143_PEAK_FOLLOWUPS = {
+    "arc_daeun_03_fork": (
+        "arc_daeun_03_fork_hold_receipt",
+        "arc_daeun_03_fork_release_receipt",
+    ),
+    "arc_sangchul_mirror": (
+        "arc_sangchul_mirror_receipt",
+        "arc_sangchul_mirror_receipt",
+        "arc_sangchul_mirror_receipt",
+    ),
 }
 
 
@@ -214,6 +226,99 @@ def validate_english_path(
                 f"English peak choice mismatch: {event_id} "
                 f"{len(en_choices)}!={len(ko_choices)}"
             )
+
+
+def validate_order143_peak_repairs(events: dict[str, dict[str, Any]]) -> None:
+    """Reject unrelated raw chains masquerading as M22/M24 peak density."""
+    daeun = events.get("arc_daeun_03_fork", {})
+    mirror = events.get("arc_sangchul_mirror", {})
+    daeun_choices = daeun.get("choices", [])
+    mirror_choices = mirror.get("choices", [])
+    actual_followups = {
+        "arc_daeun_03_fork": tuple(
+            str(choice.get("follow_up_event", "")) for choice in daeun_choices
+        ),
+        "arc_sangchul_mirror": tuple(
+            str(choice.get("follow_up_event", "")) for choice in mirror_choices
+        ),
+    }
+    if actual_followups != ORDER143_PEAK_FOLLOWUPS:
+        raise ValueError(
+            "ORDER-143 peak receipts drifted: "
+            f"{actual_followups!r}"
+        )
+
+    daeun_root_contracts = (
+        (
+            {"daeun_chose_her", "arc_daeun_fork_seen"},
+            {"mental": 15, "tint": 9},
+            {"daeun": {"affinity": 20, "stage": "close"}},
+        ),
+        (
+            {"daeun_let_her_go", "arc_daeun_fork_seen"},
+            {"mental": -12, "tint": -7},
+            {"daeun": {"affinity": -5, "stage": "distant"}},
+        ),
+    )
+    for index, (flags, effects, cast_effects) in enumerate(daeun_root_contracts):
+        choice = daeun_choices[index]
+        if (
+            set(choice.get("flags", [])) != flags
+            or choice.get("effects") != effects
+            or choice.get("cast_effects") != cast_effects
+        ):
+            raise ValueError(f"ORDER-143 Daeun root consequence drifted: choice {index}")
+
+    mirror_root_contracts = (
+        (
+            {"sangchul_called_you_his_mirror", "arc_sangchul_mirror_seen"},
+            {"tint": 1},
+        ),
+        (
+            {"sangchul_called_you_his_mirror", "arc_sangchul_mirror_seen"},
+            {"mental": -6, "tint": 2},
+        ),
+        (
+            {
+                "sangchul_called_you_his_mirror",
+                "denied_sangchul_mirror",
+                "arc_sangchul_mirror_seen",
+            },
+            {"mental": -10, "tint": 2},
+        ),
+    )
+    for index, (flags, effects) in enumerate(mirror_root_contracts):
+        choice = mirror_choices[index]
+        if set(choice.get("flags", [])) != flags or choice.get("effects") != effects:
+            raise ValueError(f"ORDER-143 mirror root consequence drifted: choice {index}")
+
+    receipt_contracts = {
+        "arc_daeun_03_fork_hold_receipt": (
+            {"daeun_stay_receipt_shared", "arc_daeun_fork_receipt_seen"},
+            {"daeun_stay_receipt_hometown_visit", "arc_daeun_fork_receipt_seen"},
+        ),
+        "arc_daeun_03_fork_release_receipt": (
+            {"daeun_release_named_goal", "arc_daeun_fork_receipt_seen"},
+            {"daeun_release_owned_silence", "arc_daeun_fork_receipt_seen"},
+        ),
+        "arc_sangchul_mirror_receipt": (
+            {"sangchul_mirror_hospital_face_up", "arc_sangchul_mirror_receipt_seen"},
+            {"sangchul_mirror_deal_face_up", "arc_sangchul_mirror_receipt_seen"},
+        ),
+    }
+    for event_id, expected_flags in receipt_contracts.items():
+        choices = events.get(event_id, {}).get("choices", [])
+        if len(choices) != 2:
+            raise ValueError(f"ORDER-143 peak receipt lost its decision: {event_id}")
+        for index, flags in enumerate(expected_flags):
+            choice = choices[index]
+            effects = choice.get("effects", {})
+            if set(choice.get("flags", [])) != flags or not {
+                "mental", "tint"
+            }.issubset(effects):
+                raise ValueError(
+                    f"ORDER-143 peak receipt consequence drifted: {event_id}[{index}]"
+                )
 
 
 def validate_distributed_relationship_bill(
@@ -3139,6 +3244,7 @@ def main() -> int:
     validate_breakup_peak_contracts(ko_events)
     validate_jiyeon_marriage_routing_contract()
     validate_review_appendix_contracts(ko_events, en_events)
+    validate_order143_peak_repairs(ko_events)
     validate_finale_function_contracts(ko_events, en_events)
     distributed_metrics = validate_distributed_relationship_bill(
         ko_events, en_events

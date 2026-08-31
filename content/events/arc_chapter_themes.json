@@ -365,7 +365,7 @@
   {
     "id": "arc_34_money_attracts_money",
     "title": "돈이 돈을 부른다는 말",
-    "background": "investment_phone",
+    "background": "current_housing",
     "portrait": "player_normal",
     "category": "story",
     "rarity": "story",
@@ -397,7 +397,6 @@
         "flags": [
           "arc_34_money_attracts_seen"
         ],
-        "follow_up_event": "arc_sangchul_03_network",
         "result_text": "세상이 불공평하다고 욕하는 것과, 그 구조를 이해하고 이용하는 건 다르다. {name}은 후자를 택했다. 화는 연료로만 쓰기로 했다."
       },
       {
@@ -410,7 +409,6 @@
         "flags": [
           "arc_34_money_attracts_seen"
         ],
-        "follow_up_event": "arc_sangchul_03_network",
         "result_text": "언젠가 위로 올라가면, 밑에서 이자만 내던 시절을 잊는 사람이 되고 싶지 않았다. {name}은 그 다짐을 어딘가에 적어뒀다. 잊을 게 뻔해서."
       },
       {
@@ -422,7 +420,6 @@
         "flags": [
           "arc_34_money_attracts_seen"
         ],
-        "follow_up_event": "arc_sangchul_03_network",
         "result_text": "왜 누구는 시작부터 1,000만원이고 누구는 100만원인가. {name}은 그 질문에 답이 없다는 걸 알면서도 한참 붙잡고 있었다. 분노도 에너지이긴 했다."
       }
     ]
@@ -458,7 +455,6 @@
         "flags": [
           "arc_34_doors_open_seen"
         ],
-        "follow_up_event": "arc_34_parents_visit",
         "result_text": "{name}은 닫히는 문을 붙잡고 자기 이름과 하는 일을 먼저 말했다. 두 사람이 연락처를 건넸고, 한 사람은 다음 공개 일정을 알려 줬다. 대신 먼저 타려던 열차는 떠났고, 가방 속 자료는 오늘도 끝내지 못했다."
       },
       {
@@ -471,7 +467,6 @@
         "flags": [
           "arc_34_doors_open_seen"
         ],
-        "follow_up_event": "arc_34_parents_visit",
         "result_text": "진행자는 공개 모임과 유료 소모임을 나눠 적고, 누가 참가자를 고르는지도 써 줬다. 설명을 받는 사이 엘리베이터 문이 닫혔다. 연락처는 하나도 얻지 못했지만, 적어도 어떤 조건으로 열리는 자리인지는 종이에 남았다."
       },
       {
@@ -483,7 +478,6 @@
         "flags": [
           "arc_34_doors_open_seen"
         ],
-        "follow_up_event": "arc_34_parents_visit",
         "result_text": "{name}은 이름을 쓰지 않은 카드를 진행자에게 돌려주고 역으로 향했다. 새 연락처는 생기지 않았다. 대신 열차 안에서 미뤄 둔 자료의 마지막 장을 완성했다. 오늘 닫힌 자리가 다시 열릴지는 알 수 없었다."
       }
     ]
@@ -541,22 +535,30 @@
       "arc",
       "chapter2",
       "money_structure",
-      "bank",
-      "author_only"
+      "bank"
     ],
     "cooldown": 9999,
     "description": "프린터에서 막 나온 예비 한도 계산표는 아직 따뜻했고, 작은 활자에서는 토너 냄새가 났다. 오후 4시 40분, 은행 상담 창구에서 {name}은 예상보다 큰 맨 위 숫자와 그 아래 붙은 금리 변동·소득 확인·거절 조건을 읽었다.\n\n은행원은 예비 최대값에 형광펜을 그었다. “승인 가능성을 계산한 값이지, 감당 가능한 금액도 공식 한도도 아닙니다.” 월 납입액을 현재 수입으로 나누면 버틸 수 있어 보였다. 수입이 한 달만 줄었을 때의 칸은 비어 있었다.\n\n상담 종료까지 12분. 위험 조건표를 만들지, 스스로 쓸 상한을 낮춰 공식 한도서를 받을지, 예비 최대값 그대로 공식 한도서를 받을지 정해야 했다.",
     "choices": [
       {
         "text": "거절되는 조건과 수입이 줄 때의 월 납입액부터 적게 한다",
+        "flags": [
+          "arc_y2_bank_limit_review_seen"
+        ],
         "result_text": "은행원은 실직·소득 감소·금리 상승 세 줄을 별도 위험 조건표로 출력했다. 예비 최대값 아래의 월 납입액이 세 번 달라졌다.\n\n{name}은 가장 나쁜 달의 금액에 동그라미를 쳤다. 상담 시간은 끝났고 공식 한도서는 발급받지 못했다. 큰 숫자를 들고 나가는 대신, 무엇이 먼저 무너지는지만 종이에 남았다."
       },
       {
         "text": "현재 수입으로 혼자 갚을 수 있는 금액까지만 다시 계산한다",
+        "flags": [
+          "arc_y2_bank_limit_review_seen"
+        ],
         "result_text": "{name}은 현재 확인된 자기 수입만으로, 수입이 한 달 줄어도 갚을 수 있는 금액을 다시 계산해 달라고 했다. 새 한도는 처음 숫자보다 크게 줄었다.\n\n은행원은 두 장을 나란히 놓았다. {name}은 큰 숫자 대신 작은 한도서에 날짜를 적었다. 얻을 수 있는 돈보다 책임질 수 있는 돈이 먼저 선명해졌다."
       },
       {
         "text": "공식 최대 한도서는 받되 오늘은 신청하지 않는다",
+        "flags": [
+          "arc_y2_bank_limit_review_seen"
+        ],
         "result_text": "{name}은 예비 최대값 그대로 공식 한도서를 발급받고 설명 확인란에만 서명했다. 신청서는 비워 뒀고, 은행원은 한도서의 유효 기간에 형광펜을 한 번 더 그었다.\n\n문을 나설 때 손에는 당장 쓸 수 있는 공식 서류가 있었지만 위험 조건표는 없었다. 계좌에는 아무 돈도 들어오지 않았고, 다시 판단할 기한만 선명했다."
       }
     ]

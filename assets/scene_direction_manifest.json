@@ -1041,7 +1041,10 @@
       "amb_credit_confront",
       "amb_hoesik_dodge",
       "amb_jobswitch_in",
+      "arc_34_money_attracts_money",
       "arc_daeun_02b_dream",
+      "arc_daeun_03_fork_hold_receipt",
+      "arc_daeun_03_fork_release_receipt",
       "arc_daeun_first_kiss_ask",
       "arc_daeun_first_kiss_choice",
       "arc_daeun_first_kiss_wait",
@@ -1078,11 +1081,16 @@
       "arc_sangchul_01_answer",
       "arc_sangchul_01_coffee",
       "arc_sangchul_01_measure",
+      "arc_sangchul_buried_silence",
       "arc_sangchul_casino_cost",
       "arc_sangchul_casino_decision",
+      "arc_sangchul_confrontation",
       "arc_sangchul_deduction_career",
       "arc_sangchul_deduction_case",
       "arc_sangchul_deduction_decision",
+      "arc_sangchul_mirror_receipt",
+      "arc_sangchul_reckoning",
+      "arc_sangchul_stairwell",
       "arc_season_fireworks_daeun_decision",
       "arc_season_fireworks_daeun_dress",
       "arc_season_fireworks_daeun_river",
@@ -1827,7 +1835,6 @@
       "arc_1b_isolation",
       "arc_1b_isolation_father_passed",
       "arc_34_doors_open",
-      "arc_34_money_attracts_money",
       "arc_34_parents_visit",
       "arc_34_routine_trap",
       "arc_34_two_years_in",
@@ -1978,10 +1985,8 @@
       "arc_sangchul_01_meet",
       "arc_sangchul_02_coffee",
       "arc_sangchul_03_network",
-      "arc_sangchul_buried_silence",
       "arc_sangchul_card_at_confrontation",
       "arc_sangchul_casino_arrival",
-      "arc_sangchul_confrontation",
       "arc_sangchul_deduction",
       "arc_sangchul_final_door",
       "arc_sangchul_human",
@@ -1991,8 +1996,6 @@
       "arc_sangchul_mirror",
       "arc_sangchul_ng_meet",
       "arc_sangchul_offguard",
-      "arc_sangchul_reckoning",
-      "arc_sangchul_stairwell",
       "arc_sangchul_year3",
       "arc_sangchul_year3_father_passed",
       "arc_season_cherry_daeun",
@@ -2020,7 +2023,10 @@
       "arc_temptation_fallout",
       "arc_why_gangnam_real",
       "arc_why_gangnam_real_father_passed",
+      "arc_y1_new_room_first_month",
+      "arc_y2_bank_limit_review",
       "arc_y2_hyunsu_night_bus",
+      "arc_y2_relationship_fork_unattached",
       "arc_y2_sangchul_first_favor",
       "arc_y2_worn_face",
       "arc_y3_cost_of_knowing",
@@ -2547,26 +2553,14 @@
       "audio_policy": "crossfade",
       "reduced_motion": "static_fade"
     },
-    "arc_34_doors_open->arc_34_parents_visit": {
-      "mode": "explicit_move",
-      "from_surface": "meeting",
-      "to_surface": "current_housing",
-      "audio_policy": "crossfade",
-      "reduced_motion": "static_fade"
-    },
-    "arc_34_money_attracts_money->arc_sangchul_03_network": {
-      "mode": "explicit_move",
-      "from_surface": "investment_phone",
-      "to_surface": "sangchul_private_dining",
-      "audio_policy": "crossfade",
-      "reduced_motion": "static_fade"
-    },
     "arc_34_parents_visit->arc_father_03_hospital": {
-      "mode": "remote",
+      "mode": "time_cut",
       "from_surface": "current_housing",
       "to_surface": "current_housing",
-      "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "audio_policy": "crossfade",
+      "reduced_motion": "static_fade",
+      "arrival_cue_ko": "부모님이 서울에서 내려간 지 나흘째",
+      "arrival_cue_en": "Four days after his parents returned from Seoul"
     },
     "arc_36_reality_check->arc_year_three_crossroads": {
       "mode": "time_cut",
@@ -2582,13 +2576,6 @@
       "audio_policy": "continue",
       "reduced_motion": "static_update"
     },
-    "arc_career_ceiling->arc_father_04_visit": {
-      "mode": "explicit_move",
-      "from_surface": "office",
-      "to_surface": "hospital",
-      "audio_policy": "crossfade",
-      "reduced_motion": "static_fade"
-    },
     "arc_daeun_02_regular->arc_daeun_02b_dream": {
       "mode": "same_location",
       "from_surface": "convenience_night",
@@ -2596,12 +2583,19 @@
       "audio_policy": "continue",
       "reduced_motion": "static_update"
     },
-    "arc_daeun_03_fork->arc_father_medication": {
-      "mode": "explicit_move",
+    "arc_daeun_03_fork->arc_daeun_03_fork_hold_receipt": {
+      "mode": "same_location",
       "from_surface": "convenience_night",
-      "to_surface": "subway",
-      "audio_policy": "crossfade",
-      "reduced_motion": "static_fade"
+      "to_surface": "convenience_night",
+      "audio_policy": "continue",
+      "reduced_motion": "static_update"
+    },
+    "arc_daeun_03_fork->arc_daeun_03_fork_release_receipt": {
+      "mode": "same_location",
+      "from_surface": "convenience_night",
+      "to_surface": "convenience_night",
+      "audio_policy": "continue",
+      "reduced_motion": "static_update"
     },
     "arc_daeun_final_choice->arc_daeun_final_choice_kitchen": {
       "mode": "same_location",
@@ -2847,13 +2841,6 @@
       "to_surface": "ktx_window",
       "audio_policy": "continue",
       "reduced_motion": "static_update"
-    },
-    "arc_father_medication->arc_jiyeon_03_offer": {
-      "mode": "explicit_move",
-      "from_surface": "subway",
-      "to_surface": "street_rainy",
-      "audio_policy": "crossfade",
-      "reduced_motion": "static_fade"
     },
     "arc_father_passing->arc_father_passing_deal_room": {
       "mode": "explicit_move",
@@ -3212,6 +3199,13 @@
       "audio_policy": "continue",
       "reduced_motion": "static_update"
     },
+    "arc_sangchul_card_at_confrontation->arc_sangchul_confrontation": {
+      "mode": "same_location",
+      "from_surface": "cafe",
+      "to_surface": "cafe",
+      "audio_policy": "continue",
+      "reduced_motion": "static_update"
+    },
     "arc_sangchul_casino_cost->arc_sangchul_casino_decision": {
       "mode": "same_location",
       "from_surface": "current_housing",
@@ -3250,25 +3244,25 @@
       "reduced_motion": "static_update"
     },
     "arc_sangchul_confrontation->arc_sangchul_buried_silence": {
-      "mode": "explicit_move",
-      "from_surface": "seoul_cafe",
+      "mode": "same_location",
+      "from_surface": "cafe",
       "to_surface": "cafe",
-      "audio_policy": "crossfade",
-      "reduced_motion": "static_fade"
+      "audio_policy": "continue",
+      "reduced_motion": "static_update"
     },
     "arc_sangchul_confrontation->arc_sangchul_reckoning": {
-      "mode": "explicit_move",
-      "from_surface": "seoul_cafe",
+      "mode": "same_location",
+      "from_surface": "cafe",
       "to_surface": "cafe",
-      "audio_policy": "crossfade",
-      "reduced_motion": "static_fade"
+      "audio_policy": "continue",
+      "reduced_motion": "static_update"
     },
     "arc_sangchul_confrontation->arc_sangchul_stairwell": {
-      "mode": "explicit_move",
-      "from_surface": "seoul_cafe",
-      "to_surface": "street",
-      "audio_policy": "crossfade",
-      "reduced_motion": "static_fade"
+      "mode": "same_location",
+      "from_surface": "cafe",
+      "to_surface": "cafe",
+      "audio_policy": "continue",
+      "reduced_motion": "static_update"
     },
     "arc_sangchul_deduction->arc_sangchul_deduction_career": {
       "mode": "same_location",
@@ -3298,19 +3292,19 @@
       "audio_policy": "continue",
       "reduced_motion": "static_update"
     },
-    "arc_sangchul_mirror->arc_career_ceiling": {
-      "mode": "explicit_move",
+    "arc_sangchul_mirror->arc_sangchul_mirror_receipt": {
+      "mode": "same_location",
       "from_surface": "pojangmacha",
-      "to_surface": "office",
-      "audio_policy": "crossfade",
-      "reduced_motion": "static_fade"
+      "to_surface": "pojangmacha",
+      "audio_policy": "continue",
+      "reduced_motion": "static_update"
     },
     "arc_sangchul_stairwell->arc_sangchul_reckoning": {
-      "mode": "explicit_move",
-      "from_surface": "street",
+      "mode": "same_location",
+      "from_surface": "cafe",
       "to_surface": "cafe",
-      "audio_policy": "crossfade",
-      "reduced_motion": "static_fade"
+      "audio_policy": "continue",
+      "reduced_motion": "static_update"
     },
     "arc_season_fireworks_daeun->arc_season_fireworks_daeun_dress": {
       "mode": "same_location",
@@ -3489,11 +3483,11 @@
       "reduced_motion": "static_update"
     },
     "arc_year_one_mark->arc_34_money_attracts_money": {
-      "mode": "explicit_move",
+      "mode": "same_location",
       "from_surface": "current_housing",
-      "to_surface": "investment_phone",
-      "audio_policy": "crossfade",
-      "reduced_motion": "static_fade"
+      "to_surface": "current_housing",
+      "audio_policy": "continue",
+      "reduced_motion": "static_update"
     },
     "butterfly_mystery_info_offer->butterfly_mystery_info_details": {
       "mode": "same_location",

@@ -793,10 +793,8 @@ PATH_A = dict(SPINE_COMMON, **{  # 정석/다은 보냄/사기당함/진실모�
     "arc_temptation_01": ["arc_temptation_seen", "kept_clean_hands"],
     # 방문하지 못한 경로를 고정해 23초 KTX 전처리와 임종 체인을 검증한다.
     "arc_father_04_visit": ["father_visit_deferred"],
-    # The Chapter 2 mirror root now immediately reaches the hospital-door
-    # choice. Model the same deferred branch here so the scheduler does not
-    # count the terminal event a second time at t90.
-    "arc_sangchul_mirror": ["arc_sangchul_mirror_seen", "father_visit_deferred"],
+    # The mirror is now independent from the M23 hospital-door decision.
+    "arc_sangchul_mirror": ["arc_sangchul_mirror_seen"],
     "arc_daeun_03_fork": ["arc_daeun_fork_seen", "daeun_let_her_go"],
     "arc_daeun_ghost": ["arc_daeun_ghost_seen"],
     "arc_daeun_year3_apart": ["arc_daeun_year3_apart_seen"],
@@ -810,9 +808,7 @@ PATH_A = dict(SPINE_COMMON, **{  # 정석/다은 보냄/사기당함/진실모�
 })
 PATH_B = dict(SPINE_COMMON, **{  # 비정석/진실/다은 함께/재혁 역공
     "arc_temptation_01": ["arc_temptation_seen", "lent_account"],
-    # Path B enters the room when the Chapter 2 mirror chain reaches its
-    # terminal hospital-door choice.
-    "arc_sangchul_mirror": ["arc_sangchul_mirror_seen", "visited_father"],
+    "arc_sangchul_mirror": ["arc_sangchul_mirror_seen"],
     "arc_sangchul_deduction": ["arc_sangchul_deduction_seen", "sangchul_truth_known", "deduced_sangchul_truth"],
     "arc_sangchul_known_offer": ["arc_sangchul_known_offer_seen", "used_sangchul_knowingly"],
     "arc_sangchul_known_reflex": ["arc_sangchul_known_reflex_seen"],
@@ -977,6 +973,95 @@ def chapter_four_father_outcome(S):
     return "arc_father_passing"
 
 
+def story_graph_contract_event(S):
+    """Mirror ORDER-143's exact M08+ typed story-graph router."""
+    t = S.t
+    f = S.flags
+    father_is_passed = father_death_is_monotonic(S)
+    if t == 37 \
+            and f.get("arc_housing_new_life_seen") \
+            and S.housing != "gosiwon" \
+            and not f.get("arc_y1_new_room_first_month_seen"):
+        return "arc_y1_new_room_first_month"
+    if 49 <= t <= 52:
+        if not f.get("arc_year_one_mark_seen"):
+            return "arc_year_one_mark"
+        if not f.get("arc_34_money_attracts_seen"):
+            return "arc_34_money_attracts_money"
+    if 53 <= t <= 56 and f.get("arc_34_money_attracts_seen"):
+        network_eligible = bool(f.get("arc_sangchul_02_seen")) \
+            and S.get_total_asset_value() >= 1_000_000
+        if network_eligible:
+            return "" if f.get("arc_sangchul_03_seen") \
+                else "arc_sangchul_03_network"
+        return "" if f.get("arc_y2_bank_limit_review_seen") \
+            else "arc_y2_bank_limit_review"
+    if 57 <= t <= 60 \
+            and not father_is_passed \
+            and f.get("arc_father_02_done") \
+            and not f.get("arc_father_medication_seen"):
+        return "arc_father_medication"
+    if 77 <= t <= 80 and not f.get("arc_34_doors_open_seen"):
+        return "arc_34_doors_open"
+    if 82 <= t <= 88 \
+            and not father_is_passed \
+            and f.get("arc_father_02_done") \
+            and f.get("arc_father_medication_seen") \
+            and f.get("arc_34_parents_visit_seen") \
+            and not f.get("arc_father_03_seen"):
+        return "arc_father_03_hospital"
+    if 85 <= t <= 88:
+        daeun_eligible = bool(f.get("arc_daeun_regular_seen")) \
+            and S.get_cast_affinity("daeun") >= 12
+        if daeun_eligible:
+            return "" if f.get("arc_daeun_fork_seen") else "arc_daeun_03_fork"
+        if f.get("arc_jiyeon_store_seen"):
+            return "" if f.get("arc_jiyeon_offer_seen") else "arc_jiyeon_03_offer"
+        return "" if f.get("arc_y2_relationship_fork_unattached_seen") \
+            else "arc_y2_relationship_fork_unattached"
+    if 89 <= t <= 92 \
+            and not father_is_passed \
+            and f.get("arc_father_02_done") \
+            and f.get("arc_father_medication_seen"):
+        if not f.get("arc_34_parents_visit_seen"):
+            return "arc_34_parents_visit"
+        if not f.get("arc_father_03_seen"):
+            return "arc_father_03_hospital"
+        if not f.get("visited_father") and not f.get("father_visit_deferred"):
+            return "arc_father_04_visit"
+    if t == 93 \
+            and not father_is_passed \
+            and f.get("arc_father_03_seen") \
+            and (f.get("visited_father") or f.get("father_visit_deferred")) \
+            and S.get_cast_affinity("sangchul") >= 65 \
+            and f.get("arc_sangchul_human_seen") \
+            and not f.get("sangchul_truth_known") \
+            and not f.get("arc_sangchul_mirror_seen"):
+        return "arc_sangchul_mirror"
+    if 94 <= t <= 96 \
+            and f.get("arc_sangchul_mirror_seen") \
+            and not S.current_job.is_empty() \
+            and S.job_tenure >= 6 \
+            and not f.get("arc_career_ceiling_seen"):
+        return "arc_career_ceiling"
+    if t == 95 \
+            and f.get("daeun_chose_her") \
+            and not f.get("daeun_let_her_go") \
+            and not f.get("arc_daeun_money_gap_seen"):
+        return "arc_daeun_money_gap"
+    if t == 132 \
+            and f.get("sangchul_truth_known") \
+            and not f.get("sangchul_confronted") \
+            and not f.get("sangchul_truth_buried") \
+            and not f.get("sangchul_quietly_distanced") \
+            and not f.get("arc_sangchul_confrontation_seen"):
+        if S.has_item("artifact_sangchul_card") \
+                and not f.get("arc_sangchul_card_at_confrontation_seen"):
+            return "arc_sangchul_card_at_confrontation"
+        return "arc_sangchul_confrontation"
+    return ""
+
+
 def chapter_four_causal_event(S):
     """Mirror MainGame's exact W153-W190 Chapter 4 product router."""
     t = S.t
@@ -1071,6 +1156,7 @@ def run(spine, traj, cast_flag_hook, choice_indices):
     for t in range(1, 241):
         S.t = t; traj(S); cast_flag_hook(S)
         protected_chapter_four_action = False
+        protected_story_graph_action = False
         protected_chapter_five_action = False
         protected_chapter_five_finale_action = False
         # MainGame protects the exact Year 4 close and causal actions before
@@ -1083,14 +1169,21 @@ def run(spine, traj, cast_flag_hook, choice_indices):
             # roots. The W193 handoff must therefore happen inside the same
             # StoryMode queue or reckoning slips to Week 194.
             chosen = "chapter_card_37"
-        elif t == 192 and not S.flags.get("arc_year4_close_seen"):
-            chosen = "arc_year4_close"
+        elif t in (48, 96, 144, 192) \
+                and not S.flags.get(f"arc_year{t // 48}_close_seen"):
+            # Exact year closes sit above the deferred foreground queue in
+            # _next_arc_id. ORDER-143's M34 echo may become ready at W144,
+            # but it cannot replace the canonical boundary.
+            chosen = f"arc_year{t // 48}_close"
         else:
             chosen = chapter5_causal_event(S)
             protected_chapter_five_action = bool(chosen)
             if not chosen:
                 chosen = chapter5_finale_event(S)
                 protected_chapter_five_finale_action = bool(chosen)
+            if not chosen:
+                chosen = story_graph_contract_event(S)
+                protected_story_graph_action = bool(chosen)
             if not chosen:
                 chosen = chapter_four_causal_event(S)
                 protected_chapter_four_action = bool(chosen)
@@ -1120,6 +1213,8 @@ def run(spine, traj, cast_flag_hook, choice_indices):
                 firelog[t] = root_id
                 for fl in own_seen_flags(root_id): S.flags[fl] = True
                 for fl in spine.get(root_id, []): S.flags[fl] = True
+                if protected_story_graph_action and root_id == chosen:
+                    apply_immediate_choice_state(S, root_id, choice_indices)
                 if protected_chapter_four_action and root_id == chosen:
                     apply_immediate_choice_state(S, root_id, choice_indices)
                 if protected_chapter_five_action \
@@ -1166,6 +1261,8 @@ YEARS = {1: (1, 48), 2: (49, 96), 3: (97, 144), 4: (145, 192), 5: (193, 240)}
 PATHS = [
     ("A 정석/다은보냄/사기", PATH_A, traj_A, hookA, {
         "arc_jaehyuk_03_pitch": 0,
+        "arc_daeun_03_fork": 1,
+        "arc_father_04_visit": 3,
         "hyunsu_study_together": 1,
         "hyunsu_result_fail": 0,
         "arc_hyunsu_exam_fail": 0,
@@ -1173,6 +1270,9 @@ PATHS = [
     }),
     ("B 비정석/진실/committed", PATH_B, traj_B, hookB, {
         "arc_jaehyuk_03_pitch": 2,
+        "arc_daeun_03_fork": 0,
+        "arc_father_04_visit": 0,
+        "arc_sangchul_reckoning": 2,
         "hyunsu_study_together": 1,
         "hyunsu_result_fail": 0,
         "arc_hyunsu_exam_fail": 2,
@@ -1182,16 +1282,23 @@ PATHS = [
 # 경로별 완결돼야 하는 대표 체인
 CHAINS = {
     "A 정석/다은보냄/사기": [
-        "arc_year_one_mark", "arc_daeun_03_fork", "arc_34_doors_open",
-        "arc_sangchul_mirror",
+        "arc_y1_new_room_first_month", "arc_year_one_mark",
+        "arc_sangchul_03_network", "arc_father_medication",
+        "arc_34_doors_open", "arc_daeun_03_fork",
+        "arc_34_parents_visit", "arc_father_04_visit",
+        "arc_sangchul_mirror", "arc_career_ceiling",
         "arc_daeun_ghost", "arc_jaehyuk_04c_stand_up", "arc_36_trust_crack",
         "arc_father_call_on_ktx", "arc_father_passing", "arc_father_legacy",
         "arc_final_countdown",
     ],
     "B 비정석/진실/committed": [
-        "arc_year_one_mark", "arc_daeun_03_fork", "arc_34_doors_open",
-        "arc_sangchul_mirror",
-        "arc_sangchul_confrontation", "arc_daeun_proposal",
+        "arc_y1_new_room_first_month", "arc_year_one_mark",
+        "arc_sangchul_03_network", "arc_father_medication",
+        "arc_34_doors_open", "arc_daeun_03_fork",
+        "arc_34_parents_visit", "arc_father_04_visit",
+        "arc_sangchul_mirror", "arc_career_ceiling",
+        "arc_daeun_money_gap", "arc_sangchul_confrontation",
+        "arc_y3_cost_of_knowing", "arc_daeun_proposal",
         "arc_daeun_wedding_day", "arc_daeun_final_choice", "arc_36_trust_crack",
         "arc_father_passing", "arc_y5_father_trace_passed_exact",
         "arc_y5_father_trace_custody", "arc_y5_name_on_line_daeun_routed",
@@ -1205,12 +1312,12 @@ CHAINS = {
 }
 REQUIRED_FLAGS = {
     "A 정석/다은보냄/사기": [
-        "arc_sangchul_03_seen", "arc_jiyeon_offer_seen", "arc_father_03_seen",
+        "arc_sangchul_03_seen", "arc_father_03_seen",
         "father_visit_deferred", "arc_36_unexpected_hand_seen", "arc_final_week_seen",
         "arc_final_year_start_seen",
     ],
     "B 비정석/진실/committed": [
-        "arc_sangchul_03_seen", "arc_jiyeon_offer_seen", "arc_father_03_seen",
+        "arc_sangchul_03_seen", "arc_father_03_seen",
         "visited_father", "arc_36_unexpected_hand_seen", "arc_final_week_seen",
         "arc_final_year_start_seen",
     ],
@@ -1225,26 +1332,26 @@ EXPECTED_LATE_TEMPORAL = {
     "A 정석/다은보냄/사기": {
         69: "arc_year_one_half",
         87: "arc_34_two_years_in",
-        149: "arc_35_path_cost",
-        151: "arc_almost_there",
-        152: "arc_35_habit_check",
+        148: "arc_35_path_cost",
+        151: "arc_35_habit_check",
+        152: "arc_almost_there",
         154: "arc_36_reality_check",
-        155: "arc_1b_isolation",
+        156: "arc_1b_isolation",
         180: "arc_36_night_doubt",
         192: "arc_year4_close",
         191: "arc_final_stretch",
         193: "arc_37_reckoning",
     },
     "B 비정석/진실/committed": {
-        # This route refuses Jiyeon's coffee/meal offer, so the restaurant
-        # branch and its occupied foreground week no longer exist.
-        75: "arc_year_one_half",
-        93: "arc_34_two_years_in",
-        149: "arc_35_path_cost",
-        152: "arc_35_habit_check",
+        # M22 is Daeun-owned on this route; Jiyeon's old offer no longer
+        # occupies the early chapter-two foreground.
+        69: "arc_year_one_half",
+        87: "arc_34_two_years_in",
+        148: "arc_35_path_cost",
+        151: "arc_35_habit_check",
         154: "arc_almost_there",
-        158: "arc_1b_isolation",
-        159: "arc_36_reality_check",
+        156: "arc_36_reality_check",
+        159: "arc_1b_isolation",
         180: "arc_36_night_doubt",
         192: "arc_year4_close",
         191: "arc_final_stretch",
@@ -1311,29 +1418,31 @@ EXPECTED_CHAPTER2_COMPARISON = {
 }
 EXPECTED_CHAPTER3 = {
     "A 정석/다은보냄/사기": {
+        100: "arc_opp_jiyeon_bunyang",
         101: "arc_35_birthday",
-        102: "arc_jiyeon_year3",
         104: "arc_jaehyuk_03_pitch",
         106: "arc_jaehyuk_wait",
         108: "arc_jaehyuk_hyunsu_warning",
         109: "arc_35_orthodox_weight",
-        110: "arc_y3_jiyeon_departure",
+        112: "callback_jiyeon_took_deal_consequence",
         115: "arc_why_gangnam_real",
         116: "arc_jaehyuk_04a_ghost",
         117: "arc_jaehyuk_aftermath",
         118: "arc_jaehyuk_mirror",
         121: "arc_midpoint_reckoning",
         122: "arc_year_two_half",
-        126: "callback_jiyeon_busan_postcard",
-        127: "arc_goal_vertigo",
+        126: "arc_goal_vertigo",
+        130: "arc_minjun_first_call",
         144: "arc_year3_close",
     },
     "B 비정석/진실/committed": {
         100: "arc_father_05_after_visit",
-        102: "arc_jiyeon_year3",
+        101: "arc_35_birthday",
+        102: "arc_daeun_year3_together",
+        104: "arc_sangchul_deduction",
         105: "arc_jaehyuk_03_pitch",
+        106: "arc_year_two_pressure",
         108: "arc_35_unorthodox_weight",
-        110: "arc_y3_jiyeon_departure",
         112: "arc_father_06_confession",
         113: "arc_sangchul_known_offer",
         115: "arc_why_gangnam_real",
@@ -1344,12 +1453,12 @@ EXPECTED_CHAPTER3 = {
         122: "arc_year_two_half",
         124: "callback_father_confession_echo",
         125: "arc_jaehyuk_sangchul_echo",
-        126: "callback_jiyeon_busan_postcard",
-        127: "arc_goal_vertigo",
-        129: "arc_jiyeon_father_records",
-        130: "arc_y3_sangchul_deeper_room",
+        126: "arc_goal_vertigo",
+        128: "arc_y3_sangchul_deeper_room",
+        130: "arc_minjun_first_call",
         132: "arc_sangchul_confrontation",
         133: "arc_sangchul_year3",
+        134: "arc_y3_cost_of_knowing",
         144: "arc_year3_close",
     },
 }
@@ -1382,6 +1491,7 @@ EXPECTED_CHAPTER1 = {
         34: "arc_hyunsu_drift",
         35: "arc_daeun_02_regular",
         36: "arc_jiyeon_02_store",
+        37: "arc_y1_new_room_first_month",
         40: "arc_hyunsu_new_path",
         41: "arc_opp_sangchul_realty",
         47: "callback_daeun_supportive_warmth",
@@ -1416,6 +1526,7 @@ EXPECTED_CHAPTER1 = {
         34: "arc_daeun_02_regular",
         35: "arc_hyunsu_drift",
         36: "arc_jiyeon_02_store",
+        37: "arc_y1_new_room_first_month",
         40: "arc_opp_sangchul_realty",
         41: "arc_hyunsu_new_path",
         45: "arc_money_loneliness",
@@ -1436,21 +1547,18 @@ EXPECTED_T1_DELAYED_PAYOFFS = {
     "A 정석/다은보냄/사기": {
         "callback_investment_lesson_echo": 28,
         "callback_daeun_supportive_warmth": 47,
-        "callback_jiyeon_together_pressure": 88,
-        "callback_rushed_to_father_echo": 91,
+        "callback_rushed_to_father_echo": 103,
         "callback_jiyeon_took_deal_consequence": 112,
-        "callback_jiyeon_busan_postcard": 126,
     },
     "B 비정석/진실/committed": {
         "callback_escaped_dirty_trace": 24,
         "callback_investment_lesson_echo": 28,
         "callback_daeun_supportive_warmth": 46,
         "callback_jiyeon_took_deal_consequence": 59,
-        "callback_jiyeon_together_pressure": 86,
-        "callback_rushed_to_father_echo": 88,
+        "callback_rushed_to_father_echo": 103,
         "callback_father_confession_echo": 124,
-        "callback_jiyeon_busan_postcard": 126,
-        "callback_daeun_gangnam_first_echo": 155,
+        "callback_used_sangchul_after_echo": 146,
+        "callback_daeun_gangnam_first_echo": 158,
     },
 }
 
@@ -1490,9 +1598,9 @@ CAPPED_ARC_WINDOWS = {
     "arc_36_body_signal": (161, 161),
     "arc_year_three_half": (169, 169),
     "arc_36_night_doubt": (180, 187),
-    "arc_y3_jiyeon_departure": (110, 135),
+    # M22's Daeun-owned route moves this first concrete money cost to M24.
+    "arc_daeun_money_gap": (95, 95),
     "arc_endgame_sixmonths": (216, 237),
-    "arc_daeun_money_gap": (60, 70),
 }
 
 EXPECTED_CAPPED_ARCS = {
@@ -1500,7 +1608,6 @@ EXPECTED_CAPPED_ARCS = {
         "arc_36_body_signal",
         "arc_year_three_half",
         "arc_36_night_doubt",
-        "arc_y3_jiyeon_departure",
         "arc_endgame_sixmonths",
     },
     # The 19-root causal ledger owns W216-W220 and the safe finale locks W221.
@@ -1527,6 +1634,191 @@ HYUNSU_TEMPORAL_GATES = {
 }
 
 fail = 0
+
+
+def graph_contract_fixture(turn, flags=None, *, nav=2_000_000,
+                           housing="oneroom", employed=True,
+                           daeun_affinity=20, sangchul_affinity=70,
+                           items=()):
+    state = State()
+    state.t = turn
+    state.nav = nav
+    state.housing = housing
+    state.job_tenure = 12
+    if employed:
+        state.current_job = Job(id="job_01", category="survival")
+    state.cast["daeun"]["aff"] = daeun_affinity
+    state.cast["sangchul"]["aff"] = sangchul_affinity
+    state.flags.update(flags or {})
+    state.items.update(items)
+    return state
+
+
+# ORDER-143 counterexamples exercise the typed selector itself. They are kept
+# separate from the two long representative paths so one false prerequisite is
+# isolated at a time instead of being hidden by a later foreground collision.
+story_graph_cases = []
+
+state = graph_contract_fixture(37, {
+    "arc_housing_new_life_seen": True,
+})
+story_graph_cases.append(("M10 first-month cost", state,
+                          "arc_y1_new_room_first_month"))
+
+state = graph_contract_fixture(52, {
+    "arc_year_one_mark_seen": True,
+    "arc_34_money_attracts_seen": True,
+}, nav=0)
+story_graph_cases.append(("W52 network prelaunch blocked", state, ""))
+
+state = graph_contract_fixture(53, {
+    "arc_year_one_mark_seen": True,
+    "arc_34_money_attracts_seen": True,
+}, nav=0)
+story_graph_cases.append(("M14 ineligible bank fallback", state,
+                          "arc_y2_bank_limit_review"))
+
+state = graph_contract_fixture(53, {
+    "arc_year_one_mark_seen": True,
+    "arc_34_money_attracts_seen": True,
+    "arc_sangchul_02_seen": True,
+})
+story_graph_cases.append(("M14 eligible network", state,
+                          "arc_sangchul_03_network"))
+
+state = graph_contract_fixture(74, {
+    "arc_father_02_done": True,
+    "arc_father_medication_seen": True,
+})
+story_graph_cases.append(("W74 doors and parents blocked", state, ""))
+
+state = graph_contract_fixture(77, {
+    "arc_34_doors_open_seen": True,
+    "arc_father_02_done": True,
+    "arc_father_medication_seen": True,
+})
+story_graph_cases.append(("W77 parents blocked after doors", state, ""))
+
+state = graph_contract_fixture(82, {
+    "arc_father_02_done": True,
+    "arc_father_medication_seen": True,
+})
+story_graph_cases.append(("W82 normal hospital prefire blocked", state, ""))
+
+state = graph_contract_fixture(82, {
+    "arc_father_02_done": True,
+    "arc_father_medication_seen": True,
+    "arc_34_parents_visit_seen": True,
+})
+story_graph_cases.append(("W82 damaged-save hospital recovery", state,
+                          "arc_father_03_hospital"))
+
+state = graph_contract_fixture(58, {
+    "arc_father_02_done": True,
+    "arc_jiyeon_store_seen": True,
+})
+story_graph_cases.append(("W58 medication owns foreground", state,
+                          "arc_father_medication"))
+state = graph_contract_fixture(58, {
+    "arc_father_02_done": True,
+    "arc_father_medication_seen": True,
+    "arc_jiyeon_store_seen": True,
+})
+story_graph_cases.append(("W58 medication cannot summon Jiyeon", state, ""))
+
+state = graph_contract_fixture(85, {
+    "arc_father_02_done": True,
+    "arc_father_medication_seen": True,
+    "arc_daeun_regular_seen": True,
+})
+story_graph_cases.append(("W85 Daeun without medication replay", state,
+                          "arc_daeun_03_fork"))
+
+state = graph_contract_fixture(85, {
+    "arc_father_02_done": True,
+    "arc_father_medication_seen": True,
+    "arc_jiyeon_store_seen": True,
+}, daeun_affinity=0)
+story_graph_cases.append(("W85 Jiyeon route fallback", state,
+                          "arc_jiyeon_03_offer"))
+
+state = graph_contract_fixture(85, {
+    "arc_father_02_done": True,
+    "arc_father_medication_seen": True,
+}, daeun_affinity=0)
+story_graph_cases.append(("W85 unattached fallback", state,
+                          "arc_y2_relationship_fork_unattached"))
+
+state = graph_contract_fixture(89, {
+    "arc_father_02_done": True,
+    "arc_father_medication_seen": True,
+})
+story_graph_cases.append(("W89 normal parents visit", state,
+                          "arc_34_parents_visit"))
+
+state = graph_contract_fixture(90, {
+    "arc_father_02_done": True,
+    "arc_father_medication_seen": True,
+    "arc_34_parents_visit_seen": True,
+})
+story_graph_cases.append(("M23 interrupted chain recovers hospital first", state,
+                          "arc_father_03_hospital"))
+state = graph_contract_fixture(90, {
+    "arc_father_02_done": True,
+    "arc_father_medication_seen": True,
+    "arc_34_parents_visit_seen": True,
+    "arc_father_03_seen": True,
+})
+story_graph_cases.append(("M23 hospital fact opens father decision", state,
+                          "arc_father_04_visit"))
+
+state = graph_contract_fixture(89, {
+    "father_passed": True,
+    "arc_father_02_done": True,
+    "arc_father_medication_seen": True,
+})
+story_graph_cases.append(("passed father blocks family chain", state, ""))
+
+state = graph_contract_fixture(94, {
+    "arc_sangchul_mirror_seen": True,
+}, employed=False)
+story_graph_cases.append(("unemployed career ceiling blocked", state, ""))
+
+state = graph_contract_fixture(94, {
+    "arc_sangchul_mirror_seen": True,
+})
+story_graph_cases.append(("employed career ceiling", state,
+                          "arc_career_ceiling"))
+
+state = graph_contract_fixture(95, {
+    "daeun_chose_her": True,
+    "arc_career_ceiling_seen": True,
+})
+story_graph_cases.append(("M24 Daeun money cost survives moved fork", state,
+                          "arc_daeun_money_gap"))
+
+state = graph_contract_fixture(132, {
+    "sangchul_truth_known": True,
+})
+story_graph_cases.append(("M33 confrontation stays in owner week", state,
+                          "arc_sangchul_confrontation"))
+
+state = graph_contract_fixture(132, {
+    "sangchul_truth_known": True,
+}, items=("artifact_sangchul_card",))
+story_graph_cases.append(("M33 optional card same-week prelude", state,
+                          "arc_sangchul_card_at_confrontation"))
+
+story_graph_failures = [
+    f"{name}:{story_graph_contract_event(state)!r}!={expected!r}"
+    for name, state, expected in story_graph_cases
+    if story_graph_contract_event(state) != expected
+]
+if story_graph_failures:
+    fail += 1
+    print("  ✗ ORDER-143 typed selector 반례:", ", ".join(story_graph_failures))
+else:
+    print(f"  ✓ ORDER-143 typed selector 반례 {len(story_graph_cases)}개")
 
 # Product-entry matrix: these are deliberately synthetic one-step states so each
 # rejected prerequisite is isolated from the long representative trajectories.

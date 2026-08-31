@@ -105,19 +105,19 @@
   {
     "id": "arc_y3_cost_of_knowing",
     "title": "The Cost of Knowing",
-    "description": "Two months since the last conversation with Im Sangchul.\n\nToday, a real estate consultant {name} met through Sangchul's network sent a message.\nAn independent deal, no direct connection to Sangchul. Good return conditions.\n\n{name} paused when first seeing the name.\nKnew exactly where that contact chain started.\n\nUse it knowing — or cut this whole network loose?",
+    "description": "Four days after the last time {name} sat across from Im Sangchul, a real-estate consultant from one of Sangchul's gatherings sent a proposal. The review deadline was six that evening.\n\nSangchul's name appeared nowhere in the attachment. {name} still remembered the table where the number had first changed hands. The return looked good, and declining would close this contact for good.\n\nBefore touching the e-signature field, {name} wrote the contact's source in the notebook. This was the first deal after knowing the truth. Use the network, cut it loose, or use it once and close it — today's action would make the answer real.",
     "choices": [
       {
         "text": "Use it. This is my network now. His crimes don't transfer to me.",
-        "result_text": "Closed the deal. Money came in.\n\nSangchul's name hovered faintly next to the consultant's — but that's only something {name} knows."
+        "result_text": "{name} closed the notebook that named the source and sent the e-signature. The deal closed and the return arrived.\n\nSangchul's name was absent beside the consultant's. {name} still knew which table had started the contact. Writing down the source did not clean it."
       },
       {
         "text": "Not doing this deal. If it came from there, it all gets cut.",
-        "result_text": "Declined. Didn't say why.\n\nHanging up, {name} thought of the first day arriving in Seoul.\nThat {name} wouldn't have known what this deal was. Now knows. So cut it."
+        "result_text": "{name} declined and added one line refusing future proposals from the same introduction chain. The consultant did not ask why.\n\nAfter the call, {name} deleted the contact and attachment together. On the first day in Seoul, he would not have known the source. Now he did, and closed one real door because of it."
       },
       {
         "text": "Do the deal — but this is the last one. The line gets drawn here.",
-        "result_text": "Said \"last one\" silently.\n\nWhether that word was real — the only way to know was when the next similar call came."
+        "result_text": "After sending the signature for this deal, {name} wrote that no later proposal would be accepted. The return, sent time, and refusal remained in the same conversation.\n\nCalling it the last one in silence would have proved nothing. This time another person could read the boundary. The duty to keep it arrived with the next message."
       }
     ]
   },

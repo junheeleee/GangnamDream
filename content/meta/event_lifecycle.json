@@ -4,18 +4,18 @@
   "baseline_commit": "3b275a913053412a3e2ff52fc9588d71d3a9bb37",
   "hash_semantics": "sha256(UTF-8 sorted unique IDs joined by LF with one trailing LF)",
   "counts": {
-    "packaged_events": 1806,
-    "shipping_events": 1696,
-    "author_only_events": 110,
-    "tagged_author_only_events": 99,
-    "ledger_only_author_only_events": 11
+    "packaged_events": 1809,
+    "shipping_events": 1702,
+    "author_only_events": 107,
+    "tagged_author_only_events": 98,
+    "ledger_only_author_only_events": 9
   },
   "sha256": {
-    "packaged_event_ids": "327b61965bbe8b66eb2cfacfd5d58842e9bca0201979df0361a30a9c70fb44a2",
-    "shipping_event_ids": "d643c6b97b200f75ddf8297d68307fd7138d2a92d542b478dc6b8c225e613c50",
-    "author_only_event_ids": "aef8d1b0a9f17a604a9ce2bf647101a3cbff710a487272e5012f1f9be171ce76",
-    "tagged_author_only_event_ids": "45a04d6e0fe316ea67b3e95b007ce9d1d82a5fc185090570875a11a60d0b8188",
-    "ledger_only_author_only_event_ids": "3dd49d60dbfa37febe1257fd08fbade4dfe102ece1b73acbda71e0ec95f34e49"
+    "packaged_event_ids": "e3276eec613e2f3709459e7ce613ab551873fc665470634223ba1ca44fd5a2e2",
+    "shipping_event_ids": "8d947cd96bdb4213ca83423ca39d5e391569a0b2df03c313ae1ed541835cafdb",
+    "author_only_event_ids": "bb04a152d10c54ef593330bb294ab9baab4257db14246ec4ea76bc2a9ef2213d",
+    "tagged_author_only_event_ids": "4bbbdaee02b904376734246b11ae43b03adcb507cf26954094c1cb39670b5b0e",
+    "ledger_only_author_only_event_ids": "1df0f3d2a6657fa3f1887b2552d72157644ca4c5d390c69299d565866a3609cb"
   },
   "contract": {
     "weight": 0,
@@ -49,11 +49,9 @@
     "arc_y1_jiyeon_first_bill_date",
     "arc_y1_jiyeon_relationship_reentry",
     "arc_y1_jiyeon_second_crossing",
-    "arc_y1_new_room_first_month",
     "arc_y1_open_door_none",
     "arc_y1_relationship_reentry_none",
     "arc_y1_sangchul_open_door",
-    "arc_y2_bank_limit_review",
     "arc_y2_casino_chosen_door",
     "arc_y2_chosen_door_none",
     "arc_y2_daeun_relationship_fork",
@@ -64,7 +62,6 @@
     "arc_y2_open_door_cost",
     "arc_y2_open_door_cost_cancel_repeat",
     "arc_y2_open_door_cost_explanation",
-    "arc_y2_relationship_fork_unattached",
     "arc_y2_sangchul_chosen_door",
     "arc_y2_sangchul_source_review",
     "arc_y2_year_boss_receipts",

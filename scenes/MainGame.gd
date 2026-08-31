@@ -6356,6 +6356,7 @@ func _story_rule_context(at_turn: int, f: Dictionary) -> Dictionary:
 		"player": {
 			"job": GameState.current_job,
 			"investment_skill": GameState.investment_skill,
+			"total_asset_value": GameState.get_total_asset_value(),
 		},
 		"flags": f,
 	}
@@ -6585,6 +6586,140 @@ func _check_game_over_with_monotonic_story_state() -> void:
 	_normalize_monotonic_story_state()
 	GameState.check_game_over()
 
+func _story_graph_contract_event_id(
+		t: int, f: Dictionary, father_is_passed: bool) -> String:
+	# Cross-month story ownership is explicit here. Same-scene closures remain
+	# authored follow-ups; independent beats enter only through their exact
+	# month window and facts, so a follow_up_event can never bypass the router.
+	if t == 37 \
+			and f.get("arc_housing_new_life_seen", false) \
+			and GameState.housing != "gosiwon" \
+			and not f.get("arc_y1_new_room_first_month_seen", false):
+		return "arc_y1_new_room_first_month"
+
+	# M13 is reserved as one authored chain. The year marker cannot slide into
+	# M14 when another late-year event occupied W52; its money beat is the
+	# marker's same-scene closure and may only recover inside the same window.
+	if t >= 49 and t <= 52:
+		if not f.get("arc_year_one_mark_seen", false):
+			return "arc_year_one_mark"
+		if not f.get("arc_34_money_attracts_seen", false):
+			return "arc_34_money_attracts_money"
+
+	# M14: the network door needs both Sangchul's prior coffee and one million
+	# won in assets. An ineligible route gets one authored bank-limit scene,
+	# never a fabricated meeting with Sangchul.
+	if t >= 53 and t <= 56 \
+			and f.get("arc_34_money_attracts_seen", false):
+		var network_eligible: bool = bool(f.get("arc_sangchul_02_seen", false)) \
+				and GameState.get_total_asset_value() >= 1_000_000.0
+		if network_eligible:
+			if not f.get("arc_sangchul_03_seen", false):
+				return "arc_sangchul_03_network"
+			return ""
+		if not f.get("arc_y2_bank_limit_review_seen", false):
+			return "arc_y2_bank_limit_review"
+		return ""
+
+	# M15: medication is a living-father beat. It is not a delayed consequence
+	# of a later romance choice and it cannot summon Jiyeon as a raw follow-up.
+	if t >= 57 and t <= 60 \
+			and not father_is_passed \
+			and f.get("arc_father_02_done", false) \
+			and not f.get("arc_father_medication_seen", false):
+		return "arc_father_medication"
+
+	# M20 owns the door theme. Parents do not arrive in this window.
+	if t >= 77 and t <= 80 \
+			and not f.get("arc_34_doors_open_seen", false):
+		return "arc_34_doors_open"
+
+	# W82-W88 is recovery-only: a legacy/damaged save that already records the
+	# parents visit may recover its missing hospital call. A normal save cannot
+	# pre-fire the hospital before the M23 visit.
+	if t >= 82 and t <= 88 \
+			and not father_is_passed \
+			and f.get("arc_father_02_done", false) \
+			and f.get("arc_father_medication_seen", false) \
+			and f.get("arc_34_parents_visit_seen", false) \
+			and not f.get("arc_father_03_seen", false):
+		return "arc_father_03_hospital"
+
+	# M22 has one route owner. Daeun wins only when her established relationship
+	# qualifies; otherwise Jiyeon may enter through her store history, and a
+	# route-safe authored lease scene closes the unattached path.
+	if t >= 85 and t <= 88:
+		var daeun_eligible: bool = bool(f.get("arc_daeun_regular_seen", false)) \
+				and GameState.get_cast_affinity("daeun") >= 12
+		if daeun_eligible:
+			if not f.get("arc_daeun_fork_seen", false):
+				return "arc_daeun_03_fork"
+			return ""
+		if f.get("arc_jiyeon_store_seen", false):
+			if not f.get("arc_jiyeon_offer_seen", false):
+				return "arc_jiyeon_03_offer"
+			return ""
+		if not f.get("arc_y2_relationship_fork_unattached_seen", false):
+			return "arc_y2_relationship_fork_unattached"
+		return ""
+
+	# M23 owns the whole family decision: visit, four-day time cut, then the
+	# actual hospital-door choice. The authored parents->hospital edge remains;
+	# the latter two clauses recover an interrupted one-shot chain.
+	if t >= 89 and t <= 92 \
+			and not father_is_passed \
+			and f.get("arc_father_02_done", false) \
+			and f.get("arc_father_medication_seen", false):
+		if not f.get("arc_34_parents_visit_seen", false):
+			return "arc_34_parents_visit"
+		if not f.get("arc_father_03_seen", false):
+			return "arc_father_03_hospital"
+		if not f.get("visited_father", false) \
+				and not f.get("father_visit_deferred", false):
+			return "arc_father_04_visit"
+
+	# The Ch2 boss ingress is typed rather than a raw mirror->office->hospital
+	# chain. The mirror needs a real hospital fact; the office ceiling happens
+	# no earlier than the following week and disappears cleanly when unemployed.
+	if t == 93 \
+			and not father_is_passed \
+			and f.get("arc_father_03_seen", false) \
+			and (f.get("visited_father", false) \
+				or f.get("father_visit_deferred", false)) \
+			and GameState.get_cast_affinity("sangchul") >= 65 \
+			and f.get("arc_sangchul_human_seen", false) \
+			and not f.get("sangchul_truth_known", false) \
+			and not f.get("arc_sangchul_mirror_seen", false):
+		return "arc_sangchul_mirror"
+	if t >= 94 and t <= 96 \
+			and f.get("arc_sangchul_mirror_seen", false) \
+			and not GameState.current_job.is_empty() \
+			and GameState.job_tenure >= 6 \
+			and not f.get("arc_career_ceiling_seen", false):
+		return "arc_career_ceiling"
+	# Moving Daeun's fork to M22 must not strand its first concrete money-cost
+	# scene in the obsolete W60-W70 window. Normal M24 reserves W95 after the
+	# mirror/career facts; the let-go route cannot enter this scene.
+	if t == 95 \
+			and f.get("daeun_chose_her", false) \
+			and not f.get("daeun_let_her_go", false) \
+			and not f.get("arc_daeun_money_gap_seen", false):
+		return "arc_daeun_money_gap"
+
+	# M33 is a reserved table-chain. The optional card prelude follows directly
+	# into the confrontation, so it cannot push the truth decision into M34.
+	if t == 132 \
+			and f.get("sangchul_truth_known", false) \
+			and not f.get("sangchul_confronted", false) \
+			and not f.get("sangchul_truth_buried", false) \
+			and not f.get("sangchul_quietly_distanced", false) \
+			and not f.get("arc_sangchul_confrontation_seen", false):
+		if GameState.has_item("artifact_sangchul_card") \
+				and not f.get("arc_sangchul_card_at_confrontation_seen", false):
+			return "arc_sangchul_card_at_confrontation"
+		return "arc_sangchul_confrontation"
+	return ""
+
 func _chapter_four_father_outcome_id(
 		f: Dictionary, father_is_passed: bool) -> String:
 	if father_is_passed \
@@ -6739,6 +6874,11 @@ func _next_arc_id(
 		return "arc_year3_close"
 	if t == 192 and not f.get("arc_year4_close_seen", false):
 		return "arc_year4_close"
+
+	var graph_contract_id := _story_graph_contract_event_id(
+		t, f, father_is_passed)
+	if not graph_contract_id.is_empty():
+		return graph_contract_id
 
 	var chapter_four_causal_id := _chapter_four_causal_arc_id(
 		t, f, father_is_passed)
@@ -7023,10 +7163,6 @@ func _next_arc_id(
 			and GameState.get_cast_affinity("daeun") >= 8 \
 			and not f.get("arc_daeun_regular_seen", false):
 		return "arc_daeun_02_regular"
-	if t >= 58 and f.get("arc_daeun_regular_seen", false) \
-			and GameState.get_cast_affinity("daeun") >= 12 \
-			and not f.get("arc_daeun_fork_seen", false):
-		return "arc_daeun_03_fork"
 	# ── 다은 결말 — 붙잡은 경우 ──
 	if t >= 68 and f.get("daeun_chose_her", false) \
 			and not f.get("arc_daeun_03b_seen", false) \
@@ -7122,21 +7258,6 @@ func _next_arc_id(
 			and f.get("arc_father_01_seen", false) \
 			and not f.get("arc_father_02_done", false):
 		return "arc_father_02_signal"
-	# 1장의 짧은 이상 신호가 2장의 약봉지와 병원으로 커진다.
-	if t >= 58 and not father_is_passed \
-			and f.get("arc_father_02_done", false) \
-			and not f.get("arc_father_medication_seen", false):
-		return "arc_father_medication"
-	if t >= 82 and not father_is_passed \
-			and f.get("arc_father_02_done", false) \
-			and f.get("arc_father_medication_seen", false) \
-			and not f.get("arc_father_03_seen", false):
-		return "arc_father_03_hospital"
-	if t >= 90 and f.get("arc_father_03_seen", false) \
-			and not f.get("visited_father", false) \
-			and not f.get("father_visit_deferred", false) \
-			and not father_is_passed:
-		return "arc_father_04_visit"
 	if t >= 100 and not father_is_passed \
 			and f.get("visited_father", false) \
 			and not f.get("arc_father_05_seen", false):
@@ -7156,8 +7277,6 @@ func _next_arc_id(
 		return "arc_jiyeon_01_crash"
 	if f.get("arc_jiyeon_crash_seen", false) and not f.get("arc_jiyeon_store_seen", false) and t >= 34:
 		return "arc_jiyeon_02_store"
-	if f.get("arc_jiyeon_store_seen", false) and not f.get("arc_jiyeon_offer_seen", false) and t >= 58:
-		return "arc_jiyeon_03_offer"
 	if _story_event_prerequisites_met("arc_jiyeon_03b_lunch", t, f):
 		return "arc_jiyeon_03b_lunch"
 
@@ -7178,13 +7297,6 @@ func _next_arc_id(
 			and f.get("arc_sangchul_offguard_seen", false) \
 			and not f.get("arc_sangchul_human_seen", false):
 		return "arc_sangchul_human"
-	# ── 임상철 거울 씬 — "당신은 나랑 비슷해요" (진실 발견 전, 관계 깊어진 후) ──
-	if t >= 88 and t <= 108 \
-			and GameState.get_cast_affinity("sangchul") >= 65 \
-			and f.get("arc_sangchul_human_seen", false) \
-			and not f.get("sangchul_truth_known", false) \
-			and not f.get("arc_sangchul_mirror_seen", false):
-		return "arc_sangchul_mirror"
 
 	# ── 알면서도 — 3장에서 진실을 안 채 상철을 계속 이용하는 구간 ──
 	# 사람이 도구가 되는 순간: 알고도 멈추지 않는다.
@@ -7210,25 +7322,8 @@ func _next_arc_id(
 			and not f.get("arc_jaehyuk_sangchul_echo_seen", false):
 		return "arc_jaehyuk_sangchul_echo"
 
-	# ── 임상철 대면 — 진실을 알게 된 후, 결정의 순간 ──
-	# [유물 해금] 임상철 명함을 가진 채 대면 전날 밤 — 명함과 함께 서는 씬
-	if t >= 132 and f.get("sangchul_truth_known", false) \
-			and not f.get("sangchul_confronted", false) \
-			and not f.get("sangchul_truth_buried", false) \
-			and not f.get("sangchul_quietly_distanced", false) \
-			and not f.get("arc_sangchul_confrontation_seen", false) \
-			and GameState.has_item("artifact_sangchul_card") \
-			and not f.get("arc_sangchul_card_at_confrontation_seen", false):
-		return "arc_sangchul_card_at_confrontation"
-	if t >= 132 and f.get("sangchul_truth_known", false) \
-			and not f.get("sangchul_confronted", false) \
-			and not f.get("sangchul_truth_buried", false) \
-			and not f.get("sangchul_quietly_distanced", false) \
-			and not f.get("arc_sangchul_confrontation_seen", false):
-		return "arc_sangchul_confrontation"
-
 	# ── 알면서 사는 값 — 대면/청산 이후 상철 망 사용 결정 (Y2 후반~Y3 초) ──
-	if t >= 137 and t <= 160 \
+	if t >= 133 and t <= 136 \
 			and f.get("arc_sangchul_reckoning_seen", false) \
 			and not f.get("arc_y3_cost_of_knowing_seen", false):
 		return "arc_y3_cost_of_knowing"
@@ -7265,10 +7360,6 @@ func _next_arc_id(
 			return "arc_office_routine"
 	# ─────────────────────────────────────────────────────────────────
 
-	if t >= 55 and f.get("arc_sangchul_02_seen", false) \
-			and not f.get("arc_sangchul_03_seen", false) \
-			and GameState.get_total_asset_value() >= 1_000_000:
-		return "arc_sangchul_03_network"
 	# ── 임상철 정선 카지노 초대 — 커피(02) 이후, 자금 300만 이상이면 초대 가능 ──
 	if t >= 76 and f.get("arc_sangchul_02_seen", false) \
 			and GameState.money >= 3_000_000 \
@@ -7284,12 +7375,6 @@ func _next_arc_id(
 	if _story_event_prerequisites_met("arc_job_vs_invest", t, f):
 		return "arc_job_vs_invest"
 
-	# ── 월급의 한계 — 2년 차, 반년 이상 재직한 뒤 ──
-	if t >= 88 and t <= 108 \
-			and not GameState.current_job.is_empty() \
-			and GameState.job_tenure >= 6 \
-			and not f.get("arc_career_ceiling_seen", false):
-		return "arc_career_ceiling"
 
 	# ── 첫 5천만원 달성 — 숫자가 아니라 감각의 변화 ──
 	if t >= 15 \
@@ -7351,7 +7436,8 @@ func _next_arc_id(
 		return "arc_goal_vertigo"
 
 	# ── 새 집 첫날 밤 — 신규 런은 퇴실 선택의 즉시 후속, 구세이브는 여기서 복구 ──
-	if f.get("arc_goshiwon_goodbye_seen", false) \
+	if t >= 29 and t <= 32 \
+			and f.get("arc_goshiwon_goodbye_seen", false) \
 			and not f.get("arc_housing_new_life_seen", false):
 		return "arc_housing_new_life"
 
@@ -7493,12 +7579,6 @@ func _next_arc_id(
 			and not f.get("arc_almost_there_seen", false):
 		return "arc_almost_there"
 
-	# ── 다은이 모르는 것 — 함께하는 경로, 돈 격차 (턴 60~70) ──
-	if t >= 60 and t <= 70 \
-			and f.get("daeun_chose_her", false) \
-			and not f.get("arc_daeun_money_gap_seen", false):
-		return "arc_daeun_money_gap"
-
 	# ── 다은의 흔적 — 보낸 경우 (턴 76~84) ──
 	if t >= 76 and t <= 84 \
 			and f.get("daeun_let_her_go", false) \
@@ -7610,24 +7690,12 @@ func _next_arc_id(
 	# ══ 8구간: 연도 마커 + 챕터 내부 씬 — 5년의 흐름을 체감하는 무조건 씬 ══
 	# t=52 = 13개월차(1년 1개월), t=72 = 18개월차(1년 6개월), t=96 = 24개월차(2년)
 	# t=148 = 37개월차(3년 1개월), t=192 = 48개월차(4년), t=220 = 55개월차(마지막 6개월)
-	if t >= 52 and t <= 68 and not f.get("arc_year_one_mark_seen", false):
-		return "arc_year_one_mark"
-	# ── 챕터2 "확장" — 돈이 돈을 부른다 (t54~74) ──
-	if t >= 54 and t <= 74 and not f.get("arc_34_money_attracts_seen", false):
-		return "arc_34_money_attracts_money"
-	# ── 챕터2 "확장" — 문은 사람이 연다 (t74~94) ──
-	if t >= 74 and t <= 94 and not f.get("arc_34_doors_open_seen", false):
-		return "arc_34_doors_open"
 	# ── 1년 반 마커 — t68-90 공백 구간 앵커 (무조건) ──
 	if t >= 68 and t <= 90 and not f.get("arc_year_one_half_seen", false):
 		return "arc_year_one_half"
 	# ── 34세 루틴의 덫 (t62-76) ──
 	if t >= 62 and t <= 76 and not f.get("arc_34_routine_trap_seen", false):
 		return "arc_34_routine_trap"
-	# ── 34세 부모님 서울 방문 (t77-88) ──
-	if t >= 77 and t <= 88 and not father_is_passed \
-			and not f.get("arc_34_parents_visit_seen", false):
-		return "arc_34_parents_visit"
 	# ── 34세 서울 2년째 자각 (t89-96) ──
 	if t >= 89 and t <= 100 \
 			and not GameState.has_deferred_event("arc_34_two_years_in") \
@@ -7723,7 +7791,7 @@ func _next_arc_id(
 		return "arc_37_reckoning"
 	# 신규 런은 arc_37_reckoning의 즉시 후속이 담당한다. 구세이브에서도
 	# 정산을 읽기 전에 마지막 해 선언이 먼저 나오지 않게 선행조건을 지킨다.
-	if t >= 192 and t <= 215 \
+	if t >= 193 and t <= 196 \
 			and f.get("arc_37_reckoning_seen", false) \
 			and not f.get("arc_final_year_start_seen", false):
 		return "arc_final_year_start"

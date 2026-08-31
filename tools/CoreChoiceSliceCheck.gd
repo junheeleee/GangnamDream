@@ -50,11 +50,12 @@ func _ready() -> void:
 	_check_father_terminal_final_week_repair()
 	_check_father_terminal_ending_descriptions()
 	_check_chapter_four_terminal_router_guards()
+	_check_order143_family_chain()
 	_check_father_terminal_legacy_routes()
 	_check_foreground_commitment_weeks()
 	if _failures.is_empty():
 		await _stop_fixture_audio()
-		print("CORE_CHOICE_SLICE_CHECK_OK intent=1 interview=causal job_gate=ledger jiyeon_lunch=branch_gated racetrack=handoff authored=7 generic=2 ap_duplicate=0 delayed=t8 branches=2 axes=money/human missed_cost=targeted chapter5=w193_same_queue+causal19/47+finale11/30-active9/24+general-source-w211-w220+general8/17-active6/13-w224-w229-w234-w237-w240-same-turn+read-contract+direct-no-ap+w240-two-root+fatal-return-uncovered+normal-release-uncovered father_death=monotonic_repair father_active=guarded milestone_routing=dual late_routes=variant+closed save=roundtrip")
+		print("CORE_CHOICE_SLICE_CHECK_OK intent=1 interview=causal job_gate=ledger jiyeon_lunch=branch_gated racetrack=handoff authored=7 generic=2 ap_duplicate=0 delayed=t8 branches=2 axes=money/human missed_cost=targeted story_graph=m23_visit+hospital+door_one_shot chapter5=w193_same_queue+causal19/47+finale11/30-active9/24+general-source-w211-w220+general8/17-active6/13-w224-w229-w234-w237-w240-same-turn+read-contract+direct-no-ap+w240-two-root+fatal-return-uncovered+normal-release-uncovered father_death=monotonic_repair father_active=guarded milestone_routing=dual late_routes=variant+closed save=roundtrip")
 		get_tree().quit(0)
 		return
 	for failure in _failures:
@@ -533,9 +534,6 @@ func _check_father_terminal_legacy_routes() -> void:
 		{"turn": 58, "event": "arc_father_medication",
 			"erase": ["arc_father_medication_seen"],
 			"set": ["arc_father_02_done"]},
-		{"turn": 82, "event": "arc_father_03_hospital",
-			"erase": ["arc_father_03_seen"],
-			"set": ["arc_father_02_done", "arc_father_medication_seen"]},
 		{"turn": 100, "event": "arc_father_05_after_visit",
 			"erase": ["arc_father_05_seen", "father_visit_deferred"],
 			"set": ["visited_father"]},
@@ -543,8 +541,6 @@ func _check_father_terminal_legacy_routes() -> void:
 			"erase": ["arc_father_06_seen"],
 			"set": ["visited_father", "arc_father_05_seen",
 				"arc_sangchul_02_seen"]},
-		{"turn": 77, "event": "arc_34_parents_visit",
-			"erase": ["arc_34_parents_visit_seen"], "set": []},
 		{"turn": 100, "event": "arc_35_birthday",
 			"erase": ["arc_35_birthday_seen"], "set": []},
 		{"turn": 130, "event": "arc_minjun_first_call",
@@ -646,6 +642,111 @@ func _check_father_terminal_legacy_routes() -> void:
 			"late article father_passed=%s expected=%s actual=%s" \
 					% [passed, expected_article, actual_article])
 		article_game.free()
+
+
+func _prepare_order143_family_state() -> void:
+	_prepare_chapter_four_router_state()
+	GameState.flags["arc_father_02_done"] = true
+	GameState.flags["arc_father_medication_seen"] = true
+	for flag_id in [
+		"arc_34_parents_visit_seen",
+		"arc_father_03_seen",
+		"visited_father",
+		"father_visit_deferred",
+	]:
+		GameState.flags.erase(flag_id)
+
+
+func _check_order143_family_chain() -> void:
+	# M20 owns only the door theme. Neither the parents nor the hospital may
+	# pre-fire before the exact M23 family chain.
+	_prepare_order143_family_state()
+	GameState.flags.erase("arc_34_doors_open_seen")
+	var game = _new_main_game()
+	var w77_route: String = game._next_arc_id(77, true, false)
+	_expect(w77_route == "arc_34_doors_open",
+		"W77 did not preserve the door owner or pre-fired the parents: %s" \
+				% w77_route)
+	game.free()
+
+	_prepare_order143_family_state()
+	GameState.flags["arc_34_doors_open_seen"] = true
+	game = _new_main_game()
+	var w82_route: String = game._next_arc_id(82, true, false)
+	_expect(w82_route not in ["arc_34_parents_visit", "arc_father_03_hospital"],
+		"W82 normal save pre-fired the M23 family chain: %s" % w82_route)
+	game.free()
+
+	# W89 owns the visit, its authored four-day hospital time cut, and the actual
+	# hospital-door decision. Apply the real choices so this is transaction
+	# evidence, not only a string-selector assertion.
+	_prepare_order143_family_state()
+	GameState.flags["arc_34_doors_open_seen"] = true
+	game = _new_main_game()
+	var w89_route: String = game._next_arc_id(89, true, false)
+	_expect(w89_route == "arc_34_parents_visit",
+		"W89 living prerequisites did not open the parents visit: %s" % w89_route)
+	var story = STORY_MODE_SCRIPT.new()
+	var parents: Dictionary = DataRegistry.find_event("arc_34_parents_visit")
+	var parent_choices: Array = parents.get("choices", [])
+	_expect(parent_choices.size() == 2,
+		"M23 parents visit lost its two human decisions")
+	for choice_index in range(parent_choices.size()):
+		var parent_choice: Dictionary = parent_choices[choice_index]
+		_expect(story._choice_follow_up_id(
+				parent_choice, "arc_34_parents_visit", choice_index) \
+				== "arc_father_03_hospital",
+			"M23 parents choice %d lost the four-day hospital time cut" \
+					% choice_index)
+	var parent_choice: Dictionary = parent_choices[0]
+	_expect(GameState.apply_choice(parents, parent_choice) \
+		and GameState.flags.get("arc_34_parents_visit_seen", false),
+		"M23 parents choice did not commit its one-shot receipt")
+	var hospital: Dictionary = DataRegistry.find_event("arc_father_03_hospital")
+	var hospital_choices: Array = hospital.get("choices", [])
+	_expect(hospital_choices.size() == 4 \
+		and GameState.apply_choice(hospital, hospital_choices[1] as Dictionary) \
+		and GameState.flags.get("arc_father_03_seen", false),
+		"M23 hospital call did not commit after the parent visit")
+	w89_route = game._next_arc_id(89, true, false)
+	_expect(w89_route == "arc_father_04_visit",
+		"M23 hospital receipt did not open the actual door decision: %s" \
+				% w89_route)
+	var father_decision: Dictionary = DataRegistry.find_event("arc_father_04_visit")
+	var father_choices: Array = father_decision.get("choices", [])
+	_expect(father_choices.size() == 4 \
+		and GameState.apply_choice(father_decision, father_choices[0] as Dictionary),
+		"M23 hospital-door choice did not commit")
+	w89_route = game._next_arc_id(89, true, false)
+	_expect(w89_route not in [
+		"arc_34_parents_visit", "arc_father_03_hospital", "arc_father_04_visit"],
+		"M23 family chain replayed after its door receipt: %s" % w89_route)
+	game.free()
+	story.free()
+
+	# The fourth door choice is also terminal for this month, and any monotonic
+	# death evidence blocks all three living-Father roots.
+	_prepare_order143_family_state()
+	GameState.flags["arc_34_parents_visit_seen"] = true
+	GameState.flags["arc_father_03_seen"] = true
+	father_decision = DataRegistry.find_event("arc_father_04_visit")
+	father_choices = father_decision.get("choices", [])
+	_expect(GameState.apply_choice(father_decision, father_choices[3] as Dictionary) \
+		and GameState.flags.get("father_visit_deferred", false),
+		"M23 deferred door choice did not close its owner month")
+	game = _new_main_game()
+	_expect(game._next_arc_id(89, true, false) != "arc_father_04_visit",
+		"M23 deferred door choice replayed")
+	game.free()
+
+	_prepare_order143_family_state()
+	GameState.flags["father_passed"] = true
+	game = _new_main_game()
+	w89_route = game._next_arc_id(89, true, false)
+	_expect(w89_route not in [
+		"arc_34_parents_visit", "arc_father_03_hospital", "arc_father_04_visit"],
+		"terminal Father evidence reopened the M23 family chain: %s" % w89_route)
+	game.free()
 
 func _check_chapter_four_missed_cost_routing() -> void:
 	var m40_ids: Array[String] = [

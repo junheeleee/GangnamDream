@@ -114,7 +114,7 @@
           "black": "Raise the glass. Take it as proof that this world has accepted him",
           "white": "Raise the glass. Buy time instead of answering"
         },
-        "result_text": "They clinked glasses.\nSangchul smiled.\n{name} spent the whole walk home trying to figure out whether that was a compliment."
+        "result_text": "They clinked glasses. Sangchul smiled. At that moment, the phone on the table buzzed again. A hospital ward number appeared on the lock screen, and Sangchul's eyes moved to it for a moment."
       },
       {
         "text": "\"Do I seem that way?\"",
@@ -122,7 +122,7 @@
           "black": "\"Do I seem that way?\" Find out just how alike they have become",
           "white": "\"Do I seem that way?\" Ask what Sangchul sees"
         },
-        "result_text": "Sangchul looked at him for a moment.\n\"You don't know? Or you're asking even though you do?\"\n\n{name} didn't answer.\nLooked out the window."
+        "result_text": "Sangchul looked at him for a moment.\n\"You don't know? Or you're asking even though you do?\"\n\n{name} did not answer. While he looked out the window, the phone on the table buzzed again. A hospital ward number appeared on the lock screen."
       },
       {
         "text": "(He wanted to deny it)",
@@ -130,14 +130,29 @@
           "black": "(Deny it. Tell himself he has not crossed the line yet)",
           "white": "(Deny it. He wanted to stop becoming like Sangchul)"
         },
-        "result_text": "\"I'm a bit different.\"\nSangchul nodded.\n\"If that's what you think, then sure.\"\n\n{name} spent all night turning that over in his head."
+        "result_text": "\"I'm a bit different.\"\nSangchul nodded.\n\"If that's what you think, then sure.\"\n\nInstead of an answer, the phone on the table buzzed. A hospital ward number appeared on the lock screen, and Sangchul looked toward it."
+      }
+    ]
+  },
+  {
+    "id": "arc_sangchul_mirror_receipt",
+    "title": "Which One to Turn Over",
+    "description": "The message from the ward asked the guardian to call. Sangchul did not try to read it, but he kept one finger on the business card for tomorrow's meeting, lying between the screen and {name}.\n\n\"These are the people I'm seeing tomorrow morning. Move now and there will be a share for you too.\"\n\nWhatever {name} had said about being alike, the hospital number and the next deal's number now occupied the same table. Saying he would handle both was not a choice.",
+    "choices": [
+      {
+        "text": "Leave the phone face up, call the ward, and slide the next meeting's card back to Sangchul",
+        "result_text": "{name} left the screen face up where Sangchul could see it and pressed call on the ward number. While the line rang, he slid the card for tomorrow's meeting back toward Sangchul.\n\n\"I'm done for tonight.\"\n\nSangchul did not stop him. He only took back the card. When the ward answered, {name} stepped outside the tent to somewhere quiet and said, \"This is {name}, his guardian.\" Instead of an explanation of why he was different, an empty seat remained at the table."
+      },
+      {
+        "text": "Turn the phone face down, take the card for the next meeting, and order another drink",
+        "result_text": "{name} turned the phone over so the ward number disappeared. He pulled the card from beneath Sangchul's finger, put it in his pocket, and ordered another drink.\n\n\"What time tomorrow?\"\n\nSangchul wrote down a time and two names. The phone buzzed once more, but neither man turned it over. The compliment about being alike was no longer a sentence. It was the extra time {name} chose to leave on the table."
       }
     ]
   },
   {
     "id": "arc_sangchul_confrontation",
     "title": "The Question",
-    "description": "A month.\nFor a month, Minjun did nothing. He kept meeting Sangchul and sitting as usual. Charts, markets, next month's strategy. Sangchul smiled; Minjun smiled back, knowing what face that smile belonged to.\n\nToday Sangchul pushed over another printed chart. \"You're quieter than last time. Sick?\"\n\n\"No.\"\n\nThe lie came too quickly. Sangchul's finger stopped on the page, then moved again. Minjun could not tell whether this was the reaction of a man who knew nothing, or one who had been waiting.\n\nThe coffee went cold. Coffee swallowed with knowledge tasted a little more bitter every time. The sentence Minjun had rehearsed a hundred times reached his throat. Swallow it once more and another month would pass.\n\nHe covered the chart and set down the cup without a sound.\n\n\"Sangchul.\"\n\nSangchul looked up.\n\n\"Do you know Park Sang-jin?\"",
+    "description": "At the appointed time, Sangchul came through the café's glass door and sat across from Minjun.\n\nA month. For a month, Minjun did nothing. He kept meeting Sangchul and sitting as usual. Charts, markets, next month's strategy. Sangchul smiled; Minjun smiled back, knowing what face that smile belonged to.\n\nToday Sangchul pushed over another printed chart. \"You're quieter than last time. Sick?\"\n\n\"No.\"\n\nThe lie came too quickly. Sangchul's finger stopped on the page, then moved again. Minjun could not tell whether this was the reaction of a man who knew nothing, or one who had been waiting.\n\nThe coffee went cold. Coffee swallowed with knowledge tasted a little more bitter every time. The sentence Minjun had rehearsed a hundred times reached his throat. Swallow it once more and another month would pass.\n\nHe covered the chart and set down the cup without a sound.\n\n\"Sangchul.\"\n\nSangchul looked up.\n\n\"Do you know Park Sang-jin?\"",
     "choices": [
       {
         "text": "Waited for Sangchul's reaction",
@@ -153,8 +168,8 @@
       }
     ],
     "description_if_known": {
-      "confronted_with_card": "For a month, Minjun did nothing.\n\nToday, that business card was in his pocket.\nHe didn't take it out. It was just there.\n\nMidway through his coffee, Minjun set the cup down and said,\n\"Sangchul. Do you know Park Sang-jin?\"",
-      "discarded_card_before_confrontation": "For a month, Minjun did nothing.\n\nToday he had nothing in his hand.\nLast night he'd put the card in a drawer. That felt better.\n\nMidway through his coffee, Minjun set the cup down and said,\n\"Sangchul. Do you know Park Sang-jin?\"",
+      "confronted_with_card": "At the appointed time, Sangchul came through the café's glass door and sat across from Minjun.\n\nFor a month, Minjun did nothing.\n\nToday, that business card was in his pocket.\nHe didn't take it out. It was just there.\n\nMidway through his coffee, Minjun set the cup down and said,\n\"Sangchul. Do you know Park Sang-jin?\"",
+      "discarded_card_before_confrontation": "At the appointed time, Sangchul came through the café's glass door and sat across from Minjun.\n\nFor a month, Minjun did nothing.\n\nToday he had nothing in his hand.\nHe had just put the card deep in his bag. That felt better.\n\nMidway through his coffee, Minjun set the cup down and said,\n\"Sangchul. Do you know Park Sang-jin?\"",
       "used_sangchul_knowingly": "For a month, Minjun did nothing.\nHe still met Sangchul. Talked like usual. Charts, markets, strategy for next month.\nHe took the deals Sangchul handed him too. Knowing, and still taking them.\n\nThen today, he reached his limit.\n\nHe set his coffee down and spoke.\n\"Sangchul. Do you know a man named Park Sang-jin?\"\n\nHe thought of the account he'd grown with that man's money.\nWhether he had any right to ask this question — he didn't know.",
       "sangchul_helped_with_father": "For a month, Minjun did nothing.\nHe still met Sangchul. Talked like usual. Charts, markets, strategy for next month.\n\nThen today, he reached his limit.\n\nHe set his coffee down and spoke.\n\"Sangchul. Do you know a man named Park Sang-jin?\"\n\nThe day Sangchul handled his father's hospital situation came back to him.\nHad that been the moment — when this man became his person.",
       "ng_confronted_sangchul_early": "For a month, Minjun did nothing.\nHe still met Sangchul. Talked like usual. Charts, markets, strategy for next month.\n\nOnce — at the very first table, the day he took the man's card — Minjun had already asked. 'Do you know my father?' Back then, that was the end of it.\nThis time he kept him close, and sat across from him a long while, knowing.\n\nHe set his coffee down and spoke.\n\"Sangchul. Do you know a man named Park Sang-jin?\"\n\nThis time, he would hear the answer to the end.",
@@ -184,16 +199,16 @@
   },
   {
     "id": "arc_sangchul_stairwell",
-    "title": "Outside the Door",
-    "description": "The café music thinned behind the closing glass door. Minjun took the three front steps at once. Cold air sharpened the bitterness in his mouth.\n\n\"Minjun.\"\n\nSangchul didn't follow. He stood inside the threshold, holding the door with one hand.\n\n\"If you leave now, you aren't leaving without knowing. You're choosing not to hear it.\"\n\nMinjun stopped at the foot of the steps. Without turning, he could feel the exact distance between them. Three paces.",
+    "title": "The Edge of the Chair",
+    "description": "Minjun pushed his chair halfway back and rose. The glass door was three paces away. The café music and espresso machine returned, but the two cups on the table kept cooling.\n\n\"Minjun.\"\n\nSangchul did not rise. He remained across the table with one hand on the folded chart.\n\n\"If you leave now, you aren't leaving without knowing. You're choosing not to hear it.\"\n\nMinjun's hand stopped on the chair back. Three paces remained before the door. Both men were still at the same table.",
     "choices": [
       {
-        "text": "He never looked back",
-        "result_text": "Minjun took the fourth step. Behind him, the glass door closed.\n\nAfter that day, he never contacted Sangchul first. The information, the introductions, every door Sangchul opened — all of them closed with him.\n\nThe relationship ended without a dramatic scene. Only those three steps stayed with Minjun for a long time."
+        "text": "Push the chair away and leave",
+        "result_text": "Minjun pushed the chair clear and walked the three paces to the glass door. Sangchul did not stop him. As the door closed, the two cups on the table overlapped for an instant in the glass.\n\nAfter that day, Minjun never contacted Sangchul first. The information, the introductions, every door Sangchul opened — all of them closed with him.\n\nThe relationship ended without a dramatic scene. The three paces that began at the same table stayed with Minjun for a long time."
       },
       {
-        "text": "He turned at the foot of the steps",
-        "result_text": "When Minjun turned, Sangchul was still holding the door.\n\n\"I'll hear everything before I go.\"\n\nThey returned to the same table. The coffee was stone cold, and this time neither man ordered another cup."
+        "text": "Pull the chair back and sit down",
+        "result_text": "Minjun turned away from the door, pulled the chair in, and sat across from Sangchul again.\n\n\"I'll hear everything before I go.\"\n\nThe coffee was stone cold, and neither man ordered another cup. Sangchul moved the folded chart aside and began at the beginning."
       }
     ]
   },

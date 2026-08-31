@@ -1359,15 +1359,15 @@
   {
     "id": "arc_sangchul_card_at_confrontation",
     "title": "One Business Card",
-    "description": "The night before the confrontation.\n\nSearching a pocket, {name} felt it catch on a finger.\nHis business card. The one he handed over the first day.\nA private number written on the back by hand.\n\n'I don't give this to people. This is only for you, Minjun.'\n\n{name} turned the card over.\nSame handwriting. Same person. A different story.",
+    "description": "Ten minutes before the appointment, in the same café. Sangchul had not arrived yet.\n\n{name} looked at the empty chair opposite him, then took the business card from his pocket. Sangchul had handed it to him on the day they met. The private number on the back was still in Sangchul's own handwriting.\n\n'I don't give this to people. This is only for you, Minjun.'\n\n{name} turned the card over.\nSame handwriting. Same person. A different story.",
     "choices": [
       {
-        "text": "Keep the card and meet him tomorrow",
-        "result_text": "Did not throw it away.\nSomewhere between knowing and pretending not to know,\n{name} slipped the card back into the pocket."
+        "text": "Put the card back in the pocket and wait for Sangchul",
+        "result_text": "Did not throw it away.\nSomewhere between knowing and pretending not to know,\n{name} slipped the card back into the pocket.\n\nA moment later, the café's glass door opened."
       },
       {
-        "text": "Put the card in a drawer. Did not want to carry it",
-        "result_text": "The drawer closed.\n{name} decided to go tomorrow with nothing in hand."
+        "text": "Put the card deep in the bag. Keep it off the table",
+        "result_text": "The zipper closed.\n{name} decided to ask the question without the card.\n\nA moment later, the café's glass door opened."
       }
     ]
   },

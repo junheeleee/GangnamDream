@@ -74,6 +74,7 @@ PREREQUISITE_STATIC_PATHS = {
     "turn",
     "player.job.id",
     "player.investment_skill",
+    "player.total_asset_value",
 }
 PREREQUISITE_DYNAMIC_PREFIXES = ("flags.",)
 PRESENTATION_KEYS = {
