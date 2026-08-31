@@ -29,6 +29,8 @@ const VALID_PROVENANCE: Array[String] = [
 const MAX_DRIVER_STEPS := 160000
 const MAX_STAGNANT_STEPS := 2400
 const MAX_MAIN_ACTION_FOCUS_ATTEMPTS := 3
+const AUDIO_MIX_DRAIN_MARGIN_SECONDS := 0.05
+const AUDIO_MIX_DRAIN_MAX_SECONDS := 0.25
 
 var _profile_id := ""
 var _profiles_path := DEFAULT_PROFILES_PATH
@@ -81,6 +83,7 @@ var _survival_recovery_active := false
 var _asset_band_hold_active := false
 var _main_selection_policy := "profile"
 var _shutdown_started := false
+var _audio_mix_drain_timer: Timer
 
 
 func _ready() -> void:
@@ -1085,8 +1088,29 @@ func _release_audio_for_exit() -> void:
 	if raw_sounds is Dictionary:
 		(raw_sounds as Dictionary).clear()
 	await AudioManager.drain_pending_timers_for_exit()
+	await _drain_audio_server_after_stop()
 	await get_tree().process_frame
 	await get_tree().process_frame
+
+
+func _drain_audio_server_after_stop() -> void:
+	# Godot 4.6 removes a stopped playback from AudioServer on the next real
+	# audio mix, not on the render/process frame that called stop(). Measure that
+	# boundary and let one owned Timer cross it before the runner quits. This does
+	# not hide teardown warnings: the shell still fails closed on every leak.
+	if not is_instance_valid(_audio_mix_drain_timer):
+		_audio_mix_drain_timer = Timer.new()
+		_audio_mix_drain_timer.name = "AudioMixDrainTimer"
+		_audio_mix_drain_timer.one_shot = true
+		_audio_mix_drain_timer.process_mode = Node.PROCESS_MODE_ALWAYS
+		add_child(_audio_mix_drain_timer)
+	var drain_seconds := clampf(
+		float(AudioServer.get_time_to_next_mix())
+			+ AUDIO_MIX_DRAIN_MARGIN_SECONDS,
+		AUDIO_MIX_DRAIN_MARGIN_SECONDS,
+		AUDIO_MIX_DRAIN_MAX_SECONDS)
+	_audio_mix_drain_timer.start(drain_seconds)
+	await _audio_mix_drain_timer.timeout
 
 
 func _detach_audio_streams(root: Node) -> void:

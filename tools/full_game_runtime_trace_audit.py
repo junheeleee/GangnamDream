@@ -588,6 +588,11 @@ def _validate_trace_script_source(source: str) -> None:
         "player.stream = null",
         "(raw_sounds as Dictionary).clear()",
         "await AudioManager.drain_pending_timers_for_exit()",
+        "await _drain_audio_server_after_stop()",
+        "var _audio_mix_drain_timer: Timer",
+        "func _drain_audio_server_after_stop() -> void:",
+        "AudioServer.get_time_to_next_mix()",
+        "await _audio_mix_drain_timer.timeout",
     ):
         if needle not in source:
             raise ContractError(f"GDScript recorder contract is missing {needle!r}")
@@ -859,6 +864,49 @@ def _validate_trace_script_source(source: str) -> None:
         )
     if release_body.count("await get_tree().process_frame") < 2:
         raise ContractError("runtime audio teardown must drain two process frames")
+    audio_manager_drain = release_body.index(
+        "await AudioManager.drain_pending_timers_for_exit()"
+    )
+    audio_server_drain = release_body.index(
+        "await _drain_audio_server_after_stop()"
+    )
+    first_process_frame = release_body.index("await get_tree().process_frame")
+    if not audio_manager_drain < audio_server_drain < first_process_frame:
+        raise ContractError(
+            "runtime audio teardown must drain tracked cues, then one real mix"
+        )
+
+    mix_drain_body = _gdscript_function_body(
+        source, "_drain_audio_server_after_stop"
+    )
+    ordered_mix_drain_markers = (
+        "if not is_instance_valid(_audio_mix_drain_timer):",
+        "_audio_mix_drain_timer = Timer.new()",
+        "_audio_mix_drain_timer.one_shot = true",
+        "_audio_mix_drain_timer.process_mode = Node.PROCESS_MODE_ALWAYS",
+        "add_child(_audio_mix_drain_timer)",
+        "AudioServer.get_time_to_next_mix()",
+        "AUDIO_MIX_DRAIN_MARGIN_SECONDS",
+        "AUDIO_MIX_DRAIN_MAX_SECONDS",
+        "_audio_mix_drain_timer.start(drain_seconds)",
+        "await _audio_mix_drain_timer.timeout",
+    )
+    previous_marker = -1
+    for marker in ordered_mix_drain_markers:
+        if marker not in mix_drain_body:
+            raise ContractError(
+                f"audio mix drain contract is missing {marker!r}"
+            )
+        marker_index = mix_drain_body.index(marker)
+        if marker_index <= previous_marker:
+            raise ContractError(
+                "audio mix drain ownership/order drifted at " + repr(marker)
+            )
+        previous_marker = marker_index
+    if "get_tree().create_timer" in mix_drain_body:
+        raise ContractError(
+            "audio mix drain must use its owned child Timer"
+        )
 
     shutdown_body = _gdscript_function_body(source, "_graceful_shutdown")
     audio_release = shutdown_body.index("await _release_audio_for_exit()")
@@ -2823,6 +2871,39 @@ def self_test() -> None:
     _expect_failure(
         "obsolete-main-game-timer-expiry-wait",
         lambda: _validate_trace_script_source(obsolete_exit_wait_source),
+    )
+    cases += 1
+
+    missing_real_mix_drain_source = TRACE_SCRIPT.read_text(encoding="utf-8").replace(
+        "\tawait _drain_audio_server_after_stop()\n",
+        "\tawait get_tree().process_frame\n",
+        1,
+    )
+    _expect_failure(
+        "missing-real-audio-mix-drain",
+        lambda: _validate_trace_script_source(missing_real_mix_drain_source),
+    )
+    cases += 1
+
+    unmeasured_mix_drain_source = TRACE_SCRIPT.read_text(encoding="utf-8").replace(
+        "float(AudioServer.get_time_to_next_mix())",
+        "0.0",
+        1,
+    )
+    _expect_failure(
+        "unmeasured-audio-mix-drain",
+        lambda: _validate_trace_script_source(unmeasured_mix_drain_source),
+    )
+    cases += 1
+
+    repeating_mix_timer_source = TRACE_SCRIPT.read_text(encoding="utf-8").replace(
+        "_audio_mix_drain_timer.one_shot = true",
+        "_audio_mix_drain_timer.one_shot = false",
+        1,
+    )
+    _expect_failure(
+        "audio-mix-drain-timer-not-one-shot",
+        lambda: _validate_trace_script_source(repeating_mix_timer_source),
     )
     cases += 1
 

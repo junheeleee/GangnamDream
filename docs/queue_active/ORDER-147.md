@@ -165,6 +165,51 @@ trace는 실패하고, W49 이후 첫 매수도 실패한다. 이 수리는 제�
 바꾸지 않고 감사가 현재 story-first 화면에서 할 수 없는 행동을 요구하던 모순만
 제거한다.
 
+### 2026-09-01 일반 경로 exact 복구 · `d8037afe`
+
+초기 seed 탐색 중 `e5c2ae0` runner로 얻은 W113 도달값은 선택 직전 목표 버튼의
+focus owner를 다시 확인하지 않는 옛 검사에서 나왔으므로 전부 반려했다. 현재
+runner의 exact focus·visible action·commitment 신원 계약으로 다시 실행한 값만
+사용한다.
+
+seed `2026083102`는 W112 재개발 승인과 W160 매각을 실제 선택·확률로 통과했지만,
+기본 선택이 W115 지연의 두 번째 부동산 제안을 받고 W117 재혁 앞에서 다시 눕는
+바람에 정신 붕괴했다. 사건·경제·확률을 바꾸지 않고 이미 작성된 선택인
+`arc_opp_jiyeon_bunyang`의 거절과 `arc_jaehyuk_ghost_decision`의 피해자 합류를
+general profile에만 exact 고정했다. 이는 부동산 경로를 흉내 내는 선택이 아니라
+일반/아버지 경로의 사람·부채·기억을 보존하는 선택이다.
+
+그 결과 같은 seed는 이전 붕괴 주차를 넘겨 W193에 29.26억원으로 도달했다.
+목표 자산대에서 위험한 추가 투자·도박을 막는 policy가 화면의 휴식 카드 부재 때
+멈춘 것은 제품 결함이 아니므로, 보이는 저축을 휴식 다음의 두 번째 안전 폴백으로
+허용했다. 정식 격리 방식의 clean 진단은 W1→W240·1,584 record·240 story
+occurrence·29.388억원·`investment_master` ending·`father_passed=true`를 통과했고
+ObjectDB/resource leak는 0이다. 앞선 임시 HOME/XDG 실행의 종료 경고는 정식
+격리 실행에서 재현되지 않아 후보 증거로 쓰지 않는다. profile seed·두 선택·
+Rest→Save 순서의 누락과 변조는 149개 self-test가 거부한다.
+
+### 2026-09-01 exact property 종료 경합 재현 · `9cb7ab78`
+
+fresh-title 3-profile 행렬에서 baseline과 general은 clean 종료했지만
+property는 W1→W240·1,678 record·268 story occurrence·`with_daeun`·
+28.21억원의 동일한 합법 trace를 완주하고도 종료 직후 ObjectDB/resource
+leak를 남겼다. 이 trace는 계약대로 즉시 반려하고 matrix를 PENDING으로
+유지한다.
+
+`--verbose` exact 재실행은 남은 자원 5개를 `sfx_click.wav`,
+`sfx_open_modal.wav`, `sfx_ending_stinger_good.wav`, `bgm_reckoning.ogg`,
+`bgm_victory.ogg`의 재생 객체로 특정했다. 장면·텍스처·SceneTreeTimer
+누수가 아니다. Godot 4.6은 `AudioStreamPlayer.stop()`에서 재생 객체를
+즉시 해제하지 않고 다음 AudioServer mix에서 제거하므로, 두 process frame이
+실제 mix보다 먼저 끝나면 clean과 leak가 같은 trace에서 경합한다.
+
+runner의 leak fail-closed나 오류 탐지를 완화하지 않는다. 대신 모든 player를
+정지·detach한 뒤 `AudioServer.get_time_to_next_mix()`로 다음 mix 경계를 측정하고,
+trace node가 소유한 one-shot child Timer로 그 경계를 한 번 넘는다. 자유
+SceneTreeTimer·2초 대기·경고 whitelist는 계속 금지하며, exact 계측·Timer
+소유·호출 순서 변조를 self-test가 거부한다. 수리한 새 exact
+candidate에서 세 profile W1→W240을 모두 처음부터 다시 실행한다.
+
 ## L1 / L2 / L3
 
 - **L1:** trace/profile contract와 mutation self-test가 초점 신원 오염, W13 선택
