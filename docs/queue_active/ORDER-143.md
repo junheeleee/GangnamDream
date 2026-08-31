@@ -38,6 +38,13 @@ same-location chain은 이벤트 JSON만 바꾸면 `story_consistency_audit`의 
 강제하는 `tools/story_map_audit.py`의 두 고정 기대값 및 해당 반례만 이 설계에 맞게
 바꾼다. 다른 relocation·coverage 보호선은 완화하지 않는다.
 
+**2026-08-31 피크 장면 문서 확장 선언:** guard를 우회하던 두 raw chain을 끊자
+`arc_daeun_03_fork`와 `arc_sangchul_mirror`가 관계없는 후속의 길이를 빌려 PASS한
+사실이 드러났다. 같은 인물·같은 갈등 안의 두 번째 결정으로 2-link peak를 복구하고,
+옛 약 문자·지연 제안·병실 직행을 아직 정본처럼 적은
+`docs/PEAK_SCENE_CHAIN_AUDIT.md`의 표와 21·22번 설명만 함께 갱신한다. strict 기준을
+낮추거나 다른 peak 기록을 재작성하지 않는다.
+
 ## 깊이 3문
 
 1. **다른 달 root로 이어진다고 항상 끊어야 하는가?** 아니다. 퇴실→새 방,
@@ -104,7 +111,8 @@ same-location chain은 이벤트 JSON만 바꾸면 `story_consistency_audit`의 
 `tools/{peak_scene_chain_audit,arc_flow_sim,scene_direction_catalog}.py`,
 `tools/{story_consistency_audit,story_map_audit,event_lifecycle}.py`,
 `tools/{HiddenFeatureCheck,CoreChoiceSliceCheck}.gd`,
-`tools/full_game_volume_baseline.json`, `tools/audit_scope.json`과 선언·마감 문서만
+`tools/full_game_volume_baseline.json`, `tools/audit_scope.json`,
+`docs/PEAK_SCENE_CHAIN_AUDIT.md`와 선언·마감 문서만
 소유한다. 범위 밖 제품 파일은 증거 없이 넓히지 않는다.
 
 ## L1 / L2 / L3
