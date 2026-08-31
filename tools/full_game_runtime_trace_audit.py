@@ -331,6 +331,7 @@ def _validate_trace_script_source(source: str) -> None:
         "func _select_visible_main_action(cards: Array[Button]) -> Button:",
         "var selected := _select_visible_main_action(cards)",
         "await _activate_button(selected)",
+        "if not GameState.pending_story_queue.is_empty():",
     ):
         if needle not in source:
             raise ContractError(f"GDScript recorder contract is missing {needle!r}")
@@ -915,6 +916,15 @@ def self_test() -> None:
     _expect_failure(
         "direct-hidden-ap-call",
         lambda: _validate_trace_script_source(direct_call_source),
+    )
+    cases += 1
+
+    story_race_source = TRACE_SCRIPT.read_text(encoding="utf-8").replace(
+        "if not GameState.pending_story_queue.is_empty():", "if false:", 1
+    )
+    _expect_failure(
+        "queued-story-action-race",
+        lambda: _validate_trace_script_source(story_race_source),
     )
     cases += 1
 

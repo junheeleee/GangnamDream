@@ -540,6 +540,14 @@ func _drive_main(main: Node) -> bool:
 		return await _drive_ending(main)
 	if current_turn > 240:
 		return false
+	# MainGame can render the next week's action board for a few frames before
+	# handing an already-queued story to StoryMode. A human cannot reliably
+	# commit an action during that transition. Pressing the briefly visible card
+	# here would arm a weekly commitment on a MainGame instance that is about to
+	# be freed, leaving the fresh replacement with no live activity surface.
+	# Wait for the product-owned story handoff instead of racing it.
+	if not GameState.pending_story_queue.is_empty():
+		return false
 
 	var modal := main.get("modal_layer") as Control
 	if is_instance_valid(modal) and modal.visible:
