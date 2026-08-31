@@ -1562,13 +1562,28 @@ func _activate_settled_main_action_button(button_raw: Variant) -> void:
 		_fail("selected MainGame action disappeared before exact keyboard focus")
 		return
 	var button := button_raw as Button
-	for _attempt in range(MAX_MAIN_ACTION_FOCUS_ATTEMPTS):
+	for attempt in range(MAX_MAIN_ACTION_FOCUS_ATTEMPTS):
 		button.grab_focus()
+		var immediate_focus := get_viewport().gui_get_focus_owner()
+		print("FULL_GAME_RUNTIME_TRACE_FOCUS_DEBUG attempt=%d target=%s:%d immediate=%s:%d" % [
+			attempt,
+			button.name,
+			button.get_instance_id(),
+			immediate_focus.name if is_instance_valid(immediate_focus) else "null",
+			immediate_focus.get_instance_id() if is_instance_valid(immediate_focus) else 0,
+		])
 		await get_tree().process_frame
 		if not _button_is_usable(button):
 			_fail("selected MainGame action disappeared while settling exact keyboard focus")
 			return
 		var focused := get_viewport().gui_get_focus_owner()
+		print("FULL_GAME_RUNTIME_TRACE_FOCUS_DEBUG attempt=%d target=%s:%d settled=%s:%d" % [
+			attempt,
+			button.name,
+			button.get_instance_id(),
+			focused.name if is_instance_valid(focused) else "null",
+			focused.get_instance_id() if is_instance_valid(focused) else 0,
+		])
 		if focused == button:
 			await _send_key(KEY_ENTER)
 			return
