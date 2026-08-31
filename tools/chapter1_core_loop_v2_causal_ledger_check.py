@@ -3437,7 +3437,7 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "scenes/StoryMode.tscn":
         "b7688a883323a196e74271c1e76f1d88c91310b3fe1a287cb051b33dd2fb76ca",
     "scenes/MainGame.gd":
-        "88d37a9935e3f23ee316292721dc12a7f2b0fcb02c2b246f42cbf4f34d7694fb",
+        "12d9c47ed62ad34343fae4e236a3e9cffb9a65f234f3e32a0607cff20a47dba1",
     "scenes/MainGame.tscn":
         "71a9590d43c755fa6b409ee0eb0f1950c6aba4517c64192b83038d22a45d9979",
     "scenes/SeoulCycleBoard.gd":

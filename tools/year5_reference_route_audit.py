@@ -1205,6 +1205,19 @@ GENERIC_FINALE_W240_PROTECTED_FILE_TRANSITIONS = {
         "88d37a9935e3f23ee316292721dc12a7f2b0fcb02c2b246f42cbf4f34d7694fb",
     ),
 }
+
+# The automatic close is a second, additive W240 repair on top of the exact
+# generic-finale byte above.  Its predecessor is committed independently so a
+# later edit cannot rewrite either the ORDER-143 transition or the first W240
+# repair while still satisfying the current working-tree hash.
+GENERIC_FINALE_W240_AUTOCLOSE_BASELINE = \
+    "a1088e9e9501d07b8ec99fc1a7ef73999000360f"
+GENERIC_FINALE_W240_AUTOCLOSE_PROTECTED_FILE_TRANSITIONS = {
+    "scenes/MainGame.gd": (
+        "88d37a9935e3f23ee316292721dc12a7f2b0fcb02c2b246f42cbf4f34d7694fb",
+        "12d9c47ed62ad34343fae4e236a3e9cffb9a65f234f3e32a0607cff20a47dba1",
+    ),
+}
 ORDER131_ADDED_IDS_BY_FILE = {
     "content/events/arc_midgame.json": {
         "arc_first_real_win_father_passed",
@@ -6134,6 +6147,9 @@ def validate_protected_hashes(
         order143_transition = ORDER143_PROTECTED_FILE_TRANSITIONS.get(relative)
         generic_finale_transition = \
             GENERIC_FINALE_W240_PROTECTED_FILE_TRANSITIONS.get(relative)
+        generic_finale_autoclose_transition = \
+            GENERIC_FINALE_W240_AUTOCLOSE_PROTECTED_FILE_TRANSITIONS.get(
+                relative)
         effective_expected_hash = advance_exact_hash(
             expected_hash, order135_transition)
         effective_expected_hash = advance_exact_hash(
@@ -6153,6 +6169,9 @@ def validate_protected_hashes(
         pre_generic_finale_expected_hash = effective_expected_hash
         effective_expected_hash = advance_exact_hash(
             effective_expected_hash, generic_finale_transition)
+        pre_generic_finale_autoclose_expected_hash = effective_expected_hash
+        effective_expected_hash = advance_exact_hash(
+            effective_expected_hash, generic_finale_autoclose_transition)
         if actual_hash != effective_expected_hash:
             errors.append(f"{owner}: working-tree byte hash drifted")
         transition = ORDER134_PROTECTED_FILE_TRANSITIONS.get(relative)
@@ -6167,6 +6186,7 @@ def validate_protected_hashes(
                     and story_demo_transition is None \
                     and order143_transition is None \
                     and generic_finale_transition is None \
+                    and generic_finale_autoclose_transition is None \
                     and actual_hash != order135_transition[1]:
                 errors.append(
                     f"{owner}: ORDER-135 additive current hash drifted")
@@ -6182,6 +6202,7 @@ def validate_protected_hashes(
                     and story_demo_transition is None \
                     and order143_transition is None \
                     and generic_finale_transition is None \
+                    and generic_finale_autoclose_transition is None \
                     and actual_hash != order136_transition[1]:
                 errors.append(
                     f"{owner}: ORDER-136 visual current hash drifted")
@@ -6193,6 +6214,7 @@ def validate_protected_hashes(
                     and story_demo_transition is None \
                     and order143_transition is None \
                     and generic_finale_transition is None \
+                    and generic_finale_autoclose_transition is None \
                     and actual_hash != order137_transition[1]:
                 errors.append(
                     f"{owner}: ORDER-137 repair current hash drifted")
@@ -6202,6 +6224,7 @@ def validate_protected_hashes(
                     f"{owner}: ORDER-138 transition does not extend ORDER-137")
             if story_demo_transition is None and order143_transition is None \
                     and generic_finale_transition is None \
+                    and generic_finale_autoclose_transition is None \
                     and actual_hash != order138_transition[1]:
                 errors.append(
                     f"{owner}: ORDER-138 density repair current hash drifted")
@@ -6211,6 +6234,7 @@ def validate_protected_hashes(
                     f"{owner}: story-demo transition does not extend ORDER-138")
             if order143_transition is None \
                     and generic_finale_transition is None \
+                    and generic_finale_autoclose_transition is None \
                     and actual_hash != story_demo_transition[1]:
                 errors.append(
                     f"{owner}: story-demo receipt current hash drifted")
@@ -6219,6 +6243,7 @@ def validate_protected_hashes(
                 errors.append(
                     f"{owner}: ORDER-143 transition does not extend latest layer")
             if generic_finale_transition is None \
+                    and generic_finale_autoclose_transition is None \
                     and actual_hash != order143_transition[1]:
                 errors.append(
                     f"{owner}: ORDER-143 graph current hash drifted")
@@ -6228,9 +6253,19 @@ def validate_protected_hashes(
                 errors.append(
                     f"{owner}: generic W240 transition does not extend "
                     "ORDER-143")
-            if actual_hash != generic_finale_transition[1]:
+            if generic_finale_autoclose_transition is None \
+                    and actual_hash != generic_finale_transition[1]:
                 errors.append(
                     f"{owner}: generic W240 current hash drifted")
+        if generic_finale_autoclose_transition is not None:
+            if generic_finale_autoclose_transition[0] \
+                    != pre_generic_finale_autoclose_expected_hash:
+                errors.append(
+                    f"{owner}: generic W240 auto-close transition does not "
+                    "extend the generic finale repair")
+            if actual_hash != generic_finale_autoclose_transition[1]:
+                errors.append(
+                    f"{owner}: generic W240 auto-close current hash drifted")
         try:
             baseline_hash = byte_sha256(git_blob(EXPECTED_BASELINE, relative))
         except ValueError as exc:
@@ -6325,6 +6360,19 @@ def validate_protected_hashes(
                         != generic_finale_transition[0]:
                     errors.append(
                         f"{owner}: generic W240 baseline hash drifted")
+        if generic_finale_autoclose_transition is not None:
+            try:
+                generic_finale_autoclose_baseline_hash = byte_sha256(
+                    git_blob(
+                        GENERIC_FINALE_W240_AUTOCLOSE_BASELINE, relative))
+            except ValueError as exc:
+                errors.append(f"{owner}: {exc}")
+            else:
+                if generic_finale_autoclose_baseline_hash \
+                        != generic_finale_autoclose_transition[0]:
+                    errors.append(
+                        f"{owner}: generic W240 auto-close baseline hash "
+                        "drifted")
 
     objects = protected.get("objects")
     if not isinstance(objects, list) or not objects:
@@ -7146,6 +7194,9 @@ def run_invalidated_self_test(
         ("generic_finale_hash_transition",
          GENERIC_FINALE_W240_PROTECTED_FILE_TRANSITIONS[
              "scenes/MainGame.gd"]),
+        ("generic_finale_autoclose_hash_transition",
+         GENERIC_FINALE_W240_AUTOCLOSE_PROTECTED_FILE_TRANSITIONS[
+             "scenes/MainGame.gd"]),
     ):
         case_count += 1
         tampered_predecessor = "0" * 64
@@ -7389,7 +7440,8 @@ def run_invalidated_self_test(
         try:
             actual_baseline = byte_sha256(
                 git_blob(GENERIC_FINALE_W240_BASELINE, relative))
-            actual_current = byte_sha256((ROOT / relative).read_bytes())
+            actual_current = byte_sha256(git_blob(
+                GENERIC_FINALE_W240_AUTOCLOSE_BASELINE, relative))
         except (OSError, ValueError) as exc:
             transition_failures.append(f"{relative}:{exc}")
             continue
@@ -7399,6 +7451,25 @@ def run_invalidated_self_test(
         failures.append(
             "generic_finale_transition_inverse: exact baseline/current "
             f"transition drifted {transition_failures}")
+
+    case_count += 1
+    transition_failures = []
+    for relative, (baseline_hash, current_hash) \
+            in GENERIC_FINALE_W240_AUTOCLOSE_PROTECTED_FILE_TRANSITIONS.items():
+        try:
+            actual_baseline = byte_sha256(
+                git_blob(GENERIC_FINALE_W240_AUTOCLOSE_BASELINE, relative))
+            actual_current = byte_sha256((ROOT / relative).read_bytes())
+        except (OSError, ValueError) as exc:
+            transition_failures.append(f"{relative}:{exc}")
+            continue
+        if actual_baseline != baseline_hash or actual_current != current_hash:
+            transition_failures.append(relative)
+    if transition_failures:
+        failures.append(
+            "generic_finale_autoclose_transition_inverse: exact "
+            "baseline/current transition drifted "
+            f"{transition_failures}")
 
     case_count += 1
     replacement_context = copy.deepcopy(context)

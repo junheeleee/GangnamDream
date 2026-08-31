@@ -487,6 +487,12 @@ func _continue_after_story():
 		return
 	if _complete_chapter5_finale_week_after_story():
 		return
+	# The generic W240 signature is itself the week's final commitment. Asking
+	# for one routine action after its same-night outbound weakens the climax and
+	# advances the ending only after an unrelated click. Close that exact week
+	# automatically, just as the typed Chapter 5 finale closes its owned slots.
+	if _complete_generic_finale_week_after_story():
+		return
 	if _route_opening_chapter_if_pending():
 		return
 	var followup_activity := _take_story_followup_activity()
@@ -579,6 +585,23 @@ func _complete_chapter5_finale_week_after_story() -> bool:
 		SceneTransition.fade_in()
 		return true
 	if not GameState.chapter5_finale_week_completed():
+		return false
+	SceneTransition.fade_in()
+	current_event = {}
+	_demo_director_finish_auto_week()
+	return true
+
+
+func _generic_finale_week_ready_to_close() -> bool:
+	return GameState.turn == 240 \
+		and not GameState.chapter5_finale_holds_ending() \
+		and int(GameState.flags.get("foreground_story_turn", -1)) == 240 \
+		and bool(GameState.flags.get("arc_final_countdown_seen", false)) \
+		and bool(GameState.flags.get("arc_final_week_seen", false))
+
+
+func _complete_generic_finale_week_after_story() -> bool:
+	if not _generic_finale_week_ready_to_close():
 		return false
 	SceneTransition.fade_in()
 	current_event = {}

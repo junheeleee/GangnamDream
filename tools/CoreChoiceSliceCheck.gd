@@ -46,6 +46,7 @@ func _ready() -> void:
 	await _check_chapter5_finale_direct_week_ownership()
 	_check_chapter5_general_finale_direct_week_ownership()
 	_check_generic_finale_exact_week()
+	_check_generic_finale_auto_close_contract()
 	_check_result_portrait_without_background()
 	_check_chapter_four_father_death_recovery()
 	_check_father_terminal_final_week_repair()
@@ -56,7 +57,7 @@ func _ready() -> void:
 	_check_foreground_commitment_weeks()
 	if _failures.is_empty():
 		await _stop_fixture_audio()
-		print("CORE_CHOICE_SLICE_CHECK_OK intent=1 interview=causal job_gate=ledger jiyeon_lunch=branch_gated racetrack=handoff authored=7 generic=2 ap_duplicate=0 delayed=t8 branches=2 axes=money/human missed_cost=targeted story_graph=m23_visit+hospital+door_one_shot chapter5=w193_same_queue+causal19/47+finale11/30-active9/24+general-source-w211-w220+general8/17-active6/13-w224-w229-w234-w237-w240-same-turn+read-contract+direct-no-ap+w240-two-root+generic-finale-exact-w240+fatal-return-uncovered+normal-release-uncovered father_death=monotonic_repair father_active=guarded milestone_routing=dual late_routes=variant+closed save=roundtrip")
+		print("CORE_CHOICE_SLICE_CHECK_OK intent=1 interview=causal job_gate=ledger jiyeon_lunch=branch_gated racetrack=handoff authored=7 generic=2 ap_duplicate=0 delayed=t8 branches=2 axes=money/human missed_cost=targeted story_graph=m23_visit+hospital+door_one_shot chapter5=w193_same_queue+causal19/47+finale11/30-active9/24+general-source-w211-w220+general8/17-active6/13-w224-w229-w234-w237-w240-same-turn+read-contract+direct-no-ap+w240-two-root+generic-finale-exact-w240+generic-finale-auto-close+fatal-return-uncovered+normal-release-uncovered father_death=monotonic_repair father_active=guarded milestone_routing=dual late_routes=variant+closed save=roundtrip")
 		get_tree().quit(0)
 		return
 	for failure in _failures:
@@ -1662,6 +1663,29 @@ func _check_generic_finale_exact_week() -> void:
 	GameState.flags["arc_final_countdown_seen"] = true
 	_expect(game._next_arc_id(240, true, false) == "arc_final_week",
 		"stale chapter/pre-ending recovery stole the same-night W240 outbound")
+	game.free()
+
+
+func _check_generic_finale_auto_close_contract() -> void:
+	GameState.start_new_game()
+	var game = _new_main_game()
+	GameState.turn = 240
+	GameState.flags["foreground_story_turn"] = 240
+	GameState.flags["arc_final_countdown_seen"] = true
+	GameState.flags["arc_final_week_seen"] = true
+	_expect(game._generic_finale_week_ready_to_close(),
+		"completed generic W240 finale did not own the terminal week")
+	GameState.flags["foreground_story_turn"] = 239
+	_expect(not game._generic_finale_week_ready_to_close(),
+		"stale generic finale receipt auto-closed an unowned W240")
+	GameState.flags["foreground_story_turn"] = 240
+	GameState.flags.erase("arc_final_week_seen")
+	_expect(not game._generic_finale_week_ready_to_close(),
+		"generic signature auto-closed before its same-night outbound")
+	GameState.flags["arc_final_week_seen"] = true
+	GameState.turn = 239
+	_expect(not game._generic_finale_week_ready_to_close(),
+		"generic finale auto-close escaped exact W240")
 	game.free()
 
 
