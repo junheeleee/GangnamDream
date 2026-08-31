@@ -26,6 +26,12 @@ M22 unattached fallback 세 root를 author-only에서 실제 제품 ingress로 �
 `tools/event_lifecycle.py` self-test도 함께 바뀐다. 이 검사 파일을 소유권에
 추가하되 면제 규칙이나 다른 event의 생명주기는 넓히지 않는다.
 
+**2026-08-31 시각 계약 확장 선언:** 위에서 활성화한 M10·M14 배경과 M33
+same-location chain은 이벤트 JSON만 바꾸면 `story_consistency_audit`의 실제 시각
+대조가 실패한다. 따라서 그 exact background/portrait 쌍을 소유하는
+`assets/event_visual_contracts.json`을 추가한다. 새 그림을 만들거나 M01~M06
+계약을 바꾸지 않는다.
+
 ## 깊이 3문
 
 1. **다른 달 root로 이어진다고 항상 끊어야 하는가?** 아니다. 퇴실→새 방,
@@ -88,7 +94,7 @@ M22 unattached fallback 세 root를 author-only에서 실제 제품 ingress로 �
 `tools/story_graph_contract_audit.py`; `content/meta/story_map.json`,
 `content/meta/story_rules.json`, `content/meta/event_lifecycle.json`,
 `content/events{,_en}/{arc_midgame,arc_chapter_themes,arc_daeun,arc_drama,arc_events,arc_year3_drama}.json`,
-`scenes/MainGame.gd`, `assets/scene_direction_manifest.json`,
+`scenes/MainGame.gd`, `assets/{event_visual_contracts,scene_direction_manifest}.json`,
 `tools/{peak_scene_chain_audit,arc_flow_sim,scene_direction_catalog}.py`,
 `tools/{story_consistency_audit,event_lifecycle}.py`,
 `tools/{HiddenFeatureCheck,CoreChoiceSliceCheck}.gd`,
