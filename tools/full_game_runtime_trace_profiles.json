@@ -230,7 +230,7 @@
     {
       "id": "general_near_goal_father_passed",
       "description": "Fresh non-property run attempting the father-passed near-goal general chain without injected state.",
-      "seed": 2026083103,
+      "seed": 2026083102,
       "locale": "ko",
       "input_mode": "keyboard",
       "default_choice": {
@@ -247,6 +247,7 @@
         "inv_ipo_hot_tip": {"index": 0, "selection_mode": "direct"},
         "sangchul_tip_redev": {"index": 0, "selection_mode": "direct"},
         "arc_opp_sangchul_realty": {"index": 1, "selection_mode": "direct"},
+        "arc_opp_jiyeon_bunyang": {"index": 1, "selection_mode": "direct"},
         "inv_redev_zone_tip": {"index": 1, "selection_mode": "direct"},
         "inv_redev_completion_sale": {"index": 0, "selection_mode": "direct"},
         "arc_36_night_doubt": {"index": 2, "selection_mode": "direct"},
@@ -257,6 +258,7 @@
         "arc_36_reality_check": {"index": 1, "selection_mode": "direct"},
         "arc_year_three_crossroads": {"index": 1, "selection_mode": "direct"},
         "arc_36_body_signal": {"index": 1, "selection_mode": "direct"},
+        "arc_jaehyuk_ghost_decision": {"index": 1, "selection_mode": "direct"},
         "arc_daeun_01_meet": {"index": 1, "selection_mode": "direct"},
         "arc_minseo_02_real": {"index": 1, "selection_mode": "direct"},
         "arc_minseo_03_arrival": {"index": 1, "selection_mode": "direct"},
@@ -298,8 +300,8 @@
       },
       "asset_band_policy": {
         "activate_at_total_assets": 2500000000,
-        "action_priority": ["rest"],
-        "function_priority": ["_ap_free_time"]
+        "action_priority": ["rest", "save"],
+        "function_priority": ["_ap_free_time", "_ap_save_money"]
       },
       "required_event_sequence": [
         "story_flashforward",

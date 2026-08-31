@@ -131,8 +131,8 @@ ASSET_BAND_POLICY_KEYS = {
     "function_priority",
 }
 ASSET_BAND_PROFILE_ID = "general_near_goal_father_passed"
-ASSET_BAND_ACTION_PRIORITY = ["rest"]
-ASSET_BAND_FUNCTION_PRIORITY = ["_ap_free_time"]
+ASSET_BAND_ACTION_PRIORITY = ["rest", "save"]
+ASSET_BAND_FUNCTION_PRIORITY = ["_ap_free_time", "_ap_save_money"]
 MODAL_POLICY_KEYS = {"study_type"}
 PROFILE_STUDY_TYPES = {
     "baseline_safe_people": 0,
@@ -143,6 +143,7 @@ GENERAL_PROFILE_ID = "general_near_goal_father_passed"
 GENERAL_REQUIRED_CHOICE_OVERRIDE_EVENT = "cafe_cb_honest_in"
 GENERAL_REQUIRED_CHOICE_OVERRIDE = {"index": 1, "selection_mode": "direct"}
 GENERAL_SURVIVAL_CHOICE_OVERRIDES = {
+    "arc_opp_jiyeon_bunyang": {"index": 1, "selection_mode": "direct"},
     "arc_36_night_doubt": {"index": 2, "selection_mode": "direct"},
     "amb_guarantee_00": {"index": 2, "selection_mode": "direct"},
     "arc_36_trust_crack": {"index": 1, "selection_mode": "direct"},
@@ -151,6 +152,7 @@ GENERAL_SURVIVAL_CHOICE_OVERRIDES = {
     "arc_36_reality_check": {"index": 1, "selection_mode": "direct"},
     "arc_year_three_crossroads": {"index": 1, "selection_mode": "direct"},
     "arc_36_body_signal": {"index": 1, "selection_mode": "direct"},
+    "arc_jaehyuk_ghost_decision": {"index": 1, "selection_mode": "direct"},
 }
 PROPERTY_PROFILE_ID = "investment_property_daeun"
 PROPERTY_LADDER_PROFILE_IDS = {
@@ -425,7 +427,8 @@ def validate_profiles(path: Path = DEFAULT_PROFILES, *, check_events: bool = Tru
             if band_actions != ASSET_BAND_ACTION_PRIORITY \
                     or band_functions != ASSET_BAND_FUNCTION_PRIORITY:
                 raise ContractError(
-                    f"{label}.asset_band_policy must use the safe visible Rest action only"
+                    f"{label}.asset_band_policy must use the exact safe visible "
+                    "Rest-then-Save fallback"
                 )
             if not set(band_actions).issubset(profile["main_action_priority"]) \
                     or not set(band_functions).issubset(functions):
