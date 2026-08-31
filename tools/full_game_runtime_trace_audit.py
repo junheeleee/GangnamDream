@@ -33,6 +33,82 @@ AUDIT_RUNNER = ROOT / "tools" / "audit.sh"
 IMMERSION_LOOP_SCRIPT = ROOT / "tools" / "ImmersionLoopCheck.gd"
 MAIN_GAME_SCRIPT = ROOT / "scenes" / "MainGame.gd"
 AUDIO_MANAGER_SCRIPT = ROOT / "autoloads" / "AudioManager.gd"
+AUDIT_RUNNER_SHA256 = (
+    "32bfc2e8b8bb94aef1015d82bf5e706033db78524674dfce4ed625cb0cb6da9c"
+)
+
+AUDIO_MIX_DRAIN_CRITICAL_BLOCK = (
+    "\tvar time_since_last_mix: float = maxf(\n"
+    "\t\t0.0, float(AudioServer.get_time_since_last_mix()))\n"
+    "\tvar time_to_next_mix: float = maxf(\n"
+    "\t\t0.0, float(AudioServer.get_time_to_next_mix()))\n"
+    "\tvar mix_period_seconds := time_since_last_mix + time_to_next_mix\n"
+    "\tvar drain_seconds := clampf(\n"
+    "\t\ttime_to_next_mix + mix_period_seconds\n"
+    "\t\t\t+ AUDIO_MIX_DRAIN_MARGIN_SECONDS,\n"
+    "\t\tAUDIO_MIX_DRAIN_MARGIN_SECONDS,\n"
+    "\t\tAUDIO_MIX_DRAIN_MAX_SECONDS)\n"
+    "\t_audio_mix_drain_timer.start(drain_seconds)\n"
+    "\tawait _audio_mix_drain_timer.timeout\n"
+)
+IMMERSION_SUBPROCESS_CRITICAL_BLOCK = (
+    '    IMMERSION_HOME=$(make_isolated_home "gangnam-immersion-loop")\n'
+    '    IMMERSION_RAW=$(run_limited env HOME="$IMMERSION_HOME" "$GODOT" '
+    '--headless --quit-after 3600 res://tools/ImmersionLoopCheck.tscn 2>&1)\n'
+    "    IMMERSION_STATUS=$?\n"
+    '    cleanup_isolated_home "$IMMERSION_HOME"\n'
+)
+IMMERSION_STRESS_SECTION_BODY = (
+    "  IMMERSION_EXIT=0\n"
+    "  IMMERSION_PASSES=0\n"
+    "  IMMERSION_RUN_INDEX=1\n"
+    '  while [ "$IMMERSION_RUN_INDEX" -le '
+    '"$IMMERSION_AUDIO_TEARDOWN_RUNS" ]; do\n'
+    + IMMERSION_SUBPROCESS_CRITICAL_BLOCK
+    + '    if godot_check_passed "$IMMERSION_RAW" "$IMMERSION_STATUS" \\\n'
+    '        "IMMERSION_LOOP_CHECK_OK" teardown_strict; then\n'
+    "      IMMERSION_PASSES=$((IMMERSION_PASSES + 1))\n"
+    "    else\n"
+    '      echo "$IMMERSION_RAW" | grep -E '
+    '"IMMERSION_LOOP_CHECK_(OK|FAIL)|ERROR:|WARNING: ObjectDB|SCRIPT ERROR|Parse Error|Compile Error" '
+    "| sed 's/^/  /'\n"
+    "      IMMERSION_EXIT=1\n"
+    "      break\n"
+    "    fi\n"
+    "    IMMERSION_RUN_INDEX=$((IMMERSION_RUN_INDEX + 1))\n"
+    "  done\n"
+    '  if [ "$IMMERSION_PASSES" -ne "$IMMERSION_AUDIO_TEARDOWN_RUNS" ]; then\n'
+    "    IMMERSION_EXIT=1\n"
+    '  elif [ "$IMMERSION_EXIT" -eq 0 ]; then\n'
+    '    echo "  IMMERSION_LOOP_STRESS_OK runs=$IMMERSION_PASSES '
+    'audio_teardown=3wav+2ogg"\n'
+    "  fi\n"
+)
+AUDIT_GODOT_ERROR_POLICY_BLOCK = (
+    "  local error_lines\n"
+    "  local engine_error_pattern='ERROR:|SCRIPT ERROR|Parse Error|Compile Error|Failed to load script'\n"
+    '  if [ "$error_mode" = "teardown_strict" ]; then\n'
+    '    engine_error_pattern="$engine_error_pattern|WARNING: ObjectDB instances leaked at exit"\n'
+    "  fi\n"
+    '  error_lines=$(printf \'%s\\n\' "$output" | grep -iE "$engine_error_pattern")\n'
+    '  if [ "$error_mode" != "strict" ] && [ "$error_mode" != "teardown_strict" ]; then\n'
+    '    error_lines=$(printf \'%s\\n\' "$error_lines" \\\n'
+    "      | grep -viE 'ERROR: [0-9]+ resources still in use at exit')\n"
+    "  fi\n"
+    '  if [ -n "$error_lines" ]; then\n'
+    '    echo "  ✗ 성공 마커와 함께 Godot 오류가 출력됨"\n'
+    "    return 1\n"
+    "  fi\n"
+    "  return 0\n"
+)
+AUDIT_OBJECTDB_SELF_TEST_BLOCK = (
+    "if godot_check_passed $'AUDIT_GUARD_OBJECTDB_SELF_TEST_OK\\n"
+    "WARNING: ObjectDB instances leaked at exit' \\\n"
+    '    0 "AUDIT_GUARD_OBJECTDB_SELF_TEST_OK" teardown_strict >/dev/null; then\n'
+    '  echo "❌ 내부 감사 오류 — ObjectDB 종료 누수 감지가 작동하지 않습니다."\n'
+    "  exit 1\n"
+    "fi\n"
+)
 
 SCHEMA_VERSION = 1
 TRACE_SCHEMA_VERSION = 1
@@ -262,6 +338,38 @@ def _gdscript_function_body(source: str, function_name: str) -> str:
     if match is None:
         raise ContractError(f"missing GDScript function {function_name}")
     return match.group(1)
+
+
+def _validate_audio_mix_drain_critical_block(body: str, label: str) -> None:
+    if body.count(AUDIO_MIX_DRAIN_CRITICAL_BLOCK) != 1:
+        raise ContractError(
+            f"{label} must keep the exact measured/clamped/direct-start audio "
+            "mix drain block"
+        )
+    for identifier in (
+        "time_since_last_mix",
+        "time_to_next_mix",
+        "mix_period_seconds",
+        "drain_seconds",
+    ):
+        assignments = re.findall(
+            rf"(?m)^\t(?:var\s+)?{re.escape(identifier)}"
+            rf"(?:\s*:\s*[A-Za-z0-9_.]+)?\s*(?::=|\+=|-=|\*=|/=|=)",
+            body,
+        )
+        if len(assignments) != 1:
+            raise ContractError(
+                f"{label} must assign {identifier} exactly once inside the "
+                "sealed calculation block"
+            )
+    direct_starts = re.findall(
+        r"(?m)^\t_audio_mix_drain_timer\.start\(drain_seconds\)\s*$",
+        body,
+    )
+    if len(direct_starts) != 1:
+        raise ContractError(
+            f"{label} must start its owned timer exactly once with drain_seconds"
+        )
 
 
 def validate_profiles(path: Path = DEFAULT_PROFILES, *, check_events: bool = True) -> dict[str, dict[str, Any]]:
@@ -876,7 +984,7 @@ def _validate_trace_script_source(source: str) -> None:
     first_process_frame = release_body.index("await get_tree().process_frame")
     if not audio_manager_drain < audio_server_drain < first_process_frame:
         raise ContractError(
-            "runtime audio teardown must drain tracked cues, then one real mix"
+            "runtime audio teardown must drain tracked cues, then two real mix boundaries"
         )
 
     mix_drain_body = _gdscript_function_body(
@@ -912,6 +1020,9 @@ def _validate_trace_script_source(source: str) -> None:
         raise ContractError(
             "audio mix drain must use its owned child Timer"
         )
+    _validate_audio_mix_drain_critical_block(
+        mix_drain_body, "runtime trace audio teardown"
+    )
     for exact_contract in (
         "const AUDIO_MIX_DRAIN_MARGIN_SECONDS := 0.02",
         "const AUDIO_MIX_DRAIN_MAX_SECONDS := 0.25",
@@ -1088,10 +1199,17 @@ def _validate_immersion_audio_teardown_source(source: str) -> None:
         "const AUDIO_MIX_DRAIN_MARGIN_SECONDS := 0.02",
         "const AUDIO_MIX_DRAIN_MAX_SECONDS := 0.25",
         "var _audio_mix_drain_timer: Timer",
+        "const AUDIO_TEARDOWN_PROBE_PATHS: Array[String] = [",
+        '"res://assets/audio/sfx_click.wav"',
+        '"res://assets/audio/sfx_open_modal.wav"',
+        '"res://assets/audio/sfx_ending_stinger_good.wav"',
+        '"res://assets/audio/bgm_reckoning.ogg"',
+        '"res://assets/audio/bgm_victory.ogg"',
         "await _arm_audio_teardown_probe()",
         "func _arm_audio_teardown_probe() -> void:",
-        "for index in range(5):",
-        "player.stream = AudioStreamGenerator.new()",
+        "for index in range(AUDIO_TEARDOWN_PROBE_PATHS.size()):",
+        "load(AUDIO_TEARDOWN_PROBE_PATHS[index]) as AudioStream",
+        "player.stream = probe_stream",
         "player.play()",
         "await get_tree().process_frame",
         "await _drain_audio_server_after_stop()",
@@ -1103,7 +1221,7 @@ def _validate_immersion_audio_teardown_source(source: str) -> None:
         "time_since_last_mix + time_to_next_mix",
         "time_to_next_mix + mix_period_seconds",
         "await _audio_mix_drain_timer.timeout",
-        "audio_teardown=5x2",
+        "audio_teardown=3wav+2ogg",
     ):
         if marker not in source:
             raise ContractError(
@@ -1117,6 +1235,17 @@ def _validate_immersion_audio_teardown_source(source: str) -> None:
         raise ContractError(
             "focused audio teardown fixture must not use a free SceneTreeTimer"
         )
+    if "AudioStreamGenerator.new()" in source:
+        raise ContractError(
+            "focused audio teardown fixture must use the exact leaked WAV/OGG assets"
+        )
+    if source.count('"res://assets/audio/') != 5:
+        raise ContractError(
+            "focused audio teardown fixture must own exactly five leaked asset paths"
+        )
+    _validate_audio_mix_drain_critical_block(
+        drain_body, "focused audio teardown fixture"
+    )
     previous_marker = -1
     for marker in (
         "AudioServer.get_time_since_last_mix()",
@@ -1134,15 +1263,173 @@ def _validate_immersion_audio_teardown_source(source: str) -> None:
         previous_marker = marker_index
 
 
-def _validate_audit_runtime_guard(source: str) -> None:
+def _validate_audit_runtime_guard(source_input: str | bytes) -> None:
+    source_bytes = (
+        source_input.encode("utf-8")
+        if isinstance(source_input, str)
+        else source_input
+    )
+    try:
+        source = source_bytes.decode("utf-8")
+    except UnicodeDecodeError as exc:
+        raise ContractError("audit runtime runner is not valid UTF-8") from exc
+    source_sha256 = hashlib.sha256(source_bytes).hexdigest()
+    if source_sha256 != AUDIT_RUNNER_SHA256:
+        raise ContractError(
+            "audit runtime runner exact-source seal drifted: "
+            f"expected {AUDIT_RUNNER_SHA256}, got {source_sha256}"
+        )
     for marker in (
         "WARNING: ObjectDB instances leaked at exit",
         "AUDIT_GUARD_OBJECTDB_SELF_TEST_OK",
-        '"IMMERSION_LOOP_CHECK_OK" strict',
+        "IMMERSION_AUDIO_TEARDOWN_RUNS=12",
+        'while [ "$IMMERSION_RUN_INDEX" -le "$IMMERSION_AUDIO_TEARDOWN_RUNS" ]',
+        "IMMERSION_PASSES=$((IMMERSION_PASSES + 1))",
+        'if [ "$IMMERSION_PASSES" -ne "$IMMERSION_AUDIO_TEARDOWN_RUNS" ]',
+        "IMMERSION_LOOP_STRESS_OK runs=$IMMERSION_PASSES audio_teardown=3wav+2ogg",
+        '"IMMERSION_LOOP_CHECK_OK" teardown_strict',
     ):
         if marker not in source:
             raise ContractError(
                 f"audit runtime teardown guard is missing {marker!r}"
+            )
+    if source.count(AUDIT_GODOT_ERROR_POLICY_BLOCK) != 1:
+        raise ContractError(
+            "audit must keep the exact compiler/strict/teardown_strict error policy"
+        )
+    if source.count(AUDIT_OBJECTDB_SELF_TEST_BLOCK) != 1:
+        raise ContractError(
+            "audit must execute the exact ObjectDB teardown guard self-test"
+        )
+    for function_name in (
+        "run_limited",
+        "cleanup_isolated_home",
+        "godot_check_passed",
+    ):
+        definitions = re.findall(
+            rf"(?m)^(?:function\s+)?{re.escape(function_name)}"
+            rf"(?:\(\))?\s*\{{$",
+            source,
+        )
+        if len(definitions) != 1:
+            raise ContractError(
+                f"audit helper {function_name} must have exactly one definition"
+            )
+        if re.search(
+            rf"(?m)^\s*{re.escape(function_name)}=", source
+        ):
+            raise ContractError(
+                f"audit helper {function_name} must not be reassigned"
+            )
+    expected_state_assignments = {
+        "IMMERSION_AUDIO_TEARDOWN_RUNS": 1,
+        "IMMERSION_EXIT": 4,
+        "IMMERSION_PASSES": 2,
+        "IMMERSION_RUN_INDEX": 2,
+        "IMMERSION_HOME": 1,
+        "IMMERSION_RAW": 1,
+        "IMMERSION_STATUS": 1,
+    }
+    for identifier, expected_count in expected_state_assignments.items():
+        assignment_count = len(re.findall(
+            rf"(?m)^\s*{re.escape(identifier)}=", source
+        ))
+        if assignment_count != expected_count:
+            raise ContractError(
+                f"audit must assign {identifier} exactly {expected_count} times"
+            )
+    if re.search(
+        r"(?m)\b(?:printf\s+-v|unset|export|readonly)\s+IMMERSION_", source
+    ):
+        raise ContractError(
+            "audit must not mutate immersion verdict state through an indirect shell write"
+        )
+    if "MORAL_AMBIENCE_EXIT IMMERSION_EXIT" not in source:
+        raise ContractError(
+            "audit must carry IMMERSION_EXIT into the final aggregate gate"
+        )
+    if len(re.findall(
+        r"(?m)^IMMERSION_AUDIO_TEARDOWN_RUNS=12$", source
+    )) != 1:
+        raise ContractError("audit must require exactly 12 immersion subprocesses")
+    immersion_section_match = re.search(
+        r'(?ms)^echo "● 주간 행동 에코·인과 프레임·비네트·예감·SFX 믹스 검사"\n'
+        r'if \[ -x "\$GODOT" \]; then\n(.*?)^else$',
+        source,
+    )
+    if immersion_section_match is None:
+        raise ContractError("audit immersion stress section is missing")
+    immersion_section = immersion_section_match.group(1)
+    if immersion_section != IMMERSION_STRESS_SECTION_BODY:
+        raise ContractError(
+            "audit must keep the exact subprocess/output/verdict/count stress section"
+        )
+    ordered_stress_lines = (
+        "  IMMERSION_EXIT=0",
+        "  IMMERSION_PASSES=0",
+        "  IMMERSION_RUN_INDEX=1",
+        '  while [ "$IMMERSION_RUN_INDEX" -le "$IMMERSION_AUDIO_TEARDOWN_RUNS" ]; do',
+        "      IMMERSION_PASSES=$((IMMERSION_PASSES + 1))",
+        "    IMMERSION_RUN_INDEX=$((IMMERSION_RUN_INDEX + 1))",
+        "  done",
+        '  if [ "$IMMERSION_PASSES" -ne "$IMMERSION_AUDIO_TEARDOWN_RUNS" ]; then',
+    )
+    previous_line = -1
+    for line in ordered_stress_lines:
+        matches = list(re.finditer(
+            rf"(?m)^{re.escape(line)}$", immersion_section
+        ))
+        if len(matches) != 1 or matches[0].start() <= previous_line:
+            raise ContractError(
+                f"audit must keep one ordered 12-process stress line {line!r}"
+            )
+        previous_line = matches[0].start()
+    if len(re.findall(
+        r"(?m)^\s+IMMERSION_RUN_INDEX=", immersion_section
+    )) != 2:
+        raise ContractError(
+            "audit audio stress loop must initialize and increment its run index once"
+        )
+    if len(re.findall(
+        r"(?m)^\s+IMMERSION_PASSES=", immersion_section
+    )) != 2:
+        raise ContractError(
+            "audit audio stress loop must initialize and increment its pass count once"
+        )
+    if source.count("res://tools/ImmersionLoopCheck.tscn") != 1:
+        raise ContractError(
+            "audit must invoke the focused immersion fixture once inside its loop body"
+        )
+    stress_loop = re.search(
+        r'(?ms)^  while \[ "\$IMMERSION_RUN_INDEX" -le '
+        r'"\$IMMERSION_AUDIO_TEARDOWN_RUNS" \]; do\n(.*?)^  done$',
+        immersion_section,
+    )
+    if stress_loop is None:
+        raise ContractError("audit audio teardown stress loop body is not sealed")
+    stress_loop_body = stress_loop.group(1)
+    if not stress_loop_body.startswith(IMMERSION_SUBPROCESS_CRITICAL_BLOCK):
+        raise ContractError(
+            "audit audio stress loop must execute the exact Godot subprocess, "
+            "capture its immediate status, and clean its isolated home"
+        )
+    for identifier in ("IMMERSION_HOME", "IMMERSION_RAW", "IMMERSION_STATUS"):
+        if len(re.findall(
+            rf"(?m)^\s+{identifier}=", stress_loop_body
+        )) != 1:
+            raise ContractError(
+                f"audit audio stress loop must assign {identifier} exactly once"
+            )
+    for marker in (
+        "res://tools/ImmersionLoopCheck.tscn",
+        '"IMMERSION_LOOP_CHECK_OK" teardown_strict',
+        "cleanup_isolated_home \"$IMMERSION_HOME\"",
+        "IMMERSION_PASSES=$((IMMERSION_PASSES + 1))",
+        "IMMERSION_RUN_INDEX=$((IMMERSION_RUN_INDEX + 1))",
+    ):
+        if marker not in stress_loop_body:
+            raise ContractError(
+                f"audit audio teardown stress loop body is missing {marker!r}"
             )
 
 
@@ -1260,7 +1547,7 @@ def validate_tool_sources() -> None:
     _validate_immersion_audio_teardown_source(
         IMMERSION_LOOP_SCRIPT.read_text(encoding="utf-8")
     )
-    _validate_audit_runtime_guard(AUDIT_RUNNER.read_text(encoding="utf-8"))
+    _validate_audit_runtime_guard(AUDIT_RUNNER.read_bytes())
     runner = TRACE_RUNNER.read_text(encoding="utf-8")
     _validate_runner_isolation_contract(runner)
     scene = TRACE_SCENE.read_text(encoding="utf-8")
@@ -2964,6 +3251,340 @@ def self_test() -> None:
     _expect_failure(
         "missing-real-audio-mix-drain",
         lambda: _validate_trace_script_source(missing_real_mix_drain_source),
+    )
+    cases += 1
+
+    trace_audio_source = TRACE_SCRIPT.read_text(encoding="utf-8")
+    immersion_audio_source = IMMERSION_LOOP_SCRIPT.read_text(encoding="utf-8")
+    unsafe_unbounded_block = (
+        "\tvar drain_seconds := time_to_next_mix + mix_period_seconds\n"
+        "\t\t+ AUDIO_MIX_DRAIN_MARGIN_SECONDS\n"
+        "\t# clampf marker retained; AUDIO_MIX_DRAIN_MAX_SECONDS retained.\n"
+    )
+    for fixture_label, fixture_source, fixture_validator in (
+        ("trace", trace_audio_source, _validate_trace_script_source),
+        (
+            "immersion",
+            immersion_audio_source,
+            _validate_immersion_audio_teardown_source,
+        ),
+    ):
+        bypass_mutations = (
+            (
+                "period-reassigned-after-measurement",
+                fixture_source.replace(
+                    "\tvar mix_period_seconds := time_since_last_mix + time_to_next_mix\n",
+                    "\tvar mix_period_seconds := time_since_last_mix + time_to_next_mix\n"
+                    "\tmix_period_seconds = 0.0\n",
+                    1,
+                ),
+            ),
+            (
+                "next-time-reassigned-after-measurement",
+                fixture_source.replace(
+                    "\tvar mix_period_seconds := time_since_last_mix + time_to_next_mix\n",
+                    "\ttime_to_next_mix = 0.0\n"
+                    "\tvar mix_period_seconds := time_since_last_mix + time_to_next_mix\n",
+                    1,
+                ),
+            ),
+            (
+                "drain-reassigned-after-clamp",
+                fixture_source.replace(
+                    "\t_audio_mix_drain_timer.start(drain_seconds)\n",
+                    "\tdrain_seconds = AUDIO_MIX_DRAIN_MARGIN_SECONDS\n"
+                    "\t_audio_mix_drain_timer.start(drain_seconds)\n",
+                    1,
+                ),
+            ),
+            (
+                "unbounded-drain-expression",
+                fixture_source.replace(
+                    "\tvar drain_seconds := clampf(\n"
+                    "\t\ttime_to_next_mix + mix_period_seconds\n"
+                    "\t\t\t+ AUDIO_MIX_DRAIN_MARGIN_SECONDS,\n"
+                    "\t\tAUDIO_MIX_DRAIN_MARGIN_SECONDS,\n"
+                    "\t\tAUDIO_MIX_DRAIN_MAX_SECONDS)\n",
+                    unsafe_unbounded_block,
+                    1,
+                ),
+            ),
+            (
+                "commented-direct-start-margin-actual",
+                fixture_source.replace(
+                    "\t_audio_mix_drain_timer.start(drain_seconds)\n",
+                    "\t# _audio_mix_drain_timer.start(drain_seconds)\n"
+                    "\t_audio_mix_drain_timer.start("
+                    "AUDIO_MIX_DRAIN_MARGIN_SECONDS)\n",
+                    1,
+                ),
+            ),
+        )
+        for mutation_name, mutated_source in bypass_mutations:
+            _expect_failure(
+                f"{fixture_label}-{mutation_name}",
+                lambda source=mutated_source, validator=fixture_validator: validator(source),
+            )
+            cases += 1
+
+    duplicate_probe_asset_source = immersion_audio_source.replace(
+        '"res://assets/audio/bgm_victory.ogg"',
+        '"res://assets/audio/sfx_click.wav"',
+        1,
+    )
+    _expect_failure(
+        "immersion-probe-duplicates-wav-instead-of-victory-ogg",
+        lambda: _validate_immersion_audio_teardown_source(
+            duplicate_probe_asset_source
+        ),
+    )
+    cases += 1
+
+    single_immersion_subprocess_source = AUDIT_RUNNER.read_text(
+        encoding="utf-8"
+    ).replace("IMMERSION_AUDIO_TEARDOWN_RUNS=12", "IMMERSION_AUDIO_TEARDOWN_RUNS=1", 1)
+    _expect_failure(
+        "audit-runs-audio-teardown-only-once",
+        lambda: _validate_audit_runtime_guard(single_immersion_subprocess_source),
+    )
+    cases += 1
+
+    skipped_immersion_loop_source = AUDIT_RUNNER.read_text(
+        encoding="utf-8"
+    ).replace("  IMMERSION_RUN_INDEX=1", "  IMMERSION_RUN_INDEX=13", 1)
+    _expect_failure(
+        "audit-skips-audio-teardown-stress-loop",
+        lambda: _validate_audit_runtime_guard(skipped_immersion_loop_source),
+    )
+    cases += 1
+
+    stalled_immersion_loop_source = AUDIT_RUNNER.read_text(
+        encoding="utf-8"
+    ).replace(
+        "    IMMERSION_RUN_INDEX=$((IMMERSION_RUN_INDEX + 1))\n",
+        "",
+        1,
+    )
+    _expect_failure(
+        "audit-audio-teardown-stress-loop-does-not-increment",
+        lambda: _validate_audit_runtime_guard(stalled_immersion_loop_source),
+    )
+    cases += 1
+
+    audit_runtime_source = AUDIT_RUNNER.read_text(encoding="utf-8")
+    crlf_audit_runtime_source = audit_runtime_source.replace("\n", "\r\n").encode(
+        "utf-8"
+    )
+    _expect_failure(
+        "audit-exact-source-seal-rejects-crlf-byte-drift",
+        lambda: _validate_audit_runtime_guard(crlf_audit_runtime_source),
+    )
+    cases += 1
+    exact_immersion_command = (
+        '    IMMERSION_RAW=$(run_limited env HOME="$IMMERSION_HOME" "$GODOT" '
+        '--headless --quit-after 3600 res://tools/ImmersionLoopCheck.tscn 2>&1)\n'
+    )
+    synthetic_immersion_success_source = audit_runtime_source.replace(
+        exact_immersion_command,
+        "    # " + exact_immersion_command.lstrip()
+        + '    IMMERSION_RAW="IMMERSION_LOOP_CHECK_OK"\n',
+        1,
+    )
+    _expect_failure(
+        "audit-comments-out-immersion-subprocess-and-synthesizes-success",
+        lambda: _validate_audit_runtime_guard(synthetic_immersion_success_source),
+    )
+    cases += 1
+
+    forced_immersion_status_source = audit_runtime_source.replace(
+        "    IMMERSION_STATUS=$?\n",
+        "    IMMERSION_STATUS=0\n",
+        1,
+    )
+    _expect_failure(
+        "audit-forces-immersion-subprocess-status-zero",
+        lambda: _validate_audit_runtime_guard(forced_immersion_status_source),
+    )
+    cases += 1
+
+    printed_scene_marker_source = audit_runtime_source.replace(
+        exact_immersion_command,
+        "    IMMERSION_RAW=$(printf '%s\\n' "
+        "'res://tools/ImmersionLoopCheck.tscn IMMERSION_LOOP_CHECK_OK')\n",
+        1,
+    )
+    _expect_failure(
+        "audit-prints-scene-marker-instead-of-running-godot",
+        lambda: _validate_audit_runtime_guard(printed_scene_marker_source),
+    )
+    cases += 1
+
+    forced_true_immersion_verdict_source = audit_runtime_source.replace(
+        '        "IMMERSION_LOOP_CHECK_OK" teardown_strict; then\n',
+        '        "IMMERSION_LOOP_CHECK_OK" teardown_strict || true; then\n',
+        1,
+    )
+    _expect_failure(
+        "audit-forces-immersion-verdict-true",
+        lambda: _validate_audit_runtime_guard(
+            forced_true_immersion_verdict_source
+        ),
+    )
+    cases += 1
+
+    inverted_immersion_verdict_source = audit_runtime_source.replace(
+        '    if godot_check_passed "$IMMERSION_RAW" "$IMMERSION_STATUS" \\\n',
+        '    if ! godot_check_passed "$IMMERSION_RAW" "$IMMERSION_STATUS" \\\n',
+        1,
+    )
+    _expect_failure(
+        "audit-inverts-immersion-verdict",
+        lambda: _validate_audit_runtime_guard(inverted_immersion_verdict_source),
+    )
+    cases += 1
+
+    commented_teardown_mode_source = audit_runtime_source.replace(
+        '        "IMMERSION_LOOP_CHECK_OK" teardown_strict; then\n',
+        '        # "IMMERSION_LOOP_CHECK_OK" teardown_strict\n'
+        '        "IMMERSION_LOOP_CHECK_OK" strict; then\n',
+        1,
+    )
+    _expect_failure(
+        "audit-keeps-teardown-mode-only-in-comment",
+        lambda: _validate_audit_runtime_guard(commented_teardown_mode_source),
+    )
+    cases += 1
+
+    sanitized_immersion_output_source = audit_runtime_source.replace(
+        '    cleanup_isolated_home "$IMMERSION_HOME"\n',
+        '    cleanup_isolated_home "$IMMERSION_HOME"\n'
+        "    printf -v IMMERSION_RAW '%s' \"$(printf '%s\\n' "
+        "\"$IMMERSION_RAW\" | grep -v 'WARNING: ObjectDB')\"\n",
+        1,
+    )
+    _expect_failure(
+        "audit-sanitizes-immersion-output-after-capture",
+        lambda: _validate_audit_runtime_guard(sanitized_immersion_output_source),
+    )
+    cases += 1
+
+    disabled_teardown_error_mode_source = audit_runtime_source.replace(
+        '  if [ "$error_mode" = "teardown_strict" ]; then\n',
+        '  if false && [ "$error_mode" = "teardown_strict" ]; then\n',
+        1,
+    )
+    _expect_failure(
+        "audit-disables-teardown-strict-error-pattern",
+        lambda: _validate_audit_runtime_guard(
+            disabled_teardown_error_mode_source
+        ),
+    )
+    cases += 1
+
+    filtered_objectdb_error_lines_source = audit_runtime_source.replace(
+        '  error_lines=$(printf \'%s\\n\' "$output" | grep -iE "$engine_error_pattern")\n',
+        '  error_lines=$(printf \'%s\\n\' "$output" | grep -iE "$engine_error_pattern" '
+        "| grep -v 'ObjectDB')\n",
+        1,
+    )
+    _expect_failure(
+        "audit-filters-objectdb-from-error-lines",
+        lambda: _validate_audit_runtime_guard(filtered_objectdb_error_lines_source),
+    )
+    cases += 1
+
+    weakened_objectdb_self_test_source = audit_runtime_source.replace(
+        '    0 "AUDIT_GUARD_OBJECTDB_SELF_TEST_OK" teardown_strict >/dev/null; then\n',
+        '    0 "AUDIT_GUARD_OBJECTDB_SELF_TEST_OK" strict >/dev/null; then\n',
+        1,
+    )
+    _expect_failure(
+        "audit-objectdb-self-test-uses-weaker-mode",
+        lambda: _validate_audit_runtime_guard(weakened_objectdb_self_test_source),
+    )
+    cases += 1
+
+    skipped_objectdb_self_test_source = audit_runtime_source.replace(
+        AUDIT_OBJECTDB_SELF_TEST_BLOCK,
+        "if false; then\n" + AUDIT_OBJECTDB_SELF_TEST_BLOCK + "fi\n",
+        1,
+    )
+    _expect_failure(
+        "audit-wraps-objectdb-self-test-in-false-branch",
+        lambda: _validate_audit_runtime_guard(skipped_objectdb_self_test_source),
+    )
+    cases += 1
+
+    immersion_section_heading = (
+        'echo "● 주간 행동 에코·인과 프레임·비네트·예감·SFX 믹스 검사"\n'
+    )
+    redefined_run_limited_source = audit_runtime_source.replace(
+        immersion_section_heading,
+        "run_limited() {\n"
+        "  printf '%s\\n' 'IMMERSION_LOOP_CHECK_OK'\n"
+        "}\n"
+        + immersion_section_heading,
+        1,
+    )
+    _expect_failure(
+        "audit-redefines-run-limited-before-immersion",
+        lambda: _validate_audit_runtime_guard(redefined_run_limited_source),
+    )
+    cases += 1
+
+    redefined_cleanup_source = audit_runtime_source.replace(
+        immersion_section_heading,
+        "cleanup_isolated_home() {\n"
+        '  IMMERSION_RAW="IMMERSION_LOOP_CHECK_OK"\n'
+        "  IMMERSION_STATUS=0\n"
+        "}\n"
+        + immersion_section_heading,
+        1,
+    )
+    _expect_failure(
+        "audit-redefines-cleanup-to-forge-immersion-state",
+        lambda: _validate_audit_runtime_guard(redefined_cleanup_source),
+    )
+    cases += 1
+
+    redefined_godot_check_source = audit_runtime_source.replace(
+        immersion_section_heading,
+        "godot_check_passed() {\n"
+        "  return 0\n"
+        "}\n"
+        + immersion_section_heading,
+        1,
+    )
+    _expect_failure(
+        "audit-redefines-godot-check-after-self-test",
+        lambda: _validate_audit_runtime_guard(redefined_godot_check_source),
+    )
+    cases += 1
+
+    zeroed_immersion_run_count_source = audit_runtime_source.replace(
+        immersion_section_heading,
+        "IMMERSION_AUDIO_TEARDOWN_RUNS=0\n" + immersion_section_heading,
+        1,
+    )
+    _expect_failure(
+        "audit-zeroes-immersion-run-count-before-loop",
+        lambda: _validate_audit_runtime_guard(zeroed_immersion_run_count_source),
+    )
+    cases += 1
+
+    cleared_immersion_exit_source = audit_runtime_source.replace(
+        '  echo "  ⚠ Godot 실행파일 없음 ($GODOT) — 몰입 루프 체크 건너뜀."\n'
+        "  IMMERSION_EXIT=0\n"
+        "fi\n",
+        '  echo "  ⚠ Godot 실행파일 없음 ($GODOT) — 몰입 루프 체크 건너뜀."\n'
+        "  IMMERSION_EXIT=0\n"
+        "fi\n"
+        "IMMERSION_EXIT=0\n",
+        1,
+    )
+    _expect_failure(
+        "audit-clears-immersion-exit-after-section",
+        lambda: _validate_audit_runtime_guard(cleared_immersion_exit_source),
     )
     cases += 1
 

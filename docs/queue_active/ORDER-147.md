@@ -101,92 +101,30 @@ Chapter 5 HOLD, 사람 실플레이 요구를 바꾸지 않는다. `tools/projec
 
 ### 2026-08-31 첫 exact 실행 반려 · `0924d279`
 
-clean detached 후보 `0924d279edf6f95cb85ea79bc584e21f90f4c570`의 첫 profile은
-W1에서 `side_shift` 카드가 정확한 키보드 포커스를 유지하지 못해 fail-closed했다.
-수치·사건·경로 판정 전 실패이며 이 commit/tree의 trace는 후보 증거로 쓰지 않는다.
-
-후속 W1 진단에서 원인을 더 좁혔다. 첫 주에는 전면 `TutorialOverlay`가 살아 있고
-그 `_process()`가 매 frame 실제 다음 버튼으로 초점을 회수한다. 뒤쪽 행동 카드는
-`visible_in_tree`여도 플레이어가 누를 수 있는 표면이 아니다. 따라서 기존 소유 파일
-`tools/FullGameRuntimeTrace.gd`와 `tools/full_game_runtime_trace_audit.py` 안에서만,
-활성 튜토리얼의 실제 enabled 버튼을 카드보다 먼저 raw Enter press/release로
-진행하고 오버레이가 존재하는 동안은 버튼의 일시 disabled 여부와 무관하게 카드로
-내려가지 않도록 입력 장벽을 수리한다. 오버레이가 끝난 뒤 행동 카드는 기존처럼
-deferred 기본 포커스를 비우고 **동일한 실제 Button**에 raw Enter가 도달해야 한다.
-`pressed.emit`, 제품 함수 직접 호출, 첫-visible 행동 폴백, action id 재탐색은 계속
-금지한다. 분기 삭제·카드 뒤 이동·무조건 반환 약화를 변조 fixture가 거부하고, 실제
-W1 프로브 뒤 새 제품 commit/tree에서 세 profile W1→W240을 처음부터 다시 실행한다.
+`0924d279edf6f95cb85ea79bc584e21f90f4c570`은 W1 TutorialOverlay가 매 frame
+초점을 회수해 뒤 카드 입력이 fail-closed했으므로 전부 반려했다. 실제 overlay 버튼을
+raw Enter로 먼저 끝낸 뒤 동일한 visible action Button의 초점을 확인하도록 수리했다.
+signal 직접 발행·제품 함수 호출·첫-visible 폴백·action id 재탐색은 계속 금지한다.
 
 ### 2026-09-01 두 번째 exact 행렬 반려 · `e5c2ae0b`
 
-같은 후보의 `baseline_safe_people`은 W1→W240·1,588 record·244 story
-occurrence·`with_daeun` ending과 clean teardown을 통과했다. 그러나
-`investment_property_daeun`은 W82 `arc_opp_sangchul_realty`에서 설계 기준인
-작성 선택 1이 아니라 profile 기본 선택 0을 사용해 손실을 냈다. 그 결과 W112~143의
-8천만원 문턱을 열지 못했고, 필수 연쇄 8/22·최종 자산 85,139,391원으로 fail-closed했다.
-경제 수치·확률·seed·상태를 바꾸지 않고 property ladder 정본과 같은 작성 선택 1을
-exact override로 고정하며, 누락·index 0·timed 변조를 profile audit가 거부한다.
-
-이 실패 뒤 비영 종료에서 ObjectDB 5 resource leak도 재현됐다. 성공 표식으로
-덮지 않고 마지막 제품 장면의 audio stream과 active scene을 모두 해제한 뒤 종료해,
-실패는 깨끗한 profile 실패로 남긴다. 독립 정적 검토가 찾은 tutorial 전 입력 우회,
-재귀 탐색 무력화, exact focus 확인 제거도 모두 새 변조 fixture로 차단한다. 이 후보의
-행렬은 증거로 쓰지 않고 새 제품 commit/tree에서 세 profile을 다시 처음부터 실행한다.
-
-같은 행렬의 `general_near_goal_father_passed`는 W112 재개발 실패 뒤 7.49억원에
-머물렀고, W188 빈 병실의 정신력 하락으로 `mental_break`가 나서 필수 연쇄 2/10에서
-끝났다. 기본 index 0이 고른 3년차 후반의 단절·과로 선택 여섯 건도 이 프로필의
-사람/아버지 정체성과 반대로 누적됐다. 수치를 주입하지 않고 이미 작성된 절제·회복
-선택만 exact override로 고정하며, 누락·다른 index·timed 변조를 거부한다. 25억
-진입은 합법적인 투자 선택과 seed의 실제 결과로만 증명하고 자산 상·하한은 완화하지
-않는다.
-
-후속 property 진단은 W82 선택 1로 손실을 작게 제한해 W141 재개발 진입·승인과
-W189 26억원 매각까지 실제로 열었지만, 기존 필수 순서가 W160 민서를 W189 매각
-뒤에 잘못 적어 성공 런도 10/22에서 멈췄다. 또한 W132 상철 결산의 기본 신고 선택이
-M49 네 사람 진입에 필요한 상철 관계를 닫았다. 필수 순서를 실제 주차 순서로 고치고,
-작성된 상철 수용 선택 1을 고정한다. 이는 장면·경제·확률 변경이 아니라 화면에 있는
-합법 선택을 해당 경로가 일관되게 수행하도록 하는 profile 수리다.
+baseline은 clean 완주했지만 property는 W82 잘못된 기본 선택으로 문턱을 잃었고,
+general은 W112 실패 뒤 W188 `mental_break`로 끝났다. 작성돼 있던 경로 일관 선택만
+exact override하고 실제 W160→W189 순서와 W132 상철 수용을 profile에 고정했다.
+경제·확률·seed·상태·자산 상하한은 바꾸지 않았으며 모든 `e5c2ae0b` trace는 반려다.
 
 ### 2026-09-01 세 번째 exact property 실행 반려 · `0babcbb4`
 
-clean exact 런은 W1→W240·268 story occurrence·`with_daeun` ending과 목표 자산
-28.21억원, Chapter 5 property 전 연쇄를 런타임 자체에서 통과했다. 다만 사후
-감사가 첫 일반 투자 매수 W35를 M06 뒤라고 거부했다. 같은 trace에서 투자 정체성은
-작성된 투자 공부 세 번으로 W8에 이미 invest-only로 잠겼고, W9·W16·W20·W23의
-화면에는 투자 카드가 한 번도 없으며 첫 실제 투자 카드가 W35에 나타나자 즉시
-매수했다. M01~M06 출시 데모를 바꾸거나 화면에 없는 매수를 만들 수 없으므로 이
-실행도 후보 증거로 쓰지 않는다.
-
-정적 계약은 M06 안의 세 투자 공부와 invest-only 잠금을 그대로 요구하되, 첫
-일반 매수는 Chapter 1 W48 안에서 실제 투자 카드가 처음 보인 주에 수행하도록
-고친다. 세 번째 공부 뒤 매수 전까지 투자 카드가 한 번이라도 보였는데 건너뛴
-trace는 실패하고, W49 이후 첫 매수도 실패한다. 이 수리는 제품 편성·경제·사건을
-바꾸지 않고 감사가 현재 story-first 화면에서 할 수 없는 행동을 요구하던 모순만
-제거한다.
+28.21억원·property 전 연쇄는 완주했지만 감사가 화면에 없던 W24 이전 투자 매수를
+요구해 반려했다. M06 세 투자 공부와 invest-only 잠금은 유지하고, Chapter 1에서
+투자 카드가 처음 보인 W35 즉시 매수를 exact 영수증으로 요구하도록 계약만 바로잡았다.
 
 ### 2026-09-01 일반 경로 exact 복구 · `d8037afe`
 
-초기 seed 탐색 중 `e5c2ae0` runner로 얻은 W113 도달값은 선택 직전 목표 버튼의
-focus owner를 다시 확인하지 않는 옛 검사에서 나왔으므로 전부 반려했다. 현재
-runner의 exact focus·visible action·commitment 신원 계약으로 다시 실행한 값만
-사용한다.
-
-seed `2026083102`는 W112 재개발 승인과 W160 매각을 실제 선택·확률로 통과했지만,
-기본 선택이 W115 지연의 두 번째 부동산 제안을 받고 W117 재혁 앞에서 다시 눕는
-바람에 정신 붕괴했다. 사건·경제·확률을 바꾸지 않고 이미 작성된 선택인
-`arc_opp_jiyeon_bunyang`의 거절과 `arc_jaehyuk_ghost_decision`의 피해자 합류를
-general profile에만 exact 고정했다. 이는 부동산 경로를 흉내 내는 선택이 아니라
-일반/아버지 경로의 사람·부채·기억을 보존하는 선택이다.
-
-그 결과 같은 seed는 이전 붕괴 주차를 넘겨 W193에 29.26억원으로 도달했다.
-목표 자산대에서 위험한 추가 투자·도박을 막는 policy가 화면의 휴식 카드 부재 때
-멈춘 것은 제품 결함이 아니므로, 보이는 저축을 휴식 다음의 두 번째 안전 폴백으로
-허용했다. 정식 격리 방식의 clean 진단은 W1→W240·1,584 record·240 story
-occurrence·29.388억원·`investment_master` ending·`father_passed=true`를 통과했고
-ObjectDB/resource leak는 0이다. 앞선 임시 HOME/XDG 실행의 종료 경고는 정식
-격리 실행에서 재현되지 않아 후보 증거로 쓰지 않는다. profile seed·두 선택·
-Rest→Save 순서의 누락과 변조는 149개 self-test가 거부한다.
+옛 focus 검사의 seed 값은 폐기했다. exact 신원 계약에서 seed `2026083102`와 작성된
+거절·피해자 합류 선택, 목표 자산대 Rest→Save 안전 순서만 고정해 W1→W240·29.388억원·
+`investment_master`·`father_passed=true`·clean teardown을 재현했다. 제품 수치·확률·
+사건은 바꾸지 않았고 profile 변조는 self-test가 거부한다.
 
 ### 2026-09-01 exact property 종료 경합 재현 · `9cb7ab78`
 
@@ -210,8 +148,10 @@ runner의 leak fail-closed나 오류 탐지를 완화하지 않는다. 대신 �
 서로 다른 경계에서 일어나는 Dummy probe를 따라, trace node가 소유한
 one-shot child Timer로 **두 mix 경계**를 넘는다. 자유
 SceneTreeTimer·2초 대기·경고 whitelist는 계속 금지하며, exact 계측·Timer
-소유·수치·데이터 흐름 변조를 self-test가 거부한다. ImmersionLoop의
-새 playback 5개 종료 fixture와 strict ObjectDB 감지도 같이 고정한다. 수리한 새 exact
+소유·수치·데이터 흐름·실제 `start(drain_seconds)` 계산 블록 전체의 변조를
+self-test가 거부한다. ImmersionLoop는 실제 누수에 남았던 WAV 3개와 OGG 2개를
+각각 새 playback으로 재현하고, 독립 프로세스 12회 모두에서 strict ObjectDB
+종료 감지를 통과해야 한다. 수리한 새 exact
 candidate에서 세 profile W1→W240을 모두 처음부터 다시 실행한다.
 
 ## L1 / L2 / L3

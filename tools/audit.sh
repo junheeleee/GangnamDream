@@ -7,6 +7,7 @@ set -uo pipefail
 cd "$(dirname "$0")/.."
 
 GODOT="${GODOT:-/Users/junheelee/Downloads/Godot.app/Contents/MacOS/Godot}"
+IMMERSION_AUDIO_TEARDOWN_RUNS=12
 
 # macOS 기본 셸에는 GNU timeout이 없다. Godot가 결과를 출력한 뒤 종료를
 # 놓치더라도 감사 프로세스가 몇 시간씩 남지 않도록 동일한 제한을 보장한다.
@@ -56,8 +57,9 @@ cleanup_isolated_home() {
 
 # A success marker alone is insufficient: Godot can print it and still exit
 # non-zero or emit a late script error. Every captured runtime check rejects
-# those failures. A1 checks pass "strict" to reject any ERROR line as well;
-# several older isolated suites still emit known teardown-only resource noise.
+# those failures. Existing strict checks reject any ERROR line; the focused
+# teardown fixture adds `teardown_strict` so ObjectDB warnings also fail it.
+# Several older isolated suites still emit known teardown-only resource noise.
 godot_check_passed() {
   local output="$1"
   local exit_status="$2"
@@ -73,11 +75,11 @@ godot_check_passed() {
   fi
   local error_lines
   local engine_error_pattern='ERROR:|SCRIPT ERROR|Parse Error|Compile Error|Failed to load script'
-  if [ "$error_mode" = "strict" ]; then
+  if [ "$error_mode" = "teardown_strict" ]; then
     engine_error_pattern="$engine_error_pattern|WARNING: ObjectDB instances leaked at exit"
   fi
   error_lines=$(printf '%s\n' "$output" | grep -iE "$engine_error_pattern")
-  if [ "$error_mode" != "strict" ]; then
+  if [ "$error_mode" != "strict" ] && [ "$error_mode" != "teardown_strict" ]; then
     error_lines=$(printf '%s\n' "$error_lines" \
       | grep -viE 'ERROR: [0-9]+ resources still in use at exit')
   fi
@@ -99,7 +101,7 @@ if godot_check_passed "AUDIT_GUARD_SELF_TEST_OK" \
   exit 1
 fi
 if godot_check_passed $'AUDIT_GUARD_OBJECTDB_SELF_TEST_OK\nWARNING: ObjectDB instances leaked at exit' \
-    0 "AUDIT_GUARD_OBJECTDB_SELF_TEST_OK" strict >/dev/null; then
+    0 "AUDIT_GUARD_OBJECTDB_SELF_TEST_OK" teardown_strict >/dev/null; then
   echo "❌ 내부 감사 오류 — ObjectDB 종료 누수 감지가 작동하지 않습니다."
   exit 1
 fi
@@ -949,16 +951,28 @@ fi
 echo "──────────────────────────────────────────"
 echo "● 주간 행동 에코·인과 프레임·비네트·예감·SFX 믹스 검사"
 if [ -x "$GODOT" ]; then
-  IMMERSION_HOME=$(make_isolated_home "gangnam-immersion-loop")
-  IMMERSION_RAW=$(run_limited env HOME="$IMMERSION_HOME" "$GODOT" --headless --quit-after 3600 res://tools/ImmersionLoopCheck.tscn 2>&1)
-  IMMERSION_STATUS=$?
-  cleanup_isolated_home "$IMMERSION_HOME"
-  echo "$IMMERSION_RAW" | grep -E "IMMERSION_LOOP_CHECK_(OK|FAIL)|SCRIPT ERROR|Parse Error|Compile Error" | sed 's/^/  /'
-  if godot_check_passed "$IMMERSION_RAW" "$IMMERSION_STATUS" \
-      "IMMERSION_LOOP_CHECK_OK" strict; then
-    IMMERSION_EXIT=0
-  else
+  IMMERSION_EXIT=0
+  IMMERSION_PASSES=0
+  IMMERSION_RUN_INDEX=1
+  while [ "$IMMERSION_RUN_INDEX" -le "$IMMERSION_AUDIO_TEARDOWN_RUNS" ]; do
+    IMMERSION_HOME=$(make_isolated_home "gangnam-immersion-loop")
+    IMMERSION_RAW=$(run_limited env HOME="$IMMERSION_HOME" "$GODOT" --headless --quit-after 3600 res://tools/ImmersionLoopCheck.tscn 2>&1)
+    IMMERSION_STATUS=$?
+    cleanup_isolated_home "$IMMERSION_HOME"
+    if godot_check_passed "$IMMERSION_RAW" "$IMMERSION_STATUS" \
+        "IMMERSION_LOOP_CHECK_OK" teardown_strict; then
+      IMMERSION_PASSES=$((IMMERSION_PASSES + 1))
+    else
+      echo "$IMMERSION_RAW" | grep -E "IMMERSION_LOOP_CHECK_(OK|FAIL)|ERROR:|WARNING: ObjectDB|SCRIPT ERROR|Parse Error|Compile Error" | sed 's/^/  /'
+      IMMERSION_EXIT=1
+      break
+    fi
+    IMMERSION_RUN_INDEX=$((IMMERSION_RUN_INDEX + 1))
+  done
+  if [ "$IMMERSION_PASSES" -ne "$IMMERSION_AUDIO_TEARDOWN_RUNS" ]; then
     IMMERSION_EXIT=1
+  elif [ "$IMMERSION_EXIT" -eq 0 ]; then
+    echo "  IMMERSION_LOOP_STRESS_OK runs=$IMMERSION_PASSES audio_teardown=3wav+2ogg"
   fi
 else
   echo "  ⚠ Godot 실행파일 없음 ($GODOT) — 몰입 루프 체크 건너뜀."

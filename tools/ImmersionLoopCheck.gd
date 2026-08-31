@@ -4,6 +4,13 @@ extends Node
 const MainGameScript = preload("res://scenes/MainGame.gd")
 const AUDIO_MIX_DRAIN_MARGIN_SECONDS := 0.02
 const AUDIO_MIX_DRAIN_MAX_SECONDS := 0.25
+const AUDIO_TEARDOWN_PROBE_PATHS: Array[String] = [
+	"res://assets/audio/sfx_click.wav",
+	"res://assets/audio/sfx_open_modal.wav",
+	"res://assets/audio/sfx_ending_stinger_good.wav",
+	"res://assets/audio/bgm_reckoning.ogg",
+	"res://assets/audio/bgm_victory.ogg",
+]
 
 var _failures: Array[String] = []
 var _original_language := "ko"
@@ -44,17 +51,21 @@ func _run() -> void:
 			push_error("IMMERSION_LOOP_CHECK_FAIL " + failure)
 		get_tree().quit(1)
 		return
-	print("IMMERSION_LOOP_CHECK_OK memory=2 action_ids=8 commitments=1x3 forgone=relationship/body/career/market scene_first=1 no_ap_surface=1 quiet_compressed=1 meaningful_confirm=1 month_manual=1 outcomes=2 completion_boundary=1 consequence_paths=4 echo=2.6 prior=1.88 filler=0.42 quiet=3 causal=4 bridges=ko/en vignette=2 omen=1 preview=2 bills=1 rungs=4 reserve=1 pressures=11 families=6 cards=3 pacing=9/2/4 sfx=8 transient_timers=2 audio_teardown=5x2")
+	print("IMMERSION_LOOP_CHECK_OK memory=2 action_ids=8 commitments=1x3 forgone=relationship/body/career/market scene_first=1 no_ap_surface=1 quiet_compressed=1 meaningful_confirm=1 month_manual=1 outcomes=2 completion_boundary=1 consequence_paths=4 echo=2.6 prior=1.88 filler=0.42 quiet=3 causal=4 bridges=ko/en vignette=2 omen=1 preview=2 bills=1 rungs=4 reserve=1 pressures=11 families=6 cards=3 pacing=9/2/4 sfx=8 transient_timers=2 audio_teardown=3wav+2ogg")
 	get_tree().quit(0)
 
 
 func _arm_audio_teardown_probe() -> void:
-	# Five just-started playbacks reproduce the tail of a full ending. They must
-	# be observed and deleted across two real AudioServer mix boundaries.
-	for index in range(5):
+	# These are the exact three WAV and two OGG resources retained by the leaked
+	# property-ending run. Start all five immediately before the teardown sweep.
+	for index in range(AUDIO_TEARDOWN_PROBE_PATHS.size()):
+		var probe_stream := load(AUDIO_TEARDOWN_PROBE_PATHS[index]) as AudioStream
+		if probe_stream == null:
+			_fail("audio teardown probe could not load %s" % AUDIO_TEARDOWN_PROBE_PATHS[index])
+			continue
 		var player := AudioStreamPlayer.new()
 		player.name = "AudioTeardownProbe%d" % index
-		player.stream = AudioStreamGenerator.new()
+		player.stream = probe_stream
 		add_child(player)
 		player.play()
 	await get_tree().process_frame
