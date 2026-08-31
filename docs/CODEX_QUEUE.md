@@ -59,19 +59,20 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-145 · 후보 | [145](queue_active/ORDER-145.md) | 검증 · HOLD |
-| 2 | [~] | ORDER-143 · 월경계 사건 소유권과 Ch2 무가드 보스 chain을 고친다 | [143](queue_active/ORDER-143.md) | 선언 · 기준선 `06277c3` · 제품 graph 변경 전 · M01~M06 보호 · main HOLD |
-| 3 | [~] | ORDER-144 · fresh-title W1→W240 실제 occurrence trace를 만든다 | [144](queue_active/ORDER-144.md) | 선언 · tools-only 첫 구현 · runtime trace PENDING · human density OPEN |
-| 4 | [~] | ORDER-142 · M01~M60 전체 장면·선택·회수·상승 볼륨을 실측 관리한다 | [142](queue_active/ORDER-142.md) | 배치 A `06277c3` · 135 shipping refs / debt 49 · 자식 ORDER-143/144 착수 · HOLD |
-| 5 | [~] | ORDER-138 · 5장 일반 종막의 끊긴 사람선을 잇고 마지막 행동의 반복을 걷는다 | [138](queue_active/ORDER-138.md) | 제품 `9b294d5` / tree `ebaf799` / manifest `9927a875` · 일반 W211→W240·property inline read L1/L2 GREEN · 228장 · 두 사람 게이트 OPEN · main HOLD |
-| 6 | [~] | ORDER-137 · 5장 실플레이 반려 4건을 표적 수리한다 | [137](queue_active/ORDER-137.md) | 역사 제품 `002a493` · 잔여 결함은 `ORDER-138` 소유 · 두 L3와 사용자 GO OPEN · main HOLD |
-| 7 | [~] | ORDER-135 · 25억 문턱·아버지 별세 일반 런의 선택을 W240에 잇는다 | [135](queue_active/ORDER-135.md) | 역사 제품 `002a493` · 잔여 수리는 `ORDER-138` · 사용자 GO/main HOLD |
-| 8 | [~] | ORDER-119 · 게임 전체 플레이어 표면에서 스탯·시스템 언어 제거 | [119](queue_active/ORDER-119.md) | 제품·QA 36파일+package metadata 2파일 · exact clean full audit·KO/EN 24주·KO 240주·BUILD `2026.08.22.1` 3플랫폼 package·macOS native smoke green · active `demo_rc` 등록 · 사용자 최종 GO OPEN |
-| 9 | [~] | ORDER-118 · startup 전면 재설계·코드 토큰 제거 | [118](queue_active/ORDER-118.md) | L1/L2 GO · 16편/27선택·코드 토큰 0 · fresh seed 9821 #11/#2/#3 Claude(사용자 위임) L3 GO · 사용자 최종 GO OPEN · R1b HOLD |
-| 10 | [~] | ORDER-117 · 107/109 국소 수리·career 15편 재판정 | [117](queue_active/ORDER-117.md) | L1/L2 GO · 18단위 전수·16 roots 재작성·after_goal/people_verdict exact 보존·코드 토큰 0 · 107/109 각 1/1+career 15/15 Claude(사용자 위임) L3 GO · 사용자 최종 GO OPEN · R1b HOLD |
-| 11 | [~] | ORDER-99 · SAVE-P0 첫 달 4주차 진행 불능을 복구한다 | [99](queue_active/ORDER-99.md) | BUILD `.3` L1/L2 — 사용자 저장 확인 대기 |
-| 12 | [~] | ORDER-97 · LOC-0.5 전에 UI 템플릿을 번역 | [97](queue_active/ORDER-97.md) | L1/L2 — 최신 후보·A/B 각 3표면 L3 대기 |
-| 13 | [~] | ORDER-98 · PAD-1 포커스 레일을 의미 버튼으로 줄인다 | [98](queue_active/ORDER-98.md) | active `demo_rc` exact full/surface·입력·컨트롤러·오디오 L1/L2 PASS · 물리 패드 A/B 각 3표면 L3 OPEN |
+| 1 | [~] | ORDER-146 · ledger | [146](queue_active/ORDER-146.md) | trace · HOLD |
+| 2 | [~] | ORDER-145 · 후보 | [145](queue_active/ORDER-145.md) | HOLD |
+| 3 | [~] | ORDER-143 · graph | [143](queue_active/ORDER-143.md) | M01~M06 보호 · HOLD |
+| 4 | [~] | ORDER-144 · trace | [144](queue_active/ORDER-144.md) | PENDING · human OPEN |
+| 5 | [~] | ORDER-142 · volume | [142](queue_active/ORDER-142.md) | M01~M60 · HOLD |
+| 6 | [~] | ORDER-138 · finale | [138](queue_active/ORDER-138.md) | 두 사람 게이트 OPEN · HOLD |
+| 7 | [~] | ORDER-137 · Ch5 수리 | [137](queue_active/ORDER-137.md) | 두 L3 OPEN · HOLD |
+| 8 | [~] | ORDER-135 · 일반 경로 | [135](queue_active/ORDER-135.md) | 사용자 GO OPEN · HOLD |
+| 9 | [~] | ORDER-119 · 표면 언어 | [119](queue_active/ORDER-119.md) | 사용자 GO OPEN |
+| 10 | [~] | ORDER-118 · startup | [118](queue_active/ORDER-118.md) | 사용자 GO OPEN · R1b HOLD |
+| 11 | [~] | ORDER-117 · career | [117](queue_active/ORDER-117.md) | 사용자 GO OPEN · R1b HOLD |
+| 12 | [~] | ORDER-99 · SAVE-P0 | [99](queue_active/ORDER-99.md) | 사용자 확인 대기 |
+| 13 | [~] | ORDER-97 · LOC-0.5 | [97](queue_active/ORDER-97.md) | L3 대기 |
+| 14 | [~] | ORDER-98 · PAD-1 | [98](queue_active/ORDER-98.md) | 물리 패드 L3 OPEN |
 
 ### 남은 데모 출시선
 
