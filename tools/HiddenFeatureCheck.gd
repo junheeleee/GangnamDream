@@ -32,6 +32,7 @@ func _ready() -> void:
 	_check_choice_item_grants()
 	_check_jaehyuk_follow_up()
 	_check_father_medication_follow_up_gate()
+	_check_route_safe_father_and_lease_receipts()
 	_check_jiyeon_third_path()
 	_check_daeun_post_it_route()
 	_check_dawn_people()
@@ -99,6 +100,24 @@ func _check_choice_item_grants() -> void:
 		if quantity != 1:
 			_fail("Sangchul answer %d granted card quantity %d instead of 1" % [index, quantity])
 	print("HIDDEN_FEATURE_EVIDENCE choice_grants sangchul_card=3x1")
+
+func _check_route_safe_father_and_lease_receipts() -> void:
+	for language in ["ko", "en"]:
+		LocaleManager.language = language
+		DataRegistry.reload()
+		var father: Dictionary = DataRegistry.find_event("arc_father_04_visit")
+		var default_text := str(father.get("description", ""))
+		var network_text := str((father.get("description_if_known", {}) as Dictionary).get(
+			"arc_sangchul_03_seen", ""))
+		if default_text.contains("상철") or default_text.contains("Sangchul") \
+				or network_text.is_empty():
+			_fail("%s father door lost route-safe network surface" % language)
+		var year_close: Dictionary = DataRegistry.find_event("arc_year2_close")
+		var variants: Dictionary = year_close.get("description_if_known", {})
+		for flag_id in ["y2_lease_renewed_one_year", "y2_lease_renewed_six_months", "y2_lease_move_out_scheduled"]:
+			if str(variants.get(flag_id, "")).is_empty():
+				_fail("%s Year 2 close lost lease reader %s" % [language, flag_id])
+	print("HIDDEN_FEATURE_EVIDENCE route_safe_father+lease_receipts KO_EN")
 
 func _check_jaehyuk_follow_up() -> void:
 	LocaleManager.language = "ko"

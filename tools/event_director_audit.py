@@ -27,7 +27,7 @@ EXPECTED_BRIDGE_RANDOM = 19
 # Core V2's authored hidden beats include the First Bill fragments plus the
 # fresh-only application Send and pre-plan calculation. They are reached by
 # runtime substitution or bundle/story links, never by the random director.
-EXPECTED_REGISTERED_EVENTS = 1696
+EXPECTED_REGISTERED_EVENTS = 1702
 EXPECTED_DIRECT_ONLY_EVENTS = {
     "v2_hyunsu_player_reachout",
     "v2_hyunsu_study_followup",
@@ -260,6 +260,7 @@ def scheduled_arc_ids(events: list[dict[str, Any]]) -> set[str]:
     # variants remain readable. Their literal event IDs are product ingress,
     # even though _next_arc_id returns the helper result rather than a literal.
     for helper_name in (
+        "_story_graph_contract_event_id",
         "_chapter_four_causal_arc_id",
         "_chapter_four_father_outcome_id",
     ):

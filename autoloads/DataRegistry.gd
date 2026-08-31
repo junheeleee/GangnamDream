@@ -546,10 +546,24 @@ func _story_clause_met(clause: Dictionary, context: Dictionary) -> bool:
 					and (expected is int or expected is float) \
 					and float(actual) <= float(expected)
 		"truthy":
-			return bool(actual)
+			return _story_value_truthy(actual)
 		"falsy":
-			return not bool(actual)
+			return not _story_value_truthy(actual)
 	return false
+
+func _story_value_truthy(value: Variant) -> bool:
+	match typeof(value):
+		TYPE_NIL:
+			return false
+		TYPE_BOOL:
+			return value
+		TYPE_INT, TYPE_FLOAT:
+			return value != 0
+		TYPE_STRING, TYPE_STRING_NAME:
+			return not str(value).is_empty()
+		TYPE_ARRAY, TYPE_DICTIONARY:
+			return not value.is_empty()
+	return true
 
 func _story_context_value(context: Dictionary, path: String) -> Variant:
 	if path.is_empty():

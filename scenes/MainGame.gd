@@ -514,6 +514,24 @@ func _continue_after_story():
 	_demo_director_route_week()
 
 func _route_chapter5_causal_week(keep_cover: bool = false) -> bool:
+	# An interrupted W195-W208 save can still owe the M49 closure; an old save
+	# missing the source gets its explicit compatibility window from W197 onward.
+	# Recover either before the causal route claims the week, then resume the
+	# exact Chapter 5 owner on this same week after StoryMode returns.
+	if GameState.turn >= CHAPTER5_CAUSAL_ROUTE.ENTRY_TURN \
+			and GameState.turn <= 208:
+		if not GameState.flags.get("arc_37_reckoning_seen", false) \
+				and not GameState.flags.get("arc_final_year_start_seen", false):
+			var deferred_recovery := GameState.claim_deferred_event(
+				"arc_37_reckoning")
+			if not deferred_recovery.is_empty():
+				_go_story_mode(["arc_37_reckoning"], keep_cover)
+				return true
+		var graph_recovery_id := _story_graph_contract_event_id(
+			GameState.turn, GameState.flags, false)
+		if graph_recovery_id in ["arc_37_reckoning", "arc_final_year_start"]:
+			_go_story_mode([graph_recovery_id], keep_cover)
+			return true
 	# Bind the investment route and its actual cast before W195 is displayed.
 	# The exact context then survives later price/relationship movement and save.
 	if GameState.turn == CHAPTER5_CAUSAL_ROUTE.ENTRY_TURN:
@@ -6264,6 +6282,11 @@ func _go_story_mode(event_ids: Array, keep_cover: bool = false):
 			"arc_year4_close": 4,
 		}
 		var year_index := int(close_years.get(first_event_id, 0))
+		if GameState.turn == 96 \
+				and first_event_id == "arc_father_04_visit" \
+				and not GameState.flags.get("arc_year2_close_seen", false):
+			story_queue.append("arc_year2_close")
+			year_index = 2
 		if year_index > 0:
 			var curation_id := _year_scene_curation_id(year_index)
 			if not curation_id.is_empty():
@@ -6272,7 +6295,8 @@ func _go_story_mode(event_ids: Array, keep_cover: bool = false):
 	# The age card has foreground priority on W193, so claim that exact reservation
 	# into the same StoryMode queue instead of pushing the consequence to W194.
 	# A reservation from any other due week is left untouched for normal recovery.
-	if GameState.turn == 193 and first_event_id == "chapter_card_37":
+	if GameState.turn == 193 and first_event_id == "chapter_card_37" \
+			and not GameState.flags.get("arc_final_year_start_seen", false):
 		var reckoning_claim := GameState.claim_deferred_event(
 			"arc_37_reckoning", 193)
 		if not reckoning_claim.is_empty():
@@ -6351,12 +6375,17 @@ func _office_routine_available(f: Dictionary, at_turn: int = -1) -> bool:
 			and not f.get("arc_office_routine_seen", false)
 
 func _story_rule_context(at_turn: int, f: Dictionary) -> Dictionary:
+	var job_context: Dictionary = GameState.current_job.duplicate(true)
+	job_context["tenure"] = GameState.job_tenure
 	return {
 		"turn": at_turn,
 		"player": {
-			"job": GameState.current_job,
+			"job": job_context,
 			"investment_skill": GameState.investment_skill,
 			"total_asset_value": GameState.get_total_asset_value(),
+		},
+		"cast": {
+			"sangchul": {"affinity": GameState.get_cast_affinity("sangchul")},
 		},
 		"flags": f,
 	}
@@ -6591,6 +6620,24 @@ func _story_graph_contract_event_id(
 	# Cross-month story ownership is explicit here. Same-scene closures remain
 	# authored follow-ups; independent beats enter only through their exact
 	# month window and facts, so a follow_up_event can never bypass the router.
+	# Required same-scene closures recover before deferred/route owners can
+	# consume the final week of their exact window.
+	if t >= 25 and t <= 240 \
+			and f.get("arc_goshiwon_goodbye_seen", false) \
+			and not f.get("arc_housing_new_life_seen", false):
+		return "arc_housing_new_life"
+	if t >= 193 and t <= 208 \
+			and f.get("arc_37_reckoning_seen", false) \
+			and not f.get("arc_final_year_start_seen", false):
+		return "arc_final_year_start"
+	# W193-W196 is the normal M49 owner. W197-W208 is an explicit compatibility
+	# window for old saves missing the source receipt as well as its closure.
+	if t >= 197 and t <= 208 \
+			and not GameState.has_deferred_event("arc_37_reckoning") \
+			and not f.get("arc_37_reckoning_seen", false) \
+			and not f.get("arc_final_year_start_seen", false):
+		return "arc_37_reckoning"
+
 	if t == 37 \
 			and f.get("arc_housing_new_life_seen", false) \
 			and GameState.housing != "gosiwon" \
@@ -6601,7 +6648,8 @@ func _story_graph_contract_event_id(
 	# M14 when another late-year event occupied W52; its money beat is the
 	# marker's same-scene closure and may only recover inside the same window.
 	if t >= 49 and t <= 52:
-		if not f.get("arc_year_one_mark_seen", false):
+		if not f.get("arc_year_one_mark_seen", false) \
+				and not f.get("arc_34_money_attracts_seen", false):
 			return "arc_year_one_mark"
 		if not f.get("arc_34_money_attracts_seen", false):
 			return "arc_34_money_attracts_money"
@@ -6614,10 +6662,12 @@ func _story_graph_contract_event_id(
 		var network_eligible: bool = bool(f.get("arc_sangchul_02_seen", false)) \
 				and GameState.get_total_asset_value() >= 1_000_000.0
 		if network_eligible:
-			if not f.get("arc_sangchul_03_seen", false):
+			if not f.get("arc_sangchul_03_seen", false) \
+					and not f.get("arc_y2_bank_limit_review_seen", false):
 				return "arc_sangchul_03_network"
 			return ""
-		if not f.get("arc_y2_bank_limit_review_seen", false):
+		if not f.get("arc_y2_bank_limit_review_seen", false) \
+				and not f.get("arc_sangchul_03_seen", false):
 			return "arc_y2_bank_limit_review"
 		return ""
 
@@ -6649,6 +6699,21 @@ func _story_graph_contract_event_id(
 	# qualifies; otherwise Jiyeon may enter through her store history, and a
 	# route-safe authored lease scene closes the unattached path.
 	if t >= 85 and t <= 88:
+		var chose_daeun: bool = bool(f.get("daeun_chose_her", false))
+		var released_daeun: bool = bool(f.get("daeun_let_her_go", false))
+		if not f.get("arc_daeun_fork_seen", false) \
+				and (chose_daeun or released_daeun):
+			return ""
+		if f.get("arc_daeun_fork_seen", false) \
+				and not f.get("arc_daeun_fork_receipt_seen", false):
+			if chose_daeun and not released_daeun:
+				return "arc_daeun_03_fork_hold_receipt"
+			if released_daeun and not chose_daeun:
+				return "arc_daeun_03_fork_release_receipt"
+		if f.get("arc_daeun_fork_seen", false) \
+				or f.get("arc_jiyeon_offer_seen", false) \
+				or f.get("arc_y2_relationship_fork_unattached_seen", false):
+			return ""
 		var daeun_eligible: bool = bool(f.get("arc_daeun_regular_seen", false)) \
 				and GameState.get_cast_affinity("daeun") >= 12
 		if daeun_eligible:
@@ -6663,20 +6728,21 @@ func _story_graph_contract_event_id(
 			return "arc_y2_relationship_fork_unattached"
 		return ""
 
-	# M23 owns the whole family decision: visit, four-day time cut, then the
-	# actual hospital-door choice. The authored parents->hospital edge remains;
-	# the latter two clauses recover an interrupted one-shot chain.
+	# M23 owns the visit and four-day hospital time cut. The door itself remains
+	# the final Ch2 boss decision at W96, after mirror and career pressure.
 	if t >= 89 and t <= 92 \
 			and not father_is_passed \
 			and f.get("arc_father_02_done", false) \
 			and f.get("arc_father_medication_seen", false):
-		if not f.get("arc_34_parents_visit_seen", false):
+		# Fail closed on the impossible inverse receipt. Reopening the parents
+		# visit when the hospital call is already recorded would replay its raw
+		# follow-up and duplicate the hospitalization scene.
+		if not f.get("arc_34_parents_visit_seen", false) \
+				and not f.get("arc_father_03_seen", false):
 			return "arc_34_parents_visit"
-		if not f.get("arc_father_03_seen", false):
+		if f.get("arc_34_parents_visit_seen", false) \
+				and not f.get("arc_father_03_seen", false):
 			return "arc_father_03_hospital"
-		if not f.get("visited_father", false) \
-				and not f.get("father_visit_deferred", false):
-			return "arc_father_04_visit"
 
 	# The Ch2 boss ingress is typed rather than a raw mirror->office->hospital
 	# chain. The mirror needs a real hospital fact; the office ceiling happens
@@ -6684,14 +6750,18 @@ func _story_graph_contract_event_id(
 	if t == 93 \
 			and not father_is_passed \
 			and f.get("arc_father_03_seen", false) \
-			and (f.get("visited_father", false) \
-				or f.get("father_visit_deferred", false)) \
 			and GameState.get_cast_affinity("sangchul") >= 65 \
 			and f.get("arc_sangchul_human_seen", false) \
 			and not f.get("sangchul_truth_known", false) \
 			and not f.get("arc_sangchul_mirror_seen", false):
 		return "arc_sangchul_mirror"
-	if t >= 94 and t <= 96 \
+	if t >= 94 and t <= 95 \
+			and f.get("arc_sangchul_mirror_seen", false) \
+			and not f.get("arc_sangchul_mirror_receipt_seen", false) \
+			and not f.get("sangchul_mirror_hospital_face_up", false) \
+			and not f.get("sangchul_mirror_deal_face_up", false):
+		return "arc_sangchul_mirror_receipt"
+	if t >= 94 and t <= 95 \
 			and f.get("arc_sangchul_mirror_seen", false) \
 			and not GameState.current_job.is_empty() \
 			and GameState.job_tenure >= 6 \
@@ -6705,19 +6775,43 @@ func _story_graph_contract_event_id(
 			and not f.get("daeun_let_her_go", false) \
 			and not f.get("arc_daeun_money_gap_seen", false):
 		return "arc_daeun_money_gap"
+	if t == 96:
+		if not father_is_passed \
+				and f.get("arc_father_03_seen", false) \
+				and not f.get("visited_father", false) \
+				and not f.get("father_visit_deferred", false):
+			return "arc_father_04_visit"
+		if not f.get("arc_year2_close_seen", false):
+			return "arc_year2_close"
 
 	# M33 is a reserved table-chain. The optional card prelude follows directly
 	# into the confrontation, so it cannot push the truth decision into M34.
+	if t == 132 \
+			and f.get("arc_sangchul_confrontation_seen", false) \
+			and f.get("sangchul_confronted", false) \
+			and not f.get("arc_sangchul_reckoning_seen", false) \
+			and not f.get("sangchul_truth_buried", false) \
+			and not f.get("sangchul_quietly_distanced", false):
+		return "arc_sangchul_reckoning"
 	if t == 132 \
 			and f.get("sangchul_truth_known", false) \
 			and not f.get("sangchul_confronted", false) \
 			and not f.get("sangchul_truth_buried", false) \
 			and not f.get("sangchul_quietly_distanced", false) \
+			and not f.get("arc_sangchul_reckoning_seen", false) \
 			and not f.get("arc_sangchul_confrontation_seen", false):
 		if GameState.has_item("artifact_sangchul_card") \
 				and not f.get("arc_sangchul_card_at_confrontation_seen", false):
 			return "arc_sangchul_card_at_confrontation"
 		return "arc_sangchul_confrontation"
+	# M34 owns the delayed human cost for every terminal M33 truth result.
+	# Keep it above legacy/deferred selectors so W133-W136 cannot be consumed.
+	if t >= 133 and t <= 136 \
+			and (f.get("arc_sangchul_reckoning_seen", false) \
+				or f.get("sangchul_truth_buried", false) \
+				or f.get("sangchul_quietly_distanced", false)) \
+			and not f.get("arc_y3_cost_of_knowing_seen", false):
+		return "arc_y3_cost_of_knowing"
 	return ""
 
 func _chapter_four_father_outcome_id(
@@ -6868,8 +6962,6 @@ func _next_arc_id(
 	# ══ 연말 클로징 씬 — 각 48주 장의 정확한 마지막 밤 ══════════
 	if t == 48 and not f.get("arc_year1_close_seen", false):
 		return "arc_year1_close"
-	if t == 96 and not f.get("arc_year2_close_seen", false):
-		return "arc_year2_close"
 	if t == 144 and not f.get("arc_year3_close_seen", false):
 		return "arc_year3_close"
 	if t == 192 and not f.get("arc_year4_close_seen", false):
@@ -6958,7 +7050,8 @@ func _next_arc_id(
 
 	# ══ 고시원 탈출 — 이사한 첫 턴에 감정 장면 (어느 턴이든) ══
 	if GameState.housing != "gosiwon" \
-			and not f.get("arc_goshiwon_goodbye_seen", false):
+			and not f.get("arc_goshiwon_goodbye_seen", false) \
+			and not f.get("arc_housing_new_life_seen", false):
 		return "arc_goshiwon_goodbye"
 
 	# ══ 그림자 이벤트 — N턴 후 과거 선택이 되돌아온다 ══════════
@@ -7322,12 +7415,6 @@ func _next_arc_id(
 			and not f.get("arc_jaehyuk_sangchul_echo_seen", false):
 		return "arc_jaehyuk_sangchul_echo"
 
-	# ── 알면서 사는 값 — 대면/청산 이후 상철 망 사용 결정 (Y2 후반~Y3 초) ──
-	if t >= 133 and t <= 136 \
-			and f.get("arc_sangchul_reckoning_seen", false) \
-			and not f.get("arc_y3_cost_of_knowing_seen", false):
-		return "arc_y3_cost_of_knowing"
-
 	# ── 임상철 관계 심화 ──
 	if t >= 28 and f.get("arc_sangchul_met_seen", false) \
 			and not f.get("arc_sangchul_02_seen", false):
@@ -7434,12 +7521,6 @@ func _next_arc_id(
 			and not GameState.has_deferred_event("arc_goal_vertigo") \
 			and not f.get("arc_goal_vertigo_seen", false):
 		return "arc_goal_vertigo"
-
-	# ── 새 집 첫날 밤 — 신규 런은 퇴실 선택의 즉시 후속, 구세이브는 여기서 복구 ──
-	if t >= 29 and t <= 32 \
-			and f.get("arc_goshiwon_goodbye_seen", false) \
-			and not f.get("arc_housing_new_life_seen", false):
-		return "arc_housing_new_life"
 
 	# ── 처음 혼자 간 강남 (턴 22~28, 누구나) ──
 	if t >= 22 and t <= 28 \
@@ -7784,17 +7865,6 @@ func _next_arc_id(
 			and not GameState.has_deferred_event("arc_36_night_doubt") \
 			and not f.get("arc_36_night_doubt_seen", false):
 		return "arc_36_night_doubt"
-	# ── 37세 마지막 정산 (t193-208) ──
-	if t >= 193 and t <= 208 \
-			and not GameState.has_deferred_event("arc_37_reckoning") \
-			and not f.get("arc_37_reckoning_seen", false):
-		return "arc_37_reckoning"
-	# 신규 런은 arc_37_reckoning의 즉시 후속이 담당한다. 구세이브에서도
-	# 정산을 읽기 전에 마지막 해 선언이 먼저 나오지 않게 선행조건을 지킨다.
-	if t >= 193 and t <= 196 \
-			and f.get("arc_37_reckoning_seen", false) \
-			and not f.get("arc_final_year_start_seen", false):
-		return "arc_final_year_start"
 	# ── 37세 번아웃 vs 불꽃 — 고자산 런의 마지막 해 중반 공백도 막는다 ──
 	if t >= 204 and t <= 214 and not f.get("arc_37_burn_or_light_seen", false):
 		return "arc_37_burn_or_light"

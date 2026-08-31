@@ -139,7 +139,7 @@
     {"id": "arc_jiyeon_03b_lunch", "background": "restaurant", "portrait": "jiyeon_warm"},
     {"id": "arc_job_vs_invest", "background": "office", "portrait": "boss"},
     {"id": "arc_34_doors_open", "background": "meeting", "portrait": "player_normal"},
-    {"id": "arc_34_parents_visit", "background": "current_housing", "portrait": "player_tired", "choice_result_backgrounds": {"0": "restaurant", "1": "current_housing"}},
+    {"id": "arc_34_parents_visit", "background": "restaurant", "portrait": "player_tired", "choice_result_backgrounds": {"0": "restaurant", "1": "current_housing"}},
     {"id": "arc_father_03_hospital", "background": "current_housing", "portrait": "player_shocked"},
     {"id": "arc_sangchul_mirror", "background": "pojangmacha", "portrait": "sangchul_serious"},
     {"id": "arc_sangchul_mirror_receipt", "background": "pojangmacha", "portrait": "sangchul_serious"},

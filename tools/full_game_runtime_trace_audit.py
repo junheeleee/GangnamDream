@@ -332,6 +332,14 @@ def _validate_trace_script_source(source: str) -> None:
         "var selected := _select_visible_main_action(cards)",
         "await _activate_button(selected)",
         "if not GameState.pending_story_queue.is_empty():",
+        'call_deferred("_graceful_shutdown", 0)',
+        "func _graceful_shutdown(exit_code: int) -> void:",
+        "await _release_audio_for_exit()",
+        "func _release_audio_for_exit() -> void:",
+        "_detach_audio_streams(get_tree().root)",
+        "player.stream = null",
+        "(raw_sounds as Dictionary).clear()",
+        "await get_tree().create_timer(0.25).timeout",
     ):
         if needle not in source:
             raise ContractError(f"GDScript recorder contract is missing {needle!r}")
@@ -415,6 +423,15 @@ def _validate_trace_script_source(source: str) -> None:
         )
 
 
+def _validate_runner_error_policy(runner: str) -> None:
+    if "Could not create ObjectDB Snapshots directory" in runner:
+        raise ContractError("runner must not whitelist the ObjectDB Profiler engine error")
+    if "grep -viE" in runner or "grep -vE" in runner:
+        raise ContractError("runner must not filter engine teardown errors")
+    if "WARNING: ObjectDB instances leaked at exit" not in runner:
+        raise ContractError("runner must fail closed on ObjectDB teardown leaks")
+
+
 def validate_tool_sources() -> None:
     required_paths = (TRACE_SCRIPT, TRACE_SCENE, TRACE_RUNNER)
     for path in required_paths:
@@ -447,14 +464,14 @@ def validate_tool_sources() -> None:
         '"${trace_root}"/*)',
         "reason=objectdb_snapshot_dir_outside_trace_root",
         "reason=objectdb_snapshot_dir_precreate_failed",
+        "WARNING: ObjectDB instances leaked at exit",
         "reason=candidate_changed_during_import",
         "reason=candidate_changed_during_runtime",
         "reason=trace_contract_rejected",
     ):
         if needle not in runner:
             raise ContractError(f"runner isolation/identity contract is missing {needle!r}")
-    if "Could not create ObjectDB Snapshots directory" in runner:
-        raise ContractError("runner must not whitelist the ObjectDB Profiler engine error")
+    _validate_runner_error_policy(runner)
     if runner.count('post_commit="$(git rev-parse HEAD)"') < 2 \
             or runner.count('post_tree="$(git rev-parse \'HEAD^{tree}\')"') < 2 \
             or runner.count("git diff --quiet --") < 3 \
@@ -1127,6 +1144,23 @@ def self_test() -> None:
     _expect_failure(
         "queued-story-action-race",
         lambda: _validate_trace_script_source(story_race_source),
+    )
+    cases += 1
+
+    missing_audio_drain_source = TRACE_SCRIPT.read_text(encoding="utf-8").replace(
+        "await _release_audio_for_exit()", "pass", 1
+    )
+    _expect_failure(
+        "missing-audio-teardown-drain",
+        lambda: _validate_trace_script_source(missing_audio_drain_source),
+    )
+    cases += 1
+
+    teardown_whitelist_runner = TRACE_RUNNER.read_text(encoding="utf-8") + \
+        "\n# grep -viE teardown bypass\n"
+    _expect_failure(
+        "runner-teardown-error-whitelist",
+        lambda: _validate_runner_error_policy(teardown_whitelist_runner),
     )
     cases += 1
 

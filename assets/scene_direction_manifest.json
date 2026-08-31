@@ -2029,7 +2029,6 @@
       "arc_y2_relationship_fork_unattached",
       "arc_y2_sangchul_first_favor",
       "arc_y2_worn_face",
-      "arc_y3_cost_of_knowing",
       "arc_y3_hyunsu_verdict",
       "arc_y3_ledger_grind",
       "arc_y3_ledger_kept",
@@ -2397,6 +2396,7 @@
       "arc_pre_ending_father_call",
       "arc_sangchul_casino_invite",
       "arc_sangchul_casino_people",
+      "arc_y3_cost_of_knowing",
       "arc_y3_jiyeon_departure",
       "arc_y4_father_call_answered_on_ktx",
       "arc_y4_father_crisis_contact",
@@ -2483,1402 +2483,1405 @@
   "transition_edges": {
     "amb_coin_00->amb_coin_warn": {
       "mode": "same_location",
-      "from_surface": "investment_phone",
       "to_surface": "investment_phone",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "investment_phone"
     },
     "amb_credit_steal_00->amb_credit_confront": {
       "mode": "same_location",
-      "from_surface": "office",
       "to_surface": "office",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "office"
     },
     "amb_hoesik_00->amb_hoesik_dodge": {
       "mode": "same_location",
-      "from_surface": "company_dinner_restaurant",
       "to_surface": "company_dinner_restaurant",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "company_dinner_restaurant"
     },
     "amb_hoesik_00->amb_hoesik_drink": {
       "mode": "time_cut",
-      "from_surface": "company_dinner_restaurant",
       "to_surface": "current_housing",
       "audio_policy": "crossfade",
       "reduced_motion": "static_fade",
+      "from_surface": "company_dinner_restaurant",
       "arrival_cue_ko": "그리고 다음 날 아침",
       "arrival_cue_en": "And then the next morning"
     },
     "amb_holiday_00->amb_holiday_home": {
       "mode": "explicit_move",
-      "from_surface": "hometown_train_station",
       "to_surface": "dad_house",
       "audio_policy": "crossfade",
-      "reduced_motion": "static_fade"
+      "reduced_motion": "static_fade",
+      "from_surface": "hometown_train_station"
     },
     "amb_jeonse_00->amb_jeonse_check": {
       "mode": "explicit_move",
-      "from_surface": "apartment",
       "to_surface": "realestate_office",
       "audio_policy": "crossfade",
-      "reduced_motion": "static_fade"
+      "reduced_motion": "static_fade",
+      "from_surface": "apartment"
     },
     "amb_jeonse_00->amb_jeonse_confront": {
       "mode": "explicit_move",
-      "from_surface": "apartment",
       "to_surface": "street_rainy",
       "audio_policy": "crossfade",
-      "reduced_motion": "static_fade"
+      "reduced_motion": "static_fade",
+      "from_surface": "apartment"
     },
     "amb_jobswitch_00->amb_jobswitch_in": {
       "mode": "same_location",
-      "from_surface": "office",
       "to_surface": "office",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "office"
     },
     "amb_mlm_00->amb_mlm_meet": {
       "mode": "explicit_move",
-      "from_surface": "cafe",
       "to_surface": "meeting",
       "audio_policy": "crossfade",
-      "reduced_motion": "static_fade"
+      "reduced_motion": "static_fade",
+      "from_surface": "cafe"
     },
     "amb_wallet_00->amb_wallet_return": {
       "mode": "explicit_move",
-      "from_surface": "street_rainy_bus_stop_wallet",
       "to_surface": "cafe",
       "audio_policy": "crossfade",
-      "reduced_motion": "static_fade"
+      "reduced_motion": "static_fade",
+      "from_surface": "street_rainy_bus_stop_wallet"
     },
     "arc_34_parents_visit->arc_father_03_hospital": {
       "mode": "time_cut",
-      "from_surface": "current_housing",
       "to_surface": "current_housing",
       "audio_policy": "crossfade",
       "reduced_motion": "static_fade",
+      "from_surfaces": [
+        "restaurant",
+        "current_housing"
+      ],
       "arrival_cue_ko": "부모님이 서울에서 내려간 지 나흘째",
       "arrival_cue_en": "Four days after his parents returned from Seoul"
     },
     "arc_36_reality_check->arc_year_three_crossroads": {
       "mode": "time_cut",
-      "from_surface": "current_housing",
       "to_surface": "gangnam_day",
       "audio_policy": "crossfade",
-      "reduced_motion": "static_fade"
+      "reduced_motion": "static_fade",
+      "from_surface": "current_housing"
     },
     "arc_37_reckoning->arc_final_year_start": {
       "mode": "same_location",
-      "from_surface": "current_housing",
       "to_surface": "current_housing",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "current_housing"
     },
     "arc_daeun_02_regular->arc_daeun_02b_dream": {
       "mode": "same_location",
-      "from_surface": "convenience_night",
       "to_surface": "convenience_night",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "convenience_night"
     },
     "arc_daeun_03_fork->arc_daeun_03_fork_hold_receipt": {
       "mode": "same_location",
-      "from_surface": "convenience_night",
       "to_surface": "convenience_night",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "convenience_night"
     },
     "arc_daeun_03_fork->arc_daeun_03_fork_release_receipt": {
       "mode": "same_location",
-      "from_surface": "convenience_night",
       "to_surface": "convenience_night",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "convenience_night"
     },
     "arc_daeun_final_choice->arc_daeun_final_choice_kitchen": {
       "mode": "same_location",
-      "from_surface": "daeun_newlywed_home",
       "to_surface": "daeun_newlywed_home",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "daeun_newlywed_home"
     },
     "arc_daeun_final_choice->arc_daeun_final_choice_name": {
       "mode": "same_location",
-      "from_surface": "daeun_newlywed_home",
       "to_surface": "daeun_newlywed_home",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "daeun_newlywed_home"
     },
     "arc_daeun_final_choice_kitchen->arc_daeun_final_choice_decision": {
       "mode": "same_location",
-      "from_surface": "daeun_newlywed_home",
       "to_surface": "daeun_newlywed_home",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "daeun_newlywed_home"
     },
     "arc_daeun_final_choice_name->arc_daeun_final_choice_decision": {
       "mode": "same_location",
-      "from_surface": "daeun_newlywed_home",
       "to_surface": "daeun_newlywed_home",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "daeun_newlywed_home"
     },
     "arc_daeun_first_kiss->arc_daeun_first_kiss_ask": {
       "mode": "same_location",
-      "from_surface": "convenience_night",
       "to_surface": "convenience_night",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "convenience_night"
     },
     "arc_daeun_first_kiss->arc_daeun_first_kiss_wait": {
       "mode": "same_location",
-      "from_surface": "convenience_night",
       "to_surface": "convenience_night",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "convenience_night"
     },
     "arc_daeun_first_kiss_ask->arc_daeun_first_kiss_choice": {
       "mode": "same_location",
-      "from_surface": "convenience_night",
       "to_surface": "convenience_night",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "convenience_night"
     },
     "arc_daeun_first_kiss_wait->arc_daeun_first_kiss_choice": {
       "mode": "same_location",
-      "from_surface": "convenience_night",
       "to_surface": "convenience_night",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "convenience_night"
     },
     "arc_daeun_first_night->arc_daeun_first_night_silence": {
       "mode": "same_location",
-      "from_surface": "current_housing",
       "to_surface": "current_housing",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "current_housing"
     },
     "arc_daeun_first_night->arc_daeun_first_night_truth": {
       "mode": "same_location",
-      "from_surface": "current_housing",
       "to_surface": "current_housing",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "current_housing"
     },
     "arc_daeun_first_night_silence->arc_daeun_first_night_decision": {
       "mode": "same_location",
-      "from_surface": "current_housing",
       "to_surface": "current_housing",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "current_housing"
     },
     "arc_daeun_first_night_truth->arc_daeun_first_night_decision": {
       "mode": "same_location",
-      "from_surface": "current_housing",
       "to_surface": "current_housing",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "current_housing"
     },
     "arc_daeun_hometown_2->arc_daeun_hometown_table_daughter": {
       "mode": "same_location",
-      "from_surface": "daeun_mother_home_dining",
       "to_surface": "daeun_mother_home_dining",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "daeun_mother_home_dining"
     },
     "arc_daeun_hometown_2->arc_daeun_hometown_table_hands": {
       "mode": "same_location",
-      "from_surface": "daeun_mother_home_dining",
       "to_surface": "daeun_mother_home_dining",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "daeun_mother_home_dining"
     },
     "arc_daeun_hometown_2_father_passed->arc_daeun_hometown_table_daughter": {
       "mode": "same_location",
-      "from_surface": "daeun_mother_home_dining",
       "to_surface": "daeun_mother_home_dining",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "daeun_mother_home_dining"
     },
     "arc_daeun_hometown_2_father_passed->arc_daeun_hometown_table_hands": {
       "mode": "same_location",
-      "from_surface": "daeun_mother_home_dining",
       "to_surface": "daeun_mother_home_dining",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "daeun_mother_home_dining"
     },
     "arc_daeun_hometown_table_daughter->arc_daeun_hometown_table_decision": {
       "mode": "same_location",
-      "from_surface": "daeun_mother_home_dining",
       "to_surface": "daeun_mother_home_dining",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "daeun_mother_home_dining"
     },
     "arc_daeun_hometown_table_hands->arc_daeun_hometown_table_decision": {
       "mode": "same_location",
-      "from_surface": "daeun_mother_home_dining",
       "to_surface": "daeun_mother_home_dining",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "daeun_mother_home_dining"
     },
     "arc_daeun_proposal->arc_daeun_proposal_last_cup": {
       "mode": "same_location",
-      "from_surface": "cafe",
       "to_surface": "cafe",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "cafe"
     },
     "arc_daeun_proposal_last_cup->arc_daeun_proposal_answer": {
       "mode": "same_location",
-      "from_surface": "cafe",
       "to_surface": "cafe",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "cafe"
     },
     "arc_daeun_wedding_day->arc_daeun_wedding_groom_side": {
       "mode": "same_location",
-      "from_surface": "wedding_hall",
       "to_surface": "wedding_hall",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "wedding_hall"
     },
     "arc_daeun_wedding_groom_side->arc_daeun_wedding_walk": {
       "mode": "same_location",
-      "from_surface": "wedding_hall",
       "to_surface": "wedding_hall",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "wedding_hall"
     },
     "arc_daeun_wedding_groom_side_father_passed->arc_daeun_wedding_walk": {
       "mode": "same_location",
-      "from_surface": "wedding_hall",
       "to_surface": "wedding_hall",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "wedding_hall"
     },
     "arc_daeun_wedding_night->arc_daeun_wedding_night_honest": {
       "mode": "same_location",
-      "from_surface": "daeun_newlywed_home",
       "to_surface": "daeun_newlywed_home",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "daeun_newlywed_home"
     },
     "arc_daeun_wedding_night->arc_daeun_wedding_night_tea": {
       "mode": "same_location",
-      "from_surface": "daeun_newlywed_home",
       "to_surface": "daeun_newlywed_home",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "daeun_newlywed_home"
     },
     "arc_daeun_wedding_night_honest->arc_daeun_wedding_night_choice": {
       "mode": "same_location",
-      "from_surface": "daeun_newlywed_home",
       "to_surface": "daeun_newlywed_home",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "daeun_newlywed_home"
     },
     "arc_daeun_wedding_night_tea->arc_daeun_wedding_night_choice": {
       "mode": "same_location",
-      "from_surface": "daeun_newlywed_home",
       "to_surface": "daeun_newlywed_home",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "daeun_newlywed_home"
     },
     "arc_daeun_wedding_walk->arc_daeun_wedding_aisle": {
       "mode": "same_location",
-      "from_surface": "wedding_hall",
       "to_surface": "wedding_hall",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "wedding_hall"
     },
     "arc_date_namsan_daeun->arc_date_namsan_lock_daeun": {
       "mode": "explicit_move",
-      "from_surface": "namsan_observation_deck",
       "to_surface": "namsan_tower",
       "audio_policy": "crossfade",
-      "reduced_motion": "static_fade"
+      "reduced_motion": "static_fade",
+      "from_surface": "namsan_observation_deck"
     },
     "arc_date_namsan_jiyeon->arc_date_namsan_lock_jiyeon": {
       "mode": "explicit_move",
-      "from_surface": "namsan_observation_deck",
       "to_surface": "namsan_tower",
       "audio_policy": "crossfade",
-      "reduced_motion": "static_fade"
+      "reduced_motion": "static_fade",
+      "from_surface": "namsan_observation_deck"
     },
     "arc_father_call_on_ktx->arc_father_call_on_ktx_memory": {
       "mode": "memory_cut",
-      "from_surface": "ktx_window",
       "to_surface": "ktx_window",
       "audio_policy": "duck",
-      "reduced_motion": "static_fade"
+      "reduced_motion": "static_fade",
+      "from_surface": "ktx_window"
     },
     "arc_father_call_on_ktx->arc_father_call_on_ktx_number": {
       "mode": "remote",
-      "from_surface": "ktx_window",
       "to_surface": "ktx_window",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "ktx_window"
     },
     "arc_father_call_on_ktx_memory->arc_father_call_on_ktx_number": {
       "mode": "remote",
-      "from_surface": "ktx_window",
       "to_surface": "ktx_window",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "ktx_window"
     },
     "arc_father_call_on_ktx_number->arc_y4_father_call_answered_on_ktx": {
       "mode": "remote",
-      "from_surface": "ktx_window",
       "to_surface": "ktx_window",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "ktx_window"
     },
     "arc_father_call_on_ktx_number->arc_y4_father_call_missed_on_ktx": {
       "mode": "same_location",
-      "from_surface": "ktx_window",
       "to_surface": "ktx_window",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "ktx_window"
     },
     "arc_father_passing->arc_father_passing_deal_room": {
       "mode": "explicit_move",
-      "from_surface": "current_housing",
       "to_surface": "seoul_investment_meeting_room",
       "audio_policy": "crossfade",
-      "reduced_motion": "static_fade"
+      "reduced_motion": "static_fade",
+      "from_surface": "current_housing"
     },
     "arc_father_passing->arc_father_passing_platform": {
       "mode": "explicit_move",
-      "from_surface": "current_housing",
       "to_surface": "seoul_station_ktx_platform_winter",
       "audio_policy": "crossfade",
-      "reduced_motion": "static_fade"
+      "reduced_motion": "static_fade",
+      "from_surface": "current_housing"
     },
     "arc_father_passing_deal_room->arc_father_passing_deal_morning": {
       "mode": "remote",
-      "from_surface": "seoul_investment_meeting_room",
       "to_surface": "seoul_investment_meeting_room",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "seoul_investment_meeting_room"
     },
     "arc_father_passing_deal_room->arc_father_passing_hospital_room": {
       "mode": "explicit_move",
-      "from_surface": "seoul_investment_meeting_room",
       "to_surface": "changwon_hospital_room_empty",
       "audio_policy": "crossfade",
-      "reduced_motion": "static_fade"
+      "reduced_motion": "static_fade",
+      "from_surface": "seoul_investment_meeting_room"
     },
     "arc_father_passing_platform->arc_father_passing_deal_morning": {
       "mode": "explicit_move",
-      "from_surface": "seoul_station_ktx_platform_winter",
       "to_surface": "seoul_investment_meeting_room",
       "audio_policy": "crossfade",
-      "reduced_motion": "static_fade"
+      "reduced_motion": "static_fade",
+      "from_surface": "seoul_station_ktx_platform_winter"
     },
     "arc_father_passing_platform->arc_father_passing_hospital_room": {
       "mode": "explicit_move",
-      "from_surface": "seoul_station_ktx_platform_winter",
       "to_surface": "changwon_hospital_room_empty",
       "audio_policy": "crossfade",
-      "reduced_motion": "static_fade"
+      "reduced_motion": "static_fade",
+      "from_surface": "seoul_station_ktx_platform_winter"
     },
     "arc_final_countdown->arc_final_week": {
       "mode": "same_location",
-      "from_surface": "gangnam_night",
       "to_surface": "gangnam_night",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "gangnam_night"
     },
     "arc_final_countdown_general_near_goal_passed->arc_y5_final_week_general_people_outbound": {
       "mode": "same_location",
-      "from_surface": "current_housing",
       "to_surface": "current_housing",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "current_housing"
     },
     "arc_final_countdown_property_not_executed->arc_y5_final_week_daeun_outbound": {
       "mode": "time_cut",
-      "from_surface": "gangnam_night",
       "to_surface": "current_housing",
       "audio_policy": "crossfade",
       "reduced_motion": "static_fade",
+      "from_surface": "gangnam_night",
       "arrival_cue_ko": "마지막 서명 뒤 몇 분",
       "arrival_cue_en": "A few minutes after the last signature"
     },
     "arc_gangnam_visit_alone->arc_four_months_in": {
       "mode": "explicit_move",
-      "from_surface": "gangnam_day",
       "to_surface": "hangang_riverside",
       "audio_policy": "crossfade",
       "reduced_motion": "static_fade",
+      "from_surface": "gangnam_day",
       "arrival_cue_ko": "강남에서 돌아오는 길, 한강변",
       "arrival_cue_en": "On the way back from Gangnam, along the Han River"
     },
     "arc_goshiwon_goodbye->arc_housing_new_life": {
       "mode": "explicit_move",
-      "from_surface": "goshiwon_hallway",
       "to_surface": "current_housing",
       "audio_policy": "crossfade",
       "reduced_motion": "static_fade",
+      "from_surface": "goshiwon_hallway",
       "arrival_cue_ko": "마지막 상자를 열었다",
       "arrival_cue_en": "{name} opened the last box"
     },
     "arc_intro_01_meal->arc_intro_02_dad_call": {
       "mode": "time_cut",
-      "from_surface": "office_interview_day",
       "to_surface": "goshiwon_room",
       "audio_policy": "crossfade",
       "reduced_motion": "static_fade",
+      "from_surface": "office_interview_day",
       "arrival_cue_ko": "고시원. 새벽 세 시.",
       "arrival_cue_en": "Goshiwon room. 3 AM."
     },
     "arc_intro_01_meal->v2_opening_return_math": {
       "mode": "time_cut",
-      "from_surface": "office_interview_day",
       "to_surface": "goshiwon_room",
       "audio_policy": "crossfade",
       "reduced_motion": "static_fade",
+      "from_surface": "office_interview_day",
       "arrival_cue_ko": "그날 밤, 고시원.",
       "arrival_cue_en": "That night, back at the goshiwon."
     },
     "arc_intro_04_hyunsu->arc_chapter1_close": {
       "mode": "explicit_move",
-      "from_surface": "goshiwon_hallway",
       "to_surface": "current_housing",
       "audio_policy": "crossfade",
       "reduced_motion": "static_fade",
+      "from_surface": "goshiwon_hallway",
       "arrival_cue_ko": "현수가 들어간 뒤",
       "arrival_cue_en": "After Hyunsu went back inside"
     },
     "arc_jaehyuk_04a_ghost->arc_jaehyuk_ghost_message": {
       "mode": "same_location",
-      "from_surface": "current_housing",
       "to_surface": "current_housing",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "current_housing"
     },
     "arc_jaehyuk_04a_ghost->arc_jaehyuk_ghost_read": {
       "mode": "same_location",
-      "from_surface": "current_housing",
       "to_surface": "current_housing",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "current_housing"
     },
     "arc_jaehyuk_ghost_decision->arc_jaehyuk_photo_in_dark": {
       "mode": "same_location",
-      "from_surface": "current_housing",
       "to_surface": "current_housing",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "current_housing"
     },
     "arc_jaehyuk_ghost_message->arc_jaehyuk_ghost_decision": {
       "mode": "same_location",
-      "from_surface": "current_housing",
       "to_surface": "current_housing",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "current_housing"
     },
     "arc_jaehyuk_ghost_read->arc_jaehyuk_ghost_decision": {
       "mode": "same_location",
-      "from_surface": "current_housing",
       "to_surface": "current_housing",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "current_housing"
     },
     "arc_jaehyuk_mirror->arc_jaehyuk_mirror_father": {
       "mode": "same_location",
-      "from_surface": "current_housing",
       "to_surface": "current_housing",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "current_housing"
     },
     "arc_jaehyuk_mirror->arc_jaehyuk_mirror_reply": {
       "mode": "same_location",
-      "from_surface": "current_housing",
       "to_surface": "current_housing",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "current_housing"
     },
     "arc_jaehyuk_mirror_father->arc_jaehyuk_mirror_decision": {
       "mode": "same_location",
-      "from_surface": "current_housing",
       "to_surface": "current_housing",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "current_housing"
     },
     "arc_jaehyuk_mirror_reply->arc_jaehyuk_mirror_decision": {
       "mode": "same_location",
-      "from_surface": "current_housing",
       "to_surface": "current_housing",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "current_housing"
     },
     "arc_jiyeon_first_kiss->arc_jiyeon_first_kiss_silence": {
       "mode": "same_location",
-      "from_surface": "jiyeon_sedan_night",
       "to_surface": "jiyeon_sedan_night",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "jiyeon_sedan_night"
     },
     "arc_jiyeon_first_kiss->arc_jiyeon_first_kiss_speak": {
       "mode": "same_location",
-      "from_surface": "jiyeon_sedan_night",
       "to_surface": "jiyeon_sedan_night",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "jiyeon_sedan_night"
     },
     "arc_jiyeon_first_kiss_silence->arc_jiyeon_first_kiss_choice": {
       "mode": "same_location",
-      "from_surface": "jiyeon_sedan_night",
       "to_surface": "jiyeon_sedan_night",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "jiyeon_sedan_night"
     },
     "arc_jiyeon_first_kiss_speak->arc_jiyeon_first_kiss_choice": {
       "mode": "same_location",
-      "from_surface": "jiyeon_sedan_night",
       "to_surface": "jiyeon_sedan_night",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "jiyeon_sedan_night"
     },
     "arc_jiyeon_narrow_room_2->arc_jiyeon_narrow_room_silence": {
       "mode": "same_location",
-      "from_surface": "goshiwon_room",
       "to_surface": "goshiwon_room",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "goshiwon_room"
     },
     "arc_jiyeon_narrow_room_2->arc_jiyeon_narrow_room_truth": {
       "mode": "same_location",
-      "from_surface": "goshiwon_room",
       "to_surface": "goshiwon_room",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "goshiwon_room"
     },
     "arc_jiyeon_narrow_room_silence->arc_jiyeon_narrow_room_decision": {
       "mode": "same_location",
-      "from_surface": "goshiwon_room",
       "to_surface": "goshiwon_room",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "goshiwon_room"
     },
     "arc_jiyeon_narrow_room_truth->arc_jiyeon_narrow_room_decision": {
       "mode": "same_location",
-      "from_surface": "goshiwon_room",
       "to_surface": "goshiwon_room",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "goshiwon_room"
     },
     "arc_jiyeon_verdict->arc_jiyeon_verdict_fear": {
       "mode": "same_location",
-      "from_surface": "jiyeon_newlywed_home",
       "to_surface": "jiyeon_newlywed_home",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "jiyeon_newlywed_home"
     },
     "arc_jiyeon_verdict->arc_jiyeon_verdict_voice": {
       "mode": "same_location",
-      "from_surface": "jiyeon_newlywed_home",
       "to_surface": "jiyeon_newlywed_home",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "jiyeon_newlywed_home"
     },
     "arc_jiyeon_verdict_fear->arc_jiyeon_verdict_decision": {
       "mode": "same_location",
-      "from_surface": "jiyeon_newlywed_home",
       "to_surface": "jiyeon_newlywed_home",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "jiyeon_newlywed_home"
     },
     "arc_jiyeon_verdict_voice->arc_jiyeon_verdict_decision": {
       "mode": "same_location",
-      "from_surface": "jiyeon_newlywed_home",
       "to_surface": "jiyeon_newlywed_home",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "jiyeon_newlywed_home"
     },
     "arc_jiyeon_wedding_gap->arc_jiyeon_wedding_guest_list": {
       "mode": "same_location",
-      "from_surface": "wedding_hall",
       "to_surface": "wedding_hall",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "wedding_hall"
     },
     "arc_jiyeon_wedding_gap_father_passed->arc_jiyeon_wedding_guest_list": {
       "mode": "same_location",
-      "from_surface": "wedding_hall",
       "to_surface": "wedding_hall",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "wedding_hall"
     },
     "arc_jiyeon_wedding_guest_list->arc_jiyeon_wedding_gap_decision": {
       "mode": "same_location",
-      "from_surface": "wedding_hall",
       "to_surface": "wedding_hall",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "wedding_hall"
     },
     "arc_jiyeon_wedding_guest_list_father_passed->arc_jiyeon_wedding_gap_decision": {
       "mode": "same_location",
-      "from_surface": "wedding_hall",
       "to_surface": "wedding_hall",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "wedding_hall"
     },
     "arc_jiyeon_wedding_night->arc_jiyeon_wedding_night_glass": {
       "mode": "same_location",
-      "from_surface": "jiyeon_newlywed_home",
       "to_surface": "jiyeon_newlywed_home",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "jiyeon_newlywed_home"
     },
     "arc_jiyeon_wedding_night->arc_jiyeon_wedding_night_window": {
       "mode": "same_location",
-      "from_surface": "jiyeon_newlywed_home",
       "to_surface": "jiyeon_newlywed_home",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "jiyeon_newlywed_home"
     },
     "arc_jiyeon_wedding_night_glass->arc_jiyeon_wedding_night_choice": {
       "mode": "same_location",
-      "from_surface": "jiyeon_newlywed_home",
       "to_surface": "jiyeon_newlywed_home",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "jiyeon_newlywed_home"
     },
     "arc_jiyeon_wedding_night_window->arc_jiyeon_wedding_night_choice": {
       "mode": "same_location",
-      "from_surface": "jiyeon_newlywed_home",
       "to_surface": "jiyeon_newlywed_home",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "jiyeon_newlywed_home"
     },
     "arc_job_vs_invest->arc_hyunsu_night_talk": {
       "mode": "explicit_move",
-      "from_surface": "office",
       "to_surface": "goshiwon_hallway",
       "audio_policy": "crossfade",
       "reduced_motion": "static_fade",
+      "from_surface": "office",
       "arrival_cue_ko": "고시원 공용 부엌. 새벽 2시.",
       "arrival_cue_en": "The communal kitchen of the goshiwon. 2 AM."
     },
     "arc_sangchul_01_coffee->arc_sangchul_01_answer": {
       "mode": "same_location",
-      "from_surface": "realestate_office",
       "to_surface": "realestate_office",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "realestate_office"
     },
     "arc_sangchul_01_measure->arc_sangchul_01_answer": {
       "mode": "same_location",
-      "from_surface": "realestate_office",
       "to_surface": "realestate_office",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "realestate_office"
     },
     "arc_sangchul_01_meet->arc_sangchul_01_coffee": {
       "mode": "same_location",
-      "from_surface": "realestate_office",
       "to_surface": "realestate_office",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "realestate_office"
     },
     "arc_sangchul_01_meet->arc_sangchul_01_measure": {
       "mode": "same_location",
-      "from_surface": "realestate_office",
       "to_surface": "realestate_office",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "realestate_office"
     },
     "arc_sangchul_buried_silence->arc_sangchul_reckoning": {
       "mode": "same_location",
-      "from_surface": "cafe",
       "to_surface": "cafe",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "cafe"
     },
     "arc_sangchul_card_at_confrontation->arc_sangchul_confrontation": {
       "mode": "same_location",
-      "from_surface": "cafe",
       "to_surface": "cafe",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "cafe"
     },
     "arc_sangchul_casino_cost->arc_sangchul_casino_decision": {
       "mode": "same_location",
-      "from_surface": "current_housing",
       "to_surface": "current_housing",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "current_housing"
     },
     "arc_sangchul_casino_decision->arc_sangchul_casino_arrival": {
       "mode": "explicit_move",
-      "from_surface": "current_housing",
       "to_surface": "jeongseon_casino_exterior",
       "audio_policy": "crossfade",
       "reduced_motion": "static_fade",
+      "from_surface": "current_housing",
       "arrival_cue_ko": "정선행 버스가 산길 끝 정류장에 멈췄다.",
       "arrival_cue_en": "The bus to Jeongseon stopped at the end of the mountain road."
     },
     "arc_sangchul_casino_invite->arc_sangchul_casino_cost": {
       "mode": "same_location",
-      "from_surface": "current_housing",
       "to_surface": "current_housing",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "current_housing"
     },
     "arc_sangchul_casino_invite->arc_sangchul_casino_people": {
       "mode": "remote",
-      "from_surface": "current_housing",
       "to_surface": "current_housing",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "current_housing"
     },
     "arc_sangchul_casino_people->arc_sangchul_casino_decision": {
       "mode": "same_location",
-      "from_surface": "current_housing",
       "to_surface": "current_housing",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "current_housing"
     },
     "arc_sangchul_confrontation->arc_sangchul_buried_silence": {
       "mode": "same_location",
-      "from_surface": "cafe",
       "to_surface": "cafe",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "cafe"
     },
     "arc_sangchul_confrontation->arc_sangchul_reckoning": {
       "mode": "same_location",
-      "from_surface": "cafe",
       "to_surface": "cafe",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "cafe"
     },
     "arc_sangchul_confrontation->arc_sangchul_stairwell": {
       "mode": "same_location",
-      "from_surface": "cafe",
       "to_surface": "cafe",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "cafe"
     },
     "arc_sangchul_deduction->arc_sangchul_deduction_career": {
       "mode": "same_location",
-      "from_surface": "current_housing",
       "to_surface": "current_housing",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "current_housing"
     },
     "arc_sangchul_deduction->arc_sangchul_deduction_case": {
       "mode": "same_location",
-      "from_surface": "current_housing",
       "to_surface": "current_housing",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "current_housing"
     },
     "arc_sangchul_deduction_career->arc_sangchul_deduction_decision": {
       "mode": "same_location",
-      "from_surface": "current_housing",
       "to_surface": "current_housing",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "current_housing"
     },
     "arc_sangchul_deduction_case->arc_sangchul_deduction_decision": {
       "mode": "same_location",
-      "from_surface": "current_housing",
       "to_surface": "current_housing",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "current_housing"
     },
     "arc_sangchul_mirror->arc_sangchul_mirror_receipt": {
       "mode": "same_location",
-      "from_surface": "pojangmacha",
       "to_surface": "pojangmacha",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "pojangmacha"
     },
     "arc_sangchul_stairwell->arc_sangchul_reckoning": {
       "mode": "same_location",
-      "from_surface": "cafe",
       "to_surface": "cafe",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "cafe"
     },
     "arc_season_fireworks_daeun->arc_season_fireworks_daeun_dress": {
       "mode": "same_location",
-      "from_surface": "hangang_riverside",
       "to_surface": "hangang_riverside",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "hangang_riverside"
     },
     "arc_season_fireworks_daeun->arc_season_fireworks_daeun_river": {
       "mode": "same_location",
-      "from_surface": "hangang_riverside",
       "to_surface": "hangang_riverside",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "hangang_riverside"
     },
     "arc_season_fireworks_daeun_dress->arc_season_fireworks_daeun_decision": {
       "mode": "same_location",
-      "from_surface": "hangang_riverside",
       "to_surface": "hangang_riverside",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "hangang_riverside"
     },
     "arc_season_fireworks_daeun_river->arc_season_fireworks_daeun_decision": {
       "mode": "same_location",
-      "from_surface": "hangang_riverside",
       "to_surface": "hangang_riverside",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "hangang_riverside"
     },
     "arc_season_fireworks_jiyeon->arc_season_fireworks_jiyeon_pace": {
       "mode": "same_location",
-      "from_surface": "hangang_riverside",
       "to_surface": "hangang_riverside",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "hangang_riverside"
     },
     "arc_season_fireworks_jiyeon->arc_season_fireworks_jiyeon_schedule": {
       "mode": "same_location",
-      "from_surface": "hangang_riverside",
       "to_surface": "hangang_riverside",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "hangang_riverside"
     },
     "arc_season_fireworks_jiyeon_pace->arc_season_fireworks_jiyeon_decision": {
       "mode": "same_location",
-      "from_surface": "hangang_riverside",
       "to_surface": "hangang_riverside",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "hangang_riverside"
     },
     "arc_season_fireworks_jiyeon_schedule->arc_season_fireworks_jiyeon_decision": {
       "mode": "same_location",
-      "from_surface": "hangang_riverside",
       "to_surface": "hangang_riverside",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "hangang_riverside"
     },
     "arc_season_sea_daeun->arc_season_sea_daeun_horizon": {
       "mode": "same_location",
-      "from_surface": "eastbound_ktx",
       "to_surface": "eastbound_ktx",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "eastbound_ktx"
     },
     "arc_season_sea_daeun->arc_season_sea_daeun_years": {
       "mode": "same_location",
-      "from_surface": "eastbound_ktx",
       "to_surface": "eastbound_ktx",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "eastbound_ktx"
     },
     "arc_season_sea_daeun_horizon->arc_season_sea_daeun_decision": {
       "mode": "explicit_move",
-      "from_surface": "eastbound_ktx",
       "to_surface": "east_sea_beach",
       "audio_policy": "crossfade",
       "reduced_motion": "static_fade",
+      "from_surface": "eastbound_ktx",
       "arrival_cue_ko": "역 앞 상가를 지나",
       "arrival_cue_en": "Past the shops by the station"
     },
     "arc_season_sea_daeun_years->arc_season_sea_daeun_decision": {
       "mode": "explicit_move",
-      "from_surface": "eastbound_ktx",
       "to_surface": "east_sea_beach",
       "audio_policy": "crossfade",
       "reduced_motion": "static_fade",
+      "from_surface": "eastbound_ktx",
       "arrival_cue_ko": "역 앞 상가를 지나",
       "arrival_cue_en": "Past the shops by the station"
     },
     "arc_season_sea_jiyeon->arc_season_sea_jiyeon_route": {
       "mode": "same_location",
-      "from_surface": "busanbound_ktx",
       "to_surface": "busanbound_ktx",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "busanbound_ktx"
     },
     "arc_season_sea_jiyeon->arc_season_sea_jiyeon_voice": {
       "mode": "same_location",
-      "from_surface": "busanbound_ktx",
       "to_surface": "busanbound_ktx",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "busanbound_ktx"
     },
     "arc_season_sea_jiyeon_route->arc_season_sea_jiyeon_decision": {
       "mode": "explicit_move",
-      "from_surface": "busanbound_ktx",
       "to_surface": "haeundae_beach",
       "audio_policy": "crossfade",
       "reduced_motion": "static_fade",
+      "from_surface": "busanbound_ktx",
       "arrival_cue_ko": "부산역을 나와",
       "arrival_cue_en": "Out of Busan Station"
     },
     "arc_season_sea_jiyeon_voice->arc_season_sea_jiyeon_decision": {
       "mode": "explicit_move",
-      "from_surface": "busanbound_ktx",
       "to_surface": "haeundae_beach",
       "audio_policy": "crossfade",
       "reduced_motion": "static_fade",
+      "from_surface": "busanbound_ktx",
       "arrival_cue_ko": "부산역을 나와",
       "arrival_cue_en": "Out of Busan Station"
     },
     "arc_y4_father_crisis_contact->arc_y4_father_final_contact_called": {
       "mode": "remote",
-      "from_surface": "current_housing",
       "to_surface": "current_housing",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "current_housing"
     },
     "arc_y4_father_crisis_contact->arc_y4_father_final_contact_missed": {
       "mode": "same_location",
-      "from_surface": "current_housing",
       "to_surface": "current_housing",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "current_housing"
     },
     "arc_y4_father_crisis_contact->arc_y4_father_final_contact_present": {
       "mode": "explicit_move",
-      "from_surface": "current_housing",
       "to_surface": "hospital",
       "audio_policy": "crossfade",
-      "reduced_motion": "static_fade"
+      "reduced_motion": "static_fade",
+      "from_surface": "current_housing"
     },
     "arc_y5_jaehyuk_return_call_reference->arc_y5_jaehyuk_father_document_reference": {
       "mode": "same_location",
-      "from_surface": "current_housing",
       "to_surface": "current_housing",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "current_housing"
     },
     "arc_year1_close->arc_year1_scene": {
       "mode": "same_location",
-      "from_surface": "current_housing",
       "to_surface": "current_housing",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "current_housing"
     },
     "arc_year2_close->arc_year2_scene": {
       "mode": "same_location",
-      "from_surface": "year2_winter_street_night",
       "to_surface": "year2_winter_street_night",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "year2_winter_street_night"
     },
     "arc_year3_close->arc_year3_scene": {
       "mode": "same_location",
-      "from_surface": "year3_hangang_winter_night",
       "to_surface": "year3_hangang_winter_night",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "year3_hangang_winter_night"
     },
     "arc_year4_close->arc_year4_scene": {
       "mode": "same_location",
-      "from_surface": "year4_winter_rooftop",
       "to_surface": "year4_winter_rooftop",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "year4_winter_rooftop"
     },
     "arc_year_one_mark->arc_34_money_attracts_money": {
       "mode": "same_location",
-      "from_surface": "current_housing",
       "to_surface": "current_housing",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "current_housing"
     },
     "butterfly_mystery_info_offer->butterfly_mystery_info_details": {
       "mode": "same_location",
-      "from_surface": "gangnam_day",
       "to_surface": "gangnam_day",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "gangnam_day"
     },
     "cafe_00->cafe_listen_01": {
       "mode": "same_location",
-      "from_surface": "cafe",
       "to_surface": "cafe",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "cafe"
     },
     "cafe_00->cafe_mind_01": {
       "mode": "same_location",
-      "from_surface": "cafe",
       "to_surface": "cafe",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "cafe"
     },
     "cafe_bluff_01->cafe_bluff_caught": {
       "mode": "same_location",
-      "from_surface": "cafe",
       "to_surface": "cafe",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "cafe"
     },
     "cafe_bluff_01->cafe_bluff_recover": {
       "mode": "same_location",
-      "from_surface": "cafe",
       "to_surface": "cafe",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "cafe"
     },
     "cafe_cb_honest_00->cafe_cb_honest_in": {
       "mode": "explicit_move",
-      "from_surface": "current_housing",
       "to_surface": "cafe",
       "audio_policy": "crossfade",
       "reduced_motion": "static_fade",
+      "from_surface": "current_housing",
       "arrival_cue_ko": "약속한 날, 다시 그 카페",
       "arrival_cue_en": "On the appointed day, back at the cafe"
     },
     "cafe_cb_stole_00->cafe_cb_stole_call": {
       "mode": "remote",
-      "from_surface": "current_housing",
       "to_surface": "current_housing",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "current_housing"
     },
     "cafe_cb_stole_call->cafe_cb_stole_allin": {
       "mode": "explicit_move",
-      "from_surface": "current_housing",
       "to_surface": "investment_phone",
       "audio_policy": "crossfade",
-      "reduced_motion": "static_fade"
+      "reduced_motion": "static_fade",
+      "from_surface": "current_housing"
     },
     "cafe_cb_stole_call->cafe_cb_stole_verify": {
       "mode": "explicit_move",
-      "from_surface": "current_housing",
       "to_surface": "investment_phone",
       "audio_policy": "crossfade",
-      "reduced_motion": "static_fade"
+      "reduced_motion": "static_fade",
+      "from_surface": "current_housing"
     },
     "cafe_cb_stole_verify->cafe_cb_stole_smart": {
       "mode": "explicit_move",
-      "from_surface": "investment_phone",
       "to_surface": "cafe",
       "audio_policy": "crossfade",
-      "reduced_motion": "static_fade"
+      "reduced_motion": "static_fade",
+      "from_surface": "investment_phone"
     },
     "cafe_listen_01->cafe_peek_01": {
       "mode": "same_location",
-      "from_surface": "cafe",
       "to_surface": "cafe",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "cafe"
     },
     "cafe_listen_01->cafe_talk_01": {
       "mode": "same_location",
-      "from_surface": "cafe",
       "to_surface": "cafe",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "cafe"
     },
     "cafe_peek_01->cafe_caught_honest": {
       "mode": "same_location",
-      "from_surface": "cafe",
       "to_surface": "cafe",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "cafe"
     },
     "cafe_talk_01->cafe_bluff_01": {
       "mode": "same_location",
-      "from_surface": "cafe",
       "to_surface": "cafe",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "cafe"
     },
     "cafe_talk_01->cafe_humble": {
       "mode": "same_location",
-      "from_surface": "cafe",
       "to_surface": "cafe",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "cafe"
     },
     "casino_chip_exchange->casino_no_clocks": {
       "mode": "explicit_move",
-      "from_surface": "jeongseon_casino_entrance",
       "to_surface": "casino",
       "audio_policy": "crossfade",
-      "reduced_motion": "static_fade"
+      "reduced_motion": "static_fade",
+      "from_surface": "jeongseon_casino_entrance"
     },
     "class_reunion->class_reunion_lie_exposed": {
       "mode": "same_location",
-      "from_surface": "cafe",
       "to_surface": "cafe",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "cafe"
     },
     "drama_crypto_allin->drama_crypto_result_big": {
       "mode": "same_location",
-      "from_surface": "investment_phone",
       "to_surface": "investment_phone",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "investment_phone"
     },
     "drama_crypto_allin->drama_crypto_result_small": {
       "mode": "same_location",
-      "from_surface": "investment_phone",
       "to_surface": "investment_phone",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "investment_phone"
     },
     "father_hospital_wait->father_hospital_results": {
       "mode": "same_location",
-      "from_surface": "hospital",
       "to_surface": "hospital",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "hospital"
     },
     "hyunsu_reunion_later->hyunsu_reunion_memory": {
       "mode": "remote",
-      "from_surface": "current_housing",
       "to_surface": "current_housing",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "current_housing"
     },
     "hyunsu_reunion_later->hyunsu_reunion_photo": {
       "mode": "remote",
-      "from_surface": "current_housing",
       "to_surface": "current_housing",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "current_housing"
     },
     "hyunsu_reunion_memory->hyunsu_reunion_meet": {
       "mode": "explicit_move",
-      "from_surface": "current_housing",
       "to_surface": "gukbap_restaurant_night",
       "audio_policy": "crossfade",
       "reduced_motion": "static_fade",
+      "from_surface": "current_housing",
       "arrival_cue_ko": "토요일 저녁, 예전 고시원 골목의 국밥집에서 현수가 먼저 와 있었다.",
       "arrival_cue_en": "On Saturday evening, Hyunsu was already waiting at a gukbap place in the alley by their old goshiwon."
     },
     "hyunsu_reunion_photo->hyunsu_reunion_meet": {
       "mode": "explicit_move",
-      "from_surface": "current_housing",
       "to_surface": "gukbap_restaurant_night",
       "audio_policy": "crossfade",
       "reduced_motion": "static_fade",
+      "from_surface": "current_housing",
       "arrival_cue_ko": "토요일 저녁, 예전 고시원 골목의 국밥집에서 현수가 먼저 와 있었다.",
       "arrival_cue_en": "On Saturday evening, Hyunsu was already waiting at a gukbap place in the alley by their old goshiwon."
     },
     "lottery_last_change->lottery_result": {
       "mode": "explicit_move",
-      "from_surface": "convenience_night",
       "to_surface": "goshiwon_room",
       "audio_policy": "crossfade",
-      "reduced_motion": "static_fade"
+      "reduced_motion": "static_fade",
+      "from_surface": "convenience_night"
     },
     "race_first_visit->race_tip_seller_02": {
       "mode": "same_location",
-      "from_surface": "racetrack_betting",
       "to_surface": "racetrack_betting",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "racetrack_betting"
     },
     "race_number_three->race_number_three_result": {
       "mode": "explicit_move",
-      "from_surface": "racetrack_betting",
       "to_surface": "racetrack_track",
       "audio_policy": "crossfade",
-      "reduced_motion": "static_fade"
+      "reduced_motion": "static_fade",
+      "from_surface": "racetrack_betting"
     },
     "racetrack_mentor_meet->race_first_visit": {
       "mode": "explicit_move",
-      "from_surface": "convenience_night",
       "to_surface": "racetrack_betting",
       "audio_policy": "crossfade",
-      "reduced_motion": "static_fade"
+      "reduced_motion": "static_fade",
+      "from_surface": "convenience_night"
     },
     "rare_convenience_lottery->rare_lottery_result": {
       "mode": "same_location",
-      "from_surface": "convenience_night",
       "to_surface": "convenience_night",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "convenience_night"
     },
     "story_arrival->story_knee_door": {
       "mode": "memory_cut",
-      "from_surface": "goshiwon_room",
       "to_surface": "dad_house",
       "audio_policy": "duck",
       "reduced_motion": "static_fade",
+      "from_surface": "goshiwon_room",
       "arrival_cue_ko": "스물일곱의 겨울. 창원 집 현관",
       "arrival_cue_en": "Winter, age twenty-seven. The entryway of his father's home in Changwon"
     },
     "story_flashforward->story_arrival": {
       "mode": "time_cut",
-      "from_surface": "penthouse",
       "to_surface": "goshiwon_room",
       "audio_policy": "crossfade",
       "reduced_motion": "static_fade",
+      "from_surface": "penthouse",
       "arrival_cue_ko": "어둠 속에서 눈을 뜬다",
       "arrival_cue_en": "Eyes open in the dark"
     },
     "story_knee_choice->story_last_payment_wait": {
       "mode": "time_cut",
-      "from_surface": "dad_house",
       "to_surface": "community_center",
       "audio_policy": "crossfade",
       "reduced_motion": "static_fade",
+      "from_surface": "dad_house",
       "arrival_cue_ko": "어제. 여섯 해 뒤",
       "arrival_cue_en": "Yesterday. Six years later"
     },
     "story_knee_door->story_knee_witness": {
       "mode": "same_location",
-      "from_surface": "dad_house",
       "to_surface": "dad_house",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "dad_house"
     },
     "story_knee_witness->story_knee_choice": {
       "mode": "same_location",
-      "from_surface": "dad_house",
       "to_surface": "dad_house",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "dad_house"
     },
     "story_last_payment_exit->story_prologue_dad": {
       "mode": "remote",
-      "from_surface": "street_rainy_bus_stop_wallet",
       "to_surface": "street_rainy_bus_stop_wallet",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "street_rainy_bus_stop_wallet"
     },
     "story_last_payment_wait->story_last_payment_word": {
       "mode": "same_location",
-      "from_surface": "community_center",
       "to_surface": "community_center",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "community_center"
     },
     "story_last_payment_word->story_last_payment_exit": {
       "mode": "explicit_move",
-      "from_surface": "community_center",
       "to_surface": "street_rainy_bus_stop_wallet",
       "audio_policy": "crossfade",
       "reduced_motion": "static_fade",
+      "from_surface": "community_center",
       "arrival_cue_ko": "밖에는 겨울비가 내리고 있었다",
       "arrival_cue_en": "Winter rain falls outside"
     },
     "story_prologue_dad->story_prologue_goal": {
       "mode": "explicit_move",
-      "from_surface": "street_rainy_bus_stop_wallet",
       "to_surface": "goshiwon_room",
       "audio_policy": "crossfade",
       "reduced_motion": "static_fade",
+      "from_surface": "street_rainy_bus_stop_wallet",
       "arrival_cue_ko": "고시원에 돌아온 뒤",
       "arrival_cue_en": "Back at the goshiwon"
     },
     "story_prologue_goal->story_prologue_meal": {
       "mode": "explicit_move",
-      "from_surface": "goshiwon_room",
       "to_surface": "convenience_night",
       "audio_policy": "crossfade",
       "reduced_motion": "static_fade",
+      "from_surface": "goshiwon_room",
       "arrival_cue_ko": "고시원을 나와 편의점에 들른다",
       "arrival_cue_en": "Out of the goshiwon, into the convenience store"
     },
     "story_prologue_meal->story_pressure": {
       "mode": "time_cut",
-      "from_surface": "convenience_night",
       "to_surface": "goshiwon_room",
       "audio_policy": "crossfade",
       "reduced_motion": "static_fade",
+      "from_surface": "convenience_night",
       "arrival_cue_ko": "보름이 지났다",
       "arrival_cue_en": "Two weeks in"
     },
     "story_prologue_meal->v2_opening_application_send": {
       "mode": "time_cut",
-      "from_surface": "convenience_night",
       "to_surface": "goshiwon_room",
       "audio_policy": "crossfade",
       "reduced_motion": "static_fade",
+      "from_surface": "convenience_night",
       "arrival_cue_ko": "다음 날 아침",
       "arrival_cue_en": "The next morning"
     },
     "v2_demo_first_bill->v2_demo_first_bill_ledger": {
       "mode": "time_cut",
-      "from_surface": "v2_first_bill_desk_closeup",
       "to_surface": "v2_first_bill_desk_closeup",
       "audio_policy": "crossfade",
       "reduced_motion": "static_fade",
+      "from_surface": "v2_first_bill_desk_closeup",
       "arrival_cue_ko": "고른 일을 마친 뒤",
       "arrival_cue_en": "After finishing the task he chose"
     },
     "v2_demo_first_bill_ledger->v2_hyunsu_exam_morning_echo": {
       "mode": "time_cut",
-      "from_surface": "v2_first_bill_desk_closeup",
       "to_surface": "current_housing",
       "audio_policy": "crossfade",
       "reduced_motion": "static_fade",
+      "from_surface": "v2_first_bill_desk_closeup",
       "arrival_cue_ko": "6월 27일 토요일 오전 9시가 조금 지난 뒤",
       "arrival_cue_en": "A little after 9 a.m. on Saturday, June 27"
     },
     "v2_demo_first_bill_opening->v2_demo_first_bill": {
       "mode": "same_location",
-      "from_surface": "v2_first_bill_desk_closeup",
       "to_surface": "v2_first_bill_desk_closeup",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "v2_first_bill_desk_closeup"
     },
     "v2_dirty_recruiter_week24->v2_demo_first_bill_opening": {
       "mode": "time_cut",
-      "from_surface": "current_housing",
       "to_surface": "v2_first_bill_desk_closeup",
       "audio_policy": "crossfade",
       "reduced_motion": "static_fade",
+      "from_surface": "current_housing",
       "arrival_cue_ko": "6월 26일 금요일 17:52",
       "arrival_cue_en": "At 5:52 p.m. on Friday, June 26"
     },
     "v2_dirty_trace_initial_call->v2_demo_first_bill_opening": {
       "mode": "time_cut",
-      "from_surface": "current_housing",
       "to_surface": "v2_first_bill_desk_closeup",
       "audio_policy": "crossfade",
       "reduced_motion": "static_fade",
+      "from_surface": "current_housing",
       "arrival_cue_ko": "6월 26일 금요일 17:52",
       "arrival_cue_en": "At 5:52 p.m. on Friday, June 26"
     },
     "v2_hyunsu_player_reachout->v2_hyunsu_first_study": {
       "mode": "time_cut",
-      "from_surface": "goshiwon_room",
       "to_surface": "goshiwon_shared_kitchen",
       "audio_policy": "crossfade",
       "reduced_motion": "static_fade",
+      "from_surface": "goshiwon_room",
       "arrival_cue_ko": "다음 날 저녁 8시, 공용 주방",
       "arrival_cue_en": "At 8 p.m. the next day, in the shared kitchen"
     },
     "v2_opening_application_send->arc_intro_01_meal": {
       "mode": "explicit_move",
-      "from_surface": "goshiwon_room",
       "to_surface": "office_interview_day",
       "audio_policy": "crossfade",
       "reduced_motion": "static_fade",
+      "from_surface": "goshiwon_room",
       "arrival_cue_ko": "마포구. 3층. 엘리베이터 없음.",
       "arrival_cue_en": "Mapo-gu. Third floor. No elevator."
     },
     "v2_sangchul_housing_lead->arc_sangchul_01_coffee": {
       "mode": "same_location",
-      "from_surface": "realestate_office",
       "to_surface": "realestate_office",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "realestate_office"
     },
     "v2_sangchul_housing_lead->arc_sangchul_01_measure": {
       "mode": "same_location",
-      "from_surface": "realestate_office",
       "to_surface": "realestate_office",
       "audio_policy": "continue",
-      "reduced_motion": "static_update"
+      "reduced_motion": "static_update",
+      "from_surface": "realestate_office"
     },
     "yolo_spend_moment->yolo_morning_after": {
       "mode": "time_cut",
-      "from_surface": "convenience_night",
       "to_surface": "current_housing",
       "audio_policy": "crossfade",
-      "reduced_motion": "static_fade"
+      "reduced_motion": "static_fade",
+      "from_surface": "convenience_night"
     }
   },
   "activity_contracts": {

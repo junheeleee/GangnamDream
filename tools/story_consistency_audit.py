@@ -55,6 +55,7 @@ LOGIC_KEYS = {
     "core_loop_v2",
     "legacy",
     "prerequisites",
+    "reads_any_flags",
 }
 LEGACY_KEYS = {"requires_flags", "forbids_flags", "produces_all", "produces_any"}
 CORE_LOOP_V2_KEYS = {"requires_flags", "forbids_flags", "produces_all", "produces_any"}
@@ -75,6 +76,8 @@ PREREQUISITE_STATIC_PATHS = {
     "player.job.id",
     "player.investment_skill",
     "player.total_asset_value",
+    "cast.sangchul.affinity",
+    "player.job.tenure",
 }
 PREREQUISITE_DYNAMIC_PREFIXES = ("flags.",)
 PRESENTATION_KEYS = {
@@ -97,6 +100,7 @@ ALLOWED_NAMEPLATE_ROLES = {"auto", "hidden"}
 TRANSITION_KEYS = {
     "mode",
     "from_location",
+    "from_locations",
     "to_location",
     "arrival_cue_ko",
     "arrival_cue_en",
@@ -349,15 +353,30 @@ def validate_fact_clause(
     if not isinstance(clause, dict):
         errors.append(f"{owner}: fact clause must be an object")
         return None
-    expected_keys = {"fact", operation}
+    actual_operation = operation
+    if operation == "is" and set(clause) == {"fact", "in"}:
+        actual_operation = "in"
+    expected_keys = {"fact", actual_operation}
     if set(clause) != expected_keys:
         errors.append(f"{owner}: expected keys {sorted(expected_keys)}, got {sorted(clause)}")
         return None
     fact_id = str(clause.get("fact", ""))
-    value = str(clause.get(operation, ""))
+    raw_value = clause.get(actual_operation, "")
     if fact_id not in fact_values:
         errors.append(f"{owner}: unknown fact {fact_id}")
         return None
+    if actual_operation == "in":
+        if not isinstance(raw_value, list) or not raw_value \
+                or any(not isinstance(value, str) for value in raw_value) \
+                or len(set(raw_value)) != len(raw_value):
+            errors.append(f"{owner}: in must be a unique non-empty string array")
+            return None
+        invalid = set(raw_value) - fact_values[fact_id]
+        if invalid:
+            errors.append(f"{owner}: invalid {fact_id} values {sorted(invalid)}")
+            return None
+        return fact_id, "|".join(sorted(raw_value))
+    value = str(raw_value)
     if value not in fact_values[fact_id]:
         errors.append(f"{owner}: invalid {fact_id} value {value}")
         return None
@@ -393,6 +412,9 @@ def validate_prerequisite_clause(
         errors.append(f"{owner}: {operation} requires value")
         return
     value = clause.get("value")
+    if path in {"cast.sangchul.affinity", "player.job.tenure"}:
+        if operation != "gte" or isinstance(value, bool) or not isinstance(value, (int, float)):
+            errors.append(f"{owner}: {path} requires a numeric gte threshold")
     if operation in {"in", "not_in"}:
         if not isinstance(value, list) or not value:
             errors.append(f"{owner}: {operation} value must be a non-empty array")
@@ -782,6 +804,14 @@ def main() -> int:
     speech_unreachable = 0
     speech_choice_scoped = 0
     demo_event_weeks = build_demo_event_weeks(events, errors)
+    known_event_flags = {
+        flag
+        for event in events.values()
+        if isinstance(event, dict)
+        for choice in event.get("choices", [])
+        if isinstance(choice, dict)
+        for flag in choice_flags(choice)
+    }
     for event_id, rule in rules.items():
         owner = f"events.{event_id}"
         event = events.get(str(event_id))
@@ -804,6 +834,16 @@ def main() -> int:
                 unknown_logic = set(logic) - LOGIC_KEYS
                 if unknown_logic:
                     errors.append(f"{owner}.logic: unknown keys {sorted(unknown_logic)}")
+                if "reads_any_flags" in logic:
+                    read_flags = validate_string_list(
+                        logic["reads_any_flags"],
+                        f"{owner}.logic.reads_any_flags", errors, allow_empty=False,
+                    )
+                    for flag in read_flags:
+                        if flag not in known_event_flags:
+                            errors.append(
+                                f"{owner}.logic.reads_any_flags: unknown produced flag {flag}"
+                            )
                 required_facts: set[tuple[str, str]] = set()
                 forbidden_facts: set[tuple[str, str]] = set()
                 for index, clause in enumerate(logic.get("requires", [])):
@@ -1257,24 +1297,48 @@ def main() -> int:
 
         mode = str(contract.get("mode", ""))
         from_location = str(contract.get("from_location", ""))
+        raw_from_locations = contract.get("from_locations")
+        from_locations: list[str] = []
+        if raw_from_locations is not None:
+            if from_location:
+                errors.append(f"{owner}: choose from_location or from_locations, not both")
+            if not isinstance(raw_from_locations, list) \
+                    or len(raw_from_locations) < 2 \
+                    or any(not isinstance(value, str) or not value for value in raw_from_locations) \
+                    or len(set(raw_from_locations)) != len(raw_from_locations):
+                errors.append(f"{owner}: from_locations must be a unique string array of 2+ surfaces")
+            else:
+                from_locations = list(raw_from_locations)
         to_location = str(contract.get("to_location", ""))
         if mode not in ALLOWED_TRANSITION_MODES:
             errors.append(f"{owner}: invalid mode {mode!r}")
-        if not from_location or not to_location:
-            errors.append(f"{owner}: from_location and to_location are required")
+        if (not from_location and not from_locations) or not to_location:
+            errors.append(f"{owner}: source location(s) and to_location are required")
         actual_from = event_location(from_id, events, rules)
         actual_to = event_location(to_id, events, rules)
-        if actual_from != from_location:
+        if from_locations:
+            result_locations = {
+                str(choice.get("result_background") or actual_from)
+                for choice in choices
+                if isinstance(choice, dict)
+                and str(choice.get("follow_up_event", "")) == to_id
+            }
+            if result_locations != set(from_locations):
+                errors.append(
+                    f"{owner}: choice result locations {sorted(result_locations)!r} "
+                    f"!= {sorted(from_locations)!r}"
+                )
+        elif actual_from != from_location:
             errors.append(f"{owner}: source location {actual_from!r} != {from_location!r}")
         if actual_to != to_location:
             errors.append(f"{owner}: destination location {actual_to!r} != {to_location!r}")
         if mode == "same_location":
-            if from_location != to_location:
+            if from_locations or from_location != to_location:
                 errors.append(f"{owner}: same_location endpoints differ")
         else:
             # A time cut may return to the same physical room. The localized
             # arrival cue below is then the machine-readable time-frame change.
-            if from_location == to_location and mode != "time_cut":
+            if from_location == to_location and not from_locations and mode != "time_cut":
                 errors.append(f"{owner}: {mode} must change location or time frame")
             cue_ko = str(contract.get("arrival_cue_ko", ""))
             cue_en = str(contract.get("arrival_cue_en", ""))

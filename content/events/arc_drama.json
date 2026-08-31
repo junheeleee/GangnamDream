@@ -1037,8 +1037,8 @@
         "text": "휴대폰을 바로 놓고 병동 번호로 전화한 뒤, 다음 만남의 명함을 상철 쪽으로 민다",
         "result_text": "{name}은 휴대폰 화면을 임상철에게도 보이게 바로 놓고 병동 번호의 통화 버튼을 눌렀다. 연결음이 울리는 동안 다음 만남의 명함을 임상철 쪽으로 밀었다.\n\n\"오늘은 여기까지 하겠습니다.\"\n\n임상철은 붙잡지 않고 명함만 거두었다. 병동에서 전화를 받자 {name}은 포장마차 밖 조용한 곳으로 나가 \"보호자 {name}입니다\"라고 말했다. 닮지 않았다는 해명 대신, 비워 둔 자리가 테이블에 남았다.",
         "flags": [
-          "sangchul_mirror_hospital_face_up",
-          "arc_sangchul_mirror_receipt_seen"
+          "arc_sangchul_mirror_receipt_seen",
+          "sangchul_mirror_hospital_face_up"
         ],
         "effects": {
           "mental": -5,
@@ -1049,8 +1049,8 @@
         "text": "휴대폰을 뒤집고 다음 만남의 명함을 가져온 뒤 술을 한 잔 더 주문한다",
         "result_text": "{name}은 병동 번호가 보이지 않게 휴대폰을 뒤집었다. 임상철이 누르고 있던 명함을 자기 쪽으로 당겨 주머니에 넣고 술을 한 잔 더 주문했다.\n\n\"내일 몇 시죠?\"\n\n임상철이 시간과 이름 둘을 적어 주었다. 휴대폰은 한 번 더 울렸지만 두 사람 모두 뒤집지 않았다. 닮았다는 칭찬은 이제 말이 아니라 {name}이 테이블에 더 남긴 시간으로 증명됐다.",
         "flags": [
-          "sangchul_mirror_deal_face_up",
-          "arc_sangchul_mirror_receipt_seen"
+          "arc_sangchul_mirror_receipt_seen",
+          "sangchul_mirror_deal_face_up"
         ],
         "effects": {
           "mental": 3,

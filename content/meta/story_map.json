@@ -9,7 +9,7 @@
     "direct_stops": [45, 55],
     "history_inputs_per_scene": 2,
     "decision_inputs_per_scene": 1,
-    "named_readers": 17,
+    "named_readers": 16,
     "generic_commitments": 200
   },
   "loop_contract": {
@@ -143,19 +143,6 @@
         "fallback_value": "none",
         "reader": {"kind": "scene", "scene_id": "m09_relationship_reentry"},
         "effect": {"kind": "coverage", "axis": "route.m09.relationship_reentry"}
-      },
-      {
-        "id": "reader.m20_chosen_door",
-        "mode": "focus",
-        "sources": [
-          {"kind": "commitment_receipt", "source_receipt_id": "m20_sangchul_network", "state": ["completed"], "value": "sangchul"},
-          {"kind": "commitment_receipt", "source_receipt_id": "m20_jiyeon_door", "state": ["completed"], "value": "jiyeon"},
-          {"kind": "commitment_receipt", "source_receipt_id": "m20_casino_invitation", "state": ["completed"], "value": "casino"}
-        ],
-        "resolve": "selection_slot_then_due_week",
-        "fallback_value": "none",
-        "reader": {"kind": "scene", "scene_id": "m20_people_open_doors"},
-        "effect": {"kind": "coverage", "axis": "route.m20.chosen_door"}
       },
       {
         "id": "reader.m35_selected_listener",
@@ -967,20 +954,20 @@
           "design_label": "사람이 여는 문",
           "phase": "escalation",
           "contract": {
-            "pressure": "혼자 찾을 수 없는 기회가 관계를 통해서만 온다",
-            "opportunity": "상철 네트워크·지연·카지노 중 살아 있는 한 문",
-            "person_promise": "카지노는 상시 행동이 아니라 상태와 관계가 만든 초대다",
-            "deadline": "초대는 이번 달 비용을 계산한 뒤 수락하거나 닫힌다"
+            "pressure": "설명회 종료와 닫히는 엘리베이터·먼저 탈 열차가 미완 자료를 한 번 움직이게 한다",
+            "opportunity": "진행자에게 유지비와 손실 조건을 직접 확인한다",
+            "person_promise": "누군가의 소개가 아니라 공개 자료에 적힌 조건만 기록한다",
+            "deadline": "설명회가 끝나기 전에 질문하고 자료를 완성하거나 빈칸으로 남긴다"
           },
           "availability": {
-            "axis": "route.m20.open_door",
-            "values": ["sangchul", "jiyeon", "casino"]
+            "axis": "route.m20.public_briefing",
+            "values": ["public_briefing"]
           },
           "commitments": [
-            {"id": "m20_keep_paid_shift", "source": "pressure", "axis": "cash", "label": "초대와 겹친 기존 유급 근무를 끝낸다", "due_week": 78, "miss": "expired", "after": null, "available_values": ["*"]},
-            {"id": "m20_sangchul_network", "source": "opportunity", "axis": "trust", "label": "상철이 연결한 현장에 가서 소개인과 조건을 직접 듣는다", "due_week": 78, "miss": "expired", "after": null, "available_values": ["sangchul"]},
-            {"id": "m20_jiyeon_door", "source": "person_promise", "axis": "trust", "label": "이어진 지연이 연 자리에 동행해 자기 답을 직접 말한다", "due_week": 79, "miss": "expired", "after": null, "available_values": ["jiyeon"]},
-            {"id": "m20_casino_invitation", "source": "opportunity", "axis": "health", "label": "실제로 온 카지노 초대에 가서 현장에서 수락하거나 거절한다", "due_week": 80, "miss": "expired", "after": null, "available_values": ["casino"]}
+            {"id": "m20_choose_last_move", "source": "pressure", "axis": "health", "label": "설명회가 끝나기 전 닫히는 엘리베이터와 먼저 탈 열차 사이에서 미완 자료를 한 번 움직인다", "due_week": 77, "miss": "expired", "after": null, "available_values": ["*"]},
+            {"id": "m20_ask_maintenance_cost", "source": "opportunity", "axis": "cash", "label": "진행자에게 월 유지비와 손실 부담 조건을 직접 묻는다", "due_week": 78, "miss": "expired", "after": null, "available_values": ["*"]},
+            {"id": "m20_mark_public_source", "source": "pressure", "axis": "trust", "label": "자료 출처를 공개 설명회로 적고 인맥 소개로 부풀리지 않는다", "due_week": 79, "miss": "expired", "after": null, "available_values": ["*"]},
+            {"id": "m20_finish_condition_sheet", "source": "opportunity", "axis": "cash", "label": "설명회가 끝나기 전에 비용·위험·포기 조건 표를 완성한다", "due_week": 80, "miss": "expired", "after": null, "available_values": ["*"]}
           ],
           "beats": [
             {
@@ -991,21 +978,12 @@
               "work": "EXPAND",
               "root": "arc_34_doors_open",
               "rule_status": "mapped",
-              "intent": "기회가 사람의 얼굴로 올 때 유지비와 위험을 같이 보인다.",
-              "channel": "mixed",
-              "cast": ["player", "sangchul"],
+              "intent": "공개 설명회에서 어느 문도 특정 인맥의 약속으로 과장하지 않고 유지비와 위험을 적는다.",
+              "channel": "internal",
+              "cast": ["player"],
               "reads": {"memories": ["memory.m17_favor_price", "memory.m19_hyunsu_new_path"], "decision": null, "carryovers": []},
               "writes": {"memories": ["memory.m20_door_choice"], "decision": null, "carryovers": []},
-              "coverage": {
-                "axis": "route.m20.chosen_door",
-                "base_values": ["sangchul"],
-                "fallbacks": [
-                  {"values": ["jiyeon"], "root": "arc_y2_jiyeon_chosen_door", "work": "EXPAND", "rule_status": "needs_rule", "channel": "in_person", "cast": ["player", "jiyeon"], "reads": {"memories": ["memory.m17_favor_price", "memory.m19_hyunsu_new_path"], "decision": null, "carryovers": []}, "forgone": ["상철과 카지노의 이번 문"]},
-                  {"values": ["casino"], "root": "arc_y2_casino_chosen_door", "work": "EXPAND", "rule_status": "needs_rule", "channel": "in_person", "cast": ["player", "sangchul"], "reads": {"memories": ["memory.m17_favor_price", "memory.m19_hyunsu_new_path"], "decision": null, "carryovers": []}, "forgone": ["상철과 지연의 이번 문"]},
-                  {"values": ["*"], "root": "arc_y2_chosen_door_none", "work": "EXPAND", "rule_status": "needs_rule", "channel": "internal", "cast": ["player"], "reads": {"memories": ["memory.m17_favor_price", "memory.m19_hyunsu_new_path"], "decision": null, "carryovers": []}, "forgone": ["이번 달 실제로 들어갈 문"]}
-                ]
-              },
-              "forgone": ["다른 네트워크의 이번 창", "혼자 버는 안전"]
+              "forgone": ["설명회 정보를 이미 확보한 인맥처럼 부풀리는 선택"]
             }
           ]
         },
@@ -1111,20 +1089,20 @@
           "design_label": "병실 문과 식은 커피",
           "phase": "reversal",
           "contract": {
-            "pressure": "상철의 거울과 아버지 병실이 같은 주말에 겹친다",
-            "opportunity": "병실 문을 열거나 미루거나 피한다",
-            "person_promise": "문을 열지 못한 선택도 4장의 마지막 연락으로 돌아온다",
-            "deadline": "아버지의 입원 기간 안에만 직접 방문할 수 있다"
+            "pressure": "부모님의 서울 방문에서 약과 생활의 빈칸이 드러난다",
+            "opportunity": "나흘 뒤 병원 전화에서 아버지의 상태와 병실 번호를 정확히 확인한다",
+            "person_promise": "어머니의 전화와 아버지의 입원 사실을 기회 문장으로 덮지 않는다",
+            "deadline": "M23은 병원 사실 확인까지만 닫고 실제 병실 문 결정은 W96에 남긴다"
           },
           "availability": {
             "axis": "route.m23.partner_presence",
             "values": ["unattached", "partnered"]
           },
           "commitments": [
-            {"id": "m23_keep_income_deadline", "source": "pressure", "axis": "cash", "label": "창원행과 겹친 월말 수입 마감을 예정대로 끝낸다", "due_week": 89, "miss": "expired", "after": null, "available_values": ["*"]},
-            {"id": "m23_open_hospital_door", "source": "opportunity", "axis": "health", "label": "입원 기간 안에 창원으로 내려가 아버지 병실 문을 연다", "due_week": 90, "miss": "expired", "after": null, "available_values": ["*"]},
-            {"id": "m23_answer_sangchul", "source": "person_promise", "axis": "trust", "label": "상철과 잡힌 주말 약속을 지키거나 취소 이유를 직접 전한다", "due_week": 91, "miss": "expired", "after": null, "available_values": ["*"]},
-            {"id": "m23_keep_partner_informed", "source": "person_promise", "axis": "trust", "label": "이어진 연인에게 병실과 일정 충돌을 숨기지 않고 알린다", "due_week": 92, "miss": "deferred", "after": null, "available_values": ["partnered"]}
+            {"id": "m23_receive_parents", "source": "pressure", "axis": "health", "label": "서울에 온 부모님과 식탁에 앉아 약 이름과 생활 상태를 확인한다", "due_week": 89, "miss": "expired", "after": null, "available_values": ["*"]},
+            {"id": "m23_name_medication_gap", "source": "opportunity", "axis": "health", "label": "아버지가 숨긴 약과 쉬지 못한 시간을 사실대로 기록한다", "due_week": 90, "miss": "expired", "after": null, "available_values": ["*"]},
+            {"id": "m23_answer_mother_call", "source": "person_promise", "axis": "trust", "label": "나흘 뒤 어머니의 병원 전화를 받고 상태·병원·병실을 다시 확인한다", "due_week": 91, "miss": "expired", "after": "m23_receive_parents", "available_values": ["*"]},
+            {"id": "m23_hold_hospital_fact", "source": "pressure", "axis": "health", "label": "실제 방문 결정을 앞당겨 발명하지 않고 입원 사실을 W96까지 보존한다", "due_week": 92, "miss": "deferred", "after": null, "available_values": ["*"]}
           ],
           "beats": [
             {
@@ -1141,21 +1119,6 @@
               "reads": {"memories": ["memory.m15_first_priority"], "decision": null, "carryovers": []},
               "writes": {"memories": [], "decision": null, "carryovers": []},
               "forgone": ["부모님과 보내지 않은 서울의 시간"]
-            },
-            {
-              "id": "m23_hospital_door",
-              "scene_id": "m23_hospital_door",
-              "kind": "decision",
-              "delivery": "stop",
-              "work": "EXPAND",
-              "root": "arc_father_04_visit",
-              "rule_status": "mapped",
-              "intent": "호의의 가격과 가족에게 쓸 시간을 한 문턱에 놓는다.",
-              "channel": "in_person",
-              "cast": ["player", "father"],
-              "reads": {"memories": ["memory.m04_cold_coffee", "memory.m15_first_priority"], "decision": null, "carryovers": []},
-              "writes": {"memories": ["memory.m23_hospital_door"], "decision": "story.father_hospital_door", "carryovers": []},
-              "forgone": ["같은 주말의 돈 기회", "되돌아오지 않는 방문 시간"]
             }
           ]
         },
@@ -1164,32 +1127,77 @@
           "design_label": "두 번째 해 보스",
           "phase": "boss",
           "contract": {
-            "pressure": "병실 문과 사람을 통해 연 기회의 값을 정산한다",
-            "opportunity": "다음 장에서 의심할 사람과 지킬 약속을 확정한다",
-            "person_promise": "병실 방문 여부를 성공 점수로 상쇄하지 않는다",
-            "deadline": "W96 뒤에는 2장 선택을 다시 고를 수 없다"
+            "pressure": "W93 상철의 거울과 W94~95 월급 천장이 병실로 갈 책임을 압박한다",
+            "opportunity": "W96 병실 문을 열거나 피한 선택을 실제 행동으로 확정한다",
+            "person_promise": "거울·월급·병실 결과를 같은 큐의 연말 결산에서 지우지 않는다",
+            "deadline": "W96 병실 선택 뒤 arc_year2_close가 정확히 한 번 이어진다"
           },
           "commitments": [
-            {"id": "m24_pay_named_due_bill", "source": "pressure", "axis": "cash", "label": "병원 또는 계약에서 실제 도착한 청구 한 건을 납부한다", "due_week": 93, "miss": "deferred", "after": null},
-            {"id": "m24_keep_father_followup", "source": "person_promise", "axis": "health", "label": "퇴원 또는 검사 뒤 아버지와 정한 통화나 방문을 지킨다", "due_week": 94, "miss": "expired", "after": null},
-            {"id": "m24_face_open_door_owner", "source": "opportunity", "axis": "trust", "label": "지난 문을 연 사람을 만나 다음 제안의 출처를 묻는다", "due_week": 95, "miss": "expired", "after": null},
-            {"id": "m24_protect_one_person", "source": "person_promise", "axis": "trust", "label": "다음 장까지 지킬 사람과 정한 연말 약속에 실제 도착한다", "due_week": 96, "miss": "expired", "after": null}
+            {"id": "m24_face_sangchul_mirror", "source": "pressure", "axis": "trust", "label": "W93 상철의 거울 앞에서 병동 전화와 다음 거래 중 무엇을 앞면으로 둘지 정한다", "due_week": 93, "miss": "expired", "after": null},
+            {"id": "m24_measure_salary_ceiling", "source": "pressure", "axis": "cash", "label": "취업 6개월 이상이면 W94~95 월급의 수학적 천장을 직접 계산한다", "due_week": 94, "miss": "expired", "after": "m24_face_sangchul_mirror"},
+            {"id": "m24_open_or_avoid_hospital_door", "source": "opportunity", "axis": "health", "label": "W96 창원 병실 문을 열거나 피하고 그 책임을 선택 영수증으로 남긴다", "due_week": 96, "miss": "expired", "after": null},
+            {"id": "m24_close_year_after_door", "source": "person_promise", "axis": "trust", "label": "병실 선택 직후 같은 큐의 연말 결산에서 사람·돈·주소의 값을 한 번만 회수한다", "due_week": 96, "miss": "expired", "after": null}
           ],
           "beats": [
             {
-              "id": "m24_year_two_boss",
-              "scene_id": "m24_year_two_boss",
+              "id": "m24_sangchul_mirror",
+              "scene_id": "m24_sangchul_mirror",
               "kind": "decision",
               "delivery": "stop",
               "work": "EXPAND",
-              "root": "arc_year2_close",
-              "rule_status": "needs_rule",
-              "intent": "사람을 거쳐 연 문과 병실 문을 3장의 진실 입력으로 잠근다.",
+              "root": "arc_sangchul_mirror",
+              "rule_status": "mapped",
+              "intent": "W93에 상철의 닮았다는 말을 병동 전화와 다음 거래 중 무엇을 앞면으로 둘지 묻는 인간 선택으로 받는다.",
+              "channel": "in_person",
+              "cast": ["player", "sangchul"],
+              "reads": {"memories": ["memory.m20_door_choice"], "decision": null, "carryovers": []},
+              "writes": {"memories": [], "decision": null, "carryovers": []},
+              "forgone": ["병동 확인과 다음 거래를 모두 앞면으로 두는 거짓 선택"]
+            },
+            {
+              "id": "m24_career_ceiling",
+              "scene_id": "m24_career_ceiling",
+              "kind": "consequence",
+              "delivery": "flow",
+              "work": "EXPAND",
+              "root": "arc_career_ceiling",
+              "rule_status": "mapped",
+              "intent": "W94–95에 취업 6개월 이상 경로만 월급의 수학적 천장과 전날 거울 선택의 값을 함께 정산한다.",
               "channel": "internal",
               "cast": ["player"],
-              "reads": {"memories": ["memory.m20_door_choice", "memory.m23_hospital_door"], "decision": "story.father_hospital_door", "carryovers": []},
-              "writes": {"memories": [], "decision": null, "carryovers": ["boss_choice", "protected_commitment", "expired_obligation", "open_debt"]},
-              "forgone": ["확인하지 않은 사람의 진실", "미룬 가족의 시간"]
+              "reads": {"memories": [], "decision": null, "carryovers": []},
+              "writes": {"memories": [], "decision": null, "carryovers": []},
+              "forgone": ["월급만으로 30억에 닿는 환상"]
+            },
+            {
+              "id": "m24_hospital_door_boss",
+              "scene_id": "m24_hospital_door_boss",
+              "kind": "decision",
+              "delivery": "stop",
+              "work": "EXPAND",
+              "root": "arc_father_04_visit",
+              "rule_status": "mapped",
+              "intent": "거울과 월급의 천장을 지난 뒤 병실 문을 열거나 피한 책임을 2장의 마지막 선택으로 잠근다.",
+              "channel": "in_person",
+              "cast": ["player", "father"],
+              "reads": {"memories": ["memory.m20_door_choice", "memory.m15_first_priority"], "decision": null, "carryovers": []},
+              "writes": {"memories": ["memory.m23_hospital_door"], "decision": "story.father_hospital_door", "carryovers": ["boss_choice", "protected_commitment", "expired_obligation", "open_debt"]},
+              "forgone": ["되돌아오지 않는 방문 시간"]
+            },
+            {
+              "id": "m24_year_two_close",
+              "scene_id": "m24_year_two_close",
+              "kind": "consequence",
+              "delivery": "flow",
+              "work": "EXPAND",
+              "root": "arc_year2_close",
+              "rule_status": "mapped",
+              "intent": "W96 병실 문 영수증 뒤 같은 큐에서 한 번만 열려, 임대·거울·월급·병실 결과를 새해 첫 줄로 넘긴다.",
+              "channel": "internal",
+              "cast": ["player"],
+              "reads": {"memories": [], "decision": null, "carryovers": []},
+              "writes": {"memories": [], "decision": null, "carryovers": []},
+              "forgone": ["병실 선택을 결산에서 지우는 깨끗한 숫자"]
             }
           ]
         }
@@ -1561,11 +1569,11 @@
               "delivery": "stop",
               "work": "EXPAND",
               "root": "arc_sangchul_confrontation",
-              "rule_status": "needs_rule",
+              "rule_status": "mapped",
               "intent": "진실을 본 정도가 아니라 그 진실을 어떻게 소유할지 결정한다.",
               "channel": "in_person",
               "cast": ["player", "sangchul"],
-              "reads": {"memories": ["memory.m04_cold_coffee", "memory.m32_records_match"], "decision": "story.father_hospital_door", "carryovers": []},
+              "reads": {"memories": ["memory.m04_cold_coffee", "memory.m32_records_match"], "decision": null, "carryovers": []},
               "writes": {"memories": ["memory.m33_truth_resolution"], "decision": "story.sangchul_truth_resolution", "carryovers": []},
               "forgone": ["상철과의 이전 관계", "끝까지 모르는 편안함"]
             }
@@ -1598,9 +1606,9 @@
               "delivery": "stop",
               "work": "EXPAND",
               "root": "arc_y3_cost_of_knowing",
-              "rule_status": "needs_rule",
+              "rule_status": "mapped",
               "intent": "진실을 안 뒤의 첫 행동으로 도덕적 태도를 증명한다.",
-              "channel": "internal",
+              "channel": "message",
               "cast": ["player"],
               "reads": {"memories": ["memory.m33_truth_resolution"], "decision": "story.sangchul_truth_resolution", "carryovers": []},
               "writes": {"memories": ["memory.m34_network_after_truth"], "decision": null, "carryovers": []},

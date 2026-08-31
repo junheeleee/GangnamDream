@@ -57,6 +57,10 @@
         "tools/year5_reference_route_audit.py"
       ],
       "tools": [
+        "tools/story_graph_contract_audit.py --self-test",
+        "tools/story_graph_contract_audit.py",
+        "tools/full_game_runtime_trace_audit.py --self-test",
+        "tools/full_game_runtime_trace_audit.py",
         "tools/story_map_audit.py",
         "tools/narrative_spine_audit.py",
         "tools/full_game_volume_audit.py",
@@ -131,6 +135,35 @@
         "tools/StoryMapM1M6Check.tscn"
       ],
       "why": "독립 M01~M06 런타임만 5초 이내 검사하고 기존 24주·240주 경로는 실행하지 않는다"
+    },
+    {
+      "id": "full-game-runtime-trace-contract",
+      "paths": [
+        "tools/FullGameRuntimeTrace.gd",
+        "tools/FullGameRuntimeTrace.gd.uid",
+        "tools/FullGameRuntimeTrace.tscn",
+        "tools/full_game_runtime_trace_profiles.json",
+        "tools/full_game_runtime_trace_audit.py",
+        "tools/run_full_game_runtime_trace.sh"
+      ],
+      "owned_paths": [
+        "docs/queue_active/ORDER-144.md",
+        "tools/FullGameRuntimeTrace.gd",
+        "tools/FullGameRuntimeTrace.gd.uid",
+        "tools/FullGameRuntimeTrace.tscn",
+        "tools/full_game_runtime_trace_profiles.json",
+        "tools/full_game_runtime_trace_audit.py",
+        "tools/run_full_game_runtime_trace.sh",
+        "tools/audit_scope.json",
+        "tools/audit.sh"
+      ],
+      "tools": [
+        "tools/full_game_runtime_trace_audit.py --self-test",
+        "tools/full_game_runtime_trace_audit.py",
+        "tools/CompileCheck.tscn",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "W1~W240 recorder/profile/runner만 바뀌면 정적·컴파일 계약을 검사하며 실제 3프로필 완주와 사람 밀도 판정을 실행하지 않는다"
     },
     {
       "id": "audit-scope-routing",
@@ -345,6 +378,8 @@
         "tools/audit_scope.json"
       ],
       "tools": [
+        "tools/full_game_runtime_trace_audit.py --self-test",
+        "tools/full_game_runtime_trace_audit.py",
         "tools/story_demo_localization_audit.py --self-test",
         "tools/story_demo_localization_audit.py",
         "tools/I18nInfrastructureCheck.tscn",
@@ -363,7 +398,7 @@
   "checks": [
     {
       "tool": "tools/event_lifecycle.py",
-      "why": "packaged 1758과 shipping 1603의 author-only 생명주기·제품 진입 분리",
+      "why": "packaged 1809와 shipping 1702의 author-only 생명주기·제품 진입 분리",
       "paths": [
         "content/meta/event_lifecycle.json",
         "content/meta/thoughts.json",
@@ -520,6 +555,78 @@
         "content/meta/story_rules.json",
         "content/meta/demo_core_loop_v2.json",
         "tools/story_consistency_audit.py"
+      ]
+    },
+    {
+      "tool": "tools/story_graph_contract_audit.py --self-test",
+      "why": "M08~M50 월경계 owner·raw closure·typed scheduler·M01~M06 보호 계약의 변이 거부",
+      "paths": [
+        "content/events/**",
+        "content/events_en/**",
+        "content/meta/story_graph_contract.json",
+        "content/meta/story_map.json",
+        "content/meta/story_rules.json",
+        "content/meta/event_lifecycle.json",
+        "scenes/MainGame.gd",
+        "tools/fixtures/story_demo_density_contract.json",
+        "tools/story_graph_contract_audit.py",
+        "tools/event_lifecycle.py",
+        "tools/story_consistency_audit.py"
+      ]
+    },
+    {
+      "tool": "tools/story_graph_contract_audit.py",
+      "why": "실제 M08~M50 사건 그래프가 exact month owner·guard와 공개 데모 불변 계약을 지키는지 검사",
+      "paths": [
+        "content/events/**",
+        "content/events_en/**",
+        "content/meta/story_graph_contract.json",
+        "content/meta/story_map.json",
+        "content/meta/story_rules.json",
+        "content/meta/event_lifecycle.json",
+        "scenes/MainGame.gd",
+        "tools/fixtures/story_demo_density_contract.json",
+        "tools/story_graph_contract_audit.py",
+        "tools/event_lifecycle.py",
+        "tools/story_consistency_audit.py"
+      ]
+    },
+    {
+      "tool": "tools/full_game_runtime_trace_audit.py --self-test",
+      "why": "fresh-title W1~W240 occurrence JSONL·후보 신원·무주입·선택/result·엔딩 계약의 변이 거부; 실제 3경로 완주는 실행하지 않음",
+      "paths": [
+        "tools/FullGameRuntimeTrace.gd",
+        "tools/FullGameRuntimeTrace.gd.uid",
+        "tools/FullGameRuntimeTrace.tscn",
+        "tools/full_game_runtime_trace_profiles.json",
+        "tools/full_game_runtime_trace_audit.py",
+        "tools/run_full_game_runtime_trace.sh",
+        "content/events/**",
+        "content/meta/**",
+        "scenes/StartMenu.gd",
+        "scenes/OpeningCinematic.gd",
+        "scenes/StoryMode.gd",
+        "scenes/MainGame.gd",
+        "autoloads/GameState.gd"
+      ]
+    },
+    {
+      "tool": "tools/full_game_runtime_trace_audit.py",
+      "why": "세 fresh-title profile과 recorder/runner의 정적 계약만 검사하고 runtime_trace=PENDING·human gate OPEN을 유지",
+      "paths": [
+        "tools/FullGameRuntimeTrace.gd",
+        "tools/FullGameRuntimeTrace.gd.uid",
+        "tools/FullGameRuntimeTrace.tscn",
+        "tools/full_game_runtime_trace_profiles.json",
+        "tools/full_game_runtime_trace_audit.py",
+        "tools/run_full_game_runtime_trace.sh",
+        "content/events/**",
+        "content/meta/**",
+        "scenes/StartMenu.gd",
+        "scenes/OpeningCinematic.gd",
+        "scenes/StoryMode.gd",
+        "scenes/MainGame.gd",
+        "autoloads/GameState.gd"
       ]
     },
     {

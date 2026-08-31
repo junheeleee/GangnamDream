@@ -124,15 +124,17 @@ EXPECTED_VERTICAL_SLICES = {
     "M55": "ensemble_collision",
 }
 REQUIRED_COVERAGE_MONTHS = {
-    22, 25, 28, 30, 32, 34, 35,
+    22, 25, 28, 30, 32, 35,
     39, 42, 44, 45, 46, 47,
     51, 52, 54, 55, 56, 57, 58, 59,
 }
 EXPECTED_RELOCATIONS = {
-    "arc_y3_cost_of_knowing": (34, "EXPAND", 35),
     "arc_minjun_first_call": (35, "EXPAND", 33),
     "arc_father_passing": (47, "EXPAND", 44),
     "arc_jaehyuk_mirror": (53, "EXPAND", 15),
+}
+EXPECTED_NATIVE_AFTERMATHS = {
+    "arc_y3_cost_of_knowing": (34, "EXPAND"),
 }
 EXPECTED_CHAPTER5_PRODUCT_MONTHS = {
     "arc_y5_contract_cover_investment": 49,
@@ -2431,6 +2433,15 @@ def validate_story_map(
                         f"{beat_owner}: {root} relocation must be "
                         f"M{relocation[0]:02} {relocation[1]} from M{relocation[2]:02}"
                     )
+                native_aftermath = EXPECTED_NATIVE_AFTERMATHS.get(root)
+                if native_aftermath and (
+                    (month_number, work) != native_aftermath
+                    or "source_month" in beat
+                ):
+                    errors.append(
+                        f"{beat_owner}: {root} must be native M{native_aftermath[0]:02} "
+                        f"{native_aftermath[1]} aftermath, not a relocation"
+                    )
                 if root in root_owners:
                     old_month, old_beat = root_owners[root]
                     errors.append(f"{beat_owner}.root: {root} already owned by M{old_month:02} {old_beat}")
@@ -2465,8 +2476,27 @@ def validate_story_map(
                             isinstance(value, str) for value in raw_values
                         ):
                             coverage_values = set(raw_values)
+                    mapping_rule = rule_events.get(root)
+                    # M33 is one authored decision chain: the root selects the
+                    # terminal scene and the terminal choice writes the coarse
+                    # truth resolution. Join those owned terminal rules instead
+                    # of pretending the root writes a result before it exists.
+                    if root == "arc_sangchul_confrontation":
+                        mapping_rule = copy.deepcopy(mapping_rule)
+                        mapping_logic = mapping_rule.setdefault("logic", {})
+                        joined_rows: list[dict[str, Any]] = []
+                        for terminal_id in (
+                            "arc_sangchul_buried_silence",
+                            "arc_sangchul_stairwell",
+                            "arc_sangchul_reckoning",
+                        ):
+                            terminal_choices = rule_events.get(terminal_id, {}).get(
+                                "logic", {}).get("choice_produces", {})
+                            for rows in terminal_choices.values():
+                                joined_rows.extend(copy.deepcopy(rows))
+                        mapping_logic["choice_produces"] = {"terminal": joined_rows}
                     mapping_matches, malformed_rule = exact_rule_mapping(
-                        rule_events.get(root),
+                        mapping_rule,
                         declared_reads,
                         declared_writes,
                         coverage_axis=(coverage_axis if coverage_axis in EXPECTED_DECISIONS else None),
@@ -3203,7 +3233,7 @@ def run_self_test(
     )
 
     case("actor_receipt_counts_in_history", lambda x: beat(
-         x, 50, "m50_final_year_start")["reads"]
+         x, 50, "m50_protection_boundary_product")["reads"]
          ["memories"].append("memory.m47_final_contact"), "history inputs maximum is 2")
     def make_fallback_history_disjoint(data: dict[str, Any]) -> None:
         beat(data, 51, "m51_minseo_arrival")["coverage"]["fallbacks"][0]["reads"]["memories"] = [
@@ -3286,7 +3316,8 @@ def run_self_test(
 
     case("coalesced_roles_cannot_be_promoted_distinct", promote_coalesced_room,
          "distinct roles resolve to same actor")
-    case("actor_output_policy_xor", lambda x: month(x, 50)["beats"][0]["actor_outputs"]
+    case("actor_output_policy_xor", lambda x: beat(
+         x, 50, "m50_protection_boundary_product")["actor_outputs"]
          ["memory.m50_protection_context"].update({"all_distinct": [["protected_person", "reviewer"]]}),
          "exactly one actor role policy")
 
@@ -3335,7 +3366,9 @@ def run_self_test(
     )
     case(
         "actor_fallback_must_be_truthful",
-        lambda x: month(x, 50)["beats"][0]["actor_outputs"]["memory.m50_protection_context"]["roles"]["reviewer"]["fallback"].update({"actor_ids": ["player"]}),
+        lambda x: beat(x, 50, "m50_protection_boundary_product")
+        ["actor_outputs"]["memory.m50_protection_context"]["roles"]
+        ["reviewer"]["fallback"].update({"actor_ids": ["player"]}),
         "canonical non-player candidates",
     )
 
@@ -3353,7 +3386,7 @@ def run_self_test(
     )
 
     def use_same_month_completed_actor(data: dict[str, Any]) -> None:
-        binding = month(data, 50)["beats"][0]["actor_outputs"][
+        binding = beat(data, 50, "m50_protection_boundary_product")["actor_outputs"][
             "memory.m50_protection_context"
         ]["roles"]["reviewer"]
         binding["source"] = {
@@ -3382,7 +3415,7 @@ def run_self_test(
     case("actor_output_cycle", create_actor_output_cycle, "actor output cycle")
 
     def move_actor_output_to_unwritten_memory(data: dict[str, Any]) -> None:
-        outputs = month(data, 50)["beats"][0]["actor_outputs"]
+        outputs = beat(data, 50, "m50_protection_boundary_product")["actor_outputs"]
         outputs["memory.self_test_unwritten"] = outputs.pop("memory.m50_protection_context")
 
     case(
@@ -3398,9 +3431,10 @@ def run_self_test(
         "missing branch output for memory.m52_final_offer",
     )
     case(
-        "mapped_writer_without_fact",
-        lambda x: month(x, 23)["beats"][0].update({"rule_status": "mapped"}),
-        "rule_status must be needs_rule",
+        "mapped_reader_status_drift",
+        lambda x: beat(x, 34, "m34_cost_of_knowing").update(
+            {"rule_status": "needs_rule"}),
+        "rule_status must be mapped",
     )
 
     def add_extra_mapped_fact(candidate_rules: dict[str, Any]) -> None:
@@ -3453,9 +3487,9 @@ def run_self_test(
         "invalid enum values",
     )
     case(
-        "relocation_source_drift",
-        lambda x: month(x, 34)["beats"][0].update({"source_month": 36}),
-        "relocation must be M34 EXPAND from M35",
+        "native_aftermath_relocation_drift",
+        lambda x: month(x, 34)["beats"][0].update({"source_month": 35}),
+        "must be native M34 EXPAND aftermath, not a relocation",
     )
     case(
         "listener_relocation_mode_drift",
@@ -3574,17 +3608,6 @@ def run_self_test(
         "completed receipt cannot open its own producer scene",
     )
 
-    def reuse_m20_availability_axis(data: dict[str, Any]) -> None:
-        causal_reader(data, "reader.m20_chosen_door")["effect"]["axis"] = (
-            "route.m20.open_door"
-        )
-        month(data, 20)["beats"][0]["coverage"]["axis"] = "route.m20.open_door"
-
-    case(
-        "focus_axis_is_distinct_from_availability",
-        reuse_m20_availability_axis,
-        "focus axis must differ from month availability",
-    )
     case(
         "focus_coverage_is_exact",
         lambda x: causal_reader(x, "reader.m09_relationship_reentry")["sources"].pop(),

@@ -139,6 +139,10 @@
     "id": "arc_career_ceiling",
     "title": "The Salary Ceiling",
     "description": "The day after Sangchul said they were alike, {name} stayed alone in an office familiar enough that he knew which drawers stuck and could identify his manager by his footsteps.\n\nHe spread out his payslip and opened the calculator. He subtracted rent and living costs from his take-home pay, then added optimistic promotions and raises. How long would this salary take to become 3 billion won? The answer did not change. This line could not reach the target.\n\nHis father had drawn a salary all his life. Sangchul had said {name} knew what to discard in order to move fast. Fluorescent lights hummed behind the figures. Unable to switch off the calculator, {name} saw with precision that diligence, too, could have a ceiling.",
+    "description_if_known": {
+      "sangchul_mirror_hospital_face_up": "The day after Sangchul said they were alike, the card {name} had pushed back to call the ward came to mind before the payslip on his desk.\n\nHe subtracted rent and living costs from take-home pay, then added optimistic promotions and raises. How long would this salary take to become 3 billion won? The answer did not change. He had kept the ward number faceup, but this line still could not reach the target mathematically.\n\nUnder the fluorescent lights, {name} left both the ceiling of diligence and the deal seat he had vacated outside the calculation.",
+      "sangchul_mirror_deal_face_up": "The day after Sangchul said they were alike, the card for the next meeting in {name}'s pocket and the ward call he had turned facedown returned together above the payslip.\n\nHe subtracted rent and living costs from take-home pay, then added optimistic promotions and raises. How long would this salary take to become 3 billion won? The answer did not change. The extra time last night had opened another door, but it had not converted his absence from the ward into income.\n\nUnder the fluorescent lights, {name} saw both the ceiling of diligence and the card he had left faceup."
+    },
     "choices": [
       {
         "text": "Turned off the stock app's alerts.",
@@ -1304,11 +1308,11 @@
     "choices": [
       {
         "text": "Accept the higher rent and sign a one-year renewal",
-        "result_text": "{name} rereads the new rent and end date, then signs the one-year renewal. The landlord confirms it at 5:49.\n\nThe address stays. In the first line of his notebook, {name} writes the amount he will have to cut each month. Filling one empty signature box fixes the cost of the next twelve months with it."
+        "result_text": "{name} rereads the new rent and end date, then signs the one-year renewal. The landlord confirms it at 5:49, and {name} immediately transfers the first 300,000 won of increased rent.\n\nThe address stays. In the first line of his notebook, {name} writes the amount he will have to cut each month. Filling one empty signature box fixes the cost of the next twelve months with it."
       },
       {
         "text": "Ask for six months and compare the larger deposit",
-        "result_text": "{name} asks for six months instead of a year. The landlord keeps the rent unchanged but answers with a larger deposit.\n\n{name} places the account balance beside the added deposit and signs the shorter term. Freedom to move will return sooner; the cash available now becomes trapped in the room instead."
+        "result_text": "{name} asks for six months instead of a year. The landlord keeps the rent unchanged but asks for another 1,000,000 won in deposit.\n\n{name} places the account balance beside the added deposit, transfers the 1,000,000 won, and signs the shorter term. Freedom to move will return sooner; the cash available now becomes trapped in the room instead."
       },
       {
         "text": "Decline renewal and set the move-out inspection now",

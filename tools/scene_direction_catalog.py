@@ -10,6 +10,7 @@ manifest is regenerated and reviewed.
 from __future__ import annotations
 
 import argparse
+import copy
 import glob
 import json
 import re
@@ -524,11 +525,15 @@ def build_edge_contracts(
         )
         contract = {
             "mode": mode,
-            "from_surface": surfaces[source_id],
             "to_surface": surfaces[target_id],
             "audio_policy": edge_audio_policy(mode),
             "reduced_motion": REDUCED_MOTION[mode],
         }
+        authored_from_locations = authored.get("from_locations")
+        if isinstance(authored_from_locations, list):
+            contract["from_surfaces"] = list(authored_from_locations)
+        else:
+            contract["from_surface"] = surfaces[source_id]
         for key_name in ("arrival_cue_ko", "arrival_cue_en"):
             if authored.get(key_name):
                 contract[key_name] = authored[key_name]
@@ -744,6 +749,15 @@ def validate(manifest: dict[str, Any]) -> list[str]:
             contract.get("from_surface") != contract.get("to_surface")
         ):
             errors.append(f"{edge_id}: same_location changes physical surface")
+        from_surfaces = contract.get("from_surfaces")
+        if from_surfaces is not None:
+            if not isinstance(from_surfaces, list) \
+                    or len(from_surfaces) < 2 \
+                    or any(not isinstance(value, str) or not value for value in from_surfaces) \
+                    or len(set(from_surfaces)) != len(from_surfaces):
+                errors.append(f"{edge_id}: from_surfaces must be a unique 2+ surface array")
+            if "from_surface" in contract:
+                errors.append(f"{edge_id}: mixed singular and plural source surfaces")
         if mode in {"same_location", "remote"} and contract.get("audio_policy") != "continue":
             errors.append(f"{edge_id}: continuity edge restarts audio")
 
@@ -793,6 +807,11 @@ def main() -> int:
         action="store_true",
         help="regenerate the canonical manifest, then validate it",
     )
+    parser.add_argument(
+        "--self-test",
+        action="store_true",
+        help="prove choice-aware transition and time-cut mutations are rejected",
+    )
     args = parser.parse_args()
     try:
         if args.write:
@@ -801,6 +820,26 @@ def main() -> int:
                 encoding="utf-8",
             )
         manifest = load_json(MANIFEST_PATH)
+        if args.self_test:
+            edge = "arc_34_parents_visit->arc_father_03_hospital"
+            cases: list[dict[str, Any]] = []
+            lost_surface = copy.deepcopy(manifest)
+            lost_surface["transition_edges"][edge]["from_surfaces"] = [
+                "current_housing"
+            ]
+            cases.append(lost_surface)
+            lost_cue = copy.deepcopy(manifest)
+            lost_cue["transition_edges"][edge].pop("arrival_cue_ko", None)
+            cases.append(lost_cue)
+            missed = sum(1 for case in cases if not validate(case))
+            if missed:
+                print(
+                    f"SCENE_DIRECTION_CATALOG_SELF_TEST_FAIL missed={missed}",
+                    file=sys.stderr,
+                )
+                return 1
+            print(f"SCENE_DIRECTION_CATALOG_SELF_TEST_OK cases={len(cases)}")
+            return 0
         errors = validate(manifest)
     except (OSError, ValueError, json.JSONDecodeError) as exc:
         print(f"SCENE_DIRECTION_CATALOG_FAIL {exc}", file=sys.stderr)

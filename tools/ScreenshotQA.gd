@@ -20436,7 +20436,7 @@ func _assert_chapter2_visual_state(story: Node, event_id: String, selected_choic
 		"arc_father_medication": "subway",
 		"arc_jiyeon_03_offer": "street_rainy",
 		"arc_34_doors_open": "meeting",
-		"arc_34_parents_visit": "apartment",
+		"arc_34_parents_visit": "restaurant",
 		"arc_father_03_hospital": "apartment",
 		"arc_sangchul_mirror": "pojangmacha",
 		"arc_career_ceiling": "office",

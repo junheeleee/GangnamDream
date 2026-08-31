@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "scope": {
-    "root_count": 377,
-    "exposed_count": 521,
-    "root_ids_sha256": "4a8e06df8837cb216b50cf95e636fa13ed619c00d998cd7d678604a1cbcff368",
-    "exposed_ids_sha256": "9e77b08a4c750b404f9779f6f81b26bb6d43c0a498657e71e48b36c47c2f1b1f"
+    "root_count": 384,
+    "exposed_count": 527,
+    "root_ids_sha256": "660430f85a17b9014ef70ab39b3c1242dba1eb10ce2fe23fc45123f18c60280f",
+    "exposed_ids_sha256": "b43913172aee17bf9715530ea0f8951888ff9d8bbea887ab9a31314fe11c8e87"
   },
   "state_sensitive": {
     "amb_coin_00": [
@@ -109,8 +109,8 @@
       "location"
     ],
     "arc_34_money_attracts_money": [
-      "location",
-      "relationship"
+      "housing",
+      "location"
     ],
     "arc_34_parents_visit": [
       "father_life",
@@ -259,7 +259,17 @@
       "relationship"
     ],
     "arc_daeun_03_fork": [
-      "father_life",
+      "location",
+      "relationship"
+    ],
+    "arc_daeun_03_fork_hold_receipt": [
+      "employment",
+      "housing",
+      "location",
+      "relationship"
+    ],
+    "arc_daeun_03_fork_release_receipt": [
+      "housing",
       "location",
       "relationship"
     ],
@@ -1152,8 +1162,11 @@
       "relationship"
     ],
     "arc_sangchul_mirror": [
-      "employment",
       "father_life",
+      "location",
+      "relationship"
+    ],
+    "arc_sangchul_mirror_receipt": [
       "location",
       "relationship"
     ],
@@ -1241,10 +1254,22 @@
       "location",
       "relationship"
     ],
+    "arc_y1_new_room_first_month": [
+      "father_life",
+      "housing",
+      "location"
+    ],
+    "arc_y2_bank_limit_review": [
+      "location"
+    ],
     "arc_y2_hyunsu_night_bus": [
       "father_life",
       "location",
       "relationship"
+    ],
+    "arc_y2_relationship_fork_unattached": [
+      "housing",
+      "location"
     ],
     "arc_y2_sangchul_first_favor": [
       "employment",
@@ -1545,6 +1570,7 @@
       "relationship"
     ],
     "arc_year2_close": [
+      "housing",
       "location",
       "relationship"
     ],

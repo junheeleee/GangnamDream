@@ -266,6 +266,17 @@ def main() -> int:
         )
         for chapter in range(1, 6)
     ]
+    # The first 24 weeks are owned by the protected Seoul-cycle/demo runtime,
+    # not by this legacy arc-path model or its synthetic random substitute.
+    # Only post-demo union weeks may therefore be diagnosed as an unexplained
+    # zero-slot gap here.
+    post_demo_chapter_union = [
+        sum(
+            turn > 24 and (chapter - 1) * 48 < turn <= chapter * 48
+            for turn in modeled_decision_union
+        )
+        for chapter in range(1, 6)
+    ]
     errors: list[str] = []
     if chapter_union != [13, 9, 10, 15, 31]:
         errors.append(f"chapter modeled-union cadence drifted: {chapter_union}")
@@ -322,13 +333,17 @@ def main() -> int:
         opportunities = 0
         opportunities_by_chapter = [0, 0, 0, 0, 0]
         authored_direct_by_chapter = [0, 0, 0, 0, 0]
+        authored_post_demo_by_chapter = [0, 0, 0, 0, 0]
         chapter_minutes: list[float] = []
         for turn in range(1, 241):
             components: list[tuple[str, str, float]] = []
             if turn in firelog:
                 root = firelog[turn]
                 if turn in modeled_decision_union:
-                    authored_direct_by_chapter[min(4, (turn - 1) // 48)] += 1
+                    chapter_index = min(4, (turn - 1) // 48)
+                    authored_direct_by_chapter[chapter_index] += 1
+                    if turn > 24:
+                        authored_post_demo_by_chapter[chapter_index] += 1
                 components.append((
                     "scene",
                     root,
@@ -371,9 +386,9 @@ def main() -> int:
         unexplained_randomless_chapters = [
             chapter + 1
             for chapter, (count, authored) in enumerate(
-                zip(opportunities_by_chapter, authored_direct_by_chapter)
+                zip(opportunities_by_chapter, authored_post_demo_by_chapter)
             )
-            if count == 0 and authored != chapter_union[chapter]
+            if count == 0 and authored != post_demo_chapter_union[chapter]
         ]
         if unexplained_randomless_chapters:
             errors.append(

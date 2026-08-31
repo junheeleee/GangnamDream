@@ -45,6 +45,14 @@ same-location chain은 이벤트 JSON만 바꾸면 `story_consistency_audit`의 
 `docs/PEAK_SCENE_CHAIN_AUDIT.md`의 표와 21·22번 설명만 함께 갱신한다. strict 기준을
 낮추거나 다른 peak 기록을 재작성하지 않는다.
 
+**2026-08-31 통합 감사 소유권 확장 선언:** 새 shipping root 6개와 typed graph
+helper를 제품 ingress로 등록하면 출시 콘텐츠 원장, Event Director의 등록 수,
+노출 상태 closure, 전 구간 pacing/continuity ratchet, Chapter 1 whole-file snapshot,
+과거 Year 5 거절 증거의 역투영 층이 함께 갱신되어야 한다. 아래 원장·감사 파일만
+추가 소유하며 과거 Year 5 해시는 교체하지 않는다. 새 역투영은 exact object/file
+hash가 맞을 때만 동작하는 fail-closed 전이로 넣고, M01~M06 제품 바이트나 사람
+게이트를 자동 통과시키지 않는다.
+
 ## 깊이 3문
 
 1. **다른 달 root로 이어진다고 항상 끊어야 하는가?** 아니다. 퇴실→새 방,
@@ -111,8 +119,12 @@ same-location chain은 이벤트 JSON만 바꾸면 `story_consistency_audit`의 
 `tools/{peak_scene_chain_audit,arc_flow_sim,scene_direction_catalog}.py`,
 `tools/{story_consistency_audit,story_map_audit,event_lifecycle}.py`,
 `tools/{HiddenFeatureCheck,CoreChoiceSliceCheck}.gd`,
+`content/meta/{release_content_inventory,exposed_event_state_contracts}.json`,
+`tools/{event_director_audit,exposed_state_consistency_audit}.py`,
+`tools/{full_run_pacing_audit,narrative_continuity_audit}.py`,
+`tools/{chapter1_core_loop_v2_causal_ledger_check,year5_reference_route_audit}.py`,
 `tools/full_game_volume_baseline.json`, `tools/audit_scope.json`,
-`docs/PEAK_SCENE_CHAIN_AUDIT.md`와 선언·마감 문서만
+`docs/{PEAK_SCENE_CHAIN_AUDIT,CONTENT_RATING_INVENTORY}.md`와 선언·마감 문서만
 소유한다. 범위 밖 제품 파일은 증거 없이 넓히지 않는다.
 
 ## L1 / L2 / L3

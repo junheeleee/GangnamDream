@@ -294,28 +294,38 @@ def validate_order143_peak_repairs(events: dict[str, dict[str, Any]]) -> None:
 
     receipt_contracts = {
         "arc_daeun_03_fork_hold_receipt": (
-            {"daeun_stay_receipt_shared", "arc_daeun_fork_receipt_seen"},
-            {"daeun_stay_receipt_hometown_visit", "arc_daeun_fork_receipt_seen"},
+            ({"arc_daeun_fork_receipt_seen"}, {"mental": -4, "tint": 5}),
+            ({"arc_daeun_fork_receipt_seen"}, {"mental": -6, "tint": 3}),
         ),
         "arc_daeun_03_fork_release_receipt": (
-            {"daeun_release_named_goal", "arc_daeun_fork_receipt_seen"},
-            {"daeun_release_owned_silence", "arc_daeun_fork_receipt_seen"},
+            ({"arc_daeun_fork_receipt_seen"}, {"mental": -14, "tint": -6}),
+            ({"arc_daeun_fork_receipt_seen"}, {"mental": -10, "tint": -3}),
         ),
         "arc_sangchul_mirror_receipt": (
-            {"sangchul_mirror_hospital_face_up", "arc_sangchul_mirror_receipt_seen"},
-            {"sangchul_mirror_deal_face_up", "arc_sangchul_mirror_receipt_seen"},
+            (
+                {
+                    "arc_sangchul_mirror_receipt_seen",
+                    "sangchul_mirror_hospital_face_up",
+                },
+                {"mental": -5, "tint": 6},
+            ),
+            (
+                {
+                    "arc_sangchul_mirror_receipt_seen",
+                    "sangchul_mirror_deal_face_up",
+                },
+                {"mental": 3, "tint": -6},
+            ),
         ),
     }
-    for event_id, expected_flags in receipt_contracts.items():
+    for event_id, expected_choices in receipt_contracts.items():
         choices = events.get(event_id, {}).get("choices", [])
         if len(choices) != 2:
             raise ValueError(f"ORDER-143 peak receipt lost its decision: {event_id}")
-        for index, flags in enumerate(expected_flags):
+        for index, (flags, effects) in enumerate(expected_choices):
             choice = choices[index]
-            effects = choice.get("effects", {})
-            if set(choice.get("flags", [])) != flags or not {
-                "mental", "tint"
-            }.issubset(effects):
+            if set(choice.get("flags", [])) != flags \
+                    or choice.get("effects") != effects:
                 raise ValueError(
                     f"ORDER-143 peak receipt consequence drifted: {event_id}[{index}]"
                 )
@@ -3018,6 +3028,7 @@ def run_finale_mutation_self_test(
         en_events: dict[str, dict[str, Any]]) -> int:
     """Prove semantic, shape, parity, chain, and false-fact mutations fail closed."""
     validate_finale_function_contracts(ko_events, en_events)
+    validate_order143_peak_repairs(ko_events)
     mutations: list[tuple[str, str, Any]] = []
 
     def add(label: str, expected: str, mutate: Any) -> None:
@@ -3108,6 +3119,20 @@ def run_finale_mutation_self_test(
         "moral variant key removed", "description_if_moral keys changed",
         lambda ko, _en: ko["arc_final_countdown"]["description_if_moral"].pop(
             "white", None))
+    add(
+        "Daeun receipt choices collapsed", "ORDER-143 peak receipt consequence drifted",
+        lambda ko, _en: ko["arc_daeun_03_fork_hold_receipt"]["choices"][1].__setitem__(
+            "effects", dict(ko["arc_daeun_03_fork_hold_receipt"]["choices"][0]["effects"])))
+    add(
+        "Daeun durable receipt flag removed",
+        "ORDER-143 peak receipt consequence drifted",
+        lambda ko, _en: ko["arc_daeun_03_fork_release_receipt"]["choices"][0][
+            "flags"].remove("arc_daeun_fork_receipt_seen"))
+    add(
+        "Sangchul durable receipt flag removed",
+        "ORDER-143 peak receipt consequence drifted",
+        lambda ko, _en: ko["arc_sangchul_mirror_receipt"]["choices"][0][
+            "flags"].remove("arc_sangchul_mirror_receipt_seen"))
 
     failures: list[str] = []
     for label, expected, mutate in mutations:
@@ -3116,6 +3141,7 @@ def run_finale_mutation_self_test(
         mutate(changed_ko, changed_en)
         try:
             validate_finale_function_contracts(changed_ko, changed_en)
+            validate_order143_peak_repairs(changed_ko)
         except ValueError as exc:
             if expected not in str(exc):
                 failures.append(

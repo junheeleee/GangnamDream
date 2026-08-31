@@ -264,6 +264,53 @@ func _check_story_prerequisite_contract() -> void:
 	_expect(not game._story_event_prerequisites_met(
 		"arc_jiyeon_03b_lunch", GameState.turn, GameState.flags),
 		"seen Jiyeon lunch passed its one-shot prerequisite")
+	GameState.turn = 93
+	GameState.flags = {"arc_father_03_seen": true, "arc_sangchul_human_seen": true}
+	GameState.cast["sangchul"]["affinity"] = 64
+	_expect(not game._story_event_prerequisites_met(
+		"arc_sangchul_mirror", 93, GameState.flags),
+		"Sangchul mirror passed below affinity 65")
+	GameState.cast["sangchul"]["affinity"] = 65
+	_expect(game._story_event_prerequisites_met(
+		"arc_sangchul_mirror", 93, GameState.flags),
+		"Sangchul mirror failed at affinity 65")
+	for blocker in ["father_passed", "arc_sangchul_mirror_seen"]:
+		GameState.flags[blocker] = true
+		_expect(not game._story_event_prerequisites_met(
+			"arc_sangchul_mirror", 93, GameState.flags),
+			"Sangchul mirror ignored blocker %s" % blocker)
+		GameState.flags.erase(blocker)
+	GameState.turn = 94
+	GameState.flags = {"arc_sangchul_mirror_seen": true}
+	GameState.current_job = {}
+	GameState.job_tenure = 99
+	_expect(not game._story_event_prerequisites_met(
+		"arc_career_ceiling", 94, GameState.flags),
+		"career truthy guard accepted an empty job with stale tenure")
+	GameState.current_job = DataRegistry.get_job("job_01").duplicate(true)
+	GameState.job_tenure = 5
+	_expect(not game._story_event_prerequisites_met(
+		"arc_career_ceiling", 94, GameState.flags),
+		"career ceiling passed below six-month tenure")
+	GameState.job_tenure = 6
+	_expect(game._story_event_prerequisites_met(
+		"arc_career_ceiling", 94, GameState.flags),
+		"career ceiling failed at six-month tenure")
+	GameState.flags["arc_career_ceiling_seen"] = true
+	_expect(not game._story_event_prerequisites_met(
+		"arc_career_ceiling", 94, GameState.flags),
+		"career ceiling ignored its seen blocker")
+	GameState.turn = 96
+	GameState.flags = {"arc_father_03_seen": true}
+	_expect(game._story_event_prerequisites_met(
+		"arc_father_04_visit", 96, GameState.flags),
+		"father door failed its exact clean W96 ingress")
+	for blocker in ["father_passed", "visited_father", "father_visit_deferred"]:
+		GameState.flags[blocker] = true
+		_expect(not game._story_event_prerequisites_met(
+			"arc_father_04_visit", 96, GameState.flags),
+			"father door ignored blocker %s" % blocker)
+		GameState.flags.erase(blocker)
 	game.free()
 
 func _check_racetrack_story_handoff() -> void:
@@ -653,16 +700,35 @@ func _prepare_order143_family_state() -> void:
 		"arc_father_03_seen",
 		"visited_father",
 		"father_visit_deferred",
+		"arc_year2_close_seen",
 	]:
 		GameState.flags.erase(flag_id)
 
 
 func _check_order143_family_chain() -> void:
+	# A branch flag without the source receipt is corrupt evidence, not a license
+	# to invent Daeun's missing same-scene receipt. A real interrupted source may
+	# still recover it inside M22.
+	_prepare_order143_family_state()
+	GameState.flags.erase("arc_daeun_fork_seen")
+	GameState.flags.erase("arc_daeun_fork_receipt_seen")
+	GameState.flags.erase("daeun_let_her_go")
+	GameState.flags["daeun_chose_her"] = true
+	var game = _new_main_game()
+	_expect(game._story_graph_contract_event_id(
+			86, GameState.flags, false).is_empty(),
+		"M22 branch-only corruption fabricated a Daeun hold receipt")
+	GameState.flags["arc_daeun_fork_seen"] = true
+	_expect(game._story_graph_contract_event_id(
+			86, GameState.flags, false) == "arc_daeun_03_fork_hold_receipt",
+		"M22 interrupted Daeun source lost its hold receipt recovery")
+	game.free()
+
 	# M20 owns only the door theme. Neither the parents nor the hospital may
 	# pre-fire before the exact M23 family chain.
 	_prepare_order143_family_state()
 	GameState.flags.erase("arc_34_doors_open_seen")
-	var game = _new_main_game()
+	game = _new_main_game()
 	var w77_route: String = game._next_arc_id(77, true, false)
 	_expect(w77_route == "arc_34_doors_open",
 		"W77 did not preserve the door owner or pre-fired the parents: %s" \
@@ -677,8 +743,8 @@ func _check_order143_family_chain() -> void:
 		"W82 normal save pre-fired the M23 family chain: %s" % w82_route)
 	game.free()
 
-	# W89 owns the visit, its authored four-day hospital time cut, and the actual
-	# hospital-door decision. Apply the real choices so this is transaction
+	# W89 owns the visit and authored four-day hospital time cut. W96 owns the
+	# hospital-door boss decision after mirror/career. Apply the real choices so this is transaction
 	# evidence, not only a string-selector assertion.
 	_prepare_order143_family_state()
 	GameState.flags["arc_34_doors_open_seen"] = true
@@ -686,6 +752,19 @@ func _check_order143_family_chain() -> void:
 	var w89_route: String = game._next_arc_id(89, true, false)
 	_expect(w89_route == "arc_34_parents_visit",
 		"W89 living prerequisites did not open the parents visit: %s" % w89_route)
+	GameState.flags["arc_father_03_seen"] = true
+	_expect(game._story_graph_contract_event_id(
+			89, GameState.flags, false) != "arc_34_parents_visit",
+		"W89 inverse hospital receipt replayed the parents visit")
+	GameState.flags.erase("arc_father_03_seen")
+	GameState.flags["arc_34_parents_visit_seen"] = true
+	_expect(not game._story_event_prerequisites_met(
+			"arc_34_parents_visit", 89, GameState.flags),
+		"M23 seen parents visit remained generically eligible")
+	_expect(game._story_graph_contract_event_id(
+			89, GameState.flags, false) == "arc_father_03_hospital",
+		"M23 parent receipt did not recover the missing hospital call")
+	GameState.flags.erase("arc_34_parents_visit_seen")
 	var story = STORY_MODE_SCRIPT.new()
 	var parents: Dictionary = DataRegistry.find_event("arc_34_parents_visit")
 	var parent_choices: Array = parents.get("choices", [])
@@ -709,18 +788,85 @@ func _check_order143_family_chain() -> void:
 		and GameState.flags.get("arc_father_03_seen", false),
 		"M23 hospital call did not commit after the parent visit")
 	w89_route = game._next_arc_id(89, true, false)
-	_expect(w89_route == "arc_father_04_visit",
-		"M23 hospital receipt did not open the actual door decision: %s" \
+	_expect(w89_route != "arc_father_04_visit",
+		"M23 hospital receipt pre-fired the W96 door decision: %s" \
 				% w89_route)
+	GameState.flags.erase("arc_sangchul_03_seen")
+	GameState.flags.erase("arc_sangchul_mirror_seen")
+	GameState.flags.erase("arc_sangchul_mirror_receipt_seen")
+	GameState.flags.erase("sangchul_mirror_hospital_face_up")
+	GameState.flags.erase("sangchul_mirror_deal_face_up")
+	GameState.flags.erase("arc_career_ceiling_seen")
+	GameState.flags["arc_sangchul_human_seen"] = true
+	GameState.apply_cast_effect("sangchul", {"affinity": 100})
+	GameState.current_job = DataRegistry.get_job("job_01").duplicate(true)
+	GameState.job_tenure = 6
+	_expect(game._next_arc_id(93, true, false) == "arc_sangchul_mirror",
+		"W93 mirror did not follow the hospital fact")
+	GameState.flags["arc_sangchul_mirror_seen"] = true
+	_expect(game._next_arc_id(94, true, false) == "arc_sangchul_mirror_receipt",
+		"W94 interrupted mirror did not recover its receipt before career")
+	GameState.flags["sangchul_mirror_hospital_face_up"] = true
+	GameState.flags["arc_sangchul_mirror_receipt_seen"] = true
+	_expect(game._next_arc_id(94, true, false) == "arc_career_ceiling",
+		"W94 employed six-month route lost the salary ceiling")
+	GameState.flags["arc_career_ceiling_seen"] = true
+	var w96_route: String = game._next_arc_id(96, true, false)
+	_expect(w96_route == "arc_father_04_visit",
+		"W96 did not prioritize the hospital-door boss: %s" % w96_route)
 	var father_decision: Dictionary = DataRegistry.find_event("arc_father_04_visit")
+	_expect(not str(father_decision.get("description", "")).contains("상철") \
+		and (father_decision.get("description_if_known", {}) as Dictionary).has(
+			"arc_sangchul_03_seen"),
+		"network-free father route fabricated Sangchul context")
 	var father_choices: Array = father_decision.get("choices", [])
+	var year2_close: Dictionary = DataRegistry.find_event("arc_year2_close")
+	for choice_index in range(father_choices.size()):
+		_prepare_order143_family_state()
+		GameState.turn = 96
+		GameState.flags["arc_34_parents_visit_seen"] = true
+		GameState.flags["arc_father_03_seen"] = true
+		var queue_game = _new_main_game()
+		queue_game._go_story_mode(["arc_father_04_visit"])
+		_expect(GameState.pending_story_queue.size() >= 2 \
+			and GameState.pending_story_queue[0] == "arc_father_04_visit" \
+			and GameState.pending_story_queue[1] == "arc_year2_close" \
+			and GameState.pending_story_queue.count("arc_year2_close") == 1,
+			"W96 father choice %d lost or duplicated close queue: %s" \
+					% [choice_index, GameState.pending_story_queue])
+		_expect(GameState.apply_choice(
+				father_decision, father_choices[choice_index] as Dictionary),
+			"W96 father choice %d did not commit" % choice_index)
+		var close_choices: Array = year2_close.get("choices", [])
+		_expect(not close_choices.is_empty() and GameState.apply_choice(
+				year2_close, close_choices[0] as Dictionary),
+			"W96 father choice %d did not commit Year 2 close" % choice_index)
+		GameState.pending_story_queue = []
+		GameState.flags.erase("foreground_story_turn")
+		_expect(queue_game._next_arc_id(97, true, false) != "arc_year2_close",
+			"W97 replayed Year 2 close after father choice %d" % choice_index)
+		queue_game.free()
+	_prepare_order143_family_state()
+	GameState.turn = 96
+	GameState.flags["arc_34_parents_visit_seen"] = true
+	GameState.flags["arc_father_03_seen"] = true
+	GameState.flags["arc_year2_close_seen"] = true
+	var damaged_game = _new_main_game()
+	damaged_game._go_story_mode(["arc_father_04_visit"])
+	_expect(GameState.pending_story_queue.count("arc_year2_close") == 0,
+		"damaged save replayed an already-seen Year 2 close")
+	damaged_game.free()
+	_prepare_order143_family_state()
+	GameState.flags["arc_34_parents_visit_seen"] = true
+	GameState.flags["arc_father_03_seen"] = true
+	father_decision = DataRegistry.find_event("arc_father_04_visit")
+	father_choices = father_decision.get("choices", [])
 	_expect(father_choices.size() == 4 \
 		and GameState.apply_choice(father_decision, father_choices[0] as Dictionary),
 		"M23 hospital-door choice did not commit")
-	w89_route = game._next_arc_id(89, true, false)
-	_expect(w89_route not in [
-		"arc_34_parents_visit", "arc_father_03_hospital", "arc_father_04_visit"],
-		"M23 family chain replayed after its door receipt: %s" % w89_route)
+	w96_route = game._next_arc_id(96, true, false)
+	_expect(w96_route == "arc_year2_close",
+		"W96 door receipt did not release Year 2 close: %s" % w96_route)
 	game.free()
 	story.free()
 
@@ -733,10 +879,10 @@ func _check_order143_family_chain() -> void:
 	father_choices = father_decision.get("choices", [])
 	_expect(GameState.apply_choice(father_decision, father_choices[3] as Dictionary) \
 		and GameState.flags.get("father_visit_deferred", false),
-		"M23 deferred door choice did not close its owner month")
+		"W96 deferred door choice did not close its owner month")
 	game = _new_main_game()
-	_expect(game._next_arc_id(89, true, false) != "arc_father_04_visit",
-		"M23 deferred door choice replayed")
+	_expect(game._next_arc_id(96, true, false) == "arc_year2_close",
+		"W96 deferred door choice did not release Year 2 close")
 	game.free()
 
 	_prepare_order143_family_state()
@@ -746,6 +892,24 @@ func _check_order143_family_chain() -> void:
 	_expect(w89_route not in [
 		"arc_34_parents_visit", "arc_father_03_hospital", "arc_father_04_visit"],
 		"terminal Father evidence reopened the M23 family chain: %s" % w89_route)
+	game.free()
+
+	game = _new_main_game()
+	var m34_cases: Array[Dictionary] = [
+		{"turn": 133, "flag": "arc_sangchul_reckoning_seen"},
+		{"turn": 134, "flag": "sangchul_truth_buried"},
+		{"turn": 136, "flag": "sangchul_quietly_distanced"},
+	]
+	for route_case in m34_cases:
+		var route_flags := {str(route_case["flag"]): true}
+		_expect(game._story_graph_contract_event_id(
+				int(route_case["turn"]), route_flags, false) \
+				== "arc_y3_cost_of_knowing",
+			"M34 typed aftermath lost %s" % route_case["flag"])
+		route_flags["arc_y3_cost_of_knowing_seen"] = true
+		_expect(game._story_graph_contract_event_id(
+				int(route_case["turn"]), route_flags, false).is_empty(),
+			"M34 typed aftermath replayed %s" % route_case["flag"])
 	game.free()
 
 func _check_chapter_four_missed_cost_routing() -> void:

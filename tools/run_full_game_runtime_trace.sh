@@ -131,6 +131,7 @@ run_profile() {
   local import_status=0
   local runtime_status=0
   local objectdb_snapshot_dir=""
+  local engine_error_pattern='ERROR:|SCRIPT ERROR|Parse Error|Compile Error|Failed to load script|WARNING: ObjectDB instances leaked at exit'
   local post_commit
   local post_tree
   local post_untracked
@@ -253,10 +254,8 @@ run_profile() {
     echo "FULL_GAME_RUNTIME_TRACE_PENDING profile=${profile_id} reason=class_cache_missing_after_import log=${import_log}" >&2
     return 1
   fi
-  if {
-    grep -iE 'ERROR:|SCRIPT ERROR|Parse Error|Compile Error|Failed to load script' "${import_log}" 2>/dev/null || true
-    grep -iE 'ERROR:|SCRIPT ERROR|Parse Error|Compile Error|Failed to load script' "${import_godot_log}" 2>/dev/null || true
-  } | grep -viE 'ERROR: [0-9]+ resources still in use at exit' >/dev/null; then
+  if grep -iE "${engine_error_pattern}" \
+      "${import_log}" "${import_godot_log}" >/dev/null 2>&1; then
     echo "FULL_GAME_RUNTIME_TRACE_PENDING profile=${profile_id} reason=import_engine_or_script_error log=${import_log}" >&2
     return 1
   fi
@@ -301,11 +300,8 @@ run_profile() {
     return 1
   fi
 
-  runtime_error_pattern='ERROR:|SCRIPT ERROR|Parse Error|Compile Error|Failed to load script'
-  if {
-    grep -iE "${runtime_error_pattern}" "${stdout_log}" 2>/dev/null || true
-    grep -iE "${runtime_error_pattern}" "${godot_log}" 2>/dev/null || true
-  } | grep -viE 'ERROR: [0-9]+ resources still in use at exit' >/dev/null; then
+  if grep -iE "${engine_error_pattern}" \
+      "${stdout_log}" "${godot_log}" >/dev/null 2>&1; then
     echo "FULL_GAME_RUNTIME_TRACE_PENDING profile=${profile_id} reason=engine_or_script_error log=${stdout_log}" >&2
     return 1
   fi

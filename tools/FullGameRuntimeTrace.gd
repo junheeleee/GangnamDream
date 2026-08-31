@@ -75,6 +75,7 @@ var _main_offer_counter := 0
 var _main_commit_counter := 0
 var _pending_main_action: Dictionary = {}
 var _pending_main_action_state: Dictionary = {}
+var _shutdown_started := false
 
 
 func _ready() -> void:
@@ -874,6 +875,9 @@ func _target_errors() -> Array[String]:
 
 
 func _finish_run(success: bool) -> void:
+	if _shutdown_started:
+		return
+	_shutdown_started = true
 	if _trace_file != null:
 		if not success and _errors.is_empty():
 			_fail("runtime trace ended without success")
@@ -896,11 +900,67 @@ func _finish_run(success: bool) -> void:
 	if success and _errors.is_empty():
 		print("FULL_GAME_RUNTIME_TRACE_RUN_OK profile=%s weeks=240 story_occurrences=%d ending=%s product_go=HOLD human_density_gate=OPEN" % [
 			_profile_id, _story_occurrences.size(), _ending_id])
-		get_tree().quit(0)
+		call_deferred("_graceful_shutdown", 0)
 	else:
 		print("FULL_GAME_RUNTIME_TRACE_RUN_FAIL profile=%s errors=%s product_go=HOLD human_density_gate=OPEN" % [
 			_profile_id, str(_errors)])
-		get_tree().quit(1)
+		call_deferred("_graceful_shutdown", 1)
+
+
+func _graceful_shutdown(exit_code: int) -> void:
+	# Keep the success/failure marker provisional until Godot has actually
+	# released active playback objects. The runner treats every engine ERROR as
+	# PENDING, so immediate headless quit must not leave an ending stinger alive.
+	if GameState.run_started.is_connected(_on_run_started):
+		GameState.run_started.disconnect(_on_run_started)
+	if GameState.weekly_commitment_finalized.is_connected(
+			_on_weekly_commitment_finalized):
+		GameState.weekly_commitment_finalized.disconnect(
+			_on_weekly_commitment_finalized)
+	if GameState.game_over.is_connected(_on_game_over):
+		GameState.game_over.disconnect(_on_game_over)
+	await _release_audio_for_exit()
+	get_tree().quit(exit_code)
+
+
+func _release_audio_for_exit() -> void:
+	# MainGame can start the ending WAV on the same frame the sixth page is
+	# observed. Stop every live player, detach its stream, and drain the audio
+	# mix thread before quitting. This is teardown only; trace state is already
+	# sealed and no gameplay outcome is changed.
+	for raw_tween in get_tree().get_processed_tweens():
+		if raw_tween is Tween and (raw_tween as Tween).is_valid():
+			(raw_tween as Tween).kill()
+	if BGMPlayer.has_method("stop"):
+		BGMPlayer.stop()
+	_detach_audio_streams(get_tree().root)
+	var raw_pool: Variant = AudioManager.get("_pool")
+	if raw_pool is Array:
+		for raw_player in raw_pool:
+			if raw_player is AudioStreamPlayer:
+				var player := raw_player as AudioStreamPlayer
+				player.stop()
+				player.stream = null
+	var raw_sounds: Variant = AudioManager.get("_sounds")
+	if raw_sounds is Dictionary:
+		(raw_sounds as Dictionary).clear()
+	await get_tree().create_timer(0.25).timeout
+	await get_tree().process_frame
+	await get_tree().process_frame
+
+
+func _detach_audio_streams(root: Node) -> void:
+	if root is AudioStreamPlayer:
+		(root as AudioStreamPlayer).stop()
+		(root as AudioStreamPlayer).stream = null
+	elif root is AudioStreamPlayer2D:
+		(root as AudioStreamPlayer2D).stop()
+		(root as AudioStreamPlayer2D).stream = null
+	elif root is AudioStreamPlayer3D:
+		(root as AudioStreamPlayer3D).stop()
+		(root as AudioStreamPlayer3D).stream = null
+	for child in root.get_children():
+		_detach_audio_streams(child)
 
 
 func _fail(message: String) -> void:

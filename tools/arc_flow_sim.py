@@ -978,13 +978,27 @@ def story_graph_contract_event(S):
     t = S.t
     f = S.flags
     father_is_passed = father_death_is_monotonic(S)
+    if 25 <= t <= 240 \
+            and f.get("arc_goshiwon_goodbye_seen") \
+            and not f.get("arc_housing_new_life_seen"):
+        return "arc_housing_new_life"
+    if 193 <= t <= 208 \
+            and f.get("arc_37_reckoning_seen") \
+            and not f.get("arc_final_year_start_seen"):
+        return "arc_final_year_start"
+    if 197 <= t <= 208 \
+            and not S.has_deferred_event("arc_37_reckoning") \
+            and not f.get("arc_37_reckoning_seen") \
+            and not f.get("arc_final_year_start_seen"):
+        return "arc_37_reckoning"
     if t == 37 \
             and f.get("arc_housing_new_life_seen") \
             and S.housing != "gosiwon" \
             and not f.get("arc_y1_new_room_first_month_seen"):
         return "arc_y1_new_room_first_month"
     if 49 <= t <= 52:
-        if not f.get("arc_year_one_mark_seen"):
+        if not f.get("arc_year_one_mark_seen") \
+                and not f.get("arc_34_money_attracts_seen"):
             return "arc_year_one_mark"
         if not f.get("arc_34_money_attracts_seen"):
             return "arc_34_money_attracts_money"
@@ -993,8 +1007,10 @@ def story_graph_contract_event(S):
             and S.get_total_asset_value() >= 1_000_000
         if network_eligible:
             return "" if f.get("arc_sangchul_03_seen") \
+                or f.get("arc_y2_bank_limit_review_seen") \
                 else "arc_sangchul_03_network"
         return "" if f.get("arc_y2_bank_limit_review_seen") \
+            or f.get("arc_sangchul_03_seen") \
             else "arc_y2_bank_limit_review"
     if 57 <= t <= 60 \
             and not father_is_passed \
@@ -1011,6 +1027,21 @@ def story_graph_contract_event(S):
             and not f.get("arc_father_03_seen"):
         return "arc_father_03_hospital"
     if 85 <= t <= 88:
+        chose_daeun = bool(f.get("daeun_chose_her"))
+        released_daeun = bool(f.get("daeun_let_her_go"))
+        if not f.get("arc_daeun_fork_seen") \
+                and (chose_daeun or released_daeun):
+            return ""
+        if f.get("arc_daeun_fork_seen") \
+                and not f.get("arc_daeun_fork_receipt_seen"):
+            if chose_daeun and not released_daeun:
+                return "arc_daeun_03_fork_hold_receipt"
+            if released_daeun and not chose_daeun:
+                return "arc_daeun_03_fork_release_receipt"
+        if f.get("arc_daeun_fork_seen") \
+                or f.get("arc_jiyeon_offer_seen") \
+                or f.get("arc_y2_relationship_fork_unattached_seen"):
+            return ""
         daeun_eligible = bool(f.get("arc_daeun_regular_seen")) \
             and S.get_cast_affinity("daeun") >= 12
         if daeun_eligible:
@@ -1023,22 +1054,27 @@ def story_graph_contract_event(S):
             and not father_is_passed \
             and f.get("arc_father_02_done") \
             and f.get("arc_father_medication_seen"):
-        if not f.get("arc_34_parents_visit_seen"):
+        if not f.get("arc_34_parents_visit_seen") \
+                and not f.get("arc_father_03_seen"):
             return "arc_34_parents_visit"
-        if not f.get("arc_father_03_seen"):
+        if f.get("arc_34_parents_visit_seen") \
+                and not f.get("arc_father_03_seen"):
             return "arc_father_03_hospital"
-        if not f.get("visited_father") and not f.get("father_visit_deferred"):
-            return "arc_father_04_visit"
     if t == 93 \
             and not father_is_passed \
             and f.get("arc_father_03_seen") \
-            and (f.get("visited_father") or f.get("father_visit_deferred")) \
             and S.get_cast_affinity("sangchul") >= 65 \
             and f.get("arc_sangchul_human_seen") \
             and not f.get("sangchul_truth_known") \
             and not f.get("arc_sangchul_mirror_seen"):
         return "arc_sangchul_mirror"
-    if 94 <= t <= 96 \
+    if 94 <= t <= 95 \
+            and f.get("arc_sangchul_mirror_seen") \
+            and not f.get("arc_sangchul_mirror_receipt_seen") \
+            and not f.get("sangchul_mirror_hospital_face_up") \
+            and not f.get("sangchul_mirror_deal_face_up"):
+        return "arc_sangchul_mirror_receipt"
+    if 94 <= t <= 95 \
             and f.get("arc_sangchul_mirror_seen") \
             and not S.current_job.is_empty() \
             and S.job_tenure >= 6 \
@@ -1049,16 +1085,38 @@ def story_graph_contract_event(S):
             and not f.get("daeun_let_her_go") \
             and not f.get("arc_daeun_money_gap_seen"):
         return "arc_daeun_money_gap"
+    if t == 96:
+        if not father_is_passed \
+                and f.get("arc_father_03_seen") \
+                and not f.get("visited_father") \
+                and not f.get("father_visit_deferred"):
+            return "arc_father_04_visit"
+        if not f.get("arc_year2_close_seen"):
+            return "arc_year2_close"
+    if t == 132 \
+            and f.get("arc_sangchul_confrontation_seen") \
+            and f.get("sangchul_confronted") \
+            and not f.get("arc_sangchul_reckoning_seen") \
+            and not f.get("sangchul_truth_buried") \
+            and not f.get("sangchul_quietly_distanced"):
+        return "arc_sangchul_reckoning"
     if t == 132 \
             and f.get("sangchul_truth_known") \
             and not f.get("sangchul_confronted") \
             and not f.get("sangchul_truth_buried") \
             and not f.get("sangchul_quietly_distanced") \
+            and not f.get("arc_sangchul_reckoning_seen") \
             and not f.get("arc_sangchul_confrontation_seen"):
         if S.has_item("artifact_sangchul_card") \
                 and not f.get("arc_sangchul_card_at_confrontation_seen"):
             return "arc_sangchul_card_at_confrontation"
         return "arc_sangchul_confrontation"
+    if 133 <= t <= 136 \
+            and (f.get("arc_sangchul_reckoning_seen") \
+                 or f.get("sangchul_truth_buried") \
+                 or f.get("sangchul_quietly_distanced")) \
+            and not f.get("arc_y3_cost_of_knowing_seen"):
+        return "arc_y3_cost_of_knowing"
     return ""
 
 
@@ -1141,6 +1199,9 @@ def story_mode_root_queue(S, event_ids):
     """Model MainGame's same-StoryMode-root handoff at protected boundaries."""
     story_queue = list(event_ids)
     first_event_id = story_queue[0] if story_queue else ""
+    if S.t == 96 and first_event_id == "arc_father_04_visit" \
+            and not S.flags.get("arc_year2_close_seen"):
+        story_queue.append("arc_year2_close")
     if W193_STORY_HANDOFF_SOURCE_OK \
             and S.t == 193 \
             and first_event_id == "chapter_card_37":
@@ -1169,7 +1230,7 @@ def run(spine, traj, cast_flag_hook, choice_indices):
             # roots. The W193 handoff must therefore happen inside the same
             # StoryMode queue or reckoning slips to Week 194.
             chosen = "chapter_card_37"
-        elif t in (48, 96, 144, 192) \
+        elif t in (48, 144, 192) \
                 and not S.flags.get(f"arc_year{t // 48}_close_seen"):
             # Exact year closes sit above the deferred foreground queue in
             # _next_arc_id. ORDER-143's M34 echo may become ready at W144,
@@ -1350,8 +1411,9 @@ EXPECTED_LATE_TEMPORAL = {
         148: "arc_35_path_cost",
         151: "arc_35_habit_check",
         154: "arc_almost_there",
-        156: "arc_36_reality_check",
-        159: "arc_1b_isolation",
+        156: "arc_daeun_our_home",
+        159: "arc_36_reality_check",
+        158: "arc_1b_isolation",
         180: "arc_36_night_doubt",
         192: "arc_year4_close",
         191: "arc_final_stretch",
@@ -1457,8 +1519,8 @@ EXPECTED_CHAPTER3 = {
         128: "arc_y3_sangchul_deeper_room",
         130: "arc_minjun_first_call",
         132: "arc_sangchul_confrontation",
-        133: "arc_sangchul_year3",
-        134: "arc_y3_cost_of_knowing",
+        133: "arc_y3_cost_of_knowing",
+        134: "arc_sangchul_year3",
         144: "arc_year3_close",
     },
 }
@@ -1557,8 +1619,8 @@ EXPECTED_T1_DELAYED_PAYOFFS = {
         "callback_jiyeon_took_deal_consequence": 59,
         "callback_rushed_to_father_echo": 103,
         "callback_father_confession_echo": 124,
-        "callback_used_sangchul_after_echo": 146,
-        "callback_daeun_gangnam_first_echo": 158,
+        "callback_used_sangchul_after_echo": 143,
+        "callback_daeun_gangnam_first_echo": 155,
     },
 }
 
@@ -1659,6 +1721,18 @@ def graph_contract_fixture(turn, flags=None, *, nav=2_000_000,
 # isolated at a time instead of being hidden by a later foreground collision.
 story_graph_cases = []
 
+state = graph_contract_fixture(32, {
+    "arc_goshiwon_goodbye_seen": True,
+})
+story_graph_cases.append(("M08 interrupted move closure", state,
+                          "arc_housing_new_life"))
+
+state = graph_contract_fixture(120, {
+    "arc_goshiwon_goodbye_seen": True,
+})
+story_graph_cases.append(("dynamic late-move closure recovery", state,
+                          "arc_housing_new_life"))
+
 state = graph_contract_fixture(37, {
     "arc_housing_new_life_seen": True,
 })
@@ -1734,6 +1808,32 @@ state = graph_contract_fixture(85, {
 story_graph_cases.append(("W85 Daeun without medication replay", state,
                           "arc_daeun_03_fork"))
 
+state = graph_contract_fixture(86, {
+    "arc_daeun_fork_seen": True,
+    "daeun_chose_her": True,
+})
+story_graph_cases.append(("M22 interrupted Daeun hold receipt", state,
+                          "arc_daeun_03_fork_hold_receipt"))
+
+state = graph_contract_fixture(86, {
+    "arc_daeun_fork_seen": True,
+    "daeun_let_her_go": True,
+})
+story_graph_cases.append(("M22 interrupted Daeun release receipt", state,
+                          "arc_daeun_03_fork_release_receipt"))
+
+state = graph_contract_fixture(86, {
+    "daeun_chose_her": True,
+})
+story_graph_cases.append(("M22 branch-only corruption stays closed", state, ""))
+
+state = graph_contract_fixture(86, {
+    "arc_daeun_fork_seen": True,
+    "daeun_chose_her": True,
+    "arc_daeun_fork_receipt_seen": True,
+})
+story_graph_cases.append(("M22 completed Daeun receipt stays closed", state, ""))
+
 state = graph_contract_fixture(85, {
     "arc_father_02_done": True,
     "arc_father_medication_seen": True,
@@ -1769,8 +1869,14 @@ state = graph_contract_fixture(90, {
     "arc_34_parents_visit_seen": True,
     "arc_father_03_seen": True,
 })
-story_graph_cases.append(("M23 hospital fact opens father decision", state,
-                          "arc_father_04_visit"))
+story_graph_cases.append(("M23 hospital fact waits for canonical boss order", state, ""))
+
+state = graph_contract_fixture(93, {
+    "arc_father_03_seen": True,
+    "arc_sangchul_human_seen": True,
+}, sangchul_affinity=65)
+story_graph_cases.append(("W93 mirror follows hospital fact", state,
+                          "arc_sangchul_mirror"))
 
 state = graph_contract_fixture(89, {
     "father_passed": True,
@@ -1782,10 +1888,18 @@ story_graph_cases.append(("passed father blocks family chain", state, ""))
 state = graph_contract_fixture(94, {
     "arc_sangchul_mirror_seen": True,
 }, employed=False)
+story_graph_cases.append(("old mirror save recovers durable receipt", state,
+                          "arc_sangchul_mirror_receipt"))
+
+state = graph_contract_fixture(94, {
+    "arc_sangchul_mirror_seen": True,
+    "sangchul_mirror_hospital_face_up": True,
+}, employed=False)
 story_graph_cases.append(("unemployed career ceiling blocked", state, ""))
 
 state = graph_contract_fixture(94, {
     "arc_sangchul_mirror_seen": True,
+    "sangchul_mirror_hospital_face_up": True,
 })
 story_graph_cases.append(("employed career ceiling", state,
                           "arc_career_ceiling"))
@@ -1796,6 +1910,10 @@ state = graph_contract_fixture(95, {
 })
 story_graph_cases.append(("M24 Daeun money cost survives moved fork", state,
                           "arc_daeun_money_gap"))
+
+state = graph_contract_fixture(96, {"arc_father_03_seen": True})
+story_graph_cases.append(("W96 hospital door is Ch2 boss", state,
+                          "arc_father_04_visit"))
 
 state = graph_contract_fixture(132, {
     "sangchul_truth_known": True,
@@ -1808,6 +1926,25 @@ state = graph_contract_fixture(132, {
 }, items=("artifact_sangchul_card",))
 story_graph_cases.append(("M33 optional card same-week prelude", state,
                           "arc_sangchul_card_at_confrontation"))
+
+state = graph_contract_fixture(200, {
+    "arc_37_reckoning_seen": True,
+})
+story_graph_cases.append(("late M49 closure recovery", state,
+                          "arc_final_year_start"))
+
+state = graph_contract_fixture(200)
+story_graph_cases.append(("late M49 missing-source recovery", state,
+                          "arc_37_reckoning"))
+
+for terminal_index, terminal_flag in enumerate((
+    "arc_sangchul_reckoning_seen",
+    "sangchul_truth_buried",
+    "sangchul_quietly_distanced",
+)):
+    state = graph_contract_fixture(133 + terminal_index, {terminal_flag: True})
+    story_graph_cases.append((f"M34 aftermath accepts {terminal_flag}", state,
+                              "arc_y3_cost_of_knowing"))
 
 story_graph_failures = [
     f"{name}:{story_graph_contract_event(state)!r}!={expected!r}"

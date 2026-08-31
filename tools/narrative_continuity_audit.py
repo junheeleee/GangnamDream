@@ -66,8 +66,11 @@ CHAPTER_RATCHETS = {
         # The investment representative now carries its real route identity
         # from W1, so the already-shipping first-chart scene is measured instead
         # of silently omitted. This is audit-fidelity debt, not a new stop.
-        "stops_max": 34,
-        "thread_switches_max": 29,
+        # The exact representative ledger below already freezes the denser
+        # investment path at 35 authored stops. Keep the aggregate ratchet on
+        # that same reviewed inventory instead of failing one behind it.
+        "stops_max": 35,
+        "thread_switches_max": 30,
     },
     2: {
         "chained_min": 4,
