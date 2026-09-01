@@ -61,3 +61,25 @@ GO한 exact `story_demo_rc` M01~M06을 바꾸지 않았고, 본편은 아직
 - **L1:** dashboard/human gate/context/full audit가 후보 신원·데모 우선순위·HOLD/open을 검증한다.
 - **L2:** clean three-profile trace가 실제 W1→W240 발생과 ending을 주입 없이 남긴다.
 - **L3:** 새 exact candidate의 M49~M60 두 경로 정상 속도 사람 실플레이가 판정한다.
+
+## 2026-09-01 exact 후보 원장
+
+- 제품 `83d3f350de0900ce050277d6da1331940d1872a3`, tree
+  `97f81c70c11452ef851b4cb0646c5e557544fd93`, source manifest SHA-256
+  `6bc13de7c252d457ad36dcd5bfa18c634f51c7f41c40b5e6ec6450e521c835ca`다.
+- fresh-title 세 profile W1→W240 JSONL SHA-256은 baseline
+  `36890bba4c2b84390a5cbec22bd77f3f225ab62987df425e0ce93d8cabed85c8`,
+  property `1502f92204241a9b544c1449446272182fbbb714381259e740565237a6150f71`,
+  general `63bf0ea955d417819addb1cbc674cfc5e5c4250d4f440a555fc1aa3a43ff99c8`다.
+  입력 신원 불일치와 state injection은 0이고 strict teardown을 통과했다.
+- 같은 제품을 실제 화면 입력으로 W193까지 진행해 만든 M49 수동 저장은 slot 1
+  property SHA-256
+  `7239040565920fcb2ffad0d606078ce9a436c8ae2ddd5fd2ed29542ff83bd3af`,
+  slot 2 general SHA-256
+  `5f4b5a0f6842e8ac726ee45b3c361ad1a45dc6c665c89009fe812acec5cf6aa8`다.
+  KO 냉간 불러오기에서 실제 `StoryMode`, 챕터 5·결산, 입력·선택 0, 상태 무변조를
+  확인했다.
+- property와 `general_near_goal_father_passed` 사람 게이트는 둘 다 `open`이다.
+  자동 증거는 GO가 아니며 예전 `771d0e7`, `9909437`, `b375af2`, `002a493`,
+  `9b294d5`를 재사용하지 않는다. 제품 변경 없는 exact review wrapper를 발급한 뒤
+  같은 wrapper에서 두 M49~M60 정상 속도 재플레이를 받아야 한다.

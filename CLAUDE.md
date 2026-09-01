@@ -12,12 +12,12 @@
 | 상품 정의 | **"나는 민준이다. 눈앞의 사람·돈·몸 사이에서 실제로 무엇을 할지 고르고, 흐른 시간 속에서 그 대가를 산다."** 240주를 카드 목록이 아니라 한 편의 소설·영화처럼 인과·장면·연기·전환·여운으로 겪는다. 플레이어를 구경꾼으로 부르거나 숨은 도덕 점수를 설명하지 않는다. |
 | 현재 범위 | 1턴=1주, 240주·60개월(5년). **출시 데모는 M01~M06에서 끝나는** `story_demo_rc` BUILD `2026.08.31.1`이고 사용자 GO다. 본편은 M01~M60 전체의 장면·선택·회수·정점 상승을 한 작품으로 관리한다. 반복 행동판은 0이며 저장 호환 AP 데이터·엔진 삭제 GO는 아니다. |
 | 품질 게이트 | [`docs/MASTER_RELEASE_AUDIT.md`](docs/MASTER_RELEASE_AUDIT.md). 콘텐츠 수량보다 블랙박스 플레이, 한영 패리티, 패드 과업, 사람 기억·전환 증거로 판정한다. |
-| 최근 완료 | exact `story_demo_rc` package `362578d` / 제품 `4e80a63` / manifest `50eed10b`의 M01~M06 공개 데모를 사용자 GO로 고정했다. 공개 PCK의 1,806사건 원장과 현재 본편 개발 소스 1,812사건 원장을 분리했고, 옛 W1~W24 `demo_rc`는 legacy/internal 회귀로만 남긴다. JA·zh-CN·zh-TW 원어민 claim은 별도 OPEN이다. |
-| 바로 다음 | ORDER-147의 두 AudioServer mix 경계 teardown을 새 exact clean wrapper에서 12회 독립 stress와 전체 감사로 검증한 뒤, 세 fresh-title profile을 W1→W240까지 다시 실행한다. 하나라도 leak·신원 불일치·중도 종료면 후보를 발급하지 않는다. |
-| 열려 있는 사람 게이트 | [`docs/human_gates.json`](docs/human_gates.json)이 정본이다. `chapter5_finale_rc` 두 경로와 JA·zh-CN·zh-TW 원어민 판정은 OPEN이다. **초록불은 재미 판정이 아니다.** |
-| 그다음 | clean 세 profile 뒤 새 exact 본편 후보와 Chapter 5 두 M49~M60 정상 속도 재플레이를 요청한다. 다음 제품 배치는 M06 실제 영수증→M07~M12를 잇고 runtime occurrence와 story-map 월 소유권을 대조해 M08·M10·M11 공백과 선소비를 15~25단위로 수리한다. 240주 번역은 한국어·런타임 동결 뒤 별도다. |
+| 최근 완료 | 본편 제품 `83d3f350` / tree `97f81c70` / manifest `6bc13de7`에서 세 fresh-title profile W1→W240, 오디오 strict teardown 12/12, import 후 전체 감사를 통과했다. 같은 제품의 실제 W1→W193 입력에서 만든 property/general M49 저장 두 개를 KO로 냉간 불러와 챕터 5·결산 진입과 상태 무변조를 확인했다. 공개 M01~M06 데모 바이트와 GO는 불변이다. |
+| 바로 다음 | 제품 변경 없는 exact review wrapper를 발급·푸시하고 `chapter5_finale_rc`의 property와 `general_near_goal_father_passed` M49~M60 정상 속도 사람 재플레이를 요청한다. 둘 다 같은 후보에서 닫히기 전에는 본편 GO로 올리지 않는다. |
+| 열려 있는 사람 게이트 | [`docs/human_gates.json`](docs/human_gates.json)이 정본이다. Chapter 5 두 경로와 JA·zh-CN·zh-TW 원어민 판정은 OPEN이며 full·main·product는 HOLD다. **초록불은 재미 판정이 아니다.** |
+| 그다음 | 다음 20단위 제품 배치는 공개 M06의 3개 위험 맥락×5개 실제 행동 영수증을 M07~M12가 읽게 한다. 공개 데모에 없던 현수 사실을 발명하지 않고 M08 이사/유지, M10 주거비, M11 새 문, M12 독자를 수리한다. 240주 JA·zh-CN·zh-TW 번역은 KO/EN 원고·런타임 동결 뒤 별도다. |
 | 자산 조달 | **외주 0원.** 인물 디자인·작곡·UI 아트·유료 서체를 사지 않고 Codex와 무료 라이선스(임베딩이 허용된 OFL·CC0 등)로만 만든다. 인력·구매를 전제한 계획을 세우지 않는다. 생성 자산의 결함은 품질이 아니라 평균성이므로 동일 후처리·고정 서명·채택률로 이긴다. 정본은 `docs/DECISIONS.md` 2026-07-30 항목이 소유한다. |
-| 마지막 갱신 | 2026-09-01 (공개 M01~M06 truth 정렬 / 본편 M01~M60 runtime proof·사람 밀도 HOLD) |
+| 마지막 갱신 | 2026-09-01 (exact Chapter 5 재플레이 후보 발급 중 / 본편 M01~M60 사람 밀도 HOLD) |
 
 사용자가 새 지시를 주면 그것이 위 순서보다 우선한다.
 

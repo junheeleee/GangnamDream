@@ -3,6 +3,21 @@
 > 체제: 유저 실플레이 라운드 → 노트 원문 → Claude 진단 → 수리 오더 → 재플레이.
 > 유저 노트는 편집 없이 원문 보존(느낌 그대로가 데이터다).
 
+### Chapter 5 exact 사람 재플레이 후보 (2026-09-01 — `83d3f350`)
+
+**후보:** 제품 `83d3f350de0900ce050277d6da1331940d1872a3`, tree
+`97f81c70c11452ef851b4cb0646c5e557544fd93`, source manifest SHA-256
+`6bc13de7c252d457ad36dcd5bfa18c634f51c7f41c40b5e6ec6450e521c835ca`다.
+fresh-title 세 profile W1→W240, 오디오 strict teardown 12/12와 전체 감사가
+통과했다. 실제 W1→W193 입력으로 만든 KO M49 저장 두 개도 챕터 5·결산 화면에
+상태 변경 없이 냉간 진입했다.
+
+**재판정:** 이 후보는 본편 GO가 아니다. 같은 exact review wrapper에서 property와
+`general_near_goal_father_passed` M49~M60을 정상 속도로 각각 끝까지 플레이해
+사람 압박·후반 밀도·W240 상승·검은 화면·허위 답장/동석/소유/이체를 판정해야 한다.
+두 게이트가 닫힐 때까지 full·main·product는 HOLD다. 공개 M01~M06 데모 GO는
+별개로 유지된다.
+
 ### M01~M06 출시 데모 범위 사용자 GO (2026-08-31)
 
 **사용자 원문:** “출시 데모자체는 m6이 맞아 이대로 go하고 이제 게임개발 범위를

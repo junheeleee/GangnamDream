@@ -163,3 +163,21 @@ candidate에서 세 profile W1→W240을 모두 처음부터 다시 실행한다
 - **L3:** 새 exact candidate의 property와
   `general_near_goal_father_passed` M49~M60 정상 속도 사람 실플레이가 판정한다.
   그전까지 본편은 HOLD다.
+
+## 2026-09-01 exact 검증 결과
+
+- 검사 제품은 `83d3f350de0900ce050277d6da1331940d1872a3`, tree
+  `97f81c70c11452ef851b4cb0646c5e557544fd93`다. 공개 M01~M06
+  `story_demo_rc` 제품 바이트는 바뀌지 않았다.
+- baseline/property/general 세 fresh-title profile이 실제 화면 입력과 exact
+  action/commitment 신원으로 W1→W240을 끝까지 완주했다. accepted matrix root의
+  aggregate marker는 `FULL_GAME_RUNTIME_TRACE_MATRIX_OK profiles=3
+  product_go=HOLD human_density_gate=OPEN`이다.
+- 오디오 3 WAV+2 OGG teardown stress는 독립 프로세스 12/12 strict 종료를
+  통과했다. import 후 전체 감사 로그 SHA-256은
+  `6b30e4b7ccbb294f41b3caf51b960b5380967a80b9abd3853430d25f74cb70fb`이고
+  최종 표시는 `✅ 감사 통과`다.
+- 과거 검사기의 기본 종료 모드에서 남는 네 legacy teardown 경고는 strict 12회
+  lane이 소유하지 않으며 숨기거나 사람 판정으로 올리지 않는다. 자동·정적 GREEN은
+  재미나 본편 GO가 아니다. 현재 matrix는 GREEN, Chapter 5 L3 두 경로는 OPEN,
+  full·main·product는 HOLD다.

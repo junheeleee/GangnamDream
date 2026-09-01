@@ -59,8 +59,8 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-147 · runtime identity | [147](queue_active/ORDER-147.md) | matrix · HOLD |
-| 2 | [~] | ORDER-146 · ledger | [146](queue_active/ORDER-146.md) | trace · HOLD |
+| 1 | [~] | ORDER-147 · runtime identity | [147](queue_active/ORDER-147.md) | matrix GREEN · L3 OPEN |
+| 2 | [~] | ORDER-146 · ledger | [146](queue_active/ORDER-146.md) | candidate active · 두 replay OPEN |
 | 3 | [~] | ORDER-145 · 후보 | [145](queue_active/ORDER-145.md) | HOLD |
 | 4 | [~] | ORDER-143 · graph | [143](queue_active/ORDER-143.md) | M01~M06 보호 · HOLD |
 | 5 | [~] | ORDER-144 · trace | [144](queue_active/ORDER-144.md) | PENDING · human OPEN |

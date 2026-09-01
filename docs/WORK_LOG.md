@@ -18,6 +18,19 @@
 > [`7/25`](history/WORK_LOG_2026-07-25.md)에 손실 없이 보존한다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
 
+## 2026-09-01 (Codex — exact Chapter 5 재플레이 후보 발급)
+
+- 본편 제품 `83d3f350de0900ce050277d6da1331940d1872a3`에서 세 fresh-title profile을
+  state injection 없이 W1→W240까지 완주했고, 오디오 strict teardown 12/12와
+  import 후 전체 감사를 통과했다. 공개 M01~M06 `story_demo_rc` 바이트와 사용자
+  GO는 바꾸지 않았다.
+- 실제 W1→W193 제품 입력으로 property/general M49 수동 저장을 각각 만들고 KO
+  냉간 불러오기에서 챕터 5·결산 진입과 입력·선택·상태 무변조를 확인했다. 자동
+  증거는 사람 플레이를 대신하지 않으므로 본편은 HOLD다.
+- 다음 사람 과업은 같은 exact review wrapper에서 property와
+  `general_near_goal_father_passed` M49~M60을 정상 속도로 각각 완주하는 것이다.
+  그 뒤 다음 20단위 제품 배치가 공개 M06의 3×5 실제 영수증을 M07~M12로 잇는다.
+
 ## 2026-09-01 (Codex — 공개 M01~M06와 본편 M01~M60 범위 정렬)
 
 - 공개 출시 데모는 exact `story_demo_rc` BUILD `2026.08.31.1`의 M01~M06으로

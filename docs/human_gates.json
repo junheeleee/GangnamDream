@@ -32,10 +32,10 @@
     },
     "chapter5_finale_rc": {
       "status": "active",
-      "commit": "9b294d5ab9333cba217f396de96bbc52b5dfee7c",
-      "tree": "ebaf799e1bca32fe4f02d7c15501bda95d591e0e",
-      "manifest_sha256": "9927a87509bd66f804f40972fb83c84d77ab5b7ba0d8fd41b503f9cbe99a2565",
-      "note": "ORDER-138이 2026-08-29 위임 L3의 잔여 반려 범위를 수리한 새 source 후보다. general은 M51의 실제 대답을 W211 이름 경계에서 현재 행동으로 되돌리고 W220 매체→W224 사진·약봉지·빈 의자 행동→W229 물성→W234 몸의 문턱→W237 삼십 분 비용→W240 실제 삭제·무응답 선발신으로 잇는다. property는 종막 영수증의 읽는 사실을 줄이지 않고 장면 첫 이미지에 융합했다. KO/EN 960x600·1280x800·1920x1080 일반 156장과 property 72장, 총 228장 digest 3a5842d30750026b5eeaea50eaa6b0b1b82d453ee419cf74e965279f18ce1aab에서 검은 화면·잘림·언어 누출·허위 동석 0이며 M55 블레이저·무초상, 무답장·무이체·미소유·아버지 불부활·민준 단독 경계를 보존했다. 저장·엔딩·작성 선택기·감독·연출 catalog와 대상 전체 감사가 GREEN이다. 자동·화면 증거는 정상 속도 L3를 대체하지 않는다. 같은 exact 문서 wrapper에서 property와 general_near_goal_father_passed M49~M60을 각각 다시 플레이해야 하며 두 사람 게이트와 사용자 최종 GO는 OPEN, main은 HOLD다. 예전 771d0e7과 002a493은 역사 후보로만 남기고 재사용하지 않는다."
+      "commit": "83d3f350de0900ce050277d6da1331940d1872a3",
+      "tree": "97f81c70c11452ef851b4cb0646c5e557544fd93",
+      "manifest_sha256": "6bc13de7c252d457ad36dcd5bfa18c634f51c7f41c40b5e6ec6450e521c835ca",
+      "note": "ORDER-147 exact Chapter 5 사람 재플레이 후보다. 제품 83d3f350de0900ce050277d6da1331940d1872a3 / tree 97f81c70c11452ef851b4cb0646c5e557544fd93 / source manifest 6bc13de7c252d457ad36dcd5bfa18c634f51c7f41c40b5e6ec6450e521c835ca를 clean exact에서 고정했다. baseline_safe_people·investment_property_daeun·general_near_goal_father_passed가 각각 fresh title W1→W240을 실제 화면 입력, state injection 0, action/commitment mismatch 0, strict teardown으로 완주했고 JSONL SHA-256은 36890bba4c2b84390a5cbec22bd77f3f225ab62987df425e0ce93d8cabed85c8 / 1502f92204241a9b544c1449446272182fbbb714381259e740565237a6150f71 / 63bf0ea955d417819addb1cbc674cfc5e5c4250d4f440a555fc1aa3a43ff99c8다. 3 WAV+2 OGG 오디오 종료 stress 12/12와 import 후 전체 감사가 통과했고 전체 감사 로그 SHA-256은 6b30e4b7ccbb294f41b3caf51b960b5380967a80b9abd3853430d25f74cb70fb다. 두 fresh W1→W193 실행은 sealed matrix의 week_open과 chapter_card_37 story_enter semantic SHA에 일치했고, 실제 StoryMode+SaveManager가 M49 수동 저장 slot 1 property 7239040565920fcb2ffad0d606078ce9a436c8ae2ddd5fd2ed29542ff83bd3af와 slot 2 general 5f4b5a0f6842e8ac726ee45b3c361ad1a45dc6c665c89009fe812acec5cf6aa8을 만들었다. KO load-only smoke는 챕터 5·결산 화면, input 0, choice 0, state mutation 0을 확인했다. 이 자동·불러오기 증거는 정상 속도 사람 판정을 대체하지 않는다. 같은 exact review wrapper에서 property와 general_near_goal_father_passed M49~M60을 각각 다시 플레이해야 하며 두 사람 게이트는 OPEN, full·main·product GO는 HOLD다. 공개 story_demo_rc M01~M06 GO 제품은 변경 없고, 예전 771d0e7·9909437·b375af2·002a493·9b294d5는 역사 후보로만 남기고 재사용하지 않는다."
     },
     "full_rc": {
       "status": "active",
