@@ -20,6 +20,9 @@
 
 ## 2026-09-02 (Codex — Chapter 5 실제 플레이 REJECT 수리 착수)
 
+- origin의 Claude 브랜치가 같은 기준점에서 `ORDER-148`과 프롤로그용
+  `ORDER-149`를 먼저 발급한 것을 확인했다. 두 오더를 보존하기 위해 이 5장
+  수리의 번호만 `ORDER-150`으로 재등록했으며 제품 범위와 게이트는 불변이다.
 - exact wrapper `84b6498d7f1b69e8bcef5bc51880b3ed9b726435` / 제품
   `83d3f350de0900ce050277d6da1331940d1872a3`에서 property와 general을 실제
   Studio Display·Godot 4.6.2·1280×800·KO 정상 속도로 M49→M60→후일담→
@@ -31,7 +34,7 @@
 - W207/W230/W237/W240, M55 복장, 무이체·무소유·무응답, 결말과 credits 6/6,
   검은 화면·잘림·crash 0은 통과점으로 동결했다. 첫 credits page는 유실이 아니라
   page 0의 `장면 n/3`이 전체 `1/6`을 덮는 표기 결함으로 확정했다.
-- ORDER-149를 20단위 표적 수리로 선언했다. 공개 M01~M06 사용자 GO, 30억
+- ORDER-150을 20단위 표적 수리로 선언했다. 공개 M01~M06 사용자 GO, 30억
   `instant_legend`, AP 행동판 0, 경제·엔딩 threshold, 원본 slot hash와
   `project.godot`은 건드리지 않는다.
 - 구현 중 기존 SNS 약속 선택이 실제 동의 없이 `startup_collab_joined`를 생산하던

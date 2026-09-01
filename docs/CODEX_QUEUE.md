@@ -59,7 +59,7 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-149 · Ch5 human REJECT 수리 | [149](queue_active/ORDER-149.md) | candidate waiting_rebuild · 두 replay OPEN |
+| 1 | [~] | ORDER-150 · Ch5 human REJECT 수리 | [150](queue_active/ORDER-150.md) | candidate waiting_rebuild · 두 replay OPEN |
 | 2 | [~] | ORDER-147 · runtime identity | [147](queue_active/ORDER-147.md) | matrix GREEN · human REJECT |
 | 3 | [~] | ORDER-146 · ledger | [146](queue_active/ORDER-146.md) | candidate waiting_rebuild · 두 replay OPEN |
 | 4 | [~] | ORDER-145 · 후보 | [145](queue_active/ORDER-145.md) | HOLD |

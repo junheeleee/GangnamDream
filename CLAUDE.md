@@ -13,7 +13,7 @@
 | 현재 범위 | 1턴=1주, 240주·60개월(5년). **출시 데모는 M01~M06에서 끝나는** `story_demo_rc` BUILD `2026.08.31.1`이고 사용자 GO다. 본편은 M01~M60 전체의 장면·선택·회수·정점 상승을 한 작품으로 관리한다. 반복 행동판은 0이며 저장 호환 AP 데이터·엔진 삭제 GO는 아니다. |
 | 품질 게이트 | [`docs/MASTER_RELEASE_AUDIT.md`](docs/MASTER_RELEASE_AUDIT.md). 콘텐츠 수량보다 블랙박스 플레이, 한영 패리티, 패드 과업, 사람 기억·전환 증거로 판정한다. |
 | 최근 완료 | exact wrapper `84b6498` / 제품 `83d3f350`의 property와 general M49~M60을 실제 Studio Display·Godot 4.6.2·1280×800·KO 정상 속도로 크레딧 6/6까지 완주했다. 둘 다 REJECT이며 지속 검은 화면·잘림·crash는 없고 기존 M49 slot hash는 불변이다. 공개 M01~M06 데모 바이트와 GO도 불변이다. |
-| 바로 다음 | ORDER-149에서 결혼 뒤 주거·달력·화자·resume tutorial과 general의 원격 민서·허위 외부 반응·legacy 후기 재진입·중복 SNS·credits 1/6 표기를 표적 수리한다. 새 exact product와 review HEAD에서 두 경로 M49~M60 전체 사람 재플레이를 다시 받기 전에는 본편 GO로 올리지 않는다. |
+| 바로 다음 | ORDER-150에서 결혼 뒤 주거·달력·화자·resume tutorial과 general의 원격 민서·허위 외부 반응·legacy 후기 재진입·중복 SNS·credits 1/6 표기를 표적 수리한다. 새 exact product와 review HEAD에서 두 경로 M49~M60 전체 사람 재플레이를 다시 받기 전에는 본편 GO로 올리지 않는다. |
 | 열려 있는 사람 게이트 | [`docs/human_gates.json`](docs/human_gates.json)이 정본이다. Chapter 5 두 경로와 JA·zh-CN·zh-TW 원어민 판정은 OPEN이며 full·main·product는 HOLD다. **초록불은 재미 판정이 아니다.** |
 | 그다음 | 다음 20단위 제품 배치는 공개 M06의 3개 위험 맥락×5개 실제 행동 영수증을 M07~M12가 읽게 한다. 공개 데모에 없던 현수 사실을 발명하지 않고 M08 이사/유지, M10 주거비, M11 새 문, M12 독자를 수리한다. 240주 JA·zh-CN·zh-TW 번역은 KO/EN 원고·런타임 동결 뒤 별도다. |
 | 자산 조달 | **외주 0원.** 인물 디자인·작곡·UI 아트·유료 서체를 사지 않고 Codex와 무료 라이선스(임베딩이 허용된 OFL·CC0 등)로만 만든다. 인력·구매를 전제한 계획을 세우지 않는다. 생성 자산의 결함은 품질이 아니라 평균성이므로 동일 후처리·고정 서명·채택률로 이긴다. 정본은 `docs/DECISIONS.md` 2026-07-30 항목이 소유한다. |

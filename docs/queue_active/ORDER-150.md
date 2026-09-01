@@ -1,8 +1,8 @@
-# Active Queue Spec: ORDER-149
+# Active Queue Spec: ORDER-150
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-149 [P0·human REJECT repair] 5장 실제 플레이에서 깨진 주거·시간·원격 사실·화자·legacy ingress·크레딧을 봉인한다
+#### [~] ORDER-150 [P0·human REJECT repair] 5장 실제 플레이에서 깨진 주거·시간·원격 사실·화자·legacy ingress·크레딧을 봉인한다
 
 **[~] 2026-09-02 Codex 착수 · 반려 제품
 `83d3f350de0900ce050277d6da1331940d1872a3` · 검토 wrapper
@@ -16,6 +16,11 @@
 
 공개 출시 데모는 사용자가 GO한 exact `story_demo_rc` M01~M06 BUILD
 `2026.08.31.1`이다. 이 오더는 공개 데모 범위·제품 바이트를 바꾸지 않는다.
+
+**번호 정합 2026-09-02:** 같은 기준점에서 Claude가 프롤로그 리듬 작업을
+`ORDER-149`로 먼저 발급한 사실을 origin fetch로 확인했다. 그 오더와 새
+`ORDER-148`은 그대로 보존하고, 뒤에 선언된 이 5장 수리만 `ORDER-150`으로
+재등록했다. 번호만 바뀌며 반려 후보·제품 범위·사람 게이트는 바뀌지 않는다.
 
 ## 깊이 3문
 
