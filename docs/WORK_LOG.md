@@ -48,6 +48,12 @@
 - M51의 물리 대면을 원격 메시지로 바꾼 사실을 W224가 다시 물리 대면으로 부르지
   않게 하는 KO/EN `arc_year3_drama.json`의 exact 결과 한 줄도 같은 선언 범위에
   포함했다.
+- 전체 회귀를 제품 커밋 전에 실행해, 변경된 exact 사건 때문에 심의 원장 네 축과
+  생성 보고서가 낡고 `audit.sh` 등록 때문에 전체 런 추적기 source seal이 바뀐 것을
+  확인했다. 또한 공동 주거 gate를 Y1 fixture가 결혼 전에 주입하던 시뮬레이터 결함을
+  확인했다. `release_content_inventory.json`, `CONTENT_RATING_INVENTORY.md`,
+  `full_game_runtime_trace_audit.py`, `arc_flow_sim.py`를 파생 재생성·반례 범위로 제품
+  커밋 전에 추가 선언했으며, 제품 gate나 새 서사 사실은 넓히지 않는다.
 ## 2026-09-02 (Claude — 탐색 2라운드·P-18 결정·ORDER-149)
 
 - **탐색 2라운드는 결함 0이다.** 선언 엔딩 35개 전부가 런타임·사건·메타 중 최소

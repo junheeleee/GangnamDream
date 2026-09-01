@@ -96,6 +96,15 @@ presentation 사실은 `content/meta/story_rules.json`, 필요한 기존 연출�
 임의 producerless flag나 새 reader를 허용하지 않는다. 이는 save adapter·제품 상태
 변경이 아니라 검사기의 좁은 호환 예외다.
 
+**[scope expansion 2 선언 · 제품 커밋 전]:** 위 exact 사건 수정은 심의 원장의
+gambling·sexuality·fear·crime 축 해시를 필연적으로 바꾸고, `audit.sh` 등록 변경은
+전체 런 추적기의 source seal을 바꾼다. 따라서 파생 정본
+`content/meta/release_content_inventory.json`, 생성 보고서
+`docs/CONTENT_RATING_INVENTORY.md`, `tools/full_game_runtime_trace_audit.py`를 재생성
+범위로 추가한다. 공동 주거 gate를 실제 결혼 전부터 주입하던 검증 fixture를 제품과
+같은 시점으로 맞추기 위해 `tools/arc_flow_sim.py`도 추가한다. 네 파일은 새 서사·
+제품 규칙을 만들지 않고 현재 제품 바이트에서 계산되는 값과 반례만 갱신한다.
+
 같은 JSON에 통과점이 있으면 exact root/field만 수정한다. 공개 M01~M06 사건·자산,
 `content/meta/demo_core_loop_v2.json`, `project.godot`, full 경제·밸런스, 엔딩
 라우팅, save handoff adapter는 비소유다.
