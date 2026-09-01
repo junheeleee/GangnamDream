@@ -7,7 +7,7 @@
 > 전 구간 선택 그래프를 대화형으로 보려면:
 > `python3 tools/project_dashboard.py` → `build/project_dashboard.html`
 >
-> 생성 시각 · 커밋: `2026-09-01 23:29 UTC · 6d28ed75`
+> 생성 시각 · 커밋: `2026-09-01 23:32 UTC · 33a60478`
 
 **개발용이다.** 아래는 `tint`·`route_*`와 정확한 수치를 그대로 적는다.
 플레이어에게 노출하지 않는 값이므로 이 문서를 플레이어 대상 자료로 쓰지 않는다.
@@ -98,7 +98,7 @@
 | ID | 제목 | 상태 | 현재 게이트 |
 |---|---|---|---|
 | `ORDER-150` | Ch5 human REJECT 수리 | 진행 | candidate waiting_rebuild · 두 replay OPEN |
-| `ORDER-148` | 5장 종막의 부정 종결 습관을 푼다(사실은 유지) | 미착수 | 결과문 248개 중 부정절 3개 이상 32·마지막이 부정 53, 합집합 69 수리 대상 · 금지 사실은 한 건도 삭제 금지 · 미착수 |
+| `ORDER-148` | 5장 종막의 부정 종결 습관을 푼다(사실은 유지) | 미착수 | ORDER-150 exact 제품 뒤 재계측 · 금지 사실은 한 건도 삭제 금지 · 선행 대기 |
 | `ORDER-149` | 프롤로그 세 비트가 같은 속도로 지나가는 문제를 푼다 | 미착수 | P-18 1층만 · FADE_SECONDS 0.52 하나를 세 비트가 공유·hold 3.10/3.10/3.00 · 새 자산 0 · 미착수 |
 | `ORDER-147` | runtime identity | 진행 | matrix GREEN · human REJECT |
 | `ORDER-146` | ledger | 진행 | candidate waiting_rebuild · 두 replay OPEN |
