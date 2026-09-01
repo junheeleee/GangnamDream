@@ -7,7 +7,7 @@
 > 전 구간 선택 그래프를 대화형으로 보려면:
 > `python3 tools/project_dashboard.py` → `build/project_dashboard.html`
 >
-> 생성 시각 · 커밋: `2026-09-01 00:27 UTC · 83d3f350`
+> 생성 시각 · 커밋: `2026-09-01 22:34 UTC · 84b6498d`
 
 **개발용이다.** 아래는 `tint`·`route_*`와 정확한 수치를 그대로 적는다.
 플레이어에게 노출하지 않는 값이므로 이 문서를 플레이어 대상 자료로 쓰지 않는다.
@@ -23,8 +23,8 @@
 
 | 범위 | 판정 | 후보 | 표본·환경 | 합격 기준 | 소유 |
 |---|---|---|---|---|---|
-| chapter5-finale, claim:full-play-ready · 같은 chapter5_finale_rc에서 M49 계약 원문부터 M60 마지막 선발신·엔딩 후일담까지 이어지는 KO 기준 경로 | **5장 M49~M60 정상 속도 인과·격동·결말 체험**<br><sub>자동 검사는 19+9개의 장면 기능, 선택 영수증, 무이체와 엔딩 연결을 증명한다. 계약 문서가 사람 사이의 압박으로 읽히는지, 마지막으로 갈수록 더 치밀해지는지는 정상 속도 플레이어만 판정한다.</sub><br><strong>판정: Claude(사용자 위임) — 조건부 · 재작성: arc_y5_property_not_executed_notice, arc_y5_remaining_jaehyuk_or_self, arc_y5_final_father_answer_passed, arc_final_countdown_property_not_executed</strong><br><sub>판정: Claude(사용자 위임) — CONDITIONAL. 방법은 이전 회차와 다르다. 실제 MainGame 주간 우선순위 체인(causal→finale→arc→milestone)과 실제 StoryMode를 Godot 4.6.2로 구동해 W193~W240을 선택 세트 2개로 완주하고, 책턴5 KO 화면을 1280x800으로 렌더해 육안 확인했다. 이전 반려 2건은 닫혔다. W207 선택 2는 화면에서 배경 cafe·초상 daeun_normal·이름표 김다은으로 이동하고 선택 0·1은 meeting·상철을 유지한다. W230은 출입문→민서 입장→빈 의자 착석이 민서의 첫 현장 행동보다 먼저 오며 cafe·무초상이다. W217 다은 블레이저와 W220 arc_y5_room_consent_receipt 무초상도 유지된다. 밀도는 48주 중 39주가 작성 뿌리를 가지고 최장 공백 4주, 47장면 22352자, 실제 선택 레일 37개이며 W235→W238→W239→W240 서명→같은 턴 다은 선발신→선택별 엔딩 후일담까지 상승이 작동한다. 허위 소유·이체·읽음·답장·재회 0. 조건은 종막 뿌리가 모두 영수증 한 줄 문단 더미로 열리는 점이다. W240은 본 장면 전에 넨 줄이 먼저 놓여 마지막 밤이 색인으로 시작한다. 인과 회수 장치 자체는 유지하되 최소 두 줄을 장면 첫 이미지에 융합할 것을 권고한다. 연속 오디오·물리 패드·EN 패리티·움직임 속 전환 체감은 이 회차에서 판정하지 않았다.</sub><br><sub>정본 서명: 사용자 최종 GO 대기</sub> | `chapter5_finale_rc · ACTIVE 83d3f350 / manifest 6bc13de7` | chapter5_finale_first_normal_reading<br>새로 발급된 동일 chapter5_finale_rc에서 M49~M60을 건너뛰기 없이 정상 독해 속도로 진행<br>M53 보증과 M55 공동 결정에서 무엇을 포기했는지, M57 접수와 M60 서명이 무엇을 바꿨는지 유도 없이 기록<br>검은 화면·장면 중복·주차 건너뜀·선택 뒤 허위 이체나 답장이 없는지 연속 확인 | 문서가 정보 카드가 아니라 상철·다은·민서·재혁과의 압박과 책임으로 읽힘<br>M49~M60의 긴장이 엔딩으로 갈수록 되풀이가 아니라 더 좁아지는 선택과 실제 포기로 상승함<br>무이체 결말이 빈 결말이 아니라 닫힌 문·쓴 시간·먼저 보낸 말의 결과로 남고 사용자 최종 GO | `ORDER-134` |
-| chapter5-finale, claim:full-play-ready · 같은 chapter5_finale_rc의 general_near_goal_father_passed 경로에서 M49부터 W240 서명·같은 턴 선발신·엔딩 후일담까지 이어지는 KO 기준 체험 | **5장 일반 문턱 경로 M49~M60 정상 속도 선택 회수**<br><sub>자동 검사는 M51→W211 이름 경계→W220 매체→W224 기일 행동→W229 물성→W234 몸의 문턱→W237 오늘의 포기→W240 실제 삭제·선발신의 정확한 영수증과 순서만 증명한다. 그것이 장면 수 채우기가 아니라 기억과 사람의 압박으로 읽히고 끝으로 갈수록 실제로 좁아지는지는 정상 속도 플레이어만 판정한다.</sub><br><strong>판정: Claude(사용자 위임) — 전량 반려</strong><br><sub>판정: Claude(사용자 위임) — REJECT. 방법은 실제 MainGame 주간 우선순위 체인과 실제 StoryMode를 Godot 4.6.2로 구동한 W193~W240 완주 2회와 챕터5 KO 1280x800 렌더 검수다. 픽스처 기준선은 실제 192주 챕터5 세이브 사본이다. 이전 반려 사유 가운데 둘은 닫혔다. W237은 색인·첨부·봉인 정리가 아니라 ‘오늘 남은 삼십 분을 어디에 쓸 것인가’가 주동사이고 양쪽 가지 모두 실제 비용을 남긴다. W240은 세 주소 삭제 또는 수첩 첫 장 30억 두 줄 삭제라는 되돌릴 수 없는 행동에 영수증을 남기고 같은 턴 선발신과 선택별 엔딩 후일담으로 이어진다. W220→W224 회수도 선택별로 화면에 실제로 붙는다. 막는 사유는 둘이다. 첫째는 모양이다. 48주 중 28주만 작성 뿌리를 가지고 20주가 비며 W225~W233이 9주 연속, W238~W239가 2주 연속 작성 전경 사건 없이 제네릭 표면으로 떨어진다. 같은 48주에 property는 39주·최장 공백 4주· 22352자인데 general은 17003자로 24% 적다. 마지막 분기가 조여지지 않고 얇아진다. ORDER-135가 선언한 결함이 뿌리 4개로는 닫히지 않았다. 둘째는 W224 품질이다. 아버지 기일 주에서 W220 회수가 장면의 마지막 이미지 뒤에 각주로 붙고 ‘그 녹음의 시각이 오늘 사진 옆 약봉지의 날짜와 이어졌다’처럼 연결을 설명한다. 선택지는 옛 제네릭 3개 그대로여서 플레이어는 회수를 읽되 그것으로 행동할 수 없고, 한 가지는 65자 결과로 끝난다. 이 프로필의 인간선 정점이 그 해에서 가장 약한 작성 비트다. 무응답·미소유·무이체· 아버지 불부활·혼자 있는 W240·검은 화면·잘림 0은 보존됐다. 연속 오디오·물리 패드·EN 패리티는 이 회차에서 판정하지 않았다.</sub><br><sub>정본 서명: 사용자 최종 GO 대기</sub> | `chapter5_finale_rc · ACTIVE 83d3f350 / manifest 6bc13de7` | chapter5_general_near_goal_first_normal_reading<br>정확히 active인 chapter5_finale_rc에서 W193 뒤 자동 진행 없이 M49~M60을 정상 독해 속도로 진행<br>앞일을 보지 않고 M51·W211·W220·W224·W229·W234를 선택한 뒤 W237의 오늘 비용과 W240 실제 포기·선발신에서 무엇이 되돌아오는지 기록<br>검은 화면·장면 중복·허위 답장·소유·이체와 민서·아버지의 허위 동석이 없는지 연속 확인 | 앞선 선택이 장부 요약이 아니라 현재의 압박과 구체 행동으로 돌아옴<br>비트 수 할당 없이 긴장이 W240으로 갈수록 반복이 아니라 더 좁아지는 해석과 실제 사람 행동으로 상승함<br>혼자 있는 장소, 원격 민서, 별세한 아버지, 미소유 부동산, 무이체의 사실 경계가 끝까지 유지되고 사용자 최종 GO | `ORDER-135` |
+| chapter5-finale, claim:full-play-ready · 같은 chapter5_finale_rc에서 M49 계약 원문부터 M60 마지막 선발신·엔딩 후일담까지 이어지는 KO 기준 경로 | **5장 M49~M60 정상 속도 인과·격동·결말 체험**<br><sub>자동 검사는 19+9개의 장면 기능, 선택 영수증, 무이체와 엔딩 연결을 증명한다. 계약 문서가 사람 사이의 압박으로 읽히는지, 마지막으로 갈수록 더 치밀해지는지는 정상 속도 플레이어만 판정한다.</sub><br><strong>판정: Claude(사용자 위임) — 전량 반려</strong><br><sub>판정: Claude(사용자 위임·Studio Display 실제 플레이) — REJECT. 검토 wrapper 84b6498d7f1b69e8bcef5bc51880b3ed9b726435와 런타임 제품 83d3f350de0900ce050277d6da1331940d1872a3을 Godot 4.6.2·1280x800·KO·정상 독해 속도로 M49~M60·후일담·크레딧 6/6까지 완주했다. W207, M53/M55/M57, W230, M59/M60 사람 압박·무이체·무소유·무답장과 검은 화면·잘림·crash 0은 통과했다. 막는 결함은 결혼 뒤 고시원 회귀와 신혼집 도약, 12월·마지막 달 뒤 9월로 돌아가는 시간축, 의사·재혁 발화의 김민준 명패, W193의 33세·50만원 tutorial 및 늦은 20억/25억 고정 문구다. 첫 credits 장면은 실제로 보였으나 전체 1/6 대신 내부 장면 1/3~3/3만 표시됐다. 새 exact 후보에서 전체 M49~M60 실제 재플레이가 필요하다.</sub><br><sub>정본 서명: 사용자 최종 GO 대기</sub> | `chapter5_finale_rc · REBUILD 대기` | chapter5_finale_first_normal_reading<br>새로 발급된 동일 chapter5_finale_rc에서 M49~M60을 건너뛰기 없이 정상 독해 속도로 진행<br>M53 보증과 M55 공동 결정에서 무엇을 포기했는지, M57 접수와 M60 서명이 무엇을 바꿨는지 유도 없이 기록<br>검은 화면·장면 중복·주차 건너뜀·선택 뒤 허위 이체나 답장이 없는지 연속 확인 | 문서가 정보 카드가 아니라 상철·다은·민서·재혁과의 압박과 책임으로 읽힘<br>M49~M60의 긴장이 엔딩으로 갈수록 되풀이가 아니라 더 좁아지는 선택과 실제 포기로 상승함<br>무이체 결말이 빈 결말이 아니라 닫힌 문·쓴 시간·먼저 보낸 말의 결과로 남고 사용자 최종 GO | `ORDER-149` |
+| chapter5-finale, claim:full-play-ready · 같은 chapter5_finale_rc의 general_near_goal_father_passed 경로에서 M49부터 W240 서명·같은 턴 선발신·엔딩 후일담까지 이어지는 KO 기준 체험 | **5장 일반 문턱 경로 M49~M60 정상 속도 선택 회수**<br><sub>자동 검사는 M51→W211 이름 경계→W220 매체→W224 기일 행동→W229 물성→W234 몸의 문턱→W237 오늘의 포기→W240 실제 삭제·선발신의 정확한 영수증과 순서만 증명한다. 그것이 장면 수 채우기가 아니라 기억과 사람의 압박으로 읽히고 끝으로 갈수록 실제로 좁아지는지는 정상 속도 플레이어만 판정한다.</sub><br><strong>판정: Claude(사용자 위임) — 전량 반려</strong><br><sub>판정: Claude(사용자 위임·Studio Display 실제 플레이) — REJECT. 검토 wrapper 84b6498d7f1b69e8bcef5bc51880b3ed9b726435와 런타임 제품 83d3f350de0900ce050277d6da1331940d1872a3을 Godot 4.6.2·1280x800·KO·정상 독해 속도로 M49~M60·후일담·크레딧 6/6까지 완주했다. W237의 실제 30분 비용과 W240의 실제 삭제→같은 턴 민서 선발신, 무읽음·무답장·무만남·무소유·무이체, 아버지 불부활, 검은 화면·잘림·crash 0은 통과했다. 막는 결함은 M51 민서의 카페 물리 동석, W215/W216/W235의 허위 읽음·답장·상대 시간 선택, W207/W221/W227/W239의 오래된 현수·카지노·직장·마진콜 장면 첫 진입, 2055년 나이·12월 시간 모순, 상사·지배인·중개사 발화의 김민준 명패, SNS 삭제 뒤 피드/DM 재등장과 반복 압박 문구다. 앞선 SNS 삭제 때문에 W240 정점도 약해졌다. 새 exact 후보에서 전체 M49~M60 실제 재플레이가 필요하다.</sub><br><sub>정본 서명: 사용자 최종 GO 대기</sub> | `chapter5_finale_rc · REBUILD 대기` | chapter5_general_near_goal_first_normal_reading<br>정확히 active인 chapter5_finale_rc에서 W193 뒤 자동 진행 없이 M49~M60을 정상 독해 속도로 진행<br>앞일을 보지 않고 M51·W211·W220·W224·W229·W234를 선택한 뒤 W237의 오늘 비용과 W240 실제 포기·선발신에서 무엇이 되돌아오는지 기록<br>검은 화면·장면 중복·허위 답장·소유·이체와 민서·아버지의 허위 동석이 없는지 연속 확인 | 앞선 선택이 장부 요약이 아니라 현재의 압박과 구체 행동으로 돌아옴<br>비트 수 할당 없이 긴장이 W240으로 갈수록 반복이 아니라 더 좁아지는 해석과 실제 사람 행동으로 상승함<br>혼자 있는 장소, 원격 민서, 별세한 아버지, 미소유 부동산, 무이체의 사실 경계가 끝까지 유지되고 사용자 최종 GO | `ORDER-149` |
 | claim:ja · 일본어 본문·엔딩·카탈로그를 출시 언어로 표시하는 주장 | **일본어 원어민 검수**<br><sub>커버리지 검사는 키 누락과 한글 누출을 잡는다. 자연스러움은 원어민만 안다.</sub> | `full_rc · ACTIVE 6c91e11c / manifest 1cef15ff` | ja_native_release_review<br>일본어 본문·엔딩·카탈로그와 대표 15장 캡처<br>게임 문맥을 아는 일본어 원어민 검수자 | 의미 반전·누락·한글 누출·번역투가 출시 표면에 없음<br>원어민이 자연스러운 일본어 출시본으로 GO | `ORDER-21` |
 | claim:ja-story-demo · story_demo_rc의 M01~M06 실제 14사건·모든 선택·결과·도달 UI 121개 일본어 표면 | **M01~M06 story demo 일본어 원어민 출시 claim 검수**<br><sub>구조·fallback·폰트·화면 자동 검사는 자연스러운 인물 말투와 한국 생활 맥락의 설명량을 승인하지 못한다. 로컬 플레이는 가능하지만 일본어 지원을 출시 언어로 주장하기 전 원어민 직접 대조가 필요하다.</sub> | `story_demo_rc · ACTIVE 362578d8 / manifest 50eed10b` | story_demo_ja_native_context_review<br>한국어 정본과 게임 문맥을 함께 이해하는 일본어 원어민 검수자<br>exact story_demo_rc BUILD 2026.08.31.1과 story_demo_localization_audit.py PASS 14사건·100 leaf·UI 121을 사용<br>M01 두 선택, M02 두 경로, M03~M05, M06 두 위험 root·다섯 공통 선택·대가 ledger를 한국어 정본에 직접 대조하고 960×600·1280×800 실제 화면을 확인 | 오역·누락·한글 누출·불필요한 영어 혼용·번역투가 없음<br>인물 말투·관계 거리·원화와 고시원 등 한국 맥락·선택 인과가 자연스러운 일본어 장면으로 읽힘<br>Noto Sans JP 자형·줄바꿈·안전영역에 원어민 GO | `ORDER-126` |
 | claim:zh-CN-story-demo · story_demo_rc의 M01~M06 실제 14사건·모든 선택·결과·도달 UI 121개 zh-CN 표면 | **M01~M06 story demo 간체 중국어 원어민 출시 claim 검수**<br><sub>엄격 검사는 간체 문자·SC primary·토큰·구조를 잡지만 중국 본토의 자연스러운 어휘, 인물 온도와 한국 문화 설명량을 승인하지 못한다. 로컬 플레이와 중국 본토 유통 주장은 분리한다.</sub> | `story_demo_rc · ACTIVE 362578d8 / manifest 50eed10b` | story_demo_zh_cn_native_context_review<br>한국어 정본과 게임 문맥을 함께 이해하는 중국 본토 원어민 검수자<br>exact story_demo_rc BUILD 2026.08.31.1과 story_demo_localization_audit.py PASS 14사건·100 leaf·UI 121, Noto Sans SC primary를 사용<br>M01 두 선택, M02 두 경로, M03~M05, M06 두 위험 root·다섯 공통 선택·대가 ledger를 한국어 정본에 직접 대조하고 960×600·1280×800 실제 화면을 확인 | 오역·누락·한글·가나·미번역 영어·지역 문자 혼용·번역투가 없음<br>인물 말투·관계 거리·원화와 고시원 등 한국 맥락·선택 인과가 중국 본토의 자연스러운 간체 장면으로 읽힘<br>Noto Sans SC 자형·줄바꿈·안전영역에 원어민 GO | `ORDER-126` |
@@ -71,12 +71,8 @@
 
 ## 당신의 결정을 기다리는 것
 
-에이전트가 작업 중 부딪혀 올린 제안이다. 규칙·상한은
-[`PROPOSALS.md`](PROPOSALS.md)가 소유하며, 21일이 지나면 감사가 실패한다.
-
-| | 제안 | 안 하면 계속 내는 것 | 권고 | 열림 |
-|---|---|---|---|---|
-| `P-18` | 프롤로그에 리듬이 없다 — 기술은 다 있는데 모든 비트가 같은 속도다 | 하면: (1)은 프롤로그 데이터 구조가 한 칸 늘고 KO/EN 두 해상도 | ****(1)만 먼저 한다.** 새 자산이 0이고 되돌리기 쉬우며, 실물을 보고** | 2026-08-11 |
+열린 제안이 없다. 에이전트가 작업 중 부딪힌 것을
+[`PROPOSALS.md`](PROPOSALS.md)에 올리면 여기 실린다.
 
 ## 한눈에
 
@@ -101,15 +97,16 @@
 
 | ID | 제목 | 상태 | 현재 게이트 |
 |---|---|---|---|
-| `ORDER-147` | runtime identity | 진행 | matrix GREEN · L3 OPEN |
-| `ORDER-146` | ledger | 진행 | candidate active · 두 replay OPEN |
+| `ORDER-149` | Ch5 human REJECT 수리 | 진행 | candidate waiting_rebuild · 두 replay OPEN |
+| `ORDER-147` | runtime identity | 진행 | matrix GREEN · human REJECT |
+| `ORDER-146` | ledger | 진행 | candidate waiting_rebuild · 두 replay OPEN |
 | `ORDER-145` | 후보 | 진행 | HOLD |
 | `ORDER-143` | graph | 진행 | M01~M06 보호 · HOLD |
 | `ORDER-144` | trace | 진행 | PENDING · human OPEN |
 | `ORDER-142` | volume | 진행 | M01~M60 · HOLD |
-| `ORDER-138` | finale | 진행 | 두 사람 게이트 OPEN · HOLD |
-| `ORDER-137` | Ch5 수리 | 진행 | 두 L3 OPEN · HOLD |
-| `ORDER-135` | 일반 경로 | 진행 | 사용자 GO OPEN · HOLD |
+| `ORDER-138` | finale | 진행 | human REJECT · HOLD |
+| `ORDER-137` | Ch5 수리 | 진행 | human REJECT · HOLD |
+| `ORDER-135` | 일반 경로 | 진행 | human REJECT · HOLD |
 | `ORDER-119` | 표면 언어 | 진행 | 사용자 GO OPEN |
 | `ORDER-118` | startup | 진행 | 사용자 GO OPEN · R1b HOLD |
 | `ORDER-117` | career | 진행 | 사용자 GO OPEN · R1b HOLD |

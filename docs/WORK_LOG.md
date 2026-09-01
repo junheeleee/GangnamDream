@@ -18,6 +18,23 @@
 > [`7/25`](history/WORK_LOG_2026-07-25.md)에 손실 없이 보존한다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
 
+## 2026-09-02 (Codex — Chapter 5 실제 플레이 REJECT 수리 착수)
+
+- exact wrapper `84b6498d7f1b69e8bcef5bc51880b3ed9b726435` / 제품
+  `83d3f350de0900ce050277d6da1331940d1872a3`에서 property와 general을 실제
+  Studio Display·Godot 4.6.2·1280×800·KO 정상 속도로 M49→M60→후일담→
+  credits 6/6까지 완주한 위임 판정을 받았다. 두 경로 모두 REJECT이며 후보를
+  `waiting_rebuild`, 두 gate를 `open`, full·main·product를 HOLD로 기록했다.
+- property는 결혼 뒤 고시원 회귀·달력 역전·화자 오표기·낡은 W193 tutorial과
+  20억/25억 문구가 막았고, general은 민서 물리 동석·허위 읽음/답장/일정 확정,
+  오래된 현수/카지노/직장/마진콜 장면의 5장 첫 진입, 시간·화자·SNS 중복이 막았다.
+- W207/W230/W237/W240, M55 복장, 무이체·무소유·무응답, 결말과 credits 6/6,
+  검은 화면·잘림·crash 0은 통과점으로 동결했다. 첫 credits page는 유실이 아니라
+  page 0의 `장면 n/3`이 전체 `1/6`을 덮는 표기 결함으로 확정했다.
+- ORDER-149를 20단위 표적 수리로 선언했다. 공개 M01~M06 사용자 GO, 30억
+  `instant_legend`, AP 행동판 0, 경제·엔딩 threshold, 원본 slot hash와
+  `project.godot`은 건드리지 않는다.
+
 ## 2026-09-01 (Codex — exact Chapter 5 재플레이 후보 발급)
 
 - 본편 제품 `83d3f350de0900ce050277d6da1331940d1872a3`에서 세 fresh-title profile을

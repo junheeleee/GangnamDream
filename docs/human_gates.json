@@ -31,11 +31,11 @@
       "note": "BUILD 2026.08.31.1 macOS 공개 M01~M06 story-first 후보가 active이며 범위·구조·사용자 체험은 최종 GO다. package source는 362578d8f4c0781fe35f643a74cc3037e7a80b21 / tree e7f50b065b3369afa1894df8292756a95f94fd11, 제품은 4e80a63e89821094b8bab21b8d5c73ecfc9b6278 / tree 0fdddf11e2ef030cd172d23e691e3d7da4ea29ff, 별도 review wrapper는 d149ce65a0cb397fe4d18cc9932561f828405dce다. manifest SHA-256 50eed10b18c2c2b056f875a8df55230dc07b5535c55e59ddb89fff1d64e91870, app tree 56a4f2997256e68baa21c02807fcf1f0e995ce114f57f96f26d309b300b7ec14, ZIP 956ac93524df6030ef984521550cec7dddafea381387a3df52194e43f5e61289다. KO·EN·JA·zh-CN·zh-TW 14사건·100 leaf·도달 UI 121과 JP/SC/TC 전용 primary font·OFL을 고정했다. 실제 StoryMode clean/ko 9, restitution/en 10, escalation/zh-CN 10 영수증 경로가 각각 M01~M06·24주·정산 6·수동 저장·별도 프로세스 cold restart exact resume·overlay/input clear·AP 원장 0으로 통과했고, BUILD 2026.08.25.1의 M2 저장 복사본도 원본 변경 없이 이어졌다. 사용자 최종 GO는 M01~M06 범위와 StoryMode 구조를 닫았고 JA·zh-CN·zh-TW 원어민 출시 claim 세 건만 별도 OPEN이다. main과 본편 이관은 HOLD이며 저장 호환 AP 데이터·엔진 삭제 GO가 아니다."
     },
     "chapter5_finale_rc": {
-      "status": "active",
-      "commit": "83d3f350de0900ce050277d6da1331940d1872a3",
-      "tree": "97f81c70c11452ef851b4cb0646c5e557544fd93",
-      "manifest_sha256": "6bc13de7c252d457ad36dcd5bfa18c634f51c7f41c40b5e6ec6450e521c835ca",
-      "note": "ORDER-147 exact Chapter 5 사람 재플레이 후보다. 제품 83d3f350de0900ce050277d6da1331940d1872a3 / tree 97f81c70c11452ef851b4cb0646c5e557544fd93 / source manifest 6bc13de7c252d457ad36dcd5bfa18c634f51c7f41c40b5e6ec6450e521c835ca를 clean exact에서 고정했다. baseline_safe_people·investment_property_daeun·general_near_goal_father_passed가 각각 fresh title W1→W240을 실제 화면 입력, state injection 0, action/commitment mismatch 0, strict teardown으로 완주했고 JSONL SHA-256은 36890bba4c2b84390a5cbec22bd77f3f225ab62987df425e0ce93d8cabed85c8 / 1502f92204241a9b544c1449446272182fbbb714381259e740565237a6150f71 / 63bf0ea955d417819addb1cbc674cfc5e5c4250d4f440a555fc1aa3a43ff99c8다. 3 WAV+2 OGG 오디오 종료 stress 12/12와 import 후 전체 감사가 통과했고 전체 감사 로그 SHA-256은 6b30e4b7ccbb294f41b3caf51b960b5380967a80b9abd3853430d25f74cb70fb다. 두 fresh W1→W193 실행은 sealed matrix의 week_open과 chapter_card_37 story_enter semantic SHA에 일치했고, 실제 StoryMode+SaveManager가 M49 수동 저장 slot 1 property 7239040565920fcb2ffad0d606078ce9a436c8ae2ddd5fd2ed29542ff83bd3af와 slot 2 general 5f4b5a0f6842e8ac726ee45b3c361ad1a45dc6c665c89009fe812acec5cf6aa8을 만들었다. KO load-only smoke는 챕터 5·결산 화면, input 0, choice 0, state mutation 0을 확인했다. 이 자동·불러오기 증거는 정상 속도 사람 판정을 대체하지 않는다. 같은 exact review wrapper에서 property와 general_near_goal_father_passed M49~M60을 각각 다시 플레이해야 하며 두 사람 게이트는 OPEN, full·main·product GO는 HOLD다. 공개 story_demo_rc M01~M06 GO 제품은 변경 없고, 예전 771d0e7·9909437·b375af2·002a493·9b294d5는 역사 후보로만 남기고 재사용하지 않는다."
+      "status": "waiting_rebuild",
+      "commit": null,
+      "tree": null,
+      "manifest_sha256": null,
+      "note": "2026-09-02 실제 Studio Display·Godot 4.6.2·1280x800·KO 정상 속도 재플레이에서 property와 general_near_goal_father_passed가 모두 M49→M60→후일담→크레딧 6/6까지 완주했지만 REJECT됐다. 반려 제품은 83d3f350de0900ce050277d6da1331940d1872a3 / tree 97f81c70c11452ef851b4cb0646c5e557544fd93 / source manifest 6bc13de7c252d457ad36dcd5bfa18c634f51c7f41c40b5e6ec6450e521c835ca이고 검토 wrapper는 84b6498d7f1b69e8bcef5bc51880b3ed9b726435 / tree 9cea887f14b6b4043854cbce0010bf1e9696330d다. property의 결혼 뒤 고시원 회귀·달력 역전·화자 오표기·낡은 tutorial/자산 문구와 general의 민서 물리 동석·허위 읽음/답장/일정 확정·legacy 장면 재진입·중복 표면을 새 후보에서 고쳐야 한다. W207/W230/W237/W240, M55 복장, 무이체·무소유·무응답, 검은 화면·잘림·crash 0, 원본 slot 01·02 hash는 보존한다. 새 제품 commit/tree/manifest 전까지 두 사람 게이트는 OPEN, full·main·product는 HOLD다. 공개 story_demo_rc M01~M06 GO는 불변이다."
     },
     "full_rc": {
       "status": "active",
@@ -51,7 +51,7 @@
       "domain": "gameplay",
       "gate": "5장 M49~M60 정상 속도 인과·격동·결말 체험",
       "why": "자동 검사는 19+9개의 장면 기능, 선택 영수증, 무이체와 엔딩 연결을 증명한다. 계약 문서가 사람 사이의 압박으로 읽히는지, 마지막으로 갈수록 더 치밀해지는지는 정상 속도 플레이어만 판정한다.",
-      "owner": "ORDER-134",
+      "owner": "ORDER-149",
       "state": "open",
       "scope": {
         "blocks": [
@@ -105,6 +105,16 @@
           ]
         },
         "record": "판정: Claude(사용자 위임) — CONDITIONAL. 방법은 이전 회차와 다르다. 실제 MainGame 주간 우선순위 체인(causal→finale→arc→milestone)과 실제 StoryMode를 Godot 4.6.2로 구동해 W193~W240을 선택 세트 2개로 완주하고, 책턴5 KO 화면을 1280x800으로 렌더해 육안 확인했다. 이전 반려 2건은 닫혔다. W207 선택 2는 화면에서 배경 cafe·초상 daeun_normal·이름표 김다은으로 이동하고 선택 0·1은 meeting·상철을 유지한다. W230은 출입문→민서 입장→빈 의자 착석이 민서의 첫 현장 행동보다 먼저 오며 cafe·무초상이다. W217 다은 블레이저와 W220 arc_y5_room_consent_receipt 무초상도 유지된다. 밀도는 48주 중 39주가 작성 뿌리를 가지고 최장 공백 4주, 47장면 22352자, 실제 선택 레일 37개이며 W235→W238→W239→W240 서명→같은 턴 다은 선발신→선택별 엔딩 후일담까지 상승이 작동한다. 허위 소유·이체·읽음·답장·재회 0. 조건은 종막 뿌리가 모두 영수증 한 줄 문단 더미로 열리는 점이다. W240은 본 장면 전에 넨 줄이 먼저 놓여 마지막 밤이 색인으로 시작한다. 인과 회수 장치 자체는 유지하되 최소 두 줄을 장면 첫 이미지에 융합할 것을 권고한다. 연속 오디오·물리 패드·EN 패리티·움직임 속 전환 체감은 이 회차에서 판정하지 않았다."
+      }, {
+        "decided_at": "2026-09-02",
+        "decided_by": "Claude(사용자 위임·실제 디스플레이 정상 속도 플레이)",
+        "authority": "user_delegated",
+        "verdict": "REJECT",
+        "commit": "83d3f350de0900ce050277d6da1331940d1872a3",
+        "tree": "97f81c70c11452ef851b4cb0646c5e557544fd93",
+        "sample": {"seed": 0, "population": 1, "size": 1},
+        "disposition": {"mode": "all", "roots": []},
+        "record": "판정: Claude(사용자 위임·Studio Display 실제 플레이) — REJECT. 검토 wrapper 84b6498d7f1b69e8bcef5bc51880b3ed9b726435와 런타임 제품 83d3f350de0900ce050277d6da1331940d1872a3을 Godot 4.6.2·1280x800·KO·정상 독해 속도로 M49~M60·후일담·크레딧 6/6까지 완주했다. W207, M53/M55/M57, W230, M59/M60 사람 압박·무이체·무소유·무답장과 검은 화면·잘림·crash 0은 통과했다. 막는 결함은 결혼 뒤 고시원 회귀와 신혼집 도약, 12월·마지막 달 뒤 9월로 돌아가는 시간축, 의사·재혁 발화의 김민준 명패, W193의 33세·50만원 tutorial 및 늦은 20억/25억 고정 문구다. 첫 credits 장면은 실제로 보였으나 전체 1/6 대신 내부 장면 1/3~3/3만 표시됐다. 새 exact 후보에서 전체 M49~M60 실제 재플레이가 필요하다."
       }]
     },
     {
@@ -112,7 +122,7 @@
       "domain": "gameplay",
       "gate": "5장 일반 문턱 경로 M49~M60 정상 속도 선택 회수",
       "why": "자동 검사는 M51→W211 이름 경계→W220 매체→W224 기일 행동→W229 물성→W234 몸의 문턱→W237 오늘의 포기→W240 실제 삭제·선발신의 정확한 영수증과 순서만 증명한다. 그것이 장면 수 채우기가 아니라 기억과 사람의 압박으로 읽히고 끝으로 갈수록 실제로 좁아지는지는 정상 속도 플레이어만 판정한다.",
-      "owner": "ORDER-135",
+      "owner": "ORDER-149",
       "state": "open",
       "scope": {
         "blocks": [
@@ -158,6 +168,16 @@
           "roots": []
         },
         "record": "판정: Claude(사용자 위임) — REJECT. 방법은 실제 MainGame 주간 우선순위 체인과 실제 StoryMode를 Godot 4.6.2로 구동한 W193~W240 완주 2회와 챕터5 KO 1280x800 렌더 검수다. 픽스처 기준선은 실제 192주 챕터5 세이브 사본이다. 이전 반려 사유 가운데 둘은 닫혔다. W237은 색인·첨부·봉인 정리가 아니라 ‘오늘 남은 삼십 분을 어디에 쓸 것인가’가 주동사이고 양쪽 가지 모두 실제 비용을 남긴다. W240은 세 주소 삭제 또는 수첩 첫 장 30억 두 줄 삭제라는 되돌릴 수 없는 행동에 영수증을 남기고 같은 턴 선발신과 선택별 엔딩 후일담으로 이어진다. W220→W224 회수도 선택별로 화면에 실제로 붙는다. 막는 사유는 둘이다. 첫째는 모양이다. 48주 중 28주만 작성 뿌리를 가지고 20주가 비며 W225~W233이 9주 연속, W238~W239가 2주 연속 작성 전경 사건 없이 제네릭 표면으로 떨어진다. 같은 48주에 property는 39주·최장 공백 4주· 22352자인데 general은 17003자로 24% 적다. 마지막 분기가 조여지지 않고 얇아진다. ORDER-135가 선언한 결함이 뿌리 4개로는 닫히지 않았다. 둘째는 W224 품질이다. 아버지 기일 주에서 W220 회수가 장면의 마지막 이미지 뒤에 각주로 붙고 ‘그 녹음의 시각이 오늘 사진 옆 약봉지의 날짜와 이어졌다’처럼 연결을 설명한다. 선택지는 옛 제네릭 3개 그대로여서 플레이어는 회수를 읽되 그것으로 행동할 수 없고, 한 가지는 65자 결과로 끝난다. 이 프로필의 인간선 정점이 그 해에서 가장 약한 작성 비트다. 무응답·미소유·무이체· 아버지 불부활·혼자 있는 W240·검은 화면·잘림 0은 보존됐다. 연속 오디오·물리 패드·EN 패리티는 이 회차에서 판정하지 않았다."
+      }, {
+        "decided_at": "2026-09-02",
+        "decided_by": "Claude(사용자 위임·실제 디스플레이 정상 속도 플레이)",
+        "authority": "user_delegated",
+        "verdict": "REJECT",
+        "commit": "83d3f350de0900ce050277d6da1331940d1872a3",
+        "tree": "97f81c70c11452ef851b4cb0646c5e557544fd93",
+        "sample": {"seed": 0, "population": 1, "size": 1},
+        "disposition": {"mode": "all", "roots": []},
+        "record": "판정: Claude(사용자 위임·Studio Display 실제 플레이) — REJECT. 검토 wrapper 84b6498d7f1b69e8bcef5bc51880b3ed9b726435와 런타임 제품 83d3f350de0900ce050277d6da1331940d1872a3을 Godot 4.6.2·1280x800·KO·정상 독해 속도로 M49~M60·후일담·크레딧 6/6까지 완주했다. W237의 실제 30분 비용과 W240의 실제 삭제→같은 턴 민서 선발신, 무읽음·무답장·무만남·무소유·무이체, 아버지 불부활, 검은 화면·잘림·crash 0은 통과했다. 막는 결함은 M51 민서의 카페 물리 동석, W215/W216/W235의 허위 읽음·답장·상대 시간 선택, W207/W221/W227/W239의 오래된 현수·카지노·직장·마진콜 장면 첫 진입, 2055년 나이·12월 시간 모순, 상사·지배인·중개사 발화의 김민준 명패, SNS 삭제 뒤 피드/DM 재등장과 반복 압박 문구다. 앞선 SNS 삭제 때문에 W240 정점도 약해졌다. 새 exact 후보에서 전체 M49~M60 실제 재플레이가 필요하다."
       }]
     },
     {
