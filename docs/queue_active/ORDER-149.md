@@ -69,7 +69,7 @@
 런타임은 `autoloads/{GameState,ImageRegistry,EventManager,BGMPlayer}.gd`,
 `scenes/{MainGame,StoryMode}.gd`의 위 함수·표면만 소유한다. 콘텐츠는 KO/EN 쌍의
 `arc_new_characters.json`, `arc_pre_ending.json`, `arc_drama.json`,
-`arc_midgame.json`, `life_events.json`, `anxiety_events.json`,
+`arc_midgame.json`, `arc_year3_drama.json`, `life_events.json`, `anxiety_events.json`,
 `callback_events_2.json`, `callback_chapter_themes.json`, `shadow_events.json`,
 `social_independence.json`, `arc_hyunsu.json`, `gambling_narrative.json`,
 `amb_scenarios6.json`, `viral_events.json`에서 위 exact root만 소유한다.

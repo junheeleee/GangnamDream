@@ -38,6 +38,9 @@
   숨은 상태 결함을 확인했다. 새 런은 제안 사실만 남기고, 기존 저장의 실제 협업
   callback reader는 보존한다. 이를 임의 플래그 예외로 넓히지 않도록 exact reader
   검사와 visual/audio/year5 회귀 파일을 제품 커밋 전 추가 소유 범위로 선언했다.
+- M51의 물리 대면을 원격 메시지로 바꾼 사실을 W224가 다시 물리 대면으로 부르지
+  않게 하는 KO/EN `arc_year3_drama.json`의 exact 결과 한 줄도 같은 선언 범위에
+  포함했다.
 
 ## 2026-09-01 (Codex — exact Chapter 5 재플레이 후보 발급)
 
