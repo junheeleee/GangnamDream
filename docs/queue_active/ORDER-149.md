@@ -81,6 +81,16 @@ presentation 사실은 `content/meta/story_rules.json`, 필요한 기존 연출�
 프로토콜은 이 사양, `docs/CODEX_QUEUE.md`, `docs/human_gates.json`,
 `docs/{DEMO_FIXLOG,WORK_LOG,STATUS}.md`, `CLAUDE.md`를 소유한다.
 
+**[scope expansion 선언 · 제품 커밋 전]:** 실제 수정이 원격 민서의 map/state
+노출 계약과 기존 visual/audio 래칫까지 함께 읽으므로
+`content/meta/{story_map,exposed_event_state_contracts}.json`,
+`assets/{event_visual_contracts,scene_direction_manifest}.json`,
+`tools/{BGMContinuityCheck.gd,year5_reference_route_audit.py,audit.py,audit.sh,audit_scope.json}`를
+검증 동반 범위로 명시한다. `audit.py`는 현재 런이 더는 생산하지 않지만 기존 저장이
+소유할 수 있는 `startup_collab_joined`를 exact 단일 legacy reader에만 허용하며,
+임의 producerless flag나 새 reader를 허용하지 않는다. 이는 save adapter·제품 상태
+변경이 아니라 검사기의 좁은 호환 예외다.
+
 같은 JSON에 통과점이 있으면 exact root/field만 수정한다. 공개 M01~M06 사건·자산,
 `content/meta/demo_core_loop_v2.json`, `project.godot`, full 경제·밸런스, 엔딩
 라우팅, save handoff adapter는 비소유다.

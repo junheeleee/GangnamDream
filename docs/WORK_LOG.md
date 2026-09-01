@@ -34,6 +34,10 @@
 - ORDER-149를 20단위 표적 수리로 선언했다. 공개 M01~M06 사용자 GO, 30억
   `instant_legend`, AP 행동판 0, 경제·엔딩 threshold, 원본 slot hash와
   `project.godot`은 건드리지 않는다.
+- 구현 중 기존 SNS 약속 선택이 실제 동의 없이 `startup_collab_joined`를 생산하던
+  숨은 상태 결함을 확인했다. 새 런은 제안 사실만 남기고, 기존 저장의 실제 협업
+  callback reader는 보존한다. 이를 임의 플래그 예외로 넓히지 않도록 exact reader
+  검사와 visual/audio/year5 회귀 파일을 제품 커밋 전 추가 소유 범위로 선언했다.
 
 ## 2026-09-01 (Codex — exact Chapter 5 재플레이 후보 발급)
 
