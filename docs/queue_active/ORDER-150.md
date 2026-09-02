@@ -166,6 +166,14 @@ inventory를 현재 제품에서 다시 산출한다. author-only 105개와 그 
 scope count·digest도 같은 방식으로 맞춘다. 이 갱신은 지갑 식사 동의 bridge 외의
 M01~M60 장면·선택·밀도 부채·reference route 의미를 바꾸지 않는다.
 
+**[scope expansion 9 선언 · 제품 커밋 전]:** 새 bridge가 데이터 구조뿐 아니라 실제
+StoryMode 표면에서도 초대→플레이어 선택→결과→식당 도착 순서를 지키는지
+`tools/StoryPlaybackCheck.gd`에 L2 회귀를 추가한다. 수락 전 식당 eligibility 0,
+수락 뒤 immediate arrival, 사양 뒤 arrival 0을 같은 UI 흐름에서 검증한다. 또한 새
+도착 root로 runtime exposed closure가 536→537이 되므로
+`tools/exposed_state_consistency_audit.py`의 exact count 래칫만 함께 갱신한다.
+둘 다 제품 선택·스토리·경제 규칙을 더하지 않는 검증 코드다.
+
 같은 JSON에 통과점이 있으면 exact root/field만 수정한다. 공개 M01~M06 사건·자산,
 `content/meta/demo_core_loop_v2.json`, `project.godot`, full 경제·밸런스, 엔딩
 라우팅, save handoff adapter는 비소유다.
