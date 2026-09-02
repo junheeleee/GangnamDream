@@ -406,7 +406,9 @@ func _moral_stage_for_tint(moral_tint: float) -> int:
 	return 0
 
 func _active_housing_id() -> String:
-	return str(_gallery_replay_context.get("housing", GameState.housing))
+	if not _gallery_replay_context.is_empty():
+		return str(_gallery_replay_context.get("housing", GameState.housing))
+	return GameState.get_presentation_home_ambience_housing_id()
 
 func _active_calendar_month() -> int:
 	if _gallery_replay_context.is_empty():

@@ -465,7 +465,12 @@
     "weight": 1.3,
     "hidden": false,
     "conditions": {
-      "min_turn": 22
+      "min_turn": 22,
+      "max_turn": 192,
+      "no_flag": [
+        "sns_detoxed",
+        "sns_compared"
+      ]
     },
     "tags": [
       "flex",
@@ -602,7 +607,8 @@
     "hidden": false,
     "conditions": {
       "min_turn": 35,
-      "min_money": 400000
+      "min_money": 400000,
+      "no_flag": "sns_detoxed"
     },
     "tags": [
       "flex",

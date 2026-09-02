@@ -970,6 +970,7 @@
       "relationship"
     ],
     "arc_minseo_03_arrival": [
+      "housing",
       "location",
       "relationship"
     ],
@@ -2278,6 +2279,9 @@
     "sangchul_world_absorbed": [
       "relationship"
     ],
+    "shadow_old_promise": [
+      "location"
+    ],
     "shadow_loan_answer": [
       "location"
     ],
@@ -2321,8 +2325,7 @@
     "hidden_bull_market_fomo",
     "hidden_gangnam_open_house",
     "rare_wallet_executive",
-    "shadow_loan_collector",
-    "shadow_old_promise"
+    "shadow_loan_collector"
   ],
   "reviewed_neutral_contexts": {
     "amb_wallet_00": {

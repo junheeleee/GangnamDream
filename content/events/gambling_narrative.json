@@ -9,7 +9,12 @@
     "background": "jeongseon_casino_entrance",
     "portrait": "player_normal",
     "conditions": {
-      "flag": "casino_club_introduced"
+      "flag": "casino_club_introduced",
+      "no_flag": [
+        "casino_set_limit",
+        "casino_chips_loaded"
+      ],
+      "max_turn": 192
     },
     "tags": [
       "gambling",

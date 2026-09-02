@@ -572,7 +572,7 @@ func _continue_after_story():
 	# 더 없으면 바로 루틴 행동 화면
 	SceneTransition.fade_in()
 	current_event = {}
-	if _demo_director_requires_player_input():
+	if _demo_director_requires_player_input() and _main_game_tutorial_allowed():
 		TutorialOverlay.maybe_show("main_game", self)
 	_demo_director_route_week()
 
@@ -5986,6 +5986,8 @@ func _notebook_father_state_line() -> String:
 # 튜토리얼 — 첫 런, 첫 AP 화면 진입 시 1회 표시
 # ══════════════════════════════════════════════════════════════
 func _maybe_show_tutorial() -> void:
+	if not _main_game_tutorial_allowed():
+		return
 	if GameState.flags.get("tutorial_shown", false):
 		return
 	GameState.flags["tutorial_shown"] = true
@@ -5993,6 +5995,12 @@ func _maybe_show_tutorial() -> void:
 	if TutorialOverlay._seen.get("main_game", false):
 		return
 	_show_tutorial()
+
+func _main_game_tutorial_allowed() -> bool:
+	# A checkpoint loaded in a fresh process has no TutorialOverlay session memory.
+	# The onboarding describes Minjun at age 33 with KRW 500K, so it belongs only
+	# to the first playable week, never to a later save or Chapter 5 handoff.
+	return GameState.turn == 1
 
 func _show_tutorial() -> void:
 	_open_modal(_tr("강남드림 — 시작 안내", "Gangnam Dream — Getting Started"))
@@ -6753,6 +6761,7 @@ func _story_graph_contract_event_id(
 	# Required same-scene closures recover before deferred/route owners can
 	# consume the final week of their exact window.
 	if t >= 25 and t <= 240 \
+			and not GameState.uses_daeun_shared_home_presentation() \
 			and f.get("arc_goshiwon_goodbye_seen", false) \
 			and not f.get("arc_housing_new_life_seen", false):
 		return "arc_housing_new_life"
@@ -7231,6 +7240,7 @@ func _next_arc_id(
 
 	# ══ 고시원 탈출 — 이사한 첫 턴에 감정 장면 (어느 턴이든) ══
 	if GameState.housing != "gosiwon" \
+			and not GameState.uses_daeun_shared_home_presentation() \
 			and not f.get("arc_goshiwon_goodbye_seen", false) \
 			and not f.get("arc_housing_new_life_seen", false):
 		return "arc_goshiwon_goodbye"
@@ -9225,7 +9235,7 @@ func _refresh_all():
 	# ── 탑바 바이탈 HUD 갱신 ─────────────────────────
 	_refresh_vitals()
 	stat_labels["asset"].text = GameState.format_money(GameState.get_total_asset_value())
-	stat_labels["housing"].text = GameState.get_housing_display_name(GameState.housing)
+	stat_labels["housing"].text = GameState.get_presentation_home_display_name()
 
 	# 배경 + 초상화 업데이트
 	_update_event_bg()
@@ -10348,8 +10358,8 @@ func _render_scene_commitment_result(record: Dictionary) -> void:
 		_apply_event_bg_path(scene_path)
 		_set_scene_ambience_for_background(scene_path, title)
 	_type_text(_tr(
-		"결정은 끝났다. 이번 주는 그 선택의 모양으로 닫혔다.",
-		"The decision is made. The week closes in the shape of that choice."
+		"그 선택으로 이번 주가 끝났다.",
+		"That choice ended the week."
 	), 60.0)
 	_append_scene_commitment_ledger(record)
 	var button_row := HBoxContainer.new()
@@ -11157,12 +11167,13 @@ func _recommend_action() -> String:
 		return _tr("일 시작  →  첫 월급 수령 전까지 투자 계좌가 열리지 않습니다", "Start Working  →  Investing stays locked until your first paycheck")
 
 	# ── 주거 업그레이드 힌트 ──
-	if housing == "gosiwon" and total >= 8_000_000:
-		return _tr("이사 고려  →  자산 %s, 원룸 이사 구간에 들어왔습니다 (AP 주거 메뉴)", "Consider Moving  →  Assets %s, you can move to a one-room (AP housing menu)") % GameState.format_money(total)
-	if housing == "oneroom" and total >= 40_000_000:
-		return _tr("이사 고려  →  자산 %s, 빌라 전세로 격상하면 정신력 보너스가 있습니다", "Consider Moving  →  Assets %s, upgrading to a villa (jeonse) gives a Mental bonus") % GameState.format_money(total)
-	if housing == "villa" and total >= 130_000_000:
-		return _tr("이사 고려  →  자산 %s, 아파트 전세 구간입니다. 투자 평판도 올라갑니다", "Consider Moving  →  Assets %s, apartment (jeonse) range. Reputation rises too") % GameState.format_money(total)
+	if not GameState.uses_daeun_shared_home_presentation():
+		if housing == "gosiwon" and total >= 8_000_000:
+			return _tr("이사 고려  →  자산 %s, 원룸 이사 구간에 들어왔습니다 (AP 주거 메뉴)", "Consider Moving  →  Assets %s, you can move to a one-room (AP housing menu)") % GameState.format_money(total)
+		if housing == "oneroom" and total >= 40_000_000:
+			return _tr("이사 고려  →  자산 %s, 빌라 전세로 격상하면 정신력 보너스가 있습니다", "Consider Moving  →  Assets %s, upgrading to a villa (jeonse) gives a Mental bonus") % GameState.format_money(total)
+		if housing == "villa" and total >= 130_000_000:
+			return _tr("이사 고려  →  자산 %s, 아파트 전세 구간입니다. 투자 평판도 올라갑니다", "Consider Moving  →  Assets %s, apartment (jeonse) range. Reputation rises too") % GameState.format_money(total)
 
 	# ── 투자감각 미성숙 ──
 	if inv_skill < 10 and total >= 3_000_000:
@@ -11322,7 +11333,8 @@ func _week_scene_anchor() -> String:
 			_tr("복도 카펫이 모든 발소리를 삼켰다", "the corridor carpet swallowed every footstep"),
 		],
 	}
-	var housing_key := "apartment" if GameState.housing == "gangnam" else GameState.housing
+	var presentation_housing := GameState.get_presentation_home_ambience_housing_id()
+	var housing_key := "apartment" if presentation_housing == "gangnam" else presentation_housing
 	var housing_details: Array = details.get(housing_key, details["gosiwon"])
 	var index := clampi(GameState.week_of_month - 1, 0, 3)
 	var detail := str(housing_details[index])
@@ -11413,15 +11425,16 @@ func _month_narration() -> String:
 
 	# ── 주거 기반 ──────────────────────────────────
 	var housing = GameState.housing
-	if housing == "gosiwon":
-		if me > 24:
-			return _tr("1평 반에서 2년이 넘었다. 이 방이 익숙해지는 게 무서워졌다.", "Over two years in 1.5 pyeong. It scares me how used to this room I've become.")
-		if me > 12:
-			return _tr("1평 반에서 1년이 넘었다. 좁지만, 그래도 내 방이다.", "Over a year in 1.5 pyeong. Cramped, but still my own room.")
-	elif housing == "apartment":
-		return _tr("아파트 창에서 보이는 서울은 다르다. 이 풍경에 익숙해지면 안 된다고 생각했다.", "Seoul looks different from an apartment window. I told myself not to get used to this view.")
-	elif housing == "gangnam":
-		return _tr("강남에 왔다. 그런데 강남에서도 여전히 올라가야 할 곳이 있었다.", "I made it to Gangnam. And yet even here, there was still higher to climb.")
+	if not GameState.uses_daeun_shared_home_presentation():
+		if housing == "gosiwon":
+			if me > 24:
+				return _tr("1평 반에서 2년이 넘었다. 이 방이 익숙해지는 게 무서워졌다.", "Over two years in 1.5 pyeong. It scares me how used to this room I've become.")
+			if me > 12:
+				return _tr("1평 반에서 1년이 넘었다. 좁지만, 그래도 내 방이다.", "Over a year in 1.5 pyeong. Cramped, but still my own room.")
+		elif housing == "apartment":
+			return _tr("아파트 창에서 보이는 서울은 다르다. 이 풍경에 익숙해지면 안 된다고 생각했다.", "Seoul looks different from an apartment window. I told myself not to get used to this view.")
+		elif housing == "gangnam":
+			return _tr("강남에 왔다. 그런데 강남에서도 여전히 올라가야 할 곳이 있었다.", "I made it to Gangnam. And yet even here, there was still higher to climb.")
 
 	# ── 계절 × 게임 시기 내레이션 ──────────────────
 	if me <= 15:
@@ -12369,7 +12382,7 @@ func _contextual_week_pressure(person_id: String, person_name: String) -> Dictio
 	var market_actions: Array = ["invest", "gamble", "save"] \
 		if _gambling_option_available() else ["invest", "save", "study"]
 	var job_name := GameState.get_job_display_name()
-	var housing_name := GameState.get_housing_name()
+	var housing_name := GameState.get_presentation_home_name()
 	var weeks_left := maxi(1, GameState.RUN_TURN_LIMIT - GameState.turn + 1)
 	var total_assets := float(GameState.get_total_asset_value())
 	var goal_gap := maxf(0.0, GameState.GANGNAM_TARGET - total_assets)
@@ -12524,7 +12537,10 @@ func _demo_week_pressure() -> Dictionary:
 			"id": "capital",
 			"family": "market",
 			"title": _tr("돈이 처음으로 선택을 요구한다", "Money is asking for a direction") if not first_invest_visit \
-				else _tr("이번 달 돈의 방향을 정할 때다", "It is time to set this month's direction for money"),
+				else _tr("{year}년 {month}월, 돈을 어디에 둘지 정할 시각이다", "In {year}-{month}, it is time to decide where the money stays").format({
+					"year": GameState.year,
+					"month": GameState.month,
+				}),
 			"question": _tr("투자할까, 승부를 걸까, 현금을 지킬까?", "Invest, gamble, or protect the cash?") \
 				if capital_actions.has("gamble") else _tr("불릴까, 지킬까, 사람에게 시간을 남길까?", "Risk it, protect it, or leave time for someone?"),
 			"detail": _tr("거래는 자산별 위험 1~5 · 조회는 무료", "Trades carry asset risk 1–5 · browsing is free"),
@@ -12537,7 +12553,10 @@ func _demo_week_pressure() -> Dictionary:
 		return {
 			"id": "relationship",
 			"family": "human",
-			"title": _tr("연락하지 않은 시간이 쌓였다", "Silence has started to accumulate"),
+			"title": _tr("{name}에게 가지 않은 {weeks}주", "{weeks} weeks not given to {name}").format({
+				"name": person_name,
+				"weeks": GameState.grind_streak_weeks,
+			}),
 			"question": _tr("{name}에게 이번 주를 내줄까, 다시 돈을 좇을까?", "Give this week to {name}, or chase money again?").format({"name": person_name}),
 			"detail": _tr("{weeks}주째 돈 쪽으로만 시간이 흘렀다", "{weeks} weeks have gone only toward money").format({"weeks": GameState.grind_streak_weeks}),
 			"urgent": GameState.grind_streak_weeks >= 4,
@@ -13130,11 +13149,14 @@ func _build_seoul_map_strip() -> Control:
 			or GameState.flags.get("casino_club_introduced", false)
 	var work_label: String = _tr("일터", "Work") if not GameState.current_job.is_empty() else _tr("구인", "Jobs")
 	var housing_label: String
-	match GameState.housing:
-		"oneroom": housing_label = _tr("원룸", "Studio")
-		"villa": housing_label = _tr("빌라", "Villa")
-		"apartment": housing_label = _tr("아파트", "Apartment")
-		_: housing_label = _tr("고시원", "Goshiwon")
+	if GameState.uses_daeun_shared_home_presentation():
+		housing_label = _tr("신혼집", "Shared Home")
+	else:
+		match GameState.housing:
+			"oneroom": housing_label = _tr("원룸", "Studio")
+			"villa": housing_label = _tr("빌라", "Villa")
+			"apartment": housing_label = _tr("아파트", "Apartment")
+			_: housing_label = _tr("고시원", "Goshiwon")
 	var locations: Array = [
 		{"id": "home", "label": housing_label, "locked": false},
 		{"id": "store", "label": _tr("편의점", "Store"), "locked": false},
@@ -14854,7 +14876,11 @@ func _render_action_cards(disabled: bool, no_job: bool, has_paycheck: bool, job_
 
 	# [생활] — AP 불필요 (이사/선물 진열대)
 	var can_move = GameState.can_upgrade_housing()
-	var life_sub = _tr("이사 가능!", "Can move!") if can_move else _tr("주거·선물 관리", "Housing · gifts")
+	var life_sub: String
+	if can_move and GameState.uses_daeun_shared_home_presentation():
+		life_sub = _tr("내 주거 계약 갱신 가능!", "Housing contract update available!")
+	else:
+		life_sub = _tr("이사 가능!", "Can move!") if can_move else _tr("주거·선물 관리", "Housing · gifts")
 	_add_category_card(
 		"🏠", _tr("생활", "Living"), life_sub,
 		"#9a8a5a", false, "_open_cat_life", false, "", can_move)
@@ -15560,11 +15586,21 @@ func _handle_people_modal_input(event: InputEvent) -> bool:
 func _open_cat_life():
 	_open_modal(_tr("생활", "Living"), true)
 	modal_body.add_child(_wrap_label(_tr("주거는 삶의 질이다. 더 나은 곳으로 갈수록 정신력에 여유가 생긴다.", "Housing is quality of life. A better place eases your Mental."), 13, "#7a8496"))
-	var current_name: String = GameState.get_housing_display_name(GameState.housing)
+	var shared_home := GameState.uses_daeun_shared_home_presentation()
+	if shared_home:
+		modal_body.add_child(_wrap_label(_tr(
+			"지금 사는 신혼집과 내 이름으로 남겨 두는 주거 계약은 따로 표시된다.",
+			"The newlywed home you share and the housing contract kept in your name are shown separately."),
+			12, "#8a93a1"))
+	var current_name: String = GameState.get_presentation_home_display_name() \
+			if shared_home else GameState.get_housing_display_name(GameState.housing)
 	var current_expense: String = GameState.format_money(GameState.get_housing_expense())
 	_cat_modal_status_card(
-		_tr("현재 주거  —  %s", "Current home  —  %s") % current_name,
-		_tr("월 고정비 %s · 현금 %s", "Monthly cost %s · Cash %s") % [current_expense, GameState.format_money(GameState.money)],
+		(_tr("현재 생활  —  %s", "Current home  —  %s") if shared_home \
+				else _tr("현재 주거  —  %s", "Current home  —  %s")) % current_name,
+		(_tr("내 주거 계약의 월 부담 %s · 현금 %s", "Your housing contract costs %s/mo · Cash %s") \
+				if shared_home else _tr("월 고정비 %s · 현금 %s", "Monthly cost %s · Cash %s")) \
+				% [current_expense, GameState.format_money(GameState.money)],
 		"#64748b",
 		"life",
 		LocaleManager.ui_context("ui.housing.now_status", "현재", "Now"))
@@ -15579,7 +15615,8 @@ func _open_cat_life():
 			_tr("완료", "Done"))
 	elif GameState.can_upgrade_housing():
 		var next_info = GameState.HOUSING_DATA.get(next_id, {})
-		var move_label = _tr("이사  —  %s  (월 %s / 보증금 %s)", "Move  —  %s  (mo %s / deposit %s)") % [
+		var move_label = (_tr("내 주거 계약 갱신  —  %s  (월 %s / 보증금 %s)", "Update my housing contract  —  %s  (mo %s / deposit %s)") \
+				if shared_home else _tr("이사  —  %s  (월 %s / 보증금 %s)", "Move  —  %s  (mo %s / deposit %s)")) % [
 			GameState.get_housing_display_name(next_id),
 			GameState.format_money(float(next_info.get("expense", 0.0))),
 			GameState.format_money(float(next_info.get("deposit", 0.0)))]
@@ -15587,7 +15624,9 @@ func _open_cat_life():
 	else:
 		var locked_info = GameState.HOUSING_DATA.get(next_id, {})
 		_cat_modal_status_card(
-			_tr("다음 이사  —  %s", "Next move  —  %s") % GameState.get_housing_display_name(next_id),
+			(_tr("다음 주거 계약  —  %s", "Next housing contract  —  %s") if shared_home \
+					else _tr("다음 이사  —  %s", "Next move  —  %s")) \
+					% GameState.get_housing_display_name(next_id),
 			_tr("필요 현금 %s · 부족액 %s", "Needs %s cash · Short %s") % [
 				GameState.format_money(float(locked_info.get("req_cash", 0.0))),
 				GameState.format_money(maxf(float(locked_info.get("req_cash", 0.0)) - GameState.money, 0.0)),
@@ -17127,7 +17166,14 @@ func _contact_flavor(person_id: String, aff: int) -> String:
 			return _tr("임상철은 소주잔을 기울이며 동네 부동산 돌아가는 얘기를 흘린다.", "Sangchul tilts his soju glass and lets slip how the local real estate is moving.")
 		"jiyeon":
 			if f.get("arc_jiyeon_truth_seen", false):
-				return _tr("그날 이후, 한지연과의 대화에서 더 이상 숨기는 것이 없다. 그게 무엇보다 귀하다.", "Since that day, there's nothing left hidden in my talks with Jiyeon. That matters more than anything.")
+				var truth_lines: Array[String] = [
+					_tr("오늘은 잘 지낸다는 말부터 꺼내지 않았다. 지연에게 지금 감당할 수 있는 사정 하나를 먼저 말했다. 숨기지 않는 연습은 매번 다른 데서 시작됐다.", "Today I didn't begin by saying everything was fine. I told Jiyeon one circumstance I could actually face. Practicing honesty began somewhere different each time."),
+					_tr("예전 같으면 숫자를 크게 말했을 대목에서, 오늘은 모르는 것을 모른다고 말했다. 지연과의 대화는 그렇게 한 겹 덜 꾸며졌다.", "Where I once would have made the numbers sound bigger, today I said I didn't know. That left one less layer of performance in my conversation with Jiyeon."),
+					_tr("그날 털어놓은 진실을 되풀이하는 대신, 이번 주에 실제로 놓친 일을 하나 말했다. 숨기지 않는다는 건 같은 말을 반복하는 일이 아니었다.", "Instead of repeating the truth we had already laid bare, I named one thing I had actually missed this week. Hiding nothing did not mean repeating the same words."),
+				]
+				var contact_number := maxi(1, int(
+					GameState.contact_counts.get(person_id, 1)))
+				return truth_lines[(contact_number - 1) % truth_lines.size()]
 			if aff >= 25:
 				return _tr("한지연이 먼저 연락해오는 일이 잦아졌다. 다른 세계였던 그녀가, 조금씩 가까워진다.", "Jiyeon reaches out first more often now. A woman from another world is, little by little, getting closer.")
 			return _tr("한지연과의 대화는 다른 세계를 들여다보는 창 같다.", "Talking with Jiyeon is like a window into another world.")
@@ -17836,7 +17882,8 @@ func _get_bg_for_vignette(title: String, body: String, eff: Dictionary) -> Strin
 			"category": "routine",
 			"tags": []
 		}
-		bg_id = ImageRegistry.infer_background_id(ev, GameState.housing)
+		bg_id = ImageRegistry.infer_background_id(
+			ev, GameState.get_presentation_home_ambience_housing_id())
 	return ImageRegistry.get_background(bg_id)
 
 func _ap_startup_work():
@@ -18044,9 +18091,19 @@ func _ap_move_housing():
 		var info = result["housing"]
 		var housing_name = GameState.get_housing_name(GameState.housing)
 		var expense = GameState.format_money(float(info.get("expense", 0.0)))
-		turn_action_log.append(_tr("✓ 이사 → %s (월 %s)", "✓ Moved → %s (monthly %s)") % [housing_name, expense])
+		if GameState.uses_daeun_shared_home_presentation():
+			turn_action_log.append(_tr(
+				"✓ 내 주거 계약 → %s (월 %s)",
+				"✓ My housing contract → %s (monthly %s)") % [housing_name, expense])
+		else:
+			turn_action_log.append(_tr("✓ 이사 → %s (월 %s)", "✓ Moved → %s (monthly %s)") % [housing_name, expense])
 		AudioManager.play("housing_up")
-		_show_toast(_tr("%s 이사 완료!", "Moved to %s!") % housing_name, Color("#f0b429"))
+		if GameState.uses_daeun_shared_home_presentation():
+			_show_toast(_tr(
+				"내 주거 계약을 %s 단계로 갱신했다.",
+				"Updated my housing contract to the %s tier.") % housing_name, Color("#f0b429"))
+		else:
+			_show_toast(_tr("%s 이사 완료!", "Moved to %s!") % housing_name, Color("#f0b429"))
 	else:
 		AudioManager.play("stat_down")
 		_show_toast(result.get("message", _tr("이사 실패", "Move failed")), Color("#ff4444"))
@@ -18054,6 +18111,9 @@ func _ap_move_housing():
 	_refresh_all()
 
 func _housing_keepsake_event_id() -> String:
+	# 결혼 뒤에는 공동 생활지를 떠나는 이사처럼 연출하지 않는다. 경제 주거 단계만 갱신한다.
+	if GameState.uses_daeun_shared_home_presentation():
+		return ""
 	return "arc_housing_keepsake" if GameState.prepare_housing_keepsake() != "" else ""
 
 # ── RPG 해금 행동 함수들 ───────────────────────────────────────────────
@@ -20723,8 +20783,10 @@ func _ending_build_finale_page() -> void:
 			else _tr("장면 계속", "Continue Scene"),
 			_ending_advance_finale,
 			false,
-			_tr("장면 %d / %d", "SCENE %d / %d") % [
-				_ending_finale_beat_index + 1, beat_count],
+			"1 / %d  ·  %s" % [
+				ENDING_PAGE_COUNT,
+				_tr("장면 %d / %d", "SCENE %d / %d") % [
+					_ending_finale_beat_index + 1, beat_count]],
 			false)
 
 func _ending_description_beats(description: String) -> Array[String]:
@@ -21510,19 +21572,7 @@ func _add_ending_card_bar(parent: Control, ratio: float, color: Color) -> void:
 	holder.add_child(fill)
 
 func _ending_last_home_label() -> String:
-	match GameState.housing:
-		"gosiwon":
-			return _tr("고시원", "Goshiwon")
-		"oneroom":
-			return _tr("원룸", "One-room")
-		"villa":
-			return _tr("빌라 전세", "Villa jeonse")
-		"apartment":
-			return _tr("아파트 전세", "Apartment jeonse")
-		"gangnam":
-			return _tr("강남 아파트", "Gangnam apartment")
-		_:
-			return str(GameState.housing)
+	return GameState.get_presentation_home_display_name()
 
 func _ending_plain_text(text: String) -> String:
 	var cleaned := text
@@ -22116,11 +22166,7 @@ func _ending_epilogue_card(text: String) -> Control:
 func _run_card_text(ending_id: String) -> String:
 	var total = GameState.get_total_asset_value()
 	var pct = clampi(int(total / 3_000_000_000.0 * 100.0), 0, 999)
-	var housing_labels = {
-		"gosiwon": _tr("고시원", "goshiwon"), "oneroom": _tr("원룸", "one-room"),
-		"villa": _tr("빌라 전세", "villa (jeonse)"), "apartment": _tr("아파트 전세", "apartment (jeonse)")
-	}
-	var housing_name = housing_labels.get(GameState.housing, GameState.housing)
+	var housing_name := GameState.get_presentation_home_name()
 	var ending = EndingSystem.get_ending(ending_id)
 	var ending_title = str(ending.get("title", ending_id))
 	var total_events = DataRegistry.events.size()
@@ -22226,7 +22272,7 @@ func _ending_stat_grid(parent: Control):
 		[_tr("최종 자산", "Final Assets"), GameState.format_money(total), reward_col],
 		[_tr("마지막 일", "Final Work"), job_value, good_col],
 		[_tr("살던 곳", "Home"),
-			GameState.get_housing_display_name(GameState.housing), "#aab3c5"],
+			GameState.get_presentation_home_display_name(), "#aab3c5"],
 		[str(body_metric.get("label", "")),
 			str(body_metric.get("value", "")),
 			str(body_metric.get("accent", "#91a6a2"))],
@@ -23386,15 +23432,23 @@ func _update_event_bg():
 	# 1순위: 이벤트가 명시한 background ID (ImageRegistry 경유)
 	var new_path := ""
 	var new_id := ""
+	if current_event.is_empty():
+		var presentation_home_id := GameState.get_presentation_home_background_id()
+		if not presentation_home_id.is_empty():
+			var presentation_home_path := ImageRegistry.get_background(presentation_home_id)
+			if presentation_home_path != "" and ImageRegistry.has_texture(presentation_home_path):
+				new_path = presentation_home_path
+				new_id = presentation_home_id
 	var explicit_id = str(current_event.get("background", ""))
-	if explicit_id != "":
+	if new_path == "" and explicit_id != "":
 		var reg_path = ImageRegistry.get_background(explicit_id)
 		if reg_path != "" and ImageRegistry.has_texture(reg_path):
 			new_path = reg_path
 			new_id = explicit_id
 	# 2순위: 태그/카테고리 기반 자동 매핑
 	if new_path == "":
-		var inferred_id := ImageRegistry.infer_background_id(current_event, GameState.housing)
+		var inferred_id := ImageRegistry.infer_background_id(
+			current_event, GameState.get_presentation_home_ambience_housing_id())
 		var inferred_path := ImageRegistry.get_background(inferred_id)
 		if inferred_path != "" and ImageRegistry.has_texture(inferred_path):
 			new_path = inferred_path
@@ -23468,7 +23522,14 @@ func _start_event_bg_motion() -> void:
 	_event_bg_motion_tween.tween_property(event_bg, "position", -dir * 8.0, 9.0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 
 func _get_bg_for_event(ev: Dictionary) -> String:
-	var bg_id := ImageRegistry.infer_background_id(ev, GameState.housing)
+	if ev.is_empty():
+		var presentation_home_id := GameState.get_presentation_home_background_id()
+		if not presentation_home_id.is_empty():
+			var presentation_home_path := ImageRegistry.get_background(presentation_home_id)
+			if presentation_home_path != "" and ImageRegistry.has_texture(presentation_home_path):
+				return presentation_home_path
+	var bg_id := ImageRegistry.infer_background_id(
+		ev, GameState.get_presentation_home_ambience_housing_id())
 	var bg_path := ImageRegistry.get_background(bg_id)
 	if bg_path != "" and ImageRegistry.has_texture(bg_path):
 		return bg_path
@@ -23547,7 +23608,8 @@ func _get_month_advice() -> String:
 		return _tr("직업이 없으면 매달 수입이 0원입니다. 생활비만큼 계속 줄어들어요. [구직활동]을 최우선으로 하세요.", "Without a job, monthly income is zero. Living costs will keep draining you. Prioritize Job Hunt.")
 	if GameState.money < 0:
 		return _tr("잔고가 마이너스입니다 (%s). 알바나 투자 수익으로 메우세요. 순자산이 마이너스 1억 아래로 내려가면 파산 엔딩입니다.", "Your balance is negative (%s). Cover it with gigs or investment gains. Net worth below negative 100 million won triggers bankruptcy.") % GameState.format_money(GameState.money)
-	if GameState.can_upgrade_housing() and GameState.housing == "gosiwon":
+	if not GameState.uses_daeun_shared_home_presentation() \
+			and GameState.can_upgrade_housing() and GameState.housing == "gosiwon":
 		var next_id = str(GameState.get_housing_info().get("next", ""))
 		return _tr("🏠 %s으로 이사할 자금이 생겼습니다 (현금 %s). 이사하면 정신력 패시브가 개선돼요!", "🏠 You can afford to move to a %s (cash %s). Moving improves your passive Mental pressure.") % [
 			GameState.get_housing_name(next_id), GameState.format_money(GameState.money)]

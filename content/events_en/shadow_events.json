@@ -78,30 +78,30 @@
     "choices": [
       {
         "text": "Be honest — tell them things have changed on his end",
-        "result_text": "\"Yeah, that's okay.\" Those were the words, but the messages stopped after that. The price of honesty is always a quiet goodbye."
+        "result_text": "{name} wrote that things had changed and he could not keep the promise to start together, then pressed send. Only a sent time remained beneath his bubble. No read receipt, reply, or confirmation that the relationship had ended appeared."
       },
       {
         "text": "Stall — tell them the timing isn't right yet",
-        "result_text": "\"Okay, I'll wait.\" Another message will come in seven weeks. He has to figure something out before then."
+        "result_text": "{name} wrote that he could not settle the answer now and would send his own decision within seven weeks. Only a sent time remained on the screen. No reply or promise to wait appeared."
       },
       {
         "text": "Say yes — let's do this",
-        "result_text": "They met at a café on the weekend. The ideas were there. The execution felt impossibly vague. They split 500,000 won for initial costs. It's started."
+        "result_text": "{name} sent a proposal to try it together and named the first draft he would prepare. He set aside 500,000 won on his side for that preparation, but no read receipt, reply, agreement, or weekend meeting appeared. Proposing a start was not the same fact as starting together."
       }
     ]
   },
   {
     "id": "shadow_promise_again",
-    "title": "Seven Weeks Later",
-    "description": "Just as promised, the message came. There's nowhere left to dodge. This person is serious. And that seriousness is, somehow, a little frightening.",
+    "title": "Seven Weeks Later: My Deadline",
+    "description": "A calendar reminder {name} had set seven weeks earlier appeared. The old DM still showed only his message and its sent time. With no read receipt or reply, he could not know whether the other person had waited or already left.\n\nThe only fact {name} could verify was that the date he had promised on his side was today.",
     "choices": [
       {
-        "text": "Tell them this time it's real",
-        "result_text": "He made the promise a second time. This time, bank accounts were involved. 300,000 won left his account. Whether it's a real start or just another delay, he still doesn't know."
+        "text": "Send the one-page draft I will own and a cap on preparation costs",
+        "result_text": "{name} sent the one-page draft he would own and a ceiling for preparation costs. He set aside 300,000 won of his own in the preparation account.\n\nOnly a sent time appeared. There was no read receipt, reply, or agreement. Preparing his part was not the same fact as the two of them starting a collaboration."
       },
       {
-        "text": "Be honest — tell them he can't do it",
-        "result_text": "\"Okay.\" Just one word. A long silence, then the call ended. He learned this time how a casual remark can hold someone else hostage."
+        "text": "On the date I promised, send that I cannot take it further",
+        "result_text": "{name} did not postpone the date again. He wrote that he could not start something together and pressed send. Only the sent time remained beneath his bubble.\n\nNo read receipt, reply, or verdict on the relationship appeared. The only fact he could verify was that he had ended his own delay today."
       }
     ]
   }

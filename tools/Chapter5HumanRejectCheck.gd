@@ -1,0 +1,836 @@
+extends Node
+## ORDER-150 runtime regression proof for the two Chapter 5 human-play rejects.
+##
+## This check deliberately exercises the live autoload APIs and a real
+## MainGame instance.  It complements static content audits; it is not a
+## substitute for the required normal-speed M49-M60 human replay.
+
+const MAIN_GAME_SCRIPT := preload("res://scenes/MainGame.gd")
+
+var _failures: Array[String] = []
+
+
+func _ready() -> void:
+	call_deferred("_run")
+
+
+func _run() -> void:
+	GameState.start_new_game()
+	_check_presentation_home_runtime()
+	_check_home_name_surface_runtime()
+	_check_shared_home_living_runtime()
+	_check_shadow_promise_and_legacy_runtime()
+	_check_main_game_runtime_contracts()
+	_check_jiyeon_truth_contact_runtime()
+	_check_loaded_story_contracts()
+	_check_minseo_outbound_results_runtime()
+
+	# No audio needs to start for this proof.  Stop any inherited bed anyway so
+	# strict headless teardown cannot be confused with a runtime-contract error.
+	BGMPlayer.stop()
+	await get_tree().process_frame
+	await get_tree().process_frame
+
+	if _failures.is_empty():
+		print(
+			"CHAPTER5_HUMAN_REJECT_CHECK_OK "
+			+ "home=proposal-wedding-divorce/raw-gosiwon-save-roundtrip "
+			+ "names=5x-raw-display-ko-en/legacy-gangnam-ending/shared-display-vs-narrative/consumer-split "
+			+ "living=shared-menu-contract/no-move-hints/no-raw-month/no-keepsake/no-old-ingress "
+			+ "visual=current-housing bgm=room-oneroom-room "
+			+ "tutorial=turn1-only credits=1of6-plus-beat "
+			+ "winter=september-w225-w227 "
+			+ "minseo=remote-message/no-portrait/player-only/2x-outbound-ko-en "
+			+ "shadow=proposal-only/legacy-joined-roundtrip/sns-closed "
+			+ "jiyeon=truth-contact-3x-ko-en/no-repeat")
+		get_tree().quit(0)
+		return
+
+	for failure in _failures:
+		push_error("CHAPTER5_HUMAN_REJECT_CHECK_FAIL: %s" % failure)
+	get_tree().quit(1)
+
+
+func _check_presentation_home_runtime() -> void:
+	GameState.housing = "gosiwon"
+	GameState.flags = {
+		"daeun_married": true,
+		"arc_daeun_proposal_seen": true,
+	}
+	var proposal_state := _serialized_bytes()
+	_expect(not GameState.uses_daeun_shared_home_presentation(),
+		"proposal-only state entered the completed-wedding presentation home")
+	_expect(GameState.get_presentation_home_background_id().is_empty(),
+		"proposal-only state emitted a shared-home background override")
+	_expect(GameState.get_presentation_home_name() == GameState.get_housing_name(),
+		"proposal-only state replaced the raw housing display name")
+	_expect(
+		ImageRegistry.resolve_contextual_background_id("current_housing") \
+				== "goshiwon_room",
+		"proposal-only current_housing did not resolve the raw goshiwon room")
+	_expect(GameState.get_presentation_home_ambience_housing_id() == "gosiwon",
+		"proposal-only ambience changed the raw housing id")
+	_expect(BGMPlayer._active_housing_id() == "gosiwon",
+		"proposal-only BGM context changed the raw housing id")
+	_expect(
+		BGMPlayer._resolve_dynamic_ambience_key("current_housing") == "room",
+		"proposal-only current_housing did not resolve the room ambience")
+	_expect(_serialized_bytes() == proposal_state,
+		"proposal presentation lookup mutated serialized game state")
+
+	# The wedding is a presentation fact only.  Economic housing remains the
+	# raw gosiwon both in memory and on disk while visuals and ambience agree on
+	# the authored newlywed home.
+	GameState.flags = {"arc_daeun_wedding_day_seen": true}
+	var wedding_economics := _economic_bytes()
+	var wedding_state := _serialized_bytes()
+	_expect(GameState.uses_daeun_shared_home_presentation(),
+		"completed wedding did not activate the shared-home presentation")
+	_expect(
+		GameState.get_presentation_home_background_id() \
+				== "daeun_newlywed_home",
+		"completed wedding did not expose the newlywed-home background")
+	_expect(
+		ImageRegistry.resolve_contextual_background_id("current_housing") \
+				== "daeun_newlywed_home",
+		"ImageRegistry did not resolve current_housing to the newlywed home")
+	_expect(GameState.get_presentation_home_name() != GameState.get_housing_name(),
+		"completed wedding kept the raw goshiwon presentation name")
+	_expect(GameState.get_presentation_home_ambience_housing_id() == "oneroom",
+		"completed wedding did not expose the shared-home ambience id")
+	_expect(BGMPlayer._active_housing_id() == "oneroom",
+		"BGM did not consume the completed-wedding presentation home")
+	_expect(
+		BGMPlayer._resolve_dynamic_ambience_key("current_housing") == "oneroom",
+		"completed-wedding current_housing did not resolve one-room ambience")
+	_expect(GameState.housing == "gosiwon",
+		"completed-wedding presentation rewrote economic housing")
+	_expect(_economic_bytes() == wedding_economics,
+		"completed-wedding presentation lookup mutated economic values")
+	_expect(_serialized_bytes() == wedding_state,
+		"completed-wedding presentation lookup mutated serialized state")
+
+	var wedding_save: Dictionary = GameState.serialize().duplicate(true)
+	var wedding_save_text := JSON.stringify(wedding_save)
+	_expect(str(wedding_save.get("housing", "")) == "gosiwon",
+		"wedding save did not retain raw gosiwon housing")
+	_expect(wedding_save_text.find("daeun_newlywed_home") < 0,
+		"derived newlywed-home id leaked into serialized economic state")
+	_expect(not wedding_save.has("presentation_home") \
+			and not wedding_save.has("presentation_housing"),
+		"derived presentation home acquired a persisted save field")
+
+	# A disk-style roundtrip must recompute presentation from the wedding flag,
+	# not silently promote the raw housing value.
+	GameState.housing = "apartment"
+	GameState.flags = {}
+	GameState.load_from_dict(wedding_save.duplicate(true))
+	_expect(GameState.housing == "gosiwon",
+		"save roundtrip promoted raw housing away from gosiwon")
+	_expect(bool(GameState.flags.get("arc_daeun_wedding_day_seen", false)),
+		"save roundtrip lost the completed-wedding presentation receipt")
+	_expect(GameState.uses_daeun_shared_home_presentation(),
+		"save roundtrip did not re-derive the shared-home presentation")
+	_expect(
+		ImageRegistry.resolve_contextual_background_id("current_housing") \
+				== "daeun_newlywed_home",
+		"save roundtrip did not re-derive the shared-home background")
+	_expect(BGMPlayer._active_housing_id() == "oneroom" \
+			and BGMPlayer._resolve_dynamic_ambience_key("current_housing") \
+				== "oneroom",
+		"save roundtrip did not re-derive the shared-home ambience")
+	_expect(_economic_bytes() == wedding_economics,
+		"wedding save roundtrip changed economic values")
+
+	# Divorce removes only the presentation override.  It cannot manufacture an
+	# apartment or keep the married ambience alive.
+	GameState.flags = {
+		"arc_daeun_wedding_day_seen": true,
+		"daeun_divorced": true,
+	}
+	var divorce_state := _serialized_bytes()
+	_expect(not GameState.uses_daeun_shared_home_presentation(),
+		"divorce kept the completed-wedding presentation active")
+	_expect(GameState.get_presentation_home_background_id().is_empty(),
+		"divorce kept a shared-home background override")
+	_expect(
+		ImageRegistry.resolve_contextual_background_id("current_housing") \
+				== "goshiwon_room",
+		"divorce did not return current_housing to the raw goshiwon room")
+	_expect(GameState.get_presentation_home_ambience_housing_id() == "gosiwon" \
+			and BGMPlayer._active_housing_id() == "gosiwon" \
+			and BGMPlayer._resolve_dynamic_ambience_key("current_housing") == "room",
+		"divorce did not return BGM ambience to the raw room")
+	_expect(GameState.housing == "gosiwon",
+		"divorce changed the raw economic housing")
+	_expect(_serialized_bytes() == divorce_state,
+		"divorce presentation lookup mutated serialized state")
+
+
+func _check_home_name_surface_runtime() -> void:
+	var original_language := LocaleManager.language
+	var raw_display_names := {
+		"ko": {
+			"gosiwon": "고시원",
+			"oneroom": "원룸",
+			"villa": "빌라 전세",
+			"apartment": "아파트 전세",
+			"gangnam": "강남 아파트",
+		},
+		"en": {
+			"gosiwon": "Goshiwon Room",
+			"oneroom": "One-room Studio",
+			"villa": "Villa Jeonse",
+			"apartment": "Apartment Jeonse",
+			"gangnam": "Gangnam Apartment",
+		},
+	}
+	var raw_narrative_names := {
+		"ko": {
+			"gosiwon": "고시원",
+			"oneroom": "원룸",
+			"villa": "빌라 전세",
+			"apartment": "아파트 전세",
+			"gangnam": "강남 아파트",
+		},
+		"en": {
+			"gosiwon": "goshiwon",
+			"oneroom": "one-room studio",
+			"villa": "villa jeonse",
+			"apartment": "apartment jeonse",
+			"gangnam": "Gangnam apartment",
+		},
+	}
+	GameState.start_new_game()
+	GameState.flags = {}
+	for language_value in raw_display_names:
+		var language := str(language_value)
+		LocaleManager.language = language
+		var localized_names: Dictionary = raw_display_names.get(language, {})
+		var localized_narratives: Dictionary = raw_narrative_names.get(
+			language, {})
+		for housing_value in localized_names:
+			var housing_id := str(housing_value)
+			GameState.housing = housing_id
+			var expected_display := str(localized_names.get(housing_id, ""))
+			var expected_narrative := str(localized_narratives.get(
+				housing_id, ""))
+			_expect(GameState.get_presentation_home_display_name() \
+					== expected_display,
+				"%s non-married %s display name drifted: %s" % [
+					language, housing_id,
+					GameState.get_presentation_home_display_name()])
+			_expect(GameState.get_presentation_home_name() == expected_narrative,
+				"%s non-married %s narrative name drifted: %s" % [
+					language, housing_id,
+					GameState.get_presentation_home_name()])
+
+	# `gangnam` is a retired economic-ladder value but remains legal in old
+	# saves and ending snapshots.  A cold-style load must not relabel it as the
+	# fallback gosiwon when the ending asks for the last home.
+	GameState.start_new_game()
+	GameState.housing = "gangnam"
+	GameState.flags = {}
+	var legacy_gangnam_save: Dictionary = GameState.serialize().duplicate(true)
+	GameState.housing = "gosiwon"
+	GameState.load_from_dict(legacy_gangnam_save)
+	_expect(GameState.housing == "gangnam",
+		"legacy Gangnam housing value did not survive save roundtrip")
+	var legacy_ending_game: Control = MAIN_GAME_SCRIPT.new()
+	for language in ["ko", "en"]:
+		LocaleManager.language = language
+		var expected_names: Dictionary = raw_display_names.get(language, {})
+		var expected_ending := str(expected_names.get("gangnam", ""))
+		_expect(str(legacy_ending_game.call("_ending_last_home_label")) \
+				== expected_ending,
+			"%s legacy Gangnam ending display drifted: %s" % [
+				language,
+				legacy_ending_game.call("_ending_last_home_label")])
+	legacy_ending_game.free()
+
+	var shared_names := {
+		"ko": {
+			"display": "다은과 사는 신혼집",
+			"narrative": "다은과 사는 작은 서울 신혼집",
+		},
+		"en": {
+			"display": "Shared Home with Daeun",
+			"narrative": "small Seoul newlywed home with Daeun",
+		},
+	}
+	GameState.flags = {"arc_daeun_wedding_day_seen": true}
+	for language_value in shared_names:
+		var language := str(language_value)
+		LocaleManager.language = language
+		var expected: Dictionary = shared_names.get(language, {})
+		var display_name := GameState.get_presentation_home_display_name()
+		var narrative_name := GameState.get_presentation_home_name()
+		_expect(display_name == str(expected.get("display", "")),
+			"%s shared-home display name drifted: %s" % [
+				language, display_name])
+		_expect(narrative_name == str(expected.get("narrative", "")),
+			"%s shared-home narrative name drifted: %s" % [
+				language, narrative_name])
+		_expect(display_name != narrative_name,
+			"%s shared-home display and narrative names collapsed" % language)
+
+	# Exercise representative consumers.  Compact ending facts take the display
+	# label, while the contextual sentence and shareable run card keep the
+	# sentence-ready narrative phrase.  HUD/living wiring is statically protected.
+	LocaleManager.language = "en"
+	GameState.start_new_game()
+	GameState.flags = {"arc_daeun_wedding_day_seen": true}
+	GameState.housing = "gosiwon"
+	GameState.turn = 1
+	var expected_display := "Shared Home with Daeun"
+	var expected_narrative := "small Seoul newlywed home with Daeun"
+	var main_game: Control = MAIN_GAME_SCRIPT.new()
+	_expect(str(main_game.call("_ending_last_home_label")) == expected_display,
+		"ending last-home label did not consume the display helper")
+	var run_card := str(main_game.call("_run_card_text", "ordinary_life"))
+	_expect(run_card.find("Last Home: %s" % expected_narrative) >= 0 \
+			and run_card.find("Last Home: %s" % expected_display) < 0,
+		"run card did not retain the narrative helper: %s" % run_card)
+	var pressure: Dictionary = main_game.call(
+		"_contextual_week_pressure", "", "")
+	var pressure_title := str(pressure.get("title", ""))
+	_expect(str(pressure.get("family", "")) == "housing" \
+			and pressure_title.find(expected_narrative) >= 0 \
+			and pressure_title.find(expected_display) < 0,
+		"contextual housing prose did not retain the narrative helper: %s" \
+			% JSON.stringify(pressure))
+	var stat_parent := VBoxContainer.new()
+	main_game.add_child(stat_parent)
+	main_game.call("_ending_stat_grid", stat_parent)
+	var stat_labels: Array[String] = []
+	_collect_label_text(stat_parent, stat_labels)
+	var stat_text := " | ".join(stat_labels)
+	_expect(stat_text.find(expected_display) >= 0 \
+			and stat_text.find(expected_narrative) < 0,
+		"ending stat grid did not consume only the display helper: %s" % stat_text)
+	main_game.free()
+	LocaleManager.language = original_language
+
+
+func _check_shared_home_living_runtime() -> void:
+	var original_language := LocaleManager.language
+	var main_game: Node = MAIN_GAME_SCRIPT.new()
+
+	# A real pre-upgrade fixture proves each raw-housing hint is reachable, then
+	# proves the completed wedding suppresses it in both shipped UI languages.
+	GameState.start_new_game()
+	GameState.current_job = {
+		"id": "order150_runtime_job",
+		"promotion_count": 0,
+		"max_promotions": 3,
+	}
+	GameState.health = 100
+	GameState.mental = 100
+	GameState.intelligence = 80
+	GameState.investment_skill = 30
+	GameState.social_skill = 30
+	GameState.money = 200_000_000.0
+	GameState.flags = {
+		"has_received_paycheck": true,
+		"entered_network": true,
+		"arc_invest_guidance_seen": true,
+	}
+	var recommendation_housing := ["gosiwon", "oneroom", "villa"]
+	for language in ["ko", "en"]:
+		LocaleManager.language = language
+		for housing_id in recommendation_housing:
+			GameState.housing = housing_id
+			GameState.flags.erase("arc_daeun_wedding_day_seen")
+			var raw_recommendation := str(main_game.call("_recommend_action"))
+			var expected_move := "이사 고려" if language == "ko" \
+					else "Consider Moving"
+			_expect(raw_recommendation.find(expected_move) >= 0,
+				"%s %s control did not reach its raw move recommendation: %s" % [
+					language, housing_id, raw_recommendation])
+			GameState.flags["arc_daeun_wedding_day_seen"] = true
+			var shared_recommendation := str(main_game.call("_recommend_action"))
+			_expect(_contains_none(shared_recommendation,
+				["이사 고려", "Consider Moving"]),
+				"%s %s shared home exposed a raw move recommendation: %s" % [
+					language, housing_id, shared_recommendation])
+
+	# The month advice has a separate path from the recommendation card.  Its
+	# non-married control must be reachable before the shared-home exclusion is
+	# credited with suppressing the move prompt.
+	GameState.housing = "gosiwon"
+	GameState.money = 20_000_000.0
+	GameState.turn = 1
+	for language in ["ko", "en"]:
+		LocaleManager.language = language
+		GameState.flags.erase("arc_daeun_wedding_day_seen")
+		var raw_advice := str(main_game.call("_get_month_advice"))
+		var expected_advice := "이사할 자금" if language == "ko" \
+				else "You can afford to move"
+		_expect(raw_advice.find(expected_advice) >= 0,
+			"%s control did not reach raw housing advice: %s" % [
+				language, raw_advice])
+		GameState.flags["arc_daeun_wedding_day_seen"] = true
+		var shared_advice := str(main_game.call("_get_month_advice"))
+		_expect(_contains_none(shared_advice,
+			["이사할 자금", "You can afford to move"]),
+			"%s shared home exposed raw housing advice: %s" % [
+				language, shared_advice])
+
+	# Exercise raw-room month prose with a synthetic M16 state.  Each control
+	# reaches the housing-specific line; adding the wedding receipt must route to
+	# neutral seasonal prose instead of describing a room the couple does not use.
+	GameState.age = 34
+	GameState.month = 4
+	GameState.turn = 64
+	GameState.money = 1_000_000.0
+	var raw_month_fragments := {
+		"ko": {
+			"gosiwon": "1평 반에서 1년이 넘었다",
+			"apartment": "아파트 창에서 보이는 서울은 다르다",
+			"gangnam": "강남에 왔다",
+		},
+		"en": {
+			"gosiwon": "Over a year in 1.5 pyeong",
+			"apartment": "Seoul looks different from an apartment window",
+			"gangnam": "I made it to Gangnam",
+		},
+	}
+	for language_value in raw_month_fragments:
+		var language := str(language_value)
+		LocaleManager.language = language
+		var localized_fragments: Dictionary = raw_month_fragments.get(language, {})
+		for housing_value in localized_fragments:
+			var housing_id := str(housing_value)
+			GameState.housing = housing_id
+			GameState.flags = {}
+			var raw_narration := str(main_game.call("_month_narration"))
+			var raw_fragment := str(localized_fragments.get(housing_id, ""))
+			_expect(raw_narration.find(raw_fragment) >= 0,
+				"%s %s control did not reach raw month narration: %s" % [
+					language, housing_id, raw_narration])
+			GameState.flags = {"arc_daeun_wedding_day_seen": true}
+			var shared_narration := str(main_game.call("_month_narration"))
+			_expect(_contains_none(shared_narration,
+				localized_fragments.values()),
+				"%s %s shared home exposed raw month narration: %s" % [
+					language, housing_id, shared_narration])
+
+	# The living-menu action remains an economic contract update.  It must not
+	# prepare the old move-keepsake scene, alter the shared presentation, or send
+	# either legacy moving scene through the generic/closure routers.
+	LocaleManager.language = "ko"
+	GameState.start_new_game()
+	GameState.housing = "gosiwon"
+	GameState.money = 20_000_000.0
+	GameState.inventory = [{
+		"id": "artifact_order150_runtime_keepsake",
+		"quantity": 1,
+	}]
+	GameState.flags = {"arc_daeun_wedding_day_seen": true}
+	var presentation_name := GameState.get_presentation_home_name()
+	var presentation_background := GameState.get_presentation_home_background_id()
+	var presentation_ambience := GameState.get_presentation_home_ambience_housing_id()
+	var before_keepsake := _serialized_bytes()
+	_expect(str(main_game.call("_housing_keepsake_event_id")).is_empty(),
+		"shared-home contract update routed to the move-keepsake scene")
+	_expect(not GameState.flags.has("pending_housing_keepsake_id"),
+		"shared-home contract update prepared a move keepsake")
+	_expect(_serialized_bytes() == before_keepsake,
+		"shared-home keepsake bypass mutated serialized state")
+	var money_before_upgrade: float = float(GameState.money)
+	var upgrade_result: Dictionary = GameState.upgrade_housing()
+	_expect(bool(upgrade_result.get("success", false)),
+		"shared-home economic contract update failed")
+	_expect(GameState.housing == "oneroom",
+		"shared-home contract update did not advance raw housing to oneroom")
+	_expect(is_equal_approx(GameState.money, money_before_upgrade - 5_000_000.0),
+		"shared-home contract update did not apply the raw deposit delta")
+	_expect(GameState.uses_daeun_shared_home_presentation() \
+			and GameState.get_presentation_home_name() == presentation_name \
+			and GameState.get_presentation_home_background_id() \
+				== presentation_background \
+			and GameState.get_presentation_home_ambience_housing_id() \
+				== presentation_ambience,
+		"economic contract update replaced the completed-wedding presentation")
+	_expect(not GameState.flags.has("pending_housing_keepsake_id"),
+		"economic contract update manufactured a pending keepsake")
+
+	# Prove both legacy moving routes are otherwise reachable from this upgraded
+	# raw state, then restore the wedding fact and require each to stay closed.
+	GameState.flags.erase("arc_daeun_wedding_day_seen")
+	GameState.flags.erase("arc_goshiwon_goodbye_seen")
+	GameState.flags.erase("arc_housing_new_life_seen")
+	var raw_generic_ingress := str(main_game.call(
+		"_next_arc_id", 999, true, false))
+	_expect(raw_generic_ingress == "arc_goshiwon_goodbye",
+		"raw-upgrade control did not reach arc_goshiwon_goodbye: %s" \
+			% raw_generic_ingress)
+	GameState.flags["arc_daeun_wedding_day_seen"] = true
+	var shared_generic_ingress := str(main_game.call(
+		"_next_arc_id", 999, true, false))
+	_expect(shared_generic_ingress != "arc_goshiwon_goodbye",
+		"shared-home contract update re-entered arc_goshiwon_goodbye")
+
+	GameState.flags.erase("arc_daeun_wedding_day_seen")
+	GameState.flags["arc_goshiwon_goodbye_seen"] = true
+	GameState.flags.erase("arc_housing_new_life_seen")
+	var raw_closure := str(main_game.call(
+		"_story_graph_contract_event_id", 25, GameState.flags, false))
+	_expect(raw_closure == "arc_housing_new_life",
+		"raw-upgrade control did not reach arc_housing_new_life: %s" % raw_closure)
+	GameState.flags["arc_daeun_wedding_day_seen"] = true
+	var shared_closure := str(main_game.call(
+		"_story_graph_contract_event_id", 25, GameState.flags, false))
+	_expect(shared_closure != "arc_housing_new_life",
+		"shared-home contract update re-entered arc_housing_new_life")
+
+	LocaleManager.language = original_language
+	main_game.free()
+
+
+func _check_shadow_promise_and_legacy_runtime() -> void:
+	# Generic flags serialization must retain a truthful legacy collaboration
+	# receipt.  No one-off migration is involved: inject the old value into a
+	# normal save payload, load it, and save it again.
+	GameState.start_new_game()
+	_expect(not bool(GameState.flags.get("startup_collab_joined", false)),
+		"fresh run manufactured legacy startup_collab_joined")
+	var legacy_save: Dictionary = GameState.serialize().duplicate(true)
+	var legacy_flags: Dictionary = (
+		legacy_save.get("flags", {}) as Dictionary).duplicate(true)
+	legacy_flags["startup_collab_joined"] = true
+	legacy_save["flags"] = legacy_flags
+	GameState.load_from_dict(legacy_save.duplicate(true))
+	_expect(bool(GameState.flags.get("startup_collab_joined", false)),
+		"generic old-save load lost startup_collab_joined")
+	_expect(not bool(GameState.flags.get("startup_collab_proposed", false)),
+		"old joined receipt was silently converted into a new proposal")
+	var legacy_resave: Dictionary = GameState.serialize().duplicate(true)
+	var legacy_resave_flags: Dictionary = (
+		legacy_resave.get("flags", {}) as Dictionary)
+	_expect(bool(legacy_resave_flags.get("startup_collab_joined", false)),
+		"generic old-save roundtrip erased startup_collab_joined")
+
+	# Exercise the actual authored choices through GameState.apply_choice.  Both
+	# current accept paths may record only the player's outbound proposal; neither
+	# may invent the other person's read, reply, agreement, or collaboration.
+	var proposal_choices: Array[Dictionary] = [
+		{"event_id": "shadow_old_promise", "choice_index": 2},
+		{"event_id": "shadow_promise_again", "choice_index": 0},
+	]
+	for spec in proposal_choices:
+		GameState.start_new_game()
+		var event_id := str(spec.get("event_id", ""))
+		var event: Dictionary = DataRegistry.find_event(event_id)
+		_expect(not event.is_empty(), "%s was not loaded" % event_id)
+		if event.is_empty():
+			continue
+		_expect(_condition_has(event, "no_flag", "sns_detoxed"),
+			"%s can re-enter after sns_detoxed" % event_id)
+		_expect(_condition_has(event, "no_flag", "startup_collab_proposed"),
+			"%s is not terminal after the player's proposal" % event_id)
+		var choices: Array = event.get("choices", [])
+		var authored_joined_count := 0
+		var authored_proposed_count := 0
+		for choice_value in choices:
+			if not choice_value is Dictionary:
+				continue
+			var authored_flags: Array = (choice_value as Dictionary).get("flags", [])
+			authored_joined_count += authored_flags.count("startup_collab_joined")
+			authored_proposed_count += authored_flags.count("startup_collab_proposed")
+		_expect(authored_joined_count == 0,
+			"%s still authors startup_collab_joined" % event_id)
+		_expect(authored_proposed_count == 1,
+			"%s does not author exactly one terminal proposal" % event_id)
+		var choice_index := int(spec.get("choice_index", -1))
+		_expect(choice_index >= 0 and choice_index < choices.size(),
+			"%s proposal choice index is invalid" % event_id)
+		if choice_index < 0 or choice_index >= choices.size():
+			continue
+		var applied := GameState.apply_choice(event, choices[choice_index])
+		_expect(applied, "%s proposal choice was rejected at runtime" % event_id)
+		_expect(bool(GameState.flags.get("startup_collab_proposed", false)),
+			"%s proposal choice did not write startup_collab_proposed" % event_id)
+		_expect(not bool(GameState.flags.get("startup_collab_joined", false)),
+			"%s proposal choice manufactured startup_collab_joined" % event_id)
+
+
+func _condition_has(event: Dictionary, key: String, expected: String) -> bool:
+	var conditions: Dictionary = event.get("conditions", {})
+	var raw: Variant = conditions.get(key, null)
+	if raw is Array:
+		return expected in (raw as Array)
+	return raw != null and str(raw) == expected
+
+
+func _check_main_game_runtime_contracts() -> void:
+	var main_game: Node = MAIN_GAME_SCRIPT.new()
+	GameState.turn = 1
+	_expect(bool(main_game.call("_main_game_tutorial_allowed")),
+		"MainGame rejected the tutorial on the first playable turn")
+	for late_turn in [2, 193, 240]:
+		GameState.turn = late_turn
+		_expect(not bool(main_game.call("_main_game_tutorial_allowed")),
+			"MainGame allowed the onboarding tutorial at turn %d" % late_turn)
+	main_game.free()
+
+	# Render the actual finale page twice.  This checks the user-visible label,
+	# rather than merely searching source for a format string.
+	var first_progress := _render_finale_progress(0, 2)
+	var last_progress := _render_finale_progress(1, 2)
+	_expect(first_progress.find("1 / 6") >= 0 \
+			and first_progress.find("1 / 2") >= 0,
+		"first finale beat did not render page 1/6 plus scene 1/2: %s" \
+				% first_progress)
+	_expect(last_progress.find("1 / 6") >= 0 \
+			and last_progress.find("2 / 2") >= 0,
+		"last finale beat did not render page 1/6 plus scene 2/2: %s" \
+				% last_progress)
+
+
+func _render_finale_progress(beat_index: int, beat_count: int) -> String:
+	var main_game: Control = MAIN_GAME_SCRIPT.new()
+	var modal_body := VBoxContainer.new()
+	main_game.add_child(modal_body)
+	main_game.set("modal_body", modal_body)
+	main_game.set("_ending_id", "ordinary_life")
+	main_game.set("_ending_data", {
+		"title": "ORDER-150 runtime fixture",
+		"grade": "C",
+	})
+	main_game.set("_ending_cg_path", "")
+	var beats: Array[String] = []
+	for index in range(beat_count):
+		beats.append("Runtime finale beat %d" % [index + 1])
+	main_game.set("_ending_finale_beats", beats)
+	main_game.set("_ending_finale_beat_index", beat_index)
+	main_game.call("_ending_build_finale_page")
+
+	var labels: Array[String] = []
+	_collect_label_text(modal_body, labels)
+	var progress := " | ".join(labels)
+	main_game.free()
+	return progress
+
+
+func _collect_label_text(root: Node, labels: Array[String]) -> void:
+	if root is Label:
+		labels.append((root as Label).text)
+	for child in root.get_children():
+		_collect_label_text(child, labels)
+
+
+func _check_jiyeon_truth_contact_runtime() -> void:
+	var original_language := LocaleManager.language
+	var main_game: Node = MAIN_GAME_SCRIPT.new()
+	GameState.start_new_game()
+	GameState.flags = {"arc_jiyeon_truth_seen": true}
+	var expected_by_language := {
+		"ko": [
+			"오늘은 잘 지낸다는 말부터 꺼내지 않았다. 지연에게 지금 감당할 수 있는 사정 하나를 먼저 말했다. 숨기지 않는 연습은 매번 다른 데서 시작됐다.",
+			"예전 같으면 숫자를 크게 말했을 대목에서, 오늘은 모르는 것을 모른다고 말했다. 지연과의 대화는 그렇게 한 겹 덜 꾸며졌다.",
+			"그날 털어놓은 진실을 되풀이하는 대신, 이번 주에 실제로 놓친 일을 하나 말했다. 숨기지 않는다는 건 같은 말을 반복하는 일이 아니었다.",
+		],
+		"en": [
+			"Today I didn't begin by saying everything was fine. I told Jiyeon one circumstance I could actually face. Practicing honesty began somewhere different each time.",
+			"Where I once would have made the numbers sound bigger, today I said I didn't know. That left one less layer of performance in my conversation with Jiyeon.",
+			"Instead of repeating the truth we had already laid bare, I named one thing I had actually missed this week. Hiding nothing did not mean repeating the same words.",
+		],
+	}
+	for language_value in expected_by_language:
+		var language := str(language_value)
+		# Direct assignment avoids persisting a QA-only language setting.  _tr reads
+		# this value synchronously, and DataRegistry does not need a reload here.
+		LocaleManager.language = language
+		var actual: Array[String] = []
+		for contact_number in range(1, 4):
+			GameState.contact_counts["jiyeon"] = contact_number
+			actual.append(str(main_game.call("_contact_flavor", "jiyeon", 30)))
+		var expected: Array = expected_by_language.get(language, [])
+		_expect(_same(actual, expected),
+			"Jiyeon truth-contact %s variants drifted: %s" % [
+				language, JSON.stringify(actual)])
+		var unique: Dictionary = {}
+		for line in actual:
+			unique[line] = true
+		_expect(actual.size() == 3 and unique.size() == 3,
+			"Jiyeon truth-contact %s repeated within three consecutive contacts" \
+				% language)
+		GameState.contact_counts["jiyeon"] = 4
+		var fourth := str(main_game.call("_contact_flavor", "jiyeon", 30))
+		_expect(not actual.is_empty() and fourth == actual[0],
+			"Jiyeon truth-contact %s rotation is not exactly three variants" \
+				% language)
+	LocaleManager.language = original_language
+	main_game.free()
+
+
+func _check_loaded_story_contracts() -> void:
+	# These assertions read DataRegistry after its locale overlay and mod pass,
+	# which is the object StoryMode receives at runtime.
+	var final_winter: Dictionary = DataRegistry.find_event("final_last_winter")
+	_expect(not final_winter.is_empty(),
+		"DataRegistry did not load final_last_winter")
+	var winter_conditions: Dictionary = final_winter.get("conditions", {})
+	_expect(int(winter_conditions.get("min_turn", -1)) == 224 \
+			and int(winter_conditions.get("max_turn", -1)) == 227 \
+			and int(winter_conditions.get("month", -1)) == 9,
+		"final_last_winter is not the September W225-W227 window")
+	_expect(str(winter_conditions.get("no_flag", "")) \
+			== "arc_pre_ending_winter_seen",
+		"final_last_winter lost its late-scene exclusion flag")
+	_expect(str(final_winter.get("background", "")) == "current_housing",
+		"final_last_winter is not staged in current_housing")
+	_expect(_portrait_is_empty(final_winter),
+		"final_last_winter acquired a physical portrait")
+	var winter_presentation: Dictionary = DataRegistry.get_story_presentation(
+		"final_last_winter")
+	_expect(str(winter_presentation.get("channel", "")) == "narration" \
+			and str(winter_presentation.get("portrait_role", "")) == "none" \
+			and str(winter_presentation.get("scene_location", "")) \
+				== "current_housing",
+		"final_last_winter runtime presentation contract drifted")
+
+	var minseo: Dictionary = DataRegistry.find_event("arc_minseo_03_arrival")
+	_expect(not minseo.is_empty(),
+		"DataRegistry did not load arc_minseo_03_arrival")
+	_expect(str(minseo.get("background", "")) == "current_housing",
+		"remote Minseo event left the player's current housing")
+	_expect(_portrait_is_empty(minseo),
+		"remote Minseo event loaded a physical Minseo portrait")
+	_expect(int((minseo.get("conditions", {}) as Dictionary).get(
+		"min_turn", -1)) == 9999,
+		"legacy ambient ingress for arc_minseo_03_arrival reopened")
+	var minseo_presentation: Dictionary = DataRegistry.get_story_presentation(
+		"arc_minseo_03_arrival")
+	_expect(str(minseo_presentation.get("channel", "")) == "message" \
+			and str(minseo_presentation.get("remote_actor", "")) == "minseo" \
+			and str(minseo_presentation.get("remote_location", "")) \
+				== "minseo_current_location",
+		"Minseo's runtime channel is not an explicit remote message")
+	_expect(_same(minseo_presentation.get("participants", []), ["player"]),
+		"remote Minseo event gained an unstaged local participant")
+	_expect(str(minseo_presentation.get("portrait_role", "")) == "none" \
+			and str(minseo_presentation.get("nameplate_role", "")) == "hidden",
+		"remote Minseo message gained a portrait or visible speaker nameplate")
+	_expect(str(minseo_presentation.get("expected_background", "")) \
+			== "current_housing",
+		"remote Minseo message expects a non-player location")
+
+	# Later general-route callbacks may show Minjun locally, but never Minseo.
+	# Their loaded story rules must continue to make the player the sole staged
+	# participant and bind the local portrait to Minjun.
+	for event_id in [
+		"arc_y5_general_debt_memory_reconnect",
+		"arc_y5_final_week_general_people_outbound",
+	]:
+		var event: Dictionary = DataRegistry.find_event(event_id)
+		var presentation: Dictionary = DataRegistry.get_story_presentation(event_id)
+		_expect(not event.is_empty(), "%s was not loaded" % event_id)
+		_expect(str(event.get("background", "")) == "current_housing",
+			"%s left the player's current housing" % event_id)
+		_expect(str(event.get("portrait", "")).find("minseo") < 0,
+			"%s loaded a physical Minseo portrait" % event_id)
+		_expect(str(presentation.get("channel", "")) == "internal" \
+				and _same(presentation.get("participants", []), ["player"]) \
+				and str(presentation.get("portrait_role", "")) == "local" \
+				and str(presentation.get("expected_portrait", "")) \
+					== "player_tired",
+			"%s no longer stages a player-only internal scene: %s" % [
+				event_id, JSON.stringify(presentation)])
+
+
+func _check_minseo_outbound_results_runtime() -> void:
+	var original_language := LocaleManager.language
+	var required_by_language := {
+		"ko": [
+			["적어 보냈다", "자기 말풍선 아래에는 발신 시각만 남았다",
+				"읽음도 답장도, 다음 약속도 생기지 않았다"],
+			["적어 보냈다", "화면에는 자기 쪽 발신 시각만 생겼다",
+				"읽음도 답장도 없었다"],
+		],
+		"en": [
+			["pressed send", "Only the sent time remained beneath his bubble",
+				"No read receipt, reply, or next appointment appeared"],
+			["pressed send", "The screen showed only his sent time",
+				"No read receipt or reply appeared"],
+		],
+	}
+	var forbidden_by_language := {
+		"ko": ["민서가 답", "민서가 웃", "민서가 고개를 끄덕",
+			"읽음 표시가 떴", "답장이 왔다", "다음 약속을 잡"],
+		"en": ["Minseo replied", "Minseo smiled", "Minseo nodded",
+			"A read receipt appeared", "A reply came", "They set the next"],
+	}
+	for language_value in required_by_language:
+		var language := str(language_value)
+		LocaleManager.language = language
+		DataRegistry.reload()
+		var event: Dictionary = DataRegistry.find_event("arc_minseo_03_arrival")
+		var choices: Array = event.get("choices", [])
+		_expect(choices.size() == 2,
+			"M51 Minseo %s overlay does not expose exactly two choices" % language)
+		if choices.size() != 2:
+			continue
+		var expected_choices: Array = required_by_language.get(language, [])
+		var forbidden: Array = forbidden_by_language.get(language, [])
+		for index in range(2):
+			var choice: Dictionary = choices[index]
+			var result_text := str(choice.get("result_text", ""))
+			_expect(_contains_all(result_text, expected_choices[index]),
+				"M51 Minseo %s choice %d is not outbound/no-reply: %s" % [
+					language, index, result_text])
+			_expect(_contains_none(result_text, forbidden),
+				"M51 Minseo %s choice %d invented a remote reaction: %s" % [
+					language, index, result_text])
+	LocaleManager.language = original_language
+	DataRegistry.reload()
+
+
+func _contains_all(source: String, tokens: Array) -> bool:
+	for token in tokens:
+		if source.find(str(token)) < 0:
+			return false
+	return true
+
+
+func _contains_none(source: String, tokens: Array) -> bool:
+	for token in tokens:
+		if source.find(str(token)) >= 0:
+			return false
+	return true
+
+
+func _portrait_is_empty(event: Dictionary) -> bool:
+	var portrait: Variant = event.get("portrait", null)
+	return portrait == null or str(portrait).strip_edges().is_empty()
+
+
+func _economic_bytes() -> String:
+	return JSON.stringify({
+		"housing": GameState.housing,
+		"housing_info": GameState.get_housing_info(),
+		"housing_expense": GameState.get_housing_expense(),
+		"fixed_expense": GameState.fixed_expense,
+		"money": GameState.money,
+		"monthly_income": GameState.monthly_income,
+		"loans": GameState.loans,
+		"portfolio": GameState.portfolio,
+		"inventory": GameState.inventory,
+		"market_prices": GameState.market_prices,
+		"price_history": GameState.price_history,
+		"total_assets": GameState.get_total_asset_value(),
+	})
+
+
+func _serialized_bytes() -> String:
+	return JSON.stringify(GameState.serialize())
+
+
+func _same(left: Variant, right: Variant) -> bool:
+	return JSON.stringify(left) == JSON.stringify(right)
+
+
+func _expect(condition: bool, message: String) -> void:
+	if not condition:
+		_failures.append(message)

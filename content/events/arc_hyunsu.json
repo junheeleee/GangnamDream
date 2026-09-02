@@ -6,7 +6,9 @@
     "rarity": "uncommon",
     "weight": 0.8,
     "conditions": {
-      "flag": "arc_intro_hyunsu_seen"
+      "flag": "arc_intro_hyunsu_seen",
+      "no_flag": "hyunsu_study_together_seen",
+      "max_turn": 23
     },
     "cooldown": 10,
     "portrait": "hyunsu",

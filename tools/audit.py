@@ -473,6 +473,21 @@ FLAG_READ_GD  = [
 ]
 CAST_READ_GD  = re.compile(r'cast_has_flag\(\s*"([a-z0-9_]+)"\s*,\s*"([A-Za-z0-9_]+)"')
 
+# Old saves can legitimately carry these receipts even after the current
+# authored producer has been retired. Keep each exception pinned to its exact
+# surviving reader: an added reader, typo, or unrelated producerless flag must
+# still fail the general cross-check.
+LEGACY_SAVE_ONLY_FLAG_READERS = {
+    "startup_collab_joined": frozenset({
+        "content/events/callback_events_51.json "
+        "[callback_startup_collab_echo]",
+    }),
+}
+
+def _legacy_save_only_flag_reader_allowed(name, locations):
+    expected = LEGACY_SAVE_ONLY_FLAG_READERS.get(name)
+    return expected is not None and frozenset(locations) == expected
+
 def _known_condition_flags(raw_key):
     """Known-variant keys may require several flags with `a&b` syntax."""
     if not isinstance(raw_key, str):
@@ -593,7 +608,8 @@ def check_flags():
             err('플래그 "%s" 를 코드가 읽지만 아무도 set 안 함 (패널/분기 조용히 죽음)  %s'
                 % (name, locs[0]))
     for name, locs in sorted(game_reads_json.items()):
-        if name not in game_sets:
+        if name not in game_sets \
+                and not _legacy_save_only_flag_reader_allowed(name, locs):
             err('플래그 "%s" 를 이벤트 조건이 읽지만 아무도 set 안 함 (이벤트 영영 안 뜸)  %s'
                 % (name, locs[0]))
     for (pid, fl), locs in sorted(cast_reads_gd.items()):
@@ -2111,7 +2127,20 @@ def _self_test_chapter5_direct_wiring():
     if _chapter5_general_finale_compatibility_flag_reads(
             ledger=broken_compatibility_ledger):
         raise AssertionError("invalid general ledger kept compatibility exemption")
-    print("AUDIT_CHAPTER5_DIRECT_WIRING_SELF_TEST_OK cases=11")
+    legacy_reader = (
+        "content/events/callback_events_51.json "
+        "[callback_startup_collab_echo]"
+    )
+    if not _legacy_save_only_flag_reader_allowed(
+            "startup_collab_joined", [legacy_reader]):
+        raise AssertionError("exact legacy-save-only reader was not recognized")
+    if _legacy_save_only_flag_reader_allowed(
+            "startup_collab_joined", [legacy_reader, "extra [reader]"]):
+        raise AssertionError("extra legacy flag reader remained exempt")
+    if _legacy_save_only_flag_reader_allowed(
+            "arbitrary_missing_flag", [legacy_reader]):
+        raise AssertionError("arbitrary producerless flag remained exempt")
+    print("AUDIT_CHAPTER5_DIRECT_WIRING_SELF_TEST_OK cases=14")
 
 # ══════════════════════════════════════════════════════════════
 # 8) EN/KR 조건 일치 검사 — events_en/ 파일의 conditions가

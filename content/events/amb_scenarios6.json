@@ -71,6 +71,13 @@
     "hidden": false,
     "conditions": {
       "min_turn": 12,
+      "max_turn": 192,
+      "no_flag": [
+        "credit_swallowed",
+        "credit_went_over_head",
+        "credit_drew_line",
+        "credit_backed_down"
+      ],
       "has_job": true
     },
     "tags": [

@@ -60,6 +60,11 @@ const HOUSING_DATA = {
 	"apartment": {"name": "아파트 전세","emoji": "🏢", "expense": 1_300_000.0, "deposit": 100_000_000.0,"next": "",          "req_cash": 130_000_000.0},
 }
 
+# 다은과의 실제 결혼 뒤 집은 경제 주거 사다리와 별개의 표현 사실이다.
+# 아래 ID는 배경/생활음만 고르며 월세·보증금·소유권은 계속 housing이 소유한다.
+const DAEUN_SHARED_HOME_BACKGROUND_ID := "daeun_newlywed_home"
+const DAEUN_SHARED_HOME_AMBIENCE_HOUSING_ID := "oneroom"
+
 var housing: String = "gosiwon"
 
 # ── 난이도 모드 ───────────────────────────────────────────────────
@@ -1514,27 +1519,68 @@ func get_housing_info() -> Dictionary:
 
 func get_housing_name(housing_id: String = "") -> String:
 	var id := housing if housing_id.is_empty() else housing_id
-	var names_en := {
-		"gosiwon": "goshiwon",
-		"oneroom": "one-room studio",
-		"villa": "villa jeonse",
-		"apartment": "apartment jeonse",
-		"gangnam": "Gangnam apartment",
+	# `gangnam` is no longer reachable from the current economic ladder, but old
+	# saves and ending snapshots can still carry it.  Keep its historical KO/EN
+	# presentation exact instead of falling through to the gosiwon row.
+	# Keep each Korean source beside its English fallback.  Apart maps can pass a
+	# source inventory while still making an unlocalized runtime read too easy.
+	var names := {
+		"gosiwon": {"name_ko": "고시원", "name_en": "goshiwon"},
+		"oneroom": {"name_ko": "원룸", "name_en": "one-room studio"},
+		"villa": {"name_ko": "빌라 전세", "name_en": "villa jeonse"},
+		"apartment": {"name_ko": "아파트 전세", "name_en": "apartment jeonse"},
+		"gangnam": {"name_ko": "강남 아파트", "name_en": "Gangnam apartment"},
 	}
-	var name_ko := str(HOUSING_DATA.get(id, HOUSING_DATA["gosiwon"]).get("name", id))
-	return LocaleManager.ui(name_ko, str(names_en.get(id, id)))
+	var row: Dictionary = names.get(id, {})
+	var fallback_ko := str(HOUSING_DATA.get(
+		id, HOUSING_DATA["gosiwon"]).get("name", id))
+	return LocaleManager.ui(
+		str(row.get("name_ko", fallback_ko)), str(row.get("name_en", id)))
 
 func get_housing_display_name(housing_id: String = "") -> String:
 	var id := housing if housing_id.is_empty() else housing_id
-	var names_en := {
-		"gosiwon": "Goshiwon Room",
-		"oneroom": "One-room Studio",
-		"villa": "Villa Jeonse",
-		"apartment": "Apartment Jeonse",
-		"gangnam": "Gangnam Apartment",
+	var names := {
+		"gosiwon": {"name_ko": "고시원", "name_en": "Goshiwon Room"},
+		"oneroom": {"name_ko": "원룸", "name_en": "One-room Studio"},
+		"villa": {"name_ko": "빌라 전세", "name_en": "Villa Jeonse"},
+		"apartment": {"name_ko": "아파트 전세", "name_en": "Apartment Jeonse"},
+		"gangnam": {"name_ko": "강남 아파트", "name_en": "Gangnam Apartment"},
 	}
-	var name_ko := str(HOUSING_DATA.get(id, HOUSING_DATA["gosiwon"]).get("name", id))
-	return LocaleManager.ui(name_ko, str(names_en.get(id, id.capitalize())))
+	var row: Dictionary = names.get(id, {})
+	var fallback_ko := str(HOUSING_DATA.get(
+		id, HOUSING_DATA["gosiwon"]).get("name", id))
+	return LocaleManager.ui(
+		str(row.get("name_ko", fallback_ko)),
+		str(row.get("name_en", id.capitalize())))
+
+## 결혼 완료 플래그에서만 계산하는 표현 전용 공동 주거 계약.
+## 제안/약혼 상태를 결혼으로 앞당기지 않고, 이혼한 저장은 즉시 원래 경제 주거로 돌아간다.
+func uses_daeun_shared_home_presentation() -> bool:
+	return bool(flags.get("arc_daeun_wedding_day_seen", false)) \
+			and not bool(flags.get("daeun_divorced", false))
+
+## 빈 문자열은 소비자가 기존 housing 기반 배경 해석을 그대로 사용하라는 뜻이다.
+func get_presentation_home_background_id() -> String:
+	return DAEUN_SHARED_HOME_BACKGROUND_ID \
+			if uses_daeun_shared_home_presentation() else ""
+
+## 생활음 분류용 ID다. 경제 계산은 이 값을 읽지 않는다.
+func get_presentation_home_ambience_housing_id() -> String:
+	return DAEUN_SHARED_HOME_AMBIENCE_HOUSING_ID \
+			if uses_daeun_shared_home_presentation() else housing
+
+func get_presentation_home_name() -> String:
+	if uses_daeun_shared_home_presentation():
+		return LocaleManager.ui(
+			"다은과 사는 작은 서울 신혼집",
+			"small Seoul newlywed home with Daeun")
+	return get_housing_name()
+
+## HUD·상태 카드용 짧은 표시명. 문장 속 서술형 이름과 분리해 기존 EN 표기를 보존한다.
+func get_presentation_home_display_name() -> String:
+	if uses_daeun_shared_home_presentation():
+		return LocaleManager.ui("다은과 사는 신혼집", "Shared Home with Daeun")
+	return get_housing_display_name()
 
 func can_upgrade_housing() -> bool:
 	var info = get_housing_info()

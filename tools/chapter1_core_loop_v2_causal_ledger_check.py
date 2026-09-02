@@ -3433,7 +3433,7 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "tools/StoryPlaybackCheck.gd":
         "c6210f9687573353da8d0b429edc85f3016d8084c2914226f54d12cd8c657edb",
     "autoloads/GameState.gd":
-        "f7b7541e582288272943a42d5b544420659a0b06390f750627d77dc733a9d8a9",
+        "8c4ba503493e61d857a5e7bfc2f70ffb3e74944d0865c6dbf6c2c440b59e299f",
     "autoloads/DataRegistry.gd":
         "9ee97b7003efb1d9b80673d1fce162b71ab0cb6f929a363e04ead29a98d9a1df",
     "autoloads/LocaleManager.gd":
@@ -3451,7 +3451,7 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "scenes/StoryMode.tscn":
         "b7688a883323a196e74271c1e76f1d88c91310b3fe1a287cb051b33dd2fb76ca",
     "scenes/MainGame.gd":
-        "4ecc6df59bf4b8be378b28c49c2c220042a93bf99f2780d8a34ac546f0bc4ddd",
+        "f14677578581a5d21fc47103eab5ac199f3debac8ed00f4c994fc1ea7bd9160c",
     "scenes/MainGame.tscn":
         "71a9590d43c755fa6b409ee0eb0f1950c6aba4517c64192b83038d22a45d9979",
     "scenes/SeoulCycleBoard.gd":
@@ -3465,11 +3465,11 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "content/meta/demo_core_loop_v2.json":
         "f336f8a60277effc1885e10911d21785add4ad5580135bb1ab3a4c4b509059c3",
     "content/meta/demo_localization_scope.json":
-        "3b12244d7e63915513cc537c956e2f72b35d45ca59a5fd927fa90f0a37cb4157",
+        "9d50b64e6bc09d8e3e8e670fc48163ed5a0a419263cd0ffc601aac45c7abc7b6",
     "content/meta/release_content_inventory.json":
-        "c61c68d4c0eff52f8825eebbd6fe52596408164503357a1ff8bb99934ea71099",
+        "87c06e0a6879ae5de2c0f6f761c8a79fbe9a78416d4036f7613b01af450b935f",
     "content/meta/story_rules.json":
-        "9c4d7ee013184577744da3779f6a505e2c20f0fc6dcca74c60b8edbf5c373e7c",
+        "079d1c95152595f0f9b14c0ddf79087789da1f594014db00228dfae77fb636b3",
     "content/jobs.json":
         "d1a3ed8ba3f2839954d0b15266bff4f7a0d1317d78c503bd2422aa87b7210f84",
     "content/events/arc_events.json":
@@ -3479,7 +3479,7 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "content/events/arc_daeun.json":
         "fd08c6df4566a3d8e5b1b40b9181addcfc7296d8f990bb4f54a2e1b419c01773",
     "content/events/arc_midgame.json":
-        "52836947c66c51a644704bb601394a92551a23bc33fe64b0c23b228c96b19658",
+        "c95b30b2172ebc64f3812527a8656b6055fa2068e2b728c0838bcad965eafffd",
     "content/events/scenario_cafe.json":
         "748fa21586b928419a7e7cf336b7c737ba3f09ecfdddafdbb38bff1698ebbe85",
     "docs/CORE_LOOP_V2.md":

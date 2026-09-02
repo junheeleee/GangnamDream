@@ -107,15 +107,15 @@
   {
     "id": "cb_grace_echo",
     "title": "Opening One Slot Again",
-    "description": "Last year, {name} sent a person or clinic he had missed two times he could actually keep instead of writing ‘any time.’ One slot the other side confirmed returned to his calendar. The earlier wait did not disappear.\n\nIn the final year, someone—a junior, perhaps, or an old friend—had missed a commitment and was editing the same apology over and over. {name} remembered that the nearly closed channel had reopened through a time he could keep, not through the word sorry.\n\nNow he had to decide whether to leave one slot for the other person to enter.",
+    "description": "Last year, {name} sent a person or clinic he had missed two times he could actually keep instead of writing ‘any time.’ Only the sent time on his side remained on the screen. The earlier wait did not disappear.\n\nIn the final year, someone—a junior, perhaps, or an old friend—had missed a commitment and was editing the same apology over and over. {name} remembered putting forward a time he could keep instead of repeating the word sorry.\n\nNow he had to decide whether to offer one slot from his side again.",
     "choices": [
       {
         "text": "Send two times I can actually keep first",
-        "result_text": "{name} did not write ‘any time.’ He sent two hours he could truly clear plus the travel time, then locked only the slot the other person chose into his calendar.\n\nThis did not erase the mistake, just as last year's new time had not erased the wait. It did leave a record of who would move first, and when."
+        "result_text": "{name} did not write ‘any time.’ He sent two hours he could truly clear plus the travel time. Only a sent time remained beneath his bubble.\n\nNo read receipt, reply, or confirmed time appeared. He locked no appointment into the calendar. The only record he could verify was that he had made the first offer."
       },
       {
         "text": "It's the last year. Had to look after myself first.",
-        "result_text": "There was no room. {name} left the reply open and moved to the next appointment. No one was there to label the choice wrong.\n\nFor a moment he remembered the two times he had sent last year and the reply that confirmed one. This screen held neither a new time nor a time of refusal."
+        "result_text": "There was no room. {name} left the input field open and moved to the next appointment. No one was there to label the choice wrong.\n\nFor a moment he remembered the two times he had sent last year and their sent time. This screen held neither a new offer nor a time of refusal."
       }
     ]
   }

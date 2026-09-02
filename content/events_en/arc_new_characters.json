@@ -32,20 +32,20 @@
   {
     "id": "arc_minseo_03_arrival",
     "title": "The One Who Arrives",
-    "description": "Gangnam wasn't far now.\n\nWith the number nearly full, a message came from Lee Minseo.\n\"I heard. They say you're almost there.\"\n\nThey met again at that same cafe.\n\"Congratulations. I mean it.\"\nThen she went quiet for a moment.\n\"Remember what I told you back then?\"\n\n{name} remembered. 'When you have a goal, prepare for when it disappears.'\nNow — he was starting to understand what she meant.",
+    "description": "Gangnam wasn't far now.\n\nWith the number nearly full, a message from Lee Minseo appeared on his phone.\n\"I heard you're almost there. Congratulations. I mean it.\"\n\nA moment later, one more line appeared in the same thread.\n\"Remember what I told you back then?\"\n\nAlone in his room, {name} read the screen. 'When you have a goal, prepare for when it disappears.'\nNow — he was starting to understand what she meant.",
     "choices": [
       {
-        "text": "\"I think I'm starting to get it.\" — said it honestly",
-        "result_text": "Lee Minseo nodded.\n\"Right? When you arrive, the next question comes. 'So now what.'\nBut that's not all bad. At least — it's a new question.\"\n\nFor the first time, {name} felt that Gangnam wasn't the end, but the start of the next sentence."
+        "text": "\"I think I'm starting to get it.\" — sent it honestly",
+        "result_text": "{name} wrote, \"I think I'm starting to get it,\" and pressed send. Only the sent time remained beneath his bubble. No read receipt, reply, or next appointment appeared.\n\nAlone in his room, {name} kept the thought that Gangnam might begin the next sentence, rather than end it, only in his own record."
       },
       {
-        "text": "\"I haven't arrived yet. Don't want to count my chickens.\" — smiled",
-        "result_text": "Lee Minseo laughed. \"Fair enough. See it all the way through.\"\n\nStill, {name} decided to tuck her words away in his bag.\nHe'd take them out once he got there."
+        "text": "\"I haven't arrived yet. Don't want to count my chickens.\" — sent it with a smile",
+        "result_text": "{name} wrote, \"I haven't arrived yet. I don't want to count my chickens,\" and pressed send. The screen showed only his sent time. No read receipt or reply appeared.\n\nWhat to do after arrival was a question he would have to ask himself without borrowing the other person's reaction."
       }
     ],
     "description_if_known": {
-      "contacted_minseo": "Gangnam wasn't far now.\n\nWith the number nearly full, a message came from Lee Minseo.\n\"I heard. They say you're almost there.\"\n\nThey met again at that same cafe.\n\"Congratulations. I mean it.\"\nThen she went quiet for a moment.\n\"Remember what I told you back then?\"\n\n{name} remembered. 'When you have a goal, prepare for when it disappears.'\nNow — he was starting to understand what she meant.\n\nIt was Minjun who had reached out first, using that business card.\nNot because he had a question — because he needed someone to ask.",
-      "thought_about_after": "Gangnam wasn't far now.\n\nWith the number nearly full, a message came from Lee Minseo.\n\"I heard. They say you're almost there.\"\n\nThey met again at that same cafe.\n\"Congratulations. I mean it.\"\nThen she went quiet for a moment.\n\"Remember what I told you back then?\"\n\n{name} remembered. 'When you have a goal, prepare for when it disappears.'\nNow — he was starting to understand what she meant.\n\nOnce, after something Minseo said, he'd thought about 'after arrival' for the first time.\nPeople who have thought about it and people who haven't — they look at different things from the same finish line."
+      "contacted_minseo": "Gangnam wasn't far now.\n\nWith the number nearly full, a message from Lee Minseo appeared on his phone.\n\"I heard you're almost there. Congratulations. I mean it.\"\n\nA moment later, one more line appeared in the same thread.\n\"Remember what I told you back then?\"\n\nAlone in his room, {name} read the screen. 'When you have a goal, prepare for when it disappears.'\nNow — he was starting to understand what she meant.\n\nIt was Minjun who had reached out first, using that business card.\nNot because he had a question — because he needed someone to ask.",
+      "thought_about_after": "Gangnam wasn't far now.\n\nWith the number nearly full, a message from Lee Minseo appeared on his phone.\n\"I heard you're almost there. Congratulations. I mean it.\"\n\nA moment later, one more line appeared in the same thread.\n\"Remember what I told you back then?\"\n\nAlone in his room, {name} read the screen. 'When you have a goal, prepare for when it disappears.'\nNow — he was starting to understand what she meant.\n\nOnce, after something Minseo said, he'd thought about 'after arrival' for the first time.\nPeople who have thought about it and people who haven't — they look at different things from the same finish line."
     }
   },
   {

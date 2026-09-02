@@ -1386,6 +1386,280 @@ FATHER_BRIDGE_OBJECT_TRANSITIONS_BY_FILE = {
         ),
     },
 }
+
+# ORDER-150 repairs only the defects reproduced by the exact rejected human
+# candidate.  Keep the review wrapper and its product parent explicit: the
+# wrapper changes documentation only, while every source transition below is
+# measured from the exact product byte.  Event prose is registered at object
+# granularity so the inverse can restore the rejected product for every older
+# ORDER-118/134/135/137/138/143/FATHER-BRIDGE receipt without hiding a
+# neighboring edit.  Runtime, presentation and supporting metadata use exact
+# byte transitions and extend (rather than replace) the historical chain.
+ORDER150_REJECTED_REVIEW_BASELINE = \
+    "84b6498d7f1b69e8bcef5bc51880b3ed9b726435"
+ORDER150_REJECTED_PRODUCT_BASELINE = \
+    "83d3f350de0900ce050277d6da1331940d1872a3"
+ORDER150_OBJECT_TRANSITIONS_BY_FILE = {
+    "content/events/amb_scenarios6.json": {
+        "amb_credit_steal_00": (
+            "4eda88cfc43d60b93a83412fb28864e09ed33e48711fcddf85ced01d9cc64dc7",
+            "eb1250ffd74d7e93e2ac25ace902d44f27d44a9fbf7c4785d3644a9f87c096e5",
+        ),
+    },
+    "content/events/anxiety_events.json": {
+        "anxiety_pension_crisis": (
+            "0d13e7b2b4fafbfae86b18e5821aea0a0b2d333a44130a9a5a413d9442ebcba1",
+            "4a6274e1f8ef16eee003074f5ac23e157392fbc3e6dade8b7f7aaf6265f2f4c7",
+        ),
+    },
+    "content/events/arc_drama.json": {
+        "arc_y5_final_week_general_people_outbound": (
+            "430b64571880ea170fcf6fd57c5308d8646b86d27b71dada73930faf8cc587e7",
+            "f5c928159eab72c1008a70d3424cc3da813eae2ab55d188684c2197904cb1156",
+        ),
+    },
+    "content/events/arc_hyunsu.json": {
+        "hyunsu_study_together": (
+            "3d8a8fc7f4d894758c3774aea4634c12702bd054eed79fdf8df27c0e57d48c1e",
+            "0a1d00e8937aecb69a9e81870647006d967d04b44f1ac017a3a3819676934a04",
+        ),
+    },
+    "content/events/arc_midgame.json": {
+        "arc_37_ending_peace": (
+            "d122524e012eec1e740ef1b45253a510008653b89f9526b50bfacc748abc4ec4",
+            "5205e61d7ec114305e43c6877b80b535c7b58df981b947ae1325da40825dae83",
+        ),
+        "arc_final_stretch": (
+            "72af3d35c16e341eb4be4602e8c09b7c688f0cc494937a475fffa5bdbd438ab0",
+            "2fa28f2b4e514226c806bc3f52adaedc96431ccc06196b1c7b2604646fcf2e52",
+        ),
+        "arc_gangnam_real_estate": (
+            "42e5cc1a7df1c77d6229c383e5b1348fb0cbaf12151487ed8146fa0589fa245a",
+            "de4c69b5214bc2b8b2c045f289ee6ee375c50a22e7c9dad049f36b843b96de11",
+        ),
+        "arc_gangnam_real_estate_father_passed": (
+            "98d4a65d17f37e48c1a5dc1921e3a0ad0dd35ae25090609098ac8486467ecce8",
+            "cb925d7bf98680790b7908a84789510f4f4636515d782656c9ce0018c9abc56b",
+        ),
+    },
+    "content/events/arc_new_characters.json": {
+        "arc_minseo_03_arrival": (
+            "6e1839d12dbd7ced8352e6643a7acc595757b5f9d5d074a078ee5f10b31d1810",
+            "922a5a302559ba5a74f06160d16f90f713bbba9abb47176c793d0b29b008e8e3",
+        ),
+    },
+    "content/events/arc_pre_ending.json": {
+        "arc_y5_general_debt_memory_reconnect": (
+            "8fe47a343763afacb815f986bebeaac532aa9a3d147762bbfd237e37c1a3bdfc",
+            "20624acfe0543c0134e0090e92ff53f8159253a129aefbdb12f3367415a08fb9",
+        ),
+    },
+    "content/events/arc_year3_drama.json": {
+        "arc_y5_general_father_legacy_cafe_exact": (
+            "bce0b9a95b1100e45116aeedbae97045c78c08555194708d1490608fdd307762",
+            "774112592af590ec10d6bd738f1a49ea5331cb2b0206251619cac339b3460975",
+        ),
+    },
+    "content/events/callback_chapter_themes.json": {
+        "cb_grace_echo": (
+            "7f27c41d85fa37d6c3f2d927535d265f342ab57c274f75f155a55d27a43cc6b5",
+            "5bb3f7f6c6d7c127945073da45a6728b7c594fdd68dd7748bc6384be9e94bcf6",
+        ),
+    },
+    "content/events/callback_events_2.json": {
+        "callback_hoesik_left_early_office": (
+            "3939b102112cbfa78068b43c9635351a148065618d1928b1723510d85cc13ecd",
+            "bb5862dfa5942a7aca9cb091c189391b81c304dcc852ddbc98530f4bb1e4ac08",
+        ),
+    },
+    "content/events/gambling_narrative.json": {
+        "casino_chip_exchange": (
+            "e3108c885a8672620484ca92f325ab5d50282f5829d3070b9da423f15fa8f368",
+            "524225efd706c6adcf477ed1b711b7a0a56fabac58217ef791c0edd8c90c7022",
+        ),
+    },
+    "content/events/life_events.json": {
+        "final_last_winter": (
+            "e2abe6a16e9b3b8407f4e409ba8ea4f5402534fcb82109f5514354f3c826305a",
+            "8127b8df1ad60acf32efe5ecb8ff5fa38cc2a5a63ef0306f12f29220bf7cd084",
+        ),
+    },
+    "content/events/shadow_events.json": {
+        "shadow_old_promise": (
+            "3264678e108186d2b8d6965d419f38c16c4b6c67b5371ea234df5eca62591b39",
+            "c4afd09095fb340f074cd1806380a60772dffa9af811900e67f66cb1b988b5f9",
+        ),
+        "shadow_promise_again": (
+            "93fcad2164b0a7917cfcbdf993285c9fe1f856715a6206b1fdf78158cfa8aa0d",
+            "d4643bfae7c316a0eb056fcb6e658a0c824f754c6f27e750fadf9a7bf660174c",
+        ),
+    },
+    "content/events/social_independence.json": {
+        "flex_hotel_staycation": (
+            "63f83a188f168a9e685dbc0970b44a5e46a8e346e1b77cd04ae8d51457d4c48c",
+            "5e0c581b0642013c016d8652c77d1ff27e98dc434d38e6fd4e9635b3fa66a6e7",
+        ),
+        "flex_sns_envy": (
+            "391ea0cd39d7ca6a7a0c93fe9f2e12568cc5e5788c62128415759f2ac6120e46",
+            "74cf9f15a00d1b96825d253eabab8b3a1bf20e6335061dd1b32c186e15659737",
+        ),
+    },
+    "content/events/viral_events.json": {
+        "debt_invest_margin_call": (
+            "fb3adf1510cd68c2d0a0af27366c0bb3021b6cfa7970f320cfcc16a569a2e957",
+            "346df5fe48e16939dded1a8678f926fa5ea6f7b3c035855c54e4ac09d5095443",
+        ),
+        "godsaeng_start": (
+            "a67ae9bdebc53a10632e09e2d37d81be99fd2c9299e47b8d62daa50cbc9aceb7",
+            "73f9f20fd4013579e864e4c4738364e99e60d6447a9b31b713d8980dedb353d4",
+        ),
+        "leading_room_joined": (
+            "1d7ccdb9a75f06a480148c633b1bdc776addb44923decf720f4321a3a6981ad9",
+            "dafd170ecfdc34f6001de0cda6dcc7e68596cd7fbfad91014983c3c7a3b6f9c4",
+        ),
+    },
+    "content/events_en/anxiety_events.json": {
+        "anxiety_pension_crisis": (
+            "18de566a1c8077ac1ac2f0f89843f0505fccdb289257f96fad74cd668f6d37c1",
+            "3ea9bcd21da6a7b8bf2259fbef00a23824899e61e9ff1e0736e568e9192f60f7",
+        ),
+    },
+    "content/events_en/arc_drama.json": {
+        "arc_y5_final_week_general_people_outbound": (
+            "f5ec46a16e314e7a67bc67c4808e3bb2afcd2b88ea6cf060136053bd010c714c",
+            "b3dd70bbacdb18c2e4ffb87abcca59cc6b71cd998bd8c8af5847dc84995c16c3",
+        ),
+    },
+    "content/events_en/arc_midgame.json": {
+        "arc_37_ending_peace": (
+            "5bebde66863912c634fcfb888e1be5b31b445c17458f7ae8253b3efb77ea70c6",
+            "90cb6fbdbcd0cdff6257133fef3e72477f3c511b683eda7929322182f967ae80",
+        ),
+        "arc_final_stretch": (
+            "0d813ce0910928f38929178f7a5e4498217f649ecfb9a56918967e48a38fb7a4",
+            "dcadc9f6d9700ab105ac5c0982016d1ae0653ce35ced362cefe434032aff6adc",
+        ),
+        "arc_gangnam_real_estate": (
+            "f44bd9b27a12a073591b53b092182112aea58bbecd6d1c109ec3c33b0f945349",
+            "087c1be09a7e3bd9d4b59ee983bc9188ff940feb2d158fabe229787caa0a3ae8",
+        ),
+        "arc_gangnam_real_estate_father_passed": (
+            "6c56e52f1355d66ff03bb68dd00537743678997188f562ef1879680e47ebd8a7",
+            "ecd2c9a27db43f17fc4ff05463fca5da15a09a0123b6ea26cecc6c414063b02a",
+        ),
+    },
+    "content/events_en/arc_new_characters.json": {
+        "arc_minseo_03_arrival": (
+            "6c89b1ae3baeae524ff770ccb34332e1ef63977969c0bd7503cc15da5ddc9c81",
+            "107083a66d5991e8315837733cd32e1adeab4da24c475598ca5f06659e1f6e4d",
+        ),
+    },
+    "content/events_en/arc_pre_ending.json": {
+        "arc_y5_general_debt_memory_reconnect": (
+            "c07c5e3852581a426bca7e3a873161babcee471190e05435361706b15dcd4edb",
+            "dd6a16c43585831dfa7a843dd735e4627dfb856a57a0928c874d9d90d087a5fe",
+        ),
+    },
+    "content/events_en/arc_year3_drama.json": {
+        "arc_y5_general_father_legacy_cafe_exact": (
+            "1b3091084243c88a590c13e0e8b14a10cf369cdc5492e1bd034ce80d1558c49a",
+            "31c45a6d2dc928515ef77b4effd0ef6c90ea998e223df38e3f05eeeb3760e4c6",
+        ),
+    },
+    "content/events_en/callback_chapter_themes.json": {
+        "cb_grace_echo": (
+            "b682807aed1a5376a405f78dd248eb4f93df079cfedbf282c48287ce84f794ae",
+            "868ddc45e30da93ddb61c80e2aafd6b66b8955e45d6fc15e5d323502eedbabe1",
+        ),
+    },
+    "content/events_en/callback_events_2.json": {
+        "callback_hoesik_left_early_office": (
+            "489e7fb25b8b53619260cc55495515ae9009c0944d5a604b30c39025eefb2857",
+            "20d1f7934e90285620c98d14469df3bdd5259e3da7f81dc1075293778c659503",
+        ),
+    },
+    "content/events_en/life_events.json": {
+        "final_last_winter": (
+            "28a3ec13cfc9f789a7670cc0c93907b1ba4f6b4d10d209a794749ce5d5dc0703",
+            "df227ad7266726fd39839098fb69d7ce92b7ec145607bae4ecf304a57c5b7739",
+        ),
+    },
+    "content/events_en/shadow_events.json": {
+        "shadow_old_promise": (
+            "f83f0737ed985e83358699affd87c714e2402ea81491d0051e6166a876c8a90c",
+            "b66885fca4a730a6a02cf8ac9f70a709d799eb0cf9bbc7707526c2ecabc5d8e2",
+        ),
+        "shadow_promise_again": (
+            "501da3233f253254c282be5b53a0dc20ec872538a73d6d53f2d23ed236a56a5f",
+            "9213ff435eb4efa62d0a6be9d68cbcf5ee162dd0c201064e2641123b8c173e72",
+        ),
+    },
+}
+ORDER150_CHANGED_EXISTING_IDS_BY_FILE = {
+    relative: set(transitions)
+    for relative, transitions in ORDER150_OBJECT_TRANSITIONS_BY_FILE.items()
+}
+ORDER150_ADDED_OBJECT_SHA256_BY_FILE: dict[str, dict[str, str]] = {}
+ORDER150_ADDED_IDS_BY_FILE = {
+    relative: set(hashes)
+    for relative, hashes in ORDER150_ADDED_OBJECT_SHA256_BY_FILE.items()
+}
+ORDER150_PROTECTED_FILE_TRANSITIONS = {
+    "autoloads/GameState.gd": (
+        "f7b7541e582288272943a42d5b544420659a0b06390f750627d77dc733a9d8a9",
+        "8c4ba503493e61d857a5e7bfc2f70ffb3e74944d0865c6dbf6c2c440b59e299f",
+    ),
+    "content/events/callback_events_2.json": (
+        "d851ea85eca56095a61d1bf58fd7a35f980ad0eaf0c2f5a79948512f343e6248",
+        "7b371fb33b3bd29cec55726013de0c63b309c0a0f764cad799ba3678bbc38627",
+    ),
+    "content/events/life_events.json": (
+        "4da67829688c11e225f855ce76d1424785210a55f599fbad7369f1fcd4654a25",
+        "dff256fdafa21574015461d47eb2826a51ed7f2315d1515ed605cd2abd370024",
+    ),
+    "content/events_en/callback_events_2.json": (
+        "25a571b12cee88de4e64f0c481de28d3045503c1781edecd59d387f3d499efd2",
+        "c26ee0f97504f617ff856ea189170170761579489239978e58f86e8d68415780",
+    ),
+    "content/events_en/life_events.json": (
+        "a9ad0054920d9d17a79e346648e3a7d725b402dafbafec4bc91f5e5a4cf445d7",
+        "3a1f777a40df4243c4952ad1840b41e378c4b3752093e90bca27a0201ee6884f",
+    ),
+    "content/meta/story_map.json": (
+        "46e459b5c0243b22f117290448c4622374df21c838e03ddfe96214d73dae043c",
+        "a5b5e7bc6f128c4f05b5b4d992aa046454a0a0c3836e2b4573f8bfa7c4814b86",
+    ),
+    "content/meta/story_rules.json": (
+        "9c4d7ee013184577744da3779f6a505e2c20f0fc6dcca74c60b8edbf5c373e7c",
+        "079d1c95152595f0f9b14c0ddf79087789da1f594014db00228dfae77fb636b3",
+    ),
+    "scenes/MainGame.gd": (
+        "4ecc6df59bf4b8be378b28c49c2c220042a93bf99f2780d8a34ac546f0bc4ddd",
+        "f14677578581a5d21fc47103eab5ac199f3debac8ed00f4c994fc1ea7bd9160c",
+    ),
+}
+ORDER150_AUXILIARY_FILE_TRANSITIONS = {
+    "assets/event_visual_contracts.json": (
+        "7caf01c2aab0d01181f334799804b3e847091175f0dff6b35a9a20203bb83eb5",
+        "68a595075c81188e8b507ed000b869a87e63590a135eabfb9a8f6bc9a76f9c2b",
+    ),
+    "autoloads/BGMPlayer.gd": (
+        "5b141cb0f53c3688b6e339362b01ba851cc4fa532db67b38583a867d41b5c54d",
+        "9716bdc6b6968da02a1ba3241a1397d30b0402534aebae90d075d8865d25fe92",
+    ),
+    "autoloads/ImageRegistry.gd": (
+        "90ec04612c4698e0a1c49e81bde73af3c62aadb853c7f56227a52a5f1aaaae7d",
+        "a850720afeeb242717a20ff0d8c6590e8f35a4856be65c221ed4af11e5c8a1a6",
+    ),
+    "content/meta/exposed_event_state_contracts.json": (
+        "eb57418f367346eee3c23857eb6903368f347578d56ceb5c38aad1624d6f5488",
+        "495468b7fb5fca7d7debb8c392d877a05ceff9124af576eec4e4c857c93fa4d2",
+    ),
+}
+ORDER150_PRODUCT_FILE_TRANSITIONS = {
+    **ORDER150_PROTECTED_FILE_TRANSITIONS,
+    **ORDER150_AUXILIARY_FILE_TRANSITIONS,
+}
 ORDER131_ADDED_IDS_BY_FILE = {
     "content/events/arc_midgame.json": {
         "arc_first_real_win_father_passed",
@@ -4365,6 +4639,182 @@ def advance_exact_hash(
 
 
 @functools.lru_cache(maxsize=None)
+def order150_baseline_payload(relative: str) -> Any:
+    """Load the exact rejected product source repaired by ORDER-150."""
+    return strict_loads(
+        git_blob(ORDER150_REJECTED_PRODUCT_BASELINE, relative).decode("utf-8"),
+        f"{ORDER150_REJECTED_PRODUCT_BASELINE}:{relative}",
+    )
+
+
+@functools.lru_cache(maxsize=None)
+def order150_current_payload(relative: str) -> Any:
+    """Load one immutable working-tree fixture once per audit process."""
+    return load_json(ROOT / relative)
+
+
+@functools.lru_cache(maxsize=None)
+def order150_current_byte_hash(relative: str) -> str:
+    """Hash one immutable working-tree fixture once per audit process."""
+    return byte_sha256((ROOT / relative).read_bytes())
+
+
+@functools.lru_cache(maxsize=1)
+def order150_git_registration_snapshot(
+) -> tuple[int, str, int, str, int, frozenset[str]]:
+    """Capture the exact rejected-wrapper and changed-event source scope."""
+    registered_paths = sorted(
+        set(ORDER150_OBJECT_TRANSITIONS_BY_FILE)
+        | set(ORDER150_ADDED_OBJECT_SHA256_BY_FILE)
+        | set(ORDER150_PRODUCT_FILE_TRANSITIONS)
+    )
+    parent = subprocess.run(
+        ["git", "rev-parse", f"{ORDER150_REJECTED_REVIEW_BASELINE}^"],
+        cwd=ROOT,
+        check=False,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+    )
+    wrapper_diff = subprocess.run(
+        [
+            "git", "diff", "--name-only",
+            ORDER150_REJECTED_PRODUCT_BASELINE,
+            ORDER150_REJECTED_REVIEW_BASELINE,
+            "--", *registered_paths,
+        ],
+        cwd=ROOT,
+        check=False,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+    )
+    event_diff = subprocess.run(
+        [
+            "git", "diff", "--name-only",
+            ORDER150_REJECTED_PRODUCT_BASELINE,
+            "--", "content/events", "content/events_en",
+        ],
+        cwd=ROOT,
+        check=False,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+    )
+    actual_event_files = frozenset(
+        relative
+        for relative in event_diff.stdout.splitlines()
+        if relative.endswith(".json")
+    )
+    return (
+        parent.returncode,
+        parent.stdout.strip(),
+        wrapper_diff.returncode,
+        wrapper_diff.stdout.strip(),
+        event_diff.returncode,
+        actual_event_files,
+    )
+
+
+def order150_project_payload(payload: Any, relative: str) -> Any:
+    """Inverse only exact ORDER-150 event-object transitions.
+
+    The predecessor is restored only when both sides of the registered
+    transition still match.  A mutation to the repaired object, a neighboring
+    object, its source path, or list topology therefore remains visible to all
+    older receipt validators.
+    """
+    transitions = ORDER150_OBJECT_TRANSITIONS_BY_FILE.get(relative, {})
+    added_hashes = ORDER150_ADDED_OBJECT_SHA256_BY_FILE.get(relative, {})
+    if not transitions and not added_hashes:
+        return copy.deepcopy(payload)
+    try:
+        baseline = order150_baseline_payload(relative)
+    except (UnicodeDecodeError, ValueError):
+        return copy.deepcopy(payload)
+    baseline_rows = (
+        baseline.get("items", []) if isinstance(baseline, dict) else baseline
+    )
+    current_rows = (
+        payload.get("items", []) if isinstance(payload, dict) else payload
+    )
+    if not isinstance(baseline_rows, list) or not isinstance(current_rows, list):
+        return copy.deepcopy(payload)
+    baseline_by_id = {
+        str(row.get("id", "")): row
+        for row in baseline_rows
+        if isinstance(row, dict)
+    }
+    projected_rows: list[Any] = []
+    for raw_row in current_rows:
+        if not isinstance(raw_row, dict):
+            projected_rows.append(copy.deepcopy(raw_row))
+            continue
+        event_id = str(raw_row.get("id", ""))
+        added_hash = added_hashes.get(event_id)
+        if added_hash is not None \
+                and canonical_json_sha256(raw_row) == added_hash:
+            continue
+        transition = transitions.get(event_id)
+        baseline_row = baseline_by_id.get(event_id)
+        if transition is not None \
+                and canonical_json_sha256(raw_row) == transition[1] \
+                and isinstance(baseline_row, dict) \
+                and canonical_json_sha256(baseline_row) == transition[0]:
+            projected_rows.append(copy.deepcopy(baseline_row))
+            continue
+        projected_rows.append(copy.deepcopy(raw_row))
+    if isinstance(payload, dict):
+        projected = copy.deepcopy(payload)
+        projected["items"] = projected_rows
+        return projected
+    return projected_rows
+
+
+def order150_project_context(context: AuditContext) -> AuditContext:
+    """Return an event index shaped exactly like the rejected product."""
+    projected = copy.deepcopy(context)
+    affected_files = set(ORDER150_OBJECT_TRANSITIONS_BY_FILE) \
+        | set(ORDER150_ADDED_OBJECT_SHA256_BY_FILE)
+    for relative in sorted(affected_files):
+        locale = "en" if relative.startswith("content/events_en/") else "ko"
+        try:
+            baseline = order150_baseline_payload(relative)
+        except (UnicodeDecodeError, ValueError):
+            continue
+        baseline_rows = (
+            baseline.get("items", [])
+            if isinstance(baseline, dict) else baseline
+        )
+        baseline_by_id = {
+            str(row.get("id", "")): row
+            for row in baseline_rows
+            if isinstance(row, dict)
+        } if isinstance(baseline_rows, list) else {}
+        for event_id, added_hash in ORDER150_ADDED_OBJECT_SHA256_BY_FILE.get(
+                relative, {}).items():
+            records = projected.event_indexes[locale].get(event_id, [])
+            projected.event_indexes[locale][event_id] = [
+                record for record in records
+                if record.path != relative
+                or canonical_json_sha256(record.row) != added_hash
+            ]
+            if not projected.event_indexes[locale][event_id]:
+                projected.event_indexes[locale].pop(event_id, None)
+        transitions = ORDER150_OBJECT_TRANSITIONS_BY_FILE.get(relative, {})
+        for event_id, transition in transitions.items():
+            baseline_row = baseline_by_id.get(event_id)
+            if not isinstance(baseline_row, dict) \
+                    or canonical_json_sha256(baseline_row) != transition[0]:
+                continue
+            for record in projected.event_indexes[locale].get(event_id, []):
+                if record.path == relative \
+                        and canonical_json_sha256(record.row) == transition[1]:
+                    record.row = copy.deepcopy(baseline_row)
+    return projected
+
+
+@functools.lru_cache(maxsize=None)
 def father_bridge_baseline_payload(relative: str) -> Any:
     """Load the exact a57 predecessor for one father-bridge event source."""
     return strict_loads(
@@ -4375,6 +4825,7 @@ def father_bridge_baseline_payload(relative: str) -> Any:
 
 def father_bridge_project_payload(payload: Any, relative: str) -> Any:
     """Inverse only exact post-a57 father-bridge object transitions."""
+    payload = order150_project_payload(payload, relative)
     transitions = FATHER_BRIDGE_OBJECT_TRANSITIONS_BY_FILE.get(relative, {})
     if not transitions:
         return copy.deepcopy(payload)
@@ -4418,7 +4869,7 @@ def father_bridge_project_payload(payload: Any, relative: str) -> Any:
 
 def father_bridge_project_context(context: AuditContext) -> AuditContext:
     """Return an event index with only exact father-bridge rewrites undone."""
-    projected = copy.deepcopy(context)
+    projected = order150_project_context(context)
     for relative, event_ids in sorted(
             FATHER_BRIDGE_CHANGED_EXISTING_IDS_BY_FILE.items()):
         locale = "en" if relative.startswith("content/events_en/") else "ko"
@@ -6256,6 +6707,190 @@ def validate_order138_registration(
     }
 
 
+def validate_order150_registration(
+    context: AuditContext,
+    errors: list[str],
+) -> dict[str, int]:
+    """Pin the exact ORDER-150 repairs and their fail-closed inverse."""
+    (
+        parent_returncode,
+        parent_commit,
+        wrapper_returncode,
+        wrapper_changed,
+        event_diff_returncode,
+        actual_event_files,
+    ) = order150_git_registration_snapshot()
+    if parent_returncode != 0 \
+            or parent_commit != ORDER150_REJECTED_PRODUCT_BASELINE:
+        errors.append(
+            "ORDER-150: rejected review HEAD must have the exact product "
+            "candidate as its direct parent")
+
+    if wrapper_returncode != 0 or wrapper_changed:
+        errors.append(
+            "ORDER-150: rejected review wrapper changed a registered product "
+            "source")
+
+    expected_event_files = set(ORDER150_OBJECT_TRANSITIONS_BY_FILE) \
+        | set(ORDER150_ADDED_OBJECT_SHA256_BY_FILE)
+    if event_diff_returncode != 0 \
+            or actual_event_files != expected_event_files:
+        errors.append(
+            "ORDER-150: exact changed event-file registry drifted "
+            f"expected={sorted(expected_event_files)} "
+            f"actual={sorted(actual_event_files)}")
+
+    if set(ORDER150_CHANGED_EXISTING_IDS_BY_FILE) \
+            != set(ORDER150_OBJECT_TRANSITIONS_BY_FILE):
+        errors.append("ORDER-150: exact object file registry drifted")
+    if set(ORDER150_ADDED_IDS_BY_FILE) \
+            != set(ORDER150_ADDED_OBJECT_SHA256_BY_FILE):
+        errors.append("ORDER-150: exact added-object file registry drifted")
+
+    registered_object_count = 0
+    affected_event_files = set(ORDER150_CHANGED_EXISTING_IDS_BY_FILE) \
+        | set(ORDER150_ADDED_IDS_BY_FILE)
+    for relative in sorted(affected_event_files):
+        owner = f"ORDER-150:{relative}"
+        event_ids = ORDER150_CHANGED_EXISTING_IDS_BY_FILE.get(relative, set())
+        added_ids = ORDER150_ADDED_IDS_BY_FILE.get(relative, set())
+        transitions = ORDER150_OBJECT_TRANSITIONS_BY_FILE.get(relative, {})
+        if set(transitions) != event_ids:
+            errors.append(f"{owner}: exact object transition registry drifted")
+        added_hashes = ORDER150_ADDED_OBJECT_SHA256_BY_FILE.get(relative, {})
+        if set(added_hashes) != added_ids:
+            errors.append(
+                f"{owner}: exact added-object hash registry drifted")
+        registered_object_count += len(event_ids) + len(added_ids)
+        try:
+            current_payload = order150_current_payload(relative)
+            baseline_payload = order150_baseline_payload(relative)
+        except (OSError, UnicodeDecodeError, ValueError) as exc:
+            errors.append(f"{owner}: cannot load exact inverse fixture ({exc})")
+            continue
+        fixture_errors: list[str] = []
+        current_rows = event_rows(
+            current_payload, f"{owner}:current", fixture_errors)
+        baseline_rows = event_rows(
+            baseline_payload, f"{owner}:baseline", fixture_errors)
+        errors.extend(fixture_errors)
+        current_ids = [str(row.get("id", "")) for row in current_rows]
+        baseline_ids = [str(row.get("id", "")) for row in baseline_rows]
+        if len(current_ids) != len(set(current_ids)):
+            errors.append(f"{owner}: current event IDs are not unique")
+        if len(baseline_ids) != len(set(baseline_ids)):
+            errors.append(f"{owner}: baseline event IDs are not unique")
+        current_by_id = {
+            str(row.get("id", "")): row for row in current_rows
+        }
+        baseline_by_id = {
+            str(row.get("id", "")): row for row in baseline_rows
+        }
+        actual_added = set(current_by_id) - set(baseline_by_id)
+        actual_removed = set(baseline_by_id) - set(current_by_id)
+        actual_changed = {
+            event_id
+            for event_id in set(current_by_id) & set(baseline_by_id)
+            if canonical_json_sha256(current_by_id[event_id])
+            != canonical_json_sha256(baseline_by_id[event_id])
+        }
+        if actual_added != added_ids or actual_removed \
+                or actual_changed != event_ids:
+            errors.append(
+                f"{owner}: exact event-object delta drifted "
+                f"added={sorted(actual_added)} removed={sorted(actual_removed)} "
+                f"changed={sorted(actual_changed)}")
+
+        locale = "en" if relative.startswith("content/events_en/") else "ko"
+        for event_id in sorted(event_ids):
+            event_owner = f"ORDER-150:{locale}:{event_id}"
+            transition = transitions.get(event_id)
+            baseline_row = baseline_by_id.get(event_id)
+            current_row = current_by_id.get(event_id)
+            if transition is None:
+                errors.append(f"{event_owner}: transition is missing")
+                continue
+            if not isinstance(baseline_row, dict) \
+                    or canonical_json_sha256(baseline_row) != transition[0]:
+                errors.append(
+                    f"{event_owner}: exact baseline object hash drifted")
+            if not isinstance(current_row, dict) \
+                    or canonical_json_sha256(current_row) != transition[1]:
+                errors.append(f"{event_owner}: exact object hash drifted")
+            records = context.event_indexes[locale].get(event_id, [])
+            if len(records) != 1:
+                errors.append(
+                    f"{event_owner}: expected one event object, "
+                    f"got {len(records)}")
+            elif records[0].path != relative:
+                errors.append(
+                    f"{event_owner}: exact source file drifted "
+                    f"expected={relative!r} actual={records[0].path!r}")
+            elif canonical_json_sha256(records[0].row) != transition[1]:
+                errors.append(f"{event_owner}: exact object hash drifted")
+
+        for event_id in sorted(added_ids):
+            event_owner = f"ORDER-150:{locale}:{event_id}"
+            expected_hash = added_hashes.get(event_id, "")
+            current_row = current_by_id.get(event_id)
+            if not expected_hash or not isinstance(current_row, dict) \
+                    or canonical_json_sha256(current_row) != expected_hash:
+                errors.append(
+                    f"{event_owner}: exact added object hash drifted")
+            if event_id in baseline_by_id:
+                errors.append(
+                    f"{event_owner}: added object already exists in baseline")
+            records = context.event_indexes[locale].get(event_id, [])
+            if len(records) != 1:
+                errors.append(
+                    f"{event_owner}: expected one added event object, "
+                    f"got {len(records)}")
+            elif records[0].path != relative:
+                errors.append(
+                    f"{event_owner}: exact source file drifted "
+                    f"expected={relative!r} actual={records[0].path!r}")
+            elif canonical_json_sha256(records[0].row) != expected_hash:
+                errors.append(
+                    f"{event_owner}: exact added object hash drifted")
+
+        if order150_project_payload(current_payload, relative) \
+                != baseline_payload:
+            errors.append(f"{owner}: exact inverse does not restore baseline")
+
+    if set(ORDER150_PROTECTED_FILE_TRANSITIONS) \
+            & set(ORDER150_AUXILIARY_FILE_TRANSITIONS):
+        errors.append("ORDER-150: protected and auxiliary file registries overlap")
+    if not set(ORDER150_PROTECTED_FILE_TRANSITIONS) \
+            <= EXPECTED_PROTECTED_FILES:
+        errors.append(
+            "ORDER-150: protected-file transition is outside the immutable "
+            "manifest surface")
+    if set(ORDER150_PRODUCT_FILE_TRANSITIONS) != (
+            set(ORDER150_PROTECTED_FILE_TRANSITIONS)
+            | set(ORDER150_AUXILIARY_FILE_TRANSITIONS)):
+        errors.append("ORDER-150: exact product file registry drifted")
+
+    for relative, transition in sorted(
+            ORDER150_PRODUCT_FILE_TRANSITIONS.items()):
+        owner = f"ORDER-150:{relative}"
+        try:
+            baseline_hash = byte_sha256(
+                git_blob(ORDER150_REJECTED_PRODUCT_BASELINE, relative))
+            current_hash = order150_current_byte_hash(relative)
+        except (OSError, ValueError) as exc:
+            errors.append(f"{owner}: cannot read exact file transition ({exc})")
+            continue
+        if baseline_hash != transition[0]:
+            errors.append(f"{owner}: exact baseline byte hash drifted")
+        if current_hash != transition[1]:
+            errors.append(f"{owner}: exact current byte hash drifted")
+
+    return {
+        "order150_event_objects": registered_object_count,
+        "order150_product_files": len(ORDER150_PRODUCT_FILE_TRANSITIONS),
+    }
+
+
 def validate_father_bridge_registration(
     context: AuditContext,
     errors: list[str],
@@ -6277,7 +6912,8 @@ def validate_father_bridge_registration(
                 f"{owner}: exact object transition registry drifted")
         registered_count += len(event_ids)
         try:
-            current_payload = load_json(ROOT / relative)
+            current_payload = order150_project_payload(
+                load_json(ROOT / relative), relative)
             baseline_payload = father_bridge_baseline_payload(relative)
         except (OSError, UnicodeDecodeError, ValueError) as exc:
             errors.append(f"{owner}: cannot load exact inverse fixture ({exc})")
@@ -6692,6 +7328,8 @@ def validate_protected_hashes(
         order147_runtime_identity_transition = \
             ORDER147_RUNTIME_IDENTITY_PROTECTED_FILE_TRANSITIONS.get(
                 relative)
+        order150_transition = \
+            ORDER150_PROTECTED_FILE_TRANSITIONS.get(relative)
         effective_expected_hash = advance_exact_hash(
             expected_hash, order135_transition)
         effective_expected_hash = advance_exact_hash(
@@ -6735,6 +7373,9 @@ def validate_protected_hashes(
         pre_order147_runtime_identity_expected_hash = effective_expected_hash
         effective_expected_hash = advance_exact_hash(
             effective_expected_hash, order147_runtime_identity_transition)
+        pre_order150_expected_hash = effective_expected_hash
+        effective_expected_hash = advance_exact_hash(
+            effective_expected_hash, order150_transition)
         if actual_hash != effective_expected_hash:
             errors.append(f"{owner}: working-tree byte hash drifted")
         transition = ORDER134_PROTECTED_FILE_TRANSITIONS.get(relative)
@@ -6917,6 +7558,7 @@ def validate_protected_hashes(
                     f"{owner}: identity-agency receipt transition does not "
                     "extend the latest exact product byte")
             if order147_runtime_identity_transition is None \
+                    and order150_transition is None \
                     and actual_hash != identity_agency_receipt_transition[1]:
                 errors.append(
                     f"{owner}: identity-agency receipt current hash drifted")
@@ -6926,7 +7568,8 @@ def validate_protected_hashes(
                 errors.append(
                     f"{owner}: full-volume story receipt transition does not "
                     "extend the latest exact product byte")
-            if actual_hash != full_volume_story_transition[1]:
+            if order150_transition is None \
+                    and actual_hash != full_volume_story_transition[1]:
                 errors.append(
                     f"{owner}: full-volume story receipt current hash "
                     "drifted")
@@ -6936,10 +7579,19 @@ def validate_protected_hashes(
                 errors.append(
                     f"{owner}: ORDER-147 runtime-identity transition does "
                     "not extend the latest exact product byte")
-            if actual_hash != order147_runtime_identity_transition[1]:
+            if order150_transition is None \
+                    and actual_hash != order147_runtime_identity_transition[1]:
                 errors.append(
                     f"{owner}: ORDER-147 runtime-identity current hash "
                     "drifted")
+        if order150_transition is not None:
+            if order150_transition[0] != pre_order150_expected_hash:
+                errors.append(
+                    f"{owner}: ORDER-150 transition does not extend the "
+                    "latest exact product byte")
+            if actual_hash != order150_transition[1]:
+                errors.append(
+                    f"{owner}: ORDER-150 current hash drifted")
         try:
             baseline_hash = byte_sha256(git_blob(EXPECTED_BASELINE, relative))
         except ValueError as exc:
@@ -7131,6 +7783,16 @@ def validate_protected_hashes(
                     errors.append(
                         f"{owner}: ORDER-147 runtime-identity baseline hash "
                         "drifted")
+        if order150_transition is not None:
+            try:
+                order150_baseline_hash = byte_sha256(
+                    git_blob(ORDER150_REJECTED_PRODUCT_BASELINE, relative))
+            except ValueError as exc:
+                errors.append(f"{owner}: {exc}")
+            else:
+                if order150_baseline_hash != order150_transition[0]:
+                    errors.append(
+                        f"{owner}: ORDER-150 baseline hash drifted")
 
     objects = protected.get("objects")
     if not isinstance(objects, list) or not objects:
@@ -7273,6 +7935,7 @@ def validate_manifest(
     if not isinstance(manifest, dict):
         return errors, {"routes": 0, "roots": 0, "choices": 0, "consumers": 0}
 
+    order150_context = order150_project_context(context)
     father_bridge_context = father_bridge_project_context(context)
     order138_context = order143_project_context(context)
     order137_context = order138_project_context(context)
@@ -7305,6 +7968,10 @@ def validate_manifest(
         "order143_event_objects": 0,
         "order143_added_objects": 0,
         "order143_changed_objects": 0,
+    }
+    order150_stats = {
+        "order150_event_objects": 0,
+        "order150_product_files": 0,
     }
     father_bridge_stats = {"father_bridge_changed_objects": 0}
     property_ladder_stats = {"property_ladder_changed_objects": 0}
@@ -7366,8 +8033,9 @@ def validate_manifest(
         historical_context, errors)
     order137_stats = validate_order137_registration(order137_context, errors)
     order138_stats = validate_order138_registration(order138_context, errors)
+    order150_stats = validate_order150_registration(context, errors)
     father_bridge_stats = validate_father_bridge_registration(
-        context, errors)
+        order150_context, errors)
     property_ladder_stats = validate_property_ladder_registration(
         father_bridge_context, errors)
     order143_stats = validate_order143_registration(
@@ -7416,6 +8084,7 @@ def validate_manifest(
         **order137_stats,
         **order138_stats,
         **order143_stats,
+        **order150_stats,
         **father_bridge_stats,
         **property_ladder_stats,
     }
@@ -7823,6 +8492,14 @@ def run_invalidated_self_test(
             candidate, "en", "arc_y3_father_deferred_call")
         event["title"] = str(event.get("title", "")) + " mutated"
 
+    def order150_object_tampered(candidate: AuditContext) -> None:
+        event = candidate_record(candidate, "ko", "final_last_winter")
+        event["title"] = str(event.get("title", "")) + " 변조"
+
+    def order150_source_file_tampered(candidate: AuditContext) -> None:
+        record = candidate.event_indexes["ko"]["final_last_winter"][0]
+        record.path = "content/events/arc_midgame.json"
+
     for label, mutate, fragment in (
         ("order118_player_token", order118_token_injected, "internal document token remains"),
         ("order118_version_token", order118_version_token_injected, "internal document token remains"),
@@ -7863,6 +8540,8 @@ def run_invalidated_self_test(
         ("father_bridge_avoidance", father_bridge_avoidance_tampered, "FATHER-BRIDGE:ko:arc_y3_father_avoidance_document: exact object hash drifted"),
         ("father_bridge_deferred_ko", father_bridge_deferred_ko_tampered, "FATHER-BRIDGE:ko:arc_y3_father_deferred_call: exact object hash drifted"),
         ("father_bridge_deferred_en", father_bridge_deferred_en_tampered, "FATHER-BRIDGE:en:arc_y3_father_deferred_call: exact object hash drifted"),
+        ("order150_object", order150_object_tampered, "ORDER-150:ko:final_last_winter: exact object hash drifted"),
+        ("order150_source_file", order150_source_file_tampered, "ORDER-150:ko:final_last_winter: exact source file drifted"),
     ):
         case_count += 1
         expect_context_failure(label, manifest, context, mutate, fragment, failures)
@@ -7934,6 +8613,72 @@ def run_invalidated_self_test(
                 f"expected={sorted(expected_scope_changed)} "
                 f"actual={sorted(scope_changed)}"
             )
+
+    order150_projection_files = sorted(
+        set(ORDER150_OBJECT_TRANSITIONS_BY_FILE)
+        | set(ORDER150_ADDED_OBJECT_SHA256_BY_FILE))
+    for relative in order150_projection_files:
+        case_count += 1
+        try:
+            current_payload = load_json(ROOT / relative)
+            baseline_payload = order150_baseline_payload(relative)
+            projected_payload = order150_project_payload(
+                current_payload, relative)
+        except (OSError, UnicodeDecodeError, ValueError) as exc:
+            failures.append(
+                f"order150_inverse:{relative}: cannot load fixture ({exc})")
+            continue
+        if projected_payload != baseline_payload:
+            failures.append(
+                f"order150_inverse:{relative}: projection did not restore "
+                f"{ORDER150_REJECTED_PRODUCT_BASELINE}")
+
+    case_count += 1
+    try:
+        relative = "content/events/life_events.json"
+        neighboring_payload = copy.deepcopy(load_json(ROOT / relative))
+        neighboring_rows = neighboring_payload.get("items", []) \
+            if isinstance(neighboring_payload, dict) else neighboring_payload
+        protected_ids = ORDER150_CHANGED_EXISTING_IDS_BY_FILE[relative]
+        neighboring_target = next(
+            row for row in neighboring_rows
+            if isinstance(row, dict)
+            and str(row.get("id", "")) not in protected_ids)
+        neighboring_target["title"] = str(
+            neighboring_target.get("title", "")) + " 변조"
+        neighboring_projection = order150_project_payload(
+            neighboring_payload, relative)
+        baseline_payload = order150_baseline_payload(relative)
+    except (OSError, UnicodeDecodeError, ValueError, StopIteration) as exc:
+        failures.append(
+            f"order150_projection_scope: cannot load fixture ({exc})")
+    else:
+        if neighboring_projection == baseline_payload:
+            failures.append(
+                "order150_projection_scope: neighboring mutation was hidden "
+                "by the exact inverse")
+
+    case_count += 1
+    try:
+        relative = "content/events/life_events.json"
+        target_payload = copy.deepcopy(load_json(ROOT / relative))
+        target_rows = target_payload.get("items", []) \
+            if isinstance(target_payload, dict) else target_payload
+        target = next(
+            row for row in target_rows
+            if isinstance(row, dict)
+            and str(row.get("id", "")) == "final_last_winter")
+        target["title"] = str(target.get("title", "")) + " 변조"
+        target_projection = order150_project_payload(target_payload, relative)
+        baseline_payload = order150_baseline_payload(relative)
+    except (OSError, UnicodeDecodeError, ValueError, StopIteration) as exc:
+        failures.append(
+            f"order150_projection_target: cannot load fixture ({exc})")
+    else:
+        if target_projection == baseline_payload:
+            failures.append(
+                "order150_projection_target: mutated repaired object was "
+                "hidden by the exact inverse")
 
     father_bridge_projection_files = sorted(
         FATHER_BRIDGE_CHANGED_EXISTING_IDS_BY_FILE)
@@ -8117,6 +8862,33 @@ def run_invalidated_self_test(
         if advance_exact_hash(tampered_predecessor, transition) \
                 != tampered_predecessor:
             failures.append(f"{label}: tampered predecessor was advanced")
+
+    for relative, transition in sorted(
+            ORDER150_PRODUCT_FILE_TRANSITIONS.items()):
+        case_count += 1
+        if advance_exact_hash(transition[0], transition) != transition[1]:
+            failures.append(
+                f"order150_hash_transition:{relative}: exact predecessor "
+                "did not advance")
+        tampered_predecessor = "0" * 64
+        if advance_exact_hash(tampered_predecessor, transition) \
+                != tampered_predecessor:
+            failures.append(
+                f"order150_hash_transition:{relative}: tampered predecessor "
+                "was advanced")
+        try:
+            baseline_hash = byte_sha256(
+                git_blob(ORDER150_REJECTED_PRODUCT_BASELINE, relative))
+            current_hash = byte_sha256((ROOT / relative).read_bytes())
+        except (OSError, ValueError) as exc:
+            failures.append(
+                f"order150_hash_transition:{relative}: cannot load fixture "
+                f"({exc})")
+            continue
+        if baseline_hash != transition[0] or current_hash != transition[1]:
+            failures.append(
+                f"order150_hash_transition:{relative}: exact byte "
+                "transition drifted")
 
     projection_files = sorted(
         set(ORDER137_CHANGED_EXISTING_IDS_BY_FILE)
@@ -8484,6 +9256,9 @@ def run_invalidated_self_test(
                     ORDER147_RUNTIME_IDENTITY_PROTECTED_FILE_TRANSITIONS:
                 actual_current = byte_sha256(
                     git_blob(ORDER147_RUNTIME_IDENTITY_BASELINE, relative))
+            elif relative in ORDER150_PROTECTED_FILE_TRANSITIONS:
+                actual_current = byte_sha256(
+                    git_blob(ORDER150_REJECTED_PRODUCT_BASELINE, relative))
             else:
                 actual_current = byte_sha256((ROOT / relative).read_bytes())
         except (OSError, ValueError) as exc:
@@ -8504,7 +9279,11 @@ def run_invalidated_self_test(
         try:
             actual_baseline = byte_sha256(
                 git_blob(FULL_VOLUME_STORY_RECEIPT_BASELINE, relative))
-            actual_current = byte_sha256((ROOT / relative).read_bytes())
+            if relative in ORDER150_PROTECTED_FILE_TRANSITIONS:
+                actual_current = byte_sha256(
+                    git_blob(ORDER150_REJECTED_PRODUCT_BASELINE, relative))
+            else:
+                actual_current = byte_sha256((ROOT / relative).read_bytes())
         except (OSError, ValueError) as exc:
             transition_failures.append(f"{relative}:{exc}")
             continue
@@ -8523,7 +9302,11 @@ def run_invalidated_self_test(
         try:
             actual_baseline = byte_sha256(
                 git_blob(ORDER147_RUNTIME_IDENTITY_BASELINE, relative))
-            actual_current = byte_sha256((ROOT / relative).read_bytes())
+            if relative in ORDER150_PROTECTED_FILE_TRANSITIONS:
+                actual_current = byte_sha256(
+                    git_blob(ORDER150_REJECTED_PRODUCT_BASELINE, relative))
+            else:
+                actual_current = byte_sha256((ROOT / relative).read_bytes())
         except (OSError, ValueError) as exc:
             transition_failures.append(f"{relative}:{exc}")
             continue
@@ -9294,6 +10077,8 @@ def main() -> int:
             f"order138_property_inline_reads={stats['order138_property_inline_reads']} "
             f"order143_event_objects={stats['order143_event_objects']} "
             f"order143_delta={stats['order143_added_objects']}+{stats['order143_changed_objects']} "
+            f"order150_event_objects={stats['order150_event_objects']} "
+            f"order150_product_files={stats['order150_product_files']} "
             f"father_bridge_delta={stats['father_bridge_changed_objects']} "
             f"property_ladder_delta={stats['property_ladder_changed_objects']} "
             f"product_consumers={stats['consumers']} "
@@ -9321,6 +10106,8 @@ def main() -> int:
         f"order138_property_inline_reads={stats['order138_property_inline_reads']} "
         f"order143_event_objects={stats['order143_event_objects']} "
         f"order143_delta={stats['order143_added_objects']}+{stats['order143_changed_objects']} "
+        f"order150_event_objects={stats['order150_event_objects']} "
+        f"order150_product_files={stats['order150_product_files']} "
         f"father_bridge_delta={stats['father_bridge_changed_objects']} "
         f"property_ladder_delta={stats['property_ladder_changed_objects']} "
         f"product_consumers={stats['consumers']} qa_consumers=1 activation=reference_only "

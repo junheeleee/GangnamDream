@@ -298,6 +298,9 @@ class State:
     def get_cast_affinity(s, n): return s.cast.get(n, {}).get("aff", 0)
     def get_cast_stage(s, n): return s.cast.get(n, {}).get("stage", "none")
     def cast_has_flag(s, n, fl): return fl in s.cast.get(n, {}).get("flags", set())
+    def uses_daeun_shared_home_presentation(s):
+        return bool(s.flags.get("arc_daeun_wedding_day_seen")) \
+            and not bool(s.flags.get("daeun_divorced"))
     def has_item(s, item_id): return item_id in s.items
     def add_deferred_event(s, event_id, delay):
         trigger_turn = s.t + max(int(delay), 0)
@@ -1037,6 +1040,7 @@ def story_graph_contract_event(S):
     f = S.flags
     father_is_passed = father_death_is_monotonic(S)
     if 25 <= t <= 240 \
+            and not S.uses_daeun_shared_home_presentation() \
             and f.get("arc_goshiwon_goodbye_seen") \
             and not f.get("arc_housing_new_life_seen"):
         return "arc_housing_new_life"
@@ -1842,6 +1846,20 @@ state = graph_contract_fixture(120, {
 story_graph_cases.append(("dynamic late-move closure recovery", state,
                           "arc_housing_new_life"))
 
+state = graph_contract_fixture(120, {
+    "arc_goshiwon_goodbye_seen": True,
+    "arc_daeun_wedding_day_seen": True,
+})
+story_graph_cases.append(("shared home blocks old move closure", state, ""))
+
+state = graph_contract_fixture(120, {
+    "arc_goshiwon_goodbye_seen": True,
+    "arc_daeun_wedding_day_seen": True,
+    "daeun_divorced": True,
+})
+story_graph_cases.append(("divorce restores raw move closure", state,
+                          "arc_housing_new_life"))
+
 state = graph_contract_fixture(37, {
     "arc_housing_new_life_seen": True,
 })
@@ -2065,6 +2083,33 @@ if story_graph_failures:
     print("  ✗ ORDER-143 typed selector 반례:", ", ".join(story_graph_failures))
 else:
     print(f"  ✓ ORDER-143 typed selector 반례 {len(story_graph_cases)}개")
+
+shared_home_ingress_cases = []
+for name, flags, expected in (
+    ("raw housing upgrade enters goodbye", {}, True),
+    ("shared home blocks old goodbye", {
+        "arc_daeun_wedding_day_seen": True,
+    }, False),
+    ("divorce restores raw goodbye", {
+        "arc_daeun_wedding_day_seen": True,
+        "daeun_divorced": True,
+    }, True),
+):
+    state = graph_contract_fixture(120, flags, housing="oneroom")
+    active = any(
+        evalconds(conditions, state)
+        for trigger_id, conditions in triggers
+        if trigger_id == "arc_goshiwon_goodbye"
+    )
+    if active != expected:
+        shared_home_ingress_cases.append(
+            f"{name}={active}, expected={expected}")
+if shared_home_ingress_cases:
+    fail += 1
+    print("  ✗ shared-home old-move ingress 반례:",
+          ", ".join(shared_home_ingress_cases))
+else:
+    print("  ✓ shared-home old-move ingress=raw/shared/divorce 3 cases")
 
 # Product-entry matrix: these are deliberately synthetic one-step states so each
 # rejected prerequisite is isolated from the long representative trajectories.

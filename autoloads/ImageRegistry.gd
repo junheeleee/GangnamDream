@@ -562,6 +562,9 @@ func get_background(id: String) -> String:
 func resolve_contextual_background_id(id: String) -> String:
 	match id:
 		"current_housing":
+			var presentation_id := GameState.get_presentation_home_background_id()
+			if not presentation_id.is_empty():
+				return presentation_id
 			return _housing_background_id(str(GameState.housing))
 		"current_workplace":
 			match str(GameState.current_job.get("id", "")):

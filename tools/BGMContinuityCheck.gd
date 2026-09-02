@@ -10,6 +10,8 @@ func _ready() -> void:
 	GameState.health = 80
 	GameState.mental = 80
 	GameState.current_job = {}
+	if not _check_presentation_home_contract():
+		return
 
 	BGMPlayer.start()
 	await get_tree().create_timer(0.35).timeout
@@ -953,6 +955,117 @@ func _ready() -> void:
 func _fail(msg: String) -> void:
 	push_error("BGM_CONTINUITY_FAIL " + msg)
 	get_tree().quit(1)
+
+func _check_presentation_home_contract() -> bool:
+	var original_housing := GameState.housing
+	var original_flags := GameState.flags.duplicate(true)
+	var original_state := JSON.stringify(GameState.serialize())
+
+	# 제안/약혼만으로는 실제 신혼집을 앞당기지 않는다.
+	GameState.flags = {
+		"daeun_married": true,
+		"arc_daeun_proposal_seen": true,
+	}
+	if GameState.uses_daeun_shared_home_presentation() \
+			or not GameState.get_presentation_home_background_id().is_empty() \
+			or ImageRegistry.resolve_contextual_background_id("current_housing") \
+			!= "goshiwon_room" \
+			or GameState.get_presentation_home_ambience_housing_id() != "gosiwon" \
+			or BGMPlayer._resolve_dynamic_ambience_key("current_housing") != "room":
+		_fail("proposal-only state entered Daeun's shared-home presentation")
+		return false
+
+	# 실제 결혼 뒤에만 같은 파생 사실을 배경과 생활음이 함께 읽는다.
+	GameState.flags = {"arc_daeun_wedding_day_seen": true}
+	var economic_before := _presentation_home_economic_bytes()
+	if not GameState.uses_daeun_shared_home_presentation() \
+			or GameState.get_presentation_home_background_id() \
+			!= "daeun_newlywed_home" \
+			or ImageRegistry.resolve_contextual_background_id("current_housing") \
+			!= "daeun_newlywed_home" \
+			or GameState.get_presentation_home_ambience_housing_id() != "oneroom" \
+			or BGMPlayer._active_housing_id() != "oneroom" \
+			or BGMPlayer._resolve_dynamic_ambience_key("current_housing") != "oneroom":
+		_fail("completed Daeun wedding did not resolve one shared presentation home")
+		return false
+	if _presentation_home_economic_bytes() != economic_before:
+		_fail("presentation-home resolution mutated economic state")
+		return false
+
+	# raw apartment를 가진 경로도 표현 전환 때문에 월세·자산·소유 상태를 바꾸지 않는다.
+	GameState.housing = "apartment"
+	economic_before = _presentation_home_economic_bytes()
+	ImageRegistry.resolve_contextual_background_id("current_housing")
+	BGMPlayer._resolve_dynamic_ambience_key("current_housing")
+	if _presentation_home_economic_bytes() != economic_before \
+			or GameState.housing != "apartment" \
+			or ImageRegistry.resolve_contextual_background_id("current_housing") \
+			!= "daeun_newlywed_home":
+		_fail("Daeun presentation home rewrote apartment economics")
+		return false
+
+	# 이혼과 지연 경로는 원래 raw housing 해석으로 돌아간다.
+	GameState.housing = "gosiwon"
+	GameState.flags = {
+		"arc_daeun_wedding_day_seen": true,
+		"daeun_divorced": true,
+	}
+	if GameState.uses_daeun_shared_home_presentation() \
+			or ImageRegistry.resolve_contextual_background_id("current_housing") \
+			!= "goshiwon_room" \
+			or BGMPlayer._resolve_dynamic_ambience_key("current_housing") != "room":
+		_fail("Daeun divorce kept the shared-home presentation active")
+		return false
+	GameState.flags = {
+		"jiyeon_romance_started": true,
+		"arc_jiyeon_wedding_gap_seen": true,
+		"arc_jiyeon_wedding_night_seen": true,
+	}
+	if GameState.uses_daeun_shared_home_presentation() \
+			or ImageRegistry.resolve_contextual_background_id("current_housing") \
+			!= "goshiwon_room" \
+			or BGMPlayer._resolve_dynamic_ambience_key("current_housing") != "room":
+		_fail("Jiyeon route borrowed Daeun's shared-home presentation")
+		return false
+
+	# 갤러리는 저장 당시 raw housing을 계속 고정한다.
+	GameState.flags = {"arc_daeun_wedding_day_seen": true}
+	if not BGMPlayer.begin_gallery_replay({
+		"turn": 240,
+		"housing": "gangnam",
+		"moral_tint": 0.0,
+	}):
+		_fail("valid gallery housing snapshot was rejected")
+		return false
+	if BGMPlayer._active_housing_id() != "gangnam":
+		_fail("gallery snapshot borrowed the live Daeun presentation home")
+		return false
+	BGMPlayer.end_gallery_replay()
+	if BGMPlayer._active_housing_id() != "oneroom":
+		_fail("live Daeun presentation home did not resume after gallery replay")
+		return false
+
+	GameState.housing = original_housing
+	GameState.flags = original_flags
+	if JSON.stringify(GameState.serialize()) != original_state:
+		_fail("presentation-home contract did not restore its test fixture")
+		return false
+	return true
+
+func _presentation_home_economic_bytes() -> String:
+	return JSON.stringify({
+		"housing": GameState.housing,
+		"housing_expense": GameState.get_housing_expense(),
+		"fixed_expense": GameState.fixed_expense,
+		"money": GameState.money,
+		"monthly_income": GameState.monthly_income,
+		"loans": GameState.loans,
+		"portfolio": GameState.portfolio,
+		"inventory": GameState.inventory,
+		"market_prices": GameState.market_prices,
+		"price_history": GameState.price_history,
+		"total_assets": GameState.get_total_asset_value(),
+	})
 
 func _sfx_stream_playing(sound_id: String) -> bool:
 	var expected: AudioStream = AudioManager._sounds.get(sound_id)

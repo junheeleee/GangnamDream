@@ -1080,6 +1080,33 @@
       ]
     },
     {
+      "tool": "tools/chapter5_human_reject_audit.py --self-test",
+      "why": "ORDER-150 인간 REJECT 수리의 시간축·원격 연락·화자·legacy·공개 데모 동결 mutation 자체 검사",
+      "paths": [
+        "tools/chapter5_human_reject_audit.py"
+      ]
+    },
+    {
+      "tool": "tools/chapter5_human_reject_audit.py",
+      "why": "M49~M60 인간 REJECT 수리의 표현 projection·시간축·원격 사실·화자 계약·legacy 진입 차단과 M01~M06 공개 데모 동결 검사",
+      "paths": [
+        "assets/event_visual_contracts.json",
+        "autoloads/BGMPlayer.gd",
+        "autoloads/GameState.gd",
+        "autoloads/ImageRegistry.gd",
+        "content/events/**",
+        "content/events_en/**",
+        "content/meta/exposed_event_state_contracts.json",
+        "content/meta/release_content_inventory.json",
+        "content/meta/story_map.json",
+        "content/meta/story_rules.json",
+        "docs/human_gates.json",
+        "scenes/MainGame.gd",
+        "tools/audit.py",
+        "tools/chapter5_human_reject_audit.py"
+      ]
+    },
+    {
       "tool": "tools/peak_scene_chain_audit.py",
       "why": "정점 장면 체인·종막 기능/사실/변형 의미와 허위 계약·회복 차단; 패널 수는 관측값",
       "paths": [
@@ -2048,7 +2075,28 @@
       "why": "BGM 연속성",
       "paths": [
         "assets/audio/**",
-        "autoloads/BGMPlayer.gd"
+        "autoloads/BGMPlayer.gd",
+        "autoloads/GameState.gd",
+        "autoloads/ImageRegistry.gd",
+        "tools/BGMContinuityCheck.gd",
+        "tools/BGMContinuityCheck.tscn"
+      ]
+    },
+    {
+      "tool": "tools/Chapter5HumanRejectCheck.tscn",
+      "godot": true,
+      "why": "ORDER-150 인간 REJECT 수리의 공동 주거 표현·legacy 저장·원격 연락·튜토리얼·크레딧 런타임 회귀 검사",
+      "paths": [
+        "autoloads/BGMPlayer.gd",
+        "autoloads/GameState.gd",
+        "autoloads/ImageRegistry.gd",
+        "content/events/**",
+        "content/events_en/**",
+        "content/meta/story_rules.json",
+        "scenes/MainGame.gd",
+        "tools/Chapter5HumanRejectCheck.gd",
+        "tools/Chapter5HumanRejectCheck.tscn",
+        "tools/chapter5_human_reject_audit.py"
       ]
     },
     {

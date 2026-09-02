@@ -2714,9 +2714,9 @@ static func attach_locale_fallbacks(font: FontFile, language: String) -> void:
     changed = json.loads(json.dumps(manifest, ensure_ascii=False))
     changed["ui_semantic_context_blocker"]["collision_partition"][
         "format_equivalent"
-    ].pop("고시원", None)
+    ].pop("강남 아파트", None)
     if not chinese_contract_errors(changed):
-        failures.append("107-key collision partition mutation was not rejected")
+        failures.append("101-key collision partition mutation was not rejected")
 
     cases += 1
     expected_inventory = _static_ui_inventory()

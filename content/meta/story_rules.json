@@ -1085,7 +1085,22 @@
         ]
       }
     },
-    "arc_y5_burnout_check_reference": {"logic": {}},
+    "arc_y5_burnout_check_reference": {
+      "logic": {},
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "hospital_clinic",
+        "participants": ["player", "clinician"],
+        "participant_roles": {
+          "player": "customer",
+          "clinician": "host"
+        },
+        "portrait_role": "local",
+        "nameplate_role": "hidden",
+        "expected_background": "hospital_clinic",
+        "expected_portrait": "player_tired"
+      }
+    },
     "arc_y5_minseo_goal_cost_reference": {"logic": {}},
     "arc_y5_after_goal_daeun": {"logic": {}},
     "arc_y5_final_offer": {
@@ -1108,8 +1123,34 @@
         "expected_portrait": "player_determined"
       }
     },
-    "arc_y5_jaehyuk_guarantee_request_reference": {"logic": {}},
-    "arc_y5_jaehyuk_return_call_reference": {"logic": {}},
+    "arc_y5_jaehyuk_guarantee_request_reference": {
+      "logic": {},
+      "presentation": {
+        "channel": "message",
+        "scene_location": "current_housing",
+        "remote_location": "jaehyuk_current_location",
+        "remote_actor": "jaehyuk",
+        "participants": ["player"],
+        "portrait_role": "local",
+        "nameplate_role": "hidden",
+        "expected_background": "current_housing",
+        "expected_portrait": "player_tired"
+      }
+    },
+    "arc_y5_jaehyuk_return_call_reference": {
+      "logic": {},
+      "presentation": {
+        "channel": "phone",
+        "scene_location": "current_housing",
+        "remote_location": "jaehyuk_current_location",
+        "remote_actor": "jaehyuk",
+        "participants": ["player"],
+        "portrait_role": "local",
+        "nameplate_role": "hidden",
+        "expected_background": "current_housing",
+        "expected_portrait": "player_tired"
+      }
+    },
     "arc_y5_jaehyuk_father_document_reference": {"logic": {}},
     "arc_y5_guarantee_protected_show_daeun": {"logic": {}},
     "arc_y5_jaehyuk_guarantee_decision_reference": {"logic": {}},
@@ -1247,6 +1288,97 @@
         "portrait_role": "local"
       }
     },
+    "amb_coin_00": {
+      "logic": {},
+      "presentation": {
+        "channel": "phone",
+        "scene_location": "investment_phone",
+        "remote_location": "taeho_current_location",
+        "remote_actor": "taeho",
+        "participants": ["player"],
+        "portrait_role": "local",
+        "nameplate_role": "hidden",
+        "expected_background": "investment_phone",
+        "expected_portrait": "player_determined"
+      }
+    },
+    "amb_hoesik_00": {
+      "logic": {},
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "company_dinner_restaurant",
+        "participants": ["player", "boss"],
+        "participant_roles": {
+          "player": "employee",
+          "boss": "supervisor"
+        },
+        "portrait_role": "local",
+        "nameplate_role": "hidden",
+        "expected_background": "company_dinner_restaurant",
+        "expected_portrait": "player_tired"
+      }
+    },
+    "casino_comp_offer": {
+      "logic": {},
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "casino",
+        "participants": ["player", "casino_manager"],
+        "participant_roles": {
+          "player": "guest",
+          "casino_manager": "host"
+        },
+        "portrait_role": "local",
+        "nameplate_role": "hidden",
+        "expected_background": "casino",
+        "expected_portrait": "player_normal"
+      }
+    },
+    "amb_credit_steal_00": {
+      "logic": {},
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "office",
+        "participants": ["player", "boss"],
+        "participant_roles": {
+          "player": "employee",
+          "boss": "supervisor"
+        },
+        "portrait_role": "local",
+        "nameplate_role": "hidden",
+        "expected_background": "office",
+        "expected_portrait": "player_determined"
+      }
+    },
+    "amb_credit_confront": {
+      "logic": {},
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "office",
+        "participants": ["player", "boss"],
+        "participant_roles": {
+          "player": "employee",
+          "boss": "supervisor"
+        },
+        "portrait_role": "local",
+        "nameplate_role": "hidden",
+        "expected_background": "office",
+        "expected_portrait": "player_tired"
+      }
+    },
+    "arc_minseo_03_arrival": {
+      "logic": {},
+      "presentation": {
+        "channel": "message",
+        "scene_location": "current_housing",
+        "remote_location": "minseo_current_location",
+        "remote_actor": "minseo",
+        "participants": ["player"],
+        "portrait_role": "none",
+        "nameplate_role": "hidden",
+        "expected_background": "current_housing"
+      }
+    },
     "arc_y5_general_name_boundary_exact": {
       "logic": {},
       "presentation": {
@@ -1254,7 +1386,10 @@
         "scene_location": "current_housing",
         "remote_location": "housing_broker_office",
         "remote_actor": "housing_broker",
-        "portrait_role": "local"
+        "portrait_role": "local",
+        "nameplate_role": "hidden",
+        "expected_background": "current_housing",
+        "expected_portrait": "player_tired"
       }
     },
     "arc_y5_general_debt_memory_reconnect": {
@@ -1263,7 +1398,9 @@
         "channel": "internal",
         "scene_location": "current_housing",
         "participants": ["player"],
-        "portrait_role": "local"
+        "portrait_role": "local",
+        "expected_background": "current_housing",
+        "expected_portrait": "player_tired"
       }
     },
     "arc_y5_general_father_legacy_voice_exact": {
@@ -1335,7 +1472,9 @@
         "channel": "internal",
         "scene_location": "current_housing",
         "participants": ["player"],
-        "portrait_role": "local"
+        "portrait_role": "local",
+        "expected_background": "current_housing",
+        "expected_portrait": "player_tired"
       }
     },
     "v2_mirae_result_message": {

@@ -231,7 +231,7 @@
   {
     "id": "arc_y5_general_debt_memory_reconnect",
     "title": "After Repayment, Before Arrival",
-    "description": "With twenty weeks left in the final year, {name} set a copy of the final repayment confirmation from Year One beside the notebook page from the week he met Minseo again. Three saved addresses remained on his phone.\n\nNo line yet joined the date the repayment ended to the answer he had actually given Minseo. He would invent no answer Minseo had not given, no answer Father was no longer there to give, and no home he did not own.",
+    "description": "With twenty weeks left in the final year, {name} set a copy of the final repayment confirmation from Year One beside the notebook page from the week he answered Minseo's message. Three saved addresses remained on his phone.\n\nNo line yet joined the date the repayment ended to the answer he had actually sent Minseo. He would invent no answer Minseo had not given, no answer Father was no longer there to give, and no home he did not own.",
     "description_memory_if_known": {
       "chapter5_general_name_boundary_0": "Nine weeks earlier, {name} asked to see only the range possible with his name and his money. The cost of using no other name was a narrower range.\n\nTonight he would carry that rule into a private record sent to no one. Between the record button and the folded copy, {name} had to choose one medium on his side.",
       "chapter5_general_name_boundary_1": "Nine weeks earlier, {name} ended the consultation without adding another name. No new listing sheet or viewing time appeared.\n\nTonight he would carry that stop into a private record sent to no one. Between the record button and the folded copy, {name} had to choose one medium on his side."
@@ -239,11 +239,11 @@
     "choices": [
       {
         "text": "Put the repayment date and that day's answer into one private voice memo",
-        "result_text": "{name} started recording and read the final repayment-confirmation date from Year One. Then he spoke only the answer he had actually given Minseo when they met again. He stopped after thirty-one seconds and put both dates in the title.\n\nThe memo stayed on his phone. He sent it to no one, and no read receipt or reply appeared. The three saved addresses remained comparison information."
+      "result_text": "{name} started recording and read the final repayment-confirmation date from Year One. Then he spoke only the answer he had actually sent in reply to Minseo's message. He stopped after thirty-one seconds and put both dates in the title.\n\nThe memo stayed on his phone. He sent it to no one, and no read receipt or reply appeared. The three saved addresses remained comparison information."
       },
       {
         "text": "Carry the repayment copy and a note bearing that day's answer to the cafe, and sit alone",
-        "result_text": "On a small note, {name} wrote only the answer he had actually given the day he met Minseo again. He tucked it into the repayment-confirmation copy and went to the cafe. Without calling or messaging her, he opened both sheets at the table where they had once faced each other.\n\nThe seat across from him stayed empty until the coffee cooled. Minseo did not come, and no new message appeared. The note remained separate inside the copy; it did not alter the repayment confirmation's text."
+      "result_text": "On a small note, {name} wrote only the answer he had actually sent in reply to Minseo's message. He tucked it into the repayment-confirmation copy and went to the cafe. Without calling or sending her a new message, he opened both sheets at the table where they had first sat across from each other years earlier.\n\nThe seat across from him stayed empty until the coffee cooled. Minseo did not come, and no new message appeared. The note remained separate inside the copy; it did not alter the repayment confirmation's text."
       }
     ]
   },

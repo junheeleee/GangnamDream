@@ -42,8 +42,8 @@
     "automatic_script_conversion": false,
     "body_translation": "held_until_explicit_demo_GO",
     "shipping": false,
-    "static_ui_source_count": 2822,
-    "static_ui_source_keys_sha256": "cb40cff225fb78b7178ab260e1c67d7407d347b97f1075e8067890d061564675",
+    "static_ui_source_count": 2835,
+    "static_ui_source_keys_sha256": "b2f2010997b8ee7fd4196c7ec6944f66243b6004f88b1ca6460494f133c7457a",
     "regions": {
       "zh-CN": {
         "source_language": "ko",
@@ -63,27 +63,37 @@
     "schema_version": 1,
     "status": "resolved",
     "implemented": true,
+    "dynamic_housing_keys": 5,
+    "dynamic_housing_pair_occurrences": 10,
+    "dynamic_housing_registry_sha256": "df45ab1e2954d29eed5b44f086fffa23c4162d2787245fc6bdc4bb5313ff005d",
+    "dynamic_housing_registry": [
+      {"id": "gosiwon", "ko": "고시원", "narrative_en": "goshiwon", "display_en": "Goshiwon Room"},
+      {"id": "oneroom", "ko": "원룸", "narrative_en": "one-room studio", "display_en": "One-room Studio"},
+      {"id": "villa", "ko": "빌라 전세", "narrative_en": "villa jeonse", "display_en": "Villa Jeonse"},
+      {"id": "apartment", "ko": "아파트 전세", "narrative_en": "apartment jeonse", "display_en": "Apartment Jeonse"},
+      {"id": "gangnam", "ko": "강남 아파트", "narrative_en": "Gangnam apartment", "display_en": "Gangnam Apartment"}
+    ],
     "legacy_pair_call_occurrences": 3254,
     "post_migration_legacy_pair_call_occurrences": 3217,
     "legacy_korean_source_keys": 2730,
     "legacy_korean_source_keys_sha256": "b67df90ba814deeac78db1b1bc4836d16596b6b93521e97a34427ae3b2bcb222",
     "current_source_snapshot": {
-      "legacy_pair_call_occurrences": 3269,
-      "post_migration_legacy_pair_call_occurrences": 3235,
-      "legacy_korean_source_keys": 2772,
-      "legacy_korean_source_keys_sha256": "5e48a612aaeb3661f40bcf24ceb5d6529b27bd42e350c0cc1698ff74ea608a38"
+      "legacy_pair_call_occurrences": 3283,
+      "post_migration_legacy_pair_call_occurrences": 3249,
+      "legacy_korean_source_keys": 2785,
+      "legacy_korean_source_keys_sha256": "01918dcb6d6361e2312b0c33c92ef84ab95380de0e9cc4df5120f97746e218e3"
     },
-    "multi_english_korean_keys": 100,
+    "multi_english_korean_keys": 101,
     "format_equivalent_keys": 29,
-    "shared_translation_keys": 44,
+    "shared_translation_keys": 45,
     "context_split_korean_keys": 27,
     "planned_context_ids": 29,
     "planned_context_callsite_migrations": 34,
     "collision_partition": {
       "format_equivalent": {
-        "고시원": [
-          "Goshiwon",
-          "goshiwon"
+        "강남 아파트": [
+          "Gangnam Apartment",
+          "Gangnam apartment"
         ],
         "고정비": [
           "FIXED COST",
@@ -118,8 +128,8 @@
           "empty"
         ],
         "빌라 전세": [
-          "Villa jeonse",
-          "villa (jeonse)"
+          "Villa Jeonse",
+          "villa jeonse"
         ],
         "사람": [
           "PEOPLE",
@@ -150,8 +160,8 @@
           "no one"
         ],
         "아파트 전세": [
-          "Apartment jeonse",
-          "apartment (jeonse)"
+          "Apartment Jeonse",
+          "apartment jeonse"
         ],
         "연인": [
           "Partner",
@@ -199,6 +209,11 @@
         ]
       },
       "shared_translation": {
+        "고시원": [
+          "Goshiwon",
+          "Goshiwon Room",
+          "goshiwon"
+        ],
         "%d년 %d월 %d주차": [
           "%04d-%02d W%d",
           "%d-%02d W%d"
@@ -298,9 +313,9 @@
           "Terms"
         ],
         "원룸": [
-          "One-room",
+          "One-room Studio",
           "Studio",
-          "one-room"
+          "one-room studio"
         ],
         "이번 주 확정": [
           "WEEK COMMITTED",
@@ -2173,11 +2188,11 @@
         "money_formatter_migrations": 2,
         "localized_argument_calls": 1,
         "migrated_branch_literal_calls": 2,
-        "total_ui_call_occurrences": 3326,
-        "legacy_pair_call_occurrences": 3292,
+        "total_ui_call_occurrences": 3340,
+        "legacy_pair_call_occurrences": 3306,
         "context_call_occurrences": 34,
-        "legacy_korean_source_keys": 2822,
-        "legacy_korean_source_keys_sha256": "cb40cff225fb78b7178ab260e1c67d7407d347b97f1075e8067890d061564675"
+        "legacy_korean_source_keys": 2835,
+        "legacy_korean_source_keys_sha256": "b2f2010997b8ee7fd4196c7ec6944f66243b6004f88b1ca6460494f133c7457a"
       }
     },
     "existing_lookup_before_format_calls": 2,

@@ -249,7 +249,7 @@
     "choices": [
       {
         "text": "Send the manager a brief explanation",
-        "result_text": "'I left early because I had an important commitment the next morning. I should have explained sooner.'\nA read receipt appeared, followed by: 'Understood.'\nYou did not know whether the judgment had changed, but you had not left silence in its place."
+        "result_text": "{name} wrote and sent: 'I left early because I had an important commitment the next morning. I should have explained sooner.'\n\nOnly a sent time remained beneath his bubble. No read receipt or reply appeared, and he could not know whether that night's judgment had changed. He had at least not left his own explanation as silence."
       },
       {
         "text": "Close the chat without replying",

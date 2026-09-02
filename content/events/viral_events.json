@@ -10,7 +10,9 @@
     "background": "late_night",
     "conditions": {
       "min_turn": 12,
-      "min_mental": 35
+      "max_turn": 192,
+      "min_mental": 35,
+      "no_flag": "sns_detoxed"
     },
     "tags": [
       "self_dev",
@@ -161,7 +163,12 @@
     "background": "investment_phone",
     "conditions": {
       "min_turn": 18,
-      "min_investment_skill": 8
+      "max_turn": 192,
+      "min_investment_skill": 8,
+      "no_flag": [
+        "followed_leading_room",
+        "left_leading_room"
+      ]
     },
     "tags": [
       "trend",
@@ -211,6 +218,11 @@
     "conditions": {
       "has_portfolio": true,
       "min_turn": 20,
+      "max_turn": 192,
+      "no_flag": [
+        "fought_margin_call",
+        "accepted_margin_call"
+      ],
       "min_investment_skill": 12
     },
     "tags": [

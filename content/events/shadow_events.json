@@ -202,7 +202,13 @@
     "weight": 1.0,
     "hidden": false,
     "conditions": {
-      "min_turn": 10
+      "min_turn": 10,
+      "no_flag": [
+        "sns_detoxed",
+        "shadow_promise_declined",
+        "shadow_promise_delayed",
+        "startup_collab_proposed"
+      ]
     },
     "tags": [
       "shadow",
@@ -213,12 +219,15 @@
     "choices": [
       {
         "text": "솔직하게 사정이 바뀌었다고 말한다",
-        "effects": {
-          "reputation": -1,
-          "mental": 7,
-          "tint": 3
-        },
-        "result_text": "\"그래, 괜찮아.\" 말은 그렇게 했지만 더 이상 연락이 없다. 솔직함의 대가는 항상 조용한 단절이다."
+      "effects": {
+        "reputation": -1,
+        "mental": 7,
+        "tint": 3
+      },
+      "flags": [
+        "shadow_promise_declined"
+      ],
+      "result_text": "{name}은 사정이 바뀌었고 함께 시작하겠다는 말을 지킬 수 없다고 적어 보냈다. 자기 말풍선 아래에는 보낸 시각만 남았다. 읽음도 답장도, 관계가 끝났다는 확인도 생기지 않았다."
       },
       {
         "text": "지금 상황이 안 된다고 시간을 번다",
@@ -231,7 +240,7 @@
         ],
         "deferred_follow_up": "shadow_promise_again",
         "deferred_delay": 7,
-        "result_text": "\"알겠어, 기다릴게.\" 7주 뒤 다시 연락이 올 것이다. 그때까지 뭔가 결정해야 한다."
+        "result_text": "{name}은 지금은 답을 확정할 수 없고 칠 주 안에 자기 쪽 결정을 다시 보내겠다고 적었다. 화면에는 발신 시각만 남았다. 상대가 기다리겠다는 답이나 약속은 생기지 않았다."
       },
       {
         "text": "같이 해보자고 한다",
@@ -241,23 +250,28 @@
           "money": -500000,
           "mental": -8
         },
-        "flags": [
-          "startup_collab_joined"
-        ],
-        "result_text": "주말에 카페에서 만났다. 아이디어는 있었다. 실행은 막막했다. 50만원을 초기 비용으로 나눠 넣었다. 시작이다."
+      "flags": [
+        "startup_collab_proposed"
+      ],
+        "result_text": "{name}은 함께 해보자는 제안과 자기가 먼저 정리할 초안을 적어 보냈다. 자기 쪽 준비비로 50만원을 따로 떼어 두었지만, 상대의 읽음·답장·동의도 주말 만남도 아직 생기지 않았다. 시작을 제안한 것과 둘이 시작한 것은 같은 사실이 아니었다."
       }
     ]
   },
   {
     "id": "shadow_promise_again",
-    "title": "7주 후",
-    "description": "예고한 대로 연락이 왔다. 더 이상 물러날 여지가 없다. 이 사람은 진심이다. 그리고 그 진심이 조금 무섭다.",
+    "title": "7주 뒤, 내 쪽 마감",
+    "description": "칠 주 전에 자기 손으로 넣어 둔 달력 알림이 떴다. 예전 DM에는 그날 보낸 말과 발신 시각만 남아 있었다. 읽음도 답장도 없었으므로 상대가 기다렸는지, 이미 떠났는지는 알 수 없었다.\n\n{name}이 확인할 수 있는 것은 자기 쪽에서 약속한 날짜가 오늘이라는 사실뿐이었다.",
     "category": "social",
     "rarity": "uncommon",
     "weight": 0.0,
     "hidden": true,
     "conditions": {
-      "flag": "shadow_promise_delayed"
+      "flag": "shadow_promise_delayed",
+      "no_flag": [
+        "sns_detoxed",
+        "shadow_promise_declined",
+        "startup_collab_proposed"
+      ]
     },
     "tags": [
       "shadow",
@@ -267,25 +281,28 @@
     "cooldown": 99,
     "choices": [
       {
-        "text": "이제는 진짜라고 한다",
+      "text": "내가 맡을 한 장짜리 초안과 준비비 범위를 먼저 보낸다",
         "effects": {
           "intelligence": 2,
           "money": -300000,
           "mental": -6
         },
-        "flags": [
-          "startup_collab_joined"
-        ],
-        "result_text": "두 번째로 약속했다. 이번엔 계좌까지 봤다. 30만원이 나갔다. 진짜 시작인지, 또 다른 유예인지 아직 모른다."
+      "flags": [
+        "startup_collab_proposed"
+      ],
+      "result_text": "{name}은 자기가 맡을 한 장짜리 초안과 준비비 상한을 적어 보냈다. 준비 계좌에는 자기 몫 30만원을 따로 두었다.\n\n화면에는 발신 시각만 생겼다. 읽음도 답장도 합의도 없었다. 준비를 시작한 것과 둘이 협업을 시작한 것은 같은 사실이 아니었다."
       },
       {
-        "text": "솔직하게 못 하겠다고 말한다",
-        "effects": {
-          "reputation": -2,
-          "mental": 10,
-          "tint": 5
-        },
-        "result_text": "\"그래.\" 한마디였다. 긴 침묵 뒤에 끊겼다. 가벼운 말이 어떻게 남을 묶는지 이번에 배웠다."
+      "text": "약속한 날짜에, 더 진행하지 못한다고 보낸다",
+      "effects": {
+        "reputation": -2,
+        "mental": 10,
+        "tint": 5
+      },
+      "flags": [
+        "shadow_promise_declined"
+      ],
+      "result_text": "{name}은 약속한 날짜를 더 미루지 않고, 함께 시작할 수 없다고 적어 보냈다. 자기 말풍선 아래에는 발신 시각만 남았다.\n\n읽음도 답장도 관계의 결론도 생기지 않았다. 확인할 수 있는 것은 자기 쪽 유예를 오늘 끝냈다는 사실뿐이었다."
       }
     ]
   }

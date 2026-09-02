@@ -370,6 +370,182 @@ def read_ui_context_contract() -> dict[str, Any]:
     return contract if isinstance(contract, dict) else {}
 
 
+def _canonical_json_sha256(value: Any) -> str:
+    return hashlib.sha256(json.dumps(
+        value, ensure_ascii=False, sort_keys=True, separators=(",", ":"),
+    ).encode("utf-8")).hexdigest()
+
+
+def _gd_function_source(source: str, function_name: str) -> str:
+    matches = list(GD_FUNCTION.finditer(source))
+    for index, match in enumerate(matches):
+        if match.group(1) != function_name:
+            continue
+        end = matches[index + 1].start() if index + 1 < len(matches) else len(source)
+        return source[match.start():end]
+    return ""
+
+
+def _gd_named_string_map(function_source: str, variable_name: str) -> dict[str, str]:
+    match = re.search(
+        rf"(?ms)^\s*var\s+{re.escape(variable_name)}\s*:=\s*\{{"
+        rf"(?P<body>.*?)^\s*\}}",
+        function_source,
+    )
+    if match is None:
+        return {}
+    result: dict[str, str] = {}
+    for key_literal, value_literal in re.findall(
+        r'("(?:\\.|[^"\\])*")\s*:\s*("(?:\\.|[^"\\])*")',
+        match.group("body"),
+    ):
+        key = decode_gd_string(key_literal)
+        value = decode_gd_string(value_literal)
+        result[key] = value
+    return result
+
+
+def _gd_named_localized_row_map(
+    function_source: str, variable_name: str,
+) -> dict[str, dict[str, str]]:
+    """Read an ID -> {name_ko, name_en} literal map from one GDScript function."""
+    match = re.search(
+        rf"(?ms)^\s*var\s+{re.escape(variable_name)}\s*:=\s*\{{"
+        rf"(?P<body>.*?)^\s*\}}",
+        function_source,
+    )
+    if match is None:
+        return {}
+    result: dict[str, dict[str, str]] = {}
+    row_pattern = re.compile(
+        r'(?P<id>"(?:\\.|[^"\\])*")\s*:\s*\{\s*'
+        r'"name_ko"\s*:\s*(?P<ko>"(?:\\.|[^"\\])*")\s*,\s*'
+        r'"name_en"\s*:\s*(?P<en>"(?:\\.|[^"\\])*")\s*\}'
+    )
+    for row in row_pattern.finditer(match.group("body")):
+        housing_id = decode_gd_string(row.group("id"))
+        result[housing_id] = {
+            "ko": decode_gd_string(row.group("ko")),
+            "en": decode_gd_string(row.group("en")),
+        }
+    return result
+
+
+def collect_dynamic_housing_ui_calls(
+    contract: dict[str, Any], game_state_source: Optional[str] = None,
+) -> tuple[list[UiCall], list[str], dict[str, int]]:
+    """Materialize the five runtime-computed housing keys into UI inventory.
+
+    GameState deliberately selects these adjacent KO/EN rows before calling
+    LocaleManager.ui.  The generic literal-call parser cannot see that data flow,
+    so the reviewed manifest owns the exact five IDs and both the narrative and
+    compact-display English fallbacks.  Source rows and manifest must agree
+    before any synthetic legacy calls are admitted.
+    """
+    errors: list[str] = []
+    raw_registry = contract.get("dynamic_housing_registry")
+    if not isinstance(raw_registry, list):
+        return [], ["manifest: dynamic_housing_registry must be an array"], {
+            "dynamic_housing_keys": 0,
+            "dynamic_housing_pair_occurrences": 0,
+        }
+    expected_hash = contract.get("dynamic_housing_registry_sha256")
+    actual_hash = _canonical_json_sha256(raw_registry)
+    if expected_hash != actual_hash:
+        errors.append(
+            "manifest: dynamic housing registry SHA-256 mismatch " + actual_hash
+        )
+    if contract.get("dynamic_housing_keys") != len(raw_registry):
+        errors.append("manifest: dynamic housing key count is stale")
+    if contract.get("dynamic_housing_pair_occurrences") != len(raw_registry) * 2:
+        errors.append("manifest: dynamic housing pair occurrence count is stale")
+
+    required_fields = {"id", "ko", "narrative_en", "display_en"}
+    rows: dict[str, dict[str, str]] = {}
+    korean_keys: set[str] = set()
+    for index, value in enumerate(raw_registry):
+        if not isinstance(value, dict) or set(value) != required_fields:
+            errors.append(
+                f"manifest: dynamic_housing_registry[{index}] fields are stale"
+            )
+            continue
+        row = {key: str(value.get(key, "")) for key in required_fields}
+        if not all(row.values()):
+            errors.append(
+                f"manifest: dynamic_housing_registry[{index}] has an empty value"
+            )
+            continue
+        housing_id = row["id"]
+        if housing_id in rows:
+            errors.append(f"manifest: duplicate dynamic housing id {housing_id!r}")
+            continue
+        if row["ko"] in korean_keys:
+            errors.append(f"manifest: duplicate dynamic housing key {row['ko']!r}")
+            continue
+        rows[housing_id] = row
+        korean_keys.add(row["ko"])
+
+    source = game_state_source
+    if source is None:
+        source = (ROOT / "autoloads/GameState.gd").read_text(encoding="utf-8")
+    narrative_function = _gd_function_source(source, "get_housing_name")
+    display_function = _gd_function_source(source, "get_housing_display_name")
+    narrative_rows = _gd_named_localized_row_map(narrative_function, "names")
+    display_rows = _gd_named_localized_row_map(display_function, "names")
+    registry_ids = set(rows)
+    for label, mapping in (
+        ("get_housing_name.names", narrative_rows),
+        ("get_housing_display_name.names", display_rows),
+    ):
+        if set(mapping) != registry_ids:
+            errors.append(
+                f"source: {label} IDs {sorted(mapping)} != registry "
+                f"{sorted(registry_ids)}"
+            )
+    for housing_id, row in rows.items():
+        narrative = narrative_rows.get(housing_id, {})
+        display = display_rows.get(housing_id, {})
+        if narrative.get("ko") != row["ko"] \
+                or display.get("ko") != row["ko"]:
+            errors.append(
+                f"source: dynamic housing KO drift for {housing_id!r}"
+            )
+        if narrative.get("en") != row["narrative_en"]:
+            errors.append(
+                f"source: dynamic housing narrative EN drift for {housing_id!r}"
+            )
+        if display.get("en") != row["display_en"]:
+            errors.append(
+                f"source: dynamic housing display EN drift for {housing_id!r}"
+            )
+    if errors:
+        return [], errors, {
+            "dynamic_housing_keys": len(rows),
+            "dynamic_housing_pair_occurrences": 0,
+        }
+
+    narrative_line = source.count("\n", 0, source.find("func get_housing_name")) + 1
+    display_line = source.count(
+        "\n", 0, source.find("func get_housing_display_name")) + 1
+    calls: list[UiCall] = []
+    for housing_id in sorted(rows):
+        row = rows[housing_id]
+        calls.extend((
+            UiCall(
+                "autoloads/GameState.gd", "get_housing_name", narrative_line,
+                "legacy", row["ko"], row["narrative_en"],
+            ),
+            UiCall(
+                "autoloads/GameState.gd", "get_housing_display_name", display_line,
+                "legacy", row["ko"], row["display_en"],
+            ),
+        ))
+    return calls, [], {
+        "dynamic_housing_keys": len(rows),
+        "dynamic_housing_pair_occurrences": len(calls),
+    }
+
+
 def write_json(path: pathlib.Path, value: Any) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     temporary = path.with_suffix(path.suffix + ".tmp")
@@ -2373,6 +2549,11 @@ def collect_ui_inventory(
             )
             calls.extend(parsed)
             errors.extend(parse_errors)
+    dynamic_calls, dynamic_errors, dynamic_stats = (
+        collect_dynamic_housing_ui_calls(effective_contract)
+    )
+    calls.extend(dynamic_calls)
+    errors.extend(dynamic_errors)
     calls.sort(key=lambda call: (call.path, call.line, call.api))
     source_keys = {call.korean for call in calls}
     parameter_errors, parameter_stats = validate_ui_parameterized_contract(
@@ -2386,6 +2567,7 @@ def collect_ui_inventory(
     stats.update({
         f"parameter_{key}": value for key, value in parameter_stats.items()
     })
+    stats.update(dynamic_stats)
 
     legacy_locations: dict[str, set[str]] = {}
     formatted_templates = {
@@ -3281,8 +3463,8 @@ def main() -> int:
             )
         cases += 1
         exact_parameter_stats = {
-            "source_calls": 3326,
-            "legacy_calls": 3292,
+            "source_calls": 3340,
+            "legacy_calls": 3306,
             "format_calls": 50,
             "parameter_raw_candidates": 56,
             "parameter_migrate_calls": 48,
@@ -3299,6 +3481,24 @@ def main() -> int:
             failures.append(
                 "final parameterized inventory drifted: "
                 f"{stale_parameter_stats}"
+            )
+        cases += 1
+        dynamic_contract = dict(manifest.get("ui_semantic_context_blocker", {}))
+        dynamic_registry = [dict(row) for row in dynamic_contract.get(
+            "dynamic_housing_registry", []
+        )]
+        if dynamic_registry:
+            dynamic_registry[0]["display_en"] = "Mutated Housing Label"
+        dynamic_contract["dynamic_housing_registry"] = dynamic_registry
+        dynamic_contract["dynamic_housing_registry_sha256"] = (
+            _canonical_json_sha256(dynamic_registry)
+        )
+        _dynamic_calls, dynamic_errors, _dynamic_stats = (
+            collect_dynamic_housing_ui_calls(dynamic_contract)
+        )
+        if not any("display EN drift" in error for error in dynamic_errors):
+            failures.append(
+                "dynamic housing source/manifest mutation was not rejected"
             )
         cases += 1
         expected_premature = [] if implementation_complete \
@@ -3491,7 +3691,9 @@ def main() -> int:
 
         mutation_cases: list[tuple[str, dict[str, Any]]] = []
         changed = json.loads(json.dumps(ui_contract, ensure_ascii=False))
-        changed["collision_partition"]["format_equivalent"].pop("고시원", None)
+        changed["collision_partition"]["format_equivalent"].pop(
+            "강남 아파트", None
+        )
         mutation_cases.append(("partition deletion", changed))
         changed = json.loads(json.dumps(ui_contract, ensure_ascii=False))
         changed["collision_partition"]["shared_translation"]["건강"] = [
