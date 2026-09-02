@@ -32,10 +32,10 @@
     },
     "chapter5_finale_rc": {
       "status": "active",
-      "commit": "236b233a5646d58cac74672cd7a903d55b58dec5",
-      "tree": "15d2d2901c449912d09c2f7b85729b0fdc324ad1",
-      "manifest_sha256": "8169f3187cc9c760d7cc3a2bc7cdce7b53cca3e08ecb8bc56b74337c8d976119",
-      "note": "ORDER-150 새 exact Chapter 5 재플레이 후보가 active다. 제품 236b233a5646d58cac74672cd7a903d55b58dec5 / tree 15d2d2901c449912d09c2f7b85729b0fdc324ad1 / source manifest 8169f3187cc9c760d7cc3a2bc7cdce7b53cca3e08ecb8bc56b74337c8d976119는 전역 지갑 사건을 화면상 초대→민준의 수락 또는 거절→수락 때만 서로 확인한 토요일 12:30·강남 식당→별도 도착 장면 순서로 고쳤다. 거절은 날짜·장소·달력·동석·후속 도착을 만들지 않는다. 전체 audit와 실제 StoryMode L2는 GREEN이지만 자동 증거는 인간 판정을 대신하지 않는다. 직전 exact 후보의 Property GO와 general_near_goal_father_passed REJECT는 역사 증거로만 보존하며 새 제품에는 승계하지 않는다. 전역 rare chain이므로 새 후보에서 두 경로 모두 M49→M60→후일담→크레딧 6/6 정상 속도 실제 플레이가 필요하고, 두 gate와 사용자 최종 GO는 OPEN, full·main·product는 HOLD다. Property의 공동 주거·시간·민서 입장·W240 책임과 general의 W240 무응답·미소유·아버지 불부활, 원본 slot 01·02와 공개 story_demo_rc M01~M06 GO는 보존한다."
+      "commit": "236d8eb2c532172c60da3fafce0fc1b768e38049",
+      "tree": "f6270643439f1c0ddecc8421c1c39d4d211b6ca0",
+      "manifest_sha256": "a227fd03518e5f8a1a6e33a3289ce93f77bebf600e87d49959c0becfc5003138",
+      "note": "ORDER-150 새 exact Chapter 5 재플레이 후보가 active다. 제품 236d8eb2c532172c60da3fafce0fc1b768e38049 / tree f6270643439f1c0ddecc8421c1c39d4d211b6ca0 / source manifest a227fd03518e5f8a1a6e33a3289ce93f77bebf600e87d49959c0becfc5003138는 전역 지갑 사건을 화면상 초대→민준의 수락 또는 거절→수락 때만 서로 확인한 토요일 12:30·강남 식당→별도 도착 장면 순서로 고쳤다. 거절은 날짜·장소·달력·동석·후속 도착을 만들지 않는다. 전체 audit와 실제 StoryMode L2는 GREEN이며, 현황 도구는 review commit/tree가 active 후보와 다르면 이전 판정을 현재 후보에 미적용으로 분리한다. 자동 증거는 인간 판정을 대신하지 않는다. 직전 exact 후보의 Property GO와 general_near_goal_father_passed REJECT는 역사 증거로만 보존하며 새 제품에는 승계하지 않는다. 전역 rare chain이므로 새 후보에서 두 경로 모두 M49→M60→후일담→크레딧 6/6 정상 속도 실제 플레이가 필요하고, 두 gate와 사용자 최종 GO는 OPEN, full·main·product는 HOLD다. Property의 공동 주거·시간·민서 입장·W240 책임과 general의 W240 무응답·미소유·아버지 불부활, 원본 slot 01·02와 공개 story_demo_rc M01~M06 GO는 보존한다."
     },
     "full_rc": {
       "status": "active",

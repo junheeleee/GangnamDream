@@ -3,11 +3,11 @@
 > 체제: 유저 실플레이 라운드 → 노트 원문 → Claude 진단 → 수리 오더 → 재플레이.
 > 유저 노트는 편집 없이 원문 보존(느낌 그대로가 데이터다).
 
-### Chapter 5 지갑 동의 재플레이 후보 (2026-09-02 — `236b233`)
+### Chapter 5 지갑 동의 재플레이 후보 (2026-09-02 — `236d8eb`)
 
-**후보:** 제품 `236b233a5646d58cac74672cd7a903d55b58dec5`, tree
-`15d2d2901c449912d09c2f7b85729b0fdc324ad1`, source manifest SHA-256
-`8169f3187cc9c760d7cc3a2bc7cdce7b53cca3e08ecb8bc56b74337c8d976119`다. 이 항목을
+**후보:** 제품 `236d8eb2c532172c60da3fafce0fc1b768e38049`, tree
+`f6270643439f1c0ddecc8421c1c39d4d211b6ca0`, source manifest SHA-256
+`a227fd03518e5f8a1a6e33a3289ce93f77bebf600e87d49959c0becfc5003138`다. 이 항목을
 담는 review wrapper는 제품의 문서 전용 직계 자식이며 런타임 diff가 0이어야 한다.
 
 **수리:** 지갑 반환과 식사 약속을 분리했다. 초대 화면에서 민준이 수락하면 가능한
@@ -18,7 +18,8 @@
 **자동 증거:** 전체 감사, 실제 StoryMode 초대→수락→도착 및 거절→무도착,
 Chapter 5 정적 self-test 29·Godot 런타임, Year 5 178, Chapter 1 478, 전체
 68-script compile이 GREEN이다. 공개 M01~M06·`project.godot`·30억 즉시엔딩은
-변경 0이다.
+변경 0이다. 현황 도구는 review commit/tree가 active 후보와 다르면 이전 판정을
+현재 후보에 미적용이라고 표시한다.
 
 **사람 게이트:** 자동 GREEN은 GO가 아니다. 지갑 사건은 두 경로에 전역 도달하므로
 직전 제품의 Property GO는 역사 증거로만 남긴다. 같은 새 후보에서 property와

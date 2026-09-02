@@ -20,9 +20,9 @@
 
 ## 2026-09-02 (Codex — ORDER-150 지갑 동의 재플레이 후보 발급)
 
-- 새 제품은 `236b233a5646d58cac74672cd7a903d55b58dec5`, tree
-  `15d2d2901c449912d09c2f7b85729b0fdc324ad1`, source manifest SHA-256
-  `8169f3187cc9c760d7cc3a2bc7cdce7b53cca3e08ecb8bc56b74337c8d976119`다.
+- 새 제품은 `236d8eb2c532172c60da3fafce0fc1b768e38049`, tree
+  `f6270643439f1c0ddecc8421c1c39d4d211b6ca0`, source manifest SHA-256
+  `a227fd03518e5f8a1a6e33a3289ce93f77bebf600e87d49959c0becfc5003138`다.
 - 지갑 반환 당일에는 분실물 접수 영수증만 남긴다. 8주 뒤 `chain_exec_meal`은
   초대에 답하는 화면상 선택이며, 수락할 때 민준이 가능한 토요일을 보내고 상대가
   토요일 12:30·강남 식당을 회신한 뒤 민준이 확인해야만 별도
@@ -30,7 +30,8 @@
 - KO/EN, lifecycle·exposed state·연출/오디오·release/번역/볼륨 파생 원장을 함께
   맞췄다. 전체 `tools/audit.sh`, 실제 StoryMode 초대→수락→도착 및 거절→무도착,
   Chapter 5 정적 self-test 29·Godot, Year 5 178, Chapter 1 478, 68-script compile이
-  GREEN이다.
+  GREEN이다. 현황 도구도 review commit/tree가 active 후보와 일치할 때만 현재
+  판정으로 표시하고, 직전 판정은 `현재 후보에 미적용`으로 분리한다.
 - 공개 M01~M06 제품·번역·`project.godot`, 30억 즉시엔딩, 원본 slot 01·02와 두
   경로의 앞선 통과점은 변경하지 않았다. 직전 Property GO는 역사 증거일 뿐 새
   제품에 승계하지 않는다.

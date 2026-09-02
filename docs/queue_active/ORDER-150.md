@@ -194,9 +194,9 @@ StoryMode 표면에서도 초대→플레이어 선택→결과→식당 도착 
 
 ## 2026-09-02 지갑 동의 재플레이 제품 후보 발급
 
-- 제품 commit `236b233a5646d58cac74672cd7a903d55b58dec5`, tree
-  `15d2d2901c449912d09c2f7b85729b0fdc324ad1`, source manifest SHA-256
-  `8169f3187cc9c760d7cc3a2bc7cdce7b53cca3e08ecb8bc56b74337c8d976119`다.
+- 제품 commit `236d8eb2c532172c60da3fafce0fc1b768e38049`, tree
+  `f6270643439f1c0ddecc8421c1c39d4d211b6ca0`, source manifest SHA-256
+  `a227fd03518e5f8a1a6e33a3289ce93f77bebf600e87d49959c0becfc5003138`다.
   이 문서 변경 커밋은 제품의 docs-only 직계 자식이며 런타임 diff가 0이어야 한다.
 - `rare_wallet_executive`는 반환 영수증만 남기고, `chain_exec_meal`은 화면상 수락/
   거절을 받는다. 수락 때만 토요일 12:30·강남 식당 상호 확인 뒤 별도
@@ -204,6 +204,7 @@ StoryMode 표면에서도 초대→플레이어 선택→결과→식당 도착 
 - 전체 `tools/audit.sh`가 최종 제품 바이트에서 통과했다. 실제 StoryMode의
   `invite-accept-arrival/decline-no-arrival`, Chapter 5 정적 self-test 29·Godot,
   Year 5 self-test 178, Chapter 1 self-test 478, 전체 68-script compile이 GREEN이다.
+  과거 delegated review는 commit/tree가 같은 active 후보에만 현재 판정으로 표시된다.
 - 공개 M01~M06, `project.godot`, 30억 `instant_legend`, 원본 slot 01·02와 직전 두
   경로의 통과점은 변경 0이다. 직전 Property GO는 역사 증거이며 새 제품에는 승계하지
   않는다.
