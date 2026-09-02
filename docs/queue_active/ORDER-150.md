@@ -148,6 +148,14 @@ Chapter5HumanRejectCheck.gd}`와 파생 release inventory·영어/JA/ZH 범위 �
 함께 갱신한다. 전역 도달 사건이므로 기존 Property GO는 역사 증거로 보존하되 새
 후보에는 승계하지 않고, 두 경로 M49→M60 정상 속도 실제 플레이를 다시 요청한다.
 
+**[scope expansion 7 선언 · 제품 커밋 전]:** 수락 뒤 식당 도착을 별도 shipping
+root로 분리하면 packaged/shipping/chain corpus가 각각 1개 늘어난다. 따라서
+`content/meta/event_lifecycle.json`의 exact count·ID digest와
+`tools/event_director_audit.py`의 등록·random·chain 기준선,
+`content/meta/release_content_inventory.json` 및 그 생성 보고서·현지화 source
+inventory를 현재 제품에서 다시 산출한다. author-only 105개와 그 세 digest,
+공개 M01~M06 범위·번역·패키지 해시는 바꾸지 않는다.
+
 같은 JSON에 통과점이 있으면 exact root/field만 수정한다. 공개 M01~M06 사건·자산,
 `content/meta/demo_core_loop_v2.json`, `project.godot`, full 경제·밸런스, 엔딩
 라우팅, save handoff adapter는 비소유다.
