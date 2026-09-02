@@ -3431,7 +3431,7 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "tools/CoreLoopV2CycleCheck.gd":
         "e1322e8110dd4042380d5b7d38b0041abd77208dc56959429918890f8e862218",
     "tools/StoryPlaybackCheck.gd":
-        "c6210f9687573353da8d0b429edc85f3016d8084c2914226f54d12cd8c657edb",
+        "a41334ab79cdac18e2d28544a4300b64aae34b5f6decefbea77a6dd7b8cfb4b0",
     "autoloads/GameState.gd":
         "8c4ba503493e61d857a5e7bfc2f70ffb3e74944d0865c6dbf6c2c440b59e299f",
     "autoloads/DataRegistry.gd":
@@ -3467,7 +3467,7 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "content/meta/demo_localization_scope.json":
         "9d50b64e6bc09d8e3e8e670fc48163ed5a0a419263cd0ffc601aac45c7abc7b6",
     "content/meta/release_content_inventory.json":
-        "87c06e0a6879ae5de2c0f6f761c8a79fbe9a78416d4036f7613b01af450b935f",
+        "7d68f2c44031f8fb0db886501d558d129ce55c08cd22f65831bf8c4fcfbd5e5d",
     "content/meta/story_rules.json":
         "079d1c95152595f0f9b14c0ddf79087789da1f594014db00228dfae77fb636b3",
     "content/jobs.json":

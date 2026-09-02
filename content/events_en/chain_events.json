@@ -46,12 +46,27 @@
   },
   {
     "id": "chain_exec_meal",
+    "title": "Replying to the Invitation",
+    "description": "Eight weeks after handing in the wallet, a text arrived from an unsaved number.\n\n\"Thank you for the other day. Can I buy you a meal?\"\n\nThe reply field beneath the message was still empty. The sender had made an invitation, nothing more. No date or place had been set.",
+    "choices": [
+      {
+        "text": "Accept — send an available Saturday afternoon first",
+        "result_text": "{name} typed an available time into the reply field first.\n\"Thank you. This Saturday afternoon works for me.\"\n\nA new message arrived a moment later.\n\"Then let's meet at ○○ Korean Restaurant in Gangnam, Saturday at 12:30.\"\n\n{name} sent the date and address back for confirmation.\n\"Yes, see you then.\"\nOnly after both sides confirmed did he add it to his calendar."
+      },
+      {
+        "text": "Decline the meal — reply with thanks only",
+        "result_text": "{name} sent a short reply.\n\"I appreciate the thought. I'm just glad the wallet made it back to you.\"\n\nHe did not ask for a date or place beneath the send time. Nothing went on the calendar. No meeting was arranged."
+      }
+    ]
+  },
+  {
+    "id": "chain_exec_meal_arrival",
     "title": "Lunch with the Executive",
-    "description": "The promised Korean restaurant. Gangnam.\n\nThe wallet's owner — the executive — was already there.\n\n\"That wallet had my mother's photo in it. Her last one.\"\n\nHe paused for a moment.\n\n\"A meal doesn't repay it. But first, I was curious what kind of person you are.\"",
+    "description": "Saturday, 12:30. The Korean restaurant in Gangnam they had both confirmed.\n\nThe wallet's owner — the executive — was already there.\n\n\"That wallet had my mother's photo in it. Her last one.\"\n\nHe paused for a moment.\n\n\"A meal doesn't repay it. But first, I was curious what kind of person you are.\"",
     "choices": [
       {
         "text": "Tell him everything. Including the current situation",
-        "result_text": "The goshiwon, six years of debt, the plan until 38.\nSaid it all. No packaging.\n\nThe executive put down his spoon and listened.\n\n\"Someone who pays off debt for six years and starts again — that's rare even inside a company.\"\n\nAt parting, he said:\n\"I'll look into a position at an affiliate. Not a favor. You pass the verification yourself.\""
+        "result_text": "Six years spent paying down debt, the place he lived now, the plan through age thirty-eight.\nSaid it all. No packaging.\n\nThe executive put down his spoon and listened.\n\n\"Someone who pays off debt for six years and starts again — that's rare even inside a company.\"\n\nAt parting, he said:\n\"I'll look into a position at an affiliate. Not a favor. You pass the verification yourself.\""
       },
       {
         "text": "Deflect politely. Don't want to show everything",

@@ -734,7 +734,7 @@ def run_self_test(root: Path | str = ROOT) -> tuple[list[str], int]:
     require("current counts", (
         len(baseline.declared_ids), len(baseline.exempt_ids),
         len(baseline.packaged_event_ids), len(baseline.product_event_ids),
-    ) == (105, 105, 1812, 1707))
+    ) == (105, 105, 1813, 1708))
     require("current ingress", not baseline.ingress_conflict_ids)
 
     target = sorted(baseline.declared_ids)[0]

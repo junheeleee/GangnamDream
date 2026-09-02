@@ -2113,6 +2113,7 @@
       "chain_envelope_owner_return",
       "chain_exec_interview",
       "chain_exec_meal",
+      "chain_exec_meal_arrival",
       "chain_interior_offer",
       "chain_neighbor_civil_servant",
       "chain_neighbor_moving",
@@ -3610,6 +3611,13 @@
       "audio_policy": "crossfade",
       "reduced_motion": "static_fade",
       "from_surface": "jeongseon_casino_entrance"
+    },
+    "chain_exec_meal->chain_exec_meal_arrival": {
+      "mode": "explicit_move",
+      "to_surface": "restaurant",
+      "audio_policy": "crossfade",
+      "reduced_motion": "static_fade",
+      "from_surface": "current_housing"
     },
     "class_reunion->class_reunion_lie_exposed": {
       "mode": "same_location",

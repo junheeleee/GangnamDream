@@ -1594,12 +1594,47 @@ ORDER150_OBJECT_TRANSITIONS_BY_FILE = {
             "9213ff435eb4efa62d0a6be9d68cbcf5ee162dd0c201064e2641123b8c173e72",
         ),
     },
+    "content/events/chain_events.json": {
+        "chain_exec_meal": (
+            "6be2a9c24edb2024e2baab9ae52ba838a53558663a711f0cbc5b0c7e34729c71",
+            "e26545a078837df4e4c387c6f0cfa01e6ebeb63b1815778e94441a6390cc9d23",
+        ),
+    },
+    "content/events/rare_encounter_events.json": {
+        "rare_wallet_executive": (
+            "5b8925c7a8ac74c40bd6fba8a157dc2612be48706904d1bb0cf83e207e522161",
+            "1190575922588dddf146d8b841ba0481d9e9d4d9b653f50d17a56143503992f7",
+        ),
+    },
+    "content/events_en/chain_events.json": {
+        "chain_exec_meal": (
+            "d841886ee2a7bb5b2f843e31e7f729725c2813f2cb1718a381515bad2f227678",
+            "5a3db0c7f958a89baadf1913b674a2906bb1ebdcbf67c43d68bc913c4b109a86",
+        ),
+    },
+    "content/events_en/rare_encounter_events.json": {
+        "rare_wallet_executive": (
+            "916de64848fb00c5f3059d7109f627f2e3b8aa7e953260af78b0cc34f56ee94e",
+            "fddce59988f7a4b65828c278471f0ec6bec8a8e75ff9edd42f8db376db5a5a20",
+        ),
+    },
 }
 ORDER150_CHANGED_EXISTING_IDS_BY_FILE = {
     relative: set(transitions)
     for relative, transitions in ORDER150_OBJECT_TRANSITIONS_BY_FILE.items()
 }
-ORDER150_ADDED_OBJECT_SHA256_BY_FILE: dict[str, dict[str, str]] = {}
+ORDER150_ADDED_OBJECT_SHA256_BY_FILE: dict[str, dict[str, str]] = {
+    "content/events/chain_events.json": {
+        "chain_exec_meal_arrival": (
+            "e495b2157e525430b33479d2205cdddaf1a9e98e52da5d25dd2679fd343e243c"
+        ),
+    },
+    "content/events_en/chain_events.json": {
+        "chain_exec_meal_arrival": (
+            "024d3c3b3591f2a27d72e60e6f05894065bd4dc3ff39bd30818fe66ce157d05f"
+        ),
+    },
+}
 ORDER150_ADDED_IDS_BY_FILE = {
     relative: set(hashes)
     for relative, hashes in ORDER150_ADDED_OBJECT_SHA256_BY_FILE.items()
@@ -1653,7 +1688,7 @@ ORDER150_AUXILIARY_FILE_TRANSITIONS = {
     ),
     "content/meta/exposed_event_state_contracts.json": (
         "eb57418f367346eee3c23857eb6903368f347578d56ceb5c38aad1624d6f5488",
-        "495468b7fb5fca7d7debb8c392d877a05ceff9124af576eec4e4c857c93fa4d2",
+        "a67bc16d17867c889bd2d038351e9b70aec73fd4cd07eff3e73c59c3388a6af6",
     ),
 }
 ORDER150_PRODUCT_FILE_TRANSITIONS = {

@@ -89,6 +89,9 @@ func _ready() -> void:
 	if not await _check_same_location_handoff():
 		return
 	await _free_story_fixture()
+	if not await _check_wallet_meal_consent_handoff():
+		return
+	await _free_story_fixture()
 	await _stop_test_audio()
 	# Covered handoff fixtures intentionally leave a deferred scene replacement
 	# pending until quit. Keep their transition click silent so that final frame
@@ -106,6 +109,7 @@ func _ready() -> void:
 		]
 		+ "direct_commit=1 hints=ko_en_xbox_ps_nintendo choice_commit=0 "
 		+ "fresh_guided=1 story_send_writes=0 legacy_paused_send=1 "
+		+ "wallet_consent=invite-accept-arrival/decline-no-arrival "
 		+ "legacy_covered=1 typed_w1_covered=1"
 	)
 	get_tree().quit(0)
@@ -699,6 +703,115 @@ func _check_runtime_transition_handoff(
 	_story.call("_finish_story_scene_transition")
 	await _free_story_fixture()
 	GameState.call("_restore_serialized_snapshot_exact", state_before)
+	MetaProgression.data = meta_before
+	return true
+
+func _check_wallet_meal_consent_handoff() -> bool:
+	const INVITATION_ID := "chain_exec_meal"
+	const ARRIVAL_ID := "chain_exec_meal_arrival"
+	const SENTINEL_ID := "story_prologue_dad"
+	var state_before: Dictionary = GameState.serialize().duplicate(true)
+	var pending_before: Array = GameState.pending_story_queue.duplicate(true)
+	var return_scene_before := GameState.story_return_scene
+	var event_before: Dictionary = EventManager.current_event.duplicate(true)
+	var meta_before: Dictionary = MetaProgression.data.duplicate(true)
+
+	for case_value in [
+		{"choice_index": 0, "expected_next": ARRIVAL_ID, "accepted": true},
+		{"choice_index": 1, "expected_next": SENTINEL_ID, "accepted": false},
+	]:
+		var case: Dictionary = case_value
+		await _free_story_fixture()
+		GameState.start_new_game()
+		GameState.turn = 32
+		var wallet_seed: Dictionary = DataRegistry.find_event(
+			"rare_wallet_executive")
+		var seed_choices: Array = wallet_seed.get("choices", [])
+		if seed_choices.is_empty() \
+				or not GameState.apply_choice(wallet_seed, seed_choices[0]):
+			_fail("wallet return did not schedule its invitation at runtime")
+			return false
+		GameState.turn = 40
+		var main_game: Node = load("res://scenes/MainGame.gd").new()
+		var routed_invitation := str(main_game.call(
+			"_deferred_foreground_event_id", true))
+		main_game.free()
+		if routed_invitation != INVITATION_ID \
+				or not GameState.deferred_events.is_empty():
+			_fail("wallet return did not route the invitation before StoryMode")
+			return false
+		GameState.pending_story_queue = [routed_invitation, SENTINEL_ID]
+		GameState.story_return_scene = "res://scenes/MainGame.tscn"
+		_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+		add_child(_story)
+		await get_tree().process_frame
+		await get_tree().process_frame
+		_story.call("_set_auto_mode", false, false, false)
+
+		var invitation: Dictionary = _story.get("_current")
+		var title_label := _story.get("_title_lbl") as Label
+		if str(invitation.get("id", "")) != INVITATION_ID \
+				or bool(GameState.flags.get("chain_exec_meal_accepted", false)) \
+				or _story.get("_queue") != [SENTINEL_ID] \
+				or str(_story.get("_event_background_id")) == "restaurant" \
+				or not is_instance_valid(title_label) \
+				or title_label.text != "— %s —" % GameState.format_event_text(
+					str(invitation.get("title", ""))):
+			_fail("wallet invitation was not the visible StoryMode scene before consent")
+			return false
+		if EventManager.deferred_event_is_eligible(ARRIVAL_ID):
+			_fail("wallet restaurant arrival was eligible before acceptance")
+			return false
+
+		var choices: Array = invitation.get("choices", [])
+		var choice_index := int(case.get("choice_index", -1))
+		if choices.size() != 2 or choice_index < 0 or choice_index >= choices.size():
+			_fail("wallet invitation lost its two visible consent choices")
+			return false
+		_story.call("_on_choice", choice_index)
+		var accepted := bool(case.get("accepted", false))
+		var expected_follow_up := ARRIVAL_ID if accepted else ""
+		if bool(GameState.flags.get("chain_exec_meal_accepted", false)) != accepted \
+				or str(_story.get("_pending_follow_up")) != expected_follow_up \
+				or not bool(_story.get("_pending_after_result")) \
+				or not GameState.deferred_events.is_empty():
+			_fail("wallet StoryMode choice did not own the expected consent receipt and edge")
+			return false
+
+		var result_paragraphs: Array = _story.get("_paragraphs")
+		if result_paragraphs.is_empty():
+			_fail("wallet invitation result was not rendered before its next scene")
+			return false
+		_story.set("_para_index", result_paragraphs.size() - 1)
+		_story.call("_start_typing", str(result_paragraphs[-1]))
+		_story.call("_complete_typing")
+		_story.call("_on_advance")
+		var expected_next := str(case.get("expected_next", ""))
+		var actual_next := str((_story.get("_current") as Dictionary).get("id", ""))
+		if actual_next != expected_next:
+			_fail("wallet consent routed to %s instead of %s" % [
+				actual_next, expected_next])
+			return false
+		if accepted:
+			if str(_story.get("_event_background_id")) != "restaurant" \
+					or str(_story.get("_current_transition_mode")) != "explicit_move" \
+					or _story.get("_queue") != [SENTINEL_ID]:
+				_fail("wallet acceptance did not visibly arrive at the restaurant first")
+				return false
+			if bool(_story.get("_story_scene_transition_active")):
+				_story.call("_finish_story_scene_transition")
+		elif bool(GameState.flags.get("chain_exec_meal_accepted", false)) \
+				or ARRIVAL_ID in (_story.get("_queue") as Array) \
+				or str(_story.get("_pending_follow_up")) == ARRIVAL_ID \
+				or EventManager.deferred_event_is_eligible(ARRIVAL_ID):
+			_fail("wallet decline still admitted a restaurant arrival")
+			return false
+
+	await _free_story_fixture()
+	GameState.call("_restore_serialized_snapshot_exact", state_before)
+	GameState.pending_story_queue = pending_before
+	GameState.story_return_scene = return_scene_before
+	EventManager.current_event = event_before
 	MetaProgression.data = meta_before
 	return true
 

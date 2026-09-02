@@ -20,6 +20,7 @@ func _run() -> void:
 	_check_home_name_surface_runtime()
 	_check_shared_home_living_runtime()
 	_check_shadow_promise_and_legacy_runtime()
+	_check_wallet_meal_consent_runtime()
 	_check_main_game_runtime_contracts()
 	_check_jiyeon_truth_contact_runtime()
 	_check_loaded_story_contracts()
@@ -42,6 +43,7 @@ func _run() -> void:
 			+ "winter=september-w225-w227 "
 			+ "minseo=remote-message/no-portrait/player-only/2x-outbound-ko-en "
 			+ "shadow=proposal-only/legacy-joined-roundtrip/sns-closed "
+			+ "wallet=accept-flag/arrival-gated/decline-closes/interview+10 "
 			+ "jiyeon=truth-contact-3x-ko-en/no-repeat")
 		get_tree().quit(0)
 		return
@@ -553,6 +555,81 @@ func _check_shadow_promise_and_legacy_runtime() -> void:
 			"%s proposal choice did not write startup_collab_proposed" % event_id)
 		_expect(not bool(GameState.flags.get("startup_collab_joined", false)),
 			"%s proposal choice manufactured startup_collab_joined" % event_id)
+
+
+func _check_wallet_meal_consent_runtime() -> void:
+	var invitation: Dictionary = DataRegistry.find_event("chain_exec_meal")
+	var arrival: Dictionary = DataRegistry.find_event("chain_exec_meal_arrival")
+	_expect(not invitation.is_empty(), "wallet meal invitation was not loaded")
+	_expect(not arrival.is_empty(), "wallet meal arrival was not loaded")
+	if invitation.is_empty() or arrival.is_empty():
+		return
+	_expect(str(invitation.get("background", "")) == "current_housing",
+		"wallet meal invitation does not begin at current_housing")
+	_expect(_condition_has(invitation, "flag", "returned_wallet"),
+		"wallet meal invitation lost the returned_wallet receipt")
+	_expect(str(arrival.get("background", "")) == "restaurant",
+		"wallet meal arrival does not move to the restaurant")
+	_expect(_condition_has(arrival, "flag", "chain_exec_meal_accepted"),
+		"wallet meal arrival can occur without the acceptance receipt")
+
+	var invitation_choices: Array = invitation.get("choices", [])
+	var arrival_choices: Array = arrival.get("choices", [])
+	_expect(invitation_choices.size() == 2,
+		"wallet meal invitation lost accept/decline ownership")
+	_expect(arrival_choices.size() == 2,
+		"wallet meal arrival lost honest/distance ownership")
+	if invitation_choices.size() != 2 or arrival_choices.size() != 2:
+		return
+	var accept: Dictionary = invitation_choices[0]
+	var decline: Dictionary = invitation_choices[1]
+	_expect(str(accept.get("follow_up_event", "")) \
+			== "chain_exec_meal_arrival",
+		"wallet meal acceptance lost its visible restaurant arrival")
+	_expect(str(decline.get("follow_up_event", "")).is_empty() \
+			and not decline.has("deferred_follow_up"),
+		"wallet meal decline still schedules a meeting")
+
+	GameState.start_new_game()
+	GameState.turn = 40
+	GameState.flags["returned_wallet"] = true
+	_expect(GameState.apply_choice(invitation, decline),
+		"wallet meal decline was rejected at runtime")
+	_expect(not bool(GameState.flags.get("chain_exec_meal_accepted", false)),
+		"wallet meal decline manufactured acceptance")
+	_expect(not EventManager.deferred_event_is_eligible(
+			"chain_exec_meal_arrival"),
+		"wallet meal arrival became eligible after decline")
+	_expect(GameState.deferred_events.is_empty(),
+		"wallet meal decline queued a deferred meeting")
+
+	GameState.start_new_game()
+	GameState.turn = 40
+	GameState.flags["returned_wallet"] = true
+	_expect(GameState.apply_choice(invitation, accept),
+		"wallet meal acceptance was rejected at runtime")
+	_expect(bool(GameState.flags.get("chain_exec_meal_accepted", false)),
+		"wallet meal acceptance did not persist consent")
+	_expect(EventManager.deferred_event_is_eligible(
+			"chain_exec_meal_arrival"),
+		"wallet meal arrival stayed closed after acceptance")
+	_expect(GameState.deferred_events.is_empty(),
+		"wallet meal acceptance skipped the visible arrival with a deferred edge")
+
+	var honest: Dictionary = arrival_choices[0]
+	_expect(GameState.apply_choice(arrival, honest),
+		"wallet meal honest disclosure was rejected at runtime")
+	_expect(bool(GameState.flags.get("chain_exec_referral", false)),
+		"wallet meal honest disclosure lost the referral receipt")
+	var interview_scheduled := false
+	for deferred_value in GameState.deferred_events:
+		var deferred: Dictionary = deferred_value
+		if str(deferred.get("event_id", "")) == "chain_exec_interview" \
+				and int(deferred.get("trigger_turn", -1)) == 50:
+			interview_scheduled = true
+			break
+	_expect(interview_scheduled,
+		"wallet meal arrival did not schedule the interview at +10")
 
 
 func _condition_has(event: Dictionary, key: String, expected: String) -> bool:

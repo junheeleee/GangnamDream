@@ -116,13 +116,13 @@ PCK의 디렉터리·전 payload MD5·JSON·raster/audio import target과 ZIP의
 
 ## 현재 개발 소스 코퍼스 (공개 후보 아님)
 
-- KO/EN 사건: 각각 127파일 · 1812건, ID 일치
-- 패키지 사건: 1812건 · 현재 shipping 사건: 1707건 · author-only reference 원고: 105건
+- KO/EN 사건: 각각 127파일 · 1813건, ID 일치
+- 패키지 사건: 1813건 · 현재 shipping 사건: 1708건 · author-only reference 원고: 105건
 - KO/EN 엔딩: 각각 35건
 - 활성 스토리 이미지: 250장 · source raster: 306장
 - 게임 pack 대상 raster: 298장 · ImageRegistry 외부 pack 대상: 48장
 - `.gdignore` source-only 상점 스크린샷: 8장 · 출처 원장 오디오: 139개
-- 사건 ID SHA-256: `6adb21a41fc86790a6d0cc9833b7b3aa6f88a3fbf35fb0200690dc870c4f22de`
+- 사건 ID SHA-256: `4b51a9170bb3bcd7362be3175dbaec77c96a8c928e8747dd5479e14d54845a4b`
 - KO/EN 엔딩 본문 SHA-256: `81f1599053907f43b59021e2baccaff249a7bcc7b2c630dde389021b3d395eca`
 
 아래 current-source fingerprint는 표현의 최종 등급이 아니라 개발 코퍼스가 조용히 바뀌는 것을

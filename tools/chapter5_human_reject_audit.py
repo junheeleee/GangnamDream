@@ -402,6 +402,64 @@ def _shadow_terminal_errors(event_id: str, event: dict[str, Any]) -> list[str]:
     return errors
 
 
+def _wallet_meal_structure_errors(
+    seed: dict[str, Any],
+    invitation: dict[str, Any],
+    arrival: dict[str, Any],
+) -> list[str]:
+    """Require player-owned consent before the wallet-owner meal can exist."""
+    errors: list[str] = []
+    seed_choices = seed.get("choices", [])
+    if not isinstance(seed_choices, list) or len(seed_choices) < 1 \
+            or not isinstance(seed_choices[0], dict):
+        errors.append("rare_wallet_executive return choice is missing")
+    else:
+        seed_return = seed_choices[0]
+        if seed_return.get("deferred_follow_up") != "chain_exec_meal" \
+                or seed_return.get("deferred_delay") != 8:
+            errors.append("wallet return no longer queues the reply scene at +8")
+
+    if invitation.get("background") != "current_housing":
+        errors.append("wallet meal invitation must begin at current_housing")
+    if _conditions(invitation).get("flag") != "returned_wallet":
+        errors.append("wallet meal invitation lost the returned_wallet receipt")
+    invitation_choices = invitation.get("choices", [])
+    if not isinstance(invitation_choices, list) or len(invitation_choices) != 2 \
+            or any(not isinstance(choice, dict) for choice in invitation_choices):
+        errors.append("wallet meal invitation must keep accept and decline choices")
+    else:
+        accept, decline = invitation_choices
+        if "chain_exec_meal_accepted" not in accept.get("flags", []):
+            errors.append("wallet meal acceptance does not persist consent")
+        if accept.get("follow_up_event") != "chain_exec_meal_arrival":
+            errors.append("wallet meal acceptance does not own the restaurant arrival")
+        if accept.get("deferred_follow_up"):
+            errors.append("wallet meal acceptance bypasses the visible arrival scene")
+        if decline.get("follow_up_event") or decline.get("deferred_follow_up"):
+            errors.append("wallet meal decline still schedules a meeting")
+        if "chain_exec_meal_accepted" in decline.get("flags", []):
+            errors.append("wallet meal decline falsely persists consent")
+
+    if arrival.get("background") != "restaurant":
+        errors.append("wallet meal arrival must occur at the restaurant")
+    if _conditions(arrival).get("flag") != "chain_exec_meal_accepted":
+        errors.append("wallet meal arrival can occur without explicit consent")
+    arrival_choices = arrival.get("choices", [])
+    if not isinstance(arrival_choices, list) or len(arrival_choices) != 2 \
+            or any(not isinstance(choice, dict) for choice in arrival_choices):
+        errors.append("wallet meal arrival lost its two disclosure choices")
+    else:
+        honest, distance = arrival_choices
+        if "chain_exec_referral" not in honest.get("flags", []) \
+                or honest.get("deferred_follow_up") != "chain_exec_interview" \
+                or honest.get("deferred_delay") != 10:
+            errors.append("wallet meal honest branch lost the interview chain")
+        if "chain_exec_kept_distance" not in distance.get("flags", []) \
+                or distance.get("deferred_follow_up"):
+            errors.append("wallet meal distance branch no longer closes in place")
+    return errors
+
+
 def _jiyeon_truth_contact_block(source: str) -> str:
     branch_start = source.find('\t\t"jiyeon":')
     if branch_start < 0:
@@ -1086,6 +1144,105 @@ def validate_remote_and_no_reply(model: AuditModel, errors: list[str]) -> None:
         _forbid_tokens(f"EN {event_id}", en_text, contract["en_forbidden"], errors)
 
 
+def validate_wallet_meal_consent(model: AuditModel, errors: list[str]) -> None:
+    ko_seed = _event(model.ko, "rare_wallet_executive", "KO", errors)
+    ko_invitation = _event(model.ko, "chain_exec_meal", "KO", errors)
+    ko_arrival = _event(model.ko, "chain_exec_meal_arrival", "KO", errors)
+    errors.extend(_wallet_meal_structure_errors(
+        ko_seed, ko_invitation, ko_arrival))
+
+    en_seed = _event(model.en, "rare_wallet_executive", "EN", errors)
+    en_invitation = _event(model.en, "chain_exec_meal", "EN", errors)
+    en_arrival = _event(model.en, "chain_exec_meal_arrival", "EN", errors)
+
+    language_contracts = {
+        "KO": {
+            "seed": ko_seed,
+            "seed_required": ("분실물 접수증", "새 번호도, 약속도 없었다"),
+            "seed_forbidden": ("약속 장소", "밥 한 번 사도 될까요"),
+            "invitation": ko_invitation,
+            "invitation_required": (
+                "밥 한 번 사도 될까요", "답장 칸은 비어 있었다",
+                "날짜도 장소도 아직 정해지지 않았다",
+            ),
+            "invitation_forbidden": ("약속한 한정식집",),
+            "accept_required": (
+                "가능한 시간을 먼저 적었다", "토요일 12시 30분",
+                "날짜와 주소를 다시 확인해 보냈다", "두 사람의 확인이 끝난 뒤",
+            ),
+            "decline_required": (
+                "날짜나 장소를 묻지 않았다", "달력에도 아무것도 적지 않았다",
+                "만남은 잡히지 않았다",
+            ),
+            "decline_forbidden": ("한정식집에서", "먼저 와 있었다"),
+            "arrival": ko_arrival,
+            "arrival_required": ("토요일 12시 30분", "서로 확인한 강남의 한정식집"),
+        },
+        "EN": {
+            "seed": en_seed,
+            "seed_required": ("lost-property receipt", "No new number or appointment"),
+            "seed_forbidden": ("meeting place", "Can I buy you a meal"),
+            "invitation": en_invitation,
+            "invitation_required": (
+                "Can I buy you a meal", "reply field beneath the message was still empty",
+                "No date or place had been set",
+            ),
+            "invitation_forbidden": ("promised Korean restaurant",),
+            "accept_required": (
+                "typed an available time", "Saturday at 12:30",
+                "sent the date and address back for confirmation",
+                "Only after both sides confirmed",
+            ),
+            "decline_required": (
+                "did not ask for a date or place", "Nothing went on the calendar",
+                "No meeting was arranged",
+            ),
+            "decline_forbidden": ("at the Korean restaurant", "was already there"),
+            "arrival": en_arrival,
+            "arrival_required": (
+                "Saturday, 12:30", "restaurant in Gangnam they had both confirmed",
+            ),
+        },
+    }
+    for language, contract in language_contracts.items():
+        seed_choices = contract["seed"].get("choices", [])
+        seed_result = str(seed_choices[0].get("result_text", "")) \
+            if isinstance(seed_choices, list) and seed_choices \
+            and isinstance(seed_choices[0], dict) else ""
+        _require_tokens(
+            f"{language} wallet seed result", seed_result,
+            contract["seed_required"], errors)
+        _forbid_tokens(
+            f"{language} wallet seed result", seed_result,
+            contract["seed_forbidden"], errors)
+
+        invitation_text = str(contract["invitation"].get("description", ""))
+        _require_tokens(
+            f"{language} wallet invitation", invitation_text,
+            contract["invitation_required"], errors)
+        _forbid_tokens(
+            f"{language} wallet invitation", invitation_text,
+            contract["invitation_forbidden"], errors)
+        invitation_choices = contract["invitation"].get("choices", [])
+        if isinstance(invitation_choices, list) and len(invitation_choices) == 2:
+            accept_result = str(invitation_choices[0].get("result_text", ""))
+            decline_result = str(invitation_choices[1].get("result_text", ""))
+            _require_tokens(
+                f"{language} wallet acceptance receipt", accept_result,
+                contract["accept_required"], errors)
+            _require_tokens(
+                f"{language} wallet decline receipt", decline_result,
+                contract["decline_required"], errors)
+            _forbid_tokens(
+                f"{language} wallet decline receipt", decline_result,
+                contract["decline_forbidden"], errors)
+
+        _require_tokens(
+            f"{language} wallet restaurant arrival",
+            str(contract["arrival"].get("description", "")),
+            contract["arrival_required"], errors)
+
+
 def validate_late_ingress_and_sns(model: AuditModel, errors: list[str]) -> None:
     for event_id, maximum in LEGACY_MAX_TURNS.items():
         row = _event(model.ko, event_id, "KO", errors)
@@ -1361,6 +1518,7 @@ def validate_model(model: AuditModel) -> list[str]:
     validate_tutorial_and_credits(model, errors)
     validate_time_and_money_copy(model, errors)
     validate_remote_and_no_reply(model, errors)
+    validate_wallet_meal_consent(model, errors)
     validate_late_ingress_and_sns(model, errors)
     validate_shadow_promise_terminal(model, errors)
     validate_jiyeon_truth_contact(model, errors)
@@ -1484,6 +1642,68 @@ def run_self_test() -> int:
         "non-terminal proposal mutation accepted",
     )
 
+    wallet_seed_fixture = {
+        "choices": [{
+            "deferred_follow_up": "chain_exec_meal",
+            "deferred_delay": 8,
+        }],
+    }
+    wallet_invitation_fixture = {
+        "background": "current_housing",
+        "conditions": {"flag": "returned_wallet"},
+        "choices": [
+            {
+                "flags": ["chain_exec_meal_accepted"],
+                "follow_up_event": "chain_exec_meal_arrival",
+            },
+            {"flags": [], "follow_up_event": ""},
+        ],
+    }
+    wallet_arrival_fixture = {
+        "background": "restaurant",
+        "conditions": {"flag": "chain_exec_meal_accepted"},
+        "choices": [
+            {
+                "flags": ["chain_exec_referral"],
+                "deferred_follow_up": "chain_exec_interview",
+                "deferred_delay": 10,
+            },
+            {"flags": ["chain_exec_kept_distance"]},
+        ],
+    }
+    check(
+        not _wallet_meal_structure_errors(
+            wallet_seed_fixture, wallet_invitation_fixture,
+            wallet_arrival_fixture),
+        "valid wallet meal consent bridge rejected",
+    )
+    forged_invitation = copy.deepcopy(wallet_invitation_fixture)
+    forged_invitation["choices"][1]["follow_up_event"] = \
+        "chain_exec_meal_arrival"
+    check(
+        any("decline" in error for error in _wallet_meal_structure_errors(
+            wallet_seed_fixture, forged_invitation, wallet_arrival_fixture)),
+        "wallet meal decline was allowed to schedule the restaurant",
+    )
+    forged_arrival = copy.deepcopy(wallet_arrival_fixture)
+    forged_arrival["conditions"]["flag"] = "returned_wallet"
+    check(
+        any("without explicit consent" in error for error in
+            _wallet_meal_structure_errors(
+                wallet_seed_fixture, wallet_invitation_fixture,
+                forged_arrival)),
+        "wallet meal arrival accepted the return receipt as consent",
+    )
+    forged_acceptance = copy.deepcopy(wallet_invitation_fixture)
+    forged_acceptance["choices"][0]["follow_up_event"] = ""
+    check(
+        any("restaurant arrival" in error for error in
+            _wallet_meal_structure_errors(
+                wallet_seed_fixture, forged_acceptance,
+                wallet_arrival_fixture)),
+        "wallet meal acceptance lost its owned arrival without detection",
+    )
+
     contact_fixture = (
         '\t\t"jiyeon":\n'
         '\t\t\tif f.get("arc_jiyeon_truth_seen", false):\n'
@@ -1604,6 +1824,7 @@ def main(argv: list[str] | None = None) -> int:
         "names=5x-raw-display-ko-en/legacy-gangnam/shared-display-vs-narrative/consumer-split "
         "tutorial=turn1 credits=1of6+beat "
         "timeline=calendar_safe money=dynamic remote=no_copresence/no_fake_reply "
+        "wallet=player_acceptance/mutual-schedule/decline-closes "
         "legacy=bounded/old-flags-preserved sns=detox_bounded "
         "shadow=proposal-terminal/no-fake-agreement "
         "jiyeon=truth-contact-3x-ko-en speakers=hidden_contract "

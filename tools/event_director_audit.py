@@ -20,14 +20,14 @@ MAIN_GAME = ROOT / "scenes" / "MainGame.gd"
 CHAPTER5_CAUSAL_ROUTE = ROOT / "systems" / "Chapter5CausalRoute.gd"
 CHAPTER5_FINALE_ROUTE = ROOT / "systems" / "Chapter5FinaleRoute.gd"
 EVENT_MANAGER = ROOT / "autoloads" / "EventManager.gd"
-EXPECTED_CATALOG_RANDOM = 1179
+EXPECTED_CATALOG_RANDOM = 1180
 EXPECTED_DIRECTED_RANDOM = 999
 EXPECTED_FOREGROUND_RANDOM = 63
 EXPECTED_BRIDGE_RANDOM = 19
 # Core V2's authored hidden beats include the First Bill fragments plus the
 # fresh-only application Send and pre-plan calculation. They are reached by
 # runtime substitution or bundle/story links, never by the random director.
-EXPECTED_REGISTERED_EVENTS = 1707
+EXPECTED_REGISTERED_EVENTS = 1708
 EXPECTED_DIRECT_ONLY_EVENTS = {
     "arc_y3_father_avoidance_document",
     "arc_y3_father_deferred_call",
@@ -37,7 +37,7 @@ EXPECTED_DIRECT_ONLY_EVENTS = {
     "v2_opening_return_math",
 }
 EXPECTED_CALLBACK_TOTAL = 626
-EXPECTED_CHAIN_TOTAL = 12
+EXPECTED_CHAIN_TOTAL = 13
 MAX_DORMANT_CALLBACKS = 561
 MAX_DORMANT_CHAINS = 0
 EXPECTED_PROPERTY_LADDER_INGRESS = {
@@ -140,6 +140,7 @@ EXPECTED_REACHABLE_CHAINS = {
     "chain_envelope_owner_return",
     "chain_exec_interview",
     "chain_exec_meal",
+    "chain_exec_meal_arrival",
     "chain_interior_offer",
     "chain_neighbor_civil_servant",
     "chain_neighbor_moving",

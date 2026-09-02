@@ -63,17 +63,17 @@ PROTECTED_REUSE_SOURCE_LEAVES_SHA256 = (
 # quotas.  If authored source evolves, the failure prints both expected and
 # observed evidence and this table must be refreshed intentionally.
 EXPECTED = {
-    "packaged_events": 1812,
+    "packaged_events": 1813,
     "author_only_events": 105,
-    "shipping_events": 1707,
-    "shipping_standard_leaves": 11535,
+    "shipping_events": 1708,
+    "shipping_standard_leaves": 11541,
     "shipping_chapter5_reader_leaves": 133,
-    "shipping_leaves": 11668,
+    "shipping_leaves": 11674,
     "shipping_event_ids_sha256": (
-        "854c4be5198c459d51086f0db61c332394e1268ed72c9c9e42259b290d905210"
+        "0254f6d7938d7e281204b5b730d6b59e179efbe12595ef16fa72d3b378b6a6de"
     ),
     "shipping_source_leaves_sha256": (
-        "4ad158d13e2d567e32afa334eb29d45f4edcdae325ccd1aebd2e48ee0de3a1a4"
+        "fbcf80b56487555529b500f1b68b357941d5e1e164e41a5bf71590775b4ddb11"
     ),
     "m07_m60_root_refs": 162,
     "m07_m60_shipping_root_refs": 132,
@@ -88,7 +88,7 @@ EXPECTED = {
         "7fef47a76488b7b15276c289b8a6be7ef381d982c9c6c317fd768efed20b5600"
     ),
     "m07_m60_source_leaves_sha256": (
-        "25ab1dfa60d8fed2f989762ff6108e37f63164d168b9284501413d685457a669"
+        "682b871a66662b36f7f18e97c9c41623c558bd06d2b403b47c40e8ecadcc37a8"
     ),
     "deferred_added_events": 24,
     "deferred_added_leaves": 165,
@@ -1071,12 +1071,12 @@ def run_self_test(root: Path | str = ROOT) -> tuple[list[str], int]:
     require(
         "shipping exact event and leaf denominator",
         (shipping.get("event_count"), shipping.get("leaf_count"))
-        == (1707, 11668),
+        == (1708, 11674),
     )
     require(
         "Chapter 5 nested reader leaves included",
         shipping.get("chapter5_reader_leaf_count") == 133
-        and shipping.get("standard_leaf_count") == 11535,
+        and shipping.get("standard_leaf_count") == 11541,
     )
     require(
         "M07-M60 static exact event and leaf denominator",

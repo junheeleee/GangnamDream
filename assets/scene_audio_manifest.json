@@ -177,24 +177,24 @@
           "callback_child_cost_grind", "callback_chose_money_father_echo", "callback_daeun_breakup_begged_echo", "callback_daeun_daily_life_echo",
           "callback_father_confession_echo", "callback_guarantee_default", "callback_guarantee_refused_news", "callback_investment_lesson_echo",
           "callback_jeonse_auction_insured", "callback_kkondae_respect", "callback_mindset_investor_echo", "callback_tax_windfall",
-          "father_hospital_results", "father_hospital_wait", "final_last_winter", "flex_sns_envy",
-          "hidden_whole_picture", "hyunsu_exam_day", "hyunsu_result_fail", "hyunsu_result_pass",
-          "hyunsu_reunion_later", "hyunsu_reunion_meet", "hyunsu_reunion_memory", "hyunsu_reunion_photo",
-          "hyunsu_study_together", "ng_recovery_echo", "recovery_first_week", "story_arrival",
-          "story_first_paycheck_feel", "story_first_paycheck_feel_father_passed", "story_first_savings_milestone", "story_flashforward",
-          "story_knee_choice", "story_knee_door", "story_knee_witness", "story_last_payment_exit",
-          "story_last_payment_wait", "story_last_payment_word", "story_pressure", "story_prologue_dad",
-          "story_prologue_goal", "story_prologue_meal", "story_six_months", "v2_city_service_result_message",
-          "v2_city_service_work_sample_message", "v2_convenience_trial_shift", "v2_daeun_return_after_distance", "v2_daeun_return_named",
-          "v2_daeun_small_commitment", "v2_daeun_third_greeting", "v2_daeun_tuesday_followthrough", "v2_demo_first_bill",
-          "v2_demo_first_bill_ledger", "v2_demo_first_bill_opening", "v2_dirty_recruiter_week24", "v2_dirty_trace_initial_call",
-          "v2_dodam_result_message", "v2_empty_sunday", "v2_father_health_signal", "v2_gangnam_receipt_walk",
-          "v2_hanbit_interview", "v2_hanbit_offer_message", "v2_hyunsu_exam_eve", "v2_hyunsu_exam_morning_echo",
-          "v2_hyunsu_first_study", "v2_hyunsu_player_reachout", "v2_hyunsu_study_followup", "v2_inventory_count_nights",
-          "v2_jaehyuk_message", "v2_jaehyuk_plain_reunion_echo", "v2_jiyeon_second_crossing", "v2_logistics_class_session",
-          "v2_m3_room_ledger_anchor", "v2_m4_housing_consultation_anchor", "v2_mirae_result_message", "v2_moving_crew_days",
-          "v2_opening_application_send", "v2_opening_return_math", "v2_sangchul_demo_echo", "v2_sangchul_housing_lead",
-          "v2_seorin_result_message", "yolo_morning_after"
+          "chain_exec_meal", "father_hospital_results", "father_hospital_wait", "final_last_winter",
+          "flex_sns_envy", "hidden_whole_picture", "hyunsu_exam_day", "hyunsu_result_fail",
+          "hyunsu_result_pass", "hyunsu_reunion_later", "hyunsu_reunion_meet", "hyunsu_reunion_memory",
+          "hyunsu_reunion_photo", "hyunsu_study_together", "ng_recovery_echo", "recovery_first_week",
+          "story_arrival", "story_first_paycheck_feel", "story_first_paycheck_feel_father_passed", "story_first_savings_milestone",
+          "story_flashforward", "story_knee_choice", "story_knee_door", "story_knee_witness",
+          "story_last_payment_exit", "story_last_payment_wait", "story_last_payment_word", "story_pressure",
+          "story_prologue_dad", "story_prologue_goal", "story_prologue_meal", "story_six_months",
+          "v2_city_service_result_message", "v2_city_service_work_sample_message", "v2_convenience_trial_shift", "v2_daeun_return_after_distance",
+          "v2_daeun_return_named", "v2_daeun_small_commitment", "v2_daeun_third_greeting", "v2_daeun_tuesday_followthrough",
+          "v2_demo_first_bill", "v2_demo_first_bill_ledger", "v2_demo_first_bill_opening", "v2_dirty_recruiter_week24",
+          "v2_dirty_trace_initial_call", "v2_dodam_result_message", "v2_empty_sunday", "v2_father_health_signal",
+          "v2_gangnam_receipt_walk", "v2_hanbit_interview", "v2_hanbit_offer_message", "v2_hyunsu_exam_eve",
+          "v2_hyunsu_exam_morning_echo", "v2_hyunsu_first_study", "v2_hyunsu_player_reachout", "v2_hyunsu_study_followup",
+          "v2_inventory_count_nights", "v2_jaehyuk_message", "v2_jaehyuk_plain_reunion_echo", "v2_jiyeon_second_crossing",
+          "v2_logistics_class_session", "v2_m3_room_ledger_anchor", "v2_m4_housing_consultation_anchor", "v2_mirae_result_message",
+          "v2_moving_crew_days", "v2_opening_application_send", "v2_opening_return_math", "v2_sangchul_demo_echo",
+          "v2_sangchul_housing_lead", "v2_seorin_result_message", "yolo_morning_after"
         ],
     "cg_contract": [
           "arc_date_park_daeun", "arc_season_cherry_daeun", "arc_season_cherry_jiyeon", "arc_season_snow_daeun",
@@ -408,7 +408,7 @@
           "cb_crack_hardened_echo", "cb_crack_softened_echo", "cb_grace_echo", "cb_weight_adjusted_echo",
           "cb_weight_stayed_echo", "chain_banchan_reunion", "chain_banchan_reunion_declined", "chain_banchan_son",
           "chain_celeb_return", "chain_envelope_guilt", "chain_envelope_owner_return", "chain_exec_interview",
-          "chain_exec_meal", "chain_interior_offer", "chain_neighbor_civil_servant", "chain_neighbor_moving",
+          "chain_exec_meal_arrival", "chain_interior_offer", "chain_neighbor_civil_servant", "chain_neighbor_moving",
           "chain_scammer_again", "chapter_break_turn15", "chapter_break_turn30", "chapter_break_turn45",
           "chapter_card_33", "chapter_card_34", "chapter_card_35", "chapter_card_36",
           "chapter_card_37", "class_reunion", "class_reunion_lie_exposed", "colleague_resign_00",
@@ -617,6 +617,13 @@
     "cg_ending_writer": {"ambience": "room"}
   },
   "events": {
+    "chain_exec_meal": {
+      "ambience": "current_housing",
+      "suppress_music": true,
+      "paragraph_cues": {
+        "0": [{"sfx": "phone_notification", "volume_db": -6.0}]
+      }
+    },
     "arc_y5_contract_cover_investment": {
       "ambience": "current_housing",
       "suppress_music": true,

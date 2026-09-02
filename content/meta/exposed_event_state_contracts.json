@@ -2,9 +2,9 @@
   "schema_version": 1,
   "scope": {
     "root_count": 386,
-    "exposed_count": 536,
+    "exposed_count": 537,
     "root_ids_sha256": "a91998950487f82aebf800da4a39b9bc00380843b01cd8c05f2e035daee696d2",
-    "exposed_ids_sha256": "2ddc795b0b5eadb53bdb64aae7b3edfdf7471e0c8646243e4c5d4d1645e65f9e"
+    "exposed_ids_sha256": "82cb338878b506736fd4009abcf15082274115b77f2e6c247236e1bcf4246cc6"
   },
   "state_sensitive": {
     "amb_coin_00": [
@@ -2000,8 +2000,11 @@
       "location"
     ],
     "chain_exec_meal": [
-      "employment",
       "housing",
+      "location"
+    ],
+    "chain_exec_meal_arrival": [
+      "employment",
       "location"
     ],
     "chain_interior_offer": [
@@ -2279,10 +2282,10 @@
     "sangchul_world_absorbed": [
       "relationship"
     ],
-    "shadow_old_promise": [
+    "shadow_loan_answer": [
       "location"
     ],
-    "shadow_loan_answer": [
+    "shadow_old_promise": [
       "location"
     ],
     "shadow_promise_again": [
