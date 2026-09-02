@@ -122,6 +122,10 @@ Chapter 1 의미 맵·부채 기준선·24/48·missing 24·debt 8은 불변이�
 삭제해 변형을 만들지 못한다. 현재 format partition에 남은 주거 키를 지우는 exact
 한 줄 반례로 교체해, ZH 본검사 통과와 별개로 manifest 누락 탐지가 살아 있게 한다.
 
+**[scope expansion 5 선언 · 제품 커밋 전]:** 신규 Godot 검사와 함께 엔진이 만든
+`tools/Chapter5HumanRejectCheck.gd.uid`를 기존 Check 스크립트의 추적 관례대로
+포함해, clean checkout에서도 같은 QA 스크립트 식별자가 유지되게 한다.
+
 같은 JSON에 통과점이 있으면 exact root/field만 수정한다. 공개 M01~M06 사건·자산,
 `content/meta/demo_core_loop_v2.json`, `project.godot`, full 경제·밸런스, 엔딩
 라우팅, save handoff adapter는 비소유다.
