@@ -105,6 +105,18 @@ gambling·sexuality·fear·crime 축 해시를 필연적으로 바꾸고, `audit
 같은 시점으로 맞추기 위해 `tools/arc_flow_sim.py`도 추가한다. 네 파일은 새 서사·
 제품 규칙을 만들지 않고 현재 제품 바이트에서 계산되는 값과 반례만 갱신한다.
 
+**[scope expansion 3 선언 · 제품 커밋 전]:** 첫 전체 감사에서 MainGame의 신규·
+교체 KO/EN UI 17키가 JA/ZH 공용 source inventory와 일본어 UI 원장을 낡게 만들고,
+동적으로 계산하는 기존 주거명 5키가 literal 수집기에서 빠지는 결함을 확인했다.
+`tools/ja_translation_pipeline.py`에 명시적 동적 주거 source registry와 반례를 추가하고,
+`content/meta/demo_localization_scope.json`을 그 수집 결과로 재고정하며,
+`locale/ui_ja.json`에 신규 17키의 일본어를 추가한다. 기존 동적 주거 번역 5키와
+공개 M01~M06의 3개 언어 14사건·100 leaves·121 UI는 byte 보존하고, 일본어 원어민
+출시 게이트는 계속 OPEN이다. 같은 감사에서 제품 파일 다섯 개의 의미 원장이 아니라
+전체-file 지문만 낡은 것도 확인했으므로
+`tools/chapter1_core_loop_v2_causal_ledger_check.py`의 exact source receipt만 갱신한다.
+Chapter 1 의미 맵·부채 기준선·24/48·missing 24·debt 8은 불변이다.
+
 같은 JSON에 통과점이 있으면 exact root/field만 수정한다. 공개 M01~M06 사건·자산,
 `content/meta/demo_core_loop_v2.json`, `project.godot`, full 경제·밸런스, 엔딩
 라우팅, save handoff adapter는 비소유다.
