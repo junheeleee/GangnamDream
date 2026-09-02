@@ -156,6 +156,16 @@ root로 분리하면 packaged/shipping/chain corpus가 각각 1개 늘어난다.
 inventory를 현재 제품에서 다시 산출한다. author-only 105개와 그 세 digest,
 공개 M01~M06 범위·번역·패키지 해시는 바꾸지 않는다.
 
+**[scope expansion 8 선언 · 제품 커밋 전]:** 전체 표적 감사에서 shipping root 1개
+추가를 읽는 기존 파생 래칫도 함께 낡았음을 확인했다. 새 서사나 경로를 더 만들지
+않고 `tools/full_body_translation_scope.py`의 전체판 source observation,
+`tools/chapter5_general_finale_route_audit.py`의 corpus count,
+`tools/full_game_volume_baseline.json`의 현재 제품 관측값,
+`tools/year5_reference_route_audit.py`의 ORDER-150 exact event-file/상태계약 transition을
+현재 제품에서 재산출한다. `content/meta/exposed_event_state_contracts.json`의 생성
+scope count·digest도 같은 방식으로 맞춘다. 이 갱신은 지갑 식사 동의 bridge 외의
+M01~M60 장면·선택·밀도 부채·reference route 의미를 바꾸지 않는다.
+
 같은 JSON에 통과점이 있으면 exact root/field만 수정한다. 공개 M01~M06 사건·자산,
 `content/meta/demo_core_loop_v2.json`, `project.godot`, full 경제·밸런스, 엔딩
 라우팅, save handoff adapter는 비소유다.
