@@ -168,6 +168,13 @@ StoryMode 표면에서도 초대→플레이어 선택→결과→식당 도착 
 새 지문만 `tools/chapter1_core_loop_v2_causal_ledger_check.py`에 갱신한다. Chapter 1
 48행·선택·coverage·공개 데모 바이트와 의미 원장은 바꾸지 않는다.
 
+**[scope expansion 11 선언 · 제품 커밋 전]:** 새 active 후보를 등록하자
+`tools/{human_gates,project_dashboard}.py`가 commit/tree가 다른 직전 위임 판정을
+현재 후보 옆에 그대로 `합격`·`전량 반려`로 표시하는 판정 신원 결함을 확인했다.
+두 도구는 review commit/tree가 active candidate와 일치할 때만 현재 판정으로
+표시하고, 다르면 `이전 후보 판정 · 현재 후보에 미적용`으로 명시한다. 원장 기록과
+게이트 OPEN/HOLD는 그대로 두며 게임 런타임·스토리·선택·공개 데모는 바꾸지 않는다.
+
 같은 JSON에 통과점이 있으면 exact root/field만 수정한다. 공개 M01~M06 사건·자산,
 `content/meta/demo_core_loop_v2.json`, `project.godot`, full 경제·밸런스, 엔딩
 라우팅, save handoff adapter는 비소유다.
@@ -185,18 +192,22 @@ StoryMode 표면에서도 초대→플레이어 선택→결과→식당 도착 
   candidate는 `waiting_rebuild`, gate는 `open`, 제품은 HOLD다. 최종 사용자의
   `user_final: GO` 전에는 gate를 `done`으로 바꾸지 않는다.
 
-## 2026-09-02 제품 후보 발급
+## 2026-09-02 지갑 동의 재플레이 제품 후보 발급
 
-- 제품 commit `2e768643e53c5dbe84a864fcf3c0ba27e3c5501d`, tree
-  `d246184955ad60af3eb4de41907b58afde9756da`, source manifest SHA-256
-  `6ac6f969f235787871c9d41dbbf98e8ca390c8a1ef2968b26ff23b26bf4d39f2`다.
+- 제품 commit `236b233a5646d58cac74672cd7a903d55b58dec5`, tree
+  `15d2d2901c449912d09c2f7b85729b0fdc324ad1`, source manifest SHA-256
+  `8169f3187cc9c760d7cc3a2bc7cdce7b53cca3e08ecb8bc56b74337c8d976119`다.
   이 문서 변경 커밋은 제품의 docs-only 직계 자식이며 런타임 diff가 0이어야 한다.
-- 전체 `tools/audit.sh`가 최종 제품 바이트에서 통과했다. Chapter 5 인간 REJECT
-  정적 self-test 25·Godot 런타임, Year 5 self-test 174, Chapter 1 self-test 478,
-  영어 런타임 한글 후보 0, JA 69, ZH 273, 전체 68-script compile이 GREEN이다.
-- 공개 M01~M06, `project.godot`, callback 51 KO/EN, 30억 `instant_legend`, 경제
-  housing·threshold는 제품 부모 대비 변경 0이다. BGM 종료 경고는 반려 기준본과
-  정규화 diff 0인 QA teardown 노이즈이며 새 제품 누수가 아니다.
-- `chapter5_finale_rc`는 exact 후보 식별을 위해 active지만 GO가 아니다. property와
-  `general_near_goal_father_passed`를 같은 후보에서 KO 정상 속도로 M49→M60→후일담→
-  크레딧 6/6까지 다시 플레이하고, 두 gate와 사용자 최종 GO는 OPEN으로 둔다.
+- `rare_wallet_executive`는 반환 영수증만 남기고, `chain_exec_meal`은 화면상 수락/
+  거절을 받는다. 수락 때만 토요일 12:30·강남 식당 상호 확인 뒤 별도
+  `chain_exec_meal_arrival`로 이어지며, 거절에는 일정·달력·동석·도착이 없다.
+- 전체 `tools/audit.sh`가 최종 제품 바이트에서 통과했다. 실제 StoryMode의
+  `invite-accept-arrival/decline-no-arrival`, Chapter 5 정적 self-test 29·Godot,
+  Year 5 self-test 178, Chapter 1 self-test 478, 전체 68-script compile이 GREEN이다.
+- 공개 M01~M06, `project.godot`, 30억 `instant_legend`, 원본 slot 01·02와 직전 두
+  경로의 통과점은 변경 0이다. 직전 Property GO는 역사 증거이며 새 제품에는 승계하지
+  않는다.
+- `chapter5_finale_rc`는 exact 후보 식별을 위해 active지만 GO가 아니다. 전역 사건을
+  바꿨으므로 property와 `general_near_goal_father_passed`를 같은 후보에서 KO 정상
+  속도로 M49→M60→후일담→크레딧 6/6까지 모두 다시 플레이한다. 두 gate와 사용자
+  최종 GO는 OPEN이며 full·main·product는 HOLD다.

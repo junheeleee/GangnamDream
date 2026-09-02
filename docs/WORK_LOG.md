@@ -18,6 +18,27 @@
 > [`7/25`](history/WORK_LOG_2026-07-25.md)에 손실 없이 보존한다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
 
+## 2026-09-02 (Codex — ORDER-150 지갑 동의 재플레이 후보 발급)
+
+- 새 제품은 `236b233a5646d58cac74672cd7a903d55b58dec5`, tree
+  `15d2d2901c449912d09c2f7b85729b0fdc324ad1`, source manifest SHA-256
+  `8169f3187cc9c760d7cc3a2bc7cdce7b53cca3e08ecb8bc56b74337c8d976119`다.
+- 지갑 반환 당일에는 분실물 접수 영수증만 남긴다. 8주 뒤 `chain_exec_meal`은
+  초대에 답하는 화면상 선택이며, 수락할 때 민준이 가능한 토요일을 보내고 상대가
+  토요일 12:30·강남 식당을 회신한 뒤 민준이 확인해야만 별도
+  `chain_exec_meal_arrival`로 들어간다. 거절은 날짜·장소·달력·동석·도착을 만들지 않는다.
+- KO/EN, lifecycle·exposed state·연출/오디오·release/번역/볼륨 파생 원장을 함께
+  맞췄다. 전체 `tools/audit.sh`, 실제 StoryMode 초대→수락→도착 및 거절→무도착,
+  Chapter 5 정적 self-test 29·Godot, Year 5 178, Chapter 1 478, 68-script compile이
+  GREEN이다.
+- 공개 M01~M06 제품·번역·`project.godot`, 30억 즉시엔딩, 원본 slot 01·02와 두
+  경로의 앞선 통과점은 변경하지 않았다. 직전 Property GO는 역사 증거일 뿐 새
+  제품에 승계하지 않는다.
+- `chapter5_finale_rc`는 active 식별자일 뿐 GO가 아니다. 전역 rare chain 변경이므로
+  property와 `general_near_goal_father_passed`를 같은 새 후보에서 KO 정상 속도로
+  M49→M60→후일담→크레딧 6/6까지 모두 다시 플레이한다. 두 사람 gate와 사용자 최종
+  GO는 OPEN이며 full·main·product는 HOLD다.
+
 ## 2026-09-02 (Codex — ORDER-150 지갑 약속 동의 수리 선언)
 
 - exact wrapper `390d786f7df711d34f7ad61d4abf4d6fc1bfe77f` / 제품
@@ -462,25 +483,3 @@
   모든 정점 회상·재미·언어·실물 입력 GO가 아니며 30억 `instant_legend`는 보존했다.
 - 다음은 M49~M55의 인물·계약·선택 영수증을 먼저 연결하고 M56~M60의 마지막
   actor/signature를 잇는다. 사건 수나 10비트 할당량이 아니라 각 인과 기능으로 닫는다.
-
-## 2026-08-26 (Codex — Chapter 4 선택·아버지 단일 시간선)
-
-- M39~M48의 약속·진료·식탁·이름·청구·마지막 연락을 화면 밖 행동이 아니라
-  StoryMode에서 직접 고르는 행동으로 옮기고, W157 표적 비용과 W193 첫 결산까지
-  exact receipt로 연결했다. 같은 주 AP·효과·달력은 두 번 진행되지 않는다.
-- W188의 생존/별세는 약물 확인·실제 임상 접근·M46 병동 조정 중 2개 이상만
-  읽는다. 방문·통화·놓침은 관계 영수증이고 생사를 쓰지 않는다. 옛 passing receipt,
-  canonical flag, passed cast 중 하나라도 있으면 사망은 단조이며 모순 저장은
-  아버지를 부활시키거나 장면 효과를 두 번 적용하지 않는다.
-- author-only 25편을 제품에 연결해 packaged/shipping/author-only가
-  `1786/1656/130`이 됐다. KO/EN·시각·오디오·등급 원장을 맞추고 33세·1장의
-  30억 `instant_legend`, 엔딩 35 ID·CG·15 route, 서명 coda 72/33은 보존했다.
-- 구현 `3b275a913053412a3e2ff52fc9588d71d3a9bb37` / tree
-  `9bc154b5b3cc534565fd66265183c7a0682e5b50`, 전체 감사 수리
-  `2ec3a381722d7ba209d597c2a662a7546aa7cdb1` / tree
-  `8ab3953c31335e306835fafdc8e694333629db16` 뒤 476 변이, Chapter 4·저장·
-  24→48주 인계·CG·JA/ZH 검사를 통과했고 마감 전체 감사도 failure flag 0과
-  `✅ 감사 통과`로 끝났다. 자동 GREEN은 사람 재미 GO가 아니다.
-- 다음 제품 P1은 갤러리 20루트가 현재 런이 아니라 최초 관람 당시 이름·연도·
-  도덕·주거·기억·선택을 재생하도록 고정하는 일이다. 그 뒤 M49~M60의 actor·문서·
-  대화 영수증과 마지막 주 binding을 잇는다.

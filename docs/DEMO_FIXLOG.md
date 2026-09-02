@@ -3,6 +3,29 @@
 > 체제: 유저 실플레이 라운드 → 노트 원문 → Claude 진단 → 수리 오더 → 재플레이.
 > 유저 노트는 편집 없이 원문 보존(느낌 그대로가 데이터다).
 
+### Chapter 5 지갑 동의 재플레이 후보 (2026-09-02 — `236b233`)
+
+**후보:** 제품 `236b233a5646d58cac74672cd7a903d55b58dec5`, tree
+`15d2d2901c449912d09c2f7b85729b0fdc324ad1`, source manifest SHA-256
+`8169f3187cc9c760d7cc3a2bc7cdce7b53cca3e08ecb8bc56b74337c8d976119`다. 이 항목을
+담는 review wrapper는 제품의 문서 전용 직계 자식이며 런타임 diff가 0이어야 한다.
+
+**수리:** 지갑 반환과 식사 약속을 분리했다. 초대 화면에서 민준이 수락하면 가능한
+토요일을 보내고, 지갑 주인이 토요일 12:30·강남 식당을 회신하며, 민준이 이를
+확인한 뒤에만 별도 식당 도착 장면이 열린다. 거절하면 감사만 보내고 날짜·장소·
+달력·동석·후속 도착은 생기지 않는다. KO/EN이 같은 구조를 쓴다.
+
+**자동 증거:** 전체 감사, 실제 StoryMode 초대→수락→도착 및 거절→무도착,
+Chapter 5 정적 self-test 29·Godot 런타임, Year 5 178, Chapter 1 478, 전체
+68-script compile이 GREEN이다. 공개 M01~M06·`project.godot`·30억 즉시엔딩은
+변경 0이다.
+
+**사람 게이트:** 자동 GREEN은 GO가 아니다. 지갑 사건은 두 경로에 전역 도달하므로
+직전 제품의 Property GO는 역사 증거로만 남긴다. 같은 새 후보에서 property와
+`general_near_goal_father_passed`를 KO 정상 속도로 M49→M60→후일담→크레딧 6/6까지
+모두 다시 완주하기 전에는 두 gate와 사용자 최종 GO가 OPEN이고
+full·main·product는 HOLD다.
+
 ### Chapter 5 Property GO · general REJECT (2026-09-02 — `2e768643`)
 
 **최종 인간 판정:** 검토 wrapper
