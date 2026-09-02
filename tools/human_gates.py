@@ -401,7 +401,21 @@ def _scope_label(gate: dict) -> str:
     return f"{', '.join(scope.get('blocks', []))} · {scope.get('content', '')}"
 
 
-def _delegated_review_lines(gate: dict) -> list[str]:
+def _review_matches_active_candidate(
+        ledger: dict, gate: dict, review: dict) -> bool:
+    """A delegated verdict applies only to the exact active candidate it reviewed."""
+    revision_id = gate.get("revision")
+    candidates = ledger.get("release_candidates", {})
+    candidate = candidates.get(revision_id, {}) if isinstance(candidates, dict) else {}
+    return (
+        isinstance(candidate, dict)
+        and candidate.get("status") == "active"
+        and review.get("commit") == candidate.get("commit")
+        and review.get("tree") == candidate.get("tree")
+    )
+
+
+def _delegated_review_lines(ledger: dict, gate: dict) -> list[str]:
     reviews = gate.get("delegated_reviews", [])
     if not isinstance(reviews, list) or not reviews:
         return []
@@ -422,8 +436,24 @@ def _delegated_review_lines(gate: dict) -> list[str]:
         label = "전량 반려"
     else:
         label = "판정 오류"
+    if _review_matches_active_candidate(ledger, gate, review):
+        return [
+            f"판정: Claude(사용자 위임) — {label}",
+            "정본 서명: 사용자 최종 GO 대기",
+        ]
+
+    revision_id = gate.get("revision")
+    candidates = ledger.get("release_candidates", {})
+    candidate = candidates.get(revision_id, {}) if isinstance(candidates, dict) else {}
+    reviewed_ref = str(review.get("commit", ""))[:8] or "신원 없음"
+    active_ref = (
+        str(candidate.get("commit", ""))[:8]
+        if isinstance(candidate, dict) and candidate.get("status") == "active"
+        else "재빌드 대기"
+    )
     return [
-        f"판정: Claude(사용자 위임) — {label}",
+        f"이전 후보 {reviewed_ref} 판정 · 현재 후보에 미적용 — {label}",
+        f"현재 후보 {active_ref}: 사람 판정 대기",
         "정본 서명: 사용자 최종 GO 대기",
     ]
 
@@ -440,7 +470,7 @@ def print_pending(domain: str, indent: str = "  ") -> None:
             f"{indent}  · {gate.get('gate', '<이름 없음>')}  "
             f"[{gate.get('owner', '?')} · {_candidate_label(ledger, gate)}]"
         )
-        for line in _delegated_review_lines(gate):
+        for line in _delegated_review_lines(ledger, gate):
             print(f"{indent}    {line}")
 
 
@@ -483,7 +513,7 @@ def main() -> int:
             print(f"    · {gate['gate']}  [{gate['owner']}]")
             print(f"      범위 — {_scope_label(gate)}")
             print(f"      후보 — {_candidate_label(ledger, gate)}")
-            for line in _delegated_review_lines(gate):
+            for line in _delegated_review_lines(ledger, gate):
                 print(f"      {line}")
             sample = gate["sample"]
             print(f"      표본 — {sample['cohort']}: {' / '.join(sample['requirements'])}")

@@ -682,7 +682,21 @@ def human_gate_delegated_label(review: dict) -> str:
     return "판정 오류"
 
 
-def human_gate_delegated_review(gate: dict) -> str:
+def human_gate_review_matches_candidate(
+        ledger: dict, gate: dict, review: dict) -> bool:
+    """Return true only when the review and active candidate share exact identity."""
+    candidates = ledger.get("release_candidates", {})
+    revision_id = gate.get("revision")
+    candidate = candidates.get(revision_id, {}) if isinstance(candidates, dict) else {}
+    return (
+        isinstance(candidate, dict)
+        and candidate.get("status") == "active"
+        and review.get("commit") == candidate.get("commit")
+        and review.get("tree") == candidate.get("tree")
+    )
+
+
+def human_gate_delegated_review(ledger: dict, gate: dict) -> str:
     reviews = gate.get("delegated_reviews", [])
     if not isinstance(reviews, list) or not reviews or not isinstance(reviews[-1], dict):
         return ""
@@ -690,13 +704,31 @@ def human_gate_delegated_review(gate: dict) -> str:
     label = human_gate_delegated_label(review)
     record = str(review.get("record", "")).strip()
     record_line = f"<br><sub>{md_escape(record)}</sub>" if record else ""
+    if human_gate_review_matches_candidate(ledger, gate, review):
+        headline = f"판정: Claude(사용자 위임) — {md_escape(label)}"
+        status_line = "정본 서명: 사용자 최종 GO 대기"
+    else:
+        candidates = ledger.get("release_candidates", {})
+        revision_id = gate.get("revision")
+        candidate = candidates.get(revision_id, {}) if isinstance(candidates, dict) else {}
+        reviewed_ref = str(review.get("commit", ""))[:8] or "신원 없음"
+        active_ref = (
+            str(candidate.get("commit", ""))[:8]
+            if isinstance(candidate, dict) and candidate.get("status") == "active"
+            else "재빌드 대기"
+        )
+        headline = (
+            f"이전 후보 {md_escape(reviewed_ref)} 판정 · 현재 후보에 미적용 — "
+            f"{md_escape(label)}"
+        )
+        status_line = f"현재 후보 {md_escape(active_ref)}: 사람 판정 대기"
     return (
-        f"<br><strong>판정: Claude(사용자 위임) — {md_escape(label)}</strong>"
-        f"{record_line}<br><sub>정본 서명: 사용자 최종 GO 대기</sub>"
+        f"<br><strong>{headline}</strong>"
+        f"{record_line}<br><sub>{status_line} · 정본 서명: 사용자 최종 GO 대기</sub>"
     )
 
 
-def human_gate_delegated_review_html(gate: dict) -> str:
+def human_gate_delegated_review_html(ledger: dict, gate: dict) -> str:
     reviews = gate.get("delegated_reviews", [])
     if not isinstance(reviews, list) or not reviews or not isinstance(reviews[-1], dict):
         return ""
@@ -704,10 +736,27 @@ def human_gate_delegated_review_html(gate: dict) -> str:
     label = html.escape(human_gate_delegated_label(review))
     record = str(review.get("record", "")).strip()
     record_line = f'<br><span style="color:var(--faint)">{html.escape(record)}</span>' if record else ""
+    if human_gate_review_matches_candidate(ledger, gate, review):
+        headline = f"판정: Claude(사용자 위임) — {label}"
+        status_line = "정본 서명: 사용자 최종 GO 대기"
+    else:
+        candidates = ledger.get("release_candidates", {})
+        revision_id = gate.get("revision")
+        candidate = candidates.get(revision_id, {}) if isinstance(candidates, dict) else {}
+        reviewed_ref = str(review.get("commit", ""))[:8] or "신원 없음"
+        active_ref = (
+            str(candidate.get("commit", ""))[:8]
+            if isinstance(candidate, dict) and candidate.get("status") == "active"
+            else "재빌드 대기"
+        )
+        headline = (
+            f"이전 후보 {html.escape(reviewed_ref)} 판정 · 현재 후보에 미적용 — {label}"
+        )
+        status_line = f"현재 후보 {html.escape(active_ref)}: 사람 판정 대기"
     return (
-        f"<br><strong>판정: Claude(사용자 위임) — {label}</strong>"
+        f"<br><strong>{headline}</strong>"
         f"{record_line}<br><span style=\"color:var(--faint)\">"
-        "정본 서명: 사용자 최종 GO 대기</span>"
+        f"{status_line} · 정본 서명: 사용자 최종 GO 대기</span>"
     )
 
 
@@ -784,7 +833,7 @@ def markdown() -> str:
         verdict = (
             f"**{md_escape(g.get('gate', '이름 없음'))}**<br>"
             f"<sub>{md_escape(g.get('why', ''))}</sub>"
-            f"{human_gate_delegated_review(g)}"
+            f"{human_gate_delegated_review(gate_ledger, g)}"
         )
         sample = md_escape(human_gate_sample(g, "<br>"))
         acceptance = md_escape(human_gate_acceptance(g, "<br>"))
@@ -1003,7 +1052,7 @@ def build() -> str:
         f'<tr><td>{html.escape(human_gate_scope(gate))}</td>'
         f'<td><strong>{html.escape(str(gate.get("gate", "이름 없음")))}</strong><br>'
         f'<span style="color:var(--faint)">{html.escape(str(gate.get("why", "")))}</span>'
-        f'{human_gate_delegated_review_html(gate)}</td>'
+        f'{human_gate_delegated_review_html(gate_ledger, gate)}</td>'
         f'<td><span class="pill {"run" if "ACTIVE" in human_gate_candidate(gate_ledger, gate) else "todo"}">'
         f'{html.escape(human_gate_candidate(gate_ledger, gate))}</span></td>'
         f'<td>{html.escape(human_gate_sample(gate)).replace(" · ", "<br>")}</td>'
