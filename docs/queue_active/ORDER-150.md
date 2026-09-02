@@ -117,6 +117,11 @@ gambling·sexuality·fear·crime 축 해시를 필연적으로 바꾸고, `audit
 `tools/chapter1_core_loop_v2_causal_ledger_check.py`의 exact source receipt만 갱신한다.
 Chapter 1 의미 맵·부채 기준선·24/48·missing 24·debt 8은 불변이다.
 
+**[scope expansion 4 선언 · 제품 커밋 전]:** 동적 주거 source registry 도입 뒤
+`tools/zh_translation_audit.py`의 기존 self-test가 더는 그 위치에 없는 `고시원`을
+삭제해 변형을 만들지 못한다. 현재 format partition에 남은 주거 키를 지우는 exact
+한 줄 반례로 교체해, ZH 본검사 통과와 별개로 manifest 누락 탐지가 살아 있게 한다.
+
 같은 JSON에 통과점이 있으면 exact root/field만 수정한다. 공개 M01~M06 사건·자산,
 `content/meta/demo_core_loop_v2.json`, `project.godot`, full 경제·밸런스, 엔딩
 라우팅, save handoff adapter는 비소유다.
