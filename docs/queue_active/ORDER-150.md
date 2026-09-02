@@ -142,3 +142,19 @@ Chapter 1 의미 맵·부채 기준선·24/48·missing 24·debt 8은 불변이�
   후보에서 두 경로 M49~M60 정상 속도 실제 플레이를 다시 받는다. 하나라도 실패하면
   candidate는 `waiting_rebuild`, gate는 `open`, 제품은 HOLD다. 최종 사용자의
   `user_final: GO` 전에는 gate를 `done`으로 바꾸지 않는다.
+
+## 2026-09-02 제품 후보 발급
+
+- 제품 commit `2e768643e53c5dbe84a864fcf3c0ba27e3c5501d`, tree
+  `d246184955ad60af3eb4de41907b58afde9756da`, source manifest SHA-256
+  `6ac6f969f235787871c9d41dbbf98e8ca390c8a1ef2968b26ff23b26bf4d39f2`다.
+  이 문서 변경 커밋은 제품의 docs-only 직계 자식이며 런타임 diff가 0이어야 한다.
+- 전체 `tools/audit.sh`가 최종 제품 바이트에서 통과했다. Chapter 5 인간 REJECT
+  정적 self-test 25·Godot 런타임, Year 5 self-test 174, Chapter 1 self-test 478,
+  영어 런타임 한글 후보 0, JA 69, ZH 273, 전체 68-script compile이 GREEN이다.
+- 공개 M01~M06, `project.godot`, callback 51 KO/EN, 30억 `instant_legend`, 경제
+  housing·threshold는 제품 부모 대비 변경 0이다. BGM 종료 경고는 반려 기준본과
+  정규화 diff 0인 QA teardown 노이즈이며 새 제품 누수가 아니다.
+- `chapter5_finale_rc`는 exact 후보 식별을 위해 active지만 GO가 아니다. property와
+  `general_near_goal_father_passed`를 같은 후보에서 KO 정상 속도로 M49→M60→후일담→
+  크레딧 6/6까지 다시 플레이하고, 두 gate와 사용자 최종 GO는 OPEN으로 둔다.

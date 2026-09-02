@@ -31,11 +31,11 @@
       "note": "BUILD 2026.08.31.1 macOS 공개 M01~M06 story-first 후보가 active이며 범위·구조·사용자 체험은 최종 GO다. package source는 362578d8f4c0781fe35f643a74cc3037e7a80b21 / tree e7f50b065b3369afa1894df8292756a95f94fd11, 제품은 4e80a63e89821094b8bab21b8d5c73ecfc9b6278 / tree 0fdddf11e2ef030cd172d23e691e3d7da4ea29ff, 별도 review wrapper는 d149ce65a0cb397fe4d18cc9932561f828405dce다. manifest SHA-256 50eed10b18c2c2b056f875a8df55230dc07b5535c55e59ddb89fff1d64e91870, app tree 56a4f2997256e68baa21c02807fcf1f0e995ce114f57f96f26d309b300b7ec14, ZIP 956ac93524df6030ef984521550cec7dddafea381387a3df52194e43f5e61289다. KO·EN·JA·zh-CN·zh-TW 14사건·100 leaf·도달 UI 121과 JP/SC/TC 전용 primary font·OFL을 고정했다. 실제 StoryMode clean/ko 9, restitution/en 10, escalation/zh-CN 10 영수증 경로가 각각 M01~M06·24주·정산 6·수동 저장·별도 프로세스 cold restart exact resume·overlay/input clear·AP 원장 0으로 통과했고, BUILD 2026.08.25.1의 M2 저장 복사본도 원본 변경 없이 이어졌다. 사용자 최종 GO는 M01~M06 범위와 StoryMode 구조를 닫았고 JA·zh-CN·zh-TW 원어민 출시 claim 세 건만 별도 OPEN이다. main과 본편 이관은 HOLD이며 저장 호환 AP 데이터·엔진 삭제 GO가 아니다."
     },
     "chapter5_finale_rc": {
-      "status": "waiting_rebuild",
-      "commit": null,
-      "tree": null,
-      "manifest_sha256": null,
-      "note": "2026-09-02 실제 Studio Display·Godot 4.6.2·1280x800·KO 정상 속도 재플레이에서 property와 general_near_goal_father_passed가 모두 M49→M60→후일담→크레딧 6/6까지 완주했지만 REJECT됐다. 반려 제품은 83d3f350de0900ce050277d6da1331940d1872a3 / tree 97f81c70c11452ef851b4cb0646c5e557544fd93 / source manifest 6bc13de7c252d457ad36dcd5bfa18c634f51c7f41c40b5e6ec6450e521c835ca이고 검토 wrapper는 84b6498d7f1b69e8bcef5bc51880b3ed9b726435 / tree 9cea887f14b6b4043854cbce0010bf1e9696330d다. property의 결혼 뒤 고시원 회귀·달력 역전·화자 오표기·낡은 tutorial/자산 문구와 general의 민서 물리 동석·허위 읽음/답장/일정 확정·legacy 장면 재진입·중복 표면을 새 후보에서 고쳐야 한다. W207/W230/W237/W240, M55 복장, 무이체·무소유·무응답, 검은 화면·잘림·crash 0, 원본 slot 01·02 hash는 보존한다. 새 제품 commit/tree/manifest 전까지 두 사람 게이트는 OPEN, full·main·product는 HOLD다. 공개 story_demo_rc M01~M06 GO는 불변이다."
+      "status": "active",
+      "commit": "2e768643e53c5dbe84a864fcf3c0ba27e3c5501d",
+      "tree": "d246184955ad60af3eb4de41907b58afde9756da",
+      "manifest_sha256": "6ac6f969f235787871c9d41dbbf98e8ca390c8a1ef2968b26ff23b26bf4d39f2",
+      "note": "ORDER-150의 새 exact Chapter 5 사람 재플레이 후보가 active다. 제품 2e768643e53c5dbe84a864fcf3c0ba27e3c5501d / tree d246184955ad60af3eb4de41907b58afde9756da / source manifest 6ac6f969f235787871c9d41dbbf98e8ca390c8a1ef2968b26ff23b26bf4d39f2이며 이 문서 전용 직계 자식이 review wrapper다. 결혼 완료 뒤 공동 주거 표현과 이혼 복귀, 단조 달력, 실제 화자·원격 민서, 무읽음·무답장·무일정확정, 후기 legacy ingress 차단, SNS 삭제 고유성, credits 1/6·장면 n/3 병기와 KO/EN 주거명 5상태를 수리했다. 전체 audit, Chapter 5 정적 25·Godot 런타임, Year 5 174, Chapter 1 478, 영어 누수 0, JA 69, ZH 273, 68-script compile이 GREEN이다. 자동 검사는 사람 판정이 아니다. property와 general_near_goal_father_passed를 같은 exact 후보에서 KO 정상 속도로 M49→M60→후일담→크레딧 6/6까지 다시 플레이하기 전에는 두 gate가 OPEN이고 full·main·product는 HOLD다. W207/W230/W237/W240, M55 복장, 무이체·무소유·무응답, 원본 slot 01·02와 공개 story_demo_rc M01~M06 GO는 불변이다."
     },
     "full_rc": {
       "status": "active",

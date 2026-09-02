@@ -3,6 +3,27 @@
 > 체제: 유저 실플레이 라운드 → 노트 원문 → Claude 진단 → 수리 오더 → 재플레이.
 > 유저 노트는 편집 없이 원문 보존(느낌 그대로가 데이터다).
 
+### Chapter 5 ORDER-150 exact 재플레이 후보 (2026-09-02 — `2e768643`)
+
+**후보:** 제품 `2e768643e53c5dbe84a864fcf3c0ba27e3c5501d`, tree
+`d246184955ad60af3eb4de41907b58afde9756da`, source manifest SHA-256
+`6ac6f969f235787871c9d41dbbf98e8ca390c8a1ef2968b26ff23b26bf4d39f2`다. 이 항목을
+담은 문서 전용 직계 자식이 review wrapper이며 제품과 런타임 diff는 0이어야 한다.
+
+**수리:** 결혼 완료 뒤 공동 주거 표현과 이혼 복귀, W193→W240 달력 단조성, 실제
+화자·원격 민서, 무읽음·무답장·무일정확정, 오래된 현수/카지노/직장/마진콜/SNS
+재진입 차단, credits `1/6 · 장면 n/3`, KO/EN 주거명 5상태를 닫았다. W207/W230/
+W237/W240, M55 블레이저, 무이체·무소유·무응답과 30억 즉시엔딩은 보존했다.
+
+**자동 증거:** 전체 감사, Chapter 5 정적 self-test 25·Godot 런타임, Year 5 174,
+Chapter 1 478, 영어 런타임 한글 후보 0, JA 69, ZH 273, 전체 68-script compile이
+GREEN이다. 공개 M01~M06·`project.godot`·callback 51 KO/EN은 변경 0이다.
+
+**사람 게이트:** 자동 GREEN은 GO가 아니다. 같은 exact 후보에서 property와
+`general_near_goal_father_passed`를 KO 정상 속도로 M49→M60→후일담→크레딧 6/6까지
+다시 완주하기 전에는 `chapter5_finale_rc` 두 gate와 사용자 최종 GO가 OPEN이고
+full·main·product는 HOLD다.
+
 ### Chapter 5 두 경로 실제 디스플레이 REJECT (2026-09-02 — `83d3f350`)
 
 **사용자 전달 판정:** “Property: REJECT / General: REJECT / 전체판: REJECT.”

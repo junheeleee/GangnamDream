@@ -18,43 +18,24 @@
 > [`7/25`](history/WORK_LOG_2026-07-25.md)에 손실 없이 보존한다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
 
-## 2026-09-02 (Codex — Chapter 5 실제 플레이 REJECT 수리 착수)
+## 2026-09-02 (Codex — ORDER-150 exact 재플레이 후보 발급)
 
-- origin의 Claude 브랜치가 같은 기준점에서 `ORDER-148`과 프롤로그용
-  `ORDER-149`를 먼저 발급한 것을 확인했다. 두 오더를 보존하기 위해 이 5장
-  수리의 번호만 `ORDER-150`으로 재등록했으며 제품 범위와 게이트는 불변이다.
-- `ORDER-148`은 이 수리와 원고 5쌍·정적 검사 소유가 겹치므로 ORDER-150 exact
-  제품 뒤에 다시 계측하도록 잠갔다. Claude의 248/32/53/69 수치는 역사 증거로
-  보존하되 새 제품에 할당량처럼 적용하지 않는다. 프롤로그 `ORDER-149`는 제품
-  파일이 겹치지 않으며 그대로 보존한다.
-- exact wrapper `84b6498d7f1b69e8bcef5bc51880b3ed9b726435` / 제품
-  `83d3f350de0900ce050277d6da1331940d1872a3`에서 property와 general을 실제
-  Studio Display·Godot 4.6.2·1280×800·KO 정상 속도로 M49→M60→후일담→
-  credits 6/6까지 완주한 위임 판정을 받았다. 두 경로 모두 REJECT이며 후보를
-  `waiting_rebuild`, 두 gate를 `open`, full·main·product를 HOLD로 기록했다.
-- property는 결혼 뒤 고시원 회귀·달력 역전·화자 오표기·낡은 W193 tutorial과
-  20억/25억 문구가 막았고, general은 민서 물리 동석·허위 읽음/답장/일정 확정,
-  오래된 현수/카지노/직장/마진콜 장면의 5장 첫 진입, 시간·화자·SNS 중복이 막았다.
-- W207/W230/W237/W240, M55 복장, 무이체·무소유·무응답, 결말과 credits 6/6,
-  검은 화면·잘림·crash 0은 통과점으로 동결했다. 첫 credits page는 유실이 아니라
-  page 0의 `장면 n/3`이 전체 `1/6`을 덮는 표기 결함으로 확정했다.
-- ORDER-150을 20단위 표적 수리로 선언했다. 공개 M01~M06 사용자 GO, 30억
-  `instant_legend`, AP 행동판 0, 경제·엔딩 threshold, 원본 slot hash와
-  `project.godot`은 건드리지 않는다.
-- 구현 중 기존 SNS 약속 선택이 실제 동의 없이 `startup_collab_joined`를 생산하던
-  숨은 상태 결함을 확인했다. 새 런은 제안 사실만 남기고, 기존 저장의 실제 협업
-  callback reader는 보존한다. 이를 임의 플래그 예외로 넓히지 않도록 exact reader
-  검사와 visual/audio/year5 회귀 파일을 제품 커밋 전 추가 소유 범위로 선언했다.
-- M51의 물리 대면을 원격 메시지로 바꾼 사실을 W224가 다시 물리 대면으로 부르지
-  않게 하는 KO/EN `arc_year3_drama.json`의 exact 결과 한 줄도 같은 선언 범위에
-  포함했다.
-- 첫 전체 회귀에서 심의 원장 네 축·생성 보고서·전체 런 source seal과, 결혼 전에
-  공동 주거를 주입하던 Y1 simulator fixture가 낡은 것을 확인했다. 해당 원장·보고서·
-  추적기·simulator를 파생 갱신 범위로 제품 커밋 전에 추가 선언했다.
-- 같은 감사에서 MainGame 신규·교체 UI 17키와 동적 주거명 5키의 수집 누락, Chapter 1
-  감사의 파일 지문 drift도 잡았다. 수집기·현지화 manifest·JA 17키·exact source
-  receipt를 scope expansion 3으로 등록했다. 공개 M01~M06 번역과 Chapter 1 의미·부채
-  원장은 불변이다.
+- 실제 디스플레이에서 둘 다 REJECT였던 제품 `83d3f350`을 기준으로, 결혼 뒤 주거
+  회귀·달력 역전·화자 오표기·resume tutorial·고정 자산 문구와 general의 민서
+  물리 동석·허위 외부 반응·후기 legacy 재진입·SNS 중복·credits 표기를 표적 수리했다.
+- 새 제품은 `2e768643e53c5dbe84a864fcf3c0ba27e3c5501d`, tree
+  `d246184955ad60af3eb4de41907b58afde9756da`, source manifest
+  `6ac6f969f235787871c9d41dbbf98e8ca390c8a1ef2968b26ff23b26bf4d39f2`다.
+- 전체 감사가 통과했다. Chapter 5 정적 25·Godot, Year 5 174, Chapter 1 478,
+  영어 누수 후보 0, JA 69, ZH 273, 68-script compile이 GREEN이다. 주거 KO/EN
+  이름은 ID별 인접 쌍으로 바꿔 영어 감사를 예외 없이 통과시켰다.
+- W207/W230/W237/W240, M55 복장, 무이체·무소유·무응답, 30억 즉시엔딩과 공개
+  M01~M06 바이트는 보존했다. BGM 경고는 기준본과 동일한 QA 종료 노이즈다.
+- Claude의 ORDER-148·149를 보존하고 이 수리를 ORDER-150으로 등록했다. 148은 이
+  exact 제품의 사람 재플레이 뒤 재계측하고 149는 그다음이다.
+- 후보는 active 식별자일 뿐 GO가 아니다. property와
+  `general_near_goal_father_passed`의 KO 정상 속도 M49→M60→후일담→크레딧 6/6
+  재플레이, 두 사람 gate와 사용자 최종 GO는 OPEN이며 full·main·product는 HOLD다.
 ## 2026-09-02 (Claude — 탐색 2라운드·P-18 결정·ORDER-149)
 
 - **탐색 2라운드는 결함 0이다.** 선언 엔딩 35개 전부가 런타임·사건·메타 중 최소
