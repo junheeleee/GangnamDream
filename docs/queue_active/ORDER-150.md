@@ -45,28 +45,16 @@
    보였지만 내부 `장면 n/3` 표기가 전체 `1/6`을 덮었다. 입력 흐름은 유지하고 두
    진행도를 함께 보여 준다.
 
-## 20단위 구현·검증
+## 기존 수리 회귀 묶음
 
-1. 결혼식 완료 뒤 다은과 사는 작은 서울 신혼집을 경제 소유권과 분리된 presentation home으로 저장·복구한다.
-2. `current_housing` 배경과 주간 주거 문장은 같은 effective home을 읽고 결혼 뒤 고시원으로 회귀하지 않는다.
-3. 신규 자산·현금·부채·월세·등기·소유권을 발명하지 않고 기존 경제 housing 값과 계산은 보존한다.
-4. `final_last_winter`의 eligibility와 12월·마지막 달 산문을 실제 달력에 맞춰 December→September 역전을 막는다.
-5. W193→W240과 cold reload에서 HUD·월명·남은 기간의 단조 진행을 표적 검사한다.
-6. W193 이후 저장에서는 33세·50만원 신규게임 tutorial을 재노출하지 않고 W1 onboarding은 유지한다.
-7. 20억·25억 milestone의 고정 현재형을 실제 자산·도달 시점에 안전한 동적/회고 문장으로 바꾼다.
-8. `anxiety_pension_crisis`의 2055년 나이를 현재 나이와 모순 없이 고치고 후기 진입 계약을 잠근다.
-9. property의 의사·재혁 메시지·재혁 통화가 민준 명패로 보이지 않도록 channel/participants/nameplate를 명시한다.
-10. general의 상사·카지노 지배인·중개사 등 직접 인용이 민준 발화로 오인되지 않도록 같은 표현 계약을 적용한다.
-11. `arc_minseo_03_arrival`을 원격 채널로 바꾸고 M51·W220·W240의 민서 회수를 모두 무동석·무초상으로 정렬한다.
-12. `callback_hoesik_left_early_office`의 읽음·답장을 제거하고 민준의 단방향 발신까지만 남긴다.
-13. `cb_grace_echo`의 상대 시간 선택·달력 확정을 제거하고 민준이 제안 가능한 시각까지만 남긴다.
-14. `shadow_old_promise`의 자동 SNS 답장을 제거하고 `sns_detoxed` 뒤 DM 재진입을 막는다.
-15. `hyunsu_study_together`가 현수의 실패·전환 뒤 5장 고시원 첫 장면으로 재진입하지 않게 lifecycle을 닫는다.
-16. `casino_chip_exchange`와 `amb_credit_steal_00`의 초기 장면이 5장에서 처음 열리지 않게 수명·해결 조건을 닫는다.
-17. 실제 leverage가 없는 `debt_invest_margin_call`을 5장 pool에서 제외하고 합법 초기 상태 도달은 보존한다.
-18. `sns_detoxed` 뒤 `godsaeng_start`·SNS 피드·DM이 재등장하지 않게 하여 W240 실제 삭제의 고유성을 보존한다.
-19. 반복 압박 제목과 `이번 주는 그 선택의 모양으로 닫혔다`를 현재 물리 결과에 맞는 KO/EN 표면으로 교정한다.
-20. 결말 page 0의 세 beat에 `1/6 · 장면 n/3`을 함께 표시하고 2/6→6/6·뒤로 가기 순서를 잠근다.
+- 결혼 뒤 신혼집 presentation과 경제 housing을 분리하고, W193→W240·cold reload의
+  달력·나이·HUD·월명·남은 기간이 역행하지 않게 한다. W1 tutorial만 유지한다.
+- property/general의 외부 화자·원격 민서·별세한 아버지를 channel·participants·
+  nameplate·portrait와 일치시키고 허위 동석·읽음·답장·일정 확정을 만들지 않는다.
+- 후기 최초 진입이 금지된 현수·카지노·직장·마진콜·SNS 장면의 lifecycle을 닫고,
+  W240 실제 삭제의 고유성을 보존한다.
+- 20억·25억·2055년·반복 압박 문구를 실제 상태에 맞추되 경제식·소유권·이체를
+  발명하지 않는다. 결말은 `1/6 · 장면 n/3`부터 6/6까지 순서를 잠근다.
 
 ## 반드시 보존할 통과점
 
@@ -173,6 +161,12 @@ StoryMode 표면에서도 초대→플레이어 선택→결과→식당 도착 
 도착 root로 runtime exposed closure가 536→537이 되므로
 `tools/exposed_state_consistency_audit.py`의 exact count 래칫만 함께 갱신한다.
 둘 다 제품 선택·스토리·경제 규칙을 더하지 않는 검증 코드다.
+
+**[scope expansion 10 선언 · 제품 커밋 전]:** Chapter 1 인과 원장이 감사 대상 파일
+전체의 exact byte receipt도 겸하므로, 위에서 이미 선언한
+`tools/StoryPlaybackCheck.gd`와 `content/meta/release_content_inventory.json`의
+새 지문만 `tools/chapter1_core_loop_v2_causal_ledger_check.py`에 갱신한다. Chapter 1
+48행·선택·coverage·공개 데모 바이트와 의미 원장은 바꾸지 않는다.
 
 같은 JSON에 통과점이 있으면 exact root/field만 수정한다. 공개 M01~M06 사건·자산,
 `content/meta/demo_core_loop_v2.json`, `project.godot`, full 경제·밸런스, 엔딩
