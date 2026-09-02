@@ -97,7 +97,7 @@
 
 | ID | 제목 | 상태 | 현재 게이트 |
 |---|---|---|---|
-| `ORDER-150` | Ch5 human REJECT 수리 | 진행 | candidate active 2e768643 · 두 replay OPEN · HOLD |
+| `ORDER-150` | Ch5 human REJECT 수리 | 진행 | Property GO · general REJECT · candidate waiting_rebuild · 두 replay OPEN · HOLD |
 | `ORDER-148` | 5장 종막의 부정 종결 습관을 푼다(사실은 유지) | 미착수 | ORDER-150 exact 제품 뒤 재계측 · 금지 사실은 한 건도 삭제 금지 · 선행 대기 |
 | `ORDER-149` | 프롤로그 세 비트가 같은 속도로 지나가는 문제를 푼다 | 미착수 | P-18 1층만 · FADE_SECONDS 0.52 하나를 세 비트가 공유·hold 3.10/3.10/3.00 · 새 자산 0 · 미착수 |
 | `ORDER-147` | runtime identity | 진행 | matrix GREEN · human REJECT |

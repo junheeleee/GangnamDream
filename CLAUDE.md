@@ -12,12 +12,12 @@
 | 상품 정의 | **"나는 민준이다. 눈앞의 사람·돈·몸 사이에서 실제로 무엇을 할지 고르고, 흐른 시간 속에서 그 대가를 산다."** 240주를 카드 목록이 아니라 한 편의 소설·영화처럼 인과·장면·연기·전환·여운으로 겪는다. 플레이어를 구경꾼으로 부르거나 숨은 도덕 점수를 설명하지 않는다. |
 | 현재 범위 | 1턴=1주, 240주·60개월(5년). **출시 데모는 M01~M06에서 끝나는** `story_demo_rc` BUILD `2026.08.31.1`이고 사용자 GO다. 본편은 M01~M60 전체의 장면·선택·회수·정점 상승을 한 작품으로 관리한다. 반복 행동판은 0이며 저장 호환 AP 데이터·엔진 삭제 GO는 아니다. |
 | 품질 게이트 | [`docs/MASTER_RELEASE_AUDIT.md`](docs/MASTER_RELEASE_AUDIT.md). 콘텐츠 수량보다 블랙박스 플레이, 한영 패리티, 패드 과업, 사람 기억·전환 증거로 판정한다. |
-| 최근 완료 | ORDER-150 제품 `2e768643e53c5dbe84a864fcf3c0ba27e3c5501d` / tree `d2461849` / source manifest `6ac6f969…`를 발급했다. 결혼 뒤 주거·달력·화자·원격 민서·허위 외부 반응·legacy 후기 재진입·SNS·credits 표기를 수리했고 전체 감사와 Chapter 1 478·Year 5 174·Chapter 5 Godot·68-script compile이 GREEN이다. 공개 M01~M06 바이트와 GO는 불변이다. |
-| 바로 다음 | 같은 exact `chapter5_finale_rc`에서 property와 `general_near_goal_father_passed`를 KO 정상 속도로 M49→M60→후일담→크레딧 6/6까지 다시 플레이한다. 자동 GREEN은 사람 판정이 아니며 두 경로 결과 전에는 본편 GO로 올리지 않는다. |
+| 최근 완료 | ORDER-150 exact 제품 `2e768643e53c5dbe84a864fcf3c0ba27e3c5501d`의 실제 디스플레이 판정은 Property GO / `general_near_goal_father_passed` REJECT / 전체 REJECT다. 두 경로 모두 M49→M60→후일담→크레딧 6/6을 완주했고, 유일한 차단점은 지갑 주인의 식사 제안 뒤 민준의 수락·일정 확인 없이 한정식 약속이 성립한 전역 rare chain이다. 공개 M01~M06 바이트와 GO는 불변이다. |
+| 바로 다음 | `rare_wallet_executive`→`chain_exec_meal`에 화면상 수락·상호 일정 영수증·거절 종결을 추가해 새 exact `chapter5_finale_rc`를 발급한다. 이 사건은 두 경로에 전역 도달하므로 새 후보에서 property와 `general_near_goal_father_passed`를 KO 정상 속도로 M49→M60→후일담→크레딧 6/6까지 다시 플레이한다. |
 | 열려 있는 사람 게이트 | [`docs/human_gates.json`](docs/human_gates.json)이 정본이다. Chapter 5 두 경로와 JA·zh-CN·zh-TW 원어민 판정은 OPEN이며 full·main·product는 HOLD다. **초록불은 재미 판정이 아니다.** |
 | 그다음 | Chapter 5 재플레이가 닫히면 ORDER-148 종막 산문 재계측, ORDER-149 프롤로그 리듬 순서다. 다음 20단위 본편 배치는 공개 M06 영수증을 M07~M12가 읽게 하며, 240주 JA·zh-CN·zh-TW 번역은 KO/EN 원고·런타임 동결 뒤 별도다. |
 | 자산 조달 | **외주 0원.** 인물 디자인·작곡·UI 아트·유료 서체를 사지 않고 Codex와 무료 라이선스(임베딩이 허용된 OFL·CC0 등)로만 만든다. 인력·구매를 전제한 계획을 세우지 않는다. 생성 자산의 결함은 품질이 아니라 평균성이므로 동일 후처리·고정 서명·채택률로 이긴다. 정본은 `docs/DECISIONS.md` 2026-07-30 항목이 소유한다. |
-| 마지막 갱신 | 2026-09-02 (ORDER-150 exact 재플레이 후보 발급 / 두 사람 게이트 OPEN / 본편 M01~M60 HOLD) |
+| 마지막 갱신 | 2026-09-02 (ORDER-150 Property GO·general REJECT / 지갑 동의 chain 재빌드 / 두 사람 게이트 OPEN / 본편 M01~M60 HOLD) |
 
 사용자가 새 지시를 주면 그것이 위 순서보다 우선한다.
 

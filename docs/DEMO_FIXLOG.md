@@ -3,6 +3,28 @@
 > 체제: 유저 실플레이 라운드 → 노트 원문 → Claude 진단 → 수리 오더 → 재플레이.
 > 유저 노트는 편집 없이 원문 보존(느낌 그대로가 데이터다).
 
+### Chapter 5 Property GO · general REJECT (2026-09-02 — `2e768643`)
+
+**최종 인간 판정:** 검토 wrapper
+`390d786f7df711d34f7ad61d4abf4d6fc1bfe77f`, 제품
+`2e768643e53c5dbe84a864fcf3c0ba27e3c5501d`, tree
+`d246184955ad60af3eb4de41907b58afde9756da`에서 Property는 GO,
+`general_near_goal_father_passed`는 REJECT, 전체 exact 후보는 REJECT다. 두 경로
+모두 실제 Studio Display·Godot 4.6.2·1280×800·KO 정상 속도로 M49→M60→후일담→
+크레딧 6/6을 완주했다.
+
+**통과:** Property의 검은 화면·잘림·시간 역행·화자/초상 오류는 0이고 신혼집,
+민서의 도착→입장→착석, W240 책임 서명·다은 선발신 무응답이 작동했다. General의
+240주·29.4억·고시원, 원격 민서, 별세한 아버지, 미소유 세 주소, W240의 30억 목표
+삭제와 화요일 19:30 가능 여부 선발신·무응답도 작동했다.
+
+**차단:** `rare_wallet_executive`에서 지갑 주인은 “밥 한 번 사도 될까요?”라고
+제안만 한다. 민준의 답장·수락·일시 조율이 없는데 8주 뒤 `chain_exec_meal`이 곧바로
+“약속한 한정식집”과 상대의 선도착을 성립시킨다. 이 전역 chain에 실제 수락 선택과
+서로 확인한 날짜·장소 영수증, 거절 종결을 넣는다. 새 후보에는 과거 Property GO를
+승계하지 않고 두 경로를 다시 플레이한다. 그 전까지 `chapter5_finale_rc`는
+`waiting_rebuild`, 두 gate는 OPEN, full·main·product는 HOLD다.
+
 ### Chapter 5 ORDER-150 exact 재플레이 후보 (2026-09-02 — `2e768643`)
 
 **후보:** 제품 `2e768643e53c5dbe84a864fcf3c0ba27e3c5501d`, tree

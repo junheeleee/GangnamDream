@@ -17,6 +17,17 @@
 공개 출시 데모는 사용자가 GO한 exact `story_demo_rc` M01~M06 BUILD
 `2026.08.31.1`이다. 이 오더는 공개 데모 범위·제품 바이트를 바꾸지 않는다.
 
+**[~] 2026-09-02 exact 후보 최종 인간 판정 · 제품
+`2e768643e53c5dbe84a864fcf3c0ba27e3c5501d` · review wrapper
+`390d786f7df711d34f7ad61d4abf4d6fc1bfe77f`:** Property는 M49→M60→후일담→
+크레딧 6/6을 정상 완주해 GO였고, `general_near_goal_father_passed`는 REJECT였다.
+일반 경로의 유일한 차단점은 `rare_wallet_executive`의 식사 제안에 민준의 답장·
+수락·일시 조율이 없는데도 `chain_exec_meal`이 곧바로 “약속한 한정식집”을 성립시킨
+것이다. 따라서 exact 후보 전체는 REJECT이고 `chapter5_finale_rc`는
+`waiting_rebuild`, 두 gate는 `open`, full·main·product는 HOLD다. Property의
+화면·시간·공동 주거·민서 입장·W240 책임과 general의 W240 무응답·미소유·아버지
+불부활 통과점은 그대로 보존한다.
+
 **번호 정합 2026-09-02:** 같은 기준점에서 Claude가 프롤로그 리듬 작업을
 `ORDER-149`로 먼저 발급한 사실을 origin fetch로 확인했다. 그 오더와 새
 `ORDER-148`은 그대로 보존하고, 뒤에 선언된 이 5장 수리만 `ORDER-150`으로
@@ -125,6 +136,17 @@ Chapter 1 의미 맵·부채 기준선·24/48·missing 24·debt 8은 불변이�
 **[scope expansion 5 선언 · 제품 커밋 전]:** 신규 Godot 검사와 함께 엔진이 만든
 `tools/Chapter5HumanRejectCheck.gd.uid`를 기존 Check 스크립트의 추적 관례대로
 포함해, clean checkout에서도 같은 QA 스크립트 식별자가 유지되게 한다.
+
+**[scope expansion 6 선언 · 제품 커밋 전]:** 새 인간 REJECT는 5장 전용 뿌리가
+아니라 전역 rare chain인 KO/EN `content/events/{rare_encounter_events,chain_events}.json`
+사이의 동의 누락이다. `chain_exec_meal`을 제안에 답하는 실제 선택으로 바꾸고,
+수락 영수증만 새 식당 도착 뿌리로 이어지게 한다. 거절은 일정·장소·만남을 만들지
+않는다. 이에 필요한 `content/meta/exposed_event_state_contracts.json`,
+`assets/{scene_direction_manifest,scene_audio_manifest}.json`,
+`tools/{EventDirectorCheck.gd,event_director_audit.py,chapter5_human_reject_audit.py,
+Chapter5HumanRejectCheck.gd}`와 파생 release inventory·영어/JA/ZH 범위 영수증만
+함께 갱신한다. 전역 도달 사건이므로 기존 Property GO는 역사 증거로 보존하되 새
+후보에는 승계하지 않고, 두 경로 M49→M60 정상 속도 실제 플레이를 다시 요청한다.
 
 같은 JSON에 통과점이 있으면 exact root/field만 수정한다. 공개 M01~M06 사건·자산,
 `content/meta/demo_core_loop_v2.json`, `project.godot`, full 경제·밸런스, 엔딩

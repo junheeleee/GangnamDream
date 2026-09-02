@@ -18,6 +18,20 @@
 > [`7/25`](history/WORK_LOG_2026-07-25.md)에 손실 없이 보존한다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
 
+## 2026-09-02 (Codex — ORDER-150 지갑 약속 동의 수리 선언)
+
+- exact wrapper `390d786f7df711d34f7ad61d4abf4d6fc1bfe77f` / 제품
+  `2e768643e53c5dbe84a864fcf3c0ba27e3c5501d`의 실제 디스플레이 최종 판정은
+  Property GO / `general_near_goal_father_passed` REJECT / 전체 REJECT다.
+- Property의 화면·시간·공동 주거·민서 입장·W240 책임과 general의 W240 무응답·
+  미소유·아버지 불부활은 통과했다. 유일한 차단점은 지갑 주인의 식사 제안 뒤
+  민준의 답장·수락·일시 조율 없이 `chain_exec_meal`이 약속을 성립시킨 것이다.
+- 이 chain은 조건 없이 전역 도달하므로 과거 Property GO는 정확한 역사 증거로
+  보존하되 새 제품에는 승계하지 않는다. KO/EN에 실제 수락 선택·상호 일정 영수증·
+  거절 종결을 넣고 새 exact 후보에서 두 경로 M49→M60 전체 재플레이를 다시 받는다.
+- 제품 수정 전 scope expansion 6를 선언했다. `chapter5_finale_rc`는
+  `waiting_rebuild`, 두 gate는 OPEN, full·main·product는 HOLD다.
+
 ## 2026-09-02 (Codex — ORDER-150 exact 재플레이 후보 발급)
 
 - 실제 디스플레이에서 둘 다 REJECT였던 제품 `83d3f350`을 기준으로, 결혼 뒤 주거
