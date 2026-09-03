@@ -40,6 +40,12 @@
   `tools/year5_reference_route_audit.py`의 현행 참조 영수증과
   `content/meta/{chapter5_causal_ledger,release_content_inventory}.json`의 해당
   source observation만. 역사 상수·기준선·게임플레이 원장은 수정하지 않는다.
+- 실제 영향 검사에서 검출된 현행 snapshot 세 곳만 추가 소유한다:
+  `tools/full_game_runtime_trace_audit.py`의 `AUDIT_RUNNER_SHA256`,
+  `tools/full_game_volume_baseline.json`의 `story_rules.json` source hash,
+  `content/meta/chapter1_core_loop_v2_causal_ledger.json`의 같은 파일 digest.
+  보호 코드의 실제 diff를 검토한 뒤 현재 관측값만 갱신하며, 역사 영수증·
+  볼륨 debt 30건·밀도 수량·인과 원장 행·검사 기준은 바꾸지 않는다.
 - 기록: 이 사양, `docs/{CODEX_QUEUE,WORK_LOG,DEMO_FIXLOG,STATUS}.md`, `CLAUDE.md`.
   `docs/human_gates.json`은 상태를 바꿀 필요가 있을 때 후보의 재수리 상태만 갱신하며
   사람 gate OPEN·full/main/product HOLD와 기존 독립 사람 증거를 그대로 보존한다.
