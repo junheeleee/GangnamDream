@@ -43,7 +43,8 @@
 - 실제 영향 검사에서 검출된 현행 snapshot 세 곳만 추가 소유한다:
   `tools/full_game_runtime_trace_audit.py`의 `AUDIT_RUNNER_SHA256`,
   `tools/full_game_volume_baseline.json`의 `story_rules.json` source hash,
-  `content/meta/chapter1_core_loop_v2_causal_ledger.json`의 같은 파일 digest.
+  `tools/chapter1_core_loop_v2_causal_ledger_check.py`의 같은 파일에 대한
+  새 exact 후속 관측(기존 ORDER-151 전후 tuple은 보존).
   보호 코드의 실제 diff를 검토한 뒤 현재 관측값만 갱신하며, 역사 영수증·
   볼륨 debt 30건·밀도 수량·인과 원장 행·검사 기준은 바꾸지 않는다.
 - 기록: 이 사양, `docs/{CODEX_QUEUE,WORK_LOG,DEMO_FIXLOG,STATUS}.md`, `CLAUDE.md`.
