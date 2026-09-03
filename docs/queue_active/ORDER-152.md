@@ -30,6 +30,10 @@
 - `tools/StoryNameplateCheck.gd`, `.tscn`, `.gd.uid`: 격리 저장 공간의 실제
   StoryMode 표적 검사. KO/EN, 도입의 각 문단, 선택·결과, 언어 갱신,
   이전 장면의 이름표 잔류와 숨김/일반/원격 대조군을 확인한다.
+- `tools/StoryNameplateBootstrap.gd`, `.gd.uid`,
+  `tools/run_story_nameplate_check.py`: autoload 전에 새 QA 저장 경로를 고르는
+  SceneTree bootstrap과 전용 실행기. 엔진 종료·성공 표식·오류를 함께 검사하고
+  stdout 및 엔진 로그를 보존한다. 기존 선택기 변경 없이 이 실행기를 등록한다.
 - `tools/audit_scope.json`, `tools/audit.sh`: 새 표적 검사 등록과 실행 한 건만.
   선택기 코드·기존 검사 범위·실패 기준은 바꾸지 않는다.
 - 파생 원장의 현재 source hash가 실제로 영향을 받으면
