@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://tools/StoryNameplateCheck.gd" id="1_nameplate"]
+
+[node name="StoryNameplateCheck" type="Node"]
+script = ExtResource("1_nameplate")

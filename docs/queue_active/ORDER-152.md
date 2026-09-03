@@ -69,3 +69,65 @@
 
 **규범 소유권:** 인물·채널·표시 사실은 기존 `STORY_CONSISTENCY_SYSTEM.md` 및
 `story_rules.json` 계약을 적용한다. 이 배치의 파일 소유권·표적 검증·신원은 일회성이다.
+
+## 부분 수리·검증 영수증 (2026-09-03)
+
+- 선언 `902722f`와 실행기·관측 파일 소유권 보충 커밋 뒤 별도
+  `codex/order152-story-nameplates`에서 작업했다. 사용자 dirty main과 exact
+  `042f5ea2bac73d27479922bc5f5051c2ad637355` detached replay는 수정하지 않았다.
+- 제품 변경은 `arc_y5_after_goal_daeun.presentation` 한 건이다. 민준 질문에
+  다은 이름표가 붙는 문제를 기존 hidden 계약으로 고쳤으며 초상은 유지했다.
+  전체 KO/EN 이벤트·산문·선택·효과·scenes/autoloads/systems/assets와
+  `project.godot`, 사람 게이트는 기준 후보 대비 바이트 불변을 확인했다.
+- 수정 전 실제 StoryMode 검사에서 after_goal 156개 실패, burnout 0개였다.
+  기준 로그는 `/private/tmp/gangnamdream-order152-nameplate-baseline.ysRMiW/`
+  `attempt3-verbose-{stdout,godot}.log`에 있다. 진료실의 화면 관찰 원인은 여전히
+  미확정이며 공통 StoryMode에 추측성 수정을 넣지 않았다.
+- 최종 표적 L2: KO/EN×두 root×세 선택 12경우, 92문단, 화자 갱신 62회,
+  언어 왕복 24회, 일반/원격 대조 20건, 표적 인용문 12페이지, 설정/화자 helper
+  없는 경로 4건이 PASS다. 초상 실제 텍스처도 검사한다. 새 실행기는 autoload
+  전에 독립 QA 경로를 만들며 종료코드·오류·누수·성공 표식·저장 경로를 함께
+  검사한다. 최종 로그는
+  `/var/folders/yr/mf2mg8vn7yld9rk4rf3qh2y80000gn/T/gangnam-story-nameplate-_uwdaswu/`의
+  `stdout.log`, `godot.log`이며 둘 다 SHA256
+  `318cdc0cdaed5032b9162d2bf4194daa9c84f325106b895599fa4e1f9ccc17fb`다.
+  전환 중 한 프레임 노출이나 정상 속도 독립 인간 플레이를 검증한 것은 아니다.
+- 별도 격리 bootstrap으로 영향 Godot 검사 7개가 기존 판정 기준에서 통과했다.
+  StoryPlayback의 기존 156경우·1,044문단, Chapter5HumanReject, 원격 표시,
+  업적, 모드, M1M6 및 68-script compile이다. 기존 StoryPresence 종료 누수
+  경고는 관찰돼 전부 오류 0이라고 부르지 않는다. 새 이름표 검사는 오류·누수 0이다.
+- 현재 원고 해시가 바뀌어 드러난 역사 투영·볼륨/인과 source 관측과 새 검사 등록
+  해시는 이 배치의 실제 diff에만 맞춘다. 기존 역사 상수·볼륨 debt·검사 기준을
+  느슨하게 바꾸지 않는다. 최초 선택 검사에서 큐 순서 0도 검출돼 1부터 연속으로
+  교정했다. 공개 M6 산출물과 GO를 다시 발급하거나 확장하지 않았다.
+- 현행 source 관측 정합 수리 뒤 year5 자체시험 233건, 인과 원장 488건,
+  runtime-trace 187건, 볼륨 14건이 통과했다. year5의 기존 역사 상수 191개와
+  인과 원장의 이전 source map/ORDER-151 tuple은 불변이며 정확한 후속 한 건만
+  추가했다. 감사 실행기의 새 이름표 블록과 종료 flag를 역투영하면 종전 바이트와
+  같다. 상세 로그는 `/private/tmp/gangnamdream-order152-receipts.Thy6j4/`와
+  `/private/tmp/gangnamdream-order152-receipts.ywVdqd/`에 보존했다.
+- 최종 `audit_select.py`는 변경 19파일에 대한 43개 표적 검사를 종료 0으로
+  통과했다. Godot은 외부 실행기가 같은 pre-autoload 격리 bootstrap을 넣었으며
+  테스트별 기존 오류 판정 기준을 변경하지 않았다. 전체 감사/전체 플레이가 아니다.
+  로그: `/private/tmp/gangnamdream-order152-impact.Tbg35v/final-impact.log`.
+  SHA256: `c779b4a2628a2158be48e2b6dbd94ded03b9c32a0f94051ca116dc2f60986b49`.
+- 검사 후 2026-09-03 23:08:24 KST 읽기 전용 확인에서 원본 gameplay 28파일과
+  원본/격리 manual slot 1·2가 모두 최초와 같았다(추가·삭제·변경 0).
+  원본 manifest SHA256는
+  `f8fb9df6f4f75389a73e56c9de1a082eab5c27ba0e28d43f687a1a7c453c1ede`다.
+  logs/shader_cache/.DS_Store는 제외한다. Property 프로세스는 아직 열려 있으므로
+  이 결과를 종료 후 postflight나 플레이 완료 증거로 부르지 않는다.
+- 기존 exact 후보의 **Codex 화면 관찰**은 General M49→M60→후일담·6/6와
+  지갑 수락/상호 일정 확인/식당 도착까지 확인했다. Property는 M51까지이며,
+  attempt3 입력·resize·Continue 복구 뒤 명시적인 Mac 잠금으로 멈췄다.
+  이전 두 입력 중단의 원인을 현재 잠금으로 소급하지 않는다. 상세·한계는
+  `/private/tmp/gangnamdream-042f5ea-observation.ZZoJm1/STATUS.md`에 보존했다.
+- 다음은 Property 남은 화면 관찰, 진료실 미재현 원인, 표적 KO/EN 화면 확인이다.
+  배경 후속은 별도: 진료실/점심 식당의 시간대, 지갑 역·지연 식사·오픈하우스의
+  실제 장소, 생활 vignette의 장소 누락과 같은 배경 재요청 시 tween 취소 가능성.
+  마지막 항목은 코드 경로만 확인했으며 런타임 재현 전이다. ORDER-152는 아직
+  `[~]`; 이 부분 수리 커밋은 새 전체 검토 후보가 아니다. 사람 gate OPEN·
+  full/main/product HOLD를 유지하며 최종 새 exact에서 두 경로 전체 사람 재검토가 필요하다.
+- 규범 판정: 기존 `STORY_CONSISTENCY_SYSTEM.md`의 표시 사실과
+  `story_rules.json` hidden 계약을 적용했으며 새 정본 규칙은 없다. 파일 소유권·
+  실행 순서·이번 exact 증거는 일회성이다.

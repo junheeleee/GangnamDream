@@ -1950,6 +1950,24 @@
       ]
     },
     {
+      "tool": "tools/run_story_nameplate_check.py",
+      "godot": true,
+      "why": "M51 혼합 대화 이름표·숨김 계약·언어 및 선택 경계",
+      "paths": [
+        "scenes/StoryMode.gd",
+        "autoloads/DataRegistry.gd",
+        "content/meta/story_rules.json",
+        "content/events/arc_new_characters.json",
+        "content/events_en/arc_new_characters.json",
+        "tools/StoryNameplateCheck.gd",
+        "tools/StoryNameplateCheck.gd.uid",
+        "tools/StoryNameplateCheck.tscn",
+        "tools/StoryNameplateBootstrap.gd",
+        "tools/StoryNameplateBootstrap.gd.uid",
+        "tools/run_story_nameplate_check.py"
+      ]
+    },
+    {
       "tool": "tools/StoryPresenceCheck.tscn",
       "godot": true,
       "why": "대면·전화·메시지·기억 초상 공간",

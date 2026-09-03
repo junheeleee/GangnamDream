@@ -1102,7 +1102,18 @@
       }
     },
     "arc_y5_minseo_goal_cost_reference": {"logic": {}},
-    "arc_y5_after_goal_daeun": {"logic": {}},
+    "arc_y5_after_goal_daeun": {
+      "logic": {},
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "cafe",
+        "participants": ["player", "daeun"],
+        "portrait_role": "present",
+        "nameplate_role": "hidden",
+        "expected_background": "cafe",
+        "expected_portrait": "daeun_normal"
+      }
+    },
     "arc_y5_final_offer": {
       "logic": {},
       "presentation": {

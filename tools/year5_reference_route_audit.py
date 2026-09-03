@@ -1826,6 +1826,25 @@ ORDER151_PRODUCT_FILE_TRANSITIONS = {
     ),
 }
 
+# ORDER-152 adds only one mixed-speaker presentation contract. Keep the older
+# byte receipts immutable and project this exact successor before reading them.
+ORDER152_PRODUCT_BASELINE = "2f91f4265613e57c8e3aaf34ab4f7f0971699f92"
+ORDER152_RULES_PATH = "content/meta/story_rules.json"
+ORDER152_EVENT_ID = "arc_y5_after_goal_daeun"
+ORDER152_RULES_BYTE_TRANSITION = (
+    "42c966bb45f4339504652b62d78142950c543def289f802355795f293d8689a1",
+    "35e64bd87c7b88f6c77b1827228bfb594804140d79773b12298e706faf144d69",
+)
+ORDER152_PRESENTATION = {
+    "channel": "in_person",
+    "scene_location": "cafe",
+    "participants": ["player", "daeun"],
+    "portrait_role": "present",
+    "nameplate_role": "hidden",
+    "expected_background": "cafe",
+    "expected_portrait": "daeun_normal",
+}
+
 ORDER131_ADDED_IDS_BY_FILE = {
     "content/events/arc_midgame.json": {
         "arc_first_real_win_father_passed",
@@ -4804,6 +4823,28 @@ def advance_exact_hash(
     return current_hash
 
 
+def order152_project_payload(payload: Any, relative: str) -> Any:
+    """Remove only the exact new presentation; retain every unrelated field."""
+    projected = copy.deepcopy(payload)
+    if relative != ORDER152_RULES_PATH or not isinstance(projected, dict):
+        return projected
+    events = projected.get("events")
+    if not isinstance(events, dict):
+        return projected
+    row = events.get(ORDER152_EVENT_ID)
+    if row == {"logic": {}, "presentation": ORDER152_PRESENTATION}:
+        del row["presentation"]
+    return projected
+
+
+def order152_project_byte_hash(current_hash: str, relative: str) -> str:
+    """Only the registered whole-file successor may enter the older chain."""
+    if relative == ORDER152_RULES_PATH \
+            and current_hash == ORDER152_RULES_BYTE_TRANSITION[1]:
+        return ORDER152_RULES_BYTE_TRANSITION[0]
+    return current_hash
+
+
 @functools.lru_cache(maxsize=None)
 def order151_baseline_payload(relative: str) -> Any:
     return strict_loads(
@@ -4814,13 +4855,14 @@ def order151_baseline_payload(relative: str) -> Any:
 
 @functools.lru_cache(maxsize=None)
 def order151_current_payload(relative: str) -> Any:
-    """Load immutable current source once; callers must copy before mutation."""
-    return load_json(ROOT / relative)
+    """Expose the exact pre-ORDER-152 source; callers must copy before mutation."""
+    return order152_project_payload(load_json(ROOT / relative), relative)
 
 
 @functools.lru_cache(maxsize=None)
 def order151_current_byte_hash(relative: str) -> str:
-    return byte_sha256((ROOT / relative).read_bytes())
+    return order152_project_byte_hash(
+        byte_sha256((ROOT / relative).read_bytes()), relative)
 
 
 def order151_project_byte_hash(current_hash: str, relative: str) -> str:
@@ -6975,6 +7017,48 @@ def validate_order138_registration(
     }
 
 
+def validate_order152_rules(
+    current: Any,
+    baseline: Any,
+    errors: list[str],
+) -> None:
+    """Reject changes outside the one declared presentation object."""
+    owner = f"ORDER-152:{ORDER152_RULES_PATH}"
+    current_events = current.get("events", {}) if isinstance(current, dict) else {}
+    baseline_events = baseline.get("events", {}) if isinstance(baseline, dict) else {}
+    if not isinstance(current_events, dict) or current_events.get(ORDER152_EVENT_ID) != {
+        "logic": {}, "presentation": ORDER152_PRESENTATION,
+    }:
+        errors.append(f"{owner}: exact presentation object drifted")
+    if not isinstance(baseline_events, dict) \
+            or baseline_events.get(ORDER152_EVENT_ID) != {"logic": {}}:
+        errors.append(f"{owner}: exact baseline object drifted")
+    if order152_project_payload(current, ORDER152_RULES_PATH) != baseline:
+        errors.append(f"{owner}: exact single-presentation inverse drifted")
+
+
+def validate_order152_registration(errors: list[str]) -> dict[str, int]:
+    """Validate the raw successor before exposing any historical projection."""
+    owner = f"ORDER-152:{ORDER152_RULES_PATH}"
+    try:
+        baseline_bytes = git_blob(ORDER152_PRODUCT_BASELINE, ORDER152_RULES_PATH)
+        current_bytes = (ROOT / ORDER152_RULES_PATH).read_bytes()
+        baseline = strict_loads(baseline_bytes.decode("utf-8"), f"{owner}:baseline")
+        current = strict_loads(current_bytes.decode("utf-8"), f"{owner}:current")
+    except (OSError, UnicodeDecodeError, ValueError) as exc:
+        errors.append(f"{owner}: cannot load exact byte pair ({exc})")
+        return {"order152_presentations": 0}
+    if byte_sha256(baseline_bytes) != ORDER152_RULES_BYTE_TRANSITION[0]:
+        errors.append(f"{owner}: exact baseline byte hash drifted")
+    if byte_sha256(current_bytes) != ORDER152_RULES_BYTE_TRANSITION[1]:
+        errors.append(f"{owner}: exact current byte hash drifted")
+    if ORDER152_RULES_BYTE_TRANSITION[0] \
+            != ORDER151_PRODUCT_FILE_TRANSITIONS[ORDER152_RULES_PATH][1]:
+        errors.append(f"{owner}: transition does not extend ORDER-151")
+    validate_order152_rules(current, baseline, errors)
+    return {"order152_presentations": 1}
+
+
 def validate_order151_registration(
     context: AuditContext,
     errors: list[str],
@@ -7650,7 +7734,8 @@ def validate_protected_hashes(
             errors.append(f"{owner}: protected file is missing")
             continue
         actual_hash = order151_project_byte_hash(
-            byte_sha256(path.read_bytes()), relative)
+            order152_project_byte_hash(byte_sha256(path.read_bytes()), relative),
+            relative)
         order135_transition = ORDER135_PROTECTED_FILE_TRANSITIONS.get(relative)
         order136_transition = ORDER136_PROTECTED_FILE_TRANSITIONS.get(relative)
         order137_transition = ORDER137_PROTECTED_FILE_TRANSITIONS.get(relative)
@@ -8387,6 +8472,7 @@ def validate_manifest(
         historical_context, errors)
     order137_stats = validate_order137_registration(order137_context, errors)
     order138_stats = validate_order138_registration(order138_context, errors)
+    order152_stats = validate_order152_registration(errors)
     order151_stats = validate_order151_registration(context, errors)
     order150_stats = validate_order150_registration(order151_context, errors)
     father_bridge_stats = validate_father_bridge_registration(
@@ -8441,6 +8527,7 @@ def validate_manifest(
         **order143_stats,
         **order150_stats,
         **order151_stats,
+        **order152_stats,
         **father_bridge_stats,
         **property_ladder_stats,
     }
@@ -8911,6 +8998,68 @@ def run_invalidated_self_test(
     ):
         case_count += 1
         expect_context_failure(label, manifest, context, mutate, fragment, failures)
+
+    relative = ORDER152_RULES_PATH
+    current_rules = load_json(ROOT / relative)
+    baseline_rules = strict_loads(
+        git_blob(ORDER152_PRODUCT_BASELINE, relative).decode("utf-8"),
+        "self-test:ORDER-152:baseline")
+    case_count += 1
+    if order152_project_payload(current_rules, relative) != baseline_rules:
+        failures.append("order152_inverse: exact baseline not restored")
+
+    def order152_nameplate_changed(payload: dict[str, Any]) -> None:
+        payload["events"][ORDER152_EVENT_ID]["presentation"]["nameplate_role"] = "speaker"
+
+    def order152_presentation_removed(payload: dict[str, Any]) -> None:
+        del payload["events"][ORDER152_EVENT_ID]["presentation"]
+
+    def order152_logic_changed(payload: dict[str, Any]) -> None:
+        payload["events"][ORDER152_EVENT_ID]["logic"]["unregistered"] = True
+
+    def order152_neighbor_changed(payload: dict[str, Any]) -> None:
+        payload["events"]["arc_y5_burnout_check_reference"]["presentation"]["nameplate_role"] = "speaker"
+
+    def order152_neighbor_added(payload: dict[str, Any]) -> None:
+        payload["events"]["unregistered_order152_event"] = {"logic": {}}
+
+    def order152_schema_changed(payload: dict[str, Any]) -> None:
+        payload["schema_version"] += 1
+
+    def order152_participants_changed(payload: dict[str, Any]) -> None:
+        payload["events"][ORDER152_EVENT_ID]["presentation"]["participants"].reverse()
+
+    for label, mutate in (
+        ("nameplate", order152_nameplate_changed),
+        ("presentation_removed", order152_presentation_removed),
+        ("logic", order152_logic_changed),
+        ("neighbor", order152_neighbor_changed),
+        ("neighbor_added", order152_neighbor_added),
+        ("schema", order152_schema_changed),
+        ("participants", order152_participants_changed),
+    ):
+        case_count += 1
+        candidate = copy.deepcopy(current_rules)
+        mutate(candidate)
+        candidate_errors: list[str] = []
+        validate_order152_rules(candidate, baseline_rules, candidate_errors)
+        if not candidate_errors:
+            failures.append(f"order152_{label}: mutation was accepted")
+        # Missing presentation is the historical baseline, not a valid current
+        # source. Every other mutation must also survive the inverse intact.
+        if label != "presentation_removed" \
+                and order152_project_payload(candidate, relative) == baseline_rules:
+            failures.append(f"order152_{label}: mutation was hidden by inverse")
+    for label, digest, path, expected in (
+        ("exact", ORDER152_RULES_BYTE_TRANSITION[1], relative,
+         ORDER152_RULES_BYTE_TRANSITION[0]),
+        ("unknown", "0" * 64, relative, "0" * 64),
+        ("unrelated_path", ORDER152_RULES_BYTE_TRANSITION[1],
+         "content/meta/story_map.json", ORDER152_RULES_BYTE_TRANSITION[1]),
+    ):
+        case_count += 1
+        if order152_project_byte_hash(digest, path) != expected:
+            failures.append(f"order152_byte_inverse_{label}: inverse is not exact")
 
     for relative, event_ids in sorted(ORDER151_CHANGED_IDS_BY_FILE.items()):
         current = order151_current_payload(relative)
@@ -10483,6 +10632,7 @@ def main() -> int:
             f"order150_product_files={stats['order150_product_files']} "
             f"order151_event_objects={stats['order151_event_objects']} "
             f"order151_product_files={stats['order151_product_files']} "
+            f"order152_presentations={stats['order152_presentations']} "
             f"father_bridge_delta={stats['father_bridge_changed_objects']} "
             f"property_ladder_delta={stats['property_ladder_changed_objects']} "
             f"product_consumers={stats['consumers']} "
@@ -10514,6 +10664,7 @@ def main() -> int:
         f"order150_product_files={stats['order150_product_files']} "
         f"order151_event_objects={stats['order151_event_objects']} "
         f"order151_product_files={stats['order151_product_files']} "
+        f"order152_presentations={stats['order152_presentations']} "
         f"father_bridge_delta={stats['father_bridge_changed_objects']} "
         f"property_ladder_delta={stats['property_ladder_changed_objects']} "
         f"product_consumers={stats['consumers']} qa_consumers=1 activation=reference_only "
