@@ -30,7 +30,8 @@
 - `tools/StoryNameplateCheck.gd`, `.tscn`, `.gd.uid`: 격리 저장 공간의 실제
   StoryMode 표적 검사. KO/EN, 도입의 각 문단, 선택·결과, 언어 갱신,
   이전 장면의 이름표 잔류와 숨김/일반/원격 대조군을 확인한다.
-- `tools/audit_select.py`: 새 표적 검사 라우팅이 필요하면 해당 매핑만.
+- `tools/audit_scope.json`, `tools/audit.sh`: 새 표적 검사 등록과 실행 한 건만.
+  선택기 코드·기존 검사 범위·실패 기준은 바꾸지 않는다.
 - 파생 원장의 현재 source hash가 실제로 영향을 받으면
   `tools/year5_reference_route_audit.py`의 현행 참조 영수증과
   `content/meta/{chapter5_causal_ledger,release_content_inventory}.json`의 해당
