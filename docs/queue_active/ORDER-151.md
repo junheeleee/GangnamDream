@@ -66,7 +66,8 @@ L1은 변경 범위 감사·한영·정합·후속 의미 독자·배경/기간 
 L2는 실제 StoryMode로 모든 결과의 배경/생활음/기간을 확인하고 새 exact RC 발급
 전 전체 감사를 실행한다. 이는 모두 회귀 증거이며 인간 플레이를 대신하지 않는다.
 
-`chapter5_finale_rc`는 수리 중 `waiting_rebuild`, 두 사람 gate는 OPEN,
+`chapter5_finale_rc`는 수리 중 `waiting_rebuild`였고 아래 새 제품 등록 후
+`active`다. 후보 식별자일 뿐 GO가 아니며 두 사람 gate는 OPEN,
 full·main·product는 HOLD다. 지갑 사양 후 무약속·무동석·무식당은 af511ee 화면
 관찰 통과이며 수락 결과는 **미관찰**이다. 제품 커밋과 런타임 diff 0인 docs-only
 직계 자식 review HEAD를 새로 봉인한 뒤, 두 경로 M49→M60→후일담→6/6 정상 속도
@@ -107,8 +108,20 @@ full·main·product는 HOLD다. 지갑 사양 후 무약속·무동석·무식�
   `✅ 감사 통과`다. 68-script compile, Chapter 5 50·year5 222·인과 원장 481건과
   실제 로드된 장면 전환 분류까지 통과했다. 통합 감사의 기존 종료 자원 경고 허용
   정책은 바꾸지 않았다. 표적 테스트의 오류·누수 0은 통합 전체의 경고 0 선언이 아니다.
-- 이제 새 제품 커밋과 runtime diff 0인 docs-only 직계 자식 검토 HEAD를 발급한다.
+- 아래 새 제품 커밋을 docs-only 직계 자식 검토 후보로 등록한다.
   두 경로의 정상 속도 전체 재플레이 및 지갑 수락 실관찰은 여전히 OPEN이다.
+
+## 새 exact source-checkout 후보
+
+- 브랜치: `codex/order151-chapter5-scene-context`
+- 제품 commit: `2f91f4265613e57c8e3aaf34ab4f7f0971699f92`
+- 제품 tree: `0c36eac8a45430c726c5e8d4812c1217918db3b1`
+- source manifest SHA-256: `fabfcbe47a861ba37b3221c122fe8beab09499a8712b2ef8621944b3e7a2b89e`
+- 이 신원을 등록한 review wrapper는 제품의 문서 전용 직계 자식이다. 실제 검토에는
+  별도로 전달한 정확한 review HEAD를 사용하고, 부모가 위 제품인지와 런타임 diff 0을
+  확인한다. wrapper의 전체 tree는 제품 tree와 다르므로 두 신원을 혼용하지 않는다.
+- 새 설치 패키지·BUILD_ID·공개 M6 버전을 발급한 것이 아니다. 기존 설치 앱이나
+  사용자 작업 중인 main에서 이 수리가 반영됐다고 가정하지 않는다.
 
 ## 재플레이 인계의 일회성 주의
 
@@ -116,7 +129,7 @@ full·main·product는 HOLD다. 지갑 사양 후 무약속·무동석·무식�
   `git ls-tree -r --full-tree <제품 commit> | shasum -a 256`으로 산출하며 패키지
   artifact manifest가 아니다. review HEAD는 `CLAUDE.md`·`docs/**`만 바꾼 직계
   자식이어야 한다. 제품 신원 검사와 wrapper의 부모·런타임 diff 0 검사는 분리한다.
-- 검토 checkout은 새로 발급할 review HEAD와 정확히 같고 clean이어야 한다.
+- 검토 checkout은 별도로 전달한 review HEAD와 정확히 같고 clean이어야 한다.
   저장 파일의 `source_commit`은 실행 바이너리/checkout 신원이 아니다. 기존 W193
   두 seed의 `83d3f350…` 출처는 그대로 두고 새 제품 신원으로 덮어쓰지 않는다.
 - `investment_property_daeun` slot 01 원본 SHA-256은

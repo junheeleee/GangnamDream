@@ -59,12 +59,12 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-151 · Ch5 장소·기간·카지노 맥락 | [151](queue_active/ORDER-151.md) | L1/L2·전체 재감사 GREEN · exact RC 봉인 · 두 사람 gate OPEN·HOLD |
-| 2 | [~] | ORDER-150 · Ch5 human REJECT 수리 | [150](queue_active/ORDER-150.md) | 후속 151 수리 중 · 두 사람 gate OPEN · HOLD |
+| 1 | [~] | ORDER-151 · Ch5 장소·기간·카지노 맥락 | [151](queue_active/ORDER-151.md) | L1/L2·전체 재감사 GREEN · 새 exact source 후보 · 두 재플레이 OPEN·HOLD |
+| 2 | [~] | ORDER-150 · Ch5 human REJECT 수리 | [150](queue_active/ORDER-150.md) | 후속 151 exact 재플레이 대기 · 두 사람 gate OPEN · HOLD |
 | 3 | [ ] | ORDER-148 · 5장 종막의 부정 종결 습관을 푼다(사실은 유지) | [148](queue_active/ORDER-148.md) | ORDER-150 exact 제품 뒤 재계측 · 금지 사실은 한 건도 삭제 금지 · 선행 대기 |
 | 4 | [ ] | ORDER-149 · 프롤로그 세 비트가 같은 속도로 지나가는 문제를 푼다 | [149](queue_active/ORDER-149.md) | `P-18` 1층만 · `FADE_SECONDS` 0.52 하나를 세 비트가 공유·hold 3.10/3.10/3.00 · 새 자산 0 · 미착수 |
 | 5 | [~] | ORDER-147 · runtime identity | [147](queue_active/ORDER-147.md) | matrix GREEN · human REJECT |
-| 6 | [~] | ORDER-146 · ledger | [146](queue_active/ORDER-146.md) | 후속 151 재빌드 · 두 replay OPEN |
+| 6 | [~] | ORDER-146 · ledger | [146](queue_active/ORDER-146.md) | 후속 151 새 exact 후보 · 두 replay OPEN |
 | 7 | [~] | ORDER-145 · 후보 | [145](queue_active/ORDER-145.md) | HOLD |
 | 8 | [~] | ORDER-143 · graph | [143](queue_active/ORDER-143.md) | M01~M06 보호 · HOLD |
 | 9 | [~] | ORDER-144 · trace | [144](queue_active/ORDER-144.md) | PENDING · human OPEN |

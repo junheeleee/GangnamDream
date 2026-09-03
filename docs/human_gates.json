@@ -31,11 +31,11 @@
       "note": "BUILD 2026.08.31.1 macOS 공개 M01~M06 story-first 후보가 active이며 범위·구조·사용자 체험은 최종 GO다. package source는 362578d8f4c0781fe35f643a74cc3037e7a80b21 / tree e7f50b065b3369afa1894df8292756a95f94fd11, 제품은 4e80a63e89821094b8bab21b8d5c73ecfc9b6278 / tree 0fdddf11e2ef030cd172d23e691e3d7da4ea29ff, 별도 review wrapper는 d149ce65a0cb397fe4d18cc9932561f828405dce다. manifest SHA-256 50eed10b18c2c2b056f875a8df55230dc07b5535c55e59ddb89fff1d64e91870, app tree 56a4f2997256e68baa21c02807fcf1f0e995ce114f57f96f26d309b300b7ec14, ZIP 956ac93524df6030ef984521550cec7dddafea381387a3df52194e43f5e61289다. KO·EN·JA·zh-CN·zh-TW 14사건·100 leaf·도달 UI 121과 JP/SC/TC 전용 primary font·OFL을 고정했다. 실제 StoryMode clean/ko 9, restitution/en 10, escalation/zh-CN 10 영수증 경로가 각각 M01~M06·24주·정산 6·수동 저장·별도 프로세스 cold restart exact resume·overlay/input clear·AP 원장 0으로 통과했고, BUILD 2026.08.25.1의 M2 저장 복사본도 원본 변경 없이 이어졌다. 사용자 최종 GO는 M01~M06 범위와 StoryMode 구조를 닫았고 JA·zh-CN·zh-TW 원어민 출시 claim 세 건만 별도 OPEN이다. main과 본편 이관은 HOLD이며 저장 호환 AP 데이터·엔진 삭제 GO가 아니다."
     },
     "chapter5_finale_rc": {
-      "status": "waiting_rebuild",
-      "commit": null,
-      "tree": null,
-      "manifest_sha256": null,
-      "note": "ORDER-151 재빌드 대기. review af511eea06d7435aea833b0a72307bf85572c300 / 제품 236d8eb2c532172c60da3fafce0fc1b768e38049의 사용자 전달 Codex 화면 관찰은 Property REJECT / general_near_goal_father_passed REJECT / 전체 HOLD다. 독립 인간 인증이 아니므로 delegated_reviews에 합산하지 않는다. M54 현재 집·일곱 달, W224 편의점 배경/생활음, 카지노 숙박 안내의 현재 방문·베팅 비약을 표적 수리한다. 지갑 두 선택지와 사양 후 6/6까지 무약속·무동석·무식당은 관찰됐고 수락 결과는 미관찰이다. 원문과 환경 제한은 docs/DEMO_FIXLOG.md 2026-09-03 및 /private/tmp/gangnamdream-af511ee-human-20260902/STATUS.md에 보존한다. 새 product commit/tree/manifest와 docs-only 직계 자식 review HEAD에서 두 경로 M49→M60→후일담→6/6 정상 속도 실제 플레이를 다시 받는다. 자동·정적 검사는 회귀 증거일 뿐이며 두 사람 gate와 사용자 최종 GO는 OPEN, full·main·product는 HOLD다. 기존 인간 판정은 해당 exact 과거 제품에만 적용한다. 공개 story_demo_rc M01~M06 GO·바이트와 원본 slot 01·02는 보존한다."
+      "status": "active",
+      "commit": "2f91f4265613e57c8e3aaf34ab4f7f0971699f92",
+      "tree": "0c36eac8a45430c726c5e8d4812c1217918db3b1",
+      "manifest_sha256": "fabfcbe47a861ba37b3221c122fe8beab09499a8712b2ef8621944b3e7a2b89e",
+      "note": "ORDER-151 source-checkout 재플레이 후보. active는 식별자 발급이지 GO가 아니며 패키지/BUILD_ID 재발급도 아니다. M54 현재 집·이번 달 포함 일곱 달, W224 편의점 배경/생활음, 카지노 숙박 안내와 두 회상의 실제 관심/사양 및 remote 전환을 표적 수리했다. 선택 index·효과·진입, 지갑 동의 세 root, M55, W237/W240, 아버지 기억·민서 원격과 30억 즉시엔딩은 보존했다. 최종 전체 감사·68-script compile, 정적 50·year5 222·인과 원장 481, 실제 StoryMode 156개/1044페이지와 새 1280×800 렌더 32장은 회귀 증거이며 인간 판정이 아니다. review af511eea06d7435aea833b0a72307bf85572c300 / 제품 236d8eb2c532172c60da3fafce0fc1b768e38049의 사용자 전달 Codex 화면 관찰(Property REJECT / General REJECT / 전체 HOLD)은 독립 인간 인증이나 delegated_reviews로 합산하지 않는다. 지갑 사양 후 6/6까지 무약속·무동석·무식당은 과거 관찰이고 수락 결과는 정상 속도 실플레이에서 미관찰이다. 위 새 제품의 docs-only 직계 자식 review HEAD(runtime diff 0)에서 두 경로 M49→M60→후일담→6/6 정상 속도 전체 재플레이와 지갑 수락 후속 실관찰을 다시 받는다. 두 사람 gate와 사용자 최종 GO는 OPEN, full·main·product는 HOLD다. 과거 인간 GO/REJECT는 해당 과거 exact 제품에만 적용한다. 공개 story_demo_rc M01~M06 GO·바이트와 원본 slot 01·02는 보존했다. 후보 신원·최종 로그·재플레이 조건은 docs/queue_active/ORDER-151.md가 연결한다."
     },
     "full_rc": {
       "status": "active",

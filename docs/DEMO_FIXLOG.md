@@ -42,7 +42,13 @@ W240 실제 삭제·같은 밤 선발신, M55 복장, 아버지 기억·민서 �
 정상 속도 전체 플레이나 독립 인간 인증이 아니다. 상세 로그는 ORDER-151에 있다.
 누락된 전환 분류를 교정한 뒤 최종 전체 감사·68-script compile도 통과했다.
 
-**잔여:** `chapter5_finale_rc` 재빌드, 두 사람 gate OPEN, full·main·product HOLD.
+**새 소스 후보:** 제품 `2f91f4265613e57c8e3aaf34ab4f7f0971699f92`, tree
+`0c36eac8a45430c726c5e8d4812c1217918db3b1`, source manifest SHA-256
+`fabfcbe47a861ba37b3221c122fe8beab09499a8712b2ef8621944b3e7a2b89e`다. 이 신원을 등록하는
+문서 전용 직계 자식이 review wrapper이며 런타임 diff는 0이다. 브랜치는
+`codex/order151-chapter5-scene-context`다. 설치 패키지나 공개 M6 버전 발급은 아니다.
+
+**잔여:** `chapter5_finale_rc`는 active 식별자이며 두 사람 gate OPEN, full·main·product HOLD.
 새 exact 후보에서 두 경로 전체 재플레이와 지갑 수락 결과 관찰이 필요하다.
 
 ### Chapter 5 지갑 동의 재플레이 후보 (2026-09-02 — `236d8eb`)

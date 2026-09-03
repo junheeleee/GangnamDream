@@ -40,9 +40,12 @@
   explicit_move→remote이며 catalog 2·year5 222건이 통과했다. 실패 로그는 보존했다.
 - 최종 전체 재감사는 종료 0·68-script compile GREEN이다. Chapter 5 50·year5 222·
   인과 원장 481건도 통과했다. 로그는 `gangnamdream-order151-audit-final.4EA6Sn`에
-  보존했다. 새 제품/review HEAD를 봉인한다. 자동·자가 화면 증거는 사람 판정이
+  보존했다. 새 제품을 docs-only 직계 검토 후보로 등록했다. 자동·자가 화면 증거는 사람 판정이
   아니다. 새 exact 후보의 두 경로 M49→M60→후일담→6/6 재플레이와
   지갑 수락 관찰 전까지 두 gate OPEN, full·main·product HOLD다.
+- 제품 `2f91f4265613e57c8e3aaf34ab4f7f0971699f92`, tree
+  `0c36eac8a45430c726c5e8d4812c1217918db3b1`, source manifest SHA-256
+  `fabfcbe47a861ba37b3221c122fe8beab09499a8712b2ef8621944b3e7a2b89e`다.
 
 ## 2026-09-02 (Codex — ORDER-150 지갑 동의 재플레이 후보 발급)
 
