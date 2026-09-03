@@ -59,6 +59,7 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
+| 0 | [~] | ORDER-152 · M51 화자 이름표 정합 | [152](queue_active/ORDER-152.md) | 실제 표시 표적 재현·수리 · 배경 후속 별도 · 두 사람 gate OPEN·HOLD |
 | 1 | [~] | ORDER-151 · Ch5 장소·기간·카지노 맥락 | [151](queue_active/ORDER-151.md) | L1/L2·전체 재감사 GREEN · 새 exact source 후보 · 두 재플레이 OPEN·HOLD |
 | 2 | [~] | ORDER-150 · Ch5 human REJECT 수리 | [150](queue_active/ORDER-150.md) | 후속 151 exact 재플레이 대기 · 두 사람 gate OPEN · HOLD |
 | 3 | [ ] | ORDER-148 · 5장 종막의 부정 종결 습관을 푼다(사실은 유지) | [148](queue_active/ORDER-148.md) | ORDER-150 exact 제품 뒤 재계측 · 금지 사실은 한 건도 삭제 금지 · 선행 대기 |
