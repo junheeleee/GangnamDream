@@ -1695,6 +1695,137 @@ ORDER150_PRODUCT_FILE_TRANSITIONS = {
     **ORDER150_PROTECTED_FILE_TRANSITIONS,
     **ORDER150_AUXILIARY_FILE_TRANSITIONS,
 }
+
+# ORDER-151 is a bounded scene-context repair over the exact ORDER-150 product.
+# Keep every older tuple unchanged. Only these exact objects and byte pairs may
+# be inversely projected before evaluating the historical receipt chain.
+ORDER151_PRODUCT_BASELINE = "236d8eb2c532172c60da3fafce0fc1b768e38049"
+ORDER151_REVIEW_BASELINE = "af511eea06d7435aea833b0a72307bf85572c300"
+ORDER151_CHANGED_IDS_BY_FILE = {
+    "content/events/story_events.json": {"age_39_final"},
+    "content/events_en/story_events.json": {"age_39_final"},
+    "content/events/arc_year3_drama.json": {"arc_y5_father_trace_custody"},
+    "content/events/gambling_narrative.json": {"casino_comp_offer"},
+    "content/events_en/gambling_narrative.json": {"casino_comp_offer"},
+    "content/events/callback_events_50.json": {
+        "callback_casino_declined_comp_echo",
+        "callback_casino_accepted_comp_echo",
+    },
+    "content/events_en/callback_events_50.json": {
+        "callback_casino_declined_comp_echo",
+        "callback_casino_accepted_comp_echo",
+    },
+}
+ORDER151_METADATA_FILES = {
+    "content/meta/story_rules.json",
+    "content/meta/exposed_event_state_contracts.json",
+    "assets/event_visual_contracts.json",
+    "assets/scene_audio_manifest.json",
+    "assets/scene_direction_manifest.json",
+}
+ORDER151_OBJECT_TRANSITIONS_BY_FILE = {
+    "content/events/story_events.json": {
+        "age_39_final": (
+            "9521a7569fc9114a4b8d40888a1094c7bd757c3b4d66d949dc22b0586bafd631",
+            "52ae10a61ac23ad152e0027542a31169073d79579e4479d74a839ad19b56fef2",
+        ),
+    },
+    "content/events_en/story_events.json": {
+        "age_39_final": (
+            "47d4657b3b5c5287463fd5637308da791d1fad8d291088cfdc92a94e81bd4ed2",
+            "dc0f15cb5db815bf7d10487db966a7f52abae561b37c9e7dc3f2bf8dc7494206",
+        ),
+    },
+    "content/events/arc_year3_drama.json": {
+        "arc_y5_father_trace_custody": (
+            "b6fc515feef6e473ed73876eba6e380a4a4fce552b9ff6eff7c7da974b71f19e",
+            "89a45f3786bd1336b4d765e0b96f493316383c8fd13e900b9195d6c4b93ce983",
+        ),
+    },
+    "content/events/gambling_narrative.json": {
+        "casino_comp_offer": (
+            "3979029112180aee9764efc25ab48b6dd7f452bf849841ff8963883bb33bf4bc",
+            "2645328e4c31dda86a07137077c0da90688e48899465fc9e3fa912b403e70eb6",
+        ),
+    },
+    "content/events_en/gambling_narrative.json": {
+        "casino_comp_offer": (
+            "1d91b5f969ce65250a79ffbeeabf080750df68dfcad285e986e67d0f0fd0704c",
+            "c964837306efc29e4ddbbd158fc5811ee78ed45ffc573a0c1451562c7b142e94",
+        ),
+    },
+    "content/events/callback_events_50.json": {
+        "callback_casino_declined_comp_echo": (
+            "192b8e4e9fd60f79b686747a98a09d6df16064de2300b63834768ca20d4ce074",
+            "a31a42c55c750764f28fa33e6529dd9fa5f8aab92352f7bf8d2f1d2b5e608cc4",
+        ),
+        "callback_casino_accepted_comp_echo": (
+            "8e338cb2bd25de42ae35035a7b5762d71653eb179472a602a0900587f3955962",
+            "97786f15e13171ebb0537f62f509dce84304ede4a1c0c0e8add1ab7c278a9b73",
+        ),
+    },
+    "content/events_en/callback_events_50.json": {
+        "callback_casino_declined_comp_echo": (
+            "ead68d81f231b6c062862363ba809d2692dee79617aa3ef25f7403516dcd6de3",
+            "0b269ed1746d9ee16f9e97edb3fa0742ac79fcedd0f7ea205df6089b66cf0090",
+        ),
+        "callback_casino_accepted_comp_echo": (
+            "7154496a451ea9e2e7eae3f2c48c046541fb446f08416689e27d22a5b48ed4b3",
+            "1c0270d3121f0498817760d377fa7a351ed06572ab129d8446f5ffd9fbd161bf",
+        ),
+    },
+}
+ORDER151_PRODUCT_FILE_TRANSITIONS = {
+    "content/events/story_events.json": (
+        "2d5c2f34917bf7f502feae6f95c2a2d3135883ea38d787a056283b3043bbb792",
+        "25675b3ec0b92aad87f501cedfb84ee57eba380fc5e021e41ef1c5cc858b5f68",
+    ),
+    "content/events_en/story_events.json": (
+        "3505aad519f413f12bb7aa9543c84847e37530906223a7b41bb84ac67a3f5102",
+        "cec87135bc0c1962c05511b936d20509eb7a651c98e44e867702074a6a330cd9",
+    ),
+    "content/events/arc_year3_drama.json": (
+        "394e6d794f1ee84c2b65d5e74e9bca8003667b50b23de503b39a5bdaef8d73e0",
+        "38dbae35c17b89545f1983a1bff28ec472674eb74f6e420bcc6ceeece43ce7a5",
+    ),
+    "content/events/gambling_narrative.json": (
+        "492a9cb590f005eab06add8804ffd20fe9c8529f90d591530471dac3d212c055",
+        "76030ac7b6a2b24d2d875ae64cc77044e976fdf2be97f05a1e798f3b7e0cb5a6",
+    ),
+    "content/events_en/gambling_narrative.json": (
+        "51f859c1da0baf025e9f17d5f1a0a9c76ec0fe98af2054d0a340bc3861d54f32",
+        "0f6379a15a2706989ef054d94861cebd0c2f27d61deef3e50c3ad2942b93ecb4",
+    ),
+    "content/events/callback_events_50.json": (
+        "256e19d0df7d07bdf8abe3bb19b8f6aa06794d8ddcddc2330fb2b9437e0a7eba",
+        "7885d12603d64a17541338cbc178abeeb6803500fb7938c4525af5db7cf0fd84",
+    ),
+    "content/events_en/callback_events_50.json": (
+        "fde4a43231e1cf48966fecf9a4dc21ba4fd01d670944a52cfb13c59aeeaa7b2b",
+        "edcd8f559d907dacb0fbcb07442158e6aba19e77243aa167500d0bec07f70572",
+    ),
+    "content/meta/story_rules.json": (
+        "079d1c95152595f0f9b14c0ddf79087789da1f594014db00228dfae77fb636b3",
+        "42c966bb45f4339504652b62d78142950c543def289f802355795f293d8689a1",
+    ),
+    "content/meta/exposed_event_state_contracts.json": (
+        "a67bc16d17867c889bd2d038351e9b70aec73fd4cd07eff3e73c59c3388a6af6",
+        "6fa54d253192172aa3eadbcf2c8016a03bd2b721940319e0f6324345b813cf88",
+    ),
+    "assets/event_visual_contracts.json": (
+        "68a595075c81188e8b507ed000b869a87e63590a135eabfb9a8f6bc9a76f9c2b",
+        "82c9f1422ec4e288bed39a464ef60c4ab6ca079f4f57dc045a032e78cf2905e5",
+    ),
+    "assets/scene_audio_manifest.json": (
+        "2a3f7937b1ece57387dea84e389993447ed75259329f94af6b142ddc61ada04b",
+        "8758590e17512703ef06964ee1ea8276b1ca236ea6ea901b7bd0b4d299150117",
+    ),
+    "assets/scene_direction_manifest.json": (
+        "916b2c7582cb14f344b7b07ba7286df6660ed316b0d7c4a2f5937f012d36b42f",
+        "65441b552b8f694370bdfad06c7ee0ec748a660aec8d88edd477185e55dac4fc",
+    ),
+}
+
 ORDER131_ADDED_IDS_BY_FILE = {
     "content/events/arc_midgame.json": {
         "arc_first_real_win_father_passed",
@@ -4674,6 +4805,105 @@ def advance_exact_hash(
 
 
 @functools.lru_cache(maxsize=None)
+def order151_baseline_payload(relative: str) -> Any:
+    return strict_loads(
+        git_blob(ORDER151_PRODUCT_BASELINE, relative).decode("utf-8"),
+        f"{ORDER151_PRODUCT_BASELINE}:{relative}",
+    )
+
+
+@functools.lru_cache(maxsize=None)
+def order151_current_payload(relative: str) -> Any:
+    """Load immutable current source once; callers must copy before mutation."""
+    return load_json(ROOT / relative)
+
+
+@functools.lru_cache(maxsize=None)
+def order151_current_byte_hash(relative: str) -> str:
+    return byte_sha256((ROOT / relative).read_bytes())
+
+
+def order151_project_byte_hash(current_hash: str, relative: str) -> str:
+    """Restore an exact registered successor, never an unknown byte hash."""
+    transition = ORDER151_PRODUCT_FILE_TRANSITIONS.get(relative)
+    if transition is not None and current_hash == transition[1]:
+        return transition[0]
+    return current_hash
+
+
+def order151_project_payload(payload: Any, relative: str) -> Any:
+    """Inverse only exact ORDER-151 objects, preserving neighbors/topology."""
+    projected = copy.deepcopy(payload)
+    transitions = ORDER151_OBJECT_TRANSITIONS_BY_FILE.get(relative, {})
+    if not transitions:
+        return projected
+    try:
+        baseline = order151_baseline_payload(relative)
+    except (UnicodeDecodeError, ValueError):
+        return projected
+    baseline_rows = baseline.get("items", []) \
+        if isinstance(baseline, dict) else baseline
+    rows = projected.get("items", []) \
+        if isinstance(projected, dict) else projected
+    if not isinstance(rows, list) or not isinstance(baseline_rows, list):
+        return projected
+    baseline_by_id = {
+        str(row.get("id", "")): row
+        for row in baseline_rows if isinstance(row, dict)
+    }
+    for index, row in enumerate(rows):
+        if not isinstance(row, dict):
+            continue
+        event_id = str(row.get("id", ""))
+        transition = transitions.get(event_id)
+        predecessor = baseline_by_id.get(event_id)
+        if transition is not None \
+                and canonical_json_sha256(row) == transition[1] \
+                and isinstance(predecessor, dict) \
+                and canonical_json_sha256(predecessor) == transition[0]:
+            rows[index] = copy.deepcopy(predecessor)
+    return projected
+
+
+def order151_project_context(context: AuditContext) -> AuditContext:
+    """Expose the previous exact candidate without hiding mutated records."""
+    projected = copy.deepcopy(context)
+    for relative, transitions in ORDER151_OBJECT_TRANSITIONS_BY_FILE.items():
+        locale = "en" if relative.startswith("content/events_en/") else "ko"
+        for event_id in transitions:
+            for record in projected.event_indexes[locale].get(event_id, []):
+                if record.path == relative:
+                    record.row = order151_project_payload(
+                        [record.row], relative)[0]
+    return projected
+
+
+@functools.lru_cache(maxsize=1)
+def order151_git_registration_snapshot(
+) -> tuple[int, str, int, str, int, frozenset[str]]:
+    """Bind the docs-only review parent and the complete current event delta."""
+    parent = subprocess.run(
+        ["git", "rev-parse", f"{ORDER151_REVIEW_BASELINE}^"],
+        cwd=ROOT, check=False, capture_output=True, text=True)
+    wrapper = subprocess.run(
+        ["git", "diff", "--name-only", ORDER151_PRODUCT_BASELINE,
+         ORDER151_REVIEW_BASELINE, "--",
+         *sorted(set(ORDER151_CHANGED_IDS_BY_FILE) | ORDER151_METADATA_FILES)],
+        cwd=ROOT, check=False, capture_output=True, text=True)
+    event_diff = subprocess.run(
+        ["git", "diff", "--name-only", ORDER151_PRODUCT_BASELINE,
+         "--", "content/events", "content/events_en"],
+        cwd=ROOT, check=False, capture_output=True, text=True)
+    return (
+        parent.returncode, parent.stdout.strip(),
+        wrapper.returncode, wrapper.stdout.strip(),
+        event_diff.returncode,
+        frozenset(path for path in event_diff.stdout.splitlines()
+                  if path.endswith(".json")),
+    )
+
+
+@functools.lru_cache(maxsize=None)
 def order150_baseline_payload(relative: str) -> Any:
     """Load the exact rejected product source repaired by ORDER-150."""
     return strict_loads(
@@ -4684,14 +4914,15 @@ def order150_baseline_payload(relative: str) -> Any:
 
 @functools.lru_cache(maxsize=None)
 def order150_current_payload(relative: str) -> Any:
-    """Load one immutable working-tree fixture once per audit process."""
-    return load_json(ROOT / relative)
+    """Read the exact pre-ORDER-151 view for the historical ORDER-150 layer."""
+    return order151_project_payload(order151_current_payload(relative), relative)
 
 
 @functools.lru_cache(maxsize=None)
 def order150_current_byte_hash(relative: str) -> str:
-    """Hash one immutable working-tree fixture once per audit process."""
-    return byte_sha256((ROOT / relative).read_bytes())
+    """Preserve ORDER-150 byte receipts through one exact successor inverse."""
+    return order151_project_byte_hash(
+        order151_current_byte_hash(relative), relative)
 
 
 @functools.lru_cache(maxsize=1)
@@ -4728,6 +4959,7 @@ def order150_git_registration_snapshot(
         [
             "git", "diff", "--name-only",
             ORDER150_REJECTED_PRODUCT_BASELINE,
+            ORDER151_PRODUCT_BASELINE,
             "--", "content/events", "content/events_en",
         ],
         cwd=ROOT,
@@ -4759,6 +4991,7 @@ def order150_project_payload(payload: Any, relative: str) -> Any:
     object, its source path, or list topology therefore remains visible to all
     older receipt validators.
     """
+    payload = order151_project_payload(payload, relative)
     transitions = ORDER150_OBJECT_TRANSITIONS_BY_FILE.get(relative, {})
     added_hashes = ORDER150_ADDED_OBJECT_SHA256_BY_FILE.get(relative, {})
     if not transitions and not added_hashes:
@@ -4808,7 +5041,7 @@ def order150_project_payload(payload: Any, relative: str) -> Any:
 
 def order150_project_context(context: AuditContext) -> AuditContext:
     """Return an event index shaped exactly like the rejected product."""
-    projected = copy.deepcopy(context)
+    projected = order151_project_context(context)
     affected_files = set(ORDER150_OBJECT_TRANSITIONS_BY_FILE) \
         | set(ORDER150_ADDED_OBJECT_SHA256_BY_FILE)
     for relative in sorted(affected_files):
@@ -6742,6 +6975,90 @@ def validate_order138_registration(
     }
 
 
+def validate_order151_registration(
+    context: AuditContext,
+    errors: list[str],
+) -> dict[str, int]:
+    """Pin the new scene delta before projecting any historical evidence."""
+    parent_code, parent, wrapper_code, wrapper_diff, diff_code, event_files = \
+        order151_git_registration_snapshot()
+    if parent_code != 0 or parent != ORDER151_PRODUCT_BASELINE:
+        errors.append("ORDER-151: review baseline is not the exact product child")
+    if wrapper_code != 0 or wrapper_diff:
+        errors.append("ORDER-151: review wrapper changed a registered product source")
+    if diff_code != 0 or event_files != set(ORDER151_CHANGED_IDS_BY_FILE):
+        errors.append(
+            "ORDER-151: exact changed event-file registry drifted "
+            f"actual={sorted(event_files)}")
+    if set(ORDER151_OBJECT_TRANSITIONS_BY_FILE) \
+            != set(ORDER151_CHANGED_IDS_BY_FILE):
+        errors.append("ORDER-151: exact object file registry drifted")
+    expected_files = set(ORDER151_CHANGED_IDS_BY_FILE) | ORDER151_METADATA_FILES
+    if set(ORDER151_PRODUCT_FILE_TRANSITIONS) != expected_files:
+        errors.append("ORDER-151: exact product byte registry drifted")
+
+    for relative, event_ids in sorted(ORDER151_CHANGED_IDS_BY_FILE.items()):
+        owner = f"ORDER-151:{relative}"
+        transitions = ORDER151_OBJECT_TRANSITIONS_BY_FILE.get(relative, {})
+        if set(transitions) != event_ids:
+            errors.append(f"{owner}: exact object transition registry drifted")
+        try:
+            current = order151_current_payload(relative)
+            baseline = order151_baseline_payload(relative)
+            baseline_rows = event_rows(baseline, f"{owner}:baseline", errors)
+            current_rows = event_rows(current, f"{owner}:current", errors)
+        except (OSError, UnicodeDecodeError, ValueError) as exc:
+            errors.append(f"{owner}: cannot load exact inverse fixture ({exc})")
+            continue
+        baseline_by_id = {str(row.get("id", "")): row for row in baseline_rows}
+        current_by_id = {str(row.get("id", "")): row for row in current_rows}
+        changed_ids = {
+            event_id for event_id in set(baseline_by_id) & set(current_by_id)
+            if canonical_json_sha256(baseline_by_id[event_id])
+            != canonical_json_sha256(current_by_id[event_id])
+        }
+        if len(baseline_rows) != len(baseline_by_id) \
+                or len(current_rows) != len(current_by_id) \
+                or set(baseline_by_id) != set(current_by_id) \
+                or changed_ids != event_ids:
+            errors.append(f"{owner}: exact event-object delta drifted")
+        locale = "en" if relative.startswith("content/events_en/") else "ko"
+        for event_id in sorted(event_ids):
+            event_owner = f"ORDER-151:{locale}:{event_id}"
+            transition = transitions.get(event_id)
+            if transition is None:
+                continue
+            if canonical_json_sha256(baseline_by_id.get(event_id)) != transition[0]:
+                errors.append(f"{event_owner}: exact baseline object hash drifted")
+            if canonical_json_sha256(current_by_id.get(event_id)) != transition[1]:
+                errors.append(f"{event_owner}: exact object hash drifted")
+            records = context.event_indexes[locale].get(event_id, [])
+            if len(records) != 1:
+                errors.append(f"{event_owner}: expected one event object")
+            elif records[0].path != relative:
+                errors.append(f"{event_owner}: exact source file drifted")
+            elif canonical_json_sha256(records[0].row) != transition[1]:
+                errors.append(f"{event_owner}: exact object hash drifted")
+        if order151_project_payload(current, relative) != baseline:
+            errors.append(f"{owner}: exact inverse does not restore baseline")
+
+    for relative, transition in sorted(ORDER151_PRODUCT_FILE_TRANSITIONS.items()):
+        try:
+            predecessor = byte_sha256(git_blob(ORDER151_PRODUCT_BASELINE, relative))
+            successor = order151_current_byte_hash(relative)
+        except (OSError, ValueError) as exc:
+            errors.append(f"ORDER-151:{relative}: cannot load exact byte pair ({exc})")
+            continue
+        if predecessor != transition[0]:
+            errors.append(f"ORDER-151:{relative}: exact baseline byte hash drifted")
+        if successor != transition[1]:
+            errors.append(f"ORDER-151:{relative}: exact current byte hash drifted")
+    return {
+        "order151_event_objects": sum(map(len, ORDER151_CHANGED_IDS_BY_FILE.values())),
+        "order151_product_files": len(ORDER151_PRODUCT_FILE_TRANSITIONS),
+    }
+
+
 def validate_order150_registration(
     context: AuditContext,
     errors: list[str],
@@ -7332,7 +7649,8 @@ def validate_protected_hashes(
         if not path.is_file():
             errors.append(f"{owner}: protected file is missing")
             continue
-        actual_hash = byte_sha256(path.read_bytes())
+        actual_hash = order151_project_byte_hash(
+            byte_sha256(path.read_bytes()), relative)
         order135_transition = ORDER135_PROTECTED_FILE_TRANSITIONS.get(relative)
         order136_transition = ORDER136_PROTECTED_FILE_TRANSITIONS.get(relative)
         order137_transition = ORDER137_PROTECTED_FILE_TRANSITIONS.get(relative)
@@ -7970,6 +8288,7 @@ def validate_manifest(
     if not isinstance(manifest, dict):
         return errors, {"routes": 0, "roots": 0, "choices": 0, "consumers": 0}
 
+    order151_context = order151_project_context(context)
     order150_context = order150_project_context(context)
     father_bridge_context = father_bridge_project_context(context)
     order138_context = order143_project_context(context)
@@ -8068,7 +8387,8 @@ def validate_manifest(
         historical_context, errors)
     order137_stats = validate_order137_registration(order137_context, errors)
     order138_stats = validate_order138_registration(order138_context, errors)
-    order150_stats = validate_order150_registration(context, errors)
+    order151_stats = validate_order151_registration(context, errors)
+    order150_stats = validate_order150_registration(order151_context, errors)
     father_bridge_stats = validate_father_bridge_registration(
         order150_context, errors)
     property_ladder_stats = validate_property_ladder_registration(
@@ -8120,6 +8440,7 @@ def validate_manifest(
         **order138_stats,
         **order143_stats,
         **order150_stats,
+        **order151_stats,
         **father_bridge_stats,
         **property_ladder_stats,
     }
@@ -8535,6 +8856,14 @@ def run_invalidated_self_test(
         record = candidate.event_indexes["ko"]["final_last_winter"][0]
         record.path = "content/events/arc_midgame.json"
 
+    def order151_object_tampered(candidate: AuditContext) -> None:
+        event = candidate_record(candidate, "ko", "age_39_final")
+        event["title"] = str(event.get("title", "")) + " 변조"
+
+    def order151_source_file_tampered(candidate: AuditContext) -> None:
+        candidate.event_indexes["ko"]["age_39_final"][0].path = \
+            "content/events/arc_midgame.json"
+
     for label, mutate, fragment in (
         ("order118_player_token", order118_token_injected, "internal document token remains"),
         ("order118_version_token", order118_version_token_injected, "internal document token remains"),
@@ -8577,9 +8906,47 @@ def run_invalidated_self_test(
         ("father_bridge_deferred_en", father_bridge_deferred_en_tampered, "FATHER-BRIDGE:en:arc_y3_father_deferred_call: exact object hash drifted"),
         ("order150_object", order150_object_tampered, "ORDER-150:ko:final_last_winter: exact object hash drifted"),
         ("order150_source_file", order150_source_file_tampered, "ORDER-150:ko:final_last_winter: exact source file drifted"),
+        ("order151_object", order151_object_tampered, "ORDER-151:ko:age_39_final: exact object hash drifted"),
+        ("order151_source_file", order151_source_file_tampered, "ORDER-151:ko:age_39_final: exact source file drifted"),
     ):
         case_count += 1
         expect_context_failure(label, manifest, context, mutate, fragment, failures)
+
+    for relative, event_ids in sorted(ORDER151_CHANGED_IDS_BY_FILE.items()):
+        current = order151_current_payload(relative)
+        predecessor = order151_baseline_payload(relative)
+        case_count += 1
+        if order151_project_payload(current, relative) != predecessor:
+            failures.append(f"order151_inverse:{relative}: baseline not restored")
+        for event_id in sorted(event_ids):
+            mutated = copy.deepcopy(current)
+            target = object_from_payload(mutated, event_id)[0]
+            target["title"] = str(target.get("title", "")) + " mutated"
+            case_count += 1
+            if order151_project_payload(mutated, relative) == predecessor:
+                failures.append(f"order151_inverse:{relative}:{event_id}: mutation hidden")
+        mutated = copy.deepcopy(current)
+        rows = mutated.get("items", []) if isinstance(mutated, dict) else mutated
+        neighbor = next(row for row in rows if str(row.get("id", "")) not in event_ids)
+        neighbor["title"] = str(neighbor.get("title", "")) + " mutated"
+        case_count += 1
+        if order151_project_payload(mutated, relative) == predecessor:
+            failures.append(f"order151_inverse:{relative}: neighboring mutation hidden")
+        mutated = copy.deepcopy(current)
+        rows = mutated.get("items", []) if isinstance(mutated, dict) else mutated
+        rows.reverse()
+        case_count += 1
+        if order151_project_payload(mutated, relative) == predecessor:
+            failures.append(f"order151_inverse:{relative}: list topology mutation hidden")
+
+    for relative, transition in sorted(ORDER151_PRODUCT_FILE_TRANSITIONS.items()):
+        case_count += 1
+        if byte_sha256(git_blob(ORDER151_PRODUCT_BASELINE, relative)) != transition[0] \
+                or order151_current_byte_hash(relative) != transition[1]:
+            failures.append(f"order151_byte_inverse:{relative}: exact pair drifted")
+        if order151_project_byte_hash(transition[1], relative) != transition[0] \
+                or order151_project_byte_hash("0" * 64, relative) != "0" * 64:
+            failures.append(f"order151_byte_inverse:{relative}: inverse is not exact")
 
     # Use the same helper as the file-level ORDER-135 validator to prove that
     # the later portrait field is removable but no neighboring field is.
@@ -8914,7 +9281,7 @@ def run_invalidated_self_test(
         try:
             baseline_hash = byte_sha256(
                 git_blob(ORDER150_REJECTED_PRODUCT_BASELINE, relative))
-            current_hash = byte_sha256((ROOT / relative).read_bytes())
+            current_hash = order150_current_byte_hash(relative)
         except (OSError, ValueError) as exc:
             failures.append(
                 f"order150_hash_transition:{relative}: cannot load fixture "
@@ -10114,6 +10481,8 @@ def main() -> int:
             f"order143_delta={stats['order143_added_objects']}+{stats['order143_changed_objects']} "
             f"order150_event_objects={stats['order150_event_objects']} "
             f"order150_product_files={stats['order150_product_files']} "
+            f"order151_event_objects={stats['order151_event_objects']} "
+            f"order151_product_files={stats['order151_product_files']} "
             f"father_bridge_delta={stats['father_bridge_changed_objects']} "
             f"property_ladder_delta={stats['property_ladder_changed_objects']} "
             f"product_consumers={stats['consumers']} "
@@ -10143,6 +10512,8 @@ def main() -> int:
         f"order143_delta={stats['order143_added_objects']}+{stats['order143_changed_objects']} "
         f"order150_event_objects={stats['order150_event_objects']} "
         f"order150_product_files={stats['order150_product_files']} "
+        f"order151_event_objects={stats['order151_event_objects']} "
+        f"order151_product_files={stats['order151_product_files']} "
         f"father_bridge_delta={stats['father_bridge_changed_objects']} "
         f"property_ladder_delta={stats['property_ladder_changed_objects']} "
         f"product_consumers={stats['consumers']} qa_consumers=1 activation=reference_only "

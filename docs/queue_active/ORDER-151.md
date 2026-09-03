@@ -19,7 +19,7 @@
 2. **카지노 소개를 받았으면 오늘 이용했다고 써도 되는가?** 아니다. 그 플래그는
    현재 방문·베팅을 증명하지 않는다. 원래 코드의 선택 효과는 마음·중독 성향뿐이며
    숙박·베팅·손실 영수증이 없다. 현재 집에 도착한 숙박 안내와 민준의 답장으로
-   좁히고, 두 기존 callback도 실제 제안 수락/사양만 회수하게 한다. 새로운 방문
+   좁히고, 두 기존 callback도 제안에 보인 관심/사양만 회수하게 한다. 새로운 방문
    시스템이나 확정 예약·이동·베팅·금전 손실은 만들지 않는다.
 3. **M54를 뒤로 옮겨 반년을 맞출 것인가?** 아니다. 같은 M54 진입과 HUD를
    유지하고 기본 도입·다섯 변형·선택·결과를 이번 달 포함 일곱 달로 정렬한다.
@@ -72,6 +72,64 @@ full·main·product는 HOLD다. 지갑 사양 후 무약속·무동석·무식�
 직계 자식 review HEAD를 새로 봉인한 뒤, 두 경로 M49→M60→후일담→6/6 정상 속도
 재플레이와 지갑 수락 결과의 별도 실제 관찰을 요청한다. 최종 사용자 GO 전에는
 완료·main 승격·독립 인간 인증을 선언하지 않는다.
+
+## 수리와 회귀 증거 — 2026-09-03
+
+- 7개 사건 파일의 exact 9개 KO/EN 객체만 변경했다. custody는 KO 배경 한 값만
+  바꾸고 원문·두 선택을 보존했다. 나머지는 원문/표현만 바뀌며 gameplay projection은
+  선언 커밋과 같다. scene direction은 카지노 제안 한 root만 `explicit_move`에서
+  `remote`로 옮겼고 demo localization scope는 바이트 불변이다.
+- M54의 실제 HUD 7과 모든 기본/조건부 도입·결과가 일치한다. 경제 주거를 덮지
+  않고 완결 결혼의 신혼집, 미혼/이혼의 현재 집을 실제 StoryMode에 표시한다.
+- 카지노 소개 플래그는 오늘 이용·베팅의 증거가 아니므로 비개인화 안내로 좁혔다.
+  두 결과는 발신만 만들며, 옛 저장에서 읽는 두 callback도 거절/관심이라는
+  공통 사실만 회수한다. 조건을 뒤로 미뤄 결함을 숨기지 않았다.
+- Chapter 5 정적 self-test **50**, 최초 변경 도구의 표적 감사 **6**, 실제 StoryMode
+  **156 fixtures / 1,044 sequential pages**, KO/EN×미혼/결혼/이혼이 GREEN이다.
+  기존 지갑 수락→도착/거절→무도착 테스트는 그대로 통과했다.
+- 전환 분류까지 교정한 최종 StoryPlayback 로그는
+  `/private/tmp/gangnamdream-order151-story-final.PMPkTY/{target,full,render}.log`,
+  별도 OpenGL 1280×800 렌더 32장은
+  `/private/tmp/gangnamdream-order151-rendered-final.n1qFlf`다. M54 신혼집,
+  W224 편의점, KO/EN 카지노 도입·결과가 일치하며 성공 marker와
+  script/parse/engine 오류·누수 0을 함께 확인했다. 이는 L2이고 인간 인증이 아니다.
+- 최초 전체 감사 `gangnamdream-order151-audit.OphqT6/full-audit.log`는 전환
+  매니페스트 갱신 누락을 발견한 **실패 증거**다. 제공 생성기로 카지노 한 root의
+  분류만 고쳤다. catalog self-test 2, year5 self-test 222(9객체/12제품 파일),
+  정확 과거 상수 448개 보존과 표적 화면 재검증이 통과했다. 첫 프레임 제한 중단의
+  불완전 캡처 `gangnamdream-order151-shots.QcLxAg`도 PASS 증거로 쓰지 않는다.
+- 로드된 KO/EN DataRegistry의 실제 `remote` 분류도 검사했다. 최종 별도 로그
+  `/private/tmp/gangnamdream-order151-direction-positive.MdWu4b/{stdout,runtime}.log`는
+  성공 marker·종료 0·오류/누수 0이다. 테스트 안에서 새 process-local QA 저장
+  공간을 먼저 만들며 full-mode·실제 프로젝트 설정·원본 저장은 바꾸지 않는다.
+- 교정 후 최종 전체 감사
+  `/private/tmp/gangnamdream-order151-audit-final.4EA6Sn/full-audit.log`는 종료 0과
+  `✅ 감사 통과`다. 68-script compile, Chapter 5 50·year5 222·인과 원장 481건과
+  실제 로드된 장면 전환 분류까지 통과했다. 통합 감사의 기존 종료 자원 경고 허용
+  정책은 바꾸지 않았다. 표적 테스트의 오류·누수 0은 통합 전체의 경고 0 선언이 아니다.
+- 이제 새 제품 커밋과 runtime diff 0인 docs-only 직계 자식 검토 HEAD를 발급한다.
+  두 경로의 정상 속도 전체 재플레이 및 지갑 수락 실관찰은 여전히 OPEN이다.
+
+## 재플레이 인계의 일회성 주의
+
+- 후보의 `commit/tree/manifest_sha256`은 제품 부모의 신원이다. source manifest는
+  `git ls-tree -r --full-tree <제품 commit> | shasum -a 256`으로 산출하며 패키지
+  artifact manifest가 아니다. review HEAD는 `CLAUDE.md`·`docs/**`만 바꾼 직계
+  자식이어야 한다. 제품 신원 검사와 wrapper의 부모·런타임 diff 0 검사는 분리한다.
+- 검토 checkout은 새로 발급할 review HEAD와 정확히 같고 clean이어야 한다.
+  저장 파일의 `source_commit`은 실행 바이너리/checkout 신원이 아니다. 기존 W193
+  두 seed의 `83d3f350…` 출처는 그대로 두고 새 제품 신원으로 덮어쓰지 않는다.
+- `investment_property_daeun` slot 01 원본 SHA-256은
+  `7239040565920fcb2ffad0d606078ce9a436c8ae2ddd5fd2ed29542ff83bd3af`,
+  `general_near_goal_father_passed` slot 02는
+  `5f4b5a0f6842e8ac726ee45b3c361ad1a45dc6c665c89009fe812acec5cf6aa8`다.
+  두 원본은 수리 후에도 불변임을 다시 확인했다. 새 플레이는 별도 저장 공간의
+  복사본만 사용하고 두 프로세스를 함께 실행하지 않는다.
+- 각 경로는 정상 독해 속도·개별 UI 입력으로 M49→M60→후일담→6/6까지 기록한다.
+  카지노나 지갑 수락 결과를 못 봤다면 미관찰로 남긴다. 직접 이벤트 호출·자동
+  넘김·정적 원고 확인을 그 실제 관찰로 대체하지 않는다.
+- 이번 렌더 QA에서 `--quit-after`는 초가 아니라 프레임 한도였다. 캡처를 재현할
+  때는 `--max-fps 60`과 충분한 프레임 한도를 함께 줘 조기 종료를 PASS로 오인하지 않는다.
 
 **규범 소유권:** 현재 집·채널·장소·미확정 사실 경계는 기존
 `STORY_CONSISTENCY_SYSTEM.md`/`story_rules.json` 정본을 적용한다. 위 후보 신원,

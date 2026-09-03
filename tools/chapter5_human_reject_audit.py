@@ -29,6 +29,42 @@ GAME_STATE_PATH = ROOT / "autoloads" / "GameState.gd"
 IMAGE_REGISTRY_PATH = ROOT / "autoloads" / "ImageRegistry.gd"
 BGM_PLAYER_PATH = ROOT / "autoloads" / "BGMPlayer.gd"
 MAIN_GAME_PATH = ROOT / "scenes" / "MainGame.gd"
+VISUAL_CONTRACTS_PATH = ROOT / "assets" / "event_visual_contracts.json"
+AUDIO_MANIFEST_PATH = ROOT / "assets" / "scene_audio_manifest.json"
+DIRECTION_MANIFEST_PATH = ROOT / "assets" / "scene_direction_manifest.json"
+
+# Declaration 7a83ce9: only presentation/prose may change for these exact roots.
+# Custody's prose and choices are fully frozen; its background alone is repaired.
+SCENE_CONTEXT_GAMEPLAY_SHA256 = {
+    "age_39_final": "e5fc5551c1f5a95cd50763c2d5fb794e4db73deeea772e40193a9b28031f0f0a",
+    "casino_comp_offer": "a4948580084f732609fe5e490259ae6a53a19199f59699cdec56c75a18b2e107",
+    "callback_casino_declined_comp_echo": "cae6bdac500f36471bbf2b05cca1c6144233b59928a6cdc4d7dc79fb3c7ae533",
+    "callback_casino_accepted_comp_echo": "d9de6f40860d31af883e66d5ab925d0da466ff00d39c852a4e5dffc0a0fb9bfc",
+    "arc_y5_father_trace_custody": "d409063672fb52af8bd6cd069f63bc9ea794197305d60510ae53a891a645f816",
+}
+
+M54_OPENING = {
+    "KO": "서른여덟 생일까지 이번 달을 포함해 일곱 달이 남았다.",
+    "EN": "Thirty-eight is seven months away, counting this month.",
+}
+M54_VARIANTS = {
+    "final_year_resolve", "final_year_realistic", "final_year_open",
+    "accepted_current_path", "final_push_decided",
+}
+CASINO_REPLY_REQUIRED = {
+    "KO": (
+        ("가지 않겠습니다", "적어 보냈다", "전송 시각만 남았다", "답장은 아직 없었다",
+         "달력에는 날짜를 더하지 않았다", "방 안의 물건들은 제자리에 있었다"),
+        ("이용 가능한 날짜를 알려주세요", "적어 보냈다", "전송 시각이 떴다",
+         "답장은 아직 없었다", "예약된 날짜도 없었다", "방을 나선 것도, 돈을 건 것도 아닌데"),
+    ),
+    "EN": (
+        ("won't be going this time", "and sends it", "Only a sent timestamp",
+         "No reply has arrived", "adds no date to the calendar", "everything in the room stays"),
+        ("Please let me know the available dates", "and sends it", "A sent timestamp appears",
+         "No reply has arrived", "no date is booked", "neither left the room nor placed a bet"),
+    ),
+}
 
 PUBLIC_DEMO_PACKAGE_COMMIT = "362578d8f4c0781fe35f643a74cc3037e7a80b21"
 PUBLIC_DEMO_PACKAGE_TREE = "e7f50b065b3369afa1894df8292756a95f94fd11"
@@ -204,11 +240,49 @@ PRESENTATION_CONTRACTS: dict[str, dict[str, Any]] = {
         "nameplate_role": "hidden",
     },
     "casino_comp_offer": {
-        "channel": "in_person",
-        "scene_location": "casino",
+        "channel": "message",
+        "scene_location": "current_housing",
+        "remote_actor": "casino_manager",
+        "remote_location": "jeongseon_casino",
         "participants": ["player", "casino_manager"],
         "portrait_role": "local",
         "nameplate_role": "hidden",
+        "expected_background": "current_housing",
+        "expected_portrait": "player_normal",
+    },
+    "age_39_final": {
+        "channel": "internal",
+        "scene_location": "current_housing",
+        "participants": ["player"],
+        "portrait_role": "local",
+        "nameplate_role": "hidden",
+        "expected_background": "current_housing",
+    },
+    "callback_casino_declined_comp_echo": {
+        "channel": "internal",
+        "scene_location": "current_housing",
+        "participants": ["player"],
+        "portrait_role": "local",
+        "nameplate_role": "hidden",
+        "expected_background": "current_housing",
+        "expected_portrait": "player_determined",
+    },
+    "callback_casino_accepted_comp_echo": {
+        "channel": "internal",
+        "scene_location": "current_housing",
+        "participants": ["player"],
+        "portrait_role": "local",
+        "nameplate_role": "hidden",
+        "expected_background": "current_housing",
+        "expected_portrait": "player_tired",
+    },
+    "arc_y5_father_trace_custody": {
+        "channel": "in_person",
+        "scene_location": "convenience_store",
+        "participants": ["player", "daeun"],
+        "portrait_role": "local",
+        "expected_background": "convenience_night",
+        "expected_ambience": "convenience",
     },
     "arc_y5_general_name_boundary_exact": {
         "channel": "phone",
@@ -246,6 +320,9 @@ class AuditModel:
     image_registry: str
     bgm_player: str
     main_game: str
+    visual_contracts: dict[str, Any]
+    audio_manifest: dict[str, Any]
+    direction_manifest: dict[str, Any]
 
 
 def _sha256_bytes(data: bytes) -> str:
@@ -288,6 +365,9 @@ def _load_model() -> AuditModel:
         image_registry=IMAGE_REGISTRY_PATH.read_text(encoding="utf-8"),
         bgm_player=BGM_PLAYER_PATH.read_text(encoding="utf-8"),
         main_game=MAIN_GAME_PATH.read_text(encoding="utf-8"),
+        visual_contracts=_load_json(VISUAL_CONTRACTS_PATH),
+        audio_manifest=_load_json(AUDIO_MANIFEST_PATH),
+        direction_manifest=_load_json(DIRECTION_MANIFEST_PATH),
     )
 
 
@@ -991,6 +1071,144 @@ def validate_time_and_money_copy(model: AuditModel, errors: list[str]) -> None:
         )
 
 
+def _scene_context_gameplay(event: dict[str, Any]) -> dict[str, Any]:
+    if event.get("id") == "arc_y5_father_trace_custody":
+        return {key: value for key, value in event.items() if key != "background"}
+    result = {
+        key: value for key, value in event.items()
+        if key not in {
+            "title", "description", "description_if_known", "background",
+            "portrait", "direction",
+        }
+    }
+    result["choices"] = [
+        {key: value for key, value in choice.items()
+         if key not in {"text", "result_text"}}
+        for choice in event.get("choices", []) if isinstance(choice, dict)
+    ]
+    return result
+
+
+def validate_scene_context_repair(model: AuditModel, errors: list[str]) -> None:
+    """Tie the observed M54/W224/casino failures to authored data and A/V owners."""
+    visuals = {
+        row.get("id"): row for row in model.visual_contracts.get("contracts", [])
+        if isinstance(row, dict)
+    }
+    audio_events = model.audio_manifest.get("events", {})
+    audio_backgrounds = model.audio_manifest.get("background_profiles", {})
+    # The global scene_direction_catalog owns exhaustive regeneration. Protect
+    # this remote-message repair against its former on-site move classification.
+    direction_intents = model.direction_manifest.get("event_intents", {})
+    if "casino_comp_offer" not in direction_intents.get("remote", []):
+        errors.append("scene-context casino_comp_offer direction must be remote")
+    if "casino_comp_offer" in direction_intents.get("explicit_move", []):
+        errors.append("scene-context casino_comp_offer must not retain explicit_move direction")
+    for event_id, expected_hash in SCENE_CONTEXT_GAMEPLAY_SHA256.items():
+        event = _event(model.ko, event_id, "KO", errors)
+        expected_background = "convenience_night" \
+            if event_id == "arc_y5_father_trace_custody" else "current_housing"
+        expected_ambience = "convenience" \
+            if event_id == "arc_y5_father_trace_custody" else "current_housing"
+        if event.get("background") != expected_background:
+            errors.append(f"scene-context {event_id} background must be {expected_background}")
+        if visuals.get(event_id, {}).get("background") != expected_background:
+            errors.append(f"scene-context {event_id} visual background must be {expected_background}")
+        event_audio = audio_events.get(event_id, {})
+        ambience = event_audio.get("ambience", audio_backgrounds.get(expected_background))
+        if ambience != expected_ambience:
+            errors.append(f"scene-context {event_id} effective ambience must be {expected_ambience}")
+        projection = json.dumps(
+            _scene_context_gameplay(event), ensure_ascii=False,
+            sort_keys=True, separators=(",", ":"))
+        if _sha256_text(projection) != expected_hash:
+            errors.append(f"scene-context {event_id} preserved gameplay/source projection changed")
+
+    milestone = _function_block(model.main_game, "_next_milestone_id")
+    _require_tokens(
+        "M54 milestone ingress", milestone,
+        ('if me == 54 and not f.get("age_39_seen", false):', 'return "age_39_final"'),
+        errors)
+    for language, catalog in (("KO", model.ko), ("EN", model.en)):
+        event = _event(catalog, "age_39_final", language, errors)
+        title = "마지막 일곱 달" if language == "KO" else "The Last Seven Months"
+        if event.get("title") != title:
+            errors.append(f"scene-context {language} M54 title must be {title!r}")
+        variants = event.get("description_if_known", {})
+        if not isinstance(variants, dict) or set(variants) != M54_VARIANTS:
+            errors.append(f"scene-context {language} M54 must preserve all five variants")
+            variants = {}
+        for source, text in {"description": event.get("description", ""), **variants}.items():
+            if not str(text).startswith(M54_OPENING[language]):
+                errors.append(f"scene-context {language} M54 {source} lost inclusive seven-month opening")
+        forbidden_time = ("반년", "스물네", "24주", "24칸", "여섯 달") \
+            if language == "KO" else ("half year", "half-year", "six months", "twenty-four", "24 weeks")
+        _forbid_tokens(
+            f"scene-context {language} M54 fixed-duration copy",
+            _event_text(event).lower(), forbidden_time, errors)
+        milestone_choices = event.get("choices", [])
+        if isinstance(milestone_choices, list) and milestone_choices:
+            _require_tokens(
+                f"scene-context {language} M54 plan not order",
+                str(milestone_choices[0].get("result_text", "")),
+                ("주문창은 열지 않고",) if language == "KO" else ("leaves the order screen closed",),
+                errors)
+
+        casino = _event(catalog, "casino_comp_offer", language, errors)
+        _require_tokens(
+            f"scene-context {language} casino message introduction",
+            str(casino.get("description", "")),
+            ("집에 있던", "누구 이름도 적혀 있지 않은 안내", "익숙한 방")
+            if language == "KO" else
+            ("At home", "message names no particular guest", "familiar room is unchanged"),
+            errors)
+        forbidden_visit = (
+            "오늘 많이 즐기셨네요", "지배인처럼 보이는 사람이 다가왔다",
+            "버스 터미널로 걸었다", "막차는 빠듯했다", "방은 좋았다",
+            "다시 칩을 바꿨다", "체크아웃할 때 통장에 찍혔다",
+            "예약을 확정했다", "예약이 확정됐다", "카지노에 도착했다",
+        ) if language == "KO" else (
+            "you've enjoyed yourself today", "manager approached",
+            "walked to the bus terminal", "the last bus was tight",
+            "the room was nice", "exchanged chips again", "account at checkout",
+            "booking was confirmed", "confirmed the booking", "arrived at the casino",
+        )
+        _forbid_tokens(
+            f"scene-context {language} casino offer", _event_text(casino).lower(),
+            forbidden_visit, errors)
+        choices = casino.get("choices", [])
+        if not isinstance(choices, list) or len(choices) != 2:
+            errors.append(f"scene-context {language} casino offer must keep both player choices")
+        else:
+            for index, required in enumerate(CASINO_REPLY_REQUIRED[language]):
+                _require_tokens(
+                    f"scene-context {language} casino reply {index} scope",
+                    str(choices[index].get("result_text", "")), required, errors)
+        for callback_id in (
+            "callback_casino_declined_comp_echo", "callback_casino_accepted_comp_echo",
+        ):
+            callback = _event(catalog, callback_id, language, errors)
+            _require_tokens(
+                f"scene-context {language} {callback_id} remembered posture",
+                str(callback.get("description", "")),
+                (("집에서", "그때는 사양하는 쪽을 택했다")
+                 if callback_id == "callback_casino_declined_comp_echo" else
+                 ("집에서", "그때는 받아들이는 쪽을 택했다")) if language == "KO" else
+                (("at home", "he chose to decline")
+                 if callback_id == "callback_casino_declined_comp_echo" else
+                 ("at home", "he chose to entertain it")), errors)
+            forbidden_recollection = (
+                "막차 타고", "막차를 택한 그 밤", "막차에 오른", "더 잃었다",
+                "하룻밤 더 머문", "그 하룻밤이 어떻게 흘러갔는지 안다",
+            ) if language == "KO" else (
+                "catch the last train", "last-train night", "catching the last train",
+                "they lost more", "the night they stayed longer", "they know how that night went",
+            )
+            _forbid_tokens(
+                f"scene-context {language} {callback_id} recollection",
+                _event_text(callback).lower(), forbidden_recollection, errors)
+
+
 def validate_remote_and_no_reply(model: AuditModel, errors: list[str]) -> None:
     ko_minseo = _event(model.ko, "arc_minseo_03_arrival", "KO", errors)
     if str(ko_minseo.get("background", "")) != "current_housing":
@@ -1517,6 +1735,7 @@ def validate_model(model: AuditModel) -> list[str]:
     validate_housing_projection(model, errors)
     validate_tutorial_and_credits(model, errors)
     validate_time_and_money_copy(model, errors)
+    validate_scene_context_repair(model, errors)
     validate_remote_and_no_reply(model, errors)
     validate_wallet_meal_consent(model, errors)
     validate_late_ingress_and_sns(model, errors)
@@ -1787,6 +2006,80 @@ def run_self_test() -> int:
     _forbid_tokens("fixture", "A reply came", ("reply came",), errors)
     check(bool(errors), "forbidden-token helper accepted a fake reply")
 
+    # Mutate the actual product objects, not an invented all-green fixture.
+    # This proves the current M54/W224/remote-offer contracts are sufficient
+    # before showing that each observed failure is independently rejected.
+    scene_fixture = _load_model()
+
+    def scene_errors(candidate: AuditModel) -> list[str]:
+        result: list[str] = []
+        validate_scene_context_repair(candidate, result)
+        validate_story_rules(candidate, result)
+        return result
+
+    check(not scene_errors(scene_fixture),
+          "live scene-context control failed: " + "; ".join(scene_errors(scene_fixture)))
+    event_mutations = (
+        ("ko", "age_39_final", "background", "goshiwon_room", "M54 fixed room"),
+        ("en", "age_39_final", "description", "Six months remained.", "EN M54 six months"),
+        ("ko", "casino_comp_offer", "description", "오늘 많이 즐기셨네요", "unearned today's casino use"),
+        ("ko", "callback_casino_declined_comp_echo", "description", "막차에 오른 그 순간", "invented bus recollection"),
+        ("en", "callback_casino_accepted_comp_echo", "description", "The night they stayed longer, they lost more.", "invented loss recollection"),
+        ("ko", "arc_y5_father_trace_custody", "description", "Changed custody receipt", "custody prose change"),
+    )
+    for catalog, event_id, key, value, label in event_mutations:
+        mutated = copy.deepcopy(scene_fixture)
+        getattr(mutated, catalog)[event_id][key] = value
+        check(bool(scene_errors(mutated)), f"scene-context mutation accepted: {label}")
+
+    mutated = copy.deepcopy(scene_fixture)
+    mutated.en["age_39_final"]["description_if_known"]["final_year_open"] = "Twenty-four weeks remained."
+    check(bool(scene_errors(mutated)), "M54 stale conditional variant accepted")
+    mutated = copy.deepcopy(scene_fixture)
+    mutated.ko["age_39_final"]["choices"][2]["result_text"] += " 남은 24주."
+    check(bool(scene_errors(mutated)), "M54 stale result duration accepted")
+    mutated = copy.deepcopy(scene_fixture)
+    mutated.ko["age_39_final"]["choices"][0]["effects"]["mental"] = -8
+    check(bool(scene_errors(mutated)), "M54 gameplay change accepted")
+    mutated = copy.deepcopy(scene_fixture)
+    mutated.ko["casino_comp_offer"]["choices"][0]["result_text"] += " 버스 터미널로 걸었다."
+    check(bool(scene_errors(mutated)), "casino refusal travel mutation accepted")
+    mutated = copy.deepcopy(scene_fixture)
+    mutated.en["casino_comp_offer"]["choices"][1]["result_text"] = \
+        mutated.en["casino_comp_offer"]["choices"][1]["result_text"].replace(
+            "no date is booked", "the booking was confirmed")
+    check(bool(scene_errors(mutated)), "casino accepted inquiry became a booking without detection")
+    mutated = copy.deepcopy(scene_fixture)
+    mutated.ko["age_39_final"]["choices"][0]["result_text"] = \
+        mutated.ko["age_39_final"]["choices"][0]["result_text"].replace(
+            "주문창은 열지 않고", "주문 금액을 입력하고 확인을 눌렀다")
+    check(bool(scene_errors(mutated)), "M54 plan became an executed order without detection")
+    mutated = copy.deepcopy(scene_fixture)
+    mutated.ko["casino_comp_offer"]["conditions"]["max_turn"] = 192
+    check(bool(scene_errors(mutated)), "casino global late suppression accepted")
+    for field, value in (("channel", "in_person"), ("remote_location", "current_housing")):
+        mutated = copy.deepcopy(scene_fixture)
+        mutated.rules["events"]["casino_comp_offer"]["presentation"][field] = value
+        check(bool(scene_errors(mutated)), f"casino presentation mutation accepted: {field}")
+    mutated = copy.deepcopy(scene_fixture)
+    mutated.audio_manifest["events"]["arc_y5_father_trace_custody"]["ambience"] = "current_housing"
+    check(bool(scene_errors(mutated)), "W224 stale room ambience accepted")
+    mutated = copy.deepcopy(scene_fixture)
+    mutated.direction_manifest["event_intents"]["remote"].remove("casino_comp_offer")
+    check(bool(scene_errors(mutated)), "casino missing remote direction accepted")
+    mutated = copy.deepcopy(scene_fixture)
+    mutated.direction_manifest["event_intents"]["explicit_move"].append("casino_comp_offer")
+    check(bool(scene_errors(mutated)), "casino stale explicit_move direction accepted alongside remote")
+    mutated = copy.deepcopy(scene_fixture)
+    next(row for row in mutated.visual_contracts["contracts"]
+         if row.get("id") == "arc_y5_father_trace_custody")["background"] = "late_night"
+    check(bool(scene_errors(mutated)), "W224 stale visual contract accepted")
+    mutated = copy.deepcopy(scene_fixture)
+    mutated.main_game = mutated.main_game.replace(
+        'if me == 54 and not f.get("age_39_seen", false):',
+        'if me == 55 and not f.get("age_39_seen", false):')
+    check(bool(scene_errors(mutated)), "M54 shifted ingress accepted")
+
     return cases
 
 
@@ -1824,6 +2117,7 @@ def main(argv: list[str] | None = None) -> int:
         "names=5x-raw-display-ko-en/legacy-gangnam/shared-display-vs-narrative/consumer-split "
         "tutorial=turn1 credits=1of6+beat "
         "timeline=calendar_safe money=dynamic remote=no_copresence/no_fake_reply "
+        "scene_context=M54-seven-months/W224-store/casino-message/no-false-recollection "
         "wallet=player_acceptance/mutual-schedule/decline-closes "
         "legacy=bounded/old-flags-preserved sns=detox_bounded "
         "shadow=proposal-terminal/no-fake-agreement "

@@ -11,6 +11,19 @@ var _failures: Array[String] = []
 
 
 func _ready() -> void:
+	# Match StoryPlayback's process-local isolation without changing full-mode
+	# semantics, retail/manual slots, HOME, or the on-disk project settings.
+	var qa_namespace := "GangnamDream_Chapter5HumanRejectQA_%d_%d" % [
+		OS.get_process_id(), int(Time.get_unix_time_from_system())]
+	ProjectSettings.set_setting("application/config/use_custom_user_dir", true)
+	ProjectSettings.set_setting("application/config/custom_user_dir_name", qa_namespace)
+	if not OS.get_user_data_dir().ends_with(qa_namespace) \
+			or DirAccess.make_dir_recursive_absolute(OS.get_user_data_dir()) != OK:
+		push_error("CHAPTER5_HUMAN_REJECT_CHECK_FAIL: refused to run outside a new isolated QA namespace")
+		get_tree().quit(1)
+		return
+	print("CHAPTER5_HUMAN_REJECT_QA_USER_DIR=%s" % OS.get_user_data_dir())
+	# Let deferred autoload settings load before the check selects KO/EN.
 	call_deferred("_run")
 
 
@@ -25,6 +38,7 @@ func _run() -> void:
 	_check_jiyeon_truth_contact_runtime()
 	_check_loaded_story_contracts()
 	_check_minseo_outbound_results_runtime()
+	_check_scene_context_repair_runtime()
 
 	# No audio needs to start for this proof.  Stop any inherited bed anyway so
 	# strict headless teardown cannot be confused with a runtime-contract error.
@@ -44,6 +58,7 @@ func _run() -> void:
 			+ "minseo=remote-message/no-portrait/player-only/2x-outbound-ko-en "
 			+ "shadow=proposal-only/legacy-joined-roundtrip/sns-closed "
 			+ "wallet=accept-flag/arrival-gated/decline-closes/interview+10 "
+			+ "scene-context=m54-seven-months/5x-variants/3x-home/w224-store/casino-remote-direction "
 			+ "jiyeon=truth-contact-3x-ko-en/no-repeat")
 		get_tree().quit(0)
 		return
@@ -860,6 +875,179 @@ func _check_minseo_outbound_results_runtime() -> void:
 			_expect(_contains_none(result_text, forbidden),
 				"M51 Minseo %s choice %d invented a remote reaction: %s" % [
 					language, index, result_text])
+	LocaleManager.language = original_language
+	DataRegistry.reload()
+
+
+func _check_scene_context_repair_runtime() -> void:
+	# Loaded KO and EN event objects are the actual StoryMode input. This does
+	# not replace the separate paragraph-by-paragraph StoryPlayback regression.
+	var original_language := LocaleManager.language
+	var home_events := ["age_39_final", "casino_comp_offer",
+		"callback_casino_declined_comp_echo", "callback_casino_accepted_comp_echo"]
+	var expected_channels := {
+		"age_39_final": "internal", "casino_comp_offer": "message",
+		"callback_casino_declined_comp_echo": "internal",
+		"callback_casino_accepted_comp_echo": "internal",
+	}
+	var expected_portraits := {
+		"casino_comp_offer": "player_normal",
+		"callback_casino_declined_comp_echo": "player_determined",
+		"callback_casino_accepted_comp_echo": "player_tired",
+	}
+	var variant_keys := ["final_year_resolve", "final_year_realistic",
+		"final_year_open", "accepted_current_path", "final_push_decided"]
+	var casino_reply_required := {
+		"ko": [
+			["가지 않겠습니다", "적어 보냈다", "전송 시각만 남았다", "답장은 아직 없었다",
+				"달력에는 날짜를 더하지 않았다", "방 안의 물건들은 제자리에 있었다"],
+			["이용 가능한 날짜를 알려주세요", "적어 보냈다", "전송 시각이 떴다",
+				"답장은 아직 없었다", "예약된 날짜도 없었다", "방을 나선 것도, 돈을 건 것도 아닌데"],
+		],
+		"en": [
+			["won't be going this time", "and sends it", "Only a sent timestamp",
+				"No reply has arrived", "adds no date to the calendar", "everything in the room stays"],
+			["Please let me know the available dates", "and sends it", "A sent timestamp appears",
+				"No reply has arrived", "no date is booked", "neither left the room nor placed a bet"],
+		],
+	}
+	for language in ["ko", "en"]:
+		LocaleManager.language = language
+		DataRegistry.reload()
+		GameState.start_new_game()
+		GameState.age = 37
+		GameState.month = 6
+		GameState.turn = 213
+		var milestone: Dictionary = DataRegistry.find_event("age_39_final")
+		var expected_title := "마지막 일곱 달" if language == "ko" else "The Last Seven Months"
+		var opening := "서른여덟 생일까지 이번 달을 포함해 일곱 달이 남았다." \
+			if language == "ko" else \
+			"Thirty-eight is seven months away, counting this month."
+		_expect(str(milestone.get("title", "")) == expected_title,
+			"%s M54 title lost the seven-month boundary" % language)
+		_expect(str(milestone.get("description", "")).begins_with(opening),
+			"%s M54 base description lost the inclusive seven-month opening" % language)
+		var variants: Dictionary = milestone.get("description_if_known", {})
+		_expect(variants.size() == variant_keys.size(),
+			"%s M54 must retain all five description variants" % language)
+		for variant in variant_keys:
+			_expect(str(variants.get(variant, "")).begins_with(opening),
+				"%s M54 variant %s contradicts the seven-month HUD" % [language, variant])
+		var old_duration := ["반년", "스물네", "24주", "24칸", "여섯 달"] \
+			if language == "ko" else ["half year", "half-year", "six months", "twenty-four", "24 weeks"]
+		_expect(_contains_none(JSON.stringify(milestone).to_lower(), old_duration),
+			"%s M54 still contains fixed half-year/24-week prose" % language)
+		_expect((milestone.get("choices", []) as Array).size() == 3,
+			"%s M54 choice count changed" % language)
+		var milestone_choices: Array = milestone.get("choices", [])
+		if milestone_choices.size() == 3:
+			var plan_result := str((milestone_choices[0] as Dictionary).get("result_text", ""))
+			_expect(plan_result.contains("주문창은 열지 않고" if language == "ko" else "leaves the order screen closed"),
+				"%s M54 planning result became an executed trade" % language)
+
+		for event_id in home_events:
+			var event: Dictionary = DataRegistry.find_event(event_id)
+			var presentation: Dictionary = DataRegistry.get_story_presentation(event_id)
+			_expect(str(event.get("background", "")) == "current_housing",
+				"%s %s does not load its live home background" % [language, event_id])
+			_expect(str(presentation.get("scene_location", "")) == "current_housing" \
+					and str(presentation.get("expected_background", "")) == "current_housing" \
+					and str(presentation.get("channel", "")) == str(expected_channels[event_id]),
+				"%s %s loaded an incompatible location/channel contract" % [language, event_id])
+			var expected_participants: Array = ["player", "casino_manager"] \
+				if event_id == "casino_comp_offer" else ["player"]
+			_expect(_same(presentation.get("participants", []), expected_participants),
+				"%s %s participants drifted" % [language, event_id])
+			_expect(str(presentation.get("portrait_role", "")) == "local" \
+					and str(presentation.get("nameplate_role", "")) == "hidden",
+				"%s %s local portrait/nameplate ownership drifted" % [language, event_id])
+			if expected_portraits.has(event_id):
+				_expect(str(event.get("portrait", "")) == str(expected_portraits[event_id]) \
+						and str(presentation.get("expected_portrait", "")) == str(expected_portraits[event_id]),
+					"%s %s local acting changed" % [language, event_id])
+			if str(event_id).begins_with("callback_casino_"):
+				var recalled_travel := ["막차 타고", "막차에 오른", "하룻밤 더 머문", "더 잃었다"] \
+					if language == "ko" else ["catch the last train", "catching the last train",
+					"the night they stayed longer", "they lost more"]
+				_expect(_contains_none(JSON.stringify(event).to_lower(), recalled_travel),
+					"%s %s invents a past journey or cash loss" % [language, event_id])
+			for home_case in ["single", "married", "divorced"]:
+				GameState.housing = "gosiwon"
+				GameState.flags = {}
+				if home_case != "single":
+					GameState.flags["arc_daeun_wedding_day_seen"] = true
+				if home_case == "divorced":
+					GameState.flags["daeun_divorced"] = true
+				var expected_home := "daeun_newlywed_home" if home_case == "married" else "goshiwon_room"
+				var resolved := ImageRegistry.resolve_contextual_background_id(str(event.get("background", "")))
+				_expect(resolved == expected_home,
+					"%s %s %s resolved to %s" % [language, event_id, home_case, resolved])
+				var audio: Dictionary = BGMPlayer.scene_audio_contract(event_id)
+				var authored_ambience := str(audio.get("ambience", ""))
+				var ambience := BGMPlayer._resolve_dynamic_ambience_key(authored_ambience) \
+					if not authored_ambience.is_empty() else BGMPlayer._pick_ambience(event, resolved)
+				_expect(ambience == ("oneroom" if home_case == "married" else "room"),
+					"%s %s %s kept non-home ambience: %s" % [language, event_id, home_case, ambience])
+
+		var casino: Dictionary = DataRegistry.find_event("casino_comp_offer")
+		var casino_presence: Dictionary = DataRegistry.get_story_presentation("casino_comp_offer")
+		_expect(DataRegistry.get_scene_direction_event_intent("casino_comp_offer") == "remote",
+			"%s casino message loaded non-remote scene direction" % language)
+		_expect(str(casino_presence.get("remote_actor", "")) == "casino_manager" \
+				and str(casino_presence.get("remote_location", "")) == "jeongseon_casino",
+			"%s casino sender is not explicitly remote" % language)
+		var forbidden_visit := ["오늘 많이 즐기셨네요", "버스 터미널로 걸었다",
+			"막차는 빠듯했다", "방은 좋았다", "다시 칩을 바꿨다", "체크아웃할 때 통장에 찍혔다"] \
+			if language == "ko" else ["you've enjoyed yourself today", "manager approached",
+			"walked to the bus terminal", "the room was nice", "exchanged chips again", "account at checkout"]
+		_expect(_contains_none(JSON.stringify(casino).to_lower(), forbidden_visit),
+			"%s casino message invented an on-site visit or betting outcome" % language)
+		var casino_choices: Array = casino.get("choices", [])
+		_expect(casino_choices.size() == 2, "%s casino offer lost a choice" % language)
+		for index in range(casino_choices.size()):
+			if index < 2:
+				_expect(_contains_all(str((casino_choices[index] as Dictionary).get("result_text", "")),
+					casino_reply_required[language][index]),
+					"%s casino reply %d lost sent-only/no-booking/no-travel scope" % [language, index])
+			GameState.start_new_game()
+			GameState.turn = 212
+			GameState.flags = {"casino_club_introduced": true}
+			var choice: Dictionary = casino_choices[index]
+			var expected_flag := "casino_declined_comp" if index == 0 else "casino_accepted_comp"
+			var money_before: float = GameState.money
+			var turn_before: int = GameState.turn
+			_expect(GameState.apply_choice(casino, choice),
+				"%s casino reply choice %d did not apply" % [language, index])
+			_expect(bool(GameState.flags.get(expected_flag, false)) \
+					and GameState.money == money_before and GameState.turn == turn_before,
+				"%s casino reply choice %d changed cash/time or lost its existing flag" % [language, index])
+			_expect(str(choice.get("follow_up_event", "")).is_empty() \
+					and str(choice.get("deferred_follow_up", "")).is_empty() \
+					and str(choice.get("result_background", "")).is_empty(),
+				"%s casino reply choice %d schedules a trip or leaves the room" % [language, index])
+
+		var custody: Dictionary = DataRegistry.find_event("arc_y5_father_trace_custody")
+		var custody_presence: Dictionary = DataRegistry.get_story_presentation("arc_y5_father_trace_custody")
+		_expect(str(custody.get("background", "")) == "convenience_night" \
+				and str(custody_presence.get("scene_location", "")) == "convenience_store" \
+				and str(custody_presence.get("expected_background", "")) == "convenience_night",
+			"%s W224 custody text does not use the convenience-store background" % language)
+		_expect(str(BGMPlayer.scene_audio_contract("arc_y5_father_trace_custody").get("ambience", "")) == "convenience",
+			"%s W224 custody retained room ambience" % language)
+
+		# Same milestone ingress and HUD calendar semantics for every M54 week.
+		var main_game: Node = MAIN_GAME_SCRIPT.new()
+		GameState.age = 37
+		GameState.month = 6
+		GameState.money = 0
+		GameState.flags = {"story_first_savings_seen": true}
+		for week in range(213, 217):
+			GameState.turn = week
+			GameState.week_of_month = week - 212
+			_expect(str(main_game.call("_next_milestone_id")) == "age_39_final" \
+					and (38 - GameState.age) * 12 - GameState.month + 1 == 7,
+				"%s M54 W%d ingress/seven-month calendar moved" % [language, week])
+		main_game.free()
 	LocaleManager.language = original_language
 	DataRegistry.reload()
 

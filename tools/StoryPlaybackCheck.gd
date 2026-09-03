@@ -2,6 +2,7 @@ extends Node
 
 const CORE_LOOP := preload("res://systems/DemoCoreLoopV2.gd")
 const STORY_MODE_SCRIPT := preload("res://scenes/StoryMode.gd")
+const CHAPTER5_CAUSAL_FIXTURE := preload("res://systems/Chapter5CausalRoute.gd")
 const AUTO_REPLAY_ROOT := "arc_date_park_daeun"
 const DIRECT_CONTINUE_EVENTS := [
 	"story_flashforward",
@@ -33,8 +34,32 @@ const DEMO_QUEUE_ONLY_EDGES := [
 ]
 
 var _story: Control
+var _chapter5_surface_cases := 0
+var _chapter5_surface_pages := 0
 
 func _ready() -> void:
+	# A source-tree QA run must never borrow retail/manual slots, even on macOS
+	# where XDG_DATA_HOME is not the platform's user:// namespace selector.
+	# ProjectSettings changes stay in this process; project.godot is never saved.
+	var qa_namespace := "GangnamDream_StoryPlaybackQA_%d_%d" % [
+		OS.get_process_id(), int(Time.get_unix_time_from_system())]
+	ProjectSettings.set_setting("application/config/use_custom_user_dir", true)
+	ProjectSettings.set_setting("application/config/custom_user_dir_name", qa_namespace)
+	if not OS.get_user_data_dir().ends_with(qa_namespace) \
+			or DirAccess.make_dir_recursive_absolute(OS.get_user_data_dir()) != OK:
+		_fail("StoryPlayback refused to run outside a new isolated QA namespace")
+		return
+	print("STORY_PLAYBACK_QA_USER_DIR=%s" % OS.get_user_data_dir())
+	# Let deferred autoload settings load before the matrix selects KO/EN.
+	await get_tree().process_frame
+	if "--chapter5-scene-context-only" in OS.get_cmdline_user_args():
+		if not await _check_chapter5_scene_context_playback():
+			return
+		await _stop_test_audio()
+		print("CHAPTER5_SCENE_CONTEXT_PLAYBACK_OK cases=%d pages=%d ko_en=1 homes=unmarried-wedding-divorced sequential_pages=1" % [
+			_chapter5_surface_cases, _chapter5_surface_pages])
+		get_tree().quit(0)
+		return
 	if not await _check_default_auto_contract():
 		return
 	await _free_story_fixture()
@@ -92,6 +117,8 @@ func _ready() -> void:
 	if not await _check_wallet_meal_consent_handoff():
 		return
 	await _free_story_fixture()
+	if not await _check_chapter5_scene_context_playback():
+		return
 	await _stop_test_audio()
 	# Covered handoff fixtures intentionally leave a deferred scene replacement
 	# pending until quit. Keep their transition click silent so that final frame
@@ -110,6 +137,8 @@ func _ready() -> void:
 		+ "direct_commit=1 hints=ko_en_xbox_ps_nintendo choice_commit=0 "
 		+ "fresh_guided=1 story_send_writes=0 legacy_paused_send=1 "
 		+ "wallet_consent=invite-accept-arrival/decline-no-arrival "
+		+ "chapter5_scene_context=%dcases/%dpages/ko-en/3homes " % [
+			_chapter5_surface_cases, _chapter5_surface_pages]
 		+ "legacy_covered=1 typed_w1_covered=1"
 	)
 	get_tree().quit(0)
@@ -814,6 +843,280 @@ func _check_wallet_meal_consent_handoff() -> bool:
 	EventManager.current_event = event_before
 	MetaProgression.data = meta_before
 	return true
+
+func _check_chapter5_scene_context_playback() -> bool:
+	# These are rendered StoryMode checks, not calls to the background resolver.
+	# Each fixture starts at page zero and advances every decoded page in order;
+	# no _para_index assignment or direct result-visual call may replace playback.
+	var state_before: Dictionary = GameState.serialize().duplicate(true)
+	var pending_before: Array = GameState.pending_story_queue.duplicate(true)
+	var return_before := GameState.story_return_scene
+	var event_before: Dictionary = EventManager.current_event.duplicate(true)
+	var meta_before: Dictionary = MetaProgression.data.duplicate(true)
+	var language_before := LocaleManager.language
+	var failure := ""
+	_chapter5_surface_cases = 0
+	_chapter5_surface_pages = 0
+	var milestone_variants := ["", "final_year_resolve", "final_year_realistic",
+		"final_year_open", "accepted_current_path", "final_push_decided"]
+	for language in ["ko", "en"]:
+		LocaleManager.set_language(language)
+		for home in ["unmarried", "wedding", "divorced"]:
+			for variant_index in range(milestone_variants.size()):
+				for choice_index in range(3):
+					failure = await _play_chapter5_surface_case(
+						"age_39_final", home, choice_index,
+						213 + variant_index % 4, str(milestone_variants[variant_index]))
+					if not failure.is_empty():
+						break
+				if not failure.is_empty():
+					break
+			if not failure.is_empty():
+				break
+			for event_id in ["arc_y5_father_trace_custody", "casino_comp_offer",
+				"callback_casino_declined_comp_echo", "callback_casino_accepted_comp_echo"]:
+				for choice_index in range(2):
+					failure = await _play_chapter5_surface_case(
+						event_id, home, choice_index,
+						224 if event_id == "arc_y5_father_trace_custody" else 213)
+					if not failure.is_empty():
+						break
+				if not failure.is_empty():
+					break
+			if not failure.is_empty():
+				break
+		if not failure.is_empty():
+			break
+	await _free_story_fixture()
+	await _stop_test_audio()
+	GameState.call("_restore_serialized_snapshot_exact", state_before)
+	GameState.pending_story_queue = pending_before
+	GameState.story_return_scene = return_before
+	EventManager.current_event = event_before
+	MetaProgression.data = meta_before
+	LocaleManager.set_language(language_before)
+	if not failure.is_empty():
+		_fail(failure)
+		return false
+	if _chapter5_surface_cases != 156 or _chapter5_surface_pages < 312:
+		_fail("Chapter 5 scene-context fixture inventory did not complete")
+		return false
+	return true
+
+func _play_chapter5_surface_case(
+		event_id: String, home: String, choice_index: int, turn: int,
+		known_variant: String = "") -> String:
+	await _free_story_fixture()
+	GameState.start_new_game()
+	GameState.turn = turn
+	GameState.age = 37
+	GameState.month = 8 if turn == 224 else 6
+	GameState.housing = "gosiwon"
+	GameState.money = 2_800_000_000.0
+	GameState.health = 80
+	GameState.mental = 80
+	GameState.flags = {"prologue_done": true, "casino_club_introduced": true}
+	if home != "unmarried":
+		GameState.flags["arc_daeun_wedding_day_seen"] = true
+	if home == "divorced":
+		GameState.flags["daeun_divorced"] = true
+	if not known_variant.is_empty():
+		GameState.flags[known_variant] = true
+	if event_id == "callback_casino_declined_comp_echo":
+		GameState.flags["casino_declined_comp"] = true
+	elif event_id == "callback_casino_accepted_comp_echo":
+		GameState.flags["casino_accepted_comp"] = true
+	if event_id == "arc_y5_father_trace_custody":
+		var seed_error := _seed_chapter5_custody_surface()
+		if not seed_error.is_empty():
+			return seed_error
+	GameState.story_replay_mode = false
+	GameState.pending_story_queue = [event_id]
+	GameState.story_return_scene = "res://scenes/MainGame.tscn"
+	_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+	add_child(_story)
+	await get_tree().process_frame
+	await get_tree().process_frame
+	_story.call("_set_auto_mode", false, false, false)
+	var context := "%s/%s/%s/choice%d/%s/W%d" % [
+		LocaleManager.language, home, event_id, choice_index, known_variant, turn]
+	var event: Dictionary = _story.get("_current")
+	if str(event.get("id", "")) != event_id or bool(_story.get("_read_only_replay")):
+		return "%s: actual StoryMode did not open the live root" % context
+	var expected_background := "daeun_newlywed_home" if home == "wedding" else "goshiwon_room"
+	var expected_ambience := "oneroom" if home == "wedding" else "room"
+	if event_id == "arc_y5_father_trace_custody":
+		expected_background = "convenience_night"
+		expected_ambience = "convenience"
+	var capture_case := home != "divorced" and known_variant.is_empty() \
+		and (event_id == "casino_comp_offer" or (choice_index == 0 \
+			and event_id in ["age_39_final", "arc_y5_father_trace_custody"]))
+	if capture_case:
+		var capture_error := await _capture_chapter5_surface(event_id, home, choice_index, "intro")
+		if not capture_error.is_empty():
+			return capture_error
+	var intro_error := _read_chapter5_surface_pages(
+		event_id, expected_background, expected_ambience, false, context)
+	if not intro_error.is_empty():
+		return intro_error
+	if event_id == "age_39_final":
+		var title := _story.get("_title_lbl") as Label
+		var expected_title := "마지막 일곱 달" if LocaleManager.language == "ko" else "The Last Seven Months"
+		var introduction: String = str(_story.call("_resolved_story_description", event))
+		var expected_months := "이번 달을 포함해 일곱 달" if LocaleManager.language == "ko" else "seven months away, counting this month"
+		if title.text != "— %s —" % expected_title \
+				or not introduction.to_lower().contains(expected_months):
+			return "%s: rendered milestone title/selected introduction lost the seven-month fact" % context
+		var selected_intro := str(event.get("description", ""))
+		if not known_variant.is_empty():
+			selected_intro = str((event.get("description_if_known", {}) as Dictionary).get(known_variant, ""))
+		if str(_story.call("_resolved_story_description", event)) \
+				!= str(_story.call("_fmt", selected_intro)):
+			return "%s: fixture did not exercise the requested introduction variant" % context
+	if not bool(_story.get("_showing_choices")):
+		_story.call("_on_advance")
+	if not bool(_story.get("_showing_choices")):
+		return "%s: sequential introduction did not reach the choice rail" % context
+	var choices: Array = event.get("choices", [])
+	if choice_index >= choices.size():
+		return "%s: required choice is absent" % context
+	var money_before: float = GameState.money
+	var turn_before: int = GameState.turn
+	var housing_before := GameState.housing
+	var deferred_before: Array = GameState.deferred_events.duplicate(true)
+	_story.call("_on_choice", choice_index)
+	if not bool(_story.get("_pending_after_result")) \
+			or int(_story.get("_pending_result_choice_index")) != choice_index:
+		return "%s: choice did not produce its actual StoryMode result" % context
+	var result_error := _read_chapter5_surface_pages(
+		event_id, expected_background, expected_ambience, true, context)
+	if not result_error.is_empty():
+		return result_error
+	if capture_case:
+		var capture_error := await _capture_chapter5_surface(event_id, home, choice_index, "result")
+		if not capture_error.is_empty():
+			return capture_error
+	if GameState.money != money_before or GameState.turn != turn_before \
+			or GameState.housing != housing_before \
+			or GameState.deferred_events != deferred_before \
+			or not str(_story.get("_pending_follow_up")).is_empty() \
+			or not (_story.get("_queue") as Array).is_empty():
+		return "%s: scene-only choice invented money, housing, time, or a follow-up trip" % context
+	_chapter5_surface_cases += 1
+	return ""
+
+func _capture_chapter5_surface(
+		event_id: String, home: String, choice_index: int, phase: String) -> String:
+	var output_dir := ""
+	for argument in OS.get_cmdline_user_args():
+		if argument.begins_with("--chapter5-scene-shots="):
+			output_dir = argument.trim_prefix("--chapter5-scene-shots=")
+	if output_dir.is_empty():
+		return ""
+	if not output_dir.is_absolute_path() or not DirAccess.dir_exists_absolute(output_dir):
+		return "Chapter 5 screenshots require an existing absolute output directory"
+	_story.call("_complete_typing")
+	await get_tree().create_timer(0.65).timeout
+	await RenderingServer.frame_post_draw
+	var screenshot := get_viewport().get_texture().get_image()
+	if screenshot == null or screenshot.is_empty() or screenshot.get_size() != Vector2i(1280, 800):
+		return "Chapter 5 screenshot is not a rendered 1280x800 image"
+	var filename := "%s_%s_%s_choice%d_%s.png" % [
+		LocaleManager.language, home, event_id, choice_index, phase]
+	if screenshot.save_png(output_dir.path_join(filename)) != OK:
+		return "Chapter 5 screenshot could not be saved: %s" % filename
+	return ""
+
+func _read_chapter5_surface_pages(
+		event_id: String, background_id: String, ambience: String,
+		result: bool, context: String) -> String:
+	var pages: Array = _story.get("_paragraphs")
+	if pages.is_empty() or int(_story.get("_para_index")) != 0:
+		return "%s: %s did not begin at decoded page zero" % [context, "result" if result else "intro"]
+	for page_index in range(pages.size()):
+		if int(_story.get("_para_index")) != page_index \
+				or bool(_story.get("_pending_after_result")) != result:
+			return "%s: sequential playback skipped decoded page %d" % [context, page_index]
+		if bool(_story.get("_story_scene_transition_active")):
+			return "%s: unexpected location transition on page %d" % [context, page_index]
+		if bool(_story.get("_direction_beat_waiting")):
+			_story.call("_on_advance")
+		_story.call("_complete_typing")
+		var body := _story.get("_body_lbl") as RichTextLabel
+		var background := _story.get("_bg_img") as TextureRect
+		if body.text != str(pages[page_index]) or body.text.is_empty() \
+				or not is_instance_valid(background) or background.texture == null \
+				or background.texture.resource_path != ImageRegistry.get_background(background_id) \
+				or str(_story.get("_event_background_id")) != background_id \
+				or str(BGMPlayer.get("_current_ambience_key")) != ambience:
+			return "%s: page %d body/actual texture/ambience mismatch (background=%s ambience=%s)" % [
+				context, page_index, str(_story.get("_event_background_id")),
+				str(BGMPlayer.get("_current_ambience_key"))]
+		if event_id == "age_39_final":
+			var hud := _story.get("_hud_label") as Label
+			var expected_hud := "남은 7개월" if LocaleManager.language == "ko" else "7 mo left"
+			if not hud.text.contains(expected_hud):
+				return "%s: rendered M54 HUD lost seven remaining months" % context
+			for stale in ["반년", "24주", "스물네", "six months", "six-month", "half year", "half-year", "twenty-four", "24 weeks"]:
+				if body.text.to_lower().contains(stale):
+					return "%s: stale time fact on rendered page %d: %s" % [context, page_index, stale]
+		if event_id == "casino_comp_offer":
+			var badge := _story.get("_communication_badge") as Control
+			var badge_label := _story.get("_communication_label") as Label
+			var name_panel := _story.get("_name_panel") as Control
+			var portrait := _story.get("_portrait") as TextureRect
+			var expected_badge := "메시지" if LocaleManager.language == "ko" else "MESSAGE"
+			if not badge.visible or badge_label.text != expected_badge \
+					or name_panel.visible or bool(_story.get("_portrait_remote_inset")) \
+					or portrait.texture == null \
+					or portrait.texture.resource_path != ImageRegistry.get_portrait("player_normal"):
+				return "%s: casino message did not retain local Minjun/hidden name/message badge" % context
+		elif event_id.begins_with("callback_casino_"):
+			var presentation: Dictionary = _story.get("_current_presentation")
+			if str(presentation.get("channel", "")) != "internal" \
+					or presentation.get("participants", []) != ["player"] \
+					or (_story.get("_communication_badge") as Control).visible:
+				return "%s: casino callback acquired a remote or physically present other actor" % context
+		_chapter5_surface_pages += 1
+		if bool(_story.get("_direction_hold_active")):
+			# Exercise the actual authored-hold consumer; never force the choice rail.
+			_story.call("_process", 2.1)
+		if page_index + 1 < pages.size():
+			_story.call("_on_advance")
+	return ""
+
+func _seed_chapter5_custody_surface() -> String:
+	# Build the existing prerequisite receipt chain through its real reducer;
+	# no invented choice dictionaries or bypass of StoryMode's transaction guard.
+	var locked := CHAPTER5_CAUSAL_FIXTURE.lock_entry(
+		CHAPTER5_CAUSAL_FIXTURE.default_state(), 195, "투자형", true, true, 2_800_000_000.0)
+	if not bool(locked.get("ok", false)):
+		return "custody surface fixture could not lock the source route"
+	var state: Dictionary = locked["state"]
+	for turn in range(195, 221):
+		for _same_turn in range(3):
+			var source_id := CHAPTER5_CAUSAL_FIXTURE.next_event_for_turn(state, turn)
+			if source_id.is_empty():
+				break
+			var committed := CHAPTER5_CAUSAL_FIXTURE.commit_choice(state, source_id, 0, turn)
+			if not bool(committed.get("ok", false)):
+				return "custody surface fixture could not commit source %s" % source_id
+			state = committed["state"]
+	if not CHAPTER5_CAUSAL_FIXTURE.route_complete(state):
+		return "custody surface fixture source route is incomplete"
+	GameState.chapter5_causal_state = state
+	GameState.flags["father_passed"] = true
+	GameState.turn = 221
+	if not GameState.prepare_chapter5_finale_route_entry():
+		return "custody surface fixture could not lock the finale route"
+	var father_id := GameState.chapter5_finale_next_event_for_turn()
+	var father_choice := GameState.record_chapter5_finale_choice(father_id, 0)
+	if not bool(father_choice.get("ok", false)):
+		return "custody surface fixture could not record the preceding father scene"
+	GameState.turn = 224
+	if GameState.chapter5_finale_next_event_for_turn() != "arc_y5_father_trace_custody":
+		return "custody surface fixture did not admit exact W224 ingress"
+	return ""
 
 func _hint_fits(hint: Label) -> bool:
 	var font := hint.get_theme_font("font")

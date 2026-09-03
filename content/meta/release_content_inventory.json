@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated": "2026-09-01",
+  "updated": "2026-09-03",
   "scope": "Factual release-content evidence for the current source and uploaded package; not a rating or legal opinion.",
   "decision_boundary": {
     "final_age_rating": "user_required",
@@ -457,7 +457,7 @@
         "expected_event_count": 137,
         "expected_file_count": 43,
         "expected_ids_sha256": "e324a22a603bda179d3be12bee23fb8e8af3134e9cab56e953416e42d02bba7b",
-        "expected_content_sha256": "bad1dce1847ee070d45e0e240d2267dce48902e321e8cf7e5076aec7f4f76606"
+        "expected_content_sha256": "73d713bb1e8e88b09dd5254a956a607bf318c58093609f36fe234b2cfe94e967"
       },
       "facts": [
         {
@@ -530,7 +530,7 @@
         "tokens_ko": ["키스", "입을 맞", "첫날밤", "첫밤", "침대 위", "밤의 나머지", "불을 껐", "서로를 원"],
         "tokens_en": ["kiss", "first night", "on the bed", "rest of the night", "turned off the light", "wanted each other"],
         "reviewed_search_noise_ids": ["arc_y4_father_final_contact_present"],
-        "expected_event_count": 123, "expected_file_count": 25, "expected_ids_sha256": "f89bbbc2fe99a3b4f4ba265406dbb62623c251cdbcf3addc7c525c5764469e72", "expected_content_sha256": "accd68090b4343ead3abb6d5cc7c891ef8dcf3a67e9fc2057e5ffadb9791c44a"
+        "expected_event_count": 124, "expected_file_count": 26, "expected_ids_sha256": "b0b2306f0c7abfcbe7a13c0c46ace514434459be156759f9c6860f80778693aa", "expected_content_sha256": "0ee3bece875afafc89e44e01558a371d9e51201bc8856f78e3ebe9921238fc44"
       },
       "facts": [
         {

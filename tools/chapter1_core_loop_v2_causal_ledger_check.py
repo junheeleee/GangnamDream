@@ -3501,6 +3501,29 @@ EXPECTED_AUDITED_SOURCE_FILE_SHA256 = {
     "tools/story_consistency_audit.py":
         "c74704f63af16e7b498ba7704e94c56d580f7622d74de8a92d62fa95847b03d5",
 }
+# ORDER-151 advances only current source observations from exact product
+# 236d8eb2c532172c60da3fafce0fc1b768e38049. The source map above and all frozen
+# ORDER-101 semantic/proof/debt bindings remain unchanged historical evidence.
+ORDER151_AUDITED_SOURCE_TRANSITION_PATHS = frozenset({
+    "tools/StoryPlaybackCheck.gd",
+    "content/meta/release_content_inventory.json",
+    "content/meta/story_rules.json",
+})
+ORDER151_AUDITED_SOURCE_FILE_TRANSITIONS = {
+    "tools/StoryPlaybackCheck.gd": (
+        "a41334ab79cdac18e2d28544a4300b64aae34b5f6decefbea77a6dd7b8cfb4b0",
+        "03b40f2452d7080d96c87fa0eab92eb60c2c1124d488bdad13803a4218e3e46b",
+    ),
+    "content/meta/release_content_inventory.json": (
+        "7d68f2c44031f8fb0db886501d558d129ce55c08cd22f65831bf8c4fcfbd5e5d",
+        "f741a69f08ba51477043fd3d11d3b4a2f57191a70f9cd1db74f51bc0529fe4db",
+    ),
+    "content/meta/story_rules.json": (
+        "079d1c95152595f0f9b14c0ddf79087789da1f594014db00228dfae77fb636b3",
+        "42c966bb45f4339504652b62d78142950c543def289f802355795f293d8689a1",
+    ),
+}
+
 # Mutable evidence/status logs are not causal sources.  Keeping this guard in
 # production validation prevents an append-only work record from silently
 # becoming a whole-repository trust key again.
@@ -3972,6 +3995,9 @@ def _file_digest(relative_path: str) -> str:
 def _audited_source_snapshot_errors(
         source_hashes: dict[str, str]) -> list[str]:
     errors: list[str] = []
+    if set(ORDER151_AUDITED_SOURCE_FILE_TRANSITIONS) \
+            != ORDER151_AUDITED_SOURCE_TRANSITION_PATHS:
+        errors.append("source: ORDER-151 exact observation transition scope mismatch")
     for relative_path, expected_digest in source_hashes.items():
         if relative_path in FORBIDDEN_AUDITED_SOURCE_FILE_KEYS:
             errors.append(
@@ -3983,7 +4009,16 @@ def _audited_source_snapshot_errors(
                 or not re.fullmatch(r"[0-9a-f]{64}", expected_digest)):
             errors.append(
                 f"source: audited source digest is not exact SHA-256 {relative_path}")
-        elif _file_digest(relative_path) != expected_digest:
+        else:
+            transition = ORDER151_AUDITED_SOURCE_FILE_TRANSITIONS.get(relative_path)
+            if transition is not None:
+                if expected_digest != transition[0]:
+                    errors.append(
+                        f"source: ORDER-151 transition predecessor mismatch {relative_path}")
+                else:
+                    expected_digest = transition[1]
+            if _file_digest(relative_path) == expected_digest:
+                continue
             errors.append(
                 f"source: audited file snapshot mismatch {relative_path}")
     return errors
@@ -20382,6 +20417,17 @@ def self_test(ledger: dict[str, Any], baseline: dict[str, Any]) -> int:
             EXPECTED_AUDITED_SOURCE_FILE_SHA256):
         raise AssertionError("audited source snapshot baseline is not clean")
     cases += 1
+
+    for relative_path, transition in ORDER151_AUDITED_SOURCE_FILE_TRANSITIONS.items():
+        if EXPECTED_AUDITED_SOURCE_FILE_SHA256.get(relative_path) != transition[0] \
+                or _file_digest(relative_path) != transition[1]:
+            raise AssertionError(f"ORDER-151 exact source transition drifted {relative_path}")
+        rewritten_history = dict(EXPECTED_AUDITED_SOURCE_FILE_SHA256)
+        rewritten_history[relative_path] = transition[1]
+        if not any("ORDER-151 transition predecessor mismatch" in error
+                   for error in _audited_source_snapshot_errors(rewritten_history)):
+            raise AssertionError(f"ORDER-151 historical source replacement passed {relative_path}")
+        cases += 1
 
     mutable_evidence_map = dict(EXPECTED_AUDITED_SOURCE_FILE_SHA256)
     mutable_evidence_map["docs/WORK_LOG.md"] = _file_digest(

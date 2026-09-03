@@ -73,7 +73,7 @@ EXPECTED = {
         "0254f6d7938d7e281204b5b730d6b59e179efbe12595ef16fa72d3b378b6a6de"
     ),
     "shipping_source_leaves_sha256": (
-        "fbcf80b56487555529b500f1b68b357941d5e1e164e41a5bf71590775b4ddb11"
+        "2f5e7a457f93d4e735b87d9a5e65f7dc01f467c6705bf33568fc76a7969a9184"
     ),
     "m07_m60_root_refs": 162,
     "m07_m60_shipping_root_refs": 132,

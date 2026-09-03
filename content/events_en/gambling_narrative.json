@@ -31,16 +31,16 @@
   },
   {
     "id": "casino_comp_offer",
-    "title": "A Free Room",
-    "description": "Someone who looked like a manager approached.\n\n\"Sir, you've enjoyed yourself today. Shall I arrange a hotel room for you? Breakfast included, on the house.\"\n\nPolite. Kind. Treating {name} like a VIP.\n\nFor a moment it felt good — then {name} caught himself.\n\nGiving you a free room meant: be here tomorrow too.",
+    "title": "A Complimentary Room Offer",
+    "description": "At home, {name}'s phone gives a short buzz. It is a room promotion from the casino club he was introduced to earlier.\n\n“One night in a guest room, with breakfast, free of charge. Please ask about available dates.”\n\nThe message names no particular guest. Even so, {name}'s finger stops over the word “free.”\n\nHe opens the calendar before writing a reply. A wide bed and a late breakfast fill an empty square in his imagination. Then he thinks of the tables below the hotel.\n\nBeyond the screen, the familiar room is unchanged. The cursor blinks in the message field.",
     "choices": [
       {
-        "text": "\"No thanks, I'll catch the last bus\" — decline",
-        "result_text": "\"Appreciate it, but I have to head out.\"\n\nThe manager handed over a business card. \"Call anytime.\" Smiling.\n\n{name} walked to the bus terminal. The last bus was tight.\n\nThere's always a reason behind what's given for free. Walking the opposite way from that reason — that was today's victory."
+        "text": "“I won't be going this time.” — Decline the room offer",
+        "result_text": "{name} writes, “Thank you for the information. I won't be going this time,” and sends it.\n\nThe input field clears. Only a sent timestamp appears beside his words. No reply has arrived.\n\nHe sets the phone on the desk. He adds no date to the calendar. A car passes outside; everything in the room stays where it is.\n\nThe word “free” remains on the screen. This time, he gives the offer no more of his evening."
       },
       {
-        "text": "\"Just one night, then…\" — accept the favor",
-        "result_text": "The room was nice. The view was nice.\n\nBut he couldn't sleep. Staring at the ceiling, thinking about tomorrow's table.\n\nIn the morning he ate breakfast and, naturally, exchanged chips again.\nThe real price of the free room showed up in his account at checkout.\n\nNothing in this world is free. The casino, especially."
+        "text": "“Please let me know the available dates.” — Express interest",
+        "result_text": "{name} writes, “Please let me know the available dates,” and sends it.\n\nA sent timestamp appears. No reply has arrived. The square on the calendar is still empty; no date is booked.\n\nHe sets the phone on the desk, then picks it up again. He has neither left the room nor placed a bet, but he is already waiting for the next screen.\n\nLying on the bed, he keeps picturing the room in the advertisement. Part of the night that remains tilts toward the small screen."
       }
     ]
   },

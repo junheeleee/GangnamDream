@@ -617,6 +617,10 @@
     "cg_ending_writer": {"ambience": "room"}
   },
   "events": {
+    "age_39_final": {"ambience": "current_housing"},
+    "casino_comp_offer": {"ambience": "current_housing"},
+    "callback_casino_declined_comp_echo": {"ambience": "current_housing"},
+    "callback_casino_accepted_comp_echo": {"ambience": "current_housing"},
     "chain_exec_meal": {
       "ambience": "current_housing",
       "suppress_music": true,
@@ -770,7 +774,7 @@
       }
     },
     "arc_y5_father_trace_custody": {
-      "ambience": "current_housing",
+      "ambience": "convenience",
       "music": {"key": "reckoning", "start_paragraph": 1},
       "paragraph_cues": {"0": [{"sfx": "paper_handle", "volume_db": -7.0}]},
       "result_paragraph_cues": {

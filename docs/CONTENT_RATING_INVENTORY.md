@@ -3,7 +3,7 @@
 > 이 문서는 `content/meta/release_content_inventory.json`, frozen 공개 Git source, 현재 개발 소스에서 자동 생성한다.
 > 최종 연령 등급·법률 의견·콘텐츠 삭제 결정이 아니며 수동 편집하지 않는다.
 
-갱신 기준: 2026-09-01
+갱신 기준: 2026-09-03
 
 ## 가장 중요한 범위 판정
 
@@ -131,8 +131,8 @@ PCK의 디렉터리·전 payload MD5·JSON·raster/audio import target과 ZIP의
 
 | 축 | 후보 사건/파일 | ID SHA-256 | KO/EN 본문 SHA-256 | 최고 사실 강도 |
 |---|---:|---|---|---|
-| 사행성·도박 | 137 / 43 | `e324a22a603bda179d3be12bee23fb8e8af3134e9cab56e953416e42d02bba7b` | `bad1dce1847ee070d45e0e240d2267dce48902e321e8cf7e5076aec7f4f76606` | strong, moderate |
-| 선정성·성적 내용 | 123 / 25 | `f89bbbc2fe99a3b4f4ba265406dbb62623c251cdbcf3addc7c525c5764469e72` | `accd68090b4343ead3abb6d5cc7c891ef8dcf3a67e9fc2057e5ffadb9791c44a` | moderate, mild |
+| 사행성·도박 | 137 / 43 | `e324a22a603bda179d3be12bee23fb8e8af3134e9cab56e953416e42d02bba7b` | `73d713bb1e8e88b09dd5254a956a607bf318c58093609f36fe234b2cfe94e967` | strong, moderate |
+| 선정성·성적 내용 | 124 / 26 | `b0b2306f0c7abfcbe7a13c0c46ace514434459be156759f9c6860f80778693aa` | `0ee3bece875afafc89e44e01558a371d9e51201bc8856f78e3ebe9921238fc44` | moderate, mild |
 | 폭력성 | 18 / 15 | `1d403db1107800e1e7c4a8d9d78c08361a840c6901fd8e93de83e609bf585a70` | `25d4565dadf90b8029a7490a0771d4171bdcc4efb204636f30c29f959900a3aa` | mild |
 | 공포 | 146 / 51 | `2c0b31f28649c41920b109674331366623b3600076d16a694a647fae6f26a5cb` | `64b154283eaa22b444ef382e8d2e21b45184ec0936a27fc1388911dce9c55eb5` | moderate |
 | 언어 | 2 / 2 | `09cf036c8dac9dcefd776b9cf27b96efa7ed0ee396e74264bea545b480c8eca1` | `fc1a0465f31a6a2df2deb4559825e67c7f762fa2ebfdbaa45ae63e2fb75131c3` | mild |

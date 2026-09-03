@@ -1207,9 +1207,11 @@
       "logic": {},
       "presentation": {
         "channel": "in_person",
-        "scene_location": "late_night",
+        "scene_location": "convenience_store",
         "participants": ["player", "daeun"],
-        "portrait_role": "local"
+        "portrait_role": "local",
+        "expected_background": "convenience_night",
+        "expected_ambience": "convenience"
       }
     },
     "arc_y5_name_on_line_daeun_routed": {
@@ -1318,20 +1320,57 @@
         "expected_portrait": "player_tired"
       }
     },
+    "age_39_final": {
+      "logic": {},
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "current_housing",
+        "participants": ["player"],
+        "portrait_role": "local",
+        "nameplate_role": "hidden",
+        "expected_background": "current_housing",
+        "expected_ambience": "current_housing"
+      }
+    },
     "casino_comp_offer": {
       "logic": {},
       "presentation": {
-        "channel": "in_person",
-        "scene_location": "casino",
+        "channel": "message",
+        "scene_location": "current_housing",
+        "remote_location": "jeongseon_casino",
+        "remote_actor": "casino_manager",
         "participants": ["player", "casino_manager"],
-        "participant_roles": {
-          "player": "guest",
-          "casino_manager": "host"
-        },
         "portrait_role": "local",
         "nameplate_role": "hidden",
-        "expected_background": "casino",
-        "expected_portrait": "player_normal"
+        "expected_background": "current_housing",
+        "expected_portrait": "player_normal",
+        "expected_ambience": "current_housing"
+      }
+    },
+    "callback_casino_declined_comp_echo": {
+      "logic": {},
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "current_housing",
+        "participants": ["player"],
+        "portrait_role": "local",
+        "nameplate_role": "hidden",
+        "expected_background": "current_housing",
+        "expected_portrait": "player_determined",
+        "expected_ambience": "current_housing"
+      }
+    },
+    "callback_casino_accepted_comp_echo": {
+      "logic": {},
+      "presentation": {
+        "channel": "internal",
+        "scene_location": "current_housing",
+        "participants": ["player"],
+        "portrait_role": "local",
+        "nameplate_role": "hidden",
+        "expected_background": "current_housing",
+        "expected_portrait": "player_tired",
+        "expected_ambience": "current_housing"
       }
     },
     "amb_credit_steal_00": {

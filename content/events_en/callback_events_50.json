@@ -46,31 +46,31 @@
   },
   {
     "id": "callback_casino_declined_comp_echo",
-    "title": "Choosing the Last Train",
-    "description": "When the casino offered a free night's stay, {name} declined — 'I'll catch the last train home.'\n\nThat refusal comes back sometimes.\n\nToday they face another temptation disguised as kindness.",
+    "title": "The Offer He Declined",
+    "description": "Looking at the calendar at home, {name} remembers the casino's earlier room offer. That time, he chose to decline.\n\nThe time it took to decide is clearer than the promise that it was free.\n\nHow does he remember that choice now?",
     "choices": [
       {
-        "text": "Free favors — always have a price",
-        "result_text": "A free night was meant to keep you longer.\n\n{name} read the favor's intent.\nThat last-train night saved them from a bigger loss."
+        "text": "Even without a price, it asked for my time",
+        "result_text": "An empty square on the calendar always seemed to ask to be filled.\n\n{name} realizes that the room offer found the same opening. The promise of paying nothing briefly pushed aside the question of where he wanted his time to go.\n\nThis time, he closes the calendar with the square still empty."
       },
       {
-        "text": "Leaving that place — was the hardest victory",
-        "result_text": "The hardest thing in gambling is leaving.\n\nDeclining the favor and catching the last train, {name} truly won."
+        "text": "I did not need a long explanation to say no",
+        "result_text": "He used to think that declining meant finding a reason the other person would accept.\n\nRemembering that choice, {name} loosens his grip on the thought. Before explaining himself to someone else, he can start by knowing what he does not want."
       }
     ]
   },
   {
     "id": "callback_casino_accepted_comp_echo",
-    "title": "Accepting the Free Night",
-    "description": "When the casino offered a free night's stay, {name} accepted — 'just one night, then.'\n\nThey know how that night went.\n\nToday a similar temptation beckons.",
+    "title": "The Offer That Drew Him In",
+    "description": "Setting down the phone at home, {name} remembers being drawn to the casino's earlier room offer. That time, he chose to entertain it.\n\nWhat comes back first is not the room, but his own schedule, pushed behind the word “free.”\n\nWhat does he want to examine in that choice?",
     "choices": [
       {
-        "text": "I learned then — free favors were bait",
-        "result_text": "The night they stayed longer, they lost more.\n\n{name} learned the casino's favors were strategy, not kindness.\nThe real price of what looks free is always billed later."
+        "text": "Before asking if it is free, ask why I want to go",
+        "result_text": "{name} writes “Why I want to go” in a note. “Free” comes to mind immediately, but the next line is harder to fill.\n\nHe does not rush to erase the blank. The terms of the offer and what he wants are not the same thing."
       },
       {
-        "text": "Now — even when offered, I take the last train",
-        "result_text": "That regret changed {name}.\n\nNow, however good the offer, they leave at the set time."
+        "text": "Decide where my time goes before the next offer arrives",
+        "result_text": "He turns the phone face down and opens the calendar.\n\n{name} starts with what he wants to do this week, not what someone might offer next. He leaves some squares empty. One space remains for not reaching immediately when the screen lights up again."
       }
     ]
   },
