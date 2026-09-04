@@ -4,9 +4,10 @@ Updated: 2026-09-05
 
 ## Owner and Use
 
-This file owns the six person-free location backgrounds introduced for the
-authored Chapter 5 scene-context repair. It does not authorize text-driven
-background guessing, generic routine-vignette remapping, or new story facts.
+This file owns the six location backgrounds without named, foreground, or
+clear-face characters introduced for the authored Chapter 5 scene-context
+repair. It does not authorize text-driven background guessing, generic
+routine-vignette remapping, or new story facts.
 The event id owns the place; only a choice whose result prose physically moves
 Minjun may switch to a result background.
 

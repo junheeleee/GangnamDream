@@ -7,7 +7,7 @@
 > 전 구간 선택 그래프를 대화형으로 보려면:
 > `python3 tools/project_dashboard.py` → `build/project_dashboard.html`
 >
-> 생성 시각 · 커밋: `2026-09-04 18:16 UTC · f601f822`
+> 생성 시각 · 커밋: `2026-09-04 20:18 UTC · 0655d4d9`
 
 **개발용이다.** 아래는 `tint`·`route_*`와 정확한 수치를 그대로 적는다.
 플레이어에게 노출하지 않는 값이므로 이 문서를 플레이어 대상 자료로 쓰지 않는다.
@@ -97,8 +97,7 @@
 
 | ID | 제목 | 상태 | 현재 게이트 |
 |---|---|---|---|
-| `ORDER-155` | Ch5 저작 장면 장소·시간대 배경 | 진행 | exact 7 event 실제 settled-frame fail-first · 새 배경 6 · routine 배경은 다음 묶음 · 두 사람 gate OPEN·HOLD |
-| `ORDER-151` | Ch5 장소·기간·카지노 맥락 | 진행 | 042f5ea 두 경로 6/6 Codex 관찰 · 보증 충돌·결혼/비교본 이름표 수리 완료 · 저작 배경 수리 중 · 두 사람 gate OPEN·HOLD |
+| `ORDER-151` | Ch5 장소·기간·카지노 맥락 | 진행 | 042f5ea 두 경로 6/6 Codex 관찰 · 보증·이름표·저작 배경 완료 · routine settled-frame 묶음 남음 · 두 사람 gate OPEN·HOLD |
 | `ORDER-150` | Ch5 human REJECT 수리 | 진행 | 후속 151 exact 재플레이 대기 · 두 사람 gate OPEN · HOLD |
 | `ORDER-148` | 5장 종막의 부정 종결 습관을 푼다(사실은 유지) | 미착수 | ORDER-150 exact 제품 뒤 재계측 · 금지 사실은 한 건도 삭제 금지 · 선행 대기 |
 | `ORDER-149` | 프롤로그 세 비트가 같은 속도로 지나가는 문제를 푼다 | 미착수 | P-18 1층만 · FADE_SECONDS 0.52 하나를 세 비트가 공유·hold 3.10/3.10/3.00 · 새 자산 0 · 미착수 |

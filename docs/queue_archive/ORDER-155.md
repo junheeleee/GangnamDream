@@ -1,8 +1,8 @@
-# Active Queue Spec: ORDER-155
+# Archived Queue Spec: ORDER-155
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-155 [P0·장소 연출] Chapter 5 저작 장면의 장소·시간대 배경을 산문과 맞춘다
+#### [x] ORDER-155 [P0·장소 연출] Chapter 5 저작 장면의 장소·시간대 배경을 산문과 맞춘다
 
 **[~] 2026-09-05 Codex 착수 — 아래 exact 범위만 소유한다.** 기준은
 ORDER-154 종료 `f601f822838d72d376d79c21eaa9aa5cbfe21fcd`다. 근거는 exact
@@ -140,3 +140,44 @@ M55 복장·무초상, W237 30분·W240 무응답/무이체, 30억 즉시엔딩,
 `docs/STORY_CONSISTENCY_SYSTEM.md`·`assets/scene_direction_manifest.json`을 적용한다.
 새 여섯 장소의 지속 시각 규칙은 `assets/CHAPTER5_LOCATION_VISUAL_BIBLE.md`에
 승격한다. exact 일곱 id·증거·파일 소유권은 일회성이다.
+
+## 완료 영수증 — 2026-09-05
+
+- 저작 장면 제품 commit은 `bf1ca506170af8e6212241f6e2ecf03c776da1ae`, tree
+  `6dddf21e9c5c74b1226c9492b6152b831729ee0b`다. macOS 외부 제한 신호의
+  자식 프로세스 정리를 보강한 최종 소스 commit은
+  `0655d4d9b6ee4f14d6bd74b0bd0a41f9e38cca88`, tree
+  `3bdfae4aa1a7406d0a06bcaa4a0684fccdb366c3`다. 두 commit 사이 제품
+  `content/assets/autoloads/scenes/systems/project.godot` 차이는 0이다.
+- exact 일곱 사건은 도입 또는 실제 이동 결과의 배경 leaf만 바뀌었다. KO/EN
+  원고·선택·index·효과·flag·follow-up·조건·weight·초상·CG와 M01~M06,
+  M55 복장, 아버지 생사, 민서 원격, 지갑 수락·거절, W237/W240 무응답·무이체,
+  30억 즉시엔딩은 불변이다.
+- 전체 감사는 제품 장면 commit에서 종료 0·`✅ 감사 통과`였다. 최종 소스
+  commit에서는 실제 StoryMode 32경우·도입 122문단·결과 100문단과
+  StoryPlayback 156경우·1,044문단을 다시 실행했다. 마지막 evidence는
+  `gangnam-story-background-context-dpkzlc24`, stdout SHA-256
+  `5f462cb513223fb79a88a5db060a75de9e67a35a79b3b5e1cc26a02a2f29fc81`,
+  Godot log `32a68a451538baa504862eb44495b257e35bbba10f1a838f653672dac12ca653`,
+  runner receipt `a1f598599997ec8c8fc25b43691a91211d1443d6241d85be57d2994a29ddf63e`다.
+- 독립 리뷰가 Darwin `SIGALRM`에서 검사기만 죽고 Godot가 남을 수 있는 차단점
+  1건을 찾았다. 수정 뒤 1초 alarm 시험은 exit 142, process-tree stop confirmed,
+  잔존 Godot 0, 실패 증거 보존을 확인했다. 최종 독립 서사·검사·자산 리뷰는
+  blocker 0이다.
+- 여섯 raster는 1280×800 opaque, exact duplicate 0이며 1280×800·960×600
+  crop을 통과했다. 모두 B+/`PASS-B` runtime 후보이고 A급 master가 아니다.
+  자동·시각 계약 통과는 사람 플레이나 재미 GO가 아니다. 생활 routine 배경
+  묶음과 새 exact 후보 전에는 플레이를 요청하지 않으며 두 Chapter 5 사람 gate
+  OPEN, full·main·product HOLD를 유지한다.
+
+### L2 완료 증거
+
+```text
+도달 경로      : actual StoryMode → KO/EN 7 authored roots → every choice/result → settled texture/ambience
+생산자 ↔ 독자   : event background/result_background ↔ StoryMode resolved id/texture ↔ scene audio profile
+바꾸는 상태     : 새 gameplay state 없음; 실제 장소 이동을 선택한 결과의 화면만 이동
+포기 시 잃는 것 : 오전 진료실·역 계단/역무실·낮 식당·콘서트·빌라·오픈하우스의 장소 신뢰
+서사 위치       : Chapter 5 authored event 7개; 공개 M01~M06·routine vignette 불변
+장면 계층       : 새 6배경 + 기존 아파트/현재 집/지하철 + 환경음 + KO/EN 동일 topology
+닫는 것         : 산문과 다른 generic/night/train-car 배경 및 결과 이동 누락 0
+```
