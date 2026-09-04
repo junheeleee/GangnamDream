@@ -1,5 +1,5 @@
 {
-  "version": 38,
+  "version": 39,
   "tag_coverage": [
     "climate",
     "season",
@@ -98,7 +98,13 @@
     {"id": "arc_y5_contract_reviewer_delivery_sangchul", "background": "current_housing", "portrait": "player_tired"},
     {"id": "arc_y5_final_push_deadline_investment", "background": "current_housing", "portrait": "player_determined"},
     {"id": "arc_y5_protection_boundary_daeun", "background": "cafe", "portrait": "daeun_normal"},
-    {"id": "arc_y5_burnout_check_reference", "background": "hospital_clinic", "portrait": "player_tired"},
+    {"id": "arc_y5_burnout_check_reference", "background": "hospital_clinic_day", "portrait": "player_tired"},
+    {"id": "rare_wallet_executive", "background": "subway_station_stairs", "choice_result_backgrounds": {"0": "subway_station_lost_found"}},
+    {"id": "chain_exec_meal_arrival", "background": "hanjeongsik_restaurant_day"},
+    {"id": "arc_jiyeon_year5_news", "background": "hanjeongsik_restaurant_day", "portrait": "player_normal", "choice_result_backgrounds": {"1": "street"}},
+    {"id": "yolo_spend_moment", "background": "convenience_store", "portrait": "player_tired", "choice_result_backgrounds": {"0": "concert_hall_night", "2": "concert_hall_night"}},
+    {"id": "chain_envelope_owner_return", "background": "convenience_night", "choice_result_backgrounds": {"0": "villa_renovation_day"}},
+    {"id": "hidden_gangnam_open_house", "background": "gangnam_apartment", "choice_result_backgrounds": {"0": "current_housing", "1": "subway"}},
     {"id": "arc_y5_minseo_goal_cost_reference", "background": "cafe", "portrait": "minseo"},
     {"id": "arc_y5_after_goal_daeun", "background": "cafe", "portrait": "daeun_normal"},
     {"id": "arc_y5_final_offer", "background": "meeting", "portrait": "sangchul_serious", "choice_result_backgrounds": {"2": "cafe"}, "choice_result_portraits": {"2": "daeun_normal"}},

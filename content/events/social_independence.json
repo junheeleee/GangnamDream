@@ -30,6 +30,7 @@
           "yolo_spent_once"
         ],
         "follow_up_event": "yolo_morning_after",
+        "result_background": "concert_hall_night",
         "result_text": "결제 완료. 통장 잔액이 줄었지만 오랜만에 기대가 생겼다. 당일 밤 콘서트장에서 목이 쉬도록 소리를 질렀다. 살아 있다는 느낌이 이런 거구나."
       },
       {
@@ -50,6 +51,7 @@
           "money": -50000,
           "intelligence": 1
         },
+        "result_background": "concert_hall_night",
         "result_text": "2층 서서 보는 자리였지만 괜찮았다. 무대는 멀었어도 소리는 같았다. 원하는 걸 포기 없이 얻는 건 아니지만, 완전히 잃지도 않았다."
       }
     ]

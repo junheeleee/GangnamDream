@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated": "2026-09-03",
+  "updated": "2026-09-05",
   "scope": "Factual release-content evidence for the current source and uploaded package; not a rating or legal opinion.",
   "decision_boundary": {
     "final_age_rating": "user_required",
@@ -264,9 +264,9 @@
     "en_endings": 35,
     "ending_ids_sha256": "3c26984721dc1ee6a18d472b854b30578982f43632d05a3d004ad99cb247c118",
     "ending_content_sha256": "81f1599053907f43b59021e2baccaff249a7bcc7b2c630dde389021b3d395eca",
-    "active_art_assets": 250,
-    "source_raster_assets": 306,
-    "packaged_raster_assets": 298,
+    "active_art_assets": 256,
+    "source_raster_assets": 312,
+    "packaged_raster_assets": 304,
     "registry_external_source_raster_assets": 56,
     "registry_external_packaged_raster_assets": 48,
     "source_only_gdignored_raster_assets": 8,

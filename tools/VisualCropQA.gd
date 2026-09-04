@@ -11,6 +11,21 @@ const OUT_DIR := "/tmp/gangnamdream_crop_qa"
 const VIEW_SIZE := Vector2i(1280, 800)
 const SHEET_TILE := Vector2i(480, 300)
 const SHEET_COLS := 2
+const CHAPTER5_BACKGROUND_VIEW_SIZES: Array[Vector2i] = [
+	Vector2i(1280, 800),
+	Vector2i(960, 600),
+]
+const CHAPTER5_BACKGROUND_PATHS: Array[String] = [
+	"res://assets/backgrounds/hospital_clinic_day.png",
+	"res://assets/backgrounds/subway_station_stairs.png",
+	"res://assets/backgrounds/subway_station_lost_found.png",
+	"res://assets/backgrounds/hanjeongsik_restaurant_day.png",
+	"res://assets/backgrounds/concert_hall_night.png",
+	"res://assets/backgrounds/villa_renovation_day.png",
+]
+const STORY_DIALOGUE_RECT := Rect2i(50, 550, 1180, 210)
+const STORY_CHOICE_RECT := Rect2i(102, 412, 845, 340)
+const STORY_HUD_RECT := Rect2i(0, 0, 1280, 48)
 
 var _shots: Array[String] = []
 var _failures: Array[String] = []
@@ -231,6 +246,24 @@ func _run() -> void:
 		},
 	]
 
+	# Chapter 5 authored locations are 16:10 full-screen backgrounds. The
+	# headless renderer cannot produce trustworthy viewport pixels, so these
+	# cases use the same deterministic CPU cover math as the legacy crop sheet.
+	# Each source is checked at both the design canvas and the supported 960x600
+	# floor before a StoryMode-shaped HUD/dialogue mask is composited.
+	for background_path: String in CHAPTER5_BACKGROUND_PATHS:
+		for view_size: Vector2i in CHAPTER5_BACKGROUND_VIEW_SIZES:
+			var stem := background_path.get_file().get_basename()
+			cases.append({
+				"mode": "chapter5_background",
+				"name": "chapter5_%s_%dx%d" % [
+					stem, view_size.x, view_size.y],
+				"background": background_path,
+				"view_size": view_size,
+				"title": "Chapter 5 location / %s" % stem,
+				"body": "The complete 16:10 place remains visible above StoryMode UI.",
+			})
+
 	for item in cases:
 		var shot := await _capture_case(item)
 		if shot != "":
@@ -242,6 +275,10 @@ func _run() -> void:
 	print("VISUAL_CROP_QA_OUT_DIR=%s" % OUT_DIR)
 	print("VISUAL_CROP_QA_SHEET=%s" % sheet)
 	print("VISUAL_CROP_QA_SHOTS=%d" % _shots.size())
+	print("VISUAL_CROP_QA_CHAPTER5_BACKGROUND_MATRIX=%dx%d" % [
+		CHAPTER5_BACKGROUND_PATHS.size(),
+		CHAPTER5_BACKGROUND_VIEW_SIZES.size(),
+	])
 	if _failures.is_empty():
 		print("VISUAL_CROP_QA_OK")
 		get_tree().quit(0)
@@ -275,6 +312,11 @@ func _capture_case(item: Dictionary) -> String:
 	var img := _render_case_cpu(item)
 	if img == null:
 		return ""
+	var expected_size: Vector2i = item.get("view_size", VIEW_SIZE)
+	if img.get_size() != expected_size:
+		_failures.append("%s rendered %s, expected %s" % [
+			str(item.get("name", "case")), img.get_size(), expected_size])
+		return ""
 	var out_path := "%s/%s.png" % [OUT_DIR, str(item.get("name", "case"))]
 	var err := img.save_png(out_path)
 	if err != OK:
@@ -291,6 +333,8 @@ func _render_case_cpu(item: Dictionary) -> Image:
 			return _render_main_cpu(item)
 		"cg":
 			return _render_cg_cpu(item)
+		"chapter5_background":
+			return _render_chapter5_background_cpu(item)
 		_:
 			_failures.append("unknown visual crop mode: %s" % mode)
 			return null
@@ -356,8 +400,92 @@ func _render_cg_cpu(item: Dictionary) -> Image:
 	_blend_rect_color(canvas, Rect2i(44, 712, 1192, 48), Color(0.02, 0.03, 0.05, 0.80))
 	return canvas
 
-func _new_canvas(color: Color) -> Image:
-	var canvas := Image.create(VIEW_SIZE.x, VIEW_SIZE.y, false, Image.FORMAT_RGBA8)
+func _render_chapter5_background_cpu(item: Dictionary) -> Image:
+	var view_size: Vector2i = item.get("view_size", VIEW_SIZE)
+	var bg := _load_image(str(item["background"]))
+	if bg == null:
+		return null
+	if not _assert_chapter5_background_geometry(
+			str(item["background"]), bg.get_size(), view_size):
+		return null
+
+	var canvas := _new_canvas(Color("#0c0c10"), view_size)
+	_draw_cover(canvas, bg, Rect2i(Vector2i.ZERO, view_size), 1.0)
+	_blend_rect_color(
+		canvas,
+		Rect2i(Vector2i.ZERO, view_size),
+		Color(0.04, 0.04, 0.07, 0.16))
+	_blend_rect_color(
+		canvas,
+		_scaled_design_rect(STORY_HUD_RECT, view_size),
+		Color(0.04, 0.04, 0.06, 0.86))
+	_blend_rect_color(
+		canvas,
+		_scaled_design_rect(STORY_DIALOGUE_RECT, view_size),
+		Color(0.03, 0.03, 0.06, 0.92))
+	return canvas
+
+func _assert_chapter5_background_geometry(
+		path: String, source_size: Vector2i, view_size: Vector2i) -> bool:
+	var failure_count := _failures.size()
+	if source_size != VIEW_SIZE:
+		_failures.append("%s source size %s, expected %s" % [
+			path, source_size, VIEW_SIZE])
+	if not CHAPTER5_BACKGROUND_VIEW_SIZES.has(view_size):
+		_failures.append("%s unsupported crop target %s" % [path, view_size])
+	if source_size.x <= 0 or source_size.y <= 0:
+		_failures.append("%s has invalid source geometry %s" % [path, source_size])
+		return false
+
+	# StoryMode uses KEEP_ASPECT_COVERED. Both supported targets are 16:10,
+	# so these authored 1280x800 sources must survive with zero source crop.
+	var cover_scale := maxf(
+		float(view_size.x) / float(source_size.x),
+		float(view_size.y) / float(source_size.y))
+	var covered_size := Vector2i(
+		maxi(1, int(ceil(float(source_size.x) * cover_scale))),
+		maxi(1, int(ceil(float(source_size.y) * cover_scale))))
+	var crop_pixels := covered_size - view_size
+	if crop_pixels != Vector2i.ZERO:
+		_failures.append(
+			"%s at %s would crop %s covered pixels; expected zero" % [
+				path, view_size, crop_pixels])
+
+	var dialogue_rect := _scaled_design_rect(STORY_DIALOGUE_RECT, view_size)
+	var choice_rect := _scaled_design_rect(STORY_CHOICE_RECT, view_size)
+	var hud_rect := _scaled_design_rect(STORY_HUD_RECT, view_size)
+	for named_rect: Array in [
+		["dialogue", dialogue_rect],
+		["choice", choice_rect],
+		["hud", hud_rect],
+	]:
+		var rect_name := str(named_rect[0])
+		var rect: Rect2i = named_rect[1]
+		if rect.position.x < 0 or rect.position.y < 0 \
+				or rect.end.x > view_size.x or rect.end.y > view_size.y:
+			_failures.append("%s %s rect %s escapes %s" % [
+				path, rect_name, rect, view_size])
+	if dialogue_rect.position.y < int(floor(float(view_size.y) * 0.5)):
+		_failures.append("%s dialogue obscures the upper half at %s: %s" % [
+			path, view_size, dialogue_rect])
+	if choice_rect.position.y < int(floor(float(view_size.y) * 0.5)):
+		_failures.append("%s choices obscure the upper half at %s: %s" % [
+			path, view_size, choice_rect])
+	return _failures.size() == failure_count
+
+func _scaled_design_rect(rect: Rect2i, view_size: Vector2i) -> Rect2i:
+	var scale_x := float(view_size.x) / float(VIEW_SIZE.x)
+	var scale_y := float(view_size.y) / float(VIEW_SIZE.y)
+	return Rect2i(
+		Vector2i(
+			int(round(float(rect.position.x) * scale_x)),
+			int(round(float(rect.position.y) * scale_y))),
+		Vector2i(
+			int(round(float(rect.size.x) * scale_x)),
+			int(round(float(rect.size.y) * scale_y))))
+
+func _new_canvas(color: Color, size: Vector2i = VIEW_SIZE) -> Image:
+	var canvas := Image.create(size.x, size.y, false, Image.FORMAT_RGBA8)
 	canvas.fill(color)
 	return canvas
 
@@ -444,6 +572,8 @@ func _write_index(sheet_path: String) -> void:
 		return
 	file.store_line("Gangnam Dream Visual Crop QA")
 	file.store_line("Sheet: %s" % sheet_path)
+	file.store_line("Chapter 5 background matrix: 6 assets x 1280x800/960x600")
+	file.store_line("Contract: 1280x800 source, zero KEEP_ASPECT_COVERED crop, upper half unobscured")
 	file.store_line("")
 	for shot in _shots:
 		file.store_line(shot)

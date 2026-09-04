@@ -841,8 +841,8 @@ func _check_wallet_meal_consent_runtime() -> void:
 		"wallet meal invitation does not begin at current_housing")
 	_expect(_condition_has(invitation, "flag", "returned_wallet"),
 		"wallet meal invitation lost the returned_wallet receipt")
-	_expect(str(arrival.get("background", "")) == "restaurant",
-		"wallet meal arrival does not move to the restaurant")
+	_expect(str(arrival.get("background", "")) == "hanjeongsik_restaurant_day",
+		"wallet meal arrival does not move to the daytime Hanjeongsik restaurant")
 	_expect(_condition_has(arrival, "flag", "chain_exec_meal_accepted"),
 		"wallet meal arrival can occur without the acceptance receipt")
 

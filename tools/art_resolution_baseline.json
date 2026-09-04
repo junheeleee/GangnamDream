@@ -37,7 +37,7 @@
     "heavy": 3.0,
     "severe": null
   },
-  "inventory_count": 250,
+  "inventory_count": 256,
   "counts": {
     "1080p": {
       "CG": {
@@ -56,7 +56,7 @@
       },
       "Background": {
         "native": 1,
-        "light": 82,
+        "light": 88,
         "medium": 0,
         "heavy": 0,
         "severe": 0
@@ -81,7 +81,7 @@
         "native": 1,
         "light": 0,
         "medium": 0,
-        "heavy": 82,
+        "heavy": 88,
         "severe": 0
       }
     }
@@ -285,6 +285,23 @@
       "scale": {
         "1080p": 1.1483,
         "4k": 2.2967
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/concert_hall_night.png": {
+      "kind": "Background",
+      "ids": [
+        "concert_hall_night"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
       },
       "band": {
         "1080p": "light",
@@ -584,6 +601,23 @@
         "4k": "heavy"
       }
     },
+    "assets/backgrounds/hanjeongsik_restaurant_day.png": {
+      "kind": "Background",
+      "ids": [
+        "hanjeongsik_restaurant_day"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
     "assets/backgrounds/heatwave_city.png": {
       "kind": "Background",
       "ids": [
@@ -639,6 +673,23 @@
       "kind": "Background",
       "ids": [
         "hospital_clinic"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/hospital_clinic_day.png": {
+      "kind": "Background",
+      "ids": [
+        "hospital_clinic_day"
       ],
       "width": 1280,
       "height": 800,
@@ -1373,6 +1424,40 @@
         "4k": "heavy"
       }
     },
+    "assets/backgrounds/subway_station_lost_found.png": {
+      "kind": "Background",
+      "ids": [
+        "subway_station_lost_found"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/subway_station_stairs.png": {
+      "kind": "Background",
+      "ids": [
+        "subway_station_stairs"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
     "assets/backgrounds/suneung_test_hall.png": {
       "kind": "Background",
       "ids": [
@@ -1411,6 +1496,23 @@
       "kind": "Background",
       "ids": [
         "v2_first_bill_desk_closeup"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/villa_renovation_day.png": {
+      "kind": "Background",
+      "ids": [
+        "villa_renovation_day"
       ],
       "width": 1280,
       "height": 800,

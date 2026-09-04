@@ -805,7 +805,7 @@
   {
     "id": "arc_jiyeon_year5_news",
     "title": "부산의 소식",
-    "background": "street",
+    "background": "hanjeongsik_restaurant_day",
     "portrait": "player_normal",
     "category": "story",
     "rarity": "story",
@@ -841,6 +841,7 @@
         "flags": [
           "arc_jiyeon_year5_news_seen"
         ],
+        "result_background": "street",
         "result_text": "{name}은 고개만 끄덕였다. 축하한다는 말은 목까지 왔다가 나오지 않았다. 할 말이 없는 것이 아니라, 이제 자기 몫으로 꺼내면 안 되는 말이 남아 있었다.\n\n점심을 마치고 혼자 거리에 나왔다. 신호가 바뀌고 사람들은 평소처럼 건넜다. 서울은 달라진 것이 없었다.\n\n부산에서 시작된 누군가의 새 계절만, 보이지 않는 곳에서 자기 없이 계속되고 있었다."
       }
     ],

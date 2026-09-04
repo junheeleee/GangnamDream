@@ -112,6 +112,22 @@
       "intensity": 0.0,
       "weather_source": "none"
     },
+    "subway_station_stairs": {
+      "environment": "transit",
+      "depth": "mid",
+      "effect": "none",
+      "camera": "none",
+      "intensity": 0.0,
+      "weather_source": "none"
+    },
+    "subway_station_lost_found": {
+      "environment": "transit",
+      "depth": "mid",
+      "effect": "none",
+      "camera": "none",
+      "intensity": 0.0,
+      "weather_source": "none"
+    },
     "seoul_bus_terminal_night": {
       "environment": "transit",
       "depth": "mid",
@@ -320,6 +336,22 @@
       "intensity": 0.0,
       "weather_source": "none"
     },
+    "hanjeongsik_restaurant_day": {
+      "environment": "indoor",
+      "depth": "near",
+      "effect": "none",
+      "camera": "none",
+      "intensity": 0.0,
+      "weather_source": "none"
+    },
+    "concert_hall_night": {
+      "environment": "indoor",
+      "depth": "near",
+      "effect": "none",
+      "camera": "none",
+      "intensity": 0.0,
+      "weather_source": "none"
+    },
     "heatwave_city": {
       "environment": "outdoor",
       "depth": "far",
@@ -384,6 +416,14 @@
       "intensity": 0.0,
       "weather_source": "none"
     },
+    "villa_renovation_day": {
+      "environment": "indoor",
+      "depth": "near",
+      "effect": "none",
+      "camera": "none",
+      "intensity": 0.0,
+      "weather_source": "none"
+    },
     "realestate_office": {
       "environment": "indoor",
       "depth": "near",
@@ -441,6 +481,14 @@
       "weather_source": "none"
     },
     "hospital_clinic": {
+      "environment": "indoor",
+      "depth": "near",
+      "effect": "none",
+      "camera": "none",
+      "intensity": 0.0,
+      "weather_source": "none"
+    },
+    "hospital_clinic_day": {
       "environment": "indoor",
       "depth": "near",
       "effect": "none",
@@ -3614,7 +3662,7 @@
     },
     "chain_exec_meal->chain_exec_meal_arrival": {
       "mode": "explicit_move",
-      "to_surface": "restaurant",
+      "to_surface": "hanjeongsik_restaurant_day",
       "audio_policy": "crossfade",
       "reduced_motion": "static_fade",
       "from_surface": "current_housing"

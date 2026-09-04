@@ -822,7 +822,7 @@ func _check_wallet_meal_consent_handoff() -> bool:
 				actual_next, expected_next])
 			return false
 		if accepted:
-			if str(_story.get("_event_background_id")) != "restaurant" \
+			if str(_story.get("_event_background_id")) != "hanjeongsik_restaurant_day" \
 					or str(_story.get("_current_transition_mode")) != "explicit_move" \
 					or _story.get("_queue") != [SENTINEL_ID]:
 				_fail("wallet acceptance did not visibly arrive at the restaurant first")

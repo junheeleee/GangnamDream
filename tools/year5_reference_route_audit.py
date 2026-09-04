@@ -1927,6 +1927,268 @@ ORDER154_RULES_BYTE_TRANSITION = (
     "29a83c39ad5efab1ba967211f112213d7056f591ea57c52fbeaee8a47e9f5dca",
 )
 
+# ORDER-155 replaces seven generic/incorrect Chapter-5 location surfaces with
+# authored locations.  This is a new exact successor layer: every historical
+# receipt above remains immutable and sees the old bytes only through the
+# fail-closed inverses below.
+ORDER155_PRODUCT_BASELINE = "f601f822838d72d376d79c21eaa9aa5cbfe21fcd"
+ORDER155_DECLARATION_COMMIT = "ac3d04cc31751e033d23a9ee38314a70d9c01a46"
+ORDER155_EVENT_PATCHES_BY_FILE = {
+    "content/events/arc_new_characters.json": {
+        "arc_y5_burnout_check_reference": {
+            "fields": {"background": "hospital_clinic_day"},
+            "choices": {},
+        },
+    },
+    "content/events/arc_year3_drama.json": {
+        "arc_jiyeon_year5_news": {
+            "fields": {"background": "hanjeongsik_restaurant_day"},
+            "choices": {1: {"result_background": "street"}},
+        },
+    },
+    "content/events/chain_events.json": {
+        "chain_exec_meal_arrival": {
+            "fields": {"background": "hanjeongsik_restaurant_day"},
+            "choices": {},
+        },
+        "chain_envelope_owner_return": {
+            "fields": {},
+            "choices": {0: {"result_background": "villa_renovation_day"}},
+        },
+    },
+    "content/events/hidden_events.json": {
+        "hidden_gangnam_open_house": {
+            "fields": {"background": "gangnam_apartment"},
+            "choices": {
+                0: {"result_background": "current_housing"},
+                1: {"result_background": "subway"},
+            },
+        },
+    },
+    "content/events/rare_encounter_events.json": {
+        "rare_wallet_executive": {
+            "fields": {"background": "subway_station_stairs"},
+            "choices": {
+                0: {"result_background": "subway_station_lost_found"},
+            },
+        },
+    },
+    "content/events/social_independence.json": {
+        "yolo_spend_moment": {
+            "fields": {},
+            "choices": {
+                0: {"result_background": "concert_hall_night"},
+                2: {"result_background": "concert_hall_night"},
+            },
+        },
+    },
+}
+ORDER155_EVENT_OBJECT_TRANSITIONS_BY_FILE = {
+    "content/events/arc_new_characters.json": {
+        "arc_y5_burnout_check_reference": (
+            "19d25fe3424be6c7f40bb735f73e4d27845987c219e067c21e80b1461104c6d5",
+            "2eda89362d5a2fdb52c79a3041ccfabbe1fdc65e1191991e5bc2c08a5e2a8cfb",
+        ),
+    },
+    "content/events/arc_year3_drama.json": {
+        "arc_jiyeon_year5_news": (
+            "71b4cedb468b9393bfd89c2b8a3a54f1d857be879f5a3667d1784da278c63ca8",
+            "542e19e909ce7e74b9f4b73e32473ee78012cc2f2c279a36705f5294b15ef37a",
+        ),
+    },
+    "content/events/chain_events.json": {
+        "chain_exec_meal_arrival": (
+            "e495b2157e525430b33479d2205cdddaf1a9e98e52da5d25dd2679fd343e243c",
+            "78336cbc8ac1e65c40b5ea4fbac1f8beea2f7ca8949943edc6634cec7dc34ada",
+        ),
+        "chain_envelope_owner_return": (
+            "d6a7bdfc411bf26260110b9816bedffccb0caf63c4f7e86b1a22e2e93827368a",
+            "965fcfe9e1eed2a08e2f16d306ae64228c7e1d0f2cddb007c8609a60fa8b4df5",
+        ),
+    },
+    "content/events/hidden_events.json": {
+        "hidden_gangnam_open_house": (
+            "f17b2b9fe934bb6c6d6db16987f266c45b45474a131dfca2656728e1e77ab7e3",
+            "5b1ecb09e94ac51b12ceb90ce698bbfccd594747495296f081b66b6384a7c458",
+        ),
+    },
+    "content/events/rare_encounter_events.json": {
+        "rare_wallet_executive": (
+            "1190575922588dddf146d8b841ba0481d9e9d4d9b653f50d17a56143503992f7",
+            "13832a19b5e38f5b8ac4e3b10de7ba27115806698d285854993e40a88b206570",
+        ),
+    },
+    "content/events/social_independence.json": {
+        "yolo_spend_moment": (
+            "bba81c156b41f407cc141dab88c59f9b4b7bd0b2cf7e092aef9bf039a350ea94",
+            "3d8c1e66b8278b153147c274ee0d3285c1284a4679960db95c36d065dbc74556",
+        ),
+    },
+}
+ORDER155_STORY_RULES_PATH = "content/meta/story_rules.json"
+ORDER155_BURNOUT_EVENT_ID = "arc_y5_burnout_check_reference"
+ORDER155_BURNOUT_STORY_RULE_TRANSITION = (
+    "b8c84e722257ac7b9d9e00b99eb000ea1c2d1462f69f783585b3a013ecc5b73e",
+    "8bb872693db4095f13f20fd880371dfefb88042a077ac237095e9c43ce5e2442",
+)
+ORDER155_BURNOUT_STORY_RULE = {
+    "logic": {},
+    "presentation": {
+        "channel": "in_person",
+        "scene_location": "hospital_clinic",
+        "participants": ["player", "clinician"],
+        "participant_roles": {"player": "customer", "clinician": "host"},
+        "portrait_role": "local",
+        "nameplate_role": "hidden",
+        "expected_background": "hospital_clinic_day",
+        "expected_portrait": "player_tired",
+    },
+}
+ORDER155_VISUAL_CONTRACTS_PATH = "assets/event_visual_contracts.json"
+ORDER155_VISUAL_CONTRACTS = (
+    {
+        "id": "arc_y5_burnout_check_reference",
+        "background": "hospital_clinic_day",
+        "portrait": "player_tired",
+    },
+    {
+        "id": "rare_wallet_executive",
+        "background": "subway_station_stairs",
+        "choice_result_backgrounds": {"0": "subway_station_lost_found"},
+    },
+    {
+        "id": "chain_exec_meal_arrival",
+        "background": "hanjeongsik_restaurant_day",
+    },
+    {
+        "id": "arc_jiyeon_year5_news",
+        "background": "hanjeongsik_restaurant_day",
+        "portrait": "player_normal",
+        "choice_result_backgrounds": {"1": "street"},
+    },
+    {
+        "id": "yolo_spend_moment",
+        "background": "convenience_store",
+        "portrait": "player_tired",
+        "choice_result_backgrounds": {
+            "0": "concert_hall_night",
+            "2": "concert_hall_night",
+        },
+    },
+    {
+        "id": "chain_envelope_owner_return",
+        "background": "convenience_night",
+        "choice_result_backgrounds": {"0": "villa_renovation_day"},
+    },
+    {
+        "id": "hidden_gangnam_open_house",
+        "background": "gangnam_apartment",
+        "choice_result_backgrounds": {
+            "0": "current_housing",
+            "1": "subway",
+        },
+    },
+)
+ORDER155_AUDIO_PATH = "assets/scene_audio_manifest.json"
+ORDER155_AUDIO_BACKGROUNDS = {
+    "subway_station_stairs": "subway",
+    "subway_station_lost_found": "subway",
+    "hanjeongsik_restaurant_day": "cafe",
+    "concert_hall_night": "amusement",
+    "villa_renovation_day": "street",
+    "hospital_clinic_day": "hospital",
+}
+ORDER155_DIRECTION_PATH = "assets/scene_direction_manifest.json"
+ORDER155_DIRECTION_BACKGROUNDS = {
+    "subway_station_stairs": {
+        "environment": "transit", "depth": "mid", "effect": "none",
+        "camera": "none", "intensity": 0.0, "weather_source": "none",
+    },
+    "subway_station_lost_found": {
+        "environment": "transit", "depth": "mid", "effect": "none",
+        "camera": "none", "intensity": 0.0, "weather_source": "none",
+    },
+    "hanjeongsik_restaurant_day": {
+        "environment": "indoor", "depth": "near", "effect": "none",
+        "camera": "none", "intensity": 0.0, "weather_source": "none",
+    },
+    "concert_hall_night": {
+        "environment": "indoor", "depth": "near", "effect": "none",
+        "camera": "none", "intensity": 0.0, "weather_source": "none",
+    },
+    "villa_renovation_day": {
+        "environment": "indoor", "depth": "near", "effect": "none",
+        "camera": "none", "intensity": 0.0, "weather_source": "none",
+    },
+    "hospital_clinic_day": {
+        "environment": "indoor", "depth": "near", "effect": "none",
+        "camera": "none", "intensity": 0.0, "weather_source": "none",
+    },
+}
+ORDER155_DIRECTION_EDGE_ID = "chain_exec_meal->chain_exec_meal_arrival"
+ORDER155_DIRECTION_EDGE = {
+    "mode": "explicit_move",
+    "to_surface": "hanjeongsik_restaurant_day",
+    "audio_policy": "crossfade",
+    "reduced_motion": "static_fade",
+    "from_surface": "current_housing",
+}
+ORDER155_IMAGE_REGISTRY_PATH = "autoloads/ImageRegistry.gd"
+ORDER155_IMAGE_REGISTRY_KEYS = {
+    "subway_station_stairs": "res://assets/backgrounds/subway_station_stairs.png",
+    "subway_station_lost_found": "res://assets/backgrounds/subway_station_lost_found.png",
+    "hanjeongsik_restaurant_day": "res://assets/backgrounds/hanjeongsik_restaurant_day.png",
+    "concert_hall_night": "res://assets/backgrounds/concert_hall_night.png",
+    "villa_renovation_day": "res://assets/backgrounds/villa_renovation_day.png",
+    "hospital_clinic_day": "res://assets/backgrounds/hospital_clinic_day.png",
+}
+ORDER155_SOURCE_FILE_TRANSITIONS = {
+    "content/events/arc_new_characters.json": (
+        "3b18977d0a9ccdac75d8e9b0395876d37e99d870222e22539fb500a7de56bf85",
+        "078d5dadd6de5a73dc907152dfb0b3017fdc4aa3348ca711027bca1cea7581c1",
+    ),
+    "content/events/arc_year3_drama.json": (
+        "38dbae35c17b89545f1983a1bff28ec472674eb74f6e420bcc6ceeece43ce7a5",
+        "479c31ad52e3707fc9f3ff44a1c539aece40dccaef35a6198330b838d66a7619",
+    ),
+    "content/events/chain_events.json": (
+        "a74d4afa807e1050b3ebd4627d16194d46404b6abdd13fff9e5bb542783404b1",
+        "c6cfd30506bab0ac544b0d4c1291e9d812be03c53765d3e978d42c26523088bc",
+    ),
+    "content/events/hidden_events.json": (
+        "2dee4cd4ce75bed1c5c87761452abda0741117304394aa1473a1967c0ff42259",
+        "7990af20e1fce6a1fba24a452f3ef0741b5b1fffd170ae9778e48950c9dee6d7",
+    ),
+    "content/events/rare_encounter_events.json": (
+        "ee9b0cb3a641f2b220dac798a4026eaab324dbcbd134e550628ad635d9223db4",
+        "4e7a69c9276b30feb7c284cb4b8747906bd23d9c500e0141798f0dca537b7086",
+    ),
+    "content/events/social_independence.json": (
+        "85416c5d64932bc9d9f6ba5b3ee0f501e7152de3709351cc7fc15179ce5f80b3",
+        "78f09f39a62aa83036e0feb16745cc5cb92d62454a74a0b46a1db7838d8467e6",
+    ),
+    ORDER155_STORY_RULES_PATH: (
+        "29a83c39ad5efab1ba967211f112213d7056f591ea57c52fbeaee8a47e9f5dca",
+        "9d9f63f24e516e2fb339d9c5c11e821074135d2dbd63848a7f8b6902b7a6b7cb",
+    ),
+    ORDER155_VISUAL_CONTRACTS_PATH: (
+        "82c9f1422ec4e288bed39a464ef60c4ab6ca079f4f57dc045a032e78cf2905e5",
+        "32c1afc21301d1d75d07c3d69f96f64193e17a442cca449fff06a38055d6d600",
+    ),
+    ORDER155_AUDIO_PATH: (
+        "8758590e17512703ef06964ee1ea8276b1ca236ea6ea901b7bd0b4d299150117",
+        "3aefcf43be9496f28b466011a44a39190deef06fe8edaee468b1ce900214c15f",
+    ),
+    ORDER155_DIRECTION_PATH: (
+        "65441b552b8f694370bdfad06c7ee0ec748a660aec8d88edd477185e55dac4fc",
+        "f62ad8d3ea4d1d33be41f5ff669907b82fb1ceb65768c200eeb278c8b4e8bfd3",
+    ),
+    ORDER155_IMAGE_REGISTRY_PATH: (
+        "a850720afeeb242717a20ff0d8c6590e8f35a4856be65c221ed4af11e5c8a1a6",
+        "794f0468d31ffa5a2fe923284198303e19b03536f02a9dfd0224c35860e1760c",
+    ),
+}
+
 ORDER131_ADDED_IDS_BY_FILE = {
     "content/events/arc_midgame.json": {
         "arc_first_real_win_father_passed",
@@ -4906,6 +5168,254 @@ def advance_exact_hash(
 
 
 @functools.lru_cache(maxsize=None)
+def order155_baseline_payload(relative: str) -> Any:
+    """Load one exact JSON source immediately before ORDER-155."""
+    return strict_loads(
+        git_blob(ORDER155_PRODUCT_BASELINE, relative).decode("utf-8"),
+        f"{ORDER155_PRODUCT_BASELINE}:{relative}",
+    )
+
+
+def order155_expected_payload(baseline: Any, relative: str) -> Any:
+    """Build the semantic successor using only ORDER-155's declared edits."""
+    expected = copy.deepcopy(baseline)
+    event_patches = ORDER155_EVENT_PATCHES_BY_FILE.get(relative)
+    if event_patches is not None:
+        rows = expected.get("items", []) \
+            if isinstance(expected, dict) else expected
+        if not isinstance(rows, list):
+            return expected
+        by_id = {
+            str(row.get("id", "")): row
+            for row in rows if isinstance(row, dict)
+        }
+        for event_id, patch in event_patches.items():
+            row = by_id.get(event_id)
+            if not isinstance(row, dict):
+                continue
+            for key, value in patch["fields"].items():
+                row[key] = copy.deepcopy(value)
+            choices = row.get("choices")
+            for index, fields in patch["choices"].items():
+                if not isinstance(choices, list) or index >= len(choices) \
+                        or not isinstance(choices[index], dict):
+                    continue
+                for key, value in fields.items():
+                    choices[index][key] = copy.deepcopy(value)
+        return expected
+
+    if relative == ORDER155_STORY_RULES_PATH:
+        events = expected.get("events") if isinstance(expected, dict) else None
+        if isinstance(events, dict):
+            events[ORDER155_BURNOUT_EVENT_ID] = copy.deepcopy(
+                ORDER155_BURNOUT_STORY_RULE)
+        return expected
+
+    if relative == ORDER155_VISUAL_CONTRACTS_PATH:
+        if not isinstance(expected, dict):
+            return expected
+        contracts = expected.get("contracts")
+        if not isinstance(contracts, list):
+            return expected
+        expected["version"] = 39
+        target_ids = {str(row["id"]) for row in ORDER155_VISUAL_CONTRACTS}
+        burnout_index = next((
+            index for index, row in enumerate(contracts)
+            if isinstance(row, dict)
+            and str(row.get("id", "")) == ORDER155_BURNOUT_EVENT_ID
+        ), -1)
+        if burnout_index < 0:
+            return expected
+        contracts[:] = [
+            row for row in contracts
+            if not isinstance(row, dict)
+            or str(row.get("id", "")) not in target_ids
+            or str(row.get("id", "")) == ORDER155_BURNOUT_EVENT_ID
+        ]
+        burnout_index = next((
+            index for index, row in enumerate(contracts)
+            if isinstance(row, dict)
+            and str(row.get("id", "")) == ORDER155_BURNOUT_EVENT_ID
+        ), -1)
+        contracts[burnout_index:burnout_index + 1] = [
+            copy.deepcopy(row) for row in ORDER155_VISUAL_CONTRACTS
+        ]
+        return expected
+
+    if relative == ORDER155_AUDIO_PATH:
+        if isinstance(expected, dict):
+            expected["version"] = 23
+            expected["updated"] = "2026-09-05"
+            profiles = expected.get("background_profiles")
+            if isinstance(profiles, dict):
+                profiles.update(copy.deepcopy(ORDER155_AUDIO_BACKGROUNDS))
+        return expected
+
+    if relative == ORDER155_DIRECTION_PATH:
+        if isinstance(expected, dict):
+            profiles = expected.get("background_profiles")
+            if isinstance(profiles, dict):
+                profiles.update(copy.deepcopy(ORDER155_DIRECTION_BACKGROUNDS))
+            edges = expected.get("transition_edges")
+            if isinstance(edges, dict):
+                edges[ORDER155_DIRECTION_EDGE_ID] = copy.deepcopy(
+                    ORDER155_DIRECTION_EDGE)
+        return expected
+    return expected
+
+
+def order155_expected_image_registry_bytes(baseline: bytes) -> bytes | None:
+    """Insert exactly six background keys at their reviewed registry anchors."""
+    try:
+        expected = baseline.decode("utf-8")
+    except UnicodeDecodeError:
+        return None
+    insertions = (
+        (
+            '\t"subway":            "res://assets/backgrounds/seoul_subway.png",\n',
+            '\t"subway_station_stairs": "res://assets/backgrounds/subway_station_stairs.png",\n'
+            '\t"subway_station_lost_found": "res://assets/backgrounds/subway_station_lost_found.png",\n',
+        ),
+        (
+            '\t"company_dinner_restaurant": "res://assets/backgrounds/company_dinner_restaurant.png",\n',
+            '\t"hanjeongsik_restaurant_day": "res://assets/backgrounds/hanjeongsik_restaurant_day.png",\n'
+            '\t"concert_hall_night": "res://assets/backgrounds/concert_hall_night.png",\n',
+        ),
+        (
+            '\t"moving_truck_loading_dusk": "res://assets/backgrounds/moving_truck_loading_dusk.png",\n',
+            '\t"villa_renovation_day": "res://assets/backgrounds/villa_renovation_day.png",\n',
+        ),
+        (
+            '\t"hospital_clinic":   "res://assets/backgrounds/hospital_clinic.png",\n',
+            '\t"hospital_clinic_day": "res://assets/backgrounds/hospital_clinic_day.png",\n',
+        ),
+    )
+    for anchor, addition in insertions:
+        if expected.count(anchor) != 1:
+            return None
+        expected = expected.replace(anchor, anchor + addition, 1)
+    return expected.encode("utf-8")
+
+
+def order155_project_payload(payload: Any, relative: str) -> Any:
+    """Project only exact ORDER-155 successors; never hide a mutation."""
+    projected = copy.deepcopy(payload)
+    transitions = ORDER155_EVENT_OBJECT_TRANSITIONS_BY_FILE.get(relative)
+    if transitions is not None:
+        try:
+            baseline = order155_baseline_payload(relative)
+        except (UnicodeDecodeError, ValueError):
+            return projected
+        baseline_rows = baseline.get("items", []) \
+            if isinstance(baseline, dict) else baseline
+        rows = projected.get("items", []) \
+            if isinstance(projected, dict) else projected
+        if not isinstance(rows, list) or not isinstance(baseline_rows, list):
+            return projected
+        baseline_by_id = {
+            str(row.get("id", "")): row
+            for row in baseline_rows if isinstance(row, dict)
+        }
+        for index, row in enumerate(rows):
+            if not isinstance(row, dict):
+                continue
+            event_id = str(row.get("id", ""))
+            transition = transitions.get(event_id)
+            predecessor = baseline_by_id.get(event_id)
+            if transition is not None \
+                    and canonical_json_sha256(row) == transition[1] \
+                    and isinstance(predecessor, dict) \
+                    and canonical_json_sha256(predecessor) == transition[0]:
+                rows[index] = copy.deepcopy(predecessor)
+        return projected
+
+    if relative not in {
+        ORDER155_STORY_RULES_PATH,
+        ORDER155_VISUAL_CONTRACTS_PATH,
+        ORDER155_AUDIO_PATH,
+        ORDER155_DIRECTION_PATH,
+    }:
+        return projected
+    try:
+        baseline = order155_baseline_payload(relative)
+    except (UnicodeDecodeError, ValueError):
+        return projected
+    if projected == order155_expected_payload(baseline, relative):
+        return copy.deepcopy(baseline)
+    return projected
+
+
+def order155_project_byte_hash(current_hash: str, relative: str) -> str:
+    """Expose a historical byte only from one exact ORDER-155 successor."""
+    transition = ORDER155_SOURCE_FILE_TRANSITIONS.get(relative)
+    if transition is not None and current_hash == transition[1]:
+        return transition[0]
+    return current_hash
+
+
+def order155_project_context(context: AuditContext) -> AuditContext:
+    """Restore exactly seven current KO event objects for older receipts."""
+    projected = copy.deepcopy(context)
+    for relative, transitions in \
+            ORDER155_EVENT_OBJECT_TRANSITIONS_BY_FILE.items():
+        for event_id, transition in transitions.items():
+            try:
+                predecessor_rows = object_from_payload(
+                    order155_baseline_payload(relative), event_id)
+            except (UnicodeDecodeError, ValueError):
+                continue
+            if len(predecessor_rows) != 1 \
+                    or canonical_json_sha256(predecessor_rows[0]) \
+                    != transition[0]:
+                continue
+            for record in projected.event_indexes["ko"].get(event_id, []):
+                if record.path == relative \
+                        and canonical_json_sha256(record.row) == transition[1]:
+                    record.row = copy.deepcopy(predecessor_rows[0])
+    return projected
+
+
+def validate_order155_exact_payload(
+    current: Any,
+    baseline: Any,
+    relative: str,
+    errors: list[str],
+) -> None:
+    """Reject any semantic delta outside one exact ORDER-155 successor."""
+    owner = f"ORDER-155:{relative}"
+    if current != order155_expected_payload(baseline, relative):
+        errors.append(f"{owner}: change exceeds exact authored-location scope")
+    if order155_project_payload(current, relative) != baseline:
+        errors.append(f"{owner}: exact semantic inverse drifted")
+
+
+@functools.lru_cache(maxsize=1)
+def order155_git_registration_snapshot(
+) -> tuple[int, str, int, str, int, frozenset[str]]:
+    """Bind the declaration wrapper and exact current source-file set."""
+    registered_paths = sorted(ORDER155_SOURCE_FILE_TRANSITIONS)
+    parent = subprocess.run(
+        ["git", "rev-parse", f"{ORDER155_DECLARATION_COMMIT}^"],
+        cwd=ROOT, check=False, capture_output=True, text=True)
+    wrapper = subprocess.run(
+        ["git", "diff", "--name-only", ORDER155_PRODUCT_BASELINE,
+         ORDER155_DECLARATION_COMMIT, "--", *registered_paths],
+        cwd=ROOT, check=False, capture_output=True, text=True)
+    product = subprocess.run(
+        ["git", "diff", "--name-only", ORDER155_PRODUCT_BASELINE, "--",
+         "content/events", "content/events_en", ORDER155_STORY_RULES_PATH,
+         ORDER155_VISUAL_CONTRACTS_PATH, ORDER155_AUDIO_PATH,
+         ORDER155_DIRECTION_PATH, ORDER155_IMAGE_REGISTRY_PATH],
+        cwd=ROOT, check=False, capture_output=True, text=True)
+    return (
+        parent.returncode, parent.stdout.strip(),
+        wrapper.returncode, wrapper.stdout.strip(),
+        product.returncode,
+        frozenset(path for path in product.stdout.splitlines() if path),
+    )
+
+
+@functools.lru_cache(maxsize=None)
 def order153_baseline_payload(relative: str) -> Any:
     """Load the exact source immediately before ORDER-153."""
     return strict_loads(
@@ -4916,7 +5426,7 @@ def order153_baseline_payload(relative: str) -> Any:
 
 def order153_project_payload(payload: Any, relative: str) -> Any:
     """Inverse only the three exact guarantee-window successors."""
-    projected = copy.deepcopy(payload)
+    projected = order155_project_payload(payload, relative)
     transitions = ORDER153_OBJECT_TRANSITIONS_BY_FILE.get(relative, {})
     if not transitions:
         return projected
@@ -4950,6 +5460,7 @@ def order153_project_payload(payload: Any, relative: str) -> Any:
 
 def order153_project_byte_hash(current_hash: str, relative: str) -> str:
     """Expose an older byte only for an exact registered successor."""
+    current_hash = order155_project_byte_hash(current_hash, relative)
     transition = ORDER153_PRODUCT_FILE_TRANSITIONS.get(relative)
     if transition is not None and current_hash == transition[1]:
         return transition[0]
@@ -4958,7 +5469,7 @@ def order153_project_byte_hash(current_hash: str, relative: str) -> str:
 
 def order153_project_context(context: AuditContext) -> AuditContext:
     """Project exact ORDER-153 rows without hiding neighboring mutations."""
-    projected = copy.deepcopy(context)
+    projected = order155_project_context(context)
     for relative, transitions in ORDER153_OBJECT_TRANSITIONS_BY_FILE.items():
         locale = "en" if relative.startswith("content/events_en/") else "ko"
         for event_id in transitions:
@@ -4983,6 +5494,7 @@ def order153_git_registration_snapshot(
         cwd=ROOT, check=False, capture_output=True, text=True)
     event_diff = subprocess.run(
         ["git", "diff", "--name-only", ORDER153_PRODUCT_BASELINE,
+         ORDER155_PRODUCT_BASELINE,
          "--", "content/events", "content/events_en"],
         cwd=ROOT, check=False, capture_output=True, text=True)
     return (
@@ -5025,7 +5537,7 @@ def order154_expected_payload(baseline: Any) -> Any:
 
 def order154_project_payload(payload: Any, relative: str) -> Any:
     """Restore the predecessor only from the complete exact successor."""
-    projected = copy.deepcopy(payload)
+    projected = order155_project_payload(payload, relative)
     if relative != ORDER154_RULES_PATH:
         return projected
     try:
@@ -5039,6 +5551,7 @@ def order154_project_payload(payload: Any, relative: str) -> Any:
 
 def order154_project_byte_hash(current_hash: str, relative: str) -> str:
     """Expose the older byte only for ORDER-154's exact whole-file hash."""
+    current_hash = order155_project_byte_hash(current_hash, relative)
     if relative == ORDER154_RULES_PATH \
             and current_hash == ORDER154_RULES_BYTE_TRANSITION[1]:
         return ORDER154_RULES_BYTE_TRANSITION[0]
@@ -5058,7 +5571,7 @@ def order154_git_registration_snapshot(
         cwd=ROOT, check=False, capture_output=True, text=True)
     product = subprocess.run(
         ["git", "diff", "--name-only", ORDER154_PRODUCT_BASELINE,
-         "--", ORDER154_RULES_PATH],
+         ORDER155_PRODUCT_BASELINE, "--", ORDER154_RULES_PATH],
         cwd=ROOT, check=False, capture_output=True, text=True)
     return (
         parent.returncode, parent.stdout.strip(),
@@ -7271,6 +7784,255 @@ def validate_order138_registration(
     }
 
 
+def validate_order155_registration(
+    context: AuditContext,
+    errors: list[str],
+) -> dict[str, int]:
+    """Pin the exact authored-location successor before older receipts."""
+    (
+        parent_code,
+        parent_commit,
+        wrapper_code,
+        wrapper_changed,
+        diff_code,
+        product_files,
+    ) = order155_git_registration_snapshot()
+    expected_files = set(ORDER155_SOURCE_FILE_TRANSITIONS)
+    if parent_code != 0 or parent_commit != ORDER155_PRODUCT_BASELINE:
+        errors.append(
+            "ORDER-155: declaration commit must directly extend the exact "
+            "ORDER-154 closure")
+    if wrapper_code != 0 or wrapper_changed:
+        errors.append(
+            "ORDER-155: declaration wrapper changed a registered source")
+    if diff_code != 0 or product_files != expected_files:
+        errors.append(
+            "ORDER-155: exact product-file registry drifted "
+            f"expected={sorted(expected_files)} "
+            f"actual={sorted(product_files)}")
+    if set(ORDER155_EVENT_PATCHES_BY_FILE) \
+            != set(ORDER155_EVENT_OBJECT_TRANSITIONS_BY_FILE):
+        errors.append("ORDER-155: exact event-file registry drifted")
+    declared_files = set(ORDER155_EVENT_PATCHES_BY_FILE) | {
+        ORDER155_STORY_RULES_PATH,
+        ORDER155_VISUAL_CONTRACTS_PATH,
+        ORDER155_AUDIO_PATH,
+        ORDER155_DIRECTION_PATH,
+        ORDER155_IMAGE_REGISTRY_PATH,
+    }
+    if expected_files != declared_files:
+        errors.append("ORDER-155: exact source transition registry drifted")
+    declared_event_ids = {
+        event_id
+        for patches in ORDER155_EVENT_PATCHES_BY_FILE.values()
+        for event_id in patches
+    }
+    if len(declared_event_ids) != 7 \
+            or {str(row["id"]) for row in ORDER155_VISUAL_CONTRACTS} \
+            != declared_event_ids:
+        errors.append("ORDER-155: exact seven-event visual registry drifted")
+    if len(ORDER155_IMAGE_REGISTRY_KEYS) != 6 \
+            or set(ORDER155_IMAGE_REGISTRY_KEYS) \
+            != set(ORDER155_AUDIO_BACKGROUNDS) \
+            or set(ORDER155_IMAGE_REGISTRY_KEYS) \
+            != set(ORDER155_DIRECTION_BACKGROUNDS):
+        errors.append("ORDER-155: exact six-background registry drifted")
+    if ORDER155_SOURCE_FILE_TRANSITIONS[ORDER155_STORY_RULES_PATH][0] \
+            != ORDER154_RULES_BYTE_TRANSITION[1]:
+        errors.append("ORDER-155: story-rules transition does not extend ORDER-154")
+    for relative in (
+        ORDER155_VISUAL_CONTRACTS_PATH,
+        ORDER155_AUDIO_PATH,
+        ORDER155_DIRECTION_PATH,
+    ):
+        if ORDER155_SOURCE_FILE_TRANSITIONS[relative][0] \
+                != ORDER151_PRODUCT_FILE_TRANSITIONS[relative][1]:
+            errors.append(
+                f"ORDER-155:{relative}: transition does not extend ORDER-151")
+    if ORDER155_SOURCE_FILE_TRANSITIONS[ORDER155_IMAGE_REGISTRY_PATH][0] \
+            != ORDER150_AUXILIARY_FILE_TRANSITIONS[
+                ORDER155_IMAGE_REGISTRY_PATH][1]:
+        errors.append(
+            "ORDER-155:ImageRegistry: transition does not extend ORDER-150")
+
+    event_object_count = 0
+    for relative, patches in sorted(ORDER155_EVENT_PATCHES_BY_FILE.items()):
+        owner = f"ORDER-155:{relative}"
+        transitions = ORDER155_EVENT_OBJECT_TRANSITIONS_BY_FILE.get(
+            relative, {})
+        if set(transitions) != set(patches):
+            errors.append(f"{owner}: exact object transition registry drifted")
+        event_object_count += len(patches)
+        try:
+            baseline_bytes = git_blob(ORDER155_PRODUCT_BASELINE, relative)
+            current_bytes = (ROOT / relative).read_bytes()
+            baseline = strict_loads(
+                baseline_bytes.decode("utf-8"), f"{owner}:baseline")
+            current = strict_loads(
+                current_bytes.decode("utf-8"), f"{owner}:current")
+        except (OSError, UnicodeDecodeError, ValueError) as exc:
+            errors.append(f"{owner}: cannot load exact source pair ({exc})")
+            continue
+        validate_order155_exact_payload(
+            current, baseline, relative, errors)
+        fixture_errors: list[str] = []
+        baseline_rows = event_rows(
+            baseline, f"{owner}:baseline", fixture_errors)
+        current_rows = event_rows(
+            current, f"{owner}:current", fixture_errors)
+        errors.extend(fixture_errors)
+        baseline_by_id = {
+            str(row.get("id", "")): row for row in baseline_rows
+        }
+        current_by_id = {
+            str(row.get("id", "")): row for row in current_rows
+        }
+        actual_added = set(current_by_id) - set(baseline_by_id)
+        actual_removed = set(baseline_by_id) - set(current_by_id)
+        actual_changed = {
+            event_id
+            for event_id in set(current_by_id) & set(baseline_by_id)
+            if canonical_json_sha256(current_by_id[event_id])
+            != canonical_json_sha256(baseline_by_id[event_id])
+        }
+        if actual_added or actual_removed or actual_changed != set(patches):
+            errors.append(
+                f"{owner}: exact event-object delta drifted "
+                f"added={sorted(actual_added)} removed={sorted(actual_removed)} "
+                f"changed={sorted(actual_changed)}")
+        for event_id, transition in sorted(transitions.items()):
+            event_owner = f"ORDER-155:ko:{event_id}"
+            predecessor = baseline_by_id.get(event_id)
+            successor = current_by_id.get(event_id)
+            if not isinstance(predecessor, dict) \
+                    or canonical_json_sha256(predecessor) != transition[0]:
+                errors.append(f"{event_owner}: exact baseline object hash drifted")
+            if not isinstance(successor, dict) \
+                    or canonical_json_sha256(successor) != transition[1]:
+                errors.append(f"{event_owner}: exact object hash drifted")
+            records = context.event_indexes["ko"].get(event_id, [])
+            if len(records) != 1:
+                errors.append(
+                    f"{event_owner}: expected one event object, "
+                    f"got {len(records)}")
+            elif records[0].path != relative:
+                errors.append(
+                    f"{event_owner}: exact source file drifted "
+                    f"expected={relative!r} actual={records[0].path!r}")
+            elif canonical_json_sha256(records[0].row) != transition[1]:
+                errors.append(f"{event_owner}: exact object hash drifted")
+        transition = ORDER155_SOURCE_FILE_TRANSITIONS.get(relative)
+        if transition is None:
+            errors.append(f"{owner}: byte transition is missing")
+        else:
+            baseline_hash = byte_sha256(baseline_bytes)
+            current_hash = byte_sha256(current_bytes)
+            if baseline_hash != transition[0]:
+                errors.append(f"{owner}: exact baseline byte hash drifted")
+            if current_hash != transition[1]:
+                errors.append(f"{owner}: exact current byte hash drifted")
+            if order155_project_byte_hash(current_hash, relative) \
+                    != baseline_hash:
+                errors.append(f"{owner}: exact byte inverse drifted")
+
+    json_metadata_paths = (
+        ORDER155_STORY_RULES_PATH,
+        ORDER155_VISUAL_CONTRACTS_PATH,
+        ORDER155_AUDIO_PATH,
+        ORDER155_DIRECTION_PATH,
+    )
+    for relative in json_metadata_paths:
+        owner = f"ORDER-155:{relative}"
+        try:
+            baseline_bytes = git_blob(ORDER155_PRODUCT_BASELINE, relative)
+            current_bytes = (ROOT / relative).read_bytes()
+            baseline = strict_loads(
+                baseline_bytes.decode("utf-8"), f"{owner}:baseline")
+            current = strict_loads(
+                current_bytes.decode("utf-8"), f"{owner}:current")
+        except (OSError, UnicodeDecodeError, ValueError) as exc:
+            errors.append(f"{owner}: cannot load exact source pair ({exc})")
+            continue
+        validate_order155_exact_payload(
+            current, baseline, relative, errors)
+        transition = ORDER155_SOURCE_FILE_TRANSITIONS.get(relative)
+        baseline_hash = byte_sha256(baseline_bytes)
+        current_hash = byte_sha256(current_bytes)
+        if transition is None:
+            errors.append(f"{owner}: byte transition is missing")
+            continue
+        if baseline_hash != transition[0]:
+            errors.append(f"{owner}: exact baseline byte hash drifted")
+        if current_hash != transition[1]:
+            errors.append(f"{owner}: exact current byte hash drifted")
+        if order155_project_byte_hash(current_hash, relative) != baseline_hash:
+            errors.append(f"{owner}: exact byte inverse drifted")
+
+        if relative == ORDER155_STORY_RULES_PATH:
+            baseline_events = baseline.get("events", {}) \
+                if isinstance(baseline, dict) else {}
+            current_events = current.get("events", {}) \
+                if isinstance(current, dict) else {}
+            predecessor = baseline_events.get(ORDER155_BURNOUT_EVENT_ID) \
+                if isinstance(baseline_events, dict) else None
+            successor = current_events.get(ORDER155_BURNOUT_EVENT_ID) \
+                if isinstance(current_events, dict) else None
+            if canonical_json_sha256(predecessor) \
+                    != ORDER155_BURNOUT_STORY_RULE_TRANSITION[0]:
+                errors.append(
+                    f"{owner}: exact burnout baseline row hash drifted")
+            if successor != ORDER155_BURNOUT_STORY_RULE \
+                    or canonical_json_sha256(successor) \
+                    != ORDER155_BURNOUT_STORY_RULE_TRANSITION[1]:
+                errors.append(f"{owner}: exact burnout story-rule row drifted")
+
+    image_owner = f"ORDER-155:{ORDER155_IMAGE_REGISTRY_PATH}"
+    try:
+        baseline_image = git_blob(
+            ORDER155_PRODUCT_BASELINE, ORDER155_IMAGE_REGISTRY_PATH)
+        current_image = (ROOT / ORDER155_IMAGE_REGISTRY_PATH).read_bytes()
+    except (OSError, ValueError) as exc:
+        errors.append(f"{image_owner}: cannot load exact source pair ({exc})")
+    else:
+        expected_image = order155_expected_image_registry_bytes(baseline_image)
+        if expected_image is None or current_image != expected_image:
+            errors.append(
+                f"{image_owner}: exact six-key registry successor drifted")
+        try:
+            current_text = current_image.decode("utf-8")
+        except UnicodeDecodeError:
+            errors.append(f"{image_owner}: source is not UTF-8")
+        else:
+            for key, value in ORDER155_IMAGE_REGISTRY_KEYS.items():
+                pattern = re.compile(
+                    rf'(?m)^\s*"{re.escape(key)}"\s*:\s*'
+                    rf'"{re.escape(value)}",\s*$')
+                if len(pattern.findall(current_text)) != 1:
+                    errors.append(
+                        f"{image_owner}: exact background key drifted {key}")
+        transition = ORDER155_SOURCE_FILE_TRANSITIONS.get(
+            ORDER155_IMAGE_REGISTRY_PATH)
+        baseline_hash = byte_sha256(baseline_image)
+        current_hash = byte_sha256(current_image)
+        if transition is None:
+            errors.append(f"{image_owner}: byte transition is missing")
+        else:
+            if baseline_hash != transition[0]:
+                errors.append(f"{image_owner}: exact baseline byte hash drifted")
+            if current_hash != transition[1]:
+                errors.append(f"{image_owner}: exact current byte hash drifted")
+            if order155_project_byte_hash(
+                    current_hash, ORDER155_IMAGE_REGISTRY_PATH) \
+                    != baseline_hash:
+                errors.append(f"{image_owner}: exact byte inverse drifted")
+
+    return {
+        "order155_event_objects": event_object_count,
+        "order155_source_files": len(ORDER155_SOURCE_FILE_TRANSITIONS),
+        "order155_background_keys": len(ORDER155_IMAGE_REGISTRY_KEYS),
+    }
+
+
 def validate_order153_registration(
     context: AuditContext,
     errors: list[str],
@@ -7494,17 +8256,20 @@ def validate_order154_registration(errors: list[str]) -> dict[str, int]:
 
     try:
         baseline_bytes = git_blob(ORDER154_PRODUCT_BASELINE, ORDER154_RULES_PATH)
-        current_bytes = (ROOT / ORDER154_RULES_PATH).read_bytes()
+        raw_current_bytes = (ROOT / ORDER154_RULES_PATH).read_bytes()
         baseline = strict_loads(
             baseline_bytes.decode("utf-8"), f"{owner}:baseline")
-        current = strict_loads(
-            current_bytes.decode("utf-8"), f"{owner}:current")
+        raw_current = strict_loads(
+            raw_current_bytes.decode("utf-8"), f"{owner}:raw-current")
+        current = order155_project_payload(raw_current, ORDER154_RULES_PATH)
     except (OSError, UnicodeDecodeError, ValueError) as exc:
         errors.append(f"{owner}: cannot load exact byte pair ({exc})")
         return {"order154_presentations": 0}
 
     baseline_hash = byte_sha256(baseline_bytes)
-    current_hash = byte_sha256(current_bytes)
+    raw_current_hash = byte_sha256(raw_current_bytes)
+    current_hash = order155_project_byte_hash(
+        raw_current_hash, ORDER154_RULES_PATH)
     if baseline_hash != ORDER154_RULES_BYTE_TRANSITION[0]:
         errors.append(f"{owner}: exact baseline byte hash drifted")
     if current_hash != ORDER154_RULES_BYTE_TRANSITION[1]:
@@ -7512,7 +8277,7 @@ def validate_order154_registration(errors: list[str]) -> dict[str, int]:
     if ORDER154_RULES_BYTE_TRANSITION[0] \
             != ORDER152_RULES_BYTE_TRANSITION[1]:
         errors.append(f"{owner}: transition does not extend ORDER-152")
-    if order154_project_byte_hash(current_hash, ORDER154_RULES_PATH) \
+    if order154_project_byte_hash(raw_current_hash, ORDER154_RULES_PATH) \
             != baseline_hash:
         errors.append(f"{owner}: exact byte inverse drifted")
     validate_order154_rules(current, baseline, errors)
@@ -8927,6 +9692,11 @@ def validate_manifest(
         "order153_event_objects": 0,
         "order153_product_files": 0,
     }
+    order155_stats = {
+        "order155_event_objects": 0,
+        "order155_source_files": 0,
+        "order155_background_keys": 0,
+    }
     father_bridge_stats = {"father_bridge_changed_objects": 0}
     property_ladder_stats = {"property_ladder_changed_objects": 0}
     validate_r1a_contract(manifest, routes, errors)
@@ -8987,6 +9757,7 @@ def validate_manifest(
         historical_context, errors)
     order137_stats = validate_order137_registration(order137_context, errors)
     order138_stats = validate_order138_registration(order138_context, errors)
+    order155_stats = validate_order155_registration(context, errors)
     order154_stats = validate_order154_registration(errors)
     order153_stats = validate_order153_registration(context, errors)
     order152_stats = validate_order152_registration(errors)
@@ -9047,6 +9818,7 @@ def validate_manifest(
         **order152_stats,
         **order153_stats,
         **order154_stats,
+        **order155_stats,
         **father_bridge_stats,
         **property_ladder_stats,
     }
@@ -9518,8 +10290,252 @@ def run_invalidated_self_test(
         case_count += 1
         expect_context_failure(label, manifest, context, mutate, fragment, failures)
 
+    # ORDER-155 is the newest exact authored-location layer.  Exercise every
+    # source family before projecting it away for the historical tests below.
+    for relative, patches in sorted(ORDER155_EVENT_PATCHES_BY_FILE.items()):
+        baseline_order155 = order155_baseline_payload(relative)
+        current_order155 = load_json(ROOT / relative)
+        candidate_errors: list[str] = []
+        validate_order155_exact_payload(
+            current_order155, baseline_order155, relative, candidate_errors)
+        case_count += 1
+        if candidate_errors:
+            failures.append(
+                f"order155_exact:{relative}: current successor rejected "
+                f"{candidate_errors[:2]}")
+        for event_id, patch in sorted(patches.items()):
+            mutations: list[tuple[str, Callable[[dict[str, Any]], None]]] = []
+            for field in patch["fields"]:
+                mutations.append((
+                    field,
+                    lambda target, field=field: target.__setitem__(
+                        field, "order155_mutated_surface"),
+                ))
+            for choice_index, choice_fields in patch["choices"].items():
+                for field in choice_fields:
+                    mutations.append((
+                        f"choice{choice_index}.{field}",
+                        lambda target, choice_index=choice_index, field=field:
+                            target["choices"][choice_index].__setitem__(
+                                field, "order155_mutated_surface"),
+                    ))
+            for label, mutate_target in mutations:
+                mutated = copy.deepcopy(current_order155)
+                target = object_from_payload(mutated, event_id)[0]
+                mutate_target(target)
+                candidate_errors = []
+                validate_order155_exact_payload(
+                    mutated, baseline_order155, relative, candidate_errors)
+                case_count += 1
+                if not candidate_errors:
+                    failures.append(
+                        f"order155_event:{event_id}:{label}: mutation accepted")
+                if order155_project_payload(mutated, relative) \
+                        == baseline_order155:
+                    failures.append(
+                        f"order155_event:{event_id}:{label}: mutation hidden")
+
+        mutated = copy.deepcopy(current_order155)
+        rows = mutated.get("items", []) \
+            if isinstance(mutated, dict) else mutated
+        neighbor = next(
+            row for row in rows
+            if isinstance(row, dict)
+            and str(row.get("id", "")) not in patches)
+        neighbor["title"] = str(neighbor.get("title", "")) + " mutated"
+        candidate_errors = []
+        validate_order155_exact_payload(
+            mutated, baseline_order155, relative, candidate_errors)
+        case_count += 1
+        if not candidate_errors:
+            failures.append(
+                f"order155_neighbor:{relative}: mutation was accepted")
+        if order155_project_payload(mutated, relative) == baseline_order155:
+            failures.append(
+                f"order155_neighbor:{relative}: mutation was hidden")
+
+        mutated = copy.deepcopy(current_order155)
+        rows = mutated.get("items", []) \
+            if isinstance(mutated, dict) else mutated
+        rows.reverse()
+        candidate_errors = []
+        validate_order155_exact_payload(
+            mutated, baseline_order155, relative, candidate_errors)
+        case_count += 1
+        if not candidate_errors:
+            failures.append(
+                f"order155_topology:{relative}: mutation was accepted")
+        if order155_project_payload(mutated, relative) == baseline_order155:
+            failures.append(
+                f"order155_topology:{relative}: mutation was hidden")
+
+    order155_metadata_mutations: tuple[
+        tuple[str, tuple[tuple[str, Callable[[dict[str, Any]], None]], ...]],
+        ...,
+    ] = (
+        (
+            ORDER155_STORY_RULES_PATH,
+            (
+                ("burnout", lambda payload: payload["events"][
+                    ORDER155_BURNOUT_EVENT_ID]["presentation"].__setitem__(
+                        "expected_background", "order155_mutated_surface")),
+                ("neighbor", lambda payload: payload["events"][
+                    ORDER152_EVENT_ID].__setitem__("unregistered", True)),
+                ("schema", lambda payload: payload.__setitem__(
+                    "schema_version", int(payload["schema_version"]) + 1)),
+            ),
+        ),
+        (
+            ORDER155_VISUAL_CONTRACTS_PATH,
+            tuple(
+                (
+                    f'{contract["id"]}.background',
+                    lambda payload, event_id=str(contract["id"]): next(
+                        row for row in payload["contracts"]
+                        if row.get("id") == event_id
+                    ).__setitem__("background", "order155_mutated_surface"),
+                )
+                for contract in ORDER155_VISUAL_CONTRACTS
+            ) + tuple(
+                (
+                    f'{contract["id"]}.choice{choice_index}',
+                    lambda payload, event_id=str(contract["id"]),
+                    choice_index=choice_index: next(
+                        row for row in payload["contracts"]
+                        if row.get("id") == event_id
+                    )["choice_result_backgrounds"].__setitem__(
+                        choice_index, "order155_mutated_surface"),
+                )
+                for contract in ORDER155_VISUAL_CONTRACTS
+                for choice_index in contract.get(
+                    "choice_result_backgrounds", {})
+            ) + (
+                ("version", lambda payload: payload.__setitem__("version", 38)),
+                ("neighbor", lambda payload: payload["contracts"][0].__setitem__(
+                    "background", "order155_mutated_surface")),
+            ),
+        ),
+        (
+            ORDER155_AUDIO_PATH,
+            (
+                ("version", lambda payload: payload.__setitem__("version", 22)),
+                ("updated", lambda payload: payload.__setitem__(
+                    "updated", "2026-08-26")),
+                *tuple(
+                    (
+                        key,
+                        lambda payload, key=key: payload[
+                            "background_profiles"].__setitem__(
+                                key, "order155_mutated_profile"),
+                    )
+                    for key in ORDER155_AUDIO_BACKGROUNDS
+                ),
+                ("neighbor", lambda payload: payload[
+                    "background_profiles"].__setitem__(
+                        "subway", "order155_mutated_profile")),
+            ),
+        ),
+        (
+            ORDER155_DIRECTION_PATH,
+            (
+                *tuple(
+                    (
+                        key,
+                        lambda payload, key=key: payload[
+                            "background_profiles"][key].__setitem__(
+                                "environment", "outdoor"),
+                    )
+                    for key in ORDER155_DIRECTION_BACKGROUNDS
+                ),
+                ("edge", lambda payload: payload["transition_edges"][
+                    ORDER155_DIRECTION_EDGE_ID].__setitem__(
+                        "to_surface", "restaurant")),
+                ("neighbor", lambda payload: payload[
+                    "background_profiles"]["subway"].__setitem__(
+                        "environment", "indoor")),
+            ),
+        ),
+    )
+    for relative, mutations in order155_metadata_mutations:
+        baseline_order155 = order155_baseline_payload(relative)
+        current_order155 = load_json(ROOT / relative)
+        candidate_errors = []
+        validate_order155_exact_payload(
+            current_order155, baseline_order155, relative, candidate_errors)
+        case_count += 1
+        if candidate_errors:
+            failures.append(
+                f"order155_exact:{relative}: current successor rejected "
+                f"{candidate_errors[:2]}")
+        for label, mutate in mutations:
+            mutated = copy.deepcopy(current_order155)
+            mutate(mutated)
+            candidate_errors = []
+            validate_order155_exact_payload(
+                mutated, baseline_order155, relative, candidate_errors)
+            case_count += 1
+            if not candidate_errors:
+                failures.append(
+                    f"order155_metadata:{relative}:{label}: mutation accepted")
+            if order155_project_payload(mutated, relative) \
+                    == baseline_order155:
+                failures.append(
+                    f"order155_metadata:{relative}:{label}: mutation hidden")
+
+    baseline_image = git_blob(
+        ORDER155_PRODUCT_BASELINE, ORDER155_IMAGE_REGISTRY_PATH)
+    current_image = (ROOT / ORDER155_IMAGE_REGISTRY_PATH).read_bytes()
+    expected_image = order155_expected_image_registry_bytes(baseline_image)
+    case_count += 1
+    if expected_image is None or current_image != expected_image:
+        failures.append("order155_image_registry: exact successor rejected")
+    for key, value in ORDER155_IMAGE_REGISTRY_KEYS.items():
+        mutated_image = current_image.replace(
+            f'"{key}": "{value}"'.encode("utf-8"),
+            f'"{key}": "res://assets/backgrounds/mutated.png"'.encode(
+                "utf-8"),
+            1,
+        )
+        case_count += 1
+        if mutated_image == current_image or mutated_image == expected_image:
+            failures.append(
+                f"order155_image_registry:{key}: mutation was not detected")
+        mutated_hash = byte_sha256(mutated_image)
+        if order155_project_byte_hash(
+                mutated_hash, ORDER155_IMAGE_REGISTRY_PATH) != mutated_hash:
+            failures.append(
+                f"order155_image_registry:{key}: mutation was hidden")
+
+    for relative, transition in sorted(
+            ORDER155_SOURCE_FILE_TRANSITIONS.items()):
+        for label, digest, path, expected in (
+            ("exact", transition[1], relative, transition[0]),
+            ("unknown", "0" * 64, relative, "0" * 64),
+            ("unrelated_path", transition[1],
+             "content/meta/story_map.json", transition[1]),
+        ):
+            case_count += 1
+            if order155_project_byte_hash(digest, path) != expected:
+                failures.append(
+                    f"order155_byte_inverse:{relative}:{label}: not exact")
+
+    case_count += 1
+    mutated_context = copy.deepcopy(context)
+    first_order155_id = next(iter(
+        ORDER155_EVENT_PATCHES_BY_FILE[
+            "content/events/arc_new_characters.json"]))
+    mutated_context.event_indexes["ko"][first_order155_id][0].path = \
+        "content/events/arc_midgame.json"
+    context_errors, _ = validate_manifest(
+        copy.deepcopy(manifest), mutated_context)
+    if not any(
+            f"ORDER-155:ko:{first_order155_id}: exact source file drifted"
+            in error for error in context_errors):
+        failures.append("order155_context_source: mutation was accepted")
+
     relative = ORDER154_RULES_PATH
-    current_order154_rules = load_json(ROOT / relative)
+    current_order154_rules = order155_project_payload(
+        load_json(ROOT / relative), relative)
     baseline_order154_rules = order154_baseline_payload()
     case_count += 1
     if order154_project_payload(current_order154_rules, relative) \
@@ -11287,6 +12303,9 @@ def main() -> int:
             f"order153_event_objects={stats['order153_event_objects']} "
             f"order153_product_files={stats['order153_product_files']} "
             f"order154_presentations={stats['order154_presentations']} "
+            f"order155_event_objects={stats['order155_event_objects']} "
+            f"order155_source_files={stats['order155_source_files']} "
+            f"order155_background_keys={stats['order155_background_keys']} "
             f"father_bridge_delta={stats['father_bridge_changed_objects']} "
             f"property_ladder_delta={stats['property_ladder_changed_objects']} "
             f"product_consumers={stats['consumers']} "
@@ -11322,6 +12341,9 @@ def main() -> int:
         f"order153_event_objects={stats['order153_event_objects']} "
         f"order153_product_files={stats['order153_product_files']} "
         f"order154_presentations={stats['order154_presentations']} "
+        f"order155_event_objects={stats['order155_event_objects']} "
+        f"order155_source_files={stats['order155_source_files']} "
+        f"order155_background_keys={stats['order155_background_keys']} "
         f"father_bridge_delta={stats['father_bridge_changed_objects']} "
         f"property_ladder_delta={stats['property_ladder_changed_objects']} "
         f"product_consumers={stats['consumers']} qa_consumers=1 activation=reference_only "

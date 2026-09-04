@@ -102,6 +102,14 @@
     {
       "kind": "background",
       "ids": [
+        "concert_hall_night"
+      ],
+      "relative_path": "backgrounds/concert_hall_night.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
         "convenience_first_snow_exterior"
       ],
       "relative_path": "backgrounds/convenience_store_exterior_first_snow.png",
@@ -242,6 +250,14 @@
     {
       "kind": "background",
       "ids": [
+        "hanjeongsik_restaurant_day"
+      ],
+      "relative_path": "backgrounds/hanjeongsik_restaurant_day.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
         "heatwave_city"
       ],
       "relative_path": "backgrounds/heatwave_city.png",
@@ -269,6 +285,14 @@
         "hospital_clinic"
       ],
       "relative_path": "backgrounds/hospital_clinic.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "hospital_clinic_day"
+      ],
+      "relative_path": "backgrounds/hospital_clinic_day.png",
       "resolution": "1280x800"
     },
     {
@@ -617,6 +641,22 @@
     {
       "kind": "background",
       "ids": [
+        "subway_station_lost_found"
+      ],
+      "relative_path": "backgrounds/subway_station_lost_found.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "subway_station_stairs"
+      ],
+      "relative_path": "backgrounds/subway_station_stairs.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
         "suneung_test_hall"
       ],
       "relative_path": "backgrounds/suneung_test_hall.png",
@@ -636,6 +676,14 @@
         "v2_first_bill_desk_closeup"
       ],
       "relative_path": "backgrounds/v2_first_bill_desk_closeup.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
+        "villa_renovation_day"
+      ],
+      "relative_path": "backgrounds/villa_renovation_day.png",
       "resolution": "1280x800"
     },
     {

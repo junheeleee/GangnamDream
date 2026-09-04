@@ -1,6 +1,6 @@
 # Gangnam Dream Asset QA
 
-Updated: 2026-07-24
+Updated: 2026-09-05
 
 Production gate: new and regenerated visual assets must also satisfy `docs/PRODUCTION_ASSET_PIPELINE.md` before they are treated as Steam-demo-ready assets. This QA file records current asset status; the production pipeline defines the acceptance process.
 
@@ -44,6 +44,8 @@ Every accepted image must now pass the continuity checklist. The main failure mo
 
 Background continuity audit is recorded in `docs/BACKGROUND_CONTINUITY_AUDIT.md`. After the P2 public venue pass, the current status is 36 pass, 0 review, 0 fix, and 0 quarantined files. Runtime/direct background count is 36.
 
+The Chapter 5 authored-location pass adds six exact 1280x800 runtime backgrounds: a Friday-morning family-medicine clinic, station stairs/gates, station lost-property office, Saturday-noon Hanjeongsik restaurant, generic night concert hall, and early-morning old-villa renovation interior. Direct original-resolution review confirms their location, time, functional circulation, UI-safe framing, and absence of readable brands/text or named-character proxies. `VisualCropQA` now includes all six at both 1280x800 and 960x600; the 39-shot sheet is `/tmp/gangnamdream_crop_qa/visual_crop_qa_sheet.png` (SHA-256 `a940f667ba79e9521c8442c74fb646f9e101de53bbc6020264269e41e86ec65f`). They are B+/`PASS-B` runtime candidates only: their ImageGen sources are below the P1 2560x1600 intermediate-master contract and are not A-grade release masters.
+
 In-game crop QA was added as `tools/VisualCropQA.gd` / `tools/VisualCropQA.tscn`. Because Godot headless uses a dummy renderer and does not return usable SubViewport screenshots, the tool performs deterministic CPU compositing using the same crop math as the current MainGame/StoryMode layouts. Latest output: `/tmp/gangnamdream_crop_qa/visual_crop_qa_sheet.png`.
 
 CG runtime display QA was added as `tools/CGRuntimeCheck.gd` / `tools/CGRuntimeCheck.tscn`. It verifies that StoryMode event `cg` keys resolve to the full-screen CG texture and suppress the separate portrait frame, and that MainGame ending `cg` keys resolve to the ending CG preview path.
@@ -70,6 +72,7 @@ Live-screen semantic routing QA found and fixed a separate class of issue: valid
 - Han Jiyeon transparent portrait set is usable for first in-game QA: `npc_mentor`, `npc_jiyeon_warm`, `npc_jiyeon_cold`.
 - Readability check sheets generated: `/tmp/gangnamdream_cast_readability_check.png`, `/tmp/gangnamdream_minjun_hyunsu_readability.png`.
 - Core registered backgrounds are broadly consistent enough for a first in-game QA pass.
+- The six Chapter 5 authored-location backgrounds pass B+ runtime review: `hospital_clinic_day`, `subway_station_stairs`, `subway_station_lost_found`, `hanjeongsik_restaurant_day`, `concert_hall_night`, and `villa_renovation_day`. The clinic, station pair, restaurant, and renovation site are fully person-free; the concert hall uses only distant non-identifiable C-tier audience/performer texture.
 - P1 added backgrounds are usable for first in-game QA: `restaurant_korean`, `library`, `street_seoul_day`.
 - `goshiwon_room.png` and `start.png` now share the canonical goshiwon layout: tiny high frosted ventilation window, bed, low desk at bed foot / screen-bottom foreground, no large scenic window.
 - `family_living_room.png` has been regenerated as Minjun's father's modest Changwon working-class home and reconnected for family events.
@@ -110,6 +113,10 @@ Live-screen semantic routing QA found and fixed a separate class of issue: valid
   - Runtime QA: `ScreenshotQA --qa=start-en` plus Korean default surface capture.
 
 ## Fix Or Review Before Final
+
+- Chapter 5 authored-location runtime backgrounds
+  - The six 1280x800 files are accepted as B+/`PASS-B` runtime candidates, not A-grade production masters.
+  - Before an A-grade release promotion, regenerate or repaint from a true 2560x1600-or-larger source and repeat full-frame, 100% crop, UI-safe, text/logo, and perspective review without changing the approved place/time contracts.
 
 - All recurring character portraits
   - Replace with transparent-background portraits.

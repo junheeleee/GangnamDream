@@ -184,7 +184,7 @@
     "category": "social",
     "rarity": "rare",
     "weight": 1.0,
-    "background": "restaurant",
+    "background": "hanjeongsik_restaurant_day",
     "conditions": {
       "flag": "chain_exec_meal_accepted",
       "min_turn": 3
@@ -312,6 +312,7 @@
         ],
         "deferred_follow_up": "chain_interior_offer",
         "deferred_delay": 10,
+        "result_background": "villa_renovation_day",
         "result_text": "토요일 새벽, 화곡동 빌라 현장.\n\n도배 보조, 자재 나르기, 청소. 몸은 힘들었다.\n\n사장은 일하면서 계속 가르쳐줬다. 자재 단가, 견적 내는 법, 건물주 상대하는 법.\n\n일당 13만원. 근데 어깨너머로 배운 게 더 컸다.\n\"다음 주도 나올래요?\" 사장이 물었다.",
         "follow_up_event": ""
       },

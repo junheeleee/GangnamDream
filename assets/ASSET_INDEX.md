@@ -30,6 +30,7 @@ Updated on 2026-08-04 for the 24-week first-bill desk close-up and Minjun's fixe
 Updated on 2026-08-04 for the Month-4 housing-welfare counselor's transparent B-scene portrait.
 Updated on 2026-08-21 for the M01-M06 authored promise-card scene set.
 Updated on 2026-08-26 for the M55 four-person contract-room CG.
+Updated on 2026-09-05 for six Chapter 5 authored location/time backgrounds.
 
 ## Use These Assets
 
@@ -321,6 +322,20 @@ weather, romance, and historical portraits remain fixed.
   - Readability lock: no glasses, muted cardigan/jacket, ID lanyard; must not resemble the office team lead.
 
 ### Backgrounds
+- `assets/backgrounds/hospital_clinic_day.png`
+  - Person-free Friday 9:20 AM Seoul neighborhood family-medicine outpatient room for `arc_y5_burnout_check_reference`; preserves a functional consultation desk, patient chair, examination couch, privacy curtain, diagnostic tools, and ordinary daylight city view without becoming an inpatient ward.
+- `assets/backgrounds/subway_station_stairs.png`
+  - Person-free after-work urban subway-station stairs and ticket-gate concourse for the introduction and non-handover result of `rare_wallet_executive`; stairs, handrails, gates, and walking clearance remain physically coherent.
+- `assets/backgrounds/subway_station_lost_found.png`
+  - Person-free station office/lost-property counter for the handover result of `rare_wallet_executive`; the counter, secure glazed office, stored anonymous belongings, adjacent gates, and public circulation read as one station interior.
+- `assets/backgrounds/hanjeongsik_restaurant_day.png`
+  - Quiet Saturday 12:30 PM Gangnam Hanjeongsik dining room for `chain_exec_meal_arrival` and `arc_jiyeon_year5_news`; one foreground two-person table carries a restrained preliminary banchan setting with no grill, meat, finished-meal evidence, brand, or readable menu.
+- `assets/backgrounds/concert_hall_night.png`
+  - Generic night concert hall for only the concert-going results of `yolo_spend_moment`; distant stage performers and the seated audience remain low-detail anonymous public-venue texture, with no real artist identity, logo, brand, or readable stage copy.
+- `assets/backgrounds/villa_renovation_day.png`
+  - Early-morning interior renovation site in an old Hwagok-dong villa for only the work result of `chain_envelope_owner_return`; ladder, stripped wall, floor protection, work light, waste bags, tools, doorway, and circulation form a usable empty worksite.
+  - All six are 1280x800 ImageGen-derived B+/`PASS-B` runtime candidates. Their generation sources are below the P1 2560x1600 intermediate-master contract, so none is an A-grade or release master without a later high-resolution production pass.
+
 - `assets/backgrounds/goshiwon_room.png`
   - Starting room / poor early-life background.
   - Canonical goshiwon layout: tiny high frosted ventilation window, narrow bed, low foldable desk at the bed foot / screen-bottom foreground, no scenic city view.

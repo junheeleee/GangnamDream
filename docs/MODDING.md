@@ -330,6 +330,7 @@ python3 tools/generate_mod_manifest.py --check
 | background | `chuseok_highway` | `backgrounds/chuseok_highway.png` | 1672x941 |
 | background | `community_center` | `backgrounds/community_center.png` | 1672x941 |
 | background | `company_dinner_restaurant` | `backgrounds/company_dinner_restaurant.png` | 1672x941 |
+| background | `concert_hall_night` | `backgrounds/concert_hall_night.png` | 1280x800 |
 | background | `convenience_first_snow_exterior` | `backgrounds/convenience_store_exterior_first_snow.png` | 1280x800 |
 | background | `convenience_night`, `convenience_store` | `backgrounds/convenience_store_night_v2.png` | 1280x800 |
 | background | `daeun_mother_home_dining` | `backgrounds/daeun_mother_home_dining_summer.png` | 1280x800 |
@@ -347,10 +348,12 @@ python3 tools/generate_mod_manifest.py --check
 | background | `exercise`, `gym` | `backgrounds/gym_interior.png` | 1280x800 |
 | background | `hagwon_street` | `backgrounds/hagwon_street.png` | 1672x941 |
 | background | `hangang_riverside` | `backgrounds/hangang_riverside_walk.png` | 1280x800 |
+| background | `hanjeongsik_restaurant_day` | `backgrounds/hanjeongsik_restaurant_day.png` | 1280x800 |
 | background | `heatwave_city` | `backgrounds/heatwave_city.png` | 1672x941 |
 | background | `holdem_club` | `backgrounds/holdem_club_interior.png` | 1280x800 |
 | background | `hometown_train_station` | `backgrounds/hometown_train_station.png` | 1280x800 |
 | background | `hospital_clinic` | `backgrounds/hospital_clinic.png` | 1280x800 |
+| background | `hospital_clinic_day` | `backgrounds/hospital_clinic_day.png` | 1280x800 |
 | background | `hospital` | `backgrounds/hospital_corridor.png` | 1280x800 |
 | background | `meeting` | `backgrounds/investment_meeting.png` | 1280x800 |
 | background | `investment`, `investment_phone`, `trading` | `backgrounds/investment_phone.png` | 1280x800 |
@@ -393,9 +396,12 @@ python3 tools/generate_mod_manifest.py --check
 | background | `seoul_station_ktx_platform_winter` | `backgrounds/seoul_station_ktx_platform_winter.png` | 1280x800 |
 | background | `subway` | `backgrounds/seoul_subway.png` | 1280x800 |
 | background | `street`, `street_day` | `backgrounds/street_seoul_day.png` | 1280x800 |
+| background | `subway_station_lost_found` | `backgrounds/subway_station_lost_found.png` | 1280x800 |
+| background | `subway_station_stairs` | `backgrounds/subway_station_stairs.png` | 1280x800 |
 | background | `suneung_test_hall` | `backgrounds/suneung_test_hall.png` | 1672x941 |
 | background | `trading_room` | `backgrounds/trading_screen_night.png` | 1280x800 |
 | background | `v2_first_bill_desk_closeup` | `backgrounds/v2_first_bill_desk_closeup.png` | 1280x800 |
+| background | `villa_renovation_day` | `backgrounds/villa_renovation_day.png` | 1280x800 |
 | background | `warehouse_inventory_night` | `backgrounds/warehouse_inventory_night.png` | 1280x800 |
 | background | `winter_street_bungeoppang` | `backgrounds/winter_bungeoppang_stall.png` | 1280x800 |
 | background | `year2_winter_street_night` | `backgrounds/year2_winter_last_night.png` | 1280x800 |

@@ -187,7 +187,7 @@
     "category": "social",
     "rarity": "rare",
     "weight": 0.35,
-    "background": "subway",
+    "background": "subway_station_stairs",
     "conditions": {},
     "tags": [
       "social",
@@ -209,6 +209,7 @@
         ],
         "deferred_follow_up": "chain_exec_meal",
         "deferred_delay": 8,
+        "result_background": "subway_station_lost_found",
         "result_text": "{name}은 지갑을 역무실에 맡겼다.\n직원이 현금과 카드 수를 확인하고 분실물 접수증을 내밀었다.\n\n\"신분증에 적힌 연락처로 주인에게 알리겠습니다.\"\n\n{name}은 접수증만 접어 넣고 계단을 내려왔다.\n그날 휴대폰에는 새 번호도, 약속도 없었다.",
         "follow_up_event": ""
       },

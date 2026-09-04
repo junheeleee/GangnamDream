@@ -909,6 +909,7 @@
   {
     "id": "hidden_gangnam_open_house",
     "title": "강남 아파트 오픈하우스",
+    "background": "gangnam_apartment",
     "description": "모집 공고를 보고 충동적으로 들어갔다.\n\n강남 신축 분양. 오픈하우스.\n\n33평. 분양가 18억 5천.\n\n거실 창으로 서울이 보였다.\n직원이 설명했다. 한강 조망. 학군. 교통.\n\n옆에 서 있는 부부가 고개를 끄덕이고 있었다.\n그들은 여기 살 수 있는 사람들이었다.\n\n{name}은 그 거실에 서 있었다.\n발이 마루에 닿아 있었다.\n그게 이상하게 실감이 났다.",
     "category": "housing",
     "rarity": "legendary",
@@ -936,6 +937,7 @@
           "visited_gangnam_open_house"
         ],
         "follow_up_event": "",
+        "result_background": "current_housing",
         "result_text": "'대출은 최대 얼마까지 가능한가요?'\n\n직원이 계산해줬다. 소득 기준, 자산 기준, 금리.\n\n{name}은 받아 적었다.\n숫자들이 지금의 {name}과 얼마나 다른지\n냉정하게 알 수 있는 시간이었다.\n\n나오면서 팸플릿을 챙겼다.\n책상 서랍에 넣어뒀다.\n\n언젠간 다시 보게 될 것 같아서."
       },
       {
@@ -949,6 +951,7 @@
           "visited_gangnam_open_house"
         ],
         "follow_up_event": "",
+        "result_background": "subway",
         "result_text": "나왔다.\n\n지하철역으로 걸어가면서 방금 서 있던 거실을 생각했다.\n그 마루, 그 창, 그 높이.\n\n18억 5천이라는 숫자가 몸에 붙어서 나왔다.\n\n지하철을 탔다.\n좌석에 앉아서 눈을 감았다.\n\n그 거실에 서 있던 느낌이 한참 남아 있었다.\n발바닥이 아직 그 마루를 기억하는 것 같았다."
       }
     ]

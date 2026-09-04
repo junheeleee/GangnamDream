@@ -130,6 +130,13 @@ AUTHORED_LOCATION_DIRECTION_ENVIRONMENTS = {
     "concert_hall_night": "indoor",
     "villa_renovation_day": "indoor",
 }
+AUTHORED_LOCATION_EVENT_INTENTS = {
+    "rare_wallet_executive": "explicit_move",
+    "arc_jiyeon_year5_news": "explicit_move",
+    "yolo_spend_moment": "explicit_move",
+    "chain_envelope_owner_return": "explicit_move",
+    "hidden_gangnam_open_house": "time_cut",
+}
 
 # Declaration 7a83ce9: only presentation/prose may change for these exact roots.
 # Custody's prose and choices are fully frozen; its background alone is repaired.
@@ -787,8 +794,8 @@ def _wallet_meal_structure_errors(
         if "chain_exec_meal_accepted" in decline.get("flags", []):
             errors.append("wallet meal decline falsely persists consent")
 
-    if arrival.get("background") != "restaurant":
-        errors.append("wallet meal arrival must occur at the restaurant")
+    if arrival.get("background") != "hanjeongsik_restaurant_day":
+        errors.append("wallet meal arrival must occur at the daytime Hanjeongsik restaurant")
     if _conditions(arrival).get("flag") != "chain_exec_meal_accepted":
         errors.append("wallet meal arrival can occur without explicit consent")
     arrival_choices = arrival.get("choices", [])
@@ -1501,8 +1508,6 @@ def _authored_location_errors(model: AuditModel) -> list[str]:
     audio_profiles = model.audio_manifest.get("background_profiles", {})
     direction_profiles = model.direction_manifest.get("background_profiles", {})
     direction_intents = model.direction_manifest.get("event_intents", {})
-    explicit_moves = set(direction_intents.get("explicit_move", [])) \
-        if isinstance(direction_intents, dict) else set()
 
     for background_id, relative_path in AUTHORED_LOCATION_NEW_ASSETS.items():
         absolute_path = ROOT / relative_path
@@ -1584,10 +1589,17 @@ def _authored_location_errors(model: AuditModel) -> list[str]:
                 f"authored-location {event_id} EN overlay changed "
                 f"(sha256={en_hash})"
             )
-        if expected_results and event_id not in explicit_moves:
-            errors.append(
-                f"authored-location {event_id} missing explicit_move direction intent"
-            )
+        expected_intent = AUTHORED_LOCATION_EVENT_INTENTS.get(event_id)
+        if expected_intent is not None:
+            actual_intents = {
+                str(intent) for intent, event_ids in direction_intents.items()
+                if isinstance(event_ids, list) and event_id in event_ids
+            } if isinstance(direction_intents, dict) else set()
+            if actual_intents != {expected_intent}:
+                errors.append(
+                    f"authored-location {event_id} direction intents="
+                    f"{sorted(actual_intents)!r}, expected {[expected_intent]!r}"
+                )
     return errors
 
 
@@ -2311,7 +2323,7 @@ def run_self_test() -> int:
         ],
     }
     wallet_arrival_fixture = {
-        "background": "restaurant",
+        "background": "hanjeongsik_restaurant_day",
         "conditions": {"flag": "chain_exec_meal_accepted"},
         "choices": [
             {
@@ -2532,6 +2544,43 @@ def run_self_test() -> int:
         'if me == 54 and not f.get("age_39_seen", false):',
         'if me == 55 and not f.get("age_39_seen", false):')
     check(bool(scene_errors(mutated)), "M54 shifted ingress accepted")
+
+    location_fixture = _load_model()
+    check(
+        not _authored_location_errors(location_fixture),
+        "live authored-location control failed: "
+        + "; ".join(_authored_location_errors(location_fixture)),
+    )
+    mutated = copy.deepcopy(location_fixture)
+    mutated.ko["rare_wallet_executive"]["background"] = "subway"
+    check(bool(_authored_location_errors(mutated)),
+          "authored-location stale subway carriage accepted")
+    mutated = copy.deepcopy(location_fixture)
+    mutated.ko["yolo_spend_moment"]["choices"][0].pop("result_background")
+    check(bool(_authored_location_errors(mutated)),
+          "authored-location missing concert move accepted")
+    mutated = copy.deepcopy(location_fixture)
+    mutated.ko["arc_jiyeon_year5_news"]["description"] += " drift"
+    check(bool(_authored_location_errors(mutated)),
+          "authored-location prose mutation accepted")
+    mutated = copy.deepcopy(location_fixture)
+    mutated.en["chain_exec_meal_arrival"]["title"] += " drift"
+    check(bool(_authored_location_errors(mutated)),
+          "authored-location EN overlay mutation accepted")
+    mutated = copy.deepcopy(location_fixture)
+    mutated.audio_manifest["background_profiles"]["concert_hall_night"] = "hoesik"
+    check(bool(_authored_location_errors(mutated)),
+          "authored-location wrong concert ambience accepted")
+    mutated = copy.deepcopy(location_fixture)
+    mutated.direction_manifest["background_profiles"]["subway_station_stairs"]["environment"] = "outdoor"
+    check(bool(_authored_location_errors(mutated)),
+          "authored-location wrong station direction accepted")
+    mutated = copy.deepcopy(location_fixture)
+    next(row for row in mutated.visual_contracts["contracts"]
+         if row.get("id") == "hidden_gangnam_open_house")[
+             "choice_result_backgrounds"] = {"1": "subway"}
+    check(bool(_authored_location_errors(mutated)),
+          "authored-location missing home result contract accepted")
 
     return cases
 

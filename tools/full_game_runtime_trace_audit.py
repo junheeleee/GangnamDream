@@ -34,7 +34,7 @@ IMMERSION_LOOP_SCRIPT = ROOT / "tools" / "ImmersionLoopCheck.gd"
 MAIN_GAME_SCRIPT = ROOT / "scenes" / "MainGame.gd"
 AUDIO_MANAGER_SCRIPT = ROOT / "autoloads" / "AudioManager.gd"
 AUDIT_RUNNER_SHA256 = (
-    "a6c5f1f1dbd3c6a287e89b806e7fa043df5f7773a79784e3b0aa7f92a969733b"
+    "0986ed97b197a80c4375b002c037bab6eb8e03c44daa3d7a91690c6c98991c50"
 )
 
 AUDIO_MIX_DRAIN_CRITICAL_BLOCK = (

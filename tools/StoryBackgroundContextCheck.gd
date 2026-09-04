@@ -54,7 +54,7 @@ const CASES := [
 		"root": "gangnam_apartment",
 		"root_ambience": "apartment",
 		"results": ["current_housing", "subway"],
-		"result_ambience": ["oneroom", "subway"],
+		"result_ambience": ["apartment", "subway"],
 	},
 ]
 

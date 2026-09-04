@@ -13,7 +13,7 @@
 
 ## 감사 결과
 
-- 활성 인벤토리: **250장** (`CG 75 / Portrait 92 / Background 83`). 세 레지스트리의 중복 ID는 같은 파일 한 번으로 집계했다.
+- 활성 인벤토리: **256장** (`CG 75 / Portrait 92 / Background 89`). 세 레지스트리의 중복 ID는 같은 파일 한 번으로 집계했다.
 - 전수 방법: 종류별 콘택트시트 24장으로 얼굴·실루엣·그레이딩·공간을 1차 비교하고, 손·반사·차량·카운터·정류장처럼 오독 위험이 있는 컷과 키 비주얼 10장은 원본 해상도로 다시 열었다.
 - 런타임 수리: 배경이 구워진 `main_character_50s.png`를 본편의 `player_hollow` 슬롯에서 제외하고 같은 민준의 투명 피로 초상으로 통합했다. 현재 이벤트가 없는 박재원의 죽은 초상 등록도 제거했다.
 - 이미지 수리: `ending_crypto_ghost.png`의 비현실적인 6면 모니터 벽을 정본 고시원 안의 휴대폰 1대·낡은 노트북 1대로 교체했다. 방 크기, 작은 불투명창, 침대/책상 방향, 민준 신원, 다섯 손가락, 무문자 차트를 원본에서 재검수했다.
@@ -58,6 +58,13 @@
 - 최종 프롬프트: “정본 고시원 구조와 동일한 좁은 방, 동일한 33세 민준, 휴대폰 1대와 낡은 노트북 1대만 있는 코인 손실 후 장면. 모니터 벽·추가 화면·텍스트·로고를 제거하고, 자연스러운 다섯 손가락과 휴대폰/노트북을 향한 시선, Gangnam Ink 반사실 애니메이션 질감을 유지한다.”
 - 생성 원본: `$HOME/.codex/generated_images/019ea951-048b-7770-a3e3-ff333c6843da/exec-6a8364f4-5f1f-4b68-b5b3-d1ee3f35bf20.png`.
 - 출시 경로: `assets/cg/ending_crypto_ghost.png` (중앙 16:10 크롭 후 1280x800).
+
+### Chapter 5 저작 장소·시간 배경
+
+- 모드: OpenAI 내장 ImageGen 생성/참조 편집. `hospital_clinic_day`는 기존 야간 외래 진료실의 구조를 보존해 오전광으로 교정했고, 나머지 다섯 장소는 사건별 기능 구조와 Gangnam Ink 표면을 고정해 생성했다.
+- 출시 경로: `assets/backgrounds/{hospital_clinic_day,subway_station_stairs,subway_station_lost_found,hanjeongsik_restaurant_day,concert_hall_night,villa_renovation_day}.png` (각 1280x800).
+- 검수: 오전 외래 진료실, 역 계단·개찰구, 역무실·분실물 접수대, 토요일 낮 한정식 2인석, 무상표 야간 콘서트 홀, 화곡동 노후 빌라 보수 현장의 시간·동선·가구/설비·무문자·무주연 대역·UI 크롭을 원본 해상도에서 확인했다. 콘서트 홀의 관객과 무대 인물은 식별 불가능한 C-tier 공공장소 질감만 허용했다.
+- 등급 한계: 생성 원본은 P1 반복 배경의 2560x1600 중간 마스터 계약보다 작다. 현재 파일은 B+/`PASS-B` 런타임 후보이며 A급 또는 출시 마스터가 아니다.
 
 ### 아버지 별세 공간 분리 배경
 
@@ -344,6 +351,7 @@
 | Background | `assets/backgrounds/chuseok_highway.png` | `chuseok_highway` | 1672x941 | no | `4ac567c34bdb` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/community_center.png` | `community_center` | 1672x941 | no | `220622b0f60b` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/company_dinner_restaurant.png` | `company_dinner_restaurant` | 1672x941 | no | `9471dbec617d` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
+| Background | `assets/backgrounds/concert_hall_night.png` | `concert_hall_night` | 1280x800 | no | `880d4b341eed` | PASS-B | 야간 콘서트 홀·무대/좌석/통로 원근, 식별 불가능한 관객/공연자 질감, 무상표·무문자와 하단 안전 크롭 확인. P1 마스터 아님. |
 | Background | `assets/backgrounds/convenience_store_exterior_first_snow.png` | `convenience_first_snow_exterior` | 1280x800 | no | `40bff4511687` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/convenience_store_night_v2.png` | `convenience_night`, `convenience_store` | 1280x800 | no | `b0d81368510f` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/daeun_mother_home_dining_summer.png` | `daeun_mother_home_dining` | 1280x800 | no | `e7e916f7292f` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
@@ -360,10 +368,12 @@
 | Background | `assets/backgrounds/gym_interior.png` | `exercise`, `gym` | 1280x800 | no | `0a35a04d00b8` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/hagwon_street.png` | `hagwon_street` | 1672x941 | no | `e3700c446b37` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/hangang_riverside_walk.png` | `hangang_riverside` | 1280x800 | no | `a33579563891` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
+| Background | `assets/backgrounds/hanjeongsik_restaurant_day.png` | `hanjeongsik_restaurant_day` | 1280x800 | no | `d10ef79ed318` | PASS-B | 토요일 12:30 낮빛·한정식 2인석·절제된 선행 반찬·식당 통로, 무그릴·무고기·무완식 흔적·무인·무문자 확인. P1 마스터 아님. |
 | Background | `assets/backgrounds/heatwave_city.png` | `heatwave_city` | 1672x941 | no | `f1bd780a20d9` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/holdem_club_interior.png` | `holdem_club` | 1280x800 | no | `88906def8eb0` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/hometown_train_station.png` | `hometown_train_station` | 1280x800 | no | `23055ac86c5b` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/hospital_clinic.png` | `hospital_clinic` | 1280x800 | no | `b3bf477bde01` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
+| Background | `assets/backgrounds/hospital_clinic_day.png` | `hospital_clinic_day` | 1280x800 | no | `250f9aee9639` | PASS-B | 금요일 오전 9:20 서울 동네 외래 진료실, 책상·환자 의자·진찰대·커튼·진단기기와 무인·무문자·비입원실 확인. P1 마스터 아님. |
 | Background | `assets/backgrounds/hospital_corridor.png` | `hospital` | 1280x800 | no | `093c49491ff5` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/investment_meeting.png` | `meeting` | 1280x800 | no | `be5850434ab5` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/investment_phone.png` | `investment`, `investment_phone`, `trading` | 1280x800 | no | `aab6cac64486` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
@@ -407,13 +417,16 @@
 | Background | `assets/backgrounds/seoul_station_ktx_platform_winter.png` | `seoul_station_ktx_platform_winter` | 1280x800 | no | `35b6f9957c36` | PASS-B | 겨울 서울 고속철 승강장·열린 무상표 열차 문·촉지도·레일 원근, 인물·상표·문자 없음 확인. |
 | Background | `assets/backgrounds/seoul_subway.png` | `subway` | 1280x800 | no | `e0dee873fcdf` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/street_seoul_day.png` | `street`, `street_day` | 1280x800 | no | `c7730fce4f73` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
+| Background | `assets/backgrounds/subway_station_lost_found.png` | `subway_station_lost_found` | 1280x800 | no | `eaca16aa8259` | PASS-B | 역무실 분실물 접수대·보안 유리·보관 선반·인접 개찰구와 공용 동선, 무인·무문자 확인. P1 마스터 아님. |
+| Background | `assets/backgrounds/subway_station_stairs.png` | `subway_station_stairs` | 1280x800 | no | `ba8585a9abf4` | PASS-B | 퇴근 뒤 역 계단·손잡이·개찰구·대합 공간의 물리 동선, 열차 객실 오독 없음과 무인·무문자 확인. P1 마스터 아님. |
 | Background | `assets/backgrounds/suneung_test_hall.png` | `suneung_test_hall` | 1672x941 | no | `4b72655552ff` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/trading_screen_night.png` | `trading_room` | 1280x800 | no | `9bebd361a8e1` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/v2_first_bill_desk_closeup.png` | `v2_first_bill_desk_closeup` | 1280x800 | no | `bddf7fe462c6` | PASS-B | 정본 고시원 책상/침대/스위치 기하, 휴대폰·수첩·펜·영수증·물컵 단일성, 어두운 뱅킹 화면의 무판독 문자·하단 안전 크롭 확인. |
+| Background | `assets/backgrounds/villa_renovation_day.png` | `villa_renovation_day` | 1280x800 | no | `9286b4d25aee` | PASS-B | 토요일 이른 시간 노후 빌라 실내, 사다리·벽 철거·바닥 보양·작업등·공구·폐기물과 문/복도 동선, 무인·무문자 확인. P1 마스터 아님. |
 | Background | `assets/backgrounds/warehouse_inventory_night.png` | `warehouse_inventory_night` | 1280x800 | no | `b3d45d908fd4` | PASS-B | 선반·상자·핸드카트·바코드 스캐너·셔터/출입문 원근, 무인·무상표·무문자와 하단 안전 크롭 확인. |
 | Background | `assets/backgrounds/winter_bungeoppang_stall.png` | `winter_street_bungeoppang` | 1280x800 | no | `ff57cae9f68a` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/year2_winter_last_night.png` | `year2_winter_street_night` | 1280x800 | no | `f9f019f44357` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/year3_hangang_winter_night.png` | `year3_hangang_winter_night` | 1280x800 | no | `b8387ccb4707` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/year4_winter_rooftop.png` | `year4_winter_rooftop` | 1280x800 | no | `46803837d191` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 
-Inventory: 75 CG / 92 portraits / 83 backgrounds / 250 total.
+Inventory: 75 CG / 92 portraits / 89 backgrounds / 256 total.

@@ -265,7 +265,7 @@
   {
     "id": "arc_y5_burnout_check_reference",
     "title": "진단명 전의 종이",
-    "background": "hospital_clinic",
+    "background": "hospital_clinic_day",
     "portrait": "player_tired",
     "category": "health",
     "rarity": "story",

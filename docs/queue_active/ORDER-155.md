@@ -109,6 +109,32 @@ M55 복장·무초상, W237 30분·W240 무응답/무이체, 30억 즉시엔딩,
   오전 진료실·역 계단/역무실·낮 한정식·콘서트·빌라·오픈하우스의 실제 오배치를
   각각 실패시킨다.
 
+## 수정 뒤 기계·시각 회귀 증거
+
+- 실제 StoryMode KO/EN×모든 선택은 1280×800과 960×600 각각 32경우,
+  도입 122문단·결과 100문단에서 settled texture와 ambience까지 통과했다.
+  1280 evidence `gangnam-story-background-context-rcwze_6q`의 stdout SHA-256은
+  `3fe05097094b7827ee20143cdbe5548d8fce825c74ae0320525283ae0622b7f5`,
+  runner receipt는
+  `58cce932050dc24593277e5b0389d45483c740f827b6fdd7e112457e78a169f7`다.
+  960 evidence `gangnam-story-background-context-jd4esjtq`의 stdout은
+  `9437eb19018cfc1eb10da7417f974187f3c387b1f0cf9112cfeb4c6b6d25a0ad`,
+  receipt는 `37ddea15b1f7be6fa94ce9d89ef6830987a36eeb9ff02fbb6a2d449e23479124`다.
+- `VisualCropQA`는 새 여섯 배경×두 해상도의 0px cover crop, 정확한 산출 크기,
+  HUD·대화·선택 dock 경계를 포함해 전체 39프레임을 통과했다. contact sheet
+  `/tmp/gangnamdream_crop_qa/visual_crop_qa_sheet.png`의 SHA-256은
+  `a940f667ba79e9521c8442c74fb646f9e101de53bbc6020264269e41e86ec65f`다.
+- 여섯 자산은 원본·실제 조합을 직접 보아 장소·시간·동선·무문자·비주연 대역을
+  확인했다. 다만 생성 원본이 2560×1600 미만이므로 B+/`PASS-B` runtime 후보이며
+  A급 출시 master로 승격하지 않는다.
+- Godot 4.6.2 전체 감사는 종료 코드 0과 `✅ 감사 통과`로 닫혔다. 이 실행에서
+  Chapter 1 역사 보존 변조 519건, StoryPlayback 156경우·1,044화면,
+  Chapter 5 human-reject 런타임, 35개 엔딩, 68개 스크립트 강제 컴파일을 함께
+  통과했다. Godot 종료 시 기존 허용 자원 정리 알림은 있었으며 경고 0으로
+  과장하지 않는다.
+- 위 증거는 정상 속도 사람 플레이나 재미 판정이 아니다. 사람 gate는 계속 OPEN,
+  full·main·product는 HOLD다.
+
 **규범 소유권:** 장소는 prose keyword가 아니라 event id의 명시 계약이 소유하고,
 실제 이동을 택한 결과만 새 배경으로 전환한다는 기존
 `docs/STORY_CONSISTENCY_SYSTEM.md`·`assets/scene_direction_manifest.json`을 적용한다.

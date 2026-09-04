@@ -3561,6 +3561,29 @@ ORDER154_AUDITED_SOURCE_FILE_TRANSITIONS = {
         "29a83c39ad5efab1ba967211f112213d7056f591ea57c52fbeaee8a47e9f5dca",
     ),
 }
+# ORDER-155 changes no Chapter 1 fact. Its authored Chapter 5 location rows
+# advance only the current StoryPlayback fixture, story-rules, and release-
+# inventory source observations. Preserve every ORDER-101/151-154 predecessor
+# and successor as historical evidence, then chain these exact successors.
+ORDER155_AUDITED_SOURCE_TRANSITION_PATHS = frozenset({
+    "tools/StoryPlaybackCheck.gd",
+    "content/meta/release_content_inventory.json",
+    "content/meta/story_rules.json",
+})
+ORDER155_AUDITED_SOURCE_FILE_TRANSITIONS = {
+    "tools/StoryPlaybackCheck.gd": (
+        "03b40f2452d7080d96c87fa0eab92eb60c2c1124d488bdad13803a4218e3e46b",
+        "1d95e139e6e90687aae7b8e9295385ca063058b783e1cc7b96be22ca488babb2",
+    ),
+    "content/meta/release_content_inventory.json": (
+        "cadd747450b2a8d341a4dc08d01feae582ad11a36ca632e6cd8bb4cf1fb55e0f",
+        "a0a1f095d48085cde971e2edb4ea402f11d2659ff1546c4d6a352f0653492f52",
+    ),
+    "content/meta/story_rules.json": (
+        "29a83c39ad5efab1ba967211f112213d7056f591ea57c52fbeaee8a47e9f5dca",
+        "9d9f63f24e516e2fb339d9c5c11e821074135d2dbd63848a7f8b6902b7a6b7cb",
+    ),
+}
 
 # Mutable evidence/status logs are not causal sources.  Keeping this guard in
 # production validation prevents an append-only work record from silently
@@ -4045,6 +4068,9 @@ def _audited_source_snapshot_errors(
     if set(ORDER154_AUDITED_SOURCE_FILE_TRANSITIONS) \
             != ORDER154_AUDITED_SOURCE_TRANSITION_PATHS:
         errors.append("source: ORDER-154 exact observation transition scope mismatch")
+    if set(ORDER155_AUDITED_SOURCE_FILE_TRANSITIONS) \
+            != ORDER155_AUDITED_SOURCE_TRANSITION_PATHS:
+        errors.append("source: ORDER-155 exact observation transition scope mismatch")
     for relative_path, expected_digest in source_hashes.items():
         if relative_path in FORBIDDEN_AUDITED_SOURCE_FILE_KEYS:
             errors.append(
@@ -4083,6 +4109,13 @@ def _audited_source_snapshot_errors(
                 if expected_digest != successor[0]:
                     errors.append(
                         f"source: ORDER-154 transition predecessor mismatch {relative_path}")
+                else:
+                    expected_digest = successor[1]
+            successor = ORDER155_AUDITED_SOURCE_FILE_TRANSITIONS.get(relative_path)
+            if successor is not None:
+                if expected_digest != successor[0]:
+                    errors.append(
+                        f"source: ORDER-155 transition predecessor mismatch {relative_path}")
                 else:
                     expected_digest = successor[1]
             if _file_digest(relative_path) == expected_digest:
@@ -20493,6 +20526,8 @@ def self_test(ledger: dict[str, Any], baseline: dict[str, Any]) -> int:
         current_digest = successor[1] if successor is not None else current_digest
         successor = ORDER154_AUDITED_SOURCE_FILE_TRANSITIONS.get(relative_path)
         current_digest = successor[1] if successor is not None else current_digest
+        successor = ORDER155_AUDITED_SOURCE_FILE_TRANSITIONS.get(relative_path)
+        current_digest = successor[1] if successor is not None else current_digest
         if EXPECTED_AUDITED_SOURCE_FILE_SHA256.get(relative_path) != transition[0] \
                 or _file_digest(relative_path) != current_digest:
             raise AssertionError(f"ORDER-151 exact source transition drifted {relative_path}")
@@ -20507,10 +20542,13 @@ def self_test(ledger: dict[str, Any], baseline: dict[str, Any]) -> int:
     order152_transition = ORDER152_AUDITED_SOURCE_FILE_TRANSITIONS[order152_path]
     order154_story_transition = ORDER154_AUDITED_SOURCE_FILE_TRANSITIONS[
         order152_path]
+    order155_story_transition = ORDER155_AUDITED_SOURCE_FILE_TRANSITIONS[
+        order152_path]
     if ORDER151_AUDITED_SOURCE_FILE_TRANSITIONS[order152_path][1] \
             != order152_transition[0] \
             or order152_transition[1] != order154_story_transition[0] \
-            or _file_digest(order152_path) != order154_story_transition[1]:
+            or order154_story_transition[1] != order155_story_transition[0] \
+            or _file_digest(order152_path) != order155_story_transition[1]:
         raise AssertionError("ORDER-152 exact source successor drifted")
     cases += 1
 
@@ -20554,9 +20592,12 @@ def self_test(ledger: dict[str, Any], baseline: dict[str, Any]) -> int:
     order153_path = "content/meta/release_content_inventory.json"
     order153_transition = ORDER153_AUDITED_SOURCE_FILE_TRANSITIONS[
         order153_path]
+    order155_release_transition = ORDER155_AUDITED_SOURCE_FILE_TRANSITIONS[
+        order153_path]
     if ORDER151_AUDITED_SOURCE_FILE_TRANSITIONS[order153_path][1] \
             != order153_transition[0] \
-            or _file_digest(order153_path) != order153_transition[1]:
+            or order153_transition[1] != order155_release_transition[0] \
+            or _file_digest(order153_path) != order155_release_transition[1]:
         raise AssertionError("ORDER-153 exact source successor drifted")
     cases += 1
 
@@ -20603,7 +20644,8 @@ def self_test(ledger: dict[str, Any], baseline: dict[str, Any]) -> int:
         order154_path]
     if ORDER152_AUDITED_SOURCE_FILE_TRANSITIONS[order154_path][1] \
             != order154_transition[0] \
-            or _file_digest(order154_path) != order154_transition[1]:
+            or order154_transition[1] != order155_story_transition[0] \
+            or _file_digest(order154_path) != order155_story_transition[1]:
         raise AssertionError("ORDER-154 exact source successor drifted")
     cases += 1
 
@@ -20644,6 +20686,69 @@ def self_test(ledger: dict[str, Any], baseline: dict[str, Any]) -> int:
                            EXPECTED_AUDITED_SOURCE_FILE_SHA256)):
                 raise AssertionError(
                     "ORDER-154 removed/expanded transition scope passed")
+        cases += 1
+
+    order155_predecessors = {
+        "tools/StoryPlaybackCheck.gd":
+            ORDER151_AUDITED_SOURCE_FILE_TRANSITIONS[
+                "tools/StoryPlaybackCheck.gd"][1],
+        "content/meta/release_content_inventory.json": order153_transition[1],
+        "content/meta/story_rules.json": order154_transition[1],
+    }
+    for order155_path, order155_transition in \
+            ORDER155_AUDITED_SOURCE_FILE_TRANSITIONS.items():
+        if order155_predecessors.get(order155_path) != order155_transition[0] \
+                or _file_digest(order155_path) != order155_transition[1]:
+            raise AssertionError(
+                f"ORDER-155 exact source successor drifted {order155_path}")
+        cases += 1
+
+        rewritten_history = dict(EXPECTED_AUDITED_SOURCE_FILE_SHA256)
+        rewritten_history[order155_path] = order155_transition[1]
+        if not any("ORDER-151 transition predecessor mismatch" in error
+                   for error in _audited_source_snapshot_errors(
+                       rewritten_history)):
+            raise AssertionError(
+                f"ORDER-155 successor replaced historical source baseline "
+                f"{order155_path}")
+        cases += 1
+
+        for rejected_digest in (order155_transition[0], "0" * 64):
+            with patch(f"{__name__}._file_digest", side_effect=lambda path: (
+                    rejected_digest if path == order155_path
+                    else original_file_digest(path))):
+                if not any(
+                        f"audited file snapshot mismatch {order155_path}" in error
+                        for error in _audited_source_snapshot_errors(
+                            EXPECTED_AUDITED_SOURCE_FILE_SHA256)):
+                    raise AssertionError(
+                        f"ORDER-155 stale/unregistered source digest passed "
+                        f"{order155_path}")
+            cases += 1
+
+        broken_transition = dict(ORDER155_AUDITED_SOURCE_FILE_TRANSITIONS)
+        broken_transition[order155_path] = (
+            "0" * 64, order155_transition[1])
+        with patch.dict(ORDER155_AUDITED_SOURCE_FILE_TRANSITIONS,
+                        broken_transition, clear=True):
+            if not any(
+                    f"ORDER-155 transition predecessor mismatch {order155_path}"
+                    in error for error in _audited_source_snapshot_errors(
+                        EXPECTED_AUDITED_SOURCE_FILE_SHA256)):
+                raise AssertionError(
+                    f"ORDER-155 broken predecessor chain passed {order155_path}")
+        cases += 1
+
+    for replacement in ({}, {
+            **ORDER155_AUDITED_SOURCE_FILE_TRANSITIONS,
+            "content/events/hidden_events.json": ("0" * 64, "1" * 64)}):
+        with patch.dict(ORDER155_AUDITED_SOURCE_FILE_TRANSITIONS,
+                        replacement, clear=True):
+            if not any("ORDER-155 exact observation transition scope mismatch" in error
+                       for error in _audited_source_snapshot_errors(
+                           EXPECTED_AUDITED_SOURCE_FILE_SHA256)):
+                raise AssertionError(
+                    "ORDER-155 removed/expanded transition scope passed")
         cases += 1
 
     mutable_evidence_map = dict(EXPECTED_AUDITED_SOURCE_FILE_SHA256)

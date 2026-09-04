@@ -1097,7 +1097,7 @@
         },
         "portrait_role": "local",
         "nameplate_role": "hidden",
-        "expected_background": "hospital_clinic",
+        "expected_background": "hospital_clinic_day",
         "expected_portrait": "player_tired"
       }
     },
