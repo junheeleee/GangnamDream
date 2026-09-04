@@ -239,7 +239,11 @@ def install_termination_handlers() -> dict[int, object]:
     def raise_signal(caught: int, _frame: object) -> None:
         raise RunnerSignalInterrupt(caught)
 
-    for signame in ("SIGTERM", "SIGHUP", "SIGQUIT"):
+    # audit.sh's Darwin fallback uses Perl alarm(720) around this runner.
+    # Catch SIGALRM too so the runner, rather than the kernel default action,
+    # remains responsible for stopping the detached Godot process group and
+    # retaining its failure evidence.
+    for signame in ("SIGTERM", "SIGHUP", "SIGQUIT", "SIGALRM"):
         signum = getattr(signal, signame, None)
         if signum is None:
             continue
