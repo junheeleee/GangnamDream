@@ -19,17 +19,24 @@
 > [`7/25`](history/WORK_LOG_2026-07-25.md)에 손실 없이 보존한다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
 
-## 2026-09-05 (Codex — ORDER-154 결혼 첫날·비교본 보관 이름표 수리 선언)
+## 2026-09-05 (Codex — ORDER-154 결혼 첫날·비교본 보관 이름표 수리 완료)
 
-- ORDER-153 종료 `0e8c363`을 기준으로 결혼 첫날 네 root와 M51 비교본 보관
+- ORDER-153 종료 `0e8c363`을 기준으로 결혼 첫날 네 root와 M56 비교본 보관
   `arc_y5_father_trace_custody`의 거짓 초상 이름표 다섯 건을 분리했다. 한 event의
   서술·민준·다은 발화가 섞여 있어 event-level 초상 이름을 실제 화자로 표시할 수 없다.
-- exact 다섯 presentation에만 기존 hidden 계약을 적용한다. 다은 첫날밤 초상,
-  민준 피곤한 초상, 배경·아침 CG reveal, 원고·선택·효과·follow-up은 보존한다.
-  공통 StoryMode나 문단별 화자 파서를 새로 만들지 않는다.
-- 실제 StoryMode의 KO/EN 두 결혼 체인·custody 두 선택을 수정 전 실패부터
-  기록한다. 이름표 뒤에는 별도 배경 묶음이 남으므로 새 exact 후보·플레이 요청은
-  아직 발급하지 않고 두 Chapter 5 사람 gate OPEN, full·main·product HOLD를 유지한다.
+- exact 다섯 presentation에만 기존 hidden 계약을 적용했다. 다은 첫날밤 초상,
+  민준 피곤한 초상, 배경·아침 CG reveal, 원고·선택·효과·follow-up과 공통
+  StoryMode는 보존했다. 제품 `18006c9c529a9359452e39c7cd8c9ad98bb907eb`,
+  tree `338e309f9313bb37455fded903a1cb52fbf381bd`, source manifest SHA-256
+  `c4f26a3f7b78f3045cf2180324f89510b93de41a8607b1d118097028f6e1714c`다.
+- 수정 전 정적 29건과 실제 StoryMode 이름표 274건을 실패로 남겼다. 수정 뒤
+  KO/EN 결혼 체인·custody를 합친 24경우·262문단, 정적 self-test 71건,
+  Year 5 267건, Chapter 1 장기 self-test 502건과 최종 7파일 영향 선택 43개를
+  통과했다. 독립 읽기 전용 코드리뷰도 blocker 0이다.
+- 이는 사람 플레이나 재미 GO가 아니다. 낮 진료실·점심·역·공원·오픈하우스·
+  생활 vignette 배경을 별도 묶음으로 닫은 새 exact 후보 전에는 플레이를 요청하지
+  않는다. 두 Chapter 5 사람 gate OPEN, full·main·product HOLD를 유지한다.
+  exact 로그·해시·L2 경로는 [완료 영수증](queue_archive/ORDER-154.md)에 보존했다.
 
 ## 2026-09-05 (Codex — ORDER-153 W237 익명 보증 충돌 수리 완료)
 
@@ -47,7 +54,7 @@
   최종 변경 8파일 영향 선택 73개를 통과했다. 기존 허용 종료 자원 경고를
   오류·경고 0으로 과장하지 않는다.
 - 원고·재혁선·W238·공개 M01~M06은 불변이다. 다음은 결혼 첫날 네 장면과
-  M51 비교본 보관 장면의 혼합 대화 이름표 다섯 건이며, 이어 배경 묶음까지 닫은
+  M56 비교본 보관 장면의 혼합 대화 이름표 다섯 건이며, 이어 배경 묶음까지 닫은
   새 exact 후보 전에는 플레이를 요청하지 않는다. 두 Chapter 5 사람 gate OPEN,
   full·main·product HOLD를 유지한다. 정확한 로그 해시는
   [완료 영수증](queue_archive/ORDER-153.md)에 보존했다.
