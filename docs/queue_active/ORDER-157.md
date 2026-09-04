@@ -1,8 +1,8 @@
-# Active Queue Spec: ORDER-148
+# Active Queue Spec: ORDER-157
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [ ] ORDER-148 [P1·5장 종막 문체] 허위 사실 금지가 문체로 굳은 자리를 풀되, 금지 자체는 한 줄도 약화하지 않는다
+#### [ ] ORDER-157 [P1·5장 종막 문체] 허위 사실 금지가 문체로 굳은 자리를 풀되, 금지 자체는 한 줄도 약화하지 않는다
 
 **[ ] 미착수 · 입력은 `83d3f350` 5장 원고·수치 검토(2026-09-01):**
 장면이 무엇이 **일어나지 않았는지**로 끝나는 습관이 5장 종막 전반에 퍼져 있다.

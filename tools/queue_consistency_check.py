@@ -11,6 +11,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 QUEUE = ROOT / "docs/CODEX_QUEUE.md"
 ACTIVE = ROOT / "docs/queue_active"
+ARCHIVE = ROOT / "docs/queue_archive"
+BACKLOG = ROOT / "docs/queue_backlog"
 CLAUDE = ROOT / "CLAUDE.md"
 HANDOFF = ROOT / "docs/HANDOFF.md"
 
@@ -20,6 +22,44 @@ ROW_RE = re.compile(
 )
 HEADER_RE = re.compile(r"^####\s+\[([ ~x])\]\s+(ORDER-\d+)\b", re.MULTILINE)
 BATCH_RE = re.compile(r"^##\s+배치(?:\s|$)", re.MULTILINE)
+# An order spec is exactly ORDER-<n>.md. Evidence attachments such as
+# ORDER-100_L1_L2_2026-08-12.md share the number on purpose and are not reuse.
+SPEC_FILE_RE = re.compile(r"^ORDER-(\d+)\.md$")
+
+
+def order_ids(directory: Path) -> dict[str, Path]:
+    """Order IDs whose spec file lives in this directory."""
+    found: dict[str, Path] = {}
+    if not directory.is_dir():
+        return found
+    for path in sorted(directory.glob("ORDER-*.md")):
+        match = SPEC_FILE_RE.match(path.name)
+        if match:
+            found[f"ORDER-{match.group(1)}"] = path
+    return found
+
+
+def check_id_reuse(errors: list[str]) -> None:
+    """An ID may name only one order across the whole queue.
+
+    The row check below only sees the index table, so an active spec that
+    reuses a number already spent in the archive passes it unnoticed. That
+    happened to ORDER-148 and cost a rename after the fact.
+    """
+    seen: dict[str, list[str]] = {}
+    for label, directory in (
+        ("queue_active", ACTIVE),
+        ("queue_archive", ARCHIVE),
+        ("queue_backlog", BACKLOG),
+    ):
+        for order_id in order_ids(directory):
+            seen.setdefault(order_id, []).append(label)
+    for order_id, places in sorted(seen.items()):
+        if len(places) > 1:
+            errors.append(
+                f"같은 오더 ID가 여러 큐 디렉터리에 있다: {order_id} → "
+                f"{', '.join(places)}. 새 오더는 아카이브·백로그에서 쓰지 않은 "
+                f"번호를 써야 한다")
 
 
 def execution_section(text: str) -> str:
@@ -56,6 +96,8 @@ def main() -> int:
     row_ids = [row[2] for row in rows]
     if len(row_ids) != len(set(row_ids)):
         errors.append(f"실행 큐에 중복 ID가 있다: {row_ids}")
+
+    check_id_reuse(errors)
 
     active_files = {path.stem: path for path in sorted(ACTIVE.glob("*.md"))}
     if set(row_ids) != set(active_files):
