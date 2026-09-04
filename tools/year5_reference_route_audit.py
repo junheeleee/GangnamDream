@@ -1887,6 +1887,46 @@ ORDER153_PRODUCT_FILE_TRANSITIONS = {
     ),
 }
 
+# ORDER-154 adds exactly four wedding-night presentation rows and the hidden
+# nameplate field on the existing custody presentation.  Keep ORDER-152's
+# reviewed successor byte immutable and project this newest exact layer first.
+ORDER154_PRODUCT_BASELINE = "0e8c3633df7b415109b508a0ae88c0e240ee928a"
+ORDER154_DECLARATION_COMMIT = "6a16bce3b7f5de4dc5e2f877dff5dbee4c5cfce6"
+ORDER154_RULES_PATH = "content/meta/story_rules.json"
+ORDER154_ADDED_EVENT_IDS = frozenset({
+    "arc_daeun_wedding_night",
+    "arc_daeun_wedding_night_tea",
+    "arc_daeun_wedding_night_honest",
+    "arc_daeun_wedding_night_choice",
+})
+ORDER154_CUSTODY_EVENT_ID = "arc_y5_father_trace_custody"
+ORDER154_CHANGED_EVENT_IDS = frozenset({
+    *ORDER154_ADDED_EVENT_IDS,
+    ORDER154_CUSTODY_EVENT_ID,
+})
+ORDER154_WEDDING_PRESENTATION = {
+    "channel": "in_person",
+    "scene_location": "daeun_newlywed_home",
+    "participants": ["player", "daeun"],
+    "portrait_role": "present",
+    "nameplate_role": "hidden",
+    "expected_background": "daeun_newlywed_home",
+    "expected_portrait": "daeun_wedding_night",
+}
+ORDER154_CUSTODY_PRESENTATION = {
+    "channel": "in_person",
+    "scene_location": "convenience_store",
+    "participants": ["player", "daeun"],
+    "portrait_role": "local",
+    "nameplate_role": "hidden",
+    "expected_background": "convenience_night",
+    "expected_ambience": "convenience",
+}
+ORDER154_RULES_BYTE_TRANSITION = (
+    "35e64bd87c7b88f6c77b1827228bfb594804140d79773b12298e706faf144d69",
+    "29a83c39ad5efab1ba967211f112213d7056f591ea57c52fbeaee8a47e9f5dca",
+)
+
 ORDER131_ADDED_IDS_BY_FILE = {
     "content/events/arc_midgame.json": {
         "arc_first_real_win_father_passed",
@@ -4954,6 +4994,81 @@ def order153_git_registration_snapshot(
     )
 
 
+@functools.lru_cache(maxsize=1)
+def order154_baseline_payload() -> Any:
+    """Load the exact story-rules source immediately before ORDER-154."""
+    return strict_loads(
+        git_blob(ORDER154_PRODUCT_BASELINE, ORDER154_RULES_PATH).decode("utf-8"),
+        f"{ORDER154_PRODUCT_BASELINE}:{ORDER154_RULES_PATH}",
+    )
+
+
+def order154_expected_payload(baseline: Any) -> Any:
+    """Build only the five declared presentation successors."""
+    expected = copy.deepcopy(baseline)
+    if not isinstance(expected, dict):
+        return expected
+    events = expected.get("events")
+    if not isinstance(events, dict):
+        return expected
+    for event_id in ORDER154_ADDED_EVENT_IDS:
+        events[event_id] = {
+            "presentation": copy.deepcopy(ORDER154_WEDDING_PRESENTATION),
+        }
+    custody = events.get(ORDER154_CUSTODY_EVENT_ID)
+    if isinstance(custody, dict) \
+            and isinstance(custody.get("presentation"), dict):
+        custody["presentation"] = copy.deepcopy(
+            ORDER154_CUSTODY_PRESENTATION)
+    return expected
+
+
+def order154_project_payload(payload: Any, relative: str) -> Any:
+    """Restore the predecessor only from the complete exact successor."""
+    projected = copy.deepcopy(payload)
+    if relative != ORDER154_RULES_PATH:
+        return projected
+    try:
+        baseline = order154_baseline_payload()
+    except (UnicodeDecodeError, ValueError):
+        return projected
+    if projected == order154_expected_payload(baseline):
+        return copy.deepcopy(baseline)
+    return projected
+
+
+def order154_project_byte_hash(current_hash: str, relative: str) -> str:
+    """Expose the older byte only for ORDER-154's exact whole-file hash."""
+    if relative == ORDER154_RULES_PATH \
+            and current_hash == ORDER154_RULES_BYTE_TRANSITION[1]:
+        return ORDER154_RULES_BYTE_TRANSITION[0]
+    return current_hash
+
+
+@functools.lru_cache(maxsize=1)
+def order154_git_registration_snapshot(
+) -> tuple[int, str, int, str, int, frozenset[str]]:
+    """Bind the docs-only declaration and exact one-file product delta."""
+    parent = subprocess.run(
+        ["git", "rev-parse", f"{ORDER154_DECLARATION_COMMIT}^"],
+        cwd=ROOT, check=False, capture_output=True, text=True)
+    wrapper = subprocess.run(
+        ["git", "diff", "--name-only", ORDER154_PRODUCT_BASELINE,
+         ORDER154_DECLARATION_COMMIT, "--", ORDER154_RULES_PATH],
+        cwd=ROOT, check=False, capture_output=True, text=True)
+    product = subprocess.run(
+        ["git", "diff", "--name-only", ORDER154_PRODUCT_BASELINE,
+         "--", ORDER154_RULES_PATH],
+        cwd=ROOT, check=False, capture_output=True, text=True)
+    return (
+        parent.returncode, parent.stdout.strip(),
+        wrapper.returncode, wrapper.stdout.strip(),
+        product.returncode,
+        frozenset(path for path in product.stdout.splitlines()
+                  if path.endswith(".json")),
+    )
+
+
 def order152_project_payload(payload: Any, relative: str) -> Any:
     """Remove only the exact new presentation; retain every unrelated field."""
     projected = copy.deepcopy(payload)
@@ -4988,7 +5103,9 @@ def order151_baseline_payload(relative: str) -> Any:
 def order151_current_payload(relative: str) -> Any:
     """Expose the exact pre-ORDER-152 source through newer exact inverses."""
     return order152_project_payload(
-        order153_project_payload(load_json(ROOT / relative), relative),
+        order153_project_payload(
+            order154_project_payload(load_json(ROOT / relative), relative),
+            relative),
         relative)
 
 
@@ -4996,7 +5113,9 @@ def order151_current_payload(relative: str) -> Any:
 def order151_current_byte_hash(relative: str) -> str:
     return order152_project_byte_hash(
         order153_project_byte_hash(
-            byte_sha256((ROOT / relative).read_bytes()), relative),
+            order154_project_byte_hash(
+                byte_sha256((ROOT / relative).read_bytes()), relative),
+            relative),
         relative)
 
 
@@ -7289,6 +7408,117 @@ def validate_order153_registration(
     }
 
 
+def validate_order154_rules(
+    current: Any,
+    baseline: Any,
+    errors: list[str],
+) -> None:
+    """Reject any semantic delta outside the five declared presentations."""
+    owner = f"ORDER-154:{ORDER154_RULES_PATH}"
+    current_events = current.get("events", {}) if isinstance(current, dict) else {}
+    baseline_events = baseline.get("events", {}) \
+        if isinstance(baseline, dict) else {}
+    if not isinstance(current_events, dict) \
+            or not isinstance(baseline_events, dict):
+        errors.append(f"{owner}: events registry must be an object")
+        return
+
+    added = set(current_events) - set(baseline_events)
+    removed = set(baseline_events) - set(current_events)
+    changed = {
+        event_id for event_id in set(current_events) & set(baseline_events)
+        if current_events[event_id] != baseline_events[event_id]
+    }
+    if added != set(ORDER154_ADDED_EVENT_IDS) or removed \
+            or changed != {ORDER154_CUSTODY_EVENT_ID}:
+        errors.append(
+            f"{owner}: exact five-event delta drifted "
+            f"added={sorted(added)} removed={sorted(removed)} "
+            f"changed={sorted(changed)}")
+
+    for event_id in sorted(ORDER154_ADDED_EVENT_IDS):
+        if event_id in baseline_events:
+            errors.append(f"{owner}: baseline unexpectedly owns {event_id}")
+        if current_events.get(event_id) != {
+                "presentation": ORDER154_WEDDING_PRESENTATION}:
+            errors.append(f"{owner}: exact wedding presentation drifted {event_id}")
+
+    baseline_custody = baseline_events.get(ORDER154_CUSTODY_EVENT_ID)
+    expected_baseline_custody = {
+        "logic": {},
+        "presentation": {
+            key: copy.deepcopy(value)
+            for key, value in ORDER154_CUSTODY_PRESENTATION.items()
+            if key != "nameplate_role"
+        },
+    }
+    expected_current_custody = {
+        "logic": {},
+        "presentation": ORDER154_CUSTODY_PRESENTATION,
+    }
+    if baseline_custody != expected_baseline_custody:
+        errors.append(f"{owner}: exact custody baseline drifted")
+    if current_events.get(ORDER154_CUSTODY_EVENT_ID) \
+            != expected_current_custody:
+        errors.append(f"{owner}: exact custody successor drifted")
+
+    expected = order154_expected_payload(baseline)
+    if current != expected:
+        errors.append(f"{owner}: change exceeds exact presentation scope")
+    if order154_project_payload(current, ORDER154_RULES_PATH) != baseline:
+        errors.append(f"{owner}: exact five-presentation inverse drifted")
+
+
+def validate_order154_registration(errors: list[str]) -> dict[str, int]:
+    """Pin ORDER-154 before exposing ORDER-152 and older receipts."""
+    owner = f"ORDER-154:{ORDER154_RULES_PATH}"
+    (
+        parent_code,
+        parent_commit,
+        wrapper_code,
+        wrapper_changed,
+        diff_code,
+        product_files,
+    ) = order154_git_registration_snapshot()
+    if parent_code != 0 or parent_commit != ORDER154_PRODUCT_BASELINE:
+        errors.append(
+            "ORDER-154: declaration commit must directly extend the exact "
+            "ORDER-153 closure")
+    if wrapper_code != 0 or wrapper_changed:
+        errors.append(
+            "ORDER-154: declaration wrapper changed the story-rules source")
+    if diff_code != 0 or product_files != {ORDER154_RULES_PATH}:
+        errors.append(
+            "ORDER-154: exact product-file registry drifted "
+            f"actual={sorted(product_files)}")
+
+    try:
+        baseline_bytes = git_blob(ORDER154_PRODUCT_BASELINE, ORDER154_RULES_PATH)
+        current_bytes = (ROOT / ORDER154_RULES_PATH).read_bytes()
+        baseline = strict_loads(
+            baseline_bytes.decode("utf-8"), f"{owner}:baseline")
+        current = strict_loads(
+            current_bytes.decode("utf-8"), f"{owner}:current")
+    except (OSError, UnicodeDecodeError, ValueError) as exc:
+        errors.append(f"{owner}: cannot load exact byte pair ({exc})")
+        return {"order154_presentations": 0}
+
+    baseline_hash = byte_sha256(baseline_bytes)
+    current_hash = byte_sha256(current_bytes)
+    if baseline_hash != ORDER154_RULES_BYTE_TRANSITION[0]:
+        errors.append(f"{owner}: exact baseline byte hash drifted")
+    if current_hash != ORDER154_RULES_BYTE_TRANSITION[1]:
+        errors.append(f"{owner}: exact current byte hash drifted")
+    if ORDER154_RULES_BYTE_TRANSITION[0] \
+            != ORDER152_RULES_BYTE_TRANSITION[1]:
+        errors.append(f"{owner}: transition does not extend ORDER-152")
+    if order154_project_byte_hash(current_hash, ORDER154_RULES_PATH) \
+            != baseline_hash:
+        errors.append(f"{owner}: exact byte inverse drifted")
+    validate_order154_rules(current, baseline, errors)
+    return {"order154_presentations": len(ORDER154_CHANGED_EVENT_IDS)}
+
+
 def validate_order152_rules(
     current: Any,
     baseline: Any,
@@ -7310,19 +7540,23 @@ def validate_order152_rules(
 
 
 def validate_order152_registration(errors: list[str]) -> dict[str, int]:
-    """Validate the raw successor before exposing any historical projection."""
+    """Validate ORDER-152 after projecting the exact ORDER-154 successor."""
     owner = f"ORDER-152:{ORDER152_RULES_PATH}"
     try:
         baseline_bytes = git_blob(ORDER152_PRODUCT_BASELINE, ORDER152_RULES_PATH)
         current_bytes = (ROOT / ORDER152_RULES_PATH).read_bytes()
         baseline = strict_loads(baseline_bytes.decode("utf-8"), f"{owner}:baseline")
-        current = strict_loads(current_bytes.decode("utf-8"), f"{owner}:current")
+        raw_current = strict_loads(
+            current_bytes.decode("utf-8"), f"{owner}:raw-current")
+        current = order154_project_payload(raw_current, ORDER152_RULES_PATH)
     except (OSError, UnicodeDecodeError, ValueError) as exc:
         errors.append(f"{owner}: cannot load exact byte pair ({exc})")
         return {"order152_presentations": 0}
     if byte_sha256(baseline_bytes) != ORDER152_RULES_BYTE_TRANSITION[0]:
         errors.append(f"{owner}: exact baseline byte hash drifted")
-    if byte_sha256(current_bytes) != ORDER152_RULES_BYTE_TRANSITION[1]:
+    projected_hash = order154_project_byte_hash(
+        byte_sha256(current_bytes), ORDER152_RULES_PATH)
+    if projected_hash != ORDER152_RULES_BYTE_TRANSITION[1]:
         errors.append(f"{owner}: exact current byte hash drifted")
     if ORDER152_RULES_BYTE_TRANSITION[0] \
             != ORDER151_PRODUCT_FILE_TRANSITIONS[ORDER152_RULES_PATH][1]:
@@ -8008,7 +8242,9 @@ def validate_protected_hashes(
         actual_hash = order151_project_byte_hash(
             order152_project_byte_hash(
                 order153_project_byte_hash(
-                    byte_sha256(path.read_bytes()), relative),
+                    order154_project_byte_hash(
+                        byte_sha256(path.read_bytes()), relative),
+                    relative),
                 relative),
             relative)
         order135_transition = ORDER135_PROTECTED_FILE_TRANSITIONS.get(relative)
@@ -8751,6 +8987,7 @@ def validate_manifest(
         historical_context, errors)
     order137_stats = validate_order137_registration(order137_context, errors)
     order138_stats = validate_order138_registration(order138_context, errors)
+    order154_stats = validate_order154_registration(errors)
     order153_stats = validate_order153_registration(context, errors)
     order152_stats = validate_order152_registration(errors)
     order151_stats = validate_order151_registration(context, errors)
@@ -8809,6 +9046,7 @@ def validate_manifest(
         **order151_stats,
         **order152_stats,
         **order153_stats,
+        **order154_stats,
         **father_bridge_stats,
         **property_ladder_stats,
     }
@@ -9280,6 +9518,85 @@ def run_invalidated_self_test(
         case_count += 1
         expect_context_failure(label, manifest, context, mutate, fragment, failures)
 
+    relative = ORDER154_RULES_PATH
+    current_order154_rules = load_json(ROOT / relative)
+    baseline_order154_rules = order154_baseline_payload()
+    case_count += 1
+    if order154_project_payload(current_order154_rules, relative) \
+            != baseline_order154_rules:
+        failures.append("order154_inverse: exact baseline not restored")
+
+    for event_id in sorted(ORDER154_CHANGED_EVENT_IDS):
+        mutated = copy.deepcopy(current_order154_rules)
+        mutated["events"][event_id]["presentation"]["nameplate_role"] = "auto"
+        candidate_errors: list[str] = []
+        validate_order154_rules(
+            mutated, baseline_order154_rules, candidate_errors)
+        case_count += 1
+        if not candidate_errors:
+            failures.append(
+                f"order154_nameplate:{event_id}: mutation was accepted")
+        if order154_project_payload(mutated, relative) \
+                == baseline_order154_rules:
+            failures.append(
+                f"order154_nameplate:{event_id}: mutation was hidden")
+
+        mutated = copy.deepcopy(current_order154_rules)
+        if event_id in ORDER154_ADDED_EVENT_IDS:
+            del mutated["events"][event_id]
+        else:
+            del mutated["events"][event_id]["presentation"]["nameplate_role"]
+        candidate_errors = []
+        validate_order154_rules(
+            mutated, baseline_order154_rules, candidate_errors)
+        case_count += 1
+        if not candidate_errors:
+            failures.append(
+                f"order154_missing:{event_id}: mutation was accepted")
+        if order154_project_payload(mutated, relative) \
+                == baseline_order154_rules:
+            failures.append(
+                f"order154_missing:{event_id}: mutation was hidden")
+
+    for label, mutate in (
+        ("portrait", lambda payload: payload["events"][
+            "arc_daeun_wedding_night"]["presentation"].__setitem__(
+                "expected_portrait", "daeun_normal")),
+        ("participants", lambda payload: payload["events"][
+            ORDER154_CUSTODY_EVENT_ID]["presentation"][
+                "participants"].reverse()),
+        ("neighbor", lambda payload: payload["events"][
+            ORDER152_EVENT_ID]["presentation"].__setitem__(
+                "nameplate_role", "auto")),
+        ("neighbor_added", lambda payload: payload["events"].__setitem__(
+            "unregistered_order154_event", {"logic": {}})),
+        ("schema", lambda payload: payload.__setitem__(
+            "schema_version", int(payload["schema_version"]) + 1)),
+    ):
+        mutated = copy.deepcopy(current_order154_rules)
+        mutate(mutated)
+        candidate_errors = []
+        validate_order154_rules(
+            mutated, baseline_order154_rules, candidate_errors)
+        case_count += 1
+        if not candidate_errors:
+            failures.append(f"order154_{label}: mutation was accepted")
+        if order154_project_payload(mutated, relative) \
+                == baseline_order154_rules:
+            failures.append(f"order154_{label}: mutation was hidden")
+
+    for label, digest, path, expected in (
+        ("exact", ORDER154_RULES_BYTE_TRANSITION[1], relative,
+         ORDER154_RULES_BYTE_TRANSITION[0]),
+        ("unknown", "0" * 64, relative, "0" * 64),
+        ("unrelated_path", ORDER154_RULES_BYTE_TRANSITION[1],
+         "content/meta/story_map.json", ORDER154_RULES_BYTE_TRANSITION[1]),
+    ):
+        case_count += 1
+        if order154_project_byte_hash(digest, path) != expected:
+            failures.append(
+                f"order154_byte_inverse_{label}: inverse is not exact")
+
     for relative, event_ids in sorted(ORDER153_CHANGED_IDS_BY_FILE.items()):
         try:
             current = load_json(ROOT / relative)
@@ -9333,7 +9650,8 @@ def run_invalidated_self_test(
                     f"order153_byte_inverse:{relative}:{label}: inverse is not exact")
 
     relative = ORDER152_RULES_PATH
-    current_rules = load_json(ROOT / relative)
+    current_rules = order154_project_payload(
+        load_json(ROOT / relative), relative)
     baseline_rules = strict_loads(
         git_blob(ORDER152_PRODUCT_BASELINE, relative).decode("utf-8"),
         "self-test:ORDER-152:baseline")
@@ -10968,6 +11286,7 @@ def main() -> int:
             f"order152_presentations={stats['order152_presentations']} "
             f"order153_event_objects={stats['order153_event_objects']} "
             f"order153_product_files={stats['order153_product_files']} "
+            f"order154_presentations={stats['order154_presentations']} "
             f"father_bridge_delta={stats['father_bridge_changed_objects']} "
             f"property_ladder_delta={stats['property_ladder_changed_objects']} "
             f"product_consumers={stats['consumers']} "
@@ -11002,6 +11321,7 @@ def main() -> int:
         f"order152_presentations={stats['order152_presentations']} "
         f"order153_event_objects={stats['order153_event_objects']} "
         f"order153_product_files={stats['order153_product_files']} "
+        f"order154_presentations={stats['order154_presentations']} "
         f"father_bridge_delta={stats['father_bridge_changed_objects']} "
         f"property_ladder_delta={stats['property_ladder_changed_objects']} "
         f"product_consumers={stats['consumers']} qa_consumers=1 activation=reference_only "

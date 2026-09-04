@@ -4,7 +4,16 @@ extends Node
 ## _init(), before autoloads read settings/meta. Never borrow a player save.
 
 const ROUTE := preload("res://systems/Chapter5CausalRoute.gd")
+const FINALE_ROUTE := preload("res://systems/Chapter5FinaleRoute.gd")
 const TARGETS := ["arc_y5_burnout_check_reference", "arc_y5_after_goal_daeun"]
+const WEDDING_ROOT := "arc_daeun_wedding_night"
+const WEDDING_TEA := "arc_daeun_wedding_night_tea"
+const WEDDING_HONEST := "arc_daeun_wedding_night_honest"
+const WEDDING_FINAL := "arc_daeun_wedding_night_choice"
+const WEDDING_IDS := [
+	WEDDING_ROOT, WEDDING_TEA, WEDDING_HONEST, WEDDING_FINAL,
+]
+const CUSTODY_ID := "arc_y5_father_trace_custody"
 const NORMAL_CONTROL := "hyunsu_reunion_meet"
 const REMOTE_CONTROL := "hyunsu_reunion_later"
 const QA_PREFIX := "GangnamDream_StoryNameplateQA_"
@@ -18,6 +27,9 @@ var _refreshes := 0
 var _locale_roundtrips := 0
 var _controls := 0
 var _quote_pages := 0
+var _wedding_cases := 0
+var _custody_cases := 0
+var _morning_cg_cases := 0
 var _context := "bootstrap"
 var _expected_id := ""
 var _root_failures: Dictionary = {}
@@ -52,25 +64,33 @@ func _ready() -> void:
 		for event_id in TARGETS:
 			for choice_index in range(3):
 				await _play_target(str(event_id), choice_index)
+		for root_choice in range(2):
+			for final_choice in range(2):
+				await _play_wedding_chain(root_choice, final_choice)
+		for choice_index in range(2):
+			await _play_custody(choice_index)
 	await _remove_story()
 	await _stop_audio()
-	for event_id in TARGETS:
+	for event_id in TARGETS + WEDDING_IDS + [CUSTODY_ID]:
 		print("STORY_NAMEPLATE_ROOT_RESULT root=%s failures=%d observation=%s" % [
 			event_id, int(_root_failures.get(event_id, 0)),
 			"hidden-contract-held-Codex-UI-observation-unresolved" \
 				if event_id == TARGETS[0] and int(_root_failures.get(event_id, 0)) == 0 \
 				else "targeted-L2-only"])
-	if _cases != 12 or _pages < 60 or _locale_roundtrips != 24 or _controls != 20 \
-			or _quote_pages != 12:
-		_fail("fixture inventory incomplete: cases=%d pages=%d locale_roundtrips=%d controls=%d quote_pages=%d" % [
-			_cases, _pages, _locale_roundtrips, _controls, _quote_pages])
+	if _cases != 24 or _wedding_cases != 8 or _custody_cases != 4 \
+			or _morning_cg_cases != 8 or _pages < 120 \
+			or _locale_roundtrips != 24 or _controls != 32 or _quote_pages != 12:
+		_fail("fixture inventory incomplete: cases=%d wedding=%d custody=%d morning_cg=%d pages=%d locale_roundtrips=%d controls=%d quote_pages=%d" % [
+			_cases, _wedding_cases, _custody_cases, _morning_cg_cases,
+			_pages, _locale_roundtrips, _controls, _quote_pages])
 	if _failures > 0:
 		print("STORY_NAMEPLATE_CHECK_FAIL failures=%d cases=%d pages=%d refreshes=%d locale_roundtrips=%d controls=%d" % [
 			_failures, _cases, _pages, _refreshes, _locale_roundtrips, _controls])
 		get_tree().quit(1)
 		return
-	print("STORY_NAMEPLATE_CHECK_OK cases=%d pages=%d refreshes=%d locale_roundtrips=%d controls=%d quote_pages=%d ko_en=1 no_refresh_cases=4 sequential_pages=1 live_choices=1 loader_controls=1 human_gate=OPEN" % [
-		_cases, _pages, _refreshes, _locale_roundtrips, _controls, _quote_pages])
+	print("STORY_NAMEPLATE_CHECK_OK cases=%d wedding=%d custody=%d morning_cg=%d pages=%d refreshes=%d locale_roundtrips=%d controls=%d quote_pages=%d ko_en=1 no_refresh_cases=4 sequential_pages=1 live_choices=1 live_followups=1 loader_controls=1 human_gate=OPEN" % [
+		_cases, _wedding_cases, _custody_cases, _morning_cg_cases, _pages,
+		_refreshes, _locale_roundtrips, _controls, _quote_pages])
 	get_tree().quit(0)
 
 func _play_target(event_id: String, choice_index: int) -> void:
@@ -133,6 +153,199 @@ func _play_target(event_id: String, choice_index: int) -> void:
 	await _settle()
 	_check_control(following, "following-control")
 	_cases += 1
+
+func _play_wedding_chain(root_choice: int, final_choice: int) -> void:
+	await _remove_story()
+	_context = "%s/wedding/root%d/final%d" % [
+		LocaleManager.language, root_choice, final_choice]
+	_expected_id = WEDDING_ROOT
+	_seed_standalone_story()
+	var initial_mental := int(GameState.mental)
+	var initial_tint := float(GameState.moral_tint)
+	var initial_affinity := int(GameState.get_cast_affinity("daeun"))
+	GameState.pending_story_queue = [WEDDING_ROOT, NORMAL_CONTROL]
+	_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+	add_child(_story)
+	await _settle()
+	if not _expect_live_root(WEDDING_ROOT):
+		return
+	_observe_hidden("wedding-root-opening")
+	if not await _read_hidden_phase(false, "wedding-root-intro"):
+		return
+	await _advance_to_choices()
+	if not _expect_choice_surface(2, root_choice, "wedding-root"):
+		return
+	var branch_id := WEDDING_TEA if root_choice == 0 else WEDDING_HONEST
+	_story.call("_on_choice", root_choice)
+	await get_tree().process_frame
+	if not bool(_story.get("_pending_after_result")) \
+			or int(_story.get("_pending_result_choice_index")) != root_choice \
+			or str(_story.get("_pending_follow_up")) != branch_id:
+		_fail("wedding root choice did not bind its exact authored follow-up")
+		return
+	if not await _read_hidden_phase(true, "wedding-root-result"):
+		return
+	_expected_id = branch_id
+	_story.call("_on_advance")
+	await _settle()
+	if not _expect_live_root(branch_id):
+		return
+	_observe_hidden("wedding-branch-opening")
+	if not await _read_hidden_phase(false, "wedding-branch-intro"):
+		return
+	# Each branch has one authored action. StoryMode commits it directly from
+	# the last prose page, without inventing a one-button choice rail.
+	_story.call("_on_advance")
+	await get_tree().process_frame
+	if bool(_story.get("_showing_choices")) \
+			or not bool(_story.get("_pending_after_result")) \
+			or int(_story.get("_pending_result_choice_index")) != 0 \
+			or str(_story.get("_pending_follow_up")) != WEDDING_FINAL:
+		_fail("wedding branch did not direct-commit its exact final follow-up")
+		return
+	if not await _read_hidden_phase(true, "wedding-branch-result"):
+		return
+	if int(GameState.mental) != initial_mental \
+			or not is_equal_approx(float(GameState.moral_tint), initial_tint) \
+			or int(GameState.get_cast_affinity("daeun")) != initial_affinity \
+			or bool(GameState.flags.get("arc_daeun_wedding_night_seen", false)):
+		_fail("wedding root/branch stole the final choice effects or completion flag")
+		return
+	_expected_id = WEDDING_FINAL
+	_story.call("_on_advance")
+	await _settle()
+	if not _expect_live_root(WEDDING_FINAL):
+		return
+	_observe_hidden("wedding-final-opening")
+	if not await _read_hidden_phase(false, "wedding-final-intro"):
+		return
+	await _advance_to_choices()
+	if not _expect_choice_surface(2, final_choice, "wedding-final"):
+		return
+	var expected_deltas := [[8, 4.0, 8], [6, 3.0, 6]]
+	var expected: Array = expected_deltas[final_choice]
+	_story.call("_on_choice", final_choice)
+	await get_tree().process_frame
+	if not bool(_story.get("_pending_after_result")) \
+			or int(_story.get("_pending_result_choice_index")) != final_choice \
+			or int(GameState.mental) != initial_mental + int(expected[0]) \
+			or not is_equal_approx(
+				float(GameState.moral_tint), initial_tint + float(expected[1])) \
+			or int(GameState.get_cast_affinity("daeun")) \
+				!= initial_affinity + int(expected[2]) \
+			or not bool(GameState.flags.get("arc_daeun_wedding_night_seen", false)):
+		_fail("wedding final choice lost its exact effects or completion flag")
+		return
+	if not await _read_hidden_phase(true, "wedding-final-result", true):
+		return
+	_story.call("_on_advance")
+	await _settle()
+	_check_control(NORMAL_CONTROL, "wedding-following-control")
+	_wedding_cases += 1
+	_cases += 1
+
+func _play_custody(choice_index: int) -> void:
+	await _remove_story()
+	_context = "%s/custody/choice%d" % [LocaleManager.language, choice_index]
+	_expected_id = CUSTODY_ID
+	if not _seed_custody_story():
+		return
+	GameState.pending_story_queue = [CUSTODY_ID, NORMAL_CONTROL]
+	_story = load("res://scenes/StoryMode.tscn").instantiate() as Control
+	add_child(_story)
+	await _settle()
+	if not _expect_live_root(CUSTODY_ID):
+		return
+	_observe_hidden("custody-opening")
+	if not _expect_authored_surface(CUSTODY_ID):
+		return
+	if not await _read_hidden_phase(false, "custody-intro"):
+		return
+	await _advance_to_choices()
+	if not _expect_choice_surface(2, choice_index, "custody"):
+		return
+	_story.call("_on_choice", choice_index)
+	await get_tree().process_frame
+	if not bool(_story.get("_pending_after_result")) \
+			or int(_story.get("_pending_result_choice_index")) != choice_index \
+			or FINALE_ROUTE.selected_choice_by_event(
+				GameState.chapter5_finale_state, CUSTODY_ID) != choice_index:
+		_fail("custody actual choice did not produce its exact finale receipt")
+		return
+	if not await _read_hidden_phase(true, "custody-result"):
+		return
+	if not _custody_result_fact_is_preserved(choice_index):
+		_fail("custody result lost its delivered/not-delivered fact boundary")
+		return
+	_story.call("_on_advance")
+	await _settle()
+	_check_control(NORMAL_CONTROL, "custody-following-control")
+	_custody_cases += 1
+	_cases += 1
+
+func _seed_standalone_story() -> void:
+	GameState.start_new_game()
+	GameState.age = 36
+	GameState.month = 6
+	GameState.turn = 160
+	GameState.health = 80
+	GameState.mental = 70
+	GameState.flags = {
+		"prologue_done": true,
+		"arc_daeun_wedding_day_seen": true,
+	}
+	GameState.story_replay_mode = false
+	GameState.story_return_scene = "res://scenes/MainGame.tscn"
+	EventManager.current_event = {}
+
+func _seed_custody_story() -> bool:
+	GameState.start_new_game()
+	GameState.age = 37
+	GameState.month = 7
+	GameState.money = 2_800_000_000.0
+	GameState.health = 80
+	GameState.mental = 80
+	GameState.flags = {"prologue_done": true, "father_passed": true}
+	GameState.story_replay_mode = false
+	GameState.story_return_scene = "res://scenes/MainGame.tscn"
+	EventManager.current_event = {}
+	var locked: Dictionary = ROUTE.lock_entry(
+		ROUTE.default_state(), 195, "투자형", true, true, 2_800_000_000.0)
+	if not bool(locked.get("ok", false)):
+		_fail("custody prerequisite could not lock the existing causal reducer")
+		return false
+	var state: Dictionary = locked["state"]
+	for turn in range(195, 221):
+		for _same_turn in range(3):
+			var event_id := ROUTE.next_event_for_turn(state, turn)
+			if event_id.is_empty():
+				break
+			var committed: Dictionary = ROUTE.commit_choice(
+				state, event_id, 0, turn)
+			if not bool(committed.get("ok", false)):
+				_fail("custody prerequisite failed at %s" % event_id)
+				return false
+			state = committed["state"]
+	if not ROUTE.route_complete(state):
+		_fail("custody prerequisite causal reducer did not complete")
+		return false
+	GameState.chapter5_causal_state = state
+	GameState.turn = 221
+	if not GameState.prepare_chapter5_finale_route_entry():
+		_fail("custody prerequisite could not lock the finale reducer")
+		return false
+	var father_id := GameState.chapter5_finale_next_event_for_turn()
+	var father_choice: Dictionary = GameState.record_chapter5_finale_choice(
+		father_id, 0)
+	if father_id != "arc_y5_father_trace_passed_exact" \
+			or not bool(father_choice.get("ok", false)):
+		_fail("custody prerequisite did not commit the passed-father trace")
+		return false
+	GameState.turn = 224
+	if GameState.chapter5_finale_next_event_for_turn() != CUSTODY_ID:
+		_fail("custody prerequisite did not admit exact W224 ingress")
+		return false
+	return true
 
 func _seed_target(event_id: String) -> bool:
 	GameState.start_new_game()
@@ -197,6 +410,111 @@ func _read_pages(result: bool) -> bool:
 			await get_tree().process_frame
 	return true
 
+func _read_hidden_phase(
+		result: bool, label: String, wedding_morning_result: bool = false) -> bool:
+	var pages: Array = (_story.get("_paragraphs") as Array).duplicate()
+	if pages.is_empty() or int(_story.get("_para_index")) != 0:
+		_fail("%s did not start at decoded page zero" % label)
+		return false
+	var saw_night_result := false
+	var saw_morning_result := false
+	for page_index in range(pages.size()):
+		if int(_story.get("_para_index")) != page_index \
+				or bool(_story.get("_pending_after_result")) != result:
+			_fail("%s skipped page %d or crossed phase" % [label, page_index])
+			return false
+		await _finish_page()
+		var body := _story.get("_body_lbl") as RichTextLabel
+		if body.text != str(pages[page_index]) or body.text.is_empty():
+			_fail("%s page %d was not the displayed body" % [label, page_index])
+			return false
+		var source_index := int(_story.call(
+			"_story_source_paragraph_index", page_index))
+		var morning_surface := wedding_morning_result and result \
+			and source_index >= 1
+		_observe_hidden("%s-page%d" % [label, page_index], not morning_surface)
+		if page_index == 0:
+			_story.call("_refresh_story_speaker_language")
+			_refreshes += 1
+			_observe_hidden("%s-speaker-refresh" % label, not morning_surface)
+		if not _expect_authored_surface(_expected_id, morning_surface):
+			return false
+		if wedding_morning_result and result:
+			if morning_surface:
+				saw_morning_result = true
+			else:
+				saw_night_result = true
+		_pages += 1
+		if page_index + 1 < pages.size():
+			_story.call("_on_advance")
+			await get_tree().process_frame
+	if wedding_morning_result:
+		if not saw_night_result or not saw_morning_result:
+			_fail("wedding final result did not cross from night portrait to morning CG")
+			return false
+		_morning_cg_cases += 1
+	return true
+
+func _expect_choice_surface(
+		expected_count: int, selected_index: int, label: String) -> bool:
+	if not bool(_story.get("_showing_choices")):
+		_fail("%s introduction did not reach its actual choice surface" % label)
+		return false
+	_observe_hidden("%s-choices" % label)
+	var choices: Array = (_story.get("_current") as Dictionary).get("choices", [])
+	var visible: Array = _story.call(
+		"_visible_choice_indices", _story.get("_current"))
+	if choices.size() != expected_count or visible.size() != expected_count \
+			or not visible.has(selected_index):
+		_fail("%s choice surface lost its authored options" % label)
+		return false
+	return true
+
+func _expect_authored_surface(
+		event_id: String, morning_surface: bool = false) -> bool:
+	var background := _story.get("_bg_img") as TextureRect
+	if not is_instance_valid(background) or background.texture == null:
+		_fail("%s authored background texture is missing" % event_id)
+		return false
+	if event_id in WEDDING_IDS:
+		if morning_surface:
+			var cg_path := ImageRegistry.get_cg("cg_romance_wedding_morning_daeun")
+			if not bool(_story.get("_current_uses_cg")) \
+					or str(_story.get("_event_cg_id")) \
+						!= "cg_romance_wedding_morning_daeun" \
+					or background.texture.resource_path != cg_path:
+				_fail("wedding morning result lost its authored CG surface")
+				return false
+		else:
+			var home_path := ImageRegistry.get_background("daeun_newlywed_home")
+			if bool(_story.get("_current_uses_cg")) \
+					or str(_story.get("_event_background_id")) \
+						!= "daeun_newlywed_home" \
+					or background.texture.resource_path != home_path:
+				_fail("wedding night lost its authored newlywed-home surface")
+				return false
+		if str(BGMPlayer.scene_audio_contract(event_id).get("ambience", "")) \
+				!= "oneroom":
+			_fail("wedding night lost its authored oneroom ambience")
+			return false
+	elif event_id == CUSTODY_ID:
+		var store_path := ImageRegistry.get_background("convenience_night")
+		if str(_story.get("_event_background_id")) != "convenience_night" \
+				or background.texture.resource_path != store_path \
+				or str(BGMPlayer.scene_audio_contract(event_id).get(
+					"ambience", "")) != "convenience":
+			_fail("custody lost its authored convenience-store surface")
+			return false
+	return true
+
+func _custody_result_fact_is_preserved(choice_index: int) -> bool:
+	var text := "\n".join(_story.get("_paragraphs") as Array)
+	if LocaleManager.language == "ko":
+		return ("다은 쪽으로" in text and "전달 시각" in text) \
+			if choice_index == 0 else "미전달" in text
+	return ("toward Daeun" in text and "delivery time" in text) \
+		if choice_index == 0 else "NOT DELIVERED" in text
+
 func _target_quote() -> String:
 	if _expected_id == TARGETS[1]:
 		return "“30억 다음에도 우리가 같이 지킬 하루가 뭐예요?”" if LocaleManager.language == "ko" \
@@ -248,24 +566,65 @@ func _expect_live_root(event_id: String) -> bool:
 		return false
 	return true
 
-func _observe_hidden(label: String) -> void:
+func _observe_hidden(label: String, portrait_expected: bool = true) -> void:
 	var panel := _story.get("_name_panel") as Control
 	var presentation: Dictionary = _story.get("_current_presentation")
 	var loaded: Dictionary = DataRegistry.get_story_presentation(_expected_id)
 	var portrait := _story.get("_portrait") as TextureRect
 	var frame := _story.get("_portrait_frame") as Control
-	var portrait_id := "player_tired" if _expected_id == TARGETS[0] else "daeun_normal"
+	var portrait_id := _expected_hidden_portrait_id(_expected_id)
+	var expected_presentation := _expected_new_presentation(_expected_id)
 	if not _expect_live_root(_expected_id):
 		return
 	if presentation != loaded or str(presentation.get("nameplate_role", "auto")) != "hidden" \
+			or (not expected_presentation.is_empty() \
+				and loaded != expected_presentation) \
 			or not bool(_story.call("_story_nameplate_hidden")) \
 			or not is_instance_valid(panel) or panel.visible or panel.is_visible_in_tree():
 		_fail("%s: narrated/mixed speaker page exposed portrait name or lost loaded hidden contract" % label)
-	if not is_instance_valid(portrait) or portrait.texture == null \
-			or portrait.texture.resource_path != ImageRegistry.get_portrait(portrait_id) \
-			or not is_instance_valid(frame) or not frame.visible \
-			or bool(_story.get("_portrait_remote_inset")):
-		_fail("%s: hiding the nameplate removed or replaced the authored local portrait" % label)
+	if portrait_expected:
+		if portrait_id.is_empty() or not is_instance_valid(portrait) \
+				or portrait.texture == null \
+				or portrait.texture.resource_path != ImageRegistry.get_portrait(portrait_id) \
+				or not is_instance_valid(frame) or not frame.visible \
+				or bool(_story.get("_portrait_remote_inset")):
+			_fail("%s: hiding the nameplate removed or replaced the authored local portrait" % label)
+	elif not is_instance_valid(portrait) or portrait.texture != null \
+			or not is_instance_valid(frame) or frame.visible \
+			or not bool(_story.get("_current_uses_cg")):
+		_fail("%s: morning CG did not release the night portrait cleanly" % label)
+
+func _expected_hidden_portrait_id(event_id: String) -> String:
+	if event_id == TARGETS[0] or event_id == CUSTODY_ID:
+		return "player_tired"
+	if event_id == TARGETS[1]:
+		return "daeun_normal"
+	if event_id in WEDDING_IDS:
+		return "daeun_wedding_night"
+	return ""
+
+func _expected_new_presentation(event_id: String) -> Dictionary:
+	if event_id in WEDDING_IDS:
+		return {
+			"channel": "in_person",
+			"scene_location": "daeun_newlywed_home",
+			"participants": ["player", "daeun"],
+			"portrait_role": "present",
+			"nameplate_role": "hidden",
+			"expected_background": "daeun_newlywed_home",
+			"expected_portrait": "daeun_wedding_night",
+		}
+	if event_id == CUSTODY_ID:
+		return {
+			"channel": "in_person",
+			"scene_location": "convenience_store",
+			"participants": ["player", "daeun"],
+			"portrait_role": "local",
+			"nameplate_role": "hidden",
+			"expected_background": "convenience_night",
+			"expected_ambience": "convenience",
+		}
+	return {}
 
 func _check_control(event_id: String, label: String) -> void:
 	var current: Dictionary = _story.get("_current")

@@ -308,11 +308,48 @@ PRESENTATION_CONTRACTS: dict[str, dict[str, Any]] = {
         "expected_background": "current_housing",
         "expected_portrait": "player_tired",
     },
+    "arc_daeun_wedding_night": {
+        "channel": "in_person",
+        "scene_location": "daeun_newlywed_home",
+        "participants": ["player", "daeun"],
+        "portrait_role": "present",
+        "nameplate_role": "hidden",
+        "expected_background": "daeun_newlywed_home",
+        "expected_portrait": "daeun_wedding_night",
+    },
+    "arc_daeun_wedding_night_tea": {
+        "channel": "in_person",
+        "scene_location": "daeun_newlywed_home",
+        "participants": ["player", "daeun"],
+        "portrait_role": "present",
+        "nameplate_role": "hidden",
+        "expected_background": "daeun_newlywed_home",
+        "expected_portrait": "daeun_wedding_night",
+    },
+    "arc_daeun_wedding_night_honest": {
+        "channel": "in_person",
+        "scene_location": "daeun_newlywed_home",
+        "participants": ["player", "daeun"],
+        "portrait_role": "present",
+        "nameplate_role": "hidden",
+        "expected_background": "daeun_newlywed_home",
+        "expected_portrait": "daeun_wedding_night",
+    },
+    "arc_daeun_wedding_night_choice": {
+        "channel": "in_person",
+        "scene_location": "daeun_newlywed_home",
+        "participants": ["player", "daeun"],
+        "portrait_role": "present",
+        "nameplate_role": "hidden",
+        "expected_background": "daeun_newlywed_home",
+        "expected_portrait": "daeun_wedding_night",
+    },
     "arc_y5_father_trace_custody": {
         "channel": "in_person",
         "scene_location": "convenience_store",
         "participants": ["player", "daeun"],
         "portrait_role": "local",
+        "nameplate_role": "hidden",
         "expected_background": "convenience_night",
         "expected_ambience": "convenience",
     },
@@ -2230,6 +2267,27 @@ def run_self_test() -> int:
     mutated = copy.deepcopy(scene_fixture)
     mutated.ko["casino_comp_offer"]["conditions"]["max_turn"] = 192
     check(bool(scene_errors(mutated)), "casino global late suppression accepted")
+    for event_id in (
+        "arc_daeun_wedding_night",
+        "arc_daeun_wedding_night_tea",
+        "arc_daeun_wedding_night_honest",
+        "arc_daeun_wedding_night_choice",
+        "arc_y5_father_trace_custody",
+    ):
+        mutated = copy.deepcopy(scene_fixture)
+        mutated.rules["events"][event_id]["presentation"]["nameplate_role"] = "auto"
+        check(bool(scene_errors(mutated)),
+              f"mixed-speaker nameplate mutation accepted: {event_id}")
+    for event_id in (
+        "arc_daeun_wedding_night",
+        "arc_daeun_wedding_night_tea",
+        "arc_daeun_wedding_night_honest",
+        "arc_daeun_wedding_night_choice",
+    ):
+        mutated = copy.deepcopy(scene_fixture)
+        mutated.rules["events"][event_id]["presentation"]["expected_portrait"] = "daeun_normal"
+        check(bool(scene_errors(mutated)),
+              f"wedding-night portrait mutation accepted: {event_id}")
     for field, value in (("channel", "in_person"), ("remote_location", "current_housing")):
         mutated = copy.deepcopy(scene_fixture)
         mutated.rules["events"]["casino_comp_offer"]["presentation"][field] = value
@@ -2294,7 +2352,7 @@ def main(argv: list[str] | None = None) -> int:
         "wallet=player_acceptance/mutual-schedule/decline-closes "
         "legacy=bounded/old-flags-preserved sns=detox_bounded "
         "shadow=proposal-terminal/no-fake-agreement "
-        "jiyeon=truth-contact-3x-ko-en speakers=hidden_contract "
+        "jiyeon=truth-contact-3x-ko-en speakers=hidden_contract/wedding4+custody "
         "instant_legend=preserved ap_surface=public_demo_zero "
         "public_demo=M01-M06/frozen human_gates=pending"
     )

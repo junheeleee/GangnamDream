@@ -1221,6 +1221,7 @@
         "scene_location": "convenience_store",
         "participants": ["player", "daeun"],
         "portrait_role": "local",
+        "nameplate_role": "hidden",
         "expected_background": "convenience_night",
         "expected_ambience": "convenience"
       }
@@ -3785,6 +3786,50 @@
           "0": [{"fact": "relationship.jiyeon.phase", "set": "married"}],
           "1": [{"fact": "relationship.jiyeon.phase", "set": "married"}]
         }
+      }
+    },
+    "arc_daeun_wedding_night": {
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "daeun_newlywed_home",
+        "participants": ["player", "daeun"],
+        "portrait_role": "present",
+        "nameplate_role": "hidden",
+        "expected_background": "daeun_newlywed_home",
+        "expected_portrait": "daeun_wedding_night"
+      }
+    },
+    "arc_daeun_wedding_night_tea": {
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "daeun_newlywed_home",
+        "participants": ["player", "daeun"],
+        "portrait_role": "present",
+        "nameplate_role": "hidden",
+        "expected_background": "daeun_newlywed_home",
+        "expected_portrait": "daeun_wedding_night"
+      }
+    },
+    "arc_daeun_wedding_night_honest": {
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "daeun_newlywed_home",
+        "participants": ["player", "daeun"],
+        "portrait_role": "present",
+        "nameplate_role": "hidden",
+        "expected_background": "daeun_newlywed_home",
+        "expected_portrait": "daeun_wedding_night"
+      }
+    },
+    "arc_daeun_wedding_night_choice": {
+      "presentation": {
+        "channel": "in_person",
+        "scene_location": "daeun_newlywed_home",
+        "participants": ["player", "daeun"],
+        "portrait_role": "present",
+        "nameplate_role": "hidden",
+        "expected_background": "daeun_newlywed_home",
+        "expected_portrait": "daeun_wedding_night"
       }
     },
     "arc_daeun_final_choice": {
