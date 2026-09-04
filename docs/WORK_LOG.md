@@ -2,7 +2,8 @@
 
 > 최신 작업만 역순으로 기록한다. 2026-07-24 이전 원문은
 > [`5/16~7/24`](history/WORK_LOG_2026-05-16_to_2026-07-24.md), 보관본은
-> [`8/26`](history/WORK_LOG_2026-08-26.md), [`8/24`](history/WORK_LOG_2026-08-24.md),
+> [`8/27`](history/WORK_LOG_2026-08-27.md), [`8/26`](history/WORK_LOG_2026-08-26.md),
+> [`8/24`](history/WORK_LOG_2026-08-24.md),
 > [`8/22`](history/WORK_LOG_2026-08-22.md),
 > [`8/21`](history/WORK_LOG_2026-08-21.md), [`8/20`](history/WORK_LOG_2026-08-20.md),
 > [`8/18`](history/WORK_LOG_2026-08-18.md),
@@ -18,6 +19,19 @@
 > [`7/25`](history/WORK_LOG_2026-07-25.md)에 손실 없이 보존한다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
 
+## 2026-09-04 (Codex — ORDER-152 이름표 수리 완료)
+
+- `d934741`의 M51 `남는 하루 말고`를 보존 turn-204 저장의 별도 격리 화면에서
+  다시 읽었다. 다은 초상을 유지한 채 도입·민준 질문·다은 발화·선택·결과·월말
+  복귀까지 거짓 `김다은` 이름표가 0건이었다. 독립 인간 인증이나 전체 후보 GO는 아니다.
+- 전용 검사의 실제 StoryMode/autoload/Chapter 5 route 의존성을 선택 감사에
+  등록했고, 실행 뒤 검증된 QA 저장 경로만 삭제한다. KO/EN 12경우·92문단을
+  재통과했고 누적 테스트 폴더 25개도 제거했다.
+- 기존 `042f5ea` Property 관찰은 M60 후일담·6/6까지 완료했으나 W237의 익명
+  보증 사건이 M53 재혁 보증 뒤 중복 진입해 REJECT/HOLD다. 결혼·비교본 이름표와
+  생활 배경은 별도 후속이며 두 사람 gate OPEN·full/main/product HOLD를 유지한다.
+- exact 증거·규범 판정은 [ORDER-152 완료 영수증](queue_archive/ORDER-152.md)에 보존했다.
+
 ## 2026-09-03 (Codex — M51 이름표 부분 수리)
 
 - 별도 브랜치에서 다은 장면의 이름표 계약 한 건만 수정했다. 원고·초상·선택·
@@ -25,7 +39,7 @@
 - 진료실은 미재현이다. 기존 후보의 Codex 관찰은 General 6/6, Property M51까지이며
   Mac 잠금으로 중단했다. 독립 인간 인증·새 전체 후보가 아니고 HOLD/OPEN 그대로다.
 - exact 신원·실패/통과 로그·잔여 배경 진단·한계·일회성 규범 판정은
-  [ORDER-152 부분 수리 영수증](queue_active/ORDER-152.md)에 보존했다.
+  [ORDER-152 완료 영수증](queue_archive/ORDER-152.md)에 보존했다.
 
 ## 2026-09-03 (Codex — ORDER-151 장소·기간·카지노 맥락 수리)
 
@@ -458,31 +472,3 @@
   exact source는 변경 범위 감사 111개와 전체 감사를 모두 통과해
   `chapter5_finale_rc` active Git source 후보로 등록했다. 두 정상 속도 L3와 사용자
   최종 GO가 남았으므로 완성·main 승격·재미 GO는 아직 아니다.
-
-## 2026-08-27 (Codex — ORDER-135 일반 5장 종막 첫 profile 선언)
-
-- 기준 `bc1006f`에서 일반 런의 직접 정지·선택·분량·peak가 투자 기준보다
-  낮고, 민서 도착·아버지 기일·25억 문턱 선택이 generic W237/W240에 exact로
-  읽히지 않는 결함을 확인했다.
-- 첫 자식은 `general_near_goal_father_passed`만 소유한다. W229 마지막 지시,
-  W237 기록 봉인, W240 서명, 같은 턴 선발신의 4 roots·10 choices를 source
-  flag+event_log→typed entry→stage receipt→ending coda로 잇는다. 숫자 10에 맞춘
-  장면 수가 아니라 서로 다른 네 인과 기능이다.
-- 아버지 생존·중저자산·source 누락, property/career/startup은 기존 경로로
-  fail-closed한다. `project.godot`, 기존 ending/balance, 즉시 실패 5종과 33세
-  30억 `instant_legend`는 보호선이다. 기계·화면 검증 뒤에도 정상 속도 L3 전에는
-  완성·main 병합·플레이 준비를 선언하지 않는다.
-
-## 2026-08-27 (Codex — M55 네 사람 회의의 다은 복장 정합)
-
-- M55 회의는 민준·상철·재혁·다은이 제안서·보증 PDF·미서명 사본을 한 방에
-  놓고 다은의 이름과 시간을 계약에 쓸지 대치하는 장면이다. 기존 CG는 본문에
-  근무 직후 도착했다는 근거가 없는데도 다은만 편의점 폴로·카디건을 입혀,
-  동등한 동의 당사자보다 다른 장면에서 붙은 서비스 노동자처럼 읽혔다.
-- 다은을 무광 차콜 재킷·청회색 블라우스의 평범한 회의 사복으로 교정했다.
-  얼굴·단발·왼쪽 핀·민준을 향한 시선, 네 사람 배치, 별도 문서, 빨간 펜,
-  계산기 하나, 종이컵 넷, 손·문·하단 크롭과 무서명 상태는 유지했다.
-- 내장 ImageGen 편집 원본 `exec-714436d2-4463-4b19-b8d0-3373afca4190.png`을
-  1280×800 `assets/cg/y5_three_in_room_v2.png`로 정규화했다. v1은 비활성
-  출처본으로 보존하고 런타임·연기·모드·감사 원장은 v2로 옮겼다. 패키지
-  raster 원장과 Chapter 1의 그 원장 exact source snapshot도 같은 실물에 맞췄다.

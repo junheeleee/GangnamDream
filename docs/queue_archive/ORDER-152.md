@@ -1,10 +1,10 @@
-# Active Queue Spec: ORDER-152
+# Archived Queue Spec: ORDER-152
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-152 [P0·화자 표시] M51 혼합 대화의 초상 이름표를 실제 발화와 혼동하지 않게 한다
+#### [x] ORDER-152 [P0·화자 표시] M51 혼합 대화의 초상 이름표를 실제 발화와 혼동하지 않게 한다
 
-**[~] 2026-09-03 Codex 착수 — 아래 파일만 소유한다.** 사용자의 다음 수리 순서
+**[x] 2026-09-04 Codex 완료 — 아래 파일만 소유했다.** 사용자의 다음 수리 순서
 승인에 따른 작은 결함 배치다. 기준은 review `042f5ea2bac73d27479922bc5f5051c2ad637355`,
 제품 `2f91f4265613e57c8e3aaf34ab4f7f0971699f92`다. 기존 detached replay는 수정하지 않는다.
 
@@ -63,7 +63,8 @@
 - 기존 코드의 실제 실패 출력을 보존한 뒤 수정하고 같은 표적 검사를 다시 실행한다.
 - context manifest, story consistency, 영향 선택 검사, KO/EN 표적 렌더,
   `git diff --check`, 원고·효과 불변을 확인한다. 원본 저장을 쓰지 않는다.
-- 진료실 원인 미확정, 배경 후속, Property M52~M60 미관찰을 각각 명시한다.
+- 진료실 원인 미확정과 배경 후속을 명시한다. Property M52~M60은 착수 당시
+  미관찰이었으며, 아래 후속 Codex 화면 관찰이 6/6까지 도달한 범위만 갱신한다.
 - 이 배치의 L1/L2는 정상 속도 인간 플레이나 재미 판정을 대신하지 않는다.
   새 전체 재검토 후보는 남은 차단 수리와 통합 검증 뒤 별도로 봉인한다.
 
@@ -117,17 +118,63 @@
   `f8fb9df6f4f75389a73e56c9de1a082eab5c27ba0e28d43f687a1a7c453c1ede`다.
   logs/shader_cache/.DS_Store는 제외한다. Property 프로세스는 아직 열려 있으므로
   이 결과를 종료 후 postflight나 플레이 완료 증거로 부르지 않는다.
-- 기존 exact 후보의 **Codex 화면 관찰**은 General M49→M60→후일담·6/6와
-  지갑 수락/상호 일정 확인/식당 도착까지 확인했다. Property는 M51까지이며,
-  attempt3 입력·resize·Continue 복구 뒤 명시적인 Mac 잠금으로 멈췄다.
-  이전 두 입력 중단의 원인을 현재 잠금으로 소급하지 않는다. 상세·한계는
+
+### 2026-09-04 후속 완료 영수증
+
+- 기존 exact 후보의 **Codex 화면 관찰**은 두 경로 모두 M49→M60→후일담·6/6에
+  도달했다. Property M55 복장/무초상, M58 민서 입장, 무이체와 W240 무응답은
+  보존됐으나 W237 익명 보증이 M53 재혁 보증 뒤 중복 진입해 REJECT/HOLD다.
+  결혼 체인·비교본 이름표와 생활 배경도 새 범위로 남았다. 상세·한계는
   `/private/tmp/gangnamdream-042f5ea-observation.ZZoJm1/STATUS.md`에 보존했다.
-- 다음은 Property 남은 화면 관찰, 진료실 미재현 원인, 표적 KO/EN 화면 확인이다.
-  배경 후속은 별도: 진료실/점심 식당의 시간대, 지갑 역·지연 식사·오픈하우스의
-  실제 장소, 생활 vignette의 장소 누락과 같은 배경 재요청 시 tween 취소 가능성.
-  마지막 항목은 코드 경로만 확인했으며 런타임 재현 전이다. ORDER-152는 아직
-  `[~]`; 이 부분 수리 커밋은 새 전체 검토 후보가 아니다. 사람 gate OPEN·
-  full/main/product HOLD를 유지하며 최종 새 exact에서 두 경로 전체 사람 재검토가 필요하다.
+- 최종 `d934741` 실제 화면 표본은 보존 turn-204 저장을 새 사용자 폴더로 복사해
+  정상 진입했다. `남는 하루 말고`의 도입, 민준 직접 질문, 다은 발화, 세 선택,
+  선택 2의 두 결과와 월말 복귀까지 다은 초상은 유지되고 이름표는 계속 숨었다.
+  화면 검사는 별도 격리 bootstrap만 썼고 원본 저장·후보를 수정하지 않았다.
+  사후 기록은 `/private/tmp/gangnamdream-order152-screen.Z0Ajrl/SCREEN_OBSERVATION.md`
+  (SHA-256 `5f7a9a13d0451375be9761d7e25985bd7915578d394a5d579ccb019308e862f1`)에
+  페이지별 관찰·autosave·bootstrap 해시와 독립 인증이 아니라는 경계를 보존했다.
+- 독립 리뷰의 의존성·정리 안전 결함도 닫았다. 선택 감사는 실제 StoryMode 장면·
+  autoload·두 Chapter 5 route·연도별 초상 원장·두 현수 대조 원고·StoryMode의
+  direct preload/style/direction manifest와 `project.godot`을 직접 의존성으로 읽는다.
+  전용 실행기는 예측 불가능한 exact namespace를 먼저 골라 bootstrap에 전달하고,
+  bootstrap/test 표식이 각각 정확히 한 번 같은 절대 경로와 플랫폼별 userdata
+  직계 부모를 가리키는지 확인한다. 별도 process group을 제한 시간 안에 끝낸 뒤
+  plain directory를 같은 부모의 격리 이름으로 원자 이동하고 inode/device를 다시
+  대조한 경우에만 삭제한다. timeout·실패·unsafe platform에는 삭제하지 않는다.
+  KO/EN 12경우·92문단 재통과와 정리 표식은
+  `/var/folders/yr/mf2mg8vn7yld9rk4rf3qh2y80000gn/T/gangnam-story-nameplate-nok6hkge/stdout.log`
+  (SHA-256 `df2f22cc7f55f6f83afb30056ced5bad9ab4839de9ba558b52a992fe9b078451`,
+  `CHECK_OK` 20행·`QA_CLEANED` 21행)에 함께 남는다. 누적 테스트 폴더 25개와
+  정리 검증 중 보존된 테스트 폴더 1개도 같은 exact 경계 확인 뒤 제거했다.
+  별도 `runner_result.json`은 engine exit `0`, status `passed`, cleanup
+  `removed_after_atomic_quarantine`를 기록하며 SHA-256은
+  `0fe22fbaf79878697d973babe3c1d843c2cf1be5a102ca517d157515423f510a`다.
+  SIGTERM 모의 실행도 wrapper exit `143`, child exit `-9`, 남은 자식 0,
+  status `signal_interrupted`로 닫혔고 결과 JSON SHA-256은
+  `834e337f06c37b5dd61d36616bf83e5f9fe46139ebfe1c0c441e1aaa02e513a8`다.
+- 폐쇄 직전 현재 diff 10경로를 다시 영향 선택한 최종 회귀는 23개 검사를 모두
+  종료 0으로 통과했다. 68개 스크립트 컴파일, 이름표 12경우·92문단,
+  M01~M06 3경로·28 selector, Chapter 1 인과 self-test 488건,
+  Chapter 5 property/general 종막, 공개 데모 패키지 self-test 264건과
+  정본·큐·사람 게이트 검사를 포함한다. 로그는
+  `/private/tmp/gangnamdream-order152-final-impact.log`, SHA-256은
+  `7bfdb3408a0a568f7aea1ef42c5d224310e7e6e24eddd4e1df62726699f7e6bf`다.
+  이는 회귀 증거이며 정상 속도 독립 인간 플레이 판정을 대신하지 않는다.
+- 배경, W237 보증 충돌, 결혼/비교본 이름표는 각각 새 오더다. 이 커밋은 새 전체
+  검토 후보나 사람 GO가 아니다. 두 사람 gate OPEN, full/main/product HOLD를
+  유지하며 최종 새 exact에서 두 경로 전체 사람 재검토가 필요하다.
 - 규범 판정: 기존 `STORY_CONSISTENCY_SYSTEM.md`의 표시 사실과
   `story_rules.json` hidden 계약을 적용했으며 새 정본 규칙은 없다. 파일 소유권·
   실행 순서·이번 exact 증거는 일회성이다.
+
+## L2 완료 증거 양식
+
+```text
+도달 경로      : /var/folders/yr/mf2mg8vn7yld9rk4rf3qh2y80000gn/T/gangnam-story-nameplate-nok6hkge/stdout.log:20 = STORY_NAMEPLATE_CHECK_OK cases=12 pages=92 refreshes=62 locale_roundtrips=24 controls=20 quote_pages=12
+생산자 ↔ 독자   : content/meta/story_rules.json:1112 ↔ autoloads/DataRegistry.gd:505 ↔ scenes/StoryMode.gd:5298
+바꾸는 상태     : story_rules SHA256 42c966bb45f4339504652b62d78142950c543def289f802355795f293d8689a1 → 35e64bd87c7b88f6c77b1827228bfb594804140d79773b12298e706faf144d69; nameplate_role absent → hidden
+포기 시 잃는 것 : arc_y5_after_goal_daeun@W204 + /private/tmp/gangnamdream-order152-nameplate-baseline.ysRMiW/attempt3-verbose-godot.log:412 failures=156
+서사 위치       : chapter5.M51.W204
+장면 계층       : T2 = content/meta/chapter5_causal_ledger.json:138
+닫는 것         : arc_y5_after_goal_daeun false Daeun nameplate failures 156 → 0
+```
