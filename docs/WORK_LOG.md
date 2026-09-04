@@ -19,6 +19,18 @@
 > [`7/25`](history/WORK_LOG_2026-07-25.md)에 손실 없이 보존한다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
 
+## 2026-09-05 (Codex — ORDER-154 결혼 첫날·비교본 보관 이름표 수리 선언)
+
+- ORDER-153 종료 `0e8c363`을 기준으로 결혼 첫날 네 root와 M51 비교본 보관
+  `arc_y5_father_trace_custody`의 거짓 초상 이름표 다섯 건을 분리했다. 한 event의
+  서술·민준·다은 발화가 섞여 있어 event-level 초상 이름을 실제 화자로 표시할 수 없다.
+- exact 다섯 presentation에만 기존 hidden 계약을 적용한다. 다은 첫날밤 초상,
+  민준 피곤한 초상, 배경·아침 CG reveal, 원고·선택·효과·follow-up은 보존한다.
+  공통 StoryMode나 문단별 화자 파서를 새로 만들지 않는다.
+- 실제 StoryMode의 KO/EN 두 결혼 체인·custody 두 선택을 수정 전 실패부터
+  기록한다. 이름표 뒤에는 별도 배경 묶음이 남으므로 새 exact 후보·플레이 요청은
+  아직 발급하지 않고 두 Chapter 5 사람 gate OPEN, full·main·product HOLD를 유지한다.
+
 ## 2026-09-05 (Codex — ORDER-153 W237 익명 보증 충돌 수리 완료)
 
 - exact `042f5ea` Property 코덱스 화면 관찰에서 M53 재혁 보증 후 W237
