@@ -1,8 +1,8 @@
-# Active Queue Spec: ORDER-153
+# Archived Queue Spec: ORDER-153
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-153 [P0·서사 충돌] W237 익명 보증 사건을 M53 재혁 보증선과 분리한다
+#### [x] ORDER-153 [P0·서사 충돌] W237 익명 보증 사건을 M53 재혁 보증선과 분리한다
 
 **[~] 2026-09-05 Codex 착수 — 아래 exact 범위만 소유한다.** 기준은
 `4f4689e0ff6265da9f29f690933425d2558e4d24` 이며, 결함은 review
@@ -78,6 +78,56 @@ M55 블레이저·무초상, W240 무이체·무응답, 아버지 생사·민서
 - 남은 배경·결혼/비교본 이름표를 함께 닫고 새 exact 제품/review 후보를
   발급한 뒤에만 Property와 `general_near_goal_father_passed` M49→M60→후일담→
   크레딧 6/6 두 경로의 정상 속도 사람 재플레이를 요청한다.
+
+## 완료 영수증 — 2026-09-05
+
+- 제품 commit `f4c7fd9092b229d50ce4a742e64ffe42cb648b4c`, tree
+  `323cd807590705e1b09b22452e1d2af037a6ac87`, source manifest SHA-256
+  `de966d552a82c8f6b79b3886ff35c7a52ad8e37d3d6b2c8fa3656114ff8dfbfb`로
+  닫았다. 선언 commit `f0869b2a0e4acd897920e68f720f8fb5c0259bb2`의 정확한 자식 작업이며,
+  제품 데이터 diff는 세 사건 조건의 `max_turn: 192` 추가뿐이다.
+- 수정 전 정적 검사는 세 legacy root의 상한 부재와 W192 경계 6건을 실패로 잡았다.
+  로그 `/private/tmp/gangnamdream-order153-red-static.log`, SHA-256
+  `d2ac60fa953f24e15b940063767bdbf4cd3b3ac7255f6785692fc7ae8efb3c55`.
+  수정 전 Godot 검사는 KO/EN의 W193·W237 direct/deferred/foreground 36건과
+  예전 저장의 늦은 재진입 2건, 합계 38건만 실패했다. 로그
+  `/private/tmp/gangnamdream-order153-red-runtime.log`, SHA-256
+  `79e9dcbb0cba6dd586ff86767aadf70249b94da33d874ecee673e0b50ecfd08b`.
+- 수정 뒤 정적 검사와 self-test 62건, Godot 4.6.2의 KO/EN W192 포함·
+  W193/W237 제외·예전 저장 왕복·W238 저작 회수가 통과했다. 정적 로그
+  `/private/tmp/gangnamdream-order153-green-static.log` SHA-256
+  `34dfca312865a1eb5cf97c34037f0b77750b32c480d39f79048a48351e1879b3`,
+  런타임 로그 `/private/tmp/gangnamdream-order153-green-runtime.log` SHA-256
+  `e438f5b0d5a2a3e7f73497dda49510360fc262a8e8cfba46fd4b3bc265083368`.
+- 실제 영향에서 달라진 파생 관측만 후속층으로 등록했다. 심의 축 사건 수·파일 수·
+  강도는 유지하고 fear/crime/alcohol content fingerprint만 재산출했다.
+  Year 5 감사에는 과거 ORDER-150/151/152 상수를 바꾸지 않는 ORDER-153
+  2파일·3객체 inverse를 추가해 normal 및 self-test 248건을 통과했다. Chapter 1
+  의미 원장·부채·24/48 기준은 불변이며 release inventory의 현재 source hash만
+  새 successor로 이어 self-test 495건을 통과했다.
+- 최종 변경 8파일 영향 선택은 73개 검사를 종료 0으로 통과했다. Chapter 5
+  Property/General, StoryPlayback 156경우·1,044문단, EventDirector, 68-script
+  compile, 공개 데모·현지화 범위와 두 역사 장부를 포함한다. 로그
+  `/private/tmp/gangnamdream-order153-final-impact-v2.log`, SHA-256
+  `fcd8b3e8ea2ade9ac56d2e181b723057222b13b05fc1a77dc9fe8b1873ca6a47`.
+  통합 Godot의 기존 종료 자원 경고 허용 정책은 바꾸지 않았으며, 검사 통과를
+  오류·경고 0이나 정상 속도 사람 플레이로 부르지 않는다.
+- 독립 읽기 전용 검토는 exact 전이 해시, 과거 상수 불변, W192/W193 경계,
+  구세이브와 W238 회수, 감사 라우팅을 재계산해 blocker 없음으로 판정했다.
+  사람 gate와 full/main/product HOLD는 변경하지 않았고, 남은 이름표·배경 수리와
+  새 exact 후보 전에는 플레이를 요청하지 않는다.
+
+### L2 완료 증거
+
+```text
+도달 경로      : Chapter5HumanRejectCheck → DataRegistry KO/EN → EventManager direct/deferred/foreground → old-save load/resave → authored W238
+생산자 ↔ 독자   : amb_guarantee_00/callback_guarantee_* conditions.max_turn ↔ EventManager._check_conditions
+바꾸는 상태     : 새 플래그 없음; eligibility W192=true, W193/W237=false
+포기 시 잃는 것 : /private/tmp/gangnamdream-order153-red-runtime.log의 정확한 late re-entry 38 failures
+서사 위치       : legacy W08~W192 / Chapter 5 starts W193 / authored guarantee W209~W212 / W238 receipt
+장면 계층       : legacy ambient/callback boundary; authored Chapter 5 prose unchanged
+닫는 것         : W237 익명 보증 재등장 → 0, W238 재혁 열린 채널 회수 유지
+```
 
 **규범 소유권:** 사건 이력이 후반 저작 아크와 새 사건으로 중복되지 않아야
 한다는 기존 `STORY_BIBLE.md`·`CHOICE_CONSEQUENCE_SYSTEM.md`·`story_rules.json`을

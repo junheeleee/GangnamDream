@@ -19,17 +19,26 @@
 > [`7/25`](history/WORK_LOG_2026-07-25.md)에 손실 없이 보존한다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
 
-## 2026-09-05 (Codex — ORDER-153 W237 익명 보증 충돌 수리 선언)
+## 2026-09-05 (Codex — ORDER-153 W237 익명 보증 충돌 수리 완료)
 
 - exact `042f5ea` Property 코덱스 화면 관찰에서 M53 재혁 보증 후 W237
   `amb_guarantee_00`이 다시 익명 친구의 보증·연락 단절을 만들고 W238
   재혁 채널로 복귀하는 중복을 확인했다. 독립 인간 인증은 아니며 전체 HOLD다.
-- 익명 루트와 두 direct callback의 초기 콘텐츠를 삭제하지 않고 W192까지
-  보존한다. W193 이후 재진입만 닫는 경계, 예전 세이브 roundtrip,
-  W238 저작 재혁 회수와 M01~M06 불변을 15개 단위로 먼저 선언했다.
-- 남은 배경·결혼/비교본 이름표를 통합한 새 exact 후보가 아니므로 아직
-  사용자 플레이를 요청하지 않는다. 두 Chapter 5 사람 gate OPEN,
-  full·main·product HOLD를 유지한다.
+- 익명 루트와 두 direct callback은 삭제하지 않고 W192까지 보존했다. 세 객체에
+  `max_turn: 192`만 추가해 W193부터 재진입을 닫았고, 저작 M53 재혁선과 W238
+  열린 채널 회수, 예전 세이브의 플래그·횟수·마지막 주차를 그대로 유지했다.
+- 제품은 `f4c7fd9092b229d50ce4a742e64ffe42cb648b4c`, tree
+  `323cd807590705e1b09b22452e1d2af037a6ac87`, source manifest SHA-256
+  `de966d552a82c8f6b79b3886ff35c7a52ad8e37d3d6b2c8fa3656114ff8dfbfb`다.
+  수정 전 정적 6건·Godot 38건 실패를 남긴 뒤 수정 후 정적 self-test 62건,
+  KO/EN EventManager·구세이브 왕복·W238, Year 5 248건, Chapter 1 495건,
+  최종 변경 8파일 영향 선택 73개를 통과했다. 기존 허용 종료 자원 경고를
+  오류·경고 0으로 과장하지 않는다.
+- 원고·재혁선·W238·공개 M01~M06은 불변이다. 다음은 결혼 첫날 네 장면과
+  M51 비교본 보관 장면의 혼합 대화 이름표 다섯 건이며, 이어 배경 묶음까지 닫은
+  새 exact 후보 전에는 플레이를 요청하지 않는다. 두 Chapter 5 사람 gate OPEN,
+  full·main·product HOLD를 유지한다. 정확한 로그 해시는
+  [완료 영수증](queue_archive/ORDER-153.md)에 보존했다.
 
 ## 2026-09-04 (Codex — ORDER-152 이름표 수리 완료)
 
@@ -421,40 +430,6 @@
   `7ada31a8377cbd1b921eb61ae45b9d30fe1d0f864c87bc5ae5682a7368622db4`다.
   내부 버전은 `v0.1.0-dev · BUILD 2026.08.24.5` 그대로다. 두 M49~M60 사람
   L3와 사용자 최종 GO는 OPEN이며 `main`은 HOLD다.
-
-## 2026-08-27 (Codex — ORDER-136 M55 다은 회의 초상 수리·후보 재발급)
-
-- Claude가 clean detached `611c635`에서 제품 source `771d0e7`과 후보 원장의
-  일치, Python 감사 ERROR/WARNING 0, 이전 미도달 원고 127건 해소를 확인했다.
-  다만 Godot·디스플레이가 없어 정상 독해 플레이, 검은 화면·잘림·초상 렌더,
-  전환 체감은 판정하지 않았다. 따라서 보고는 원고·데이터 한정 CONDITIONAL로만
-  보존하고 property/general 사람 플레이 게이트에는 합격·실패 evidence를 쓰지
-  않았다.
-- 막는 결함 `arc_y5_room_consent_receipt`의 `daeun_normal`을 제거했다. 사건은
-  `meeting + portrait:""`, 시각 계약은 `portrait:null`, 표시 계약은 네 실제
-  참가자와 `portrait_role:none`으로 일치한다. 다은의 동등한 참여는 손글씨 경계,
-  지시, 투명 클립과 대사가 소유하며 회의용 재사용 초상이 생기기 전까지 기본
-  편의점 근무복 초상을 띄우지 않는다.
-- 기존 ScreenshotQA 목록에만 있고 실제 다섯 case에서는 빠졌던 W220 영수증을
-  여섯 번째 화면으로 실행했다. causal visual self-test는 `daeun_normal` 복귀를
-  거부하고, Year5 역사 감사는 ORDER-136 portrait 층을 제거한 뒤 ORDER-135 변경
-  집합을 정확히 비교한다. portrait rollback은 이전 원장을 넓히지 않고 background
-  같은 비소유 필드 변조는 숨기지 않는 48개 self-test가 통과했다.
-- exact 제품 commit은 `b375af26f48668c68ec5bda05b25aedf064fe043`, tree
-  `840016b61bceab6368ef79ea145b32a02730ba00`, source manifest SHA-256
-  `9415428847c33b94536aa1a82be780cf4e88bcf2b8c9ebcf414a13625d066ad0`다.
-  변경 범위 감사 74개와 전체 감사가 GREEN이고, KO/EN 1280×800 각 6장은
-  `/private/tmp/gangnam-order136-final-ko.PFfJdE`,
-  `/private/tmp/gangnam-order136-final-en.QSyUQQ`에서 `black=clear`, CG·focus
-  verified다. W220에 다은 초상·프레임·CG 잔상·잘림이 없다.
-- 일반 경로는 실제 source→finale 체인 7장면·17선택이며 네 선행 선택이 2~3회
-  회수된다. raw 3장면·8선택과 property 9/24의 숫자 차이만으로 장면을 늘리지
-  않는다. 정상 속도 플레이에서 W203→W224 공백, W237의 서류정리 감각,
-  W240 서명→선발신 상승감이 실제로 실패할 때만 사람 압박 또는 비용을 작은
-  후속으로 보강한다.
-- 새 `chapter5_finale_rc`를 active로 등록했다. 두 정상 속도 L3와 사용자 최종
-  GO는 OPEN이고 `main`은 HOLD다. 내부 `v0.1.0-dev · BUILD 2026.08.24.5`는
-  그대로다. 승격 규칙은 `assets/CHAPTER5_MEETING_VISUAL_BIBLE.md`가 소유한다.
 
 ## 2026-08-27 (Codex — ORDER-135 일반 5장 종막 source candidate)
 
