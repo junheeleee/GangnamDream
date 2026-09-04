@@ -9,7 +9,8 @@
     "background": "current_housing",
     "conditions": {
       "flag": "guarantee_signed",
-      "min_turn": 8
+      "min_turn": 8,
+      "max_turn": 192
     },
     "tags": [
       "finance",
@@ -59,7 +60,8 @@
     "background": "current_housing",
     "conditions": {
       "flag": "guarantee_refused",
-      "min_turn": 8
+      "min_turn": 8,
+      "max_turn": 192
     },
     "tags": [
       "social",

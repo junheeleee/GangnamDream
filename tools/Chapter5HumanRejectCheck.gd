@@ -33,6 +33,7 @@ func _run() -> void:
 	_check_home_name_surface_runtime()
 	_check_shared_home_living_runtime()
 	_check_shadow_promise_and_legacy_runtime()
+	_check_legacy_guarantee_window_runtime()
 	_check_wallet_meal_consent_runtime()
 	_check_main_game_runtime_contracts()
 	_check_jiyeon_truth_contact_runtime()
@@ -57,6 +58,7 @@ func _run() -> void:
 			+ "winter=september-w225-w227 "
 			+ "minseo=remote-message/no-portrait/player-only/2x-outbound-ko-en "
 			+ "shadow=proposal-only/legacy-joined-roundtrip/sns-closed "
+			+ "guarantee=w192-open/w193+w237-closed/ko-en/old-save-roundtrip/w238-authored "
 			+ "wallet=accept-flag/arrival-gated/decline-closes/interview+10 "
 			+ "scene-context=m54-seven-months/5x-variants/3x-home/w224-store/casino-remote-direction "
 			+ "jiyeon=truth-contact-3x-ko-en/no-repeat")
@@ -570,6 +572,262 @@ func _check_shadow_promise_and_legacy_runtime() -> void:
 			"%s proposal choice did not write startup_collab_proposed" % event_id)
 		_expect(not bool(GameState.flags.get("startup_collab_joined", false)),
 			"%s proposal choice manufactured startup_collab_joined" % event_id)
+
+
+func _check_legacy_guarantee_window_runtime() -> void:
+	var original_language := LocaleManager.language
+	var contracts: Array[Dictionary] = [
+		{"id": "amb_guarantee_00", "flag": ""},
+		{"id": "callback_guarantee_default", "flag": "guarantee_signed"},
+		{"id": "callback_guarantee_refused_news", "flag": "guarantee_refused"},
+	]
+	for language in ["ko", "en"]:
+		LocaleManager.language = language
+		DataRegistry.reload()
+		for contract in contracts:
+			var event_id := str(contract["id"])
+			var required_flag := str(contract["flag"])
+			var event: Dictionary = DataRegistry.find_event(event_id)
+			_expect(not event.is_empty(),
+				"%s %s guarantee event was not loaded" % [language, event_id])
+			if event.is_empty():
+				continue
+			var conditions: Dictionary = event.get("conditions", {})
+			_expect(int(conditions.get("min_turn", -1)) == 8 \
+					and int(conditions.get("max_turn", -1)) == 192,
+				"%s %s did not load the exact W8-W192 window: %s" % [
+					language, event_id, JSON.stringify(conditions)])
+			_expect(str(conditions.get("flag", "")) == required_flag,
+				"%s %s changed its legacy flag receipt" % [language, event_id])
+			_expect(EventManager.is_foreground_random_event(event),
+				"%s %s left the authored foreground allowlist" % [language, event_id])
+			_expect(not EventManager.is_narrative_bridge_event(event),
+				"%s %s entered the narrative bridge allowlist" % [language, event_id])
+
+			for turn_value in [192, 193, 237]:
+				GameState.start_new_game()
+				GameState.turn = turn_value
+				if not required_flag.is_empty():
+					GameState.flags[required_flag] = true
+				GameState.recent_action_weeks = [{
+					"turn": turn_value - 1,
+					"money": 1,
+					"human": 0,
+					"places": {},
+					"actions": [],
+				}]
+				var expected: bool = turn_value == 192
+				_expect(EventManager._event_has_causal_context(event),
+					"%s %s lost its W%d causal foreground context" % [
+						language, event_id, turn_value])
+				_expect(EventManager._is_event_eligible(event, true) == expected,
+					"%s %s direct eligibility at W%d was not %s" % [
+						language, event_id, turn_value, str(expected)])
+				_expect(EventManager.deferred_event_is_eligible(event_id) == expected,
+					"%s %s deferred eligibility at W%d was not %s" % [
+						language, event_id, turn_value, str(expected)])
+
+			# Reproduce the late foreground candidate surface.  The generic root
+			# needs a recent money-axis action; callbacks carry their own flag/chain
+			# context.  The time window, not cooldown or occurrence count, must close it.
+			GameState.start_new_game()
+			GameState.turn = 237
+			if not required_flag.is_empty():
+				GameState.flags[required_flag] = true
+			GameState.recent_action_weeks = [{
+				"turn": 236,
+				"money": 1,
+				"human": 0,
+				"places": {},
+				"actions": [],
+			}]
+			var foreground_ids: Array[String] = []
+			for candidate_value in DataRegistry.events:
+				if not candidate_value is Dictionary:
+					continue
+				var candidate: Dictionary = candidate_value
+				if EventManager.is_foreground_random_event(candidate) \
+						and EventManager._is_event_eligible(candidate, true) \
+						and EventManager._event_has_causal_context(candidate):
+					foreground_ids.append(str(candidate.get("id", "")))
+			_expect(not foreground_ids.has(event_id),
+				"%s W237 foreground pool still contains %s" % [language, event_id])
+
+	# Old saves retain the anonymous friend's exact receipts and history.  After
+	# roundtrip, even clearing once-per-run counts cannot reopen a late callback.
+	LocaleManager.language = "ko"
+	DataRegistry.reload()
+	for save_case in [
+		{"flag": "guarantee_refused", "callback": "callback_guarantee_refused_news"},
+		{"flag": "guarantee_signed", "callback": "callback_guarantee_default"},
+	]:
+		var legacy_flag := str(save_case["flag"])
+		var callback_id := str(save_case["callback"])
+		GameState.start_new_game()
+		GameState.turn = 237
+		GameState.events_seen = 17
+		GameState.flags[legacy_flag] = true
+		GameState.random_event_counts["amb_guarantee_00"] = 1
+		GameState.random_event_counts[callback_id] = 1
+		GameState.random_event_last_turns["amb_guarantee_00"] = 44
+		GameState.random_event_last_turns[callback_id] = 88
+		var encoded := JSON.stringify(GameState.serialize())
+		var parsed: Variant = JSON.parse_string(encoded)
+		_expect(parsed is Dictionary,
+			"%s old-save fixture did not survive JSON encoding" % legacy_flag)
+		if not parsed is Dictionary:
+			continue
+		var parsed_state: Dictionary = parsed
+		var history_before := {
+			"counts": (parsed_state.get("random_event_counts", {}) as Dictionary).duplicate(true),
+			"last_turns": (parsed_state.get("random_event_last_turns", {}) as Dictionary).duplicate(true),
+		}
+		GameState.start_new_game()
+		GameState.load_from_dict(parsed_state.duplicate(true))
+		var restored: Dictionary = GameState.serialize()
+		var restored_flags: Dictionary = restored.get("flags", {})
+		var restored_counts: Dictionary = restored.get("random_event_counts", {})
+		var restored_turns: Dictionary = restored.get("random_event_last_turns", {})
+		_expect(GameState.turn == 237 and GameState.events_seen == 17 \
+				and bool(restored_flags.get(legacy_flag, false)) \
+				and int(restored_counts.get("amb_guarantee_00", 0)) == 1 \
+				and int(restored_counts.get(callback_id, 0)) == 1 \
+				and int(restored_turns.get("amb_guarantee_00", -1)) == 44 \
+				and int(restored_turns.get(callback_id, -1)) == 88 \
+				and _same({"counts": restored_counts, "last_turns": restored_turns},
+					history_before),
+			"%s old-save history changed during load/resave" % legacy_flag)
+		GameState.random_event_counts.erase("amb_guarantee_00")
+		GameState.random_event_counts.erase(callback_id)
+		GameState.random_event_last_turns.erase("amb_guarantee_00")
+		GameState.random_event_last_turns.erase(callback_id)
+		EventManager.event_cooldowns.clear()
+		EventManager.recent_event_ids.clear()
+		var root_event: Dictionary = DataRegistry.find_event("amb_guarantee_00")
+		var callback_event: Dictionary = DataRegistry.find_event(callback_id)
+		_expect(not EventManager._is_event_eligible(root_event, true) \
+				and not EventManager.deferred_event_is_eligible("amb_guarantee_00") \
+				and not EventManager._is_event_eligible(callback_event, true) \
+				and not EventManager.deferred_event_is_eligible(callback_id),
+			"%s old save reopened anonymous guarantee roots at W237 after count clearing" \
+				% legacy_flag)
+
+	var decision: Dictionary = DataRegistry.find_event(
+		"arc_y5_jaehyuk_guarantee_decision_reference")
+	var finale: Dictionary = DataRegistry.find_event("arc_y5_remaining_jaehyuk_or_self")
+	var decision_choices: Array = decision.get("choices", [])
+	_expect(decision_choices.size() == 3,
+		"authored Jaehyuk guarantee lost its three-way decision")
+	if decision_choices.size() == 3:
+		var refusal: Dictionary = decision_choices[0]
+		var refusal_flags: Array = refusal.get("flags", [])
+		_expect(refusal_flags.has("refused_jaehyuk_guarantee") \
+				and not refusal_flags.has("guarantee_refused") \
+				and not refusal_flags.has("guarantee_signed") \
+				and not refusal_flags.has("guarantee_compromise") \
+				and str(refusal.get("result_text", "")).contains(
+					"대화방은 닫히지 않았다"),
+			"authored Jaehyuk refusal lost its distinct open-channel receipt")
+	_expect(JSON.stringify(finale).contains(
+		"보증을 거절한 밤의 대화방은 열린 채 남아 있었다"),
+		"W238 no longer reads the authored Jaehyuk open channel")
+	_check_authored_jaehyuk_w238_runtime()
+	LocaleManager.language = original_language
+	DataRegistry.reload()
+
+
+func _check_authored_jaehyuk_w238_runtime() -> void:
+	GameState.start_new_game("김민준", "지방_상경", "투자형")
+	GameState.turn = 195
+	GameState.money = 2_100_000_000.0
+	GameState.portfolio = {}
+	GameState.loans = {"bank": 0.0, "second": 0.0}
+	GameState.pending_story_queue = []
+	GameState.flags.erase("foreground_story_turn")
+	GameState.flags["route_invest"] = true
+	for required_flag in [
+		"arc_sangchul_met_seen",
+		"arc_daeun_met",
+		"daeun_romance_started",
+		"arc_minseo_02_seen",
+		"arc_jaehyuk_reunion_seen",
+		"arc_jaehyuk_aftermath_seen",
+	]:
+		GameState.flags[required_flag] = true
+	for excluded_flag in [
+		"sangchul_reported",
+		"sangchul_cut_ties",
+		"sangchul_quietly_distanced",
+		"daeun_let_her_go",
+		"daeun_divorced",
+		"arc_jaehyuk_mirror_seen",
+		"refused_jaehyuk_guarantee",
+		"vouched_jaehyuk_guarantee",
+		"blocked_jaehyuk_guarantee",
+		"jaehyuk_final_break",
+	]:
+		GameState.flags.erase(excluded_flag)
+	_expect(GameState.prepare_chapter5_causal_route_entry(),
+		"authored Jaehyuk source route did not enter at W195")
+	var source_choice_indices := {
+		"arc_y5_jaehyuk_guarantee_decision_reference": 0,
+		"arc_sangchul_final_door": 0,
+		"arc_y5_three_in_room_decision": 1,
+	}
+	for turn_value in range(195, 221):
+		GameState.turn = turn_value
+		while true:
+			var source_event_id := GameState.chapter5_causal_next_event_for_turn()
+			if source_event_id.is_empty():
+				break
+			var source_result := GameState.record_chapter5_causal_choice(
+				source_event_id, int(source_choice_indices.get(source_event_id, 0)))
+			_expect(bool(source_result.get("ok", false)),
+				"authored Jaehyuk source receipt failed at W%d/%s" % [
+					turn_value, source_event_id])
+			if not bool(source_result.get("ok", false)):
+				return
+
+	GameState.turn = 221
+	_expect(GameState.prepare_chapter5_finale_route_entry(),
+		"authored Jaehyuk refusal did not lock the property finale")
+	for turn_value in [221, 224, 227, 230, 235]:
+		GameState.turn = turn_value
+		var event_id := GameState.chapter5_finale_next_event_for_turn()
+		_expect(not event_id.is_empty() \
+				and GameState.chapter5_finale_ingress_available(event_id),
+			"property finale ingress failed before W238 at W%d" % turn_value)
+		if event_id.is_empty():
+			return
+		var result := GameState.record_chapter5_finale_choice(event_id, 0)
+		_expect(bool(result.get("ok", false)),
+			"property finale receipt failed before W238 at W%d/%s" % [
+				turn_value, event_id])
+		if not bool(result.get("ok", false)):
+			return
+
+	GameState.turn = 238
+	var w238_id := GameState.chapter5_finale_next_event_for_turn()
+	_expect(w238_id == "arc_y5_remaining_jaehyuk_or_self" \
+			and GameState.chapter5_finale_ingress_available(w238_id),
+		"W238 did not enter the authored Jaehyuk guarantee return")
+	var w238: Dictionary = DataRegistry.find_event(w238_id)
+	var reads: Dictionary = w238.get("chapter5_finale_reads", {})
+	var sources: Array = reads.get("sources", [])
+	_expect(sources.size() == 2,
+		"W238 authored Jaehyuk return lost its two exact read sources")
+	if sources.size() != 2:
+		return
+	var jaehyuk_source := GameState.chapter5_finale_read_source_snapshot(sources[0])
+	var nontransaction_source := GameState.chapter5_finale_read_source_snapshot(sources[1])
+	_expect(bool(jaehyuk_source.get("ok", false)) \
+			and int(jaehyuk_source.get("index", -1)) == 0 \
+			and int(jaehyuk_source.get("count", 0)) == 3,
+		"W238 did not read the exact authored Jaehyuk refusal receipt")
+	_expect(bool(nontransaction_source.get("ok", false)) \
+			and int(nontransaction_source.get("index", -1)) == 0 \
+			and int(nontransaction_source.get("count", 0)) == 1,
+		"W238 did not read the no-executable-contract receipt")
 
 
 func _check_wallet_meal_consent_runtime() -> void:

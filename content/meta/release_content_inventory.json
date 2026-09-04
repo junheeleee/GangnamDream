@@ -616,7 +616,7 @@
         "categories": ["anxiety"], "tags": ["anxiety"],
         "tokens_ko": ["공포", "두려", "무서", "겁이", "협박", "위협", "불안", "공황", "악몽", "위독", "돌아가셨", "사망", "임종", "애도"],
         "tokens_en": ["terror", "afraid", "fear", "threat", "anxiety", "panic", "nightmare", "critically ill", "passed away", "death", "grief"],
-        "expected_event_count": 146, "expected_file_count": 51, "expected_ids_sha256": "2c0b31f28649c41920b109674331366623b3600076d16a694a647fae6f26a5cb", "expected_content_sha256": "64b154283eaa22b444ef382e8d2e21b45184ec0936a27fc1388911dce9c55eb5"
+        "expected_event_count": 146, "expected_file_count": 51, "expected_ids_sha256": "2c0b31f28649c41920b109674331366623b3600076d16a694a647fae6f26a5cb", "expected_content_sha256": "c48bd3be2f9a463db71849f1e6e93e6793a28fe68f7e67cd4e229e5b89038aab"
       },
       "facts": [
         {
@@ -686,7 +686,7 @@
         "tokens_ko": ["대포통장", "보이스피싱", "사기", "횡령", "절도", "내부자거래", "폰지", "공범", "돈세탁", "검거"],
         "tokens_en": ["money mule", "voice phishing", "fraud", "embezz", "theft", "insider trading", "ponzi", "accomplice", "money laundering", "arrested"],
         "reviewed_search_noise_ids": ["arc_y4_family_partner_collision_jiyeon"],
-        "expected_event_count": 73, "expected_file_count": 40, "expected_ids_sha256": "4e0463a4d699a58c1c3fc7fa856c80b4218417badce2d62ec0403d389294c0dd", "expected_content_sha256": "7e5a947c2b8b6aa04ad4b76013510d9f45be35d13605578aa51b33b72ecabcb4"
+        "expected_event_count": 73, "expected_file_count": 40, "expected_ids_sha256": "4e0463a4d699a58c1c3fc7fa856c80b4218417badce2d62ec0403d389294c0dd", "expected_content_sha256": "32f7ea1215b192f695a19c6ed473ed5012ccb3e8c616d08b9947e50ba7613994"
       },
       "facts": [
         {
@@ -744,7 +744,7 @@
         "tokens_ko": ["소주", "맥주", "와인", "위스키", "막걸리", "술집", "술잔", "술자리", "술을", "취했", "숙취", "담배", "흡연", "마약", "수면제", "진통제", "처방약", "복용"],
         "tokens_en": ["soju", "beer", "wine", "whiskey", "drinking", "drunk", "hangover", "cigarette", "smoking", "narcotic", "sleeping pill", "painkiller", "prescription"],
         "reviewed_search_noise_ids": ["arc_36_body_signal"],
-        "expected_event_count": 82, "expected_file_count": 39, "expected_ids_sha256": "32942c5a49b64e9027b5a0071e1c95d6d205478ef05ea6ad25c5ad3c5d90433f", "expected_content_sha256": "7e77f6e5eecd1b688051029605ec7ccc7c73588e1558f4ea6d08a336402367c9"
+        "expected_event_count": 82, "expected_file_count": 39, "expected_ids_sha256": "32942c5a49b64e9027b5a0071e1c95d6d205478ef05ea6ad25c5ad3c5d90433f", "expected_content_sha256": "6923c047c60640505dae209e3102e4cf9e5ad22ecd9bd5f454caccd4e9229d5f"
       },
       "facts": [
         {

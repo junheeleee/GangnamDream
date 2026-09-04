@@ -148,11 +148,43 @@ LEGACY_MAX_TURNS = {
     "hyunsu_study_together": 23,
     "casino_chip_exchange": 192,
     "amb_credit_steal_00": 192,
+    "amb_guarantee_00": 192,
+    "callback_guarantee_default": 192,
+    "callback_guarantee_refused_news": 192,
     "leading_room_joined": 192,
     "debt_invest_margin_call": 192,
     "anxiety_pension_crisis": 192,
     "flex_sns_envy": 192,
     "godsaeng_start": 192,
+}
+
+GUARANTEE_LEGACY_WINDOW = {
+    "amb_guarantee_00": {
+        "required_flag": "",
+        "projection_sha256":
+            "85d8b6f957582c083404fdb72766dd8d51aa3fb8e0bcbc8944e8e4b758abc7ba",
+        "en_overlay_sha256":
+            "cd127cb4a1c4875dd6159ad928669c0d0b96243585f69d4eb98c6a8700c6c345",
+    },
+    "callback_guarantee_default": {
+        "required_flag": "guarantee_signed",
+        "projection_sha256":
+            "f68356711996ec9048feddc6f86c399d75c5ec85c73ea19ae7c450f091780b42",
+        "en_overlay_sha256":
+            "ca27dcb18c2cffa8bf32daf6b363b22d0ba1e7e8e814629ac19e6e3f22759052",
+    },
+    "callback_guarantee_refused_news": {
+        "required_flag": "guarantee_refused",
+        "projection_sha256":
+            "ff8057d7a39acccbce89eb4a63458ba9818aa94f0bdbc21117755c95176369a8",
+        "en_overlay_sha256":
+            "84118c62054e1bb9003230bba76a629e3a0c813b3ddbe194146528c48eb7ff5b",
+    },
+}
+
+GUARANTEE_OVERLAY_FORBIDDEN_ROOT_KEYS = {
+    "background", "category", "conditions", "cooldown", "effects", "flags",
+    "hidden", "portrait", "rarity", "tags", "weight",
 }
 
 SNS_GATED_ROOTS = (
@@ -446,6 +478,105 @@ def _condition_values(event: dict[str, Any], key: str) -> list[str]:
 
 def _has_condition_value(event: dict[str, Any], key: str, value: str) -> bool:
     return value in _condition_values(event, key)
+
+
+def _canonical_object_sha256(value: Any) -> str:
+    payload = json.dumps(
+        value, ensure_ascii=False, sort_keys=True, separators=(",", ":")
+    )
+    return _sha256_text(payload)
+
+
+def _guarantee_preserved_projection(event: dict[str, Any]) -> dict[str, Any]:
+    """Remove only ORDER-153's new time ceiling before hashing the old object."""
+    projected = copy.deepcopy(event)
+    conditions = projected.get("conditions")
+    if isinstance(conditions, dict):
+        conditions.pop("max_turn", None)
+    return projected
+
+
+def _guarantee_window_errors(model: AuditModel) -> list[str]:
+    errors: list[str] = []
+    for event_id, contract in GUARANTEE_LEGACY_WINDOW.items():
+        ko_event = _event(model.ko, event_id, "KO", errors)
+        conditions = _conditions(ko_event)
+        if conditions.get("min_turn") != 8:
+            errors.append(
+                f"{event_id} early boundary changed: "
+                f"min_turn={conditions.get('min_turn')!r}, expected 8"
+            )
+        if conditions.get("max_turn") != 192:
+            errors.append(
+                f"{event_id} must remain eligible through W192 and close at W193: "
+                f"max_turn={conditions.get('max_turn')!r}"
+            )
+        required_flag = str(contract["required_flag"])
+        actual_flag = str(conditions.get("flag", ""))
+        if actual_flag != required_flag:
+            errors.append(
+                f"{event_id} legacy receipt changed: "
+                f"flag={actual_flag!r}, expected {required_flag!r}"
+            )
+        projection_hash = _canonical_object_sha256(
+            _guarantee_preserved_projection(ko_event)
+        )
+        if projection_hash != contract["projection_sha256"]:
+            errors.append(
+                f"{event_id} changed outside max_turn "
+                f"(sha256={projection_hash})"
+            )
+
+        en_event = _event(model.en, event_id, "EN", errors)
+        forbidden_keys = GUARANTEE_OVERLAY_FORBIDDEN_ROOT_KEYS & set(en_event)
+        if forbidden_keys:
+            errors.append(
+                f"EN {event_id} overlay gained gameplay keys: "
+                + ", ".join(sorted(forbidden_keys))
+            )
+        en_hash = _canonical_object_sha256(en_event)
+        if en_hash != contract["en_overlay_sha256"]:
+            errors.append(
+                f"EN {event_id} text-only overlay changed "
+                f"(sha256={en_hash})"
+            )
+
+    decision = _event(
+        model.ko, "arc_y5_jaehyuk_guarantee_decision_reference", "KO", errors
+    )
+    decision_choices = decision.get("choices", [])
+    if not isinstance(decision_choices, list) or len(decision_choices) != 3:
+        errors.append("authored Jaehyuk guarantee decision lost its three choices")
+    else:
+        refusal = decision_choices[0] if isinstance(decision_choices[0], dict) else {}
+        if "refused_jaehyuk_guarantee" not in refusal.get("flags", []):
+            errors.append("authored Jaehyuk refusal lost its distinct receipt")
+        _require_tokens(
+            "authored Jaehyuk refusal open channel",
+            str(refusal.get("result_text", "")),
+            ("대화방은 닫히지 않았다",),
+            errors,
+        )
+    finale = _event(model.ko, "arc_y5_remaining_jaehyuk_or_self", "KO", errors)
+    finale_text = _event_text(finale)
+    _require_tokens(
+        "W238 authored Jaehyuk receipt",
+        finale_text,
+        (
+            "arc_y5_jaehyuk_guarantee_decision_reference",
+            "보증을 거절한 밤의 대화방은 열린 채 남아 있었다",
+        ),
+        errors,
+    )
+    authored_text = _event_text(decision) + "\n" + finale_text
+    for legacy_flag in (
+        "guarantee_refused", "guarantee_signed", "guarantee_compromise"
+    ):
+        if legacy_flag in authored_text:
+            errors.append(
+                f"authored Jaehyuk route absorbed anonymous legacy flag {legacy_flag}"
+            )
+    return errors
 
 
 def _choice_flags(event: dict[str, Any]) -> list[str]:
@@ -1513,6 +1644,8 @@ def validate_late_ingress_and_sns(model: AuditModel, errors: list[str]) -> None:
     if not produced:
         errors.append("flex_sns_envy no longer produces sns_detoxed")
 
+    errors.extend(_guarantee_window_errors(model))
+
 
 def validate_shadow_promise_terminal(model: AuditModel, errors: list[str]) -> None:
     for event_id in SHADOW_PROMISE_ROOTS:
@@ -1832,6 +1965,46 @@ def run_self_test() -> int:
     check(_has_condition_value(scalar, "no_flag", "sns_detoxed"), "scalar no_flag rejected")
     check(_has_condition_value(listed, "no_flag", "sns_detoxed"), "list no_flag rejected")
     check(not _has_condition_value({}, "no_flag", "sns_detoxed"), "missing no_flag accepted")
+
+    guarantee_fixture = _load_model()
+    for guarantee_id in GUARANTEE_LEGACY_WINDOW:
+        guarantee_fixture.ko[guarantee_id]["conditions"]["max_turn"] = 192
+    check(
+        not _guarantee_window_errors(guarantee_fixture),
+        "valid anonymous guarantee W192 ceiling rejected: "
+        + "; ".join(_guarantee_window_errors(guarantee_fixture)),
+    )
+    for guarantee_id in GUARANTEE_LEGACY_WINDOW:
+        missing_ceiling = copy.deepcopy(guarantee_fixture)
+        missing_ceiling.ko[guarantee_id]["conditions"].pop("max_turn")
+        check(
+            bool(_guarantee_window_errors(missing_ceiling)),
+            f"{guarantee_id} missing W192 ceiling accepted",
+        )
+        late_ceiling = copy.deepcopy(guarantee_fixture)
+        late_ceiling.ko[guarantee_id]["conditions"]["max_turn"] = 193
+        check(
+            bool(_guarantee_window_errors(late_ceiling)),
+            f"{guarantee_id} W193 ingress accepted",
+        )
+        early_ceiling = copy.deepcopy(guarantee_fixture)
+        early_ceiling.ko[guarantee_id]["conditions"]["max_turn"] = 191
+        check(
+            bool(_guarantee_window_errors(early_ceiling)),
+            f"{guarantee_id} W192 eligibility loss accepted",
+        )
+    prose_mutation = copy.deepcopy(guarantee_fixture)
+    prose_mutation.ko["amb_guarantee_00"]["choices"][0]["result_text"] += " drift"
+    check(
+        bool(_guarantee_window_errors(prose_mutation)),
+        "anonymous guarantee prose mutation accepted",
+    )
+    overlay_mutation = copy.deepcopy(guarantee_fixture)
+    overlay_mutation.en["amb_guarantee_00"]["conditions"] = {"max_turn": 192}
+    check(
+        bool(_guarantee_window_errors(overlay_mutation)),
+        "EN guarantee overlay gameplay condition accepted",
+    )
 
     valid_shadow = {
         "conditions": {
