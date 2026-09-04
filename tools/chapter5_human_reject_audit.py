@@ -33,6 +33,104 @@ VISUAL_CONTRACTS_PATH = ROOT / "assets" / "event_visual_contracts.json"
 AUDIO_MANIFEST_PATH = ROOT / "assets" / "scene_audio_manifest.json"
 DIRECTION_MANIFEST_PATH = ROOT / "assets" / "scene_direction_manifest.json"
 
+AUTHORED_LOCATION_PRESERVED_SHA256 = {
+    "arc_y5_burnout_check_reference":
+        "bd7fb9e8f2cb80b879d339bc709c83c845cbec84a1d4cc71e52fcada7ce3e721",
+    "rare_wallet_executive":
+        "98c4fa6dcdc258c794610efe8dd20da080af27277e9a0bbbbefc872fafce8faf",
+    "chain_exec_meal_arrival":
+        "67dfedc1728854ce0d93ee10bfadd45485eb56afdf4062b98b0e671086355b7d",
+    "arc_jiyeon_year5_news":
+        "fac8a6590933f69a0a448a0e4f72d5af843719f60fccde211e4c26f3d357ff4e",
+    "yolo_spend_moment":
+        "1d9fc9e1ae767b809f16b8ad251068cb233204ca5f6c00c56b4f154fdaa0f97b",
+    "chain_envelope_owner_return":
+        "8d1381b49927338c45d2b63bb220bcf4b460d1177d890b21f437a6db90679f63",
+    "hidden_gangnam_open_house":
+        "f17b2b9fe934bb6c6d6db16987f266c45b45474a131dfca2656728e1e77ab7e3",
+}
+AUTHORED_LOCATION_EN_SHA256 = {
+    "arc_y5_burnout_check_reference":
+        "6b4143b111f0b2262489c7ab4c0a1d6a27bd68234f3647e5d8046997aa8f0f2b",
+    "rare_wallet_executive":
+        "fddce59988f7a4b65828c278471f0ec6bec8a8e75ff9edd42f8db376db5a5a20",
+    "chain_exec_meal_arrival":
+        "024d3c3b3591f2a27d72e60e6f05894065bd4dc3ff39bd30818fe66ce157d05f",
+    "arc_jiyeon_year5_news":
+        "485f3819a57ac01b59dc8dd41b79f5be9287f0f34cb383d9293e312f99eccd8d",
+    "yolo_spend_moment":
+        "daa0cdeb6978433bcce8b255669e09692150404a5c9bfe02d594ceba067147de",
+    "chain_envelope_owner_return":
+        "0b4f94d14caf3974b904a1d86d2d589ac7f4519a7a87cfd478c84d0eca7eda27",
+    "hidden_gangnam_open_house":
+        "69ccdbb6ed8cda315b5a9a8f19879cfb33ea4058ec645c271ec8309b8ff0fc99",
+}
+AUTHORED_LOCATION_CONTRACTS = {
+    "arc_y5_burnout_check_reference": {
+        "background": "hospital_clinic_day",
+        "choice_count": 3,
+        "choice_result_backgrounds": {},
+    },
+    "rare_wallet_executive": {
+        "background": "subway_station_stairs",
+        "choice_count": 2,
+        "choice_result_backgrounds": {0: "subway_station_lost_found"},
+    },
+    "chain_exec_meal_arrival": {
+        "background": "hanjeongsik_restaurant_day",
+        "choice_count": 2,
+        "choice_result_backgrounds": {},
+    },
+    "arc_jiyeon_year5_news": {
+        "background": "hanjeongsik_restaurant_day",
+        "choice_count": 2,
+        "choice_result_backgrounds": {1: "street"},
+    },
+    "yolo_spend_moment": {
+        "background": "convenience_store",
+        "choice_count": 3,
+        "choice_result_backgrounds": {
+            0: "concert_hall_night", 2: "concert_hall_night",
+        },
+    },
+    "chain_envelope_owner_return": {
+        "background": "convenience_night",
+        "choice_count": 2,
+        "choice_result_backgrounds": {0: "villa_renovation_day"},
+    },
+    "hidden_gangnam_open_house": {
+        "background": "gangnam_apartment",
+        "choice_count": 2,
+        "choice_result_backgrounds": {
+            0: "current_housing", 1: "subway",
+        },
+    },
+}
+AUTHORED_LOCATION_NEW_ASSETS = {
+    "hospital_clinic_day": "assets/backgrounds/hospital_clinic_day.png",
+    "subway_station_stairs": "assets/backgrounds/subway_station_stairs.png",
+    "subway_station_lost_found": "assets/backgrounds/subway_station_lost_found.png",
+    "hanjeongsik_restaurant_day": "assets/backgrounds/hanjeongsik_restaurant_day.png",
+    "concert_hall_night": "assets/backgrounds/concert_hall_night.png",
+    "villa_renovation_day": "assets/backgrounds/villa_renovation_day.png",
+}
+AUTHORED_LOCATION_AUDIO_PROFILES = {
+    "hospital_clinic_day": "hospital",
+    "subway_station_stairs": "subway",
+    "subway_station_lost_found": "subway",
+    "hanjeongsik_restaurant_day": "cafe",
+    "concert_hall_night": "amusement",
+    "villa_renovation_day": "street",
+}
+AUTHORED_LOCATION_DIRECTION_ENVIRONMENTS = {
+    "hospital_clinic_day": "indoor",
+    "subway_station_stairs": "transit",
+    "subway_station_lost_found": "transit",
+    "hanjeongsik_restaurant_day": "indoor",
+    "concert_hall_night": "indoor",
+    "villa_renovation_day": "indoor",
+}
+
 # Declaration 7a83ce9: only presentation/prose may change for these exact roots.
 # Custody's prose and choices are fully frozen; its background alone is repaired.
 SCENE_CONTEXT_GAMEPLAY_SHA256 = {
@@ -230,6 +328,7 @@ PRESENTATION_CONTRACTS: dict[str, dict[str, Any]] = {
         "participants": ["player", "clinician"],
         "portrait_role": "local",
         "nameplate_role": "hidden",
+        "expected_background": "hospital_clinic_day",
     },
     "arc_y5_jaehyuk_guarantee_request_reference": {
         "channel": "message",
@@ -1377,6 +1476,128 @@ def validate_scene_context_repair(model: AuditModel, errors: list[str]) -> None:
                 _event_text(callback).lower(), forbidden_recollection, errors)
 
 
+def _authored_location_preserved_projection(
+    event: dict[str, Any],
+) -> dict[str, Any]:
+    """Remove only ORDER-155's explicitly owned visual-routing fields."""
+    projected = copy.deepcopy(event)
+    for key in ("background", "paragraph_backgrounds", "result_background"):
+        projected.pop(key, None)
+    choices = projected.get("choices", [])
+    if isinstance(choices, list):
+        for choice in choices:
+            if isinstance(choice, dict):
+                choice.pop("result_background", None)
+    return projected
+
+
+def _authored_location_errors(model: AuditModel) -> list[str]:
+    errors: list[str] = []
+    visuals = {
+        str(row.get("id", "")): row
+        for row in model.visual_contracts.get("contracts", [])
+        if isinstance(row, dict) and row.get("id")
+    }
+    audio_profiles = model.audio_manifest.get("background_profiles", {})
+    direction_profiles = model.direction_manifest.get("background_profiles", {})
+    direction_intents = model.direction_manifest.get("event_intents", {})
+    explicit_moves = set(direction_intents.get("explicit_move", [])) \
+        if isinstance(direction_intents, dict) else set()
+
+    for background_id, relative_path in AUTHORED_LOCATION_NEW_ASSETS.items():
+        absolute_path = ROOT / relative_path
+        if not absolute_path.is_file():
+            errors.append(
+                f"authored-location missing raster {background_id}: {relative_path}"
+            )
+        registry_token = f'"{background_id}": "res://{relative_path}"'
+        if registry_token not in model.image_registry:
+            errors.append(
+                f"authored-location ImageRegistry missing exact {background_id} path"
+            )
+        expected_audio = AUTHORED_LOCATION_AUDIO_PROFILES[background_id]
+        if audio_profiles.get(background_id) != expected_audio:
+            errors.append(
+                f"authored-location {background_id} ambience must be "
+                f"{expected_audio}, got {audio_profiles.get(background_id)!r}"
+            )
+        expected_environment = AUTHORED_LOCATION_DIRECTION_ENVIRONMENTS[background_id]
+        profile = direction_profiles.get(background_id, {})
+        if not isinstance(profile, dict) \
+                or profile.get("environment") != expected_environment:
+            errors.append(
+                f"authored-location {background_id} direction environment must be "
+                f"{expected_environment}"
+            )
+
+    for event_id, contract in AUTHORED_LOCATION_CONTRACTS.items():
+        event = _event(model.ko, event_id, "KO", errors)
+        if event.get("background") != contract["background"]:
+            errors.append(
+                f"authored-location {event_id} background must be "
+                f"{contract['background']}"
+            )
+        choices = event.get("choices", [])
+        if not isinstance(choices, list) \
+                or len(choices) != int(contract["choice_count"]):
+            errors.append(
+                f"authored-location {event_id} choice topology changed"
+            )
+            choices = []
+        expected_results = contract["choice_result_backgrounds"]
+        for choice_index, choice in enumerate(choices):
+            actual = choice.get("result_background") \
+                if isinstance(choice, dict) else None
+            expected = expected_results.get(choice_index)
+            if actual != expected:
+                errors.append(
+                    f"authored-location {event_id} choice {choice_index} "
+                    f"result_background={actual!r}, expected {expected!r}"
+                )
+        visual = visuals.get(event_id, {})
+        if visual.get("background") != contract["background"]:
+            errors.append(
+                f"authored-location {event_id} visual contract background drifted"
+            )
+        visual_results = visual.get("choice_result_backgrounds", {})
+        expected_visual_results = {
+            str(index): value for index, value in expected_results.items()
+        }
+        if visual_results != expected_visual_results:
+            errors.append(
+                f"authored-location {event_id} visual result map="
+                f"{visual_results!r}, expected {expected_visual_results!r}"
+            )
+        projection_hash = _canonical_object_sha256(
+            _authored_location_preserved_projection(event)
+        )
+        expected_hash = AUTHORED_LOCATION_PRESERVED_SHA256[event_id]
+        if projection_hash != expected_hash:
+            errors.append(
+                f"authored-location {event_id} prose/gameplay changed outside "
+                f"visual routing (sha256={projection_hash})"
+            )
+        en_event = _event(model.en, event_id, "EN", errors)
+        en_hash = _canonical_object_sha256(en_event)
+        if en_hash != AUTHORED_LOCATION_EN_SHA256[event_id]:
+            errors.append(
+                f"authored-location {event_id} EN overlay changed "
+                f"(sha256={en_hash})"
+            )
+        if expected_results and event_id not in explicit_moves:
+            errors.append(
+                f"authored-location {event_id} missing explicit_move direction intent"
+            )
+    return errors
+
+
+def validate_authored_location_repair(
+    model: AuditModel, errors: list[str]
+) -> None:
+    """Protect the seven exact ORDER-155 authored scene locations."""
+    errors.extend(_authored_location_errors(model))
+
+
 def validate_remote_and_no_reply(model: AuditModel, errors: list[str]) -> None:
     ko_minseo = _event(model.ko, "arc_minseo_03_arrival", "KO", errors)
     if str(ko_minseo.get("background", "")) != "current_housing":
@@ -1906,6 +2127,7 @@ def validate_model(model: AuditModel) -> list[str]:
     validate_tutorial_and_credits(model, errors)
     validate_time_and_money_copy(model, errors)
     validate_scene_context_repair(model, errors)
+    validate_authored_location_repair(model, errors)
     validate_remote_and_no_reply(model, errors)
     validate_wallet_meal_consent(model, errors)
     validate_late_ingress_and_sns(model, errors)

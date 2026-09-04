@@ -64,8 +64,10 @@ ORDER-154 종료 `f601f822838d72d376d79c21eaa9aa5cbfe21fcd`다. 근거는 exact
   `docs/{ART_AI_AUDIT,ASSET_QA}.md`, `autoloads/ImageRegistry.gd`,
   `assets/{scene_audio_manifest,scene_direction_manifest}.json`의 exact 새 key/행.
 - 회귀: 새 전용 실제 StoryMode background-context 검사와 격리 실행기,
-  `tools/chapter5_human_reject_audit.py`, `tools/audit_scope.json`. 기존 검사기는
-  기준을 완화하지 않고 실제 의존성·새 hash만 추가한다.
+  `tools/chapter5_human_reject_audit.py`, `tools/scene_direction_catalog.py`,
+  `tools/audit.sh`, `tools/audit_scope.json`. 기존 검사기는 기준을 완화하지 않고
+  실제 의존성·새 hash만 추가한다. 새 background key를 실내·교통으로 올바르게
+  분류하려면 scene-direction 생성기의 등록 집합도 함께 갱신해야 한다.
 - 파생 관측: 영향 검사에서 요구하는 current source hash/snapshot만 exact successor로
   갱신한다. ORDER-151~154 역사 상수, 볼륨 debt·threshold·사람 판정은 바꾸지 않는다.
 - 기록: 이 사양, `docs/{CODEX_QUEUE,WORK_LOG,DEMO_FIXLOG,STATUS}.md`, `CLAUDE.md`.
@@ -91,6 +93,21 @@ M55 복장·무초상, W237 30분·W240 무응답/무이체, 30억 즉시엔딩,
 - L1/L2는 정상 독해 속도 사람 플레이와 재미 판정을 대신하지 않는다. 다음 routine
   배경 묶음까지 닫은 새 exact 제품/review 후보에서만 두 경로 M49→M60→후일담→6/6
   재플레이를 요청한다.
+
+## Fail-first 증거 (제품 수정 전)
+
+- 정적 검사: `CHAPTER5_HUMAN_REJECT_AUDIT_FAIL errors=50`, stdout SHA-256
+  `abec2c1e4bb20223f3e7693d31b1cde0b9947c77efb0801fd0bb172a8978db2c`.
+- 실제 StoryMode 검사: KO/EN에서 잘못된 기존 texture/ambience와 누락된 결과 이동을
+  재현했다. stdout/Godot log SHA-256
+  `78282ecf9f77857378cf64138a9eefcbf1c792f37ddaf6c35d5df1513c25ea6b`,
+  runner receipt SHA-256
+  `8a8d5b037f3739592c12da8097ef987b20eddb53b59edfaab235f972b11ed900`.
+  evidence는
+  `/var/folders/yr/mf2mg8vn7yld9rk4rf3qh2y80000gn/T/gangnam-story-background-context-cr_avopu`에
+  보존했다. 이 RED는 32개 KO/EN×choice fixture 중 기존 동일 장소 4건만 통과하고,
+  오전 진료실·역 계단/역무실·낮 한정식·콘서트·빌라·오픈하우스의 실제 오배치를
+  각각 실패시킨다.
 
 **규범 소유권:** 장소는 prose keyword가 아니라 event id의 명시 계약이 소유하고,
 실제 이동을 택한 결과만 새 배경으로 전환한다는 기존
