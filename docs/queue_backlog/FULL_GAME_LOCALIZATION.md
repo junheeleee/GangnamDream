@@ -38,7 +38,8 @@
   전수 대조·수용했다. M07~M24 정적 연결의 미번역35사건279 leaf/locale를 더해
   4,323번역에3년차48사건363 leaf/locale와4년차47사건460 leaf/locale를 더해
   마지막 해40사건358·종막15사건197과 관계25사건164에 결혼·가족34사건206
-  leaf/locale까지 총9,567번역이다(언어별 엔딩234+사건2,121+catalog834). catalog 신규 작성2,485·
+  leaf/locale와 데이트·계절36사건209 leaf/locale까지 총10,194번역이다
+  (언어별 엔딩234+사건2,330+catalog834). catalog 신규 작성2,485·
   기존 JA 누락 수리1·기존 유지16을 구분한다. 엔딩35종과 catalog7섹션은 채웠지만
   사건·UI·표시 소비자는 아직 남는다. M07~M24 정적 연결은 해당 기간 모든 무작위
   사건·UI나 실플레이 전량의 번역 완료를 뜻하지 않는다. 원어민·화면·전체판은 OPEN.
@@ -70,6 +71,33 @@
   M01~M06 공개 데모를 덮지 않고 별도 전체판 후보에서 검토한다.
 
 ## 원문 대조에서 발견한 별도 서사 확인점
+
+- 데이트 번역의 국소 해석: `arc_jiyeon_first_kiss.choices[1].result_text`의
+  '차갑게 들으려 했지만'은 문맥의 냉정한 말투로 옮겼으며 새 청취 행동을 만들지
+  않았다. `arc_season_fireworks_daeun.description`의 목적어 없는 '내리지'
+  는 앞 시선과 뒤 dress의 숨지 않는3초를 따라 시선을 내리지 않는 것으로 해석했다.
+  `arc_season_sea_daeun.description`의 '동해행'은 특정 시·역 이름을 확정하지
+  않고 동쪽 바다 방향으로 옮겼다. KO를 고친 것이 아니라 번역 해석의 근거이며,
+  원문 명료화 때 해당 source key를 다시 대조한다.
+
+- 데이트 사전계측: 남산의 `arc_date_namsan_daeun.description`과
+  `arc_date_namsan_jiyeon.description/choices[0].result_text`는 목표를 좇은
+  5년을 회수하나 `_date_milestone_id`는 dc>=3·적합 월·미관찰을 검사하고 연도/
+  turn 조건은 없다. legacy AP 호출과 현 제품 실제 도달성은 분리하며, 원문과
+  진입 조건의 시간축 확인점이지 새 플레이 REJECT가 아니다.
+- `arc_date_park_jiyeon.choices[0].result_text`의 마지막 사진은 민준 얼굴이
+  망가지지만 `callback_amusement_photo_found.description`은 그녀 얼굴로
+  회수한다. 사진의 주체를 번역에서 하나로 몰래 정정하지 않는다.
+- `arc_season_fireworks_daeun.description`은 평소 수수한 사복도 봤다고 한 뒤
+  "유니폼 아닌 거, 처음 보죠"라고 발화한다. 처음 보는 원피스와 첫 사복을 구분할
+  원문 확인점이다. dress 결과의 첫 발사 폭음 뒤 decision 도입의 폭음 전으로
+  넘어가는 순서, Jiyeon pace 결과→decision 도입의 손잡기 반복도 연속 동작
+  확인점이며 번역문에서 새 이동·재실행을 만들거나 삭제하지 않는다.
+- `_season_date_id`는 지연 부산 장거리 기간에도 여름 바다를 허용하지만
+  `arc_season_sea_jiyeon.description`과 presentation은 부산행 KTX 동승으로
+  시작한다. 부산에 머무르던 지연이 함께 탄 경위의 정적 장소 연결 확인점이다.
+  배선 검토만으로 실제 동석 오류를 인증하지 않는다. 다은의 바다5년은 개인의
+  미뤄온 시간으로, 남산의 민준 목표5년과 같은 연도 분모라고 단정하지 않는다.
 
 - `arc_jiyeon_wedding_guest_list.description_if_known.hyunsu_reconnected`는
   '아버지, 현수. 두 이름'을 적은 뒤 '그 두 글자들'이라고 회수한다. 이름 개수와

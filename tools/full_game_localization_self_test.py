@@ -1067,6 +1067,115 @@ class ExchangeTests(unittest.TestCase):
         indefinite = tool.Leaf('events', 'example', 'content/events/arc_jiyeon_married.json', ('description',), '어떤 한 회장이 왔다.', 'event_standard')
         self.assertTrue(tool.translation_errors(indefinite, 'zh-TW', 'Han 董事長來了。'))
 
+    def test_date_can_sound_and_glass_pane(self):
+        for source, good, bad in (
+            ('캔 안에서 작은 금속 소리가 한 번 났고, 다시 조용해졌다.', '罐子裡輕輕響了一聲金屬聲，又靜了下來。', ('兩聲金屬聲', '負一聲金屬聲', '一分鐘', '一聲 公里')),
+            ('유리 한 장 두께의 거리가 아득했다.', '只有一片玻璃厚的距離，卻很遙遠。', ('兩片玻璃', '負一片玻璃', '一張紙', '一片玻璃 公里')),
+        ):
+            leaf = tool.Leaf('events', 'example', 'content/events/arc_date_milestones.json', ('description',), source, 'event_standard')
+            self.assertEqual(tool.translation_errors(leaf, 'zh-TW', good), [])
+            for target in bad:
+                self.assertTrue(tool.translation_errors(leaf, 'zh-TW', target), (source, target))
+        for source, target in (
+            ('캔 안에서 작은 금속 소리가 한 번 났고, 다시 조용해졌다.', '罐子里轻轻响了一声金属声，又静了下来。'),
+            ('유리 한 장 두께의 거리가 아득했다.', '只有一片玻璃厚的距离，却很遥远。'),
+        ):
+            leaf = tool.Leaf('events', 'example', 'content/events/arc_date_milestones.json', ('description',), source, 'event_standard')
+            self.assertEqual(tool.translation_errors(leaf, 'zh-CN', target), [])
+
+    def test_date_counter_scope_and_suffix_mutations(self):
+        for source, target in (
+            ('버튼을 한 번 눌렀다.', '按了一聲。'),
+            ('서류 한 장 두께의 거리가 아득했다.', '一片玻璃。'),
+        ):
+            leaf = tool.Leaf('events', 'example', 'content/events/arc_date_milestones.json', ('description',), source, 'event_standard')
+            self.assertTrue(tool.translation_errors(leaf, 'zh-TW', target), (source, target))
+        for source, target in (
+            ('캔 안에서 작은 금속 소리가 한 번 났고, 다시 조용해졌다.', '一聲'),
+            ('유리 한 장 두께의 거리가 아득했다.', '一片玻璃'),
+        ):
+            leaf = tool.Leaf('events', 'example', 'content/events/arc_date_milestones.json', ('description',), source, 'event_standard')
+            self.assertEqual(tool.translation_errors(leaf, 'zh-TW', target), [])
+            for separator in ('', ' ', '\t', '\u3000'):
+                for suffix in ('分鐘', '秒', '歲', '米', '公里', '年', '月', '日', '天', '元', '度', '小時', '韓元', '人', '位'):
+                    self.assertTrue(tool.translation_errors(leaf, 'zh-TW', target + separator + suffix), (source, separator, suffix))
+
+    def test_date_amusement_count_before_only_suffix(self):
+        for source in ('놀이기구는 두 개밖에 못 탔다.', '놀이기구는 아직 두 개밖에 못 탔다.'):
+            leaf = tool.Leaf('events', 'example', 'content/events/arc_date_milestones.json', ('description',), source, 'event_standard')
+            self.assertEqual(tool.translation_errors(leaf, 'zh-CN', '游乐设施才玩了两个。'), [])
+            self.assertEqual(tool.translation_errors(leaf, 'zh-TW', '遊樂設施只玩了兩項。'), [])
+            for count in ('三項', '負兩項', '兩項 公里', '兩個人', '兩個 年', '兩分鐘', '十二項'):
+                self.assertTrue(tool.translation_errors(leaf, 'zh-TW', '遊樂設施只玩了' + count + '。'), (source, count))
+        source = '놀이기구가 많았다.'
+        leaf = tool.Leaf('events', 'example', 'content/events/arc_date_milestones.json', ('description',), source, 'event_standard')
+        self.assertTrue(tool.translation_errors(leaf, 'zh-CN', '游乐设施才玩了两个。'))
+
+    def test_date_petals_and_physical_look(self):
+        for source, prefix, good in (
+            ('바람에 꽃잎이 내렸고, 한 장이 그녀 머리에 앉았다.', '花瓣落下，', '一片落在她頭上。'),
+            ('꽃잎 한 장이 그녀 머리에 앉았다.', '花瓣', '一片落在她頭上。'),
+            ('다은이 하늘을 보기 직전 {name}을 한 번 돌아봤다.', 'Daeun 仰望天空前，回頭看了{name}', '一眼。'),
+        ):
+            leaf = tool.Leaf('events', 'example', 'content/events/arc_season_dates.json', ('description',), source, 'event_standard')
+            self.assertEqual(tool.translation_errors(leaf, 'zh-TW', prefix + good), [], source)
+            for bad in (good.replace('一', '兩', 1), '負' + good, good.replace('一', '十一', 1), good[:2] + ' 公里' + good[2:], '一分鐘。'):
+                self.assertTrue(tool.translation_errors(leaf, 'zh-TW', prefix + bad), (source, bad))
+        for source, target in (
+            ('서류 한 장이 그녀 머리에 앉았다.', '一片落在她頭上。'),
+            ('버튼을 한 번 눌렀다.', '一眼。'),
+        ):
+            leaf = tool.Leaf('events', 'example', 'content/events/arc_season_dates.json', ('description',), source, 'event_standard')
+            self.assertTrue(tool.translation_errors(leaf, 'zh-TW', target), (source, target))
+
+    def test_date_glances_and_reordered_laughter(self):
+        for source, target in (
+            ('영수증을 한 번 보더니 가방 안에 넣었다.', '看了一眼收據，放進包裡。'),
+            ('빈손을 한 번 내려다본 뒤, 숨기지 않았다.', '低頭看了一眼空著的手，沒有藏起來。'),
+            ('그 사이로 눈이 한 번 흘겼다.', '從縫隙中瞪來一眼。'),
+            ('5년치를 한 번에 웃어버리는 사람.', '一次笑盡了五年份的笑的人。'),
+            ('5년치를 한 번에 웃어버리는 사람.', '把五年份的笑一次笑盡的人。'),
+        ):
+            leaf = tool.Leaf('events', 'example', 'content/events/arc_season_dates.json', ('description',), source, 'event_standard')
+            self.assertEqual(tool.translation_errors(leaf, 'zh-TW', target), [], (source, target))
+            for bad in (target.replace('一眼', '兩眼').replace('一次', '兩次'), target.replace('一眼', '負一眼').replace('一次', '負一次'), target.replace('一眼', '一眼 公里').replace('一次', '一次 公里')):
+                self.assertTrue(tool.translation_errors(leaf, 'zh-TW', bad), (source, bad))
+
+    def test_date_stay_night_ordinal_meeting_and_small_cans(self):
+        for source, target, bad in (
+            ('내년엔 1박으로 와요.', '明年來住一晚吧。', ('明年來住兩晚吧。', '明年來住負一晚吧。', '明年來住一晚 公里吧。', '明年來住一天吧。')),
+            ('회의 두 개째야.', '已經在開第二場會了。', ('已經在開第三場會了。', '已經在開第負二場會了。', '已經在開第二場會 公里了。', '已經在開第二個月了。')),
+            ('손에는 작은 캔커피 두 개.', '手裡拿著兩小罐咖啡。', ('手裡拿著三小罐咖啡。', '手裡拿著負兩小罐咖啡。', '手裡拿著兩小罐 公里咖啡。', '手裡拿著兩分鐘咖啡。')),
+        ):
+            leaf = tool.Leaf('events', 'example', 'content/events/arc_season_dates.json', ('description',), source, 'event_standard')
+            self.assertEqual(tool.translation_errors(leaf, 'zh-TW', target), [], (source, target))
+            for value in bad:
+                self.assertTrue(tool.translation_errors(leaf, 'zh-TW', value), (source, value))
+
+    def test_date_never_entered_sea_is_not_a_visit(self):
+        source = '그 바다에는 한 번도 들어가 본 적 없는 얼굴이었다.'
+        leaf = tool.Leaf('events', 'example', 'content/events/arc_season_dates.json', ('description',), source, 'event_standard')
+        for target in ('像是從來沒下過那片海。', '像是從未下過那片海。', '像是一次也沒有下過那片海。'):
+            self.assertEqual(tool.translation_errors(leaf, 'zh-TW', target), [], target)
+        for target in ('像是下過那片海。', '像是來過那片海。', '像是從來沒有看過那片海。', '像是兩次也沒有下過那片海。', '像是負一次也沒有下過那片海。', '像是從來沒下過那片海 公里。', '並非從來沒下過那片海。'):
+            self.assertTrue(tool.translation_errors(leaf, 'zh-TW', target), target)
+
+    def test_date_laughter_does_not_borrow_earlier_repetitions(self):
+        source = '그때마다 팔을 더 꽉 잡았다. 5년치를 한 번에 웃어버리는 사람.'
+        leaf = tool.Leaf('events', 'example', 'content/events/arc_season_dates.json', ('description',), source, 'event_standard')
+        good = '每一次，都抓得更緊。把五年的份一次笑完的人。'
+        self.assertEqual(tool.translation_errors(leaf, 'zh-TW', good), [])
+        for count in ('兩次', '零次', '十一次', '負一次'):
+            bad = good.replace('份一次笑完', '份' + count + '笑完')
+            self.assertTrue(tool.translation_errors(leaf, 'zh-TW', bad), bad)
+
+    def test_date_quoted_name_after_relative_clause(self):
+        source = "{name}이 아는 '한지연'과 같은 사람인가 싶었다."
+        leaf = tool.Leaf('events', 'example', 'content/events/arc_season_dates.json', ('description',), source, 'event_standard')
+        self.assertEqual(tool.translation_errors(leaf, 'zh-TW', '{name} 所認識的「Han Jiyeon」。'), [])
+        for target in ('{name} 所認識的「韓芝妍」。', '{name} 所認識的「Han Jiyeon」韓芝妍。', '{name} 所認識的「Han Jiyeon」（韓芝妍）。', '{name} 韓芝妍「Han Jiyeon」。'):
+            self.assertTrue(tool.translation_errors(leaf, 'zh-TW', target), target)
+
     def test_duplicate_response(self):
         self.reject(response=self.response + [self.response[1]])
 

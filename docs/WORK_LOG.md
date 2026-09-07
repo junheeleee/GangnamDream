@@ -23,6 +23,25 @@
 > [`7/25`](history/WORK_LOG_2026-07-25.md)에 손실 없이 보존한다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
 
+## 2026-09-07 (Codex — 데이트·계절 장면 세 언어 수용)
+
+- 첫 입맞춤·남산·놀이공원·계절36사건/209문구씩627개를 KO 직접 저작하고
+  조건5/언어까지 독립 대조했다. CN3·TW6 의미 정밀화를 재검증했으며,
+  동해행·생략된 시선 등 국소 해석과 원문 시간축/주체 부채는 별도 기록했다.
+  기존9,567/meta9를 보존해 총10,194문구다.
+- 최초6source 보존, 최종6source/response/receipt check/import PASS,
+  changed_files0. checksum `ae12ad7b…ffb74f`, 원문 manifest 불변이다.
+  원문 결속 수량10종과 이름 오탐을 보강했고, 앞 문단의 반복 횟수를 빌리던
+  새 검사 회귀를 고쳤다. self147·ZH935, 독립 실제문맥 변조2,048/2,050 거부다.
+  나머지2개의 반전 표현과 기존 인용부호 별칭 한계는 범용 의미검사로 포장하지 않는다.
+- 완료168절1,431bytes를 기존 현지화 history 앞으로 원문 이동하고 이전14,728
+  bytes와 끝 개행을 보존했다. 큐 이유 문단도 선언 때 원문 보관·링크로 유지했다.
+  KO/EN·runtime·공개·폰트·저장·human_gates 변경0, 원본 checkout 쓰기0이다.
+  자세한 결속은 [사양](queue_active/ORDER-171.md). L3·원어민·화면 OPEN,
+  전체 INCOMPLETE·full/main/product HOLD·출시 데모 GO. 다음 관계·가족 배치 준비.
+- 최종12개 표적 차선·EN·diff PASS, portable10,194 source/hash/L1 오류0이다.
+  차선 실제 stdout을 git-private `order171-final-checks.log`에 보존했다.
+
 ## 2026-09-07 (Codex — 결혼·가족 장면 세 언어 수용)
 
 - 다은·지연34사건/206문구씩618개를 KO 직접 저작·독립 전수 대조했다.
@@ -52,24 +71,6 @@
 - L3·원어민·화면 OPEN, 전체 INCOMPLETE·full/main/product HOLD·배포 데모 GO.
 - 최종12개 표적 차선·EN·diff PASS, self131·ZH935·공개14/100·UI121 보존.
   portable8,949 전량 현재 target 직접 대조의 source/hash/L1 오류0이다.
-
-## 2026-09-07 (Codex — 다은 관계·아버지 통화 세 언어 수용)
-
-- 25사건/164문구씩492개를 KO 직접 저작·독립 전수 대조했다. 조건12/언어,
-  reader/scalar0이다. 원화·손뼘·공간·음식·수량·호칭11곳을 고쳐 재검토했다.
-  이전8,457와 메타9를 보존해 총8,949문구다.
-- 최초 source3개 보존, 최종 source/response/receipt3쌍 check/import PASS,
-  changed_files0. accepted checksum `42c20d17…a82ec4`, source manifest 불변.
-  기존39행/언어 raw prefix와 신규2파일/언어 text-only·조건 구조를 확인했다.
-- 근사 수량·존칭·손뼘·1+1·통화벨·부정문과 중국어 어순 검사를 보강했다.
-  self131와 독립117/실본문41/문맥4를 대조해 신규 누출0, 기존 분류기 한계1건은
-  별도다. KO/EN·runtime·공개 데모·폰트·human_gates 변경0이다.
-- 원문 연수·글자·첫 만남·빚 발화 부채를 분리했고 이전 JA 원화2문구는
-  다음 정밀화 범위로 남겼다. 완료166절1,518bytes 및 legacy 큐336bytes를
-  원문 이동 보존했다. 상세 결속과 한계는 [사양](queue_active/ORDER-168.md).
-  L3·원어민·화면 OPEN·전체 INCOMPLETE·full/main/product HOLD·출시 데모 GO 유지.
-- 최종12개 표적 차선·EN·diff PASS. self131·ZH935·공개14/100·UI121을
-  확인했고 실제 stdout은 git-private `order168-final-checks.log`에 보존했다.
 
 ## 2026-09-05 (Codex — ORDER-156 Chapter 5 생활 routine 배경 수리 선언)
 

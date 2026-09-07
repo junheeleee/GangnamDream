@@ -1,5 +1,23 @@
 # 2026-09-07 initial localization work log — preserved verbatim
 
+## 2026-09-07 (Codex — 다은 관계·아버지 통화 세 언어 수용)
+
+- 25사건/164문구씩492개를 KO 직접 저작·독립 전수 대조했다. 조건12/언어,
+  reader/scalar0이다. 원화·손뼘·공간·음식·수량·호칭11곳을 고쳐 재검토했다.
+  이전8,457와 메타9를 보존해 총8,949문구다.
+- 최초 source3개 보존, 최종 source/response/receipt3쌍 check/import PASS,
+  changed_files0. accepted checksum `42c20d17…a82ec4`, source manifest 불변.
+  기존39행/언어 raw prefix와 신규2파일/언어 text-only·조건 구조를 확인했다.
+- 근사 수량·존칭·손뼘·1+1·통화벨·부정문과 중국어 어순 검사를 보강했다.
+  self131와 독립117/실본문41/문맥4를 대조해 신규 누출0, 기존 분류기 한계1건은
+  별도다. KO/EN·runtime·공개 데모·폰트·human_gates 변경0이다.
+- 원문 연수·글자·첫 만남·빚 발화 부채를 분리했고 이전 JA 원화2문구는
+  다음 정밀화 범위로 남겼다. 완료166절1,518bytes 및 legacy 큐336bytes를
+  원문 이동 보존했다. 상세 결속과 한계는 [사양](queue_active/ORDER-168.md).
+  L3·원어민·화면 OPEN·전체 INCOMPLETE·full/main/product HOLD·출시 데모 GO 유지.
+- 최종12개 표적 차선·EN·diff PASS. self131·ZH935·공개14/100·UI121을
+  확인했고 실제 stdout은 git-private `order168-final-checks.log`에 보존했다.
+
 ## 2026-09-07 (Codex — 종막 서명·사람에게 보내는 행동 세 언어 수용)
 
 - 15사건/197문구씩591개를 KO 직접 저작·독립 전수 대조했다. reader55와

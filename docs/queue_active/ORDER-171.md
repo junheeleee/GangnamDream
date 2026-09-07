@@ -119,3 +119,40 @@ KO/EN·runtime·save·routing·human_gates·catalog/endings·공개·폰트·배
 
 소유권·수량·배치·증거 절차는 일회성이다. 지속 규칙은 I18N_INFRASTRUCTURE와
 언어별 용어집이 소유하며 새로운 서사·상품·출시 규칙을 만들지 않는다.
+
+## 구현·독립 대조 결과
+
+- 선언 `f28f7441cd89b2724e95a85f71bdff9c3fe6dcf3` 뒤 A93/B116×3,
+  627문구를 KO 직접 저작했다. 다른 작성자/ROOT가 조건5/언어를 포함해 전수
+  대조했다. CN3·TW6 leaf의 열린 행동·새 이동 금지·순간성·이름표·생략 주체와
+  시선을 정밀화하고 재대조했다. JA 필수 의미 수정0이며 동해행의 미확정
+  목적지를 동쪽 바다 방향으로 옮긴 해석은 별도로 기록했다.
+- 최종209-record aggregate:
+  JA `23d981f58bda174226f02d9e779279a69c7d4967eb6f2174706dde2691a57e99`,
+  CN `de2593ccdac23803edf219adfc041f29d4cc5d8da748a77739b32d8d80e238d5`,
+  TW `068680da1eed131e3f1e537fc6c2b01fe6f5722c3bbcda0076fac2fb417ebeac`.
+  최초6source를 보존하고 최종6source/response/receipt를 발급했다.
+  check/import --accept 모두 PASS, 현재값과 같아 changed_files0이다.
+- 기존9,567/meta9·oldbatch21을 보존해10,194=언어별3,398로 늘었다.
+  portable checksum `ae12ad7b791b694f9ac640011356c187666d1c8767cc129f0caeb41f1bffb74f`.
+  locale별 신규2파일만 추가하며 KO/EN·runtime·공개·폰트·저장·human_gates
+  변경0이다. 원문 manifest와 기존 수용의 source/target/hash도 보존했다.
+- 실제 원문에 걸린 캔 소리·유리 한 장·꽃잎·시선·놀이기구·1박·두 번째 회의·
+  작은 캔커피·5년치 웃음·바다 미입수의 문맥 결속10종과 이름 오탐을 보강했다.
+  독립 검토가 찾은 앞 문단의 每一次를 잘못 빌리던 새 회귀를 고쳤다.
+  self147·ZH935 PASS, 실제32문맥 변조2,050개 중2,048개 거부다.
+  남은 才怪 반전2개는 baseline의 명시 횟수에서도 통과하던 의미검사 한계이며,
+  기존 다른 인용부호/앞쪽 괄호 별칭 한계와 함께 범용 의미 보장으로 부르지 않는다.
+- 완료168 WORK_LOG절1,431bytes를 기존 현지화 history 앞으로 원문 이동했다.
+  이동절 SHA `a62ab37435c09d12063a09a47fb2ff44403f8b68fc8684eebe14ce569e42eac7`,
+  보관본16,159bytes SHA `24b2002dd6694d667db03ddf312d141eebfb3defbaaf343224396fa2250ad8ed`.
+  이전14,728bytes와 끝 개행까지 보존했다. 선언 때 큐 정본 승격 이유299bytes도
+  기존9월 큐 보관본에 원문 이동하고 링크를 남겼다. 지속 규칙·활성 의무 삭제0이다.
+- 원문 시간축·사진 회수 주체·첫 사복·불꽃놀이 연속 동작·부산 동승 경위는
+  별도 backlog 확인점이다. 이를 실제 플레이 결함이나 도달성 인증으로 합산하지
+  않는다. L3·원어민·실제 화면 OPEN, 전체 INCOMPLETE·full/main/product HOLD,
+  M01~M06 BUILD2026.08.31.1 사용자 GO 유지. 다음은 관계·직장·가족의 새 원문 배치다.
+- 최종 표적12개 차선·EN·diff PASS, portable10,194 전량의 현재 source/target/
+  수용 hash/L1 오류0이다. 공개14사건/100문구/121UI와 비표시 메타9를 보존했다.
+  차선 실행 stdout은 git-private `order171-final-checks.log`에 보존했다.
+  SHA `3786f10c7aa10cdebd389bc19f8d9b5ee3bcbdbc4c30fef39f9f03bf2e7cc74f`.
