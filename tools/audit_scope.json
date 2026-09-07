@@ -313,7 +313,8 @@
         "docs/history/WORK_LOG_2026-08-29.md",
         "docs/queue_archive/ORDER-157.md",
         "docs/queue_archive/ORDER-158.md",
-        "docs/queue_backlog/FULL_GAME_LOCALIZATION.md"
+        "docs/queue_backlog/FULL_GAME_LOCALIZATION.md",
+        "docs/queue_active/ORDER-176.md"
       ],
       "tools": [
         "tools/full_game_localization_self_test.py",

@@ -33,6 +33,9 @@ Do not use the old Japanese pipeline's all/events writer as an incremental merge
 that writer can replace locale files instead of preserving the current overlays.
 Read any existing overlay before adding rows and append only the owned IDs;
 an Add File patch is not a safe append operation for a file that already exists.
+Preview `audit_select.py --lane full-game-localization-overlays --list`, then run
+that named lane; generic path selection with audit_scope edits can select unrelated
+legacy/runtime checks even when the translation batch changes no runtime.
 
 The full scope includes every event text variant and Chapter 5 reader, every
 ending variant, catalog text, and both static and dynamic UI. Packaged,
