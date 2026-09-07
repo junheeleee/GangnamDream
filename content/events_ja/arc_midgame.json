@@ -441,5 +441,122 @@
       "broke_routine": "深夜12時。\n\n今日も同じパターンだった。朝――チャート確認。昼――仕事か勉強。夕方――ニュース。夜――計画調整。深夜――整理して就寝。\n\n2年以上、このルーティンだ。いつからか、これが「自分で選んだもの」なのか「体に染みついたもの」なのか、区別がつかなくなった。\n\nいいのか悪いのかも分からない。ただ、これが{name}だ。\n\n去年、一度回し車を壊した。\n壊した場所に敷き直したものが、今の一日になった。壊すことも技術だった。",
       "godsaeng_paradox_seen": "深夜12時。\n\n今日も同じパターンだった。朝――チャート確認。昼――仕事か勉強。夕方――ニュース。夜――計画調整。深夜――整理して就寝。\n\n2年以上、このルーティンだ。いつからか、これが「自分で選んだもの」なのか「体に染みついたもの」なのか、区別がつかなくなった。\n\nいいのか悪いのかも分からない。ただ、これが{name}だ。\n\n完璧な毎日を目指す暮らしの逆説を見たことがある――ルーティンが本人の代わりに人生を生きている人たち。\nだから、この点検が必要だ。ルーティンが自分のためにあるのか、自分がルーティンのためにいるのか。"
     }
+  },
+  {
+    "id": "arc_year_three_crossroads",
+    "title": "36歳の分かれ道",
+    "description": "3年が過ぎた。三十六歳の午後、{name}はカンナムの横断歩道の前で信号を待っていた。ガラス張りのビルの間から人々があふれ出し、青になるたびに迷わず渡っていった。\n\n期限まで、もう2年も残っていない。このまま今までの道を行けばどこに着くのか、おおよそ見え始めていた。だからこそ、問いは難しくなった。この道でいいのか。それとも、3年を費やしたから正しいと信じたいのか。\n\n信号が一度変わっても、{name}は立ったままだった。避けた問いは消えない。次の分かれ道で、もっと重い荷物になって戻ってくるだけだ。",
+    "choices": [
+      {
+        "text": "足が先に動いた",
+        "result_text": "再び青になると、足が先に出た。選択というより、3年かけて身についた惰性だった。向こう側に着くまで、考えは追いつかなかった。\n\n{name}は計画を変えず、次の予定へ向かった。止まらず進む力がここまで連れてきたことも、事実だった。\n\nただ、惰性は行き先を確かめない。信号が消えたあとも足の裏に残る速さが、そのことを静かに教えていた。"
+      },
+      {
+        "text": "方向を変えることにした。臆病なのではなく、現実だ",
+        "result_text": "予定表の一部を消し、安定した道筋を書き加えた。ペンの跡の下に、前の言葉がかすかに残った。諦めか成長か、名前はつけないことにした。\n\n変動を減らして眠りを取り戻す代わりに、たどり着ける確率は下がるかもしれなかった。{name}はその二つの事実を同じ行に置いた。\n\n修正した計画を保存すると、安堵と喪失感が一緒に来た。方向を変えた人も、歩き続ける人なのだと、体が先に学んでいた。"
+      },
+      {
+        "text": "持っているものを全部出した。まだ十分だった",
+        "result_text": "持っているものをすべて書き出した。金、技術、失敗から学んだ判断の基準、まだ電話に出てくれる人たち。数字にできないものもリストに加えた。\n\n何も持っていないと思っていたのに、一ページでは収まらなかった。強い手札ではなくても、今の勝負を最後まで見届けるだけのものは残っていた。\n\n{name}はリストを折って財布に入れた。十分だというのは、勝利を保証する言葉ではなかった。次の選択ができるという意味だった。"
+      }
+    ],
+    "description_if_known": {
+      "envy_released": "3年が過ぎた。三十六歳の午後、{name}はカンナムの横断歩道の前で信号を待っていた。ガラス張りのビルの間から人々があふれ出していた。\n\n期限まで、もう2年も残っていない。この道でいいのか。それとも、3年を費やしたから正しいと信じたいのか。\n\nかつては他人の速さを見るたびに、燃料が湧いてきた。ある日、その羨ましさを手放してから、問いは少し怖くなくなった。答えが簡単になったからではなく、答える人が自分一人になったからだ。\n\n信号が一度変わった。今度は誰に勝つかではなく、なぜ渡るのかを決めなければならなかった。",
+      "envy_still_burning": "3年が過ぎた。三十六歳の午後、{name}はカンナムの横断歩道の前で信号を待っていた。ガラス張りのビルの間から人々があふれ出していた。\n\n期限まで、もう2年も残っていない。この道でいいのか。それとも、3年を費やしたから正しいと信じたいのか。\n\n「見ていろ」で始まる朝が、まだ続いていた。怒りは長持ちする燃料ではないと知りながら、速度を落とすと負ける気がして、燃やし続けた。\n\n信号が変わった。分かれ道で確かめるべきことは、方向だけではなかった。この速さで渡り終えたとき、燃料の代わりに何が燃え尽きるのかも見なければならなかった。",
+      "trusting_instinct": "3年が過ぎた。三十六歳の午後、{name}はカンナムの横断歩道の前で信号を待っていた。ガラス張りのビルの間から人々があふれ出していた。\n\n期限まで、もう2年も残っていない。この道でいいのか。それとも、3年を費やしたから正しいと信じたいのか。\n\nいつか、既視感に包まれた夜、体が先に知っている答えを信じることにした。今も頭は可能性と損失を数えていたが、つま先はかすかに一方を向いていた。\n\n信号が一度変わった。{name}はその傾きを衝動として退けるか、積み重ねてきた感覚として受け入れるか、決めなければならなかった。"
+    }
+  },
+  {
+    "id": "arc_year_three_half",
+    "title": "三行の代価",
+    "description": "日曜日の夜、{name}は今の部屋の明かりを一つだけ残し、過去三か月の記録を床に日付順に並べた。約束の一か所には完了時刻があり、二か所には開き直すことのない窓口の日付があった。体の記録には診療・締め切り・一人で耐えることのうち一つが、家族の食卓には一緒・一人・欠席のうち一つが残っていた。\n\nスマホのカレンダーと決済履歴、短く書き留めたメモの時刻が合うか、一つずつ照合した。完了の印だけを集めると、速く生きた月に見えた。閉じた日付だけを集めると、何も守れなかった月に見えた。どちらも事実の半分だった。\n\n{name}は定規を当て、紙に三行を引いた。約束、体、家族。確認できない欄には理由を作って入れず、斜線だけを引いた。壊れた記録から、いない人やしていない行動を復元しなかった。\n\n最後に三つの記録を手を広げた幅だけ離して置き、初めから読み直した。翌月の最初のページへ持っていくのは決意ではなく、自分が実際に着いた時刻と、とうとう着けなかった日付だった。",
+    "choices": [
+      {
+        "text": "完了時刻と空欄をそのまま固定する",
+        "result_text": "{name}は守ったことの横に終えた時刻を、逃したことの横に開き直すことのない日付を書いた。体と家族の結果も、きれいな言葉では覆わなかった。空欄を埋めかけたペン先が二度止まり、そのたびに確認できない文を消した。\n\n三行の下に合計は書かなかった。人に渡した時間、体から借りた時間、金のために閉じた時間を一つの点数に変えれば、最も大切な違いが消えてしまいそうだった。\n\n{name}は紙を細長く折り、手帳の最初のページに挟んだ。端が少し外に残り、次に開く場所を示した。床に残った資料を片づけたあとも、その白い端だけは見えていた。\n\n翌月の速さは、新しい決意から始まるのではない。すでに支払った代価を隠さないことから始まる。"
+      }
+    ],
+    "description_if_known": {
+      "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen&arc_y4_three_promises_protected_father&arc_y4_three_promises_missed_person&arc_y4_three_promises_missed_deal&arc_y4_body_chose_care&arc_y4_family_attended_together": "日曜日の夜、{name}は三つの記録を日付順に並べた。父の側の窓口を守った代わりに、重なった約束と取引の時間は閉じた。体の訴えには診療で応え、家族の食卓には実際の同行者と一緒に座った。\n\n二行にケアの記録が残った月だった。その分、逃した重なり合う約束と取引の空欄も鮮明だった。翌月になっても、その二つの空欄をなかったことにはできなかった。",
+      "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen&arc_y4_three_promises_protected_father&arc_y4_three_promises_missed_person&arc_y4_three_promises_missed_deal&arc_y4_body_chose_care&arc_y4_family_attended_alone": "日曜日の夜、{name}は三つの記録を日付順に並べた。父の側の窓口を守った代わりに、重なった約束と取引の時間は閉じた。体の訴えには診療で応え、家族の食卓には一人で行った。\n\n二度、体を運んだ代価が移動時刻として残った。同行しなかった席と逃した取引は、翌月の数字では覆い隠せなかった。",
+      "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen&arc_y4_three_promises_protected_father&arc_y4_three_promises_missed_person&arc_y4_three_promises_missed_deal&arc_y4_body_chose_care&arc_y4_family_missed": "日曜日の夜、{name}は三つの記録を日付順に並べた。父の側の窓口を守った代わりに、重なった約束と取引の時間は閉じた。体のためには診療を選んだが、家族の食卓は逃した。\n\n診療の確認時刻の隣で、空いた椅子の記録がいつまでも目に残った。守った家族との連絡一つが、逃した食卓一つの代わりにはならなかった。",
+      "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen&arc_y4_three_promises_protected_father&arc_y4_three_promises_missed_person&arc_y4_three_promises_missed_deal&arc_y4_body_chose_deadline&arc_y4_family_attended_together": "日曜日の夜、{name}は三つの記録を日付順に並べた。父の側の窓口を守った代わりに、重なった約束と取引の時間は閉じた。自分の体より締め切りを選び、家族の食卓には実際の同行者と一緒に座った。\n\n家族の側の二つの席は守ったが、体のための次の時刻は空いた。翌月の速度表には、その空欄が代価として持ち越された。",
+      "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen&arc_y4_three_promises_protected_father&arc_y4_three_promises_missed_person&arc_y4_three_promises_missed_deal&arc_y4_body_chose_deadline&arc_y4_family_attended_alone": "日曜日の夜、{name}は三つの記録を日付順に並べた。父の側の窓口を守った代わりに、重なった約束と取引の時間は閉じた。体より締め切りを選び、家族の食卓には一人で行った。\n\n移動と締め切りの仕事は終えたが、体のための次の対応は残った。一緒に閉じた別の約束まで合わせると、カレンダーの空欄は数字より多かった。",
+      "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen&arc_y4_three_promises_protected_father&arc_y4_three_promises_missed_person&arc_y4_three_promises_missed_deal&arc_y4_body_chose_deadline&arc_y4_family_missed": "日曜日の夜、{name}は三つの記録を日付順に並べた。父の側の窓口だけを守り、重なった約束と取引の時間は閉じた。体より締め切りを選んだあと、家族の食卓も逃した。\n\n一つの完了時刻の周りに、逃した日付が集まった。父の側の一行を守った事実が、残りの代価を消すことはなかった。",
+      "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen&arc_y4_three_promises_protected_father&arc_y4_three_promises_missed_person&arc_y4_three_promises_missed_deal&arc_y4_body_chose_alone&arc_y4_family_attended_together": "日曜日の夜、{name}は三つの記録を日付順に並べた。父の側の窓口を守った代わりに、重なった約束と取引の時間は閉じた。体の訴えには助けを呼ばず一人で耐え、家族の食卓には実際の同行者と一緒に座った。\n\n食卓の温かさは残ったが、一人で耐えた体の記録も残った。翌月は、二つを同じ完了の印でまとめないことにした。",
+      "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen&arc_y4_three_promises_protected_father&arc_y4_three_promises_missed_person&arc_y4_three_promises_missed_deal&arc_y4_body_chose_alone&arc_y4_family_attended_alone": "日曜日の夜、{name}は三つの記録を日付順に並べた。父の側の窓口を守った代わりに、重なった約束と取引の時間は閉じた。体は一人で耐え、家族の食卓にも一人で行った。\n\n二度の「一人」が、互いを慰めるわけではなかった。守った父の側の一行と、閉じた二つの約束を、そのまま翌月へ渡した。",
+      "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen&arc_y4_three_promises_protected_father&arc_y4_three_promises_missed_person&arc_y4_three_promises_missed_deal&arc_y4_body_chose_alone&arc_y4_family_missed": "日曜日の夜、{name}は三つの記録を日付順に並べた。父の側の窓口を守った代わりに、重なった約束と取引の時間は閉じた。体は一人で耐え、家族の食卓は逃した。\n\n父の側への連絡一つは守ったが、重なった約束と家族の食卓には着けず、体は一人で耐えた。その違いが、翌月の最初のページで最も重い一行になった。",
+      "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen&arc_y4_three_promises_protected_person&arc_y4_three_promises_missed_father&arc_y4_three_promises_missed_deal&arc_y4_body_chose_care&arc_y4_family_attended_together": "日曜日の夜、{name}は三つの記録を日付順に並べた。重なった約束の場に自分で着いた代わりに、父の側の窓口と取引は閉じた。体には診療で応え、家族の食卓には実際の同行者と一緒に座った。\n\nその約束と、体をいたわった時刻が並んで残った。けれど、父の側で逃した窓口は、ほかの完了では埋まらなかった。",
+      "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen&arc_y4_three_promises_protected_person&arc_y4_three_promises_missed_father&arc_y4_three_promises_missed_deal&arc_y4_body_chose_care&arc_y4_family_attended_alone": "日曜日の夜、{name}は三つの記録を日付順に並べた。重なった約束の場に自分で着いた代わりに、父の側の窓口と取引は閉じた。体には診療で応え、家族の食卓には一人で行った。\n\n三度、時間を割いたが、どの完了も別の空欄の代わりにはならなかった。父の側の空欄は、そのまま残った。",
+      "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen&arc_y4_three_promises_protected_person&arc_y4_three_promises_missed_father&arc_y4_three_promises_missed_deal&arc_y4_body_chose_care&arc_y4_family_missed": "日曜日の夜、{name}は三つの記録を日付順に並べた。重なった約束の場に自分で着いた代わりに、父の側の窓口と取引は閉じた。体には診療で応えたが、家族の食卓は逃した。\n\n重なった約束に着いた記録と、家族の食卓に着けなかった記録が同じ画面にあった。二つを合わせて、善良なひと月にはしなかった。",
+      "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen&arc_y4_three_promises_protected_person&arc_y4_three_promises_missed_father&arc_y4_three_promises_missed_deal&arc_y4_body_chose_deadline&arc_y4_family_attended_together": "日曜日の夜、{name}は三つの記録を日付順に並べた。重なった約束の場に自分で着いた代わりに、父の側の窓口と取引は閉じた。体より締め切りを選び、家族の食卓には実際の同行者と一緒に座った。\n\nその約束と家族の食卓の時刻は残ったが、体のための次の対応は後ろにずれた。閉じた父の窓口まで合わせると、翌月に返すべきものは金だけではなかった。",
+      "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen&arc_y4_three_promises_protected_person&arc_y4_three_promises_missed_father&arc_y4_three_promises_missed_deal&arc_y4_body_chose_deadline&arc_y4_family_attended_alone": "日曜日の夜、{name}は三つの記録を日付順に並べた。重なった約束の場に自分で着いた代わりに、父の側の窓口と取引は閉じた。体より締め切りを選び、家族の食卓には一人で行った。\n\n約束と食卓は終えたが、体と父の側には空欄が残った。完了した仕事だけを数えれば、見えない代価だった。",
+      "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen&arc_y4_three_promises_protected_person&arc_y4_three_promises_missed_father&arc_y4_three_promises_missed_deal&arc_y4_body_chose_deadline&arc_y4_family_missed": "日曜日の夜、{name}は三つの記録を日付順に並べた。重なった約束の場にだけ自分で着き、父の側の窓口と取引は閉じた。体より締め切りを選んだあと、家族の食卓も逃した。\n\n一つの約束に着いた代わりに三か所が空いた、と単純には言えなかった。ただ、翌月はその空欄たちが先に時間を求めるだろう。",
+      "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen&arc_y4_three_promises_protected_person&arc_y4_three_promises_missed_father&arc_y4_three_promises_missed_deal&arc_y4_body_chose_alone&arc_y4_family_attended_together": "日曜日の夜、{name}は三つの記録を日付順に並べた。重なった約束の場に自分で着いた代わりに、父の側の窓口と取引は閉じた。体は一人で耐え、家族の食卓には実際の同行者と一緒に座った。\n\nその約束に着いた時間と、自分の体を一人で放っておいた時間が並んで残った。翌月は、どちらも美談に変えないことにした。",
+      "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen&arc_y4_three_promises_protected_person&arc_y4_three_promises_missed_father&arc_y4_three_promises_missed_deal&arc_y4_body_chose_alone&arc_y4_family_attended_alone": "日曜日の夜、{name}は三つの記録を日付順に並べた。重なった約束の場に自分で着いた代わりに、父の側の窓口と取引は閉じた。体も家族の食卓も、一人で引き受けた。\n\n一人だったという言葉は、責任を果たしたという意味ではなかった。父の側の空欄と取引の締め切りは、次のページにそのまま残った。",
+      "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen&arc_y4_three_promises_protected_person&arc_y4_three_promises_missed_father&arc_y4_three_promises_missed_deal&arc_y4_body_chose_alone&arc_y4_family_missed": "日曜日の夜、{name}は三つの記録を日付順に並べた。重なった約束の場に自分で着いた代わりに、父の側の窓口と取引は閉じた。体は一人で耐え、家族の食卓は逃した。\n\nその約束一つを守った記録の隣に、三種類の不在が残った。翌月は、その完了を褒美のように使わず、まず不在から読まなければならなかった。",
+      "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen&arc_y4_three_promises_protected_deal&arc_y4_three_promises_missed_father&arc_y4_three_promises_missed_person&arc_y4_body_chose_care&arc_y4_family_attended_together": "日曜日の夜、{name}は三つの記録を日付順に並べた。取引の締め切りを守った代わりに、父の側と重なった約束は閉じた。体には診療で応え、家族の食卓には実際の同行者と一緒に座った。\n\n金の時刻も、ケアの時刻もあったが、逃した二つの約束も消えなかった。翌月の速度は、その空欄の代価まで抱えて始まった。",
+      "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen&arc_y4_three_promises_protected_deal&arc_y4_three_promises_missed_father&arc_y4_three_promises_missed_person&arc_y4_body_chose_care&arc_y4_family_attended_alone": "日曜日の夜、{name}は三つの記録を日付順に並べた。取引の締め切りを守った代わりに、父の側と重なった約束は閉じた。体には診療で応え、家族の食卓には一人で行った。\n\n締め切りの仕事も、診療も、移動も終えた。それでも父の側と重なった約束で閉じた時間は、完了リストの外に残った。",
+      "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen&arc_y4_three_promises_protected_deal&arc_y4_three_promises_missed_father&arc_y4_three_promises_missed_person&arc_y4_body_chose_care&arc_y4_family_missed": "日曜日の夜、{name}は三つの記録を日付順に並べた。取引の締め切りを守った代わりに、父の側と重なった約束は閉じた。体には診療で応えたが、家族の食卓は逃した。\n\n取引と診療には完了時刻があり、重なった約束と家族には空欄があった。翌月の計画は、二種類の記録を同じ成果にはまとめなかった。",
+      "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen&arc_y4_three_promises_protected_deal&arc_y4_three_promises_missed_father&arc_y4_three_promises_missed_person&arc_y4_body_chose_deadline&arc_y4_family_attended_together": "日曜日の夜、{name}は三つの記録を日付順に並べた。取引の締め切りを守った代わりに、父の側と重なった約束は閉じた。体より、また別の締め切りを選び、家族の食卓には実際の同行者と一緒に座った。\n\n速さを買ったカレンダーには、体のための次の対応と、二つの約束の空欄が残った。食卓への同行だけで、その代価をすべて払ったとは書けなかった。",
+      "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen&arc_y4_three_promises_protected_deal&arc_y4_three_promises_missed_father&arc_y4_three_promises_missed_person&arc_y4_body_chose_deadline&arc_y4_family_attended_alone": "日曜日の夜、{name}は三つの記録を日付順に並べた。取引の締め切りを守った代わりに、父の側と重なった約束は閉じた。体より、また別の締め切りを選び、家族の食卓には一人で行った。\n\n終えた仕事は速く、移動は一人だった。体と二つの約束の空欄は、翌月の最初の週までついてきた。",
+      "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen&arc_y4_three_promises_protected_deal&arc_y4_three_promises_missed_father&arc_y4_three_promises_missed_person&arc_y4_body_chose_deadline&arc_y4_family_missed": "日曜日の夜、{name}は三つの記録を日付順に並べた。取引の締め切りを守った代わりに、父の側と重なった約束は閉じた。体より締め切りを選んだあと、家族の食卓も逃した。\n\n完了時刻は最も多く、重なった約束と家族の空欄も多かった。数字は速くなったが、翌月に先に届いたのは何件もの未応答だった。",
+      "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen&arc_y4_three_promises_protected_deal&arc_y4_three_promises_missed_father&arc_y4_three_promises_missed_person&arc_y4_body_chose_alone&arc_y4_family_attended_together": "日曜日の夜、{name}は三つの記録を日付順に並べた。取引の締め切りを守った代わりに、父の側と重なった約束は閉じた。体は一人で耐え、家族の食卓には実際の同行者と一緒に座った。\n\n取引と食卓は終わったが、体と二つの約束は残った。一緒に座った人に、その空欄の責任を渡さないことにした。",
+      "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen&arc_y4_three_promises_protected_deal&arc_y4_three_promises_missed_father&arc_y4_three_promises_missed_person&arc_y4_body_chose_alone&arc_y4_family_attended_alone": "日曜日の夜、{name}は三つの記録を日付順に並べた。取引の締め切りを守った代わりに、父の側と重なった約束は閉じた。体も家族の食卓も、一人で引き受けた。\n\n完了した取引一つと、一人だった二つの記録が残った。翌月は、成功と耐えることを同じ言葉にはしないことにした。",
+      "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen&arc_y4_three_promises_protected_deal&arc_y4_three_promises_missed_father&arc_y4_three_promises_missed_person&arc_y4_body_chose_alone&arc_y4_family_missed": "日曜日の夜、{name}は三つの記録を日付順に並べた。取引の締め切りを守った代わりに、父の側と重なった約束は閉じた。体は一人で耐え、家族の食卓は逃した。\n\n取引の完了時刻の下に、父・重なった約束・食卓・体の空欄が続いた。翌月は、そのどれ一つも取引の成果で相殺できない。",
+      "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen": "日曜日の夜、{name}は三つの記録に共通する印だけを確かめた。約束・体・家族の場面を経た事実は残っていたが、どの結果だったかを証明する排他的な記録は壊れていた。\n\n{name}は空欄を推測で埋めなかった。確認できる時刻だけを移し、残りは分からない値のまま翌月へ渡した。"
+    },
+    "description_memory_if_known": {
+      "arc_y4_three_promises_seen": "三枚の記録は、同じ大きさではなかった。{name}はスマホの画面を消してから紙の端をそろえ、完了時刻には短い下線を、閉じた日付には端を塞いだ線を引いた。指が一行に長くとどまるたび、無理に次の行へ移らず、その日の移動と待った時間を思い出した。\n\n三つの記録を並べると、今の季節の形が見えた。守ったことは逃したことを消さず、逃したことも、実際にたどり着いた時間を嘘にはしなかった。成功か失敗か、その一言で畳むには、それぞれ違う重みだった。\n\n{name}は三行を切り分け、一枚の長い紙になるよう重ねた。翌月に開き直したとき、どの欄がなぜ空いているのか分かるように、折る方向まで変えた。"
+    }
+  },
+  {
+    "id": "arc_37_reckoning",
+    "title": "最後の精算",
+    "description": "三十七歳の夜遅く、{name}は計算機と4年前のノートを並べて開いた。最初のページの50万ウォンと30億ウォンはボールペンの跡がにじみ、スマホの現在の資産は、冷たい新しい数字で光っていた。\n\n目標までの距離、残り時間、負える損失をもう一度書いた。4年の間に数字は大きくなり、その数字のために先延ばしにしたものも一緒に増えた。ようやく、問いの文がはっきりした。この目標はまだ自分の望むものなのか。それとも、止まれないから望んでいるふりをしているのか。\n\n計算機の熱が手のひらに残った。今日の答えが、最後の1年の温度を決めるだろう。",
+    "choices": [
+      {
+        "text": "数字がどうなろうと――この軌跡は自分のものだ",
+        "result_text": "ノートの最初のページの50万ウォンから今日の数字まで、指で線を引いた。まっすぐな道ではなかった。損失や迂回、人の名前を書いたページが、途中にいくつも挟まっていた。\n\n{name}はどの一枚も消さないことにした。目標に届いても届かなくても、この軌跡が他人の失敗や成功に変わることはない。\n\nノートを閉じると、手のひらの下の表紙は硬かった。"
+      },
+      {
+        "text": "計画をもう一度調整した。分かったうえで、最後を生きる",
+        "result_text": "収益率を下げ、支出には実際の値を入れた。到着できる可能性は減ったが、画面は初めて誇張なくつじつまが合った。数字は慰めなかった。だからこそ、役に立った。\n\n{name}は崩れる区間を印し、計画をもう一度調整した。知らずに希望を抱くより、知ったうえで選ぶ側を選んだ。\n\n保存時刻のついたファイルを閉じた。"
+      },
+      {
+        "text": "計算機を閉じた。最後まで行かなければ分からない",
+        "result_text": "計算機を閉じた。数字をいっそう精密にしても、終わりが先に来るわけではない。4年の間で最も大きく外れたことは計算の外から来て、最も長く残ったものもそうだった。\n\n{name}はノートだけを机に残し、明かりを消した。答えを出さないことも、一つの選択だった。\n\n暗闇の中で、計算機の液晶がゆっくり消えた。"
+      }
+    ],
+    "description_if_known": {
+      "year3_doubled_down": "三十七歳の夜遅く、{name}は計算機と4年前のノートを並べて開いた。最初のページの50万ウォンと30億ウォンはにじみ、現在の資産は、冷たい新しい数字で光っていた。\n\n去年の分かれ道で、もっと強く進むと決めた。その速さは数字を押し上げ、睡眠と連絡先の空欄も一緒に増やした。今、画面には結果と代価が同じ行にあった。\n\nこの目標はまだ望むものなのか、止まれないから望むふりをしているのか。その問いを抱く手のひらに、計算機の熱が残った。最後の1年の温度は、より高い数字だけでは決まらないだろう。",
+      "year3_questioned_path": "三十七歳の夜遅く、{name}は計算機と4年前のノートを並べて開いた。最初のページの50万ウォンと30億ウォンはにじみ、現在の資産は、冷たい新しい数字で光っていた。\n\n去年、この道でいいのかと初めてまともに問うた。問いは消えなかったが、それからは計画を開くたび、同じ席に座っていた。もう、不安をなくさなければ動けないとは思わなかった。\n\n目標までの距離と残り時間を、もう一度書いた。問いと一緒に歩いてきた人にとって、最後の1年は答えを証明する時間ではなく、問い続ける勇気を守る時間になるだろう。",
+      "year3_steady_path": "三十七歳の夜遅く、{name}は計算機と4年前のノートを並べて開いた。最初のページの50万ウォンと30億ウォンはにじみ、現在の資産は、冷たい新しい数字で光っていた。\n\n去年、揺らがないと決めた。帳簿には大きな飛躍より、同じ大きさの入金と支出、繰り返した選択が整って続いていた。大きくても小さくても、この数字には誇張も、偶然を実力と呼んだ跡もなかった。\n\n{name}は指で行をたどった。最後の1年の温度は、さらに速度を上げることではなく、この地道さを何のために守るかで決まるだろう。",
+      "vision_revised": "三十七歳の夜遅く、{name}は計算機と4年前のノートを並べて開いた。最初のページの50万ウォンと30億ウォンはにじみ、現在の資産は、冷たい新しい数字で光っていた。\n\n途中で一度、目標への進み方を修正した。消された計画の下に、昔の線がかすかに残っていた。その修正は失敗を隠した跡ではなく、漂流しないよう方向を取り直した跡だった。\n\n目標までの距離と残り時間を書いた。最後の1年には、最初に引いた直線を守ることより、なぜ航路を変えたのかを忘れないことが、もっと大切になった。"
+    }
+  },
+  {
+    "id": "arc_final_year_start",
+    "title": "精算の翌日",
+    "description": "精算の翌朝だった。\n\n一晩中広げていた計算機と手帳が、そのまま机の上にあった。数字は昨日と同じだったが、今は何を知らないふりをしたのかは、分かっていた。\n\n{name}は一日を始める前に、白紙のページを開いた。残り時間に何をもっと得るかではなく、何まで賭けられるのかを、先に書いた。",
+    "description_if_known": {
+      "final_year_resolve": "精算の翌日、手帳の表紙の感触がまだ手のひらに残っていた。\n\n昨夜、{name}は最初のページの50万ウォンから今の数字まで、どのページも消さないことにした。結果が軌跡の持ち主を変えることはできない、という文も残した。\n\n朝の日差しの中、白紙のページを開いた。今決めるのは成功の形ではなく、最後まで自分のものとして引き受ける選択の大きさだった。",
+      "final_year_realistic": "精算の翌日、新しい保存時刻のついた計画ファイルが画面に残っていた。\n\n期待収益率を下げ、実際の支出を入れると、到着できる可能性は減った。その代わり、どこで崩れるかが初めて見えた。数字は慰めなかった。だからこそ、役に立った。\n\n{name}は白紙のページを開いた。誇張なく見られる人がどこまで賭けるのか、書く番だった。",
+      "final_year_open": "精算の翌日、暗闇の中でゆっくり消えていった計算機の液晶が浮かんだ。\n\n昨夜は答えを決めなかった。計算の外から来たことが、過去4年の方向を最も大きく変えた。その事実だけを認めた。\n\n{name}は白紙のページを開いた。結末を先に書かなかった人も、今日何を賭けるかは決めなければならなかった。"
+    },
+    "choices": [
+      {
+        "text": "残る手札をすべて賭ける――代価まで自分のものだ",
+        "result_text": "残ったカードと現金、頼める名前を、一ページに書いた。すべて賭けるという言葉は大きく聞こえたが、実際のリストには、失えば取り戻しにくいものが静かに並んでいた。\n\n{name}は最後の行に自分の名前を書いた。成功すれば何を得るかより、失敗すれば誰が代価を払うのかを、先に確かめた。"
+      },
+      {
+        "text": "守るものを先に決める――失わない終わりを選ぶ",
+        "result_text": "手をつけない金と、先延ばしにしない連絡、これ以上削らない眠りを先に印した。その線の内側で可能な選択だけを残すと、計画は小さくなった。\n\n小さくなった計画を見て、{name}は安堵と心残りを同時に感じた。どちらも消さずに、ファイルを保存した。"
+      },
+      {
+        "text": "今日は動かない――空いた席を残しておく",
+        "result_text": "予定表の一枠を空けておいた。まだ来ていない機会のためなのか、決断を先延ばしにするためなのかは、印さなかった。\n\n{name}はノートパソコンを閉じ、家を出た。空欄は、可能性と回避を同じ顔で抱いていた。"
+      }
+    ]
   }
 ]

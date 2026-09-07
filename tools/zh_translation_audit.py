@@ -85,7 +85,7 @@ KOREAN_NATIVE_FORMS = tuple(sorted(
 SOURCE_COUNTER_SUFFIX = (
     r"(?=$|\s|[.,!?…:;\x22\x27”’」』)\]}]|"
     r"(?:은|는|이|가|을|를|의|도|만|에|에게|에게서|에서|에는|"
-    r"으로|로|과|와|라고|였다|이었다|입니다|이다|인데|뿐이라면|"
+    r"으로|로|과|와|라고|였다|였고|이었다|입니다|이다|인데|뿐이라면|"
     r"뿐입니다|뿐|씩|짜리|째예요|째로|째에야|째|차|분|동안|간|"
     r"안|후|전|부터|까지|쯤|어치|치가|치에|치))"
 )
@@ -287,10 +287,10 @@ SOURCE_EOK_MONEY = re.compile(
 )
 SOURCE_EXPLICIT_MONEY = re.compile(
     rf"(?<![\d,])(?P<number>{DECIMAL_LITERAL})\s*"
-    r"(?P<unit>조|천만|만|천)?\s*원"
+    r"(?P<unit>조|천만|백만|만|천)?\s*원"
 )
 SOURCE_WORD_MONEY = re.compile(
-    r"(?<![가-힣])(?!사원증)(?P<number>[일이삼사오육칠팔구십백천]+)\s*"
+    r"(?<![가-힣])(?!사원증|구원자)(?P<number>[일이삼사오육칠팔구십백천]+)\s*"
     r"(?P<unit>억|만)?\s*원"
 )
 SOURCE_BARE_ONE_MONEY = re.compile(
@@ -312,7 +312,7 @@ TARGET_WON_MONEY = re.compile(
 KOREAN_WON = re.compile(
     r"(?:₩|KRW|원화|"
     r"(?:(?:\d[\d,.]*|%(?:\d+\$)?[-+#0 .\d]*[a-zA-Z]|"
-    r"(?<![가-힣])(?!사원증)[일이삼사오육칠팔구십백천]+)\s*(?:만|억)?|"
+    r"(?<![가-힣])(?!사원증|구원자)[일이삼사오육칠팔구십백천]+)\s*(?:백만|만|억)?|"
     r"(?<![가-힣])(?:만|억))\s*원)"
 )
 SOURCE_RHETORICAL_WON = re.compile(r"(?<![가-힣])어떤\s+원화도")
@@ -472,7 +472,10 @@ SOURCE_SCOPED_LATIN_TERMS = {
     "한PD건설": {"zh-CN": "HanPD 建设", "zh-TW": "HanPD 建設"},
     "박상진": "Park Sangjin",
     "태호": "Taeho",
+    "이민서": "Lee Minseo",
+    "민서": "Minseo",
     "엔코어": "Encore",
+    "한강제일금융": {"zh-CN": "汉江第一金融", "zh-TW": "漢江第一金融"},
     "코어코인": "Corecoin",
     "노바코인": "Novacoin",
 }
@@ -848,6 +851,17 @@ def _script_errors(lang: str, target: str) -> list[str]:
     return errors
 
 
+def _source_scoped_term_present(source: str, korean: str) -> bool:
+    if korean in {"이민서", "민서"}:
+        # A cast name at a Korean word boundary, never 이민서류 or a word
+        # ending in 민서. A short source name cannot license an added surname.
+        return bool(re.search(
+            rf"(?<![가-힣]){re.escape(korean)}(?=$|[\s.,!?…\x22\x27”’]|[은는이가의을를와도]|입니다|라고|에게|한테|씨)",
+            source,
+        ))
+    return korean in source
+
+
 def _terminology_errors(lang: str, source: str, target: str) -> list[str]:
     errors: list[str] = []
     if source.strip() == "첫 억" and not re.match(r"(?:首(?:個|个|次)?|第一(?:個|个)?)", target.strip()):
@@ -860,7 +874,7 @@ def _terminology_errors(lang: str, source: str, target: str) -> list[str]:
         )
 
     for korean, expected in SOURCE_SCOPED_LATIN_TERMS.items():
-        if korean not in source:
+        if not _source_scoped_term_present(source, korean):
             continue
         if isinstance(expected, dict):
             expected = expected[lang]
@@ -873,7 +887,7 @@ def _terminology_errors(lang: str, source: str, target: str) -> list[str]:
                 f"exact prepared form mismatch: {target.strip()!r} != "
                 f"{expected!r}"
             )
-        if korean in {"박상진", "태호"} and _has_unapproved_han_alias(
+        if korean in {"박상진", "태호", "이민서", "민서"} and _has_unapproved_han_alias(
             target, expected, single_character_surname=True,
         ):
             errors.append(f"cast name {expected!r} has an unapproved Han-character alias")
@@ -1084,7 +1098,7 @@ def _source_counter_kind(
     if counter == "달" and match.group("number") == "석" and following.startswith("마다"):
         return "repeated_month_interval"
     if counter == "사람" and match.group("number") == "한" and re.search(
-        r"(?:기다리게|망하게)\s+$", preceding,
+        r"(?:기다리게|망하게|만나겠다고)\s+$", preceding,
     ):
         # 기다리게 한 사람 is a causative relative clause, not one person.
         # Counting it consumes a later actual person and skips the first week.
@@ -1099,6 +1113,27 @@ def _source_counter_kind(
         return "never_occurrence"
     if counter == "문장" and match.group("number") == "한" and re.search(r"그\s+$", preceding):
         return "referenced_sentence"
+    if counter == "줄" and match.group("number") == "한" and re.match(r"씩 (?:맞췄다|확인했다|적었다)", following):
+        return "per_line"
+    if counter == "줄" and following.startswith("을 긋고"):
+        return "drawn_line"
+    if counter == "분" and following.startswith("이 만난 것으로"):
+        return "honorific_people"
+    if counter == "번" and re.search(r"신호가\s+$", preceding) and following.startswith("갔다") \
+            and "번호를 눌렀다" in source:
+        return "ring_occurrence"
+    if counter == "번" and re.search(r"침대 난간이\s+$", preceding) and following.startswith("울렸다"):
+        return "sound_occurrence"
+    if counter == "글자" and re.search(r"전송되지 않은\s+$", preceding):
+        return "unsent_character"
+    if counter == "자리" and (re.search(r"확인받을\s+$", preceding) or source.startswith("놓친 두 자리의 비용")):
+        return "reopened_slot"
+    if counter == "자리" and re.search(r"가족 쪽\s+$", preceding) and following.startswith("는 지켰지만"):
+        return "family_commitment"
+    if counter == "달" and re.search(r"착한\s+$", preceding) and following.startswith("로 만들지"):
+        return "judged_month"
+    if counter == "번" and re.search(r"통화\s+$", preceding) and following.startswith("으로 의료 경과"):
+        return "phone_occurrence"
     if counter == "주" and (
         re.search(r"첫 매수는 ETF\s+$", preceding)
         or re.search(r"첫 매수는 ETF 한 주였다\.\s*그\s+$", preceding)
@@ -1167,7 +1202,7 @@ def _source_counter_kind(
             return "stair_step"
     preceding = source[max(0, match.start() - 120):match.start()]
     if counter in {"번", "회"} and re.match(
-        r"(?:보고|보았다|봤다|본다)(?=$|[\s.,])", following,
+        r"(?:보고|보았다|봤다|본다|본 뒤)(?=$|[\s.,])", following,
     ):
         return "look_occurrence"
     if counter in {"번", "회"} and re.match(
@@ -1213,6 +1248,41 @@ def _source_audience_quantities(source: str) -> list[CounterQuantity]:
 def _source_counter_quantities(source: str) -> list[CounterQuantity]:
     quantities: list[CounterQuantity] = []
     quantities.extend(_source_audience_quantities(source))
+    # Observed year-four noun counts carry their own objects: three notices
+    # are not three people, and two promises are not two clock hours.
+    noun_kinds = {"약속": "promise_count", "기록": "record_count", "빈칸": "blank_cell_count",
+                  "알림": "notice_count", "창구": "counter_window_count", "시각": "time_point_count", "곳": "place_count",
+                  "연락창": "contact_window_count", "대상": "contact_target_count", "마감": "deadline_count", "발행처": "issuer_count", "갈래": "branch_count"}
+    for match in re.finditer(
+        r"(?<![가-힣])(?P<number>한|두|세)\s+(?P<noun>약속|기록|빈칸|알림|창구|시각|곳|연락창|대상|마감|발행처|갈래)"
+        r"(?=$|[\s.,!?…]|[은는이가의을를도와과만]|에는|에도|이었다|였다)", source,
+    ):
+        if match.group("noun") == "곳" and re.search(r"주소\s+$", source[:match.start()]):
+            continue  # The existing address_count contract owns 주소 두 곳.
+        if match.group("noun") == "약속" and match.group("number") == "한" \
+                and re.search(r"(?:기로|누구에게도|사람에게)\s+$", source[:match.start()]):
+            continue  # A promise made/agreed upon, not the number one.
+        if match.group("noun") == "시각" and match.group("number") == "한" \
+                and re.search(r"연락하기로\s+$", source[:match.start()]):
+            continue  # 연락하기로 한 시각 하나 has a relative clause plus one.
+        kind = noun_kinds[match.group("noun")]
+        if match.group("noun") == "곳":
+            if "약속 한 곳에는 완료 시각" in source:
+                kind = "appointment_place"
+            elif source[match.end():].startswith("을 다시 열 수") or (
+                source[match.end():].startswith("을 취소했다는") and "병동 통화" in source
+            ):
+                kind = "commitment_place"
+        quantities.append(CounterQuantity(match.start(), match.end(),
+            Decimal(_korean_native_value(match.group("number"))), kind))
+    if "세 약속" in source:
+        for match in re.finditer(r"(?<![가-힣])셋(?=을 망칠)", source):
+            quantities.append(CounterQuantity(match.start(), match.end(), Decimal(3), "entity"))
+    if "세 알림" in source:
+        for match in re.finditer(r"(?<=나머지 )둘(?=에는)", source):
+            quantities.append(CounterQuantity(match.start(), match.end(), Decimal(2), "remaining_notice"))
+    for match in re.finditer(r"(?<=보호자 )1순위(?= 연락처)", source):
+        quantities.append(CounterQuantity(match.start(), match.end(), Decimal(1), "contact_priority"))
     for match in re.finditer(r"(?<![\d가-힣])(?P<number>\d+)킬로(?= 뛰다)", source):
         quantities.append(CounterQuantity(match.start(), match.end(), Decimal(match.group("number")), "running_distance"))
     for match in re.finditer(r"(?<![가-힣])반\s+년(?= 만에 러닝화를)", source):
@@ -1225,6 +1295,7 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
     for pattern, kind in (
         (r"(?<![가-힣])두 창(?=을 닫지 못한)", "window_count"),
         (r"(?<![가-힣])두 가지(?=가 동시에 사실)", "parallel_fact"),
+        (r"(?<![가-힣])두 사실(?=을 같은 줄에)", "parallel_fact"),
         (r"(?<![가-힣])두 파일(?=[이을])", "file_count"),
         (r"(?<=따로 알고 있던 )두 세계(?=가)", "world_count"),
     ):
@@ -1406,6 +1477,9 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
             for quantity in quantities
         ):
             continue
+        if match.group("number") == "둘" and re.search(r"감춰\s+$", source[:match.start()]) \
+                and source[match.end():].startswith(" 수 있었던 체면"):
+            continue  # 감춰 둘 is an auxiliary verb, not two hidden things.
         value = _korean_native_value(match.group("number"))
         kind = "concept_pair" if (
             match.group("number") == "둘"
@@ -1418,6 +1492,26 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
             kind = "concept_pair"
         if match.group("number") == "둘" and source[match.end():].startswith(" 다 열지 않"):
             kind = "openable_pair"
+        if match.group("number") == "둘" and source[match.end():].startswith(" 다 사실의 절반"):
+            kind = "concept_pair"
+        if match.group("number") == "둘" and source[match.end():].startswith(" 다 된다고 쓰지 않았다"):
+            kind = "concept_pair"
+        if match.group("number") == "둘" and source[match.end():].startswith(" 다 지울 수 없는 사실"):
+            kind = "immutable_fact_pair"
+        if match.group("number") == "둘" and source[match.end():].startswith(" 중 하나를 지우지 않은") \
+                and "안도와 아쉬움" in source[:match.start()]:
+            kind = "feeling_pair"
+        if match.group("number") == "둘" and source[match.end():].startswith(" 다 할 수는 없었다"):
+            kind = "action_pair"
+        if match.group("number") == "둘" and source[match.end():].startswith(" 다 하지 못하면 그 연락"):
+            kind = "action_pair"
+        if match.group("number") == "셋" and source[match.end():].startswith(" 다 통화를 끊지 않고"):
+            kind = "call_action_count"
+        if "손가락을 접었다. 하나, 둘, 셋." in source and match.group("number") in {"둘", "셋"} \
+                and re.search(r"하나, (?:둘, )?$", source[:match.start()]):
+            kind = "finger_sequence"
+        if match.group("number") == "둘" and source == "둘만 놓인 국":
+            kind = "soup_count"
         if match.group("number") == "셋" and source[match.end():].startswith("은 한 사람이었다"):
             kind = "concept_pair"
         if value is None or any(
@@ -1432,6 +1526,46 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
 
 
 def _target_pattern_for_kind(kind: str) -> re.Pattern[str]:
+    counted_nouns = {
+        "promise_count": r"(?:個|个|項|项|次)?(?:約定|约定|承諾|承诺)",
+        "record_count": r"(?:份|筆|笔|項|项|條|条|個|个)?(?:獨自一人的|独自一人的)?(?:紀錄|記錄|记录)",
+        "blank_cell_count": r"(?:個|个)?(?:空格|空白格|空白欄|空白栏)",
+        "notice_count": r"(?:則|则|條|条|個|个)?(?:通知|提醒)",
+        "counter_window_count": r"(?:個|个)?(?:窗口|櫃檯|柜台)",
+        "time_point_count": r"(?:個|个)?(?:沒有結果的|没有结果的)?(?:時間|时间|時刻|时刻)",
+        "place_count": r"(?:處|处|個地方|个地方)",
+        "family_commitment": r"(?:處|处|個位置|个位置|席|個|个)",
+        "judged_month": r"(?:個|个)(?:做了好事的)?(?:月份|月)",
+        "contact_window_count": r"(?:個|个)(?:聯絡|联络)(?:視窗|视窗|窗口)",
+        "contact_target_count": r"(?:個|个)對象|(?:個|个)对象",
+        "deadline_count": r"(?:個|个)(?:期限|截止時間|截止时间)",
+        "issuer_count": r"(?:個|个)(?:出具方|發出通知的單位|发出通知的单位)",
+        "remaining_notice": r"(?:個|个|項|项)",
+        "appointment_place": r"(?:處|处|個約定|个约定|個|个)(?!人|小時|小时)",
+        "commitment_place": r"(?:處|处|邊|边)",
+        "reopened_slot": r"(?:處|处|個位置|个位置)",
+        "drawn_line": r"(?:道線|道线|行|條線|条线)",
+        "honorific_people": r"(?:位|個人|个人)",
+        "unsent_character": r"(?:個|个)(?:尚未發出|尚未发出|還沒傳出|还没传出|未傳出|未传出)的字",
+        "action_pair": r"(?:邊|边|者|個|个|項|项|件事|件)",
+        "branch_count": r"(?:個|个)(?:方向|分支)|(?:條|条)路",
+        "call_action_count": r"(?:樣|样|個|个|項|项|件事)",
+        "sound_occurrence": r"(?:聲|声|下|次)",
+        "immutable_fact_pair": r"(?:者|邊|边|件事)",
+        "soup_count": r"(?:碗|份)湯|(?:碗|份)汤",
+    }
+    if kind in counted_nouns:
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})\s*(?:{counted_nouns[kind]})")
+    if kind == "finger_sequence":
+        return re.compile(rf"(?<=[、，,])\s*(?P<number>{CHINESE_CARDINAL})(?=[、，,。])")
+    if kind == "contact_priority":
+        return re.compile(rf"第(?P<number>{CHINESE_CARDINAL})[順顺]位")
+    if kind == "feeling_pair":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})(?:者|邊|边)|(?P<either_side>任何一[邊边])")
+    if kind == "per_line":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})\s*行|(?P<per_line>逐行)")
+    if kind == "phone_occurrence":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})\s*(?:通|次)(?:電話|电话|通話|通话)")
     if kind == "case_number_digits":
         return re.compile(rf"(?P<number>{CHINESE_CARDINAL})\s*(?:位|碼|码)")
     if kind == "registry_line":
@@ -1620,6 +1754,14 @@ def _match_target_counter_quantities(
         pattern = _target_pattern_for_kind(expected.kind)
         candidates: list[CounterQuantity] = []
         for match in pattern.finditer(target, cursor):
+            if expected.kind in {"remaining_notice", "family_commitment", "action_pair", "call_action_count", "appointment_place"} \
+                    and re.search(r"[個个項项]$", match.group()) and re.match(
+                        r"(?:人|位|小時|小时|分鐘|分钟|秒|年|月|週|周|天|韓元|韩元|元|公里|米)",
+                        target[match.end():].lstrip(),
+                    ):
+                # A referential classifier is not permission to substitute a
+                # person, duration, distance or money unit for the source object.
+                continue
             if expected.kind in {
                 "young_adult_group", "single_household", "secondary_battery", "second_startup",
                 "workweek_days", "single_market_day", "photo_pair", "age",
@@ -1631,6 +1773,11 @@ def _match_target_counter_quantities(
                 "arrival_record", "openable_pair", "breath_occurrence", "ordinal_sheet", "ordinal_night",
                 "running_distance", "referenced_sheet",
                 "phone_call", "cup", "file_count", "world_count", "record_pair",
+                "promise_count", "record_count", "blank_cell_count", "notice_count", "counter_window_count",
+                "time_point_count", "place_count", "family_commitment", "judged_month", "per_line", "phone_occurrence",
+                "contact_window_count", "contact_target_count", "deadline_count", "issuer_count", "remaining_notice",
+                "appointment_place", "commitment_place", "reopened_slot", "drawn_line", "honorific_people", "unsent_character", "action_pair", "soup_count",
+                "branch_count", "call_action_count", "finger_sequence", "sound_occurrence", "contact_priority", "feeling_pair", "immutable_fact_pair",
                 "case_number_digits", "registry_line", "once_condition", "visual_overlap", "ladder_step", "window_count", "parallel_fact",
             } and re.search(rf"[{NUMERIC_PREFIX_CHARACTERS}]\s*$", target[:match.start()]):
                 # 再點一杯 is the observed ordering verb, not a decimal prefix.
@@ -1664,12 +1811,14 @@ def _match_target_counter_quantities(
                     continue
             if expected.kind == "look_occurrence" and match.group(0).endswith("眼") \
                     and not re.search(
-                        r"(?:看|瞥|望)(?:了|過|过)?\s*$",
-                        target[max(0, match.start() - 12):match.start()],
+                        r"(?:看|瞥|望)(?:了|過|过)?(?:\{name\})?\s*$",
+                        target[max(0, match.start() - 16):match.start()],
                     ):
                 # 一眼 is a glance after a seeing verb, not one physical eye.
                 continue
             value = _chinese_cardinal_value(match.group("number") or "")
+            if expected.kind == "feeling_pair" and match.groupdict().get("either_side"):
+                value = Decimal(2)
             if expected.kind == "once_condition" and match.groupdict().get("once_condition"):
                 value = Decimal(1)
             if expected.kind == "year" and match.groupdict().get("half_year"):
@@ -1690,6 +1839,8 @@ def _match_target_counter_quantities(
             if expected.kind == "coffee_cup" and match.groupdict().get("one_cup"):
                 value = Decimal(1)
             if expected.kind == "per_character" and match.groupdict().get("per_character"):
+                value = Decimal(1)
+            if expected.kind == "per_line" and match.groupdict().get("per_line"):
                 value = Decimal(1)
             if expected.kind == "meeting_invitation" and match.groupdict().get("one_meeting"):
                 value = Decimal(1)
@@ -1819,6 +1970,7 @@ def _source_money_amounts(source: str) -> list[MoneyAmount]:
             "천": Decimal(1_000),
             "만": Decimal(10_000),
             "천만": Decimal(10_000_000),
+            "백만": Decimal(1_000_000),
         }[match.group("unit")]
         amounts.append(MoneyAmount(
             match.start(), match.end(), number * multiplier
@@ -1892,7 +2044,12 @@ def _source_money_amounts(source: str) -> list[MoneyAmount]:
         amounts.append(MoneyAmount(
             match.start(), match.end(), number * multiplier
         ))
-    return sorted(amounts, key=lambda amount: amount.start)
+    signed = []
+    for amount in amounts:
+        prefix = re.search(r"(?<![가-힣])마이너스\s+$", source[:amount.start])
+        signed.append(MoneyAmount(prefix.start(), amount.end, -amount.won)
+                      if prefix and amount.won >= 0 else amount)
+    return sorted(signed, key=lambda amount: amount.start)
 
 
 def _target_money_amounts(target: str) -> list[MoneyAmount]:
@@ -1929,7 +2086,12 @@ def _target_money_amounts(target: str) -> list[MoneyAmount]:
             value += number * multipliers[component.group("unit")]
         if valid:
             amounts.append(MoneyAmount(match.start(), match.end(), value))
-    return amounts
+    signed = []
+    for amount in amounts:
+        prefix = re.search(r"[負负−﹣－]\s*$", target[:amount.start])
+        signed.append(MoneyAmount(prefix.start(), amount.end, -amount.won)
+                      if prefix and amount.won >= 0 else amount)
+    return signed
 
 
 def _mask_spans(text: str, amounts: Iterable[MoneyAmount]) -> str:
@@ -1948,6 +2110,15 @@ def _canonical_number(raw: str) -> str:
     if "." in canonical:
         canonical = canonical.rstrip("0").rstrip(".")
     return canonical + ("%" if percent else "")
+
+
+def _has_numeric_sign_prefix(text: str, start: int) -> bool:
+    # A sentence-final period before a new paragraph is not a decimal prefix.
+    # A numeric dot (十. 500) and separated signs/magnitudes still are.
+    return bool(re.search(
+        rf"[{NUMERIC_PREFIX_CHARACTERS.replace('.', '')}]\s*$|"
+        r"[0-9零〇○一二两兩三四五六七八九十百千]\.\s*$", text[:start],
+    ))
 
 
 def _numeric_errors(source: str, target: str) -> list[str]:
@@ -1970,6 +2141,15 @@ def _numeric_errors(source: str, target: str) -> list[str]:
         approximate_target = target_pattern.sub(lambda m: " " * len(m.group()), approximate_target)
     source_amounts = _source_money_amounts(source)
     target_amounts = _target_money_amounts(target)
+    for money_text, amounts in ((source, source_amounts), (target, target_amounts)):
+        for amount in amounts:
+            if not _has_numeric_sign_prefix(money_text, amount.start):
+                continue
+            if money_text == target and "그녀는 6,500원짜리 라떼를" in source \
+                    and re.search(r"她[點点]$", target[:amount.start]) \
+                    and re.match(r"的(?:拿鐵|拿铁)", target[amount.end:]):
+                continue  # The observed ordering verb, not a decimal point.
+            errors.append("Korean-won numeric/sign prefix is unsupported")
     source_values = [amount.won for amount in source_amounts]
     target_values = [amount.won for amount in target_amounts]
     if source_values != target_values:
@@ -2097,7 +2277,7 @@ def _untranslated_english_errors(source: str, target: str, *, catalog: bool = Fa
             flags=re.IGNORECASE,
         )
     for korean, phrase in {**SOURCE_SCOPED_LATIN_TERMS, **SOURCE_OPTIONAL_LATIN_TERMS}.items():
-        source_has_term = bool(SOURCE_APP_TERM.search(source)) if korean == "앱" else korean in source
+        source_has_term = bool(SOURCE_APP_TERM.search(source)) if korean == "앱" else _source_scoped_term_present(source, korean)
         if source_has_term:
             # Case and spacing are part of the locked prepared form.
             for prepared in (phrase.values() if isinstance(phrase, dict) else (phrase,)):

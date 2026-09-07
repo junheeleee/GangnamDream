@@ -36,12 +36,15 @@
   별도 해시 보존해348번역으로 정정했다. 일상·안정·회복14종83 leaf/locale도
   독립 대조·수용했다. 남은 엔딩18종129 leaf/locale와 catalog834 leaf/locale도
   전수 대조·수용했다. M07~M24 정적 연결의 미번역35사건279 leaf/locale를 더해
-  4,323번역에3년차48사건363 leaf/locale를 더해 총5,412번역이다(언어별
-  엔딩234+사건736+catalog834). catalog 신규 작성2,485·
+  4,323번역에3년차48사건363 leaf/locale와4년차47사건460 leaf/locale를 더해
+  총6,792번역이다(언어별 엔딩234+사건1,196+catalog834). catalog 신규 작성2,485·
   기존 JA 누락 수리1·기존 유지16을 구분한다. 엔딩35종과 catalog7섹션은 채웠지만
   사건·UI·표시 소비자는 아직 남는다. M07~M24 정적 연결은 해당 기간 모든 무작위
   사건·UI나 실플레이 전량의 번역 완료를 뜻하지 않는다. 원어민·화면·전체판은 OPEN.
   3년차도 정적45종+별세1+NG2의 한정 묶음이며 M37·M53 장기 후속을 포함한다.
+  4년차47종은 조건128/언어와27조합을 포함하며 M49 이후 후속3종도 있어 기간별
+  실플레이 전량 커버리지가 아니다. 별도 선언한 공개CN의 두 기록1문장 수리는
+  기존 baseline100문구 안의 정밀화로 수용 수에 중복 합산하지 않는다.
 - 다음 runtime 수리의 실제 소비자: `GameState.apply_relationship_effect`는 원문
   이름을 저장하고 `MainGame:9852/18298`, `RelationshipSystem:30/50`이 그대로
   표시한다. 저장 값을 바꾸지 않는 locale 표시 resolver가 필요하다. 또한
@@ -56,6 +59,30 @@
 
 ## 원문 대조에서 발견한 별도 서사 확인점
 
+- 4년차 가족·별세 묶음의 원문을 직접 읽고 다음 시간/화자 지시 대상을 분리했다.
+  `arc_y4_family_partner_collision_jiyeon.choices[0].result_text`는 부산발
+  열차로 서울 식당에 막 도착한 지연이 '오늘 왕복했습니다'라고 완료형으로 말한다.
+  선택2는 같은 부산→서울 이동을 철회한 결과인데 '부산행도 … 열리지 않았다'다.
+  현재 세 번역은 방향·완료형을 몰래 정정하지 않는다. 실제 이동 단계와 발화를
+  KO/EN에서 수리한 뒤 해당 hash 번역을 함께 갱신할 확인점이다.
+- `arc_father_passing.description`은 이미 사망을 확인한 뒤 곧 시작할 거래를
+  선택하게 하지만 `arc_father_passing_deal_morning.description`은 사망 시각이
+  거래로500만원을 벌던 시간과 겹쳤다고 회상한다. `arc_father_passing_hospital_room`
+  도입의 '한 시간 전' 역시 장거리 이동 뒤 상대시각과 대조해야 한다. 미수리 비용은
+  생사 확정·이동·돈을 번 인과의 시간 역전이 번역에도 남는 것이다.
+- `arc_y4_father_call_answered_on_ktx.choices[0].result_text`는 아버지의
+  '오늘은 숨이 조금 찬다'는 답변을 들은 뒤 '질문 하나를 끝까지 들은 대가'라고 한다.
+  질문/답변의 지시 대상을 원문 수리에서 확인한다. 위 관찰은 원고 대조이며
+  독립 인간 플레이 판정이나 새 REJECT가 아니다. 번역 검증으로 닫지 않는다.
+  JA는 앞 실제 응답을 문맥상 `問いの答え`로 풀어썼다. 새 회신/정보를 만들지 않은
+  현지화 해석과 원문 질문/답변 혼용을 구분하며 다른 언어를 이 표현에 중역하지 않는다.
+- `callback_medication_ignored_echo.choices[0]`의 `apologized_for_ignoring`은
+  어머니에게 사과한 뒤 '알았다'는 메시지를 받지만, `arc_father_passing`의 같은
+  조건문은 아버지 통화와 '괜찮다, 바쁘잖냐'를 회상한다. `father_knew_i_came`도
+  `callback_medication_visited_echo.choices[0]`의 말 없는 생선/앨범 기록에서
+  생산되는데 사망 조건문은 '...기억하고 있었어'라는 발화를 회수한다. 생산자와
+  원고를 직접 읽고 확인한 회상 정합 부채이며, 미수리 비용은 발화/응답의 허위
+  회수가 세 번역에도 남는 것이다. KO 회수 계약 수리 뒤 해당 번역만 갱신한다.
 - `arc_jaehyuk_aftermath.choices[0..2].text`에는 `[take_high_road 경로]`,
   `[crossed_line 경로]`, `[jaehyuk_scammed 경로]`가 실제 선택문에 붙어 있다.
   숨은 경로 표시 금지 정본과 충돌하는 기존 원문 결함이다. 번역 작업본은

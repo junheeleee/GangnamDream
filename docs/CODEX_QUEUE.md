@@ -52,8 +52,8 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-165 · 데모 간체 수량 정밀화 | [165](queue_active/ORDER-165.md) | 공개 한 문장 별도 수리 · L3 OPEN |
-| 2 | [~] | ORDER-164 · 4년차와 아버지 경과 번역 | [164](queue_active/ORDER-164.md) | 47사건460문구 · 조건128/언어 · L3 OPEN |
+| 1 | [~] | ORDER-165 · 데모 간체 수량 정밀화 | [165](queue_active/ORDER-165.md) | 한 문장 수리 L1/L2 · L3 OPEN |
+| 2 | [~] | ORDER-164 · 4년차와 아버지 경과 번역 | [164](queue_active/ORDER-164.md) | 1,380번역 L1/L2 · 조건128/언어 · L3 OPEN |
 | 3 | [~] | ORDER-163 · 3년차와 장기 후속 번역 | [163](queue_active/ORDER-163.md) | 1,089번역 L1/L2 · foreshadow4/언어 · L3 OPEN |
 | 4 | [~] | ORDER-162 · M07~M24 연결 사건 번역 | [162](queue_active/ORDER-162.md) | 837번역 L1/L2 · 조건변형28 보존 · L3 OPEN |
 | 5 | [~] | ORDER-161 · catalog 전체 번역 | [161](queue_active/ORDER-161.md) | 2,502문구 L1/L2 · 신규2,485·기존수리1 · L3 OPEN |

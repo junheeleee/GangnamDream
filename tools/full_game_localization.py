@@ -390,6 +390,22 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
         numeric = re.compile(r"(?<![\d.])[+-]?\d+(?:[,.]\d+)*")
         source_numbers = ja.PLACEHOLDER.sub("", leaf.source)
         target_numbers = ja.PLACEHOLDER.sub("", text)
+        # Korean mixed notation 5백만원 is 500万ウォン, not 5万ウォン.
+        # Bind both the magnitude and currency before normalizing digits.
+        for amount in re.finditer(r"(?<![\d.])(?P<number>[+-]?\d+)백만원", source_numbers):
+            from zh_translation_audit import _has_numeric_sign_prefix
+            raw = amount.group('number')
+            normalized = ('+' if raw.startswith('+') else '') + str(int(raw) * 100)
+            pattern = re.escape(normalized) + r"万ウォン"
+            matches = list(re.finditer(pattern, target_numbers))
+            if len(matches) != len(re.findall(re.escape(amount.group()), source_numbers)) or any(
+                _has_numeric_sign_prefix(target_numbers, match.start())
+                for match in matches
+            ):
+                errors.append("mixed Korean hundred-man won amount/currency mismatch")
+        source_numbers = re.sub(r"(?<![\d.])([+-]?\d+)백만원",
+                                lambda m: ('+' if m.group(1).startswith('+') else '') + str(int(m.group(1)) * 100) + '만원',
+                                source_numbers)
         if leaf.group == "catalog":
             if leaf.source in CATALOG_YOUNG_ADULT_SOURCES:
                 age_groups = list(re.finditer(r"(?<![0-9一二三四五六七八九十百千])20[・、/](?:\s*)30代(?!\d)", text))

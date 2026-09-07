@@ -101,11 +101,13 @@ EXPECTED = {
 }
 
 # Preserve the original target baseline independently of later accepted batches.
-# These are the unchanged public-demo 14 roots (100 leaves), plus the existing
-# JA-only story_prologue_goal (8). Hashes use sorted [event_id,path,target text].
+# These are the public-demo 14 roots (100 leaves), plus the existing JA-only
+# story_prologue_goal (8). One CN leaf's omitted explicit two was repaired under
+# ORDER-165; its preceding fingerprint is retained in that spec, not silently
+# treated as the already-shipped demo. Hashes use sorted [id,path,target text].
 FROZEN_TARGET_BASELINE_SHA256 = {
     "ja": "92a579b66a365d27c2314d21f15e45195e26f7f202f754a1cf8fa1716f7c8dc0",
-    "zh-CN": "800aaa457f8bcbb00c33fa258fb39db375c41628cabb925ef3cdb05abe912217",
+    "zh-CN": "98b443122569e285f516eb6f378251f807aef15696e00b468843b982329c3bd1",
     "zh-TW": "912b402fba34238e570c65ac50528c4814b07720b58b056fbf53ba7fee7108f6",
 }
 ACCEPTANCE_LEDGER_PATH = Path("content/meta/full_game_localization.json")

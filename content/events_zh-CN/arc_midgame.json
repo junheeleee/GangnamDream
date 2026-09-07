@@ -282,5 +282,122 @@
       "broke_routine": "午夜12点。\n\n今天也是同样的模式。早晨——看行情图。白天——工作或学习。傍晚——新闻。夜里——调整计划。凌晨——整理后睡觉。\n\n这样循环，已经两年多。从某一刻起，分不清这套日常，到底是‘自己选的’，还是‘身体习惯了的’。\n\n也不知道好不好。反正，这就是{name}。\n\n去年，曾打碎过一次那只循环的滚轮。\n在破口重新铺上的东西，成了如今的一天。打破，也是一种本领。",
       "godsaeng_paradox_seen": "午夜12点。\n\n今天也是同样的模式。早晨——看行情图。白天——工作或学习。傍晚——新闻。夜里——调整计划。凌晨——整理后睡觉。\n\n这样循环，已经两年多。从某一刻起，分不清这套日常，到底是‘自己选的’，还是‘身体习惯了的’。\n\n也不知道好不好。反正，这就是{name}。\n\n见过所谓完美自律生活的悖论——那些让日常程序替自己活着的人。\n所以需要这次检查。究竟是日常为我而在，还是我为日常而在。"
     }
+  },
+  {
+    "id": "arc_year_three_crossroads",
+    "title": "36岁的岔路口",
+    "description": "三年过去了。三十六岁的一个下午，{name}站在江南的人行横道前等信号灯。人群从玻璃楼宇间涌出，每当绿灯亮起，就毫不犹豫地走过去。\n\n距离期限，已不到两年。沿着走过的路继续向前，大致能看出会抵达哪里。正因如此，问题更难了。这条路是对的吗。还是因为已经花了三年，才想相信它是对的。\n\n信号灯变过一次，{name}仍站在原地。避开的问题不会消失。只会在下一个岔路口，变成更重的行李回来。",
+    "choices": [
+      {
+        "text": "脚先动了",
+        "result_text": "绿灯再次亮起，脚先迈了出去。与其说是选择，不如说是三年来形成的惯性。直到走到对面，思绪也没能跟上。\n\n{name}没有改计划，去了下一个安排好的地方。能走到这里，也确实靠着不停下来的力量。\n\n只是，惯性不会确认目的地。信号灯熄灭后，脚底仍残留的速度，静静告诉了他这一点。"
+      },
+      {
+        "text": "决定换个方向。不是胆小，是现实",
+        "result_text": "擦去计划表上的一部分，重新写下稳妥的路线。笔迹下面，还隐约留着从前的句子。决定不去给它起名，不说是放弃，还是成长。\n\n减少波动、找回睡眠的代价，可能是降低抵达的概率。{name}把这两个事实放在同一行。\n\n保存修改后的计划，安心和失落一起涌来。换了方向的人，也仍是继续走的人。身体先学会了这一点。"
+      },
+      {
+        "text": "把手里有的全拿了出来。还够用",
+        "result_text": "把拥有的全部列了出来。钱、技能、从失败中学来的判断标准，还有仍愿意接电话的人。那些无法变成数字的，也写进了清单。\n\n本以为两手空空，却写了不止一页。算不上强牌，但还够把眼前这局看到最后。\n\n{name}把清单折好，放进钱包。够用，并不是保证会赢。只是说，还能做下一个选择。"
+      }
+    ],
+    "description_if_known": {
+      "envy_released": "三年过去了。三十六岁的一个下午，{name}站在江南的人行横道前等信号灯。人群从玻璃楼宇间涌出。\n\n距离期限，已不到两年。这条路是对的吗，还是因为已经花了三年，才想相信它是对的。\n\n曾经，只要看见别人的速度，就能得到燃料。某一天放下那份羡慕之后，问题没那么可怕了。不是答案变容易了，而是需要回答的人，只剩下自己一个。\n\n信号灯变过一次。这次要决定的，不是赢过谁，而是为什么要走过去。",
+      "envy_still_burning": "三年过去了。三十六岁的一个下午，{name}站在江南的人行横道前等信号灯。人群从玻璃楼宇间涌出。\n\n距离期限，已不到两年。这条路是对的吗，还是因为已经花了三年，才想相信它是对的。\n\n那些以‘等着瞧’开始的早晨，还在继续。明知愤怒不是耐烧的燃料，却觉得一减速就是输，于是继续烧。\n\n信号灯变了。在岔路口，需要确认的不只是方向。也得看看，照这个速度走过去，会有什么代替燃料被烧光。",
+      "trusting_instinct": "三年过去了。三十六岁的一个下午，{name}站在江南的人行横道前等信号灯。人群从玻璃楼宇间涌出。\n\n距离期限，已不到两年。这条路是对的吗，还是因为已经花了三年，才想相信它是对的。\n\n曾在一个似曾相识的夜晚，决定相信身体先知道的答案。现在，头脑仍在计算可能性与损失，脚尖却已微微朝向一边。\n\n信号灯变过一次。{name}得决定，是把那点偏向当成冲动抹掉，还是当作积累已久的感觉接受。"
+    }
+  },
+  {
+    "id": "arc_year_three_half",
+    "title": "三行的代价",
+    "description": "星期日夜里，{name}只留着如今房间里的一盏灯，把过去三个月的记录按日期排在地上。有一处约定留下了完成时间，另两处留下的，是不再开放的窗口的日期。身体的记录里，留下的是就诊、赶期限、独自硬撑中的一种；家人的饭桌上，留下的是同行、独往、缺席中的一种。\n\n逐一对照手机日历、付款明细和简短笔记里的时间，看看能否相互吻合。只把完成标记放在一起，像是过得飞快的一个月；只把关闭的日期放在一起，又像是什么都没守住的一个月。两边都只是事实的一半。\n\n{name}用尺子在纸上画了三行。约定、身体、家人。无法确认的空格，不编造理由填进去，只画上斜线。不从受损的记录中，还原并不存在的人或行动。\n\n最后，把三份记录隔开一拃，从头重读。要带到下个月第一页上的，不是决心，而是自己实际到达的时刻，以及始终没能到达的日期。",
+    "choices": [
+      {
+        "text": "把完成时间和空格原样锁定",
+        "result_text": "{name}在守住的事旁写下完成时间，在错过的事旁写下不会再开放的日期。身体和家人的结果，也没用好听的话盖住。试图填补空格的笔尖停了两次，每次，都删掉了无法确认的句子。\n\n三行下面没有写合计。花在人身上的时间、向身体借来的时间、为了钱关上的时间，若都变成同一个分数，最重要的区别似乎就会消失。\n\n{name}把纸折成长条，夹进随身笔记本的第一页。边角稍稍露在外面，标出了下次要翻开的地方。收起地上剩余的资料后，仍能看见那个白色的角。\n\n下个月的速度，不从新的决心开始。而是从不再藏起已付出的代价开始。"
+      }
+    ],
+    "description_if_known": {
+      "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen&arc_y4_three_promises_protected_father&arc_y4_three_promises_missed_person&arc_y4_three_promises_missed_deal&arc_y4_body_chose_care&arc_y4_family_attended_together": "星期日夜里，{name}把三份记录按日期排好。守住了父亲那边的窗口，撞期的约定和交易的时间却关上了。用就诊回应了身体的信号，也和实际同行的人一起坐上家人的饭桌。\n\n这个月，照顾留在了两行里。相应地，错过的撞期约定和交易留下的空格，也格外清晰。下个月，不能当那两个空格从未存在。",
+      "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen&arc_y4_three_promises_protected_father&arc_y4_three_promises_missed_person&arc_y4_three_promises_missed_deal&arc_y4_body_chose_care&arc_y4_family_attended_alone": "星期日夜里，{name}把三份记录按日期排好。守住了父亲那边的窗口，撞期的约定和交易的时间却关上了。用就诊回应了身体的信号，独自去了家人的饭桌。\n\n两次亲自动身的代价，留成了移动的时间。没有同行的那个位置，以及错过的交易，都不能用下个月的数字盖住。",
+      "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen&arc_y4_three_promises_protected_father&arc_y4_three_promises_missed_person&arc_y4_three_promises_missed_deal&arc_y4_body_chose_care&arc_y4_family_missed": "星期日夜里，{name}把三份记录按日期排好。守住了父亲那边的窗口，撞期的约定和交易的时间却关上了。身体选择了就诊，却错过了家人的饭桌。\n\n就诊确认时间旁，空椅子的记录在眼前留得更久。守住的一次家人联络，代替不了一次错过的饭桌。",
+      "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen&arc_y4_three_promises_protected_father&arc_y4_three_promises_missed_person&arc_y4_three_promises_missed_deal&arc_y4_body_chose_deadline&arc_y4_family_attended_together": "星期日夜里，{name}把三份记录按日期排好。守住了父亲那边的窗口，撞期的约定和交易的时间却关上了。比起自己的身体，选择了赶期限，也和实际同行的人一起坐上家人的饭桌。\n\n家人那边的两处守住了，身体的后续时间却空着。那处空格，作为代价转入了下个月的速度表。",
+      "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen&arc_y4_three_promises_protected_father&arc_y4_three_promises_missed_person&arc_y4_three_promises_missed_deal&arc_y4_body_chose_deadline&arc_y4_family_attended_alone": "星期日夜里，{name}把三份记录按日期排好。守住了父亲那边的窗口，撞期的约定和交易的时间却关上了。比起身体，选择了赶期限，独自去了家人的饭桌。\n\n路走完了，期限也赶上了，身体的后续却还留着。再算上一起关闭的其他约定，日历的空格比数字还多。",
+      "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen&arc_y4_three_promises_protected_father&arc_y4_three_promises_missed_person&arc_y4_three_promises_missed_deal&arc_y4_body_chose_deadline&arc_y4_family_missed": "星期日夜里，{name}把三份记录按日期排好。只守住了父亲那边的窗口，撞期的约定和交易的时间都关上了。比起身体，选择了赶期限，之后又错过了家人的饭桌。\n\n一个完成时间周围，聚起了那些错过的日期。守住父亲那一行的事实，并没有抹去其余的代价。",
+      "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen&arc_y4_three_promises_protected_father&arc_y4_three_promises_missed_person&arc_y4_three_promises_missed_deal&arc_y4_body_chose_alone&arc_y4_family_attended_together": "星期日夜里，{name}把三份记录按日期排好。守住了父亲那边的窗口，撞期的约定和交易的时间却关上了。身体发出信号时，没有求助，独自硬撑；家人的饭桌上，则和实际同行的人一起坐下了。\n\n饭桌的温暖留了下来，身体独自硬撑的记录也留了下来。决定下个月，不再用同一个完成标记把两者归在一起。",
+      "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen&arc_y4_three_promises_protected_father&arc_y4_three_promises_missed_person&arc_y4_three_promises_missed_deal&arc_y4_body_chose_alone&arc_y4_family_attended_alone": "星期日夜里，{name}把三份记录按日期排好。守住了父亲那边的窗口，撞期的约定和交易的时间却关上了。身体独自硬撑，家人的饭桌也独自去了。\n\n两次独自一人，并没有相互安慰。把守住的父亲那一行，以及关闭的两个约定，原样带到了下个月。",
+      "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen&arc_y4_three_promises_protected_father&arc_y4_three_promises_missed_person&arc_y4_three_promises_missed_deal&arc_y4_body_chose_alone&arc_y4_family_missed": "星期日夜里，{name}把三份记录按日期排好。守住了父亲那边的窗口，撞期的约定和交易的时间却关上了。身体独自硬撑，家人的饭桌则错过了。\n\n守住了父亲那边的一次联络，却没能赶到撞期的约定和家人的饭桌，身体也在独自硬撑。这种区别，成了下个月第一页上最重的一行。",
+      "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen&arc_y4_three_promises_protected_person&arc_y4_three_promises_missed_father&arc_y4_three_promises_missed_deal&arc_y4_body_chose_care&arc_y4_family_attended_together": "星期日夜里，{name}把三份记录按日期排好。亲自赶到了撞期的约定，父亲那边的窗口和交易却关上了。用就诊回应了身体，也和实际同行的人一起坐上家人的饭桌。\n\n那次约定和照顾身体的时间，并排留了下来。可是，父亲那边错过的窗口，并不会被其他已完成的事填上。",
+      "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen&arc_y4_three_promises_protected_person&arc_y4_three_promises_missed_father&arc_y4_three_promises_missed_deal&arc_y4_body_chose_care&arc_y4_family_attended_alone": "星期日夜里，{name}把三份记录按日期排好。亲自赶到了撞期的约定，父亲那边的窗口和交易却关上了。用就诊回应了身体，独自去了家人的饭桌。\n\n腾出了三次时间，但没有哪件完成的事，能代替另一处空格。父亲那边的空格，仍原样留着。",
+      "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen&arc_y4_three_promises_protected_person&arc_y4_three_promises_missed_father&arc_y4_three_promises_missed_deal&arc_y4_body_chose_care&arc_y4_family_missed": "星期日夜里，{name}把三份记录按日期排好。亲自赶到了撞期的约定，父亲那边的窗口和交易却关上了。用就诊回应了身体，却错过了家人的饭桌。\n\n赶到撞期约定的记录，和没能赶到家人饭桌的记录，放在同一个画面里。没有把两者合起来，拼成一个做了好事的月份。",
+      "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen&arc_y4_three_promises_protected_person&arc_y4_three_promises_missed_father&arc_y4_three_promises_missed_deal&arc_y4_body_chose_deadline&arc_y4_family_attended_together": "星期日夜里，{name}把三份记录按日期排好。亲自赶到了撞期的约定，父亲那边的窗口和交易却关上了。比起身体，选择了赶期限，也和实际同行的人一起坐上家人的饭桌。\n\n那次约定和家人饭桌的时间留着，身体的后续却推迟了。再算上已关闭的父亲那边的窗口，下个月要偿还的，就不只是钱。",
+      "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen&arc_y4_three_promises_protected_person&arc_y4_three_promises_missed_father&arc_y4_three_promises_missed_deal&arc_y4_body_chose_deadline&arc_y4_family_attended_alone": "星期日夜里，{name}把三份记录按日期排好。亲自赶到了撞期的约定，父亲那边的窗口和交易却关上了。比起身体，选择了赶期限，独自去了家人的饭桌。\n\n约定和饭桌都结束了，身体和父亲那边却留下了空格。只数完成的事，就看不到这些代价。",
+      "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen&arc_y4_three_promises_protected_person&arc_y4_three_promises_missed_father&arc_y4_three_promises_missed_deal&arc_y4_body_chose_deadline&arc_y4_family_missed": "星期日夜里，{name}把三份记录按日期排好。只亲自赶到了撞期的约定，父亲那边的窗口和交易都关上了。比起身体，选择了赶期限，之后又错过了家人的饭桌。\n\n不能简单说，赶到一个约定，代价就是三处空缺。只是到了下个月，那些空格会先来索要时间。",
+      "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen&arc_y4_three_promises_protected_person&arc_y4_three_promises_missed_father&arc_y4_three_promises_missed_deal&arc_y4_body_chose_alone&arc_y4_family_attended_together": "星期日夜里，{name}把三份记录按日期排好。亲自赶到了撞期的约定，父亲那边的窗口和交易却关上了。身体独自硬撑，家人的饭桌上，则和实际同行的人一起坐下了。\n\n赶到那次约定的时间，和把身体独自晾着的时间，并排留了下来。决定下个月，哪一边都不改写成美谈。",
+      "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen&arc_y4_three_promises_protected_person&arc_y4_three_promises_missed_father&arc_y4_three_promises_missed_deal&arc_y4_body_chose_alone&arc_y4_family_attended_alone": "星期日夜里，{name}把三份记录按日期排好。亲自赶到了撞期的约定，父亲那边的窗口和交易却关上了。身体和家人的饭桌，都独自承受。\n\n独自一人，并不等于尽了责任。父亲那边的空格和交易的截止时间，原样留在了下一页。",
+      "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen&arc_y4_three_promises_protected_person&arc_y4_three_promises_missed_father&arc_y4_three_promises_missed_deal&arc_y4_body_chose_alone&arc_y4_family_missed": "星期日夜里，{name}把三份记录按日期排好。亲自赶到了撞期的约定，父亲那边的窗口和交易却关上了。身体独自硬撑，家人的饭桌则错过了。\n\n守住那一个约定的记录旁，留下了三种缺席。下个月，不能拿那次完成当作补偿，而得先读这些缺席。",
+      "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen&arc_y4_three_promises_protected_deal&arc_y4_three_promises_missed_father&arc_y4_three_promises_missed_person&arc_y4_body_chose_care&arc_y4_family_attended_together": "星期日夜里，{name}把三份记录按日期排好。赶上了交易期限，父亲那边和撞期的约定却关上了。用就诊回应了身体，也和实际同行的人一起坐上家人的饭桌。\n\n钱的时间和照顾的时间都有，错过的两个约定却没有消失。下个月的速度，带着那些空格的代价起步。",
+      "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen&arc_y4_three_promises_protected_deal&arc_y4_three_promises_missed_father&arc_y4_three_promises_missed_person&arc_y4_body_chose_care&arc_y4_family_attended_alone": "星期日夜里，{name}把三份记录按日期排好。赶上了交易期限，父亲那边和撞期的约定却关上了。用就诊回应了身体，独自去了家人的饭桌。\n\n期限、就诊和路程，都完成了。但父亲那边和撞期约定中关闭的时间，仍留在完成清单之外。",
+      "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen&arc_y4_three_promises_protected_deal&arc_y4_three_promises_missed_father&arc_y4_three_promises_missed_person&arc_y4_body_chose_care&arc_y4_family_missed": "星期日夜里，{name}把三份记录按日期排好。赶上了交易期限，父亲那边和撞期的约定却关上了。用就诊回应了身体，却错过了家人的饭桌。\n\n交易和就诊有完成时间，撞期的约定和家人那边则有空格。下个月的计划，没有把这两种记录合成同一种成绩。",
+      "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen&arc_y4_three_promises_protected_deal&arc_y4_three_promises_missed_father&arc_y4_three_promises_missed_person&arc_y4_body_chose_deadline&arc_y4_family_attended_together": "星期日夜里，{name}把三份记录按日期排好。赶上了交易期限，父亲那边和撞期的约定却关上了。比起身体，选择了另一个要赶的期限，也和实际同行的人一起坐上家人的饭桌。\n\n买来速度的日历上，留下了身体后续与两个约定的空格。不能只凭饭桌上的同行，就写成已付清了所有代价。",
+      "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen&arc_y4_three_promises_protected_deal&arc_y4_three_promises_missed_father&arc_y4_three_promises_missed_person&arc_y4_body_chose_deadline&arc_y4_family_attended_alone": "星期日夜里，{name}把三份记录按日期排好。赶上了交易期限，父亲那边和撞期的约定却关上了。比起身体，选择了另一个要赶的期限，独自去了家人的饭桌。\n\n做完的事都很快，路则独自走过。身体和两个约定的空格，一直跟到了下个月第一周。",
+      "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen&arc_y4_three_promises_protected_deal&arc_y4_three_promises_missed_father&arc_y4_three_promises_missed_person&arc_y4_body_chose_deadline&arc_y4_family_missed": "星期日夜里，{name}把三份记录按日期排好。赶上了交易期限，父亲那边和撞期的约定却关上了。比起身体，选择了赶期限，之后又错过了家人的饭桌。\n\n完成时间最多，撞期约定和家人那边的空格也很多。数字加快了，但先抵达下个月的，却是好几件未作回应的事。",
+      "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen&arc_y4_three_promises_protected_deal&arc_y4_three_promises_missed_father&arc_y4_three_promises_missed_person&arc_y4_body_chose_alone&arc_y4_family_attended_together": "星期日夜里，{name}把三份记录按日期排好。赶上了交易期限，父亲那边和撞期的约定却关上了。身体独自硬撑，家人的饭桌上，则和实际同行的人一起坐下了。\n\n交易和饭桌结束了，身体和两个约定却还留着。决定不把那些空格的责任，转交给一起坐下的人。",
+      "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen&arc_y4_three_promises_protected_deal&arc_y4_three_promises_missed_father&arc_y4_three_promises_missed_person&arc_y4_body_chose_alone&arc_y4_family_attended_alone": "星期日夜里，{name}把三份记录按日期排好。赶上了交易期限，父亲那边和撞期的约定却关上了。身体和家人的饭桌，都独自承受。\n\n留下了一笔完成的交易，和两份独自一人的记录。决定下个月，不再把成功和硬撑写成同一回事。",
+      "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen&arc_y4_three_promises_protected_deal&arc_y4_three_promises_missed_father&arc_y4_three_promises_missed_person&arc_y4_body_chose_alone&arc_y4_family_missed": "星期日夜里，{name}把三份记录按日期排好。赶上了交易期限，父亲那边和撞期的约定却关上了。身体独自硬撑，家人的饭桌则错过了。\n\n交易完成时间下面，接着父亲、撞期约定、饭桌和身体的空格。到了下个月，其中任何一处，也不能拿交易的成绩来抵消。",
+      "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen": "星期日夜里，{name}只确认了三份记录共同的标记。经历过约定、身体和家人场面的事实还在，能证明具体结果的互斥凭据却受损了。\n\n{name}没有用猜测填补空格。只抄下能确认的时间，其余作为未知的值，交给下个月。"
+    },
+    "description_memory_if_known": {
+      "arc_y4_three_promises_seen": "三张记录的大小并不相同。{name}关掉手机屏幕，对齐纸角，在完成时间下画了短短的横线，在关闭的日期下画了封住尽头的线。手指每次在某一行停留很久，都没有强迫自己翻到下一行，而是重新想起那天的移动和等待。\n\n三份记录并排放着，便看见了这个季节的模样。守住的事没有抹去错过的事，错过的事也不会把实际到达的时间变成假的。那些代价各不相同，无法折进成功或失败这一个词里。\n\n{name}剪下三行，叠成一张长纸。为了下个月再展开时，仍能认出每个空格为什么空着，就连折叠的方向也做了区分。"
+    }
+  },
+  {
+    "id": "arc_37_reckoning",
+    "title": "最后的结算",
+    "description": "三十七岁的深夜，{name}把计算器和4年前的笔记本并排摊开。第一页的50万韩元和30亿韩元，圆珠笔的笔迹已经洇开；手机里的当前资产，却以冰冷的新数字亮着。\n\n重新写下距目标有多远、还剩多少时间、能承担多少损失。4年里，数字变大了，为了那些数字而推迟的东西，也一起增加。到现在，那个问题才清楚起来。这个目标，还是自己想要的吗，还是因为停不下来，才装作想要？\n\n计算器的热度留在掌心。今天的答案，将决定最后1年的温度。",
+    "choices": [
+      {
+        "text": "不管数字变成什么——这条轨迹是我的",
+        "result_text": "从笔记本第一页的50万韩元，到今天的数字，用手指划出一条线。不是一条笔直的路。亏损、绕行、写着人名的页面，不时夹在中间。\n\n{name}决定，哪一页都不删。无论能不能到达目标，这条轨迹都不会变成别人的失败或成功。\n\n合上笔记本，封面在掌下很结实。"
+      },
+      {
+        "text": "又调整了一次计划。清醒地过完最后一程",
+        "result_text": "调低收益率，把支出填成真实的数值。到达的可能性减小了，但屏幕第一次不带夸张地对上了。数字没有安慰，所以才有用。\n\n{name}标出可能崩塌的区段，又调整了一次计划。比起不知情地抱着希望，选择了知情地作出选择。\n\n关掉标有保存时间的文件。"
+      },
+      {
+        "text": "合上计算器。走到最后才知道",
+        "result_text": "合上计算器。把数字算得再精细，终点也不会提前到来。4年里偏离得最远的事，都来自计算之外；留得最久的，也是如此。\n\n{name}只把笔记本留在桌上，关了灯。不作出答案，也是一种选择。\n\n黑暗中，计算器的液晶屏慢慢熄灭。"
+      }
+    ],
+    "description_if_known": {
+      "year3_doubled_down": "三十七岁的深夜，{name}把计算器和4年前的笔记本并排摊开。第一页的50万韩元和30亿韩元已经洇开，当前资产却以冰冷的新数字亮着。\n\n去年在岔路口，决定再加把劲。那份速度推高了数字，也增加了睡眠和联系人里的空白。此刻，结果与代价在屏幕的同一行。\n\n这个目标还是想要的，还是因为停不下来才装作想要——这样问的时候，掌心还留着计算器的热度。最后1年的温度，不会只由更高的数字决定。",
+      "year3_questioned_path": "三十七岁的深夜，{name}把计算器和4年前的笔记本并排摊开。第一页的50万韩元和30亿韩元已经洇开，当前资产却以冰冷的新数字亮着。\n\n去年，第一次真正问过，这条路对吗。问题没有消失，而是从那以后，每次打开计划，都坐在同一个位置。现在不再觉得，要先消除不安，才能行动。\n\n重新写下距目标有多远，以及还剩多少时间。对带着问题走到这里的人来说，最后1年不是证明答案的时间，而是守住继续发问的勇气的时间。",
+      "year3_steady_path": "三十七岁的深夜，{name}把计算器和4年前的笔记本并排摊开。第一页的50万韩元和30亿韩元已经洇开，当前资产却以冰冷的新数字亮着。\n\n去年，决定不再动摇。账本里，与其说是大跨越，不如说是相同规模的收入与支出、反复的选择，整齐地延续着。无论大小，这个数字里都没有夸张，也没有把偶然称作实力的痕迹。\n\n{name}用手指沿着行走过。最后1年的温度，不取决于进一步提速，而取决于要为了什么守住这份稳定。",
+      "vision_revised": "三十七岁的深夜，{name}把计算器和4年前的笔记本并排摊开。第一页的50万韩元和30亿韩元已经洇开，当前资产却以冰冷的新数字亮着。\n\n中途，有一次修改了抵达目标的方法。被擦掉的计划下面，旧线条还隐约留着。那次修改不是掩盖失败的痕迹，而是为了不再漂流、重新找准方向的痕迹。\n\n写下距目标有多远，以及还剩多少时间。到了最后1年，比起守住最初画下的直线，更重要的是不忘记为什么改了航线。"
+    }
+  },
+  {
+    "id": "arc_final_year_start",
+    "title": "结算的第二天",
+    "description": "结算后的第二天早晨。\n\n一夜摊开的计算器和随身笔记本，还原样摆在桌上。数字与昨天一样，但现在，已经知道自己曾对什么装作不知。\n\n{name}开始一天之前，翻开空白页。先写的不是剩下的时间里还要得到什么，而是最多能押上什么。",
+    "description_if_known": {
+      "final_year_resolve": "结算的第二天，随身笔记本封面的触感，还留在掌心。\n\n昨晚，{name}决定，从第一页的50万韩元到现在的数字，哪一页都不删。还留下了一句话：结果，改变不了轨迹的主人。\n\n在晨光下翻开空白页。现在要决定的，不是成功的形状，而是多大的选择，能始终作为自己的选择承担。",
+      "final_year_realistic": "结算的第二天，标有新保存时间的计划文件，还留在屏幕上。\n\n调低预期收益率，填入实际支出后，到达的可能性减小了。但第一次看见，会在哪里崩塌。数字没有安慰，所以才有用。\n\n{name}翻开空白页。现在，该写下一个能不带夸张看清现实的人，愿意押到哪里。",
+      "final_year_open": "结算的第二天，想起黑暗中慢慢熄灭的计算器液晶屏。\n\n昨晚，没有定下答案。只承认，那些来自计算之外的事，最大程度地改变了过去4年的方向。\n\n{name}翻开空白页。即使没有预先写好结局，今天要押上什么，也得决定。"
+    },
+    "choices": [
+      {
+        "text": "押上所有剩下的牌——连代价也归我承担",
+        "result_text": "把剩下的牌、现金、能开口求助的名字，写在同一页。全押听起来很响亮，但真实的清单里，那些失去后很难重新得到的东西，安静地排着队。\n\n{name}在最后一行写下自己的名字。先确认的不是成功会得到什么，而是失败会由谁付出代价。"
+      },
+      {
+        "text": "先决定要守住什么——选择不失去的终点",
+        "result_text": "先标出不会动的钱、不会再推迟的联系、不会再压缩的睡眠。只留下那条线以内可做的选择，计划便变小了。\n\n看着缩小的计划，{name}同时感到安心和遗憾。没有抹掉两者中的任何一个，就保存了文件。"
+      },
+      {
+        "text": "今天不行动——留一个空位",
+        "result_text": "在计划表里留了一格空白。没有标明，是为了尚未到来的机会，还是为了推迟决定。\n\n{name}合上笔记本电脑，出了门。空格以同一副面孔，容纳着可能与逃避。"
+      }
+    ]
   }
 ]
