@@ -67,14 +67,14 @@ EXPECTED = {
     "packaged_events": 1813,
     "author_only_events": 105,
     "shipping_events": 1708,
-    "shipping_standard_leaves": 11541,
+    "shipping_standard_leaves": 11547,
     "shipping_chapter5_reader_leaves": 133,
-    "shipping_leaves": 11674,
+    "shipping_leaves": 11680,
     "shipping_event_ids_sha256": (
         "0254f6d7938d7e281204b5b730d6b59e179efbe12595ef16fa72d3b378b6a6de"
     ),
     "shipping_source_leaves_sha256": (
-        "2f5e7a457f93d4e735b87d9a5e65f7dc01f467c6705bf33568fc76a7969a9184"
+        "7a0aa5f7f4c4531a49dc041ca2519657c58b2e216ff6bfae2580cc5bc5b803b3"
     ),
     "m07_m60_root_refs": 162,
     "m07_m60_shipping_root_refs": 132,
@@ -82,14 +82,14 @@ EXPECTED = {
     "m07_m60_author_only_root_refs": 19,
     "m07_m60_planned_missing_root_refs": 11,
     "m07_m60_immediate_events": 168,
-    "m07_m60_immediate_leaves": 1584,
+    "m07_m60_immediate_leaves": 1586,
     "m07_m60_events": 192,
-    "m07_m60_leaves": 1749,
+    "m07_m60_leaves": 1751,
     "m07_m60_event_ids_sha256": (
         "7fef47a76488b7b15276c289b8a6be7ef381d982c9c6c317fd768efed20b5600"
     ),
     "m07_m60_source_leaves_sha256": (
-        "682b871a66662b36f7f18e97c9c41623c558bd06d2b403b47c40e8ecadcc37a8"
+        "8765f617e9eed51c115ed5e3e90178d0f7c3729661c00d491931bfcb6f7bfd33"
     ),
     "deferred_added_events": 24,
     "deferred_added_leaves": 165,
@@ -123,7 +123,7 @@ EVENT_DICT_FIELDS = (
     "description_memory_if_known",
     "description_if_moral",
 )
-CHOICE_TEXT_FIELDS = ("text", "result_text", "bridge_summary")
+CHOICE_TEXT_FIELDS = ("text", "result_text", "bridge_summary", "foreshadow")
 CHOICE_DICT_FIELDS = ("text_if_moral",)
 IMMEDIATE_EDGE_KEYS = ("follow_up", "follow_up_event", "next_event")
 CHAPTER5_READER_KEY = re.compile(r"^chapter5_[a-z0-9_]+_reads$")
@@ -1238,16 +1238,16 @@ def run_self_test(root: Path | str = ROOT) -> tuple[list[str], int]:
     require(
         "shipping exact event and leaf denominator",
         (shipping.get("event_count"), shipping.get("leaf_count"))
-        == (1708, 11674),
+        == (1708, 11680),
     )
     require(
         "Chapter 5 nested reader leaves included",
         shipping.get("chapter5_reader_leaf_count") == 133
-        and shipping.get("standard_leaf_count") == 11541,
+        and shipping.get("standard_leaf_count") == 11547,
     )
     require(
         "M07-M60 static exact event and leaf denominator",
-        (static.get("event_count"), static.get("leaf_count")) == (192, 1749),
+        (static.get("event_count"), static.get("leaf_count")) == (192, 1751),
     )
     require(
         "deferred follow-up expands static closure",
@@ -1502,6 +1502,61 @@ def run_self_test(root: Path | str = ROOT) -> tuple[list[str], int]:
     )
 
     from full_game_localization import PROMPT_VERSION, Leaf
+
+    # The source-denominator increase is exactly the six previously omitted
+    # foreshadows. Removing only those leaves must reproduce both old source
+    # fingerprints; target acceptance and public-demo baselines never change.
+    for scope, old_hash in (
+        (shipping, "2f5e7a457f93d4e735b87d9a5e65f7dc01f467c6705bf33568fc76a7969a9184"),
+        (static, "682b871a66662b36f7f18e97c9c41623c558bd06d2b403b47c40e8ecadcc37a8"),
+    ):
+        scope_ids = set(scope.get("event_ids", [event["id"] for event in shipping.get("events", [])]))
+        legacy = [TextLeaf(event["id"], leaf["path"], leaf["source"], leaf["chapter5_reader"])
+                  for event in shipping.get("events", []) if event["id"] in scope_ids
+                  for leaf in event["leaves"]
+                  if not leaf["path"].endswith(".foreshadow")]
+        require("foreshadow addition preserves every legacy Korean leaf", leaves_sha(legacy) == old_hash)
+    hints = {(event["id"], leaf["path"]) for event in shipping.get("events", [])
+             for leaf in event["leaves"] if leaf["path"].endswith(".foreshadow")}
+    require("all six source foreshadows remain counted including protected demo", hints == {
+        ("arc_temptation_01", "choices[0].foreshadow"),
+        ("arc_temptation_01", "choices[1].foreshadow"),
+        ("arc_jaehyuk_mirror_decision", "choices[1].foreshadow"),
+        ("arc_sangchul_confrontation", "choices[0].foreshadow"),
+        ("arc_father_ng_call", "choices[1].foreshadow"),
+        ("arc_sangchul_ng_meet", "choices[0].foreshadow"),
+    })
+    hint_event = SourceEvent("hint", "content/events/fixture.json", {
+        "id": "hint", "choices": [{}, {"foreshadow": "{name}의 선택."}],
+    })
+    hint_errors: list[str] = []
+    hint_leaves = collect_event_leaves("hint", hint_event.row, hint_errors)
+    hint_full = Leaf("events", "hint", hint_event.source_file,
+                     ("choices", 1, "foreshadow"), "{name}의 선택.", "choice_foreshadow")
+    hint_index = _receipt_source_index({"hint": hint_event}, {"hint": hint_leaves})
+    require("foreshadow source path and hash match full collector exactly",
+            not hint_errors and len(hint_leaves) == 1 and hint_full.id in hint_index
+            and hint_index[hint_full.id] == (("hint", "choices[1].foreshadow"), hint_full.source_sha256))
+    for invalid in (None, 3, [], {"text": "암시"}):
+        malformed_errors: list[str] = []
+        malformed_leaves = collect_event_leaves("hint", {"choices": [{"foreshadow": invalid}]}, malformed_errors)
+        require("foreshadow cannot hide structured or numeric payload", bool(malformed_errors) and not malformed_leaves)
+    hint_targets = {("hint", "choices[1].foreshadow"): "{name}の選択。"}
+    hint_accepted = {lang: {} for lang in TARGET_LANGUAGES}
+    hint_accepted["ja"][hint_full.id] = {"source_sha256": hint_full.source_sha256,
+                                        "target_sha256": canonical_sha("{name}の選択。")}
+    hint_payload = {"schema_version": 1, "prompt_version": PROMPT_VERSION,
+                    "native_review": "OPEN", "accepted": hint_accepted,
+                    "accepted_sha256": canonical_sha(hint_accepted)}
+    hint_findings: list[str] = []
+    hint_additions = _accepted_event_additions(hint_payload, "ja", hint_index, hint_targets, set(), hint_findings)
+    require("only current source-bound foreshadow receipt extends count",
+            not hint_findings and hint_additions == set(hint_targets))
+    for mutated in ({}, {("hint", "choices[0].foreshadow"): "{name}の選択。"},
+                    {("hint", "choices[1].foreshadow"): "別の選択。"}):
+        findings: list[str] = []
+        verified = _accepted_event_additions(hint_payload, "ja", hint_index, mutated, set(), findings)
+        require("missing moved or changed foreshadow cannot use old receipt", bool(findings) and not verified)
 
     receipt_event = SourceEvent("new", "content/events/fixture.json", {
         "id": "new", "choices": [{"result_text": "새 결과"}],

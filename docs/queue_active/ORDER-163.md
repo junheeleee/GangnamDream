@@ -146,3 +146,46 @@ foreshadow를 수집하지 않아 새 정확 receipt를 '지원 원문 없음'�
 
 이 분할·파일·증거는 일회성이다. 지속 규칙은 기존 I18N_INFRASTRUCTURE와 세 용어집이
 소유하며, 이 작업은 새 서사·상품·출시 규칙을 만들지 않는다.
+
+## 2026-09-07 실행 증거 — L1/L2 수용, L3 OPEN
+
+- 선언 `e5a916c`와 수집기 소유 보강 `f99ef2d` 뒤33개 overlay의 정확48 ID에
+  언어별363개, 총1,089개를 추가했다. 이전4,323 receipt와 메타9·기존 사건행을
+  보존해 총5,412개(언어별1,804)다. KO source manifest는 위 고정값과 같다.
+- 언어별 다른 검토자가 KO에서 전수 대조했다. 조건27·기억6·암시4와 모든 선택
+  결과를 포함한다. JA 도주→자금 유용, 한강8곳·참조 주체; CN 무능력/무행동,
+  호명/제지·수첩·채무/부담·잠금/암호화; TW 세 박자2곳·반복 횟수·대학 단계·
+  잠금과 두 중국어의 신고 전제를 수리하고 해당 문장을 재대조했다.
+- 최종 source+target aggregate 산식은 `digest({leaf.id: {source_sha256,
+  target_sha256}})`다. 이 값은 원어민 또는 실제 화면 승인 해시가 아니다.
+  - JA `d54203d399adde8635cd9a5df5600bc1a3117aab6b0e620b6ca8df4975862a86`
+  - zh-CN `ccd4d2a3f1e938335ce9b3ca20ff6a9c6165ba2702959ab2f44e159700635809`
+  - zh-TW `0f31d64c41ead91739f2b6428766f08a70664b0b5fcdadb9088654885909a944`
+- git-private 각 locale/prompt-version의 `order163-initial-{A,B}.source.jsonl`
+  여섯 원문을 보존했다. JA/TW 최종은 `order163-final-`, CN은 추가 수리 뒤
+  `order163-revised-final-`의 source/response다. CN 중간 final 쌍도 보존하지만
+  수용하지 않았다. 최종6쌍 check/import PASS·changed_files0과 실제 accepted
+  receipt checksum·최초 source ID/hash 일치를 확인한 뒤 portable 원장에 합쳤다.
+- foreshadow 검사 전 self-test90에서3 FAIL/1 ERROR였고 수리 후92 PASS다.
+  source collector 기존12,415개는 삭제/변경0이며 기존 암시6개만 더했다.
+  raw12,421, shipping11,680, 정적192사건1,751로 수집 누락을 복구했다.
+  공개 target baseline108/100/100·재사용8과 지문 변경0이다. 새 receipt 없는
+  draft의 scope 실패2건은 정상 경계였으며 수용 뒤52 self-test를 통과했다.
+- 독립 수량/이름134쌍(정상36/변조98), foreshadow38쌍을 통과했다. 컵의 음수
+  접두와 같은 문구의 두 수량 중 한쪽만 바뀌는 누락을 실제 변조로 찾아 고쳤다.
+  독립 최종 `zh_translation_audit.py` SHA는
+  `7b095d642df9a3b2959e0ff3a1be68c9e15ae282c97b95a5ac0675e0759b8754`다.
+  수량·이름 검사는 의미 대조를 대체하지 않고 동사 앞 무의미한 부호 등 전체
+  문법을 판정하지 않는다. 기존4,323개도 새 검사에서 hash/검사 오류0이다.
+- 수용 뒤 표적 차선12개·EN·diff PASS, self92·ZH935·scope52다. 최종 stdout은
+  git-private `full-game-localization/order163-final-checks.log`에 보존한다.
+  portable accepted SHA는
+  `59c1a3226c3c1649218e17886e636b68733054f3a8541bb6a9bc0722689ea7cf`다.
+- KO/EN/runtime/공개 데모/catalog/endings/폰트/human gates 변경0, 사용자 main의
+  변경도 비소유로 보존했다. 이력 이동은 기존 history와 큐 보관본에 본문 보존이다.
+  새 암시 검사는 StoryMode·외부팩·미작성 공개 암시까지 완료하지 않는다.
+  기존 JP-first full font/직접 영어 분기13과 원문 서사 확인점은 backlog 잔여다.
+  Godot 실행0, 무작위 사람 표본·원어민·렌더 OPEN, 전체 INCOMPLETE·제품 HOLD다.
+
+분할·파일 소유·이번 해시/수용 절차는 일회성이다. 지속 규범은 기존 I18N 정본의
+KO 직접 대조·text-only·source 결속·원어민/출시 분리가 소유하며 새 규범 승격0이다.

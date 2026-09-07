@@ -223,6 +223,8 @@
         "tools/ja_translation_pipeline.py",
         "docs/queue_active/ORDER-161.md",
         "docs/queue_active/ORDER-162.md",
+        "docs/queue_active/ORDER-163.md",
+        "docs/queue_archive/CODEX_QUEUE_2026-09.md",
         "docs/history/WORK_LOG_2026-09-07_localization.md",
         "content/events_ja/**",
         "content/events_zh-CN/**",
@@ -525,7 +527,7 @@
     },
     {
       "tool": "tools/full_body_translation_scope.py --self-test",
-      "why": "전체 출시 포함 원문 1702/11631과 M07~M60 정적 closure 190/1730·Chapter 5 reader·author-only 제외·데모 보호 재사용을 잠근다",
+      "why": "전체 출시 포함 원문1708/11680과 M07~M60 정적 closure192/1751·reader/foreshadow·author-only 제외·기존 번역 보호를 잠근다",
       "paths": [
         "content/meta/event_lifecycle.json",
         "content/meta/story_map.json",

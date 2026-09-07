@@ -8,4 +8,22 @@
       {"text": "说“这次就不用了”", "result_text": "‘目前还是想自己试试。’\nHan Jiyeon 回了句‘我知道了’。\n后来，看着报税表时，又想起了那个提议。"}
     ]
   }
+  ,{
+    "id": "callback_jaehyuk_exploited_retaliate",
+    "title": "Jaehyuk 的反提议",
+    "description": "Jaehyuk 打来电话。\n‘喂。我想过了。这不公平。\n没钱按三倍给你。可你不也有把柄在我手里吗。’\n不知道是在虚张声势，还是真的。",
+    "choices": [
+      {"text": "“我报警。”——手里有证据", "result_text": "‘证据我都有。我先报警就行。’\nJaehyuk 安静了一会儿，挂掉电话。\n一周后，清理了账户。从之前收到的钱里退回300万韩元，只留下本金那一份。"},
+      {"text": "妥协——只拿本金", "result_text": "‘只还本金。结束吧。’\nJaehyuk 说：‘嗯，这样更好。’\n钱到账了。再也不想听见那家伙的声音。"}
+    ]
+  },
+  {
+    "id": "callback_jaehyuk_partnered_reckoning",
+    "title": "合作的终点",
+    "description": "和 Jaehyuk 一起做的局收尾了。\n赚得比想象中多。可最后结算，Jaehyuk 拿出的数字有些不一样。\n“得按说好的分。”Jaehyuk 笑了。“喂，这种局本来就这样。”",
+    "choices": [
+      {"text": "亮出证据，按原先比例拿钱", "result_text": "有录音。Jaehyuk 的脸冷下来。\n按原先比例拿到了。1500万韩元。\n和 Jaehyuk，就到这里。一开始就是迟早要结束的关系。"},
+      {"text": "就拿这些。不想再纠缠", "result_text": "拿了800万韩元。比说好的少700万韩元。\n“行了。”Jaehyuk 拍了拍肩。\n出来的路上，洗了手。两次。"}
+    ]
+  }
 ]

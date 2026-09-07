@@ -2,7 +2,7 @@
 
 > 최신 작업만 역순으로 기록한다. 2026-07-24 이전 원문은
 > [`5/16~7/24`](history/WORK_LOG_2026-05-16_to_2026-07-24.md), 보관본은
-> [`9/7 초기 현지화`](history/WORK_LOG_2026-09-07_localization.md),
+> [`9/7 현지화 보관`](history/WORK_LOG_2026-09-07_localization.md),
 > [`8/29`](history/WORK_LOG_2026-08-29.md), [`8/27`](history/WORK_LOG_2026-08-27.md),
 > [`8/27 후속`](history/WORK_LOG_2026-08-27_late.md),
 > [`8/28`](history/WORK_LOG_2026-08-28.md),
@@ -22,6 +22,28 @@
 > [`7/27`](history/WORK_LOG_2026-07-27.md), [`7/26`](history/WORK_LOG_2026-07-26.md),
 > [`7/25`](history/WORK_LOG_2026-07-25.md)에 손실 없이 보존한다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
+
+## 2026-09-07 (Codex — 3년차와 장기 후속 세 언어 원문 대조·수용)
+
+- 아버지 고백·지연 출발·재혁 제안과 보증 거울·상철 진실·3년말48사건을
+  언어별363문구씩 KO에서 직접 옮겼다. A25/181·B23/182, 조건27·기억6·암시4를
+  포함해 다른 작성자가1,089개를 전수 대조했다. 도주/채무/암호화의 선취,
+  무행동과 무능력, 호명과 제지, 이름 세 박자·주체·한강 표기를 고쳐 재확인했다.
+- 최초 source6개와 CN 중간 export를 보존하고 최종 source/response6쌍의
+  check/import PASS·changed_files0 영수증을 원장에 합쳤다. 이전4,323과 메타9를
+  보존해 총5,412(언어별1,804)이다. source manifest `edf845a7…64b8`, KO/EN·
+  runtime·공개 데모·기존 사건행·폰트 변경0이며 새 제품 GO가 아니다.
+- 선택 결과 foreshadow의 source-bound 검사 계약을 수리했다. 원문 collector는
+  기존6암시만 더해 raw12,421·shipping11,680·정적192사건1,751로 정렬했다.
+  삭제/기존본문 변경0, 공개 target baseline/hash 변경0이다. 공개2암시와 EN6은
+  미작성으로 남고 StoryMode·외부팩 지원까지 이 증거로 주장하지 않는다.
+- 수량/이름 오탐을 실제 원문 문맥에만 묶었다. 독립134쌍(정상36/변조98)과
+  foreshadow38쌍에서 발견한 음수 컵·반복 수량 누락도 수리했다. self92·ZH935,
+  기존4,323 해시/검사와 새1,089 검사에 오류0이다. 원문 대조를 대체하지 않는다.
+- 내부 경로 표시·퇴장 뒤 의자 회귀·회상/신고 전제·이번 주/한 달 후·잔여100주
+  등 원문 확인점은 backlog에 분리했다. 번역에서 KO를 몰래 수리하지 않았다.
+  catalog 이력은 기존 history에 바이트 보존했다. 전체 INCOMPLETE·L3 OPEN·
+  full/main/product HOLD·배경 제품53493fe를 유지하며4년차 번역을 이어간다.
 
 ## 2026-09-07 (Codex — M07~M24 연결 사건 세 언어 원문 대조·수용)
 
@@ -46,27 +68,6 @@
 - 최종12개 표적 차선·EN·diff 통과. 정확 stdout은 git-private
   `full-game-localization/order162-final-checks.log`에 보존했다. 원문·target·
   이전 receipt/메타 보존은 독립 읽기 전용 검사에서도 확인했으며 Godot 실행0이다.
-
-## 2026-09-07 (Codex — catalog 전체 JA·zh-CN·zh-TW 원문 대조·수용)
-
-- 직업·자산·아이템·업적·단서·생각·뉴스 145행/834문구를 언어별로 한국어에서
-  직접 작성했다. A15/B20 독립 표시 묶음이며 신규2,485·기존 JA 누락 수리1·
-  기존 유지16이다. 세 검토자가 서로 다른 언어의 KO 대조를 맡아2,502문구와
-  언어별553 headline-topic 조합을 확인했다. 원화·법인/자회사·연령·거래 시간·
-  보조금과 대출의 범위 등을 정밀화했다. 공개 job_01과 다른 기존14명은 불변이다.
-- 기존984 수용 기록·메타9를 그대로 보존하고 여섯 machine receipt를 원장에
-  합쳐 총3,486문구(언어별1,162)를 수용했다. KO source manifest는
-  `edf845a7164b8fedc9ec027be7a7edc381a3dcdf67ff58c2858d44a3237b64b8`로 불변이다.
-- 금액/기간/브랜드 오탐은 실제 KO catalog 문맥에만 묶어 수리했다. 언어검사935·
-  전체 현지화 self-test77, 독립 guard106(정상21/변조85), 실제2,502문구 오류0이다.
-  `2030`은 해당 원문에서 연령층이지2,030명/2030년이 아니며, 검사를 통과시키려
-  의미를 잘못 옮기지 않도록 원문별 fixture를 둔다. 전체 기계 결과는 계약 증거다.
-- 원문 자체의 나이·글자 수·업적 의미·뉴스 중복/수치5건은 별도 backlog에
-  남겼다. translation에서 KO 정본을 몰래 고치지 않았다. DataRegistry overlay와
-  MainGame tags/news 소비자 추적은 정적 확인이며 실제 화면·원어민 판정이 아니다.
-- 로그 예산을 위해9/7 앞선 세 절3,209바이트를 보관본에 원문 그대로 이동했다.
-  배경 제품 `53493fe`·KO/EN·runtime·저장·공개 데모·사람 게이트 변경0.
-  전체 번역 INCOMPLETE, L3 OPEN, full/main/product HOLD를 유지한다.
 
 ## 2026-09-05 (Codex — ORDER-156 Chapter 5 생활 routine 배경 수리 선언)
 

@@ -43,7 +43,7 @@ TEXT_EVENT_KEYS = {
     "chapter5_finale_reads",
 }
 TEXT_READER_EVENT_KEYS = {"chapter5_causal_reads", "chapter5_finale_reads"}
-TEXT_CHOICE_KEYS = {"text", "result_text", "text_if_moral", "bridge_summary"}
+TEXT_CHOICE_KEYS = {"text", "result_text", "text_if_moral", "bridge_summary", "foreshadow"}
 TEXT_ENDING_KEYS = {
     "id",
     "title",
@@ -184,9 +184,9 @@ def validate_event(
     if not isinstance(overlay_choices, list):
         errors.append(f"{lang}:{event_id}: choices must be an array")
         overlay_choices = []
-    if len(overlay_choices) < len(base_choices):
+    if len(overlay_choices) != len(base_choices):
         errors.append(
-            f"{lang}:{event_id}: fewer choices {len(overlay_choices)}<{len(base_choices)}"
+            f"{lang}:{event_id}: choice count mismatch {len(overlay_choices)}!={len(base_choices)}"
         )
         return
     for index, base_choice in enumerate(base_choices):
@@ -201,6 +201,15 @@ def validate_event(
             errors.append(
                 f"{lang}:{event_id}: choice {index} has non-text keys {sorted(extra)}"
             )
+        # Existing prepared/public and EN rows may not yet translate this leaf.
+        # The full-source inventory measures missing text independently. When
+        # present, bind it to the same source choice, never a new gameplay fact.
+        if "foreshadow" in choice:
+            source_hint, target_hint = base_choice.get("foreshadow"), choice["foreshadow"]
+            if not isinstance(source_hint, str) or not source_hint.strip():
+                errors.append(f"{lang}:{event_id}: choice {index} unexpected foreshadow")
+            if not isinstance(target_hint, str) or not target_hint.strip():
+                errors.append(f"{lang}:{event_id}: choice {index} foreshadow must be nonblank text")
         if not key_parity(base_choice.get("text_if_moral"), choice.get("text_if_moral")):
             errors.append(f"{lang}:{event_id}: choice {index} moral key mismatch")
         if isinstance(base_choice.get("bridge_summary"), str) and not isinstance(

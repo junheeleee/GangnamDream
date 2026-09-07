@@ -83,7 +83,7 @@ KOREAN_NATIVE_FORMS = tuple(sorted(
     reverse=True,
 ))
 SOURCE_COUNTER_SUFFIX = (
-    r"(?=$|\s|[.,!?…:;\x22\x27)\]}]|"
+    r"(?=$|\s|[.,!?…:;\x22\x27”’」』)\]}]|"
     r"(?:은|는|이|가|을|를|의|도|만|에|에게|에게서|에서|에는|"
     r"으로|로|과|와|라고|였다|이었다|입니다|이다|인데|뿐이라면|"
     r"뿐입니다|뿐|씩|짜리|째예요|째로|째에야|째|차|분|동안|간|"
@@ -123,7 +123,8 @@ SOURCE_FINANCIAL_TIER = re.compile(
 SOURCE_PRINT_RUN = re.compile(
     rf"(?<![가-힣])초판\s+(?P<number>\d[\d,]*)\s*(?P<unit>만)?\s*부{SOURCE_COUNTER_SUFFIX}"
 )
-SOURCE_IM_SURNAME = re.compile(r"(?<![가-힣])임(?:씨|가)(?=$|[\s.,!?…\x22\x27]|[은는이가의를와도])")
+SOURCE_IM_SURNAME = re.compile(r"(?<![가-힣])임(?:씨|가|\s+모)(?=$|[\s.,!?…\x22\x27”’]|[은는이가의를와도]|라고|라는|라며)")
+SOURCE_KIM_SURNAME = re.compile(r"(?<![가-힣])김씨(?=$|[\s.,!?…\x22\x27”’]|[은는이가의를와도]|라고|라는|라며|요)")
 SOURCE_ORDINAL = re.compile(
     r"(?<![가-힣\d])(?P<number>첫|한|둘|두|셋|세|넷|네|다섯|여섯|일곱|여덟|아홉|열|\d+)\s*"
     r"(?:번째|번\s*째|째)"
@@ -210,7 +211,7 @@ TARGET_COUNTER_FORMS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("document_sheet", ("張", "张", "枚", "頁", "页", "份產權登記文件", "份产权登记文件", "份文件", "紙文件", "纸文件")),
     ("building", ("棟", "栋", "幢", "套", "戶", "户")),
     ("vehicle", ("輛", "辆", "台")),
-    ("cup", ("杯",)),
+    ("cup", ("只杯子", "個杯子", "个杯子", "杯")),
     ("line", ("小行", "行", "列", "條", "条", "句")),
     ("pair", ("雙", "双", "對", "对")),
     ("cell", ("格", "欄", "栏", "列")),
@@ -1083,7 +1084,7 @@ def _source_counter_kind(
     if counter == "달" and match.group("number") == "석" and following.startswith("마다"):
         return "repeated_month_interval"
     if counter == "사람" and match.group("number") == "한" and re.search(
-        r"기다리게\s+$", preceding,
+        r"(?:기다리게|망하게)\s+$", preceding,
     ):
         # 기다리게 한 사람 is a causative relative clause, not one person.
         # Counting it consumes a later actual person and skips the first week.
@@ -1113,6 +1114,8 @@ def _source_counter_kind(
         return "table_seat"
     if counter == "장" and re.search(r"(?<![가-힣])(?:등기|서류)\s*$", preceding):
         return "document_sheet"
+    if counter == "장" and re.search(r"그\s+$", preceding):
+        return "referenced_sheet"
     if counter == "대" and re.match(r"(?:초|중|후)반", following):
         return "age_decade"
     if counter == "대" and re.search(r"열차\s*$", preceding):
@@ -1125,6 +1128,22 @@ def _source_counter_kind(
     if counter == "번" and match.group("number") == "한" and re.search(r"말을\s+$", preceding) \
             and following.startswith("더 붙이지 않았다"):
         return "utterance_occurrence"
+    if counter == "번" and re.search(r"숨[을이]\s+$", preceding) \
+            and re.match(r"(?:고른|길게|삼키고)", following):
+        return "breath_occurrence"
+    if counter == "개" and following.startswith("의 도착 기록"):
+        return "arrival_record"
+    if counter == "통" and re.search(r"전화\s+$", preceding) \
+            and re.match(r"을 걸었다", following):
+        return "phone_call"
+    if counter == "줄" and re.search(r"등록 이력\s+$", preceding):
+        return "registry_line"
+    if counter == "번" and following.startswith("걸린 의심"):
+        return "once_condition"
+    if counter == "번" and following.startswith("겹쳐 보였다"):
+        return "visual_overlap"
+    if counter == "자리" and following.startswith("와 연도, 지방법원 코드"):
+        return "case_number_digits"
     if counter == "잔" and match.group("number") == "한" and re.search(r"커피\s+$", preceding):
         return "coffee_cup"
     if counter == "장" and following.startswith("넘게 찍었어요"):
@@ -1136,6 +1155,8 @@ def _source_counter_kind(
     if counter == "번" and re.match(r"런을 완료했다", following):
         return "run_occurrence"
     if counter == "칸":
+        if re.search(r"사다리는\s+$", preceding) and following.startswith("씩 밟아야"):
+            return "ladder_step"
         if re.search(r"책상\s*위에는[^.\n]*$", preceding) and re.match(
             r"씩\s*자리를\s*차지", following,
         ):
@@ -1192,11 +1213,30 @@ def _source_audience_quantities(source: str) -> list[CounterQuantity]:
 def _source_counter_quantities(source: str) -> list[CounterQuantity]:
     quantities: list[CounterQuantity] = []
     quantities.extend(_source_audience_quantities(source))
+    for match in re.finditer(r"(?<![\d가-힣])(?P<number>\d+)킬로(?= 뛰다)", source):
+        quantities.append(CounterQuantity(match.start(), match.end(), Decimal(match.group("number")), "running_distance"))
+    for match in re.finditer(r"(?<![가-힣])반\s+년(?= 만에 러닝화를)", source):
+        quantities.append(CounterQuantity(match.start(), match.end(), Decimal("0.5"), "year"))
     for pattern, kind in ((r"(?<![가-힣])두 종이(?=[를와\s])", "sheet"), (r"(?<=주소 )두 곳", "address_count")):
+        for match in re.finditer(pattern, source):
+            quantities.append(CounterQuantity(match.start(), match.end(), Decimal(2), kind))
+    for match in re.finditer(r"(?<![가-힣])둘(?=이서 찍은 것)", source):
+        quantities.append(CounterQuantity(match.start(), match.end(), Decimal(2), "entity"))
+    for pattern, kind in (
+        (r"(?<![가-힣])두 창(?=을 닫지 못한)", "window_count"),
+        (r"(?<![가-힣])두 가지(?=가 동시에 사실)", "parallel_fact"),
+        (r"(?<![가-힣])두 파일(?=[이을])", "file_count"),
+        (r"(?<=따로 알고 있던 )두 세계(?=가)", "world_count"),
+    ):
         for match in re.finditer(pattern, source):
             quantities.append(CounterQuantity(match.start(), match.end(), Decimal(2), kind))
     for match in re.finditer(r"(?<=기소된 사례가 )(?P<number>\d+)건", source):
         quantities.append(CounterQuantity(match.start(), match.end(), Decimal(match.group("number")), "legal_case_count"))
+    if "총자산 화면과 대화 목록" in source:
+        # Both referents occur in this source. Do not deduplicate them: one
+        # correct later pair must not conceal a changed earlier quantity.
+        for match in re.finditer(r"(?<![가-힣])둘(?= 다 올해의 기록|을 따로 관리)", source):
+            quantities.append(CounterQuantity(match.start(), match.end(), Decimal(2), "record_pair"))
     for pattern, number, kind in (
         (SOURCE_CATALOG_AGE, 20, "age"),
         (SOURCE_NAME_CHARACTERS, 3, "character"),
@@ -1376,6 +1416,8 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
             kind = "alternative_count"
         if match.group("number") == "둘" and source[match.end():].startswith(" 다 챙기겠다는 말은 선택이 아니었다"):
             kind = "concept_pair"
+        if match.group("number") == "둘" and source[match.end():].startswith(" 다 열지 않"):
+            kind = "openable_pair"
         if match.group("number") == "셋" and source[match.end():].startswith("은 한 사람이었다"):
             kind = "concept_pair"
         if value is None or any(
@@ -1390,6 +1432,42 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
 
 
 def _target_pattern_for_kind(kind: str) -> re.Pattern[str]:
+    if kind == "case_number_digits":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})\s*(?:位|碼|码)")
+    if kind == "registry_line":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})\s*(?:筆|笔|條|条|行)")
+    if kind == "once_condition":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})\s*(?:次|回)|(?P<once_condition>一旦)")
+    if kind == "visual_overlap":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})\s*(?:次|回|瞬|下)")
+    if kind == "ladder_step":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})\s*(?:級|级|階|阶|格)")
+    if kind == "window_count":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})\s*(?:個|个)?(?:視窗|窗口)")
+    if kind == "parallel_fact":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})\s*(?:件事|個事實|个事实|項事實|项事实)")
+    if kind == "file_count":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})\s*(?:個|个|份)?(?:檔案|文件)")
+    if kind == "world_count":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})\s*(?:個|个)?世界")
+    if kind == "record_pair":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})\s*(?:樣|样|邊|边|者|個|个|份)")
+    if kind == "running_distance":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})\s*(?:公里|千米)")
+    if kind == "referenced_sheet":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL}|那|這|这)\s*(?:張|张|頁|页|枚)")
+    if kind == "phone_call":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL}|那|這|这)\s*通")
+    if kind == "arrival_record":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})\s*(?:筆|笔|項|项|個|个|條|条)")
+    if kind == "openable_pair":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})\s*(?:樣|样|個|个|件|份)")
+    if kind == "breath_occurrence":
+        return re.compile(rf"(?:(?P<number>{CHINESE_CARDINAL})\s*口|(?P<one_breath>[緩缓]了口))[氣气]")
+    if kind == "ordinal_night":
+        return re.compile(rf"第\s*(?P<number>{CHINESE_CARDINAL})\s*(?:天夜[裡里]|(?:個|个)(?:晚上|夜晚)|晚|夜)")
+    if kind == "ordinal_sheet":
+        return re.compile(rf"第\s*(?P<number>{CHINESE_CARDINAL})\s*(?:張|张|枚|頁|页)|(?P<first_sheet>首頁|首页)")
     if kind == "address_count":
         return re.compile(rf"(?P<number>{CHINESE_CARDINAL})\s*(?:個|个|處|处)地址")
     if kind == "per_character":
@@ -1417,7 +1495,8 @@ def _target_pattern_for_kind(kind: str) -> re.Pattern[str]:
         number = rf"(?:\d+(?:\.\d+)?|{CHINESE_CARDINAL})"
         unit = r"整?年\s*(?P<half>半)?" if kind == "year" else \
             r"(?:個|个)\s*(?:(?P<half_before>半)\s*月|月\s*(?P<half>半)?)"
-        return re.compile(rf"(?<![{NUMERIC_PREFIX_CHARACTERS}])(?P<number>{number})\s*{unit}")
+        half_year = r"|(?P<half_year>半)\s*年" if kind == "year" else ""
+        return re.compile(rf"(?<![{NUMERIC_PREFIX_CHARACTERS}])(?:(?P<number>{number})\s*{unit}{half_year})")
     if kind == "young_adult_group":
         return re.compile(r"(?P<number>二三十|20[、，,・/]\s*30)\s*(?:多)?[歲岁]")
     if kind == "single_household":
@@ -1549,8 +1628,15 @@ def _match_target_counter_quantities(
                 "meeting_invitation", "per_character", "address_count", "utterance_occurrence",
                 "next_month", "meal_invitation",
                 "concept_pair",
+                "arrival_record", "openable_pair", "breath_occurrence", "ordinal_sheet", "ordinal_night",
+                "running_distance", "referenced_sheet",
+                "phone_call", "cup", "file_count", "world_count", "record_pair",
+                "case_number_digits", "registry_line", "once_condition", "visual_overlap", "ladder_step", "window_count", "parallel_fact",
             } and re.search(rf"[{NUMERIC_PREFIX_CHARACTERS}]\s*$", target[:match.start()]):
-                continue
+                # 再點一杯 is the observed ordering verb, not a decimal prefix.
+                # Negative counts and 十點兩個杯子 must still be rejected.
+                if not (expected.kind == "cup" and re.search(r"再[點点]\s*$", target[:match.start()])):
+                    continue
             if expected.kind == "share" and match.group(0).endswith("份") and re.match(
                 r"\s*ETF\s*(?:的\s*)?(?:文件|報告|报告|合同|合約|合约|契約|契约|資料|资料|說明|说明|表格)",
                 target[match.end():],
@@ -1584,6 +1670,15 @@ def _match_target_counter_quantities(
                 # 一眼 is a glance after a seeing verb, not one physical eye.
                 continue
             value = _chinese_cardinal_value(match.group("number") or "")
+            if expected.kind == "once_condition" and match.groupdict().get("once_condition"):
+                value = Decimal(1)
+            if expected.kind == "year" and match.groupdict().get("half_year"):
+                value = Decimal("0.5")
+            if expected.kind in {"referenced_sheet", "phone_call"} and match.group("number") in {"那", "這", "这"}:
+                value = Decimal(1)
+            if match.groupdict().get("first_sheet") \
+                    or match.groupdict().get("one_breath"):
+                value = Decimal(1)
             if expected.kind == "young_adult_group":
                 value = Decimal(2030)
             if expected.kind in {"single_household", "single_market_day"} and match.group("number") in {"單", "单", "独", "獨"}:
@@ -1980,9 +2075,15 @@ def _untranslated_english_errors(source: str, target: str, *, catalog: bool = Fa
     scrubbed = PLACEHOLDER.sub(" ", target)
     for phrase in sorted(CATALOG_LATIN_ALIASES.get(source.strip(), ()) if catalog else (), key=len, reverse=True):
         scrubbed = re.sub(rf"(?<![A-Za-z0-9]){re.escape(phrase)}(?![A-Za-z0-9])", " ", scrubbed)
+    if re.search(r"(?<![가-힣])임\.\s*상\.\s*철\.", source):
+        # The father revelation deliberately spells the established name in
+        # three beats. Preserve that acting without allowing Sang/Chul alone.
+        scrubbed = re.sub(r"(?<![A-Za-z0-9])Im[.。]\s*Sang[.。]\s*Chul[.。](?![A-Za-z0-9])", " ", scrubbed)
     if SOURCE_IM_SURNAME.search(source):
         # A source-bound surname, not a globally allowed English word/prefix.
         scrubbed = re.sub(r"(?<![A-Za-z0-9])Im(?![A-Za-z0-9])", " ", scrubbed)
+    if SOURCE_KIM_SURNAME.search(source):
+        scrubbed = re.sub(r"(?<![A-Za-z0-9])Kim(?![A-Za-z0-9])", " ", scrubbed)
     scrubbed = re.sub(r"https?://\S+|www\.\S+", " ", scrubbed)
     source_tokens = set(re.findall(
         r"(?<![A-Za-z0-9])[A-Za-z][A-Za-z0-9'+./:_-]*(?![A-Za-z0-9])",

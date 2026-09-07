@@ -98,6 +98,90 @@ class ExchangeTests(unittest.TestCase):
                 for target in targets:
                     self.assertEqual(tool.translation_errors(leaf, locale, target), [], (source, target))
 
+    def test_year_three_source_bound_quantities_and_name_beats(self):
+        for source, target in (
+            ('“여덟 시”라고 말했다.', '說了「八點」。'),
+            ('‘일요일 8시’가 남았다.', '留下了「星期日八點」。'),
+            ('숨을 한 번 고른 뒤.', '緩了一口氣之後。'),
+            ('숨을 한 번 삼키고.', '吞了一口氣。'),
+            ('숨이 한 번 길게 이어졌다.', '一口氣拉得很長。'),
+            ('두 개의 도착 기록. 서류 첫 장. 둘 다 열지 않고', '兩筆送達紀錄。文件第一頁。兩個都不打開'),
+            ('둘 다 열지 않고', '兩樣都不打開'),
+            ('봉투 첫 장만 확인했다.', '只看了信封裡文件的首頁。'),
+            ('사흘째 밤', '第三天夜裡'),
+            ('사흘째 밤', '第三個晚上'),
+            ('그 한 장을 보았다.', '看了那張。'),
+            ('둘이서 찍은 것이었다.', '是兩人合拍的。'),
+            ('아버지를 망하게 한 사람.', '讓父親一敗塗地的人。'),
+            ('미뤘던 전화 한 통을 걸었다.', '撥了那通拖著沒打的電話。'),
+            ('반 년 만에 러닝화를 꺼냈다. 첫날 3킬로 뛰다 죽는 줄 알았다.', '隔了半年，拿出跑鞋。第一天跑三公里，就覺得要死了。'),
+            ('임씨라고 했다. 임. 상. 철.', '說是姓 Im。Im。Sang。Chul。'),
+            ('임가라고 했다.', '說是姓 Im。'),
+            ('임 모 씨라고 했다.', '說是 Im 某。'),
+            ('창원 김씨요.', '昌原那位姓 Kim 的。'),
+            ('등록 이력 한 줄.', '一筆登記紀錄。'),
+            ('여섯 자리와 연도, 지방법원 코드.', '六位數與年份、地方法院代碼。'),
+            ('한 번 걸린 의심.', '一旦起了疑心。'),
+            ('한 번 겹쳐 보였다.', '重疊了一下。'),
+            ('한 번 겹쳐 보였다.', '重疊了一瞬。'),
+            ('사다리는 한 칸씩 밟아야 한다.', '梯子要一階一階地爬。'),
+            ('두 창을 닫지 못한 이유.', '關不掉兩個視窗的理由。'),
+            ('두 가지가 동시에 사실이다.', '兩件事同時都是事實。'),
+            ('두 파일을 열었다.', '打開兩個檔案。'),
+            ('따로 알고 있던 두 세계가 겹쳤다.', '原本分開認識的兩個世界重疊了。'),
+            ('총자산 화면과 대화 목록. 둘 다 올해의 기록. 이 둘을 따로 관리했다.', '總資產畫面與對話列表。兩邊都是今年的紀錄。這兩樣分開管理。'),
+            ('두 컵이 있었다.', '有兩只杯子。'),
+            ('술을 한 잔 더 주문한다', '再點一杯酒'),
+        ):
+            leaf = tool.Leaf('events', 'example', 'content/events/arc_drama.json', ('description',), source, 'event_standard')
+            self.assertEqual(tool.translation_errors(leaf, 'zh-TW', target), [], (source, target))
+
+    def test_year_three_quantity_and_name_mutations(self):
+        for source, targets in (
+            ('“여덟 시”라고 말했다.', ('說了「九點」。', '說了「八個小時」。')),
+            ('‘일요일 8시’가 남았다.', ('留下了「星期六八點」。', '留下了「星期日九點」。')),
+            ('숨을 한 번 고른 뒤.', ('緩了兩口氣之後。', '緩了十一口氣之後。', '緩了負一口氣之後。')),
+            ('손을 한 번 움직였다.', ('一口氣。',)),
+            ('두 개의 도착 기록.', ('三筆送達紀錄。', '十二筆送達紀錄。', '負兩筆送達紀錄。')),
+            ('두 사람이 왔다.', ('兩筆。',)),
+            ('둘 다 열지 않고', ('三樣都不打開', '十二樣都不打開', '負兩樣都不打開')),
+            ('봉투 첫 장만 확인했다.', ('只看了第二頁。', '只看了負首頁。')),
+            ('사흘째 밤', ('第二天夜裡', '第三天白天', '第十三天夜裡', '負第三天夜裡')),
+            ('그 한 장을 보았다.', ('看了兩張。', '看了十一張。', '看了負那張。')),
+            ('둘이서 찍은 것이었다.', ('是三人合拍的。', '是十二人合拍的。')),
+            ('미뤘던 전화 한 통을 걸었다.', ('撥了兩通電話。', '撥了十一通電話。', '撥了負那通電話。')),
+            ('반 년 만에 러닝화를 꺼냈다. 첫날 3킬로 뛰다 죽는 줄 알았다.', (
+                '隔了一年，拿出跑鞋。第一天跑三公里，就覺得要死了。',
+                '隔了半年，拿出跑鞋。第一天跑四公里，就覺得要死了。',
+                '隔了半年，拿出跑鞋。第一天三公斤。',
+                '隔了負半年，拿出跑鞋。第一天跑三公里。')),
+            ('임씨라고 했다. 임. 상. 철.', ('姓 Im。Im。Chul。Sang。', '姓 Im。Im。Sang。Chulx。')),
+            ('임가공업이라고 했다.', ('Im。',)),
+            ('임씨라고 했다.', ('姓 Imx。', 'Im。Sang。Chul。')),
+            ('임 모 씨라고 했다.', ('Imx。',)),
+            ('창원 김씨요.', ('Kimx。', 'Sang。')),
+            ('등록 이력 한 줄.', ('兩筆登記紀錄。', '負一筆登記紀錄。', '十一筆登記紀錄。')),
+            ('여섯 자리와 연도, 지방법원 코드.', ('七位數。', '負六位數。', '十 六位數。')),
+            ('한 번 걸린 의심.', ('兩次起疑。', '負一旦起疑。')),
+            ('한 번 움직였다.', ('一旦。',)),
+            ('한 번 겹쳐 보였다.', ('重疊了兩下。', '重疊了負一下。', '重疊了十 一瞬。')),
+            ('사다리는 한 칸씩 밟아야 한다.', ('梯子要兩階。', '梯子要負一階。', '梯子要十 一階。')),
+            ('두 창을 닫지 못한 이유.', ('三個視窗。', '十二個視窗。', '負兩個視窗。')),
+            ('두 가지가 동시에 사실이다.', ('三件事。', '負兩件事。', '十 兩件事。')),
+            ('두 파일을 열었다.', ('三個檔案。', '負兩個檔案。', '十 兩個檔案。')),
+            ('따로 알고 있던 두 세계가 겹쳤다.', ('三個世界。', '負兩個世界。', '十 兩個世界。')),
+            ('총자산 화면과 대화 목록. 둘 다 올해의 기록.', ('三樣。', '負兩樣。', '十 兩邊。')),
+            ('총자산 화면과 대화 목록. 둘 다 올해의 기록. 이 둘을 따로 관리했다.', (
+                '總資產畫面與對話列表。三邊都是今年的紀錄。這兩樣分開管理。',
+                '總資產畫面與對話列表。兩邊都是今年的紀錄。這三樣分開管理。',
+                '總資產畫面與對話列表。負兩邊都是今年的紀錄。這兩樣分開管理。',
+                '總資產畫面與對話列表。兩邊都是今年的紀錄。十 兩樣分開管理。')),
+            ('두 컵이 있었다.', ('三只杯子。', '負兩個杯子。', '十 兩個杯子。', '十點兩個杯子。')),
+        ):
+            leaf = tool.Leaf('events', 'example', 'content/events/arc_drama.json', ('description',), source, 'event_standard')
+            for target in targets:
+                self.assertTrue(tool.translation_errors(leaf, 'zh-TW', target), (source, target))
+
     def test_story_half_duration_mutations(self):
         for source, targets in (
             ("1년 반", ("一年", "兩年半", "一個半月", "十一年半", "-一年半", "負 一年半")),
@@ -316,9 +400,120 @@ class ExchangeTests(unittest.TestCase):
 
     def test_foreshadow_validator_contract_classification(self):
         self.assertEqual(tool.event_overlay_support(("choices", 0, "foreshadow")),
-                         "validator_contract_missing")
+                         "builtin_overlay_static_only")
         self.assertEqual(tool.event_overlay_support(("choices", 0, "result_text")),
                          "builtin_overlay_static_only")
+
+    def foreshadow_fixture(self):
+        source = {"id": "example", "title": "암시", "description": "다음 선택.",
+                  "choices": [{"text": "기다린다", "result_text": "남았다."},
+                              {"text": "돌아간다", "result_text": "나왔다.",
+                               "foreshadow": "{name}의 다음 선택."}]}
+        target = {"id": "example", "title": "予兆", "description": "次の選択。",
+                  "choices": [{"text": "待つ", "result_text": "残った。"},
+                              {"text": "帰る", "result_text": "外に出た。",
+                               "foreshadow": "{name}の次の選択。"}]}
+        leaves = [tool.Leaf("events", "example", "content/events/example.json", path,
+                            text, "choice_foreshadow" if path[-1] == "foreshadow"
+                            else "event_standard", runtime_support=tool.event_overlay_support(path))
+                  for path, text in tool.strings(source) if path != ("id",)]
+        inventory = {"leaves": leaves, "source_manifest_sha256": "a" * 64,
+                     "events": {"example": source}, "endings": {}, "catalog": {}}
+        leaf = next(l for l in leaves if l.path[-1] == "foreshadow")
+        return source, target, inventory, leaf
+
+    def foreshadow_coverage_errors(self, source, target, locale="ja"):
+        import i18n_coverage_check as coverage
+        errors = []
+        coverage.validate_event(locale, "example", source, target, errors)
+        return errors
+
+    def test_foreshadow_present_text_requires_same_source_choice(self):
+        source, target, _, _ = self.foreshadow_fixture()
+        self.assertEqual(self.foreshadow_coverage_errors(source, target), [])
+        for absent in (True, False):
+            bad = copy.deepcopy(source)
+            if absent:
+                del bad["choices"][1]["foreshadow"]
+            else:
+                bad["choices"][0]["foreshadow"] = bad["choices"][1].pop("foreshadow")
+            self.assertTrue(self.foreshadow_coverage_errors(bad, target))
+
+    def test_foreshadow_present_invalid_types_or_blanks_reject(self):
+        source, target, _, _ = self.foreshadow_fixture()
+        for value in (None, False, 7, [], {}, ["予兆"], {"text": "予兆"}, "", " \n\t"):
+            for side in ("source", "target"):
+                before, after = copy.deepcopy(source), copy.deepcopy(target)
+                (before if side == "source" else after)["choices"][1]["foreshadow"] = value
+                with self.subTest(side=side, value=value):
+                    self.assertTrue(self.foreshadow_coverage_errors(before, after))
+
+    def test_foreshadow_missing_is_measured_not_forced_into_old_rows(self):
+        source, target, inventory, leaf = self.foreshadow_fixture()
+        del target["choices"][1]["foreshadow"]
+        for locale in ("en", "ja", "zh-CN", "zh-TW"):
+            self.assertEqual(self.foreshadow_coverage_errors(source, target, locale), [])
+        documents = {"content/events_ja/example.json": [target]}
+        self.assertIsNone(tool.target_value(leaf, documents, "ja",
+                                           {"example": "content/events_ja/example.json"}))
+        self.assertEqual(sum(l.category == "choice_foreshadow" for l in inventory["leaves"]), 1)
+
+    def test_foreshadow_choice_append_truncate_and_gameplay_reject(self):
+        source, target, _, _ = self.foreshadow_fixture()
+        cases = []
+        for extra in ({"foreshadow": "予兆"}, {"money": 7}, {}):
+            bad = copy.deepcopy(target); bad["choices"].append(extra); cases.append(bad)
+        bad = copy.deepcopy(target); bad["choices"].pop(); cases.append(bad)
+        bad = copy.deepcopy(target); bad["choices"][1]["money"] = 7; cases.append(bad)
+        for bad in cases:
+            self.assertTrue(self.foreshadow_coverage_errors(source, bad), bad)
+
+    def test_foreshadow_bounded_import_preserves_other_text(self):
+        _, target, inventory, leaf = self.foreshadow_fixture()
+        text = target["choices"][1].pop("foreshadow")
+        documents = {"content/events_ja/example.json": [target]}
+        files = {"example": "content/events_ja/example.json"}
+        batch = tool.make_batch(inventory, "ja", [leaf], "b" * 40, documents, files)
+        response = [batch[0], {"id": leaf.id, "locale": "ja", "source_sha256": leaf.source_sha256,
+                               "prompt_version": tool.PROMPT_VERSION, "text": text}]
+        accepted = tool.check_batch(inventory, batch, response)
+        merged = tool.merge_selected(inventory, batch, accepted, documents, files)
+        expected = copy.deepcopy(documents)
+        expected[files["example"]][0]["choices"][1]["foreshadow"] = text
+        self.assertEqual(merged, expected)
+        self.assertNotIn("foreshadow", target["choices"][1])
+
+    def test_foreshadow_response_mutations_reject(self):
+        _, target, inventory, leaf = self.foreshadow_fixture()
+        text = target["choices"][1].pop("foreshadow")
+        documents = {"content/events_ja/example.json": [target]}
+        files = {"example": "content/events_ja/example.json"}
+        batch = tool.make_batch(inventory, "ja", [leaf], "b" * 40, documents, files)
+        good = [batch[0], {"id": leaf.id, "locale": "ja", "source_sha256": leaf.source_sha256,
+                           "prompt_version": tool.PROMPT_VERSION, "text": text}]
+        for key, value in (("locale", "zh-TW"), ("source_sha256", "0" * 64),
+                           ("id", leaf.id.replace("/1/", "/0/")), ("text", "次の選択。"),
+                           ("text", ""), ("text", [text]), ("money", 7)):
+            bad = copy.deepcopy(good); bad[1][key] = value
+            with self.subTest(key=key, value=value), self.assertRaises(tool.ContractError):
+                tool.check_batch(inventory, batch, bad)
+        for bad in ([good[0]], good + [good[1]]):
+            with self.assertRaises(tool.ContractError):
+                tool.check_batch(inventory, batch, bad)
+        changed = copy.deepcopy(documents)
+        changed[files["example"]][0]["choices"][1]["foreshadow"] = "次の週。"
+        with self.assertRaisesRegex(tool.ContractError, "target changed"):
+            tool.merge_selected(inventory, batch, {leaf.id: text}, changed, files)
+
+    def test_foreshadow_extra_source_path_and_raw_duplicate_reject(self):
+        source, target, inventory, _ = self.foreshadow_fixture()
+        allowed = {l.path for l in inventory["leaves"]}
+        for path in (("choices", 0, "foreshadow"), ("choices", 1, "money")):
+            bad = copy.deepcopy(target); tool.set_at(bad, path, "予兆")
+            with self.assertRaises(tool.ContractError):
+                tool.validate_overlay(bad, allowed, source)
+        with self.assertRaises(tool.ContractError):
+            tool.loads('{"foreshadow":"予兆","foreshadow":"別の予兆"}')
 
     def test_reader_validator_contract_classification(self):
         for field in ("chapter5_causal_reads", "chapter5_finale_reads"):

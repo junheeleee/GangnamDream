@@ -5,10 +5,10 @@
 `../I18N_INFRASTRUCTURE.md`가 소유한다. 이 문서는 큰 활성 오더가 아니라
 누락 없이 후속 15~25단위 배치를 고르는 전체 범위 지도다.
 
-- 사건: 기존 text collector는 packaged 1,813개/12,415 leaf, shipping
-  1,708/11,674와 author-only 105/741이다. 여기에는 Chapter5 reader 133개가
-  포함되지만 실제 결과에 표시되는 `choices[].foreshadow` 6개가 누락됐다.
-  본편 사건 번역 분모는 이를 포함한 최소 12,421 leaf로 보강한다.
+- 사건: packaged 1,813개/12,421 leaf, shipping 1,708/11,680과 author-only
+  105/741이다. Chapter5 reader133과 결과 foreshadow6을 포함한다. 기존 보조
+  수집기의12,415/11,674 누락은 foreshadow6을 추가해 정렬했고, 나머지 원문
+  leaf는 변경0이다. M07~M60 정적 closure는192사건/1,751 leaf다.
 - 엔딩: 35개/234 번역 leaf, 조건별 산문 변형을 포함한다. 최초268에는 실제
   화면에 안 나오는 작성 메모 condition34가 섞여 있었다. 이 메타를 제외하고
   원문 도달·화면·자연스러움은 별도 검사한다. 실제 결말 판정 로직은 변경0이다.
@@ -27,8 +27,8 @@
   기존 i18n skeleton 검사에서 JA/ZH reader 누락을 허용하는 경로는 full strict
   완료 근거로 쓰지 않는다. 중국어 CJK AUTO 속도 분기는 이미 정상이다.
 - 현재 수집된 번역 leaf는 17,374다(최초17,408에서 비표시 엔딩 메타34 분리).
-  그중 기존 정적 계약 지원 17,039,
-  foreshadow 정적 validator 미지원 6, 소비자 미확정 329를 분리한다. 관계 표시명
+  그중 정적 계약 지원17,045, 소비자 미확정329를 분리한다. foreshadow6의
+  builtin-overlay validator를 보강했으며 표시 완료나 외부팩 지원은 아니다. 관계 표시명
   21위치는 이 leaf 분모 밖 미지원이다. JSON pair 미해석 138건은 진단이지
   번역문 138개가 아니다. 이 수들을 더해 허위 전체 커버리지를 만들지 않는다.
 - 엔딩 `with_daeun`, `late_call`, `instant_legend`의 언어별22 번역 leaf와
@@ -36,10 +36,12 @@
   별도 해시 보존해348번역으로 정정했다. 일상·안정·회복14종83 leaf/locale도
   독립 대조·수용했다. 남은 엔딩18종129 leaf/locale와 catalog834 leaf/locale도
   전수 대조·수용했다. M07~M24 정적 연결의 미번역35사건279 leaf/locale를 더해
-  총4,323번역이다(언어별 엔딩234+사건373+catalog834). catalog 신규 작성2,485·
+  4,323번역에3년차48사건363 leaf/locale를 더해 총5,412번역이다(언어별
+  엔딩234+사건736+catalog834). catalog 신규 작성2,485·
   기존 JA 누락 수리1·기존 유지16을 구분한다. 엔딩35종과 catalog7섹션은 채웠지만
   사건·UI·표시 소비자는 아직 남는다. M07~M24 정적 연결은 해당 기간 모든 무작위
   사건·UI나 실플레이 전량의 번역 완료를 뜻하지 않는다. 원어민·화면·전체판은 OPEN.
+  3년차도 정적45종+별세1+NG2의 한정 묶음이며 M37·M53 장기 후속을 포함한다.
 - 다음 runtime 수리의 실제 소비자: `GameState.apply_relationship_effect`는 원문
   이름을 저장하고 `MainGame:9852/18298`, `RelationshipSystem:30/50`이 그대로
   표시한다. 저장 값을 바꾸지 않는 locale 표시 resolver가 필요하다. 또한
@@ -53,6 +55,43 @@
   M01~M06 공개 데모를 덮지 않고 별도 전체판 후보에서 검토한다.
 
 ## 원문 대조에서 발견한 별도 서사 확인점
+
+- `arc_jaehyuk_aftermath.choices[0..2].text`에는 `[take_high_road 경로]`,
+  `[crossed_line 경로]`, `[jaehyuk_scammed 경로]`가 실제 선택문에 붙어 있다.
+  숨은 경로 표시 금지 정본과 충돌하는 기존 원문 결함이다. 번역 작업본은
+  식별자를 그대로 두고 '경로'만 중립 번역하며, 삭제나 도덕 힌트로 변형하지
+  않는다. 원문 대조 수용은 이 노출의 승인이나 출시 GO가 아니다. 공개 전
+  KO/EN·대상 언어·실제 선택문 소비자를 함께 수리해야 할 승격 차단 항목이다.
+- `arc_y3_jiyeon_departure.choices[2].result_text`는 '고마워요'(4음절)를
+  '세 글자'라고 부른다. 대상 언어의 짧은 감사 표현과 원문의3을 보존하며
+  원문 지시 대상을 별도 확인한다.
+- `arc_minjun_first_call.choices[1].result_text`는 현수와 통화 중 '이번 주?'라고
+  한 뒤 같은 결과 끝에서 '한 달 후의 약속'이라고 한다. 별도 일정 정합 수리가
+  필요하며 번역은 둘 중 하나를 임의 채택하지 않았다.
+- `arc_sangchul_confrontation.choices[2].result_text`에서 유리문을 밀고 찬 공기를
+  맞은 뒤, 직접 후속 `arc_sangchul_stairwell.description`은 다시 의자 곁·문까지
+  세 걸음·같은 테이블로 돌아간다. 이 순서는 원문/후속 키 직접 대조 결과이며
+  새 실플레이 증거는 아니다. 퇴장 단계를 KO와 표시 계약에서 함께 수리해야 한다.
+- `callback_sangchul_truth_buried_echo.choices[1].result_text`의 '어떻게 알았어?'
+  회상은 confrontation 선택0의 말인데, buried를 만드는 선택1은 '네가 꺼낸
+  이름이야'다. 묻은 경로의 회상 독자를 실제 ingress와 대조할 대상이다.
+- `arc_sangchul_year3`와 `arc_sangchul_year3_father_passed.description`은
+  '{name}이 신고한 것과 관계없이'라고 한다. reckoning의 신고 외 선택들도
+  같은 후속을 지정하므로 신고 전제를 별도 확인한다. 세 번역은 원문 전제를
+  조건부로 몰래 바꾸지 않았다. `arc_sangchul_reckoning.choices[1].result_text`의
+  '아버지가 돌아오는 건 아니었다' 역시 생존 경로에서 회복의 비유인지 확인한다.
+- `arc_jaehyuk_04a_ghost.description_if_known.asked_partial_return`의 시선·웃음
+  회상은 앞선 문자 답변과 대면 연출이 이어지는지 확인할 대상이다.
+  `callback_jaehyuk_exploited_retaliate`의 세 배 미지급 주장 및 선택1 재입금은
+  앞선 역제안 정산과 중복되는지 실제 분기 영수증으로 확인해야 한다.
+- `arc_year3_close.description`의 남은100주는 240주·연48주 기준의3년말
+  잔여96주와 다르다. 실제 발화 주차와 저작 의도를 확인할 수치 부채다.
+  위 확인점은 원문 대조 관찰이며 독립 사람 판정이나 새 GO/REJECT가 아니다.
+- 공개 보호 root `arc_temptation_01`의 choice0/1 foreshadow는 JA·간체·번체에서
+  미작성이다. 기존6 leaf와 공개 GO를 건드리지 않고 별도 보강 대상으로 남긴다.
+  EN foreshadow6도 미작성이다. 정적 검사 지원 추가가 기존 파일을 채우지는 않는다.
+  지도 밖 `arc_daeun_money_gap`와 selector의 `arc_after_scam`,
+  `arc_jaehyuk_04c_stand_up` 역시 이번48종 밖 사건 잔여다.
 
 - `content/events/arc_midgame.json:arc_hyunsu_drift.choices[2].result_text`는
   답장 '형도요'(3음절)를 '그 두 글자'라고 부른다. 현수 후속 번역에서는 원문의
