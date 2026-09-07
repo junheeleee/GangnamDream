@@ -27,3 +27,10 @@
 - 열린 사람 판정과 정확한 scope/RC/표본/합격 기준은
   [`human_gates.json`](../human_gates.json)만 소유한다. 실행 큐에 사람 게이트 전용
   가짜 오더를 남기지 않는다.
+
+## legacy V2 호환 보존선
+
+옛 W1~W24 V2 `demo_rc`는 `runtime_default=false`인 내부 저장 호환·회귀·역사
+증거다. ORDER-101 baseline 47·blocked 3, W1~8 save matrix, W24 뒤 U01..U20
+모집단과 관련 코드·데이터·검사는 삭제하지 않지만, 이를 미래 공개 데모나
+M01~M06 GO의 대체 후보로 다시 발급하지 않는다.
