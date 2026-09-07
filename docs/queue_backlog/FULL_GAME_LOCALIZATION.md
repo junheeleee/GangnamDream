@@ -35,8 +35,10 @@
   초반 이후 8개 root의 언어별94 leaf를 수용했다. 최초357 중 비표시 메타9를
   별도 해시 보존해348번역으로 정정했다. 일상·안정·회복14종83 leaf/locale도
   독립 대조·수용했다. 남은 엔딩18종129 leaf/locale도 전수 대조·수용해 현재
-  총984번역이다(언어별 엔딩234+사건94). 엔딩35종 표시 텍스트는 모두 채웠지만
-  사건·catalog·UI·표시 소비자는 아직 남는다. 원어민·화면·전체판 완료는 OPEN.
+  catalog834 leaf/locale도 전수 대조·수용해 총3,486번역이다(언어별 엔딩234+
+  사건94+catalog834). catalog 신규 작성2,485·기존 JA 누락 수리1·기존 유지16을
+  구분한다. 엔딩35종과 catalog7섹션은 채웠지만 사건·UI·표시 소비자는 아직
+  남는다. 원어민·화면·전체판 완료는 OPEN.
 - 다음 runtime 수리의 실제 소비자: `GameState.apply_relationship_effect`는 원문
   이름을 저장하고 `MainGame:9852/18298`, `RelationshipSystem:30/50`이 그대로
   표시한다. 저장 값을 바꾸지 않는 locale 표시 resolver가 필요하다. 또한
@@ -51,6 +53,18 @@
 
 ## 원문 대조에서 발견한 별도 서사 확인점
 
+- catalog 원문 전수 대조에서 다음5건을 세 작성자가 독립 확인했다. 현재 번역은
+  원문에 묶어 두며 KO를 몰래 수정하거나 화면에서 관찰한 결함이라고 주장하지 않는다.
+  `content/items.json:artifact_daeun_note.description`은 '밥 먹고 다녀.' 뒤
+  '세 글자'라 실제5음절과 맞지 않는다. `content/meta/achievements.json:
+  startup_exit.description`의 '스물에 억대 계약'은 33세 시작 정본과 다르다.
+  같은 파일 `political_fix.description`의 정치 테마주 한탕은 현재 동명 엔딩의
+  정치인 당선 산문과 다르므로 실제 업적 ingress와 엔딩을 별도 확인해야 한다.
+  `content/news_templates.json:news_009.topics[4]`는 '밈코인코인' 중복이며,
+  `news_057.headline`은 '낙찰가율78%하락'의 하락폭/도달수준이 모호하다.
+  별도 KO 정합 수리에서 저작 의도와 실제 독자를 확인한 뒤 해당 leaf의 번역만
+  갱신할 것을 권고한다. 미수리 비용은 나이·유물 문구·업적 의미·뉴스 수치의
+  원문 결함이 세 언어에도 남는 것이다. 번역 배치나 자동 검사는 이 문제를 닫지 않는다.
 - `content/endings.json`의 `gangnam_dream.description_if_known.
   cleared_father_debt_from_sangchul`: 기본 산문에서 초인종·아버지 도착·입장·
   함께 야경 보기를 마친 뒤 이 부록이 다시 초인종·아버지 도착·야경을 반복한다.

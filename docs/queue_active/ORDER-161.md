@@ -66,3 +66,35 @@ L2: 다른 작성자가 KO에서 전수 교차 대조, headline7주제 조합과
 DataRegistry의 catalog overlay와 MainGame의 tags/news 표시를 읽기 전용으로
 확인한다. 자동 게이트는 계약 증거이지 재미·깊이·문체의 증거가 아니다.
 지속 규범은 I18N_INFRASTRUCTURE·세 용어집이 소유하며 위 분할/파일은 일회성이다.
+
+## 실행 증거 — 2026-09-07
+
+- 선언 `f3070ea`, 기존 JA 누락 수리 선언 `27aa518` 뒤 구현했다. A202/B632를
+  세 언어 각각 직접 작성·교차 검토했다. 신규2,485(819/833/833), 기존 JA
+  `job_13` 수리1, 기존 유지16을 합친2,502문구다. 기존 다른14직업명과 공개
+  job_01은 그대로이며 기존984 수용 기록·비표시 메타9도 불변이다.
+- 초기 git-private source export는 보존했다. 원문 대조 수리 후 같은 KO
+  manifest에서 `order161-final-A/B`를 재export하고 여섯 check/import를 통과했다.
+  portable 원장은 총3,486=언어별(234엔딩+94사건+834catalog)이다. 기계 수용이
+  원어민·실플레이 승인이 아니라는 경계를 유지한다.
+- 최종 catalog SHA-256: JA `a3da3deb0f4b050f84c9bc47639930a87cb181cc5959ae25ece555b45be0cb8c`,
+  CN `8e0b4c94b0fe79baf6999cc0e8f9bdb7847f59394f15add49cf23051ff2cb7cb`,
+  TW `f69f67198903e190ae6ccabae181484b47c8a5e757fd7d9107370b88742b1709`.
+- 다른 작성자가 KO에서 전체2,502 leaf와 언어별553 headline-topic 조합을
+  대조했다. 불명확한 이익/수익성, 정규장 외/장후, 한국 법인/자회사, 두 번째
+  창업/창업가, 보조금/대출 범위를 수리하고 다시 대조했다. L2 blocker0이며
+  인간 언어·플레이 gate를 닫은 것은 아니다.
+- 실제 새 숫자 문맥만 source-bound 수리: 억대/수백억/수조원, 첫1억, 나이대,
+  구독자·인원·횟수, `2030` 연령층, 한자 수사와 brand 전체 경계. ZH935,
+  full-game self-test77 통과. 독립106(정상21허용+변조85거부)도 통과했고
+  실제 catalog2,502오류0이다. 양 지역 OpenCC 분류 데이터는 변경0이다.
+- DataRegistry411/432~473/1197~1224와 scenes/MainGame.gd19639/23393/9701의
+  표시 소비자를 읽었다. overlay7섹션·자산 tags·news 조합은 정적 계약이며,
+  폰트·잘림·정상 속도·native 증거가 아니다. KO 원문 결함5건은 backlog로 분리했다.
+- L3·전체판 INCOMPLETE/HOLD는 그대로다. 다음 배치는 누락 사건과 UI/소비자다.
+  이 사양의 분할·해시·receipt 절차는 일회성이고 지속 규범은 기존 현지화 정본이다.
+- 최종 `full-game-localization-overlays`12검사·EN·diff check 통과. 전체 source
+  inventory에서 세 언어 catalog834/834 present/machine_valid/receipted가 일치했다.
+  기존 공개/legacy 본문·UI의 넓은 숫자 감사 잔여는 이번 catalog 결과에 합산하지
+  않는다. 실제 CLI stdout은 worktree git-private
+  `full-game-localization/order161-final-checks.log`에 보존했다.

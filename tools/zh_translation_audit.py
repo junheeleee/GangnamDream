@@ -123,7 +123,7 @@ SOURCE_FINANCIAL_TIER = re.compile(
 SOURCE_PRINT_RUN = re.compile(
     rf"(?<![가-힣])초판\s+(?P<number>\d[\d,]*)\s*(?P<unit>만)?\s*부{SOURCE_COUNTER_SUFFIX}"
 )
-SOURCE_IM_SURNAME = re.compile(r"(?<![가-힣])임씨(?=$|[\s.,!?…]|[은는이가의를와도])")
+SOURCE_IM_SURNAME = re.compile(r"(?<![가-힣])임(?:씨|가)(?=$|[\s.,!?…\x22\x27]|[은는이가의를와도])")
 SOURCE_ORDINAL = re.compile(
     r"(?<![가-힣\d])(?P<number>첫|한|둘|두|셋|세|넷|네|다섯|여섯|일곱|여덟|아홉|열|\d+)\s*"
     r"(?:번째|번\s*째|째)"
@@ -173,7 +173,18 @@ SOURCE_BARE_AGE = re.compile(
 SOURCE_RETIREMENT_AGE = re.compile(
     r"(?<![가-힣])(?:서른여덟(?=의 아침)|쉰(?=\s+전에\s+일을))"
 )
+# These catalogue constructions were observed in the Korean source. Their
+# written numbers are not vehicle counts, bank balances or invented entities.
+SOURCE_CATALOG_AGE = re.compile(r"(?<![가-힣])스물(?=에 억대 계약)")
+SOURCE_NAME_CHARACTERS = re.compile(r"(?<=이름 )석 자(?=가 브랜드다)")
+SOURCE_REUNION_PAIR = re.compile(r"(?<=다시 만난 밤, )둘(?=이서 찍었다)")
+CATALOG_YOUNG_ADULT_SOURCES = frozenset({
+    "2030 직장인", "2030 투자자", "2030 집주인", "2030 세대",
+    "2030 창업 열풍 — '{topic}처럼 나도 유니콘' 꿈꾸는 세대 급증",
+    "청년 창업 지원금 {topic} 확대 — '취업 대신 창업' 선택하는 2030 급증",
+})
 CHINESE_CARDINAL = r"(?:\d[\d,]*|[零〇○一二两兩三四五六七八九十百千]+)"
+NUMERIC_PREFIX_CHARACTERS = "0-9零〇○一二两兩三四五六七八九十百千萬万億亿兆数數點点.＋+−﹣－負负-"
 TARGET_COUNTER_FORMS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("duration_hour", ("個小時", "个小时", "小時", "小时")),
     ("duration_month", ("個月", "个月")),
@@ -223,7 +234,9 @@ TARGET_COUNTER_FORMS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("year", ("年",)),
     ("duration_day", ("天", "日")),
     ("calendar_day", ("日", "號", "号")),
-    ("night", ("晚", "夜")),
+    ("night", ("個夜晚", "个夜晚", "晚", "夜")),
+    ("run_occurrence", ("次", "回", "輪", "轮")),
+    ("alternative_count", ("種結果", "种结果", "種", "种", "個", "个")),
     ("second", ("秒",)),
     ("floor", ("層", "层", "樓", "楼")),
     ("pyeong", ("坪",)),
@@ -273,7 +286,7 @@ SOURCE_EOK_MONEY = re.compile(
 )
 SOURCE_EXPLICIT_MONEY = re.compile(
     rf"(?<![\d,])(?P<number>{DECIMAL_LITERAL})\s*"
-    r"(?P<unit>천만|만|천)?\s*원"
+    r"(?P<unit>조|천만|만|천)?\s*원"
 )
 SOURCE_WORD_MONEY = re.compile(
     r"(?<![가-힣])(?P<number>[일이삼사오육칠팔구십백천]+)\s*"
@@ -288,11 +301,11 @@ SOURCE_COLLOQUIAL_MANWON = re.compile(
 )
 CHINESE_MONEY_COMPONENT = re.compile(
     rf"(?P<number>{DECIMAL_LITERAL})\s*"
-    r"(?P<unit>万亿|萬億|千万|千萬|亿|億|万|萬|千)?"
+    r"(?P<unit>万亿|萬億|千万|千萬|兆|亿|億|万|萬|千)?"
 )
 TARGET_WON_MONEY = re.compile(
     rf"(?P<expression>(?:{DECIMAL_LITERAL}\s*"
-    r"(?:万亿|萬億|千万|千萬|亿|億|万|萬|千)?\s*)+)"
+    r"(?:万亿|萬億|千万|千萬|兆|亿|億|万|萬|千)?\s*)+)"
     r"(?:韩元|韓元)"
 )
 KOREAN_WON = re.compile(
@@ -303,6 +316,13 @@ KOREAN_WON = re.compile(
 )
 SOURCE_RHETORICAL_WON = re.compile(r"(?<![가-힣])어떤\s+원화도")
 TARGET_RHETORICAL_WON = re.compile(r"(?:每一|任何)(?:韩元|韓元)")
+# Approximate financial magnitudes remain approximate; never turn a hundreds-
+# of-millions contract or several-trillion deal into a made-up exact amount.
+CATALOG_APPROXIMATE_WON = (
+    (re.compile(r"(?<![가-힣])억대(?= 계약)"), re.compile(r"(?:上[亿億]|[数數][亿億])(?:韩元|韓元)")),
+    (re.compile(r"(?<![가-힣])수백억(?= EXIT)"), re.compile(r"[数數]百[亿億](?:韩元|韓元)")),
+    (re.compile(r"(?<![가-힣])수조원(?= 빅딜)"), re.compile(r"[数數](?:万亿|萬億|兆)(?:韩元|韓元)")),
+)
 KOREAN_UNIT_AMOUNT = re.compile(
     r"(?<![가-힣])(?P<number>\d[\d,.]*)\s*"
     r"(?P<units>천만|천|만|억)"
@@ -451,9 +471,87 @@ SOURCE_SCOPED_LATIN_TERMS = {
     "한PD건설": {"zh-CN": "HanPD 建设", "zh-TW": "HanPD 建設"},
     "박상진": "Park Sangjin",
     "태호": "Taeho",
+    "엔코어": "Encore",
+    "코어코인": "Corecoin",
+    "노바코인": "Novacoin",
 }
 # Taiwan App is a natural option, not a mandatory replacement for 應用程式.
-SOURCE_OPTIONAL_LATIN_TERMS = {"앱": "App"}
+SOURCE_OPTIONAL_LATIN_TERMS = {"앱": "App", "유튜브": "YouTube"}
+# Optional brand spellings for exact Korean catalogue leaves, not a global
+# English allowlist. Chinese brand names remain valid; prose must still be
+# translated. Multiword names and their case are matched as whole tokens.
+CATALOG_LATIN_ALIASES = {
+    "LG에너지솔루션": ("LG Energy Solution",),
+    "구글": ("Google",), "구글 코리아": ("Google",),
+    "구글 TPU": ("Google TPU",),
+    "아마존": ("Amazon",), "아마존 AWS": ("Amazon AWS",),
+    "아마존 커스텀 칩": ("Amazon",),
+    "메타": ("Meta",), "메타 코리아": ("Meta",), "메타 라마": ("Meta Llama",),
+    "오르카": ("Orca",), "오르카 AI 서버 메모리": ("Orca",),
+    "삼성 가우스2": ("Samsung Gauss 2", "Gauss 2"),
+    "삼성 가우스": ("Samsung Gauss", "Gauss"),
+    "삼성 AI 시설": ("Samsung",),
+    "하이퍼클로바X2": ("HyperCLOVA X2",), "클로드 4": ("Claude 4",),
+    "클로드": ("Claude",), "제미나이": ("Gemini",),
+    "제미나이 울트라": ("Gemini Ultra",),
+    "코파일럿 엔터프라이즈": ("Copilot Enterprise",),
+    "깃허브 이력서": ("GitHub",), "솔라나": ("Solana",),
+    "리플": ("XRP", "Ripple"), "에이다": ("ADA", "Cardano"),
+    "아발란체": ("Avalanche",), "셀트리온": ("Celltrion",), "볼턴": ("Bolton",),
+    "성원아파트": ("Seongwon",), "잠실 한빛단지": ("Hanbit",),
+    "개포 그린단지": ("Green",), "목동 한빛타운": ("Hanbit Town",),
+    "상계 그린타운": ("Green Town",), "압구정 리버타운": ("River Town",),
+    "잠실 파크타운": ("Park Town",),
+    "네이버": ("NAVER",), "네이버 데이터센터": ("NAVER",),
+    "네이버 HyperCLOVA": ("NAVER HyperCLOVA",),
+    "업비트": ("Upbit",), "업비트 거래량": ("Upbit",),
+    "빗썸": ("Bithumb",), "빗썸 시세": ("Bithumb",),
+    "코인원": ("Coinone",), "코빗": ("Korbit",), "카카오뱅크": ("KakaoBank",),
+    "에코프로": ("EcoPro",), "코스피": ("KOSPI",), "코스닥": ("KOSDAQ",),
+    "코스닥 바이오주": ("KOSDAQ",), "팔란티어": ("Palantir",),
+    "스노우플레이크": ("Snowflake",), "크라우드스트라이크": ("CrowdStrike",),
+    "리비안": ("Rivian",), "버크셔헤서웨이": ("Berkshire Hathaway",),
+    "쿠팡": ("Coupang",), "배달의민족": ("Baemin", "Baedal Minjok"),
+    "토스": ("Toss",), "토스 이승건": ("Toss", "Lee Seunggun", "Lee Seunggeon"),
+    "SK이노베이션": ("SK Innovation",), "POSCO홀딩스": ("POSCO Holdings",),
+    "한화에어로스페이스": ("Hanwha Aerospace",), "넷플릭스": ("Netflix",),
+    "한화솔루션": ("Hanwha Solutions",), "삼성SDI": ("Samsung SDI",),
+    "두산에너빌리티": ("Doosan Enerbility",),
+    "당근마켓": ("Karrot", "Danggeun Market"), "야놀자": ("Yanolja",),
+    "컬리": ("Kurly",), "크래프톤": ("Krafton",), "쏘카": ("Socar",),
+    "직방": ("Zigbang",), "라이트코인": ("Litecoin",),
+    "코어코인캐시": ("Corecoin Cash",), "이캐시": ("eCash",),
+    "모네로": ("Monero",), "지캐시": ("Zcash",), "대시": ("Dash",),
+    "삼성바이오로직스": ("Samsung Biologics",), "다온페이": ("Daon Pay",),
+    "미스트랄AI": ("Mistral AI",), "다온 KoGPT": ("Daon KoGPT",),
+    "코난테크놀로지": ("Konan Technology",), "한진칼": ("Hanjin KAL",),
+    "포스코DX": ("POSCO DX",), "인텔": ("Intel",), "보잉": ("Boeing",),
+    "우버": ("Uber",), "트위터(X)": ("Twitter（X）", "Twitter(X)"),
+    "킨텍스": ("KINTEX",), "리셋 클럽": ("Reset Club",), "피벗 커뮤니티": ("Pivot",),
+    "앱테크·짠테크 열풍 — {topic} 소소한 절약으로 종잣돈 모으기": ("App",),
+    "삼성·SK의 {topic} 공급 계약 — 수조원 빅딜 성사 임박": ("Samsung",),
+    "{topic} 재테크 유튜버 우후죽순 — '구독자 100만 = 연봉 10억' 신드롬": ("YouTube",),
+}
+CATALOG_LATIN_ONLY = {
+    source: forms for source, forms in CATALOG_LATIN_ALIASES.items()
+    if source not in {
+        "구글 코리아", "메타 코리아", "아마존 커스텀 칩", "오르카 AI 서버 메모리",
+        "삼성 AI 시설", "깃허브 이력서", "성원아파트", "잠실 한빛단지",
+        "개포 그린단지", "목동 한빛타운", "상계 그린타운", "압구정 리버타운",
+        "잠실 파크타운", "네이버 데이터센터", "업비트 거래량", "빗썸 시세",
+        "코스닥 바이오주", "토스 이승건", "피벗 커뮤니티",
+        "앱테크·짠테크 열풍 — {topic} 소소한 절약으로 종잣돈 모으기",
+        "삼성·SK의 {topic} 공급 계약 — 수조원 빅딜 성사 임박",
+        "{topic} 재테크 유튜버 우후죽순 — '구독자 100만 = 연봉 10억' 신드롬",
+    }
+}
+CATALOG_LATIN_ONLY["삼성 가우스2"] = ("Samsung Gauss 2",)
+CATALOG_LATIN_ONLY["삼성 가우스"] = ("Samsung Gauss",)
+
+
+def catalog_latin_only(source: str, target: str) -> bool:
+    """Only complete source names, never a brand token stripped of its prose."""
+    return target.strip() in CATALOG_LATIN_ONLY.get(source.strip(), ())
 SOURCE_APP_TERM = re.compile(
     r"(?<![가-힣])앱(?=$|[\s.,!?…]|(?:을|이|은|에|에서|으로|의|만|도)(?=$|[\s.,!?…]))"
 )
@@ -667,9 +765,13 @@ def _has_unapproved_han_alias(
     return any(re.search(pattern, target) for pattern in patterns)
 
 
-def _allows_latin_only(source: str, target: str) -> bool:
+def _allows_latin_only(source: str, target: str, *, catalog: bool = False) -> bool:
     expected = LATIN_EXACT.get(source.strip())
-    return expected is not None and target.strip() == expected
+    if expected is not None and target.strip() == expected:
+        return True
+    prepared = SOURCE_SCOPED_LATIN_TERMS.get(source.strip())
+    return (isinstance(prepared, str) and target.strip() == prepared) or \
+        (catalog and catalog_latin_only(source, target))
 
 
 def _script_errors(lang: str, target: str) -> list[str]:
@@ -747,6 +849,8 @@ def _script_errors(lang: str, target: str) -> list[str]:
 
 def _terminology_errors(lang: str, source: str, target: str) -> list[str]:
     errors: list[str] = []
+    if source.strip() == "첫 억" and not re.match(r"(?:首(?:個|个|次)?|第一(?:個|个)?)", target.strip()):
+        errors.append("first-hundred-million title lost its first ordinal")
     terms = REGIONAL_TERMS[lang]
     exact = LATIN_EXACT.get(source.strip())
     if exact is not None and target.strip() != exact:
@@ -953,6 +1057,10 @@ def _source_counter_kind(
 ) -> str:
     following = source[match.end():].lstrip()
     preceding = source[max(0, match.start() - 120):match.start()]
+    if source == "2차전지주" and counter == "차":
+        return "secondary_battery"
+    if source == "2차 창업자 네트워크" and counter == "차":
+        return "second_startup"
     if counter == "달" and match.group("number") == "한" and re.match(
         r"에\s+한\s+번(?:$|[\s.,!?…])", following,
     ):
@@ -993,6 +1101,10 @@ def _source_counter_kind(
         return "document_sheet"
     if counter == "대" and re.match(r"(?:초|중|후)반", following):
         return "age_decade"
+    if counter == "대" and re.match(r"(?:직장인|패닉바이어|사회초년생)(?:$|[\s.,])", following):
+        return "age_decade"
+    if counter == "번" and re.match(r"런을 완료했다", following):
+        return "run_occurrence"
     if counter == "칸":
         if re.search(r"책상\s*위에는[^.\n]*$", preceding) and re.match(
             r"씩\s*자리를\s*차지", following,
@@ -1034,6 +1146,9 @@ def _source_counter_kind(
 
 def _source_audience_quantities(source: str) -> list[CounterQuantity]:
     quantities: list[CounterQuantity] = []
+    for match in re.finditer(r"(?<=구독자 )(?P<number>\d+)만(?= = 연봉)", source):
+        quantities.append(CounterQuantity(match.start(), match.end(),
+                                          Decimal(match.group("number")) * 10_000, "subscriber_count"))
     for match in SOURCE_CREATOR_AUDIENCE.finditer(source):
         for group in ("first", "subscribers", "earlier", "later"):
             quantities.append(CounterQuantity(
@@ -1047,6 +1162,20 @@ def _source_audience_quantities(source: str) -> list[CounterQuantity]:
 def _source_counter_quantities(source: str) -> list[CounterQuantity]:
     quantities: list[CounterQuantity] = []
     quantities.extend(_source_audience_quantities(source))
+    for pattern, number, kind in (
+        (SOURCE_CATALOG_AGE, 20, "age"),
+        (SOURCE_NAME_CHARACTERS, 3, "character"),
+        (SOURCE_REUNION_PAIR, 2, "photo_pair"),
+    ):
+        for match in pattern.finditer(source):
+            quantities.append(CounterQuantity(match.start(), match.end(), Decimal(number), kind))
+    if source in CATALOG_YOUNG_ADULT_SOURCES:
+        start = source.index("2030")
+        quantities.append(CounterQuantity(start, start + 4, Decimal(2030), "young_adult_group"))
+    if source == "1인 가구":
+        quantities.append(CounterQuantity(0, len(source), Decimal(1), "single_household"))
+    for match in re.finditer(r"주(?P<number>4)일제(?= 의무화| 도입 기업 늘자)", source):
+        quantities.append(CounterQuantity(match.start(), match.end(), Decimal(4), "workweek_days"))
     for match in SOURCE_RETIREMENT_AGE.finditer(source):
         quantities.append(CounterQuantity(
             match.start(), match.end(), Decimal(_korean_native_value(match.group(0))), "age",
@@ -1177,6 +1306,10 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
             kind = "night"
         else:
             kind = "duration_day"
+        if match.group("day") == "하루" and re.match(r"\s+200통의 전화\.", source[match.end():]):
+            kind = "daily_frequency"
+        if match.group("day") == "하루" and source.startswith("{topic} 하루 만에 +22% 폭등"):
+            kind = "single_market_day"
         quantities.append(CounterQuantity(
             match.start(), match.end(),
             Decimal(SOURCE_LEXICAL_DAYS[match.group("day")]), kind,
@@ -1193,6 +1326,10 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
             and re.search(r"그\s+$", source[:match.start()])
             and re.match(r"의\s+경계", source[match.end():])
         ) else "entity"
+        if match.group("number") == "둘" and source[match.end():].startswith(" 중 하나다"):
+            kind = "alternative_count"
+        if match.group("number") == "셋" and source[match.end():].startswith("은 한 사람이었다"):
+            kind = "concept_pair"
         if value is None or any(
             quantity.kind == kind and quantity.value == value
             for quantity in quantities
@@ -1205,6 +1342,22 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
 
 
 def _target_pattern_for_kind(kind: str) -> re.Pattern[str]:
+    if kind == "young_adult_group":
+        return re.compile(r"(?P<number>二三十|20[、，,・/]\s*30)\s*(?:多)?[歲岁]")
+    if kind == "single_household":
+        return re.compile(rf"(?P<number>單|单|独|獨|{CHINESE_CARDINAL})\s*(?:人家戶|人家庭|人住戶|人住户|人家庭|居)")
+    if kind == "secondary_battery":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})\s*次[電电]池")
+    if kind == "second_startup":
+        return re.compile(rf"第?(?P<number>{CHINESE_CARDINAL})\s*次[創创][業业]")
+    if kind == "workweek_days":
+        return re.compile(rf"每(?:周|週)(?:工作)?\s*(?P<number>{CHINESE_CARDINAL})\s*天(?:工作制|制)?")
+    if kind == "single_market_day":
+        return re.compile(rf"(?P<number>單|单|{CHINESE_CARDINAL})\s*(?:日|天)")
+    if kind == "photo_pair":
+        return re.compile(rf"(?P<number>雙|双|{CHINESE_CARDINAL})\s*(?:個人|个人|人照|人合照)")
+    if kind == "daily_frequency":
+        return re.compile(rf"(?:(?P<daily>每天|每日)|(?P<number>{CHINESE_CARDINAL})\s*天)")
     if kind == "share":
         return re.compile(
             rf"(?P<number>{CHINESE_CARDINAL})\s*(?:股|單位|单位|份(?=\s*ETF|[，,。]))"
@@ -1312,6 +1465,11 @@ def _match_target_counter_quantities(
         pattern = _target_pattern_for_kind(expected.kind)
         candidates: list[CounterQuantity] = []
         for match in pattern.finditer(target, cursor):
+            if expected.kind in {
+                "young_adult_group", "single_household", "secondary_battery", "second_startup",
+                "workweek_days", "single_market_day", "photo_pair", "age",
+            } and re.search(rf"[{NUMERIC_PREFIX_CHARACTERS}]\s*$", target[:match.start()]):
+                continue
             if expected.kind == "share" and match.group(0).endswith("份") and re.match(
                 r"\s*ETF\s*(?:的\s*)?(?:文件|報告|报告|合同|合約|合约|契約|契约|資料|资料|說明|说明|表格)",
                 target[match.end():],
@@ -1345,7 +1503,15 @@ def _match_target_counter_quantities(
                 # 一眼 is a glance after a seeing verb, not one physical eye.
                 continue
             value = _chinese_cardinal_value(match.group("number") or "")
+            if expected.kind == "young_adult_group":
+                value = Decimal(2030)
+            if expected.kind in {"single_household", "single_market_day"} and match.group("number") in {"單", "单", "独", "獨"}:
+                value = Decimal(1)
+            if expected.kind == "photo_pair" and match.group("number") in {"雙", "双"}:
+                value = Decimal(2)
             if expected.kind == "monthly_frequency" and match.groupdict().get("monthly"):
+                value = Decimal(1)
+            if expected.kind == "daily_frequency" and match.groupdict().get("daily"):
                 value = Decimal(1)
             if expected.kind == "parent_pair" and match.groupdict().get("named_parents"):
                 value = Decimal(2)
@@ -1403,6 +1569,25 @@ def _unexpected_target_entity_errors(
         # inventions at this automatic layer.
         if value is not None and value > 1 and value not in expected_values:
             errors.append(f"unmatched target entity quantity invented: {value}")
+    if any(q.kind == "young_adult_group" for q in source_quantities):
+        for match in re.finditer(rf"{CHINESE_CARDINAL}\s*(?:多)?[歲岁]", target):
+            if not any(q.start <= match.start() and match.end() <= q.end for q in matched):
+                errors.append("unmatched catalogue target age invented")
+    if any(q.kind == "workweek_days" for q in source_quantities):
+        for match in re.finditer(rf"{CHINESE_CARDINAL}\s*(?:天|週|周|月|年)", target):
+            if not any(q.start <= match.start() and match.end() <= q.end for q in matched):
+                errors.append("unmatched catalogue target workweek quantity invented")
+    if any(q.kind in {
+        "young_adult_group", "workweek_days", "run_occurrence", "single_household",
+        "secondary_battery", "second_startup", "photo_pair", "single_market_day",
+    } for q in source_quantities):
+        rest = _mask_spans(target, matched)
+        for match in re.finditer(r"[零〇○一二两兩三四五六七八九十百千]+", rest):
+            value = _chinese_cardinal_value(match.group())
+            # Chinese may naturally introduce one classifier (那一晚 / 一起).
+            # New catalogue normalizations may not hide extra plural numbers.
+            if value is not None and value > 1:
+                errors.append("unmatched catalogue native quantity invented")
     return errors
 
 
@@ -1412,6 +1597,9 @@ def _overlaps(amounts: list[MoneyAmount], start: int, end: int) -> bool:
 
 def _source_money_amounts(source: str) -> list[MoneyAmount]:
     amounts: list[MoneyAmount] = []
+    if source.strip() == "첫 억":
+        start = source.index("억")
+        amounts.append(MoneyAmount(start, start + 1, Decimal(100_000_000)))
     for match in SOURCE_EOK_MONEY.finditer(source):
         following = source[match.end():]
         if not following.startswith("원") and NON_MONEY_COUNTER.match(following):
@@ -1441,6 +1629,7 @@ def _source_money_amounts(source: str) -> list[MoneyAmount]:
             continue
         multiplier = {
             None: Decimal(1),
+            "조": Decimal(1_000_000_000_000),
             "천": Decimal(1_000),
             "만": Decimal(10_000),
             "천만": Decimal(10_000_000),
@@ -1523,6 +1712,7 @@ def _source_money_amounts(source: str) -> list[MoneyAmount]:
 def _target_money_amounts(target: str) -> list[MoneyAmount]:
     multipliers = {
         None: Decimal(1),
+        "兆": Decimal(1_000_000_000_000),
         "千": Decimal(1_000),
         "万": Decimal(10_000),
         "萬": Decimal(10_000),
@@ -1534,6 +1724,11 @@ def _target_money_amounts(target: str) -> list[MoneyAmount]:
         "萬億": Decimal(1_000_000_000_000),
     }
     amounts: list[MoneyAmount] = []
+    for match in re.finditer(r"(?<![零〇一二两兩三四五六七八九十百千萬万億亿兆點点.])(?P<sign>[+\-−﹣－負负])?\s*一(?:個|个)?[亿億](?:韩元|韓元)", target):
+        if re.search(rf"[{NUMERIC_PREFIX_CHARACTERS}]\s*$", target[:match.start()]):
+            continue
+        sign = -1 if match.group("sign") in {"-", "−", "﹣", "－", "負", "负"} else 1
+        amounts.append(MoneyAmount(match.start(), match.end(), Decimal(sign * 100_000_000)))
     for match in TARGET_WON_MONEY.finditer(target):
         value = Decimal(0)
         components = list(CHINESE_MONEY_COMPONENT.finditer(match.group("expression")))
@@ -1571,6 +1766,22 @@ def _canonical_number(raw: str) -> str:
 
 def _numeric_errors(source: str, target: str) -> list[str]:
     errors: list[str] = []
+    approximate_labels = 0
+    approximate_source = source
+    approximate_target = target
+    for source_pattern, target_pattern in CATALOG_APPROXIMATE_WON:
+        source_matches = list(source_pattern.finditer(source))
+        target_matches = list(target_pattern.finditer(target))
+        if any(re.search(r"[+\-−﹣－負负]\s*$", source[:m.start()]) for m in source_matches) \
+                or any(re.search(r"[+\-−﹣－負负]\s*$", target[:m.start()]) for m in target_matches):
+            errors.append("signed approximate Korean-won amount is unsupported")
+        if any(re.search(rf"[{NUMERIC_PREFIX_CHARACTERS}]\s*$", target[:m.start()]) for m in target_matches):
+            errors.append("approximate Korean-won numeric prefix is unsupported")
+        if len(source_matches) != len(target_matches):
+            errors.append("approximate Korean-won magnitude missing/invented")
+        approximate_labels += min(len(source_matches), len(target_matches))
+        approximate_source = source_pattern.sub(lambda m: " " * len(m.group()), approximate_source)
+        approximate_target = target_pattern.sub(lambda m: " " * len(m.group()), approximate_target)
     source_amounts = _source_money_amounts(source)
     target_amounts = _target_money_amounts(target)
     source_values = [amount.won for amount in source_amounts]
@@ -1586,8 +1797,8 @@ def _numeric_errors(source: str, target: str) -> list[str]:
         errors.append("rhetorical Korean-won phrase missing/invented")
     # A literal amount still needs its own label. Only the observed, source-
     # bound 어떤 원화도 construction can own an additional nonnumeric label.
-    expected_labels = len(target_amounts) + min(rhetorical_source, rhetorical_target)
-    if (source_amounts or target_amounts or rhetorical_source) and target_label_count != expected_labels:
+    expected_labels = len(target_amounts) + min(rhetorical_source, rhetorical_target) + approximate_labels
+    if (source_amounts or target_amounts or rhetorical_source or approximate_labels) and target_label_count != expected_labels:
         errors.append(
             f"Korean-won label count/topology mismatch "
             f"{target_label_count} != {expected_labels}"
@@ -1597,19 +1808,19 @@ def _numeric_errors(source: str, target: str) -> list[str]:
         _mask_spans(source, source_amounts)
     )
     target_quantities, counter_errors = _match_target_counter_quantities(
-        _mask_spans(target, target_amounts), source_quantities
+        _mask_spans(approximate_target, target_amounts), source_quantities
     )
     errors.extend(counter_errors)
     errors.extend(_unexpected_target_entity_errors(
-        _mask_spans(target, target_amounts), source_quantities,
+        _mask_spans(approximate_target, target_amounts), source_quantities,
         target_quantities,
     ))
 
     source_rest = _mask_spans(
-        _mask_spans(source, source_amounts), source_quantities
+        _mask_spans(approximate_source, source_amounts), source_quantities
     )
     target_rest = _mask_spans(
-        _mask_spans(target, target_amounts), target_quantities
+        _mask_spans(approximate_target, target_amounts), target_quantities
     )
     if "9급" in source:
         target_rest = target_rest.replace("九级", "9级").replace("九級", "9級")
@@ -1645,7 +1856,8 @@ def _korean_money_units(source: str) -> set[str]:
 
 def _money_errors(lang: str, source: str, target: str) -> list[str]:
     errors: list[str] = []
-    has_won = bool(KOREAN_WON.search(source) or _source_money_amounts(source))
+    has_won = bool(KOREAN_WON.search(source) or _source_money_amounts(source)
+                   or any(pattern.search(source) for pattern, _ in CATALOG_APPROXIMATE_WON))
     expected = REGIONAL_TERMS[lang]["won"]
     wrong_region = REGIONAL_TERMS["zh-TW" if lang == "zh-CN" else "zh-CN"]["won"]
     if WRONG_CURRENCY.search(target):
@@ -1663,8 +1875,10 @@ def _money_errors(lang: str, source: str, target: str) -> list[str]:
     return errors
 
 
-def _untranslated_english_errors(source: str, target: str) -> list[str]:
+def _untranslated_english_errors(source: str, target: str, *, catalog: bool = False) -> list[str]:
     scrubbed = PLACEHOLDER.sub(" ", target)
+    for phrase in sorted(CATALOG_LATIN_ALIASES.get(source.strip(), ()) if catalog else (), key=len, reverse=True):
+        scrubbed = re.sub(rf"(?<![A-Za-z0-9]){re.escape(phrase)}(?![A-Za-z0-9])", " ", scrubbed)
     if SOURCE_IM_SURNAME.search(source):
         # A source-bound surname, not a globally allowed English word/prefix.
         scrubbed = re.sub(r"(?<![A-Za-z0-9])Im(?![A-Za-z0-9])", " ", scrubbed)
@@ -1714,6 +1928,7 @@ def validate_text(lang: str, key: str, source: str, target: Any) -> list[str]:
     if not isinstance(target, str):
         return [f"target is {type(target).__name__}, expected string"]
     errors: list[str] = []
+    catalog_context = key.startswith("catalog:")
     if not target.strip():
         errors.append("empty translation")
         return errors
@@ -1731,12 +1946,12 @@ def validate_text(lang: str, key: str, source: str, target: Any) -> list[str]:
         errors.append("paragraph mismatch")
     errors.extend(_numeric_errors(source, target))
     if HANGUL.search(source) and not HAN.search(target) \
-            and not _allows_latin_only(source, target):
+            and not _allows_latin_only(source, target, catalog=catalog_context):
         errors.append("no Chinese Han glyphs in translated Korean source")
     errors.extend(_script_errors(lang, target))
     errors.extend(_terminology_errors(lang, source, target))
     errors.extend(_money_errors(lang, source, target))
-    errors.extend(_untranslated_english_errors(source, target))
+    errors.extend(_untranslated_english_errors(source, target, catalog=catalog_context))
     return list(dict.fromkeys(errors))
 
 
@@ -2342,6 +2557,124 @@ def run_self_test(
 ) -> list[str]:
     failures: list[str] = []
     cases = 0
+
+    # Exact Korean-source catalogue names are not permission for unrelated
+    # English prose or for deleting the noun around an allowed brand token.
+    for source, forms in CATALOG_LATIN_ALIASES.items():
+        for phrase in forms:
+            cases += 1
+            if _untranslated_english_errors(source, phrase, catalog=True):
+                failures.append(f"catalogue brand not accepted in exact source: {source}:{phrase}")
+            cases += 1
+            if not _untranslated_english_errors(source, phrase + "Untranslated", catalog=True):
+                failures.append(f"catalogue brand suffix escaped: {source}:{phrase}")
+            # KoGPT/DX already occur literally in these Korean leaves and the
+            # other components (Daon/POSCO) were globally prepared before this
+            # batch; this is not a new source-scope exemption.
+            if source not in {"다온 KoGPT", "포스코DX"} and _untranslated_english_errors("흰 종이.", phrase, catalog=True):
+                cases += 1
+                if not _untranslated_english_errors(source + " 파일", phrase, catalog=True):
+                    failures.append(f"catalogue brand escaped exact-source boundary: {source}:{phrase}")
+    for source, target in (
+        ("구글 코리아", "Google"), ("깃허브 이력서", "GitHub"),
+        ("네이버 데이터센터", "NAVER"), ("피벗 커뮤니티", "Pivot"),
+        ("삼성 가우스2", "Gauss 2"), ("토스 이승건", "Toss"),
+    ):
+        cases += 1
+        if catalog_latin_only(source, target):
+            failures.append(f"partial catalogue name accepted as complete: {source}:{target}")
+    for lang, source, target, valid in (
+        ("zh-CN", "첫 억", "首个一亿韩元", True),
+        ("zh-TW", "첫 억", "第一億韓元", True),
+        ("zh-CN", "첫 억", "首个十亿韩元", False),
+        ("zh-TW", "첫 억", "第一億", False),
+        ("zh-CN", "첫 억", "首个一亿元", False),
+        ("zh-CN", "기업가치 1조원 달성", "企业价值达到1万亿韩元", True),
+        ("zh-TW", "기업가치 1조원 달성", "企業價值達到1兆韓元", True),
+        ("zh-CN", "기업가치 1조원 달성", "企业价值达到1亿韩元", False),
+        ("zh-TW", "기업가치 1조원 달성", "企業價值達到2兆韓元", False),
+        ("zh-CN", "스물에 억대 계약.", "二十岁就签下上亿韩元的合同。", True),
+        ("zh-TW", "스물에 억대 계약.", "20歲簽下上億韓元的契約。", True),
+        ("zh-TW", "스물에 억대 계약.", "21歲簽下上億韓元的契約。", False),
+        ("zh-CN", "스물에 억대 계약.", "二十岁就签下上千万韩元的合同。", False),
+        ("zh-TW", "스물에 억대 계약.", "20歲簽下3億韓元的契約。", False),
+        ("zh-CN", "창업자 수백억 EXIT 실현", "创始人实现数百亿韩元退出", True),
+        ("zh-TW", "수조원 빅딜 성사 임박", "數兆韓元大交易即將成交", True),
+        ("zh-CN", "창업자 수백억 EXIT 실현", "创始人实现数十亿韩元退出", False),
+        ("zh-TW", "수조원 빅딜 성사 임박", "數億韓元大交易即將成交", False),
+        ("zh-CN", "수백억 조회수", "数百亿韩元观看次数", False),
+        ("zh-CN", "이름 석 자가 브랜드다.", "名字三个字就是品牌。", True),
+        ("zh-TW", "이름 석 자가 브랜드다.", "名字四個字就是品牌。", False),
+        ("zh-CN", "총 5번 런을 완료했다.", "共完成5轮人生。", True),
+        ("zh-TW", "총 5번 런을 완료했다.", "總共完成6輪人生。", False),
+        ("zh-CN", "5번 전화했다.", "打了5轮电话。", False),
+        ("zh-CN", "다시 만난 밤, 둘이서 찍었다.", "重逢那晚，一起拍的双人照。", True),
+        ("zh-TW", "다시 만난 밤, 둘이서 찍었다.", "重逢那晚，兩個人一起拍的。", True),
+        ("zh-CN", "다시 만난 밤, 둘이서 찍었다.", "重逢那晚，一起拍的三人照。", False),
+        ("zh-CN", "2030 직장인", "二三十岁的上班族", True),
+        ("zh-TW", "2030 투자자", "20、30多歲投資人", True),
+        ("zh-CN", "2030 직장인", "三四十岁的上班族", False),
+        ("zh-TW", "2030 투자자", "20多歲投資人", False),
+        ("zh-CN", "2030명 직장인", "二三十岁的上班族", False),
+        ("zh-TW", "2030 투자자", "20、30多輛車", False),
+        ("zh-CN", "30대 직장인", "30多岁的上班族", True),
+        ("zh-TW", "차량 30대", "30多歲", False),
+        ("zh-CN", "1인 가구", "独居人群", True),
+        ("zh-TW", "1인 가구", "單人家戶", True),
+        ("zh-CN", "1인 가구", "三人家庭", False),
+        ("zh-TW", "1인 가구", "兩人家戶", False),
+        ("zh-CN", "2차전지주", "二次电池股", True),
+        ("zh-TW", "2차전지주", "三次電池股", False),
+        ("zh-CN", "2차 협상", "二次电池", False),
+        ("zh-TW", "2차 창업자 네트워크", "第二次創業者人脈網", True),
+        ("zh-CN", "2차 창업자 네트워크", "三次创业者网络", False),
+        ("zh-CN", "주4일제 의무화", "强制实行每周四天工作制", True),
+        ("zh-TW", "주4일제 의무화", "強制每週工作4天", True),
+        ("zh-CN", "주4일제 의무화", "强制实行每周五天工作制", False),
+        ("zh-TW", "주4회 의무화", "每週工作4天", False),
+        ("zh-TW", "사흘 밤.", "三個夜晚。", True),
+        ("zh-CN", "사흘 밤.", "三个白天。", False),
+        ("zh-CN", "구독자 100만 = 연봉 10억", "100万订阅者＝10亿韩元年薪", True),
+        ("zh-TW", "구독자 100만 = 연봉 10억", "100萬訂閱者＝年薪10億韓元", True),
+        ("zh-CN", "구독자 100만 = 연봉 10억", "101万订阅者＝10亿韩元年薪", False),
+        ("zh-TW", "구독자 100만 = 연봉 10억", "100萬股＝年薪10億韓元", False),
+        ("zh-CN", "구독자 100만 = 연봉 10억", "100万韩元＝10亿韩元年薪", False),
+        ("zh-TW", "구독자 100만 = 연봉 10억", "100萬訂閱者＝年薪10億", False),
+        ("zh-CN", "계좌 100만 = 연봉 10억", "100万订阅者＝10亿韩元年薪", False),
+        ("zh-TW", "1억원", "-一億韓元", False),
+        ("zh-TW", "1억원", "負 一億韓元", False),
+        ("zh-CN", "1억원", "−一亿韩元", False),
+        ("zh-CN", "-1억원", "负一亿韩元", True),
+        ("zh-TW", "1억원", "零點一億韓元", False),
+        ("zh-CN", "1억원", "零点一亿韩元", False),
+        ("zh-TW", "1억원", "一點一億韓元", False),
+        ("zh-TW", "1억원", "一兆一億韓元", False),
+        ("zh-TW", "1억원", "兩兆 一億韓元", False),
+        ("zh-CN", "1억원", "一万 一亿韩元", False),
+        ("zh-TW", "창업자 수백억 EXIT 실현", "創辦人實現-數百億韓元出場", False),
+        ("zh-CN", "창업자 수백억 EXIT 실현", "创始人实现负数百亿韩元退出", False),
+        ("zh-TW", "창업자 수백억 EXIT 실현", "創辦人實現一兆數百億韓元出場", False),
+        ("zh-TW", "수조원 빅딜 성사 임박", "一兆 數兆韓元大交易即將成交", False),
+        ("zh-TW", "2030 직장인", "一百二三十歲上班族", False),
+        ("zh-CN", "2030 직장인", "一百 二三十岁上班族", False),
+        ("zh-TW", "2030 직장인", "二三十歲的上班族與四十歲", False),
+        ("zh-CN", "2030 직장인", "20、30多岁与40岁上班族", False),
+        ("zh-TW", "주4일제 의무화", "每週工作四天與五天", False),
+        ("zh-CN", "주4일제 의무화", "每周工作四天与五年", False),
+        ("zh-TW", "2030 직장인", "二三十歲的上班族與四十 歲", False),
+        ("zh-TW", "2030 직장인", "二三十歲的上班族與四十年", False),
+        ("zh-TW", "주4일제 의무화", "每週工作四天與五 天", False),
+        ("zh-TW", "총 5번 런을 완료했다.", "完成五輪和六輪人生。", False),
+        ("zh-TW", "1억원", "數一億韓元", False),
+        ("zh-TW", "1억원", "數 一億韓元", False),
+        ("zh-CN", "1억원", "数一亿韩元", False),
+        ("zh-TW", "첫 억", "一億韓元", False),
+        ("zh-TW", "첫 억", "第二筆一億韓元", False),
+    ):
+        cases += 1
+        observed = validate_text(lang, "catalog:self-test", source, target)
+        if bool(observed) == valid:
+            failures.append(f"catalogue quantity valid={valid} {source}:{target}: {observed}")
 
     creator_source = (
         "댓글 알림이 멈추지 않았다. 100만이었다. 구독자 100만. "

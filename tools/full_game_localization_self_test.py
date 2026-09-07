@@ -32,6 +32,58 @@ class ExchangeTests(unittest.TestCase):
     def test_valid_exact_exchange(self):
         self.assertEqual(tool.check_batch(self.inventory, self.batch, self.response), {self.leaf.id: "次の週"})
 
+    def test_catalog_japanese_numeric_contexts(self):
+        for source, target in (
+            ("2030 직장인", "20・30代の会社員"),
+            ("2차전지주", "二次電池株"),
+            ("1인 가구", "一人暮らし世帯"),
+            ("2차 창업자 네트워크", "二度目の起業をした人たちのネットワーク"),
+        ):
+            leaf = tool.Leaf("catalog", "news:example", "content/news_templates.json", ("topics", 0), source, "catalog")
+            self.assertEqual(tool.translation_errors(leaf, "ja", target), [])
+
+    def test_catalog_japanese_numeric_context_mutations(self):
+        for source, target in (
+            ("2030 직장인", "20・40代の会社員"),
+            ("2030 직장인", "20・30年の会社員"),
+            ("2030 직장인", "120・30代の会社員"),
+            ("2030 직장인", "20・30代と四十代の会社員"),
+            ("2030 직장인", "20・30代と四十 代の会社員"),
+            ("2030 직장인", "20・30代と四十年の会社員"),
+            ("2차전지주", "三次電池株"),
+            ("2차전지주", "十二次電池株"),
+            ("2차전지주", "二十二次電池株"),
+            ("2차전지주", "十 二次電池株"),
+            ("2차전지주", "二次電池株と四次電池株"),
+            ("1인 가구", "二人暮らし世帯"),
+            ("1인 가구", "十一人暮らし世帯"),
+            ("1인 가구", "二十一人暮らし世帯"),
+            ("1인 가구", "十 一人暮らし世帯"),
+            ("2차 창업자 네트워크", "三度目の起業をした人たちのネットワーク"),
+            ("2차 창업자 네트워크", "十二度目の起業家ネットワーク"),
+            ("2차 창업자 네트워크", "二度目と三度目の起業家ネットワーク"),
+            ("2030명 직장인", "20・30代の会社員"),
+        ):
+            leaf = tool.Leaf("catalog", "news:example", "content/news_templates.json", ("topics", 0), source, "catalog")
+            self.assertTrue(tool.translation_errors(leaf, "ja", target), (source, target))
+
+    def test_catalog_japanese_names_are_exact_and_not_event_exemptions(self):
+        for source, target in (("클로드 4", "Claude 4"), ("코스닥", "KOSDAQ"), ("하이퍼클로바X2", "HyperCLOVA X2")):
+            leaf = tool.Leaf("catalog", "news:example", "content/news_templates.json", ("topics", 0), source, "catalog")
+            self.assertEqual(tool.translation_errors(leaf, "ja", target), [])
+            self.assertTrue(tool.translation_errors(leaf, "ja", target + "x"))
+            event = tool.Leaf("events", "example", "content/events/example.json", ("title",), source, "event_standard")
+            self.assertTrue(tool.translation_errors(event, "ja", target))
+        leaf = tool.Leaf("catalog", "news:example", "content/news_templates.json", ("topics", 0), "깃허브 이력서", "catalog")
+        self.assertTrue(tool.translation_errors(leaf, "ja", "GitHub"))
+
+    def test_catalog_chinese_name_does_not_whitelist_unrelated_event(self):
+        for locale in ("zh-CN", "zh-TW"):
+            leaf = tool.Leaf("catalog", "news:example", "content/news_templates.json", ("topics", 0), "대시", "catalog")
+            self.assertEqual(tool.translation_errors(leaf, locale, "Dash"), [])
+            event = tool.Leaf("events", "example", "content/events/example.json", ("title",), "대시", "event_standard")
+            self.assertTrue(tool.translation_errors(event, locale, "Dash"))
+
     def test_raw_duplicate_keys(self):
         with self.assertRaises(tool.ContractError):
             tool.loads('{"text":"a","text":"b"}')

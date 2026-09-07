@@ -378,12 +378,50 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
     if locale == "ja":
         errors = ja.validate_translation(ja.Entry(leaf.id, leaf.source, leaf.owner,
                                                  format_template=leaf.format_template), text)
+        # Exact catalogue names may legitimately be all Latin. This does not
+        # excuse English descriptions or partial brand-only translations.
+        if leaf.group == "catalog":
+            from zh_translation_audit import catalog_latin_only, CATALOG_YOUNG_ADULT_SOURCES
+            if catalog_latin_only(leaf.source, text):
+                errors = [e for e in errors if e != "no Japanese glyphs in translated Korean source"]
         if leaf.source.count("\n") != text.count("\n"):
             errors.append("newline mismatch")
         # Explicit Arabic digits remain exact; written counters are a reviewer gate.
         numeric = re.compile(r"(?<![\d.])[+-]?\d+(?:[,.]\d+)*")
         source_numbers = ja.PLACEHOLDER.sub("", leaf.source)
         target_numbers = ja.PLACEHOLDER.sub("", text)
+        if leaf.group == "catalog":
+            if leaf.source in CATALOG_YOUNG_ADULT_SOURCES:
+                age_groups = list(re.finditer(r"(?<![0-9一二三四五六七八九十百千])20[・、/](?:\s*)30代(?!\d)", text))
+                if len(age_groups) != 1:
+                    errors.append("catalog age-group grammar mismatch")
+                for age in re.finditer(r"[0-9一二三四五六七八九十百千]+\s*(?:代|歳)", text):
+                    if not any(group.start() <= age.start() and age.end() <= group.end() for group in age_groups):
+                        errors.append("catalog added age mismatch")
+                source_numbers = source_numbers.replace("2030", "20 30")
+                remainder = text
+                for group in reversed(age_groups):
+                    remainder = remainder[:group.start()] + " " * (group.end() - group.start()) + remainder[group.end():]
+                if re.search(r"[二三四五六七八九十百千萬万億兆]", remainder):
+                    errors.append("catalog added native number mismatch")
+            for source, before, after in (
+                ("2차전지주", "二次電池", "2次電池"),
+                ("1인 가구", "一人暮らし", "1人暮らし"),
+                ("2차 창업자 네트워크", "二度目", "2度目"),
+            ):
+                if leaf.source == source:
+                    allowed = list(re.finditer(re.escape(before) + "|" + re.escape(after), target_numbers))
+                    if len(allowed) != 1:
+                        errors.append("catalog numeric expression count mismatch")
+                    for value in allowed:
+                        if re.search(r"[0-9一二三四五六七八九十百千萬万億兆]\s*$", target_numbers[:value.start()]):
+                            errors.append("catalog native numeric prefix mismatch")
+                    remainder = target_numbers
+                    for value in reversed(allowed):
+                        remainder = remainder[:value.start()] + " " * (value.end() - value.start()) + remainder[value.end():]
+                    if re.search(r"[二三四五六七八九十百千萬万億兆]", remainder):
+                        errors.append("catalog added native number mismatch")
+                    target_numbers = re.sub(r"(?<![0-9一二三四五六七八九十百千萬万億兆])" + re.escape(before), after, target_numbers)
         if sorted(numeric.findall(source_numbers)) != sorted(numeric.findall(target_numbers)):
             errors.append("explicit numeric value/sign mismatch")
     else:

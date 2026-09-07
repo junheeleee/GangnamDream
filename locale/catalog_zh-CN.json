@@ -1,13 +1,570 @@
 {
-  "assets": {},
-  "jobs": {
-    "job_01": {
-      "name": "便利店夜班兼职"
+  "assets": {
+    "samsung": {
+      "name": "Hanseong Electronics",
+      "description": "Hanseong Electronics资产。波动率8%，风险2/5。",
+      "tags": ["低波动", "季度分红", "韩国大盘股"]
+    },
+    "kakao": {
+      "name": "Daon",
+      "description": "Daon资产。波动率13%，风险3/5。",
+      "tags": ["中等波动", "不分红", "韩国本土平台"]
+    },
+    "hyundai": {
+      "name": "Daehyeon Motor",
+      "description": "Daehyeon Motor资产。波动率10%，风险3/5。",
+      "tags": ["中等波动", "季度分红", "对出口形势敏感"]
+    },
+    "kospi_etf": {
+      "name": "KOSPI 200 ETF",
+      "description": "KOSPI 200 ETF资产。波动率6%，风险2/5。",
+      "tags": ["低波动", "分散投资", "跟踪KOSPI"]
+    },
+    "sp500": {
+      "name": "美国大盘股ETF",
+      "description": "美国大盘股ETF资产。波动率7%，风险2/5。",
+      "tags": ["低波动", "美元资产", "分散投资美国市场"]
+    },
+    "nasdaq": {
+      "name": "美国科技股ETF",
+      "description": "美国科技股ETF资产。波动率11%，风险3/5。",
+      "tags": ["中等波动", "美元资产", "集中投资科技股"]
+    },
+    "nvidia": {
+      "name": "Encore",
+      "description": "Encore资产。波动率20%，风险4/5。",
+      "tags": ["高波动", "AI主题", "美元资产"]
+    },
+    "ai_chip": {
+      "name": "AI半导体主题",
+      "description": "AI半导体主题资产。波动率24%，风险5/5。",
+      "tags": ["极高波动", "集中投资单一主题", "美元资产"]
+    },
+    "bitcoin": {
+      "name": "Corecoin",
+      "description": "Corecoin资产。波动率32%，风险5/5。",
+      "tags": ["极高波动", "不分红", "对周期敏感"]
+    },
+    "ethereum": {
+      "name": "Novacoin",
+      "description": "Novacoin资产。波动率35%，风险5/5。",
+      "tags": ["极高波动", "不分红", "技术生态"]
+    },
+    "meme_coin": {
+      "name": "迷因币",
+      "description": "迷因币资产。波动率90%，风险5/5。",
+      "tags": ["投机性", "不分红", "社交热度驱动"]
+    },
+    "reits": {
+      "name": "REIT ETF",
+      "description": "REIT ETF资产。波动率4%，风险2/5。",
+      "tags": ["极低波动", "每月分红", "间接投资房地产"]
+    },
+    "gangnam_share": {
+      "name": "江南公寓份额",
+      "description": "江南公寓份额资产。波动率4%，风险2/5。",
+      "tags": ["极低波动", "赚取价差型", "直接投资房地产"]
+    },
+    "officetel": {
+      "name": "办公居住两用公寓份额投资",
+      "description": "办公居住两用公寓份额投资资产。波动率8%，风险3/5。",
+      "tags": ["低波动", "租金收益型", "变现能力低"]
+    },
+    "seed_startup": {
+      "name": "朋友初创公司的种子投资",
+      "description": "朋友初创公司的种子投资资产。波动率55%，风险5/5。",
+      "tags": ["极高波动", "不分红", "依赖人脉"]
+    },
+    "ai_startup": {
+      "name": "AI初创公司SAFE投资",
+      "description": "AI初创公司SAFE投资资产。波动率50%，风险5/5。",
+      "tags": ["极高波动", "不分红", "长期锁定"]
+    },
+    "kospi_3x": {
+      "name": "KOSPI 3倍杠杆",
+      "description": "KOSPI 3倍杠杆资产。波动率28%，风险5/5。",
+      "tags": ["极高波动", "放大波动", "长期持有风险"]
+    },
+    "nasdaq_3x": {
+      "name": "美国科技股3倍ETF",
+      "description": "美国科技股3倍ETF资产。波动率34%，风险5/5。",
+      "tags": ["极高波动", "美元资产", "放大波动"]
     }
   },
-  "items": {},
-  "achievements": {},
-  "clues": {},
-  "thoughts": {},
-  "news": {}
+  "jobs": {
+    "job_01": {
+      "name": "便利店夜班兼职",
+      "description": "深夜守着便利店柜台。应付难缠的顾客、整理快递、打扫，全靠自己。虽然只拿最低时薪，但眼下也只有这份活。"
+    },
+    "job_02": {
+      "name": "外卖骑手",
+      "description": "跑到手机电量和体力都快耗尽。下雨天的补贴还不错，可出一次事故就全完了。"
+    },
+    "job_03": {
+      "name": "中小企业文员",
+      "description": "看时间的次数越来越多。发展前景不明朗，光靠有份固定工资这一点撑着。"
+    },
+    "job_04": {
+      "name": "呼叫中心客服",
+      "description": "一天200通电话。挨骂也得说“好的，客户您好”。心理承受力要么变强，要么崩溃，只有这两种结果。"
+    },
+    "job_05": {
+      "name": "培训机构助教",
+      "description": "跟在讲师身后复印资料、管理考勤、接听家长电话。待遇不怎么样，知识倒是在一点点积累。"
+    },
+    "job_06": {
+      "name": "前端开发工程师",
+      "description": "做界面的人。加班是常态，CSS总在背后给你一刀。年薪的增长曲线在业内名列前茅。"
+    },
+    "job_07": {
+      "name": "金融分析师",
+      "description": "每天早晨读行情，给出投资意见。一份研报有时就能影响市场价格。干这行，市场就是老师。"
+    },
+    "job_08": {
+      "name": "大企业新员工",
+      "description": "公司名气够响，内部竞争也一样激烈。熬得过办公室政治和聚餐文化，就能换来稳定。"
+    },
+    "job_09": {
+      "name": "公共机构合同工",
+      "description": "比私企稳定，但转正竞争很激烈。压力相对较低，知识也能持续积累。"
+    },
+    "job_10": {
+      "name": "房产中介助理",
+      "description": "跟着经纪人找房源、协助起草合同、接待客户。跑得越多，越能看懂市场。"
+    },
+    "job_11": {
+      "name": "初创公司创始人",
+      "description": "一场把创意变成产品的豪赌。工资没保障，成功后的收益却没有上限。周旋在投资人会面与代码之间。"
+    },
+    "job_12": {
+      "name": "AI自动化顾问",
+      "description": "四处向企业推销AI解决方案，既要懂技术，也要有销售能力。市场火热，竞争也火热。"
+    },
+    "job_13": {
+      "name": "YouTube创作者",
+      "description": "内容就是资产。频道做大了，广告收入和赞助就会来。抓住潮流的嗅觉决定一切。"
+    },
+    "job_14": {
+      "name": "保险销售",
+      "description": "从熟人做起，再往外拓展。人脉就是业绩。社交能力越来越强，人际关系却成了商品，讽刺也正在这里。"
+    },
+    "job_15": {
+      "name": "外企销售",
+      "description": "英语会议、全球业绩压力、绩效奖金。佣金比底薪还多。只要做出业绩，进军江南就有望。"
+    }
+  },
+  "items": {
+    "artifact_sangchul_card": {
+      "name": "Im Sangchul的名片",
+      "description": "第一次见面那天递来的。\n背面写着私人号码。\n后来才明白，那意味着什么。"
+    },
+    "artifact_daeun_note": {
+      "name": "Daeun留下的便利贴",
+      "description": "出门时贴在了冰箱上。\n“记得吃饭。”三个字。"
+    },
+    "artifact_father_call": {
+      "name": "通话时长23秒",
+      "description": "把通话记录截了图，存了下来。\n很难解释为什么要存。"
+    },
+    "artifact_jiyeon_text": {
+      "name": "那个早晨的短信",
+      "description": "是她先发来的短信。\n“我是不是有点奇怪？”\n回她说，不奇怪。"
+    },
+    "artifact_jaehyuk_photo": {
+      "name": "韩国路边摊的自拍",
+      "description": "重逢那晚，一起拍的双人照。\n不管后来发生了什么，\n那一晚，真的是多年的老朋友。"
+    },
+    "artifact_hyunsu_card": {
+      "name": "Hyunsu的名片",
+      "description": "备考四年之后。\n西装。名片。“都是托哥的福。”\n存了下来。"
+    },
+    "gift_can_coffee": {
+      "name": "罐装咖啡套装",
+      "description": "不贵，却很暖心，适合送给熬夜的人。"
+    },
+    "gift_socks": {
+      "name": "袜子套装",
+      "description": "实用，反而更能看出心意的礼物。"
+    },
+    "gift_essay_book": {
+      "name": "随笔集",
+      "description": "有很多值得画线的句子。书里藏着挑选它的人花下的时间。"
+    },
+    "gift_exhibit_catalog": {
+      "name": "展览图录",
+      "description": "只有记得谁喜欢什么展览，才能挑对的东西。"
+    },
+    "gift_scarf": {
+      "name": "围巾",
+      "description": "让人想起那个常在寒风里久站的人。"
+    },
+    "gift_perfume": {
+      "name": "香水",
+      "description": "价格先映入眼帘的礼物。心意还没到，负担可能就先到了。"
+    },
+    "gift_wallet": {
+      "name": "品牌钱包",
+      "description": "对谁都好。也正因如此，对谁都可能不够特别。"
+    },
+    "gift_necklace": {
+      "name": "项链",
+      "description": "最昂贵的答案。答错时，也会错得最远。"
+    }
+  },
+  "achievements": {
+    "five_lives": {"name": "五次人生", "description": "共完成5轮人生。首尔不好闯。", "hint": "游玩5次"},
+    "first_billion": {"name": "首个一亿韩元", "description": "在一轮人生中积累了至少1亿韩元资产。", "hint": "资产达到1亿韩元"},
+    "gangnam_dream": {"name": "GANGNAM DREAM", "description": "达成GANGNAM DREAM结局。分不清是梦还是现实。", "hint": "达成GANGNAM DREAM结局"},
+    "survived_burnout": {"name": "倦怠过来人", "description": "跌到过谷底。经历了职业倦怠或精神崩溃结局。", "hint": "职业倦怠／精神崩溃结局"},
+    "startup_exit": {"name": "成功退出", "description": "成功完成初创公司退出。二十岁就签下上亿韩元的合同。", "hint": "达成初创公司退出结局"},
+    "political_fix": {"name": "信息的力量", "description": "靠政治概念股大赚了一笔。这世道，有门路的人才能吃到肉。", "hint": "达成政治主题结局"},
+    "stable_life": {"name": "小确幸", "description": "选择了平凡而稳定的生活。这也是勇气。", "hint": "稳定生活／平凡生活结局"},
+    "investment_master": {"name": "投资高手", "description": "让投资成为五年来最重要的本领。比起猜中市场，学会了如何活下来。", "hint": "达成投资大师结局"},
+    "reputation_legend": {"name": "传奇的开始", "description": "声誉成了传奇。姓名三字，就是品牌。", "hint": "达成声誉传奇结局"},
+    "ten_lives": {"name": "十次人生", "description": "活过10次人生。江南已经不再陌生。", "hint": "游玩10次"},
+    "beat_addiction": {"name": "三十个圆圈", "description": "赌博成瘾，跌到谷底，又爬了上来。最有力量的毕业。", "hint": "完成戒赌康复故事线"},
+    "four_seasons": {"name": "四季", "description": "和同一个人一起度过了春夏秋冬。", "hint": "有那么一年，会美上四次"},
+    "kept_evidence": {"name": "留下的理由", "description": "当面对质时，亲手拿出了那些没有丢弃、一直留着的东西。", "hint": "有些东西，是为了决定性的那一刻留下的"},
+    "drawer_truth": {"name": "抽屉里的真相", "description": "有些事，只有制作人员名单结束后才能看见。她从一开始就知道。", "hint": "一言不发，直到最后——直到最后的最后"},
+    "dawn_people": {"name": "凌晨的人们", "description": "有五次，在属于她的时刻醒着。凌晨还醒着的人，会认出彼此。", "hint": "她的时间，和别人流得不一样"}
+  },
+  "clues": {
+    "clue_hanpd_name": {
+      "title": "HanPD 建设",
+      "text": "在江南的人脉聚会上，有人提起“HanPD 建设”，Im Sangchul面不改色地换了话题。这是他想避开的名字。"
+    },
+    "clue_father_broker": {
+      "title": "牵线借债的Im姓人",
+      "text": "父亲的担保债务背后，有个介绍人。在江南做房地产的“姓Im的”，就是那个保证Park Sangjin值得信任的人。"
+    },
+    "clue_sangchul_past": {
+      "title": "Sangchul爬上来的路",
+      "text": "忠清道海边，码头工人的儿子。读过夜间大学，一路走到江南。从贫穷爬向顶峰时，他为一些人开过门，也踩过另一些人。"
+    }
+  },
+  "thoughts": {
+    "thought_whole_picture": {
+      "title": "完整的图景",
+      "description": "碎片总在脑海里的同一处聚拢。HanPD 建设。害得父亲垮掉的介绍人。Sangchul爬上来的路。\n\n花点时间，静静地看着——似乎就能拼成一幅完整的图。",
+      "conclusion": "三个夜晚。把登记资料、旧报道和记忆逐一对上。\n\n避开HanPD 建设的那个人。把Park Sangjin介绍给父亲的“姓Im的”。从忠清道一路上来，踩过别人，站到江南的人。\n\n三者是同一个人。Im Sangchul。\n\n没有人告诉他。Minjun自己从碎片里，拼出了一个人。\n这反而更沉重。"
+    }
+  },
+  "news": {
+    "news_001": {
+      "headline": "{topic}外资转为净买入——KOSPI反弹预期升温",
+      "topics": ["Hanseong Electronics", "SK海力士", "LG新能源", "Daehyeon Motor", "NAVER", "Daon", "POSCO"]
+    },
+    "news_002": {
+      "headline": "{topic}成为AI受益股焦点——传机构投资者增持",
+      "topics": ["Encore", "微软", "谷歌", "亚马逊AWS", "Meta", "AMD", "Orca"]
+    },
+    "news_003": {
+      "headline": "{topic}公寓价格一个月暴涨1亿韩元——恐慌性购房恐将重演",
+      "topics": ["江南区", "瑞草区", "松坡区", "盘浦", "大峙洞", "蚕室", "道谷洞"]
+    },
+    "news_004": {
+      "headline": "政府宣布拟加强{topic}监管——相关行业强烈反对",
+      "topics": ["虚拟资产", "房地产投机", "外国投资", "平台垄断", "金融投资所得税", "企业所得税", "短期投资"]
+    },
+    "news_005": {
+      "headline": "{topic}流行晒投资记录——社交媒体晒收益热潮过热",
+      "topics": ["MZ世代", "二三十岁的上班族", "大学生投资者", "三十多岁的上班族", "倾尽财力借贷投资的人", "股市新手", "初入社会的年轻人"]
+    },
+    "news_006": {
+      "headline": "{topic}公开发布，相关股票齐涨——AI超级周期拉开序幕",
+      "topics": ["GPT-5", "三星Gauss 2", "HyperCLOVA X2", "Claude 4", "Gemini Ultra", "Copilot Enterprise", "Sora2"]
+    },
+    "news_007": {
+      "headline": "{topic}获C轮融资1200亿韩元——跻身独角兽进入倒计时",
+      "topics": ["AI初创公司", "金融科技潜力企业", "生物科技创业公司", "出行领域初创公司", "教育科技企业", "食品科技初创公司", "法律科技企业"]
+    },
+    "news_008": {
+      "headline": "引入{topic}后，IT求职竞争比突破30:1——求职者掀起自学编程热",
+      "topics": ["常态化招聘", "匿名招聘", "AI能力测评", "以岗位为中心的招聘", "作品集选拔", "GitHub简历", "编程测试"]
+    },
+    "news_009": {
+      "headline": "{topic}单日暴涨+22%——牛市开端还是死猫反弹，争论再起",
+      "topics": ["Corecoin", "Novacoin", "Solana", "瑞波币", "迷因币币", "艾达币", "Avalanche"]
+    },
+    "news_010": {
+      "headline": "{topic}业绩爆雷……营业利润下降37%，未达预期",
+      "topics": ["Hanseong Electronics", "SK海力士", "Daon", "Daehyeon Motor", "LG新能源", "Celltrion", "HMM"]
+    },
+    "news_011": {
+      "headline": "美联储鹰派言论引发{topic}震荡——10年期国债收益率突破4.8%",
+      "topics": ["纳斯达克", "S&P500", "道琼斯", "Bolton", "Orca", "大型科技股", "成长股"]
+    },
+    "news_012": {
+      "headline": "{topic}重建安全评估标准宣布放宽——预期提前反映，挂牌价飙升",
+      "topics": ["Seongwon公寓", "蚕室Hanbit小区", "开浦Green小区", "木洞Hanbit Town", "上溪Green Town", "狎鸥亭River Town", "蚕室Park Town"]
+    },
+    "news_013": {
+      "headline": "朝野达成共识，{topic}税收优惠法案通过——市场欢呼",
+      "topics": ["青年投资", "提高ISA额度", "推迟加密货币征税", "房地产购置税", "初创公司投资", "研发税额抵扣", "减轻所得税"]
+    },
+    "news_014": {
+      "headline": "{topic}里“现在还能买吗？”帖子激增——集体焦虑蔓延",
+      "topics": ["房地产论坛", "股票社区", "加密货币KakaoTalk开放群聊", "理财论坛", "上班族社区", "投资类YouTube评论区", "房产软件评价区"]
+    },
+    "news_015": {
+      "headline": "{topic}用电需求暴增——数据中心电费由谁承担引争议",
+      "topics": ["AI数据中心", "ChatGPT服务器", "云基础设施", "半导体工厂", "Encore GPU集群", "三星AI设施", "NAVER数据中心"]
+    },
+    "news_016": {
+      "headline": "韩国初创企业中的{topic}宣布倒闭——称成加息与融资寒冬牺牲品",
+      "topics": ["时尚科技企业", "O2O平台", "住宿软件", "外卖初创公司", "电商新创企业", "内容初创公司", "AI聊天机器人服务商"]
+    },
+    "news_017": {
+      "headline": "大企业大规模推进{topic}——取消统一招聘、转向常态化招聘加速",
+      "topics": ["重组", "裁员", "荣誉退休", "自愿离职", "提前退休", "转为合同制用工", "扩大外包"]
+    },
+    "news_018": {
+      "headline": "{topic}遭大规模黑客攻击——交易所客户资产蒸发800亿韩元，震惊市场",
+      "topics": ["Upbit", "Bithumb", "Coinone", "Korbit", "海外交易所", "DeFi协议", "NFT交易平台"]
+    },
+    "news_019": {
+      "headline": "{topic}遭集中做空——散户愤言“又被收割了”",
+      "topics": ["Daon", "LG新能源", "KakaoBank", "Celltrion", "EcoPro", "KOSDAQ生物科技股", "二次电池股"]
+    },
+    "news_020": {
+      "headline": "{topic}市盈率45倍引争议……成长股还是泡沫，华尔街看法分化",
+      "topics": ["Encore", "Bolton", "Palantir", "Snowflake", "CrowdStrike", "Rivian", "ARM"]
+    },
+    "news_021": {
+      "headline": "{topic}全租房源消失——租客被迫转向月租",
+      "topics": ["首尔全境", "江南地区", "麻浦区", "龙山区", "城东区", "芦原区", "江西区"]
+    },
+    "news_022": {
+      "headline": "{topic}预算案处理延迟——政坛混乱，市场观望",
+      "topics": ["扩大福利", "国防预算", "社会基础设施投资", "青年扶持", "半导体补贴", "新能源与可再生能源", "教育预算"]
+    },
+    "news_023": {
+      "headline": "向往财务自由、提前退休的{topic}……极端节俭还是激进投资，争论升温",
+      "topics": ["二三十岁的上班族", "千禧一代", "Z世代", "新婚夫妻", "四十多岁的上班族", "自由职业者", "独居人群"]
+    },
+    "news_024": {
+      "headline": "韩国大企业宣布大规模投资{topic}——半导体、HBM相关股双双走强",
+      "topics": ["AI半导体", "HBM生产", "AI基础设施", "Encore合作项目", "AI数据中心", "下一代晶圆代工", "AI芯片研发"]
+    },
+    "news_025": {
+      "headline": "{topic}IPO首日火爆——较开盘价上涨+84%，新股投资者喜笑颜开",
+      "topics": ["AI半导体初创公司", "生物科技独角兽", "金融科技企业", "出行领域初创公司", "教育科技企业", "机器人企业", "区块链企业"]
+    },
+    "news_026": {
+      "headline": "青年实际失业率逼近22%——{topic}加剧，放弃求职人数激增",
+      "topics": ["就业岗位断崖式减少", "企业重组余波", "AI替代", "无薪实习泛滥", "求职资历门槛水涨船高", "取消统一招聘的后遗症", "平台劳动扩张"]
+    },
+    "news_027": {
+      "headline": "政府加强{topic}监管——加密货币实名制与全面征税即将实施",
+      "topics": ["虚拟资产", "Corecoin", "Novacoin", "山寨币", "NFT", "P2E（边玩边赚）游戏代币", "稳定币"]
+    },
+    "news_028": {
+      "headline": "外资大规模撤离{topic}……汇率突破1450韩元，抛售蔓延",
+      "topics": ["KOSPI", "KOSDAQ", "Hanseong Electronics", "SK海力士", "韩国股市", "外资持有股票", "蓝筹股"]
+    },
+    "news_029": {
+      "headline": "{topic}决定拆股——散户入场预期推动盘后股价大涨",
+      "topics": ["Encore", "Orca", "Bolton", "谷歌", "亚马逊", "微软", "伯克希尔哈撒韦"]
+    },
+    "news_030": {
+      "headline": "{topic}成交断崖持续——高利率下，买卖双方均在观望",
+      "topics": ["首尔公寓", "首都圈房地产", "江北公寓", "京畿道公寓", "仁川公寓", "新城公寓", "公共开发住宅用地"]
+    },
+    "news_031": {
+      "headline": "韩美宣布加强{topic}合作——有望改善外资投资情绪",
+      "topics": ["半导体供应链", "军工出口", "电池产业", "AI联合研究", "金融", "环保技术", "航天开发"]
+    },
+    "news_032": {
+      "headline": "{topic}中理财YouTube博主层出不穷——“100万订阅者＝10亿韩元年薪”成热潮",
+      "topics": ["MZ世代", "二三十岁的投资者", "做副业的上班族", "家庭主妇投资者", "大学生", "自由职业者", "身兼多职的人"]
+    },
+    "news_033": {
+      "headline": "{topic}监管讨论全面展开——相关企业面临更多不确定性",
+      "topics": ["AI生成内容版权", "深度伪造处罚", "AI招聘歧视", "自动驾驶责任", "AI医疗监管", "限制聊天机器人提供金融咨询", "AI个人信息处理"]
+    },
+    "news_034": {
+      "headline": "全球科技业寒冬——{topic}裁员30%，引发震动",
+      "topics": ["谷歌韩国", "Meta韩国", "Daon", "NAVER", "Coupang", "Baedal Minjok", "Toss"]
+    },
+    "news_035": {
+      "headline": "公务员、国企岗位再受追捧——{topic}之下，人们重回稳定职业",
+      "topics": ["经济形势不确定", "AI替代危机", "科技企业裁员寒潮", "就业难长期化", "初创公司寒冬", "平台劳动不稳定", "高利率下的经济衰退"]
+    },
+    "news_036": {
+      "headline": "市场期待更多Corecoin现货ETF获批，{topic}同步大涨",
+      "topics": ["Novacoin", "Solana", "瑞波币", "山寨币板块", "DeFi代币", "L2代币", "与BTC挂钩的加密货币"]
+    },
+    "news_037": {
+      "headline": "{topic}创52周新高——追涨还是获利了结，投资者陷入纠结",
+      "topics": ["Hanseong Electronics", "Daehyeon Motor", "KB金融", "SK Innovation", "LG化学", "POSCO Holdings", "Hanwha Aerospace"]
+    },
+    "news_038": {
+      "headline": "美国CPI大幅超预期——{topic}遭恐慌抛售，纳斯达克下跌-3.2%",
+      "topics": ["纳斯达克", "S&P500", "Bolton", "Meta", "Netflix", "Encore", "大型科技股"]
+    },
+    "news_039": {
+      "headline": "{topic}新房申购竞争比389:1——“买房中彩”热潮再现",
+      "topics": ["江南地铁站周边", "板桥科技谷", "东滩2新城", "慰礼新城", "麻谷新建住宅", "光教新城", "黔丹新城"]
+    },
+    "news_040": {
+      "headline": "选举前{topic}民粹承诺层出不穷——财政稳健性亮起警报",
+      "topics": ["青年基本收入", "债务减免", "强制实行每周四天工作制", "大幅提高最低工资", "全民医疗免费", "废除重建监管", "冻结房地产"]
+    },
+    "news_041": {
+      "headline": "倾尽财力借贷买房的{topic}，每月200万韩元利息令人叹息——诉苦声不断",
+      "topics": ["二三十岁的房主", "举债买房的新婚夫妻", "三十多岁的恐慌购房者", "房地产投资者", "住房抵押贷款借款人", "高息贷款借款人", "利用全租押金做差价投资的人"]
+    },
+    "news_042": {
+      "headline": "全球科技巨头围绕{topic}竞争加剧——韩国供应链有望受益",
+      "topics": ["AI半导体主导权", "HBM需求", "AI模型性能", "云端AI服务", "边缘AI设备", "AI安全解决方案", "AI企业所得税争议"]
+    },
+    "news_043": {
+      "headline": "{topic}全球并购交易达成——创始人实现数百亿韩元退出收益",
+      "topics": ["AI初创公司", "医疗健康软件", "金融科技企业", "出行平台", "SaaS企业", "B2B解决方案", "电商企业"]
+    },
+    "news_044": {
+      "headline": "不易被AI替代的{topic}岗位受关注——求职者职业方向大转变",
+      "topics": ["护士与照护", "电工与管道技术", "咨询与辅导", "创意艺术", "领导与管理", "专业手工", "现场检查"]
+    },
+    "news_045": {
+      "headline": "机构投资者大举配置{topic}——加密货币走进正规金融体系的信号",
+      "topics": ["Corecoin", "Novacoin", "瑞波币", "Solana", "BTC ETF", "ETH ETF", "稳定币"]
+    },
+    "news_046": {
+      "headline": "机构悄然吸筹{topic}的迹象浮现——下月业绩发布在即",
+      "topics": ["Hanseong Electronics", "Daehyeon Motor", "LG新能源", "SK Innovation", "Hanwha Solutions", "三星SDI", "Doosan Enerbility"]
+    },
+    "news_047": {
+      "headline": "{topic}公布业绩大幅超预期——常规交易时段外大涨+6%",
+      "topics": ["Encore", "微软", "Orca", "谷歌", "Meta", "亚马逊", "Netflix"]
+    },
+    "news_048": {
+      "headline": "{topic}公告地价飙升——综合不动产税大增，多房业主发愁",
+      "topics": ["江南区", "瑞草区", "龙山区", "麻浦区", "城东区", "广津区", "江东区"]
+    },
+    "news_049": {
+      "headline": "检方对{topic}展开调查——将传唤相关企业负责人",
+      "topics": ["虚拟资产诈骗", "非法荐股群", "房地产投机", "财务造假", "秘密资金疑云", "不公平交易", "侵占与背信行为"]
+    },
+    "news_050": {
+      "headline": "{topic}中62%曾遭加密货币亏损——仍有71%愿意再次投资",
+      "topics": ["MZ世代", "二三十岁的投资者", "加密货币投资者", "大学生投资者", "二三十岁的上班族", "小额投资者", "同时投资股票与加密货币的人"]
+    },
+    "news_051": {
+      "headline": "韩国{topic}初创公司推进纳斯达克上市——估值达到1万亿韩元",
+      "topics": ["AI医疗诊断", "AI法律服务", "AI教育", "AI物流", "AI招聘平台", "生成式AI内容", "AI金融咨询"]
+    },
+    "news_052": {
+      "headline": "二三十岁人群创业热升温——梦想“像{topic}一样做出独角兽”的人激增",
+      "topics": ["Toss的Lee Seunggeon", "Danggeun Market", "Yanolja", "Kurly", "Krafton", "Socar", "Zigbang"]
+    },
+    "news_053": {
+      "headline": "外企扩大在韩法人实体规模——{topic}招聘通道拓宽",
+      "topics": ["AI与数据岗位", "半导体工程师", "会计与税务专家", "国际销售人员", "生物科技研究员", "ESG专家", "网络安全专家"]
+    },
+    "news_054": {
+      "headline": "{topic}减半倒计时D-30——“史诗级上涨”看多派与“已反映在价格中”谨慎派交锋",
+      "topics": ["Corecoin", "莱特币", "Corecoin Cash", "eCash", "门罗币", "Zcash", "Dash"]
+    },
+    "news_055": {
+      "headline": "{topic}目标价接连上调……证券业喊出“现在是买入时机”",
+      "topics": ["Hanseong Electronics", "SK海力士", "Daehyeon Motor", "LG新能源", "三星生物制剂", "Daon Pay", "Krafton"]
+    },
+    "news_056": {
+      "headline": "美元持续走强，{topic}下跌——以韩元投资者面临双重损失警告",
+      "topics": ["纳斯达克", "S&P500", "海外成长股", "美国科技股", "Bolton", "Encore", "大型科技股ETF"]
+    },
+    "news_057": {
+      "headline": "{topic}拍卖房源激增——成交价与评估价之比下降78%，关注低价急售机会",
+      "topics": ["首尔公寓", "江北低层公寓", "办公居住两用公寓", "首都圈公寓", "京畿道公寓", "仁川公寓", "单间公寓式多户住宅"]
+    },
+    "news_058": {
+      "headline": "政府发布应对{topic}的紧急措施——效果存疑，市场反应冷淡",
+      "topics": ["物价飙升", "全租诈骗", "居住不安定", "青年就业问题", "加密货币投机", "金融动荡", "外汇危机担忧"]
+    },
+    "news_059": {
+      "headline": "每周四天工作制企业增加，{topic}掀起跳槽潮——中小企业用工荒加剧",
+      "topics": ["IT从业者", "办公室职员", "营销人员", "开发人员", "设计师", "内容创作者", "销售人员"]
+    },
+    "news_060": {
+      "headline": "{topic}开源发布引爆AI民主化争论——企业垄断还是开放共享",
+      "topics": ["Meta Llama", "Mistral AI", "NAVER HyperCLOVA", "三星Gauss", "Daon KoGPT", "LG EXAONE", "Konan Technology"]
+    },
+    "news_061": {
+      "headline": "{topic}员工平均年薪突破1亿韩元——初创公司胜过大企业的观念扩散",
+      "topics": ["Toss", "Daon", "NAVER", "Coupang", "Baedal Minjok", "Danggeun Market", "Krafton"]
+    },
+    "news_062": {
+      "headline": "正式员工比例创历史新低——{topic}背景下，劳动力市场两极分化加深",
+      "topics": ["非正规就业扩张", "平台劳动增加", "零工经济", "合同制与派遣制用工", "自由职业者激增", "无固定期限合同工增加", "特殊雇佣形式"]
+    },
+    "news_063": {
+      "headline": "韩国加密货币溢价突破10%——{topic}重回韩国市场过热区间，警报再响",
+      "topics": ["Corecoin", "Novacoin", "瑞波币", "韩国加密货币市场", "Upbit成交量", "Bithumb行情", "山寨币市场"]
+    },
+    "news_064": {
+      "headline": "{topic}启动会计审查的消息传出，盘中暴跌-9%",
+      "topics": ["Daon", "Celltrion", "HMM", "Hanjin KAL", "EcoPro", "NICE评估信息", "POSCO DX"]
+    },
+    "news_065": {
+      "headline": "{topic}CEO突然辞职传闻四起——股价盘中跌幅达-14%",
+      "topics": ["Bolton", "英特尔", "波音", "Uber", "Twitter(X)", "Rivian", "快时尚企业"]
+    },
+    "news_066": {
+      "headline": "{topic}未售新房加速增加——新房销售市场寒冬预测接踵而至",
+      "topics": ["首都圈远郊", "地方新城", "大邱公寓", "仁川黔丹", "京畿道华城", "世宗市", "地方办公居住两用公寓"]
+    },
+    "news_067": {
+      "headline": "国会组建{topic}特别委员会——专家质疑将虎头蛇尾",
+      "topics": ["虚拟资产制度化", "房地产改革", "劳动力市场灵活化", "养老金改革", "半导体扶持法", "放宽金融监管", "碳中和"]
+    },
+    "news_068": {
+      "headline": "软件赚零花与精打细算成风——{topic}靠小额节省攒起本金",
+      "topics": ["MZ世代", "二十多岁初入社会的年轻人", "上班族", "大学生", "身兼多职的人", "自由职业者", "独居人群"]
+    },
+    "news_069": {
+      "headline": "三星、SK的{topic}供应合同——数万亿韩元大单即将敲定",
+      "topics": ["HBM4", "下一代AI芯片", "面向Encore的HBM", "Orca AI服务器内存", "微软AI基础设施", "谷歌TPU", "亚马逊定制芯片"]
+    },
+    "news_070": {
+      "headline": "{topic}融资寒冬持续——风投称“没有盈利能力，就不投”",
+      "topics": ["初创企业生态", "早期初创公司", "种子投资市场", "风投基金设立", "创业加速器", "科技初创公司", "AI初创公司"]
+    },
+    "news_071": {
+      "headline": "青年创业补助——{topic}扩大——二三十岁人群选择创业而非就业的人数激增",
+      "topics": ["政府创业补助", "青年创业贷款", "加速器支持", "创业训练营", "技术创业补贴", "社会创新企业扶持", "准创业者一揽子支持"]
+    },
+    "news_072": {
+      "headline": "{topic}成交量创历史新高——散户爆发式涌入，引发过热担忧",
+      "topics": ["韩国加密货币市场", "Upbit", "Bithumb", "整个加密货币市场", "Corecoin成交量", "山寨币市场", "期货成交量"]
+    },
+    "news_073": {
+      "headline": "{topic}被列为中美贸易摩擦受损股——短期难免走弱",
+      "topics": ["Hanseong Electronics", "SK海力士", "LG新能源", "KOSPI出口股", "半导体股", "电池股", "二次电池股"]
+    },
+    "news_074": {
+      "headline": "华尔街分析师报告称“{topic}未来12个月可能上涨30%”",
+      "topics": ["Encore", "微软", "谷歌", "亚马逊", "Meta", "Orca", "Bolton"]
+    },
+    "news_075": {
+      "headline": "{topic}GTX通车敲定，车站周边房源消失——挂牌价暴涨",
+      "topics": ["东滩", "水西", "云井", "KINTEX", "议政府", "仁德院", "八达"]
+    },
+    "news_076": {
+      "headline": "执政党预告强推{topic}立法——商界警告企业将遭束缚",
+      "topics": ["平台监管", "限制大企业集团持有权", "限制金融控股公司", "金融科技许可制", "加密货币交易所监管", "修订公平交易法", "产业安全法"]
+    },
+    "news_077": {
+      "headline": "{topic}放弃买房的比例创历史新高——“房地产是上一代的东西”",
+      "topics": ["二三十岁人群", "青年群体", "MZ世代", "三十多岁的上班族", "初入社会的年轻人", "新婚夫妻", "独居人群"]
+    },
+    "news_078": {
+      "headline": "{topic}可替代人类的领域迅速扩大——威胁白领岗位的警告响起",
+      "topics": ["ChatGPT", "Claude", "Gemini", "Copilot", "AI律师", "AI会计师", "AI医生"]
+    },
+    "news_079": {
+      "headline": "创业失败者聚会{topic}……重新看待创业失败经历的文化扩散",
+      "topics": ["重启俱乐部", "转型社区", "倒闭企业创始人网络", "年长创业者聚会", "连续创业者群体", "二次创业者网络", "初创公司失败剖析研讨会"]
+    }
+  }
 }

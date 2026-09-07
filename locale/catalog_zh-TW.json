@@ -1,13 +1,1334 @@
 {
-  "assets": {},
-  "jobs": {
-    "job_01": {
-      "name": "便利商店大夜班兼職"
+  "assets": {
+    "samsung": {
+      "name": "Hanseong Electronics",
+      "description": "Hanseong Electronics資產。波動率8%，風險2/5。",
+      "tags": [
+        "低波動",
+        "季配息",
+        "韓國大型股"
+      ]
+    },
+    "kakao": {
+      "name": "Daon",
+      "description": "Daon資產。波動率13%，風險3/5。",
+      "tags": [
+        "中度波動",
+        "不配息",
+        "韓國平台業"
+      ]
+    },
+    "hyundai": {
+      "name": "Daehyeon Motor",
+      "description": "Daehyeon Motor資產。波動率10%，風險3/5。",
+      "tags": [
+        "中度波動",
+        "季配息",
+        "對出口敏感"
+      ]
+    },
+    "kospi_etf": {
+      "name": "KOSPI 200 ETF",
+      "description": "KOSPI 200 ETF資產。波動率6%，風險2/5。",
+      "tags": [
+        "低波動",
+        "分散投資",
+        "追蹤 KOSPI"
+      ]
+    },
+    "sp500": {
+      "name": "美國大型股 ETF",
+      "description": "美國大型股 ETF資產。波動率7%，風險2/5。",
+      "tags": [
+        "低波動",
+        "美元資產",
+        "分散投資美國"
+      ]
+    },
+    "nasdaq": {
+      "name": "美國科技股 ETF",
+      "description": "美國科技股 ETF資產。波動率11%，風險3/5。",
+      "tags": [
+        "中度波動",
+        "美元資產",
+        "集中科技股"
+      ]
+    },
+    "nvidia": {
+      "name": "Encore",
+      "description": "Encore資產。波動率20%，風險4/5。",
+      "tags": [
+        "高波動",
+        "AI 主題",
+        "美元資產"
+      ]
+    },
+    "ai_chip": {
+      "name": "AI 半導體主題",
+      "description": "AI 半導體主題資產。波動率24%，風險5/5。",
+      "tags": [
+        "極高波動",
+        "集中主題投資",
+        "美元資產"
+      ]
+    },
+    "bitcoin": {
+      "name": "Corecoin",
+      "description": "Corecoin資產。波動率32%，風險5/5。",
+      "tags": [
+        "極高波動",
+        "不配息",
+        "對週期敏感"
+      ]
+    },
+    "ethereum": {
+      "name": "Novacoin",
+      "description": "Novacoin資產。波動率35%，風險5/5。",
+      "tags": [
+        "極高波動",
+        "不配息",
+        "技術生態系"
+      ]
+    },
+    "meme_coin": {
+      "name": "迷因幣",
+      "description": "迷因幣資產。波動率90%，風險5/5。",
+      "tags": [
+        "投機性",
+        "不配息",
+        "社群驅動"
+      ]
+    },
+    "reits": {
+      "name": "REIT ETF",
+      "description": "REIT ETF資產。波動率4%，風險2/5。",
+      "tags": [
+        "極低波動",
+        "月配息",
+        "間接投資不動產"
+      ]
+    },
+    "gangnam_share": {
+      "name": "江南公寓持分",
+      "description": "江南公寓持分資產。波動率4%，風險2/5。",
+      "tags": [
+        "極低波動",
+        "賺取價差",
+        "直接投資不動產"
+      ]
+    },
+    "officetel": {
+      "name": "商住套房分額投資",
+      "description": "商住套房分額投資資產。波動率8%，風險3/5。",
+      "tags": [
+        "低波動",
+        "租金收益",
+        "變現性低"
+      ]
+    },
+    "seed_startup": {
+      "name": "朋友新創的種子投資",
+      "description": "朋友新創的種子投資資產。波動率55%，風險5/5。",
+      "tags": [
+        "極高波動",
+        "不配息",
+        "仰賴人脈"
+      ]
+    },
+    "ai_startup": {
+      "name": "AI 新創 SAFE",
+      "description": "AI 新創 SAFE資產。波動率50%，風險5/5。",
+      "tags": [
+        "極高波動",
+        "不配息",
+        "長期鎖定"
+      ]
+    },
+    "kospi_3x": {
+      "name": "KOSPI 3倍槓桿",
+      "description": "KOSPI 3倍槓桿資產。波動率28%，風險5/5。",
+      "tags": [
+        "極高波動",
+        "放大波動",
+        "長期持有風險"
+      ]
+    },
+    "nasdaq_3x": {
+      "name": "美國科技股3倍 ETF",
+      "description": "美國科技股3倍 ETF資產。波動率34%，風險5/5。",
+      "tags": [
+        "極高波動",
+        "美元資產",
+        "放大波動"
+      ]
     }
   },
-  "items": {},
-  "achievements": {},
-  "clues": {},
-  "thoughts": {},
-  "news": {}
+  "jobs": {
+    "job_01": {
+      "name": "便利商店大夜班兼職",
+      "description": "深夜守著便利商店櫃檯。奧客、整理包裹、打掃，全都得一個人來。雖然只有最低時薪，但現在能做的就只有這個。"
+    },
+    "job_02": {
+      "name": "外送員",
+      "description": "跑到手機電量和體力耗盡為止。雨天加給還不錯，但只要一次事故，一切就完了。"
+    },
+    "job_03": {
+      "name": "中小企業文職",
+      "description": "看時鐘的次數越來越多。成長空間不明，就靠有固定薪水這件事撐著。"
+    },
+    "job_04": {
+      "name": "客服中心專員",
+      "description": "每天200通電話。就算被客戶罵，也得回一句「好的」。不是意志變強，就是精神垮掉，只有這兩種結果。"
+    },
+    "job_05": {
+      "name": "補習班助教",
+      "description": "在講師身後影印講義、管理出缺席、接家長電話。待遇不怎麼樣，但知識會一點一滴累積。"
+    },
+    "job_06": {
+      "name": "前端工程師",
+      "description": "打造畫面的人。加班是日常，CSS 總是冷不防擺你一道。年薪成長曲線，在業界名列前茅。"
+    },
+    "job_07": {
+      "name": "金融業分析師",
+      "description": "每天早上讀市場行情，提出投資觀點。一份報告，也可能牽動價格。做這行，市場就是老師。"
+    },
+    "job_08": {
+      "name": "大型企業新進員工",
+      "description": "公司名字夠響亮，內部競爭也同樣激烈。熬過辦公室政治和聚餐文化，就能迎來安穩。"
+    },
+    "job_09": {
+      "name": "公營機構約聘人員",
+      "description": "比民間企業穩定，但轉正式職的競爭很激烈。壓力相對低，知識也穩定累積。"
+    },
+    "job_10": {
+      "name": "房仲助理",
+      "description": "在房仲旁邊找物件、協助製作契約、接待客人。跑得越勤，就越能看懂市場。"
+    },
+    "job_11": {
+      "name": "新創公司創辦人",
+      "description": "把點子變成產品的賭局。薪水沒有保障，但成功之後，收益也沒有上限。在投資人會議和程式碼之間來回奔走。"
+    },
+    "job_12": {
+      "name": "AI 自動化顧問",
+      "description": "四處向企業推銷 AI 解決方案。既要懂技術，也要有業務能力。市場很熱，競爭也一樣熱。"
+    },
+    "job_13": {
+      "name": "YouTube 創作者",
+      "description": "內容就是資產。經營起頻道，就會有廣告收入和贊助。能不能跟上潮流，全靠敏銳度。"
+    },
+    "job_14": {
+      "name": "保險業務員",
+      "description": "從熟人開始，再向外拓展。人脈就是業績。社交能力提升了，關係卻也成了商品，諷刺的是這一點。"
+    },
+    "job_15": {
+      "name": "外商業務",
+      "description": "英語會議、全球業績壓力、績效獎金。佣金比底薪高。做出業績，就看得見搬進江南的機會。"
+    }
+  },
+  "items": {
+    "artifact_sangchul_card": {
+      "name": "Im Sangchul 的名片",
+      "description": "初次見面那天遞來的。\n背面寫著私人電話號碼。\n直到後來，才知道那代表什麼。"
+    },
+    "artifact_daeun_note": {
+      "name": "Daeun 留下的便利貼",
+      "description": "出門時貼在冰箱上。\n「吃飯再走。」三個字。"
+    },
+    "artifact_father_call": {
+      "name": "通話時間23秒",
+      "description": "截下通話紀錄，存了起來。\n很難解釋為什麼要存。"
+    },
+    "artifact_jiyeon_text": {
+      "name": "那天早上的訊息",
+      "description": "是她主動傳來的訊息。\n「我是不是有點奇怪？」\n回她說，不奇怪。"
+    },
+    "artifact_jaehyuk_photo": {
+      "name": "韓國路邊攤的自拍",
+      "description": "重逢那晚，兩個人一起拍的。\n無論之後發生了什麼，\n那天晚上，是真的老朋友。"
+    },
+    "artifact_hyunsu_card": {
+      "name": "Hyunsu 的名片",
+      "description": "準備國家考試4年後。\n西裝。名片。「多虧有哥幫忙。」\n存了起來。"
+    },
+    "gift_can_coffee": {
+      "name": "罐裝咖啡組",
+      "description": "適合送給熬夜撐著的人，便宜又溫暖的東西。"
+    },
+    "gift_socks": {
+      "name": "襪子組",
+      "description": "正因為實用，反而看得見心意的禮物。"
+    },
+    "gift_essay_book": {
+      "name": "散文集",
+      "description": "有很多值得畫線的地方。也裝著挑書的人花過的時間。"
+    },
+    "gift_exhibit_catalog": {
+      "name": "展覽圖錄",
+      "description": "得記得誰喜歡過什麼展覽，才選得出來的東西。"
+    },
+    "gift_scarf": {
+      "name": "圍巾",
+      "description": "會讓人想起，在寒冷中站了很久的那個人。"
+    },
+    "gift_perfume": {
+      "name": "香水",
+      "description": "先被看見價錢的禮物。也許心意還沒到，負擔就先到了。"
+    },
+    "gift_wallet": {
+      "name": "名牌皮夾",
+      "description": "對誰都好的東西。所以，也可能對誰都不特別。"
+    },
+    "gift_necklace": {
+      "name": "項鍊",
+      "description": "最昂貴的答案。不是正解時，也會錯得最遠。"
+    }
+  },
+  "achievements": {
+    "five_lives": {
+      "name": "五次人生",
+      "description": "總共完成了5輪人生。首爾不容易。",
+      "hint": "遊玩5次"
+    },
+    "first_billion": {
+      "name": "第一億韓元",
+      "description": "在一輪人生中，資產達到1億韓元以上。",
+      "hint": "資產達到1億韓元"
+    },
+    "gangnam_dream": {
+      "name": "GANGNAM DREAM",
+      "description": "抵達 GANGNAM DREAM 結局。分不清這是夢，還是現實。",
+      "hint": "達成 GANGNAM DREAM 結局"
+    },
+    "survived_burnout": {
+      "name": "倦怠過來人",
+      "description": "曾經跌到谷底。經歷過職業倦怠或精神崩潰結局。",
+      "hint": "職業倦怠／精神崩潰結局"
+    },
+    "startup_exit": {
+      "name": "成功出場",
+      "description": "新創公司成功出場。20歲，簽下上億韓元的契約。",
+      "hint": "達成新創出場結局"
+    },
+    "political_fix": {
+      "name": "情報的力量",
+      "description": "靠政治概念股大撈一筆。這個世界，知道門路的人才有得賺。",
+      "hint": "達成政治概念結局"
+    },
+    "stable_life": {
+      "name": "小確幸",
+      "description": "選擇了平凡卻安穩的人生。那也是勇氣。",
+      "hint": "安穩人生／平凡人生結局"
+    },
+    "investment_master": {
+      "name": "投資高手",
+      "description": "把投資變成這5年的主要技術。比起猜中市場，更學會了活下來。",
+      "hint": "達成投資大師結局"
+    },
+    "reputation_legend": {
+      "name": "傳說的起點",
+      "description": "聲譽成了傳說。名字三個字，就是品牌。",
+      "hint": "達成聲譽傳說結局"
+    },
+    "ten_lives": {
+      "name": "十次人生",
+      "description": "活過10次。如今，江南不再陌生。",
+      "hint": "遊玩10次"
+    },
+    "beat_addiction": {
+      "name": "三十個圓圈",
+      "description": "跌到賭癮的谷底，又爬了上來。最堅強的一次畢業。",
+      "hint": "完成戒癮復原故事線"
+    },
+    "four_seasons": {
+      "name": "四季",
+      "description": "和一個人，一起度過了春、夏、秋、冬。",
+      "hint": "某一年，美了四次"
+    },
+    "kept_evidence": {
+      "name": "留下的理由",
+      "description": "面對面的那一刻，親手拿出了那些沒有丟掉、一直留著的東西。",
+      "hint": "有些東西，是為了關鍵時刻而留下"
+    },
+    "drawer_truth": {
+      "name": "抽屜裡的真相",
+      "description": "有些事，得等片尾名單結束才看得見。她從一開始就知道了。",
+      "hint": "什麼也沒說，一直走到最後——直到最後的最後"
+    },
+    "dawn_people": {
+      "name": "凌晨的人們",
+      "description": "在她的時間裡，醒著待過五次。凌晨醒著的人，認得出彼此。",
+      "hint": "她的時間，流得和別人不一樣"
+    }
+  },
+  "clues": {
+    "clue_hanpd_name": {
+      "title": "HanPD 建設",
+      "text": "在江南的人脈聚會上，有人提到「HanPD 建設」，Im Sangchul 神色不變，就轉開了話題。那是他想避開的名字。"
+    },
+    "clue_father_broker": {
+      "title": "介紹那筆債的 Im 先生",
+      "text": "父親的保證債務背後，有個介紹人。在江南做不動產、姓 Im 的那個人。就是那個拍胸脯說 Park Sangjin 值得信任的人。"
+    },
+    "clue_sangchul_past": {
+      "title": "Sangchul 往上走的路",
+      "text": "忠清道海邊，碼頭工人的兒子。讀過夜間大學，一路來到江南。從貧窮走到頂點的途中，他曾替某些人開門，也踩過另一些人。"
+    }
+  },
+  "thoughts": {
+    "thought_whole_picture": {
+      "title": "完整的圖像",
+      "description": "碎片總是往腦海裡同一個地方聚攏。HanPD 建設。那個毀掉父親的介紹人。Sangchul 往上走的路。\n\n花些時間，靜靜看著——似乎就能拼出一幅圖。",
+      "conclusion": "三個夜晚。把登記資料、舊報導和記憶對在一起。\n\n避開 HanPD 建設的名字。向父親介紹 Park Sangjin、姓 Im 的那個人。從忠清道上來，踩著別人，站進江南的人。\n\n三者，是同一個人。Im Sangchul。\n\n沒有人告訴過他。Minjun 靠自己，從碎片裡拼出了一個人。\n那更沉重。"
+    }
+  },
+  "news": {
+    "news_001": {
+      "headline": "{topic}外資轉為淨買進——市場期待 KOSPI 反彈",
+      "topics": [
+        "Hanseong Electronics",
+        "SK 海力士",
+        "LG Energy Solution",
+        "Daehyeon Motor",
+        "NAVER",
+        "Daon",
+        "POSCO"
+      ]
+    },
+    "news_002": {
+      "headline": "{topic}成為 AI 受惠股焦點——傳出機構投資人提高持股比重",
+      "topics": [
+        "Encore",
+        "微軟",
+        "Google",
+        "Amazon AWS",
+        "Meta",
+        "AMD",
+        "Orca"
+      ]
+    },
+    "news_003": {
+      "headline": "{topic}公寓價格一個月暴漲1億韓元——憂心「恐慌性買進」重演",
+      "topics": [
+        "江南區",
+        "瑞草區",
+        "松坡區",
+        "盤浦",
+        "大峙洞",
+        "蠶室",
+        "道谷洞"
+      ]
+    },
+    "news_004": {
+      "headline": "政府宣布擬加強{topic}監管——相關業界強烈反彈",
+      "topics": [
+        "虛擬資產",
+        "不動產投機",
+        "外國投資",
+        "平台壟斷",
+        "金融投資所得稅",
+        "法人稅",
+        "短期投資"
+      ]
+    },
+    "news_005": {
+      "headline": "{topic}流行曬「投資實績」——社群曬收益熱潮過熱",
+      "topics": [
+        "MZ 世代",
+        "20、30多歲上班族",
+        "大學生投資人",
+        "30多歲上班族",
+        "傾盡資力借貸族",
+        "股市新手",
+        "社會新鮮人"
+      ]
+    },
+    "news_006": {
+      "headline": "{topic}公開發表，相關股票同步飆漲——「AI 超級週期」起跑訊號",
+      "topics": [
+        "GPT-5",
+        "Samsung Gauss 2",
+        "HyperCLOVA X2",
+        "Claude 4",
+        "Gemini Ultra",
+        "Copilot Enterprise",
+        "Sora2"
+      ]
+    },
+    "news_007": {
+      "headline": "{topic}C輪募得1200億韓元——晉升獨角獸進入倒數",
+      "topics": [
+        "AI 新創公司",
+        "潛力金融科技公司",
+        "生技新創",
+        "移動服務新創",
+        "教育科技企業",
+        "食品科技新創",
+        "法律科技企業"
+      ]
+    },
+    "news_008": {
+      "headline": "引進{topic}後，IT 職缺競爭比突破30:1——求職者掀自學程式熱",
+      "topics": [
+        "常態招募",
+        "盲選招募",
+        "AI 能力測驗",
+        "職務導向招募",
+        "作品集甄選",
+        "GitHub 履歷",
+        "程式測驗"
+      ]
+    },
+    "news_009": {
+      "headline": "{topic}一天暴漲+22%——「牛市開始」或「死貓反彈」引爭論",
+      "topics": [
+        "Corecoin",
+        "Novacoin",
+        "Solana",
+        "XRP",
+        "迷因幣幣",
+        "ADA",
+        "Avalanche"
+      ]
+    },
+    "news_010": {
+      "headline": "{topic}財報震撼市場……營業利益減少37%，「未達獲利預期」",
+      "topics": [
+        "Hanseong Electronics",
+        "SK 海力士",
+        "Daon",
+        "Daehyeon Motor",
+        "LG Energy Solution",
+        "Celltrion",
+        "HMM"
+      ]
+    },
+    "news_011": {
+      "headline": "聯準會鷹派發言引發{topic}震盪——10年期公債殖利率突破4.8%",
+      "topics": [
+        "那斯達克",
+        "S&P500",
+        "道瓊",
+        "Bolton",
+        "Orca",
+        "大型科技股整體",
+        "成長股"
+      ]
+    },
+    "news_012": {
+      "headline": "宣布放寬{topic}重建安全診斷——「提前反映期待」帶動開價飆升",
+      "topics": [
+        "Seongwon 公寓",
+        "蠶室 Hanbit 社區",
+        "開浦 Green 社區",
+        "木洞 Hanbit Town",
+        "上溪 Green Town",
+        "狎鷗亭 River Town",
+        "蠶室 Park Town"
+      ]
+    },
+    "news_013": {
+      "headline": "朝野達成共識，{topic}稅務優惠法案通過——市場歡呼",
+      "topics": [
+        "青年投資",
+        "提高 ISA 額度",
+        "暫緩加密貨幣課稅",
+        "不動產取得稅",
+        "新創投資",
+        "研發稅額抵減",
+        "減輕所得稅"
+      ]
+    },
+    "news_014": {
+      "headline": "{topic}湧入「現在還能買嗎？」貼文——集體不安蔓延",
+      "topics": [
+        "不動產討論板",
+        "股票社群",
+        "加密貨幣 KakaoTalk 公開聊天室",
+        "理財論壇",
+        "上班族社群",
+        "投資 YouTube 留言區",
+        "不動產 App 評論"
+      ]
+    },
+    "news_015": {
+      "headline": "{topic}用電需求暴增——資料中心電費籌措方案引發爭議",
+      "topics": [
+        "AI 資料中心",
+        "ChatGPT 伺服器",
+        "雲端基礎設施",
+        "半導體工廠",
+        "Encore GPU 叢集",
+        "Samsung AI 設施",
+        "NAVER 資料中心"
+      ]
+    },
+    "news_016": {
+      "headline": "韓國新創{topic}宣布結束營業——「升息與投資寒冬的犧牲者」",
+      "topics": [
+        "時尚科技企業",
+        "O2O 平台",
+        "住宿 App",
+        "外送新創",
+        "新興電商",
+        "內容新創",
+        "AI 聊天機器人服務"
+      ]
+    },
+    "news_017": {
+      "headline": "大型企業大規模實施{topic}——取消統一招考、轉向常態招募的步調加快",
+      "topics": [
+        "組織重整",
+        "裁減人力",
+        "榮譽退休",
+        "自願離職",
+        "提早退休",
+        "改聘為約聘人員",
+        "擴大外包"
+      ]
+    },
+    "news_018": {
+      "headline": "交易所遭大規模駭客攻擊，{topic}客戶800億韓元資產蒸發，震撼市場",
+      "topics": [
+        "Upbit",
+        "Bithumb",
+        "Coinone",
+        "Korbit",
+        "海外交易所",
+        "DeFi 協定",
+        "NFT 交易平台"
+      ]
+    },
+    "news_019": {
+      "headline": "{topic}成為集中放空目標——散戶怒喊「又被割了」",
+      "topics": [
+        "Daon",
+        "LG Energy Solution",
+        "KakaoBank",
+        "Celltrion",
+        "EcoPro",
+        "KOSDAQ 生技股",
+        "二次電池股"
+      ]
+    },
+    "news_020": {
+      "headline": "{topic}本益比45倍惹議……是「成長股還是泡沫」，華爾街看法分歧",
+      "topics": [
+        "Encore",
+        "Bolton",
+        "Palantir",
+        "Snowflake",
+        "CrowdStrike",
+        "Rivian",
+        "ARM"
+      ]
+    },
+    "news_021": {
+      "headline": "{topic}全租物件消失——租客無奈接受「改成月租」",
+      "topics": [
+        "首爾全區",
+        "江南一帶",
+        "麻浦區",
+        "龍山區",
+        "城東區",
+        "蘆原區",
+        "江西區"
+      ]
+    },
+    "news_022": {
+      "headline": "{topic}預算案審議延宕——政壇混亂，市場觀望",
+      "topics": [
+        "擴大福利",
+        "國防預算",
+        "社會基礎設施投資",
+        "青年支援",
+        "半導體補助",
+        "新能源與再生能源",
+        "教育預算"
+      ]
+    },
+    "news_023": {
+      "headline": "{topic}夢想財務自由、提早退休……極端節省或積極投資引發爭論",
+      "topics": [
+        "20、30多歲上班族",
+        "千禧世代",
+        "Z 世代",
+        "新婚夫妻",
+        "40多歲上班族",
+        "自由工作者",
+        "單人家戶"
+      ]
+    },
+    "news_024": {
+      "headline": "韓國大型企業宣布大規模投資{topic}——半導體、HBM 股票同步走強",
+      "topics": [
+        "AI 半導體",
+        "HBM 生產",
+        "AI 基礎設施",
+        "與 Encore 合作",
+        "AI 資料中心",
+        "新一代晶圓代工",
+        "AI 晶片研發"
+      ]
+    },
+    "news_025": {
+      "headline": "{topic}IPO 首日熱烈追捧——較開盤價上漲+84%，申購投資人樂開懷",
+      "topics": [
+        "AI 半導體新創",
+        "生技獨角獸",
+        "金融科技企業",
+        "移動服務新創",
+        "教育科技企業",
+        "機器人企業",
+        "區塊鏈企業"
+      ]
+    },
+    "news_026": {
+      "headline": "青年實質失業率逼近22%——{topic}加劇，放棄求職者暴增",
+      "topics": [
+        "就業斷崖",
+        "組織重整的餘波",
+        "AI 取代人力",
+        "無薪實習擴散",
+        "求職資歷通膨",
+        "取消統一招考的後座力",
+        "平台勞動擴張"
+      ]
+    },
+    "news_027": {
+      "headline": "政府加強{topic}監管——「加密貨幣實名制與全面課稅」即將上路",
+      "topics": [
+        "虛擬資產",
+        "Corecoin",
+        "Novacoin",
+        "山寨幣",
+        "NFT",
+        "P2E 遊戲代幣",
+        "穩定幣"
+      ]
+    },
+    "news_028": {
+      "headline": "外資大舉撤出{topic}……匯率突破1450韓元，賣壓擴散",
+      "topics": [
+        "KOSPI",
+        "KOSDAQ",
+        "Hanseong Electronics",
+        "SK 海力士",
+        "韓國股市",
+        "外資持股",
+        "藍籌股"
+      ]
+    },
+    "news_029": {
+      "headline": "{topic}決定股票分割——期待散戶進場，盤後飆漲",
+      "topics": [
+        "Encore",
+        "Orca",
+        "Bolton",
+        "Google",
+        "Amazon",
+        "微軟",
+        "Berkshire Hathaway"
+      ]
+    },
+    "news_030": {
+      "headline": "{topic}交易持續凍結——高利率下，買賣雙方皆觀望",
+      "topics": [
+        "首爾公寓",
+        "首都圈不動產",
+        "江北公寓",
+        "京畿道公寓",
+        "仁川公寓",
+        "新市鎮公寓",
+        "公共開發住宅用地"
+      ]
+    },
+    "news_031": {
+      "headline": "韓美宣布加強{topic}合作——可望改善外國投資信心",
+      "topics": [
+        "半導體供應鏈",
+        "國防工業出口",
+        "電池產業",
+        "AI 聯合研究",
+        "金融合作",
+        "環保技術",
+        "太空開發"
+      ]
+    },
+    "news_032": {
+      "headline": "{topic}理財 YouTuber 如雨後春筍——「100萬訂閱者＝年薪10億韓元」現象",
+      "topics": [
+        "MZ 世代",
+        "20、30多歲投資人",
+        "有副業的上班族",
+        "家庭主婦投資人",
+        "大學生",
+        "自由工作者",
+        "多重工作者"
+      ]
+    },
+    "news_033": {
+      "headline": "{topic}監管討論正式展開——相關企業不確定性升高",
+      "topics": [
+        "AI 生成內容著作權",
+        "深偽技術處罰",
+        "AI 招募歧視",
+        "自駕責任",
+        "AI 醫療監管",
+        "聊天機器人金融諮詢限制",
+        "AI 個人資料處理"
+      ]
+    },
+    "news_034": {
+      "headline": "全球科技業寒冬——{topic}裁員30%，震撼市場",
+      "topics": [
+        "Google 韓國",
+        "Meta 韓國",
+        "Daon",
+        "NAVER",
+        "Coupang",
+        "Baemin",
+        "Toss"
+      ]
+    },
+    "news_035": {
+      "headline": "公務員與公營企業再度熱門——{topic}時代，求職者回流「安穩工作」",
+      "topics": [
+        "經濟情勢不明",
+        "AI 取代人力危機",
+        "科技業裁員寒冬",
+        "就業困境長期化",
+        "新創寒冬",
+        "平台勞動不穩定",
+        "高利率下的經濟衰退"
+      ]
+    },
+    "news_036": {
+      "headline": "期待 Corecoin 現貨 ETF 再獲核准，{topic}同步飆漲",
+      "topics": [
+        "Novacoin",
+        "Solana",
+        "XRP",
+        "山寨幣整體",
+        "DeFi 代幣",
+        "L2 代幣",
+        "BTC 連動幣"
+      ]
+    },
+    "news_037": {
+      "headline": "{topic}刷新52週新高——「追價買進還是獲利了結」令人猶豫",
+      "topics": [
+        "Hanseong Electronics",
+        "Daehyeon Motor",
+        "KB 金融",
+        "SK Innovation",
+        "LG 化學",
+        "POSCO Holdings",
+        "Hanwha Aerospace"
+      ]
+    },
+    "news_038": {
+      "headline": "美國 CPI 大幅高於預期——{topic}恐慌拋售，那斯達克下跌-3.2%",
+      "topics": [
+        "那斯達克",
+        "S&P500",
+        "Bolton",
+        "Meta",
+        "Netflix",
+        "Encore",
+        "大型科技股整體"
+      ]
+    },
+    "news_039": {
+      "headline": "{topic}新屋申購競爭比389:1——「申購樂透」熱潮重演",
+      "topics": [
+        "江南車站周邊",
+        "板橋科技谷",
+        "東灘2新市鎮",
+        "慰禮新市鎮",
+        "麻谷新建案",
+        "光教新市鎮",
+        "黔丹新市鎮"
+      ]
+    },
+    "news_040": {
+      "headline": "選前{topic}民粹政見氾濫——警示「財政健全堪憂」",
+      "topics": [
+        "青年基本所得",
+        "債務減免",
+        "強制每週工作4天",
+        "大幅調升最低工資",
+        "全民醫療費免費",
+        "廢除重建限制",
+        "凍結不動產"
+      ]
+    },
+    "news_041": {
+      "headline": "「傾盡資力借貸」的{topic}，每月200萬韓元利息壓得嘆氣——抱怨湧現",
+      "topics": [
+        "20、30多歲屋主",
+        "傾盡資力借貸的新婚夫妻",
+        "30多歲恐慌買房族",
+        "不動產投資人",
+        "房貸借款人",
+        "高利率貸款借款人",
+        "帶全租租約的價差投資人"
+      ]
+    },
+    "news_042": {
+      "headline": "全球大型科技業者的{topic}競爭加劇——韓國供應鏈可能受惠",
+      "topics": [
+        "AI 半導體霸權",
+        "HBM 需求",
+        "AI 模型效能",
+        "雲端 AI 服務",
+        "邊緣 AI 裝置",
+        "AI 資安方案",
+        "AI 法人稅爭議"
+      ]
+    },
+    "news_043": {
+      "headline": "{topic}跨國併購成交——創辦人出場，實現數百億韓元收益",
+      "topics": [
+        "AI 新創公司",
+        "健康照護 App",
+        "金融科技企業",
+        "移動服務平台",
+        "SaaS 企業",
+        "B2B 解決方案",
+        "電子商務企業"
+      ]
+    },
+    "news_044": {
+      "headline": "AI 取代可能性低的{topic}職類受矚目——求職者大幅轉換方向",
+      "topics": [
+        "護理與照護職類",
+        "電機與水管技術職",
+        "諮詢與教練職類",
+        "創意藝術職類",
+        "領導管理職",
+        "手工專業職",
+        "現場檢查職"
+      ]
+    },
+    "news_045": {
+      "headline": "機構投資人大量納入{topic}——「加密貨幣進入體制」的起點",
+      "topics": [
+        "Corecoin",
+        "Novacoin",
+        "XRP",
+        "Solana",
+        "BTC ETF",
+        "ETH ETF",
+        "穩定幣"
+      ]
+    },
+    "news_046": {
+      "headline": "發現機構悄悄布局{topic}——下個月財報公布前夕",
+      "topics": [
+        "Hanseong Electronics",
+        "Daehyeon Motor",
+        "LG Energy Solution",
+        "SK Innovation",
+        "Hanwha Solutions",
+        "Samsung SDI",
+        "Doosan Enerbility"
+      ]
+    },
+    "news_047": {
+      "headline": "{topic}財報大幅超出預期——常規交易時段外暴漲+6%",
+      "topics": [
+        "Encore",
+        "微軟",
+        "Orca",
+        "Google",
+        "Meta",
+        "Amazon",
+        "Netflix"
+      ]
+    },
+    "news_048": {
+      "headline": "{topic}公告地價暴漲——綜合不動產稅重擔讓多屋族苦惱",
+      "topics": [
+        "江南區",
+        "瑞草區",
+        "龍山區",
+        "麻浦區",
+        "城東區",
+        "廣津區",
+        "江東區"
+      ]
+    },
+    "news_049": {
+      "headline": "檢方開始調查{topic}——預計傳喚相關企業負責人",
+      "topics": [
+        "虛擬資產詐騙",
+        "非法帶單群組",
+        "不動產投機",
+        "會計造假",
+        "祕密資金疑雲",
+        "不公平交易",
+        "侵占與背信"
+      ]
+    },
+    "news_050": {
+      "headline": "{topic}中有62%「曾投資加密貨幣虧損」——仍有71%願意再投資",
+      "topics": [
+        "MZ 世代",
+        "20、30多歲投資人",
+        "加密貨幣投資人",
+        "大學生投資人",
+        "20、30多歲上班族",
+        "小額投資人",
+        "同時投資股票與加密貨幣的人"
+      ]
+    },
+    "news_051": {
+      "headline": "韓國{topic}新創推動那斯達克上市——估值達1兆韓元",
+      "topics": [
+        "AI 醫療診斷",
+        "AI 法律服務",
+        "AI 教育",
+        "AI 物流",
+        "AI 招募平台",
+        "生成式 AI 內容",
+        "AI 金融顧問"
+      ]
+    },
+    "news_052": {
+      "headline": "20、30多歲族群掀創業熱——夢想「像{topic}一樣，我也能打造獨角獸」的人激增",
+      "topics": [
+        "Toss 的 Lee Seunggun",
+        "Karrot",
+        "Yanolja",
+        "Kurly",
+        "Krafton",
+        "Socar",
+        "Zigbang"
+      ]
+    },
+    "news_053": {
+      "headline": "外商擴大在韓法人組織——{topic}專業人才招募機會增加",
+      "topics": [
+        "AI 與資料相關職類",
+        "半導體工程師",
+        "會計與稅務專家",
+        "國際業務人員",
+        "生技研究員",
+        "ESG 專家",
+        "網路安全專家"
+      ]
+    },
+    "news_054": {
+      "headline": "距離{topic}減半還有 D-30——「歷史級漲勢」樂觀派與「已反映」謹慎派交鋒",
+      "topics": [
+        "Corecoin",
+        "Litecoin",
+        "Corecoin Cash",
+        "eCash",
+        "Monero",
+        "Zcash",
+        "Dash"
+      ]
+    },
+    "news_055": {
+      "headline": "{topic}目標價紛紛調升……券商喊「現在就是買進時機」",
+      "topics": [
+        "Hanseong Electronics",
+        "SK 海力士",
+        "Daehyeon Motor",
+        "LG Energy Solution",
+        "Samsung Biologics",
+        "Daon Pay",
+        "Krafton"
+      ]
+    },
+    "news_056": {
+      "headline": "美元持續走強，{topic}下跌——警告韓元投資人面臨雙重損失",
+      "topics": [
+        "那斯達克",
+        "S&P500",
+        "海外成長股",
+        "美國科技股",
+        "Bolton",
+        "Encore",
+        "大型科技股 ETF"
+      ]
+    },
+    "news_057": {
+      "headline": "{topic}法拍物件暴增——拍定價比率下跌78%，低價急售機會引關注",
+      "topics": [
+        "首爾公寓",
+        "江北低樓層集合住宅",
+        "商住套房",
+        "首都圈公寓",
+        "京畿公寓",
+        "仁川公寓",
+        "多戶套房住宅"
+      ]
+    },
+    "news_058": {
+      "headline": "政府宣布{topic}緊急對策——成效遭質疑，市場冷淡",
+      "topics": [
+        "物價飆漲",
+        "全租詐騙",
+        "居住不安",
+        "青年就業",
+        "加密貨幣投機",
+        "金融不安",
+        "外匯危機疑慮"
+      ]
+    },
+    "news_059": {
+      "headline": "採行每週工作4天的企業增加，{topic}掀轉職潮——中小企業缺工加劇",
+      "topics": [
+        "IT 職類",
+        "文職上班族",
+        "行銷人員",
+        "開發工程師",
+        "設計師",
+        "內容創作者",
+        "業務人員"
+      ]
+    },
+    "news_060": {
+      "headline": "{topic}釋出開源內容，引爆 AI 民主化辯論——企業壟斷或共享",
+      "topics": [
+        "Meta Llama",
+        "Mistral AI",
+        "NAVER HyperCLOVA",
+        "Samsung Gauss",
+        "Daon KoGPT",
+        "LG EXAONE",
+        "Konan Technology"
+      ]
+    },
+    "news_061": {
+      "headline": "{topic}員工平均年薪突破1億韓元——「新創比大企業好」的觀念擴散",
+      "topics": [
+        "Toss",
+        "Daon",
+        "NAVER",
+        "Coupang",
+        "Baemin",
+        "Karrot",
+        "Krafton"
+      ]
+    },
+    "news_062": {
+      "headline": "正式員工比例創新低——{topic}下，勞動市場兩極化加劇",
+      "topics": [
+        "非正式僱用擴張",
+        "平台勞動增加",
+        "零工經濟",
+        "約聘與派遣工作",
+        "自由工作者激增",
+        "擴大無固定期限契約僱用",
+        "特殊僱用形式"
+      ]
+    },
+    "news_063": {
+      "headline": "韓國加密貨幣「泡菜溢價」突破10%——{topic}警報：韓國市場再度過熱",
+      "topics": [
+        "Corecoin",
+        "Novacoin",
+        "XRP",
+        "韓國加密貨幣市場",
+        "Upbit 交易量",
+        "Bithumb 行情",
+        "山寨幣市場"
+      ]
+    },
+    "news_064": {
+      "headline": "傳出{topic}遭啟動會計監理——盤中暴跌-9%",
+      "topics": [
+        "Daon",
+        "Celltrion",
+        "HMM",
+        "Hanjin KAL",
+        "EcoPro",
+        "NICE 信用資訊",
+        "POSCO DX"
+      ]
+    },
+    "news_065": {
+      "headline": "{topic}執行長突傳辭職傳聞——股價盤中跌幅達-14%",
+      "topics": [
+        "Bolton",
+        "Intel",
+        "Boeing",
+        "Uber",
+        "Twitter（X）",
+        "Rivian",
+        "快時尚企業"
+      ]
+    },
+    "news_066": {
+      "headline": "{topic}未售新屋加速增加——新屋銷售市場寒冬預測接連出現",
+      "topics": [
+        "首都圈外圍",
+        "地方新市鎮",
+        "大邱公寓",
+        "仁川黔丹",
+        "京畿華城",
+        "世宗市",
+        "地方商住套房"
+      ]
+    },
+    "news_067": {
+      "headline": "國會成立{topic}特別委員會——專家質疑「恐虎頭蛇尾」",
+      "topics": [
+        "虛擬資產制度化",
+        "不動產改革",
+        "勞動市場彈性化",
+        "年金改革",
+        "半導體支援法",
+        "放寬金融監管",
+        "碳中和"
+      ]
+    },
+    "news_068": {
+      "headline": "App 賺零用錢與精打細算掀熱潮——{topic}靠小額節省累積第一筆資金",
+      "topics": [
+        "MZ 世代",
+        "20多歲社會新鮮人",
+        "上班族",
+        "大學生",
+        "多重工作者",
+        "自由工作者",
+        "單人家戶"
+      ]
+    },
+    "news_069": {
+      "headline": "Samsung 與 SK 的{topic}供貨合約——數兆韓元大交易即將成交",
+      "topics": [
+        "HBM4",
+        "新一代 AI 晶片",
+        "供應 Encore 的 HBM",
+        "Orca AI 伺服器記憶體",
+        "微軟 AI 基礎設施",
+        "Google TPU",
+        "Amazon 客製化晶片"
+      ]
+    },
+    "news_070": {
+      "headline": "{topic}投資寒冬持續——創投業者：「沒有獲利能力就不投資」",
+      "topics": [
+        "新創生態系",
+        "早期新創",
+        "種子投資市場",
+        "創投基金募集",
+        "創業加速器",
+        "科技新創",
+        "AI 新創公司"
+      ]
+    },
+    "news_071": {
+      "headline": "青年創業補助——{topic}擴大，選擇「不求職，去創業」的20、30多歲族群激增",
+      "topics": [
+        "政府創業補助",
+        "青年創業貸款",
+        "創業加速器支援",
+        "創業訓練營",
+        "技術創業補助",
+        "社會創新企業支援",
+        "準創業者套裝支援"
+      ]
+    },
+    "news_072": {
+      "headline": "{topic}交易量刷新歷史新高——散戶爆量湧入，憂心過熱",
+      "topics": [
+        "韓國加密貨幣市場",
+        "Upbit",
+        "Bithumb",
+        "整體加密貨幣市場",
+        "Corecoin 交易量",
+        "山寨幣市場",
+        "期貨交易量"
+      ]
+    },
+    "news_073": {
+      "headline": "{topic}被歸為美中貿易衝突受害股——短期弱勢難免",
+      "topics": [
+        "Hanseong Electronics",
+        "SK 海力士",
+        "LG Energy Solution",
+        "KOSPI 出口股",
+        "半導體股",
+        "電池股",
+        "二次電池股"
+      ]
+    },
+    "news_074": {
+      "headline": "華爾街分析師報告：「{topic}未來12個月可能上漲30%」",
+      "topics": [
+        "Encore",
+        "微軟",
+        "Google",
+        "Amazon",
+        "Meta",
+        "Orca",
+        "Bolton"
+      ]
+    },
+    "news_075": {
+      "headline": "{topic}GTX 通車確定，車站周邊物件消失——開價暴漲",
+      "topics": [
+        "東灘",
+        "水西",
+        "雲井",
+        "KINTEX",
+        "議政府",
+        "仁德院",
+        "八達"
+      ]
+    },
+    "news_076": {
+      "headline": "執政黨預告強行推動{topic}立法——商界警告「勒緊企業脖子」",
+      "topics": [
+        "平台監管",
+        "大型企業集團持有權限制",
+        "金融控股限制",
+        "金融科技許可制",
+        "加密貨幣交易所監管",
+        "修訂公平交易法",
+        "產業安全法"
+      ]
+    },
+    "news_077": {
+      "headline": "{topic}放棄買房的比例創新高——「不動產是上一代的」",
+      "topics": [
+        "20、30多歲世代",
+        "年輕族群",
+        "MZ 世代",
+        "30多歲上班族",
+        "社會新鮮人",
+        "新婚夫妻",
+        "單人家戶"
+      ]
+    },
+    "news_078": {
+      "headline": "{topic}可取代人類的領域快速擴大——警告「白領工作受威脅」",
+      "topics": [
+        "ChatGPT",
+        "Claude",
+        "Gemini",
+        "Copilot",
+        "AI 律師",
+        "AI 會計師",
+        "AI 醫師"
+      ]
+    },
+    "news_079": {
+      "headline": "失敗創業者聚會{topic}……重新評價「創業失敗經驗」的文化擴散",
+      "topics": [
+        "重啟俱樂部",
+        "轉型社群",
+        "歇業創業者人脈網",
+        "熟齡創業者聚會",
+        "連續創業者團體",
+        "第二次創業者人脈網",
+        "新創解剖研討會"
+      ]
+    }
+  }
 }
