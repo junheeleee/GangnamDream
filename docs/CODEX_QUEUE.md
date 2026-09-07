@@ -52,32 +52,33 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-162 · M07~M24 연결 사건 번역 | [162](queue_active/ORDER-162.md) | 837번역 L1/L2 · 조건변형28 보존 · L3 OPEN |
-| 2 | [~] | ORDER-161 · catalog 전체 번역 | [161](queue_active/ORDER-161.md) | 2,502문구 L1/L2 · 신규2,485·기존수리1 · L3 OPEN |
-| 3 | [~] | ORDER-160 · 남은 결말18종 번역 | [160](queue_active/ORDER-160.md) | 387번역 L1/L2 · 엔딩35종 본문 채움 · L3 OPEN |
-| 4 | [~] | ORDER-159 · 일상·회복 결말 14종 번역 | [159](queue_active/ORDER-159.md) | 249번역 L1/L2 · 비표시 메타 제외 · L3 OPEN |
-| 5 | [~] | ORDER-158 · 본편 8장면 번역 | [158](queue_active/ORDER-158.md) | KO 직접 20단위 · 세 언어 독립 · 원어민 OPEN |
-| 6 | [~] | ORDER-157 · 본편 일본어·중국어 전체 번역 | [157](queue_active/ORDER-157.md) | 전체 분모·증분 배치 · 엔딩 75문구 검사 · 원어민 OPEN |
-| 7 | [~] | ORDER-156 · Ch5 생활 routine 실제 배경 | [156](queue_active/ORDER-156.md) | 제품 53493fe · 입력 QA 잔여 · 사람 OPEN·HOLD |
-| 8 | [~] | ORDER-151 · Ch5 장소·기간·카지노 맥락 | [151](queue_active/ORDER-151.md) | 두 경로 Codex 6/6 · 배경 수리 후속 156 · 사람 OPEN·HOLD |
-| 9 | [~] | ORDER-150 · Ch5 human REJECT 수리 | [150](queue_active/ORDER-150.md) | 후속 151 exact 재플레이 대기 · 두 사람 gate OPEN · HOLD |
-| 10 | [ ] | ORDER-148 · 5장 종막의 부정 종결 습관을 푼다(사실은 유지) | [148](queue_active/ORDER-148.md) | ORDER-150 exact 제품 뒤 재계측 · 금지 사실은 한 건도 삭제 금지 · 선행 대기 |
-| 11 | [ ] | ORDER-149 · 프롤로그 세 비트가 같은 속도로 지나가는 문제를 푼다 | [149](queue_active/ORDER-149.md) | `P-18` 1층만 · `FADE_SECONDS` 0.52 하나를 세 비트가 공유·hold 3.10/3.10/3.00 · 새 자산 0 · 미착수 |
-| 12 | [~] | ORDER-147 · runtime identity | [147](queue_active/ORDER-147.md) | matrix GREEN · human REJECT |
-| 13 | [~] | ORDER-146 · ledger | [146](queue_active/ORDER-146.md) | 후속 151 새 exact 후보 · 두 replay OPEN |
-| 14 | [~] | ORDER-145 · 후보 | [145](queue_active/ORDER-145.md) | HOLD |
-| 15 | [~] | ORDER-143 · graph | [143](queue_active/ORDER-143.md) | M01~M06 보호 · HOLD |
-| 16 | [~] | ORDER-144 · trace | [144](queue_active/ORDER-144.md) | PENDING · human OPEN |
-| 17 | [~] | ORDER-142 · volume | [142](queue_active/ORDER-142.md) | M01~M60 · HOLD |
-| 18 | [~] | ORDER-138 · finale | [138](queue_active/ORDER-138.md) | human REJECT · HOLD |
-| 19 | [~] | ORDER-137 · Ch5 수리 | [137](queue_active/ORDER-137.md) | human REJECT · HOLD |
-| 20 | [~] | ORDER-135 · 일반 경로 | [135](queue_active/ORDER-135.md) | human REJECT · HOLD |
-| 21 | [~] | ORDER-119 · 표면 언어 | [119](queue_active/ORDER-119.md) | 사용자 GO OPEN |
-| 22 | [~] | ORDER-118 · startup | [118](queue_active/ORDER-118.md) | 사용자 GO OPEN · R1b HOLD |
-| 23 | [~] | ORDER-117 · career | [117](queue_active/ORDER-117.md) | 사용자 GO OPEN · R1b HOLD |
-| 24 | [~] | ORDER-99 · SAVE-P0 | [99](queue_active/ORDER-99.md) | 사용자 확인 대기 |
-| 25 | [~] | ORDER-97 · LOC-0.5 | [97](queue_active/ORDER-97.md) | L3 대기 |
-| 26 | [~] | ORDER-98 · PAD-1 | [98](queue_active/ORDER-98.md) | 물리 패드 L3 OPEN |
+| 1 | [~] | ORDER-163 · 3년차와 장기 후속 번역 | [163](queue_active/ORDER-163.md) | 48사건363문구 · foreshadow4 포함 · L3 OPEN |
+| 2 | [~] | ORDER-162 · M07~M24 연결 사건 번역 | [162](queue_active/ORDER-162.md) | 837번역 L1/L2 · 조건변형28 보존 · L3 OPEN |
+| 3 | [~] | ORDER-161 · catalog 전체 번역 | [161](queue_active/ORDER-161.md) | 2,502문구 L1/L2 · 신규2,485·기존수리1 · L3 OPEN |
+| 4 | [~] | ORDER-160 · 남은 결말18종 번역 | [160](queue_active/ORDER-160.md) | 387번역 L1/L2 · 엔딩35종 본문 채움 · L3 OPEN |
+| 5 | [~] | ORDER-159 · 일상·회복 결말 14종 번역 | [159](queue_active/ORDER-159.md) | 249번역 L1/L2 · 비표시 메타 제외 · L3 OPEN |
+| 6 | [~] | ORDER-158 · 본편 8장면 번역 | [158](queue_active/ORDER-158.md) | KO 직접 20단위 · 세 언어 독립 · 원어민 OPEN |
+| 7 | [~] | ORDER-157 · 본편 일본어·중국어 전체 번역 | [157](queue_active/ORDER-157.md) | 전체 분모·증분 배치 · 엔딩 75문구 검사 · 원어민 OPEN |
+| 8 | [~] | ORDER-156 · Ch5 생활 routine 실제 배경 | [156](queue_active/ORDER-156.md) | 제품 53493fe · 입력 QA 잔여 · 사람 OPEN·HOLD |
+| 9 | [~] | ORDER-151 · Ch5 장소·기간·카지노 맥락 | [151](queue_active/ORDER-151.md) | 두 경로 Codex 6/6 · 배경 수리 후속 156 · 사람 OPEN·HOLD |
+| 10 | [~] | ORDER-150 · Ch5 human REJECT 수리 | [150](queue_active/ORDER-150.md) | 후속 151 exact 재플레이 대기 · 두 사람 gate OPEN · HOLD |
+| 11 | [ ] | ORDER-148 · 5장 종막의 부정 종결 습관을 푼다(사실은 유지) | [148](queue_active/ORDER-148.md) | ORDER-150 exact 제품 뒤 재계측 · 금지 사실은 한 건도 삭제 금지 · 선행 대기 |
+| 12 | [ ] | ORDER-149 · 프롤로그 세 비트가 같은 속도로 지나가는 문제를 푼다 | [149](queue_active/ORDER-149.md) | `P-18` 1층만 · `FADE_SECONDS` 0.52 하나를 세 비트가 공유·hold 3.10/3.10/3.00 · 새 자산 0 · 미착수 |
+| 13 | [~] | ORDER-147 · runtime identity | [147](queue_active/ORDER-147.md) | matrix GREEN · human REJECT |
+| 14 | [~] | ORDER-146 · ledger | [146](queue_active/ORDER-146.md) | 후속 151 새 exact 후보 · 두 replay OPEN |
+| 15 | [~] | ORDER-145 · 후보 | [145](queue_active/ORDER-145.md) | HOLD |
+| 16 | [~] | ORDER-143 · graph | [143](queue_active/ORDER-143.md) | M01~M06 보호 · HOLD |
+| 17 | [~] | ORDER-144 · trace | [144](queue_active/ORDER-144.md) | PENDING · human OPEN |
+| 18 | [~] | ORDER-142 · volume | [142](queue_active/ORDER-142.md) | M01~M60 · HOLD |
+| 19 | [~] | ORDER-138 · finale | [138](queue_active/ORDER-138.md) | human REJECT · HOLD |
+| 20 | [~] | ORDER-137 · Ch5 수리 | [137](queue_active/ORDER-137.md) | human REJECT · HOLD |
+| 21 | [~] | ORDER-135 · 일반 경로 | [135](queue_active/ORDER-135.md) | human REJECT · HOLD |
+| 22 | [~] | ORDER-119 · 표면 언어 | [119](queue_active/ORDER-119.md) | 사용자 GO OPEN |
+| 23 | [~] | ORDER-118 · startup | [118](queue_active/ORDER-118.md) | 사용자 GO OPEN · R1b HOLD |
+| 24 | [~] | ORDER-117 · career | [117](queue_active/ORDER-117.md) | 사용자 GO OPEN · R1b HOLD |
+| 25 | [~] | ORDER-99 · SAVE-P0 | [99](queue_active/ORDER-99.md) | 사용자 확인 대기 |
+| 26 | [~] | ORDER-97 · LOC-0.5 | [97](queue_active/ORDER-97.md) | L3 대기 |
+| 27 | [~] | ORDER-98 · PAD-1 | [98](queue_active/ORDER-98.md) | 물리 패드 L3 OPEN |
 
 ### legacy V2 보존선과 본편 M07~M60 관리선
 
@@ -106,17 +107,7 @@ M01~M06 GO의 대체 후보로 다시 발급하지 않는다.
 
 ### legacy 부모 계획과 본편 범위
 
-- legacy V2 부모: [57](queue_backlog/ORDER-57.md), [58](queue_backlog/ORDER-58.md),
-  [59](queue_backlog/ORDER-59.md), [61](queue_backlog/ORDER-61.md),
-  [62](queue_backlog/ORDER-62.md), [63](queue_backlog/ORDER-63.md),
-  [64](queue_backlog/ORDER-64.md), [66](queue_backlog/ORDER-66.md),
-  [67](queue_backlog/ORDER-67.md)
-- 본편 M07~M60 / Chapter 1 뒤 49~240주: [60](queue_backlog/ORDER-60.md),
-  [65](queue_backlog/ORDER-65.md), [77](queue_backlog/ORDER-77.md),
-  `ORDER-64` 전 자산 확산, `ORDER-67` 나머지 구조화
-- 열린 사람 판정과 정확한 scope/RC/표본/합격 기준은
-  [`human_gates.json`](human_gates.json)만 소유한다. 실행 큐에 사람 게이트 전용
-  가짜 오더를 남기지 않는다.
+부모 참조와 사람 게이트 소유 원문은 [이동 보존본](queue_archive/CODEX_QUEUE_2026-09.md#legacy-부모-계획과-본편-범위)에 그대로 있다.
 
 ### 완료·반려 이력
 

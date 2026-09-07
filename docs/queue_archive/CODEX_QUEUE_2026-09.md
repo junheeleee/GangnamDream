@@ -13,3 +13,17 @@
 - 이벤트 JSON 루트의 새 키는 `tools/audit.py` `EVENT_ROOT_KEYS` 화이트리스트 선등록.
 - 내부 시스템 용어(런/몽타주/tint/moral/축)는 플레이어 화면 노출 금지.
 - 모든 신규 카피는 설교 방지 원칙(DECISIONS) 검수를 통과한다.
+
+### legacy 부모 계획과 본편 범위
+
+- legacy V2 부모: [57](../queue_backlog/ORDER-57.md), [58](../queue_backlog/ORDER-58.md),
+  [59](../queue_backlog/ORDER-59.md), [61](../queue_backlog/ORDER-61.md),
+  [62](../queue_backlog/ORDER-62.md), [63](../queue_backlog/ORDER-63.md),
+  [64](../queue_backlog/ORDER-64.md), [66](../queue_backlog/ORDER-66.md),
+  [67](../queue_backlog/ORDER-67.md)
+- 본편 M07~M60 / Chapter 1 뒤 49~240주: [60](../queue_backlog/ORDER-60.md),
+  [65](../queue_backlog/ORDER-65.md), [77](../queue_backlog/ORDER-77.md),
+  `ORDER-64` 전 자산 확산, `ORDER-67` 나머지 구조화
+- 열린 사람 판정과 정확한 scope/RC/표본/합격 기준은
+  [`human_gates.json`](../human_gates.json)만 소유한다. 실행 큐에 사람 게이트 전용
+  가짜 오더를 남기지 않는다.
