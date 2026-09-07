@@ -25,7 +25,14 @@ import time
 
 ROOT = Path(__file__).resolve().parents[1]
 PREFIX = "GangnamDream_StoryNameplateQA_"
-SUCCESS = re.compile(r"(?m)^ROUTINE_BACKGROUND_CONTEXT_CHECK_OK(?:\s|$)")
+EXPECTED_SUCCESS = (
+    "ROUTINE_BACKGROUND_CONTEXT_CHECK_OK attempts=28 echo_attempts=4 "
+    "routine_cases=28 observed=12 controls=4 resolver_contracts=12 "
+    "w220_cases=4 ko_en=1 action_selection=1 random_result=1 story_choice=1 "
+    "save_load=1 original_location_echo=1 settled_texture=1 ambience=1 "
+    "human_gate=OPEN"
+)
+SUCCESS_LINES = re.compile(r"(?m)^ROUTINE_BACKGROUND_CONTEXT_CHECK_OK[^\r\n]*$")
 FAILURE = re.compile(
     r"ROUTINE_BACKGROUND_CONTEXT_CHECK_FAIL|SCRIPT ERROR|Parse Error|"
     r"Compile Error|Failed to load script|\bERROR:|ObjectDB instances leaked|"
@@ -38,6 +45,36 @@ class RunnerSignalInterrupt(BaseException):
     def __init__(self, signum: int):
         super().__init__(f"received signal {signum}")
         self.signum = signum
+
+
+def success_marker_error(output: str) -> str | None:
+    markers = SUCCESS_LINES.findall(output)
+    if markers != [EXPECTED_SUCCESS]:
+        return (
+            "success marker mismatch expected one exact line; "
+            f"actual={markers!r}"
+        )
+    return None
+
+
+def run_self_test() -> int:
+    cases = (
+        (EXPECTED_SUCCESS + "\n", True),
+        ("ROUTINE_BACKGROUND_CONTEXT_CHECK_OK\n", False),
+        (EXPECTED_SUCCESS + " extra=1\n", False),
+        (EXPECTED_SUCCESS + "\n" + EXPECTED_SUCCESS + "\n", False),
+        (" " + EXPECTED_SUCCESS + "\n", False),
+    )
+    for output, expected in cases:
+        passed = success_marker_error(output) is None
+        if passed != expected:
+            print(
+                "ROUTINE_BACKGROUND_CONTEXT_RUNNER_SELF_TEST_FAIL "
+                f"expected={int(expected)} output={output!r}"
+            )
+            return 1
+    print("ROUTINE_BACKGROUND_CONTEXT_RUNNER_SELF_TEST_OK cases=5")
+    return 0
 
 
 def user_data_parent() -> Path | None:
@@ -209,7 +246,10 @@ def main() -> int:
     parser.add_argument("--godot", default=os.environ.get("GODOT"))
     parser.add_argument("--resolution", default="1280x800", choices=("1280x800", "960x600"))
     parser.add_argument("--timeout", type=int, default=120)
+    parser.add_argument("--self-test", action="store_true")
     args = parser.parse_args()
+    if args.self_test:
+        return run_self_test()
     godot = args.godot or shutil.which("godot") or shutil.which("godot4")
     if not godot:
         parser.error("Godot is required; set GODOT or --godot")
@@ -330,16 +370,17 @@ def main() -> int:
 
     combined = stdout + "\n" + stderr + "\n" + engine_log.read_text(
         encoding="utf-8", errors="replace")
-    marker_path, marker_error = validated_storage(stdout, qa_path)
+    marker_path, storage_marker_error = validated_storage(stdout, qa_path)
+    success_error = success_marker_error(stdout)
     reason = None
     if proc.returncode != 0:
         reason = f"engine exit {proc.returncode}"
     elif FAILURE.search(combined):
         reason = "engine or contract failure in output"
-    elif not SUCCESS.search(combined):
-        reason = "missing success marker"
-    elif marker_error or marker_path is None:
-        reason = marker_error
+    elif success_error:
+        reason = success_error
+    elif storage_marker_error or marker_path is None:
+        reason = storage_marker_error
     if reason:
         result.update(status="test_error", reason=reason,
                       storage_cleanup="retained_after_test_error")

@@ -46,6 +46,23 @@ Background continuity audit is recorded in `docs/BACKGROUND_CONTINUITY_AUDIT.md`
 
 The Chapter 5 authored-location pass adds six exact 1280x800 runtime backgrounds: a Friday-morning family-medicine clinic, station stairs/gates, station lost-property office, Saturday-noon Hanjeongsik restaurant, generic night concert hall, and early-morning old-villa renovation interior. Direct original-resolution review confirms their location, time, functional circulation, UI-safe framing, and absence of readable brands/text or named-character proxies. `VisualCropQA` now includes all six at both 1280x800 and 960x600; the 39-shot sheet is `/tmp/gangnamdream_crop_qa/visual_crop_qa_sheet.png` (SHA-256 `a940f667ba79e9521c8442c74fb646f9e101de53bbc6020264269e41e86ec65f`). They are B+/`PASS-B` runtime candidates only: their ImageGen sources are below the P1 2560x1600 intermediate-master contract and are not A-grade release masters.
 
+The separate routine-location pass adds `park_bench_day`, an exact 1280x800
+opaque background for the W216 June REST bench result. Source and runtime
+inspection confirm an empty usable bench, connected Seoul pocket-park paths,
+planting and drainage edges, ordinary city buildings, only tiny faceless
+background passersby, and no foreground person, prop, text, logo, landmark, or
+Han River cue. The 1280x800 and 960x600 zero-crop StoryMode masks preserve the
+bench and path above the dialogue dock; exact shots are
+`/tmp/gangnamdream_crop_qa/routine_park_bench_day_1280x800.png` (SHA-256
+`d7e979231ecd393622daa7489395e10517c53e5dc49fd6084b9186725d26f119`)
+and `/tmp/gangnamdream_crop_qa/routine_park_bench_day_960x600.png` (SHA-256
+`e48dfdd28ea803a20f1fad345978c2e0d7c32190a419f6f60621ccf25c6606d3`).
+The resulting 41-shot sheet is
+`/tmp/gangnamdream_crop_qa/visual_crop_qa_sheet.png` (SHA-256
+`01177aa270dac3d4c870b932075e0f63d2058041456a4dec62541e4bd8a6f56e`).
+Its 1586x992 ImageGen source is below the P1 master threshold, so this is a
+B+/`PASS-B` runtime candidate, not an A-grade or all-season master.
+
 In-game crop QA was added as `tools/VisualCropQA.gd` / `tools/VisualCropQA.tscn`. Because Godot headless uses a dummy renderer and does not return usable SubViewport screenshots, the tool performs deterministic CPU compositing using the same crop math as the current MainGame/StoryMode layouts. Latest output: `/tmp/gangnamdream_crop_qa/visual_crop_qa_sheet.png`.
 
 CG runtime display QA was added as `tools/CGRuntimeCheck.gd` / `tools/CGRuntimeCheck.tscn`. It verifies that StoryMode event `cg` keys resolve to the full-screen CG texture and suppress the separate portrait frame, and that MainGame ending `cg` keys resolve to the ending CG preview path.
@@ -73,6 +90,7 @@ Live-screen semantic routing QA found and fixed a separate class of issue: valid
 - Readability check sheets generated: `/tmp/gangnamdream_cast_readability_check.png`, `/tmp/gangnamdream_minjun_hyunsu_readability.png`.
 - Core registered backgrounds are broadly consistent enough for a first in-game QA pass.
 - The six Chapter 5 authored-location backgrounds pass B+ runtime review: `hospital_clinic_day`, `subway_station_stairs`, `subway_station_lost_found`, `hanjeongsik_restaurant_day`, `concert_hall_night`, and `villa_renovation_day`. The clinic, station pair, restaurant, and renovation site are fully person-free; the concert hall uses only distant non-identifiable C-tier audience/performer texture.
+- `park_bench_day` passes B+ routine-location review at 1280x800 and 960x600: the empty bench, connected paths, ordinary Seoul city context, lower UI-safe paving, and tiny non-identifiable distant passersby remain readable with no crop, text, logo, foreground actor, or event-specific prop.
 - P1 added backgrounds are usable for first in-game QA: `restaurant_korean`, `library`, `street_seoul_day`.
 - `goshiwon_room.png` and `start.png` now share the canonical goshiwon layout: tiny high frosted ventilation window, bed, low desk at bed foot / screen-bottom foreground, no large scenic window.
 - `family_living_room.png` has been regenerated as Minjun's father's modest Changwon working-class home and reconnected for family events.

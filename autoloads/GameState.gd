@@ -2747,6 +2747,12 @@ func finalize_weekly_effect_action(
 			and not (mutation_result.get("details", {}) as Dictionary).is_empty():
 		resolved_details = (
 			mutation_result.get("details", {}) as Dictionary).duplicate(true)
+	var scene_background_id := str(resolved_details.get(
+		"scene_background_id", "")).strip_edges()
+	if not scene_background_id.is_empty():
+		# The action result chose this after the pressure card was armed. Promote
+		# it into the durable receipt so later echoes retain the settled location.
+		pending_weekly_commitment["scene_background_id"] = scene_background_id
 	for raw_flag in flag_updates:
 		var flag_id := str(raw_flag).strip_edges()
 		if flag_id.is_empty():
@@ -3156,6 +3162,8 @@ func record_story_weekly_commitment(event_id: String, choice_index: int,
 	if axis not in ["money", "human"]:
 		axis = ""
 	var person_id := str(contract.get("person_id", "")).strip_edges()
+	var scene_background_id := str(contract.get(
+		"scene_background_id", "")).strip_edges()
 	var record := {
 		"turn": turn,
 		"source": "story_event",
@@ -3175,6 +3183,8 @@ func record_story_weekly_commitment(event_id: String, choice_index: int,
 			baseline, _weekly_commitment_public_snapshot(person_id)),
 		"echoed_turn": -1,
 	}
+	if not scene_background_id.is_empty():
+		record["scene_background_id"] = scene_background_id
 	if not axis.is_empty():
 		register_action_axis(axis, "", "story:%s" % normalized_event_id, person_id)
 	pending_weekly_commitment = {}

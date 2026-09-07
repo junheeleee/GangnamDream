@@ -23,6 +23,9 @@ const CHAPTER5_BACKGROUND_PATHS: Array[String] = [
 	"res://assets/backgrounds/concert_hall_night.png",
 	"res://assets/backgrounds/villa_renovation_day.png",
 ]
+const ROUTINE_BACKGROUND_PATHS: Array[String] = [
+	"res://assets/backgrounds/park_bench_day.png",
+]
 const STORY_DIALOGUE_RECT := Rect2i(50, 550, 1180, 210)
 const STORY_CHOICE_RECT := Rect2i(102, 412, 845, 340)
 const STORY_HUD_RECT := Rect2i(0, 0, 1280, 48)
@@ -263,6 +266,18 @@ func _run() -> void:
 				"title": "Chapter 5 location / %s" % stem,
 				"body": "The complete 16:10 place remains visible above StoryMode UI.",
 			})
+	for background_path: String in ROUTINE_BACKGROUND_PATHS:
+		for view_size: Vector2i in CHAPTER5_BACKGROUND_VIEW_SIZES:
+			var stem := background_path.get_file().get_basename()
+			cases.append({
+				"mode": "chapter5_background",
+				"name": "routine_%s_%dx%d" % [
+					stem, view_size.x, view_size.y],
+				"background": background_path,
+				"view_size": view_size,
+				"title": "Routine location / %s" % stem,
+				"body": "The complete 16:10 place remains visible above StoryMode UI.",
+			})
 
 	for item in cases:
 		var shot := await _capture_case(item)
@@ -277,6 +292,10 @@ func _run() -> void:
 	print("VISUAL_CROP_QA_SHOTS=%d" % _shots.size())
 	print("VISUAL_CROP_QA_CHAPTER5_BACKGROUND_MATRIX=%dx%d" % [
 		CHAPTER5_BACKGROUND_PATHS.size(),
+		CHAPTER5_BACKGROUND_VIEW_SIZES.size(),
+	])
+	print("VISUAL_CROP_QA_ROUTINE_BACKGROUND_MATRIX=%dx%d" % [
+		ROUTINE_BACKGROUND_PATHS.size(),
 		CHAPTER5_BACKGROUND_VIEW_SIZES.size(),
 	])
 	if _failures.is_empty():

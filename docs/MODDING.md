@@ -376,6 +376,7 @@ python3 tools/generate_mod_manifest.py --check
 | background | `office_interview_day` | `backgrounds/office_interview_day.png` | 1280x800 |
 | background | `apartment`, `apartment_balcony` | `backgrounds/oneroom_apartment.png` | 1280x800 |
 | background | `open_chat_screen` | `backgrounds/open_chat_screen.png` | 1672x941 |
+| background | `park_bench_day` | `backgrounds/park_bench_day.png` | 1280x800 |
 | background | `pc_bang` | `backgrounds/pc_bang_interior.png` | 1280x800 |
 | background | `gangnam_penthouse`, `penthouse` | `backgrounds/penthouse_view.png` | 1280x800 |
 | background | `pojangmacha` | `backgrounds/pojangmacha.png` | 1280x800 |

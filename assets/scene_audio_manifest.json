@@ -1,5 +1,5 @@
 {
-  "version": 23,
+  "version": 24,
   "updated": "2026-09-05",
   "policy": {
     "diegetic_spoken_language": "ko",
@@ -19,6 +19,7 @@
     "cafe": "cafe",
     "gukbap_restaurant_night": "hoesik",
     "street_day": "street",
+    "park_bench_day": "street",
     "subway": "subway",
     "subway_station_stairs": "subway",
     "subway_station_lost_found": "subway",

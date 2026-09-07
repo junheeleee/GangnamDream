@@ -6200,6 +6200,24 @@ func _make_choice_button(text: String, idx: int, display_num: int = -1) -> Butto
 ## 선택 결과에만 속하는 CG/배경은 선택 전에 스포일러하지 않는다.
 ## 선택 키가 이벤트 공통 결과 키보다 우선한다. 지연 CG는 해당 결과 문단까지 현재 장면을 유지한다.
 ## result_cg가 result_background보다 우선하며, 결과 초상은 선택지 값 뒤 이벤트 값으로 복원한다.
+func _choice_result_background_id(choice: Dictionary) -> String:
+	var result_cg_id := str(choice.get("result_cg", _current.get("result_cg", "")))
+	if result_cg_id.is_empty():
+		var result_background_id: String = _resolve_story_background_id(str(choice.get(
+			"result_background", _current.get("result_background", ""))))
+		var result_background_path := ImageRegistry.get_background(result_background_id)
+		if ImageRegistry.BACKGROUNDS.has(result_background_id) \
+				and not result_background_path.is_empty() \
+				and ImageRegistry.has_texture(result_background_path):
+			return result_background_id
+	var current_background_id := _event_background_id.strip_edges()
+	var current_background_path := ImageRegistry.get_background(current_background_id)
+	if ImageRegistry.BACKGROUNDS.has(current_background_id) \
+			and not current_background_path.is_empty() \
+			and ImageRegistry.has_texture(current_background_path):
+		return current_background_id
+	return ""
+
 func _apply_choice_result_visual(choice: Dictionary) -> void:
 	var result_cg_id := str(choice.get("result_cg", _current.get("result_cg", "")))
 	if result_cg_id != "":
@@ -6334,6 +6352,12 @@ func _on_choice(idx: int):
 		current_event_id, GameState.turn) if not _read_only_replay else {}
 	var owns_weekly_commitment := not commitment_contract.is_empty() \
 			and not GameState.has_weekly_commitment_for_turn(GameState.turn)
+	if owns_weekly_commitment:
+		var commitment_background_id := _choice_result_background_id(choice)
+		if not commitment_background_id.is_empty():
+			# Store the concrete settled location before the result transition. Echoes
+			# must not reinterpret a past room after a later move or marriage change.
+			commitment_contract["scene_background_id"] = commitment_background_id
 	var commitment_person_id := str(commitment_contract.get("person_id", ""))
 	var commitment_baseline: Dictionary = GameState.weekly_commitment_snapshot(
 		commitment_person_id) if owns_weekly_commitment else {}

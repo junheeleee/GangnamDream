@@ -10,6 +10,9 @@ const EXACT_PATHS := {
 	"park_bench_day": "res://assets/backgrounds/park_bench_day.png",
 	"goshiwon_shared_kitchen": "res://assets/backgrounds/goshiwon_shared_kitchen.png",
 	"goshiwon_room": "res://assets/backgrounds/goshiwon_room.png",
+	"apartment": "res://assets/backgrounds/oneroom_apartment.png",
+	"gangnam_apartment": "res://assets/backgrounds/gangnam_apartment.png",
+	"daeun_newlywed_home": "res://assets/backgrounds/daeun_newlywed_home_night.png",
 	"convenience_night": "res://assets/backgrounds/convenience_store_night_v2.png",
 	"cafe": "res://assets/backgrounds/cafe_seoul.png",
 }
@@ -71,6 +74,54 @@ const FIXTURES := [
 		"ko": "커피 대신 편의점 아메리카노. 맛은 다르지만 잔액은 같아진다.",
 		"en": "Convenience store americano instead of coffee. Different taste, but the balance ends up the same.",
 	},
+	{
+		"id": "contract_apartment_save0",
+		"turn": 227, "action": "save", "index": 0, "pressure": "capital",
+		"expected_background": "gangnam_apartment", "expected_ambience": "apartment",
+		"housing": "apartment",
+		"ko": "편의점 도시락 대신 집에서 밥을 했다. 재료비 이천 원으로 하루를 버텼다.",
+		"en": "Cooked at home instead of a convenience store lunch box. Made it through the day on 2,000 won of ingredients.",
+	},
+	{
+		"id": "contract_married_save4",
+		"turn": 227, "action": "save", "index": 4, "pressure": "capital",
+		"expected_background": "daeun_newlywed_home", "expected_ambience": "oneroom",
+		"housing": "gosiwon", "married": true,
+		"ko": "외식을 참았다. 냉장고를 뒤졌다. 계란 두 개와 묵은 김치가 있었다.",
+		"en": "Resisted eating out. Rummaged through the fridge. Two eggs and old kimchi.",
+	},
+	{
+		"id": "contract_divorced_save0",
+		"turn": 227, "action": "save", "index": 0, "pressure": "capital",
+		"expected_background": "goshiwon_shared_kitchen", "expected_ambience": "goshiwon_hallway",
+		"housing": "gosiwon", "married": true, "divorced": true,
+		"ko": "편의점 도시락 대신 집에서 밥을 했다. 재료비 이천 원으로 하루를 버텼다.",
+		"en": "Cooked at home instead of a convenience store lunch box. Made it through the day on 2,000 won of ingredients.",
+	},
+	{
+		"id": "contract_oneroom_save4",
+		"turn": 227, "action": "save", "index": 4, "pressure": "capital",
+		"expected_background": "apartment", "expected_ambience": "apartment",
+		"housing": "oneroom",
+		"ko": "외식을 참았다. 냉장고를 뒤졌다. 계란 두 개와 묵은 김치가 있었다.",
+		"en": "Resisted eating out. Rummaged through the fridge. Two eggs and old kimchi.",
+	},
+	{
+		"id": "contract_villa_save0",
+		"turn": 227, "action": "save", "index": 0, "pressure": "capital",
+		"expected_background": "apartment", "expected_ambience": "apartment",
+		"housing": "villa",
+		"ko": "편의점 도시락 대신 집에서 밥을 했다. 재료비 이천 원으로 하루를 버텼다.",
+		"en": "Cooked at home instead of a convenience store lunch box. Made it through the day on 2,000 won of ingredients.",
+	},
+	{
+		"id": "contract_gangnam_save4",
+		"turn": 227, "action": "save", "index": 4, "pressure": "capital",
+		"expected_background": "gangnam_apartment", "expected_ambience": "apartment",
+		"housing": "gangnam",
+		"ko": "외식을 참았다. 냉장고를 뒤졌다. 계란 두 개와 묵은 김치가 있었다.",
+		"en": "Resisted eating out. Rummaged through the fridge. Two eggs and old kimchi.",
+	},
 ]
 
 var _game: Control
@@ -100,15 +151,15 @@ func _run() -> void:
 	await _remove_game()
 	await _remove_story()
 	await _stop_audio()
-	if _attempts != 16:
-		_fail("fixture inventory incomplete attempts=%d expected=16" % _attempts)
+	if _attempts != 28:
+		_fail("fixture inventory incomplete attempts=%d expected=28" % _attempts)
 	if _echo_attempts != 4:
 		_fail("W220 echo inventory incomplete attempts=%d expected=4" % _echo_attempts)
 	if _failures > 0:
-		print("ROUTINE_BACKGROUND_CONTEXT_CHECK_FAIL failures=%d attempts=%d echo_attempts=%d routine_cases=16 observed=12 controls=4 w220_cases=4 ko_en=1 live_maingame=1 live_storymode=1" % [_failures, _attempts, _echo_attempts])
+		print("ROUTINE_BACKGROUND_CONTEXT_CHECK_FAIL failures=%d attempts=%d echo_attempts=%d routine_cases=28 observed=12 controls=4 resolver_contracts=12 w220_cases=4 ko_en=1 live_maingame=1 live_storymode=1" % [_failures, _attempts, _echo_attempts])
 		get_tree().quit(1)
 		return
-	print("ROUTINE_BACKGROUND_CONTEXT_CHECK_OK attempts=16 echo_attempts=4 routine_cases=16 observed=12 controls=4 w220_cases=4 ko_en=1 action_selection=1 random_result=1 story_choice=1 save_load=1 original_location_echo=1 settled_texture=1 ambience=1 human_gate=OPEN")
+	print("ROUTINE_BACKGROUND_CONTEXT_CHECK_OK attempts=28 echo_attempts=4 routine_cases=28 observed=12 controls=4 resolver_contracts=12 w220_cases=4 ko_en=1 action_selection=1 random_result=1 story_choice=1 save_load=1 original_location_echo=1 settled_texture=1 ambience=1 human_gate=OPEN")
 	get_tree().quit(0)
 
 func _validate_isolation() -> bool:
@@ -160,6 +211,9 @@ func _play_fixture(language: String, fixture: Dictionary) -> void:
 	_expect(not record.is_empty(), "action did not create its weekly receipt")
 	_expect(str(record.get("choice_id", "")) == str(fixture["action"]),
 		"weekly receipt action identity changed")
+	_expect(str(record.get("scene_background_id", "")) \
+			== str(fixture["expected_background"]),
+		"weekly receipt did not freeze the settled routine location")
 	var details: Dictionary = record.get("details", {}) if record.get("details", {}) is Dictionary else {}
 	_expect(str(details.get("receipt_prose_ko", "")) == str(fixture["ko"]),
 		"random result did not retain exact Korean source index")
@@ -178,7 +232,7 @@ func _seed_state(fixture: Dictionary) -> void:
 	GameState.month = int((fixture_turn - 1) / 4) % 12 + 1
 	GameState.week_of_month = (fixture_turn - 1) % 4 + 1
 	GameState.age = 33 + int((fixture_turn - 1) / 48)
-	GameState.housing = "gosiwon"
+	GameState.housing = str(fixture.get("housing", "gosiwon"))
 	GameState.money = 100_000_000.0
 	GameState.monthly_income = 2_000_000.0
 	GameState.health = 80
@@ -207,6 +261,11 @@ func _seed_state(fixture: Dictionary) -> void:
 		GameState.grind_streak_weeks = 2
 	elif str(fixture["pressure"]) == "capital":
 		GameState.flags["arc_invest_guidance_seen"] = true
+	if bool(fixture.get("married", false)):
+		GameState.flags["daeun_married"] = true
+		GameState.flags["arc_daeun_wedding_day_seen"] = true
+	if bool(fixture.get("divorced", false)):
+		GameState.flags["daeun_divorced"] = true
 	EventManager.current_event = {}
 	EventManager.narrative_bridge_results.clear()
 
@@ -253,6 +312,14 @@ func _play_w220_echo_fixture(language: String, choice_index: int) -> void:
 	var expected_ambience := "room" if choice_index == 0 else "cafe"
 	_expect(str(_story.get("_event_background_id")) == expected_background,
 		"StoryMode result did not settle at its actual choice location")
+	var story_background := _story.get("_bg_img") as TextureRect
+	var story_texture_path := ""
+	if is_instance_valid(story_background) and story_background.texture != null:
+		story_texture_path = story_background.texture.resource_path
+	_expect(story_texture_path == str(EXACT_PATHS.get(expected_background, "")),
+		"StoryMode result texture did not match its actual choice location")
+	_expect(str(BGMPlayer.get("_current_ambience_key")) == expected_ambience,
+		"StoryMode result ambience did not match its actual choice location")
 	var record := GameState.get_weekly_commitment_for_turn(220)
 	_expect(not record.is_empty(), "W220 choice did not create a weekly record")
 	_expect(str(record.get("story_event_id", "")) \
@@ -283,13 +350,19 @@ func _play_w220_echo_fixture(language: String, choice_index: int) -> void:
 		record = (echo_records[0] as Dictionary).duplicate(true)
 	_expect(int(record.get("echoed_turn", -1)) == 231,
 		"later MainGame echo did not stamp its actual consumption turn")
+	var stored_record := GameState.get_weekly_commitment_for_turn(220)
+	_expect(int(stored_record.get("echoed_turn", -1)) == 231,
+		"echo consumption stamp did not persist in the weekly ledger")
+	var duplicate_echoes: Array = GameState.consume_weekly_commitment_echoes(2)
+	_expect(duplicate_echoes.is_empty(),
+		"W220 weekly record was consumable more than once")
 	_game = MAIN_GAME_SCENE.instantiate() as Control
 	_game.set_meta("_screenshot_qa_static_surface", true)
 	add_child(_game)
 	await _wait_frames(5)
 	_game.call("_render_demo_director_beat", "echo", {}, [], echo_records)
 	await _settle_game_background()
-	_expect_surface(expected_background, expected_ambience)
+	_expect_surface(expected_background, expected_ambience, false)
 	_echo_attempts += 1
 
 func _seed_w220_state() -> void:
@@ -370,8 +443,13 @@ func _settle_game_background() -> void:
 		if fade is Tween and (fade as Tween).is_valid() and (fade as Tween).is_running():
 			(fade as Tween).custom_step(1.0)
 	await _wait_frames(3)
+	var settled_fade: Variant = _game.get("_event_bg_fade_tween") \
+			if is_instance_valid(_game) else null
+	_expect(not (settled_fade is Tween and (settled_fade as Tween).is_running()),
+		"event background crossfade was still running at settled-frame assertion")
 
-func _expect_surface(background_id: String, ambience: String) -> void:
+func _expect_surface(background_id: String, ambience: String,
+		require_runtime_identity: bool = true) -> void:
 	var expected_path := str(EXACT_PATHS.get(background_id, ""))
 	_expect(not expected_path.is_empty(), "fixture has no exact expected path")
 	_expect(ResourceLoader.exists(expected_path),
@@ -382,6 +460,15 @@ func _expect_surface(background_id: String, ambience: String) -> void:
 		actual_path = (background_node as TextureRect).texture.resource_path
 	_expect(actual_path == expected_path,
 		"settled texture mismatch expected=%s actual=%s" % [expected_path, actual_path])
+	if require_runtime_identity:
+		_expect(str(_game.get("_event_bg_id")) == background_id,
+			"settled background identity mismatch")
+	_expect(background_node is TextureRect and (background_node as TextureRect).visible,
+		"settled background node was hidden")
+	if background_node is TextureRect:
+		var expected_alpha := float(_game.call("_event_bg_target_alpha"))
+		_expect(absf((background_node as TextureRect).modulate.a - expected_alpha) < 0.01,
+			"settled background remained transparent or mid-fade")
 	var actual_ambience := str(BGMPlayer.get("_current_ambience_key"))
 	_expect(actual_ambience == ambience,
 		"settled ambience mismatch expected=%s actual=%s" % [ambience, actual_ambience])

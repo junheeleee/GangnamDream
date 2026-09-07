@@ -478,6 +478,14 @@
     {
       "kind": "background",
       "ids": [
+        "park_bench_day"
+      ],
+      "relative_path": "backgrounds/park_bench_day.png",
+      "resolution": "1280x800"
+    },
+    {
+      "kind": "background",
+      "ids": [
         "pc_bang"
       ],
       "relative_path": "backgrounds/pc_bang_interior.png",

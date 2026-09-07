@@ -3384,6 +3384,24 @@ _ORDER144_PROOF_BINDING_OVERRIDES = {
 }
 _FROZEN_AUDITED_MAPS["proof_bindings"].update(
     _ORDER144_PROOF_BINDING_OVERRIDES)
+# ORDER-156 adds only the concrete presentation-location receipt to _on_choice.
+# Preserve prior binding digests above; these eleven proofs reference that exact
+# shared function, while their ledger assertions and Chapter 1 facts are intact.
+_ORDER156_PROOF_BINDING_OVERRIDES = {
+    'proof:execution_stage:w04_w03_hyunsu_choice': '7c5c331c32589baf30b65220eb5237ffa25e63934ba2bf1ecb2737b6ecb21e79',
+    'proof:execution_stage:w04_w04_temptation_choice': 'e39bd4d35e4b7c4656de25de75cd3e0d52b2c5bad4cf3c07e50bc8fc46e48c5d',
+    'proof:execution_stage:w08_w05_mirae_choice': '9d8fba4bdb3b13dac284e702b624d69110afb1ea30467ad221941b30a956c3b6',
+    'proof:execution_stage:w08_w08_temptation_choice': 'e7939b6e3b470b6c54fdbbcf447452c2b35b096cbd0059290dc1534c122d82a7',
+    'proof:execution_stage:w12_w09_seorin_choice': '3bda00977e51ccd5e36c39a830184b205718de2b11e0fecbfb3f273be9b26178',
+    'proof:execution_stage:w20_w17_hanbit_choice': '9a6319a231152947fc69afe3151b1b3ba4171b83c44ca45d8efbd514526c9fb3',
+    'proof:execution_stage:w24_w21_father_choice': '9ce5ce78190045a7f951e5ced94aa69eb3ebdf418038224c4ecab69c35102c6b',
+    'proof:execution_stage:w24_w22_dodam_choice': '8cecea73bcd4d0d24583e2aa67b1e841b0a71cbd4c7e81ffe52a2d44ea03bd23',
+    'proof:execution_stage:w24_w22_gangnam_choice': 'aab40f67c4ecce5d4303fb32d5a4ac7b5616ff4c26d1d1fba8fda08b731f72e2',
+    'proof:execution_stage:w24_w23_city_choice': 'a9704fd2dc8261a6187f037a7aabfc8799c389ee7851457286a70308261f9b59',
+    'proof:runtime:story_mode_choice_full_transaction': '4649fdb605db3f8c048892b53fb4154562efd175a88c5381d44dc1a17acdac9a',
+}
+_FROZEN_AUDITED_MAPS["proof_bindings"].update(
+    _ORDER156_PROOF_BINDING_OVERRIDES)
 _ORDER101_INVOCATION_CONTRACT_OVERRIDES = {
     'reader:milestone:w24:completion_validation:fresh': 'f0226b81ca161f961526c82d1dd9d8a87d4de3411fdda75c0e1c271759f59d54',
     'reader:milestone:w24:completion_validation:loaded': '71a40c4050c89fecff25b0d4e22aad83affa4004bdb4cf9a988e736655bdf4d9',
@@ -3582,6 +3600,34 @@ ORDER155_AUDITED_SOURCE_FILE_TRANSITIONS = {
     "content/meta/story_rules.json": (
         "29a83c39ad5efab1ba967211f112213d7056f591ea57c52fbeaee8a47e9f5dca",
         "9d9f63f24e516e2fb339d9c5c11e821074135d2dbd63848a7f8b6902b7a6b7cb",
+    ),
+}
+
+# ORDER-156 freezes routine/echo presentation locations and adds one park asset.
+# Chain only the four changed current source observations; the historical map,
+# all earlier successors, ledger semantics and debt remain unchanged.
+ORDER156_AUDITED_SOURCE_TRANSITION_PATHS = frozenset({
+    "autoloads/GameState.gd",
+    "scenes/StoryMode.gd",
+    "scenes/MainGame.gd",
+    "content/meta/release_content_inventory.json",
+})
+ORDER156_AUDITED_SOURCE_FILE_TRANSITIONS = {
+    "autoloads/GameState.gd": (
+        "8c4ba503493e61d857a5e7bfc2f70ffb3e74944d0865c6dbf6c2c440b59e299f",
+        "8a40740286ff910b2a16049e2c2794cc0dc22fed5dfc78d2fc6ce458c833018d",
+    ),
+    "scenes/StoryMode.gd": (
+        "7ec09c661c708f6f096502f41161ae9b6373003a7df21a0194e2870c5ce9beee",
+        "e6d5c9f0612138d6a82b7b69bdab0cbcc1c657ad3b4461284f6c3236b36e6343",
+    ),
+    "scenes/MainGame.gd": (
+        "f14677578581a5d21fc47103eab5ac199f3debac8ed00f4c994fc1ea7bd9160c",
+        "3e15f8e44839857a4ad04ee3b1727f9869f72ebbb7cfe9153dfcf9f1d756629d",
+    ),
+    "content/meta/release_content_inventory.json": (
+        "a0a1f095d48085cde971e2edb4ea402f11d2659ff1546c4d6a352f0653492f52",
+        "eaa588e0401af69a9079aa2d11f105e4e57c6780e5030c517320a34a5f251764",
     ),
 }
 
@@ -4071,6 +4117,9 @@ def _audited_source_snapshot_errors(
     if set(ORDER155_AUDITED_SOURCE_FILE_TRANSITIONS) \
             != ORDER155_AUDITED_SOURCE_TRANSITION_PATHS:
         errors.append("source: ORDER-155 exact observation transition scope mismatch")
+    if set(ORDER156_AUDITED_SOURCE_FILE_TRANSITIONS) \
+            != ORDER156_AUDITED_SOURCE_TRANSITION_PATHS:
+        errors.append("source: ORDER-156 exact observation transition scope mismatch")
     for relative_path, expected_digest in source_hashes.items():
         if relative_path in FORBIDDEN_AUDITED_SOURCE_FILE_KEYS:
             errors.append(
@@ -4116,6 +4165,13 @@ def _audited_source_snapshot_errors(
                 if expected_digest != successor[0]:
                     errors.append(
                         f"source: ORDER-155 transition predecessor mismatch {relative_path}")
+                else:
+                    expected_digest = successor[1]
+            successor = ORDER156_AUDITED_SOURCE_FILE_TRANSITIONS.get(relative_path)
+            if successor is not None:
+                if expected_digest != successor[0]:
+                    errors.append(
+                        f"source: ORDER-156 transition predecessor mismatch {relative_path}")
                 else:
                     expected_digest = successor[1]
             if _file_digest(relative_path) == expected_digest:
@@ -20528,6 +20584,8 @@ def self_test(ledger: dict[str, Any], baseline: dict[str, Any]) -> int:
         current_digest = successor[1] if successor is not None else current_digest
         successor = ORDER155_AUDITED_SOURCE_FILE_TRANSITIONS.get(relative_path)
         current_digest = successor[1] if successor is not None else current_digest
+        successor = ORDER156_AUDITED_SOURCE_FILE_TRANSITIONS.get(relative_path)
+        current_digest = successor[1] if successor is not None else current_digest
         if EXPECTED_AUDITED_SOURCE_FILE_SHA256.get(relative_path) != transition[0] \
                 or _file_digest(relative_path) != current_digest:
             raise AssertionError(f"ORDER-151 exact source transition drifted {relative_path}")
@@ -20594,10 +20652,13 @@ def self_test(ledger: dict[str, Any], baseline: dict[str, Any]) -> int:
         order153_path]
     order155_release_transition = ORDER155_AUDITED_SOURCE_FILE_TRANSITIONS[
         order153_path]
+    order156_release_transition = ORDER156_AUDITED_SOURCE_FILE_TRANSITIONS[
+        order153_path]
     if ORDER151_AUDITED_SOURCE_FILE_TRANSITIONS[order153_path][1] \
             != order153_transition[0] \
             or order153_transition[1] != order155_release_transition[0] \
-            or _file_digest(order153_path) != order155_release_transition[1]:
+            or order155_release_transition[1] != order156_release_transition[0] \
+            or _file_digest(order153_path) != order156_release_transition[1]:
         raise AssertionError("ORDER-153 exact source successor drifted")
     cases += 1
 
@@ -20697,8 +20758,12 @@ def self_test(ledger: dict[str, Any], baseline: dict[str, Any]) -> int:
     }
     for order155_path, order155_transition in \
             ORDER155_AUDITED_SOURCE_FILE_TRANSITIONS.items():
+        order156_successor = ORDER156_AUDITED_SOURCE_FILE_TRANSITIONS.get(
+            order155_path)
+        current_digest = (order156_successor[1] if order156_successor is not None
+                          else order155_transition[1])
         if order155_predecessors.get(order155_path) != order155_transition[0] \
-                or _file_digest(order155_path) != order155_transition[1]:
+                or _file_digest(order155_path) != current_digest:
             raise AssertionError(
                 f"ORDER-155 exact source successor drifted {order155_path}")
         cases += 1
@@ -20749,6 +20814,51 @@ def self_test(ledger: dict[str, Any], baseline: dict[str, Any]) -> int:
                            EXPECTED_AUDITED_SOURCE_FILE_SHA256)):
                 raise AssertionError(
                     "ORDER-155 removed/expanded transition scope passed")
+        cases += 1
+
+    for order156_path, order156_transition in \
+            ORDER156_AUDITED_SOURCE_FILE_TRANSITIONS.items():
+        predecessor = ORDER155_AUDITED_SOURCE_FILE_TRANSITIONS.get(order156_path)
+        historical_digest = (predecessor[1] if predecessor is not None
+                             else EXPECTED_AUDITED_SOURCE_FILE_SHA256[order156_path])
+        if historical_digest != order156_transition[0] \
+                or _file_digest(order156_path) != order156_transition[1]:
+            raise AssertionError(
+                f"ORDER-156 exact source successor drifted {order156_path}")
+        cases += 1
+
+        for rejected_digest in (order156_transition[0], "0" * 64):
+            with patch(f"{__name__}._file_digest", side_effect=lambda path: (
+                    rejected_digest if path == order156_path
+                    else original_file_digest(path))):
+                if not any(
+                        f"audited file snapshot mismatch {order156_path}" in error
+                        for error in _audited_source_snapshot_errors(
+                            EXPECTED_AUDITED_SOURCE_FILE_SHA256)):
+                    raise AssertionError(
+                        f"ORDER-156 stale/unregistered source digest passed {order156_path}")
+            cases += 1
+
+        with patch.dict(ORDER156_AUDITED_SOURCE_FILE_TRANSITIONS, {
+                order156_path: ("0" * 64, order156_transition[1])}):
+            if not any(
+                    f"ORDER-156 transition predecessor mismatch {order156_path}" in error
+                    for error in _audited_source_snapshot_errors(
+                        EXPECTED_AUDITED_SOURCE_FILE_SHA256)):
+                raise AssertionError(
+                    f"ORDER-156 broken predecessor chain passed {order156_path}")
+        cases += 1
+
+    for replacement in ({}, {
+            **ORDER156_AUDITED_SOURCE_FILE_TRANSITIONS,
+            "content/meta/story_map.json": ("0" * 64, "1" * 64)}):
+        with patch.dict(ORDER156_AUDITED_SOURCE_FILE_TRANSITIONS,
+                        replacement, clear=True):
+            if not any("ORDER-156 exact observation transition scope mismatch" in error
+                       for error in _audited_source_snapshot_errors(
+                           EXPECTED_AUDITED_SOURCE_FILE_SHA256)):
+                raise AssertionError(
+                    "ORDER-156 removed/expanded transition scope passed")
         cases += 1
 
     mutable_evidence_map = dict(EXPECTED_AUDITED_SOURCE_FILE_SHA256)

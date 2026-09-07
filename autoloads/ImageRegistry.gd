@@ -212,6 +212,7 @@ const BACKGROUNDS = {
 	"cafe":              "res://assets/backgrounds/cafe_seoul.png",
 	"gukbap_restaurant_night": "res://assets/backgrounds/gukbap_restaurant_night.png",
 	"street_day":        "res://assets/backgrounds/street_seoul_day.png",
+	"park_bench_day":    "res://assets/backgrounds/park_bench_day.png",
 	"subway":            "res://assets/backgrounds/seoul_subway.png",
 	"subway_station_stairs": "res://assets/backgrounds/subway_station_stairs.png",
 	"subway_station_lost_found": "res://assets/backgrounds/subway_station_lost_found.png",
@@ -571,6 +572,13 @@ func resolve_contextual_background_id(id: String) -> String:
 			var presentation_id := GameState.get_presentation_home_background_id()
 			if not presentation_id.is_empty():
 				return presentation_id
+			return _housing_background_id(str(GameState.housing))
+		"current_home_cooking":
+			var presentation_id := GameState.get_presentation_home_background_id()
+			if not presentation_id.is_empty():
+				return presentation_id
+			if str(GameState.housing) == "gosiwon":
+				return "goshiwon_shared_kitchen"
 			return _housing_background_id(str(GameState.housing))
 		"current_workplace":
 			match str(GameState.current_job.get("id", "")):

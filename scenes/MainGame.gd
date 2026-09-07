@@ -487,6 +487,10 @@ func _vignette_commitment_details(
 	if not korean.is_empty() and not english.is_empty():
 		details["receipt_prose_ko"] = korean
 		details["receipt_prose_en"] = english
+	var background_id := ImageRegistry.resolve_contextual_background_id(str(
+		vignette.get("background", "")).strip_edges())
+	if ImageRegistry.BACKGROUNDS.has(background_id):
+		details["scene_background_id"] = background_id
 	return details
 
 func _quote_ui(text: String) -> String:
@@ -5461,6 +5465,30 @@ func _scene_background_for_commitment(record: Dictionary) -> String:
 	var recorded_background_id := str(record.get("scene_background_id", "")).strip_edges()
 	if not recorded_background_id.is_empty():
 		return ImageRegistry.get_background(recorded_background_id)
+	if GameState.is_story_weekly_commitment_record(record):
+		# Pre-ORDER-156 saves have no frozen location. Reconstruct their authored
+		# result/root as a best effort; contextual homes necessarily use current state.
+		var event: Dictionary = DataRegistry.find_event(str(record.get(
+			"story_event_id", "")))
+		var choice_index := int(record.get("story_choice_index", -1))
+		var choices: Array = event.get("choices", [])
+		var background_id := str(event.get("background", "")).strip_edges()
+		if choice_index >= 0 and choice_index < choices.size():
+			var choice: Dictionary = choices[choice_index]
+			var result_cg_id := str(choice.get(
+				"result_cg", event.get("result_cg", ""))).strip_edges()
+			if result_cg_id.is_empty():
+				var result_background_id := str(choice.get(
+					"result_background", event.get("result_background", ""))).strip_edges()
+				if not result_background_id.is_empty():
+					background_id = result_background_id
+		if not background_id.is_empty():
+			var resolved_background_id := ImageRegistry.resolve_contextual_background_id(
+				background_id)
+			if ImageRegistry.BACKGROUNDS.has(resolved_background_id):
+				var authored_path := ImageRegistry.get_background(resolved_background_id)
+				if not authored_path.is_empty():
+					return authored_path
 	var action_id := str(record.get("choice_id", ""))
 	var person_id := str(record.get("person_id", ""))
 	var spec := _demo_action_spec(action_id, person_id)
@@ -5476,10 +5504,12 @@ func _background_id_for_path(path: String) -> String:
 	return ""
 
 func _set_scene_ambience_for_background(path: String, title: String = "",
-		body: String = "") -> void:
+		body: String = "", exact_background_id: String = "") -> void:
 	if path.is_empty():
 		return
-	var background_id := _background_id_for_path(path)
+	var background_id := exact_background_id.strip_edges()
+	if background_id.is_empty():
+		background_id = _background_id_for_path(path)
 	var ambience_event := {
 		"title": title,
 		"description": body,
@@ -16093,11 +16123,11 @@ func _weekly_legacy_side_shift_mutation(
 	}
 
 const _SAVE_SCENES = [
-	{"t":"편의점 도시락 대신 집에서 밥을 했다. 재료비 이천 원으로 하루를 버텼다.", "et":"Cooked at home instead of a convenience store lunch box. Made it through the day on 2,000 won of ingredients."},
-	{"t":"구독 서비스를 정리했다. 쓰지도 않는 것들이 매달 빠져나가고 있었다.", "et":"Cleared out subscriptions. Things I didn't even use had been going out every month."},
-	{"t":"걸어서 한 시간. 교통비 2,800원이 아깝다는 생각을 세 번 했다.", "et":"Walked for an hour. Thought three times about whether 2,800 won in transit fare was worth it."},
-	{"t":"커피 대신 편의점 아메리카노. 맛은 다르지만 잔액은 같아진다.", "et":"Convenience store americano instead of coffee. Different taste, but the balance ends up the same."},
-	{"t":"외식을 참았다. 냉장고를 뒤졌다. 계란 두 개와 묵은 김치가 있었다.", "et":"Resisted eating out. Rummaged through the fridge. Two eggs and old kimchi."},
+	{"t":"편의점 도시락 대신 집에서 밥을 했다. 재료비 이천 원으로 하루를 버텼다.", "et":"Cooked at home instead of a convenience store lunch box. Made it through the day on 2,000 won of ingredients.", "background":"current_home_cooking"},
+	{"t":"구독 서비스를 정리했다. 쓰지도 않는 것들이 매달 빠져나가고 있었다.", "et":"Cleared out subscriptions. Things I didn't even use had been going out every month.", "background":"current_housing"},
+	{"t":"걸어서 한 시간. 교통비 2,800원이 아깝다는 생각을 세 번 했다.", "et":"Walked for an hour. Thought three times about whether 2,800 won in transit fare was worth it.", "background":"street_day"},
+	{"t":"커피 대신 편의점 아메리카노. 맛은 다르지만 잔액은 같아진다.", "et":"Convenience store americano instead of coffee. Different taste, but the balance ends up the same.", "background":"convenience_night"},
+	{"t":"외식을 참았다. 냉장고를 뒤졌다. 계란 두 개와 묵은 김치가 있었다.", "et":"Resisted eating out. Rummaged through the fridge. Two eggs and old kimchi.", "background":"current_home_cooking"},
 ]
 
 func _ap_save_money():
@@ -16124,7 +16154,7 @@ func _ap_save_money():
 	GameState.add_log(_tr("💰 절약 — %s", "💰 Saving — %s") % scene, "event")
 	_show_vignette(LocaleManager.ui_context(
 		"ui.saving.activity_title", "절약", "Saving"), scene + (_tr("\n\n%s 절약했다.", "\n\nSaved %s.") % GameState.format_money(saved)),
-		{"money": saved, "stress": 2}, "#4a7a5a")
+		{"money": saved, "stress": 2}, "#4a7a5a", str(_sv.get("background", "")))
 	turn_action_log.append(_tr("✓ 💰 절약 — %s", "✓ 💰 Saving — %s") % GameState.format_money(saved))
 	AudioManager.play("money_gain")
 	_refresh_all()
@@ -17207,16 +17237,16 @@ func _contact_flavor(person_id: String, aff: int) -> String:
 # ── 변주되는 루틴 미니 장면 ──────────────────────────────────────
 # 같은 행동도 매번 다른 짧은 장면(좋은 일·헛탕·소소한 행운)이 나온다.
 const REST_VIGNETTES := [
-	{"t":"한강을 걸었다. 강물이 도시의 소음을 잠시 데려갔다.", "et":"Walked along the Han River. For a moment, the water carried the city's noise away.", "e":{"mental":11,"stress":-9}},
-	{"t":"알람 없이 푹 잤다. 며칠 만에 몸이 깃털처럼 가벼웠다.", "et":"Slept without an alarm. After days, the body felt light as a feather.", "e":{"health":6,"mental":7,"stress":-7}},
-	{"t":"종일 누워 유튜브만 봤다. 쉰 건지 시간을 버린 건지 모르겠다.", "et":"Lay in bed watching YouTube all day. Not sure if it was rest or wasted time.", "e":{"mental":4,"stress":-2}},
-	{"t":"쉬려고 누웠는데, 통장 잔고 생각에 도무지 잠이 안 왔다.", "et":"Lay down to rest, but couldn't sleep — kept thinking about the bank balance.", "e":{"mental":2,"stress":-1}},
-	{"t":"동네 포장마차에서 혼술. 쓸쓸했지만, 따뜻했다.", "et":"Drinking alone at the neighborhood pojangmacha. Lonely, but warm.", "e":{"mental":6,"stress":-5,"money":-12000}},
-	{"t":"공원 벤치에서 멍하니 사람들을 봤다. 다들 어딘가로 바쁘다.", "et":"Sat on a park bench watching people drift by. Everyone seems busy going somewhere.", "e":{"mental":5,"stress":-4}},
-	{"t":"낮잠을 자다 강남 아파트에서 쫓겨나는 꿈을 꿨다. 식은땀.", "et":"Dozed off and dreamed of being evicted from a Gangnam apartment. Woke in a cold sweat.", "e":{"mental":3,"stress":-2}},
-	{"t":"목욕탕에서 때를 밀었다. 묵은 피로가 조금 벗겨졌다.", "et":"Went to the bathhouse to scrub off the grime. Some of the accumulated fatigue peeled away too.", "e":{"health":4,"mental":5,"stress":-6,"money":-9000}},
-	{"t":"길에서 꼬깃한 만원짜리를 주웠다. 오늘은 운이 좋다.", "et":"Found a crumpled ten-thousand won bill on the street. Today's a lucky day.", "e":{"mental":6,"stress":-5,"money":50000,"luck":1}},
-	{"t":"쉬는 날인데 자꾸 일·돈 생각이 났다. 제대로 못 쉬었다.", "et":"Even on a day off, kept thinking about work and money. Couldn't truly rest.", "e":{"mental":3,"stress":-2}},
+	{"t":"한강을 걸었다. 강물이 도시의 소음을 잠시 데려갔다.", "et":"Walked along the Han River. For a moment, the water carried the city's noise away.", "e":{"mental":11,"stress":-9}, "background":"hangang_riverside"},
+	{"t":"알람 없이 푹 잤다. 며칠 만에 몸이 깃털처럼 가벼웠다.", "et":"Slept without an alarm. After days, the body felt light as a feather.", "e":{"health":6,"mental":7,"stress":-7}, "background":"current_housing"},
+	{"t":"종일 누워 유튜브만 봤다. 쉰 건지 시간을 버린 건지 모르겠다.", "et":"Lay in bed watching YouTube all day. Not sure if it was rest or wasted time.", "e":{"mental":4,"stress":-2}, "background":"current_housing"},
+	{"t":"쉬려고 누웠는데, 통장 잔고 생각에 도무지 잠이 안 왔다.", "et":"Lay down to rest, but couldn't sleep — kept thinking about the bank balance.", "e":{"mental":2,"stress":-1}, "background":"current_housing"},
+	{"t":"동네 포장마차에서 혼술. 쓸쓸했지만, 따뜻했다.", "et":"Drinking alone at the neighborhood pojangmacha. Lonely, but warm.", "e":{"mental":6,"stress":-5,"money":-12000}, "background":"pojangmacha"},
+	{"t":"공원 벤치에서 멍하니 사람들을 봤다. 다들 어딘가로 바쁘다.", "et":"Sat on a park bench watching people drift by. Everyone seems busy going somewhere.", "e":{"mental":5,"stress":-4}, "background":"park_bench_day"},
+	{"t":"낮잠을 자다 강남 아파트에서 쫓겨나는 꿈을 꿨다. 식은땀.", "et":"Dozed off and dreamed of being evicted from a Gangnam apartment. Woke in a cold sweat.", "e":{"mental":3,"stress":-2}, "background":"current_housing"},
+	{"t":"목욕탕에서 때를 밀었다. 묵은 피로가 조금 벗겨졌다.", "et":"Went to the bathhouse to scrub off the grime. Some of the accumulated fatigue peeled away too.", "e":{"health":4,"mental":5,"stress":-6,"money":-9000}, "background":"jjimjilbang"},
+	{"t":"길에서 꼬깃한 만원짜리를 주웠다. 오늘은 운이 좋다.", "et":"Found a crumpled ten-thousand won bill on the street. Today's a lucky day.", "e":{"mental":6,"stress":-5,"money":50000,"luck":1}, "background":"street_day"},
+	{"t":"쉬는 날인데 자꾸 일·돈 생각이 났다. 제대로 못 쉬었다.", "et":"Even on a day off, kept thinking about work and money. Couldn't truly rest.", "e":{"mental":3,"stress":-2}, "background":"current_housing"},
 ]
 const SELFDEV_VIGNETTES := [
 	{"t":"읽던 책의 한 구절이 오래 남았다. \"버티는 것도 재능이다.\"", "et":"A line from the book lingered. \"Enduring is also a talent.\"", "e":{"intelligence":3,"mental":2}},
@@ -17769,17 +17799,26 @@ func _ap_vignette(title: String, pool: Array, color: String, place_id: String = 
 	var flavor: String = _localized_pair(v)
 	turn_action_log.append("✓ " + title + " — " + flavor.substr(0, 22))
 	GameState.add_log(title + " — " + flavor, "event")
-	_show_vignette(title, flavor, eff, color)
+	_show_vignette(title, flavor, eff, color, str(v.get("background", "")))
 
-func _show_vignette(title: String, body: String, eff: Dictionary, color: String):
+func _show_vignette(title: String, body: String, eff: Dictionary, color: String,
+		background_id: String = ""):
 	for child in choice_box.get_children():
 		child.queue_free()
 	_transient_bg_active = true
 	_clear_category_tint(true)
 	_clear_feedback_flash()
-	var vignette_bg := _get_bg_for_vignette(title, body, eff)
+	var resolved_background_id := ImageRegistry.resolve_contextual_background_id(
+		background_id.strip_edges())
+	var vignette_bg := ImageRegistry.get_background(resolved_background_id) \
+		if not resolved_background_id.is_empty() else ""
+	if vignette_bg.is_empty():
+		vignette_bg = _get_bg_for_vignette(title, body, eff)
+		resolved_background_id = _background_id_for_path(vignette_bg)
+	_event_bg_id = resolved_background_id
 	_apply_event_bg_path(vignette_bg)
-	_set_scene_ambience_for_background(vignette_bg, title, body)
+	_set_scene_ambience_for_background(
+		vignette_bg, title, body, resolved_background_id)
 	event_title.text = title
 	_type_text(_fmt(body), 50.0)
 

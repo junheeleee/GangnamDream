@@ -2189,6 +2189,58 @@ ORDER155_SOURCE_FILE_TRANSITIONS = {
     ),
 }
 
+# ORDER-156 gives the existing SAVE/REST routine prose and the W220 weekly
+# receipt an explicit settled location.  It is a byte-exact successor over the
+# closed ORDER-155 product: older ORDER-150/151/155 receipts remain immutable
+# and see their own bytes only after this complete six-file leaf is projected
+# away.  Full-file successors deliberately fail closed; accepting a marker or
+# an arbitrary added background field here would hide unrelated runtime edits.
+ORDER156_PRODUCT_BASELINE = "dd5d29812b74cb9fd5cf00cfbcbd8e0e66b4e2be"
+ORDER156_DECLARATION_COMMIT = "4625953ba0c2f63b3344c50aa2ab08e857d149ec"
+ORDER156_MAIN_GAME_PATH = "scenes/MainGame.gd"
+ORDER156_STORY_MODE_PATH = "scenes/StoryMode.gd"
+ORDER156_GAME_STATE_PATH = "autoloads/GameState.gd"
+ORDER156_IMAGE_REGISTRY_PATH = "autoloads/ImageRegistry.gd"
+ORDER156_AUDIO_PATH = "assets/scene_audio_manifest.json"
+ORDER156_DIRECTION_PATH = "assets/scene_direction_manifest.json"
+ORDER156_SOURCE_FILE_TRANSITIONS = {
+    ORDER156_MAIN_GAME_PATH: (
+        "f14677578581a5d21fc47103eab5ac199f3debac8ed00f4c994fc1ea7bd9160c",
+        "3e15f8e44839857a4ad04ee3b1727f9869f72ebbb7cfe9153dfcf9f1d756629d",
+    ),
+    ORDER156_STORY_MODE_PATH: (
+        "7ec09c661c708f6f096502f41161ae9b6373003a7df21a0194e2870c5ce9beee",
+        "e6d5c9f0612138d6a82b7b69bdab0cbcc1c657ad3b4461284f6c3236b36e6343",
+    ),
+    ORDER156_GAME_STATE_PATH: (
+        "8c4ba503493e61d857a5e7bfc2f70ffb3e74944d0865c6dbf6c2c440b59e299f",
+        "8a40740286ff910b2a16049e2c2794cc0dc22fed5dfc78d2fc6ce458c833018d",
+    ),
+    ORDER156_IMAGE_REGISTRY_PATH: (
+        "794f0468d31ffa5a2fe923284198303e19b03536f02a9dfd0224c35860e1760c",
+        "ca1b941cb0b426e967f742322c647e440bffa60071d5d148da3a5b3dc3e655f0",
+    ),
+    ORDER156_AUDIO_PATH: (
+        "3aefcf43be9496f28b466011a44a39190deef06fe8edaee468b1ce900214c15f",
+        "680f05938d9717e5dc4b862620a0eebc3bffb07988be2401c3bde6aee12dfa3b",
+    ),
+    ORDER156_DIRECTION_PATH: (
+        "f62ad8d3ea4d1d33be41f5ff669907b82fb1ceb65768c200eeb278c8b4e8bfd3",
+        "2217b70f75195812516ecc526b8274e8f1ad6db1a37f626e8d2229f91ff83858",
+    ),
+}
+ORDER156_BACKGROUND_ID = "park_bench_day"
+ORDER156_BACKGROUND_PATH = "res://assets/backgrounds/park_bench_day.png"
+ORDER156_AUDIO_PROFILE = "street"
+ORDER156_DIRECTION_PROFILE = {
+    "environment": "outdoor",
+    "depth": "far",
+    "effect": "none",
+    "camera": "none",
+    "intensity": 0.0,
+    "weather_source": "none",
+}
+
 ORDER131_ADDED_IDS_BY_FILE = {
     "content/events/arc_midgame.json": {
         "arc_first_real_win_father_passed",
@@ -5168,6 +5220,149 @@ def advance_exact_hash(
 
 
 @functools.lru_cache(maxsize=None)
+def order156_baseline_bytes(relative: str) -> bytes:
+    """Load one exact source from the closed ORDER-155 product."""
+    return git_blob(ORDER156_PRODUCT_BASELINE, relative)
+
+
+def order156_expected_payload(baseline: Any, relative: str) -> Any:
+    """Build only the two JSON manifest additions owned by ORDER-156."""
+    expected = copy.deepcopy(baseline)
+    if relative == ORDER156_AUDIO_PATH:
+        if isinstance(expected, dict):
+            expected["version"] = 24
+            profiles = expected.get("background_profiles")
+            if isinstance(profiles, dict):
+                profiles[ORDER156_BACKGROUND_ID] = ORDER156_AUDIO_PROFILE
+        return expected
+    if relative == ORDER156_DIRECTION_PATH:
+        if isinstance(expected, dict):
+            profiles = expected.get("background_profiles")
+            if isinstance(profiles, dict):
+                profiles[ORDER156_BACKGROUND_ID] = copy.deepcopy(
+                    ORDER156_DIRECTION_PROFILE)
+        return expected
+    return expected
+
+
+def order156_expected_image_registry_bytes(baseline: bytes) -> bytes | None:
+    """Apply the exact park key and current-home cooking resolver insertions."""
+    try:
+        expected = baseline.decode("utf-8")
+    except UnicodeDecodeError:
+        return None
+    background_anchor = (
+        '\t"street_day":        '
+        '"res://assets/backgrounds/street_seoul_day.png",\n'
+    )
+    background_addition = (
+        '\t"park_bench_day":    '
+        '"res://assets/backgrounds/park_bench_day.png",\n'
+    )
+    resolver_anchor = (
+        '\t\t\treturn _housing_background_id(str(GameState.housing))\n'
+        '\t\t"current_workplace":\n'
+    )
+    resolver_replacement = (
+        '\t\t\treturn _housing_background_id(str(GameState.housing))\n'
+        '\t\t"current_home_cooking":\n'
+        '\t\t\tvar presentation_id := '
+        'GameState.get_presentation_home_background_id()\n'
+        '\t\t\tif not presentation_id.is_empty():\n'
+        '\t\t\t\treturn presentation_id\n'
+        '\t\t\tif str(GameState.housing) == "gosiwon":\n'
+        '\t\t\t\treturn "goshiwon_shared_kitchen"\n'
+        '\t\t\treturn _housing_background_id(str(GameState.housing))\n'
+        '\t\t"current_workplace":\n'
+    )
+    if expected.count(background_anchor) != 1 \
+            or expected.count(resolver_anchor) != 1:
+        return None
+    expected = expected.replace(
+        background_anchor, background_anchor + background_addition, 1)
+    expected = expected.replace(
+        resolver_anchor, resolver_replacement, 1)
+    return expected.encode("utf-8")
+
+
+def order156_project_bytes(current: bytes, relative: str) -> bytes:
+    """Expose an older byte only from the complete exact ORDER-156 leaf."""
+    transition = ORDER156_SOURCE_FILE_TRANSITIONS.get(relative)
+    if transition is None or byte_sha256(current) != transition[1]:
+        return current
+    try:
+        baseline = order156_baseline_bytes(relative)
+    except ValueError:
+        return current
+    if byte_sha256(baseline) != transition[0]:
+        return current
+    return baseline
+
+
+def order156_project_payload(payload: Any, relative: str) -> Any:
+    """Inverse only an exact ORDER-156 JSON manifest successor."""
+    projected = copy.deepcopy(payload)
+    if relative not in {ORDER156_AUDIO_PATH, ORDER156_DIRECTION_PATH}:
+        return projected
+    try:
+        baseline = strict_loads(
+            order156_baseline_bytes(relative).decode("utf-8"),
+            f"{ORDER156_PRODUCT_BASELINE}:{relative}",
+        )
+    except (UnicodeDecodeError, ValueError):
+        return projected
+    if projected == order156_expected_payload(baseline, relative):
+        return copy.deepcopy(baseline)
+    return projected
+
+
+def order156_project_byte_hash(current_hash: str, relative: str) -> str:
+    """Map only an exact ORDER-156 successor hash to its predecessor."""
+    transition = ORDER156_SOURCE_FILE_TRANSITIONS.get(relative)
+    if transition is not None and current_hash == transition[1]:
+        return transition[0]
+    return current_hash
+
+
+def validate_order156_exact_payload(
+    current: Any,
+    baseline: Any,
+    relative: str,
+    errors: list[str],
+) -> None:
+    """Reject JSON changes beyond the one park profile owned by ORDER-156."""
+    owner = f"ORDER-156:{relative}"
+    if current != order156_expected_payload(baseline, relative):
+        errors.append(f"{owner}: change exceeds exact routine-background scope")
+    if order156_project_payload(current, relative) != baseline:
+        errors.append(f"{owner}: exact semantic inverse drifted")
+
+
+@functools.lru_cache(maxsize=1)
+def order156_git_registration_snapshot(
+) -> tuple[int, str, int, str, int, frozenset[str]]:
+    """Bind the docs-only declaration and complete six-file product leaf."""
+    registered_paths = sorted(ORDER156_SOURCE_FILE_TRANSITIONS)
+    parent = subprocess.run(
+        ["git", "rev-parse", f"{ORDER156_DECLARATION_COMMIT}^"],
+        cwd=ROOT, check=False, capture_output=True, text=True)
+    wrapper = subprocess.run(
+        ["git", "diff", "--name-only", ORDER156_PRODUCT_BASELINE,
+         ORDER156_DECLARATION_COMMIT, "--", *registered_paths],
+        cwd=ROOT, check=False, capture_output=True, text=True)
+    product = subprocess.run(
+        ["git", "diff", "--name-only", ORDER156_PRODUCT_BASELINE,
+         "--", *registered_paths],
+        cwd=ROOT, check=False, capture_output=True, text=True)
+    return (
+        parent.returncode, parent.stdout.strip(),
+        wrapper.returncode, wrapper.stdout.strip(),
+        product.returncode,
+        frozenset(path for path in product.stdout.splitlines() if path),
+    )
+
+
+@functools.lru_cache(maxsize=None)
 def order155_baseline_payload(relative: str) -> Any:
     """Load one exact JSON source immediately before ORDER-155."""
     return strict_loads(
@@ -5299,7 +5494,7 @@ def order155_expected_image_registry_bytes(baseline: bytes) -> bytes | None:
 
 def order155_project_payload(payload: Any, relative: str) -> Any:
     """Project only exact ORDER-155 successors; never hide a mutation."""
-    projected = copy.deepcopy(payload)
+    projected = order156_project_payload(payload, relative)
     transitions = ORDER155_EVENT_OBJECT_TRANSITIONS_BY_FILE.get(relative)
     if transitions is not None:
         try:
@@ -5347,6 +5542,7 @@ def order155_project_payload(payload: Any, relative: str) -> Any:
 
 def order155_project_byte_hash(current_hash: str, relative: str) -> str:
     """Expose a historical byte only from one exact ORDER-155 successor."""
+    current_hash = order156_project_byte_hash(current_hash, relative)
     transition = ORDER155_SOURCE_FILE_TRANSITIONS.get(relative)
     if transition is not None and current_hash == transition[1]:
         return transition[0]
@@ -7784,6 +7980,120 @@ def validate_order138_registration(
     }
 
 
+def validate_order156_registration(errors: list[str]) -> dict[str, int]:
+    """Pin the exact routine-background leaf before every older receipt."""
+    (
+        parent_code,
+        parent_commit,
+        wrapper_code,
+        wrapper_changed,
+        diff_code,
+        product_files,
+    ) = order156_git_registration_snapshot()
+    expected_files = set(ORDER156_SOURCE_FILE_TRANSITIONS)
+    if parent_code != 0 or parent_commit != ORDER156_PRODUCT_BASELINE:
+        errors.append(
+            "ORDER-156: declaration commit must directly extend the exact "
+            "ORDER-155 closure")
+    if wrapper_code != 0 or wrapper_changed:
+        errors.append(
+            "ORDER-156: declaration wrapper changed a registered source")
+    if diff_code != 0 or product_files != expected_files:
+        errors.append(
+            "ORDER-156: exact six-file product registry drifted "
+            f"expected={sorted(expected_files)} "
+            f"actual={sorted(product_files)}")
+
+    for relative in (
+        ORDER156_AUDIO_PATH,
+        ORDER156_DIRECTION_PATH,
+        ORDER156_IMAGE_REGISTRY_PATH,
+    ):
+        if ORDER156_SOURCE_FILE_TRANSITIONS[relative][0] \
+                != ORDER155_SOURCE_FILE_TRANSITIONS[relative][1]:
+            errors.append(
+                f"ORDER-156:{relative}: transition does not extend ORDER-155")
+    for relative in (ORDER156_MAIN_GAME_PATH, ORDER156_GAME_STATE_PATH):
+        if ORDER156_SOURCE_FILE_TRANSITIONS[relative][0] \
+                != ORDER150_PROTECTED_FILE_TRANSITIONS[relative][1]:
+            errors.append(
+                f"ORDER-156:{relative}: transition does not preserve ORDER-150")
+    if ORDER156_SOURCE_FILE_TRANSITIONS[ORDER156_STORY_MODE_PATH][0] \
+            != STORY_DEMO_PROTECTED_FILE_TRANSITIONS[
+                ORDER156_STORY_MODE_PATH][1]:
+        errors.append(
+            "ORDER-156:StoryMode transition does not preserve story-demo receipt")
+
+    baseline_bytes_by_path: dict[str, bytes] = {}
+    current_bytes_by_path: dict[str, bytes] = {}
+    for relative, transition in sorted(
+            ORDER156_SOURCE_FILE_TRANSITIONS.items()):
+        owner = f"ORDER-156:{relative}"
+        try:
+            baseline_bytes = order156_baseline_bytes(relative)
+            current_bytes = (ROOT / relative).read_bytes()
+        except (OSError, ValueError) as exc:
+            errors.append(f"{owner}: cannot load exact source pair ({exc})")
+            continue
+        baseline_bytes_by_path[relative] = baseline_bytes
+        current_bytes_by_path[relative] = current_bytes
+        baseline_hash = byte_sha256(baseline_bytes)
+        current_hash = byte_sha256(current_bytes)
+        if baseline_hash != transition[0]:
+            errors.append(f"{owner}: exact baseline byte hash drifted")
+        if current_hash != transition[1]:
+            errors.append(f"{owner}: exact current byte hash drifted")
+        if order156_project_byte_hash(current_hash, relative) != baseline_hash:
+            errors.append(f"{owner}: exact byte-hash inverse drifted")
+        if order156_project_bytes(current_bytes, relative) != baseline_bytes:
+            errors.append(f"{owner}: exact byte inverse drifted")
+
+    for relative in (ORDER156_AUDIO_PATH, ORDER156_DIRECTION_PATH):
+        owner = f"ORDER-156:{relative}"
+        baseline_bytes = baseline_bytes_by_path.get(relative)
+        current_bytes = current_bytes_by_path.get(relative)
+        if baseline_bytes is None or current_bytes is None:
+            continue
+        try:
+            baseline = strict_loads(
+                baseline_bytes.decode("utf-8"), f"{owner}:baseline")
+            current = strict_loads(
+                current_bytes.decode("utf-8"), f"{owner}:current")
+        except (UnicodeDecodeError, ValueError) as exc:
+            errors.append(f"{owner}: cannot load exact JSON pair ({exc})")
+            continue
+        validate_order156_exact_payload(
+            current, baseline, relative, errors)
+
+    image_owner = f"ORDER-156:{ORDER156_IMAGE_REGISTRY_PATH}"
+    baseline_image = baseline_bytes_by_path.get(ORDER156_IMAGE_REGISTRY_PATH)
+    current_image = current_bytes_by_path.get(ORDER156_IMAGE_REGISTRY_PATH)
+    if baseline_image is not None and current_image is not None:
+        expected_image = order156_expected_image_registry_bytes(baseline_image)
+        if expected_image is None or current_image != expected_image:
+            errors.append(
+                f"{image_owner}: exact park/resolver registry successor drifted")
+        try:
+            current_text = current_image.decode("utf-8")
+        except UnicodeDecodeError:
+            errors.append(f"{image_owner}: source is not UTF-8")
+        else:
+            background_pattern = re.compile(
+                rf'(?m)^\s*"{re.escape(ORDER156_BACKGROUND_ID)}"\s*:\s*'
+                rf'"{re.escape(ORDER156_BACKGROUND_PATH)}",\s*$')
+            if len(background_pattern.findall(current_text)) != 1:
+                errors.append(
+                    f"{image_owner}: exact park background key drifted")
+            if current_text.count('\t\t"current_home_cooking":\n') != 1:
+                errors.append(
+                    f"{image_owner}: exact home-cooking resolver drifted")
+
+    return {
+        "order156_source_files": len(ORDER156_SOURCE_FILE_TRANSITIONS),
+        "order156_background_keys": 1,
+    }
+
+
 def validate_order155_registration(
     context: AuditContext,
     errors: list[str],
@@ -7865,7 +8175,8 @@ def validate_order155_registration(
         event_object_count += len(patches)
         try:
             baseline_bytes = git_blob(ORDER155_PRODUCT_BASELINE, relative)
-            current_bytes = (ROOT / relative).read_bytes()
+            current_bytes = order156_project_bytes(
+                (ROOT / relative).read_bytes(), relative)
             baseline = strict_loads(
                 baseline_bytes.decode("utf-8"), f"{owner}:baseline")
             current = strict_loads(
@@ -7945,7 +8256,8 @@ def validate_order155_registration(
         owner = f"ORDER-155:{relative}"
         try:
             baseline_bytes = git_blob(ORDER155_PRODUCT_BASELINE, relative)
-            current_bytes = (ROOT / relative).read_bytes()
+            current_bytes = order156_project_bytes(
+                (ROOT / relative).read_bytes(), relative)
             baseline = strict_loads(
                 baseline_bytes.decode("utf-8"), f"{owner}:baseline")
             current = strict_loads(
@@ -7990,7 +8302,10 @@ def validate_order155_registration(
     try:
         baseline_image = git_blob(
             ORDER155_PRODUCT_BASELINE, ORDER155_IMAGE_REGISTRY_PATH)
-        current_image = (ROOT / ORDER155_IMAGE_REGISTRY_PATH).read_bytes()
+        current_image = order156_project_bytes(
+            (ROOT / ORDER155_IMAGE_REGISTRY_PATH).read_bytes(),
+            ORDER155_IMAGE_REGISTRY_PATH,
+        )
     except (OSError, ValueError) as exc:
         errors.append(f"{image_owner}: cannot load exact source pair ({exc})")
     else:
@@ -9697,6 +10012,10 @@ def validate_manifest(
         "order155_source_files": 0,
         "order155_background_keys": 0,
     }
+    order156_stats = {
+        "order156_source_files": 0,
+        "order156_background_keys": 0,
+    }
     father_bridge_stats = {"father_bridge_changed_objects": 0}
     property_ladder_stats = {"property_ladder_changed_objects": 0}
     validate_r1a_contract(manifest, routes, errors)
@@ -9757,6 +10076,7 @@ def validate_manifest(
         historical_context, errors)
     order137_stats = validate_order137_registration(order137_context, errors)
     order138_stats = validate_order138_registration(order138_context, errors)
+    order156_stats = validate_order156_registration(errors)
     order155_stats = validate_order155_registration(context, errors)
     order154_stats = validate_order154_registration(errors)
     order153_stats = validate_order153_registration(context, errors)
@@ -9819,6 +10139,7 @@ def validate_manifest(
         **order153_stats,
         **order154_stats,
         **order155_stats,
+        **order156_stats,
         **father_bridge_stats,
         **property_ladder_stats,
     }
@@ -10290,8 +10611,143 @@ def run_invalidated_self_test(
         case_count += 1
         expect_context_failure(label, manifest, context, mutate, fragment, failures)
 
-    # ORDER-155 is the newest exact authored-location layer.  Exercise every
-    # source family before projecting it away for the historical tests below.
+    # ORDER-156 is the newest exact routine-location layer.  Its full-byte
+    # leaves must project only when every reviewed source byte still matches;
+    # the two JSON manifests also get semantic neighbor/topology mutations.
+    for relative, transition in sorted(
+            ORDER156_SOURCE_FILE_TRANSITIONS.items()):
+        baseline_order156 = order156_baseline_bytes(relative)
+        current_order156 = (ROOT / relative).read_bytes()
+        case_count += 1
+        if byte_sha256(baseline_order156) != transition[0] \
+                or byte_sha256(current_order156) != transition[1] \
+                or order156_project_bytes(current_order156, relative) \
+                != baseline_order156:
+            failures.append(
+                f"order156_exact:{relative}: exact byte successor rejected")
+
+        mutated_order156 = current_order156 + b"\n"
+        mutated_hash = byte_sha256(mutated_order156)
+        case_count += 1
+        if order156_project_bytes(mutated_order156, relative) \
+                != mutated_order156 \
+                or order156_project_byte_hash(mutated_hash, relative) \
+                != mutated_hash:
+            failures.append(
+                f"order156_scope:{relative}: neighboring byte was hidden")
+
+        for label, digest, path, expected in (
+            ("exact", transition[1], relative, transition[0]),
+            ("unknown", "0" * 64, relative, "0" * 64),
+            ("unrelated_path", transition[1],
+             "content/meta/story_map.json", transition[1]),
+        ):
+            case_count += 1
+            if order156_project_byte_hash(digest, path) != expected:
+                failures.append(
+                    f"order156_byte_inverse:{relative}:{label}: not exact")
+
+    order156_metadata_mutations: tuple[
+        tuple[str, tuple[tuple[str, Callable[[dict[str, Any]], None]], ...]],
+        ...,
+    ] = (
+        (
+            ORDER156_AUDIO_PATH,
+            (
+                ("version", lambda payload: payload.__setitem__("version", 23)),
+                ("park", lambda payload: payload[
+                    "background_profiles"].__setitem__(
+                        ORDER156_BACKGROUND_ID, "hangang")),
+                ("neighbor", lambda payload: payload[
+                    "background_profiles"].__setitem__(
+                        "street_day", "hangang")),
+            ),
+        ),
+        (
+            ORDER156_DIRECTION_PATH,
+            (
+                ("park", lambda payload: payload["background_profiles"][
+                    ORDER156_BACKGROUND_ID].__setitem__(
+                        "environment", "indoor")),
+                ("neighbor", lambda payload: payload[
+                    "background_profiles"]["street_day"].__setitem__(
+                        "depth", "near")),
+                ("version", lambda payload: payload.__setitem__("version", 2)),
+            ),
+        ),
+    )
+    for relative, mutations in order156_metadata_mutations:
+        baseline_order156 = strict_loads(
+            order156_baseline_bytes(relative).decode("utf-8"),
+            f"order156-self-test:{relative}:baseline",
+        )
+        current_order156 = load_json(ROOT / relative)
+        candidate_errors: list[str] = []
+        validate_order156_exact_payload(
+            current_order156, baseline_order156, relative, candidate_errors)
+        case_count += 1
+        if candidate_errors:
+            failures.append(
+                f"order156_exact:{relative}: current successor rejected "
+                f"{candidate_errors[:2]}")
+        for label, mutate in mutations:
+            mutated = copy.deepcopy(current_order156)
+            mutate(mutated)
+            candidate_errors = []
+            validate_order156_exact_payload(
+                mutated, baseline_order156, relative, candidate_errors)
+            case_count += 1
+            if not candidate_errors:
+                failures.append(
+                    f"order156_metadata:{relative}:{label}: mutation accepted")
+            if order156_project_payload(mutated, relative) \
+                    == baseline_order156:
+                failures.append(
+                    f"order156_metadata:{relative}:{label}: mutation hidden")
+
+    baseline_image_order156 = order156_baseline_bytes(
+        ORDER156_IMAGE_REGISTRY_PATH)
+    current_image_order156 = (
+        ROOT / ORDER156_IMAGE_REGISTRY_PATH).read_bytes()
+    expected_image_order156 = order156_expected_image_registry_bytes(
+        baseline_image_order156)
+    case_count += 1
+    if expected_image_order156 is None \
+            or current_image_order156 != expected_image_order156:
+        failures.append(
+            "order156_image_registry: exact park/resolver successor rejected")
+    for label, old, new in (
+        (
+            "park",
+            f'"{ORDER156_BACKGROUND_ID}":    "{ORDER156_BACKGROUND_PATH}"',
+            f'"{ORDER156_BACKGROUND_ID}":    '
+            '"res://assets/backgrounds/mutated.png"',
+        ),
+        (
+            "resolver",
+            '\t\t"current_home_cooking":',
+            '\t\t"mutated_home_cooking":',
+        ),
+        (
+            "neighbor",
+            '"street_day":        '
+            '"res://assets/backgrounds/street_seoul_day.png"',
+            '"street_day":        '
+            '"res://assets/backgrounds/mutated.png"',
+        ),
+    ):
+        mutated_image = current_image_order156.replace(
+            old.encode("utf-8"), new.encode("utf-8"), 1)
+        case_count += 1
+        if mutated_image == current_image_order156 \
+                or order156_project_bytes(
+                    mutated_image, ORDER156_IMAGE_REGISTRY_PATH) \
+                != mutated_image:
+            failures.append(
+                f"order156_image_registry:{label}: mutation was hidden")
+
+    # Project ORDER-156 away before exercising the immutable ORDER-155
+    # authored-location layer and its own narrow inverse.
     for relative, patches in sorted(ORDER155_EVENT_PATCHES_BY_FILE.items()):
         baseline_order155 = order155_baseline_payload(relative)
         current_order155 = load_json(ROOT / relative)
@@ -10458,7 +10914,8 @@ def run_invalidated_self_test(
     )
     for relative, mutations in order155_metadata_mutations:
         baseline_order155 = order155_baseline_payload(relative)
-        current_order155 = load_json(ROOT / relative)
+        current_order155 = order156_project_payload(
+            load_json(ROOT / relative), relative)
         candidate_errors = []
         validate_order155_exact_payload(
             current_order155, baseline_order155, relative, candidate_errors)
@@ -10484,7 +10941,10 @@ def run_invalidated_self_test(
 
     baseline_image = git_blob(
         ORDER155_PRODUCT_BASELINE, ORDER155_IMAGE_REGISTRY_PATH)
-    current_image = (ROOT / ORDER155_IMAGE_REGISTRY_PATH).read_bytes()
+    current_image = order156_project_bytes(
+        (ROOT / ORDER155_IMAGE_REGISTRY_PATH).read_bytes(),
+        ORDER155_IMAGE_REGISTRY_PATH,
+    )
     expected_image = order155_expected_image_registry_bytes(baseline_image)
     case_count += 1
     if expected_image is None or current_image != expected_image:
@@ -12306,6 +12766,8 @@ def main() -> int:
             f"order155_event_objects={stats['order155_event_objects']} "
             f"order155_source_files={stats['order155_source_files']} "
             f"order155_background_keys={stats['order155_background_keys']} "
+            f"order156_source_files={stats['order156_source_files']} "
+            f"order156_background_keys={stats['order156_background_keys']} "
             f"father_bridge_delta={stats['father_bridge_changed_objects']} "
             f"property_ladder_delta={stats['property_ladder_changed_objects']} "
             f"product_consumers={stats['consumers']} "
@@ -12344,6 +12806,8 @@ def main() -> int:
         f"order155_event_objects={stats['order155_event_objects']} "
         f"order155_source_files={stats['order155_source_files']} "
         f"order155_background_keys={stats['order155_background_keys']} "
+        f"order156_source_files={stats['order156_source_files']} "
+        f"order156_background_keys={stats['order156_background_keys']} "
         f"father_bridge_delta={stats['father_bridge_changed_objects']} "
         f"property_ladder_delta={stats['property_ladder_changed_objects']} "
         f"product_consumers={stats['consumers']} qa_consumers=1 activation=reference_only "

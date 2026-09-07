@@ -104,6 +104,14 @@
       "intensity": 0.0,
       "weather_source": "none"
     },
+    "park_bench_day": {
+      "environment": "outdoor",
+      "depth": "far",
+      "effect": "none",
+      "camera": "none",
+      "intensity": 0.0,
+      "weather_source": "none"
+    },
     "subway": {
       "environment": "transit",
       "depth": "mid",

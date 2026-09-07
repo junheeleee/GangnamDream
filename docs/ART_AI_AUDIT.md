@@ -13,7 +13,7 @@
 
 ## 감사 결과
 
-- 활성 인벤토리: **256장** (`CG 75 / Portrait 92 / Background 89`). 세 레지스트리의 중복 ID는 같은 파일 한 번으로 집계했다.
+- 활성 인벤토리: **257장** (`CG 75 / Portrait 92 / Background 90`). 세 레지스트리의 중복 ID는 같은 파일 한 번으로 집계했다.
 - 전수 방법: 종류별 콘택트시트 24장으로 얼굴·실루엣·그레이딩·공간을 1차 비교하고, 손·반사·차량·카운터·정류장처럼 오독 위험이 있는 컷과 키 비주얼 10장은 원본 해상도로 다시 열었다.
 - 런타임 수리: 배경이 구워진 `main_character_50s.png`를 본편의 `player_hollow` 슬롯에서 제외하고 같은 민준의 투명 피로 초상으로 통합했다. 현재 이벤트가 없는 박재원의 죽은 초상 등록도 제거했다.
 - 이미지 수리: `ending_crypto_ghost.png`의 비현실적인 6면 모니터 벽을 정본 고시원 안의 휴대폰 1대·낡은 노트북 1대로 교체했다. 방 크기, 작은 불투명창, 침대/책상 방향, 민준 신원, 다섯 손가락, 무문자 차트를 원본에서 재검수했다.
@@ -65,6 +65,14 @@
 - 출시 경로: `assets/backgrounds/{hospital_clinic_day,subway_station_stairs,subway_station_lost_found,hanjeongsik_restaurant_day,concert_hall_night,villa_renovation_day}.png` (각 1280x800).
 - 검수: 오전 외래 진료실, 역 계단·개찰구, 역무실·분실물 접수대, 토요일 낮 한정식 2인석, 무상표 야간 콘서트 홀, 화곡동 노후 빌라 보수 현장의 시간·동선·가구/설비·무문자·무주연 대역·UI 크롭을 원본 해상도에서 확인했다. 콘서트 홀의 관객과 무대 인물은 식별 불가능한 C-tier 공공장소 질감만 허용했다.
 - 등급 한계: 생성 원본은 P1 반복 배경의 2560x1600 중간 마스터 계약보다 작다. 현재 파일은 B+/`PASS-B` 런타임 후보이며 A급 또는 출시 마스터가 아니다.
+
+### 생활 routine 공원 배경
+
+- 모드: OpenAI 내장 ImageGen 신규 생성. 서울 생활공원의 빈 벤치·이어지는 보행로·식재 경계·가로등·평범한 저중층 건물을 요구했고, 전경 인물·소지품·글자·상표·한강/관광지 신호를 금지했다.
+- 생성 원본: `$CODEX_HOME/generated_images/019fabe6-f383-7b53-a060-7220e3ce36f4/exec-044fff4d-ac93-4d2f-9ed4-966526e08fee.png` (1586x992 RGB 불투명, SHA-256 `e405ce52acef7ceaa4f4286a404ca1501da794bf27b090119e26ec01f52825d9`).
+- 출시 경로: `assets/backgrounds/park_bench_day.png`. 사방 1px을 제거한 exact 1584x990 중앙 크롭 뒤 1280x800으로 축소했다.
+- 검수: 비어 있는 목재/금속 벤치, 실제 보행·배수 동선, 하단 35~40% 저세부 UI 영역, 우측 초상 뒤에도 남는 장소 신호, 원경의 비식별 C-tier 보행자만 있음을 원본과 런타임본에서 확인했다. W216 6월에는 정확하며, 짙은 녹음 때문에 전계절 master로 과장하지 않는다.
+- 등급 한계: 원본이 2560x1600 미만이므로 B+/`PASS-B` 런타임 후보일 뿐 A급 출시 master가 아니다. 전체 계약과 exact prompt는 `assets/ROUTINE_VIGNETTE_VISUAL_BIBLE.md`가 소유한다.
 
 ### 아버지 별세 공간 분리 배경
 
@@ -396,6 +404,7 @@
 | Background | `assets/backgrounds/office_interview_day.png` | `office_interview_day` | 1280x800 | no | `cb0fd6d1bbe6` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/oneroom_apartment.png` | `apartment`, `apartment_balcony` | 1280x800 | no | `02ad719e013e` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/open_chat_screen.png` | `open_chat_screen` | 1672x941 | no | `0bef20ba2bdd` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
+| Background | `assets/backgrounds/park_bench_day.png` | `park_bench_day` | 1280x800 | no | `0b817aece624` | PASS-B | 서울 생활공원·빈 벤치·연결된 보행/식재/배수 동선·원경 비식별 보행자·무문자/무상표·하단 UI 안전을 원본과 런타임본에서 확인. W216 6월 B+ 후보이며 P1 master 아님. |
 | Background | `assets/backgrounds/pc_bang_interior.png` | `pc_bang` | 1280x800 | no | `952b5aece3f5` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/penthouse_view.png` | `gangnam_penthouse`, `penthouse` | 1280x800 | no | `9f60451b3797` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/pojangmacha.png` | `pojangmacha` | 1280x800 | no | `1153cf3405a8` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
@@ -429,4 +438,4 @@
 | Background | `assets/backgrounds/year3_hangang_winter_night.png` | `year3_hangang_winter_night` | 1280x800 | no | `b8387ccb4707` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 | Background | `assets/backgrounds/year4_winter_rooftop.png` | `year4_winter_rooftop` | 1280x800 | no | `46803837d191` | PASS-B | 동선·문/창/가구·간판/인쇄물·게임 크롭 확인. |
 
-Inventory: 75 CG / 92 portraits / 89 backgrounds / 256 total.
+Inventory: 75 CG / 92 portraits / 90 backgrounds / 257 total.

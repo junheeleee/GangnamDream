@@ -31,6 +31,7 @@ Updated on 2026-08-04 for the Month-4 housing-welfare counselor's transparent B-
 Updated on 2026-08-21 for the M01-M06 authored promise-card scene set.
 Updated on 2026-08-26 for the M55 four-person contract-room CG.
 Updated on 2026-09-05 for six Chapter 5 authored location/time backgrounds.
+Updated on 2026-09-05 for the routine-vignette Seoul park and explicit SAVE/REST location contracts.
 
 ## Use These Assets
 
@@ -322,6 +323,11 @@ weather, romance, and historical portraits remain fixed.
   - Readability lock: no glasses, muted cardigan/jacket, ID lanyard; must not resemble the office team lead.
 
 ### Backgrounds
+- `assets/backgrounds/park_bench_day.png`
+  - Ordinary daytime Seoul neighborhood pocket park for the REST vignette about sitting on a bench and watching people hurry somewhere.
+  - One empty wood-and-metal bench, connected paths and planting edges, restrained lampposts, and ordinary low/mid-rise city context remain readable above the UI; only tiny faceless C-tier passersby appear in the far distance.
+  - No foreground person, protagonist proxy, bag, wallet, phone, food, drink, date evidence, readable text, logo, brand, Han River cue, tourist landmark, playground, or amusement-park cue.
+  - Exact 1280x800 opaque ImageGen-derived B+/`PASS-B` runtime candidate. The 1586x992 source is below the 2560x1600 intermediate-master contract and is not an A-grade release master.
 - `assets/backgrounds/hospital_clinic_day.png`
   - Person-free Friday 9:20 AM Seoul neighborhood family-medicine outpatient room for `arc_y5_burnout_check_reference`; preserves a functional consultation desk, patient chair, examination couch, privacy curtain, diagnostic tools, and ordinary daylight city view without becoming an inpatient ward.
 - `assets/backgrounds/subway_station_stairs.png`

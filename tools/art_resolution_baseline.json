@@ -37,7 +37,7 @@
     "heavy": 3.0,
     "severe": null
   },
-  "inventory_count": 256,
+  "inventory_count": 257,
   "counts": {
     "1080p": {
       "CG": {
@@ -56,7 +56,7 @@
       },
       "Background": {
         "native": 1,
-        "light": 88,
+        "light": 89,
         "medium": 0,
         "heavy": 0,
         "severe": 0
@@ -81,7 +81,7 @@
         "native": 1,
         "light": 0,
         "medium": 0,
-        "heavy": 88,
+        "heavy": 89,
         "severe": 0
       }
     }
@@ -1075,6 +1075,23 @@
       "scale": {
         "1080p": 1.1483,
         "4k": 2.2967
+      },
+      "band": {
+        "1080p": "light",
+        "4k": "heavy"
+      }
+    },
+    "assets/backgrounds/park_bench_day.png": {
+      "kind": "Background",
+      "ids": [
+        "park_bench_day"
+      ],
+      "width": 1280,
+      "height": 800,
+      "alpha": false,
+      "scale": {
+        "1080p": 1.5,
+        "4k": 3.0
       },
       "band": {
         "1080p": "light",
