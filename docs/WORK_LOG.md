@@ -23,6 +23,22 @@
 > [`7/25`](history/WORK_LOG_2026-07-25.md)에 손실 없이 보존한다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
 
+## 2026-09-08 (Codex — 아버지·인연·연애 번역)
+
+- 가족·연애25종172문구씩 JA·간체·번체를 KO 직접 저작하고 독립 전수 대조했다.
+  신규516·누적14,355번역, 기존13,839/meta9와 기존79행589문구를 보존했다.
+- CN/TW의 손아래 형제자매4문구씩을 오독 없이 명료화하고 SNS 자세1문구씩을
+  원문대로 덜었다. JA 독립 필수 수정0. 변경 문구는 다시 원문과 대조했다.
+- 이름·관형어 및 고3/50대/방문 문의/진실 대안의 실제 검사 오탐을 좁게
+  결속했다. 새 부정2유형도 닫았으며 full self174/ZH self3363 PASS다.
+  실제 대출/방문/통화/전연인 만남과 미수락 점심/앱 매칭의 차이는 보존했다.
+- 초기 source3·최종 source/response/receipt PASS·changed_files0.
+  완료177기록1,379bytes를 기존 history 앞으로 원문 이동하고 끝 개행도 보존했다.
+  검수행은 동일 활성 이어보기의 [~]·L3 OPEN으로 남는다.
+- KO/EN·runtime·공개·fonts·save·human_gates 변경0, 원본 checkout 쓰기0.
+  전체 INCOMPLETE·full/main/product HOLD·원어민/화면 OPEN·출시 데모 GO 유지.
+  [수용·검사 상세](queue_active/ORDER-180.md)에 사실 경계와 지문을 남긴다.
+
 ## 2026-09-08 (Codex — 생활비·소비·주거 불안 번역)
 
 - 생활비25종186문구씩 JA·간체·번체를 KO 직접 저작하고 독립 전수 대조했다.
@@ -52,23 +68,6 @@
 - KO/EN·runtime·공개·fonts·save·human_gates 변경0, 원본 checkout 쓰기0.
   전체 INCOMPLETE·full/main/product HOLD·원어민/화면 OPEN·출시 데모 GO 유지.
   [수용·검사 상세](queue_active/ORDER-178.md)에 사실 경계와 지문을 남긴다.
-
-## 2026-09-08 (Codex — 고시원·출퇴근·건강 번역)
-
-- 생활25종176문구씩 JA·간체·번체를 KO 직접 저작하고 독립 전수 대조했다.
-  신규528·누적12,699번역, 기존12,171/meta9와 두 파일 기존185문구를 보존했다.
-- 금액/시간·24시간 영업·월1~2회·App/X光의 실제 검사 오탐을 수리했다.
-  독립 반례로 괄호 통화와 기간 차용 경계를 닫았으며, 대만 교육부 근거로 峰의
-  정자 분류를 바로잡았다. 자동 통과가 원어민·화면 판정은 아니다.
-- 실제 입금·답장·통화·검진을 보존하고 주거/나이·금액효과·표시명 부채는
-  원문과 분리했다. 초기 source3 보존·최종 source/response/receipt PASS·changed_files0.
-- 완료174기록1,115bytes를 기존 history 앞으로 원문 이동했고 끝 개행도 보존했다.
-  검수행은 동일 활성 이어보기의 [~]·L3 OPEN으로 남는다.
-- KO/EN·runtime·공개·fonts·save·human_gates 변경0, 원본 checkout 쓰기0.
-  전체 INCOMPLETE·full/main/product HOLD·원어민/화면 OPEN·출시 데모 GO 유지.
-  [수용·검사 상세](queue_active/ORDER-177.md)에 사실 경계와 지문을 남긴다.
-- 최종 표적12개·별도 EN·diff PASS, portable12,699 source/hash/L1 오류0.
-  실제 차선 stdout은 git-private order177-final-checks.log에 보존했다.
 
 ## 2026-09-05 (Codex — ORDER-156 Chapter 5 생활 routine 배경 수리 선언)
 

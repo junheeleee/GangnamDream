@@ -218,12 +218,16 @@ SPENDING_SCENE_COUNTER_KINDS = frozenset({
     "lottery_match_count", "lottery_prize_rank", "gym_card_months",
     "gym_approx_months", "first_luck", "price_gap_pair",
 })
+FAMILY_SCENE_COUNTER_KINDS = frozenset({
+    "high_school_year", "cafe_man_age_decade", "father_visit_inquiry",
+    "truth_alternative_pair",
+})
 WORK_SCENE_COUNTER_KINDS = frozenset({
     "work_cup_range", "coworker_count", "subscription_count", "study_daily_hours",
     "exam_countdown", "tuition_month", "never_course_days", "job_company_focus",
     "read_mark_over_count", "job_posting_count",
 })
-LIFE_SCENE_COUNTER_KINDS = WORK_SCENE_COUNTER_KINDS | SPENDING_SCENE_COUNTER_KINDS | frozenset({
+LIFE_SCENE_COUNTER_KINDS = WORK_SCENE_COUNTER_KINDS | SPENDING_SCENE_COUNTER_KINDS | FAMILY_SCENE_COUNTER_KINDS | frozenset({
     "remaining_four_month", "job_posting_count", "egg_count", "task_count",
     "rental_home_ordinal", "mirror_glance", "gangnam_attempt",
     "university_year", "restaurant_per_person", "underground_exit",
@@ -548,6 +552,7 @@ RELATIONSHIP_SOURCE_NAMES = (
     (re.compile(r"(?<![가-힣])(?:친구 지수(?=에게서\s)|지수가 안겼다|지수는 같은 말을 반복했고|지수가 연락해왔을 때)"), "Jisu"),
     (re.compile(r"(?<![가-힣])준혁이(?=$|\s|[가도는]|에게)"), "Junhyeok"),
     (re.compile(r"(?<![가-힣])친구 재훈이(?=$|\s|[가도는]|에게)"), "Jaehun"),
+    (re.compile(r"(?<![가-힣])민수(?=$|[\s.,!?…]|[는를가])"), "Minsu"),
 )
 # Optional brand spellings for exact Korean catalogue leaves, not a global
 # English allowlist. Chinese brand names remain valid; prose must still be
@@ -1533,6 +1538,10 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
         (r"^한 달 반쯤(?= 갔다\. 기간이 지났을 때)", "1.5", "gym_approx_months"),
         (r"(?<=서울에서의 )첫 번째(?= 행운이었다\.)", 1, "first_luck"),
         (r"(?<=\. )둘(?= 사이에\s+이 있었다\.)", 2, "price_gap_pair"),
+        (r"(?<![가-힣\d])고3(?= 때 반에서 꼴등이었다\.)", 3, "high_school_year"),
+        (r"(?<=옆 테이블 )50대(?= 남자가 통화를 끊더니)", 50, "cafe_man_age_decade"),
+        (r"(?<=크게 다친 건 아닌데, )한 번 와볼 수 있겠냐고(?=\.)", 1, "father_visit_inquiry"),
+        (r"(?<![가-힣])둘 중 하나는 사실일 것이다(?=\.)", 2, "truth_alternative_pair"),
     ):
         for match in re.finditer(pattern, source):
             if kind == "price_gap_pair" and not re.search(r"\s{2,}\. \s{2,}\. $", source[:match.start()]):
@@ -1564,6 +1573,10 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
         if match.group("noun") == "약속" and match.group("number") == "한" \
                 and re.search(r"(?:기로|누구에게도|사람에게)\s+$", source[:match.start()]):
             continue  # A promise made/agreed upon, not the number one.
+        if match.group("noun") == "약속" and match.group("number") == "한" \
+                and source[:match.start()].endswith("나는 스스로에게 ") \
+                and source[match.end():] == "이 됐다.":
+            continue  # The promise I made to myself: 한 is a relative verb.
         if match.group("noun") == "시각" and match.group("number") == "한" \
                 and re.search(r"(?:연락하기로|만나기로)\s+$", source[:match.start()]):
             continue  # 연락하기로 한 시각 하나 has a relative clause plus one.
@@ -1866,6 +1879,16 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
 
 
 def _target_pattern_for_kind(kind: str) -> re.Pattern[str]:
+    # The broad witnesses include observed wrong units/actions, so an invalid
+    # first clause cannot borrow a later correct number of the same kind.
+    if kind == "high_school_year":
+        return re.compile(rf"(?P<stage>高|初|大)(?P<number>{CHINESE_CARDINAL})(?P<family_unit>那年|[時时]|年|歲|岁)?")
+    if kind == "cafe_man_age_decade":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})(?P<family_unit>多[歲岁年]|[歲岁年輛辆])")
+    if kind == "father_visit_inquiry":
+        return re.compile(rf"(?P<ask>[問问])?(?P<ability>能不能|可不可以|可以|不能|能)?(?:回[來来]|[來来]|去)(?:(?P<once>看看)|看(?:了|過|过)?(?P<number>{CHINESE_CARDINAL})(?P<family_unit>趟|次|天))")
+    if kind == "truth_alternative_pair":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})(?P<family_unit>者|[個个人])之中[，,]?(?P<truth_state>總有|总有|應該有|应该有|沒有|没有)(?P<one>{CHINESE_CARDINAL})[個个]是真的")
     if kind == "asset_age_decade":
         return re.compile(rf"(?P<number>{CHINESE_CARDINAL})(?P<spend_unit>多[歲岁年]|[歲岁]|年|[輛辆])")
     if kind == "monthly_balance_once":
@@ -2245,6 +2268,27 @@ def _target_pattern_for_kind(kind: str) -> re.Pattern[str]:
     )
 
 
+def _family_quantity_valid(kind: str, match: re.Match[str], target: str) -> bool:
+    before, after = target[:match.start()], target[match.end():]
+    if re.search(r"(?:不到|不足|超過|超过|至少|至多|最多|最少|大約|大约|約|约|並非|并非|不是|不|沒有|没有|沒|没)\s*$", before):
+        return False
+    end = bool(re.match(r"\s*(?:$|[，。！？、；,.!?;」』）)])", after))
+    if kind == "high_school_year":
+        return match.group("stage") == "高" and match.group("family_unit") in {"那年", "時", "时"} and end
+    if kind == "cafe_man_age_decade":
+        return match.group("family_unit") in {"多歲", "多岁"} and bool(
+            re.search(r"(?:旁桌|隔壁桌)(?:一[個个名])?$", before)
+            and re.match(r"的男人(?:掛|挂)", after)
+        )
+    if kind == "father_visit_inquiry":
+        return bool(match.group("ask")) and match.group("ability") in {"能不能", "可不可以"} and (
+            bool(match.group("once")) or match.group("family_unit") == "趟"
+        ) and end
+    if kind == "truth_alternative_pair":
+        return match.group("family_unit") in {"者", "個", "个"} and match.group("truth_state") in {"總有", "总有", "應該有", "应该有"} and _chinese_cardinal_value(match.group("one")) == 1 and end
+    return False
+
+
 def _spending_quantity_valid(kind: str, match: re.Match[str], target: str) -> bool:
     before, after = target[:match.start()], target[match.end():]
     if re.search(r"(?:不到|不足|超過|超过|至少|至多|最多|最少|大約|大约|約|约|並非|并非|不是|不|沒有|没有)\s*$", before):
@@ -2322,6 +2366,8 @@ def _match_target_counter_quantities(
             if expected.kind in WORK_SCENE_COUNTER_KINDS and not _work_quantity_valid(expected.kind, match, target):
                 continue
             if expected.kind in SPENDING_SCENE_COUNTER_KINDS and not _spending_quantity_valid(expected.kind, match, target):
+                continue
+            if expected.kind in FAMILY_SCENE_COUNTER_KINDS and not _family_quantity_valid(expected.kind, match, target):
                 continue
             if expected.kind in LIFE_SCENE_COUNTER_KINDS:
                 number_start = match.start("number") if match.group("number") else match.start()
@@ -2470,6 +2516,8 @@ def _match_target_counter_quantities(
                 # 一眼 is a glance after a seeing verb, not one physical eye.
                 continue
             value = _chinese_cardinal_value(match.group("number") or "")
+            if expected.kind == "father_visit_inquiry" and match.group("once"):
+                value = Decimal(1)  # Reduplicated 看看 is the proposed short visit.
             if expected.kind == "price_gap_pair" and match.group("pair"):
                 value = Decimal(2)
             if expected.kind == "gym_approx_months" and value is not None:
@@ -4224,6 +4272,67 @@ def _spending_scene_parser_self_test() -> tuple[int, list[str]]:
     return cases, failures
 
 
+def _family_scene_parser_self_test() -> tuple[int, list[str]]:
+    """Four observed family/acquaintance phrases; never an event-wide waiver."""
+    cases, failures = 0, []
+
+    def check(source: str, target: str, valid: bool) -> None:
+        nonlocal cases
+        cases += 1
+        errors = _numeric_errors(source, target)
+        if bool(errors) == valid:
+            failures.append(f"family expected valid={valid}: {source!r} -> {target!r}: {errors}")
+
+    fixtures = (
+        ("고3 때 반에서 꼴등이었다.", "高三時，是班上最後一名。", "高三時",
+         ("高二時", "初三時", "高三年", "−\t高三時", "高三時以上")),
+        ("옆 테이블 50대 남자가 통화를 끊더니 혼잣말을 했다.",
+         "隔壁桌一名五十多歲的男人掛了電話，自言自語。", "五十多歲",
+         ("四十多歲", "五十歲", "五十多年", "−\t五十多歲", "五十多歲以上")),
+        ("아버지가 쓰러지셨다고. 크게 다친 건 아닌데, 한 번 와볼 수 있겠냐고.",
+         "說父親倒下了。雖然沒有受什麼重傷，但問能不能來看看。", "問能不能來看看",
+         ("問能不能來看兩趟", "問能不能來看一天", "回來看了一趟", "不問能不能來看看", "問能不能來看看以上")),
+        ("둘 중 하나는 사실일 것이다.", "兩者之中，總有一個是真的。", "兩者之中，總有一個是真的",
+         ("三者之中，總有一個是真的", "兩人之中，總有一個是真的", "兩者之中，總有兩個是真的", "−\t兩者之中，總有一個是真的", "兩者之中，總有一個是真的以上")),
+    )
+    for source, normal, counted, wrong in fixtures:
+        check(source, normal, True)
+        for changed in wrong:
+            check(source, normal.replace(counted, changed), False)
+        check(source, normal.replace(counted, wrong[0]) + normal, False)
+        check(source, normal + normal, False)
+    for source, target in (
+        ("고3 때 반에서 꼴등이었다.", "高三那年，他是班里最后一名。"),
+        ("옆 테이블 50대 남자가 통화를 끊더니 혼잣말을 했다.",
+         "旁桌一个五十多岁的男人挂了电话，自言自语。"),
+        ("아버지가 쓰러지셨다고. 크게 다친 건 아닌데, 한 번 와볼 수 있겠냐고.",
+         "说父亲倒下了。没受什么重伤，问能不能回来看看。"),
+        ("둘 중 하나는 사실일 것이다.", "兩個之中，應該有一個是真的。"),
+    ):
+        check(source, target, True)
+    for source, kind in (
+        ("고3 때 반에서 축구를 했다.", "high_school_year"),
+        ("옆 테이블 50대 자동차가 통화를 끊더니", "cafe_man_age_decade"),
+        ("크게 다친 건 아닌데, 한 번 와봤다고.", "father_visit_inquiry"),
+        ("둘 중 하나를 골랐다.", "truth_alternative_pair"),
+    ):
+        cases += 1
+        if any(q.kind == kind for q in _source_counter_quantities(source)):
+            failures.append(f"family source scope escaped: {source}")
+    # Independent review found negated inquiries and a negated first pair
+    # borrowing the following affirmative pair. Keep both as invalid witnesses.
+    for source, normal, changed in (
+        ("아버지가 쓰러지셨다고. 크게 다친 건 아닌데, 한 번 와볼 수 있겠냐고.",
+         "說父親倒下了。雖然沒有受什麼重傷，但問能不能來看看。",
+         "說父親倒下了。雖然沒有受什麼重傷，但沒問能不能來看看。"),
+        ("둘 중 하나는 사실일 것이다.", "兩者之中，總有一個是真的。",
+         "兩者之中，沒有一個是真的。兩者之中，總有一個是真的。"),
+    ):
+        check(source, normal, True)
+        check(source, changed, False)
+    return cases, failures
+
+
 def run_self_test(
     manifest: dict[str, Any], runtime: dict[str, Any],
 ) -> list[str]:
@@ -4239,6 +4348,9 @@ def run_self_test(
     spending_cases, spending_failures = _spending_scene_parser_self_test()
     cases += spending_cases
     failures.extend(spending_failures)
+    family_cases, family_failures = _family_scene_parser_self_test()
+    cases += family_cases
+    failures.extend(family_failures)
 
     # Exact Korean-source catalogue names are not permission for unrelated
     # English prose or for deleting the noun around an allowed brand token.

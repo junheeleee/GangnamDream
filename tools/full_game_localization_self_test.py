@@ -281,6 +281,31 @@ class ExchangeTests(unittest.TestCase):
         ):
             self.assertTrue(tool.translation_errors(leaf, 'ja', bad), bad)
 
+    def test_family_source_bound_minsu(self):
+        from zh_translation_audit import _untranslated_english_errors as check
+        for source, target in (
+            ('옆집 민수 알지?', '知道隔壁家的Minsu吧？'),
+            ('민수가 꼴등이었다.', 'Minsu是最後一名。'),
+            ('민수를 기억했다.', '記得Minsu。'),
+        ):
+            self.assertEqual(check(source, target), [], (source, target))
+        for source, target in (
+            ('민준을 기억했다.', '記得Minsu。'),
+            ('옆집 김민수 알지?', '知道Minsu吧？'),
+            ('민수가 꼴등이었다.', 'MinsuPlus是最後一名。'),
+            ('민수가 꼴등이었다.', 'Minsu_是最後一名。'),
+        ):
+            self.assertTrue(check(source, target), (source, target))
+
+    def test_family_promise_relative_verb(self):
+        from zh_translation_audit import _numeric_errors as check
+        source = '잘 될 거라고 다짐했다. 상대방은 웃었고 나는 스스로에게 한 약속이 됐다.'
+        for target in ('對方笑了，而這也成了我對自己許下的承諾。',
+                       '对方笑了，而我把这当成了对自己的承诺。'):
+            self.assertEqual(check(source, target), [], target)
+        self.assertTrue(check('두 약속이었다.', '一個承諾。'))
+        self.assertTrue(check('나는 스스로에게 두 약속이 됐다.', '一個承諾。'))
+
     def test_living_japanese_plain_thousands_and_minus(self):
         for source, good in (
             ('1000원을 주머니에 넣었다.', '1,000ウォンをポケットに入れた。'),

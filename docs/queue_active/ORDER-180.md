@@ -114,3 +114,47 @@ L3/원어민/화면 OPEN·출시 M01~M06 BUILD2026.08.31.1 사용자 GO 유지.
 
 이 범위·배치·증거 절차는 일회성이다. 지속 규칙은 I18N_INFRASTRUCTURE와
 언어별 용어집이 소유하며 새 서사·제품·출시 규칙을 만들지 않는다.
+
+## 번역 결과 — L1/L2 수용·L3 OPEN
+
+- 선언 `c27d5259f10e3990699b42e31618e1e48aeb0ff9` 뒤25 roots/172 leaf씩을
+  KO 직접 저작했다. 세 언어516문구를 다른 작성자 또는 ROOT가 전수 대조했다.
+  JA 독립 필수 수정0. CN/TW 각각 family_024의 '弟妹'4문구는 동생의 아내로
+  오독하지 않도록 성별 대안/손아래 형제자매/대명사로 명료화했다. SNS 역 앞의
+  원문에 없는 서 있는 자세1문구씩도 덜고 변경5곳씩 재대조했다.
+- 초기173행 source3개는 저작 전 target=null과 같은 원문172를 보존한다.
+  최종 source/response check·import --accept3개 PASS·changed_files0.
+  기존 private 증거를 덮지 않고 작성된 target을 수용했다.
+- 최종172-record aggregate JA
+  `7be8645773bb6433864337f40be9d5ba30914264b1a8c72b99d28326cd8a2cec`,
+  CN `f7ed31641e0cf6fdd34668a47165121e5d1da9db16a13f92888eb23a7765b9e0`,
+  TW `3c8b841e57cddb529d4c66da725d80a32331717f52289e74377722acc915433b`.
+  신규516·누적14,355(언어별4,785), 사건478종3,717/locale다.
+  이전13,839/meta9·batch31·기존79행589문구의 값·raw row·상대순서를 보존했다.
+  새25행 내부는 KO 상대순서이며 life_events2 전체는 변경0이다.
+- 실제 Minsu 원문 이름과 '스스로에게 한 약속'의 관형어 오탐만 문맥에
+  결속했다. 원문 다른 이름/식별자 차용과 진짜 하나/둘 수량은 별개다.
+  독립20반례 PASS, full-game self174는 기존172+신규2다.
+- ZH 고3 학년·옆자리50대 인물·아버지 방문 문의·둘 중 하나의 진실을
+  각 원문/목표 문맥과 불일치 증인에 결속했다. 단순 전역 숫자 면제0.
+  독립 검토에서 새 방문 문의의 沒/没 부정과 진실 대안의 앞 부정문을
+  뒤 정상문이 덮는2유형을 발견해 닫았다. 정상2/변조2 재확인 PASS,
+  ZH self3363는 기존3319+새40+종결4다. 자동 검사는 전 언어 의미 인증이 아니다.
+- 완료177절1,379bytes만 기존 history26,549bytes 앞으로 원문 이동했다.
+  새27,928bytes SHA `3ab83abf5ee6ecb9bb32fd0acd4e59d90e721b1bab6c668a1d74e9c51ce7dff9`,
+  기존 내용·끝 LF2를 유지한다. 검수행은 같은 활성 이어보기로만 이동한다.
+- 실제 대출·대여·답장·KTX 귀향/병원 방문/통화·전연인 만남은 원문 사실대로다.
+  동료 점심 요청은 수락하지 않았고 앱 매칭은 실제 만남이 아니다.
+  선언의 성별·원문 글자수·친족·생사·기간/주거·선택 재진입 부채는 별도 남겼다.
+  KO/EN·runtime·공개·fonts·save·human_gates 변경0, 원본 checkout 쓰기0.
+  full/main/product HOLD·전체 INCOMPLETE·L3/원어민/화면 OPEN·출시 데모 GO 유지.
+
+- portable checksum `2d6053992dfdcb61ce15e3cbe840340b3b2edea7e38b9df0a08c49ef2dbd825e`.
+
+- 최종 named12 실제 PASS: full self174/ZH self3363, audit ERROR0/WARNING0,
+  공개14사건100 leaf/121 UI·5언어 exact 유지. EN1813/1813·35/35와
+  한글 잔류 검사, 전14,355 source/target hash·L1 오류0, diff PASS다.
+  원시 stdout private `order180-final-checks.log` 4225bytes,
+  SHA `dde0db6ff449c2f83f627c006f3fcfac8a5d171008f87fb721948b692aeb5f87`를 byte-exact 확인했다.
+  context boot29,187/docs282/links80, queue43/in_progress41, 등록139다.
+  Chinese full-route JP-first blocked는 남은 별도 화면/폰트 게이트이며 PASS로 닫지 않는다.
