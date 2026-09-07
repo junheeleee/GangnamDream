@@ -222,6 +222,7 @@
         "locale/catalog_zh-TW.json",
         "tools/ja_translation_pipeline.py",
         "docs/queue_active/ORDER-161.md",
+        "docs/queue_active/ORDER-162.md",
         "docs/history/WORK_LOG_2026-09-07_localization.md",
         "content/events_ja/**",
         "content/events_zh-CN/**",
