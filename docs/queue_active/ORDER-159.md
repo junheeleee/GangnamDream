@@ -54,3 +54,27 @@ human_gates는 비소유. 보호 leaf 변경은 자동 거부한다. 세 locale 
 완전성·기존357/공개 데모 불변·표적 회귀. 사용자 표본·원어민·실제 화면 OPEN.
 **규범 판정:** 지속 규칙은 `I18N_INFRASTRUCTURE.md`와 기존 언어 용어집 소유다.
 이 root 목록·단위·파일 범위와 보존 이동은 일회성이다.
+
+## 실물 분모 정정 선언 — 2026-09-07
+
+`content/endings.json:condition` 34개는 내부 작성 메모다. 코드식과 한국어 요약이
+섞여 있고 `DataRegistry.gd:1137`의 fallback 처리 외에는 Godot 코드 소비자가
+없다. 실제 끝맺음은 `MainGame.gd:_resolved_ending_description`의 본문/변형,
+제목·후일담을 표시하며 조건식이나 route 점수를 보여 주지 않는다.
+
+- 최초 엔딩 포착 268 leaf 중34를 비표시 메타데이터로 분리한다. 번역 분모234;
+  이번 A51/B32=83 leaf/locale. 18+15 서사 단위는 그대로다.
+- `tools/full_game_localization.py`, 전용 self-test,
+  `tools/i18n_coverage_check.py`의 비표시 condition 강제 번역만 수리한다.
+  신규 오버레이에 condition이 없어도 정상이며 제목/본문/변형 필수는 유지한다.
+- 기존 3개 엔딩의 condition 번역 바이트는 보존하되 그9건의 수용 해시를
+  `content/meta/full_game_localization.json`에서 역사 비표시 기록으로 분리한다.
+  기존357은 348 번역 +9 비표시 메타였다. 검사나 번역 성공으로 부풀리지 않는다.
+- `docs/I18N_INFRASTRUCTURE.md`에 이 지속 경계를 적고 전체 backlog 분모도
+  실제 수집 결과와 정렬한다. KO/EN·runtime·화면·routing 변경0이다.
+- 최초96 export는 버리지 않는다. 원문 본문이 아니라 수집 계약이 바뀌었으므로
+  최종83 응답은 새로운 exact export로 검사·수용한다. 비표시 키의 추가/변조는
+  번역 수용으로 통과하지 못하며 기존 비표시 기록도 source/target 해시를 보존한다.
+
+같은 두 배치의 실물 검사 수리 2단위를 A19~20으로 기록한다. 계속 유효한
+비표시 메타 분리는 현지화 정본 소유이며 root 목록과 증거 이동은 일회성이다.
