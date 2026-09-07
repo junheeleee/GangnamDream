@@ -4,6 +4,22 @@ Updated: 2026-08-31
 
 ## Status
 
+The user's 2026-09-07 instruction authorizes full-game Japanese, Simplified
+Chinese, and Traditional Chinese translation now; waiting for a final full-game
+GO is no longer a prerequisite to authoring translation drafts. It does not
+approve shipping claims or change the retail language allowlist. Each bounded
+batch binds the Korean source revision and leaf hashes, is independently written
+from Korean for each locale, preserves reviewed public-demo rows, and separates
+draft generation, validated target acceptance, and native/rendered review.
+Changed Korean leaves invalidate their cached targets instead of inheriting an
+old translation's approval. Missing or stale translations remain visible debt.
+
+The full scope includes every event text variant and Chapter 5 reader, every
+ending variant, catalog text, and both static and dynamic UI. Packaged,
+shipping-eligible, and dormant-authoring denominators are reported separately;
+none is a runtime exposure or native-quality claim. The remaining work map is
+[`queue_backlog/FULL_GAME_LOCALIZATION.md`](queue_backlog/FULL_GAME_LOCALIZATION.md).
+
 Retail and the legacy V2 demo still expose only Korean and English through
 `LocaleManager.SHIPPING_LANGUAGES`. ORDER-126 adds one deliberately narrow
 exception: the staged M01-M06 story-demo namespace

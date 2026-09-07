@@ -7,7 +7,7 @@
 > 전 구간 선택 그래프를 대화형으로 보려면:
 > `python3 tools/project_dashboard.py` → `build/project_dashboard.html`
 >
-> 생성 시각 · 커밋: `2026-09-07 03:04 UTC · 1888185e`
+> 생성 시각 · 커밋: `2026-09-07 03:22 UTC · 53493fe7`
 
 **개발용이다.** 아래는 `tint`·`route_*`와 정확한 수치를 그대로 적는다.
 플레이어에게 노출하지 않는 값이므로 이 문서를 플레이어 대상 자료로 쓰지 않는다.
@@ -97,6 +97,7 @@
 
 | ID | 제목 | 상태 | 현재 게이트 |
 |---|---|---|---|
+| `ORDER-157` | 본편 일본어·중국어 전체 번역 | 진행 | 사용자 직접 승인 · 전체 분모·증분 배치 착수 · 원어민 OPEN |
 | `ORDER-156` | Ch5 생활 routine 실제 배경 | 진행 | 관찰 settled frame 6회·고유 원고 5개 fail-first · 공원 배경 1 · 사람 gate OPEN·HOLD |
 | `ORDER-151` | Ch5 장소·기간·카지노 맥락 | 진행 | 042f5ea 두 경로 6/6 Codex 관찰 · 보증·이름표·저작 배경 완료 · routine 수리 중 · 두 사람 gate OPEN·HOLD |
 | `ORDER-150` | Ch5 human REJECT 수리 | 진행 | 후속 151 exact 재플레이 대기 · 두 사람 gate OPEN · HOLD |
