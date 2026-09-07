@@ -525,8 +525,8 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
             else:
                 source_numbers = source_numbers.replace("D-14", "14")
                 target_numbers = target_numbers.replace("D-14", "14").replace("十四日", "14日")
-        # Observed life-event native time expressions. Bind clock phase or
-        # elapsed-time relation, then keep the value in the ordered stream.
+        # Observed life-event native time expressions. Bind clock phase,
+        # elapsed time or a still-future break, then retain ordered values.
         # This is deliberately not a waiver for arbitrary written numerals.
         native_time_bound = False
         for source_pattern, target_pattern, number in (
@@ -534,6 +534,12 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
             (r"밤 열 시(?=에 폰을)", r"夜(?:10|十)時(?=にスマホを)", "10"),
             (r"두 시간 후(?=에 더 심해졌다)", r"(?:2|二)時間後(?=には、もっとひどくなった)", "2"),
             (r"한 시간 만에(?= 그쳤다)", r"(?:1|一)時間で(?=やんだ)", "1"),
+            (r"(?<![가-힣\d])한 달(?=은 안 가기로\.)",
+             r"(?:1|一)か月(?=は行かないことにする。)", "1"),
+            (r"(?<![가-힣\d])한 달(?=\.\n\n한 달이면)",
+             r"(?:1|一)か月(?=。\n\n(?:1|一)か月あれば)", "1"),
+            (r"(?<![가-힣\d])한 달(?=이면 충분히 멀어질 수 있었다\.)",
+             r"(?:1|一)か月(?=あれば、十分に距離を置けるはずだった。)", "1"),
         ):
             source_times = list(re.finditer(source_pattern, source_numbers))
             if not source_times:

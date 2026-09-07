@@ -222,12 +222,16 @@ FAMILY_SCENE_COUNTER_KINDS = frozenset({
     "high_school_year", "cafe_man_age_decade", "father_visit_inquiry",
     "truth_alternative_pair",
 })
+MEDIA_SCENE_COUNTER_KINDS = frozenset({
+    "video_view_count", "financial_video_duration", "gangnam_video_age",
+    "group_message_count", "group_reply_ordinal",
+})
 WORK_SCENE_COUNTER_KINDS = frozenset({
     "work_cup_range", "coworker_count", "subscription_count", "study_daily_hours",
     "exam_countdown", "tuition_month", "never_course_days", "job_company_focus",
     "read_mark_over_count", "job_posting_count",
 })
-LIFE_SCENE_COUNTER_KINDS = WORK_SCENE_COUNTER_KINDS | SPENDING_SCENE_COUNTER_KINDS | FAMILY_SCENE_COUNTER_KINDS | frozenset({
+LIFE_SCENE_COUNTER_KINDS = WORK_SCENE_COUNTER_KINDS | SPENDING_SCENE_COUNTER_KINDS | FAMILY_SCENE_COUNTER_KINDS | MEDIA_SCENE_COUNTER_KINDS | frozenset({
     "remaining_four_month", "job_posting_count", "egg_count", "task_count",
     "rental_home_ordinal", "mirror_glance", "gangnam_attempt",
     "university_year", "restaurant_per_person", "underground_exit",
@@ -813,6 +817,10 @@ def _tokens(text: str) -> list[str]:
 
 
 def _name_is_used(source: str, korean: str) -> bool:
+    if korean in {"현수", "강현수"}:
+        # Exclude the observed banner noun, retaining every existing name
+        # suffix/particle (including 현수랑, 현수에게서 and 현수와의).
+        source = source.replace("현수막", "")
     contextual = AMBIGUOUS_NAME_CONTEXT.get(korean)
     if contextual is not None:
         return bool(contextual.search(source)) or source.strip() == korean \
@@ -1478,6 +1486,10 @@ def _source_counter_kind(
 
 def _source_audience_quantities(source: str) -> list[CounterQuantity]:
     quantities: list[CounterQuantity] = []
+    for match in re.finditer(r"(?<=조회수 )(?P<number>\d+)만(?=\.(?:\s|$))", source):
+        if not _has_numeric_sign_prefix(source, match.start()):
+            quantities.append(CounterQuantity(match.start(), match.end(),
+                                              Decimal(match.group("number")) * 10_000, "video_view_count"))
     for match in re.finditer(r"(?<=구독자 )(?P<number>\d+)만(?= = 연봉)", source):
         quantities.append(CounterQuantity(match.start(), match.end(),
                                           Decimal(match.group("number")) * 10_000, "subscriber_count"))
@@ -1542,6 +1554,12 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
         (r"(?<=옆 테이블 )50대(?= 남자가 통화를 끊더니)", 50, "cafe_man_age_decade"),
         (r"(?<=크게 다친 건 아닌데, )한 번 와볼 수 있겠냐고(?=\.)", 1, "father_visit_inquiry"),
         (r"(?<![가-힣])둘 중 하나는 사실일 것이다(?=\.)", 2, "truth_alternative_pair"),
+        (r"(?<![가-힣\d])30대(?=에 강남 아파트)", 30, "gangnam_video_age"),
+        (r"(?<=클릭했다\. )6분 12초(?=짜리 영상\.)", 372, "financial_video_duration"),
+        (r"(?<=영상\. )4분 30초(?=까지는 자기 성공담\.)", 270, "financial_video_duration"),
+        (r"(?<=회사 단체 카톡방에 메시지가 )200개(?= 쌓였다\.)", 200, "group_message_count"),
+        (r"(?<=안 보낸다 — 이미 )200개(?=잖아$)", 200, "group_message_count"),
+        (r"(?<=보냈다\. )199번째(?= 확인했습니다였다\.)", 199, "group_reply_ordinal"),
     ):
         for match in re.finditer(pattern, source):
             if kind == "price_gap_pair" and not re.search(r"\s{2,}\. \s{2,}\. $", source[:match.start()]):
@@ -1549,6 +1567,9 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
             if (kind == "per_person_bill" or kind in LIFE_SCENE_COUNTER_KINDS) and _has_numeric_sign_prefix(source, match.start()):
                 continue  # Never mask the unsigned tail of a signed/fractional source count.
             quantities.append(CounterQuantity(match.start(), match.end(), Decimal(value), kind))
+    if source.startswith("회사 단체 카톡방에 메시지가 200개 쌓였다."):
+        for match in re.finditer(r"(?<=\n\n)198개(?=\.\n\n)", source):
+            quantities.append(CounterQuantity(match.start(), match.end(), Decimal(198), "group_message_count"))
     if "삼각김밥" in source:
         for match in re.finditer(r"(?<!\d)1\s*\+\s*1(?!\d)", source):
             quantities.append(CounterQuantity(match.start(), match.end(), Decimal(1), "one_plus_one_offer"))
@@ -1881,6 +1902,16 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
 def _target_pattern_for_kind(kind: str) -> re.Pattern[str]:
     # The broad witnesses include observed wrong units/actions, so an invalid
     # first clause cannot borrow a later correct number of the same kind.
+    if kind == "video_view_count":
+        return re.compile(rf"(?P<view_label>播放量|觀看次數|观看次数|觀看人數|观看人数)(?P<number>{CHINESE_CARDINAL})(?P<large_unit>[萬万])?")
+    if kind == "financial_video_duration":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})(?P<media_unit>分(?:鐘|钟)?|小時|小时|年)\s*(?P<seconds>{CHINESE_CARDINAL})(?P<minor_unit>秒(?:鐘|钟)?|分(?:鐘|钟)?|年)")
+    if kind == "gangnam_video_age":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})(?P<media_unit>多[歲岁年]|[歲岁年輛辆])")
+    if kind == "group_message_count":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})(?P<media_unit>[條条則则人位個个])(?P<message_noun>消息|訊息|讯息)?")
+    if kind == "group_reply_ordinal":
+        return re.compile(rf"第(?P<number>{CHINESE_CARDINAL})(?P<media_unit>[條条則则次人位])")
     if kind == "high_school_year":
         return re.compile(rf"(?P<stage>高|初|大)(?P<number>{CHINESE_CARDINAL})(?P<family_unit>那年|[時时]|年|歲|岁)?")
     if kind == "cafe_man_age_decade":
@@ -2268,6 +2299,34 @@ def _target_pattern_for_kind(kind: str) -> re.Pattern[str]:
     )
 
 
+def _media_quantity_valid(kind: str, match: re.Match[str], target: str) -> bool:
+    before, after = target[:match.start()], target[match.end():]
+    if re.search(r"(?:不到|不足|超過|超过|至少|至多|最多|最少|大約|大约|約|约|不|沒有|没有|沒|没)\s*$", before):
+        return False
+    if re.match(r"\s*(?:[%％倍萬万億亿兆]|以上|以下|左右|多|半)", after):
+        return False
+    end = bool(re.match(r"\s*(?:$|[，。！？、；,.!?;」』）)])", after))
+    if kind == "video_view_count":
+        return match.group("view_label") in {"播放量", "觀看次數", "观看次数"} and end
+    if kind == "financial_video_duration":
+        return match.group("media_unit") in {"分", "分鐘", "分钟"} and match.group("minor_unit") in {"秒", "秒鐘", "秒钟"} and bool(
+            re.match(r"\s*(?:$|[，。！？、；,.!?;」』）)]|都在|為止|为止)", after)
+        )
+    if kind == "gangnam_video_age":
+        return match.group("media_unit") in {"多歲", "多岁"} and bool(
+            re.match(r"(?:在江南[買买]公寓|就[買买]下江南公寓)", after)
+        )
+    if kind == "group_message_count":
+        return match.group("media_unit") in {"條", "条", "則", "则"} and bool(
+            end or re.match(r"了(?:$|[。.!！])", after)
+        )
+    if kind == "group_reply_ordinal":
+        return match.group("media_unit") in {"條", "条", "則", "则"} and bool(
+            re.match(r"(?:“已确认”|「確認了」)(?:$|[。.!！])", after)
+        )
+    return False
+
+
 def _family_quantity_valid(kind: str, match: re.Match[str], target: str) -> bool:
     before, after = target[:match.start()], target[match.end():]
     if re.search(r"(?:不到|不足|超過|超过|至少|至多|最多|最少|大約|大约|約|约|並非|并非|不是|不|沒有|没有|沒|没)\s*$", before):
@@ -2369,10 +2428,12 @@ def _match_target_counter_quantities(
                 continue
             if expected.kind in FAMILY_SCENE_COUNTER_KINDS and not _family_quantity_valid(expected.kind, match, target):
                 continue
+            if expected.kind in MEDIA_SCENE_COUNTER_KINDS and not _media_quantity_valid(expected.kind, match, target):
+                continue
             if expected.kind in LIFE_SCENE_COUNTER_KINDS:
                 number_start = match.start("number") if match.group("number") else match.start()
-                if expected.kind == "exam_countdown":
-                    number_start = match.start()  # 倒數 is countdown, not a 數-prefix quantity.
+                if expected.kind in {"exam_countdown", "video_view_count"}:
+                    number_start = match.start()  # 倒數 / 觀看次數 own 數 as a noun, not a numeric prefix.
                 if _has_numeric_sign_prefix(target, match.start()) or _has_numeric_sign_prefix(target, number_start):
                     continue
                 if re.match(r"(?:[秒歲岁米年月日天元度人位]|公里|小時|小时|分鐘|分钟|韓元|韩元)", target[match.end():].lstrip()):
@@ -2516,6 +2577,8 @@ def _match_target_counter_quantities(
                 # 一眼 is a glance after a seeing verb, not one physical eye.
                 continue
             value = _chinese_cardinal_value(match.group("number") or "")
+            if expected.kind == "video_view_count" and match.group("large_unit"):
+                value = value * 10_000 if value is not None else None
             if expected.kind == "father_visit_inquiry" and match.group("once"):
                 value = Decimal(1)  # Reduplicated 看看 is the proposed short visit.
             if expected.kind == "price_gap_pair" and match.group("pair"):
@@ -2532,8 +2595,8 @@ def _match_target_counter_quantities(
                 value = Decimal(1)
             if expected.kind == "never_course_days":
                 value = _chinese_cardinal_value(match.group("course_days"))
-            if expected.kind in {"microwave_duration", "screen_time_duration"}:
-                minor = _chinese_cardinal_value(match.group("seconds" if expected.kind == "microwave_duration" else "minutes"))
+            if expected.kind in {"microwave_duration", "screen_time_duration", "financial_video_duration"}:
+                minor = _chinese_cardinal_value(match.group("minutes" if expected.kind == "screen_time_duration" else "seconds"))
                 value = value * 60 + minor if value is not None and minor is not None and 0 <= minor < 60 else None
             if expected.kind == "monthly_headache_frequency":
                 value = Decimal(1) if match.group("number") in {"一兩", "一两"} or (
@@ -2640,6 +2703,13 @@ def _unexpected_target_entity_errors(
     errors: list[str] = []
     for kind in {q.kind for q in source_quantities} & LIFE_SCENE_COUNTER_KINDS:
         for match in _target_pattern_for_kind(kind).finditer(target):
+            if kind == "group_message_count" and _chinese_cardinal_value(match.group("number")) == 1 \
+                    and match.group("media_unit") in {"條", "条", "則", "则"} \
+                    and not match.group("message_noun") \
+                    and {q.value for q in source_quantities if q.kind == kind} == {Decimal(200), Decimal(198)} \
+                    and re.search(r"[組组][長长](?:上午|早上)9[點点][發发]的$", target[:match.start()]) \
+                    and re.match(r"(?:公告|通知)", target[match.end():]):
+                continue  # Only the source's one 9 AM notice, not an extra reply.
             if kind == "job_posting_count" and any(
                 q.kind == "entity" and q.start == match.start()
                 and q.value == _chinese_cardinal_value(match.group("number")) for q in matched
@@ -3072,6 +3142,10 @@ def _money_errors(lang: str, source: str, target: str) -> list[str]:
 
 def _untranslated_english_errors(source: str, target: str, *, catalog: bool = False) -> list[str]:
     scrubbed = PLACEHOLDER.sub(" ", target)
+    if source.strip() == "재테크 유튜버의 춤":
+        # A Korean YouTuber can be written as YouTube + the Chinese occupation.
+        for match in reversed(_bounded_latin_matches(scrubbed, "YouTube")):
+            scrubbed = scrubbed[:match.start()] + " " + scrubbed[match.end():]
     # Observed secondhand-listing prose, not the vegetable or a global brand
     # exception. Official identities: github.com/daangn/websites; daangn.com.
     if re.search(r"(?<![가-힣])당근에 물건을 올렸더니 댓글이 달렸다\.", source):
@@ -4333,6 +4407,116 @@ def _family_scene_parser_self_test() -> tuple[int, list[str]]:
     return cases, failures
 
 
+def _media_scene_parser_self_test() -> tuple[int, list[str]]:
+    """Observed video metrics and group replies, not unrestricted counters."""
+    cases, failures = 0, []
+
+    def numeric(source: str, target: str, valid: bool) -> None:
+        nonlocal cases
+        cases += 1
+        errors = _numeric_errors(source, target)
+        if bool(errors) == valid:
+            failures.append(f"media expected valid={valid}: {source!r} -> {target!r}: {errors}")
+
+    video = (
+        "'30대에 강남 아파트 산 비결'이라는 유튜브 썸네일이 떴다.\n\n"
+        "조회수 280만. 댓글 '알려주셔서 감사합니다' 1.2만 개.\n\n"
+        "클릭했다. 6분 12초짜리 영상. 4분 30초까지는 자기 성공담. 그 다음은 — 보험 가입 유도.\n\n"
+        "{name}은 창을 닫았다. 근데 '30대에 강남 아파트'라는 단어는 머릿속에 남았다.\n"
+        "그게 이 영상의 진짜 목적이었다."
+    )
+    video_target = (
+        "YouTube 上跳出一張縮圖，寫著「三十多歲就買下江南公寓的祕訣」。\n\n"
+        "觀看次數280萬。「感謝分享」的留言有1.2萬則。\n\n"
+        "點了進去。影片長6分12秒。到4分30秒為止，都在講自己的成功故事。接下來是——推銷保險。\n\n"
+        "{name}關掉了視窗。但「三十多歲就買下江南公寓」這幾個字留在腦子裡。\n"
+        "那才是這部影片真正的目的。"
+    )
+    numeric(video, video_target, True)
+    for old, new in (
+        ("280萬", "281萬"), ("280萬", "280韓元"), ("280萬", "−280萬"),
+        ("觀看次數", "觀看人數"), ("280萬", "280萬年以上"),
+        ("6分12秒", "5分12秒"), ("4分30秒", "4分31秒"),
+        ("6分12秒", "6小時12秒"), ("6分12秒", "6分12分"),
+        ("6分12秒", "6分12秒殺"), ("6分12秒", "不到6分12秒"),
+        ("4分30秒", "超過4分30秒"), ("6分12秒", "−\t6分12秒"),
+        ("三十多歲", "四十多歲"), ("三十多歲", "三十多年"),
+        ("三十多歲", "三十歲"),
+        ("三十多歲", "三十多年。三十多歲"),
+        ("6分12秒", "6小時12秒。6分12秒"),
+        ("觀看次數280萬", "觀看人數280萬。觀看次數280萬"),
+    ):
+        numeric(video, video_target.replace(old, new, 1), False)
+    numeric(video, video_target.replace("6分12秒", "4分30秒").replace("到4分30秒", "到6分12秒"), False)
+    numeric(video, video_target.replace("6分12秒", "6分鐘12秒鐘").replace("4分30秒", "4分鐘30秒鐘"), True)
+    numeric(video, video_target.replace("觀看次數280萬", "播放量2800000").replace("三十多歲就買下江南公寓", "30多岁在江南买公寓"), True)
+    group = (
+        "회사 단체 카톡방에 메시지가 200개 쌓였다.\n\n"
+        "점심 시간에 확인해보니 팀장이 아침 9시에 올린 공지 하나에 대한 반응들이었다.\n\n"
+        "\"감사합니다\" \"확인했습니다\" \"알겠습니다\"\n\n198개.\n\n"
+        "{name}은 자기도 보내야 하는지 생각했다."
+    )
+    group_target = (
+        "公司的 KakaoTalk 群組累積了200則訊息。\n\n午休時查看，才發現都是回覆組長早上9點發的一則公告。\n\n"
+        "「謝謝」「確認了」「知道了」\n\n198則。\n\n{name}想著，自己是不是也該傳一句。"
+    )
+    numeric(group, group_target, True)
+    numeric(group, group_target.replace("200則訊息", "一則訊息。200則訊息", 1), False)
+    numeric(group, group_target.replace("200則訊息", "一則公告。200則訊息", 1), False)
+    for old, new in (("200則訊息", "201則訊息"), ("200則訊息", "200位"),
+                     ("198則", "197則"), ("198則", "198次"),
+                     ("200則訊息", "200位。200則訊息"), ("198則", "− 198則")):
+        numeric(group, group_target.replace(old, new, 1), False)
+    for source, normal, counted, wrong in (
+        ("보냈다. 199번째 확인했습니다였다.\n팀장이 이모티콘으로 답했다.",
+         "傳了。這是第199則「確認了」。\n組長回了一個表情符號。", "第199則",
+         ("第198則", "第199次", "第−199則", "第199位。第199則")),
+        ("안 보낸다 — 이미 200개잖아", "不發——都已經200條了", "200條",
+         ("201條", "200人", "−\t200條", "200條河。200條")),
+    ):
+        numeric(source, normal, True)
+        for changed in wrong:
+            numeric(source, normal.replace(counted, changed), False)
+    for source, kind in (
+        ("수익 280만.", "video_view_count"),
+        ("30대에 자동차를 샀다.", "gangnam_video_age"),
+        ("클릭했다. 6분 12초짜리 통화.", "financial_video_duration"),
+        ("회사 단체 카톡방에 사람이 200개 쌓였다.", "group_message_count"),
+        ("보냈다. 199번째 계약했다였다.", "group_reply_ordinal"),
+    ):
+        cases += 1
+        if any(q.kind == kind for q in _source_counter_quantities(source)):
+            failures.append(f"media source scope escaped: {source}")
+    for source, target, valid in (
+        ("재테크 유튜버의 춤", "YouTube理财博主的舞步", True),
+        ("재테크 유튜버의 춤", "YouTuber的舞步", True),
+        ("재테크 유튜버의 춤", "YouTube_理财博主", False),
+        ("재테크 유튜버의 춤", "YouTubeé理财博主", False),
+        ("재테크 유튜버전의 춤", "YouTube理财博主", False),
+        ("재테크 책의 춤", "YouTube理财博主", False),
+    ):
+        cases += 1
+        if bool(_untranslated_english_errors(source, target)) == valid:
+            failures.append(f"media English boundary expected valid={valid}: {source!r} -> {target!r}")
+    for source, target, valid in (
+        ("창밖에 걸 현수막은 아직 접힌 채였다.", "準備掛在窗外的橫幅還摺著。", True),
+        ("현수는 현수막을 들었다.", "Hyunsu拿著橫幅。", True),
+        ("현수는 현수막을 들었다.", "他拿著橫幅。", False),
+        ("강현수가 왔다.", "Kang Hyunsu來了。", True),
+        ("강현수가 왔다.", "他來了。", False),
+        ("현수랑 만났다.", "和Hyunsu見面了。", True),
+        ("현수랑 만났다.", "和他見面了。", False),
+        ("현수에게서 연락이 왔다.", "Hyunsu聯絡了。", True),
+        ("현수에게서 연락이 왔다.", "他聯絡了。", False),
+        ("현수와의 통화 기록이다.", "與Hyunsu的通話紀錄。", True),
+        ("현수와의 통화 기록이다.", "與他的通話紀錄。", False),
+    ):
+        cases += 1
+        if bool(_terminology_errors("zh-TW", source, target)) == valid:
+            failures.append(f"media cast boundary expected valid={valid}: {source!r} -> {target!r}")
+    return cases, failures
+
+
 def run_self_test(
     manifest: dict[str, Any], runtime: dict[str, Any],
 ) -> list[str]:
@@ -4351,6 +4535,9 @@ def run_self_test(
     family_cases, family_failures = _family_scene_parser_self_test()
     cases += family_cases
     failures.extend(family_failures)
+    media_cases, media_failures = _media_scene_parser_self_test()
+    cases += media_cases
+    failures.extend(media_failures)
 
     # Exact Korean-source catalogue names are not permission for unrelated
     # English prose or for deleting the noun around an allowed brand token.

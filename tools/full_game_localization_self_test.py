@@ -267,6 +267,42 @@ class ExchangeTests(unittest.TestCase):
                                good.replace(number, '十 ' + number, 1), good + good):
                 self.assertTrue(tool.translation_errors(leaf, 'ja', bad), (source, bad))
 
+    def test_jeongseon_japanese_intended_month_break(self):
+        source = '좀 거리를 두자. 한 달은 안 가기로.'
+        good = '少し距離を置こう。1か月は行かないことにする。'
+        leaf = tool.Leaf('events', 'example', 'content/events/life_events.json', ('description',), source, 'event_standard')
+        for target in (good, good.replace('1', '一')):
+            self.assertEqual(tool.translation_errors(leaf, 'ja', target), [], target)
+        for bad in (
+            good.replace('1か月', '2か月'), good.replace('1か月', '11か月'),
+            good.replace('1か月', '1日'), good.replace('1か月', '1年'),
+            good.replace('1か月', '-1か月'), good.replace('1か月', '+1か月'),
+            good.replace('1か月', '十 一か月'),
+            good.replace('行かないことにする', '行かずに過ごした'),
+            good.replace('行かないことにする', '行くことにする'),
+            good + '1か月。',
+        ):
+            self.assertTrue(tool.translation_errors(leaf, 'ja', bad), bad)
+        unrelated = tool.Leaf('events', 'example', 'content/events/life_events.json', ('description',), '좀 거리를 두자.', 'event_standard')
+        self.assertTrue(tool.translation_errors(unrelated, 'ja', good))
+
+    def test_jeongseon_japanese_repeated_month_expectation(self):
+        source = '결심했다.\n\n거창한 게 아니었다. 그냥 한 달.\n\n한 달이면 충분히 멀어질 수 있었다.\n그게 얼마나 어려운 일인지는, 아직 몰랐다.'
+        good = '決心した。\n\n大げさなことではなかった。ただ、1か月。\n\n1か月あれば、十分に距離を置けるはずだった。\nそれがどれほど難しいことかは、まだ知らなかった。'
+        leaf = tool.Leaf('events', 'example', 'content/events/life_events.json', ('description',), source, 'event_standard')
+        for target in (good, good.replace('1', '一')):
+            self.assertEqual(tool.translation_errors(leaf, 'ja', target), [], target)
+        for bad in (
+            good.replace('1か月', '2か月', 1), good.replace('1か月', '1日', 1),
+            good.replace('1か月あれば', '2か月あれば'),
+            good.replace('1か月あれば', '1年あれば'),
+            good.replace('1か月あれば', '-1か月あれば'),
+            good.replace('1か月あれば', '十 一か月あれば'),
+            good.replace('距離を置けるはずだった', '距離を置けた'),
+            good.replace('1か月。', '1か月。1か月。', 1),
+        ):
+            self.assertTrue(tool.translation_errors(leaf, 'ja', bad), bad)
+
     def test_work_japanese_exam_countdown(self):
         leaf = tool.Leaf('events', 'selfdev_certification', 'content/events/life_events.json', ('title',), '자격증 시험 D-14', 'event_standard')
         for good in ('資格試験まであと14日', '資格試験まであと十四日', '資格試験 D-14'):
