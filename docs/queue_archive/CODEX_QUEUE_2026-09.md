@@ -22,6 +22,17 @@
 | 14 | [~] | ORDER-159 · 일상·회복 결말 14종 번역 | [159](queue_active/ORDER-159.md) | 249번역 L1/L2 · 비표시 메타 제외 · L3 OPEN |
 ```
 
+추가 보관: 저작·제품·기계·Codex 관찰 근거의 이전5행이다. 입력 QA·후속156·
+원어민/사람 OPEN·HOLD/REJECT와 활성 의무는 현재 큐에 그대로 남는다.
+
+```text
+| 16 | [~] | ORDER-158 · 본편 8장면 번역 | [158](queue_active/ORDER-158.md) | KO 직접 20단위 · 세 언어 독립 · 원어민 OPEN |
+| 17 | [~] | ORDER-157 · 본편 일본어·중국어 전체 번역 | [157](queue_active/ORDER-157.md) | 전체 분모·증분 배치 · 엔딩 75문구 검사 · 원어민 OPEN |
+| 18 | [~] | ORDER-156 · Ch5 생활 routine 실제 배경 | [156](queue_active/ORDER-156.md) | 제품 53493fe · 입력 QA 잔여 · 사람 OPEN·HOLD |
+| 19 | [~] | ORDER-151 · Ch5 장소·기간·카지노 맥락 | [151](queue_active/ORDER-151.md) | 두 경로 Codex 6/6 · 배경 수리 후속 156 · 사람 OPEN·HOLD |
+| 23 | [~] | ORDER-147 · runtime identity | [147](queue_active/ORDER-147.md) | matrix GREEN · human REJECT |
+```
+
 # CODEX_QUEUE 2026-09 이동 보존
 
 > 2026-09-07 부팅 예산에 닿은 공통 함정 절을 보존했다(상대 링크 경로만 조정).
