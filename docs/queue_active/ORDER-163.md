@@ -91,6 +91,7 @@ B23사건/182 leaf/20,476 KO자. 반환점·추론·진실 대면·3년차 결�
 
 언어별 작성자는 한 명, 교차 검토자는 읽기 전용이다.
 root는 `tools/i18n_coverage_check.py`, `tools/full_game_localization.py`,
+`tools/full_body_translation_scope.py`,
 `tools/full_game_localization_self_test.py`, `tools/zh_translation_audit.py`,
 `tools/audit_scope.json`, `content/meta/full_game_localization.json`과
 이 사양·CODEX_QUEUE·CLAUDE·WORK_LOG·생성 STATUS·전체 현지화 backlog를 소유한다.
@@ -121,6 +122,13 @@ KO/EN·runtime·저장·라우팅·관계·catalog·폰트·공개 overlay·언�
 2개는 세 준비 언어에서 미작성이고 이번 수정 소유권 밖이다. 공개 기존6 leaf를
 유지하고 잔여에 기록한다. EN6개도 별도 미번역이며 EN bytes는 불변이다.
 validator 지원과 번역 채움·실제 화면 GO를 별도로 계측한다.
+
+**2026-09-07 원문 수집기 소유 보강 선언:** `full_body_translation_scope`도
+foreshadow를 수집하지 않아 새 정확 receipt를 '지원 원문 없음'으로 거부한다.
+그 수집 필드와 정확 원문 계측·fixture를 함께 보강한다. 추가6 leaf/기존 leaf
+변경0·삭제0을 입증하고 source snapshot 수치/hash만 실측으로 갱신한다.
+공개 target baseline108/100/100·재사용8·그 지문은 변경0이다. 이는 누락된
+원문 분모를 복구하는 검사 수리이지 무승인 번역을 허용하는 baseline 완화가 아니다.
 
 ## 검증과 보존
 
