@@ -23,6 +23,24 @@
 > [`7/25`](history/WORK_LOG_2026-07-25.md)에 손실 없이 보존한다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
 
+## 2026-09-07 (Codex — 결혼·가족 장면 세 언어 수용)
+
+- 다은·지연34사건/206문구씩618개를 KO 직접 저작·독립 전수 대조했다.
+  조건22/언어를 포함하며 JA3·TW8곳의 의미를 정밀화했다. 기존8,949/meta9와
+  14행/언어를 보존해 총9,567문구다. 원문 비용·시간축·첫 얼굴·글자 수 부채는
+  번역에서 몰래 고치지 않고 별도 기록했다.
+- 최초6source 보존, 최종6source/response/receipt check/import PASS,
+  changed_files0. checksum `5e6b4eae…07f4fa`, 원문 manifest 불변이다.
+  수량·단위·성씨 문맥 검사와 변조 fixture를 보강해 self138·ZH935를 통과했고,
+  독립 수량508/본문33/Unicode19/원화34 변조를 정상 대조와 함께 재검증했다.
+- 완료167절1,402bytes를 기존 현지화 history 앞으로 원문 이동하고 기존13,326
+  bytes와 끝 개행까지 보존했다. KO/EN·runtime·공개·폰트·저장·human_gates
+  변경0, 사용자 원본 checkout 쓰기0이다. 자세한 결속은 [사양](queue_active/ORDER-170.md).
+  L3·원어민·화면 OPEN, 전체 INCOMPLETE·full/main/product HOLD·출시 데모 GO.
+
+- 최종12개 표적 차선·EN·diff PASS, portable9,567 source/hash/L1 오류0이다.
+  실제 stdout을 git-private `order170-final-checks.log`에 보존했다.
+
 ## 2026-09-07 (Codex — 일본어 두 장면의 원화 단위 정밀화)
 
 - 아버지 기일과 상철의 최종 제안에서30億→30億ウォン을 각1회 명시했다.
@@ -52,24 +70,6 @@
   L3·원어민·화면 OPEN·전체 INCOMPLETE·full/main/product HOLD·출시 데모 GO 유지.
 - 최종12개 표적 차선·EN·diff PASS. self131·ZH935·공개14/100·UI121을
   확인했고 실제 stdout은 git-private `order168-final-checks.log`에 보존했다.
-
-## 2026-09-07 (Codex — 종막 서명·사람에게 보내는 행동 세 언어 수용)
-
-- 15사건/197문구씩591개를 KO 직접 저작·독립 전수 대조했다. reader55와
-  사전형 조건38+scalar2/언어를 포함한다. 창구 날짜·보증 주체·지연·종이 행동
-  8곳을 정밀화하고 재검토했다. 기존7,866/meta9를 보존해 총8,457문구다.
-- 초기 source3개 보존, 최종 source/response/receipt3쌍 check/import PASS,
-  변경0. accepted checksum `c02b5815…1a9de8`, 원문 manifest 불변이다.
-  기존59행/언어 raw prefix·KO/EN·runtime·공개·폰트·human_gates를 보존했다.
-- 원본/원화·서명·줄긋기·식사·시각과 당사자2/화면1/도시2 검사를 실제
-  정상/변조 짝으로 보강했다. self121과 독립87 fixture에서 신규 누출0,
-  기존 장부→帳戶資料 의미 한계1건은 별도다.
-- 원문 경로 노출·날짜 지시 부채를 backlog에 기록했다. 완료164절2,618bytes를
-  history에 원문 보존했다. 상세 해시와 경계는 [사양](queue_active/ORDER-167.md).
-  L3·원어민·화면 OPEN, 전체 INCOMPLETE·full/main/product HOLD·배포 데모 GO 유지.
-  다음은 남은 관계·생활 사건이다.
-- 최종12개 표적 차선·EN·diff PASS. self121·ZH935·공개14/100·UI121을
-  확인했고 실제 stdout은 git-private `order167-final-checks.log`에 보존했다.
 
 ## 2026-09-05 (Codex — ORDER-156 Chapter 5 생활 routine 배경 수리 선언)
 

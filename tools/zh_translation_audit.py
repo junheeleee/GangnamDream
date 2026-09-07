@@ -17,6 +17,7 @@ import pathlib
 import re
 import struct
 import sys
+import unicodedata
 from dataclasses import dataclass
 from decimal import Decimal, InvalidOperation
 from typing import Any, Iterable, Optional
@@ -125,6 +126,20 @@ SOURCE_PRINT_RUN = re.compile(
 )
 SOURCE_IM_SURNAME = re.compile(r"(?<![가-힣])임(?:씨|가|\s+모)(?=$|[\s.,!?…\x22\x27”’]|[은는이가의를와도]|라고|라는|라며)")
 SOURCE_KIM_SURNAME = re.compile(r"(?<![가-힣])김씨(?=$|[\s.,!?…\x22\x27”’]|[은는이가의를와도]|라고|라는|라며|요)")
+SOURCE_HAN_CHAIRMAN = re.compile(r"(?<![가-힣])누군가는\s+한\s+회장의\s+딸\s+결혼식(?=$|[에\s.,!?…])")
+# Han is a source-bound surname here. Chinese may touch it directly, but
+# another Unicode word character, underscore, or combining accent may not.
+TARGET_HAN_SURNAME = re.compile(
+    r"(?<![^\W\u3400-\u4dbf\u4e00-\u9fff])"
+    r"Han(?![^\W\u3400-\u4dbf\u4e00-\u9fff])"
+)
+
+
+def _han_surname_matches(target: str) -> list[re.Match]:
+    return [match for match in TARGET_HAN_SURNAME.finditer(target) if not any(
+        unicodedata.category(char).startswith('M')
+        for char in target[max(0, match.start() - 1):match.start()] + target[match.end():match.end() + 1]
+    )]
 SOURCE_ORDINAL = re.compile(
     r"(?<![가-힣\d])(?P<number>첫|" + "|".join(map(re.escape, KOREAN_NATIVE_FORMS)) + r"|\d+)\s*"
     r"(?:번째|번\s*째|째)"
@@ -326,6 +341,8 @@ TARGET_RHETORICAL_WON = re.compile(r"(?:每一|任何)(?:韩元|韓元)")
 # Approximate financial magnitudes remain approximate; never turn a hundreds-
 # of-millions contract or several-trillion deal into a made-up exact amount.
 CATALOG_APPROXIMATE_WON = (
+    (re.compile(r"(?<![가-힣])몇백만원"), re.compile(r"[幾几數数]百[萬万](?:韩元|韓元)")),
+    (re.compile(r"(?<=예단만 )수천만"), re.compile(r"[幾几數数]千[萬万](?:韩元|韓元)")),
     (re.compile(r"(?<![가-힣])억대(?= 계약)"), re.compile(r"(?:上[亿億]|[数數][亿億])(?:韩元|韓元)")),
     (re.compile(r"(?<![가-힣])수백억(?= EXIT)"), re.compile(r"[数數]百[亿億](?:韩元|韓元)")),
     (re.compile(r"(?<![가-힣])수조원(?= 빅딜)"), re.compile(r"[数數](?:万亿|萬億|兆)(?:韩元|韓元)")),
@@ -1000,6 +1017,11 @@ def _terminology_errors(lang: str, source: str, target: str) -> list[str]:
         target, "Im", single_character_surname=True,
     ):
         errors.append("source surname 'Im' has an unapproved Han-character alias")
+    if SOURCE_HAN_CHAIRMAN.search(source):
+        if not _han_surname_matches(target):
+            errors.append("source surname 한 회장 must retain Romanized form 'Han'")
+        if _has_unapproved_han_alias(target, "Han", single_character_surname=True):
+            errors.append("source surname 'Han' has an unapproved Han-character alias")
     return errors
 
 
@@ -1097,6 +1119,13 @@ def _source_counter_kind(
 ) -> str:
     following = source[match.end():].lstrip()
     preceding = source[max(0, match.start() - 120):match.start()]
+    if counter == "칸" and re.search(r"조명을\s+$", preceding) and following.startswith("낮췄다"):
+        return "brightness_level"
+    if counter == "줄" and following.startswith("뒤에는 현수가") and "신랑석" in preceding:
+        return "seat_row"
+    if counter == "문장" and match.group("number") == "한" \
+            and re.search(r"도도하게 들리려\s+$", preceding):
+        return ""  # An attempted tone, not a counted sentence.
     if source == "2차전지주" and counter == "차":
         return "secondary_battery"
     if source == "2차 창업자 네트워크" and counter == "차":
@@ -1320,6 +1349,11 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
         (r"(?<![가-힣])서른\s+몇(?=의 연애)", 30, "approximate_age"),
         (r"(?<![가-힣])서른을\s+넘긴(?= 두 사람)", 30, "age_over"),
         (r"(?<=온도가 )반\s+도쯤", "0.5", "degree"),
+        (r"(?<![가-힣])서른일곱(?=의 겨울)", 37, "age"),
+        (r"(?<![가-힣])백\s+명(?=보다)", 100, "comparison_people"),
+        (r"(?<![가-힣])두\s+집(?=\s+사이)", 2, "household_pair"),
+        (r"(?<![가-힣])두\s+글자(?=들)", 2, "character"),
+        (r"(?<![가-힣\d])5성급(?= 호텔)", 5, "hotel_star_rating"),
     ):
         for match in re.finditer(pattern, source):
             quantities.append(CounterQuantity(match.start(), match.end(), Decimal(value), kind))
@@ -1661,7 +1695,12 @@ def _target_pattern_for_kind(kind: str) -> re.Pattern[str]:
         "honorific_people": r"(?:位|個人|个人)",
         "unsent_character": r"(?:個|个)(?:尚未發出|尚未发出|還沒傳出|还没传出|未傳出|未传出)的字",
         "action_pair": r"(?:邊|边|者|個|个|項|项|件事|件)",
-        "branch_count": r"(?:個|个)(?:方向|分支)|(?:條|条)路",
+        "branch_count": r"(?:個|个)(?:方向|分支)|(?:條|条)路|[邊边](?![人位年月日天元度]|公里|小時|小时)",
+        "seat_row": r"排(?![人位年月日天元度]|公里|小時|小时)",
+        "brightness_level": r"[檔档格](?![人位年月日天元度]|公里|小時|小时)",
+        "comparison_people": r"(?:個人|个人|人|位|名)(?![年月日天元度]|公里|小時|小时)",
+        "household_pair": r"(?:(?:個|个)?家|(?:戶|户)(?:人家)?)(?![具電电居年月日天元度]|公里|小時|小时)",
+        "hotel_star_rating": r"星[級级](?![人位年月日天元度]|公里|小時|小时)",
         "call_action_count": r"(?:樣|样|個|个|項|项|件事)",
         "sound_occurrence": r"(?:聲|声|下|次)",
         "immutable_fact_pair": r"(?:者|邊|边|件事)",
@@ -1942,6 +1981,9 @@ def _match_target_counter_quantities(
         for match in pattern.finditer(target, search_start):
             if any(match.start() < row.end and match.end() > row.start for row in matched):
                 continue
+            if expected.kind in {"seat_row", "brightness_level", "comparison_people", "household_pair", "branch_count", "hotel_star_rating"} \
+                    and re.match(r"(?:[秒歲岁米年月日天元度人位]|公里|小時|小时|分鐘|分钟|韓元|韩元)", target[match.end():].lstrip()):
+                continue
             if expected.kind in {"age_over", "approximate_age", "degree"} and re.match(
                 r"(?:天|年|小時|小时|分鐘|分钟|秒|人|位|韓元|韩元|元|圓|圆|公里|米|度|角)",
                 target[match.end():].lstrip(),
@@ -1979,6 +2021,7 @@ def _match_target_counter_quantities(
                 "door_count", "retained_pair", "strike_line_count", "strike_occurrence", "meal", "appliance_cycle", "agreement_parties", "city_count",
                 "approximate_occurrence", "approximate_age", "age_over", "degree", "one_plus_one_offer", "span",
                 "never_toss_turn", "receding_step", "ring_occurrence",
+                "seat_row", "brightness_level", "comparison_people", "household_pair", "hotel_star_rating",
                 "case_number_digits", "registry_line", "once_condition", "visual_overlap", "ladder_step", "window_count", "parallel_fact",
             } and re.search(rf"[{NUMERIC_PREFIX_CHARACTERS}]\s*$", target[:match.start()]):
                 # 再點一杯 is the observed ordering verb, not a decimal prefix.
@@ -2520,6 +2563,9 @@ def _untranslated_english_errors(source: str, target: str, *, catalog: bool = Fa
         scrubbed = re.sub(r"(?<![A-Za-z0-9])Im(?![A-Za-z0-9])", " ", scrubbed)
     if SOURCE_KIM_SURNAME.search(source):
         scrubbed = re.sub(r"(?<![A-Za-z0-9])Kim(?![A-Za-z0-9])", " ", scrubbed)
+    if SOURCE_HAN_CHAIRMAN.search(source):
+        for match in reversed(_han_surname_matches(scrubbed)):
+            scrubbed = scrubbed[:match.start()] + " " + scrubbed[match.end():]
     scrubbed = re.sub(r"https?://\S+|www\.\S+", " ", scrubbed)
     source_tokens = set(re.findall(
         r"(?<![A-Za-z0-9])[A-Za-z][A-Za-z0-9'+./:_-]*(?![A-Za-z0-9])",

@@ -4,7 +4,7 @@
 
 #### [~] ORDER-170 [P0·전체 현지화] 다은·지연의 결혼과 가족 장면을 옮긴다
 
-**[~] 2026-09-07 Codex 착수 — 아래 정확34 ID의 JA·zh-CN·zh-TW text-only
+**[~] 2026-09-07 Codex L1/L2 수용·L3 OPEN — 아래 정확34 ID의 JA·zh-CN·zh-TW text-only
 overlay, 원문 결속 검사·수용 기록·증거 문서만 소유한다.**
 사용자 전체 게임 번역 지시를 이어가며 기존8,949/meta9·공개 working baseline·
 배경 제품53493fe를 보존한다. 일본어 원화2문구의169 수정도 기존 수용 기준이다.
@@ -66,7 +66,7 @@ source aggregate `06212570363eaf0f979956a796821982ce943833c050bd1f81acde2237cb63
 총206 leaf/24,832 KO자, 표준206=title34+description34+선택/결과116+known22.
 조건 A11/B11, memory/scalar/reader/foreshadow0. 전체 source aggregate
 `97452e37e418954ebb59d7c97f59d846c82dde4406be53db36ad9b3cbc54f366`.
-독립 원문 추출과 ROOT collector가 일치했다. 전부 shipping/protected=false,
+독립 원문 추출과 ROOT collector가 일치했다. 전부 lifecycle=shipping, protected=false,
 builtin_overlay_static_only, locale별 target/accepted0이다.
 
 즉시 후속32 choice edges/26 root pairs가 이 범위 안에 있다. 유일한 지연
@@ -119,3 +119,38 @@ KO/EN·runtime·저장·routing·human_gates·catalog/endings·공개·폰트·�
 
 사양의 범위·증거·소유권은 일회성이다. 지속 규칙은 I18N_INFRASTRUCTURE와
 각 용어집이 소유하며 새로운 서사·상품·출시 규칙을 만들지 않는다.
+
+## 구현·독립 대조 결과
+
+- 선언 `4f53f667a9408f578e8933f391e98ff5fdb936e7` 뒤 A113/B93×3의
+  618문구를 KO 직접 저작했다. 각 언어의 다른 작성자가 조건22를 포함해 전수
+  대조했다. JA3·TW8 leaf의 낯섦/처음·날인·순간성·사진 구도·호칭·모양·배움의
+  진행·나를 보지 않음 표현을 정밀화하고 재대조했다. CN 필수 의미 수정0이다.
+- 최종206-record aggregate:
+  JA `13c93af5c4a665c9debebfcb9753b8360e87a544a31d71c73d212b9de3b77883`,
+  CN `60ca44e73e3ff3cb28252dda96e345ffedab1ecbb0caf182eb2f97d0978089df`,
+  TW `b29c92fe4566389a9f7a7d33c565953aa122829d9ac1c099ec79aea0142699d0`.
+  최초6source를 보존하고 최종6source/response/receipt를 발급했다.
+  check/import --accept 모두 PASS, 현재값과 같아 changed_files0이다.
+- 기존8,949수용·메타9를 보존해9,567=언어별3,189로 늘었다.
+  portable checksum `5e6b4eae354bcbd5869f991952644a89cbe8e6916215606a02a8ffe4ad07f4fa`.
+  기존14행/언어의 값·순서·raw prefix와 신규2파일/언어 text-only 구조를 보존했다.
+  원문 manifest·KO/EN·runtime·공개·폰트·저장·human_gates 변경0이다.
+- 실제 원문의 밝기 단계·좌석 줄·갈림길·비교 인원·가구·호텔 등급·나이·복수 글자와
+  근사 원화·한 회장 성씨의 문맥 결속을 보강했다. self138·ZH935 PASS.
+  독립 검토가 찾은 공백 단위 suffix·Unicode 이름 누출을 고쳤으며, 이름을 빠뜨려
+  다른 이유로 실패하던 변조 fixture도 본문/이름 보존형으로 바꿨다. 정상 대조와
+  수량508·실제본문33·Unicode19·근사원화34 변조는 모두 기대대로였다.
+  기존 전역의 추가 한자 수량/다른 kind 단위 suffix 검출 한계는 별도이며 범용 의미
+  검증 완료로 부르지 않는다. 원문 비용·시간·첫 얼굴·두 이름/글자 부채도 별도다.
+- 완료167 WORK_LOG절1,402bytes를 기존9월 현지화 history 앞으로 원문 이동했다.
+  이동절 SHA `edd49e18573fcc62f0a54489e93f23687e28e80781b3e89029948ba60f714421`,
+  보관본14,728bytes SHA `6a13fc1d5a7c8813e32b7e8be7e8432766912f4b801ff8b9352a7e82f04a7600`.
+  이전13,326bytes와 끝 개행까지 보존했다. 활성 사람 게이트나 의무를 지우지 않았다.
+- L3·원어민·실제 화면 OPEN, 전체 INCOMPLETE·full/main/product HOLD,
+  M01~M06 배포 데모 BUILD2026.08.31.1 사용자 GO 유지. 다음은 남은 데이트·계절
+  장면의 별도 원문 배치이며 번역문 수용을 런타임 도달·제품 GO로 합산하지 않는다.
+- 최종 표적12개 차선·EN·diff PASS. portable9,567을 현재 source/target과 직접
+  전량 대조해 오류0이고 공개14사건/100문구/121UI·메타9는 보존됐다.
+  실행 stdout은 git-private `order170-final-checks.log`에 보존했다.
+  SHA `0d181089a883e4ef5473f29add24a51d5c614d4e48eeadeca8578b5b51f4a2e8`.

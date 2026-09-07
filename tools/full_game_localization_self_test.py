@@ -977,6 +977,96 @@ class ExchangeTests(unittest.TestCase):
         response.append({**response[1], "id": "unknown"})
         self.reject(response=response)
 
+    def test_marriage_brightness_seating_and_branch_counters(self):
+        for source, target in (
+            ('거실 조명을 한 칸 낮췄다.', '把客廳燈光調暗了一檔。'),
+            ('거실 조명을 한 칸 낮췄다.', '把客廳燈光調暗了一格。'),
+            ('신랑석. 그 한 줄 뒤에는 현수가 혼자 앉아 있었다.', '新郎席。後面一排，Hyunsu 獨自坐著。'),
+            ('두 갈래 사이에 섰다.', '停在兩邊之間。'),
+            ('백 명보다 컸다.', '比一百個人還重。'),
+            ('서른일곱의 겨울, 카페.', '三十七歲的冬天，咖啡廳。'),
+            ('한 접시가 두 집 사이를 건너왔다.', '一盤菜在兩個家之間走過。'),
+        ):
+            leaf = tool.Leaf('events', 'example', 'content/events/arc_daeun_married.json', ('description',), source, 'event_standard')
+            self.assertEqual(tool.translation_errors(leaf, 'zh-TW', target), [], (source, target))
+
+    def test_marriage_counter_mutations(self):
+        for source, targets in (
+            ('거실 조명을 한 칸 낮췄다.', ('調暗兩檔。', '調暗負一檔。', '調暗一檔公里。', '調暗一分鐘。')),
+            ('신랑석. 그 한 줄 뒤에는 현수가 혼자 앉아 있었다.', tuple(
+                '新郎席。後面' + count + '，Hyunsu 獨自坐著。'
+                for count in ('兩排', '負一排', '一排公里', '一分鐘')
+            )),
+            ('두 갈래 사이에 섰다.', ('三邊', '負兩邊', '兩邊公里', '兩個人')),
+            ('백 명보다 컸다.', ('九十九個人', '負一百個人', '一百個人公里', '一百分鐘')),
+            ('서른일곱의 겨울, 카페.', ('三十八歲', '負三十七歲', '三十七年')),
+            ('한 접시가 두 집 사이를 건너왔다.', ('三個家', '負兩個家', '兩個家具', '兩個家公里', '兩個人')),
+        ):
+            leaf = tool.Leaf('events', 'example', 'content/events/arc_daeun_married.json', ('description',), source, 'event_standard')
+            for target in targets:
+                self.assertTrue(tool.translation_errors(leaf, 'zh-TW', target), (source, target))
+
+    def test_marriage_quantity_suffixes(self):
+        for source, target in (
+            ('신랑석. 그 한 줄 뒤에는 현수가 혼자 앉아 있었다.', 'Hyunsu 坐在後面一排'),
+            ('거실 조명을 한 칸 낮췄다.', '一檔'),
+            ('두 갈래 사이에 섰다.', '兩邊'),
+            ('백 명보다 컸다.', '一百個人'),
+            ('두 집 사이를 건넜다.', '兩個家'),
+            ('5성급 호텔 그랜드볼룸.', '五星級'),
+        ):
+            leaf = tool.Leaf('events', 'example', 'content/events/arc_daeun_married.json', ('description',), source, 'event_standard')
+            self.assertEqual(tool.translation_errors(leaf, 'zh-TW', target), [], (source, target))
+            for separator in ('', ' ', '\t', '\u3000'):
+                for suffix in ('分鐘', '分钟', '秒', '歲', '米', '公里', '年', '月', '日', '天', '元', '度', '小時', '小时', '韓元', '韩元', '人', '位'):
+                    self.assertTrue(tool.translation_errors(leaf, 'zh-TW', target + separator + suffix), (source, separator, suffix))
+
+    def test_marriage_approximate_won_magnitudes(self):
+        for source, target, bad in (
+            ('몇백만원 쓰는 거', '花幾百萬韓元', ('花幾千萬韓元', '花300萬韓元', '花幾百萬日元', '花負幾百萬韓元')),
+            ('예단만 수천만.', '光婚禮禮金就要數千萬韓元。', ('數百萬韓元', '三千萬韓元', '負數千萬韓元', '數千萬日元')),
+        ):
+            leaf = tool.Leaf('events', 'example', 'content/events/arc_daeun_married.json', ('description',), source, 'event_standard')
+            self.assertEqual(tool.translation_errors(leaf, 'zh-TW', target), [])
+            for value in bad:
+                self.assertTrue(tool.translation_errors(leaf, 'zh-TW', value), (source, value))
+
+    def test_marriage_relative_clause_and_counter_context(self):
+        leaf = tool.Leaf('events', 'example', 'content/events/arc_romance_specials.json', ('description',),
+                         '도도하게 들리려 한 문장은 끝까지 올라오지 못했다.', 'event_standard')
+        self.assertEqual(tool.translation_errors(leaf, 'zh-TW', '想裝得高傲的話，語氣卻沒能撐到最後。'), [])
+        for source, target in (
+            ('거실 표의 한 칸을 채웠다.', '填了一檔。'),
+            ('문서의 한 줄 뒤에는 글이 있었다.', '文件裡有一排椅子。'),
+            ('책에 한 문장이 있었다.', '書裡有兩句話。'),
+        ):
+            counted = tool.Leaf('events', 'example', 'content/events/arc_romance_specials.json', ('description',), source, 'event_standard')
+            self.assertTrue(tool.translation_errors(counted, 'zh-TW', target), (source, target))
+
+    def test_marriage_star_rating_and_plural_characters(self):
+        for source, good, bad in (
+            ('5성급 호텔 그랜드볼룸.', '五星級飯店宴會廳。', ('六星級飯店', '負五星級飯店', '五星級分鐘', '五個飯店')),
+            ('두 이름. 그 두 글자들이 남았다.', '兩個名字。那兩個字留下了。', ('兩個名字。那三個字留下了。', '兩個名字。那兩分鐘留下了。')),
+        ):
+            leaf = tool.Leaf('events', 'example', 'content/events/arc_jiyeon_married.json', ('description',), source, 'event_standard')
+            self.assertEqual(tool.translation_errors(leaf, 'zh-TW', good), [], (source, good))
+            for target in bad:
+                self.assertTrue(tool.translation_errors(leaf, 'zh-TW', target), (source, target))
+
+    def test_marriage_han_chairman_source_bound_surname(self):
+        leaf = tool.Leaf('events', 'example', 'content/events/arc_jiyeon_married.json', ('description',), '누군가는 한 회장의 딸 결혼식에 얼굴을 비춘다.', 'event_standard')
+        for good in ('Han 董事長女兒的婚禮。', 'Han董事長女兒的婚禮。', '參加Han董事長女兒的婚禮。'):
+            self.assertEqual(tool.translation_errors(leaf, 'zh-TW', good), [], good)
+        for bad in ('韓董事長女兒的婚禮。', 'Han（韓）董事長女兒的婚禮。', 'HanETF 董事長女兒的婚禮。', 'Hané 董事長女兒的婚禮。', 'Han_ 董事長女兒的婚禮。', '_Han 董事長女兒的婚禮。', 'Han\u0301 董事長女兒的婚禮。', 'Han한 董事長女兒的婚禮。'):
+            self.assertTrue(tool.translation_errors(leaf, 'zh-TW', bad), bad)
+        for mark in ('\u0301', '\u1ab0', '\u1dc0', '\u20d0', '\ufe20', '\u0903', '\u0488'):
+            for bad in ('Han' + mark + ' 董事長女兒的婚禮。', mark + 'Han 董事長女兒的婚禮。'):
+                self.assertTrue(tool.translation_errors(leaf, 'zh-TW', bad), repr(bad))
+        absent = tool.Leaf('events', 'example', 'content/events/arc_jiyeon_married.json', ('description',), '회장의 딸 결혼식.', 'event_standard')
+        self.assertTrue(tool.translation_errors(absent, 'zh-TW', 'Han 董事長女兒的婚禮。'))
+        indefinite = tool.Leaf('events', 'example', 'content/events/arc_jiyeon_married.json', ('description',), '어떤 한 회장이 왔다.', 'event_standard')
+        self.assertTrue(tool.translation_errors(indefinite, 'zh-TW', 'Han 董事長來了。'))
+
     def test_duplicate_response(self):
         self.reject(response=self.response + [self.response[1]])
 

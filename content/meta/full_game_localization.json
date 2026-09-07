@@ -642,6 +642,72 @@
       "machine_validation": "PASS",
       "rendered_review": "OPEN",
       "native_review": "OPEN"
+    },
+    {
+      "order": "ORDER-170",
+      "group": "events",
+      "roots": [
+        "arc_daeun_the_test",
+        "arc_daeun_wedding_prep",
+        "arc_daeun_wedding_day",
+        "arc_daeun_wedding_groom_side",
+        "arc_daeun_wedding_groom_side_father_passed",
+        "arc_daeun_wedding_walk",
+        "arc_daeun_wedding_aisle",
+        "arc_daeun_hometown_1",
+        "arc_daeun_hometown_2",
+        "arc_daeun_hometown_2_father_passed",
+        "arc_daeun_hometown_table_hands",
+        "arc_daeun_hometown_table_daughter",
+        "arc_daeun_hometown_table_decision",
+        "arc_daeun_wedding_night",
+        "arc_daeun_wedding_night_tea",
+        "arc_daeun_wedding_night_honest",
+        "arc_daeun_wedding_night_choice",
+        "arc_daeun_y5_feelings",
+        "callback_daeun_committed_gangnam_eve"
+      ],
+      "source_leaves": 113,
+      "target_leaves_by_locale": {
+        "ja": 113,
+        "zh-CN": 113,
+        "zh-TW": 113
+      },
+      "source_review": "Independent Codex Korean-source comparison of all 618 targets and 22 conditional leaves per locale; eleven unfamiliarity, agency, duration, framing, address, ongoing-learning and identity precision corrections rechecked. Original cost, chronology, first-face and name/character discrepancies remain separate.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN"
+    },
+    {
+      "order": "ORDER-170",
+      "group": "events",
+      "roots": [
+        "arc_jiyeon_wedding_gap",
+        "arc_jiyeon_wedding_guest_list",
+        "arc_jiyeon_wedding_gap_decision",
+        "arc_jiyeon_wedding_gap_father_passed",
+        "arc_jiyeon_wedding_guest_list_father_passed",
+        "arc_jiyeon_narrow_room_1",
+        "arc_jiyeon_narrow_room_2",
+        "arc_jiyeon_narrow_room_silence",
+        "arc_jiyeon_narrow_room_truth",
+        "arc_jiyeon_narrow_room_decision",
+        "arc_jiyeon_wedding_night",
+        "arc_jiyeon_wedding_night_window",
+        "arc_jiyeon_wedding_night_glass",
+        "arc_jiyeon_wedding_night_choice",
+        "arc_jiyeon_y5_feelings"
+      ],
+      "source_leaves": 93,
+      "target_leaves_by_locale": {
+        "ja": 93,
+        "zh-CN": 93,
+        "zh-TW": 93
+      },
+      "source_review": "Independent Codex Korean-source comparison of all 618 targets and 22 conditional leaves per locale; eleven unfamiliarity, agency, duration, framing, address, ongoing-learning and identity precision corrections rechecked. Original cost, chronology, first-face and name/character discrepancies remain separate.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN"
     }
   ],
   "accepted": {
@@ -12577,6 +12643,830 @@
       "events:arc_father_quiet_call:/title": {
         "source_sha256": "6c397f7c98ed344e8df44a62262bb2d16f4d5c9f8260d2e65f420d00e54a0ea3",
         "target_sha256": "af609916d669a73488fe0b7c581398565b3ba2f9f3babc9c03bdc65cdfeb853a"
+      },
+      "events:arc_daeun_hometown_1:/choices/0/result_text": {
+        "source_sha256": "a889e224f69fa956dedfa7d0a3bec616572f1a0ba3513a10552ff3604a75d8d8",
+        "target_sha256": "b7a64f6df3bd27591592653270ba24830867de0db459eca22ae78295565789be"
+      },
+      "events:arc_daeun_hometown_1:/choices/0/text": {
+        "source_sha256": "1f10a46c03d6e85ae04d0d6c22db9530cf8c2cf1dc5cb55e59b90c9a0a2b2bee",
+        "target_sha256": "db1e62a2f822d76cda3603bde1b9bf02140cf842ccb3b087213ed56c8af7fde2"
+      },
+      "events:arc_daeun_hometown_1:/choices/1/result_text": {
+        "source_sha256": "93b2937f6fedbf00b4cc72e864803aa701461b0b642515ecac44a5af1c05c415",
+        "target_sha256": "67d6999bd59cd5aaba5bd92ceeb2e676a2b7fc841fafab4c2cd20e4c9d49eec4"
+      },
+      "events:arc_daeun_hometown_1:/choices/1/text": {
+        "source_sha256": "5b5336948bd58c849de6b5a2276ac87f9b64f20086dbf7b44d2d1684c55cf4f0",
+        "target_sha256": "cad3f81ceaf5b9201670b5b64971a62e5fb4e70a706eb89799c63779a7cef0a9"
+      },
+      "events:arc_daeun_hometown_1:/description": {
+        "source_sha256": "10f12ab94fa67b70c537ef35197b9ba4e96a0de30908c78bf161bf41ff54c745",
+        "target_sha256": "23347c24452aa061296fa48d8daee42ef666143ff15e6106daeb884b9babba1c"
+      },
+      "events:arc_daeun_hometown_1:/title": {
+        "source_sha256": "220f7630a0fa5ba6081db200c02d2dd4101ea4957d2140e5b43ba7ec3853e5b4",
+        "target_sha256": "c86fa4ad7022837c24d26fab777e6ca1d590c683ac12a48d77067358f4adb738"
+      },
+      "events:arc_daeun_hometown_2:/choices/0/result_text": {
+        "source_sha256": "0241a36ee22bd93bb9d1d0080519660ced869f6940ad18f655e1838097bf90b7",
+        "target_sha256": "053c1eabe087fb3881ca4f2a8acdfa432743fa3f2e28ce656491e5533759527c"
+      },
+      "events:arc_daeun_hometown_2:/choices/0/text": {
+        "source_sha256": "8bbffe887378968eec5d53e7f7c929c131c92b2377f1bff31f337b3d683d38d3",
+        "target_sha256": "51fc4f226b518a014af345e18a585dc4b9347f5b2c63d40de334a0dee42365dc"
+      },
+      "events:arc_daeun_hometown_2:/choices/1/result_text": {
+        "source_sha256": "9d6f03a4f1ab94ea409dbad2444c23bcac642fe8331cffb406511877b3255242",
+        "target_sha256": "8d3ee337c7fb4341abfc8e2aeb81bb7e2fa5de36f0462c1d62669b2a45de1987"
+      },
+      "events:arc_daeun_hometown_2:/choices/1/text": {
+        "source_sha256": "a25c15be56afdfd26fccd4750a6e6ab1bf9e366222dd3980a991611b876befc1",
+        "target_sha256": "e2f39cc31b3c25fdac868285cb4fee66ed76d979e6c01ff41efb545b94286e28"
+      },
+      "events:arc_daeun_hometown_2:/description": {
+        "source_sha256": "f2fcd1110167eed9180cdf4f1b769545fbce56141488e7f11aab14a5e270be95",
+        "target_sha256": "e7ddab0eebe703b4f7794cc29bf699d2d25c5d6b4b858eced8be77fe9861810a"
+      },
+      "events:arc_daeun_hometown_2:/title": {
+        "source_sha256": "4401949cc281ca0362e28213fea78ae427312c2abcfd7766f2858d252cbe82b2",
+        "target_sha256": "07149cb0843cf7cd07b0bc303229c232e023d9c42a8a83f61227d4c4fc3186af"
+      },
+      "events:arc_daeun_hometown_2_father_passed:/choices/0/result_text": {
+        "source_sha256": "0241a36ee22bd93bb9d1d0080519660ced869f6940ad18f655e1838097bf90b7",
+        "target_sha256": "053c1eabe087fb3881ca4f2a8acdfa432743fa3f2e28ce656491e5533759527c"
+      },
+      "events:arc_daeun_hometown_2_father_passed:/choices/0/text": {
+        "source_sha256": "8bbffe887378968eec5d53e7f7c929c131c92b2377f1bff31f337b3d683d38d3",
+        "target_sha256": "51fc4f226b518a014af345e18a585dc4b9347f5b2c63d40de334a0dee42365dc"
+      },
+      "events:arc_daeun_hometown_2_father_passed:/choices/1/result_text": {
+        "source_sha256": "9d6f03a4f1ab94ea409dbad2444c23bcac642fe8331cffb406511877b3255242",
+        "target_sha256": "8d3ee337c7fb4341abfc8e2aeb81bb7e2fa5de36f0462c1d62669b2a45de1987"
+      },
+      "events:arc_daeun_hometown_2_father_passed:/choices/1/text": {
+        "source_sha256": "a25c15be56afdfd26fccd4750a6e6ab1bf9e366222dd3980a991611b876befc1",
+        "target_sha256": "e2f39cc31b3c25fdac868285cb4fee66ed76d979e6c01ff41efb545b94286e28"
+      },
+      "events:arc_daeun_hometown_2_father_passed:/description": {
+        "source_sha256": "7fa803dd989d71ee194de354ce3eb476902500d6ecf94df4b5b0678861fae5ba",
+        "target_sha256": "5cfd4d284ffd57d8fc433305231f4d9271179d3d880b68265fe46c5025df4d89"
+      },
+      "events:arc_daeun_hometown_2_father_passed:/title": {
+        "source_sha256": "4401949cc281ca0362e28213fea78ae427312c2abcfd7766f2858d252cbe82b2",
+        "target_sha256": "07149cb0843cf7cd07b0bc303229c232e023d9c42a8a83f61227d4c4fc3186af"
+      },
+      "events:arc_daeun_hometown_table_daughter:/choices/0/result_text": {
+        "source_sha256": "45c82294303235ffd2f4fc9de4f6c0dbbf067936b8943d5418f724411429a03a",
+        "target_sha256": "3fadd3374a601b2620d4beeaa7436dc30f1fad663ea2670d4e3e6ef2eee86e78"
+      },
+      "events:arc_daeun_hometown_table_daughter:/choices/0/text": {
+        "source_sha256": "e47f300abcb1bae2cd308f35da112249b0959694bd6c0b8d336177dac8bf8f26",
+        "target_sha256": "68d0c68eb6d444b18d4db41dca8b7fcb76080cd4688e478fdc305816f67a68de"
+      },
+      "events:arc_daeun_hometown_table_daughter:/description": {
+        "source_sha256": "70d60bd92c7f28f0146ad7c3a651479d242e031111115d36cdb7673017c422f5",
+        "target_sha256": "652842c9176e210ef6d60cf97a64a7921de86d86cde35632eb3d21b68cfa2504"
+      },
+      "events:arc_daeun_hometown_table_daughter:/title": {
+        "source_sha256": "8bbfb5e9b0c64caae35561d9578b74f9ffa6b2e2b5b6b9a89d8e99095ea74c0a",
+        "target_sha256": "0cf71ef3a084feb06612c8253f11825859e341419c51aff5601cccbac8322d26"
+      },
+      "events:arc_daeun_hometown_table_decision:/choices/0/result_text": {
+        "source_sha256": "3a36b0a2b0844c0398fd15492dcd82f1b1c712c72ecabb1fef3f12e504dfd9b8",
+        "target_sha256": "a092db0637c4ba351e6ffcd5f532866cf135e41208eba8be6dfad88b733bc15a"
+      },
+      "events:arc_daeun_hometown_table_decision:/choices/0/text": {
+        "source_sha256": "29b9d8f7aee2517b4d7ddb46a2c7c058218914573d32b4d0bad12d04daa501cd",
+        "target_sha256": "18d85310e364770f2bfcff6c7a9d0bd14088d23ad96ced76a188c6573c0e6f00"
+      },
+      "events:arc_daeun_hometown_table_decision:/choices/1/result_text": {
+        "source_sha256": "a09d857bfa4e266ab5fce9c84ecf2750880fe77007e0fb58de938b29f39b4e31",
+        "target_sha256": "322a4ab885fca752e2157d1dd68a6b45aaa46b056058fc972e1bf1e088aa7dee"
+      },
+      "events:arc_daeun_hometown_table_decision:/choices/1/text": {
+        "source_sha256": "f6ea6278277e85955070f64c3955d0be14b870d2c0071df0cec005b04effc4de",
+        "target_sha256": "7457811196cff060d933fb49ea67f301b8dc6d7661c80a3fb317d7744e705cd1"
+      },
+      "events:arc_daeun_hometown_table_decision:/description": {
+        "source_sha256": "784b50c679ecbf34e04c1b1a1b0589846089998db02b29c07c84b6b0cfdb62d1",
+        "target_sha256": "fcbd7ccaead63f7d132e4a8ead1b38f1a7cfce319cced250f5f6885dadbc16e1"
+      },
+      "events:arc_daeun_hometown_table_decision:/title": {
+        "source_sha256": "90a515584155d2c72212534347c34898b614cdbc5e784b72f01f5cfd1456deb6",
+        "target_sha256": "2773b9e01c80a541f05d4648e09fd2bce369ce89093f55c5357291bff2a5ea66"
+      },
+      "events:arc_daeun_hometown_table_hands:/choices/0/result_text": {
+        "source_sha256": "d51180cab364777cebdefea3c22726ba899ce458e81d420270716d17f828e7ba",
+        "target_sha256": "cd930c469d9cdbb04fc7ad39e9168e50f28e4ab5e75b4e9b8d154cc27935ad56"
+      },
+      "events:arc_daeun_hometown_table_hands:/choices/0/text": {
+        "source_sha256": "d803480c4eebb6b0233c6fe46c75920f743bb0ee14fe0a5710dc37e6203bb913",
+        "target_sha256": "3f6fff4df3426d48f4bdc6c41acca22db08f388db490f3b7113a5a3a4d8695a3"
+      },
+      "events:arc_daeun_hometown_table_hands:/description": {
+        "source_sha256": "c16f47bd38b56e3ceabf3ab5cab3b9568035d22f8d3c5c130c170afd21bd9ba2",
+        "target_sha256": "ab097fb1de397d682bdcc079c53c580d417a20d104c512d834242668bf2afd8e"
+      },
+      "events:arc_daeun_hometown_table_hands:/title": {
+        "source_sha256": "3556b14fe8629d799ff6f1d1f610406bb8dc519cbaf0b97782f566ff9f1acf70",
+        "target_sha256": "52bb4b4cd262224e80f30cc387840e26b90b54c2edc56727fa3741729614bb1f"
+      },
+      "events:arc_daeun_the_test:/choices/0/result_text": {
+        "source_sha256": "15b03f06a41501ee5888c1734cdc1d325979f1372aeaedba229a89aaf555982e",
+        "target_sha256": "4c44ec5cb6615ab5172aba2ec9fd7450cfe2d8976ab13a54877908ead48cef3f"
+      },
+      "events:arc_daeun_the_test:/choices/0/text": {
+        "source_sha256": "aa2e8126d22c746626fca6d64653f46288fe3896b7375260754c0530f35ec7ee",
+        "target_sha256": "4ea123af88f6f3f3cb23e9cc17b385c09b0de79414862d62c00688c36147fcab"
+      },
+      "events:arc_daeun_the_test:/choices/1/result_text": {
+        "source_sha256": "647413b024ecc353ad1c71949dd30d70a6fad9659262bdacf55db57156a38783",
+        "target_sha256": "aab179657835df8abcf6b46c98886898ae96ba624cc04f91a1de41c6806e0ada"
+      },
+      "events:arc_daeun_the_test:/choices/1/text": {
+        "source_sha256": "7cd3b76b60282af5de2c133f0666deaddec8d47a50d813258fc59c62c5c277f7",
+        "target_sha256": "7961c8442836276cc36a680003a50c5f85fb0650e5faa92200ca4fad38dff528"
+      },
+      "events:arc_daeun_the_test:/description": {
+        "source_sha256": "7de3508766000a0228c2b7eb679ce31a9fc8411e7938fd6a1545e29844eca654",
+        "target_sha256": "295bdd57c210fe029df7e4aa87e4487744cda3c0d8bdf2db75dfb66c325ae51f"
+      },
+      "events:arc_daeun_the_test:/title": {
+        "source_sha256": "a3b505e93eda1e50bfcdbc577037dfbb03cdeeeafdd0728859a20fb22ae2afd8",
+        "target_sha256": "c5a475fde9c1897e349ea2c7344892da816e44835297956e6a0f2e6b57df35c0"
+      },
+      "events:arc_daeun_wedding_aisle:/choices/0/result_text": {
+        "source_sha256": "0c51de8cf861dafc0f4ad14f5935dbe16189258c1f8fea0fc338dec5539f22ab",
+        "target_sha256": "b941287e2b482ecab36c197d44145a82b79ff51778e97ae20f8bb897f5a1b012"
+      },
+      "events:arc_daeun_wedding_aisle:/choices/0/text": {
+        "source_sha256": "1404f831e9744ea7cca51bdfdfd772166ca86918d96dba98f1f431621e4b7086",
+        "target_sha256": "0e0b139653403535af3f2e707765046863a4ffa0cf52197eaeea7130f0aa0701"
+      },
+      "events:arc_daeun_wedding_aisle:/choices/1/result_text": {
+        "source_sha256": "b28c6139bca8244f687f2a8e92ee2ddd64614be3b8b6d07f0200da7b1b169b8f",
+        "target_sha256": "e9cd248ce84008543ae7f0d46f8b7c566e76e713c5a2caae0156e6825dcde07c"
+      },
+      "events:arc_daeun_wedding_aisle:/choices/1/text": {
+        "source_sha256": "aa00655424be7328f6aefc312d1587524d62666e7d717bba7bed8d3cee8eab72",
+        "target_sha256": "18956f46315acda8d7757a4a08ed5849b4c3fb1044dfa6789cf266ad19f46116"
+      },
+      "events:arc_daeun_wedding_aisle:/description": {
+        "source_sha256": "d5d15fe5db7f037fbc5e9c9f2b48b3fe6ef428941df4a171fa31b1d840ea458c",
+        "target_sha256": "f97d1de922c913cb031da44d106bd908430ab49aab2eb2ac2dc37e49b96f7b35"
+      },
+      "events:arc_daeun_wedding_aisle:/title": {
+        "source_sha256": "22953f3c23077e2368a25f610dc60ab376c86a7cac8661b8ad8f173764eef5df",
+        "target_sha256": "ecdded21cc98a234d613df852243ea9497bfbdb44699074985bf6738ae021e4d"
+      },
+      "events:arc_daeun_wedding_day:/choices/0/result_text": {
+        "source_sha256": "e1e0454da01e8f8335edc4915c9dd0848c5b385edd5dded06fba9161ba297dd8",
+        "target_sha256": "c770a6f206fce1159f45c47ea56faabc31ae57f5cd127e3a62d00a3704574056"
+      },
+      "events:arc_daeun_wedding_day:/choices/0/text": {
+        "source_sha256": "0023be482b417d59efb7a87e245f31ce1f61cf1b917d39bca7af7f6db8aae6ea",
+        "target_sha256": "0aed7d8389e4c4c0feb329c9f01e274479c099d6aa8346ef04f02920c61307c1"
+      },
+      "events:arc_daeun_wedding_day:/description": {
+        "source_sha256": "d05dd1c71d6146275a09116618bc66d6c72c53d7b06201eb3485b44882a23cd7",
+        "target_sha256": "bb35e4484f5365ea6af13aed5e6148afc9360b42b4d09b01fd855e5ced9bbb30"
+      },
+      "events:arc_daeun_wedding_day:/description_if_known/daeun_hometown_visited": {
+        "source_sha256": "8f9787e2e010befb3e63d25acf7dfab11a5e21e1784abfa2e6092767f8c0dd73",
+        "target_sha256": "35a2306566a61694467303553cd76f6f92d7666c29935abeea474af91c4c6e48"
+      },
+      "events:arc_daeun_wedding_day:/title": {
+        "source_sha256": "32b583347b147ef84507524ac78aef3fc81823f317b7d13993529e96fd18aa87",
+        "target_sha256": "9bd96bcaaefed2618f830b745ad8c2df55e0721a953401f49b9d08885ed47cf1"
+      },
+      "events:arc_daeun_wedding_groom_side:/choices/0/result_text": {
+        "source_sha256": "ad93d89d330f834e155f523897d1ac1175f1873fb8694fe41c30b486243a5745",
+        "target_sha256": "ec5fa8840c87446c27d5ab8ebbe3ce975612fd9cb73667a8cc0baa2c33352615"
+      },
+      "events:arc_daeun_wedding_groom_side:/choices/0/text": {
+        "source_sha256": "3e63280401772f7a479ec3a6aaceaedd223aaf75a70926b75c7ee4c97fb2347b",
+        "target_sha256": "62dbadc71cdceb1676c562a5704c2cfe20159794b49d0c529c7d1be7719ebeba"
+      },
+      "events:arc_daeun_wedding_groom_side:/choices/1/result_text": {
+        "source_sha256": "f4e76e3788254e48bc64cdfc80bf7e36f57329f789af371753e0f5ddad11a909",
+        "target_sha256": "e97c6f38ae3c54ef57dcd2e31a99051fd687f0fd7b4be63f283c9f814a27ce84"
+      },
+      "events:arc_daeun_wedding_groom_side:/choices/1/text": {
+        "source_sha256": "5cf13e40f511bbfa6d0104134da0593eafc15957ec2da64243bd5ba26ef5de9c",
+        "target_sha256": "b8efe306261f208656cf389346809cdce7f6021827f59088ef3b405b018b83eb"
+      },
+      "events:arc_daeun_wedding_groom_side:/description": {
+        "source_sha256": "ec97b8f7871d9e981848a76fb2de4d709cd89ec6fce432772d6a831a19a59299",
+        "target_sha256": "d153a4ae274a0d36ecda1486a072b3fcfe85c9195acc03083be65a32de665161"
+      },
+      "events:arc_daeun_wedding_groom_side:/description_if_known/father_reconciled": {
+        "source_sha256": "28f95640a4d188b3f8076a74fcd0543196234ee2e0fe6542339c2407e80497b3",
+        "target_sha256": "a67c1db5ae6afb2535ebd33be1641520d20383f69213bdea6524e65614368278"
+      },
+      "events:arc_daeun_wedding_groom_side:/description_if_known/father_reconciled&hyunsu_reconnected": {
+        "source_sha256": "c495353b3a6fb2d1d43eef722dffb44e4b676ac0644039cac6b3387afeae4115",
+        "target_sha256": "c178bc32f368ee68a6ce0ad3f072cdaefd9d17645cee574766900f22e400bc40"
+      },
+      "events:arc_daeun_wedding_groom_side:/description_if_known/hyunsu_reconnected": {
+        "source_sha256": "f068f4e066d24455d28094dc60b7f3e53e39e2503397a2e2059993ae9a9f675c",
+        "target_sha256": "235672777b8b2f876529b9303b8ede7628673a83167a6d62b315901acdf53300"
+      },
+      "events:arc_daeun_wedding_groom_side:/title": {
+        "source_sha256": "e4882b1abc3428550ff08b95a6ab413cbc840866cb681e727ad891f03af8067c",
+        "target_sha256": "0a0c008b7e39a704d418b3ecd5ee0fcc004231c8b8c3f9e5c8a1ffbb6aed7e92"
+      },
+      "events:arc_daeun_wedding_groom_side_father_passed:/choices/0/result_text": {
+        "source_sha256": "ad93d89d330f834e155f523897d1ac1175f1873fb8694fe41c30b486243a5745",
+        "target_sha256": "ec5fa8840c87446c27d5ab8ebbe3ce975612fd9cb73667a8cc0baa2c33352615"
+      },
+      "events:arc_daeun_wedding_groom_side_father_passed:/choices/0/text": {
+        "source_sha256": "3e63280401772f7a479ec3a6aaceaedd223aaf75a70926b75c7ee4c97fb2347b",
+        "target_sha256": "62dbadc71cdceb1676c562a5704c2cfe20159794b49d0c529c7d1be7719ebeba"
+      },
+      "events:arc_daeun_wedding_groom_side_father_passed:/choices/1/result_text": {
+        "source_sha256": "f4e76e3788254e48bc64cdfc80bf7e36f57329f789af371753e0f5ddad11a909",
+        "target_sha256": "e97c6f38ae3c54ef57dcd2e31a99051fd687f0fd7b4be63f283c9f814a27ce84"
+      },
+      "events:arc_daeun_wedding_groom_side_father_passed:/choices/1/text": {
+        "source_sha256": "5cf13e40f511bbfa6d0104134da0593eafc15957ec2da64243bd5ba26ef5de9c",
+        "target_sha256": "b8efe306261f208656cf389346809cdce7f6021827f59088ef3b405b018b83eb"
+      },
+      "events:arc_daeun_wedding_groom_side_father_passed:/description": {
+        "source_sha256": "c071ec5bb944ea704eff3d0ed3f5a5cc104091e2f59b12e81c03a13ca5701221",
+        "target_sha256": "0dfc3c0d9834c8589deaacb84054eb0722cee32d9b147248878f937ce1ddce4e"
+      },
+      "events:arc_daeun_wedding_groom_side_father_passed:/description_if_known/hyunsu_reconnected": {
+        "source_sha256": "ca41a6c2801f0fcf3a3e191f882c1c63debad9b3de5d75e32f6b57d084859ad0",
+        "target_sha256": "d8f0550dd4871eb0757b415e59c737979cf7a3e779cebd1067bc0e79f1adb770"
+      },
+      "events:arc_daeun_wedding_groom_side_father_passed:/title": {
+        "source_sha256": "e4882b1abc3428550ff08b95a6ab413cbc840866cb681e727ad891f03af8067c",
+        "target_sha256": "0a0c008b7e39a704d418b3ecd5ee0fcc004231c8b8c3f9e5c8a1ffbb6aed7e92"
+      },
+      "events:arc_daeun_wedding_night:/choices/0/result_text": {
+        "source_sha256": "3477d4edbdeb32ede5b54b80d357f057d3b0301c7d3f157ba689602591d7b90f",
+        "target_sha256": "9934fd8a08f65d172d47093197c5cab2b6e9b6edd36641074f894a1e1c66fb1d"
+      },
+      "events:arc_daeun_wedding_night:/choices/0/text": {
+        "source_sha256": "bebafd02272c7346c9a19da3146a0d9d110f4f73a67f48cccf718ee8af9c3583",
+        "target_sha256": "d45635a066cfae95037cb9f47fad411f06a62c67ef242cf0499aa24df1c7905c"
+      },
+      "events:arc_daeun_wedding_night:/choices/1/result_text": {
+        "source_sha256": "7aae3f7aae4bf3d8ce1a6ac679f794b2d971d541b8e3fed848e6fe9502b60950",
+        "target_sha256": "e9096c9934e281f8a241526a9cac4523860818e3997f911fae2c377982a356fb"
+      },
+      "events:arc_daeun_wedding_night:/choices/1/text": {
+        "source_sha256": "b4f56060f06ad5861e21618b25e30d1ab099108d8106459ae875154ddaeed860",
+        "target_sha256": "8ad0b0e7ff49dbc19a71886077ba7a2ecf708354e5c28583c86fae20e9734fa0"
+      },
+      "events:arc_daeun_wedding_night:/description": {
+        "source_sha256": "b9b4107aa77dc57f610eed4ceddefb4e0777efd6e0d0e7e5e5ab93d2b7875c57",
+        "target_sha256": "0461588f9bd4ddf68d62542b4b9f0388c6a0d1bb9c63d68a0adad27f007788c4"
+      },
+      "events:arc_daeun_wedding_night:/description_if_known/daeun_hometown_visited": {
+        "source_sha256": "94190b3de6c38d800260578ffd5d51c647de867ffd79ca69a3ad178835948693",
+        "target_sha256": "b4010a3514ccf669a3da531b85e50701e326fae92a975675af0bea9abe464075"
+      },
+      "events:arc_daeun_wedding_night:/title": {
+        "source_sha256": "2880b754b34b461617ca46fdcbb62632f3ae25567e43d2562c9490e98041828d",
+        "target_sha256": "e0bc92e138578c9f894509056143e6a00ff82ef395dcf553d81b7e8f81f6d683"
+      },
+      "events:arc_daeun_wedding_night_choice:/choices/0/result_text": {
+        "source_sha256": "cbe477e0ed8f626d904bbd9dcb2317c8c81c8bc1cdc84c11ee27cf0c6958d1e5",
+        "target_sha256": "78eed61f0e4fb90bacb2bf8ce485be405541c8b50eb14730f6355dba71cde9da"
+      },
+      "events:arc_daeun_wedding_night_choice:/choices/0/text": {
+        "source_sha256": "d9f2ea354edaec3314b54c730ea29f56344a940e29a5ae1995e4cafc47d91fc4",
+        "target_sha256": "6ce25f9b6f7d11e0828444a48802c9b6be40da44703d58d25a7ac36374fc24d6"
+      },
+      "events:arc_daeun_wedding_night_choice:/choices/1/result_text": {
+        "source_sha256": "f5de24eccfa92ae721d8688abfa86919030b5686a54bf4b839a1fa08480e27e2",
+        "target_sha256": "835b653eb34788cd64db2d21fc336330f8a8d1ea7e33457e1e80c4f9efff85e8"
+      },
+      "events:arc_daeun_wedding_night_choice:/choices/1/text": {
+        "source_sha256": "ee14db7c022beb3acd1f9dd71555c8ea02b36f1a581b5c48eb845f49694e657b",
+        "target_sha256": "860e757fea34835b33abd0e7b0023dc780386678e3818e706dfb74a417bebde2"
+      },
+      "events:arc_daeun_wedding_night_choice:/description": {
+        "source_sha256": "cece3939974625e43ab2aebdc9e0b240118abd5c5629712b6e2329c296d18ccc",
+        "target_sha256": "2542d3c79c001fdc1c990d6235b6f13522d488cce73226483d21cc68186f6853"
+      },
+      "events:arc_daeun_wedding_night_choice:/title": {
+        "source_sha256": "e963f0bb770f0f0f1a4f194768aa2c0d029dfa74180545b5dbb1c9379b60d3d4",
+        "target_sha256": "b3e735f466df0f4439f2b8f90bede0bbef0bf8e245f0aef1e7515ef7e1592b4c"
+      },
+      "events:arc_daeun_wedding_night_honest:/choices/0/result_text": {
+        "source_sha256": "846d1e4fc1d90a7d0e2384c5f5d459db1d404dd2ef91d2313951952d49825269",
+        "target_sha256": "a31b374d482790d0ce3a08a9ad46257f62b9b872dff4efa2c6aafcde69ff2c7f"
+      },
+      "events:arc_daeun_wedding_night_honest:/choices/0/text": {
+        "source_sha256": "8757121b462be6f19203d8f89664a6f934feefcc0efd5cdce4ea9a55302605ef",
+        "target_sha256": "3107230f7ea2b261dec3159529e8f83ff5ad0a3fc2d806c1303061276324ae0c"
+      },
+      "events:arc_daeun_wedding_night_honest:/description": {
+        "source_sha256": "c6b200200dc6fcb2e13140612c735f53ad89340350ffe5b7bbae76b2407f1936",
+        "target_sha256": "c8c8353d7b884d744bdf70cf08cf309ec2064a429649050885ac497ebf207ef8"
+      },
+      "events:arc_daeun_wedding_night_honest:/title": {
+        "source_sha256": "21362d179e76860bd4053a59c68ad22ad2d7b5fdbecfa1a419c1c0e230da0390",
+        "target_sha256": "02c24e1765bb0b26a0956d61b4f00f6258fd99dfd495799b769875fa1bc242bf"
+      },
+      "events:arc_daeun_wedding_night_tea:/choices/0/result_text": {
+        "source_sha256": "e8b8e6bd1a81efe5b64f027cf7e9060ddb18a16fc7c350a54ac6a8552f3955ce",
+        "target_sha256": "71b58550fa6d12a0f91394a5aa8395c3f1ac354945463e3d9393a5cd751ae2f9"
+      },
+      "events:arc_daeun_wedding_night_tea:/choices/0/text": {
+        "source_sha256": "639cc07303b368ddb133540561d5e8ad9516fe25083e413daf9357838c296b40",
+        "target_sha256": "7e03af8c8199a786d020f6c7370794b0b19b4b0abd6267f4f2198d43fad7b4d9"
+      },
+      "events:arc_daeun_wedding_night_tea:/description": {
+        "source_sha256": "80462db0c3799d9e5a1fb98af867670c4d0db143542b9f3e5331e09ba4bd434f",
+        "target_sha256": "cf2b02552c56e7d66f593200b3a78ff5c405e64d7115e71c9fa52314a5b34010"
+      },
+      "events:arc_daeun_wedding_night_tea:/title": {
+        "source_sha256": "549c1d7010a8f867ae81386b43de93e72928ce4879dfe3633f612eb5b27bac04",
+        "target_sha256": "ccee2750d1b4a24f5a3f73de05fd4be0ae3aec219809f7d3aa190f2bc4b69e48"
+      },
+      "events:arc_daeun_wedding_prep:/choices/0/result_text": {
+        "source_sha256": "ebc6bab13530841900d0585c532da748c306c823804f3faf14c0794f525baf47",
+        "target_sha256": "1072422291ed96d279c91ff1b0d8fce179d61c5b39347c9acaad47e271c60f04"
+      },
+      "events:arc_daeun_wedding_prep:/choices/0/text": {
+        "source_sha256": "5745156df375f1f997fc1d9e99accc30104c5f049aa20d901b2d4d7841e84bcc",
+        "target_sha256": "120dee6b7ee4cf815d1c3d368397ec96d987fa79f2e703976f04110b95fa1ca3"
+      },
+      "events:arc_daeun_wedding_prep:/choices/1/result_text": {
+        "source_sha256": "f3ecbac9a23673cfb6904f018a6e10f7fe2f0527e042161488f155ed3cb8df6e",
+        "target_sha256": "9d79cedf6f9c9032f029fa04fbf49faf46a3b15f200bc5517e4cc8f68f008ae4"
+      },
+      "events:arc_daeun_wedding_prep:/choices/1/text": {
+        "source_sha256": "9e9823215beb7884a62108fdc34ceca02b4307819b732cf476a6e83a8b00a25a",
+        "target_sha256": "8a4a797db2079a7843237611edfc924a5e478379f8c7c6f496e0cdee6a8d75ce"
+      },
+      "events:arc_daeun_wedding_prep:/description": {
+        "source_sha256": "9baf62348109705bec20de50333795ab59fcf9c4df47c8f57ecccf32c6e5d225",
+        "target_sha256": "0fa52d1709d5492dd7fb6a7f08dbc0216631c6c98952bbead5f72dbf523af867"
+      },
+      "events:arc_daeun_wedding_prep:/title": {
+        "source_sha256": "256b401bcb653f3c75cb1022008ef60db2e74ae4dd6b723d4198c459a39d5e47",
+        "target_sha256": "fbd9afd8f90614eed146e72ba460b8e9f50f86bcbbb8680bc840dc7f123ded7c"
+      },
+      "events:arc_daeun_wedding_walk:/choices/0/result_text": {
+        "source_sha256": "12f15896aea525876be8623a202e954874d5836150c6ebdf6f734a72d8dca2c6",
+        "target_sha256": "7a3d7cebe5d98265719fca5d8095ff6f11bd70de8b52674bb1fa42c174392f3c"
+      },
+      "events:arc_daeun_wedding_walk:/choices/0/text": {
+        "source_sha256": "8c975a164cb78a89bb5225db24b5342a34784172a07295ebe00c57b9aa1ae0a8",
+        "target_sha256": "9cfad6e6fa26a202fdf29abf09e9518c1a77df8cffe2da2d6a4c4591ffd41c7d"
+      },
+      "events:arc_daeun_wedding_walk:/description": {
+        "source_sha256": "87aeb6e617ac06354403a763f53750cb71480e2f04c145e1a4782d0ef616d810",
+        "target_sha256": "8fccb34191b184ee75766c9d789f232a4e3fb4f137e35f6693d47d35e619501b"
+      },
+      "events:arc_daeun_wedding_walk:/description_if_known/namsan_lock_daeun": {
+        "source_sha256": "a169ea6a48a04ec588acb2c9c3e06b88f11be5d97d9103f02b50fff0172db9f7",
+        "target_sha256": "5e3f15b376998ed380aa52bde98e2be33e3b76552414044153415f448abdd92a"
+      },
+      "events:arc_daeun_wedding_walk:/title": {
+        "source_sha256": "f4ca044a1a6aa7e66f2ab91954fc6e446ec71bbb71cf3fbb6e679b8b1274d12e",
+        "target_sha256": "92173de7104e6e37e7ffae4d22dba8c866a9440d953101ec7e5817ee0e45201f"
+      },
+      "events:arc_daeun_y5_feelings:/choices/0/result_text": {
+        "source_sha256": "975e4ffdefef92906155cad25c780f51179566808b9e060c3efbb5bca276b4ab",
+        "target_sha256": "b3e4ba199b62e573bc12f4e92b60c954bbd10c8f49836e446d602a071cf12bc9"
+      },
+      "events:arc_daeun_y5_feelings:/choices/0/text": {
+        "source_sha256": "4bb297a12daecd390e76c7389fc2f4c183cfb74889a669d34870dc115b201a80",
+        "target_sha256": "e2f5594e648b4fc61d4d05dde9669ed41e71a10cbdb6d626fb289b798bef8ad8"
+      },
+      "events:arc_daeun_y5_feelings:/choices/1/result_text": {
+        "source_sha256": "ffe92bd544ccfc6f93b134e1d82633ed5a54bb155fe17e331a83db52012ad00c",
+        "target_sha256": "f913ab466623ebc08a4dc8ee71f8697e929c763f90a484de79aaaffcff6df490"
+      },
+      "events:arc_daeun_y5_feelings:/choices/1/text": {
+        "source_sha256": "566fc89c971f991358c3f95785bf9c45563798f542ad7cd75963ef3b04c5cc2f",
+        "target_sha256": "f85bd927648ef31668dbce57d8443f12f37344f4fae142f7c2ffac882bcd5447"
+      },
+      "events:arc_daeun_y5_feelings:/description": {
+        "source_sha256": "3b0cf64a6d37340094db926b3e8e2f59a5d4558bf6c06674c41c84ff66e8a0c7",
+        "target_sha256": "dc5a04ba776e77a500cba219e6703849e935fa96608e3c383158080ca07effb5"
+      },
+      "events:arc_daeun_y5_feelings:/description_if_known/daeun_close_bond": {
+        "source_sha256": "b259d202daf7812382886e421897f00bf10870fb83fadea1e4d9b8af26f69f47",
+        "target_sha256": "11c954961fcc4b532d5060e3c0b25e9032c398078ee551aed3e0dec747db3a2f"
+      },
+      "events:arc_daeun_y5_feelings:/description_if_known/daeun_date_set": {
+        "source_sha256": "f1fff173cd045daec33f2bbbabd8d4790265b3f5002482cf74b03a3d1b4d7239",
+        "target_sha256": "33e6f83eb8536a36d2c90a1d0cf5e66f707e6c85afb2b29bdd8e0a5ea612e994"
+      },
+      "events:arc_daeun_y5_feelings:/description_if_known/daeun_late_call": {
+        "source_sha256": "1abdb07d1bd8854fdd0fd3bbccaca477a0527dd74d91e3998558dc3556648d5b",
+        "target_sha256": "43b1e1503f6fc3d9768fb9f067d83645430094afe4a807efba03047facc2fb4d"
+      },
+      "events:arc_daeun_y5_feelings:/title": {
+        "source_sha256": "5229de08c345eef0896a518dd5ac3a4cbe517d63695826864d370e3d89c25d4f",
+        "target_sha256": "e7af9b6798a565e3fa491b33ceba05750e4a7d9c161690ec47454a92dd122e01"
+      },
+      "events:callback_daeun_committed_gangnam_eve:/choices/0/result_text": {
+        "source_sha256": "088ee723a1d99a2cd395d942a7753766565d7e42768ae7b45038030c1b3aaca6",
+        "target_sha256": "3a7ff8d90e05fa0b9f9407e5570e61a2fa174e2ae3cbde9a69503046a7184ba0"
+      },
+      "events:callback_daeun_committed_gangnam_eve:/choices/0/text": {
+        "source_sha256": "4532585aba14b2254a3458da04a284a0cd2d7e35c5f67a6c142de153faa69470",
+        "target_sha256": "72f1dab22a46ac9db9c98b1182f1bbf50118470219625165f2891d1c2473191c"
+      },
+      "events:callback_daeun_committed_gangnam_eve:/choices/1/result_text": {
+        "source_sha256": "71e8fe7cf24f67a045970bde79fe4e1f5c62eb991d35d57c2bb3bf2a44b6f2d1",
+        "target_sha256": "5f75d59cbd3044d207110d8c4923074ba3ec3a5232513e3853f500599aa663c4"
+      },
+      "events:callback_daeun_committed_gangnam_eve:/choices/1/text": {
+        "source_sha256": "4e255baeb37d3989b8fdcef8700933f95e0ea908b31f663908454333335215d4",
+        "target_sha256": "5ab2f7f91b9b007b5b58848ca74fc5616c84088589e52d1a875a7100ee9528cb"
+      },
+      "events:callback_daeun_committed_gangnam_eve:/description": {
+        "source_sha256": "15c9da250e401a67721aa64a0e227198c4d1e358ab347adf4452685d9fe78a56",
+        "target_sha256": "c558e1c162aef9ded7814375ce1299483d422d3baafa73b99a3dda2cc1c284dc"
+      },
+      "events:callback_daeun_committed_gangnam_eve:/description_if_known/arc_almost_there_seen": {
+        "source_sha256": "aadd7cde4a936c57781aaf5e3fbb7b47cbee052d575bd6c17b376228a3d37a75",
+        "target_sha256": "a29626aded934dfb21e5cb7cbdd6a7f50e264d13cfa64ab512b791d915630a2b"
+      },
+      "events:callback_daeun_committed_gangnam_eve:/title": {
+        "source_sha256": "0c6a23a3231f94b24c2e8add268491733ff02027425b74e0e998243a10e8d51a",
+        "target_sha256": "2448aa0bab9e27e20bed681c00491529d0a49bcf18f2547e29ae625853ecc197"
+      },
+      "events:arc_jiyeon_narrow_room_1:/choices/0/result_text": {
+        "source_sha256": "44f1c1243a1b9cb49e603ddd844ffb1b672cfe2d270dea175ea3f5df09ac95b2",
+        "target_sha256": "f00e74394dd36a24c0fe59b76718a00a8b0bdb3a7f6babf8e600df37d93169f8"
+      },
+      "events:arc_jiyeon_narrow_room_1:/choices/0/text": {
+        "source_sha256": "fdacdb07777a2b11d080de44e9c6bfb939cda17a542ece586e5c7beea30e7616",
+        "target_sha256": "003909b42ab0b678b5745e5a489df6f21cdf64db55ccdd4247dc32af02693ccc"
+      },
+      "events:arc_jiyeon_narrow_room_1:/choices/1/result_text": {
+        "source_sha256": "e4bb670a98a0fb38be046671bd47c3f2edfd527f4d71609a2a0b3e5d1b00eed4",
+        "target_sha256": "194b8a981ab43e7ca9a913be59fa4731406ce1a71a15cf750b2b5826bd769359"
+      },
+      "events:arc_jiyeon_narrow_room_1:/choices/1/text": {
+        "source_sha256": "10a9e193fce0e60e808933d20e521615b75263cea094924b3c0ca4fccf91e4a2",
+        "target_sha256": "db0391eb0108fb426f8d64cecf9519449d9811cce77c81eab77493561e894e09"
+      },
+      "events:arc_jiyeon_narrow_room_1:/description": {
+        "source_sha256": "5c0b855e6da79ee76dc39e371b8b5b8c64a7bd308fabacda0068fb79253f6f06",
+        "target_sha256": "91c9926d426ce032e998794a34f687401c699c729c2facefc4785b5cb0b0602e"
+      },
+      "events:arc_jiyeon_narrow_room_1:/description_if_known/arc_y3_jiyeon_departure_seen": {
+        "source_sha256": "6fa11a44c99dae992bdbb756705e7ccca338a91643517c54a6eb0e868696b0a9",
+        "target_sha256": "073aa44a5f08283c61d4207f7828981807db8c955c55cf09e15980c28a689962"
+      },
+      "events:arc_jiyeon_narrow_room_1:/title": {
+        "source_sha256": "927cf0ef792a7d459a4294b9a2d48dc81008292e9c63908dba87ad8db5a59c34",
+        "target_sha256": "81855fc59d7386f92e52f60dee1f26e2566315b9f6870cffe5ba88f4ca141aa2"
+      },
+      "events:arc_jiyeon_narrow_room_2:/choices/0/result_text": {
+        "source_sha256": "69fc704e05655cce866695f28c42d188b1a82eb61c6cbba880e7a7c85d45a3f7",
+        "target_sha256": "d5ecb079da9aaca38c4af679982e3a5cd173f53052bd067a1361055182b5d724"
+      },
+      "events:arc_jiyeon_narrow_room_2:/choices/0/text": {
+        "source_sha256": "7c09c2d21d73b9f7dc0eb696e85d803394a45512fc8db042221dc41a167db5c1",
+        "target_sha256": "8d803f7e7390f5989b54f1b267d66b824101ce8ee6f14f55787bd08f13f509ee"
+      },
+      "events:arc_jiyeon_narrow_room_2:/choices/1/result_text": {
+        "source_sha256": "d17ee02ae64007cabbad6787ce03fe3b657125653bed9b77c8f1f8914ad4aec7",
+        "target_sha256": "09d84232d4d2c6a325c4fb68d36aae73e7a99eb185f4ba5b63c13ebb2948e475"
+      },
+      "events:arc_jiyeon_narrow_room_2:/choices/1/text": {
+        "source_sha256": "498a56760c4a3ed07054216c7c66c4d59da77af1a18dcfa550495dff0087bc43",
+        "target_sha256": "b9ee9d85826f339fe1497cd510c053a42e462f8218fcb4f58e315f3f735d041c"
+      },
+      "events:arc_jiyeon_narrow_room_2:/description": {
+        "source_sha256": "91aff987d0a5552fe7a1dc1fc277bb40d051a915900c8b05ea459a00278addce",
+        "target_sha256": "a0ac5f41765b59bad1890b65e1dc37dcf78db06760fa0411402eaa2ac5a3f758"
+      },
+      "events:arc_jiyeon_narrow_room_2:/description_if_known/told_jiyeon_about_records": {
+        "source_sha256": "02f1625ddc7ff235893bdd97102b249da7bfd1c61dfc5619e568eaf1f6bc3271",
+        "target_sha256": "80e9df944714b3362a9d1ce6de2abd025b6ecc7e8810bc596ea4093589e3383b"
+      },
+      "events:arc_jiyeon_narrow_room_2:/title": {
+        "source_sha256": "89ce3d6c3423d13dc56965feaf2f4fcabf81e7f66c7efd62ba605603a75ad9a4",
+        "target_sha256": "f97876ca0dca2f40fb2c2b456b1a69edb1e138090006b63fe861234a846f6369"
+      },
+      "events:arc_jiyeon_narrow_room_decision:/choices/0/result_text": {
+        "source_sha256": "72e8351069db1d99acea6d22e2aa508ecd61b9326097d5285a9621654abdb295",
+        "target_sha256": "fe671255ab1998f039b217d28f8c5096f812e16d4211224da71a7c8d0c396c38"
+      },
+      "events:arc_jiyeon_narrow_room_decision:/choices/0/text": {
+        "source_sha256": "f92ed64b9fb8fcee3ac7837686a63da1737f2ab62b1f47f2d15bbf2ad7a9e5b6",
+        "target_sha256": "c356049e743abe824ce9e2aa69e7922f17d07fb52273d47a00908a747c289757"
+      },
+      "events:arc_jiyeon_narrow_room_decision:/choices/1/result_text": {
+        "source_sha256": "ae922b1e8255cef8c1234454c4799c93d8b34a7e0848eb823e81b49178662168",
+        "target_sha256": "cf3fab89fb899c76666850b267982062d689a45cc8115d679155a3393663ab8f"
+      },
+      "events:arc_jiyeon_narrow_room_decision:/choices/1/text": {
+        "source_sha256": "c0937b16b7db0753d2682ef8e81e95c6b31aadd6314a7c062b30bdd80285e774",
+        "target_sha256": "a0e97afdaa83ae879814b23aba510753ad111f2478f283af9caabbb8262f413f"
+      },
+      "events:arc_jiyeon_narrow_room_decision:/description": {
+        "source_sha256": "06a19d98c4d01242cc07ee9bd36ec156dde1d42abb44fd1b25366cfcaa33f6a5",
+        "target_sha256": "b34a0ce13a6f41e0a3b3d1e2992ebb2f70839ee3321038497fac34e1cf7664ab"
+      },
+      "events:arc_jiyeon_narrow_room_decision:/title": {
+        "source_sha256": "befa7f2004c8f5a5ed5ce88af47ba74135fadf0ba80080ace72aa93fa90f2006",
+        "target_sha256": "7e7988a7eb7a84bcc7c21728524daf745f13c53c0fb92acfa9f7a0c2463f214e"
+      },
+      "events:arc_jiyeon_narrow_room_silence:/choices/0/result_text": {
+        "source_sha256": "7129b68cbd145871d492ffab2a3dd01684aca2b05d8e6edbdb5758934a42fdec",
+        "target_sha256": "612fc25055b9e95318b7d230d43029a54c6fc275fc197608a6b34a1c3ad5ff74"
+      },
+      "events:arc_jiyeon_narrow_room_silence:/choices/0/text": {
+        "source_sha256": "309e9dbcee246763d0807c9224dbe60fda98cfd00f23310849313ef8faf1ef9d",
+        "target_sha256": "abe303ce397b4ebf83d8f7d6511c15c8efd1bee4dbfa0c742fae6a7aacb32b0c"
+      },
+      "events:arc_jiyeon_narrow_room_silence:/description": {
+        "source_sha256": "f5fa0f7d6ce3b7fc9c73ba93ce65b6b2d076dca0d2f5484d176d4c8dacb988ea",
+        "target_sha256": "66f95fd8b4ab761745887dd8c37e2078b5a7bd584847972717277a1493912352"
+      },
+      "events:arc_jiyeon_narrow_room_silence:/title": {
+        "source_sha256": "d7b4be00b558b6f0dd183d387159e1f913d15f3ee542a8d4f9fe12d76a714143",
+        "target_sha256": "6fed6f4c15d8fff558311d392c400d5206b2f0641287734f6a51ea74183e2f3e"
+      },
+      "events:arc_jiyeon_narrow_room_truth:/choices/0/result_text": {
+        "source_sha256": "fbd6a69639bb5e4e6e38bcea000591f5bc1b10a6c3cd915405aaa4e814ad120c",
+        "target_sha256": "3f7606ec7ec7241b8db3b6891bca3c9f8273623bbabbf953bd0e051e1db4cfd2"
+      },
+      "events:arc_jiyeon_narrow_room_truth:/choices/0/text": {
+        "source_sha256": "48b5ef5dac03c7979aeb20b0d644481bfbfb939f2010d919b86f64109a980f8e",
+        "target_sha256": "50b5892fafbab7a5a384f91c0b1c63e992c5977a7c943be7015b45f38884b0c2"
+      },
+      "events:arc_jiyeon_narrow_room_truth:/description": {
+        "source_sha256": "c6f9d331a511bbe9e3adf5229ab0d685d8be42977bfd65ae73f9a33b663bd000",
+        "target_sha256": "9142552edcc2e1c7d93e4b01a437653bcdc79349c40722a022b0927a46cb31f2"
+      },
+      "events:arc_jiyeon_narrow_room_truth:/description_if_known/told_jiyeon_about_records": {
+        "source_sha256": "778bd13c014d7910b62bf3d99b77a6b464d979bea2289dd4c0aa5c66ffada7c9",
+        "target_sha256": "cf722bd671a4e681ddbdc16e484aff8a4271cba12c569af47844054a8ea27b2d"
+      },
+      "events:arc_jiyeon_narrow_room_truth:/title": {
+        "source_sha256": "e19835a5d9982ae1f030454ba03067fe2078b6f77b5561ce364ad87aabf256c0",
+        "target_sha256": "13e1ee37073fddcdddb26409cc24c9763682246ab4223675eeeea953554a8dc1"
+      },
+      "events:arc_jiyeon_wedding_gap:/choices/0/result_text": {
+        "source_sha256": "8bcc3d3c00d0258c02d42e7b1ccdb60b9b0035842d038426ca6f7b2ef08a16df",
+        "target_sha256": "01a8959c71bfbe04105861183d62d2cf08c6734c432766bc26b85e8faa154ffc"
+      },
+      "events:arc_jiyeon_wedding_gap:/choices/0/text": {
+        "source_sha256": "e33490d2c874de0c02e5d13018496ab33a9816c8d8b5e964d3c4a1396303abba",
+        "target_sha256": "2127f69b722b9c2140abc7d77d3221fbb7be72ba220e5746b134c7e8b89605c2"
+      },
+      "events:arc_jiyeon_wedding_gap:/choices/1/result_text": {
+        "source_sha256": "8d38bce1df6512e7c3b174ec76e5619e1b99df8aaa3e398f662c25849a1f3f00",
+        "target_sha256": "f69f50e8e02868fc3511a4259cca3953696768685e5be73c1a41046b3d6357e4"
+      },
+      "events:arc_jiyeon_wedding_gap:/choices/1/text": {
+        "source_sha256": "303834214829a8ce994fb01e72a718ede23e4410764d5e210577f7acbff0f1c1",
+        "target_sha256": "7db66e3257fa32340042f1051da94e04dc7aec9c16b2566ee971a1318bfc1d0c"
+      },
+      "events:arc_jiyeon_wedding_gap:/description": {
+        "source_sha256": "40f7381ab8652ca7eea0ca5afd06301ccf43937168c6f3940ad6e05af3ac8487",
+        "target_sha256": "fa8b77c06d2a65c779382d86468f22399f66931b0d3c5247026408d5ab11b54f"
+      },
+      "events:arc_jiyeon_wedding_gap:/description_if_known/jiyeon_narrow_room": {
+        "source_sha256": "40a254b2f3a627d6be1f46ae2163f748c06bbe84183c043ee114302734058c15",
+        "target_sha256": "0db49a7c7b41c14b1ff51e1023066238542fb3ccbe21bb42dcd35d7f5469a18c"
+      },
+      "events:arc_jiyeon_wedding_gap:/description_if_known/told_jiyeon_about_records": {
+        "source_sha256": "ad2e937d0a2a26955cd879114eca8c064e7872b8ad2d8cbf5450915afc4435f2",
+        "target_sha256": "701bbd807e18601f8ee09891dd18683f14551b84cd59dd7a0e037d0c580cf9ac"
+      },
+      "events:arc_jiyeon_wedding_gap:/title": {
+        "source_sha256": "f190fd4f3e8baf051caea659d3008ec97e56db950279d5819c46d5a7ab32bc1a",
+        "target_sha256": "e52eb1c672144bc23608422f9c735f635b3d0099bf2ed81a6ff8ee847b39de48"
+      },
+      "events:arc_jiyeon_wedding_gap_decision:/choices/0/result_text": {
+        "source_sha256": "54da1ad7fdc9687b612d36bb60ca6832ccfecf6d77822709ce4e00f5f0381877",
+        "target_sha256": "3786d5ef873c069102f2fb77c5885156bfe7a4b03f8126c9b261789522b81acb"
+      },
+      "events:arc_jiyeon_wedding_gap_decision:/choices/0/text": {
+        "source_sha256": "ef023f371fca81cd4ac0b324048fc4b83011658a5b5b0c83f2af9416f062ba33",
+        "target_sha256": "e5d16e0c7d117a01c69fa69a0dd8f2b28babaed0ffcb5a168593c6bfd1b94c65"
+      },
+      "events:arc_jiyeon_wedding_gap_decision:/choices/1/result_text": {
+        "source_sha256": "9019d46188789f2ebc7da0db6c47ed9b8eff5df5c98abac0edfed7ba0c2b7652",
+        "target_sha256": "87357324d6cd3b88c3803f3f4f124828a5d30a8ca8f249bd13796b3937d670cb"
+      },
+      "events:arc_jiyeon_wedding_gap_decision:/choices/1/text": {
+        "source_sha256": "12c46125d13c3a0264497019f2b8285136bd2705838f452486f0b4c63ee7d0fb",
+        "target_sha256": "0f22b621ca397d8721756e1c50874f108a2741c9c9856d43995228ba45e058f5"
+      },
+      "events:arc_jiyeon_wedding_gap_decision:/description": {
+        "source_sha256": "ebb1d92de26c5f63703d8594eb9a28ea912acda3b48ed5027ca82481b90412f6",
+        "target_sha256": "c279d650d458c461999cb8bb894a5db2c3a15ba594616f8938ceb14f73946d4c"
+      },
+      "events:arc_jiyeon_wedding_gap_decision:/title": {
+        "source_sha256": "c41bcdef0471a23327fd1cfe16b7c6129e82c1035ae663f1d0bdc13f1861ab50",
+        "target_sha256": "6ba1da52a42a5dddd0473df10fbbd189ff176a9acbc3061f366bed5622de4440"
+      },
+      "events:arc_jiyeon_wedding_gap_father_passed:/choices/0/result_text": {
+        "source_sha256": "8bcc3d3c00d0258c02d42e7b1ccdb60b9b0035842d038426ca6f7b2ef08a16df",
+        "target_sha256": "01a8959c71bfbe04105861183d62d2cf08c6734c432766bc26b85e8faa154ffc"
+      },
+      "events:arc_jiyeon_wedding_gap_father_passed:/choices/0/text": {
+        "source_sha256": "e33490d2c874de0c02e5d13018496ab33a9816c8d8b5e964d3c4a1396303abba",
+        "target_sha256": "2127f69b722b9c2140abc7d77d3221fbb7be72ba220e5746b134c7e8b89605c2"
+      },
+      "events:arc_jiyeon_wedding_gap_father_passed:/choices/1/result_text": {
+        "source_sha256": "8d38bce1df6512e7c3b174ec76e5619e1b99df8aaa3e398f662c25849a1f3f00",
+        "target_sha256": "f69f50e8e02868fc3511a4259cca3953696768685e5be73c1a41046b3d6357e4"
+      },
+      "events:arc_jiyeon_wedding_gap_father_passed:/choices/1/text": {
+        "source_sha256": "303834214829a8ce994fb01e72a718ede23e4410764d5e210577f7acbff0f1c1",
+        "target_sha256": "7db66e3257fa32340042f1051da94e04dc7aec9c16b2566ee971a1318bfc1d0c"
+      },
+      "events:arc_jiyeon_wedding_gap_father_passed:/description": {
+        "source_sha256": "1fdef06c8a2c633a83fbd000e6c19e1ac299f9d2358a5524e6be87fff81ee2ec",
+        "target_sha256": "9b8fd25af687429820be87a7216ad1b7a1b93dbdad73fcb8414f162d424421d6"
+      },
+      "events:arc_jiyeon_wedding_gap_father_passed:/description_if_known/jiyeon_narrow_room": {
+        "source_sha256": "40a254b2f3a627d6be1f46ae2163f748c06bbe84183c043ee114302734058c15",
+        "target_sha256": "0db49a7c7b41c14b1ff51e1023066238542fb3ccbe21bb42dcd35d7f5469a18c"
+      },
+      "events:arc_jiyeon_wedding_gap_father_passed:/description_if_known/told_jiyeon_about_records": {
+        "source_sha256": "ad2e937d0a2a26955cd879114eca8c064e7872b8ad2d8cbf5450915afc4435f2",
+        "target_sha256": "701bbd807e18601f8ee09891dd18683f14551b84cd59dd7a0e037d0c580cf9ac"
+      },
+      "events:arc_jiyeon_wedding_gap_father_passed:/title": {
+        "source_sha256": "f190fd4f3e8baf051caea659d3008ec97e56db950279d5819c46d5a7ab32bc1a",
+        "target_sha256": "e52eb1c672144bc23608422f9c735f635b3d0099bf2ed81a6ff8ee847b39de48"
+      },
+      "events:arc_jiyeon_wedding_guest_list:/choices/0/result_text": {
+        "source_sha256": "38adca68120d69fe35f00fc8e9b2f4749e7951308e2b1f1848399ecafbeeccb4",
+        "target_sha256": "ef215046e59675b29c78e4d02caf0ed76968645565d2918a787e5a2aea786226"
+      },
+      "events:arc_jiyeon_wedding_guest_list:/choices/0/text": {
+        "source_sha256": "c82b296d8021ce493cb0f063e99a4a0e6d44f0a28893a897781aff66495c49c3",
+        "target_sha256": "2deb6634b2ba383ccfc6b84ee1be99f97551c754d179c3df5b8ca774613899b7"
+      },
+      "events:arc_jiyeon_wedding_guest_list:/choices/1/result_text": {
+        "source_sha256": "9ae175543ae26ec0ca0d2035c23ce398f95d2973766dbbaeeee74772fe4ca3ca",
+        "target_sha256": "0a43a19a5a12424651638687c398dbeb688d77425f2dc518f6c1c72093b1319e"
+      },
+      "events:arc_jiyeon_wedding_guest_list:/choices/1/text": {
+        "source_sha256": "cbfad69dd5db7a6718bcb8edfd174bf3d2b259db9d4a923ab58e9bf455eaa400",
+        "target_sha256": "3d827dcbb6f4ca0c4cdb232ceb1887ef0cdc5793e4e42fe4e158096267662f47"
+      },
+      "events:arc_jiyeon_wedding_guest_list:/description": {
+        "source_sha256": "3c076b98cd353b950db4c51cfae00b13a6df550abef4b3f580d5b7fbbe57a449",
+        "target_sha256": "71cf6f89c11aed08c767ce22aacefc030e446e3048824c9e3304c8a325902d64"
+      },
+      "events:arc_jiyeon_wedding_guest_list:/description_if_known/hyunsu_reconnected": {
+        "source_sha256": "62af6ee424ad94082134c18996258cacd6f1680bc992cbc27de832cfde288d70",
+        "target_sha256": "519fc469ec201c4bb73417d528618de965e497be5bc77ebb080b7181036714b9"
+      },
+      "events:arc_jiyeon_wedding_guest_list:/title": {
+        "source_sha256": "064de6e6c2ee36410d8636d89e63f7a4467202841e2e502c43b7cf9a0c39a356",
+        "target_sha256": "277470f95ad7312295217cfa27ff655afe588daf3549d92ad241ef201a2a5a21"
+      },
+      "events:arc_jiyeon_wedding_guest_list_father_passed:/choices/0/result_text": {
+        "source_sha256": "38adca68120d69fe35f00fc8e9b2f4749e7951308e2b1f1848399ecafbeeccb4",
+        "target_sha256": "ef215046e59675b29c78e4d02caf0ed76968645565d2918a787e5a2aea786226"
+      },
+      "events:arc_jiyeon_wedding_guest_list_father_passed:/choices/0/text": {
+        "source_sha256": "c82b296d8021ce493cb0f063e99a4a0e6d44f0a28893a897781aff66495c49c3",
+        "target_sha256": "2deb6634b2ba383ccfc6b84ee1be99f97551c754d179c3df5b8ca774613899b7"
+      },
+      "events:arc_jiyeon_wedding_guest_list_father_passed:/choices/1/result_text": {
+        "source_sha256": "9ae175543ae26ec0ca0d2035c23ce398f95d2973766dbbaeeee74772fe4ca3ca",
+        "target_sha256": "0a43a19a5a12424651638687c398dbeb688d77425f2dc518f6c1c72093b1319e"
+      },
+      "events:arc_jiyeon_wedding_guest_list_father_passed:/choices/1/text": {
+        "source_sha256": "cbfad69dd5db7a6718bcb8edfd174bf3d2b259db9d4a923ab58e9bf455eaa400",
+        "target_sha256": "3d827dcbb6f4ca0c4cdb232ceb1887ef0cdc5793e4e42fe4e158096267662f47"
+      },
+      "events:arc_jiyeon_wedding_guest_list_father_passed:/description": {
+        "source_sha256": "8b374291a3642395aed3423f19eb3556ba96eabfa9d3d03614b7223ded4df444",
+        "target_sha256": "cc1b9983075a60dcd0d0bd52804387ddea6c9904ebc5f0ca6f84de01200566c1"
+      },
+      "events:arc_jiyeon_wedding_guest_list_father_passed:/description_if_known/hyunsu_reconnected": {
+        "source_sha256": "f8a67423e344c7a9c76423d1639e8f258f0ca95d1094ea19e1b7a120fed67631",
+        "target_sha256": "848127132a479d01a5ea113c1251b57a0e42be8e5676bef80e3eec30b7f3f1eb"
+      },
+      "events:arc_jiyeon_wedding_guest_list_father_passed:/title": {
+        "source_sha256": "064de6e6c2ee36410d8636d89e63f7a4467202841e2e502c43b7cf9a0c39a356",
+        "target_sha256": "277470f95ad7312295217cfa27ff655afe588daf3549d92ad241ef201a2a5a21"
+      },
+      "events:arc_jiyeon_wedding_night:/choices/0/result_text": {
+        "source_sha256": "797092be2ac6a60287ae1e0080d2967e2ef6b0f67c639f7f6651316523f037fd",
+        "target_sha256": "ed7a6185a2803ecb0fe4e79ab6b045390e0889a56429faee98e8e8e4e8151941"
+      },
+      "events:arc_jiyeon_wedding_night:/choices/0/text": {
+        "source_sha256": "477af345127e1c64d9af370d1852929ba9b36769e7646ae9f0eb5739bfcbf82d",
+        "target_sha256": "749cafa1cd003f5aeb96278f10b1c4376250fa3ee769330dc2f21bbbacb1a037"
+      },
+      "events:arc_jiyeon_wedding_night:/choices/1/result_text": {
+        "source_sha256": "9a8a81b35d29b0f122b8588d512f0c4f5c2314aa1007945e54927134e4ab398f",
+        "target_sha256": "935abdbe025a1a6669a7f3b7008af021f47fc6e3ba442925cd3f61232bfcbc3f"
+      },
+      "events:arc_jiyeon_wedding_night:/choices/1/text": {
+        "source_sha256": "97c965d3ef8aec62324eaac26f51c7cff10b40653d7b9f5650a30b68b5a332a5",
+        "target_sha256": "942c4ef6d0de990758c710deae6aff43f581f256fb63a0e5091cf289b06da3ef"
+      },
+      "events:arc_jiyeon_wedding_night:/description": {
+        "source_sha256": "d42bfe070af569e333d3d575c5c2ee4a0fc7ea479b45618b5a8d290d6fbd4642",
+        "target_sha256": "cd4878d348fb7c99cec7eeb67d054f367a6251b0a3fb95ffd710fb1129e7efa4"
+      },
+      "events:arc_jiyeon_wedding_night:/title": {
+        "source_sha256": "2880b754b34b461617ca46fdcbb62632f3ae25567e43d2562c9490e98041828d",
+        "target_sha256": "e0bc92e138578c9f894509056143e6a00ff82ef395dcf553d81b7e8f81f6d683"
+      },
+      "events:arc_jiyeon_wedding_night_choice:/choices/0/result_text": {
+        "source_sha256": "cf0cf9b9b62b627bae758f38a9a6a4052644b35207e3800df3bf2ea146d64fda",
+        "target_sha256": "b84067b17f431fa8587af376527472528b36dfa351da4086216aaa89b057907f"
+      },
+      "events:arc_jiyeon_wedding_night_choice:/choices/0/text": {
+        "source_sha256": "80dd9b98ef6ab1f7b2d8841ae89e100ffe0c4170e80c6171244583f8b3b0ecd4",
+        "target_sha256": "3c53e716b4e88fe401285bdd2bebc1ebe4f47cfaf7272a1896e2a5c5692d882d"
+      },
+      "events:arc_jiyeon_wedding_night_choice:/choices/1/result_text": {
+        "source_sha256": "53dbfa42ada06028c02127aa421cf32b4ce328b6e92bfaf74d215b417539c371",
+        "target_sha256": "592f6960f622a86c0c432ab56aee8654d7b28669b789a68cf88cb5b17d0be8d8"
+      },
+      "events:arc_jiyeon_wedding_night_choice:/choices/1/text": {
+        "source_sha256": "bbb5ca557f6a00ad21f7ac24abaf79624d6871b39c1dbc233ad896f4b0a34a20",
+        "target_sha256": "512ff512b98bb1f51f627cfdd0cc78ad924e044a449b01da14c5af930c30d579"
+      },
+      "events:arc_jiyeon_wedding_night_choice:/description": {
+        "source_sha256": "dc99966b6fa450f5ec87107cba0004e59057e3610c9f4217e5ee9de64ada4540",
+        "target_sha256": "481468a2b9a07d4f08c97120aa0da647c6a1633cff2bc625f5704fcaf5131451"
+      },
+      "events:arc_jiyeon_wedding_night_choice:/title": {
+        "source_sha256": "9147ab730309d64541c9d98ed6152c648de92f1000ee203fb897a16e9f4e3573",
+        "target_sha256": "b17ba587a79fb85fc5a886a73b1de864553a52c924ea003c6da4b698b2b78d64"
+      },
+      "events:arc_jiyeon_wedding_night_glass:/choices/0/result_text": {
+        "source_sha256": "df5924eb9ca5d296f20b45f16defaaf10b3c8f6c0dff4464adf85ed269ff54f0",
+        "target_sha256": "f3c006f36a3e3368c4f2ea27d759e6396d94f016eb4ad5bf332f9a9bbe041698"
+      },
+      "events:arc_jiyeon_wedding_night_glass:/choices/0/text": {
+        "source_sha256": "3022943caec4f6c9b57d8ee93db65b7e1712ae51b52c4d320959f0f1510cc03c",
+        "target_sha256": "59a40a63a60eb7c3b198d4e206dfd1be00b220cc89a147d0411a7916de4330e1"
+      },
+      "events:arc_jiyeon_wedding_night_glass:/description": {
+        "source_sha256": "319b5a8776b164f12edb9eb867b3f605f039d4505f170870197ec968af213eff",
+        "target_sha256": "073da1484460105eea919c1d546cfd0b1399cf34ccc6643b98ba0776dfdaa748"
+      },
+      "events:arc_jiyeon_wedding_night_glass:/title": {
+        "source_sha256": "56b1d7b1befb0183ca4ac634c5682d2f0c71682eaa1c5b4d75b002b71f12bfe2",
+        "target_sha256": "5677c32007493f7db660c74cdaa85c24089c3732b5f85365bceda103432afb1e"
+      },
+      "events:arc_jiyeon_wedding_night_window:/choices/0/result_text": {
+        "source_sha256": "55aa46ae92827964ee181c2739f601dd4624734f74908c22c212bf39e9059a89",
+        "target_sha256": "2921fe90bf2223a3736ee354c005410e0da7393026f3c7883f5675f28a1d5686"
+      },
+      "events:arc_jiyeon_wedding_night_window:/choices/0/text": {
+        "source_sha256": "fcf0edea38a3f51b815367b86ea258723c757bbc2a3341327c50bb1b39b80fa3",
+        "target_sha256": "d5d0f5c06710b3f41e8a558d3bb6ab42a330076d1c8d9189baf34e502bf5a077"
+      },
+      "events:arc_jiyeon_wedding_night_window:/description": {
+        "source_sha256": "32abeb2839448e5f6ec3c71e2846cd89f0cf1115bd76749f2eb51d00ffc93eb0",
+        "target_sha256": "dd15e842e332d354e6809d25afefedd0ac2b508289e551a734331670b463440d"
+      },
+      "events:arc_jiyeon_wedding_night_window:/title": {
+        "source_sha256": "efd47f1eff0d1c6066ed7c79564d81f7eda2e741554dd0e758f24c0286e3c610",
+        "target_sha256": "728d66aff69e5701cfe2372a95c941ddb358d12a1181390cab4dfe62a2a23f6f"
+      },
+      "events:arc_jiyeon_y5_feelings:/choices/0/result_text": {
+        "source_sha256": "6328e1a05c83a7176d6d107b18e25a048f50ffd784976eb0986fef1139fde0de",
+        "target_sha256": "5385e84435aea3015551e87529a5a114199c5ce1c8198e85d75df3721cab752b"
+      },
+      "events:arc_jiyeon_y5_feelings:/choices/0/text": {
+        "source_sha256": "d7cedb583af54a0d824ea098f35ac8d19ff6278d6583e7a7577e83601a0bc50c",
+        "target_sha256": "3b926a2b61754f4b97d90a504ddc4f4781832618c5d426b8f9b89c8707aaf45d"
+      },
+      "events:arc_jiyeon_y5_feelings:/choices/1/result_text": {
+        "source_sha256": "af5ca91b911954452db81eca0515aa3c709a245dbc48d584d275fd75acd13823",
+        "target_sha256": "c8b0667f05381ee13ae2fd1a3492f0d78287789e8096e7e93c9cf2e9689ba96d"
+      },
+      "events:arc_jiyeon_y5_feelings:/choices/1/text": {
+        "source_sha256": "83e523da71a97754a7e6da4471d727de8fa9fab11a3c5b2f99ce6263bbe551a0",
+        "target_sha256": "a93fee55abd997015ec40b060ad39ba4a8ab9883c538c7ff73bb1833d3a22ebe"
+      },
+      "events:arc_jiyeon_y5_feelings:/description": {
+        "source_sha256": "9416fd63ac42e164f90e350f0ff55d5ae4c63c60858a1a02219a47b71890c909",
+        "target_sha256": "fa0ceb8cda2fbdef88ef4687ceb5ab77cdf392d83edca46f680242f09ab12599"
+      },
+      "events:arc_jiyeon_y5_feelings:/description_if_known/jiyeon_real_connection": {
+        "source_sha256": "8a8e4e0852f6a6c482996871289d5045caf183dbfc45db3592a9477717edffeb",
+        "target_sha256": "ada5a9a58b0cab7d9cd08a1d38be5efafa341608f7972a220d9d7fca882ed5fa"
+      },
+      "events:arc_jiyeon_y5_feelings:/description_if_known/told_jiyeon_about_records": {
+        "source_sha256": "974a81137adc932286c441c8fc9649051368cd6f4056c962bb03e2e9ea60b5dd",
+        "target_sha256": "40241b18769221e93662e76641bba104f86ef4bec57579c4626fb64e1d8f44bc"
+      },
+      "events:arc_jiyeon_y5_feelings:/title": {
+        "source_sha256": "8c3c39adec1c8a1bce5ef8aa5aba50836dfc77bc26c7b056f782bdebbba9893f",
+        "target_sha256": "e778bb531f53f7818fbc56975e50b4dfbe6857b23b8479b04bcf775a4cea3e4c"
       }
     },
     "zh-CN": {
@@ -24511,6 +25401,830 @@
       "events:arc_father_quiet_call:/title": {
         "source_sha256": "6c397f7c98ed344e8df44a62262bb2d16f4d5c9f8260d2e65f420d00e54a0ea3",
         "target_sha256": "64a378bdb4b9182ed164ceec404f5fb67b2568968d8ae0d58220bbed503de424"
+      },
+      "events:arc_daeun_hometown_1:/choices/0/result_text": {
+        "source_sha256": "a889e224f69fa956dedfa7d0a3bec616572f1a0ba3513a10552ff3604a75d8d8",
+        "target_sha256": "3945eb64d2b9e6b26638c5b330265c76eae6cf8bac9e85db50cbf90e5e75280f"
+      },
+      "events:arc_daeun_hometown_1:/choices/0/text": {
+        "source_sha256": "1f10a46c03d6e85ae04d0d6c22db9530cf8c2cf1dc5cb55e59b90c9a0a2b2bee",
+        "target_sha256": "9731fb21a83608ee1de6249dd90f8fd53e2d8bf9fb26ebe8a80299d34b50895e"
+      },
+      "events:arc_daeun_hometown_1:/choices/1/result_text": {
+        "source_sha256": "93b2937f6fedbf00b4cc72e864803aa701461b0b642515ecac44a5af1c05c415",
+        "target_sha256": "67d2a950a3c74de0b5682d47ca206418f5907dc5fcbddb5fd4f296c938f79365"
+      },
+      "events:arc_daeun_hometown_1:/choices/1/text": {
+        "source_sha256": "5b5336948bd58c849de6b5a2276ac87f9b64f20086dbf7b44d2d1684c55cf4f0",
+        "target_sha256": "b3e3e817a669e5c411503c4821483dd2581a80b00e217464a205126ebe773ec4"
+      },
+      "events:arc_daeun_hometown_1:/description": {
+        "source_sha256": "10f12ab94fa67b70c537ef35197b9ba4e96a0de30908c78bf161bf41ff54c745",
+        "target_sha256": "f26852202b4758959958997632796d26c9900443ed28a630963ffe2040c6be1d"
+      },
+      "events:arc_daeun_hometown_1:/title": {
+        "source_sha256": "220f7630a0fa5ba6081db200c02d2dd4101ea4957d2140e5b43ba7ec3853e5b4",
+        "target_sha256": "fb03038c037247902305c55fdf72b03ef026ffdaaea228f286e2183795f9bedf"
+      },
+      "events:arc_daeun_hometown_2:/choices/0/result_text": {
+        "source_sha256": "0241a36ee22bd93bb9d1d0080519660ced869f6940ad18f655e1838097bf90b7",
+        "target_sha256": "43c54c7cb5096675434672807e861096a19c5080d56f1b3f0ce3672e60532526"
+      },
+      "events:arc_daeun_hometown_2:/choices/0/text": {
+        "source_sha256": "8bbffe887378968eec5d53e7f7c929c131c92b2377f1bff31f337b3d683d38d3",
+        "target_sha256": "4fb4b11d2da5dacef1c60afb93fd3755f17ddefa8c1b53e1367acbdc3bdeb2cf"
+      },
+      "events:arc_daeun_hometown_2:/choices/1/result_text": {
+        "source_sha256": "9d6f03a4f1ab94ea409dbad2444c23bcac642fe8331cffb406511877b3255242",
+        "target_sha256": "c762eb967e6015c62742c27e51fe97bab43ced312ae027af94085f8bae6d474d"
+      },
+      "events:arc_daeun_hometown_2:/choices/1/text": {
+        "source_sha256": "a25c15be56afdfd26fccd4750a6e6ab1bf9e366222dd3980a991611b876befc1",
+        "target_sha256": "b6460efc807183dfd5e86e41a9ef68e760e756625ef2224db2fe5609bb2bfa18"
+      },
+      "events:arc_daeun_hometown_2:/description": {
+        "source_sha256": "f2fcd1110167eed9180cdf4f1b769545fbce56141488e7f11aab14a5e270be95",
+        "target_sha256": "b5cefbc329b29f53cbce208b927b9a1e752500e3deafea697e2c4a653a268089"
+      },
+      "events:arc_daeun_hometown_2:/title": {
+        "source_sha256": "4401949cc281ca0362e28213fea78ae427312c2abcfd7766f2858d252cbe82b2",
+        "target_sha256": "4acd0793f2e734af06db5c0e11b8b8e9fdbcc4e23c8bcc51892da49906cd221b"
+      },
+      "events:arc_daeun_hometown_2_father_passed:/choices/0/result_text": {
+        "source_sha256": "0241a36ee22bd93bb9d1d0080519660ced869f6940ad18f655e1838097bf90b7",
+        "target_sha256": "43c54c7cb5096675434672807e861096a19c5080d56f1b3f0ce3672e60532526"
+      },
+      "events:arc_daeun_hometown_2_father_passed:/choices/0/text": {
+        "source_sha256": "8bbffe887378968eec5d53e7f7c929c131c92b2377f1bff31f337b3d683d38d3",
+        "target_sha256": "4fb4b11d2da5dacef1c60afb93fd3755f17ddefa8c1b53e1367acbdc3bdeb2cf"
+      },
+      "events:arc_daeun_hometown_2_father_passed:/choices/1/result_text": {
+        "source_sha256": "9d6f03a4f1ab94ea409dbad2444c23bcac642fe8331cffb406511877b3255242",
+        "target_sha256": "c762eb967e6015c62742c27e51fe97bab43ced312ae027af94085f8bae6d474d"
+      },
+      "events:arc_daeun_hometown_2_father_passed:/choices/1/text": {
+        "source_sha256": "a25c15be56afdfd26fccd4750a6e6ab1bf9e366222dd3980a991611b876befc1",
+        "target_sha256": "b6460efc807183dfd5e86e41a9ef68e760e756625ef2224db2fe5609bb2bfa18"
+      },
+      "events:arc_daeun_hometown_2_father_passed:/description": {
+        "source_sha256": "7fa803dd989d71ee194de354ce3eb476902500d6ecf94df4b5b0678861fae5ba",
+        "target_sha256": "d486de796af74c696bd454ba5051b8c023bff2541e505b9148ac2ee74e1a165c"
+      },
+      "events:arc_daeun_hometown_2_father_passed:/title": {
+        "source_sha256": "4401949cc281ca0362e28213fea78ae427312c2abcfd7766f2858d252cbe82b2",
+        "target_sha256": "4acd0793f2e734af06db5c0e11b8b8e9fdbcc4e23c8bcc51892da49906cd221b"
+      },
+      "events:arc_daeun_hometown_table_daughter:/choices/0/result_text": {
+        "source_sha256": "45c82294303235ffd2f4fc9de4f6c0dbbf067936b8943d5418f724411429a03a",
+        "target_sha256": "6d8184e63bce581aa35082368c10bcbd30ad8d53d458426830f761e7e39fb288"
+      },
+      "events:arc_daeun_hometown_table_daughter:/choices/0/text": {
+        "source_sha256": "e47f300abcb1bae2cd308f35da112249b0959694bd6c0b8d336177dac8bf8f26",
+        "target_sha256": "a19dcf4fe5d75a5ab5617ac44ae8a8695705f921b0058c0ad3c8277d54200551"
+      },
+      "events:arc_daeun_hometown_table_daughter:/description": {
+        "source_sha256": "70d60bd92c7f28f0146ad7c3a651479d242e031111115d36cdb7673017c422f5",
+        "target_sha256": "ca15e6d036c63d0d438ad1bc30674681818b516dc303ff7b0725c5655808915e"
+      },
+      "events:arc_daeun_hometown_table_daughter:/title": {
+        "source_sha256": "8bbfb5e9b0c64caae35561d9578b74f9ffa6b2e2b5b6b9a89d8e99095ea74c0a",
+        "target_sha256": "73d6e64ea68e9601af54f3999a8fb950bfcce84e8827bee55bb273838f4dfc71"
+      },
+      "events:arc_daeun_hometown_table_decision:/choices/0/result_text": {
+        "source_sha256": "3a36b0a2b0844c0398fd15492dcd82f1b1c712c72ecabb1fef3f12e504dfd9b8",
+        "target_sha256": "21ff6dc33de0e84160395f6c936fab562dfd606c27aac305d1e5b9ca1d57a291"
+      },
+      "events:arc_daeun_hometown_table_decision:/choices/0/text": {
+        "source_sha256": "29b9d8f7aee2517b4d7ddb46a2c7c058218914573d32b4d0bad12d04daa501cd",
+        "target_sha256": "591a8fd0758d6844512c067a9fba44f0c03cb89d79f2be9f5d96847bc09042c7"
+      },
+      "events:arc_daeun_hometown_table_decision:/choices/1/result_text": {
+        "source_sha256": "a09d857bfa4e266ab5fce9c84ecf2750880fe77007e0fb58de938b29f39b4e31",
+        "target_sha256": "210d3e831ecbac52cb9aaa74d7ee5b40881559888cb9947b6a20a90a48b03de6"
+      },
+      "events:arc_daeun_hometown_table_decision:/choices/1/text": {
+        "source_sha256": "f6ea6278277e85955070f64c3955d0be14b870d2c0071df0cec005b04effc4de",
+        "target_sha256": "cf8c57dd89018107379bc6bdbfd79d6a4deeb7a0fc9fcaaafba81a422376d6d4"
+      },
+      "events:arc_daeun_hometown_table_decision:/description": {
+        "source_sha256": "784b50c679ecbf34e04c1b1a1b0589846089998db02b29c07c84b6b0cfdb62d1",
+        "target_sha256": "628197ea9d24b6968dcef9269c4075daaaa94415dd862039e586c4e908c6a5b6"
+      },
+      "events:arc_daeun_hometown_table_decision:/title": {
+        "source_sha256": "90a515584155d2c72212534347c34898b614cdbc5e784b72f01f5cfd1456deb6",
+        "target_sha256": "784d43531a46a901121ba98a983be0d5601316aff9eb066a2aaccb96543911e5"
+      },
+      "events:arc_daeun_hometown_table_hands:/choices/0/result_text": {
+        "source_sha256": "d51180cab364777cebdefea3c22726ba899ce458e81d420270716d17f828e7ba",
+        "target_sha256": "07f0ef0e7b7fb6d99287503f57638895755cafd55396ee12c15735eab7459aaf"
+      },
+      "events:arc_daeun_hometown_table_hands:/choices/0/text": {
+        "source_sha256": "d803480c4eebb6b0233c6fe46c75920f743bb0ee14fe0a5710dc37e6203bb913",
+        "target_sha256": "aa97b4ba35784425658799ae57272023f191bd8ecde79a1f118aa5809494ff38"
+      },
+      "events:arc_daeun_hometown_table_hands:/description": {
+        "source_sha256": "c16f47bd38b56e3ceabf3ab5cab3b9568035d22f8d3c5c130c170afd21bd9ba2",
+        "target_sha256": "bb594c402e3e9352eeb08f8bf8845f9a554f5853380ef1936d27aa43585e6f22"
+      },
+      "events:arc_daeun_hometown_table_hands:/title": {
+        "source_sha256": "3556b14fe8629d799ff6f1d1f610406bb8dc519cbaf0b97782f566ff9f1acf70",
+        "target_sha256": "118320a1d4c26a3ce81f102b6944a8a14aa6c2186d73035fc7b5a55cdf6e9f20"
+      },
+      "events:arc_daeun_the_test:/choices/0/result_text": {
+        "source_sha256": "15b03f06a41501ee5888c1734cdc1d325979f1372aeaedba229a89aaf555982e",
+        "target_sha256": "631cfdab205063571c06d9986c6bd2dcd89bbc2d3ed55cd45af608027ad21fc1"
+      },
+      "events:arc_daeun_the_test:/choices/0/text": {
+        "source_sha256": "aa2e8126d22c746626fca6d64653f46288fe3896b7375260754c0530f35ec7ee",
+        "target_sha256": "87e00aec0d2faf25fa1c2401e140d73a509c8f7bdd5485f3ffc855b0a293cf0b"
+      },
+      "events:arc_daeun_the_test:/choices/1/result_text": {
+        "source_sha256": "647413b024ecc353ad1c71949dd30d70a6fad9659262bdacf55db57156a38783",
+        "target_sha256": "0d23c64900d29c222fe8f006ae005276a601dad8ba3c711928df08b75f0dc3db"
+      },
+      "events:arc_daeun_the_test:/choices/1/text": {
+        "source_sha256": "7cd3b76b60282af5de2c133f0666deaddec8d47a50d813258fc59c62c5c277f7",
+        "target_sha256": "99eeed5c5da9e77566857d4e321af9aefeafb11b171027b57cab7e8ec28a86e5"
+      },
+      "events:arc_daeun_the_test:/description": {
+        "source_sha256": "7de3508766000a0228c2b7eb679ce31a9fc8411e7938fd6a1545e29844eca654",
+        "target_sha256": "73c75188c36a81c7a05b552bb6d67c5b3feac57217dc9a18576225981b05b0eb"
+      },
+      "events:arc_daeun_the_test:/title": {
+        "source_sha256": "a3b505e93eda1e50bfcdbc577037dfbb03cdeeeafdd0728859a20fb22ae2afd8",
+        "target_sha256": "4840e5626078786c6eb548ca6e402234e8d0aade4f6f458b48fa4fced99e1e1c"
+      },
+      "events:arc_daeun_wedding_aisle:/choices/0/result_text": {
+        "source_sha256": "0c51de8cf861dafc0f4ad14f5935dbe16189258c1f8fea0fc338dec5539f22ab",
+        "target_sha256": "ba3e97751a9f8b1250f568e6a0eecfd1fcfe6d03eb763e5577520b6e5121bc0b"
+      },
+      "events:arc_daeun_wedding_aisle:/choices/0/text": {
+        "source_sha256": "1404f831e9744ea7cca51bdfdfd772166ca86918d96dba98f1f431621e4b7086",
+        "target_sha256": "6a20df54516d2d2c0873c9f36ea6c016467a5a9148285b2f791dff2b4f26f39a"
+      },
+      "events:arc_daeun_wedding_aisle:/choices/1/result_text": {
+        "source_sha256": "b28c6139bca8244f687f2a8e92ee2ddd64614be3b8b6d07f0200da7b1b169b8f",
+        "target_sha256": "0ef36dab293d41b914853b22ecc4c3f605bdefb788a511e4c5ecfbb03ca6b41e"
+      },
+      "events:arc_daeun_wedding_aisle:/choices/1/text": {
+        "source_sha256": "aa00655424be7328f6aefc312d1587524d62666e7d717bba7bed8d3cee8eab72",
+        "target_sha256": "62c09f0ec533863e31a384aeea48adc86a1db4d7a2b4a4f8a2e3ea2e1dde8261"
+      },
+      "events:arc_daeun_wedding_aisle:/description": {
+        "source_sha256": "d5d15fe5db7f037fbc5e9c9f2b48b3fe6ef428941df4a171fa31b1d840ea458c",
+        "target_sha256": "b330f843913c0445cebd4ebad22c47451d3e81e01364b553d3c3b4b5751bb73e"
+      },
+      "events:arc_daeun_wedding_aisle:/title": {
+        "source_sha256": "22953f3c23077e2368a25f610dc60ab376c86a7cac8661b8ad8f173764eef5df",
+        "target_sha256": "ead1da9eee7126b6b39ddf081f2cad8666d67f15e9da7c123f9c8b712a453f9d"
+      },
+      "events:arc_daeun_wedding_day:/choices/0/result_text": {
+        "source_sha256": "e1e0454da01e8f8335edc4915c9dd0848c5b385edd5dded06fba9161ba297dd8",
+        "target_sha256": "f1067eaaef524f285c0be1a3f2f7045d85be5d948704e95165b62b197fd76c4d"
+      },
+      "events:arc_daeun_wedding_day:/choices/0/text": {
+        "source_sha256": "0023be482b417d59efb7a87e245f31ce1f61cf1b917d39bca7af7f6db8aae6ea",
+        "target_sha256": "f9b3900bd0358a460d3a58ab5467bb3b703dffb79a5383dd2d6c7fc3e85e82bd"
+      },
+      "events:arc_daeun_wedding_day:/description": {
+        "source_sha256": "d05dd1c71d6146275a09116618bc66d6c72c53d7b06201eb3485b44882a23cd7",
+        "target_sha256": "48b1bbc8a90edc24fb9cdc863263ba0a5d999a4a97a2e8cdfc77957db901168c"
+      },
+      "events:arc_daeun_wedding_day:/description_if_known/daeun_hometown_visited": {
+        "source_sha256": "8f9787e2e010befb3e63d25acf7dfab11a5e21e1784abfa2e6092767f8c0dd73",
+        "target_sha256": "7fb9d7e65227f9bd14d999ad7b3ed224f5c68b2ff68f0edc987eb23cf18fc102"
+      },
+      "events:arc_daeun_wedding_day:/title": {
+        "source_sha256": "32b583347b147ef84507524ac78aef3fc81823f317b7d13993529e96fd18aa87",
+        "target_sha256": "4f54e1ce6a91a360e2a35fe526b86529d0bfde16ec08ab86a0e5a05a9758f13c"
+      },
+      "events:arc_daeun_wedding_groom_side:/choices/0/result_text": {
+        "source_sha256": "ad93d89d330f834e155f523897d1ac1175f1873fb8694fe41c30b486243a5745",
+        "target_sha256": "de7bf4a9cc56815e5a0a69b2b83413bedb4c63db62c521f88dddc4b43ff47f90"
+      },
+      "events:arc_daeun_wedding_groom_side:/choices/0/text": {
+        "source_sha256": "3e63280401772f7a479ec3a6aaceaedd223aaf75a70926b75c7ee4c97fb2347b",
+        "target_sha256": "10baabd62d3d357b69da35c20bc0021ef26592d10f11986bedd38019f9fac763"
+      },
+      "events:arc_daeun_wedding_groom_side:/choices/1/result_text": {
+        "source_sha256": "f4e76e3788254e48bc64cdfc80bf7e36f57329f789af371753e0f5ddad11a909",
+        "target_sha256": "cf99504162b86041cb4a0516e513a7ff24159519b3e758ba67d01d69bdf05319"
+      },
+      "events:arc_daeun_wedding_groom_side:/choices/1/text": {
+        "source_sha256": "5cf13e40f511bbfa6d0104134da0593eafc15957ec2da64243bd5ba26ef5de9c",
+        "target_sha256": "da6c48f7e054d4b90c5171a19b4e28baf7e956b89b25a40752444d6478082202"
+      },
+      "events:arc_daeun_wedding_groom_side:/description": {
+        "source_sha256": "ec97b8f7871d9e981848a76fb2de4d709cd89ec6fce432772d6a831a19a59299",
+        "target_sha256": "78242ca9530cd6dfb168c6ba85f62d072ff2af93713851f80bbb4b69f482f9b5"
+      },
+      "events:arc_daeun_wedding_groom_side:/description_if_known/father_reconciled": {
+        "source_sha256": "28f95640a4d188b3f8076a74fcd0543196234ee2e0fe6542339c2407e80497b3",
+        "target_sha256": "65ccd5e2a93c5600c03911c0189015fd2c979df872bfa2491062a2d1ec9c7a4a"
+      },
+      "events:arc_daeun_wedding_groom_side:/description_if_known/father_reconciled&hyunsu_reconnected": {
+        "source_sha256": "c495353b3a6fb2d1d43eef722dffb44e4b676ac0644039cac6b3387afeae4115",
+        "target_sha256": "b84f58da7d2230d333ca31b76fc7c4a780ecb00eff0cca6e2be11af127bd7e15"
+      },
+      "events:arc_daeun_wedding_groom_side:/description_if_known/hyunsu_reconnected": {
+        "source_sha256": "f068f4e066d24455d28094dc60b7f3e53e39e2503397a2e2059993ae9a9f675c",
+        "target_sha256": "4f0dc11072c47b665d7788036d52379e158366706ea2d8f6c743e05447fdddab"
+      },
+      "events:arc_daeun_wedding_groom_side:/title": {
+        "source_sha256": "e4882b1abc3428550ff08b95a6ab413cbc840866cb681e727ad891f03af8067c",
+        "target_sha256": "ab622325b45f6928195eeea8edcace19241fef3e198bfcd28352e963c4f522c1"
+      },
+      "events:arc_daeun_wedding_groom_side_father_passed:/choices/0/result_text": {
+        "source_sha256": "ad93d89d330f834e155f523897d1ac1175f1873fb8694fe41c30b486243a5745",
+        "target_sha256": "de7bf4a9cc56815e5a0a69b2b83413bedb4c63db62c521f88dddc4b43ff47f90"
+      },
+      "events:arc_daeun_wedding_groom_side_father_passed:/choices/0/text": {
+        "source_sha256": "3e63280401772f7a479ec3a6aaceaedd223aaf75a70926b75c7ee4c97fb2347b",
+        "target_sha256": "10baabd62d3d357b69da35c20bc0021ef26592d10f11986bedd38019f9fac763"
+      },
+      "events:arc_daeun_wedding_groom_side_father_passed:/choices/1/result_text": {
+        "source_sha256": "f4e76e3788254e48bc64cdfc80bf7e36f57329f789af371753e0f5ddad11a909",
+        "target_sha256": "cf99504162b86041cb4a0516e513a7ff24159519b3e758ba67d01d69bdf05319"
+      },
+      "events:arc_daeun_wedding_groom_side_father_passed:/choices/1/text": {
+        "source_sha256": "5cf13e40f511bbfa6d0104134da0593eafc15957ec2da64243bd5ba26ef5de9c",
+        "target_sha256": "da6c48f7e054d4b90c5171a19b4e28baf7e956b89b25a40752444d6478082202"
+      },
+      "events:arc_daeun_wedding_groom_side_father_passed:/description": {
+        "source_sha256": "c071ec5bb944ea704eff3d0ed3f5a5cc104091e2f59b12e81c03a13ca5701221",
+        "target_sha256": "63bd274c27b1193654c4171dbe30ce4180d9886755abb80856a1168580ee26e2"
+      },
+      "events:arc_daeun_wedding_groom_side_father_passed:/description_if_known/hyunsu_reconnected": {
+        "source_sha256": "ca41a6c2801f0fcf3a3e191f882c1c63debad9b3de5d75e32f6b57d084859ad0",
+        "target_sha256": "4c6777af0dcf217e9c92f6f2a2f6acecb6261a75bbb6f073e3e2d5186505ca9b"
+      },
+      "events:arc_daeun_wedding_groom_side_father_passed:/title": {
+        "source_sha256": "e4882b1abc3428550ff08b95a6ab413cbc840866cb681e727ad891f03af8067c",
+        "target_sha256": "ab622325b45f6928195eeea8edcace19241fef3e198bfcd28352e963c4f522c1"
+      },
+      "events:arc_daeun_wedding_night:/choices/0/result_text": {
+        "source_sha256": "3477d4edbdeb32ede5b54b80d357f057d3b0301c7d3f157ba689602591d7b90f",
+        "target_sha256": "953621b70f81f797a36519aae24a0314e6749613a508a27b712d3f9da483be34"
+      },
+      "events:arc_daeun_wedding_night:/choices/0/text": {
+        "source_sha256": "bebafd02272c7346c9a19da3146a0d9d110f4f73a67f48cccf718ee8af9c3583",
+        "target_sha256": "09d47894fb0c677dda121e1deddd7ca7b0518b5e5775e5f068c7f74de3150648"
+      },
+      "events:arc_daeun_wedding_night:/choices/1/result_text": {
+        "source_sha256": "7aae3f7aae4bf3d8ce1a6ac679f794b2d971d541b8e3fed848e6fe9502b60950",
+        "target_sha256": "d3855ac56ada23fcb175dacabae3c9997953b4c7d4dde98bf1e0fd4ec6f21d61"
+      },
+      "events:arc_daeun_wedding_night:/choices/1/text": {
+        "source_sha256": "b4f56060f06ad5861e21618b25e30d1ab099108d8106459ae875154ddaeed860",
+        "target_sha256": "38c48fc3aaf5f176c21e4f8a2d8e118d4dbfabdc5ed305f444becda15463ed35"
+      },
+      "events:arc_daeun_wedding_night:/description": {
+        "source_sha256": "b9b4107aa77dc57f610eed4ceddefb4e0777efd6e0d0e7e5e5ab93d2b7875c57",
+        "target_sha256": "a51cbf125a28b59d62e2a2508c5e6c0c121dd8f6e3533049ccbf54cdd8ab88bf"
+      },
+      "events:arc_daeun_wedding_night:/description_if_known/daeun_hometown_visited": {
+        "source_sha256": "94190b3de6c38d800260578ffd5d51c647de867ffd79ca69a3ad178835948693",
+        "target_sha256": "4b467547550593006b4229f9e1daf28cabc6ed17008142e025027e9c152efc0a"
+      },
+      "events:arc_daeun_wedding_night:/title": {
+        "source_sha256": "2880b754b34b461617ca46fdcbb62632f3ae25567e43d2562c9490e98041828d",
+        "target_sha256": "240e860896f69b6a26b8f16373b83a9cfa008cab9a3f1fe77731e76ed99db7da"
+      },
+      "events:arc_daeun_wedding_night_choice:/choices/0/result_text": {
+        "source_sha256": "cbe477e0ed8f626d904bbd9dcb2317c8c81c8bc1cdc84c11ee27cf0c6958d1e5",
+        "target_sha256": "d49017d7c14b241a3748bdd81c7d13b4f808a00c7a6c684e793a9fb5ac624ef0"
+      },
+      "events:arc_daeun_wedding_night_choice:/choices/0/text": {
+        "source_sha256": "d9f2ea354edaec3314b54c730ea29f56344a940e29a5ae1995e4cafc47d91fc4",
+        "target_sha256": "6758f577b2621dd6947f4cd47d154087ccb79c7d3a6b427ad9ee86b8b62cc2b0"
+      },
+      "events:arc_daeun_wedding_night_choice:/choices/1/result_text": {
+        "source_sha256": "f5de24eccfa92ae721d8688abfa86919030b5686a54bf4b839a1fa08480e27e2",
+        "target_sha256": "7e6fca1f7415049ef28838356b6e77537e5289350f8bb9b2b3c50b0f4c5d221c"
+      },
+      "events:arc_daeun_wedding_night_choice:/choices/1/text": {
+        "source_sha256": "ee14db7c022beb3acd1f9dd71555c8ea02b36f1a581b5c48eb845f49694e657b",
+        "target_sha256": "e9c7bad868202cea4256587c52d9a34200a12eefe2406c3529566f07b136732e"
+      },
+      "events:arc_daeun_wedding_night_choice:/description": {
+        "source_sha256": "cece3939974625e43ab2aebdc9e0b240118abd5c5629712b6e2329c296d18ccc",
+        "target_sha256": "5f6eaf6749790f18d01dd7fb2f22ba455e7d6fe4b2061fcb7ccad927be498883"
+      },
+      "events:arc_daeun_wedding_night_choice:/title": {
+        "source_sha256": "e963f0bb770f0f0f1a4f194768aa2c0d029dfa74180545b5dbb1c9379b60d3d4",
+        "target_sha256": "ca786f9a3d7008abe4a0a6eeee1d45227dcda9f029fd2362b4d7f1f2b43c215b"
+      },
+      "events:arc_daeun_wedding_night_honest:/choices/0/result_text": {
+        "source_sha256": "846d1e4fc1d90a7d0e2384c5f5d459db1d404dd2ef91d2313951952d49825269",
+        "target_sha256": "f294c4b64b917bf9260f04cacf618cacef0d0647999cb92a427adf5245e652d2"
+      },
+      "events:arc_daeun_wedding_night_honest:/choices/0/text": {
+        "source_sha256": "8757121b462be6f19203d8f89664a6f934feefcc0efd5cdce4ea9a55302605ef",
+        "target_sha256": "29bdcb84c8be644423f19dfdd8a3eae39682bdb7bec1fff5097606e2afa2dd9f"
+      },
+      "events:arc_daeun_wedding_night_honest:/description": {
+        "source_sha256": "c6b200200dc6fcb2e13140612c735f53ad89340350ffe5b7bbae76b2407f1936",
+        "target_sha256": "5572f6a8da9f39062a8f4c09420e3b3796a09ed221863098f6eba75795605a80"
+      },
+      "events:arc_daeun_wedding_night_honest:/title": {
+        "source_sha256": "21362d179e76860bd4053a59c68ad22ad2d7b5fdbecfa1a419c1c0e230da0390",
+        "target_sha256": "fe5dc9ff15219be9a81676f3ff6058679ec046177fdfb4c74ea0332d5be835c5"
+      },
+      "events:arc_daeun_wedding_night_tea:/choices/0/result_text": {
+        "source_sha256": "e8b8e6bd1a81efe5b64f027cf7e9060ddb18a16fc7c350a54ac6a8552f3955ce",
+        "target_sha256": "99fc92696502e5b973bb4ce02f97a9062ad1ff125c59d34baece816321c508aa"
+      },
+      "events:arc_daeun_wedding_night_tea:/choices/0/text": {
+        "source_sha256": "639cc07303b368ddb133540561d5e8ad9516fe25083e413daf9357838c296b40",
+        "target_sha256": "a937c794ee2d1fd08333a48f94161e63b2e3e1922a1db45e5565a8ff699db937"
+      },
+      "events:arc_daeun_wedding_night_tea:/description": {
+        "source_sha256": "80462db0c3799d9e5a1fb98af867670c4d0db143542b9f3e5331e09ba4bd434f",
+        "target_sha256": "4d09dd89be7b63926e6f4d2105cb6ad52e7eec10b86707525998e368d2c015d2"
+      },
+      "events:arc_daeun_wedding_night_tea:/title": {
+        "source_sha256": "549c1d7010a8f867ae81386b43de93e72928ce4879dfe3633f612eb5b27bac04",
+        "target_sha256": "fe1bf513d3f47740aa877435497328b941120ede6be9b2e70782fee5066ba993"
+      },
+      "events:arc_daeun_wedding_prep:/choices/0/result_text": {
+        "source_sha256": "ebc6bab13530841900d0585c532da748c306c823804f3faf14c0794f525baf47",
+        "target_sha256": "7455200d67cd3434332b03b2b870f95b69a44ff9c568a732cd6e231bf3295468"
+      },
+      "events:arc_daeun_wedding_prep:/choices/0/text": {
+        "source_sha256": "5745156df375f1f997fc1d9e99accc30104c5f049aa20d901b2d4d7841e84bcc",
+        "target_sha256": "3d2cf2acd1b0ebf508b27de9c710caddf550589f7e92a82dc07007351977f135"
+      },
+      "events:arc_daeun_wedding_prep:/choices/1/result_text": {
+        "source_sha256": "f3ecbac9a23673cfb6904f018a6e10f7fe2f0527e042161488f155ed3cb8df6e",
+        "target_sha256": "289202ed6943cec95545939e585a5a7b3f0e0f480cf6ba1b0d3063d93278374f"
+      },
+      "events:arc_daeun_wedding_prep:/choices/1/text": {
+        "source_sha256": "9e9823215beb7884a62108fdc34ceca02b4307819b732cf476a6e83a8b00a25a",
+        "target_sha256": "30596d3eb80be56c4f9f937f748dd746fd1ff1ea82c014fb630a8868b1d99c88"
+      },
+      "events:arc_daeun_wedding_prep:/description": {
+        "source_sha256": "9baf62348109705bec20de50333795ab59fcf9c4df47c8f57ecccf32c6e5d225",
+        "target_sha256": "ab5cad73bbc4347d61b26b7657bb1a1aa41ab25820b8b7f7ef1d6e5fe00ac45f"
+      },
+      "events:arc_daeun_wedding_prep:/title": {
+        "source_sha256": "256b401bcb653f3c75cb1022008ef60db2e74ae4dd6b723d4198c459a39d5e47",
+        "target_sha256": "0ddddb3cefe1283b379b276581073bb81f719bd249cff8bc933c9adc7e89dbf9"
+      },
+      "events:arc_daeun_wedding_walk:/choices/0/result_text": {
+        "source_sha256": "12f15896aea525876be8623a202e954874d5836150c6ebdf6f734a72d8dca2c6",
+        "target_sha256": "5b4089adf5b5440a581351b0c2e114b37e136b6727684b84d716daedd4088666"
+      },
+      "events:arc_daeun_wedding_walk:/choices/0/text": {
+        "source_sha256": "8c975a164cb78a89bb5225db24b5342a34784172a07295ebe00c57b9aa1ae0a8",
+        "target_sha256": "149cd0ce4217dab706bc25b3d79d705e5bd20f0a6f04c24e42d26f08b36d8bab"
+      },
+      "events:arc_daeun_wedding_walk:/description": {
+        "source_sha256": "87aeb6e617ac06354403a763f53750cb71480e2f04c145e1a4782d0ef616d810",
+        "target_sha256": "f8eb7d22078ee74846456f864ce4db2faae387f1e68df666d803439ba897150c"
+      },
+      "events:arc_daeun_wedding_walk:/description_if_known/namsan_lock_daeun": {
+        "source_sha256": "a169ea6a48a04ec588acb2c9c3e06b88f11be5d97d9103f02b50fff0172db9f7",
+        "target_sha256": "f74da432421f7eade5ca9c9e865c860f923f5baedf7cb4012320dd385e644dc3"
+      },
+      "events:arc_daeun_wedding_walk:/title": {
+        "source_sha256": "f4ca044a1a6aa7e66f2ab91954fc6e446ec71bbb71cf3fbb6e679b8b1274d12e",
+        "target_sha256": "e663b406fa268b1bf8fbb5f859b2188859d1ede663f64dcd89823966f506a945"
+      },
+      "events:arc_daeun_y5_feelings:/choices/0/result_text": {
+        "source_sha256": "975e4ffdefef92906155cad25c780f51179566808b9e060c3efbb5bca276b4ab",
+        "target_sha256": "d6871e0e3dce2c8aa4a7cacdd4994ed22436a0a84e688e08ea1e6d6ffc8fa294"
+      },
+      "events:arc_daeun_y5_feelings:/choices/0/text": {
+        "source_sha256": "4bb297a12daecd390e76c7389fc2f4c183cfb74889a669d34870dc115b201a80",
+        "target_sha256": "899aa2ed0cba2c62a1435be9f6abc00c946ab44292eff839b94c19c1c847f281"
+      },
+      "events:arc_daeun_y5_feelings:/choices/1/result_text": {
+        "source_sha256": "ffe92bd544ccfc6f93b134e1d82633ed5a54bb155fe17e331a83db52012ad00c",
+        "target_sha256": "78f0bd077edeb0d58c885c58062729c58fa0a854a5e79ea905a4bf628f132e6d"
+      },
+      "events:arc_daeun_y5_feelings:/choices/1/text": {
+        "source_sha256": "566fc89c971f991358c3f95785bf9c45563798f542ad7cd75963ef3b04c5cc2f",
+        "target_sha256": "ebe8c2671b4ec8b6eb0759ce49cd669a9975f6ba6aeef86f8dacb83bb793e00f"
+      },
+      "events:arc_daeun_y5_feelings:/description": {
+        "source_sha256": "3b0cf64a6d37340094db926b3e8e2f59a5d4558bf6c06674c41c84ff66e8a0c7",
+        "target_sha256": "90ea85142dec6c29731e230f21b1bfbb51ef092870b571d5278b6a58e32b0338"
+      },
+      "events:arc_daeun_y5_feelings:/description_if_known/daeun_close_bond": {
+        "source_sha256": "b259d202daf7812382886e421897f00bf10870fb83fadea1e4d9b8af26f69f47",
+        "target_sha256": "38d0513162cfda209dae9ab686cde83a4dd32f03f2aff072d80b9321e1a178ee"
+      },
+      "events:arc_daeun_y5_feelings:/description_if_known/daeun_date_set": {
+        "source_sha256": "f1fff173cd045daec33f2bbbabd8d4790265b3f5002482cf74b03a3d1b4d7239",
+        "target_sha256": "7e64884a9238729d7e07663f2be7949ba4701ba9e41337ccc8f4f1a3c5acfb9b"
+      },
+      "events:arc_daeun_y5_feelings:/description_if_known/daeun_late_call": {
+        "source_sha256": "1abdb07d1bd8854fdd0fd3bbccaca477a0527dd74d91e3998558dc3556648d5b",
+        "target_sha256": "cea5b27e218369aa1e0fc7b2c81ff9ed74a1aadede8a407536d746ea7dc1ff42"
+      },
+      "events:arc_daeun_y5_feelings:/title": {
+        "source_sha256": "5229de08c345eef0896a518dd5ac3a4cbe517d63695826864d370e3d89c25d4f",
+        "target_sha256": "4a9397671912c61a100b0d61bc6a4063296261e57403e7d811903a8c3f7924d2"
+      },
+      "events:callback_daeun_committed_gangnam_eve:/choices/0/result_text": {
+        "source_sha256": "088ee723a1d99a2cd395d942a7753766565d7e42768ae7b45038030c1b3aaca6",
+        "target_sha256": "70c1d87ee82eb9ba90a37147825eb71875540242e738d37927e5e00600196955"
+      },
+      "events:callback_daeun_committed_gangnam_eve:/choices/0/text": {
+        "source_sha256": "4532585aba14b2254a3458da04a284a0cd2d7e35c5f67a6c142de153faa69470",
+        "target_sha256": "ec0641bebd69a3d77a5e7623a58bb46f74e1c501592627e28db25c78a827a291"
+      },
+      "events:callback_daeun_committed_gangnam_eve:/choices/1/result_text": {
+        "source_sha256": "71e8fe7cf24f67a045970bde79fe4e1f5c62eb991d35d57c2bb3bf2a44b6f2d1",
+        "target_sha256": "275bb1e3a8284be3b8046bb94b6e541dba09b6acb6ac674bea9dcf78b9f61716"
+      },
+      "events:callback_daeun_committed_gangnam_eve:/choices/1/text": {
+        "source_sha256": "4e255baeb37d3989b8fdcef8700933f95e0ea908b31f663908454333335215d4",
+        "target_sha256": "00e05d6816d909ca80e56f5d269734df7d11e17298514e412ef4c3c686a68cac"
+      },
+      "events:callback_daeun_committed_gangnam_eve:/description": {
+        "source_sha256": "15c9da250e401a67721aa64a0e227198c4d1e358ab347adf4452685d9fe78a56",
+        "target_sha256": "af73af85f5f232b6ef8ca3eff7815282fb1e97bcfaf2b0df4a0ba558660885eb"
+      },
+      "events:callback_daeun_committed_gangnam_eve:/description_if_known/arc_almost_there_seen": {
+        "source_sha256": "aadd7cde4a936c57781aaf5e3fbb7b47cbee052d575bd6c17b376228a3d37a75",
+        "target_sha256": "7e8de4f14d520b340ec4e7cdf82526fdb74893fe7eb20ab27ef67c2f85374c63"
+      },
+      "events:callback_daeun_committed_gangnam_eve:/title": {
+        "source_sha256": "0c6a23a3231f94b24c2e8add268491733ff02027425b74e0e998243a10e8d51a",
+        "target_sha256": "5405aaa0389c08466b2b5678e57a37d93cff4c8891a79dc9e421fa41f640bca6"
+      },
+      "events:arc_jiyeon_narrow_room_1:/choices/0/result_text": {
+        "source_sha256": "44f1c1243a1b9cb49e603ddd844ffb1b672cfe2d270dea175ea3f5df09ac95b2",
+        "target_sha256": "e0437de35c9ccb19a2dd680e6c23180d2219d824a2f2e5afcdd086d5b549c126"
+      },
+      "events:arc_jiyeon_narrow_room_1:/choices/0/text": {
+        "source_sha256": "fdacdb07777a2b11d080de44e9c6bfb939cda17a542ece586e5c7beea30e7616",
+        "target_sha256": "507b5d9025adf189c2d4ef0d884a268f788d335bc6a508b268c47f5fa236065c"
+      },
+      "events:arc_jiyeon_narrow_room_1:/choices/1/result_text": {
+        "source_sha256": "e4bb670a98a0fb38be046671bd47c3f2edfd527f4d71609a2a0b3e5d1b00eed4",
+        "target_sha256": "ceb40e5190b7c44a07ff78aeaf1cf9b8eda76e55055840f4be7750afe61e6a50"
+      },
+      "events:arc_jiyeon_narrow_room_1:/choices/1/text": {
+        "source_sha256": "10a9e193fce0e60e808933d20e521615b75263cea094924b3c0ca4fccf91e4a2",
+        "target_sha256": "2838589c61c19e95a9aaa7457235b0d6357ef5b860414bb64a0076ea049c7c41"
+      },
+      "events:arc_jiyeon_narrow_room_1:/description": {
+        "source_sha256": "5c0b855e6da79ee76dc39e371b8b5b8c64a7bd308fabacda0068fb79253f6f06",
+        "target_sha256": "709afb5d172a58b9c5d9c33eecf37154f82a2d80891f9469206a72e4d70d305e"
+      },
+      "events:arc_jiyeon_narrow_room_1:/description_if_known/arc_y3_jiyeon_departure_seen": {
+        "source_sha256": "6fa11a44c99dae992bdbb756705e7ccca338a91643517c54a6eb0e868696b0a9",
+        "target_sha256": "a1e531142ceb1dd69766f1cf815c8bdb71eb696fe892b8c78e23405c5ce2c8bd"
+      },
+      "events:arc_jiyeon_narrow_room_1:/title": {
+        "source_sha256": "927cf0ef792a7d459a4294b9a2d48dc81008292e9c63908dba87ad8db5a59c34",
+        "target_sha256": "7b4fb511f58ea878ec285086f9d14247e9833589061bdf2503e64691b1dd9edb"
+      },
+      "events:arc_jiyeon_narrow_room_2:/choices/0/result_text": {
+        "source_sha256": "69fc704e05655cce866695f28c42d188b1a82eb61c6cbba880e7a7c85d45a3f7",
+        "target_sha256": "35b7c4892bf47b641ea7ecf29c8f7540059092f1812cce97f07f779b9821f1e8"
+      },
+      "events:arc_jiyeon_narrow_room_2:/choices/0/text": {
+        "source_sha256": "7c09c2d21d73b9f7dc0eb696e85d803394a45512fc8db042221dc41a167db5c1",
+        "target_sha256": "af1455d6e53d21d7091b53b3aedf464ad632a8c4ca38d58377d4d1ff3a1df375"
+      },
+      "events:arc_jiyeon_narrow_room_2:/choices/1/result_text": {
+        "source_sha256": "d17ee02ae64007cabbad6787ce03fe3b657125653bed9b77c8f1f8914ad4aec7",
+        "target_sha256": "5aa0d9699e0b7bc2c6a187315a1fa5a618d44072e3d63b986f44d39e5928cd13"
+      },
+      "events:arc_jiyeon_narrow_room_2:/choices/1/text": {
+        "source_sha256": "498a56760c4a3ed07054216c7c66c4d59da77af1a18dcfa550495dff0087bc43",
+        "target_sha256": "d9c6db8e0ce31585123009c4922d938b6c9fadc77751eb887fd81f29ff911202"
+      },
+      "events:arc_jiyeon_narrow_room_2:/description": {
+        "source_sha256": "91aff987d0a5552fe7a1dc1fc277bb40d051a915900c8b05ea459a00278addce",
+        "target_sha256": "feb64892e2f8c0fc281a759a83a599bd3ec8c01305d45cd37d0e05fe37872082"
+      },
+      "events:arc_jiyeon_narrow_room_2:/description_if_known/told_jiyeon_about_records": {
+        "source_sha256": "02f1625ddc7ff235893bdd97102b249da7bfd1c61dfc5619e568eaf1f6bc3271",
+        "target_sha256": "21035506fad64dacfa69aa5bd3bdd4efa3cb34ce29a31349484460277c7f7745"
+      },
+      "events:arc_jiyeon_narrow_room_2:/title": {
+        "source_sha256": "89ce3d6c3423d13dc56965feaf2f4fcabf81e7f66c7efd62ba605603a75ad9a4",
+        "target_sha256": "f86d350b9c487c4b6ff31f7d19ed0176ba4ff1046be4f88baadae6d9cfa6012f"
+      },
+      "events:arc_jiyeon_narrow_room_decision:/choices/0/result_text": {
+        "source_sha256": "72e8351069db1d99acea6d22e2aa508ecd61b9326097d5285a9621654abdb295",
+        "target_sha256": "274be72cfc2bf2f630c7926deadbe5ad8354bf4865673e52158dcdec1be38d5f"
+      },
+      "events:arc_jiyeon_narrow_room_decision:/choices/0/text": {
+        "source_sha256": "f92ed64b9fb8fcee3ac7837686a63da1737f2ab62b1f47f2d15bbf2ad7a9e5b6",
+        "target_sha256": "8a1bf200b554a8c6eb6cd994aa556856e37cc3de6459d9e8cb27eb4e5a6b1e07"
+      },
+      "events:arc_jiyeon_narrow_room_decision:/choices/1/result_text": {
+        "source_sha256": "ae922b1e8255cef8c1234454c4799c93d8b34a7e0848eb823e81b49178662168",
+        "target_sha256": "9029ead75b124ad8a1eecaee630e4d4fd0cf346bb5e1f839a98d511108222c14"
+      },
+      "events:arc_jiyeon_narrow_room_decision:/choices/1/text": {
+        "source_sha256": "c0937b16b7db0753d2682ef8e81e95c6b31aadd6314a7c062b30bdd80285e774",
+        "target_sha256": "0745dd07845a3b393096bfd2777fd9efc734f1e0552fc9d49dfe94367fe2130e"
+      },
+      "events:arc_jiyeon_narrow_room_decision:/description": {
+        "source_sha256": "06a19d98c4d01242cc07ee9bd36ec156dde1d42abb44fd1b25366cfcaa33f6a5",
+        "target_sha256": "eaf92dc8f3a9e08bb8355e55b937b49984940c4e08a9cd4c8351793d7bff7798"
+      },
+      "events:arc_jiyeon_narrow_room_decision:/title": {
+        "source_sha256": "befa7f2004c8f5a5ed5ce88af47ba74135fadf0ba80080ace72aa93fa90f2006",
+        "target_sha256": "d899edb5d015b67b660ba8f521b8b392e238cb098b675546ca3e6a94178503ca"
+      },
+      "events:arc_jiyeon_narrow_room_silence:/choices/0/result_text": {
+        "source_sha256": "7129b68cbd145871d492ffab2a3dd01684aca2b05d8e6edbdb5758934a42fdec",
+        "target_sha256": "81713849e8fc00dd99940b152f1d73063f579d6db38b468d35dacc1316809273"
+      },
+      "events:arc_jiyeon_narrow_room_silence:/choices/0/text": {
+        "source_sha256": "309e9dbcee246763d0807c9224dbe60fda98cfd00f23310849313ef8faf1ef9d",
+        "target_sha256": "722793da4d0fc84e7f4a0b0ae532fbc351398525b32aedf0da76246e52045dce"
+      },
+      "events:arc_jiyeon_narrow_room_silence:/description": {
+        "source_sha256": "f5fa0f7d6ce3b7fc9c73ba93ce65b6b2d076dca0d2f5484d176d4c8dacb988ea",
+        "target_sha256": "24528c8cd8d1fbde0568547128ddd00fa7a0b33c962305625d7e545c285c9e4b"
+      },
+      "events:arc_jiyeon_narrow_room_silence:/title": {
+        "source_sha256": "d7b4be00b558b6f0dd183d387159e1f913d15f3ee542a8d4f9fe12d76a714143",
+        "target_sha256": "3d2620df2c6a5365b01d5b0f26746e933d00b7ebbc544bb81c785aa0820b0dc3"
+      },
+      "events:arc_jiyeon_narrow_room_truth:/choices/0/result_text": {
+        "source_sha256": "fbd6a69639bb5e4e6e38bcea000591f5bc1b10a6c3cd915405aaa4e814ad120c",
+        "target_sha256": "b7e486b7a2fe5fcccc254f1142d1d964740ad05860626b6b520c8593030d35ea"
+      },
+      "events:arc_jiyeon_narrow_room_truth:/choices/0/text": {
+        "source_sha256": "48b5ef5dac03c7979aeb20b0d644481bfbfb939f2010d919b86f64109a980f8e",
+        "target_sha256": "e8846e1bfa12de89a492d1cfe12e757691555756ee2af0fbbaf0fc9f5b68a018"
+      },
+      "events:arc_jiyeon_narrow_room_truth:/description": {
+        "source_sha256": "c6f9d331a511bbe9e3adf5229ab0d685d8be42977bfd65ae73f9a33b663bd000",
+        "target_sha256": "38f5a2e53ee30f83d1f6406e705dbb340293d0d1185c7b21a1a2cc3cd7ee703d"
+      },
+      "events:arc_jiyeon_narrow_room_truth:/description_if_known/told_jiyeon_about_records": {
+        "source_sha256": "778bd13c014d7910b62bf3d99b77a6b464d979bea2289dd4c0aa5c66ffada7c9",
+        "target_sha256": "2cafd9addcf604181b56dd23dc023899a150bed2cef1897e6c21168117108d96"
+      },
+      "events:arc_jiyeon_narrow_room_truth:/title": {
+        "source_sha256": "e19835a5d9982ae1f030454ba03067fe2078b6f77b5561ce364ad87aabf256c0",
+        "target_sha256": "ccc297258bb5a5938ebed4a7518580556913e426bae046a7f34812d24aa6d7d3"
+      },
+      "events:arc_jiyeon_wedding_gap:/choices/0/result_text": {
+        "source_sha256": "8bcc3d3c00d0258c02d42e7b1ccdb60b9b0035842d038426ca6f7b2ef08a16df",
+        "target_sha256": "d32e41f3e928abb2a0f687164abacce6a10603f08749a114fd539b566f74627d"
+      },
+      "events:arc_jiyeon_wedding_gap:/choices/0/text": {
+        "source_sha256": "e33490d2c874de0c02e5d13018496ab33a9816c8d8b5e964d3c4a1396303abba",
+        "target_sha256": "10a6be2b5a5874eb59ba37e695dc00b4cea38f6188386b54ad8a66583d314cc9"
+      },
+      "events:arc_jiyeon_wedding_gap:/choices/1/result_text": {
+        "source_sha256": "8d38bce1df6512e7c3b174ec76e5619e1b99df8aaa3e398f662c25849a1f3f00",
+        "target_sha256": "5b4dd197cf4e6a61393e3037584fe45efee070fb69fe59f2a15fc8055e18ce10"
+      },
+      "events:arc_jiyeon_wedding_gap:/choices/1/text": {
+        "source_sha256": "303834214829a8ce994fb01e72a718ede23e4410764d5e210577f7acbff0f1c1",
+        "target_sha256": "94a36422c3fbf6629eee5bc45e53e478b2c2f3179f325503258c3c9d000a13ce"
+      },
+      "events:arc_jiyeon_wedding_gap:/description": {
+        "source_sha256": "40f7381ab8652ca7eea0ca5afd06301ccf43937168c6f3940ad6e05af3ac8487",
+        "target_sha256": "90385231efe7c4c3dc83202b1c1a0891b714234e9d2aee02c67abcaebaa75e64"
+      },
+      "events:arc_jiyeon_wedding_gap:/description_if_known/jiyeon_narrow_room": {
+        "source_sha256": "40a254b2f3a627d6be1f46ae2163f748c06bbe84183c043ee114302734058c15",
+        "target_sha256": "abc539fdf607ba5f401a03ad2f1f54960d8a6104f62d32ab790d706cb5091987"
+      },
+      "events:arc_jiyeon_wedding_gap:/description_if_known/told_jiyeon_about_records": {
+        "source_sha256": "ad2e937d0a2a26955cd879114eca8c064e7872b8ad2d8cbf5450915afc4435f2",
+        "target_sha256": "3bffeb6e8cf91dbcef165cbc3456461efb996400077f23df80d3d79e88cac9a5"
+      },
+      "events:arc_jiyeon_wedding_gap:/title": {
+        "source_sha256": "f190fd4f3e8baf051caea659d3008ec97e56db950279d5819c46d5a7ab32bc1a",
+        "target_sha256": "fc5bca0de60f7ed31860520deb8d1dc55d139612dcfacef1576060a776586b69"
+      },
+      "events:arc_jiyeon_wedding_gap_decision:/choices/0/result_text": {
+        "source_sha256": "54da1ad7fdc9687b612d36bb60ca6832ccfecf6d77822709ce4e00f5f0381877",
+        "target_sha256": "9d0212f667ecfa349e3afd5a9ba01864241c00923e0442327a22a28645fa5994"
+      },
+      "events:arc_jiyeon_wedding_gap_decision:/choices/0/text": {
+        "source_sha256": "ef023f371fca81cd4ac0b324048fc4b83011658a5b5b0c83f2af9416f062ba33",
+        "target_sha256": "a95b6c161f8dfb2ad8ccb0aa9b6f9b666fcb5051f54c84a280fdafb213c69c6e"
+      },
+      "events:arc_jiyeon_wedding_gap_decision:/choices/1/result_text": {
+        "source_sha256": "9019d46188789f2ebc7da0db6c47ed9b8eff5df5c98abac0edfed7ba0c2b7652",
+        "target_sha256": "340021366ef9949ee4e1473460b0a676d9ff22afd158b9ddee41e51b5812ab94"
+      },
+      "events:arc_jiyeon_wedding_gap_decision:/choices/1/text": {
+        "source_sha256": "12c46125d13c3a0264497019f2b8285136bd2705838f452486f0b4c63ee7d0fb",
+        "target_sha256": "cf3b4a3d0bfdf47d5f7f9eeaa0872a002e0ef63a89998035a81bf550a37721dc"
+      },
+      "events:arc_jiyeon_wedding_gap_decision:/description": {
+        "source_sha256": "ebb1d92de26c5f63703d8594eb9a28ea912acda3b48ed5027ca82481b90412f6",
+        "target_sha256": "f024760adb55e5610fcbe3419ea06b70aac3da220d3c8a057787a74b9788c906"
+      },
+      "events:arc_jiyeon_wedding_gap_decision:/title": {
+        "source_sha256": "c41bcdef0471a23327fd1cfe16b7c6129e82c1035ae663f1d0bdc13f1861ab50",
+        "target_sha256": "b26dbb0094b8e33d39cd3b858a9b08587be433fbf16a6c1fd5ff227a92a34393"
+      },
+      "events:arc_jiyeon_wedding_gap_father_passed:/choices/0/result_text": {
+        "source_sha256": "8bcc3d3c00d0258c02d42e7b1ccdb60b9b0035842d038426ca6f7b2ef08a16df",
+        "target_sha256": "d32e41f3e928abb2a0f687164abacce6a10603f08749a114fd539b566f74627d"
+      },
+      "events:arc_jiyeon_wedding_gap_father_passed:/choices/0/text": {
+        "source_sha256": "e33490d2c874de0c02e5d13018496ab33a9816c8d8b5e964d3c4a1396303abba",
+        "target_sha256": "10a6be2b5a5874eb59ba37e695dc00b4cea38f6188386b54ad8a66583d314cc9"
+      },
+      "events:arc_jiyeon_wedding_gap_father_passed:/choices/1/result_text": {
+        "source_sha256": "8d38bce1df6512e7c3b174ec76e5619e1b99df8aaa3e398f662c25849a1f3f00",
+        "target_sha256": "5b4dd197cf4e6a61393e3037584fe45efee070fb69fe59f2a15fc8055e18ce10"
+      },
+      "events:arc_jiyeon_wedding_gap_father_passed:/choices/1/text": {
+        "source_sha256": "303834214829a8ce994fb01e72a718ede23e4410764d5e210577f7acbff0f1c1",
+        "target_sha256": "94a36422c3fbf6629eee5bc45e53e478b2c2f3179f325503258c3c9d000a13ce"
+      },
+      "events:arc_jiyeon_wedding_gap_father_passed:/description": {
+        "source_sha256": "1fdef06c8a2c633a83fbd000e6c19e1ac299f9d2358a5524e6be87fff81ee2ec",
+        "target_sha256": "5466d942c51c612f37bd1ea80a8d7834cefa77b3cfe8611fcd915a6ac7ccf890"
+      },
+      "events:arc_jiyeon_wedding_gap_father_passed:/description_if_known/jiyeon_narrow_room": {
+        "source_sha256": "40a254b2f3a627d6be1f46ae2163f748c06bbe84183c043ee114302734058c15",
+        "target_sha256": "abc539fdf607ba5f401a03ad2f1f54960d8a6104f62d32ab790d706cb5091987"
+      },
+      "events:arc_jiyeon_wedding_gap_father_passed:/description_if_known/told_jiyeon_about_records": {
+        "source_sha256": "ad2e937d0a2a26955cd879114eca8c064e7872b8ad2d8cbf5450915afc4435f2",
+        "target_sha256": "3bffeb6e8cf91dbcef165cbc3456461efb996400077f23df80d3d79e88cac9a5"
+      },
+      "events:arc_jiyeon_wedding_gap_father_passed:/title": {
+        "source_sha256": "f190fd4f3e8baf051caea659d3008ec97e56db950279d5819c46d5a7ab32bc1a",
+        "target_sha256": "fc5bca0de60f7ed31860520deb8d1dc55d139612dcfacef1576060a776586b69"
+      },
+      "events:arc_jiyeon_wedding_guest_list:/choices/0/result_text": {
+        "source_sha256": "38adca68120d69fe35f00fc8e9b2f4749e7951308e2b1f1848399ecafbeeccb4",
+        "target_sha256": "1ae89dc323897de199dde05d9e1cf154bff4c2fa6279b4384e5e968b1a21e417"
+      },
+      "events:arc_jiyeon_wedding_guest_list:/choices/0/text": {
+        "source_sha256": "c82b296d8021ce493cb0f063e99a4a0e6d44f0a28893a897781aff66495c49c3",
+        "target_sha256": "4cbe0f626ca3c280627eaea704f0ec6b355f113ef55249b8bb9471a50a0a07ca"
+      },
+      "events:arc_jiyeon_wedding_guest_list:/choices/1/result_text": {
+        "source_sha256": "9ae175543ae26ec0ca0d2035c23ce398f95d2973766dbbaeeee74772fe4ca3ca",
+        "target_sha256": "c5b4d055ad6b04c8557ea54512121804068d26ae97820a83e910d16c981fb60a"
+      },
+      "events:arc_jiyeon_wedding_guest_list:/choices/1/text": {
+        "source_sha256": "cbfad69dd5db7a6718bcb8edfd174bf3d2b259db9d4a923ab58e9bf455eaa400",
+        "target_sha256": "dfa35b1f97322c904c0403aca25c697e3fd62ec681d5e3d85835c708c3cd53be"
+      },
+      "events:arc_jiyeon_wedding_guest_list:/description": {
+        "source_sha256": "3c076b98cd353b950db4c51cfae00b13a6df550abef4b3f580d5b7fbbe57a449",
+        "target_sha256": "28fb32d514ca850ac13372ab41f489a4ff73c8ae310e5a0919acb811503aed9b"
+      },
+      "events:arc_jiyeon_wedding_guest_list:/description_if_known/hyunsu_reconnected": {
+        "source_sha256": "62af6ee424ad94082134c18996258cacd6f1680bc992cbc27de832cfde288d70",
+        "target_sha256": "1c8f09c9afe2d6249f2bde9cd1116bb3e9b13f5ea5ce8f080b0182bbeeb1ed71"
+      },
+      "events:arc_jiyeon_wedding_guest_list:/title": {
+        "source_sha256": "064de6e6c2ee36410d8636d89e63f7a4467202841e2e502c43b7cf9a0c39a356",
+        "target_sha256": "50e93f8bf16ebed0b91a24f4ec0cd26e89f582e9d2beb8444d913d8ab688583a"
+      },
+      "events:arc_jiyeon_wedding_guest_list_father_passed:/choices/0/result_text": {
+        "source_sha256": "38adca68120d69fe35f00fc8e9b2f4749e7951308e2b1f1848399ecafbeeccb4",
+        "target_sha256": "1ae89dc323897de199dde05d9e1cf154bff4c2fa6279b4384e5e968b1a21e417"
+      },
+      "events:arc_jiyeon_wedding_guest_list_father_passed:/choices/0/text": {
+        "source_sha256": "c82b296d8021ce493cb0f063e99a4a0e6d44f0a28893a897781aff66495c49c3",
+        "target_sha256": "4cbe0f626ca3c280627eaea704f0ec6b355f113ef55249b8bb9471a50a0a07ca"
+      },
+      "events:arc_jiyeon_wedding_guest_list_father_passed:/choices/1/result_text": {
+        "source_sha256": "9ae175543ae26ec0ca0d2035c23ce398f95d2973766dbbaeeee74772fe4ca3ca",
+        "target_sha256": "c5b4d055ad6b04c8557ea54512121804068d26ae97820a83e910d16c981fb60a"
+      },
+      "events:arc_jiyeon_wedding_guest_list_father_passed:/choices/1/text": {
+        "source_sha256": "cbfad69dd5db7a6718bcb8edfd174bf3d2b259db9d4a923ab58e9bf455eaa400",
+        "target_sha256": "dfa35b1f97322c904c0403aca25c697e3fd62ec681d5e3d85835c708c3cd53be"
+      },
+      "events:arc_jiyeon_wedding_guest_list_father_passed:/description": {
+        "source_sha256": "8b374291a3642395aed3423f19eb3556ba96eabfa9d3d03614b7223ded4df444",
+        "target_sha256": "717eec188626c1e6830caaec5be1614ee0af9d9842df912e63580a9bfa33df9b"
+      },
+      "events:arc_jiyeon_wedding_guest_list_father_passed:/description_if_known/hyunsu_reconnected": {
+        "source_sha256": "f8a67423e344c7a9c76423d1639e8f258f0ca95d1094ea19e1b7a120fed67631",
+        "target_sha256": "b4312b13944931e519108d5bdfd9be2da64cb13c66b5a7dbea9e598e87d6638c"
+      },
+      "events:arc_jiyeon_wedding_guest_list_father_passed:/title": {
+        "source_sha256": "064de6e6c2ee36410d8636d89e63f7a4467202841e2e502c43b7cf9a0c39a356",
+        "target_sha256": "50e93f8bf16ebed0b91a24f4ec0cd26e89f582e9d2beb8444d913d8ab688583a"
+      },
+      "events:arc_jiyeon_wedding_night:/choices/0/result_text": {
+        "source_sha256": "797092be2ac6a60287ae1e0080d2967e2ef6b0f67c639f7f6651316523f037fd",
+        "target_sha256": "1cdd30b92640d5c5e4c9b21810894b3262c583d937f29c6a598e2953310724aa"
+      },
+      "events:arc_jiyeon_wedding_night:/choices/0/text": {
+        "source_sha256": "477af345127e1c64d9af370d1852929ba9b36769e7646ae9f0eb5739bfcbf82d",
+        "target_sha256": "79be32d0c762c63ca9d926657049a09c610971e4a88509dccdba9e4493df801b"
+      },
+      "events:arc_jiyeon_wedding_night:/choices/1/result_text": {
+        "source_sha256": "9a8a81b35d29b0f122b8588d512f0c4f5c2314aa1007945e54927134e4ab398f",
+        "target_sha256": "a976b470c6b96bbe9465c968d31e202615eb364f58e48b4fee7c30f33961342b"
+      },
+      "events:arc_jiyeon_wedding_night:/choices/1/text": {
+        "source_sha256": "97c965d3ef8aec62324eaac26f51c7cff10b40653d7b9f5650a30b68b5a332a5",
+        "target_sha256": "cc00677cd9a66b2d9176499ea9d15c845adcfa64224b4893932cd4d341913d63"
+      },
+      "events:arc_jiyeon_wedding_night:/description": {
+        "source_sha256": "d42bfe070af569e333d3d575c5c2ee4a0fc7ea479b45618b5a8d290d6fbd4642",
+        "target_sha256": "7bbd057c02722e984ab430e6347798662fbc8c5b3ed7ca74bb13b820d6e865e5"
+      },
+      "events:arc_jiyeon_wedding_night:/title": {
+        "source_sha256": "2880b754b34b461617ca46fdcbb62632f3ae25567e43d2562c9490e98041828d",
+        "target_sha256": "240e860896f69b6a26b8f16373b83a9cfa008cab9a3f1fe77731e76ed99db7da"
+      },
+      "events:arc_jiyeon_wedding_night_choice:/choices/0/result_text": {
+        "source_sha256": "cf0cf9b9b62b627bae758f38a9a6a4052644b35207e3800df3bf2ea146d64fda",
+        "target_sha256": "0e60e60d2ba26b7171999868623226398bf7bfdbbfd5b10c6d4c447a375d127a"
+      },
+      "events:arc_jiyeon_wedding_night_choice:/choices/0/text": {
+        "source_sha256": "80dd9b98ef6ab1f7b2d8841ae89e100ffe0c4170e80c6171244583f8b3b0ecd4",
+        "target_sha256": "732c5585be3a0b61b4150b65663d57f8858fcce2b0ab627e938c27fd6b22086f"
+      },
+      "events:arc_jiyeon_wedding_night_choice:/choices/1/result_text": {
+        "source_sha256": "53dbfa42ada06028c02127aa421cf32b4ce328b6e92bfaf74d215b417539c371",
+        "target_sha256": "c9faf769967003219bd12ba42df115dd3199079243110fced59f0bbcc38a702c"
+      },
+      "events:arc_jiyeon_wedding_night_choice:/choices/1/text": {
+        "source_sha256": "bbb5ca557f6a00ad21f7ac24abaf79624d6871b39c1dbc233ad896f4b0a34a20",
+        "target_sha256": "0185c5f1cd3cad184cd0d9f9088e6811d4f19c5a9c4994245e662126bd7d4301"
+      },
+      "events:arc_jiyeon_wedding_night_choice:/description": {
+        "source_sha256": "dc99966b6fa450f5ec87107cba0004e59057e3610c9f4217e5ee9de64ada4540",
+        "target_sha256": "1fa6a5abbe087e5c6e3c98771c8855e8556c3d5239e0a223123a03c27c202e53"
+      },
+      "events:arc_jiyeon_wedding_night_choice:/title": {
+        "source_sha256": "9147ab730309d64541c9d98ed6152c648de92f1000ee203fb897a16e9f4e3573",
+        "target_sha256": "e6ce277a7c4d94340777d5b26e28c914ba236bff693d0514289b93f033070630"
+      },
+      "events:arc_jiyeon_wedding_night_glass:/choices/0/result_text": {
+        "source_sha256": "df5924eb9ca5d296f20b45f16defaaf10b3c8f6c0dff4464adf85ed269ff54f0",
+        "target_sha256": "5f99aa27087fdbeca768b40fb06b33211ba58ac08dbf4070092c2bd4c299c0c0"
+      },
+      "events:arc_jiyeon_wedding_night_glass:/choices/0/text": {
+        "source_sha256": "3022943caec4f6c9b57d8ee93db65b7e1712ae51b52c4d320959f0f1510cc03c",
+        "target_sha256": "70b4fadcd13cf1ceada53f8392ec61e442d43608d3872b97dc643ac5484dce2d"
+      },
+      "events:arc_jiyeon_wedding_night_glass:/description": {
+        "source_sha256": "319b5a8776b164f12edb9eb867b3f605f039d4505f170870197ec968af213eff",
+        "target_sha256": "9b3c3a37c407aabffc7bf92e6df33e6ab663225cb56b06975cbcc49f496e1a93"
+      },
+      "events:arc_jiyeon_wedding_night_glass:/title": {
+        "source_sha256": "56b1d7b1befb0183ca4ac634c5682d2f0c71682eaa1c5b4d75b002b71f12bfe2",
+        "target_sha256": "46462e57825dd1aaa4c44436712eee6c3766b0e27d88b562d4d7ac4d9a13abf1"
+      },
+      "events:arc_jiyeon_wedding_night_window:/choices/0/result_text": {
+        "source_sha256": "55aa46ae92827964ee181c2739f601dd4624734f74908c22c212bf39e9059a89",
+        "target_sha256": "00df594f0c5dd5e7260e0f30d6aebce70edd8acc83c34a139fda0dca2039a0af"
+      },
+      "events:arc_jiyeon_wedding_night_window:/choices/0/text": {
+        "source_sha256": "fcf0edea38a3f51b815367b86ea258723c757bbc2a3341327c50bb1b39b80fa3",
+        "target_sha256": "43b0fba743efb90cd076c48d83a2cc2b20602adae4d9bd17c8f55b4f5a1bf0db"
+      },
+      "events:arc_jiyeon_wedding_night_window:/description": {
+        "source_sha256": "32abeb2839448e5f6ec3c71e2846cd89f0cf1115bd76749f2eb51d00ffc93eb0",
+        "target_sha256": "09b7ea18992480e8e639e7601659183a0470e3ff4fedebfa2ce8e7438dc75509"
+      },
+      "events:arc_jiyeon_wedding_night_window:/title": {
+        "source_sha256": "efd47f1eff0d1c6066ed7c79564d81f7eda2e741554dd0e758f24c0286e3c610",
+        "target_sha256": "5117548e4b17f982e2c01b6481cebcf9e0f424ace3467c554dd7d5cb5c9f6dfe"
+      },
+      "events:arc_jiyeon_y5_feelings:/choices/0/result_text": {
+        "source_sha256": "6328e1a05c83a7176d6d107b18e25a048f50ffd784976eb0986fef1139fde0de",
+        "target_sha256": "e589b96a711e07dab5d1d733cb2cd1cb615dee0a1b7bbbd8fc0fcf9c539e1c43"
+      },
+      "events:arc_jiyeon_y5_feelings:/choices/0/text": {
+        "source_sha256": "d7cedb583af54a0d824ea098f35ac8d19ff6278d6583e7a7577e83601a0bc50c",
+        "target_sha256": "6ae2407bbc6ee5af994d93db76f0d98478e16cfc6be5fe076a1c08dee818aac3"
+      },
+      "events:arc_jiyeon_y5_feelings:/choices/1/result_text": {
+        "source_sha256": "af5ca91b911954452db81eca0515aa3c709a245dbc48d584d275fd75acd13823",
+        "target_sha256": "f5fb332a68e08eefab0f2f26aab603e97ae89d26bd27b3ffd3e52d6a4f6e6d39"
+      },
+      "events:arc_jiyeon_y5_feelings:/choices/1/text": {
+        "source_sha256": "83e523da71a97754a7e6da4471d727de8fa9fab11a3c5b2f99ce6263bbe551a0",
+        "target_sha256": "b14e2b85b74d9bb370312e953d93e3d16f7bbf343569a4c677fdeb26609a23e5"
+      },
+      "events:arc_jiyeon_y5_feelings:/description": {
+        "source_sha256": "9416fd63ac42e164f90e350f0ff55d5ae4c63c60858a1a02219a47b71890c909",
+        "target_sha256": "fc20417105814ef6871cb33ccf97becb11ce379950bec7df2ae6629e34bb2421"
+      },
+      "events:arc_jiyeon_y5_feelings:/description_if_known/jiyeon_real_connection": {
+        "source_sha256": "8a8e4e0852f6a6c482996871289d5045caf183dbfc45db3592a9477717edffeb",
+        "target_sha256": "9afeebf517c6a68eee68229d913573ba45b1ffb0a14112676da72ecd4d455493"
+      },
+      "events:arc_jiyeon_y5_feelings:/description_if_known/told_jiyeon_about_records": {
+        "source_sha256": "974a81137adc932286c441c8fc9649051368cd6f4056c962bb03e2e9ea60b5dd",
+        "target_sha256": "5e291617bc1a68b5e9ec5f77e502c515fda931d4d7aa54e4f47117e098a7aca3"
+      },
+      "events:arc_jiyeon_y5_feelings:/title": {
+        "source_sha256": "8c3c39adec1c8a1bce5ef8aa5aba50836dfc77bc26c7b056f782bdebbba9893f",
+        "target_sha256": "29fadbf573b9c7bbcb90c88d810e035a770dc7b5da2fe304178d76f9e77e5cda"
       }
     },
     "zh-TW": {
@@ -36445,10 +38159,834 @@
       "events:arc_father_quiet_call:/title": {
         "source_sha256": "6c397f7c98ed344e8df44a62262bb2d16f4d5c9f8260d2e65f420d00e54a0ea3",
         "target_sha256": "64a378bdb4b9182ed164ceec404f5fb67b2568968d8ae0d58220bbed503de424"
+      },
+      "events:arc_daeun_hometown_1:/choices/0/result_text": {
+        "source_sha256": "a889e224f69fa956dedfa7d0a3bec616572f1a0ba3513a10552ff3604a75d8d8",
+        "target_sha256": "8653ffd13b0b3905c3d17af101dc20f95332fe635ca6a3cdd15d05f259f6bcf5"
+      },
+      "events:arc_daeun_hometown_1:/choices/0/text": {
+        "source_sha256": "1f10a46c03d6e85ae04d0d6c22db9530cf8c2cf1dc5cb55e59b90c9a0a2b2bee",
+        "target_sha256": "793ff1933a0186b1407e2a0d87349853d020f868206c9e25297bfc9f7340adc6"
+      },
+      "events:arc_daeun_hometown_1:/choices/1/result_text": {
+        "source_sha256": "93b2937f6fedbf00b4cc72e864803aa701461b0b642515ecac44a5af1c05c415",
+        "target_sha256": "24bf22c9b0aff3ba2af1a9fbaf372fc18925676f8820308e1fd2efacdbf0c9bf"
+      },
+      "events:arc_daeun_hometown_1:/choices/1/text": {
+        "source_sha256": "5b5336948bd58c849de6b5a2276ac87f9b64f20086dbf7b44d2d1684c55cf4f0",
+        "target_sha256": "e55c07a8a9eefaa010b912d018b2f2a496cfadc8368e93bdde8247346ad60398"
+      },
+      "events:arc_daeun_hometown_1:/description": {
+        "source_sha256": "10f12ab94fa67b70c537ef35197b9ba4e96a0de30908c78bf161bf41ff54c745",
+        "target_sha256": "f5114deb86159782b108c15ebe51f330d5d3dc012c4116952273a60f19fa1a0f"
+      },
+      "events:arc_daeun_hometown_1:/title": {
+        "source_sha256": "220f7630a0fa5ba6081db200c02d2dd4101ea4957d2140e5b43ba7ec3853e5b4",
+        "target_sha256": "a2c8ef6f833408a5a875921e1bf81a5e13f12ad8f41885799af279e9e2f5f14e"
+      },
+      "events:arc_daeun_hometown_2:/choices/0/result_text": {
+        "source_sha256": "0241a36ee22bd93bb9d1d0080519660ced869f6940ad18f655e1838097bf90b7",
+        "target_sha256": "2a8827f4c84bd51300a856979fc343fa0a3aace1d853067d7e453ea538dd7c1d"
+      },
+      "events:arc_daeun_hometown_2:/choices/0/text": {
+        "source_sha256": "8bbffe887378968eec5d53e7f7c929c131c92b2377f1bff31f337b3d683d38d3",
+        "target_sha256": "74249b1e92473374efd28c0882afa9aaccdccc609c752eec9af0bc28900c052b"
+      },
+      "events:arc_daeun_hometown_2:/choices/1/result_text": {
+        "source_sha256": "9d6f03a4f1ab94ea409dbad2444c23bcac642fe8331cffb406511877b3255242",
+        "target_sha256": "6b0d3bc44bf50b5e7371ba28d72887e93cc5d7befc80c99e7edd64585e40ef55"
+      },
+      "events:arc_daeun_hometown_2:/choices/1/text": {
+        "source_sha256": "a25c15be56afdfd26fccd4750a6e6ab1bf9e366222dd3980a991611b876befc1",
+        "target_sha256": "b688991ffe4262a05996cef3c28101e78a2065eb0386edc27ba907da58677048"
+      },
+      "events:arc_daeun_hometown_2:/description": {
+        "source_sha256": "f2fcd1110167eed9180cdf4f1b769545fbce56141488e7f11aab14a5e270be95",
+        "target_sha256": "e41c742774ab55d5b4dff2533207f4062b978674298634a2422a071e8726347e"
+      },
+      "events:arc_daeun_hometown_2:/title": {
+        "source_sha256": "4401949cc281ca0362e28213fea78ae427312c2abcfd7766f2858d252cbe82b2",
+        "target_sha256": "25540767da114c97e05f1b79aba5bac3eb1273b7cb321dac43139ee94fe4cb75"
+      },
+      "events:arc_daeun_hometown_2_father_passed:/choices/0/result_text": {
+        "source_sha256": "0241a36ee22bd93bb9d1d0080519660ced869f6940ad18f655e1838097bf90b7",
+        "target_sha256": "2a8827f4c84bd51300a856979fc343fa0a3aace1d853067d7e453ea538dd7c1d"
+      },
+      "events:arc_daeun_hometown_2_father_passed:/choices/0/text": {
+        "source_sha256": "8bbffe887378968eec5d53e7f7c929c131c92b2377f1bff31f337b3d683d38d3",
+        "target_sha256": "74249b1e92473374efd28c0882afa9aaccdccc609c752eec9af0bc28900c052b"
+      },
+      "events:arc_daeun_hometown_2_father_passed:/choices/1/result_text": {
+        "source_sha256": "9d6f03a4f1ab94ea409dbad2444c23bcac642fe8331cffb406511877b3255242",
+        "target_sha256": "6b0d3bc44bf50b5e7371ba28d72887e93cc5d7befc80c99e7edd64585e40ef55"
+      },
+      "events:arc_daeun_hometown_2_father_passed:/choices/1/text": {
+        "source_sha256": "a25c15be56afdfd26fccd4750a6e6ab1bf9e366222dd3980a991611b876befc1",
+        "target_sha256": "b688991ffe4262a05996cef3c28101e78a2065eb0386edc27ba907da58677048"
+      },
+      "events:arc_daeun_hometown_2_father_passed:/description": {
+        "source_sha256": "7fa803dd989d71ee194de354ce3eb476902500d6ecf94df4b5b0678861fae5ba",
+        "target_sha256": "d4bd836c0be8a21490e53f6ac76f9c774e56bffc58bea99015db11e9e7dbbf2e"
+      },
+      "events:arc_daeun_hometown_2_father_passed:/title": {
+        "source_sha256": "4401949cc281ca0362e28213fea78ae427312c2abcfd7766f2858d252cbe82b2",
+        "target_sha256": "25540767da114c97e05f1b79aba5bac3eb1273b7cb321dac43139ee94fe4cb75"
+      },
+      "events:arc_daeun_hometown_table_daughter:/choices/0/result_text": {
+        "source_sha256": "45c82294303235ffd2f4fc9de4f6c0dbbf067936b8943d5418f724411429a03a",
+        "target_sha256": "545745c80d981fbb15fc136b702df449291b8355b588509104dcbe4615fc7d73"
+      },
+      "events:arc_daeun_hometown_table_daughter:/choices/0/text": {
+        "source_sha256": "e47f300abcb1bae2cd308f35da112249b0959694bd6c0b8d336177dac8bf8f26",
+        "target_sha256": "3f500e9de5978a67f06f086f7f817923927f25a618d01555c68cb3fc86ba91d6"
+      },
+      "events:arc_daeun_hometown_table_daughter:/description": {
+        "source_sha256": "70d60bd92c7f28f0146ad7c3a651479d242e031111115d36cdb7673017c422f5",
+        "target_sha256": "6aa57672bd49ca6b1635b6b1b081fb90cf2fb545e52cbca97e706c9ddf78e5fe"
+      },
+      "events:arc_daeun_hometown_table_daughter:/title": {
+        "source_sha256": "8bbfb5e9b0c64caae35561d9578b74f9ffa6b2e2b5b6b9a89d8e99095ea74c0a",
+        "target_sha256": "5f5356834b787e55c26d835627df0a89ebc1ec58991c4be6343f0f2a601b4205"
+      },
+      "events:arc_daeun_hometown_table_decision:/choices/0/result_text": {
+        "source_sha256": "3a36b0a2b0844c0398fd15492dcd82f1b1c712c72ecabb1fef3f12e504dfd9b8",
+        "target_sha256": "fa71036bb9408f222119d4c3f5f290592680e75c0327fec069f7700a738946eb"
+      },
+      "events:arc_daeun_hometown_table_decision:/choices/0/text": {
+        "source_sha256": "29b9d8f7aee2517b4d7ddb46a2c7c058218914573d32b4d0bad12d04daa501cd",
+        "target_sha256": "a41d6c6534baaf00bbc6547e60b57c88dbba5fe8b61dbcd71f1f753119883506"
+      },
+      "events:arc_daeun_hometown_table_decision:/choices/1/result_text": {
+        "source_sha256": "a09d857bfa4e266ab5fce9c84ecf2750880fe77007e0fb58de938b29f39b4e31",
+        "target_sha256": "680300c5669d0e9048b286ff6dca7af0baafe19cefab590bca29a577264128e9"
+      },
+      "events:arc_daeun_hometown_table_decision:/choices/1/text": {
+        "source_sha256": "f6ea6278277e85955070f64c3955d0be14b870d2c0071df0cec005b04effc4de",
+        "target_sha256": "d96d80838fdf0dc3459d69cb8b79d816d66cf659d5c8aa6717823e15e35aa3b8"
+      },
+      "events:arc_daeun_hometown_table_decision:/description": {
+        "source_sha256": "784b50c679ecbf34e04c1b1a1b0589846089998db02b29c07c84b6b0cfdb62d1",
+        "target_sha256": "31d37826ead9641bbe3b428f37b0674e65aba91aa812c90dfccd22633e13d8da"
+      },
+      "events:arc_daeun_hometown_table_decision:/title": {
+        "source_sha256": "90a515584155d2c72212534347c34898b614cdbc5e784b72f01f5cfd1456deb6",
+        "target_sha256": "a42f4c87ed96d9f6d7741c7cc906ea5b60c4c0840c091ecf634b6e7e82a92087"
+      },
+      "events:arc_daeun_hometown_table_hands:/choices/0/result_text": {
+        "source_sha256": "d51180cab364777cebdefea3c22726ba899ce458e81d420270716d17f828e7ba",
+        "target_sha256": "a1764f704c791dd128b3d795a0c6440b34d1912c26894f93976a5b66027277d1"
+      },
+      "events:arc_daeun_hometown_table_hands:/choices/0/text": {
+        "source_sha256": "d803480c4eebb6b0233c6fe46c75920f743bb0ee14fe0a5710dc37e6203bb913",
+        "target_sha256": "48d2c224c2ab3e3e01a6efb9a07b51513c7345ec8fad12db13be26b8d58ce15c"
+      },
+      "events:arc_daeun_hometown_table_hands:/description": {
+        "source_sha256": "c16f47bd38b56e3ceabf3ab5cab3b9568035d22f8d3c5c130c170afd21bd9ba2",
+        "target_sha256": "09f9a91233b2d2cd500a3044dda14c475ef879e58f504463dac38d855c7b600f"
+      },
+      "events:arc_daeun_hometown_table_hands:/title": {
+        "source_sha256": "3556b14fe8629d799ff6f1d1f610406bb8dc519cbaf0b97782f566ff9f1acf70",
+        "target_sha256": "118320a1d4c26a3ce81f102b6944a8a14aa6c2186d73035fc7b5a55cdf6e9f20"
+      },
+      "events:arc_daeun_the_test:/choices/0/result_text": {
+        "source_sha256": "15b03f06a41501ee5888c1734cdc1d325979f1372aeaedba229a89aaf555982e",
+        "target_sha256": "0e6b7589e0bb04d64f598305f358ebc94f15a37e6dd049d53907a1eb582e7afc"
+      },
+      "events:arc_daeun_the_test:/choices/0/text": {
+        "source_sha256": "aa2e8126d22c746626fca6d64653f46288fe3896b7375260754c0530f35ec7ee",
+        "target_sha256": "bef383f8987f6ac8d9e2d797c9f9e726e0dfaad02c4cdc3888adf7d3c2034374"
+      },
+      "events:arc_daeun_the_test:/choices/1/result_text": {
+        "source_sha256": "647413b024ecc353ad1c71949dd30d70a6fad9659262bdacf55db57156a38783",
+        "target_sha256": "bd0edf9349f75b336b7004c4ec485893eb80f0761c154bffbf5af74bcfbe63b8"
+      },
+      "events:arc_daeun_the_test:/choices/1/text": {
+        "source_sha256": "7cd3b76b60282af5de2c133f0666deaddec8d47a50d813258fc59c62c5c277f7",
+        "target_sha256": "eb69fe02e1883196ef827f9adb12f9a595bc5eeaefefe77e9ef943a39021ffa5"
+      },
+      "events:arc_daeun_the_test:/description": {
+        "source_sha256": "7de3508766000a0228c2b7eb679ce31a9fc8411e7938fd6a1545e29844eca654",
+        "target_sha256": "f6e10297247a8b25580f89d864c15b003d7ed64c7e4f10edade989fdbcc2bd40"
+      },
+      "events:arc_daeun_the_test:/title": {
+        "source_sha256": "a3b505e93eda1e50bfcdbc577037dfbb03cdeeeafdd0728859a20fb22ae2afd8",
+        "target_sha256": "118c3bece2c16626d3cd5c70a40f7a5c28bf65c3b963f44a1834632864096f0c"
+      },
+      "events:arc_daeun_wedding_aisle:/choices/0/result_text": {
+        "source_sha256": "0c51de8cf861dafc0f4ad14f5935dbe16189258c1f8fea0fc338dec5539f22ab",
+        "target_sha256": "562a5117dc6295b5685062f2f35066917e417377d13ae43f5ecbbcff348f04e0"
+      },
+      "events:arc_daeun_wedding_aisle:/choices/0/text": {
+        "source_sha256": "1404f831e9744ea7cca51bdfdfd772166ca86918d96dba98f1f431621e4b7086",
+        "target_sha256": "36cf4946cead75fb218b4d7b29a0e33f69c187f242f3bed744dcc71d645513be"
+      },
+      "events:arc_daeun_wedding_aisle:/choices/1/result_text": {
+        "source_sha256": "b28c6139bca8244f687f2a8e92ee2ddd64614be3b8b6d07f0200da7b1b169b8f",
+        "target_sha256": "d4d4ecb1e1c4921878fdcdca58a9577fbba4d1dac7ead6560fe00f1f399f6ab3"
+      },
+      "events:arc_daeun_wedding_aisle:/choices/1/text": {
+        "source_sha256": "aa00655424be7328f6aefc312d1587524d62666e7d717bba7bed8d3cee8eab72",
+        "target_sha256": "6559a2450f17e7c602d3e78f02294a7f512dfeb55cbf9a7b9280a3801e11b2b6"
+      },
+      "events:arc_daeun_wedding_aisle:/description": {
+        "source_sha256": "d5d15fe5db7f037fbc5e9c9f2b48b3fe6ef428941df4a171fa31b1d840ea458c",
+        "target_sha256": "fee18df113ac6e7342c5e2ecf52aa56ae2092a8fdbd52c215807a695a8e1a19e"
+      },
+      "events:arc_daeun_wedding_aisle:/title": {
+        "source_sha256": "22953f3c23077e2368a25f610dc60ab376c86a7cac8661b8ad8f173764eef5df",
+        "target_sha256": "91bf43bc2a76abb8e761d9e314dfd0da80a8d5465fa1be01fcad8360d1e766d8"
+      },
+      "events:arc_daeun_wedding_day:/choices/0/result_text": {
+        "source_sha256": "e1e0454da01e8f8335edc4915c9dd0848c5b385edd5dded06fba9161ba297dd8",
+        "target_sha256": "6a9c2c4683b1e99d34fa151a433efc77adf3d627f2d70573a70a5e41c3e81ffa"
+      },
+      "events:arc_daeun_wedding_day:/choices/0/text": {
+        "source_sha256": "0023be482b417d59efb7a87e245f31ce1f61cf1b917d39bca7af7f6db8aae6ea",
+        "target_sha256": "3aefde61de1e5956b7294de05c869e66334226e1bbc9df34fa7c2ed07d2dfe08"
+      },
+      "events:arc_daeun_wedding_day:/description": {
+        "source_sha256": "d05dd1c71d6146275a09116618bc66d6c72c53d7b06201eb3485b44882a23cd7",
+        "target_sha256": "bfdeeeac55a38ddf430d0f4b9615a9e1d13fe2629de09b38f33402471a638f23"
+      },
+      "events:arc_daeun_wedding_day:/description_if_known/daeun_hometown_visited": {
+        "source_sha256": "8f9787e2e010befb3e63d25acf7dfab11a5e21e1784abfa2e6092767f8c0dd73",
+        "target_sha256": "01f48875802a4cd8454a19c281f4d415772e43d7ce46847f4784ea89bdc28e52"
+      },
+      "events:arc_daeun_wedding_day:/title": {
+        "source_sha256": "32b583347b147ef84507524ac78aef3fc81823f317b7d13993529e96fd18aa87",
+        "target_sha256": "8a29a8c5a0a6f23649911441c46f44b6d468ef8839a7b946bff0cfb16377fdf7"
+      },
+      "events:arc_daeun_wedding_groom_side:/choices/0/result_text": {
+        "source_sha256": "ad93d89d330f834e155f523897d1ac1175f1873fb8694fe41c30b486243a5745",
+        "target_sha256": "964a3712b941d424c26eeb094fb0f9d0dc1c28b9fe6f8c60481e6375ad629e06"
+      },
+      "events:arc_daeun_wedding_groom_side:/choices/0/text": {
+        "source_sha256": "3e63280401772f7a479ec3a6aaceaedd223aaf75a70926b75c7ee4c97fb2347b",
+        "target_sha256": "b7ed89fdd5feaae1a2b8860c8ba619d7c6a6acc7cbc648aea9887fe9c7df05ba"
+      },
+      "events:arc_daeun_wedding_groom_side:/choices/1/result_text": {
+        "source_sha256": "f4e76e3788254e48bc64cdfc80bf7e36f57329f789af371753e0f5ddad11a909",
+        "target_sha256": "be49c0c99ffc688fb05cc94814cb94e5da0f0a91084fd1f57d828f9d9c282038"
+      },
+      "events:arc_daeun_wedding_groom_side:/choices/1/text": {
+        "source_sha256": "5cf13e40f511bbfa6d0104134da0593eafc15957ec2da64243bd5ba26ef5de9c",
+        "target_sha256": "0ed02fc14464ec591a9ac76ded8774828113d10b0a62918e5445cf68ee362101"
+      },
+      "events:arc_daeun_wedding_groom_side:/description": {
+        "source_sha256": "ec97b8f7871d9e981848a76fb2de4d709cd89ec6fce432772d6a831a19a59299",
+        "target_sha256": "f13a380b181fa9f2ba3ace9eca87e14b96b0f5466f2bf92ae169700c35e8875f"
+      },
+      "events:arc_daeun_wedding_groom_side:/description_if_known/father_reconciled": {
+        "source_sha256": "28f95640a4d188b3f8076a74fcd0543196234ee2e0fe6542339c2407e80497b3",
+        "target_sha256": "09b71bccb6dd102d6e1ec7855b5af7331254273db4962257929ffd666b5bfa4e"
+      },
+      "events:arc_daeun_wedding_groom_side:/description_if_known/father_reconciled&hyunsu_reconnected": {
+        "source_sha256": "c495353b3a6fb2d1d43eef722dffb44e4b676ac0644039cac6b3387afeae4115",
+        "target_sha256": "658fd134f2fb3ea61519b6f1e2afc1a7deed9af9c65728cb859ab13245669d68"
+      },
+      "events:arc_daeun_wedding_groom_side:/description_if_known/hyunsu_reconnected": {
+        "source_sha256": "f068f4e066d24455d28094dc60b7f3e53e39e2503397a2e2059993ae9a9f675c",
+        "target_sha256": "4af5b4f8553da55b34d093a114794be1908eef79847fc4cd74a5d7f34fee01ac"
+      },
+      "events:arc_daeun_wedding_groom_side:/title": {
+        "source_sha256": "e4882b1abc3428550ff08b95a6ab413cbc840866cb681e727ad891f03af8067c",
+        "target_sha256": "ab622325b45f6928195eeea8edcace19241fef3e198bfcd28352e963c4f522c1"
+      },
+      "events:arc_daeun_wedding_groom_side_father_passed:/choices/0/result_text": {
+        "source_sha256": "ad93d89d330f834e155f523897d1ac1175f1873fb8694fe41c30b486243a5745",
+        "target_sha256": "964a3712b941d424c26eeb094fb0f9d0dc1c28b9fe6f8c60481e6375ad629e06"
+      },
+      "events:arc_daeun_wedding_groom_side_father_passed:/choices/0/text": {
+        "source_sha256": "3e63280401772f7a479ec3a6aaceaedd223aaf75a70926b75c7ee4c97fb2347b",
+        "target_sha256": "b7ed89fdd5feaae1a2b8860c8ba619d7c6a6acc7cbc648aea9887fe9c7df05ba"
+      },
+      "events:arc_daeun_wedding_groom_side_father_passed:/choices/1/result_text": {
+        "source_sha256": "f4e76e3788254e48bc64cdfc80bf7e36f57329f789af371753e0f5ddad11a909",
+        "target_sha256": "be49c0c99ffc688fb05cc94814cb94e5da0f0a91084fd1f57d828f9d9c282038"
+      },
+      "events:arc_daeun_wedding_groom_side_father_passed:/choices/1/text": {
+        "source_sha256": "5cf13e40f511bbfa6d0104134da0593eafc15957ec2da64243bd5ba26ef5de9c",
+        "target_sha256": "0ed02fc14464ec591a9ac76ded8774828113d10b0a62918e5445cf68ee362101"
+      },
+      "events:arc_daeun_wedding_groom_side_father_passed:/description": {
+        "source_sha256": "c071ec5bb944ea704eff3d0ed3f5a5cc104091e2f59b12e81c03a13ca5701221",
+        "target_sha256": "31e805b0a37c4f90082d323e140b15e66f6f7bf8611fbd3fb2ff082b90e4b2cd"
+      },
+      "events:arc_daeun_wedding_groom_side_father_passed:/description_if_known/hyunsu_reconnected": {
+        "source_sha256": "ca41a6c2801f0fcf3a3e191f882c1c63debad9b3de5d75e32f6b57d084859ad0",
+        "target_sha256": "45eee0b2c03fd0c7c744f9311514ea436f15ee05efadf377a9f6451a6d8940f0"
+      },
+      "events:arc_daeun_wedding_groom_side_father_passed:/title": {
+        "source_sha256": "e4882b1abc3428550ff08b95a6ab413cbc840866cb681e727ad891f03af8067c",
+        "target_sha256": "ab622325b45f6928195eeea8edcace19241fef3e198bfcd28352e963c4f522c1"
+      },
+      "events:arc_daeun_wedding_night:/choices/0/result_text": {
+        "source_sha256": "3477d4edbdeb32ede5b54b80d357f057d3b0301c7d3f157ba689602591d7b90f",
+        "target_sha256": "cad701e4403839df0219d3f8ab9719499e33baabb8f0b7da6364972d9287f237"
+      },
+      "events:arc_daeun_wedding_night:/choices/0/text": {
+        "source_sha256": "bebafd02272c7346c9a19da3146a0d9d110f4f73a67f48cccf718ee8af9c3583",
+        "target_sha256": "cfe9ed1de5ef2c2f718dce9073fb9a8d47500d4ce885c821ab9837851988648f"
+      },
+      "events:arc_daeun_wedding_night:/choices/1/result_text": {
+        "source_sha256": "7aae3f7aae4bf3d8ce1a6ac679f794b2d971d541b8e3fed848e6fe9502b60950",
+        "target_sha256": "7277e16c75204b25cd85aa82952797cb49ad4ae776f3a69b67f575f326d33fd5"
+      },
+      "events:arc_daeun_wedding_night:/choices/1/text": {
+        "source_sha256": "b4f56060f06ad5861e21618b25e30d1ab099108d8106459ae875154ddaeed860",
+        "target_sha256": "e7c8f455edd885dc3f14812e9e0aa3030c74098ed44d65fd3684433ffb56e109"
+      },
+      "events:arc_daeun_wedding_night:/description": {
+        "source_sha256": "b9b4107aa77dc57f610eed4ceddefb4e0777efd6e0d0e7e5e5ab93d2b7875c57",
+        "target_sha256": "ccffdf710d80490c53980214867f05e524021219a379be67e3611b8c0559c37b"
+      },
+      "events:arc_daeun_wedding_night:/description_if_known/daeun_hometown_visited": {
+        "source_sha256": "94190b3de6c38d800260578ffd5d51c647de867ffd79ca69a3ad178835948693",
+        "target_sha256": "ac8de96a75c4e5b2240764f4128730298bd8dcb0e8ec538d937c267fcef6b230"
+      },
+      "events:arc_daeun_wedding_night:/title": {
+        "source_sha256": "2880b754b34b461617ca46fdcbb62632f3ae25567e43d2562c9490e98041828d",
+        "target_sha256": "240e860896f69b6a26b8f16373b83a9cfa008cab9a3f1fe77731e76ed99db7da"
+      },
+      "events:arc_daeun_wedding_night_choice:/choices/0/result_text": {
+        "source_sha256": "cbe477e0ed8f626d904bbd9dcb2317c8c81c8bc1cdc84c11ee27cf0c6958d1e5",
+        "target_sha256": "01b38d11cefdf5c0147775d3fbac4682c00119aabf936f4c34a6f0b96fa1b367"
+      },
+      "events:arc_daeun_wedding_night_choice:/choices/0/text": {
+        "source_sha256": "d9f2ea354edaec3314b54c730ea29f56344a940e29a5ae1995e4cafc47d91fc4",
+        "target_sha256": "afe350b9f0217f4533367172293041504b67c2657801453634f4c58a5305d309"
+      },
+      "events:arc_daeun_wedding_night_choice:/choices/1/result_text": {
+        "source_sha256": "f5de24eccfa92ae721d8688abfa86919030b5686a54bf4b839a1fa08480e27e2",
+        "target_sha256": "2a6e7692f614fc56e5c00242ef5376b35fb82b1acbfb430fc551861344830a32"
+      },
+      "events:arc_daeun_wedding_night_choice:/choices/1/text": {
+        "source_sha256": "ee14db7c022beb3acd1f9dd71555c8ea02b36f1a581b5c48eb845f49694e657b",
+        "target_sha256": "216f786d8d0826e78c23662434233475211414f9eb68eb6bfd3d20319cabdfec"
+      },
+      "events:arc_daeun_wedding_night_choice:/description": {
+        "source_sha256": "cece3939974625e43ab2aebdc9e0b240118abd5c5629712b6e2329c296d18ccc",
+        "target_sha256": "0a2d12857bd556ca5bab7d61f085ca3892bb1d87c67f8aff65325b9c92096b79"
+      },
+      "events:arc_daeun_wedding_night_choice:/title": {
+        "source_sha256": "e963f0bb770f0f0f1a4f194768aa2c0d029dfa74180545b5dbb1c9379b60d3d4",
+        "target_sha256": "273bf0d063af131a411879cf56cd0d578e830201c6bd181d70d2396a4774b03f"
+      },
+      "events:arc_daeun_wedding_night_honest:/choices/0/result_text": {
+        "source_sha256": "846d1e4fc1d90a7d0e2384c5f5d459db1d404dd2ef91d2313951952d49825269",
+        "target_sha256": "1e17f21059fe82af0eb9f1a8ba7df92d96a9fd05f60360e4141c74ed1c89b303"
+      },
+      "events:arc_daeun_wedding_night_honest:/choices/0/text": {
+        "source_sha256": "8757121b462be6f19203d8f89664a6f934feefcc0efd5cdce4ea9a55302605ef",
+        "target_sha256": "49b48b816ef84afc984291bf372ea2f79807a0b33d27f728d37638066e2746f7"
+      },
+      "events:arc_daeun_wedding_night_honest:/description": {
+        "source_sha256": "c6b200200dc6fcb2e13140612c735f53ad89340350ffe5b7bbae76b2407f1936",
+        "target_sha256": "621bf54a5955e63dcd6372a1e87291c1d2d99338ba302312e0f6c96d84fb011d"
+      },
+      "events:arc_daeun_wedding_night_honest:/title": {
+        "source_sha256": "21362d179e76860bd4053a59c68ad22ad2d7b5fdbecfa1a419c1c0e230da0390",
+        "target_sha256": "4585173704aad23db578a053a5e07adf4deebc9b5c353709eb98a301b5133c68"
+      },
+      "events:arc_daeun_wedding_night_tea:/choices/0/result_text": {
+        "source_sha256": "e8b8e6bd1a81efe5b64f027cf7e9060ddb18a16fc7c350a54ac6a8552f3955ce",
+        "target_sha256": "d27d955076fbc3c167be10148f943ca13162bfa2c64e2d0915089c76a6f2d46c"
+      },
+      "events:arc_daeun_wedding_night_tea:/choices/0/text": {
+        "source_sha256": "639cc07303b368ddb133540561d5e8ad9516fe25083e413daf9357838c296b40",
+        "target_sha256": "8392f393b7d94a9c59a1578aefa4bcac998e520db16b7b2a7822f415b70dcbd6"
+      },
+      "events:arc_daeun_wedding_night_tea:/description": {
+        "source_sha256": "80462db0c3799d9e5a1fb98af867670c4d0db143542b9f3e5331e09ba4bd434f",
+        "target_sha256": "f4e847c5a8e8d7d9f294e1c22458dece918ac81d8af6d89f560e483004e685ee"
+      },
+      "events:arc_daeun_wedding_night_tea:/title": {
+        "source_sha256": "549c1d7010a8f867ae81386b43de93e72928ce4879dfe3633f612eb5b27bac04",
+        "target_sha256": "b740adaba5c92b6044ad41d1c6777b04a14566a5928341ad16528b5f53bcd9ae"
+      },
+      "events:arc_daeun_wedding_prep:/choices/0/result_text": {
+        "source_sha256": "ebc6bab13530841900d0585c532da748c306c823804f3faf14c0794f525baf47",
+        "target_sha256": "e091c44d10c17ef1434614a6bbe65126d1cefdd3294563ce40db3a0d219e1b74"
+      },
+      "events:arc_daeun_wedding_prep:/choices/0/text": {
+        "source_sha256": "5745156df375f1f997fc1d9e99accc30104c5f049aa20d901b2d4d7841e84bcc",
+        "target_sha256": "61bbd955673bb93ae1ff593eacadb947df048672a6445018ca3ae37807ec603b"
+      },
+      "events:arc_daeun_wedding_prep:/choices/1/result_text": {
+        "source_sha256": "f3ecbac9a23673cfb6904f018a6e10f7fe2f0527e042161488f155ed3cb8df6e",
+        "target_sha256": "e4f67d528338fa63e7b3b38a32a2c0da1719468c605b759d2a65043279acf4b0"
+      },
+      "events:arc_daeun_wedding_prep:/choices/1/text": {
+        "source_sha256": "9e9823215beb7884a62108fdc34ceca02b4307819b732cf476a6e83a8b00a25a",
+        "target_sha256": "f580bdedcdb0b934e0b80272dc435f0a7219d97806fb75bcc8fe3d68ef2cbd5a"
+      },
+      "events:arc_daeun_wedding_prep:/description": {
+        "source_sha256": "9baf62348109705bec20de50333795ab59fcf9c4df47c8f57ecccf32c6e5d225",
+        "target_sha256": "322d3aa0f65d306c73620d046c7d8b0dcc4fe5f2d94ade1f4ce911e2e8dcaa64"
+      },
+      "events:arc_daeun_wedding_prep:/title": {
+        "source_sha256": "256b401bcb653f3c75cb1022008ef60db2e74ae4dd6b723d4198c459a39d5e47",
+        "target_sha256": "9f4d3e0ec68e046a20fcc41de9307fa654731b12521e268796d02f3846ac8510"
+      },
+      "events:arc_daeun_wedding_walk:/choices/0/result_text": {
+        "source_sha256": "12f15896aea525876be8623a202e954874d5836150c6ebdf6f734a72d8dca2c6",
+        "target_sha256": "aad04afa64ab2da4132d92f46ee81f2b9c137de8fadc91610414da0a2b9545fd"
+      },
+      "events:arc_daeun_wedding_walk:/choices/0/text": {
+        "source_sha256": "8c975a164cb78a89bb5225db24b5342a34784172a07295ebe00c57b9aa1ae0a8",
+        "target_sha256": "2028e2aca99e006546eb44689e311b21cb13350dd2fcf2fba7f3f183ece4adf9"
+      },
+      "events:arc_daeun_wedding_walk:/description": {
+        "source_sha256": "87aeb6e617ac06354403a763f53750cb71480e2f04c145e1a4782d0ef616d810",
+        "target_sha256": "6122f979cba38cc00d9f42b3aabad367487d08efbfacf6b1bddbe8ed9062cc9f"
+      },
+      "events:arc_daeun_wedding_walk:/description_if_known/namsan_lock_daeun": {
+        "source_sha256": "a169ea6a48a04ec588acb2c9c3e06b88f11be5d97d9103f02b50fff0172db9f7",
+        "target_sha256": "25c59901a6350d8de21cba13d74a9288348be8028d6d8d302357fa62cff3afe5"
+      },
+      "events:arc_daeun_wedding_walk:/title": {
+        "source_sha256": "f4ca044a1a6aa7e66f2ab91954fc6e446ec71bbb71cf3fbb6e679b8b1274d12e",
+        "target_sha256": "a5a1a7db5d715f9b1731dfd8582f0a44a3d5aa433bd649ec8d2d8e07c952f5f3"
+      },
+      "events:arc_daeun_y5_feelings:/choices/0/result_text": {
+        "source_sha256": "975e4ffdefef92906155cad25c780f51179566808b9e060c3efbb5bca276b4ab",
+        "target_sha256": "5b15416db6ce20c6af07edd8e8e8227f6ba774a9a5349b9bd3d6ec04399b5a25"
+      },
+      "events:arc_daeun_y5_feelings:/choices/0/text": {
+        "source_sha256": "4bb297a12daecd390e76c7389fc2f4c183cfb74889a669d34870dc115b201a80",
+        "target_sha256": "ae39048705ebe2f84eb02d519ab9647ce9d0a2f2fdfb46836227bf4e4f5d02d2"
+      },
+      "events:arc_daeun_y5_feelings:/choices/1/result_text": {
+        "source_sha256": "ffe92bd544ccfc6f93b134e1d82633ed5a54bb155fe17e331a83db52012ad00c",
+        "target_sha256": "e5734ac00258a2e0cdf66f93f622e08a48cef03fc0eecf17e36bedca7a0a2ed6"
+      },
+      "events:arc_daeun_y5_feelings:/choices/1/text": {
+        "source_sha256": "566fc89c971f991358c3f95785bf9c45563798f542ad7cd75963ef3b04c5cc2f",
+        "target_sha256": "452631d84d09a6ae478a68946315d02e179f46167cc90f13037bb3458c782d05"
+      },
+      "events:arc_daeun_y5_feelings:/description": {
+        "source_sha256": "3b0cf64a6d37340094db926b3e8e2f59a5d4558bf6c06674c41c84ff66e8a0c7",
+        "target_sha256": "a76c45ed07fbd29097571ee21bf067b100190f8733fd261c27d7d129ef95c288"
+      },
+      "events:arc_daeun_y5_feelings:/description_if_known/daeun_close_bond": {
+        "source_sha256": "b259d202daf7812382886e421897f00bf10870fb83fadea1e4d9b8af26f69f47",
+        "target_sha256": "d997241a78ac9c4c2959a1cb3c1246f32452498b2a09bde95f292ca7aa4230f8"
+      },
+      "events:arc_daeun_y5_feelings:/description_if_known/daeun_date_set": {
+        "source_sha256": "f1fff173cd045daec33f2bbbabd8d4790265b3f5002482cf74b03a3d1b4d7239",
+        "target_sha256": "4ddde2122e8077f66d123d8b7fc4aa49b71cc42b1ed715d2c335aeea36dab513"
+      },
+      "events:arc_daeun_y5_feelings:/description_if_known/daeun_late_call": {
+        "source_sha256": "1abdb07d1bd8854fdd0fd3bbccaca477a0527dd74d91e3998558dc3556648d5b",
+        "target_sha256": "c1a086a1f93922b21a264c61055dc0e6563f6b8ed4e30f3b7c641db16615d135"
+      },
+      "events:arc_daeun_y5_feelings:/title": {
+        "source_sha256": "5229de08c345eef0896a518dd5ac3a4cbe517d63695826864d370e3d89c25d4f",
+        "target_sha256": "a1ce94abea9324a93894771c377de255c1410bfb2e14e3dabdec6b659cba1fb3"
+      },
+      "events:callback_daeun_committed_gangnam_eve:/choices/0/result_text": {
+        "source_sha256": "088ee723a1d99a2cd395d942a7753766565d7e42768ae7b45038030c1b3aaca6",
+        "target_sha256": "b05553f223605b06c4f9ee7deda1efc9b7857a13bc26c5ecdccc000dbf492c94"
+      },
+      "events:callback_daeun_committed_gangnam_eve:/choices/0/text": {
+        "source_sha256": "4532585aba14b2254a3458da04a284a0cd2d7e35c5f67a6c142de153faa69470",
+        "target_sha256": "160210ca9fba50b2bb5307297b876b4176106fd9ccbd605f73adcd2910431d79"
+      },
+      "events:callback_daeun_committed_gangnam_eve:/choices/1/result_text": {
+        "source_sha256": "71e8fe7cf24f67a045970bde79fe4e1f5c62eb991d35d57c2bb3bf2a44b6f2d1",
+        "target_sha256": "00003f259a5d800b41763df940c1ee9c4d36baa05683e0558beafdc65dccd5fb"
+      },
+      "events:callback_daeun_committed_gangnam_eve:/choices/1/text": {
+        "source_sha256": "4e255baeb37d3989b8fdcef8700933f95e0ea908b31f663908454333335215d4",
+        "target_sha256": "c7c25114ae06a4f11e853898229617bab7e0a138fa8f48d28c1e4bc8b31bce6f"
+      },
+      "events:callback_daeun_committed_gangnam_eve:/description": {
+        "source_sha256": "15c9da250e401a67721aa64a0e227198c4d1e358ab347adf4452685d9fe78a56",
+        "target_sha256": "a64ede7e4015364d3774eb0523daa4d10efe3fd1a7113fc3f46386be2c93830e"
+      },
+      "events:callback_daeun_committed_gangnam_eve:/description_if_known/arc_almost_there_seen": {
+        "source_sha256": "aadd7cde4a936c57781aaf5e3fbb7b47cbee052d575bd6c17b376228a3d37a75",
+        "target_sha256": "3ef9726089adb154bc66de462c7120a55890e20aefb71ac9bfb9f21c5199ddbe"
+      },
+      "events:callback_daeun_committed_gangnam_eve:/title": {
+        "source_sha256": "0c6a23a3231f94b24c2e8add268491733ff02027425b74e0e998243a10e8d51a",
+        "target_sha256": "b7f99c70547090cf9587da8b16292c593a9e9676a7d57b2338ee114e09ca8221"
+      },
+      "events:arc_jiyeon_narrow_room_1:/choices/0/result_text": {
+        "source_sha256": "44f1c1243a1b9cb49e603ddd844ffb1b672cfe2d270dea175ea3f5df09ac95b2",
+        "target_sha256": "047bfef7fbfcec1f88603b5b84c0f911afc6f6aa9c710eba47cd28628c40389a"
+      },
+      "events:arc_jiyeon_narrow_room_1:/choices/0/text": {
+        "source_sha256": "fdacdb07777a2b11d080de44e9c6bfb939cda17a542ece586e5c7beea30e7616",
+        "target_sha256": "acf7285834e3b7fe34848cb092a0e47d403a3663867bc6f3fb8ad610bbf8e1f1"
+      },
+      "events:arc_jiyeon_narrow_room_1:/choices/1/result_text": {
+        "source_sha256": "e4bb670a98a0fb38be046671bd47c3f2edfd527f4d71609a2a0b3e5d1b00eed4",
+        "target_sha256": "d9187bdfdf99955c63b130aa73e0e74e475939e8af1ae7c3d6ab54d3ea406a3e"
+      },
+      "events:arc_jiyeon_narrow_room_1:/choices/1/text": {
+        "source_sha256": "10a9e193fce0e60e808933d20e521615b75263cea094924b3c0ca4fccf91e4a2",
+        "target_sha256": "87df8484ee624bd6fd75edfcd77a53e9ad2e0063953151951b35adfa5aab8d71"
+      },
+      "events:arc_jiyeon_narrow_room_1:/description": {
+        "source_sha256": "5c0b855e6da79ee76dc39e371b8b5b8c64a7bd308fabacda0068fb79253f6f06",
+        "target_sha256": "34e79b4b066b8365f5866c2917fc87a88582300dc4e9406ec2d5b76319698773"
+      },
+      "events:arc_jiyeon_narrow_room_1:/description_if_known/arc_y3_jiyeon_departure_seen": {
+        "source_sha256": "6fa11a44c99dae992bdbb756705e7ccca338a91643517c54a6eb0e868696b0a9",
+        "target_sha256": "fc8060417588ce8a2430ccdc4cdd3219a2636cb1a74c636265a12f2755a71dea"
+      },
+      "events:arc_jiyeon_narrow_room_1:/title": {
+        "source_sha256": "927cf0ef792a7d459a4294b9a2d48dc81008292e9c63908dba87ad8db5a59c34",
+        "target_sha256": "da201cc1b0e4b6b66a786bacd18629add19371f005cbb6e337e3899074929b9c"
+      },
+      "events:arc_jiyeon_narrow_room_2:/choices/0/result_text": {
+        "source_sha256": "69fc704e05655cce866695f28c42d188b1a82eb61c6cbba880e7a7c85d45a3f7",
+        "target_sha256": "09a5756d4f2931cc952fff8d3aeeb4372b865f076c6551ad163e5c489ed36c07"
+      },
+      "events:arc_jiyeon_narrow_room_2:/choices/0/text": {
+        "source_sha256": "7c09c2d21d73b9f7dc0eb696e85d803394a45512fc8db042221dc41a167db5c1",
+        "target_sha256": "79e9a3a8c48a812e8fca1e64db9fd07579fd42d51efd5e1ed6b969f2cdc99850"
+      },
+      "events:arc_jiyeon_narrow_room_2:/choices/1/result_text": {
+        "source_sha256": "d17ee02ae64007cabbad6787ce03fe3b657125653bed9b77c8f1f8914ad4aec7",
+        "target_sha256": "4c57637f2e6e0854b625e60182667200cacd2a0b228ff8c48a23bf3f5e694676"
+      },
+      "events:arc_jiyeon_narrow_room_2:/choices/1/text": {
+        "source_sha256": "498a56760c4a3ed07054216c7c66c4d59da77af1a18dcfa550495dff0087bc43",
+        "target_sha256": "cd27ad72c4e93121c7539d36e5fecc01f0832c9b548931e17c84e05ffbe6bdca"
+      },
+      "events:arc_jiyeon_narrow_room_2:/description": {
+        "source_sha256": "91aff987d0a5552fe7a1dc1fc277bb40d051a915900c8b05ea459a00278addce",
+        "target_sha256": "ff1915d56492012e21df79f47c5d00a18f0dcf5a21854625fca78a68f91e984b"
+      },
+      "events:arc_jiyeon_narrow_room_2:/description_if_known/told_jiyeon_about_records": {
+        "source_sha256": "02f1625ddc7ff235893bdd97102b249da7bfd1c61dfc5619e568eaf1f6bc3271",
+        "target_sha256": "fdd11f7fff3b9291f365834d4c947bfb43d09365b2c2722ad76c89871349bfd0"
+      },
+      "events:arc_jiyeon_narrow_room_2:/title": {
+        "source_sha256": "89ce3d6c3423d13dc56965feaf2f4fcabf81e7f66c7efd62ba605603a75ad9a4",
+        "target_sha256": "a3a6209f3b6ebdab981e4090e27c6c750405f487b2526fafb8c672be3c545024"
+      },
+      "events:arc_jiyeon_narrow_room_decision:/choices/0/result_text": {
+        "source_sha256": "72e8351069db1d99acea6d22e2aa508ecd61b9326097d5285a9621654abdb295",
+        "target_sha256": "4e7b073170cf4ccd1f4922bf64b061ceee4e1d0a7f01cd350ab3c27b1d25a523"
+      },
+      "events:arc_jiyeon_narrow_room_decision:/choices/0/text": {
+        "source_sha256": "f92ed64b9fb8fcee3ac7837686a63da1737f2ab62b1f47f2d15bbf2ad7a9e5b6",
+        "target_sha256": "42c53231c454ae83db87fab6f590b8f9922edd5173b14263cb883287588f25be"
+      },
+      "events:arc_jiyeon_narrow_room_decision:/choices/1/result_text": {
+        "source_sha256": "ae922b1e8255cef8c1234454c4799c93d8b34a7e0848eb823e81b49178662168",
+        "target_sha256": "6b0f49c3dd54c6c19ea7e8da9b45c990d67e68fdb8e4412ba950675713ac8b9b"
+      },
+      "events:arc_jiyeon_narrow_room_decision:/choices/1/text": {
+        "source_sha256": "c0937b16b7db0753d2682ef8e81e95c6b31aadd6314a7c062b30bdd80285e774",
+        "target_sha256": "eb8a3b8fba79648ff80166e11e7533475baaceefcc2373a297ed266553cae73f"
+      },
+      "events:arc_jiyeon_narrow_room_decision:/description": {
+        "source_sha256": "06a19d98c4d01242cc07ee9bd36ec156dde1d42abb44fd1b25366cfcaa33f6a5",
+        "target_sha256": "ea821b9f84e7f3483fa7f95515f5107f6c30696f5b3ea29cc94b36f5700002fb"
+      },
+      "events:arc_jiyeon_narrow_room_decision:/title": {
+        "source_sha256": "befa7f2004c8f5a5ed5ce88af47ba74135fadf0ba80080ace72aa93fa90f2006",
+        "target_sha256": "95d37a21c4d3e586a6d689e41b677151c7cf992f53e7b415f5718557ff50d87d"
+      },
+      "events:arc_jiyeon_narrow_room_silence:/choices/0/result_text": {
+        "source_sha256": "7129b68cbd145871d492ffab2a3dd01684aca2b05d8e6edbdb5758934a42fdec",
+        "target_sha256": "dcd184ba2eab7fa0adbffe06eb229ee53b95a66183fe7847be38773feda1628f"
+      },
+      "events:arc_jiyeon_narrow_room_silence:/choices/0/text": {
+        "source_sha256": "309e9dbcee246763d0807c9224dbe60fda98cfd00f23310849313ef8faf1ef9d",
+        "target_sha256": "1afd415df502c690ed5418ac47562fb8acf1188d5fea4a030122699fbc40fe9c"
+      },
+      "events:arc_jiyeon_narrow_room_silence:/description": {
+        "source_sha256": "f5fa0f7d6ce3b7fc9c73ba93ce65b6b2d076dca0d2f5484d176d4c8dacb988ea",
+        "target_sha256": "b9e9801fbca7165b607db9a39037e15561434017c6454c59593048a92750618a"
+      },
+      "events:arc_jiyeon_narrow_room_silence:/title": {
+        "source_sha256": "d7b4be00b558b6f0dd183d387159e1f913d15f3ee542a8d4f9fe12d76a714143",
+        "target_sha256": "77ef7df665df4daa12306465e71c20be4922411985716b1a0cfa40435ac61c6c"
+      },
+      "events:arc_jiyeon_narrow_room_truth:/choices/0/result_text": {
+        "source_sha256": "fbd6a69639bb5e4e6e38bcea000591f5bc1b10a6c3cd915405aaa4e814ad120c",
+        "target_sha256": "e6be2562707ab3906ec7f34c9562728cb24983791802fb95b23edccd078bb656"
+      },
+      "events:arc_jiyeon_narrow_room_truth:/choices/0/text": {
+        "source_sha256": "48b5ef5dac03c7979aeb20b0d644481bfbfb939f2010d919b86f64109a980f8e",
+        "target_sha256": "58ede26d333a74e8839a98b55ab586e4ffeee93d571186805088cd655ccb807f"
+      },
+      "events:arc_jiyeon_narrow_room_truth:/description": {
+        "source_sha256": "c6f9d331a511bbe9e3adf5229ab0d685d8be42977bfd65ae73f9a33b663bd000",
+        "target_sha256": "4149929d6c652277d312fb9e1d6bd01f95042544b3960e024ba7bf331a183d9a"
+      },
+      "events:arc_jiyeon_narrow_room_truth:/description_if_known/told_jiyeon_about_records": {
+        "source_sha256": "778bd13c014d7910b62bf3d99b77a6b464d979bea2289dd4c0aa5c66ffada7c9",
+        "target_sha256": "d32aa6a9797e9c7ec58bf3318ae53051e79e5dc3807845e6199b14402f303f91"
+      },
+      "events:arc_jiyeon_narrow_room_truth:/title": {
+        "source_sha256": "e19835a5d9982ae1f030454ba03067fe2078b6f77b5561ce364ad87aabf256c0",
+        "target_sha256": "c3b48f8572da03e5cab847189c2e322f67aacddf8425a00e3a21bb667ed905f2"
+      },
+      "events:arc_jiyeon_wedding_gap:/choices/0/result_text": {
+        "source_sha256": "8bcc3d3c00d0258c02d42e7b1ccdb60b9b0035842d038426ca6f7b2ef08a16df",
+        "target_sha256": "5144b0d584ff9f2af40973cadde62d82b7970a7a2595fc3f56714dc37d3b1ce9"
+      },
+      "events:arc_jiyeon_wedding_gap:/choices/0/text": {
+        "source_sha256": "e33490d2c874de0c02e5d13018496ab33a9816c8d8b5e964d3c4a1396303abba",
+        "target_sha256": "ca5bda1c1eb5745f86b2bacd0691e4b8e8912a07cdbd773aaa4222ff28bdf75a"
+      },
+      "events:arc_jiyeon_wedding_gap:/choices/1/result_text": {
+        "source_sha256": "8d38bce1df6512e7c3b174ec76e5619e1b99df8aaa3e398f662c25849a1f3f00",
+        "target_sha256": "d8a495dfb1d688b034adcbff177fb8fb1304bdf5b96c23956e313cd48be05fed"
+      },
+      "events:arc_jiyeon_wedding_gap:/choices/1/text": {
+        "source_sha256": "303834214829a8ce994fb01e72a718ede23e4410764d5e210577f7acbff0f1c1",
+        "target_sha256": "cc89223c42412ef07ff2af31764381985d6ce73c854923e77eac324f6d1c4e06"
+      },
+      "events:arc_jiyeon_wedding_gap:/description": {
+        "source_sha256": "40f7381ab8652ca7eea0ca5afd06301ccf43937168c6f3940ad6e05af3ac8487",
+        "target_sha256": "e492d798e55da48585931dd7ce45d6e98c402135f8c7e15a11310574f41a08fe"
+      },
+      "events:arc_jiyeon_wedding_gap:/description_if_known/jiyeon_narrow_room": {
+        "source_sha256": "40a254b2f3a627d6be1f46ae2163f748c06bbe84183c043ee114302734058c15",
+        "target_sha256": "3e64c63db207def32fa06a9ac888a20bc1cfe5ee5bedad19c6441ea7fca05c24"
+      },
+      "events:arc_jiyeon_wedding_gap:/description_if_known/told_jiyeon_about_records": {
+        "source_sha256": "ad2e937d0a2a26955cd879114eca8c064e7872b8ad2d8cbf5450915afc4435f2",
+        "target_sha256": "1baeba83077fc2911ce88d465ef1fad9efc378ef6ac7a4fb8c04da084394fb1e"
+      },
+      "events:arc_jiyeon_wedding_gap:/title": {
+        "source_sha256": "f190fd4f3e8baf051caea659d3008ec97e56db950279d5819c46d5a7ab32bc1a",
+        "target_sha256": "3f6cad5b28dc6b60f60f1957753ed1a012b31f02d4f4c1be5b0bf5851deb2776"
+      },
+      "events:arc_jiyeon_wedding_gap_decision:/choices/0/result_text": {
+        "source_sha256": "54da1ad7fdc9687b612d36bb60ca6832ccfecf6d77822709ce4e00f5f0381877",
+        "target_sha256": "de4c95cd2f47830a242edc2b9614b23fa51d59253bfe80a092868bba147afaa3"
+      },
+      "events:arc_jiyeon_wedding_gap_decision:/choices/0/text": {
+        "source_sha256": "ef023f371fca81cd4ac0b324048fc4b83011658a5b5b0c83f2af9416f062ba33",
+        "target_sha256": "04d217868de37c5bb313e77ea5efc38d16298377cc1ef3e60e4702cfececcea7"
+      },
+      "events:arc_jiyeon_wedding_gap_decision:/choices/1/result_text": {
+        "source_sha256": "9019d46188789f2ebc7da0db6c47ed9b8eff5df5c98abac0edfed7ba0c2b7652",
+        "target_sha256": "ce667a071975c80436bb8973eedce3891ce3b4363c1ad9a4049feb34727cd4b7"
+      },
+      "events:arc_jiyeon_wedding_gap_decision:/choices/1/text": {
+        "source_sha256": "12c46125d13c3a0264497019f2b8285136bd2705838f452486f0b4c63ee7d0fb",
+        "target_sha256": "13ad8e1e5ce9bceb03eebd71c36b2d1f23d21d3eb304c89c27c3cffc5d5840a1"
+      },
+      "events:arc_jiyeon_wedding_gap_decision:/description": {
+        "source_sha256": "ebb1d92de26c5f63703d8594eb9a28ea912acda3b48ed5027ca82481b90412f6",
+        "target_sha256": "7ee5ae3cedc61ae823a6f0f2ae4ae4228b62a339c9419a7099eb227471c1bbdd"
+      },
+      "events:arc_jiyeon_wedding_gap_decision:/title": {
+        "source_sha256": "c41bcdef0471a23327fd1cfe16b7c6129e82c1035ae663f1d0bdc13f1861ab50",
+        "target_sha256": "940f8af966fb405bf156071f6c63798b2ad3d810ef00b4366877720c17a67143"
+      },
+      "events:arc_jiyeon_wedding_gap_father_passed:/choices/0/result_text": {
+        "source_sha256": "8bcc3d3c00d0258c02d42e7b1ccdb60b9b0035842d038426ca6f7b2ef08a16df",
+        "target_sha256": "5144b0d584ff9f2af40973cadde62d82b7970a7a2595fc3f56714dc37d3b1ce9"
+      },
+      "events:arc_jiyeon_wedding_gap_father_passed:/choices/0/text": {
+        "source_sha256": "e33490d2c874de0c02e5d13018496ab33a9816c8d8b5e964d3c4a1396303abba",
+        "target_sha256": "ca5bda1c1eb5745f86b2bacd0691e4b8e8912a07cdbd773aaa4222ff28bdf75a"
+      },
+      "events:arc_jiyeon_wedding_gap_father_passed:/choices/1/result_text": {
+        "source_sha256": "8d38bce1df6512e7c3b174ec76e5619e1b99df8aaa3e398f662c25849a1f3f00",
+        "target_sha256": "d8a495dfb1d688b034adcbff177fb8fb1304bdf5b96c23956e313cd48be05fed"
+      },
+      "events:arc_jiyeon_wedding_gap_father_passed:/choices/1/text": {
+        "source_sha256": "303834214829a8ce994fb01e72a718ede23e4410764d5e210577f7acbff0f1c1",
+        "target_sha256": "cc89223c42412ef07ff2af31764381985d6ce73c854923e77eac324f6d1c4e06"
+      },
+      "events:arc_jiyeon_wedding_gap_father_passed:/description": {
+        "source_sha256": "1fdef06c8a2c633a83fbd000e6c19e1ac299f9d2358a5524e6be87fff81ee2ec",
+        "target_sha256": "74ac24b49cdb7900a525d665a3148fb41524008eef2a0dd224764dfc4096a2f6"
+      },
+      "events:arc_jiyeon_wedding_gap_father_passed:/description_if_known/jiyeon_narrow_room": {
+        "source_sha256": "40a254b2f3a627d6be1f46ae2163f748c06bbe84183c043ee114302734058c15",
+        "target_sha256": "3e64c63db207def32fa06a9ac888a20bc1cfe5ee5bedad19c6441ea7fca05c24"
+      },
+      "events:arc_jiyeon_wedding_gap_father_passed:/description_if_known/told_jiyeon_about_records": {
+        "source_sha256": "ad2e937d0a2a26955cd879114eca8c064e7872b8ad2d8cbf5450915afc4435f2",
+        "target_sha256": "1baeba83077fc2911ce88d465ef1fad9efc378ef6ac7a4fb8c04da084394fb1e"
+      },
+      "events:arc_jiyeon_wedding_gap_father_passed:/title": {
+        "source_sha256": "f190fd4f3e8baf051caea659d3008ec97e56db950279d5819c46d5a7ab32bc1a",
+        "target_sha256": "3f6cad5b28dc6b60f60f1957753ed1a012b31f02d4f4c1be5b0bf5851deb2776"
+      },
+      "events:arc_jiyeon_wedding_guest_list:/choices/0/result_text": {
+        "source_sha256": "38adca68120d69fe35f00fc8e9b2f4749e7951308e2b1f1848399ecafbeeccb4",
+        "target_sha256": "5b43e6964078f4a773ca9d31e890a6286dc22995b989c4ad401674a8446a20ca"
+      },
+      "events:arc_jiyeon_wedding_guest_list:/choices/0/text": {
+        "source_sha256": "c82b296d8021ce493cb0f063e99a4a0e6d44f0a28893a897781aff66495c49c3",
+        "target_sha256": "e536c6b33363df21ff09c06d993d2fffc558d0020e75271a26a81259323b40ac"
+      },
+      "events:arc_jiyeon_wedding_guest_list:/choices/1/result_text": {
+        "source_sha256": "9ae175543ae26ec0ca0d2035c23ce398f95d2973766dbbaeeee74772fe4ca3ca",
+        "target_sha256": "9e2aecd160d7afe0ff798fd2b1aa661b0a210389b190d1164749f39c727070af"
+      },
+      "events:arc_jiyeon_wedding_guest_list:/choices/1/text": {
+        "source_sha256": "cbfad69dd5db7a6718bcb8edfd174bf3d2b259db9d4a923ab58e9bf455eaa400",
+        "target_sha256": "3156d53e0c4a341e3664e16ff48278e4d935b8b721d576c70cebcaa7047a2047"
+      },
+      "events:arc_jiyeon_wedding_guest_list:/description": {
+        "source_sha256": "3c076b98cd353b950db4c51cfae00b13a6df550abef4b3f580d5b7fbbe57a449",
+        "target_sha256": "2d92dc8b1b9e7c198cf5dfe07a8fc342d0df9a4cbbc7b2385c53af252bfec8a8"
+      },
+      "events:arc_jiyeon_wedding_guest_list:/description_if_known/hyunsu_reconnected": {
+        "source_sha256": "62af6ee424ad94082134c18996258cacd6f1680bc992cbc27de832cfde288d70",
+        "target_sha256": "1a7d610777f5429b94b7cacf3e24b4dfbbf7cf09d11233fcaba5f8b60a6514f1"
+      },
+      "events:arc_jiyeon_wedding_guest_list:/title": {
+        "source_sha256": "064de6e6c2ee36410d8636d89e63f7a4467202841e2e502c43b7cf9a0c39a356",
+        "target_sha256": "b05aeb4c69d58c693f37a6c5dc575393a6065045ad2692c5b9b391c0d62ffe42"
+      },
+      "events:arc_jiyeon_wedding_guest_list_father_passed:/choices/0/result_text": {
+        "source_sha256": "38adca68120d69fe35f00fc8e9b2f4749e7951308e2b1f1848399ecafbeeccb4",
+        "target_sha256": "5b43e6964078f4a773ca9d31e890a6286dc22995b989c4ad401674a8446a20ca"
+      },
+      "events:arc_jiyeon_wedding_guest_list_father_passed:/choices/0/text": {
+        "source_sha256": "c82b296d8021ce493cb0f063e99a4a0e6d44f0a28893a897781aff66495c49c3",
+        "target_sha256": "e536c6b33363df21ff09c06d993d2fffc558d0020e75271a26a81259323b40ac"
+      },
+      "events:arc_jiyeon_wedding_guest_list_father_passed:/choices/1/result_text": {
+        "source_sha256": "9ae175543ae26ec0ca0d2035c23ce398f95d2973766dbbaeeee74772fe4ca3ca",
+        "target_sha256": "9e2aecd160d7afe0ff798fd2b1aa661b0a210389b190d1164749f39c727070af"
+      },
+      "events:arc_jiyeon_wedding_guest_list_father_passed:/choices/1/text": {
+        "source_sha256": "cbfad69dd5db7a6718bcb8edfd174bf3d2b259db9d4a923ab58e9bf455eaa400",
+        "target_sha256": "3156d53e0c4a341e3664e16ff48278e4d935b8b721d576c70cebcaa7047a2047"
+      },
+      "events:arc_jiyeon_wedding_guest_list_father_passed:/description": {
+        "source_sha256": "8b374291a3642395aed3423f19eb3556ba96eabfa9d3d03614b7223ded4df444",
+        "target_sha256": "a3256c0f8c807050d1a3950bdd17cfa747abbb65c0a53969bd78210d7914e7ab"
+      },
+      "events:arc_jiyeon_wedding_guest_list_father_passed:/description_if_known/hyunsu_reconnected": {
+        "source_sha256": "f8a67423e344c7a9c76423d1639e8f258f0ca95d1094ea19e1b7a120fed67631",
+        "target_sha256": "45a2c55a70ad1d76a6e240fda5bde276d970af26105ba9b490c43136483e3bad"
+      },
+      "events:arc_jiyeon_wedding_guest_list_father_passed:/title": {
+        "source_sha256": "064de6e6c2ee36410d8636d89e63f7a4467202841e2e502c43b7cf9a0c39a356",
+        "target_sha256": "b05aeb4c69d58c693f37a6c5dc575393a6065045ad2692c5b9b391c0d62ffe42"
+      },
+      "events:arc_jiyeon_wedding_night:/choices/0/result_text": {
+        "source_sha256": "797092be2ac6a60287ae1e0080d2967e2ef6b0f67c639f7f6651316523f037fd",
+        "target_sha256": "7e5e0c585ff7184f43c72fd3743856230bb61edbac5e0f05d1136760d84e009c"
+      },
+      "events:arc_jiyeon_wedding_night:/choices/0/text": {
+        "source_sha256": "477af345127e1c64d9af370d1852929ba9b36769e7646ae9f0eb5739bfcbf82d",
+        "target_sha256": "61d4943c20fa666b7fb9c6338e7de9abae8d92499b0b30c1eee0376b08e7ee60"
+      },
+      "events:arc_jiyeon_wedding_night:/choices/1/result_text": {
+        "source_sha256": "9a8a81b35d29b0f122b8588d512f0c4f5c2314aa1007945e54927134e4ab398f",
+        "target_sha256": "afa817d578663c3a39075bffd0494634d46bed137da6d47c16a8f3ea0600dc6b"
+      },
+      "events:arc_jiyeon_wedding_night:/choices/1/text": {
+        "source_sha256": "97c965d3ef8aec62324eaac26f51c7cff10b40653d7b9f5650a30b68b5a332a5",
+        "target_sha256": "3a17cd806bb6f2909d3dfe5176c49a6867b852ffdb7112fdb9eb8be269926f5f"
+      },
+      "events:arc_jiyeon_wedding_night:/description": {
+        "source_sha256": "d42bfe070af569e333d3d575c5c2ee4a0fc7ea479b45618b5a8d290d6fbd4642",
+        "target_sha256": "e8430c05ef29e0a9830721fa9bb02b269028e31e0220e3c64b34fccba9715458"
+      },
+      "events:arc_jiyeon_wedding_night:/title": {
+        "source_sha256": "2880b754b34b461617ca46fdcbb62632f3ae25567e43d2562c9490e98041828d",
+        "target_sha256": "240e860896f69b6a26b8f16373b83a9cfa008cab9a3f1fe77731e76ed99db7da"
+      },
+      "events:arc_jiyeon_wedding_night_choice:/choices/0/result_text": {
+        "source_sha256": "cf0cf9b9b62b627bae758f38a9a6a4052644b35207e3800df3bf2ea146d64fda",
+        "target_sha256": "69c5bd14afbd25ae35ece7b2da320d14b1e451f996174925c7e6df565d823511"
+      },
+      "events:arc_jiyeon_wedding_night_choice:/choices/0/text": {
+        "source_sha256": "80dd9b98ef6ab1f7b2d8841ae89e100ffe0c4170e80c6171244583f8b3b0ecd4",
+        "target_sha256": "cdf016b0b2905bd04462eedfa36d8af99d54090aad35888c42ac982cdad96306"
+      },
+      "events:arc_jiyeon_wedding_night_choice:/choices/1/result_text": {
+        "source_sha256": "53dbfa42ada06028c02127aa421cf32b4ce328b6e92bfaf74d215b417539c371",
+        "target_sha256": "d306038e348ba3e6eed6bf1056ea50dd3800a725e98262185aeba0bea5de6765"
+      },
+      "events:arc_jiyeon_wedding_night_choice:/choices/1/text": {
+        "source_sha256": "bbb5ca557f6a00ad21f7ac24abaf79624d6871b39c1dbc233ad896f4b0a34a20",
+        "target_sha256": "e01c37de4c2b3dddef3ac3fb9e4630c5455a8f4000ef1e90fca78074f75e1b21"
+      },
+      "events:arc_jiyeon_wedding_night_choice:/description": {
+        "source_sha256": "dc99966b6fa450f5ec87107cba0004e59057e3610c9f4217e5ee9de64ada4540",
+        "target_sha256": "ddafd249439e69708f08734f511f382ec45dbc0b64053e2496d3b112dc349b9c"
+      },
+      "events:arc_jiyeon_wedding_night_choice:/title": {
+        "source_sha256": "9147ab730309d64541c9d98ed6152c648de92f1000ee203fb897a16e9f4e3573",
+        "target_sha256": "e6ce277a7c4d94340777d5b26e28c914ba236bff693d0514289b93f033070630"
+      },
+      "events:arc_jiyeon_wedding_night_glass:/choices/0/result_text": {
+        "source_sha256": "df5924eb9ca5d296f20b45f16defaaf10b3c8f6c0dff4464adf85ed269ff54f0",
+        "target_sha256": "c42db25fd5f8ee0f63f1f1c73004f38c46663c83b406737ab652d304b1f5d9a5"
+      },
+      "events:arc_jiyeon_wedding_night_glass:/choices/0/text": {
+        "source_sha256": "3022943caec4f6c9b57d8ee93db65b7e1712ae51b52c4d320959f0f1510cc03c",
+        "target_sha256": "d5354244379af8b9403e066c78bafbb68a7a2c9e7d3029dbf3becdf08c02a613"
+      },
+      "events:arc_jiyeon_wedding_night_glass:/description": {
+        "source_sha256": "319b5a8776b164f12edb9eb867b3f605f039d4505f170870197ec968af213eff",
+        "target_sha256": "61396b8a69cd311a0cc8b45c8a7397290064ceb795bcbc6812329ed7030fdfd6"
+      },
+      "events:arc_jiyeon_wedding_night_glass:/title": {
+        "source_sha256": "56b1d7b1befb0183ca4ac634c5682d2f0c71682eaa1c5b4d75b002b71f12bfe2",
+        "target_sha256": "5c4457b1338d58a9efd5f09156eec10116649093d8cafdcd22551d6c14817276"
+      },
+      "events:arc_jiyeon_wedding_night_window:/choices/0/result_text": {
+        "source_sha256": "55aa46ae92827964ee181c2739f601dd4624734f74908c22c212bf39e9059a89",
+        "target_sha256": "9872271c7ac80526047bb913f8df6e206aa22f933a2946f7c812a535a476a30d"
+      },
+      "events:arc_jiyeon_wedding_night_window:/choices/0/text": {
+        "source_sha256": "fcf0edea38a3f51b815367b86ea258723c757bbc2a3341327c50bb1b39b80fa3",
+        "target_sha256": "674b2b3e854655cb643b08ebac716deab7ea7f8a356dac6df466df6db44dfac3"
+      },
+      "events:arc_jiyeon_wedding_night_window:/description": {
+        "source_sha256": "32abeb2839448e5f6ec3c71e2846cd89f0cf1115bd76749f2eb51d00ffc93eb0",
+        "target_sha256": "46e5eaad756b084dff25aca097e3061a53410767852929cc5b9d7384e1da880b"
+      },
+      "events:arc_jiyeon_wedding_night_window:/title": {
+        "source_sha256": "efd47f1eff0d1c6066ed7c79564d81f7eda2e741554dd0e758f24c0286e3c610",
+        "target_sha256": "3f421ca25d77946f5c7fc978057d133bdd987daa5fd2408e45e04622cac75f27"
+      },
+      "events:arc_jiyeon_y5_feelings:/choices/0/result_text": {
+        "source_sha256": "6328e1a05c83a7176d6d107b18e25a048f50ffd784976eb0986fef1139fde0de",
+        "target_sha256": "18441bc75ae23037cd755270ee7c60e8947f2037f315c9070013825d61b3e9a3"
+      },
+      "events:arc_jiyeon_y5_feelings:/choices/0/text": {
+        "source_sha256": "d7cedb583af54a0d824ea098f35ac8d19ff6278d6583e7a7577e83601a0bc50c",
+        "target_sha256": "c383d302aa4aefafc2ddb3eafc23c7bb87172db37587aae2bf88b5b3392523c4"
+      },
+      "events:arc_jiyeon_y5_feelings:/choices/1/result_text": {
+        "source_sha256": "af5ca91b911954452db81eca0515aa3c709a245dbc48d584d275fd75acd13823",
+        "target_sha256": "455fe9930377d5116dae9cc0699fbda3e60eb8bd514e58b1acb4139e09de092a"
+      },
+      "events:arc_jiyeon_y5_feelings:/choices/1/text": {
+        "source_sha256": "83e523da71a97754a7e6da4471d727de8fa9fab11a3c5b2f99ce6263bbe551a0",
+        "target_sha256": "6e36624a562e783e980e20ed99a3d008a835c9844e591436217963fcf0914716"
+      },
+      "events:arc_jiyeon_y5_feelings:/description": {
+        "source_sha256": "9416fd63ac42e164f90e350f0ff55d5ae4c63c60858a1a02219a47b71890c909",
+        "target_sha256": "d1e648fc08608adad094282c2631d13bee2ea975a009aed27890f90c28df9c07"
+      },
+      "events:arc_jiyeon_y5_feelings:/description_if_known/jiyeon_real_connection": {
+        "source_sha256": "8a8e4e0852f6a6c482996871289d5045caf183dbfc45db3592a9477717edffeb",
+        "target_sha256": "683f54ab910a25ac683d5a49eaf0c3d68c09231efd2a610789ae0e2220bda1d0"
+      },
+      "events:arc_jiyeon_y5_feelings:/description_if_known/told_jiyeon_about_records": {
+        "source_sha256": "974a81137adc932286c441c8fc9649051368cd6f4056c962bb03e2e9ea60b5dd",
+        "target_sha256": "0bb89b08a68f6e0ec9677d69f3d1dbda4b19c765ce5fd400b7e459eb317f88a9"
+      },
+      "events:arc_jiyeon_y5_feelings:/title": {
+        "source_sha256": "8c3c39adec1c8a1bce5ef8aa5aba50836dfc77bc26c7b056f782bdebbba9893f",
+        "target_sha256": "4e635fceba9a7fdb4be534bdb5870b62e98e47978fe44a26fc508e90ea17da46"
       }
     }
   },
-  "accepted_sha256": "46778f0233061f1b9c35ddcd43097a89cbe61d13d39ddcc42472929adb93bd51",
+  "accepted_sha256": "5e6b4eae354bcbd5869f991952644a89cbe8e6916215606a02a8ffe4ad07f4fa",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
