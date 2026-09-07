@@ -7,6 +7,7 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
+| 1 | [~] | ORDER-179 · 생활비·소비·주거 불안 번역 | [179](queue_active/ORDER-179.md) | 558번역 L1/L2 · L3 OPEN |
 | 2 | [~] | ORDER-178 · 직장·구직·자기계발 번역 | [178](queue_active/ORDER-178.md) | 582번역 L1/L2 · L3 OPEN |
 | 3 | [~] | ORDER-177 · 고시원·출퇴근·건강 번역 | [177](queue_active/ORDER-177.md) | 528번역 L1/L2 · L3 OPEN |
 | 4 | [~] | ORDER-176 · 월세·첫 월급·가족 기억 번역 | [176](queue_active/ORDER-176.md) | 555번역 L1/L2 · L3 OPEN |

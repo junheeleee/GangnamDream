@@ -281,6 +281,79 @@ class ExchangeTests(unittest.TestCase):
         ):
             self.assertTrue(tool.translation_errors(leaf, 'ja', bad), bad)
 
+    def test_living_japanese_plain_thousands_and_minus(self):
+        for source, good in (
+            ('1000원을 주머니에 넣었다.', '1,000ウォンをポケットに入れた。'),
+            ('산다 — 한 번쯤은 (−1,000원)', '買う――一度くらいは（−1,000ウォン）'),
+            ('비용 1000원과 환급 5,000원.', '費用1,000ウォンと返金5,000ウォン。'),
+        ):
+            leaf = tool.Leaf('events', 'example', 'content/events/life_events.json', ('description',), source, 'event_standard')
+            self.assertEqual(tool.translation_errors(leaf, 'ja', good), [], (source, good))
+            for bad in (good.replace('1,000', '2,000'), good.replace('ウォン', '円'),
+                        good.replace('1,000', '+1,000'), good + '1,000ウォン。'):
+                self.assertTrue(tool.translation_errors(leaf, 'ja', bad), (source, bad))
+        leaf = tool.Leaf('events', 'example', 'content/events/life_events.json', ('title',), '−1,000원', 'event_standard')
+        for good in ('−1,000ウォン', '-1,000ウォン'):
+            self.assertEqual(tool.translation_errors(leaf, 'ja', good), [], good)
+        for bad in ('1,000ウォン', '+1,000ウォン', '−−1,000ウォン', '−1,000ウォン（円）', '−1,000ウォン%'):
+            self.assertTrue(tool.translation_errors(leaf, 'ja', bad), bad)
+        leaf = tool.Leaf('events', 'example', 'content/events/life_events.json', ('title',), '비용 1000원과 환급 5,000원.', 'event_standard')
+        self.assertTrue(tool.translation_errors(leaf, 'ja', '費用5,000ウォンと返金1,000ウォン。'))
+        leaf = tool.Leaf('events', 'example', 'content/events/life_events.json', ('title',), '1000원', 'event_standard')
+        self.assertTrue(tool.translation_errors(leaf, 'ja', '1,000ウォン（人民元）'))
+
+    def test_living_japanese_buy_one_get_one_explanation(self):
+        leaf = tool.Leaf('events', 'example', 'content/events/life_events.json', ('description',), '1+1 행사를 발견했다.', 'event_standard')
+        good = '1個買うと1個もらえる、1+1キャンペーンを見つけた。'
+        self.assertEqual(tool.translation_errors(leaf, 'ja', good), [])
+        self.assertEqual(tool.translation_errors(leaf, 'ja', '1+1キャンペーンを見つけた。'), [])
+        for bad in (good.replace('1個買う', '2個買う'), good.replace('1個もらえる', '2個もらえる'),
+                    good.replace('もらえる', 'もらえない'), good.replace('1+1', '1+2'), good + good,
+                    '−' + good, '十' + good):
+            self.assertTrue(tool.translation_errors(leaf, 'ja', bad), bad)
+        other = tool.Leaf('events', 'example', 'content/events/life_events.json', ('description',), '행사를 발견했다.', 'event_standard')
+        self.assertTrue(tool.translation_errors(other, 'ja', good))
+
+    def test_living_japanese_lottery_ticket_and_ellipsis(self):
+        for source, good, bads in (
+            ('로또 1장에 1000원.', 'ロト一口、1,000ウォン。',
+             ('ロト二口、1,000ウォン。', 'ロト一口、2,000ウォン。', 'ロト一口、1,000円。')),
+            ('...3개 일치. 5등. 5,000원.', '……3個一致。5等。5,000ウォン。',
+             ('……4個一致。5等。5,000ウォン。', '……3個一致。4等。5,000ウォン。', '……3個一致。5等。6,000ウォン。', '……−3個一致。5等。5,000ウォン。')),
+        ):
+            leaf = tool.Leaf('events', 'example', 'content/events/life_events.json', ('description',), source, 'event_standard')
+            self.assertEqual(tool.translation_errors(leaf, 'ja', good), [], (source, good))
+            for bad in bads + (good + good,):
+                self.assertTrue(tool.translation_errors(leaf, 'ja', bad), (source, bad))
+
+    def test_living_source_scoped_chinese_brands(self):
+        from zh_translation_audit import _untranslated_english_errors as check
+        listing = '당근에 물건을 올렸더니 댓글이 달렸다.'
+        index = 'VOO, SPY, TIGER 미국S&P500.'
+        for good in ('在Daangn上架物品。', '把物品放上Karrot。'):
+            self.assertEqual(check(listing, good), [], good)
+        for good in ('VOO、SPY、TIGER美国S&P500。', 'VOO、SPY、TIGER美國S&P500。'):
+            self.assertEqual(check(index, good), [], good)
+        for source, bad in (
+            ('당근을 먹었다.', '吃了Daangn。'), ('물건을 올렸다.', '在Karrot上架物品。'),
+            ('빨간당근에 물건을 올렸더니 댓글이 달렸다.', '在Daangn上架物品。'),
+            (listing, '在DaangnPlus上架物品。'), (listing, '在KarrotETF上架物品。'),
+            (listing, '在Daangn_上架物品。'), (listing, '在Karrot2上架物品。'),
+            (listing, '在Daangné上架物品。'), (listing, '在Karrot\u0301上架物品。'),
+            ('미국 지수.', '美国S&P500。'), ('미국S&P5000.', '美国S&P500。'),
+            ('미국S&P500_.', '美国S&P500。'),
+            (index, '美国S&P400。'), (index, '美国S&P500ETF。'),
+            (index, '美国S&P500_。'), (index, '美国S&P500é。'),
+        ):
+            self.assertTrue(check(source, bad), (source, bad))
+
+        # The generic source-token fallback already admits these two suffixes.
+        # Assert the new composite licence cannot borrow them; broader legacy
+        # English-boundary behavior is not changed by this spending batch.
+        from zh_translation_audit import _bounded_latin_matches
+        for source in ('S&P500é.', 'S&P500\u0301.'):
+            self.assertEqual(_bounded_latin_matches(source, 'S&P500'), [], source)
+
     def test_final_year_ordinal_version_and_source_document(self):
         for source, target in (('열한 번째 장에', '第十一頁'), ('여섯 번째 장면', '第六個場景'), ('첫 번째 장면', '第一個場景'), ('두 버전의 모서리', '兩個版本的邊角'), ('R3 원문이 있었다.', '有R3原文。')):
             leaf = tool.Leaf('events', 'example', 'content/events/arc_midgame.json', ('description',), source, 'event_standard')

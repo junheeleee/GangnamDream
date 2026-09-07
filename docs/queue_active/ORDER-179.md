@@ -110,3 +110,63 @@ L3/원어민/화면 OPEN·출시 M01~M06 BUILD2026.08.31.1 사용자 GO 유지.
 
 이 범위·배치·증거 절차는 일회성이다. 지속 규칙은 I18N_INFRASTRUCTURE와
 언어별 용어집이 소유하며 새 서사·제품·출시 규칙을 만들지 않는다.
+
+## 번역 결과 — L1/L2 수용·L3 OPEN
+
+- 선언 `c5bf1b5e823ae42e93005078b1345108c758483b` 뒤25 roots/186 leaf씩을
+  KO에서 직접 저작하고 세 언어558문구를 다른 작성자 또는 ROOT가 전수 대조했다.
+  CN의 위로/허세/알고리즘 주체3곳, TW 알고리즘 주체1곳을 명료화하고
+  변경 leaf를 재대조했다. JA 필수 수정0. 나머지 값·문단·토큰은 보존했다.
+- 초기187행 source3개는 저작 전 target=null과 같은 원문186을 보존한다.
+  최종 source/response check·import --accept3개 PASS·changed_files0.
+  기존 private 증거를 덮지 않고 작성된 target을 수용했다.
+- 최종186-record aggregate JA
+  `c0aef13002216736864aaef37adb4fdd53bb6faf87dcb135e403de9674f52d6c`,
+  CN `46d6b882a13b780da23686abaf125025f001f3f8e5eb3f46a4a09d4d0aaf4545`,
+  TW `5e21b9ab703a27d04bf20b0d36bfcde0ee6d44f7f0d7de923b2be74a1c2e2613`.
+  신규558·누적13,839(언어별4,613), 사건453종3,545/locale다.
+  이전13,281/meta9·batch30·기존54행403문구의 값·raw row·상대순서를 보존했다.
+  새25행 내부는 KO 상대순서이며 life_events2 전체는 변경0이다.
+- JA의 원화1,000원 묶음/지출 부호, 1+1의 설명과 로또 한 구좌·생략점 뒤
+  일치 개수의 실제 오탐만 비교 스트림에서 정밀화했다. 독립 반례의 괄호
+  人民元·프로모션 접두부호·음수 당첨 개수를 닫아 정상6/변조4 PASS다.
+  원문·실제 번역에 숫자를 더하거나 표현을 검사기에 맞춰 억지 수정하지 않았다.
+- ZH는30대·매월1회·맥주2캔·3개일치/5등·3개월권/약1.5개월·첫 행운·
+  두 가격 차이를 실제 문맥에 결속했다. '이 원하는'을2원으로 읽은 오탐과
+  구매 선택의 U+2212 부호만 수리했고 café/이분은 추가 수리0이다.
+  신설 수량의 앞 잘못된 구절을 버리고 뒤 수량을 차용하는 대표5유형을
+  닫았다. 多年/不會/箱/次/半天의 잘못된 단위·부정 구절5개 거부와
+  정상5개를 독립 확인했고 원화 대표10개도 PASS다. 최종 자체3319는
+  기존3203+신규116이며 실제 CN/TW372문구 오류0이다.
+  관측 범위의 종결이지 임의 추가 수량·동사 부정 전체의 의미 인증은 아니다.
+- 원문 중고거래의 이름은 [공식 Daangn](https://github.com/daangn/websites)과
+  [공식 Karrot 사용 안내](https://www.daangn.com/wv/faqs/28)에 근거했다.
+  당근을 뜻하는 모든 문장이나 임의 영어가 아니라 해당 판매 문맥만 허용한다.
+  S&P500은 원문에 있는 지수명 자체를 유지하며 값이나 통화를 바꾸지 않는다.
+  source underscore 식별자 차용은 닫았다. é/결합문자 source가 기존 generic
+  token fallback에서 허용되는 한계는 선언 baseline에도 같아 별도 부채로 남긴다.
+  새 composite licence는 그 둘을 허용하지 않는지 직접 검사한다.
+- 완료176절1,533bytes만 기존 history25,016bytes 앞으로 원문 이동했다.
+  새26,549bytes SHA `e357e17975555af41ac8d7405b695fdaf2d08d8757ee767c2f90150406c9e14d`,
+  기존 내용·끝 LF2를 유지한다. 검수행은 같은 활성 이어보기로만 이동한다.
+- 자동이체 설정/조건부 소유/미응답은 실제 완료로 키우지 않고 원문 확률·
+  당첨금·기다림·실제 수령/투자는 그대로다. 선언의 효과·주거·시간축 부채와
+  분모 밖 표시명은 별도 남겼다. KO/EN·runtime·공개·fonts·save·
+  human_gates 변경0, 원본 checkout 쓰기0.
+  full/main/product HOLD·전체 INCOMPLETE·L3/원어민/화면 OPEN·출시 데모 GO 유지.
+
+- portable checksum `db36af5246d3e2637d7d6225772108ff4a5f8a5a6ea735781861c579289abb1c`.
+
+### 최종 표적 검사
+
+- 명시 차선 full-game-localization-overlays의 --list12개 확인 뒤 실제12개 PASS.
+  full-game self172·ZH self3319·audit ERROR0/WARNING0, 공개100 leaf/121 UI
+  패리티와 EN coverage/English Hangul0을 확인했다. 글꼴 JP-first blocked는
+  자동 텍스트 통과에 합산하지 않고 원어민·화면·전체 HOLD로 남긴다.
+- 누적13,839의 원문/대상 hash·L1 오류0이며 과거13,281와 메타9는 보존했다.
+  최종 ZH 검사기316,848bytes SHA
+  `8410854e7281b78df4bb9a24c863ef579c27ac65398eb882a9631c3df7c27812`.
+- 실제 차선 stdout은 git-private `full-game-localization/order179-final-checks.log`에
+  그대로 보존했다. 4,225bytes SHA
+  `e7e89d132be0a6d03a03410a01f5f89c86973b606e292a6ba179b7d5c0e2e680`.
+  이 로그는 회귀 증거이며 인간 실플레이나 출시 GO가 아니다.

@@ -213,12 +213,17 @@ CATALOG_YOUNG_ADULT_SOURCES = frozenset({
 })
 CHINESE_CARDINAL = r"(?:\d[\d,]*|[零〇○一二两兩三四五六七八九十百千]+)"
 NUMERIC_PREFIX_CHARACTERS = "0-9零〇○一二两兩三四五六七八九十百千萬万億亿兆数數點点.＋+−﹣－負负-"
+SPENDING_SCENE_COUNTER_KINDS = frozenset({
+    "asset_age_decade", "monthly_balance_once", "beer_can_count",
+    "lottery_match_count", "lottery_prize_rank", "gym_card_months",
+    "gym_approx_months", "first_luck", "price_gap_pair",
+})
 WORK_SCENE_COUNTER_KINDS = frozenset({
     "work_cup_range", "coworker_count", "subscription_count", "study_daily_hours",
     "exam_countdown", "tuition_month", "never_course_days", "job_company_focus",
     "read_mark_over_count", "job_posting_count",
 })
-LIFE_SCENE_COUNTER_KINDS = WORK_SCENE_COUNTER_KINDS | frozenset({
+LIFE_SCENE_COUNTER_KINDS = WORK_SCENE_COUNTER_KINDS | SPENDING_SCENE_COUNTER_KINDS | frozenset({
     "remaining_four_month", "job_posting_count", "egg_count", "task_count",
     "rental_home_ordinal", "mirror_glance", "gangnam_attempt",
     "university_year", "restaurant_per_person", "underground_exit",
@@ -1519,8 +1524,19 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
         (r"(?<=수강료는 )한 달(?=\s)", 1, "tuition_month"),
         (r"30일을 한 번도 해본 적이 없다는(?= 게 마음에 걸린다\.)", 30, "never_course_days"),
         (r"^한 곳(?=에 집중해서 자소서를 다듬는다$)", 1, "job_company_focus"),
+        (r"(?<![가-힣\d])30대(?= 자산관리)", 30, "asset_age_decade"),
+        (r"한 달에 한 번씩(?= 이런다\.)", 1, "monthly_balance_once"),
+        (r"(?<=편의점에서 캔맥주 )두 개(?=를 샀다$)", 2, "beer_can_count"),
+        (r"(?<=\.\.\.)3개(?= 일치\.)", 3, "lottery_match_count"),
+        (r"(?<=3개 일치\. )5등(?=\.)", 5, "lottery_prize_rank"),
+        (r"^3개월권(?=\s+\. 등록할 때 결심이 단단했다\.)", 3, "gym_card_months"),
+        (r"^한 달 반쯤(?= 갔다\. 기간이 지났을 때)", "1.5", "gym_approx_months"),
+        (r"(?<=서울에서의 )첫 번째(?= 행운이었다\.)", 1, "first_luck"),
+        (r"(?<=\. )둘(?= 사이에\s+이 있었다\.)", 2, "price_gap_pair"),
     ):
         for match in re.finditer(pattern, source):
+            if kind == "price_gap_pair" and not re.search(r"\s{2,}\. \s{2,}\. $", source[:match.start()]):
+                continue  # Exactly two preceding masked prices, not arbitrary people.
             if (kind == "per_person_bill" or kind in LIFE_SCENE_COUNTER_KINDS) and _has_numeric_sign_prefix(source, match.start()):
                 continue  # Never mask the unsigned tail of a signed/fractional source count.
             quantities.append(CounterQuantity(match.start(), match.end(), Decimal(value), kind))
@@ -1850,6 +1866,24 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
 
 
 def _target_pattern_for_kind(kind: str) -> re.Pattern[str]:
+    if kind == "asset_age_decade":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})(?P<spend_unit>多[歲岁年]|[歲岁]|年|[輛辆])")
+    if kind == "monthly_balance_once":
+        return re.compile(rf"(?P<period>每(?:{CHINESE_CARDINAL})?[個个]?(?:月|年|週|周|天|日|小時|小时|分鐘|分钟|秒))(?:都)?(?P<negative>不)?[會会](?:這樣|这样)(?P<number>{CHINESE_CARDINAL})(?P<spend_unit>次|天|年)")
+    if kind == "beer_can_count":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})(?P<spend_unit>罐|瓶|杯|箱)啤酒")
+    if kind == "lottery_match_count":
+        return re.compile(rf"(?P<lotto_match>對中|对中|中了|沒中|没中)(?P<number>{CHINESE_CARDINAL})(?P<spend_unit>[個个]|年|天)")
+    if kind == "lottery_prize_rank":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})(?P<spend_unit>等[獎奖]|[獎奖]|年|次)")
+    if kind == "gym_card_months":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})(?P<spend_unit>[個个]月|年|天|小時|小时)(?:卡)?")
+    if kind == "gym_approx_months":
+        return re.compile(rf"(?P<approx>大約|大约|約|约)?(?P<number>{CHINESE_CARDINAL})[個个](?P<spend_unit>半月|月半|半天|月|年)")
+    if kind == "first_luck":
+        return re.compile(rf"第(?P<number>{CHINESE_CARDINAL})份幸[運运]")
+    if kind == "price_gap_pair":
+        return re.compile(rf"(?:這|这)?(?P<number>{CHINESE_CARDINAL})[個个][數数]之[間间]|(?P<pair>中[間间])")
     counted_nouns = {
         "remaining_four_month": r"[個个]月",
         "job_posting_count": r"(?:[則则條条]|[個个])(?:職缺|招聘信息|招聘資訊|招聘公告|徵才公告)",
@@ -2211,6 +2245,34 @@ def _target_pattern_for_kind(kind: str) -> re.Pattern[str]:
     )
 
 
+def _spending_quantity_valid(kind: str, match: re.Match[str], target: str) -> bool:
+    before, after = target[:match.start()], target[match.end():]
+    if re.search(r"(?:不到|不足|超過|超过|至少|至多|最多|最少|大約|大约|約|约|並非|并非|不是|不|沒有|没有)\s*$", before):
+        return False
+    if re.match(r"\s*(?:[%％倍萬万億亿兆]|以上|以下|左右|以內|以内|以外|多|半)", after):
+        return False
+    end = bool(re.match(r"\s*(?:$|[，。！？、；,.!?;」』）)])", after))
+    if kind == "asset_age_decade":
+        return match.group("spend_unit") in {"多歲", "多岁"} and bool(re.match(r"(?:如何管理資產|如何管理资产|的資產管理|的资产管理)", after))
+    if kind == "monthly_balance_once":
+        return not match.group("negative") and match.group("period") in {"每月", "每個月", "每个月", "每一個月", "每一个月"} and match.group("spend_unit") == "次" and end
+    if kind == "beer_can_count":
+        return match.group("spend_unit") == "罐" and bool(re.search(r"[買买]了$", before)) and end
+    if kind == "lottery_match_count":
+        return match.group("lotto_match") in {"對中", "对中", "中了"} and match.group("spend_unit") in {"個", "个"} and end
+    if kind == "lottery_prize_rank":
+        return match.group("spend_unit") in {"等獎", "等奖", "獎", "奖"} and end
+    if kind == "gym_card_months":
+        return match.group("spend_unit") in {"個月", "个月"} and not before.strip() and end
+    if kind == "gym_approx_months":
+        return bool(match.group("approx")) and match.group("spend_unit") in {"半月", "月半"} and bool(re.search(r"去了$", before)) and end
+    if kind == "first_luck":
+        return bool(re.search(r"在首[爾尔]的$", before)) and end
+    if kind == "price_gap_pair":
+        return bool(re.search(r"\s{2,}[。.]\s*\s{2,}[。.]\s*$", before) and re.match(r"[，,]?\s*差[了着著]", after))
+    return False
+
+
 def _work_quantity_valid(kind: str, match: re.Match[str], target: str) -> bool:
     before, after = target[:match.start()], target[match.end():]
     if re.search(r"(?:不到|不足|超過|超过|至少|至多|最多|最少|大約|大约|約|约|並非|并非|不是|不|沒有|没有)\s*$", before):
@@ -2258,6 +2320,8 @@ def _match_target_counter_quantities(
             if any(match.start() < row.end and match.end() > row.start for row in matched):
                 continue
             if expected.kind in WORK_SCENE_COUNTER_KINDS and not _work_quantity_valid(expected.kind, match, target):
+                continue
+            if expected.kind in SPENDING_SCENE_COUNTER_KINDS and not _spending_quantity_valid(expected.kind, match, target):
                 continue
             if expected.kind in LIFE_SCENE_COUNTER_KINDS:
                 number_start = match.start("number") if match.group("number") else match.start()
@@ -2406,6 +2470,10 @@ def _match_target_counter_quantities(
                 # 一眼 is a glance after a seeing verb, not one physical eye.
                 continue
             value = _chinese_cardinal_value(match.group("number") or "")
+            if expected.kind == "price_gap_pair" and match.group("pair"):
+                value = Decimal(2)
+            if expected.kind == "gym_approx_months" and value is not None:
+                value += Decimal("0.5")
             if expected.kind == "work_cup_range":
                 lexical_range = match.group("number") in {"一兩", "一两"} and not match.group("upper")
                 numeric_range = value == 1 and _chinese_cardinal_value(match.group("upper") or "") == 2
@@ -2591,6 +2659,10 @@ def _mixed_manwon_value(match: re.Match[str]) -> Decimal:
 
 def _source_money_amounts(source: str) -> list[MoneyAmount]:
     amounts: list[MoneyAmount] = []
+    # The purchase choice uses the mathematical minus U+2212, not an unsigned
+    # amount preceded by an unsupported sign. Retain its sign and whole span.
+    for match in re.finditer(r"(?<=산다 — 한 번쯤은 \()−(?P<number>\d[\d,]*)원(?=\)$)", source):
+        amounts.append(MoneyAmount(match.start(), match.end(), -Decimal(match.group("number").replace(",", ""))))
     # The observed bill spells one sum across two units, not two transfers.
     # Keep the full amount span so neither component leaks into bare numbers.
     for match in re.finditer(r"(?<=1인당 )4만 5천원(?=이 나왔다)", source):
@@ -2644,6 +2716,9 @@ def _source_money_amounts(source: str) -> list[MoneyAmount]:
     for match in SOURCE_WORD_MONEY.finditer(source):
         if _overlaps(amounts, match.start(), match.end()):
             continue
+        if match.group() == "이 원" and source[:match.start()].endswith("{name}") \
+                and source[match.start():].startswith("이 원하는 것을 본인보다 먼저 알고 있었다."):
+            continue  # Subject particle + 원하는 (wants), not two won.
         number = _korean_word_value(match.group("number"))
         if number is None:
             continue
@@ -2949,6 +3024,17 @@ def _money_errors(lang: str, source: str, target: str) -> list[str]:
 
 def _untranslated_english_errors(source: str, target: str, *, catalog: bool = False) -> list[str]:
     scrubbed = PLACEHOLDER.sub(" ", target)
+    # Observed secondhand-listing prose, not the vegetable or a global brand
+    # exception. Official identities: github.com/daangn/websites; daangn.com.
+    if re.search(r"(?<![가-힣])당근에 물건을 올렸더니 댓글이 달렸다\.", source):
+        for prepared in ("Daangn", "Karrot"):
+            for match in reversed(_bounded_latin_matches(scrubbed, prepared)):
+                scrubbed = scrubbed[:match.start()] + " " + scrubbed[match.end():]
+    # Keep this composite index identifier whole. The generic token scanner
+    # includes the Korean source's trailing ASCII period in P500. otherwise.
+    if _bounded_latin_matches(re.sub(r"(?<![가-힣])미국(?=S&P500)", "", source), "S&P500"):
+        for match in reversed(_bounded_latin_matches(scrubbed, "S&P500")):
+            scrubbed = scrubbed[:match.start()] + " " + scrubbed[match.end():]
     for source_pattern, romanized in WORK_SOURCE_BRANDS:
         if source_pattern.search(source):
             matches = list(_bounded_latin_matches(scrubbed, romanized))
@@ -4034,6 +4120,110 @@ def _work_scene_parser_self_test() -> tuple[int, list[str]]:
     return cases, failures
 
 
+def _spending_scene_parser_self_test() -> tuple[int, list[str]]:
+    """Source-bound household-spending observations, not a generic waiver."""
+    cases, failures = 0, []
+
+    def check(source: str, target: str, valid: bool) -> None:
+        nonlocal cases
+        cases += 1
+        errors = _numeric_errors(source, target)
+        if bool(errors) == valid:
+            failures.append(f"spending expected valid={valid}: {source!r} -> {target!r}: {errors}")
+
+    fixtures = (
+        ("'30대 자산관리'", "「三十多歲的資產管理」", "三十多歲",
+         ("四十多歲", "三十歲", "三十多年", "三十多歲月")),
+        ("한 달에 한 번씩 이런다.", "每個月都會這樣一次。", "每個月都會這樣一次",
+         ("每兩個月都會這樣一次", "每小時都會這樣一次", "每個月都會這樣兩次", "每個月不會這樣一次")),
+        ("편의점에서 캔맥주 두 개를 샀다", "在便利商店買了兩罐啤酒", "兩罐啤酒",
+         ("一罐啤酒", "三罐啤酒", "兩瓶啤酒", "兩罐啤酒瓶")),
+        ("...3개 일치. 5등. 5,000원.", "……對中3個。五獎。5,000韓元。", "對中3個",
+         ("對中2個", "對中4個", "沒中3個", "對中3年")),
+        ("...3개 일치. 5등. 5,000원.", "……對中3個。五獎。5,000韓元。", "五獎",
+         ("四獎", "六獎", "五年", "五獎券")),
+        ("3개월권 15만원. 등록할 때 결심이 단단했다. 첫 주는 갔다. 둘째 주는 세 번. 셋째 주는...",
+         "三個月15萬韓元。報名的時候，下定了決心。第一週去了。第二週三次。第三週……", "三個月",
+         ("兩個月", "四個月", "三年", "三個月以上")),
+        ("한 달 반쯤 갔다. 기간이 지났을 때 조금 아쉬웠다. 다음엔 더 갈 것 같다.",
+         "去了大約一個半月。期限到了，有點可惜。下次應該會多去一點。", "大約一個半月",
+         ("大約兩個半月", "大約一個月", "一個半月", "大約一個年")),
+        ("5만원. 서울에서의 첫 번째 행운이었다.", "5萬韓元。在首爾的第一份幸運。", "第一份幸運",
+         ("第二份幸運", "第三份幸運", "第一份幸運券", "第一年份幸運")),
+        ("3만원. 5만원. 둘 사이에 2만원이 있었다.", "3萬韓元。5萬韓元。這兩個數之間，差了2萬韓元。", "這兩個數之間",
+         ("這三個數之間", "這一個數之間", "這兩個數之間以上", "這兩個數之間 年")),
+    )
+    for source, target, counted, wrong in fixtures:
+        check(source, target, True)
+        for changed in wrong:
+            check(source, target.replace(counted, changed), False)
+        # Retain the surrounding sentence and its other quantities while an
+        # incorrect first clause attempts to borrow a later correct count.
+        if "韓元" not in target:
+            check(source, target.replace(counted, wrong[0]) + "，" + target, False)
+            check(source, target + "，" + target, False)
+        for changed in ("−\t" + counted, "不到 " + counted, counted + "\t%"):
+            check(source, target.replace(counted, changed), False)
+    for source, target in (
+        ("3만원. 5만원. 둘 사이에 2만원이 있었다.", "3萬韓元。5萬韓元。中間差了2萬韓元。"),
+        ("3만원. 5만원. 둘 사이에 2만원이 있었다.", "3万韩元。5万韩元。这两个数之间，差着2万韩元。"),
+        ("산다 — 한 번쯤은 (−1,000원)", "買吧——就一次也好（−1,000韓元）"),
+        ("산다 — 한 번쯤은 (−1,000원)", "买——就试一次吧（-1,000韩元）"),
+        ("{name}이 원하는 것을 본인보다 먼저 알고 있었다.", "比{name}自己更早知道，自己想要什麼。"),
+        ("이 원을 원했다.", "想要2韓元。"),
+    ):
+        check(source, target, True)
+    for changed in ("1,000韓元", "+1,000韓元", "−2,000韓元", "−1,000美元"):
+        check("산다 — 한 번쯤은 (−1,000원)", "買吧——就一次也好（" + changed + "）", False)
+    check("{name}이 원하는 것을 본인보다 먼저 알고 있었다.", "想要2韓元。", False)
+    check("이 원을 원했다.", "想要3韓元。", False)
+    # Each amount occurs only once: these failures must come from the extra
+    # wrong count, never from duplicating the currency or deleting a token.
+    for source, target in (
+        ("...3개 일치. 5등. 5,000원.", "……對中2個。對中3個。五獎。5,000韓元。"),
+        ("...3개 일치. 5등. 5,000원.", "……對中3個。四獎。五獎。5,000韓元。"),
+        ("3개월권 15만원. 등록할 때 결심이 단단했다. 첫 주는 갔다. 둘째 주는 세 번. 셋째 주는...", "兩個月。三個月15萬韓元。報名的時候，下定了決心。第一週去了。第二週三次。第三週……"),
+        ("5만원. 서울에서의 첫 번째 행운이었다.", "5萬韓元。在首爾的第二份幸運。在首爾的第一份幸運。"),
+        ("3만원. 5만원. 둘 사이에 2만원이 있었다.", "3萬韓元。5萬韓元。這三個數之間，差了。中間差了2萬韓元。"),
+    ):
+        check(source, target, False)
+    # Independent review: unsupported first witnesses may not borrow a later
+    # valid age, frequency, container, rank, or approximate month duration.
+    # Preserve every other amount and sentence, so the rejection is not an
+    # unrelated money/token failure.
+    for source, normal, borrowed in (
+        ("30대 자산관리", "「三十多歲的資產管理」",
+         "「三十多年的資產管理」，「三十多歲的資產管理」"),
+        ("한 달에 한 번씩 이런다.", "每個月都會這樣一次。",
+         "每個月不會這樣一次。每個月都會這樣一次。"),
+        ("편의점에서 캔맥주 두 개를 샀다", "在便利商店買了兩罐啤酒。",
+         "在便利商店買了兩箱啤酒。買了兩罐啤酒。"),
+        ("...3개 일치. 5등. 5,000원.", "……對中3個。五獎。5,000韓元。",
+         "……對中3個。五次。五獎。5,000韓元。"),
+        ("한 달 반쯤 갔다. 기간이 지났을 때 조금 아쉬웠다. 다음엔 더 갈 것 같다.",
+         "去了大約一個半月。期限到了，有點可惜。下次應該會多去一點。",
+         "去了大約一個半天。去了大約一個半月。期限到了，有點可惜。下次應該會多去一點。"),
+    ):
+        check(source, normal, True)
+        check(source, borrowed, False)
+    # No inference of a type from an event ID or an unrelated similar noun.
+    for source, kind in (
+        ("30대 자동차관리", "asset_age_decade"),
+        ("한 달에 한 번씩 일한다.", "monthly_balance_once"),
+        ("편의점에서 와인 두 개를 샀다", "beer_can_count"),
+        ("...3개 불일치. 5등.", "lottery_match_count"),
+        ("3개 불일치. 5등.", "lottery_prize_rank"),
+        ("3개월권. 연장했다.", "gym_card_months"),
+        ("한 달 반쯤 갔다. 계속 다닐 생각이다.", "gym_approx_months"),
+        ("서울에서의 첫 번째 행동이었다.", "first_luck"),
+        ("친구. 이웃. 둘 사이에 돈이 있었다.", "price_gap_pair"),
+    ):
+        cases += 1
+        if any(q.kind == kind for q in _source_counter_quantities(source)):
+            failures.append(f"spending source scope escaped: {source}")
+    return cases, failures
+
+
 def run_self_test(
     manifest: dict[str, Any], runtime: dict[str, Any],
 ) -> list[str]:
@@ -4046,6 +4236,9 @@ def run_self_test(
     work_cases, work_failures = _work_scene_parser_self_test()
     cases += work_cases
     failures.extend(work_failures)
+    spending_cases, spending_failures = _spending_scene_parser_self_test()
+    cases += spending_cases
+    failures.extend(spending_failures)
 
     # Exact Korean-source catalogue names are not permission for unrelated
     # English prose or for deleting the noun around an allowed brand token.

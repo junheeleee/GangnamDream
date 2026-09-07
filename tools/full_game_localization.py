@@ -394,13 +394,35 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
             _source_money_amounts, _target_money_amounts,
             _has_numeric_sign_prefix, MoneyAmount,
         )
-        # Mixed Korean thousand/hundred-man, comma-grouped won and the observed
+        # U+2212 is the minus sign in the lottery's won cost, not a dash to
+        # discard. Canonicalize only the complete observed won denomination.
+        source_numbers = re.sub(r"−(?=\d+(?:,\d{3})*원)", "-", source_numbers)
+        target_numbers = re.sub(r"−(?=\d+(?:,\d{3})*ウォン)", "-", target_numbers)
+        # The first 1+1 promotion explains buy-one/get-one before retaining
+        # its label. Bind that exact equivalence, not arbitrary added counts.
+        if '1+1 행사를 발견했다.' in leaf.source:
+            for promotion in re.finditer('1個買うと1個もらえる、1\\+1キャンペーン', target_numbers):
+                if _has_numeric_sign_prefix(target_numbers, promotion.start()):
+                    errors.append('promotion count has an invalid numeric prefix')
+            target_numbers = target_numbers.replace(
+                '1個買うと1個もらえる、1+1キャンペーン', '1+1キャンペーン',
+            )
+        # One lottery entry is 一口 in Japanese. Its quoted price remains won.
+        if '로또 1장에 1000원.' in leaf.source:
+            target_numbers = target_numbers.replace('ロト一口、1,000ウォン', 'ロト1口、1,000ウォン')
+        # A dramatic ellipsis is not the decimal point before the match count.
+        if '...3개 일치. 5등.' in leaf.source:
+            source_numbers = source_numbers.replace('...3개 일치. 5등.', '…3개 일치. 5등.')
+            for match_count in re.finditer(r'3個一致', target_numbers):
+                if _has_numeric_sign_prefix(target_numbers, match_count.start()):
+                    errors.append('lottery match count has an invalid numeric prefix')
+        # Mixed Korean thousand/hundred-man, grouped/plain thousands and the observed
         # native 오천 amount are each one won amount, independent of grouping.
         # Match its value/currency, then normalize those exact spans so Japanese
         # comma grouping does not pretend to change the explicit digit contract.
         mixed_source = [amount for amount in _source_money_amounts(source_numbers)
             if source_numbers[amount.start:amount.end].endswith('원')
-            and re.search(r'\d+\s*[천백]|\d+,\d{3}|오천\s*원', source_numbers[amount.start:amount.end])]
+            and re.search(r'\d+\s*[천백]|\d+,\d{3}|\d{4,}원|오천\s*원', source_numbers[amount.start:amount.end])]
         mixed_target = list(re.finditer(
             r"[+-]?\d+(?:,\d{3})*(?:億\s*\d+(?:,\d{3})*)?(?:(?:千万|万|千)(?:\d+(?:,\d{3})*)?)?ウォン(?!\s*(?:円|韓元|韩元|元|ドル|ウォン|[%％‰‱万萬億亿兆千百倍]))", target_numbers,
         ))
@@ -426,7 +448,7 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
                 if signed_value == value \
                         and candidate.group().startswith('+') == required_plus \
                         and not _has_numeric_sign_prefix(target_numbers, candidate.start()) \
-                        and not re.match(r"\s*[（(]\s*(?:円|ドル|元|韓元|韩元|ウォン)\s*[）)]", target_numbers[candidate.end():]):
+                        and not re.match(r"\s*[（(]\s*(?:円|ドル|元|人民元|韓元|韩元|ウォン)\s*[）)]", target_numbers[candidate.end():]):
                     found = candidate
                     break
             if found is None:

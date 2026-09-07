@@ -1,3 +1,22 @@
+## 2026-09-08 (Codex — 월세·첫 월급·가족 기억 번역)
+
+- 생활25종185문구씩 JA·간체·번체를 한국어 직접 저작하고 독립 전수 대조했다.
+  신규555·누적12,171번역이며 기존11,616/meta9와 공개 baseline을 보존했다.
+- 중개사 질문 화자와 떠나는 진행상·과제 범위를 정밀화했다. 월세 예약≠이체,
+  살아 있는/별세 아버지, 실제 계약·답장·만남은 원문 그대로 옮겼다.
+  금액 불일치와 선택52개의 기능 괄호는 별도 원문 부채다.
+- JA 원화/달력·인원, ZH 생활수량/브랜드 문맥 오탐을 수리했다. 독립 검토에서
+  다다음 달·명사 잘림·단위/기간 변조 경계를 보완했다. 일반 수사·Unicode 의미의
+  완전 자동검사는 아니며 사람 판정을 대신하지 않는다.
+- 최초 source3 보존, 최종 source/response/receipt PASS·changed_files0.
+  완료172·173 기록3,010bytes는 기존 history 앞으로 원문 이동했다.
+  활성 검수행은 같은 큐 이어보기로 이동했으며 상태는 [~]·L3 OPEN이다.
+- KO/EN·runtime·공개·fonts·save·human_gates 변경0, 원본 checkout 쓰기0.
+  전체 INCOMPLETE·full/main/product HOLD·원어민/화면 OPEN·출시 데모 GO 유지.
+  [수용·검사 상세](queue_active/ORDER-176.md)에 사실 경계와 지문을 남긴다.
+- 최종 표적12개·별도 EN·diff PASS, portable12,171 source/hash/L1 오류0.
+  실제 차선 stdout은 git-private order176-final-checks.log에 보존했다.
+
 ## 2026-09-07 (Codex — 현지화 검수 대기 큐 이어보기)
 
 - 번역 검수 대기16행을 동일 활성 인덱스의 이어보기로 원문 이동했다. 이 운영
