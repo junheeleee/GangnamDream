@@ -1,0 +1,17 @@
+[
+  {
+    "id": "callback_daeun_supportive_warmth",
+    "title": "Daeun 的訊息",
+    "description": "Daeun 難受時陪在她身旁，已是幾個月前的事。\n今天，收到了 Daeun 的訊息。\n「Minjun。想起了那個時候。\n最近過得好嗎？」",
+    "choices": [
+      {
+        "text": "「過得不錯。找天一起吃頓飯吧」",
+        "result_text": "Daeun 馬上回覆：「好啊。這週四怎麼樣？」\n{name}打開月曆，空出下班後的時間。對話框裡，出現了一個便利商店附近麵店的地圖圖釘。"
+      },
+      {
+        "text": "只回一句「過得不錯」",
+        "result_text": "Daeun 回了「那就好 :)」。\n{name}又點了一次輸入框，什麼也沒寫，就關掉畫面。最後那則訊息，直到當晚，都原封不動留在已讀標示下。"
+      }
+    ]
+  }
+]

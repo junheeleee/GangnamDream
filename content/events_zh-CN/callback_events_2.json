@@ -1,0 +1,11 @@
+[
+  {
+    "id": "callback_jiyeon_honest_referral",
+    "title": "Han Jiyeon 的介绍",
+    "description": "Han Jiyeon 联系了他。\n‘是我税务师认识的人，帮人打理个人投资组合。\n要不要见一面？觉得是您的话，应该聊得来。’",
+    "choices": [
+      {"text": "去见面", "result_text": "税务师事务所里，理清了漏报的抵扣项和重复的产品。\n申报结束，退回和省下的钱共120万韩元。\n给 Han Jiyeon 发去道谢的短信。\n‘下次先把资料备好。’回复来了。"},
+      {"text": "说“这次就不用了”", "result_text": "‘目前还是想自己试试。’\nHan Jiyeon 回了句‘我知道了’。\n后来，看着报税表时，又想起了那个提议。"}
+    ]
+  }
+]

@@ -111,3 +111,37 @@ KO/EN·runtime·gameplay·저장·라우팅·폰트·catalog·공개 언어·hum
 위 분할·파일·해시는 일회성이다. 지속 규범은 기존 I18N_INFRASTRUCTURE와
 세 용어집에 있고 새로운 서사/상품/언어 출시 규칙을 이 오더에서 만들지 않는다.
 
+## 2026-09-07 실행 증거 — L1/L2 수용, L3 OPEN
+
+- 선언 `9ca9e12` 이후36개 overlay에 정확35 ID/279 leaf씩, 총837개를 추가했다.
+  기존8행/언어와 공개 story_demo를 포함한 다른 기존 파일은 보존했다.
+  기존3,486 수용 receipt와 비표시 메타9를 유지해 현재4,323개다.
+- 독립 KO 전수 대조는 언어별35 roots/279 leaves, 조건별28과 모든 결과를
+  포함한다. CN 연락 요구/누운 자세/송금 주체/직업 한정과 TW 전공/질문
+  뉘앙스/부정 범위의 수정 뒤 잔여 의미 지적0이다. 다른 언어를 원문으로
+  삼거나 간번 변환을 독립 번역으로 세지 않았다.
+- 최종 source+target receipt aggregate 산식은
+  `digest({leaf.id: {source_sha256, target_sha256}})`이며 언어별:
+  - JA `f5f54a0e6aada26291d5c93d61dd1f7b3e1c546966d5676b52cb48ade468938c`
+  - zh-CN `d1c9e1552c6b7acff21004d1eee4f2991953fecc6703e4371a7a5f43271d1bb4`
+  - zh-TW `cf09eb83e7a82adf6bb52358734907950b7f8fc4fa9e6463259afdab9b7be4f0`
+- git-private `full-game-localization/<locale>/full-ko-direct-2026-09-07.1/`의
+  `order162-initial-{A,B}.source.jsonl` 원문을 보존했다. 최종 `order162-final-`
+  source/response6쌍은 check/import 각각 PASS·changed_files0이며 실제
+  `<batch_id>.accepted.json` checksum/원문 identity를 확인해 portable 원장에 합쳤다.
+- 검사기 변경은 `zh_translation_audit.py`와 현지화 self-test뿐이다.
+  실제837 오류0, self-test83, ZH935, 독립 guard128(정상46/변조82)을 통과했다.
+  독립 최종 guard 파일 SHA는
+  `d6ecbb7de68e1215abd7b2b22bb74a63d38c4a68055a4cc7cb71798e764a4339`다.
+  기존3,486개도 새 검사기에서 오류0/원문·대상 hash 현재값 일치다.
+- 자동 수량 검사에 남은 AM/PM·암시 단위 한계는 KO 대조로 별도 확인했다.
+  JSON 최상위 속성 배치와 배열/조건 순서는 구분하며 후자는 변경0이다.
+  원문 글자 수·병원 선행 문맥 부채는 backlog에 남겼다. 새 장면을 더하지 않았다.
+- 원어민·무작위 사람 표본·실제 렌더링은 OPEN이다. M07~M24 모든 무작위 사건과
+  UI를 끝냈다는 주장이 아니며, 기존 제품/공개 데모/사람 게이트는 변경0이다.
+- 수용 후 `full-game-localization-overlays`12개·EN·diff를 통과했다.
+  실제 stdout은 git-private `full-game-localization/order162-final-checks.log`에
+  남긴다. portable accepted SHA는
+  `1c415c551d721997b9a4c86033a79d3d86f40f5c731fdf1238cee47204285ea6`다.
+  중국어 skeleton의 JP-first full font blocked와 직접 영어 분기13은 기존
+  미완료 항목이며 초록 차선이 이를 해제하지 않는다. Godot은 이 배치에서 실행하지 않았다.

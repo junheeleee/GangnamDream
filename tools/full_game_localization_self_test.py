@@ -88,6 +88,126 @@ class ExchangeTests(unittest.TestCase):
         with self.assertRaises(tool.ContractError):
             tool.loads('{"text":"a","text":"b"}')
 
+    def test_story_half_durations_keep_the_fraction_and_unit(self):
+        for locale, pairs in (
+            ("zh-CN", (("1年半", "一年半", "1.5年"), ("两个半月", "两个月半", "2.5个月"))),
+            ("zh-TW", (("1年半", "一年半", "1.5年", "一 年 半"), ("兩個半月", "兩個月半", "2.5個月"))),
+        ):
+            for source, targets in zip(("1년 반", "두 달 반"), pairs):
+                leaf = tool.Leaf("events", "example", "content/events/arc_midgame.json", ("title",), source, "event_standard")
+                for target in targets:
+                    self.assertEqual(tool.translation_errors(leaf, locale, target), [], (source, target))
+
+    def test_story_half_duration_mutations(self):
+        for source, targets in (
+            ("1년 반", ("一年", "兩年半", "一個半月", "十一年半", "-一年半", "負 一年半")),
+            ("두 달 반", ("兩個月", "三個半月", "兩年半", "十二個半月", "-兩個半月", "負 兩個半月")),
+            ("1년", ("一年半", "1.5年")),
+            ("두 달", ("兩個半月", "2.5個月")),
+        ):
+            leaf = tool.Leaf("events", "example", "content/events/arc_midgame.json", ("title",), source, "event_standard")
+            for target in targets:
+                self.assertTrue(tool.translation_errors(leaf, "zh-TW", target), (source, target))
+
+    def test_story_source_bound_counter_grammar(self):
+        for source, target in (
+            ("한 칸", "一个格子"),
+            ("한 칸", "一个灰色格子"),
+            ("한 칸", "一个留给人和身体的格子"),
+            ("열차 한 대를 보냈다.", "放过了一班列车。"),
+            ("다음 한 달", "下个月"),
+            ("다음 한 달", "接下来的一个月"),
+            ("다음 한 달 반", "接下来的一个半月"),
+            ("현수의 하루를 정하던 시간표", "规定 Hyunsu 每天生活的时间表"),
+            ("밥 한 번 먹어요", "一起吃个饭吧"),
+            ("밥 한 번 먹어요", "一起吃顿饭吧"),
+            ("1년치", "一整年"),
+            ("기소된 사례가 6건 나왔다.", "找到六起被起诉的案例。"),
+            ("토요일 두 시", "周六两点"),
+            ("토요일 두 시", "星期六两点"),
+            ("커피 한 잔", "喝杯咖啡"),
+            ("커피 한 잔", "这杯咖啡"),
+            ("한번 만나보실래요?", "要不要见一面？"),
+            ("한번 만나보실래요?", "要不要见见看？"),
+            ("한번 만나보실래요?", "要不要见个面？"),
+            ("말을 한 번 더 붙이지 않았다", "没有再添一句"),
+            ("열 장 넘게 찍었어요", "拍了不止十张"),
+            ("주소 두 곳", "两个地址"),
+            ("두 종이를", "两张纸"),
+            ("한 글자씩 읽었다", "逐字读出"),
+            ("작은 날짜 한 줄", "一小行日期"),
+            ("말을 한 번 더 붙이지 않았다", "没再补上一句"),
+            ("사원증", "工牌"),
+            ("사 원", "4韩元"),
+            ("둘 다 챙기겠다는 말은 선택이 아니었다", "说两边都顾上，不是选择"),
+        ):
+            leaf = tool.Leaf("events", "example", "content/events/arc_midgame.json", ("title",), source, "event_standard")
+            self.assertEqual(tool.translation_errors(leaf, "zh-CN", target), [], (source, target))
+
+    def test_story_counter_grammar_mutations(self):
+        for source, target in (
+            ("한 칸", "两个格子"),
+            ("한 칸", "一个人"),
+            ("열차 한 대를 보냈다.", "放过了两班列车。"),
+            ("열차 한 대를 보냈다.", "放过了一班飞机。"),
+            ("차량 한 대", "一班列车"),
+            ("다음 한 달", "这个月"),
+            ("다음 한 달", "下两个月"),
+            ("다음 한 달", "下周"),
+            ("다음 한 달 반", "下个月"),
+            ("다음 한 달", "十下个月"),
+            ("다음 한 달", "负下个月"),
+            ("밥 한 번 먹어요", "负吃个饭吧"),
+            ("한 달", "下个月"),
+            ("현수의 하루를 정하던 시간표", "规定 Hyunsu 每周生活的时间表"),
+            ("밥 한 번 먹어요", "一起吃两顿饭吧"),
+            ("두 번 먹어요", "一起吃个饭吧"),
+            ("1년치", "两整年"),
+            ("기소된 사례가 6건 나왔다.", "找到七起被起诉的案例。"),
+            ("기소된 사례가 6건 나왔다.", "找到六年被起诉的案例。"),
+            ("토요일 두 시", "周五两点"),
+            ("토요일 두 시", "周六三点"),
+            ("토요일 두 시", "周六六十二点"),
+            ("커피 한 잔", "两杯咖啡"),
+            ("한번 만나보실래요?", "要不要见两面？"),
+            ("두 번 만나보실래요?", "要不要见见看？"),
+            ("말을 한 번 더 붙이지 않았다", "没有再添两句"),
+            ("열 장 넘게 찍었어요", "拍了十张"),
+            ("열 장 넘게 찍었어요", "拍了不止九张"),
+            ("주소 두 곳", "三个地址"),
+            ("두 종이를", "三张纸"),
+            ("한 글자씩 읽었다", "每两个字读出"),
+            ("작은 날짜 한 줄", "两小行日期"),
+            ("사원증", "4韩元的工牌"),
+            ("사 원", "工牌"),
+            ("둘 다 챙기겠다는 말은 선택이 아니었다", "说三边都顾上，不是选择"),
+            ("둘 다 챙기겠다는 말은 선택이 아니었다", "负两边都顾上，不是选择"),
+            ("둘이 웃었다", "两边笑了"),
+            ("한 칸", "十 一个格子"),
+            ("한 칸", "负 一个格子"),
+            ("열차 한 대를 보냈다.", "放过了十 一班列车。"),
+            ("주소 두 곳", "十 两个地址"),
+        ):
+            leaf = tool.Leaf("events", "example", "content/events/arc_midgame.json", ("title",), source, "event_standard")
+            self.assertTrue(tool.translation_errors(leaf, "zh-CN", target), (source, target))
+
+    def test_goshiwon_and_separate_accounting_course(self):
+        source = "저 고시원 나가요. 낮에는 회계 취업반에 다니고"
+        leaf = tool.Leaf("events", "arc_hyunsu_new_path", "content/events/arc_midgame.json", ("description",), source, "event_standard")
+        self.assertEqual(tool.translation_errors(leaf, "zh-CN", "我要搬出考试院了。白天上会计就业培训班。"), [])
+        for target in ("我要搬出考试院培训班了。白天上会计就业培训班。", "我要搬出培训班了。白天上会计就业培训班。",
+                       "我搬出白天上会计就业培训班的考试院。", "我搬出考试院了。白天上会计就业培训班的考试院很小。"):
+            self.assertTrue(tool.translation_errors(leaf, "zh-CN", target))
+        other = tool.Leaf("events", "example", "content/events/arc_midgame.json", ("description",), "저 고시원 나가요", "event_standard")
+        self.assertTrue(tool.translation_errors(other, "zh-CN", "我要搬出考试院了。白天上会计就业培训班。"))
+
+    def test_hospital_transliteration_is_not_an_english_exemption(self):
+        leaf = tool.Leaf("events", "example", "content/events/arc_events.json", ("title",), "창원 성심병원", "event_standard")
+        self.assertEqual(tool.translation_errors(leaf, "zh-CN", "昌原 Seongsim 医院"), [])
+        self.assertTrue(tool.translation_errors(leaf, "zh-CN", "Changwon Seongsim Hospital"))
+        other = tool.Leaf("events", "example", "content/events/arc_events.json", ("title",), "창원 병원", "event_standard")
+        self.assertTrue(tool.translation_errors(other, "zh-CN", "昌原 Seongsim 医院"))
+
     def test_raw_nested_duplicate_keys(self):
         with self.assertRaises(tool.ContractError):
             tool.loads('{"nested":{"id":"a","id":"b"}}')

@@ -1,0 +1,11 @@
+[
+  {
+    "id": "callback_daeun_supportive_warmth",
+    "title": "Daeun 的短信",
+    "description": "在 Daeun 难熬的时候陪在她身边，已经是几个月前的事了。\n今天，Daeun 发来短信。\n“Minjun，想起那时候的事了。\n最近过得好吗？”",
+    "choices": [
+      {"text": "“挺好的。一起吃个饭吧。”", "result_text": "Daeun 立刻回道：“好啊，这周四怎么样？”\n{name}打开日历，空出下班后的时间。聊天窗口里，出现了便利店附近一家面馆的地图定位。"},
+      {"text": "只回复一句“挺好的”", "result_text": "Daeun 回道：“那就好 :)”\n{name}又点了一下输入框，却什么也没写，关了屏幕。最后那条消息，直到当晚还原样留在已读标记下面。"}
+    ]
+  }
+]

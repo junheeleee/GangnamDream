@@ -1,0 +1,17 @@
+[
+  {
+    "id": "callback_jiyeon_honest_referral",
+    "title": "Han Jiyeon 的介紹",
+    "description": "Han Jiyeon 聯絡了過來。\n「是我那位稅務士認識的人，替人管理個人投資組合。\n要不要見見看？覺得你們應該聊得來。」",
+    "choices": [
+      {
+        "text": "去見面",
+        "result_text": "在稅務士事務所，整理了漏掉的扣除額和重複的商品。\n申報結束後，退回來和省下的錢，一共120萬韓元。\n傳訊息向 Han Jiyeon 道謝。\n回覆來了：「下次先把資料準備好。」"
+      },
+      {
+        "text": "說「這次先不用了」",
+        "result_text": "「暫時想自己試試。」\nHan Jiyeon 回了「我知道了」。\n後來看著稅務申報書，又想起那個提議。"
+      }
+    ]
+  }
+]

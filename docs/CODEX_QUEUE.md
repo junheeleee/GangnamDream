@@ -52,7 +52,7 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-162 · M07~M24 연결 사건 번역 | [162](queue_active/ORDER-162.md) | 35사건279문구 · 세 언어 직접 · L3 OPEN |
+| 1 | [~] | ORDER-162 · M07~M24 연결 사건 번역 | [162](queue_active/ORDER-162.md) | 837번역 L1/L2 · 조건변형28 보존 · L3 OPEN |
 | 2 | [~] | ORDER-161 · catalog 전체 번역 | [161](queue_active/ORDER-161.md) | 2,502문구 L1/L2 · 신규2,485·기존수리1 · L3 OPEN |
 | 3 | [~] | ORDER-160 · 남은 결말18종 번역 | [160](queue_active/ORDER-160.md) | 387번역 L1/L2 · 엔딩35종 본문 채움 · L3 OPEN |
 | 4 | [~] | ORDER-159 · 일상·회복 결말 14종 번역 | [159](queue_active/ORDER-159.md) | 249번역 L1/L2 · 비표시 메타 제외 · L3 OPEN |
