@@ -104,3 +104,45 @@ KO/EN·runtime·save·routing·human_gates·catalog/endings·공개·폰트·배
 
 이 범위·배치·증거 절차는 일회성이다. 지속 규칙은 I18N_INFRASTRUCTURE와
 언어별 용어집이 소유하며 새 서사·게임·출시 규칙을 만들지 않는다.
+
+## 번역 결과 — L1/L2 수용·L3 OPEN
+
+- 선언 `c760fb85fd625ff62da6de05a1e9887fe8052ebd` 뒤25 roots/176 leaf씩을
+  KO에서 독립 저작하고 다른 작성자 또는 ROOT가 세 언어528개를 전수 대조했다.
+  일본어 야간 직원의 ‘버티고 있었다’ 조사/동사 결합1곳과 번체의 화자·수식 범위를
+  정밀화했다. 필수 L2 잔여0이며 원어민·실제 화면 판정은 아니다.
+- 최초177행 source3개는 저작 전 target=null과 같은 원문176을 보존한다.
+  최종 source/response check·import --accept3개 PASS·changed_files0.
+  이미 작성한 target만 수용했고 기존 private 증거는 덮지 않았다.
+- 최종176-record aggregate JA
+  `09a34372837d397fd425fe9b63f20c9bf3a7351fb848e42c40af1353d6dd723b`,
+  CN `35320d99a2dcd40fe539cc00c521c8c27b9dba999c0c94ea7e279577f7bacbcc`,
+  TW `ef718d70cc91184e977561b921966fd204a6485094ab4ab97e016d46b7603b55`.
+  신규528·누적12,699(언어별4,233), 사건403종3,165/locale다.
+  이전12,171/meta9·batch28·두 파일의 기존185문구/25행 값과 상대순서를 보존했다.
+  JA는 기존 prefix 뒤 추가, CN/TW는 기존행을 바꾸지 않은 삽입이며 새행의 KO
+  상대순서를 각각 확인했다. 전체 배열의 강제 재정렬은 하지 않았다.
+- JA 금액 묶음·원화 오천과 실제 네 가지 native 시간 표현만 source 문맥에
+  결속했다. 부호는 합성 금액 전체에 적용하고 금액/시간 순서도 남긴다.
+  독립 검토에서 괄호 엔화 별칭 누출을 고쳐 정상12/변조30을 확인했다.
+  ZH는 복합1분30초·7시간48분,24시간 치킨점 영업,월1~2회와五千 원화,
+  배달앱/App·엑스레이/X光 문맥의 실제 오탐을 수리했다. 뒤 정상 월빈도를
+  앞의 잘못된 기간/횟수가 빌리는 반례, 단위/명사 꼬리와 정확 시간의 상하한을
+  보완하고 독립 재검증26건을 확인했다.
+  일반 수사·모든 Unicode·문장 의미의 완전 자동 판정은 아니다.
+- 번체 峰은 대만 교육부의 정자 A01119 및 尖峰 항목을 직접 확인해 공유 정자로
+  분류했다. 기존 OpenCC 데이터/hash는 불변이고 간번 자동변환은 하지 않았다.
+  근거: [교육부 정자](https://dict.variants.moe.edu.tw/dictView.jsp?ID=12299&la=1),
+  [교육부 尖峰](https://dict.concised.moe.edu.tw/dictView.jsp?ID=22746&la=0&powerMode=0).
+- 완료174절1,115bytes만 기존 history22,947bytes 앞으로 원문 이동했다.
+  새24,062bytes SHA `616dcf4d418187a5cff54d170515309a86d4b4a854f8b24a1f25059a01d4c8b4`,
+  기존 내용·끝 LF2를 유지한다. 현재 검수행은 같은 활성 이어보기로만 이동한다.
+- 옆방 표시명1곳, 주거/나이/면접·금액효과·압축 진료·우산 괄호3의 source
+  부채는 별도로 남긴다. 실제3만원 입금·옆방 답장·10분 통화·정상 검진은 원문대로다.
+  KO/EN·runtime·공개·폰트·save·human_gates 변경0, 원본 checkout 쓰기0.
+  full/main/product HOLD·전체 INCOMPLETE·L3/원어민/화면 OPEN·출시 데모 GO 유지.
+
+- portable checksum `ced5a540b5e1a2f3c5e67ba72c62726bd94d225368fc4946ee3c007731461faa`.
+- 최종 표적12개·별도 EN·diff PASS, portable12,699 source/hash/L1 오류0.
+  self167·ZH3014를 포함한 실제 차선 stdout은 git-private order177-final-checks.log,
+  4,225bytes SHA `ec7fe51429a597e4ad9f653ff46d5be5407a1fdba8db98037105f5e015e031e7`다.

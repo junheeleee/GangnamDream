@@ -394,19 +394,20 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
             _source_money_amounts, _target_money_amounts,
             _has_numeric_sign_prefix, MoneyAmount,
         )
-        # Mixed Korean thousand/hundred-man notation is one won amount.
+        # Mixed Korean thousand/hundred-man, comma-grouped won and the observed
+        # native 오천 amount are each one won amount, independent of grouping.
         # Match its value/currency, then normalize those exact spans so Japanese
         # comma grouping does not pretend to change the explicit digit contract.
         mixed_source = [amount for amount in _source_money_amounts(source_numbers)
             if source_numbers[amount.start:amount.end].endswith('원')
-            and re.search(r'\d+\s*[천백]', source_numbers[amount.start:amount.end])]
+            and re.search(r'\d+\s*[천백]|\d+,\d{3}|오천\s*원', source_numbers[amount.start:amount.end])]
         mixed_target = list(re.finditer(
-            r"[+-]?\d+(?:,\d{3})*(?:億\s*\d+(?:,\d{3})*)?(?:千万|万|千)ウォン(?!円|韓元|韩元|元|ドル|ウォン)", target_numbers,
+            r"[+-]?\d+(?:,\d{3})*(?:億\s*\d+(?:,\d{3})*)?(?:(?:千万|万|千)(?:\d+(?:,\d{3})*)?)?ウォン(?!\s*(?:円|韓元|韩元|元|ドル|ウォン|[%％‰‱万萬億亿兆千百倍]))", target_numbers,
         ))
         consumed = []
         if '1인당 4만 5천원이 나왔다' in leaf.source:
             mixed_target.extend(re.finditer(
-                r"[+-]?\d+万\d+千ウォン(?!円|韓元|韩元|元|ドル|ウォン)",
+                r"[+-]?\d+万\d+千ウォン(?!\s*(?:円|韓元|韩元|元|ドル|ウォン|[%％‰‱万萬億亿兆千百倍]))",
                 target_numbers,
             ))
             mixed_target.sort(key=lambda item: item.start())
@@ -417,10 +418,15 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
             for candidate in mixed_target:
                 if candidate.start() in {start for start, _ in consumed}:
                     continue
-                parsed = _target_money_amounts(candidate.group().replace('ウォン', '韓元'))
-                if len(parsed) == 1 and parsed[0].won == value \
+                # A leading minus owns the whole compound amount (not just
+                # its first component): -1万2,000 is -12,000, never -8,000.
+                raw_candidate = candidate.group()
+                parsed = _target_money_amounts(raw_candidate.lstrip('+-').replace('ウォン', '韓元'))
+                signed_value = parsed[0].won * (-1 if raw_candidate.startswith('-') else 1) if len(parsed) == 1 else None
+                if signed_value == value \
                         and candidate.group().startswith('+') == required_plus \
-                        and not _has_numeric_sign_prefix(target_numbers, candidate.start()):
+                        and not _has_numeric_sign_prefix(target_numbers, candidate.start()) \
+                        and not re.match(r"\s*[（(]\s*(?:円|ドル|元|韓元|韩元|ウォン)\s*[）)]", target_numbers[candidate.end():]):
                     found = candidate
                     break
             if found is None:
@@ -488,6 +494,35 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
                 value = match.group()
                 if value.startswith("一"):
                     target_numbers = target_numbers[:match.start()] + "1" + value[1:] + target_numbers[match.end():]
+        # Observed life-event native time expressions. Bind clock phase or
+        # elapsed-time relation, then keep the value in the ordered stream.
+        # This is deliberately not a waiver for arbitrary written numerals.
+        native_time_bound = False
+        for source_pattern, target_pattern, number in (
+            (r"새벽 두 시(?=\.)", r"午前(?:2|二)時(?=。)", "2"),
+            (r"밤 열 시(?=에 폰을)", r"夜(?:10|十)時(?=にスマホを)", "10"),
+            (r"두 시간 후(?=에 더 심해졌다)", r"(?:2|二)時間後(?=には、もっとひどくなった)", "2"),
+            (r"한 시간 만에(?= 그쳤다)", r"(?:1|一)時間で(?=やんだ)", "1"),
+        ):
+            source_times = list(re.finditer(source_pattern, source_numbers))
+            if not source_times:
+                continue
+            native_time_bound = True
+            target_times = list(re.finditer(target_pattern, target_numbers))
+            if len(source_times) != len(target_times) or any(
+                _has_numeric_sign_prefix(target_numbers, match.start())
+                for match in target_times
+            ):
+                errors.append("source-bound native clock/elapsed-time mismatch")
+            for value, matches, is_source in (
+                (source_numbers, source_times, True), (target_numbers, target_times, False),
+            ):
+                for match in reversed(matches):
+                    value = value[:match.start()] + number + value[match.end():]
+                if is_source:
+                    source_numbers = value
+                else:
+                    target_numbers = value
         if leaf.group == "catalog":
             if leaf.source in CATALOG_YOUNG_ADULT_SOURCES:
                 age_groups = list(re.finditer(r"(?<![0-9一二三四五六七八九十百千])20[・、/](?:\s*)30代(?!\d)", text))
@@ -524,6 +559,8 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
             errors.append("explicit numeric value/sign mismatch")
         if mixed_source and numeric.findall(source_numbers) != numeric.findall(target_numbers):
             errors.append("mixed Korean-won ordered numeric ownership mismatch")
+        if native_time_bound and numeric.findall(source_numbers) != numeric.findall(target_numbers):
+            errors.append("native time ordered numeric ownership mismatch")
     else:
         from zh_translation_audit import validate_text
         errors = validate_text(locale, leaf.id, leaf.source, text)

@@ -1,3 +1,18 @@
+## 2026-09-07 (Codex — 다은 일본어 존대 복구)
+
+- 직전172 L2의 말투 권고2곳이 다은 고정 존대 규칙과 충돌해 철회·복구했다.
+  기존 한 파일의 'それも勇気ですね'/'いいですね。こういうの' 두 치환뿐이며,
+  독립 KO·JA 용어집 대조를 통과했다. 다른11,614/meta9 보존, 총11,616 유지다.
+- 최초 source2 보존, 최종 source/response/receipt check/import PASS·변경0,
+  target hash2를 갱신했다. checksum `52f09844…3d0f74`이며 원문·사실은 불변이다.
+  완료171절1,555bytes 원문 이동, 큐5행의 이전 검토 근거도 보관했지만 입력 QA·
+  원어민/사람 OPEN·HOLD/REJECT와 활성 의무는 그대로다. [사양](queue_active/ORDER-174.md).
+  KO/EN·CN/TW·runtime·공개·폰트·저장·human_gates 변경0, 원본 checkout 쓰기0.
+  전체 INCOMPLETE·full/main/product HOLD·L3 OPEN·출시 데모 GO를 유지한다.
+
+- 최종12개 표적 차선·별도 EN·diff PASS, portable11,616 source/hash/L1 오류0.
+  실제 차선 stdout은 git-private order174-final-checks.log에 보존했다.
+
 ## 2026-09-07 (Codex — 남은 관계·부모 대화 세 언어 수용)
 
 - 남은15사건/94문구씩282개를 KO 직접 저작·독립 전수 대조했다. CN3곳의

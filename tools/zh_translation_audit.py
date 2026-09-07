@@ -217,6 +217,8 @@ LIFE_SCENE_COUNTER_KINDS = frozenset({
     "remaining_four_month", "job_posting_count", "egg_count", "task_count",
     "rental_home_ordinal", "mirror_glance", "gangnam_attempt",
     "university_year", "restaurant_per_person", "underground_exit",
+    "microwave_duration", "screen_time_duration", "chicken_open_hours",
+    "monthly_headache_frequency",
 })
 TARGET_COUNTER_FORMS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("duration_hour", ("個小時", "个小时", "小時", "小时")),
@@ -416,8 +418,11 @@ REGIONAL_PHRASE_VARIANTS: tuple[tuple[str, str], ...] = (
 )
 # Taiwan MOE lists 群 as the standard A03225 and 羣 as its variant:
 # https://dict.variants.moe.edu.tw/dictView.jsp?ID=34744&la=0
+# MOE also records 峰 as standard A01119 (峯 is a variant), including 尖峰:
+# https://dict.variants.moe.edu.tw/dictView.jsp?ID=12299&la=1
+# https://dict.concised.moe.edu.tw/dictView.jsp?ID=22746&la=0&powerMode=0
 # Keep the original OpenCC dataset and its integrity hash unchanged.
-ZH_TW_SHARED_SCRIPT_CHARACTERS = frozenset({"床", "群"})
+ZH_TW_SHARED_SCRIPT_CHARACTERS = frozenset({"床", "群", "峰"})
 
 REGIONAL_TERMS = {
     "zh-CN": {
@@ -610,8 +615,9 @@ def catalog_latin_only(source: str, target: str) -> bool:
     """Only complete source names, never a brand token stripped of its prose."""
     return target.strip() in CATALOG_LATIN_ONLY.get(source.strip(), ())
 SOURCE_APP_TERM = re.compile(
-    r"(?<![가-힣])앱(?=$|[\s.,!?…]|(?:을|이|은|에|에서|으로|의|만|도)(?=$|[\s.,!?…]))"
+    r"(?<![가-힣])(?:배달)?앱(?=$|[\s.,!?…]|(?:을|이|은|에|에서|으로|의|만|도)(?=$|[\s.,!?…]))"
 )
+SOURCE_XRAY_TERM = re.compile(r"(?<![가-힣])엑스레이(?=$|[\s.,!?…]|[의를은가이을](?=$|[\s.,!?…]))")
 ALLOWED_LATIN_PHRASES = tuple(sorted({
     *LATIN_EXACT.values(),
     *NAME_ROMANIZATION.values(),
@@ -1168,6 +1174,8 @@ def _source_counter_kind(
 ) -> str:
     following = source[match.end():].lstrip()
     preceding = source[max(0, match.start() - 120):match.start()]
+    if counter == "시" and preceding.endswith("직진하면 ") and following.startswith("치킨 반반 "):
+        return "chicken_open_hours"
     if counter == "개" and re.match(r"\.(?:\s|$)", following):
         for noun, kind in (("공고", "job_posting_count"), ("달걀", "egg_count"), ("과제", "task_count")):
             if re.search(rf"(?<![가-힣]){noun}\s+$", preceding):
@@ -1479,6 +1487,11 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
         # Money is masked before counter matching; the restaurant clause
         # still binds this singular per-person price, not arbitrary 1인.
         (r"(?<=식당\. )1인(?=\s)", 1, "restaurant_per_person"),
+        # Own each complete compound duration: a later correct seconds/minutes
+        # count may not cover a changed component in the observed display.
+        (r"(?<=전자레인지 )1분 30초(?=\.)", 90, "microwave_duration"),
+        (r"(?<=스크린 타임 알림이 떴다\. 하루 )7시간 48분(?=\.)", 468, "screen_time_duration"),
+        (r"(?<=스트레스성 편두통\. )한 달에 한두 번(?=은 온다\.)", 1, "monthly_headache_frequency"),
     ):
         for match in re.finditer(pattern, source):
             if (kind == "per_person_bill" or kind in LIFE_SCENE_COUNTER_KINDS) and _has_numeric_sign_prefix(source, match.start()):
@@ -1815,6 +1828,7 @@ def _target_pattern_for_kind(kind: str) -> re.Pattern[str]:
         "task_count": r"[項项個个](?:總是做不完的|总是做不完的|總沒完成的|总没完成的)?(?:作業|作业|任務|任务)",
         "mirror_glance": r"眼",
         "underground_exit": r"[號号]出口",
+        "chicken_open_hours": r"(?:小時|小时)[營营][業业]的炸[雞鸡]店",
         "graduation_anniversary": r"[周週]年",
         "resume_edit_place": r"(?:個|个)地方|[處处]",
         "station_exit": r"[號号]\s*出口",
@@ -1903,6 +1917,12 @@ def _target_pattern_for_kind(kind: str) -> re.Pattern[str]:
         return re.compile(rf"第(?P<number>{CHINESE_CARDINAL})(?:(?:套|[間间])房(?=\s*(?:$|[，。！？、：；,.!?;:」』）)]|的(?:租[約约]|合同)))|[間间]的租[約约])")
     if kind == "gangnam_attempt":
         return re.compile(rf"(?P<number>{CHINESE_CARDINAL})次|[闖闯](?P<once>一)[闖闯]")
+    if kind == "microwave_duration":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})分(?:鐘|钟)?\s*(?P<seconds>{CHINESE_CARDINAL})秒(?:鐘|钟)?")
+    if kind == "screen_time_duration":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})(?:小時|小时)\s*(?P<minutes>{CHINESE_CARDINAL})分(?:鐘|钟)?")
+    if kind == "monthly_headache_frequency":
+        return re.compile(rf"每[個个]?月(?:總會發作|总会发作)?(?:(?P<number>一[兩两])|(?P<range_start>{CHINESE_CARDINAL})\s*[~～至到-]\s*(?P<range_end>{CHINESE_CARDINAL}))次")
     if kind == "duration_month_over":
         return re.compile(rf"超[過过](?P<over_month>{CHINESE_CARDINAL})(?:個|个)?月|(?P<number>{CHINESE_CARDINAL})(?:個|个)?多月")
     if kind == "video_duration_minute":
@@ -2165,7 +2185,25 @@ def _match_target_counter_quantities(
                     continue
                 if re.match(r"(?:[秒歲岁米年月日天元度人位]|公里|小時|小时|分鐘|分钟|韓元|韩元)", target[match.end():].lstrip()):
                     continue
-                if expected.kind == "remaining_four_month" and (
+                if expected.kind in {"chicken_open_hours", "monthly_headache_frequency"} and re.search(
+                    r"(?:並非|并非|不是|不再|不曾|不|未|沒|没)\s*$", target[:match.start()],
+                ):
+                    continue
+                if expected.kind in {"microwave_duration", "screen_time_duration", "chicken_open_hours", "monthly_headache_frequency"} and re.match(
+                    r"(?:[%％‰‱倍千萬万億亿兆]|以上|以下|左右|上下|以內|以内|以外)", target[match.end():].lstrip(),
+                ):
+                    continue
+                if expected.kind in {"microwave_duration", "screen_time_duration", "chicken_open_hours"} and not re.match(
+                    r"\s*(?:$|[，。！？、：；,.!?;:」』）)]|的)", target[match.end():],
+                ):
+                    # These observed complete display/store phrases may not
+                    # consume only the prefix of 秒殺, 分貝/分錢, or 店員/店長.
+                    continue
+                if expected.kind == "monthly_headache_frequency" and re.search(
+                    r"(?:至少|至多|最多|最少|大約|大约|約|约)\s*$", target[:match.start()],
+                ):
+                    continue
+                if expected.kind in {"remaining_four_month", "microwave_duration", "screen_time_duration"} and (
                     re.search(r"(?:不到|不滿|不满|不足|少於|少于|超過|超过|超出|至少|至多|最多|最少|不止|不只|大約|大约|約|约|將近|将近|近|差不多|沒有|没有)\s*$", target[:match.start()])
                     or re.match(r"(?:以上|以下|以內|以内|以外|左右|上下|多|餘|余|半)", target[match.end():].lstrip())
                 ):
@@ -2286,6 +2324,14 @@ def _match_target_counter_quantities(
                 # 一眼 is a glance after a seeing verb, not one physical eye.
                 continue
             value = _chinese_cardinal_value(match.group("number") or "")
+            if expected.kind in {"microwave_duration", "screen_time_duration"}:
+                minor = _chinese_cardinal_value(match.group("seconds" if expected.kind == "microwave_duration" else "minutes"))
+                value = value * 60 + minor if value is not None and minor is not None and 0 <= minor < 60 else None
+            if expected.kind == "monthly_headache_frequency":
+                value = Decimal(1) if match.group("number") in {"一兩", "一两"} or (
+                    _chinese_cardinal_value(match.group("range_start") or "") == 1
+                    and _chinese_cardinal_value(match.group("range_end") or "") == 2
+                ) else None
             if expected.kind == "age_over" and match.groupdict().get("over_age"):
                 value = _chinese_cardinal_value(match.group("over_age"))
             if expected.kind == "duration_month_over" and match.groupdict().get("over_month"):
@@ -2388,6 +2434,18 @@ def _unexpected_target_entity_errors(
         for match in _target_pattern_for_kind(kind).finditer(target):
             if not any(q.start <= match.start() and match.end() <= q.end for q in matched):
                 errors.append(f"unmatched life-scene quantity: {kind}")
+    if any(q.kind == "monthly_headache_frequency" for q in source_quantities):
+        # The new monthly range must not borrow a later correct expression
+        # after a changed count, period, unit, or negated occurrence. Scan the
+        # whole witnessed frequency, not just the accepted one-to-two form.
+        for match in re.finditer(
+            rf"每(?:{CHINESE_CARDINAL})?[個个]?(?:小時|小时|分鐘|分钟|秒|月|年|週|周|天|日)[^，。；;\n]*?"
+            rf"{CHINESE_CARDINAL}(?:\s*[~～至到-]\s*{CHINESE_CARDINAL})?"
+            r"\s*(?:次|年|月|週|周|日|天|小時|小时|分鐘|分钟|分|秒|米|元|人)",
+            target,
+        ):
+            if not any(q.start <= match.start() and match.end() <= q.end for q in matched):
+                errors.append("unmatched monthly headache frequency")
     for match in pattern.finditer(target):
         if any(
             match.start() < row.end and match.end() > row.start
@@ -2577,15 +2635,15 @@ def _target_money_amounts(target: str) -> list[MoneyAmount]:
         "萬億": Decimal(1_000_000_000_000),
     }
     amounts: list[MoneyAmount] = []
-    # A fully delimited native thousand-won amount. Do not take the tail of
+    # Fully delimited observed native thousand-won amounts. Do not take the tail of
     # a larger/native decimal amount, and retain the sign in value comparison.
-    for match in re.finditer(r"(?P<sign>[+\-−﹣－負负])?\s*一千(?:韩元|韓元)", target):
+    for match in re.finditer(r"(?P<sign>[+\-−﹣－負负])?\s*(?P<thousands>一|五)千(?:韩元|韓元)", target):
         if _has_numeric_sign_prefix(target, match.start()):
             continue
         if re.match(r"(?:[%％‰‱倍千萬万億亿兆秒歲岁米年月日天元度人位]|公里|小時|小时|分鐘|分钟)", target[match.end():].lstrip()):
             continue
         sign = -1 if match.group("sign") in {"-", "−", "﹣", "－", "負", "负"} else 1
-        amounts.append(MoneyAmount(match.start(), match.end(), Decimal(sign * 1000)))
+        amounts.append(MoneyAmount(match.start(), match.end(), Decimal(sign * {"一": 1000, "五": 5000}[match.group("thousands")])))
     for match in re.finditer(r"(?<![零〇一二两兩三四五六七八九十百千萬万億亿兆點点.])(?P<sign>[+\-−﹣－負负])?\s*一(?:個|个)?[亿億](?:韩元|韓元)", target):
         if re.search(rf"[{NUMERIC_PREFIX_CHARACTERS}]\s*$", target[:match.start()]):
             continue
@@ -2831,7 +2889,7 @@ def _untranslated_english_errors(source: str, target: str, *, catalog: bool = Fa
         if source_has_term:
             # Case and spacing are part of the locked prepared form.
             for prepared in (phrase.values() if isinstance(phrase, dict) else (phrase,)):
-                if korean in {"링크드인", "인스타", "인스타그램", "슬랙"}:
+                if korean in {"앱", "링크드인", "인스타", "인스타그램", "슬랙"}:
                     for match in reversed(_bounded_latin_matches(scrubbed, prepared)):
                         scrubbed = scrubbed[:match.start()] + " " + scrubbed[match.end():]
                 else:
@@ -2839,6 +2897,11 @@ def _untranslated_english_errors(source: str, target: str, *, catalog: bool = Fa
                         rf"(?<![A-Za-z0-9]){re.escape(prepared)}(?![A-Za-z0-9])",
                         " ", scrubbed,
                     )
+    if SOURCE_XRAY_TERM.search(source):
+        # Only the complete medical noun, not arbitrary X-prefixed Chinese.
+        for match in reversed(_bounded_latin_matches(scrubbed, "X光")):
+            if re.match(r"\s*(?:$|[，。！？、：；,.!?;:」』）)]|檢查|检查|片)", scrubbed[match.end():]):
+                scrubbed = scrubbed[:match.start()] + " " + scrubbed[match.end():]
     for phrase in ALLOWED_LATIN_PHRASES:
         scrubbed = re.sub(re.escape(phrase), " ", scrubbed, flags=re.IGNORECASE)
     for token in sorted(ALLOWED_LATIN_TOKENS, key=len, reverse=True):
@@ -3647,12 +3710,131 @@ def _life_scene_parser_self_test() -> tuple[int, list[str]]:
     return cases, failures
 
 
+def _daily_life_parser_self_test() -> tuple[int, list[str]]:
+    """Compound display units and language forms observed in daily life."""
+    cases = 0
+    failures: list[str] = []
+
+    def numeric(label: str, source: str, target: str, valid: bool) -> None:
+        nonlocal cases
+        cases += 1
+        errors = _numeric_errors(source, target)
+        if bool(errors) == valid:
+            failures.append(f"daily-life {label}: valid={valid}, got {errors}")
+
+    fixtures = (
+        ("microwave", "4,900원 도시락. 전자레인지 1분 30초. 이게 오늘의 저녁이다. 유통기한을 다시 확인한다.",
+         "4,900韓元的便當。微波1分30秒。這就是今天的晚餐。又看了一眼保存期限。", "1分30秒",
+         ("0分30秒", "2分30秒", "1分3秒", "1分31秒", "30分1秒", "0分90秒", "1時30秒", "1分30元", "1分30分鐘", "1分30秒殺優惠")),
+        ("screen", "폰을 오래 봤더니 눈이 따가웠다.\n\n스크린 타임 알림이 떴다. 하루 7시간 48분.\n\n어쩌다 이렇게 됐나. 딱히 뭘 한 것도 없는데.",
+         "看手機太久，眼睛刺痛。\n\n螢幕使用時間提醒彈了出來。一天7小時48分。\n\n怎麼會變成這樣。明明也沒做什麼。", "7小時48分",
+         ("0小時48分", "8小時48分", "7小時49分", "7小時4分", "48小時7分", "6小時108分", "7小時48秒", "7公里48分", "7小時48元", "7小時48分貝", "7小時48分錢")),
+        ("open-hours", "직진하면 24시 치킨 반반 17,000원.",
+         "直走有一家24小時營業的炸雞店，雙拼炸雞17,000韓元。", "24小時營業的炸雞店",
+         ("0小時營業的炸雞店", "23小時營業的炸雞店", "25小時營業的炸雞店", "24分鐘營業的炸雞店", "24點營業的炸雞店", "24小時關門的炸雞店", "24小時營業的超市", "24小時營業的炸雞店員", "24小時營業的炸雞店長")),
+        ("monthly-range", "머리 한쪽이 지끈거렸다.\n\n스트레스성 편두통. 한 달에 한두 번은 온다.\n\n{name}은 진통제 위치를 알았다. 가방 안쪽 주머니.",
+         "頭的一側一陣陣抽痛。\n\n壓力引起的偏頭痛。每個月總會發作一兩次。\n\n{name}知道止痛藥在哪。包包內側的口袋。", "每個月總會發作一兩次",
+         ("每個月總會發作零次", "每個月總會發作一次", "每個月總會發作兩次", "每個月總會發作三次", "每個月總會發作12次", "每個月總會發作1~3次", "每個月總會發作2~1次", "每個月總會發作一兩年", "每年總會發作一兩次", "每個月不會發作一兩次", "每小時一兩次", "每兩月一兩次", "每二月一兩次")),
+    )
+    for label, source, target, counted, bad in fixtures:
+        numeric(label + " normal", source, target, True)
+        for replacement in bad:
+            numeric(label + " value/unit", source, target.replace(counted, replacement), False)
+            numeric(label + " cannot borrow later", source, target.replace(counted, replacement + "，" + counted), False)
+        numeric(label + " duplicate", source, target.replace(counted, counted + "，" + counted), False)
+        for separator in ("", " ", "\t", "　"):
+            for prefix in ("-", "−", "負", "0.", "數", "十"):
+                numeric(label + " prefix", source, target.replace(counted, prefix + separator + counted), False)
+            for suffix in ("年", "小時", "分鐘", "秒", "米", "韓元", "人", "%", "％", "倍", "萬", "以上", "以下"):
+                numeric(label + " suffix", source, target.replace(counted, counted + separator + suffix), False)
+    for source, target in (
+        ("전자레인지 1분 30초.", "微波1分鐘30秒。"),
+        ("전자레인지 1분 30초.", "微波一分三十秒。"),
+        ("전자레인지 1분 30초.", "微波1分鐘30秒鐘。"),
+        ("스크린 타임 알림이 떴다. 하루 7시간 48분.", "螢幕使用時間提醒。一天7小時48分鐘。"),
+        ("스트레스성 편두통. 한 달에 한두 번은 온다.", "偏頭痛。每月1~2次。"),
+        ("스트레스성 편두통. 한 달에 한두 번은 온다.", "偏头痛。每月一两次。"),
+    ):
+        numeric("alternative", source, target, True)
+    for source, forbidden_kind in (
+        ("대화는 1분 30초.", "microwave_duration"),
+        ("스크린 타임 알림이 떴다. 하루 7시간 48분간의 회의.", "screen_time_duration"),
+        ("직진하면 24시 치킨 회의가 시작된다.", "chicken_open_hours"),
+        ("스트레스성 편두통. 한 달에 한두 번씩 약을 버렸다.", "monthly_headache_frequency"),
+    ):
+        cases += 1
+        if any(q.kind == forbidden_kind for q in _source_counter_quantities(source)):
+            failures.append(f"daily-life source scope escaped: {source}")
+    for source in ("전자레인지 2분 30초.", "전자레인지 1분 31초."):
+        numeric("microwave changed source", source, "微波1分30秒。", False)
+    for source in ("스크린 타임 알림이 떴다. 하루 8시간 48분.", "스크린 타임 알림이 떴다. 하루 7시간 49분."):
+        numeric("screen changed source", source, "螢幕使用時間提醒。一天7小時48分。", False)
+    for separator in ("", " ", "\t", "　"):
+        for bound in ("至少", "至多", "大約", "並非", "不再"):
+            numeric("monthly range bound", "스트레스성 편두통. 한 달에 한두 번은 온다.", bound + separator + "每月一兩次。", False)
+    # Exact compound display times share the existing scalar-bound guard.
+    # Preserve all other prose and also prevent borrowing a later exact time.
+    for label, source, target, counted, _ in fixtures[:2]:
+        for separator in ("", " ", "\t", "　"):
+            for bound in ("不到", "超過"):
+                changed = bound + separator + counted
+                numeric(label + " exact bound", source, target.replace(counted, changed), False)
+                numeric(label + " exact bound cannot borrow", source, target.replace(counted, changed + "，" + counted), False)
+
+    for won in ("韩元", "韓元"):
+        source = "근처 국밥집에 들어간다 — 오천 원짜리라도 제대로 먹자"
+        target = "走進附近的湯飯店——就算只是五千" + won + "，也要好好吃一頓"
+        numeric("five-thousand normal", source, target, True)
+        for wrong in ("一千", "五百", "五萬", "五億", "五千萬", "十五千", "五千五百"):
+            numeric("five-thousand value", source, target.replace("五千", wrong), False)
+        for separator in ("", " ", "\t", "　"):
+            for prefix in ("-", "−", "負", "0.", "2.", "十", "數", "萬"):
+                numeric("five-thousand prefix", source, target.replace("五千", prefix + separator + "五千"), False)
+            for suffix in ("%", "％", "倍", "萬", "億", "年", "天", "米", "人"):
+                numeric("five-thousand suffix", source, target.replace(won, won + separator + suffix), False)
+        numeric("five-thousand no source", "국밥을 먹는다.", target, False)
+        numeric("five-thousand wrong currency", source, target.replace(won, "美元"), False)
+        numeric("negative money preserved", "마이너스 오천 원", "負五千" + won, True)
+        for original, translated in (("천 원과 오천 원", "一千" + won + "和五千" + won), ("5천 원과 천 원", "五千" + won + "和1千" + won)):
+            numeric("native five money order", original, translated, True)
+            numeric("native five order changed", original, "和".join(reversed(translated.split("和"))), False)
+
+    for source, target in (("배달앱 열기", "打開外送App"), ("배달앱을 켰다.", "打開了外送App。"), ("엑스레이.", "X光。"), ("흉부 엑스레이.", "胸部X光。")):
+        cases += 1
+        if _untranslated_english_errors(source, target):
+            failures.append(f"daily-life source-bound Latin rejected: {source}:{target}")
+        for char in ("é", "_", "0", "\u0301", "\u0903", "\u0488"):
+            latin = "App" if "App" in target else "X光"
+            for altered in (char + latin, latin + char):
+                cases += 1
+                value = target.replace(latin, altered)
+                if not (_untranslated_english_errors(source, value) or _numeric_errors(source, value)):
+                    failures.append(f"daily-life Latin Unicode boundary escaped: {value!r}")
+    for source, target in (("앱솔루트를 켰다.", "打開App。"), ("배달앱솔루트", "App"), ("음식배달앱을 켰다.", "打開App。"), ("배달을 시작했다.", "App"), ("레이저.", "X光。"), ("엑스레이저.", "X光。"), ("신엑스레이.", "X光。"), ("엑스레이.", "X遊戲。"), ("엑스레이.", "X光源。"), ("엑스레이.", "X光\t榮。")):
+        cases += 1
+        if not _untranslated_english_errors(source, target):
+            failures.append(f"daily-life Latin source/noun scope escaped: {source}:{target}")
+    # This is a reviewed script classification correction, not conversion.
+    for target in ("尖峰時段", "高峰", "峰"):
+        cases += 1
+        if _script_errors("zh-TW", target):
+            failures.append(f"MOE standard 峰 rejected: {target}")
+    for target in ("尖峰时间", "尖峰车站", "峰值已经过去", "峰\uFE00"):
+        cases += 1
+        if not _script_errors("zh-TW", target):
+            failures.append(f"MOE 峰 exemption leaked to other script/encoding: {target}")
+    return cases, failures
+
+
 def run_self_test(
     manifest: dict[str, Any], runtime: dict[str, Any],
 ) -> list[str]:
     failures: list[str] = []
     cases, life_failures = _life_scene_parser_self_test()
     failures.extend(life_failures)
+    daily_cases, daily_failures = _daily_life_parser_self_test()
+    cases += daily_cases
+    failures.extend(daily_failures)
 
     # Exact Korean-source catalogue names are not permission for unrelated
     # English prose or for deleting the noun around an allowed brand token.

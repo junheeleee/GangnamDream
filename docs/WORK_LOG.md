@@ -23,6 +23,23 @@
 > [`7/25`](history/WORK_LOG_2026-07-25.md)에 손실 없이 보존한다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
 
+## 2026-09-08 (Codex — 고시원·출퇴근·건강 번역)
+
+- 생활25종176문구씩 JA·간체·번체를 KO 직접 저작하고 독립 전수 대조했다.
+  신규528·누적12,699번역, 기존12,171/meta9와 두 파일 기존185문구를 보존했다.
+- 금액/시간·24시간 영업·월1~2회·App/X光의 실제 검사 오탐을 수리했다.
+  독립 반례로 괄호 통화와 기간 차용 경계를 닫았으며, 대만 교육부 근거로 峰의
+  정자 분류를 바로잡았다. 자동 통과가 원어민·화면 판정은 아니다.
+- 실제 입금·답장·통화·검진을 보존하고 주거/나이·금액효과·표시명 부채는
+  원문과 분리했다. 초기 source3 보존·최종 source/response/receipt PASS·changed_files0.
+- 완료174기록1,115bytes를 기존 history 앞으로 원문 이동했고 끝 개행도 보존했다.
+  검수행은 동일 활성 이어보기의 [~]·L3 OPEN으로 남는다.
+- KO/EN·runtime·공개·fonts·save·human_gates 변경0, 원본 checkout 쓰기0.
+  전체 INCOMPLETE·full/main/product HOLD·원어민/화면 OPEN·출시 데모 GO 유지.
+  [수용·검사 상세](queue_active/ORDER-177.md)에 사실 경계와 지문을 남긴다.
+- 최종 표적12개·별도 EN·diff PASS, portable12,699 source/hash/L1 오류0.
+  실제 차선 stdout은 git-private order177-final-checks.log에 보존했다.
+
 ## 2026-09-08 (Codex — 월세·첫 월급·가족 기억 번역)
 
 - 생활25종185문구씩 JA·간체·번체를 한국어 직접 저작하고 독립 전수 대조했다.
@@ -54,21 +71,6 @@
   전체 INCOMPLETE·full/main/product HOLD·L3/원어민/화면 OPEN·출시 데모 GO 유지.
 - 최종38행 raw byte-exact·표적7개·diff PASS. 실제 stdout은
   git-private order175-final-checks.log에 보존했다.
-
-## 2026-09-07 (Codex — 다은 일본어 존대 복구)
-
-- 직전172 L2의 말투 권고2곳이 다은 고정 존대 규칙과 충돌해 철회·복구했다.
-  기존 한 파일의 'それも勇気ですね'/'いいですね。こういうの' 두 치환뿐이며,
-  독립 KO·JA 용어집 대조를 통과했다. 다른11,614/meta9 보존, 총11,616 유지다.
-- 최초 source2 보존, 최종 source/response/receipt check/import PASS·변경0,
-  target hash2를 갱신했다. checksum `52f09844…3d0f74`이며 원문·사실은 불변이다.
-  완료171절1,555bytes 원문 이동, 큐5행의 이전 검토 근거도 보관했지만 입력 QA·
-  원어민/사람 OPEN·HOLD/REJECT와 활성 의무는 그대로다. [사양](queue_active/ORDER-174.md).
-  KO/EN·CN/TW·runtime·공개·폰트·저장·human_gates 변경0, 원본 checkout 쓰기0.
-  전체 INCOMPLETE·full/main/product HOLD·L3 OPEN·출시 데모 GO를 유지한다.
-
-- 최종12개 표적 차선·별도 EN·diff PASS, portable11,616 source/hash/L1 오류0.
-  실제 차선 stdout은 git-private order174-final-checks.log에 보존했다.
 
 ## 2026-09-05 (Codex — ORDER-156 Chapter 5 생활 routine 배경 수리 선언)
 

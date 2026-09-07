@@ -953,6 +953,47 @@
       "machine_validation": "PASS",
       "rendered_review": "OPEN",
       "native_review": "OPEN"
+    },
+    {
+      "order": "ORDER-177",
+      "group": "events",
+      "roots": [
+        "gosiwon_neighbor_first_meet",
+        "gosiwon_thin_walls",
+        "gosiwon_bathroom_rush",
+        "gosiwon_window_light",
+        "gosiwon_upgrade_dream",
+        "convenience_store_meal",
+        "convenience_extra_kimbap",
+        "season_rainy_commute",
+        "subway_hell_9",
+        "survival_convenience_meal",
+        "delivery_app_temptation",
+        "health_cold",
+        "health_sleep_debt",
+        "health_insomnia",
+        "health_meal_skip",
+        "health_back_pain",
+        "health_eye_strain",
+        "health_tension_headache",
+        "health_crying_alone",
+        "health_diet_choice",
+        "health_exercise_choice",
+        "health_checkup_reminder",
+        "health_burnout_signal",
+        "health_mental_burnout_signal",
+        "rainy_day_umbrella"
+      ],
+      "source_leaves": 176,
+      "target_leaves_by_locale": {
+        "ja": 176,
+        "zh-CN": 176,
+        "zh-TW": 176
+      },
+      "source_review": "Independent Codex Korean-source comparison across all 528 leaves; housing, age, won, clock/elapsed time, actual deposit, replies, call and examination-result boundaries preserved",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN"
     }
   ],
   "accepted": {
@@ -17184,6 +17225,710 @@
       "events:survival_rent_due:/title": {
         "source_sha256": "12001e9d52416b1ea727da0f41152498ac05f8a2b7af55dba8564925b0d9e8b8",
         "target_sha256": "11d31d93a543646bb2eae049301a560281ab8e90ae89b68c9e133b7a326a3736"
+      },
+      "events:convenience_extra_kimbap:/choices/0/result_text": {
+        "source_sha256": "2e3fa44a2011929a96b4c729547da212f5cd34fe2af6577d1d04b8acae0550d6",
+        "target_sha256": "99803f43007ea4fbe4c8836488e0f2add6153f6f8400c386c2fb6c9d5dcbd221"
+      },
+      "events:convenience_extra_kimbap:/choices/0/text": {
+        "source_sha256": "83e97aba7536fb02dabb758dd94f60833af4f34befaae6834876a16784965b51",
+        "target_sha256": "c527b1c1a49bd8da159670ed2931efba76438d7022aaf53421948c49455c750a"
+      },
+      "events:convenience_extra_kimbap:/choices/1/result_text": {
+        "source_sha256": "169c6dd5de16de60ae34c4636182355c0fdbf56262ca5aad00042612b6c4245e",
+        "target_sha256": "639f0c904a272a2a75d7d4d32e23042d020e26233b3aee46601e4939722f5512"
+      },
+      "events:convenience_extra_kimbap:/choices/1/text": {
+        "source_sha256": "5d29715cf02b2fe93609a59f71df0eb59ae39cb1d6fe62c7bf3a7c63d4a726a1",
+        "target_sha256": "4164b502a85dd5ba5147baecb026192c471f72fe63cef2eb2a49875b8a8deebc"
+      },
+      "events:convenience_extra_kimbap:/description": {
+        "source_sha256": "cf85b2f1b6b5666cc214af49f439249a45a28576fd4e3719d9fb39448d71b434",
+        "target_sha256": "bc30999bfada092ef6175adcb479656cb87030f1d5c3c4c02cf355a763e85a43"
+      },
+      "events:convenience_extra_kimbap:/title": {
+        "source_sha256": "a8cb53251f119fa00c028a4cb794f8a21f4a181f5bd73b41ddee7604d626bda3",
+        "target_sha256": "5fcf5fbc594fba16656d250cdc784ecab29eb44b5464e0f1b1f3c579eecd49f4"
+      },
+      "events:convenience_store_meal:/choices/0/result_text": {
+        "source_sha256": "62c5cc956490f0d421ef5fc482f3ad3874823cf9ac67f181e5faa0363e98c0d9",
+        "target_sha256": "89217d2a364ed205c66c3a1b66e93d4825cf548d5c59c08ff5664ab6d1bb4811"
+      },
+      "events:convenience_store_meal:/choices/0/text": {
+        "source_sha256": "e43f6a80eee96e6735d65bd41a39b17e993104f38b741847ec030644feef70e4",
+        "target_sha256": "707f20234d86897352b2e264ed6c3974f60d180a503cdc592561c28aad2687c2"
+      },
+      "events:convenience_store_meal:/choices/1/result_text": {
+        "source_sha256": "abf354dfd456ca881f162d7629e9311d3eba1a86bd7f96b9763468165d05671f",
+        "target_sha256": "2bc133b50efe8356b9e4ea5db58bb7d7ee0307a89da7f8fda0355ee5e8342c8a"
+      },
+      "events:convenience_store_meal:/choices/1/text": {
+        "source_sha256": "05d2f64649ce126dc7c40aeea8f0f9770d33801ac11c005a4c24a32ac4a6a7a4",
+        "target_sha256": "da7f3ae73c28ecbc573b0b367343a880c610fe3a3a2add917863f0e00efdbbf2"
+      },
+      "events:convenience_store_meal:/choices/2/result_text": {
+        "source_sha256": "69d2f9bbb9430fedbfcc4fdd2646361273459e5c966ccdfe556c1e02e24d5012",
+        "target_sha256": "46c0b4d3a35523d4884a637e3bf7d91acc18349e6773232a6321cca78b214a29"
+      },
+      "events:convenience_store_meal:/choices/2/text": {
+        "source_sha256": "526eee5ef29d341a475155725386a63fac13c714e1a4b691c7566f96137c29e0",
+        "target_sha256": "b5c0f4dedc1a1a768c070eac80fa1df5b9ecde104a5bc545f5fcf2e7149fbbd1"
+      },
+      "events:convenience_store_meal:/description": {
+        "source_sha256": "1b48c569c2ea38edc474fc1de31df9b33bb1206f8b38cd79f5c387e28dfb327f",
+        "target_sha256": "28c047e6aa6c9e9c9236de7bc3b893c7d68ba2dde974256e7d272bcf1d66d431"
+      },
+      "events:convenience_store_meal:/title": {
+        "source_sha256": "422edf71adc9686e4b4f4f602b874d83583f44709586fe0b94d107db70de5a59",
+        "target_sha256": "d5c8d0ef496489826bd38a0d19831998c0663a3864a59961171a5b60b0e38ccb"
+      },
+      "events:delivery_app_temptation:/choices/0/result_text": {
+        "source_sha256": "f6e00b50d5c211c838f69118bcb665e756295567de9d9782e3b2c4e95769491f",
+        "target_sha256": "ffbc7c333224ae5cafc4885d4fde8d175b6cce770d39dc8da8c91cb7c9ab625f"
+      },
+      "events:delivery_app_temptation:/choices/0/text": {
+        "source_sha256": "05662fe28bdd8fb4eb3d0313605ca48de0a204a779399c35ca081a278a5a0c69",
+        "target_sha256": "f3a246bbb3a193f7ab112f825af0593e75a17641167ba82cbca698b00f0e9bb9"
+      },
+      "events:delivery_app_temptation:/choices/1/result_text": {
+        "source_sha256": "239c4277ec22d10b2b200555c1617a2828dd77bce73acc07c031c02253fbc52a",
+        "target_sha256": "8b7f70200f602e16d6f6defe82767e38260a3e56da8d1a91c3eeb1185e30e0da"
+      },
+      "events:delivery_app_temptation:/choices/1/text": {
+        "source_sha256": "1dc3bf8cfb0de614b4a6abcd70de04cb8e374d2bb36eda3246e307f5c7a18d8e",
+        "target_sha256": "813a53dbee05c97b077bbdeeb3c9843e9da73a49d492b2ebf7fab54bde62d9a5"
+      },
+      "events:delivery_app_temptation:/choices/2/result_text": {
+        "source_sha256": "a4be8dd54c8e6473d56448eb41364ea607dbb31101fba31b7b2163ab3d191333",
+        "target_sha256": "0602ebd4e04338872b765af56e38ea36ca115cc4916acdd3fc9309dca17750ee"
+      },
+      "events:delivery_app_temptation:/choices/2/text": {
+        "source_sha256": "42387aed480552c63b5374f0768ac8e4ade64476e70717a34697c9ddc32b4689",
+        "target_sha256": "f2054e462131065c21be8cafd73f04cd1ee1d0505216b1211494eb37bbb208fa"
+      },
+      "events:delivery_app_temptation:/description": {
+        "source_sha256": "6a0209216a6a6e82ec9133cbe4d86c156af4f550bdbe258b24a1689c09a12b57",
+        "target_sha256": "ec766508110cd0596a586605113eb066cb29a8ae5c11b4cb758001844ba11a5d"
+      },
+      "events:delivery_app_temptation:/title": {
+        "source_sha256": "7f6a7aa1d89fa840f56197f97ca3a49220331e7b63acd1d7da8d713c4113ebbd",
+        "target_sha256": "9a4470a69eb7f5d95ba0c639d3ab38322bb7926f324e04bc8b6c841d0e7b5ef1"
+      },
+      "events:gosiwon_bathroom_rush:/choices/0/result_text": {
+        "source_sha256": "c4aa3a01babde85cb7b09f0d1898458e7f9879d7ea959fa985a3be3e20916e23",
+        "target_sha256": "9c4253990a13e4fb45c6930cd40cd78ab8330979000b74ad1f5dd1e793337f4f"
+      },
+      "events:gosiwon_bathroom_rush:/choices/0/text": {
+        "source_sha256": "1443673180954b5aa8a8b4cf01375a6cf09fe083c0df0d8868fd143220b97ebc",
+        "target_sha256": "23176835f1fc0689ce1d07969699099d0956f86e72c9e13d3f3dcf0edc0eb334"
+      },
+      "events:gosiwon_bathroom_rush:/choices/1/result_text": {
+        "source_sha256": "35f7887a67495c63e266935217759d7cff0b9209307ec88340c47092a780847b",
+        "target_sha256": "84f8b6b4b05d7a2e11819a0b9975ff0d2700ffb56e2fe77c11e98964a6339884"
+      },
+      "events:gosiwon_bathroom_rush:/choices/1/text": {
+        "source_sha256": "e3ca19e80acc4c2415a62846ba6c9ef1d7c893ebc3d4cde61c1555801db0d748",
+        "target_sha256": "b76625d503d17eb6630bb0d5f055baf4645ff3405c82bde7a9af8a4d79a27da7"
+      },
+      "events:gosiwon_bathroom_rush:/choices/2/result_text": {
+        "source_sha256": "96b028d555c38f9f8103643137febe0bdeb9affd8594c3fbc2668399d805a37c",
+        "target_sha256": "f1d74d79841b403ecef4a2fc15f69225bd3bdf656226027927a6c9c6ed894326"
+      },
+      "events:gosiwon_bathroom_rush:/choices/2/text": {
+        "source_sha256": "2c23a3c984906b0923cd6a0e398fc73ff49e35e7a324c656963f0f12e3a5326b",
+        "target_sha256": "7dafa2f7429c9999a92d2c5c1b3d2dd2ac23d290f23067be578908f8cfa4a3f7"
+      },
+      "events:gosiwon_bathroom_rush:/description": {
+        "source_sha256": "9181e732222fa42a13c83377156fd879677141bb8498aab6ec4fab0d401297da",
+        "target_sha256": "47b09fa5c39983c9d2a5e94f3377553c33b48db8aa4fb63eae640893d35034f5"
+      },
+      "events:gosiwon_bathroom_rush:/title": {
+        "source_sha256": "b6f5107ab022106b70881613c5677bd814e034d8440606535e2044da4869ecd1",
+        "target_sha256": "b56d3b431f9e8ed8d9f1dcc10399ae20b805ec8dd27d8082b601a7d4fc242920"
+      },
+      "events:gosiwon_neighbor_first_meet:/choices/0/result_text": {
+        "source_sha256": "cac97bc8e5bac807fa509b7be1db23580601591c6afb4810979a52fde640feed",
+        "target_sha256": "7ed6976d11d417b62969dc7735943a28393ef61566418f304c0bc22df05118a3"
+      },
+      "events:gosiwon_neighbor_first_meet:/choices/0/text": {
+        "source_sha256": "285bd346121a99e5f72da896b0ed78e5645b4d4e6728ff480ab3908cf4beafaf",
+        "target_sha256": "a45712edbfcbf74636c388726abc00c0f827e766ed9d44d1a713a402d6e34d8e"
+      },
+      "events:gosiwon_neighbor_first_meet:/choices/1/result_text": {
+        "source_sha256": "7104ce22aba8c4b740b3299b94eb9b29aa2192fa94ad25c481db104a9e3a7b5e",
+        "target_sha256": "85c7a1102fbad779c223462047d5a44f547e2146b721c901e1f3f87b834fdc54"
+      },
+      "events:gosiwon_neighbor_first_meet:/choices/1/text": {
+        "source_sha256": "0136d8a39d74cb00f05c863fa05618cb431784aad0c9522fcd93c164d0d375c0",
+        "target_sha256": "7c24ad50382e233ddabe99434dfefd4cb7f3294417bec747a7aa8d12e6faf0e7"
+      },
+      "events:gosiwon_neighbor_first_meet:/description": {
+        "source_sha256": "252cb2de423bd536b78012e31af31e57ef3557deeebb9d532122d18cfaf01a8b",
+        "target_sha256": "57188df9b351ade58395fe4e4bfc04b27326fa8285eb8aa27ce23d63eab5131d"
+      },
+      "events:gosiwon_neighbor_first_meet:/title": {
+        "source_sha256": "3f882cd912dca96ad89d7d4ebebc1bde0307a3d1f1d6a14c9b1f5e2c6e02aaa8",
+        "target_sha256": "63346b6135e2b7395d60a22d4cc4d009fd84941c810065196447ec9f429e5284"
+      },
+      "events:gosiwon_thin_walls:/choices/0/result_text": {
+        "source_sha256": "bc94cac208a4ca473ac137ed915139da9419fa8ebc15339c3b84e9158f07757d",
+        "target_sha256": "e63ef062d4b351172e5ff8811326df71624ba72722b696c2a3c59c9a89d33b38"
+      },
+      "events:gosiwon_thin_walls:/choices/0/text": {
+        "source_sha256": "41bff3352b8a5962f7f82a0150f6f47bd71ace15a39ee3b38d5d8953bd3cf598",
+        "target_sha256": "2c00374f05bdd636e622e2be1a83ba5720c64a7586fb613692834a605dfa721a"
+      },
+      "events:gosiwon_thin_walls:/choices/1/result_text": {
+        "source_sha256": "9ff3c9746176e3247c7ed3d210c89dc4a0e941175b373303369cfee9a7c16740",
+        "target_sha256": "035185e08f36757e0cb87686c33b8990cba12d58d573ed2ccdbf3d5cda253cd6"
+      },
+      "events:gosiwon_thin_walls:/choices/1/text": {
+        "source_sha256": "4814269ca6cf2bcf967be813e774fb3e7e487ba968021fceaad4b22b088a6830",
+        "target_sha256": "00f67bf63ba674db380e2642cfbb5e65f266979515be47936d178e70371563b9"
+      },
+      "events:gosiwon_thin_walls:/choices/2/result_text": {
+        "source_sha256": "be0491456101c4d58bd5e9bc066f5913caaead1887a2f39d88147996baf1ae07",
+        "target_sha256": "d7a3093ef5bddef6da8d335cacd67f3d20bc00d56fe6535104edd7900cf73a84"
+      },
+      "events:gosiwon_thin_walls:/choices/2/text": {
+        "source_sha256": "7fea966bf7043d58c862d34e9f2b078090feb9de375a1e2ad863977d908d4457",
+        "target_sha256": "09ef8256ec51697b73a319427a9b420dbbe373928c6f747955231aa353020126"
+      },
+      "events:gosiwon_thin_walls:/description": {
+        "source_sha256": "001361c805c7a6baad4f3f60eb54f1f627e9d0fc6248ea9c96294d8882f9787b",
+        "target_sha256": "8313bf71a7022a15b1c810a2bed1308a66b730779f7a54971e7ce79251674145"
+      },
+      "events:gosiwon_thin_walls:/title": {
+        "source_sha256": "3b3ac58be526ea335374f1d052dd30a18be8e2373304abbeae6f08a33cdd5e56",
+        "target_sha256": "a29e66c1b85e3533813af81a9b9a26a18576633607a5cb6d504f4302b07872f0"
+      },
+      "events:gosiwon_upgrade_dream:/choices/0/result_text": {
+        "source_sha256": "e4cd248673d354fc7d08ee9fc7a36aed3c590949a390ebbc37787883fd79673e",
+        "target_sha256": "a015e061aa5e0a24365f9ba9ac4b58c8808596183c117f82b8f5ca3d7ceaada1"
+      },
+      "events:gosiwon_upgrade_dream:/choices/0/text": {
+        "source_sha256": "500f921e0161541aeb6246fc43f47bd545807158b9fd1cd068036f02b5533712",
+        "target_sha256": "bdd349648fd83e39e077d5be52de2e408fa9ef55fe243df6b359635da99fd617"
+      },
+      "events:gosiwon_upgrade_dream:/choices/1/result_text": {
+        "source_sha256": "93e3202e8b62a7f85aeeec815af2a756a207dc8aea3fb6307cc2a35497fafcf1",
+        "target_sha256": "4114d6b841d9baf4548c0923565cca27f6aeac2a20f1a71c48496e4e9b7696c2"
+      },
+      "events:gosiwon_upgrade_dream:/choices/1/text": {
+        "source_sha256": "aa553d0da959affef0a5a7147e9e1c83d22baec75d535bee8b0595d022ef7a89",
+        "target_sha256": "b47601d7c694b0baa700a986f4767771c2ba1996c158fbd59b6519ed4bfd7e2e"
+      },
+      "events:gosiwon_upgrade_dream:/choices/2/result_text": {
+        "source_sha256": "06bfc0937123555990d1d3c43f57c5fa153bbf6ea6493e86b5bac12952846564",
+        "target_sha256": "0b0e3ff7f1079b85c826d5c8d15c349d64acf7eca5ab55dacb8259de846450d1"
+      },
+      "events:gosiwon_upgrade_dream:/choices/2/text": {
+        "source_sha256": "9824705278200eee4a68353d3f26eab2f366735876639e26df7a67b9c9cf78ae",
+        "target_sha256": "049dfdebbb14165a2070ae29224f456816143267d10ac37bafeb021c1ef54077"
+      },
+      "events:gosiwon_upgrade_dream:/description": {
+        "source_sha256": "5884c09664dd67aa21f0cc70286dc10f79fb3c837246bcda96b1694780fb05b1",
+        "target_sha256": "8f487e6290ca8a56b23216828aee646f82a1b088ebc1764afc1823b44612a33a"
+      },
+      "events:gosiwon_upgrade_dream:/title": {
+        "source_sha256": "3d6ff3bdccaf02e5882c6441900733ad817c8fa1071baad5a388a6a25b4f002e",
+        "target_sha256": "05f29b923b21dfd8a0e0454c8b7b053d6c43e28c87b819c0dbb44e8951c70a63"
+      },
+      "events:gosiwon_window_light:/choices/0/result_text": {
+        "source_sha256": "edc4769ff69a6bb4299d771cfe78f6a1613d4efc4de001a52873553b44c15f27",
+        "target_sha256": "130f3ab5e49bcabf19cfd5f62d334a7832e0d80b1172c9e50a6871c19d737409"
+      },
+      "events:gosiwon_window_light:/choices/0/text": {
+        "source_sha256": "1815a3a4b7a00c80f682bb3c13b2708ef64e8da0782d8fef9f5bd068b348075b",
+        "target_sha256": "1562ea42c73461f508ec26ec89d99d115b296874c1d471f618dc1e008b93aa3b"
+      },
+      "events:gosiwon_window_light:/choices/1/result_text": {
+        "source_sha256": "9352df7e00c588dce03354ee88a8357a3b738f95afdd819fef2fbdc7a12f6114",
+        "target_sha256": "e5ccae7646e4789ddf5e72f91d4d052cb123060d5b8f3b42b9cc41ecf0b1c2bc"
+      },
+      "events:gosiwon_window_light:/choices/1/text": {
+        "source_sha256": "664ccf41cf8ccf7fa2a270cf9d5f0227a5c3edd45dc65156215f2911683485a1",
+        "target_sha256": "f72d64635af52bc677a0a0160bedd8ea4632b5be466247029816a1199f1b8ac8"
+      },
+      "events:gosiwon_window_light:/choices/2/result_text": {
+        "source_sha256": "bc820ba9a3db0476139bb812fadcab464fb10ba4ee81858cf3dfdef8e424998c",
+        "target_sha256": "298eb724fe69eb227bca47f24e0da07c70634fad1560061d545eb33a841dc33a"
+      },
+      "events:gosiwon_window_light:/choices/2/text": {
+        "source_sha256": "007f841492e99481c21073249726748f11a71f8f56ab2b9de7506309a8f25493",
+        "target_sha256": "72cd31ea1dce97d08b56194b2050a097915d9e1ed636bf6e4974b5882ca827a8"
+      },
+      "events:gosiwon_window_light:/description": {
+        "source_sha256": "46cfe743b54f7a7a0e58c72d99cd09fe00c40876761defe01835f273ab960cb0",
+        "target_sha256": "b204300180ad470a5a9876df38f0401458d470fd1bb3607cf9d088865eabd209"
+      },
+      "events:gosiwon_window_light:/title": {
+        "source_sha256": "ef3453219d92edd193afe94a9dcc2cf74b172770f67d2dcd21de480207fad92c",
+        "target_sha256": "a9a2c63f69dad17987365397bae4a5fcce12bb4dad9ebe9aca71ba4b1583723c"
+      },
+      "events:health_back_pain:/choices/0/result_text": {
+        "source_sha256": "cc6988815c77de453dea74309501379506cbf8b7862a8f31e00cfcd513e0ebe1",
+        "target_sha256": "a78b73ccfa9818992d72edebb56e6c00dae4a7ecbf6cbd5eeecb78088d707158"
+      },
+      "events:health_back_pain:/choices/0/text": {
+        "source_sha256": "67229d82399b9be51c882beedeb21554c2547fb630459c2ee72359c17a6c9130",
+        "target_sha256": "d87efadd421e9f81da983283e1b941d322e5e2700ea999bc684541454adf8bb8"
+      },
+      "events:health_back_pain:/choices/1/result_text": {
+        "source_sha256": "fe5899a8537028c1400fbe06142bb2be45cc313727e1a09347d8ae06b7dd3090",
+        "target_sha256": "b9d9c0d438cfb4145e00268e69559e7de586a20d029356c969725aaa0519e6b9"
+      },
+      "events:health_back_pain:/choices/1/text": {
+        "source_sha256": "f8211bb1f88ba1c561c92c54e504922d9baa99f04bf2dd2369f0aa99a016dbf6",
+        "target_sha256": "8dea47527b4f345c096e9a0a05e704df65f1a11b5cd3825ae10fcceff14055e6"
+      },
+      "events:health_back_pain:/choices/2/result_text": {
+        "source_sha256": "19bb5c5fc8c71e8b872928dc5135600e61f28d2b736ba09290b48a47a4c33528",
+        "target_sha256": "c4e5bc94ed562007851c8960d003ed4cbdffe99ebb469b46eb1e7915f1332a21"
+      },
+      "events:health_back_pain:/choices/2/text": {
+        "source_sha256": "cd77cb76bf2ec4e8e94c99638c8a6ecb57fd90f581631de6f64ec20d421edf16",
+        "target_sha256": "fa95b646f4ab575f80b79c2ef67c19aadc44861fb3bfbdafb4b84ab85c5f41a5"
+      },
+      "events:health_back_pain:/description": {
+        "source_sha256": "56a3931688cdede75d12bce59ed8fbc61206326fd86b069d6d21e30c031664a8",
+        "target_sha256": "58d683790a39bb20053b0da3c23ad5d653cfca0d047b45324b9be14170972e5d"
+      },
+      "events:health_back_pain:/title": {
+        "source_sha256": "3a5b814518c82688a9bce39bd525377c290352493e54f2ec2e83e49d6d3c78eb",
+        "target_sha256": "7cc906f685b1460afa33422ec2eac4328aff2e56507c3d69b1707422c046601c"
+      },
+      "events:health_burnout_signal:/choices/0/result_text": {
+        "source_sha256": "a976461fb1b82385db1f602b0223904a9e94c430ab84320dc6e9fd9a9871fb5b",
+        "target_sha256": "6ab79df33617957b044d2021141e5bc1157fd4a278eb789d8e47229cb07fb676"
+      },
+      "events:health_burnout_signal:/choices/0/text": {
+        "source_sha256": "299dd594b22bdd6a7c9dec87df877da2c625d587e34a872f007b7b79be7fa36c",
+        "target_sha256": "3889e5723156dd4c61e9054891abf93fe65d7347e60b4d3107dc956eb3d88cef"
+      },
+      "events:health_burnout_signal:/choices/1/result_text": {
+        "source_sha256": "b001f32788fa52fdf4216603c9e3e03476544964245b0f8fddd0a78fd3e75bb4",
+        "target_sha256": "bc5f4d339a280ed29d79f5b3f994599006a32fb109fa10cdf9990e5a82b93361"
+      },
+      "events:health_burnout_signal:/choices/1/text": {
+        "source_sha256": "f5ce1c1a3ee3a47ed79ca95de6a9a38295865f70575155af23d93a0c17a2d6c2",
+        "target_sha256": "d9496db8554adcababed4f62d3f2a2a3782924b938a1879198fe2a0deb6a69a7"
+      },
+      "events:health_burnout_signal:/choices/2/result_text": {
+        "source_sha256": "e19828d084928b88b7b741d6c0c1f74b18de4c277a92d1028fc231770a3144b4",
+        "target_sha256": "7a1c83ff75a084dacdf02e62667c7d531fa8b5ceacb40391e23c1a3c5f234116"
+      },
+      "events:health_burnout_signal:/choices/2/text": {
+        "source_sha256": "6a3c68b9d387376bc23a835b5bee03e5a12730a9195ed01a13fa332aeb5b7ef8",
+        "target_sha256": "374ca51f8baa79277cb2c960cbe588ccb712966bf460eadbd3df0bced02d6681"
+      },
+      "events:health_burnout_signal:/description": {
+        "source_sha256": "d87dcb044da2b17b9967a8431c5d485f4d0b833cf67f2c7e07fd41a1ed95a44b",
+        "target_sha256": "9d7c176ddc8131d9d772c07e4b7f6de80667e2f32192a328fe518f8df9b00ac6"
+      },
+      "events:health_burnout_signal:/title": {
+        "source_sha256": "a69db2d96b6d6423ee96dbf0e4a0e4413c9f507372867c5d96ec0028f4a4c5d9",
+        "target_sha256": "fce35a992b0e02fc12b5900d404d19e12f7c8bed41424a7b1f7e2811ce77b98b"
+      },
+      "events:health_checkup_reminder:/choices/0/result_text": {
+        "source_sha256": "3cf28a7d0ddc080c41d154f3f08064b4a331f80853c7f23dd649d4cb3ece100e",
+        "target_sha256": "f0378a76bd5330c9de39e8034f3857838fbab6bf7fbb8bf492143537109dca1e"
+      },
+      "events:health_checkup_reminder:/choices/0/text": {
+        "source_sha256": "eb2a86a6f321a35b4ecdcc65a8e21c891fca25edd1d9c44b76134718d3f80ccf",
+        "target_sha256": "b4b5764864e95e3de086a4a4de39a0bab0c07a4654d4792c72a4a45fcb08fd70"
+      },
+      "events:health_checkup_reminder:/choices/1/result_text": {
+        "source_sha256": "dc353848c4425815c54a73d72306f08e27bc93725dd53455805ca1388080eb66",
+        "target_sha256": "d8776166486ec6c1dc3a7352a70f8094d8097aad5a43197132f2a4dd468cf612"
+      },
+      "events:health_checkup_reminder:/choices/1/text": {
+        "source_sha256": "07a772f9f47c12cf9ee371069f6953d7a7a1381d780ad4802f1cdd5cc81ecc12",
+        "target_sha256": "9a8e8ba04a9ba25ab871f90d0680a2ba6a71f28091f94b48798986fdced313f0"
+      },
+      "events:health_checkup_reminder:/description": {
+        "source_sha256": "a19198feda1e5400b493c3609275c3de9d001ab8d3adc1f5142c2cf9c47d74b4",
+        "target_sha256": "0d21c2d15076bff251c0916e00a4c6dd15b04138eee1056d49ec66778006238e"
+      },
+      "events:health_checkup_reminder:/title": {
+        "source_sha256": "45c030d339ea713a00364d9af7ec3d938dcf0b418061a87c0d7b7468d2e7e250",
+        "target_sha256": "4ef98e44dc14f880397ab733cb942595d83fd10ad25ec824735f38057d10be46"
+      },
+      "events:health_cold:/choices/0/result_text": {
+        "source_sha256": "0605471d7ba936778c7dbd8f119b727db66d1ceda4d460a267fdd64019d8b108",
+        "target_sha256": "416f7f09af7393efd10122faf1f5c80d69ada6584c1df020993695b83c52bb75"
+      },
+      "events:health_cold:/choices/0/text": {
+        "source_sha256": "dd343a780aaa3d219fda23a0fc98a2c39410f0d34b50c9f7993021cbd6b4cd54",
+        "target_sha256": "161fb561908c98b6bde1927bc10e0cbe11b28a8eb9fd297e9997f32c28beea7b"
+      },
+      "events:health_cold:/choices/1/result_text": {
+        "source_sha256": "d4829e91e44033e09d60e4d0e534c487dda7a94cce0ad6f0a347b91a1ac51d99",
+        "target_sha256": "5ee6a9a944dab2dd338f7039994bc80cc91b9b04772e769b11aed50aa3df5818"
+      },
+      "events:health_cold:/choices/1/text": {
+        "source_sha256": "84e7cba830279f7f12370334ed87bfe7f88af05af2001ccc74b714367f70e163",
+        "target_sha256": "7b88bc58642c19e56f6a1dae0df53e86d82ac7d3e9e1dfda97dbaff28841b981"
+      },
+      "events:health_cold:/description": {
+        "source_sha256": "08dd7faf02410b2fac880ef61ffdb0e06fefa959a0835ec78bcf39b88f3a0016",
+        "target_sha256": "bb3849b9a694716009d54515793afbc8cdc778831cabbb39627cde033e6bc0a2"
+      },
+      "events:health_cold:/title": {
+        "source_sha256": "395d474c3f5b1e66bd2fa6147c2ec9afcfb25df4b4984687c65fa03b46582f6b",
+        "target_sha256": "4f2eebafe79fe472fe74da3818c03d244d54c4a1b2453987c6645733d9880961"
+      },
+      "events:health_crying_alone:/choices/0/result_text": {
+        "source_sha256": "9fc6f95e904ebe47af72acd462d8ad8fe744a6e2329724e4df469b336de16548",
+        "target_sha256": "e8576fd10123a47aaa8c807a15ef7a538d5d12a7813989df179fe7640993e684"
+      },
+      "events:health_crying_alone:/choices/0/text": {
+        "source_sha256": "b7e1ae940e91543435e0afd3fa0fa73b0ae6e07b904eea66523277df37ef5ce7",
+        "target_sha256": "ac055b7f16aaa964519d860af464148537171fcd0add5fecde1fdd2ffb32a667"
+      },
+      "events:health_crying_alone:/choices/1/result_text": {
+        "source_sha256": "c2e36d8eadaba4f1ec22f77a603b3b4d17da639080ae4ac258b399b2313c7d35",
+        "target_sha256": "46f57717a54bf1472c4cd6fef68a34a9dad24ef21b91afbb1219d48fd15ca3be"
+      },
+      "events:health_crying_alone:/choices/1/text": {
+        "source_sha256": "3fda5860b26582d0bd86c90b5d335078ab42f45c1bf9bc720e979b79a6c43c01",
+        "target_sha256": "a039870a320b341f2d81d0e3df7101d3369279cd83a4f28390b0b6d7bc93d167"
+      },
+      "events:health_crying_alone:/choices/2/result_text": {
+        "source_sha256": "9c027dd57389773b9aded12c9719dddc7a979738cd7badca0299ad329e70fbc0",
+        "target_sha256": "1db8ab45a5ceb627d635bb863af34e9161d8451b85ff0b51fb9c4ec6ae9a296d"
+      },
+      "events:health_crying_alone:/choices/2/text": {
+        "source_sha256": "9d2d86595776a3509485cee1fdd24f8966f0eea06b51c2bce6e9715301c1cb66",
+        "target_sha256": "70b848ecd0d5e21dc2fbe8e2674ed61387a8e9ad6c9d69b3bb57cf888bdcacf2"
+      },
+      "events:health_crying_alone:/description": {
+        "source_sha256": "0350068e2c1425f9a18ec5a8ee64e4892f34b26e7eac5f1c1a6b7e26d3b6994f",
+        "target_sha256": "bf81fd887fa42fff34032243b15d9e6adb9f1d99ad917945034bdb80d5e1d59c"
+      },
+      "events:health_crying_alone:/title": {
+        "source_sha256": "47141e51a86a935064678914cecb6e40c188c160e54020f89bf45a9319ddfbe0",
+        "target_sha256": "0828248dbc68356ae7b52b28cce3ef33b1edd9e9155ece4f5f946df4c794dcfb"
+      },
+      "events:health_diet_choice:/choices/0/result_text": {
+        "source_sha256": "03f54f9f448b69e741f6b4c74d2f71bbb130a61dd8471e4b88c4a74b9359e6dd",
+        "target_sha256": "3c393098a79da5be1f3479cd213e6db30159410d603c3e0bed63753ddfce0598"
+      },
+      "events:health_diet_choice:/choices/0/text": {
+        "source_sha256": "2ae6c4e29255646a0fa030bcf905d983901793305e9c9b6f633ea969bb32db39",
+        "target_sha256": "2ed7d37d291fd908456d0d6f45757ffac9752224a9522c197d93393fd16b50fa"
+      },
+      "events:health_diet_choice:/choices/1/result_text": {
+        "source_sha256": "345ec960d36e2d671a9fb846ecf545f5a219ed701521405feef857d5575ed16b",
+        "target_sha256": "66b1b19c67e1379f8d796e621304f86ea19b4776c38bfe2dd232cbf1de725900"
+      },
+      "events:health_diet_choice:/choices/1/text": {
+        "source_sha256": "1759f10e35f7c929dc938b3754b72678c4fdef4cff3161586eec55e05546d390",
+        "target_sha256": "22db05715bc21ab525dc472193607a935cce0a09aacb3c9329c7e597e751a392"
+      },
+      "events:health_diet_choice:/description": {
+        "source_sha256": "66b7f112632cea738e5d990d031fcc0dea04b4834f8435c825714d288199a50d",
+        "target_sha256": "1dc6ecd32ed0c0d11a8b8e0c1454aeff17008b2b7fc13aceab8d66e30cbfd623"
+      },
+      "events:health_diet_choice:/title": {
+        "source_sha256": "920ecfb0b08063c4b581f14a6cfab855d5736a33f85df71b162f37aecdf8554b",
+        "target_sha256": "e3802f1a02c1ab9f5aa48bfad5ae7c6e10d1a856a05f092fc963180cb904ae97"
+      },
+      "events:health_exercise_choice:/choices/0/result_text": {
+        "source_sha256": "be0014960018ec9bea0ecaf0a84480940c78e30d8525e57e099a6cabb70a1fc4",
+        "target_sha256": "8ea1ef374a61326ae172dc78813ddf394709472cb2648c94732932216e7d07c4"
+      },
+      "events:health_exercise_choice:/choices/0/text": {
+        "source_sha256": "37187c2f5f31e40ca6da1214688fd90dd0cd897a7751a066128a2faf45d250e2",
+        "target_sha256": "1a35cf095647ddc9923be749cab5c6a99da5f1c75d74a8ecf3b153ba3b1b199f"
+      },
+      "events:health_exercise_choice:/choices/1/result_text": {
+        "source_sha256": "427edbec73f6a463826acd66db7973cf4a6c949e61d04520d62661d0b433b69c",
+        "target_sha256": "e6cd93dae85620bd73dcc41520bb092d5e86333fcce20b8a2bbc75025ce80a7d"
+      },
+      "events:health_exercise_choice:/choices/1/text": {
+        "source_sha256": "4672d1f16087a229f49726d4775fc743d568e3878ea8b26019a8d60636481188",
+        "target_sha256": "eb26aff3b5979ff21167214614df88d6f737f5e8e7809365fec823d211dca3ca"
+      },
+      "events:health_exercise_choice:/description": {
+        "source_sha256": "bb60216326e1aadcc414e9b183559f3881c93441b945f62d627dec7170953077",
+        "target_sha256": "eb85e03599b0ca33e109ebb80d69e66d08d920ca6be3914fabc78a50ce8442ab"
+      },
+      "events:health_exercise_choice:/title": {
+        "source_sha256": "6c27504066fa83eeee356617829bd60a7459abf29e634ffe555e072658cd302b",
+        "target_sha256": "aeea9d1f04451fed428ed9f8bf80d95351cf1422af60bc95cdb1a270e04719ad"
+      },
+      "events:health_eye_strain:/choices/0/result_text": {
+        "source_sha256": "0b54f0dc4c8307d35805edcabc60a3b98484213123cf402e6016f374610fe2b8",
+        "target_sha256": "02403162d8e43f1423e9f24ec3695e1e7eafd29454bb9b83fd4d6a046f19dbdf"
+      },
+      "events:health_eye_strain:/choices/0/text": {
+        "source_sha256": "79421e9f37bdb3aa4e5f836fb76ff317eb69935fa327568ca5ccd526818d228c",
+        "target_sha256": "97f6f298e4c2bcdaaa7bc2579a6eb17891e40a1ff3ed86646d0a149f2285f3ce"
+      },
+      "events:health_eye_strain:/choices/1/result_text": {
+        "source_sha256": "f444f7daaeb91df5f33952d76f0f3b672b2202deb3afcbeefebbcc7d00ccee94",
+        "target_sha256": "cb77b22ba58b3c7c7745ebb48ea946485a0682d84d23ac6c17462b5c3f2b568a"
+      },
+      "events:health_eye_strain:/choices/1/text": {
+        "source_sha256": "6fe0fbb85c93d326c978dad30b6512a524d0eecda26664764a4cc4000d0a0ca5",
+        "target_sha256": "b95342163a656d7be0300674d5fadd99544cbdd15926cd095ea378f43f250dbb"
+      },
+      "events:health_eye_strain:/description": {
+        "source_sha256": "e0d5aa148b40082605ba1e080ec4b6ebbfdfd11eaa61726eb389a1f5ab6b7270",
+        "target_sha256": "42d4abadffee2df479f8bf7a6280d6d22e1c08899289294bbc0d483bcf16b432"
+      },
+      "events:health_eye_strain:/title": {
+        "source_sha256": "1cdb7340e349982f0a398a6a68bfffe433030db042eac60e3513807b39323fa2",
+        "target_sha256": "60a0297cd3818842505679c6eac31c08f7ce8911638868ad8db068e64f9db0c2"
+      },
+      "events:health_insomnia:/choices/0/result_text": {
+        "source_sha256": "1517156915efdcdb88c0aaa0a3f2bb810f336e26020590bad6e7545e84b5ed8a",
+        "target_sha256": "0cb56345b5e15b0029afbc18a47a9e9befcb59408dfbc48f76c1b68d4556371e"
+      },
+      "events:health_insomnia:/choices/0/text": {
+        "source_sha256": "761c46e715ee915e51fc770ebb65f51551603aeca2af6ed492e5dffbca6c5100",
+        "target_sha256": "f8c2f81264e15b0459f25c2c86edc7f0f92d4948666bdf1b1d2c0fe662e531de"
+      },
+      "events:health_insomnia:/choices/1/result_text": {
+        "source_sha256": "d3d33d60e87f2cea7fca970674f8c08b0187ae968eab856cf896d613ae46d0c4",
+        "target_sha256": "da0b07c451a1ef24049cb074a0c88b313f72f33e47887da85cae933d04cad2b9"
+      },
+      "events:health_insomnia:/choices/1/text": {
+        "source_sha256": "0e9f76d48601bd0b459a9a04e98af56d16b2c3db9dbed63eca56660e3e562fe6",
+        "target_sha256": "cb43c2c8d0c703d38faa3daa44195dcd4014a194ae9914cc6f34da89bb74f045"
+      },
+      "events:health_insomnia:/choices/2/result_text": {
+        "source_sha256": "89b1cfbeff722cd7aaa6e6abba28118a46056547875e7bcd92f988b8810f7d5c",
+        "target_sha256": "d99b8804752d0e80e7fd924dc022f9f52c7d6f7ed1881f1a1c926744fdec9e1a"
+      },
+      "events:health_insomnia:/choices/2/text": {
+        "source_sha256": "edb169adb61dddf2dd52302c5b258b54463f54e4a367d37cf8de14cb4170b1c5",
+        "target_sha256": "33c51130a3cfcca7de49233972bda559d0123af9cb4503024095104ec1da3177"
+      },
+      "events:health_insomnia:/description": {
+        "source_sha256": "9d0467efbc89304dca9ee25bbeb51712448d3d9514fdd7384782d7d788534577",
+        "target_sha256": "56462e2027cc6263e80fd02d0d23e49ec71af90873753c914eee9e098d1586e1"
+      },
+      "events:health_insomnia:/title": {
+        "source_sha256": "e72c07f4f18f9e484ef1adfca21e925290f5b0246ba335df8f3106516ec98694",
+        "target_sha256": "c56809b8fd259d8a8d789d5022d70e9c91c5e683b1d63949cc9e751ebb044459"
+      },
+      "events:health_meal_skip:/choices/0/result_text": {
+        "source_sha256": "684c72ce73dab42226230127473ffe4457cfccecdf68263089acb32cb0f53fd1",
+        "target_sha256": "356ef6875d2cb4c1a701d63d1ce609070304efd79a276049405001d9fd1339fe"
+      },
+      "events:health_meal_skip:/choices/0/text": {
+        "source_sha256": "9fb9042ed0527838f575495ccde77b08277826d2cace34953461d473c176af54",
+        "target_sha256": "4d00998f36a333e5c4725ce75e28ac98d6f8a2680362cf993ce2408a799d26d0"
+      },
+      "events:health_meal_skip:/choices/1/result_text": {
+        "source_sha256": "acf249261a558eb8c4a80ea2b1e919ef440b964deb14de11a3a8f824ffc16ec4",
+        "target_sha256": "70432cf7c49043c69771d8884ef87ec6f85118d51fea9315f483b7e4de28910d"
+      },
+      "events:health_meal_skip:/choices/1/text": {
+        "source_sha256": "c8b690a03b20e1bf75742e2221e20987b845ec9737dea7277336ae8599f78871",
+        "target_sha256": "d27639b8e2bafbf7508b86a932b03061869e7055b8183364d19e3f2f737a3842"
+      },
+      "events:health_meal_skip:/description": {
+        "source_sha256": "03baea8ada75a2b2651ef96a0416a5a610da4eb7930d6dbcfc755c78ac92a69b",
+        "target_sha256": "382b43871406a75d574cbcfc1f303183b13be5c4b194662a741b2b886c578e66"
+      },
+      "events:health_meal_skip:/title": {
+        "source_sha256": "f5a7a3eb9b6bbe5b67226ef6bb8b452d43edae980e44851e8df5ec18aa59125c",
+        "target_sha256": "66ba81a4f1e3ac3613ce205a720be945d7e9ca5241e31111d79e995700f8c30d"
+      },
+      "events:health_mental_burnout_signal:/choices/0/result_text": {
+        "source_sha256": "89a9cc39a14d704a38a49e11224f0d6bbc89c816d989f7d64a4a0c420155e587",
+        "target_sha256": "8e70b622caad8e4fe4d5b2caea9c8aa813b8253f82faff6917de2daa5265ea2b"
+      },
+      "events:health_mental_burnout_signal:/choices/0/text": {
+        "source_sha256": "11e598e3c88933e43b733fd72d4dff39cb723f01e56bce7e6c017024b3410061",
+        "target_sha256": "5862b326568e708066d6b7104d2661b4b1a1d35daa492c6e8b45e874fec6ecd8"
+      },
+      "events:health_mental_burnout_signal:/choices/1/result_text": {
+        "source_sha256": "6c2d83d37047baefc8240e16aa270066ee916bf9247b18875f483bd5099c00ec",
+        "target_sha256": "6792c3d372ba6ca3dd1ce66e0881528a1877fd8822511c0e52260217348f0506"
+      },
+      "events:health_mental_burnout_signal:/choices/1/text": {
+        "source_sha256": "7f907eee436b1b77ac65f1fa5aadbb0e19d224a6c776938af463bd76234d3934",
+        "target_sha256": "6d858cbacdda6574a26539037a9ba8a44de08ed6cb7f15b9e0abdc1dcb804b89"
+      },
+      "events:health_mental_burnout_signal:/description": {
+        "source_sha256": "5974057da65f1903557afd88478fea0d8c43e348a7c9e9cedbcb4afa789c0d23",
+        "target_sha256": "bfabca1132109b3fb7616769e84b3adb068540ef8ee31e5204e58eb6f188d271"
+      },
+      "events:health_mental_burnout_signal:/title": {
+        "source_sha256": "664eac6a82bd1b0ce1dbaaf1c3f5dd17a8ec0141bdafc7aee08f47d464756329",
+        "target_sha256": "b8cfbd143b6a30db4e96cc13ac5dd6f753c1dd6b9531c37cce69cf4baf6ef516"
+      },
+      "events:health_sleep_debt:/choices/0/result_text": {
+        "source_sha256": "f8dc2663f29ebe48a375260bebd8e5ebd7d020b0d0a368cb9ff95a6c80e0e08a",
+        "target_sha256": "46973fc07019b60e07becb67f8a1830141a3bf4eb2353478ad9e961289245a25"
+      },
+      "events:health_sleep_debt:/choices/0/text": {
+        "source_sha256": "bd4a77a9d3fd70a2be06c7539829bf5f53ad159c4a4bce9808c95a4ec378b513",
+        "target_sha256": "85010adeb2a7123cfaaaca534a13c6337f61dccd1ae9e17fb4e55feac2bfe287"
+      },
+      "events:health_sleep_debt:/choices/1/result_text": {
+        "source_sha256": "cfb52397b597899a8e84ee2a1c27ab07a15d1cf02385ef2d575b4d56dc0eea16",
+        "target_sha256": "7656e530a403c23bb8f7853303c606a29259bd83caed08093792760f822c1e04"
+      },
+      "events:health_sleep_debt:/choices/1/text": {
+        "source_sha256": "683d9752d7df8b7d69df09e8074bdaa27c2c220c9fe2f5fdc6f4ac463cbece36",
+        "target_sha256": "9a2dad164078798b26b88a1b7505e833eb1346e48f7c56eb53b04c7fffff96de"
+      },
+      "events:health_sleep_debt:/description": {
+        "source_sha256": "338cc0df50650977ee18b19a4783de15ced2039296c4cd5ed97806921cb95d7d",
+        "target_sha256": "d4455ad3ca62be06e901a604ced0c2d2a4bca4b8ed457978589260c3f1abf66c"
+      },
+      "events:health_sleep_debt:/title": {
+        "source_sha256": "5f201527fc3eaecc27f9cafea580d389618afda251de17d02b80bb43fcde4a9b",
+        "target_sha256": "5ae04f745ecfbc6a78af8245ce53894d19fe1af652c0620af792525a20f97eec"
+      },
+      "events:health_tension_headache:/choices/0/result_text": {
+        "source_sha256": "c45efc38c3e9e5bcefef1ad88dea3898d1b913b61a006855854ac8c64705ceb8",
+        "target_sha256": "8882ac1f38e33b127ee41fdb816fbae96f24608eeceb177df666fa332eee7dd3"
+      },
+      "events:health_tension_headache:/choices/0/text": {
+        "source_sha256": "b8b156c397e2ebde35e6cc5a5156cfee2290ffaaab36a0496442e4ae27704a05",
+        "target_sha256": "38e1dfcae2c7d96e25a9cc49dd4cfa27ff12864df8a662284334bcc993d06cb5"
+      },
+      "events:health_tension_headache:/choices/1/result_text": {
+        "source_sha256": "0a6ccd19b5c27487691e20eac45171a55b7514793aa3e3cfc2265c5f5d638dcd",
+        "target_sha256": "c1ada6c1f178d1d5ad44bf2569a24a6e8656aa400a847e44eaf2c2c8c6a97224"
+      },
+      "events:health_tension_headache:/choices/1/text": {
+        "source_sha256": "fe31a81c8ec262cf3d08a59f35cdb81e229affeded862ed6f9d56d3c9c26f68d",
+        "target_sha256": "b8d02fe1d3640ac78dcfd93f9de7d2808ab38b56ae5481c1898958f98ee2efb4"
+      },
+      "events:health_tension_headache:/description": {
+        "source_sha256": "f6c1aeb5dc639a4306e36eaae99b070051ba7768008d5aac4ad3aae97541b8b4",
+        "target_sha256": "a6bb6859a92e91cc349c602ffacab066400c4f11584a9a21a16fff65ab0e50d0"
+      },
+      "events:health_tension_headache:/title": {
+        "source_sha256": "d6f6de1337b94ccc2b493137acf36ddd557cabaed4847bb5b533dac3e4b2319a",
+        "target_sha256": "a8615c2df7fde9de511f5325bbc55a4d9cacd794de0ede94a3946bb5af02f701"
+      },
+      "events:rainy_day_umbrella:/choices/0/result_text": {
+        "source_sha256": "823e14dcdf4634fa6824d25609f50fc439a63d8a636a7a6d6adf322d1ad3e5e3",
+        "target_sha256": "ce8c5951c04844591751214493be97f0d0760ae51bd2eaee6519c0be883d1254"
+      },
+      "events:rainy_day_umbrella:/choices/0/text": {
+        "source_sha256": "829ef1784460bfa4323fb0677536a4a2d656622c62e4596334ae04c2b4369d9c",
+        "target_sha256": "137cc280c8caf83e725545ac4a8c73ad1b89f23286cbdde3ba3b388292df7c7d"
+      },
+      "events:rainy_day_umbrella:/choices/1/result_text": {
+        "source_sha256": "ba023cb2528673d2b0a292c9af61f3a28554a885dfc919e5013436f523b14b7e",
+        "target_sha256": "3760897e86aeb3cee78fe6da108fb675fd22860df663c8798362ace44d441b19"
+      },
+      "events:rainy_day_umbrella:/choices/1/text": {
+        "source_sha256": "f42de287cf24c60099e40c894e65197e9c30e428745fc3165c5c9f6714126276",
+        "target_sha256": "688c9148b51013f2cd27c2e10536f03bdd6941f8afd6ed901aa3ff99aa342681"
+      },
+      "events:rainy_day_umbrella:/choices/2/result_text": {
+        "source_sha256": "1f4d4c7e8d6710ebf15a55c49f513fd1c41ebeb2254608b944a1652a77bfa4b7",
+        "target_sha256": "c302827d891160fb757dbb6a34c935cbf5688234adb6e96706b1f5d7dd173ead"
+      },
+      "events:rainy_day_umbrella:/choices/2/text": {
+        "source_sha256": "f2dc8ee0c96bb3eb4fc09255dd713523d65f848a526a1ebefa1f99978f296b2f",
+        "target_sha256": "deee6425031b18df968d4c9d10d71ecf207fea71f08ef14a946d7d3034da8e31"
+      },
+      "events:rainy_day_umbrella:/description": {
+        "source_sha256": "3d9b1bd28f67c7cf0b4ba37da292fc0f42f9422101a5caa672de51b68d047a6f",
+        "target_sha256": "fffbca72c61e34f4ef43a6b35cdeaadd5aac704146dcfd60224096efde55876a"
+      },
+      "events:rainy_day_umbrella:/title": {
+        "source_sha256": "322f9137388136ab724afc797f34cfd7a7d538e9cae5ad629c4396cd1153b1bb",
+        "target_sha256": "8b7434fdf5336a12a1adbc174be6defff5d708ec629fe185a11c7e8c54864b01"
+      },
+      "events:season_rainy_commute:/choices/0/result_text": {
+        "source_sha256": "ad6dd979786f99399de4459ee8b031d9edd543d4e138b161f9e3fbaf7b36a0ef",
+        "target_sha256": "af3b220f828cd9fac933fd42378294b14061c1a3c7f8521293904effc70f5b4e"
+      },
+      "events:season_rainy_commute:/choices/0/text": {
+        "source_sha256": "8276185ac63dbaaff086298b705ea8455a20238be9342accd9aaded616f40dfa",
+        "target_sha256": "e3a115d61aec7f4ab6813abf4fdf54e8a5d5ebb87ecb7e51d5214905c4ee5d90"
+      },
+      "events:season_rainy_commute:/choices/1/result_text": {
+        "source_sha256": "7d528e994c73c9cb12dddd0d27f5b3360a046b20d222d1817cd95c969d4d1e17",
+        "target_sha256": "0a7c694a7dd1edc2ed9fa5d48956fb2533fd1b6697ae187b79dd2a790dea0a1c"
+      },
+      "events:season_rainy_commute:/choices/1/text": {
+        "source_sha256": "3f55f0a6bdc695d8b549d163daf821e26c8dba22eb2f67c7911017017bc61694",
+        "target_sha256": "672c892ad9e092e248087e72dce8e8791e9778e4b4b4f65c2b4066be7616c2f5"
+      },
+      "events:season_rainy_commute:/choices/2/result_text": {
+        "source_sha256": "d4115c04caa6d418d4e884c937ad2937d0ff9ac7df28a84ef80312c4a38ea915",
+        "target_sha256": "812d6b2a769884589f99a2cbe9769c3f50edbcf4ece22874616c660f181b9a49"
+      },
+      "events:season_rainy_commute:/choices/2/text": {
+        "source_sha256": "36ceaf7893212e58db0fc69a0d4700d1d69bca06a28b56108aa4785a07393e87",
+        "target_sha256": "b377c399620556624b2df4252bdf47db9a0fc99a5423706e9b274f647d51905b"
+      },
+      "events:season_rainy_commute:/description": {
+        "source_sha256": "6197bd2a43d0b84b439bc9140bb4c3b3d74864b1db2b7c4eb8542961d809967a",
+        "target_sha256": "48b2afed116ecef1410fa500d14df10b55251464769ce6f9186c6c8af539717c"
+      },
+      "events:season_rainy_commute:/title": {
+        "source_sha256": "62e6aae56c01cf6caa43dc6235c41b9cef1ac4ab923c57d2ce494b385f5b1f21",
+        "target_sha256": "1e4b69ec32f9a59f8d2860cf77505a356267794ac272cca1a05d3298f25ddfd4"
+      },
+      "events:subway_hell_9:/choices/0/result_text": {
+        "source_sha256": "62a6d95db39e367092b0500dfcc1e6ecb191d4edef2edf98f6bdb874a25c6808",
+        "target_sha256": "9b11acb560064deec8ad4c87f052733eba2b0611e7aa9f2530f53726e6e84fa2"
+      },
+      "events:subway_hell_9:/choices/0/text": {
+        "source_sha256": "078c496a051438687377b6b15541b32ba2ca4e53b95c0af169d8c479736c0429",
+        "target_sha256": "a4ef6d709182c449fd039d0985e140cf49329f18bd4f642d28f6a8ea686b377f"
+      },
+      "events:subway_hell_9:/choices/1/result_text": {
+        "source_sha256": "8b12c0bc98278f6164cbb74ca6af02ae6f878c11b3760c341dee789a785cc329",
+        "target_sha256": "c07731d43773909f5a3cbf42ecbf6806e9cb604edf392f589e203421050b9a5b"
+      },
+      "events:subway_hell_9:/choices/1/text": {
+        "source_sha256": "16eac046ec2f8115e3c9df68901f015cb2661903d1abdd6115f9a73fe7d6920e",
+        "target_sha256": "60432df32e71512f557bf438f4651712f9d5ee5d9e9900a2c120678c877a21e1"
+      },
+      "events:subway_hell_9:/choices/2/result_text": {
+        "source_sha256": "00b43b5ff253bf084612304de61b26c81dfb0021acf8ff985f8ec0af5f4c9185",
+        "target_sha256": "a7dbce06650755726cac488995d3f81fbdc9fdc8db013cb88fd8311530fe043a"
+      },
+      "events:subway_hell_9:/choices/2/text": {
+        "source_sha256": "d50392cf9245a29c4d7a8ed3bb4a6fc5deb2c0d217b8f4fde6cf94610d38bc9b",
+        "target_sha256": "aa8338fe59717fe3b6c673b4d266de8a181e9f9d71db8d63af65235b19b2c560"
+      },
+      "events:subway_hell_9:/description": {
+        "source_sha256": "9ac0dc400fc5811ee7212d1e918016c51f1e2136aca6ab85704fe0debcdbea1c",
+        "target_sha256": "8906d454b05cd64a1206aeaf866ed2caa529bfb89e636fdfbc2dab716c5d9c51"
+      },
+      "events:subway_hell_9:/title": {
+        "source_sha256": "1c13fbe80b12750d453ddb514b4c69a110b092ed845032aab3b08a8e5b538ef0",
+        "target_sha256": "77c13d4f3690d68c07772bd72b44fd2aa73c1f738171a17c2a7c217ee0a11982"
+      },
+      "events:survival_convenience_meal:/choices/0/result_text": {
+        "source_sha256": "dccfed69559e4a7456e828a3909e94b75b530cf54fa28cb33bec0c7ca298ede9",
+        "target_sha256": "5defa53c75cdd13b3e1b4e350eff2b730c9e2afc822c6d3a5aed55ed9765ce1e"
+      },
+      "events:survival_convenience_meal:/choices/0/text": {
+        "source_sha256": "fa3c77531182a64fe7b74122c764b78673f83c8e476efc62a8b7bd118dfeabb3",
+        "target_sha256": "3b25904a6551bc576098f720c1d074faa058ab9ddf3a51a512d8ed5d60ffabac"
+      },
+      "events:survival_convenience_meal:/choices/1/result_text": {
+        "source_sha256": "bd6c6c5b496abc989917304e9513d140106359ba9e5bb07d0c82abf0db378905",
+        "target_sha256": "512f2984bf2b84ef086acbafcd9703fb4acbf5058965a42cbac15b4f7f55a019"
+      },
+      "events:survival_convenience_meal:/choices/1/text": {
+        "source_sha256": "79e8b7600d76d9824f3a11ebda56a2f55e95180e998f34d3e5e6f713db59d617",
+        "target_sha256": "9240d4062f5c4cdf1ecf29eb34669ed458c625ff4c5a4e5c0743bb08846b2ab5"
+      },
+      "events:survival_convenience_meal:/description": {
+        "source_sha256": "e1c7446a289b6a8353e6bb0a0ec6f4f203ba49372db922f206c370e07bee81ec",
+        "target_sha256": "882d9630db994b81f5e22ae68eb7272edb5bb458c588f9c3ea4a8a403c1b22ba"
+      },
+      "events:survival_convenience_meal:/title": {
+        "source_sha256": "a60933fe1c378df9bcec4c328d5ad3510fb321ded3c1c34d89dfdad97c72d5ec",
+        "target_sha256": "8ab75bf0158b670e2531ed75a8ec3f80c88e05931b72d046a174df11a8d6d61a"
       }
     },
     "zh-CN": {
@@ -33414,6 +34159,710 @@
       "events:survival_rent_due:/title": {
         "source_sha256": "12001e9d52416b1ea727da0f41152498ac05f8a2b7af55dba8564925b0d9e8b8",
         "target_sha256": "bd39f82e15b8868f98dcc6f2e8b1b83f8fec99c9108659c6b88d29f1ce68c89d"
+      },
+      "events:convenience_extra_kimbap:/choices/0/result_text": {
+        "source_sha256": "2e3fa44a2011929a96b4c729547da212f5cd34fe2af6577d1d04b8acae0550d6",
+        "target_sha256": "c6b1cd964e9c17fa508f92bd150c6d167136e91c453277135214c134d99cf123"
+      },
+      "events:convenience_extra_kimbap:/choices/0/text": {
+        "source_sha256": "83e97aba7536fb02dabb758dd94f60833af4f34befaae6834876a16784965b51",
+        "target_sha256": "73fc7ebd8b4223eb1ac1766ac2d0b10210b8aa4548f89a8554b28b50dfbbf110"
+      },
+      "events:convenience_extra_kimbap:/choices/1/result_text": {
+        "source_sha256": "169c6dd5de16de60ae34c4636182355c0fdbf56262ca5aad00042612b6c4245e",
+        "target_sha256": "d3dc9586f0dce8e154cfff77e35bc212b25603d2e237257905b26ca267777af1"
+      },
+      "events:convenience_extra_kimbap:/choices/1/text": {
+        "source_sha256": "5d29715cf02b2fe93609a59f71df0eb59ae39cb1d6fe62c7bf3a7c63d4a726a1",
+        "target_sha256": "405f164c8e698da65b21783036e7bec5f4430a533887093a8537a0ac3c3c46e8"
+      },
+      "events:convenience_extra_kimbap:/description": {
+        "source_sha256": "cf85b2f1b6b5666cc214af49f439249a45a28576fd4e3719d9fb39448d71b434",
+        "target_sha256": "b756ecdf132484a3c87f9256f09ad9fd895858b810aa8523c81b10a13946b0e4"
+      },
+      "events:convenience_extra_kimbap:/title": {
+        "source_sha256": "a8cb53251f119fa00c028a4cb794f8a21f4a181f5bd73b41ddee7604d626bda3",
+        "target_sha256": "430c5b7a48adc5e4a9341f3878681a528132975883717584e452c899235b2820"
+      },
+      "events:convenience_store_meal:/choices/0/result_text": {
+        "source_sha256": "62c5cc956490f0d421ef5fc482f3ad3874823cf9ac67f181e5faa0363e98c0d9",
+        "target_sha256": "cc281f0f15ff14199d7e7134a3e58d225d4b64f1662f4acf28c67bb5cc6fd67f"
+      },
+      "events:convenience_store_meal:/choices/0/text": {
+        "source_sha256": "e43f6a80eee96e6735d65bd41a39b17e993104f38b741847ec030644feef70e4",
+        "target_sha256": "2c7deb0f049057e32f93418e164dcf50de4edbae0ac5cba2019d658e2e021b1e"
+      },
+      "events:convenience_store_meal:/choices/1/result_text": {
+        "source_sha256": "abf354dfd456ca881f162d7629e9311d3eba1a86bd7f96b9763468165d05671f",
+        "target_sha256": "459faee4117c3e326cb07894802d2cec57d7f946d6921a1cbf32430d821c7391"
+      },
+      "events:convenience_store_meal:/choices/1/text": {
+        "source_sha256": "05d2f64649ce126dc7c40aeea8f0f9770d33801ac11c005a4c24a32ac4a6a7a4",
+        "target_sha256": "6303491fa207826e5860eba16064e23db6d4d149514b17377d00b3ef069bcf26"
+      },
+      "events:convenience_store_meal:/choices/2/result_text": {
+        "source_sha256": "69d2f9bbb9430fedbfcc4fdd2646361273459e5c966ccdfe556c1e02e24d5012",
+        "target_sha256": "02eb843f88263f84cfbc490cd504a8144de1a70663e8e7f4a5d31bdeb055568d"
+      },
+      "events:convenience_store_meal:/choices/2/text": {
+        "source_sha256": "526eee5ef29d341a475155725386a63fac13c714e1a4b691c7566f96137c29e0",
+        "target_sha256": "ffdf92c012976a3515a3f151a022fd41c338a18fea59536e14bc507d557117f1"
+      },
+      "events:convenience_store_meal:/description": {
+        "source_sha256": "1b48c569c2ea38edc474fc1de31df9b33bb1206f8b38cd79f5c387e28dfb327f",
+        "target_sha256": "f92f8e67a38eb5b13902ddcef3f9ea466ed7036938a1943d816de3ca33c4cf18"
+      },
+      "events:convenience_store_meal:/title": {
+        "source_sha256": "422edf71adc9686e4b4f4f602b874d83583f44709586fe0b94d107db70de5a59",
+        "target_sha256": "4187847192a249dd7c3af238acc4cb4f7f7bc37922d71cb20db46433dcaeec72"
+      },
+      "events:delivery_app_temptation:/choices/0/result_text": {
+        "source_sha256": "f6e00b50d5c211c838f69118bcb665e756295567de9d9782e3b2c4e95769491f",
+        "target_sha256": "2b3cd85e516e1daea48fb3c8e8deeea84e317f8262088f3fae078de671fcf4a0"
+      },
+      "events:delivery_app_temptation:/choices/0/text": {
+        "source_sha256": "05662fe28bdd8fb4eb3d0313605ca48de0a204a779399c35ca081a278a5a0c69",
+        "target_sha256": "6f3a6c455b8a178e5a85576debb3e68d966249b8177b5b318400da8c6f87c763"
+      },
+      "events:delivery_app_temptation:/choices/1/result_text": {
+        "source_sha256": "239c4277ec22d10b2b200555c1617a2828dd77bce73acc07c031c02253fbc52a",
+        "target_sha256": "a5bd8dc9452f5645882f197b9278b21f03a526e10de095928db61153eae18454"
+      },
+      "events:delivery_app_temptation:/choices/1/text": {
+        "source_sha256": "1dc3bf8cfb0de614b4a6abcd70de04cb8e374d2bb36eda3246e307f5c7a18d8e",
+        "target_sha256": "e22ec6575dcb99f53b784bbe67c7219ef007d5287c27a1b4919ad54172ad4211"
+      },
+      "events:delivery_app_temptation:/choices/2/result_text": {
+        "source_sha256": "a4be8dd54c8e6473d56448eb41364ea607dbb31101fba31b7b2163ab3d191333",
+        "target_sha256": "eafd76433b88893bccd9812c2ad5ac091681955850b0796fde5e749df6f5c3b8"
+      },
+      "events:delivery_app_temptation:/choices/2/text": {
+        "source_sha256": "42387aed480552c63b5374f0768ac8e4ade64476e70717a34697c9ddc32b4689",
+        "target_sha256": "ab0a53559ef590fabe5282979c391603e1995fd6743b558bba3b7d8d2a0a84fc"
+      },
+      "events:delivery_app_temptation:/description": {
+        "source_sha256": "6a0209216a6a6e82ec9133cbe4d86c156af4f550bdbe258b24a1689c09a12b57",
+        "target_sha256": "fc4386b51b76de48733f8dab6e8a247769c8cf1337c10b078f7b71d5d4dd101c"
+      },
+      "events:delivery_app_temptation:/title": {
+        "source_sha256": "7f6a7aa1d89fa840f56197f97ca3a49220331e7b63acd1d7da8d713c4113ebbd",
+        "target_sha256": "d8c3d98e6d9782270bd290d7f619013d6bb571ddf2b9870a0ead60cf8881dd67"
+      },
+      "events:gosiwon_bathroom_rush:/choices/0/result_text": {
+        "source_sha256": "c4aa3a01babde85cb7b09f0d1898458e7f9879d7ea959fa985a3be3e20916e23",
+        "target_sha256": "d067c17c493cc89c84d926590068dca20fb77694da58e6ef9dd92c3a4b402521"
+      },
+      "events:gosiwon_bathroom_rush:/choices/0/text": {
+        "source_sha256": "1443673180954b5aa8a8b4cf01375a6cf09fe083c0df0d8868fd143220b97ebc",
+        "target_sha256": "08f7db72ebf6872ca66a344a095310ee6409b163d3279211a94b7bc5d45d7c20"
+      },
+      "events:gosiwon_bathroom_rush:/choices/1/result_text": {
+        "source_sha256": "35f7887a67495c63e266935217759d7cff0b9209307ec88340c47092a780847b",
+        "target_sha256": "276cc6aca1fce5b6a879aa591f217886d8479c330241f69f8d8119fcf8e5a228"
+      },
+      "events:gosiwon_bathroom_rush:/choices/1/text": {
+        "source_sha256": "e3ca19e80acc4c2415a62846ba6c9ef1d7c893ebc3d4cde61c1555801db0d748",
+        "target_sha256": "c02afc3b54a32509fd1255277084979b4f904d854a7def31913cc629f6ed62e3"
+      },
+      "events:gosiwon_bathroom_rush:/choices/2/result_text": {
+        "source_sha256": "96b028d555c38f9f8103643137febe0bdeb9affd8594c3fbc2668399d805a37c",
+        "target_sha256": "e75474e85d8f4fac29c9915b17d5b78c6400a18b25bde720fbb60a7bd2b1f147"
+      },
+      "events:gosiwon_bathroom_rush:/choices/2/text": {
+        "source_sha256": "2c23a3c984906b0923cd6a0e398fc73ff49e35e7a324c656963f0f12e3a5326b",
+        "target_sha256": "dcc30c52421fe83eb376c2a27ad58884d9d3965d126377ea4c05a2f88e68de42"
+      },
+      "events:gosiwon_bathroom_rush:/description": {
+        "source_sha256": "9181e732222fa42a13c83377156fd879677141bb8498aab6ec4fab0d401297da",
+        "target_sha256": "411903c4aaca2317d54363453042cb45aa2f9408ad5241bb359a98b608f9c68e"
+      },
+      "events:gosiwon_bathroom_rush:/title": {
+        "source_sha256": "b6f5107ab022106b70881613c5677bd814e034d8440606535e2044da4869ecd1",
+        "target_sha256": "70ddfd690a1010d0a79d09fc5b122133d1c813023f2061ec23fd4038cefe2183"
+      },
+      "events:gosiwon_neighbor_first_meet:/choices/0/result_text": {
+        "source_sha256": "cac97bc8e5bac807fa509b7be1db23580601591c6afb4810979a52fde640feed",
+        "target_sha256": "51b41fe240f13e11968853e36a90258d2e5b1778f412c64879bb8f885a5b597e"
+      },
+      "events:gosiwon_neighbor_first_meet:/choices/0/text": {
+        "source_sha256": "285bd346121a99e5f72da896b0ed78e5645b4d4e6728ff480ab3908cf4beafaf",
+        "target_sha256": "17d1b505470300effa737c48d992f8d9bd5dc1fbf2c4ec3e2889cdfce10b91ec"
+      },
+      "events:gosiwon_neighbor_first_meet:/choices/1/result_text": {
+        "source_sha256": "7104ce22aba8c4b740b3299b94eb9b29aa2192fa94ad25c481db104a9e3a7b5e",
+        "target_sha256": "6fd6f1f11e4b3ce35c6d388db40846d7b23edc22f8c7c4e766dd2093eb1d53e9"
+      },
+      "events:gosiwon_neighbor_first_meet:/choices/1/text": {
+        "source_sha256": "0136d8a39d74cb00f05c863fa05618cb431784aad0c9522fcd93c164d0d375c0",
+        "target_sha256": "4ccc80991d0e59b01fd942f8f575f5e0448072e8a32a74b31717b1ea1277d95a"
+      },
+      "events:gosiwon_neighbor_first_meet:/description": {
+        "source_sha256": "252cb2de423bd536b78012e31af31e57ef3557deeebb9d532122d18cfaf01a8b",
+        "target_sha256": "ff6839bdf78774102a3616531b4e2d1c92cfd8946429b749b5600f2cbcd968c6"
+      },
+      "events:gosiwon_neighbor_first_meet:/title": {
+        "source_sha256": "3f882cd912dca96ad89d7d4ebebc1bde0307a3d1f1d6a14c9b1f5e2c6e02aaa8",
+        "target_sha256": "594f9fde8b2460abf6400ae86165adf06b6c42ed52dd4e7f40f155feaeb1fd7c"
+      },
+      "events:gosiwon_thin_walls:/choices/0/result_text": {
+        "source_sha256": "bc94cac208a4ca473ac137ed915139da9419fa8ebc15339c3b84e9158f07757d",
+        "target_sha256": "94361af13ea90c38a3a1d2401ff66fda279fe59300dc5cb5f4a2d59da217a464"
+      },
+      "events:gosiwon_thin_walls:/choices/0/text": {
+        "source_sha256": "41bff3352b8a5962f7f82a0150f6f47bd71ace15a39ee3b38d5d8953bd3cf598",
+        "target_sha256": "568a6813dc10d2d32810cc4cceb7f3adaad0fc4c018b01a1fa8a9b24b36154ac"
+      },
+      "events:gosiwon_thin_walls:/choices/1/result_text": {
+        "source_sha256": "9ff3c9746176e3247c7ed3d210c89dc4a0e941175b373303369cfee9a7c16740",
+        "target_sha256": "07c6205e26e1fa5c6f2a1a63f54907ed1147737ef5a64a942f8384947dd505da"
+      },
+      "events:gosiwon_thin_walls:/choices/1/text": {
+        "source_sha256": "4814269ca6cf2bcf967be813e774fb3e7e487ba968021fceaad4b22b088a6830",
+        "target_sha256": "b82e1d3a6dbab4cd0f7f592e1ca1844bf38708edaeccb5c54dd5525fda9bfa10"
+      },
+      "events:gosiwon_thin_walls:/choices/2/result_text": {
+        "source_sha256": "be0491456101c4d58bd5e9bc066f5913caaead1887a2f39d88147996baf1ae07",
+        "target_sha256": "3eba7169221ff9c5aa5b22a18ee0193ee7f6c0b74c6b2c6520690c5f0e32f847"
+      },
+      "events:gosiwon_thin_walls:/choices/2/text": {
+        "source_sha256": "7fea966bf7043d58c862d34e9f2b078090feb9de375a1e2ad863977d908d4457",
+        "target_sha256": "fffeebe72364e9300481f73297143ee1e2919560d411b13139fac55d151d8b6b"
+      },
+      "events:gosiwon_thin_walls:/description": {
+        "source_sha256": "001361c805c7a6baad4f3f60eb54f1f627e9d0fc6248ea9c96294d8882f9787b",
+        "target_sha256": "acf42b49a649de09ae8f83dd6201f0671e55b31b4cdf6b98e7b92bceadbd3989"
+      },
+      "events:gosiwon_thin_walls:/title": {
+        "source_sha256": "3b3ac58be526ea335374f1d052dd30a18be8e2373304abbeae6f08a33cdd5e56",
+        "target_sha256": "143d296edc3644b216c807861b164c6b43b7a34bd7efe6e2afce92e7353033aa"
+      },
+      "events:gosiwon_upgrade_dream:/choices/0/result_text": {
+        "source_sha256": "e4cd248673d354fc7d08ee9fc7a36aed3c590949a390ebbc37787883fd79673e",
+        "target_sha256": "9a99dd14b039bbc5b98e0f83814b3a91dd9c9233f30fb408c888443839cd9cad"
+      },
+      "events:gosiwon_upgrade_dream:/choices/0/text": {
+        "source_sha256": "500f921e0161541aeb6246fc43f47bd545807158b9fd1cd068036f02b5533712",
+        "target_sha256": "3fcdc7c226c8f73234fb0bcb10c531126a17e73fe6a374cbdd76b3be3039389b"
+      },
+      "events:gosiwon_upgrade_dream:/choices/1/result_text": {
+        "source_sha256": "93e3202e8b62a7f85aeeec815af2a756a207dc8aea3fb6307cc2a35497fafcf1",
+        "target_sha256": "c0a854246959cdb8314254c0160f2254f2bb5c9830b75b1aced83254fd09f7e1"
+      },
+      "events:gosiwon_upgrade_dream:/choices/1/text": {
+        "source_sha256": "aa553d0da959affef0a5a7147e9e1c83d22baec75d535bee8b0595d022ef7a89",
+        "target_sha256": "0d088fa8f8d264c038a0aa538d8cbdd577fa7948860a024d06202fe7498ffd72"
+      },
+      "events:gosiwon_upgrade_dream:/choices/2/result_text": {
+        "source_sha256": "06bfc0937123555990d1d3c43f57c5fa153bbf6ea6493e86b5bac12952846564",
+        "target_sha256": "989fb1bdae1a203947814d1d3f00a6c1783f438cfeaaae3d46d16c4bff5f7cd5"
+      },
+      "events:gosiwon_upgrade_dream:/choices/2/text": {
+        "source_sha256": "9824705278200eee4a68353d3f26eab2f366735876639e26df7a67b9c9cf78ae",
+        "target_sha256": "a20631883e911c1829c34e10a4dd729cb124ebc14effd596cef3b24da7701240"
+      },
+      "events:gosiwon_upgrade_dream:/description": {
+        "source_sha256": "5884c09664dd67aa21f0cc70286dc10f79fb3c837246bcda96b1694780fb05b1",
+        "target_sha256": "68a165d9d75a1c31b95a5a0cc0f2f30f5776044b4d51db01a9a719f85c1cc136"
+      },
+      "events:gosiwon_upgrade_dream:/title": {
+        "source_sha256": "3d6ff3bdccaf02e5882c6441900733ad817c8fa1071baad5a388a6a25b4f002e",
+        "target_sha256": "5a928817de74210df4c7d46d95cca6b379a49ac12613efddae1c0db627789e58"
+      },
+      "events:gosiwon_window_light:/choices/0/result_text": {
+        "source_sha256": "edc4769ff69a6bb4299d771cfe78f6a1613d4efc4de001a52873553b44c15f27",
+        "target_sha256": "636a9bfa27cc265d31a68019a04fd2f604d3873eba02c3d091f9d50210c89215"
+      },
+      "events:gosiwon_window_light:/choices/0/text": {
+        "source_sha256": "1815a3a4b7a00c80f682bb3c13b2708ef64e8da0782d8fef9f5bd068b348075b",
+        "target_sha256": "261543c0ddc432dea91b41868a69bfeb38994711fe703215549a3fd8a4401211"
+      },
+      "events:gosiwon_window_light:/choices/1/result_text": {
+        "source_sha256": "9352df7e00c588dce03354ee88a8357a3b738f95afdd819fef2fbdc7a12f6114",
+        "target_sha256": "6a7773db139700b05116d14213492c2cf8b1b3b6515369a9b28e8fc4ec8dbef0"
+      },
+      "events:gosiwon_window_light:/choices/1/text": {
+        "source_sha256": "664ccf41cf8ccf7fa2a270cf9d5f0227a5c3edd45dc65156215f2911683485a1",
+        "target_sha256": "34af80d595851c9cb51f315fdff41150b62838cb8818e349133465729827b6e6"
+      },
+      "events:gosiwon_window_light:/choices/2/result_text": {
+        "source_sha256": "bc820ba9a3db0476139bb812fadcab464fb10ba4ee81858cf3dfdef8e424998c",
+        "target_sha256": "a313bc6d3b58b9c1e7a30f33b43e2982a6cd6977e180c67a3389ea05a4a98b05"
+      },
+      "events:gosiwon_window_light:/choices/2/text": {
+        "source_sha256": "007f841492e99481c21073249726748f11a71f8f56ab2b9de7506309a8f25493",
+        "target_sha256": "7fa61dbb550f0bf88269d6d61c4351a841cf5327ff0bc26a32fc99910ab4c1df"
+      },
+      "events:gosiwon_window_light:/description": {
+        "source_sha256": "46cfe743b54f7a7a0e58c72d99cd09fe00c40876761defe01835f273ab960cb0",
+        "target_sha256": "859f9e012a3822e15b47407c5014ff881391d2c80d2266d0d591987987b43464"
+      },
+      "events:gosiwon_window_light:/title": {
+        "source_sha256": "ef3453219d92edd193afe94a9dcc2cf74b172770f67d2dcd21de480207fad92c",
+        "target_sha256": "242896cd2fa225fbc2f622a9d08211c5aeff48d5f576e15e626bf260220cadee"
+      },
+      "events:health_back_pain:/choices/0/result_text": {
+        "source_sha256": "cc6988815c77de453dea74309501379506cbf8b7862a8f31e00cfcd513e0ebe1",
+        "target_sha256": "c239e6a12c20eaa8bda406d74c5a599bca62cb0d43c205741c6e4b09a94bb290"
+      },
+      "events:health_back_pain:/choices/0/text": {
+        "source_sha256": "67229d82399b9be51c882beedeb21554c2547fb630459c2ee72359c17a6c9130",
+        "target_sha256": "c27b8caf1829b58c168e1592cbda8ec54fba06052c1d0cf768f9289d88b89e26"
+      },
+      "events:health_back_pain:/choices/1/result_text": {
+        "source_sha256": "fe5899a8537028c1400fbe06142bb2be45cc313727e1a09347d8ae06b7dd3090",
+        "target_sha256": "6d46108a78ac49c6cf5e1c95b15c98bbf55313a641e4583a5c1c7bfc8260ca58"
+      },
+      "events:health_back_pain:/choices/1/text": {
+        "source_sha256": "f8211bb1f88ba1c561c92c54e504922d9baa99f04bf2dd2369f0aa99a016dbf6",
+        "target_sha256": "7451fd8f35389f9294fc45945f96f0a1be18a28e98c988c6125d124052231fca"
+      },
+      "events:health_back_pain:/choices/2/result_text": {
+        "source_sha256": "19bb5c5fc8c71e8b872928dc5135600e61f28d2b736ba09290b48a47a4c33528",
+        "target_sha256": "e6c18a1bd126224114487eb6b3b2b2d208115a35596bc096d103b72928dca548"
+      },
+      "events:health_back_pain:/choices/2/text": {
+        "source_sha256": "cd77cb76bf2ec4e8e94c99638c8a6ecb57fd90f581631de6f64ec20d421edf16",
+        "target_sha256": "900383b1f69d4c7b2a9665c9fedb2a65e17db2021de43668e13a515541938797"
+      },
+      "events:health_back_pain:/description": {
+        "source_sha256": "56a3931688cdede75d12bce59ed8fbc61206326fd86b069d6d21e30c031664a8",
+        "target_sha256": "4b2d4b7bcfea29cb0dca1d4a59a67da7829c564a42c25161410094af22e9f34d"
+      },
+      "events:health_back_pain:/title": {
+        "source_sha256": "3a5b814518c82688a9bce39bd525377c290352493e54f2ec2e83e49d6d3c78eb",
+        "target_sha256": "7cc906f685b1460afa33422ec2eac4328aff2e56507c3d69b1707422c046601c"
+      },
+      "events:health_burnout_signal:/choices/0/result_text": {
+        "source_sha256": "a976461fb1b82385db1f602b0223904a9e94c430ab84320dc6e9fd9a9871fb5b",
+        "target_sha256": "c0866a441a3cadebf9ec7705ba29ac99daea1e2bb9acca2a5c96864f2f49f805"
+      },
+      "events:health_burnout_signal:/choices/0/text": {
+        "source_sha256": "299dd594b22bdd6a7c9dec87df877da2c625d587e34a872f007b7b79be7fa36c",
+        "target_sha256": "b1edc2e681d0c69a45b6a8a54989ce13e554febb9285cf1171b20e648557db97"
+      },
+      "events:health_burnout_signal:/choices/1/result_text": {
+        "source_sha256": "b001f32788fa52fdf4216603c9e3e03476544964245b0f8fddd0a78fd3e75bb4",
+        "target_sha256": "3929c5acdf51456e68ad78cccdf11bb49440e92cd83c3d65de894a4b99245581"
+      },
+      "events:health_burnout_signal:/choices/1/text": {
+        "source_sha256": "f5ce1c1a3ee3a47ed79ca95de6a9a38295865f70575155af23d93a0c17a2d6c2",
+        "target_sha256": "3f377c7583b2d96fbd0cf6da08ca2b24af78a914df334a013f4ebc1c222af1ef"
+      },
+      "events:health_burnout_signal:/choices/2/result_text": {
+        "source_sha256": "e19828d084928b88b7b741d6c0c1f74b18de4c277a92d1028fc231770a3144b4",
+        "target_sha256": "781100f7cbd7bb5e99d4e256f85c0ca090906860113d62202f8ea505af2d073e"
+      },
+      "events:health_burnout_signal:/choices/2/text": {
+        "source_sha256": "6a3c68b9d387376bc23a835b5bee03e5a12730a9195ed01a13fa332aeb5b7ef8",
+        "target_sha256": "293680f36f15372b3463c497e3d9195fe9cc95ea378898df140a849c971ce910"
+      },
+      "events:health_burnout_signal:/description": {
+        "source_sha256": "d87dcb044da2b17b9967a8431c5d485f4d0b833cf67f2c7e07fd41a1ed95a44b",
+        "target_sha256": "100cef35a3cf4ebfa6878052cad594bb3fce59d9d038942f87b832da13f237ba"
+      },
+      "events:health_burnout_signal:/title": {
+        "source_sha256": "a69db2d96b6d6423ee96dbf0e4a0e4413c9f507372867c5d96ec0028f4a4c5d9",
+        "target_sha256": "dff5d59f783022bd1fbb1812dba589ff18f5f29642d6e19a96b64e3daa376c1b"
+      },
+      "events:health_checkup_reminder:/choices/0/result_text": {
+        "source_sha256": "3cf28a7d0ddc080c41d154f3f08064b4a331f80853c7f23dd649d4cb3ece100e",
+        "target_sha256": "a5c329079ddeb74ffb84e982b63a5a639ef408dc8dc9c4bd1a5e98308e3902cf"
+      },
+      "events:health_checkup_reminder:/choices/0/text": {
+        "source_sha256": "eb2a86a6f321a35b4ecdcc65a8e21c891fca25edd1d9c44b76134718d3f80ccf",
+        "target_sha256": "5e44fa81f2878782c050bbe0d76c8ca344946c88c2dd69ac9898795123b8ca2d"
+      },
+      "events:health_checkup_reminder:/choices/1/result_text": {
+        "source_sha256": "dc353848c4425815c54a73d72306f08e27bc93725dd53455805ca1388080eb66",
+        "target_sha256": "e663c7afe2981118d7273426e2dd0bec51b60b3131d622e65c82274ec9783a6a"
+      },
+      "events:health_checkup_reminder:/choices/1/text": {
+        "source_sha256": "07a772f9f47c12cf9ee371069f6953d7a7a1381d780ad4802f1cdd5cc81ecc12",
+        "target_sha256": "28137321ef826c3133173341db39ccbec43769be7f33b05e271a20b18f15c060"
+      },
+      "events:health_checkup_reminder:/description": {
+        "source_sha256": "a19198feda1e5400b493c3609275c3de9d001ab8d3adc1f5142c2cf9c47d74b4",
+        "target_sha256": "bc40c333b894afd521021e103c033e13053c2b1b146d6a6326176f4019941c83"
+      },
+      "events:health_checkup_reminder:/title": {
+        "source_sha256": "45c030d339ea713a00364d9af7ec3d938dcf0b418061a87c0d7b7468d2e7e250",
+        "target_sha256": "7b98483565bca33a9392f56df197b5a1ba4dd810867849e2eb6c5cc6dd321134"
+      },
+      "events:health_cold:/choices/0/result_text": {
+        "source_sha256": "0605471d7ba936778c7dbd8f119b727db66d1ceda4d460a267fdd64019d8b108",
+        "target_sha256": "7f156a90bd4918c148d03819c465614ba8d657b71b6439d50d65b7f6e783b6c8"
+      },
+      "events:health_cold:/choices/0/text": {
+        "source_sha256": "dd343a780aaa3d219fda23a0fc98a2c39410f0d34b50c9f7993021cbd6b4cd54",
+        "target_sha256": "cee9b8eefd7d80a598f7573fd1cdb9f4c517c7161f3d9ef07148a58b68525958"
+      },
+      "events:health_cold:/choices/1/result_text": {
+        "source_sha256": "d4829e91e44033e09d60e4d0e534c487dda7a94cce0ad6f0a347b91a1ac51d99",
+        "target_sha256": "b7f9c676fb57e11f7e22510bff4e742f4f0b4182b912ab88cc3d14f944bf388a"
+      },
+      "events:health_cold:/choices/1/text": {
+        "source_sha256": "84e7cba830279f7f12370334ed87bfe7f88af05af2001ccc74b714367f70e163",
+        "target_sha256": "af4941e5ac0344991d24aa998c9b48499bbc5d63ec2d4ceec45e8b9434407b8f"
+      },
+      "events:health_cold:/description": {
+        "source_sha256": "08dd7faf02410b2fac880ef61ffdb0e06fefa959a0835ec78bcf39b88f3a0016",
+        "target_sha256": "a85f5e0875b5f5e17aa6e9e973a7e0961fe527694b069d651672edb552b06716"
+      },
+      "events:health_cold:/title": {
+        "source_sha256": "395d474c3f5b1e66bd2fa6147c2ec9afcfb25df4b4984687c65fa03b46582f6b",
+        "target_sha256": "0c11bea6943a898736d800441fc5f3d8736989a91cc6e3c7a9a6bcd29af32c2c"
+      },
+      "events:health_crying_alone:/choices/0/result_text": {
+        "source_sha256": "9fc6f95e904ebe47af72acd462d8ad8fe744a6e2329724e4df469b336de16548",
+        "target_sha256": "b023c471cfbc978ca49be2df8ab0b760538908095da7d628d14127df147833a4"
+      },
+      "events:health_crying_alone:/choices/0/text": {
+        "source_sha256": "b7e1ae940e91543435e0afd3fa0fa73b0ae6e07b904eea66523277df37ef5ce7",
+        "target_sha256": "1d5a831993a1ca92f88eed30696b643308dcd6ec98e72a68e088ee601af8d2f1"
+      },
+      "events:health_crying_alone:/choices/1/result_text": {
+        "source_sha256": "c2e36d8eadaba4f1ec22f77a603b3b4d17da639080ae4ac258b399b2313c7d35",
+        "target_sha256": "05527e0f519adbdc6dc7528b3bba63a73f350ffb5b382e6c7f7bd5b9d888fb90"
+      },
+      "events:health_crying_alone:/choices/1/text": {
+        "source_sha256": "3fda5860b26582d0bd86c90b5d335078ab42f45c1bf9bc720e979b79a6c43c01",
+        "target_sha256": "8f3cc75d9eb721f03c5fa456d4f7d59d90b4f7445905f2b23934fa0a1826ba77"
+      },
+      "events:health_crying_alone:/choices/2/result_text": {
+        "source_sha256": "9c027dd57389773b9aded12c9719dddc7a979738cd7badca0299ad329e70fbc0",
+        "target_sha256": "ce5a1756ff5bef14eea3c176d3f6df819e5ee96728ff8f3b77fbbb6c40c8eeb1"
+      },
+      "events:health_crying_alone:/choices/2/text": {
+        "source_sha256": "9d2d86595776a3509485cee1fdd24f8966f0eea06b51c2bce6e9715301c1cb66",
+        "target_sha256": "2d437bff3e32b747ca7259f8536db0bb846f1ee597fb54d9997eac107afd2f57"
+      },
+      "events:health_crying_alone:/description": {
+        "source_sha256": "0350068e2c1425f9a18ec5a8ee64e4892f34b26e7eac5f1c1a6b7e26d3b6994f",
+        "target_sha256": "478841c6bc6e6c549ad1f657310980027460f05dc8a1f30237c78edc96b72d3a"
+      },
+      "events:health_crying_alone:/title": {
+        "source_sha256": "47141e51a86a935064678914cecb6e40c188c160e54020f89bf45a9319ddfbe0",
+        "target_sha256": "8b905e569fe7f996a75b942572703c7ba318c1dd5d016385202d51b0938ac8ee"
+      },
+      "events:health_diet_choice:/choices/0/result_text": {
+        "source_sha256": "03f54f9f448b69e741f6b4c74d2f71bbb130a61dd8471e4b88c4a74b9359e6dd",
+        "target_sha256": "2271bfd29e576de1e0ef82bc7783d7e075c5d083628e572967acb763e652fa9b"
+      },
+      "events:health_diet_choice:/choices/0/text": {
+        "source_sha256": "2ae6c4e29255646a0fa030bcf905d983901793305e9c9b6f633ea969bb32db39",
+        "target_sha256": "34213f68343cc4e3294dc9b548cb30bdf7f9c6ca6c56e39358c79519d7e0ca5b"
+      },
+      "events:health_diet_choice:/choices/1/result_text": {
+        "source_sha256": "345ec960d36e2d671a9fb846ecf545f5a219ed701521405feef857d5575ed16b",
+        "target_sha256": "dc600e13dd46b62a85b6c1b93cbb43026a494c0c62d066b6b100ecc41e7774a3"
+      },
+      "events:health_diet_choice:/choices/1/text": {
+        "source_sha256": "1759f10e35f7c929dc938b3754b72678c4fdef4cff3161586eec55e05546d390",
+        "target_sha256": "d433c12d01a716ad1b3dc8bb1519c5f21ba39526f2f1f7204f8b000ce01543b5"
+      },
+      "events:health_diet_choice:/description": {
+        "source_sha256": "66b7f112632cea738e5d990d031fcc0dea04b4834f8435c825714d288199a50d",
+        "target_sha256": "0682bdfc8a70c47279e2c4ff84d959977c8c61484e1f6bf5d83f88c9b21650fe"
+      },
+      "events:health_diet_choice:/title": {
+        "source_sha256": "920ecfb0b08063c4b581f14a6cfab855d5736a33f85df71b162f37aecdf8554b",
+        "target_sha256": "09459eabf9b36fe956079295d177fdd68db990aeb6025457f098a644bb206cfa"
+      },
+      "events:health_exercise_choice:/choices/0/result_text": {
+        "source_sha256": "be0014960018ec9bea0ecaf0a84480940c78e30d8525e57e099a6cabb70a1fc4",
+        "target_sha256": "48f5f1458a1ad09db5de6c632dea260fab06518a8737cb0cae40104e03a6633f"
+      },
+      "events:health_exercise_choice:/choices/0/text": {
+        "source_sha256": "37187c2f5f31e40ca6da1214688fd90dd0cd897a7751a066128a2faf45d250e2",
+        "target_sha256": "06cbc945f6ab563b12d10fef82cf9ce1a804f2b579cfac12c007ecd486824d7e"
+      },
+      "events:health_exercise_choice:/choices/1/result_text": {
+        "source_sha256": "427edbec73f6a463826acd66db7973cf4a6c949e61d04520d62661d0b433b69c",
+        "target_sha256": "c4a1c3e7b3d21a27dc22ff6c469997316ada70c2eded539973fb289b10ff215d"
+      },
+      "events:health_exercise_choice:/choices/1/text": {
+        "source_sha256": "4672d1f16087a229f49726d4775fc743d568e3878ea8b26019a8d60636481188",
+        "target_sha256": "a089f59ea450bec2ec4c70826d8bdf98b84a003715414c7ce812a7a9ae1897dd"
+      },
+      "events:health_exercise_choice:/description": {
+        "source_sha256": "bb60216326e1aadcc414e9b183559f3881c93441b945f62d627dec7170953077",
+        "target_sha256": "bf4796dd22f168ecd6b3f090a78bb4a8205935b725f48b43fb55128a5f847bcf"
+      },
+      "events:health_exercise_choice:/title": {
+        "source_sha256": "6c27504066fa83eeee356617829bd60a7459abf29e634ffe555e072658cd302b",
+        "target_sha256": "51a5e6e4cccaaf238675f21433585523831723bdb942e28fc1a54ac711bbdea1"
+      },
+      "events:health_eye_strain:/choices/0/result_text": {
+        "source_sha256": "0b54f0dc4c8307d35805edcabc60a3b98484213123cf402e6016f374610fe2b8",
+        "target_sha256": "3c5cbd6670f1120b68d86c534b52ab6abdc2638605bc99241d2c75e3833c1a40"
+      },
+      "events:health_eye_strain:/choices/0/text": {
+        "source_sha256": "79421e9f37bdb3aa4e5f836fb76ff317eb69935fa327568ca5ccd526818d228c",
+        "target_sha256": "0ebcb929a62015834c8f8ecdf93199b3e46583037d577b16f08d1bac6028f200"
+      },
+      "events:health_eye_strain:/choices/1/result_text": {
+        "source_sha256": "f444f7daaeb91df5f33952d76f0f3b672b2202deb3afcbeefebbcc7d00ccee94",
+        "target_sha256": "556390f3ad74b2a3450ea5cd82a8031d51c6a540e4aa224e62a5a9059ecdca4b"
+      },
+      "events:health_eye_strain:/choices/1/text": {
+        "source_sha256": "6fe0fbb85c93d326c978dad30b6512a524d0eecda26664764a4cc4000d0a0ca5",
+        "target_sha256": "3eeec48c3bb2654b653a614ad8b336eeec58ec969c4dc101b0ef95f0181bbbde"
+      },
+      "events:health_eye_strain:/description": {
+        "source_sha256": "e0d5aa148b40082605ba1e080ec4b6ebbfdfd11eaa61726eb389a1f5ab6b7270",
+        "target_sha256": "4b18fc5257ed94fd6f8d627c2e7f22620993590d8eeaadb57c93386a794f898a"
+      },
+      "events:health_eye_strain:/title": {
+        "source_sha256": "1cdb7340e349982f0a398a6a68bfffe433030db042eac60e3513807b39323fa2",
+        "target_sha256": "9c0cafc2180d8a4c0ae851243fe18c258c6cbc1d491a01c35ed97a8f5e22d76e"
+      },
+      "events:health_insomnia:/choices/0/result_text": {
+        "source_sha256": "1517156915efdcdb88c0aaa0a3f2bb810f336e26020590bad6e7545e84b5ed8a",
+        "target_sha256": "318807ab8ae636803b1c84bf70d0b247624b909385da6afc2227ef8cef3a6877"
+      },
+      "events:health_insomnia:/choices/0/text": {
+        "source_sha256": "761c46e715ee915e51fc770ebb65f51551603aeca2af6ed492e5dffbca6c5100",
+        "target_sha256": "7d9b4e11fc4b1ef883a462a3ceef26678e7921dc80e9d5145f7652ac938c7415"
+      },
+      "events:health_insomnia:/choices/1/result_text": {
+        "source_sha256": "d3d33d60e87f2cea7fca970674f8c08b0187ae968eab856cf896d613ae46d0c4",
+        "target_sha256": "5c6ded0c4f5ecf193af7a445a56f6adf9f60fdfe9246c97c2e2975c171b437a6"
+      },
+      "events:health_insomnia:/choices/1/text": {
+        "source_sha256": "0e9f76d48601bd0b459a9a04e98af56d16b2c3db9dbed63eca56660e3e562fe6",
+        "target_sha256": "d6f13ebadd31c3d076ece2fbf8824f009378dfc52cf75203c440b1f0f6a461af"
+      },
+      "events:health_insomnia:/choices/2/result_text": {
+        "source_sha256": "89b1cfbeff722cd7aaa6e6abba28118a46056547875e7bcd92f988b8810f7d5c",
+        "target_sha256": "f9d1c389056038d14a851591023dee6586930077f472d406ae256b5201d3fff5"
+      },
+      "events:health_insomnia:/choices/2/text": {
+        "source_sha256": "edb169adb61dddf2dd52302c5b258b54463f54e4a367d37cf8de14cb4170b1c5",
+        "target_sha256": "7239c0af74a440fd57ccbe377a84cf62f10251256ebe9154d80c2f22889b0776"
+      },
+      "events:health_insomnia:/description": {
+        "source_sha256": "9d0467efbc89304dca9ee25bbeb51712448d3d9514fdd7384782d7d788534577",
+        "target_sha256": "4ead48d07597ea420f47792d0af1a8de06f2a684b1cfb90526e1ceefeeb05b0f"
+      },
+      "events:health_insomnia:/title": {
+        "source_sha256": "e72c07f4f18f9e484ef1adfca21e925290f5b0246ba335df8f3106516ec98694",
+        "target_sha256": "15ca87ac5837aba238d5572c9cd12ede141c3a445377fd9d774a27794019b9b4"
+      },
+      "events:health_meal_skip:/choices/0/result_text": {
+        "source_sha256": "684c72ce73dab42226230127473ffe4457cfccecdf68263089acb32cb0f53fd1",
+        "target_sha256": "a397419e6d5efbf783f4a95513da2c82e94fb0c262871d8817012945c58cf209"
+      },
+      "events:health_meal_skip:/choices/0/text": {
+        "source_sha256": "9fb9042ed0527838f575495ccde77b08277826d2cace34953461d473c176af54",
+        "target_sha256": "5547e70607b5460add793a593beea568f5a17e461d95a21657410baca8b09cfb"
+      },
+      "events:health_meal_skip:/choices/1/result_text": {
+        "source_sha256": "acf249261a558eb8c4a80ea2b1e919ef440b964deb14de11a3a8f824ffc16ec4",
+        "target_sha256": "ab30108d6957ec0bc43efe0fa17bb704f2d2ecf33829778d921bcd9e6ad2b100"
+      },
+      "events:health_meal_skip:/choices/1/text": {
+        "source_sha256": "c8b690a03b20e1bf75742e2221e20987b845ec9737dea7277336ae8599f78871",
+        "target_sha256": "637fac27c9b91908674a0771a714d8cd8d3c0ca18d0e5014e7b091095b773fb5"
+      },
+      "events:health_meal_skip:/description": {
+        "source_sha256": "03baea8ada75a2b2651ef96a0416a5a610da4eb7930d6dbcfc755c78ac92a69b",
+        "target_sha256": "2dd287d4119bb8328c22102886d20e29c0a1f3cc31326db817ecdfde29843911"
+      },
+      "events:health_meal_skip:/title": {
+        "source_sha256": "f5a7a3eb9b6bbe5b67226ef6bb8b452d43edae980e44851e8df5ec18aa59125c",
+        "target_sha256": "72c9f2426f75d10a38b6f7b9dfb920ecf2f409a0c7bbd8ae35c065a622719048"
+      },
+      "events:health_mental_burnout_signal:/choices/0/result_text": {
+        "source_sha256": "89a9cc39a14d704a38a49e11224f0d6bbc89c816d989f7d64a4a0c420155e587",
+        "target_sha256": "5314e1669619ae9e041b3c33fec7b6bfeb6d98b2e15b78bfd3f652d4b8025bf5"
+      },
+      "events:health_mental_burnout_signal:/choices/0/text": {
+        "source_sha256": "11e598e3c88933e43b733fd72d4dff39cb723f01e56bce7e6c017024b3410061",
+        "target_sha256": "faa267cc792cbeafd71186710703852032afdcfbdd1f92d9392b783dfa4127f9"
+      },
+      "events:health_mental_burnout_signal:/choices/1/result_text": {
+        "source_sha256": "6c2d83d37047baefc8240e16aa270066ee916bf9247b18875f483bd5099c00ec",
+        "target_sha256": "cca70e26cdbb40117e2c7a783e329d253347b4a4e49d91d8ba82419ff00c5c19"
+      },
+      "events:health_mental_burnout_signal:/choices/1/text": {
+        "source_sha256": "7f907eee436b1b77ac65f1fa5aadbb0e19d224a6c776938af463bd76234d3934",
+        "target_sha256": "dd8ccb63889e5561091ec4d40bcaef5e4e7251a3e8867ac81941826dd2d6d0c7"
+      },
+      "events:health_mental_burnout_signal:/description": {
+        "source_sha256": "5974057da65f1903557afd88478fea0d8c43e348a7c9e9cedbcb4afa789c0d23",
+        "target_sha256": "4b386faf69973919d97d76f647f2c76d42ec64713a539e7cacb89333ef4e335a"
+      },
+      "events:health_mental_burnout_signal:/title": {
+        "source_sha256": "664eac6a82bd1b0ce1dbaaf1c3f5dd17a8ec0141bdafc7aee08f47d464756329",
+        "target_sha256": "01f1e93c29be62b58213ee5baf17bbc643a10af1e806e9afd5c006466f449bc8"
+      },
+      "events:health_sleep_debt:/choices/0/result_text": {
+        "source_sha256": "f8dc2663f29ebe48a375260bebd8e5ebd7d020b0d0a368cb9ff95a6c80e0e08a",
+        "target_sha256": "7c4e21150435449b435cdbcf60ee19c634bfbaf9d174615cd2487ecc0eccc229"
+      },
+      "events:health_sleep_debt:/choices/0/text": {
+        "source_sha256": "bd4a77a9d3fd70a2be06c7539829bf5f53ad159c4a4bce9808c95a4ec378b513",
+        "target_sha256": "34b1dafe149be444f50ffd0a09db0301b279e3fd38c007444dd1995ea8a2e675"
+      },
+      "events:health_sleep_debt:/choices/1/result_text": {
+        "source_sha256": "cfb52397b597899a8e84ee2a1c27ab07a15d1cf02385ef2d575b4d56dc0eea16",
+        "target_sha256": "68483ea6c9327a8ce5a5e8baf163f646960b66119adce6900bcc56c207f83394"
+      },
+      "events:health_sleep_debt:/choices/1/text": {
+        "source_sha256": "683d9752d7df8b7d69df09e8074bdaa27c2c220c9fe2f5fdc6f4ac463cbece36",
+        "target_sha256": "1ebf7e876144ccd81176c4cfadb9e782063d31abb08307e98c20352a6fabb854"
+      },
+      "events:health_sleep_debt:/description": {
+        "source_sha256": "338cc0df50650977ee18b19a4783de15ced2039296c4cd5ed97806921cb95d7d",
+        "target_sha256": "d40e6a9daf05c27292c46a7d214be2b9b3811657490f2ba9e8b697e397183f51"
+      },
+      "events:health_sleep_debt:/title": {
+        "source_sha256": "5f201527fc3eaecc27f9cafea580d389618afda251de17d02b80bb43fcde4a9b",
+        "target_sha256": "e657edcd064ab52bca3399e2f4547276ee9a11ebf8ef8ea321216b12931240cc"
+      },
+      "events:health_tension_headache:/choices/0/result_text": {
+        "source_sha256": "c45efc38c3e9e5bcefef1ad88dea3898d1b913b61a006855854ac8c64705ceb8",
+        "target_sha256": "af36342acc63358e35fda75ef228b4a39deace6c97fb6382f22e53e05b99f681"
+      },
+      "events:health_tension_headache:/choices/0/text": {
+        "source_sha256": "b8b156c397e2ebde35e6cc5a5156cfee2290ffaaab36a0496442e4ae27704a05",
+        "target_sha256": "be3cea7d75651646fd0c8e1a93093e49d9ff355ec272666117a5c149e23d03e0"
+      },
+      "events:health_tension_headache:/choices/1/result_text": {
+        "source_sha256": "0a6ccd19b5c27487691e20eac45171a55b7514793aa3e3cfc2265c5f5d638dcd",
+        "target_sha256": "d310a3e993b63c1d69bc5881455ca6d752194c6d8c292a15d4182aeb493a5caf"
+      },
+      "events:health_tension_headache:/choices/1/text": {
+        "source_sha256": "fe31a81c8ec262cf3d08a59f35cdb81e229affeded862ed6f9d56d3c9c26f68d",
+        "target_sha256": "ebbbb75f801a79e77092c51e7215c13d3f4155fe2580489e853ca81eb9ab8492"
+      },
+      "events:health_tension_headache:/description": {
+        "source_sha256": "f6c1aeb5dc639a4306e36eaae99b070051ba7768008d5aac4ad3aae97541b8b4",
+        "target_sha256": "69e6c1c4130f3c27608440092a5fdb107540ab657f694020ada7f4d1712fadb2"
+      },
+      "events:health_tension_headache:/title": {
+        "source_sha256": "d6f6de1337b94ccc2b493137acf36ddd557cabaed4847bb5b533dac3e4b2319a",
+        "target_sha256": "34f5754b864904afe08d1211bb7cc10257a4fcd39989526342de46aba9551510"
+      },
+      "events:rainy_day_umbrella:/choices/0/result_text": {
+        "source_sha256": "823e14dcdf4634fa6824d25609f50fc439a63d8a636a7a6d6adf322d1ad3e5e3",
+        "target_sha256": "df61da8311eba27c715b292148afe64311c17c7c0764adb8cf66d50773a64d96"
+      },
+      "events:rainy_day_umbrella:/choices/0/text": {
+        "source_sha256": "829ef1784460bfa4323fb0677536a4a2d656622c62e4596334ae04c2b4369d9c",
+        "target_sha256": "e39dbaa69bb6faeed58b7ff2196cf46ecc612aaf0c3c37f8e321b6cd9c07435a"
+      },
+      "events:rainy_day_umbrella:/choices/1/result_text": {
+        "source_sha256": "ba023cb2528673d2b0a292c9af61f3a28554a885dfc919e5013436f523b14b7e",
+        "target_sha256": "ae4432eeefb219fee8ce3c41992996fa463e38afdd468391fe03887c32e7702a"
+      },
+      "events:rainy_day_umbrella:/choices/1/text": {
+        "source_sha256": "f42de287cf24c60099e40c894e65197e9c30e428745fc3165c5c9f6714126276",
+        "target_sha256": "55218a86513ae46a6878fdd618460e0e78e66b1b01a14279b5d53bd132ba292c"
+      },
+      "events:rainy_day_umbrella:/choices/2/result_text": {
+        "source_sha256": "1f4d4c7e8d6710ebf15a55c49f513fd1c41ebeb2254608b944a1652a77bfa4b7",
+        "target_sha256": "667d5a5811c392a9bb2b65a8e916e6acf2dfcd1c350124fcbdf6335bcaf98ac0"
+      },
+      "events:rainy_day_umbrella:/choices/2/text": {
+        "source_sha256": "f2dc8ee0c96bb3eb4fc09255dd713523d65f848a526a1ebefa1f99978f296b2f",
+        "target_sha256": "b2bcd65f82c94c0bcd738a6db4f85a01614f9936a8dde2a761490062a8460b2d"
+      },
+      "events:rainy_day_umbrella:/description": {
+        "source_sha256": "3d9b1bd28f67c7cf0b4ba37da292fc0f42f9422101a5caa672de51b68d047a6f",
+        "target_sha256": "e50ec3941117babcf92653c6c758f2f601edd584abe9fd030758bd3eb4c543fe"
+      },
+      "events:rainy_day_umbrella:/title": {
+        "source_sha256": "322f9137388136ab724afc797f34cfd7a7d538e9cae5ad629c4396cd1153b1bb",
+        "target_sha256": "9ab8cfbd8939fcb9a0e2a8a6b71c9ce2ef79eca111601e79d9c525828218e40d"
+      },
+      "events:season_rainy_commute:/choices/0/result_text": {
+        "source_sha256": "ad6dd979786f99399de4459ee8b031d9edd543d4e138b161f9e3fbaf7b36a0ef",
+        "target_sha256": "ba143a19705419ba343aac6d405e123c628a5c38da0423969c6319edab96cd7c"
+      },
+      "events:season_rainy_commute:/choices/0/text": {
+        "source_sha256": "8276185ac63dbaaff086298b705ea8455a20238be9342accd9aaded616f40dfa",
+        "target_sha256": "d4154917cd8ef52e3194017b58f464d2429bb1b12578a433b9f5a74911b23b45"
+      },
+      "events:season_rainy_commute:/choices/1/result_text": {
+        "source_sha256": "7d528e994c73c9cb12dddd0d27f5b3360a046b20d222d1817cd95c969d4d1e17",
+        "target_sha256": "168c15d6ac6512704b5e2957749333aa0f21a9771ec5abf891a5cabc9fbab284"
+      },
+      "events:season_rainy_commute:/choices/1/text": {
+        "source_sha256": "3f55f0a6bdc695d8b549d163daf821e26c8dba22eb2f67c7911017017bc61694",
+        "target_sha256": "1703d5de9cbd7f71edd3bd95045b7c30a91dbcbd7cc6f33fd2fac504c5270fd3"
+      },
+      "events:season_rainy_commute:/choices/2/result_text": {
+        "source_sha256": "d4115c04caa6d418d4e884c937ad2937d0ff9ac7df28a84ef80312c4a38ea915",
+        "target_sha256": "125163419013f486e712d0e9bd4cfb882d405bddcb01e03cf7262bbdfad9f929"
+      },
+      "events:season_rainy_commute:/choices/2/text": {
+        "source_sha256": "36ceaf7893212e58db0fc69a0d4700d1d69bca06a28b56108aa4785a07393e87",
+        "target_sha256": "a48c9ac5dc0f1ceefd049de99b27eb06ecac41af5b0aef0acbfa0e9bd78089b7"
+      },
+      "events:season_rainy_commute:/description": {
+        "source_sha256": "6197bd2a43d0b84b439bc9140bb4c3b3d74864b1db2b7c4eb8542961d809967a",
+        "target_sha256": "031bef38e55396b22e6fc34980398d0a92ee9a731cd3019501caa8d12f5117c3"
+      },
+      "events:season_rainy_commute:/title": {
+        "source_sha256": "62e6aae56c01cf6caa43dc6235c41b9cef1ac4ab923c57d2ce494b385f5b1f21",
+        "target_sha256": "0162c25502a26b8cd912f5aa00c8f75c3081515289660b925b2ef0138d03a29e"
+      },
+      "events:subway_hell_9:/choices/0/result_text": {
+        "source_sha256": "62a6d95db39e367092b0500dfcc1e6ecb191d4edef2edf98f6bdb874a25c6808",
+        "target_sha256": "fd80d652e3971b0f3f176758e39292f3c715178d73787ceb7a58a903c6b8d428"
+      },
+      "events:subway_hell_9:/choices/0/text": {
+        "source_sha256": "078c496a051438687377b6b15541b32ba2ca4e53b95c0af169d8c479736c0429",
+        "target_sha256": "cf9972ef0aad1ccf0ceb9caf64828ab1327082b32bdb3ae2eb3b461ad3ffb0d7"
+      },
+      "events:subway_hell_9:/choices/1/result_text": {
+        "source_sha256": "8b12c0bc98278f6164cbb74ca6af02ae6f878c11b3760c341dee789a785cc329",
+        "target_sha256": "141381434de7d09b96356eab345827a81e615e8019b53256de6754ff454d1798"
+      },
+      "events:subway_hell_9:/choices/1/text": {
+        "source_sha256": "16eac046ec2f8115e3c9df68901f015cb2661903d1abdd6115f9a73fe7d6920e",
+        "target_sha256": "7dec5f3d291dcae0bb364cc7bfdfcfeb6d935a5ebc9d9ebab50319f4140fcae7"
+      },
+      "events:subway_hell_9:/choices/2/result_text": {
+        "source_sha256": "00b43b5ff253bf084612304de61b26c81dfb0021acf8ff985f8ec0af5f4c9185",
+        "target_sha256": "7c7b6f7337491a9187da65737e397f2e00cf2ffc3498861c4377b2af56750ad8"
+      },
+      "events:subway_hell_9:/choices/2/text": {
+        "source_sha256": "d50392cf9245a29c4d7a8ed3bb4a6fc5deb2c0d217b8f4fde6cf94610d38bc9b",
+        "target_sha256": "aea2342221da9503f6fe579a4e295cf6fda884fda9534d3a37c648db7c5439bc"
+      },
+      "events:subway_hell_9:/description": {
+        "source_sha256": "9ac0dc400fc5811ee7212d1e918016c51f1e2136aca6ab85704fe0debcdbea1c",
+        "target_sha256": "1a5675fa27d807b288e9f0c80febf81d138b8edccc11f7df55d9bc91e01a5ae3"
+      },
+      "events:subway_hell_9:/title": {
+        "source_sha256": "1c13fbe80b12750d453ddb514b4c69a110b092ed845032aab3b08a8e5b538ef0",
+        "target_sha256": "06821e9f937fdd4fa79d94e72b44331dc180e65a195a1ff8d92668e926f259b0"
+      },
+      "events:survival_convenience_meal:/choices/0/result_text": {
+        "source_sha256": "dccfed69559e4a7456e828a3909e94b75b530cf54fa28cb33bec0c7ca298ede9",
+        "target_sha256": "46f2599dce3d8f801944664ec100880a20e9c7fb6e92839af9cf435c927dbedb"
+      },
+      "events:survival_convenience_meal:/choices/0/text": {
+        "source_sha256": "fa3c77531182a64fe7b74122c764b78673f83c8e476efc62a8b7bd118dfeabb3",
+        "target_sha256": "6be2ea80e2ddb5e790c6ac15f73adbe2c7dfa8c6764e8d1f076c702763185d36"
+      },
+      "events:survival_convenience_meal:/choices/1/result_text": {
+        "source_sha256": "bd6c6c5b496abc989917304e9513d140106359ba9e5bb07d0c82abf0db378905",
+        "target_sha256": "32d1618ea099682b4814b36e2074ad738c02bdee12dae9286f5ff0fc426cf63e"
+      },
+      "events:survival_convenience_meal:/choices/1/text": {
+        "source_sha256": "79e8b7600d76d9824f3a11ebda56a2f55e95180e998f34d3e5e6f713db59d617",
+        "target_sha256": "64057adc929c7f01aa78bbb626d08902fef803baf97d355c696fd288cccf419f"
+      },
+      "events:survival_convenience_meal:/description": {
+        "source_sha256": "e1c7446a289b6a8353e6bb0a0ec6f4f203ba49372db922f206c370e07bee81ec",
+        "target_sha256": "501f4f15637a787cac8d634d66d2587b2ec333eeb20e188740026ea6df4842af"
+      },
+      "events:survival_convenience_meal:/title": {
+        "source_sha256": "a60933fe1c378df9bcec4c328d5ad3510fb321ded3c1c34d89dfdad97c72d5ec",
+        "target_sha256": "358be9f8286391a1457316a643de1acbb7b084adcaec038885f2c2dc7d1b82cd"
       }
     },
     "zh-TW": {
@@ -49644,10 +51093,714 @@
       "events:survival_rent_due:/title": {
         "source_sha256": "12001e9d52416b1ea727da0f41152498ac05f8a2b7af55dba8564925b0d9e8b8",
         "target_sha256": "1e218fe9aa88f1478f12cc3ab75bba608af00099bea9ec181e3cb6a0a30b7f0a"
+      },
+      "events:convenience_extra_kimbap:/choices/0/result_text": {
+        "source_sha256": "2e3fa44a2011929a96b4c729547da212f5cd34fe2af6577d1d04b8acae0550d6",
+        "target_sha256": "aaa96eb1961ca1e5f862da76f4e5fd7c7dabd38749431bf5f467b794c92c7e30"
+      },
+      "events:convenience_extra_kimbap:/choices/0/text": {
+        "source_sha256": "83e97aba7536fb02dabb758dd94f60833af4f34befaae6834876a16784965b51",
+        "target_sha256": "5de5b2b91f49b45af78ea31baa867180b0505ffdaa8b2b3640810843cccdf744"
+      },
+      "events:convenience_extra_kimbap:/choices/1/result_text": {
+        "source_sha256": "169c6dd5de16de60ae34c4636182355c0fdbf56262ca5aad00042612b6c4245e",
+        "target_sha256": "200cf645e766bc78e3565c22f6926c349ba29d28081b31245b0bff73babcea90"
+      },
+      "events:convenience_extra_kimbap:/choices/1/text": {
+        "source_sha256": "5d29715cf02b2fe93609a59f71df0eb59ae39cb1d6fe62c7bf3a7c63d4a726a1",
+        "target_sha256": "fd00fc07c6416f276dac0f51ae95f5301d74126738e6494bd5f858c0d00b03f3"
+      },
+      "events:convenience_extra_kimbap:/description": {
+        "source_sha256": "cf85b2f1b6b5666cc214af49f439249a45a28576fd4e3719d9fb39448d71b434",
+        "target_sha256": "3e1306c5695b30e79613a83a2ff7aa004178ac5058b6933c35c4a6a777ce2196"
+      },
+      "events:convenience_extra_kimbap:/title": {
+        "source_sha256": "a8cb53251f119fa00c028a4cb794f8a21f4a181f5bd73b41ddee7604d626bda3",
+        "target_sha256": "1fb1190147c79227545e8636c5592c52a5834da9a6665d50106e860e7093341d"
+      },
+      "events:convenience_store_meal:/choices/0/result_text": {
+        "source_sha256": "62c5cc956490f0d421ef5fc482f3ad3874823cf9ac67f181e5faa0363e98c0d9",
+        "target_sha256": "dafb4f7565efaec21ffbabe19d8bdf250b496f618a8132cd233474078db2164a"
+      },
+      "events:convenience_store_meal:/choices/0/text": {
+        "source_sha256": "e43f6a80eee96e6735d65bd41a39b17e993104f38b741847ec030644feef70e4",
+        "target_sha256": "c54e75f7ffc0f7537deea6c0117537ee6bd379df97ae3e92d98522d1c7b8f7cf"
+      },
+      "events:convenience_store_meal:/choices/1/result_text": {
+        "source_sha256": "abf354dfd456ca881f162d7629e9311d3eba1a86bd7f96b9763468165d05671f",
+        "target_sha256": "1228489e4d435f096f0419c44ddb4c8ce00f65cf1e3775a4842b772e441a5743"
+      },
+      "events:convenience_store_meal:/choices/1/text": {
+        "source_sha256": "05d2f64649ce126dc7c40aeea8f0f9770d33801ac11c005a4c24a32ac4a6a7a4",
+        "target_sha256": "7125fe5c6da1dadc5308a5b63209b44b4536938a7e2aa8ab2452ae15d2f65ad5"
+      },
+      "events:convenience_store_meal:/choices/2/result_text": {
+        "source_sha256": "69d2f9bbb9430fedbfcc4fdd2646361273459e5c966ccdfe556c1e02e24d5012",
+        "target_sha256": "a78945ea89ec35c8b1e5e816d6b70aa999a844f5108ade5e5f4543bfc65dd195"
+      },
+      "events:convenience_store_meal:/choices/2/text": {
+        "source_sha256": "526eee5ef29d341a475155725386a63fac13c714e1a4b691c7566f96137c29e0",
+        "target_sha256": "9b62aebeddbe963e7fe2517ffc6c0ce8b4c6f88e8d4727b9d47fd3adfa4777c0"
+      },
+      "events:convenience_store_meal:/description": {
+        "source_sha256": "1b48c569c2ea38edc474fc1de31df9b33bb1206f8b38cd79f5c387e28dfb327f",
+        "target_sha256": "997bb8c540389f892af9b8340ac5b18ee2a9304d8602d247ebc20731b0f325e0"
+      },
+      "events:convenience_store_meal:/title": {
+        "source_sha256": "422edf71adc9686e4b4f4f602b874d83583f44709586fe0b94d107db70de5a59",
+        "target_sha256": "eabfa7bdc2d25cfb5638234e59e99b288be57bd64789fd2f846dc67d6bb8368e"
+      },
+      "events:delivery_app_temptation:/choices/0/result_text": {
+        "source_sha256": "f6e00b50d5c211c838f69118bcb665e756295567de9d9782e3b2c4e95769491f",
+        "target_sha256": "ad214837ef6369ef5008ff1dfb81f3545f6588c20449d638fae3c7be1542feff"
+      },
+      "events:delivery_app_temptation:/choices/0/text": {
+        "source_sha256": "05662fe28bdd8fb4eb3d0313605ca48de0a204a779399c35ca081a278a5a0c69",
+        "target_sha256": "75c5556663956f07f983404a468bc9a74b05c63d31a8aa2b6da5ecc1df7e0a4d"
+      },
+      "events:delivery_app_temptation:/choices/1/result_text": {
+        "source_sha256": "239c4277ec22d10b2b200555c1617a2828dd77bce73acc07c031c02253fbc52a",
+        "target_sha256": "f77b0bfb20694885bcc5ab0e6664eb2f6eafe03258c172bdf58769ffeae9978d"
+      },
+      "events:delivery_app_temptation:/choices/1/text": {
+        "source_sha256": "1dc3bf8cfb0de614b4a6abcd70de04cb8e374d2bb36eda3246e307f5c7a18d8e",
+        "target_sha256": "36bdaeb87fdd696a5297d812337a30d5d159874386847800d58394945e39a03d"
+      },
+      "events:delivery_app_temptation:/choices/2/result_text": {
+        "source_sha256": "a4be8dd54c8e6473d56448eb41364ea607dbb31101fba31b7b2163ab3d191333",
+        "target_sha256": "578d1b0ab40a1412f54d08415573f41df6672159950905a3c221e7ec2be95a5b"
+      },
+      "events:delivery_app_temptation:/choices/2/text": {
+        "source_sha256": "42387aed480552c63b5374f0768ac8e4ade64476e70717a34697c9ddc32b4689",
+        "target_sha256": "7b409b921aa28305d1e2034edcc728135888dfb31965931a6b395e82c84beed8"
+      },
+      "events:delivery_app_temptation:/description": {
+        "source_sha256": "6a0209216a6a6e82ec9133cbe4d86c156af4f550bdbe258b24a1689c09a12b57",
+        "target_sha256": "ae13968a7bc72176da3ab302dfe9bb9b89b020e55a608469c74fcd6e97f4f944"
+      },
+      "events:delivery_app_temptation:/title": {
+        "source_sha256": "7f6a7aa1d89fa840f56197f97ca3a49220331e7b63acd1d7da8d713c4113ebbd",
+        "target_sha256": "6289c17400e15f6db0fa0c12d2ad8cd578ce30435392869f4779d0fd1b4c30fb"
+      },
+      "events:gosiwon_bathroom_rush:/choices/0/result_text": {
+        "source_sha256": "c4aa3a01babde85cb7b09f0d1898458e7f9879d7ea959fa985a3be3e20916e23",
+        "target_sha256": "c3772c910f02c210cc0f0471dbb0e5fcd462e705250264711ea4f6a58c40cc90"
+      },
+      "events:gosiwon_bathroom_rush:/choices/0/text": {
+        "source_sha256": "1443673180954b5aa8a8b4cf01375a6cf09fe083c0df0d8868fd143220b97ebc",
+        "target_sha256": "d59bccf04737766751d35fceaffb5627d9c14a4b4deeeb85579afc6e670c4863"
+      },
+      "events:gosiwon_bathroom_rush:/choices/1/result_text": {
+        "source_sha256": "35f7887a67495c63e266935217759d7cff0b9209307ec88340c47092a780847b",
+        "target_sha256": "a5ea8487333dcef8b8b1a9ecbcc05f37341aa63602d7f022807832617c0099fb"
+      },
+      "events:gosiwon_bathroom_rush:/choices/1/text": {
+        "source_sha256": "e3ca19e80acc4c2415a62846ba6c9ef1d7c893ebc3d4cde61c1555801db0d748",
+        "target_sha256": "8a28cb4e9afe4cdccbc5dd97062f2931ff58ac399985706781278f4e7d735065"
+      },
+      "events:gosiwon_bathroom_rush:/choices/2/result_text": {
+        "source_sha256": "96b028d555c38f9f8103643137febe0bdeb9affd8594c3fbc2668399d805a37c",
+        "target_sha256": "21f58601b00125bc1aa66dd2837523e7c51ddf8edcde22bbcc62334a47a06cb0"
+      },
+      "events:gosiwon_bathroom_rush:/choices/2/text": {
+        "source_sha256": "2c23a3c984906b0923cd6a0e398fc73ff49e35e7a324c656963f0f12e3a5326b",
+        "target_sha256": "ca3407684dcba2172d7dd8b926c0d65a9f1008f0458e8469dcd4bce0e30fcfbc"
+      },
+      "events:gosiwon_bathroom_rush:/description": {
+        "source_sha256": "9181e732222fa42a13c83377156fd879677141bb8498aab6ec4fab0d401297da",
+        "target_sha256": "38fa8aa720b9047864d3d823ef46f89923addc7aa489bc61cec1682a97384cf6"
+      },
+      "events:gosiwon_bathroom_rush:/title": {
+        "source_sha256": "b6f5107ab022106b70881613c5677bd814e034d8440606535e2044da4869ecd1",
+        "target_sha256": "f9f986ad8189bdaffe4dcf5165986b0c1c5c0e41399d1f758253f2ff6994e127"
+      },
+      "events:gosiwon_neighbor_first_meet:/choices/0/result_text": {
+        "source_sha256": "cac97bc8e5bac807fa509b7be1db23580601591c6afb4810979a52fde640feed",
+        "target_sha256": "d4bd7dbf542c871104aab2ed1828b79e15590185fc8f38f2540bd09541e44863"
+      },
+      "events:gosiwon_neighbor_first_meet:/choices/0/text": {
+        "source_sha256": "285bd346121a99e5f72da896b0ed78e5645b4d4e6728ff480ab3908cf4beafaf",
+        "target_sha256": "ba65c9e6750dbc362ab3df421207f5b2232935423ae45e3c79cf3eb3c07adcfb"
+      },
+      "events:gosiwon_neighbor_first_meet:/choices/1/result_text": {
+        "source_sha256": "7104ce22aba8c4b740b3299b94eb9b29aa2192fa94ad25c481db104a9e3a7b5e",
+        "target_sha256": "432be1673cd515dca68f98a468addd5ccc2911a40b77117e4c0cd7af45fc11f5"
+      },
+      "events:gosiwon_neighbor_first_meet:/choices/1/text": {
+        "source_sha256": "0136d8a39d74cb00f05c863fa05618cb431784aad0c9522fcd93c164d0d375c0",
+        "target_sha256": "050f3f91c33f20e0901227d23bdb53a4de2114ed72d4b7defe81779ff97d3653"
+      },
+      "events:gosiwon_neighbor_first_meet:/description": {
+        "source_sha256": "252cb2de423bd536b78012e31af31e57ef3557deeebb9d532122d18cfaf01a8b",
+        "target_sha256": "17479cbad79e1c7066d2d1925655db8abbae082271d84b25c38823c5c8bc6697"
+      },
+      "events:gosiwon_neighbor_first_meet:/title": {
+        "source_sha256": "3f882cd912dca96ad89d7d4ebebc1bde0307a3d1f1d6a14c9b1f5e2c6e02aaa8",
+        "target_sha256": "c5302053e6bf5fd22cea8b7f4a00317f335ab72547d0824a230830174555dcdc"
+      },
+      "events:gosiwon_thin_walls:/choices/0/result_text": {
+        "source_sha256": "bc94cac208a4ca473ac137ed915139da9419fa8ebc15339c3b84e9158f07757d",
+        "target_sha256": "ccfdf83542e371bb2708f7631ad1f83d767d6604cda7e913059c873dab1ba2ba"
+      },
+      "events:gosiwon_thin_walls:/choices/0/text": {
+        "source_sha256": "41bff3352b8a5962f7f82a0150f6f47bd71ace15a39ee3b38d5d8953bd3cf598",
+        "target_sha256": "768d19e25c1eb1381af77c18a3b199001fefab1ad4045a57cad1a0cee5da2613"
+      },
+      "events:gosiwon_thin_walls:/choices/1/result_text": {
+        "source_sha256": "9ff3c9746176e3247c7ed3d210c89dc4a0e941175b373303369cfee9a7c16740",
+        "target_sha256": "6fed92accb3ac25f3b39048aae5676d26b7a6971fdad4c1a8eb2040987e21afc"
+      },
+      "events:gosiwon_thin_walls:/choices/1/text": {
+        "source_sha256": "4814269ca6cf2bcf967be813e774fb3e7e487ba968021fceaad4b22b088a6830",
+        "target_sha256": "f3d89b3dec7dc1f87349e73c4c53963225a979d63963b679530f8b4329798d65"
+      },
+      "events:gosiwon_thin_walls:/choices/2/result_text": {
+        "source_sha256": "be0491456101c4d58bd5e9bc066f5913caaead1887a2f39d88147996baf1ae07",
+        "target_sha256": "bf4c78a524c24235b581b559990f4589d8c0a59e9fc800288691df030db66a6e"
+      },
+      "events:gosiwon_thin_walls:/choices/2/text": {
+        "source_sha256": "7fea966bf7043d58c862d34e9f2b078090feb9de375a1e2ad863977d908d4457",
+        "target_sha256": "9be545c795789a5751d0d16b3ed6cb61d2c7ed07e6d84742a4199932beb4baf4"
+      },
+      "events:gosiwon_thin_walls:/description": {
+        "source_sha256": "001361c805c7a6baad4f3f60eb54f1f627e9d0fc6248ea9c96294d8882f9787b",
+        "target_sha256": "400c58fc3ce136506a9ed3ac2a282ded0b7642229d2f06ad5dddc1e7c00175cb"
+      },
+      "events:gosiwon_thin_walls:/title": {
+        "source_sha256": "3b3ac58be526ea335374f1d052dd30a18be8e2373304abbeae6f08a33cdd5e56",
+        "target_sha256": "d0997d1b6653d379d5a6d06fa250157e800b38c9eb0e3660981cc3cd28f3222d"
+      },
+      "events:gosiwon_upgrade_dream:/choices/0/result_text": {
+        "source_sha256": "e4cd248673d354fc7d08ee9fc7a36aed3c590949a390ebbc37787883fd79673e",
+        "target_sha256": "7cb32eab6fa2322c798e0ed9eab36f4e8ba50fb50ae037f04921c649bc53f097"
+      },
+      "events:gosiwon_upgrade_dream:/choices/0/text": {
+        "source_sha256": "500f921e0161541aeb6246fc43f47bd545807158b9fd1cd068036f02b5533712",
+        "target_sha256": "2f802fe6ea29369fcbf43b10e7c6a426dfc14c287ad7b2cc8bb245fc8d6e43db"
+      },
+      "events:gosiwon_upgrade_dream:/choices/1/result_text": {
+        "source_sha256": "93e3202e8b62a7f85aeeec815af2a756a207dc8aea3fb6307cc2a35497fafcf1",
+        "target_sha256": "4b2246df953e63c3745cc2432d01fd73fd199a1bcae43cc438c519f7529df277"
+      },
+      "events:gosiwon_upgrade_dream:/choices/1/text": {
+        "source_sha256": "aa553d0da959affef0a5a7147e9e1c83d22baec75d535bee8b0595d022ef7a89",
+        "target_sha256": "20a9b33fb8c26bcca43ab37ad0c1e1a23471a862a424b24b61349051320115f6"
+      },
+      "events:gosiwon_upgrade_dream:/choices/2/result_text": {
+        "source_sha256": "06bfc0937123555990d1d3c43f57c5fa153bbf6ea6493e86b5bac12952846564",
+        "target_sha256": "666e581cc314c6699004f4581bf60ba3b0686dd14314bd52c32cde1676925261"
+      },
+      "events:gosiwon_upgrade_dream:/choices/2/text": {
+        "source_sha256": "9824705278200eee4a68353d3f26eab2f366735876639e26df7a67b9c9cf78ae",
+        "target_sha256": "a278257fdfaa00f630db36b807554ef1637dcfd48fc4820e4dd968c591c06609"
+      },
+      "events:gosiwon_upgrade_dream:/description": {
+        "source_sha256": "5884c09664dd67aa21f0cc70286dc10f79fb3c837246bcda96b1694780fb05b1",
+        "target_sha256": "e352a63a6d638d97fcdae0896fe8c83c3f5ed72617d13932a9568208a87e9346"
+      },
+      "events:gosiwon_upgrade_dream:/title": {
+        "source_sha256": "3d6ff3bdccaf02e5882c6441900733ad817c8fa1071baad5a388a6a25b4f002e",
+        "target_sha256": "4f7cb5571a77fb3515e4b92af8188d34ff533dd7ac057cc253b04ceb36ccb22a"
+      },
+      "events:gosiwon_window_light:/choices/0/result_text": {
+        "source_sha256": "edc4769ff69a6bb4299d771cfe78f6a1613d4efc4de001a52873553b44c15f27",
+        "target_sha256": "e9787edebd72786c5a8052169a0f3556f53f37d571bb09efefe6e1bffe82f12f"
+      },
+      "events:gosiwon_window_light:/choices/0/text": {
+        "source_sha256": "1815a3a4b7a00c80f682bb3c13b2708ef64e8da0782d8fef9f5bd068b348075b",
+        "target_sha256": "5713225edb470d7825107ba43aa074c3b5ee811922ece0b444465f25786775ae"
+      },
+      "events:gosiwon_window_light:/choices/1/result_text": {
+        "source_sha256": "9352df7e00c588dce03354ee88a8357a3b738f95afdd819fef2fbdc7a12f6114",
+        "target_sha256": "c323891a5c599542ef884df7fb31190a1927611d78ee890a01bea291b672bc3e"
+      },
+      "events:gosiwon_window_light:/choices/1/text": {
+        "source_sha256": "664ccf41cf8ccf7fa2a270cf9d5f0227a5c3edd45dc65156215f2911683485a1",
+        "target_sha256": "c1f9bd9f34bf8ee7cb921847d0ebe3cd3c8dfbb94e0f5bb7e6aed0619c016493"
+      },
+      "events:gosiwon_window_light:/choices/2/result_text": {
+        "source_sha256": "bc820ba9a3db0476139bb812fadcab464fb10ba4ee81858cf3dfdef8e424998c",
+        "target_sha256": "9f9670f30c3c2b03166c3f000aaf7dd577326e6a34efbad2706d5cf83a42d200"
+      },
+      "events:gosiwon_window_light:/choices/2/text": {
+        "source_sha256": "007f841492e99481c21073249726748f11a71f8f56ab2b9de7506309a8f25493",
+        "target_sha256": "b4432cba1c49d73700df21090772d5a2e79a8eee01769720c41baf59438b2130"
+      },
+      "events:gosiwon_window_light:/description": {
+        "source_sha256": "46cfe743b54f7a7a0e58c72d99cd09fe00c40876761defe01835f273ab960cb0",
+        "target_sha256": "5865289610b331136b07a96090800977d1ede1c6d0e2b3bbd4404bb89223e1a4"
+      },
+      "events:gosiwon_window_light:/title": {
+        "source_sha256": "ef3453219d92edd193afe94a9dcc2cf74b172770f67d2dcd21de480207fad92c",
+        "target_sha256": "7013c9ed2d742d416133ab06cba500e615f009f451b7bb0df98fe65166a959d5"
+      },
+      "events:health_back_pain:/choices/0/result_text": {
+        "source_sha256": "cc6988815c77de453dea74309501379506cbf8b7862a8f31e00cfcd513e0ebe1",
+        "target_sha256": "cec90341093f73c97313674b38dce4a1b62dfea33acba350d3d879c10ed75fc3"
+      },
+      "events:health_back_pain:/choices/0/text": {
+        "source_sha256": "67229d82399b9be51c882beedeb21554c2547fb630459c2ee72359c17a6c9130",
+        "target_sha256": "76d6c2baf14980816d026072fa37f90065255898c6c17ae108d37b9fa54ae063"
+      },
+      "events:health_back_pain:/choices/1/result_text": {
+        "source_sha256": "fe5899a8537028c1400fbe06142bb2be45cc313727e1a09347d8ae06b7dd3090",
+        "target_sha256": "4e54f0f9374874185d6ff11b2e89e2ec943cf7ebf19c2c5546ede8ab7388bbae"
+      },
+      "events:health_back_pain:/choices/1/text": {
+        "source_sha256": "f8211bb1f88ba1c561c92c54e504922d9baa99f04bf2dd2369f0aa99a016dbf6",
+        "target_sha256": "60ec3b9b30d75366eab195dd30671aee727fd2ef70b873406e97abf4cb7e77a0"
+      },
+      "events:health_back_pain:/choices/2/result_text": {
+        "source_sha256": "19bb5c5fc8c71e8b872928dc5135600e61f28d2b736ba09290b48a47a4c33528",
+        "target_sha256": "e5080470cc4ca5ab7b55bdfd7efedda0e45801d24262ecb3607b3ab4e4b37c22"
+      },
+      "events:health_back_pain:/choices/2/text": {
+        "source_sha256": "cd77cb76bf2ec4e8e94c99638c8a6ecb57fd90f581631de6f64ec20d421edf16",
+        "target_sha256": "df26a931058cc9d3aca4bc7682d58e4c00f8cd324cc56e5855103d9f104699e2"
+      },
+      "events:health_back_pain:/description": {
+        "source_sha256": "56a3931688cdede75d12bce59ed8fbc61206326fd86b069d6d21e30c031664a8",
+        "target_sha256": "3739328021f5317f47c02f4b943f207240337d36af302ce24070b66055899888"
+      },
+      "events:health_back_pain:/title": {
+        "source_sha256": "3a5b814518c82688a9bce39bd525377c290352493e54f2ec2e83e49d6d3c78eb",
+        "target_sha256": "7cc906f685b1460afa33422ec2eac4328aff2e56507c3d69b1707422c046601c"
+      },
+      "events:health_burnout_signal:/choices/0/result_text": {
+        "source_sha256": "a976461fb1b82385db1f602b0223904a9e94c430ab84320dc6e9fd9a9871fb5b",
+        "target_sha256": "9d4726cadd5b9f81d4b014617770b9ede92915cbd43ddb51eca8479b9a0c4a2e"
+      },
+      "events:health_burnout_signal:/choices/0/text": {
+        "source_sha256": "299dd594b22bdd6a7c9dec87df877da2c625d587e34a872f007b7b79be7fa36c",
+        "target_sha256": "44b10d779352aabcf858576ebaf570edb973e9fb24b334114af9861027651fba"
+      },
+      "events:health_burnout_signal:/choices/1/result_text": {
+        "source_sha256": "b001f32788fa52fdf4216603c9e3e03476544964245b0f8fddd0a78fd3e75bb4",
+        "target_sha256": "8b512de1ab8d4f943d5d9ac34317921062057bc0c75344a52b03df1a0bd7dc6f"
+      },
+      "events:health_burnout_signal:/choices/1/text": {
+        "source_sha256": "f5ce1c1a3ee3a47ed79ca95de6a9a38295865f70575155af23d93a0c17a2d6c2",
+        "target_sha256": "b0b626a8b2ab45ac9acf4813375de85aadd698902d11ceb8e75191331df8195d"
+      },
+      "events:health_burnout_signal:/choices/2/result_text": {
+        "source_sha256": "e19828d084928b88b7b741d6c0c1f74b18de4c277a92d1028fc231770a3144b4",
+        "target_sha256": "3c8c14628fbc05a13b28a5f17274dcbf5015bacce39c4621d0f9a42f81f12206"
+      },
+      "events:health_burnout_signal:/choices/2/text": {
+        "source_sha256": "6a3c68b9d387376bc23a835b5bee03e5a12730a9195ed01a13fa332aeb5b7ef8",
+        "target_sha256": "fb72300113e9ed2a44f24f4d06ea27ebc76f61ccca7680486625e9af083453ce"
+      },
+      "events:health_burnout_signal:/description": {
+        "source_sha256": "d87dcb044da2b17b9967a8431c5d485f4d0b833cf67f2c7e07fd41a1ed95a44b",
+        "target_sha256": "14ecaccdf40c7113d95617d1d3c1786370de1cc4bd7ab8bdf8dff67fd75617db"
+      },
+      "events:health_burnout_signal:/title": {
+        "source_sha256": "a69db2d96b6d6423ee96dbf0e4a0e4413c9f507372867c5d96ec0028f4a4c5d9",
+        "target_sha256": "9c550656999bc9fbda19419f3d43bcabeb3c4de2299419a6eedde663ffc3b0a8"
+      },
+      "events:health_checkup_reminder:/choices/0/result_text": {
+        "source_sha256": "3cf28a7d0ddc080c41d154f3f08064b4a331f80853c7f23dd649d4cb3ece100e",
+        "target_sha256": "fd5d063eacdb6e8fe9ef4f1eb5681ebb124ff262a57d6131af295c05c4c73fbe"
+      },
+      "events:health_checkup_reminder:/choices/0/text": {
+        "source_sha256": "eb2a86a6f321a35b4ecdcc65a8e21c891fca25edd1d9c44b76134718d3f80ccf",
+        "target_sha256": "36884280b9141a758c83912da6f14366f74d87aa1ac8e283006954e42b1ed684"
+      },
+      "events:health_checkup_reminder:/choices/1/result_text": {
+        "source_sha256": "dc353848c4425815c54a73d72306f08e27bc93725dd53455805ca1388080eb66",
+        "target_sha256": "0e4fcf503239322dbea45d6ba9f62edf4c3b5d62c1b8997af4d430267bc7e48b"
+      },
+      "events:health_checkup_reminder:/choices/1/text": {
+        "source_sha256": "07a772f9f47c12cf9ee371069f6953d7a7a1381d780ad4802f1cdd5cc81ecc12",
+        "target_sha256": "d9ed1ec69c9769aeb31e6a7ecc3e50b4137f22d78ff706f46cb3584cfde053bf"
+      },
+      "events:health_checkup_reminder:/description": {
+        "source_sha256": "a19198feda1e5400b493c3609275c3de9d001ab8d3adc1f5142c2cf9c47d74b4",
+        "target_sha256": "1412f175556fa67fbb6cb8507ae1c31c36eaab64bdccef6c0c394ac682f7ac7c"
+      },
+      "events:health_checkup_reminder:/title": {
+        "source_sha256": "45c030d339ea713a00364d9af7ec3d938dcf0b418061a87c0d7b7468d2e7e250",
+        "target_sha256": "68e92d67c1053686ff6d6f8c80957870809bc17fd1fab87f556f66612e6d94b6"
+      },
+      "events:health_cold:/choices/0/result_text": {
+        "source_sha256": "0605471d7ba936778c7dbd8f119b727db66d1ceda4d460a267fdd64019d8b108",
+        "target_sha256": "1026e95d57d981f4970ca89cb03fabbc955a26f3c16c38b5ac3554e98590003c"
+      },
+      "events:health_cold:/choices/0/text": {
+        "source_sha256": "dd343a780aaa3d219fda23a0fc98a2c39410f0d34b50c9f7993021cbd6b4cd54",
+        "target_sha256": "af380a370c82ef5e1414f4ca26c6bcc8a913de2c4180d44a429b64f94dcedb45"
+      },
+      "events:health_cold:/choices/1/result_text": {
+        "source_sha256": "d4829e91e44033e09d60e4d0e534c487dda7a94cce0ad6f0a347b91a1ac51d99",
+        "target_sha256": "90c194effe12eb955bef4b06748c104e3c23af27e567aba6b16247fa30006bd5"
+      },
+      "events:health_cold:/choices/1/text": {
+        "source_sha256": "84e7cba830279f7f12370334ed87bfe7f88af05af2001ccc74b714367f70e163",
+        "target_sha256": "15b288e112d16f826cdf474aed81c6e8297f45f1badda8dbe49fbfbe62a08533"
+      },
+      "events:health_cold:/description": {
+        "source_sha256": "08dd7faf02410b2fac880ef61ffdb0e06fefa959a0835ec78bcf39b88f3a0016",
+        "target_sha256": "83df5470cf6b4c01011dc8e8a511b22cd8f6b5e7a61197c1483a4bfcbca845f7"
+      },
+      "events:health_cold:/title": {
+        "source_sha256": "395d474c3f5b1e66bd2fa6147c2ec9afcfb25df4b4984687c65fa03b46582f6b",
+        "target_sha256": "0c11bea6943a898736d800441fc5f3d8736989a91cc6e3c7a9a6bcd29af32c2c"
+      },
+      "events:health_crying_alone:/choices/0/result_text": {
+        "source_sha256": "9fc6f95e904ebe47af72acd462d8ad8fe744a6e2329724e4df469b336de16548",
+        "target_sha256": "94c0995fef845993ae88e443c8391bb2cbc04c072fee66053206ff8d4e6d3353"
+      },
+      "events:health_crying_alone:/choices/0/text": {
+        "source_sha256": "b7e1ae940e91543435e0afd3fa0fa73b0ae6e07b904eea66523277df37ef5ce7",
+        "target_sha256": "9bbdf24c9469070ecffb321fd3403a4d6a67dd5ef6165ff00018123a7d2a38ac"
+      },
+      "events:health_crying_alone:/choices/1/result_text": {
+        "source_sha256": "c2e36d8eadaba4f1ec22f77a603b3b4d17da639080ae4ac258b399b2313c7d35",
+        "target_sha256": "941b6b8920c86f1c31ba49a23671b881a019a3f30c16e7523187167aa6e91c9f"
+      },
+      "events:health_crying_alone:/choices/1/text": {
+        "source_sha256": "3fda5860b26582d0bd86c90b5d335078ab42f45c1bf9bc720e979b79a6c43c01",
+        "target_sha256": "589e74b4525854a98ed932c067fd17c5cfbea1d1d5e2906903985c5cae837c37"
+      },
+      "events:health_crying_alone:/choices/2/result_text": {
+        "source_sha256": "9c027dd57389773b9aded12c9719dddc7a979738cd7badca0299ad329e70fbc0",
+        "target_sha256": "43cbf18c24e3445eac7f035ef90e22311ea7a80bf8577240b370c8c46e8cd11f"
+      },
+      "events:health_crying_alone:/choices/2/text": {
+        "source_sha256": "9d2d86595776a3509485cee1fdd24f8966f0eea06b51c2bce6e9715301c1cb66",
+        "target_sha256": "2d27fe1b380f75c550d01f609de178cd9ed49c4235e73e76966bf8c755ba6337"
+      },
+      "events:health_crying_alone:/description": {
+        "source_sha256": "0350068e2c1425f9a18ec5a8ee64e4892f34b26e7eac5f1c1a6b7e26d3b6994f",
+        "target_sha256": "393f1f966392ce36c4b1e6bfe4b3f93c7e736d80a99afcf90baced72417e3c0a"
+      },
+      "events:health_crying_alone:/title": {
+        "source_sha256": "47141e51a86a935064678914cecb6e40c188c160e54020f89bf45a9319ddfbe0",
+        "target_sha256": "57bf4b81707b326e2d1eaa221cdef1de5e14c84e628e7fb9092339c31e6c2045"
+      },
+      "events:health_diet_choice:/choices/0/result_text": {
+        "source_sha256": "03f54f9f448b69e741f6b4c74d2f71bbb130a61dd8471e4b88c4a74b9359e6dd",
+        "target_sha256": "47189cdfb710652009060d002e04b4ab4b790316d9e3ec67819e02dff654f836"
+      },
+      "events:health_diet_choice:/choices/0/text": {
+        "source_sha256": "2ae6c4e29255646a0fa030bcf905d983901793305e9c9b6f633ea969bb32db39",
+        "target_sha256": "2c3f050ac931a3a602227c126b18283c29cbb661ba130a611eba93b26a3e7e86"
+      },
+      "events:health_diet_choice:/choices/1/result_text": {
+        "source_sha256": "345ec960d36e2d671a9fb846ecf545f5a219ed701521405feef857d5575ed16b",
+        "target_sha256": "b51f00ed84f625e683c44f0ab4af9b0ea0bdbcd535b77d7c63ed08186c867b76"
+      },
+      "events:health_diet_choice:/choices/1/text": {
+        "source_sha256": "1759f10e35f7c929dc938b3754b72678c4fdef4cff3161586eec55e05546d390",
+        "target_sha256": "7611aae79e1b103de722106c779a336e03005c53e1ab5f03f716907b868200bd"
+      },
+      "events:health_diet_choice:/description": {
+        "source_sha256": "66b7f112632cea738e5d990d031fcc0dea04b4834f8435c825714d288199a50d",
+        "target_sha256": "23c485ca472690c748b6279a3350d3b6a054486d0117157e0419c5bbe3bb0ab9"
+      },
+      "events:health_diet_choice:/title": {
+        "source_sha256": "920ecfb0b08063c4b581f14a6cfab855d5736a33f85df71b162f37aecdf8554b",
+        "target_sha256": "b8079604f84f4e875f3b8c79548342606e35cd56ad54d432af1ecc10c26587e2"
+      },
+      "events:health_exercise_choice:/choices/0/result_text": {
+        "source_sha256": "be0014960018ec9bea0ecaf0a84480940c78e30d8525e57e099a6cabb70a1fc4",
+        "target_sha256": "a7baac38a9047333b628f3ee31f340109256f71555b4b27765eebbb6f93356b5"
+      },
+      "events:health_exercise_choice:/choices/0/text": {
+        "source_sha256": "37187c2f5f31e40ca6da1214688fd90dd0cd897a7751a066128a2faf45d250e2",
+        "target_sha256": "b47f0720efe3e8b0fd0cf0feef1d44eab5d383630cf72b44800bd6e7d3d770bd"
+      },
+      "events:health_exercise_choice:/choices/1/result_text": {
+        "source_sha256": "427edbec73f6a463826acd66db7973cf4a6c949e61d04520d62661d0b433b69c",
+        "target_sha256": "22e2e9bf15568accf4d36a3abc85f6288eea7710ddd1a261cc508a4def014e1d"
+      },
+      "events:health_exercise_choice:/choices/1/text": {
+        "source_sha256": "4672d1f16087a229f49726d4775fc743d568e3878ea8b26019a8d60636481188",
+        "target_sha256": "a089f59ea450bec2ec4c70826d8bdf98b84a003715414c7ce812a7a9ae1897dd"
+      },
+      "events:health_exercise_choice:/description": {
+        "source_sha256": "bb60216326e1aadcc414e9b183559f3881c93441b945f62d627dec7170953077",
+        "target_sha256": "88498e211597fc889cba2344d4503fb15f8e028843e8dd0d1a3976955b6ca48b"
+      },
+      "events:health_exercise_choice:/title": {
+        "source_sha256": "6c27504066fa83eeee356617829bd60a7459abf29e634ffe555e072658cd302b",
+        "target_sha256": "24c03044bc90cc7c2e1afdc6fc741c7d3ee9af9dfe7b3f3387bb40fc130afc3c"
+      },
+      "events:health_eye_strain:/choices/0/result_text": {
+        "source_sha256": "0b54f0dc4c8307d35805edcabc60a3b98484213123cf402e6016f374610fe2b8",
+        "target_sha256": "5f62a9684b397b712af18b34ed6f538604f9e6b13a83b013415d2f567c2e0905"
+      },
+      "events:health_eye_strain:/choices/0/text": {
+        "source_sha256": "79421e9f37bdb3aa4e5f836fb76ff317eb69935fa327568ca5ccd526818d228c",
+        "target_sha256": "71e55a6c2702577e5cae921232fa4fe06bfa72ee0bb9864d68f802f5ffd0382b"
+      },
+      "events:health_eye_strain:/choices/1/result_text": {
+        "source_sha256": "f444f7daaeb91df5f33952d76f0f3b672b2202deb3afcbeefebbcc7d00ccee94",
+        "target_sha256": "e4c3cf6102e4efe583b1d0d99f11e2910408b02ae54d0272cd6a555c3f235534"
+      },
+      "events:health_eye_strain:/choices/1/text": {
+        "source_sha256": "6fe0fbb85c93d326c978dad30b6512a524d0eecda26664764a4cc4000d0a0ca5",
+        "target_sha256": "2a41612ef0a540aa8b0538183ab27fb2e1748e74c86c0da20e5ba9e9d6737be4"
+      },
+      "events:health_eye_strain:/description": {
+        "source_sha256": "e0d5aa148b40082605ba1e080ec4b6ebbfdfd11eaa61726eb389a1f5ab6b7270",
+        "target_sha256": "0d1cc9fc1e862ee3f7858c65a9ce419da070409370796fa3f93314f3c77f3edc"
+      },
+      "events:health_eye_strain:/title": {
+        "source_sha256": "1cdb7340e349982f0a398a6a68bfffe433030db042eac60e3513807b39323fa2",
+        "target_sha256": "c7683d08951e7b3456b95803988db2acd2a0262fe445244f9e2c38f5191a15a5"
+      },
+      "events:health_insomnia:/choices/0/result_text": {
+        "source_sha256": "1517156915efdcdb88c0aaa0a3f2bb810f336e26020590bad6e7545e84b5ed8a",
+        "target_sha256": "471420e18d9124bae298307f11805a4c2cd9ef5118f12b864be6d107728d71e9"
+      },
+      "events:health_insomnia:/choices/0/text": {
+        "source_sha256": "761c46e715ee915e51fc770ebb65f51551603aeca2af6ed492e5dffbca6c5100",
+        "target_sha256": "fd89069b2a5bf5f569c836b65b973fde65ca8a03f771f6eba97852e15aebc0d4"
+      },
+      "events:health_insomnia:/choices/1/result_text": {
+        "source_sha256": "d3d33d60e87f2cea7fca970674f8c08b0187ae968eab856cf896d613ae46d0c4",
+        "target_sha256": "3e60a1e67df0158a853043ad283ca70e3dfc0f408d35a609d8d1d8a3a562e88d"
+      },
+      "events:health_insomnia:/choices/1/text": {
+        "source_sha256": "0e9f76d48601bd0b459a9a04e98af56d16b2c3db9dbed63eca56660e3e562fe6",
+        "target_sha256": "fa64a3122b88a9d1093cbcc7f76dd1afe530262a483e148adef626fd347069e9"
+      },
+      "events:health_insomnia:/choices/2/result_text": {
+        "source_sha256": "89b1cfbeff722cd7aaa6e6abba28118a46056547875e7bcd92f988b8810f7d5c",
+        "target_sha256": "fd4f271f14b75a45f20decbaa2f8316d2a6e3c0e14f90329bec6e6e69c0400a9"
+      },
+      "events:health_insomnia:/choices/2/text": {
+        "source_sha256": "edb169adb61dddf2dd52302c5b258b54463f54e4a367d37cf8de14cb4170b1c5",
+        "target_sha256": "1698a76928b833db1000f2354fe463ee8fb668e1c9ac8b12881ccfe20b5fb788"
+      },
+      "events:health_insomnia:/description": {
+        "source_sha256": "9d0467efbc89304dca9ee25bbeb51712448d3d9514fdd7384782d7d788534577",
+        "target_sha256": "b65e57f9bb773b2f3cf58972b1b60cc111a57aa55f55736df842f0f4931c490e"
+      },
+      "events:health_insomnia:/title": {
+        "source_sha256": "e72c07f4f18f9e484ef1adfca21e925290f5b0246ba335df8f3106516ec98694",
+        "target_sha256": "210846ddf2c5964d51cc6eac6e14d25c00e5fa7b7e8ff12bc3a0c9854a199d7f"
+      },
+      "events:health_meal_skip:/choices/0/result_text": {
+        "source_sha256": "684c72ce73dab42226230127473ffe4457cfccecdf68263089acb32cb0f53fd1",
+        "target_sha256": "46a35b1707a56387980149a9c8504e77a1db8dc509f168007c05b675cb323951"
+      },
+      "events:health_meal_skip:/choices/0/text": {
+        "source_sha256": "9fb9042ed0527838f575495ccde77b08277826d2cace34953461d473c176af54",
+        "target_sha256": "45688f6dd9b65bc238cb7deabfab6379fddf86f76a6f2d7f0582d01432ac9985"
+      },
+      "events:health_meal_skip:/choices/1/result_text": {
+        "source_sha256": "acf249261a558eb8c4a80ea2b1e919ef440b964deb14de11a3a8f824ffc16ec4",
+        "target_sha256": "65be59c174174abffb0b948102af8252af33bb83d9772195e7b7ac37b5662677"
+      },
+      "events:health_meal_skip:/choices/1/text": {
+        "source_sha256": "c8b690a03b20e1bf75742e2221e20987b845ec9737dea7277336ae8599f78871",
+        "target_sha256": "856efc7ec42e4c2d7e08d14ba4a405d00743a218a7cd15daf9f79cfaf64ff3a9"
+      },
+      "events:health_meal_skip:/description": {
+        "source_sha256": "03baea8ada75a2b2651ef96a0416a5a610da4eb7930d6dbcfc755c78ac92a69b",
+        "target_sha256": "b1d622bd06afabab49adfdb06400bcd5964f70e16d0e35a5b9e1179d6d187a35"
+      },
+      "events:health_meal_skip:/title": {
+        "source_sha256": "f5a7a3eb9b6bbe5b67226ef6bb8b452d43edae980e44851e8df5ec18aa59125c",
+        "target_sha256": "60d196a6dd385b59a6b706095942c130ddb7a5928bff0db523f96f0a40e4f1f4"
+      },
+      "events:health_mental_burnout_signal:/choices/0/result_text": {
+        "source_sha256": "89a9cc39a14d704a38a49e11224f0d6bbc89c816d989f7d64a4a0c420155e587",
+        "target_sha256": "bd126694c1392efe32521bf93325822fd2edcea21de916c4c1caab11da1d8657"
+      },
+      "events:health_mental_burnout_signal:/choices/0/text": {
+        "source_sha256": "11e598e3c88933e43b733fd72d4dff39cb723f01e56bce7e6c017024b3410061",
+        "target_sha256": "72608526fca9545f9c8d999ee1d3d9a72eaf83b2b5cabbe1099ca66f00c9d526"
+      },
+      "events:health_mental_burnout_signal:/choices/1/result_text": {
+        "source_sha256": "6c2d83d37047baefc8240e16aa270066ee916bf9247b18875f483bd5099c00ec",
+        "target_sha256": "27ee39b4ff4dff4051c428a8c06b3b5ecbfb02948b41b294dc18768bd3495cf7"
+      },
+      "events:health_mental_burnout_signal:/choices/1/text": {
+        "source_sha256": "7f907eee436b1b77ac65f1fa5aadbb0e19d224a6c776938af463bd76234d3934",
+        "target_sha256": "d3e30adbeae4fd688e62753b1360ba7deeec7744239b4f30fa4edc0c97945d49"
+      },
+      "events:health_mental_burnout_signal:/description": {
+        "source_sha256": "5974057da65f1903557afd88478fea0d8c43e348a7c9e9cedbcb4afa789c0d23",
+        "target_sha256": "f8aea5a5a512adbdc71346d78a35ba409876cacc4db67745f869b36ad47ee289"
+      },
+      "events:health_mental_burnout_signal:/title": {
+        "source_sha256": "664eac6a82bd1b0ce1dbaaf1c3f5dd17a8ec0141bdafc7aee08f47d464756329",
+        "target_sha256": "f5d7c4116ac8b92037d4aa11e5da0396a83e02152ca6d5b7f4f1bf16babd26c9"
+      },
+      "events:health_sleep_debt:/choices/0/result_text": {
+        "source_sha256": "f8dc2663f29ebe48a375260bebd8e5ebd7d020b0d0a368cb9ff95a6c80e0e08a",
+        "target_sha256": "6153dd563044e8fc67c8b1eb85717f35127bb86f2d2f0a1dff938838f3005697"
+      },
+      "events:health_sleep_debt:/choices/0/text": {
+        "source_sha256": "bd4a77a9d3fd70a2be06c7539829bf5f53ad159c4a4bce9808c95a4ec378b513",
+        "target_sha256": "af4d52ac22422f06e308870e14cfb9c3a0c2f5cead0ae2ea947fa58df748fa9a"
+      },
+      "events:health_sleep_debt:/choices/1/result_text": {
+        "source_sha256": "cfb52397b597899a8e84ee2a1c27ab07a15d1cf02385ef2d575b4d56dc0eea16",
+        "target_sha256": "5995c81403b8c0976aa9b86784eefc429055c5d506c937f2a6bfdc917829d7fa"
+      },
+      "events:health_sleep_debt:/choices/1/text": {
+        "source_sha256": "683d9752d7df8b7d69df09e8074bdaa27c2c220c9fe2f5fdc6f4ac463cbece36",
+        "target_sha256": "ef0017144887c0a003c0e138c61341d1c73efab6315e7443612aa0a3d1aaa038"
+      },
+      "events:health_sleep_debt:/description": {
+        "source_sha256": "338cc0df50650977ee18b19a4783de15ced2039296c4cd5ed97806921cb95d7d",
+        "target_sha256": "4a0a3103ad724ea12042f1b864aecb3bbb1279a79f05751c277d73c209fdf244"
+      },
+      "events:health_sleep_debt:/title": {
+        "source_sha256": "5f201527fc3eaecc27f9cafea580d389618afda251de17d02b80bb43fcde4a9b",
+        "target_sha256": "97151106f5586e442201d75de859fb44e8132a08dcc38737e589a7f2e4e1addd"
+      },
+      "events:health_tension_headache:/choices/0/result_text": {
+        "source_sha256": "c45efc38c3e9e5bcefef1ad88dea3898d1b913b61a006855854ac8c64705ceb8",
+        "target_sha256": "21aff67743de5478af122abff0e9ab13b35aa01b9ffa496c58b6fd18a4eebc84"
+      },
+      "events:health_tension_headache:/choices/0/text": {
+        "source_sha256": "b8b156c397e2ebde35e6cc5a5156cfee2290ffaaab36a0496442e4ae27704a05",
+        "target_sha256": "4cda52dec2b2fbd37aebeb217d66d571b5e1c0ad5b796c320239072d4cf852c5"
+      },
+      "events:health_tension_headache:/choices/1/result_text": {
+        "source_sha256": "0a6ccd19b5c27487691e20eac45171a55b7514793aa3e3cfc2265c5f5d638dcd",
+        "target_sha256": "e5216690e64e9c707d32fdd25c467d1ae499d7e6313efe8cb9ee70d9cc40fcc7"
+      },
+      "events:health_tension_headache:/choices/1/text": {
+        "source_sha256": "fe31a81c8ec262cf3d08a59f35cdb81e229affeded862ed6f9d56d3c9c26f68d",
+        "target_sha256": "49f23d83367a96ffc095c85755099a63d235e5d5b352d60961dfd442d8d13755"
+      },
+      "events:health_tension_headache:/description": {
+        "source_sha256": "f6c1aeb5dc639a4306e36eaae99b070051ba7768008d5aac4ad3aae97541b8b4",
+        "target_sha256": "022bda1407125f15bd9804551ab17decdeca30269e00792a65e0b07671aa0b4e"
+      },
+      "events:health_tension_headache:/title": {
+        "source_sha256": "d6f6de1337b94ccc2b493137acf36ddd557cabaed4847bb5b533dac3e4b2319a",
+        "target_sha256": "05aaef813d5123366ae782bde75cfcefd5cef1edf437c9970f24e1a3a9b20c1d"
+      },
+      "events:rainy_day_umbrella:/choices/0/result_text": {
+        "source_sha256": "823e14dcdf4634fa6824d25609f50fc439a63d8a636a7a6d6adf322d1ad3e5e3",
+        "target_sha256": "2de26d794154ea370a7adf4ec5ba4e0e0531ed687a9cd93a2bfb706ca0e3fa47"
+      },
+      "events:rainy_day_umbrella:/choices/0/text": {
+        "source_sha256": "829ef1784460bfa4323fb0677536a4a2d656622c62e4596334ae04c2b4369d9c",
+        "target_sha256": "c757866b9412b47756a2ef089fb044a03d6e8e0949a7fb07e19dde87dd265b95"
+      },
+      "events:rainy_day_umbrella:/choices/1/result_text": {
+        "source_sha256": "ba023cb2528673d2b0a292c9af61f3a28554a885dfc919e5013436f523b14b7e",
+        "target_sha256": "0635f94dc2a867da29dcbddf5e5c2629efeac1c3144241bd2a6adb764402005a"
+      },
+      "events:rainy_day_umbrella:/choices/1/text": {
+        "source_sha256": "f42de287cf24c60099e40c894e65197e9c30e428745fc3165c5c9f6714126276",
+        "target_sha256": "feeb579ae8ae45c8629cba815ad65f7d992453272d907d673a9c018b6d2ccfd3"
+      },
+      "events:rainy_day_umbrella:/choices/2/result_text": {
+        "source_sha256": "1f4d4c7e8d6710ebf15a55c49f513fd1c41ebeb2254608b944a1652a77bfa4b7",
+        "target_sha256": "7b2c3f4895f52f71183597e1b1bee9e8e04997f0ce83e2be7ea91cf47d6a6bb8"
+      },
+      "events:rainy_day_umbrella:/choices/2/text": {
+        "source_sha256": "f2dc8ee0c96bb3eb4fc09255dd713523d65f848a526a1ebefa1f99978f296b2f",
+        "target_sha256": "3de0fbeac31833528ef8f02e2ab46c78e1e644e04025989a93cf725955078289"
+      },
+      "events:rainy_day_umbrella:/description": {
+        "source_sha256": "3d9b1bd28f67c7cf0b4ba37da292fc0f42f9422101a5caa672de51b68d047a6f",
+        "target_sha256": "070972bfc8cd0e2dbc87ce3c40ffa2d763964d02ea8f9b5f4df0d1036247275e"
+      },
+      "events:rainy_day_umbrella:/title": {
+        "source_sha256": "322f9137388136ab724afc797f34cfd7a7d538e9cae5ad629c4396cd1153b1bb",
+        "target_sha256": "c919824a15b81dd38c7d8778f68d983efaf544466e9c50de78faeb1de81ba031"
+      },
+      "events:season_rainy_commute:/choices/0/result_text": {
+        "source_sha256": "ad6dd979786f99399de4459ee8b031d9edd543d4e138b161f9e3fbaf7b36a0ef",
+        "target_sha256": "7495ff1ac5871871f1ff0ed729613053bf939d2db68d90ae0406785ea9ceb652"
+      },
+      "events:season_rainy_commute:/choices/0/text": {
+        "source_sha256": "8276185ac63dbaaff086298b705ea8455a20238be9342accd9aaded616f40dfa",
+        "target_sha256": "87b1f81b99cc37d0b9b965f300ca55c183a86c28f046b64e722f69f278dd2ebd"
+      },
+      "events:season_rainy_commute:/choices/1/result_text": {
+        "source_sha256": "7d528e994c73c9cb12dddd0d27f5b3360a046b20d222d1817cd95c969d4d1e17",
+        "target_sha256": "d6688e3a8ddfa33ad921cd985230b8711c79180137ff169e66f7e5032cd49dda"
+      },
+      "events:season_rainy_commute:/choices/1/text": {
+        "source_sha256": "3f55f0a6bdc695d8b549d163daf821e26c8dba22eb2f67c7911017017bc61694",
+        "target_sha256": "c87e7df351e5c979aa82a052179f2653efdda99a58ea28d81c467d67e6409f17"
+      },
+      "events:season_rainy_commute:/choices/2/result_text": {
+        "source_sha256": "d4115c04caa6d418d4e884c937ad2937d0ff9ac7df28a84ef80312c4a38ea915",
+        "target_sha256": "1d37f4947894f76a6ca564a315d4ae70f755c15d701f8a73b694a0bcc9937241"
+      },
+      "events:season_rainy_commute:/choices/2/text": {
+        "source_sha256": "36ceaf7893212e58db0fc69a0d4700d1d69bca06a28b56108aa4785a07393e87",
+        "target_sha256": "56e4fa9a3352ba7b5ffc84f1ff9d40190a987acfe862dc410fd6d4dac3a87b0a"
+      },
+      "events:season_rainy_commute:/description": {
+        "source_sha256": "6197bd2a43d0b84b439bc9140bb4c3b3d74864b1db2b7c4eb8542961d809967a",
+        "target_sha256": "1b36d14107127eae82babc2b73adfa619e107c200745bb43c29a9dc506ee2d1e"
+      },
+      "events:season_rainy_commute:/title": {
+        "source_sha256": "62e6aae56c01cf6caa43dc6235c41b9cef1ac4ab923c57d2ce494b385f5b1f21",
+        "target_sha256": "2116e8fd5acf22ddc687d07fc953bb6b58ae1d60ee0b03b01076a3418699308b"
+      },
+      "events:subway_hell_9:/choices/0/result_text": {
+        "source_sha256": "62a6d95db39e367092b0500dfcc1e6ecb191d4edef2edf98f6bdb874a25c6808",
+        "target_sha256": "1875e4df66ff10309e85fd0ae4ae14bf1d3b1ae519f218a919fd163ab4f934a3"
+      },
+      "events:subway_hell_9:/choices/0/text": {
+        "source_sha256": "078c496a051438687377b6b15541b32ba2ca4e53b95c0af169d8c479736c0429",
+        "target_sha256": "45cbed85fb0ca7d1b54103ee3928d8247d9283f487e907a424510ae8c669f45c"
+      },
+      "events:subway_hell_9:/choices/1/result_text": {
+        "source_sha256": "8b12c0bc98278f6164cbb74ca6af02ae6f878c11b3760c341dee789a785cc329",
+        "target_sha256": "e4f9d1b6c5535642fb5820604acf43ea085396f2b5ea1d4b5dc0681d09d8ac8b"
+      },
+      "events:subway_hell_9:/choices/1/text": {
+        "source_sha256": "16eac046ec2f8115e3c9df68901f015cb2661903d1abdd6115f9a73fe7d6920e",
+        "target_sha256": "2c86c497f10d9233efef49aa7c784f0ee41a5df4fc7f1045f21173fe4da0aace"
+      },
+      "events:subway_hell_9:/choices/2/result_text": {
+        "source_sha256": "00b43b5ff253bf084612304de61b26c81dfb0021acf8ff985f8ec0af5f4c9185",
+        "target_sha256": "cffafa07cfdd8aa2937c49045464903569c6130796e94383c9c01ca5616ea020"
+      },
+      "events:subway_hell_9:/choices/2/text": {
+        "source_sha256": "d50392cf9245a29c4d7a8ed3bb4a6fc5deb2c0d217b8f4fde6cf94610d38bc9b",
+        "target_sha256": "69f79d3276ad1d6c46b9a773de90d1a70d43ac121bf6f48245bdef72cff70ced"
+      },
+      "events:subway_hell_9:/description": {
+        "source_sha256": "9ac0dc400fc5811ee7212d1e918016c51f1e2136aca6ab85704fe0debcdbea1c",
+        "target_sha256": "1166e3d44d08d5b8790bcfc172a96cff8bfceec3161bc2573e13c3a67604a93b"
+      },
+      "events:subway_hell_9:/title": {
+        "source_sha256": "1c13fbe80b12750d453ddb514b4c69a110b092ed845032aab3b08a8e5b538ef0",
+        "target_sha256": "526826be4d7f0b97371f1911f3301125342b26a39e2d2034fabc568b135b8582"
+      },
+      "events:survival_convenience_meal:/choices/0/result_text": {
+        "source_sha256": "dccfed69559e4a7456e828a3909e94b75b530cf54fa28cb33bec0c7ca298ede9",
+        "target_sha256": "ab83d145b5c0e90c5244395f7b213e4aeb9df30bcc4ef4898445bc0af718837d"
+      },
+      "events:survival_convenience_meal:/choices/0/text": {
+        "source_sha256": "fa3c77531182a64fe7b74122c764b78673f83c8e476efc62a8b7bd118dfeabb3",
+        "target_sha256": "ef78b2830bb4b7ed616d9313e9a91eda4dfc132d4791ddf362818a20c7592ce7"
+      },
+      "events:survival_convenience_meal:/choices/1/result_text": {
+        "source_sha256": "bd6c6c5b496abc989917304e9513d140106359ba9e5bb07d0c82abf0db378905",
+        "target_sha256": "6f56d86538b4f153d6bde3946a76c35d9356b798689727077a2ae0024e76882c"
+      },
+      "events:survival_convenience_meal:/choices/1/text": {
+        "source_sha256": "79e8b7600d76d9824f3a11ebda56a2f55e95180e998f34d3e5e6f713db59d617",
+        "target_sha256": "d7e10f266caa6a21cb6227e095882e53f27fdc77defadb40b4c7a485036b11bb"
+      },
+      "events:survival_convenience_meal:/description": {
+        "source_sha256": "e1c7446a289b6a8353e6bb0a0ec6f4f203ba49372db922f206c370e07bee81ec",
+        "target_sha256": "518a0a0e8083dc7836717461cd560c9eb7d11e68f937a5305eb871edacc0e846"
+      },
+      "events:survival_convenience_meal:/title": {
+        "source_sha256": "a60933fe1c378df9bcec4c328d5ad3510fb321ded3c1c34d89dfdad97c72d5ec",
+        "target_sha256": "9175402cc0b8c06a3c8752b24a4172113a462c9cedf91589ac9e83c9e50507d7"
       }
     }
   },
-  "accepted_sha256": "4db90842be4d44e69bfa049018cf0cd4f02254be33869de35367983128a949be",
+  "accepted_sha256": "ced5a540b5e1a2f3c5e67ba72c62726bd94d225368fc4946ee3c007731461faa",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {

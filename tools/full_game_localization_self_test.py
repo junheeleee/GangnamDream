@@ -213,6 +213,60 @@ class ExchangeTests(unittest.TestCase):
             leaf = tool.Leaf('events', 'example', 'content/events/life_events2.json', ('description',), absent_source, 'event_standard')
             self.assertTrue(tool.translation_errors(leaf, 'ja', good), absent_source)
 
+    def test_life_japanese_grouped_and_native_won(self):
+        for source, good in (
+            ('8천 원', '8,000ウォン'), ('오천 원짜리라도', '5,000ウォンでも'),
+            ('8천 원', '8,000ウォン（税込）'),
+            ('12,000원', '1万2,000ウォン'), ('18,000원', '1万8,000ウォン'),
+            ('-12,000원', '-1万2,000ウォン'), ('+12,000원', '+1万2,000ウォン'),
+        ):
+            leaf = tool.Leaf('events', 'example', 'content/events/life_events.json', ('description',), source, 'event_standard')
+            self.assertEqual(tool.translation_errors(leaf, 'ja', good), [], (source, good))
+            for bad in (good.replace('ウォン', '円'), good.replace('ウォン', 'ウォン円'),
+                        good.replace('000', '001'), good + '、' + good,
+                        '負' + good, '十 ' + good):
+                self.assertTrue(tool.translation_errors(leaf, 'ja', bad), (source, bad))
+        for source, bad in (
+            ('오천 원', '5,000ドル'), ('오천 원', '+5,000ウォン'),
+            ('오천 원', '−5,000ウォン'), ('오천 원', '5,000万ウォン'),
+            ('오천 원', '5,000ウォン%'), ('오천 원', '5,000ウォン ％'),
+            ('오천 원', '5,000ウォン万'), ('오천 원', '5,000ウォン 倍'),
+            ('8천 원', '8,000ウォン（円）'), ('8천 원', '8,000ウォン ( 円 )'),
+            ('오천 원', '5,000ウォン（ドル）'), ('12,000원', '1万2,000ウォン(元)'),
+            ('12,000원', '1万3,000ウォン'), ('12,000원', '2万1,000ウォン'),
+            ('-12,000원', '1万2,000ウォン'), ('+12,000원', '1万2,000ウォン'),
+            ('12,000원. 8천 원.', '8,000ウォン。1万2,000ウォン。'),
+            ('18,000원. 7일.', '7日。1万8,000ウォン。'),
+        ):
+            leaf = tool.Leaf('events', 'example', 'content/events/life_events.json', ('description',), source, 'event_standard')
+            self.assertTrue(tool.translation_errors(leaf, 'ja', bad), (source, bad))
+
+    def test_life_japanese_native_clock_and_elapsed_time(self):
+        for source, good, number, native, bads in (
+            ('새벽 두 시. 집에서 두 블록. 30분 남았다.',
+             '午前2時。家から二ブロック。あと30分。', '2', '二',
+             ('午後2時。家から二ブロック。あと30分。', '午前3時。家から二ブロック。あと30分。',
+              '午前2時間。家から二ブロック。あと30分。', '午前二十時。家から二ブロック。あと30分。')),
+            ('밤 열 시에 폰을 끄고 책을 읽었다. 10분. 30분.',
+             '夜10時にスマホを切り、本を読んだ。10分。30分。', '10', '十',
+             ('午前10時にスマホを切り、本を読んだ。10分。30分。',
+              '夜11時にスマホを切り、本を読んだ。10分。30分。',
+              '夜10時間にスマホを切り、本を読んだ。10分。30分。')),
+            ('버텼다. 두 시간 후에 더 심해졌다.',
+             '耐えた。2時間後には、もっとひどくなった。', '2', '二',
+             ('耐えた。2時には、もっとひどくなった。', '耐えた。2日後には、もっとひどくなった。',
+              '耐えた。2時間前には、もっとひどくなった。')),
+            ('비는 한 시간 만에 그쳤다.',
+             '雨は1時間でやんだ。', '1', '一',
+             ('雨は1日でやんだ。', '雨は2時間でやんだ。', '雨は11時間でやんだ。')),
+        ):
+            leaf = tool.Leaf('events', 'example', 'content/events/life_events.json', ('description',), source, 'event_standard')
+            for target in (good, good.replace(number, native, 1)):
+                self.assertEqual(tool.translation_errors(leaf, 'ja', target), [], (source, target))
+            for bad in bads + (good.replace(number, '-' + number, 1),
+                               good.replace(number, '十 ' + number, 1), good + good):
+                self.assertTrue(tool.translation_errors(leaf, 'ja', bad), (source, bad))
+
     def test_final_year_ordinal_version_and_source_document(self):
         for source, target in (('열한 번째 장에', '第十一頁'), ('여섯 번째 장면', '第六個場景'), ('첫 번째 장면', '第一個場景'), ('두 버전의 모서리', '兩個版本的邊角'), ('R3 원문이 있었다.', '有R3原文。')):
             leaf = tool.Leaf('events', 'example', 'content/events/arc_midgame.json', ('description',), source, 'event_standard')
