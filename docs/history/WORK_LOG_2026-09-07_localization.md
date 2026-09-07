@@ -1,3 +1,15 @@
+## 2026-09-07 (Codex — 일본어 두 장면의 원화 단위 정밀화)
+
+- 아버지 기일과 상철의 최종 제안에서30億→30億ウォン을 각1회 명시했다.
+  별도 [수리 사양](queue_active/ORDER-169.md) 선언 뒤 exact2 target/수용 hash만
+  갱신했다. 원문·금액·관계·생사·계약 변경0, 신규 수용 증가0·총8,949 유지다.
+- 최초 source2 보존, 최종2 source/response/receipt check/import PASS,
+  changed_files0. checksum `46778f02…93bd51`, 나머지8,947/meta9 보존.
+  큐 초기 전략/앵커 문단도 기존9월 보관본에 원문 이동하고 링크를 남겼다.
+- L3·원어민·화면 OPEN, 전체 INCOMPLETE·full/main/product HOLD·배포 데모 GO.
+- 최종12개 표적 차선·EN·diff PASS, self131·ZH935·공개14/100·UI121 보존.
+  portable8,949 전량 현재 target 직접 대조의 source/hash/L1 오류0이다.
+
 # 2026-09-07 initial localization work log — preserved verbatim
 
 ## 2026-09-07 (Codex — 다은 관계·아버지 통화 세 언어 수용)

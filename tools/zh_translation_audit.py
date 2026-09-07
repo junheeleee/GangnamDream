@@ -140,6 +140,18 @@ def _han_surname_matches(target: str) -> list[re.Match]:
         unicodedata.category(char).startswith('M')
         for char in target[max(0, match.start() - 1):match.start()] + target[match.end():match.end() + 1]
     )]
+
+
+def _bounded_latin_matches(target: str, prepared: str) -> list[re.Match]:
+    """Chinese prose may touch a name; Unicode word extensions may not."""
+    pattern = re.compile(
+        r"(?<![^\W\u3400-\u4dbf\u4e00-\u9fff])" + re.escape(prepared)
+        + r"(?![^\W\u3400-\u4dbf\u4e00-\u9fff])"
+    )
+    return [match for match in pattern.finditer(target) if not any(
+        unicodedata.category(char).startswith('M')
+        for char in target[max(0, match.start() - 1):match.start()] + target[match.end():match.end() + 1]
+    )]
 SOURCE_ORDINAL = re.compile(
     r"(?<![가-힣\d])(?P<number>첫|" + "|".join(map(re.escape, KOREAN_NATIVE_FORMS)) + r"|\d+)\s*"
     r"(?:번째|번\s*째|째)"
@@ -503,7 +515,20 @@ SOURCE_SCOPED_LATIN_TERMS = {
     "노바코인": "Novacoin",
 }
 # Taiwan App is a natural option, not a mandatory replacement for 應用程式.
-SOURCE_OPTIONAL_LATIN_TERMS = {"앱": "App", "유튜브": "YouTube", "성심병원": "Seongsim"}
+SOURCE_OPTIONAL_LATIN_TERMS = {
+    "앱": "App", "유튜브": "YouTube", "성심병원": "Seongsim",
+    "링크드인": "LinkedIn", "인스타": "Instagram", "인스타그램": "Instagram",
+    "슬랙": "Slack",
+}
+# Only observed relationship prose licenses these otherwise-unknown names.
+# In particular, financial 지수 must never license the friend's name Jisu.
+RELATIONSHIP_SOURCE_NAMES = (
+    (re.compile(r"(?<![가-힣])김대리(?=$|\s|와|에게|는)"), "Kim"),
+    (re.compile(r"(?<![가-힣])박(?: 씨|과장)(?=$|[\s.,!?…]|[은는이가을를의])"), "Park"),
+    (re.compile(r"(?<![가-힣])(?:친구 지수(?=에게서\s)|지수가 안겼다|지수는 같은 말을 반복했고|지수가 연락해왔을 때)"), "Jisu"),
+    (re.compile(r"(?<![가-힣])준혁이(?=$|\s|[가도는]|에게)"), "Junhyeok"),
+    (re.compile(r"(?<![가-힣])친구 재훈이(?=$|\s|[가도는]|에게)"), "Jaehun"),
+)
 # Optional brand spellings for exact Korean catalogue leaves, not a global
 # English allowlist. Chinese brand names remain valid; prose must still be
 # translated. Multiword names and their case are matched as whole tokens.
@@ -886,6 +911,11 @@ def _script_errors(lang: str, target: str) -> list[str]:
 
 
 def _source_scoped_term_present(source: str, korean: str) -> bool:
+    if korean in {"링크드인", "인스타", "인스타그램", "슬랙"}:
+        return bool(re.search(
+            rf"(?<![가-힣]){re.escape(korean)}(?=$|[\s.,!?…]|[은는이가의을를와도]|에서)",
+            source,
+        ))
     if korean in {"이민서", "민서"}:
         # A cast name at a Korean word boundary, never 이민서류 or a word
         # ending in 민서. A short source name cannot license an added surname.
@@ -898,6 +928,12 @@ def _source_scoped_term_present(source: str, korean: str) -> bool:
 
 def _terminology_errors(lang: str, source: str, target: str) -> list[str]:
     errors: list[str] = []
+    for pattern, romanized in RELATIONSHIP_SOURCE_NAMES:
+        if pattern.search(source):
+            if not _bounded_latin_matches(target, romanized):
+                errors.append(f"source-bound relationship name requires {romanized!r}")
+            elif _has_unapproved_han_alias(target, romanized, single_character_surname=True):
+                errors.append(f"source-bound relationship name {romanized!r} has an unapproved Han alias")
     if source.strip() == "첫 억" and not re.match(r"(?:首(?:個|个|次)?|第一(?:個|个)?)", target.strip()):
         errors.append("first-hundred-million title lost its first ordinal")
     terms = REGIONAL_TERMS[lang]
@@ -1124,6 +1160,29 @@ def _source_counter_kind(
 ) -> str:
     following = source[match.end():].lstrip()
     preceding = source[max(0, match.start() - 120):match.start()]
+    if counter == "차" and (
+        following.startswith("까지 갔다. 팀장님이 노래방에서")
+        or following.startswith("에서 가볍게 마시고")
+    ):
+        return "outing_round"
+    if counter == "번" and preceding.endswith("강남역 ") and following.startswith("출구"):
+        return "station_exit"
+    if counter == "번" and preceding.endswith("신호가 ") and following.startswith("울리다가 끊겼다"):
+        return "ring_occurrence"
+    if counter == "번" and preceding.endswith("밥 ") and following.startswith("사."):
+        return "meal_invitation"
+    if counter == "분" and following.startswith("47초짜리였다"):
+        return "video_duration_minute"
+    if counter == "개" and preceding.endswith("공기밥 "):
+        return "rice_bowl"
+    if counter == "번" and preceding.endswith("종이컵을 ") and following.startswith("보고도 묻지 않았다"):
+        return "look_occurrence"
+    if counter == "대" and following.startswith("의 아버지"):
+        return "age_decade_unspecified"
+    if counter == "모금" and preceding.endswith("국물을 ") and following.startswith("마시더니 물었다"):
+        return "soup_sip"
+    if counter == "모금" and preceding.endswith("차를 ") and following.startswith("마시고 물었다"):
+        return "tea_sip"
     if counter == "칸" and re.search(r"조명을\s+$", preceding) and following.startswith("낮췄다"):
         return "brightness_level"
     if counter == "줄" and following.startswith("뒤에는 현수가") and "신랑석" in preceding:
@@ -1389,8 +1448,14 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
         (r"(?<![가-힣\d])5성급(?= 호텔)", 5, "hotel_star_rating"),
         (r"(?<=놀이기구는 )(?:아직 )?두 개(?=밖에 못 탔다)", 2, "amusement_ride_count"),
         (r"(?<=내년엔 )1박(?=으로 와요)", 1, "stay_night"),
+        (r"(?<=졸업 )10주년(?= 동창회)", 10, "graduation_anniversary"),
+        (r"(?<![가-힣\d])1인당(?=\s)", 1, "per_person_bill"),
+        (r"(?<=자기소개서 )세 군데(?=를 고쳤다)", 3, "resume_edit_place"),
+        (r"(?<![가-힣])두 이야기(?=는, 그 지점에서)", 2, "story_pair"),
     ):
         for match in re.finditer(pattern, source):
+            if kind == "per_person_bill" and _has_numeric_sign_prefix(source, match.start()):
+                continue  # Never mask the unsigned tail of a signed/fractional source count.
             quantities.append(CounterQuantity(match.start(), match.end(), Decimal(value), kind))
     if "삼각김밥" in source:
         for match in re.finditer(r"(?<!\d)1\s*\+\s*1(?!\d)", source):
@@ -1685,6 +1750,9 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
             kind = "feeling_pair"
         if match.group("number") == "둘" and source[match.end():].startswith(" 다 할 수는 없었다"):
             kind = "action_pair"
+        if match.group("number") == "둘" and source[match.end():].startswith(" 다인지 알 수 없다") \
+                and "일 얘기인지, 인생 얘기인지" in source[:match.start()]:
+            kind = "topic_pair"
         if match.group("number") == "둘" and source[match.end():].startswith(" 다 하지 못하면 그 연락"):
             kind = "action_pair"
         if match.group("number") == "셋" and source[match.end():].startswith(" 다 통화를 끊지 않고"):
@@ -1709,6 +1777,14 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
 
 def _target_pattern_for_kind(kind: str) -> re.Pattern[str]:
     counted_nouns = {
+        "graduation_anniversary": r"[周週]年",
+        "resume_edit_place": r"(?:個|个)地方|[處处]",
+        "station_exit": r"[號号]\s*出口",
+        "topic_pair": r"者",
+        "outing_round": r"[場场攤摊]",
+        "story_pair": r"(?:個|个)(?:故事|人生故事)",
+        "rice_bowl": r"碗(?:米|白)?[飯饭]",
+        "age_decade_unspecified": r"(?:多|來|来|幾|几)[歲岁]",
         "promise_count": r"(?:個|个|項|项|次)?(?:約定|约定|承諾|承诺)",
         "record_count": r"(?:份|筆|笔|項|项|條|条|個|个)?(?:獨自一人的|独自一人的)?(?:紀錄|記錄|记录)",
         "blank_cell_count": r"(?:個|个)?(?:空格|空白格|空白欄|空白栏)",
@@ -1780,6 +1856,13 @@ def _target_pattern_for_kind(kind: str) -> re.Pattern[str]:
     }
     if kind in counted_nouns:
         return re.compile(rf"(?P<number>{CHINESE_CARDINAL})\s*(?:{counted_nouns[kind]})")
+    if kind == "per_person_bill":
+        return re.compile(rf"(?P<once>每人)|(?P<number>{CHINESE_CARDINAL})人(?:各|分攤|分摊)")
+    if kind == "video_duration_minute":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})(?:分鐘|分钟|分(?={CHINESE_CARDINAL}秒))")
+    if kind in {"soup_sip", "tea_sip"}:
+        beverage = r"[湯汤]" if kind == "soup_sip" else "茶"
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})口{beverage}|(?P<once>喝了口{beverage})")
     if kind == 'ordinal_meeting':
         return re.compile(rf'第(?P<number>{CHINESE_CARDINAL})(?:場|场|個|个)\s*(?:會議|会议|會|会)')
     if kind == 'laughter_once':
@@ -2038,7 +2121,7 @@ def _match_target_counter_quantities(
                 r'(?:不是|並非|并非|不|非)\s*$', target[:match.start()],
             ):
                 continue
-            if expected.kind in {"seat_row", "brightness_level", "comparison_people", "household_pair", "branch_count", "hotel_star_rating", "can_sound_occurrence", "glass_pane", "amusement_ride_count", "petal_count", "turned_look_count", "laughter_once", "small_coffee_can", "stay_night", "ordinal_meeting", "never_sea_entry"} \
+            if expected.kind in {"seat_row", "brightness_level", "comparison_people", "household_pair", "branch_count", "hotel_star_rating", "can_sound_occurrence", "glass_pane", "amusement_ride_count", "petal_count", "turned_look_count", "laughter_once", "small_coffee_can", "stay_night", "ordinal_meeting", "never_sea_entry", "graduation_anniversary", "per_person_bill", "resume_edit_place", "station_exit", "topic_pair", "video_duration_minute", "outing_round", "story_pair", "rice_bowl", "age_decade_unspecified"} \
                     and re.match(r"(?:[秒歲岁米年月日天元度人位]|公里|小時|小时|分鐘|分钟|韓元|韩元)", target[match.end():].lstrip()):
                 continue
             if expected.kind in {"age_over", "approximate_age", "degree"} and re.match(
@@ -2080,6 +2163,12 @@ def _match_target_counter_quantities(
                 "never_toss_turn", "receding_step", "ring_occurrence",
                 "seat_row", "brightness_level", "comparison_people", "household_pair", "hotel_star_rating",
                 "can_sound_occurrence", "glass_pane", "amusement_ride_count",
+                "graduation_anniversary", "per_person_bill",
+                "resume_edit_place", "station_exit", "topic_pair", "video_duration_minute",
+                "outing_round",
+                "story_pair",
+                "rice_bowl", "age_decade_unspecified",
+                "soup_sip", "tea_sip",
                 "petal_count", "turned_look_count",
                 "laughter_once", "small_coffee_can", "stay_night", "ordinal_meeting", "never_sea_entry",
                 "case_number_digits", "registry_line", "once_condition", "visual_overlap", "ladder_step", "window_count", "parallel_fact",
@@ -2131,7 +2220,7 @@ def _match_target_counter_quantities(
                 value = Decimal(1)
             if expected.kind == "never_toss_turn" and match.groupdict().get("toss_number"):
                 value = _chinese_cardinal_value(match.group("toss_number"))
-            if expected.kind in {'read_again', 'never_skip_week', 'never_utterance', 'never_sea_entry'} and match.groupdict().get('once'):
+            if expected.kind in {'read_again', 'never_skip_week', 'never_utterance', 'never_sea_entry', 'per_person_bill', 'soup_sip', 'tea_sip'} and match.groupdict().get('once'):
                 value = Decimal(1)
             if expected.kind == 'never_skip_week' and match.groupdict().get('after'):
                 value = _chinese_cardinal_value(match.group('after'))
@@ -2265,6 +2354,10 @@ def _mixed_manwon_value(match: re.Match[str]) -> Decimal:
 
 def _source_money_amounts(source: str) -> list[MoneyAmount]:
     amounts: list[MoneyAmount] = []
+    # The observed bill spells one sum across two units, not two transfers.
+    # Keep the full amount span so neither component leaks into bare numbers.
+    for match in re.finditer(r"(?<=1인당 )4만 5천원(?=이 나왔다)", source):
+        amounts.append(MoneyAmount(match.start(), match.end(), Decimal(45000)))
     for match in SOURCE_MIXED_MANWON.finditer(source):
         amounts.append(MoneyAmount(match.start(), match.end(), _mixed_manwon_value(match)))
     if source.strip() == "첫 억":
@@ -2610,6 +2703,10 @@ def _money_errors(lang: str, source: str, target: str) -> list[str]:
 
 def _untranslated_english_errors(source: str, target: str, *, catalog: bool = False) -> list[str]:
     scrubbed = PLACEHOLDER.sub(" ", target)
+    for pattern, romanized in RELATIONSHIP_SOURCE_NAMES:
+        if pattern.search(source):
+            for match in reversed(_bounded_latin_matches(scrubbed, romanized)):
+                scrubbed = scrubbed[:match.start()] + " " + scrubbed[match.end():]
     if '메가바이트' in source:
         scrubbed = re.sub(r'(?<![A-Za-z])MB(?![A-Za-z])', ' ', scrubbed)
     for phrase in sorted(CATALOG_LATIN_ALIASES.get(source.strip(), ()) if catalog else (), key=len, reverse=True):
@@ -2643,10 +2740,14 @@ def _untranslated_english_errors(source: str, target: str, *, catalog: bool = Fa
         if source_has_term:
             # Case and spacing are part of the locked prepared form.
             for prepared in (phrase.values() if isinstance(phrase, dict) else (phrase,)):
-                scrubbed = re.sub(
-                    rf"(?<![A-Za-z0-9]){re.escape(prepared)}(?![A-Za-z0-9])",
-                    " ", scrubbed,
-                )
+                if korean in {"링크드인", "인스타", "인스타그램", "슬랙"}:
+                    for match in reversed(_bounded_latin_matches(scrubbed, prepared)):
+                        scrubbed = scrubbed[:match.start()] + " " + scrubbed[match.end():]
+                else:
+                    scrubbed = re.sub(
+                        rf"(?<![A-Za-z0-9]){re.escape(prepared)}(?![A-Za-z0-9])",
+                        " ", scrubbed,
+                    )
     for phrase in ALLOWED_LATIN_PHRASES:
         scrubbed = re.sub(re.escape(phrase), " ", scrubbed, flags=re.IGNORECASE)
     for token in sorted(ALLOWED_LATIN_TOKENS, key=len, reverse=True):

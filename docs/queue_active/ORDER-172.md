@@ -142,3 +142,39 @@ KO/EN·runtime·save·routing·human_gates·catalog/endings·공개·폰트·배
 
 이 소유권·배치·증거 절차는 일회성이다. 지속 규칙은 I18N_INFRASTRUCTURE와
 언어별 용어집이 소유하며 새로운 서사·상품·출시 규칙을 만들지 않는다.
+
+## 2026-09-07 L1/L2 수용 — L3 OPEN
+
+- 선언 `5f183df41069aa06147edb999d7149581c14b92d` 뒤 A208/B172×3,
+  1,140문구를 KO 직접 저작했다. 다른 작성자/ROOT가 known2/언어를 포함해
+  전수 대조했다. JA6 leaf의 진심 추가·눈빛·아버지 몸의 은유/입실 부정·가까워진
+  말투2·명절 범위, CN2의 방문 빈도/입실 부정, TW4의 두 번째 만남 장소·기억
+  불확실성·입실 부정·방문 빈도를 정밀화하고 정확 수정본을 다시 대조했다.
+- 최종380-record aggregate:
+  JA `7ba8b8459f9b988bdf7a3a0a03c4aa239917f5e64958a04121f9a9afd34e1bbf`,
+  CN `bc811be49bd3a85afaacc49d89f72992e5d41afd5c7f9857aa8f4be8a558a98a`,
+  TW `658f6316aef65de283d870b29ef922c1fa579062b7d5fdee3df98fe59be19250`.
+  최초6source 보존, 최종6source/response/receipt 발급·check/import --accept
+  PASS, 현재값과 같아 changed_files0이다. locale별 신규1파일만 추가했다.
+- 기존10,194/meta9·oldbatch23을 보존해11,334=언어별3,778로 늘었다.
+  portable checksum `f50bf0813f657ccc19e6b606b922156a58feeda9c59c39db690d7cbb3e566449`.
+  KO/EN·runtime·공개·폰트·저장·human_gates 변경0, source manifest 불변이다.
+- 실제 원문에 걸린 졸업 주년·1인당4만5천원·역 출구·영상 분/초·자소서 세 곳·
+  두 이야기·두 공기·20대·한 모금 등과 이름/브랜드 오탐을 원문 문맥에 결속했다.
+  독립 검토가 찾은 새 Unicode 이름 경계·친구 지수연 오인·음수 1인당 masking
+  회귀를 고쳤다. self160·ZH935 PASS, 실제36문맥2,286변조의 값/부호/수량은
+  거부됐다. 통과520개 임의 후행 단위는 baseline도 통과하던 기존 한계다.
+  재사용 횟수/한 모금과 JA 원화 뒤 별도 단위·무숫자 의미 추가를 범용 의미검사로
+  보장하지 않는다. 별도 strict 진단은 기존 출시/font/coverage25건으로 exit1이며
+  회귀 차선이나 사람 판정에 합산하지 않는다.
+- 완료169 WORK_LOG절892bytes를 기존 history 앞으로 원문 이동했다.
+  이동절 SHA `3a389799d6eda50c5848b1abdd7b22b317249256c45bbfb548d985d5b57451f8`,
+  보관본17,051bytes SHA `9da7651f120be8ddbeb4312dfd9c192758289f52e467d27d07ad6d4b29c81ac9`.
+  이전16,159bytes와 끝 개행 보존, 지속 규칙·활성 의무 삭제0이다.
+- 원문/라우팅 확인점은 이 사양과 backlog에 분리했다. 실제 화면이나 새 인간
+  REJECT/GO를 발급하지 않는다. L3·원어민·실제 화면 OPEN, 전체 INCOMPLETE·
+  full/main/product HOLD, M01~M06 BUILD2026.08.31.1 사용자 GO 유지.
+- 최종12개 표적 차선·EN·diff PASS, portable11,334 전량의 현재 source/target/
+  수용 hash/L1 오류0이다. 공개14사건/100문구/121UI와 비표시 메타9를 보존했다.
+  차선 실제 stdout은 git-private `order172-final-checks.log` 4,224bytes로 보존했다.
+  SHA `b7fed024883745f43d26ddb0982d5a3cd1a904725d318a2b41dfeab4a8d3a56c`.

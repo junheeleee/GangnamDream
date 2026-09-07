@@ -1067,6 +1067,154 @@ class ExchangeTests(unittest.TestCase):
         indefinite = tool.Leaf('events', 'example', 'content/events/arc_jiyeon_married.json', ('description',), '어떤 한 회장이 왔다.', 'event_standard')
         self.assertTrue(tool.translation_errors(indefinite, 'zh-TW', 'Han 董事長來了。'))
 
+    def test_relationship_source_bound_brand_names(self):
+        for source, target in (
+            ('링크드인에서 알림이 왔다.', 'LinkedIn 傳來通知。'),
+            ('인스타 비교 지옥', 'Instagram 的比較地獄'),
+            ('인스타그램을 열었다.', '打開 Instagram。'),
+        ):
+            leaf = tool.Leaf('events', 'example', 'content/events/relationship_events.json', ('description',), source, 'event_standard')
+            self.assertEqual(tool.translation_errors(leaf, 'zh-TW', target), [])
+            for bad in (target + ' English sentence', target.replace('Instagram', 'InstagramX').replace('LinkedIn', 'LinkedInX')):
+                self.assertTrue(tool.translation_errors(leaf, 'zh-TW', bad), bad)
+            other = tool.Leaf('events', 'example', 'content/events/relationship_events.json', ('description',), '종이를 보았다.', 'event_standard')
+            self.assertTrue(tool.translation_errors(other, 'zh-TW', target))
+        for source, target in (('인스타일을 읽었다.', '讀了 Instagram。'), ('슬랙스 바지.', 'Slack 褲子。')):
+            leaf = tool.Leaf('events', 'example', 'content/events/relationship_events.json', ('description',), source, 'event_standard')
+            self.assertTrue(tool.translation_errors(leaf, 'zh-TW', target))
+
+    def test_relationship_source_bound_people(self):
+        for source, target, name in (
+            ('김대리에게 슬랙 DM을 보냈다.', '透過 Slack 傳了 DM 給 Kim 代理。', 'Kim'),
+            ('옆 팀 박 씨.', '隔壁組姓 Park 的同事。', 'Park'),
+            ('박과장이 왔다.', 'Park 課長來了。', 'Park'),
+            ('친구 지수에게서 전화가 왔다.', '朋友 Jisu 打電話來。', 'Jisu'),
+            ('준혁이가 말했다.', 'Junhyeok 說。', 'Junhyeok'),
+            ('친구 재훈이도 접속 중이다.', '朋友 Jaehun 也在線上。', 'Jaehun'),
+        ):
+            leaf = tool.Leaf('events', 'example', 'content/events/relationship_events.json', ('description',), source, 'event_standard')
+            self.assertEqual(tool.translation_errors(leaf, 'zh-TW', target), [])
+            for bad in (target.replace(name, name + 'X'), target.replace(name, name + '（金）'), target.replace(name, '金智秀')):
+                self.assertTrue(tool.translation_errors(leaf, 'zh-TW', bad), bad)
+        leaf = tool.Leaf('events', 'example', 'content/events/relationship_events.json', ('description',), '금융 지수가 올랐다.', 'event_standard')
+        self.assertTrue(tool.translation_errors(leaf, 'zh-TW', 'Jisu 上漲了。'))
+        longer = tool.Leaf('events', 'example', 'content/events/relationship_events.json', ('description',), '친구 지수연에게서 전화가 왔다.', 'event_standard')
+        self.assertTrue(tool.translation_errors(longer, 'zh-TW', '朋友 Jisu 打電話來。'))
+
+    def test_relationship_unicode_name_boundaries(self):
+        for source, target, name in (
+            ('김대리에게 말했다.', '向Kim代理說了。', 'Kim'),
+            ('박과장이 왔다.', 'Park課長來了。', 'Park'),
+            ('친구 지수에게서 전화가 왔다.', '朋友Jisu打電話來。', 'Jisu'),
+            ('준혁이가 말했다.', 'Junhyeok說。', 'Junhyeok'),
+            ('친구 재훈이도 접속 중이다.', '朋友Jaehun也在線上。', 'Jaehun'),
+            ('링크드인에서 알림이 왔다.', 'LinkedIn傳來通知。', 'LinkedIn'),
+            ('인스타를 열었다.', '打開Instagram。', 'Instagram'),
+            ('슬랙을 열었다.', '打開Slack。', 'Slack'),
+        ):
+            leaf = tool.Leaf('events', 'example', 'content/events/relationship_events.json', ('description',), source, 'event_standard')
+            self.assertEqual(tool.translation_errors(leaf, 'zh-TW', target), [])
+            for extension in ('_', 'é', '\u0301', '\u0903', '\u0488'):
+                for bad in (target.replace(name, name + extension), target.replace(name, extension + name)):
+                    self.assertTrue(tool.translation_errors(leaf, 'zh-TW', bad), bad)
+
+    def test_relationship_noun_bound_quantities(self):
+        for source, target, before, bads in (
+            ('자기소개서 세 군데를 고쳤다.', '改了自傳裡的三個地方。', '三個地方', ('兩個地方', '十三個地方', '三個人')),
+            ('강남역 10번 출구', '江南站十號出口', '十號出口', ('九號出口', '十一號出口', '十次')),
+            ('신호가 두 번 울리다가 끊겼다.', '回鈴音響了兩聲便斷了。', '兩聲', ('三聲', '十二聲', '兩分鐘')),
+            ('이거 봐주면 나중에 밥 한 번 사.', '幫你看這個，改天請我吃頓飯。', '頓飯', ('兩頓飯', '十一頓飯')),
+            ('일 얘기인지, 인생 얘기인지, 아니면 둘 다인지 알 수 없다.', '不知道要談工作、人生，還是兩者都有。', '兩者', ('三者', '十二者', '兩個人')),
+            ('두 이야기는, 그 지점에서 서로를 향하고 있었다.', '兩個故事，在那裡朝向了彼此。', '兩個故事', ('三個故事', '十二個故事', '兩個人')),
+        ):
+            leaf = tool.Leaf('events', 'example', 'content/events/relationship_events.json', ('description',), source, 'event_standard')
+            self.assertEqual(tool.translation_errors(leaf, 'zh-TW', target), [])
+            for bad in bads:
+                self.assertTrue(tool.translation_errors(leaf, 'zh-TW', target.replace(before, bad)), bad)
+
+    def test_relationship_video_duration_and_position(self):
+        leaf = tool.Leaf('events', 'example', 'content/events/relationship_events.json', ('description',), '14분 47초짜리였다.\n회사 이야기가 7분에 나왔다.', 'event_standard')
+        target = '片長十四分四十七秒。\n公司的事在第七分鐘出現。'
+        self.assertEqual(tool.translation_errors(leaf, 'zh-TW', target), [])
+        for old, new in (('十四分', '十三分'), ('四十七秒', '四十六秒'), ('第七分', '第八分'), ('十四分', '十四點')):
+            self.assertTrue(tool.translation_errors(leaf, 'zh-TW', target.replace(old, new)))
+
+    def test_relationship_outing_round(self):
+        leaf = tool.Leaf('events', 'example', 'content/events/relationship_events.json', ('description',), '2차까지 갔다. 팀장님이 노래방에서 마이크를 건네줬다.', 'event_standard')
+        self.assertEqual(tool.translation_errors(leaf, 'zh-TW', '連第二攤也去了。組長在練歌房遞來麥克風。'), [])
+        for n in ('一', '三', '十二', '負二'):
+            self.assertTrue(tool.translation_errors(leaf, 'zh-TW', f'連第{n}攤也去了。組長在練歌房遞來麥克風。'))
+
+    def test_relationship_new_counter_suffixes(self):
+        for source, target, phrase in (
+            ('졸업 10주년 동창회', '畢業十週年同學會', '十週年'),
+            ('자기소개서 세 군데를 고쳤다.', '改了三個地方。', '三個地方'),
+            ('강남역 10번 출구', '江南站十號出口', '十號出口'),
+            ('두 이야기는, 그 지점에서 서로를 향하고 있었다.', '兩個故事，在那裡朝向了彼此。', '兩個故事'),
+        ):
+            leaf = tool.Leaf('events', 'example', 'content/events/relationship_events.json', ('description',), source, 'event_standard')
+            self.assertEqual(tool.translation_errors(leaf, 'zh-TW', target), [])
+            for gap in ('', ' ', '\t', '　'):
+                for unit in ('秒', '人', '韓元', '公里'):
+                    self.assertTrue(tool.translation_errors(leaf, 'zh-TW', target.replace(phrase, phrase + gap + unit)))
+
+    def test_relationship_rice_and_duration_do_not_borrow(self):
+        leaf = tool.Leaf('events', 'example', 'content/events/relationship_events.json', ('description',), '공기밥 두 개.\n\n두 시간이 지나갔다.', 'event_standard')
+        target = '兩碗白飯。\n\n兩個小時過去了。'
+        self.assertEqual(tool.translation_errors(leaf, 'zh-TW', target), [])
+        for old, new in (('兩碗', '三碗'), ('兩個小時', '三個小時'), ('兩碗白飯', '兩個人'), ('兩個小時', '兩天')):
+            self.assertTrue(tool.translation_errors(leaf, 'zh-TW', target.replace(old, new)))
+
+    def test_relationship_hospital_glance_and_shuttle(self):
+        source = '아버지는 비어 있는 종이컵을 한 번 보고도 묻지 않았다. 두 사람은 나란히 병동 창가의 긴 의자까지 걸었다. 창밖으로 병원 셔틀이 한 번 멈췄다가 떠났다.'
+        target = '父親看了一眼空紙杯，沒有問。兩人並排走到病區窗邊的長椅旁。窗外，醫院接駁車停了一次，又開走了。'
+        leaf = tool.Leaf('events', 'example', 'content/events/relationship_events.json', ('description',), source, 'event_standard')
+        self.assertEqual(tool.translation_errors(leaf, 'zh-TW', target), [])
+        for old, new in (('一眼', '兩眼'), ('兩人', '三人'), ('一次', '兩次'), ('一眼', ''), ('一次', '')):
+            self.assertTrue(tool.translation_errors(leaf, 'zh-TW', target.replace(old, new)))
+
+    def test_relationship_father_age_decade(self):
+        leaf = tool.Leaf('events', 'example', 'content/events/relationship_events.json', ('description',), '20대의 아버지.', 'event_standard')
+        self.assertEqual(tool.translation_errors(leaf, 'zh-TW', '二十多歲的父親。'), [])
+        for target in ('三十多歲的父親。', '二十歲的父親。', '二十輛車裡的父親。', '負二十多歲的父親。'):
+            self.assertTrue(tool.translation_errors(leaf, 'zh-TW', target), target)
+
+    def test_relationship_soup_sip(self):
+        leaf = tool.Leaf('events', 'example', 'content/events/relationship_events.json', ('description',), '국물을 한 모금 마시더니 물었다.', 'event_standard')
+        for target in ('喝了口湯，問道。', '喝了一口湯，問道。'):
+            self.assertEqual(tool.translation_errors(leaf, 'zh-TW', target), [])
+        for target in ('喝了兩口湯，問道。', '喝了十一口湯，問道。', '喝了負一口湯，問道。', '喝了一瓶湯，問道。'):
+            self.assertTrue(tool.translation_errors(leaf, 'zh-TW', target), target)
+        tea = tool.Leaf('events', 'example', 'content/events/relationship_events.json', ('description',), '차를 한 모금 마시고 물었다.', 'event_standard')
+        self.assertEqual(tool.translation_errors(tea, 'zh-TW', '喝了口茶，問道。'), [])
+        for target in ('喝了兩口茶，問道。', '喝了一口湯，問道。', '喝了十一口茶，問道。'):
+            self.assertTrue(tool.translation_errors(tea, 'zh-TW', target), target)
+
+    def test_relationship_graduation_anniversary(self):
+        leaf = tool.Leaf('events', 'example', 'content/events/relationship_events.json', ('title',), '졸업 10주년 동창회', 'event_standard')
+        for target in ('畢業十週年同學會', '畢業10週年同學會'):
+            self.assertEqual(tool.translation_errors(leaf, 'zh-TW', target), [])
+        for target in ('畢業九週年同學會', '畢業十一週年同學會', '畢業十年同學會', '畢業負十週年同學會'):
+            self.assertTrue(tool.translation_errors(leaf, 'zh-TW', target), target)
+
+    def test_relationship_per_person_mixed_won_bill(self):
+        leaf = tool.Leaf('events', 'example', 'content/events/relationship_events.json', ('description',), '1인당 4만 5천원이 나왔다.', 'event_standard')
+        for target in ('每人4.5萬韓元。', '每人45,000韓元。'):
+            self.assertEqual(tool.translation_errors(leaf, 'zh-TW', target), [])
+        for target in ('每人4萬韓元。', '每人5千韓元。', '每人4萬韓元和5千韓元。', '每人4.5萬元。', '兩人分攤4.5萬韓元。', '每人負4.5萬韓元。'):
+            self.assertTrue(tool.translation_errors(leaf, 'zh-TW', target), target)
+        # A different source spelling is not silently aggregated by this fix.
+        other = tool.Leaf('events', 'example', 'content/events/relationship_events.json', ('description',), '4만원과 5천원을 보냈다.', 'event_standard')
+        self.assertTrue(tool.translation_errors(other, 'zh-TW', '匯出4.5萬韓元。'))
+        self.assertEqual(tool.translation_errors(leaf, 'ja', '1人当たり4万5千ウォンになった。'), [])
+        for prefix in ('-', '−', '- ', '−\t', '+ ', '0.', '2.'):
+            signed = tool.Leaf('events', 'example', 'content/events/relationship_events.json', ('description',), prefix + leaf.source, 'event_standard')
+            for locale, target in (('zh-TW', '每人4.5萬韓元。'), ('zh-CN', '每人4.5万韩元。')):
+                self.assertTrue(tool.translation_errors(signed, locale, target), (prefix, locale))
+        for target in ('1人当たり4万6千ウォンになった。', '1人当たり4万5千円になった。',
+                       '1人当たり負4万5千ウォンになった。', '2人当たり4万5千ウォンになった。'):
+            self.assertTrue(tool.translation_errors(leaf, 'ja', target), target)
+
     def test_date_can_sound_and_glass_pane(self):
         for source, good, bad in (
             ('캔 안에서 작은 금속 소리가 한 번 났고, 다시 조용해졌다.', '罐子裡輕輕響了一聲金屬聲，又靜了下來。', ('兩聲金屬聲', '負一聲金屬聲', '一分鐘', '一聲 公里')),

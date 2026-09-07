@@ -404,6 +404,12 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
             r"[+-]?\d+(?:,\d{3})*(?:億\s*\d+(?:,\d{3})*)?(?:千万|万)ウォン(?!円|韓元|韩元|元|ドル|ウォン)", target_numbers,
         ))
         consumed = []
+        if '1인당 4만 5천원이 나왔다' in leaf.source:
+            mixed_target.extend(re.finditer(
+                r"[+-]?\d+万\d+千ウォン(?!円|韓元|韩元|元|ドル|ウォン)",
+                target_numbers,
+            ))
+            mixed_target.sort(key=lambda item: item.start())
         for amount in mixed_source:
             value = amount.won
             required_plus = source_numbers[amount.start:amount.end].startswith('+')

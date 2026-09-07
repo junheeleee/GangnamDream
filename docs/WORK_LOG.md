@@ -23,6 +23,25 @@
 > [`7/25`](history/WORK_LOG_2026-07-25.md)에 손실 없이 보존한다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
 
+## 2026-09-07 (Codex — 가족·직장·친구 세 언어 수용)
+
+- 50사건/380문구씩1,140개를 KO 직접 저작하고 known2/언어까지 독립 대조했다.
+  JA6·CN2·TW4곳의 진심·눈빛·몸의 은유·말투·방문 빈도·부정 범위를 고쳐
+  재검증했다. 원문 역할·생사·금액·답장·도달성 부채는 별도 기록했다.
+- 최초6source를 보존하고 최종6source/response/receipt check/import PASS,
+  changed_files0이다. 기존10,194/meta9·oldbatch23 보존, 총11,334문구이며
+  portable checksum `f50bf081…566449`, source manifest는 불변이다.
+- 수량·원화·이름 오탐을 원문 문맥에 결속했다. 독립 리뷰가 찾은 Unicode 이름
+  경계·지수연 오인·음수 1인당 소실을 수정했다. self160·ZH935 PASS다.
+  기존 후행 단위/의미 검사 한계와 strict 출시 조건25 OPEN은 회귀와 분리했다.
+- 완료169절892bytes를 기존 history 앞으로 원문 이동하고 이전16,159bytes와
+  끝 개행을 보존했다. KO/EN·runtime·공개·폰트·저장·human_gates 변경0,
+  원본 checkout 쓰기0이다. [사양](queue_active/ORDER-172.md)에 정확 지문과
+  경계를 남겼다. L3·원어민·화면 OPEN, 전체 INCOMPLETE·full/main/product HOLD,
+  출시 데모 GO 유지. 다음 남은 가족·관계 배치를 이어간다.
+- 최종12개 표적 차선·EN·diff PASS, portable11,334 source/hash/L1 오류0이다.
+  실제 차선 stdout을 git-private `order172-final-checks.log`에 보존했다.
+
 ## 2026-09-07 (Codex — 데이트·계절 장면 세 언어 수용)
 
 - 첫 입맞춤·남산·놀이공원·계절36사건/209문구씩627개를 KO 직접 저작하고
@@ -59,18 +78,6 @@
 
 - 최종12개 표적 차선·EN·diff PASS, portable9,567 source/hash/L1 오류0이다.
   실제 stdout을 git-private `order170-final-checks.log`에 보존했다.
-
-## 2026-09-07 (Codex — 일본어 두 장면의 원화 단위 정밀화)
-
-- 아버지 기일과 상철의 최종 제안에서30億→30億ウォン을 각1회 명시했다.
-  별도 [수리 사양](queue_active/ORDER-169.md) 선언 뒤 exact2 target/수용 hash만
-  갱신했다. 원문·금액·관계·생사·계약 변경0, 신규 수용 증가0·총8,949 유지다.
-- 최초 source2 보존, 최종2 source/response/receipt check/import PASS,
-  changed_files0. checksum `46778f02…93bd51`, 나머지8,947/meta9 보존.
-  큐 초기 전략/앵커 문단도 기존9월 보관본에 원문 이동하고 링크를 남겼다.
-- L3·원어민·화면 OPEN, 전체 INCOMPLETE·full/main/product HOLD·배포 데모 GO.
-- 최종12개 표적 차선·EN·diff PASS, self131·ZH935·공개14/100·UI121 보존.
-  portable8,949 전량 현재 target 직접 대조의 source/hash/L1 오류0이다.
 
 ## 2026-09-05 (Codex — ORDER-156 Chapter 5 생활 routine 배경 수리 선언)
 

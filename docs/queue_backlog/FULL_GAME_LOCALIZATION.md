@@ -38,8 +38,8 @@
   전수 대조·수용했다. M07~M24 정적 연결의 미번역35사건279 leaf/locale를 더해
   4,323번역에3년차48사건363 leaf/locale와4년차47사건460 leaf/locale를 더해
   마지막 해40사건358·종막15사건197과 관계25사건164에 결혼·가족34사건206
-  leaf/locale와 데이트·계절36사건209 leaf/locale까지 총10,194번역이다
-  (언어별 엔딩234+사건2,330+catalog834). catalog 신규 작성2,485·
+  leaf/locale와 데이트·계절36사건209, 가족·직장·친구50사건380 leaf/locale까지
+  총11,334번역이다(언어별 엔딩234+사건2,710+catalog834). catalog 신규 작성2,485·
   기존 JA 누락 수리1·기존 유지16을 구분한다. 엔딩35종과 catalog7섹션은 채웠지만
   사건·UI·표시 소비자는 아직 남는다. M07~M24 정적 연결은 해당 기간 모든 무작위
   사건·UI나 실플레이 전량의 번역 완료를 뜻하지 않는다. 원어민·화면·전체판은 OPEN.
@@ -71,6 +71,32 @@
   M01~M06 공개 데모를 덮지 않고 별도 전체판 후보에서 검토한다.
 
 ## 원문 대조에서 발견한 별도 서사 확인점
+
+- 관계50종 사전계측의 현재 foreground 허용은 `father_hospital_wait`와
+  `father_old_photo`이며, wait의 두 선택이 hidden `father_hospital_results`로
+  이어진다. results 도입의 빈 종이컵은 선택0의 컵 없음/선택1의 물 채운 컵과
+  연속성을 대조해야 한다. wait은 father_visited·생존을 검사하나 본문은 입원
+  사흘째로 고정되어 있어 실제 입원 시점과 별도 검토한다. 이 정적 확인은
+  화면 관찰·새 인간 REJECT가 아니다.
+- 같은 묶음의 나머지47종은 shipping 데이터이나 현 foreground/bridge 허용이나
+  직접 ID 호출을 찾지 못한 legacy 원문이다. `rel_ex_reunion.choices[1]`의
+  선택 읽음↔결과 읽지 않음, `rel_family_visit_seoul` 두 생사 대안의 도착
+  뒤 방문 미루기·다음 주/이번 주, `rel_romantic_progress.choices[0]`의
+  발신→카페 대면, mentor_coffee·coworker_conflict의 연락→동석 생략을
+  개별 source대로 옮긴다. 번역에서 승인·회신·이동을 만들어 이어 붙이지 않는다.
+- 비전경 `family_007.choices[0].result_text`는 '고마워'를 두 글자라고 하며
+  30만원 송금 산문에 money=+430000이 붙는다. `family_016.description`의
+  오빠(언니)는 고정 남성 MC와의 템플릿 차이다. 외동 명시는 확인하지 못했으므로
+  동생의 존재 자체를 위반으로 확정하지 않는다. `rel_blind_date_setup`의
+  친구 민준 역시 동명이인 여부 미확정이며 임의 개명을 하지 않는다.
+- 비전경 daeun_regular~choice의 민준 계산원/다은 고객·디자인 프리랜서·
+  청주 부모 설정은 STORY_BIBLE의 다은 직원/민준 손님·경기 외곽과 다르다.
+  daeun_feeling의 거절도 date_done을 만들고 daeun_choice가 이를 배제하지
+  않는 점, jiyeon_gangnam_moment가 자산20억원 조건만으로 전입신고 완료와
+  아파트 열쇠를 서술하는 점도 원문/라우팅 부채다. 현재 비전경이라는 구분을
+  유지하며 KO/EN·flag·소유 조건을 이 번역 배치에서 고치지 않는다.
+  `jiyeon_mother`의 도입은 차 한 모금, 선택1 결과는 커피를 다 마셨다고 하므로
+  음료 지칭의 원문 확인점도 분리한다. 번역에서 같은 음료로 몰래 통일하지 않는다.
 
 - 데이트 번역의 국소 해석: `arc_jiyeon_first_kiss.choices[1].result_text`의
   '차갑게 들으려 했지만'은 문맥의 냉정한 말투로 옮겼으며 새 청취 행동을 만들지
