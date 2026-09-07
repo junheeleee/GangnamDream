@@ -23,6 +23,24 @@
 > [`7/25`](history/WORK_LOG_2026-07-25.md)에 손실 없이 보존한다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
 
+## 2026-09-07 (Codex — 남은 관계·부모 대화 세 언어 수용)
+
+- 남은15사건/94문구씩282개를 KO 직접 저작·독립 전수 대조했다. CN3곳의
+  문법·대여 방향·관계망 의미를 정밀화했다. 기존50행/언어와11,334/meta9를
+  보존해 총11,616문구다. 초기source3 보존, 최종source/response/receipt3쌍
+  check/import PASS·changed_files0, checksum `d509e7c9…0a3548`이다.
+- 실제 기간 초과·부재중 전화·식사 초대 오탐을 원문 문맥에 결속하고 정상/변조
+  fixture를 보강했다. self163 PASS, 원문 주체·괄호23·계좌 전달·생사 부채는
+  별도 기록했다. 직전172의 다은 일본어 말투2곳은 용어집과 충돌함을 발견해
+  권고를 철회했으며 기존380을 보존하는 이번 배치 밖의 정확2 leaf 수리로 분리했다.
+- 완료170절1,331bytes를 기존 history 앞으로 원문 이동했다. 선언 때 완료
+  L1/L2 수량의 이전 큐14행도 원문 보관했고, 모든 활성 행·이름·[~]·L3 OPEN은
+  유지했다. KO/EN·runtime·공개·폰트·저장·human_gates 변경0, 원본 checkout
+  쓰기0이다. [사양](queue_active/ORDER-173.md)에 지문·경계를 남겼다.
+  L3·원어민·화면 OPEN, 전체 INCOMPLETE·full/main/product HOLD·출시 데모 GO.
+- 최종12개 표적 차선·EN·diff PASS, portable11,616 source/hash/L1 오류0이다.
+  차선 실제 stdout을 git-private `order173-final-checks.log`에 보존했다.
+
 ## 2026-09-07 (Codex — 가족·직장·친구 세 언어 수용)
 
 - 50사건/380문구씩1,140개를 KO 직접 저작하고 known2/언어까지 독립 대조했다.
@@ -60,24 +78,6 @@
   전체 INCOMPLETE·full/main/product HOLD·출시 데모 GO. 다음 관계·가족 배치 준비.
 - 최종12개 표적 차선·EN·diff PASS, portable10,194 source/hash/L1 오류0이다.
   차선 실제 stdout을 git-private `order171-final-checks.log`에 보존했다.
-
-## 2026-09-07 (Codex — 결혼·가족 장면 세 언어 수용)
-
-- 다은·지연34사건/206문구씩618개를 KO 직접 저작·독립 전수 대조했다.
-  조건22/언어를 포함하며 JA3·TW8곳의 의미를 정밀화했다. 기존8,949/meta9와
-  14행/언어를 보존해 총9,567문구다. 원문 비용·시간축·첫 얼굴·글자 수 부채는
-  번역에서 몰래 고치지 않고 별도 기록했다.
-- 최초6source 보존, 최종6source/response/receipt check/import PASS,
-  changed_files0. checksum `5e6b4eae…07f4fa`, 원문 manifest 불변이다.
-  수량·단위·성씨 문맥 검사와 변조 fixture를 보강해 self138·ZH935를 통과했고,
-  독립 수량508/본문33/Unicode19/원화34 변조를 정상 대조와 함께 재검증했다.
-- 완료167절1,402bytes를 기존 현지화 history 앞으로 원문 이동하고 기존13,326
-  bytes와 끝 개행까지 보존했다. KO/EN·runtime·공개·폰트·저장·human_gates
-  변경0, 사용자 원본 checkout 쓰기0이다. 자세한 결속은 [사양](queue_active/ORDER-170.md).
-  L3·원어민·화면 OPEN, 전체 INCOMPLETE·full/main/product HOLD·출시 데모 GO.
-
-- 최종12개 표적 차선·EN·diff PASS, portable9,567 source/hash/L1 오류0이다.
-  실제 stdout을 git-private `order170-final-checks.log`에 보존했다.
 
 ## 2026-09-05 (Codex — ORDER-156 Chapter 5 생활 routine 배경 수리 선언)
 

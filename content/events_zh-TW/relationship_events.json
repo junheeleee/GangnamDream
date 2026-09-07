@@ -910,5 +910,76 @@
         "result_text": "闔上了相簿。\n\n不知道父親有沒有察覺。\n\n心想，以後再問吧。\n卻沒有決定，那個以後是什麼時候。\n\n回家的整路上，都在想\n照片裡的父親，究竟是什麼表情。"
       }
     ]
+  },
+  {
+    "id": "daeun_drift_quiet",
+    "title": "安靜下來的聯絡",
+    "description": "Daeun 上一次聯絡，是什麼時候了。\n\n仔細一想，已經超過一個月了。\n究竟是{name}先斷了聯絡，還是對方漸漸減少了聯繫，界線模糊不清。\n\n打開 KakaoTalk 對話視窗。最後一則訊息，是{name}發出去的。",
+    "choices": [
+      {
+        "text": "傳了訊息——簡短地，隨便說點什麼",
+        "result_text": "「最近過得怎麼樣？」\n傳出去後，覺得彆扭。\n過了很久，才出現已讀標記。沒有回覆。"
+      },
+      {
+        "text": "就這樣放著",
+        "result_text": "關掉了視窗。\n因為忙啊。那時候忙，現在也忙。\n是這麼想的。"
+      }
+    ]
+  },
+  {
+    "id": "sangchul_becomes_primary",
+    "title": "通訊錄",
+    "description": "數了數這週聯絡過來的人。\n\nIm Sangchul——三次。\n父親——一通未接來電。\nDaeun——沒有。\n\n{name}往下滑動畫面。",
+    "choices": [
+      {
+        "text": "往下滑動畫面",
+        "result_text": "Im Sangchul 又傳來訊息。\n是這週聚會的時間安排。\n{name}確認了日期。"
+      }
+    ]
+  },
+  {
+    "id": "daeun_birthday_missed",
+    "title": "日期",
+    "description": "社群網站跳出通知。\n\n「今天是 Daeun 的生日。」\n\n{name}停了片刻。\n明明知道的。不知從什麼時候起，卻從腦海裡消失了。",
+    "choices": [
+      {
+        "text": "趁現在，還是聯絡了",
+        "result_text": "「生日快樂。雖然晚了。」\n隔天才收到回覆。\n「謝謝你。」\n就只有這樣。"
+      },
+      {
+        "text": "關掉了通知",
+        "result_text": "把通知滑掉。\n一天過去了。"
+      }
+    ]
+  },
+  {
+    "id": "sangchul_world_absorbed",
+    "title": "聯絡人",
+    "description": "滑著通訊錄，忽然停下。\n\n來自 Im Sangchul 人脈圈的名字，已經超過一半。\n\n不知道是從什麼時候開始的——不知不覺間，他的人已經成了{name}的人。",
+    "choices": [
+      {
+        "text": "繼續往下滑",
+        "result_text": "Im Sangchul 介紹的人。\n在 Im Sangchul 的聚會認識的人。\n透過 Im Sangchul 搭上線的人。\n\n{name}關掉了螢幕。"
+      }
+    ]
+  },
+  {
+    "id": "jiyeon_notices_daeun",
+    "title": "Jiyeon 的問題",
+    "description": "Jiyeon 放下咖啡，問道。\n\n「最近還有跟 Daeun 聯絡嗎？」\n\n{name}遲疑了一下。",
+    "choices": [
+      {
+        "text": "「最近比較忙。」",
+        "result_text": "Jiyeon 點了點頭。\n沒有再問。\n那陣沉默，像是回答。"
+      },
+      {
+        "text": "「最近，我也不太清楚。」",
+        "result_text": "Jiyeon 看了片刻，才端起咖啡杯。\n「這樣啊。」\n就只有這樣。"
+      },
+      {
+        "text": "轉開了話題",
+        "result_text": "提起別的事。\nJiyeon 也順著聊了下去。\n但總有哪裡不太自在。"
+      }
+    ]
   }
 ]

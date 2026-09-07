@@ -1160,6 +1160,10 @@ def _source_counter_kind(
 ) -> str:
     following = source[match.end():].lstrip()
     preceding = source[max(0, match.start() - 120):match.start()]
+    if counter == "달" and preceding.endswith("생각해보니 ") and following.startswith("이 넘었다"):
+        return "duration_month_over"
+    if counter == "번" and preceding.endswith("부재중 ") and re.match(r"\.(?:\s|$)", following):
+        return "missed_call"
     if counter == "차" and (
         following.startswith("까지 갔다. 팀장님이 노래방에서")
         or following.startswith("에서 가볍게 마시고")
@@ -1169,7 +1173,7 @@ def _source_counter_kind(
         return "station_exit"
     if counter == "번" and preceding.endswith("신호가 ") and following.startswith("울리다가 끊겼다"):
         return "ring_occurrence"
-    if counter == "번" and preceding.endswith("밥 ") and following.startswith("사."):
+    if counter == "번" and preceding.endswith("밥 ") and following.startswith(("사.", "먹자고 했다.")):
         return "meal_invitation"
     if counter == "분" and following.startswith("47초짜리였다"):
         return "video_duration_minute"
@@ -1785,6 +1789,7 @@ def _target_pattern_for_kind(kind: str) -> re.Pattern[str]:
         "story_pair": r"(?:個|个)(?:故事|人生故事)",
         "rice_bowl": r"碗(?:米|白)?[飯饭]",
         "age_decade_unspecified": r"(?:多|來|来|幾|几)[歲岁]",
+        "missed_call": r"(?:通|次)未接[來来][電电]",
         "promise_count": r"(?:個|个|項|项|次)?(?:約定|约定|承諾|承诺)",
         "record_count": r"(?:份|筆|笔|項|项|條|条|個|个)?(?:獨自一人的|独自一人的)?(?:紀錄|記錄|记录)",
         "blank_cell_count": r"(?:個|个)?(?:空格|空白格|空白欄|空白栏)",
@@ -1858,6 +1863,8 @@ def _target_pattern_for_kind(kind: str) -> re.Pattern[str]:
         return re.compile(rf"(?P<number>{CHINESE_CARDINAL})\s*(?:{counted_nouns[kind]})")
     if kind == "per_person_bill":
         return re.compile(rf"(?P<once>每人)|(?P<number>{CHINESE_CARDINAL})人(?:各|分攤|分摊)")
+    if kind == "duration_month_over":
+        return re.compile(rf"超[過过](?P<over_month>{CHINESE_CARDINAL})(?:個|个)?月|(?P<number>{CHINESE_CARDINAL})(?:個|个)?多月")
     if kind == "video_duration_minute":
         return re.compile(rf"(?P<number>{CHINESE_CARDINAL})(?:分鐘|分钟|分(?={CHINESE_CARDINAL}秒))")
     if kind in {"soup_sip", "tea_sip"}:
@@ -2121,6 +2128,15 @@ def _match_target_counter_quantities(
                 r'(?:不是|並非|并非|不|非)\s*$', target[:match.start()],
             ):
                 continue
+            if expected.kind == 'duration_month_over' and re.search(
+                r'(?:不|未|沒|没|沒有|没有|不曾|並非|并非|不到|少於|少于)\s*$', target[:match.start()],
+            ):
+                continue
+            if expected.kind in {'duration_month_over', 'missed_call'} and re.match(
+                r"(?:[秒歲岁米年月日天元度人位]|公里|小時|小时|分鐘|分钟|韓元|韩元)",
+                target[match.end():].lstrip(),
+            ):
+                continue
             if expected.kind in {"seat_row", "brightness_level", "comparison_people", "household_pair", "branch_count", "hotel_star_rating", "can_sound_occurrence", "glass_pane", "amusement_ride_count", "petal_count", "turned_look_count", "laughter_once", "small_coffee_can", "stay_night", "ordinal_meeting", "never_sea_entry", "graduation_anniversary", "per_person_bill", "resume_edit_place", "station_exit", "topic_pair", "video_duration_minute", "outing_round", "story_pair", "rice_bowl", "age_decade_unspecified"} \
                     and re.match(r"(?:[秒歲岁米年月日天元度人位]|公里|小時|小时|分鐘|分钟|韓元|韩元)", target[match.end():].lstrip()):
                 continue
@@ -2168,6 +2184,7 @@ def _match_target_counter_quantities(
                 "outing_round",
                 "story_pair",
                 "rice_bowl", "age_decade_unspecified",
+                "duration_month_over", "missed_call",
                 "soup_sip", "tea_sip",
                 "petal_count", "turned_look_count",
                 "laughter_once", "small_coffee_can", "stay_night", "ordinal_meeting", "never_sea_entry",
@@ -2212,6 +2229,8 @@ def _match_target_counter_quantities(
             value = _chinese_cardinal_value(match.group("number") or "")
             if expected.kind == "age_over" and match.groupdict().get("over_age"):
                 value = _chinese_cardinal_value(match.group("over_age"))
+            if expected.kind == "duration_month_over" and match.groupdict().get("over_month"):
+                value = _chinese_cardinal_value(match.group("over_month"))
             if expected.kind == "degree" and match.group("number") == "半":
                 value = Decimal("0.5")
             if expected.kind == "one_plus_one_offer":

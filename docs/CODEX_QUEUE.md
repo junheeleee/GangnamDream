@@ -50,7 +50,7 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-173 · 남은 관계·부모 대화 번역 | [173](queue_active/ORDER-173.md) | A15 · 94문구/언어 · L3 OPEN |
+| 1 | [~] | ORDER-173 · 남은 관계·부모 대화 번역 | [173](queue_active/ORDER-173.md) | 282번역 L1/L2 · L3 OPEN |
 | 2 | [~] | ORDER-172 · 가족·직장·친구 번역 | [172](queue_active/ORDER-172.md) | L1/L2 PASS · L3 OPEN |
 | 3 | [~] | ORDER-171 · 데이트·계절 장면 번역 | [171](queue_active/ORDER-171.md) | L1/L2 PASS · L3 OPEN |
 | 4 | [~] | ORDER-170 · 결혼·가족 장면 번역 | [170](queue_active/ORDER-170.md) | L1/L2 PASS · L3 OPEN |

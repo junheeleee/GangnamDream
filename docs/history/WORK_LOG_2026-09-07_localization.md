@@ -1,3 +1,21 @@
+## 2026-09-07 (Codex — 결혼·가족 장면 세 언어 수용)
+
+- 다은·지연34사건/206문구씩618개를 KO 직접 저작·독립 전수 대조했다.
+  조건22/언어를 포함하며 JA3·TW8곳의 의미를 정밀화했다. 기존8,949/meta9와
+  14행/언어를 보존해 총9,567문구다. 원문 비용·시간축·첫 얼굴·글자 수 부채는
+  번역에서 몰래 고치지 않고 별도 기록했다.
+- 최초6source 보존, 최종6source/response/receipt check/import PASS,
+  changed_files0. checksum `5e6b4eae…07f4fa`, 원문 manifest 불변이다.
+  수량·단위·성씨 문맥 검사와 변조 fixture를 보강해 self138·ZH935를 통과했고,
+  독립 수량508/본문33/Unicode19/원화34 변조를 정상 대조와 함께 재검증했다.
+- 완료167절1,402bytes를 기존 현지화 history 앞으로 원문 이동하고 기존13,326
+  bytes와 끝 개행까지 보존했다. KO/EN·runtime·공개·폰트·저장·human_gates
+  변경0, 사용자 원본 checkout 쓰기0이다. 자세한 결속은 [사양](queue_active/ORDER-170.md).
+  L3·원어민·화면 OPEN, 전체 INCOMPLETE·full/main/product HOLD·출시 데모 GO.
+
+- 최종12개 표적 차선·EN·diff PASS, portable9,567 source/hash/L1 오류0이다.
+  실제 stdout을 git-private `order170-final-checks.log`에 보존했다.
+
 ## 2026-09-07 (Codex — 일본어 두 장면의 원화 단위 정밀화)
 
 - 아버지 기일과 상철의 최종 제안에서30億→30億ウォン을 각1회 명시했다.

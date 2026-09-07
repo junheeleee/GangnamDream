@@ -1190,6 +1190,40 @@ class ExchangeTests(unittest.TestCase):
         for target in ('喝了兩口茶，問道。', '喝了一口湯，問道。', '喝了十一口茶，問道。'):
             self.assertTrue(tool.translation_errors(tea, 'zh-TW', target), target)
 
+    def test_relationship_elapsed_month_over(self):
+        leaf = tool.Leaf('events', 'example', 'content/events/relationship_events.json', ('description',), '생각해보니 한 달이 넘었다.', 'event_standard')
+        for locale, target in (('zh-CN', '想了想，已经一个多月了。'), ('zh-TW', '仔細一想，已經超過一個月了。')):
+            self.assertEqual(tool.translation_errors(leaf, locale, target), [])
+        for target in ('一個月', '兩個多月', '十一個多月', '負一個多月', '未超過一個月',
+                       '沒有超過一個月', '負超過一個月', '不到一個多月', '少於一個多月',
+                       '超過一個月\t秒', '一個多月 公里', '超過兩個月', '一個多星期'):
+            self.assertTrue(tool.translation_errors(leaf, 'zh-TW', target), target)
+        exact = tool.Leaf('events', 'example', 'content/events/relationship_events.json', ('description',), '한 달이 지났다.', 'event_standard')
+        self.assertTrue(tool.translation_errors(exact, 'zh-TW', '一個多月。'))
+
+    def test_relationship_missed_call_count(self):
+        leaf = tool.Leaf('events', 'example', 'content/events/relationship_events.json', ('description',), '임상철 — 세 번.\n아버지 — 부재중 한 번.', 'event_standard')
+        for locale, target in (('zh-CN', 'Im Sangchul——三次。\n父亲——一次未接来电。'),
+                               ('zh-TW', 'Im Sangchul——三次。\n父親——一通未接來電。')):
+            self.assertEqual(tool.translation_errors(leaf, locale, target), [])
+        for fragment in ('兩通未接來電', '十一通未接來電', '負一通未接來電', '一通已接來電',
+                         '一次已接來電', '一通訊息', '一通未接來電 公里', '一通未接來電\t秒'):
+            self.assertTrue(tool.translation_errors(leaf, 'zh-TW', 'Im Sangchul——三次。\n父親——'+fragment+'。'), fragment)
+        other = tool.Leaf('events', 'example', 'content/events/relationship_events.json', ('description',), '아버지가 한 번 웃었다.', 'event_standard')
+        self.assertTrue(tool.translation_errors(other, 'zh-TW', '一通未接來電。'))
+        for continuation in ('방문했다.', '택배가 왔다.', '서류를 확인했다.'):
+            unrelated = tool.Leaf('events', 'example', 'content/events/relationship_events.json', ('description',), '아버지 — 부재중 한 번 '+continuation, 'event_standard')
+            self.assertTrue(tool.translation_errors(unrelated, 'zh-TW', '父親——一通未接來電。'), continuation)
+
+    def test_relationship_childhood_meal_invitation(self):
+        leaf = tool.Leaf('events', 'example', 'content/events/relationship_events2.json', ('result_text',), '밥 한 번 먹자고 했다.', 'event_standard')
+        for locale, target in (('zh-CN', '说改天一起吃顿饭。'), ('zh-TW', '說下次一起吃頓飯吧。')):
+            self.assertEqual(tool.translation_errors(leaf, locale, target), [])
+        for target in ('一起吃兩頓飯', '一起吃十一頓飯', '一起吃負一頓飯'):
+            self.assertTrue(tool.translation_errors(leaf, 'zh-TW', target), target)
+        other = tool.Leaf('events', 'example', 'content/events/relationship_events2.json', ('result_text',), '밥 한 번 먹었다.', 'event_standard')
+        self.assertTrue(tool.translation_errors(other, 'zh-TW', '一起吃頓飯。'))
+
     def test_relationship_graduation_anniversary(self):
         leaf = tool.Leaf('events', 'example', 'content/events/relationship_events.json', ('title',), '졸업 10주년 동창회', 'event_standard')
         for target in ('畢業十週年同學會', '畢業10週年同學會'):

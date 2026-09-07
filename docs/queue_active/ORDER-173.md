@@ -98,3 +98,41 @@ KO/EN·runtime·save·routing·human_gates·catalog/endings·공개·폰트·배
 
 이 소유권·배치·증거 절차는 일회성이다. 지속 규칙은 I18N_INFRASTRUCTURE와
 언어별 용어집이 소유하며 새로운 서사·상품·출시 규칙을 만들지 않는다.
+
+## 2026-09-07 L1/L2 수용 — L3 OPEN
+
+- 선언 `51751112125b61e22fc5e671877114bb2ea85d52` 뒤94문구씩282개를
+  KO 직접 저작했다. 다른 작성자/ROOT가 전수 대조했고, CN3곳의 메시지 문장
+  주어·대여 방향/지역 표현·관계망 흡수 의미를 정밀화해 재검증했다.
+  JA/TW 필수 수정0이다. 다은/지연 말투와23개 괄호, 부모 생사·계좌 전달과
+  명시 반환·초대 미확정, 주체/글자 수/날짜의 source 부채를 그대로 보존했다.
+- 최종94-record aggregate:
+  JA `c7e0669398e09c5c1591687f65eaf0b902ae6d30281b458f1f77f688861a1bda`,
+  CN `7f5a8bb73e59910b65bb27594018f936d3f76a88699c76130eba2f537ca0ddf9`,
+  TW `b0cf3482640d8f4c7e6230bb6184e8f863ad96429553e2565262ec12aa8b6c52`.
+  최초3source 보존, 최종3source/response/receipt 발급·check/import --accept
+  PASS, 현재값과 같아 changed_files0이다. 기존파일50행 앞부분의 raw bytes
+  JA65,009/CN47,060/TW50,849와 행 순서를 보존하고5행만 끝에 추가했다.
+  원래 array 닫음3bytes는 추가행 구분자로 이어지며, 새 파일은 각10행이다.
+- 기존11,334/meta9·oldbatch25 보존, 총11,616=언어별3,872다.
+  portable checksum `d509e7c946e234f5232e1b1d072bed10b67372b408c3ece7661937b5990a3548`.
+  KO/EN·runtime·공개·폰트·저장·human_gates 변경0, source manifest 불변이다.
+- 기간 초과/부재중 전화 두 문맥과 기존 식사 초대의 정확 원문 결속을 보강했다.
+  독립 검토 뒤 부재중 원문을 문장 종료까지 좁혀 방문/택배/서류로의 확대를
+  거부했다. self163 PASS, 실제6문맥433변조 중 통과112는 baseline에도 있던
+  의미부정/재사용 식사 단위 접미사 한계로 분리한다. 숫자 검사를 범용 의미
+  보장으로 부르지 않는다. 직전172 다은 존대2곳의 권고 철회는 backlog에 남겼고,
+  기존380을 보존하는 이 오더와 분리해 정확2 leaf 후속으로 수리한다.
+- 완료170절1,331bytes SHA `dcde68b4f7060ccd0d49e69c6c58b1261ec2f5d768349c261e2014fd43f9700e`를
+  기존 history17,051bytes 앞으로 원문 이동했다. 새18,382bytes SHA
+  `4e995bd716c50c13cf53d11cfaab7a6ac9ad4a42765269b4b54395a6cc084afe`, 끝 LF2 보존이다.
+  선언 때 이전 큐14행1,890bytes를 설명 포함2,237bytes의 절로 보관했다.
+  절 SHA `16d7b41a562b42c28b776557e8fa8e57f3231c94174d761e62cbc8845940a24b`,
+  기존 archive3,032bytes도 그대로다. 각 활성 이름/링크/[~]/상대순서·L3 OPEN과
+  지속 규칙은 보존했다. 원본 checkout 쓰기0이다.
+- L3·원어민·실제 화면 OPEN, 전체 INCOMPLETE·full/main/product HOLD,
+  M01~M06 BUILD2026.08.31.1 사용자 GO 유지. 새 실제 플레이 판정은 발급하지 않는다.
+- 최종12개 표적 차선·EN·diff PASS, portable11,616 전량 source/target/수용
+  hash/L1 오류0이다. 차선 실제 stdout만 git-private `order173-final-checks.log`
+  4,224bytes로 보존했으며 SHA는
+  `ff4a23ef2bfed7b59817897fbbb671685a30625e2be8c0f273558a3e9fab19b8`다.

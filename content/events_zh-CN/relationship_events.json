@@ -493,5 +493,76 @@
       {"text": "拿着照片问：“这是哪里？”", "result_text": "父亲看着照片。\n\n很久没有说话。\n\n“第一次来首尔的时候。二十三，还是二十四岁来着。”\n“想在这里工作。最后还是没成。”\n\n父亲笑了。和照片里的表情一样。\n\n{name}好像是第一次看见这个笑容。\n不，好像很久以前见过，却忘了。"},
       {"text": "直接合上相册。很难开口问。", "result_text": "合上了相册。\n\n不知道父亲有没有注意到。\n\n想着以后再问吧。\n却没决定，这个以后是什么时候。\n\n照片里的父亲是什么表情，\n回家的整段路上，都在想。"}
     ]
+  },
+  {
+    "id": "daeun_drift_quiet",
+    "title": "渐渐安静的联系",
+    "description": "Daeun最后一次联系是什么时候来着。\n\n想了想，已经一个多月了。\n是{name}先断了联系，还是对方先减少了联系，界线已经模糊。\n\n打开KakaoTalk聊天窗口。最后一条消息是{name}发的。",
+    "choices": [
+      {
+        "text": "发去了消息——简短地，随便说点什么",
+        "result_text": "“最近怎么样？”\n发出去之后，觉得尴尬。\n过了很久，才出现已读标记。没有回复。"
+      },
+      {
+        "text": "就这么放着",
+        "result_text": "关掉了窗口。\n因为忙嘛。那时候忙，现在也忙。\n就这样想着。"
+      }
+    ]
+  },
+  {
+    "id": "sangchul_becomes_primary",
+    "title": "通讯录",
+    "description": "数了数这周联系过来的人。\n\nIm Sangchul——三次。\n父亲——一通未接来电。\nDaeun——没有。\n\n{name}往下滑了屏幕。",
+    "choices": [
+      {
+        "text": "往下滑了屏幕",
+        "result_text": "Im Sangchul又发来了消息。\n是这周的聚会安排。\n{name}确认了日期。"
+      }
+    ]
+  },
+  {
+    "id": "daeun_birthday_missed",
+    "title": "日期",
+    "description": "社交平台弹出一条通知。\n\n“今天是Daeun的生日。”\n\n{name}停了一下。\n明明知道的。不知从什么时候起，却从脑海里消失了。",
+    "choices": [
+      {
+        "text": "现在还是发去了消息",
+        "result_text": "“生日快乐。虽然晚了。”\n第二天才收到回复。\n“谢谢。”\n就这些。"
+      },
+      {
+        "text": "关掉了通知",
+        "result_text": "划掉了通知。\n一天过去了。"
+      }
+    ]
+  },
+  {
+    "id": "sangchul_world_absorbed",
+    "title": "联系人",
+    "description": "滑动通讯录时，停了下来。\n\n来自Im Sangchul人脉圈的名字，已经超过了一半。\n\n不知道是从什么时候变成这样的——不知不觉，他身边的人已经成了{name}身边的人。",
+    "choices": [
+      {
+        "text": "继续往下滑",
+        "result_text": "Im Sangchul介绍的人。\n在Im Sangchul的聚会上认识的人。\n通过Im Sangchul联系上的人。\n\n{name}关掉了屏幕。"
+      }
+    ]
+  },
+  {
+    "id": "jiyeon_notices_daeun",
+    "title": "Jiyeon的问题",
+    "description": "Jiyeon放下咖啡，问道。\n\n“最近还和Daeun联系吗？”\n\n{name}犹豫了一下。",
+    "choices": [
+      {
+        "text": "“最近有点忙。”",
+        "result_text": "Jiyeon点了点头。\n没有再问。\n那份沉默像是一个回答。"
+      },
+      {
+        "text": "“最近，我也不太清楚。”",
+        "result_text": "Jiyeon看了片刻，拿起咖啡杯。\n“这样啊。”\n就这些。"
+      },
+      {
+        "text": "转移了话题",
+        "result_text": "说起了别的事。\nJiyeon顺着聊了下去。\n可总有些尴尬。"
+      }
+    ]
   }
 ]
