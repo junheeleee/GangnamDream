@@ -237,7 +237,13 @@ WORK_SCENE_COUNTER_KINDS = frozenset({
     "exam_countdown", "tuition_month", "never_course_days", "job_company_focus",
     "read_mark_over_count", "job_posting_count",
 })
-LIFE_SCENE_COUNTER_KINDS = WORK_SCENE_COUNTER_KINDS | SPENDING_SCENE_COUNTER_KINDS | FAMILY_SCENE_COUNTER_KINDS | MEDIA_SCENE_COUNTER_KINDS | HIDDEN_SCENE_COUNTER_KINDS | frozenset({
+PROLOGUE_COUNTER_KINDS = frozenset({
+    "feeling_alternative_pair", "extra_application_count", "resume_sheet_count",
+    "savings_each_line", "dinner_people_count", "door_hand_span",
+    "overtime_light_row", "finished_workday", "coffee_additional_cup",
+    "expense_error_once", "daily_spending_period",
+})
+LIFE_SCENE_COUNTER_KINDS = WORK_SCENE_COUNTER_KINDS | SPENDING_SCENE_COUNTER_KINDS | FAMILY_SCENE_COUNTER_KINDS | MEDIA_SCENE_COUNTER_KINDS | HIDDEN_SCENE_COUNTER_KINDS | PROLOGUE_COUNTER_KINDS | frozenset({
     "remaining_four_month", "job_posting_count", "egg_count", "task_count",
     "rental_home_ordinal", "mirror_glance", "gangnam_attempt",
     "university_year", "restaurant_per_person", "underground_exit",
@@ -1212,6 +1218,18 @@ def _source_counter_kind(
 ) -> str:
     following = source[match.end():].lstrip()
     preceding = source[max(0, match.start() - 120):match.start()]
+    if counter == "줄" and preceding.endswith("형광등 ") and following.startswith("이 낮게 웅웅거렸고"):
+        return "overtime_light_row"
+    if counter == "줄" and preceding.endswith("작은 차이들이 ") and following.startswith("씩 쌓여 있었다."):
+        return "savings_each_line"
+    if counter == "장" and preceding.endswith("이력서 ") and following.startswith(", 밥 한 끼, 산책 삼십 분."):
+        return "resume_sheet_count"
+    if counter == "뼘" and preceding.endswith("틈을 ") and following.startswith("더 벌렸다."):
+        return "door_hand_span"
+    if counter == "잔" and preceding.endswith("커피 ") and following == "더 뽑고 버틴다":
+        return "coffee_additional_cup"
+    if counter == "번" and following.startswith("틀리면 다음 월세까지 흔들릴 경계도 보였다."):
+        return "expense_error_once"
     if counter == "개" and preceding.endswith("불필요한 구독 서비스 ") and following.startswith("를 해지했다."):
         return "subscription_count"
     if counter == "개" and preceding.endswith("공고 ") and following.startswith("를 열었다가 닫았다."):
@@ -1316,6 +1334,11 @@ def _source_counter_kind(
         r"선택을\s+버티게\s+$", preceding,
     )) or (match.group('number') == '둘' and re.search(r'비워\s+$', preceding))):
         return ""  # 버티게 한 시간 is enabling time, not an hour.
+    if counter == "시간" and match.group("number") == "쉰" \
+            and source.startswith("폰을 뒤집어 놓고 반나절을 잤다.") \
+            and re.search(r"(?:^|[.!?])\s*$", source[:match.start()]) \
+            and following == "도 어딘가로 사라진 것은 아니었다.":
+        return ""  # Time spent resting, not fifty hours; explicit amounts stay numeric.
     if counter == "번" and match.group("number") == "한" and re.match(
         r"도\s*찍히지\s*않은", following,
     ):
@@ -1584,6 +1607,7 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
         (r"(?<![가-힣\d])30대(?= 순자산 평균)", 30, "networth_age_decade"),
         (r"(?<='주의' 표시가 )두 항목(?=에 붙어 있다\.)", 2, "health_warning_count"),
         (r"(?<=FOMO는 )양방향(?=이었다\.)", 2, "fomo_direction_pair"),
+        (r"(?<=기쁜 마음과 속 쓰린 마음이 같은 자리에 있는 게 이상했지만, )둘 중 하나(?=를 거짓으로 만들 필요는 없었다\.)", 2, "feeling_alternative_pair"),
     ):
         for match in re.finditer(pattern, source):
             if kind == "price_gap_pair" and not re.search(r"\s{2,}\. \s{2,}\. $", source[:match.start()]):
@@ -1591,6 +1615,15 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
             if (kind == "per_person_bill" or kind in LIFE_SCENE_COUNTER_KINDS) and _has_numeric_sign_prefix(source, match.start()):
                 continue  # Never mask the unsigned tail of a signed/fractional source count.
             quantities.append(CounterQuantity(match.start(), match.end(), Decimal(value), kind))
+    # In this meal clause the numeral follows 사람이, rather than preceding
+    # a classifier. Parse its value, not a fixed three-person exemption.
+    for match in re.finditer(
+        r"(?<=먹을 사람이 )(?P<number>\d+|" + "|".join(KOREAN_NATIVE_FORMS)
+        + r")(?=인데 반찬이 너무 많았다\.)", source,
+    ):
+        value = _source_counter_value(match.group("number"))
+        if value is not None and not _has_numeric_sign_prefix(source, match.start()):
+            quantities.append(CounterQuantity(match.start(), match.end(), value, "dinner_people_count"))
     if source.startswith("회사 단체 카톡방에 메시지가 200개 쌓였다."):
         for match in re.finditer(r"(?<=\n\n)198개(?=\.\n\n)", source):
             quantities.append(CounterQuantity(match.start(), match.end(), Decimal(198), "group_message_count"))
@@ -1627,7 +1660,9 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
             continue  # 연락하기로 한 시각 하나 has a relative clause plus one.
         kind = noun_kinds[match.group("noun")]
         if match.group("noun") == "곳":
-            if "약속 한 곳에는 완료 시각" in source:
+            if source[match.end():].startswith("을 더 지원했다."):
+                kind = "extra_application_count"
+            elif "약속 한 곳에는 완료 시각" in source:
                 kind = "appointment_place"
             elif source[match.end():].startswith("을 다시 열 수") or (
                 source[match.end():].startswith("을 취소했다는") and "병동 통화" in source
@@ -1844,6 +1879,11 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
             kind = "daily_frequency"
         if match.group("day") == "하루" and source.startswith("{topic} 하루 만에 +22% 폭등"):
             kind = "single_market_day"
+        if match.group("day") == "하루" and source[match.end():].startswith("에 쓸 수 있는 돈은 "):
+            kind = "daily_spending_period"
+        if match.group("day") == "하루" and source[:match.start()].endswith("누군가는 지금 ") \
+                and source[match.end():].startswith("를 끝냈을 것이다."):
+            kind = "finished_workday"
         quantities.append(CounterQuantity(
             match.start(), match.end(),
             Decimal(SOURCE_LEXICAL_DAYS[match.group("day")]), kind,
@@ -1926,6 +1966,28 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
 def _target_pattern_for_kind(kind: str) -> re.Pattern[str]:
     # The broad witnesses include observed wrong units/actions, so an invalid
     # first clause cannot borrow a later correct number of the same kind.
+    if kind == "feeling_alternative_pair":
+        return re.compile(rf"(?:(?P<number>{CHINESE_CARDINAL})者中的?任何[+＋−﹣－負负-]?\s*(?P<one>{CHINESE_CARDINAL})|其中[+＋−﹣－負负-]?\s*(?P<implicit_one>{CHINESE_CARDINAL}))(?P<prologue_unit>[種种]|年)")
+    if kind == "extra_application_count":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})(?P<prologue_unit>家|間|间|所|年|人)公司")
+    if kind == "resume_sheet_count":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})(?P<prologue_unit>份|[張张]|年|人)(?:履歷|履历|简历|簡歷)")
+    if kind == "savings_each_line":
+        return re.compile(rf"(?:(?P<number>{CHINESE_CARDINAL})(?P<prologue_unit>行|年|人)(?P<repeat>{CHINESE_CARDINAL})?行?|(?P<implicit>逐行))")
+    if kind == "dinner_people_count":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})(?P<prologue_unit>[個个]人|人|位|[個个]月|年)")
+    if kind == "door_hand_span":
+        return re.compile(rf"(?:(?P<number>{CHINESE_CARDINAL})(?P<prologue_unit>拃|掌|[個个]手掌[寬宽]|公里|米|公尺)|(?P<implicit>[張张][開开]手掌的[寬宽]度))")
+    if kind == "overtime_light_row":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})(?P<prologue_unit>排|行|列|盞|盏|年)日光[燈灯]")
+    if kind == "finished_workday":
+        return re.compile(rf"[結结]束了[+＋−﹣－負负-]?\s*(?:(?P<number>{CHINESE_CARDINAL})(?P<prologue_unit>天|日|年|小時|小时|秒)|(?P<implicit>今天|今日|昨天|明天))")
+    if kind == "coffee_additional_cup":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})?(?P<prologue_unit>杯|瓶|罐|年|公斤)咖啡")
+    if kind == "expense_error_once":
+        return re.compile(rf"(?:(?P<implicit>一旦)出[錯错]|[錯错][+＋−﹣－負负-]?\s*(?P<number>{CHINESE_CARDINAL})(?P<prologue_unit>次|年))")
+    if kind == "daily_spending_period":
+        return re.compile(rf"(?P<every>每)?(?P<number>{CHINESE_CARDINAL})?(?P<prologue_unit>天|日|[週周]|[個个]?月|年|小時|小时|分鐘|分钟|秒)(?=能花的[錢钱])")
     if kind == "chaebol_generation":
         return re.compile(rf"第(?P<number>{CHINESE_CARDINAL})(?P<hidden_unit>代|[歲岁年])")
     if kind == "dress_shirt_count":
@@ -2340,7 +2402,7 @@ def _target_pattern_for_kind(kind: str) -> re.Pattern[str]:
     if kind == "identifier":
         return re.compile(
             rf"(?P<number>{CHINESE_CARDINAL})\s*(?:號|号)"
-            r"(?=\s*(?:號碼|号码|牌|號碼牌|号码牌|客戶|客户|櫃台|柜台))"
+            r"(?=\s*(?:號碼|号码|牌|號碼牌|号码牌|客戶|客户|顧客|顾客|櫃檯|櫃台|柜台|窗口))"
         )
     forms = next(
         (forms for candidate_kind, forms in TARGET_COUNTER_FORMS
@@ -2353,6 +2415,55 @@ def _target_pattern_for_kind(kind: str) -> re.Pattern[str]:
         + "|".join(re.escape(form) for form in sorted(forms, key=len, reverse=True))
         + r")"
     )
+
+
+def _prologue_quantity_valid(kind: str, match: re.Match[str], target: str) -> bool:
+    before, after = target[:match.start()], target[match.end():]
+    if re.search(r"(?:不到|不足|超過|超过|至少|至多|最多|最少|大約|大约|約|约|沒有|没有|沒|没|半)\s*$", before) \
+            or re.match(r"\s*(?:[%％倍萬万億亿兆]|以上|以下|左右|多|半)", after):
+        return False
+    unit = match.groupdict().get("prologue_unit")
+    end = bool(re.match(r"\s*(?:$|[，。！？、；,.!?;」』）)])", after))
+    if kind == "feeling_alternative_pair":
+        one = match.group("one") or match.group("implicit_one")
+        one_start = match.start("one" if match.group("one") else "implicit_one")
+        # The two named feelings cannot license an explicit three-feeling
+        # assertion in this same sentence, nor a different unit after 其中.
+        sentence_start = max((before.rfind(char) for char in "。！？\n"), default=-1) + 1
+        explicit_counts = re.finditer(rf"(?P<number>{CHINESE_CARDINAL})[種种]感情", before[sentence_start:])
+        if any(_chinese_cardinal_value(row.group("number")) != 2
+               or _has_numeric_sign_prefix(target, sentence_start + row.start("number"))
+               for row in explicit_counts):
+            return False
+        return unit in {"種", "种"} and not _has_numeric_sign_prefix(target, one_start) and _chinese_cardinal_value(one) == 1 and bool(re.search(
+            r"(?:高[興兴]|[開开]心)和酸楚[^。！？\n]*$", before,
+        )) and bool(re.match(r"(?:當成|当成|說成|说成)假的", after))
+    if kind == "extra_application_count":
+        return unit == "家" and bool(re.search(r"(?:又投了|多投了)$", before)) and end
+    if kind == "resume_sheet_count":
+        return unit in {"份", "張", "张"} and end
+    if kind == "savings_each_line":
+        return (bool(match.group("implicit")) or unit == "行") \
+            and (not match.group("repeat") or _chinese_cardinal_value(match.group("repeat")) == 1) \
+            and bool(re.match(r"(?:累[積积]|[積积])", after))
+    if kind == "dinner_people_count":
+        return unit in {"個人", "个人", "人", "位"} and bool(re.search(
+            r"(?:吃[飯饭]的只有|[飯饭]桌上明明只有)$", before,
+        )) and bool(re.match(r"(?:吃[，,]|[，,])", after))
+    if kind == "door_hand_span":
+        return (bool(match.group("implicit")) or unit in {"拃", "掌", "個手掌寬", "个手掌宽"}) and end
+    if kind == "overtime_light_row":
+        return unit in {"排", "行", "列"} and bool(re.match(r"低低嗡[鳴鸣]", after))
+    if kind == "finished_workday":
+        start = match.start("number" if match.group("number") else "implicit")
+        return not _has_numeric_sign_prefix(target, start) and (unit in {"天", "日"} or match.group("implicit") in {"今天", "今日"}) and end
+    if kind == "coffee_additional_cup":
+        return unit == "杯" and bool(re.search(r"再[買买]$", before)) and end
+    if kind == "expense_error_once":
+        return bool(match.group("implicit")) or unit == "次"
+    if kind == "daily_spending_period":
+        return unit in {"天", "日"} and bool(match.group("every") or match.group("number"))
+    return False
 
 
 def _hidden_quantity_valid(kind: str, match: re.Match[str], target: str) -> bool:
@@ -2533,6 +2644,8 @@ def _match_target_counter_quantities(
                 continue
             if expected.kind in HIDDEN_SCENE_COUNTER_KINDS and not _hidden_quantity_valid(expected.kind, match, target):
                 continue
+            if expected.kind in PROLOGUE_COUNTER_KINDS and not _prologue_quantity_valid(expected.kind, match, target):
+                continue
             if expected.kind in LIFE_SCENE_COUNTER_KINDS:
                 number_start = match.start("number") if match.group("number") else match.start()
                 if expected.kind in {"exam_countdown", "video_view_count"}:
@@ -2628,7 +2741,7 @@ def _match_target_counter_quantities(
                 "current_action_count", "read_again", "never_skip_week", "statement_pair", "cover_count", "cup_noodles_count", "never_utterance", "name_column_count", "chair", "sheet", "sunday_count",
                 "object_count", "result_count", "ledger_count", "meaning_count", "signature_option_count",
                 "door_count", "retained_pair", "strike_line_count", "strike_occurrence", "meal", "appliance_cycle", "agreement_parties", "city_count",
-                "approximate_occurrence", "approximate_age", "age_over", "degree", "one_plus_one_offer", "span",
+                "approximate_occurrence", "approximate_age", "age_over", "degree", "one_plus_one_offer", "span", "identifier",
                 "never_toss_turn", "receding_step", "ring_occurrence",
                 "seat_row", "brightness_level", "comparison_people", "household_pair", "hotel_star_rating",
                 "can_sound_occurrence", "glass_pane", "amusement_ride_count",
@@ -2680,6 +2793,13 @@ def _match_target_counter_quantities(
                 # 一眼 is a glance after a seeing verb, not one physical eye.
                 continue
             value = _chinese_cardinal_value(match.group("number") or "")
+            if expected.kind in PROLOGUE_COUNTER_KINDS:
+                if expected.kind == "feeling_alternative_pair" and not match.group("number"):
+                    value = Decimal(2)  # The explicit preceding two feelings own 其中一種.
+                elif expected.kind == "expense_error_once":
+                    value = Decimal(1) if match.group("implicit") else value
+                elif match.groupdict().get("implicit") or not match.group("number"):
+                    value = Decimal(1)
             if expected.kind == "vlog_subscribers" and match.group("thousands"):
                 minor = _chinese_cardinal_value(match.group("thousands"))
                 value = value * 10_000 + minor * 1_000 if value is not None and minor is not None else None
@@ -4739,6 +4859,131 @@ def _hidden_scene_parser_self_test() -> tuple[int, list[str]]:
     return cases, failures
 
 
+def _prologue_parser_self_test() -> tuple[int, list[str]]:
+    """Only the observed prologue/life quantities, with hostile later borrowing."""
+    cases, failures = 0, []
+
+    def check(source: str, target: str, valid: bool) -> None:
+        nonlocal cases
+        cases += 1
+        errors = _numeric_errors(source, target)
+        if bool(errors) == valid:
+            failures.append(f"prologue expected valid={valid}: {source!r} -> {target!r}: {errors}")
+
+    feelings = "기쁜 마음과 속 쓰린 마음이 같은 자리에 있는 게 이상했지만, 둘 중 하나를 거짓으로 만들 필요는 없었다."
+    fixtures = (
+        (feelings, "高兴和酸楚同时待在心里，有些奇怪，但没必要把其中一种说成假的。", "其中一种",
+         ("其中两种", "其中−一种", "三者中的任何一种")),
+        (feelings, "開心和酸楚同時待在心裡，感覺很奇怪，但不必把兩者中的任何一種當成假的。", "兩者中的任何一種",
+         ("三者中的任何一種", "兩者中的任何兩種", "兩者中的任何−一種")),
+        ("문장을 한 줄 더 다듬고, 한 곳을 더 지원했다.", "又润色了一行，又投了一家公司。", "一家公司",
+         ("两家公司", "一年公司", "一家公司员工")),
+        ("문장을 한 줄 더 다듬고, 한 곳을 더 지원했다.", "又修好一行句子，多投了一家公司。", "一家公司",
+         ("三家公司", "一家公司的員工", "一年公司")),
+        ("이력서 한 장, 밥 한 끼, 산책 삼십 분.", "一份履歷、一頓飯、散步三十分鐘。", "一份履歷",
+         ("兩份履歷", "一年履歷", "一份履歷代寫")),
+        ("이력서 한 장, 밥 한 끼, 산책 삼십 분.", "一张简历，一顿饭，散步三十分钟。", "一张简历",
+         ("两张简历", "一年简历", "一张简历代写")),
+        ("작은 차이들이 한 줄씩 쌓여 있었다.", "那些小小差额，逐行积在了这里。", "逐行",
+         ("两行", "一年", "一行两行")),
+        ("작은 차이들이 한 줄씩 쌓여 있었다.", "小小差額，一行行累積在那裡。", "一行行",
+         ("兩行行", "一年", "一行兩行")),
+        ("식탁에는 먹을 사람이 셋인데 반찬이 너무 많았다.", "饭桌上明明只有三个人吃，菜却多得过了头。", "三个人",
+         ("两个人", "三个月", "三个人以上")),
+        ("식탁에는 먹을 사람이 셋인데 반찬이 너무 많았다.", "吃飯的只有三個人，桌上的配菜卻多得過頭。", "三個人",
+         ("兩個人", "三年", "三個人以下")),
+        ("{name}은 문을 열지 못한 채, 틈을 한 뼘 더 벌렸다.", "{name}沒能打開門，只把縫隙再推寬了張開手掌的寬度。", "張開手掌的寬度",
+         ("兩拃", "一米", "半張開手掌的寬度")),
+        ("{name}은 문을 열지 못한 채, 틈을 한 뼘 더 벌렸다.", "{name}没能把门打开，只把缝又撑宽了一拃。", "一拃",
+         ("两拃", "一米", "一拃以上")),
+        ("형광등 한 줄이 낮게 웅웅거렸고, 모니터 가장자리에는 마른 눈물이 얇게 맺혔다.", "一排日光燈低低嗡鳴，螢幕邊緣凝著薄薄的乾涸淚痕。", "一排日光燈",
+         ("兩排日光燈", "一盞日光燈", "一年日光燈")),
+        ("누군가는 지금 하루를 끝냈을 것이다.", "一定有人已經結束了今天。", "結束了今天",
+         ("結束了明天", "結束了兩天", "結束了−今天")),
+        ("누군가는 지금 하루를 끝냈을 것이다.", "总有人已经结束了一天。", "结束了一天",
+         ("结束了两天", "结束了一年", "结束了−一天")),
+        ("커피 한 잔 더 뽑고 버틴다", "再买杯咖啡，继续撑着", "杯咖啡",
+         ("两杯咖啡", "一瓶咖啡", "半杯咖啡")),
+        ("커피 한 잔 더 뽑고 버틴다", "再買一杯咖啡，撐下去", "一杯咖啡",
+         ("兩杯咖啡", "一瓶咖啡", "一杯咖啡因")),
+        ("한 번 틀리면 다음 월세까지 흔들릴 경계도 보였다.", "也看见了那条界线：一旦出错，连下个月的月租都会受影响。", "一旦出错",
+         ("错两次", "错一年", "错−一次")),
+        ("한 번 틀리면 다음 월세까지 흔들릴 경계도 보였다.", "只要錯一次，就連下個月的月租都會動搖。", "錯一次",
+         ("錯兩次", "錯一年", "錯−一次")),
+        ("하루에 쓸 수 있는 돈은 1만원도 안 됐다.", "每天能花的钱还不到1万韩元。", "每天",
+         ("每月", "每秒", "两天")),
+        ("하루에 쓸 수 있는 돈은 1만원도 안 됐다.", "一天能花的錢不到1萬韓元。", "一天",
+         ("兩天", "一年", "每月")),
+    )
+    for source, normal, span, wrong in fixtures:
+        check(source, normal, True)
+        check(source, normal.replace(span, ""), False)
+        check(source, normal.replace(span, "−" + span), False)
+        for changed in wrong:
+            check(source, normal.replace(span, changed), False)
+            # Repeat the whole clause so noun/predicate anchoring is retained.
+            # For money, repeating a clause independently preserves both sums.
+            if "韩元" not in normal and "韓元" not in normal:
+                check(source, normal.replace(span, changed) + normal, False)
+    for source, kind in (
+        (feelings.replace("기쁜 마음과 속 쓰린 마음", "서류와 번호표"), "feeling_alternative_pair"),
+        ("한 곳을 더 방문했다.", "extra_application_count"),
+        ("계약서 한 장, 밥 한 끼, 산책 삼십 분.", "resume_sheet_count"),
+        ("큰 돈이 한 줄씩 쌓여 있었다.", "savings_each_line"),
+        ("식탁에는 먹을 돈이 셋인데 반찬이 너무 많았다.", "dinner_people_count"),
+        ("종이를 한 뼘 더 벌렸다.", "door_hand_span"),
+        ("고지서 한 줄이 낮게 웅웅거렸고", "overtime_light_row"),
+        ("누군가는 지금 이틀을 끝냈을 것이다.", "finished_workday"),
+        ("맥주 한 잔 더 뽑고 버틴다", "coffee_additional_cup"),
+        ("한 번 맞히면 다음 월세까지 흔들릴 경계도 보였다.", "expense_error_once"),
+        ("하루에 쓸 수 있는 시간은 없었다.", "daily_spending_period"),
+    ):
+        cases += 1
+        if any(q.kind == kind for q in _source_counter_quantities(source)):
+            failures.append(f"prologue source scope escaped: {kind}: {source}")
+    # A noun-following source count is numeric, not an exception fixed to 셋.
+    for source_word, target_word in (("둘", "兩"), ("셋", "三"), ("넷", "四")):
+        source = f"식탁에는 먹을 사람이 {source_word}인데 반찬이 너무 많았다."
+        check(source, f"吃飯的只有{target_word}個人，菜很多。", True)
+        check(source, "吃飯的只有五個人，菜很多。", False)
+    # Keep the same single payment when testing a wrong earlier daily period.
+    check("하루에 쓸 수 있는 돈은 1만원도 안 됐다.",
+          "每秒能花的钱，每天能花的钱还不到1万韩元。", False)
+    check("하루에 쓸 수 있는 돈은 1만원도 안 됐다.",
+          "每月能花的錢，一天能花的錢不到1萬韓元。", False)
+    # Independent review closures: four newly widened gaps.  The last two
+    # (coffee weight and weekly spending) also existed in the prior parser.
+    for source, normal, bad in (
+        (feelings,
+         "高兴和酸楚这两种感情同时待在心里，有些奇怪，但没必要把其中一种说成假的。",
+         "高兴和酸楚这三种感情同时待在心里，有些奇怪，但没必要把其中一种说成假的。"),
+        (feelings,
+         "開心和酸楚這兩種感情同時待在心裡，但不必把兩者中的任何一種當成假的。",
+         "開心和酸楚這三種感情同時待在心裡，但不必把兩者中的任何一種當成假的。"),
+        (feelings,
+         "高兴和酸楚同时待在心里，但没必要把其中一种说成假的。",
+         "高兴和酸楚同时待在心里，但没必要把其中一年说成假的。"),
+        (feelings,
+         "開心和酸楚同時待在心裡，但不必把兩者中的任何一種當成假的。",
+         "開心和酸楚同時待在心裡，但不必把兩者中的任何一年當成假的。"),
+        ("{name}은 문을 열지 못한 채, 틈을 한 뼘 더 벌렸다.",
+         "{name}只把縫隙再推寬了張開手掌的寬度。",
+         "{name}只把縫隙再推寬了一公里。"),
+        ("누군가는 지금 하루를 끝냈을 것이다.",
+         "有人已經結束了今天。", "有人結束了一秒。"),
+        ("커피 한 잔 더 뽑고 버틴다",
+         "再買一杯咖啡，撐下去。", "再買一公斤咖啡，撐下去。"),
+    ):
+        check(source, normal, True)
+        check(source, bad, False)
+        check(source, bad + normal, False)
+    spending_source = "하루에 쓸 수 있는 돈은 1만원도 안 됐다."
+    check(spending_source, "一天能花的錢不到1萬韓元。", True)
+    check(spending_source, "每週能花的錢不到1萬韓元。", False)
+    check(spending_source, "每週能花的錢，一天能花的錢不到1萬韓元。", False)
+    return cases, failures
+
+
 def run_self_test(
     manifest: dict[str, Any], runtime: dict[str, Any],
 ) -> list[str]:
@@ -4763,6 +5008,9 @@ def run_self_test(
     hidden_cases, hidden_failures = _hidden_scene_parser_self_test()
     cases += hidden_cases
     failures.extend(hidden_failures)
+    prologue_cases, prologue_failures = _prologue_parser_self_test()
+    cases += prologue_cases
+    failures.extend(prologue_failures)
 
     # Exact Korean-source catalogue names are not permission for unrelated
     # English prose or for deleting the noun around an allowed brand token.

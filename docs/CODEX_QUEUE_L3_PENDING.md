@@ -7,6 +7,7 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
+| 1 | [~] | ORDER-183 · 회상·첫 생활과 사별 변형 번역 | [183](queue_active/ORDER-183.md) | 474번역 L1/L2 · L3 OPEN |
 | 2 | [~] | ORDER-182 · 생활·숨은 사건 번역 | [182](queue_active/ORDER-182.md) | 594번역 L1/L2 · L3 OPEN |
 | 3 | [~] | ORDER-181 · 창업·정치·정선과 생활 전환 번역 | [181](queue_active/ORDER-181.md) | 534번역 L1/L2 · L3 OPEN |
 | 4 | [~] | ORDER-180 · 아버지·인연·연애 번역 | [180](queue_active/ORDER-180.md) | 516번역 L1/L2 · L3 OPEN |

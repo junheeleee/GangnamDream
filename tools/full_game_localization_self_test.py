@@ -1528,6 +1528,63 @@ class ExchangeTests(unittest.TestCase):
         for locale, target in (('ja', '1年で276,000ウォンを送った。'), ('zh-CN', '一年转出276,000韩元。'), ('zh-TW', '一年匯出276,000韓元。')):
             self.assertTrue(tool.translation_errors(other, locale, target), locale)
 
+    def test_prologue_ticket_regional_counters(self):
+        source = '[147번 고객님, 4번 창구로 오십시오.]'
+        leaf = tool.Leaf('events', 'example', 'content/events/story_events.json', ('result_text',), source, 'event_standard')
+        for locale, normal in (
+            ('zh-CN', '[147号顾客，请到4号柜台。]'),
+            ('zh-CN', '[147号客户，请到4号窗口。]'),
+            ('zh-TW', '[147號顧客，請至4號櫃檯。]'),
+        ):
+            self.assertEqual(tool.translation_errors(leaf, locale, normal), [], locale)
+            for wrong in (
+                normal.replace('147', '148'),
+                normal.replace('4号', '5号').replace('4號', '5號'),
+                normal.replace('147', '@FIRST@').replace('4', '147').replace('@FIRST@', '4'),
+                normal.replace('147', '-147'),
+                normal.replace('4号', '-4号').replace('4號', '-4號'),
+                normal.replace('147号', '147年').replace('147號', '147年'),
+                normal.replace('4号', '4年').replace('4號', '4年'),
+                normal.replace('147', '148') + normal,
+            ):
+                self.assertTrue(tool.translation_errors(leaf, locale, wrong), (locale, wrong))
+
+    def test_resting_time_is_not_fifty_hours(self):
+        from zh_translation_audit import _source_counter_quantities
+        source = '폰을 뒤집어 놓고 반나절을 잤다.\n쉰 시간도 어딘가로 사라진 것은 아니었다.'
+        self.assertFalse(any(q.kind == 'duration_hour' for q in _source_counter_quantities(source)))
+        leaf = tool.Leaf('events', 'example', 'content/events/story_events.json', ('result_text',), source, 'event_standard')
+        for locale, target in (
+            ('zh-CN', '把手机翻过来放好，睡了半天。\n休息的时间，也不是凭空消失了。'),
+            ('zh-TW', '把手機翻面放下，睡了半天。\n休息的時間，也不是就這樣消失在哪裡了。'),
+        ):
+            self.assertEqual(tool.translation_errors(leaf, locale, target), [], locale)
+            wrong = target.replace('休息的时间', '休息了50小时的时间').replace('休息的時間', '休息了50小時的時間')
+            self.assertTrue(tool.translation_errors(leaf, locale, wrong), locale)
+        other = tool.Leaf('events', 'example', 'content/events/story_events.json', ('result_text',), '쉰 시간이 지났다.', 'event_standard')
+        for locale, target in (('zh-CN', '经过了50小时。'), ('zh-TW', '過了50小時。')):
+            self.assertEqual(tool.translation_errors(other, locale, target), [], locale)
+            self.assertTrue(tool.translation_errors(other, locale, target.replace('50', '49')), locale)
+
+    def test_rest_exception_preserves_worked_fifty_hours(self):
+        from zh_translation_audit import _source_counter_quantities
+        for source in (
+            '폰을 뒤집어 놓고 반나절을 잤다. 그 전에 일한 쉰 시간도 어딘가로 사라진 것은 아니었다.',
+            '폰을 뒤집어 놓고 반나절을 잤다.\n그날 밤에는 알람을 미루지 않았다. 그 전에 일한 쉰 시간도 어딘가로 사라진 것은 아니었다.',
+        ):
+            self.assertTrue(any(q.kind == 'duration_hour' and q.value == 50 for q in _source_counter_quantities(source)), source)
+            leaf = tool.Leaf('events', 'example', 'content/events/story_events.json', ('result_text',), source, 'event_standard')
+            for locale, target, quantity, omitted, wrong_unit in (
+                ('zh-CN', '把手机翻过来放好，睡了半天。之前工作的50小时，也不是凭空消失了。', '50小时', '时间', '50天'),
+                ('zh-TW', '把手機翻面放下，睡了半天。之前工作的50小時，也不是憑空消失了。', '50小時', '時間', '50天'),
+            ):
+                if '\n' in source:
+                    alarm = '那天晚上，没有推迟闹钟。' if locale == 'zh-CN' else '那天晚上，沒有把鬧鐘往後調。'
+                    target = target.replace('睡了半天。', '睡了半天。\n' + alarm)
+                self.assertEqual(tool.translation_errors(leaf, locale, target), [], (source, locale))
+                for wrong in (target.replace(quantity, omitted), target.replace('50', '49'), target.replace(quantity, wrong_unit)):
+                    self.assertTrue(tool.translation_errors(leaf, locale, wrong), (source, locale, wrong))
+
     def test_date_can_sound_and_glass_pane(self):
         for source, good, bad in (
             ('캔 안에서 작은 금속 소리가 한 번 났고, 다시 조용해졌다.', '罐子裡輕輕響了一聲金屬聲，又靜了下來。', ('兩聲金屬聲', '負一聲金屬聲', '一分鐘', '一聲 公里')),

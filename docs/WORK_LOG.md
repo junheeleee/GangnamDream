@@ -23,6 +23,21 @@
 > [`7/25`](history/WORK_LOG_2026-07-25.md)에 손실 없이 보존한다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
 
+## 2026-09-08 (Codex — 회상·첫 생활과 사별 변형 번역)
+
+- 회상·생활25종158문구씩을 세 언어로 대조·수용했다. 새 저작466+기존JA8,
+  신규 수용474·누적15,957이며 기존15,483/meta9와 JA goal 원형을 보존했다.
+- 독립 대조 뒤 JA3/CN3/TW4문구를 정밀화했다. 삼각김밥 정본·고시원 설명,
+  전조등·진료 상대·추정·항목별 기록·의도 미추가를 재확인했다.
+- 수량 표현11종과 번호표·휴식시간 검사를 보정했다. 독립 검토가 찾은
+  실제 일한50시간 누락 회귀도 문장 경계로 닫았다. full self180 PASS.
+- initial/최종source·response·receipt3쌍과 기존 번역·원문을 결속했다.
+  완료180절1,270bytes만 history로 이동하고 이전 내용·끝 개행을 보존했다.
+- 실제 상환·답장·저축과 미제출/미확정·사별을 구분하며 원문 부채는 남겼다.
+  KO/EN·runtime·공개·fonts·save·human_gates 변경0, 원본 checkout 쓰기0.
+  전체 INCOMPLETE·HOLD·L3/원어민/화면 OPEN·출시 데모 GO 유지.
+  [수용·검사 상세](queue_active/ORDER-183.md)에 지문과 경계를 남긴다.
+
 ## 2026-09-08 (Codex — 생활·숨은 사건 번역)
 
 - 생활·숨은 사건25종198문구씩 JA·간체·번체를 KO 직접 저작하고 독립 전수 대조했다.
@@ -55,22 +70,6 @@
 - KO/EN·runtime·공개·fonts·save·human_gates 변경0, 원본 checkout 쓰기0.
   전체 INCOMPLETE·full/main/product HOLD·원어민/화면 OPEN·출시 데모 GO 유지.
   [수용·검사 상세](queue_active/ORDER-181.md)에 사실 경계와 지문을 남긴다.
-
-## 2026-09-08 (Codex — 아버지·인연·연애 번역)
-
-- 가족·연애25종172문구씩 JA·간체·번체를 KO 직접 저작하고 독립 전수 대조했다.
-  신규516·누적14,355번역, 기존13,839/meta9와 기존79행589문구를 보존했다.
-- CN/TW의 손아래 형제자매4문구씩을 오독 없이 명료화하고 SNS 자세1문구씩을
-  원문대로 덜었다. JA 독립 필수 수정0. 변경 문구는 다시 원문과 대조했다.
-- 이름·관형어 및 고3/50대/방문 문의/진실 대안의 실제 검사 오탐을 좁게
-  결속했다. 새 부정2유형도 닫았으며 full self174/ZH self3363 PASS다.
-  실제 대출/방문/통화/전연인 만남과 미수락 점심/앱 매칭의 차이는 보존했다.
-- 초기 source3·최종 source/response/receipt PASS·changed_files0.
-  완료177기록1,379bytes를 기존 history 앞으로 원문 이동하고 끝 개행도 보존했다.
-  검수행은 동일 활성 이어보기의 [~]·L3 OPEN으로 남는다.
-- KO/EN·runtime·공개·fonts·save·human_gates 변경0, 원본 checkout 쓰기0.
-  전체 INCOMPLETE·full/main/product HOLD·원어민/화면 OPEN·출시 데모 GO 유지.
-  [수용·검사 상세](queue_active/ORDER-180.md)에 사실 경계와 지문을 남긴다.
 
 ## 2026-09-05 (Codex — ORDER-156 Chapter 5 생활 routine 배경 수리 선언)
 

@@ -139,3 +139,61 @@ source/target hash 및 기존 수용/메타/공개를 검사한다. 실제 stdou
 
 이 범위·배치·증거 절차는 일회성이다. 지속 규칙은 I18N_INFRASTRUCTURE와
 언어별 용어집이 소유하며 새 서사·제품·출시 규칙을 만들지 않는다.
+
+## 수용 결과 — 474번역·L1/L2, L3 OPEN
+
+- 선언 `92e5caf29acf8a9ee7bdbc11d2f5672afdbb7bca` commit/push 뒤 initial source3
+  (159행/158 leaf)를 저작 전에 보존했다. JA는 기존 goal8 previous target과150 null,
+  CN/TW는158 null이었다. 세 작성자가 KO에서 각 언어를 직접 저작하고
+  다른 검토자/ROOT가474문구를 전수 대조했다. 영어 중역·간번 자동변환0이다.
+- 새 저작466과 기존 JA8 재검토를 구분한다. 기존 JA1행8문구1,818bytes의
+  배열 끝부분을 제외한1,815bytes prefix와 raw object1,811bytes/value/선두 순서를
+  보존하고 새24행만 덧붙였다. CN/TW는 새25행씩이다.
+  기존15,483번역·메타9·batch34를 유지하고474를 더해15,957(언어별5,319),
+  events553종4,251문구·endings35종234·catalog834씩, batch35다.
+- 독립 L2에서 JA 삼각김밥을 일본식おにぎり로 지운2leaf를 정본三角キンパ로
+  복구하고, 첫 고시원 설명1leaf를 보충했다. CN3leaf는 차량 전조등·큰 일회성 비유·
+  아버지 이야기를 꺼내고 싶다는 추가 의도를 정밀화했다. TW4leaf는 진료 상대 미지정·
+  항목별 한 줄씩·추정과 확정·큰 일회성 비유를 원문에 맞췄다.
+  변경10leaf 재대조 PASS이며 역치환으로 각 frozen 파일 SHA 전체를 복원해
+  나머지JA155/CN155/TW154leaf와 서식·순서가 보존됨을 확인했다.
+- 번호표147/4창구의 顧客/顾客·櫃檯·窗口 표기를 인식하고, 기존에도 허용되던
+  음수 식별자 틈을 막았다. 정상3+변조24 fixture와 독립 표적18 검사는 PASS다.
+  '쉰 시간'은 반나절 휴식 뒤의 관형형이지50시간이 아니다. 최초 문맥 예외가
+  '그 전에 일한 쉰 시간'까지 지우던 새 회귀를 독립 검토에서 발견해
+  문장 경계로 좁혔다. RED를 확인한 새 검사와 독립 정상/삭제/49시간/50일·실제휴식18건을
+  다시 통과했다. 실제 일한50시간은 계속 수량으로 검사한다. full self180 PASS.
+- 중국어 수량 검사는 실제 감정둘/추가지원1곳/이력서1장/줄별저축/식탁3명/
+  문틈한뼘/형광등한줄/하루종료/커피한잔/한번실수/하루소비11종의 문맥에 결속했다.
+  사람 수가 뒤에 나오는 '먹을 사람이 셋'도 실제값으로 읽으며,
+  자연스러운其中一种·兩者·逐行·一份履歷·每天·一旦의 표현을 수량 삭제로 보지 않는다.
+  정식 ZH self3763=기존3537+신규226 PASS, 독립 기본47과 영향 본문20도 PASS다.
+  독립 검토의 감정 앞절3종/잘못된기간/문틈거리/하루종료4유형5쌍 새 누출과,
+  기존부터 허용되던 커피公斤/매주소비2쌍도 해당 witness 안에서 닫았다.
+  전역 수량 면제·event ID 제외0이며 자연어 검사 완전성/원어민 인증을 뜻하지 않는다.
+  최종 도구373,201bytes SHA
+  `efa539ae06c5bf87f3591b3789a09606f6d3c531654a55bb63808a45651f7d87`.
+- 최종 source/response/accepted receipt3쌍은 initial source와 원문 hash로 결속했고,
+  474실물 L1 오류0·check/import --accept changed_files0이다.
+  final158-record aggregate JA
+  `cce8d514c6ca89ee860b340f01b7fc3ebd08e3a99406e62184e7da8eb1c767b7`,
+  CN `cf39552cb8551fe0ee01cbf5cc0f14342f5d3cd64b87382951d6b7c71ca2bdd2`,
+  TW `41523d3bfdad4cdf65f281a183b542ce5b69729c804fb4251a44c2595a9ae6eb`.
+- 완료180 WORK_LOG절1,270bytes만 기존 history30,303bytes 앞으로 원문 이동했다.
+  새31,573bytes SHA
+  `6fc5fb52a8c4975a360fa18d36adc2ce3a2f946dd912db72d1076e8db5cf924d`.
+  기존 내용·끝 LF2는 byte-exact 보존, 검수행은 같은 활성 이어보기 [~]·L3 OPEN이다.
+- 회상 나이/시점·상환/통화/상품권/답장/귀향/저축 실제행동과 미제출 지원/미확인 주문을
+  구분했다. 사별 어머니만과 아버지 가정법을 유지하며 새 회신·동석·거래를 만들지 않았다.
+  보름 경과·주거 산문/조건·계좌 milestone 현재값·시간 압축의 원문 부채도 숨겨 수리하지 않았다.
+  KO/EN·runtime·공개·fonts·save·human_gates 변경0, 원본 checkout 쓰기0.
+  전체 INCOMPLETE·full/main/product HOLD·원어민/화면 OPEN,
+  출시 M01~M06 사용자 GO 유지. 자동 검사는 사람 판정 대체물이 아니다.
+- portable checksum `29875453c4aaf0f50cb90e7a3eeb745c462415ba127b40fb0358fe278853b0ca`.
+- 최종 named `full-game-localization-overlays` 12개 PASS, audit ERROR0/WARNING0,
+  EN1813/35·공개100leaf/121UI·portable15,957 전량 source/target hash 및 L1 오류0이다.
+  context boot29,112bytes/docs285/links83, queue46/in_progress44 PASS.
+  실제 검사 출력 `order183-final-checks.log` 4,225bytes SHA
+  `be0352722b75140edeee5e937504ce63c3dd17fb069da990c58f16afe8c53e5e`를
+  byte-exact 보존했다. ZH skeleton의 JP-first 글꼴 경로 blocked는 기존 미완료로
+  남기며 self-test 통과로 full strict·화면/원어민 gate를 닫지 않는다.
