@@ -31,6 +31,8 @@ before editing and retain that source record; if the target was edited manually,
 take a new export for its current target hash before checking the final response.
 Do not use the old Japanese pipeline's all/events writer as an incremental merge:
 that writer can replace locale files instead of preserving the current overlays.
+Read any existing overlay before adding rows and append only the owned IDs;
+an Add File patch is not a safe append operation for a file that already exists.
 
 The full scope includes every event text variant and Chapter 5 reader, every
 ending variant, catalog text, and both static and dynamic UI. Packaged,

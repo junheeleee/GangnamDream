@@ -89,6 +89,7 @@ protected=false이며 기수용138종·author-only/planned/public 겹침0이다.
 `tools/full_game_localization_self_test.py`, `tools/zh_translation_audit.py`,
 `tools/audit_scope.json`, `content/meta/full_game_localization.json`,
 이 사양·CODEX_QUEUE·CLAUDE·WORK_LOG·생성STATUS·전체 현지화 backlog를 소유한다.
+기존행 덮어쓰기 재발 방지 한 줄은 `docs/I18N_INFRASTRUCTURE.md`에만 둔다.
 부팅 예산 때문에 완료절을 옮길 때만 기존
 `docs/history/WORK_LOG_2026-09-07_localization.md`에 원문 바이트 그대로 보존한다.
 
@@ -113,3 +114,35 @@ KO/EN·runtime·저장·라우팅·관계·catalog/endings·폰트·공개 overl
 분할·파일·증거는 일회성이다. 지속 현지화 규칙은 기존 I18N_INFRASTRUCTURE와
 세 용어집이 소유하며 새 서사·상품·출시 규칙을 만들지 않는다.
 
+## 2026-09-07 구현·원문 대조 결과
+
+- 세 언어40종/358문구씩1,074개를 KO에서 직접 저작하고 다른 작성자가 전수
+  대조했다. reader78·조건14/언어와 선택/조건 대안을 빠짐없이 읽었다.
+  JA 자정7곳, CN 의자·행위 주체2곳, TW 복사기 걸림·세 화면·이름 표기4곳을
+  정밀화하고 재대조했다. 인명 한자 발명·새 응답/동의/소유 추가0이다.
+- 초기 export6개는 source ID/path/hash/text가 current KO358과 일치한다.
+  최종 `order166-final-{A,B}.source.jsonl`/response6쌍은 check/import PASS,
+  changed_files0이며 git-private locale/prompt 디렉터리에 보존했다.
+  최종 source+target aggregate:
+  JA `dc7c174a00ecf5718c3ac821cf4e2be3607f7f82810990344fc8506fa1f228b4`,
+  CN `2d2316f8f7ac3efa63cc34e1579d5ade4709e7e31d9cdc554a31e6db992421ae`,
+  TW `348a59c5998c73c5356d0db3d2ff6054c2329eaab85fd0893f105e81cf9354ea`.
+- 이전6,792/비표시 메타9를 보존해 portable7,866=언어별2,622로 합쳤다.
+  accepted checksum `a66d6d1d0c3585d74c7c798341ad41bb100f8c795394023f2950bb26cea69ba1`.
+  source manifest 불변, 기존64행/언어의 값·순서·raw prefix도 정확히 보존했다.
+  KO/EN·runtime·공개 working baseline·폰트·출시·human_gates 변경0이다.
+- 실제 원문의 혼합 원화·영수증 식별자·수량/단위·부정문·호칭·이름 인용 오탐을
+  정상/변조 fixture로 구분했다. 독립 검토가 찾은 금액 귀속 순서 교환, 수량 뒤
+  사람/기간 단위 끼워 넣기, 종이/MB 음수, 일요일 수 누락을 수리했다.
+  self115·ZH935 통과; 독립211건은 정상38/38·변이162/173 거부,
+  실제 CN177변이는174 거부다. 남은11/3은 baseline에도 있던 분류기 한계이며
+  새 회귀나 실제 저작 오류로 오인하지 않는다. L2와 별도 보존하고 전체 QA로 확대하지 않는다.
+- 계약 월요일/수요일의 '전날', 민서 회수 발화 출처, 다은 메모3글자, 아버지
+  속말/입밖 경계는 원문 확인점으로 backlog에 남겼다. 번역으로 몰래 수정하지 않았다.
+  완료163절은 history에 원문1938bytes 그대로 이동했다.
+- L3·원어민·실제 화면은 OPEN이므로 오더는 `[~]`, 전체 INCOMPLETE와
+  full/main/product HOLD·배포 M01~M06 사용자 GO를 유지한다.
+  종막15종197문구/언어와 나머지 사건·UI·표시 소비자를 이어간다.
+- 최종12개 표적 차선·EN·diff PASS, 실제7,866문구 전수 검사 오류0이다.
+  실제 stdout은 git-private `full-game-localization/order166-final-checks.log`에
+  보존했다. Godot 실행·전체 감사·새 실플레이 증거는 아니다.

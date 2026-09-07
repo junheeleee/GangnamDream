@@ -390,6 +390,49 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
         numeric = re.compile(r"(?<![\d.])[+-]?\d+(?:[,.]\d+)*")
         source_numbers = ja.PLACEHOLDER.sub("", leaf.source)
         target_numbers = ja.PLACEHOLDER.sub("", text)
+        from zh_translation_audit import (
+            _source_money_amounts, _target_money_amounts,
+            _has_numeric_sign_prefix, MoneyAmount,
+        )
+        # Mixed Korean thousand/hundred-man notation is one won amount.
+        # Match its value/currency, then normalize those exact spans so Japanese
+        # comma grouping does not pretend to change the explicit digit contract.
+        mixed_source = [amount for amount in _source_money_amounts(source_numbers)
+            if source_numbers[amount.start:amount.end].endswith('원')
+            and re.search(r'\d+\s*[천백]', source_numbers[amount.start:amount.end])]
+        mixed_target = list(re.finditer(
+            r"[+-]?\d+(?:,\d{3})*(?:億\s*\d+(?:,\d{3})*)?(?:千万|万)ウォン(?!円|韓元|韩元|元|ドル|ウォン)", target_numbers,
+        ))
+        consumed = []
+        for amount in mixed_source:
+            value = amount.won
+            required_plus = source_numbers[amount.start:amount.end].startswith('+')
+            found = None
+            for candidate in mixed_target:
+                if candidate.start() in {start for start, _ in consumed}:
+                    continue
+                parsed = _target_money_amounts(candidate.group().replace('ウォン', '韓元'))
+                if len(parsed) == 1 and parsed[0].won == value \
+                        and candidate.group().startswith('+') == required_plus \
+                        and not _has_numeric_sign_prefix(target_numbers, candidate.start()):
+                    found = candidate
+                    break
+            if found is None:
+                errors.append('mixed Korean thousand-hundred-man won amount/currency mismatch')
+            else:
+                consumed.append((found.start(), found.end()))
+        # Keep the normalized amounts in the ordered numeric stream. Masking
+        # them would let two correctly valued fees exchange their owners, or
+        # let a mixed amount move across an ordinary number unnoticed.
+        def normalized_money_numbers(value, spans):
+            for span in sorted(spans, key=lambda item: item.start, reverse=True):
+                value = value[:span.start] + format(span.won, 'f') + value[span.end:]
+            return value
+        source_numbers = normalized_money_numbers(source_numbers, mixed_source)
+        target_numbers = normalized_money_numbers(target_numbers, [
+            MoneyAmount(start, end, amount.won)
+            for amount, (start, end) in zip(mixed_source, consumed)
+        ]) if len(consumed) == len(mixed_source) else target_numbers
         # Korean mixed notation 5백만원 is 500万ウォン, not 5万ウォン.
         # Bind both the magnitude and currency before normalizing digits.
         for amount in re.finditer(r"(?<![\d.])(?P<number>[+-]?\d+)백만원", source_numbers):
@@ -440,6 +483,8 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
                     target_numbers = re.sub(r"(?<![0-9一二三四五六七八九十百千萬万億兆])" + re.escape(before), after, target_numbers)
         if sorted(numeric.findall(source_numbers)) != sorted(numeric.findall(target_numbers)):
             errors.append("explicit numeric value/sign mismatch")
+        if mixed_source and numeric.findall(source_numbers) != numeric.findall(target_numbers):
+            errors.append("mixed Korean-won ordered numeric ownership mismatch")
     else:
         from zh_translation_audit import validate_text
         errors = validate_text(locale, leaf.id, leaf.source, text)

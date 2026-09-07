@@ -98,6 +98,240 @@ class ExchangeTests(unittest.TestCase):
                 for target in targets:
                     self.assertEqual(tool.translation_errors(leaf, locale, target), [], (source, target))
 
+    def test_final_year_chapter_receipt_and_honorific_contexts(self):
+        for source, target in (
+            ('1장의 마지막 상환확인일', '第一章最後的還款確認日期'),
+            ('1장의 마지막 상환확인서 사본', '第1章最後的還款確認書影本'),
+            ('두 분은 내가 대답하기도 전에', '兩位在我回答以前'),
+            ('내 이름만으로 227번을 접수한다', '只用我的名字送件，收件編號為227號'),
+            ('접수본에 227번과 날짜를 찍었다.', '在收件文件上蓋了227號和日期。'),
+            ('자기 명의 227번을 차례로 펼쳤다.', '依序展開自己名義的227號。'),
+            ('못 한 사람이나.', '或沒能做到的人。'),
+            ('그 말을 한 사람이 제안자이기도 하다.', '說這話的人也是提案者。'),
+        ):
+            leaf = tool.Leaf('events', 'example', 'content/events/arc_pre_ending.json', ('description',), source, 'event_standard')
+            self.assertEqual(tool.translation_errors(leaf, 'zh-TW', target), [], (source, target))
+
+    def test_final_year_chapter_receipt_and_honorific_mutations(self):
+        for source, good in (
+            ('1장의 마지막 상환확인일', '第一章'),
+            ('내 이름만으로 227번을 접수한다', '227號'),
+            ('두 분은 내가 대답하기도 전에', '兩位'),
+        ):
+            leaf = tool.Leaf('events', 'example', 'content/events/arc_pre_ending.json', ('description',), source, 'event_standard')
+            for bad in (good.replace('一', '二').replace('227', '228').replace('兩', '三'), '負'+good, '十 '+good):
+                self.assertTrue(tool.translation_errors(leaf, 'zh-TW', bad), (source, bad))
+        for source, bad in (
+            ('1장의 마지막 상환확인일', '一張還款確認書'),
+            ('종이 한 장을 폈다.', '第一章'),
+            ('내 이름만으로 227번을 접수한다', '227次'),
+            ('접수본에 227번과 날짜를 찍었다.', '227分鐘'),
+            ('227번을 반복했다.', '227號'),
+            ('두 분은 내가 대답하기도 전에', '兩分鐘'),
+            ('두 분이 지났다.', '兩位'),
+            ('한 사람이 앉았다.', '人坐下了。'),
+        ):
+            leaf = tool.Leaf('events', 'example', 'content/events/arc_pre_ending.json', ('description',), source, 'event_standard')
+            self.assertTrue(tool.translation_errors(leaf, 'zh-TW', bad), (source, bad))
+
+    def test_final_year_mixed_won_amounts(self):
+        for locale, pairs in (
+            ('ja', (('2억 5천8백만원', '2億5,800万ウォン'), ('1천8백만원', '1,800万ウォン'),
+                    ('1천2백만원', '1,200万ウォン'), ('-1천2백만원', '-1,200万ウォン'),
+                    ('+1천2백만원', '+1,200万ウォン'))),
+            ('zh-CN', (('2억 5천8백만원', '2亿5800万韩元'), ('1천8백만원', '1800万韩元'),
+                       ('1천2백만원', '1200万韩元'), ('-1천2백만원', '-1200万韩元'))),
+            ('zh-TW', (('2억 5천8백만원', '2億5800萬韓元'), ('1천8백만원', '1800萬韓元'),
+                       ('1천2백만원', '1200萬韓元'), ('-1천2백만원', '-1200萬韓元'))),
+        ):
+            for source, target in pairs:
+                leaf = tool.Leaf('events', 'example', 'content/events/arc_midgame.json', ('description',), source, 'event_standard')
+                self.assertEqual(tool.translation_errors(leaf, locale, target), [], (source, target))
+
+    def test_final_year_mixed_won_mutations(self):
+        for locale, good, bad_currency in (
+            ('ja', '2億5,800万ウォン', '2億5,800万円'),
+            ('zh-CN', '2亿5800万韩元', '2亿5800万元'),
+            ('zh-TW', '2億5800萬韓元', '2億5800萬元'),
+        ):
+            leaf = tool.Leaf('events', 'example', 'content/events/arc_midgame.json', ('description',), '2억 5천8백만원', 'event_standard')
+            for bad in (good.replace('800','900'), good.replace('2','3'), '負'+good, '十 '+good, good+'、'+good, bad_currency):
+                self.assertTrue(tool.translation_errors(leaf, locale, bad), (locale, bad))
+        for source, target in (('-1천2백만원','1,200万ウォン'),('+1천2백만원','1,200万ウォン'),('1천2백만원','+1,200万ウォン')):
+            leaf = tool.Leaf('events', 'example', 'content/events/arc_midgame.json', ('description',), source, 'event_standard')
+            self.assertTrue(tool.translation_errors(leaf, 'ja', target), (source, target))
+
+    def test_final_year_ordinal_version_and_source_document(self):
+        for source, target in (('열한 번째 장에', '第十一頁'), ('여섯 번째 장면', '第六個場景'), ('첫 번째 장면', '第一個場景'), ('두 버전의 모서리', '兩個版本的邊角'), ('R3 원문이 있었다.', '有R3原文。')):
+            leaf = tool.Leaf('events', 'example', 'content/events/arc_midgame.json', ('description',), source, 'event_standard')
+            self.assertEqual(tool.translation_errors(leaf, 'zh-TW', target), [], (source, target))
+        for source, bad in (('열한 번째 장에', '第十二頁'), ('열한 번째 장에', '十一分鐘'), ('두 버전의 모서리', '三個版本的邊角'), ('두 버전의 모서리', '兩個人'), ('R3 원문이 있었다.', '有3韓元。'), ('3원이었다.', '有原文。')):
+            leaf = tool.Leaf('events', 'example', 'content/events/arc_midgame.json', ('description',), source, 'event_standard')
+            self.assertTrue(tool.translation_errors(leaf, 'zh-TW', bad), (source, bad))
+
+    def test_final_year_mixed_money_owner_order(self):
+        for source, good, bad in (
+            ('A는 1천8백만원, B는 1천2백만원이었다.', 'Aは1,800万ウォン、Bは1,200万ウォンだった。', 'Aは1,200万ウォン、Bは1,800万ウォンだった。'),
+            ('1천8백만원. 7일. 1천2백만원.', '1,800万ウォン。7日。1,200万ウォン。', '1,800万ウォン。1,200万ウォン。7日。'),
+            ('1천8백만원. 7만원.', '1,800万ウォン。7万ウォン。', '7万ウォン。1,800万ウォン。'),
+        ):
+            leaf = tool.Leaf('events', 'example', 'content/events/arc_midgame.json', ('description',), source, 'event_standard')
+            self.assertEqual(tool.translation_errors(leaf, 'ja', good), [], (source, good))
+            self.assertTrue(tool.translation_errors(leaf, 'ja', bad), (source, bad))
+
+    def test_final_year_typed_name_columns_chairs_and_covers(self):
+        for source, good, bad in (
+            ('두 이름 칸의 차이.', '兩個姓名欄的差異。', '兩個名字的差異。'),
+            ('두 이름 칸의 차이.', '两个名字栏的差异。', '三個姓名欄的差異。'),
+            ('두 이름을 보았다.', '看見兩個名字。', '看見兩個人。'),
+            ('두 의자의 등받이.', '兩張椅子的椅背。', '三張椅子的椅背。'),
+            ('두 의자의 등받이.', '两把椅子的椅背。', '兩個小時。'),
+            ('두 표지에는 같은 시각.', '兩份封面上有相同的時間。', '三份封面上有相同的時間。'),
+        ):
+            leaf = tool.Leaf('events', 'example', 'content/events/arc_midgame.json', ('description',), source, 'event_standard')
+            locale = 'zh-CN' if '两个' in good or '两把' in good else 'zh-TW'
+            self.assertEqual(tool.translation_errors(leaf, locale, good), [], (source, good))
+            self.assertTrue(tool.translation_errors(leaf, 'zh-TW', bad), (source, bad))
+        for locale, classifier in (('zh-CN', '个'), ('zh-TW', '個')):
+            leaf = tool.Leaf('events', 'example', 'content/events/arc_midgame.json', ('description',), '셋을 모두 캐물으면 대답은 흐려졌다.', 'event_standard')
+            good = '三' + classifier + ('都追问的话，回答就含糊了。' if locale == 'zh-CN' else '都追問的話，回答就含糊了。')
+            self.assertEqual(tool.translation_errors(leaf, locale, good), [])
+            for suffix in ('月', '年', '日', '週', '秒', '人', '小時', '韓元', '公里'):
+                bad = good.replace('三' + classifier, '三' + classifier + suffix)
+                self.assertTrue(tool.translation_errors(leaf, locale, bad), (locale, bad))
+            for suffix in ('股份', '股', '椅子'):
+                self.assertTrue(tool.translation_errors(leaf, locale, '三' + classifier + suffix + '。'))
+        leaf = tool.Leaf('events', 'example', 'content/events/arc_midgame.json', ('description',), '고맙다. 그리고 미안했다. 둘 다.', 'event_standard')
+        for suffix in ('人', '小时', '月', '公里', '股份'):
+            self.assertTrue(tool.translation_errors(leaf, 'zh-CN', '两样' + suffix + '。'), suffix)
+
+    def test_final_year_monthly_sunday_and_paper_signs(self):
+        for locale, source, good, bads in (
+            ('zh-CN', '한 달에 일요일 하나를 남긴다.', '每月留下一个星期天。', ('每月留下零个星期天。', '每月留下负一个星期天。', '每月留下十 一个星期天。', '每月留下一个人。')),
+            ('zh-TW', '한 달에 일요일 하나를 남긴다.', '每月留下一個星期天。', ('每月留下零個星期天。', '每月留下負一個星期天。')),
+            ('zh-CN', '두 종이가 남았다.', '两张纸留下了。', ('负两张纸留下了。', '十 两张纸留下了。')),
+            ('zh-TW', '두 종이만 남았다. 두 종이는 접혀 있었다.', '只留下兩張紙。兩張紙是折好的。', ('只留下負兩張紙。兩張紙是折好的。', '只留下兩張紙。負兩張紙是折好的。')),
+            ('zh-CN', '네 주를 한 번도 비켜 가지 않았다.', '四周里一次也没有漏过。', ('四周里两次也没有漏过。',)),
+        ):
+            leaf = tool.Leaf('events', 'example', 'content/events/arc_midgame.json', ('description',), source, 'event_standard')
+            self.assertEqual(tool.translation_errors(leaf, locale, good), [], (source, good))
+            for bad in bads:
+                self.assertTrue(tool.translation_errors(leaf, locale, bad), (source, bad))
+
+    def test_final_year_money_suffix_and_megabyte_prefix(self):
+        leaf = tool.Leaf('events', 'example', 'content/events/arc_midgame.json', ('description',), '1천8백만원', 'event_standard')
+        for bad in ('1,800万ウォン円', '1,800万ウォン韓元', '1,800万ウォンウォン'):
+            self.assertTrue(tool.translation_errors(leaf, 'ja', bad), bad)
+        for locale, good in (('zh-CN', '6.4 MB文件。'), ('zh-TW', '6.4 MB檔案。'), ('zh-TW', '6.4兆位元組檔案。')):
+            leaf = tool.Leaf('events', 'example', 'content/events/arc_midgame.json', ('description',), '6.4메가바이트 파일.', 'event_standard')
+            self.assertEqual(tool.translation_errors(leaf, locale, good), [], good)
+            for bad in ('负' + good, '負' + good, '十 ' + good, good.replace('6.4', '7.4'), good.replace('MB', 'GB') if 'MB' in good else good.replace('兆', '千')):
+                self.assertTrue(tool.translation_errors(leaf, locale, bad), bad)
+
+    def test_final_year_observed_surface_quantities(self):
+        for source, target in (
+            ('한 달에 일요일 하나를 남긴다.', '每月留下一個星期天。'),
+            ('비워 둘 시간을 말해요.', '說說一開始就空下來的時間。'),
+            ('두 화면에는 같은 날짜만 떠 있었다.', '兩個螢幕只顯示相同日期。'),
+            ('세 화면을 모두 닫지 않았다.', '三個畫面，一個也沒關。'),
+            ('두 말풍선 아래.', '兩個訊息泡泡下。'),
+            ('두 첨부파일의 쪽수를 첫 장부터 대조했다.', '從第一頁開始，核對兩個附件的頁數。'),
+            ('두 전송 버튼만 남았다.', '只留下兩個傳送按鈕。'),
+            ('두 파일의 마지막 장.', '兩個檔案的最後一頁。'),
+            ('세 주소를 저장했다.', '儲存三個地址。'),
+            ('25억원대 매물 셋 가운데 골랐다.', '從三套25億韓元價位的房源中選。'),
+            ('매수인은 한 분으로 보세요?', '買方按一位來看嗎？'),
+            ('식은 커피를 한 번도 마시지 않았다.', '一口冷咖啡也沒喝。'),
+            ('두 숫자 사이.', '兩個數字之間。'),
+            ('두 출처를 구분했다.', '區分兩個來源。'),
+            ('영상 세 개를 재생했다.', '播放三段影片。'),
+            ('관찰할 시각 세 개가 적혔다.', '寫下三個需要觀察的時間。'),
+            ('셋을 모두 캐물으면.', '三個問題都追問的話。'),
+            ('비어 있는 두 칸부터.', '從兩個空欄開始。'),
+            ('소유자 한 칸으로.', '縮成所有權人一個欄位。'),
+            ('두 날짜를 적었다.', '寫下兩個日期。'),
+            ('칼이 도마에 닿았다. 하나, 둘.', '刀落在砧板上。一，二。'),
+            ('세 글자였다.', '是三個韓文字。'),
+            ('둘 중 하나였다.', '只有這兩種。'),
+            ('파일은 6.4메가바이트.', '檔案是6.4 MB。'),
+        ):
+            leaf = tool.Leaf('events', 'example', 'content/events/arc_midgame.json', ('description',), source, 'event_standard')
+            self.assertEqual(tool.translation_errors(leaf, 'zh-TW', target), [], (source, target))
+
+    def test_final_year_surface_quantity_mutations(self):
+        for source, good in (
+            ('두 화면에는 날짜만 있었다.', '兩個螢幕'), ('세 화면을 모두 열었다.', '三個畫面'),
+            ('두 말풍선 아래.', '兩個訊息泡泡'), ('두 첨부파일을 열었다.', '兩個附件'),
+            ('두 전송 버튼만 남았다.', '兩個傳送按鈕'), ('세 주소를 저장했다.', '三個地址'),
+            ('두 숫자 사이.', '兩個數字'), ('두 출처를 구분했다.', '兩個來源'),
+            ('영상 세 개를 재생했다.', '三段影片'), ('관찰할 시각 세 개가 적혔다.', '三個需要觀察的時間'),
+            ('셋을 모두 캐물으면.', '三個問題'), ('두 날짜를 적었다.', '兩個日期'),
+            ('비어 있는 두 칸부터.', '兩個空欄'), ('세 글자였다.', '三個韓文字'),
+        ):
+            leaf = tool.Leaf('events', 'example', 'content/events/arc_midgame.json', ('description',), source, 'event_standard')
+            for bad in (good.replace('兩','四').replace('三','四'), '負'+good, '十 '+good, '兩分鐘'):
+                self.assertTrue(tool.translation_errors(leaf, 'zh-TW', bad), (source, bad))
+        for source, bad in (
+            ('한 달에 일요일 하나를 남긴다.', '每週留下一個星期天。'),
+            ('두 시간이 지났다.', '時間過去了。'),
+            ('칼이 도마에 닿았다. 하나, 둘.', '刀落在砧板上。一，三。'),
+            ('칼이 도마에 닿았다. 하나, 둘.', '刀落在砧板上。三，二。'),
+            ('식은 커피를 한 번도 마시지 않았다.', '喝了一口冷咖啡。'),
+            ('식은 커피를 한 번도 마시지 않았다.', '兩口冷咖啡也沒喝。'),
+            ('25억원대 매물 셋 가운데 골랐다.', '從四套25億韓元價位的房源中選。'),
+            ('25억원대 매물 셋 가운데 골랐다.', '從三套26億韓元價位的房源中選。'),
+            ('6.4메가바이트.', '6.4 GB。'), ('원문 파일.', 'MB。'),
+            ('두 첨부파일의 쪽수를 첫 장부터 대조했다.', '從第二頁開始，核對兩個附件的頁數。'),
+            ('두 첨부파일의 쪽수를 첫 장부터 대조했다.', '從第一頁開始，核對三個附件的頁數。'),
+        ):
+            leaf = tool.Leaf('events', 'example', 'content/events/arc_midgame.json', ('description',), source, 'event_standard')
+            self.assertTrue(tool.translation_errors(leaf, 'zh-TW', bad), (source, bad))
+
+    def test_final_year_receipt_negation_and_labels(self):
+        for source, target in (
+            ('보증 범위를 다시 한 번 위에서 아래로 읽고.', '再次由上往下讀過保證範圍。'),
+            ('네 주를 한 번도 비켜 가지 않았다.', '四週裡沒有漏過任何一週。'),
+            ('세 개의 현재 동작이 열렸다.', '三種此刻可以做的操作。'),
+            ('셋을 모두 캐물으면.', '三件事都追問的話。'),
+            ('고맙다. 그리고 미안했다. 둘 다.', '謝謝你。也對不起你。兩樣都是。'),
+            ('두 종이만 남았다. 두 종이는 접혀 있었다.', '只留下兩張紙。兩張紙是折好的。'),
+            ('두 표지에는 시각이 보였다.', '兩個封面上看得見時間。'),
+            ('컵라면 두 개를 먹었다.', '吃了兩碗杯麵。'),
+            ('대답해야 할 사람은 셋이었다.', '得向三個人回答。'),
+            ('평생 한 번도 안 했던 말을 했다.', '說了一輩子從沒說過的話。'),
+            ('김다은이라는 이름이 입력돼 있었다.', 'R3 最後一頁填著「Kim Daeun」。'),
+            ("등기부의 '김다은' 세 글자를 짚는다.", '點著登記簿上「Kim Daeun」的三個字。'),
+            ("등기부의 '김다은' 세 글자를 짚는다.", '點著登記簿上「Kim Daeun」的三個韓文字。'),
+        ):
+            leaf = tool.Leaf('events', 'example', 'content/events/arc_midgame.json', ('description',), source, 'event_standard')
+            # The display-label fixture must preserve the source document ID.
+            if target.startswith('R3 '):
+                leaf = tool.Leaf('events', 'example', 'content/events/arc_midgame.json', ('description',), 'R3 마지막 장에는 김다은이라는 이름이 입력돼 있었다.', 'event_standard')
+            self.assertEqual(tool.translation_errors(leaf, 'zh-TW', target), [], (leaf.source, target))
+        leaf = tool.Leaf('events', 'example', 'content/events/arc_midgame.json', ('description',), '평생 한 번도 안 했던 말을 했다.', 'event_standard')
+        self.assertEqual(tool.translation_errors(leaf, 'zh-CN', '说了这辈子一次也没说过的话。'), [])
+
+    def test_final_year_receipt_negation_and_label_mutations(self):
+        for source, bad in (
+            ('보증 범위를 다시 한 번 위에서 아래로 읽고.', '兩次由上往下讀過保證範圍。'),
+            ('네 주를 한 번도 비켜 가지 않았다.', '四週裡漏過一週。'),
+            ('세 개의 현재 동작이 열렸다.', '兩種此刻可以做的操作。'),
+            ('셋을 모두 캐물으면.', '三個小時。'),
+            ('고맙다. 그리고 미안했다. 둘 다.', '謝謝你。也對不起你。三樣都是。'),
+            ('두 종이만 남았다. 두 종이는 접혀 있었다.', '只留下兩張紙。三張紙是折好的。'),
+            ('두 표지에는 시각이 보였다.', '三個封面上看得見時間。'),
+            ('컵라면 두 개를 먹었다.', '吃了三碗杯麵。'),
+            ('대답해야 할 사람은 셋이었다.', '得向四個人回答。'),
+            ('평생 한 번도 안 했던 말을 했다.', '說了這輩子說過一次的話。'),
+            ('R3 마지막 장에는 김다은이라는 이름이 입력돼 있었다.', 'R3 最後一頁填著「Kim Daeun」金多恩。'),
+            ("등기부의 '김다은' 세 글자를 짚는다.", '點著登記簿上金多恩「Kim Daeun」的三個字。'),
+            ("등기부의 '김다은' 세 글자를 짚는다.", '點著登記簿上「Kim Daeun」金多恩的三個字。'),
+            ("등기부의 '김다은' 세 글자를 짚는다.", '點著登記簿上「Kim Daeun」金多恩的三個韓文字。'),
+            ("등기부의 '김다은' 세 글자를 짚는다.", '點著登記簿上金多恩「Kim Daeun」的三個韓文字。'),
+        ):
+            leaf = tool.Leaf('events', 'example', 'content/events/arc_midgame.json', ('description',), source, 'event_standard')
+            self.assertTrue(tool.translation_errors(leaf, 'zh-TW', bad), (source, bad))
+
     def test_year_four_observed_noun_counts(self):
         for source, target in (
             ('세 약속을 넣으면 셋을 망칠 수 있었다.', '放進三個約定，可能會把三個都搞砸。'),

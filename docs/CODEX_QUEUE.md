@@ -52,7 +52,7 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-166 · 마지막 해 사람·계약 판정 번역 | [166](queue_active/ORDER-166.md) | 40사건358문구 · reader78/언어 · L3 OPEN |
+| 1 | [~] | ORDER-166 · 마지막 해 사람·계약 판정 번역 | [166](queue_active/ORDER-166.md) | 1,074번역 L1/L2 · reader78/언어 · L3 OPEN |
 | 2 | [~] | ORDER-165 · 데모 간체 수량 정밀화 | [165](queue_active/ORDER-165.md) | 한 문장 수리 L1/L2 · L3 OPEN |
 | 3 | [~] | ORDER-164 · 4년차와 아버지 경과 번역 | [164](queue_active/ORDER-164.md) | 1,380번역 L1/L2 · 조건128/언어 · L3 OPEN |
 | 4 | [~] | ORDER-163 · 3년차와 장기 후속 번역 | [163](queue_active/ORDER-163.md) | 1,089번역 L1/L2 · foreshadow4/언어 · L3 OPEN |
