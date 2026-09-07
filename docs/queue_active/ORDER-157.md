@@ -55,6 +55,10 @@
 - `content/endings_{ja,zh-CN,zh-TW}.json`의 위 세 root 텍스트만.
 - 필요 시 `tools/ja_translation_pipeline.py`, `tools/full_body_translation_scope.py`의
   collector/관측 분리만. 기존 UI/공개 데모 규칙·역사 기준선은 완화하지 않는다.
+- `tools/zh_translation_audit.py`의 이번 세 root가 재현한 숫자 검사의 오탐만:
+  `둘이 원한`을 2원으로 읽는 접미어 오독, 전화벨 `两声/兩聲`의 두 번,
+  `那顿饭/那頓飯`의 단수 식사다. 실제 금액·횟수 변경 음성 사례를 함께 잠그며
+  번역을 검사에 맞춰 부자연스럽게 늘이거나 blanket 예외를 만들지 않는다.
 - `tools/audit_scope.json`의 새 검사 등록, `docs/I18N_INFRASTRUCTURE.md`의
   사용자 승인·증분 번역 상태, `docs/queue_backlog/FULL_GAME_LOCALIZATION.md`의
   전체 남은 범위, 이 사양·큐·WORK_LOG·STATUS·CLAUDE·DECISIONS 기록.
