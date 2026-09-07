@@ -1,3 +1,27 @@
+## 현지화 수용 상세 (2026-09-07)
+
+완료한 기계·원문 대조 수량을 담은 이전 인덱스 행의 원문 보존이다.
+각 오더는 L3 OPEN인 채 활성 큐에 남으며, 아래 [~]도 완료/승격으로 바꾸지 않는다.
+
+```text
+| 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
+|---:|:---:|---|---|---|
+| 1 | [~] | ORDER-172 · 가족·직장·친구 번역 | [172](queue_active/ORDER-172.md) | 1,140번역 L1/L2 · L3 OPEN |
+| 2 | [~] | ORDER-171 · 데이트·계절 장면 번역 | [171](queue_active/ORDER-171.md) | 627번역 L1/L2 · L3 OPEN |
+| 3 | [~] | ORDER-170 · 결혼·가족 장면 번역 | [170](queue_active/ORDER-170.md) | 618번역 L1/L2 · L3 OPEN |
+| 4 | [~] | ORDER-169 · 일본어 원화 단위 정밀화 | [169](queue_active/ORDER-169.md) | 기존2문구 L1/L2 · L3 OPEN |
+| 5 | [~] | ORDER-168 · 다은 관계·통화 번역 | [168](queue_active/ORDER-168.md) | 492번역 L1/L2 · L3 OPEN |
+| 6 | [~] | ORDER-167 · 종막 서명·선발신 번역 | [167](queue_active/ORDER-167.md) | 591번역 L1/L2 · L3 OPEN |
+| 7 | [~] | ORDER-166 · 마지막 해 번역 | [166](queue_active/ORDER-166.md) | 1,074번역 L1/L2 · reader78/언어 · L3 OPEN |
+| 8 | [~] | ORDER-165 · 데모 간체 수량 정밀화 | [165](queue_active/ORDER-165.md) | 한 문장 수리 L1/L2 · L3 OPEN |
+| 9 | [~] | ORDER-164 · 4년차와 아버지 경과 번역 | [164](queue_active/ORDER-164.md) | 1,380번역 L1/L2 · 조건128/언어 · L3 OPEN |
+| 10 | [~] | ORDER-163 · 3년차와 장기 후속 번역 | [163](queue_active/ORDER-163.md) | 1,089번역 L1/L2 · foreshadow4/언어 · L3 OPEN |
+| 11 | [~] | ORDER-162 · M07~M24 연결 사건 번역 | [162](queue_active/ORDER-162.md) | 837번역 L1/L2 · 조건변형28 보존 · L3 OPEN |
+| 12 | [~] | ORDER-161 · catalog 전체 번역 | [161](queue_active/ORDER-161.md) | 2,502문구 L1/L2 · 신규2,485·기존수리1 · L3 OPEN |
+| 13 | [~] | ORDER-160 · 남은 결말18종 번역 | [160](queue_active/ORDER-160.md) | 387번역 L1/L2 · 엔딩35종 본문 채움 · L3 OPEN |
+| 14 | [~] | ORDER-159 · 일상·회복 결말 14종 번역 | [159](queue_active/ORDER-159.md) | 249번역 L1/L2 · 비표시 메타 제외 · L3 OPEN |
+```
+
 # CODEX_QUEUE 2026-09 이동 보존
 
 > 2026-09-07 부팅 예산에 닿은 공통 함정 절을 보존했다(상대 링크 경로만 조정).
