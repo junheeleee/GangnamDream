@@ -58,3 +58,42 @@ KO/EN·runtime·원문·엔딩 라우팅·저장·폰트·공개 언어·human_g
 모든 변형·기존597/메타9 보존·표적 회귀. 원어민·사용자 표본·실제 화면 OPEN.
 **규범 판정:** 지속 규칙은 I18N_INFRASTRUCTURE와 세 용어집이 소유한다.
 위 root·50단위·소유 파일·분할은 일회성이다. L3 없는 전체 완료/출시 GO 금지.
+
+## 2026-09-07 실행 증거 — L1/L2, 사람 게이트 OPEN
+
+- A59/B70을 세 언어에서 각각 작성하고 다른 작성자가 한국어와129개씩 전수
+  대조했다. 신규387번역 수용으로 기존597→984다. 엔딩35종의 표시 본문은
+  언어별234/234, 사건은 이번 작업에서 추가하지 않았다.
+- JA 비웃음1곳, CN 빈집의 보여 주는 대상과 자산을 계좌로 단정한3변형,
+  TW 일시 휴식의 고용 상태·빈집 주체·떠난 사람의 직접 송신 단정을 수리하고
+  독립 재대조했다. App을 필수어로 잠갔던 중간 검사 오탐은 해제하고 CN 본문의
+  자연스러운 software 표현을 복원했다. 한자·지역 용어집 기준은 보존했다.
+- 독립 보존 검사는 기존17 root/105표시 leaf+3역사 condition/locale의 JSON
+  객체 원문까지 같음을 확인했다. 신규18종129에는 condition/gameplay 0이다.
+  전체 root 배열은 기존 순서 뒤 선언 A/B 순서이며 기존 배열을 정렬하지 않았다.
+- 검증기는 이번 원문의 방·부모 두 분·개념 둘·의자·식탁·1인분·두 이름·ETF
+  주식·지시 문장·부정 횟수·나이·구독자수만 문맥으로 구별한다. 구독자 수를
+  돈으로, 버티게 한 시간을1시간으로 오인하지 않는다. 금액의 값·원화 라벨은
+  유지하며 숫자/단위/별칭/접두/합성 토큰 정상·음성124개를 더해 ZH537 통과다.
+  독립 변조에서 발견한 ETF 문서 한 부, 미래→부정 접두, 한 글자 인명 별칭,
+  구독자→주식, AppETF 결합과 source 부분어 누출은 수리 뒤 다시 거부됐다.
+  이 검사는 의미 전체를 증명하지 않고 원문 대조·원어민 판정을 대체하지 않는다.
+- source manifest `edf845a7164b8fedc9ec027be7a7edc381a3dcdf67ff58c2858d44a3237b64b8`
+  불변. JA 파일 `24a912608c75e43d9902c4334cfb6926d95647e40b20d3fafadc12f6b046cb7f`,
+  CN `35ab6ba6a5a4b944e8e5f9b16beecdc3fe807dc792d046408d6f83180623f1e8`,
+  TW `2b895ebe9b27ee4ac98ebe6612462c7d650ef6da19ec0e068ff8dff575f53ec8`.
+- 최초 source export는 보존했다. 마지막 git-private `order160-validated-A/B`
+  source/response 6쌍(일본어 B는 정밀도 수정 뒤 `B-v2`)을 check/import하여
+  모두 VALID·changed_files0으로 정확한 수용 receipt를 썼다. portable 원장도
+  같은387 해시만 더하며 비표시 메타9 fingerprint는 그대로다.
+- 한국어 `gangnam_dream.cleared_father_debt_from_sangchul`의 아버지 입장·야경
+  반복은 전체 현지화 backlog에 별도 서사 확인점으로 남겼다. 번역 중 삭제0.
+- 원어민·사용자 표본·지역 폰트 실제 화면은 OPEN이다. 엔딩 텍스트의 채움과
+  두 경로 인간 플레이·전체판 번역 완료·출시 GO를 합산하지 않는다.
+- 재실행은 등록된 `full-game-localization-overlays` 차선을 사용한다. 큐 검사를
+  따로 부를 때의 실제 파일명은 `tools/queue_consistency_check.py`다.
+- 최종 표적 차선12개 PASS: 신규 self73/ZH537/JA69/full-body40, 공개 데모4변이와
+  14사건·100본문·121UI, i18n coverage, static audit ERROR0/WARNING0, 등록138,
+  context/queue다. EN coverage·diff check도 PASS다. 전체 감사·Godot·사람 플레이를
+  실행한 것으로 세지 않는다. 로컬 로그는 번역 작업 디렉터리의
+  `order160-targeted-final.log`에 원출력과 exit0으로 보존했다.

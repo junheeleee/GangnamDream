@@ -154,9 +154,24 @@ SOURCE_IMPLICIT_ENTITY = re.compile(
     r"(?=(?:이|가|은|는|도|만(?:의)?|의)?"
     r"(?:\s+(?:다|사이|사이에|모두))?(?:\s|$|[.,!?…]))"
 )
+SOURCE_TWO_PARENTS = re.compile(r"(?<![가-힣])두\s+부모(?=[를의\s])")
+SOURCE_PORTION = re.compile(r"(?<![\d가-힣])(?P<number>\d+)인분")
+SOURCE_TWO_NAMES = re.compile(r"(?<![가-힣])두\s+이름(?=$|[.\s은을이])")
+# This observed creator ending explicitly establishes audience counts, then
+# refers back to them. Bare large numbers elsewhere remain money by default.
+SOURCE_CREATOR_AUDIENCE = re.compile(
+    r"댓글 알림이 멈추지 않았다\.\s+"
+    r"(?P<first>\d+만)이었다\.\s+구독자 (?P<subscribers>\d+만)\.\s+"
+    r"처음 영상을 올리던 날, 조회수 \d+이었다\.\s+"
+    r"그게 부끄럽지 않았다\. 그냥 찍고 싶었으니까\.\s+"
+    r"그게 (?P<earlier>\d+만)이 됐고, (?P<later>\d+만)이 됐고, 지금 여기까지 왔다\."
+)
 SOURCE_BARE_AGE = re.compile(
     r"(?<![가-힣])(?P<number>서른셋|스물일곱)"
     r"(?=$|\s|[.,!?…:;\x22\x27)\]}]|(?:은|는|이|가|을|를|의|도|만|에))"
+)
+SOURCE_RETIREMENT_AGE = re.compile(
+    r"(?<![가-힣])(?:서른여덟(?=의 아침)|쉰(?=\s+전에\s+일을))"
 )
 CHINESE_CARDINAL = r"(?:\d[\d,]*|[零〇○一二两兩三四五六七八九十百千]+)"
 TARGET_COUNTER_FORMS: tuple[tuple[str, tuple[str, ...]], ...] = (
@@ -170,9 +185,18 @@ TARGET_COUNTER_FORMS: tuple[tuple[str, tuple[str, ...]], ...] = (
         "條", "条", "張", "张", "輛", "辆", "棟", "栋", "杯",
     )),
     ("box", ("只箱子", "個箱子", "个箱子", "箱子", "箱")),
+    ("room", ("間臥室", "间卧室", "間房間", "间房间", "個房間", "个房间", "間房", "间房")),
+    ("chair", ("把椅子", "張椅子", "张椅子", "個椅子", "个椅子", "把空椅子", "張空椅子", "张空椅子")),
+    ("table_seat", ("人餐桌", "人座餐桌", "個座位的餐桌", "个座位的餐桌")),
+    ("portion", ("人份",)),
+    ("name_count", ("個名字", "个名字")),
+    ("share", ("股", "單位", "单位")),
+    ("parent_pair", ("位長輩", "位长辈", "位父母")),
+    ("concept_pair", ("者",)),
     ("character", ("個字", "个字", "字")),
     ("heading", ("個標題", "个标题", "標題", "标题")),
     ("sheet", ("張", "张", "枚", "頁", "页")),
+    ("document_sheet", ("張", "张", "枚", "頁", "页", "份產權登記文件", "份产权登记文件", "份文件", "紙文件", "纸文件")),
     ("building", ("棟", "栋", "幢", "套", "戶", "户")),
     ("vehicle", ("輛", "辆", "台")),
     ("cup", ("杯",)),
@@ -277,6 +301,8 @@ KOREAN_WON = re.compile(
     r"(?<![가-힣])[일이삼사오육칠팔구십백천]+)\s*(?:만|억)?|"
     r"(?<![가-힣])(?:만|억))\s*원)"
 )
+SOURCE_RHETORICAL_WON = re.compile(r"(?<![가-힣])어떤\s+원화도")
+TARGET_RHETORICAL_WON = re.compile(r"(?:每一|任何)(?:韩元|韓元)")
 KOREAN_UNIT_AMOUNT = re.compile(
     r"(?<![가-힣])(?P<number>\d[\d,.]*)\s*"
     r"(?P<units>천만|천|만|억)"
@@ -423,7 +449,14 @@ LATIN_EXACT = {
 SOURCE_SCOPED_LATIN_TERMS = {
     "한빛유통": "Hanbit 流通",
     "한PD건설": {"zh-CN": "HanPD 建设", "zh-TW": "HanPD 建設"},
+    "박상진": "Park Sangjin",
+    "태호": "Taeho",
 }
+# Taiwan App is a natural option, not a mandatory replacement for 應用程式.
+SOURCE_OPTIONAL_LATIN_TERMS = {"앱": "App"}
+SOURCE_APP_TERM = re.compile(
+    r"(?<![가-힣])앱(?=$|[\s.,!?…]|(?:을|이|은|에|에서|으로|의|만|도)(?=$|[\s.,!?…]))"
+)
 ALLOWED_LATIN_PHRASES = tuple(sorted({
     *LATIN_EXACT.values(),
     *NAME_ROMANIZATION.values(),
@@ -735,6 +768,10 @@ def _terminology_errors(lang: str, source: str, target: str) -> list[str]:
                 f"exact prepared form mismatch: {target.strip()!r} != "
                 f"{expected!r}"
             )
+        if korean in {"박상진", "태호"} and _has_unapproved_han_alias(
+            target, expected, single_character_surname=True,
+        ):
+            errors.append(f"cast name {expected!r} has an unapproved Han-character alias")
 
     if "강남드림" in source and "GANGNAM DREAM" not in target:
         errors.append("game title must remain 'GANGNAM DREAM' until title GO")
@@ -929,8 +966,31 @@ def _source_counter_kind(
         # 기다리게 한 사람 is a causative relative clause, not one person.
         # Counting it consumes a later actual person and skips the first week.
         return ""
+    if counter == "시간" and match.group("number") == "한" and re.search(
+        r"선택을\s+버티게\s+$", preceding,
+    ):
+        return ""  # 버티게 한 시간 is enabling time, not an hour.
+    if counter == "번" and match.group("number") == "한" and re.match(
+        r"도\s*찍히지\s*않은", following,
+    ):
+        return "never_occurrence"
+    if counter == "문장" and match.group("number") == "한" and re.search(r"그\s+$", preceding):
+        return "referenced_sentence"
+    if counter == "주" and (
+        re.search(r"첫 매수는 ETF\s+$", preceding)
+        or re.search(r"첫 매수는 ETF 한 주였다\.\s*그\s+$", preceding)
+    ):
+        return "share"
     if counter == "개" and re.search(r"(?:박스|상자)\s*$", preceding):
         return "box"
+    if counter == "개" and re.search(r"(?<![가-힣])방\s*$", preceding):
+        return "room"
+    if counter == "개" and re.search(r"(?<![가-힣])의자\s*$", preceding):
+        return "chair"
+    if counter == "자리" and re.match(r"식탁", following):
+        return "table_seat"
+    if counter == "장" and re.search(r"(?<![가-힣])(?:등기|서류)\s*$", preceding):
+        return "document_sheet"
     if counter == "대" and re.match(r"(?:초|중|후)반", following):
         return "age_decade"
     if counter == "칸":
@@ -972,8 +1032,37 @@ def _source_counter_kind(
     return SOURCE_COUNTER_CLASSES.get(counter, "")
 
 
+def _source_audience_quantities(source: str) -> list[CounterQuantity]:
+    quantities: list[CounterQuantity] = []
+    for match in SOURCE_CREATOR_AUDIENCE.finditer(source):
+        for group in ("first", "subscribers", "earlier", "later"):
+            quantities.append(CounterQuantity(
+                match.start(group), match.end(group),
+                Decimal(match.group(group)[:-1]) * 10_000,
+                "subscriber_count" if group == "subscribers" else "audience_count",
+            ))
+    return quantities
+
+
 def _source_counter_quantities(source: str) -> list[CounterQuantity]:
     quantities: list[CounterQuantity] = []
+    quantities.extend(_source_audience_quantities(source))
+    for match in SOURCE_RETIREMENT_AGE.finditer(source):
+        quantities.append(CounterQuantity(
+            match.start(), match.end(), Decimal(_korean_native_value(match.group(0))), "age",
+        ))
+    for match in SOURCE_PORTION.finditer(source):
+        quantities.append(CounterQuantity(
+            match.start(), match.end(), Decimal(match.group("number")), "portion",
+        ))
+    for match in SOURCE_TWO_NAMES.finditer(source):
+        quantities.append(CounterQuantity(
+            match.start(), match.end(), Decimal(2), "name_count",
+        ))
+    for match in SOURCE_TWO_PARENTS.finditer(source):
+        quantities.append(CounterQuantity(
+            match.start(), match.end(), Decimal(2), "parent_pair",
+        ))
     for match in SOURCE_PRINT_RUN.finditer(source):
         value = _decimal_value(match.group("number"))
         if value is not None:
@@ -1099,18 +1188,41 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
         ):
             continue
         value = _korean_native_value(match.group("number"))
+        kind = "concept_pair" if (
+            match.group("number") == "둘"
+            and re.search(r"그\s+$", source[:match.start()])
+            and re.match(r"의\s+경계", source[match.end():])
+        ) else "entity"
         if value is None or any(
-            quantity.kind == "entity" and quantity.value == value
+            quantity.kind == kind and quantity.value == value
             for quantity in quantities
         ):
             continue
         quantities.append(CounterQuantity(
-            match.start(), match.end(), value, "entity"
+            match.start(), match.end(), value, kind
         ))
     return sorted(quantities, key=lambda quantity: quantity.start)
 
 
 def _target_pattern_for_kind(kind: str) -> re.Pattern[str]:
+    if kind == "share":
+        return re.compile(
+            rf"(?P<number>{CHINESE_CARDINAL})\s*(?:股|單位|单位|份(?=\s*ETF|[，,。]))"
+        )
+    if kind in {"audience_count", "subscriber_count"}:
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})\s*(?P<large_unit>萬|万)")
+    if kind == "referenced_sentence":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL}|那|這|这)\s*句(?:話|话)?")
+    if kind == "never_occurrence":
+        return re.compile(
+            rf"(?:(?P<number>{CHINESE_CARDINAL})\s*次(?:也|都)?(?:沒有|没有|沒|没|未)"
+            r"|(?P<never>從未(?!來)|从未(?!来)|從來沒有|从来没有))"
+        )
+    if kind == "parent_pair":
+        return re.compile(
+            rf"(?:(?P<number>{CHINESE_CARDINAL})\s*(?:位長輩|位长辈|位父母)"
+            r"|(?P<named_parents>父[親亲](?:和|與|与)\s*Daeun\s*的母[親亲]))"
+        )
     if kind == "monthly_frequency":
         return re.compile(
             rf"(?:(?P<monthly>每(?:個|个)?月)|(?P<number>{CHINESE_CARDINAL})\s*(?:個月|个月))"
@@ -1200,6 +1312,31 @@ def _match_target_counter_quantities(
         pattern = _target_pattern_for_kind(expected.kind)
         candidates: list[CounterQuantity] = []
         for match in pattern.finditer(target, cursor):
+            if expected.kind == "share" and match.group(0).endswith("份") and re.match(
+                r"\s*ETF\s*(?:的\s*)?(?:文件|報告|报告|合同|合約|合约|契約|契约|資料|资料|說明|说明|表格)",
+                target[match.end():],
+            ):
+                continue
+            if expected.kind == "share" and match.group(0).endswith("份") \
+                    and not re.match(r"\s*ETF\b", target[match.end():]):
+                # A bare referential 那一份 needs an earlier matched ETF unit.
+                # A document 一份, even beside a mention of ETF, is not a share.
+                if not re.search(r"那\s*$", target[:match.start()]) or not any(
+                    previous.kind == "share" for previous in matched
+                ):
+                    continue
+            if expected.kind in {"audience_count", "subscriber_count"}:
+                following = target[match.end():].lstrip()
+                if re.match(
+                    r"(?:股|股份|單位|单位|份|文件|年|月|天|週|周|秒|小時|小时|公里|米|坪|棟|栋|套|韓元|韩元)",
+                    following,
+                ):
+                    continue
+                if expected.kind == "subscriber_count" and not (
+                    re.search(r"(?:訂閱人數|订阅人数|訂閱者|订阅者)\s*[：:]?\s*$", target[:match.start()])
+                    or re.match(r"(?:訂閱人數|订阅人数|訂閱者|订阅者)", following)
+                ):
+                    continue
             if expected.kind == "look_occurrence" and match.group(0).endswith("眼") \
                     and not re.search(
                         r"(?:看|瞥|望)(?:了|過|过)?\s*$",
@@ -1210,8 +1347,14 @@ def _match_target_counter_quantities(
             value = _chinese_cardinal_value(match.group("number") or "")
             if expected.kind == "monthly_frequency" and match.groupdict().get("monthly"):
                 value = Decimal(1)
-            if expected.kind == "print_copy" and match.groupdict().get("large_unit"):
+            if expected.kind == "parent_pair" and match.groupdict().get("named_parents"):
+                value = Decimal(2)
+            if expected.kind in {"print_copy", "audience_count", "subscriber_count"} and match.groupdict().get("large_unit"):
                 value = value * 10_000 if value is not None else None
+            if expected.kind == "never_occurrence" and match.groupdict().get("never"):
+                value = Decimal(1)
+            if expected.kind == "referenced_sentence" and match.group("number") in {"那", "這", "这"}:
+                value = Decimal(1)
             if expected.kind == "ordinal_line" and match.groupdict().get("first_line"):
                 value = Decimal(1)
             if expected.kind == "meal" and match.group("number") in {"那", "這", "这"}:
@@ -1356,6 +1499,9 @@ def _source_money_amounts(source: str) -> list[MoneyAmount]:
             # Only the explicit first-printing + copies construction; no won
             # label is removed and the full copy value is checked separately.
             continue
+        if any(q.start <= match.start() < match.end() <= q.end
+               for q in _source_audience_quantities(source)):
+            continue
         following = source[match.end():]
         if not following.startswith("원") and NON_MONEY_COUNTER.match(following):
             continue
@@ -1434,10 +1580,17 @@ def _numeric_errors(source: str, target: str) -> list[str]:
             f"Korean-won values changed: {source_values} != {target_values}"
         )
     target_label_count = len(re.findall(r"韩元|韓元", target))
-    if (source_amounts or target_amounts) and target_label_count != len(target_amounts):
+    rhetorical_source = len(SOURCE_RHETORICAL_WON.findall(source))
+    rhetorical_target = len(TARGET_RHETORICAL_WON.findall(target))
+    if rhetorical_source != rhetorical_target:
+        errors.append("rhetorical Korean-won phrase missing/invented")
+    # A literal amount still needs its own label. Only the observed, source-
+    # bound 어떤 원화도 construction can own an additional nonnumeric label.
+    expected_labels = len(target_amounts) + min(rhetorical_source, rhetorical_target)
+    if (source_amounts or target_amounts or rhetorical_source) and target_label_count != expected_labels:
         errors.append(
             f"Korean-won label count/topology mismatch "
-            f"{target_label_count} != {len(target_amounts)}"
+            f"{target_label_count} != {expected_labels}"
         )
 
     source_quantities = _source_counter_quantities(
@@ -1472,6 +1625,9 @@ def _numeric_errors(source: str, target: str) -> list[str]:
 def _korean_money_units(source: str) -> set[str]:
     units: set[str] = set()
     for match in KOREAN_UNIT_AMOUNT.finditer(source):
+        if any(q.start <= match.start() < match.end() <= q.end
+               for q in _source_audience_quantities(source)):
+            continue
         if any(
             book.start("number") <= match.start() < match.end() <= book.end()
             for book in SOURCE_PRINT_RUN.finditer(source)
@@ -1524,11 +1680,15 @@ def _untranslated_english_errors(source: str, target: str) -> list[str]:
             scrubbed,
             flags=re.IGNORECASE,
         )
-    for korean, phrase in SOURCE_SCOPED_LATIN_TERMS.items():
-        if korean in source:
+    for korean, phrase in {**SOURCE_SCOPED_LATIN_TERMS, **SOURCE_OPTIONAL_LATIN_TERMS}.items():
+        source_has_term = bool(SOURCE_APP_TERM.search(source)) if korean == "앱" else korean in source
+        if source_has_term:
             # Case and spacing are part of the locked prepared form.
             for prepared in (phrase.values() if isinstance(phrase, dict) else (phrase,)):
-                scrubbed = scrubbed.replace(prepared, " ")
+                scrubbed = re.sub(
+                    rf"(?<![A-Za-z0-9]){re.escape(prepared)}(?![A-Za-z0-9])",
+                    " ", scrubbed,
+                )
     for phrase in ALLOWED_LATIN_PHRASES:
         scrubbed = re.sub(re.escape(phrase), " ", scrubbed, flags=re.IGNORECASE)
     for token in sorted(ALLOWED_LATIN_TOKENS, key=len, reverse=True):
@@ -2183,6 +2343,39 @@ def run_self_test(
     failures: list[str] = []
     cases = 0
 
+    creator_source = (
+        "댓글 알림이 멈추지 않았다. 100만이었다. 구독자 100만. "
+        "처음 영상을 올리던 날, 조회수 43이었다. "
+        "그게 부끄럽지 않았다. 그냥 찍고 싶었으니까. "
+        "그게 1만이 됐고, 10만이 됐고, 지금 여기까지 왔다."
+    )
+    creator_cn = "留言通知不停。100万了。订阅人数100万。第一次上传视频时观看次数43。不觉得丢脸，只是想拍。后来变成1万、10万，走到了今天。"
+    creator_tw = "留言通知不停。100萬了。訂閱人數100萬。第一次上傳影片時觀看次數43。不覺得丟臉，只是想拍。後來變成1萬、10萬，走到了今天。"
+    for lang, source, target, expected_error in (
+        ("zh-CN", creator_source, creator_cn, ""),
+        ("zh-TW", creator_source, creator_tw, ""),
+        ("zh-CN", creator_source + " 契약금 100만원.", creator_cn + " 签约金100万韩元。", ""),
+        ("zh-TW", creator_source, creator_tw.replace("100萬", "101萬", 1), "counter quantity missing/changed"),
+        ("zh-CN", creator_source, creator_cn.replace("100万", "100", 1), "counter quantity missing/changed"),
+        ("zh-TW", creator_source, creator_tw.replace("100萬了。", ""), "counter quantity missing/changed"),
+        ("zh-CN", creator_source, creator_cn.replace("1万、10万", "10万、1万"), "counter quantity missing/changed"),
+        ("zh-TW", creator_source, creator_tw.replace("43", "44"), "non-money number sequence changed"),
+        ("zh-CN", creator_source, creator_cn.replace("100万", "100万韩元"), "Korean-won values changed"),
+        ("zh-TW", creator_source + " 契약금 100만원.", creator_tw + " 簽約金100萬。", "Korean-won values changed"),
+        ("zh-CN", creator_source.replace("100만이었다", "100만원이었다"), creator_cn, "Korean-won values changed"),
+        ("zh-CN", creator_source, creator_cn.replace("订阅人数100万", "100万股股份"), "counter quantity missing/changed"),
+        ("zh-TW", creator_source, creator_tw.replace("訂閱人數100萬", "訂閱人數100萬股"), "counter quantity missing/changed"),
+        ("zh-CN", creator_source, creator_cn.replace("订阅人数100万", "股份数量100万"), "counter quantity missing/changed"),
+        ("zh-TW", creator_source, creator_tw.replace("1萬、10萬", "1萬份文件、10萬"), "counter quantity missing/changed"),
+        ("zh-CN", creator_source, creator_cn.replace("100万了", "100万年了"), "counter quantity missing/changed"),
+    ):
+        cases += 1
+        observed = validate_text(lang, "self-test::creator-audience", source, target)
+        if (not expected_error and observed) or (
+            expected_error and not any(expected_error in error for error in observed)
+        ):
+            failures.append(f"creator audience scope {lang}: expected {expected_error!r}, got {observed}")
+
     for lang, target in (
         ("zh-CN", "在江南，目标是30亿韩元。"),
         ("zh-TW", "在江南，目標是30億韓元。"),
@@ -2193,6 +2386,76 @@ def run_self_test(
             failures.append(f"valid {lang} sample failed: {errors}")
 
     mutations = (
+        ("shares-etf-document-head", "zh-CN", "첫 매수는 ETF 한 주였다.", "第一次买入一份 ETF 文件。", "counter quantity missing/changed"),
+        ("shares-etf-report-head", "zh-TW", "첫 매수는 ETF 한 주였다.", "第一次買進一份 ETF 的報告。", "counter quantity missing/changed"),
+        ("shares-etf-contract-head", "zh-CN", "첫 매수는 ETF 한 주였다.", "第一次买入一份 ETF 合约。", "counter quantity missing/changed"),
+        ("app-fused-token", "zh-TW", "앱을 닫았다.", "關掉 AppETF。", "untranslated English token"),
+        ("app-fused-prefix", "zh-CN", "앱을 닫았다.", "关掉 ETFApp。", "untranslated English token"),
+        ("app-source-substring", "zh-CN", "앱솔루트의 종이를 닫았다.", "关掉 App。", "untranslated English token"),
+        ("taeho-fused-token", "zh-TW", "태호를 차단했다.", "封鎖了 TaehoETF。", "untranslated English token"),
+        ("sangjin-fused-token", "zh-CN", "박상진의 이름.", "Park SangjinETF的名字。", "untranslated English"),
+        ("shares-document-after-etf", "zh-CN", "첫 매수는 ETF 한 주였다.", "第一次买入 ETF 文件一份，放在桌上。", "counter quantity missing/changed"),
+        ("shares-reference-without-unit", "zh-TW", "첫 매수는 ETF 한 주였다.", "第一次買進 ETF 文件，那一份，放在桌上。", "counter quantity missing/changed"),
+        ("shares-reference-wrong-count", "zh-CN", "첫 매수는 ETF 한 주였다.\n그 한 주가 씨앗이었다.", "第一次买入一份 ETF。\n那两份，是种子。", "counter quantity missing/changed"),
+        ("shares-etf-waiting-week", "zh-TW", "ETF 한 주를 기다렸다.", "等候一股 ETF。", "counter quantity missing/changed"),
+        ("never-not-future-cn", "zh-CN", "한 번도 찍히지 않은 숫자.", "从未来收到的数字。", "counter quantity missing/changed"),
+        ("never-not-future-tw", "zh-TW", "한 번도 찍히지 않은 숫자.", "從未來收到的數字。", "counter quantity missing/changed"),
+        ("sangjin-single-alias", "zh-TW", "박상진의 이름.", "Park Sangjin（朴）的名字。", "unapproved Han-character alias"),
+        ("sangjin-single-alias-before", "zh-CN", "박상진의 이름.", "（朴）Park Sangjin的名字。", "unapproved Han-character alias"),
+        ("taeho-single-alias", "zh-CN", "태호를 차단했다.", "拉黑了 Taeho（泰）。", "unapproved Han-character alias"),
+        ("taeho-single-alias-before", "zh-TW", "태호를 차단했다.", "封鎖了（泰）Taeho。", "unapproved Han-character alias"),
+        ("taeho-single-alias-latin-bracket", "zh-CN", "태호를 차단했다.", "拉黑了泰（Taeho）。", "unapproved Han-character alias"),
+        ("chairs-count", "zh-TW", "비어 있는 의자 세 개.", "兩張空椅子。", "counter quantity missing/changed"),
+        ("chairs-unit", "zh-CN", "의자 세 개.", "三人餐桌。", "counter quantity missing/changed"),
+        ("table-seats-count", "zh-CN", "네 자리 식탁.", "三人餐桌。", "counter quantity missing/changed"),
+        ("table-seats-unit", "zh-TW", "네 자리 식탁.", "四張椅子。", "counter quantity missing/changed"),
+        ("table-seats-not-slot", "zh-CN", "네 자리만 남았다.", "四人餐桌。", "counter quantity missing/changed"),
+        ("portion-count", "zh-CN", "1인분을 주문했다.", "点了两人份。", "counter quantity missing/changed"),
+        ("portion-unit", "zh-TW", "1인분을 주문했다.", "點了一杯。", "counter quantity missing/changed"),
+        ("two-names-count", "zh-CN", "두 이름.", "三个名字。", "counter quantity missing/changed"),
+        ("two-names-unit", "zh-TW", "두 이름.", "兩張文件。", "counter quantity missing/changed"),
+        ("shares-not-week", "zh-CN", "첫 매수는 ETF 한 주였다.", "第一次买入 ETF 是一周。", "counter quantity missing/changed"),
+        ("shares-value", "zh-TW", "첫 매수는 ETF 한 주였다.", "第一次買進三股 ETF。", "counter quantity missing/changed"),
+        ("shares-document", "zh-CN", "첫 매수는 ETF 한 주였다.", "第一次买入 ETF 是一份文件。", "counter quantity missing/changed"),
+        ("shares-not-any-week", "zh-TW", "한 주를 기다렸다.", "等待一股。", "counter quantity missing/changed"),
+        ("referenced-sentence-count", "zh-CN", "그 한 문장이 남았다.", "那两句话留下了。", "counter quantity missing/changed"),
+        ("referenced-sentence-not-two", "zh-TW", "그 두 문장이 남았다.", "這句話留下了。", "counter quantity missing/changed"),
+        ("enabled-time-real-hour", "zh-CN", "선택을 버티게 한 시간이었다. 한 시간 남았다.", "是撑过选择的时间。还剩两小时。", "counter quantity missing/changed"),
+        ("real-hour-not-enabled", "zh-TW", "한 시간 남았다.", "還有時間。", "counter quantity missing/changed"),
+        ("never-occurrence-twice", "zh-CN", "한 번도 찍히지 않은 숫자.", "两次也没有出现的数字。", "counter quantity missing/changed"),
+        ("never-occurrence-affirmed", "zh-TW", "한 번도 찍히지 않은 숫자.", "出現過一次的數字。", "counter quantity missing/changed"),
+        ("never-not-once", "zh-CN", "한 번 찍혔다.", "从未出现。", "counter quantity missing/changed"),
+        ("retirement-age-changed", "zh-TW", "서른여덟의 아침이었다.", "39歲的一個早晨。", "counter quantity missing/changed"),
+        ("retirement-age-unit", "zh-CN", "쉰 전에 일을 놓는다.", "50天以前放下工作。", "counter quantity missing/changed"),
+        ("retirement-age-no-number", "zh-TW", "쉰 전에 일을 놓는다.", "以後放下工作。", "counter quantity missing/changed"),
+        ("taeho-no-source", "zh-CN", "그를 차단했다.", "拉黑了 Taeho。", "untranslated English token"),
+        ("taeho-han-only", "zh-TW", "태호를 차단했다.", "封鎖了泰浩。", "canonical prepared form"),
+        ("sangjin-no-source", "zh-CN", "그 이름.", "Park Sangjin 这个名字。", "untranslated English phrase"),
+        ("sangjin-han-alias", "zh-TW", "박상진의 이름.", "Park Sangjin（朴相鎮）的名字。", "unapproved Han-character alias"),
+        ("app-no-source", "zh-CN", "종이를 닫았다.", "关掉 App。", "untranslated English token"),
+        ("app-token-prefix", "zh-TW", "앱을 닫았다.", "關掉 Application。", "untranslated English token"),
+        ("bare-large-still-money", "zh-CN", "계약금 100만.", "签约金100万。", "Korean-won values changed"),
+        ("rooms-wrong-count", "zh-CN", "방 세 개짜리 집.", "有两间卧室的家。", "counter quantity missing/changed"),
+        ("rooms-wrong-unit", "zh-TW", "방 세 개짜리 집.", "有三個人的家。", "counter quantity missing/changed"),
+        ("rooms-no-count", "zh-CN", "방 세 개짜리 집.", "有卧室的家。", "counter quantity missing/changed"),
+        ("rooms-not-boxes", "zh-TW", "상자 세 개였다.", "有三間臥室。", "counter quantity missing/changed"),
+        ("parents-four", "zh-CN", "두 부모를 모실 방.", "接四位长辈来住的房间。", "counter quantity missing/changed"),
+        ("parents-missing", "zh-TW", "두 부모를 모실 방.", "安頓父母的房間。", "counter quantity missing/changed"),
+        ("parents-wrong-unit", "zh-CN", "두 부모 방.", "两个房间。", "counter quantity missing/changed"),
+        ("parents-not-people", "zh-TW", "두 사람의 방.", "安頓父親和 Daeun 的母親的房間。", "counter quantity missing/changed"),
+        ("concept-three", "zh-CN", "그 둘의 경계는 흐릿했다.", "三者的界线模糊了。", "counter quantity missing/changed"),
+        ("concept-missing", "zh-TW", "그 둘의 경계는 흐릿했다.", "界線模糊了。", "counter quantity missing/changed"),
+        ("concept-not-people", "zh-CN", "둘은 남았다.", "两者留下了。", "counter quantity missing/changed"),
+        ("document-two", "zh-TW", "등기 한 장.", "兩份產權登記文件。", "counter quantity missing/changed"),
+        ("document-missing", "zh-CN", "서류 한 장.", "文件。", "counter quantity missing/changed"),
+        ("document-not-photo", "zh-TW", "사진 한 장.", "一紙文件。", "counter quantity missing/changed"),
+        ("document-not-meal", "zh-CN", "서류 한 장.", "一份饭。", "counter quantity missing/changed"),
+        ("won-rhetorical-missing", "zh-TW", "30억. 어떤 원화도.", "30億韓元。", "rhetorical Korean-won phrase"),
+        ("won-rhetorical-invented", "zh-CN", "30억.", "30亿韩元。每一韩元。", "rhetorical Korean-won phrase"),
+        ("won-rhetorical-amount-unlabeled", "zh-TW", "30억. 어떤 원화도.", "30億。每一韓元。", "Korean-won values changed"),
+        ("won-rhetorical-value-changed", "zh-CN", "30억. 어떤 원화도.", "3亿韩元。每一韩元。", "Korean-won values changed"),
+        ("won-rhetorical-duplicate", "zh-TW", "30억. 어떤 원화도.", "30億韓元。每一韓元。每一韓元。", "rhetorical Korean-won phrase"),
+        ("won-rhetorical-literal-one", "zh-CN", "30억. 어떤 원화도.", "30亿韩元。1韩元。", "Korean-won values changed"),
         ("monthly-wrong-frequency", "zh-CN", "한 달에 한 번", "每月两次", "counter quantity missing/changed"),
         ("monthly-wrong-period", "zh-TW", "한 달에 한 번", "每年一次", "counter quantity missing/changed"),
         ("monthly-longer-period", "zh-CN", "한 달에 한 번", "每三个月一次", "counter quantity missing/changed"),
@@ -2903,6 +3166,44 @@ def run_self_test(
             )
 
     valid_semantic_rows = (
+        ("zh-TW", "비어 있는 의자 세 개.", "三張空椅子。"),
+        ("zh-CN", "의자 세 개가 비었다.", "三把椅子空着。"),
+        ("zh-CN", "네 자리 식탁.", "四人餐桌。"),
+        ("zh-TW", "네 자리 식탁.", "四人餐桌。"),
+        ("zh-CN", "1인분을 주문했다.", "点了一人份。"),
+        ("zh-TW", "1인분을 주문했다.", "點了一人份。"),
+        ("zh-CN", "두 이름.", "两个名字。"),
+        ("zh-TW", "두 이름.", "兩個名字。"),
+        ("zh-CN", "첫 매수는 ETF 한 주였다.\n그 한 주가 씨앗이었다.", "第一次买入，是一份 ETF。\n那一份，是种子。"),
+        ("zh-TW", "첫 매수는 ETF 한 주였다.\n그 한 주가 씨앗이었다.", "第一次買進一股 ETF。\n那一股是種子。"),
+        ("zh-CN", "그 한 문장이 남았다.", "那句话留下了。"),
+        ("zh-TW", "그 한 문장이 남았다.", "這句話留下了。"),
+        ("zh-CN", "선택을 버티게 한 시간이었다.", "是撑过选择的时间。"),
+        ("zh-TW", "선택을 버티게 한 시간이었다. 한 시간 남았다.", "是撐過選擇的時間。還剩一小時。"),
+        ("zh-CN", "한 번도 찍히지 않은 숫자.", "从未出现的数字。"),
+        ("zh-TW", "한 번도 찍히지 않은 숫자.", "從未出現的數字。"),
+        ("zh-CN", "한 번도 찍히지 않은 숫자.", "一次也没有出现的数字。"),
+        ("zh-TW", "서른여덟의 아침이었다. 쉰 전에 일을 놓는다.", "38歲的一個早晨。50歲以前放下工作。"),
+        ("zh-CN", "서른여덟의 아침이었다. 쉰 전에 일을 놓는다.", "三十八岁的早晨。五十岁以前放下工作。"),
+        ("zh-TW", "박상진의 이름.", "Park Sangjin 的名字。"),
+        ("zh-CN", "태호를 차단했다.", "拉黑了 Taeho。"),
+        ("zh-TW", "앱을 닫았다.", "關掉 App。"),
+        ("zh-TW", "앱을 닫았다.", "關掉應用程式。"),
+        ("zh-CN", "앱을 닫았다.", "关掉软件。"),
+        ("zh-CN", "방 세 개짜리 집.", "有三间卧室的家。"),
+        ("zh-TW", "방 세 개짜리 집.", "有三間臥室的家。"),
+        ("zh-CN", "두 부모를 모실 방.", "接两位长辈来住的房间。"),
+        ("zh-TW", "두 부모 방.", "安頓兩位長輩的房間。"),
+        ("zh-TW", "다은. 두 부모 방.", "Daeun。安頓父親和 Daeun 的母親的房間。"),
+        ("zh-CN", "그 둘의 경계는 흐릿했다.", "两者的界线模糊了。"),
+        ("zh-TW", "그 둘의 경계는 흐릿했다.", "兩者的界線模糊了。"),
+        ("zh-TW", "등기 한 장.", "一份產權登記文件。"),
+        ("zh-CN", "등기 한 장.", "一份产权登记文件。"),
+        ("zh-TW", "서류 한 장.", "一紙文件。"),
+        ("zh-CN", "서류 한 장.", "一张文件。"),
+        ("zh-CN", "30억. 어떤 원화도.", "30亿韩元。每一韩元。"),
+        ("zh-TW", "30억. 어떤 원화도.", "30億韓元。每一韓元。"),
+        ("zh-TW", "30억. 어떤 원화도.", "30億韓元。任何韓元。"),
         ("zh-TW", "그 임씨 빚", "與 Im 有關的債"),
         ("zh-CN", "그 임씨 빚", "Im先生的债"),
         ("zh-CN", "한 달에 한 번", "每月一次"),
