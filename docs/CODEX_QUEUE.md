@@ -29,7 +29,7 @@
 아카이브한다.
 **정본 승격 판정 (2026-07-30 유저 승인 — 완료 조건)**: 오더를 `[x]`로 닫기 전에 **그 오더가 만든 규범 문장을 훑어 각각을 둘 중 하나로 판정한다** — ⓐ 계속 유효한 규칙이면 정본 소유자 문서에 승격하고 완료 보고에 `승격: <파일>:<절>`을 적는다, ⓑ 이 오더에서만 유효한 작업 지시면 `일회성`으로 명시한다. 판정하지 않은 규범 문장을 남긴 채 닫지 않는다.
 
-이유: 활성 오더는 완료 시 아카이브로 옮겨지고 부팅 문서는 아카이브를 읽지 않는다. 인덱스 항목은 표에서 제거되고 현재 상태는 매번 덮어쓴다. **오더 안에만 있는 규칙은 닫히는 순간 어떤 새 세션에도 도달하지 않는다.**
+정본 승격 이유는 [보존본](queue_archive/CODEX_QUEUE_2026-09.md#정본-승격-이유)에 있다.
 
 승격 시 주의: 정본 소유자 한 곳만 갱신하고 다른 문서에 복사하지 않는다. 본문에 오더 번호나 진행 상태를 쓰지 않는다 — 오더가 끝나도 유효한 문장이어야 한다. 기존 정본에 이미 같은 규칙이 있는지 먼저 확인하되, **오더는 한국어이고 `assets/*VISUAL_BIBLE.md` 등 자산 정본은 영어이므로 한쪽 언어로만 검색하면 있는 규칙을 없다고 오판한다.** 두 언어로 확인하거나 소유자 문서의 해당 절을 직접 읽는다.
 
@@ -50,40 +50,41 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-170 · 결혼·가족 장면 번역 | [170](queue_active/ORDER-170.md) | 618번역 L1/L2 · L3 OPEN |
-| 2 | [~] | ORDER-169 · 일본어 원화 단위 정밀화 | [169](queue_active/ORDER-169.md) | 기존2문구 L1/L2 · L3 OPEN |
-| 3 | [~] | ORDER-168 · 다은 관계·통화 번역 | [168](queue_active/ORDER-168.md) | 492번역 L1/L2 · L3 OPEN |
-| 4 | [~] | ORDER-167 · 종막 서명·선발신 번역 | [167](queue_active/ORDER-167.md) | 591번역 L1/L2 · L3 OPEN |
-| 5 | [~] | ORDER-166 · 마지막 해 번역 | [166](queue_active/ORDER-166.md) | 1,074번역 L1/L2 · reader78/언어 · L3 OPEN |
-| 6 | [~] | ORDER-165 · 데모 간체 수량 정밀화 | [165](queue_active/ORDER-165.md) | 한 문장 수리 L1/L2 · L3 OPEN |
-| 7 | [~] | ORDER-164 · 4년차와 아버지 경과 번역 | [164](queue_active/ORDER-164.md) | 1,380번역 L1/L2 · 조건128/언어 · L3 OPEN |
-| 8 | [~] | ORDER-163 · 3년차와 장기 후속 번역 | [163](queue_active/ORDER-163.md) | 1,089번역 L1/L2 · foreshadow4/언어 · L3 OPEN |
-| 9 | [~] | ORDER-162 · M07~M24 연결 사건 번역 | [162](queue_active/ORDER-162.md) | 837번역 L1/L2 · 조건변형28 보존 · L3 OPEN |
-| 10 | [~] | ORDER-161 · catalog 전체 번역 | [161](queue_active/ORDER-161.md) | 2,502문구 L1/L2 · 신규2,485·기존수리1 · L3 OPEN |
-| 11 | [~] | ORDER-160 · 남은 결말18종 번역 | [160](queue_active/ORDER-160.md) | 387번역 L1/L2 · 엔딩35종 본문 채움 · L3 OPEN |
-| 12 | [~] | ORDER-159 · 일상·회복 결말 14종 번역 | [159](queue_active/ORDER-159.md) | 249번역 L1/L2 · 비표시 메타 제외 · L3 OPEN |
-| 13 | [~] | ORDER-158 · 본편 8장면 번역 | [158](queue_active/ORDER-158.md) | KO 직접 20단위 · 세 언어 독립 · 원어민 OPEN |
-| 14 | [~] | ORDER-157 · 본편 일본어·중국어 전체 번역 | [157](queue_active/ORDER-157.md) | 전체 분모·증분 배치 · 엔딩 75문구 검사 · 원어민 OPEN |
-| 15 | [~] | ORDER-156 · Ch5 생활 routine 실제 배경 | [156](queue_active/ORDER-156.md) | 제품 53493fe · 입력 QA 잔여 · 사람 OPEN·HOLD |
-| 16 | [~] | ORDER-151 · Ch5 장소·기간·카지노 맥락 | [151](queue_active/ORDER-151.md) | 두 경로 Codex 6/6 · 배경 수리 후속 156 · 사람 OPEN·HOLD |
-| 17 | [~] | ORDER-150 · Ch5 human REJECT 수리 | [150](queue_active/ORDER-150.md) | 후속 151 exact 재플레이 대기 · 두 사람 gate OPEN · HOLD |
-| 18 | [ ] | ORDER-148 · 5장 종막의 부정 종결 습관을 푼다(사실은 유지) | [148](queue_active/ORDER-148.md) | ORDER-150 exact 제품 뒤 재계측 · 금지 사실은 한 건도 삭제 금지 · 선행 대기 |
-| 19 | [ ] | ORDER-149 · 프롤로그 세 비트가 같은 속도로 지나가는 문제를 푼다 | [149](queue_active/ORDER-149.md) | `P-18` 1층만 · `FADE_SECONDS` 0.52 하나를 세 비트가 공유·hold 3.10/3.10/3.00 · 새 자산 0 · 미착수 |
-| 20 | [~] | ORDER-147 · runtime identity | [147](queue_active/ORDER-147.md) | matrix GREEN · human REJECT |
-| 21 | [~] | ORDER-146 · ledger | [146](queue_active/ORDER-146.md) | 후속 151 새 exact 후보 · 두 replay OPEN |
-| 22 | [~] | ORDER-145 · 후보 | [145](queue_active/ORDER-145.md) | HOLD |
-| 23 | [~] | ORDER-143 · graph | [143](queue_active/ORDER-143.md) | M01~M06 보호 · HOLD |
-| 24 | [~] | ORDER-144 · trace | [144](queue_active/ORDER-144.md) | PENDING · human OPEN |
-| 25 | [~] | ORDER-142 · volume | [142](queue_active/ORDER-142.md) | M01~M60 · HOLD |
-| 26 | [~] | ORDER-138 · finale | [138](queue_active/ORDER-138.md) | human REJECT · HOLD |
-| 27 | [~] | ORDER-137 · Ch5 수리 | [137](queue_active/ORDER-137.md) | human REJECT · HOLD |
-| 28 | [~] | ORDER-135 · 일반 경로 | [135](queue_active/ORDER-135.md) | human REJECT · HOLD |
-| 29 | [~] | ORDER-119 · 표면 언어 | [119](queue_active/ORDER-119.md) | 사용자 GO OPEN |
-| 30 | [~] | ORDER-118 · startup | [118](queue_active/ORDER-118.md) | 사용자 GO OPEN · R1b HOLD |
-| 31 | [~] | ORDER-117 · career | [117](queue_active/ORDER-117.md) | 사용자 GO OPEN · R1b HOLD |
-| 32 | [~] | ORDER-99 · SAVE-P0 | [99](queue_active/ORDER-99.md) | 사용자 확인 대기 |
-| 33 | [~] | ORDER-97 · LOC-0.5 | [97](queue_active/ORDER-97.md) | L3 대기 |
-| 34 | [~] | ORDER-98 · PAD-1 | [98](queue_active/ORDER-98.md) | 물리 패드 L3 OPEN |
+| 1 | [~] | ORDER-171 · 데이트·계절 장면 번역 | [171](queue_active/ORDER-171.md) | A16/B20 · 209문구/언어 · L3 OPEN |
+| 2 | [~] | ORDER-170 · 결혼·가족 장면 번역 | [170](queue_active/ORDER-170.md) | 618번역 L1/L2 · L3 OPEN |
+| 3 | [~] | ORDER-169 · 일본어 원화 단위 정밀화 | [169](queue_active/ORDER-169.md) | 기존2문구 L1/L2 · L3 OPEN |
+| 4 | [~] | ORDER-168 · 다은 관계·통화 번역 | [168](queue_active/ORDER-168.md) | 492번역 L1/L2 · L3 OPEN |
+| 5 | [~] | ORDER-167 · 종막 서명·선발신 번역 | [167](queue_active/ORDER-167.md) | 591번역 L1/L2 · L3 OPEN |
+| 6 | [~] | ORDER-166 · 마지막 해 번역 | [166](queue_active/ORDER-166.md) | 1,074번역 L1/L2 · reader78/언어 · L3 OPEN |
+| 7 | [~] | ORDER-165 · 데모 간체 수량 정밀화 | [165](queue_active/ORDER-165.md) | 한 문장 수리 L1/L2 · L3 OPEN |
+| 8 | [~] | ORDER-164 · 4년차와 아버지 경과 번역 | [164](queue_active/ORDER-164.md) | 1,380번역 L1/L2 · 조건128/언어 · L3 OPEN |
+| 9 | [~] | ORDER-163 · 3년차와 장기 후속 번역 | [163](queue_active/ORDER-163.md) | 1,089번역 L1/L2 · foreshadow4/언어 · L3 OPEN |
+| 10 | [~] | ORDER-162 · M07~M24 연결 사건 번역 | [162](queue_active/ORDER-162.md) | 837번역 L1/L2 · 조건변형28 보존 · L3 OPEN |
+| 11 | [~] | ORDER-161 · catalog 전체 번역 | [161](queue_active/ORDER-161.md) | 2,502문구 L1/L2 · 신규2,485·기존수리1 · L3 OPEN |
+| 12 | [~] | ORDER-160 · 남은 결말18종 번역 | [160](queue_active/ORDER-160.md) | 387번역 L1/L2 · 엔딩35종 본문 채움 · L3 OPEN |
+| 13 | [~] | ORDER-159 · 일상·회복 결말 14종 번역 | [159](queue_active/ORDER-159.md) | 249번역 L1/L2 · 비표시 메타 제외 · L3 OPEN |
+| 14 | [~] | ORDER-158 · 본편 8장면 번역 | [158](queue_active/ORDER-158.md) | KO 직접 20단위 · 세 언어 독립 · 원어민 OPEN |
+| 15 | [~] | ORDER-157 · 본편 일본어·중국어 전체 번역 | [157](queue_active/ORDER-157.md) | 전체 분모·증분 배치 · 엔딩 75문구 검사 · 원어민 OPEN |
+| 16 | [~] | ORDER-156 · Ch5 생활 routine 실제 배경 | [156](queue_active/ORDER-156.md) | 제품 53493fe · 입력 QA 잔여 · 사람 OPEN·HOLD |
+| 17 | [~] | ORDER-151 · Ch5 장소·기간·카지노 맥락 | [151](queue_active/ORDER-151.md) | 두 경로 Codex 6/6 · 배경 수리 후속 156 · 사람 OPEN·HOLD |
+| 18 | [~] | ORDER-150 · Ch5 human REJECT 수리 | [150](queue_active/ORDER-150.md) | 후속 151 exact 재플레이 대기 · 두 사람 gate OPEN · HOLD |
+| 19 | [ ] | ORDER-148 · 5장 종막의 부정 종결 습관을 푼다(사실은 유지) | [148](queue_active/ORDER-148.md) | ORDER-150 exact 제품 뒤 재계측 · 금지 사실은 한 건도 삭제 금지 · 선행 대기 |
+| 20 | [ ] | ORDER-149 · 프롤로그 세 비트가 같은 속도로 지나가는 문제를 푼다 | [149](queue_active/ORDER-149.md) | `P-18` 1층만 · `FADE_SECONDS` 0.52 하나를 세 비트가 공유·hold 3.10/3.10/3.00 · 새 자산 0 · 미착수 |
+| 21 | [~] | ORDER-147 · runtime identity | [147](queue_active/ORDER-147.md) | matrix GREEN · human REJECT |
+| 22 | [~] | ORDER-146 · ledger | [146](queue_active/ORDER-146.md) | 후속 151 새 exact 후보 · 두 replay OPEN |
+| 23 | [~] | ORDER-145 · 후보 | [145](queue_active/ORDER-145.md) | HOLD |
+| 24 | [~] | ORDER-143 · graph | [143](queue_active/ORDER-143.md) | M01~M06 보호 · HOLD |
+| 25 | [~] | ORDER-144 · trace | [144](queue_active/ORDER-144.md) | PENDING · human OPEN |
+| 26 | [~] | ORDER-142 · volume | [142](queue_active/ORDER-142.md) | M01~M60 · HOLD |
+| 27 | [~] | ORDER-138 · finale | [138](queue_active/ORDER-138.md) | human REJECT · HOLD |
+| 28 | [~] | ORDER-137 · Ch5 수리 | [137](queue_active/ORDER-137.md) | human REJECT · HOLD |
+| 29 | [~] | ORDER-135 · 일반 경로 | [135](queue_active/ORDER-135.md) | human REJECT · HOLD |
+| 30 | [~] | ORDER-119 · 표면 언어 | [119](queue_active/ORDER-119.md) | 사용자 GO OPEN |
+| 31 | [~] | ORDER-118 · startup | [118](queue_active/ORDER-118.md) | 사용자 GO OPEN · R1b HOLD |
+| 32 | [~] | ORDER-117 · career | [117](queue_active/ORDER-117.md) | 사용자 GO OPEN · R1b HOLD |
+| 33 | [~] | ORDER-99 · SAVE-P0 | [99](queue_active/ORDER-99.md) | 사용자 확인 대기 |
+| 34 | [~] | ORDER-97 · LOC-0.5 | [97](queue_active/ORDER-97.md) | L3 대기 |
+| 35 | [~] | ORDER-98 · PAD-1 | [98](queue_active/ORDER-98.md) | 물리 패드 L3 OPEN |
 
 ### legacy V2 보존선과 본편 M07~M60 관리선
 
