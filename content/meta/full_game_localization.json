@@ -892,6 +892,26 @@
       "machine_validation": "PASS",
       "rendered_review": "OPEN",
       "native_review": "OPEN"
+    },
+    {
+      "order": "ORDER-174",
+      "group": "events",
+      "roots": [
+        "daeun_share",
+        "daeun_feeling"
+      ],
+      "source_leaves": 2,
+      "target_leaves_by_locale": {
+        "ja": 2,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "new_accepted_leaves": 0,
+      "replaces_existing_accepted_leaves": 2,
+      "source_review": "Independent Codex Korean-source and Japanese glossary comparison; restore Daeun fixed polite speech in two lines only",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN"
     }
   ],
   "accepted": {
@@ -15346,7 +15366,7 @@
       },
       "events:daeun_feeling:/choices/0/result_text": {
         "source_sha256": "6d36b1d4c0d3e494643ecd4e9467e27e2c1acfe927b941ebda6dbce554a2ecbb",
-        "target_sha256": "4812debd76a66b04f47dd7ab54940f49bf812952e501223312a87ca3d0058fc7"
+        "target_sha256": "f431aa09a7bdf55694ec78f60b883157c997723fbbb89122320475b7a4af5dcb"
       },
       "events:daeun_feeling:/choices/0/text": {
         "source_sha256": "1b8f0e8d2863be8565ba916bbfaf5faaf86005f8439c69436bc028033f5dead4",
@@ -15394,7 +15414,7 @@
       },
       "events:daeun_share:/choices/0/result_text": {
         "source_sha256": "520bd5d94d50ae95d58892e15ef993e77078cf8db053481fecde267def7c996b",
-        "target_sha256": "40a25121820bec3616b3516b32cd2143f06891f32c6ddc033f4544ce0ddfaeb9"
+        "target_sha256": "1f5fabf0052359a09dc1350ac7da386421b943dd1343d8d145f378a626e3136d"
       },
       "events:daeun_share:/choices/0/text": {
         "source_sha256": "62b673cbc870ed7d24c2cffe07d80856f39117e1ff6c9665abe73088601017f5",
@@ -47366,7 +47386,7 @@
       }
     }
   },
-  "accepted_sha256": "d509e7c946e234f5232e1b1d072bed10b67372b408c3ece7661937b5990a3548",
+  "accepted_sha256": "52f09844d410de3215eaa8196178fdba3bf319d63004a5cf25595823e03d0f74",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {

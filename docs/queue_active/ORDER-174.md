@@ -59,3 +59,29 @@ KO/EN·CN/TW·runtime·공개·fonts·human_gates·출시 파일은 비소유다
   M01~M06 BUILD2026.08.31.1 사용자 GO 유지.
 
 소유권·수리 절차는 일회성이다. 다은의 지속 말투 규칙은 I18N_GLOSSARY_JA가 소유한다.
+
+## 수리 결과 — L1/L2 수용·L3 OPEN
+
+- 선언 `d5f5b2a1d919a20f1a6a940ba8be809cbab604dc` 뒤 정확 두 치환만 적용했다.
+  KO·기존 고정 존대 규칙의 독립 대조를 통과했다. 이전172의 말투 권고2만 철회하며
+  다른 의미·문화 정밀화를 되돌리지 않는다. 관계 단계·돈·연락·생사 변화0이다.
+- 첫 export는 --group 누락으로 쓰기 전에 실패했다. ROOT의 두 치환만 되돌려
+  파일=선언 HEAD를 확인한 뒤 정상 초기 source를 발급하고 두 치환을 재적용했다.
+  초기3행 SHA `9f3b216167423dd59d1fe800e3b1cb5921c19f3efde930f81a124f2ecedf2169`,
+  previous_target 두 값은 기존 수용과 정확히 같다. 최종source/response/receipt
+  check/import --accept PASS·changed_files0, 기존 private 증거 덮어쓰기0이다.
+- 최종2-record aggregate `91201c1ac263ffb359d2ce4d94558ff58393a937aa9531c8c5d0ba0d704732d0`.
+  파일 SHA `d1e4133133962de4963d42d06d923e4fce485eca53ca0abfdab2bac938fe7757`.
+  portable checksum `52f09844d410de3215eaa8196178fdba3bf319d63004a5cf25595823e03d0f74`.
+  총11,616 유지, 나머지11,614/meta9·oldbatch26을 보존했다. 수리 batch1만 추가했다.
+- 완료171절1,555bytes SHA `ea432b363f0ffff9b399fa3d1ccadef830fda7d8611b4397bce8395bf4cd39d8`를
+  기존 history18,382bytes 앞으로 원문 이동했다. 새19,937bytes SHA
+  `e814f72b6330af4c5f993dd4abf91dd72bdbb0494c8c1937416fa8131d66a1a0`, 끝 LF2 보존이다.
+  큐5행을 설명 포함969bytes의 추가 절로 기존 archive에 원문 보관했다.
+  절 SHA `2ff3c5aff8f45fb3edb4df39efb30fb714d13b63896118bef9de4826f7916540`.
+  다른 기존 보관 내용·활성 이름/상태/입력 QA/후속156·사람 판정과 규칙은 보존했다.
+- KO/EN·CN/TW·runtime·공개·폰트·저장·human_gates 변경0, 원문 manifest 불변.
+  L3·원어민·화면 OPEN, 전체 INCOMPLETE·full/main/product HOLD·출시 데모 GO 유지.
+- 최종12개 표적 차선·별도 EN·diff PASS, portable11,616 source/hash/L1 오류0.
+  차선 실제 stdout만 git-private order174-final-checks.log에 보존했다.
+  4,224bytes SHA `8d5fd2a4b0c247b270ae91f8a79128b65afe586d8b68ffd44b962aec900e488c`.

@@ -1,3 +1,22 @@
+## 2026-09-07 (Codex — 데이트·계절 장면 세 언어 수용)
+
+- 첫 입맞춤·남산·놀이공원·계절36사건/209문구씩627개를 KO 직접 저작하고
+  조건5/언어까지 독립 대조했다. CN3·TW6 의미 정밀화를 재검증했으며,
+  동해행·생략된 시선 등 국소 해석과 원문 시간축/주체 부채는 별도 기록했다.
+  기존9,567/meta9를 보존해 총10,194문구다.
+- 최초6source 보존, 최종6source/response/receipt check/import PASS,
+  changed_files0. checksum `ae12ad7b…ffb74f`, 원문 manifest 불변이다.
+  원문 결속 수량10종과 이름 오탐을 보강했고, 앞 문단의 반복 횟수를 빌리던
+  새 검사 회귀를 고쳤다. self147·ZH935, 독립 실제문맥 변조2,048/2,050 거부다.
+  나머지2개의 반전 표현과 기존 인용부호 별칭 한계는 범용 의미검사로 포장하지 않는다.
+- 완료168절1,431bytes를 기존 현지화 history 앞으로 원문 이동하고 이전14,728
+  bytes와 끝 개행을 보존했다. 큐 이유 문단도 선언 때 원문 보관·링크로 유지했다.
+  KO/EN·runtime·공개·폰트·저장·human_gates 변경0, 원본 checkout 쓰기0이다.
+  자세한 결속은 [사양](queue_active/ORDER-171.md). L3·원어민·화면 OPEN,
+  전체 INCOMPLETE·full/main/product HOLD·출시 데모 GO. 다음 관계·가족 배치 준비.
+- 최종12개 표적 차선·EN·diff PASS, portable10,194 source/hash/L1 오류0이다.
+  차선 실제 stdout을 git-private `order171-final-checks.log`에 보존했다.
+
 ## 2026-09-07 (Codex — 결혼·가족 장면 세 언어 수용)
 
 - 다은·지연34사건/206문구씩618개를 KO 직접 저작·독립 전수 대조했다.

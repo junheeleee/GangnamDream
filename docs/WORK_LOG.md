@@ -23,6 +23,21 @@
 > [`7/25`](history/WORK_LOG_2026-07-25.md)에 손실 없이 보존한다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
 
+## 2026-09-07 (Codex — 다은 일본어 존대 복구)
+
+- 직전172 L2의 말투 권고2곳이 다은 고정 존대 규칙과 충돌해 철회·복구했다.
+  기존 한 파일의 'それも勇気ですね'/'いいですね。こういうの' 두 치환뿐이며,
+  독립 KO·JA 용어집 대조를 통과했다. 다른11,614/meta9 보존, 총11,616 유지다.
+- 최초 source2 보존, 최종 source/response/receipt check/import PASS·변경0,
+  target hash2를 갱신했다. checksum `52f09844…3d0f74`이며 원문·사실은 불변이다.
+  완료171절1,555bytes 원문 이동, 큐5행의 이전 검토 근거도 보관했지만 입력 QA·
+  원어민/사람 OPEN·HOLD/REJECT와 활성 의무는 그대로다. [사양](queue_active/ORDER-174.md).
+  KO/EN·CN/TW·runtime·공개·폰트·저장·human_gates 변경0, 원본 checkout 쓰기0.
+  전체 INCOMPLETE·full/main/product HOLD·L3 OPEN·출시 데모 GO를 유지한다.
+
+- 최종12개 표적 차선·별도 EN·diff PASS, portable11,616 source/hash/L1 오류0.
+  실제 차선 stdout은 git-private order174-final-checks.log에 보존했다.
+
 ## 2026-09-07 (Codex — 남은 관계·부모 대화 세 언어 수용)
 
 - 남은15사건/94문구씩282개를 KO 직접 저작·독립 전수 대조했다. CN3곳의
@@ -59,25 +74,6 @@
   출시 데모 GO 유지. 다음 남은 가족·관계 배치를 이어간다.
 - 최종12개 표적 차선·EN·diff PASS, portable11,334 source/hash/L1 오류0이다.
   실제 차선 stdout을 git-private `order172-final-checks.log`에 보존했다.
-
-## 2026-09-07 (Codex — 데이트·계절 장면 세 언어 수용)
-
-- 첫 입맞춤·남산·놀이공원·계절36사건/209문구씩627개를 KO 직접 저작하고
-  조건5/언어까지 독립 대조했다. CN3·TW6 의미 정밀화를 재검증했으며,
-  동해행·생략된 시선 등 국소 해석과 원문 시간축/주체 부채는 별도 기록했다.
-  기존9,567/meta9를 보존해 총10,194문구다.
-- 최초6source 보존, 최종6source/response/receipt check/import PASS,
-  changed_files0. checksum `ae12ad7b…ffb74f`, 원문 manifest 불변이다.
-  원문 결속 수량10종과 이름 오탐을 보강했고, 앞 문단의 반복 횟수를 빌리던
-  새 검사 회귀를 고쳤다. self147·ZH935, 독립 실제문맥 변조2,048/2,050 거부다.
-  나머지2개의 반전 표현과 기존 인용부호 별칭 한계는 범용 의미검사로 포장하지 않는다.
-- 완료168절1,431bytes를 기존 현지화 history 앞으로 원문 이동하고 이전14,728
-  bytes와 끝 개행을 보존했다. 큐 이유 문단도 선언 때 원문 보관·링크로 유지했다.
-  KO/EN·runtime·공개·폰트·저장·human_gates 변경0, 원본 checkout 쓰기0이다.
-  자세한 결속은 [사양](queue_active/ORDER-171.md). L3·원어민·화면 OPEN,
-  전체 INCOMPLETE·full/main/product HOLD·출시 데모 GO. 다음 관계·가족 배치 준비.
-- 최종12개 표적 차선·EN·diff PASS, portable10,194 source/hash/L1 오류0이다.
-  차선 실제 stdout을 git-private `order171-final-checks.log`에 보존했다.
 
 ## 2026-09-05 (Codex — ORDER-156 Chapter 5 생활 routine 배경 수리 선언)
 
