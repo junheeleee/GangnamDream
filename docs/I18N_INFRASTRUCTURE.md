@@ -194,6 +194,16 @@ match Korean. Ending overlays must preserve every `description_if_known` key.
 Gameplay conditions, effects, flags, backgrounds, portraits, CG ownership, and
 routing remain in Korean source data.
 
+Ending `condition` is an unrendered author note, not player copy or an evaluated
+routing expression. It sometimes names hidden route scores. Do not translate it
+into a newly exposed hint or count it toward translated dialogue/endings. New
+prepared-language ending rows need title, body, and every conditional prose
+variant, not this note. The first pilot's already-stored notes remain byte-bound
+as historical metadata outside active translation receipts. A future UI consumer
+must be separately designed and reviewed; keeping a note is not permission to
+display hidden conditions. The historical collector included 34 such notes in
+268 ending leaves; the player-text translation inventory contains 234 leaves.
+
 Catalog text uses `locale/catalog_<code>.json` with these sections:
 `assets`, `jobs`, `items`, `achievements`, `clues`, `thoughts`, and `news`.
 Each section is an object keyed by the source row ID. Empty sections inherit the

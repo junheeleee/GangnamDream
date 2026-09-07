@@ -30,6 +30,9 @@ ROOT = Path(__file__).resolve().parents[1]
 LOCALES = ("ja", "zh-CN", "zh-TW")
 PROMPT_VERSION = "full-ko-direct-2026-09-07.1"
 SCHEMA_VERSION = 1
+# Exact nine historical receipts from 6e088e5 (three unused condition notes per
+# locale). Never recompute this from mutable metadata to accept new/deleted notes.
+RETAINED_ENDING_NOTES_SHA256 = "fec66e4714d357df965e1d3576dcf61991ad5615326d78e8e2795ec701f77fdb"
 GROUPS = ("events", "endings", "catalog", "ui", "ui_unverified")
 READER = re.compile(r"^chapter5_[a-z0-9_]+_reads$")
 CHAPTER5_INLINE_SLOT = re.compile(r"\[\[c5read:[0-9]+\]\]")
@@ -207,6 +210,7 @@ def collect(root: Path = ROOT) -> dict[str, Any]:
     leaves: list[Leaf] = []
     source_files: set[str] = set()
     unsupported: list[dict[str, Any]] = []
+    internal_ending_notes: list[dict[str, str]] = []
     public_pairs, public_errors, _ = public.ui_pairs()
     if public_errors:
         raise ContractError("public-demo protection source: " + "; ".join(public_errors))
@@ -275,6 +279,11 @@ def collect(root: Path = ROOT) -> dict[str, Any]:
     for eid, row in source_endings.items():
         for field in ja.ENDING_TEXT_FIELDS:
             if field in row:
+                if field == "condition":
+                    note = Leaf("endings", eid, ending_file, (field,), row[field], "internal_metadata")
+                    internal_ending_notes.append({"id": note.id, "source": note.source,
+                                                  "source_sha256": note.source_sha256})
+                    continue
                 add("endings", eid, ending_file, (field,), row[field], "ending")
         for field in ja.ENDING_DICT_FIELDS:
             for key, text in row.get(field, {}).items():
@@ -350,6 +359,7 @@ def collect(root: Path = ROOT) -> dict[str, Any]:
     hashes = {name: sha_file(root / name) for name in sorted(source_files)}
     return {"leaves": sorted(leaves, key=lambda leaf: leaf.id), "source_hashes": hashes,
             "source_manifest_sha256": digest(hashes), "unsupported": unsupported,
+            "internal_ending_notes": internal_ending_notes,
             "events": source_events, "endings": source_endings, "catalog": source_catalog,
             "source_counts": {"packaged_events": len(source_events), "shipping_events": len(source_events) - len(author_only),
                               "author_only_events": len(author_only), "endings": len(source_endings),
@@ -359,6 +369,8 @@ def collect(root: Path = ROOT) -> dict[str, Any]:
 
 def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
     import ja_translation_pipeline as ja
+    if leaf.group == "endings" and leaf.path == ("condition",):
+        return ["internal ending condition is not player translation"]
     if locale not in LOCALES:
         return ["unsupported locale"]
     if not isinstance(text, str) or not text.strip():
@@ -395,10 +407,44 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
     return sorted(set(errors))
 
 
+def retained_ending_notes(root: Path, locale: str, inventory: dict[str, Any]) -> dict[str, dict[str, str]]:
+    """Keep the first pilot's unused notes byte-bound, outside accepted text."""
+    path = root / "content/meta/full_game_localization.json"
+    if not path.exists():
+        if root.resolve() == ROOT.resolve():
+            raise ContractError("retained internal metadata ledger disappeared")
+        return {}
+    ledger = read_json(path)
+    records = ledger.get("retained_internal_metadata")
+    if records is None:
+        raise ContractError("retained internal metadata is missing")
+    if not isinstance(records, dict) or set(records) != set(LOCALES) \
+            or ledger.get("retained_internal_metadata_sha256") != digest(records):
+        raise ContractError("retained internal metadata locale/checksum mismatch")
+    if digest(records) != RETAINED_ENDING_NOTES_SHA256:
+        raise ContractError("retained internal metadata historical fingerprint changed")
+    for values in records.values():
+        if not isinstance(values, dict):
+            raise ContractError("retained internal metadata must be leaf receipts")
+        for key, receipt in values.items():
+            owner = key.split(":")[1] if isinstance(key, str) and key.count(":") == 2 else ""
+            source = inventory["endings"].get(owner, {}).get("condition")
+            if key != f"endings:{owner}:/condition" or not isinstance(source, str) \
+                    or not isinstance(receipt, dict) or set(receipt) != {"source_sha256", "target_sha256"} \
+                    or any(not isinstance(v, str) or not re.fullmatch(r"[a-f0-9]{64}", v) for v in receipt.values()):
+                raise ContractError("retained internal metadata ID/hash shape mismatch")
+            note = Leaf("endings", owner, "content/endings.json", ("condition",), source, "internal_metadata")
+            if receipt["source_sha256"] != note.source_sha256:
+                raise ContractError("retained internal metadata source changed")
+    return records[locale]
+
+
 def targets(root: Path, locale: str, inventory: dict[str, Any]) -> tuple[dict[str, Any], dict[str, str]]:
     """Load target arrays without last-row/last-file wins; reject gameplay keys."""
     documents: dict[str, Any] = {}
     event_files: dict[str, str] = {}
+    retained_notes = retained_ending_notes(root, locale, inventory)
+    observed_notes: set[str] = set()
     allowed: dict[tuple[str, str], set[tuple[Any, ...]]] = defaultdict(set)
     for leaf in inventory["leaves"]:
         allowed[(leaf.group, leaf.owner)].add(leaf.path)
@@ -420,7 +466,14 @@ def targets(root: Path, locale: str, inventory: dict[str, Any]) -> tuple[dict[st
                     if eid in event_files:
                         raise ContractError(f"duplicate target event ID across files: {eid}")
                     event_files[eid] = relative
-                validate_overlay(row, allowed[(group, eid)], inventory[group][eid])
+                paths_allowed = allowed[(group, eid)]
+                if group == "endings" and "condition" in row:
+                    key = f"endings:{eid}:/condition"
+                    if key not in retained_notes or retained_notes[key]["target_sha256"] != digest(row["condition"]):
+                        raise ContractError("new/changed internal ending note is not a translation")
+                    observed_notes.add(key)
+                    paths_allowed = paths_allowed | {("condition",)}
+                validate_overlay(row, paths_allowed, inventory[group][eid])
         elif not isinstance(value, dict):
             raise ContractError(f"{relative}: expected dictionary")
         elif file.name.startswith("catalog_"):
@@ -428,6 +481,8 @@ def targets(root: Path, locale: str, inventory: dict[str, Any]) -> tuple[dict[st
             validate_overlay(value, all_catalog_paths, inventory["catalog"])
         elif any(not isinstance(text, str) or not text.strip() for text in value.values()):
             raise ContractError(f"{relative}: UI values must be nonblank strings")
+    if observed_notes != set(retained_notes):
+        raise ContractError("retained internal ending note disappeared")
     return documents, event_files
 
 
@@ -652,6 +707,8 @@ def merge_selected(inventory: dict[str, Any], batch: list[dict[str, Any]], trans
         allowed[(leaf.group, leaf.owner)].add(leaf.path)
     for row in batch[1:]:
         leaf = leaves[row["id"]]
+        if leaf.group == "endings" and leaf.path == ("condition",):
+            raise ContractError("internal ending metadata cannot be imported as translation")
         if leaf.runtime_support != "builtin_overlay_static_only":
             raise ContractError(f"unsupported runtime/validator contract cannot be accepted: {leaf.runtime_support}")
         before = target_value(leaf, documents, locale, event_files)
@@ -685,7 +742,15 @@ def merge_selected(inventory: dict[str, Any], batch: list[dict[str, Any]], trans
         if isinstance(value, list):
             group = "events" if "/events_" in relative else "endings"
             for eid, row in row_index(value, relative).items():
-                validate_overlay(row, allowed[(group, eid)], inventory[group][eid])
+                paths_allowed = allowed[(group, eid)]
+                if group == "endings" and "condition" in row:
+                    # targets() already verified the historical receipt. A text
+                    # merge may preserve this old note, never add or change it.
+                    previous = next((r for r in documents.get(relative, []) if r.get("id") == eid), {})
+                    if "condition" not in previous or previous["condition"] != row["condition"]:
+                        raise ContractError("internal ending metadata changed during merge")
+                    paths_allowed = paths_allowed | {("condition",)}
+                validate_overlay(row, paths_allowed, inventory[group][eid])
         else:
             if "/catalog_" in relative:
                 catalog_paths = {l.path for l in leaves.values() if l.group == "catalog"}
@@ -728,6 +793,7 @@ def main(argv=None) -> int:
                       "source_leaf_categories": dict(Counter(l.category for l in inventory["leaves"])),
                       "source_lifecycle_leaves": dict(Counter(l.lifecycle for l in inventory["leaves"])),
                       "source_manifest_sha256": inventory["source_manifest_sha256"],
+                      "internal_ending_notes": inventory["internal_ending_notes"],
                       "unsupported": inventory["unsupported"],
                       "unsupported_relationship_display_names": {
                           "occurrences": sum(u["kind"] == "unsupported_relationship_display_name" for u in inventory["unsupported"]),

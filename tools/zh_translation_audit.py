@@ -115,8 +115,15 @@ SOURCE_COMPACT_NATIVE_COUNTER = re.compile(
     rf"(?<![가-힣])(?P<number>한)(?P<counter>번){SOURCE_COUNTER_SUFFIX}"
 )
 SOURCE_NATIVE_THREE_MONTH = re.compile(
-    rf"(?<![가-힣])(?P<number>석)\s+(?P<counter>달){SOURCE_COUNTER_SUFFIX}"
+    rf"(?<![가-힣])(?P<number>석)\s+(?P<counter>달)(?:{SOURCE_COUNTER_SUFFIX}|(?=마다))"
 )
+SOURCE_FINANCIAL_TIER = re.compile(
+    rf"(?<![가-힣\d])(?P<number>[12])금융{SOURCE_COUNTER_SUFFIX}"
+)
+SOURCE_PRINT_RUN = re.compile(
+    rf"(?<![가-힣])초판\s+(?P<number>\d[\d,]*)\s*(?P<unit>만)?\s*부{SOURCE_COUNTER_SUFFIX}"
+)
+SOURCE_IM_SURNAME = re.compile(r"(?<![가-힣])임씨(?=$|[\s.,!?…]|[은는이가의를와도])")
 SOURCE_ORDINAL = re.compile(
     r"(?<![가-힣\d])(?P<number>첫|한|둘|두|셋|세|넷|네|다섯|여섯|일곱|여덟|아홉|열|\d+)\s*"
     r"(?:번째|번\s*째|째)"
@@ -595,10 +602,14 @@ def _name_is_used(source: str, korean: str) -> bool:
     return korean in source
 
 
-def _has_unapproved_han_alias(target: str, romanized: str) -> bool:
+def _has_unapproved_han_alias(
+    target: str, romanized: str, *, single_character_surname: bool = False,
+) -> bool:
     """Reject a second, invented Han-character name beside the locked Latin one."""
     latin = re.escape(romanized)
-    han = r"[\u3400-\u4dbf\u4e00-\u9fff]{2,4}"
+    # Only the source-bound 임씨 -> Im case has a one-character surname
+    # alias. Keep the existing full-name/prose boundary for other cast names.
+    han = r"[\u3400-\u4dbf\u4e00-\u9fff]" + ("{1,4}" if single_character_surname else "{2,4}")
     # A bare space between Latin and Chinese prose is normal typography.  The
     # unbracketed mutation is high-confidence only when the Han run starts with
     # a Korean-cast surname commonly used in invented Hanja spellings.
@@ -802,6 +813,14 @@ def _terminology_errors(lang: str, source: str, target: str) -> list[str]:
             errors.append(
                 f"cast name {romanized!r} has an unapproved Han-character alias"
             )
+    if SOURCE_IM_SURNAME.search(source) and not re.search(
+        r"(?<![A-Za-z0-9])Im(?![A-Za-z0-9])", target,
+    ):
+        errors.append("source surname 임씨 must retain Romanized form 'Im'")
+    if SOURCE_IM_SURNAME.search(source) and _has_unapproved_han_alias(
+        target, "Im", single_character_surname=True,
+    ):
+        errors.append("source surname 'Im' has an unapproved Han-character alias")
     return errors
 
 
@@ -882,6 +901,8 @@ def _chinese_cardinal_value(raw: str) -> Decimal | None:
 
 def _ordinal_kind(source: str, end: int) -> str:
     following = source[end:].lstrip()
+    if re.match(r"(?:전화|통화)(?=$|[\s.,!?…]|[은는이가의를와도])", following):
+        return "ordinal_call"
     if re.match(r"(?:로\s*(?:찾아|들어|세어)|에야)", following):
         return "ordinal_occurrence"
     for nouns, kind in ORDINAL_CONTEXT_CLASSES:
@@ -895,6 +916,13 @@ def _source_counter_kind(
 ) -> str:
     following = source[match.end():].lstrip()
     preceding = source[max(0, match.start() - 120):match.start()]
+    if counter == "달" and match.group("number") == "한" and re.match(
+        r"에\s+한\s+번(?:$|[\s.,!?…])", following,
+    ):
+        # A monthly frequency, not an arbitrary one-month deadline/duration.
+        return "monthly_frequency"
+    if counter == "달" and match.group("number") == "석" and following.startswith("마다"):
+        return "repeated_month_interval"
     if counter == "사람" and match.group("number") == "한" and re.search(
         r"기다리게\s+$", preceding,
     ):
@@ -946,6 +974,18 @@ def _source_counter_kind(
 
 def _source_counter_quantities(source: str) -> list[CounterQuantity]:
     quantities: list[CounterQuantity] = []
+    for match in SOURCE_PRINT_RUN.finditer(source):
+        value = _decimal_value(match.group("number"))
+        if value is not None:
+            quantities.append(CounterQuantity(
+                match.start("number"), match.end(),
+                value * (10_000 if match.group("unit") else 1), "print_copy",
+            ))
+    for match in SOURCE_FINANCIAL_TIER.finditer(source):
+        quantities.append(CounterQuantity(
+            match.start(), match.end(), Decimal(match.group("number")),
+            "financial_tier",
+        ))
     for match in SOURCE_HALF_PYEONG.finditer(source):
         value = _decimal_value(match.group("number"))
         if value is not None:
@@ -1071,6 +1111,23 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
 
 
 def _target_pattern_for_kind(kind: str) -> re.Pattern[str]:
+    if kind == "monthly_frequency":
+        return re.compile(
+            rf"(?:(?P<monthly>每(?:個|个)?月)|(?P<number>{CHINESE_CARDINAL})\s*(?:個月|个月))"
+        )
+    if kind == "repeated_month_interval":
+        return re.compile(rf"每(?:隔)?\s*(?P<number>{CHINESE_CARDINAL})\s*(?:個月|个月)")
+    if kind == "financial_tier":
+        return re.compile(rf"第\s*(?P<number>{CHINESE_CARDINAL})\s*金融圈")
+    if kind == "print_copy":
+        return re.compile(
+            rf"(?<![A-Za-z0-9零〇○一二两兩三四五六七八九十百千萬万億亿])"
+            rf"(?P<number>{CHINESE_CARDINAL})\s*(?P<large_unit>萬|万)?\s*(?:冊|册|本)"
+        )
+    if kind == "ordinal_call":
+        return re.compile(
+            rf"第\s*(?P<number>{CHINESE_CARDINAL})\s*(?:次|通\s*(?:電話|电话))"
+        )
     if kind == "ordinal_line":
         return re.compile(
             rf"(?:第\s*(?P<number>{CHINESE_CARDINAL})\s*(?:行|列|條|条|句)"
@@ -1151,6 +1208,10 @@ def _match_target_counter_quantities(
                 # 一眼 is a glance after a seeing verb, not one physical eye.
                 continue
             value = _chinese_cardinal_value(match.group("number") or "")
+            if expected.kind == "monthly_frequency" and match.groupdict().get("monthly"):
+                value = Decimal(1)
+            if expected.kind == "print_copy" and match.groupdict().get("large_unit"):
+                value = value * 10_000 if value is not None else None
             if expected.kind == "ordinal_line" and match.groupdict().get("first_line"):
                 value = Decimal(1)
             if expected.kind == "meal" and match.group("number") in {"那", "這", "这"}:
@@ -1288,6 +1349,13 @@ def _source_money_amounts(source: str) -> list[MoneyAmount]:
     for match in KOREAN_UNIT_AMOUNT.finditer(source):
         if _overlaps(amounts, match.start(), match.end()):
             continue
+        if any(
+            book.start("number") <= match.start() < match.end() <= book.end()
+            for book in SOURCE_PRINT_RUN.finditer(source)
+        ):
+            # Only the explicit first-printing + copies construction; no won
+            # label is removed and the full copy value is checked separately.
+            continue
         following = source[match.end():]
         if not following.startswith("원") and NON_MONEY_COUNTER.match(following):
             continue
@@ -1404,6 +1472,11 @@ def _numeric_errors(source: str, target: str) -> list[str]:
 def _korean_money_units(source: str) -> set[str]:
     units: set[str] = set()
     for match in KOREAN_UNIT_AMOUNT.finditer(source):
+        if any(
+            book.start("number") <= match.start() < match.end() <= book.end()
+            for book in SOURCE_PRINT_RUN.finditer(source)
+        ):
+            continue
         following = source[match.end():]
         # An explicit 원 is always currency.  Bare Korean large-number shorthand
         # is currency in this game's financial prose unless a concrete counter
@@ -1436,6 +1509,9 @@ def _money_errors(lang: str, source: str, target: str) -> list[str]:
 
 def _untranslated_english_errors(source: str, target: str) -> list[str]:
     scrubbed = PLACEHOLDER.sub(" ", target)
+    if SOURCE_IM_SURNAME.search(source):
+        # A source-bound surname, not a globally allowed English word/prefix.
+        scrubbed = re.sub(r"(?<![A-Za-z0-9])Im(?![A-Za-z0-9])", " ", scrubbed)
     scrubbed = re.sub(r"https?://\S+|www\.\S+", " ", scrubbed)
     source_tokens = set(re.findall(
         r"(?<![A-Za-z0-9])[A-Za-z][A-Za-z0-9'+./:_-]*(?![A-Za-z0-9])",
@@ -2117,6 +2193,42 @@ def run_self_test(
             failures.append(f"valid {lang} sample failed: {errors}")
 
     mutations = (
+        ("monthly-wrong-frequency", "zh-CN", "한 달에 한 번", "每月两次", "counter quantity missing/changed"),
+        ("monthly-wrong-period", "zh-TW", "한 달에 한 번", "每年一次", "counter quantity missing/changed"),
+        ("monthly-longer-period", "zh-CN", "한 달에 한 번", "每三个月一次", "counter quantity missing/changed"),
+        ("monthly-not-two-months", "zh-TW", "두 달에 한 번", "每月一次", "counter quantity missing/changed"),
+        ("monthly-not-deadline", "zh-CN", "한 달을 기다렸다.", "每月等待。", "counter quantity missing/changed"),
+        ("repeated-three-month-two", "zh-CN", "석 달마다 병원에 갔다.", "每隔两个月去医院。", "counter quantity missing/changed"),
+        ("repeated-three-month-four", "zh-TW", "석 달마다 병원에 갔다.", "每隔四個月去醫院。", "counter quantity missing/changed"),
+        ("repeated-three-month-calendar", "zh-CN", "석 달마다 병원에 갔다.", "每年三月去医院。", "counter quantity missing/changed"),
+        ("repeated-three-month-once", "zh-TW", "석 달마다 병원에 갔다.", "三個月去醫院。", "counter quantity missing/changed"),
+        ("ordinal-call-third", "zh-CN", "두 번째 전화", "第三通电话", "counter quantity missing/changed"),
+        ("ordinal-call-message", "zh-TW", "두 번째 전화", "第二通訊息", "counter quantity missing/changed"),
+        ("ordinal-call-not-check", "zh-CN", "두 번째 확인", "第二通电话", "counter quantity missing/changed"),
+        ("ordinal-call-not-rings", "zh-TW", "두 번째 전화", "響了兩聲", "counter quantity missing/changed"),
+        ("financial-tier-reordered", "zh-CN", "1금융과 2금융", "第二金融圈和第一金融圈", "counter quantity missing/changed"),
+        ("financial-tier-third", "zh-TW", "1금융과 2금융", "第一金融圈和第三金融圈", "counter quantity missing/changed"),
+        ("financial-tier-deleted", "zh-CN", "1금융과 2금융", "第一金融圈", "counter quantity missing/changed"),
+        ("financial-tier-other-number", "zh-TW", "1번과 2번", "第一金融圈和第二金融圈", "counter quantity missing/changed"),
+        ("im-without-source", "zh-CN", "그 사람 빚", "那个 Im 先生的债", "untranslated English token"),
+        ("im-source-word-boundary", "zh-TW", "담임씨는 왔다.", "Im 先生來了。", "untranslated English token"),
+        ("im-wrong-case", "zh-CN", "그 임씨 빚", "那个 im 先生的债", "Romanized form 'Im'"),
+        ("im-token-prefix", "zh-TW", "그 임씨 빚", "Imitation 的債", "Romanized form 'Im'"),
+        ("im-new-han-name", "zh-CN", "그 임씨 빚", "林先生的债", "Romanized form 'Im'"),
+        ("im-han-alias", "zh-TW", "그 임씨 빚", "Im（林某）的債", "unapproved Han-character alias"),
+        ("im-single-han-alias", "zh-TW", "그 임씨 빚", "與 Im（林）有關的債", "unapproved Han-character alias"),
+        ("im-single-han-alias-before", "zh-CN", "그 임씨 빚", "与（林）Im有关的债", "unapproved Han-character alias"),
+        ("im-single-han-alias-latin-bracket", "zh-TW", "그 임씨 빚", "林（Im）的債", "unapproved Han-character alias"),
+        ("im-single-han-alias-latin-bracket-before", "zh-CN", "그 임씨 빚", "（Im）林的债", "unapproved Han-character alias"),
+        ("im-single-han-alias-square", "zh-TW", "그 임씨 빚", "Im[任]的債", "unapproved Han-character alias"),
+        ("im-single-han-alias-square-before", "zh-CN", "그 임씨 빚", "[任]Im的债", "unapproved Han-character alias"),
+        ("im-single-han-alias-without-source", "zh-TW", "그 사람 빚", "與 Im（林）有關的債", "untranslated English token"),
+        ("print-copy-six", "zh-CN", "초판 5만 부.", "首印6万册。", "counter quantity missing/changed"),
+        ("print-copy-missing-scale", "zh-TW", "초판 5만 부.", "首刷5本。", "counter quantity missing/changed"),
+        ("print-copy-money-instead", "zh-CN", "초판 5만 부.", "首印5万韩元。", "Korean-won values changed"),
+        ("print-copy-won-still-money", "zh-TW", "초판 5만원.", "首刷5萬本。", "Korean-won values changed"),
+        ("print-copy-other-unit", "zh-CN", "초판 5만 부.", "首印5万年。", "counter quantity missing/changed"),
+        ("print-copy-fee-unit-deleted", "zh-TW", "초판 5만 부. 계약금 5만원.", "首刷5萬本。簽約金5萬。", "Korean-won values changed"),
         ("hangul", "zh-CN", "강남", "江南 강남", "Hangul remains"),
         ("kana", "zh-CN", "강남", "江南カンナム", "Japanese kana remains"),
         ("latin-prose", "zh-CN", "돈", "Money", "no Chinese Han glyphs"),
@@ -2791,6 +2903,27 @@ def run_self_test(
             )
 
     valid_semantic_rows = (
+        ("zh-TW", "그 임씨 빚", "與 Im 有關的債"),
+        ("zh-CN", "그 임씨 빚", "Im先生的债"),
+        ("zh-CN", "한 달에 한 번", "每月一次"),
+        ("zh-TW", "한 달에 한 번", "每月一次"),
+        ("zh-CN", "한 달에 한 번", "一个月一次"),
+        ("zh-TW", "한 달에 한 번", "一個月一次"),
+        ("zh-CN", "석 달마다 병원에 갔다.", "每隔三个月去医院。"),
+        ("zh-TW", "석 달마다 병원에 갔다.", "每三個月去醫院。"),
+        ("zh-CN", "두 번째 전화", "第二通电话"),
+        ("zh-TW", "두 번째 전화", "第二通電話"),
+        ("zh-TW", "두 번째 전화", "第二次打來的電話"),
+        ("zh-CN", "1금융과 2금융", "第一金融圈和第二金融圈"),
+        ("zh-TW", "1금융과 2금융", "第1金融圈和第2金融圈"),
+        ("zh-CN", "그 임씨 빚", "那个 Im 先生的债"),
+        ("zh-TW", "그 임씨 빚", "那個姓 Im 的人的債"),
+        ("zh-CN", "초판 5만 부.", "首印5万册。"),
+        ("zh-TW", "초판 5만 부.", "首刷5萬本。"),
+        ("zh-CN", "초판 5만 부.", "首印五万册。"),
+        ("zh-TW", "초판 5만 부.", "首刷50000本。"),
+        ("zh-CN", "초판 5만 부. 계약금 5만원.", "首印5万册。签约金5万韩元。"),
+        ("zh-TW", "초판 5만원.", "首刷5萬韓元。"),
         ("zh-CN", "박스 두 개였다.", "是两只箱子。"),
         ("zh-TW", "박스 두 개였다.", "是兩只箱子。"),
         ("zh-CN", "상자 두 개였다.", "总共两箱。"),

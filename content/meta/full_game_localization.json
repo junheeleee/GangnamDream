@@ -16,7 +16,7 @@
   },
   "source_leaf_categories": {
     "catalog": 834,
-    "ending": 268,
+    "ending": 234,
     "event_standard": 12282,
     "choice_foreshadow": 6,
     "chapter5_reader": 133,
@@ -24,7 +24,7 @@
     "ui_demo_dynamic": 692,
     "ui_global_candidate": 329
   },
-  "coverage_boundary": "The 17,408 source-discovered leaves are not a complete runtime-exposure claim. Foreshadow (6) and global UI candidates (329) cannot be imported yet. Relationship display names (21 occurrences, 14 unique Korean names) remain outside this leaf denominator. Diagnostic counts are not additive translation counts. Full-game claims require resolved consumers and separate rendered/native review.",
+  "coverage_boundary": "The 17,374 source-discovered translatable leaves exclude 34 unrendered ending condition notes from the initial 17,408. This is not a complete runtime-exposure claim. Foreshadow (6) and global UI candidates (329) cannot be imported yet. Relationship display names (21 occurrences, 14 unique Korean names) remain outside this leaf denominator. Diagnostic counts are not additive translation counts. Full-game claims require resolved consumers and separate rendered/native review.",
   "unsupported_counts": {
     "validator_contract_missing": 6,
     "unresolved_json_pair": 138,
@@ -47,16 +47,22 @@
         "late_call",
         "instant_legend"
       ],
-      "source_leaves": 25,
+      "source_leaves": 22,
       "target_leaves_by_locale": {
-        "ja": 25,
-        "zh-CN": 25,
-        "zh-TW": 25
+        "ja": 22,
+        "zh-CN": 22,
+        "zh-TW": 22
       },
       "source_review": "Codex Korean-source comparison",
       "machine_validation": "PASS",
       "rendered_review": "OPEN",
-      "native_review": "OPEN"
+      "native_review": "OPEN",
+      "initial_collected_leaves_including_internal_notes": 25,
+      "retained_internal_notes_by_locale": {
+        "ja": 3,
+        "zh-CN": 3,
+        "zh-TW": 3
+      }
     },
     {
       "order": "ORDER-158",
@@ -81,14 +87,58 @@
       "machine_validation": "PASS",
       "rendered_review": "OPEN",
       "native_review": "OPEN"
+    },
+    {
+      "order": "ORDER-159",
+      "batch": "A",
+      "group": "endings",
+      "roots": [
+        "ordinary_life",
+        "stable_success",
+        "balanced_life",
+        "healthy_retirement",
+        "career_burnout",
+        "writer"
+      ],
+      "source_leaves": 51,
+      "target_leaves_by_locale": {
+        "ja": 51,
+        "zh-CN": 51,
+        "zh-TW": 51
+      },
+      "source_review": "Independent Codex Korean-source comparison, with source-grounded precision corrections",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN"
+    },
+    {
+      "order": "ORDER-159",
+      "batch": "B",
+      "group": "endings",
+      "roots": [
+        "burnout",
+        "mental_break",
+        "bankruptcy",
+        "debt_spiral",
+        "gambling_recovery",
+        "full_circle",
+        "guardian",
+        "second_love"
+      ],
+      "source_leaves": 32,
+      "target_leaves_by_locale": {
+        "ja": 32,
+        "zh-CN": 32,
+        "zh-TW": 32
+      },
+      "source_review": "Independent Codex Korean-source comparison, with source-grounded precision corrections",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN"
     }
   ],
   "accepted": {
     "ja": {
-      "endings:instant_legend:/condition": {
-        "source_sha256": "8b6935c47dfd253f45ada83373eccd758e8e582f4cd11ab2082c6dabf51ae457",
-        "target_sha256": "ed040187558f71b598d1d203debb421194fef254359fc095cca82f03a6f76ddb"
-      },
       "endings:instant_legend:/description": {
         "source_sha256": "a653458e3f43fa789739781caa9eb21d5eaa99ffb582e4b793740ac82b7428c8",
         "target_sha256": "1b4bce106b51216921f462546e9f9464aa548e8fbc30a057480dc99c52431244"
@@ -96,10 +146,6 @@
       "endings:instant_legend:/title": {
         "source_sha256": "d958e4c504fae89c42205c98ea4c277a464b0fcb0895360f32804744e40bf2ad",
         "target_sha256": "c75f81d63420954169c623fa45d7808732176fadcbdb316ad5ae3407b7760b1e"
-      },
-      "endings:late_call:/condition": {
-        "source_sha256": "23780dcca59213b11563f89bd722e3bac0907dcc667b2fdbf4239317dfdc66fb",
-        "target_sha256": "52c13acf8683d43bc6a732b1c7e8e405dcc5accea045b111cdb1f12f58b86555"
       },
       "endings:late_call:/description": {
         "source_sha256": "b708f6f653382b17305c9d8395d3b8d0dfd8b6dd2376007aff0028010f4b4f0a",
@@ -148,10 +194,6 @@
       "endings:late_call:/title": {
         "source_sha256": "c0701460b151e2eb76ca76f69539b9f32a9f011e00e0ce45c25804c8a006d0b4",
         "target_sha256": "9928661de4f2c176df9cea02b65dceddb924dabc0e51b0f345164e726a070696"
-      },
-      "endings:with_daeun:/condition": {
-        "source_sha256": "98c8d9d77db1483dcc75e27a3246a61626c4a97195fcb638e8208b39d74d3104",
-        "target_sha256": "763a1662917ea6eae0bdcb707fc715fa5ec745afc05ff3e5d3a05d54d3005050"
       },
       "endings:with_daeun:/description": {
         "source_sha256": "aebd0e95931554bed036571879d7577ed922959339432448ad9a66aa74cdc488",
@@ -560,13 +602,341 @@
       "events:hyunsu_result_fail:/title": {
         "source_sha256": "a98e87b74752b362b4038013f1cf33ecbe5a20154a1ba0c1204aef3f5fcd9f63",
         "target_sha256": "37cf061418398f1933c88a08a1a8b66387f18461400aedf9c760ab8f4935608a"
+      },
+      "endings:balanced_life:/description": {
+        "source_sha256": "b3363dba22243ade04739ae73e1de381e5c0bf222b52192f74597c37e5903355",
+        "target_sha256": "a18bae69f3ec297409014612cbc2884c879567e0ddadda90550e56b3270f9282"
+      },
+      "endings:balanced_life:/description_if_known/cafe_kindness_reconnected": {
+        "source_sha256": "b20903946da50781fc2f52df52dd4fc2f228c735c5d29fd5231b0de1271cf3b7",
+        "target_sha256": "adbda2b6d04ec6ed0e83d0528730394c1367ddf1171e66381473a6aee34e1b18"
+      },
+      "endings:balanced_life:/description_if_known/cut_sangchul_network": {
+        "source_sha256": "47cb257c3a3dd8600cc06f6d2ff9abad3c53ed17eaa2cc616b7646f8d033ccf2",
+        "target_sha256": "989a66acc1b5f10ba1fdd9df147f7cb027429d4d9b7d6319f706524aef00f114"
+      },
+      "endings:balanced_life:/description_if_known/friendship_found_new_rhythm": {
+        "source_sha256": "bc3a94635bcde92a4899290e2470d6a201a4cb459bcecfc09691decf309e8e61",
+        "target_sha256": "4a0b1e7f90ef24a9d0e35513cbead01cff557f1fd7e6087f8e6132834d619cb7"
+      },
+      "endings:balanced_life:/description_if_known/jiyeon_beautifully_apart": {
+        "source_sha256": "257037a97107c95d8811f6fa69693d85af4703c0e6cbf26071c488774351476d",
+        "target_sha256": "2c5f01e936d34bf1176b10e5cf8d21afc9fda3a1575482976cc836f287dc7008"
+      },
+      "endings:balanced_life:/description_if_known/replied_old_contact": {
+        "source_sha256": "d331ee343f2915c7033d8f91f202bd3a951638982206bb0cb93b2923de8ad28f",
+        "target_sha256": "866c00eb9051db7bbaf7648ed10cb5f043037505074ba41dc4c583224945fa3e"
+      },
+      "endings:balanced_life:/description_if_known/sangchul_network_fully_cut": {
+        "source_sha256": "0cd12387dab341f938237213af2b232f57073d30de9e2f52fa66cc3cca297f5a",
+        "target_sha256": "0704901b4691c71b32779caf167e309b2af517ac4d47c0ca55e4d9e6759c26dc"
+      },
+      "endings:balanced_life:/description_if_known/standard_internalized": {
+        "source_sha256": "034a2f39e39419e1b5c6e94ed5a5e0fec08d080a5b7466bb296fac0d12b5a19f",
+        "target_sha256": "4f97c204d1feb6a4b4d6aac222411cf5b4ab81959e0e7db6797332826affbbed"
+      },
+      "endings:balanced_life:/title": {
+        "source_sha256": "c6ad9f7644fcb7a1c9e0718b6ba263489b69b8e833dd4b9a65d82330adf3df1c",
+        "target_sha256": "e09e657524a8fa9c2cef0744fb5a52c18bee5267acc15753c0fab65c5fa48244"
+      },
+      "endings:career_burnout:/description": {
+        "source_sha256": "17502f51baa645ec6c1fe5c7d3f67803b624f8113728f62942447a972c07326f",
+        "target_sha256": "14eceb5a2a909f2c04d57ad897e209386e4c69cafd6a8d158e4c8afe7212e1b6"
+      },
+      "endings:career_burnout:/description_if_known/career_door_opened": {
+        "source_sha256": "46b56c45cfbf476f88853de6ab97573b1832080b281a3b8c42b0a4c022e4d78c",
+        "target_sha256": "5919a2d3dd66cba4ce32f7cfd297fdd26e6e06928307b92855d9655f406bc0e6"
+      },
+      "endings:career_burnout:/description_if_known/father_reconciled": {
+        "source_sha256": "506b5eefa1fefbc59a9c0775304db37239ee6ec96e0b3dc11932d8417aefc795",
+        "target_sha256": "b2331c082e27da192c562b19cfa26cd68a26a0865bd836f1220c6f669f714cdf"
+      },
+      "endings:career_burnout:/description_if_known/jobswitch_satisfied": {
+        "source_sha256": "0deab5e41d7c2e468be52e71b5692d6a61ef4b4cda02b9ffdb580dc7fb6e2b2e",
+        "target_sha256": "6f8731d6ec94cfc37e2bf039e3363b0832e2649b6a0a8e406c1f9734b4ce65e0"
+      },
+      "endings:career_burnout:/detailed_description": {
+        "source_sha256": "f42c70cb2b665f97994451330e15366e7fc070b1733dd91e2c2d34024c3d66fb",
+        "target_sha256": "af6afb628e03e26681ea8a1f6695e670cb7eb0cdaaf84e0f5ba3c9cc13da1e1f"
+      },
+      "endings:career_burnout:/title": {
+        "source_sha256": "2bcd843fe65aa6356e35e9967b3a203a500e8cdc60ce91a1dffb36942f4c9efa",
+        "target_sha256": "bea371cfa045ae27db95ca2eeae52665556b95dd49f3e55ed954dccce8d00586"
+      },
+      "endings:healthy_retirement:/description": {
+        "source_sha256": "15bccb5f6013940155b357c6c9894f807396a3f404ce0b6c5d4d695bd559777a",
+        "target_sha256": "7342f30127544b539d88bbdbcc5ab58ca62dc774bb5c7cddd1684242d62361db"
+      },
+      "endings:healthy_retirement:/description_if_known/father_reconciled": {
+        "source_sha256": "904a7922e2c10a8b616cbc98ab0533e9dae8ed8d3b5425243268e834ae8d6555",
+        "target_sha256": "33fdc2cbcf9230eb8270cac575f8284041df83dcefe127c1af2e35ffcbf66bc4"
+      },
+      "endings:healthy_retirement:/description_if_known/health_finally_treated": {
+        "source_sha256": "c2261fd7e8f74dab3e2a52ab1216c089c6f4f1184bac6dd73366f38114a2768a",
+        "target_sha256": "27fe768b8bd2987ff01f1437b3c7bc970824bc2460e26e7dcb9666f2be0d87e9"
+      },
+      "endings:healthy_retirement:/description_if_known/pension_self_saving": {
+        "source_sha256": "96bef30f8932cab86a2375c492389b068b93452affe51fefbe8aae2368a4924d",
+        "target_sha256": "d76fc72486b5ea52cb863861f1d4a1c231cb8c4e38ebc022bb3e5dbab2759aa7"
+      },
+      "endings:healthy_retirement:/title": {
+        "source_sha256": "2e38b81c26e7200cbb40512b53d7024f940f88368889add7e78271e78ea77ca0",
+        "target_sha256": "9760ca4828ef5790ee6dca63a4726a4dce29de72766b1de97bd722bafca2e1d1"
+      },
+      "endings:ordinary_life:/description": {
+        "source_sha256": "2bc9252a6be7931941c91e9976039d418c2bf0661362413875f89b65557420c3",
+        "target_sha256": "0f0ab2ec46579cb4ab4d259091be1a787d54e5d80bcf3325503c5ed652179cdf"
+      },
+      "endings:ordinary_life:/description_if_known/cut_sangchul_network": {
+        "source_sha256": "208aa3db1b5c6c613b18ab34b792cbabd7983acce911b45e98dd0662ee841123",
+        "target_sha256": "bfba7a2dfc6f600cd6a2afeb92f03489c88f91f90f0e7e51f99e1b0b159e2c3c"
+      },
+      "endings:ordinary_life:/description_if_known/daeun_divorced": {
+        "source_sha256": "edc9fefd7fc02e29eff1b45c13a09e179dd78ff48213f1b4dbca8b473f86daa6",
+        "target_sha256": "ba96ef1624a90a2a8efd266b28987537cf28e55649eb64a1911819ab0caa84e4"
+      },
+      "endings:ordinary_life:/description_if_known/daeun_last_call": {
+        "source_sha256": "0197a7f3f61797706550c78f42503036b719965c9412b44db37e16e80027d955",
+        "target_sha256": "69f46fe0aff0f1d120a2f70ec2384c92dab107e4745991b5fff531b3e7a522ef"
+      },
+      "endings:ordinary_life:/description_if_known/daeun_moved_on_accepted": {
+        "source_sha256": "ff9920e61266170b71fe75522a84d6490d9b669bb87d3fa92a1dea929ad192e7",
+        "target_sha256": "899785ee54f7e1c127c3dbde7a2498754452ab38c6306c7f3f0d7e86c3fbba52"
+      },
+      "endings:ordinary_life:/description_if_known/final_week_gratitude": {
+        "source_sha256": "ee90066d69f886308f6ad9ed2fcda3fe3ba4abec448d74b7add0ee755c2f459a",
+        "target_sha256": "5d32715039e55d7a1190eb83b583f36ed45967aa90d3d9192b76699041b8879a"
+      },
+      "endings:ordinary_life:/description_if_known/final_week_self_approval": {
+        "source_sha256": "e881f34c63013ec24352e8984a0e9c0e80b9204ecdb21f717b60545749809648",
+        "target_sha256": "ebac1aeee00e9e8b7cf6cc1058d09c3798b3a1bfa5c5166755dfdd8e43a9f8bc"
+      },
+      "endings:ordinary_life:/description_if_known/friendship_renewed": {
+        "source_sha256": "2602234522117fbd715130eb06338daa53a9aa787c96f158e012eb695d1650ee",
+        "target_sha256": "8d8dad315c2fa1a3b6097afa92f0a8bc8b955b58cb3ff6b87c5b3e1903cba2eb"
+      },
+      "endings:ordinary_life:/description_if_known/housing_subsidy_received": {
+        "source_sha256": "9fbbc15eee78e0139b1891eea94b3eb8c9f0d9f9bd9c024ecfb9acb5798a5cf8",
+        "target_sha256": "2f3ad12d709ca9d918ac1e3168f86da090116c61e412e913e954da11a4a08c04"
+      },
+      "endings:ordinary_life:/description_if_known/jeonse_partial_recovery": {
+        "source_sha256": "4ef5346b09e09384b0fe97ec40d36372c29b13970de1776f05c8b5e66595baf1",
+        "target_sha256": "e05b648e6f7b096c389d2ffaa3f5f0a065ecafbb17215ec63fafa755b311ca2c"
+      },
+      "endings:ordinary_life:/description_if_known/jeonse_trusting": {
+        "source_sha256": "fe64976ce9d4d6bc9abbd2ac06c307152b237d12905cc5fdd151ec592a7f4544",
+        "target_sha256": "ecf7ced0f31cfb9515b722bece7fdfeecd28bd3508c4b38c803874280d1ea639"
+      },
+      "endings:ordinary_life:/description_if_known/jiyeon_left": {
+        "source_sha256": "e755b9c7bf61894e2bdf6b88af1703a783fcd906419a0daa3467d75d11ce8b45",
+        "target_sha256": "0b18ea4ba78b5ad0ad29caeb4978f379953dac860f6dc7784089f865e9a65e16"
+      },
+      "endings:ordinary_life:/description_if_known/shared_bihon_calc": {
+        "source_sha256": "50f11faa47d0fae18b55a5eafdee6afae77fdcf59ae1adca2b5c8e39e6ca0ed1",
+        "target_sha256": "17604943d1610b6e23435148bd01ed4f28f6bef2bdff487015ad5cf0f7ee13e8"
+      },
+      "endings:ordinary_life:/description_if_known/temptation_cooperated": {
+        "source_sha256": "ce95141f85fcfa993cf623f98d30b1562a281db20ae58cd9ae4e7ca706669a81",
+        "target_sha256": "54d4f8eb25f742c4b93f77c9ab7dd6460dab77375319678f7745af11d2678fb8"
+      },
+      "endings:ordinary_life:/description_if_known/wallet_guilt_resolved": {
+        "source_sha256": "322b238195a9f111d2905b7e31cf91528d13715d6dec07015b96fb95c29dede8",
+        "target_sha256": "613301a1c4f0a51b619d27bb1693849ec778739bb64e2c49b1016dc95bc3fd49"
+      },
+      "endings:ordinary_life:/description_if_known/worked_convenience": {
+        "source_sha256": "d15e7e04be1d0e3cbea7f6603958cd58d68707fedbc7a5932761180c5dc10103",
+        "target_sha256": "6b54378be64b7b3aa2600363e6cfadca29cdce2c955eab39f95289ad94419ceb"
+      },
+      "endings:ordinary_life:/title": {
+        "source_sha256": "a16c0ca4918a82f0daee83d7246d452586e05ece70bdfd24f906eed559eff22c",
+        "target_sha256": "353f2b8d920b34699f65f438126a6d640ebe596bb739da70d1b84e76fae768f8"
+      },
+      "endings:stable_success:/description": {
+        "source_sha256": "7f80b3a15a478fced539736f313de69b6df84740a524687bf0f1e9380e2a97fb",
+        "target_sha256": "b01ea6857973f263226ce01302cba0a79bbf2e35538dca59398577da9058d655"
+      },
+      "endings:stable_success:/description_if_known/called_at_1b_milestone": {
+        "source_sha256": "7cc46fe2c3c8465838a1af2ba1e6f630d6aadc435cc456ce40ccea521963fd72",
+        "target_sha256": "7e86ea5261d6e182fffe78355633375228677af28a94f955de7c6922d32da98a"
+      },
+      "endings:stable_success:/description_if_known/cut_sangchul_network": {
+        "source_sha256": "1a38e4221dad82a43b0d5f24214ad7617e65ee95a4127b88e6297807dd49c976",
+        "target_sha256": "efe66a84433f748de8f5b26006807faa6c207b415ab4f981a5cca64bef8b449d"
+      },
+      "endings:stable_success:/description_if_known/daeun_last_encounter": {
+        "source_sha256": "1b230bfe835fa07ecb071573628076e81d2ca966fb984f9a2ef252ae53868048",
+        "target_sha256": "60b7bbacc89f3ba99230d769f00a8b9026e3f3d51b4e4b0ddd8adb2f8e6a0496"
+      },
+      "endings:stable_success:/description_if_known/friendship_deepened": {
+        "source_sha256": "5cccd05b1092aaa181c09cff5ff34e6b3ff6c078e2bd9cadac900a2143d58f5e",
+        "target_sha256": "707985450d9eab86ecc1b3113da862d7ca5022c91a5e8eb81ca10d4adec0b82c"
+      },
+      "endings:stable_success:/description_if_known/friendship_deepened_after_wedding": {
+        "source_sha256": "d526ccff13bd46d7a78793ac75223385c7892ce64edf8e06294334b2c92b028f",
+        "target_sha256": "664625f14fef2cf29b8896b2e1876c029509b98979bffde22c4d187913ceb1f5"
+      },
+      "endings:stable_success:/description_if_known/health_managed": {
+        "source_sha256": "2b27b650472730211c3097a58a126311d172f1593d580048e1915cc3e37ac27a",
+        "target_sha256": "6ed61b9ad319808d56f06bb87d138fb3c715041218a3d04113d8c15e80fbe2af"
+      },
+      "endings:stable_success:/description_if_known/jeonse_fighting": {
+        "source_sha256": "4842bc9038f3939115d05903c233650c7aaa3f20181945a597c47ee6110843d4",
+        "target_sha256": "d969f7ac22a9f30efbf9e6bd30848d794640e3436e244c0ed06b2b344c1af6d4"
+      },
+      "endings:stable_success:/title": {
+        "source_sha256": "ba186047e071cfbfbd19fb2d90463fc7fc0eb22b82d3ad3024d947ea2b536852",
+        "target_sha256": "5426beb7669c330eba556e0e11a13bf45d46dc451d1309bab039768ffbfd62ae"
+      },
+      "endings:writer:/description": {
+        "source_sha256": "740a3282cfecb62b6f4a936e5181a8eca14e72a19f0beb6382deb2dbe8a0d9a5",
+        "target_sha256": "47f7c1141be6fcb450a2a2f7f794b0b920e5fe2f993b8b5b698222b3bf2be034"
+      },
+      "endings:writer:/detailed_description": {
+        "source_sha256": "0f41fddec1bb65ba64427b3c032cdd0bef81e6d7818818300af1b212156cc1e5",
+        "target_sha256": "ea8d73bd06419ea6f875c5d97d82d0914ba0224dcb64eacb72167ca5ed428d71"
+      },
+      "endings:writer:/epilogue": {
+        "source_sha256": "4af18ed92dc503dd3224f3582acee0e806959cc491dd275f2befec707e5291f5",
+        "target_sha256": "e4f47f0cf406928cb41f2b08c4ceb14f32dc8ca7a32a148b0ed9416873a3cbeb"
+      },
+      "endings:writer:/subtitle": {
+        "source_sha256": "aa7835420c8957e4a9769c2d8c5fc44680ca57dfdfc5eff56f1793cf6631de1c",
+        "target_sha256": "5c532eb2fcaad79da514bab638ae7718a486aacca9ab2dde08139d5333bfa2d0"
+      },
+      "endings:writer:/title": {
+        "source_sha256": "ef845b972bed23b974cb1d2808b9da0606cfa56e3acd65eb291a754a070eb7a7",
+        "target_sha256": "03fe49d331265e3a991b03200e9a271aa13fcad497a3d28ca673e365d13f8979"
+      },
+      "endings:bankruptcy:/description": {
+        "source_sha256": "882e7e45597a9b0051366f0041ae7eef2d451ab5487f29c4b10202b541a7bf50",
+        "target_sha256": "00fe0f5c720b12b46fb7815869bcb46d9f9620bcad90697364a1a6dede7c6673"
+      },
+      "endings:bankruptcy:/description_if_known/cafe_greed_burned": {
+        "source_sha256": "4ea3d8024eaf3f5b3c2d18340fd435d8ac7ac2b3459db1b1fd7ce3a7a596e4f7",
+        "target_sha256": "1d6aff3ee0e70d5d4e0359a9e5eacd816be58390a8d8ae78d5dbfede7f06a500"
+      },
+      "endings:bankruptcy:/title": {
+        "source_sha256": "bcbbfe4299363172e39305d72fa3ccab86a30792d5528d7ea743751ba92b4aa7",
+        "target_sha256": "ab061216fcc04f0b5f0ce31051b620449491686e9b5da4a7f385826205ee1d08"
+      },
+      "endings:burnout:/description": {
+        "source_sha256": "e71349c54a1ed0f9ee78b4af2f07d169ee77a909165e98f90caacae131c3ac39",
+        "target_sha256": "387b8944143907f7270e8f0a6df7d89a97679a267d9a406254a47b1c253cf4c0"
+      },
+      "endings:burnout:/title": {
+        "source_sha256": "afd6b0d17ae76265ccf3a1129517a2d46d637b0575af4d3d6dadb39aa09ffd2f",
+        "target_sha256": "58b1584766efc0cefd29219ff494eefe1761d4f3c78faddab7f743bbedb9c023"
+      },
+      "endings:debt_spiral:/description": {
+        "source_sha256": "719b965d933440b34e8fb55e49090f5fe950929b47737c7ec752764630cacce4",
+        "target_sha256": "0b884f041e78526dbbb540b5c403f833a89ca3a9c9d4d118cb88fbd3ff1feffc"
+      },
+      "endings:debt_spiral:/description_if_known/accepted_margin_call": {
+        "source_sha256": "a637c1305f4617f43e4015567d6c80565242162b29b29138739ed3a61b1ed752",
+        "target_sha256": "3eb44e4fb0f7d786065ebb8135dff245fd8f62a9ab2d20d77d9bb22cd773f6a3"
+      },
+      "endings:debt_spiral:/description_if_known/credit_second_tier_loan": {
+        "source_sha256": "5fb3e587fe4301131a7666f216aa333721cd5093224ec6ae96dcd13ef1dacbe3",
+        "target_sha256": "fda75757a7d10fdb046bbabd3f69286e57b95fe6079cfc423efc906f78c23444"
+      },
+      "endings:debt_spiral:/title": {
+        "source_sha256": "d62f760e8653cc294ca20437553b3fe90c90d3f38e56a9cbfb6e4a7429c253cf",
+        "target_sha256": "a1a2528b870e6572bf529540cb85408338c7c6c8da444ff5a4f3751e5530de47"
+      },
+      "endings:full_circle:/description": {
+        "source_sha256": "4a70e2efdb742c2d312e556cca7c1cea28cbbdf326ea146b38c21ad13acb314b",
+        "target_sha256": "f642c177166128d446bebcb1efffb78fe76dfc23c9dbf3dc9737cfd3ebf2023d"
+      },
+      "endings:full_circle:/description_if_known/playing_with_knowledge": {
+        "source_sha256": "d520fe4707702df1ef8142595c48d6cb7ecb986587c5cfed65f563edd9ef3cd6",
+        "target_sha256": "6f93950a2b353980989057b0134efbaca738854d5b5bd45f27d3eb808131648d"
+      },
+      "endings:full_circle:/title": {
+        "source_sha256": "d7b9dda7d5a4180487aeb0147bd67a739e2576a59ec633b2ea8fb8d238b2ce7b",
+        "target_sha256": "283a0108d50ae341c446eff010c8ff69c0ef553b00f134f31dde4ed82170c30c"
+      },
+      "endings:gambling_recovery:/description": {
+        "source_sha256": "c2f718a56d6d5a9410f89a332191d51c688209a360dd1f2167727aae3c550d7c",
+        "target_sha256": "d7b3f906874de5e5ef76d91f1c378e4e73469970a446d52b13c115f3791afad4"
+      },
+      "endings:gambling_recovery:/description_if_known/bottom_documented": {
+        "source_sha256": "48afcb3f54b2779befca46b61b652ef8a6114fa74b635aa300f530895ecec00b",
+        "target_sha256": "3c1eac409cea4a9a4b189471fc5e60afac4c33e79c0e28bbcb1d2d3aa803ef09"
+      },
+      "endings:gambling_recovery:/description_if_known/father_reconciled": {
+        "source_sha256": "bfb780d2f4979bc2552a68e0233e72708b89381fa1c947395ada1c446a9fa73e",
+        "target_sha256": "3d7cd6c3b52fe203f8485e617df71df167368027e14f103a6576af9150f7947a"
+      },
+      "endings:gambling_recovery:/description_if_known/gambling_memory_defused": {
+        "source_sha256": "0a0b8e90fd412bf3b612d9732e789aa5fe32443a8cd0d90fa9fe3dad3ad4e5c0",
+        "target_sha256": "5c28b647b79eba46b29dc5ba173a7791306cccfacf18f8f0f867760421ffd8b7"
+      },
+      "endings:gambling_recovery:/description_if_known/ng_discipline_to_wealth": {
+        "source_sha256": "1c9dacac3753d29ffabbfdbe3ad2db2e30cce100fed60385b48986e2ff5c6c61",
+        "target_sha256": "437a338cc1b493a593457b1bdef519ad18aad3fae80af20ff566048ee4579b44"
+      },
+      "endings:gambling_recovery:/description_if_known/ng_paid_it_forward": {
+        "source_sha256": "8765206ad44fb46bc40bfa9a0974df254220c36267d932bf0ab196781859cd41",
+        "target_sha256": "cab5db96a4781580bdb16ec6f9d117a99baad0a1ea938631ee16adef6b67ee26"
+      },
+      "endings:gambling_recovery:/description_if_known/racetrack_quit": {
+        "source_sha256": "ae0d714ce8a7e4b0ec0d3ce0f260aa17b7a62323fd803dc1c8689cff7dadf5d3",
+        "target_sha256": "dcc2aa847ecdc355a02e2bf32864c586bcb6980c8bac6dfb29e1541facca995d"
+      },
+      "endings:gambling_recovery:/description_if_known/sangchul_reported": {
+        "source_sha256": "1de30d59735a92a486e235d2ffe81b3f588cfb02dcc2f1d3bb52c2e2d7607ee6",
+        "target_sha256": "2a9825dd9f575fb5cd070b51c641818cdfa18405075507d3cd72a958dba1b654"
+      },
+      "endings:gambling_recovery:/title": {
+        "source_sha256": "33ce793e484f6ea7c6bc04fdae014a7c9ed40e56a5c47fd3a7e64a9c787bdb0e",
+        "target_sha256": "94dcc015c892ea740e9a9b232ad47574aea5e370b0cbdbd8079afbfeaf462628"
+      },
+      "endings:guardian:/description": {
+        "source_sha256": "d247814d4d93acb657ca9a707fc3dfeec3c184fdd0ad1b8804d9b470146d86af",
+        "target_sha256": "99ff97dd7098b0ddcd15a92d6a744b0bfc7c230da32a030ea0a3f837816500da"
+      },
+      "endings:guardian:/description_if_known/father_appointment_set": {
+        "source_sha256": "3276b626c7d0187800f4b1f8096940b53d019c3c6b309f04ef8b9f2ba2938099",
+        "target_sha256": "22ef41a60bceb9234f6c0e74948e0075b4d5ad82e808b64651d2832c8c6d8a46"
+      },
+      "endings:guardian:/description_if_known/father_health_checked": {
+        "source_sha256": "0bae8436273afe5e70a0f942f83e013de3c7c3ac2ad3cda12cbeb6c562cc6640",
+        "target_sha256": "3fb3de3f5ed5b1ecea184982df93be16385d7c9bd50ceb0e1e2221a3431dd2bf"
+      },
+      "endings:guardian:/title": {
+        "source_sha256": "80bc442e04d37b88e8f9e665728113384175ce63682c754056b843c7d0a99c70",
+        "target_sha256": "caa7af380ce725a293a18b7ffa26bbc058f0f69cd9e4529a0230393cb4b5d9b1"
+      },
+      "endings:mental_break:/description": {
+        "source_sha256": "0312e7f0a141c68d9bb92a43264e4901d4814ea50778a5f8d43848c9af0e0123",
+        "target_sha256": "59664eb3b738b964e36469a0eb3cd7575785dfe78a5d79de8217657008a15111"
+      },
+      "endings:mental_break:/description_if_known/daeun_romance_started": {
+        "source_sha256": "d8973e083e48ec181c56b2deb8f80c276f7aa0e49438039ad2287da50fcb9978",
+        "target_sha256": "d3c80ea5af4976c71ec9eae480d54bd12fba46071bbf95eb1ee120d36b30a14d"
+      },
+      "endings:mental_break:/description_if_known/father_reconciled": {
+        "source_sha256": "ab1484697edd3808d936bd705c325c6df386460b33025646e888df030e8c072b",
+        "target_sha256": "2edaaeccb9471715f1905bbe63ea1cffaf3bba5298f4e51b92ce0009ee6a93e6"
+      },
+      "endings:mental_break:/description_if_known/hyunsu_comforted": {
+        "source_sha256": "b8331fa72d9e52a8f1d28813088209655a683d9c0eb7a314e2ea9e24de449546",
+        "target_sha256": "bef2afdbaa53aa30342989a6743d967f31c1b722846101dea69f52ae3671dd46"
+      },
+      "endings:mental_break:/title": {
+        "source_sha256": "508b0662c85d9b588e561fabd3d03de2c1cd82d4fd1bb160ec534e27571571d3",
+        "target_sha256": "567e4468c579fa7f76ea1b0df8d938343cf7ca4099010a52ccad0c586899521b"
+      },
+      "endings:second_love:/description": {
+        "source_sha256": "3a62380e6e4e469704cffdaf855374854356bd15515a0c1d4c782ac67fe3bd08",
+        "target_sha256": "6feaf497ad69831552b458738b1f900e9f4943e8825adda894e6c3e4599b87c0"
+      },
+      "endings:second_love:/title": {
+        "source_sha256": "46f0b88846c16191c3c216f1b02430cfb6680cbbb0ba8bf2e2c2a80a82cd1e3e",
+        "target_sha256": "a74353f57d628cddd18ac6b4b45bec855c48f52f8e0a2bfdd5aa0760ecd5d785"
       }
     },
     "zh-CN": {
-      "endings:instant_legend:/condition": {
-        "source_sha256": "8b6935c47dfd253f45ada83373eccd758e8e582f4cd11ab2082c6dabf51ae457",
-        "target_sha256": "fd7386be057731be9717d94b2c07c07003c5d86ebb78e4c9758a354a3a2e47a3"
-      },
       "endings:instant_legend:/description": {
         "source_sha256": "a653458e3f43fa789739781caa9eb21d5eaa99ffb582e4b793740ac82b7428c8",
         "target_sha256": "5fed838a1c258cc521d52f59b461d9ca7f551fed15b52cd20e370005494591d3"
@@ -574,10 +944,6 @@
       "endings:instant_legend:/title": {
         "source_sha256": "d958e4c504fae89c42205c98ea4c277a464b0fcb0895360f32804744e40bf2ad",
         "target_sha256": "12e2355a0df0d939afb0d5acdf782cab28a095d976f295b6c3eba9d87316c935"
-      },
-      "endings:late_call:/condition": {
-        "source_sha256": "23780dcca59213b11563f89bd722e3bac0907dcc667b2fdbf4239317dfdc66fb",
-        "target_sha256": "33f4e35f9ab1eaf8b9a46a0e084a23514fa75174c4521a96b0ec926d57cc753d"
       },
       "endings:late_call:/description": {
         "source_sha256": "b708f6f653382b17305c9d8395d3b8d0dfd8b6dd2376007aff0028010f4b4f0a",
@@ -626,10 +992,6 @@
       "endings:late_call:/title": {
         "source_sha256": "c0701460b151e2eb76ca76f69539b9f32a9f011e00e0ce45c25804c8a006d0b4",
         "target_sha256": "725dd9610409608b64db7ff788ecd7635839896974c090537ddf04b985779e76"
-      },
-      "endings:with_daeun:/condition": {
-        "source_sha256": "98c8d9d77db1483dcc75e27a3246a61626c4a97195fcb638e8208b39d74d3104",
-        "target_sha256": "f9e6230646214ca9e38f93a2fec414e3cb57e532fdfbf1b1c9d84553c7cf1fde"
       },
       "endings:with_daeun:/description": {
         "source_sha256": "aebd0e95931554bed036571879d7577ed922959339432448ad9a66aa74cdc488",
@@ -1038,13 +1400,341 @@
       "events:hyunsu_result_fail:/title": {
         "source_sha256": "a98e87b74752b362b4038013f1cf33ecbe5a20154a1ba0c1204aef3f5fcd9f63",
         "target_sha256": "fbb77c403f5cebcfa5e92a7eef2a26d365892df99ff56fae6bb0c74c5edd4c60"
+      },
+      "endings:balanced_life:/description": {
+        "source_sha256": "b3363dba22243ade04739ae73e1de381e5c0bf222b52192f74597c37e5903355",
+        "target_sha256": "3f2f9a1a33d5036dc705ceaf90dcf0be93d6c01489f51d9df22428c6a06137eb"
+      },
+      "endings:balanced_life:/description_if_known/cafe_kindness_reconnected": {
+        "source_sha256": "b20903946da50781fc2f52df52dd4fc2f228c735c5d29fd5231b0de1271cf3b7",
+        "target_sha256": "91af345f8507fdec888c8bfd67da3b5d4bdda8727bf26a88302978658ddc83ca"
+      },
+      "endings:balanced_life:/description_if_known/cut_sangchul_network": {
+        "source_sha256": "47cb257c3a3dd8600cc06f6d2ff9abad3c53ed17eaa2cc616b7646f8d033ccf2",
+        "target_sha256": "90abfdf85af824c20ff7907359e95c2c1ce6aa2362857017a5c24d17357b8fe9"
+      },
+      "endings:balanced_life:/description_if_known/friendship_found_new_rhythm": {
+        "source_sha256": "bc3a94635bcde92a4899290e2470d6a201a4cb459bcecfc09691decf309e8e61",
+        "target_sha256": "3c4086ed6501280aa9a80dcae6d44967af8ed11384df5752071f939e19354bb2"
+      },
+      "endings:balanced_life:/description_if_known/jiyeon_beautifully_apart": {
+        "source_sha256": "257037a97107c95d8811f6fa69693d85af4703c0e6cbf26071c488774351476d",
+        "target_sha256": "80f248c15dd21419f3a49ab746ecbe573818a27467097cba08f632306be306fe"
+      },
+      "endings:balanced_life:/description_if_known/replied_old_contact": {
+        "source_sha256": "d331ee343f2915c7033d8f91f202bd3a951638982206bb0cb93b2923de8ad28f",
+        "target_sha256": "0e99822390542ba03612b2dc1369f7324378382fa47b2e66b6bb98093404c7d3"
+      },
+      "endings:balanced_life:/description_if_known/sangchul_network_fully_cut": {
+        "source_sha256": "0cd12387dab341f938237213af2b232f57073d30de9e2f52fa66cc3cca297f5a",
+        "target_sha256": "54485a2299ed763fe014cdc904852f9ee3d90600c6384bb224a1a738fdf0ad67"
+      },
+      "endings:balanced_life:/description_if_known/standard_internalized": {
+        "source_sha256": "034a2f39e39419e1b5c6e94ed5a5e0fec08d080a5b7466bb296fac0d12b5a19f",
+        "target_sha256": "20eb641dbdd8cf3e36a7c67178ce66ace6f837c2e52708ff5a8b24d0e719f14c"
+      },
+      "endings:balanced_life:/title": {
+        "source_sha256": "c6ad9f7644fcb7a1c9e0718b6ba263489b69b8e833dd4b9a65d82330adf3df1c",
+        "target_sha256": "e81737418b8093530ab3414fd3ed7de76a9af1e830012d454667c0f00e0a3323"
+      },
+      "endings:career_burnout:/description": {
+        "source_sha256": "17502f51baa645ec6c1fe5c7d3f67803b624f8113728f62942447a972c07326f",
+        "target_sha256": "7bd89047887607d369eaa4fe6af9e7233bef10165089b8a6d9e8ce388dd8eb04"
+      },
+      "endings:career_burnout:/description_if_known/career_door_opened": {
+        "source_sha256": "46b56c45cfbf476f88853de6ab97573b1832080b281a3b8c42b0a4c022e4d78c",
+        "target_sha256": "af23ea8c629ebb17c9ba877b754d6ecdc6beb68df868fd44c2bf3d0c1e6bea36"
+      },
+      "endings:career_burnout:/description_if_known/father_reconciled": {
+        "source_sha256": "506b5eefa1fefbc59a9c0775304db37239ee6ec96e0b3dc11932d8417aefc795",
+        "target_sha256": "f140d36b50031d61d29c7b7f374d7d04637b9cd5b9ade6b5ad71efbb7560031b"
+      },
+      "endings:career_burnout:/description_if_known/jobswitch_satisfied": {
+        "source_sha256": "0deab5e41d7c2e468be52e71b5692d6a61ef4b4cda02b9ffdb580dc7fb6e2b2e",
+        "target_sha256": "689c6dcb8fa7dd904a51051f01cd0fb3a93051dc68300c95c33a712a20d8740e"
+      },
+      "endings:career_burnout:/detailed_description": {
+        "source_sha256": "f42c70cb2b665f97994451330e15366e7fc070b1733dd91e2c2d34024c3d66fb",
+        "target_sha256": "e50fdd43af83da045ee206de121444aea9ce3d8555768dad98ae16843b2a0442"
+      },
+      "endings:career_burnout:/title": {
+        "source_sha256": "2bcd843fe65aa6356e35e9967b3a203a500e8cdc60ce91a1dffb36942f4c9efa",
+        "target_sha256": "b7271e8fa0fe760a2e7bd4f506df537d9ad025dea136030a65a737d53bf4c5fc"
+      },
+      "endings:healthy_retirement:/description": {
+        "source_sha256": "15bccb5f6013940155b357c6c9894f807396a3f404ce0b6c5d4d695bd559777a",
+        "target_sha256": "0b87b52b73cd36e3c3f8d357e34e8c39c69717c5f61a5fd7ccb0bf99f526b418"
+      },
+      "endings:healthy_retirement:/description_if_known/father_reconciled": {
+        "source_sha256": "904a7922e2c10a8b616cbc98ab0533e9dae8ed8d3b5425243268e834ae8d6555",
+        "target_sha256": "5608469be3504a4f96f6864290b57c159b33fc577a66361ed20b0df03c9f4b29"
+      },
+      "endings:healthy_retirement:/description_if_known/health_finally_treated": {
+        "source_sha256": "c2261fd7e8f74dab3e2a52ab1216c089c6f4f1184bac6dd73366f38114a2768a",
+        "target_sha256": "59cef2dad637388c2c3e04e1e39b50ce7d043aa3ccebdb28e5c1554ed4fe2dcf"
+      },
+      "endings:healthy_retirement:/description_if_known/pension_self_saving": {
+        "source_sha256": "96bef30f8932cab86a2375c492389b068b93452affe51fefbe8aae2368a4924d",
+        "target_sha256": "d34c1d82d913fa0d84ff8a33d3615dbc30ad03ca176818e6b8f64715a6178f21"
+      },
+      "endings:healthy_retirement:/title": {
+        "source_sha256": "2e38b81c26e7200cbb40512b53d7024f940f88368889add7e78271e78ea77ca0",
+        "target_sha256": "afe7e958fd0123b48d10d0867b0b1f55b1050eaa8f358074f139592ae2b6330c"
+      },
+      "endings:ordinary_life:/description": {
+        "source_sha256": "2bc9252a6be7931941c91e9976039d418c2bf0661362413875f89b65557420c3",
+        "target_sha256": "388b7141b410aa14b38329983d09e66dddf2ab095e08fa324c887e3ebe63f90c"
+      },
+      "endings:ordinary_life:/description_if_known/cut_sangchul_network": {
+        "source_sha256": "208aa3db1b5c6c613b18ab34b792cbabd7983acce911b45e98dd0662ee841123",
+        "target_sha256": "296b9bf98b042b75f792dc7571837171bd00670da08c3d16ca5b5d1970e16b33"
+      },
+      "endings:ordinary_life:/description_if_known/daeun_divorced": {
+        "source_sha256": "edc9fefd7fc02e29eff1b45c13a09e179dd78ff48213f1b4dbca8b473f86daa6",
+        "target_sha256": "d459fbe5d89489ef3392ba0b1dd5c11918fe8315ed79a31e0aef3e959e0bea6d"
+      },
+      "endings:ordinary_life:/description_if_known/daeun_last_call": {
+        "source_sha256": "0197a7f3f61797706550c78f42503036b719965c9412b44db37e16e80027d955",
+        "target_sha256": "5c58fa0e8590520b97c0ebd0792b605f935b3a6ada2edbcf186b5465fdbeefd7"
+      },
+      "endings:ordinary_life:/description_if_known/daeun_moved_on_accepted": {
+        "source_sha256": "ff9920e61266170b71fe75522a84d6490d9b669bb87d3fa92a1dea929ad192e7",
+        "target_sha256": "e2d0a12c1d5135bad117a4a9ffa503e9cf8fff23252a9cde7366076b8a635e9b"
+      },
+      "endings:ordinary_life:/description_if_known/final_week_gratitude": {
+        "source_sha256": "ee90066d69f886308f6ad9ed2fcda3fe3ba4abec448d74b7add0ee755c2f459a",
+        "target_sha256": "dbee6ba99c54e6a077cbb734526bca3a83c81289a32b54ec84a4fee3ce1cca97"
+      },
+      "endings:ordinary_life:/description_if_known/final_week_self_approval": {
+        "source_sha256": "e881f34c63013ec24352e8984a0e9c0e80b9204ecdb21f717b60545749809648",
+        "target_sha256": "48a23ad529a8afe1e32ea7431d5d8da69ecc03a21f7120f086c916a444865076"
+      },
+      "endings:ordinary_life:/description_if_known/friendship_renewed": {
+        "source_sha256": "2602234522117fbd715130eb06338daa53a9aa787c96f158e012eb695d1650ee",
+        "target_sha256": "5d286d2130ac2da11311a537b661eb50aa51a0dfe30342ab6a0b073281eb8c25"
+      },
+      "endings:ordinary_life:/description_if_known/housing_subsidy_received": {
+        "source_sha256": "9fbbc15eee78e0139b1891eea94b3eb8c9f0d9f9bd9c024ecfb9acb5798a5cf8",
+        "target_sha256": "edf9ef55dbd883c16edeb270eb45722361759983fa051a69e1661a7d05b27f3c"
+      },
+      "endings:ordinary_life:/description_if_known/jeonse_partial_recovery": {
+        "source_sha256": "4ef5346b09e09384b0fe97ec40d36372c29b13970de1776f05c8b5e66595baf1",
+        "target_sha256": "6095afeb476b147089e169a4d3075cc56e37cd6881ca6d748027e37ec9c86ac6"
+      },
+      "endings:ordinary_life:/description_if_known/jeonse_trusting": {
+        "source_sha256": "fe64976ce9d4d6bc9abbd2ac06c307152b237d12905cc5fdd151ec592a7f4544",
+        "target_sha256": "79f46fdefb2785bc770487f8a8d3d7990a62bb76b16f061aa4fd767e83b7446c"
+      },
+      "endings:ordinary_life:/description_if_known/jiyeon_left": {
+        "source_sha256": "e755b9c7bf61894e2bdf6b88af1703a783fcd906419a0daa3467d75d11ce8b45",
+        "target_sha256": "c02718a4c51e20e17555c4a98dc32f74e19eaf87dae36237bf1d0a8491bfbf1d"
+      },
+      "endings:ordinary_life:/description_if_known/shared_bihon_calc": {
+        "source_sha256": "50f11faa47d0fae18b55a5eafdee6afae77fdcf59ae1adca2b5c8e39e6ca0ed1",
+        "target_sha256": "fb6ae5d9fde84ebf62fe3bfe2afe150436c03b4cc60436161dc3a8e8d1d1bb60"
+      },
+      "endings:ordinary_life:/description_if_known/temptation_cooperated": {
+        "source_sha256": "ce95141f85fcfa993cf623f98d30b1562a281db20ae58cd9ae4e7ca706669a81",
+        "target_sha256": "96fd6a3a60768b78c4277f2917cb77d37d164ab6229a6533ae58a7b63b92dc8f"
+      },
+      "endings:ordinary_life:/description_if_known/wallet_guilt_resolved": {
+        "source_sha256": "322b238195a9f111d2905b7e31cf91528d13715d6dec07015b96fb95c29dede8",
+        "target_sha256": "32865eae953be283ebefe3b772bc0cb3304d51bad686e5cd8925addd197abc3a"
+      },
+      "endings:ordinary_life:/description_if_known/worked_convenience": {
+        "source_sha256": "d15e7e04be1d0e3cbea7f6603958cd58d68707fedbc7a5932761180c5dc10103",
+        "target_sha256": "6fa1442d1371aebb19893d8723667fe4de34f79d77f4ee38e5666ccfa1bdee1c"
+      },
+      "endings:ordinary_life:/title": {
+        "source_sha256": "a16c0ca4918a82f0daee83d7246d452586e05ece70bdfd24f906eed559eff22c",
+        "target_sha256": "75d9fb8b8147d42efd51b55cb6b1e59d0c59f9c1a3e2af79c83a7d8232261633"
+      },
+      "endings:stable_success:/description": {
+        "source_sha256": "7f80b3a15a478fced539736f313de69b6df84740a524687bf0f1e9380e2a97fb",
+        "target_sha256": "bdbbc79a9e8a7166d81dfec5284f5bf5024d08b50741a66ba02cfe4471b2cb1d"
+      },
+      "endings:stable_success:/description_if_known/called_at_1b_milestone": {
+        "source_sha256": "7cc46fe2c3c8465838a1af2ba1e6f630d6aadc435cc456ce40ccea521963fd72",
+        "target_sha256": "508ec6442bae4d74b5c360b675c7bcd7448a4df50f9c33eafd89dc92466547c9"
+      },
+      "endings:stable_success:/description_if_known/cut_sangchul_network": {
+        "source_sha256": "1a38e4221dad82a43b0d5f24214ad7617e65ee95a4127b88e6297807dd49c976",
+        "target_sha256": "daa8e5f0ab0f3c8b135956a517811ba6934402ab986fbac7abdc1989dbcf45ad"
+      },
+      "endings:stable_success:/description_if_known/daeun_last_encounter": {
+        "source_sha256": "1b230bfe835fa07ecb071573628076e81d2ca966fb984f9a2ef252ae53868048",
+        "target_sha256": "a2f79f939771378d08c78f52cfa7be6a02e7b2fdbf6b0706a18a89379a285188"
+      },
+      "endings:stable_success:/description_if_known/friendship_deepened": {
+        "source_sha256": "5cccd05b1092aaa181c09cff5ff34e6b3ff6c078e2bd9cadac900a2143d58f5e",
+        "target_sha256": "b21f2a11ebc1f025753b20286806bdd49bf698357e076cff4da82b4d21de1019"
+      },
+      "endings:stable_success:/description_if_known/friendship_deepened_after_wedding": {
+        "source_sha256": "d526ccff13bd46d7a78793ac75223385c7892ce64edf8e06294334b2c92b028f",
+        "target_sha256": "5165026bbce98b03d2c4cb31a7dcecc671819bea0e178c1c2d3ce2a9571e09dd"
+      },
+      "endings:stable_success:/description_if_known/health_managed": {
+        "source_sha256": "2b27b650472730211c3097a58a126311d172f1593d580048e1915cc3e37ac27a",
+        "target_sha256": "2a1cc07e7d7d75bcbd9a54326b739baed68e6a49d437e089f6e08ad67e5960b7"
+      },
+      "endings:stable_success:/description_if_known/jeonse_fighting": {
+        "source_sha256": "4842bc9038f3939115d05903c233650c7aaa3f20181945a597c47ee6110843d4",
+        "target_sha256": "8f97a45a16f24e7a483f8ad47eb39d77f1b90806fcdec046efc7412eced44615"
+      },
+      "endings:stable_success:/title": {
+        "source_sha256": "ba186047e071cfbfbd19fb2d90463fc7fc0eb22b82d3ad3024d947ea2b536852",
+        "target_sha256": "87ecafc379b44d9d5164213a2e74fff991430e93d4e57980947de162970e13ef"
+      },
+      "endings:writer:/description": {
+        "source_sha256": "740a3282cfecb62b6f4a936e5181a8eca14e72a19f0beb6382deb2dbe8a0d9a5",
+        "target_sha256": "7d65c96145aa49824d5a3d5802394b9ab408401175e2d5d9f748d2877981e179"
+      },
+      "endings:writer:/detailed_description": {
+        "source_sha256": "0f41fddec1bb65ba64427b3c032cdd0bef81e6d7818818300af1b212156cc1e5",
+        "target_sha256": "1fbee85bd818d75b68ae11307bae98346e672ccd7e19c9c2bbde5471ea2b621c"
+      },
+      "endings:writer:/epilogue": {
+        "source_sha256": "4af18ed92dc503dd3224f3582acee0e806959cc491dd275f2befec707e5291f5",
+        "target_sha256": "faa8940e41412c1b6b7ba71a3f1c174a37677be9f7911e5d1bd3ce1547723ef4"
+      },
+      "endings:writer:/subtitle": {
+        "source_sha256": "aa7835420c8957e4a9769c2d8c5fc44680ca57dfdfc5eff56f1793cf6631de1c",
+        "target_sha256": "8c07ac713518c23eae46b80b7bc16a03e37dd8d3bd1497daa2d081ca47960312"
+      },
+      "endings:writer:/title": {
+        "source_sha256": "ef845b972bed23b974cb1d2808b9da0606cfa56e3acd65eb291a754a070eb7a7",
+        "target_sha256": "ebccd18013c578f09d8d72c8f4d48731ee58968df5c5daf2784038ae5352a45e"
+      },
+      "endings:bankruptcy:/description": {
+        "source_sha256": "882e7e45597a9b0051366f0041ae7eef2d451ab5487f29c4b10202b541a7bf50",
+        "target_sha256": "8033549ef7581d964d3af0ffc26a7ab1a8356058d05533e928f5711403ea920a"
+      },
+      "endings:bankruptcy:/description_if_known/cafe_greed_burned": {
+        "source_sha256": "4ea3d8024eaf3f5b3c2d18340fd435d8ac7ac2b3459db1b1fd7ce3a7a596e4f7",
+        "target_sha256": "c9bddda881455d78479c6b7fa994147600758353a0aecde098d3e6bab54c41dc"
+      },
+      "endings:bankruptcy:/title": {
+        "source_sha256": "bcbbfe4299363172e39305d72fa3ccab86a30792d5528d7ea743751ba92b4aa7",
+        "target_sha256": "c9e573010275f807dc2d83738a84fb6e0d3bcfcfae097d5e9ef6a7864f2ce07b"
+      },
+      "endings:burnout:/description": {
+        "source_sha256": "e71349c54a1ed0f9ee78b4af2f07d169ee77a909165e98f90caacae131c3ac39",
+        "target_sha256": "ef0c7c5e0dd1c3a8d8d38a370a7cc1d7978d5a399f6d89175467942d1bf34bc0"
+      },
+      "endings:burnout:/title": {
+        "source_sha256": "afd6b0d17ae76265ccf3a1129517a2d46d637b0575af4d3d6dadb39aa09ffd2f",
+        "target_sha256": "3863730381c4645cce4c27643ee68601f8bfb07434230bd4deffb07aedf10e18"
+      },
+      "endings:debt_spiral:/description": {
+        "source_sha256": "719b965d933440b34e8fb55e49090f5fe950929b47737c7ec752764630cacce4",
+        "target_sha256": "8da1316700120d7aae0e0ded0fb404b2f77d4eb75eaae459e01fd1e1d9a089dd"
+      },
+      "endings:debt_spiral:/description_if_known/accepted_margin_call": {
+        "source_sha256": "a637c1305f4617f43e4015567d6c80565242162b29b29138739ed3a61b1ed752",
+        "target_sha256": "00b80a4bf22b5626b216bb848641e6511322f5c0cc8510318bf06b787f44f520"
+      },
+      "endings:debt_spiral:/description_if_known/credit_second_tier_loan": {
+        "source_sha256": "5fb3e587fe4301131a7666f216aa333721cd5093224ec6ae96dcd13ef1dacbe3",
+        "target_sha256": "f3b218e26492995aaa8ad80dfe11f592233715b2982296aa138feadd8a12a5a7"
+      },
+      "endings:debt_spiral:/title": {
+        "source_sha256": "d62f760e8653cc294ca20437553b3fe90c90d3f38e56a9cbfb6e4a7429c253cf",
+        "target_sha256": "84dff7833ca90239a5ac974dbd432b5d51184ca68845d5f7d07cc5df125bb8b2"
+      },
+      "endings:full_circle:/description": {
+        "source_sha256": "4a70e2efdb742c2d312e556cca7c1cea28cbbdf326ea146b38c21ad13acb314b",
+        "target_sha256": "8cdfd5ace7f6e377129b128c0677bb122ea1f4cdd5b53f50df62f31d77dc84f2"
+      },
+      "endings:full_circle:/description_if_known/playing_with_knowledge": {
+        "source_sha256": "d520fe4707702df1ef8142595c48d6cb7ecb986587c5cfed65f563edd9ef3cd6",
+        "target_sha256": "07efc7cb353294bd4982b22c548c14d3ef8a8a8617030db37d9a7fd2ba96dd76"
+      },
+      "endings:full_circle:/title": {
+        "source_sha256": "d7b9dda7d5a4180487aeb0147bd67a739e2576a59ec633b2ea8fb8d238b2ce7b",
+        "target_sha256": "ac654c03ca3043f88eb7ae7d12a7f70448de31e60402f49d8d4d476f74921b6b"
+      },
+      "endings:gambling_recovery:/description": {
+        "source_sha256": "c2f718a56d6d5a9410f89a332191d51c688209a360dd1f2167727aae3c550d7c",
+        "target_sha256": "aa590bc1e97c9cc9fb1a91cb6bb0e1fda6ae8ab8770ff4ff5f95029c73b0e4ae"
+      },
+      "endings:gambling_recovery:/description_if_known/bottom_documented": {
+        "source_sha256": "48afcb3f54b2779befca46b61b652ef8a6114fa74b635aa300f530895ecec00b",
+        "target_sha256": "ee3ae64c24b277d5cd29e5aa99bdfc470f2dd55be30e1e12ac47d4f1b694801e"
+      },
+      "endings:gambling_recovery:/description_if_known/father_reconciled": {
+        "source_sha256": "bfb780d2f4979bc2552a68e0233e72708b89381fa1c947395ada1c446a9fa73e",
+        "target_sha256": "94f2bdcc6d1da82707523f3c695a615e785123c4ccbb13406495d246f58b7789"
+      },
+      "endings:gambling_recovery:/description_if_known/gambling_memory_defused": {
+        "source_sha256": "0a0b8e90fd412bf3b612d9732e789aa5fe32443a8cd0d90fa9fe3dad3ad4e5c0",
+        "target_sha256": "599a3de846ace0873189b1337987f6bf58f007dfeeef4e63df81f7c0ab5d5a52"
+      },
+      "endings:gambling_recovery:/description_if_known/ng_discipline_to_wealth": {
+        "source_sha256": "1c9dacac3753d29ffabbfdbe3ad2db2e30cce100fed60385b48986e2ff5c6c61",
+        "target_sha256": "77bb50ba9c40f9f099fd26d062b72f2a9e1a1460facdab3cce64daaa63cbd93b"
+      },
+      "endings:gambling_recovery:/description_if_known/ng_paid_it_forward": {
+        "source_sha256": "8765206ad44fb46bc40bfa9a0974df254220c36267d932bf0ab196781859cd41",
+        "target_sha256": "399a5a592449d9b7d246e10bc780b892fd93b9875a8938278718b8ee75a66a3a"
+      },
+      "endings:gambling_recovery:/description_if_known/racetrack_quit": {
+        "source_sha256": "ae0d714ce8a7e4b0ec0d3ce0f260aa17b7a62323fd803dc1c8689cff7dadf5d3",
+        "target_sha256": "27e5b3754f95b4f92fb29c89b1986c408cc381c99f757f26646b04583fa696a1"
+      },
+      "endings:gambling_recovery:/description_if_known/sangchul_reported": {
+        "source_sha256": "1de30d59735a92a486e235d2ffe81b3f588cfb02dcc2f1d3bb52c2e2d7607ee6",
+        "target_sha256": "c22c0cb35df6658bbdf091011e3f10d52390db74364a6fb490e870e1762391af"
+      },
+      "endings:gambling_recovery:/title": {
+        "source_sha256": "33ce793e484f6ea7c6bc04fdae014a7c9ed40e56a5c47fd3a7e64a9c787bdb0e",
+        "target_sha256": "d3bd5fa4bed196ad93a1bb330194f4a6990648e63dffa204c4e053ee6d38962b"
+      },
+      "endings:guardian:/description": {
+        "source_sha256": "d247814d4d93acb657ca9a707fc3dfeec3c184fdd0ad1b8804d9b470146d86af",
+        "target_sha256": "c20674cf55cbba32f9423fcf65956504ebfd89309480f52d2569c8127a525935"
+      },
+      "endings:guardian:/description_if_known/father_appointment_set": {
+        "source_sha256": "3276b626c7d0187800f4b1f8096940b53d019c3c6b309f04ef8b9f2ba2938099",
+        "target_sha256": "1a797ad735404f1aa939ab2e2f67de06f22c4b393c89f0ef82c1cb7332e0f2fd"
+      },
+      "endings:guardian:/description_if_known/father_health_checked": {
+        "source_sha256": "0bae8436273afe5e70a0f942f83e013de3c7c3ac2ad3cda12cbeb6c562cc6640",
+        "target_sha256": "1b76e8a8153810b22db9995adc76a366350a221b35bccadb2d13d299c4e92a34"
+      },
+      "endings:guardian:/title": {
+        "source_sha256": "80bc442e04d37b88e8f9e665728113384175ce63682c754056b843c7d0a99c70",
+        "target_sha256": "2773499f9bf05451fedfc4a6e6b2c424531f180d139c5e634ddf9fbd33438b57"
+      },
+      "endings:mental_break:/description": {
+        "source_sha256": "0312e7f0a141c68d9bb92a43264e4901d4814ea50778a5f8d43848c9af0e0123",
+        "target_sha256": "6ab1b734c4d15f2b0dc7f504e856ca7fc2f6f5500042707e2829d850f3d85bf0"
+      },
+      "endings:mental_break:/description_if_known/daeun_romance_started": {
+        "source_sha256": "d8973e083e48ec181c56b2deb8f80c276f7aa0e49438039ad2287da50fcb9978",
+        "target_sha256": "1cf8b2a15e6f53c0a22c3f9063a7c8b3932c720ffda01718a16bc49e35433945"
+      },
+      "endings:mental_break:/description_if_known/father_reconciled": {
+        "source_sha256": "ab1484697edd3808d936bd705c325c6df386460b33025646e888df030e8c072b",
+        "target_sha256": "61e41dd87117fcba800bcd15f9de528f2104c9c826903379485f485b8e017938"
+      },
+      "endings:mental_break:/description_if_known/hyunsu_comforted": {
+        "source_sha256": "b8331fa72d9e52a8f1d28813088209655a683d9c0eb7a314e2ea9e24de449546",
+        "target_sha256": "e12fa78094376470950a8e7411ff99921f10db0961d8ebf73665ee52d010e744"
+      },
+      "endings:mental_break:/title": {
+        "source_sha256": "508b0662c85d9b588e561fabd3d03de2c1cd82d4fd1bb160ec534e27571571d3",
+        "target_sha256": "55a852be0eda9d2a12dd362346823e4fa189612348f96c30f785b2588a053c3e"
+      },
+      "endings:second_love:/description": {
+        "source_sha256": "3a62380e6e4e469704cffdaf855374854356bd15515a0c1d4c782ac67fe3bd08",
+        "target_sha256": "b937b58da0d1c1248fb6629fa0c847efdb652f68dddb07f3a822f0d7ef092ab1"
+      },
+      "endings:second_love:/title": {
+        "source_sha256": "46f0b88846c16191c3c216f1b02430cfb6680cbbb0ba8bf2e2c2a80a82cd1e3e",
+        "target_sha256": "c6dc612e5c88a7e03fd5c0f9934a94576f494abb9280c3f402175781ec8df6cd"
       }
     },
     "zh-TW": {
-      "endings:instant_legend:/condition": {
-        "source_sha256": "8b6935c47dfd253f45ada83373eccd758e8e582f4cd11ab2082c6dabf51ae457",
-        "target_sha256": "048fe8042eaed66c7ff9155a1167ed6b8b239a3ed711a4ea911573084530a722"
-      },
       "endings:instant_legend:/description": {
         "source_sha256": "a653458e3f43fa789739781caa9eb21d5eaa99ffb582e4b793740ac82b7428c8",
         "target_sha256": "c4f1539aa0a2cd12d709d58a002c9f12846c1c27f9a17aaf011cbcd471551078"
@@ -1052,10 +1742,6 @@
       "endings:instant_legend:/title": {
         "source_sha256": "d958e4c504fae89c42205c98ea4c277a464b0fcb0895360f32804744e40bf2ad",
         "target_sha256": "c75f81d63420954169c623fa45d7808732176fadcbdb316ad5ae3407b7760b1e"
-      },
-      "endings:late_call:/condition": {
-        "source_sha256": "23780dcca59213b11563f89bd722e3bac0907dcc667b2fdbf4239317dfdc66fb",
-        "target_sha256": "e2d3bc8788a48853be3086648b37cb67fb6c6fc5cb77d8145e700c89465b685c"
       },
       "endings:late_call:/description": {
         "source_sha256": "b708f6f653382b17305c9d8395d3b8d0dfd8b6dd2376007aff0028010f4b4f0a",
@@ -1104,10 +1790,6 @@
       "endings:late_call:/title": {
         "source_sha256": "c0701460b151e2eb76ca76f69539b9f32a9f011e00e0ce45c25804c8a006d0b4",
         "target_sha256": "e5b8a17edfd7f3f4d6a08862a77e2d628dd82b20617ae25f4618b437854f6dbb"
-      },
-      "endings:with_daeun:/condition": {
-        "source_sha256": "98c8d9d77db1483dcc75e27a3246a61626c4a97195fcb638e8208b39d74d3104",
-        "target_sha256": "f0e7300a8483a146df5d5551aeb7166148c64a32add5981c75e5f7260bce85a0"
       },
       "endings:with_daeun:/description": {
         "source_sha256": "aebd0e95931554bed036571879d7577ed922959339432448ad9a66aa74cdc488",
@@ -1516,8 +2198,397 @@
       "events:hyunsu_result_fail:/title": {
         "source_sha256": "a98e87b74752b362b4038013f1cf33ecbe5a20154a1ba0c1204aef3f5fcd9f63",
         "target_sha256": "8ebbbc851d178932f9583d15cfaf70eae72d64dd1bda19607099d55c9aef357e"
+      },
+      "endings:balanced_life:/description": {
+        "source_sha256": "b3363dba22243ade04739ae73e1de381e5c0bf222b52192f74597c37e5903355",
+        "target_sha256": "7395c6ce90e427c59463e48a3b6c62ce21102a8c0c4619457a63c97dedaff4c9"
+      },
+      "endings:balanced_life:/description_if_known/cafe_kindness_reconnected": {
+        "source_sha256": "b20903946da50781fc2f52df52dd4fc2f228c735c5d29fd5231b0de1271cf3b7",
+        "target_sha256": "90e763bba7da750b6b72a9eb3ba39e8640817e41f06c8e4d3714d7c459573182"
+      },
+      "endings:balanced_life:/description_if_known/cut_sangchul_network": {
+        "source_sha256": "47cb257c3a3dd8600cc06f6d2ff9abad3c53ed17eaa2cc616b7646f8d033ccf2",
+        "target_sha256": "c770af1f38726f82c553138ac41a0eb4ade87d75a85db38f3321b39d6a76e8d8"
+      },
+      "endings:balanced_life:/description_if_known/friendship_found_new_rhythm": {
+        "source_sha256": "bc3a94635bcde92a4899290e2470d6a201a4cb459bcecfc09691decf309e8e61",
+        "target_sha256": "6862f711909db80007b458ee94c8754fbe3ecb1ddf25c659b95535b31b5a75f0"
+      },
+      "endings:balanced_life:/description_if_known/jiyeon_beautifully_apart": {
+        "source_sha256": "257037a97107c95d8811f6fa69693d85af4703c0e6cbf26071c488774351476d",
+        "target_sha256": "bd41d7c8d1c5818d53ec8e3705061e7893d193bb204c1cb8d4a73579d3540791"
+      },
+      "endings:balanced_life:/description_if_known/replied_old_contact": {
+        "source_sha256": "d331ee343f2915c7033d8f91f202bd3a951638982206bb0cb93b2923de8ad28f",
+        "target_sha256": "4e060ee5b86395eaa21e91af7b2af2671bbc23ce27131d287ba6377e08110b22"
+      },
+      "endings:balanced_life:/description_if_known/sangchul_network_fully_cut": {
+        "source_sha256": "0cd12387dab341f938237213af2b232f57073d30de9e2f52fa66cc3cca297f5a",
+        "target_sha256": "1a3f9cd41a36ce1c654ae44de69849b58f780dce5e6d5bfc57e1a9cc65e5752b"
+      },
+      "endings:balanced_life:/description_if_known/standard_internalized": {
+        "source_sha256": "034a2f39e39419e1b5c6e94ed5a5e0fec08d080a5b7466bb296fac0d12b5a19f",
+        "target_sha256": "b97de6aa29d60b0a531538da8e09d901be3a2bbd3825dc93e68a4adea31d7833"
+      },
+      "endings:balanced_life:/title": {
+        "source_sha256": "c6ad9f7644fcb7a1c9e0718b6ba263489b69b8e833dd4b9a65d82330adf3df1c",
+        "target_sha256": "e81737418b8093530ab3414fd3ed7de76a9af1e830012d454667c0f00e0a3323"
+      },
+      "endings:career_burnout:/description": {
+        "source_sha256": "17502f51baa645ec6c1fe5c7d3f67803b624f8113728f62942447a972c07326f",
+        "target_sha256": "d31c2bd8d6dc7e616d53682b554f3a3277c703fb00d6e7a321f76d63e126b690"
+      },
+      "endings:career_burnout:/description_if_known/career_door_opened": {
+        "source_sha256": "46b56c45cfbf476f88853de6ab97573b1832080b281a3b8c42b0a4c022e4d78c",
+        "target_sha256": "19e31b49c11e1b68ab0c3b0cc614ac27f80b5f80dde75e7df9e340cd0021b3ff"
+      },
+      "endings:career_burnout:/description_if_known/father_reconciled": {
+        "source_sha256": "506b5eefa1fefbc59a9c0775304db37239ee6ec96e0b3dc11932d8417aefc795",
+        "target_sha256": "975fab72d050d6c17038b985cde7df2268da5681dc1bab3bf841cd88878006c2"
+      },
+      "endings:career_burnout:/description_if_known/jobswitch_satisfied": {
+        "source_sha256": "0deab5e41d7c2e468be52e71b5692d6a61ef4b4cda02b9ffdb580dc7fb6e2b2e",
+        "target_sha256": "0b8454e6f16293c9af45a7e92a95596950b9d054639c7b35bdcdcb01fc7f3d1b"
+      },
+      "endings:career_burnout:/detailed_description": {
+        "source_sha256": "f42c70cb2b665f97994451330e15366e7fc070b1733dd91e2c2d34024c3d66fb",
+        "target_sha256": "b7b0e2c39cdca5045e8a548e6ef1692b8f2503f15db19543b57a82c10c89b3a5"
+      },
+      "endings:career_burnout:/title": {
+        "source_sha256": "2bcd843fe65aa6356e35e9967b3a203a500e8cdc60ce91a1dffb36942f4c9efa",
+        "target_sha256": "0728efabe74185e1941530c348c9d9bb908e551f47d5c7ff73134315b5e83549"
+      },
+      "endings:healthy_retirement:/description": {
+        "source_sha256": "15bccb5f6013940155b357c6c9894f807396a3f404ce0b6c5d4d695bd559777a",
+        "target_sha256": "32e05d4695db13e00d6cf224b984228ed78f63930061d2fa6a96383e1c2cfe9a"
+      },
+      "endings:healthy_retirement:/description_if_known/father_reconciled": {
+        "source_sha256": "904a7922e2c10a8b616cbc98ab0533e9dae8ed8d3b5425243268e834ae8d6555",
+        "target_sha256": "06ee8a87d1018b0402b522456def419d3ba7fe0fe97f6557f5b418c4fbb32319"
+      },
+      "endings:healthy_retirement:/description_if_known/health_finally_treated": {
+        "source_sha256": "c2261fd7e8f74dab3e2a52ab1216c089c6f4f1184bac6dd73366f38114a2768a",
+        "target_sha256": "0a2c68073ddc8b5fd68bbc4869f04eb2aa98be152be8cb90d2780de138ab63fa"
+      },
+      "endings:healthy_retirement:/description_if_known/pension_self_saving": {
+        "source_sha256": "96bef30f8932cab86a2375c492389b068b93452affe51fefbe8aae2368a4924d",
+        "target_sha256": "1e2684ceff466d8285458b318e9ae8c5b3ca9e686170a2e1ab473e1ada32b065"
+      },
+      "endings:healthy_retirement:/title": {
+        "source_sha256": "2e38b81c26e7200cbb40512b53d7024f940f88368889add7e78271e78ea77ca0",
+        "target_sha256": "afe7e958fd0123b48d10d0867b0b1f55b1050eaa8f358074f139592ae2b6330c"
+      },
+      "endings:ordinary_life:/description": {
+        "source_sha256": "2bc9252a6be7931941c91e9976039d418c2bf0661362413875f89b65557420c3",
+        "target_sha256": "86f0ee6393e59be640a167fe0bf7b14a59871f58328e666fe57facf2e7aa20f4"
+      },
+      "endings:ordinary_life:/description_if_known/cut_sangchul_network": {
+        "source_sha256": "208aa3db1b5c6c613b18ab34b792cbabd7983acce911b45e98dd0662ee841123",
+        "target_sha256": "5233f99df29e89c44a2f5259bfcd6507ab4c57807c93446f1fdf2afc1ac145fd"
+      },
+      "endings:ordinary_life:/description_if_known/daeun_divorced": {
+        "source_sha256": "edc9fefd7fc02e29eff1b45c13a09e179dd78ff48213f1b4dbca8b473f86daa6",
+        "target_sha256": "c396ded5b6178f4deee8f4b8953e1210f55fcdb3d665359046f77db9f41638f9"
+      },
+      "endings:ordinary_life:/description_if_known/daeun_last_call": {
+        "source_sha256": "0197a7f3f61797706550c78f42503036b719965c9412b44db37e16e80027d955",
+        "target_sha256": "5aae2cba5c86037b00f4e8d93ba8885df8b14818e9ff5f76ebf630ea45ab5440"
+      },
+      "endings:ordinary_life:/description_if_known/daeun_moved_on_accepted": {
+        "source_sha256": "ff9920e61266170b71fe75522a84d6490d9b669bb87d3fa92a1dea929ad192e7",
+        "target_sha256": "15e39db44762a304e35014796bd93067b68eefe12e2b0cfe84a60399de4625b9"
+      },
+      "endings:ordinary_life:/description_if_known/final_week_gratitude": {
+        "source_sha256": "ee90066d69f886308f6ad9ed2fcda3fe3ba4abec448d74b7add0ee755c2f459a",
+        "target_sha256": "895135f5f0b18541589fa9042d69af9211c8c88a49d9b2dbe545eb1414ffb3b7"
+      },
+      "endings:ordinary_life:/description_if_known/final_week_self_approval": {
+        "source_sha256": "e881f34c63013ec24352e8984a0e9c0e80b9204ecdb21f717b60545749809648",
+        "target_sha256": "e3c76a1bef72ae1bfeedf707f8a2c4cb029aaf23f27e548c3d96cf060c51af47"
+      },
+      "endings:ordinary_life:/description_if_known/friendship_renewed": {
+        "source_sha256": "2602234522117fbd715130eb06338daa53a9aa787c96f158e012eb695d1650ee",
+        "target_sha256": "c8f592501a1f67a3a396a4332fcebd6e2c7d941383053e31f0aacb747c1bef25"
+      },
+      "endings:ordinary_life:/description_if_known/housing_subsidy_received": {
+        "source_sha256": "9fbbc15eee78e0139b1891eea94b3eb8c9f0d9f9bd9c024ecfb9acb5798a5cf8",
+        "target_sha256": "15e351df1b1f60b834146904099e2844cbcce74005c748eae9f58173477f13b9"
+      },
+      "endings:ordinary_life:/description_if_known/jeonse_partial_recovery": {
+        "source_sha256": "4ef5346b09e09384b0fe97ec40d36372c29b13970de1776f05c8b5e66595baf1",
+        "target_sha256": "66098969b94aadf28d5fe644096c82dc3fd672da6c90e463aab0d5571b31cc88"
+      },
+      "endings:ordinary_life:/description_if_known/jeonse_trusting": {
+        "source_sha256": "fe64976ce9d4d6bc9abbd2ac06c307152b237d12905cc5fdd151ec592a7f4544",
+        "target_sha256": "9801335f1364b2493f1d868fc54de21d2c27b5efe9ac1cd0dbf1d089d6976810"
+      },
+      "endings:ordinary_life:/description_if_known/jiyeon_left": {
+        "source_sha256": "e755b9c7bf61894e2bdf6b88af1703a783fcd906419a0daa3467d75d11ce8b45",
+        "target_sha256": "fbbc487f01d98c1e3a7b852c2250afdae5b8320b6985de3748039f516023c6d1"
+      },
+      "endings:ordinary_life:/description_if_known/shared_bihon_calc": {
+        "source_sha256": "50f11faa47d0fae18b55a5eafdee6afae77fdcf59ae1adca2b5c8e39e6ca0ed1",
+        "target_sha256": "d157f85046113e0d7ab756cc7af5683b2dc71476fc9c9458652663a4303fcdf1"
+      },
+      "endings:ordinary_life:/description_if_known/temptation_cooperated": {
+        "source_sha256": "ce95141f85fcfa993cf623f98d30b1562a281db20ae58cd9ae4e7ca706669a81",
+        "target_sha256": "da51c75e695817e6e8eb3518f05bc606ecb18f26cb0579930738c153f23bba53"
+      },
+      "endings:ordinary_life:/description_if_known/wallet_guilt_resolved": {
+        "source_sha256": "322b238195a9f111d2905b7e31cf91528d13715d6dec07015b96fb95c29dede8",
+        "target_sha256": "819b3c2c56eb975044f4f2f69d679666cd18b6df7668dea7f91b9dcad029e13d"
+      },
+      "endings:ordinary_life:/description_if_known/worked_convenience": {
+        "source_sha256": "d15e7e04be1d0e3cbea7f6603958cd58d68707fedbc7a5932761180c5dc10103",
+        "target_sha256": "e2f7349be39cb9a43ba1cd921954f4d9417cedb0ebe3c1d5a18936394e09dafa"
+      },
+      "endings:ordinary_life:/title": {
+        "source_sha256": "a16c0ca4918a82f0daee83d7246d452586e05ece70bdfd24f906eed559eff22c",
+        "target_sha256": "70eed8fb8d151fae8e99756eabb3fbe84a36901a68ff2a8ee24bf366191118eb"
+      },
+      "endings:stable_success:/description": {
+        "source_sha256": "7f80b3a15a478fced539736f313de69b6df84740a524687bf0f1e9380e2a97fb",
+        "target_sha256": "ea9c03e039ea4f64be33be998e32cb9844af55e350f2410ebd2b4a10d197c054"
+      },
+      "endings:stable_success:/description_if_known/called_at_1b_milestone": {
+        "source_sha256": "7cc46fe2c3c8465838a1af2ba1e6f630d6aadc435cc456ce40ccea521963fd72",
+        "target_sha256": "f244d69452e0bd5cd4a5286915d47af58c2500e2fa6611bf0d68347005686f3d"
+      },
+      "endings:stable_success:/description_if_known/cut_sangchul_network": {
+        "source_sha256": "1a38e4221dad82a43b0d5f24214ad7617e65ee95a4127b88e6297807dd49c976",
+        "target_sha256": "e351532198aead4ae4032095037ffe6742c5b6083921368185baf9adc4e35d3b"
+      },
+      "endings:stable_success:/description_if_known/daeun_last_encounter": {
+        "source_sha256": "1b230bfe835fa07ecb071573628076e81d2ca966fb984f9a2ef252ae53868048",
+        "target_sha256": "96fa3a2c50a4bdf51e892d94b3d86eecb7aefed2019f242814ddebd21e8c234f"
+      },
+      "endings:stable_success:/description_if_known/friendship_deepened": {
+        "source_sha256": "5cccd05b1092aaa181c09cff5ff34e6b3ff6c078e2bd9cadac900a2143d58f5e",
+        "target_sha256": "837e8e159ca2415ad4ccfae55e71b857e21827b2abc91f8575079e661fd7f20c"
+      },
+      "endings:stable_success:/description_if_known/friendship_deepened_after_wedding": {
+        "source_sha256": "d526ccff13bd46d7a78793ac75223385c7892ce64edf8e06294334b2c92b028f",
+        "target_sha256": "1b959e4e39710a308c7cefe39d95c2df140a5bedc41813ce334bba6f0c3d790f"
+      },
+      "endings:stable_success:/description_if_known/health_managed": {
+        "source_sha256": "2b27b650472730211c3097a58a126311d172f1593d580048e1915cc3e37ac27a",
+        "target_sha256": "568e0c9036c4d2bb4e98553c5d5d619cefeaec5bda418158b1ccff97afdb5dbd"
+      },
+      "endings:stable_success:/description_if_known/jeonse_fighting": {
+        "source_sha256": "4842bc9038f3939115d05903c233650c7aaa3f20181945a597c47ee6110843d4",
+        "target_sha256": "8916f4913debf780ece1953b52844375523fd62a0e94270197d1d58e9c649e41"
+      },
+      "endings:stable_success:/title": {
+        "source_sha256": "ba186047e071cfbfbd19fb2d90463fc7fc0eb22b82d3ad3024d947ea2b536852",
+        "target_sha256": "e4094112ac8e5b0fe7b5f8c104eacfdd1d96f0e269b4f18855f814f6cb3f4a6e"
+      },
+      "endings:writer:/description": {
+        "source_sha256": "740a3282cfecb62b6f4a936e5181a8eca14e72a19f0beb6382deb2dbe8a0d9a5",
+        "target_sha256": "cf03853076427de306ea5abd122a6025a8fefc4ef4e7139357784d7088dda269"
+      },
+      "endings:writer:/detailed_description": {
+        "source_sha256": "0f41fddec1bb65ba64427b3c032cdd0bef81e6d7818818300af1b212156cc1e5",
+        "target_sha256": "c794dfb7181e0e3aae2e1047d9946a15139281c4c1e30a737f4fcd63e2246dcd"
+      },
+      "endings:writer:/epilogue": {
+        "source_sha256": "4af18ed92dc503dd3224f3582acee0e806959cc491dd275f2befec707e5291f5",
+        "target_sha256": "8019aad40bf04b70f6009e47d1066bea873b5acc1f56f968e2198a9d9151d6dc"
+      },
+      "endings:writer:/subtitle": {
+        "source_sha256": "aa7835420c8957e4a9769c2d8c5fc44680ca57dfdfc5eff56f1793cf6631de1c",
+        "target_sha256": "438f02abf04d6944205a9af2057d8e6a196e53b9ddb32e455293aeaa64e42e92"
+      },
+      "endings:writer:/title": {
+        "source_sha256": "ef845b972bed23b974cb1d2808b9da0606cfa56e3acd65eb291a754a070eb7a7",
+        "target_sha256": "40c6c1d635b1db70a4fcbd71dff1236069767cd246f2d11ca492b4805dc7ddc9"
+      },
+      "endings:bankruptcy:/description": {
+        "source_sha256": "882e7e45597a9b0051366f0041ae7eef2d451ab5487f29c4b10202b541a7bf50",
+        "target_sha256": "3bd52feeb3eeb226628dfe2349e81a3456af481e020159e0de5f3d89a267ae0d"
+      },
+      "endings:bankruptcy:/description_if_known/cafe_greed_burned": {
+        "source_sha256": "4ea3d8024eaf3f5b3c2d18340fd435d8ac7ac2b3459db1b1fd7ce3a7a596e4f7",
+        "target_sha256": "9ea0465a64a4a21a9203e8f0386d0ecdcb9d90724becdd5db0a0fb112e744dcc"
+      },
+      "endings:bankruptcy:/title": {
+        "source_sha256": "bcbbfe4299363172e39305d72fa3ccab86a30792d5528d7ea743751ba92b4aa7",
+        "target_sha256": "71895b9d8792e083eb31a1456926a262254556c8fc7bf46a79cc6715e937ab1b"
+      },
+      "endings:burnout:/description": {
+        "source_sha256": "e71349c54a1ed0f9ee78b4af2f07d169ee77a909165e98f90caacae131c3ac39",
+        "target_sha256": "00adc7e140d92571f5081f7788902b6783716adbcaa8535e86fadb87704e2a91"
+      },
+      "endings:burnout:/title": {
+        "source_sha256": "afd6b0d17ae76265ccf3a1129517a2d46d637b0575af4d3d6dadb39aa09ffd2f",
+        "target_sha256": "6a2be1fb2e59ba61ef5cf14c56c9472e3a28d126c2dd2caac63a1bcd5c4d8472"
+      },
+      "endings:debt_spiral:/description": {
+        "source_sha256": "719b965d933440b34e8fb55e49090f5fe950929b47737c7ec752764630cacce4",
+        "target_sha256": "01b6b39b8f6c01e072bee93a8f425ee84d343021f2a3c7c8eae7ec60f142533d"
+      },
+      "endings:debt_spiral:/description_if_known/accepted_margin_call": {
+        "source_sha256": "a637c1305f4617f43e4015567d6c80565242162b29b29138739ed3a61b1ed752",
+        "target_sha256": "e2b5c9a6b016ae1f94391fbf6a94695e7629e587596dd8ed492948a93c10d17c"
+      },
+      "endings:debt_spiral:/description_if_known/credit_second_tier_loan": {
+        "source_sha256": "5fb3e587fe4301131a7666f216aa333721cd5093224ec6ae96dcd13ef1dacbe3",
+        "target_sha256": "0aa203e50aca7984c07e3b78a34225641fb0f9d976d1114e170f3be0af67751b"
+      },
+      "endings:debt_spiral:/title": {
+        "source_sha256": "d62f760e8653cc294ca20437553b3fe90c90d3f38e56a9cbfb6e4a7429c253cf",
+        "target_sha256": "6ae1008c48852b0c9169e9cd368841e5e5368d845b39aca4ee5a3922460e7885"
+      },
+      "endings:full_circle:/description": {
+        "source_sha256": "4a70e2efdb742c2d312e556cca7c1cea28cbbdf326ea146b38c21ad13acb314b",
+        "target_sha256": "56930b0a043bc9cbc47e57255e58c2b247f2361dfd0eeca67d589bf6c9b393f6"
+      },
+      "endings:full_circle:/description_if_known/playing_with_knowledge": {
+        "source_sha256": "d520fe4707702df1ef8142595c48d6cb7ecb986587c5cfed65f563edd9ef3cd6",
+        "target_sha256": "ade750b2f497cb0db43564d4e54e6cf3f2e7537bd01b35780c101e7126395c32"
+      },
+      "endings:full_circle:/title": {
+        "source_sha256": "d7b9dda7d5a4180487aeb0147bd67a739e2576a59ec633b2ea8fb8d238b2ce7b",
+        "target_sha256": "d1ebe1a652a77e516e4e8904bdc3fd347508e75ccd9b497b2b5a8bde8bfc0114"
+      },
+      "endings:gambling_recovery:/description": {
+        "source_sha256": "c2f718a56d6d5a9410f89a332191d51c688209a360dd1f2167727aae3c550d7c",
+        "target_sha256": "5a4d5c0611d9a60485f8d03a57b90fd5167aad41d523b8ceb7ee8b28965f3885"
+      },
+      "endings:gambling_recovery:/description_if_known/bottom_documented": {
+        "source_sha256": "48afcb3f54b2779befca46b61b652ef8a6114fa74b635aa300f530895ecec00b",
+        "target_sha256": "d8257b18c0bebcad2b0d013a75adb09f145289fdd72c9143bd4084a0a9a4fe93"
+      },
+      "endings:gambling_recovery:/description_if_known/father_reconciled": {
+        "source_sha256": "bfb780d2f4979bc2552a68e0233e72708b89381fa1c947395ada1c446a9fa73e",
+        "target_sha256": "d769c6a4ddfbf99117a65a30f8f902433f99a0dbf0d0f9fa193f9fe35eb6b76f"
+      },
+      "endings:gambling_recovery:/description_if_known/gambling_memory_defused": {
+        "source_sha256": "0a0b8e90fd412bf3b612d9732e789aa5fe32443a8cd0d90fa9fe3dad3ad4e5c0",
+        "target_sha256": "8b7c208378fc51e582dd7535f2a966ee85823c96e89870fc1ba3ba07980e1336"
+      },
+      "endings:gambling_recovery:/description_if_known/ng_discipline_to_wealth": {
+        "source_sha256": "1c9dacac3753d29ffabbfdbe3ad2db2e30cce100fed60385b48986e2ff5c6c61",
+        "target_sha256": "35028da0d10875e8d06b56def8233ce75ddab7756b86f8cb2a89b9a18f4894e9"
+      },
+      "endings:gambling_recovery:/description_if_known/ng_paid_it_forward": {
+        "source_sha256": "8765206ad44fb46bc40bfa9a0974df254220c36267d932bf0ab196781859cd41",
+        "target_sha256": "23db7871fe10c909347f60d3ecf1c5cd04fd22ff82bbe17a3b9ac10f4e85bc2f"
+      },
+      "endings:gambling_recovery:/description_if_known/racetrack_quit": {
+        "source_sha256": "ae0d714ce8a7e4b0ec0d3ce0f260aa17b7a62323fd803dc1c8689cff7dadf5d3",
+        "target_sha256": "c4daa1ae92ed46d6c9a4026ff1ecb7a91d7685e14b9f7f0fec6d6cf153b60555"
+      },
+      "endings:gambling_recovery:/description_if_known/sangchul_reported": {
+        "source_sha256": "1de30d59735a92a486e235d2ffe81b3f588cfb02dcc2f1d3bb52c2e2d7607ee6",
+        "target_sha256": "6bae0d5432b9df7f0e0092d88feaab52db2d72831260799d2312f147af721882"
+      },
+      "endings:gambling_recovery:/title": {
+        "source_sha256": "33ce793e484f6ea7c6bc04fdae014a7c9ed40e56a5c47fd3a7e64a9c787bdb0e",
+        "target_sha256": "f1972843d1723d24cff87df47379ad8790d019a4ed1ac4edcee8f4a6296ff101"
+      },
+      "endings:guardian:/description": {
+        "source_sha256": "d247814d4d93acb657ca9a707fc3dfeec3c184fdd0ad1b8804d9b470146d86af",
+        "target_sha256": "803a337bed81fdfc7f9b62977b9c496c233433cc179d3ba14c3c5043a92d9f50"
+      },
+      "endings:guardian:/description_if_known/father_appointment_set": {
+        "source_sha256": "3276b626c7d0187800f4b1f8096940b53d019c3c6b309f04ef8b9f2ba2938099",
+        "target_sha256": "6adf481697c2f4ec6dd062766117db12c8138dd8afa8b87d53be85aae30056e1"
+      },
+      "endings:guardian:/description_if_known/father_health_checked": {
+        "source_sha256": "0bae8436273afe5e70a0f942f83e013de3c7c3ac2ad3cda12cbeb6c562cc6640",
+        "target_sha256": "eba0f421636ac08793a16d87d1a9a198cb2df239a78890dbfaeb7bf031d86b6f"
+      },
+      "endings:guardian:/title": {
+        "source_sha256": "80bc442e04d37b88e8f9e665728113384175ce63682c754056b843c7d0a99c70",
+        "target_sha256": "9f715d824c6b70e46cb6faccf6622565e553d7ef0f4f5069786749dfacc147db"
+      },
+      "endings:mental_break:/description": {
+        "source_sha256": "0312e7f0a141c68d9bb92a43264e4901d4814ea50778a5f8d43848c9af0e0123",
+        "target_sha256": "80af5bc39837834f00989f1ae8cf84fd8374878daecf5b32b97b09808dcd39e8"
+      },
+      "endings:mental_break:/description_if_known/daeun_romance_started": {
+        "source_sha256": "d8973e083e48ec181c56b2deb8f80c276f7aa0e49438039ad2287da50fcb9978",
+        "target_sha256": "435e4b2ef5301274b7d475c6acc56fb012327f5db6c8a8e7c016ee835bad7b78"
+      },
+      "endings:mental_break:/description_if_known/father_reconciled": {
+        "source_sha256": "ab1484697edd3808d936bd705c325c6df386460b33025646e888df030e8c072b",
+        "target_sha256": "9e0aacce9fa58277644edd48aab2dc054b72262eb8f93e398fc1a68bc58b7195"
+      },
+      "endings:mental_break:/description_if_known/hyunsu_comforted": {
+        "source_sha256": "b8331fa72d9e52a8f1d28813088209655a683d9c0eb7a314e2ea9e24de449546",
+        "target_sha256": "21d0664175a58e6ffdfde1aecc474f159511fc2ece0d877f7335295789392170"
+      },
+      "endings:mental_break:/title": {
+        "source_sha256": "508b0662c85d9b588e561fabd3d03de2c1cd82d4fd1bb160ec534e27571571d3",
+        "target_sha256": "e28df28237c65dffb39bf39961a02dcf4ec2c6c5c5d01bac33b43aff8fd7c4a9"
+      },
+      "endings:second_love:/description": {
+        "source_sha256": "3a62380e6e4e469704cffdaf855374854356bd15515a0c1d4c782ac67fe3bd08",
+        "target_sha256": "68368d7d9c759c787a76ce571ddb83025be4ee218945b5b2b18d98e9f21d5b6f"
+      },
+      "endings:second_love:/title": {
+        "source_sha256": "46f0b88846c16191c3c216f1b02430cfb6680cbbb0ba8bf2e2c2a80a82cd1e3e",
+        "target_sha256": "fa4a9b2735b4e3f0a4020d5f389fe35cd5eca9d33118d44d635bffb27bbde5ff"
       }
     }
   },
-  "accepted_sha256": "be28f8a82bf8f2974d63d00ad259258b8716749ff8bbd3b700d71fea6b1d656c"
+  "accepted_sha256": "55b6f458fc5f061d0492045870812abb032ac80aba9e451f6c2a79b806180b3a",
+  "retained_internal_metadata": {
+    "ja": {
+      "endings:instant_legend:/condition": {
+        "source_sha256": "8b6935c47dfd253f45ada83373eccd758e8e582f4cd11ab2082c6dabf51ae457",
+        "target_sha256": "ed040187558f71b598d1d203debb421194fef254359fc095cca82f03a6f76ddb"
+      },
+      "endings:late_call:/condition": {
+        "source_sha256": "23780dcca59213b11563f89bd722e3bac0907dcc667b2fdbf4239317dfdc66fb",
+        "target_sha256": "52c13acf8683d43bc6a732b1c7e8e405dcc5accea045b111cdb1f12f58b86555"
+      },
+      "endings:with_daeun:/condition": {
+        "source_sha256": "98c8d9d77db1483dcc75e27a3246a61626c4a97195fcb638e8208b39d74d3104",
+        "target_sha256": "763a1662917ea6eae0bdcb707fc715fa5ec745afc05ff3e5d3a05d54d3005050"
+      }
+    },
+    "zh-CN": {
+      "endings:instant_legend:/condition": {
+        "source_sha256": "8b6935c47dfd253f45ada83373eccd758e8e582f4cd11ab2082c6dabf51ae457",
+        "target_sha256": "fd7386be057731be9717d94b2c07c07003c5d86ebb78e4c9758a354a3a2e47a3"
+      },
+      "endings:late_call:/condition": {
+        "source_sha256": "23780dcca59213b11563f89bd722e3bac0907dcc667b2fdbf4239317dfdc66fb",
+        "target_sha256": "33f4e35f9ab1eaf8b9a46a0e084a23514fa75174c4521a96b0ec926d57cc753d"
+      },
+      "endings:with_daeun:/condition": {
+        "source_sha256": "98c8d9d77db1483dcc75e27a3246a61626c4a97195fcb638e8208b39d74d3104",
+        "target_sha256": "f9e6230646214ca9e38f93a2fec414e3cb57e532fdfbf1b1c9d84553c7cf1fde"
+      }
+    },
+    "zh-TW": {
+      "endings:instant_legend:/condition": {
+        "source_sha256": "8b6935c47dfd253f45ada83373eccd758e8e582f4cd11ab2082c6dabf51ae457",
+        "target_sha256": "048fe8042eaed66c7ff9155a1167ed6b8b239a3ed711a4ea911573084530a722"
+      },
+      "endings:late_call:/condition": {
+        "source_sha256": "23780dcca59213b11563f89bd722e3bac0907dcc667b2fdbf4239317dfdc66fb",
+        "target_sha256": "e2d3bc8788a48853be3086648b37cb67fb6c6fc5cb77d8145e700c89465b685c"
+      },
+      "endings:with_daeun:/condition": {
+        "source_sha256": "98c8d9d77db1483dcc75e27a3246a61626c4a97195fcb638e8208b39d74d3104",
+        "target_sha256": "f0e7300a8483a146df5d5551aeb7166148c64a32add5981c75e5f7260bce85a0"
+      }
+    }
+  },
+  "retained_internal_metadata_sha256": "fec66e4714d357df965e1d3576dcf61991ad5615326d78e8e2795ec701f77fdb",
+  "internal_ending_notes": {
+    "source_count": 34,
+    "translatable": false,
+    "current_runtime_display_consumer": null,
+    "previous_collected_ending_leaves": 268,
+    "translation_leaves": 234,
+    "retained_pilot_notes_by_locale": {
+      "ja": 3,
+      "zh-CN": 3,
+      "zh-TW": 3
+    }
+  }
 }

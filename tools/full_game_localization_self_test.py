@@ -168,6 +168,169 @@ class ExchangeTests(unittest.TestCase):
         self.assertEqual(tool.event_overlay_support(("choices", 0, "relationship_effects", 0, "name")),
                          "validator_contract_missing")
 
+    def internal_note_fixture(self, root):
+        inventory = copy.deepcopy(self.inventory)
+        inventory["endings"]["example"]["condition"] = "age >= 38"
+        note = tool.Leaf("endings", "example", "content/endings.json", ("condition",),
+                         "age >= 38", "internal_metadata")
+        records = {locale: {} for locale in tool.LOCALES}
+        records["ja"][note.id] = {"source_sha256": note.source_sha256,
+                                    "target_sha256": tool.digest("38歳以上")}
+        ledger = self.ledger()
+        ledger["retained_internal_metadata"] = records
+        ledger["retained_internal_metadata_sha256"] = tool.digest(records)
+        fingerprint_patch = patch.object(tool, "RETAINED_ENDING_NOTES_SHA256", tool.digest(records))
+        fingerprint_patch.start()
+        self.addCleanup(fingerprint_patch.stop)
+        tool.atomic_json(root / "content/meta/full_game_localization.json", ledger)
+        tool.atomic_json(root / "content/endings_ja.json",
+                         [{"id": "example", "title": "次の週", "condition": "38歳以上"}])
+        return inventory, ledger, note
+
+    def test_retained_note_is_preserved_not_counted_as_translation(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            inventory, _, _ = self.internal_note_fixture(root)
+            documents, _ = tool.targets(root, "ja", inventory)
+            self.assertEqual(documents["content/endings_ja.json"][0]["condition"], "38歳以上")
+            with patch.object(tool, "private_dir", return_value=root / "private"):
+                result = tool.status(root, inventory, "ja")
+            self.assertEqual(result["groups"]["ending"]["source"], 1)
+            self.assertEqual(result["groups"]["ending"]["receipted_current_source"], 1)
+
+    def test_retained_note_checksum_drift_rejected(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            inventory, ledger, note = self.internal_note_fixture(root)
+            ledger["retained_internal_metadata"]["ja"][note.id]["target_sha256"] = "0" * 64
+            tool.atomic_json(root / "content/meta/full_game_localization.json", ledger)
+            with self.assertRaisesRegex(tool.ContractError, "checksum"):
+                tool.targets(root, "ja", inventory)
+
+    def test_retained_note_wrong_locale_rejected(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            inventory, ledger, _ = self.internal_note_fixture(root)
+            records = ledger["retained_internal_metadata"]
+            records["zh"] = records.pop("zh-TW")
+            ledger["retained_internal_metadata_sha256"] = tool.digest(records)
+            tool.atomic_json(root / "content/meta/full_game_localization.json", ledger)
+            with self.assertRaises(tool.ContractError):
+                tool.targets(root, "ja", inventory)
+
+    def test_retained_note_source_drift_rejected(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            inventory, _, _ = self.internal_note_fixture(root)
+            inventory["endings"]["example"]["condition"] = "age >= 39"
+            with self.assertRaisesRegex(tool.ContractError, "source changed"):
+                tool.targets(root, "ja", inventory)
+
+    def test_retained_note_target_drift_rejected(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            inventory, _, _ = self.internal_note_fixture(root)
+            tool.atomic_json(root / "content/endings_ja.json",
+                             [{"id": "example", "title": "次の週", "condition": "39歳以上"}])
+            with self.assertRaisesRegex(tool.ContractError, "changed internal"):
+                tool.targets(root, "ja", inventory)
+
+    def test_retained_note_disappearance_rejected(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            inventory, _, _ = self.internal_note_fixture(root)
+            tool.atomic_json(root / "content/endings_ja.json", [{"id": "example", "title": "次の週"}])
+            with self.assertRaisesRegex(tool.ContractError, "disappeared"):
+                tool.targets(root, "ja", inventory)
+
+    def test_new_internal_note_not_accepted_as_translation(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            inventory, _, _ = self.internal_note_fixture(root)
+            tool.atomic_json(root / "content/meta/full_game_localization.json", self.ledger())
+            with self.assertRaisesRegex(tool.ContractError, "metadata is missing"):
+                tool.targets(root, "ja", inventory)
+
+    def test_retained_note_and_receipt_co_deletion_rejected(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            inventory, ledger, note = self.internal_note_fixture(root)
+            del ledger["retained_internal_metadata"]["ja"][note.id]
+            ledger["retained_internal_metadata_sha256"] = tool.digest(ledger["retained_internal_metadata"])
+            tool.atomic_json(root / "content/meta/full_game_localization.json", ledger)
+            tool.atomic_json(root / "content/endings_ja.json", [{"id": "example", "title": "次の週"}])
+            with self.assertRaisesRegex(tool.ContractError, "historical fingerprint"):
+                tool.targets(root, "ja", inventory)
+
+    def test_retained_note_and_receipt_co_rewrite_rejected(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            inventory, ledger, note = self.internal_note_fixture(root)
+            ledger["retained_internal_metadata"]["ja"][note.id]["target_sha256"] = tool.digest("39歳以上")
+            ledger["retained_internal_metadata_sha256"] = tool.digest(ledger["retained_internal_metadata"])
+            tool.atomic_json(root / "content/meta/full_game_localization.json", ledger)
+            tool.atomic_json(root / "content/endings_ja.json",
+                             [{"id": "example", "title": "次の週", "condition": "39歳以上"}])
+            with self.assertRaisesRegex(tool.ContractError, "historical fingerprint"):
+                tool.targets(root, "ja", inventory)
+
+    def test_extra_self_receipted_internal_note_rejected(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            inventory, ledger, _ = self.internal_note_fixture(root)
+            inventory["endings"]["added"] = {"id": "added", "title": "제목", "condition": "health <= 0"}
+            note = tool.Leaf("endings", "added", "content/endings.json", ("condition",), "health <= 0", "internal_metadata")
+            ledger["retained_internal_metadata"]["ja"][note.id] = {
+                "source_sha256": note.source_sha256, "target_sha256": tool.digest("健康 <= 0")}
+            ledger["retained_internal_metadata_sha256"] = tool.digest(ledger["retained_internal_metadata"])
+            tool.atomic_json(root / "content/meta/full_game_localization.json", ledger)
+            with self.assertRaisesRegex(tool.ContractError, "historical fingerprint"):
+                tool.targets(root, "ja", inventory)
+
+    def test_production_retained_ledger_cannot_disappear(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            with patch.object(tool, "ROOT", root), patch.object(Path, "exists", return_value=False), \
+                    self.assertRaisesRegex(tool.ContractError, "ledger disappeared"):
+                tool.retained_ending_notes(root, "ja", self.inventory)
+
+    def test_forged_internal_note_exchange_rejected(self):
+        note = tool.Leaf("endings", "example", "content/endings.json", ("condition",),
+                         "age >= 38", "ending")
+        inventory = {**self.inventory, "leaves": [note]}
+        batch = tool.make_batch(inventory, "ja", [note], "b" * 40, {}, {})
+        response = [batch[0], {"id": note.id, "locale": "ja", "source_sha256": note.source_sha256,
+                               "prompt_version": tool.PROMPT_VERSION, "text": "38歳以上"}]
+        self.reject(batch=batch, response=response, inventory=inventory)
+        with self.assertRaisesRegex(tool.ContractError, "cannot be imported"):
+            tool.merge_selected(inventory, batch, {note.id: "38歳以上"}, {}, {})
+
+    def test_internal_note_does_not_override_text_requirements(self):
+        import i18n_coverage_check as coverage
+        base = {"example": {"id": "example", "title": "제목", "description": "본문",
+                             "condition": "route_orthodox >= 12", "description_if_known": {"x": "기억"}}}
+        good = {"example": {"id": "example", "title": "題", "description": "本文",
+                             "description_if_known": {"x": "記憶"}}}
+        with patch.object(coverage, "load_event_directory", return_value={}), \
+                patch.object(coverage, "load_endings", side_effect=[base, good]):
+            self.assertEqual(coverage.check_language("ja", True)[0], [])
+        for field in ("title", "description", "description_if_known"):
+            bad = copy.deepcopy(good)
+            del bad["example"][field]
+            with self.subTest(field=field), \
+                    patch.object(coverage, "load_event_directory", return_value={}), \
+                    patch.object(coverage, "load_endings", side_effect=[base, bad]):
+                self.assertTrue(coverage.check_language("ja", True)[0])
+
+    def test_merge_new_title_preserves_retained_neighbor_note(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            inventory, _, _ = self.internal_note_fixture(root)
+            documents, files = tool.targets(root, "ja", inventory)
+            batch = tool.make_batch(inventory, "ja", [self.leaf], "b" * 40, documents, files)
+            merged = tool.merge_selected(inventory, batch, {self.leaf.id: "来週"}, documents, files, True)
+            self.assertEqual(merged["content/endings_ja.json"][0]["condition"], "38歳以上")
+
     def test_validator_contract_missing_cannot_be_imported(self):
         leaf = tool.Leaf(**{**tool.asdict(self.leaf), "runtime_support": "validator_contract_missing"})
         inventory = {**self.inventory, "leaves": [leaf]}

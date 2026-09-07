@@ -251,7 +251,10 @@ def check_language(lang: str, strict: bool) -> tuple[list[str], str]:
             )
         base = base_endings.get(ending_id, {})
         if lang != "en":
-            for field in ("title", "description", "condition"):
+            # condition is an unrendered author note, sometimes a code-like
+            # expression containing hidden route scores. Existing notes remain
+            # backward-compatible; translating or exposing them is not required.
+            for field in ("title", "description"):
                 if isinstance(base.get(field), str) and not isinstance(overlay.get(field), str):
                     errors.append(f"{lang}:ending:{ending_id}: missing {field}")
         if not key_parity(

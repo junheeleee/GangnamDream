@@ -226,6 +226,7 @@
         "tools/zh_translation_audit.py",
         "tools/full_body_translation_scope.py",
         "tools/audit_scope.json",
+        "tools/i18n_coverage_check.py",
         "CLAUDE.md",
         "docs/CODEX_QUEUE.md",
         "docs/DECISIONS.md",
