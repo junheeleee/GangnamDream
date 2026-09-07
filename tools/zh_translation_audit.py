@@ -224,7 +224,7 @@ TARGET_COUNTER_FORMS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("step", ("步",)),
     ("slot", ("個", "个", "席", "位", "名額", "名额")),
     ("beat", ("拍", "拍子")),
-    ("span", ("拃", "掌", "個", "个")),
+    ("span", ("拃", "掌", "個手掌寬", "个手掌宽", "個手掌", "个手掌")),
     ("stair_step", ("級", "级", "階", "阶")),
     ("landing", ("個", "个", "處", "处")),
     ("clock_hour", ("點", "点", "時", "时")),
@@ -1128,6 +1128,12 @@ def _source_counter_kind(
     if counter == "번" and match.group("number") == "한" \
             and following.startswith('도 마시지 않았다') and re.search(r'커피를\s+$', preceding):
         return 'never_drink_occurrence'
+    if counter == "번" and match.group("number") == "한" \
+            and following.startswith("도 뒤척이지 않은") and re.search(r"밤새\s+$", preceding):
+        return "never_toss_turn"
+    if counter == "걸음" and following.startswith("씩 멀어졌다") \
+            and re.search(r"소음이 두 사람에게서\s+$", preceding):
+        return "receding_step"
     if counter == '번' and match.group('number') == '한' and following.startswith('위에서 아래로 읽고') \
             and re.search(r'다시\s+$', preceding):
         return 'read_again'
@@ -1153,6 +1159,7 @@ def _source_counter_kind(
         return "appliance_cycle"
     if counter == "분" and (following.startswith("이 만난 것으로")
             or following.startswith("은 내가 대답하기도 전에")
+            or following.startswith("모두의 자리가")
             or following.startswith("으로 보세요")):
         return "honorific_people"
     if counter == "장" and following.startswith("의 마지막 상환확인"):
@@ -1274,6 +1281,10 @@ def _source_counter_kind(
     ):
         # Sound classifiers are valid for ringing, not arbitrary repetitions.
         return "ring_occurrence"
+    if counter == "번" and re.search(r"신호가\s*$", preceding) \
+            and following.startswith("울리고 아버지가 받았다") \
+            and "아버지 번호를 눌렀다." in source[:match.start()]:
+        return "ring_occurrence"  # An actual dial/ring/answer sequence.
     if counter == "일" and re.search(r"\d+\s*월\s*$", preceding):
         return "calendar_day"
     if counter == "분" and re.search(
@@ -1302,6 +1313,19 @@ def _source_audience_quantities(source: str) -> list[CounterQuantity]:
 def _source_counter_quantities(source: str) -> list[CounterQuantity]:
     quantities: list[CounterQuantity] = []
     quantities.extend(_source_audience_quantities(source))
+    # These relationship-scene quantities are approximate or honorific, never
+    # exact ages/repetitions or clock minutes. Own their complete expression.
+    for pattern, value, kind in (
+        (r"(?<![가-힣])두어\s+번" + SOURCE_COUNTER_SUFFIX, 2, "approximate_occurrence"),
+        (r"(?<![가-힣])서른\s+몇(?=의 연애)", 30, "approximate_age"),
+        (r"(?<![가-힣])서른을\s+넘긴(?= 두 사람)", 30, "age_over"),
+        (r"(?<=온도가 )반\s+도쯤", "0.5", "degree"),
+    ):
+        for match in re.finditer(pattern, source):
+            quantities.append(CounterQuantity(match.start(), match.end(), Decimal(value), kind))
+    if "삼각김밥" in source:
+        for match in re.finditer(r"(?<!\d)1\s*\+\s*1(?!\d)", source):
+            quantities.append(CounterQuantity(match.start(), match.end(), Decimal(1), "one_plus_one_offer"))
     for match in re.finditer(r"일요일\s+하나(?=$|[\s.,]|[를가는도])", source):
         quantities.append(CounterQuantity(match.start(), match.end(), Decimal(1), "sunday_count"))
     # Observed year-four noun counts carry their own objects: three notices
@@ -1670,6 +1694,7 @@ def _target_pattern_for_kind(kind: str) -> re.Pattern[str]:
         "strike_occurrence": r"次|(?:道|條|条)(?:黑)?[線线]",
         "appliance_cycle": r"(?:輪|轮|次)",
         "city_count": r"(?:座|個|个)?(?:不同)?城市",
+        "receding_step": r"步",
         "cup_noodles_count": r"(?:碗|杯|個|个)(?:杯麵|杯面|方便麵|方便面)?",
     }
     if kind in counted_nouns:
@@ -1680,6 +1705,27 @@ def _target_pattern_for_kind(kind: str) -> re.Pattern[str]:
         return re.compile(rf'(?P<number>{CHINESE_CARDINAL})\s*(?:個|个)?(?:韓文|韩文)?字')
     if kind == 'agreement_parties':
         return re.compile(rf'(?P<pair>雙方|双方)|(?P<number>{CHINESE_CARDINAL})(?:個人|个人|人|方)')
+    if kind == "approximate_occurrence":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})(?:(?:[、，,]\s*[三3]|三)(?:次|回)|(?:次|回)左右)(?!元|方)")
+    if kind == "approximate_age":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})(?:幾|几|多|來|来)[歲岁]")
+    if kind == "age_over":
+        return re.compile(
+            rf"(?:(?:年[過过]|[過过]了)(?P<over_age>{CHINESE_CARDINAL})(?:[歲岁])?"
+            rf"|(?P<number>{CHINESE_CARDINAL})(?:[歲岁])?(?:出頭|出头|開外|开外|以上))"
+        )
+    if kind == "degree":
+        return re.compile(rf"(?P<number>半|\d+(?:\.\d+)?|{CHINESE_CARDINAL})度")
+    if kind == "never_toss_turn":
+        return re.compile(
+            rf"(?P<number>{CHINESE_CARDINAL})次(?:也|都)?(?:沒有|没有|沒|没)(?:翻過身|翻过身|翻身)"
+            r"|(?P<never_toss>(?:一整夜|整夜)(?:都)?(?:沒有|没有|沒|没)(?:翻過身|翻过身|翻身))"
+            rf"|(?:一整夜|整夜)(?:都)?(?:沒有|没有|沒|没)翻[過过](?P<toss_number>{CHINESE_CARDINAL})次身"
+        )
+    if kind == "one_plus_one_offer":
+        # The public TW line explains the literal offer immediately afterward:
+        # 1+1活動，買一送一. This is one promotion, not two purchases.
+        return re.compile(r"(?P<number>1\s*[+＋]\s*1(?:\s*(?:活動|活动)?[，,]\s*[買买][一1][送贈赠][一1])?|[買买][一1][送贈赠][一1])(?![\d零〇一二两兩三四五六七八九十百千萬万億亿兆元圓圆人位歲岁天年米度])")
     if kind == 'read_again':
         return re.compile(rf'(?P<number>{CHINESE_CARDINAL})\s*(?:次|遍)|(?P<once>再次|再度)(?=由上往下)')
     if kind == 'never_skip_week':
@@ -1890,11 +1936,16 @@ def _match_target_counter_quantities(
     for expected in source_quantities:
         pattern = _target_pattern_for_kind(expected.kind)
         candidates: list[CounterQuantity] = []
-        # Chinese may put an attachment count after its page complement or a
-        # strike-through count before its first-page object. Keep each count.
-        search_start = 0 if expected.kind in {'attachment_count', 'strike_line_count'} else cursor
+        # Chinese may reorder a count around its page/person complement:
+        # attachments, strike-throughs, and this sound-receding image.
+        search_start = 0 if expected.kind in {'attachment_count', 'strike_line_count', 'receding_step'} else cursor
         for match in pattern.finditer(target, search_start):
             if any(match.start() < row.end and match.end() > row.start for row in matched):
+                continue
+            if expected.kind in {"age_over", "approximate_age", "degree"} and re.match(
+                r"(?:天|年|小時|小时|分鐘|分钟|秒|人|位|韓元|韩元|元|圓|圆|公里|米|度|角)",
+                target[match.end():].lstrip(),
+            ):
                 continue
             if expected.kind in {"remaining_notice", "family_commitment", "action_pair", "call_action_count", "appointment_place", "question_set"} \
                     and re.search(r"[個个項项]$", match.group()) and re.match(
@@ -1926,6 +1977,8 @@ def _match_target_counter_quantities(
                 "current_action_count", "read_again", "never_skip_week", "statement_pair", "cover_count", "cup_noodles_count", "never_utterance", "name_column_count", "chair", "sheet", "sunday_count",
                 "object_count", "result_count", "ledger_count", "meaning_count", "signature_option_count",
                 "door_count", "retained_pair", "strike_line_count", "strike_occurrence", "meal", "appliance_cycle", "agreement_parties", "city_count",
+                "approximate_occurrence", "approximate_age", "age_over", "degree", "one_plus_one_offer", "span",
+                "never_toss_turn", "receding_step", "ring_occurrence",
                 "case_number_digits", "registry_line", "once_condition", "visual_overlap", "ladder_step", "window_count", "parallel_fact",
             } and re.search(rf"[{NUMERIC_PREFIX_CHARACTERS}]\s*$", target[:match.start()]):
                 # 再點一杯 is the observed ordering verb, not a decimal prefix.
@@ -1965,6 +2018,16 @@ def _match_target_counter_quantities(
                 # 一眼 is a glance after a seeing verb, not one physical eye.
                 continue
             value = _chinese_cardinal_value(match.group("number") or "")
+            if expected.kind == "age_over" and match.groupdict().get("over_age"):
+                value = _chinese_cardinal_value(match.group("over_age"))
+            if expected.kind == "degree" and match.group("number") == "半":
+                value = Decimal("0.5")
+            if expected.kind == "one_plus_one_offer":
+                value = Decimal(1)
+            if expected.kind == "never_toss_turn" and match.groupdict().get("never_toss"):
+                value = Decimal(1)
+            if expected.kind == "never_toss_turn" and match.groupdict().get("toss_number"):
+                value = _chinese_cardinal_value(match.group("toss_number"))
             if expected.kind in {'read_again', 'never_skip_week', 'never_utterance'} and match.groupdict().get('once'):
                 value = Decimal(1)
             if expected.kind == 'never_skip_week' and match.groupdict().get('after'):
@@ -2035,7 +2098,9 @@ def _match_target_counter_quantities(
             )
             continue
         matched.append(exact)
-        if expected.kind not in {'attachment_count', 'strike_line_count'}:
+        # Chinese places 两个 before its age modifier 过了三十. The source's
+        # adjacent age/person pair must retain both counts despite that order.
+        if expected.kind not in {'attachment_count', 'strike_line_count', 'receding_step', 'age_over'}:
             cursor = exact.end
     return matched, errors
 
@@ -2367,6 +2432,15 @@ def _numeric_errors(source: str, target: str) -> list[str]:
             counter_target = counter_target[:day.start()] + " " * (day.end() - day.start()) + counter_target[day.end():]
     target_quantities, counter_errors = _match_target_counter_quantities(counter_target, source_quantities)
     errors.extend(counter_errors)
+    offers = [q for q in source_quantities if q.kind == "one_plus_one_offer"]
+    if offers and len(list(_target_pattern_for_kind("one_plus_one_offer").finditer(counter_target))) != len(offers):
+        errors.append("one-plus-one offer count missing/invented")
+    if offers:
+        for offer in re.finditer(rf"[買买](?P<buy>{CHINESE_CARDINAL})[送贈赠](?P<free>{CHINESE_CARDINAL})", counter_target):
+            if any(_chinese_cardinal_value(offer.group(part)) != 1 for part in ("buy", "free")):
+                errors.append("one-plus-one offer quantities changed")
+            if re.match(r"(?:元|圓|圆|人|位|歲|岁|天|年|米|度)", counter_target[offer.end():].lstrip()):
+                errors.append("one-plus-one offer unit changed")
     errors.extend(_unexpected_target_entity_errors(
         counter_target, source_quantities,
         target_quantities,

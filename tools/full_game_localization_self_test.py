@@ -228,6 +228,112 @@ class ExchangeTests(unittest.TestCase):
             for bad in ('负' + good, '負' + good, '十 ' + good, good.replace('6.4', '7.4'), good.replace('MB', 'GB') if 'MB' in good else good.replace('兆', '千')):
                 self.assertTrue(tool.translation_errors(leaf, locale, bad), bad)
 
+    def test_relationship_approximate_repetitions_and_ages(self):
+        for source, goods, bads in (
+            ('소주잔이 두어 번 오갔다.', ('酒杯來回了兩三次。', '酒杯來回了兩次左右。'),
+             ('酒杯來回了二十次。', '酒杯來回了一次。', '酒杯來回了兩次。', '酒杯來回了負兩三次。', '酒杯來回了十 兩三次。', '酒杯來回了兩三分鐘。', '酒杯來回了兩三次元。', '酒杯來回了。')),
+            ('서른 몇의 연애는 단단했다.', ('三十幾歲的戀愛很堅定。', '30多歲的戀愛很堅定。'),
+             ('四十幾歲的戀愛很堅定。', '十三歲的戀愛很堅定。', '三十三歲的戀愛很堅定。', '三十幾年的戀愛很堅定。', '負三十幾歲的戀愛很堅定。', '十 三十幾歲的戀愛很堅定。')),
+            ('서른을 넘긴 두 사람 사이에 거리가 있었다.', ('年過三十的兩個人之間有距離。', '三十歲出頭的兩個人之間有距離。'),
+             ('年過四十的兩個人之間有距離。', '三十歲的兩個人之間有距離。', '三十天出頭的兩個人之間有距離。', '負三十歲出頭的兩個人之間有距離。', '年過三十天的兩個人之間有距離。', '年過三十的三個人之間有距離。')),
+        ):
+            leaf = tool.Leaf('events', 'example', 'content/events/arc_daeun_romance.json', ('description',), source, 'event_standard')
+            for good in goods:
+                self.assertEqual(tool.translation_errors(leaf, 'zh-TW', good), [], (source, good))
+            for bad in bads:
+                self.assertTrue(tool.translation_errors(leaf, 'zh-TW', bad), (source, bad))
+
+    def test_relationship_temperature_and_honorific_people(self):
+        for source, goods, bads in (
+            ('그 목소리의 온도가 반 도쯤 내려간 걸 느꼈다.', ('感覺那聲音的溫度降了半度左右。', '感覺那聲音的溫度降了0.5度左右。'),
+             ('感覺那聲音的溫度降了一度左右。', '感覺那聲音的溫度降了半分鐘左右。', '感覺那聲音的溫度降了負半度左右。', '感覺那聲音的溫度降了十 半度左右。', '感覺那聲音的溫度降了負0.5度左右。')),
+            ('두 분 모두의 자리가 있는 집으로 하자.', ('就找兩位都有位置的家吧。',),
+             ('就找兩分鐘都有位置的家吧。', '就找三位都有位置的家吧。', '就找負兩位都有位置的家吧。', '就找十 兩位都有位置的家吧。')),
+            ('다은에게 두 분 뒤 같은 파일을 보냈다.', ('兩分鐘後把同一份檔案傳給Daeun。',),
+             ('兩位後把同一份檔案傳給Daeun。',)),
+        ):
+            leaf = tool.Leaf('events', 'example', 'content/events/arc_daeun_married.json', ('description',), source, 'event_standard')
+            for good in goods:
+                self.assertEqual(tool.translation_errors(leaf, 'zh-TW', good), [], (source, good))
+            for bad in bads:
+                self.assertTrue(tool.translation_errors(leaf, 'zh-TW', bad), (source, bad))
+
+    def test_relationship_span_unit_and_prefix(self):
+        leaf = tool.Leaf('events', 'example', 'content/events/arc_daeun_romance.json', ('description',), '그 거리가 한 뼘씩 줄었다.', 'event_standard')
+        for good in ('那距離一拃一拃地縮短了。', '那距離每次縮短一個手掌寬。'):
+            self.assertEqual(tool.translation_errors(leaf, 'zh-TW', good), [], good)
+        for bad in ('那距離兩拃地縮短了。', '那距離一厘米地縮短了。', '那距離負一拃地縮短了。', '那距離+一拃地縮短了。', '那距離十 一拃地縮短了。', '那距離一個人地縮短了。', '那距離縮短了。'):
+            self.assertTrue(tool.translation_errors(leaf, 'zh-TW', bad), bad)
+
+    def test_relationship_dial_ring_answer_context(self):
+        leaf = tool.Leaf('events', 'example', 'content/events/arc_midgame.json', ('description',), '아버지 번호를 눌렀다. 신호가 두 번 울리고 아버지가 받았다.', 'event_standard')
+        good = '撥了父親的號碼。回鈴音響了兩聲，父親接了。'
+        self.assertEqual(tool.translation_errors(leaf, 'zh-TW', good), [], good)
+        for bad in (good.replace('兩聲','三聲'), good.replace('兩聲','兩分鐘')):
+            self.assertTrue(tool.translation_errors(leaf, 'zh-TW', bad), bad)
+        for source in ('서류 번호를 눌렀다. 신호가 두 번 울리고 아버지가 받았다.', '아버지 번호를 눌렀다. 신호가 두 번 울리고 서류를 받았다.'):
+            other = tool.Leaf('events', 'example', 'content/events/arc_midgame.json', ('description',), source, 'event_standard')
+            self.assertTrue(tool.translation_errors(other, 'zh-TW', good), source)
+
+    def test_relationship_natural_quantity_order_and_no_toss(self):
+        for source, good, bads in (
+            ('서른을 넘긴 두 사람 사이에 거리가 있었다.', '兩個過了三十的人之間有距離。',
+             ('三個過了三十的人之間有距離。', '兩個過了四十的人之間有距離。', '兩個過了三十天的人之間有距離。')),
+            ('카페의 소음이 두 사람에게서 한 걸음씩 멀어졌다.', '咖啡館的嘈雜聲，一步步離兩人遠去。',
+             ('咖啡館的嘈雜聲，兩步步離兩人遠去。', '咖啡館的嘈雜聲，一步步離三人遠去。', '咖啡館的嘈雜聲，負一步步離兩人遠去。')),
+            ('밤새 한 번도 뒤척이지 않은 얼굴이었다.', '那張臉，像是一整夜都沒有翻過身。',
+             ('那張臉，像是一整夜都翻過身。', '那張臉，像是負一整夜都沒有翻過身。', '那張臉，像是十 一整夜都沒有翻過身。')),
+        ):
+            leaf = tool.Leaf('events', 'example', 'content/events/arc_daeun_romance.json', ('description',), source, 'event_standard')
+            self.assertEqual(tool.translation_errors(leaf, 'zh-TW', good), [], (source, good))
+            for bad in bads:
+                self.assertTrue(tool.translation_errors(leaf, 'zh-TW', bad), bad)
+
+    def test_relationship_one_plus_one_offer(self):
+        leaf = tool.Leaf('events', 'example', 'content/events/arc_daeun_extension.json', ('description',), '삼각김밥 1+1이었다.', 'event_standard')
+        for good in ('三角飯捲1+1。', '三角飯捲買一送一。', '三角飯捲買1送1。', '三角飯捲1+1活動，買一送一喔。'):
+            self.assertEqual(tool.translation_errors(leaf, 'zh-TW', good), [], good)
+        for bad in ('三角飯捲1-1。', '三角飯捲1×1。', '三角飯捲1/1。', '三角飯捲1+2。', '三角飯捲買一送二。', '三角飯捲負1+1。', '三角飯捲負買一送一。', '三角飯捲十 買一送一。', '三角飯捲買1送10。', '三角飯捲。'):
+            self.assertTrue(tool.translation_errors(leaf, 'zh-TW', bad), bad)
+        self.assertTrue(tool.translation_errors(leaf, 'zh-TW', '三角飯捲買一送一買一送一。'))
+
+    def test_relationship_separable_toss_turn_verb(self):
+        leaf = tool.Leaf('events', 'example', 'content/events/arc_daeun_romance.json', ('description',), '밤새 한 번도 뒤척이지 않은 얼굴이었다.', 'event_standard')
+        for good in ('那張臉，像是整夜都沒翻過一次身。', '那張臉，像是一整夜都沒翻身。'):
+            self.assertEqual(tool.translation_errors(leaf, 'zh-TW', good), [], good)
+        for bad in ('那張臉，像是整夜都沒翻過兩次身。', '那張臉，像是整夜都翻過一次身。', '那張臉，像是整夜都沒翻過負一次身。', '那張臉，像是負整夜都沒翻過一次身。'):
+            self.assertTrue(tool.translation_errors(leaf, 'zh-TW', bad), bad)
+
+    def test_relationship_review_numeric_range_and_offer_suffix(self):
+        leaf = tool.Leaf('events', 'example', 'content/events/arc_daeun_romance.json', ('description',), '소주잔이 두어 번 오갔다.', 'event_standard')
+        for good in ('酒杯來回了兩三次。', '酒杯來回了2、3次。'):
+            self.assertEqual(tool.translation_errors(leaf, 'zh-TW', good), [], good)
+        for bad in ('酒杯來回了23次。', '酒杯來回了23回。'):
+            self.assertTrue(tool.translation_errors(leaf, 'zh-TW', bad), bad)
+        leaf = tool.Leaf('events', 'example', 'content/events/arc_daeun_extension.json', ('description',), '삼각김밥 1+1이었다.', 'event_standard')
+        for bad in ('三角飯捲買一送一百。', '三角飯捲買一送一千。', '三角飯捲1+1活動，買一送一百。', '三角飯捲1+1活動，買一送二。'):
+            self.assertTrue(tool.translation_errors(leaf, 'zh-TW', bad), bad)
+
+    def test_relationship_review_unit_extensions_and_ring_sign(self):
+        for source, bads in (
+            ('아버지 번호를 눌렀다. 신호가 두 번 울리고 아버지가 받았다.',
+             ('撥了父親的號碼。回鈴音響了-2聲，父親接了。', '撥了父親的號碼。回鈴音響了負兩聲，父親接了。', '撥了父親的號碼。回鈴音響了十 兩聲，父親接了。')),
+            ('서른 몇의 연애는 단단했다.', ('30幾歲元的戀愛很堅定。',)),
+            ('서른을 넘긴 두 사람 사이에 거리가 있었다.',
+             ('兩個年過30公里的人之間有距離。', '兩個年過30米的人之間有距離。', '兩個年過30度的人之間有距離。')),
+            ('그 목소리의 온도가 반 도쯤 내려간 걸 느꼈다.',
+             ('感覺那聲音的溫度降了0.5度角。', '感覺那聲音的溫度降了0.5度分鐘左右。')),
+            ('삼각김밥 1+1이었다.',
+             ('三角飯捲買一送一元。', '三角飯捲1+1活動，買一送一元。')),
+        ):
+            leaf = tool.Leaf('events', 'example', 'content/events/arc_daeun_romance.json', ('description',), source, 'event_standard')
+            for bad in bads:
+                self.assertTrue(tool.translation_errors(leaf, 'zh-TW', bad), (source, bad))
+
+    def test_relationship_no_toss_requires_whole_night_source(self):
+        for source in ('지난달 한 번도 뒤척이지 않은 얼굴이었다.', '한 번도 뒤척이지 않은 얼굴이었다.'):
+            leaf = tool.Leaf('events', 'example', 'content/events/arc_daeun_romance.json', ('description',), source, 'event_standard')
+            self.assertTrue(tool.translation_errors(leaf, 'zh-TW', '那張臉，像是一整夜都沒有翻過身。'), source)
     def test_finale_original_file_and_relative_clause_contexts(self):
         for source, good in (
             ('00:31 원본을 지웠다.', '刪掉00:31的原檔。'),

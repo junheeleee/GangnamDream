@@ -23,6 +23,24 @@
 > [`7/25`](history/WORK_LOG_2026-07-25.md)에 손실 없이 보존한다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
 
+## 2026-09-07 (Codex — 다은 관계·아버지 통화 세 언어 수용)
+
+- 25사건/164문구씩492개를 KO 직접 저작·독립 전수 대조했다. 조건12/언어,
+  reader/scalar0이다. 원화·손뼘·공간·음식·수량·호칭11곳을 고쳐 재검토했다.
+  이전8,457와 메타9를 보존해 총8,949문구다.
+- 최초 source3개 보존, 최종 source/response/receipt3쌍 check/import PASS,
+  changed_files0. accepted checksum `42c20d17…a82ec4`, source manifest 불변.
+  기존39행/언어 raw prefix와 신규2파일/언어 text-only·조건 구조를 확인했다.
+- 근사 수량·존칭·손뼘·1+1·통화벨·부정문과 중국어 어순 검사를 보강했다.
+  self131와 독립117/실본문41/문맥4를 대조해 신규 누출0, 기존 분류기 한계1건은
+  별도다. KO/EN·runtime·공개 데모·폰트·human_gates 변경0이다.
+- 원문 연수·글자·첫 만남·빚 발화 부채를 분리했고 이전 JA 원화2문구는
+  다음 정밀화 범위로 남겼다. 완료166절1,518bytes 및 legacy 큐336bytes를
+  원문 이동 보존했다. 상세 결속과 한계는 [사양](queue_active/ORDER-168.md).
+  L3·원어민·화면 OPEN·전체 INCOMPLETE·full/main/product HOLD·출시 데모 GO 유지.
+- 최종12개 표적 차선·EN·diff PASS. self131·ZH935·공개14/100·UI121을
+  확인했고 실제 stdout은 git-private `order168-final-checks.log`에 보존했다.
+
 ## 2026-09-07 (Codex — 종막 서명·사람에게 보내는 행동 세 언어 수용)
 
 - 15사건/197문구씩591개를 KO 직접 저작·독립 전수 대조했다. reader55와
@@ -40,24 +58,6 @@
   다음은 남은 관계·생활 사건이다.
 - 최종12개 표적 차선·EN·diff PASS. self121·ZH935·공개14/100·UI121을
   확인했고 실제 stdout은 git-private `order167-final-checks.log`에 보존했다.
-
-## 2026-09-07 (Codex — 마지막 해 사람·계약·가족 판정 세 언어 수용)
-
-- 40사건/358문구씩1,074개를 KO에서 직접 저작하고 작성자를 바꿔 전수 대조했다.
-  조건14·reader78/언어를 포함하며 자정·복사기·의자·주체·이름 표기13곳을
-  고쳐 재검토했다. 기존6,792와 메타9를 보존해 총7,866문구를 수용했다.
-- 초기 source6개 보존, 최종 source/response6쌍 check/import PASS·변경0.
-  accepted checksum `a66d6d1d…a69ba1`, 원문 manifest `edf845a7…64b8`다.
-  기존64행/언어 raw prefix와 KO/EN·runtime·공개 데모·폰트·출시 상태는 불변이다.
-- 혼합 원화의 귀속 순서·수량/단위·부정문·호칭의 검사 오탐과 신규 누출을
-  실제 원문과 변조 짝으로 수리했다. self115·ZH935와 독립211+실본문177건의
-  새 회귀0을 확인했다. 기존 분류기 한계14사례와 자동/사람 판정은 구분한다.
-- 원문 날짜·회수·글자 수·속말/입밖 확인점은 별도 backlog에 보존했다.
-  완료163절을 history로 원문 바이트 그대로 옮겼다. 상세 해시·경계는
-  [현재 사양](queue_active/ORDER-166.md)에 있다. L3·원어민·실제 화면 OPEN,
-  전체 INCOMPLETE·full/main/product HOLD·배포 데모 GO 유지. 다음은 종막15종이다.
-- 최종12개 표적 차선·EN·diff와 실제7,866문구 검사 PASS. 실제 차선 stdout은
-  git-private `full-game-localization/order166-final-checks.log`에 보존했다.
 
 ## 2026-09-05 (Codex — ORDER-156 Chapter 5 생활 routine 배경 수리 선언)
 

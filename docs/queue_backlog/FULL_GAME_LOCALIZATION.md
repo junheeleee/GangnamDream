@@ -37,8 +37,8 @@
   독립 대조·수용했다. 남은 엔딩18종129 leaf/locale와 catalog834 leaf/locale도
   전수 대조·수용했다. M07~M24 정적 연결의 미번역35사건279 leaf/locale를 더해
   4,323번역에3년차48사건363 leaf/locale와4년차47사건460 leaf/locale를 더해
-  마지막 해40사건358과 종막15사건197 leaf/locale까지 총8,457번역이다
-  (언어별 엔딩234+사건1,751+catalog834). catalog 신규 작성2,485·
+  마지막 해40사건358·종막15사건197과 관계25사건164 leaf/locale까지
+  총8,949번역이다(언어별 엔딩234+사건1,915+catalog834). catalog 신규 작성2,485·
   기존 JA 누락 수리1·기존 유지16을 구분한다. 엔딩35종과 catalog7섹션은 채웠지만
   사건·UI·표시 소비자는 아직 남는다. M07~M24 정적 연결은 해당 기간 모든 무작위
   사건·UI나 실플레이 전량의 번역 완료를 뜻하지 않는다. 원어민·화면·전체판은 OPEN.
@@ -47,9 +47,11 @@
   실플레이 전량 커버리지가 아니다. 별도 선언한 공개CN의 두 기록1문장 수리는
   기존 baseline100문구 안의 정밀화로 수용 수에 중복 합산하지 않는다.
   마지막 해40종은 조건14와 reader78/언어, 종막15종은 사전형 조건38+scalar2와
-  reader55/언어를 포함한다. M07~M60 정적 closure의 미수용은 다은3년차·아버지
-  조용한 통화·기존 공개 재혁 재회3종28문구다. 공개8문구는 별도 보호하며,
-  이 정적 연결도 해당 기간의 모든 무작위 사건·UI 번역 완료가 아니다.
+  reader55/언어를 포함한다. 관계25종은 조건12/언어다. M07~M60 정적 closure는
+  신규 수용191종1,743문구와 보호 재사용 재혁 재회1종8문구가 구분된다.
+  비보호 정적 연결의 번역문은 채웠지만 해당 기간의 모든 무작위 사건·UI·
+  실제 도달/플레이 전량 번역 완료는 아니다. 관계의 나머지23종도 shipping
+  원문 번역이며 정적 closure 수에 중복 합산하지 않는다.
 - 다음 runtime 수리의 실제 소비자: `GameState.apply_relationship_effect`는 원문
   이름을 저장하고 `MainGame:9852/18298`, `RelationshipSystem:30/50`이 그대로
   표시한다. 저장 값을 바꾸지 않는 locale 표시 resolver가 필요하다. 또한
@@ -57,12 +59,37 @@
   `_localized_route_label/_localized_profile_label/_roll_run_theme`,
   `MainGame._choice_effects_preview`, `HoldemClub._fmt`의 non-KO=EN 분기를
   개별 표시 계약으로 검사한다. 번역 파일만 채워도 이 소비자는 저절로 바뀌지 않는다.
+- 기존 수용분의 별도 JA 정밀화 대상: `arc_father_legacy.description`과
+  `arc_y5_final_offer.description`의 `30億`에 원화 단위가 생략돼 있다.
+  엔으로 바뀐 값은 아니지만 용어집의 `30億ウォン`을 명시할 두 문구다.
+  현재 관계 배치의 기존8,457 보존 범위 밖이므로 별도 소유권 선언 뒤
+  정확 두 target/수용 hash만 갱신하며 새 번역 수에 중복 합산하지 않는다.
 - QA: source/target 완전성, 지역 문자·금액·토큰·문단, 한글/영어 누출, save/resume,
   지역 primary 폰트, 1280×800/960×600 실제 화면을 대상 언어별로 검증한다.
 - 출시: 번역 텍스트 수용은 원어민 자연스러움이나 본편 재미 GO가 아니다. 기존
   M01~M06 공개 데모를 덮지 않고 별도 전체판 후보에서 검토한다.
 
 ## 원문 대조에서 발견한 별도 서사 확인점
+
+- `arc_daeun_families_meet.choices[0].text`에서 민준은 아버지가 빚을
+  다 갚았다고 말한다. 첫 통화 `arc_father_01_call.description`의 서술은
+  아버지가 보증한 뒤 남은 빚을 민준이6년에 걸쳐 갚았다고 한다. 상견례에서
+  아버지의 체면을 세우려는 의도적 발화인지 확인할 주체 차이다. 번역에서는
+  대사를 원문대로 보존하며 실제 상환 주체가 바뀐 서술로 승격하지 않는다.
+
+- `arc_daeun_03b_date.description`는 편의점 밖의 다은을 처음 본다고 한다.
+  앞선 `arc_daeun_02_regular`의 결과0은 분식집 식사, 결과1은40분 산책이므로
+  해당 선택을 거친 경로의 '처음'과 맞는지 원문 확인이 필요하다. 원문·결과 대조이며
+  실제 경로 재플레이/새 인간 판정은 아니다. 번역에서 '첫 데이트'로 몰래 바꾸지 않았다.
+
+- 관계 묶음 `arc_daeun_year3_apart.choices[0].result_text`는 '잘됐다'를
+  '두 글자'라고 부른다(실제3음절). `arc_daeun_proposal_answer`의 기본/첫날밤
+  변형은 함께 버틴4년, 수락 결과는5년이며 `proposal_last_cup`도 네 해다.
+  `arc_daeun_our_home` 생존/별세 두 대안은 약혼 직후의 매물 사진을 보며
+  5년을 말한다. `arc_daeun_year5_ending.description_if_known.daeun_year4_close`
+  는4년차 카페 약속을4년 전이라고 회수한다. 각 실제 주차/관계 시작일과 대조할
+  기존 원문 시간·문자 수 부채이며 번역에서 연수·글자 수를 몰래 정정하지 않는다.
+  원고 대조만으로 새 인간 REJECT를 발급하지 않는다.
 
 - `arc_final_countdown_property_not_executed`의 finale reader `texts[3][2]`는
   '전날 아버지 기록 곁에 둔 오늘 날짜가'라고 한다. 앞선 기록의 작성일을

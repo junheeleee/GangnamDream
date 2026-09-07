@@ -4,7 +4,7 @@
 
 #### [~] ORDER-168 [P0·전체 현지화] 다은의 관계와 아버지의 통화를 세 언어로 옮긴다
 
-**[~] 2026-09-07 Codex 착수 — 아래 정확25 ID의 JA·zh-CN·zh-TW text-only
+**[~] 2026-09-07 Codex L1/L2 수용·L3 OPEN — 아래 정확25 ID의 JA·zh-CN·zh-TW text-only
 overlay, 원문 결속 검사·수용 기록·증거 문서만 소유한다.**
 사용자 전체 게임 번역 지시를 구현 `1c6232e`에서 이어간다.
 이전8,457 수용·비표시 메타9·공개 working baseline·배경 제품53493fe를 보존한다.
@@ -100,3 +100,35 @@ KO/EN·runtime·저장·routing·human_gates·catalog/endings·공개·폰트·�
 이 사양의 범위·증거·소유권은 일회성이다. 지속 규칙은 I18N_INFRASTRUCTURE와
 세 용어집이 소유하며 새로운 서사·상품·출시 규칙을 만들지 않는다.
 
+## 수용 결과 — L3·원어민·화면 OPEN
+
+- 선언 `ce3b610` 뒤25종164×3=492문구를 KO 직접 저작·독립 전수 대조했다.
+  조건12/언어, reader/scalar0. JA 원화6·한뼘1, CN 공간관계·라면2,
+  TW 증가수·회수한 호칭2, 총11문구를 고쳐 재대조했다.
+- 초기 source3개 보존, 최종 source/response/receipt3쌍 각164 check/import
+  PASS·changed_files=0. 이전8,457/meta9를 보존해8,949문구다.
+  accepted checksum `42c20d173dcee089a78c77f4717f0d39020edee691fabc14dee04b0902a82ec4`.
+  최종164-record aggregate:
+  - JA `b00f92d6a39ec4f452fa32c44e8e920297bd28fdd1349ac5d08d86ba13673400`
+  - CN `002dda4ac7988fe97424b2cbb20e7540a699a103cf32f9f721e528b9d7a6d81d`
+  - TW `d0c0106092661fd3c8c044813049f68940e1364d707386dbcfdb2af63681cfb8`
+- 기존3파일39행/언어 값·순서/raw prefix와 신규2파일/언어의 text-only 구조를
+  독립 확인했다. KO/EN·runtime·공개·폰트·human_gates 변경0이다. 사용자 원래
+  작업트리는 이번 쓰기0이며 이전 snapshot이 없어 완전 동일 바이트를 주장하지 않는다.
+- 근사 횟수·나이·반도·존칭·손뼘·1+1·실제 통화벨과 부정문/이합 동사/어순
+  수량 검사 오탐을 고쳤다. 독립 검토에서 발견한8유형 신규 누출도 닫았다.
+  self131 PASS, 독립117(정상24/변조93)·실본문11+변조30·문맥4를 재검증했다.
+  기존 손뼘→손바닥 뒤 거리 단위의 분류기 한계1건은 별도다. 구V2 strict의25개
+  기존 범위/인프라 실패와 중국어 JP-first 차단을 공개 데모 PASS로 덮지 않는다.
+- 원문 연수·글자 수·첫 바깥 만남·아버지 빚 발화는 backlog의 별도 확인점이다.
+  이전 JA 수용2곳의 `30億` 원화 명료화도 새 범위로 남기고 여기서 바꾸지 않았다.
+- 완료166 WORK_LOG절1,518bytes SHA
+  `36c7bc7d4d7496e477819b438e23df1d1fe4338fedb2587dd6be3deefbb5e198`를 이동.
+  history13,326bytes SHA `525cad83ddf351f65c5bdd99cd37cbdf6e7bb4b7657c6a03667443d2dd05a1e7`.
+  선언에서 옮긴 legacy 큐336bytes SHA
+  `6eded99648e8541c001b0ce587c3b914c8e602e36e0c95be101dc62c95891a34`도 원문 보존이다.
+- 전체 INCOMPLETE·full/main/product HOLD·출시 데모 GO 유지.
+  최종12개 표적 차선·EN·diff PASS. 실제 stdout은 git-private
+  `order168-final-checks.log`에 보존했다. self131·ZH935·공개14/100·UI121 PASS다.
+  정적 closure의 비보호 원문191종1,743문구와 보호 재사용1종8문구를 구분하며,
+  모든 무작위 사건·UI·표시 소비자·실제 플레이 완료로 해석하지 않는다.

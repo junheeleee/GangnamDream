@@ -661,5 +661,29 @@
         "result_text": "{name}繼續攤開附屬協議，直到「優先提供週末及夜間時段」那句話。Daeun 看著那句話，比看空白姓名欄更久。\n\n「名字是拿掉了，可是如果 Minjun 你的夜晚全放進這裡，最後連我的時間，也是這份合約在用。」\n\nDaeun 用藍色自動鉛筆，在「夜間」與「優先」之間畫了直線。紙沒有破，只有句子分成了兩半。"
       }
     ]
+  },
+  {
+    "id": "arc_father_quiet_call",
+    "title": "星期天晚上",
+    "description": "星期天晚上，{name}撥了父親的號碼。\n\n回鈴音響了兩聲，父親接起來。「嗯。」\n\n「吃過飯了嗎？」\n「嗯，吃了。你呢？」\n\n短短的話來回著。首爾的天氣、昌原的天氣。他說，工廠輪班和平常一樣。父親問房間冷不冷，{name}回答，沒事。\n\n話停了，通話卻還連著。電話那頭，聽得出父親還在等下一句。",
+    "description_memory_if_known": {
+      "relationship_memory:father:father_wellbeing_returned": "比起第一次通話，好不容易才回問的「爸，您呢？」，今天又多說了幾句。",
+      "relationship_memory:father:father_future_reassured": "之前說過，好像會順利起來，所以即使夾在今天平凡的話裡，那個約定也更沉重。",
+      "relationship_memory:father:father_call_ended_quickly": "上次通話只有23秒。今天，連掛斷前的沉默，都撐過去了。"
+    },
+    "choices": [
+      {
+        "text": "「去了江南，我會第一個聯絡您。」——想說，卻忍住了",
+        "result_text": "{name}終究沒能把那句話說出口，就按下結束通話。"
+      },
+      {
+        "text": "就這樣掛電話。不說什麼特別的話",
+        "result_text": "「那您睡吧。」\n\n父親答了聲「嗯」，{name}先掛了電話。"
+      },
+      {
+        "text": "「爸，您最近怎麼樣？」——再多問一點",
+        "result_text": "「就那樣吧。」父親說。「你呢？」\n\n{name}笑著說：「我也就那樣啊。」電話那頭，父親也短短笑了一聲。"
+      }
+    ]
   }
 ]

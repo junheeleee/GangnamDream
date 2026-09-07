@@ -1,5 +1,23 @@
 # 2026-09-07 initial localization work log — preserved verbatim
 
+## 2026-09-07 (Codex — 마지막 해 사람·계약·가족 판정 세 언어 수용)
+
+- 40사건/358문구씩1,074개를 KO에서 직접 저작하고 작성자를 바꿔 전수 대조했다.
+  조건14·reader78/언어를 포함하며 자정·복사기·의자·주체·이름 표기13곳을
+  고쳐 재검토했다. 기존6,792와 메타9를 보존해 총7,866문구를 수용했다.
+- 초기 source6개 보존, 최종 source/response6쌍 check/import PASS·변경0.
+  accepted checksum `a66d6d1d…a69ba1`, 원문 manifest `edf845a7…64b8`다.
+  기존64행/언어 raw prefix와 KO/EN·runtime·공개 데모·폰트·출시 상태는 불변이다.
+- 혼합 원화의 귀속 순서·수량/단위·부정문·호칭의 검사 오탐과 신규 누출을
+  실제 원문과 변조 짝으로 수리했다. self115·ZH935와 독립211+실본문177건의
+  새 회귀0을 확인했다. 기존 분류기 한계14사례와 자동/사람 판정은 구분한다.
+- 원문 날짜·회수·글자 수·속말/입밖 확인점은 별도 backlog에 보존했다.
+  완료163절을 history로 원문 바이트 그대로 옮겼다. 상세 해시·경계는
+  [현재 사양](queue_active/ORDER-166.md)에 있다. L3·원어민·실제 화면 OPEN,
+  전체 INCOMPLETE·full/main/product HOLD·배포 데모 GO 유지. 다음은 종막15종이다.
+- 최종12개 표적 차선·EN·diff와 실제7,866문구 검사 PASS. 실제 차선 stdout은
+  git-private `full-game-localization/order166-final-checks.log`에 보존했다.
+
 ## 2026-09-07 (Codex — 4년차·아버지 경과 세 언어 수용과 간체 한 문장 수리)
 
 - 47사건/460문구씩, 총1,380개를 KO에서 직접 작성하고 다른 작성자가 전수

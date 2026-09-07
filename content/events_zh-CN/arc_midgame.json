@@ -503,4 +503,20 @@
       }
     ]
   }
+  ,
+  {
+    "id": "arc_father_quiet_call",
+    "title": "星期天晚上",
+    "description": "星期天晚上，{name}拨了父亲的号码。\n\n回铃音响了两声，父亲接了。“嗯。”\n\n“吃饭了吗？”\n“嗯，吃了。你呢？”\n\n短短地聊了几句。首尔的天气，昌原的天气。他说工厂的倒班跟平常一样。父亲问房间冷不冷，{name}说还好。\n\n话停了，电话却还通着。听筒那头，能感觉到父亲在等下一句话。",
+    "description_memory_if_known": {
+      "relationship_memory:father:father_wellbeing_returned": "第一次通话时，好不容易才回问一句“爸，你呢？”，今天比那时多说了几句。",
+      "relationship_memory:father:father_future_reassured": "先前说过好像会顺利起来，今天这些平常的话之间，那句承诺反而更重了。",
+      "relationship_memory:father:father_call_ended_quickly": "上次通话只有23秒。今天，连挂断前的沉默也撑过去了。"
+    },
+    "choices": [
+      {"text": "“到了江南，我第一个联系你。”——想说，又忍住了", "result_text": "{name}最终没能把那句话说出口，就按下了结束通话的按钮。"},
+      {"text": "就这样挂断，不说什么特别的话", "result_text": "“那你睡吧。”\n\n父亲答了声“好”，{name}先挂了电话。"},
+      {"text": "“爸，最近过得怎么样？”——再多问一句", "result_text": "“也就那样吧。”父亲说，“你呢？”\n\n{name}笑着说：“我也就那样。”听筒那头，父亲也短短地笑了一声。"}
+    ]
+  }
 ]
