@@ -105,3 +105,54 @@ L3/원어민/화면 OPEN·출시 M01~M06 BUILD2026.08.31.1 사용자 GO 유지.
 
 이 범위·배치·증거 절차는 일회성이다. 지속 규칙은 I18N_INFRASTRUCTURE와
 언어별 용어집이 소유하며 새 서사·제품·출시 규칙을 만들지 않는다.
+
+## 번역 결과 — L1/L2 수용·L3 OPEN
+
+- 선언 `5928130c567ff5e584e9f0f9ecc8da3ca4e7f771` 뒤25 roots/194 leaf씩을
+  KO에서 독립 저작하고 다른 작성자 또는 ROOT가 세 언어582개를 전수 대조했다.
+  CN 주체 자기지시2곳, TW 반복 술자리/월급의 모호함2곳, JA 응답 기회3초1곳을
+  정밀화하고 변경 leaf를 다시 대조했다. 나머지 문구·문단·토큰은 보존했다.
+- 최초195행 source3개는 저작 전 target=null과 같은 원문194를 보존한다.
+  최종 source/response check·import --accept3개 PASS·changed_files0.
+  기존 private 증거를 덮지 않고 이미 작성한 target을 수용했다.
+- 최종194-record aggregate JA
+  `c3994f0c92d5f1ca9237e0f06c7ec330b4e0b6a716c3e4a8dd5390271f380973`,
+  CN `57bfc8aad4aedf766efd8d3128a7c34d2748366f0c396113af085bc6ffe623dc`,
+  TW `313b62f1d5d717250e4d682231300f43007794e1f2e375dcb2d3f8f23fdcf42b`.
+  신규582·누적13,281(언어별4,427), 사건428종3,359/locale다.
+  이전12,699/meta9·batch29·기존29행209문구의 값·raw row·상대순서를 보존했다.
+  새25행은 KO 상대순서이며 life_events2 전체는 변경0이다.
+- JA는 원문 전체가 '자격증 시험 D-14'인 경우만 시험까지14일로 결속했다.
+  독립 정상3/변조24와 신설 메서드16사례 PASS. 기존 금액/시간 수리는 불변이다.
+  ZH는 하루/매월·한두 잔·동료/구독·미완주·구직 회사/공고·읽음 초과 수와
+  D-14 및 실제 서비스/언어 이름의 오탐만 원문 문맥에 결속했다.
+  자체3203(이전3014+신규189)와 실제388문구 오류0을 확인했다.
+  독립 검토가 발견한 한두 잔의 추가 상한과 학습/수강료의 잘못된 시·분·초
+  주기가 뒤 정상 주기를 빌리는 세 유형을 수리했다. 정상/변조24사례 재확인
+  PASS·제보 차단 잔여0이며 신설 문맥 밖으로 검사를 확장하지 않았다.
+  전역 숫자·영어 허용이나 문장 의미의 완전 자동 판정은 아니다.
+- 한국 자격 명칭은 [IPA의 한국 시험 명칭](https://www.ipa.go.jp/shiken/asia/mutual-recognition/korea.html)을
+  확인해 情報処理技師를 유지했다. 일본 시험으로 바꾸지 않았다.
+  [Incruit](https://www.incruit.com/), [JobKorea](https://www.jobkorea.co.kr/),
+  [Saramin](https://oapi.saramin.co.kr/), [Python](https://www.python.org/?locale=en)은
+  원문에 해당 이름이 있는 문구에서만 공식 철자를 허용한다.
+- 완료175절954bytes만 기존 history24,062bytes 앞으로 원문 이동했다.
+  새25,016bytes SHA `d05a48b99a960b17e2132e3ff7a18ce39ee54133b85126095f64dbbe93f4d206`,
+  기존 내용·끝 LF2를 유지한다. 검수행은 같은 활성 이어보기로만 이동한다.
+- 22만원 지출/효과, 글자수, 약속 유무/지하철, 고용·주거 조건의 원문 부채는
+  따로 남겼다. 지원·승진·합격·답장·30일 완주는 실제 사실대로이며 미저장 초안과
+  코딩3/5강을 완성으로 키우지 않는다. KO/EN·runtime·공개·fonts·save·
+  human_gates 변경0, 원본 checkout 쓰기0.
+  full/main/product HOLD·전체 INCOMPLETE·L3/원어민/화면 OPEN·출시 데모 GO 유지.
+
+- portable checksum `4316d1a657e4e46418aaf0b44c3044379c9f16e40eec282299c62ad3fb673e04`.
+
+## 최종 표적 검증
+
+- named `full-game-localization-overlays`를 먼저 --list로 확인하고 실제12개
+  차선을 실행했다. self168/ZH3203·audit ERROR0/WARNING0·공개100/121 패리티
+  PASS다. 전체13,281수용의 source/target hash와 L1 오류0, EN·한글 누출0·diff PASS.
+- 실제 stdout4,225bytes는 git-private `order178-final-checks.log`로 보존했다.
+  SHA `c833285d1177a6dddee2c9c7e82e3aadeb575601b2c46b257cfbf66c1de3f14b`.
+  중국어 full JP-first font route의 blocked는 기존 미완료 상태 그대로다.
+  skeleton PASS는 전체판 글꼴·화면·원어민·출시 GO가 아니다.

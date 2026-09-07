@@ -267,6 +267,20 @@ class ExchangeTests(unittest.TestCase):
                                good.replace(number, '十 ' + number, 1), good + good):
                 self.assertTrue(tool.translation_errors(leaf, 'ja', bad), (source, bad))
 
+    def test_work_japanese_exam_countdown(self):
+        leaf = tool.Leaf('events', 'selfdev_certification', 'content/events/life_events.json', ('title',), '자격증 시험 D-14', 'event_standard')
+        for good in ('資格試験まであと14日', '資格試験まであと十四日', '資格試験 D-14'):
+            self.assertEqual(tool.translation_errors(leaf, 'ja', good), [], good)
+        for bad in (
+            '資格試験まであと13日', '資格試験まであと15日',
+            '資格試験まであと14時間', '資格試験まであと十四分',
+            '資格試験から14日', '資格試験は14日前', '資格試験まであと-14日',
+            '資格試験まであと+14日', '資格試験まであと十四日以上',
+            '資格試験 D-14時間', '資格試験 D-15。14日',
+            '資格試験まであと14日。あと14日', '試験なし。14日',
+        ):
+            self.assertTrue(tool.translation_errors(leaf, 'ja', bad), bad)
+
     def test_final_year_ordinal_version_and_source_document(self):
         for source, target in (('열한 번째 장에', '第十一頁'), ('여섯 번째 장면', '第六個場景'), ('첫 번째 장면', '第一個場景'), ('두 버전의 모서리', '兩個版本的邊角'), ('R3 원문이 있었다.', '有R3原文。')):
             leaf = tool.Leaf('events', 'example', 'content/events/arc_midgame.json', ('description',), source, 'event_standard')

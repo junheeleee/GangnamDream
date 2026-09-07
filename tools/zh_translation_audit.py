@@ -213,7 +213,12 @@ CATALOG_YOUNG_ADULT_SOURCES = frozenset({
 })
 CHINESE_CARDINAL = r"(?:\d[\d,]*|[零〇○一二两兩三四五六七八九十百千]+)"
 NUMERIC_PREFIX_CHARACTERS = "0-9零〇○一二两兩三四五六七八九十百千萬万億亿兆数數點点.＋+−﹣－負负-"
-LIFE_SCENE_COUNTER_KINDS = frozenset({
+WORK_SCENE_COUNTER_KINDS = frozenset({
+    "work_cup_range", "coworker_count", "subscription_count", "study_daily_hours",
+    "exam_countdown", "tuition_month", "never_course_days", "job_company_focus",
+    "read_mark_over_count", "job_posting_count",
+})
+LIFE_SCENE_COUNTER_KINDS = WORK_SCENE_COUNTER_KINDS | frozenset({
     "remaining_four_month", "job_posting_count", "egg_count", "task_count",
     "rental_home_ordinal", "mirror_glance", "gangnam_attempt",
     "university_year", "restaurant_per_person", "underground_exit",
@@ -618,6 +623,15 @@ SOURCE_APP_TERM = re.compile(
     r"(?<![가-힣])(?:배달)?앱(?=$|[\s.,!?…]|(?:을|이|은|에|에서|으로|의|만|도)(?=$|[\s.,!?…]))"
 )
 SOURCE_XRAY_TERM = re.compile(r"(?<![가-힣])엑스레이(?=$|[\s.,!?…]|[의를은가이을](?=$|[\s.,!?…]))")
+# Exact Korean service/course nouns, independently verified from their owners:
+# https://www.incruit.com/  https://www.jobkorea.co.kr/
+# https://oapi.saramin.co.kr/  https://www.python.org/
+WORK_SOURCE_BRANDS = (
+    (re.compile(r"(?<![가-힣])인크루트(?= 앱을 다시 설치했다(?:$|[.\s]))"), "Incruit"),
+    (re.compile(r"(?<![가-힣])잡코리아와 사람인을 번갈아 새로고침하고 있다\."), "JobKorea"),
+    (re.compile(r"(?<![가-힣])잡코리아와 사람인을 번갈아 새로고침하고 있다\."), "Saramin"),
+    (re.compile(r"(?<![가-힣])파이썬(?= 입문[,\s.])"), "Python"),
+)
 ALLOWED_LATIN_PHRASES = tuple(sorted({
     *LATIN_EXACT.values(),
     *NAME_ROMANIZATION.values(),
@@ -1174,6 +1188,12 @@ def _source_counter_kind(
 ) -> str:
     following = source[match.end():].lstrip()
     preceding = source[max(0, match.start() - 120):match.start()]
+    if counter == "개" and preceding.endswith("불필요한 구독 서비스 ") and following.startswith("를 해지했다."):
+        return "subscription_count"
+    if counter == "개" and preceding.endswith("공고 ") and following.startswith("를 열었다가 닫았다."):
+        return "job_posting_count"
+    if counter == "개" and preceding.endswith("읽은 표시가 ") and following.startswith("를 넘어가고 있었다."):
+        return "read_mark_over_count"
     if counter == "시" and preceding.endswith("직진하면 ") and following.startswith("치킨 반반 "):
         return "chicken_open_hours"
     if counter == "개" and re.match(r"\.(?:\s|$)", following):
@@ -1492,6 +1512,13 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
         (r"(?<=전자레인지 )1분 30초(?=\.)", 90, "microwave_duration"),
         (r"(?<=스크린 타임 알림이 떴다\. 하루 )7시간 48분(?=\.)", 468, "screen_time_duration"),
         (r"(?<=스트레스성 편두통\. )한 달에 한두 번(?=은 온다\.)", 1, "monthly_headache_frequency"),
+        (r"^한두 잔(?=만 하고 일찍 빠진다$)", 1, "work_cup_range"),
+        (r"(?<=세 발짝 뒤에서 )두 동료(?=가 멈칫했다\.)", 2, "coworker_count"),
+        (r"(?<=오늘부터 )하루 3시간(?= 공부한다$)", 3, "study_daily_hours"),
+        (r"(?<=^자격증 시험 )D-14$", 14, "exam_countdown"),
+        (r"(?<=수강료는 )한 달(?=\s)", 1, "tuition_month"),
+        (r"30일을 한 번도 해본 적이 없다는(?= 게 마음에 걸린다\.)", 30, "never_course_days"),
+        (r"^한 곳(?=에 집중해서 자소서를 다듬는다$)", 1, "job_company_focus"),
     ):
         for match in re.finditer(pattern, source):
             if (kind == "per_person_bill" or kind in LIFE_SCENE_COUNTER_KINDS) and _has_numeric_sign_prefix(source, match.start()):
@@ -1514,6 +1541,8 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
         r"(?<![가-힣])(?P<number>한|두|세)\s+(?P<noun>약속|기록|빈칸|알림|창구|시각|곳|연락창|대상|마감|발행처|갈래|버전|화면|말풍선|첨부파일|전송 버튼|주소|숫자|출처|날짜|표지|의자|물건|결과|장부|뜻|문|도시)"
         r"(?=$|[\s.,!?…]|[은는이가의을를도와과만에]|이었다|였다)", source,
     ):
+        if any(match.start() < q.end and match.end() > q.start for q in quantities):
+            continue
         if match.group("noun") == "곳" and re.search(r"주소\s+$", source[:match.start()]):
             continue  # The existing address_count contract owns 주소 두 곳.
         if match.group("noun") == "약속" and match.group("number") == "한" \
@@ -1823,7 +1852,7 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
 def _target_pattern_for_kind(kind: str) -> re.Pattern[str]:
     counted_nouns = {
         "remaining_four_month": r"[個个]月",
-        "job_posting_count": r"(?:[則则]|[個个])(?:職缺|招聘信息|招聘資訊|招聘公告)",
+        "job_posting_count": r"(?:[則则條条]|[個个])(?:職缺|招聘信息|招聘資訊|招聘公告|徵才公告)",
         "egg_count": r"[顆颗個个](?:放了很久的|放很久的|陳舊的|陈旧的)?(?:雞蛋|鸡蛋|蛋)(?=\s*(?:$|[，。！？、：；,.!?;:」』）)]))",
         "task_count": r"[項项個个](?:總是做不完的|总是做不完的|總沒完成的|总没完成的)?(?:作業|作业|任務|任务)",
         "mirror_glance": r"眼",
@@ -1917,6 +1946,24 @@ def _target_pattern_for_kind(kind: str) -> re.Pattern[str]:
         return re.compile(rf"第(?P<number>{CHINESE_CARDINAL})(?:(?:套|[間间])房(?=\s*(?:$|[，。！？、：；,.!?;:」』）)]|的(?:租[約约]|合同)))|[間间]的租[約约])")
     if kind == "gangnam_attempt":
         return re.compile(rf"(?P<number>{CHINESE_CARDINAL})次|[闖闯](?P<once>一)[闖闯]")
+    if kind == "work_cup_range":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})(?:[~～至到-](?P<upper>{CHINESE_CARDINAL}))?(?P<work_unit>杯|罐|瓶|年)")
+    if kind == "coworker_count":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})[位名個个]?同事")
+    if kind == "subscription_count":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})[項项個个](?:不必要的)?(?:訂閱|订阅)服[務务]")
+    if kind == "study_daily_hours":
+        return re.compile(rf"(?P<period>每(?:{CHINESE_CARDINAL})?[個个]?(?:天|日|週|周|月|年|小時|小时|分鐘|分钟|秒))(?:學|学|讀|读|學習|学习)(?P<number>{CHINESE_CARDINAL})(?P<work_unit>[個个]?(?:小時|小时|分鐘|分钟|年))")
+    if kind == "exam_countdown":
+        return re.compile(rf"(?:倒[數数]|倒[計计][時时])(?P<number>{CHINESE_CARDINAL})(?P<work_unit>天|日|年|小時|小时)|D-(?P<countdown>{CHINESE_CARDINAL})")
+    if kind == "tuition_month":
+        return re.compile(rf"每(?P<number>{CHINESE_CARDINAL})?[個个]?(?P<work_unit>月|年|週|周|天|日|小時|小时|分鐘|分钟|秒)")
+    if kind == "never_course_days":
+        return re.compile(rf"(?:(?P<number>{CHINESE_CARDINAL})次(?:也|都)?(?P<negative>沒|没|未|已|曾|有|不)?(?:堅持滿|坚持满)|(?P<once>從沒|从没|從未|从未|曾經|曾经|從有|从有)(?:連續|连续)?做[滿满])(?P<course_days>{CHINESE_CARDINAL})(?P<work_unit>天|日|年)")
+    if kind == "job_company_focus":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})家(?:公司)?")
+    if kind == "read_mark_over_count":
+        return re.compile(rf"(?P<read_prefix>(?:已讀|已读|未讀|未读|已發|已发)(?:標記|标记|數|数)?(?:已經|已经)?(?:超過|超过|達到|达到|不足))(?P<number>{CHINESE_CARDINAL})(?:[個个])?")
     if kind == "microwave_duration":
         return re.compile(rf"(?P<number>{CHINESE_CARDINAL})分(?:鐘|钟)?\s*(?P<seconds>{CHINESE_CARDINAL})秒(?:鐘|钟)?")
     if kind == "screen_time_duration":
@@ -2164,6 +2211,37 @@ def _target_pattern_for_kind(kind: str) -> re.Pattern[str]:
     )
 
 
+def _work_quantity_valid(kind: str, match: re.Match[str], target: str) -> bool:
+    before, after = target[:match.start()], target[match.end():]
+    if re.search(r"(?:不到|不足|超過|超过|至少|至多|最多|最少|大約|大约|約|约|並非|并非|不是|不|沒有|没有)\s*$", before):
+        return False
+    if re.match(r"\s*(?:[%％倍萬万億亿兆]|以上|以下|左右|以內|以内|以外|多|半)", after):
+        return False
+    if kind == "coworker_count":
+        return bool(re.match(r"\s*(?:$|[，。！？、；,.!?;]|停|頓|顿)", after))
+    if kind == "job_posting_count":
+        return bool(re.match(r"\s*(?:$|[，。！？、；,.!?;]|讓|让|引起)", after))
+    if kind == "subscription_count":
+        return bool(re.search(r"取消(?:了)?\s*$", before) and re.match(r"\s*(?:$|[，。！？、；,.!?;])", after))
+    if kind == "job_company_focus":
+        return bool(re.search(r"(?:專注|专注|鎖定|锁定)\s*$", before) and re.match(r"\s*(?:$|[，。！？、；,.!?;])", after))
+    if kind == "study_daily_hours":
+        return match.group("period") in {"每天", "每日", "每一天", "每1天"} and match.group("work_unit") in {"小時", "小时", "個小時", "个小时"} and bool(re.match(r"\s*(?:$|[，。！？、；,.!?;])", after))
+    if kind == "exam_countdown":
+        return bool((match.group("countdown") or match.group("work_unit") in {"天", "日"}) and re.match(r"\s*(?:$|[，。！？、；,.!?;])", after))
+    if kind == "tuition_month":
+        return match.group("work_unit") == "月" and (not match.group("number") or _chinese_cardinal_value(match.group("number")) == 1) and bool(re.search(r"[學学][費费]\s*$", before) or re.match(r"\s*[學学][費费]", after))
+    if kind == "never_course_days":
+        negative = match.group("negative") in {"沒", "没", "未"} and _chinese_cardinal_value(match.group("number") or "") == 1
+        negative = negative or match.group("once") in {"從沒", "从没", "從未", "从未"}
+        return negative and match.group("work_unit") in {"天", "日"} and bool(re.match(r"\s*(?:$|[，。！？、；,.!?;])", after))
+    if kind == "work_cup_range":
+        return match.group("work_unit") == "杯" and bool(re.search(r"喝\s*$", before)) and bool(re.match(r"\s*(?:$|[，。！？、；,.!?;])", after))
+    if kind == "read_mark_over_count":
+        return bool(re.match(r"已[讀读]", match.group("read_prefix")) and match.group("read_prefix").endswith(("超過", "超过")) and re.match(r"\s*(?:了)?(?:$|[，。！？、；,.!?;])", after))
+    return True
+
+
 def _match_target_counter_quantities(
     target: str, source_quantities: list[CounterQuantity],
 ) -> tuple[list[CounterQuantity], list[str]]:
@@ -2179,8 +2257,12 @@ def _match_target_counter_quantities(
         for match in pattern.finditer(target, search_start):
             if any(match.start() < row.end and match.end() > row.start for row in matched):
                 continue
+            if expected.kind in WORK_SCENE_COUNTER_KINDS and not _work_quantity_valid(expected.kind, match, target):
+                continue
             if expected.kind in LIFE_SCENE_COUNTER_KINDS:
                 number_start = match.start("number") if match.group("number") else match.start()
+                if expected.kind == "exam_countdown":
+                    number_start = match.start()  # 倒數 is countdown, not a 數-prefix quantity.
                 if _has_numeric_sign_prefix(target, match.start()) or _has_numeric_sign_prefix(target, number_start):
                     continue
                 if re.match(r"(?:[秒歲岁米年月日天元度人位]|公里|小時|小时|分鐘|分钟|韓元|韩元)", target[match.end():].lstrip()):
@@ -2324,6 +2406,16 @@ def _match_target_counter_quantities(
                 # 一眼 is a glance after a seeing verb, not one physical eye.
                 continue
             value = _chinese_cardinal_value(match.group("number") or "")
+            if expected.kind == "work_cup_range":
+                lexical_range = match.group("number") in {"一兩", "一两"} and not match.group("upper")
+                numeric_range = value == 1 and _chinese_cardinal_value(match.group("upper") or "") == 2
+                value = Decimal(1) if lexical_range or numeric_range else None
+            if expected.kind == "exam_countdown" and match.group("countdown"):
+                value = _chinese_cardinal_value(match.group("countdown"))
+            if expected.kind == "tuition_month" and not match.group("number"):
+                value = Decimal(1)
+            if expected.kind == "never_course_days":
+                value = _chinese_cardinal_value(match.group("course_days"))
             if expected.kind in {"microwave_duration", "screen_time_duration"}:
                 minor = _chinese_cardinal_value(match.group("seconds" if expected.kind == "microwave_duration" else "minutes"))
                 value = value * 60 + minor if value is not None and minor is not None and 0 <= minor < 60 else None
@@ -2432,6 +2524,11 @@ def _unexpected_target_entity_errors(
     errors: list[str] = []
     for kind in {q.kind for q in source_quantities} & LIFE_SCENE_COUNTER_KINDS:
         for match in _target_pattern_for_kind(kind).finditer(target):
+            if kind == "job_posting_count" and any(
+                q.kind == "entity" and q.start == match.start()
+                and q.value == _chinese_cardinal_value(match.group("number")) for q in matched
+            ):
+                continue  # The separate source application count owns 兩個職缺.
             if not any(q.start <= match.start() and match.end() <= q.end for q in matched):
                 errors.append(f"unmatched life-scene quantity: {kind}")
     if any(q.kind == "monthly_headache_frequency" for q in source_quantities):
@@ -2852,6 +2949,13 @@ def _money_errors(lang: str, source: str, target: str) -> list[str]:
 
 def _untranslated_english_errors(source: str, target: str, *, catalog: bool = False) -> list[str]:
     scrubbed = PLACEHOLDER.sub(" ", target)
+    for source_pattern, romanized in WORK_SOURCE_BRANDS:
+        if source_pattern.search(source):
+            matches = list(_bounded_latin_matches(scrubbed, romanized))
+            if not matches:
+                return [f"source-bound work brand missing/changed: {romanized}"]
+            for match in reversed(matches):
+                scrubbed = scrubbed[:match.start()] + " " + scrubbed[match.end():]
     for pattern, romanized in RELATIONSHIP_SOURCE_NAMES:
         if pattern.search(source):
             for match in reversed(_bounded_latin_matches(scrubbed, romanized)):
@@ -3826,6 +3930,110 @@ def _daily_life_parser_self_test() -> tuple[int, list[str]]:
     return cases, failures
 
 
+def _work_scene_parser_self_test() -> tuple[int, list[str]]:
+    """Observed work/study clauses, with independent value and scope controls."""
+    cases, failures = 0, []
+
+    def check(source: str, target: str, valid: bool) -> None:
+        nonlocal cases
+        cases += 1
+        errors = _numeric_errors(source, target)
+        if bool(errors) == valid:
+            failures.append(f"work-scene expected valid={valid}: {source!r} -> {target!r}: {errors}")
+
+    fixtures = (
+        ("한두 잔만 하고 일찍 빠진다", "只喝一兩杯，早點離開", "一兩杯",
+         ("一杯", "兩杯", "十二杯", "一兩瓶")),
+        ("세 발짝 뒤에서 두 동료가 멈칫했다.", "三步外，兩位同事停頓了一下。", "兩位同事",
+         ("一位同事", "三位同事", "兩年同事", "兩位同事業者")),
+        ("불필요한 구독 서비스 2개를 해지했다. 작은 절약이 습관이 된다.", "取消了兩項不必要的訂閱服務。小小的節省，會變成習慣。", "兩項不必要的訂閱服務",
+         ("一項不必要的訂閱服務", "三項不必要的訂閱服務", "兩年不必要的訂閱服務", "兩項不必要的訂閱服務費")),
+        ("오늘부터 하루 3시간 공부한다", "從今天起，每天讀3個小時", "每天讀3個小時",
+         ("每月讀3個小時", "每兩天讀3個小時", "每天讀2個小時", "每天讀3分鐘")),
+        ("자격증 시험 D-14", "證照考試倒數14天", "倒數14天",
+         ("倒數13天", "倒數15天", "倒數14年", "倒數14天後")),
+        ("수강료는 한 달 25만원.", "每月學費25萬韓元。", "每月",
+         ("每年", "每兩月", "每週", "每天")),
+        ("스마트폰에 언어 학습 앱이 있다. 한 달 전에 깔았다가 3일 하고 그만뒀다.\n\n오늘 알림이 왔다. '돌아오세요. 30일 연속 달성하면 배지를 드려요.'\n\n배지 같은 건 필요 없지만 — 30일을 한 번도 해본 적이 없다는 게 마음에 걸린다.",
+         "手機裡有個語言學習App。一個月前裝的，做了3天就停了。\n\n今天收到通知：「回來吧。連續完成30天，就送你徽章。」\n\n不需要什麼徽章——可是在意的是，自己從沒連續做滿30天。", "從沒連續做滿30天",
+         ("曾經連續做滿30天", "從沒連續做滿29天", "從沒連續做滿31天", "從沒連續做滿30年")),
+        ("한 곳에 집중해서 자소서를 다듬는다", "專心鎖定一家公司，修好自傳", "一家公司",
+         ("兩家公司", "三家公司", "一家餐館", "一家公司債")),
+        ("읽은 표시가 120개를 넘어가고 있었다.", "已讀數已經超過120。", "已讀數已經超過120",
+         ("已讀數已經達到120", "已讀數已經不足120", "未讀數已經超過120", "已讀數已經超過121")),
+        ("공고 27개를 열었다가 닫았다. 지원한 건 2개.", "點開27則徵才公告，又關掉。應徵了兩個職缺。", "27則徵才公告",
+         ("26則徵才公告", "28則徵才公告", "27年徵才公告", "27則徵才公告費")),
+    )
+    for source, target, counted, wrong in fixtures:
+        check(source, target, True)
+        for changed in wrong:
+            check(source, target.replace(counted, changed), False)
+        # Keep the verb/source nouns when repeating a number, so an unrelated
+        # missing-action failure cannot pretend to reject quantity borrowing.
+        check(source, target + "，" + target, False)
+        for changed in wrong[:2]:
+            check(source, target.replace(counted, changed) + "，" + target, False)
+        for prefix in ("-", "−\t", "不到 "):
+            check(source, target.replace(counted, prefix + counted), False)
+        for suffix in (" 年", "\t%以上"):
+            check(source, target.replace(counted, counted + suffix), False)
+    for source, target in (
+        ("자격증 시험 D-14", "資格考試D-14"),
+        ("자격증 시험 D-14", "资格考试倒计时14天"),
+        ("한두 잔만 하고 일찍 빠진다", "只喝1~2杯，早点离开"),
+        ("오늘부터 하루 3시간 공부한다", "从今天起，每天学3个小时"),
+        ("수강료는 한 달 25만원.", "学费每月25万韩元。"),
+        ("30일을 한 번도 해본 적이 없다는 게 마음에 걸린다.", "一次也没坚持满30天。"),
+    ):
+        check(source, target, True)
+    # 一兩 is already the full 1–2 range, not a lower bound for a new range.
+    for counted in ("一兩杯", "一两杯", "1~2杯", "一至兩杯", "1-2杯"):
+        check("한두 잔만 하고 일찍 빠진다", "只喝" + counted + "，早點離開", True)
+    for counted in ("一兩至三杯", "一兩到十二杯", "一兩-三杯"):
+        check("한두 잔만 하고 일찍 빠진다", "只喝" + counted + "，早點離開", False)
+    # Witness the wrong payment/study period even when a valid later clause
+    # supplies the expected day/month; the earlier amount cannot borrow it.
+    for period in ("每小時", "每分鐘", "每秒"):
+        check("오늘부터 하루 3시간 공부한다", "從今天起，" + period + "讀三小時，每天讀3個小時", False)
+        check("수강료는 한 달 25만원.", period + "學費25萬韓元，每月學費。", False)
+    for source, kind in (
+        ("한두 잔의 약을 버린다", "work_cup_range"),
+        ("두 동료를 해고했다.", "coworker_count"),
+        ("불필요한 구독 서비스 2개월을 해지했다.", "subscription_count"),
+        ("오늘부터 하루 3시간 일한다", "study_daily_hours"),
+        ("자격증 시험 D+14", "exam_countdown"),
+        ("유효기간은 한 달 25만원.", "tuition_month"),
+        ("30일을 한 번도 해본 적이 있다는 게 마음에 걸린다.", "never_course_days"),
+        ("한 곳에 집중해서 서류를 버린다", "job_company_focus"),
+        ("읽은 표시가 120개에 도달했다.", "read_mark_over_count"),
+        ("공고 27개월을 열었다가 닫았다.", "job_posting_count"),
+    ):
+        cases += 1
+        if any(q.kind == kind for q in _source_counter_quantities(source)):
+            failures.append(f"work-scene source scope escaped: {source}")
+    # The monthly price still owns both its money amount and payment period.
+    check("수강료는 한 달 25만원.", "每月學費26萬韓元。", False)
+    check("수강료는 한 달 25만원.", "每月學費25美元。", False)
+    for source, target, terms in (
+        ("인크루트 앱을 다시 설치했다", "重新安裝Incruit App", ("Incruit",)),
+        ("잡코리아와 사람인을 번갈아 새로고침하고 있다.", "交替刷新JobKorea和Saramin。", ("JobKorea", "Saramin")),
+        ("파이썬 입문, 원래 49,900원이 1,900원.", "Python入門，原價49,900韓元，現價1,900韓元。", ("Python",)),
+    ):
+        cases += 1
+        if _untranslated_english_errors(source, target):
+            failures.append(f"work brand normal rejected: {target}")
+        for term in terms:
+            for changed in ("", term + "x", term + "_", "é" + term, term + "\u0301"):
+                cases += 1
+                if not _untranslated_english_errors(source, target.replace(term, changed)):
+                    failures.append(f"work brand boundary/deletion escaped: {changed!r}")
+    for source, target in (("평범한 사람인 줄 알았다.", "Saramin"), ("인크루트앱솔루트를 썼다.", "Incruit"), ("잡코리아인 줄 알았다.", "JobKorea"), ("파이썬독 입문이었다.", "Python")):
+        cases += 1
+        if not _untranslated_english_errors(source, target):
+            failures.append(f"work brand source false friend escaped: {source}")
+    return cases, failures
+
+
 def run_self_test(
     manifest: dict[str, Any], runtime: dict[str, Any],
 ) -> list[str]:
@@ -3835,6 +4043,9 @@ def run_self_test(
     daily_cases, daily_failures = _daily_life_parser_self_test()
     cases += daily_cases
     failures.extend(daily_failures)
+    work_cases, work_failures = _work_scene_parser_self_test()
+    cases += work_cases
+    failures.extend(work_failures)
 
     # Exact Korean-source catalogue names are not permission for unrelated
     # English prose or for deleting the noun around an allowed brand token.

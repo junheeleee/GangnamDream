@@ -23,6 +23,21 @@
 > [`7/25`](history/WORK_LOG_2026-07-25.md)에 손실 없이 보존한다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
 
+## 2026-09-08 (Codex — 직장·구직·자기계발 번역)
+
+- 직장25종194문구씩 JA·간체·번체를 KO 직접 저작하고 독립 전수 대조했다.
+  신규582·누적13,281번역, 기존12,699/meta9와 기존29행209문구를 보존했다.
+- CN 주체2·TW 과장/해석2·JA 답변 기회1문구를 정밀화했다.
+  D-14·반복 기간·수량/단위·구직 서비스 이름의 실제 검사 오탐만 문맥에 결속했다.
+  자동 검사와 독립 원문 대조는 원어민·화면 판정 대체가 아니다.
+- 실제 지원·회신·승진·합격을 보존하고 미저장 사직서/미완강은 완성으로 키우지
+  않았다. 초기 source3·최종 source/response/receipt PASS·changed_files0.
+- 완료175기록954bytes를 기존 history 앞으로 원문 이동했고 끝 개행도 보존했다.
+  검수행은 동일 활성 이어보기의 [~]·L3 OPEN으로 남는다.
+- KO/EN·runtime·공개·fonts·save·human_gates 변경0, 원본 checkout 쓰기0.
+  전체 INCOMPLETE·full/main/product HOLD·원어민/화면 OPEN·출시 데모 GO 유지.
+  [수용·검사 상세](queue_active/ORDER-178.md)에 사실 경계와 지문을 남긴다.
+
 ## 2026-09-08 (Codex — 고시원·출퇴근·건강 번역)
 
 - 생활25종176문구씩 JA·간체·번체를 KO 직접 저작하고 독립 전수 대조했다.
@@ -58,19 +73,6 @@
   [수용·검사 상세](queue_active/ORDER-176.md)에 사실 경계와 지문을 남긴다.
 - 최종 표적12개·별도 EN·diff PASS, portable12,171 source/hash/L1 오류0.
   실제 차선 stdout은 git-private order176-final-checks.log에 보존했다.
-
-## 2026-09-07 (Codex — 현지화 검수 대기 큐 이어보기)
-
-- 번역 검수 대기16행을 동일 활성 인덱스의 이어보기로 원문 이동했다. 이 운영
-  수리만 보관하고 기존38행의 순번·이름·상태·게이트를 그대로 복원했다.
-  목록·현황이 같은 reader를 읽으며 누락·중복·잘못된 완료를 거부한다.
-- 독립 리뷰가 찾은 코드블록 검사 사각4종을 수리했다. self25+하위4 PASS,
-  이전 부팅/사양 예산은 유지하고 이어보기만16,000bytes로 관리한다.
-  [사양](queue_archive/ORDER-175.md)에 보존 지문과 승격/일회성 판정을 남겼다.
-- 번역11,616/meta9·제품·human_gates 변경0, 원본 checkout 쓰기0.
-  전체 INCOMPLETE·full/main/product HOLD·L3/원어민/화면 OPEN·출시 데모 GO 유지.
-- 최종38행 raw byte-exact·표적7개·diff PASS. 실제 stdout은
-  git-private order175-final-checks.log에 보존했다.
 
 ## 2026-09-05 (Codex — ORDER-156 Chapter 5 생활 routine 배경 수리 선언)
 

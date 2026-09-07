@@ -494,6 +494,15 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
                 value = match.group()
                 if value.startswith("一"):
                     target_numbers = target_numbers[:match.start()] + "1" + value[1:] + target_numbers[match.end():]
+        # This exam title uses D-14 as days remaining, not negative fourteen.
+        # Bind the complete countdown title so days cannot turn into hours,
+        # an elapsed interval, or a number borrowed from another clause.
+        if leaf.source == "자격증 시험 D-14":
+            if not re.fullmatch(r"資格試験(?:まであと(?:14|十四)日|\s+D-14)", text):
+                errors.append("source-bound exam countdown days mismatch")
+            else:
+                source_numbers = source_numbers.replace("D-14", "14")
+                target_numbers = target_numbers.replace("D-14", "14").replace("十四日", "14日")
         # Observed life-event native time expressions. Bind clock phase or
         # elapsed-time relation, then keep the value in the ordered stream.
         # This is deliberately not a waiver for arbitrary written numerals.
