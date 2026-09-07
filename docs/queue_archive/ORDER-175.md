@@ -1,8 +1,8 @@
-# Active Queue Spec: ORDER-175
+# Archived Queue Spec: ORDER-175
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-175 [현지화 운영 수리] 활성 검수 대기 행을 손실 없이 이어보기로 옮긴다
+#### [x] ORDER-175 [현지화 운영 수리] 활성 검수 대기 행을 손실 없이 이어보기로 옮긴다
 
 **[~] 2026-09-07 Codex 착수 — 아래 큐 저장·읽기 경로만 소유한다.**
 전체판 번역을 진행하며 큐가12,979/13,000bytes에 닿았다. L1/L2가 끝나도
@@ -49,3 +49,23 @@ KO/EN/JA/ZH·모든 제품·원장·런타임·공개·fonts/save·human_gates�
 
 지속되는 파일 읽기 형식은 CODEX_QUEUE의 인덱스 절이 소유한다. 위 이동과 선언·
 검증 범위는 일회성이며 새로운 사람 승인 규칙은 없다.
+
+## 완료 — 2026-09-07
+
+- 선언36d286dc42a5243bc7f5596a38be56ff6f229d4d 뒤16행1,882bytes를 정확 이동했다.
+  이동 SHA ef3dd430c805d81d0077459ed7bdbe6462d287528b06460c720e7e0e7d2c0f21,
+  선언39행 SHA87bf062ce36fefdeeac7022fe7ef1c8af50b52d582447d416a2b83189c4af8d1,
+  old/new dashboard39 값도 정확 일치했다. 독립 검토 blocker0이다.
+- 코드블록 전체·제목 전 열림·짧은 마감·다른 문자 마감4개의 검사 사각을 발견해
+  문서 시작부터 fence 문자/길이를 추적하도록 수리했다. 25 fixture+4 subcase PASS,
+  정상 preamble3형태도 허용한다. 원문 행을 정렬하거나 판정을 자동 변경하지 않는다.
+- 이 운영 수리만 완료 보관한다. 번역 검수16건은 active 사양과 이어보기에 남으며
+  L3 OPEN이다. 기존38행의 순번·이름·상태·링크·게이트를 선언 전으로 복원한다.
+- 승격: docs/CODEX_QUEUE.md:실행 오더 인덱스 — 동일 큐 이어보기의 파일 읽기 형식.
+  선언·원문 이동·수리 범위와 증거 절차는 일회성이다. 새 사람 승인 규칙은 없다.
+  기존 번역11,616/meta9·human_gates·제품 바이트 불변이며 전체 INCOMPLETE·
+  full/main/product HOLD·원어민/화면 OPEN·출시 데모 사용자 GO를 유지한다.
+- 최종38행4,476bytes는 수리 전 a1287bb의 raw 행과 정확히 같다.
+  SHA7944df5490d1d57a6ebd3e4e1c9d1bc719dd2ed797ca2181bbc821819d16e260.
+  primary11,569/13,000·이어보기2,277/16,000bytes, 최종 표적7개·diff PASS다.
+  실제 stdout은 git-private order175-final-checks.log에 보존했다.

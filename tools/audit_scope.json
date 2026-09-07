@@ -14,6 +14,52 @@
   ],
   "fast_lanes": [
     {
+      "id": "queue-continuation",
+      "paths": [
+        "tools/queue_index.py",
+        "tools/queue_index_self_test.py",
+        "tools/queue_consistency_check.py",
+        "tools/project_dashboard.py",
+        "tools/context_manifest_check.py",
+        "docs/context_manifest.json",
+        "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md",
+        "CLAUDE.md",
+        "docs/WORK_LOG.md",
+        "docs/STATUS.md",
+        "docs/queue_active/ORDER-175.md",
+        "docs/queue_archive/ORDER-175.md",
+        "docs/queue_archive/CODEX_QUEUE_2026-09.md",
+        "tools/audit_scope.json"
+      ],
+      "owned_paths": [
+        "tools/queue_index.py",
+        "tools/queue_index_self_test.py",
+        "tools/queue_consistency_check.py",
+        "tools/project_dashboard.py",
+        "tools/context_manifest_check.py",
+        "docs/context_manifest.json",
+        "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md",
+        "CLAUDE.md",
+        "docs/WORK_LOG.md",
+        "docs/STATUS.md",
+        "docs/queue_active/ORDER-175.md",
+        "docs/queue_archive/ORDER-175.md",
+        "docs/queue_archive/CODEX_QUEUE_2026-09.md",
+        "tools/audit_scope.json"
+      ],
+      "tools": [
+        "tools/queue_index_self_test.py",
+        "tools/queue_consistency_check.py",
+        "tools/context_manifest_check.py",
+        "tools/project_dashboard.py --md docs/STATUS.md --check",
+        "tools/human_gates.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "단일 활성 큐의 손실 없는 이어보기와 두 consumer·예산·사람 게이트 보존만 검사한다. 제품·번역·런타임·Godot 검사가 아니다"
+    },
+    {
       "id": "story-map",
       "paths": [
         "content/meta/story_map.json",
@@ -252,6 +298,7 @@
         "tools/i18n_coverage_check.py",
         "CLAUDE.md",
         "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md",
         "docs/DECISIONS.md",
         "docs/I18N_INFRASTRUCTURE.md",
         "docs/WORK_LOG.md",
@@ -678,7 +725,8 @@
         "docs/**",
         "CLAUDE.md",
         "AGENTS.md",
-        "docs/context_manifest.json"
+        "docs/context_manifest.json",
+        "tools/context_manifest_check.py"
       ]
     },
     {
@@ -3110,7 +3158,9 @@
         "docs/human_gates.json",
         "docs/STATUS.md",
         "tools/project_dashboard.py",
-        "tools/*_baseline.json"
+        "tools/*_baseline.json",
+        "docs/CODEX_QUEUE_L3_PENDING.md",
+        "tools/queue_index.py"
       ]
     },
     {
@@ -3122,7 +3172,8 @@
         "docs/queue_active/**",
         "docs/queue_backlog/**",
         "docs/queue_archive/**",
-        "tools/human_gates.py"
+        "tools/human_gates.py",
+        "docs/CODEX_QUEUE_L3_PENDING.md"
       ]
     },
     {
@@ -3133,7 +3184,9 @@
         "docs/queue_active/**",
         "CLAUDE.md",
         "docs/HANDOFF.md",
-        "tools/queue_consistency_check.py"
+        "tools/queue_consistency_check.py",
+        "docs/CODEX_QUEUE_L3_PENDING.md",
+        "tools/queue_index.py"
       ]
     },
     {
@@ -3143,6 +3196,21 @@
         ".codex/skills/**",
         "AGENTS.md",
         ".codex/agents/**"
+      ]
+    },
+    {
+      "tool": "tools/queue_index_self_test.py",
+      "why": "큐 이어보기의 행 보존·경로 안전·거짓 L3 완료·두 consumer·별도 예산 회귀",
+      "paths": [
+        "tools/queue_index.py",
+        "tools/queue_index_self_test.py",
+        "tools/queue_consistency_check.py",
+        "tools/project_dashboard.py",
+        "tools/context_manifest_check.py",
+        "docs/context_manifest.json",
+        "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md",
+        "tools/audit_scope.json"
       ]
     }
   ]

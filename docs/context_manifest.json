@@ -39,6 +39,11 @@
       "max_bytes": 16000,
       "_comment": "활성 오더는 Codex가 매 세션 통째로 읽는다. 넘으면 완료 단계를 queue_archive/ 로 내리거나 부모 계획을 queue_backlog/ 로 옮기고 실행 조각을 나눈다.",
       "exceptions": {}
+    },
+    "queue_continuation": {
+      "path": "docs/CODEX_QUEUE_L3_PENDING.md",
+      "max_bytes": 16000,
+      "_comment": "CODEX_QUEUE의 명시적 이어보기 위치에서 읽는 동일 활성 인덱스. 별도 승인·우선순위 정본이나 완료 보관본이 아니다."
     }
   },
   "authority_order": [
@@ -266,6 +271,7 @@
   "document_groups": {
     "boot_and_queue": [
       "docs/CODEX_QUEUE.md",
+      "docs/CODEX_QUEUE_L3_PENDING.md",
       "docs/CONTEXT_INDEX.md",
       "docs/HANDOFF.md",
       "docs/PROPOSALS.md",
@@ -366,6 +372,7 @@
     "CLAUDE.md",
     "docs/CONTEXT_INDEX.md",
     "docs/CODEX_QUEUE.md",
+    "docs/CODEX_QUEUE_L3_PENDING.md",
     "docs/queue_active/*.md",
     "docs/queue_backlog/*.md",
     ".codex/skills/gangnamdream-dev/SKILL.md"

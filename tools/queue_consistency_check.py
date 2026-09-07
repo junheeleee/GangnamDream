@@ -7,57 +7,27 @@ import re
 import sys
 from pathlib import Path
 
+from queue_index import QueueIndexError, read_queue_index
 
 ROOT = Path(__file__).resolve().parents[1]
-QUEUE = ROOT / "docs/CODEX_QUEUE.md"
-ACTIVE = ROOT / "docs/queue_active"
-CLAUDE = ROOT / "CLAUDE.md"
-HANDOFF = ROOT / "docs/HANDOFF.md"
 
-ROW_RE = re.compile(
-    r"^\|\s*(\d+)\s*\|\s*\[([ ~x])\]\s*\|\s*"
-    r"(ORDER-\d+)\s*·[^|]*\|\s*\[[^]]+\]\((queue_active/([^)]+)\.md)\)\s*\|"
-)
 HEADER_RE = re.compile(r"^####\s+\[([ ~x])\]\s+(ORDER-\d+)\b", re.MULTILINE)
 BATCH_RE = re.compile(r"^##\s+배치(?:\s|$)", re.MULTILINE)
 
 
-def execution_section(text: str) -> str:
-    marker = "### 실행 오더 인덱스"
-    start = text.find(marker)
-    if start < 0:
-        return ""
-    end = text.find("\n### ", start + len(marker))
-    return text[start:] if end < 0 else text[start:end]
-
-
-def main() -> int:
+def main(root: Path = ROOT) -> int:
     errors: list[str] = []
-    if not QUEUE.is_file():
-        print("QUEUE_CONSISTENCY_FAIL — docs/CODEX_QUEUE.md 없음")
+    try:
+        index = read_queue_index(root)
+    except QueueIndexError as exc:
+        print(f"QUEUE_CONSISTENCY_FAIL — {exc}")
         return 1
-
-    section = execution_section(QUEUE.read_text(encoding="utf-8"))
-    if not section:
-        errors.append("CODEX_QUEUE에 '실행 오더 인덱스' 절이 없다")
-
-    rows: list[tuple[int, str, str, str]] = []
-    for line in section.splitlines():
-        match = ROW_RE.match(line)
-        if match:
-            rows.append((int(match.group(1)), match.group(2), match.group(3), match.group(5)))
-
-    if not rows:
-        errors.append("실행 오더 행을 읽지 못했다")
-    sequences = [row[0] for row in rows]
-    if sequences != list(range(1, len(rows) + 1)):
-        errors.append(f"실행 순서가 1부터 연속이 아니다: {sequences}")
-
+    rows = [(row.seq, row.state, row.order_id, row.spec_stem) for row in index]
     row_ids = [row[2] for row in rows]
     if len(row_ids) != len(set(row_ids)):
         errors.append(f"실행 큐에 중복 ID가 있다: {row_ids}")
 
-    active_files = {path.stem: path for path in sorted(ACTIVE.glob("*.md"))}
+    active_files = {path.stem: path for path in sorted((root / "docs/queue_active").glob("*.md"))}
     if set(row_ids) != set(active_files):
         missing_rows = sorted(set(active_files) - set(row_ids))
         missing_specs = sorted(set(row_ids) - set(active_files))
@@ -89,8 +59,9 @@ def main() -> int:
             errors.append(
                 f"{order_id}: 활성 사양이 {batches}배치다 — 부모 계획으로 내리고 1~2배치로 나눈다")
 
-    claude = CLAUDE.read_text(encoding="utf-8") if CLAUDE.is_file() else ""
-    handoff = HANDOFF.read_text(encoding="utf-8") if HANDOFF.is_file() else ""
+    claude_path, handoff_path = root / "CLAUDE.md", root / "docs/HANDOFF.md"
+    claude = claude_path.read_text(encoding="utf-8") if claude_path.is_file() else ""
+    handoff = handoff_path.read_text(encoding="utf-8") if handoff_path.is_file() else ""
     if "실행 우선순위·상태의 단일 정본" not in claude:
         errors.append("CLAUDE.md가 CODEX_QUEUE의 우선순위·상태 단일 소유권을 말하지 않는다")
     if "실행 순서·상태는" not in handoff or "CODEX_QUEUE.md" not in handoff:

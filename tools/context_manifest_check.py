@@ -72,7 +72,7 @@ def validate_path_references(manifest: dict[str, Any], errors: list[str]) -> Non
 def validate_budgets(manifest: dict[str, Any], errors: list[str]) -> None:
     boot = manifest.get("boot", {})
     budget_entries = list(boot.get("required", []))
-    for key in ("router", "recent_log", "handoff"):
+    for key in ("router", "recent_log", "handoff", "queue_continuation"):
         entry = boot.get(key)
         if isinstance(entry, dict):
             budget_entries.append(entry)

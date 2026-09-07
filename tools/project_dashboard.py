@@ -21,6 +21,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from queue_index import read_queue_index
 ROOT = Path(__file__).resolve().parents[1]
 
 
@@ -64,17 +65,13 @@ def read_text(rel: str) -> str:
 def orders() -> list[dict[str, str]]:
     """Queue index rows. The table is the canonical status, so parse the table."""
     out: list[dict[str, str]] = []
-    for line in read_text("docs/CODEX_QUEUE.md").splitlines():
-        m = re.match(r"^\|\s*(\d+)\s*\|\s*\[([ ~x])\]\s*\|\s*([^|]+)\|([^|]*)\|(.*)\|\s*$", line)
-        if not m:
-            continue
-        title = m.group(3).strip()
+    for row in read_queue_index(ROOT):
         out.append({
-            "seq": m.group(1),
-            "state": {" ": "미착수", "~": "진행", "x": "완료"}[m.group(2)],
-            "id": title.split("·")[0].strip(),
-            "title": ("·".join(title.split("·")[1:]) or title).strip(),
-            "gate": re.sub(r"\*\*|`|\[[^\]]*\]\([^)]*\)", "", m.group(5)).strip(),
+            "seq": str(row.seq),
+            "state": {" ": "미착수", "~": "진행", "x": "완료"}[row.state],
+            "id": row.order_id,
+            "title": row.title,
+            "gate": re.sub(r"\*\*|`|\[[^\]]*\]\([^)]*\)", "", row.gate).strip(),
         })
     return out
 
