@@ -23,6 +23,25 @@
 > [`7/25`](history/WORK_LOG_2026-07-25.md)에 손실 없이 보존한다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
 
+## 2026-09-08 (Codex — 월세·첫 월급·가족 기억 번역)
+
+- 생활25종185문구씩 JA·간체·번체를 한국어 직접 저작하고 독립 전수 대조했다.
+  신규555·누적12,171번역이며 기존11,616/meta9와 공개 baseline을 보존했다.
+- 중개사 질문 화자와 떠나는 진행상·과제 범위를 정밀화했다. 월세 예약≠이체,
+  살아 있는/별세 아버지, 실제 계약·답장·만남은 원문 그대로 옮겼다.
+  금액 불일치와 선택52개의 기능 괄호는 별도 원문 부채다.
+- JA 원화/달력·인원, ZH 생활수량/브랜드 문맥 오탐을 수리했다. 독립 검토에서
+  다다음 달·명사 잘림·단위/기간 변조 경계를 보완했다. 일반 수사·Unicode 의미의
+  완전 자동검사는 아니며 사람 판정을 대신하지 않는다.
+- 최초 source3 보존, 최종 source/response/receipt PASS·changed_files0.
+  완료172·173 기록3,010bytes는 기존 history 앞으로 원문 이동했다.
+  활성 검수행은 같은 큐 이어보기로 이동했으며 상태는 [~]·L3 OPEN이다.
+- KO/EN·runtime·공개·fonts·save·human_gates 변경0, 원본 checkout 쓰기0.
+  전체 INCOMPLETE·full/main/product HOLD·원어민/화면 OPEN·출시 데모 GO 유지.
+  [수용·검사 상세](queue_active/ORDER-176.md)에 사실 경계와 지문을 남긴다.
+- 최종 표적12개·별도 EN·diff PASS, portable12,171 source/hash/L1 오류0.
+  실제 차선 stdout은 git-private order176-final-checks.log에 보존했다.
+
 ## 2026-09-07 (Codex — 현지화 검수 대기 큐 이어보기)
 
 - 번역 검수 대기16행을 동일 활성 인덱스의 이어보기로 원문 이동했다. 이 운영
@@ -50,43 +69,6 @@
 
 - 최종12개 표적 차선·별도 EN·diff PASS, portable11,616 source/hash/L1 오류0.
   실제 차선 stdout은 git-private order174-final-checks.log에 보존했다.
-
-## 2026-09-07 (Codex — 남은 관계·부모 대화 세 언어 수용)
-
-- 남은15사건/94문구씩282개를 KO 직접 저작·독립 전수 대조했다. CN3곳의
-  문법·대여 방향·관계망 의미를 정밀화했다. 기존50행/언어와11,334/meta9를
-  보존해 총11,616문구다. 초기source3 보존, 최종source/response/receipt3쌍
-  check/import PASS·changed_files0, checksum `d509e7c9…0a3548`이다.
-- 실제 기간 초과·부재중 전화·식사 초대 오탐을 원문 문맥에 결속하고 정상/변조
-  fixture를 보강했다. self163 PASS, 원문 주체·괄호23·계좌 전달·생사 부채는
-  별도 기록했다. 직전172의 다은 일본어 말투2곳은 용어집과 충돌함을 발견해
-  권고를 철회했으며 기존380을 보존하는 이번 배치 밖의 정확2 leaf 수리로 분리했다.
-- 완료170절1,331bytes를 기존 history 앞으로 원문 이동했다. 선언 때 완료
-  L1/L2 수량의 이전 큐14행도 원문 보관했고, 모든 활성 행·이름·[~]·L3 OPEN은
-  유지했다. KO/EN·runtime·공개·폰트·저장·human_gates 변경0, 원본 checkout
-  쓰기0이다. [사양](queue_active/ORDER-173.md)에 지문·경계를 남겼다.
-  L3·원어민·화면 OPEN, 전체 INCOMPLETE·full/main/product HOLD·출시 데모 GO.
-- 최종12개 표적 차선·EN·diff PASS, portable11,616 source/hash/L1 오류0이다.
-  차선 실제 stdout을 git-private `order173-final-checks.log`에 보존했다.
-
-## 2026-09-07 (Codex — 가족·직장·친구 세 언어 수용)
-
-- 50사건/380문구씩1,140개를 KO 직접 저작하고 known2/언어까지 독립 대조했다.
-  JA6·CN2·TW4곳의 진심·눈빛·몸의 은유·말투·방문 빈도·부정 범위를 고쳐
-  재검증했다. 원문 역할·생사·금액·답장·도달성 부채는 별도 기록했다.
-- 최초6source를 보존하고 최종6source/response/receipt check/import PASS,
-  changed_files0이다. 기존10,194/meta9·oldbatch23 보존, 총11,334문구이며
-  portable checksum `f50bf081…566449`, source manifest는 불변이다.
-- 수량·원화·이름 오탐을 원문 문맥에 결속했다. 독립 리뷰가 찾은 Unicode 이름
-  경계·지수연 오인·음수 1인당 소실을 수정했다. self160·ZH935 PASS다.
-  기존 후행 단위/의미 검사 한계와 strict 출시 조건25 OPEN은 회귀와 분리했다.
-- 완료169절892bytes를 기존 history 앞으로 원문 이동하고 이전16,159bytes와
-  끝 개행을 보존했다. KO/EN·runtime·공개·폰트·저장·human_gates 변경0,
-  원본 checkout 쓰기0이다. [사양](queue_active/ORDER-172.md)에 정확 지문과
-  경계를 남겼다. L3·원어민·화면 OPEN, 전체 INCOMPLETE·full/main/product HOLD,
-  출시 데모 GO 유지. 다음 남은 가족·관계 배치를 이어간다.
-- 최종12개 표적 차선·EN·diff PASS, portable11,334 source/hash/L1 오류0이다.
-  실제 차선 stdout을 git-private `order172-final-checks.log`에 보존했다.
 
 ## 2026-09-05 (Codex — ORDER-156 Chapter 5 생활 routine 배경 수리 선언)
 

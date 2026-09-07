@@ -161,6 +161,58 @@ class ExchangeTests(unittest.TestCase):
             leaf = tool.Leaf('events', 'example', 'content/events/arc_midgame.json', ('description',), source, 'event_standard')
             self.assertTrue(tool.translation_errors(leaf, 'ja', target), (source, target))
 
+    def test_life_japanese_thousand_won_fee_preserves_value_and_owner(self):
+        source = '치킨 2만 원에 배달비 4천 원 — 컵라면은 1,200원.'
+        good = 'チキン2万ウォンに配達料4千ウォン――カップ麺は1,200ウォン。'
+        leaf = tool.Leaf('events', 'example', 'content/events/life_events2.json', ('description',), source, 'event_standard')
+        self.assertEqual(tool.translation_errors(leaf, 'ja', good), [])
+        for bad in (
+            good.replace('4千', '4百'), good.replace('4千', '4万'),
+            good.replace('4千ウォン', '4千円'), good.replace('4千ウォン', '4千ウォン円'),
+            good.replace('4千', '-4千'), good.replace('4千', '+4千'),
+            good.replace('4千', '−4千'), good.replace('4千', '負4千'),
+            good.replace('4千', '十 4千'), good + '4千ウォン。',
+            good.replace('2万ウォンに配達料4千', '4千ウォンに配達料2万'),
+            good.replace('1,200', '1,300'),
+        ):
+            self.assertTrue(tool.translation_errors(leaf, 'ja', bad), bad)
+        for source, good, bad in (
+            ('-4천 원', '-4千ウォン', '4千ウォン'),
+            ('+4천 원', '+4千ウォン', '4千ウォン'),
+            ('4천 원과 3천 원', '4千ウォンと3千ウォン', '3千ウォンと4千ウォン'),
+        ):
+            leaf = tool.Leaf('events', 'example', 'content/events/life_events2.json', ('description',), source, 'event_standard')
+            self.assertEqual(tool.translation_errors(leaf, 'ja', good), [], source)
+            self.assertTrue(tool.translation_errors(leaf, 'ja', bad), bad)
+
+    def test_life_japanese_source_bound_calendar_and_person_fee(self):
+        source = '다음 달 셋째 주 토요일. 1인 5만 원'
+        leaf = tool.Leaf('events', 'example', 'content/events/life_events2.json', ('description',), source, 'event_standard')
+        good = '来月の第3週の土曜日。一人5万ウォン'
+        for target in (good, good.replace('第3', '第三'), good.replace('一人', '1人'),
+                       good.replace('一人', '一人当たり'), good.replace('の', '')):
+            self.assertEqual(tool.translation_errors(leaf, 'ja', target), [], target)
+        for bad in (
+            good.replace('第3週の土曜日', '第3土曜日'), good.replace('第3', '第4'),
+            good.replace('第3', '第十三'), good.replace('第3', '第−3'),
+            good.replace('土曜日', '日曜日'), good.replace('来月', '今月'),
+            good.replace('来月', '再来月'), good.replace('来月', '再 来月'),
+            good.replace('来月の第3', '再来月の第三'),
+            good.replace('週', '日'), good + '。来月の第3週の土曜日',
+            good.replace('一人', '二人'), good.replace('一人', '十一人'),
+            good.replace('一人', '十 一人'), good.replace('一人', '負一人'),
+            good.replace('一人', '+一人'), good.replace('一人', '−一人'),
+            good.replace('一人', ''), good.replace('一人', '一日'),
+            good.replace('5万', '6万'), good.replace('5万', '+5万'),
+            good.replace('ウォン', '円'), good.replace('ウォン', 'ウォン円'),
+            good + '、一人5万ウォン',
+        ):
+            self.assertTrue(tool.translation_errors(leaf, 'ja', bad), bad)
+        for absent_source in ('다음 달 토요일. 1인 5만 원', '다음 달 셋째 주 토요일. 5만 원',
+                              '다음 달 셋째 주 토요일. 11인 5만 원', '다음 달 셋째 주 토요일. -1인 5만 원'):
+            leaf = tool.Leaf('events', 'example', 'content/events/life_events2.json', ('description',), absent_source, 'event_standard')
+            self.assertTrue(tool.translation_errors(leaf, 'ja', good), absent_source)
+
     def test_final_year_ordinal_version_and_source_document(self):
         for source, target in (('열한 번째 장에', '第十一頁'), ('여섯 번째 장면', '第六個場景'), ('첫 번째 장면', '第一個場景'), ('두 버전의 모서리', '兩個版本的邊角'), ('R3 원문이 있었다.', '有R3原文。')):
             leaf = tool.Leaf('events', 'example', 'content/events/arc_midgame.json', ('description',), source, 'event_standard')

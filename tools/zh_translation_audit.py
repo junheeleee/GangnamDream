@@ -213,6 +213,11 @@ CATALOG_YOUNG_ADULT_SOURCES = frozenset({
 })
 CHINESE_CARDINAL = r"(?:\d[\d,]*|[零〇○一二两兩三四五六七八九十百千]+)"
 NUMERIC_PREFIX_CHARACTERS = "0-9零〇○一二两兩三四五六七八九十百千萬万億亿兆数數點点.＋+−﹣－負负-"
+LIFE_SCENE_COUNTER_KINDS = frozenset({
+    "remaining_four_month", "job_posting_count", "egg_count", "task_count",
+    "rental_home_ordinal", "mirror_glance", "gangnam_attempt",
+    "university_year", "restaurant_per_person", "underground_exit",
+})
 TARGET_COUNTER_FORMS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("duration_hour", ("個小時", "个小时", "小時", "小时")),
     ("duration_month", ("個月", "个月")),
@@ -913,7 +918,8 @@ def _script_errors(lang: str, target: str) -> list[str]:
 def _source_scoped_term_present(source: str, korean: str) -> bool:
     if korean in {"링크드인", "인스타", "인스타그램", "슬랙"}:
         return bool(re.search(
-            rf"(?<![가-힣]){re.escape(korean)}(?=$|[\s.,!?…]|[은는이가의을를와도]|에서)",
+            rf"(?<![가-힣]){re.escape(korean)}(?=$|[\s.,!?…]|"
+            r"(?:에서|[은는이가의을를와도에])(?=$|[\s.,!?…\x22\x27”’]))",
             source,
         ))
     if korean in {"이민서", "민서"}:
@@ -1143,6 +1149,8 @@ def _chinese_cardinal_value(raw: str) -> Decimal | None:
 
 def _ordinal_kind(source: str, end: int) -> str:
     following = source[end:].lstrip()
+    if following.startswith("집을 계약한다."):
+        return "rental_home_ordinal"
     if re.match(r"장(?=$|[\s.,!?…]|[은는이가의를와도]|에는|에서)", following):
         return "ordinal_sheet"  # A page, never the prefix of 장면 (scene).
     if re.match(r"(?:전화|통화)(?=$|[\s.,!?…]|[은는이가의를와도])", following):
@@ -1160,6 +1168,16 @@ def _source_counter_kind(
 ) -> str:
     following = source[match.end():].lstrip()
     preceding = source[max(0, match.start() - 120):match.start()]
+    if counter == "개" and re.match(r"\.(?:\s|$)", following):
+        for noun, kind in (("공고", "job_posting_count"), ("달걀", "egg_count"), ("과제", "task_count")):
+            if re.search(rf"(?<![가-힣]){noun}\s+$", preceding):
+                return kind
+    if counter == "번" and preceding.endswith("룸미러로 ") and following.startswith("보더니 말을 걸었다."):
+        return "mirror_glance"
+    if counter == "번" and preceding.endswith("강남 ") and following.startswith("가보겠다고 했는데."):
+        return "gangnam_attempt"
+    if counter == "번" and preceding.endswith("지하 ") and following == "출구":
+        return "underground_exit"
     if counter == "달" and preceding.endswith("생각해보니 ") and following.startswith("이 넘었다"):
         return "duration_month_over"
     if counter == "번" and preceding.endswith("부재중 ") and re.match(r"\.(?:\s|$)", following):
@@ -1456,9 +1474,14 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
         (r"(?<![가-힣\d])1인당(?=\s)", 1, "per_person_bill"),
         (r"(?<=자기소개서 )세 군데(?=를 고쳤다)", 3, "resume_edit_place"),
         (r"(?<![가-힣])두 이야기(?=는, 그 지점에서)", 2, "story_pair"),
+        (r"(?<=끝까지 )넉 달(?=이 남아 있었다\.)", 4, "remaining_four_month"),
+        (r"(?<=대학교 )2학년(?= 때 쓴 것 같다\.)", 2, "university_year"),
+        # Money is masked before counter matching; the restaurant clause
+        # still binds this singular per-person price, not arbitrary 1인.
+        (r"(?<=식당\. )1인(?=\s)", 1, "restaurant_per_person"),
     ):
         for match in re.finditer(pattern, source):
-            if kind == "per_person_bill" and _has_numeric_sign_prefix(source, match.start()):
+            if (kind == "per_person_bill" or kind in LIFE_SCENE_COUNTER_KINDS) and _has_numeric_sign_prefix(source, match.start()):
                 continue  # Never mask the unsigned tail of a signed/fractional source count.
             quantities.append(CounterQuantity(match.start(), match.end(), Decimal(value), kind))
     if "삼각김밥" in source:
@@ -1611,9 +1634,12 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
             else _source_counter_value(raw)
         )
         if value is not None:
+            kind = _ordinal_kind(source, match.end())
+            if kind in LIFE_SCENE_COUNTER_KINDS and _has_numeric_sign_prefix(source, match.start()):
+                continue
             quantities.append(CounterQuantity(
                 match.start(), match.end(), value,
-                _ordinal_kind(source, match.end()),
+                kind,
             ))
     first_unit_kinds = {
         "줄": "line", "장": "sheet", "통화": "occurrence", "주": "week",
@@ -1648,6 +1674,8 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
             if match.group("number") == "한" and match.group("counter") == "일":
                 continue
             if value is None or not kind:
+                continue
+            if kind in LIFE_SCENE_COUNTER_KINDS and _has_numeric_sign_prefix(source, match.start()):
                 continue
             end = match.end()
             # The story corpus contains 1년 반 and 두 달 반. Half a period
@@ -1781,6 +1809,12 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
 
 def _target_pattern_for_kind(kind: str) -> re.Pattern[str]:
     counted_nouns = {
+        "remaining_four_month": r"[個个]月",
+        "job_posting_count": r"(?:[則则]|[個个])(?:職缺|招聘信息|招聘資訊|招聘公告)",
+        "egg_count": r"[顆颗個个](?:放了很久的|放很久的|陳舊的|陈旧的)?(?:雞蛋|鸡蛋|蛋)(?=\s*(?:$|[，。！？、：；,.!?;:」』）)]))",
+        "task_count": r"[項项個个](?:總是做不完的|总是做不完的|總沒完成的|总没完成的)?(?:作業|作业|任務|任务)",
+        "mirror_glance": r"眼",
+        "underground_exit": r"[號号]出口",
         "graduation_anniversary": r"[周週]年",
         "resume_edit_place": r"(?:個|个)地方|[處处]",
         "station_exit": r"[號号]\s*出口",
@@ -1861,8 +1895,14 @@ def _target_pattern_for_kind(kind: str) -> re.Pattern[str]:
     }
     if kind in counted_nouns:
         return re.compile(rf"(?P<number>{CHINESE_CARDINAL})\s*(?:{counted_nouns[kind]})")
-    if kind == "per_person_bill":
+    if kind in {"per_person_bill", "restaurant_per_person"}:
         return re.compile(rf"(?P<once>每人)|(?P<number>{CHINESE_CARDINAL})人(?:各|分攤|分摊)")
+    if kind == "university_year":
+        return re.compile(rf"大[學学](?P<number>{CHINESE_CARDINAL})年[級级]")
+    if kind == "rental_home_ordinal":
+        return re.compile(rf"第(?P<number>{CHINESE_CARDINAL})(?:(?:套|[間间])房(?=\s*(?:$|[，。！？、：；,.!?;:」』）)]|的(?:租[約约]|合同)))|[間间]的租[約约])")
+    if kind == "gangnam_attempt":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})次|[闖闯](?P<once>一)[闖闯]")
     if kind == "duration_month_over":
         return re.compile(rf"超[過过](?P<over_month>{CHINESE_CARDINAL})(?:個|个)?月|(?P<number>{CHINESE_CARDINAL})(?:個|个)?多月")
     if kind == "video_duration_minute":
@@ -2119,6 +2159,25 @@ def _match_target_counter_quantities(
         for match in pattern.finditer(target, search_start):
             if any(match.start() < row.end and match.end() > row.start for row in matched):
                 continue
+            if expected.kind in LIFE_SCENE_COUNTER_KINDS:
+                number_start = match.start("number") if match.group("number") else match.start()
+                if _has_numeric_sign_prefix(target, match.start()) or _has_numeric_sign_prefix(target, number_start):
+                    continue
+                if re.match(r"(?:[秒歲岁米年月日天元度人位]|公里|小時|小时|分鐘|分钟|韓元|韩元)", target[match.end():].lstrip()):
+                    continue
+                if expected.kind == "remaining_four_month" and (
+                    re.search(r"(?:不到|不滿|不满|不足|少於|少于|超過|超过|超出|至少|至多|最多|最少|不止|不只|大約|大约|約|约|將近|将近|近|差不多|沒有|没有)\s*$", target[:match.start()])
+                    or re.match(r"(?:以上|以下|以內|以内|以外|左右|上下|多|餘|余|半)", target[match.end():].lstrip())
+                ):
+                    continue
+                if expected.kind == "mirror_glance" and not re.search(
+                    r"(?:後照鏡|後視鏡|后视镜)(?:裡|里)?看(?:了)?\s*$", target[max(0, match.start() - 24):match.start()],
+                ):
+                    continue
+                if expected.kind == "gangnam_attempt" and not re.search(
+                    r"江南(?:[闖闯])?\s*$", target[max(0, match.start() - 12):match.start()],
+                ):
+                    continue
             if expected.kind == 'laughter_once' and not (
                 re.search(r'(?:5|五)年(?:的份|份的笑)\s*$', target[max(0, match.start() - 20):match.start()])
                 or re.match(r'笑[盡尽](?:了)?(?:5|五)年', target[match.end():])
@@ -2239,7 +2298,7 @@ def _match_target_counter_quantities(
                 value = Decimal(1)
             if expected.kind == "never_toss_turn" and match.groupdict().get("toss_number"):
                 value = _chinese_cardinal_value(match.group("toss_number"))
-            if expected.kind in {'read_again', 'never_skip_week', 'never_utterance', 'never_sea_entry', 'per_person_bill', 'soup_sip', 'tea_sip'} and match.groupdict().get('once'):
+            if expected.kind in {'read_again', 'never_skip_week', 'never_utterance', 'never_sea_entry', 'per_person_bill', 'restaurant_per_person', 'gangnam_attempt', 'soup_sip', 'tea_sip'} and match.groupdict().get('once'):
                 value = Decimal(1)
             if expected.kind == 'never_skip_week' and match.groupdict().get('after'):
                 value = _chinese_cardinal_value(match.group('after'))
@@ -2325,6 +2384,10 @@ def _unexpected_target_entity_errors(
         row.value for row in source_quantities if row.kind == "entity"
     ]
     errors: list[str] = []
+    for kind in {q.kind for q in source_quantities} & LIFE_SCENE_COUNTER_KINDS:
+        for match in _target_pattern_for_kind(kind).finditer(target):
+            if not any(q.start <= match.start() and match.end() <= q.end for q in matched):
+                errors.append(f"unmatched life-scene quantity: {kind}")
     for match in pattern.finditer(target):
         if any(
             match.start() < row.end and match.end() > row.start
@@ -2514,6 +2577,15 @@ def _target_money_amounts(target: str) -> list[MoneyAmount]:
         "萬億": Decimal(1_000_000_000_000),
     }
     amounts: list[MoneyAmount] = []
+    # A fully delimited native thousand-won amount. Do not take the tail of
+    # a larger/native decimal amount, and retain the sign in value comparison.
+    for match in re.finditer(r"(?P<sign>[+\-−﹣－負负])?\s*一千(?:韩元|韓元)", target):
+        if _has_numeric_sign_prefix(target, match.start()):
+            continue
+        if re.match(r"(?:[%％‰‱倍千萬万億亿兆秒歲岁米年月日天元度人位]|公里|小時|小时|分鐘|分钟)", target[match.end():].lstrip()):
+            continue
+        sign = -1 if match.group("sign") in {"-", "−", "﹣", "－", "負", "负"} else 1
+        amounts.append(MoneyAmount(match.start(), match.end(), Decimal(sign * 1000)))
     for match in re.finditer(r"(?<![零〇一二两兩三四五六七八九十百千萬万億亿兆點点.])(?P<sign>[+\-−﹣－負负])?\s*一(?:個|个)?[亿億](?:韩元|韓元)", target):
         if re.search(rf"[{NUMERIC_PREFIX_CHARACTERS}]\s*$", target[:match.start()]):
             continue
@@ -2538,7 +2610,7 @@ def _target_money_amounts(target: str) -> list[MoneyAmount]:
         prefix = re.search(r"[負负−﹣－]\s*$", target[:amount.start])
         signed.append(MoneyAmount(prefix.start(), amount.end, -amount.won)
                       if prefix and amount.won >= 0 else amount)
-    return signed
+    return sorted(signed, key=lambda amount: amount.start)
 
 
 def _mask_spans(text: str, amounts: Iterable[MoneyAmount]) -> str:
@@ -3416,11 +3488,171 @@ def _expect_error(
         failures.append(f"{label}: expected {needle!r}, got {errors}")
 
 
+def _life_scene_parser_self_test() -> tuple[int, list[str]]:
+    """Observed life-scene repairs: quantity guards, not event-ID exemptions."""
+    cases = 0
+    failures: list[str] = []
+
+    def numeric(label: str, source: str, target: str, valid: bool) -> None:
+        nonlocal cases
+        cases += 1
+        errors = _numeric_errors(source, target)
+        if bool(errors) == valid:
+            failures.append(f"life-scene {label}: valid={valid}, got {errors}")
+
+    # Keep each relevant sentence intact; full current leaves are separately
+    # checked by the source-bound localization importer. Each mutation below
+    # must start with a passing normal control, never an unrelated token error.
+    fixtures = (
+        ("months", "끝까지 넉 달이 남아 있었다.", "離終點還有四個月。", "四個月", "四", "remaining_four_month"),
+        ("jobs", "눈에 띄는 공고 두 개. 덮어두지 않고 지원서를 썼다.", "有兩則職缺讓人留意。沒有就此擱著，而是寫了求職申請。", "兩則職缺", "兩", "job_posting_count"),
+        ("jobs-cn", "눈에 띄는 공고 두 개. 덮어두지 않고 지원서를 썼다.", "有两则招聘信息引起了注意。没有搁在一边，而是写了申请。", "两则招聘信息", "两", "job_posting_count"),
+        ("eggs", "새벽 한 시. 배가 고프다.\n냉장고를 열면 — 냉동 만두 반 봉지, 고추장, 오래된 달걀 두 개.", "凌晨一點。肚子餓了。\n打開冰箱——半包冷凍水餃、韓式辣椒醬、兩顆放了很久的蛋。", "兩顆放了很久的蛋", "兩", "egg_count"),
+        ("task", "오래 미뤄왔던 전화 한 통, 해결 못 한 서류 한 장, 못 끝내던 과제 한 개.", "拖了很久的一通電話、一直沒處理好的一張文件、一項總是做不完的作業。", "一項總是做不完的作業", "一", "task_count"),
+        ("task-cn", "오래 미뤄왔던 전화 한 통, 해결 못 한 서류 한 장, 못 끝내던 과제 한 개.", "一通拖了很久没打的电话，一张没处理好的文件，一项总没完成的任务。", "一项总没完成的任务", "一", "task_count"),
+        ("rental", "세 번째 집을 계약한다. 조건이 가장 낫다.", "簽下第三間房的租約。條件最好。", "第三間房", "三", "rental_home_ordinal"),
+        ("mirror", "기사 아저씨가 룸미러로 한번 보더니 말을 걸었다.", "司機大叔從後照鏡看了一眼，開口搭話。", "一眼", "一", "mirror_glance"),
+        ("attempt", '"강남 한번 가보겠다고 했는데."', "「也說過想去江南闖一闖。」", "闖一闖", "一", "gangnam_attempt"),
+        ("attempt-cn", '"강남 한번 가보겠다고 했는데."', "“也说过要去江南闯一次。”", "一次", "一", "gangnam_attempt"),
+        ("school", "대학교 2학년 때 쓴 것 같다.", "大概是大學二年級時寫的。", "大學二年級", "二", "university_year"),
+        ("bill", "강남 어느 식당. 1인 5만 원", "江南某家餐廳。每人5萬韓元", "每人", None, "restaurant_per_person"),
+        ("exit", "지하 2번 출구", "地下2號出口", "2號出口", "2", "underground_exit"),
+    )
+    bad_numbers = ("零", "十一", "負一", "-1", "−\t1", "0.1", "數一")
+    units = ("年", "月", "天", "秒", "小時", "分鐘", "公里", "米", "韓元", "人", "位")
+    for label, source, target, counted, number, kind in fixtures:
+        numeric(label + " normal", source, target, True)
+        cases += 1
+        if not any(q.kind == kind for q in _source_counter_quantities(_mask_spans(source, _source_money_amounts(source)))):
+            failures.append(f"life-scene {label}: normal source did not own {kind}")
+        for wrong in bad_numbers:
+            replacement = counted.replace(number, wrong, 1) if number else wrong + "人各"
+            numeric(label + " value " + repr(wrong), source, target.replace(counted, replacement, 1), False)
+        # Suffix checks use real spaces, tabs and full-width spaces. The
+        # numeral remains correct, so rejection must be about the unit.
+        for separator in ("", " ", "\t", "　"):
+            for unit in units:
+                numeric(label + " suffix " + repr(separator + unit), source,
+                        target.replace(counted, counted + separator + unit, 1), False)
+            for prefix in ("-", "−", "負", "0.", "數", "十"):
+                numeric(label + " prefix " + repr(prefix + separator), source,
+                        target.replace(counted, prefix + separator + counted, 1), False)
+        # A later correct number may not pay for an earlier incorrect count.
+        if number:
+            wrong_count = counted.replace(number, "十一", 1)
+            numeric(label + " borrow later", source,
+                    target.replace(counted, wrong_count + "，" + counted, 1), False)
+        numeric(label + " duplicate", source, target.replace(counted, counted + "，" + counted, 1), False)
+
+    for source, target in (
+        ("과제 한 개.", "一項作業。"),
+        ("세 번째 집을 계약한다.", "簽下第三間的租約。"),
+        ("세 번째 집을 계약한다.", "签下第三套房的合同。"),
+        ("오래된 달걀 두 개.", "两个放了很久的鸡蛋。"),
+    ):
+        numeric("classifier alternative", source, target, True)
+    for source, target in (
+        ("눈에 띄는 공고 두 개.", "兩則通知。"),
+        ("오래된 달걀 두 개.", "兩顆藥丸。"),
+        ("못 끝내던 과제 한 개.", "一項投資。"),
+        ("세 번째 집을 계약한다.", "第三間公司。"),
+        ("기사 아저씨가 룸미러로 한번 보더니 말을 걸었다.", "司機大叔有一眼。"),
+        ('"강남 한번 가보겠다고 했는데."', "「去江南住一晚。」"),
+        ("대학교 2학년 때 쓴 것 같다.", "大概是大學二年時寫的。"),
+        ("강남 어느 식당. 1인 5만 원", "江南某家餐廳。每年5萬韓元"),
+        ("지하 2번 출구", "地下2號房間"),
+        ("강남 어느 식당. 1인 5만 원", "江南某家餐廳。每人6萬韓元"),
+        ("강남 어느 식당. 1인 5만 원", "江南某家餐廳。每人5千韓元"),
+        ("강남 어느 식당. 2인 5만 원", "江南某家餐廳。每人5萬韓元"),
+        ("세 번째 집을 계약한다.", "签下第三套西装。"),
+        ("세 번째 집을 계약한다.", "签下第三套软件。"),
+        ("세 번째 집을 계약한다.", "签下第三间房地产公司。"),
+        ("오래된 달걀 두 개.", "兩顆蛋白質。"),
+        ("오래된 달걀 두 개.", "兩顆蛋黃。"),
+        ("오래된 달걀 두 개.", "兩顆蛋糕。"),
+    ):
+        numeric("noun/unit/value drift", source, target, False)
+    for separator in ("", " ", "\t", "　"):
+        numeric("egg compound noun boundary", "오래된 달걀 두 개.", "兩顆蛋" + separator + "白質。", False)
+        numeric("rental compound noun boundary", "세 번째 집을 계약한다.", "第三間房" + separator + "地產公司。", False)
+        for prefix in ("不到", "不滿", "少於", "超過", "至少", "至多", "大約", "將近", "差不多", "沒有"):
+            numeric("remaining month bound", "끝까지 넉 달이 남아 있었다.", "離終點還有" + prefix + separator + "四個月。", False)
+        for suffix in ("以上", "以下", "以內", "以外", "左右", "上下", "多", "餘", "半"):
+            numeric("remaining month approximation", "끝까지 넉 달이 남아 있었다.", "離終點還有四個月" + separator + suffix + "。", False)
+    # These neighboring Korean constructions must not select the new kind.
+    for source, kind in (
+        ("끝까지 넉 달을 주었다.", "remaining_four_month"),
+        ("대학교 2학년생이었다.", "university_year"),
+        ("식당. 1인조였다.", "restaurant_per_person"),
+        ("공고 두 개월이었다.", "job_posting_count"),
+        ("달걀 두 개월치였다.", "egg_count"),
+        ("과제 한 개월치였다.", "task_count"),
+        ("세 번째 집을 그렸다.", "rental_home_ordinal"),
+        ("룸미러로 한번 서류를 보더니 말을 걸었다.", "mirror_glance"),
+        ("강남 한번 택배를 받아보겠다고 했다.", "gangnam_attempt"),
+        ("지하 2번 출구조였다.", "underground_exit"),
+    ):
+        cases += 1
+        if any(q.kind == kind for q in _source_counter_quantities(source)):
+            failures.append(f"life-scene source scope escaped: {source}:{kind}")
+
+    combined_source = '기사 아저씨가 룸미러로 한번 보더니 말을 걸었다.\n"강남 한번 가보겠다고 했는데."'
+    combined_target = '司機大叔從後照鏡看了一眼，開口搭話。\n「也說過想去江南闖一闖。」'
+    numeric("two independent actions", combined_source, combined_target, True)
+    numeric("mirror cannot borrow attempt", combined_source, combined_target.replace("一眼", "兩眼"), False)
+    numeric("attempt cannot borrow mirror", combined_source, combined_target.replace("闖一闖", "闖兩次"), False)
+    numeric("action order", combined_source, '「也說過想去江南闖一闖。」\n司機大叔從後照鏡看了一眼，開口搭話。', False)
+
+    for label in ("韩元", "韓元"):
+        target = "放一千" + label + "進去。"
+        numeric("native thousand", "천 원을 넣는다.", target, True)
+        numeric("shared Arabic thousand", "4천 원", "4千" + label, True)
+        for wrong in ("零千", "二千", "一百", "一萬", "一億", "一千萬", "十一千", "一千一百"):
+            numeric("native won value", "천 원을 넣는다.", target.replace("一千", wrong), False)
+        for separator in ("", " ", "\t", "　"):
+            for prefix in ("-", "−", "負", "0.", "2.", "十", "數", "萬"):
+                numeric("native won prefix", "천 원을 넣는다.", target.replace("一千", prefix + separator + "一千"), False)
+            for suffix in ("萬", "億", "年", "天", "米", "人", "分鐘", "%", "％", "‰", "‱", "倍"):
+                numeric("native won suffix", "천 원을 넣는다.", target.replace(label, label + separator + suffix), False)
+        numeric("native won no source", "돈을 넣는다.", target, False)
+        numeric("native won wrong currency", "천 원을 넣는다.", target.replace(label, "美元"), False)
+        numeric("native won extra amount", "천 원을 넣는다.", target.replace("一千", "一千" + label + "和一千"), False)
+        for source, translated in (
+            ("5천 원과 천 원", "5千" + label + "和一千" + label),
+            ("천 원과 5천 원", "一千" + label + "和5千" + label),
+        ):
+            numeric("mixed won source order", source, translated, True)
+            numeric("mixed won order changed", source, "和".join(reversed(translated.split("和"))), False)
+
+    for korean, latin in (("인스타", "Instagram"), ("링크드인", "LinkedIn")):
+        source = f"{korean}에 접속했다."
+        target = f"打開了{latin}。"
+        for particle in ("에", "에서", "는", "을"):
+            cases += 1
+            if _untranslated_english_errors(f"{korean}{particle} 접속했다.", target):
+                failures.append(f"life-scene brand particle rejected: {korean}{particle}")
+        for bad_source in ("사이트에 접속했다.", f"{korean}에너지", f"{korean}에서류", "새" + source):
+            cases += 1
+            if not _untranslated_english_errors(bad_source, target):
+                failures.append(f"life-scene brand source scope escaped: {bad_source}")
+        for char in ("é", "_", "0", "\u0301", "\u0903", "\u0488"):
+            for mutated in (char + latin, latin + char):
+                cases += 1
+                mutated_target = target.replace(latin, mutated)
+                if _bounded_latin_matches(mutated_target, latin) or not (
+                    _untranslated_english_errors(source, mutated_target)
+                    or _numeric_errors(source, mutated_target)
+                ):
+                    failures.append(f"life-scene brand Unicode boundary escaped: {mutated!r}")
+    return cases, failures
+
+
 def run_self_test(
     manifest: dict[str, Any], runtime: dict[str, Any],
 ) -> list[str]:
     failures: list[str] = []
-    cases = 0
+    cases, life_failures = _life_scene_parser_self_test()
+    failures.extend(life_failures)
 
     # Exact Korean-source catalogue names are not permission for unrelated
     # English prose or for deleting the noun around an allowed brand token.

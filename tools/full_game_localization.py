@@ -401,7 +401,7 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
             if source_numbers[amount.start:amount.end].endswith('원')
             and re.search(r'\d+\s*[천백]', source_numbers[amount.start:amount.end])]
         mixed_target = list(re.finditer(
-            r"[+-]?\d+(?:,\d{3})*(?:億\s*\d+(?:,\d{3})*)?(?:千万|万)ウォン(?!円|韓元|韩元|元|ドル|ウォン)", target_numbers,
+            r"[+-]?\d+(?:,\d{3})*(?:億\s*\d+(?:,\d{3})*)?(?:千万|万|千)ウォン(?!円|韓元|韩元|元|ドル|ウォン)", target_numbers,
         ))
         consumed = []
         if '1인당 4만 5천원이 나왔다' in leaf.source:
@@ -455,6 +455,39 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
         source_numbers = re.sub(r"(?<![\d.])([+-]?\d+)백만원",
                                 lambda m: ('+' if m.group(1).startswith('+') else '') + str(int(m.group(1)) * 100) + '만원',
                                 source_numbers)
+        # A reunion's third WEEK Saturday is not necessarily the month's third
+        # Saturday. Bind the whole calendar phrase before normalizing its native
+        # ordinal; do not exempt arbitrary written numerals in Japanese prose.
+        source_week = list(re.finditer(r"(?<![가-힣])다음 달 셋째 주 토요일", source_numbers))
+        target_week = list(re.finditer(r"来月(?:の)?第(?:3|三)週(?:の)?土曜日", target_numbers))
+        if source_week or target_week:
+            if len(source_week) != len(target_week) or any(
+                _has_numeric_sign_prefix(target_numbers, match.start())
+                or re.search(r"再\s*$", target_numbers[:match.start()])
+                for match in target_week
+            ):
+                errors.append("source-bound calendar week/day mismatch")
+            source_numbers = source_numbers.replace("다음 달 셋째 주 토요일", "다음 달 3 주 토요일")
+            target_numbers = re.sub(r"来月(?:の)?第三週(?:の)?土曜日",
+                                    lambda match: match.group().replace("第三", "第3"), target_numbers)
+        # Source 1인 5만 원 is a per-person fee, not a new one-person event.
+        # Accept its native counter only next to the exact unsigned won fee.
+        source_person_fee = list(re.finditer(r"(?<![가-힣\d])1인\s+5만\s*원", source_numbers))
+        target_person_fee = list(re.finditer(
+            r"(?<![0-9一二三四五六七八九十百千萬万億兆])(?:一|1)人(?:当たり)?\s*5万ウォン(?!円|韓元|韩元|元|ドル|ウォン)",
+            target_numbers,
+        ))
+        if source_person_fee or target_person_fee:
+            if len(source_person_fee) != len(target_person_fee) or any(
+                _has_numeric_sign_prefix(value, match.start())
+                for value, matches in ((source_numbers, source_person_fee), (target_numbers, target_person_fee))
+                for match in matches
+            ):
+                errors.append("source-bound per-person won fee mismatch")
+            for match in reversed(target_person_fee):
+                value = match.group()
+                if value.startswith("一"):
+                    target_numbers = target_numbers[:match.start()] + "1" + value[1:] + target_numbers[match.end():]
         if leaf.group == "catalog":
             if leaf.source in CATALOG_YOUNG_ADULT_SOURCES:
                 age_groups = list(re.finditer(r"(?<![0-9一二三四五六七八九十百千])20[・、/](?:\s*)30代(?!\d)", text))

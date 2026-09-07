@@ -90,7 +90,7 @@ KO/EN·runtime·save·routing·human_gates·catalog/endings·공개·폰트·배
   분리해 그대로 옮기며, 매수·소유로 키우거나 반대로 실제 계약을 지우지 않는다.
 - 월세65만원은 월말 한 번의 차감 예약 확인이며 현재 잔액은 불변이다.
   지원서는 작성이지 제출/채용이 아니고, 재개발 정보 수집은 매수가 아니다.
-- 동창회는 다음 달 셋째 토요일 초대에서 참석까지 원문이 압축한다.
+- 동창회는 다음 달 셋째 주 토요일 초대에서 참석까지 원문이 압축한다.
   친구 출산의 하트 회신·한 달 뒤 만남/선물도 명시 원문이므로 임의 삭제하지 않는다.
 - 첫 월급 alive는 부모와 셋, passed는 어머니와 둘·아버지는 기억만이다.
   '첫'의 조건 제한, 일부 고시원 고정 배경은 원문/상태 확인점이지 실제 화면 결함 판정이 아니다.
@@ -118,3 +118,37 @@ KO/EN·runtime·save·routing·human_gates·catalog/endings·공개·폰트·배
 GODOT 환경값·PATH 발견은 모두 없음, 원본/제품 쓰기0이었다.
 이후 검사는 먼저 --list로 확인하고 명시 full-game-localization-overlays 차선을 쓴다.
 지속 실행 안내는 I18N_INFRASTRUCTURE의 기존 source-bound 도구 안내에 승격했다.
+
+## 번역 결과 — L1/L2 수용·L3 OPEN
+
+- 선언 `6ee6f19361eb799a62c72362cff8884ab72e243d` 뒤25 roots/185 leaf씩을
+  KO에서 독립 저작했다. JA/TW/CN을 다른 작성자 또는 ROOT가 각각185개 전수 대조했다.
+  JA 중개사의 되물음 화자1곳을 고치고, 떠나는 진행상과 TW 과제의 범위·
+  아버지 기대의 지속 표현을 정밀화했다. 필수 L2 잔여0이며 원어민 판정은 아니다.
+- 최초186행 source3개는 저작 전 target=null과 같은 원문185를 보존한다.
+  최종 source/response check·import --accept3개 PASS·changed_files0이다.
+  이미 작성한 같은 target을 수용했으며 기존 private 증거를 덮지 않았다.
+- 최종185-record aggregate JA
+  `fdfcbd1408acc7261224fe3e0571b9f7fde0dab0354291a9ba8a54b81175312e`,
+  CN `3edb320820179e15bdf1c9702bf717e6bbe8612a7343a515ac9a25edcd52a7ac`,
+  TW `f25cc402db23622a4caf9518b6cdb3c03afee1878f3b1c98463a7ad46132d394`.
+  portable 신규555·누적12,171(언어별4,057), 사건378종2,989/locale다.
+  기존11,616/meta9·oldbatch27은 같은 값으로 유지하고 batch1만 추가했다.
+- JA4천 원의 통화/값/소유자 순서, 다음 달 셋째 주 토요일과1인 요금의
+  결속을 추가했다. 독립 검토의 다다음 달(再来月) substring 누출을 고쳐 정상4/변조22를
+  확인했다. ZH 생활 수량10유형·원화一千·브랜드 조사 문맥을 수리했다.
+  신규 수용의 명사·단위 경계 및 한정 기간을 독립 반례로 검증했다.
+  검사상 허용을 위해 번역을 바꾸지 않았으며 모든 Unicode·분수·수사나
+  문장 의미를 자동 판정한다는 주장은 하지 않는다. 해당 의미 대조는 L2에 남는다.
+- 완료172·173절3,010bytes를 기존 history19,937bytes 앞으로 원문 이동했다.
+  새22,947bytes SHA `75618386ce5fc0929b3e5f108e74dceca1b526e17bb60b94543de167ae515ea1`,
+  기존 내용과 끝 LF2를 보존했다. 현재 행은 같은 활성 이어보기로만 이동한다.
+- 월세 금액 원문 불일치·결과/효과 차이·실제 계약·압축된 만남·괄호52를
+  원문 부채와 구분했다. KO/EN·runtime·공개·폰트·저장·human_gates 변경0,
+  source manifest 불변·원본 checkout 쓰기0다. full/main/product HOLD·
+  전체 INCOMPLETE·L3/원어민/화면 OPEN·출시 데모 GO를 유지한다.
+
+- portable checksum `4db90842be4d44e69bfa049018cf0cd4f02254be33869de35367983128a949be`.
+- 최종 표적12개 차선·EN·diff PASS, portable12,171 source/hash/L1 오류0.
+  self165·ZH2315를 포함한 실제 차선 stdout은 git-private order176-final-checks.log,
+  4,225bytes SHA `92eb5e46444b6b9e2eca2fdb80a4a1df67e8100436d63831fc0fc54905a61830`다.
