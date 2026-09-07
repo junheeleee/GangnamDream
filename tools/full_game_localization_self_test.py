@@ -88,6 +88,44 @@ class ExchangeTests(unittest.TestCase):
         with self.assertRaises(tool.ContractError):
             tool.loads('{"text":"a","text":"b"}')
 
+    def test_drama_japanese_young_adult_groups_cannot_borrow_other_paragraphs(self):
+        source = "'2030 청년 자산 형성 특집' 기사를 준비 중인 기자가 연락했다.\n\n'서울에서 혼자 자립한 2030 청년 이야기를 담고 싶어요.'\n\n노출이 되면 평판이 올라가지만, 사생활이 공개된다.\n거절하면 조용하게 살 수 있다."
+        good = '「20・30代の若者の資産形成特集」の記事を準備している記者から、連絡が来た。\n\n「ソウルで一人で自立した、20・30代の若者の話を取り上げたいんです」\n\n人の目に触れれば評判は上がるが、私生活が公になる。\n断れば、静かに暮らせる。'
+        leaf = tool.Leaf('events', 'example', 'content/events/drama_events.json',
+                         ('description',), source, 'event_standard')
+        self.assertEqual(tool.translation_errors(leaf, 'ja', good), [])
+        removed = good.replace('20・30代の若者', '若者', 1)
+        for wrong in (removed + '20・30代の若者。',
+                      removed.replace('若者の話', '若者の話と20・30代の若者の話'),
+                      good.replace('20・30代の若者の話', '若者の話') + '20・30代の若者。'):
+            self.assertTrue(tool.translation_errors(leaf, 'ja', wrong), wrong)
+
+    def test_drama_japanese_second_generation_is_not_age(self):
+        leaf = tool.Leaf('events', 'example', 'content/events/drama_events.json',
+                         ('title',), '재벌 2세와의 접촉', 'event_standard')
+        for target in ('財閥二世との接触', '財閥2世との接触'):
+            self.assertEqual(tool.translation_errors(leaf, 'ja', target), [])
+        for wrong in ('財閥三世との接触', '財閥十二世との接触', '財閥十 二世との接触',
+                      '財閥二歳との接触', '財閥2歳との接触', '財閥-2世との接触',
+                      '財閥二世との接触、さらに三世との接触'):
+            self.assertTrue(tool.translation_errors(leaf, 'ja', wrong), wrong)
+
+    def test_drama_japanese_young_adult_groups_keep_both_mentions(self):
+        source = '2030 청년들의 삶. "2030 청년의 현실을 조명하려고요."'
+        good = '20・30代の若者たちの暮らし。「20・30代の若者の現実を照らしたくて」'
+        leaf = tool.Leaf('events', 'example', 'content/events/drama_events.json',
+                         ('description',), source, 'event_standard')
+        self.assertEqual(tool.translation_errors(leaf, 'ja', good), [])
+        for wrong in (good.replace('30', '40', 1), good.replace('30代', '30年', 1),
+                      good.replace('20・30代', '2030年', 1), good.replace('20・30代', '若者', 1),
+                      good.replace('20・30代', '120・30代', 1), good.replace('20・30代', '-20・30代', 1),
+                      good.replace('20・30代', '十 20・30代', 1), good + '四十代の若者も。',
+                      good + '20・30代の若者も。'):
+            self.assertTrue(tool.translation_errors(leaf, 'ja', wrong), wrong)
+        other = tool.Leaf('events', 'example', 'content/events/drama_events.json',
+                          ('description',), '2030년 청년의 삶.', 'event_standard')
+        self.assertTrue(tool.translation_errors(other, 'ja', '20・30代の若者の暮らし。'))
+
     def test_story_half_durations_keep_the_fraction_and_unit(self):
         for locale, pairs in (
             ("zh-CN", (("1年半", "一年半", "1.5年"), ("两个半月", "两个月半", "2.5个月"))),

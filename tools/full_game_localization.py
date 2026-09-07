@@ -560,6 +560,32 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
                     source_numbers = value
                 else:
                     target_numbers = value
+        # A chaebol heir is second-generation, not a two-year-old. Bind the
+        # observed complete title before admitting the native Japanese number.
+        if leaf.source == '재벌 2세와의 접촉':
+            if not re.fullmatch(r'財閥(?:二|2)世との接触', text):
+                errors.append('source-bound chaebol generation mismatch')
+            else:
+                target_numbers = target_numbers.replace('二世', '2世')
+        # In the media scene 2030 labels young adults twice, not the year 2030.
+        # Normalize only source-bound age-group spans; another number cannot
+        # supply a missing group and neither occurrence may become a year.
+        source_youth = list(re.finditer(r'(?<![\d가-힣])2030(?=\s+청년)', source_numbers))
+        if leaf.group == 'events' and source_youth:
+            target_youth = list(re.finditer(r'20[・、/]\s*30代(?=の若者)', target_numbers))
+            if len(source_youth) != len(target_youth) or any(
+                _has_numeric_sign_prefix(target_numbers, match.start())
+                for match in target_youth
+            ):
+                errors.append('source-bound young-adult group mismatch')
+            if [source_numbers.count('\n', 0, match.start()) for match in source_youth] != \
+                    [target_numbers.count('\n', 0, match.start()) for match in target_youth]:
+                errors.append('source-bound young-adult paragraph ownership mismatch')
+            for age in re.finditer(r'[0-9一二三四五六七八九十百千]+\s*(?:代|歳)', target_numbers):
+                if not any(group.start() <= age.start() and age.end() <= group.end() for group in target_youth):
+                    errors.append('source-bound added young-adult age mismatch')
+            for match in reversed(source_youth):
+                source_numbers = source_numbers[:match.start()] + '20 30' + source_numbers[match.end():]
         if leaf.group == "catalog":
             if leaf.source in CATALOG_YOUNG_ADULT_SOURCES:
                 age_groups = list(re.finditer(r"(?<![0-9一二三四五六七八九十百千])20[・、/](?:\s*)30代(?!\d)", text))

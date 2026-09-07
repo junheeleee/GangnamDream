@@ -160,3 +160,61 @@ named full-game-localization-overlays --list 뒤 선택12검사·EN·diff·전�
 
 이 범위·배치·증거 절차는 일회성이다. 지속 규칙은 I18N_INFRASTRUCTURE와
 언어별 용어집이 소유하며 새 서사·제품·출시 규칙을 만들지 않는다.
+
+## 수용 결과 — 567번역·L1/L2, L3 OPEN
+
+- 선언 `9d240a3f0a923aca96e9ae23f9bc91dcb629aa23` commit/push 뒤 initial source3
+  (190행/189leaf, previous null)를 저작 전에 보존했다. 세 작성자가 KO에서
+  각 언어를 직접 저작하고 다른 검토자/ROOT가567문구 전부를 대조했다.
+  영어 중역·간번 자동변환·gameplay 복사0이다.
+- 기존 story25행158문구씩의 raw/value/order와 JA goal 선두를 유지하고
+  새6행씩을 덧붙였다. 새 drama19행씩은 KO 상대순서다.
+  기존15,957번역·메타9·batch35를 보존해16,524(언어별5,508),
+  events578종4,440문구·endings35종234·catalog834씩, batch36이다.
+- 독립 L2의 JA 기간1leaf는 '며칠 동안 일찍'을 며칠 일찍이라는 오해 없이 옮겼고,
+  계약 전 제목1leaf도 명사형으로 정밀화했다. CN189는 필수/선택 수정0이다.
+  TW4leaf는 이전 믿음 미추가·부장의 민준 호출·계약 전 제목·짐 풀기를 명료화했다.
+  수정6leaf를 KO로 다시 대조했고, 각 frozen 파일 역치환 SHA로 나머지
+  JA187/TW185와 CN189의 원형·순서·서식을 증명했다.
+- JA 재벌2세/2030세대는 실제 문맥·세대/나이/연도에 결속했다.
+  두 연령대를 다른 문단에서 차용하는 새 허용 틈을 독립 검토가 찾아
+  actual source/target fixture RED→GREEN과 문단 위치 결속으로 닫았다.
+  표적 정상4+지정변조15+차용재검토2 PASS, full self183 PASS다.
+- 중국어 검사 오탐은 수사·세대/연령·배수·미접촉/미대면·회사 수·조회/구독/
+  댓글·월 수익률11종과 원화/이름 문맥에 결속했다.
+  CN15leaf/21진단·TW15leaf/20진단(원문 합집합16leaf)의 정상 해석을 유지한다.
+  독립 검토의 새 누출5쌍(단위 차용3·음수 수익률·근사금액 뒤 기간)과
+  기존 댓글 거리단위 틈1쌍을 구분해 닫았다. 월 수익률은 부호·월 주기·%를,
+  억대/수십억은 근사 규모·원화를 보존하며 진짜2원과 월30만원은 계속 검사한다.
+  ZH self4049=기존3763+신규286, 독립102실행·새fixture286·실제378leaf PASS다.
+  최종 도구392,809bytes SHA
+  `2236deecf7c0319dbaaf20535f679a56bfb64f4c4e4936b52f57bbc951033a22`.
+  전역 수량 면제·event ID 제외0이며 자연어 검사 완전성/원어민 인증은 아니다.
+- 최종 source/response/accepted receipt3쌍은 initial source와 원문 hash로 결속했다.
+  실물567 L1 오류0·check/import --accept changed_files0이다.
+  final189-record aggregate JA
+  `adf39d7e373347c68ff5ebcfd80c8357b1bbda3fad1a662407b27e15a5c0c83a`,
+  CN `d80745c5119e4076071e31f7eb34ae2e57cebdbfdb3349f6dafeb53fc26fa43c`,
+  TW `d330094e5d6d97abfd2b186a62d40035aa8c5ad6a5825c113754c2d9d3cc9831`.
+- 완료181 WORK_LOG절1,399bytes만 기존 history31,573bytes 앞으로 원문 이동했다.
+  새32,972bytes SHA
+  `7d797e73d7da6b54c063b86037c6090225d7b7bf4c585366f0a90c43b0157ca1`.
+  기존 내용·끝 LF2는 byte-exact 보존, 검수행은 같은 활성 이어보기 [~]·L3 OPEN이다.
+- 38세 생일 전 일곱달/나이·월 계산의 차이, 설립6개월/무급·연봉50만원,
+  ETF 수익 절반과 실제 계약·송금·만남/초대만·미확인 주문을 구분했다.
+  최소자산/고정손실·직업/주거 payload·즉시후속의 시간 압축은 번역으로 수리하지 않았다.
+  KO/EN·runtime·공개·fonts·save·human_gates 변경0, 원본 checkout 쓰기0.
+  전체 INCOMPLETE·full/main/product HOLD·원어민/화면 OPEN,
+  출시 M01~M06 사용자 GO 유지. 자동 검사는 사람 판정 대체물이 아니다.
+- portable checksum `3ad35b35db66b42729729cc70277014ea44641b99a87da50f28529a29944abe8`.
+
+## 실행 검사 증거
+
+named full-game-localization-overlays --list12를 확인하고12검사 PASS,
+full self183/ZH self4049/audit ERROR0·WARNING0/EN1813·35/public14·100·121 PASS.
+누적16,524 source/target hash와 L1 전수0, 기존15,957/meta9/batch35 보존이다.
+실제 named stdout은 private order184-final-checks.log4,225bytes,
+SHA `a623954c6eedbbb510f0da056ef6d2c64e2eaf9109089a31127243c05f3f8459`다.
+문서 검사 boot29,089bytes/docs286/links84·queue47/in_progress45 PASS.
+ZH의 JP-first 글꼴 BLOCKED와 strict 전체 미완료는 숨기지 않는다.
+전체 감사·Godot·240주·사람 판정은 실행0이다.
