@@ -228,6 +228,122 @@ class ExchangeTests(unittest.TestCase):
             for bad in ('负' + good, '負' + good, '十 ' + good, good.replace('6.4', '7.4'), good.replace('MB', 'GB') if 'MB' in good else good.replace('兆', '千')):
                 self.assertTrue(tool.translation_errors(leaf, locale, bad), bad)
 
+    def test_finale_original_file_and_relative_clause_contexts(self):
+        for source, good in (
+            ('00:31 원본을 지웠다.', '刪掉00:31的原檔。'),
+            ('이 원본을 남겼다.', '留下這個原檔。'),
+            ('이 원문을 남겼다.', '留下這份原文。'),
+            ('만나기로 한 시각도 생기지 않았다.', '也沒有約好見面的時間。'),
+            ('휴대폰은 화면을 아래로 한 채 손 닿는 곳에 있었다.', '手機螢幕朝下，放在伸手可及之處。'),
+        ):
+            leaf = tool.Leaf('events', 'example', 'content/events/arc_pre_ending.json', ('description',), source, 'event_standard')
+            self.assertEqual(tool.translation_errors(leaf, 'zh-TW', good), [], (source, good))
+        for source, bad in (
+            ('00:31 원본을 지웠다.', '刪掉00:32的原檔。'),
+            ('00:31 원본을 지웠다.', '刪掉00:31韓元的原檔。'),
+            ('이 원본을 남겼다.', '留下2韓元。'),
+            ('31원을 남겼다.', '留下31原檔。'),
+            ('이 원을 남겼다.', '留下這個原檔。'),
+            ('집 한 채를 샀다.', '買了兩棟房子。'),
+            ('집 한 채를 샀다.', '手機螢幕朝下。'),
+            ('한 시각을 남겼다.', '留下兩個時間。'),
+        ):
+            leaf = tool.Leaf('events', 'example', 'content/events/arc_pre_ending.json', ('description',), source, 'event_standard')
+            self.assertTrue(tool.translation_errors(leaf, 'zh-TW', bad), (source, bad))
+
+    def test_finale_records_and_signature_alternatives(self):
+        for source, good in (
+            ('세 물건의 순서가 바뀌었다.', '三件物品的順序變了。'),
+            ('두 결과를 남긴다.', '留下兩個結果。'),
+            ('마지막까지 두 장부는 맞지 않았다.', '直到最後，兩本帳仍對不上。'),
+            ('남겨 둘 현금 칸이 비어 있었다.', '要留下的現金欄還是空的。'),
+            ('세 뜻을 읽었다. 하나를 쓰는 순간 다른 둘은 빈 줄에서 밀려났다. 셋을 모두 고른 척하면.', '讀出三種意思。寫下一種的瞬間，另外兩種就被擠出了空行。假裝三種全選的話。'),
+        ):
+            leaf = tool.Leaf('events', 'example', 'content/events/arc_pre_ending.json', ('description',), source, 'event_standard')
+            self.assertEqual(tool.translation_errors(leaf, 'zh-TW', good), [], (source, good))
+            if '兩' in good or '三' in good:
+                for bad in (good.replace('兩','四').replace('三','四'), good.replace('兩','負兩').replace('三','負三'), good.replace('兩','十 兩').replace('三','十 三')):
+                    self.assertTrue(tool.translation_errors(leaf, 'zh-TW', bad), (source, bad))
+        for source, bad in (
+            ('두 결과를 남긴다.', '留下兩個人。'), ('세 물건의 순서가 바뀌었다.', '三個小時。'),
+            ('마지막까지 두 장부는 맞지 않았다.', '直到最後，兩個人仍對不上。'),
+            ('하나를 쓰는 순간 다른 둘은 빈 줄에서 밀려났다. 셋을 모두 고른 척하면.', '寫下一種的瞬間，另外兩種人就被擠出了空行。假裝三種全選的話。'),
+            ('하나를 쓰는 순간 다른 둘은 빈 줄에서 밀려났다. 셋을 모두 고른 척하면.', '寫下一種的瞬間，另外兩種就被擠出了空行。假裝三種人全選的話。'),
+        ):
+            leaf = tool.Leaf('events', 'example', 'content/events/arc_pre_ending.json', ('description',), source, 'event_standard')
+            self.assertTrue(tool.translation_errors(leaf, 'zh-TW', bad), (source, bad))
+
+    def test_finale_strike_storage_and_food_contexts(self):
+        for locale, source, good in (
+            ('zh-TW', '다시 비교하던 세 문만 닫혔다.', '只有那三扇一再比較的門關上了。'),
+            ('zh-CN', '다시 비교하던 세 문만 닫혔다.', '只是那三扇重新比较着的门关闭了。'),
+            ('zh-TW', '수첩 첫 장의 목표를 두 줄로 지우고.', '用兩條線劃掉筆記本第一頁的目標。'),
+            ('zh-CN', '수첩 첫 장의 목표를 두 줄로 지우고.', '用两道线划掉笔记本第一页的目标。'),
+            ('zh-TW', '검은 줄을 두 번 그었다.', '畫了兩道黑線。'),
+            ('zh-CN', '검은 줄을 두 번 그었다.', '画了两次黑线。'),
+            ('zh-TW', '둘 다 남겨 둔 채 이름만 쓰는 선택은 없었다.', '沒有把兩邊都留下、只簽名字的選項。'),
+            ('zh-CN', '둘 다 남겨 둔 채 이름만 쓰는 선택은 없었다.', '没有把两者都留着、只签名字的选项。'),
+            ('zh-TW', '두 결과를 자기 원장에만 둘 수 있었다.', '可以只把兩個結果留在自己的帳冊。'),
+            ('zh-TW', '하루를 통째로 비웠었다. 그 하루가 체력이 됐다.', '曾把一整天完全空下來。那一天，成了體力。'),
+            ('zh-CN', '밥 한 끼를 함께할 수 있는지 물었다. 한 끼는 확정되지 않았다.', '问能否一起吃顿饭。那顿饭还没有确定。'),
+            ('zh-TW', '세 물건 사이에 종이를 끼웠다.', '在三樣東西之間夾紙。'),
+        ):
+            leaf = tool.Leaf('events', 'example', 'content/events/arc_pre_ending.json', ('description',), source, 'event_standard')
+            self.assertEqual(tool.translation_errors(leaf, locale, good), [], (source, good))
+        for source, bad in (
+            ('다시 비교하던 세 문만 닫혔다.', '只有那四扇一再比較的門關上了。'),
+            ('다시 비교하던 세 문만 닫혔다.', '只有那負三扇一再比較的門關上了。'),
+            ('다시 비교하던 세 문만 닫혔다.', '三個小時。'),
+            ('수첩 첫 장의 목표를 두 줄로 지우고.', '用三條線劃掉筆記本第一頁的目標。'),
+            ('수첩 첫 장의 목표를 두 줄로 지우고.', '用負兩條線劃掉筆記本第一頁的目標。'),
+            ('수첩 첫 장의 목표를 두 줄로 지우고.', '用兩條線劃掉筆記本第二頁的目標。'),
+            ('수첩 첫 장의 목표를 두 줄로 지우고. 두 줄로 지우고.', '用兩條線劃掉筆記本第一頁的目標。'),
+            ('검은 줄을 두 번 그었다.', '畫了三道黑線。'),
+            ('검은 줄을 두 번 그었다.', '畫了負兩道黑線。'),
+            ('둘 다 남겨 둔 채 이름만 쓰는 선택은 없었다.', '沒有把三邊都留下、只簽名字的選項。'),
+            ('둘 다 남겨 둔 채 이름만 쓰는 선택은 없었다.', '沒有把兩個人留下、只簽名字的選項。'),
+            ('두 결과를 자기 원장에만 둘 수 있었다.', '可以只把三個結果留在自己的帳冊。'),
+            ('하루를 통째로 비웠었다. 그 하루가 체력이 됐다.', '曾把兩整天完全空下來。那一天，成了體力。'),
+            ('밥 한 끼를 함께할 수 있는지 물었다. 한 끼는 확정되지 않았다.', '問能否一起吃兩頓飯。那頓飯還沒有確定。'),
+            ('밥 한 끼를 함께할 수 있는지 물었다. 한 끼는 확정되지 않았다.', '問能否一起吃頓飯。還沒有確定。'),
+        ):
+            leaf = tool.Leaf('events', 'example', 'content/events/arc_pre_ending.json', ('description',), source, 'event_standard')
+            self.assertTrue(tool.translation_errors(leaf, 'zh-TW', bad), (source, bad))
+
+    def test_finale_postposition_and_appliance_cycle(self):
+        for source, good, bad in (
+            ('세 주소를 지웠다. 세 주소에 붙은 알림도 지웠다. 세 문만 닫혔다.', '刪掉三個地址。三個地址的通知也刪了。三扇門關上了。', '刪掉三個地址。兩個地址的通知也刪了。三扇門關上了。'),
+            ('두 결과를 남겼다.', '留下兩項結果。', '留下三項結果。'),
+            ('세 물건 사이에 종이를 끼웠다.', '在三樣物件之間夾紙。', '在負三樣物件之間夾紙。'),
+            ('냉장고가 한 번 돌아가는 동안.', '冰箱運轉了一輪的工夫。', '冰箱運轉了兩輪的工夫。'),
+            ('냉장고가 한 번 돌아가는 동안.', '冰箱運轉了一次的工夫。', '冰箱運轉了負一輪的工夫。'),
+        ):
+            leaf = tool.Leaf('events', 'example', 'content/events/arc_pre_ending.json', ('description',), source, 'event_standard')
+            self.assertEqual(tool.translation_errors(leaf, 'zh-TW', good), [], (source, good))
+            self.assertTrue(tool.translation_errors(leaf, 'zh-TW', bad), (source, bad))
+
+    def test_finale_review_timecode_day_and_signature_mutations(self):
+        for source, bads in (
+            ('00:31 원본을 지웠다.', ('刪掉−00:31的原檔。', '刪掉十 00:31的原檔。', '刪掉+00:31的原檔。')),
+            ('하루를 통째로 비웠었다.', ('曾把負一整天完全空下來。', '曾把十 一整天完全空下來。')),
+            ('세 뜻을 읽었다. 하나를 쓰는 순간 다른 둘은 빈 줄에서 밀려났다. 셋을 모두 고른 척하면.', ('讀出三種意思。寫下一種的人的瞬間，另外兩種的人就被擠出空行。假裝三種的人全選。',)),
+        ):
+            leaf = tool.Leaf('events', 'example', 'content/events/arc_pre_ending.json', ('description',), source, 'event_standard')
+            for bad in bads:
+                self.assertTrue(tool.translation_errors(leaf, 'zh-TW', bad), (source, bad))
+
+    def test_finale_agreement_parties_before_same_screen(self):
+        leaf = tool.Leaf('events', 'example', 'content/events/arc_year3_drama.json', ('description',), '둘이 합의한 날짜에 맞춰 한 화면에 띄웠다.', 'event_standard')
+        self.assertEqual(tool.translation_errors(leaf, 'zh-CN', '按双方商定的日期，放到同一个屏幕上。'), [])
+        self.assertEqual(tool.translation_errors(leaf, 'zh-TW', '按兩人商定的日期，放到同一個螢幕上。'), [])
+        for bad in ('按三人商定的日期，放到同一個螢幕上。', '按負雙方商定的日期，放到同一個螢幕上。', '按十 雙方商定的日期，放到同一個螢幕上。', '按雙方商定的日期，放到同兩個螢幕上。'):
+            self.assertTrue(tool.translation_errors(leaf, 'zh-TW', bad), bad)
+        leaf = tool.Leaf('events', 'example', 'content/events/arc_year3_drama.json', ('description',), '둘이 합의한 날짜에 맞춰 한 화면에 띄웠다. 서로 다른 두 도시의 시각으로 남았다.', 'event_standard')
+        good = '按双方商定的日期，放到同一个屏幕上。留作两个不同城市的时间。'
+        self.assertEqual(tool.translation_errors(leaf, 'zh-CN', good), [])
+        for bad in (good.replace('双方','三人'), good.replace('一个屏幕','两个屏幕'), good.replace('两个不同城市','三个不同城市'), good.replace('两个不同城市','两个人'), good.replace('两个不同城市','负两个不同城市')):
+            self.assertTrue(tool.translation_errors(leaf, 'zh-CN', bad), bad)
+
     def test_final_year_observed_surface_quantities(self):
         for source, target in (
             ('한 달에 일요일 하나를 남긴다.', '每月留下一個星期天。'),

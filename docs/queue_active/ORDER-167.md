@@ -4,7 +4,7 @@
 
 #### [~] ORDER-167 [P0·전체 현지화] 마지막 서명과 사람에게 보내는 행동을 세 언어로 옮긴다
 
-**[~] 2026-09-07 Codex 착수 — 아래 정확15 ID의 JA·zh-CN·zh-TW text-only
+**[~] 2026-09-07 Codex L1/L2 수용·L3 OPEN — 아래 정확15 ID의 JA·zh-CN·zh-TW text-only
 overlay, 원문 결속 검사·수용 기록·증거 문서만 소유한다.**
 사용자 전체 게임 번역 지시를 구현 `80c0702`에서 이어간다.
 기존7,866 수용·비표시 메타9·공개 working baseline과 배경 제품53493fe를 보존한다.
@@ -88,3 +88,29 @@ KO/EN·runtime·저장·routing·human_gates·catalog/endings·공개 overlay·�
 범위·파일·증거는 일회성이다. 지속 현지화 규칙은 기존 I18N_INFRASTRUCTURE와
 세 용어집이 소유하며 새 서사·상품·출시 규칙을 만들지 않는다.
 
+## 수용 결과 — L3·원어민·화면 OPEN
+
+- 선언 `c6afbfc` 뒤15종197×3=591문구를 직접 저작하고 다른 작성자가 KO 전수
+  대조했다. 철회 창구 날짜3·보증 주체3·사과 지연1·두 종이 행동1, 총8문구를
+  고쳐 재대조했다. 이전7,866·메타9·각 언어 기존59행의 값/순서/raw prefix는
+  독립 보존검증 PASS다. KO/EN·runtime·공개·폰트·human_gates 변경0이다.
+- 초기 source3개를 보존하고 최종 source/response/receipt3쌍을 발급했다.
+  각197개 check/import PASS·changed_files=0이며 portable 수용8,457개다.
+  accepted checksum `c02b5815a16893f4df3b3cf15a31a4059aebbd4c6992785386930a0ec41a9de8`.
+  최종197-record aggregate:
+  - JA `c2b56fe23a46f85c566972a323205e118dc9b0ae1b6c519ecba24ec450aa4082`
+  - CN `f00d093fb63c762ec9f3af0dd0bc80078da6fd7b9c27a930aeaeb32522c994ce`
+  - TW `b126e2eeed13ae4d814688188aedb5d8a409488a28ba8f9b7b0806366b4aea56`
+- 실제 원문의 원본/원화·관형절·서명1/2/3·줄긋기·식사·하루·시각과
+  합의 당사자2/화면1/도시2를 구분하도록 수량 검사를 보강했다. self121 PASS,
+  독립87 fixture에서 신규 누출0이다. 기존에도 통과하던 장부→帳戶資料 의미 한계
+  1건은 별도이며 기계 검사를 완전한 의미 검증으로 부르지 않는다.
+- 숨은 경로 표시·전날/오늘 지시의 원문 부채는 backlog에 기록하고 번역으로
+  몰래 고치지 않았다. 완료164 WORK_LOG절2,618bytes를 history로 이동했으며
+  이전 history 본문과 이동절이 그대로 복원된다. 새 history11,808bytes SHA
+  `5244fbed9ba58f0212bcac18ec442444bbe7e4a520c903e6565870fe2bed421f`.
+- 전체 INCOMPLETE·full/main/product HOLD·출시 데모 GO를 유지한다.
+  다음 범위는 남은 관계·생활 사건이며 전체 번역/실플레이 완료 판정이 아니다.
+- 최종12개 표적 차선·EN·diff PASS: self121·ZH935·공개14사건100문구/UI121
+  유지. 실제 stdout은 git-private `full-game-localization/order167-final-checks.log`.
+  중국어 full 폰트 JP-first 차단은 기존 잔여이며 skeleton PASS로 닫지 않는다.
