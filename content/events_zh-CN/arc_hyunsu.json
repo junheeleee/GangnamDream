@@ -1,0 +1,22 @@
+[
+  {
+    "id": "hyunsu_result_fail",
+    "title": "Hyunsu，没考上",
+    "description": "成绩公布的那个周一，Hyunsu 通过 KakaoTalk 发来一行消息。\n\n“哥，我没考上。”\n\n之后三天，Hyunsu 都没出房门。公共厨房里，也听不见他烧水煮方便面的声音了。{name}提着便利店的袋子，去了 Hyunsu 住的考试院。只有一点灯光从门缝底下漏出来。\n\n要敲门吗。手抬起来，放下，又抬了起来。",
+    "description_memory_if_known": {
+      "relationship_memory:hyunsu:hyunsu_exam_eve_one_problem": "站在门前，想起了考前最后一个星期天，在 KakaoTalk 上一起看的那张题目照片。Hyunsu 当时说，弄懂这一题就睡。",
+      "relationship_memory:hyunsu:hyunsu_exam_eve_rest_protected": "站在门前，想起了考前最后一个星期天 Hyunsu 发来的回复。“设好闹钟就躺下了。哥，你也睡吧。”",
+      "future_story_source:hyunsu_exam_2026:hyunsu_exam_eve_unanswered": "考前最后一个星期天，没能回复 Hyunsu 的 KakaoTalk 消息。站在门前的{name}想起那天留在屏幕上的题目照片。"
+    },
+    "choices": [
+      {
+        "text": "敲门",
+        "result_text": "过了很久，门才打开。\n\nHyunsu 的眼睛肿着。摊开的习题册还原样放在地板上。\n\n{name}从袋子里拿出两罐饮料，递过去一罐。Hyunsu 接住了。拉开易拉罐的声音，在狭小的房间里格外响。\n\n两人一言不发地坐着，直到把饮料喝完。"
+      },
+      {
+        "text": "不打扰——他可能想一个人待着",
+        "result_text": "{name}没有敲门，提着便利店的袋子回去了。\n\n第四天再去考试院时，Hyunsu 在公共洗手台前洗了很久的脸。水声停了，彼此的目光在走廊里碰上。Hyunsu 轻轻点了一下头。\n\n{name}也只是低头回应。那天什么也没问。"
+      }
+    ]
+  }
+]

@@ -199,6 +199,59 @@
       "why": "번역문을 만들지 않고 lifecycle shipping 원문과 M07~M60 정적 closure·보호 재사용만 빠르게 검증한다"
     },
     {
+      "id": "full-game-localization-overlays",
+      "paths": [
+        "content/events_ja/**",
+        "content/events_zh-CN/**",
+        "content/events_zh-TW/**",
+        "content/endings_ja.json",
+        "content/endings_zh-CN.json",
+        "content/endings_zh-TW.json",
+        "content/meta/full_game_localization.json",
+        "tools/full_game_localization.py",
+        "tools/full_game_localization_self_test.py",
+        "tools/zh_translation_audit.py",
+        "tools/full_body_translation_scope.py"
+      ],
+      "owned_paths": [
+        "content/events_ja/**",
+        "content/events_zh-CN/**",
+        "content/events_zh-TW/**",
+        "content/endings_ja.json",
+        "content/endings_zh-CN.json",
+        "content/endings_zh-TW.json",
+        "content/meta/full_game_localization.json",
+        "tools/full_game_localization.py",
+        "tools/full_game_localization_self_test.py",
+        "tools/zh_translation_audit.py",
+        "tools/full_body_translation_scope.py",
+        "tools/audit_scope.json",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/DECISIONS.md",
+        "docs/I18N_INFRASTRUCTURE.md",
+        "docs/WORK_LOG.md",
+        "docs/STATUS.md",
+        "docs/queue_active/ORDER-157.md",
+        "docs/queue_active/ORDER-158.md",
+        "docs/queue_archive/ORDER-157.md",
+        "docs/queue_archive/ORDER-158.md",
+        "docs/queue_backlog/FULL_GAME_LOCALIZATION.md"
+      ],
+      "tools": [
+        "tools/full_game_localization_self_test.py",
+        "tools/zh_translation_audit.py --self-test",
+        "tools/ja_translation_pipeline.py --self-test",
+        "tools/story_demo_localization_audit.py --self-test",
+        "tools/story_demo_localization_audit.py",
+        "tools/full_body_translation_scope.py --self-test",
+        "tools/i18n_coverage_check.py",
+        "tools/audit.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "텍스트 전용 번역·증분 검사의 회귀. KO/EN·런타임·UI·폰트·공개 설정을 바꾸면 이 경로를 쓰지 않으며 실제 화면·원어민 판정은 별도 OPEN이다"
+    },
+    {
       "id": "order103-macos-package",
       "paths": [
         "docs/BUILD_PIPELINE.md",
@@ -467,6 +520,23 @@
         "tools/event_schedule.py",
         "tools/story_demo_localization_audit.py",
         "tools/full_body_translation_scope.py"
+      ]
+    },
+    {
+      "tool": "tools/full_game_localization_self_test.py",
+      "why": "전체판 KO 직접 번역의 source/locale/hash 결속, 공개 데모 보호, 누락·추가·중복·gameplay·오래된 batch 거부. 전체 완료나 사람 GO는 판정하지 않는다",
+      "paths": [
+        "content/events/**",
+        "content/events_ja/**",
+        "content/events_zh-CN/**",
+        "content/events_zh-TW/**",
+        "content/endings*.json",
+        "content/meta/full_game_localization.json",
+        "locale/**",
+        "tools/full_game_localization.py",
+        "tools/full_game_localization_self_test.py",
+        "tools/ja_translation_pipeline.py",
+        "tools/zh_translation_audit.py"
       ]
     },
     {

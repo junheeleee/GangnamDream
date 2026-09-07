@@ -90,7 +90,7 @@ SOURCE_COUNTER_SUFFIX = (
     r"안|후|전|부터|까지|쯤|어치|치가|치에|치))"
 )
 SOURCE_COUNTER_NAMES = (
-    r"개월|시간|사람|켤레|세트|문항|문제|문장|걸음|박자|블록|모금|"
+    r"개월|시간|사람|켤레|세트|문항|문제|문장|글자|제목|걸음|박자|블록|모금|"
     r"년|해|달|월|주|일|분|초|개|명|번|회|층|평|살|세|시|차|"
     r"장|채|대|잔|컵|줄|행|칸|끼|통|자리|뼘"
 )
@@ -102,7 +102,7 @@ SOURCE_WORD_COUNTER = re.compile(
     r"(?<![가-힣])(?P<number>"
     + "|".join(re.escape(form) for form in KOREAN_NATIVE_FORMS)
     + r"|[일삼사오육칠팔구십백천]|[일이삼사오육칠팔구십백천]{2,})\s+"
-    r"(?P<counter>개월|시간|사람|켤레|세트|문항|문제|문장|걸음|"
+    r"(?P<counter>개월|시간|사람|켤레|세트|문항|문제|문장|글자|제목|걸음|"
     r"박자|블록|모금|년|해|달|월|주|일|분|초|개|명|번|회|층|"
     r"평|살|시|장|채|대|잔|컵|줄|행|칸|끼|통|자리|뼘)"
     + SOURCE_COUNTER_SUFFIX
@@ -162,6 +162,9 @@ TARGET_COUNTER_FORMS: tuple[tuple[str, tuple[str, ...]], ...] = (
         "個人", "个人", "人", "名", "位", "個", "个", "件",
         "條", "条", "張", "张", "輛", "辆", "棟", "栋", "杯",
     )),
+    ("box", ("只箱子", "個箱子", "个箱子", "箱子", "箱")),
+    ("character", ("個字", "个字", "字")),
+    ("heading", ("個標題", "个标题", "標題", "标题")),
     ("sheet", ("張", "张", "枚", "頁", "页")),
     ("building", ("棟", "栋", "幢", "套", "戶", "户")),
     ("vehicle", ("輛", "辆", "台")),
@@ -169,6 +172,7 @@ TARGET_COUNTER_FORMS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("line", ("行", "列", "條", "条", "句")),
     ("pair", ("雙", "双", "對", "对")),
     ("cell", ("格", "欄", "栏", "列")),
+    ("occupied_space", ("格", "欄", "栏", "列", "處", "处", "塊地方", "块地方")),
     ("question", ("題", "题", "道", "個", "个")),
     ("set", ("套", "組", "组")),
     ("meal", ("頓", "顿", "餐")),
@@ -182,6 +186,8 @@ TARGET_COUNTER_FORMS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("landing", ("個", "个", "處", "处")),
     ("clock_hour", ("點", "点", "時", "时")),
     ("occurrence", ("次", "回", "遍", "下")),
+    ("look_occurrence", ("次", "回", "遍", "下", "眼")),
+    ("ring_occurrence", ("次", "回", "聲", "声")),
     ("week", ("週", "周")),
     ("year", ("年",)),
     ("duration_day", ("天", "日")),
@@ -209,6 +215,7 @@ SOURCE_COUNTER_CLASSES = {
     "통": "message", "모금": "sip", "문장": "line",
     "걸음": "step", "자리": "slot", "박자": "beat",
     "블록": "entity", "뼘": "span",
+    "글자": "character", "제목": "heading",
 }
 
 ORDINAL_CONTEXT_CLASSES: tuple[tuple[tuple[str, ...], str], ...] = (
@@ -260,7 +267,8 @@ TARGET_WON_MONEY = re.compile(
 KOREAN_WON = re.compile(
     r"(?:₩|KRW|원화|"
     r"(?:(?:\d[\d,.]*|%(?:\d+\$)?[-+#0 .\d]*[a-zA-Z]|"
-    r"[일이삼사오육칠팔구십백천]+)\s*(?:만|억)?|(?<![가-힣])(?:만|억))\s*원)"
+    r"(?<![가-힣])[일이삼사오육칠팔구십백천]+)\s*(?:만|억)?|"
+    r"(?<![가-힣])(?:만|억))\s*원)"
 )
 KOREAN_UNIT_AMOUNT = re.compile(
     r"(?<![가-힣])(?P<number>\d[\d,.]*)\s*"
@@ -312,7 +320,10 @@ SCRIPT_VARIANTS: tuple[tuple[str, str], ...] = (
 REGIONAL_PHRASE_VARIANTS: tuple[tuple[str, str], ...] = (
     ("以后", "以後"),
 )
-ZH_TW_SHARED_SCRIPT_CHARACTERS = frozenset({"床"})
+# Taiwan MOE lists 群 as the standard A03225 and 羣 as its variant:
+# https://dict.variants.moe.edu.tw/dictView.jsp?ID=34744&la=0
+# Keep the original OpenCC dataset and its integrity hash unchanged.
+ZH_TW_SHARED_SCRIPT_CHARACTERS = frozenset({"床", "群"})
 
 REGIONAL_TERMS = {
     "zh-CN": {
@@ -404,6 +415,7 @@ LATIN_EXACT = {
 # cannot use this exception to smuggle an otherwise-untranslated Latin token.
 SOURCE_SCOPED_LATIN_TERMS = {
     "한빛유통": "Hanbit 流通",
+    "한PD건설": {"zh-CN": "HanPD 建设", "zh-TW": "HanPD 建設"},
 }
 ALLOWED_LATIN_PHRASES = tuple(sorted({
     *LATIN_EXACT.values(),
@@ -701,6 +713,8 @@ def _terminology_errors(lang: str, source: str, target: str) -> list[str]:
     for korean, expected in SOURCE_SCOPED_LATIN_TERMS.items():
         if korean not in source:
             continue
+        if isinstance(expected, dict):
+            expected = expected[lang]
         if expected not in target:
             errors.append(
                 f"{korean} must use canonical prepared form {expected!r}"
@@ -880,13 +894,46 @@ def _source_counter_kind(
     source: str, match: re.Match[str], counter: str,
 ) -> str:
     following = source[match.end():].lstrip()
+    preceding = source[max(0, match.start() - 120):match.start()]
+    if counter == "사람" and match.group("number") == "한" and re.search(
+        r"기다리게\s+$", preceding,
+    ):
+        # 기다리게 한 사람 is a causative relative clause, not one person.
+        # Counting it consumes a later actual person and skips the first week.
+        return ""
+    if counter == "개" and re.search(r"(?:박스|상자)\s*$", preceding):
+        return "box"
     if counter == "대" and re.match(r"(?:초|중|후)반", following):
         return "age_decade"
     if counter == "칸":
+        if re.search(r"책상\s*위에는[^.\n]*$", preceding) and re.match(
+            r"씩\s*자리를\s*차지", following,
+        ):
+            # Physical desk occupancy, never a table/calendar cell in general.
+            return "occupied_space"
         preceding = source[max(0, match.start() - 16):match.start()]
         if "계단" in preceding:
             return "stair_step"
+    preceding = source[max(0, match.start() - 120):match.start()]
+    if counter in {"번", "회"} and re.match(
+        r"(?:보고|보았다|봤다|본다)(?=$|[\s.,])", following,
+    ):
+        return "look_occurrence"
+    if counter in {"번", "회"} and re.match(
+        r"만에\s*받았다(?:\.|$|\s)", following,
+    ) and re.search(
+        r"아버지의\s+연락처를\s+눌렀다\.\s*아버지는\s+$",
+        preceding,
+    ):
+        # Only this adjacent, same-person call/answer construction owns the
+        # inferred ringing. A prior call plus 서류는/서류를 받았다 does not.
+        return "ring_occurrence"
     preceding = source[max(0, match.start() - 24):match.start()]
+    if counter in {"번", "회"} and re.search(
+        r"(?:수신음|통화\s*연결음|호출음|벨소리)(?:이|가)?\s*$", preceding,
+    ):
+        # Sound classifiers are valid for ringing, not arbitrary repetitions.
+        return "ring_occurrence"
     if counter == "일" and re.search(r"\d+\s*월\s*$", preceding):
         return "calendar_day"
     if counter == "분" and re.search(
@@ -1024,6 +1071,18 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
 
 
 def _target_pattern_for_kind(kind: str) -> re.Pattern[str]:
+    if kind == "ordinal_line":
+        return re.compile(
+            rf"(?:第\s*(?P<number>{CHINESE_CARDINAL})\s*(?:行|列|條|条|句)"
+            rf"|(?<![第0-9零〇○一二两兩三四五六七八九十百千])(?P<first_line>首行))"
+        )
+    if kind == "meal":
+        # 那頓飯 refers to one previously mentioned meal. Do not generalize
+        # demonstratives to amounts or unrelated source counters.
+        return re.compile(
+            rf"(?<![A-Za-z0-9零〇○一二两兩三四五六七八九十百千])"
+            rf"(?P<number>{CHINESE_CARDINAL}|那|這|这)\s*(?:頓|顿|餐)"
+        )
     if kind == "ordinal_generic":
         return re.compile(
             rf"第\s*(?P<number>{CHINESE_CARDINAL})"
@@ -1084,7 +1143,18 @@ def _match_target_counter_quantities(
         pattern = _target_pattern_for_kind(expected.kind)
         candidates: list[CounterQuantity] = []
         for match in pattern.finditer(target, cursor):
-            value = _chinese_cardinal_value(match.group("number"))
+            if expected.kind == "look_occurrence" and match.group(0).endswith("眼") \
+                    and not re.search(
+                        r"(?:看|瞥|望)(?:了|過|过)?\s*$",
+                        target[max(0, match.start() - 12):match.start()],
+                    ):
+                # 一眼 is a glance after a seeing verb, not one physical eye.
+                continue
+            value = _chinese_cardinal_value(match.group("number") or "")
+            if expected.kind == "ordinal_line" and match.groupdict().get("first_line"):
+                value = Decimal(1)
+            if expected.kind == "meal" and match.group("number") in {"那", "這", "这"}:
+                value = Decimal(1)
             if value is not None and match.groupdict().get("half"):
                 value += Decimal("0.5")
             if value is not None:
@@ -1381,7 +1451,8 @@ def _untranslated_english_errors(source: str, target: str) -> list[str]:
     for korean, phrase in SOURCE_SCOPED_LATIN_TERMS.items():
         if korean in source:
             # Case and spacing are part of the locked prepared form.
-            scrubbed = scrubbed.replace(phrase, " ")
+            for prepared in (phrase.values() if isinstance(phrase, dict) else (phrase,)):
+                scrubbed = scrubbed.replace(prepared, " ")
     for phrase in ALLOWED_LATIN_PHRASES:
         scrubbed = re.sub(re.escape(phrase), " ", scrubbed, flags=re.IGNORECASE)
     for token in sorted(ALLOWED_LATIN_TOKENS, key=len, reverse=True):
@@ -2143,6 +2214,210 @@ def run_self_test(
             "三栋楼", "counter quantity missing/changed",
         ),
         (
+            "ring-count-drift", "zh-CN", "수신음이 두 번 울렸다.",
+            "回铃音响了三声。", "counter quantity missing/changed",
+        ),
+        (
+            "ring-count-missing", "zh-TW", "수신음이 두 번 울렸다.",
+            "回鈴音響了。", "counter quantity missing/changed",
+        ),
+        (
+            "non-ring-sound-classifier", "zh-CN", "두 번은 확인했다.",
+            "确认了两声。", "counter quantity missing/changed",
+        ),
+        (
+            "demonstrative-not-two-meals", "zh-TW", "그때 만든 두 끼.",
+            "當時的那頓飯。", "counter quantity missing/changed",
+        ),
+        (
+            "actual-two-won-not-a-wish", "zh-CN", "이 원을 냈다.",
+            "付了3韩元。", "Korean-won values changed",
+        ),
+        (
+            "actual-won-label-retained", "zh-TW", "200원을 냈다.",
+            "付了200。", "Korean won amount must use",
+        ),
+        (
+            "formatted-won-comparison-unit", "zh-CN", "%s원보다 적었다.",
+            "比%s还少。", "Korean won amount must use",
+        ),
+        (
+            "formatted-won-only-unit", "zh-TW", "%d원밖에 없다.",
+            "只剩%d。", "Korean won amount must use",
+        ),
+        (
+            "box-only-classifier-value", "zh-CN", "박스 두 개였다.",
+            "是三只箱子。", "counter quantity missing/changed",
+        ),
+        (
+            "box-classifier-value", "zh-TW", "상자 두 개였다.",
+            "總共三箱。", "counter quantity missing/changed",
+        ),
+        (
+            "box-count-missing", "zh-CN", "박스 두 개였다.",
+            "只有箱子。", "counter quantity missing/changed",
+        ),
+        (
+            "box-not-unrelated-only-classifier", "zh-CN", "박스 두 개였다.",
+            "有两只鸟。", "counter quantity missing/changed",
+        ),
+        (
+            "box-not-generic-entity", "zh-TW", "사과 두 개였다.",
+            "有兩箱。", "counter quantity missing/changed",
+        ),
+        (
+            "box-not-person-counter", "zh-CN", "사람 두 명이었다.",
+            "有两只箱子。", "counter quantity missing/changed",
+        ),
+        (
+            "character-count-value", "zh-CN", "두 글자가 남았다.",
+            "留下三个字。", "counter quantity missing/changed",
+        ),
+        (
+            "character-count-missing", "zh-TW", "두 글자가 남았다.",
+            "留下文字。", "counter quantity missing/changed",
+        ),
+        (
+            "character-not-heading", "zh-TW", "두 글자가 남았다.",
+            "留下兩個標題。", "counter quantity missing/changed",
+        ),
+        (
+            "heading-count-value", "zh-TW", "두 제목을 적었다.",
+            "寫了三個標題。", "counter quantity missing/changed",
+        ),
+        (
+            "heading-count-missing", "zh-CN", "두 제목을 적었다.",
+            "写下标题。", "counter quantity missing/changed",
+        ),
+        (
+            "heading-not-character", "zh-CN", "두 제목을 적었다.",
+            "写了两个字。", "counter quantity missing/changed",
+        ),
+        (
+            "look-count-value", "zh-CN", "박스를 두 번 보고 돌아섰다.",
+            "看了一眼箱子，转过身。", "counter quantity missing/changed",
+        ),
+        (
+            "look-count-missing", "zh-TW", "박스를 한 번 보고 돌아섰다.",
+            "看看箱子後轉身。", "counter quantity missing/changed",
+        ),
+        (
+            "eye-classifier-not-confirmation", "zh-CN", "한 번 확인했다.",
+            "确认了一眼。", "counter quantity missing/changed",
+        ),
+        (
+            "eye-classifier-not-collision", "zh-TW", "열쇠가 한 번 부딪혔다.",
+            "鑰匙碰了一眼。", "counter quantity missing/changed",
+        ),
+        (
+            "glance-not-physical-eye", "zh-CN", "박스를 한 번 보고 돌아섰다.",
+            "只剩一眼，转过身。", "counter quantity missing/changed",
+        ),
+        (
+            "answered-call-ring-value", "zh-TW",
+            "아버지의 연락처를 눌렀다. 아버지는 두 번 만에 받았다.",
+            "按下父親的聯絡人。響了三聲，父親接起電話。",
+            "counter quantity missing/changed",
+        ),
+        (
+            "answered-call-ring-missing", "zh-CN",
+            "아버지의 연락처를 눌렀다. 아버지는 두 번 만에 받았다.",
+            "按下父亲的联系人。父亲接了电话。",
+            "counter quantity missing/changed",
+        ),
+        (
+            "receiving-parcel-not-ringing", "zh-TW", "택배를 두 번 만에 받았다.",
+            "響了兩聲就收到包裹。", "counter quantity missing/changed",
+        ),
+        (
+            "prior-call-not-document-ringing", "zh-CN",
+            "전화를 걸었다. 서류를 두 번 만에 받았다.",
+            "打过电话。文件两声才收到。", "counter quantity missing/changed",
+        ),
+        (
+            "prior-call-not-topic-document-ringing", "zh-CN",
+            "전화를 걸었다. 서류는 두 번 만에 받았다.",
+            "打过电话。响了两声，文件就收到了。", "counter quantity missing/changed",
+        ),
+        (
+            "father-contact-not-topic-document-ringing", "zh-TW",
+            "아버지의 연락처를 눌렀다. 서류는 두 번 만에 받았다.",
+            "按下父親的聯絡人。響了兩聲，文件就收到了。",
+            "counter quantity missing/changed",
+        ),
+        (
+            "father-contact-not-object-document-ringing", "zh-CN",
+            "아버지의 연락처를 눌렀다. 아버지는 서류를 두 번 만에 받았다.",
+            "按下父亲的联系人。响了两声，父亲就收到文件。",
+            "counter quantity missing/changed",
+        ),
+        (
+            "desk-space-count-value", "zh-CN",
+            "책상 위에는 수첩이 한 칸씩 자리를 차지했다.",
+            "书桌上的笔记本各占两处。", "counter quantity missing/changed",
+        ),
+        (
+            "desk-space-count-missing", "zh-TW",
+            "책상 위에는 수첩이 한 칸씩 자리를 차지했다.",
+            "書桌上的筆記本占了地方。", "counter quantity missing/changed",
+        ),
+        (
+            "table-cell-not-place", "zh-CN", "표의 한 칸을 채웠다.",
+            "填了一处。", "counter quantity missing/changed",
+        ),
+        (
+            "desk-table-cell-not-physical-space", "zh-TW",
+            "책상 위에는 표의 한 칸이 비어 있었다.",
+            "書桌上的表格空著一塊地方。", "counter quantity missing/changed",
+        ),
+        (
+            "first-line-not-second", "zh-TW", "첫 줄에 적었다.",
+            "寫在第二行。", "counter quantity missing/changed",
+        ),
+        (
+            "second-line-not-first-lexeme", "zh-TW", "두 번째 줄에 적었다.",
+            "寫在首行。", "counter quantity missing/changed",
+        ),
+        (
+            "first-line-missing", "zh-CN", "첫 줄에 적었다.",
+            "写了下来。", "counter quantity missing/changed",
+        ),
+        (
+            "first-week-not-line", "zh-TW", "첫 주에 적었다.",
+            "寫在首行。", "counter quantity missing/changed",
+        ),
+        (
+            "causative-still-requires-first-week", "zh-TW",
+            "기다리게 한 사람이 있었다. 첫 주는 비었다. 사람 한 명을 적었다.",
+            "有被留下等待的人。第二週空白。寫下一個人。",
+            "counter quantity missing/changed",
+        ),
+        (
+            "actual-one-person-not-causative", "zh-CN",
+            "한 사람이 기다렸다. 첫 주는 비었다.",
+            "有人等待。第一周空着。", "counter quantity missing/changed",
+        ),
+        (
+            "hanpd-source-scope", "zh-CN", "건설사에서 왔다.",
+            "来自HanPD 建设。", "untranslated English token",
+        ),
+        (
+            "hanpd-similar-source-not-owner", "zh-TW", "한 건설사에서 왔다.",
+            "來自HanPD 建設。", "untranslated English token",
+        ),
+        (
+            "hanpd-no-extra-english", "zh-CN", "한PD건설에서 왔다.",
+            "来自HanPD 建设，Money。", "untranslated English token",
+        ),
+        (
+            "hanpd-region-still-locked", "zh-TW", "한PD건설에서 왔다.",
+            "來自HanPD 建设。", "regional script mismatch",
+        ),
+        (
+            "shared-qun-does-not-allow-mixed-script", "zh-TW", "한 무리였다.",
+            "那一群人很鲜艳。", "regional script mismatch",
+        ),
+        (
             "sheet-counter-value", "zh-CN", "재고표 두 장",
             "三张库存表", "counter quantity missing/changed",
         ),
@@ -2516,6 +2791,63 @@ def run_self_test(
             )
 
     valid_semantic_rows = (
+        ("zh-CN", "박스 두 개였다.", "是两只箱子。"),
+        ("zh-TW", "박스 두 개였다.", "是兩只箱子。"),
+        ("zh-CN", "상자 두 개였다.", "总共两箱。"),
+        ("zh-TW", "상자 두 개였다.", "總共兩箱。"),
+        ("zh-CN", "박스 두 개였다.", "是两个箱子。"),
+        ("zh-TW", "상자 두 개였다.", "是兩個箱子。"),
+        ("zh-CN", "두 글자가 남았다.", "留下两个字。"),
+        ("zh-TW", "두 글자가 남았다.", "留下兩個字。"),
+        ("zh-TW", "두 글자가 남았다.", "留下兩字。"),
+        ("zh-CN", "두 제목을 적었다.", "写了两个标题。"),
+        ("zh-TW", "두 제목을 적었다.", "寫了兩個標題。"),
+        ("zh-CN", "박스를 한 번 보고 돌아섰다.", "看了一眼箱子，转过身。"),
+        ("zh-TW", "박스를 한 번 보고 돌아섰다.", "看了一眼箱子後轉身。"),
+        (
+            "zh-TW", "박스를 한 번 보고, 열쇠가 한 번 부딪혔다.",
+            "看了一眼箱子，鑰匙碰了一下。",
+        ),
+        (
+            "zh-CN", "아버지의 연락처를 눌렀다. 아버지는 두 번 만에 받았다.",
+            "按下父亲的联系人。响了两声，父亲接了电话。",
+        ),
+        (
+            "zh-TW", "아버지의 연락처를 눌렀다. 아버지는 두 번 만에 받았다.",
+            "按下父親的聯絡人。響了兩聲，父親接起電話。",
+        ),
+        (
+            "zh-CN", "책상 위에는 수첩이 한 칸씩 자리를 차지했다.",
+            "书桌上的笔记本各占一处。",
+        ),
+        (
+            "zh-TW", "책상 위에는 수첩이 한 칸씩 자리를 차지했다.",
+            "書桌上的筆記本各占一塊地方。",
+        ),
+        ("zh-CN", "첫 줄에 적었다.", "写在首行。"),
+        ("zh-TW", "첫 줄에 적었다.", "寫在首行。"),
+        (
+            "zh-CN", "기다리게 한 사람이 있었다. 첫 주는 비었다. 사람 한 명을 적었다.",
+            "有被留下等待的人。第一周空着。写下一个人。",
+        ),
+        (
+            "zh-TW", "기다리게 한 사람이 있었다. 첫 주는 비었다. 사람 한 명을 적었다.",
+            "有被留下等待的人。第一週空白。寫下一個人。",
+        ),
+        ("zh-CN", "한PD건설", "HanPD 建设"),
+        ("zh-TW", "한PD건설", "HanPD 建設"),
+        ("zh-CN", "한PD건설에서 왔다.", "来自HanPD 建设。"),
+        ("zh-TW", "한PD건설에서 왔다.", "來自HanPD 建設。"),
+        ("zh-CN", "한 무리였다.", "那是一群人。"),
+        ("zh-TW", "한 무리였다.", "那是一群人。"),
+        ("zh-CN", "둘이 원한 만큼만 했다.", "只办到了两个人想要的规模。"),
+        ("zh-TW", "둘이 원한 만큼만 했다.", "只辦成兩個人想要的樣子。"),
+        ("zh-CN", "수신음이 두 번 울렸다.", "回铃音响了两声。"),
+        ("zh-TW", "수신음이 두 번 울렸다.", "回鈴音響了兩聲。"),
+        ("zh-CN", "그때 만든 한 끼.", "当时的那顿饭。"),
+        ("zh-TW", "그때 만든 한 끼.", "當時的那頓飯。"),
+        ("zh-CN", "이 원을 냈다.", "付了2韩元。"),
+        ("zh-TW", "이 원을 냈다.", "付了2韓元。"),
         ("zh-CN", "9,000원", "9000韩元"),
         ("zh-TW", "500,000원", "50萬韓元"),
         ("zh-CN", "3억 5천", "3亿5000万韩元"),

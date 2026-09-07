@@ -70,3 +70,21 @@ JA/zh-CN/zh-TW에서 독립 번역한다. 본편 전체 번역 완료나 출시 
 보호 데모 불변, 대상 구조 감사·공통 회귀. 원어민/화면 게이트는 OPEN.
 **규범 판정:** 번역 지속 규칙은 `I18N_INFRASTRUCTURE.md`와 세 용어집이 이미
 소유한다. 위 8개 root·20단위·파일 범위는 이 배치에만 쓰는 일회성이다.
+
+## 2026-09-07 L1/L2 수용 기록 — L3 OPEN
+
+| 항목 | 증거 |
+|---|---|
+| 도달 경로 | `FULL_LOCALIZATION_BATCH_VALID locale=ja/zh-CN/zh-TW leaves=94 changed_files=0 action=import`; 실제 플레이 미실행 |
+| 생산자↔독자 | 위 6개 KO 파일의 8 root → 각 locale 6개 text-only overlay; `full_game_localization.py:target_value` |
+| 바꾸는 상태 | locale별 사건 신규 수용 0→94; 기본 60+조건/기억 변형 34; 총 282 |
+| 원문 대조 | JA94 + CN94 + TW94 독립 대조; 마지막 1줄/하루/버스/눈길 문맥을 원문대로 교정 |
+| 수용 해시 | `content/meta/full_game_localization.json:accepted`; locale별 엔딩25+사건94=119 |
+| 검사 | 같은188 중국어 leaf 오류0; ZH self356; 문서 수령→벨 음성 회귀3; OpenCC 원본 SHA 불변 |
+| 포기 시 잃는 것 | 위 8 root의 해당 locale 직접 번역; 인과·효과·선택/주차 변경 0 |
+| 서사 위치/계층 | 초반 이후 사람·주거·연말·Y2 진입 / 원본 계층 불변 |
+| 닫는 것 | 위282 leaf L1/L2; 사용자 표본·원어민·실제 화면 OPEN |
+
+독립 검토에서 전화 앞문맥만으로 `서류는 두 번 만에 받았다`를 벨 두 번으로
+허용하던 새 검사 구멍을 발견했다. 실제 인접 동일인 연락처→응답 구문으로
+좁혔고 주제형/목적격 서류 수령 음성 사례를 추가했다. 범용 수량 완화는 없다.

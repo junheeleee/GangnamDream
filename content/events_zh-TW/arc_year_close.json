@@ -1,0 +1,50 @@
+[
+  {
+    "id": "arc_year1_close",
+    "title": "33歲的最後一晚",
+    "description": "第一年的最後一晚，目前住處的書桌上，筆記本、手機與摺好的收據各占一塊地方。筆記本首行的「{notebook_motive}」下方，接著「30億韓元。5年。」與十二個月的數字。月租、交通費、入帳、損失。人名夾在數字之間，沒見到面的日子，卻沒有記在任何地方。\n\n{name}交替看著手機上的總資產{assets}和第一頁。第一年第一天寫下的目標沒有擦掉，但那個數字已不足以說清楚這一年。\n\n離午夜還有4分鐘。手機畫面上，日期翻頁前的最後幾分鐘正流逝。{name}把最後一頁劃成兩半，寫上「守住的事」與「往後延的事」。一旦決定先填哪邊，另一邊今晚就會空著。",
+    "description_if_known": {
+      "kept_clean_hands": "第一年的最後一晚，{name}把筆記本第一頁與手機並排放好。「{notebook_motive}」，下方是「30億韓元。5年。」接著列出十二個月的月租、交通費、收入和損失。\n\n第一個月的200萬韓元沒有進帳本。封鎖那個要求借用帳戶的號碼後，{name}設了凌晨四點二十分的鬧鐘。沒拿的錢沒有留下數字，而那之後把時間花在哪裡，光看這本帳也無從確認。\n\n總資產是{assets}。聊天清單裡，今年認識的人名與未能回覆的聯絡都還在。離午夜還有4分鐘，{name}把最後一頁劃成兩半，寫上「守住的事」與「往後延的事」。說自己乾淨，不會讓任何一欄自動填好。",
+      "escaped_dirty_money": "第一年的最後一晚，{name}重讀筆記本第一頁的「{notebook_motive}」與「30億韓元。5年。」。第一個月收到的200萬韓元，以及後來受理的150萬韓元返還紀錄，分別占了不同的行。\n\n得知受害款項經過自己的帳戶後，他封鎖號碼，註銷了銀行帳戶。150萬韓元返還受理之後，要求進一步確認的聯絡還在，該負的責任也還在。哪件事結束、哪件事尚未結束，無法用一個數字整理清楚。\n\n總資產是{assets}。數字旁邊，有今年守住的約定，也有沒能回覆的聯絡。離午夜還有4分鐘，{name}把最後一頁劃成兩半，寫上「守住的事」與「往後延的事」。不管先從哪邊開始，另一邊的數字都不會不見。",
+      "fell_to_darkness": "第一年的最後一晚，{name}從筆記本首行的「{notebook_motive}」與「30億韓元。5年。」往下，慢慢看過去。第一個月的200萬韓元，之後的300萬韓元。收入欄只有金額，來源卻空著。\n\n招募的人換了新號碼聯絡，傳來下一個帳號。{name}交出去的三套，早已列進金額欄，而新訊息還在聊天清單最上頭。\n\n總資產是{assets}。聊天清單留著那些沒有回覆的人名。離午夜還有4分鐘，{name}把最後一頁劃成兩半，寫上「守住的事」與「往後延的事」。筆尖停在哪個標題下面，都不容易落下。",
+      "jaehyuk_scammed": "12月了。\n\n這一年，Jaehyuk 不見了。銀行帳戶空了。跌到谷底了。\n\n筆記本第一行的「{notebook_motive}」沒有變。下方的數字，大半都已擦掉。\n\n可是——自己還在這裡。\n\n抬眼看向目前住處的天花板。燈熄了，輪廓還是留在原處。",
+      "entered_network": "12月了。\n\n這一年，認識了 Sangchul 先生身邊的人。也稍微懂了，那個世界是怎麼運轉的。\n\n筆記本第一行的「{notebook_motive}」下方，多出一個個原本沒見過的人名。\n\n往後會代表什麼——現在還不知道。\n\n抬眼看向目前住處的天花板。燈熄了，輪廓還是留在原處。",
+      "hit_rock_bottom": "12月了。\n\n看見了谷底。這一年，明白真正的底究竟在哪裡。\n\n筆記本第一行的「{notebook_motive}」上沾著橡皮擦屑。句子並沒有擦掉。\n\n從那裡爬上來了。雖然還沒完全離開——但已經往上爬了。\n\n抬眼看向目前住處的天花板。燈熄了，輪廓還是留在原處。"
+    },
+    "description_memory_if_known": {
+      "m3_ledger_reasons_named": "沿著3月帳本裡記下的簡短理由，十二個月的數字間，每筆金額背後的那一天、那些時間又浮現出來。",
+      "m3_ledger_totals_only": "3月帳本的加總是對的。可是，總數算不進去的那些事，還是得另外記。",
+      "obligation_receipt:demo_collision:selected:father_call": "第24週的星期五，{name}先打了電話給父親。雖然還沒弄清病名，也沒定下到昌原的日期，但下一次聯絡時間已寫在紙上。",
+      "obligation_receipt:demo_collision:selected:hanbit_month_close": "第24週的星期五，{name}在17:59寄出到 Hanbit 流通後首度負責的月底差異表。沒有硬把未確認的數字填上，而是留下星期一重新確認的項目。",
+      "obligation_receipt:demo_collision:selected:city_work_sample&v2_city_service_result_seen": "第24週的星期五，{name}交出城市設施營運團作業表。第28週收到簡訊，通知同一申請編號不會進行面試。這次申請，送件與結果接成了同一行。",
+      "obligation_receipt:demo_collision:selected:city_work_sample": "第24週的星期五，{name}交出城市設施營運團作業表，收到確認收件的自動回覆。申請紀錄留下了那份確實做出來的作業表。",
+      "obligation_receipt:demo_collision:selected:daeun_checkin": "第24週的星期五，{name}配合 Daeun 的大夜班時間去了便利商店。客人一來就得中斷的簡短問候，先過去找她的人，卻是{name}。",
+      "obligation_receipt:demo_collision:selected:jaehyuk_reply": "第24週的星期五，{name}先傳訊息問 Jaehyuk 這週過得怎樣。不談錢的對話，過了下午6點仍在繼續。",
+      "obligation_receipt:demo_collision:selected:sangchul_ledger": "第24週的星期五，{name}讓 Sangchul 的名片留在抽屜，先核對自己的支出。月租、伙食費、交通費與手機帳單，都記在同一張帳頁。",
+      "obligation_receipt:demo_collision:selected:urgent_paid_shift": "第24週的星期五，{name}接下臨時空出的深夜裝卸班，拿到28萬韓元。當天賺的28萬韓元，以及手掌和腰背的疲累，寫進了同一本帳。",
+      "obligation_receipt:demo_collision:selected:body_rest": "第24週的星期五，{name}只設一個鬧鐘，就將手機翻面。沒解決的事情暫且留著，至少那天，他沒有再硬撐，而是選擇睡覺。",
+      "obligation_receipt:demo_collision:deferred:father_call": "那天沒有打成電話給父親，也沒有定下下次聯絡的時間。",
+      "obligation_receipt:demo_collision:deferred:hanbit_month_close": "Hanbit 流通第一次交給他負責的月底差異表，拖過了18:00。第一次接手的月底結算，有一件未完成的事，以空格留在筆記本裡。",
+      "obligation_receipt:demo_collision:deferred:city_work_sample": "城市設施營運團作業表沒交出去。沒有確認收件的自動回覆，也沒有需要等待的結果。",
+      "obligation_receipt:demo_collision:deferred:daeun_checkin": "即使知道 Daeun 大夜班的時間，那天仍沒能去便利商店。本可以主動說出口的關心，又留給了下一次。",
+      "obligation_receipt:demo_collision:deferred:jaehyuk_reply": "原本能先傳訊息關心 Jaehyuk，那天卻沒有開始對話。沒傳的話，在 KakaoTalk 清單裡沒有留下任何痕跡。",
+      "obligation_receipt:demo_collision:deferred:sangchul_ledger": "那個月的收據還在桌上，自己的支出帳卻沒對完。弄清楚自己的錢花到哪裡，也被往後延了。",
+      "obligation_receipt:demo_collision:deferred:urgent_paid_shift": "沒有接那份臨時急缺人的深夜裝卸工作。帳本上沒有28萬韓元，也沒有選擇那份工作才會留下的手掌與腰背的疲累。",
+      "obligation_receipt:demo_collision:deferred:body_rest": "先讓身體躺下的選擇，被擺到了後面。一年的最後一頁，不只留著解決的事情，也留著撐過的夜晚。"
+    },
+    "choices": [
+      {
+        "text": "把筆記本寫到最後——晚點睡，也要一起記下拿到的與付出的",
+        "result_text": "{name}依日期攤開收據，在金額旁邊，也記上當天延後聯絡的名字。一行是「拿到的」，下一行是「付出的」。無論哪一邊，加總都湊不出漂亮的數字。\n\n午夜過了，最初的約定和30億韓元都還沒擦掉。貼好最後一張收據時，窗外的慶祝聲早已停了。只有上了膠的紙角，慢慢翹起。"
+      },
+      {
+        "text": "打給父親拜年——今晚的結算先闔上",
+        "result_text": "闔起筆記本，按下父親的聯絡人。響了兩聲，父親便接起電話。「吃飯沒。」「還沒。」「跨年前吃點東西。」兩人沒提30億韓元，也沒提從前的債。\n\n電話掛掉時，已經過了午夜。封面內的一張收據掉到書桌後方，{name}沒有開燈找它。"
+      },
+      {
+        "text": "闔上筆記本、關掉手機——不回覆了，今天先睡",
+        "result_text": "{name}沒再開啟聊天清單，也沒重看明天的日期，就將手機關機。筆記本裡，「守住的事」與「往後延的事」兩個標題下方，都還空著，便闔上了。\n\n熄燈之後，只剩窗外的倒數聲穿過牆。從十數到一的整段時間，他一直閉著眼睛。新年到了以後，手也沒伸出被子。"
+      }
+    ]
+  }
+]

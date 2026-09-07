@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import argparse
 import ast
+import copy
 import hashlib
 import json
 import re
@@ -98,6 +99,16 @@ EXPECTED = {
     "target_shipping_leaves": {"ja": 108, "zh-CN": 100, "zh-TW": 100},
     "target_m07_m60_leaves": {"ja": 8, "zh-CN": 8, "zh-TW": 8},
 }
+
+# Preserve the original target baseline independently of later accepted batches.
+# These are the unchanged public-demo 14 roots (100 leaves), plus the existing
+# JA-only story_prologue_goal (8). Hashes use sorted [event_id,path,target text].
+FROZEN_TARGET_BASELINE_SHA256 = {
+    "ja": "92a579b66a365d27c2314d21f15e45195e26f7f202f754a1cf8fa1716f7c8dc0",
+    "zh-CN": "800aaa457f8bcbb00c33fa258fb39db375c41628cabb925ef3cdb05abe912217",
+    "zh-TW": "912b402fba34238e570c65ac50528c4814b07720b58b056fbf53ba7fee7108f6",
+}
+ACCEPTANCE_LEDGER_PATH = Path("content/meta/full_game_localization.json")
 
 EVENT_TEXT_FIELDS = (
     "title",
@@ -687,6 +698,154 @@ def _scope_target_count(
     return sum(len(target_leaves.get(event_id, ())) for event_id in scope_ids)
 
 
+def _scope_accepted_count(scope_ids: set[str], keys: set[tuple[str, str]]) -> int:
+    return sum(event_id in scope_ids for event_id, _path in keys)
+
+
+def _receipt_source_index(
+    events: Mapping[str, SourceEvent],
+    leaf_index: Mapping[str, tuple[TextLeaf, ...]],
+) -> dict[str, tuple[tuple[str, str], str]]:
+    """Map this collector's exact leaves to the shared portable receipt format."""
+    result = {}
+    for event_id, record in events.items():
+        wanted = {leaf.path for leaf in leaf_index.get(event_id, ())}
+
+        def walk(value: Any, tokens: tuple[Any, ...] = (), path: str = "") -> None:
+            if isinstance(value, str) and path in wanted:
+                pointer = "/" + "/".join(str(t).replace("~", "~0").replace("/", "~1") for t in tokens)
+                result[f"events:{event_id}:{pointer}"] = ((event_id, path), canonical_sha({
+                    "path": record.source_file, "field": tokens, "ko": value,
+                }))
+            elif isinstance(value, dict):
+                for key, child in value.items():
+                    walk(child, tokens + (key,), f"{path}.{key}" if path else str(key))
+            elif isinstance(value, list):
+                for index, child in enumerate(value):
+                    walk(child, tokens + (index,), f"{path}[{index}]")
+
+        walk(record.row)
+    return result
+
+
+def _accepted_event_additions(
+    payload: Any, language: str,
+    source_index: Mapping[str, tuple[tuple[str, str], str]],
+    target_texts: Mapping[tuple[str, str], str],
+    baseline_keys: set[tuple[str, str]], errors: list[str],
+) -> set[tuple[str, str]]:
+    """Only exact current event receipts may extend, never replace, the baseline."""
+    from full_game_localization import PROMPT_VERSION
+
+    accepted: dict[str, Any] = {}
+    if payload is not None:
+        if not isinstance(payload, dict) or payload.get("schema_version") != 1 \
+                or payload.get("prompt_version") != PROMPT_VERSION or payload.get("native_review") != "OPEN":
+            errors.append("acceptance ledger schema/prompt/native-review mismatch")
+        else:
+            candidate = payload.get("accepted")
+            if not isinstance(candidate, dict) or set(candidate) != set(TARGET_LANGUAGES) \
+                    or payload.get("accepted_sha256") != canonical_sha(candidate):
+                errors.append("acceptance ledger locale/checksum mismatch")
+            else:
+                accepted = candidate
+    verified: set[tuple[str, str]] = set()
+    records = accepted.get(language, {})
+    if not isinstance(records, dict):
+        errors.append(f"{language}: acceptance ledger records must be an object")
+        records = {}
+    for receipt_id, receipt in records.items():
+        if not isinstance(receipt_id, str) or not isinstance(receipt, dict) \
+                or set(receipt) != {"source_sha256", "target_sha256"} \
+                or any(not isinstance(v, str) or not re.fullmatch(r"[a-f0-9]{64}", v) for v in receipt.values()):
+            errors.append(f"{language}: malformed accepted leaf receipt {receipt_id}")
+            continue
+        # Endings/catalog/UI have their own denominators and audits. They can
+        # never authorize or inflate an event-prose observation.
+        if not receipt_id.startswith("events:"):
+            continue
+        if receipt_id not in source_index:
+            errors.append(f"{language}: accepted event leaf lacks supported Korean source: {receipt_id}")
+            continue
+        key, source_sha = source_index[receipt_id]
+        if receipt["source_sha256"] != source_sha:
+            errors.append(f"{language}: stale accepted event source hash: {receipt_id}")
+            continue
+        text = target_texts.get(key)
+        if not isinstance(text, str) or not text.strip():
+            errors.append(f"{language}: accepted event target missing/blank: {receipt_id}")
+            continue
+        if receipt["target_sha256"] != canonical_sha(text):
+            errors.append(f"{language}: stale accepted event target hash: {receipt_id}")
+            continue
+        if key not in baseline_keys:
+            verified.add(key)
+    unapproved = set(target_texts) - baseline_keys - verified
+    if unapproved:
+        errors.append(f"{language}: target leaves without current source-bound acceptance: "
+                      f"count={len(unapproved)} examples={sorted(unapproved)[:5]}")
+    return verified
+
+
+def _baseline_target_errors(
+    language: str, baseline_keys: set[tuple[str, str]],
+    target_texts: Mapping[tuple[str, str], str], expected_sha: str,
+) -> list[str]:
+    errors = []
+    if baseline_keys - set(target_texts):
+        errors.append(f"{language}: frozen target baseline lost leaf paths")
+    actual = canonical_sha(sorted((eid, path, target_texts.get((eid, path)))
+                                  for eid, path in baseline_keys))
+    if actual != expected_sha:
+        errors.append(f"{language}: frozen target baseline text/shape drifted")
+    return errors
+
+
+def current_target_acceptance(
+    root: Path, events: Mapping[str, SourceEvent],
+    leaf_index: Mapping[str, tuple[TextLeaf, ...]],
+    target_events: Mapping[str, Mapping[str, SourceEvent]],
+    target_leaves: Mapping[str, Mapping[str, tuple[TextLeaf, ...]]],
+    public_demo_ids: set[str], shipping_ids: set[str], static_ids: set[str],
+    errors: list[str],
+) -> dict[str, Any]:
+    from story_demo_localization_audit import EXPECTED_EVENT_LEAVES, localized_leaves
+
+    public_keys = {(eid, path) for eid in public_demo_ids if eid in events
+                   for path in localized_leaves(events[eid].row)}
+    if len(public_keys) != EXPECTED_EVENT_LEAVES:
+        errors.append("public-demo baseline source leaf count drifted")
+    source_index = _receipt_source_index(events, leaf_index)
+    ledger_path = root / ACCEPTANCE_LEDGER_PATH
+    ledger = load_json(ledger_path, errors) if ledger_path.exists() else None
+    report = {}
+    for language in TARGET_LANGUAGES:
+        baseline_keys = set(public_keys)
+        if language == "ja":
+            baseline_keys.update(("story_prologue_goal", leaf.path)
+                                 for leaf in leaf_index.get("story_prologue_goal", ()))
+        texts = {(eid, leaf.path): leaf.source for eid, leaves in target_leaves[language].items()
+                 for leaf in leaves}
+        errors.extend(_baseline_target_errors(language, baseline_keys, texts,
+                                             FROZEN_TARGET_BASELINE_SHA256[language]))
+        for eid in target_events[language]:
+            if eid not in {key[0] for key in baseline_keys} and not target_leaves[language].get(eid):
+                errors.append(f"{language}: new target row has no accepted text leaves: {eid}")
+        additions = _accepted_event_additions(ledger, language, source_index, texts, baseline_keys, errors)
+        counts = {
+            "historical_shipping_baseline_leaves": _scope_accepted_count(shipping_ids, baseline_keys),
+            "historical_static_baseline_leaves": _scope_accepted_count(static_ids, baseline_keys),
+            "accepted_current_event_addition_leaves": len(additions),
+            "accepted_current_shipping_addition_leaves": _scope_accepted_count(shipping_ids, additions),
+            "accepted_current_static_addition_leaves": _scope_accepted_count(static_ids, additions),
+        }
+        if counts["historical_shipping_baseline_leaves"] != EXPECTED["target_shipping_leaves"][language] \
+                or counts["historical_static_baseline_leaves"] != EXPECTED["target_m07_m60_leaves"][language]:
+            errors.append(f"{language}: historical baseline source/scope membership drifted")
+        report[language] = counts
+    return report
+
+
 def protected_reuse_errors(
     static_ids: set[str],
     public_demo_ids: set[str],
@@ -844,8 +1003,12 @@ def build_scope(root: Path | str = ROOT) -> tuple[dict[str, Any], list[str]]:
         )
 
     target_report: dict[str, Any] = {}
+    acceptance = current_target_acceptance(repo, events, leaf_index, target_events,
+                                          target_leaves, public_demo_ids,
+                                          shipping_ids, static_ids, errors)
     for language in TARGET_LANGUAGES:
         target_report[language] = {
+            **acceptance[language],
             "authored_target_event_rows": len(target_events[language]),
             "lifecycle_shipping_structurally_present_target_leaves": (
                 _scope_target_count(shipping_ids, target_leaves[language])
@@ -1032,16 +1195,20 @@ def _expected_observation_errors(report: Mapping[str, Any]) -> list[str]:
         static_target = row.get(
             "m07_m60_static_structurally_present_target_leaves"
         )
-        if shipping_target != EXPECTED["target_shipping_leaves"][language]:
+        expected_shipping_target = EXPECTED["target_shipping_leaves"][language] + row.get(
+            "accepted_current_shipping_addition_leaves", 0)
+        expected_static_target = EXPECTED["target_m07_m60_leaves"][language] + row.get(
+            "accepted_current_static_addition_leaves", 0)
+        if shipping_target != expected_shipping_target:
             errors.append(
                 f"{language} shipping target leaf observation drifted: "
-                f"expected={EXPECTED['target_shipping_leaves'][language]} "
+                f"expected=historical+accepted:{expected_shipping_target} "
                 f"actual={shipping_target}"
             )
-        if static_target != EXPECTED["target_m07_m60_leaves"][language]:
+        if static_target != expected_static_target:
             errors.append(
                 f"{language} M07-M60 target leaf observation drifted: "
-                f"expected={EXPECTED['target_m07_m60_leaves'][language]} "
+                f"expected=historical+accepted:{expected_static_target} "
                 f"actual={static_target}"
             )
     return errors
@@ -1333,6 +1500,79 @@ def run_self_test(root: Path | str = ROOT) -> tuple[list[str], int]:
         and static.get("source_leaves_sha256")
         == EXPECTED["m07_m60_source_leaves_sha256"],
     )
+
+    from full_game_localization import PROMPT_VERSION, Leaf
+
+    receipt_event = SourceEvent("new", "content/events/fixture.json", {
+        "id": "new", "choices": [{"result_text": "새 결과"}],
+    })
+    receipt_leaf = TextLeaf("new", "choices[0].result_text", "새 결과")
+    receipt_index = _receipt_source_index({"new": receipt_event}, {"new": (receipt_leaf,)})
+    full_leaf = Leaf("events", "new", receipt_event.source_file,
+                     ("choices", 0, "result_text"), "새 결과", "event_standard")
+    require("portable source hash exactly matches full-game collector",
+            receipt_index[full_leaf.id][1] == full_leaf.source_sha256)
+    baseline_keys = {("old", "title")}
+    fixture_targets = {("old", "title"): "旧", ("new", "choices[0].result_text"): "新しい結果"}
+    accepted = {language: {} for language in TARGET_LANGUAGES}
+    accepted["ja"][full_leaf.id] = {
+        "source_sha256": full_leaf.source_sha256,
+        "target_sha256": canonical_sha("新しい結果"),
+    }
+    receipt_payload = {"schema_version": 1, "prompt_version": PROMPT_VERSION,
+                       "native_review": "OPEN", "accepted": accepted,
+                       "accepted_sha256": canonical_sha(accepted)}
+
+    def receipt_case(payload: Any, texts: Mapping[tuple[str, str], str] = fixture_targets,
+                     baseline: set[tuple[str, str]] = baseline_keys) -> tuple[set[tuple[str, str]], list[str]]:
+        findings: list[str] = []
+        additions = _accepted_event_additions(payload, "ja", receipt_index, texts, baseline, findings)
+        return additions, findings
+
+    additions, findings = receipt_case(receipt_payload)
+    require("current hash-approved event extends baseline", additions == {("new", receipt_leaf.path)} and not findings)
+    endings_payload = copy.deepcopy(receipt_payload)
+    endings_payload["accepted"]["ja"]["endings:instant_legend:/title"] = {
+        "source_sha256": "a" * 64, "target_sha256": "b" * 64,
+    }
+    endings_payload["accepted_sha256"] = canonical_sha(endings_payload["accepted"])
+    ending_additions, findings = receipt_case(endings_payload)
+    require("ending receipts never inflate event scope", ending_additions == additions and not findings)
+    baseline_only, findings = receipt_case(None, {("old", "title"): "旧"})
+    require("legacy baseline alone works without a ledger", not baseline_only and not findings)
+    require("new target without ledger fails closed", bool(receipt_case(None)[1]))
+    revoked = copy.deepcopy(receipt_payload)
+    revoked["accepted"]["ja"].clear()
+    revoked["accepted_sha256"] = canonical_sha(revoked["accepted"])
+    require("deleted acceptance cannot authorize existing target", bool(receipt_case(revoked)[1]))
+    corrupted = copy.deepcopy(receipt_payload)
+    corrupted["accepted_sha256"] = "0" * 64
+    require("acceptance checksum corruption fails closed", bool(receipt_case(corrupted)[1]))
+    for key in ("source_sha256", "target_sha256"):
+        stale = copy.deepcopy(receipt_payload)
+        stale["accepted"]["ja"][full_leaf.id][key] = "0" * 64
+        stale["accepted_sha256"] = canonical_sha(stale["accepted"])
+        verified, findings = receipt_case(stale)
+        require(f"stale accepted {key} cannot increase count", not verified and any("stale" in f for f in findings))
+    missing = {("old", "title"): "旧"}
+    require("accepted target deletion fails closed", any("missing/blank" in f for f in receipt_case(receipt_payload, missing)[1]))
+    blank = {**fixture_targets, ("new", receipt_leaf.path): " "}
+    require("accepted target blank fails closed", any("missing/blank" in f for f in receipt_case(receipt_payload, blank)[1]))
+    wrong_id = copy.deepcopy(receipt_payload)
+    wrong_id["accepted"]["ja"]["events:unknown:/title"] = wrong_id["accepted"]["ja"].pop(full_leaf.id)
+    wrong_id["accepted_sha256"] = canonical_sha(wrong_id["accepted"])
+    require("unknown event receipt cannot authorize target", bool(receipt_case(wrong_id)[1]))
+    already_baseline, findings = receipt_case(receipt_payload, baseline=baseline_keys | {("new", receipt_leaf.path)})
+    require("baseline receipt is not counted twice", not already_baseline and not findings)
+    scope_fixture = {("static", "title"), ("shipping_only", "title"), ("author_only", "title")}
+    require("source scopes count accepted set intersections independently",
+            _scope_accepted_count({"static", "shipping_only"}, scope_fixture) == 2
+            and _scope_accepted_count({"static"}, scope_fixture) == 1)
+    frozen_sha = canonical_sha([("old", "title", "旧")])
+    require("frozen baseline removal cannot be offset by an approved addition",
+            bool(_baseline_target_errors("ja", baseline_keys, {("new", "title"): "新"}, frozen_sha)))
+    require("frozen baseline same-count rewrite is rejected",
+            bool(_baseline_target_errors("ja", baseline_keys, {("old", "title"): "改変"}, frozen_sha)))
 
     return failures, cases
 

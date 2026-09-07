@@ -1,6 +1,6 @@
 # Multilingual Infrastructure
 
-Updated: 2026-08-31
+Updated: 2026-09-07
 
 ## Status
 
@@ -13,6 +13,24 @@ from Korean for each locale, preserves reviewed public-demo rows, and separates
 draft generation, validated target acceptance, and native/rendered review.
 Changed Korean leaves invalidate their cached targets instead of inheriting an
 old translation's approval. Missing or stale translations remain visible debt.
+
+The source-bound acceptance ledger travels with the repository. A matching
+Korean leaf hash and target hash prove which text was checked; merely finding
+an existing translation does not prove freshness. Worktree-private exchange
+files are resumable drafts, not the sole permanent record. An unresolved
+runtime consumer or missing overlay-validation contract blocks acceptance.
+Chapter 5 inline read slots must retain their exact indices and order, and
+alternatives within one reader row must remain distinct as required by the
+runtime. Machine acceptance never closes the native or rendered-review gate.
+
+Use `tools/full_game_localization.py inventory` to report the current source
+and acceptance debt; `export --locale <code> --group <group> --ids <exact-roots>`
+creates a bounded source-bound batch. After Korean-source comparison, `check`
+validates its response and `import --accept` records the selected text. Export
+before editing and retain that source record; if the target was edited manually,
+take a new export for its current target hash before checking the final response.
+Do not use the old Japanese pipeline's all/events writer as an incremental merge:
+that writer can replace locale files instead of preserving the current overlays.
 
 The full scope includes every event text variant and Chapter 5 reader, every
 ending variant, catalog text, and both static and dynamic UI. Packaged,

@@ -1,0 +1,22 @@
+[
+  {
+    "id": "hyunsu_result_fail",
+    "title": "Hyunsu，落榜了",
+    "description": "放榜的星期一，Hyunsu 傳來一則只有一行的 KakaoTalk 訊息。\n\n「哥，我沒考上。」\n\n接下來三天，Hyunsu 都沒有走出房門。公共廚房裡，連燒水煮泡麵的聲音也不見了。{name}提著便利商店的袋子，來到 Hyunsu 住的考試院。門底下只透出一線燈光。\n\n該敲門嗎。手舉了起來，又放下，再舉起。",
+    "description_memory_if_known": {
+      "relationship_memory:hyunsu:hyunsu_exam_eve_one_problem": "站到門前，便想起考前最後一個星期天，在 KakaoTalk 上一起看的那張題目照片。Hyunsu 那時說，把那一題弄清楚就睡。",
+      "relationship_memory:hyunsu:hyunsu_exam_eve_rest_protected": "站到門前，便想起考前最後一個星期天 Hyunsu 的回覆。「鬧鐘設好就躺下了。哥也早點睡。」",
+      "future_story_source:hyunsu_exam_2026:hyunsu_exam_eve_unanswered": "考前最後一個星期天，沒能回覆 Hyunsu 的 KakaoTalk。{name}站在門前，想起那天還留在畫面上的題目照片。"
+    },
+    "choices": [
+      {
+        "text": "敲門",
+        "result_text": "等了好一陣子，門才開了。\n\nHyunsu 的雙眼腫著。攤開的題本依舊擱在地板上。\n\n{name}從袋裡取出兩罐飲料，遞了一罐給他。Hyunsu 接了過去。拉環開啟的聲響，在小房間裡聽起來特別大。\n\n兩人就這麼靜靜坐著，直到各自把那罐飲料喝完。"
+      },
+      {
+        "text": "先別打擾——他可能想自己待著",
+        "result_text": "{name}沒有敲門，仍提著便利商店的袋子，轉身回去了。\n\n第四天再到考試院時，Hyunsu 在公共洗手台前洗了很久的臉。水聲停下後，彼此的視線在走廊交會。Hyunsu 輕輕點了頭。\n\n{name}也只低了低頭回應。那天沒有問任何事。"
+      }
+    ]
+  }
+]

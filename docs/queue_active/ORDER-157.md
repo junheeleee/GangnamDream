@@ -75,3 +75,23 @@ KO/EN 원고·사람 사실·효과·확률·일정·엔딩 라우팅·`project.
 **규범 소유권:** 언어·호칭·문화·통화는 기존 I18N 용어집을 그대로 적용한다.
 증분 직접 번역·source 변경 검출·초안/수용/원어민 판정 분리는
 `I18N_INFRASTRUCTURE.md`에 승격한다. 위 세 root·20단위·파일 소유권은 일회성이다.
+
+## 2026-09-07 L1/L2 수용 기록 — L3 OPEN
+
+| 항목 | 증거 |
+|---|---|
+| 원문 분모 | source-discovered 17,408; 기존 정적 계약 17,073; validator 미지원 6; 소비자 미확정 329 |
+| 비포함 결손 | 관계 표시명 21위치/14고유; JSON pair 진단 138; 넓은 언어 분기 탐지 22(실제 누출 22건 아님) |
+| 번역 상태 | `endings` 3 root ×25 leaf ×3 locale =75; independent KO comparison 75/75 |
+| 바꾸는 상태 | locale별 엔딩 신규 수용 0→25/268; 원문·gameplay·라우팅 변경 0 |
+| 생산자↔독자 | `content/endings.json` → `content/endings_{ja,zh-CN,zh-TW}.json`; `full_game_localization.py:committed_receipts` |
+| 해시 | `content/meta/full_game_localization.json:accepted` source/target + accepted_sha256; git-private batch/response/receipt |
+| 도달 경로 | `FULL_LOCALIZATION_BATCH_VALID` locale별 25; 실제 플레이 미실행 |
+| 회귀 | new self 59; source-scope 40(기존 EXPECTED 불변·수용 delta); JA self 69; ZH self 356(158 후속 포함) |
+| 의미 | 원화·나이·기간·아버지 통화·다은 관계·30억 이스터에그 원문 대조 75/75; 발견 결함 0 |
+| 포기 시 잃는 것 | 해당 locale에서 위 25 leaf 원문 직접 번역; 선택/주차 변경 0 |
+| 서사 위치/계층 | M60·각 조건별 엔딩 / 원본 계층 불변 |
+| 닫는 것 | 증분 수용·표본 엔딩 L1/L2; 전체 번역·L3·원어민·렌더 OPEN |
+
+영어 중역·간번 변환·공개 데모 덮기 0. 다음 실제 미완료 배치는 ORDER-158의
+사건 8개이며 전체 목록은 backlog에 남긴다. L3가 없으므로 완료 `[x]`가 아니다.
