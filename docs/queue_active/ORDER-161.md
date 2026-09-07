@@ -31,6 +31,12 @@ JA·zh-CN·zh-TW를 한국어에서 각각 직접 작성하며 간번 변환·�
 공개 `jobs.job_01.name`은 변경0이다. 기존 JA 직업명15개도 먼저 보존·대조하며
 기작성 존재만으로 새 번역이라 세지 않는다. A202/B632는 원문/검토 분모다.
 
+**독립 원문 대조 뒤 보존선 정밀화 선언:** 기존 JA `jobs.job_13.name`의
+`動画クリエイター`에는 KO의 YouTube가 빠져 있다. 이 같은 catalog text 범위
+안의 1leaf를 `YouTubeクリエイター`로 수리한다. 나머지 기존14명·공개 job_01은
+불변이다. 신규 시스템/원문/범위를 더하는 것이 아니라 대조에서 확인한 누락
+수리이며, 선언을 먼저 커밋한 뒤 반영하고 독립 재대조한다.
+
 ## 정확한 파일 소유권
 
 - `locale/catalog_ja.json`, `locale/catalog_zh-CN.json`, `locale/catalog_zh-TW.json`:
