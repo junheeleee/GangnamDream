@@ -59,11 +59,10 @@
   `_localized_route_label/_localized_profile_label/_roll_run_theme`,
   `MainGame._choice_effects_preview`, `HoldemClub._fmt`의 non-KO=EN 분기를
   개별 표시 계약으로 검사한다. 번역 파일만 채워도 이 소비자는 저절로 바뀌지 않는다.
-- 기존 수용분의 별도 JA 정밀화 대상: `arc_father_legacy.description`과
-  `arc_y5_final_offer.description`의 `30億`에 원화 단위가 생략돼 있다.
-  엔으로 바뀐 값은 아니지만 용어집의 `30億ウォン`을 명시할 두 문구다.
-  현재 관계 배치의 기존8,457 보존 범위 밖이므로 별도 소유권 선언 뒤
-  정확 두 target/수용 hash만 갱신하며 새 번역 수에 중복 합산하지 않는다.
+- 기존 JA 정밀화: `arc_father_legacy.description`과
+  `arc_y5_final_offer.description`의 `30億`을 용어집의 `30億ウォン`으로
+  명시했다. 별도169 선언 뒤 두 target/수용 hash만 갱신했으며 기존8,947와
+  메타9는 보존했다. 수용 수는8,949 그대로다. 원어민·화면은 OPEN이다.
 - QA: source/target 완전성, 지역 문자·금액·토큰·문단, 한글/영어 누출, save/resume,
   지역 primary 폰트, 1280×800/960×600 실제 화면을 대상 언어별로 검증한다.
 - 출시: 번역 텍스트 수용은 원어민 자연스러움이나 본편 재미 GO가 아니다. 기존

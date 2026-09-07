@@ -4,7 +4,7 @@
 
 #### [~] ORDER-169 [P0·현지화 수리] 일본어 두 장면의 원화를 명확히 한다
 
-**[~] 2026-09-07 Codex 착수 — 아래 기존 JA2 leaf와 수용 기록만 소유한다.**
+**[~] 2026-09-07 Codex L1/L2 수용·L3 OPEN — 아래 기존 JA2 leaf와 수용 기록만 소유한다.**
 사용자 전체판 번역 지시를 수행하다 발견한 단위 정밀화다. 구현
 `3db9cc18d1ee9701779434b07b838961389cfc85`의8,949문구를 기준으로 한다.
 
@@ -50,3 +50,20 @@ KO/EN·CN/TW·runtime·공개·fonts·human_gates·출시 파일은 비소유다
   M01~M06 배포판 BUILD2026.08.31.1 사용자 GO를 유지한다.
 
 소유권·수리 절차는 일회성이다. 지속 원화 규칙은 I18N_GLOSSARY_JA가 소유한다.
+
+## 수리 결과
+
+- 선언 `156e56446af8168f227a781dead1225726e25e84` 뒤 두 치환만 적용했다.
+  최초 source2 보존, 최종 source/response/receipt2 check/import PASS,
+  changed_files0. 기존 private 증거는 덮지 않았다.
+- 최종2-record aggregate `b6dc8c34f03d25aa2cae9bee0a5ad40e58b8db73720ab89a0a06928aa4eb3070`.
+  portable checksum `46778f0233061f1b9c35ddcd43097a89cbe61d13d39ddcc42472929adb93bd51`.
+  기존 두 hash를 교체했으므로 총8,949 유지이며 신규 수용 증가0이다.
+- source/효과/관계/일정 변경0, 나머지8,947수용과 비표시 메타9는 보존한다.
+  L3·원어민·화면 OPEN, 전체 INCOMPLETE·full/main/product HOLD·출시 데모 GO 유지.
+- 최종12개 표적 차선·EN·diff PASS. self131·ZH935·공개14/100·UI121을
+  확인했다. private receipt를 통하지 않고 portable8,949와 현재 target을
+  직접 대조해 locale별2,983·source/hash/L1 오류0이었다.
+- 큐에서 옮긴 초기 안내401bytes SHA
+  `ce267e253a431342c2139dd55f21ac44b7ac1dc94d6e98007f387585a719062d`.
+  원문은 기존9월 archive에 그대로 있으며 활성 오더나 사람 gate는 내리지 않았다.

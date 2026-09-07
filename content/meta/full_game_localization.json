@@ -622,6 +622,26 @@
       "machine_validation": "PASS",
       "rendered_review": "OPEN",
       "native_review": "OPEN"
+    },
+    {
+      "order": "ORDER-169",
+      "group": "events",
+      "roots": [
+        "arc_father_legacy",
+        "arc_y5_final_offer"
+      ],
+      "source_leaves": 2,
+      "target_leaves_by_locale": {
+        "ja": 2,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "new_accepted_leaves": 0,
+      "replaces_existing_accepted_leaves": 2,
+      "source_review": "Independent Codex Korean-source and won terminology comparison; only two unit additions",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN"
     }
   ],
   "accepted": {
@@ -9992,7 +10012,7 @@
       },
       "events:arc_y5_final_offer:/description": {
         "source_sha256": "a20b74baea0b68032d02a40add659432c50f9d69768dbd5feca7a6a6448e4d2c",
-        "target_sha256": "d9bb6e24d572f3009deb19566871711c0923cca8ec8538680fdd043dda5a140a"
+        "target_sha256": "8c29feb2ec5a8734c6e65a6631ab6737552c5d9e52b0623c0ed0d7b815c2c6c4"
       },
       "events:arc_y5_final_offer:/title": {
         "source_sha256": "917ef5689fa8ac70f489aa1d11ccff56333579e891cdc4e9052cbb82e479a637",
@@ -10520,7 +10540,7 @@
       },
       "events:arc_father_legacy:/description": {
         "source_sha256": "6432aeda70875ac6d6bf162ad5d2ac6c2f34262d4e9e256668813acff236e298",
-        "target_sha256": "ea969cfca2dc1aa0e9ef8e337c44a0b9d8b5d2a3f833288bb2a28de1fb24a6b9"
+        "target_sha256": "cfd7e2b275fac099e2d12853790054e61bee5d6a845fd419f802a1e8011917de"
       },
       "events:arc_father_legacy:/description_memory_if_known/chapter5_general_debt_memory_reconnect_0": {
         "source_sha256": "c65b07f3d9406a0188378db34b8e4c34cb43e527b431a2f4064df1bd351c9dac",
@@ -36428,7 +36448,7 @@
       }
     }
   },
-  "accepted_sha256": "42c20d173dcee089a78c77f4717f0d39020edee691fabc14dee04b0902a82ec4",
+  "accepted_sha256": "46778f0233061f1b9c35ddcd43097a89cbe61d13d39ddcc42472929adb93bd51",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
