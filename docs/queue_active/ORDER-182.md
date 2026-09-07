@@ -94,7 +94,7 @@ KO/EN·runtime·save·routing·human_gates·다른 사건·catalog/endings·공�
 - hidden002 내일 예약↔모레10시 결과,006 앱 결과→서랍 종이는 원문 부채다.
   응급실 기준 검색/다른 병원 방문은 진단·재검사 완료가 아니다.
   005 다섯 vlog/81,000구독/주인공0구독·미업로드 무creator배제 조건도 보존한다.
-- hidden004의3층·수리점2곳·12만원/1시간, DIY6만원 실제 교체/손가락 상처,
+- hidden004의계단 세 번째 칸·수리점2곳·12만원/1시간, DIY6만원 실제 교체/손가락 상처,
   중고7만+공임3만/노란 화면은 실제 분기다. 설명 없는 양의 돈 효과는 덧쓰지 않는다.
 - hidden008의3번 신호·재전화·5초/수신·발신·미응답 네 갈래와5년 만의 동기
   정체를 구분한다. 식사 제안은 실제 만남이 아니며 통신사 검색/옛 지인 문자
@@ -135,3 +135,65 @@ named full-game-localization-overlays를 --list 확인 후 실행, EN·diff·por
 
 이 범위·배치·증거 절차는 일회성이다. 지속 규칙은 I18N_INFRASTRUCTURE와
 언어별 용어집이 소유하며 새 서사·제품·출시 규칙을 만들지 않는다.
+
+## 수용 결과 — 594번역·L1/L2, L3 OPEN
+
+- 선언 `08f67f8bf8054531e2e6034b9a44c613fdbdcfb5` commit/push 뒤 initial source3
+  (199행/198 leaf씩, previous target=null)을 보존했다. 최초 병렬 작성자는
+  사용량 제한으로 쓰기 전 중단되어 ROOT가 JA·간체·번체를 각각 KO에서 직접
+  저작했다. 사용량 복구 후 서로 다른 검토자가 세 언어594문구를 전수 대조했다.
+  영어/일본어 중역·간번 자동변환0이다.
+- life_events 기존129행939문구의 raw/value/order는 보존하고2행만 추가했다.
+  없던 hidden_events 파일3개에는23행씩 추가했다. 기존14,889번역·메타9·batch33을
+  보존하고 신규594를 더해15,483(언어별5,161), events528종4,093문구씩,
+  endings35종234와catalog834씩, batch34다. 전체 사건/UI 완료는 아니다.
+- 초안 단계 JA 오류0/CN·TW 각각14 leaf21진단과 미수용 상태는 지나간 중간 기록이다.
+  당시 draft source3와 실제 검사 stdout은 별도로 보존했다. 독립 L2에서
+  CN6/TW5문구를 정밀화하고 다시 대조했다. 고생과 배움의 비교를 배타적으로
+  바꾸지 않고, 종목을 주식으로 단정하지 않으며, 실제 피해 댓글과 분양 공고를 유지했다.
+  중고나라 표기는 [공식 서비스](https://web.joongna.com/)의 연락처 도메인에
+  근거한 Joonggonara로 바로잡았다. JA 필수 수정0이다.
+  변경11leaf를 역치환해 초안 전체 파일과 exact 일치, 나머지385leaf도 보존 확인했다.
+- 선언의 '3층' 메모는 실제 '계단 세 번째 칸'으로 정정했다. 연간27만6천원은
+  하나의276,000원 span이다. 따로 명시한27만원/6천원 이체는 합치지 않는다.
+  annual 정상/대표변조24 독립 PASS, full self177=기존176+신규1이다.
+  기존 ZH unsigned 양수에 명시+ 허용을 새로 차단했다고 주장하지 않는다.
+- 중국어 수량 검사는 실제 원문에서 관찰한 세대·셔츠·계단·수리점·영상/구독자·
+  전화벨·식사 제안·별점·구독료·반복 읽기·하루 주기·연령대·건진 항목·FOMO를
+  해당 문맥에 결속했다. 전역 수량/영어 허용·event ID 면제0이다.
+  독립 검토가 찾은 '매초1시간→뒤 정상 하루1시간 차용'을 秒 주기 witness로 막고,
+  같은 패턴의 하루 평균도 함께 재현했다. 제한 문맥은 신설 틈, 평균 문맥은
+  baseline에도 있던 한계로 구분한다. ZH self3537=기존3427+작성106+종결4다.
+  자동 검사는 모든 자연어 의미나 원어민/화면 판정을 인증하지 않는다.
+- 최종 source/response/accepted receipt3쌍은 initial source와 source hash를
+  결속한다. 실제594 L1 오류0·check/import --accept changed_files0이다.
+  최종198-record aggregate JA
+  `81eaac602bbeb8d8630d5334003e9fdcaa239c6badd5f00cab5d479913a1f827`,
+  CN `470f0174288385f7341433df189ce737ba0bbde06ad3a2a67c09163a9221685b`,
+  TW `0ba376bb02eacb0211e61d78397a59ae11518d6030b4e2be4073c697298e24e5`.
+- 완료179절1,197bytes만 기존 history29,106bytes 앞으로 원문 이동했다.
+  새30,303bytes SHA
+  `3c46f7f24dc6ab8894f244c9e6f3dd3fa7cc098c2b6132e94eb793997bc35a02`.
+  이전 내용·끝 LF2 유지, 검수행은 같은 활성 이어보기의 [~]·L3 OPEN이다.
+- 실제 읽음/회신/이체와 미성사 식사 제안, 명함 귀속·예약일·효과 수치의 원문
+  부채를 보존했다. 밖 callback30만원/300만원·79만원 손실과 기간 확인점은
+  새 번역·수리 대상에 넣지 않았다. KO/EN·runtime·공개·fonts·save·human_gates
+  변경0, 원본 checkout 쓰기0. 전체 INCOMPLETE·full/main/product HOLD,
+  원어민/화면 OPEN·출시 M01~M06 사용자 GO 유지.
+- portable checksum `9e2dad8aa7d1729dd2308281f84b2c5d00d004c60cdff05ff0be1335d64f8f54`.
+
+## 실제 최종 회귀 증거
+
+- named `full-game-localization-overlays`는 `--list`로12개를 확인한 뒤
+  실제12개 PASS다. full self177·ZH3537, audit ERROR0/WARNING0,
+  EN strict1813사건/35엔딩과 공개5언어100leaf/121UI가 보존됐다.
+  별도 EN strict와 수용15,483 전량 source/target hash·L1 오류0도 확인했다.
+- 실제 raw stdout `order182-final-checks.log`는4,225bytes,
+  SHA `dd78ec4d76ea8a0316b7431623deb977ea7ccd82b81b0c6dcd94923f48fc5259`다.
+  사설 worktree 증거 디렉터리에 출력 바이트 그대로 보존했으며 요약을 로그로 대체하지 않았다.
+- context284분류/82링크·부팅29,191bytes·queue45/in_progress43 PASS.
+  기존44큐행 순서·상태와 history 기존 내용/끝 개행은 별도 intake에서 확인한다.
+- 최종 ZH guard354,623bytes SHA
+  `a38f68e85303554dc38f0654a553c7b2e191f2a73a0a976324a90485e8f8494b`에서
+  독립17종 정상(실제14leaf)과 두 매초→정상 차용 변조가 각각 유지/거부됐다.
+  원어민·폰트·화면·L3 OPEN, full/main/product HOLD를 바꾸는 증거는 아니다.

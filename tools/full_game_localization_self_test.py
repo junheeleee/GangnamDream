@@ -1503,6 +1503,31 @@ class ExchangeTests(unittest.TestCase):
                        '1人当たり負4万5千ウォンになった。', '2人当たり4万5千ウォンになった。'):
             self.assertTrue(tool.translation_errors(leaf, 'ja', target), target)
 
+    def test_subscription_annual_mixed_won_sum(self):
+        from decimal import Decimal
+        from zh_translation_audit import _source_money_amounts
+        source = '구독 서비스를 찾았다.\n두 개 다 해지했다.\n월 23,000원이 절약됐다. 1년에 27만 6천원.'
+        self.assertEqual([x.won for x in _source_money_amounts(source)], [Decimal(23000), Decimal(276000)])
+        leaf = tool.Leaf('events', 'example', 'content/events/hidden_events.json', ('result_text',), source, 'event_standard')
+        targets = (
+            ('ja', 'サブスクのサービスを探した。\n二つとも解約した。\n月23,000ウォンの節約になった。1年で276,000ウォン。', 'ウォン'),
+            ('zh-CN', '找到了订阅服务。\n两个都取消了。\n每月省下23,000韩元。一年276,000韩元。', '韩元'),
+            ('zh-TW', '找到訂閱服務。\n兩個都取消了。\n每月省23,000韓元。一年276,000韓元。', '韓元'),
+        )
+        for locale, target, currency in targets:
+            self.assertEqual(tool.translation_errors(leaf, locale, target), [], locale)
+            for replacement in ('270,000', '6,000', '27,600', '276,001', '-276,000'):
+                self.assertTrue(tool.translation_errors(leaf, locale, target.replace('276,000', replacement)), (locale, replacement))
+            self.assertTrue(tool.translation_errors(leaf, locale, target.replace('276,000'+currency, '276,000円')), locale)
+            swapped = target.replace('23,000', '@FIRST@').replace('276,000', '23,000').replace('@FIRST@', '276,000')
+            self.assertTrue(tool.translation_errors(leaf, locale, swapped), locale)
+        # Explicitly separate payments must stay separate, not become a single sum.
+        separate = '1년에 27만원과 6천원을 보냈다.'
+        self.assertEqual([x.won for x in _source_money_amounts(separate)], [Decimal(270000), Decimal(6000)])
+        other = tool.Leaf('events', 'example', 'content/events/hidden_events.json', ('result_text',), separate, 'event_standard')
+        for locale, target in (('ja', '1年で276,000ウォンを送った。'), ('zh-CN', '一年转出276,000韩元。'), ('zh-TW', '一年匯出276,000韓元。')):
+            self.assertTrue(tool.translation_errors(other, locale, target), locale)
+
     def test_date_can_sound_and_glass_pane(self):
         for source, good, bad in (
             ('캔 안에서 작은 금속 소리가 한 번 났고, 다시 조용해졌다.', '罐子裡輕輕響了一聲金屬聲，又靜了下來。', ('兩聲金屬聲', '負一聲金屬聲', '一分鐘', '一聲 公里')),

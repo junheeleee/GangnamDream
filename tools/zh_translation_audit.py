@@ -226,12 +226,18 @@ MEDIA_SCENE_COUNTER_KINDS = frozenset({
     "video_view_count", "financial_video_duration", "gangnam_video_age",
     "group_message_count", "group_reply_ordinal",
 })
+HIDDEN_SCENE_COUNTER_KINDS = frozenset({
+    "chaebol_generation", "dress_shirt_count", "slipped_stair_ordinal", "repair_shop_count",
+    "resignation_vlog_count", "vlog_subscribers", "unknown_caller_rings", "classmate_meal_invitation",
+    "review_star_count", "subscription_fee_count", "forgotten_order_count", "letter_each_line", "screen_daily_average",
+    "screen_daily_limit", "networth_age_decade", "health_warning_count", "fomo_direction_pair",
+})
 WORK_SCENE_COUNTER_KINDS = frozenset({
     "work_cup_range", "coworker_count", "subscription_count", "study_daily_hours",
     "exam_countdown", "tuition_month", "never_course_days", "job_company_focus",
     "read_mark_over_count", "job_posting_count",
 })
-LIFE_SCENE_COUNTER_KINDS = WORK_SCENE_COUNTER_KINDS | SPENDING_SCENE_COUNTER_KINDS | FAMILY_SCENE_COUNTER_KINDS | MEDIA_SCENE_COUNTER_KINDS | frozenset({
+LIFE_SCENE_COUNTER_KINDS = WORK_SCENE_COUNTER_KINDS | SPENDING_SCENE_COUNTER_KINDS | FAMILY_SCENE_COUNTER_KINDS | MEDIA_SCENE_COUNTER_KINDS | HIDDEN_SCENE_COUNTER_KINDS | frozenset({
     "remaining_four_month", "job_posting_count", "egg_count", "task_count",
     "rental_home_ordinal", "mirror_glance", "gangnam_attempt",
     "university_year", "restaurant_per_person", "underground_exit",
@@ -1486,6 +1492,8 @@ def _source_counter_kind(
 
 def _source_audience_quantities(source: str) -> list[CounterQuantity]:
     quantities: list[CounterQuantity] = []
+    for match in re.finditer(r"(?<=구독자 수를 확인했다\. )8만 1천 명(?=\.)", source):
+        quantities.append(CounterQuantity(match.start(), match.end(), Decimal(81000), "vlog_subscribers"))
     for match in re.finditer(r"(?<=조회수 )(?P<number>\d+)만(?=\.(?:\s|$))", source):
         if not _has_numeric_sign_prefix(source, match.start()):
             quantities.append(CounterQuantity(match.start(), match.end(),
@@ -1560,6 +1568,22 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
         (r"(?<=회사 단체 카톡방에 메시지가 )200개(?= 쌓였다\.)", 200, "group_message_count"),
         (r"(?<=안 보낸다 — 이미 )200개(?=잖아$)", 200, "group_message_count"),
         (r"(?<=보냈다\. )199번째(?= 확인했습니다였다\.)", 199, "group_reply_ordinal"),
+        (r"(?<=재벌 )3세(?=와 엘리베이터$)", 3, "chaebol_generation"),
+        (r"(?<=와이셔츠 )한 장(?=이 \{name\}의 한 달 식비보다)", 1, "dress_shirt_count"),
+        (r"(?<=계단 )세 번째 칸(?=에서 미끄러졌다\.)", 3, "slipped_stair_ordinal"),
+        (r"(?<=수리점 )두 곳(?=과 자가 수리 키트의 가격)", 2, "repair_shop_count"),
+        (r"(?<=퇴사 브이로그 )다섯 편$", 5, "resignation_vlog_count"),
+        (r"(?<=모르는 번호가 울렸다\.\n)3번(?=\.\n끊었다\.)", 3, "unknown_caller_rings"),
+        (r"(?<=')밥 한번 먹자(?='고 했다\. 뜻밖이었다\.)", 1, "classmate_meal_invitation"),
+        (r"(?<=별점 )1개(?=였다\.)", 1, "review_star_count"),
+        (r"(?<=구독료 )2개(?=\. 언제 신청했는지 기억이 없었다\.)", 2, "subscription_fee_count"),
+        (r"(?<=나머지 )두 개(?=를 \{name\}은 기억하지 못했다\.)", 2, "forgotten_order_count"),
+        (r"(?<=봉투를 열고 )한 줄 한 줄(?= 읽었다\.)", 1, "letter_each_line"),
+        (r"(?<![가-힣])하루 평균 5시간 14분(?=\.)", 314, "screen_daily_average"),
+        (r"(?<=앱 제한을 걸었다\. )하루 1시간(?=\.)", 1, "screen_daily_limit"),
+        (r"(?<![가-힣\d])30대(?= 순자산 평균)", 30, "networth_age_decade"),
+        (r"(?<='주의' 표시가 )두 항목(?=에 붙어 있다\.)", 2, "health_warning_count"),
+        (r"(?<=FOMO는 )양방향(?=이었다\.)", 2, "fomo_direction_pair"),
     ):
         for match in re.finditer(pattern, source):
             if kind == "price_gap_pair" and not re.search(r"\s{2,}\. \s{2,}\. $", source[:match.start()]):
@@ -1902,6 +1926,38 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
 def _target_pattern_for_kind(kind: str) -> re.Pattern[str]:
     # The broad witnesses include observed wrong units/actions, so an invalid
     # first clause cannot borrow a later correct number of the same kind.
+    if kind == "chaebol_generation":
+        return re.compile(rf"第(?P<number>{CHINESE_CARDINAL})(?P<hidden_unit>代|[歲岁年])")
+    if kind == "dress_shirt_count":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})(?P<hidden_unit>件|[張张])(?P<garment>[襯衬]衫|[褲裤]子)")
+    if kind == "slipped_stair_ordinal":
+        return re.compile(rf"第(?P<number>{CHINESE_CARDINAL})(?P<hidden_unit>[級级階阶層层格])")
+    if kind == "repair_shop_count":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})(?P<hidden_unit>家|[個个]|年)(?:維修|维修)店")
+    if kind == "resignation_vlog_count":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})(?P<hidden_unit>支|部|人|年)(?P<vlog_title>[辭辞]職視頻日誌|辞职视频日志|離職生活紀錄)?")
+    if kind == "vlog_subscribers":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})(?:[萬万](?P<thousands>{CHINESE_CARDINAL})千)?(?P<hidden_unit>人|元|年)")
+    if kind == "unknown_caller_rings":
+        return re.compile(rf"[響响]了(?P<number>{CHINESE_CARDINAL})(?P<hidden_unit>[聲声]|次|天)")
+    if kind == "classmate_meal_invitation":
+        return re.compile(rf"(?P<future>哪天一起|改天|已經|已经|昨天)?吃(?P<completed>了|過|过)?(?:(?P<number>{CHINESE_CARDINAL})[頓顿]|(?P<single>[個个]))[飯饭](?:吧)?")
+    if kind == "review_star_count":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})(?:[顆颗])?(?P<hidden_unit>星|年|次)")
+    if kind == "subscription_fee_count":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})(?P<hidden_unit>[項项筆笔]|年|人)(?:訂閱|订阅)[費费]")
+    if kind == "forgotten_order_count":
+        return re.compile(rf"(?:剩下|另外)(?P<number>{CHINESE_CARDINAL})(?P<hidden_unit>[筆笔]|人|年)")
+    if kind == "letter_each_line":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})行(?P<repeat>{CHINESE_CARDINAL})?行")
+    if kind in {"screen_daily_average", "screen_daily_limit"}:
+        return re.compile(rf"(?P<period>每(?:{CHINESE_CARDINAL})?[個个]?(?:小時|小时|分鐘|分钟|秒|天|日|週|周|月|年)|{CHINESE_CARDINAL}天)(?P<average>平均)?(?P<number>{CHINESE_CARDINAL})(?P<hidden_unit>小時|小时|年)(?:(?P<minutes>{CHINESE_CARDINAL})(?P<minor_unit>分鐘|分钟|分|年))?")
+    if kind == "networth_age_decade":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})(?P<hidden_unit>[多幾几][歲岁年]|[歲岁年])")
+    if kind == "health_warning_count":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})(?P<hidden_unit>[個个]項目|[個个]项目|[項项]|人|年)")
+    if kind == "fomo_direction_pair":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})[個个](?P<hidden_unit>方向|人|年)|(?P<pair>[雙双]向)")
     if kind == "video_view_count":
         return re.compile(rf"(?P<view_label>播放量|觀看次數|观看次数|觀看人數|观看人数)(?P<number>{CHINESE_CARDINAL})(?P<large_unit>[萬万])?")
     if kind == "financial_video_duration":
@@ -2299,6 +2355,51 @@ def _target_pattern_for_kind(kind: str) -> re.Pattern[str]:
     )
 
 
+def _hidden_quantity_valid(kind: str, match: re.Match[str], target: str) -> bool:
+    before, after = target[:match.start()], target[match.end():]
+    if re.search(r"(?:不到|不足|超過|超过|至少|至多|最多|最少|大約|大约|約|约|不|沒有|没有|沒|没)\s*$", before) \
+            or re.match(r"\s*(?:[%％倍萬万億亿兆]|以上|以下|左右|多|半)", after):
+        return False
+    end = bool(re.match(r"\s*(?:$|[，。！？、；,.!?;」』）)])", after))
+    unit = match.groupdict().get("hidden_unit")
+    if kind == "chaebol_generation":
+        return unit == "代" and bool(re.search(r"[財财][閥阀]$", before)) and end
+    if kind == "dress_shirt_count":
+        return unit == "件" and match.group("garment") in {"襯衫", "衬衫"} and bool(re.match(r"[，,]比\{name\}", after))
+    if kind == "slipped_stair_ordinal":
+        return unit in {"級", "级", "階", "阶"} and bool(re.search(r"[樓楼]梯$", before)) and after.startswith("滑了一下")
+    if kind == "repair_shop_count":
+        return unit == "家" and bool(re.match(r"和自行維修|和自行维修", after))
+    if kind == "resignation_vlog_count":
+        return unit in {"支", "部"} and bool(match.group("vlog_title")) and end
+    if kind == "vlog_subscribers":
+        return unit == "人" and bool(re.search(r"[訂订][閱阅]人[數数][。.]$", before)) and end
+    if kind == "unknown_caller_rings":
+        return unit in {"聲", "声"} and end
+    if kind == "classmate_meal_invitation":
+        return match.group("future") in {"哪天一起", "改天"} and not match.group("completed") and bool(re.match(r"[”」]", after))
+    if kind == "review_star_count":
+        return unit == "星" and end
+    if kind == "subscription_fee_count":
+        return unit in {"項", "项", "筆", "笔"} and end
+    if kind == "forgotten_order_count":
+        return unit in {"筆", "笔"} and bool(re.match(r"[，,]\{name\}(?:想不起来|已經忘了)", after))
+    if kind == "letter_each_line":
+        return (not match.group("repeat") or _chinese_cardinal_value(match.group("repeat")) == 1) and bool(re.match(r"[讀读]", after))
+    if kind in {"screen_daily_average", "screen_daily_limit"}:
+        return match.group("period") in ({"每天", "每日", "一天"} if kind == "screen_daily_average" else {"每天", "每日"}) and unit in {"小時", "小时"} and end and (
+            bool(match.group("average")) and match.group("minor_unit") in {"分鐘", "分钟", "分"}
+            if kind == "screen_daily_average" else not match.group("average") and not match.group("minutes")
+        )
+    if kind == "networth_age_decade":
+        return unit in {"多歲", "多岁", "幾歲", "几岁"} and bool(re.match(r"[，,]平均[淨净]資產|[，,]平均净资产", after))
+    if kind == "health_warning_count":
+        return unit in {"個項目", "个项目", "項", "项"} and bool(re.match(r"(?:被標上|标着)[「“]注意[」”]", after))
+    if kind == "fomo_direction_pair":
+        return bool(re.search(r"FOMO是$", before)) and (bool(match.group("pair")) or unit == "方向") and bool(re.match(r"的[。.]", after))
+    return False
+
+
 def _media_quantity_valid(kind: str, match: re.Match[str], target: str) -> bool:
     before, after = target[:match.start()], target[match.end():]
     if re.search(r"(?:不到|不足|超過|超过|至少|至多|最多|最少|大約|大约|約|约|不|沒有|没有|沒|没)\s*$", before):
@@ -2429,6 +2530,8 @@ def _match_target_counter_quantities(
             if expected.kind in FAMILY_SCENE_COUNTER_KINDS and not _family_quantity_valid(expected.kind, match, target):
                 continue
             if expected.kind in MEDIA_SCENE_COUNTER_KINDS and not _media_quantity_valid(expected.kind, match, target):
+                continue
+            if expected.kind in HIDDEN_SCENE_COUNTER_KINDS and not _hidden_quantity_valid(expected.kind, match, target):
                 continue
             if expected.kind in LIFE_SCENE_COUNTER_KINDS:
                 number_start = match.start("number") if match.group("number") else match.start()
@@ -2577,6 +2680,16 @@ def _match_target_counter_quantities(
                 # 一眼 is a glance after a seeing verb, not one physical eye.
                 continue
             value = _chinese_cardinal_value(match.group("number") or "")
+            if expected.kind == "vlog_subscribers" and match.group("thousands"):
+                minor = _chinese_cardinal_value(match.group("thousands"))
+                value = value * 10_000 + minor * 1_000 if value is not None and minor is not None else None
+            if expected.kind == "classmate_meal_invitation" and match.group("single"):
+                value = Decimal(1)
+            if expected.kind == "fomo_direction_pair" and match.group("pair"):
+                value = Decimal(2)
+            if expected.kind == "screen_daily_average":
+                minor = _chinese_cardinal_value(match.group("minutes") or "")
+                value = value * 60 + minor if value is not None and minor is not None and 0 <= minor < 60 else None
             if expected.kind == "video_view_count" and match.group("large_unit"):
                 value = value * 10_000 if value is not None else None
             if expected.kind == "father_visit_inquiry" and match.group("once"):
@@ -2785,6 +2898,10 @@ def _source_money_amounts(source: str) -> list[MoneyAmount]:
     # Keep the full amount span so neither component leaks into bare numbers.
     for match in re.finditer(r"(?<=1인당 )4만 5천원(?=이 나왔다)", source):
         amounts.append(MoneyAmount(match.start(), match.end(), Decimal(45000)))
+    # The subscription result's annual saving is one 276,000-won sum.
+    # Retain its full source span; do not merge separately stated payments.
+    for match in re.finditer(r"(?<=1년에 )27만 6천원(?=[.。]|$)", source):
+        amounts.append(MoneyAmount(match.start(), match.end(), Decimal(276000)))
     for match in SOURCE_MIXED_MANWON.finditer(source):
         amounts.append(MoneyAmount(match.start(), match.end(), _mixed_manwon_value(match)))
     if source.strip() == "첫 억":
@@ -3142,6 +3259,11 @@ def _money_errors(lang: str, source: str, target: str) -> list[str]:
 
 def _untranslated_english_errors(source: str, target: str, *, catalog: bool = False) -> list[str]:
     scrubbed = PLACEHOLDER.sub(" ", target)
+    if re.search(r"(?<![가-힣])중고나라에 올려놓은 물건\.", source):
+        # Official service contact: web.joongna.com -> joonggonara.co.kr;
+        # the developer's apps.apple.com/kr/app/id896515652 entry uses Joonggonara Co.
+        for match in reversed(_bounded_latin_matches(scrubbed, "Joonggonara")):
+            scrubbed = scrubbed[:match.start()] + " " + scrubbed[match.end():]
     if source.strip() == "재테크 유튜버의 춤":
         # A Korean YouTuber can be written as YouTube + the Chinese occupation.
         for match in reversed(_bounded_latin_matches(scrubbed, "YouTube")):
@@ -4517,6 +4639,106 @@ def _media_scene_parser_self_test() -> tuple[int, list[str]]:
     return cases, failures
 
 
+def _hidden_scene_parser_self_test() -> tuple[int, list[str]]:
+    """Observed hidden-scene counters; keep separate payments and actions apart."""
+    cases, failures = 0, []
+
+    def check(source: str, target: str, valid: bool) -> None:
+        nonlocal cases
+        cases += 1
+        errors = _numeric_errors(source, target)
+        if bool(errors) == valid:
+            failures.append(f"hidden expected valid={valid}: {source!r} -> {target!r}: {errors}")
+
+    fixtures = (
+        ("재벌 3세와 엘리베이터", "電梯裡的財閥第三代", "第三代", ("第二代", "第三歲")),
+        ("이 사람의 와이셔츠 한 장이 {name}의 한 달 식비보다 비싸다.",
+         "他的一件襯衫，比{name}一個月的伙食費還貴。", "一件襯衫", ("兩件襯衫", "一件褲子")),
+        ("계단 세 번째 칸에서 미끄러졌다.", "在樓梯第三階滑了一下。", "第三階", ("第二階", "第三層")),
+        ("수리점 두 곳과 자가 수리 키트의 가격을 차례로 확인했다.",
+         "依序查了兩家維修店和自行維修工具組的價格。", "兩家維修店", ("三家維修店", "兩年維修店")),
+        ("퇴사 브이로그 다섯 편", "五部離職生活紀錄", "五部", ("六部", "五年")),
+        ("구독자 수를 확인했다. 8만 1천 명.", "查了訂閱人數。8萬1千人。", "8萬1千人", ("8萬2千人", "8萬1千元")),
+        ("모르는 번호가 울렸다.\n3번.\n끊었다.\n\n다시 왔다.\n\n스팸인지 아닌지 모르는 5초였다.",
+         "陌生號碼打來了。\n響了3聲。\n掛掉。\n\n又打來了。\n\n那5秒裡，不知道是不是騷擾電話。", "響了3聲", ("響了2聲", "響了3天")),
+        ("받았다.\n대학 동기였다. 5년 만이었다.\n'밥 한번 먹자'고 했다. 뜻밖이었다.",
+         "接了。\n是大學同學。隔了5年。\n他說「改天吃個飯吧」。有點意外。", "改天吃個飯吧", ("改天吃兩頓飯吧", "昨天吃了一頓飯")),
+        ("상대방이 나쁜 후기를 남겼다.\n별점 1개였다.", "對方留了負評。\n只有1顆星。", "1顆星", ("2顆星", "1次")),
+        ("구독료 2개. 언제 신청했는지 기억이 없었다.", "2筆訂閱費。不記得何時申請的。", "2筆", ("3筆", "2年")),
+        ("나머지 두 개를 {name}은 기억하지 못했다.", "另外兩筆，{name}已經忘了。", "兩筆", ("三筆", "兩人")),
+        ("봉투를 열고 한 줄 한 줄 읽었다. 모르고 넘어가는 것보다 알고 처리하는 게 낫다.",
+         "拆開信封，一行行讀。弄懂再處理，總比糊里糊塗帶過好。", "一行行", ("兩行行", "一行兩行")),
+        ("하루 평균 5시간 14분.", "一天平均5小時14分鐘。", "一天平均5小時14分鐘", ("一天平均5小時15分鐘", "每月平均5小時14分鐘")),
+        ("앱 제한을 걸었다. 하루 1시간.\n\n사흘 후 제한을 풀었다.",
+         "替應用程式設了限制。每天1小時。\n\n三天後，把限制解除了。", "每天1小時", ("每天2小時", "每月1小時")),
+        ("'30대 순자산 평균 1억? 현실은 이렇습니다'", "「三十幾歲，平均淨資產1億韓元？現實是這樣」", "三十幾歲", ("四十幾歲", "三十幾年")),
+        ("건강검진 결과가 앱에 도착했다. '주의' 표시가 두 항목에 붙어 있다.",
+         "應用程式收到了健檢結果。兩個項目被標上「注意」。", "兩個項目", ("三個項目", "兩人")),
+        ("FOMO는 양방향이었다.", "FOMO是兩個方向的。", "兩個方向", ("三個方向", "兩個人")),
+    )
+    for source, normal, span, wrong in fixtures:
+        check(source, normal, True)
+        for changed in wrong:
+            check(source, normal.replace(span, changed), False)
+        check(source, normal.replace(span, wrong[0] + "。" + span), False)
+    for source, normal, span in (
+        ("구독자 수를 확인했다. 8만 1천 명.", "查了訂閱人數。8萬1千人。", "8萬1千人"),
+        ("하루 평균 5시간 14분.", "每天平均5小时14分钟。", "每天平均5小时14分钟"),
+        ("앱 제한을 걸었다. 하루 1시간.", "给应用设了限制。每天1小时。", "每天1小时"),
+        ("계단 세 번째 칸에서 미끄러졌다.", "在楼梯第三级滑了一下。", "第三级"),
+    ):
+        check(source, normal, True)
+        check(source, normal.replace(span, "−\t" + span), False)
+        check(source, normal.replace(span, "不到" + span), False)
+    # A wrong per-second clause must not borrow the later valid daily witness.
+    for source, normal, wrong in (
+        ("앱 제한을 걸었다. 하루 1시간.", "每天1小時。", "每秒一小時。"),
+        ("하루 평균 5시간 14분.", "一天平均5小時14分鐘。", "每秒平均五小時十四分鐘。"),
+    ):
+        check(source, wrong, False)
+        check(source, wrong + normal, False)
+    for source, target in (
+        ("퇴사 브이로그 다섯 편", "五支辞职视频日志"),
+        ("FOMO는 양방향이었다.", "FOMO是双向的。"),
+        ("건강검진 결과가 앱에 도착했다. '주의' 표시가 두 항목에 붙어 있다.", "体检结果发到了应用里。两项标着“注意”。"),
+        ("구독료 2개. 언제 신청했는지 기억이 없었다.", "2项订阅费。不记得什么时候开的。"),
+        ("받았다.\n대학 동기였다. 5년 만이었다.\n'밥 한번 먹자'고 했다. 뜻밖이었다.", "接了。\n是大学同学。5年没联系了。\n他说“哪天一起吃个饭”。挺意外。"),
+    ):
+        check(source, target, True)
+    for source, kind in (
+        ("아이가 3세와 엘리베이터", "chaebol_generation"),
+        ("이 사람의 종이 한 장이 {name}의 한 달 식비보다 비싸다.", "dress_shirt_count"),
+        ("계단 세 번째 칸에서 기다렸다.", "slipped_stair_ordinal"),
+        ("식당 두 곳과 자가 수리 키트의 가격", "repair_shop_count"),
+        ("구독자 돈을 확인했다. 8만 1천 원.", "vlog_subscribers"),
+        ("퇴사 보고서 다섯 편", "resignation_vlog_count"),
+        ("모르는 번호를 눌렀다.\n3번.\n끊었다.", "unknown_caller_rings"),
+        ("'밥 한번 먹었다'고 했다. 뜻밖이었다.", "classmate_meal_invitation"),
+        ("별자리 1개였다.", "review_star_count"),
+        ("구독료 2개월. 언제 신청했는지 기억이 없었다.", "subscription_fee_count"),
+        ("봉투를 열고 한 줄만 읽었다.", "letter_each_line"),
+        ("하루 합계 5시간 14분.", "screen_daily_average"),
+        ("회의 제한을 걸었다. 하루 1시간.", "screen_daily_limit"),
+        ("30대 자동차 평균", "networth_age_decade"),
+        ("'정상' 표시가 두 항목에 붙어 있다.", "health_warning_count"),
+        ("FOMO는 일방향이었다.", "fomo_direction_pair"),
+    ):
+        cases += 1
+        if any(q.kind == kind for q in _source_counter_quantities(source)):
+            failures.append(f"hidden source scope escaped: {source}")
+    for source, target, valid in (
+        ("중고나라에 올려놓은 물건.", "挂在二手平台Joonggonara上的东西。", True),
+        ("중고나라에 올려놓은 물건.", "Joonggonara_上的东西。", False),
+        ("중고나라에 올려놓은 물건.", "Joonggonaraé上的东西。", False),
+        ("가짜중고나라에 올려놓은 물건.", "Joonggonara上的东西。", False),
+        ("중고품을 올려놓은 물건.", "Joonggonara上的东西。", False),
+    ):
+        cases += 1
+        if bool(_untranslated_english_errors(source, target)) == valid:
+            failures.append(f"hidden brand boundary expected valid={valid}: {source!r} -> {target!r}")
+    return cases, failures
+
+
 def run_self_test(
     manifest: dict[str, Any], runtime: dict[str, Any],
 ) -> list[str]:
@@ -4538,6 +4760,9 @@ def run_self_test(
     media_cases, media_failures = _media_scene_parser_self_test()
     cases += media_cases
     failures.extend(media_failures)
+    hidden_cases, hidden_failures = _hidden_scene_parser_self_test()
+    cases += hidden_cases
+    failures.extend(hidden_failures)
 
     # Exact Korean-source catalogue names are not permission for unrelated
     # English prose or for deleting the noun around an allowed brand token.
