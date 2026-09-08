@@ -269,6 +269,9 @@ SOCIAL_COST_COUNTER_KINDS = frozenset({
     "golf_round_fee_range", "luxury_shop_glance", "blind_date_meeting_once", "blind_date_coffee",
 })
 CALLBACK_COUNTER_KINDS = frozenset({
+    "stagnation_month_ordinal_resolve", "stagnation_month_ordinal_bridge",
+    "stagnation_month_ordinal_shortcut", "collapsed_day_reference", "warmup_year_count",
+    "submitted_resignation_sheet", "work_private_goal_tracks", "proper_gangnam_attempt",
     "renewed_goal_vow", "mother_past_room_wish", "work_goal_effort_pair",
     "work_goal_tentative_pair", "remembered_drink_pair", "next_home_condition_count",
     "moved_home_open_invitation", "earlier_train_counterfactual", "concrete_home_target",
@@ -481,6 +484,16 @@ SOURCE_GOAL_FAMILY_ECHO_QUANTITIES = (
     ("막연한 '강남'이 아니라 구체적인 집 한 채.\n\n목표가 좌표를 가지면 길이 선명해진다.\n{name}은 그 집을 기준으로 남은 거리를 다시 쟀다.", "한 채", 1, "concrete_home_target"),
 )
 SOURCE_REPEATED_TOPIC_MENTION = "그 일을 한 번 더 꺼냈다"
+SOURCE_LATE_ECHO_QUANTITIES = (
+    ("정체는 끝이 아니라 잠깐의 멈춤이다.\n\n넉 달째 그 다리 위에서 다시 걸은 것처럼, 오늘도 다시 걷기로 했다.\n{name}은 멈췄다 다시 가는 게 포기보다 강하다는 걸 안다.", "넉 달째", 4, "stagnation_month_ordinal_resolve"),
+    ("서울살이 넉 달째, 한강 다리 위에서 정체감에 빠졌을 때 {name}은 '그래도 간다'며 다시 걷기 시작했었다.\n\n그 한 걸음이 여기까지 왔다.\n\n오늘 또 비슷한 정체의 순간이다.", "넉 달째", 4, "stagnation_month_ordinal_bridge"),
+    ("서울살이 넉 달째, 정체감에 빠졌을 때 {name}은 '다른 방법이 있어야 한다'며 지름길을 생각했었다.\n\n그 유혹은 지금도 가끔 찾아온다.\n\n오늘 또 '더 빠른 길'이 머릿속을 스쳤다.", "넉 달째", 4, "stagnation_month_ordinal_shortcut"),
+    ("최재혁에게 사기당한 다음 날, {name}은 하루 종일 아무것도 안 하고 누워 있었다.\n\n그 무너진 하루가 가끔 떠오른다.\n\n오늘 또 힘든 일을 겪고, 그날처럼 멈춰 있다.", "그 무너진 하루", 1, "collapsed_day_reference"),
+    ("워밍업이라 부른 1년조차 누군가에겐 전력질주였다.\n\n그렇게까지 밀어붙였기에 남들과 다른 속도가 나왔다.\n{name}은 그 독기를 후회하지 않았다.", "1년", 1, "warmup_year_count"),
+    ("안정을 박차고 나오는 데는 용기가 필요했다.\n\n그 결단의 순간이, {name}을 다음 단계로 데려왔다.\n흔들리지 않고 내민 사표 한 장이 인생의 방향을 틀었다.", "한 장", 1, "submitted_resignation_sheet"),
+    ("겉으로는 충실한 직원, 속으로는 자기 목표를 향해 가는 사람.\n\n{name}은 그 이중 트랙을 더 능숙하게 운영하게 됐다.", "이중 트랙", 2, "work_private_goal_tracks"),
+    ("자산 25억을 넘던 날, {name}은 17억짜리 대신 25억짜리를 봤었다. '한 번 제대로 가려면.'\n\n그 야심이 가끔 떠오른다.\n\n오늘 다시 그 매물을 열어봤다.", "한 번", 1, "proper_gangnam_attempt"),
+)
 SOURCE_OCCASIONAL_ENCOUNTER = "다은이 거리를 둔 지 두 달.\n그사이 어쩌다 한 번씩은 마주쳤다.\n오늘은 그녀가 먼저 말을 걸었다."
 SOURCE_FATHER_PROMISE_TITLE = "아버지에게 한 약속"
 SOURCE_CREATOR_GROWTH_REASSESSMENT = "느리다고 느꼈다.\n하지만 두 달에 100명—이 속도가 나쁜 게 아니었다."
@@ -1740,6 +1753,14 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
         # This exact leaf has no quantities: 지워 둘 is the auxiliary 두다.
         return []
     quantities: list[CounterQuantity] = []
+    # Eight complete Korean leaves license six distinct retrospective slots.
+    # In the collapsed-day leaf only the second, anaphoric 하루 is replaced;
+    # the first full-day duration remains an independently checked quantity.
+    for raw, fragment, number, kind in SOURCE_LATE_ECHO_QUANTITIES:
+        if source == raw or (kind == "proper_gangnam_attempt"
+                and source == _mask_spans(raw, _source_money_amounts(raw))):
+            start = source.index(fragment)
+            quantities.append(CounterQuantity(start, start + len(fragment), Decimal(number), kind))
     for raw, fragment, number, kind in SOURCE_GOAL_FAMILY_ECHO_QUANTITIES:
         if source == raw:
             start = source.index(fragment)
@@ -2320,6 +2341,18 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
 def _target_pattern_for_kind(kind: str) -> re.Pattern[str]:
     # The broad witnesses include observed wrong units/actions, so an invalid
     # first clause cannot borrow a later correct number of the same kind.
+    if kind.startswith("stagnation_month_ordinal_"):
+        return re.compile(rf"(?P<ordinal>第)?(?P<sign>[+＋−﹣－負负-])?\s*(?P<number>{CHINESE_CARDINAL})(?P<callback_unit>[個个]?月|年|天|次|公里)")
+    if kind == "collapsed_day_reference":
+        return re.compile(rf"(?P<leading_collapse>(?:垮掉|崩[潰溃]|[崩垮]塌)的)?那(?P<sign>[+＋−﹣－負负-])?\s*(?P<number>{CHINESE_CARDINAL})?(?P<callback_unit>[個个]?)(?(leading_collapse)|(?P<collapse>(?:垮掉|崩[潰溃]|[崩垮]塌)的))(?P<day_unit>日子|一天|天|年|秒|公里)")
+    if kind == "warmup_year_count":
+        return re.compile(rf"(?P<sign>[+＋−﹣－負负-])?\s*(?P<number>{CHINESE_CARDINAL})(?P<callback_unit>年|[個个]月|天|次|公里)")
+    if kind == "submitted_resignation_sheet":
+        return re.compile(rf"(?P<reference>那)?(?P<sign>[+＋−﹣－負负-])?\s*(?P<number>{CHINESE_CARDINAL})?(?P<callback_unit>[紙纸張张封份]|年|公里)(?P<resignation>[辭辞][職职]信|[辭辞]呈)")
+    if kind == "work_private_goal_tracks":
+        return re.compile(rf"(?P<sign>[+＋−﹣－負负-])?\s*(?P<number>{CHINESE_CARDINAL})(?P<callback_unit>[條条]|[個个]人|年|公里)(?:[並并]行的)?(?P<track>[軌轨]道|路)")
+    if kind == "proper_gangnam_attempt":
+        return re.compile(rf"(?P<sign>[+＋−﹣－負负-])?\s*(?P<number>{CHINESE_CARDINAL})(?P<callback_unit>次|趟|回|年|公里)")
     if kind == "renewed_goal_vow":
         return re.compile(rf"(?P<again>再次|再度|再|又)(?P<sign>[+＋−﹣－負负-])?\s*(?P<number>{CHINESE_CARDINAL})?(?P<callback_unit>次|回|遍|年|公里)?")
     if kind == "mother_past_room_wish":
@@ -3015,12 +3048,88 @@ def _goal_family_echo_quantity_valid(kind: str, match: re.Match[str], target: st
     return False
 
 
+def _late_echo_quantity_valid(kind: str, match: re.Match[str], target: str) -> bool:
+    """Retrospective count/reference slots, licensed by eight full KO sources.
+
+    These regional phrase grammars keep the counted clause's actor, tense,
+    role and paragraph position. They are not general narrative validation.
+    Broad unit witnesses are deliberately stricter here than in recognition.
+    """
+    before, after = target[:match.start()], target[match.end():]
+    fields = match.groupdict()
+    unit = fields.get("callback_unit")
+    if fields.get("sign"):
+        return False
+    if kind.startswith("stagnation_month_ordinal_"):
+        if fields.get("ordinal") != "第" or unit not in {"个月", "個月", "月"}:
+            return False
+        if kind == "stagnation_month_ordinal_resolve":
+            return bool(re.fullmatch(r"停[滯滞]不是(?:[終终][點点]|[結结]束)[，,]只是(?:短[暫暂]的停[頓顿]|[暫暂][時时]停下)。\n\n就像", before)) and bool(re.fullmatch(
+                r"[時时][，,]?(?:在那座[橋桥]上重新(?:[邁迈]步|[邁迈][開开]步伐)|在那座[橋桥]上[，,]重新[邁迈]步)[，,]?"
+                r"(?:一[樣样][，,])?今天[，,]?(?:他[，,]?)?也[決决]定(?:再走下去|再次往前走)。\n"
+                r"\{name\}知道[，,]停下(?:再走|[後后]再出[發发])[，,]比放[棄弃]更有力量。", after))
+        if not re.fullmatch(r"在首[爾尔]生活的", before):
+            return False
+        if kind == "stagnation_month_ordinal_bridge":
+            return bool(re.fullmatch(
+                r"[，,](?:陷入停[滯滞]感[時时][，,]\{name\}曾在[橫横]跨[漢汉]江的[橋桥]上[，,][說说][著着][‘『「“'](?:[無无][論论]如何都要走下去|[還还]是要走下去)[’』」”'][，,]再次[邁迈][開开]了[腳脚]步|"
+                r"站在[漢汉]江的[橋桥]上[，,][覺觉]得自己停[滯滞]不前[時时][，,]\{name\}告[訴诉]自己[‘『「“'](?:[還还]是要走下去|[無无][論论]如何都要走下去)[’』」”'][，,]重新[邁迈][開开]了[腳脚]步)。\n\n"
+                rf"那(?:{CHINESE_CARDINAL})步[，,](?:一直|一路)走到了[這这][裡里]。\n\n"
+                r"今天[，,]又(?:到了(?:一[個个])?相似的停[滯滞][時时]刻|遇到了相似的停[滯滞][時时]刻)。", after))
+        return bool(re.fullmatch(
+            r"[，,](?:陷入停[滯滞]感[時时]|[覺觉]得自己停[滯滞]不前[時时])[，,]\{name\}(?:曾)?想[著着][‘『「“']一定[還还]有[別别]的(?:[辦办]法|方法)[’』」”'][，,]"
+            r"(?:[動动]了走捷[徑径]的念[頭头])。\n\n那份[誘诱]惑[，,]如今(?:也偶[爾尔][會会]出[現现]|仍偶[爾尔][會会]出[現现])。\n\n"
+            r"今天[，,][‘『「“']更快的路[’』」”']又[從从](?:[腦脑]海[裡里]|[腦脑]中)[閃闪][過过]。", after))
+    if kind == "collapsed_day_reference":
+        if unit not in {"", "个", "個"} or fields.get("day_unit") not in {"日子", "一天", "天"} \
+                or bool(fields.get("leading_collapse")) == bool(fields.get("collapse")):
+            return False
+        # The preceding 一整天 is deliberately not consumed by this slot.
+        prefix = rf"被Choi Jaehyuk[騙骗](?:[後后]的第二天|的隔天)[，,]\{{name\}}[躺臥卧]了{CHINESE_CARDINAL}整天[，,]什[麼么](?:都|也)[沒没]做。\n\n"
+        return ((bool(re.fullmatch(prefix, before)) and bool(re.fullmatch(
+                r"[，,]偶[爾尔](?:[還还])?[會会]浮上心[頭头]。\n\n今天[，,]又[經经][歷历]了(?:一件)?[難难]熬的事[，,]他像那天一[樣样]停了下[來来]。", after)))
+            or (bool(re.fullmatch(prefix + r"偶[爾尔][會会]想起[，,]?", before)) and bool(re.fullmatch(
+                r"。\n\n今天[，,]又遇到[難难]熬的事[，,]像那天一[樣样]停在原地。", after))))
+    if kind == "warmup_year_count":
+        return unit == "年" and bool(re.fullmatch(r"(?:那被叫作(?:暖身|[熱热]身)的|(?:就[連连])?(?:被)?[稱称](?:作|[為为])(?:暖身|[熱热]身)的[這这那]?)", before)) and bool(re.fullmatch(
+            r"[，,][對对](?:有些人|某些人)而言[，,]?(?:也)?已[經经]是全力[衝冲]刺。\n\n"
+            r"正因[為为]逼自己(?:逼)?到了那[個个]地步[，,]才有了(?:[與与][別别]人|和[別别]人)不同的速度。\n"
+            r"\{name\}(?:[並并])?不[後后]悔(?:那股狠[勁劲]|[當当][時时]的那股狠[勁劲])。", after))
+    if kind == "submitted_resignation_sheet":
+        return unit in {"纸", "紙", "张", "張", "封", "份"} \
+            and bool(fields.get("reference") or fields.get("number")) and bool(re.fullmatch(
+            r"(?:[拋抛][開开]安[穩稳]走出[來来]|要[離离][開开]安[穩稳]的生活)[，,]需要勇[氣气]。\n\n"
+            r"(?:做出[決决][斷断]的那[個个]瞬[間间][，,]把\{name\}[帶带]到了下一[階阶]段|下定[決决]心的那一刻[，,]把\{name\}[帶带]到了下一[階阶]段)。\n"
+            r"(?:[堅坚]定[遞递]出的|毫不[動动][搖摇]地[遞递]出的)", before)) and bool(re.fullmatch(
+            r"[，,]?(?:[轉转][變变]|[轉转][動动]|改[變变])了?人生的方向。", after))
+    if kind == "work_private_goal_tracks":
+        if unit not in {"条", "條"}:
+            return False
+        intro = r"表面上是[盡尽][職职責责]的[員员]工[，,](?:[內内]心[卻却]是朝[著着]自己目[標标]走去的人|心[裡里][則则]朝[著着]自己的目[標标]前[進进])。\n\n\{name\}"
+        return ((bool(re.fullmatch(intro + r"已[經经]能更熟[練练]地(?:[維维]持|[運运]作|兼[顧顾])[這这]", before)) and after in {"了。", "。"})
+            or (bool(re.fullmatch(intro + r"把[這这]", before)) and bool(re.fullmatch(r"[，,]走得更加熟[練练]了。", after))))
+    if kind == "proper_gangnam_attempt":
+        if unit not in {"次", "趟", "回"}:
+            return False
+        # Amounts are masked independently, in source/target order, before
+        # this routine. This slot licenses an intention, not a purchase/move.
+        intro = (r"[資资][產产](?:超[過过]|突破) +那天[，,]\{name\}[沒没]有看 +的(?:房子)?[，,]"
+                 r"而是看了 +的(?:物件)?。[‘『「“'](?:既然)?要(?:去[，,]就好好去|走[，,]就好好走|走[這这])")
+        return bool(re.fullmatch(intro, before)) and bool(re.fullmatch(
+            r"(?:[，,]就(?:要|得)(?:走得像[樣样]|好好走))?。[’』」”']\n\n"
+            r"(?:那份野心[，,]偶[爾尔][還还][會会]浮上心[頭头]|偶[爾尔][會会]想起[，,]那份野心)。\n\n"
+            r"今天[，,](?:他)?又打[開开]了(?:那套房源|那[個个]物件)。", after))
+    return False
+
+
 def _callback_quantity_valid(kind: str, match: re.Match[str], target: str) -> bool:
     before, after = target[:match.start()], target[match.end():]
     fields = match.groupdict()
     if fields.get("sign") or re.search(r"(?:不(?:是)?|沒(?:有)?|没(?:有)?)\s*$", before):
         return False
     unit = fields.get("callback_unit")
+    if kind in {row[3] for row in SOURCE_LATE_ECHO_QUANTITIES}:
+        return _late_echo_quantity_valid(kind, match, target)
     if kind in {row[3] for row in SOURCE_GOAL_FAMILY_ECHO_QUANTITIES}:
         return _goal_family_echo_quantity_valid(kind, match, target)
     if kind == "minseo_open_meeting_invitation":
@@ -3800,6 +3909,8 @@ def _match_target_counter_quantities(
                 # 一眼 is a glance after a seeing verb, not one physical eye.
                 continue
             value = _chinese_cardinal_value(match.group("number") or "")
+            if expected.kind in {"collapsed_day_reference", "submitted_resignation_sheet"} and not match.group("number"):
+                value = Decimal(1)  # That collapsed day / that submitted sheet.
             if expected.kind in {"renewed_goal_vow", "mother_past_room_wish", "moved_home_open_invitation", "earlier_train_counterfactual"} and not match.group("number"):
                 value = Decimal(1)  # Renewed action / hope / invitation / earlier counterfactual, not a fixed repetition count.
             if expected.kind in {"friend_meal_invitation", "jeonse_document_sheet", "minseo_open_meeting_invitation"} and not match.group("number"):
@@ -6978,6 +7089,171 @@ def _investment_mistake_parser_self_test() -> tuple[int, list[str]]:
     return cases, failures
 
 
+def _late_echo_parser_self_test() -> tuple[int, list[str]]:
+    """Eight source leaves, sixteen regional actuals; finite owned probes.
+
+    Changed numeric sources are tested end-to-end. Other Korean predicate
+    changes only assert that these new licences disappear, not that the
+    generic numeric checker certifies the meaning of an arbitrary sentence.
+    """
+    cases, failures = 0, []
+
+    def check(source: str, target: str, valid: bool, label: str) -> None:
+        nonlocal cases
+        cases += 1
+        errors = _numeric_errors(source, target)
+        if bool(errors) == valid:
+            failures.append(f"late echo {label} expected {valid}: {target!r}: {errors}")
+
+    actuals = (
+        ('停滞不是终点，只是短暂的停顿。\n\n就像第四个月时在那座桥上重新迈步一样，今天，他也决定再走下去。\n{name}知道，停下再走，比放弃更有力量。', '停滯不是結束，只是暫時停下。\n\n就像第四個月時，在那座橋上重新邁步，今天也決定再次往前走。\n{name}知道，停下後再出發，比放棄更有力量。'),
+        ('在首尔生活的第四个月，陷入停滞感时，{name}曾在横跨汉江的桥上，说着‘无论如何都要走下去’，再次迈开了脚步。\n\n那一步，一直走到了这里。\n\n今天，又到了一个相似的停滞时刻。', '在首爾生活的第四個月，站在漢江的橋上，覺得自己停滯不前時，{name}告訴自己『還是要走下去』，重新邁開了腳步。\n\n那一步，一路走到了這裡。\n\n今天，又遇到了相似的停滯時刻。'),
+        ('在首尔生活的第四个月，陷入停滞感时，{name}曾想着‘一定还有别的办法’，动了走捷径的念头。\n\n那份诱惑，如今也偶尔会出现。\n\n今天，‘更快的路’又从脑海里闪过。', '在首爾生活的第四個月，覺得自己停滯不前時，{name}想著『一定還有別的方法』，動了走捷徑的念頭。\n\n那份誘惑，如今仍偶爾會出現。\n\n今天，『更快的路』又從腦中閃過。'),
+        ('被Choi Jaehyuk骗后的第二天，{name}躺了一整天，什么都没做。\n\n那个垮掉的日子，偶尔还会浮上心头。\n\n今天，又经历了一件难熬的事，他像那天一样停了下来。', '被Choi Jaehyuk騙的隔天，{name}躺了一整天，什麼也沒做。\n\n偶爾會想起，那個崩潰的日子。\n\n今天，又遇到難熬的事，像那天一樣停在原地。'),
+        ('那被叫作热身的一年，对有些人而言，已经是全力冲刺。\n\n正因为逼自己逼到了那个地步，才有了与别人不同的速度。\n{name}并不后悔那股狠劲。', '就連被稱為暖身的這一年，對某些人而言也已經是全力衝刺。\n\n正因為逼自己到了那個地步，才有了和別人不同的速度。\n{name}不後悔當時的那股狠勁。'),
+        ('抛开安稳走出来，需要勇气。\n\n做出决断的那个瞬间，把{name}带到了下一阶段。\n坚定递出的一纸辞职信，转变了人生的方向。', '要離開安穩的生活，需要勇氣。\n\n下定決心的那一刻，把{name}帶到了下一階段。\n毫不動搖地遞出的那張辭呈，轉動了人生的方向。'),
+        ('表面上是尽职的员工，内心却是朝着自己目标走去的人。\n\n{name}已经能更熟练地维持这两条轨道了。', '表面上是盡責的員工，心裡則朝著自己的目標前進。\n\n{name}把這兩條路，走得更加熟練了。'),
+        ('资产超过25亿韩元那天，{name}没有看17亿韩元的房子，而是看了25亿韩元的。‘既然要去，就好好去一次。’\n\n那份野心，偶尔还会浮上心头。\n\n今天，他又打开了那套房源。', '資產突破25億韓元那天，{name}沒有看17億韓元的，而是看了25億韓元的物件。『既然要走這一趟，就要走得像樣。』\n\n偶爾會想起，那份野心。\n\n今天，又打開了那個物件。'),
+    )
+    anchors = (
+        ("第四个月", "第四個月"), ("第四个月", "第四個月"), ("第四个月", "第四個月"),
+        ("那个垮掉的日子", "那個崩潰的日子"), ("一年", "一年"),
+        ("一纸辞职信", "那張辭呈"), ("两条轨道", "兩條路"), ("一次", "一趟"),
+    )
+    bad_slots = (
+        ("第五个月", "第三个月", "第−四个月", "第四年", "四个月"),
+        ("第五个月", "第三个月", "第−四个月", "第四年", "四个月"),
+        ("第五个月", "第三个月", "第−四个月", "第四年", "四个月"),
+        ("那两个垮掉的日子", "那零个崩潰的日子", "那−個崩潰的日子", "那個崩潰的秒", "那個崩潰的年"),
+        ("两年", "零年", "−一年", "一个月", "一年半"),
+        ("两张辞职信", "零張辭呈", "−一張辭呈", "一公里辞职信", "两份辞职信"),
+        ("三条轨道", "一條路", "−兩條路", "两个人路", "两公里轨道"),
+        ("两趟", "零次", "−一趟", "一年", "一次又一次"),
+    )
+    natural_slots = (
+        ("第4个月", "第四月"), ("第4个月", "第四月"), ("第4个月", "第四月"),
+        ("那一個崩潰的日子", "那個垮掉的日子"), ("1年", "一年"),
+        ("一張辭呈", "一纸辞职信"), ("二条轨道", "兩條路"), ("一趟", "1次"),
+    )
+    predicate_changes = (
+        ("다시 걷기로 했다", "걷지 않기로 했다"),
+        ("다시 걷기 시작했었다", "걷기 시작하지 않았었다"),
+        ("지름길을 생각했었다", "지름길을 탔다"),
+        ("가끔 떠오른다", "곧 경험할 예정이다"),
+        ("전력질주였다", "전력질주일 것이다"),
+        ("흔들리지 않고 내민", "아직 내밀지 않은"),
+        ("더 능숙하게 운영하게 됐다", "운영하지 못했다"),
+        ("한 번 제대로 가려면", "이미 한 번 제대로 갔다"),
+    )
+    count_changes = ("다섯 달째", "다섯 달째", "다섯 달째", "그 무너진 사흘", "2년", "두 장", "삼중 트랙", "세 번")
+    state_changes = (
+        (("也决定再走下去", "没有决定再走下去"), ("也決定再次往前走", "沒有決定再次往前走")),
+        (("再次迈开了脚步", "明天才会迈开脚步"), ("重新邁開了腳步", "明天才會邁開腳步")),
+        (("动了走捷径的念头", "已經成功走完捷徑"), ("動了走捷徑的念頭", "已經成功走完捷徑")),
+        (("躺了一整天", "打算躺一整天"), ("躺了一整天", "打算躺一整天")),
+        (("已经是全力冲刺", "明年才會是全力衝刺"), ("已經是全力衝刺", "明年才會是全力衝刺")),
+        (("坚定递出的", "還沒有遞出的"), ("毫不動搖地遞出的", "還沒有遞出的")),
+        (("已经能更熟练地", "還不能更熟練地"), ("走得更加熟練了", "還不能走得更加熟練")),
+        (("既然要去", "既然已經成功去了"), ("既然要走", "既然已經成功走完")),
+    )
+    for index, ((source, fragment, _, kind), pair) in enumerate(zip(SOURCE_LATE_ECHO_QUANTITIES, actuals)):
+        for locale_index, target in enumerate(pair):
+            label = f"{index}/{locale_index}"
+            anchor = anchors[index][locale_index]
+            check(source, target, True, label + " actual")
+            for variant in natural_slots[index]:
+                natural = target.replace(anchor, variant, 1)
+                if natural == target:
+                    natural = target.replace("热身", "暖身").replace("暖身的這", "熱身的這") \
+                        .replace("转变了", "改变了").replace("兩條路", "兩條軌道") \
+                        .replace("就要走得像樣", "就要好好走")
+                assert natural != target
+                check(source, natural, True, label + " notation/classifier/synonym")
+            # Each wrong first slot is also followed by the untouched normal:
+            # the latter must not launder the former's value/unit/polarity.
+            for wrong in bad_slots[index]:
+                bad = target.replace(anchor, wrong, 1)
+                check(source, bad, False, label + " wrong slot")
+                check(source, bad + "\n" + target, False, label + " later normal borrowing")
+            for bad in (
+                "", target.replace(anchor, "", 1), "並沒有" + target,
+                target.replace("{name}", "他的同事", 1),
+                target + "\n她已答應，明天就見面。",
+                target + "\n買賣已成交，房子成了他的。",
+                target.replace("\n\n", "\n", 1),
+                "\n\n".join(reversed(target.split("\n\n"))),
+            ):
+                check(source, bad, False, label + " action/actor/line/missing")
+            old_state, new_state = state_changes[index][locale_index]
+            assert old_state in target
+            bad_state = target.replace(old_state, new_state, 1)
+            check(source, bad_state, False, label + " predicate changed")
+            check(source, bad_state + "\n" + target, False, label + " predicate borrowing")
+            old, new = predicate_changes[index]
+            for changed in ("소설 속 이야기다. " + source, source.replace(old, new)):
+                cases += 1
+                quantities = _source_counter_quantities(_mask_spans(changed, _source_money_amounts(changed)))
+                if any(q.kind == kind for q in quantities):
+                    failures.append(f"late echo {label} source predicate licence leaked")
+            check(source.replace(fragment, count_changes[index], 1), target, False, label + " changed source count E2E")
+    # The independent first full day and the bridge's one step must not be
+    # swallowed by the new reference/month slots.
+    for target in actuals[3]:
+        for changed in (target.replace("一整天", "两整天"), target.replace("一整天", "一整年")):
+            check(SOURCE_LATE_ECHO_QUANTITIES[3][0], changed, False, "first duration retained")
+    for target in actuals[1]:
+        check(SOURCE_LATE_ECHO_QUANTITIES[1][0], target.replace("那一步", "那两步"), False, "separate bridge step")
+    for target in actuals[7]:
+        for changed in (target.replace("25", "26", 1), target.replace("17", "18", 1)):
+            check(SOURCE_LATE_ECHO_QUANTITIES[7][0], changed, False, "separate amounts")
+    # The first independent input/report remains immutable. These ten
+    # equivalent regional phrases reproduce its observed false positives;
+    # 份 is separately a legitimate one-letter classifier, not a bundle.
+    refinements = (
+        (3, (("那个垮掉的日子", "崩溃的那一天"), ("那個崩潰的日子", "崩潰的那一天"))),
+        (4, (("那被叫作热身的一年", "被称作热身的那一年"), ("被稱為暖身的這一年", "稱作暖身的那一年"))),
+        (5, (("一纸辞职信", "一封辞职信"), ("那張辭呈", "那一紙辭呈"))),
+        (6, (("维持这两条轨道", "兼顾这两条路"), ("這兩條路", "這兩條並行的路"))),
+        (7, (("既然要去，就好好去一次", "要走这一趟，就得走得像样"), ("既然要走這一趟，就要走得像樣", "既然要走，就好好走一回"))),
+        (5, (("一纸辞职信", "一份辞职信"), ("那張辭呈", "一份辭職信"))),
+    )
+    refined_slots = (
+        (("那一天", "那三天", "那−一天", "那一年"), ("那一天", "那三天", "那−一天", "那一年")),
+        (("那一年", "那三年", "那−一年", "那一秒"), ("那一年", "那三年", "那−一年", "那一秒")),
+        (("一封", "三封", "−一封", "一公里"), ("那一紙", "那三紙", "那−一紙", "那一公里")),
+        (("两条", "三条", "−两条", "两公里"), ("兩條", "三條", "−兩條", "兩公里")),
+        (("一趟", "三趟", "−一趟", "一年"), ("一回", "三回", "−一回", "一年")),
+        (("一份", "三份", "−一份", "一公里"), ("一份", "三份", "−一份", "一公里")),
+    )
+    for refinement_index, (index, changes) in enumerate(refinements):
+        source, fragment, _, kind = SOURCE_LATE_ECHO_QUANTITIES[index]
+        for locale_index, (old, new) in enumerate(changes):
+            target = actuals[index][locale_index].replace(old, new, 1)
+            assert target != actuals[index][locale_index]
+            check(source, target, True, "independent natural/letter classifier closure")
+            anchor, *wrong_slots = refined_slots[refinement_index][locale_index]
+            old_state, new_state = state_changes[index][locale_index]
+            if index == 7:
+                old_state = "要走"
+                new_state = "已經成功走完"
+            assert anchor in target and old_state in target
+            mutants = [target.replace(anchor, wrong, 1) for wrong in wrong_slots]
+            mutants.extend((target.replace(old_state, new_state, 1), target + "\n對方已同意，買賣已完成。"))
+            for bad in mutants:
+                for probe in (bad, bad + "\n" + target):
+                    check(source, probe, False, "refined value/sign/unit/state/borrowing")
+                    if not any(kind in error for error in _numeric_errors(source, probe)):
+                        failures.append(f"late echo refinement rejected only outside owned {kind}: {probe!r}")
+            changed = source.replace(fragment, count_changes[index], 1)
+            check(changed, target, False, "refined source changed count E2E")
+            old_predicate, new_predicate = predicate_changes[index]
+            changed = source.replace(old_predicate, new_predicate, 1)
+            cases += 1
+            if any(q.kind == kind for q in _source_counter_quantities(_mask_spans(changed, _source_money_amounts(changed)))):
+                failures.append(f"late echo refined source predicate licence leaked: {kind}")
+    return cases, failures
+
+
 def _goal_family_echo_parser_self_test() -> tuple[int, list[str]]:
     """Ten actual leaves: normal/target, source scope, changed-count E2E.
 
@@ -8074,6 +8350,9 @@ def run_self_test(
     goal_family_cases, goal_family_failures = _goal_family_echo_parser_self_test()
     cases += goal_family_cases
     failures.extend(goal_family_failures)
+    late_echo_cases, late_echo_failures = _late_echo_parser_self_test()
+    cases += late_echo_cases
+    failures.extend(late_echo_failures)
     mistake_cases, mistake_failures = _investment_mistake_parser_self_test()
     cases += mistake_cases
     failures.extend(mistake_failures)

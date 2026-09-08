@@ -88,7 +88,7 @@ A=45전체14+46앞6, B=46뒤7+47전체13; 46은 한 locale저자가 소유한다
 
 DataRegistry107~109 KO3파일, 각2선택·max_turn 없음·primary flag/min_turn.
 called_about_medication만 no father_passed 추가.
-incoming/outgoing deferred·output flags·외부독자·director 정확root·runtime ID literal 모두0.
+incoming/outgoing deferred·신규 output/그 독자·director root·runtime 사건ID literal 모두0.
 M07~M60 정적closure 및 전역 explicit/deferred/delayed reachable 교집합0.
 callback분류40을 reachable/실플레이40으로 세지 않는다.
 
@@ -237,3 +237,5 @@ check/import --locale 언어 --batch sourceJSONL --response 응답; --source 없
 named full-game-localization-overlays --list 후 선택검사·EN·diff·전량수용hash/L1.
 전체audit/Godot/240주0. 공개 GO 유지·전체 INCOMPLETE·full/main/product HOLD,
 동일큐이어보기 [~]·L3/원어민/화면 OPEN. 전체번역완료/제품후보발급이 아니다.
+
+결과: [L1/L2 수용](../queue_archive/ORDER-203_L1_L2_RESULTS.md). L3 OPEN.
