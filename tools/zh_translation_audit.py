@@ -129,6 +129,7 @@ SOURCE_PRINT_RUN = re.compile(
 )
 SOURCE_IM_SURNAME = re.compile(r"(?<![가-힣])임(?:씨|가|\s+모)(?=$|[\s.,!?…\x22\x27”’]|[은는이가의를와도]|라고|라는|라며)")
 SOURCE_KIM_SURNAME = re.compile(r"(?<![가-힣])김씨(?=$|[\s.,!?…\x22\x27”’]|[은는이가의를와도]|라고|라는|라며|요)")
+SOURCE_JEONG_SURNAME = re.compile(r"(?<![가-힣])정\s+씨(?=\s+딸(?:[은는이가의을를와도]|\s|$))")
 SOURCE_HAN_CHAIRMAN = re.compile(r"(?<![가-힣])누군가는\s+한\s+회장의\s+딸\s+결혼식(?=$|[에\s.,!?…])")
 # Han is a source-bound surname here. Chinese may touch it directly, but
 # another Unicode word character, underscore, or combining accent may not.
@@ -268,6 +269,7 @@ SOCIAL_COST_COUNTER_KINDS = frozenset({
     "golf_round_fee_range", "luxury_shop_glance", "blind_date_meeting_once", "blind_date_coffee",
 })
 CALLBACK_COUNTER_KINDS = frozenset({
+    "greed_lesson_ordinal",
     "unanswered_call_rings", "karaoke_afterparty_round", "taeho_offer_ordinal", "shared_coin_loss_pair",
     "financial_tier", "callback_loan_rate", "callback_dinner_invitation",
     "escaped_elapsed_months", "freelance_request_ordinal", "holdem_loss_once",
@@ -934,6 +936,10 @@ def _has_unapproved_han_alias(
         rf"{latin}\s+{surnamed_han}",
         rf"{surnamed_han}\s+{latin}",
     ]
+    if romanized == "Jeong":
+        # The source gives only a surname. Do not silently choose 鄭/郑,
+        # even when the invented alias is unbracketed or touches the name.
+        patterns.extend((rf"{latin}\s*[鄭郑]", rf"[鄭郑]\s*{latin}"))
     for opening, closing in (
         ("(", ")"), ("（", "）"), ("[", "]"), ("［", "］"),
         ("【", "】"), ("《", "》"), ("〈", "〉"), ("「", "」"),
@@ -1188,6 +1194,11 @@ def _terminology_errors(lang: str, source: str, target: str) -> list[str]:
             errors.append("source surname 한 회장 must retain Romanized form 'Han'")
         if _has_unapproved_han_alias(target, "Han", single_character_surname=True):
             errors.append("source surname 'Han' has an unapproved Han-character alias")
+    if SOURCE_JEONG_SURNAME.search(source):
+        if len(_bounded_latin_matches(target, "Jeong")) != len(SOURCE_JEONG_SURNAME.findall(source)):
+            errors.append("source surname 정 씨 must retain each Romanized form 'Jeong'")
+        if _has_unapproved_han_alias(target, "Jeong", single_character_surname=True):
+            errors.append("source surname 'Jeong' has an unapproved Han-character alias")
     return errors
 
 
@@ -1268,6 +1279,8 @@ def _chinese_cardinal_value(raw: str) -> Decimal | None:
 
 def _ordinal_kind(source: str, end: int) -> str:
     following = source[end:].lstrip()
+    if source == '팔았다.\n숫자가 줄었다. 그리고 이게 두 번째 수업이라는 걸 알았다.\n처음보다 비쌌지만 — 처음보다 오래 기억할 거다.' and following.startswith('수업이라는'):
+        return "greed_lesson_ordinal"
     if following == "의뢰":
         return "freelance_request_ordinal"
     if source.startswith("태호의 ") and following == "제안":
@@ -2292,6 +2305,8 @@ def _target_pattern_for_kind(kind: str) -> re.Pattern[str]:
         return re.compile(rf"(?P<state>已[經经]|[還还]有)(?P<bound>不到|超過|超过|至少|大約|大约)?(?P<sign>[+＋−﹣－負负-])?\s*(?P<number>{CHINESE_CARDINAL})(?P<callback_unit>[個个]月|年|天|秒|公里)")
     if kind == "freelance_request_ordinal":
         return re.compile(rf"第(?P<sign>[+＋−﹣－負负-])?\s*(?P<number>{CHINESE_CARDINAL})(?P<callback_unit>份|次|年|公里)(?=委[託托])")
+    if kind == "greed_lesson_ordinal":
+        return re.compile(rf"第(?P<sign>[+＋−﹣－負负-])?\s*(?P<number>{CHINESE_CARDINAL})(?P<callback_unit>堂[課课]|次[課课]|年|公里)")
     if kind == "holdem_loss_once":
         return re.compile(rf"(?P<sign>[+＋−﹣－負负-])?\s*(?P<number>{CHINESE_CARDINAL})(?P<callback_unit>口[氣气]|下|次|年|公里)(?=全[輸输](?:光|掉)了)")
     if kind == "unanswered_call_rings":
@@ -2963,6 +2978,10 @@ def _callback_quantity_valid(kind: str, match: re.Match[str], target: str) -> bo
             and bool(re.match(r"了[。.!]", after))
     if kind == "freelance_request_ordinal":
         return unit in {"份", "次"} and bool(re.fullmatch(r"委[託托]", after))
+    if kind == "greed_lesson_ordinal":
+        return unit in {"堂課", "堂课", "次課", "次课"} \
+            and bool(re.fullmatch(r"(?:賣掉了|卖了)。\n[數数]字[變变]小了。也明白了?[，,]?[這这]是", before)) \
+            and bool(re.fullmatch(r"。\n比第一堂[貴贵]——但(?:也)?[會会](?:比第一堂)?[記记]得更久。", after))
     if kind == "holdem_loss_once":
         return unit in {"口氣", "口气", "下", "次"} and bool(re.search(r"我昨天$", before)) \
             and bool(re.match(r"全[輸输](?:光|掉)了[。.!]", after))
@@ -4355,6 +4374,9 @@ def _untranslated_english_errors(source: str, target: str, *, catalog: bool = Fa
         scrubbed = re.sub(r"(?<![A-Za-z0-9])Im(?![A-Za-z0-9])", " ", scrubbed)
     if SOURCE_KIM_SURNAME.search(source):
         scrubbed = re.sub(r"(?<![A-Za-z0-9])Kim(?![A-Za-z0-9])", " ", scrubbed)
+    if SOURCE_JEONG_SURNAME.search(source):
+        for match in reversed(_bounded_latin_matches(scrubbed, "Jeong")):
+            scrubbed = scrubbed[:match.start()] + " " + scrubbed[match.end():]
     if SOURCE_HAN_CHAIRMAN.search(source):
         for match in reversed(_han_surname_matches(scrubbed)):
             scrubbed = scrubbed[:match.start()] + " " + scrubbed[match.end():]
@@ -6710,6 +6732,61 @@ def _investment_mistake_parser_self_test() -> tuple[int, list[str]]:
     return cases, failures
 
 
+def _mother_midwork_parser_self_test() -> tuple[int, list[str]]:
+    """Observed surname and loss-as-lesson; neither is a global waiver."""
+    cases, failures = 0, []
+    lesson = '팔았다.\n숫자가 줄었다. 그리고 이게 두 번째 수업이라는 걸 알았다.\n처음보다 비쌌지만 — 처음보다 오래 기억할 거다.'
+
+    def check(source: str, target: str, valid: bool, lang: str) -> None:
+        nonlocal cases
+        cases += 1
+        errors = validate_text(lang, "order199-regression", source, target)
+        if bool(errors) == valid:
+            failures.append(f"mother/midwork expected valid={valid}: {source!r} / {target!r}: {errors}")
+
+    for lang, normal in (
+        ("zh-CN", "卖了。\n数字变小了。也明白了，这是第二堂课。\n比第一堂贵——但会记得更久。"),
+        ("zh-TW", "賣掉了。\n數字變小了。也明白，這是第二堂課。\n比第一堂貴——但也會比第一堂記得更久。"),
+    ):
+        check(lesson, normal, True, lang)
+        span = "第二堂" + ("课" if lang == "zh-CN" else "課")
+        for wrong in ("第一堂课", "第三堂課", "第二年", "第二公里", "第−二堂课", "第+二堂課",
+                      "第0.5堂课", "第二十堂課", "一堂课", "课", "", "不是" + span,
+                      span + "以上", span + "课程"):
+            check(lesson, normal.replace(span, wrong), False, lang)
+        check(lesson, normal.replace(span, span + span), False, lang)
+        check(lesson, normal + "\n" + normal.splitlines()[1], False, lang)
+        check(lesson, "\n".join(reversed(normal.splitlines())), False, lang)
+        check(lesson, normal.replace("比第一堂", "比第三堂"), False, lang)
+        check(lesson, normal.replace("卖了", "没有卖").replace("賣掉了", "沒有賣"), False, lang)
+        for changed in (lesson.replace(" 두 번째 ", " 세 번째 "), lesson.replace("수업", "전화"),
+                        lesson.replace("팔았다.", "팔지 않았다."), lesson.replace("\n", " ", 1)):
+            cases += 1
+            if any(q.kind == "greed_lesson_ordinal" for q in _source_counter_quantities(changed)):
+                failures.append("loss lesson exception leaked to changed source: " + changed)
+            check(changed, normal, False, lang)
+
+    for lang, normal in (
+        ("zh-CN", "不认识水原Jeong家的女儿。"),
+        ("zh-TW", "不認識水原Jeong家的女兒。"),
+    ):
+        source = "수원 정 씨 딸을 모른다."
+        check(source, normal, True, lang)
+        check(source, normal.replace("Jeong", " Jeong "), True, lang)
+        check(source + "\n정 씨 딸을 모른다.", normal + "\n" + normal, True, lang)
+        check(source + "\n정 씨 딸을 모른다.", normal + "\n" + normal.replace("Jeong", ""), False, lang)
+        for wrong in ("", "jeong", "JEONG", "JeongETF", "ETFJeong", "Jeong_",
+                      "Jeongé", "éJeong", "Jeong\u0301", "\u0301Jeong",
+                      "정", "鄭", "郑", "Jeong（鄭）", "（郑）Jeong", "鄭（Jeong）",
+                      "Jeong 郑", "鄭 Jeong", "Jeong鄭", "郑Jeong"):
+            check(source, normal.replace("Jeong", wrong), False, lang)
+        check(source, normal + "Jeong", False, lang)
+        for changed in ("수원 그 집 딸을 모른다.", "수원 정원씨 딸을 모른다.", "수원 안정 씨 딸을 모른다."):
+            check(changed, normal, False, lang)
+    return cases, failures
+
+
+
 def _investment_tip_parser_self_test() -> tuple[int, list[str]]:
     """One observed tip-to-trust metaphor; classifiers are not event waivers."""
     cases, failures = 0, []
@@ -7383,6 +7460,9 @@ def run_self_test(
     investment_tip_cases, investment_tip_failures = _investment_tip_parser_self_test()
     cases += investment_tip_cases
     failures.extend(investment_tip_failures)
+    mother_midwork_cases, mother_midwork_failures = _mother_midwork_parser_self_test()
+    cases += mother_midwork_cases
+    failures.extend(mother_midwork_failures)
     mistake_cases, mistake_failures = _investment_mistake_parser_self_test()
     cases += mistake_cases
     failures.extend(mistake_failures)

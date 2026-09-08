@@ -91,6 +91,7 @@ CODEX_QUEUE·L3_PENDING·CLAUDE·WORK_LOG·생성STATUS·전체 현지화 backlo
 필요하면 완료196 WORK_LOG절만 기존9/7 history 앞으로 원문 이동한다.
 활성 문서 예산을 넘으면 완료 증거만 queue_archive로 원문 이동하고 링크한다.
 기존 history bytes/끝 개행을 보존한다.
+apply_patch 이동 뒤 끝 LF가 하나 줄 수 있으므로, 이동절+기존HEAD bytes의 완전일치를 검사하고 부족한 개행만 복구한다.
 KO/EN·runtime·save·fonts·routing·공개·human_gates·다른 사건·catalog/endings 비소유.
 완료는 같은 큐 이어보기 [~]·L3 OPEN, 전체 번역이나 제품 GO가 아니다.
 
@@ -172,3 +173,50 @@ named full-game-localization-overlays --list 뒤 선택12·EN·diff·전량수�
 전체 INCOMPLETE·full/main/product HOLD·L3/원어민/화면 OPEN.
 출시 M01~M06 BUILD2026.08.31.1 사용자 GO 유지.
 이 문서는 일회성 범위이며 지속 규칙의 소유자는 I18N_INFRASTRUCTURE/용어집이다.
+
+## 수용 결과 — 348번역·L1/L2, L3 OPEN
+
+- 선언 `c7d969aa67ce0a189ac3a775257d58be0e565e4e` push 뒤 initial3
+  A117행·신규116 previous null×3를 저작 전에 봉인했다.
+  KO 직접 독립 저작 후 다른 작성자/ROOT가348문구 전부를 대조했다.
+- callback27~31 신규20종116leaf씩,15개 text-only 파일을 더했다.
+  기존24,186/meta9/b55 보존, 누적24,534(각8,178)·b56이다.
+  언어별 events1,016종7,110·endings234·catalog834다.
+- 독립 L2 필수0, 정밀3: CN 목소리를울먹임으로 특정한표현1·반찬통복수1,
+  TW 방의짐이빽빽했다는 강도1을 줄였다. 지정3 교차검토와
+  전체15파일/records 역치환으로 JA116/CN114/TW115 나머지 불변을 확인했다.
+- ZH 실물4오탐(두언어의第二堂课/課·Jeong)을 source 결속으로 수리했다.
+  독립검토가 찾은 괄호없는성씨별칭4를 추가로 닫았다. ZH self6548 PASS,
+  독립 고정86(정상8·target60·source18) 전부와 별도붙여쓰기4도 PASS다.
+  숫자는 numeric-only, 이름은 terminology+Latin으로 확인했다.
+  독립86 SHA `549e6c3e78e3d6c6caa25c1a2a90f5509e8703c3fba81325a439e69a93bf02ba`.
+  무수량 의미·원어민·화면 검수나 다른장면 전체인증은 아니다.
+- 최종 source/response/receipt3쌍·실물348 L1 오류0,
+  check/import --accept3 changed_files0. 최종116 records:
+  JA `baa91fc7a5d656396030b3797c4df5a0705646ef1c0b9db2685ce99a2febb516`,
+  CN `52d468286333ecb429baa00091a90c540e2e01bd82b4bb89a9b216886c56d19c`,
+  TW `32427d60ee207dc84749215533af34ae95b389f7f3b87fe0d88cd9bc8def61e2`.
+- 완료196 WORK_LOG절1,107B만 history 앞으로 원문 이동했다.
+  49,325→50,432B SHA
+  `dbd71dca479e99ab9838889809f24a7fef763bf843338c978b287b8d72035821`.
+  기존 bytes·끝 LF2 유지, 같은 활성 이어보기 [~]·L3 OPEN이다.
+- 통화/방문·계획/이직·요구액70%·미래양육/현재자녀를 구분했다.
+  매도전 주문미확인·어머니재방문·송금뒤미룸 등 KO부채는 번역으로 잇지 않았다.
+  KO/EN·runtime·공개·fonts·save·human_gates 변경0, 원본 checkout 쓰기0.
+  전체 INCOMPLETE·full/main/product HOLD·원어민/화면 OPEN·출시 데모 GO 유지.
+- portable checksum `8653b04c90c646e8019246e3d014a52b789eccc57c461627be1448f91a1e7774`.
+
+### 최종 표적 회귀
+
+named lane --list 후 선택12 PASS: source inventory52·full self204·JA69·
+ZH6548·공개 구조4변이, audit ERROR0/WARNING0, EN1,813/1,813+35/35,
+JA/CN/TW skeleton1,030사건을 확인했다. 공개14사건/100문구/121UI·5언어 exact,
+context302문서·queue62행·diff whitespace0도 정상이다.
+이 수치는 전체 번역·JP-first글꼴·원어민/화면의 완료 증거가 아니다.
+전량24,534 source/target/hash/L1, 기존24,186/meta9/b55 보존 검사 PASS.
+독립 인수는 한국어5+overlay15+private12+portable1+human1의34입력을 동결해
+초기/최종/receipt/현재번역/새수용348과 기존원장을 대조했다(추가L1실행0).
+입력 SHA `ff330978bab10c45b8366fcddd82ee3e778d431acc7f6bdd5cb0456d0cdbc1e8`.
+실행 stdout `order199-final-checks.log` 4,425B SHA
+`1c60960140a0dd0e0d2a8995c386270007324aad00d458f05c2ce0f13afb9c07`.
+원어민/화면/L3 OPEN, 전체 INCOMPLETE·HOLD·출시 데모 사용자 GO 유지.
