@@ -159,3 +159,43 @@ named full-game-localization-overlays --list 뒤 선택12검사·EN·diff·전�
 
 이 범위·배치·증거 절차는 일회성이다. 지속 규칙은 I18N_INFRASTRUCTURE와
 언어별 용어집이 소유하며 새 서사·제품·출시 규칙을 만들지 않는다.
+
+## 수용 결과 — 444번역·L1/L2, L3 OPEN
+
+- 선언 `ba75cb986776d41a29fecad5ce9ea9c6b6d33187` commit/push 뒤
+  initial source3(각149행·148 previous null)을 저작 전에 봉인했다.
+  KO 직접 독립 저작 뒤 다른 검토자/ROOT가444문구 전부를 대조했다.
+- 기존8번 첫3행20leaf·known2의 값/순서/raw prefix를 보존하고 새13행,
+  새9번 첫12행만 썼다. 49선택·LF184·{name}0은 원문과 같다.
+  기존19,410/meta9/batch42에서19,854(각6,618),
+  events754종5,550·endings234·catalog834씩, batch43다.
+- L2 필수1: JA 계좌열기를 신규개설이 아닌 기존계좌 확인으로 고쳤다.
+  정밀4: JA 카페제목의 엿들은화자, CN 경마초대의 주체/바닥회고의 시제,
+  TW 동창모임 연락주체다. 별도 검토자가 다섯 수정안을 대조했고
+  역치환으로 동결 records를 복원해 다른 JA146/CN146/TW147문구 불변을 확인했다.
+- ZH 실제 표면의 실수3가지·아들방문초대·조건부식사초대·레버리지/회색정보
+  조건·경마승패·추가검토3가지를 원문 문맥에 결속해 수량 오탐만 수리했다.
+  숫자·단위·역할·완료/제안·부정·누락·문단·원문 경계의 정상/변조를 검사했다.
+  독립 검토가 발견한 방문초대 부정 인용문 우회도 같은 경계에서 닫았다.
+  ZH self5628=5363+101+162+2 PASS, 기존 JA 도구 변경0이다.
+  전역 의미 인증이나 원어민 판정은 아니다.
+- 최종 source/response/receipt3쌍을 initial·현재 source/target과 결속했다.
+  실물444 L1 오류0·check/import --accept changed_files0. records148 SHA는
+  JA `edebb810dff966fe9cbc3d0eba61bdeb4bc6fc0752d463e976c8b97952d30439`,
+  CN `5da53b47eed3a064436e3cdf5b3eab6052c974e34dfce5d1c94c866675ba0001`,
+  TW `810fa07e5ac32b8569fe26dba13cd10fd66c3ccddec650351a2b8db67750d30d`.
+- 완료188 WORK_LOG절1,188bytes만 history 앞으로 원문 이동했다.
+  history40,444→41,632bytes SHA
+  `395d64029590249d9c31bc14537d34f9bd8cbc1b5d63d4db68d52774f2616571`.
+  기존 내용·끝 LF2 byte-exact 보존, 같은 활성 이어보기 [~]·L3 OPEN이다.
+- 방문/채용·식사약속·지원금 전액수령을 발명하지 않았고 실제 송금·답변은
+  지우지 않았다. 원문 손익·기간·회상·조건 부채는 번역으로 수리0.
+  KO/EN·runtime·공개·fonts·save·human_gates 변경0, 원본 checkout 쓰기0.
+  전체 INCOMPLETE·full/main/product HOLD·원어민/화면 OPEN,
+  출시 M01~M06 사용자 GO 유지. 자동 검사는 사람 판정 대체물이 아니다.
+- portable checksum `c5cb4833888764682e3119169c282f7a81ec021f65cc6649325cab2a08aa6266`.
+- 최종 named12·EN strict·전량19,854 source/target hash와 L1·diff 검사 PASS.
+  full self192/ZH self5628이며, 별도 독립 가드77(정상14/변조56/원문경계7)
+  PASS는 자체 fixture 수와 합산하지 않는다. 앞선 실패2도 같은 고정 집합에서 닫혔다.
+  실제 stdout `order191-final-checks.log` 4,682bytes SHA
+  `31ca9f8821ebdb5ee76c45a59688a77e5abb329bfd95bccdca713645476f6fe8`.

@@ -273,6 +273,10 @@ CALLBACK_COUNTER_KINDS = frozenset({
     "escaped_elapsed_months", "freelance_request_ordinal", "holdem_loss_once",
     "supervisor_one_on_one_title", "supervisor_one_on_one_request",
     "investment_tip_trust",
+    "investment_mistake_count",
+    "banchan_son_visit_invitation", "warned_victim_meal_invitation",
+    "leverage_trap_condition", "gray_entry_condition", "racetrack_win_count", "racetrack_loss_count",
+    "additional_investment_review_count",
 })
 LIFE_SCENE_COUNTER_KINDS = WORK_SCENE_COUNTER_KINDS | SPENDING_SCENE_COUNTER_KINDS | FAMILY_SCENE_COUNTER_KINDS | MEDIA_SCENE_COUNTER_KINDS | HIDDEN_SCENE_COUNTER_KINDS | PROLOGUE_COUNTER_KINDS | DRAMA_COUNTER_KINDS | CREATOR_COUNTER_KINDS | DAILY_MOMENT_COUNTER_KINDS | SOCIAL_COST_COUNTER_KINDS | CALLBACK_COUNTER_KINDS | frozenset({
     "remaining_four_month", "job_posting_count", "egg_count", "task_count",
@@ -1266,6 +1270,15 @@ def _source_counter_kind(
 ) -> str:
     following = source[match.end():].lstrip()
     preceding = source[max(0, match.start() - 120):match.start()]
+    if counter == "번" and match.group("number") == "한":
+        if preceding.endswith('\n다음 날 또 문자가 왔다.\n레버리지는 ') and following == '물리면 스스로 끊기가 어렵다.\n그게 중독이었다.':
+            return "leverage_trap_condition"
+        if preceding == '상대가 요구를 꺼냈다.\n단순한 돈이 아니었다.\n회색지대에 ' and following == '발을 담그면 — 나오는 게 쉽지 않다.':
+            return "gray_entry_condition"
+        if preceding == '아들이 받았다.\n"어머니한테 들었어요. ' and following.startswith('오실래요?"\n반찬집 아주머니가 연결해준 자리.'):
+            return "banchan_son_visit_invitation"
+        if preceding == '그 사람이 "혹시 가까이 계시면 밥 ' and following.startswith('사고 싶어요"라고 했다.\n낯선 사람에게 건넨 한 마디가'):
+            return "warned_victim_meal_invitation"
     if counter == "번" and preceding.endswith("'시간 되면 저녁 ") and following.startswith("하시죠. 편한 자리예요.'"):
         return "callback_dinner_invitation"
     if counter == "번" and preceding.endswith("저 어제 ") and following.startswith("에 다 날렸어요."):
@@ -1927,6 +1940,17 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
     for match in re.finditer(r"(?<=고기 먹으면서 다음 투자 얘기가 나왔다\.\n)한 번(?=의 팁이 신뢰로 바뀌고 있었다\.$)", source):
         if source[:match.start()].count("\n") == 2:
             quantities.append(CounterQuantity(match.start(), match.end(), Decimal(1), "investment_tip_trust"))
+    for match in re.finditer(r"^세 가지(?= 실수가 보였다\.\n'영리하다'고 느끼는 순간이 가장 위험하다는 것도\.)", source):
+        quantities.append(CounterQuantity(match.start(), match.end(), Decimal(3), "investment_mistake_count"))
+    for match in re.finditer(r"^세 가지(?=를 더 검토했다\.\n확신이 줄었다\.\n그래서 비중을 낮췄다\.\n그 대표의 파산이 — 이 결정을 바꿨다\.$)", source):
+        quantities.append(CounterQuantity(match.start(), match.end(), Decimal(3), "additional_investment_review_count"))
+    # The record belongs to the three racetrack bets, not a decimal score or
+    # two interchangeable counters. Wins and losses retain ordered ownership.
+    for match in re.finditer(r"(?<=그 이후 세 번 베팅했다\.\n)(?P<wins>\d+)승 (?P<losses>\d+)패\.$", source):
+        if not source.startswith("경마장에서 고수처럼 보이는 사람한테 팁을 물어봤던 게 세 달 전이다.\n"):
+            continue
+        for group, kind in (("wins", "racetrack_win_count"), ("losses", "racetrack_loss_count")):
+            quantities.append(CounterQuantity(match.start(group), match.end(group) + 1, Decimal(match.group(group)), kind))
     for match in re.finditer(r"(?<=대포통장에 손댔다가 빠져나온 지 )넉 달(?=이 됐다\.)", source):
         quantities.append(CounterQuantity(match.start(), match.end(), Decimal(4), "escaped_elapsed_months"))
     for match in SOURCE_HALF_PYEONG.finditer(source):
@@ -2147,6 +2171,18 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
 def _target_pattern_for_kind(kind: str) -> re.Pattern[str]:
     # The broad witnesses include observed wrong units/actions, so an invalid
     # first clause cannot borrow a later correct number of the same kind.
+    if kind == "additional_investment_review_count":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})(?P<callback_unit>件事|點|点|項|项|年|公里)")
+    if kind in {"leverage_trap_condition", "gray_entry_condition"}:
+        return re.compile(rf"(?P<conditional>一旦)|(?P<number>{CHINESE_CARDINAL})(?P<callback_unit>次|年|公里)")
+    if kind in {"racetrack_win_count", "racetrack_loss_count"}:
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})\s*(?P<callback_unit>勝|胜|敗|败|負|负|年|公里)")
+    if kind == "banchan_son_visit_invitation":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})(?P<callback_unit>趟|次|年|公里)")
+    if kind == "warned_victim_meal_invitation":
+        return re.compile(rf"吃(?P<state>了)?(?P<number>{CHINESE_CARDINAL})?(?P<callback_unit>頓|顿|次|年|公里)(?=[飯饭])")
+    if kind == "investment_mistake_count":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})(?P<callback_unit>[個个處处]|年|公里)(?P<mistake_noun>錯誤|错误|失誤|失误)")
     if kind == "investment_tip_trust":
         return re.compile(rf"(?P<number>{CHINESE_CARDINAL})\s*(?P<callback_unit>條|条|則|则|次|公里|公斤|分鐘|分钟|年)\s*(?P<tip_noun>消息|提點|提点)")
     if kind in {"supervisor_one_on_one_title", "supervisor_one_on_one_request"}:
@@ -2707,6 +2743,34 @@ def _callback_quantity_valid(kind: str, match: re.Match[str], target: str) -> bo
     if fields.get("sign") or re.search(r"(?:不(?:是)?|沒(?:有)?|没(?:有)?)\s*$", before):
         return False
     unit = fields.get("callback_unit")
+    if kind == "additional_investment_review_count":
+        return unit in {"件事", "點", "点", "項", "项"} \
+            and bool(re.fullmatch(r"又(?:多[檢检]查了|核查了)", before)) \
+            and bool(re.match(r"。\n", after))
+    if kind == "leverage_trap_condition":
+        return bool(fields.get("conditional")) and before.count("\n") == 2 \
+            and bool(re.search(r"\n(?:槓桿|杠杆)$", before)) \
+            and bool(re.fullmatch(r"套住(?:人|了)，就很[難难](?:靠自己[掙挣][脫脱]|自己[斷断][開开])。\n(?:這|这)就是上[癮瘾]。", after))
+    if kind == "gray_entry_condition":
+        return bool(fields.get("conditional")) and before.count("\n") == 2 and before.endswith("\n") \
+            and bool(re.fullmatch(r"踏[進进]灰色地[帶带]——(?:再出[來来]，就[沒没]那[麼么]容易|想出[來来]，就不容易了)。", after))
+    if kind == "racetrack_win_count":
+        return unit in {"勝", "胜"} and before.count("\n") == 2 and before.endswith("\n") \
+            and bool(re.fullmatch(rf"\s*{CHINESE_CARDINAL}\s*[敗败負负]。", after))
+    if kind == "racetrack_loss_count":
+        return unit in {"敗", "败", "負", "负"} and before.count("\n") == 2 \
+            and bool(re.search(rf"\n{CHINESE_CARDINAL}\s*[勝胜]\s*$", before)) and after == "。"
+    if kind == "banchan_son_visit_invitation":
+        return unit in {"趟", "次"} \
+            and bool(re.fullmatch(r'她儿子接了。\n“听我母亲说了。您要不要过来|是阿姨的兒子接的。\n「我聽媽媽提過了。要不要來', before)) \
+            and bool(re.match(r"？[」”]\n", after))
+    if kind == "warned_victim_meal_invitation":
+        return not fields.get("state") and unit in {"頓", "顿"} \
+            and bool(re.fullmatch(r'(?:那个人说：“如果您刚好在附近|對方說：「如果您就在附近)，我想[請请]您', before)) \
+            and bool(re.match(r"[飯饭]。[」”]\n", after))
+    if kind == "investment_mistake_count":
+        return unit in {"個", "个", "處", "处"} and bool(re.fullmatch(r"看出了|看到了|發現了|发现了", before)) \
+            and bool(re.match(r"。\n", after))
     if kind == "investment_tip_trust":
         return unit in {"條", "条", "則", "则", "次"} and before.endswith("\n") \
             and before.count("\n") == 2 \
@@ -3316,9 +3380,11 @@ def _match_target_counter_quantities(
                 # 一眼 is a glance after a seeing verb, not one physical eye.
                 continue
             value = _chinese_cardinal_value(match.group("number") or "")
+            if expected.kind in {"leverage_trap_condition", "gray_entry_condition"} and match.groupdict().get("conditional"):
+                value = Decimal(1)
             if expected.kind == "shared_coin_loss_pair" and match.groupdict().get("implicit"):
                 value = Decimal(2)
-            if expected.kind == "callback_dinner_invitation" and not match.group("number"):
+            if expected.kind in {"callback_dinner_invitation", "warned_victim_meal_invitation"} and not match.group("number"):
                 value = Decimal(1)
             if expected.kind in SOCIAL_COST_COUNTER_KINDS and (not match.group("number") or expected.kind == "golf_round_fee_range"):
                 value = Decimal(1)
@@ -5747,6 +5813,181 @@ def _drama_parser_self_test() -> tuple[int, list[str]]:
     return cases, failures
 
 
+def _investment_callback_outcome_parser_self_test() -> tuple[int, list[str]]:
+    """Four actual callback contexts: conditional traps, score, extra review."""
+    leverage = "300만원을 더 넣었다.\n다음 날 또 문자가 왔다.\n레버리지는 한 번 물리면 스스로 끊기가 어렵다.\n그게 중독이었다."
+    gray = "상대가 요구를 꺼냈다.\n단순한 돈이 아니었다.\n회색지대에 한 번 발을 담그면 — 나오는 게 쉽지 않다."
+    score = "경마장에서 고수처럼 보이는 사람한테 팁을 물어봤던 게 세 달 전이다.\n그 이후 세 번 베팅했다.\n1승 2패."
+    review = "세 가지를 더 검토했다.\n확신이 줄었다.\n그래서 비중을 낮췄다.\n그 대표의 파산이 — 이 결정을 바꿨다."
+    cases, failures = 0, []
+
+    def check(source: str, target: str, valid: bool) -> None:
+        nonlocal cases
+        cases += 1
+        errors = _numeric_errors(source, target)
+        if bool(errors) == valid:
+            failures.append(f"investment callback expected valid={valid}: {source!r} -> {target!r}: {errors}")
+
+    conditional_rows = (
+        (leverage, "又投进了300万韩元。\n第二天，短信又来了。\n杠杆一旦套住人，就很难靠自己挣脱。\n这就是上瘾。", "套住人", "leverage_trap_condition"),
+        (leverage, "又投了300萬韓元。\n隔天，簡訊又來了。\n槓桿一旦套住了，就很難自己斷開。\n這就是上癮。", "套住了", "leverage_trap_condition"),
+        (gray, "对方提出了要求。\n不只是钱。\n一旦踏进灰色地带——再出来，就没那么容易。", "踏进灰色地带", "gray_entry_condition"),
+        (gray, "對方說出了要求。\n不只是錢那麼簡單。\n一旦踏進灰色地帶——想出來，就不容易了。", "踏進灰色地帶", "gray_entry_condition"),
+    )
+    for source, normal, action, kind in conditional_rows:
+        check(source, normal, True)
+        wrongs = [normal.replace("一旦", form) for form in ("二旦", "一−旦", "−一旦", "+一旦", "一次", "一公里", "已經", "", "並非一旦")]
+        wrongs += [normal.replace(action, "已經" + action), normal.replace(action, "沒有" + action),
+                   normal.replace("很难", "很容易").replace("很難", "很容易").replace("没那么容易", "很容易").replace("不容易了", "很容易了"),
+                   "\n".join(reversed(normal.splitlines()))]
+        for wrong in wrongs:
+            check(source, wrong, False)
+        # Only the owned counter participates in borrowing checks; the 3M
+        # amount must not hide acceptance of a second, laundering clause.
+        quantities = [q for q in _source_counter_quantities(source) if q.kind == kind]
+        for wrong in (wrongs[0], wrongs[5], wrongs[6]):
+            target = wrong + "\n" + normal
+            matched, errors = _match_target_counter_quantities(target, quantities)
+            errors += _unexpected_target_entity_errors(target, quantities, matched)
+            cases += 1
+            if not errors:
+                failures.append(f"conditional callback borrowed later normal: {target!r}")
+    for normal, record in (
+        ("在赛马场向一个看起来像高手的人讨教，是三个月前的事了。\n此后下了三次注。\n一胜两负。", "一胜两负"),
+        ("三個月前，在賽馬場向一個看起來像高手的人請教了消息。\n後來，下注了三次。\n1勝2敗。", "1勝2敗"),
+    ):
+        check(score, normal, True)
+        for valid_record in ("1勝2敗", "一胜两负", "一勝兩敗"):
+            check(score, normal.replace(record, valid_record), True)
+        for bad_record in ("二勝一敗", "一敗兩勝", "兩敗一勝", "一勝三敗", "−一勝兩敗", "一勝−兩敗", "+一勝兩敗", "一公里兩敗", "一勝兩年", "一勝", "兩敗", "", "一勝了兩敗"):
+            wrong = normal.replace(record, bad_record)
+            check(score, wrong, False)
+        check(score, "\n".join(reversed(normal.splitlines())), False)
+        check(score, normal.replace("\n" + record, " " + record), False)
+        for wrong in (normal.replace(record, "二勝一敗"), normal.replace(record, "一公里兩敗")):
+            check(score, wrong + "\n" + normal.splitlines()[-1], False)
+    for normal, span, prefix in (
+        ("又核查了三点。\n没那么确信了。\n于是，降低了投入的比重。\n那位老板的破产——改变了这次决定。", "三点", "又核查了"),
+        ("又多檢查了三件事。\n沒有那麼確信了。\n所以，降低了投資比重。\n那位負責人的破產——改變了這個決定。", "三件事", "又多檢查了"),
+    ):
+        check(review, normal, True)
+        wrongs = [normal.replace(span, number + span[1:]) for number in ("二", "四", "十三", "零", "−三", "+三")]
+        wrongs += [normal.replace(span, value) for value in ("三年", "三公里", "三個錯誤", span[1:], "")]
+        wrongs += [normal.replace(prefix, "準備檢查"), normal.replace(prefix, "沒有檢查"), normal.replace(prefix, "發現了"), "\n".join(reversed(normal.splitlines()))]
+        for wrong in wrongs:
+            check(review, wrong, False)
+        for wrong in (wrongs[0], wrongs[-4]):
+            check(review, wrong + "\n" + normal.splitlines()[0], False)
+    for changed_source in (
+        leverage.replace("한 번", "두 번"), leverage.replace("물리면", "물렸다"),
+        leverage.replace("어렵다", "쉽다"), leverage.replace("레버리지는", "투자는"),
+        gray.replace("한 번", "두 번"), gray.replace("담그면", "담갔다"),
+        gray.replace("회색지대", "안전지대"), gray.replace("쉽지 않다", "쉽다"),
+        score.replace("경마장에서", "축구장에서"), score.replace("베팅했다", "베팅할 것이다"),
+        review.replace("세 가지", "두 가지"), review.replace("검토했다", "검토할 것이다"),
+        review.replace("검토했다", "발견했다"), review.replace("확신이 줄었다", "확신이 커졌다"),
+    ):
+        cases += 1
+        kinds = {"leverage_trap_condition", "gray_entry_condition", "racetrack_win_count", "racetrack_loss_count", "additional_investment_review_count"}
+        if any(q.kind in kinds for q in _source_counter_quantities(changed_source)):
+            failures.append(f"investment callback source boundary escaped: {changed_source!r}")
+    # Source values remain values, not a fixed one-win/two-loss exemption.
+    changed = score.replace("1승 2패", "2승 1패")
+    check(changed, "三個月前，在賽馬場請教了消息。\n後來下注了三次。\n2勝1敗。", True)
+    check(changed, "三個月前，在賽馬場請教了消息。\n後來下注了三次。\n1勝2敗。", False)
+    return cases, failures
+
+
+def _small_help_invitation_parser_self_test() -> tuple[int, list[str]]:
+    """A son's visit request and a conditional thank-you meal stay invitations."""
+    visit = '아들이 받았다.\n"어머니한테 들었어요. 한 번 오실래요?"\n반찬집 아주머니가 연결해준 자리.\n가장 뜻밖의 곳에서 길이 났다.'
+    meal = '그 사람이 "혹시 가까이 계시면 밥 한 번 사고 싶어요"라고 했다.\n낯선 사람에게 건넨 한 마디가 — 반년을 돌아 이렇게 왔다.\n좋은 일은 기억된다.'
+    rows = (
+        (visit, '她儿子接了。\n“听我母亲说了。您要不要过来一趟？”\n小菜店阿姨牵线的岗位。\n在最意想不到的地方，有了路。', "一趟", "banchan_son_visit_invitation"),
+        (visit, '是阿姨的兒子接的。\n「我聽媽媽提過了。要不要來一趟？」\n小菜店阿姨牽線的工作機會。\n路，從最意想不到的地方出現了。', "一趟", "banchan_son_visit_invitation"),
+        (meal, '那个人说：“如果您刚好在附近，我想请您吃顿饭。”\n对陌生人说的一句话——绕过半年，这样回来了。\n好事会被记住。', "顿", "warned_victim_meal_invitation"),
+        (meal, '對方說：「如果您就在附近，我想請您吃頓飯。」\n曾對陌生人說的一句話——繞了半年，就這樣回來了。\n好事，會被記得。', "頓", "warned_victim_meal_invitation"),
+    )
+    cases, failures = 0, []
+    for source, normal, span, kind in rows:
+        variants = []
+        if kind.startswith("banchan"):
+            variants += [normal.replace(span, value) for value in ("二趟", "十一趟", "−一趟", "+一趟", "一年", "一公里", "")]
+            variants += [normal.replace("要不要", "已經"), normal.replace("？", "。")]
+            variants += [normal.replace("她儿子接了。", "她儿子接了，却没有问：").replace("是阿姨的兒子接的。", "是阿姨的兒子接的，卻沒有問：")]
+        else:
+            variants += [normal.replace(span, value + span) for value in ("二", "十一", "−一", "+一")]
+            variants += [normal.replace(span, value) for value in ("年", "公里", "")]
+            variants += [normal.replace("吃", "吃了"), normal.replace("我想", "我已經")]
+            variants += [normal.replace("如果您刚好在附近，", "").replace("如果您就在附近，", "")]
+        variants += ["\n".join(reversed(normal.splitlines()))]
+        for target, valid in [(normal, True)] + [(v, False) for v in variants]:
+            cases += 1
+            errors = _numeric_errors(source, target)
+            if bool(errors) == valid:
+                failures.append(f"small-help invitation expected valid={valid}: {target!r}: {errors}")
+        quantities = [q for q in _source_counter_quantities(source) if q.kind == kind]
+        for wrong in variants[:2]:
+            target = wrong + "\n" + normal
+            matched, errors = _match_target_counter_quantities(target, quantities)
+            errors += _unexpected_target_entity_errors(target, quantities, matched)
+            cases += 1
+            if not errors:
+                failures.append(f"small-help invitation borrowed later normal: {target!r}")
+    for source in (
+        visit.replace("한 번", "두 번"), visit.replace("오실래요?", "오셨어요."),
+        visit.replace("아들이 받았다", "사장이 받았다"),
+        meal.replace("한 번", "두 번"), meal.replace("사고 싶어요", "샀어요"),
+        meal.replace("혹시 가까이 계시면 ", ""),
+    ):
+        cases += 1
+        if any(q.kind in {"banchan_son_visit_invitation", "warned_victim_meal_invitation"} for q in _source_counter_quantities(source)):
+            failures.append(f"small-help invitation source boundary escaped: {source!r}")
+    return cases, failures
+
+
+def _investment_mistake_parser_self_test() -> tuple[int, list[str]]:
+    """Recognized mistakes are not corrected mistakes or generic plural waivers."""
+    source = "세 가지 실수가 보였다.\n'영리하다'고 느끼는 순간이 가장 위험하다는 것도.\n이 노트가 다음 판의 기준이 됐다."
+    rows = (
+        "看出了三個錯誤。\n也看見，覺得自己「很聰明」的那一刻，才最危險。\n這份筆記，成了下一局的依據。",
+        "看出了三个错误。\n也看出，觉得自己“聪明”的那一刻最危险。\n这份笔记，成了下一局的依据。",
+    )
+    cases, failures = 0, []
+
+    def check(target: str, valid: bool) -> None:
+        nonlocal cases
+        cases += 1
+        errors = _numeric_errors(source, target)
+        if bool(errors) == valid:
+            failures.append(f"investment mistakes expected valid={valid}: {target!r}: {errors}")
+
+    for normal in rows:
+        check(normal, True)
+        span = "三個錯誤" if "錯誤" in normal else "三个错误"
+        for number in ("二", "四", "十三", "零", "+三", "−三"):
+            check(normal.replace(span, number + span[1:]), False)
+        for wrong in ("三年錯誤", "三公里错误", "三個收入", span[1:], ""):
+            check(normal.replace(span, wrong), False)
+        check(normal.replace("看出了", "修正了"), False)
+        check(normal.replace("看出了", "沒有看出"), False)
+        check("\n".join(reversed(normal.splitlines())), False)
+        check(normal.replace("。\n", "。", 1), False)
+        for wrong in (normal.replace(span, "四" + span[1:]), normal.replace("看出了", "修正了")):
+            check(wrong + "\n" + normal.splitlines()[0], False)
+    for other in (
+        source.replace("세 가지", "두 가지"),
+        source.replace("실수가", "수익이"),
+        source.replace("보였다", "고쳐졌다"),
+        source.replace("'영리하다'", "'정직하다'"),
+        "그날 " + source,
+    ):
+        cases += 1
+        if any(q.kind == "investment_mistake_count" for q in _source_counter_quantities(other)):
+            failures.append(f"investment mistake source boundary escaped: {other!r}")
+    return cases, failures
+
+
 def _investment_tip_parser_self_test() -> tuple[int, list[str]]:
     """One observed tip-to-trust metaphor; classifiers are not event waivers."""
     cases, failures = 0, []
@@ -6420,6 +6661,15 @@ def run_self_test(
     investment_tip_cases, investment_tip_failures = _investment_tip_parser_self_test()
     cases += investment_tip_cases
     failures.extend(investment_tip_failures)
+    mistake_cases, mistake_failures = _investment_mistake_parser_self_test()
+    cases += mistake_cases
+    failures.extend(mistake_failures)
+    invitation_cases, invitation_failures = _small_help_invitation_parser_self_test()
+    cases += invitation_cases
+    failures.extend(invitation_failures)
+    investment_callback_cases, investment_callback_failures = _investment_callback_outcome_parser_self_test()
+    cases += investment_callback_cases
+    failures.extend(investment_callback_failures)
 
     # Exact Korean-source catalogue names are not permission for unrelated
     # English prose or for deleting the noun around an allowed brand token.
