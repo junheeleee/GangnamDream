@@ -79,6 +79,7 @@
 | 64 | [~] | ORDER-97 · LOC-0.5 | [97](queue_active/ORDER-97.md) | L3 대기 |
 | 65 | [~] | ORDER-98 · PAD-1 | [98](queue_active/ORDER-98.md) | 물리 패드 L3 OPEN |
 | 66 | [ ] | ORDER-203 · 원어민 게이트를 미검수 표시로 내린다 | [203](queue_active/ORDER-203.md) | 원장 7건·유저 표면 고지 · 선행 없음·미착수 |
+| 67 | [ ] | ORDER-204 · 도달 불가 L3에 묶인 번역 오더 44건 종결 | [204](queue_active/ORDER-204.md) | 종결 규칙·44건 아카이브 · 선행 203 · 미착수 |
 
 완료 검토 상세는 [원문 보관](queue_archive/CODEX_QUEUE_2026-09.md#현지화-수용-상세-2026-09-07)으로 옮겼다. 각 활성 L3는 OPEN이다.
 
