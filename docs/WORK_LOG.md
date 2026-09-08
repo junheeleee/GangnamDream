@@ -23,6 +23,21 @@
 > [`7/25`](history/WORK_LOG_2026-07-25.md)에 손실 없이 보존한다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
 
+## 2026-09-08 (Codex — 친구·직장·살림의 후속 번역)
+
+- 후속17종92문구씩 한 배치를 세 언어 저작·전수 대조했다.
+  신규276·누적24,810이며 기존24,534/meta9와 한국어·영어·공개판을 보존했다.
+- 독립 L2 필수0, CN 용서뒤심리상태1·TW 동기기수/동기의미2를 정밀화했다.
+  지정3 최종교차검토·역치환으로 나머지12파일 원형을 보존했다.
+- ZH 수량·보증금일부·Hometax 오탐을 source 결속으로 수리했다.
+  self6772와 독립84 PASS는 별도이며 기존generic 한계3을 숨기지 않는다.
+- 초기/최종 source·response·receipt3쌍과 수용24,810 전량 hash/L1을 확인했다.
+  완료197절1,099bytes만 history로 옮겨 기존 내용·끝 LF2를 보존했다.
+- 실제답장/만남·용서≠화해·마음속다짐·계좌개설≠매수의 사실 경계를 유지했다.
+  KO/EN·runtime·공개·fonts·save·human_gates 변경0, 원본 checkout 쓰기0.
+  전체 INCOMPLETE·HOLD·L3/원어민/화면 OPEN·출시 데모 GO 유지.
+  [수용·검사 상세](queue_active/ORDER-200.md)에 지문과 경계를 남긴다.
+
 ## 2026-09-08 (Codex — 어머니·일·살림의 중간 회수 번역)
 
 - 후속20종116문구씩 한 배치를 세 언어 저작·전수 대조했다.
@@ -52,21 +67,6 @@
   KO/EN·runtime·공개·fonts·save·human_gates 변경0, 원본 checkout 쓰기0.
   전체 INCOMPLETE·HOLD·L3/원어민/화면 OPEN·출시 데모 GO 유지.
   [수용·검사 상세](queue_active/ORDER-198.md)에 지문과 경계를 남긴다.
-
-## 2026-09-08 (Codex — 일·신뢰·되돌림의 후속 번역)
-
-- 후속43종258문구씩 두 배치를 세 언어 저작·전수 대조했다.
-  신규774·누적23,844이며 기존23,070/meta9와 한국어·영어·공개판을 보존했다.
-- 독립 L2 필수0, CN 진술/채널/주체3·TW 과오만회 표현4를 정밀화했다.
-  교차검토·역치환으로 나머지 번역과 파일 원형 보존을 확인했다.
-- 실제 JA 경과형·ZH 인원/U盘 오탐을 수리하고, 독립검토의 첫행 평가·주체
-  2쌍 오허용을 닫았다. full self203/ZH6436 PASS다.
-- 초기/최종 source·response·receipt6쌍을 결속했다.
-  완료194절1,074bytes만 history로 옮겨 기존 내용·끝 개행을 보존했다.
-- 실제 계약·응답·반환·수리와 계획·방법찾기를 구분하고 원문 부채는 남겼다.
-  KO/EN·runtime·공개·fonts·save·human_gates 변경0, 원본 checkout 쓰기0.
-  전체 INCOMPLETE·HOLD·L3/원어민/화면 OPEN·출시 데모 GO 유지.
-  [수용·검사 상세](queue_active/ORDER-197.md)에 지문과 경계를 남긴다.
 
 ## 2026-09-05 (Codex — ORDER-156 Chapter 5 생활 routine 배경 수리 선언)
 

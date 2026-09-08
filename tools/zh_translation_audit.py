@@ -269,6 +269,8 @@ SOCIAL_COST_COUNTER_KINDS = frozenset({
     "golf_round_fee_range", "luxury_shop_glance", "blind_date_meeting_once", "blind_date_coffee",
 })
 CALLBACK_COUNTER_KINDS = frozenset({
+    "friend_meal_invitation", "friend_contact_reference", "friend_obligatory_meeting",
+    "project_cause_pair", "project_mixed_pair", "forgiveness_between_pair", "jeonse_document_sheet",
     "greed_lesson_ordinal",
     "unanswered_call_rings", "karaoke_afterparty_round", "taeho_offer_ordinal", "shared_coin_loss_pair",
     "financial_tier", "callback_loan_rate", "callback_dinner_invitation",
@@ -450,6 +452,12 @@ CATALOG_APPROXIMATE_WON = (
     (re.compile(r"(?<![가-힣])수조원(?= 빅딜)"), re.compile(r"[数數](?:万亿|萬億|兆)(?:韩元|韓元)")),
 )
 SOURCE_INSURANCE_SAVED_PAIR = "첫 번째로 할 일로 보험 가입을 메모했다.\n몇만원짜리 보험이 수억을 지켰다."
+SOURCE_FRIEND_CONTACT_REVIEW = '"야, 밥 한번 먹자"고 먼저 연락한 뒤로 몇 달이 지났다.\n\n그 한 번이 어떻게 됐는지 — 지금 생각해보면, 이후가 더 중요했다.\n\n처음 연락했을 때의 어색함이 돌파구가 됐는지,\n아니면 한 번 의무처럼 만나고 다시 잠잠해졌는지.'
+SOURCE_PROJECT_CAUSE_PAIR = '팀장이 불렀다.\n"다음 분기 신규 프로젝트 PL 해볼 생각 있어?"\n\n회식 끝까지 남았던 게 기억나는 건지, 일을 잘 해서인지 알 수 없다.\n어쩌면 둘 다일 수도.'
+SOURCE_PROJECT_MIXED_PAIR = '"해보겠습니다." 했다.\n\n이 기회가 회식 자리에서 생긴 건지, 내 실력에서 생긴 건지.\n한국 직장에서는 이 두 가지가 섞여 있다.'
+SOURCE_FORGIVENESS_BETWEEN_PAIR = '민준은 메시지를 읽고, 답하지 않았다.\n\n용서한다고 했고, 그건 거짓말이 아니었다.\n그렇다고 다시 마주 앉아 커피를 마실 만큼은 아니었다.\n\n용서와 화해는 다른 거였다.\n그 둘 사이 어딘가에 서 있는 것도, 틀린 자리는 아니었다.'
+SOURCE_JEONSE_PARTIAL_RETURN = '법률구조공단을 찾아갔다. 확정일자 없으니 후순위 채권자.\n\n결국 보증금 일부만 돌아왔다. 500만 원 손실.\n그 서류 한 장이 얼마나 중요한지, 이제는 뼈로 안다.'
+SOURCE_HOMETAX_REFUND_NOTICE = '홈택스 알림: 환급 예정액 확정.\n\n꼼꼼히 공제를 챙겼던 게 결과로 돌아왔다.'
 SOURCE_REPEATED_TOPIC_MENTION = "그 일을 한 번 더 꺼냈다"
 SOURCE_OCCASIONAL_ENCOUNTER = "다은이 거리를 둔 지 두 달.\n그사이 어쩌다 한 번씩은 마주쳤다.\n오늘은 그녀가 먼저 말을 걸었다."
 SOURCE_FATHER_PROMISE_TITLE = "아버지에게 한 약속"
@@ -1710,6 +1718,21 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
         # This exact leaf has no quantities: 지워 둘 is the auxiliary 두다.
         return []
     quantities: list[CounterQuantity] = []
+    # One invitation, its retrospective reference, and one later meeting are
+    # distinct slots. A target's 第一次聯絡 must not backfill a missing meeting.
+    for raw, fragment, number, kind in (
+        (SOURCE_FRIEND_CONTACT_REVIEW, "한번", 1, "friend_meal_invitation"),
+        (SOURCE_FRIEND_CONTACT_REVIEW, "그 한 번", 1, "friend_contact_reference"),
+        (SOURCE_FRIEND_CONTACT_REVIEW, "한 번 의무처럼", 1, "friend_obligatory_meeting"),
+        (SOURCE_PROJECT_CAUSE_PAIR, "둘 다", 2, "project_cause_pair"),
+        (SOURCE_PROJECT_MIXED_PAIR, "두 가지", 2, "project_mixed_pair"),
+        (SOURCE_FORGIVENESS_BETWEEN_PAIR, "그 둘 사이", 2, "forgiveness_between_pair"),
+        (SOURCE_JEONSE_PARTIAL_RETURN, "한 장", 1, "jeonse_document_sheet"),
+    ):
+        if source == raw or (kind == "jeonse_document_sheet" and source.startswith("법률구조공단을 찾아갔다.")
+                and source == _mask_spans(raw, _source_money_amounts(raw))):
+            start = source.index(fragment)
+            quantities.append(CounterQuantity(start, start + len(fragment), Decimal(number), kind))
     # These exact predicates express renewed mention and an indefinite past
     # encounter frequency. Value 1 is a semantic marker, not one total meeting.
     if source == SOURCE_REPEATED_TOPIC_MENTION:
@@ -2257,6 +2280,18 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
 def _target_pattern_for_kind(kind: str) -> re.Pattern[str]:
     # The broad witnesses include observed wrong units/actions, so an invalid
     # first clause cannot borrow a later correct number of the same kind.
+    if kind == "friend_meal_invitation":
+        return re.compile(rf"吃(?P<state>了|[過过])?(?P<sign>[+＋−﹣－負负-])?\s*(?P<number>{CHINESE_CARDINAL})?(?P<callback_unit>[頓顿]|次|年|公里)(?=[飯饭])")
+    if kind == "friend_contact_reference":
+        return re.compile(rf"那(?P<sign>[+＋−﹣－負负-])?\s*(?P<number>{CHINESE_CARDINAL})(?P<callback_unit>次|年|公里)")
+    if kind == "friend_obligatory_meeting":
+        return re.compile(rf"[見见](?P<state>了|[過过])(?P<sign>[+＋−﹣－負负-])?\s*(?P<number>{CHINESE_CARDINAL})(?P<callback_unit>次|年|公里)")
+    if kind in {"project_cause_pair", "project_mixed_pair"}:
+        return re.compile(rf"(?P<sign>[+＋−﹣－負负-])?\s*(?P<number>{CHINESE_CARDINAL})(?P<callback_unit>者|件事|回事|[個个]人|年|公里)")
+    if kind == "forgiveness_between_pair":
+        return re.compile(rf"原[諒谅]和和解[，,]是(?:(?P<comparison_number>{CHINESE_CARDINAL})(?P<comparison_unit>回事|件事|年|公里)|不同的事)[。.]\n站在(?P<sign>[+＋−﹣－負负-])?\s*(?P<number>{CHINESE_CARDINAL})(?P<callback_unit>者|[個个]人|年|公里)")
+    if kind == "jeonse_document_sheet":
+        return re.compile(rf"那(?P<sign>[+＋−﹣－負负-])?\s*(?P<number>{CHINESE_CARDINAL})?(?P<callback_unit>[張张]|份|年|公里)(?P<document_noun>文件|[紙纸])")
     if kind == "repeated_topic_mention":
         return re.compile(rf"(?P<again>再次|再|又)[ \t　]*(?P<number>{CHINESE_CARDINAL})?(?P<callback_unit>次|回|遍|年|公里)?[ \t　]*提(?:起|到|及)(?:了)?那件事(?:情)?")
     if kind == "occasional_encounter":
@@ -2855,6 +2890,41 @@ def _callback_quantity_valid(kind: str, match: re.Match[str], target: str) -> bo
     if fields.get("sign") or re.search(r"(?:不(?:是)?|沒(?:有)?|没(?:有)?)\s*$", before):
         return False
     unit = fields.get("callback_unit")
+    if kind == "friend_meal_invitation":
+        return not fields.get("state") and unit in {"頓", "顿"} \
+            and bool(re.fullmatch(r"主[動动](?:[發发]去一句|[聯联][絡络][，,][說说]了)[“『](?:喂|欸)[，,](?:一起)?", before)) \
+            and bool(re.match(r"[飯饭]吧[”』](?:之[後后])?[，,]已[經经](?:是[幾几][個个]月前的事了|[過过]了[幾几][個个]月)。\n\n", after))
+    if kind == "friend_contact_reference":
+        return unit == "次" and before.count("\n") == 2 and before.endswith("\n\n") \
+            and bool(re.match(r"[，,]?[後后][來来](?:怎[麼么][樣样]了|怎[麼么][樣样]了?)", after))
+    if kind == "friend_obligatory_meeting":
+        return fields.get("state") == "了" and unit == "次" and before.count("\n") == 5 \
+            and bool(re.search(r"\n(?:[還还]是像履行[義义][務务]一[樣样]|[還还]是像[盡尽][義义][務务]般)$", before)) \
+            and bool(re.fullmatch(r"[，,](?:之[後后])?又[沒没]了(?:[動动][靜静]|[聲声]息)。", after))
+    if kind == "project_cause_pair":
+        return unit in {"者", "件事"} and before.count("\n") == 4 \
+            and bool(re.fullmatch(r"[組组][長长](?:叫住了我|叫了我[過过]去)。", before.split("\n")[0])) \
+            and bool(re.fullmatch(r"[“『]下(?:[個个]季度|季)的新(?:[項项]目|[專专]案)[，,]有[沒没]有[興兴]趣[當当](?:[專专]案)?[負负][責责]人[？?][”』]", before.split("\n")[1])) \
+            and bool(re.fullmatch(r"不知道是(?:因[為为])?[記记]得我(?:在)?聚餐(?:[時时])?留(?:到了|到)最[後后][，,][還还]是因[為为](?:我)?工作做得好。", before.split("\n")[3])) \
+            and bool(re.search(r"\n也[許许]$", before)) and bool(re.fullmatch(r"都有。", after))
+    if kind == "project_mixed_pair":
+        return unit in {"者", "件事"} and before.count("\n") == 3 \
+            and bool(re.fullmatch(r"(?:[說说]了[：:][“『]我[願愿]意[試试][試试]。[”』]|[“『]我[願愿]意[試试][試试]看。[”』]我[說说]。)", before.split("\n")[0])) \
+            and bool(re.search(r"\n在[韓韩][國国][職职][場场][，,][這这]$", before)) \
+            and bool(re.fullmatch(r"混在一起。", after))
+    if kind == "forgiveness_between_pair":
+        # Two mentions point to the same forgiveness/reconciliation pair;
+        # a plural comparison is not a second pair of newly invented people.
+        comparison = fields.get("comparison_number")
+        return unit == "者" and (not comparison or (
+                _chinese_cardinal_value(comparison) == 2 and fields.get("comparison_unit") in {"回事", "件事"})) \
+            and before.count("\n") == 5 and before.endswith("\n\n") \
+            and bool(re.fullmatch(r"Minjun [讀读]了(?:消息|[訊讯]息)[，,][沒没]有(?:回[覆复])。", before.split("\n")[0])) \
+            and bool(re.fullmatch(r"之[間间]的某[個个]地方[，,]也(?:不是[錯错]的位置|不算站[錯错]了位置)。", after))
+    if kind == "jeonse_document_sheet":
+        return unit in {"張", "张"} and before.count("\n") == 3 and before.endswith("\n") \
+            and bool(re.fullmatch(r"去了(?:[韓韩][國国])?法律(?:援助|救助)公[團团]。[沒没]有[確确]定日期(?:[認认][證证]|[證证]明)[，,]只能列[為为][後后][順顺]位[債债][權权]人。", before.split("\n")[0])) \
+            and bool(re.fullmatch(r"有多重要[，,]如今(?:已(?:[經经])?)?(?:痛入骨髓地明白了|刻[進进]骨子[裡里])。", after))
     if kind == "repeated_topic_mention":
         # A grammatical action clause, not a whitelist of translated leaves.
         # Whole-clause boundaries prevent negation/future or a wrong earlier
@@ -3575,6 +3645,8 @@ def _match_target_counter_quantities(
                 # 一眼 is a glance after a seeing verb, not one physical eye.
                 continue
             value = _chinese_cardinal_value(match.group("number") or "")
+            if expected.kind in {"friend_meal_invitation", "jeonse_document_sheet"} and not match.group("number"):
+                value = Decimal(1)
             if expected.kind in {"repeated_topic_mention", "occasional_encounter"} and not match.group("number"):
                 value = Decimal(1)
             if expected.kind == "former_ceo_success" and match.groupdict().get("past"):
@@ -3941,6 +4013,9 @@ def _source_money_amounts(source: str) -> list[MoneyAmount]:
     for match in SOURCE_COLLOQUIAL_MANWON.finditer(source):
         if _overlaps(amounts, match.start(), match.end()):
             continue
+        if source == SOURCE_JEONSE_PARTIAL_RETURN and match.group() == "보증금 일" \
+                and source[match.end():].startswith("부만 돌아왔다."):
+            continue  # 일부 is partial deposit recovery, not one ten-thousand won.
         if match.group("context") == "월" and source[match.end():].startswith("% 수익 보장."):
             continue  # The claimed monthly percentage remains a percentage.
         if any(rate.start() <= match.start() < match.end() <= rate.end()
@@ -4152,6 +4227,13 @@ def _numeric_errors(source: str, target: str) -> list[str]:
         errors.append("drama approximate Korean-won magnitude order changed")
     source_amounts = _source_money_amounts(source)
     target_amounts = _target_money_amounts(target)
+    if source == SOURCE_JEONSE_PARTIAL_RETURN:
+        # The source owns an actual partial return and a one-off loss, not a
+        # full refund, a future payment or a monthly rate with the same digits.
+        lines = _mask_spans(target, target_amounts).split("\n")
+        if len(lines) != 4 or not re.fullmatch(
+                r"(?:最[後后]|最[終终])只拿回了?部分押金。[損损]失[ ]+。", lines[2]):
+            errors.append("jeonse partial-return/loss role or unit changed")
     # This source gives a 200,000–300,000-won range, not a scalar 300,000.
     # Retain the complete target range for typed endpoint/unit validation below;
     # scalar parsing must not consume only its second endpoint.
@@ -4299,6 +4381,13 @@ def _money_errors(lang: str, source: str, target: str) -> list[str]:
 
 def _untranslated_english_errors(source: str, target: str, *, catalog: bool = False) -> list[str]:
     scrubbed = PLACEHOLDER.sub(" ", target)
+    if source == SOURCE_HOMETAX_REFUND_NOTICE:
+        matches = _bounded_latin_matches(scrubbed, "Hometax")
+        if len(matches) != 1 or not re.fullmatch(r"(?:[韓韩][國国][國国][稅税][廳厅] )?", scrubbed[:matches[0].start()]) \
+                or not re.match(r" ?通知[：:]", scrubbed[matches[0].end():]):
+            return ["source-bound Hometax notice brand missing/count/boundary changed"]
+        match = matches[0]
+        scrubbed = scrubbed[:match.start()] + " " + scrubbed[match.end():]
     if source in SOURCE_OPENED_USB_ECHO:
         # These Korean predicates identify an opened storage device, not the
         # USB interface in general. Keep the regional noun whole and bounded.
@@ -6732,6 +6821,122 @@ def _investment_mistake_parser_self_test() -> tuple[int, list[str]]:
     return cases, failures
 
 
+def _friend_work_callback_parser_self_test() -> tuple[int, list[str]]:
+    """Six observed source leaves; machine frames, not a prose certificate."""
+    cases, failures = 0, []
+
+    def check(source: str, target: str, valid: bool, label: str, *, brand: bool = False) -> None:
+        nonlocal cases
+        cases += 1
+        errors = _untranslated_english_errors(source, target) if brand else _numeric_errors(source, target)
+        if bool(errors) == valid:
+            failures.append(f"friend/work {label} expected {valid}: {target!r}: {errors}")
+
+    normals = (
+        (SOURCE_FRIEND_CONTACT_REVIEW,
+         '主动发去一句“喂，一起吃顿饭吧”，已经是几个月前的事了。\n\n那一次，后来怎么样了——现在想想，更重要的是之后。\n\n初次联系时的尴尬，究竟成了突破口，\n还是像履行义务一样见了一次，又没了动静。',
+         '主動聯絡，說了『欸，吃頓飯吧』之後，已經過了幾個月。\n\n那一次後來怎麼樣了——現在回頭想，之後才是更重要的。\n\n第一次聯絡時的尷尬，究竟成了突破口，\n還是像盡義務般見了一次，之後又沒了聲息。'),
+        (SOURCE_PROJECT_CAUSE_PAIR,
+         '组长叫住了我。\n“下个季度的新项目，有没有兴趣当负责人？”\n\n不知道是因为记得我聚餐时留到了最后，还是因为工作做得好。\n也许两者都有。',
+         '組長叫了我過去。\n『下季的新專案，有沒有興趣當專案負責人？』\n\n不知道是記得我在聚餐留到最後，還是因為我工作做得好。\n也許兩者都有。'),
+        (SOURCE_PROJECT_MIXED_PAIR,
+         '说了：“我愿意试试。”\n\n这个机会，究竟来自聚餐，还是来自自己的实力。\n在韩国职场，这两者混在一起。',
+         '『我願意試試看。』我說。\n\n這個機會，是從聚餐裡來的，還是從自己的能力裡來的？\n在韓國職場，這兩件事混在一起。'),
+        (SOURCE_FORGIVENESS_BETWEEN_PAIR,
+         'Minjun 读了消息，没有回复。\n\n说过原谅，那不是谎话。\n可还没到能重新面对面坐着喝咖啡的地步。\n\n原谅和和解，是两回事。\n站在两者之间的某个地方，也不是错的位置。',
+         'Minjun 讀了訊息，沒有回覆。\n\n說過原諒，那並不是謊話。\n但還不到能再次面對面坐著喝咖啡的程度。\n\n原諒和和解，是不同的事。\n站在兩者之間的某個地方，也不算站錯了位置。'),
+        (SOURCE_JEONSE_PARTIAL_RETURN,
+         '去了韩国法律援助公团。没有确定日期认证，只能列为后顺位债权人。\n\n最终只拿回了部分押金。损失500万韩元。\n那一张纸有多重要，如今已痛入骨髓地明白了。',
+         '去了法律救助公團。沒有確定日期證明，只能列為後順位債權人。\n\n最後只拿回部分押金。損失500萬韓元。\n那張文件有多重要，如今已經刻進骨子裡。'),
+    )
+    for source, cn, tw in normals:
+        for target in (cn, tw):
+            check(source, target, True, "actual numeric")
+            last = target.split("\n")[-1]
+            check(source, target + "\n" + last, False, "later duplicate")
+            check(source, last + "\n" + target, False, "displaced interval")
+            check(source, target.replace("\n", " ", 1), False, "paragraph collapsed")
+
+    for target, cup, meet in ((normals[0][1], "顿", "见了"), (normals[0][2], "頓", "見了")):
+        source = SOURCE_FRIEND_CONTACT_REVIEW
+        for unit in (cup, "年", "公里"):
+            check(source, target.replace("吃" + cup, "吃一" + unit), unit == cup, "meal classifier")
+        for wrong in ("吃两" + cup, "吃三" + cup, "吃−" + cup, "吃了" + cup, "不吃" + cup, "吃"):
+            check(source, target.replace("吃" + cup, wrong), False, "invitation value/state")
+        for wrong in ("那三次", "那一年", "那−一次", "那"):
+            check(source, target.replace("那一次", wrong), False, "retrospective reference")
+        for wrong in (meet + "两次", meet + "一年", meet + "−一次", "未" + meet + "一次", "以后" + meet + "一次"):
+            check(source, target.replace(meet + "一次", wrong), False, "obligatory meeting")
+        # Keeping TW 第一次聯絡 cannot replace the later single meeting.
+        check(source, target.replace(meet + "一次", ""), False, "first-contact count is not backfill")
+        check(source, target.replace("吃" + cup, "吃一公里，吃" + cup), False, "meal wrong unit before normal")
+
+    for index in (1, 2):
+        source, cn, tw = normals[index]
+        for target in (cn, tw):
+            span = "两者" if "两者" in target else "兩件事" if "兩件事" in target else "兩者"
+            for wrong in ("一者", "三者", "两个人", "两年", "−" + span, "不" + span, "将来" + span, ""):
+                check(source, target.replace(span, wrong), False, "work cause count/state")
+            check(source, target.replace(span, "两公里，" + span), False, "work cause wrong unit backfill")
+            if index == 1:
+                check(source, target.replace("也许", "肯定").replace("也許", "肯定"), False, "uncertainty retained")
+                check(source, target.replace("组长", "朋友").replace("組長", "朋友"), False, "offer actor")
+                check(source, target.replace("有没有兴趣", "已经决定").replace("有沒有興趣", "已經決定"), False, "offer not appointment")
+            else:
+                check(source, target.replace("愿意", "不愿意").replace("願意", "不願意"), False, "acceptance polarity")
+
+    for target in normals[3][1:]:
+        span = "两者" if "两者" in target else "兩者"
+        for wrong in ("一者", "三者", "两个人", "两年", "−" + span, "不" + span, ""):
+            check(SOURCE_FORGIVENESS_BETWEEN_PAIR, target.replace(span, wrong), False, "forgiveness pair")
+        check(SOURCE_FORGIVENESS_BETWEEN_PAIR, target.replace(span, "两公里，站在" + span), False, "pair backfill")
+        check(SOURCE_FORGIVENESS_BETWEEN_PAIR, target.replace("没有回复", "已经回复").replace("沒有回覆", "已經回覆"), False, "no invented reply")
+    check(SOURCE_FORGIVENESS_BETWEEN_PAIR, normals[3][1].replace("两回事", "三回事"), False, "same comparison referent")
+    check(SOURCE_FORGIVENESS_BETWEEN_PAIR, normals[3][2].replace("不同的事", "相同的事"), False, "distinct concepts")
+
+    for target in normals[4][1:]:
+        span = "那一张纸" if "那一张纸" in target else "那張文件"
+        for wrong in ("那张纸", "那一張文件"):
+            check(SOURCE_JEONSE_PARTIAL_RETURN, target.replace(span, wrong), True, "singular sheet")
+        for wrong in ("那两张纸", "那三張文件", "那−張文件", "那一年文件", "那一份文件", "那", "将来" + span):
+            check(SOURCE_JEONSE_PARTIAL_RETURN, target.replace(span, wrong), False, "sheet count/unit/state")
+        check(SOURCE_JEONSE_PARTIAL_RETURN, target.replace(span, "那一年文件，" + span), False, "sheet backfill")
+        for before, after in (("500", "501"), ("500", "−500"), ("500", ""), ("部分", "全部"),
+                              ("去了", "将去"), ("去了", "没有去"), ("法律", "银行")):
+            check(SOURCE_JEONSE_PARTIAL_RETURN, target.replace(before, after), False, "partial recovery act/amount")
+        for suffix in ("/月", "%", "公斤"):
+            check(SOURCE_JEONSE_PARTIAL_RETURN, target.replace("韩元", "韩元" + suffix).replace("韓元", "韓元" + suffix), False, "one-off loss unit")
+
+    for source in ("보증금 일만원을 돌려받았다.", "보증금 일만 원을 돌려받았다.", "보증금 일 원을 돌려받았다."):
+        expected = Decimal(1) if "일 원" in source else Decimal(10000)
+        cases += 1
+        if [a.won for a in _source_money_amounts(source)] != [expected]:
+            failures.append("partial-return fix removed an explicit won amount: " + source)
+    cases += 1
+    if [a.won for a in _source_money_amounts(SOURCE_JEONSE_PARTIAL_RETURN)] != [Decimal(5000000)]:
+        failures.append("partial deposit was still parsed as one ten-thousand won")
+
+    for source, _, _ in normals:
+        for changed in (source.replace("\n", " ", 1), "다른 이야기.\n" + source):
+            cases += 1
+            new_kinds = {"friend_meal_invitation", "friend_contact_reference", "friend_obligatory_meeting",
+                         "project_cause_pair", "project_mixed_pair", "forgiveness_between_pair", "jeonse_document_sheet"}
+            if any(q.kind in new_kinds for q in _source_counter_quantities(changed)):
+                failures.append("friend/work source frame leaked: " + changed)
+
+    for target in (
+        'Hometax通知：预计退税金额已确定。\n\n仔细申报的扣除项目，终于有了结果。',
+        '韓國國稅廳 Hometax 通知：預計退稅金額已確定。\n\n仔細確認的那些扣除項目，有了回報。',
+    ):
+        check(SOURCE_HOMETAX_REFUND_NOTICE, target, True, "actual notice brand", brand=True)
+        for wrong in ("", "HometaxHometax", "Hometax_", "HometaxETF", "ETFHometax", "0Hometax", "Hometaxé", "Hometax\u0301", "OtherTax"):
+            check(SOURCE_HOMETAX_REFUND_NOTICE, target.replace("Hometax", wrong), False, "brand boundary/count", brand=True)
+        check(SOURCE_HOMETAX_REFUND_NOTICE, target + " Untranslated sentence.", False, "brand not English prose waiver", brand=True)
+        for source in (SOURCE_HOMETAX_REFUND_NOTICE.replace("홈택스", "다른 서비스"), "홈택스가 아닌 알림."):
+            check(source, target, False, "brand source removed", brand=True)
+    return cases, failures
+
+
 def _mother_midwork_parser_self_test() -> tuple[int, list[str]]:
     """Observed surname and loss-as-lesson; neither is a global waiver."""
     cases, failures = 0, []
@@ -7463,6 +7668,9 @@ def run_self_test(
     mother_midwork_cases, mother_midwork_failures = _mother_midwork_parser_self_test()
     cases += mother_midwork_cases
     failures.extend(mother_midwork_failures)
+    friend_work_cases, friend_work_failures = _friend_work_callback_parser_self_test()
+    cases += friend_work_cases
+    failures.extend(friend_work_failures)
     mistake_cases, mistake_failures = _investment_mistake_parser_self_test()
     cases += mistake_cases
     failures.extend(mistake_failures)

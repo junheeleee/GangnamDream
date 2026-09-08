@@ -7,6 +7,7 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
+| 1 | [~] | ORDER-200 · 친구·직장·살림 후속 번역 | [200](queue_active/ORDER-200.md) | 276번역 L1/L2 · L3 OPEN |
 | 2 | [~] | ORDER-199 · 어머니·일·살림 중간 회수 번역 | [199](queue_active/ORDER-199.md) | 348번역 L1/L2 · L3 OPEN |
 | 3 | [~] | ORDER-198 · 생활 인연·마지막 전략 후속 번역 | [198](queue_active/ORDER-198.md) | 342번역 L1/L2 · L3 OPEN |
 | 4 | [~] | ORDER-197 · 일·신뢰·되돌림 후속 번역 | [197](queue_active/ORDER-197.md) | 774번역 L1/L2 · L3 OPEN |

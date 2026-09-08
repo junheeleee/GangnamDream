@@ -177,3 +177,59 @@ named full-game-localization-overlays --list 뒤 선택12·EN·diff·전량수�
 전체 INCOMPLETE·full/main/product HOLD·L3/원어민/화면 OPEN.
 출시 M01~M06 BUILD2026.08.31.1 사용자 GO 유지.
 이 문서는 일회성 범위이며 지속 규칙의 소유자는 I18N_INFRASTRUCTURE/용어집이다.
+
+## 수용 결과 — 276번역·L1/L2, L3 OPEN
+
+- 선언 `ad16fb00aa87149fc6b332cae7f24f682330231a` push 뒤 initial3
+  A93행·신규92 previous null×3를 저작 전에 봉인했다.
+  KO 직접 독립 저작 후 다른 작성자/ROOT가276문구 전부를 대조했다.
+- callback32~35 신규17종92leaf씩, 열두 text-only 파일에 반영했다.
+  신규9파일과 기존33 세 파일의 forgiven append뿐이며 leveraged6leaf씩과
+  각 기존 object raw prefix·행/키순서·portable 기록을 보존했다.
+  누적24,810(각8,270)·b57, 언어별 events1,033종7,202·endings234·catalog834다.
+- 독립 L2 필수0, 정밀3: CN 용서뒤 심리적释怀 상태의 추가단정1,
+  TW 대학동기의기수1·남들때문/남들을위해의 동기구별1을 반영했다.
+  지정3 최종실물 교차검토와 전체12파일/records 역치환으로
+  JA92/CN91/TW90 나머지 불변을 확인했다.
+- ZH 실물6원문의 오탐을 source 결속으로 수리했다.
+  식사제안/그한번/의무적만남·두원인·용서와화해·서류한장의 역할을 구분하고,
+  '보증금 일부만'의 '보증금 일'을 1만원으로 잘못읽지 않게 했다.
+  홈택스는 해당환급알림의 bounded Hometax만 지원한다.
+  도구+208/-0·591,901B SHA
+  `6a6b67e26d3fec9422ce8db97e1a478af95537f0b2c8d9a9432839b8d41390fa`.
+- ZH 자체6772(기존6548+신규224)와 독립고정84는 각각 PASS다.
+  독립84는 실제정상12·target변조거부60·source경계12로,
+  마지막12는 typed라이선스해제10과 Hometax영어거부2다.
+  source변형중3은 예전generic numeric도통과하던 한계이며,
+  84를 모든source변조 E2E거부나 무수량의미·원어민·화면인증으로 과장하지 않는다.
+  독립 입력 SHA `48c42884c69d21d3264392bc762a0fcf72012404e497275e9160d94cdf2053f5`.
+- 최종 source/response/receipt3쌍·실물276 L1 오류0,
+  check/import --accept3 changed_files0. 최종92 records:
+  JA `e00008d3055e8c78effda22de551b3c34606a9771906856ac82e8776356fa768`,
+  CN `12e286ce7bd817d951a8c819deb8ba906dffee047605ffd3d0302e4abfb10c64`,
+  TW `75dd21102f21a9fad6efcd0a214ecb21ddc891500a348b4ea8ca72985323577b`.
+  수용24,810 전량 source/target hash·L1, 기존24,534/meta9/b56 보존 PASS다.
+- 완료197 WORK_LOG절1,099B만 history 앞으로 원문 이동했다.
+  50,432→51,531B SHA
+  `dd562e359163754a8fdfade8cad56394c0f2185f4bc0c75c9d1a58d9b828307c`.
+  기존 bytes·끝 LF2 유지, 같은 활성 이어보기 [~]·L3 OPEN이다.
+- 실제답장/만남·미정일정·용서≠화해·마음속다짐·계좌개설≠매수를 보존했다.
+  부모의전세취득/환급효과·야근공유flag 등 원문부채는 번역으로 잇지 않았다.
+  KO/EN·runtime·공개·fonts·save·human_gates 변경0, 원본 checkout 쓰기0.
+  전체 INCOMPLETE·full/main/product HOLD·원어민/화면 OPEN·출시 데모 GO 유지.
+- portable checksum `ab13f4abd1072d92ac7d91f8dddd5b9cc20b94e0396f7e2408996948c5c927e0`.
+
+### 최종 회귀·보존 증거
+
+- named full-game-localization-overlays --list 뒤 선택12 전부 PASS:
+  source inventory52·full self204·JA69·ZH6772,
+  정적 ERROR0/WARNING0·EN1813/1813+35/35·공개5언어 패리티.
+  JA/CN/TW skeleton1047에는 보호된14종도 포함되므로 수용1033종과 분모가 다르다.
+- context303·queue63(in_progress61)·diff check PASS.
+  실행 stdout은 private `order200-final-checks.log` 4295B,
+  SHA `d0516b40fe635e856c833589ee748f078eab0baafa122f340ec9ddeddaa096db`에 보존했다.
+  JP-first 글꼴 blocked 경고는 숨기지 않으며 L3를 기계통과로 대체하지 않는다.
+- 별도 읽기전용 수용검토30입력은 전후 동일,
+  snapshot `1bc85dae79b4b54c0569e90f6d85700ad8995961821602ef97bd9c7969423a02`.
+  초기3 source 봉인·최종3쌍·이전원장/메타/기존33/KO/human 보존을 재대조했다.
+- full audit.sh·Godot·240주 자동/사람 플레이0. 이 기록은 번역 수용 증거이며 제품 후보 발급이 아니다.
