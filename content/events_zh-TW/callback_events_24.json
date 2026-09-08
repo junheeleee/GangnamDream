@@ -1,0 +1,128 @@
+[
+  {
+    "id": "callback_spec_elite_echo",
+    "title": "選擇菁英專精方向之後",
+    "description": "選擇菁英路線已經三個月了。\n門雖窄，還是進去了。\n今天，有了一場同路線的人參加的聚會。",
+    "choices": [
+      {"text": "積極融入", "result_text": "和大家交流了。\n說話的方式、態度，都不一樣。"},
+      {"text": "觀察", "result_text": "觀察了。\n他們怎麼說話，又重視什麼。"}
+    ]
+  },
+  {
+    "id": "callback_spec_social_climber_echo",
+    "title": "選擇拓展上層人脈的專精方向之後",
+    "description": "選擇向上拓展人脈的路線已經三個月了。\n累積了不少連結。\n今天，其中一段連結帶來了意料之外的機會。",
+    "choices": [
+      {"text": "抓住機會", "result_text": "抓住了。\n人脈這條路——開始有了結果。"},
+      {"text": "透過更高層的人脈，爭取更好的機會", "result_text": "等了下去。"}
+    ]
+  },
+  {
+    "id": "callback_spec_social_entrepreneur_echo",
+    "title": "選擇社會創業專精方向之後",
+    "description": "選擇社會企業家的路線已經三個月了。\n那是把意義看得比錢更優先的方向。\n今天，這個方向帶回了一點成果。",
+    "choices": [
+      {"text": "看見成果的意義並接受它", "result_text": "接受了。\n獲利很少。"},
+      {"text": "重新思考這個方向是否正確", "result_text": "重新想了想。\n意義與生存，能不能同時兼顧。"}
+    ]
+  },
+  {
+    "id": "callback_jaehyuk_trusted_fully_echo",
+    "title": "曾經完全信任Jaehyuk之後",
+    "description": "完全信任Jaehyuk、把一切都與他分享，已經兩個月了。\n那之後，關係變了。\n今天，看到了Jaehyuk如何回應那份信任。",
+    "choices": [
+      {"text": "覺得自己沒有信錯人", "result_text": "Jaehyuk守住了那份信任。\n能完整回應一份全然信任的人——並不多。"},
+      {"text": "覺得自己信錯了人", "result_text": "Jaehyuk正利用那份信任，為自己謀利。\n完全相信——原來就是被徹底利用。"}
+    ]
+  },
+  {
+    "id": "callback_jaehyuk_stood_up_echo",
+    "title": "曾經正面對抗Jaehyuk之後",
+    "description": "正面對抗Jaehyuk已經兩個月了。\n關係冷了下來。\n今天，Jaehyuk主動聯絡了我。",
+    "choices": [
+      {"text": "接起來", "result_text": "接了。\nJaehyuk說：「那時候肯直接告訴我——謝謝你。」"},
+      {"text": "不接", "result_text": "沒接。\n正面對抗——也意味著要在這裡，和他結束這段關係。"}
+    ]
+  },
+  {
+    "id": "callback_jiyeon_took_money_echo",
+    "title": "拖著沒修的前輪",
+    "description": "停在考試院前的腳踏車，前輪仍然彎著。\n修車店給的估價單上，也寫著修理費8萬韓元。\n\n事故時收到的現金8萬韓元，還在{name}的皮夾裡。",
+    "choices": [
+      {"text": "付8萬韓元修理前輪", "result_text": "{name}把拖著沒修的腳踏車牽到了修車店。\n付了現金8萬韓元後，師傅把彎曲的前輪換成新的。\n\n回程時，腳踏車不再往一邊偏了。"},
+      {"text": "放著腳踏車，改搭大眾運輸", "result_text": "{name}把前輪彎曲的腳踏車原樣留在考試院前。\n現金8萬韓元留在皮夾裡。\n\n那天也走到站牌，刷了交通卡，上了公車。"}
+    ]
+  },
+  {
+    "id": "callback_daeun_chose_her_echo",
+    "title": "曾經選擇Daeun之後",
+    "description": "放棄了某樣東西、選擇Daeun，已經兩個月了。\n那個選擇改變了關係。\n今天，Daeun提起了那個選擇。",
+    "choices": [
+      {"text": "說那個選擇是對的", "result_text": "說那是對的。\nDaeun說：「你那時候很辛苦吧？」"},
+      {"text": "承認心情很複雜", "result_text": "說心情很複雜。\nDaeun點了點頭。"}
+    ]
+  },
+  {
+    "id": "callback_daeun_committed_echo",
+    "title": "真心為Daeun付出之後",
+    "description": "與Daeun約好守在彼此身邊，已經兩個月了。\n小小的約定慢慢累積。\n今天，Daeun無意間用了「我們」這個詞。",
+    "choices": [
+      {"text": "自然地接受", "result_text": "自然地接受了。\n「我們」這個詞——由對方先說出口時，更有意義。"},
+      {"text": "記住那個瞬間", "result_text": "記住了。\n那些小小的約定，還有「我們」。"}
+    ]
+  },
+  {
+    "id": "callback_cafe_stole_gambled_echo",
+    "title": "偷了咖啡館的錢去賭博之後",
+    "description": "把在咖啡館偷來的錢拿去賭博，已經兩個月了。\n結果很糟。\n今天，有個情況讓那件事又浮上心頭。",
+    "choices": [
+      {"text": "心想再也不這麼做了", "result_text": "心想再也不這麼做了。\n拿偷來的錢賭博——之後的日子，教會了我一些事。"},
+      {"text": "當成過去的事，就此帶過", "result_text": "當成過去的事帶過了。\n但那些過去的事——一路塑造了現在的自己。"}
+    ]
+  },
+  {
+    "id": "callback_cafe_stole_invested_echo",
+    "title": "偷了咖啡館的錢去投資之後",
+    "description": "用在咖啡館偷來的錢投資，已經兩個月了。\n賺了錢。\n今天，對那筆錢的罪惡感又湧了上來。",
+    "choices": [
+      {"text": "無論如何，找個還回去的方法", "result_text": "找到了還回去的方法。\n即使匿名也好。"},
+      {"text": "用獲利把它掩蓋過去", "result_text": "用獲利掩蓋過去了。\n但遮住了，也不會消失。"}
+    ]
+  },
+  {
+    "id": "callback_cafe_stole_lead_echo",
+    "title": "曾在咖啡館抓住機會之後",
+    "description": "以咖啡館的狀況為跳板，開出新的機會，已經兩個月了。\n那是意想不到的路。\n今天，回顧了那個機會一路走來的發展。",
+    "choices": [
+      {"text": "繼續下去", "result_text": "繼續了下去。\n起初雖然是個令人不踏實的開始——但到頭來，重要的是走下去。"},
+      {"text": "承認現在的路已和起初不同", "result_text": "承認已經不同了。"}
+    ]
+  },
+  {
+    "id": "callback_cafe_stole_redeemed_echo",
+    "title": "在咖啡館事件後彌補過錯之後",
+    "description": "在咖啡館犯了錯、試著彌補，已經兩個月了。\n不知道那之後關係變得如何。\n今天，與咖啡館有關的人聯絡了我。",
+    "choices": [
+      {"text": "坦然接起來", "result_text": "接了。\n對方也知道——我曾試著彌補。"},
+      {"text": "雖然不自在，還是接起來", "result_text": "雖然不自在，還是接了。\n彌補了過錯，也不代表罪惡感就會消失。"}
+    ]
+  },
+  {
+    "id": "callback_cafe_humiliated_echo",
+    "title": "曾在咖啡館當眾出糗之後",
+    "description": "在咖啡館當眾出糗，已經兩個月了。\n那段記憶還留著。\n今天，又碰上了類似的情況。",
+    "choices": [
+      {"text": "這次換個方式應對", "result_text": "換了個方式應對。\n那時的出糗，改變了現在的判斷。"},
+      {"text": "重犯當時的錯", "result_text": "又犯了一樣的錯。\n經驗，不會自動變成學習。"}
+    ]
+  },
+  {
+    "id": "callback_cafe_left_early_echo",
+    "title": "提早辭掉咖啡館的工作之後",
+    "description": "提早辭掉咖啡館的工作，已經兩個月了。\n有著各式各樣的原因。\n今天，偶然遇見了以前在咖啡館共事的人。",
+    "choices": [
+      {"text": "開心地打招呼", "result_text": "開心地打了招呼。\n對方也很高興。\n就算提早辭了——還是有過一起工作的日子。"},
+      {"text": "尷尬地走過", "result_text": "尷尬地走過了。\n提早離職的事——仍然讓我介意。"}
+    ]
+  }
+]

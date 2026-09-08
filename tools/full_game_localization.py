@@ -632,6 +632,49 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
         if callback_past_action:
             callback_month = re.search(r'고 (?P<number>두) 달이 지났다\.$',
                                        source_numbers.split('\n', 1)[0])
+        # These witnessed bare te/de clauses express the source's elapsed
+        # action or decision. Bind the whole opening and actor; do not accept
+        # arbitrary past plans merely because they also end in te/de.
+        callback_te_actions = {
+            "카페에서 공개적으로 망신을 당한 지 두 달.": "カフェで人前で恥をかいて",
+            "카페 일을 일찍 그만둔 지 두 달.": "カフェの仕事を早々に辞めて",
+            "카페에서 훔친 돈을 도박에 쓴 지 두 달.": "カフェで盗んだ金を賭け事に使って",
+            "카페에서 훔친 돈으로 투자한 지 두 달.": "カフェで盗んだ金を投資して",
+            "카페 상황을 발판으로 새로운 기회를 연 지 두 달.": "カフェでの状況を足がかりに、新たな機会を切り開いて",
+            "카페에서 실수하고 만회하려 한 지 두 달.": "カフェで過ちを犯し、埋め合わせようとして",
+            "콘텐츠 하나가 크게 퍼진 지 두 달.": "ひとつのコンテンツが大きく広まって",
+            "신용이 손상된 지 세 달.": "信用が傷ついて",
+            "신용 문제에서 더 이상 참지 않겠다고 선을 그은 지 두 달.": "信用の問題で、もう我慢しないと一線を引いて",
+            "무언가를 포기하고 다은을 선택한 지 두 달.": "何かを諦めて、ダウンを選んで",
+            "다은과 곁을 지켜주기로 한 지 두 달.": "ダウンと互いのそばにいると約束して",
+            "다은과 끝난 지 두 달.": "ダウンとの関係が終わって",
+            "다은을 보내준 지 두 달.": "ダウンを送り出して",
+            "다은과 함께하기로 한 지 두 달.": "ダウンと一緒に歩むと決めて",
+            "명확하지 않은 경계를 넘어선 지 두 달.": "曖昧な境界を越えて",
+            "다들 한다는 분위기에 휩쓸려 투자한 지 두 달.": "みんながやっているという空気に流されて投資して",
+            "프리랜서로 독립한 지 두 달.": "フリーランスとして独立して",
+            "실력과 성과로 승진한 지 두 달.": "実力と成果で昇進して",
+            "자격증을 취득한 지 세 달.": "資格を取得して",
+            "재혁에게 이용당했다는 걸 알게 된 지 두 달.": "ジェヒョクに利用されたと知って",
+            "재혁과 파트너십을 맺은 지 두 달.": "ジェヒョクとパートナーシップを結んで",
+            "재혁의 제안을 거절한 지 두 달.": "ジェヒョクの提案を断って",
+            "재혁에게 사기당했다는 게 확정된 지 두 달.": "ジェヒョクにだまされたことが確定して",
+            "재혁에게 직접 맞선 지 두 달.": "ジェヒョクに直接立ち向かって",
+            "재혁을 완전히 믿고 모든 것을 공유한 지 두 달.": "ジェヒョクを完全に信じ、すべてを共有して",
+            "지연이 강남에서 먼저 연락해온 지 두 달.": "ジヨンがカンナムから先に連絡してきて",
+            "지연과 함께하기로 한 지 두 달.": "ジヨンと一緒に歩むと決めて",
+            "돈을 주고 내부 정보를 산 지 두 달.": "お金を払って内部情報を買って",
+            "의심스러운 내부 정보를 신고한 지 두 달.": "不審な内部情報を通報して",
+            "정체불명의 USB를 열어본 지 두 달.": "正体不明のUSBの中身を開いて",
+            "엘리트 트랙을 선택한 지 세 달.": "エリートのトラックを選んで",
+            "퀀트 투자 전문화 트랙을 선택한 지 세 달.": "クオンツ投資の専門化トラックを選んで",
+            "인맥 상승 트랙을 선택한 지 세 달.": "人脈で上を目指すトラックを選んで",
+            "사회적 기업가 트랙을 선택한 지 세 달.": "社会起業家のトラックを選んで",
+            "투기 트랙을 선택한 지 세 달.": "投機のトラックを選んで",
+            "테크 창업 트랙을 선택한 지 세 달.": "テック起業のトラックを選んで",
+            "아무 연관 없는 낯선 사람을 도운 지 두 달.": "何のつながりもない、見知らぬ人を助けて",
+        }
+        callback_te_action = callback_te_actions.get(leaf.source.split('\n', 1)[0])
         callback_spans = []
         callback_original_target = target_numbers
         if callback_month:
@@ -659,10 +702,13 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
                 r'(?:てから|でから|になって|始めて)、?(?P<elapsed>[123一二三])'
                 r'(?:か月|ヶ月|カ月)(?:が過ぎた。|。))$', opening,
             )
+            if callback_te_action:
+                interval = re.fullmatch(re.escape(callback_te_action) +
+                    r'(?:から)?、?(?P<elapsed>[123一二三])(?:か月|ヶ月|カ月)(?:が過ぎた。|。)', opening)
             if interval is None:
                 errors.append('source-bound callback elapsed-month syntax/unit mismatch')
             else:
-                group = 'ago' if interval.group('ago') is not None else 'elapsed'
+                group = 'ago' if interval.groupdict().get('ago') is not None else 'elapsed'
                 start, end = interval.span(group)
                 if interval.group(group) not in (number, native) or _has_numeric_sign_prefix(opening, start):
                     errors.append('source-bound callback elapsed-month value/sign mismatch')
@@ -675,6 +721,9 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
         # Match each complete source and the corresponding line/action before
         # normalizing just that one native count. Keep both app-history spans.
         callback_observed_month = False
+        if leaf.source == '느리다고 느꼈다.\n하지만 두 달에 100명—이 속도가 나쁜 게 아니었다.' \
+                and target_numbers.split('\n', 1)[0] != '遅いと感じた。':
+            errors.append('source-bound follower pace perception/actor mismatch')
         if leaf.source == '도박 앱을 전부 지운 지 두 달.\n처음엔 손이 갔다.\n오늘 두 달을 돌아봤다.' \
                 and not re.fullmatch(r'賭博アプリをすべて消してから[2二](?:か月|ヶ月|カ月)。',
                                      target_numbers.split('\n', 1)[0]):
@@ -689,6 +738,9 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
             ('아직 멀었다.\n하지만 방향이 생긴 것만으로—세 달 전과 달랐다.',
              '세 달', '3', 1,
              r'それでも方向が定まっただけで――(?P<number>[3三])(?:か月|ヶ月|カ月)前とは違った。'),
+            ('느리다고 느꼈다.\n하지만 두 달에 100명—이 속도가 나쁜 게 아니었다.',
+             '두 달', '2', 1,
+             r'だが、(?P<number>[2二])(?:か月|ヶ月|カ月)で100人――悪いペースではなかった。'),
             ('창업한 지 두 달', '두 달', '2', 0,
              r'起業して(?P<number>[2二])(?:か月|ヶ月|カ月)'),
         ):

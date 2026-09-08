@@ -1,0 +1,137 @@
+[
+  {
+    "id": "callback_creator_started_echo",
+    "title": "開始當內容創作者之後",
+    "description": "開始當內容創作者已經兩個月了。\n持續發布，反應卻很微弱。\n今天，追蹤人數第一次到了100人。",
+    "choices": [
+      {"text": "繼續下去", "result_text": "100人。\n數字看起來很小——但剛開始時，是0。"},
+      {"text": "進展太慢了", "result_text": "覺得很慢。\n可是兩個月有100人——這個速度並不差。"}
+    ]
+  },
+  {
+    "id": "callback_creator_monetized_echo",
+    "title": "開始將內容變現之後",
+    "description": "內容第一次能夠變現，已經是兩個月前的事了。\n第一筆收入進來了。\n金額雖小，卻不一樣。",
+    "choices": [
+      {"text": "查看第一筆收入", "result_text": "金額很小。\n但那是——靠內容賺到的第一筆錢。"},
+      {"text": "覺得以後還能做得更大", "result_text": "覺得還能做得更大。\n這個想法，也可能是對的。"}
+    ]
+  },
+  {
+    "id": "callback_creator_viral_echo",
+    "title": "內容爆紅之後",
+    "description": "一則內容被大量轉傳，已經是兩個月前的事了。\n追蹤人數急速增加。\n今天，那股熱潮退了。",
+    "choices": [
+      {"text": "準備下一步", "result_text": "熱潮退了。\n爆紅只是一瞬間——之後才看得出實力。"},
+      {"text": "想再爆紅一次", "result_text": "想再來一次。\n但爆紅，不是想要就能做到的。"}
+    ]
+  },
+  {
+    "id": "callback_freelance_started_echo",
+    "title": "開始接案之後",
+    "description": "獨立接案已經兩個月了。\n工作時有時無。\n今天，第一個穩定的客戶聯絡了我。",
+    "choices": [
+      {"text": "簽約", "result_text": "簽約了。\n接案的第一道難關——就是熬過不穩定。"},
+      {"text": "先確認條件", "result_text": "先看了條件。\n還不錯。\n簽約了。"}
+    ]
+  },
+  {
+    "id": "callback_etf_study_mode_echo",
+    "title": "開始研究ETF之後",
+    "description": "開始研究ETF投資已經兩個月了。\n起初，那些概念都很陌生。\n今天，第一次覺得自己能獨立判斷了。",
+    "choices": [
+      {"text": "決定投資", "result_text": "決定要投資了。\n學習，帶來了判斷力。"},
+      {"text": "繼續研究", "result_text": "決定繼續研究。\n覺得自己有了判斷力——那可能不是起點，而是半途。"}
+    ]
+  },
+  {
+    "id": "callback_started_etf_echo",
+    "title": "開始投資ETF之後",
+    "description": "開始投資ETF已經三個月了。\n一直持續投入。\n今天，第一次查看報酬率。",
+    "choices": [
+      {"text": "查看獲利", "result_text": "是正的。\n獲利雖小——方向卻是對的。"},
+      {"text": "就算是負的也繼續", "result_text": "是負的。\n但沒有停下來。\nETF靠的不是時機，而是時間。"}
+    ]
+  },
+  {
+    "id": "callback_mystery_info_bought_echo",
+    "title": "買下內線消息之後",
+    "description": "花錢買下內線消息已經兩個月了。\n根據那個消息做了決定。\n今天，結果出來了。",
+    "choices": [
+      {"text": "消息是對的", "result_text": "是對的。\n但花錢買來的消息——可能會有法律問題。"},
+      {"text": "消息是錯的", "result_text": "是錯的。\n錢賠了，消息也是錯的。"}
+    ]
+  },
+  {
+    "id": "callback_mystery_info_reported_echo",
+    "title": "檢舉內線消息之後",
+    "description": "檢舉可疑的內線消息已經兩個月了。\n之後一直沒什麼動靜。\n今天，結果出來了。",
+    "choices": [
+      {"text": "幸好檢舉了", "result_text": "處理好了。\n檢舉，並不是容易做出的選擇。"},
+      {"text": "曾擔心是不是多此一舉", "result_text": "曾經擔心過。\n但結果出來了。\n事情朝正確的方向解決了。"}
+    ]
+  },
+  {
+    "id": "callback_opened_mystery_usb_echo",
+    "title": "打開USB隨身碟之後",
+    "description": "打開來路不明的USB隨身碟已經兩個月了。\n裡面的東西一直留在腦海裡。\n今天，發生了一件與那些內容有關的事。",
+    "choices": [
+      {"text": "事先知道幫上了忙", "result_text": "因為事先知道——這次看事情的角度不同了。\n打開USB隨身碟——讓我掌握了資訊。"},
+      {"text": "寧可不知道", "result_text": "寧可自己不知道。\n知道，並不總是輕鬆的事。"}
+    ]
+  },
+  {
+    "id": "callback_credit_damaged_echo",
+    "title": "信用受損之後",
+    "description": "信用受損已經三個月了。\n還在恢復當中。\n今天，第一次查詢自己能不能貸款。",
+    "choices": [
+      {"text": "還是不行", "result_text": "還是不行。\n雖然預料到了——確認之後，心還是沉了下來。"},
+      {"text": "確認恢復的速度", "result_text": "還在恢復。\n很慢。"}
+    ]
+  },
+  {
+    "id": "callback_credit_drew_line_echo",
+    "title": "在信用問題上劃清界線之後",
+    "description": "在信用問題上劃清界線、表明不會再忍讓，已經兩個月了。\n今天，確認了那個決定之後的情況。",
+    "choices": [
+      {"text": "劃清界線有了效果", "result_text": "有了效果。\n劃清界線——就是讓對方知道。"},
+      {"text": "對方無視了那條界線", "result_text": "對方無視了。\n劃了界線，情況也不一定會改變。"}
+    ]
+  },
+  {
+    "id": "callback_fomo_invested_echo",
+    "title": "因為FOMO而投資之後",
+    "description": "被「大家都在做」的氣氛推著去投資，已經兩個月了。\n確認了結果。\n類似的氣氛又來了。",
+    "choices": [
+      {"text": "這次忍住", "result_text": "忍住了。\n上次因為FOMO而投資，成了教訓。"},
+      {"text": "再次進場", "result_text": "又進場了。\n「這次不一樣」——上次也曾這樣想。"}
+    ]
+  },
+  {
+    "id": "callback_stranger_helped_echo",
+    "title": "幫助陌生人之後",
+    "description": "幫助一個毫無關聯的陌生人，已經是兩個月前的事了。\n幾乎忘了那件事。\n今天，卻在意想不到的地方又遇見那個人。",
+    "choices": [
+      {"text": "開心地打招呼", "result_text": "開心地打了招呼。\n那個人也還記得。"},
+      {"text": "有些擔心對方不記得了", "result_text": "對方記得。\n連名字都不知道的人——有了聯繫。"}
+    ]
+  },
+  {
+    "id": "callback_got_promoted_orthodox_echo",
+    "title": "循正規途徑升遷之後",
+    "description": "憑實力和成果升遷，已經兩個月了。\n還在慢慢熟悉那個位置。\n今天，後輩來請教了。",
+    "choices": [
+      {"text": "坦誠地告訴對方", "result_text": "坦誠地說了。\n是升遷——讓這段對話成為可能。"},
+      {"text": "分享自己的做法", "result_text": "說了自己的做法。\n循正規途徑走上來——也表示，這個做法可以重現。"}
+    ]
+  },
+  {
+    "id": "callback_has_certification_echo",
+    "title": "考取證照之後",
+    "description": "取得證照已經三個月了。\n一直等著它真正派上用場的那天。\n今天，找到了一則以那張證照為條件的徵才公告。",
+    "choices": [
+      {"text": "應徵", "result_text": "應徵了。\n證照打開了一扇門。"},
+      {"text": "再確認條件是否符合", "result_text": "再確認了條件。\n符合。\n應徵了。"}
+    ]
+  }
+]

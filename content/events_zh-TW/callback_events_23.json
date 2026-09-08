@@ -1,0 +1,128 @@
+[
+  {
+    "id": "callback_jaehyuk_exploited_echo",
+    "title": "被Jaehyuk利用之後",
+    "description": "知道自己被Jaehyuk利用，已經兩個月了。\n以為自己已經整理好了心情。\n今天，Jaehyuk聯絡了我。",
+    "choices": [
+      {"text": "不接", "result_text": "沒接。\n被利用的經驗——讓這次的判斷更快了。"},
+      {"text": "聽聽他要說什麼", "result_text": "聽了。\n不是道歉。\n而是另一個提議。"}
+    ]
+  },
+  {
+    "id": "callback_jaehyuk_partnered_echo",
+    "title": "與Jaehyuk成為合作夥伴之後",
+    "description": "與Jaehyuk建立合作關係已經兩個月了。\n工作還在進行。\n今天，Jaehyuk在做一個重要決定之前，問了我的意見。",
+    "choices": [
+      {"text": "坦誠提出意見", "result_text": "坦誠地說了。\nJaehyuk想了一會兒。\n他說：「這話有道理。」"},
+      {"text": "聽從Jaehyuk的判斷", "result_text": "交給Jaehyuk判斷。\n由他做了決定。"}
+    ]
+  },
+  {
+    "id": "callback_jaehyuk_refused_echo",
+    "title": "拒絕Jaehyuk的提議之後",
+    "description": "拒絕Jaehyuk的提議已經兩個月了。\n那之後，關係變得尷尬。\n今天，透過共同認識的人，聽到了Jaehyuk的近況。",
+    "choices": [
+      {"text": "聽聽後來怎麼了", "result_text": "無從知道那個提議後來是否順利。\n但仍然覺得，拒絕是對的。"},
+      {"text": "不去在意", "result_text": "沒有在意。\nJaehyuk那邊的事情後來如何——那都是拒絕之後的事了。"}
+    ]
+  },
+  {
+    "id": "callback_jaehyuk_scammed_echo",
+    "title": "被Jaehyuk詐騙之後",
+    "description": "確定自己被Jaehyuk詐騙，已經兩個月了。\n考慮過採取法律行動。\n今天，律師聯絡了我。",
+    "choices": [
+      {"text": "按程序處理", "result_text": "照程序處理了。\n很複雜。\n但就這樣算了——可能得付出更高的代價。"},
+      {"text": "衡量費用和心力，考慮放棄", "result_text": "也考慮過放棄。\n律師說：「這可能不只是您一個人的問題。」"}
+    ]
+  },
+  {
+    "id": "callback_jiyeon_together_echo",
+    "title": "決定和Jiyeon在一起之後",
+    "description": "決定和Jiyeon在一起已經兩個月了。\n起初，那是陌生的感覺。\n今天，Jiyeon先聯絡了我。",
+    "choices": [
+      {"text": "開心地接起來", "result_text": "開心地接了。\nJiyeon說：「沒什麼事啦，你吃飯了嗎？」"},
+      {"text": "改掉先問對方有什麼事的習慣", "result_text": "就這樣接了。\nJiyeon笑著說：「你以前不是總問我，有什麼事嗎？」"}
+    ]
+  },
+  {
+    "id": "callback_jiyeon_gangnam_called_echo",
+    "title": "Jiyeon從江南聯絡過來之後",
+    "description": "Jiyeon從江南主動聯絡過來，已經兩個月了。\n偶爾會想起那次聯絡。\n今天，Jiyeon又聯絡了我。",
+    "choices": [
+      {"text": "接起來", "result_text": "接了。\nJiyeon問：「那時候聯絡你，沒關係嗎？」\n我說：「沒關係的。」"},
+      {"text": "這次試著先聯絡", "result_text": "先聯絡了她。\nJiyeon很快就接了。"}
+    ]
+  },
+  {
+    "id": "callback_daeun_together_echo",
+    "title": "決定和Daeun在一起之後",
+    "description": "決定和Daeun在一起已經兩個月了。\n是個小心翼翼的開始。\n今天，Daeun第一次提起了讓她擔心的事。",
+    "choices": [
+      {"text": "陪她一起想", "result_text": "陪她一起想了。\nDaeun說：「能一起想這些事，真好。」"},
+      {"text": "只是聽她說", "result_text": "聽她說了。\nDaeun說：「謝謝。說出來以後好多了。」"}
+    ]
+  },
+  {
+    "id": "callback_daeun_ended_echo",
+    "title": "和Daeun的關係結束之後",
+    "description": "和Daeun結束已經兩個月了。\n那是彼此選擇的結果。\n今天，聽說Daeun看起來很幸福。",
+    "choices": [
+      {"text": "覺得這樣很好", "result_text": "覺得這樣很好。\n是真心的。"},
+      {"text": "心情還是很複雜", "result_text": "心情還是很複雜。\n但她幸福——並不是壞事。"}
+    ]
+  },
+  {
+    "id": "callback_daeun_let_her_go_echo",
+    "title": "放手讓Daeun離開之後",
+    "description": "讓Daeun離開已經兩個月了。\n那是自己做的選擇。\n今天，偶然遇見了Daeun。",
+    "choices": [
+      {"text": "自然地打招呼", "result_text": "自然地打了招呼。\nDaeun也是。\n正因為放了手——才有了這份自然。"},
+      {"text": "對上眼，卻就這樣走過", "result_text": "就這樣走過了。\n覺得那樣比較好。"}
+    ]
+  },
+  {
+    "id": "callback_spec_quant_echo",
+    "title": "選擇量化投資專精方向之後",
+    "description": "選擇量化投資專精路線已經三個月了。\n一直和數據搏鬥。\n今天，自己的演算法第一次在實戰中奏效。",
+    "choices": [
+      {"text": "確認結果", "result_text": "奏效了。\n數字一一對上的感覺——不是直覺，而是邏輯在運作的感覺。"},
+      {"text": "把它做得更精細", "result_text": "繼續調整了。\n算對一次，不代表演算法就完成了。"}
+    ]
+  },
+  {
+    "id": "callback_spec_speculator_echo",
+    "title": "選擇投機專精方向之後",
+    "description": "選擇投機路線已經三個月了。\n大起大落。\n今天，結算了到目前為止的收益。",
+    "choices": [
+      {"text": "賺了錢", "result_text": "賺了錢。\n但壓力也跟著累積。"},
+      {"text": "虧了錢", "result_text": "虧了錢。\n選擇這條路線——就表示連這種損失也得承擔。"}
+    ]
+  },
+  {
+    "id": "callback_spec_tech_founder_echo",
+    "title": "選擇科技創業專精方向之後",
+    "description": "選擇科技創業路線已經三個月了。\n做出了產品。\n今天，第一次有外部的人出現，說自己在使用。",
+    "choices": [
+      {"text": "親自見面", "result_text": "見面了。\n第一次見到了使用者，而不是製作者。"},
+      {"text": "問對方怎麼知道並開始使用的", "result_text": "問了對方怎麼知道的。\n對方說：「就是找著找著。」"}
+    ]
+  },
+  {
+    "id": "callback_fell_to_darkness_echo",
+    "title": "走進黑暗的路之後",
+    "description": "跨過那條模糊的界線已經兩個月了。\n確實賺到了錢。\n但偶爾還是覺得不踏實。\n今天，看了看那之後事情是怎麼發展的。",
+    "choices": [
+      {"text": "繼續走了下去", "result_text": "繼續走了下去。\n只要還能賺錢——就會繼續。"},
+      {"text": "可以在這裡停下來", "result_text": "停下來了。\n那份不踏實，讓我停了下來。"}
+    ]
+  },
+  {
+    "id": "callback_escaped_dirty_money_echo",
+    "title": "脫離黑錢交易之後",
+    "description": "那是在把收到的200萬韓元中，剩下的150萬韓元匯回去，並脫離骯髒交易之後的事。\n沒能還回去的50萬韓元，以及錯失的更多金錢，偶爾會一起浮上心頭。\n今天，聽說了那筆交易後來的情況。",
+    "choices": [
+      {"text": "確認後來怎麼了", "result_text": "那筆交易終究出事了。\n要是陷得更深，自己也會一起出事。\n匯回150萬韓元後抽身的選擇，雖然晚了，卻是必要的。"},
+      {"text": "還是覺得可惜", "result_text": "聽說交易出了事，卻還是先算起原本能多拿到的錢。\n匯回150萬韓元的事實，與錯失獲利的幻想，有一段時間留在同一本帳上。"}
+    ]
+  }
+]

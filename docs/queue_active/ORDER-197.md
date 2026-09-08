@@ -143,6 +143,9 @@ KO/EN·runtime·save·fonts·routing·공개·human_gates·다른 사건·catalo
 - trusted_fully는 재혁이신뢰를지킴/자기이익에이용함의 서로다른결과다.
   stood_up은 연락을받아실제감사를듣기/안받고관계를정리한다는뜻의 대비다.
   미수신결과에 감사·사과·답장을 가져오지 않는다.
+  producer arc_jaehyuk_04c_stand_up은 사기뒤 기록/알람을 통한 재기행동이다.
+  같은flag를 읽는 callback7은 재혁앞에서버팀, 이번echo는 직접맞섬으로 회고한다.
+  그 차이를 번역에서 새대면·전화·과거행동으로 메우지 않는다.
 - daeun_chose_her의 포기대상은 '무언가'다. 옳았다고말해반응듣기/복잡함을
   인정해끄덕임을받기를 보존하고 새로포기한재산·진로를 특정하지 않는다.
   committed는 서로곁을지키는약속과 다은이먼저쓴 '우리'의 수용/기억이다.
@@ -199,3 +202,10 @@ named full-game-localization-overlays --list 뒤 선택12·EN·diff·전량수�
 전체 INCOMPLETE·full/main/product HOLD·L3/원어민/화면 OPEN.
 출시 M01~M06 BUILD2026.08.31.1 사용자 GO 유지.
 이 문서는 일회성 범위이며 지속 규칙의 소유자는 I18N_INFRASTRUCTURE/용어집이다.
+
+## 수용 결과 — L1/L2 수용, L3 OPEN
+
+신규774·누적23,844 번역의 수용·도구 회귀·독립 intake를 마쳤다.
+완료된 세부 증거는 [원문 보관](../queue_archive/ORDER-197_LOCALIZATION_EVIDENCE.md)에
+그대로 이동했다. 위 파일 소유권의 증거 문서에 이 보관 파일을 포함한다.
+전체 INCOMPLETE·HOLD·원어민/화면 OPEN이며 다음 검수 의무는 그대로다.

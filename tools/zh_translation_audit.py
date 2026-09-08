@@ -451,6 +451,12 @@ SOURCE_INSURANCE_SAVED_PAIR = "첫 번째로 할 일로 보험 가입을 메모�
 SOURCE_REPEATED_TOPIC_MENTION = "그 일을 한 번 더 꺼냈다"
 SOURCE_OCCASIONAL_ENCOUNTER = "다은이 거리를 둔 지 두 달.\n그사이 어쩌다 한 번씩은 마주쳤다.\n오늘은 그녀가 먼저 말을 걸었다."
 SOURCE_FATHER_PROMISE_TITLE = "아버지에게 한 약속"
+SOURCE_CREATOR_GROWTH_REASSESSMENT = "느리다고 느꼈다.\n하지만 두 달에 100명—이 속도가 나쁜 게 아니었다."
+SOURCE_OPENED_USB_ECHO = (
+    "USB를 열어본 뒤",
+    "정체불명의 USB를 열어본 지 두 달.\n안에 있던 것이 머릿속에 남아 있었다.\n오늘 그 내용과 관련된 일이 터졌다.",
+    "알고 있었기 때문에—이번 일을 다르게 봤다.\nUSB를 열어본 것—정보를 갖게 됐다.",
+)
 SOURCE_FORMER_CEO_SUCCESS = '한번 잘 나가다 부도가 났던 CEO를 만났던 게 두 달 전이다.\n그 이후에도 연락을 이어갔다.\n오늘 그분이 먼저 연락을 해왔다.\n"요즘 어때? 고민 있으면 말해."'
 SOURCE_LOTTO_CALLBACK_RANK = frozenset({
     "5등 당첨 이후",
@@ -1635,6 +1641,11 @@ def _source_counter_kind(
 
 def _source_audience_quantities(source: str) -> list[CounterQuantity]:
     quantities: list[CounterQuantity] = []
+    if source == SOURCE_CREATOR_GROWTH_REASSESSMENT:
+        # The dash after 명 is acting punctuation, not a missing person unit.
+        # Do not change the generic counter suffix for unrelated source prose.
+        start = source.index("100명")
+        quantities.append(CounterQuantity(start, start + 4, Decimal(100), "entity"))
     # Audience nouns and their predicates own these large values. A bare 만
     # elsewhere is still money; losses, gains, totals and title counts differ.
     for pattern, multiplier, kind in (
@@ -4043,6 +4054,18 @@ def _has_numeric_sign_prefix(text: str, start: int) -> bool:
 
 def _numeric_errors(source: str, target: str) -> list[str]:
     errors: list[str] = []
+    if source == SOURCE_CREATOR_GROWTH_REASSESSMENT:
+        growth = re.fullmatch(
+            r"(?:[覺觉]得(?:進展|进展|速度)?(?:很)?慢|感[覺觉](?:進展|进展)?[緩缓]慢)[。.]\n"
+            r"(?:可是|但是|不過|不过|但|可)[ \t　]*"
+            rf"(?P<months>{CHINESE_CARDINAL})[ \t　]*[個个]月(?:[內内])?"
+            r"(?:就)?(?:[積积]累了?|累[積积]了?|有了?|[達达]到)?[ \t　]*"
+            rf"(?P<people>{CHINESE_CARDINAL})[ \t　]*(?:人|(?:名|位)粉[絲丝])"
+            r"[ \t　]*[—－-]{1,2}[ \t　]*[這这](?:[個个])?(?:速度|[進进]度)"
+            r"(?:[並并])?(?:不差|不算差|不是不好)[。.]", target)
+        if growth is None or _chinese_cardinal_value(growth.group("months")) != 2 \
+                or _chinese_cardinal_value(growth.group("people")) != 100:
+            errors.append("creator-growth period/people or retrospective evaluation changed")
     if source == SOURCE_FATHER_PROMISE_TITLE and not re.fullmatch(
             r"(?:[对對給给]父[亲親](?:[许許]下|[做作]出)?的|向父[亲親](?:[许許]下|[做作]出)的)"
             r"(?:承[诺諾]|[约約]定)[。.!！]?", target):
@@ -4257,6 +4280,17 @@ def _money_errors(lang: str, source: str, target: str) -> list[str]:
 
 def _untranslated_english_errors(source: str, target: str, *, catalog: bool = False) -> list[str]:
     scrubbed = PLACEHOLDER.sub(" ", target)
+    if source in SOURCE_OPENED_USB_ECHO:
+        # These Korean predicates identify an opened storage device, not the
+        # USB interface in general. Keep the regional noun whole and bounded.
+        aliases = [m for noun in ("U盘", "U盤") for m in _bounded_latin_matches(scrubbed, noun)
+            if re.match(r"(?:$|[\s，。！？、：；,.!?;:—－\x22'”’」』）)]|里|裡|內|内|中|的|之[後后]|[後后]|已[經经])", scrubbed[m.end():])]
+        if len(re.findall(r"U[盘盤]", scrubbed)) != len(aliases):
+            return ["opened USB device noun boundary changed"]
+        if len(aliases) + len(_bounded_latin_matches(scrubbed, "USB")) > source.count("USB"):
+            return ["opened USB device mention count increased"]
+        for match in sorted(aliases, key=lambda m: m.start(), reverse=True):
+            scrubbed = scrubbed[:match.start()] + " " + scrubbed[match.end():]
     if re.search(r"(?<=2차 )노래방(?=에서는 마이크가 세 번 돌아왔다\.)", source):
         # KTV and 歡唱包廂 are both natural renderings of this karaoke venue;
         # the Latin option is bounded, not mandatory or globally permitted.
@@ -6009,6 +6043,105 @@ def _drama_parser_self_test() -> tuple[int, list[str]]:
     return cases, failures
 
 
+def _creator_growth_usb_callback_self_test() -> tuple[int, list[str]]:
+    """Two observed source repairs; never a generic people or Latin waiver."""
+    cases, failures = 0, []
+
+    def numeric(source: str, target: str, valid: bool) -> None:
+        nonlocal cases
+        cases += 1
+        errors = _numeric_errors(source, target)
+        if bool(errors) == valid:
+            failures.append(f"creator-growth expected valid={valid}: {source!r} -> {target!r}: {errors}")
+
+    source = SOURCE_CREATOR_GROWTH_REASSESSMENT
+    for normal in (
+        "感觉进展缓慢。\n可两个月积累100人——这个速度并不差。",
+        "覺得很慢。\n可是兩個月有100人——這個速度並不差。",
+    ):
+        numeric(source, normal, True)
+        for wrong in (
+            normal.replace("100", "101"), normal.replace("100", "10"),
+            normal.replace("100", "−100"), normal.replace("100", "+100"),
+            normal.replace("100", "0.100"), normal.replace("100", ""),
+            normal.replace("两个月", "三个月").replace("兩個月", "三個月"),
+            normal.replace("个月", "年").replace("個月", "年"),
+            normal.replace("人", "公斤"), normal.replace("人", "人次"),
+            normal.replace("100人", "至少100人"), normal.replace("100人", "100人以上"),
+            normal.replace("100人", "没有100人"), normal.replace("100人", "将有100人"),
+            normal.replace("100人", "别人的100人"), normal.replace("100人", "100名顾客"),
+            normal.replace("不差", "很差"), "没" + normal,
+            "明天" + normal, "他" + normal,
+            normal.replace("\n", ""), normal + "\n" + normal,
+            normal.replace("100人", "100公斤，100人"),
+            normal.replace("100人", "101人") + normal,
+        ):
+            numeric(source, wrong, False)
+    for normal in (
+        "觉得慢。\n但是2个月内积累了100人—这速度不算差。",
+        "感覺進展緩慢。\n不過兩個月累積一百人——這個進度並不差。",
+        "觉得速度很慢。\n但两个月达到100名粉丝——这个速度不是不好。",
+        "覺得很慢。\n可是2個月有了一百位粉絲——這速度不差。",
+    ):
+        numeric(source, normal, True)
+    # Unrelated sources keep ordinary period/person parsing, not the new
+    # retrospective predicate or the exact-dash repair.
+    for other, normal, wrong in (
+        ("두 달에 100명.", "两个月100人。", "两个月101人。"),
+        ("세 달에 100명.", "三個月100人。", "兩個月100人。"),
+        ("두 달에 200명.", "两个月200人。", "两个月100人。"),
+        ("두 달에 100개.", "兩個月100個。", "兩個月101人。"),
+    ):
+        numeric(other, normal, True)
+        numeric(other, wrong, False)
+    for other in (source.replace("100명", "101명"), source.replace("두 달", "세 달"),
+                  source.replace("100명", "100주"), "다른 사람은 " + source, ""):
+        cases += 1
+        if _source_audience_quantities(other):
+            failures.append(f"creator-growth source escaped exact boundary: {other!r}")
+
+    def english(raw: str, target: str, valid: bool) -> None:
+        nonlocal cases
+        cases += 1
+        errors = _untranslated_english_errors(raw, target)
+        if bool(errors) == valid:
+            failures.append(f"opened-USB expected valid={valid}: {raw!r} -> {target!r}: {errors}")
+
+    usb_cn = (
+        "打开那个U盘之后",
+        "打开来历不明的U盘，已经是两个月前的事了。\n里面的内容一直留在脑海里。\n今天，发生了一件与那些内容有关的事。",
+        "因为事先知道——这次看事情的角度不同了。\n打开那个U盘——让自己掌握了信息。",
+    )
+    usb_tw = (
+        "打開USB隨身碟之後",
+        "打開來路不明的USB隨身碟已經兩個月了。\n裡面的東西一直留在腦海裡。\n今天，發生了一件與那些內容有關的事。",
+        "因為事先知道——這次看事情的角度不同了。\n打開USB隨身碟——讓我掌握了資訊。",
+    )
+    for raw, cn, tw in zip(SOURCE_OPENED_USB_ECHO, usb_cn, usb_tw):
+        english(raw, cn, True)
+        english(raw, tw, True)
+        english(raw, tw.replace("USB隨身碟", "U盤"), True)
+        english(raw, cn.replace("U盘", "USB"), True)
+        for noun in ("U", "U 盘", "XU盘", "U盘X", "1U盘", "U盘1", "_U盘", "U盘_",
+                     "U盘查", "U盘，U盘", "USB，U盘", "U盘 and this is a drive"):
+            english(raw, cn.replace("U盘", noun), False)
+        english(raw.replace("USB", "메모리 카드"), cn, False)
+        english(raw.replace("USB", "XUSB"), cn, False)
+        english(raw.replace("USB", "USB2"), cn, False)
+        english(raw, cn + " Standalone U.", False)
+    # The old USB spelling remains allowed outside this storage-device slice;
+    # the new U盘 form must not license an interface, a letter, or source absence.
+    for raw, normal, wrong in (
+        ("USB 규격을 읽었다.", "读了USB规范。", "读了U盘规范。"),
+        ("USB를 열어본 뒤 USB를 닫았다.", "打开USB后关闭USB。", "打开U盘后关闭U盘。"),
+        ("U를 읽었다.", "读了U。", "读了V。"),
+        ("편지를 열었다.", "打开了信。", "打开了U盘。"),
+    ):
+        english(raw, normal, True)
+        english(raw, wrong, False)
+    return cases, failures
+
+
 def _father_promise_title_self_test() -> tuple[int, list[str]]:
     """One observed relative-clause title, not generic promise-count removal."""
     cases, failures = 0, []
@@ -7274,6 +7407,9 @@ def run_self_test(
     father_promise_cases, father_promise_failures = _father_promise_title_self_test()
     cases += father_promise_cases
     failures.extend(father_promise_failures)
+    growth_usb_cases, growth_usb_failures = _creator_growth_usb_callback_self_test()
+    cases += growth_usb_cases
+    failures.extend(growth_usb_failures)
 
     # Exact Korean-source catalogue names are not permission for unrelated
     # English prose or for deleting the noun around an allowed brand token.
