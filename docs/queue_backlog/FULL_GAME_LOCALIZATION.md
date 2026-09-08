@@ -40,8 +40,8 @@
   마지막 해40사건358·종막15사건197과 관계25사건164에 결혼·가족34사건206
   leaf/locale와 데이트·계절36사건209, 가족·직장·친구50사건380 및 남은 관계15종94
   leaf/locale, 생활·월세·첫 월급25종185 leaf/locale와
-  주거·건강25종176 leaf/locale와 직장·구직25종194 leaf/locale와 생활비25종186 leaf/locale와 가족25종172 leaf/locale와 생활 전환25종178 leaf/locale와 생활·숨은 사건25종198 leaf/locale와 회상·첫 생활25종158 leaf/locale와 후반 이정표·갈림길25종189 leaf/locale와 창업·크리에이터·회복20종146 leaf/locale와 가족·일상15종104 leaf/locale와 소비·독립 생활15종104 leaf/locale와 관계·투자 후속33종200 leaf/locale와 마지막 질주·선택의 대가36종214 leaf/locale와 투자·인연 후속32종194 leaf/locale와 판단의 비용·작은 회신25종148 leaf/locale와 관계의 다음 말·책임20종120 leaf/locale와 투자·사람 후속32종192 leaf/locale와 가족·회복·관계40종238 leaf/locale와 절제·신뢰·생활43종254 leaf/locale와 거절·재기·연락45종268 leaf/locale와 일·신뢰·되돌림43종258 leaf/locale와 생활 인연·마지막 전략19종114 leaf/locale와 어머니·일·살림20종116 leaf/locale와 친구·직장·살림17종92 leaf/locale와 아버지·관계·목표15종90 leaf/locale까지 총25,080번역이다
-  (언어별 엔딩234+사건7,292+catalog834). catalog 신규 작성2,485·
+  주거·건강25종176 leaf/locale와 직장·구직25종194 leaf/locale와 생활비25종186 leaf/locale와 가족25종172 leaf/locale와 생활 전환25종178 leaf/locale와 생활·숨은 사건25종198 leaf/locale와 회상·첫 생활25종158 leaf/locale와 후반 이정표·갈림길25종189 leaf/locale와 창업·크리에이터·회복20종146 leaf/locale와 가족·일상15종104 leaf/locale와 소비·독립 생활15종104 leaf/locale와 관계·투자 후속33종200 leaf/locale와 마지막 질주·선택의 대가36종214 leaf/locale와 투자·인연 후속32종194 leaf/locale와 판단의 비용·작은 회신25종148 leaf/locale와 관계의 다음 말·책임20종120 leaf/locale와 투자·사람 후속32종192 leaf/locale와 가족·회복·관계40종238 leaf/locale와 절제·신뢰·생활43종254 leaf/locale와 거절·재기·연락45종268 leaf/locale와 일·신뢰·되돌림43종258 leaf/locale와 생활 인연·마지막 전략19종114 leaf/locale와 어머니·일·살림20종116 leaf/locale와 친구·직장·살림17종92 leaf/locale와 아버지·관계·목표15종90 leaf/locale와 현수·가족·건강·목표41종246 leaf/locale까지 총25,818번역이다
+  (언어별 엔딩234+사건7,538+catalog834). catalog 신규 작성2,485·
   기존 JA 누락 수리1·기존 유지16을 구분한다. 엔딩35종과 catalog7섹션은 채웠지만
   사건·UI·표시 소비자는 아직 남는다. M07~M24 정적 연결은 해당 기간 모든 무작위
   사건·UI나 실플레이 전량의 번역 완료를 뜻하지 않는다. 원어민·화면·전체판은 OPEN.

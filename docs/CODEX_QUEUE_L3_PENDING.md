@@ -7,6 +7,7 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
+| 1 | [~] | ORDER-202 · 현수·가족·건강·목표 후속 번역 | [202](queue_active/ORDER-202.md) | 738번역 L1/L2 · L3 OPEN |
 | 2 | [~] | ORDER-201 · 아버지·관계·목표 후속 번역 | [201](queue_active/ORDER-201.md) | 270번역 L1/L2 · L3 OPEN |
 | 3 | [~] | ORDER-200 · 친구·직장·살림 후속 번역 | [200](queue_active/ORDER-200.md) | 276번역 L1/L2 · L3 OPEN |
 | 4 | [~] | ORDER-199 · 어머니·일·살림 중간 회수 번역 | [199](queue_active/ORDER-199.md) | 348번역 L1/L2 · L3 OPEN |

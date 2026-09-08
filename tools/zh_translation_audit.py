@@ -269,6 +269,9 @@ SOCIAL_COST_COUNTER_KINDS = frozenset({
     "golf_round_fee_range", "luxury_shop_glance", "blind_date_meeting_once", "blind_date_coffee",
 })
 CALLBACK_COUNTER_KINDS = frozenset({
+    "renewed_goal_vow", "mother_past_room_wish", "work_goal_effort_pair",
+    "work_goal_tentative_pair", "remembered_drink_pair", "next_home_condition_count",
+    "moved_home_open_invitation", "earlier_train_counterfactual", "concrete_home_target",
     "minseo_open_meeting_invitation", "complicated_simultaneous_pair", "complicated_acknowledged_pair",
     "friend_meal_invitation", "friend_contact_reference", "friend_obligatory_meeting",
     "project_cause_pair", "project_mixed_pair", "forgiveness_between_pair", "jeonse_document_sheet",
@@ -462,6 +465,21 @@ SOURCE_HOMETAX_REFUND_NOTICE = '홈택스 알림: 환급 예정액 확정.\n\n�
 SOURCE_MINSEO_OPEN_INVITATION = '"연락 기다렸어요. 언제 한번 봐요."\n\n이민서의 답이 빠르게 왔다.\n\n지갑 속에 석 달째 있던 명함이, 드디어 쓰였다.'
 SOURCE_COMPLICATED_SIMULTANEOUS_PAIR = "두 가지가 동시에"
 SOURCE_COMPLICATED_ACKNOWLEDGED_PAIR = "둘 다 인정한다 — 그게 가장 정직한 것 같다"
+# Ten observed source leaves, nine meanings. These are content/predicate
+# contracts, not event-ID exemptions. Only the two documented 가지 slots
+# below accept a changed source count, with that changed value still required.
+SOURCE_GOAL_FAMILY_ECHO_QUANTITIES = (
+    ("그 다짐을 다시 한번 새긴다", "한번", 1, "renewed_goal_vow"),
+    ('부모님이 올라오셨던 날, {name}은 방 근처 식당에서 밥만 사드리고 방은 안 보여드렸었다.\n\n오늘 어머니가 슬쩍 말씀하셨다.\n\n"민준아, 그때 네 방 한번 보고 싶었는데. 엄마는 다 알면서도 모른 척했어."', "한번", 1, "mother_past_room_wish"),
+    ('"감사합니다. 두 가지 다 잡으려고 하고 있어요."', "두 가지", 2, "work_goal_effort_pair"),
+    ('팀장이 고개를 끄덕이고 보냈다.\n\n솔직하게 말했던 게 오늘 이렇게 돌아왔다.\n직장과 목표 사이에서 — 잘 하면 둘 다 아닌 게 아니라는 걸 조금 봤다.', "둘 다", 2, "work_goal_tentative_pair"),
+    ("음료 두 개", "두 개", 2, "remembered_drink_pair"),
+    ("자기도 힘든 날이었다.\n\n복도를 지나치다가 202호에서 소리가 났다. 새 입주자.\n\n그 소리가 현수가 방에만 있던 그 사흘을 떠올렸다.\n편의점에서 음료 두 개 사다 줬던 그날.", "두 개", 2, "remembered_drink_pair"),
+    ("현수는 자기 시험이 끝난 날 문밖으로 나갔다.\n{name}은 현재 주소 아래에 다음에 옮길 곳의 조건을 세 가지 적었다.\n\n언제일지는 몰라도, 질문을 계획으로 바꾸는 데는 지금 한 줄이면 됐다.", "세 가지", 3, "next_home_condition_count"),
+    ('"이제 더 나은 데로 옮겼어요. 한번 오세요."', "한번", 1, "moved_home_open_invitation"),
+    ("그 기차 안에서 — 한 번만 더 빨리 탔더라면.\n\n그 생각이 완전히 안 든다고 하면 거짓말이다.\n\n그래도 탔다. 거기 갔다. 빈 침대 옆에 앉았다.\n그게 {name}이 할 수 있는 전부였다.", "한 번", 1, "earlier_train_counterfactual"),
+    ("막연한 '강남'이 아니라 구체적인 집 한 채.\n\n목표가 좌표를 가지면 길이 선명해진다.\n{name}은 그 집을 기준으로 남은 거리를 다시 쟀다.", "한 채", 1, "concrete_home_target"),
+)
 SOURCE_REPEATED_TOPIC_MENTION = "그 일을 한 번 더 꺼냈다"
 SOURCE_OCCASIONAL_ENCOUNTER = "다은이 거리를 둔 지 두 달.\n그사이 어쩌다 한 번씩은 마주쳤다.\n오늘은 그녀가 먼저 말을 걸었다."
 SOURCE_FATHER_PROMISE_TITLE = "아버지에게 한 약속"
@@ -1722,6 +1740,21 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
         # This exact leaf has no quantities: 지워 둘 is the auxiliary 두다.
         return []
     quantities: list[CounterQuantity] = []
+    for raw, fragment, number, kind in SOURCE_GOAL_FAMILY_ECHO_QUANTITIES:
+        if source == raw:
+            start = source.index(fragment)
+            quantities.append(CounterQuantity(start, start + len(fragment), Decimal(number), kind))
+        elif kind in {"work_goal_effort_pair", "next_home_condition_count"}:
+            # The old generic parser misses 수사+가지 here. Preserve changed
+            # Korean counts too, but only inside these complete actor/action
+            # frames; otherwise 三項 can hide a changed 네 가지 source.
+            prefix, suffix = raw.split(fragment)
+            counted = re.fullmatch(re.escape(prefix) + r"(?P<number>\d+|"
+                + "|".join(map(re.escape, KOREAN_NATIVE_FORMS)) + r")\s*가지" + re.escape(suffix), source)
+            if counted:
+                value = _source_counter_value(counted.group("number"))
+                if value is not None:
+                    quantities.append(CounterQuantity(len(prefix), len(source) - len(suffix), value, kind))
     # One invitation, its retrospective reference, and one later meeting are
     # distinct slots. A target's 第一次聯絡 must not backfill a missing meeting.
     for raw, fragment, number, kind in (
@@ -2287,6 +2320,22 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
 def _target_pattern_for_kind(kind: str) -> re.Pattern[str]:
     # The broad witnesses include observed wrong units/actions, so an invalid
     # first clause cannot borrow a later correct number of the same kind.
+    if kind == "renewed_goal_vow":
+        return re.compile(rf"(?P<again>再次|再度|再|又)(?P<sign>[+＋−﹣－負负-])?\s*(?P<number>{CHINESE_CARDINAL})?(?P<callback_unit>次|回|遍|年|公里)?")
+    if kind == "mother_past_room_wish":
+        return re.compile(rf"(?P<hope>想(?:要)?)(?P<sign>[+＋−﹣－負负-])?\s*(?:看(?:(?P<implicit>看)|(?P<number>{CHINESE_CARDINAL})(?P<callback_unit>次|回|眼|年|公里)))")
+    if kind in {"work_goal_effort_pair", "work_goal_tentative_pair"}:
+        return re.compile(rf"(?P<sign>[+＋−﹣－負负-])?\s*(?P<number>{CHINESE_CARDINAL})(?P<callback_unit>件事|[邊边頭头]|[個个]人|年|公里)")
+    if kind == "remembered_drink_pair":
+        return re.compile(rf"(?P<sign>[+＋−﹣－負负-])?\s*(?P<number>{CHINESE_CARDINAL})(?P<callback_unit>罐|[聽听]|瓶|年|公斤|公里)(?:[飲饮][料品])")
+    if kind == "next_home_condition_count":
+        return re.compile(rf"(?P<sign>[+＋−﹣－負负-])?\s*(?P<number>{CHINESE_CARDINAL})(?P<callback_unit>[條条項项]|件|年|公斤|公里)(?:[條条]件)")
+    if kind == "moved_home_open_invitation":
+        return re.compile(rf"[來来](?P<state>了|[過过])?(?P<sign>[+＋−﹣－負负-])?\s*(?:(?P<implicit>看看)|(?P<number>{CHINESE_CARDINAL})(?P<callback_unit>次|回|趟|年|公里))")
+    if kind == "earlier_train_counterfactual":
+        return re.compile(rf"(?P<conditional>要是|如果|假如)(?:能)?(?:再)?早(?P<sign>[+＋−﹣－負负-])?\s*(?P<number>{CHINESE_CARDINAL})?(?P<callback_unit>[點点]|次|年|公里|分鐘|分钟)(?:搭上|上[車车])")
+    if kind == "concrete_home_target":
+        return re.compile(rf"(?P<sign>[+＋−﹣－負负-])?\s*(?P<number>{CHINESE_CARDINAL})(?P<callback_unit>套|[間间]|年|公里)(?:具[體体]的)?房(?:子)?")
     if kind == "minseo_open_meeting_invitation":
         return re.compile(rf"[見见](?P<state>了|[過过])?(?P<sign>[+＋−﹣－負负-])?\s*(?P<number>{CHINESE_CARDINAL})?(?P<callback_unit>[個个]?面|次|年|公里)")
     if kind in {"complicated_simultaneous_pair", "complicated_acknowledged_pair"}:
@@ -2895,12 +2944,85 @@ def _target_pattern_for_kind(kind: str) -> re.Pattern[str]:
     )
 
 
+def _goal_family_echo_quantity_valid(kind: str, match: re.Match[str], target: str) -> bool:
+    """Bound each quantity to its witnessed clause, actor and action state.
+
+    Full clause/paragraph boundaries also keep a wrong earlier phrase from
+    borrowing a later correct quantity. This is not general semantic QA.
+    """
+    before, after = target[:match.start()], target[match.end():]
+    fields = match.groupdict()
+    unit = fields.get("callback_unit")
+    if kind == "renewed_goal_vow":
+        return not before and (not unit or unit in {"次", "回", "遍"}) \
+            and bool(re.fullmatch(r"(?:[記记]住那份[決决]心|把那份[決决]心(?:刻在心[裡里]|[銘铭][記记]在心))[。.]?", after))
+    if kind == "work_goal_effort_pair":
+        return unit in {"件事", "邊", "边"} \
+            and bool(re.fullmatch(r'[“「『"](?:[謝谢][謝谢])[。.]我(?:正(?:在)?努力把|想(?:把)?|正在努力)', before)) \
+            and bool(re.fullmatch(r'都(?:做好|[顧顾]好)[。.]?[”」』"]', after))
+    if kind == "work_goal_tentative_pair":
+        return unit in {"頭", "头"} \
+            and bool(re.fullmatch(
+                r"[組组][長长][點点](?:了)?[點点][頭头][，,][讓让](?:我走了|自己回去了)。\n\n"
+                r"(?:[當当][時时]坦白[說说][過过]的[話话]|那[時时][說说]的[實实][話话])[，,]今天(?:[這这][樣样]|以[這这][種种]方式)回到了自己身上。\n"
+                r"(?:在)?工作(?:和|與|与)目[標标]之[間间]——"
+                r"(?:(?:[處处]理得好[，,]似乎(?:[並并]不一定|未必[會会]))|(?:稍微看[見见]了[，,]只要做得好[，,]未必[會会]))", before)) \
+            and bool(re.fullmatch(r"落空。", after))
+    if kind == "mother_past_room_wish":
+        return bool(fields.get("hope")) and (bool(fields.get("implicit")) or unit in {"次", "回", "眼"}) \
+            and bool(re.fullmatch(
+                r"父母[來来]的那天[，,]\{name\}只在住[處处]附近的餐[廳厅][請请]他[們们]吃(?:了)?[飯饭][，,](?:[沒没]有[讓让]|[沒没][讓让])他[們们]看房[間间]。\n\n"
+                r"今天[，,]母[親亲][輕轻][輕轻]提起。\n\n"
+                r'[“「『"]Minjun(?:啊)?[，,]那(?:[時时]候|[時时])[，,]我(?:[還还本])?', before)) \
+            and bool(re.fullmatch(
+                r'你的房[間间](?:呢)?。(?:[媽妈][媽妈]其[實实]都知道[，,][卻却]|[媽妈]明明都知道[，,][還还]是)[裝装]作不知道。[”」』"]', after))
+    if kind == "remembered_drink_pair":
+        if unit not in {"罐", "聽", "听"}:
+            return False
+        if not before and not after:
+            return True
+        return bool(re.fullmatch(
+            rf"(?:自己也不好[過过]的一天|那天[，,]自己也不好[過过])。\n\n"
+            rf"(?:路[過过]走廊[時时]|走[過过]走廊[時时])[，,]202[號号]房(?:[裡里])?[傳传][來来](?:了)?(?:[聲声]音|[聲声][響响])。是新(?:住[戶户]|房客)。\n\n"
+            rf"(?:那[個个][聲声]音[，,][讓让]人想起|那[聲声]音[讓让]自己想起[，,])Hyunsu\s*把自己[關关]在房[裡里]的那{CHINESE_CARDINAL}天。\n"
+            r"(?:想起[從从]便利店[買买]了|[還还]有去便利商店[買买]了)", before)) \
+            and bool(re.fullmatch(r"(?:送去的那天|[給给]他的那一天)。", after))
+    if kind == "next_home_condition_count":
+        return unit in {"條", "条", "項", "项"} \
+            and bool(re.fullmatch(
+                r"Hyunsu\s*在自己的考[試试][結结]束那天[，,]走出了(?:那扇)?[門门]。\n"
+                r"\{name\}\s*在(?:[現现]在|目前)的地址(?:下面|下方)[，,][寫写]下(?:了)?"
+                r"下(?:一[個个]住[處处]|次搬家要找的地方)的", before)) \
+            and bool(re.fullmatch(
+                rf"。\n\n(?:[雖虽]不知道[會会]是什[麼么][時时]候|不知道[會会]是什[麼么][時时]候)[，,]但把[問问][題题][變变]成[計计][劃划畫画][，,](?:[現现]在|此刻)只需要[寫写]下{CHINESE_CARDINAL}行。", after))
+    if kind == "moved_home_open_invitation":
+        return not fields.get("state") and (bool(fields.get("implicit")) or unit in {"次", "回", "趟"}) \
+            and bool(re.fullmatch(r'[“「『"](?:[現现]在|我已[經经])搬到更好的地方了。(?:有空|有[時时][間间]|哪天|改天)', before)) \
+            and bool(re.fullmatch(r'吧[。.]?[”」』"]', after))
+    if kind == "earlier_train_counterfactual":
+        return bool(fields.get("conditional")) and unit in {"點", "点"} \
+            and bool(re.fullmatch(r"在那(?:趟列[車车]上|班火[車车][裡里])——", before)) \
+            and bool(re.fullmatch(
+                r"(?:就好了)?。\n\n(?:[說说]自己完全不再[這这][樣样]想[，,]就是[謊谎][話话]|要[說说]完全不[會会][這这][麼么]想[，,]是[騙骗]人的)。\n\n"
+                r"但[還还]是(?:上了[車车]|搭上了)。(?:到了那[裡里]|去了那[裡里])。"
+                r"(?:在空床[邊边]坐下|坐在空床旁)。\n那就是\{name\}所能做的一切。", after))
+    if kind == "concrete_home_target":
+        return unit in {"套", "間", "间"} \
+            and bool(re.fullmatch(r"不再是模糊的[‘『]江南[’』][，,]而是(?:具[體体]的)?", before)) \
+            and bool(re.fullmatch(
+                r"。\n\n目[標标]有了[坐座][標标][，,]路就清楚了。\n"
+                r"\{name\}以那(?:套房[為为]准|[間间]房子[為为]基[準准])[，,]重新(?:丈量|衡量)剩下的距[離离]。", after))
+    return False
+
+
 def _callback_quantity_valid(kind: str, match: re.Match[str], target: str) -> bool:
     before, after = target[:match.start()], target[match.end():]
     fields = match.groupdict()
     if fields.get("sign") or re.search(r"(?:不(?:是)?|沒(?:有)?|没(?:有)?)\s*$", before):
         return False
     unit = fields.get("callback_unit")
+    if kind in {row[3] for row in SOURCE_GOAL_FAMILY_ECHO_QUANTITIES}:
+        return _goal_family_echo_quantity_valid(kind, match, target)
     if kind == "minseo_open_meeting_invitation":
         # The reply actually arrived, but the quoted invitation has no fixed
         # day/time or completed meeting. The card's separate month stays with
@@ -3678,6 +3800,8 @@ def _match_target_counter_quantities(
                 # 一眼 is a glance after a seeing verb, not one physical eye.
                 continue
             value = _chinese_cardinal_value(match.group("number") or "")
+            if expected.kind in {"renewed_goal_vow", "mother_past_room_wish", "moved_home_open_invitation", "earlier_train_counterfactual"} and not match.group("number"):
+                value = Decimal(1)  # Renewed action / hope / invitation / earlier counterfactual, not a fixed repetition count.
             if expected.kind in {"friend_meal_invitation", "jeonse_document_sheet", "minseo_open_meeting_invitation"} and not match.group("number"):
                 value = Decimal(1)
             if expected.kind in {"repeated_topic_mention", "occasional_encounter"} and not match.group("number"):
@@ -6854,6 +6978,154 @@ def _investment_mistake_parser_self_test() -> tuple[int, list[str]]:
     return cases, failures
 
 
+def _goal_family_echo_parser_self_test() -> tuple[int, list[str]]:
+    """Ten actual leaves: normal/target, source scope, changed-count E2E.
+
+    Scope-only assertions below deliberately do not certify arbitrary Korean
+    meaning changes through the older generic numeric checker.
+    """
+    cases, failures = 0, []
+
+    def check(source: str, target: str, valid: bool, label: str) -> None:
+        nonlocal cases
+        cases += 1
+        errors = _numeric_errors(source, target)
+        if bool(errors) == valid:
+            failures.append(f"goal/family {label} expected {valid}: {target!r}: {errors}")
+
+    actuals = (
+        ("再次记住那份决心", "再次把那份決心刻在心裡"),
+        ('父母来的那天，{name}只在住处附近的餐厅请他们吃了饭，没有让他们看房间。\n\n今天，母亲轻轻提起。\n\n“Minjun啊，那时候，我还想看看你的房间呢。妈明明都知道，还是装作不知道。”', '父母來的那天，{name}只在住處附近的餐廳請他們吃飯，沒讓他們看房間。\n\n今天，母親輕輕提起。\n\n「Minjun，那時，我想看看你的房間。媽媽其實都知道，卻裝作不知道。」'),
+        ('“谢谢。我正努力把两件事都做好。”', '「謝謝。我正努力把兩邊都顧好。」'),
+        ('组长点点头，让我走了。\n\n当时坦白说过的话，今天这样回到了自己身上。\n工作和目标之间——处理得好，似乎并不一定两头落空。', '組長點了點頭，讓自己回去了。\n\n那時說的實話，今天以這種方式回到了自己身上。\n在工作與目標之間——稍微看見了，只要做得好，未必會兩頭落空。'),
+        ("两罐饮料", "兩罐飲料"),
+        ('自己也不好过的一天。\n\n路过走廊时，202号房传来了声音。是新住户。\n\n那个声音，让人想起Hyunsu把自己关在房里的那三天。\n想起从便利店买了两罐饮料送去的那天。', '那天，自己也不好過。\n\n走過走廊時，202號房裡傳來聲響。是新房客。\n\n那聲音讓自己想起，Hyunsu 把自己關在房裡的那3天。\n還有去便利商店買了兩罐飲料給他的那一天。'),
+        ('Hyunsu在自己的考试结束那天，走出了那扇门。\n{name}在现在的地址下面，写下了下一个住处的三条条件。\n\n虽不知道会是什么时候，但把问题变成计划，现在只需要写下一行。', 'Hyunsu 在自己的考試結束那天，走出了門。\n{name} 在目前的地址下方，寫下下次搬家要找的地方的三項條件。\n\n不知道會是什麼時候，但把問題變成計畫，此刻只需要寫下一行。'),
+        ('“现在搬到更好的地方了。有空来看看吧。”', '「我已經搬到更好的地方了。有空來看看吧。」'),
+        ('在那趟列车上——要是能再早一点上车。\n\n说自己完全不再这样想，就是谎话。\n\n但还是上了车。到了那里。在空床边坐下。\n那就是{name}所能做的一切。', '在那班火車裡——要是能早一點搭上就好了。\n\n要說完全不會這麼想，是騙人的。\n\n但還是搭上了。去了那裡。坐在空床旁。\n那就是{name}所能做的一切。'),
+        ('不再是模糊的‘江南’，而是具体的一套房。\n\n目标有了坐标，路就清楚了。\n{name}以那套房为准，重新丈量剩下的距离。', '不再是模糊的『江南』，而是一間具體的房子。\n\n目標有了座標，路就清楚了。\n{name}以那間房子為基準，重新衡量剩下的距離。'),
+    )
+    anchors = (
+        ("再次", "再次"), ("想看看", "想看看"), ("两件事", "兩邊"), ("两头", "兩頭"),
+        ("两罐饮料", "兩罐飲料"), ("两罐饮料", "兩罐飲料"), ("三条条件", "三項條件"),
+        ("来看看", "來看看"), ("要是能再早一点上车", "要是能早一點搭上"), ("一套房", "一間具體的房子"),
+    )
+    variants = (
+        ("再一次", "再度"), ("想看一次", "想看一眼"), ("二件事", "2邊"), ("二头", "2頭"),
+        ("二罐饮料", "2罐飲料"), ("二罐饮料", "2罐飲料"), ("3条条件", "三條條件"),
+        ("来一趟", "來一次"), ("如果能早一点上车", "假如能再早一點搭上"), ("1套房", "1間具體的房子"),
+    )
+    # Finite, type-owned wrong value/unit/state examples. A later correct
+    # phrase is tested separately, so it cannot hide a missing first action.
+    bad_anchors = (
+        ("再三次", "再三次", "再一公里", "再一公里"),
+        ("想看三次", "想看三次", "想看一公里", "想看一公里"),
+        ("三件事", "三邊", "两个人", "兩個人"),
+        ("三头", "三頭", "两年", "兩年"),
+        ("三罐饮料", "三罐飲料", "两公斤饮料", "兩公斤飲料"),
+        ("三罐饮料", "三罐飲料", "两公斤饮料", "兩公斤飲料"),
+        ("两条条件", "兩項條件", "三年条件", "三年條件"),
+        ("来三次", "來三次", "来一公里", "來一公里"),
+        ("要是能再早两点上车", "要是能早兩點搭上", "要是能再早一年上车", "要是能早一年搭上"),
+        ("两套房", "兩間具體的房子", "一年房", "一年具體的房子"),
+    )
+    for index, (raw, fragment, _, kind) in enumerate(SOURCE_GOAL_FAMILY_ECHO_QUANTITIES):
+        source = raw
+        for region, target in enumerate(actuals[index]):
+            anchor = anchors[index][region]
+            check(source, target, True, f"actual {index}/{region}")
+            check(source, target.replace(anchor, variants[index][region]), True, f"natural variant {index}/{region}")
+            for wrong in (bad_anchors[index][region], bad_anchors[index][region + 2],
+                          "−" + anchor, "+" + anchor, "没有" + anchor,
+                          "将来" + anchor, "", bad_anchors[index][region + 2] + "，" + anchor):
+                check(source, target.replace(anchor, wrong), False, f"value/unit/sign/state/borrow {index}/{region}")
+            check(source, target + "\n" + target, False, f"duplicated clause {index}/{region}")
+            check(source, "別人的事情。" + target, False, f"foreign target frame {index}/{region}")
+            check(source, target.replace(anchor, "没有" + anchor + "，" + anchor), False, f"negative before normal {index}/{region}")
+            check(source, target + "。已經約好明天見面，對方答應了。", False, f"invented reply/appointment {index}/{region}")
+            if "\n" in target:
+                check(source, target.replace("\n\n", "\n", 1), False, f"paragraph displaced {index}/{region}")
+                lines = target.split("\n")
+                check(source, "\n".join(lines[1:] + lines[:1]), False, f"line reordered {index}/{region}")
+        # Source-bound checks, not broad end-to-end semantic guarantees.
+        for changed in ("다른 장면. " + source, source + "\n", source.replace(fragment, "아무것도")):
+            cases += 1
+            if changed == source or any(q.kind == kind for q in _source_counter_quantities(changed)):
+                failures.append(f"goal/family source licence escaped {index}: {changed!r}")
+        # Explicitly changed Korean numerical intent must not keep an old
+        # target just because its Chinese classifier is newly understood.
+        changed_fragment = {"한번": "세 번", "두 가지": "세 가지", "둘 다": "셋 다", "두 개": "세 개", "세 가지": "네 가지", "한 번": "세 번", "한 채": "두 채"}[fragment]
+        for target in actuals[index]:
+            check(source.replace(fragment, changed_fragment), target, False, f"changed source count E2E {index}")
+
+    # Predicate/state/actor checks are additional to changing a number.
+    targeted = (
+        (1, "母亲", "父亲", "母親", "父親"),
+        (1, "想看看", "已经看过", "想看看", "已經看過"),
+        (2, "我正努力把", "我已经把", "我正努力把", "我已經把"),
+        (2, "我正努力把", "她正努力把", "我正努力把", "她正努力把"),
+        (3, "似乎并不一定", "肯定不会", "未必會", "肯定不會"),
+        (3, "处理得好", "无论怎么做", "只要做得好", "不論怎麼做"),
+        (5, "买了", "将买", "買了", "將買"),
+        (5, "Hyunsu", "Minjun", "Hyunsu", "Minjun"),
+        (6, "写下了", "打算写下", "寫下", "打算寫下"),
+        (6, "{name}", "Hyunsu", "{name}", "Hyunsu"),
+        (7, "有空", "明天19点", "有空", "明天19點"),
+        (7, "来看看", "来了看看", "來看看", "來了看看"),
+        (8, "要是能再早", "已经早", "要是能早", "已經早"),
+        (8, "空床", "父亲", "空床", "父親"),
+        (9, "而是具体的", "而是已经买下的", "而是", "而是已經買下的"),
+    )
+    for index, old_cn, new_cn, old_tw, new_tw in targeted:
+        for target, old, new in zip(actuals[index], (old_cn, old_tw), (new_cn, new_tw)):
+            cases += int(old not in target)
+            if old not in target:
+                failures.append(f"goal/family invalid fixture: {index}/{old}")
+            check(SOURCE_GOAL_FAMILY_ECHO_QUANTITIES[index][0], target.replace(old, new), False, f"predicate/actor {index}/{old}")
+    source_frames = (
+        (0, "새긴다", "새기지 않는다"), (1, "어머니", "아버지"),
+        (2, "잡으려고 하고 있어요", "이미 잡았어요"), (3, "잘 하면", "무조건"),
+        (4, "음료", "서류"), (5, "현수", "민서"),
+        (6, "적었다", "적기로 했다"), (7, "오세요", "오셨어요"),
+        (8, "탔더라면", "탔다"), (9, "구체적인", "이미 구매한"),
+    )
+    for index, old, new in source_frames:
+        raw, _, _, kind = SOURCE_GOAL_FAMILY_ECHO_QUANTITIES[index]
+        changed = raw.replace(old, new)
+        cases += 1
+        if changed == raw or any(q.kind == kind for q in _source_counter_quantities(changed)):
+            failures.append(f"goal/family actor/predicate source licence escaped: {index}")
+    # Positive controls for the two inherited 수사+가지 parsing gaps: changing
+    # the source count is supported, not simply rejecting every revised text.
+    for index, old_ko, new_ko, old_zh, new_zh in (
+        (2, "두 가지", "세 가지", "两件事", "三件事"),
+        (2, "두 가지", "세 가지", "兩邊", "三邊"),
+        (6, "세 가지", "네 가지", "三条条件", "四条条件"),
+        (6, "세 가지", "네 가지", "三項條件", "四項條件"),
+    ):
+        target = next(t for t in actuals[index] if old_zh in t)
+        check(SOURCE_GOAL_FAMILY_ECHO_QUANTITIES[index][0].replace(old_ko, new_ko),
+              target.replace(old_zh, new_zh), True, "changed source count positive control")
+    # Six natural alternatives found by an independently sealed review.
+    # Preserve their failed first run separately; these are regression tests,
+    # not additional independent evidence or a general semantic licence.
+    independent_variants = (
+        (0, "再把那份決心銘記在心", "再", "再三次"),
+        (1, actuals[1][0].replace("我还想", "我本想").replace("呢。", "。"), "想看看", "想看三次"),
+        (3, actuals[3][0].replace("似乎并不一定", "似乎未必会"), "两头", "三头"),
+        (4, "两罐饮品", "两罐", "三罐"),
+        (7, actuals[7][1].replace("有空", "改天"), "來看看", "來三次"),
+        (8, actuals[8][0].replace("要是能再早一点上车", "要是能早点上车就好了"), "早点", "早三点"),
+    )
+    for index, target, anchor, wrong in independent_variants:
+        source = SOURCE_GOAL_FAMILY_ECHO_QUANTITIES[index][0]
+        check(source, target, True, f"independent natural regression {index}")
+        changed = target.replace(anchor, wrong)
+        check(source, changed, False, f"natural regression changed value {index}")
+        check(source, changed + "，" + target, False, f"natural regression wrong before normal {index}")
+    return cases, failures
+
+
 def _minseo_complicated_callback_parser_self_test() -> tuple[int, list[str]]:
     """Three observed leaves; source-scope probes are not semantic rejection."""
     cases, failures = 0, []
@@ -7799,6 +8071,9 @@ def run_self_test(
     minseo_pair_cases, minseo_pair_failures = _minseo_complicated_callback_parser_self_test()
     cases += minseo_pair_cases
     failures.extend(minseo_pair_failures)
+    goal_family_cases, goal_family_failures = _goal_family_echo_parser_self_test()
+    cases += goal_family_cases
+    failures.extend(goal_family_failures)
     mistake_cases, mistake_failures = _investment_mistake_parser_self_test()
     cases += mistake_cases
     failures.extend(mistake_failures)

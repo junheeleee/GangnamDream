@@ -224,3 +224,9 @@ check/import --locale 언어 --batch sourceJSONL --response 응답; --source 없
 named full-game-localization-overlays --list 후 선택검사·EN·diff·전량수용hash/L1.
 전체audit/Godot/240주0. 공개 GO 유지·전체 INCOMPLETE·full/main/product HOLD,
 동일큐이어보기 [~]·L3/원어민/화면 OPEN. 전체번역완료/제품후보발급이 아니다.
+
+## 수용 결과 — L1/L2 완료, L3 OPEN
+
+신규738·누적25,818 번역과 기존25,080/meta9 보존을 확인했다.
+[완료 상세·지문·검사 경계](../queue_archive/ORDER-202_L1_L2_RESULTS.md)를 따른다.
+이 사양과 단일 큐 [~]·L3 OPEN은 유지한다.
