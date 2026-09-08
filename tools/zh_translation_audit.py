@@ -269,6 +269,8 @@ SOCIAL_COST_COUNTER_KINDS = frozenset({
     "golf_round_fee_range", "luxury_shop_glance", "blind_date_meeting_once", "blind_date_coffee",
 })
 CALLBACK_COUNTER_KINDS = frozenset({
+    "parent_care_open_invitation", "parent_care_passed_invitation", "parent_care_retained_day",
+    "renewed_proposal_doubt", "recalled_job_meeting_intention", "honesty_protected_pair",
     "stagnation_month_ordinal_resolve", "stagnation_month_ordinal_bridge",
     "stagnation_month_ordinal_shortcut", "collapsed_day_reference", "warmup_year_count",
     "submitted_resignation_sheet", "work_private_goal_tracks", "proper_gangnam_attempt",
@@ -506,6 +508,14 @@ SOURCE_LATE_ECHO_QUANTITIES = (
 )
 SOURCE_OCCASIONAL_ENCOUNTER = "다은이 거리를 둔 지 두 달.\n그사이 어쩌다 한 번씩은 마주쳤다.\n오늘은 그녀가 먼저 말을 걸었다."
 SOURCE_FATHER_PROMISE_TITLE = "아버지에게 한 약속"
+SOURCE_CARE_HONESTY_ECHO_QUANTITIES = (
+    ("부모님이 늙어가는 걸 느끼고, {name}은 '아버지, 병원 한번 같이 가요'라고 먼저 말했었다.\n\n그 먼저 내민 손이 가끔 떠오른다.\n\n오늘 또 부모님 생각이 났다.", "한번", 1, "parent_care_open_invitation"),
+    ("부모님이 늙어가는 걸 느끼고, {name}은 먼저 '아버지, 병원 한번 같이 가요'라고 말했었다.\n\n그 말은 실제 예약과 동행으로 이어졌다. 아버지가 떠난 뒤에도, 미루지 않았던 그 하루는 사라지지 않았다.\n\n오늘 다시 남은 가족 생각이 났다.", "한번", 1, "parent_care_passed_invitation"),
+    ("부모님이 늙어가는 걸 느끼고, {name}은 먼저 '아버지, 병원 한번 같이 가요'라고 말했었다.\n\n그 말은 실제 예약과 동행으로 이어졌다. 아버지가 떠난 뒤에도, 미루지 않았던 그 하루는 사라지지 않았다.\n\n오늘 다시 남은 가족 생각이 났다.", "그 하루", 1, "parent_care_retained_day"),
+    ("급할수록 사기꾼의 먹잇감이 되기 쉽다.\n\n{name}은 솔깃한 제안일수록 한 번 더 의심하는 법을 안다.\n그때 끊어버린 전화가, 어떤 함정을 피하게 했을지 모른다.", "한 번", 1, "renewed_proposal_doubt"),
+    ("헤드헌터의 연락에, {name}은 '한 번 만나보겠다'며 이직 가능성을 탐색했었다.\n\n그 탐색의 순간이 가끔 떠오른다.\n\n오늘 또 커리어의 갈림길에 섰다.", "한 번", 1, "recalled_job_meeting_intention"),
+    ('"해줄 게 없다고 했지만 — 솔직함이 제일 큰 거였어."\n\n포장하지 않고 시작한 관계라, 흔들려도 단단했다.\n{name}은 그 출발점의 정직함이 둘을 지켰다는 걸 안다.', "둘", 2, "honesty_protected_pair"),
+)
 SOURCE_CREATOR_GROWTH_REASSESSMENT = "느리다고 느꼈다.\n하지만 두 달에 100명—이 속도가 나쁜 게 아니었다."
 SOURCE_OPENED_USB_ECHO = (
     "USB를 열어본 뒤",
@@ -1763,6 +1773,12 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
         # This exact leaf has no quantities: 지워 둘 is the auxiliary 두다.
         return []
     quantities: list[CounterQuantity] = []
+    # Five complete sources own six independent slots. In the bereaved leaf
+    # the earlier invitation and the retained day cannot backfill each other.
+    for raw, fragment, number, kind in SOURCE_CARE_HONESTY_ECHO_QUANTITIES:
+        if source == raw:
+            start = source.index(fragment)
+            quantities.append(CounterQuantity(start, start + len(fragment), Decimal(number), kind))
     # Eight complete Korean leaves license six distinct retrospective slots.
     # In the collapsed-day leaf only the second, anaphoric 하루 is replaced;
     # the first full-day duration remains an independently checked quantity.
@@ -2349,6 +2365,16 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
 
 
 def _target_pattern_for_kind(kind: str) -> re.Pattern[str]:
+    if kind in {"parent_care_open_invitation", "parent_care_passed_invitation"}:
+        return re.compile(rf"去(?P<state>了|[過过])?(?P<sign>[+＋−﹣－負负-])?\s*(?P<number>{CHINESE_CARDINAL})?(?P<callback_unit>趟|次|回|天|年|公里)?[醫医]院")
+    if kind == "parent_care_retained_day":
+        return re.compile(rf"那(?:[個个])?(?:(?:[沒没]有(?:被)?(?:推[遲迟]|再拖延)|未曾(?:拖延|推[遲迟])|不曾拖延)的)?(?P<sign>[+＋−﹣－負负-])?\s*(?P<number>{CHINESE_CARDINAL})?(?P<callback_unit>日子|天|年|月|秒|公里)")
+    if kind == "renewed_proposal_doubt":
+        return re.compile(rf"(?P<sign>[+＋−﹣－負负-])?\s*(?P<number>{CHINESE_CARDINAL})?(?P<callback_unit>分|次|回|層|层|年|分鐘|分钟|公里)?(?:[懷怀]疑|疑心)(?:(?P<doubt_tail_sign>[+＋−﹣－負负-])?(?P<doubt_tail_number>{CHINESE_CARDINAL})(?P<doubt_tail_unit>下|次|回|年|分鐘|分钟|公里))?")
+    if kind == "recalled_job_meeting_intention":
+        return re.compile(rf"[見见](?P<state>了|[過过])?(?P<sign>[+＋−﹣－負负-])?\s*(?P<number>{CHINESE_CARDINAL})?(?P<callback_unit>[個个]?面|次|回|年|公里)")
+    if kind == "honesty_protected_pair":
+        return re.compile(rf"(?P<sign>[+＋−﹣－負负-])?\s*(?P<number>{CHINESE_CARDINAL})(?P<callback_unit>[個个]?人|位|年|公里)")
     # The broad witnesses include observed wrong units/actions, so an invalid
     # first clause cannot borrow a later correct number of the same kind.
     if kind.startswith("stagnation_month_ordinal_"):
@@ -3132,12 +3158,106 @@ def _late_echo_quantity_valid(kind: str, match: re.Match[str], target: str) -> b
     return False
 
 
+def _care_honesty_echo_quantity_valid(kind: str, match: re.Match[str], target: str) -> bool:
+    """Counted predicates in five licensed retrospections, not a prose audit.
+
+    Countless invitation/doubt idioms remain idioms. Their actor, mood and
+    paragraph are still required; broad wrong-unit witnesses are not licences.
+    Uncounted surrounding prose is not certified for arbitrary semantic edits.
+    """
+    fields = match.groupdict()
+    unit = fields.get("callback_unit")
+    if fields.get("sign") or fields.get("state"):
+        return False
+    paragraphs = target.split("\n\n")
+    before, after = target[:match.start()], target[match.end():]
+    quote_open, quote_close = r'[“「『"]', r'[”」』"]'
+    care_intro = (
+        r"(?:察[覺觉](?:到)?|看到|感[覺觉]到?|感到|感受到|意[識识]到|[發发][現现])父母"
+        r"(?:正(?:在)?)?(?:[漸渐][漸渐]|逐[漸渐]|慢慢|日[漸渐])?(?:老去|[衰變变]老|年[紀纪]越[來来]越大)[，,]"
+        r"\{name\}(?:曾[經经]?|[當当][時时])?(?:主[動动](?:[開开]口)?(?:[說说]|提[議议])?|先[開开]口[說说])"
+        r"[：:]?" + quote_open + r"(?:爸|爸爸|父[親亲])[，,](?:哪天|改天|有空|抽空|有[時时][間间])?"
+        r"(?:我(?:陪|陪[著着])(?:您|你)|(?:我[們们])?(?:一起|一[塊块][兒儿]?))"
+    )
+    care_quote_tail = r"(?:看看|[檢检]查(?:一下)?)?(?:吧|好[嗎吗][？?])[。.]?" + quote_close
+    if kind in {"parent_care_open_invitation", "parent_care_passed_invitation"}:
+        if unit not in {None, "趟", "次", "回"} or (fields.get("number") and not unit):
+            return False
+        if len(paragraphs) != 3 or "\n" in paragraphs[0] or not re.fullmatch(care_intro, before):
+            return False
+        if not re.fullmatch(care_quote_tail, after.split("\n\n")[0]):
+            return False
+        if kind == "parent_care_open_invitation":
+            hand = r"(?:那次|那[隻只雙双]?)(?:主[動动]|先)?伸出的手"
+            sometimes = r"(?:偶[爾尔]|有[時时])(?:[還还])?(?:[會会])?"
+            return bool(re.fullmatch(
+                hand + r"[，,]" + sometimes + r"(?:浮上心[頭头]|在[腦脑]海中浮[現现]|想起[來来])。|"
+                + sometimes + r"想起" + hand + r"。", paragraphs[1])) \
+                and bool(re.fullmatch(r"今天[，,]?(?:又|再次)(?:想起了|想到)(?:父母|爸[媽妈])。", paragraphs[2]))
+        # The other slot independently owns every amount/reference in this
+        # middle paragraph; the invitation cannot consume that later day.
+        return bool(re.fullmatch(r"今天[，,]?(?:又|再次)(?:想起了|想到)(?:[還还]在的|仍在世的|留下的|剩下的)家人。", paragraphs[2]))
+    if kind == "parent_care_retained_day":
+        if unit not in {"日子", "天"} or len(paragraphs) != 3:
+            return False
+        middle_start = len(paragraphs[0]) + 2
+        if not middle_start <= match.start() < middle_start + len(paragraphs[1]):
+            return False
+        prefix = target[middle_start:match.start()]
+        suffix = target[match.end():middle_start + len(paragraphs[1])]
+        return bool(re.fullmatch(
+            r"[那這这]句[話话][，,]?(?:[後后][來来])?(?:[變变]成了|化成了|[帶带][來来]了|落[實实][為为]|成了)"
+            r"(?:[實实][際际]的)?[預预][約约](?:和|[與与])(?:陪同|陪伴就[醫医]|陪同就[醫医]|同行)。"
+            r"父[親亲](?:[離离][開开]|[離离]世|去世)(?:[後后]|之[後后]|以[後后])[，,]"
+            r"(?:(?:[沒没]有(?:被)?(?:推[遲迟]|再拖延)|未曾(?:拖延|推[遲迟])|不曾拖延)的)?", prefix)) \
+            and bool(re.fullmatch(
+                r"[，,]?(?:也(?:[並并])?(?:未|[沒没]有)消失|[並并][沒没]有消失|依然留了下[來来]|仍(?:然)?留[著着]|一直留在[記记][憶忆][裡里])。", suffix))
+    if kind == "renewed_proposal_doubt":
+        if unit not in {None, "分", "次", "回", "層", "层"} or len(paragraphs) != 2:
+            return False
+        if fields.get("doubt_tail_sign") or (fields.get("doubt_tail_number") and (
+                fields.get("number") or unit or fields.get("doubt_tail_unit") not in {"下", "次", "回"})):
+            return False  # 前置一分 / 後置一下 are alternatives, not two borrowed counts.
+        return bool(re.fullmatch(
+            r"越(?:是)?(?:[著着]急|心急|急迫)[，,](?:就)?越容易成[為为][騙骗]子的(?:[獵猎]物|目[標标])。\n\n"
+            r"\{name\}(?:知道|懂得|明白)[，,](?:越是[誘诱]人的(?:提[議议]|提[議议]案|提案)|(?:提[議议]|提案)越[誘诱]人)[，,]"
+            r"(?:就)?越(?:要|[該该]|[應应][該该])?(?:再多|多留|再|再次|再度|多)", before)) \
+            and bool(re.fullmatch(
+                r"。\n(?:[當当][時时]|那[時时])(?:[掛挂][斷断]|[掛挂]掉)的那通[電电][話话][，,]"
+                r"(?:或[許许]|[說说]不定|也[許许])(?:[讓让](?:他|自己))?(?:[躲避][過过]|避[開开])了?(?:某[個个]|[某什]些|什[麼么])陷阱。", after))
+    if kind == "recalled_job_meeting_intention":
+        if unit not in {"面", "个面", "個面", "次", "回"} or len(paragraphs) != 3:
+            return False
+        return bool(re.fullmatch(
+            r"(?:[獵猎][頭头][聯联]系[時时]|接到[獵猎][頭头]的(?:[聯联][絡络]|[聯联]系)[後后]|[獵猎][頭头][聯联][絡络][時时])[，,]"
+            r"\{name\}(?:曾|[當当][時时])(?:[說说]|表示)" + quote_open + r"(?:我)?(?:可以|[願愿]意|打算|想|[會会])(?:先)?", before)) \
+            and bool(re.fullmatch(
+                r"(?:面)?(?:看看)?" + quote_close + r"[，,](?:探索|探[尋寻]|探[討讨]|了解|[試试]探)(?:了|[過过])(?:跳槽|[轉转][職职]|[換换]工作)的可能(?:性)?。\n\n"
+                r"(?:那(?:[個个]|段)(?:探索|探[尋寻])的(?:瞬[間间]|[時时]刻)[，,]偶[爾尔](?:[還还])?(?:[會会])?(?:浮上心[頭头]|在[腦脑]海中浮[現现])|"
+                r"偶[爾尔](?:[還还])?(?:[會会])?想起那[時时]的(?:探索|探[尋寻]))。\n\n"
+                r"今天[，,]?又站在(?:了)?(?:[職职][業业]道路|[職职][業业]生涯|[職职]涯)的岔路口。", after))
+    if kind == "honesty_protected_pair":
+        if unit not in {"人", "个人", "個人", "位"} or len(paragraphs) != 2:
+            return False
+        # The quote is uncounted context, not permission to mask its numbers.
+        # The guarded pair belongs only to the following completed predicate.
+        return bool(re.fullmatch(
+            quote_open + r"[^\n“”「」『』\"]+" + quote_close + r"\n\n"
+            r"[這这]段[關关][係系][從从]一[開开]始就[沒没]有(?:[偽伪][裝装]|包[裝装])[，,]"
+            r"所以即使[動动][搖摇](?:[過过])?[，,]也?依然(?:[堅坚][實实]|牢固)。\n"
+            r"\{name\}(?:知道|明白)[，,](?:起[點点]上的|起[點点]的|最初的|一[開开]始的)那份(?:[誠诚][實实]|坦[誠诚])"
+            r"[，,]?(?:保[護护]|守[護护]|[護护]住)了(?:他[們们])?", before)) and after == "。"
+    return False
+
+
 def _callback_quantity_valid(kind: str, match: re.Match[str], target: str) -> bool:
     before, after = target[:match.start()], target[match.end():]
     fields = match.groupdict()
     if fields.get("sign") or re.search(r"(?:不(?:是)?|沒(?:有)?|没(?:有)?)\s*$", before):
         return False
     unit = fields.get("callback_unit")
+    if kind in {row[3] for row in SOURCE_CARE_HONESTY_ECHO_QUANTITIES}:
+        return _care_honesty_echo_quantity_valid(kind, match, target)
     if kind in {row[3] for row in SOURCE_LATE_ECHO_QUANTITIES}:
         return _late_echo_quantity_valid(kind, match, target)
     if kind in {row[3] for row in SOURCE_GOAL_FAMILY_ECHO_QUANTITIES}:
@@ -3919,6 +4039,11 @@ def _match_target_counter_quantities(
                 # 一眼 is a glance after a seeing verb, not one physical eye.
                 continue
             value = _chinese_cardinal_value(match.group("number") or "")
+            if expected.kind == "renewed_proposal_doubt" and match.groupdict().get("doubt_tail_number"):
+                value = _chinese_cardinal_value(match.group("doubt_tail_number"))
+            if expected.kind in {"parent_care_open_invitation", "parent_care_passed_invitation", "parent_care_retained_day", "renewed_proposal_doubt", "recalled_job_meeting_intention"} and not match.group("number"):
+                if not match.groupdict().get("doubt_tail_number"):
+                    value = Decimal(1)
             if expected.kind in {"collapsed_day_reference", "submitted_resignation_sheet"} and not match.group("number"):
                 value = Decimal(1)  # That collapsed day / that submitted sheet.
             if expected.kind in {"renewed_goal_vow", "mother_past_room_wish", "moved_home_open_invitation", "earlier_train_counterfactual"} and not match.group("number"):
@@ -8467,6 +8592,156 @@ def _creator_recovery_parser_self_test() -> tuple[int, list[str]]:
     return cases, failures
 
 
+def _care_honesty_echo_parser_self_test() -> tuple[int, list[str]]:
+    """Own fixed probes; separate from the unseen independent review set.
+
+    Actual 10; natural 12; target mutations counted individually below;
+    source-off licences and changed-source numeric E2E are separate tests.
+    """
+    cases, failures = 0, []
+    raw = [row[0] for row in SOURCE_CARE_HONESTY_ECHO_QUANTITIES]
+    actual = (
+        (raw[0], '察觉父母渐渐老去，{name}曾主动说：“爸，我陪您去趟医院吧。”\n\n那次主动伸出的手，偶尔还会浮上心头。\n\n今天，又想起了父母。'),
+        (raw[0], '察覺父母漸漸老去，{name}曾主動開口：『爸，我陪您去一趟醫院吧。』\n\n那次主動伸出的手，偶爾會浮上心頭。\n\n今天，又想起了父母。'),
+        (raw[1], '察觉父母渐渐老去，{name}曾主动说：“爸，我陪您去趟医院吧。”\n\n那句话后来变成了实际的预约和陪同。父亲离开后，那个没有被推迟的日子，也并未消失。\n\n今天，又想起了还在的家人。'),
+        (raw[1], '察覺父母漸漸老去，{name}曾主動開口：『爸，我陪您去一趟醫院吧。』\n\n那句話，後來化成了實際的預約與陪伴就醫。父親離世後，那個沒有再拖延的日子，依然留了下來。\n\n今天，再次想起了仍在世的家人。'),
+        (raw[3], '越是着急，越容易成为骗子的猎物。\n\n{name}知道，越是诱人的提议，越要再多一分怀疑。\n当时挂断的那通电话，或许让他躲过了某个陷阱。'),
+        (raw[3], '越是心急，越容易成為騙子的獵物。\n\n{name}懂得，提議越誘人，就越該多留一分疑心。\n當時掛掉的那通電話，說不定讓自己避開了某個陷阱。'),
+        (raw[4], '猎头联系时，{name}曾说“可以见一面”，探索了跳槽的可能。\n\n那个探索的瞬间，偶尔还会浮上心头。\n\n今天，又站在了职业道路的岔路口。'),
+        (raw[4], '接到獵頭的聯絡後，{name}曾說『可以先見一次面』，探索了轉職的可能性。\n\n那段探索的時刻，偶爾會浮上心頭。\n\n今天，又站在職涯的岔路口。'),
+        (raw[5], '“虽说没什么能给的——可坦诚，才是最重要的。”\n\n这段关系从一开始就没有伪装，所以即使动摇，也依然坚实。\n{name}知道，起点上的那份诚实，保护了两个人。'),
+        (raw[5], '『你說沒什麼能給我的——但坦誠就是最珍貴的了。』\n\n這段關係從一開始就沒有包裝，所以即使動搖，依然牢固。\n{name}知道，起點的那份誠實，守護了兩人。'),
+    )
+    kinds = {row[3] for row in SOURCE_CARE_HONESTY_ECHO_QUANTITIES}
+    def check(source: str, target: str, valid: bool, *, owned: bool = True) -> None:
+        nonlocal cases
+        cases += 1
+        errors = _numeric_errors(source, target)
+        if (not errors) != valid or (not valid and owned and not any(
+                any(kind in error for kind in kinds) for error in errors)):
+            failures.append(f"care/honesty case {cases}: expected {valid}, errors={errors}; {source!r} => {target!r}")
+    for source, target in actual:
+        check(source, target, True)
+    naturals = (
+        (0, '察觉父母渐渐老去，{name}曾主动说：“爸，我陪您去趟医院吧。”', '感到父母逐渐老去，{name}当时主动提议：“爸，我们一起去医院吧。”'),
+        (1, '察覺父母漸漸老去，{name}曾主動開口：『爸，我陪您去一趟醫院吧。』', '意識到父母慢慢老去，{name}曾先開口說：「爸，改天我陪你去次醫院好嗎？」'),
+        (2, '去趟医院吧', '去医院看看吧'),
+        (3, '去一趟醫院吧', '去一次醫院吧'),
+        (2, '那句话后来变成了实际的预约和陪同。父亲离开后，那个没有被推迟的日子，也并未消失。', '那句话后来成了实际的预约与同行。父亲去世之后，那未曾拖延的一天，一直留在记忆里。'),
+        (3, '那個沒有再拖延的日子，依然留了下來', '那不曾拖延的一天，仍然留著'),
+        (4, '{name}知道，越是诱人的提议，越要再多一分怀疑', '{name}明白，提议越诱人，就越应该再次怀疑'),
+        (5, '越該多留一分疑心', '越應該再度懷疑'),
+        (6, '猎头联系时，{name}曾说“可以见一面”，探索了跳槽的可能', '猎头联系时，{name}当时表示“愿意先见个面”，了解了换工作的可能性'),
+        (7, '可以先見一次面', '打算先見個面'),
+        (8, '{name}知道，起点上的那份诚实，保护了两个人', '{name}明白，最初的那份坦诚护住了他们两人'),
+        (9, '起點的那份誠實，守護了兩人', '一開始的那份坦誠保護了他們兩個人'),
+    )
+    for index, old, new in naturals:
+        source, target = actual[index]
+        assert old in target
+        check(source, target.replace(old, new), True)
+    for index, (source, target) in enumerate(actual):
+        # Complete clauses own their slot. An extra/wrong clause cannot be
+        # laundered by a later intact copy, nor moved to another paragraph.
+        check(source, "", False)
+        check(source, target + "\n" + target, False)
+        check(source, target.replace("\n\n", "\n", 1), False)
+        check(source, target.replace("{name}", "別人"), False)
+        if index < 4:
+            old = "去趟医院" if index % 2 == 0 else "去一趟醫院"
+            hospital = "医院" if index % 2 == 0 else "醫院"
+            for bad in ("去两趟", "去三次", "去−一趟", "去一公里", "去了趟", "不去一趟", "每月去一趟", "明天去一趟"):
+                check(source, target.replace(old, bad + hospital), False)
+            check(source, target.replace(old, "去二公里" + hospital + "，" + old), False)
+            check(source, target.replace("曾主动说", "已经陪父亲去过医院，又说").replace("曾主動開口", "已經陪父親去過醫院，又說"), False)
+            check(source, target.replace("我陪您", "母親陪您"), False)
+            check(source, target.replace(old, ""), False)
+            if index < 2:
+                parts = target.split("\n\n")
+                parts[1] = "那句话后来变成了实际的预约和陪同。父亲离开后，那一天并未消失。"
+                check(source, "\n\n".join(parts), False)
+            else:
+                old_day = "那个没有被推迟的日子" if index == 2 else "那個沒有再拖延的日子"
+                for bad in ("那三天", "那一年", "那−一天", "那兩秒", "那三天，那一天", "那一天已經消失，那一天"):
+                    check(source, target.replace(old_day, bad), False)
+                check(source, target.replace(old_day, ""), False)
+                check(source, target.replace("也并未消失", "已经消失").replace("依然留了下來", "已經消失"), False)
+                check(source, target.replace("父亲离开后", "父亲还在世时").replace("父親離世後", "父親仍在世時"), False)
+                check(source, target.replace("实际的预约和陪同", "尚未完成的预约和陪同").replace("實際的預約與陪伴就醫", "尚未完成的預約與陪伴就醫"), False)
+        elif index < 6:
+            old = "再多一分怀疑" if index == 4 else "多留一分疑心"
+            for bad in ("再多三分怀疑", "再多−一分怀疑", "再多一年怀疑", "再多一分钟怀疑", "少一分怀疑", "不再怀疑", "多一分信任", "再多三分怀疑，再多一分怀疑", "再多一分怀疑，已经相信了"):
+                check(source, target.replace(old, bad), False)
+        elif index < 8:
+            old = "见一面" if index == 6 else "見一次面"
+            for bad in ("见三次面", "见−个面", "见一年", "见过一面", "见了一面", "不见一面", "每天见一面", "明天见一面", "见三公里，见一面", "见一面，已经被录用了"):
+                check(source, target.replace(old, bad), False)
+            check(source, target.replace("探索了跳槽的可能", "已经接受了新工作").replace("探索了轉職的可能性", "已經接受了新工作"), False)
+        else:
+            old = "保护了两个人" if index == 8 else "守護了兩人"
+            for bad in ("保护了三个人", "保护了−两个人", "保护了两年", "没有保护两个人", "将会保护两个人", "保护了另外两个人", "保护了三个人，保护了两个人", "保护了两个人，也得到了对方的同意"):
+                check(source, target.replace(old, bad), False)
+            check(source, target.replace("那份诚实", "那笔钱").replace("那份誠實", "那筆錢"), False)
+    # These are licence-OFF assertions, not claims that generic semantics
+    # reject every changed source. E2E numeric changes are counted separately.
+    for source, target in actual:
+        for changed in (source + "\n다른 회고다.", source.replace("{name}", "다른 사람"), "", source.replace("한번", "두 번").replace("한 번", "두 번").replace("둘을", "셋을")):
+            cases += 1
+            if any(q.kind in kinds for q in _source_counter_quantities(changed)):
+                failures.append(f"care/honesty source licence leaked: {changed!r}")
+        if "한번" in source or "한 번" in source:
+            changed = source.replace("한번", "두 번").replace("한 번", "두 번")
+            check(changed, target, False, owned=False)
+    return cases, failures
+
+
+def _care_honesty_echo_natural_self_test() -> tuple[int, list[str]]:
+    """Ten shared normal controls plus own 98 mutations, not independent120.
+
+    Preserve the first run rather than replacing its fixtures: the two doubt
+    controls were baseline-normal regressions; eight were earlier false positives.
+    """
+    raw = [row[0] for row in SOURCE_CARE_HONESTY_ECHO_QUANTITIES]
+    controls = (
+        (raw[0], '看到父母渐渐老去，{name}曾主动说：“爸，一起去医院看看吧。”\n\n偶尔会想起那次主动伸出的手。\n\n今天又想起了父母。', '去医院看看'),
+        (raw[0], '感覺到父母漸漸老去，{name}曾主動說：「爸，一起去醫院看看吧。」\n\n偶爾會想起那次主動伸出的手。\n\n今天又想起了父母。', '去醫院看看'),
+        (raw[1], '看到父母渐渐老去，{name}曾主动说：“爸，一起去医院看看吧。”\n\n这句话后来变成了实际的预约和陪同。父亲去世以后，没有再拖延的那一天也没有消失。\n\n今天又想起了留下的家人。', '去医院看看'),
+        (raw[1], '感覺到父母漸漸老去，{name}曾主動說：「爸，一起去醫院看看吧。」\n\n這句話後來成了實際的預約和陪同。父親離世以後，沒有再拖延的那一天也沒有消失。\n\n今天又想起了留下的家人。', '去醫院看看'),
+        (raw[3], '越着急，就越容易成为骗子的猎物。\n\n{name}懂得，越是诱人的提议，越要再多怀疑一下。\n当时挂断的那通电话，也许让自己避开了什么陷阱。', '怀疑一下'),
+        (raw[3], '越著急，就越容易成為騙子的獵物。\n\n{name}知道，越是誘人的提議，越要再多懷疑一下。\n當時掛斷的那通電話，也許讓自己避開了什麼陷阱。', '懷疑一下'),
+        (raw[4], '接到猎头的联系后，{name}曾说“我会先见面看看”，探索过跳槽的可能。\n\n偶尔会想起那时的探索。\n\n今天又站在了职业生涯的岔路口。', '见面看看'),
+        (raw[4], '接到獵頭的聯絡後，{name}曾說「我會先見面看看」，探索過轉職的可能。\n\n偶爾會想起那時的探索。\n\n今天又站在了職涯的岔路口。', '見面看看'),
+        (raw[5], '“你说没什么能为我做的——但坦诚已经是最重要的了。”\n\n这段关系从一开始就没有伪装，所以即使动摇过，也依然牢固。\n{name}知道，起点上的那份诚实保护了两个人。', '诚实保护了两个人'),
+        (raw[5], '「你說沒什麼能為我做的——但坦誠已經是最重要的了。」\n\n這段關係從一開始就沒有偽裝，所以即使動搖過，也依然牢固。\n{name}知道，起點上的那份誠實守護了兩人。', '誠實守護了兩人'),
+    )
+    cases, failures = 0, []
+    kinds = {row[3] for row in SOURCE_CARE_HONESTY_ECHO_QUANTITIES}
+    def check(source: str, target: str, valid: bool) -> None:
+        nonlocal cases
+        cases += 1
+        errors = _numeric_errors(source, target)
+        if (not errors) != valid or (not valid and not any(any(kind in error for kind in kinds) for error in errors)):
+            failures.append(f"care/honesty natural case {cases}: expected {valid}, {errors}; {target!r}")
+    for index, (source, target, phrase) in enumerate(controls):
+        check(source, target, True)
+        for bad in (target.replace("{name}", "另一个人"), target.replace("\n\n", "\n", 1), target + "\n" + target):
+            check(source, bad, False)
+        if index < 4:
+            mutations = ("去三趟医院看看", "去−一趟医院看看", "去一公里医院看看", "已经去了医院", "不去医院看看", "去三趟医院，再去医院看看")
+            if index >= 2:
+                for bad_day in ("那三天", "那一年", "那−一天", "那三天，那一天"):
+                    check(source, target.replace("那一天", bad_day), False)
+        elif index < 6:
+            mutations = ("怀疑三下", "怀疑−一下", "怀疑一公里", "信任一下", "一分怀疑一下", "怀疑三次，怀疑一下")
+        elif index < 8:
+            mutations = ("见三次面看看", "见−个面看看", "见一公里看看", "见过面了", "见面并已经被录用", "见三次面，再见面看看")
+        else:
+            mutations = ("诚实保护了三个人", "诚实保护了−两个人", "诚实保护了两年", "诚实没有保护两个人", "金钱保护了两个人", "诚实保护了三个人，诚实保护了两个人")
+        for replacement in mutations:
+            check(source, target.replace(phrase, replacement), False)
+    return cases, failures
+
+
 def run_self_test(
     manifest: dict[str, Any], runtime: dict[str, Any],
 ) -> list[str]:
@@ -8476,6 +8751,12 @@ def run_self_test(
     gig_cases, gig_failures = _gig_approximate_money_parser_self_test()
     cases += gig_cases
     failures.extend(gig_failures)
+    care_honesty_cases, care_honesty_failures = _care_honesty_echo_parser_self_test()
+    cases += care_honesty_cases
+    failures.extend(care_honesty_failures)
+    care_natural_cases, care_natural_failures = _care_honesty_echo_natural_self_test()
+    cases += care_natural_cases
+    failures.extend(care_natural_failures)
     daily_cases, daily_failures = _daily_life_parser_self_test()
     cases += daily_cases
     failures.extend(daily_failures)

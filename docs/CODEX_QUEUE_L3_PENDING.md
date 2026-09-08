@@ -7,6 +7,7 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
+| 1 | [~] | ORDER-205 · 비교·돌봄·관계·재기 후속 번역 | [205](queue_active/ORDER-205.md) | 720번역 L1/L2 · L3 OPEN |
 | 2 | [~] | ORDER-204 · 소비·습관·도박·인연 후속 번역 | [204](queue_active/ORDER-204.md) | 756번역 L1/L2 · L3 OPEN |
 | 3 | [~] | ORDER-203 · 직장·투자·이별 후속 번역 | [203](queue_active/ORDER-203.md) | 720번역 L1/L2 · L3 OPEN |
 | 4 | [~] | ORDER-202 · 현수·가족·건강·목표 후속 번역 | [202](queue_active/ORDER-202.md) | 738번역 L1/L2 · L3 OPEN |

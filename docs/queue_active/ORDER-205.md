@@ -180,3 +180,5 @@ ORDER204 수용 이후 실제27,294/meta9/b64 보존을 검증한다. 수용28,0
 named full-game-localization-overlays --list 후 선택검사·EN·diff·전량수용hash/L1.
 전체audit/Godot/240주0. 공개 GO 유지·전체 INCOMPLETE·full/main/product HOLD,
 동일큐이어보기 [~]·L3/원어민/화면 OPEN. 전체번역완료/제품후보발급이 아니다.
+
+수용·검증 기록: [L1/L2 결과](../queue_archive/ORDER-205_L1_L2_RESULTS.md).
