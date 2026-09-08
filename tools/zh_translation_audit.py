@@ -459,6 +459,16 @@ CATALOG_APPROXIMATE_WON = (
     (re.compile(r"(?<![가-힣])수조원(?= 빅딜)"), re.compile(r"[数數](?:万亿|萬億|兆)(?:韩元|韓元)")),
 )
 SOURCE_INSURANCE_SAVED_PAIR = "첫 번째로 할 일로 보험 가입을 메모했다.\n몇만원짜리 보험이 수억을 지켰다."
+# A small approximate earning is not an exact 1,000-won amount or an hourly
+# wage. Only these complete Korean retrospections own this magnitude licence.
+SOURCE_GIG_FEW_THOUSAND_WON = {
+    "비 오는 날 할증 몇천 원을 더 벌려고 뛴 밤들.\n\n그게 모여 첫 종잣돈이 됐다.\n{name}은 그 절박함이 부끄럽지 않았다. 그게 시작이었으니까.": "rain_seed",
+    "비 맞으며 버는 몇천 원도 소중했지만, 이제는 시간당 가치를 본다.\n\n{name}은 노동의 단가를 높이는 쪽으로 옮겨갔다.": "hourly_value",
+    "다치면 며칠을 못 번다. 위험을 감수한 몇천 원보다 큰 손실이다.\n\n{name}은 그 계산을 일찍 했다.\n무모함과 성실함은 다르다는 걸, 그때 배웠다.": "injury_opportunity",
+}
+GIG_FEW_THOUSAND_WON_PATTERN = (
+    re.compile(r"몇천 원"), re.compile(r"[幾几數数][ \t　]*千[ \t　]*[韓韩]元"),
+)
 SOURCE_FRIEND_CONTACT_REVIEW = '"야, 밥 한번 먹자"고 먼저 연락한 뒤로 몇 달이 지났다.\n\n그 한 번이 어떻게 됐는지 — 지금 생각해보면, 이후가 더 중요했다.\n\n처음 연락했을 때의 어색함이 돌파구가 됐는지,\n아니면 한 번 의무처럼 만나고 다시 잠잠해졌는지.'
 SOURCE_PROJECT_CAUSE_PAIR = '팀장이 불렀다.\n"다음 분기 신규 프로젝트 PL 해볼 생각 있어?"\n\n회식 끝까지 남았던 게 기억나는 건지, 일을 잘 해서인지 알 수 없다.\n어쩌면 둘 다일 수도.'
 SOURCE_PROJECT_MIXED_PAIR = '"해보겠습니다." 했다.\n\n이 기회가 회식 자리에서 생긴 건지, 내 실력에서 생긴 건지.\n한국 직장에서는 이 두 가지가 섞여 있다.'
@@ -4414,6 +4424,49 @@ def _has_numeric_sign_prefix(text: str, start: int) -> bool:
     ))
 
 
+def _gig_few_thousand_role_errors(source: str, target: str) -> list[str]:
+    """Check the amount's local role, not arbitrary prose outside its frame."""
+    role = SOURCE_GIG_FEW_THOUSAND_WON.get(source)
+    if role is None:
+        return []
+    lines = target.split("\n")
+    amount = GIG_FEW_THOUSAND_WON_PATTERN[1].pattern
+    earn = r"[賺赚挣]"
+    rain = r"(?:淋[著着]雨|冒[著着]?雨|在雨[中裡里])"
+    if role == "rain_seed":
+        bonus = rf"多{earn}(?:到)?{amount}(?:的)?(?:雨天)?(?:[補补][貼贴]|加成|加[價价給给])"
+        frame = (
+            rf"(?:(?:那些)?[為为]了?(?:在雨天)?{bonus}[，,]?而(?:奔跑|奔波|奔忙|跑外送|跑配送)的(?:那些)?|"
+            rf"那些冒雨(?:奔跑|奔波|奔忙)[，,]只[為为]{bonus}的)夜晚[。.]"
+        )
+        seed = (
+            r"(?:就[這这][樣样][，,][攢攒]出了|"
+            r"(?:(?:那些|[這这]些)(?:[錢钱]|收入)(?:累[積积](?:起[來来])?|[積积]少成多|[攢攒]在一起)|"
+            r"一[點点]一滴累[積积]起[來来])[，,](?:成了|[攢攒]成了))"
+            r"(?:最初的(?:本金|本[錢钱])|第一[筆笔](?:本金|本[錢钱]|[啟启][動动][資资]金))[。.]"
+        )
+        valid = len(lines) == 4 and lines[1] == "" and re.fullmatch(frame, lines[0]) and re.fullmatch(seed, lines[2])
+    elif role == "hourly_value":
+        frame = (
+            rf"{rain}{earn}(?:[來来]的|到的|的){amount}(?:也(?:很)?|固然)(?:珍[貴贵]|重要|值得珍惜)[，,]"
+            r"(?:但|可是|不過|不过)?(?:[現现]在|如今)(?:看的是|更看重|重[視视]的是|看重的[卻却]是)"
+            r"每(?:[個个])?小[時时]的[價价]值[。.]"
+        )
+        transition = (
+            r"\{name\}(?:(?:[轉转]向了|[轉转]而往)提高(?:[勞劳][動动]|工作)[單单][價价]的方向(?:走)?|"
+            r"(?:[轉转]而|[轉转]向)提高(?:自己)?(?:[勞劳][動动]|工作)(?:的)?[單单][價价])[。.]"
+        )
+        valid = len(lines) == 3 and lines[1] == "" and re.fullmatch(frame, lines[0]) and re.fullmatch(transition, lines[2])
+    else:
+        frame = (
+            r"(?:如果|要是|一旦)?受(?:了)?[傷伤](?:的[話话])?[，,](?:就)?(?:[會会])?(?:有)?(?:好)?[幾几數数]天"
+            rf"(?:{earn}不了[錢钱]|[無无沒没]法{earn}[錢钱]|不能{earn}[錢钱])[。.]"
+            rf"(?:那)?[損损]失[，,]?(?:[會会])?比冒[險险](?:多)?{earn}(?:[來来])?的{amount}(?:[還还])?(?:更)?大[。.]"
+        )
+        valid = len(lines) == 4 and lines[1] == "" and re.fullmatch(frame, lines[0])
+    return [] if valid else [f"gig few-thousand won {role} amount/role/state/line changed"]
+
+
 def _numeric_errors(source: str, target: str) -> list[str]:
     errors: list[str] = []
     if source == SOURCE_CREATOR_GROWTH_REASSESSMENT:
@@ -4462,6 +4515,10 @@ def _numeric_errors(source: str, target: str) -> list[str]:
                 errors.append("callback saved-money magnitude unit changed")
     source_magnitude_order, target_magnitude_order = [], []
     magnitude_patterns = CATALOG_APPROXIMATE_WON
+    gig_magnitude = source in SOURCE_GIG_FEW_THOUSAND_WON
+    if gig_magnitude:
+        magnitude_patterns += (GIG_FEW_THOUSAND_WON_PATTERN,)
+        errors.extend(_gig_few_thousand_role_errors(source, target))
     if source == SOURCE_INSURANCE_SAVED_PAIR:
         # Only this insured-cost/saved-principal pair owns a few ten-thousand
         # won label. Other sources do not gain a generic approximate-money pass.
@@ -4473,6 +4530,10 @@ def _numeric_errors(source: str, target: str) -> list[str]:
     for magnitude_index, (source_pattern, target_pattern) in enumerate(magnitude_patterns):
         source_matches = list(source_pattern.finditer(source))
         target_matches = list(target_pattern.finditer(target))
+        if gig_magnitude and any(re.match(
+                r"[ \t　]*(?:[%％‰倍年月天日人位]|[個个]月|公斤|公里|米|小時|小时|分鐘|分钟|秒|[/／])",
+                target[m.end():]) for m in target_matches):
+            errors.append("gig approximate Korean-won unit/rate suffix changed")
         if drama_magnitude:
             source_magnitude_order.extend((m.start(), magnitude_index) for m in source_matches)
             target_magnitude_order.extend((m.start(), magnitude_index) for m in target_matches)
@@ -4629,6 +4690,7 @@ def _money_errors(lang: str, source: str, target: str) -> list[str]:
     errors: list[str] = []
     currency_probe = SOURCE_WANTS_PARTICLE.sub(lambda m: " " * len(m.group()), source)
     has_won = bool(KOREAN_WON.search(currency_probe) or _source_money_amounts(source) or source == SOURCE_INSURANCE_SAVED_PAIR
+                   or source in SOURCE_GIG_FEW_THOUSAND_WON
                    or any(pattern.search(source) for pattern, _ in CATALOG_APPROXIMATE_WON))
     expected = REGIONAL_TERMS[lang]["won"]
     wrong_region = REGIONAL_TERMS["zh-TW" if lang == "zh-CN" else "zh-CN"]["won"]
@@ -6651,6 +6713,124 @@ def _restraint_trust_callback_parser_self_test() -> tuple[int, list[str]]:
     return cases, failures
 
 
+def _gig_approximate_money_parser_self_test() -> tuple[int, list[str]]:
+    """Actuals, grammar variants, hostile targets, licence-off and E2E apart."""
+    cases, failures = 0, []
+    sources = {role: source for source, role in SOURCE_GIG_FEW_THOUSAND_WON.items()}
+
+    def check(category: str, lang: str, source: str, target: str, valid: bool) -> None:
+        nonlocal cases
+        cases += 1
+        errors = _numeric_errors(source, target) + _money_errors(lang, source, target)
+        if bool(errors) == valid:
+            failures.append(f"gig {category} expected valid={valid}: {source!r} -> {target!r}: {errors}")
+
+    rows = (
+        ("zh-CN", "rain_seed", "为了多挣几千韩元雨天补贴而奔跑的那些夜晚。\n\n就这样，攒出了最初的本金。\n{name}不为那份迫切羞愧。因为那就是起点。"),
+        ("zh-TW", "rain_seed", "為了多賺幾千韓元的雨天加成，而奔波的夜晚。\n\n那些錢累積起來，成了最初的本金。\n{name}不以那份迫切為恥，因為一切就是從那裡開始的。"),
+        ("zh-CN", "hourly_value", "淋着雨挣来的几千韩元也很珍贵，但现在看的是每小时的价值。\n\n{name}转向了提高劳动单价的方向。"),
+        ("zh-TW", "hourly_value", "淋著雨賺來的幾千韓元也很珍貴，但現在看的是每小時的價值。\n\n{name}轉而往提高勞動單價的方向走。"),
+        ("zh-CN", "injury_opportunity", "受了伤，就有好几天挣不了钱。损失比冒险挣来的几千韩元更大。\n\n{name}早早算清了这笔账。\n那时明白了，鲁莽与勤恳不是一回事。"),
+        ("zh-TW", "injury_opportunity", "受了傷，就有好幾天賺不了錢。那損失，比冒險多賺的幾千韓元還大。\n\n{name}很早就算過這筆帳。\n也是那時，學會了魯莽和勤奮並不一樣。"),
+    )
+    for lang, role, normal in rows:
+        source = sources[role]
+        amount = "几千韩元" if lang == "zh-CN" else "幾千韓元"
+        won = "韩元" if lang == "zh-CN" else "韓元"
+        check("actual", lang, source, normal, True)
+        for equivalent in (amount.replace("几", "数").replace("幾", "數"), amount.replace("千", " 千 "), amount.replace("千", "　千　")):
+            check("natural amount", lang, source, normal.replace(amount, equivalent), True)
+        # These mutations retain all unrelated source/target text. A later
+        # valid amount cannot hide a wrong first amount or changed money unit.
+        for bad in (
+            amount.replace("千", "百"), amount.replace("千", "万"),
+            "1000" + won, "3000" + won, "0" + won, "9999" + won,
+            "−" + amount, "-" + amount, "+" + amount, "負" + amount,
+            "2" + amount, "三" + amount,
+            amount.replace(won, "美元"), amount.replace(won, "人民币"), amount.replace(won, "新臺幣"),
+            amount.replace(won, "公里"), amount.replace(won, "公斤"), amount.replace(won, "元"),
+            amount + "%", amount + "公斤", amount + "小時", amount + "/小时", amount + "／月", amount + "/年",
+            "", amount + amount,
+        ):
+            check("target amount", lang, source, normal.replace(amount, bad), False)
+        for bad in (amount.replace("千", "百"), amount.replace(won, "公里"), amount + "/月", "−" + amount):
+            check("later correct amount", lang, source, normal.replace(amount, bad) + "\n" + amount, False)
+        for changed in ("没有" + normal, "預計" + normal, "其他人" + normal,
+                        normal.replace("\n\n", "\n", 1), normal.replace(amount, "") + "\n" + amount,
+                        normal + "\n" + normal):
+            check("target frame", lang, source, changed, False)
+        if role == "rain_seed":
+            first = "為了在雨天多賺幾千韓元加成而奔波的那些夜晚。" if lang == "zh-TW" else "为了在雨天多赚几千韩元补贴而奔波的那些夜晚。"
+            seed = "那些收入積少成多，成了第一筆啟動資金。" if lang == "zh-TW" else "那些收入积少成多，成了第一笔启动资金。"
+            check("natural role", lang, source, first + "\n\n" + seed + "\n" + normal.split("\n")[3], True)
+            for wrong in ("那些錢還沒有成為本金。", "那些錢將成為最初的本金。", "別人攢出了最初的本金。", "那些錢全都花光了。"):
+                lines = normal.split("\n"); lines[2] = wrong
+                check("seed state", lang, source, "\n".join(lines), False)
+        elif role == "hourly_value":
+            equivalent = normal.replace("淋着雨挣来的", "在雨中赚到的").replace("淋著雨賺來的", "在雨中賺到的").replace("现在看的是", "如今更看重").replace("現在看的是", "如今更看重")
+            check("natural role", lang, source, equivalent, True)
+            for old, new in (("每小时", "每天"), ("每小时", "每分钟"), ("每小時", "每天"), ("每小時", "每分鐘"),
+                             ("也很珍贵", "毫无价值"), ("也很珍貴", "毫無價值"),
+                             ("转向了", "打算转向"), ("轉而往", "打算往")):
+                if old in normal:
+                    check("hourly role", lang, source, normal.replace(old, new), False)
+        else:
+            check("natural role", lang, source, "如果" + normal, True)
+            for old, new in (("受了", "已经受了"), ("受了", "没有受"),
+                             ("好几天", "三天"), ("好幾天", "三天"),
+                             ("挣不了钱", "照样挣钱"), ("賺不了錢", "照樣賺錢"),
+                             ("更大", "更小"), ("還大", "還小")):
+                if old in normal:
+                    check("conditional loss", lang, source, normal.replace(old, new), False)
+        for changed_source in (
+            source.replace("몇천 원", "몇백 원"), source.replace("몇천 원", "몇만 원"),
+            source.replace("몇천 원", "3천 원"), source.replace("몇천 원", "4천 원"),
+            source.replace("몇천 원", "몇천 달러"), source.replace("몇천 원", "매월 몇천 원"),
+            source.replace("{name}", "친구"), source + "\n내일의 계획이었다.",
+        ):
+            cases += 1
+            if changed_source in SOURCE_GIG_FEW_THOUSAND_WON or _gig_few_thousand_role_errors(changed_source, normal):
+                failures.append(f"gig source-off licence escaped: {changed_source!r}")
+            check("source E2E", lang, changed_source, normal, False)
+    # Equivalent prose reported from the first, immutable independent run.
+    # Its hidden adversarial/source inputs are not copied into this self-test.
+    reported_equivalents = (
+        ("zh-CN", "rain_seed", "为了多赚几千韩元的雨天补贴而奔忙的那些夜晚。\n\n这些钱攒在一起，成了最初的本钱。\n{name}并不以那份迫切为耻。那就是起点。"),
+        ("zh-TW", "rain_seed", "那些冒雨奔忙，只為多賺數千韓元雨天加給的夜晚。\n\n一點一滴累積起來，成了第一筆本錢。\n{name}不以那份急切為恥。因為那就是起點。"),
+        ("zh-CN", "hourly_value", "冒雨挣到的几千韩元固然珍贵，如今看重的却是每小时的价值。\n\n{name}转而提高自己劳动的单价。"),
+        ("zh-TW", "hourly_value", "淋著雨賺來的數千韓元也很珍貴，不過現在看的是每小時的價值。\n\n{name}轉向提高勞動單價。"),
+        ("zh-CN", "injury_opportunity", "受伤的话，就有好几天没法挣钱。那损失比冒险挣来的几千韩元更大。\n\n{name}很早就算过这笔账。\n那时就明白了，莽撞和勤勉不是一回事。"),
+        ("zh-TW", "injury_opportunity", "要是受傷，就有好幾天無法賺錢。損失會比冒險賺來的數千韓元還大。\n\n{name}很早就算過這筆帳。\n也在那時學會，魯莽和勤奮並不相同。"),
+    )
+    for lang, role, normal in reported_equivalents:
+        source = sources[role]
+        amount = GIG_FEW_THOUSAND_WON_PATTERN[1].search(normal).group()
+        won = "韩元" if lang == "zh-CN" else "韓元"
+        check("reported natural", lang, source, normal, True)
+        for bad in (amount.replace("千", "百"), "3千" + won, "−" + amount,
+                    amount.replace(won, "公里"), amount + "/月", ""):
+            check("reported-base amount", lang, source, normal.replace(amount, bad), False)
+        for bad in (amount.replace(won, "公斤"), amount.replace("千", "百")):
+            changed = normal.replace(amount, bad).split("\n")
+            changed[0] += normal.split("\n")[0]
+            check("reported-base borrowing", lang, source, "\n".join(changed), False)
+        if role == "rain_seed":
+            changes = (normal.replace("成了", "將成為"), normal.replace("成了", "沒有成為"))
+        elif role == "hourly_value":
+            changes = (normal.replace("每小时", "每天").replace("每小時", "每天"),
+                       normal.replace("转而提高", "打算提高").replace("轉向提高", "打算提高"))
+        else:
+            changes = (normal.replace("受伤的话，", "已经受伤，").replace("要是受傷，", "已經受傷，"),
+                       normal.replace("更大", "更小").replace("還大", "還小"))
+        for changed in changes:
+            check("reported-base role", lang, source, changed, False)
+    for source in ("몇천 원", "비가 왔다.", ""):
+        cases += 1
+        if source in SOURCE_GIG_FEW_THOUSAND_WON or _gig_few_thousand_role_errors(source, "几千韩元"):
+            failures.append(f"gig absent-source licence escaped: {source!r}")
+    return cases, failures
+
+
 def _family_recovery_callback_parser_self_test() -> tuple[int, list[str]]:
     """Three observed contexts, with finite value/role/source-bound witnesses."""
     cases, failures = 0, []
@@ -8293,6 +8473,9 @@ def run_self_test(
     failures: list[str] = []
     cases, life_failures = _life_scene_parser_self_test()
     failures.extend(life_failures)
+    gig_cases, gig_failures = _gig_approximate_money_parser_self_test()
+    cases += gig_cases
+    failures.extend(gig_failures)
     daily_cases, daily_failures = _daily_life_parser_self_test()
     cases += daily_cases
     failures.extend(daily_failures)
