@@ -269,6 +269,7 @@ SOCIAL_COST_COUNTER_KINDS = frozenset({
     "golf_round_fee_range", "luxury_shop_glance", "blind_date_meeting_once", "blind_date_coffee",
 })
 CALLBACK_COUNTER_KINDS = frozenset({
+    "minseo_open_meeting_invitation", "complicated_simultaneous_pair", "complicated_acknowledged_pair",
     "friend_meal_invitation", "friend_contact_reference", "friend_obligatory_meeting",
     "project_cause_pair", "project_mixed_pair", "forgiveness_between_pair", "jeonse_document_sheet",
     "greed_lesson_ordinal",
@@ -458,6 +459,9 @@ SOURCE_PROJECT_MIXED_PAIR = '"해보겠습니다." 했다.\n\n이 기회가 회�
 SOURCE_FORGIVENESS_BETWEEN_PAIR = '민준은 메시지를 읽고, 답하지 않았다.\n\n용서한다고 했고, 그건 거짓말이 아니었다.\n그렇다고 다시 마주 앉아 커피를 마실 만큼은 아니었다.\n\n용서와 화해는 다른 거였다.\n그 둘 사이 어딘가에 서 있는 것도, 틀린 자리는 아니었다.'
 SOURCE_JEONSE_PARTIAL_RETURN = '법률구조공단을 찾아갔다. 확정일자 없으니 후순위 채권자.\n\n결국 보증금 일부만 돌아왔다. 500만 원 손실.\n그 서류 한 장이 얼마나 중요한지, 이제는 뼈로 안다.'
 SOURCE_HOMETAX_REFUND_NOTICE = '홈택스 알림: 환급 예정액 확정.\n\n꼼꼼히 공제를 챙겼던 게 결과로 돌아왔다.'
+SOURCE_MINSEO_OPEN_INVITATION = '"연락 기다렸어요. 언제 한번 봐요."\n\n이민서의 답이 빠르게 왔다.\n\n지갑 속에 석 달째 있던 명함이, 드디어 쓰였다.'
+SOURCE_COMPLICATED_SIMULTANEOUS_PAIR = "두 가지가 동시에"
+SOURCE_COMPLICATED_ACKNOWLEDGED_PAIR = "둘 다 인정한다 — 그게 가장 정직한 것 같다"
 SOURCE_REPEATED_TOPIC_MENTION = "그 일을 한 번 더 꺼냈다"
 SOURCE_OCCASIONAL_ENCOUNTER = "다은이 거리를 둔 지 두 달.\n그사이 어쩌다 한 번씩은 마주쳤다.\n오늘은 그녀가 먼저 말을 걸었다."
 SOURCE_FATHER_PROMISE_TITLE = "아버지에게 한 약속"
@@ -1721,6 +1725,9 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
     # One invitation, its retrospective reference, and one later meeting are
     # distinct slots. A target's 第一次聯絡 must not backfill a missing meeting.
     for raw, fragment, number, kind in (
+        (SOURCE_MINSEO_OPEN_INVITATION, "한번", 1, "minseo_open_meeting_invitation"),
+        (SOURCE_COMPLICATED_SIMULTANEOUS_PAIR, "두 가지", 2, "complicated_simultaneous_pair"),
+        (SOURCE_COMPLICATED_ACKNOWLEDGED_PAIR, "둘 다", 2, "complicated_acknowledged_pair"),
         (SOURCE_FRIEND_CONTACT_REVIEW, "한번", 1, "friend_meal_invitation"),
         (SOURCE_FRIEND_CONTACT_REVIEW, "그 한 번", 1, "friend_contact_reference"),
         (SOURCE_FRIEND_CONTACT_REVIEW, "한 번 의무처럼", 1, "friend_obligatory_meeting"),
@@ -2280,6 +2287,10 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
 def _target_pattern_for_kind(kind: str) -> re.Pattern[str]:
     # The broad witnesses include observed wrong units/actions, so an invalid
     # first clause cannot borrow a later correct number of the same kind.
+    if kind == "minseo_open_meeting_invitation":
+        return re.compile(rf"[見见](?P<state>了|[過过])?(?P<sign>[+＋−﹣－負负-])?\s*(?P<number>{CHINESE_CARDINAL})?(?P<callback_unit>[個个]?面|次|年|公里)")
+    if kind in {"complicated_simultaneous_pair", "complicated_acknowledged_pair"}:
+        return re.compile(rf"(?P<sign>[+＋−﹣－負负-])?\s*(?P<number>{CHINESE_CARDINAL})(?P<callback_unit>件事|者|[個个]人|年|公里)")
     if kind == "friend_meal_invitation":
         return re.compile(rf"吃(?P<state>了|[過过])?(?P<sign>[+＋−﹣－負负-])?\s*(?P<number>{CHINESE_CARDINAL})?(?P<callback_unit>[頓顿]|次|年|公里)(?=[飯饭])")
     if kind == "friend_contact_reference":
@@ -2890,6 +2901,28 @@ def _callback_quantity_valid(kind: str, match: re.Match[str], target: str) -> bo
     if fields.get("sign") or re.search(r"(?:不(?:是)?|沒(?:有)?|没(?:有)?)\s*$", before):
         return False
     unit = fields.get("callback_unit")
+    if kind == "minseo_open_meeting_invitation":
+        # The reply actually arrived, but the quoted invitation has no fixed
+        # day/time or completed meeting. The card's separate month stays with
+        # the existing duration/ordinal parser rather than this singular slot.
+        return not fields.get("state") and unit in {"面", "个面", "個面"} \
+            and bool(re.fullmatch(
+                r'[“「『"](?:我)?一直(?:都)?(?:在)?等(?:着|著)?你(?:[聯联][絡络]|[聯联]系)(?:呢|呀)?[。！!，,]'
+                r'(?:哪天|有空|有[時时][間间]|找[個个][時时][間间])(?:一起)?', before)) \
+            and bool(re.fullmatch(
+                r'(?:吧|好[嗎吗][？?])[。]?[”」』"]\n\nLee\s+Minseo\s*'
+                r'(?:很快|迅速)(?:就)?回[覆复](?:了)?(?:我)?[。.]\n\n'
+                rf'在[錢钱]包[裡里](?:放到第{CHINESE_CARDINAL}[個个]月|放了{CHINESE_CARDINAL}[個个]月)的名片[，,]'
+                r'[終终][於于](?:用上了|派上了用[場场])[。.]', after))
+    if kind == "complicated_simultaneous_pair":
+        return unit in {"件事", "者"} and not before \
+            and bool(re.fullmatch(r"同[時时](?:成立|存在|[為为]真|都是事[實实])[。.]?", after))
+    if kind == "complicated_acknowledged_pair":
+        if unit not in {"件事", "者"}:
+            return False
+        reason = r"[—－-]{1,2}[這这](?:[樣样])?(?:似乎|好像)(?:是)?最[誠诚][實实][。.]?"
+        return (not before and bool(re.fullmatch(r"都承[認认]" + reason, after))) \
+            or (bool(re.fullmatch(r"承[認认](?:[這这])?", before)) and bool(re.fullmatch(reason, after)))
     if kind == "friend_meal_invitation":
         return not fields.get("state") and unit in {"頓", "顿"} \
             and bool(re.fullmatch(r"主[動动](?:[發发]去一句|[聯联][絡络][，,][說说]了)[“『](?:喂|欸)[，,](?:一起)?", before)) \
@@ -3645,7 +3678,7 @@ def _match_target_counter_quantities(
                 # 一眼 is a glance after a seeing verb, not one physical eye.
                 continue
             value = _chinese_cardinal_value(match.group("number") or "")
-            if expected.kind in {"friend_meal_invitation", "jeonse_document_sheet"} and not match.group("number"):
+            if expected.kind in {"friend_meal_invitation", "jeonse_document_sheet", "minseo_open_meeting_invitation"} and not match.group("number"):
                 value = Decimal(1)
             if expected.kind in {"repeated_topic_mention", "occasional_encounter"} and not match.group("number"):
                 value = Decimal(1)
@@ -6821,6 +6854,98 @@ def _investment_mistake_parser_self_test() -> tuple[int, list[str]]:
     return cases, failures
 
 
+def _minseo_complicated_callback_parser_self_test() -> tuple[int, list[str]]:
+    """Three observed leaves; source-scope probes are not semantic rejection."""
+    cases, failures = 0, []
+
+    def check(source: str, target: str, valid: bool, label: str) -> None:
+        nonlocal cases
+        cases += 1
+        errors = _numeric_errors(source, target)
+        if bool(errors) == valid:
+            failures.append(f"minseo/complicated {label} expected {valid}: {target!r}: {errors}")
+
+    invitations = (
+        '“一直等着你联系呢。哪天见个面吧。”\n\nLee Minseo很快就回复了。\n\n在钱包里放到第三个月的名片，终于用上了。',
+        '「我一直在等你聯絡呢。有空見個面吧。」\n\nLee Minseo 很快就回覆了。\n\n在錢包裡放了三個月的名片，終於派上了用場。',
+    )
+    for target in invitations:
+        source = SOURCE_MINSEO_OPEN_INVITATION
+        check(source, target, True, "actual invitation")
+        verb, classifier = ("见", "个") if "见" in target else ("見", "個")
+        span = verb + classifier + "面"
+        for replacement in (verb + "一面", verb + "一" + classifier + "面"):
+            check(source, target.replace(span, replacement), True, "singular classifier variant")
+        period = "哪天" if "哪天" in target else "有空"
+        check(source, target.replace(period, "有時間"), True, "indefinite availability variant")
+        for replacement in (verb + "两面", verb + "三面", verb + "−" + classifier + "面",
+                            verb + "+" + classifier + "面", verb + "了" + classifier + "面",
+                            verb + "過" + classifier + "面", verb + "一年", verb + "一公里",
+                            "不" + span, "没有" + span, "已經" + span, "約定" + span, ""):
+            check(source, target.replace(span, replacement), False, "invitation value/unit/state")
+        for fixed in ("明天", "星期二", "周二19点", "每週", "確定週末"):
+            check(source, target.replace(period, fixed), False, "no invented fixed appointment")
+        check(source, target.replace(span, verb + "一公里，" + span), False, "wrong unit before normal")
+        check(source, target.replace(span, "不" + span + "，" + span), False, "negative before normal")
+        check(source, target.replace("Lee Minseo", "Kim Minjun"), False, "reply speaker")
+        check(source, target.replace("很快", "沒有"), False, "reply not received")
+        check(source, target.replace("\n\n", "\n", 1), False, "reply paragraph boundary")
+        check(source, target + "\n" + target.split("\n")[0], False, "later invitation duplicate")
+        lines = target.split("\n")
+        lines[0], lines[2] = lines[2], lines[0]
+        check(source, "\n".join(lines), False, "reply/invitation displaced")
+        check(source, target.replace("三", "四"), False, "card interval preserved")
+        check(source, target + "约好了明天见。", False, "no fixed appointment in card paragraph")
+        check(source, target.replace("名片", "合约"), False, "card not contract")
+
+    for source, targets in (
+        (SOURCE_COMPLICATED_SIMULTANEOUS_PAIR, ("两件事同时成立", "兩件事同時存在")),
+        (SOURCE_COMPLICATED_ACKNOWLEDGED_PAIR, ("两者都承认——这样似乎最诚实", "兩件事都承認——這樣似乎最誠實")),
+    ):
+        for target in targets:
+            check(source, target, True, "actual conceptual pair")
+            span = "两件事" if "两件事" in target else "兩件事" if "兩件事" in target else "两者"
+            check(source, target.replace(span, "二者"), True, "concept classifier variant")
+            check(source, target.replace(span, "二件事"), True, "explicit two variant")
+            for replacement in ("一件事", "三件事", "两个人", "两年", "两公里", "−" + span,
+                                "+" + span, "不是" + span, "没有" + span, "将来" + span, ""):
+                check(source, target.replace(span, replacement), False, "pair value/unit/polarity")
+            check(source, target.replace(span, "两公里，" + span), False, "wrong pair before normal")
+            check(source, target + "。" + target, False, "duplicate pair")
+            check(source, target + "\n", False, "extra paragraph")
+            if source == SOURCE_COMPLICATED_SIMULTANEOUS_PAIR:
+                check(source, target.replace("同时", "先后").replace("同時", "先後"), False, "not sequential")
+                check(source, target.replace("同时", "同时不").replace("同時", "同時不"), False, "not negated coexistence")
+            else:
+                verb = "承认" if "承认" in target else "承認"
+                check(source, target.replace(span + "都" + verb, verb + span), True, "verb-first acknowledgment")
+                check(source, target.replace("承认", "拒绝").replace("承認", "拒絕"), False, "acknowledgment not refusal")
+                check(source, target.replace("承认", "不承认").replace("承認", "不承認"), False, "acknowledgment polarity")
+                check(source, target.replace("似乎", "肯定"), False, "tentative evaluation retained")
+
+    # Changed Korean frames must not receive these new licences. This assertion
+    # intentionally does not claim that every uncounted source mutation is
+    # rejected end-to-end by the older generic quantity checker.
+    new_kinds = {"minseo_open_meeting_invitation", "complicated_simultaneous_pair", "complicated_acknowledged_pair"}
+    for source in (SOURCE_MINSEO_OPEN_INVITATION, SOURCE_COMPLICATED_SIMULTANEOUS_PAIR, SOURCE_COMPLICATED_ACKNOWLEDGED_PAIR):
+        changes = ["다른 장면. " + source, source + "\n", source.replace("한번", "두 번").replace("두 가지", "세 가지").replace("둘 다", "셋 다")]
+        changes.append(source.replace("이민서", "김민준") if "이민서" in source else source.replace("동시에", "차례로").replace("인정한다", "인정하지 않는다"))
+        for changed in changes:
+            cases += 1
+            if changed == source or any(q.kind in new_kinds for q in _source_counter_quantities(changed)):
+                failures.append("minseo/complicated source licence escaped: " + changed)
+    # Unlike the scope-only assertions above, these six changed Korean counts
+    # are also checked end-to-end against the unchanged regional target text.
+    for changed, targets in (
+        (SOURCE_MINSEO_OPEN_INVITATION.replace("한번", "두 번"), invitations),
+        (SOURCE_COMPLICATED_SIMULTANEOUS_PAIR.replace("두 가지", "세 가지"), ("两件事同时成立", "兩件事同時存在")),
+        (SOURCE_COMPLICATED_ACKNOWLEDGED_PAIR.replace("둘 다", "셋 다"), ("两者都承认——这样似乎最诚实", "兩件事都承認——這樣似乎最誠實")),
+    ):
+        for target in targets:
+            check(changed, target, False, "changed source count end-to-end")
+    return cases, failures
+
+
 def _friend_work_callback_parser_self_test() -> tuple[int, list[str]]:
     """Six observed source leaves; machine frames, not a prose certificate."""
     cases, failures = 0, []
@@ -7671,6 +7796,9 @@ def run_self_test(
     friend_work_cases, friend_work_failures = _friend_work_callback_parser_self_test()
     cases += friend_work_cases
     failures.extend(friend_work_failures)
+    minseo_pair_cases, minseo_pair_failures = _minseo_complicated_callback_parser_self_test()
+    cases += minseo_pair_cases
+    failures.extend(minseo_pair_failures)
     mistake_cases, mistake_failures = _investment_mistake_parser_self_test()
     cases += mistake_cases
     failures.extend(mistake_failures)

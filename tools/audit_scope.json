@@ -340,7 +340,8 @@
         "docs/queue_active/ORDER-198.md",
         "docs/queue_active/ORDER-199.md",
         "docs/queue_active/ORDER-200.md",
-        "docs/queue_active/ORDER-201.md"
+        "docs/queue_active/ORDER-201.md",
+        "docs/queue_archive/ORDER-201_L1_L2_RESULTS.md"
       ],
       "tools": [
         "tools/full_game_localization_self_test.py",

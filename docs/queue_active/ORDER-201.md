@@ -75,6 +75,12 @@ zh-TW 2487B SHA `1c66e9fca1599dd748c9f35d88890b3084730327a419715b95c80fc57464a6e
   그 영수증이 있는 V2 경로에서는 asked가 빠지며 모든 세이브에서 미도달이라고 단정하지 않는다.
 - story_rules의 communication coverage_targets에는 asked/news/knows_dad 세 ID 참조도 있다.
   이 목록 참조를 위 source deferred edge나 직접 runtime 호출 수에 합산하지 않는다.
+- 값 참조와 별도로 metadata의 ID key12도 원문 대조했다.
+  exposed_event_state_contracts의 state_sensitive5(daily/begged/gangnam/married/investment)와
+  investment required_layer1은 현재주거의 장면·시각·소리를 보존한다.
+  story_rules presentation6은 asked/news의 아버지전화, knows의 상철전화,
+  begged의 혼자회상, daily의 실제다은방문, investment의 상철목소리기억이다.
+  일반 metadata consumer가 읽는 이 계약을 직접 ID runtime호출0과 혼동하지 않는다.
 - 출력flag2(contacted_minseo·thought_about_after), 외부 event조건독자0.
   외부 known독자4문구/2root:
   arc_minseo_03_arrival와 arc_minseo_03b_not_arrived의 각 두 변형.
@@ -196,3 +202,9 @@ named full-game-localization-overlays --list 뒤 선택12·EN·diff·전량수�
 전체 INCOMPLETE·full/main/product HOLD·L3/원어민/화면 OPEN.
 출시 M01~M06 BUILD2026.08.31.1 사용자 GO 유지.
 이 문서는 일회성 범위이며 지속 규칙의 소유자는 I18N_INFRASTRUCTURE/용어집이다.
+
+## 수용 결과 — L1/L2 완료, L3 OPEN
+
+신규270·누적25,080 번역과 기존24,810/meta9 보존을 확인했다.
+[완료 상세·지문·검사 경계](../queue_archive/ORDER-201_L1_L2_RESULTS.md)에
+위 결과 원문을 이동한다. 이 사양과 큐 [~]·L3 OPEN은 유지한다.
