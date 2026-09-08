@@ -146,6 +146,34 @@ class ExchangeTests(unittest.TestCase):
                                 'event_standard')
             self.assertTrue(tool.translation_errors(changed, 'ja', good))
 
+    def test_callback_japanese_implicit_equity_value_keeps_won_and_context(self):
+        for source, good in (('합류한 지 1년이 됐다.\n몸은 많이 소모됐다. 근데 서비스는 커졌다.\n공동창업자가 불렀다. "민준아, 우리 A라운드 들어왔어. 네 지분 가치 지금 1억 2천이야."', '加わってから1年が経った。\n体はずいぶんすり減った。それでもサービスは成長した。\n共同創業者に呼ばれた。「ミンジュン、シリーズAの資金が入った。今、お前の持分価値は1億2000万ウォンだ」'), ('"더 키우자. 엑싯은 아직 이르다."\n월급을 올렸다. 지분도 지켰다.\n1억 2천이 이제 시작이다.', '「もっと大きくしよう。エグジットにはまだ早い」\n給料を上げた。持分も守った。\n1億2000万ウォンは、まだ始まりだ。')):
+            leaf = tool.Leaf('events', 'callback_startup_grind_result',
+                             'content/events/callback_events_2.json',
+                             ('description',), source, 'event_standard')
+            self.assertEqual(tool.translation_errors(leaf, 'ja', good), [])
+            for wrong in (good.replace('1億2000万', '1億3000万'),
+                          good.replace('1億2000万', '1億2000'),
+                          good.replace('1億2000万', '-1億2000万'),
+                          good.replace('ウォン', '円'),
+                          good.replace('ウォン', 'ウォン円'),
+                          good + good):
+                self.assertTrue(tool.translation_errors(leaf, 'ja', wrong), wrong)
+            for suffix in ('/月', '/週', '/分', '程度', '（年）', '以上', '未満', 'ではない'):
+                self.assertTrue(tool.translation_errors(
+                    leaf, 'ja', good.replace('ウォン', 'ウォン' + suffix)), suffix)
+            changed = tool.Leaf('events', 'callback_startup_grind_result',
+                                'content/events/callback_events_2.json',
+                                ('description',), source.replace('1억 2천', '1억 3천'),
+                                'event_standard')
+            self.assertTrue(tool.translation_errors(changed, 'ja', good))
+            lines = good.split('\n')
+            lines[0], lines[-1] = lines[-1], lines[0]
+            self.assertTrue(tool.translation_errors(leaf, 'ja', '\n'.join(lines)))
+        unrelated = tool.Leaf('events', 'example', 'content/events/callback_events_2.json',
+                              ('description',), '1억 2천 걸음이다.', 'event_standard')
+        self.assertTrue(tool.translation_errors(unrelated, 'ja', '1億2000万歩だ。'))
+
     def test_creator_japanese_news_age_group_is_not_calendar_year(self):
         source = '포털 뉴스에 링크가 올라왔다.\n"2030 공감 유발 콘텐츠로 화제"'
         good = 'ポータルサイトのニュースにリンクが載った。\n「20・30代の共感を呼ぶコンテンツとして話題」'

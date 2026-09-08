@@ -460,7 +460,10 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
             if (source_numbers[amount.start:amount.end].endswith('원')
                 and re.search(r'\d+\s*[천백]|\d+,\d{3}|\d{4,}원|오천\s*원', source_numbers[amount.start:amount.end]))
             or (re.fullmatch(r'6억\s+8천', source_numbers[amount.start:amount.end])
-                and source_numbers[:amount.start].endswith('분양가 '))]
+                and source_numbers[:amount.start].endswith('분양가 '))
+            or (re.fullmatch(r'1억\s+2천', source_numbers[amount.start:amount.end])
+                and (source_numbers[:amount.start].endswith('네 지분 가치 지금 ')
+                     or source_numbers[amount.end:].startswith('이 이제 시작이다.')))]
         mixed_target = list(re.finditer(
             r"[+-]?\d+(?:,\d{3})*(?:億\s*\d+(?:,\d{3})*)?(?:(?:千万|万|千)(?:\d+(?:,\d{3})*)?)?ウォン(?!\s*(?:円|韓元|韩元|元|ドル|ウォン|[%％‰‱万萬億亿兆千百倍]))", target_numbers,
         ))
@@ -488,7 +491,11 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
                         and not _has_numeric_sign_prefix(target_numbers, candidate.start()) \
                         and not re.match(r"\s*[（(]\s*(?:円|ドル|元|人民元|韓元|韩元|ウォン)\s*[）)]", target_numbers[candidate.end():]) \
                         and not (re.fullmatch(r'6억\s+8천', source_numbers[amount.start:amount.end])
-                            and re.match(r'\s*[（(]\s*(?:月|年|日|時間)\s*[）)]', target_numbers[candidate.end():])):
+                            and re.match(r'\s*[（(]\s*(?:月|年|日|時間)\s*[）)]', target_numbers[candidate.end():])) \
+                        and not (re.fullmatch(r'1억\s+2천', source_numbers[amount.start:amount.end])
+                            and (source_numbers.count('\n', 0, amount.start) != target_numbers.count('\n', 0, candidate.start())
+                                 or re.match(r'\s*(?:ではない|未満|以上|以下|程度|[/／]\s*(?:月|年|日|時間|週|分)|'
+                                             r'[（(]\s*(?:月|年|日|時間)\s*[）)])', target_numbers[candidate.end():]))):
                     found = candidate
                     break
             if found is None:

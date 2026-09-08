@@ -185,3 +185,47 @@ named full-game-localization-overlays --list 뒤 선택12검사·EN·diff·전�
 
 이 범위·배치·증거 절차는 일회성이다. 지속 규칙은 I18N_INFRASTRUCTURE와
 언어별 용어집이 소유하며 새 서사·제품·출시 규칙을 만들지 않는다.
+
+## 수용 결과 — 600번역·L1/L2, L3 OPEN
+
+- 선언 faf74fa75ce761ab5a664c86da30e28508199a13 commit/push 뒤 initial source6
+  (A103행/B99행, 새200leaf·previous null)을 저작 전에 보존했다.
+  세 작성자가 KO에서 독립 저작하고 다른 검토자/ROOT가600문구 전부를 대조했다.
+  영어 중역·간번 자동변환·gameplay 복사0이다.
+- A의 기존4행25leaf는 세 언어 모두 값·순서·원형 prefix를 보존했다.
+  CN의 기존 inline 선택 형식도 재포맷하지 않았다. 새 A17/B16행만 KO 상대순서로
+  저작했고 각67선택·실제 LF235·{name}4·:)2를 보존했다.
+  기존17,586번역·메타9·batch39를 보존해18,186(언어별6,062),
+  events661종4,994문구·endings35종234·catalog834씩, batch40이다.
+- 독립 L2는 JA200 필수2/정밀1, CN200 필수1/정밀2, ROOT TW200 정밀1을
+  반영했다. 혐의 구속/분기배당/제시간, 덜 다침/현재 소재/감사 내면을 바로잡았다.
+  별도 검토자가 수정7leaf를 KO와 재대조하고 역치환 전파일 SHA와 records로
+  JA197/CN197/TW199의 동결 원형을 증명했다. 자가 검토는 독립 L2가 아니다.
+- JA는 두 실제 '1억 2천'을 지분가치1억2000만 원에 결속했다. 값·단위·부호·
+  문단·원문경계·후행 기간/범위 검사와 독립 지정34를 확인했다.
+  새 허용면에서 발견한 /週·/分·程度 6쌍도 같은 문맥에서 차단했다.
+  ZH는 미수신3회·2차노래방/KTV·수천만원·두번째제안·너와나2의 실제 오탐만
+  수리했다. 근사원화의 잘못된 거리 단위가 뒤 정상금액을 차용하는 틈도 닫았다.
+  full self190/ZH self4991(신규125)와 독립 ZH 지정40이 PASS다.
+  전역 의미 인증이나 사람 판정은 아니다.
+- 최종 source/response/accepted receipt6쌍을 initial source와 원문 hash로 결속했다.
+  실물600 L1 오류0·check/import --accept changed_files0이다.
+  final200-record aggregate JA `1464f2fcb540a77078762d3cbeda4bd41749d208f3891deb16748d5c263c4194`,
+  CN `74851172568880e334453be027ff36f55696a5fccf33df331f8648089b814f2c`,
+  TW `00bd07aa894582ba285b6ace2a616ac2d5fb4261fea4358be801ba2e0668c31d`.
+- 완료185 WORK_LOG절1,183bytes SHA
+  `80c40fc3c481415dc75ebbdff9046036d3940bff2d467d456aae81dc41567268`만
+  기존 history36,798bytes 앞으로 원문 이동했다. 새37,981bytes SHA
+  `787bfeb2b9357a056281406f799db45fc66ccd2fd1bfd16445f289d41d1136d8`.
+  기존 내용·끝 LF2는 byte-exact 보존, 검수행은 같은 활성 이어보기 [~]·L3 OPEN이다.
+- 미독/무응답·실제통화·선발신/읽음·약속/실제동석·평가액/현금·미해결기회를
+  구분했다. 원문 시간·주거·효과금액·커피회고의 부채는 번역으로 수리0.
+  KO/EN·runtime·공개·fonts·save·human_gates 변경0, 원본 checkout 쓰기0.
+  전체 INCOMPLETE·full/main/product HOLD·원어민/화면 OPEN,
+  출시 M01~M06 사용자 GO 유지. 자동 검사는 사람 판정 대체물이 아니다.
+- portable checksum `abe1e939232ac40a9b5d8ed458466daf1541202fa71efb42b12d68b8dae65837`.
+- 최종 named `full-game-localization-overlays` 12검사·EN·diff PASS,
+  전량18,186의 source/target hash·L1과 기존17,586/meta9/batch39 보존 PASS다.
+  실제 stdout `order188-final-checks.log`는 private evidence에4682bytes SHA
+  `8f206bf602f5f9b715986ac97e7834af8af826de2a8e8e8e6dbb3e6b04351ee4`로 byte-exact 보존했다.
+  원어민/화면·실플레이를 실행하거나 전체판 승인을 판정한 것은 아니다.

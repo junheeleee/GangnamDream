@@ -264,7 +264,10 @@ SOCIAL_COST_COUNTER_KINDS = frozenset({
     "hotel_price_night", "omakase_rate_person", "golf_hole_count", "golf_round_count",
     "golf_round_fee_range", "luxury_shop_glance", "blind_date_meeting_once", "blind_date_coffee",
 })
-LIFE_SCENE_COUNTER_KINDS = WORK_SCENE_COUNTER_KINDS | SPENDING_SCENE_COUNTER_KINDS | FAMILY_SCENE_COUNTER_KINDS | MEDIA_SCENE_COUNTER_KINDS | HIDDEN_SCENE_COUNTER_KINDS | PROLOGUE_COUNTER_KINDS | DRAMA_COUNTER_KINDS | CREATOR_COUNTER_KINDS | DAILY_MOMENT_COUNTER_KINDS | SOCIAL_COST_COUNTER_KINDS | frozenset({
+CALLBACK_COUNTER_KINDS = frozenset({
+    "unanswered_call_rings", "karaoke_afterparty_round", "taeho_offer_ordinal", "shared_coin_loss_pair",
+})
+LIFE_SCENE_COUNTER_KINDS = WORK_SCENE_COUNTER_KINDS | SPENDING_SCENE_COUNTER_KINDS | FAMILY_SCENE_COUNTER_KINDS | MEDIA_SCENE_COUNTER_KINDS | HIDDEN_SCENE_COUNTER_KINDS | PROLOGUE_COUNTER_KINDS | DRAMA_COUNTER_KINDS | CREATOR_COUNTER_KINDS | DAILY_MOMENT_COUNTER_KINDS | SOCIAL_COST_COUNTER_KINDS | CALLBACK_COUNTER_KINDS | frozenset({
     "remaining_four_month", "job_posting_count", "egg_count", "task_count",
     "rental_home_ordinal", "mirror_glance", "gangnam_attempt",
     "university_year", "restaurant_per_person", "underground_exit",
@@ -422,7 +425,7 @@ TARGET_RHETORICAL_WON = re.compile(r"(?:每一|任何)(?:韩元|韓元)")
 # of-millions contract or several-trillion deal into a made-up exact amount.
 CATALOG_APPROXIMATE_WON = (
     (re.compile(r"(?<![가-힣])몇백만원|(?<=입문 비용만 )수백(?=\.)"), re.compile(r"[幾几數数]百[萬万](?:韩元|韓元)")),
-    (re.compile(r"(?<=예단만 )수천만"), re.compile(r"[幾几數数]千[萬万](?:韩元|韓元)")),
+    (re.compile(r"(?<=예단만 )수천만|(?<=오늘 )수천만원(?=을 지켰다\.)"), re.compile(r"[幾几數数]千[萬万](?:韩元|韓元)")),
     (re.compile(r"(?<![가-힣])억대(?= 계약|지만, 실패하면 백수다\.)"), re.compile(r"(?:上[亿億]|[数數][亿億])(?:韩元|韓元)")),
     (re.compile(r"(?<=자산 )수십억(?=이라고 했다\.)"), re.compile(r"[幾几數数]十[亿億](?:韩元|韓元)")),
     (re.compile(r"(?<![가-힣])수백억(?= EXIT)"), re.compile(r"[数數]百[亿億](?:韩元|韓元)")),
@@ -1233,6 +1236,8 @@ def _chinese_cardinal_value(raw: str) -> Decimal | None:
 
 def _ordinal_kind(source: str, end: int) -> str:
     following = source[end:].lstrip()
+    if source.startswith("태호의 ") and following == "제안":
+        return "taeho_offer_ordinal"
     if following.startswith("집을 계약한다."):
         return "rental_home_ordinal"
     if re.match(r"장(?=$|[\s.,!?…]|[은는이가의를와도]|에는|에서)", following):
@@ -1252,6 +1257,10 @@ def _source_counter_kind(
 ) -> str:
     following = source[match.end():].lstrip()
     preceding = source[max(0, match.start() - 120):match.start()]
+    if counter == "번" and preceding.endswith("신호가 ") and following.startswith("갔다.\n받지 않았다."):
+        return "unanswered_call_rings"
+    if counter == "차" and preceding.endswith("비워진 잔이 다시 채워졌다. ") and following.startswith("노래방에서는 마이크가 세 번 돌아왔다."):
+        return "karaoke_afterparty_round"
     if counter == "줄" and match.group("number") == "칠" and preceding.endswith("골프 ") and following.startswith("알아?"):
         return ""  # 칠 줄 알아 asks whether one can play, not seven lines.
     if counter == "번" and preceding.endswith("라운딩 ") and following.startswith("에 이삼십만원."):
@@ -2047,6 +2056,9 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
         if match.group("number") == "둘" and source[:match.start()].endswith("서로 노출이 되면 ") \
                 and source[match.end():].startswith(" 다 좋죠."):
             kind = "collab_both"
+        if match.group("number") == "둘" and source[:match.start()].endswith("너랑 나랑 ") \
+                and source[match.end():].startswith(" 다 잃었잖아. 이번엔 진짜 그만해."):
+            kind = "shared_coin_loss_pair"
         if re.search(r'매물\s+$', source[:match.start()]) and source[match.end():].startswith(' 가운데'):
             kind = 'property_listing_count'
         if match.group("number") == "둘" and re.match(r' 중 하나(?:다|였다)', source[match.end():]):
@@ -2101,6 +2113,14 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
 def _target_pattern_for_kind(kind: str) -> re.Pattern[str]:
     # The broad witnesses include observed wrong units/actions, so an invalid
     # first clause cannot borrow a later correct number of the same kind.
+    if kind == "unanswered_call_rings":
+        return re.compile(rf"[響响]了(?P<sign>[+＋−﹣－負负-])?\s*(?P<number>{CHINESE_CARDINAL})(?P<callback_unit>[聲声]|次|年|公里)")
+    if kind == "karaoke_afterparty_round":
+        return re.compile(rf"第(?P<sign>[+＋−﹣－負负-])?\s*(?P<number>{CHINESE_CARDINAL})(?P<callback_unit>[攤摊輪轮]|年|公里)(?=(?:去了KTV|到了歡唱包廂))")
+    if kind == "taeho_offer_ordinal":
+        return re.compile(rf"第(?P<sign>[+＋−﹣－負负-])?\s*(?P<number>{CHINESE_CARDINAL})(?P<callback_unit>[個个]|次|年|公里)(?=提[議议])")
+    if kind == "shared_coin_loss_pair":
+        return re.compile(rf"(?P<frame>咱[們们])?(?P<sign>[+＋−﹣－負负-])?\s*(?:(?P<implicit>倆|俩|仨|你跟我|你跟他)|(?P<number>{CHINESE_CARDINAL})(?P<callback_unit>[個个]?人|年|公斤|公里))(?P<state>不是都|不都|都沒|都没|都)?(?P<loss>[賠赔](?:了|光|[錢钱])*)(?P<question>[嗎吗])?")
     if kind == "wedding_envelope_rate":
         return re.compile(rf"每(?P<sign>[+＋−﹣－負负-])?\s*(?P<number>{CHINESE_CARDINAL})?(?P<social_unit>份|[張张]|人|年|公斤)(?=至少)")
     if kind == "wedding_attended_friend":
@@ -2633,6 +2653,31 @@ def _target_pattern_for_kind(kind: str) -> re.Pattern[str]:
     )
 
 
+def _callback_quantity_valid(kind: str, match: re.Match[str], target: str) -> bool:
+    before, after = target[:match.start()], target[match.end():]
+    fields = match.groupdict()
+    if fields.get("sign") or re.search(r"(?:不(?:是)?|沒(?:有)?|没(?:有)?)\s*$", before):
+        return False
+    unit = fields.get("callback_unit")
+    if kind == "unanswered_call_rings":
+        return unit in {"聲", "声", "次"} and bool(re.match(r"[。.!]\n(?:沒有接|没有接|沒有人接|没有人接)[。.!]", after))
+    if kind == "karaoke_afterparty_round":
+        return unit in {"攤", "摊", "輪", "轮"} and bool(re.match(r"(?:去了KTV|到了歡唱包廂)[，,]", after))
+    if kind == "taeho_offer_ordinal":
+        return unit in {"個", "个", "次"} and bool(re.search(r"Taeho\s*的\s*$", before)) \
+            and bool(re.fullmatch(r"提[議议]", after))
+    if kind == "shared_coin_loss_pair":
+        implicit = fields.get("implicit")
+        people = (implicit in {"倆", "俩"} and bool(fields.get("frame"))) or implicit == "你跟我" \
+            or (not implicit and unit in {"個人", "个人", "人"} and (bool(fields.get("frame")) or bool(re.search(r"我[們们]$", before))))
+        # 不都…嗎 / 不是都…嗎 are the source's affirmative rhetorical question,
+        # not permission to change it into a statement that neither person lost.
+        return people and fields.get("state") in {"不都", "不是都"} \
+            and fields.get("loss") in {"賠了", "赔了", "賠了錢", "赔了钱"} \
+            and bool(fields.get("question")) and bool(re.match(r"[。.!？?]", after))
+    return False
+
+
 def _social_cost_quantity_valid(kind: str, match: re.Match[str], target: str) -> bool:
     before, after = target[:match.start()], target[match.end():]
     fields = match.groupdict()
@@ -3041,6 +3086,8 @@ def _match_target_counter_quantities(
                 continue
             if expected.kind in SOCIAL_COST_COUNTER_KINDS and not _social_cost_quantity_valid(expected.kind, match, target):
                 continue
+            if expected.kind in CALLBACK_COUNTER_KINDS and not _callback_quantity_valid(expected.kind, match, target):
+                continue
             if expected.kind in LIFE_SCENE_COUNTER_KINDS:
                 number_start = match.start("number") if match.group("number") else match.start()
                 if expected.kind in {"exam_countdown", "video_view_count", "viral_view_over_count", "viral_subscriber_count", "approx_comment_count", "creator_counter_subscriber_delta"}:
@@ -3195,6 +3242,8 @@ def _match_target_counter_quantities(
                 # 一眼 is a glance after a seeing verb, not one physical eye.
                 continue
             value = _chinese_cardinal_value(match.group("number") or "")
+            if expected.kind == "shared_coin_loss_pair" and match.groupdict().get("implicit"):
+                value = Decimal(2)
             if expected.kind in SOCIAL_COST_COUNTER_KINDS and (not match.group("number") or expected.kind == "golf_round_fee_range"):
                 value = Decimal(1)
             if expected.kind == "birthday_greeting_people_range":
@@ -3685,7 +3734,15 @@ def _numeric_errors(source: str, target: str) -> list[str]:
     approximate_labels = 0
     approximate_source = source
     approximate_target = target
-    drama_magnitude = bool(re.search(r"억대지만, 실패하면 백수다\.|자산 수십억이라고 했다\.|입문 비용만 수백\. 라운딩 한 번에 이삼십만원\.", source))
+    callback_magnitude = bool(re.search(r"(?<=오늘 )수천만원(?=을 지켰다\.)", source))
+    drama_magnitude = callback_magnitude or bool(re.search(r"억대지만, 실패하면 백수다\.|자산 수십억이라고 했다\.|입문 비용만 수백\. 라운딩 한 번에 이삼십만원\.", source))
+    if callback_magnitude:
+        # An earlier saved distance/weight cannot borrow a later valid won
+        # magnitude. This witness belongs only to the observed money-saving
+        # callback, not every approximate number in Chinese prose.
+        for witness in re.finditer(r"(?:保住了|守住了)[幾几數数](?:百|千)[萬万](?P<unit>[韓韩]元|公里|公斤|年|[個个]月|人)", target):
+            if witness.group("unit") not in {"韓元", "韩元"}:
+                errors.append("callback saved-money magnitude unit changed")
     source_magnitude_order, target_magnitude_order = [], []
     for magnitude_index, (source_pattern, target_pattern) in enumerate(CATALOG_APPROXIMATE_WON):
         source_matches = list(source_pattern.finditer(source))
@@ -3696,6 +3753,8 @@ def _numeric_errors(source: str, target: str) -> list[str]:
             if any(re.match(r"\s*(?:[%％‰倍年月天日人位]|[個个]月|公里|米|小時|小时|分鐘|分钟|秒)", target[m.end():])
                    for m in target_matches):
                 errors.append("drama approximate Korean-won unit suffix changed")
+            if callback_magnitude and any(re.match(r"\s*(?:公斤|[/／]\s*(?:月|年|天|人))", target[m.end():]) for m in target_matches):
+                errors.append("callback approximate Korean-won unit suffix changed")
         if any(re.search(r"[+\-−﹣－負负]\s*$", source[:m.start()]) for m in source_matches) \
                 or any(re.search(r"[+\-−﹣－負负]\s*$", target[:m.start()]) for m in target_matches):
             errors.append("signed approximate Korean-won amount is unsupported")
@@ -3857,6 +3916,11 @@ def _money_errors(lang: str, source: str, target: str) -> list[str]:
 
 def _untranslated_english_errors(source: str, target: str, *, catalog: bool = False) -> list[str]:
     scrubbed = PLACEHOLDER.sub(" ", target)
+    if re.search(r"(?<=2차 )노래방(?=에서는 마이크가 세 번 돌아왔다\.)", source):
+        # KTV and 歡唱包廂 are both natural renderings of this karaoke venue;
+        # the Latin option is bounded, not mandatory or globally permitted.
+        for match in reversed(_bounded_latin_matches(scrubbed, "KTV")):
+            scrubbed = scrubbed[:match.start()] + " " + scrubbed[match.end():]
     if source == "다른 플랫폼(숏폼/인스타)을 병행한다.":
         matches = _bounded_latin_matches(scrubbed, "Instagram")
         if not matches:
@@ -5604,6 +5668,88 @@ def _drama_parser_self_test() -> tuple[int, list[str]]:
     return cases, failures
 
 
+def _callback_parser_self_test() -> tuple[int, list[str]]:
+    """Five observed callback meanings; no general narrative approval."""
+    cases, failures = 0, []
+
+    def check(source: str, target: str, valid: bool) -> None:
+        nonlocal cases
+        cases += 1
+        lang = "zh-TW" if "韓元" in target else "zh-CN"
+        errors = _numeric_errors(source, target) + _money_errors(lang, source, target) + _untranslated_english_errors(source, target)
+        if bool(errors) == valid:
+            failures.append(f"callback expected valid={valid}: {source!r} -> {target!r}: {errors}")
+
+    ring = "신호가 세 번 갔다.\n받지 않았다.\n문자가 왔다. '잘 지내요 :)'\n그 이모티콘이 이상하게 오래 눈에 남았다."
+    party = '비워진 잔이 다시 채워졌다. 2차 노래방에서는 마이크가 세 번 돌아왔다.\n"역시 믿을 만하다"는 말을 들었다.\n새벽 택시 창에 붉어진 얼굴이 비쳤고, 다음 날 오전 알람은 두 번이나 껐다.'
+    pair = '"너랑 나랑 둘 다 잃었잖아. 이번엔 진짜 그만해."\n태호가 "...알겠어" 했다.\n믿어야 할지 모르겠다. 근데 할 말은 했다.'
+    magnitude = "손을 뺐다.\n나중에 알고 보니 전형적인 '급매 사기'였다.\n그날 카페에서 귀를 열어뒀던 게, 오늘 수천만원을 지켰다."
+    rows = (
+        (ring, "响了三声。\n没有接。\n短信来了。“好好生活 :)”\n那个表情，不知为什么，在眼前留了很久。", "unanswered_call_rings", "响了三声", ("响了两声", "响了三年", "响了−三声", "没响了三声")),
+        (ring, "回鈴音響了三聲。\n沒有人接。\n簡訊來了。「好好保重 :)」\n那個表情符號，不知怎麼一直留在眼前。", "unanswered_call_rings", "響了三聲", ("響了四聲", "響了三公里", "響了−三聲", "沒響了三聲")),
+        (party, "空下来的杯子，又被斟满。第二摊去了KTV，麦克风三次轮到了自己。\n听到一句“果然靠得住”。\n凌晨的出租车窗上映着泛红的脸，第二天上午的闹钟，足足关了两次。", "karaoke_afterparty_round", "第二摊", ("第三摊", "第二年", "第−二摊", "不是第二摊")),
+        (party, "空了的杯子又被倒滿。第二攤到了歡唱包廂，麥克風三次傳回手裡。\n聽見有人說「果然靠得住」。\n凌晨的計程車窗上，映出泛紅的臉。隔天早上，鬧鐘關了足足兩次。", "karaoke_afterparty_round", "第二攤", ("第三攤", "第二公里", "第−二攤", "不是第二攤")),
+        ("태호의 두 번째 제안", "Taeho的第二个提议", "taeho_offer_ordinal", "第二个", ("第三个", "第二年", "第−二个", "不是第二个")),
+        ("태호의 두 번째 제안", "Taeho 的第二次提議", "taeho_offer_ordinal", "第二次", ("第三次", "第二公里", "第−二次", "不是第二次")),
+        (pair, "“咱们俩不都赔了吗。这次，真的别再搞了。”\nTaeho说：“……知道了。”\n不知道该不该信。可该说的话，已经说了。", "shared_coin_loss_pair", "咱们俩不都赔了吗", ("咱们仨不都赔了吗", "咱们两年不都赔了吗", "咱们−俩不都赔了吗", "咱们俩都没赔了吗")),
+        (pair, "「你跟我不是都賠了錢嗎？這次真的別再搞了。」\nTaeho 說：「……知道了。」\n不知道該不該相信。不過，該說的話都說了。", "shared_coin_loss_pair", "你跟我不是都賠了錢嗎", ("我們三人不是都賠了錢嗎", "我們兩公斤不是都賠了錢嗎", "−你跟我不是都賠了錢嗎", "你跟我都沒賠了錢嗎")),
+    )
+    for source, normal, kind, span, mutations in rows:
+        check(source, normal, True)
+        check(source, normal.replace(span, ""), False)
+        quantities = [q for q in _source_counter_quantities(source) if q.kind == kind]
+        for mutation in mutations:
+            changed = normal.replace(span, mutation)
+            check(source, changed, False)
+            # Check borrowing on just the owned kind so other paragraph counts
+            # and source names cannot supply the reason for rejection.
+            borrowed = changed + normal
+            matched, errors = _match_target_counter_quantities(borrowed, quantities)
+            errors += _unexpected_target_entity_errors(borrowed, quantities, matched)
+            cases += 1
+            if not errors:
+                failures.append(f"callback counter borrowed later normal: {kind}: {borrowed}")
+    for normal in (rows[0][1], rows[1][1]):
+        changed = normal.replace("没有接", "接了").replace("沒有人接", "有人接了")
+        check(ring, changed, False)
+        check(ring, changed + normal, False)
+    for normal in ("抽身了。\n后来才知道，是典型的“急售骗局”。\n那天在咖啡馆听进去的话，今天保住了几千万韩元。",
+                   "抽身了。\n後來才知道，那是典型的「急售詐騙」。\n那天在咖啡廳願意聽進去，今天就守住了數千萬韓元。"):
+        check(magnitude, normal, True)
+        span = "几千万韩元" if "几" in normal else "數千萬韓元"
+        check(magnitude, normal.replace(span, ""), False)
+        for changed in (normal.replace("千", "百"), normal.replace(span, "−" + span),
+                        normal.replace("韩元", "公里").replace("韓元", "公里"),
+                        normal.replace(span, span + "公斤"), normal.replace(span, span + "/月"), normal.replace("韩元", "人民币").replace("韓元", "新臺幣")):
+            check(magnitude, changed, False)
+            check(magnitude, changed + normal, False)
+    for source, kind in (
+        (ring.replace("받지 않았다", "받았다"), "unanswered_call_rings"),
+        (ring.replace("신호가", "문을"), "unanswered_call_rings"),
+        (party.replace("노래방", "회의실"), "karaoke_afterparty_round"),
+        ("태호의 두 번째 비행", "taeho_offer_ordinal"),
+        (pair.replace("너랑 나랑", "그들이"), "shared_coin_loss_pair"),
+        (pair.replace("잃었잖아", "벌었잖아"), "shared_coin_loss_pair"),
+    ):
+        cases += 1
+        if any(q.kind == kind for q in _source_counter_quantities(source)):
+            failures.append(f"callback source context escaped: {source}: {kind}")
+    for source, target, valid in (
+        (party, "第二摊去了KTV，", True),
+        (party, "第二攤到了歡唱包廂，", True),
+        (party, "第二摊去了KTVExtra，", False),
+        (party, "第二摊去了_KTV，", False),
+        (party, "第二摊去了KTV_，", False),
+        ("2차 회의실에서는 마이크가 세 번 돌아왔다.", "去了KTV。", False),
+        ("노래방에서 노래했다.", "去了KTV。", False),
+    ):
+        cases += 1
+        errors = _untranslated_english_errors(source, target)
+        if bool(errors) == valid:
+            failures.append(f"callback KTV source/token boundary: {source}: {target}: {errors}")
+    return cases, failures
+
+
 def _social_cost_parser_self_test() -> tuple[int, list[str]]:
     """Observed social costs: owned people, rate units, invitations and ranges."""
     cases, failures = 0, []
@@ -5966,6 +6112,9 @@ def run_self_test(
     social_cases, social_failures = _social_cost_parser_self_test()
     cases += social_cases
     failures.extend(social_failures)
+    callback_cases, callback_failures = _callback_parser_self_test()
+    cases += callback_cases
+    failures.extend(callback_failures)
 
     # Exact Korean-source catalogue names are not permission for unrelated
     # English prose or for deleting the noun around an allowed brand token.
