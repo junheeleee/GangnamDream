@@ -416,6 +416,42 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
             for match_count in re.finditer(r'3個一致', target_numbers):
                 if _has_numeric_sign_prefix(target_numbers, match_count.start()):
                     errors.append('lottery match count has an invalid numeric prefix')
+        # Observed per-person price, one-night room and first-week calendar.
+        # Normalize only a complete source-bound phrase, preserving its line,
+        # unit and value; this is not a waiver for arbitrary written numerals.
+        for source_pattern, target_pattern, source_old, source_new, target_old, target_new in (
+            (r'1인 128,000원', r'(?<![0-9一二三四五六七八九十百千万億兆])(?:一|1)人128,000ウォン(?!円|ドル|ウォン)',
+             '1인', '1인', '一人', '1人'),
+            (r'1박 35만원', r'(?<![0-9一二三四五六七八九十百千万億兆])(?:一|1)泊35万ウォン(?!円|ドル|ウォン)',
+             '1박', '1박', '一泊', '1泊'),
+            (r'10월 첫째 주', r'10月の第1週',
+             '첫째', '1', '第1', '第1'),
+        ):
+            source_spans = list(re.finditer(source_pattern, source_numbers))
+            if not source_spans:
+                continue
+            target_spans = list(re.finditer(target_pattern, target_numbers))
+            if len(source_spans) != len(target_spans) or any(
+                _has_numeric_sign_prefix(target_numbers, match.start())
+                for match in target_spans
+            ) or [source_numbers.count('\n', 0, match.start()) for match in source_spans] != \
+                    [target_numbers.count('\n', 0, match.start()) for match in target_spans]:
+                errors.append('source-bound social fee/night/week unit mismatch')
+            for match in target_spans:
+                if re.match(r'\s*(?:ではない|未満|以上|以下|より後|より前|'
+                            r'[（(]\s*(?:円|ドル|元|人民元|韓元|韩元|ウォン)\s*[）)])',
+                            target_numbers[match.end():]):
+                    errors.append('source-bound social fee/night/week qualifier mismatch')
+            for is_source, value, spans, old_piece, new_piece in (
+                (True, source_numbers, source_spans, source_old, source_new),
+                (False, target_numbers, target_spans, target_old, target_new),
+            ):
+                for match in reversed(spans):
+                    value = value[:match.start()] + match.group().replace(old_piece, new_piece) + value[match.end():]
+                if is_source:
+                    source_numbers = value
+                else:
+                    target_numbers = value
         # Mixed Korean thousand/hundred-man, grouped/plain thousands and the observed
         # native 오천 amount are each one won amount, independent of grouping.
         # Match its value/currency, then normalize those exact spans so Japanese
@@ -429,7 +465,7 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
             r"[+-]?\d+(?:,\d{3})*(?:億\s*\d+(?:,\d{3})*)?(?:(?:千万|万|千)(?:\d+(?:,\d{3})*)?)?ウォン(?!\s*(?:円|韓元|韩元|元|ドル|ウォン|[%％‰‱万萬億亿兆千百倍]))", target_numbers,
         ))
         consumed = []
-        if '1인당 4만 5천원이 나왔다' in leaf.source:
+        if '1인당 4만 5천원이 나왔다' in leaf.source or re.search(r'(?:12만 8천원|각 2만 5천원)', leaf.source):
             mixed_target.extend(re.finditer(
                 r"[+-]?\d+万\d+千ウォン(?!\s*(?:円|韓元|韩元|元|ドル|ウォン|[%％‰‱万萬億亿兆千百倍]))",
                 target_numbers,

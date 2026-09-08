@@ -139,3 +139,49 @@ named full-game-localization-overlays --list 뒤 선택12검사·EN·diff·전�
 
 이 범위·배치·증거 절차는 일회성이다. 지속 규칙은 I18N_INFRASTRUCTURE와
 언어별 용어집이 소유하며 새 서사·제품·출시 규칙을 만들지 않는다.
+
+## 수용 결과 — 312번역·L1/L2, L3 OPEN
+
+- 선언 d7410e0e9212536bb01fd57c8bd9ebdc2ce1f1c0 commit/push 뒤 initial source3
+  (105행/104leaf, previous null)를 저작 전에 보존했다. 세 작성자가 KO에서
+  독립 저작하고 다른 검토자/ROOT가312문구 전부를 대조했다.
+  영어 중역·간번 자동변환·gameplay 복사0이다.
+- 새 social_independence의15행104문구씩을 KO 상대순서로 저작했다.
+  각37선택·실제 LF121·{name}11·직업 조건 괄호를 보존했다.
+  기존17,274번역·메타9·batch38을 보존해17,586(언어별5,862),
+  events628종4,794문구·endings35종234·catalog834씩, batch39이다.
+- 독립 L2는 JA104 수정0, CN104 필수1/선택2를 정밀화했다.
+  결혼식에 간 주인공을 명확히 하고 결혼 연기·이미 쓴 식사비의 가치 표현을
+  다듬었다. ROOT의 TW104 최초수정0 뒤 CN의 지적을 같은 구조에 대조해
+  TW도 참석 주체·결혼 연기2leaf를 정밀화했다.
+  별도 검토자가 수정5leaf를 KO와 재대조하고 역치환 전파일 SHA로
+  CN 나머지101/TW102의 동결 원형을 증명했다. 작성자 자가 검토는 독립 L2가 아니다.
+- JA는 1인 요금·1박·첫째 주/복합 원화의 실제 오탐을 수리했다.
+  새 허용 문맥의 후행 부정·범위·통화 표지7쌍도 닫았다. ZH는11종 수량 문맥,
+  합성 원화128,000/25,000·골프20~30만원 범위·인명/브랜드를 원문에 결속했다.
+  일회 이체의 /月 허용1건도 닫았다. full self189/ZH self4866 PASS이며
+  ZH 신규269의 정상·변조·원문 경계를 확인했다. 전역 의미 인증은 아니다.
+- 최종 source/response/accepted receipt3쌍을 initial source와 원문 hash로 결속했다.
+  실물312 L1 오류0·check/import --accept changed_files0이다.
+  final104-record aggregate JA `2f29140f84ced0de4a6068bec7464d4fef79671d9fba8da150b46c06611d82dc`,
+  CN `d8988cd071bed84324a5bd95dc3521382b789fcb6af8f6ed1a3e82afdb93e8ee`, TW `b5232141fc78d662d464699a9e6b60159fc2567b67e879aa0127dbf3769814c8`.
+- 완료184 WORK_LOG절1,274bytes SHA
+  `9c4568a50feeae8ef48eeff7254c7b1cb2dfc173b39c191bc608fbb347837c1d`만
+  기존 history35,524bytes 앞으로 원문 이동했다. 새36,798bytes SHA
+  `6d4cc81bf084b16d6ee71851391da099787b2b829f1ade86777cf5543efffa6c`.
+  기존 내용·끝 LF2는 byte-exact 보존, 검수행은 같은 활성 이어보기 [~]·L3 OPEN이다.
+- 예정 입금/실제 결제·공연, 초대/실제 참석·두 사람에게 개별 이체, 가정 비용/
+  실제 지출·프로젝트 수익, 전화/추정·연락없음과 SNS 비교를 구분했다.
+  원문 주거·혼인·기간 조건 부채·혼인비 합계·효과 금액은 번역으로 수리0.
+  KO/EN·runtime·공개·fonts·save·human_gates 변경0, 원본 checkout 쓰기0.
+  전체 INCOMPLETE·full/main/product HOLD·원어민/화면 OPEN,
+  출시 M01~M06 사용자 GO 유지. 자동 검사는 사람 판정 대체물이 아니다.
+- portable checksum `cc6dc83fda39d837570347609a83b27707493b3169853726fe0649ff5211d063`.
+- 최종 named `full-game-localization-overlays` 12검사·EN·diff PASS,
+  전량17,586의 source/target hash·L1과 기존17,274/meta9/batch38 보존 PASS다.
+  실제 stdout `order187-final-checks.log`는 private evidence에4669bytes SHA
+  `2b46a88fb0d7d0dad71a82922eabb5d4573a380fc444190f1847c9436325294e`로 보존했다.
+- 독립 JA 가드 지정48사례는 보고7쌍 차단 유지·신규 필수0이다.
+  원어민/화면·실플레이를 실행하거나 전체판 승인을 판정한 것은 아니다.
+- 독립 ZH 가드 검토는11종의 실제 정상22·값/단위/부정 변조22와
+  앞서 발견한 월이체 /月 1건의 차단을 동결 코드에서 확인했다. 지정 필수 잔여0이다.

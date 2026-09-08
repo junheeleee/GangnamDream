@@ -1348,6 +1348,37 @@
       "machine_validation": "PASS",
       "rendered_review": "OPEN",
       "native_review": "OPEN"
+    },
+    {
+      "order": "ORDER-187",
+      "group": "events",
+      "roots": [
+        "yolo_spend_moment",
+        "yolo_morning_after",
+        "bihon_friend_talk",
+        "wedding_invitation_flood",
+        "marriage_pressure_35",
+        "solo_life_discovery",
+        "bihon_economics_cold",
+        "omakase_peer_invite",
+        "omakase_network_payoff",
+        "flex_sns_envy",
+        "flex_luxury_first",
+        "flex_imported_car",
+        "flex_hotel_staycation",
+        "flex_golf_invite",
+        "flex_frugal_identity"
+      ],
+      "source_leaves": 104,
+      "target_leaves_by_locale": {
+        "ja": 104,
+        "zh-CN": 104,
+        "zh-TW": 104
+      },
+      "source_review": "Independent Korean-source comparison across all 312 leaves; actual spending, attendance, transfers and replies remain distinct from expected deposits, invitations, quoted costs and inferred intent; all source and runtime preserved",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN"
     }
   ],
   "accepted": {
@@ -24383,6 +24414,422 @@
       "events:drama_winter_cold:/title": {
         "source_sha256": "b996eaf17230bfdfa7258fef46349fc7cd10a0b95fe7fd1ebca9e1e39da146c5",
         "target_sha256": "029f84a43366e61c475686b59fc6f393a342768acdf8554d9a6faf2171a16eee"
+      },
+      "events:bihon_economics_cold:/choices/0/result_text": {
+        "source_sha256": "b36899ef936f4e08b79f5552e0d156e4e21e57be395123e3808d648b02dc1ef5",
+        "target_sha256": "d14b43e403606df531b27f22abf38d88f5caa83b1f5e71d37627fa1767126fe7"
+      },
+      "events:bihon_economics_cold:/choices/0/text": {
+        "source_sha256": "2a52071b2f4c3191cbba1fb7b27a7562ced5616cfd4eddae5cb92a7193882c17",
+        "target_sha256": "8972e204ae25b9228d2a653daf2032d68f7d5908beee766db9324c31cd6ca752"
+      },
+      "events:bihon_economics_cold:/choices/1/result_text": {
+        "source_sha256": "700e1ffb6141ab9249b40a3cc88887b10763fc5cda89042e8aa16ba317ae0e19",
+        "target_sha256": "b9e45f325cda74c1279dddbece042077d854a24946c1b6048a2535638c4ab6c3"
+      },
+      "events:bihon_economics_cold:/choices/1/text": {
+        "source_sha256": "40d3c331053e18421001422c359fef2907e102aaa2b5de01d6bddfc38739b4f1",
+        "target_sha256": "ed55ff93a386d3091cb7996434fdcb4a7e3d2774aa2b2e4e138e6dc70c5c8d0c"
+      },
+      "events:bihon_economics_cold:/choices/2/result_text": {
+        "source_sha256": "a9b2deda0ad1ea29e6853e006c9de878d4febe5ebdc2c3b2f4acf580f4d2aecb",
+        "target_sha256": "e6af6d994607528c728abf835a300f9b459da77a4208b8545570885f21346409"
+      },
+      "events:bihon_economics_cold:/choices/2/text": {
+        "source_sha256": "e28b576d96a923de70ceb157dd4d9d49d8c2e5e2eafad8517228dc8392b8549d",
+        "target_sha256": "10f119777761829f910d43d479d54a71ceaab84f6b5749520f0c90d591094487"
+      },
+      "events:bihon_economics_cold:/description": {
+        "source_sha256": "d5191d81cb9d11e446cfc0078c1955ce73d0317cf96e49491937f77c2cb7bf06",
+        "target_sha256": "7b6b95511d8dd654fb7dd135905b5899375d81f4653d9229ae9eca500639f6bf"
+      },
+      "events:bihon_economics_cold:/title": {
+        "source_sha256": "b817145a9351b4a1f44017953fb3fd883c5d1fbaa3afd9ecf85a6dd846179937",
+        "target_sha256": "ec66293ad1cc56f829b380c305ddb982eda799c2f95a61ce5fcbcc88bf1c8dc5"
+      },
+      "events:bihon_friend_talk:/choices/0/result_text": {
+        "source_sha256": "acddaf03a7d9dfc35d14641745d89bf8eee0acedc7f51b38f36bdc27f2d0a4bc",
+        "target_sha256": "c0eac618a4199c4af4558a1201ed9a89e6b379cb33c2dd9291a79a03bd7184cc"
+      },
+      "events:bihon_friend_talk:/choices/0/text": {
+        "source_sha256": "bb52706ca1b32e64f736ef36332ff0a87260de8ac62844c0adc92703a12f97a0",
+        "target_sha256": "bfde3588a94fad549a826a0d5fc735a8890ae0e186b63ed855e4de63df270740"
+      },
+      "events:bihon_friend_talk:/choices/1/result_text": {
+        "source_sha256": "c758f94869caeb0a0852e559adf616480b3de88fdf469cba23d9126019df92ad",
+        "target_sha256": "eec720a1e81ccc092e5c951373acbda78459857e3666ce8dc9c9f45377c87933"
+      },
+      "events:bihon_friend_talk:/choices/1/text": {
+        "source_sha256": "9506ea85bda44535acb8e24757264b23c4f311c75d4cede0a8c523e722035401",
+        "target_sha256": "fdfafbadcd8120ac34028d0f0aef7b93f7b54dfd5eae709d1841e7612f500e67"
+      },
+      "events:bihon_friend_talk:/choices/2/result_text": {
+        "source_sha256": "3c8f95108c1c3bd4e03462bcca48002f5ce7d0c91b455e949c301d1888c87c05",
+        "target_sha256": "e3b816809feeaf962d90fae9d7cad81368795dbdb0697614afb3541d0eb16103"
+      },
+      "events:bihon_friend_talk:/choices/2/text": {
+        "source_sha256": "aad52c2479e4663cdc1475b1550d5ca43406c4bea8fca409aa5444247619877e",
+        "target_sha256": "889d66bd4792627195bae1b657834a9e0558462d7edc51a5a63db594d186344c"
+      },
+      "events:bihon_friend_talk:/description": {
+        "source_sha256": "acfd3fe64d4cd5471dc66a5d2813a6dde2ce4bc59bd93d08bf8e6ce918a0fffb",
+        "target_sha256": "e035a509870cdde517646e18aa1d3f1c450436d23a61494d5573fa63c1666e5c"
+      },
+      "events:bihon_friend_talk:/title": {
+        "source_sha256": "b6de05f2a86de415b56088df1919b9947e8e553b44b6fe507b34fc2bcc1a7739",
+        "target_sha256": "ba95077a13d71346a394d64313ff1c9901548bfb6830daf9a59538207588727a"
+      },
+      "events:flex_frugal_identity:/choices/0/result_text": {
+        "source_sha256": "da96a4ddd1c8cb0437179f9eee595874bafc7682b99d60e13fba05afc8924e7d",
+        "target_sha256": "43f95a49e1232b80d22db1502289a78cbb814f33d11055ae6aeb9e6130494efb"
+      },
+      "events:flex_frugal_identity:/choices/0/text": {
+        "source_sha256": "a23353db5cbe44c112a1f0d5f537b2228d1a669f413ebd1ca735669855759628",
+        "target_sha256": "52a56e930698276b2a31d6e6c14b9c85a1fd655fb841fc94855bdb1652dac54a"
+      },
+      "events:flex_frugal_identity:/choices/1/result_text": {
+        "source_sha256": "c0c5973a01e3d66f10d8b665b87d21d9f3a4c2cad676e53fa28da18a24a136c3",
+        "target_sha256": "3af1176ad0cdadc5c5ab35b583e8412b2b6379835f1915c5532474405ab3391e"
+      },
+      "events:flex_frugal_identity:/choices/1/text": {
+        "source_sha256": "1efac237505a51713c10184064692f3f3d938edcc287d213bbc04e314a23bfe1",
+        "target_sha256": "5eff3e062b9811abe5b88bfe412abc5b00eaec7ab2509775afc007643a4a9fc8"
+      },
+      "events:flex_frugal_identity:/description": {
+        "source_sha256": "1a81ae2589993ec4160f7f9729787fd4f3d70c4218d223df9e37fa6184d9b7ed",
+        "target_sha256": "9af166f1f73f1e41c68cfae3a305cf349a34c96e67900d8d859250d23da4528d"
+      },
+      "events:flex_frugal_identity:/title": {
+        "source_sha256": "d1fb678d05d79f15feb925815838002e6747ff21a5a0362f59279616cc46e72d",
+        "target_sha256": "3268ef578b7fbfab2d3cc39b33dfb6abfd851db2ce6c290c9decb5c71ce5fd3d"
+      },
+      "events:flex_golf_invite:/choices/0/result_text": {
+        "source_sha256": "dc4eaf2f82da22da26b68f88876d74161f1f71506a486744b026104fa76d0fd3",
+        "target_sha256": "2d77251ef8d10dc5328bf51a5b9022db9b34ffffa9ce8d09dc97265b26d0384c"
+      },
+      "events:flex_golf_invite:/choices/0/text": {
+        "source_sha256": "fb6f86828b79adca5fea5a84284ee84aabd69b9b4c5aa3020920ff21d0226f8f",
+        "target_sha256": "cbecf91fbfb1465f419bf9dffa18e616554251b2839ea1452a9fa337b7232b95"
+      },
+      "events:flex_golf_invite:/choices/1/result_text": {
+        "source_sha256": "bd8ad80c78d92b43a71da9dd30546234ff523ea37dba2b33a771efac6ace4907",
+        "target_sha256": "b35d8f248bdf35aeaae5ab0093d96b5ee06032fb93bb3a73406ca7681f173774"
+      },
+      "events:flex_golf_invite:/choices/1/text": {
+        "source_sha256": "39741d66b59083a1886f04a09f5c0ea7fa83af8b1bbb92936e1cebeee53bda71",
+        "target_sha256": "bdfe7835876aed3a8057774fd0623cc5f3953a50ff02350594494c9f837658d6"
+      },
+      "events:flex_golf_invite:/description": {
+        "source_sha256": "bc96d3007a48e270ef625d7935f93a8814fd0c6308d61ac0c350b6d9c09370ee",
+        "target_sha256": "f2c48073d732f2b3ef7ba6b1b8dfed1005b6a201a93b35b85bc4f3718540f6a0"
+      },
+      "events:flex_golf_invite:/title": {
+        "source_sha256": "e3b2c3d85916e1c014b66d150195e8269c63ece56f71a77f923f4942e44515cf",
+        "target_sha256": "7f467360c6999d6307afe3fc1e624a8c308bd60c691a856d0519da6f467b7af8"
+      },
+      "events:flex_hotel_staycation:/choices/0/result_text": {
+        "source_sha256": "2fbf698e3a6f0e8c44be90e90d0e343eaa651f82c3e31a611c5c1162a2c8052b",
+        "target_sha256": "232e787e40e68df161eb679be1d1f255c43b13f4cb13cb50b4667fffcdfd4b49"
+      },
+      "events:flex_hotel_staycation:/choices/0/text": {
+        "source_sha256": "adc7eaf2ac5d0a614b60164ce3d3043b1435a9cae3cfe71afd2e38eec1cb1e44",
+        "target_sha256": "72dcf54ae63cf298ca33dc228c6183ae81638d40c9e4db02cab117c165705a76"
+      },
+      "events:flex_hotel_staycation:/choices/1/result_text": {
+        "source_sha256": "45d197c0401d2986969030b0408c2b99b2d32cebb5d0072e296373ee42e6496d",
+        "target_sha256": "0da75aa040ae5767b41017363dc2c84f5241f2680c4357a06834b8b270300f0c"
+      },
+      "events:flex_hotel_staycation:/choices/1/text": {
+        "source_sha256": "e2e21c1e6816de502b130601db06754e523e5728187489d1583227bb04cbac9e",
+        "target_sha256": "a35513b2b29c0082bef5b775a40bc1364ca65a1dc1d4e6184c866f4c3a04a08a"
+      },
+      "events:flex_hotel_staycation:/description": {
+        "source_sha256": "6ce3e3458377bdacea7041b59be7f7ac96857f553a49665fd93aad2f064ebd3e",
+        "target_sha256": "e4a2cb9916c95b6234c253ee5f24c49b1e9cf1864355ec579cb321b50ca45905"
+      },
+      "events:flex_hotel_staycation:/title": {
+        "source_sha256": "bfc56d2ee360547e265f191311151440bb1f8ab55e3b9de1b56321625b55ce9d",
+        "target_sha256": "543d367b33e1f49c0e218d04c6fb02f03077cadcc766c58ebaa059261e8c0d66"
+      },
+      "events:flex_imported_car:/choices/0/result_text": {
+        "source_sha256": "bf276fee22fa5fb028e18ddc452ba908ab48cfff66d8e6d0e7de49414f0619e0",
+        "target_sha256": "bb4dcfaa047c678440e0640c4d9be9136538e3480b498bd16a2c44a9cb148e94"
+      },
+      "events:flex_imported_car:/choices/0/text": {
+        "source_sha256": "7a4ebe897f5500a090109279416904c90c78b3c71021fe5e1a696865b6f538bd",
+        "target_sha256": "965005c5dd9f795774adadfd317410ca8876fb11546e64e6b9f66eb92ab37aaa"
+      },
+      "events:flex_imported_car:/choices/1/result_text": {
+        "source_sha256": "4af35d139f8c3d6a85489ba4587b95dc620bcb13a39a16736f30045a3ebfa7c1",
+        "target_sha256": "ab8cf5beccbf87d4c70c86390745ac38467b6214c347e90be4bde62d16978f45"
+      },
+      "events:flex_imported_car:/choices/1/text": {
+        "source_sha256": "a61c4985a8d3018a42c87f82642e100ab17c7863d25b9ca0c36221430bfa99ab",
+        "target_sha256": "6ec077cca2cd822081581db36ca3314592833e0d656eee81d415e8949bfa5a24"
+      },
+      "events:flex_imported_car:/description": {
+        "source_sha256": "84c27203a3d4f326e5676212b94f0bec4d9fe7fcc48c6badf41306704cf529fc",
+        "target_sha256": "e63853bea414fb76a173b05d7fcd973758dd31ff148280bf1075909a35ad4dc8"
+      },
+      "events:flex_imported_car:/title": {
+        "source_sha256": "c21adb1ad8d867a9f6f0abffde607c7373596248cf49b540ab0dd52b1bc6670d",
+        "target_sha256": "f351edb9ee46306975d720cb0e3349d2af2e1bc4da132a8429061739fedfdb0c"
+      },
+      "events:flex_luxury_first:/choices/0/result_text": {
+        "source_sha256": "e4e1de1f8166f5c26e780c8616495b5b1a1a36a8efcb57871450e7aefe8e3732",
+        "target_sha256": "d949f5a938878e0b74c4698ce33c0c098bfb64ab1aca2fe832fead0bbaf2cbbf"
+      },
+      "events:flex_luxury_first:/choices/0/text": {
+        "source_sha256": "b033ccc0f165977ec5b2e62de42e80a87856bfa5217628090e98262e25b1d292",
+        "target_sha256": "40a939e8c2bb03718391143cd381644a5620826699696c989aa177120f230f3a"
+      },
+      "events:flex_luxury_first:/choices/1/result_text": {
+        "source_sha256": "edf77d8bf4e2fa0ef88b588aeeaf16b9c10c722d558971b921defcac3cb2a0a7",
+        "target_sha256": "232995d4c0dbc94768fb6e184f64988ac06b9b109f0205b17d91bc0ea917d421"
+      },
+      "events:flex_luxury_first:/choices/1/text": {
+        "source_sha256": "f16f2192bcbd1fd28283b014453804b7d0399cdee12e6ec2b6b5c716e07bff50",
+        "target_sha256": "6526396918c6029eb92c75792eb5baf8b593f46a795fc0c053ad1a51e72b3a52"
+      },
+      "events:flex_luxury_first:/description": {
+        "source_sha256": "22090f56207d0d0c3130296f68982767078259e4f893c9e65e712e4a0c3b21c4",
+        "target_sha256": "9cd7fed2a45efaed56de1f54d400c290881ed0d8c29d26e6e175071498ebe1d7"
+      },
+      "events:flex_luxury_first:/title": {
+        "source_sha256": "1499f02fe8d0de9723dd98b0e22cf1afcaf232e78cb0f36cba96b9dac8124a22",
+        "target_sha256": "088c79dfe65ce4f0cdf5b0969b80be112450f8d20dea7a518d59dbf1dedc9ab5"
+      },
+      "events:flex_sns_envy:/choices/0/result_text": {
+        "source_sha256": "4aa0abd415e2b7820e4a3014fd31fa125ea330ed53db6e8de44cddaecfda172d",
+        "target_sha256": "17c8eb7537f642d281c07d3f46911d0ea85b4d8c7ce2b107af5c76709f726c99"
+      },
+      "events:flex_sns_envy:/choices/0/text": {
+        "source_sha256": "89e11423444d30f411a62bcad23566255acf9115cb9d689d1f5aca7147d391f5",
+        "target_sha256": "4fdcdeec6ace5df340bdb6309a48541d23775532051557ac9289bbe95686efcd"
+      },
+      "events:flex_sns_envy:/choices/1/result_text": {
+        "source_sha256": "a4f3ab432b175a6fa973534e82b5152a540a7b23fd2cfa0f7961f9fc02f9ef05",
+        "target_sha256": "db8faff2570f09b0d95549ebf9678fc704c349f77ca9fc867041058f7e5d398e"
+      },
+      "events:flex_sns_envy:/choices/1/text": {
+        "source_sha256": "681a260676447c9e2ec2251edafc5d5cf30bc60535059de99ae313dd64e13598",
+        "target_sha256": "557e521e3a44253c23cb23bb0cfb0e7dd71f47fd099f4980435bf9a86b71d54e"
+      },
+      "events:flex_sns_envy:/description": {
+        "source_sha256": "dd5dc81fa68f38d671b48155e05fde9fedd2a8e949e73a596b36e6d86051f14e",
+        "target_sha256": "36e7e5b2e2fa8e867463e2202fe41bbf6a1750cc33117cc9e85698a8294cfffa"
+      },
+      "events:flex_sns_envy:/title": {
+        "source_sha256": "1913424e02cf345670e24744fe5cdaef15dd18455660db957274860ea1a4c1bb",
+        "target_sha256": "857d1ef2632f17d88776574d5991f56a6182810c694cc40295c97e5a16c223ac"
+      },
+      "events:marriage_pressure_35:/choices/0/result_text": {
+        "source_sha256": "f8eaa882c70f7d3c66071e1b1c8d0f2297f605cf15f58e194b6b0987fb390cae",
+        "target_sha256": "463d9553c822236e0594dd730f065e3f1c49049ef446f3634bf5a23e5b93ce78"
+      },
+      "events:marriage_pressure_35:/choices/0/text": {
+        "source_sha256": "8ca7dada197295b5022e4aaacccf33a644652828ec14256bac10585d3178e796",
+        "target_sha256": "8b4d3fa7000693fd58e9fa4144d1c3a338722db9d951135586b9b229d36220a1"
+      },
+      "events:marriage_pressure_35:/choices/1/result_text": {
+        "source_sha256": "b2439d2c634df0c448831ef27c37277372330599badafcf07dd9c480f18cc9ff",
+        "target_sha256": "c179993ce020b9b9fd1a87412af255b3dee5209f27f6e94468b1418eef5b4e60"
+      },
+      "events:marriage_pressure_35:/choices/1/text": {
+        "source_sha256": "128ae85f6a650119a70a8e9e68b208e3534372228e9038bdf6b4a2ad3b73d735",
+        "target_sha256": "9f9236532b9a7207b9b7007c009e5ac93c5b19d237fe6970c13388bb33b91aea"
+      },
+      "events:marriage_pressure_35:/choices/2/result_text": {
+        "source_sha256": "34b51ec308d5bb7516f30c0ab2033fd7b6104244cf06fb8343b839237094a00b",
+        "target_sha256": "787e0256d03da347718277c3c8c28cadadc90f29eaf43bc995f4f20691bec7f7"
+      },
+      "events:marriage_pressure_35:/choices/2/text": {
+        "source_sha256": "0587b7c7db9da3bd58c8f2f7d3c2c35298424f4f4aac1cf9738aacc86ac74cc3",
+        "target_sha256": "73249772dc6d0f23836b62078123b992db3bec7df5d9d1171bff1fe3a9665691"
+      },
+      "events:marriage_pressure_35:/description": {
+        "source_sha256": "ad587cbb6a87be022f960d3bdf6c91319349c0aa912e44a7582c3f5d36108914",
+        "target_sha256": "0fd211ec11bfcf80bf62c7aeb827398cfda64767201c3b8c065345b819ca6d0b"
+      },
+      "events:marriage_pressure_35:/title": {
+        "source_sha256": "fd76af0aa14e4c56dfd888fc2a3ec63444b0013de3eb57737d34d20bae992991",
+        "target_sha256": "f447e6629908e9a46c3d1fb5f979ac6a2e48034612899b50ba0aab56a8fe5477"
+      },
+      "events:omakase_network_payoff:/choices/0/result_text": {
+        "source_sha256": "167f93d6be3fad7c03292ebb2f4058bb32f9083257e7dff2076101ada0d4f220",
+        "target_sha256": "d2191f22074e4e58c553a4b965f25dcd7c7b4ddba3a124d50bb47f55b965f818"
+      },
+      "events:omakase_network_payoff:/choices/0/text": {
+        "source_sha256": "40df1577abf498d93e21d48d2a743046fa4d3eeb874854323143ea640a3d780f",
+        "target_sha256": "c79b4b328450aef795e435bd67f93ba543a5b9462594aab14ab113c1520a8c03"
+      },
+      "events:omakase_network_payoff:/choices/1/result_text": {
+        "source_sha256": "42522497c3a1083f99fb1e63d0dc7acba3114ee47488d786d9f3eb4c174c68c1",
+        "target_sha256": "dac58ca2c8796de2191f01cf519bb5f33c7f08cb72386fc4dd359b01ee655b27"
+      },
+      "events:omakase_network_payoff:/choices/1/text": {
+        "source_sha256": "1bc0ead0ee0097f183d556e5cd02da7fdc9bfe5c402e62bec474c020825b79f0",
+        "target_sha256": "a722b7295ba98de5ce5207d188ddcd27caece2c36510c127f149752f19e75228"
+      },
+      "events:omakase_network_payoff:/description": {
+        "source_sha256": "4a38f257be038c1547437d9be15570c7165b769b6634d056a8b2bebe14a607bd",
+        "target_sha256": "5f702d2ec738ed629b123089b730bf78017f3046cc2db30adc2605c1646f1b10"
+      },
+      "events:omakase_network_payoff:/title": {
+        "source_sha256": "4b6be2f202625616e1f9476285c80be966fe74c3a361dd69404cd689694b2cb1",
+        "target_sha256": "4179025c915e68d60e58b5b9fb3248719417fbe6038e354045068929b8d8379f"
+      },
+      "events:omakase_peer_invite:/choices/0/result_text": {
+        "source_sha256": "ecb374d2ca1a6d088bda93c450d3ad1ce765f78c370eadcaa71e6f52afa1a751",
+        "target_sha256": "7945fa5951183aa0a6005f5411bd86a63963148f850e831a3ad32d85d56d7f2c"
+      },
+      "events:omakase_peer_invite:/choices/0/text": {
+        "source_sha256": "b4e201ff22d0763a07cefcb15d883b07299154410af2f8a96cb04af04ed25147",
+        "target_sha256": "1ef59cd48a65bc01b722a347b504f4e2cb9ec53936b9f7a76ce6cd5e7dbfc980"
+      },
+      "events:omakase_peer_invite:/choices/1/result_text": {
+        "source_sha256": "198fc452d030d5e6eb368dc8231edfed3e85fa33405e6df47391be74492f24e6",
+        "target_sha256": "97b04f5df17a90532d289993ff9c85d06230ce8fe8a3b9c00000051dc0b9d9ef"
+      },
+      "events:omakase_peer_invite:/choices/1/text": {
+        "source_sha256": "803e068761273099c1bb5f111e39ac42bf81d21b3e43c37972e8546b352804a6",
+        "target_sha256": "a37d2130c0446c59dcac3bb5e753ff116aca17d9b335ffccf40ba14fce3ecff3"
+      },
+      "events:omakase_peer_invite:/choices/2/result_text": {
+        "source_sha256": "eb6866bde1a53e1af1ed81cf3f793ac28e84e1f4a36e0e0142bfd75b0b26c74c",
+        "target_sha256": "cca150e92e71c44ed8235eaf1ae81e9d64c9c4c7a7b2dd7680c49ed4ffc3922a"
+      },
+      "events:omakase_peer_invite:/choices/2/text": {
+        "source_sha256": "af23b5855b0a31d9d5e53709eac6f19951168e6d324c6dfa4dbbd859f48010f1",
+        "target_sha256": "5e0c5eec7624a4fb08c6f2bf2db60e383ecf9896d38b4b777ed3ffbf3f652682"
+      },
+      "events:omakase_peer_invite:/description": {
+        "source_sha256": "a7588d1b5e8d1e7297b0bcf022612332cbfc27af70f77f851be9b4bcc0aef366",
+        "target_sha256": "4c67c35150a135f56a1a9f4de8df04c2e24d3ef6e093d4663cef0f9f5612af00"
+      },
+      "events:omakase_peer_invite:/title": {
+        "source_sha256": "c0cc75d657ed5b7e13e447e1dec948fe8af4ef05d650c52e9bc0bf3c08a33f92",
+        "target_sha256": "f88ff8fb37d6d6623bcfe32ef7e87ced2cae7490ccd1f42fc629063eb28c525d"
+      },
+      "events:solo_life_discovery:/choices/0/result_text": {
+        "source_sha256": "63dca3af49a8bed9c6d768bcc842757a22fd6d8fb364f30c134d8a31b5049a06",
+        "target_sha256": "3bf45eeebadb788b46377ecb930749c3d19cf032e43e0f3c00c8a644ba8000f8"
+      },
+      "events:solo_life_discovery:/choices/0/text": {
+        "source_sha256": "ffdc8baaff589888805df67599cddcda207b684d170f3c54af3435b147333976",
+        "target_sha256": "ce33e468707d0ad28e4fe56a26bf10e565712118f59f6ef8ea3cc3c8e11de527"
+      },
+      "events:solo_life_discovery:/choices/1/result_text": {
+        "source_sha256": "3c6155ae2b0f03002b688caf0ad0b3f6a2c7511bb3552c2af1747d056b11e911",
+        "target_sha256": "8664471f5c8fa052e61f90dc39127d460dec60f15b1e5d738f741683219c8ac9"
+      },
+      "events:solo_life_discovery:/choices/1/text": {
+        "source_sha256": "f08ef580a2ca8b0fd1f8020407d1517bc8678d88d7b05cfd005aa5ab5b4b3721",
+        "target_sha256": "98148a93f33fc9de166c6e1f5fd2134279b1ce16d50be565bff1700c75d5e679"
+      },
+      "events:solo_life_discovery:/choices/2/result_text": {
+        "source_sha256": "07eace0feb583c34d261295be4de42e6260cd52070117be8dd1504681db0eac4",
+        "target_sha256": "d91935e332d8f7b86db47052916b053f487e35eb5367801027371940fe8e636a"
+      },
+      "events:solo_life_discovery:/choices/2/text": {
+        "source_sha256": "0b246c84015db0c00629f0d8a66a62183724ebe79e729a64f5784b613f369ab8",
+        "target_sha256": "10a32c7db06aa36aed64330cbfa880eb9b4f47e5e6cc445a32fbcba5acbd9136"
+      },
+      "events:solo_life_discovery:/description": {
+        "source_sha256": "6034326065ed6f256366a2908c34a6f8db9ab94808cd10d8d07550bc085c42ab",
+        "target_sha256": "353e674ca5ba38907d3c6e0beb586a26c62af9a3173465ad5f4d28d0c81f8fc1"
+      },
+      "events:solo_life_discovery:/title": {
+        "source_sha256": "a0e31dad92890d454c837bcf8375efc022c3560177162e32e22ce33bfa62d6cb",
+        "target_sha256": "7c567247ee7306ccc95178d78c698173415d5df1d2d19f7138ca9a0595761333"
+      },
+      "events:wedding_invitation_flood:/choices/0/result_text": {
+        "source_sha256": "bd43ff157c013048b701035819c4594ef16509014174517a5c39faac7898d40d",
+        "target_sha256": "d37e5dce9115da09faff4419105d77d9ddb31ccb810a8f1b550c694cf8ca2015"
+      },
+      "events:wedding_invitation_flood:/choices/0/text": {
+        "source_sha256": "2f3c053a77e63d2d7abac893d887481b080f2d1f4b1bc777b315afabdb2e4b36",
+        "target_sha256": "c5e24d466a2dbf467ae87cfd9184d92eb63b46278244a43498dd2fc6920a7cfe"
+      },
+      "events:wedding_invitation_flood:/choices/1/result_text": {
+        "source_sha256": "ae476c2a78e9c58db380cfdf946aab26c7cff2e233866a60b3be8fc80f7bbf84",
+        "target_sha256": "a4298f74e172d9c5873ed5e36279f79231e0d63c4b8018feeb54cf1f5978d435"
+      },
+      "events:wedding_invitation_flood:/choices/1/text": {
+        "source_sha256": "4d53530e091213d3166f96a729ea87ad48fa2595f7570f6f8ece23bbad30a556",
+        "target_sha256": "8e34614a94e9030fb37308bd994021910462d598c362470a204072b36cd6ab52"
+      },
+      "events:wedding_invitation_flood:/choices/2/result_text": {
+        "source_sha256": "e35d893b816d1d08f0e22005c6598e787e76cd735b282b9f2c54c3feb23d38f8",
+        "target_sha256": "3d4f5d79a6bd85356a0fc317c680782d43ed3cafe963af1a6d09557c51b19e16"
+      },
+      "events:wedding_invitation_flood:/choices/2/text": {
+        "source_sha256": "00b56e0f7dc1c43925d0e117afaa360ec11c161c326425c0b611d58571cfbed1",
+        "target_sha256": "eec7e8aaa58e3c669df651ed35c8ddd74df9715f27aa1348614c646d8ff2f494"
+      },
+      "events:wedding_invitation_flood:/description": {
+        "source_sha256": "410dc20b5e34d52848872147177ee1eb219f757c985143707df86f27945040c3",
+        "target_sha256": "d94350c978cfe96fc1166a657cb3b5154d5a8852c6ebe183509e809f088c50da"
+      },
+      "events:wedding_invitation_flood:/title": {
+        "source_sha256": "706749457670237d0417028593662770541ad136358639cb98fcad485b974a0b",
+        "target_sha256": "66920521fcd5d9cd36e9cce405dca094f99f856351529ba1d1d0452a0d827a26"
+      },
+      "events:yolo_morning_after:/choices/0/result_text": {
+        "source_sha256": "57d271247f750ab6fda865c32c9ea26b38cf916da79f784a61bb463e0635e88f",
+        "target_sha256": "56a1d0b822ef21d6241d668fc8f4d4334b529d9c173c64231a04fd53e0d19afb"
+      },
+      "events:yolo_morning_after:/choices/0/text": {
+        "source_sha256": "1e73b7ad4d2954222cf926ed056e12010301c008ddccc0b6b18e3e2216aa6137",
+        "target_sha256": "2f1b5b27363d63f7f7af262c88d254b327ceabbce6b370e65b39643464363447"
+      },
+      "events:yolo_morning_after:/choices/1/result_text": {
+        "source_sha256": "20198f94dcd9b4b87829ea626ecc46d9723555cb76ab12f847f2fc15e3731220",
+        "target_sha256": "29a7fad75c11b7ea237533aacb0fcb3ebbe298d7214a9eea40c9a4f06e29913a"
+      },
+      "events:yolo_morning_after:/choices/1/text": {
+        "source_sha256": "d50e20b1cf55387eb08743948ee375763ad5caffe7adef9c0def371cc3e2814e",
+        "target_sha256": "4a3564465793c9941d721d4d7e9110e0c53a6d0dea8c7c3a78eced464c785525"
+      },
+      "events:yolo_morning_after:/description": {
+        "source_sha256": "37be8f630abdc2e9969de3fd2a3bab03dd80a21024c7a23a762aea6bfac2ffd4",
+        "target_sha256": "34ac6956264c05ff6d2771f10d766b7e681c1b06a784b150fb4635f40488b828"
+      },
+      "events:yolo_morning_after:/title": {
+        "source_sha256": "acbbc98c4a1721ad93fb88e71592d05f5cdc8d1cb16c5607284b52c584e822e2",
+        "target_sha256": "6ca57790a8499c777123e9277a41a41b3d63de4c5a440a0938fecdad5206e2da"
+      },
+      "events:yolo_spend_moment:/choices/0/result_text": {
+        "source_sha256": "505aa2579b15b9dc33bf87428ef1a1e97c3990ab9d8cb7cac78ad01f707c8d17",
+        "target_sha256": "23579f02171ec7248ab71498519d4170f91f34a83bcc56a7ba480282fd55d622"
+      },
+      "events:yolo_spend_moment:/choices/0/text": {
+        "source_sha256": "2aa91f3fe47f566f02a26eb0327cf13cb1243bd96a8acbd12cfaa2c0fd63a17f",
+        "target_sha256": "0760e20cdea42cbf2e9da03db16ac5e25e87249db202f4dad27d157e8caab8bf"
+      },
+      "events:yolo_spend_moment:/choices/1/result_text": {
+        "source_sha256": "4f37d176bdcfc62a2e92d276bcb54e8a250c1b55654e14c5d7610137c85779eb",
+        "target_sha256": "88724d5a249550830f0ddf5a534f2c134f36c539b7654c3ee4e81d4be640f954"
+      },
+      "events:yolo_spend_moment:/choices/1/text": {
+        "source_sha256": "6dd0a6f60bd0bc15fdf14c3d66cf847b4d448d3b521272fb987360cc94e89c53",
+        "target_sha256": "c60123c128bce209ba6b75c2b0040bfa1930b49d334310af1a967329de1149a0"
+      },
+      "events:yolo_spend_moment:/choices/2/result_text": {
+        "source_sha256": "c14a16fdefbeb7d3514ff8bf9728114b25a7d13292d75bc5dd3e999f87959ef0",
+        "target_sha256": "ff8c356c89fe34850f074b294001020cb700b2cd416f13658f8c5a3ed744cbaa"
+      },
+      "events:yolo_spend_moment:/choices/2/text": {
+        "source_sha256": "dc5e08cd9786dc3fcfb9dff79358c82451ae0f63ef0ade3f79697c56a1222d34",
+        "target_sha256": "a89dbfccade5c45277a51dd6c38c0fe0d8dd39df6929bd8259fffe039ff231de"
+      },
+      "events:yolo_spend_moment:/description": {
+        "source_sha256": "ebb6980fea6f1731c7ffdc0fa0ab02789bbc4805323fc9711343382e79979d66",
+        "target_sha256": "8d0c6145e70567f97a415597dcca18270bd2aed2b40efe9e583956d9e848e8a5"
+      },
+      "events:yolo_spend_moment:/title": {
+        "source_sha256": "f2c19e85e9890561915ffa1d394ccb3ecf152e9687befb60d9a8518d6678481f",
+        "target_sha256": "30434cea0d4b2218e9c86fa84a2053c5e677025ab247e67db7dce32a592fffe7"
       }
     },
     "zh-CN": {
@@ -47417,6 +47864,422 @@
       "events:drama_winter_cold:/title": {
         "source_sha256": "b996eaf17230bfdfa7258fef46349fc7cd10a0b95fe7fd1ebca9e1e39da146c5",
         "target_sha256": "e1a049907334ace9e40ef7d1cb1d8242ec1e22b53cbb76760da11309699222c8"
+      },
+      "events:bihon_economics_cold:/choices/0/result_text": {
+        "source_sha256": "b36899ef936f4e08b79f5552e0d156e4e21e57be395123e3808d648b02dc1ef5",
+        "target_sha256": "b66a8cd8ac82181a0c3bc8cd1e79c22ab03a70df183b39c0cd093d6216981c75"
+      },
+      "events:bihon_economics_cold:/choices/0/text": {
+        "source_sha256": "2a52071b2f4c3191cbba1fb7b27a7562ced5616cfd4eddae5cb92a7193882c17",
+        "target_sha256": "fb81b7e5a5749c37a509b877343584891d1666bc73edb3317c85d0c6a69edaa8"
+      },
+      "events:bihon_economics_cold:/choices/1/result_text": {
+        "source_sha256": "700e1ffb6141ab9249b40a3cc88887b10763fc5cda89042e8aa16ba317ae0e19",
+        "target_sha256": "1edbb1c4cc1f3edf47f5d9bd96975c3e151d5287c92842f13213f7013535f284"
+      },
+      "events:bihon_economics_cold:/choices/1/text": {
+        "source_sha256": "40d3c331053e18421001422c359fef2907e102aaa2b5de01d6bddfc38739b4f1",
+        "target_sha256": "d089ee1a58583dc261e210edd89f03d829a67f43636caa1133c7c69c114be677"
+      },
+      "events:bihon_economics_cold:/choices/2/result_text": {
+        "source_sha256": "a9b2deda0ad1ea29e6853e006c9de878d4febe5ebdc2c3b2f4acf580f4d2aecb",
+        "target_sha256": "2aee46c0cb4645f001b27ad1c77427fafa0ebc521e38ed0bb50a79646c9ceffb"
+      },
+      "events:bihon_economics_cold:/choices/2/text": {
+        "source_sha256": "e28b576d96a923de70ceb157dd4d9d49d8c2e5e2eafad8517228dc8392b8549d",
+        "target_sha256": "18dd26674f67ccb6fb5bd7529b10e93d3082872b93193ea6efa1c3f26d93e9e0"
+      },
+      "events:bihon_economics_cold:/description": {
+        "source_sha256": "d5191d81cb9d11e446cfc0078c1955ce73d0317cf96e49491937f77c2cb7bf06",
+        "target_sha256": "612025716e7785e460e41c82af89fa05c6f9d9a846408bbf5756d1308d95a910"
+      },
+      "events:bihon_economics_cold:/title": {
+        "source_sha256": "b817145a9351b4a1f44017953fb3fd883c5d1fbaa3afd9ecf85a6dd846179937",
+        "target_sha256": "ec45a1a764a9e07d1d68e8fb77d343edf099cfe69b85315444a3d460336623a8"
+      },
+      "events:bihon_friend_talk:/choices/0/result_text": {
+        "source_sha256": "acddaf03a7d9dfc35d14641745d89bf8eee0acedc7f51b38f36bdc27f2d0a4bc",
+        "target_sha256": "cf60136e03eb0b242de71776802556379899bb3d29cf6870b9ccd8ce69ca60f4"
+      },
+      "events:bihon_friend_talk:/choices/0/text": {
+        "source_sha256": "bb52706ca1b32e64f736ef36332ff0a87260de8ac62844c0adc92703a12f97a0",
+        "target_sha256": "8360a4c5caac265ddb1d64c190fc6249fc1b9e2498f45eaa2d3fe748e00f374a"
+      },
+      "events:bihon_friend_talk:/choices/1/result_text": {
+        "source_sha256": "c758f94869caeb0a0852e559adf616480b3de88fdf469cba23d9126019df92ad",
+        "target_sha256": "a2182c2d714d1dce93dc3e8b1787982b68ea09773b89b7c37d28a5bbe1a7f067"
+      },
+      "events:bihon_friend_talk:/choices/1/text": {
+        "source_sha256": "9506ea85bda44535acb8e24757264b23c4f311c75d4cede0a8c523e722035401",
+        "target_sha256": "3106fbea8566d26823b3eb273cd494c14b08381fb7d5acbc8593e8a37efebd01"
+      },
+      "events:bihon_friend_talk:/choices/2/result_text": {
+        "source_sha256": "3c8f95108c1c3bd4e03462bcca48002f5ce7d0c91b455e949c301d1888c87c05",
+        "target_sha256": "92b03ec09b9df1a8e95f749a598a6e66f79225f3efae82fc33e6e47a244c374c"
+      },
+      "events:bihon_friend_talk:/choices/2/text": {
+        "source_sha256": "aad52c2479e4663cdc1475b1550d5ca43406c4bea8fca409aa5444247619877e",
+        "target_sha256": "883cfb3ba91306372864410a2f323cc50891f2218ac3cbb3e4f398b0794f6893"
+      },
+      "events:bihon_friend_talk:/description": {
+        "source_sha256": "acfd3fe64d4cd5471dc66a5d2813a6dde2ce4bc59bd93d08bf8e6ce918a0fffb",
+        "target_sha256": "b580c5188391d952b88169175ed49a1dfbb8f2f15882a81cbb9c83d723893b39"
+      },
+      "events:bihon_friend_talk:/title": {
+        "source_sha256": "b6de05f2a86de415b56088df1919b9947e8e553b44b6fe507b34fc2bcc1a7739",
+        "target_sha256": "f7560d0b5f68607d1eacde9c77cbcb2b5c2f5a0502de57586cc8a3c2dbf128c9"
+      },
+      "events:flex_frugal_identity:/choices/0/result_text": {
+        "source_sha256": "da96a4ddd1c8cb0437179f9eee595874bafc7682b99d60e13fba05afc8924e7d",
+        "target_sha256": "95bfc6ddf1e5ba7bab29608ea53978f620c5936ce00357ea479f0a296f1c26f7"
+      },
+      "events:flex_frugal_identity:/choices/0/text": {
+        "source_sha256": "a23353db5cbe44c112a1f0d5f537b2228d1a669f413ebd1ca735669855759628",
+        "target_sha256": "b6f0c539be80ac9678e455b7954130a3d89355397648091129d4923784356cc1"
+      },
+      "events:flex_frugal_identity:/choices/1/result_text": {
+        "source_sha256": "c0c5973a01e3d66f10d8b665b87d21d9f3a4c2cad676e53fa28da18a24a136c3",
+        "target_sha256": "1417842e2609081457aafedf20bac4ea617cbed97804c7a75fb4d267e6ef1d95"
+      },
+      "events:flex_frugal_identity:/choices/1/text": {
+        "source_sha256": "1efac237505a51713c10184064692f3f3d938edcc287d213bbc04e314a23bfe1",
+        "target_sha256": "77eb51db70f06f3ff3d58106e0667a60ba8e50899e13177a978adf741b7edc89"
+      },
+      "events:flex_frugal_identity:/description": {
+        "source_sha256": "1a81ae2589993ec4160f7f9729787fd4f3d70c4218d223df9e37fa6184d9b7ed",
+        "target_sha256": "c875dc6852ddee5590967aebeb3c076a119170c2e814cb5408d02cd5a9b47c8f"
+      },
+      "events:flex_frugal_identity:/title": {
+        "source_sha256": "d1fb678d05d79f15feb925815838002e6747ff21a5a0362f59279616cc46e72d",
+        "target_sha256": "ecd39fd44e069caefef3798853aa6948cb004b0d05ebbcc3ad8904ad9109fd6d"
+      },
+      "events:flex_golf_invite:/choices/0/result_text": {
+        "source_sha256": "dc4eaf2f82da22da26b68f88876d74161f1f71506a486744b026104fa76d0fd3",
+        "target_sha256": "8800298168f8cc049af98476ed7469368776decd23186ca3dfe75f93f3a66cfa"
+      },
+      "events:flex_golf_invite:/choices/0/text": {
+        "source_sha256": "fb6f86828b79adca5fea5a84284ee84aabd69b9b4c5aa3020920ff21d0226f8f",
+        "target_sha256": "fdedff145092a962e746bde311ed56e0e31f8f2bf6dcda6c96a0698b5ad16646"
+      },
+      "events:flex_golf_invite:/choices/1/result_text": {
+        "source_sha256": "bd8ad80c78d92b43a71da9dd30546234ff523ea37dba2b33a771efac6ace4907",
+        "target_sha256": "a9f169efd0fd7bc633bc7651212eac7975f4c599d5a64eb3700651a9df12cbd2"
+      },
+      "events:flex_golf_invite:/choices/1/text": {
+        "source_sha256": "39741d66b59083a1886f04a09f5c0ea7fa83af8b1bbb92936e1cebeee53bda71",
+        "target_sha256": "54ec4859be2109fe8db7b66fe2ce24c4688e7796db0d6e4cbf738724cdbf0f3d"
+      },
+      "events:flex_golf_invite:/description": {
+        "source_sha256": "bc96d3007a48e270ef625d7935f93a8814fd0c6308d61ac0c350b6d9c09370ee",
+        "target_sha256": "c76be36475bbe75c41f7716228c841c3eb642a0e27e1aa89b55ceb0d2dc79b38"
+      },
+      "events:flex_golf_invite:/title": {
+        "source_sha256": "e3b2c3d85916e1c014b66d150195e8269c63ece56f71a77f923f4942e44515cf",
+        "target_sha256": "8d87040d560abe03e635614564cf8cea47c7df70ffa1343f0589fd2fff66017b"
+      },
+      "events:flex_hotel_staycation:/choices/0/result_text": {
+        "source_sha256": "2fbf698e3a6f0e8c44be90e90d0e343eaa651f82c3e31a611c5c1162a2c8052b",
+        "target_sha256": "ea07f310cc4f4a58410a4f250b7dfaef5397f84e834569078f81165789f01811"
+      },
+      "events:flex_hotel_staycation:/choices/0/text": {
+        "source_sha256": "adc7eaf2ac5d0a614b60164ce3d3043b1435a9cae3cfe71afd2e38eec1cb1e44",
+        "target_sha256": "fe82e768542794e2882479a5f8b56aa9816bc90c10950554cd655a7887889d37"
+      },
+      "events:flex_hotel_staycation:/choices/1/result_text": {
+        "source_sha256": "45d197c0401d2986969030b0408c2b99b2d32cebb5d0072e296373ee42e6496d",
+        "target_sha256": "b4d6f3f9a770f533a53866b2f9b0537d3c0a09f87a1de9c99b25f77d88f6826e"
+      },
+      "events:flex_hotel_staycation:/choices/1/text": {
+        "source_sha256": "e2e21c1e6816de502b130601db06754e523e5728187489d1583227bb04cbac9e",
+        "target_sha256": "c5c7fbf6c3f26058831c61e47cc9991a974cf8baa0c9602ea5e29c621f92a32a"
+      },
+      "events:flex_hotel_staycation:/description": {
+        "source_sha256": "6ce3e3458377bdacea7041b59be7f7ac96857f553a49665fd93aad2f064ebd3e",
+        "target_sha256": "dfcc3a481d385af8731baa066a80303e70e75e2611c582582e2c3688210ee8a4"
+      },
+      "events:flex_hotel_staycation:/title": {
+        "source_sha256": "bfc56d2ee360547e265f191311151440bb1f8ab55e3b9de1b56321625b55ce9d",
+        "target_sha256": "71c8c0321570acbcf7f7e5ebdabbf3f6ceaf07bf789404670709a49fb7539396"
+      },
+      "events:flex_imported_car:/choices/0/result_text": {
+        "source_sha256": "bf276fee22fa5fb028e18ddc452ba908ab48cfff66d8e6d0e7de49414f0619e0",
+        "target_sha256": "6ce1387e51906e50973929ecb37df7e36d052bbd28b548799a70b4dd3e3bc2e3"
+      },
+      "events:flex_imported_car:/choices/0/text": {
+        "source_sha256": "7a4ebe897f5500a090109279416904c90c78b3c71021fe5e1a696865b6f538bd",
+        "target_sha256": "2c00b18e70a394835616a40801f3aec5ab9b4dc43facfd4cae48e41bee78e26b"
+      },
+      "events:flex_imported_car:/choices/1/result_text": {
+        "source_sha256": "4af35d139f8c3d6a85489ba4587b95dc620bcb13a39a16736f30045a3ebfa7c1",
+        "target_sha256": "ebaf6d1e2d29fd8ab24fb811d8a4466afc58a4cc2fce45bac404a13b8275481f"
+      },
+      "events:flex_imported_car:/choices/1/text": {
+        "source_sha256": "a61c4985a8d3018a42c87f82642e100ab17c7863d25b9ca0c36221430bfa99ab",
+        "target_sha256": "3c3117efcd2fc889a1c67dec0c078c769b0cc9dfbfcec49759f328b7eb4a3c35"
+      },
+      "events:flex_imported_car:/description": {
+        "source_sha256": "84c27203a3d4f326e5676212b94f0bec4d9fe7fcc48c6badf41306704cf529fc",
+        "target_sha256": "09d65dd8c763f9b10911270cde3b86047faec5d06a7a6dd9b1fcc7ce3cbffb63"
+      },
+      "events:flex_imported_car:/title": {
+        "source_sha256": "c21adb1ad8d867a9f6f0abffde607c7373596248cf49b540ab0dd52b1bc6670d",
+        "target_sha256": "6d6eadd21f2889a6bec4e460df3df077ecf0293f2c9734c5bff5da3c6e2f27df"
+      },
+      "events:flex_luxury_first:/choices/0/result_text": {
+        "source_sha256": "e4e1de1f8166f5c26e780c8616495b5b1a1a36a8efcb57871450e7aefe8e3732",
+        "target_sha256": "7892b45ffac0d6d68bccebf3bdbbb302cc044234bcf99a44754278a7523766f5"
+      },
+      "events:flex_luxury_first:/choices/0/text": {
+        "source_sha256": "b033ccc0f165977ec5b2e62de42e80a87856bfa5217628090e98262e25b1d292",
+        "target_sha256": "3a84cceee1d33453ddb8c8a1d6edb9d9bf9a802af28b4ccbe8e63c827c64181e"
+      },
+      "events:flex_luxury_first:/choices/1/result_text": {
+        "source_sha256": "edf77d8bf4e2fa0ef88b588aeeaf16b9c10c722d558971b921defcac3cb2a0a7",
+        "target_sha256": "76817ffea3b2258b8afc93daf6c64b2c0037da6676ad21c3528e875a6325bc37"
+      },
+      "events:flex_luxury_first:/choices/1/text": {
+        "source_sha256": "f16f2192bcbd1fd28283b014453804b7d0399cdee12e6ec2b6b5c716e07bff50",
+        "target_sha256": "9296f3f372a25f629d7d801adcae3a817cb5f65ac0ee4c068bd42edf47bca680"
+      },
+      "events:flex_luxury_first:/description": {
+        "source_sha256": "22090f56207d0d0c3130296f68982767078259e4f893c9e65e712e4a0c3b21c4",
+        "target_sha256": "d17b07635f4ec2023a3d407509a8ce617aebdc16b7c2dbb95ed4d16fc5ed59de"
+      },
+      "events:flex_luxury_first:/title": {
+        "source_sha256": "1499f02fe8d0de9723dd98b0e22cf1afcaf232e78cb0f36cba96b9dac8124a22",
+        "target_sha256": "1d9db5b54959d0763832aff4349e2e8ae2884448cfae413b095af8b388213605"
+      },
+      "events:flex_sns_envy:/choices/0/result_text": {
+        "source_sha256": "4aa0abd415e2b7820e4a3014fd31fa125ea330ed53db6e8de44cddaecfda172d",
+        "target_sha256": "d102949bc83ddf87f464f6f07d7167d22d48b9706a2b8c4da2e6ead66e9dcb56"
+      },
+      "events:flex_sns_envy:/choices/0/text": {
+        "source_sha256": "89e11423444d30f411a62bcad23566255acf9115cb9d689d1f5aca7147d391f5",
+        "target_sha256": "6b5024002f3a4ec227f4fcd41c4e2e31252dd85ad78c39d537abd9d3090bd0e4"
+      },
+      "events:flex_sns_envy:/choices/1/result_text": {
+        "source_sha256": "a4f3ab432b175a6fa973534e82b5152a540a7b23fd2cfa0f7961f9fc02f9ef05",
+        "target_sha256": "7043db9c1730e7f7058189ebaffb5e312c8715a850a72c6169433fd2f64c5be1"
+      },
+      "events:flex_sns_envy:/choices/1/text": {
+        "source_sha256": "681a260676447c9e2ec2251edafc5d5cf30bc60535059de99ae313dd64e13598",
+        "target_sha256": "66e86a38ecb5460ce719cc4719c0c41897e9415d761602c61e1a12597bf4acdf"
+      },
+      "events:flex_sns_envy:/description": {
+        "source_sha256": "dd5dc81fa68f38d671b48155e05fde9fedd2a8e949e73a596b36e6d86051f14e",
+        "target_sha256": "38855f0c07fc58e666891dc7c1a1c2dbfa44a0fafa4c728b36502f302ae141b7"
+      },
+      "events:flex_sns_envy:/title": {
+        "source_sha256": "1913424e02cf345670e24744fe5cdaef15dd18455660db957274860ea1a4c1bb",
+        "target_sha256": "ed4745a309a8aac221b14a9a522699172c7dee548657dfb7140e7df9e1708ee6"
+      },
+      "events:marriage_pressure_35:/choices/0/result_text": {
+        "source_sha256": "f8eaa882c70f7d3c66071e1b1c8d0f2297f605cf15f58e194b6b0987fb390cae",
+        "target_sha256": "19f6962fc633c055d1c2f0eaf8743e2a2991ebd6d1f5841a786bb22685d19141"
+      },
+      "events:marriage_pressure_35:/choices/0/text": {
+        "source_sha256": "8ca7dada197295b5022e4aaacccf33a644652828ec14256bac10585d3178e796",
+        "target_sha256": "2ef9e491410ec00a06f577284470fe597143f86b90d1936d51530f6319ebd1f8"
+      },
+      "events:marriage_pressure_35:/choices/1/result_text": {
+        "source_sha256": "b2439d2c634df0c448831ef27c37277372330599badafcf07dd9c480f18cc9ff",
+        "target_sha256": "0a7d5a8251bb2ff80e3a72f299f47765adf69b2b432538d9387f83545ee0d3f9"
+      },
+      "events:marriage_pressure_35:/choices/1/text": {
+        "source_sha256": "128ae85f6a650119a70a8e9e68b208e3534372228e9038bdf6b4a2ad3b73d735",
+        "target_sha256": "ecd9e4164d7ba7230935f9edb9c09baac43776e2fad73d2092d89dafd4b67c9f"
+      },
+      "events:marriage_pressure_35:/choices/2/result_text": {
+        "source_sha256": "34b51ec308d5bb7516f30c0ab2033fd7b6104244cf06fb8343b839237094a00b",
+        "target_sha256": "3329cfa24b93568485a11d1e11e45c50bb8832967681a346dfa789cab80a6fee"
+      },
+      "events:marriage_pressure_35:/choices/2/text": {
+        "source_sha256": "0587b7c7db9da3bd58c8f2f7d3c2c35298424f4f4aac1cf9738aacc86ac74cc3",
+        "target_sha256": "8d707c81e496f7a718734480d692ff60e968fc5afb70823358044af1dd409004"
+      },
+      "events:marriage_pressure_35:/description": {
+        "source_sha256": "ad587cbb6a87be022f960d3bdf6c91319349c0aa912e44a7582c3f5d36108914",
+        "target_sha256": "06eca45aae9181d4bb34dfa1879dcc63dd8b89c61d44126da0148aeccff48f09"
+      },
+      "events:marriage_pressure_35:/title": {
+        "source_sha256": "fd76af0aa14e4c56dfd888fc2a3ec63444b0013de3eb57737d34d20bae992991",
+        "target_sha256": "c0809944e4a2f52913c23fe7bc78bfa3eb99b939c8e15c335e466e5c60b6f37d"
+      },
+      "events:omakase_network_payoff:/choices/0/result_text": {
+        "source_sha256": "167f93d6be3fad7c03292ebb2f4058bb32f9083257e7dff2076101ada0d4f220",
+        "target_sha256": "3dbc09673c3e34d000421540dfa54c3b123e6e3a8d8683049f898577f057d550"
+      },
+      "events:omakase_network_payoff:/choices/0/text": {
+        "source_sha256": "40df1577abf498d93e21d48d2a743046fa4d3eeb874854323143ea640a3d780f",
+        "target_sha256": "a58306123445e3234956e72d4c4fc3dce718d6fededfcb1a20108b11120873e0"
+      },
+      "events:omakase_network_payoff:/choices/1/result_text": {
+        "source_sha256": "42522497c3a1083f99fb1e63d0dc7acba3114ee47488d786d9f3eb4c174c68c1",
+        "target_sha256": "0860add7025046981004977fc938ce0e2fb2fd990f0258da303064ea0eafb817"
+      },
+      "events:omakase_network_payoff:/choices/1/text": {
+        "source_sha256": "1bc0ead0ee0097f183d556e5cd02da7fdc9bfe5c402e62bec474c020825b79f0",
+        "target_sha256": "f753bfc11a1e2208323ad8bde81de2ef6b9ca53091c80b3cbbdb65bbf06bb5a4"
+      },
+      "events:omakase_network_payoff:/description": {
+        "source_sha256": "4a38f257be038c1547437d9be15570c7165b769b6634d056a8b2bebe14a607bd",
+        "target_sha256": "2eaceb63a308e358e165cbde0157c3750a1c61e0721cab13c3278143a04cbe77"
+      },
+      "events:omakase_network_payoff:/title": {
+        "source_sha256": "4b6be2f202625616e1f9476285c80be966fe74c3a361dd69404cd689694b2cb1",
+        "target_sha256": "9eaf79e3dce5042a1dc2c40a22522385b034e3e238a445f17562f49bb31074d9"
+      },
+      "events:omakase_peer_invite:/choices/0/result_text": {
+        "source_sha256": "ecb374d2ca1a6d088bda93c450d3ad1ce765f78c370eadcaa71e6f52afa1a751",
+        "target_sha256": "2014206360777b873e6a56cd0beb68b5717c693aff142c267e3a21f77a5df5b1"
+      },
+      "events:omakase_peer_invite:/choices/0/text": {
+        "source_sha256": "b4e201ff22d0763a07cefcb15d883b07299154410af2f8a96cb04af04ed25147",
+        "target_sha256": "41471f073027a573a7559298ede80320604858ba588ecd21d33e5b715335073e"
+      },
+      "events:omakase_peer_invite:/choices/1/result_text": {
+        "source_sha256": "198fc452d030d5e6eb368dc8231edfed3e85fa33405e6df47391be74492f24e6",
+        "target_sha256": "79d3ab8669cd7d658c70d43558face70487359b0b8de690f7159c1b454aa632b"
+      },
+      "events:omakase_peer_invite:/choices/1/text": {
+        "source_sha256": "803e068761273099c1bb5f111e39ac42bf81d21b3e43c37972e8546b352804a6",
+        "target_sha256": "59a3d1382ad29acf09efb594483f9736fae45cda7b53af11491a0b7f324cd256"
+      },
+      "events:omakase_peer_invite:/choices/2/result_text": {
+        "source_sha256": "eb6866bde1a53e1af1ed81cf3f793ac28e84e1f4a36e0e0142bfd75b0b26c74c",
+        "target_sha256": "82217013269e361db6e8352044cd5995a73a5327a0bdc013dc62d91cc09ab76f"
+      },
+      "events:omakase_peer_invite:/choices/2/text": {
+        "source_sha256": "af23b5855b0a31d9d5e53709eac6f19951168e6d324c6dfa4dbbd859f48010f1",
+        "target_sha256": "95379213e52211219f86bd4fc16d19d9ea6ff4eca3fc04d0067038693f260ebf"
+      },
+      "events:omakase_peer_invite:/description": {
+        "source_sha256": "a7588d1b5e8d1e7297b0bcf022612332cbfc27af70f77f851be9b4bcc0aef366",
+        "target_sha256": "2576bb2184d0d073e1ee4b283ab3bd25000c0d1eae4c464105b15a96ddb40bc2"
+      },
+      "events:omakase_peer_invite:/title": {
+        "source_sha256": "c0cc75d657ed5b7e13e447e1dec948fe8af4ef05d650c52e9bc0bf3c08a33f92",
+        "target_sha256": "e329d7f6895188aaa15c9d0f884be7593bc3d3d7e223b5b7988a87b6517e1192"
+      },
+      "events:solo_life_discovery:/choices/0/result_text": {
+        "source_sha256": "63dca3af49a8bed9c6d768bcc842757a22fd6d8fb364f30c134d8a31b5049a06",
+        "target_sha256": "6800edc244be1c0147611af01f7855a3ee18d27077c9cbb6e9d9405d670d2e84"
+      },
+      "events:solo_life_discovery:/choices/0/text": {
+        "source_sha256": "ffdc8baaff589888805df67599cddcda207b684d170f3c54af3435b147333976",
+        "target_sha256": "82b1f6218cd275d77b96a943883368de732eca31862fe2ce79e3104da9df7f2a"
+      },
+      "events:solo_life_discovery:/choices/1/result_text": {
+        "source_sha256": "3c6155ae2b0f03002b688caf0ad0b3f6a2c7511bb3552c2af1747d056b11e911",
+        "target_sha256": "fe0d1ac3edb1dd6cc08a79bf602d40e9ae8f4696a5c127e1d978f35d8b0702d9"
+      },
+      "events:solo_life_discovery:/choices/1/text": {
+        "source_sha256": "f08ef580a2ca8b0fd1f8020407d1517bc8678d88d7b05cfd005aa5ab5b4b3721",
+        "target_sha256": "1a696b5fb88b8e292cf4279007797781154220cef548a708fac6edc055dcf5e0"
+      },
+      "events:solo_life_discovery:/choices/2/result_text": {
+        "source_sha256": "07eace0feb583c34d261295be4de42e6260cd52070117be8dd1504681db0eac4",
+        "target_sha256": "463186236b67f922446ddb16354e6dfc3f454613853e1f50dc3b427b0ae93e28"
+      },
+      "events:solo_life_discovery:/choices/2/text": {
+        "source_sha256": "0b246c84015db0c00629f0d8a66a62183724ebe79e729a64f5784b613f369ab8",
+        "target_sha256": "d527d33b06cf44e5119853aad007ffb8cc627900341646f64b86c612a0ecf0ab"
+      },
+      "events:solo_life_discovery:/description": {
+        "source_sha256": "6034326065ed6f256366a2908c34a6f8db9ab94808cd10d8d07550bc085c42ab",
+        "target_sha256": "e54b68228bfca3a346e7cfc6723a1cc51c8f13f651700f38c6bb5d6bf5e3bc01"
+      },
+      "events:solo_life_discovery:/title": {
+        "source_sha256": "a0e31dad92890d454c837bcf8375efc022c3560177162e32e22ce33bfa62d6cb",
+        "target_sha256": "1d4974e393f5af5dfd37d5162905df526f86be7bd419a2b9fa4880024e19cdb9"
+      },
+      "events:wedding_invitation_flood:/choices/0/result_text": {
+        "source_sha256": "bd43ff157c013048b701035819c4594ef16509014174517a5c39faac7898d40d",
+        "target_sha256": "ca4c2cf25c3d955eda794d32e651d9b9818d72551b2bb7ff616cbc765880c722"
+      },
+      "events:wedding_invitation_flood:/choices/0/text": {
+        "source_sha256": "2f3c053a77e63d2d7abac893d887481b080f2d1f4b1bc777b315afabdb2e4b36",
+        "target_sha256": "d98e1f82c09aa91d1663a21aed63ad1d81e7337b82b3bc11bd63d990d7877e3a"
+      },
+      "events:wedding_invitation_flood:/choices/1/result_text": {
+        "source_sha256": "ae476c2a78e9c58db380cfdf946aab26c7cff2e233866a60b3be8fc80f7bbf84",
+        "target_sha256": "91cdd3627c75ba8bd607bacda7464db52988ed3f441657b81ce8355f3eed1fe0"
+      },
+      "events:wedding_invitation_flood:/choices/1/text": {
+        "source_sha256": "4d53530e091213d3166f96a729ea87ad48fa2595f7570f6f8ece23bbad30a556",
+        "target_sha256": "010c11a03a9ff5e60df5c68c402255dc93a9335510ef89773aa6c3b7ffc84075"
+      },
+      "events:wedding_invitation_flood:/choices/2/result_text": {
+        "source_sha256": "e35d893b816d1d08f0e22005c6598e787e76cd735b282b9f2c54c3feb23d38f8",
+        "target_sha256": "e655f28b451a0cd6ff2bf45e4b4fb23c2f114de7ffcc84256850e9e6444dce43"
+      },
+      "events:wedding_invitation_flood:/choices/2/text": {
+        "source_sha256": "00b56e0f7dc1c43925d0e117afaa360ec11c161c326425c0b611d58571cfbed1",
+        "target_sha256": "6c0a5c053b4dc7812fab58a8a8ec7e056d1a150181cbb2408230831ddf8ecd91"
+      },
+      "events:wedding_invitation_flood:/description": {
+        "source_sha256": "410dc20b5e34d52848872147177ee1eb219f757c985143707df86f27945040c3",
+        "target_sha256": "916a49dd7a7bd0960349e2c51de5319737b2abea21018833783423f48a5a6d55"
+      },
+      "events:wedding_invitation_flood:/title": {
+        "source_sha256": "706749457670237d0417028593662770541ad136358639cb98fcad485b974a0b",
+        "target_sha256": "bf59768f8616ebe7cea319847ec2447292d058a89f30cb7ba0c6e573abe4ed96"
+      },
+      "events:yolo_morning_after:/choices/0/result_text": {
+        "source_sha256": "57d271247f750ab6fda865c32c9ea26b38cf916da79f784a61bb463e0635e88f",
+        "target_sha256": "6252cd94fb21c12654e7902c3e2d03d109442070b470981af19c46f35ce78733"
+      },
+      "events:yolo_morning_after:/choices/0/text": {
+        "source_sha256": "1e73b7ad4d2954222cf926ed056e12010301c008ddccc0b6b18e3e2216aa6137",
+        "target_sha256": "0fe3b524dfc3dcf70760a7365a4a311b9cdc8377ed985fa3bf84fa545f85727d"
+      },
+      "events:yolo_morning_after:/choices/1/result_text": {
+        "source_sha256": "20198f94dcd9b4b87829ea626ecc46d9723555cb76ab12f847f2fc15e3731220",
+        "target_sha256": "e9cd8bcf0e2db5c8bb59a2859564f8271eba0d2b3a1a088122ce38e20d8f7954"
+      },
+      "events:yolo_morning_after:/choices/1/text": {
+        "source_sha256": "d50e20b1cf55387eb08743948ee375763ad5caffe7adef9c0def371cc3e2814e",
+        "target_sha256": "619533d8355b62e59124564d01530d474f9ca45973018b6dbe39aa37a305e4b3"
+      },
+      "events:yolo_morning_after:/description": {
+        "source_sha256": "37be8f630abdc2e9969de3fd2a3bab03dd80a21024c7a23a762aea6bfac2ffd4",
+        "target_sha256": "739ad43868a9fe823f730e4c726c9c0cf1990b148d632b48e877831e2febaa35"
+      },
+      "events:yolo_morning_after:/title": {
+        "source_sha256": "acbbc98c4a1721ad93fb88e71592d05f5cdc8d1cb16c5607284b52c584e822e2",
+        "target_sha256": "05115b8450a76c1acc18b485144134b1e9415cbb72175daf155b3059a36c36ce"
+      },
+      "events:yolo_spend_moment:/choices/0/result_text": {
+        "source_sha256": "505aa2579b15b9dc33bf87428ef1a1e97c3990ab9d8cb7cac78ad01f707c8d17",
+        "target_sha256": "3ecc94454c7739e34ee3e2598612638b6f5cf4b40ded294c1e57cd329a341cad"
+      },
+      "events:yolo_spend_moment:/choices/0/text": {
+        "source_sha256": "2aa91f3fe47f566f02a26eb0327cf13cb1243bd96a8acbd12cfaa2c0fd63a17f",
+        "target_sha256": "6ca3471fe0fcdd20952bbf60eac09d2b038fd5bb507de0d030fd127640c2bc82"
+      },
+      "events:yolo_spend_moment:/choices/1/result_text": {
+        "source_sha256": "4f37d176bdcfc62a2e92d276bcb54e8a250c1b55654e14c5d7610137c85779eb",
+        "target_sha256": "663718d201a1a45b90f5aa0cf84fa975ed423a62d30fcbaf47a72ef47df7dd00"
+      },
+      "events:yolo_spend_moment:/choices/1/text": {
+        "source_sha256": "6dd0a6f60bd0bc15fdf14c3d66cf847b4d448d3b521272fb987360cc94e89c53",
+        "target_sha256": "bc98bce993011c2d4224261e1b7b7e76c7cc89b08436fd00b75e464027d2afe8"
+      },
+      "events:yolo_spend_moment:/choices/2/result_text": {
+        "source_sha256": "c14a16fdefbeb7d3514ff8bf9728114b25a7d13292d75bc5dd3e999f87959ef0",
+        "target_sha256": "39e542cc979a2ff03030c4fb1ed7b5058bd48b80a850da30a6f6e29ad07e387b"
+      },
+      "events:yolo_spend_moment:/choices/2/text": {
+        "source_sha256": "dc5e08cd9786dc3fcfb9dff79358c82451ae0f63ef0ade3f79697c56a1222d34",
+        "target_sha256": "b8b8baeec342895a1c4641391915b98c595290f14a2ce2d3b66e1dac710a417e"
+      },
+      "events:yolo_spend_moment:/description": {
+        "source_sha256": "ebb6980fea6f1731c7ffdc0fa0ab02789bbc4805323fc9711343382e79979d66",
+        "target_sha256": "404c969fccac668719f2c9695c6eb4b4b86510a3ef41e75cd341928ee607061d"
+      },
+      "events:yolo_spend_moment:/title": {
+        "source_sha256": "f2c19e85e9890561915ffa1d394ccb3ecf152e9687befb60d9a8518d6678481f",
+        "target_sha256": "1ca57247e2014818f4ad616b7df735afa9774a70f60e0b602465d262b1b8f0a9"
       }
     },
     "zh-TW": {
@@ -70451,10 +71314,426 @@
       "events:drama_winter_cold:/title": {
         "source_sha256": "b996eaf17230bfdfa7258fef46349fc7cd10a0b95fe7fd1ebca9e1e39da146c5",
         "target_sha256": "258c502c08de75e325a34fd02cba05e732893ddbd92224a15205ede3efeb58bb"
+      },
+      "events:bihon_economics_cold:/choices/0/result_text": {
+        "source_sha256": "b36899ef936f4e08b79f5552e0d156e4e21e57be395123e3808d648b02dc1ef5",
+        "target_sha256": "6714d32552ab354b363e268ae9b5b043d94b5783429dbc02ec167272fefd7530"
+      },
+      "events:bihon_economics_cold:/choices/0/text": {
+        "source_sha256": "2a52071b2f4c3191cbba1fb7b27a7562ced5616cfd4eddae5cb92a7193882c17",
+        "target_sha256": "c3e4bbfea4d4d45fe971b4b70761a9cfd315a213aa4b5d07c10c536af58fe5cd"
+      },
+      "events:bihon_economics_cold:/choices/1/result_text": {
+        "source_sha256": "700e1ffb6141ab9249b40a3cc88887b10763fc5cda89042e8aa16ba317ae0e19",
+        "target_sha256": "85cb261e92e9b9fd25c64176bfb263034979fa23c81d318d162219546795d689"
+      },
+      "events:bihon_economics_cold:/choices/1/text": {
+        "source_sha256": "40d3c331053e18421001422c359fef2907e102aaa2b5de01d6bddfc38739b4f1",
+        "target_sha256": "74182456f063465cfd2ca5678ca7c52c2180cabf07dc1073bbd617bed66a7dae"
+      },
+      "events:bihon_economics_cold:/choices/2/result_text": {
+        "source_sha256": "a9b2deda0ad1ea29e6853e006c9de878d4febe5ebdc2c3b2f4acf580f4d2aecb",
+        "target_sha256": "3b3823fc3d0f88412621094fb8afab8d5268a32e210782b24628e045ce9ee6bc"
+      },
+      "events:bihon_economics_cold:/choices/2/text": {
+        "source_sha256": "e28b576d96a923de70ceb157dd4d9d49d8c2e5e2eafad8517228dc8392b8549d",
+        "target_sha256": "522dcb5b2db55dde8fe46262bbcc7423107245b556fc568fa1dcef6eaa30a5f5"
+      },
+      "events:bihon_economics_cold:/description": {
+        "source_sha256": "d5191d81cb9d11e446cfc0078c1955ce73d0317cf96e49491937f77c2cb7bf06",
+        "target_sha256": "9a6d84f82026972370aa624e1e4b7aa27af5b49d95160138f54257221e342ff5"
+      },
+      "events:bihon_economics_cold:/title": {
+        "source_sha256": "b817145a9351b4a1f44017953fb3fd883c5d1fbaa3afd9ecf85a6dd846179937",
+        "target_sha256": "1d19ba3affd229e62fc05140cbd64530bd95e6253a7bec48968b029831da9f0a"
+      },
+      "events:bihon_friend_talk:/choices/0/result_text": {
+        "source_sha256": "acddaf03a7d9dfc35d14641745d89bf8eee0acedc7f51b38f36bdc27f2d0a4bc",
+        "target_sha256": "c6af17294047e559fe820dafd8ce3abe734ba536f389e062f000972db3db2534"
+      },
+      "events:bihon_friend_talk:/choices/0/text": {
+        "source_sha256": "bb52706ca1b32e64f736ef36332ff0a87260de8ac62844c0adc92703a12f97a0",
+        "target_sha256": "42179f92a01403b9eba1affb9653a4cf4547857756c417273fef641546d6e37a"
+      },
+      "events:bihon_friend_talk:/choices/1/result_text": {
+        "source_sha256": "c758f94869caeb0a0852e559adf616480b3de88fdf469cba23d9126019df92ad",
+        "target_sha256": "84517782cc83fe794d1c1f201a5faf49d27cdf8885d8c2e2b019deafedf9e6db"
+      },
+      "events:bihon_friend_talk:/choices/1/text": {
+        "source_sha256": "9506ea85bda44535acb8e24757264b23c4f311c75d4cede0a8c523e722035401",
+        "target_sha256": "81e4e0bc66e9e3eae85453811d3c1595bdb820805dfd27e0fe9ce760b12c7b3b"
+      },
+      "events:bihon_friend_talk:/choices/2/result_text": {
+        "source_sha256": "3c8f95108c1c3bd4e03462bcca48002f5ce7d0c91b455e949c301d1888c87c05",
+        "target_sha256": "46678b3cfb115eaf31187154343695a7785e7a51e5485340e86967406746c97a"
+      },
+      "events:bihon_friend_talk:/choices/2/text": {
+        "source_sha256": "aad52c2479e4663cdc1475b1550d5ca43406c4bea8fca409aa5444247619877e",
+        "target_sha256": "a594dbe485e8d9a5c1d41e25ee35e8d2f5b21095d3c1f2944eeac9d8a9183bd2"
+      },
+      "events:bihon_friend_talk:/description": {
+        "source_sha256": "acfd3fe64d4cd5471dc66a5d2813a6dde2ce4bc59bd93d08bf8e6ce918a0fffb",
+        "target_sha256": "b52fdcd7b0bfd45c1fba5babd3b237d25600045d221227800fed32cc864bb33d"
+      },
+      "events:bihon_friend_talk:/title": {
+        "source_sha256": "b6de05f2a86de415b56088df1919b9947e8e553b44b6fe507b34fc2bcc1a7739",
+        "target_sha256": "f7560d0b5f68607d1eacde9c77cbcb2b5c2f5a0502de57586cc8a3c2dbf128c9"
+      },
+      "events:flex_frugal_identity:/choices/0/result_text": {
+        "source_sha256": "da96a4ddd1c8cb0437179f9eee595874bafc7682b99d60e13fba05afc8924e7d",
+        "target_sha256": "2cdc8f7db75b9e940ba79139d2601aee91533b35aad70c5204717ca02bcd48cc"
+      },
+      "events:flex_frugal_identity:/choices/0/text": {
+        "source_sha256": "a23353db5cbe44c112a1f0d5f537b2228d1a669f413ebd1ca735669855759628",
+        "target_sha256": "ba3c299e2690dd71c9ca75b0a86deecbbf89d2f27b335460e32f3c87804fd8e5"
+      },
+      "events:flex_frugal_identity:/choices/1/result_text": {
+        "source_sha256": "c0c5973a01e3d66f10d8b665b87d21d9f3a4c2cad676e53fa28da18a24a136c3",
+        "target_sha256": "6072fdf32b92fcb6cb490794f6254b0b7ac784ac7170eee922dfafd3bb323229"
+      },
+      "events:flex_frugal_identity:/choices/1/text": {
+        "source_sha256": "1efac237505a51713c10184064692f3f3d938edcc287d213bbc04e314a23bfe1",
+        "target_sha256": "e0b8c34692f8db034774511d58c42ac063137ebfe223955ce14b20b52343c5ed"
+      },
+      "events:flex_frugal_identity:/description": {
+        "source_sha256": "1a81ae2589993ec4160f7f9729787fd4f3d70c4218d223df9e37fa6184d9b7ed",
+        "target_sha256": "2e28b56c3db9c4ac4ebd36ec955605927c9e0a430cc5bb98490e85b2935cd6a2"
+      },
+      "events:flex_frugal_identity:/title": {
+        "source_sha256": "d1fb678d05d79f15feb925815838002e6747ff21a5a0362f59279616cc46e72d",
+        "target_sha256": "df48c1c1a903f87e11b58551f7953c135083c343ecf2afa8a18b0291dc170bc8"
+      },
+      "events:flex_golf_invite:/choices/0/result_text": {
+        "source_sha256": "dc4eaf2f82da22da26b68f88876d74161f1f71506a486744b026104fa76d0fd3",
+        "target_sha256": "9185dd9a698df0f3c82452325d15943733e2977ea637c04ab996785bfd1387a6"
+      },
+      "events:flex_golf_invite:/choices/0/text": {
+        "source_sha256": "fb6f86828b79adca5fea5a84284ee84aabd69b9b4c5aa3020920ff21d0226f8f",
+        "target_sha256": "5f7f6e00431efe24579609828b9ab925c4ad60ecf2851862b1dc7252b82bbe63"
+      },
+      "events:flex_golf_invite:/choices/1/result_text": {
+        "source_sha256": "bd8ad80c78d92b43a71da9dd30546234ff523ea37dba2b33a771efac6ace4907",
+        "target_sha256": "20e3e9e974c78bc893d8b84957ad97f596f10d18f6254ffea1f3c88da891f31f"
+      },
+      "events:flex_golf_invite:/choices/1/text": {
+        "source_sha256": "39741d66b59083a1886f04a09f5c0ea7fa83af8b1bbb92936e1cebeee53bda71",
+        "target_sha256": "9e9c95852c020d57eaa97a14c006e145d799a29a961b9c8ef7d0257db47e08c4"
+      },
+      "events:flex_golf_invite:/description": {
+        "source_sha256": "bc96d3007a48e270ef625d7935f93a8814fd0c6308d61ac0c350b6d9c09370ee",
+        "target_sha256": "ccd1061da3db5976bef2fd8b9cece05cd8a825dbf5207c3fa05aafbdf2be7ac3"
+      },
+      "events:flex_golf_invite:/title": {
+        "source_sha256": "e3b2c3d85916e1c014b66d150195e8269c63ece56f71a77f923f4942e44515cf",
+        "target_sha256": "c72be97449412af4a95eee7e657f1b69d12930463d8eb60b5482510ac60e5df2"
+      },
+      "events:flex_hotel_staycation:/choices/0/result_text": {
+        "source_sha256": "2fbf698e3a6f0e8c44be90e90d0e343eaa651f82c3e31a611c5c1162a2c8052b",
+        "target_sha256": "39960a69287d5dab70e3daff4c4e7eff72c4a6df1a8239a8503c0be6e8c5f1b7"
+      },
+      "events:flex_hotel_staycation:/choices/0/text": {
+        "source_sha256": "adc7eaf2ac5d0a614b60164ce3d3043b1435a9cae3cfe71afd2e38eec1cb1e44",
+        "target_sha256": "8c9dc998eb3c1110b12fa37f1dac19b4f323d4e9624904bba9ae2b193786c0c9"
+      },
+      "events:flex_hotel_staycation:/choices/1/result_text": {
+        "source_sha256": "45d197c0401d2986969030b0408c2b99b2d32cebb5d0072e296373ee42e6496d",
+        "target_sha256": "0afd1a90cbac18d9e665bca38fab533f8a2fb5aceb18f5c88c375366501a90da"
+      },
+      "events:flex_hotel_staycation:/choices/1/text": {
+        "source_sha256": "e2e21c1e6816de502b130601db06754e523e5728187489d1583227bb04cbac9e",
+        "target_sha256": "9239707f7065a71dcb65782f05ae28c9a1d779c441213100058a431c5f25c477"
+      },
+      "events:flex_hotel_staycation:/description": {
+        "source_sha256": "6ce3e3458377bdacea7041b59be7f7ac96857f553a49665fd93aad2f064ebd3e",
+        "target_sha256": "c9e64da312c907cf0b50e923811b35a066c3ea3d90ab109b63803ed77c2f5f62"
+      },
+      "events:flex_hotel_staycation:/title": {
+        "source_sha256": "bfc56d2ee360547e265f191311151440bb1f8ab55e3b9de1b56321625b55ce9d",
+        "target_sha256": "e986c52371834950c00f86fc44d1565ffcc312b8fa883d07606f9be918eb6e74"
+      },
+      "events:flex_imported_car:/choices/0/result_text": {
+        "source_sha256": "bf276fee22fa5fb028e18ddc452ba908ab48cfff66d8e6d0e7de49414f0619e0",
+        "target_sha256": "bae1340221517fded8507c68113922eacd830d4ff6cb40caab5c28fedd7a667d"
+      },
+      "events:flex_imported_car:/choices/0/text": {
+        "source_sha256": "7a4ebe897f5500a090109279416904c90c78b3c71021fe5e1a696865b6f538bd",
+        "target_sha256": "da0f2136d45f45008163fc47797641365aded2a47b1d711e1d5ab7c167a42d3c"
+      },
+      "events:flex_imported_car:/choices/1/result_text": {
+        "source_sha256": "4af35d139f8c3d6a85489ba4587b95dc620bcb13a39a16736f30045a3ebfa7c1",
+        "target_sha256": "c15b021dde8bc3cb3a7209ee285ee4ace6fc169c682b4478287d1b51f2005e5a"
+      },
+      "events:flex_imported_car:/choices/1/text": {
+        "source_sha256": "a61c4985a8d3018a42c87f82642e100ab17c7863d25b9ca0c36221430bfa99ab",
+        "target_sha256": "e2a44a2ed6af887f6626eadff265a91a0211649782be6deed582c4fffe5ae55d"
+      },
+      "events:flex_imported_car:/description": {
+        "source_sha256": "84c27203a3d4f326e5676212b94f0bec4d9fe7fcc48c6badf41306704cf529fc",
+        "target_sha256": "04700c79195e6ed4087a29bd49222e5b9256b9b9aa8ddb0d430f14c90fdfd41d"
+      },
+      "events:flex_imported_car:/title": {
+        "source_sha256": "c21adb1ad8d867a9f6f0abffde607c7373596248cf49b540ab0dd52b1bc6670d",
+        "target_sha256": "80a08ee939982c4d624c8ff5d06f5c66f138226b62ad3dac7c877ace5220fb5a"
+      },
+      "events:flex_luxury_first:/choices/0/result_text": {
+        "source_sha256": "e4e1de1f8166f5c26e780c8616495b5b1a1a36a8efcb57871450e7aefe8e3732",
+        "target_sha256": "17763d21c75296c872d430f67223d18651517ffdfe0ff98b0d9f1308a56f6be1"
+      },
+      "events:flex_luxury_first:/choices/0/text": {
+        "source_sha256": "b033ccc0f165977ec5b2e62de42e80a87856bfa5217628090e98262e25b1d292",
+        "target_sha256": "db1a3710fde2a768ed38c10d2a9ce7230463f4556d9256cd23f4eba00ce626ae"
+      },
+      "events:flex_luxury_first:/choices/1/result_text": {
+        "source_sha256": "edf77d8bf4e2fa0ef88b588aeeaf16b9c10c722d558971b921defcac3cb2a0a7",
+        "target_sha256": "4398e7bb6b1e827c30d60d0cd0d6fd956aed88f0623b8240da3ae03c902c4fe9"
+      },
+      "events:flex_luxury_first:/choices/1/text": {
+        "source_sha256": "f16f2192bcbd1fd28283b014453804b7d0399cdee12e6ec2b6b5c716e07bff50",
+        "target_sha256": "32858632a94027bef1eab67c6fd1cf67f0abbedb607fc9582d5040c13678ff96"
+      },
+      "events:flex_luxury_first:/description": {
+        "source_sha256": "22090f56207d0d0c3130296f68982767078259e4f893c9e65e712e4a0c3b21c4",
+        "target_sha256": "77d064a9a5ddee70145f213ef90e12eeee979b4f3ba29898e9c31ec21107c55b"
+      },
+      "events:flex_luxury_first:/title": {
+        "source_sha256": "1499f02fe8d0de9723dd98b0e22cf1afcaf232e78cb0f36cba96b9dac8124a22",
+        "target_sha256": "f424f22a30c9a7313fc5c140ad91552c5bc19b379afd5921ea3464e8814bcf73"
+      },
+      "events:flex_sns_envy:/choices/0/result_text": {
+        "source_sha256": "4aa0abd415e2b7820e4a3014fd31fa125ea330ed53db6e8de44cddaecfda172d",
+        "target_sha256": "80fc8a2b5bb980840d3204b473d8a768aac7f203968202064dac447141de0ce4"
+      },
+      "events:flex_sns_envy:/choices/0/text": {
+        "source_sha256": "89e11423444d30f411a62bcad23566255acf9115cb9d689d1f5aca7147d391f5",
+        "target_sha256": "e35a1df9f6a2a7cd914736144d830e360ff33e3b855aadddad0fbd964362b8bb"
+      },
+      "events:flex_sns_envy:/choices/1/result_text": {
+        "source_sha256": "a4f3ab432b175a6fa973534e82b5152a540a7b23fd2cfa0f7961f9fc02f9ef05",
+        "target_sha256": "57f5f08667e9d54aaec6a7073d4d7f45317a9ca7a9bc69bc18cecdd3ef905fa0"
+      },
+      "events:flex_sns_envy:/choices/1/text": {
+        "source_sha256": "681a260676447c9e2ec2251edafc5d5cf30bc60535059de99ae313dd64e13598",
+        "target_sha256": "47e055723295e8527ac10a810081e3803b013ea9fa7b7da8e8516c8bc096c62f"
+      },
+      "events:flex_sns_envy:/description": {
+        "source_sha256": "dd5dc81fa68f38d671b48155e05fde9fedd2a8e949e73a596b36e6d86051f14e",
+        "target_sha256": "be3b4e493622aec22e4331cb504a475c570ba332ce55d13bb6fc90d9c40e7a45"
+      },
+      "events:flex_sns_envy:/title": {
+        "source_sha256": "1913424e02cf345670e24744fe5cdaef15dd18455660db957274860ea1a4c1bb",
+        "target_sha256": "8c4c2f00d0d190e4cc3b2be8c28a7d87863d903035eafd797cfb17aa51d25ace"
+      },
+      "events:marriage_pressure_35:/choices/0/result_text": {
+        "source_sha256": "f8eaa882c70f7d3c66071e1b1c8d0f2297f605cf15f58e194b6b0987fb390cae",
+        "target_sha256": "1958eecc572abeb92ca99afd8cfff54b35768dd81f9f23aab5d304c51a68e1f1"
+      },
+      "events:marriage_pressure_35:/choices/0/text": {
+        "source_sha256": "8ca7dada197295b5022e4aaacccf33a644652828ec14256bac10585d3178e796",
+        "target_sha256": "722b2b52127a0428f4b3a1dc8c10f8f4b296accf62b7ac22054a619be5cec511"
+      },
+      "events:marriage_pressure_35:/choices/1/result_text": {
+        "source_sha256": "b2439d2c634df0c448831ef27c37277372330599badafcf07dd9c480f18cc9ff",
+        "target_sha256": "1e9f26f0e1163704e50e6c5b5706fa9e81da3e7f0154300ee07469ce5d8eacd0"
+      },
+      "events:marriage_pressure_35:/choices/1/text": {
+        "source_sha256": "128ae85f6a650119a70a8e9e68b208e3534372228e9038bdf6b4a2ad3b73d735",
+        "target_sha256": "42240e82bd71eb7572c7046333acfdc4c49dbfdaf742dfe78e82c0d62dfbc3d7"
+      },
+      "events:marriage_pressure_35:/choices/2/result_text": {
+        "source_sha256": "34b51ec308d5bb7516f30c0ab2033fd7b6104244cf06fb8343b839237094a00b",
+        "target_sha256": "8f6e9389e69b2a79769696b1e60d5ac8c57abc2a5226d871c21925067c3547a1"
+      },
+      "events:marriage_pressure_35:/choices/2/text": {
+        "source_sha256": "0587b7c7db9da3bd58c8f2f7d3c2c35298424f4f4aac1cf9738aacc86ac74cc3",
+        "target_sha256": "f2d44141cded8de6305640e898d3fd2586bd50f973e72be685323889779405fe"
+      },
+      "events:marriage_pressure_35:/description": {
+        "source_sha256": "ad587cbb6a87be022f960d3bdf6c91319349c0aa912e44a7582c3f5d36108914",
+        "target_sha256": "23dc8ab48cb73c7d1792ef06ab9a96f435ad7ef60a52655b1d85b75f192e16c4"
+      },
+      "events:marriage_pressure_35:/title": {
+        "source_sha256": "fd76af0aa14e4c56dfd888fc2a3ec63444b0013de3eb57737d34d20bae992991",
+        "target_sha256": "6b74698d536e0941f70c8444fc402488c4f6d06f879ef8e49eb0f8b438efd890"
+      },
+      "events:omakase_network_payoff:/choices/0/result_text": {
+        "source_sha256": "167f93d6be3fad7c03292ebb2f4058bb32f9083257e7dff2076101ada0d4f220",
+        "target_sha256": "d5cec3e5a7d60ed31d61e30addc3436f7d65eb07737c217ba8914e08448de45e"
+      },
+      "events:omakase_network_payoff:/choices/0/text": {
+        "source_sha256": "40df1577abf498d93e21d48d2a743046fa4d3eeb874854323143ea640a3d780f",
+        "target_sha256": "c85e6d99be7f2d215ff0a215325803c36376313fc16204120e9760e6c74fff69"
+      },
+      "events:omakase_network_payoff:/choices/1/result_text": {
+        "source_sha256": "42522497c3a1083f99fb1e63d0dc7acba3114ee47488d786d9f3eb4c174c68c1",
+        "target_sha256": "de8b2c70518c13f7a84fc5996877435dfec922494e85ce9b07c0047f1c6f6099"
+      },
+      "events:omakase_network_payoff:/choices/1/text": {
+        "source_sha256": "1bc0ead0ee0097f183d556e5cd02da7fdc9bfe5c402e62bec474c020825b79f0",
+        "target_sha256": "31f24b6287408d759ebbafe43ba02d0e55ab9a720abba063d2cd411ef8ca17ee"
+      },
+      "events:omakase_network_payoff:/description": {
+        "source_sha256": "4a38f257be038c1547437d9be15570c7165b769b6634d056a8b2bebe14a607bd",
+        "target_sha256": "72a413e9512a2ac6f687d24a593a5b291d4ad59002fd15a18e28255570ef22a3"
+      },
+      "events:omakase_network_payoff:/title": {
+        "source_sha256": "4b6be2f202625616e1f9476285c80be966fe74c3a361dd69404cd689694b2cb1",
+        "target_sha256": "5a00b946fdd9d5e6beb47e9e19f702b2f790a42bb15d12b275025c4e6f7d1061"
+      },
+      "events:omakase_peer_invite:/choices/0/result_text": {
+        "source_sha256": "ecb374d2ca1a6d088bda93c450d3ad1ce765f78c370eadcaa71e6f52afa1a751",
+        "target_sha256": "91a3da45c4481a0f494e7bf1dd1a23ddc36d3f1294ea159eb5236983ef69baf6"
+      },
+      "events:omakase_peer_invite:/choices/0/text": {
+        "source_sha256": "b4e201ff22d0763a07cefcb15d883b07299154410af2f8a96cb04af04ed25147",
+        "target_sha256": "86b60b00021f44f5c8dcd935d4cb867c9d936214871cd7343303393c26f7d514"
+      },
+      "events:omakase_peer_invite:/choices/1/result_text": {
+        "source_sha256": "198fc452d030d5e6eb368dc8231edfed3e85fa33405e6df47391be74492f24e6",
+        "target_sha256": "4e42c4d12a0b552ee1f437cb91e194c84f66dab6832df28999bf205d8ddbfe3d"
+      },
+      "events:omakase_peer_invite:/choices/1/text": {
+        "source_sha256": "803e068761273099c1bb5f111e39ac42bf81d21b3e43c37972e8546b352804a6",
+        "target_sha256": "ec7b055f48f3eaf8e56555784e594fae1ec2cd27e20cd0d35764af02e7882c8d"
+      },
+      "events:omakase_peer_invite:/choices/2/result_text": {
+        "source_sha256": "eb6866bde1a53e1af1ed81cf3f793ac28e84e1f4a36e0e0142bfd75b0b26c74c",
+        "target_sha256": "9294da8722e99109a35cd5899d316a547137168640a3e893f69814e74e6559da"
+      },
+      "events:omakase_peer_invite:/choices/2/text": {
+        "source_sha256": "af23b5855b0a31d9d5e53709eac6f19951168e6d324c6dfa4dbbd859f48010f1",
+        "target_sha256": "363a29cfc5ba482ace9f2928bd9b7a6e805fbf9545ea8b135bdf6b8f98ff1b2c"
+      },
+      "events:omakase_peer_invite:/description": {
+        "source_sha256": "a7588d1b5e8d1e7297b0bcf022612332cbfc27af70f77f851be9b4bcc0aef366",
+        "target_sha256": "1e2a86872f384d47162238057483753d4e6f71952d641853659172b8e69293c4"
+      },
+      "events:omakase_peer_invite:/title": {
+        "source_sha256": "c0cc75d657ed5b7e13e447e1dec948fe8af4ef05d650c52e9bc0bf3c08a33f92",
+        "target_sha256": "348f057c2ff95c08e86677b9fe2c8810f680cd065429da1472bd324ea2226ce1"
+      },
+      "events:solo_life_discovery:/choices/0/result_text": {
+        "source_sha256": "63dca3af49a8bed9c6d768bcc842757a22fd6d8fb364f30c134d8a31b5049a06",
+        "target_sha256": "b6e46df02dd0a860ffdd40db1127f31b07e4b71587d7152298aabea97d7a6ddc"
+      },
+      "events:solo_life_discovery:/choices/0/text": {
+        "source_sha256": "ffdc8baaff589888805df67599cddcda207b684d170f3c54af3435b147333976",
+        "target_sha256": "61f72065291e98c060c17680c300767a19cd43520b710160aee0b7aa077b6885"
+      },
+      "events:solo_life_discovery:/choices/1/result_text": {
+        "source_sha256": "3c6155ae2b0f03002b688caf0ad0b3f6a2c7511bb3552c2af1747d056b11e911",
+        "target_sha256": "31bb1361ed81db651573d6da643dcc312bbfdd50ce34cb2768c394205bcae2ad"
+      },
+      "events:solo_life_discovery:/choices/1/text": {
+        "source_sha256": "f08ef580a2ca8b0fd1f8020407d1517bc8678d88d7b05cfd005aa5ab5b4b3721",
+        "target_sha256": "f19891f5eb9ceae56051ebc868a7baa46d868cd227096052034ba8f394f5710a"
+      },
+      "events:solo_life_discovery:/choices/2/result_text": {
+        "source_sha256": "07eace0feb583c34d261295be4de42e6260cd52070117be8dd1504681db0eac4",
+        "target_sha256": "40be76d8d8564698970406722e489fefcfdaa56a9eb48a7e6549189816a910bf"
+      },
+      "events:solo_life_discovery:/choices/2/text": {
+        "source_sha256": "0b246c84015db0c00629f0d8a66a62183724ebe79e729a64f5784b613f369ab8",
+        "target_sha256": "8fd3786e08fe0d5d031b218f007f67dab820e84fea828268ec2ac9f5d55344b5"
+      },
+      "events:solo_life_discovery:/description": {
+        "source_sha256": "6034326065ed6f256366a2908c34a6f8db9ab94808cd10d8d07550bc085c42ab",
+        "target_sha256": "edc07de96d6623897ebcedca9cd4ebd192b3e01a5705c2b6b9daec9c3142ca78"
+      },
+      "events:solo_life_discovery:/title": {
+        "source_sha256": "a0e31dad92890d454c837bcf8375efc022c3560177162e32e22ce33bfa62d6cb",
+        "target_sha256": "d9a1be35c2ec59ada08641ae18d0e4339aa8b2ba73743ccbc5d8dbbd33448da1"
+      },
+      "events:wedding_invitation_flood:/choices/0/result_text": {
+        "source_sha256": "bd43ff157c013048b701035819c4594ef16509014174517a5c39faac7898d40d",
+        "target_sha256": "74a6230d18329b46ac31a561c71a7c38b5b3ea439e3243f368d200dfde516b3d"
+      },
+      "events:wedding_invitation_flood:/choices/0/text": {
+        "source_sha256": "2f3c053a77e63d2d7abac893d887481b080f2d1f4b1bc777b315afabdb2e4b36",
+        "target_sha256": "0802fc3d94695e9177a6ccfaf9bb6442db46db49f748f05b51af8a08991378f8"
+      },
+      "events:wedding_invitation_flood:/choices/1/result_text": {
+        "source_sha256": "ae476c2a78e9c58db380cfdf946aab26c7cff2e233866a60b3be8fc80f7bbf84",
+        "target_sha256": "2d263b7b1514a0362fc4496bc454a9ec63fe5ddddf938e17ec7e0e39d963e0be"
+      },
+      "events:wedding_invitation_flood:/choices/1/text": {
+        "source_sha256": "4d53530e091213d3166f96a729ea87ad48fa2595f7570f6f8ece23bbad30a556",
+        "target_sha256": "55c3e981a60c9232b7b300ee7fec55419d7106e468a3f776430221eed97992e4"
+      },
+      "events:wedding_invitation_flood:/choices/2/result_text": {
+        "source_sha256": "e35d893b816d1d08f0e22005c6598e787e76cd735b282b9f2c54c3feb23d38f8",
+        "target_sha256": "70e902729835181c56e77225a34b666a9641711b352970b18124c621a2a6e45e"
+      },
+      "events:wedding_invitation_flood:/choices/2/text": {
+        "source_sha256": "00b56e0f7dc1c43925d0e117afaa360ec11c161c326425c0b611d58571cfbed1",
+        "target_sha256": "30cb5d10dc1052b2b37b033df892100ed4969d027f7004af46e947ce6c93131c"
+      },
+      "events:wedding_invitation_flood:/description": {
+        "source_sha256": "410dc20b5e34d52848872147177ee1eb219f757c985143707df86f27945040c3",
+        "target_sha256": "dd572c4c7ed70446bf53878ed9809d14307acec2ce41c73eb5366561cfde02c8"
+      },
+      "events:wedding_invitation_flood:/title": {
+        "source_sha256": "706749457670237d0417028593662770541ad136358639cb98fcad485b974a0b",
+        "target_sha256": "d83fce6584f02e7dd8f9c35ca50c7f76255cd9815de414260daeca89c8fb2986"
+      },
+      "events:yolo_morning_after:/choices/0/result_text": {
+        "source_sha256": "57d271247f750ab6fda865c32c9ea26b38cf916da79f784a61bb463e0635e88f",
+        "target_sha256": "fb5fad2599abdbae9a78e88b836ecadb503cb266a951f38568e019f3c9fb2b15"
+      },
+      "events:yolo_morning_after:/choices/0/text": {
+        "source_sha256": "1e73b7ad4d2954222cf926ed056e12010301c008ddccc0b6b18e3e2216aa6137",
+        "target_sha256": "da35dad1584cf4755cb2d6fe62336ac2597e00f10fc919bb3eced94446d26c5c"
+      },
+      "events:yolo_morning_after:/choices/1/result_text": {
+        "source_sha256": "20198f94dcd9b4b87829ea626ecc46d9723555cb76ab12f847f2fc15e3731220",
+        "target_sha256": "1b4fb981b4155918f7b6a3343ec730acbfa2bf3c8e54531599657b759591d96d"
+      },
+      "events:yolo_morning_after:/choices/1/text": {
+        "source_sha256": "d50e20b1cf55387eb08743948ee375763ad5caffe7adef9c0def371cc3e2814e",
+        "target_sha256": "14867c34f50289d729d115ddf6c0f59a1ede7a291b83b8358bdfb33df136623b"
+      },
+      "events:yolo_morning_after:/description": {
+        "source_sha256": "37be8f630abdc2e9969de3fd2a3bab03dd80a21024c7a23a762aea6bfac2ffd4",
+        "target_sha256": "9132d987963635ba92b9e6448bdb279bbed5e0f8138da7c5772f04987acb718b"
+      },
+      "events:yolo_morning_after:/title": {
+        "source_sha256": "acbbc98c4a1721ad93fb88e71592d05f5cdc8d1cb16c5607284b52c584e822e2",
+        "target_sha256": "350c4a80d1636b991e17740ffd0a88ab34c1972e8dead6b7bf94de7bbb2e4496"
+      },
+      "events:yolo_spend_moment:/choices/0/result_text": {
+        "source_sha256": "505aa2579b15b9dc33bf87428ef1a1e97c3990ab9d8cb7cac78ad01f707c8d17",
+        "target_sha256": "40a9623ef57ea63aa6851c1fd6230822ed7e1f29df96024bf1f730d7fda7f027"
+      },
+      "events:yolo_spend_moment:/choices/0/text": {
+        "source_sha256": "2aa91f3fe47f566f02a26eb0327cf13cb1243bd96a8acbd12cfaa2c0fd63a17f",
+        "target_sha256": "3c8506f5af4884d2296816ed7c09507faced4e332466a3d9cf2478cbdbaad2eb"
+      },
+      "events:yolo_spend_moment:/choices/1/result_text": {
+        "source_sha256": "4f37d176bdcfc62a2e92d276bcb54e8a250c1b55654e14c5d7610137c85779eb",
+        "target_sha256": "18b0666ba7959bd3eafd878f6766ee4a5fca564770bd97b69df1ccc0b391f892"
+      },
+      "events:yolo_spend_moment:/choices/1/text": {
+        "source_sha256": "6dd0a6f60bd0bc15fdf14c3d66cf847b4d448d3b521272fb987360cc94e89c53",
+        "target_sha256": "96d429c14202f13063c50fa9ba34cec220fdcdc6709d30c109f9b3ed0a283963"
+      },
+      "events:yolo_spend_moment:/choices/2/result_text": {
+        "source_sha256": "c14a16fdefbeb7d3514ff8bf9728114b25a7d13292d75bc5dd3e999f87959ef0",
+        "target_sha256": "cd8c2f0c5a24b41efb1041a8894447b7f40ec99c942b9cf42e170a2f8c7e9e14"
+      },
+      "events:yolo_spend_moment:/choices/2/text": {
+        "source_sha256": "dc5e08cd9786dc3fcfb9dff79358c82451ae0f63ef0ade3f79697c56a1222d34",
+        "target_sha256": "2e342b23f8b4e14c07b3c610bf0fab0b02e44a3250563ad2d048cf9a9abeb527"
+      },
+      "events:yolo_spend_moment:/description": {
+        "source_sha256": "ebb6980fea6f1731c7ffdc0fa0ab02789bbc4805323fc9711343382e79979d66",
+        "target_sha256": "a2e50784755252552784d3e3f18151b75fa89a45b8b08303ea3fd732bf820c5e"
+      },
+      "events:yolo_spend_moment:/title": {
+        "source_sha256": "f2c19e85e9890561915ffa1d394ccb3ecf152e9687befb60d9a8518d6678481f",
+        "target_sha256": "07057934dff895281e7d95388d81866ee4552a5f4d97e0206a7d66cc5540552e"
       }
     }
   },
-  "accepted_sha256": "4519d95c5ecc298310163d6d830d49d46b0d4a89c47d568a820654e3c4e573ff",
+  "accepted_sha256": "cc6dc83fda39d837570347609a83b27707493b3169853726fe0649ff5211d063",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {

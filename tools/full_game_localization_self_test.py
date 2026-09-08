@@ -88,6 +88,64 @@ class ExchangeTests(unittest.TestCase):
         with self.assertRaises(tool.ContractError):
             tool.loads('{"text":"a","text":"b"}')
 
+    def test_social_japanese_native_fee_night_week_contexts(self):
+        for source, good, replacements in (
+            ('1인 128,000원.', '一人128,000ウォン。',
+             [('一人', '二人'), ('一人', '十一人'), ('一人', '-一人'),
+              ('128,000', '128,001'), ('ウォン', '円'), ('ウォン', 'ウォン円'),
+              ('一人', '一泊'), ('一人', '')]),
+            ('1박 35만원.', '一泊35万ウォン。',
+             [('一泊', '二泊'), ('一泊', '十一泊'), ('一泊', '-一泊'),
+              ('35万', '35'), ('ウォン', '円'), ('ウォン', 'ウォン円'),
+              ('一泊', '一時間'), ('一泊', '')]),
+            ('10월 첫째 주.', '10月の第1週。',
+             [('第1', '第2'), ('第1', '第11'), ('第1', '第-1'),
+              ('10月', '11月'), ('第1週', '1日'), ('第1週', '第1年'),
+              ('10月', '-10月'), ('第1週', '')]),
+        ):
+            leaf = tool.Leaf('events', 'example', 'content/events/social_independence.json',
+                             ('description',), source, 'event_standard')
+            self.assertEqual(tool.translation_errors(leaf, 'ja', good), [])
+            for before, after in replacements:
+                wrong = good.replace(before, after)
+                self.assertTrue(tool.translation_errors(leaf, 'ja', wrong), wrong)
+            self.assertEqual(tool.translation_errors(leaf, 'ja', good.replace('一', '1')), [])
+            moved = tool.Leaf('events', 'example', 'content/events/social_independence.json',
+                             ('description',), source + '\n다음 문장.', 'event_standard')
+            self.assertTrue(tool.translation_errors(moved, 'ja', '次の文。\n' + good))
+            self.assertTrue(tool.translation_errors(leaf, 'ja', good + good))
+
+    def test_social_japanese_native_contexts_reject_observed_qualifiers(self):
+        for source, good, suffixes in (
+            ('1인 128,000원.', '一人128,000ウォン', ('ではない', '未満')),
+            ('1박 35만원.', '一泊35万ウォン', ('（人民元）', 'ではない', '以上')),
+            ('10월 첫째 주.', '10月の第1週', ('ではない', 'より後')),
+        ):
+            leaf = tool.Leaf('events', 'example', 'content/events/social_independence.json',
+                             ('description',), source, 'event_standard')
+            self.assertEqual(tool.translation_errors(leaf, 'ja', good + '。'), [])
+            for suffix in suffixes:
+                self.assertTrue(tool.translation_errors(leaf, 'ja', good + suffix + '。'))
+                self.assertTrue(tool.translation_errors(leaf, 'ja', good + suffix + '。' + good + '。'))
+
+    def test_social_japanese_compound_man_thousand_won_amounts(self):
+        for source, good, wrong_number in (
+            ('정중히 거절했다. 조용민 대리가 "다음 기회에요" 했다. 12만 8천원이 그냥 밥값이 됐다. 투자 대비 수익률을 따지면 씁쓸하다.', '丁重に断った。チョ・ヨンミン代理が「また次の機会に」と言った。12万8千ウォンは、ただの食事代になった。投資に対するリターンを考えると、ほろ苦い。', '12万9千'),
+            ('선별했다. 진짜 친한 한 명에겐 직접 갔다. 나머지 두 명엔 카카오뱅크로 각 2만 5천원. 어딘가 찜찜하지만 통장도 어딘가 덜 찜찜하다.', '選んだ。本当に親しい一人の式には直接行った。残りの二人には、カカオバンクでそれぞれ2万5千ウォン。どこか後ろめたいけれど、口座のほうはそのぶん少し気が楽だ。', '2万6千'),
+        ):
+            leaf = tool.Leaf('events', 'example', 'content/events/social_independence.json',
+                             ('description',), source, 'event_standard')
+            self.assertEqual(tool.translation_errors(leaf, 'ja', good), [])
+            amount = '12万8千' if '12万8千' in good else '2万5千'
+            for wrong in (good.replace(amount, wrong_number), good.replace(amount, '-' + amount),
+                          good.replace('ウォン', '円'), good.replace('ウォン', 'ウォン円'),
+                          good.replace('千ウォン', '百ウォン'), good + good):
+                self.assertTrue(tool.translation_errors(leaf, 'ja', wrong), wrong)
+            changed = tool.Leaf('events', 'example', 'content/events/social_independence.json',
+                                ('description',), source.replace('8천', '9천').replace('5천', '6천'),
+                                'event_standard')
+            self.assertTrue(tool.translation_errors(changed, 'ja', good))
+
     def test_creator_japanese_news_age_group_is_not_calendar_year(self):
         source = '포털 뉴스에 링크가 올라왔다.\n"2030 공감 유발 콘텐츠로 화제"'
         good = 'ポータルサイトのニュースにリンクが載った。\n「20・30代の共感を呼ぶコンテンツとして話題」'
