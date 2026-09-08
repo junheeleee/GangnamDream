@@ -142,9 +142,55 @@ source manifest `edf845a7164b8fedc9ec027be7a7edc381a3dcdf67ff58c2858d44a3237b64b
 callback_events_25.json 13309B SHA `b3860d74c9446954bf1ba502df4b71cdfb4fc87065f979a21fecab328c8a1944`.
 callback_events_26.json 4157B SHA `1537f56c3aa5486be1d3b1c706fc1836edc9de98199be54fddeaf63e9db5267e`.
 저작전 initial3 A115행, 신규114previousnull×3.
+check/import는 source JSONL을 `--batch`, 언어를 `--locale`로 명시한다(`--source` 없음).
 최종source/response/receipt3쌍·342문구 대조, 기존23,844/meta9/b54 보존.
 named full-game-localization-overlays --list 뒤 선택12·EN·diff·전량수용 hash/L1.
 실행 stdout만 증거화, 전체audit/Godot/240주0.
 전체 INCOMPLETE·full/main/product HOLD·L3/원어민/화면 OPEN.
 출시 M01~M06 BUILD2026.08.31.1 사용자 GO 유지.
 이 문서는 일회성 범위이며 지속 규칙의 소유자는 I18N_INFRASTRUCTURE/용어집이다.
+
+## 수용 결과 — 342번역·L1/L2, L3 OPEN
+
+- 선언 `5b05db3d25b42acc88d7eee691c666b2f9c82d4f` commit/push 뒤
+  initial3(A115행·신규114 previous null×3)을 저작 전에 봉인했다.
+  KO 직접 독립 저작 뒤 다른 작성자/ROOT가342문구 전부를 대조했다.
+- callback25/26 신규15/90·4/24를 각 언어 KO 순서대로 썼다.
+  기존23,844/meta9/b54 보존, 누적24,186(각8,062)·b55이다.
+  각 언어 events996종6,994·endings234·catalog834다.
+- 독립 L2 필수0, 정밀3: CN 실제상황/폭로공포의 비교1,
+  TW 현재행동을 '아직늦지않음' 보장으로 옮긴 표현2를 정밀화했다.
+  지정3 교차검토와 전체6파일·records 역치환으로
+  JA114/CN113/TW112 나머지 불변을 확인했다.
+- 일본어 실제12leaf/24진단의 bareて/で 경과형은 기존37
+  exact KOopening/JA행동·주체 결속에12만 더해 수리했다.
+  추가로 남은 reflective1leaf의 두달결심/오늘5년회고를
+  full source와 셋째줄의 수량·단위·회고완료에 따로 결속했다.
+  정상 번역을 검사기에 맞춰 바꾸지 않았다.
+- full self204 PASS, 독립고정150은 정상26·target96·source28로 구분한다.
+  첫136 입력을 유지하고 회고14만 추가했다. 새오허용0/잔여0이며
+  전체문장의 무수량 의미나 원어민 품질 인증은 아니다.
+  독립 입력 SHA
+  `c89ee55c5023fc176368412c70c72c2470377c1ef9f1a5da516337871f93e253`.
+- 최종 source/response/receipt3쌍·실물342 L1 오류0,
+  check/import --accept3 changed_files0. 최종114 records:
+  JA `e7ce61d65daf26ca0ada87c5dee74f4f0a6db0b62d25189b43dfc107c11fe3c8`,
+  CN `b6bbb48f8fc4ed0f9e0f2121e35bd54c6a61e49d2f67b84e86863cfa74bdc949`,
+  TW `e99d29e14fd6ac8bbdffcbda9a91ffd85a60af457178389107bac4858966dd80`.
+- 완료195 WORK_LOG절1,107B만 history 앞으로 원문 이동했다.
+  48,218→49,325B SHA
+  `0b8ea0d03ab85f75b7b50784c53f0692c08b9d61e5040b0b0bda210465e877f5`.
+  기존 bytes·끝 LF2 유지, 같은 활성 이어보기 [~]·L3 OPEN이다.
+- 취업기회/채용·판단/확인·재베팅/성과·상환결심/완납을 구분했다.
+  부모의 알바/소개·이사/인사·공천/당선·수술비/빚 등 원문 부채는 남겼다.
+  KO/EN·runtime·공개·fonts·save·human_gates 변경0, 원본 checkout 쓰기0.
+  전체 INCOMPLETE·full/main/product HOLD, 원어민/화면 OPEN·출시 데모 GO 유지.
+- portable checksum `1119d2d3fa8a88d38500d2f3a31c83d2e01474d5fc13d05ee6bed54d8abca772`.
+
+- 최종 named12·EN strict·전량24,186 source/target hash와 L1·diff PASS.
+  full self204/ZH self6436, protected 공개14사건·100leaf/121UI 패리티 유지.
+  private12/portable342 독립 인수에서 기존23,844·meta9·batch54와
+  신규342 결속, 22입력 전후 불변을 확인했다.
+  snapshot `441bca0fd2e673bad79647fef3ca1dfce79ccf8d7b2b61d3815ce33dfae50e4b`.
+  실제 stdout `order198-final-checks.log` 4,685bytes SHA
+  `80029963b711061b8d50865c03be0440b974454faa79fd13bec2f304f347cc83`.

@@ -1,0 +1,227 @@
+[
+  {
+    "id": "callback_chain_banchan_job_lead_echo",
+    "title": "透過小菜店的緣分找到求職機會之後",
+    "description": "靠在小菜店打工時得到的消息，抓住求職機會，已經兩個月了。\n不知道那次牽線後來有了什麼結果。\n今天，小菜店的老闆聯絡了我。",
+    "choices": [
+      {
+        "text": "向老闆道謝",
+        "result_text": "說了謝謝。\n老闆問：「後來順利嗎？」"
+      },
+      {
+        "text": "聊聊近況",
+        "result_text": "聊了近況。\n老闆說，要是還有能幫上忙的地方，就儘管說。"
+      }
+    ]
+  },
+  {
+    "id": "callback_chain_banchan_regular_echo",
+    "title": "成為小菜店常客之後",
+    "description": "成為小菜店的常客，已經兩個月了。\n成了熟面孔。\n今天去店裡，老闆先開口招呼了我。",
+    "choices": [
+      {
+        "text": "開心地聊聊",
+        "result_text": "開心地聊了聊。\n成為常客——就是成為那個空間的一分子。"
+      },
+      {
+        "text": "今天快點買完",
+        "result_text": "匆匆買了東西。\n老闆笑著說：「看來很忙喔。」替我把東西準備好。"
+      }
+    ]
+  },
+  {
+    "id": "callback_chain_interior_gig_echo",
+    "title": "接到室內裝修短期工作之後",
+    "description": "做過室內裝修的短期工作，已經兩個月了。\n那段經驗累積了下來。\n今天，又有類似的工作找上門。",
+    "choices": [
+      {
+        "text": "再做一次",
+        "result_text": "又做了一次。\n比第一次更快適應了。"
+      },
+      {
+        "text": "這次要求更好的條件",
+        "result_text": "談了條件。\n經驗累積了——就不必什麼都照單全收。"
+      }
+    ]
+  },
+  {
+    "id": "callback_chain_interior_manager_echo",
+    "title": "成為室內裝修現場主管之後",
+    "description": "接下室內裝修現場的管理工作，已經兩個月了。\n責任不一樣了。\n今天，第一次遇到必須獨自決定的狀況。",
+    "choices": [
+      {
+        "text": "自行判斷",
+        "result_text": "自己做了判斷。\n對或錯，要以後才會知道。"
+      },
+      {
+        "text": "請上級確認",
+        "result_text": "得到了上級的確認。\n覺得先確認，比判斷錯誤要好。"
+      }
+    ]
+  },
+  {
+    "id": "callback_chain_neighbor_friend_echo",
+    "title": "和考試院鄰居熟識之後",
+    "description": "和考試院的鄰居熟起來，已經兩個月了。\n簡單的招呼就這樣延續著。\n今天，那位鄰居看起來不太好受。",
+    "choices": [
+      {
+        "text": "開口搭話",
+        "result_text": "開口搭了話。\n那位鄰居說：「沒什麼啦，謝謝。」"
+      },
+      {
+        "text": "留意一下",
+        "result_text": "留意著。\n心想，下次有機會再開口聊聊。"
+      }
+    ]
+  },
+  {
+    "id": "callback_chain_warned_victim_echo",
+    "title": "提醒受害者之後",
+    "description": "提醒一個人可能會受騙，已經兩個月了。\n不知道那個人後來怎麼樣了。\n今天，那個人聯絡了我。",
+    "choices": [
+      {
+        "text": "聽聽後來怎麼樣了",
+        "result_text": "對方說，有聽進那番警告。\n也說自己避開了。"
+      },
+      {
+        "text": "說聲還好沒事",
+        "result_text": "說了聲還好。\n對方也說，還好。"
+      }
+    ]
+  },
+  {
+    "id": "callback_political_candidate_echo",
+    "title": "投身政治之後",
+    "description": "決定參選，已經兩個月了。\n準備過程比想像中複雜。\n今天，第一次支持度調查的結果出爐了。",
+    "choices": [
+      {
+        "text": "接受結果",
+        "result_text": "看了結果。\n數字不是全部。"
+      },
+      {
+        "text": "改變策略",
+        "result_text": "重新擬了策略。\n政治不能只靠原則。"
+      }
+    ]
+  },
+  {
+    "id": "callback_political_winner_echo",
+    "title": "贏得選舉之後",
+    "description": "在選舉中當選，已經兩個月了。\n有了權限。\n今天，第一次遇到必須實際運用這份權限的狀況。",
+    "choices": [
+      {
+        "text": "先做承諾過的事",
+        "result_text": "先做了承諾過的事。\n當選前說過的話——成了當選後的準則。"
+      },
+      {
+        "text": "先從了解現實開始",
+        "result_text": "了解了現實。\n承諾和現實之間的落差——讓政治變得困難。"
+      }
+    ]
+  },
+  {
+    "id": "callback_final_sprint_aggressive_echo",
+    "title": "選擇進攻型收尾策略之後",
+    "description": "在最後階段選擇進攻型策略，已經兩個月了。\n下了重注。\n今天，結果出來了。",
+    "choices": [
+      {
+        "text": "確認結果",
+        "result_text": "進攻型策略——押中了大賺，押錯了大賠。"
+      },
+      {
+        "text": "現在就把部分部位轉為防守",
+        "result_text": "把一部分轉為防守了。\n只知道進攻，是活不下去的。"
+      }
+    ]
+  },
+  {
+    "id": "callback_final_sprint_defensive_echo",
+    "title": "選擇防守型收尾策略之後",
+    "description": "在最後階段選擇守成的策略，已經兩個月了。\n優先守住累積下來的一切。\n今天，看了這個策略走到哪裡。",
+    "choices": [
+      {
+        "text": "檢視目前的資產",
+        "result_text": "檢視了。\n守成的策略——不至於大虧。\n但也不會大幅增加。"
+      },
+      {
+        "text": "看看現在還有沒有餘地爭取其他機會",
+        "result_text": "看了還有沒有餘地。\n即使採取防守策略——機會也會來。"
+      }
+    ]
+  },
+  {
+    "id": "callback_final_sprint_reflective_echo",
+    "title": "選擇以回顧作結之後",
+    "description": "在最後階段決定回顧走過的路，已經兩個月了。\n比起數字，思考的更多是意義。\n今天，回顧了這5年。",
+    "choices": [
+      {
+        "text": "覺得到目前為止的一切都有意義",
+        "result_text": "是有意義的。\n錢不是全部。"
+      },
+      {
+        "text": "還沒結束",
+        "result_text": "還沒結束。\n回頭看——不代表停下腳步。"
+      }
+    ]
+  },
+  {
+    "id": "callback_parent_took_loan_echo",
+    "title": "決定替家裡還債之後",
+    "description": "決定替家裡還債，已經兩個月了。\n那份負擔累積了起來。\n今天，母親聯絡了我。",
+    "choices": [
+      {
+        "text": "接起來",
+        "result_text": "接了。\n母親說了聲「謝謝」。\n替家裡還債，換來了母親一句簡短的謝謝。"
+      },
+      {
+        "text": "坦白說出目前的情況",
+        "result_text": "坦白說了。\n母親說了聲「對不起」。"
+      }
+    ]
+  },
+  {
+    "id": "callback_parent_paid_full_echo",
+    "title": "替父母還清債務之後",
+    "description": "替父母還清所有債務，已經兩個月了。\n花了很久。\n今天，父親打電話來。",
+    "choices": [
+      {
+        "text": "開心地接起來",
+        "result_text": "開心地接了。\n父親問：「身體好嗎？」"
+      },
+      {
+        "text": "先問有什麼事",
+        "result_text": "問了有什麼事。\n他說：「就是打個電話。」"
+      }
+    ]
+  },
+  {
+    "id": "callback_guarantee_compromise_echo",
+    "title": "以妥協解決擔保問題之後",
+    "description": "透過妥協讓擔保問題告一段落，已經兩個月了。\n並不是徹底解決。\n今天，看見了那份妥協的結果如何發展。",
+    "choices": [
+      {
+        "text": "覺得妥協是對的",
+        "result_text": "是對的。\n即使不完美——能繼續往前的妥協，也可能比僵住的正義更好。"
+      },
+      {
+        "text": "覺得仍然不夠完整",
+        "result_text": "並不完整。\n但不完整的解決——總比完全沒有解決好。"
+      }
+    ]
+  },
+  {
+    "id": "callback_mystery_info_paid_off_echo",
+    "title": "來路不明的消息奏效之後",
+    "description": "憑來路不明的消息下注成功，已經兩個月了。\n那之後，又收到了類似的消息。\n今天，必須決定怎麼做。",
+    "choices": [
+      {
+        "text": "這次也下注",
+        "result_text": "下注了。\n成功過一次，不代表下次也會成功。"
+      },
+      {
+        "text": "這次先查證再決定",
+        "result_text": "查證了。\n確認了消息的來源。"
+      }
+    ]
+  }
+]

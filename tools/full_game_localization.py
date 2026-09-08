@@ -673,6 +673,18 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
             "투기 트랙을 선택한 지 세 달.": "投機のトラックを選んで",
             "테크 창업 트랙을 선택한 지 세 달.": "テック起業のトラックを選んで",
             "아무 연관 없는 낯선 사람을 도운 지 두 달.": "何のつながりもない、見知らぬ人を助けて",
+            "반찬가게 알바에서 얻은 정보로 취업 기회를 잡은 지 두 달.": "おかず屋のアルバイトで得た情報から、就職の機会をつかんで",
+            "인테리어 현장 관리를 맡은 지 두 달.": "内装工事の現場管理を任されて",
+            "고시원 이웃과 가까워진 지 두 달.": "コシウォンの隣人と親しくなって",
+            "마지막 단계에서 공격적인 전략을 선택한 지 두 달.": "最後の段階で攻める戦略を選んで",
+            "마지막 단계에서 지키는 전략을 선택한 지 두 달.": "最後の段階で守る戦略を選んで",
+            "마지막 단계에서 지나온 길을 돌아보기로 한 지 두 달.": "最後の段階で歩んできた道を振り返ろうと決めて",
+            "보증 문제를 타협으로 마무리한 지 두 달.": "保証の問題に妥協で区切りをつけて",
+            "정보 관련 사건을 정리하고 넘어간 지 두 달.": "情報にまつわる一件に区切りをつけ、先へ進んで",
+            "부모 빚을 전부 갚은 지 두 달.": "親の借金をすべて返して",
+            "집안 빚을 대신 갚아주기로 한 지 두 달.": "家の借金を代わりに返すことにして",
+            "이력서 거짓말을 덮고 계속 쌓아가기로 한 지 두 달.": "履歴書の嘘を覆い隠し、そのまま積み重ねていくことにして",
+            "이력서에 토익 점수를 부풀린 지 두 달.": "履歴書のTOEICの点数を水増しして",
         }
         callback_te_action = callback_te_actions.get(leaf.source.split('\n', 1)[0])
         callback_spans = []
@@ -759,6 +771,23 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
             native_word = {'2': '두', '3': '세'}[number]
             source_numbers = source_numbers.replace(source_piece,
                 source_piece.replace(native_word, number), 1)
+        # This recollection has two different horizons: an elapsed two-month
+        # decision and today's five-year retrospective. Bind the latter to its
+        # complete source and third line, not to a spare numeral elsewhere.
+        reflective_source = ('마지막 단계에서 지나온 길을 돌아보기로 한 지 두 달.\n'
+                             '숫자보다 의미를 생각했다.\n오늘 5년을 돌아봤다.')
+        if leaf.source == reflective_source:
+            native_time_bound = True
+            lines = target_numbers.split('\n')
+            retrospective = re.fullmatch(r'今日、(?P<number>[5五])年を振り返った。',
+                                         lines[2]) if len(lines) == 3 else None
+            if retrospective is None:
+                errors.append('source-bound final retrospective year/action mismatch')
+            else:
+                offset = sum(len(line) + 1 for line in lines[:2])
+                start, end = (offset + pos for pos in retrospective.span('number'))
+                callback_spans.append((start, offset + retrospective.end()))
+                target_numbers = target_numbers[:start] + '5' + target_numbers[end:]
         # The one-hour conversation is already completed; it is not a plan,
         # a clock time, or an added hour attached to another paragraph.
         conversation_source = '한 시간을 이야기했다.\n오래 말씀하시게 된 게 — 관계가 달라졌다는 뜻이었다.'

@@ -764,6 +764,18 @@ class ExchangeTests(unittest.TestCase):
             ("투기 트랙을 선택한 지 세 달.", "投機のトラックを選んで3か月。"),
             ("테크 창업 트랙을 선택한 지 세 달.", "テック起業のトラックを選んで3か月。"),
             ("아무 연관 없는 낯선 사람을 도운 지 두 달.", "何のつながりもない、見知らぬ人を助けて2か月。"),
+            ("반찬가게 알바에서 얻은 정보로 취업 기회를 잡은 지 두 달.", "おかず屋のアルバイトで得た情報から、就職の機会をつかんで2か月。"),
+            ("인테리어 현장 관리를 맡은 지 두 달.", "内装工事の現場管理を任されて2か月。"),
+            ("고시원 이웃과 가까워진 지 두 달.", "コシウォンの隣人と親しくなって2か月。"),
+            ("마지막 단계에서 공격적인 전략을 선택한 지 두 달.", "最後の段階で攻める戦略を選んで2か月。"),
+            ("마지막 단계에서 지키는 전략을 선택한 지 두 달.", "最後の段階で守る戦略を選んで2か月。"),
+            ("마지막 단계에서 지나온 길을 돌아보기로 한 지 두 달.", "最後の段階で歩んできた道を振り返ろうと決めて2か月。"),
+            ("보증 문제를 타협으로 마무리한 지 두 달.", "保証の問題に妥協で区切りをつけて2か月。"),
+            ("정보 관련 사건을 정리하고 넘어간 지 두 달.", "情報にまつわる一件に区切りをつけ、先へ進んで2か月。"),
+            ("부모 빚을 전부 갚은 지 두 달.", "親の借金をすべて返して2か月。"),
+            ("집안 빚을 대신 갚아주기로 한 지 두 달.", "家の借金を代わりに返すことにして2か月。"),
+            ("이력서 거짓말을 덮고 계속 쌓아가기로 한 지 두 달.", "履歴書の嘘を覆い隠し、そのまま積み重ねていくことにして2か月。"),
+            ("이력서에 토익 점수를 부풀린 지 두 달.", "履歴書のTOEICの点数を水増しして2か月。"),
         )
         for source, good in cases:
             leaf = tool.Leaf('events', 'example', 'content/events/callback_events_22.json',
@@ -820,6 +832,36 @@ class ExchangeTests(unittest.TestCase):
         for changed in (source.replace('두 달', '세 달'), source.replace('100명', '101명'),
                         source.replace('100명', '100개'), source.replace('나쁜 게 아니었다', '나빴다'),
                         '다른 결과를 확인했다.\n두 달이 지났다.'):
+            other = tool.Leaf('events', leaf.owner, leaf.source_path, leaf.path,
+                              changed, 'event_standard')
+            self.assertTrue(tool.translation_errors(other, 'ja', good), changed)
+
+    def test_callback_japanese_reflective_decision_and_five_year_retrospect(self):
+        source = ('마지막 단계에서 지나온 길을 돌아보기로 한 지 두 달.\n'
+                  '숫자보다 의미를 생각했다.\n오늘 5년을 돌아봤다.')
+        good = ('最後の段階で歩んできた道を振り返ろうと決めて2か月。\n'
+                '数字よりも意味を考えた。\n今日、5年を振り返った。')
+        leaf = tool.Leaf('events', 'example', 'content/events/callback_events_25.json',
+                         ('description',), source, 'event_standard')
+        for months in ('2か月', '二ヶ月', '2カ月'):
+            for years in ('5年', '五年'):
+                self.assertEqual(tool.translation_errors(leaf, 'ja',
+                    good.replace('2か月', months).replace('5年', years)), [])
+        for before, after in (('2か月', '3か月'), ('5年', '6年'), ('5年', '五か月'),
+                              ('5年', '-5年'), ('5年', '+5年'), ('5年', '15年'),
+                              ('今日、', '明日、'), ('今日、', '今日、父は'),
+                              ('振り返った。', '振り返る予定だ。'),
+                              ('振り返った。', '振り返らなかった。')):
+            self.assertTrue(tool.translation_errors(leaf, 'ja',
+                good.replace(before, after)), (before, after))
+        for bad in (good + '\n5年を振り返った。',
+                    '\n'.join(reversed(good.split('\n'))),
+                    good.replace('\n今日、5年を振り返った。', ''),
+                    good.replace('2か月', '5か月').replace('5年', '2年')):
+            self.assertTrue(tool.translation_errors(leaf, 'ja', bad), bad)
+        for changed in (source.replace('5년', '6년'), source.replace('5년', '5개월'),
+                        source.replace('오늘', '내일'), source.replace('오늘', '오늘 아버지가'),
+                        source.replace('돌아봤다.', '돌아보기로 했다.')):
             other = tool.Leaf('events', leaf.owner, leaf.source_path, leaf.path,
                               changed, 'event_standard')
             self.assertTrue(tool.translation_errors(other, 'ja', good), changed)

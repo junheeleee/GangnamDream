@@ -7,6 +7,7 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
+| 1 | [~] | ORDER-198 · 생활 인연·마지막 전략 후속 번역 | [198](queue_active/ORDER-198.md) | 342번역 L1/L2 · L3 OPEN |
 | 2 | [~] | ORDER-197 · 일·신뢰·되돌림 후속 번역 | [197](queue_active/ORDER-197.md) | 774번역 L1/L2 · L3 OPEN |
 | 3 | [~] | ORDER-196 · 거절·재기·연락 후속 번역 | [196](queue_active/ORDER-196.md) | 804번역 L1/L2 · L3 OPEN |
 | 4 | [~] | ORDER-195 · 절제·신뢰·생활 후속 번역 | [195](queue_active/ORDER-195.md) | 762번역 L1/L2 · L3 OPEN |
