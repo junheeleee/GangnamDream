@@ -119,7 +119,10 @@ SOURCE_NATIVE_THREE_MONTH = re.compile(
     rf"(?<![가-힣])(?P<number>석)\s+(?P<counter>달)(?:{SOURCE_COUNTER_SUFFIX}|(?=마다))"
 )
 SOURCE_FINANCIAL_TIER = re.compile(
-    rf"(?<![가-힣\d])(?P<number>[12])금융{SOURCE_COUNTER_SUFFIX}"
+    rf"(?<![가-힣\d])(?P<number>[12])금융(?:권)?{SOURCE_COUNTER_SUFFIX}"
+)
+SOURCE_CALLBACK_LOAN_RATE = re.compile(
+    r"(?<=금리 )월 (?P<number>\d+(?:\.\d+)?)%(?=\.\n[12]금융(?:권)?의 두 배다\.)"
 )
 SOURCE_PRINT_RUN = re.compile(
     rf"(?<![가-힣])초판\s+(?P<number>\d[\d,]*)\s*(?P<unit>만)?\s*부{SOURCE_COUNTER_SUFFIX}"
@@ -266,6 +269,8 @@ SOCIAL_COST_COUNTER_KINDS = frozenset({
 })
 CALLBACK_COUNTER_KINDS = frozenset({
     "unanswered_call_rings", "karaoke_afterparty_round", "taeho_offer_ordinal", "shared_coin_loss_pair",
+    "financial_tier", "callback_loan_rate", "callback_dinner_invitation",
+    "escaped_elapsed_months", "freelance_request_ordinal", "holdem_loss_once",
 })
 LIFE_SCENE_COUNTER_KINDS = WORK_SCENE_COUNTER_KINDS | SPENDING_SCENE_COUNTER_KINDS | FAMILY_SCENE_COUNTER_KINDS | MEDIA_SCENE_COUNTER_KINDS | HIDDEN_SCENE_COUNTER_KINDS | PROLOGUE_COUNTER_KINDS | DRAMA_COUNTER_KINDS | CREATOR_COUNTER_KINDS | DAILY_MOMENT_COUNTER_KINDS | SOCIAL_COST_COUNTER_KINDS | CALLBACK_COUNTER_KINDS | frozenset({
     "remaining_four_month", "job_posting_count", "egg_count", "task_count",
@@ -1236,6 +1241,8 @@ def _chinese_cardinal_value(raw: str) -> Decimal | None:
 
 def _ordinal_kind(source: str, end: int) -> str:
     following = source[end:].lstrip()
+    if following == "의뢰":
+        return "freelance_request_ordinal"
     if source.startswith("태호의 ") and following == "제안":
         return "taeho_offer_ordinal"
     if following.startswith("집을 계약한다."):
@@ -1257,6 +1264,10 @@ def _source_counter_kind(
 ) -> str:
     following = source[match.end():].lstrip()
     preceding = source[max(0, match.start() - 120):match.start()]
+    if counter == "번" and preceding.endswith("'시간 되면 저녁 ") and following.startswith("하시죠. 편한 자리예요.'"):
+        return "callback_dinner_invitation"
+    if counter == "번" and preceding.endswith("저 어제 ") and following.startswith("에 다 날렸어요."):
+        return "holdem_loss_once"
     if counter == "번" and preceding.endswith("신호가 ") and following.startswith("갔다.\n받지 않았다."):
         return "unanswered_call_rings"
     if counter == "차" and preceding.endswith("비워진 잔이 다시 채워졌다. ") and following.startswith("노래방에서는 마이크가 세 번 돌아왔다."):
@@ -1284,7 +1295,7 @@ def _source_counter_kind(
             return "mentor_meeting_request"
         if preceding.endswith("만회하면 된다 — ") and following.startswith("만 더 크게 걸면"):
             return "bet_again_once"
-    if counter == "세" and preceding.endswith("재벌 ") and following.startswith("와의 접촉"):
+    if counter == "세" and preceding.endswith("재벌 ") and (following.startswith("와의 접촉") or following == "의 연락"):
         return "chaebol_family_generation"
     if counter == "번" and match.group("number") == "한":
         if following.startswith("도 본 적 없는 사람이었지만"):
@@ -1898,6 +1909,12 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
             match.start(), match.end(), Decimal(match.group("number")),
             "financial_tier",
         ))
+    for match in SOURCE_CALLBACK_LOAN_RATE.finditer(source):
+        quantities.append(CounterQuantity(
+            match.start(), match.end(), Decimal(match.group("number")), "callback_loan_rate",
+        ))
+    for match in re.finditer(r"(?<=대포통장에 손댔다가 빠져나온 지 )넉 달(?=이 됐다\.)", source):
+        quantities.append(CounterQuantity(match.start(), match.end(), Decimal(4), "escaped_elapsed_months"))
     for match in SOURCE_HALF_PYEONG.finditer(source):
         value = _decimal_value(match.group("number"))
         if value is not None:
@@ -2044,6 +2061,9 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
         if match.group('number') == '둘' and re.search(r'남겨\s+$', source[:match.start()]) \
                 and source[match.end():].startswith(' 현금'):
             continue  # 남겨 둘 현금 is retained cash, not two entities.
+        if match.group('number') == '둘' and source[:match.start()].endswith('이제 갚아야 할 돈과 남겨 ') \
+                and source[match.end():].startswith(' 기억을 나누는 기준처럼 오래 남았다.'):
+            continue  # 남겨 둘 기억 is remembered experience, not two memories.
         if match.group('number') == '둘' and re.search(r'자기 원장에만\s+$', source[:match.start()]) \
                 and source[match.end():].startswith(' 수 있었다'):
             continue  # 자기 원장에만 둘 수 is storage, not a second count.
@@ -2113,6 +2133,16 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
 def _target_pattern_for_kind(kind: str) -> re.Pattern[str]:
     # The broad witnesses include observed wrong units/actions, so an invalid
     # first clause cannot borrow a later correct number of the same kind.
+    if kind == "callback_loan_rate":
+        return re.compile(rf"(?P<period>月|年|日)利率(?P<sign>[+＋−﹣－負负-])?\s*(?P<number>\d+(?:\.\d+)?|{CHINESE_CARDINAL})(?P<callback_unit>[%％]|[韓韩]元|公里|年)")
+    if kind == "callback_dinner_invitation":
+        return re.compile(rf"吃(?P<state>了)?(?P<sign>[+＋−﹣－負负-])?\s*(?P<number>{CHINESE_CARDINAL})?(?P<callback_unit>[頓顿個个]|次|年|公斤|公里)(?=晚[飯饭])")
+    if kind == "escaped_elapsed_months":
+        return re.compile(rf"(?P<state>已[經经]|[還还]有)(?P<bound>不到|超過|超过|至少|大約|大约)?(?P<sign>[+＋−﹣－負负-])?\s*(?P<number>{CHINESE_CARDINAL})(?P<callback_unit>[個个]月|年|天|秒|公里)")
+    if kind == "freelance_request_ordinal":
+        return re.compile(rf"第(?P<sign>[+＋−﹣－負负-])?\s*(?P<number>{CHINESE_CARDINAL})(?P<callback_unit>份|次|年|公里)(?=委[託托])")
+    if kind == "holdem_loss_once":
+        return re.compile(rf"(?P<sign>[+＋−﹣－負负-])?\s*(?P<number>{CHINESE_CARDINAL})(?P<callback_unit>口[氣气]|下|次|年|公里)(?=全[輸输](?:光|掉)了)")
     if kind == "unanswered_call_rings":
         return re.compile(rf"[響响]了(?P<sign>[+＋−﹣－負负-])?\s*(?P<number>{CHINESE_CARDINAL})(?P<callback_unit>[聲声]|次|年|公里)")
     if kind == "karaoke_afterparty_round":
@@ -2580,7 +2610,7 @@ def _target_pattern_for_kind(kind: str) -> re.Pattern[str]:
     if kind == "repeated_month_interval":
         return re.compile(rf"每(?:隔)?\s*(?P<number>{CHINESE_CARDINAL})\s*(?:個月|个月)")
     if kind == "financial_tier":
-        return re.compile(rf"第\s*(?P<number>{CHINESE_CARDINAL})\s*金融圈")
+        return re.compile(rf"第(?P<sign>[+＋−﹣－負负-])?\s*(?P<number>{CHINESE_CARDINAL})\s*(?P<callback_unit>金融圈|年|公里)")
     if kind == "print_copy":
         return re.compile(
             rf"(?<![A-Za-z0-9零〇○一二两兩三四五六七八九十百千萬万億亿])"
@@ -2659,6 +2689,21 @@ def _callback_quantity_valid(kind: str, match: re.Match[str], target: str) -> bo
     if fields.get("sign") or re.search(r"(?:不(?:是)?|沒(?:有)?|没(?:有)?)\s*$", before):
         return False
     unit = fields.get("callback_unit")
+    if kind == "financial_tier":
+        return unit == "金融圈" and not bool(re.match(r"[%％]|以上|以下|左右", after))
+    if kind == "callback_loan_rate":
+        return fields.get("period") == "月" and unit == "%" and bool(re.match(r"[。.!]", after))
+    if kind == "callback_dinner_invitation":
+        return not fields.get("state") and unit in {"頓", "顿", "個", "个"} and bool(re.search(r"一起$", before)) \
+            and bool(re.match(r"晚[飯饭]吧[。.!]", after))
+    if kind == "escaped_elapsed_months":
+        return not fields.get("bound") and fields.get("state") in {"已經", "已经"} and unit in {"個月", "个月"} \
+            and bool(re.match(r"了[。.!]", after))
+    if kind == "freelance_request_ordinal":
+        return unit in {"份", "次"} and bool(re.fullmatch(r"委[託托]", after))
+    if kind == "holdem_loss_once":
+        return unit in {"口氣", "口气", "下", "次"} and bool(re.search(r"我昨天$", before)) \
+            and bool(re.match(r"全[輸输](?:光|掉)了[。.!]", after))
     if kind == "unanswered_call_rings":
         return unit in {"聲", "声", "次"} and bool(re.match(r"[。.!]\n(?:沒有接|没有接|沒有人接|没有人接)[。.!]", after))
     if kind == "karaoke_afterparty_round":
@@ -2818,7 +2863,7 @@ def _drama_quantity_valid(kind: str, match: re.Match[str], target: str) -> bool:
     if kind == "rumor_multiplier":
         return unit == "倍" and bool(re.search(r"明天[^。！？\n]*[漲涨]到\s*$", before)) and end
     if kind == "chaebol_family_generation":
-        return unit == "代" and bool(end or re.match(r"的接[觸触]", after))
+        return unit == "代" and bool(end or re.match(r"的接[觸触]", after) or re.fullmatch(r"的(?:聯絡|联系)", after))
     if kind == "media_age_group":
         return re.sub(r"\s", "", match.group("number")) in {"二三十", "二、三十", "二，三十", "二,三十", "20、30", "20,30", "20，30", "20/30"} \
             and unit in {"歲", "岁"} and bool(re.match(r"(?:的)?(?:青年|年[輕轻]人)", after))
@@ -3244,6 +3289,8 @@ def _match_target_counter_quantities(
             value = _chinese_cardinal_value(match.group("number") or "")
             if expected.kind == "shared_coin_loss_pair" and match.groupdict().get("implicit"):
                 value = Decimal(2)
+            if expected.kind == "callback_dinner_invitation" and not match.group("number"):
+                value = Decimal(1)
             if expected.kind in SOCIAL_COST_COUNTER_KINDS and (not match.group("number") or expected.kind == "golf_round_fee_range"):
                 value = Decimal(1)
             if expected.kind == "birthday_greeting_people_range":
@@ -3593,6 +3640,9 @@ def _source_money_amounts(source: str) -> list[MoneyAmount]:
             continue
         if match.group("context") == "월" and source[match.end():].startswith("% 수익 보장."):
             continue  # The claimed monthly percentage remains a percentage.
+        if any(rate.start() <= match.start() < match.end() <= rate.end()
+               for rate in SOURCE_CALLBACK_LOAN_RATE.finditer(source)):
+            continue  # Observed 월 1.6% is a rate; its 월 1 prefix is not 10,000 won.
         raw = match.group("number")
         number = (
             _decimal_value(raw) if raw[0].isdigit()
@@ -5668,6 +5718,107 @@ def _drama_parser_self_test() -> tuple[int, list[str]]:
     return cases, failures
 
 
+def _late_callback_parser_self_test() -> tuple[int, list[str]]:
+    """Actual late callbacks: rates/tier, auxiliary verb, invitation and elapsed time."""
+    cases, failures = 0, []
+
+    def check(source: str, target: str, valid: bool) -> None:
+        nonlocal cases
+        cases += 1
+        lang = "zh-TW" if "韓元" in target else "zh-CN"
+        errors = _numeric_errors(source, target) + _money_errors(lang, source, target)
+        if bool(errors) == valid:
+            failures.append(f"late callback expected valid={valid}: {source!r} -> {target!r}: {errors}")
+
+    loan = "2금융권에서 받았다. 금리 월 1.6%.\n1금융의 두 배다.\n받기는 했다. 근데 이자 계산을 해보니 무서웠다."
+    dinner = "몇 달 만에 그에게서 다시 연락이 왔다.\n\n'시간 되면 저녁 한번 하시죠. 편한 자리예요.'\n\n한남동의 조용한 식당. 예약자 이름만 대면 안내되는 곳.\n그는 정말로 편하게 대했다. 일 얘기는 거의 없었다.\n\n다만 {name}은 한 가지를 계속 생각했다.\n이 사람에게 강남은 목표가 아니다. 기본값이다.\n태어나 보니 이미 도착해 있던 사람과, 도착을 증명해야 하는 사람.\n\n같은 테이블에서 같은 음식을 먹는데 — 다른 층에 앉아 있었다."
+    escaped = '대포통장에 손댔다가 빠져나온 지 넉 달이 됐다.\n오늘 모르는 번호로 전화가 왔다.\n"안녕하세요, 경찰청 사이버수사대입니다.\n몇 가지 여쭤볼 것이 있어서요."'
+    holdem = '홀덤 펍을 그만둔 지 한 달이 됐다.\n오늘 거기서 같이 앉던 사람에게서 카톡이 왔다.\n"형, 기억해요? 저번에 같이 앉았던 사람인데.\n저 어제 한 번에 다 날렸어요. 80만원."'
+    rows = (
+        (loan, "从第二金融圈贷到了款。月利率1.6%。\n是第一金融圈的两倍。\n是拿到钱了。可算了算利息，心里发慌。", "callback_loan_rate", "月利率1.6%", ("月利率1.7%", "年利率1.6%", "月利率−1.6%", "月利率1.6公里", "不是月利率1.6%")),
+        (loan, "從第二金融圈借到了。月利率1.6%。\n是第一金融圈的兩倍。\n是借到了。但算過利息之後，覺得害怕。", "callback_loan_rate", "月利率1.6%", ("月利率16%", "日利率1.6%", "月利率+1.6%", "月利率1.6韓元", "沒月利率1.6%")),
+        ("2금융권이라도 알아본다", "第二金融圈也行，去了解一下", "financial_tier", "第二金融圈", ("第一金融圈", "第三金融圈", "第−二金融圈", "第二公里", "不是第二金融圈")),
+        ("2금융권이라도 알아본다", "就算是第二金融圈，也去問問", "financial_tier", "第二金融圈", ("第一金融圈", "第三金融圈", "第+二金融圈", "第二年", "沒有第二金融圈")),
+        ("재벌 3세의 연락", "财阀第三代的联系", "chaebol_family_generation", "财阀第三代", ("财阀第二代", "财阀第三岁", "财阀第−三代", "财阀第三公里", "不是财阀第三代")),
+        ("재벌 3세의 연락", "財閥第三代的聯絡", "chaebol_family_generation", "財閥第三代", ("財閥第四代", "財閥第三歲", "財閥第+三代", "財閥第三年", "沒財閥第三代")),
+        (dinner, "隔了几个月，他又联系了过来。\n\n“有空一起吃顿晚饭吧。随意坐坐。”\n\n汉南洞一家安静的餐厅。报出预订人的名字，就有人带路。\n他待人确实很随意。几乎没聊工作。\n\n但 {name} 始终在想一件事。\n对这个人来说，江南不是目标。是默认的起点。\n一个人生下来就已经到了，另一个人的抵达，却需要证明。\n\n在同一张桌上，吃着同样的食物——却坐在不同的楼层。", "callback_dinner_invitation", "吃顿晚饭吧", ("吃两顿晚饭吧", "吃公斤晚饭吧", "吃−顿晚饭吧", "吃了顿晚饭吧", "吃顿晚饭了")),
+        (dinner, "隔了幾個月，他又聯絡了過來。\n\n「有空的話，一起吃個晚飯吧。輕鬆的聚會而已。」\n\n漢南洞一間安靜的餐廳。只要報上訂位人的名字，就有人帶位。\n他真的很隨和，幾乎沒聊工作。\n\n只是，{name} 一直在想一件事。\n對這個人來說，江南不是目標。是預設值。\n一出生就已經抵達的人，和必須證明自己抵達的人。\n\n在同一張桌子吃同樣的食物——卻坐在不同的樓層。", "callback_dinner_invitation", "吃個晚飯吧", ("吃兩個晚飯吧", "吃公里晚飯吧", "吃+個晚飯吧", "吃了個晚飯吧", "吃個晚飯了")),
+        (escaped, "沾上借名账户的事后又抽身，已经四个月了。\n今天，一个陌生号码打来电话。\n“您好，这里是韩国警察厅网络犯罪调查队。\n有些事情想向您了解一下。”", "escaped_elapsed_months", "已经四个月", ("已经三个月", "已经四年", "已经−四个月", "还有四个月", "已经不到四个月")),
+        (escaped, "曾碰了人頭帳戶，又抽身離開，已經四個月了。\n今天，一個陌生號碼打了過來。\n「您好，這裡是警察廳網路偵查隊。\n有幾件事想請教您。」", "escaped_elapsed_months", "已經四個月", ("已經五個月", "已經四秒", "已經+四個月", "還有四個月", "已經超過四個月")),
+        ("두 번째 의뢰", "第二份委托", "freelance_request_ordinal", "第二份", ("第三份", "第二年", "第−二份", "第二公里", "不是第二份")),
+        ("두 번째 의뢰", "第二次委託", "freelance_request_ordinal", "第二次", ("第一次", "第二年", "第+二次", "第二公里", "沒第二次")),
+        (holdem, "不去德州扑克酒吧，已经一个月了。\n今天，曾在那里同桌玩牌的人发来 KakaoTalk 消息。\n“哥，还记得我吗？上回跟您坐一桌的。\n我昨天一下全输光了。80万韩元。”", "holdem_loss_once", "一下全输光了", ("两下全输光了", "一年全输光了", "−一下全输光了", "一公里全输光了", "没一下全输光了")),
+        (holdem, "不再去德州撲克酒吧，已經一個月了。\n今天，曾在那裡同桌的人傳來 KakaoTalk 訊息。\n「哥，還記得嗎？上次跟你同桌的那個人。\n我昨天一口氣全輸光了。80萬韓元。」", "holdem_loss_once", "一口氣全輸光了", ("兩口氣全輸光了", "一年全輸光了", "+一口氣全輸光了", "一公里全輸光了", "沒一口氣全輸光了")),
+    )
+    for source, normal, kind, span, mutations in rows:
+        check(source, normal, True)
+        check(source, normal.replace(span, ""), False)
+        quantities = [q for q in _source_counter_quantities(source) if q.kind == kind]
+        for mutation in mutations:
+            changed = normal.replace(span, mutation)
+            check(source, changed, False)
+            # Only this kind can reject the borrowed later normal; unrelated
+            # money, names and other paragraph counts do not supply a failure.
+            borrowed = changed + "\n" + normal
+            matched, errors = _match_target_counter_quantities(borrowed, quantities)
+            errors += _unexpected_target_entity_errors(borrowed, quantities, matched)
+            cases += 1
+            if not errors:
+                failures.append(f"late callback borrowed later normal: {kind}: {borrowed}")
+    for source, kind in (
+        (loan.replace("금리 월", "금리 연"), "callback_loan_rate"),
+        (loan.replace("두 배다", "같다"), "callback_loan_rate"),
+        ("2금융권리라면", "financial_tier"),
+        ("재벌 아이가 3세의 연락", "chaebol_family_generation"),
+        (dinner.replace("저녁 한번 하시죠", "저녁 한번 했다"), "callback_dinner_invitation"),
+        (escaped.replace("빠져나온 지", "남은 기간은"), "escaped_elapsed_months"),
+        ("두 번째 비행", "freelance_request_ordinal"),
+        (holdem.replace("다 날렸어요", "다 벌었어요"), "holdem_loss_once"),
+    ):
+        cases += 1
+        if any(q.kind == kind for q in _source_counter_quantities(source)):
+            failures.append(f"late callback source boundary escaped: {kind}: {source}")
+
+    memory = '이체 후 어머니께 전화를 드렸다.\n"엄마, 그때 빌렸던 거 보냈어요."\n어머니는 잠깐 말이 없었다. 그러다 "네 아버지가 알았으면 됐다고 했을 거다"라고 말했다.\n그 말은 용서가 아니라, 이제 갚아야 할 돈과 남겨 둘 기억을 나누는 기준처럼 오래 남았다.'
+    for normal in (
+        "转完账，给母亲打了电话。\n“妈，当时借的钱，我转过去了。”\n母亲沉默了一会儿。随后说：“你爸要是知道，会说不用了的。”\n那句话不是原谅，而像是一条界线，把如今该还的钱和该留下的记忆分开，久久留在心里。",
+        "轉帳後，打了電話給母親。\n「媽，那時跟家裡借的，已經轉過去了。」\n母親沉默了一會兒，才說：「你爸要是知道，就會說『好了』。」\n那句話不是原諒，而像一道分界，把現在該還的錢，和該留下的記憶分開，久久留著。",
+    ):
+        check(memory, normal, True)
+        check(memory, normal + "留下兩個記憶。", False)
+    for source in ("이제 갚아야 할 돈과 남겨 둘 다 있었다.", "이제 갚아야 할 돈과 남겨 둘 기억 두 개를 나누었다."):
+        cases += 1
+        if not any(q.value == 2 for q in _source_counter_quantities(source)):
+            failures.append(f"actual two quantities lost to auxiliary-verb exception: {source}")
+
+    # Reproduce the precise bad span: colloquial 월 1 previously stole the
+    # leading 1 of 1.6%. Actual won, including the old bare shorthand, survives.
+    cases += 1
+    matches = list(SOURCE_COLLOQUIAL_MANWON.finditer(loan))
+    if [(m.span(), m.group()) for m in matches] != [((15, 18), "월 1")] or _source_money_amounts(loan):
+        failures.append("late loan rate was parsed as a 10,000-won payment")
+    for source in ("월 1", "월 1만원", "금리 월 1만원"):
+        for normal in ("每月1萬韓元", "每月1万韩元"):
+            check(source, normal, True)
+            check(source, normal.replace("1", "2"), False)
+            check(source, normal.replace("1", "−1"), False)
+            check(source, "月利率1%", False)
+    for source in ("1금융", "1금융권", "2금융", "2금융권"):
+        tier = "一" if source.startswith("1") else "二"
+        normal = f"第{tier}金融圈"
+        check(source, normal, True)
+        check(source, normal.replace(tier, "三"), False)
+    for normal in (rows[0][1], rows[1][1]):
+        # The second-tier loan precedes the first-tier comparator. A line
+        # reversal or swapped tier ownership is not the same numeric record.
+        check(loan, normal.replace("第二", "TEMP").replace("第一", "第二").replace("TEMP", "第一"), False)
+        lines = normal.splitlines()
+        check(loan, "\n".join((lines[1], lines[0], *lines[2:])), False)
+        check(loan, normal + "\n第一金融圈", False)
+        check(loan, normal.replace("1.6%", "1.6%\n1.6%"), False)
+    return cases, failures
+
+
 def _callback_parser_self_test() -> tuple[int, list[str]]:
     """Five observed callback meanings; no general narrative approval."""
     cases, failures = 0, []
@@ -6115,6 +6266,9 @@ def run_self_test(
     callback_cases, callback_failures = _callback_parser_self_test()
     cases += callback_cases
     failures.extend(callback_failures)
+    late_callback_cases, late_callback_failures = _late_callback_parser_self_test()
+    cases += late_callback_cases
+    failures.extend(late_callback_failures)
 
     # Exact Korean-source catalogue names are not permission for unrelated
     # English prose or for deleting the noun around an allowed brand token.

@@ -132,7 +132,7 @@ KO/EN·runtime·save·routing·human_gates·밖name·다른 사건·catalog/endi
   앱삭제21일 뒤3.2배확신은 친구 주장이다. 거절은 실제사과,
   재발 한 번→두 번/21일리셋1일은 원문대로이며 새 배팅결과0.
 - 취객기억은 job_01 야간알바 조건,10분→30분 뒤 실제일어남이다.
-  익명 취객을 상철로 합성0. 통장8개월/아버지 생존 제외조건,
+  익명 취객을 상철로 합성0. 통장8개월/father_passed 제외조건(생존),
   실제식사/아버지의20만원수령과 밥만먹는 분기를 유지한다.
 - 투자후회 제목-15%, 미래+40%에절반매도규칙,820만원은 차익기회비용이지
   확정820만원순손실이 아니다. 마지막 '-820만원 아니라 결국이익' 부호를 보존한다.
@@ -177,7 +177,7 @@ KO/EN·runtime·save·routing·human_gates·밖name·다른 사건·catalog/endi
 - 아버지청춘23세상경/반년전회상은 밖 father_old_photo의23세인가24세인가와
   확정도 차이가 있다. 실제전화의 한달굶다를 단정30일무섭취로
   증폭0. 건강6개월/고모는 친고모, 검사괜찮음은 혈압완치0.
-  두 장면 생존제외조건, 아버지직접통화와 고모감사/전화약속을 구분한다.
+  두 장면 father_passed 제외조건(생존), 아버지직접통화와 고모감사/전화약속을 구분한다.
 - 프리랜서2개월뒤50만원과지난30만원·실제서면계약은 있으나 새 입금확정0.
   거절의 다음기회희망을 성사로 만들지 않는다.
 - chaebol_met_dinner는 연락초대→한남동식당착석·실제식사의 수락생략 부채다.
@@ -201,3 +201,34 @@ named full-game-localization-overlays --list 뒤 선택12검사·EN·diff·전�
 
 이 범위·배치·증거 절차는 일회성이다. 지속 규칙은 I18N_INFRASTRUCTURE와
 언어별 용어집이 소유하며 새 서사·제품·출시 규칙을 만들지 않는다.
+
+## 수용 결과 — 642번역·L1/L2, L3 OPEN
+
+- 선언 `1c9e6d67460b0a6b2f24a96620271fdb0d94f791` commit/push 후 initial6
+  (A107/B109행·새214leaf·previous null)을 봉인하고 독립 KO 저작·642문구 교차 대조했다.
+- 새 A18/B18행은 KO 상대순서, 기존 B1행8leaf는 값·순서·raw prefix exact.
+  각71선택·LF274·{name}11 보존. 기존18,186/meta9/batch40을 유지하여
+  총18,828(언어별6,276), events697종5,208+endings234+catalog834씩, batch41.
+- 독립 L2: JA214 수정0; CN214 필수1/정밀2(취객 부정·과거 가능성·도착 증명);
+  ROOT TW214 정밀1(다음 의뢰 주체). 별도 검토자가4leaf 재대조,
+  전파일/214-record 역치환으로 JA214/CN211/TW213 불변을 증명했다.
+- JA 남은1년/3세대 및 추가기간3건을 결속해 self192·독립38(정상4/변조34) PASS.
+  ZH 실제8종 문맥만 수리: 월1.6% 앞 '월 1'의 허위1만원(span15,18) 제거,
+  실제 원화 검증 유지. self5214(신규223)·독립56(정상16/변조32/원문경계8) PASS.
+- 최종 source/response/receipt6쌍·initial hash 결속, 실물642 L1 오류0·import 변경0.
+  final214-record:
+  JA `87f0dd4d56185fcb3e463de8f16225c011e89eb045e8674eef34eb7f23d93dd9`,
+  CN `f39d52d17d1ffce6d2ee4d4f31f8d3493eca5d586af31d7a5340f38599d0c712`,
+  TW `56033522cd0f59dbd969f241de60ce0e89a2c4929b5efbb9dacb5b69e577da83`.
+- 완료186 WORK_LOG절1,249bytes SHA
+  `3e9f18a6fa5b43f5e9d0d39f22ca673f1095326f0ebad5265e2f69ba17604f23`만
+  기존 history37,981bytes 앞에 원문 이동. 새39,230bytes SHA
+  `61f8f5c35385ccccf0868fc8f36f017eea9bda3b324e6d97043592085c7fdabf`.
+  기존 내용·끝 LF2 exact. 같은 활성 이어보기 [~]·L3 OPEN 유지.
+- 원문 사실/부채 보존, 생존 문구만 father_passed 제외로 명확화.
+  KO/EN·runtime·공개·fonts·save·human_gates 변경0·원본 checkout 쓰기0.
+  전체 INCOMPLETE·full/main/product HOLD·원어민/화면 OPEN·출시 M01~M06 GO 유지.
+  portable checksum `debcddc5e3d0a344a593a8985951dd688deac962afafb4c837e831977e372e6f`.
+- named `full-game-localization-overlays` 12검사·EN·diff·수용18,828 전량 hash/L1 PASS.
+  실제 stdout은 private `order189-final-checks.log` 4,682bytes SHA
+  `e4bca73caba3bd990ee72a0c73eab6b9019ad4864d30091554a62f02b8cbb84c`로 보존했다.

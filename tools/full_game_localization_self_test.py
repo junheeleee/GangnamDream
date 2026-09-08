@@ -174,6 +174,50 @@ class ExchangeTests(unittest.TestCase):
                               ('description',), '1억 2천 걸음이다.', 'event_standard')
         self.assertTrue(tool.translation_errors(unrelated, 'ja', '1億2000万歩だ。'))
 
+    def test_callback_japanese_remaining_year_is_less_than_one_before_38(self):
+        source = "38세까지 1년이 채 남지 않았다. 공격적으로 가기로 했다.\n오늘 정보가 하나 들어왔다. 안면 있는 브로커.\n\"지금이 마지막 창이야. 잡으면 두 배. 아니면 끝.\"\n강남이 이 결정 하나에 걸려 있다."
+        good = "38歳まで、もう一年もない。攻めていくと決めた。\n今日、情報が一つ入った。顔見知りのブローカーからだ。\n「今が最後のチャンスだ。つかめば二倍。逃せば終わりだ」\nカンナムに届くかどうかが、この決断一つにかかっている。"
+        leaf = tool.Leaf('events', 'callback_final_sprint_aggressive_all_in',
+                         'content/events/callback_events_4.json', ('description',),
+                         source, 'event_standard')
+        self.assertEqual(tool.translation_errors(leaf, 'ja', good), [])
+        self.assertEqual(tool.translation_errors(leaf, 'ja', good.replace('一年', '1年')), [])
+        for before, after in (('一年', '二年'), ('一年', '十一年'),
+                              ('一年', '-一年'), ('一年', '+一年'),
+                              ('一年', '一日'), ('一年', '一か月'),
+                              ('38歳', '39歳'), ('38歳', '-38歳'),
+                              ('年もない', '年以上ある'), ('年もない', '年ある'),
+                              ('38歳', '138歳'), ('38歳', '38年')):
+            self.assertTrue(tool.translation_errors(leaf, 'ja', good.replace(before, after)), after)
+        for extra in ('一年後。', '二歳。', '一時間。', '一ヶ月後。', '一週間後。', '一秒後。'):
+            self.assertTrue(tool.translation_errors(leaf, 'ja', good + extra), extra)
+        lines = good.split('\n')
+        lines[0], lines[1] = lines[1], lines[0]
+        self.assertTrue(tool.translation_errors(leaf, 'ja', '\n'.join(lines)))
+        for changed_source in (source.replace('1년', '2년'), source.replace('38세', '39세'),
+                               source.replace('1년', '1개월'),
+                               source.replace('채 남지 않았다', '넘게 남았다')):
+            changed = tool.Leaf('events', leaf.owner, leaf.source_path, leaf.path,
+                                changed_source, 'event_standard')
+            self.assertTrue(tool.translation_errors(changed, 'ja', good), changed_source)
+
+    def test_callback_japanese_third_generation_is_not_age(self):
+        leaf = tool.Leaf('events', 'callback_chaebol_elevator_response',
+                         'content/events/callback_events_5.json', ('title',),
+                         '재벌 3세의 연락', 'event_standard')
+        good = '財閥三世からの連絡'
+        self.assertEqual(tool.translation_errors(leaf, 'ja', good), [])
+        self.assertEqual(tool.translation_errors(leaf, 'ja', good.replace('三世', '3世')), [])
+        for wrong in ('財閥二世からの連絡', '財閥十三世からの連絡', '財閥-三世からの連絡',
+                      '財閥+三世からの連絡', '財閥三歳からの連絡', '財閥3歳からの連絡',
+                      '財閥三世からの連絡。四世も', '財閥三世からの連絡\n',
+                      '財閥3世ではない人からの連絡', '財閥からの連絡'):
+            self.assertTrue(tool.translation_errors(leaf, 'ja', wrong), wrong)
+        for changed_source in ('재벌 4세의 연락', '3세 아이의 연락'):
+            changed = tool.Leaf('events', leaf.owner, leaf.source_path, leaf.path,
+                                changed_source, 'event_standard')
+            self.assertTrue(tool.translation_errors(changed, 'ja', good), changed_source)
+
     def test_creator_japanese_news_age_group_is_not_calendar_year(self):
         source = '포털 뉴스에 링크가 올라왔다.\n"2030 공감 유발 콘텐츠로 화제"'
         good = 'ポータルサイトのニュースにリンクが載った。\n「20・30代の共感を呼ぶコンテンツとして話題」'

@@ -613,6 +613,22 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
                     source_numbers = value
                 else:
                     target_numbers = value
+        # This final-sprint opening has less than one year before age 38.
+        # Bind the complete sentence (including its limit), then admit 一年;
+        # a different age, interval, sign or paragraph cannot supply the count.
+        sprint_source = '38세까지 1년이 채 남지 않았다.'
+        if source_numbers.startswith(sprint_source):
+            sprint_target = re.match(r'38歳まで、もう(?:一|1)年もない。', target_numbers)
+            if sprint_target is None:
+                errors.append('source-bound final-sprint age/remaining-year mismatch')
+            else:
+                for interval in re.finditer(
+                    r'[+\-−]?[0-9一二三四五六七八九十百千]+\s*(?:歳|年|か月|ヶ月|週間|日|時間|秒)',
+                    target_numbers,
+                ):
+                    if interval.end() > sprint_target.end():
+                        errors.append('source-bound final-sprint added age/interval mismatch')
+                target_numbers = sprint_target.group().replace('一年', '1年') + target_numbers[sprint_target.end():]
         # A chaebol heir is second-generation, not a two-year-old. Bind the
         # observed complete title before admitting the native Japanese number.
         if leaf.source == '재벌 2세와의 접촉':
@@ -620,6 +636,11 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
                 errors.append('source-bound chaebol generation mismatch')
             else:
                 target_numbers = target_numbers.replace('二世', '2世')
+        if leaf.source == '재벌 3세의 연락':
+            if not re.fullmatch(r'財閥(?:三|3)世からの連絡', text):
+                errors.append('source-bound chaebol third-generation mismatch')
+            else:
+                target_numbers = target_numbers.replace('三世', '3世')
         # In the media scene 2030 labels young adults twice, not the year 2030.
         # Normalize only source-bound age-group spans; another number cannot
         # supply a missing group and neither occurrence may become a year.
