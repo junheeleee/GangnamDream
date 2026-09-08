@@ -7,6 +7,7 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
+| 1 | [~] | ORDER-196 · 거절·재기·연락 후속 번역 | [196](queue_active/ORDER-196.md) | 804번역 L1/L2 · L3 OPEN |
 | 2 | [~] | ORDER-195 · 절제·신뢰·생활 후속 번역 | [195](queue_active/ORDER-195.md) | 762번역 L1/L2 · L3 OPEN |
 | 3 | [~] | ORDER-194 · 가족·회복·관계 후속 번역 | [194](queue_active/ORDER-194.md) | 714번역 L1/L2 · L3 OPEN |
 | 4 | [~] | ORDER-193 · 투자·사람 후속 결과 번역 | [193](queue_active/ORDER-193.md) | 576번역 L1/L2 · L3 OPEN |

@@ -450,6 +450,7 @@ CATALOG_APPROXIMATE_WON = (
 SOURCE_INSURANCE_SAVED_PAIR = "첫 번째로 할 일로 보험 가입을 메모했다.\n몇만원짜리 보험이 수억을 지켰다."
 SOURCE_REPEATED_TOPIC_MENTION = "그 일을 한 번 더 꺼냈다"
 SOURCE_OCCASIONAL_ENCOUNTER = "다은이 거리를 둔 지 두 달.\n그사이 어쩌다 한 번씩은 마주쳤다.\n오늘은 그녀가 먼저 말을 걸었다."
+SOURCE_FATHER_PROMISE_TITLE = "아버지에게 한 약속"
 SOURCE_FORMER_CEO_SUCCESS = '한번 잘 나가다 부도가 났던 CEO를 만났던 게 두 달 전이다.\n그 이후에도 연락을 이어갔다.\n오늘 그분이 먼저 연락을 해왔다.\n"요즘 어때? 고민 있으면 말해."'
 SOURCE_LOTTO_CALLBACK_RANK = frozenset({
     "5등 당첨 이후",
@@ -1871,6 +1872,8 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
                 and source[:match.start()].endswith("나는 스스로에게 ") \
                 and source[match.end():] == "이 됐다.":
             continue  # The promise I made to myself: 한 is a relative verb.
+        if source == SOURCE_FATHER_PROMISE_TITLE:
+            continue  # This title's 한 means made, not a counted one promise.
         if match.group("noun") == "시각" and match.group("number") == "한" \
                 and re.search(r"(?:연락하기로|만나기로)\s+$", source[:match.start()]):
             continue  # 연락하기로 한 시각 하나 has a relative clause plus one.
@@ -4040,6 +4043,12 @@ def _has_numeric_sign_prefix(text: str, start: int) -> bool:
 
 def _numeric_errors(source: str, target: str) -> list[str]:
     errors: list[str] = []
+    if source == SOURCE_FATHER_PROMISE_TITLE and not re.fullmatch(
+            r"(?:[对對給给]父[亲親](?:[许許]下|[做作]出)?的|向父[亲親](?:[许許]下|[做作]出)的)"
+            r"(?:承[诺諾]|[约約]定)[。.!！]?", target):
+        # A relation-bearing title, not a numeric waiver: the father remains
+        # recipient, with no invented count, negation, plan or fulfillment.
+        errors.append("father-promise title relation or uncounted state changed")
     if source == "누가 확실하다고 했는지보다 계약서가 무엇을 보장하지 않았는지 표시했다. 되돌릴 돈은 없었지만 다음 계약에서 지워 둘 문장은 생겼다." \
             and _target_pattern_for_kind("line").search(target):
         errors.append("prospective deletion invented a sentence count")
@@ -6000,6 +6009,56 @@ def _drama_parser_self_test() -> tuple[int, list[str]]:
     return cases, failures
 
 
+def _father_promise_title_self_test() -> tuple[int, list[str]]:
+    """One observed relative-clause title, not generic promise-count removal."""
+    cases, failures = 0, []
+
+    def check(source: str, target: str, valid: bool) -> None:
+        nonlocal cases
+        cases += 1
+        errors = _numeric_errors(source, target)
+        if bool(errors) == valid:
+            failures.append(f"father-promise expected valid={valid}: {source!r} -> {target!r}: {errors}")
+
+    # The two authored regions remain independent control texts.
+    for normal in ("对父亲的承诺", "對父親許下的承諾"):
+        check(SOURCE_FATHER_PROMISE_TITLE, normal, True)
+        for changed in (
+            normal.replace("父", "母"), "父亲对我的承诺", "她" + normal,
+            "没有" + normal, "打算" + normal, "实现了" + normal, "取消了" + normal,
+            normal + "两次", normal + "一年", normal + "−1", "",
+            "对父亲的一个承诺", "对父亲的两个承诺", "对父亲的三公里承诺",
+            "對父親沒有許下的承諾", "对父亲的约会", normal + "实",
+            normal.replace("父", "父\n"), normal + "\n" + normal,
+            "没有对父亲的承诺。" + normal,
+            "对父亲的两个承诺。" + normal, normal + "。" + normal,
+        ):
+            check(SOURCE_FATHER_PROMISE_TITLE, changed, False)
+    for normal in (
+        "对父亲许下的承诺", "向父亲许下的承诺", "給父親的承諾",
+        "對父親作出的約定", "向父親做出的承諾", "给父亲的约定。",
+    ):
+        check(SOURCE_FATHER_PROMISE_TITLE, normal, True)
+
+    # Changed/extended sources retain their existing actual counters. In
+    # particular neither two nor three promises may borrow this title rule.
+    for source, normal, changed in (
+        ("아버지에게 두 약속", "对父亲的两个承诺", "对父亲的一个承诺"),
+        ("아버지에게 세 약속", "對父親的三個承諾", "對父親的兩個承諾"),
+        ("어머니에게 한 약속", "对母亲的一个承诺", "对母亲的两个承诺"),
+        ("아버지에게 한 약속을 지켰다", "兑现了对父亲的一个承诺", "兑现了对父亲的两个承诺"),
+    ):
+        check(source, normal, True)
+        check(source, changed, False)
+    for source in ("아버지에게 한 약속", "아버지에게 두 약속", "어머니에게 한 약속", "", "아버지에게 한 약속을 지켰다"):
+        cases += 1
+        counted = [q.value for q in _source_counter_quantities(source) if q.kind == "promise_count"]
+        expected = [] if source in {SOURCE_FATHER_PROMISE_TITLE, ""} else [Decimal(2 if "두 약속" in source else 1)]
+        if counted != expected:
+            failures.append(f"father-promise source boundary changed: {source!r}: {counted} != {expected}")
+    return cases, failures
+
+
 def _restraint_trust_callback_parser_self_test() -> tuple[int, list[str]]:
     """Two actual predicates; renewed mention is not a fixed encounter rate."""
     cases, failures = 0, []
@@ -7212,6 +7271,9 @@ def run_self_test(
     restraint_trust_cases, restraint_trust_failures = _restraint_trust_callback_parser_self_test()
     cases += restraint_trust_cases
     failures.extend(restraint_trust_failures)
+    father_promise_cases, father_promise_failures = _father_promise_title_self_test()
+    cases += father_promise_cases
+    failures.extend(father_promise_failures)
 
     # Exact Korean-source catalogue names are not permission for unrelated
     # English prose or for deleting the noun around an allowed brand token.

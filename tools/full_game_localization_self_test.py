@@ -614,6 +614,117 @@ class ExchangeTests(unittest.TestCase):
         self.assertEqual(tool.translation_errors(leaf2, 'ja',
             'カフェで盗んだ情報を使って勝負に出てから、二か月。\n勝ち負けは、すでに口座に刻まれていた。'), [])
 
+
+    def test_callback_japanese_actual_setback_and_wins_elapsed_months(self):
+        for source, good, action in (
+            ('그림자 투자에 데이고 두 달이 지났다.\n그때를 떠올리면 아직도 쓸렸다.\n오늘 비슷한 제안이 또 들어왔다.',
+             '影の投資で痛手を負ってから2か月が過ぎた。\nあの時を思い出すと、まだひりついた。\n今日、また似たような話が持ち込まれた。', '痛手を負ってから'),
+            ('홀덤에서 크게 따고 두 달이 지났다.\n그 감각이 아직 남아 있었다.\n오늘 또 자리가 생겼다는 연락이 왔다.',
+             'ホールデムで大勝ちしてから2か月が過ぎた。\nあの感覚が、まだ残っていた。\n今日、また席が空いたと連絡が来た。', '大勝ちしてから'),
+            ('경마에서 크게 따고 두 달이 지났다.\n그 돈을 어떻게 했는지가 중요했다.\n오늘 그 돈을 돌아봤다.',
+             '競馬で大勝ちしてから2か月が過ぎた。\nあの金をどうしたかが重要だった。\n今日、その金を振り返った。', '大勝ちしてから'),
+        ):
+            leaf = tool.Leaf('events', 'example', 'content/events/callback_events_21.json',
+                             ('description',), source, 'event_standard')
+            for unit in ('か月', 'ヶ月', 'カ月'):
+                for number in ('2', '二'):
+                    self.assertEqual(tool.translation_errors(leaf, 'ja',
+                        good.replace('2か月', number + unit)), [])
+            for bad in (good.replace('2か月', '3か月'), good.replace('2か月', '十二か月'),
+                        good.replace('2か月', '-2か月'), good.replace('2か月', '二年'),
+                        good.replace('が過ぎた', '後の予定だ'),
+                        good.replace(action, '計画を立ててから'),
+                        good.replace(action, '実行しなかったのは、'),
+                        good + '一か月。'):
+                self.assertTrue(tool.translation_errors(leaf, 'ja', bad), bad)
+
+    def test_callback_japanese_repeated_app_history_months_keep_both_lines(self):
+        source = '도박 앱을 전부 지운 지 두 달.\n처음엔 손이 갔다.\n오늘 두 달을 돌아봤다.'
+        good = '賭博アプリをすべて消してから2か月。\n最初は手が伸びた。\n今日、この2か月を振り返った。'
+        leaf = tool.Leaf('events', 'example', 'content/events/callback_events_20.json',
+                         ('description',), source, 'event_standard')
+        for target in (good, good.replace('2か月', '二ヶ月')):
+            self.assertEqual(tool.translation_errors(leaf, 'ja', target), [])
+        for before, after in (('この2か月', 'この3か月'), ('この2か月', 'この十二か月'),
+                              ('この2か月', 'この-2か月'), ('この2か月', 'この二週間'),
+                              ('この2か月', 'この'), ('を振り返った', '後を想像した'),
+                              ('を振り返った', 'を振り返る予定だ'),
+                              ('を振り返った', 'を振り返らなかった')):
+            self.assertTrue(tool.translation_errors(leaf, 'ja', good.replace(before, after)))
+        first, second, third = good.split('\n')
+        for bad in (third+'\n'+second+'\n'+first, good+'一か月。',
+                    good.replace('この2か月', 'この期間')+'2か月。'):
+            self.assertTrue(tool.translation_errors(leaf, 'ja', bad), bad)
+
+    def test_callback_japanese_observed_duration_comparison_and_title(self):
+        cases = (
+            ('두 달 동안 손대지 않았다.\n지운 것이 장벽이 됐다.',
+             '2か月間、手を出さなかった。\n消したことが壁になった。', '2'),
+            ('아직 멀었다.\n하지만 방향이 생긴 것만으로—세 달 전과 달랐다.',
+             'まだ遠かった。\nそれでも方向が定まっただけで――3か月前とは違った。', '3'),
+            ('창업한 지 두 달', '起業して2か月', '2'),
+        )
+        for source, good, number in cases:
+            leaf = tool.Leaf('events', 'example', 'content/events/callback_events_20.json',
+                             ('title',) if '\n' not in source else ('choices', 0, 'result_text'),
+                             source, 'event_standard')
+            for unit in ('か月', 'ヶ月', 'カ月'):
+                for digit in (number, {'2': '二', '3': '三'}[number]):
+                    self.assertEqual(tool.translation_errors(leaf, 'ja',
+                        good.replace(number+'か月', digit+unit)), [])
+            for replacement in ('4か月', '四か月', '12か月', '-'+number+'か月',
+                                '+'+number+'か月', number+'日', number+'か月以上', ''):
+                self.assertTrue(tool.translation_errors(leaf, 'ja',
+                    good.replace(number+'か月', replacement)), (source, replacement))
+            for extra in ('一か月。', '三時間。', '2か月。'):
+                self.assertTrue(tool.translation_errors(leaf, 'ja', good+extra), extra)
+            for changed in (source.replace('두 달', '세 달').replace('세 달 전', '두 달 전'),
+                            source.replace(' 달', ' 년')):
+                changed_leaf = tool.Leaf('events', leaf.owner, leaf.source_path, leaf.path,
+                                         changed, 'event_standard')
+                self.assertTrue(tool.translation_errors(changed_leaf, 'ja', good), changed)
+
+    def test_callback_japanese_duration_is_not_intent_and_comparison_is_past(self):
+        for source, good, before, alternatives in (
+            ('두 달 동안 손대지 않았다.\n지운 것이 장벽이 됐다.',
+             '2か月間、手を出さなかった。\n消したことが壁になった。',
+             '手を出さなかった', ('手を出した', '手を出さない予定だった', '手を出さないつもりだ')),
+            ('아직 멀었다.\n하지만 방향이 생긴 것만으로—세 달 전과 달랐다.',
+             'まだ遠かった。\nそれでも方向が定まっただけで――3か月前とは違った。',
+             '前とは違った', ('後とは違った', '前とは同じだった', '前と違う予定だ')),
+            ('창업한 지 두 달', '起業して2か月', '起業して',
+             ('起業するまであと', '起業を考えて', '起業の予定から')),
+        ):
+            leaf = tool.Leaf('events', 'example', 'content/events/callback_events_20.json',
+                             ('title',), source, 'event_standard')
+            self.assertEqual(tool.translation_errors(leaf, 'ja', good), [])
+            for after in alternatives:
+                self.assertTrue(tool.translation_errors(leaf, 'ja', good.replace(before, after)), after)
+
+
+    def test_callback_japanese_observed_past_actions_keep_actor_and_completion(self):
+        for source, good in (
+            ('그림자 투자에 데이고 두 달이 지났다.', '影の投資で痛手を負ってから2か月が過ぎた。'),
+            ('홀덤에서 크게 따고 두 달이 지났다.', 'テキサスホールデムで大勝ちしてから2か月が過ぎた。'),
+            ('경마에서 크게 따고 두 달이 지났다.', '競馬で大勝ちしてから2か月が過ぎた。'),
+        ):
+            leaf = tool.Leaf('events', 'example', 'content/events/callback_events_21.json',
+                             ('description',), source, 'event_standard')
+            self.assertEqual(tool.translation_errors(leaf, 'ja', good), [])
+            for bad in ('友人が'+good, '父が'+good, '友人の'+good,
+                        good.replace('影の投資', '競馬').replace('ホールデム', 'カジノ').replace('競馬で大勝ち', '株で大勝ち')):
+                self.assertIn('source-bound callback actual setback/win mismatch',
+                              tool.translation_errors(leaf, 'ja', bad), bad)
+        source = '도박 앱을 전부 지운 지 두 달.\n처음엔 손이 갔다.\n오늘 두 달을 돌아봤다.'
+        good = '賭博アプリをすべて消してから2か月。\n最初は手が伸びた。\n今日、この2か月を振り返った。'
+        leaf = tool.Leaf('events', 'example', 'content/events/callback_events_20.json',
+                         ('description',), source, 'event_standard')
+        for bad in ('友人が'+good, good.replace('すべて', '一部だけ'),
+                    good.replace('消してから', '消す計画を立ててから'),
+                    good.replace('消してから', '消さずに使い始めてから')):
+            self.assertIn('source-bound callback actual app deletion mismatch',
+                          tool.translation_errors(leaf, 'ja', bad), bad)
+
     def test_callback_japanese_completed_hour_conversation(self):
         source = '한 시간을 이야기했다.\n오래 말씀하시게 된 게 — 관계가 달라졌다는 뜻이었다.'
         good = '1時間、話した。\n長く話してくれるようになったのは――関係が変わったということだった。'

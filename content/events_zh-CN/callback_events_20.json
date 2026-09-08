@@ -1,0 +1,137 @@
+[
+  {
+    "id": "callback_father_going_soon_echo",
+    "title": "知道父亲时日无多之后",
+    "description": "得知父亲剩下的时间不多，已经两个月了。\n一直带着这个事实生活。\n今天，父亲打来了电话。",
+    "choices": [
+      {"text": "马上接听", "result_text": "接了。\n声音比以前虚弱了。"},
+      {"text": "晚些时候再打过去", "result_text": "晚些时候打了过去。\n父亲已经睡了。"}
+    ]
+  },
+  {
+    "id": "callback_startup_exit_echo",
+    "title": "退出初创公司之后",
+    "description": "彻底退出那家初创公司，已经两个月了。\n那个决定并不容易。\n今天，听到了那家公司的消息。",
+    "choices": [
+      {"text": "离开是对的", "result_text": "情况往不好的方向发展了。\n离开是对的。"},
+      {"text": "还是遗憾", "result_text": "还是遗憾。\n但决定已经做了。"}
+    ]
+  },
+  {
+    "id": "callback_startup_founded_echo",
+    "title": "创业两个月",
+    "description": "创业已经两个月了。\n比想象中安静。\n今天，第一次有人从外部联系我。",
+    "choices": [
+      {"text": "安排会面", "result_text": "约好了。\n从无人知晓——到有人知道了。"},
+      {"text": "先确认对方是什么人", "result_text": "确认了。\n接近刚起步的创业者的人——总有理由。"}
+    ]
+  },
+  {
+    "id": "callback_startup_growing_echo",
+    "title": "初创公司开始成长之后",
+    "description": "初创公司开始有明显的成长，已经三个月了。\n这段日子很忙。\n今天，第一次有人来问投资的事。",
+    "choices": [
+      {"text": "见见看", "result_text": "见面了。\n成长带来了这次联系。"},
+      {"text": "判断现在还太早", "result_text": "说了现在还早。\n接受投资，并不总是越早越好。"}
+    ]
+  },
+  {
+    "id": "callback_jobswitch_took_echo",
+    "title": "选择跳槽之后",
+    "description": "决定跳槽并进入新公司，已经两个月了。\n环境很陌生。\n今天，以前公司的同事联系了我。",
+    "choices": [
+      {"text": "高兴地接下这次联系", "result_text": "高兴地接下了这次联系。\n问了句：“顺利吗？”"},
+      {"text": "说自己过得挺好", "result_text": "说了句：“我过得挺好。”"}
+    ]
+  },
+  {
+    "id": "callback_jobswitch_declined_echo",
+    "title": "拒绝跳槽邀请之后",
+    "description": "拒绝跳槽邀请，已经两个月了。\n偶尔会想，那个选择对不对。\n今天，听到了那家公司的消息。",
+    "choices": [
+      {"text": "拒绝得对", "result_text": "那家公司的情况不好。\n拒绝是对的。"},
+      {"text": "有些遗憾", "result_text": "有些遗憾。\n即使情况不好——也不能排除本来会有更好的事。"}
+    ]
+  },
+  {
+    "id": "callback_jobswitch_hesitated_echo",
+    "title": "犹豫要不要跳槽之后",
+    "description": "犹豫着要不要跳槽，最后决定留下，至今已有两个月。\n偶尔还会想起那个邀请。\n今天，听说了那家公司后来的情况。",
+    "choices": [
+      {"text": "留下是对的", "result_text": "那家公司的情况不好。\n犹豫——最终让我留下，而留下是对的。"},
+      {"text": "当初该再主动一点", "result_text": "情况并不差。\n犹豫，也许让机会溜走了。"}
+    ]
+  },
+  {
+    "id": "callback_headhunted_echo",
+    "title": "收到猎头邀请之后",
+    "description": "收到猎头的邀请，已经两个月了。\n做了决定。\n今天，那个决定的结果出来了。",
+    "choices": [
+      {"text": "成了", "result_text": "成了。\n被猎头看中——这本身就是得到了市场的认可。"},
+      {"text": "无论做了什么决定，都回头看看", "result_text": "回头看了看。\n猎头的邀请，让人有了选择。"}
+    ]
+  },
+  {
+    "id": "callback_lied_at_reunion_echo",
+    "title": "在同学会上夸大其词之后",
+    "description": "在同学会上夸大其词，已经两个月了。\n偶尔会想起那场聚会。\n今天，又见到了当时见过的朋友。",
+    "choices": [
+      {"text": "自然地聊天", "result_text": "自然地聊了起来。\n对方应该还记得那时。"},
+      {"text": "只接着聊真实的部分", "result_text": "接着聊了真实的部分。\n从夸张往事实——一点点拉回来。"}
+    ]
+  },
+  {
+    "id": "callback_came_clean_to_friend_echo",
+    "title": "向朋友坦白之后",
+    "description": "向朋友坦诚地说开，已经一个月了。\n那之后不一样了。\n今天，那位朋友联系了我。",
+    "choices": [
+      {"text": "见面", "result_text": "见面了。\n坦诚说开——带来了这次见面。"},
+      {"text": "先问联系是为了什么", "result_text": "先问了有什么事。\n朋友说：“没什么。就是想见你。”"}
+    ]
+  },
+  {
+    "id": "callback_deleted_gambling_apps_echo",
+    "title": "删掉赌博软件之后",
+    "description": "删掉所有赌博软件，已经两个月了。\n起初，手还是会伸过去。\n今天，回顾了这两个月。",
+    "choices": [
+      {"text": "删得对", "result_text": "两个月里都没碰。\n删掉它们，成了一道屏障。"},
+      {"text": "偶尔还是动摇了", "result_text": "偶尔还是动摇了。\n但软件已经不在了。\n删掉软件——在动摇时，起到了阻挡的作用。"}
+    ]
+  },
+  {
+    "id": "callback_hit_rock_bottom_echo",
+    "title": "跌到谷底之后",
+    "description": "跌到谷底，已经过去三个月了。\n回头想起那时，心里还是沉重。\n今天，把那时和现在比了比。",
+    "choices": [
+      {"text": "变了很多", "result_text": "变了。\n知道谷底在哪里——也就知道，已经不能再往下了。"},
+      {"text": "好像还没完全恢复", "result_text": "还没完全恢复。\n但方向变了。"}
+    ]
+  },
+  {
+    "id": "callback_promised_father_gangnam_echo",
+    "title": "对父亲的承诺",
+    "description": "对父亲说自己要进驻江南，已经三个月了。\n那个承诺一直沉甸甸地留在心里。\n今天，父亲发来了短信：“过得好吗？”",
+    "choices": [
+      {"text": "“嗯，正努力着呢”", "result_text": "说了句：“嗯，正努力着呢。”\n父亲说：“好。”"},
+      {"text": "汇报进展", "result_text": "具体说了自己走到了哪里。\n父亲读了很久。"}
+    ]
+  },
+  {
+    "id": "callback_took_gray_tip_echo",
+    "title": "用过灰色信息之后",
+    "description": "用边界模糊的信息赚了钱，已经两个月了。\n结果不错。\n今天，又有类似的信息传来。",
+    "choices": [
+      {"text": "这次拒绝", "result_text": "这次拒绝了。\n一次是运气。两次就会变成习惯。"},
+      {"text": "再用", "result_text": "又用了。\n结果好——不代表方法就是对的。"}
+    ]
+  },
+  {
+    "id": "callback_took_high_road_echo",
+    "title": "选择正道之后",
+    "description": "没有选择省事的办法，而是走了正道，至今已有两个月。\n眼前是吃了亏。\n今天，那个结果回来了。",
+    "choices": [
+      {"text": "有回来的东西", "result_text": "回来了。\n没有立刻来——但还是来了。"},
+      {"text": "还什么都没有", "result_text": "还什么都没有。\n但也有没失去的东西。"}
+    ]
+  }
+]

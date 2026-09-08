@@ -193,3 +193,45 @@ named full-game-localization-overlays --list 뒤 선택12·EN·diff·전량수�
 전체 INCOMPLETE·full/main/product HOLD·L3/원어민/화면 OPEN.
 출시 M01~M06 BUILD2026.08.31.1 사용자 GO 유지.
 이 문서는 일회성 범위이며 지속 규칙의 소유자는 I18N_INFRASTRUCTURE/용어집이다.
+
+## 수용 결과 — 804번역·L1/L2, L3 OPEN
+
+- 선언 `b65a2a407ee176210646fa2ef7477b04054620e3` commit/push 뒤
+  initial6(A139/B131행·신규268 previous null×3)을 저작 전에 봉인했다.
+  KO 직접 독립 저작 뒤 다른 작성자/ROOT가804문구 전부를 대조했다.
+- callback19/20/21 신규15/90·15/90·15/88을 각 언어 KO 순서대로 썼다.
+  기존22,266/meta9/b50 보존, 누적23,070(각7,690)·b52이다.
+  각 언어 events934종6,622·endings234·catalog834다.
+- 독립 L2 필수0, 정밀3: CN 순조로운진행 평가1·TW 도박손실 만회표현2.
+  세 문구 교차확인과 전체9파일·records 역치환으로
+  JA268/CN267/TW266 나머지 불변을 확인했다.
+- 일본어 실제7leaf/9진단의 기간 오탐을 수리했다.
+  -고 완료경험3, 삭제기간 반복·비사용기간·세달전 비교·창업제목4를
+  원문·시점·행에 결속했다. 첫 수리 뒤 기존JA7,422 hash/L1 오류0를 확인했다.
+  독립 검토가 찾은 주체/영역 변경과 삭제계획·부정9쌍은 fullmatch로 닫았다.
+  full self201 PASS이며 전체문장 의미 인증이 아니다.
+- 중국어 '아버지에게 한 약속'의 관형형 한을 수사1로 오독한 오탐만 수리했다.
+  exact 원문과 아버지가 수령인인 제목을 묶어 새횟수·주체역전·부정·미래를 거부한다.
+  ZH self6301=6236+65 PASS, 신규65는 정상8·target변조44·source경계13이다.
+  다른원문의 기존진단 유지가 전역의미 인증을 뜻하지 않는다.
+- 최종 source/response/receipt6쌍·실물804 L1 오류0,
+  check/import --accept6 changed_files0. 최종268 records:
+  JA `4676b0438f7774cd5d820efdc7d92e660cd2c920d3e1fe80323ed80a079b7bfc`,
+  CN `59ab45a122dcda0ed8948867de4c1b0503ac9f2303797c7e20270af5537b21f6`,
+  TW `7522af5a1f55ba66113b8f352d6e1225f543c9d71260cc77f8e9b48885b1964b`.
+- 완료193 WORK_LOG절1,085B만 history 앞으로 원문 이동했다.
+  46,059→47,144B SHA
+  `b3d65a774bfb2e3b0f4ae56224226965ca1b2fc6ec6c753794c1eaf36f781d27`.
+  기존 bytes·끝 LF2 유지, 같은 활성 이어보기 [~]·L3 OPEN이다.
+- 아버지의 수신/나중실제발신/기존읽음·답변과 예약/실제만남을 구분했다.
+  부모부탁·전세보험·고시원/도박장 표시·제목압축 등 원문 부채는 남겼다.
+  KO/EN·runtime·공개·fonts·save·human_gates 변경0, 원본 checkout 쓰기0.
+  전체 INCOMPLETE·full/main/product HOLD, 원어민/화면 OPEN·출시 데모 GO 유지.
+- portable checksum `f62b319df9aff265856afcd836f1314d72c69a319aa2f386710d4ae7fba92dad`.
+
+- 최종 named12·EN strict·전량23,070 source/target hash와 L1·diff 검사 PASS.
+  full self201/ZH self6301이며 독립 JA82(정상14/변조68)·ZH42
+  (실물2/정상형4/변조28/원문경계8)은 자체 fixture 수와 합산하지 않는다.
+  JA 신규허용9쌍은 동일 고정집합에서 재검증해 잔여0으로 닫았다.
+  실제 stdout `order196-final-checks.log` 4,682bytes SHA
+  `3b66d5a49a4bf557c4085b1e77ebffd34b30b7dbffff261a01c66cd0a541a1cb`.

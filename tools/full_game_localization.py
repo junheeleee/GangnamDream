@@ -621,6 +621,17 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
             r'(?:게 |지 )(?P<number>한|두|석|세) 달(?: 전이다\.|이 지났다\.|\.)$',
             source_numbers.split('\n', 1)[0],
         )
+        # These observed openings use -고, not -지. Bind their actual past
+        # action before allowing the same elapsed interval; no generic -고 waiver.
+        callback_past_actions = {
+            '그림자 투자에 데이고 두 달이 지났다.': r'影の投資で痛手を負ってから',
+            '홀덤에서 크게 따고 두 달이 지났다.': r'(?:テキサス)?ホールデムで大勝ちしてから',
+            '경마에서 크게 따고 두 달이 지났다.': r'競馬で大勝ちしてから',
+        }
+        callback_past_action = callback_past_actions.get(leaf.source.split('\n', 1)[0])
+        if callback_past_action:
+            callback_month = re.search(r'고 (?P<number>두) 달이 지났다\.$',
+                                       source_numbers.split('\n', 1)[0])
         callback_spans = []
         callback_original_target = target_numbers
         if callback_month:
@@ -628,6 +639,10 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
             number = {'한': '1', '두': '2', '석': '3', '세': '3'}[callback_month.group('number')]
             native = {'1': '一', '2': '二', '3': '三'}[number]
             opening = target_numbers.split('\n', 1)[0]
+            if callback_past_action and not re.fullmatch(
+                callback_past_action + r'、?[2二](?:か月|ヶ月|カ月)が過ぎた。$', opening,
+            ):
+                errors.append('source-bound callback actual setback/win mismatch')
             # These two observed predicates report an accomplished resolution
             # and an actual change in distance. A past plan to do either is
             # not the same elapsed event, even with the correct month value.
@@ -655,6 +670,43 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
                 target_numbers = target_numbers[:start] + number + target_numbers[end:]
             start, end = callback_month.span('number')
             source_numbers = source_numbers[:start] + number + source_numbers[end:]
+        # The source repeats the two-month span when looking back, and other
+        # observed leaves use a duration, an earlier comparison or a bare title.
+        # Match each complete source and the corresponding line/action before
+        # normalizing just that one native count. Keep both app-history spans.
+        callback_observed_month = False
+        if leaf.source == '도박 앱을 전부 지운 지 두 달.\n처음엔 손이 갔다.\n오늘 두 달을 돌아봤다.' \
+                and not re.fullmatch(r'賭博アプリをすべて消してから[2二](?:か月|ヶ月|カ月)。',
+                                     target_numbers.split('\n', 1)[0]):
+            errors.append('source-bound callback actual app deletion mismatch')
+        for source, source_piece, number, line_index, target_pattern in (
+            ('도박 앱을 전부 지운 지 두 달.\n처음엔 손이 갔다.\n오늘 두 달을 돌아봤다.',
+             '오늘 두 달', '2', 2,
+             r'今日、この(?P<number>[2二])(?:か月|ヶ月|カ月)を振り返った。'),
+            ('두 달 동안 손대지 않았다.\n지운 것이 장벽이 됐다.',
+             '두 달', '2', 0,
+             r'(?P<number>[2二])(?:か月|ヶ月|カ月)間、手を出さなかった。'),
+            ('아직 멀었다.\n하지만 방향이 생긴 것만으로—세 달 전과 달랐다.',
+             '세 달', '3', 1,
+             r'それでも方向が定まっただけで――(?P<number>[3三])(?:か月|ヶ月|カ月)前とは違った。'),
+            ('창업한 지 두 달', '두 달', '2', 0,
+             r'起業して(?P<number>[2二])(?:か月|ヶ月|カ月)'),
+        ):
+            if leaf.source != source:
+                continue
+            native_time_bound = callback_observed_month = True
+            lines = target_numbers.split('\n')
+            match = re.fullmatch(target_pattern, lines[line_index]) if len(lines) > line_index else None
+            if match is None:
+                errors.append('source-bound callback duration/retrospect/title mismatch')
+            else:
+                offset = sum(len(line) + 1 for line in lines[:line_index])
+                start, end = (offset + pos for pos in match.span('number'))
+                callback_spans.append((start, offset + match.end()))
+                target_numbers = target_numbers[:start] + number + target_numbers[end:]
+            native_word = {'2': '두', '3': '세'}[number]
+            source_numbers = source_numbers.replace(source_piece,
+                source_piece.replace(native_word, number), 1)
         # The one-hour conversation is already completed; it is not a plan,
         # a clock time, or an added hour attached to another paragraph.
         conversation_source = '한 시간을 이야기했다.\n오래 말씀하시게 된 게 — 관계가 달라졌다는 뜻이었다.'
@@ -667,7 +719,7 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
                 callback_spans.append((0, conversation.end()))
                 target_numbers = '1' + target_numbers[1:]
             source_numbers = '1' + source_numbers[1:]
-        if callback_month or leaf.source == conversation_source:
+        if callback_month or callback_observed_month or leaf.source == conversation_source:
             # Scan the pre-time-normalization text, including earlier money
             # normalization; the one-character time substitutions keep offsets.
             # A spelled-out extra quantity must not bypass the Arabic stream.

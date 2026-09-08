@@ -1,0 +1,227 @@
+[
+  {
+    "id": "callback_shadow_burned_echo",
+    "title": "在影子投資上吃過虧之後",
+    "description": "在影子投資上吃虧，已經過了兩個月。\n想起那時，心裡還是隱隱作痛。\n今天，又有人提出了類似的提議。",
+    "choices": [
+      {
+        "text": "直接拒絕",
+        "result_text": "直接拒絕了。"
+      },
+      {
+        "text": "先聽聽看",
+        "result_text": "聽了。\n架構和那時一樣。"
+      }
+    ]
+  },
+  {
+    "id": "callback_shadow_investigated_echo",
+    "title": "追查影子之後",
+    "description": "親自追查影子投資的架構，已經兩個月了。\n那個過程並不輕鬆。\n今天，出現了那套架構崩盤的新聞。",
+    "choices": [
+      {
+        "text": "這是預料中的結果",
+        "result_text": "料到了。\n正因為追查過，才看得出來。"
+      },
+      {
+        "text": "心裡還是有些苦澀",
+        "result_text": "心裡有些苦澀。\n想起還有受害的人。"
+      }
+    ]
+  },
+  {
+    "id": "callback_guarantee_confronted_echo",
+    "title": "當面談過作保的問題之後",
+    "description": "當面談過作保的問題，已經兩個月了。\n那番話並不好說。\n今天，結果出來了。",
+    "choices": [
+      {
+        "text": "確認結果",
+        "result_text": "親口說出來，讓事情有了進展。"
+      },
+      {
+        "text": "還沒告一段落",
+        "result_text": "還沒告一段落。\n但已經和當面談過之前不同了。"
+      }
+    ]
+  },
+  {
+    "id": "callback_guarantee_legal_route_echo",
+    "title": "選擇法律途徑之後",
+    "description": "為了作保的問題選擇法律途徑，已經三個月了。\n這是一場耗時的仗。\n今天，進度有了更新。",
+    "choices": [
+      {
+        "text": "繼續走下去",
+        "result_text": "繼續了。\n法律途徑走得很慢。"
+      },
+      {
+        "text": "漸漸累了",
+        "result_text": "漸漸累了。\n沒想到這場仗會打這麼久。\n但若放棄——走到現在的一切，就全都沒了。"
+      }
+    ]
+  },
+  {
+    "id": "callback_freelance_growing_echo",
+    "title": "接案工作漸漸做大",
+    "description": "開始接案，已經三個月了。\n起初很不穩定。\n今天，有了穩定的委託客戶。",
+    "choices": [
+      {
+        "text": "繼續做大",
+        "result_text": "繼續做下去。\n一個穩定的委託客戶——會成為最重要的基礎。"
+      },
+      {
+        "text": "也考慮轉做正職",
+        "result_text": "也考慮起了正職。\n有了穩定之後——更大的穩定，也開始吸引人。"
+      }
+    ]
+  },
+  {
+    "id": "callback_sns_content_started_echo",
+    "title": "開始經營社群內容之後",
+    "description": "開始在社群媒體上發布內容，已經兩個月了。\n幾乎沒有反應。\n今天——第一次有陌生人留下了留言。",
+    "choices": [
+      {
+        "text": "繼續",
+        "result_text": "決定繼續下去。\n一個人——就是開始。"
+      },
+      {
+        "text": "考慮換個方向",
+        "result_text": "思考起了方向。\n把那則留言當成線索。"
+      }
+    ]
+  },
+  {
+    "id": "callback_startup_going_solo_echo",
+    "title": "決定獨自走下去之後",
+    "description": "決定一個人繼續創業，已經兩個月了。\n沒有團隊，走得很孤單。\n今天，第一次出現了願意幫忙的人。",
+    "choices": [
+      {
+        "text": "試著一起做",
+        "result_text": "決定試著一起做。\n獨自走著，終於迎來的夥伴——正因為一個人撐了下來，才有機會相遇。"
+      },
+      {
+        "text": "先觀察看看",
+        "result_text": "先觀察。\n第一個出現的人——現在就相信，還太早。"
+      }
+    ]
+  },
+  {
+    "id": "callback_jeonse_chased_landlord_echo",
+    "title": "找上房東之後",
+    "description": "為了全租的問題親自找上房東，已經兩個月了。\n那之後就斷了聯絡。\n今天，收到了法院的文件。",
+    "choices": [
+      {
+        "text": "照程序處理",
+        "result_text": "照程序處理了。\n親自找上門這件事，留下了紀錄。"
+      },
+      {
+        "text": "雖然累，還是繼續",
+        "result_text": "累了。\n但若停下，一切就都沒了。"
+      }
+    ]
+  },
+  {
+    "id": "callback_daeun_reconnected_echo",
+    "title": "和 Daeun 重新有了聯繫之後",
+    "description": "和曾經疏遠一陣子的 Daeun 重新有了聯繫，已經兩個月了。\n起初很尷尬。\n今天，是她先說想見面。",
+    "choices": [
+      {
+        "text": "見面",
+        "result_text": "見了面。\n能重新有聯繫——是因為兩個人都想如此。"
+      },
+      {
+        "text": "先問是什麼樣的聚會",
+        "result_text": "先問了是什麼樣的聚會。\n她說：「沒什麼啦。」"
+      }
+    ]
+  },
+  {
+    "id": "callback_helped_failed_friend_echo",
+    "title": "幫過生意失敗的朋友之後",
+    "description": "幫過生意失敗的朋友，已經兩個月了。\n惦記著朋友的情況。\n今天，朋友聯絡了我。",
+    "choices": [
+      {
+        "text": "問問後來怎麼樣了",
+        "result_text": "問了句：「最近怎麼樣？」\n朋友說：「正在慢慢重新開始。」"
+      },
+      {
+        "text": "先問候對方",
+        "result_text": "先問候了對方。\n朋友說：「謝謝。多虧有你，我才撐了下來。」"
+      }
+    ]
+  },
+  {
+    "id": "callback_envy_fuel_shifted_echo",
+    "title": "嫉妒成為動力之後",
+    "description": "決定把羨慕化為能量，已經三個月了。\n起初，比較讓人痛苦。\n今天，發現自己有些地方比那個人更好了。",
+    "choices": [
+      {
+        "text": "確認自己已經超越對方",
+        "result_text": "超越了對方。\n決定把嫉妒當成動力時——這個結果，就是想抵達的地方。"
+      },
+      {
+        "text": "還差得遠",
+        "result_text": "還差得遠。\n但光是有了方向——就和三個月前不同了。"
+      }
+    ]
+  },
+  {
+    "id": "callback_hoesik_boundary_set_echo",
+    "title": "劃清界線之後",
+    "description": "第一次在公司聚餐上劃清界線，已經兩個月了。\n尷尬還留著。\n今天，同樣的情況又出現了。",
+    "choices": [
+      {
+        "text": "這次也劃清界線",
+        "result_text": "這次也劃清了界線。\n比起第一次，第二次——更自然了。"
+      },
+      {
+        "text": "這次先忍下來",
+        "result_text": "這次忍了下來。\n劃清界線，不代表不懂得變通。"
+      }
+    ]
+  },
+  {
+    "id": "callback_holiday_reconciled_echo",
+    "title": "過節時和好之後",
+    "description": "過節時，和疏遠很久的家人和好了，至今已經兩個月。\n那天的尷尬，還留在記憶裡。\n今天，那位家人聯絡了我。",
+    "choices": [
+      {
+        "text": "高興地回應",
+        "result_text": "高興地回應了。\n過節時的和好，才有了這次聯絡。"
+      },
+      {
+        "text": "雖然還沒完全自在，還是回應",
+        "result_text": "雖然還不自在，還是回應了。\n自在，是時間慢慢帶來的。"
+      }
+    ]
+  },
+  {
+    "id": "callback_declared_dream_echo",
+    "title": "說出夢想之後",
+    "description": "說出自己的夢想是進駐江南，已經三個月了。\n有時，說出口這件事反而讓人覺得沉重。\n今天，再次見到了當時聽過那些話的人。",
+    "choices": [
+      {
+        "text": "說一切順利",
+        "result_text": "說了：「正順利往前走。」\n那個人說：「我還記得你說過的事。」"
+      },
+      {
+        "text": "坦白說還差得遠",
+        "result_text": "坦白說了：「還差得遠呢。」\n那個人說：「但你還是有在往前走啊。」"
+      }
+    ]
+  },
+  {
+    "id": "callback_deleted_sns_echo",
+    "title": "刪掉社群媒體之後",
+    "description": "受不了比較帶來的痛苦，刪掉了社群媒體，已經兩個月了。\n起初很空虛。\n今天，回顧了那之後的日子。",
+    "choices": [
+      {
+        "text": "刪得好",
+        "result_text": "專注的狀態不一樣了。\n沒有了螢幕，時間就空了出來。"
+      },
+      {
+        "text": "偶爾想著要不要裝回來",
+        "result_text": "偶爾想著要不要裝回來。\n但又想起了當初刪掉的理由。"
+      }
+    ]
+  }
+]

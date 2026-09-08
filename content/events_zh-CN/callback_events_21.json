@@ -1,0 +1,136 @@
+[
+  {
+    "id": "callback_coin_refused_echo",
+    "title": "拒绝加密货币投资之后",
+    "description": "拒绝投资加密货币，已经两个月了。\n听到了当时一起入场的那些人的消息。\n今天，看了走势图。",
+    "choices": [
+      {"text": "拒绝得对", "result_text": "大跌了。\n拒绝是对的。\n但那时靠的不是信息，而是直觉。"},
+      {"text": "涨了又跌——看看后来怎样了", "result_text": "涨了，又跌了。\n拒绝的结果是对的——但不是踩准了时机，而是拒绝了参与。"}
+    ]
+  },
+  {
+    "id": "callback_coin_warned_friend_echo",
+    "title": "劝朋友别投加密货币之后",
+    "description": "劝住了想把大笔钱投进加密货币的朋友，已经两个月了。\n有些想知道那位朋友后来怎么样了。\n今天，对方联系了我。",
+    "choices": [
+      {"text": "听听后来怎么样了", "result_text": "对方说：“还好听了你的话。”"},
+      {"text": "不说“我说得没错吧”", "result_text": "没有炫耀。\n朋友说：“谢谢。”"}
+    ]
+  },
+  {
+    "id": "callback_holdem_big_win_echo",
+    "title": "德州扑克大赢之后",
+    "description": "打德州扑克大赢，已经过去两个月了。\n那种感觉还在。\n今天，又有人联系，说有牌局了。",
+    "choices": [
+      {"text": "拒绝", "result_text": "拒绝了。\n大赢的时候——最想再坐回牌桌。"},
+      {"text": "就再一次", "result_text": "坐下了。\n这次不一样。"}
+    ]
+  },
+  {
+    "id": "callback_holdem_quit_echo",
+    "title": "戒掉德州扑克之后",
+    "description": "决定戒掉德州扑克，已经两个月了。\n偶尔还会想起。\n今天，以前牌局里的成员联系了我。",
+    "choices": [
+      {"text": "拒绝", "result_text": "拒绝了。\n戒掉——从不回应这样的联系开始。"},
+      {"text": "只是去看看", "result_text": "只是去看了看。\n没有坐下。"}
+    ]
+  },
+  {
+    "id": "callback_racetrack_chased_loss_echo",
+    "title": "在赛马场追损之后",
+    "description": "想捞回输掉的钱，却输得更多，至今已有两个月。\n那天的事还历历在目。\n今天，听说赛马季又开始了。",
+    "choices": [
+      {"text": "这次没去", "result_text": "没去。\n追损的记忆——这次拦住了我。"},
+      {"text": "这次不一样", "result_text": "去了。\n“这次不一样。”上次也说过同样的话。"}
+    ]
+  },
+  {
+    "id": "callback_racetrack_won_big_echo",
+    "title": "赛马大赢之后",
+    "description": "赌赛马大赢，已经过去两个月了。\n重要的是怎么处置那笔钱。\n今天，回头想了想那笔钱。",
+    "choices": [
+      {"text": "用得好", "result_text": "用得好。\n意外赢来的钱——有意义地花出去的部分，留了下来。"},
+      {"text": "曾想再拿去赌", "result_text": "想再拿去赌。\n又投进去了一部分。"}
+    ]
+  },
+  {
+    "id": "callback_guarantee_refused_echo",
+    "title": "拒绝担保之后",
+    "description": "拒绝了那个人的担保请求，已经两个月了。\n那之后，关系变得尴尬。\n今天，听到了那个人的消息。",
+    "choices": [
+      {"text": "拒绝得对", "result_text": "对方的情况变糟了。\n拒绝是对的。"},
+      {"text": "还是在意这段关系", "result_text": "还是在意。\n但结果是对的。"}
+    ]
+  },
+  {
+    "id": "callback_guarantee_signed_echo",
+    "title": "替人担保之后",
+    "description": "替那个人作担保，已经两个月了。\n一直没有任何联系。\n今天，银行发来了短信。",
+    "choices": [
+      {"text": "查看内容", "result_text": "是逾期通知。\n作担保的那一刻——那个人的信用，就成了我的信用。"},
+      {"text": "先联系那个人", "result_text": "先联系了对方。\n没接。\n作了担保之后，也得一直跟进。"}
+    ]
+  },
+  {
+    "id": "callback_jeonse_insured_echo",
+    "title": "投保全租保险之后",
+    "description": "投保全租押金保证保险，已经三个月了。\n那之后一直很平静。\n今天，听到了同一栋楼隔壁住户的消息。",
+    "choices": [
+      {"text": "隔壁没买保险", "result_text": "隔壁没投保。\n房东出了问题时，差别就显出来了。"},
+      {"text": "觉得庆幸", "result_text": "很庆幸。\n也曾觉得那笔保费花得可惜。"}
+    ]
+  },
+  {
+    "id": "callback_jeonse_ignored_echo",
+    "title": "没把全租保险当回事之后",
+    "description": "嫌全租押金保证保险麻烦，没当回事，至今已有三个月。\n以为不会出什么事。\n今天，房东突然联系了我。",
+    "choices": [
+      {"text": "查看内容", "result_text": "说押金难以退还。\n没有投保——就是为了这一刻。"},
+      {"text": "现在就采取行动", "result_text": "立刻采取了行动。\n没有保险，就得自己去争。"}
+    ]
+  },
+  {
+    "id": "callback_parent_refused_echo",
+    "title": "拒绝帮父母之后",
+    "description": "拒绝了父母希望帮忙解决财务问题的请求，已经两个月了。\n那之后，联系少了。\n今天，母亲发来了短信。",
+    "choices": [
+      {"text": "收下", "result_text": "收到了。\n没说什么特别的。\n只是问候。"},
+      {"text": "还不知道该如何面对", "result_text": "还是不自在。\n拒绝也可能是对的。"}
+    ]
+  },
+  {
+    "id": "callback_resume_lie_confessed_echo",
+    "title": "坦白简历里的夸大之后",
+    "description": "入职后坦诚说出简历中的夸大，已经两个月了。\n一直在意组长那之后会怎么看我。\n今天，组长单独叫了我。",
+    "choices": [
+      {"text": "听听是什么事", "result_text": "对方说：“谢谢你坦诚地告诉我。”\n不是责备。\n坦白带来了信任。"}
+    ]
+  },
+  {
+    "id": "callback_honest_at_reunion_echo",
+    "title": "在同学会上坦诚相待之后",
+    "description": "在同学会上坦诚说出自己的近况，已经两个月了。\n偶尔会想起那时。\n今天，当时见过的朋友联系了我。",
+    "choices": [
+      {"text": "看看联系是为了什么", "result_text": "对方说：“你那时候坦诚说出来的样子，挺帅的。”\n坦诚——留下了印象。"},
+      {"text": "欣然接下这次联系", "result_text": "欣然接下了这次联系。\n那时的坦诚——带来了这次联系。"}
+    ]
+  },
+  {
+    "id": "callback_returned_wallet_echo",
+    "title": "归还钱包之后",
+    "description": "把遗失的钱包还给失主，已经两个月了。\n那之后，早已把这事忘在了脑后。\n今天，发生了意想不到的事。",
+    "choices": [
+      {"text": "看看是什么事", "result_text": "来了点小小的好运。\n不知道是否与钱包有关。"},
+      {"text": "只是个好日子", "result_text": "只是个好日子。\n归还钱包——并不是为了得到回报。"}
+    ]
+  },
+  {
+    "id": "callback_took_found_money_echo",
+    "title": "花掉捡来的钱之后",
+    "description": "把路上捡到的钱留了下来，已经两个月了。\n偶尔会想起。\n今天，又遇到了类似的情况。",
+    "choices": [
+      {"text": "这次归还", "result_text": "这次还了回去。\n上次的事，一直让人心里不踏实。"},
+      {"text": "再次留下", "result_text": "又留了下来。\n做过一次的事，第二次就容易了。"}
+    ]
+  }
+]

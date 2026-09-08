@@ -1,0 +1,137 @@
+[
+  {
+    "id": "callback_shadow_burned_echo",
+    "title": "在影子投资上吃过亏之后",
+    "description": "在影子投资上吃亏，已经过去两个月了。\n想起那时，心里还是隐隐作痛。\n今天，又有人提了类似的方案。",
+    "choices": [
+      {"text": "直接拒绝", "result_text": "直接拒绝了。"},
+      {"text": "先听听看", "result_text": "听了。\n结构和那时一样。"}
+    ]
+  },
+  {
+    "id": "callback_shadow_investigated_echo",
+    "title": "查清影子投资之后",
+    "description": "亲自查清影子投资的结构，已经两个月了。\n那个过程并不容易。\n今天，新闻说那个结构崩了。",
+    "choices": [
+      {"text": "是预料中的结果", "result_text": "预料到了。\n正因为查过，才看得见。"},
+      {"text": "还是有些苦涩", "result_text": "心里发苦。\n想到了那些受害者。"}
+    ]
+  },
+  {
+    "id": "callback_guarantee_confronted_echo",
+    "title": "直面担保问题之后",
+    "description": "直面担保问题，已经两个月了。\n那次谈话并不容易。\n今天，结果出来了。",
+    "choices": [
+      {"text": "确认结果", "result_text": "当面把话说开，让事情有了动静。"},
+      {"text": "还没结束", "result_text": "还没结束。\n但已经和当面谈之前不一样了。"}
+    ]
+  },
+  {
+    "id": "callback_guarantee_legal_route_echo",
+    "title": "选择法律途径之后",
+    "description": "为担保问题选择法律途径，已经三个月了。\n这是一场耗时的仗。\n今天，进展有了更新。",
+    "choices": [
+      {"text": "继续推进", "result_text": "继续了。\n法律途径很慢。"},
+      {"text": "渐渐疲惫了", "result_text": "渐渐疲惫了。\n没想到这场仗会这么长。\n可一旦放弃——此前的一切就都没了。"}
+    ]
+  },
+  {
+    "id": "callback_freelance_growing_echo",
+    "title": "自由职业的业务有了起色",
+    "description": "开始做自由职业，已经三个月了。\n起初时好时坏。\n今天，有了稳定的客户。",
+    "choices": [
+      {"text": "继续做大", "result_text": "继续做下去了。\n一个稳定的客户——会成为最重要的基础。"},
+      {"text": "也考虑转为正式员工", "result_text": "也考虑了正式工作。\n有了稳定——便想要更大的稳定。"}
+    ]
+  },
+  {
+    "id": "callback_sns_content_started_echo",
+    "title": "开始在社交平台发内容之后",
+    "description": "开始在社交平台发布内容，已经两个月了。\n几乎没什么反响。\n今天——第一次有陌生人留下了评论。",
+    "choices": [
+      {"text": "继续", "result_text": "决定继续。\n一个人——就是开始。"},
+      {"text": "想想要不要换个方向", "result_text": "想了想方向。\n把那条评论当作线索。"}
+    ]
+  },
+  {
+    "id": "callback_startup_going_solo_echo",
+    "title": "决定独自走下去之后",
+    "description": "决定独自继续创业，已经两个月了。\n没有团队，一个人走很孤独。\n今天，第一次有人出现，说愿意帮忙。",
+    "choices": [
+      {"text": "试着一起做", "result_text": "决定试着一起做。\n独自走着，迎来了同伴——正因为一个人撑住了，才有了相遇。"},
+      {"text": "先观察看看", "result_text": "观察了一下。\n第一个出现的人——要立刻相信，还太早。"}
+    ]
+  },
+  {
+    "id": "callback_jeonse_chased_landlord_echo",
+    "title": "找过房东之后",
+    "description": "为全租问题亲自找房东，已经两个月了。\n那之后，联系断了。\n今天，法院的文件到了。",
+    "choices": [
+      {"text": "按程序走", "result_text": "按程序做了。\n亲自找过去，留下了记录。"},
+      {"text": "虽累，还是继续", "result_text": "累了。\n可停下来，一切就都没了。"}
+    ]
+  },
+  {
+    "id": "callback_daeun_reconnected_echo",
+    "title": "与Daeun重新联系之后",
+    "description": "和疏远了一阵的Daeun重新联系，已经两个月了。\n起初很尴尬。\n今天，她先提出想见面。",
+    "choices": [
+      {"text": "见面", "result_text": "见面了。\n能重新联系——是因为两个人都愿意。"},
+      {"text": "先问是什么样的见面", "result_text": "先问了是什么样的见面。\n她说：“没什么特别的。”"}
+    ]
+  },
+  {
+    "id": "callback_helped_failed_friend_echo",
+    "title": "帮过生意失败的朋友之后",
+    "description": "帮过生意失败的朋友，已经两个月了。\n一直惦记着那位朋友的情况。\n今天，对方联系了我。",
+    "choices": [
+      {"text": "问问后来怎么样了", "result_text": "问了句：“最近怎么样？”\n朋友说：“在一点点重新开始。”"},
+      {"text": "先问候一下", "result_text": "先问候了对方。\n朋友说：“谢谢。多亏你，我才撑住了。”"}
+    ]
+  },
+  {
+    "id": "callback_envy_fuel_shifted_echo",
+    "title": "嫉妒变成动力之后",
+    "description": "决定把羡慕化为动力，已经三个月了。\n起初，比较让人难受。\n今天，发现自己在某个方面已经比那个人更好了。",
+    "choices": [
+      {"text": "确认自己已经超越", "result_text": "超越了。\n决定把嫉妒当作燃料时——这个结果就是目的地。"},
+      {"text": "还差得远", "result_text": "还差得远。\n但有了方向——就已经和三个月前不一样了。"}
+    ]
+  },
+  {
+    "id": "callback_hoesik_boundary_set_echo",
+    "title": "划清界限之后",
+    "description": "第一次在公司聚餐时划清界限，已经两个月了。\n还留着些尴尬。\n今天，同样的情况又出现了。",
+    "choices": [
+      {"text": "这次也划清界限", "result_text": "这次也划清了界限。\n比起一次，两次——就自然多了。"},
+      {"text": "这次忍一忍", "result_text": "这次忍了。\n划清界限，不代表不懂变通。"}
+    ]
+  },
+  {
+    "id": "callback_holiday_reconciled_echo",
+    "title": "节日里和解之后",
+    "description": "节日里与疏远已久的家人和解，已经两个月了。\n还记得那天的尴尬。\n今天，那位家人联系了我。",
+    "choices": [
+      {"text": "欣然接下这次联系", "result_text": "欣然接下了这次联系。\n节日里的和解，带来了这次联系。"},
+      {"text": "虽还不自在，也接下这次联系", "result_text": "虽然还不自在，也接下了这次联系。\n自在，需要时间。"}
+    ]
+  },
+  {
+    "id": "callback_declared_dream_echo",
+    "title": "说出梦想之后",
+    "description": "说出自己要进驻江南的梦想，已经三个月了。\n有时，把它说出口，反而觉得更沉重。\n今天，又见到了听过那句话的人。",
+    "choices": [
+      {"text": "说进展顺利", "result_text": "说了句：“进展挺顺利的。”\n那个人说：“我一直记着这事。”"},
+      {"text": "坦诚地说还差得远", "result_text": "坦诚地说：“还差得远呢。”\n那个人说：“但你还在往前走啊。”"}
+    ]
+  },
+  {
+    "id": "callback_deleted_sns_echo",
+    "title": "删掉社交软件之后",
+    "description": "比较让人痛苦，于是删掉了社交软件，至今已有两个月。\n起初很空虚。\n今天，回顾了那之后的日子。",
+    "choices": [
+      {"text": "删得对", "result_text": "专注的状态变了。\n没了屏幕，时间就空出来了。"},
+      {"text": "偶尔想想要不要装回来", "result_text": "偶尔想过要不要装回来。\n但想起了当初的理由。"}
+    ]
+  }
+]

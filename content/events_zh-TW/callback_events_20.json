@@ -1,0 +1,227 @@
+[
+  {
+    "id": "callback_father_going_soon_echo",
+    "title": "得知父親的日子不多之後",
+    "description": "得知父親剩下的時間不多，已經兩個月了。\n帶著這個事實過日子。\n今天，父親打了電話來。",
+    "choices": [
+      {
+        "text": "立刻接起來",
+        "result_text": "接了。\n聲音比以前更虛弱了。"
+      },
+      {
+        "text": "晚點再打",
+        "result_text": "晚點打了過去。\n父親已經睡了。"
+      }
+    ]
+  },
+  {
+    "id": "callback_startup_exit_echo",
+    "title": "退出新創公司之後",
+    "description": "徹底退出那家新創公司，已經兩個月了。\n這個決定並不容易。\n今天，聽到了那家公司的消息。",
+    "choices": [
+      {
+        "text": "離開是對的",
+        "result_text": "情況往不好的方向發展。\n離開是對的。"
+      },
+      {
+        "text": "還是有些不捨",
+        "result_text": "還是有些不捨。\n但決定已經做了。"
+      }
+    ]
+  },
+  {
+    "id": "callback_startup_founded_echo",
+    "title": "創業兩個月了",
+    "description": "創業至今，已經過了兩個月。\n比想像中安靜。\n今天，第一次收到了來自外部的聯絡。",
+    "choices": [
+      {
+        "text": "約個會面",
+        "result_text": "約好了。\n從沒有人知道的狀態——到有了知道的人。"
+      },
+      {
+        "text": "先確認對方是什麼樣的人",
+        "result_text": "確認了。\n會接近初期創業者的人——都有原因。"
+      }
+    ]
+  },
+  {
+    "id": "callback_startup_growing_echo",
+    "title": "新創公司開始成長之後",
+    "description": "新創公司開始明顯成長，已經三個月了。\n那是一段忙碌的日子。\n今天，第一次有人來詢問投資的事。",
+    "choices": [
+      {
+        "text": "見見看",
+        "result_text": "見了面。\n成長，才有了這次聯絡。"
+      },
+      {
+        "text": "判斷現在還太早",
+        "result_text": "說了現在還太早。\n接受投資，並不總是越早越好。"
+      }
+    ]
+  },
+  {
+    "id": "callback_jobswitch_took_echo",
+    "title": "選擇換工作之後",
+    "description": "決定換工作、進了新公司，已經兩個月了。\n環境很陌生。\n今天，前公司的同事聯絡了我。",
+    "choices": [
+      {
+        "text": "高興地接下聯絡",
+        "result_text": "高興地接下了聯絡。\n問了句：「還順利嗎？」"
+      },
+      {
+        "text": "說自己過得很好",
+        "result_text": "說了：「我過得很好。」"
+      }
+    ]
+  },
+  {
+    "id": "callback_jobswitch_declined_echo",
+    "title": "拒絕換工作的邀約之後",
+    "description": "拒絕換工作的邀約，已經兩個月了。\n偶爾會想，這個選擇對不對。\n今天，聽到了那家公司的消息。",
+    "choices": [
+      {
+        "text": "拒絕是對的",
+        "result_text": "那家公司的情況不太好。\n拒絕是對的。"
+      },
+      {
+        "text": "心裡有些遺憾",
+        "result_text": "心裡有些遺憾。\n即使情況不好——也還是可能有過更好的際遇。"
+      }
+    ]
+  },
+  {
+    "id": "callback_jobswitch_hesitated_echo",
+    "title": "猶豫要不要換工作之後",
+    "description": "在換工作的決定上猶豫，最後選擇留下，已經兩個月了。\n偶爾會想起那個邀約。\n今天，聽說了那家公司後來的情況。",
+    "choices": [
+      {
+        "text": "留下是對的",
+        "result_text": "那家公司的情況不太好。\n猶豫——最後讓我留了下來，而那是對的。"
+      },
+      {
+        "text": "早知道就再積極一點",
+        "result_text": "情況並不差。\n猶豫，也許讓機會從手中溜走了。"
+      }
+    ]
+  },
+  {
+    "id": "callback_headhunted_echo",
+    "title": "受到獵頭邀約之後",
+    "description": "收到獵頭邀約，已經兩個月了。\n做出了決定。\n今天，那個決定的結果出來了。",
+    "choices": [
+      {
+        "text": "結果不錯",
+        "result_text": "成了。\n受到獵頭邀約——這件事本身，就代表在市場上獲得了認可。"
+      },
+      {
+        "text": "不管做了什麼決定，都回顧一下",
+        "result_text": "回顧了一下。\n獵頭邀約，帶來了選擇。"
+      }
+    ]
+  },
+  {
+    "id": "callback_lied_at_reunion_echo",
+    "title": "在同學會上誇大其詞之後",
+    "description": "在同學會上誇大其詞，已經兩個月了。\n偶爾會想起那場聚會。\n今天，又見到了當時見過的朋友。",
+    "choices": [
+      {
+        "text": "自然地聊聊",
+        "result_text": "自然地聊了起來。\n對方應該還記得那時的事。"
+      },
+      {
+        "text": "只順著真實的部分說下去",
+        "result_text": "順著真實的部分說了下去。\n從誇大拉回真實——一點一點地。"
+      }
+    ]
+  },
+  {
+    "id": "callback_came_clean_to_friend_echo",
+    "title": "對朋友坦白之後",
+    "description": "對朋友坦白說了出來，已經一個月了。\n那之後的日子不同了。\n今天，那位朋友聯絡了我。",
+    "choices": [
+      {
+        "text": "見面",
+        "result_text": "見了面。\n坦白說出口——才有了這次見面。"
+      },
+      {
+        "text": "先問是什麼事",
+        "result_text": "先問了有什麼事。\n朋友說：「沒什麼。就是想見你。」"
+      }
+    ]
+  },
+  {
+    "id": "callback_deleted_gambling_apps_echo",
+    "title": "刪掉賭博 App 之後",
+    "description": "把賭博 App 全都刪掉，已經兩個月了。\n起初，手還是會忍不住伸過去。\n今天，回顧了這兩個月。",
+    "choices": [
+      {
+        "text": "刪得好",
+        "result_text": "兩個月都沒有再碰。\n刪掉它們，成了一道屏障。"
+      },
+      {
+        "text": "偶爾也曾動搖",
+        "result_text": "偶爾也曾動搖。\n但 App 已經不在了。\n刪掉 App——在動搖的時候，擋住了我。"
+      }
+    ]
+  },
+  {
+    "id": "callback_hit_rock_bottom_echo",
+    "title": "跌到谷底之後",
+    "description": "跌到谷底之後，已經過了三個月。\n回想那時，心裡還是沉重。\n今天，比較了那時和現在。",
+    "choices": [
+      {
+        "text": "已經變了很多",
+        "result_text": "不一樣了。\n知道谷底在哪裡——就也知道，已經不能再往下了。"
+      },
+      {
+        "text": "感覺還沒完全恢復",
+        "result_text": "還沒有完全恢復。\n但方向已經改變了。"
+      }
+    ]
+  },
+  {
+    "id": "callback_promised_father_gangnam_echo",
+    "title": "對父親許下的承諾",
+    "description": "對父親說要進駐江南，已經三個月了。\n那個承諾，沉甸甸地留在心裡。\n今天，父親傳來了簡訊。『過得好嗎。』",
+    "choices": [
+      {
+        "text": "「嗯，我有在努力」",
+        "result_text": "說了：「嗯，我有在努力。」\n父親說：「好。」"
+      },
+      {
+        "text": "報告目前的進度",
+        "result_text": "具體說了自己走到哪裡。\n父親讀了很久。"
+      }
+    ]
+  },
+  {
+    "id": "callback_took_gray_tip_echo",
+    "title": "用了灰色資訊之後",
+    "description": "用了界線模糊的資訊賺到錢，已經兩個月了。\n結果很好。\n今天，又有類似的資訊傳來。",
+    "choices": [
+      {
+        "text": "這次拒絕",
+        "result_text": "這次拒絕了。\n一次是運氣。兩次，就會成為習慣。"
+      },
+      {
+        "text": "再用一次",
+        "result_text": "又用了。\n結果好——不代表方法就是對的。"
+      }
+    ]
+  },
+  {
+    "id": "callback_took_high_road_echo",
+    "title": "選擇正道之後",
+    "description": "沒有選擇輕鬆的方法，而是走上正道，已經兩個月了。\n當下吃了虧。\n今天，那個結果回來了。",
+    "choices": [
+      {
+        "text": "有些東西回來了",
+        "result_text": "回來了。\n雖然沒有立刻到來——但還是來了。"
+      },
+      {
+        "text": "還是什麼都沒有",
+        "result_text": "還是什麼都沒有。\n但也有些東西，沒有失去。"
+      }
+    ]
+  }
+]
