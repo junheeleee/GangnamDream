@@ -7,6 +7,7 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
+| 1 | [~] | ORDER-186 · 가족·일상 번역 | [186](queue_active/ORDER-186.md) | 312번역 L1/L2 · L3 OPEN |
 | 2 | [~] | ORDER-185 · 창업·크리에이터·회복 번역 | [185](queue_active/ORDER-185.md) | 438번역 L1/L2 · L3 OPEN |
 | 3 | [~] | ORDER-184 · 후반 이정표와 돈·직장 갈림길 번역 | [184](queue_active/ORDER-184.md) | 567번역 L1/L2 · L3 OPEN |
 | 4 | [~] | ORDER-183 · 회상·첫 생활과 사별 변형 번역 | [183](queue_active/ORDER-183.md) | 474번역 L1/L2 · L3 OPEN |

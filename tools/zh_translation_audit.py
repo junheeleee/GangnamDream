@@ -256,7 +256,10 @@ CREATOR_COUNTER_KINDS = frozenset({
     "creator_subscribers_lost", "creator_subscribers_gained", "creator_collab_audience",
     "creator_counter_views", "creator_counter_subscriber_delta",
 })
-LIFE_SCENE_COUNTER_KINDS = WORK_SCENE_COUNTER_KINDS | SPENDING_SCENE_COUNTER_KINDS | FAMILY_SCENE_COUNTER_KINDS | MEDIA_SCENE_COUNTER_KINDS | HIDDEN_SCENE_COUNTER_KINDS | PROLOGUE_COUNTER_KINDS | DRAMA_COUNTER_KINDS | CREATOR_COUNTER_KINDS | frozenset({
+DAILY_MOMENT_COUNTER_KINDS = frozenset({
+    "birthday_greeting_people_range", "newyear_goal_count", "brief_mutual_gaze_pair",
+})
+LIFE_SCENE_COUNTER_KINDS = WORK_SCENE_COUNTER_KINDS | SPENDING_SCENE_COUNTER_KINDS | FAMILY_SCENE_COUNTER_KINDS | MEDIA_SCENE_COUNTER_KINDS | HIDDEN_SCENE_COUNTER_KINDS | PROLOGUE_COUNTER_KINDS | DRAMA_COUNTER_KINDS | CREATOR_COUNTER_KINDS | DAILY_MOMENT_COUNTER_KINDS | frozenset({
     "remaining_four_month", "job_posting_count", "egg_count", "task_count",
     "rental_home_ordinal", "mirror_glance", "gangnam_attempt",
     "university_year", "restaurant_per_person", "underground_exit",
@@ -1605,6 +1608,13 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
     quantities: list[CounterQuantity] = []
     quantities.extend(_source_audience_quantities(source))
     for pattern, value, kind in (
+        (r"(?<=어머니만 카톡을 보냈다\. 그리고 )한두 명(?=\.)", 1, "birthday_greeting_people_range"),
+        (r"^세 가지(?=만 적었다\. 전부 해낼 수 있을 것 같은 것들\.)", 3, "newyear_goal_count"),
+        (r'(?<="라면 맛있죠" 했더니 )잠깐 눈이 마주쳤다(?=\.\n"네, 야식엔 이게 최고인 것 같아요\."\n짧은 대화였다\. 서로의 이름은 몰랐다\.)', 2, "brief_mutual_gaze_pair"),
+    ):
+        for match in re.finditer(pattern, source):
+            quantities.append(CounterQuantity(match.start(), match.end(), Decimal(value), kind))
+    for pattern, value, kind in (
         (r"(?<=한 달 동안 )일주일에 (?P<number>\d+)개씩(?= 올렸다\.)", None, "creator_weekly_uploads"),
         (r"(?<![가-힣\d])2030(?= 공감 유발 콘텐츠로 화제)", 2030, "creator_age_group"),
     ):
@@ -2058,6 +2068,12 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
 def _target_pattern_for_kind(kind: str) -> re.Pattern[str]:
     # The broad witnesses include observed wrong units/actions, so an invalid
     # first clause cannot borrow a later correct number of the same kind.
+    if kind == "birthday_greeting_people_range":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})(?:[~～至到-](?P<upper>{CHINESE_CARDINAL}))?(?P<moment_unit>[個个]?人|位|名|年|公里|公斤|[個个]月)")
+    if kind == "newyear_goal_count":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})(?P<moment_unit>件事|[項项]|人|年|公里|公斤)")
+    if kind == "brief_mutual_gaze_pair":
+        return re.compile(rf"(?P<sign>[+＋−﹣－負负-])?\s*(?:(?P<number>{CHINESE_CARDINAL})(?P<moment_unit>[個个]?人|年|公里|公斤)?的?)?目光")
     if kind == "health_age_decade":
         return re.compile(rf"(?P<number>{CHINESE_CARDINAL})(?P<approx>多|幾|几)?(?P<creator_unit>[歲岁]|台|年|公里)")
     if kind == "bought_meal_once":
@@ -2562,6 +2578,32 @@ def _target_pattern_for_kind(kind: str) -> re.Pattern[str]:
     )
 
 
+def _daily_moment_quantity_valid(kind: str, match: re.Match[str], target: str) -> bool:
+    before, after = target[:match.start()], target[match.end():]
+    fields = match.groupdict()
+    number_start = match.start("number") if fields.get("number") else match.start()
+    if fields.get("sign") or _has_numeric_sign_prefix(target, number_start):
+        return False
+    unit = fields.get("moment_unit")
+    end = bool(re.match(r"[ \t　]*(?:$|\n|[，。！？、；,.!?;])", after))
+    if kind == "birthday_greeting_people_range":
+        raw, upper = match.group("number"), fields.get("upper")
+        one_to_two = (raw in {"一兩", "一两"} and upper is None) or (
+            _chinese_cardinal_value(raw) == 1 and upper is not None and _chinese_cardinal_value(upper) == 2)
+        return one_to_two and unit in {"人", "個人", "个人", "位", "名"} and end \
+            and bool(re.search(r"(?:還有|还有)$", before))
+    if kind == "newyear_goal_count":
+        return unit in {"件事", "項", "项"} and end and bool(re.search(r"只[寫写]了$", before)) \
+            and not bool(re.search(r"(?:不(?:是)?|沒(?:有)?|没(?:有)?)只[寫写]了$", before))
+    if kind == "brief_mutual_gaze_pair":
+        # The same two-person eye contact can name both people or leave them
+        # implicit. Never infer a third person or use an unrelated look later.
+        return (not fields.get("number") or unit in {"人", "個人", "个人"}) \
+            and not bool(re.search(r"(?:不(?:是)?|沒(?:有)?|没(?:有)?)\s*$", before)) \
+            and bool(re.match(r"短[暫暂](?:地碰到一起|交會|交会)(?:$|[。.!！])", after))
+    return False
+
+
 def _creator_quantity_valid(kind: str, match: re.Match[str], target: str) -> bool:
     before, after = target[:match.start()], target[match.end():]
     fields = match.groupdict()
@@ -2897,6 +2939,8 @@ def _match_target_counter_quantities(
                 continue
             if expected.kind in CREATOR_COUNTER_KINDS and not _creator_quantity_valid(expected.kind, match, target):
                 continue
+            if expected.kind in DAILY_MOMENT_COUNTER_KINDS and not _daily_moment_quantity_valid(expected.kind, match, target):
+                continue
             if expected.kind in LIFE_SCENE_COUNTER_KINDS:
                 number_start = match.start("number") if match.group("number") else match.start()
                 if expected.kind in {"exam_countdown", "video_view_count", "viral_view_over_count", "viral_subscriber_count", "approx_comment_count", "creator_counter_subscriber_delta"}:
@@ -3051,6 +3095,10 @@ def _match_target_counter_quantities(
                 # 一眼 is a glance after a seeing verb, not one physical eye.
                 continue
             value = _chinese_cardinal_value(match.group("number") or "")
+            if expected.kind == "birthday_greeting_people_range":
+                value = Decimal(1)  # The validated complete 1–2 range, not 十二.
+            elif expected.kind == "brief_mutual_gaze_pair" and not match.group("number"):
+                value = Decimal(2)
             if expected.kind in CREATOR_COUNTER_KINDS:
                 if expected.kind == "creator_age_group":
                     value = Decimal(2030)
@@ -5437,6 +5485,69 @@ def _drama_parser_self_test() -> tuple[int, list[str]]:
     return cases, failures
 
 
+def _daily_moment_parser_self_test() -> tuple[int, list[str]]:
+    """Three observed daily-scene phrases, not a general prose certificate."""
+    cases, failures = 0, []
+
+    def check(source: str, target: str, valid: bool) -> None:
+        nonlocal cases
+        cases += 1
+        errors = _numeric_errors(source, target)
+        if bool(errors) == valid:
+            failures.append(f"daily moment expected valid={valid}: {source!r} -> {target!r}: {errors}")
+
+    birthday = "어머니만 카톡을 보냈다. 그리고 한두 명."
+    newyear = "세 가지만 적었다. 전부 해낼 수 있을 것 같은 것들.\n올해는 달성률이 높을 것 같다."
+    gaze = '"라면 맛있죠" 했더니 잠깐 눈이 마주쳤다.\n"네, 야식엔 이게 최고인 것 같아요."\n짧은 대화였다. 서로의 이름은 몰랐다.\n그래도 따뜻했다.'
+    for source, normal, span, bads in (
+        (birthday, "只有母亲发来了KakaoTalk消息。还有一两个人。", "一两个人", ("十二个人", "两到三个人", "一两年", "−一两个人", "一两个人以上")),
+        (birthday, "只有母親傳來KakaoTalk訊息。還有一兩個人。", "一兩個人", ("三個人", "二到一人", "一兩公斤", "−一兩個人", "一兩個人左右")),
+        (newyear, "只写了三件事。全都是觉得自己能做到的。\n今年的完成率，应该会比较高。", "三件事", ("两件事", "四件事", "三人", "−三件事", "三件事情侶")),
+        (newyear, "只寫了三項，都是覺得自己能做到的事。\n今年的達成率應該會很高。", "三項", ("兩項", "四項", "三公里", "−三項", "三項以上")),
+        (gaze, "说了句“泡面挺好吃的吧”，两人的目光短暂地碰到一起。\n“嗯，我觉得宵夜还是这个最好。”\n很短的一段对话。不知道彼此的名字。\n可还是觉得温暖。", "两人的目光", ("三人的目光", "一人的目光", "两公里的目光", "−两人的目光", "两年的目光")),
+        (gaze, "說了句「泡麵很好吃吧」，目光短暫交會。\n「對啊，我覺得宵夜還是這個最棒。」\n只是幾句話，誰也不知道對方的名字。\n卻還是覺得溫暖。", "目光", ("三人的目光", "一人的目光", "兩公斤的目光", "−目光", "兩年的目光")),
+    ):
+        check(source, normal, True)
+        check(source, normal.replace(span, ""), False)
+        for bad in bads:
+            changed = normal.replace(span, bad)
+            check(source, changed, False)
+            check(source, changed + "\n" + normal, False)
+    for normal in ("还有一到两个人。", "還有1～2人。", "还有一至二位。"):
+        check(birthday, normal, True)
+        check(birthday, normal.replace("还有", "看见").replace("還有", "看見"), False)
+    for wrong in ("還有一人。", "還有兩人。", "還有1～3人。", "還有一兩至三人。", "還有十二人。"):
+        check(birthday, wrong, False)
+        check(birthday, wrong + "還有一兩個人。", False)
+    for source, normal, changed in (
+        (birthday, "還有一兩個人。", "看見一兩個人。"),
+        (birthday, "還有一兩個人。", "還有至少一兩個人。"),
+        (newyear, "只寫了三項。", "只讀了三項。"),
+        (newyear, "只寫了三項。", "只寫了至少三項。"),
+        (newyear, "只寫了三項。", "不是只寫了三項。"),
+        (gaze, "兩人的目光短暫交會。", "兩人的目光久久交會。"),
+        (gaze, "目光短暫交會。", "兩人沒有目光短暫交會。"),
+        (gaze, "目光短暫交會。", "沒有目光短暫交會。"),
+    ):
+        check(source, normal, True)
+        check(source, changed, False)
+        check(source, changed + normal, False)
+    for source, kind in (
+        ("어머니만 카톡을 보냈다. 그리고 두 명.", "birthday_greeting_people_range"),
+        ("어머니만 밥을 먹었다. 그리고 한두 명.", "birthday_greeting_people_range"),
+        ("한두 명이 인사했다.", "birthday_greeting_people_range"),
+        ("세 가지만 먹었다. 전부 해낼 수 있을 것 같은 것들.", "newyear_goal_count"),
+        ("세 가지만 적었다. 전부 이미 해낸 것들.", "newyear_goal_count"),
+        (gaze.replace("마주쳤다", "피했다"), "brief_mutual_gaze_pair"),
+        (gaze.replace("서로의 이름은 몰랐다", "내 이름을 떠올렸다"), "brief_mutual_gaze_pair"),
+        ("거울을 보며 잠깐 눈이 마주쳤다.", "brief_mutual_gaze_pair"),
+    ):
+        cases += 1
+        if any(q.kind == kind for q in _source_counter_quantities(source)):
+            failures.append(f"daily moment source scope escaped: {kind}: {source}")
+    return cases, failures
+
+
 def _creator_recovery_parser_self_test() -> tuple[int, list[str]]:
     """Actual creator/recovery quantities, with source and predicate ownership."""
     cases, failures = 0, []
@@ -5613,6 +5724,9 @@ def run_self_test(
     creator_cases, creator_failures = _creator_recovery_parser_self_test()
     cases += creator_cases
     failures.extend(creator_failures)
+    moment_cases, moment_failures = _daily_moment_parser_self_test()
+    cases += moment_cases
+    failures.extend(moment_failures)
 
     # Exact Korean-source catalogue names are not permission for unrelated
     # English prose or for deleting the noun around an allowed brand token.

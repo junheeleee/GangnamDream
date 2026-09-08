@@ -118,3 +118,47 @@ named full-game-localization-overlays --list 뒤 선택12검사·EN·diff·전�
 
 이 범위·배치·증거 절차는 일회성이다. 지속 규칙은 I18N_INFRASTRUCTURE와
 언어별 용어집이 소유하며 새 서사·제품·출시 규칙을 만들지 않는다.
+
+## 수용 결과 — 312번역·L1/L2, L3 OPEN
+
+- 선언 `6223386ea778064dcb4921efe26e6d1d8f562c2d` commit/push 뒤 initial source3
+  (105행/104leaf, previous null)를 저작 전에 보존했다. 세 작성자가 KO에서
+  독립 저작하고 다른 검토자/ROOT가312문구 전부를 대조했다.
+  영어 중역·간번 자동변환·gameplay 복사0이다.
+- 새 drama_events2의15행104문구씩을 KO 상대순서로 저작했다.
+  각37선택의 기능 괄호·실제 LF118·{name}14와 문단을 보존했다.
+  기존16,962번역·메타9·batch37을 보존해17,274(언어별5,758),
+  events613종4,690문구·endings35종234·catalog834씩, batch38이다.
+- 독립 L2에서 JA104/CN104는 필수/선택 수정0이다. TW104는 필수1/선택3을
+  정밀화했다. 대사의 '것 같아요'를 단정으로 옮긴 곳에 주관 표현을 복원하고,
+  어머니 관찰의 추가 추정·생일 제목의 새 깨달음을 걷고 세금 처리 절차를
+  단순 계산으로 축소하지 않았다. 4leaf를 재대조하고 역치환 전파일 SHA로
+  나머지100leaf의 동결 원형을 증명했다. 작성자 자가 검토는 독립 L2가 아니다.
+- CN 최초 보고는 id-keyed map 대신 행 list를 집계해 record 지문이 달랐다.
+  파일 바이트는 동결과 같았고
+  ROOT·독립 검토자의 실제 source/target104 집계가 일치함을 확인했다.
+  final exchange/receipt에는 아래 live 지문만 사용했다.
+- CN3leaf/TW1leaf의 실제 수량 오탐을 원문 세 문맥에만 결속했다. 한두 명은1~2명 범위이고, 세 목표와 두 사람의 짧은 눈맞춤은 수량·단위·행동을 보존한다. 새120/전체4,597 self PASS, 실제208leaf 오류0이다. ROOT가 발견한 목표·암묵 눈맞춤의 부정문 허용2건도 문맥 안에서 닫고 정상/변조/후속 차용 회귀를 추가했다.
+- 최종 source/response/accepted receipt3쌍을 initial source와 원문 hash로 결속했다.
+  실물312 L1 오류0·check/import --accept changed_files0이다.
+  final104-record aggregate JA `2f872b4929059d7f8324a939c1ecf5d0f3282c372333834ae1b1e9a24d2bbbae`,
+  CN `aeb43a6ae8098fc074345a443038824566c47e7ae2c6f825cc6fa5455141a175`, TW `3dfd772ab71f0e78a1185a4e41f6141dd0559a2f1b543eed23fd75b93129361f`.
+- 완료183 WORK_LOG절1,174bytes SHA
+  `9652ceee303a975ace11fcb1c8077202392f1ed069bf7200222b3f5721a746e4`만
+  기존 history34,350bytes 앞으로 원문 이동했다. 새35,524bytes SHA
+  `51aab54527f7ff9ef88d8065f4546627f5620cff68f160fe358a337d97043de0`.
+  기존 내용·끝 LF2는 byte-exact 보존, 검수행은 같은 활성 이어보기 [~]·L3 OPEN이다.
+- 어머니 전화/실제 방문과 해석, 익명 소개팅 상대/전 연인·실제 늦은 답장과
+  미발신, 생일의 실제 친구 외출/식사를 구분했다. 원문 신년 역비교,
+  어머니만+한두명·달력/주거/직업 조건·여름 더위·겨울 음식 차이는 번역으로 수리0.
+  원문 효과의 현금/비용을 새 산문 영수증으로 발명하지 않았다.
+  KO/EN·runtime·공개·fonts·save·human_gates 변경0, 원본 checkout 쓰기0.
+  전체 INCOMPLETE·full/main/product HOLD·원어민/화면 OPEN,
+  출시 M01~M06 사용자 GO 유지. 자동 검사는 사람 판정 대체물이 아니다.
+- portable checksum `4519d95c5ecc298310163d6d830d49d46b0d4a89c47d568a820654e3c4e573ff`.
+- 최종 named `full-game-localization-overlays` 12검사·EN·diff PASS,
+  전량17,274의 source/target hash·L1과 기존16,962/meta9/batch37 보존 PASS다.
+  실제 stdout `order186-final-checks.log`는 private evidence에4669bytes SHA
+  `efa0a0feaa01220ef12566d0f91bc57d8bdf8da1aac7cf9595e9f4365cafa250`로 보존했다.
+- 독립 가드 검토는 동결 코드에서 실제 정상6·변조18·원문 경계4·부정2를 확인했고
+  관측 범위 잔여0이다. 별도 최종 수용 기록·문서 인수도 필수수정0으로 닫았다.
