@@ -1,0 +1,208 @@
+[
+  {
+    "id": "callback_jaehyuk_publicly_exposed_echo",
+    "title": "Jaehyuk的事公开之后",
+    "description": "Jaehyuk的事被公之于众，是两个月前的事。\n身为直接卷入其中的人——心里还留着复杂的情绪。\n今天，听说后续的事情已经有了了结。",
+    "choices": [
+      {
+        "text": "觉得终于结束了",
+        "result_text": "事情了结了。\n公开这件事并不容易——但那是对的方向。"
+      },
+      {
+        "text": "心情仍然复杂",
+        "result_text": "心情复杂。\n这样也没关系。"
+      }
+    ]
+  },
+  {
+    "id": "callback_jaehyuk_standoff_won_echo",
+    "title": "挺身对抗，赢了下来",
+    "description": "与Jaehyuk对抗，最终赢了下来，是两个月前的事。\n今天，回想起了那时候。\n赢了，并不全是好滋味。",
+    "choices": [
+      {
+        "text": "觉得自己赢，是应有的结果",
+        "result_text": "是应有的结果。\n要是能不争就好了——可当时必须对抗，而我赢了。"
+      },
+      {
+        "text": "想了想为什么能赢",
+        "result_text": "是之前的准备让我赢了。\n如果只凭情绪对抗，结果就会不同。"
+      }
+    ]
+  },
+  {
+    "id": "callback_jaehyuk_testified_echo",
+    "title": "作证之后",
+    "description": "为Jaehyuk的案子作证，是两个月前的事。\n那不是个容易的决定。\n今天，结果出来了。",
+    "choices": [
+      {
+        "text": "确认了结果",
+        "result_text": "得到了处理。\n作证带来了结果。\n如果当时没有说出来——就什么也不会改变。"
+      }
+    ]
+  },
+  {
+    "id": "callback_father_warm_moment_echo",
+    "title": "与父亲温暖的瞬间",
+    "description": "第一次与父亲真心相通，是两个月前的事。\n那时的感受还留在心里。\n今天，父亲毫无预兆地发来了短信。\n‘Minjun，吃饭了吗？’",
+    "choices": [
+      {
+        "text": "“嗯，吃了。爸，您呢？”",
+        "result_text": "父亲说：“我也吃了。”\n只是条短短的短信。\n可那条短信——是那一天的延续。"
+      },
+      {
+        "text": "发了个表情",
+        "result_text": "用表情回复了。\n父亲不知道怎么发表情，只回了“嗯嗯”。"
+      }
+    ]
+  },
+  {
+    "id": "callback_father_reconciliation_deepened_echo",
+    "title": "和解渐深",
+    "description": "与父亲的和解渐渐加深，是三个月前的事。\n今天，父亲第一次说了“想你”。",
+    "choices": [
+      {
+        "text": "“我也想您。很快就回去。”",
+        "result_text": "我说：“我也想您。这周末回去。”\n父亲只说了声：“好。”"
+      },
+      {
+        "text": "“我也是，爸”",
+        "result_text": "我说：“我也是。”\n话很短——却是第一次对父亲说这句话。"
+      }
+    ]
+  },
+  {
+    "id": "callback_parent_bond_deepened_echo",
+    "title": "与父母更亲近了",
+    "description": "与父母的关系更亲近了，是三个月前的事。\n今天，母亲打来了电话。\n她说了很久。",
+    "choices": [
+      {
+        "text": "聊了很久",
+        "result_text": "聊了一个小时。\n她如今会聊这么久——说明关系变了。"
+      },
+      {
+        "text": "简单聊完，晚点再打给她",
+        "result_text": "我说：“晚点再打给您。”\n母亲问：“好，你忙吗？”\n我说：“没有，没什么。”"
+      }
+    ]
+  },
+  {
+    "id": "callback_parents_debt_repaid_echo",
+    "title": "替父母还了债",
+    "description": "替父母还了债，是两个月前的事。\n今天，母亲打来了电话。",
+    "choices": [
+      {
+        "text": "高兴地接起来",
+        "result_text": "母亲说：“谢谢你。”\n等到这句话，花了很久。"
+      },
+      {
+        "text": "说：“这是应该的”",
+        "result_text": "我说：“这是应该的。”\n母亲说：“这不是理所当然的。”"
+      }
+    ]
+  },
+  {
+    "id": "callback_sangchul_deal_regret_echo",
+    "title": "惋惜错过Sangchul的交易",
+    "description": "开始后悔拒绝了Sangchul的提议，是两个月前的事。\n今天，见到了Sangchul。",
+    "choices": [
+      {
+        "text": "说：“说实话，挺遗憾的”",
+        "result_text": "我说：“当时没做，挺遗憾的。”\nSangchul说：“可你当时也有自己的理由，不是吗？”"
+      },
+      {
+        "text": "就这样带过",
+        "result_text": "没有再提。\nSangchul也没有再提。\n遗憾，是要带着走下去的。"
+      }
+    ]
+  },
+  {
+    "id": "callback_sangchul_deeper_trust_echo",
+    "title": "与Sangchul更深的信任",
+    "description": "与Sangchul的信任又深了一层，是三个月前的事。\n今天，Sangchul小心地说起了私事。",
+    "choices": [
+      {
+        "text": "静静地听",
+        "result_text": "听了。\nSangchul说：“这话我只跟你说。”\n更深的信任——才有了这次交谈。"
+      },
+      {
+        "text": "陪他一起想办法",
+        "result_text": "一起聊了聊。"
+      }
+    ]
+  },
+  {
+    "id": "callback_chain_exec_hired_echo",
+    "title": "连锁招聘之后",
+    "description": "通过连锁店经营者介绍，进入那个岗位，是两个月前的事。\n今天，联系了帮忙牵线的那位。",
+    "choices": [
+      {
+        "text": "告诉对方，自己适应得很好",
+        "result_text": "我说：“托您的福，工作得挺好。”\n对方说：“那就好。”"
+      },
+      {
+        "text": "说还很吃力，但正在学",
+        "result_text": "我说：“我还在学习。”\n对方说：“这就对了。”"
+      }
+    ]
+  },
+  {
+    "id": "callback_credit_recovery_started_echo",
+    "title": "信用恢复中",
+    "description": "开始恢复信用，是三个月前的事。\n一直坚持缴款。\n今天，查了一下信用分。",
+    "choices": [
+      {
+        "text": "确认上涨的分数",
+        "result_text": "涨了。\n只涨了一点。\n但方向变了。\n信用积累起来要很久——崩塌却只在一瞬间。"
+      },
+      {
+        "text": "还不够——找找涨得更快的方法",
+        "result_text": "找了找更快的方法。"
+      }
+    ]
+  },
+  {
+    "id": "callback_loan_payoff_planned_echo",
+    "title": "还款计划变成结果时",
+    "description": "制定贷款还款计划，是半年前的事。\n按照那份计划——今天应该已经还清一半了。",
+    "choices": [
+      {
+        "text": "正在按计划进行",
+        "result_text": "一半已经消失了。\n6个月前制定的计划——成了眼前的这个数字。"
+      },
+      {
+        "text": "比计划慢了",
+        "result_text": "慢了。\n但方向是对的。\n计划没能照进现实，并不就是失败。"
+      }
+    ]
+  },
+  {
+    "id": "callback_lie_forgiven_echo",
+    "title": "谎言被原谅之后",
+    "description": "说过谎——后来得到了原谅，那是两个月前的事。\n今天，又和那个人见了面。",
+    "choices": [
+      {
+        "text": "下决心不再说谎",
+        "result_text": "自然地聊了起来。\n原谅没有让关系重置。\n但我知道——不会再有第二次了。"
+      },
+      {
+        "text": "自然地相处",
+        "result_text": "自然地相处了。\n对方也很自然。"
+      }
+    ]
+  },
+  {
+    "id": "callback_lie_full_confession_echo",
+    "title": "全盘坦白之后",
+    "description": "把一切都说了出来，是一个月前的事。\n那之后的日子——不一样了。",
+    "choices": [
+      {
+        "text": "觉得轻松了",
+        "result_text": "轻松了。\n秘密，是有重量的。"
+      },
+      {
+        "text": "不安，不知道会怎样",
+        "result_text": "不安。\n不知道坦白之后会怎样。\n但比起隐瞒——还是不安好一些。"
+      }
+    ]
+  }
+]

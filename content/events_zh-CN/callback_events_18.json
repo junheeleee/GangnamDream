@@ -1,0 +1,227 @@
+[
+  {
+    "id": "callback_daeun_supportive_echo",
+    "title": "Daeun的鼓励之后",
+    "description": "Daeun为我打气，已经过去两个月了。\n那份支持留在心里很久。\n今天，Daeun联系了我。",
+    "choices": [
+      {
+        "text": "说自己过得不错",
+        "result_text": "说了自己过得不错。\nDaeun说：“那就好。”"
+      },
+      {
+        "text": "先问问她的近况",
+        "result_text": "先问了她过得怎么样。\nDaeun停了一下，才回答。"
+      }
+    ]
+  },
+  {
+    "id": "callback_daeun_guarded_echo",
+    "title": "直到戒备松开",
+    "description": "Daeun与我保持距离，已有两个月。\n这段时间，偶尔也会碰面。\n今天，是她先开了口。",
+    "choices": [
+      {
+        "text": "自然地接话",
+        "result_text": "自然地聊了下去。\n时间化开了戒备。"
+      },
+      {
+        "text": "问：“怎么突然这样？”",
+        "result_text": "我问：“怎么突然这样？”\nDaeun笑着说：“没什么。”"
+      }
+    ]
+  },
+  {
+    "id": "callback_daeun_understood_echo",
+    "title": "被理解之后",
+    "description": "Daeun理解了我，已经过去两个月了。\n那种感觉留了很久。\n今天，她第一次——说起了自己的事。",
+    "choices": [
+      {
+        "text": "静静地听",
+        "result_text": "听了。\nDaeun说：“Minjun，这话我只跟你说。”"
+      },
+      {
+        "text": "陪她一起想",
+        "result_text": "陪她一起想了想。\nDaeun说：“没想到这种事，也能有人一起想。”"
+      }
+    ]
+  },
+  {
+    "id": "callback_daeun_deflected_echo",
+    "title": "就那样错过之后",
+    "description": "那次没有理会Daeun，已经过去两个月。\n还是偶尔能看见她。\n今天，又碰面了。",
+    "choices": [
+      {
+        "text": "这次认真打个招呼",
+        "result_text": "这次先打了招呼。\nDaeun的脸上闪过一丝惊讶。"
+      },
+      {
+        "text": "又就这么走过去",
+        "result_text": "又就这么走了过去。\nDaeun也就这么走了过去。"
+      }
+    ]
+  },
+  {
+    "id": "callback_wallet_job_taken_echo",
+    "title": "钱包牵来的工作",
+    "description": "因归还钱包而结下缘分，借此开始工作，已经两个月了。\n那是个陌生的起点。\n今天——感觉自己已经习惯了。",
+    "choices": [
+      {
+        "text": "已经站稳了脚跟",
+        "result_text": "站稳了脚跟。\n偶然的缘分，连上了一份工作。"
+      },
+      {
+        "text": "还有些不自在",
+        "result_text": "还有些不自在。\n但已经出发了。"
+      }
+    ]
+  },
+  {
+    "id": "callback_wallet_declined_reward_echo",
+    "title": "拒绝回报之后",
+    "description": "归还钱包、拒绝提议，已经过去两个月。\n偶尔会想起那个选择。\n今天，那个人联系了我。",
+    "choices": [
+      {
+        "text": "高兴地回应",
+        "result_text": "高兴地回应了。\n对方也还记得那时候。"
+      },
+      {
+        "text": "问为什么联系我",
+        "result_text": "问了为什么联系我。\n对方说：“就是想问问你过得怎么样。”"
+      }
+    ]
+  },
+  {
+    "id": "callback_credit_backed_down_echo",
+    "title": "退让之后",
+    "description": "在信用问题上退让，已经两个月了。\n虽然委屈，还是就这么算了。\n今天，听说了那件事后来怎么样。",
+    "choices": [
+      {
+        "text": "确认结果",
+        "result_text": "对方的人先承认了问题。\n因为退了一步，没有争执——所以协商成了。"
+      },
+      {
+        "text": "还是委屈",
+        "result_text": "还是委屈。\n不过，结果不坏。"
+      }
+    ]
+  },
+  {
+    "id": "callback_credit_went_over_head_echo",
+    "title": "越级反映之后",
+    "description": "越过直接负责人，向上面反映，已经两个月了。\n那之后很尴尬。\n今天，结果落定了。",
+    "choices": [
+      {
+        "text": "处理好了",
+        "result_text": "处理了。\n向上面反映，起了作用。"
+      },
+      {
+        "text": "关系变得尴尬了",
+        "result_text": "事情办成了，关系却变得尴尬。\n方法是对的。"
+      }
+    ]
+  },
+  {
+    "id": "callback_coin_let_go_echo",
+    "title": "放下币之后",
+    "description": "平掉币的仓位，已经两个月了。\n心里还有留恋。\n今天，又看了一眼走势图。",
+    "choices": [
+      {
+        "text": "退得挺好",
+        "result_text": "又涨了一阵——然后大跌。\n退出的时机不坏。"
+      },
+      {
+        "text": "还是遗憾",
+        "result_text": "还是遗憾。\n投资就是这样。"
+      }
+    ]
+  },
+  {
+    "id": "callback_hoesik_pushed_through_echo",
+    "title": "撑完聚餐之后",
+    "description": "虽然不愿意，还是把聚餐撑到了最后，那是一个月前。\n本以为什么都不会改变。\n今天，组长单独叫了我。",
+    "choices": [
+      {
+        "text": "听听是什么事",
+        "result_text": "他说：“看得出来，你最近很努力。”\n那顿撑下来的聚餐——被看见了。"
+      },
+      {
+        "text": "原来没什么大事",
+        "result_text": "没什么特别的事。\n但被叫过去，本身就是变化。"
+      }
+    ]
+  },
+  {
+    "id": "callback_hoesik_halfday_echo",
+    "title": "请了半天假之后",
+    "description": "在聚餐时请了半天假，提前离开，已经一个月了。\n一直在意同事怎么看。\n今天，那些同事中的一个人开了口。",
+    "choices": [
+      {
+        "text": "听着",
+        "result_text": "对方说：“其实我也想那么做。”"
+      },
+      {
+        "text": "说：“那有什么关系”",
+        "result_text": "我说：“那有什么关系。”\n同事笑了。"
+      }
+    ]
+  },
+  {
+    "id": "callback_hoesik_dodged_echo",
+    "title": "避开聚餐之后",
+    "description": "找借口没去聚餐，已经一个月了。\n一直在意组里的气氛。\n今天，回顾了一下那之后。",
+    "choices": [
+      {
+        "text": "觉得避开得好",
+        "result_text": "没什么特别的变化。\n避开了——也没付出多大代价。"
+      },
+      {
+        "text": "真该忍上一回",
+        "result_text": "组里仍然有些尴尬的气氛，让我在意。\n决定下次留下来试一回。"
+      }
+    ]
+  },
+  {
+    "id": "callback_climber_advanced_echo",
+    "title": "向上迈了一阶之后",
+    "description": "在社会上向上迈了一阶，已经三个月了。\n开始习惯那个位置了。\n今天——一个从前够不着的人，主动联系了我。",
+    "choices": [
+      {
+        "text": "见面",
+        "result_text": "见了面。\n正因为上了一阶，才有了这样的场合。"
+      },
+      {
+        "text": "先弄清为什么联系我",
+        "result_text": "先弄清了缘由。\n是不带恶意的联系。"
+      }
+    ]
+  },
+  {
+    "id": "callback_elite_recognized_echo",
+    "title": "被认可为精英之后",
+    "description": "在那个圈子里获得认可，已经三个月了。\n名字开始被人提起。\n今天——一个意想不到的机会来了。",
+    "choices": [
+      {
+        "text": "考虑一下",
+        "result_text": "考虑了。\n认可带来了机会。"
+      },
+      {
+        "text": "判断现在还不是时候",
+        "result_text": "说了现在还不行。\n对方说：“知道了，那下次吧。”"
+      }
+    ]
+  },
+  {
+    "id": "callback_father_reconciled_started_echo",
+    "title": "和解开始之后",
+    "description": "与父亲小心地开始和解，已经两个月了。\n起初很别扭。\n今天，父亲发来了短信。",
+    "choices": [
+      {
+        "text": "马上回复",
+        "result_text": "马上回复了。\n短短的短信——却和以前不同。"
+      },
+      {
+        "text": "琢磨怎么回",
+        "result_text": "想了很久，不知道该写什么。\n最后发了：“嗯，我也是。”"
+      }
+    ]
+  }
+]

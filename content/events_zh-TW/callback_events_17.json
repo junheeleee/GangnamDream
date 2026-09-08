@@ -1,0 +1,208 @@
+[
+  {
+    "id": "callback_jaehyuk_publicly_exposed_echo",
+    "title": "Jaehyuk 的事曝光之後",
+    "description": "Jaehyuk 的事被公開揭露，已經是兩個月前的事。\n身為直接牽涉其中的人——心裡留下了複雜的情緒。\n今天，聽說後續的事情已經處理好了。",
+    "choices": [
+      {
+        "text": "覺得事情終於結束了",
+        "result_text": "告一段落了。\n公開揭露並不容易——但那是對的方向。"
+      },
+      {
+        "text": "心裡還留著複雜的情緒",
+        "result_text": "心情很複雜。\n那也沒關係。"
+      }
+    ]
+  },
+  {
+    "id": "callback_jaehyuk_standoff_won_echo",
+    "title": "挺身對抗，贏了",
+    "description": "與 Jaehyuk 對抗，最後贏了，已經是兩個月前的事。\n今天，回想起那時的情景。\n贏了，也不全是好事。",
+    "choices": [
+      {
+        "text": "覺得贏了是應有的結果",
+        "result_text": "那是應有的結果。\n要是不用爭鬥，當然更好——但那時必須對抗，而我贏了。"
+      },
+      {
+        "text": "想了想自己為什麼能贏",
+        "result_text": "事前的準備讓我贏了。\n要是憑著情緒對抗，結果就會不同。"
+      }
+    ]
+  },
+  {
+    "id": "callback_jaehyuk_testified_echo",
+    "title": "作證之後",
+    "description": "為 Jaehyuk 那件事作證，已經是兩個月前的事。\n那不是個容易的決定。\n今天，結果出來了。",
+    "choices": [
+      {
+        "text": "確認了結果",
+        "result_text": "事情處理了。\n作證，促成了這個結果。\n如果沒說出口——就什麼都不會改變。"
+      }
+    ]
+  },
+  {
+    "id": "callback_father_warm_moment_echo",
+    "title": "與父親的溫暖時刻",
+    "description": "第一次與父親真正心意相通，已經是兩個月前的事。\n那時的感受，至今仍留在心裡。\n今天，父親毫無預告地傳來訊息。\n「Minjun 啊。吃飯了沒？」",
+    "choices": [
+      {
+        "text": "「嗯，吃過了。爸，您呢？」",
+        "result_text": "父親說：「我也吃了。」\n是一則簡短的訊息。\n但那則訊息——是那一天的延續。"
+      },
+      {
+        "text": "傳了個表情符號",
+        "result_text": "用表情符號回覆了。\n父親不知道怎麼傳表情符號，只回了「嗯」。"
+      }
+    ]
+  },
+  {
+    "id": "callback_father_reconciliation_deepened_echo",
+    "title": "和解更深了",
+    "description": "與父親的和解逐漸加深，已經是三個月前的事。\n今天，父親第一次說了「想你」。",
+    "choices": [
+      {
+        "text": "「我也是。我很快就回去。」",
+        "result_text": "我說：「我也想您。這個週末就回去。」\n父親只說了聲「好」。"
+      },
+      {
+        "text": "「爸，我也是。」",
+        "result_text": "我說：「我也是。」\n雖然很短——卻是第一次對父親說出那句話。"
+      }
+    ]
+  },
+  {
+    "id": "callback_parent_bond_deepened_echo",
+    "title": "與父母更加親近",
+    "description": "和父母的關係變得更親近，已經是三個月前的事。\n今天，母親打了電話來。\n她聊了很久。",
+    "choices": [
+      {
+        "text": "聊了很久",
+        "result_text": "聊了一個小時。\n她會聊這麼久——就表示彼此的關係不一樣了。"
+      },
+      {
+        "text": "簡短結束，晚點再打給她",
+        "result_text": "我說：「晚點再打給您。」\n母親問：「好，在忙嗎？」\n我說：「沒有，沒什麼。」"
+      }
+    ]
+  },
+  {
+    "id": "callback_parents_debt_repaid_echo",
+    "title": "替父母還了債",
+    "description": "替父母還了債，已經是兩個月前的事。\n今天，母親打了電話來。",
+    "choices": [
+      {
+        "text": "開心地接起來",
+        "result_text": "母親說：「謝謝你。」\n等了很久，才聽到這一句話。"
+      },
+      {
+        "text": "說「這是應該的。」",
+        "result_text": "我說：「這是應該的。」\n母親說：「這不是理所當然的。」"
+      }
+    ]
+  },
+  {
+    "id": "callback_sangchul_deal_regret_echo",
+    "title": "對 Sangchul 的交易感到惋惜",
+    "description": "開始後悔拒絕 Sangchul 的提議，已經是兩個月前的事。\n今天，見到了 Sangchul。",
+    "choices": [
+      {
+        "text": "說了「老實說，我覺得很可惜。」",
+        "result_text": "我說：「那時沒做，我覺得很可惜。」\nSangchul 說：「但你當時也是有理由的，不是嗎？」"
+      },
+      {
+        "text": "就讓它過去",
+        "result_text": "沒再提。\nSangchul 也沒再提。\n遺憾，是要帶著走下去的。"
+      }
+    ]
+  },
+  {
+    "id": "callback_sangchul_deeper_trust_echo",
+    "title": "與 Sangchul 更深的信任",
+    "description": "與 Sangchul 之間的信任更深了一層，已經是三個月前的事。\n今天，Sangchul 小心地說起自己的私事。",
+    "choices": [
+      {
+        "text": "靜靜地聽",
+        "result_text": "聽了。\nSangchul 說：「這話，我只對你說。」\n深厚的信任——讓這段對話成為可能。"
+      },
+      {
+        "text": "陪他一起想辦法",
+        "result_text": "一起聊了。"
+      }
+    ]
+  },
+  {
+    "id": "callback_chain_exec_hired_echo",
+    "title": "連鎖招募之後",
+    "description": "透過連鎖店經營者的介紹，進了那份工作，已經是兩個月前的事。\n今天，聯絡了替我牽線的那位。",
+    "choices": [
+      {
+        "text": "告訴對方自己適應得很好",
+        "result_text": "我說：「多虧您，我工作得很順利。」\n對方說：「那就好。」"
+      },
+      {
+        "text": "說雖然還很吃力，但正在學習",
+        "result_text": "我說：「我還在學習。」\n對方說：「這就對了。」"
+      }
+    ]
+  },
+  {
+    "id": "callback_credit_recovery_started_echo",
+    "title": "信用恢復中",
+    "description": "開始恢復信用，已經是三個月前的事。\n一直持續繳款。\n今天，查看了信用評分。",
+    "choices": [
+      {
+        "text": "確認上升的分數",
+        "result_text": "上升了。\n只升了一點。\n但方向變了。\n信用需要很長的時間累積——崩塌，卻只在一瞬間。"
+      },
+      {
+        "text": "還不夠——找更快提高分數的方法",
+        "result_text": "找了找更快的方法。"
+      }
+    ]
+  },
+  {
+    "id": "callback_loan_payoff_planned_echo",
+    "title": "還款計畫化為結果時",
+    "description": "訂下貸款還款計畫，已經是半年前的事。\n照那份計畫——今天應該已經還清一半了。",
+    "choices": [
+      {
+        "text": "正在照計畫前進",
+        "result_text": "已經少了一半。\n6個月前訂下的計畫——成了眼前這個數字。"
+      },
+      {
+        "text": "比計畫慢了",
+        "result_text": "慢了。\n但方向是對的。\n計畫沒能成為現實，不等於失敗。"
+      }
+    ]
+  },
+  {
+    "id": "callback_lie_forgiven_echo",
+    "title": "謊言獲得原諒時",
+    "description": "說了謊——又獲得了原諒，已經是兩個月前的事。\n今天，和那個人又見了面。",
+    "choices": [
+      {
+        "text": "下定決心不再說謊",
+        "result_text": "自然地聊了起來。\n原諒，沒有讓關係重新歸零。\n但我知道——不會有第二次。"
+      },
+      {
+        "text": "自然地相處",
+        "result_text": "自然地相處。\n對方也很自然。"
+      }
+    ]
+  },
+  {
+    "id": "callback_lie_full_confession_echo",
+    "title": "全盤坦白之後",
+    "description": "把一切都說了出來，已經是一個月前的事。\n那之後的日子——不一樣了。",
+    "choices": [
+      {
+        "text": "覺得輕鬆了",
+        "result_text": "輕鬆了。\n祕密，是有重量的。"
+      },
+      {
+        "text": "擔心之後會怎麼樣",
+        "result_text": "很不安。\n不知道說出來之後，事情會變成怎樣。\n但比起隱瞞——不安還是好一些。"
+      }
+    ]
+  }
+]

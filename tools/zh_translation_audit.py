@@ -281,6 +281,7 @@ CALLBACK_COUNTER_KINDS = frozenset({
     "headhunter_meeting_invitation", "retrospective_choice_pair",
     "kept_envelope_elapsed_months", "tipsheet_win_count", "tipsheet_loss_count",
     "tentative_greeting_once", "former_ceo_success", "callback_lotto_prize_rank",
+    "repeated_topic_mention", "occasional_encounter",
 })
 LIFE_SCENE_COUNTER_KINDS = WORK_SCENE_COUNTER_KINDS | SPENDING_SCENE_COUNTER_KINDS | FAMILY_SCENE_COUNTER_KINDS | MEDIA_SCENE_COUNTER_KINDS | HIDDEN_SCENE_COUNTER_KINDS | PROLOGUE_COUNTER_KINDS | DRAMA_COUNTER_KINDS | CREATOR_COUNTER_KINDS | DAILY_MOMENT_COUNTER_KINDS | SOCIAL_COST_COUNTER_KINDS | CALLBACK_COUNTER_KINDS | frozenset({
     "remaining_four_month", "job_posting_count", "egg_count", "task_count",
@@ -447,6 +448,8 @@ CATALOG_APPROXIMATE_WON = (
     (re.compile(r"(?<![가-힣])수조원(?= 빅딜)"), re.compile(r"[数數](?:万亿|萬億|兆)(?:韩元|韓元)")),
 )
 SOURCE_INSURANCE_SAVED_PAIR = "첫 번째로 할 일로 보험 가입을 메모했다.\n몇만원짜리 보험이 수억을 지켰다."
+SOURCE_REPEATED_TOPIC_MENTION = "그 일을 한 번 더 꺼냈다"
+SOURCE_OCCASIONAL_ENCOUNTER = "다은이 거리를 둔 지 두 달.\n그사이 어쩌다 한 번씩은 마주쳤다.\n오늘은 그녀가 먼저 말을 걸었다."
 SOURCE_FORMER_CEO_SUCCESS = '한번 잘 나가다 부도가 났던 CEO를 만났던 게 두 달 전이다.\n그 이후에도 연락을 이어갔다.\n오늘 그분이 먼저 연락을 해왔다.\n"요즘 어때? 고민 있으면 말해."'
 SOURCE_LOTTO_CALLBACK_RANK = frozenset({
     "5등 당첨 이후",
@@ -1682,6 +1685,14 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
         # This exact leaf has no quantities: 지워 둘 is the auxiliary 두다.
         return []
     quantities: list[CounterQuantity] = []
+    # These exact predicates express renewed mention and an indefinite past
+    # encounter frequency. Value 1 is a semantic marker, not one total meeting.
+    if source == SOURCE_REPEATED_TOPIC_MENTION:
+        start = source.index("한 번 더")
+        quantities.append(CounterQuantity(start, len(source), Decimal(1), "repeated_topic_mention"))
+    if source == SOURCE_OCCASIONAL_ENCOUNTER:
+        start = source.index("어쩌다")
+        quantities.append(CounterQuantity(start, source.index(".", start), Decimal(1), "occasional_encounter"))
     # Here 한번 is former success, not a numeric count of successful ventures.
     if source == SOURCE_FORMER_CEO_SUCCESS:
         quantities.append(CounterQuantity(0, 2, Decimal(1), "former_ceo_success"))
@@ -2219,6 +2230,10 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
 def _target_pattern_for_kind(kind: str) -> re.Pattern[str]:
     # The broad witnesses include observed wrong units/actions, so an invalid
     # first clause cannot borrow a later correct number of the same kind.
+    if kind == "repeated_topic_mention":
+        return re.compile(rf"(?P<again>再次|再|又)[ \t　]*(?P<number>{CHINESE_CARDINAL})?(?P<callback_unit>次|回|遍|年|公里)?[ \t　]*提(?:起|到|及)(?:了)?那件事(?:情)?")
+    if kind == "occasional_encounter":
+        return re.compile(rf"(?P<period>[這这]段[時时][間间]|[這这]期[間间])[，,]?[ \t　]*(?P<occasional>偶[爾尔]|有[時时]|[時时]不[時时])(?:也|[還还]是|[還还])?(?:[會会])?(?P<number>{CHINESE_CARDINAL})?(?P<callback_unit>次|回|年|公里)?(?:碰|[見见])(?:[過过])?面")
     if kind == "former_ceo_success":
         return re.compile(rf"(?P<past>曾[經经]|一度)|(?P<number>{CHINESE_CARDINAL})(?P<callback_unit>次|年|公里)")
     if kind == "callback_lotto_prize_rank":
@@ -2811,6 +2826,22 @@ def _callback_quantity_valid(kind: str, match: re.Match[str], target: str) -> bo
     if fields.get("sign") or re.search(r"(?:不(?:是)?|沒(?:有)?|没(?:有)?)\s*$", before):
         return False
     unit = fields.get("callback_unit")
+    if kind == "repeated_topic_mention":
+        # A grammatical action clause, not a whitelist of translated leaves.
+        # Whole-clause boundaries prevent negation/future or a wrong earlier
+        # mention from borrowing a later normal clause. Explicit repeats may
+        # say 再一次/又一回, but cannot amplify the one additional mention.
+        return bool(re.fullmatch(r"[ \t　]*(?:我[ \t　]*)?", before)) \
+            and bool(re.fullmatch(r"[。.]?[ \t　]*", after)) \
+            and ((not fields.get("number") and not unit) or (bool(fields.get("number")) and unit in {"次", "回", "遍"}))
+    if kind == "occasional_encounter":
+        # The interval is past, between the distance and today's first speech.
+        # No exact count/period can stand in for the indefinite frequency;
+        # negated/future/extra clauses cannot be laundered through a later one.
+        return not fields.get("number") and not unit \
+            and before.count("\n") == 1 and before.endswith("\n") \
+            and target.count("\n") == 2 \
+            and bool(re.match(r"[。.]?\n今天[，,]", after))
     if kind == "former_ceo_success":
         return bool(fields.get("past")) and before in {"认识那位", "認識那位"} \
             and bool(re.match(r"[風风]光(?:一[時时])?[、，,](?:後來|后来)破[產产]的\s*CEO[，,]", after))
@@ -3511,6 +3542,8 @@ def _match_target_counter_quantities(
                 # 一眼 is a glance after a seeing verb, not one physical eye.
                 continue
             value = _chinese_cardinal_value(match.group("number") or "")
+            if expected.kind in {"repeated_topic_mention", "occasional_encounter"} and not match.group("number"):
+                value = Decimal(1)
             if expected.kind == "former_ceo_success" and match.groupdict().get("past"):
                 value = Decimal(1)
             if expected.kind in {"leverage_trap_condition", "gray_entry_condition"} and match.groupdict().get("conditional"):
@@ -5967,6 +6000,86 @@ def _drama_parser_self_test() -> tuple[int, list[str]]:
     return cases, failures
 
 
+def _restraint_trust_callback_parser_self_test() -> tuple[int, list[str]]:
+    """Two actual predicates; renewed mention is not a fixed encounter rate."""
+    cases, failures = 0, []
+
+    def check(source: str, target: str, valid: bool) -> None:
+        nonlocal cases
+        cases += 1
+        errors = _numeric_errors(source, target)
+        if bool(errors) == valid:
+            failures.append(f"restraint/trust expected valid={valid}: {source!r} -> {target!r}: {errors}")
+
+    # Both authored regions, followed by grammatical alternatives rather than
+    # a literal-target bypass. The source owns one additional mention.
+    for normal in ("再次提起那件事", "再提起那件事"):
+        check(SOURCE_REPEATED_TOPIC_MENTION, normal, True)
+        for prefix in ("没有", "沒有", "不曾", "不再", "打算", "將會", "将会", "明天", "她", "−", "+"):
+            check(SOURCE_REPEATED_TOPIC_MENTION, prefix + normal, False)
+        for changed in (
+            "提起那件事", "再次提起另一件事", "再次放下那件事", "",
+            "再两次提起那件事", "再三回提起那件事", "再一公里提起那件事",
+            "再−一次提起那件事", "再一提起那件事", "再提起那件事两次",
+            normal + "实", normal.replace("提起", "提\n起"),
+            "没有" + normal + "。" + normal,
+            "再两次提起那件事。" + normal,
+            normal + "。明天再提起那件事",
+        ):
+            check(SOURCE_REPEATED_TOPIC_MENTION, changed, False)
+    for normal in ("又提起了那件事", "再一次提到那件事", "又一回提及那件事情", "我再次提起那件事。", "再一遍提起那件事"):
+        check(SOURCE_REPEATED_TOPIC_MENTION, normal, True)
+    check(SOURCE_REPEATED_TOPIC_MENTION, "再回提起那件事", False)
+
+    for normal, middle in (
+        ("Daeun与我保持距离，已有两个月。\n这段时间，偶尔也会碰面。\n今天，是她先开了口。", "这段时间，偶尔也会碰面。"),
+        ("Daeun 與我保持距離，已經兩個月了。\n這段時間，偶爾還是會碰面。\n今天，是她先開口跟我說話。", "這段時間，偶爾還是會碰面。"),
+    ):
+        check(SOURCE_OCCASIONAL_ENCOUNTER, normal, True)
+        for alternative in ("這段時間，時不時也碰過面。", "这期间，有时也见面。"):
+            check(SOURCE_OCCASIONAL_ENCOUNTER, normal.replace(middle, alternative), True)
+        for changed in (
+            "這段時間，每天都碰面。", "這段時間，每月碰面一次。",
+            "這段時間，只碰面一次。", "這段時間，兩次碰面。",
+            "這段時間，偶爾也會兩次碰面。", "這段時間，偶爾也會一公里碰面。",
+            "這段時間，偶爾也會−一次碰面。", "這段時間，偶爾也會碰面兩次。",
+            "這段時間，沒有偶爾碰面。", "這段時間，偶爾也不會碰面。",
+            "這段時間，偶爾沒有碰面。", "未來這段時間，偶爾也會碰面。",
+            "這段時間，偶爾將會碰面。", "這段時間，打算偶爾碰面。",
+            "這段時間，偶爾也會通話。", "這段時間，偶爾也會碰面試。",
+            "這段時間，偶爾也會碰別人。", "這段時間，從未碰面。", "",
+            "這段時間，偶爾\n也會碰面。",
+            "這段時間，沒有碰面。" + middle,
+            "這段時間，每月碰面一次。" + middle,
+            middle + "這段時間，每天都碰面。",
+        ):
+            check(SOURCE_OCCASIONAL_ENCOUNTER, normal.replace(middle, changed), False)
+        check(SOURCE_OCCASIONAL_ENCOUNTER, normal.replace("两个月", "三个月").replace("兩個月", "三個月"), False)
+        check(SOURCE_OCCASIONAL_ENCOUNTER, normal.replace("\n", " ", 1), False)
+
+    # Source mutations retain their own generic quantities; neither exact
+    # semantic type is licensed by a changed action, actor, frequency or tense.
+    for source, target, kind in (
+        (SOURCE_REPEATED_TOPIC_MENTION.replace("한 번", "두 번"), "再次提起那件事", "repeated_topic_mention"),
+        (SOURCE_REPEATED_TOPIC_MENTION.replace("꺼냈다", "숨겼다"), "再次提起那件事", "repeated_topic_mention"),
+        (SOURCE_REPEATED_TOPIC_MENTION.replace("꺼냈다", "꺼낼 것이다"), "再次提起那件事", "repeated_topic_mention"),
+        (SOURCE_REPEATED_TOPIC_MENTION.replace("꺼냈다", "꺼내지 않았다"), "再次提起那件事", "repeated_topic_mention"),
+        (SOURCE_OCCASIONAL_ENCOUNTER.replace("한 번씩", "두 번씩"), "Daeun与我保持距离，已有两个月。\n这段时间，偶尔也会碰面。\n今天，是她先开了口。", "occasional_encounter"),
+        (SOURCE_OCCASIONAL_ENCOUNTER.replace("어쩌다", "매일"), "Daeun与我保持距离，已有两个月。\n这段时间，偶尔也会碰面。\n今天，是她先开了口。", "occasional_encounter"),
+        (SOURCE_OCCASIONAL_ENCOUNTER.replace("마주쳤다", "통화했다"), "Daeun与我保持距离，已有两个月。\n这段时间，偶尔也会碰面。\n今天，是她先开了口。", "occasional_encounter"),
+        (SOURCE_OCCASIONAL_ENCOUNTER.replace("마주쳤다", "마주칠 것이다"), "Daeun与我保持距离，已有两个月。\n这段时间，偶尔也会碰面。\n今天，是她先开了口。", "occasional_encounter"),
+    ):
+        check(source, target, False)
+        cases += 1
+        if any(q.kind == kind for q in _source_counter_quantities(source)):
+            failures.append(f"restraint/trust source license escaped: {kind}: {source!r}")
+    for source in ("기억을 꺼냈다.", "가끔 마주쳤다.", ""):
+        cases += 1
+        if any(q.kind in {"repeated_topic_mention", "occasional_encounter"} for q in _source_counter_quantities(source)):
+            failures.append(f"restraint/trust source-absent license escaped: {source!r}")
+    return cases, failures
+
+
 def _family_recovery_callback_parser_self_test() -> tuple[int, list[str]]:
     """Three observed contexts, with finite value/role/source-bound witnesses."""
     cases, failures = 0, []
@@ -7096,6 +7209,9 @@ def run_self_test(
     family_recovery_cases, family_recovery_failures = _family_recovery_callback_parser_self_test()
     cases += family_recovery_cases
     failures.extend(family_recovery_failures)
+    restraint_trust_cases, restraint_trust_failures = _restraint_trust_callback_parser_self_test()
+    cases += restraint_trust_cases
+    failures.extend(restraint_trust_failures)
 
     # Exact Korean-source catalogue names are not permission for unrelated
     # English prose or for deleting the noun around an allowed brand token.

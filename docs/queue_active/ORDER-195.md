@@ -182,3 +182,43 @@ named full-game-localization-overlays --list 뒤 선택12·EN·diff·전량수�
 전체 INCOMPLETE·full/main/product HOLD·L3/원어민/화면 OPEN.
 출시 M01~M06 BUILD2026.08.31.1 사용자 GO 유지.
 이 문서는 일회성 범위이며 지속 규칙의 소유자는 I18N_INFRASTRUCTURE/용어집이다.
+
+## 수용 결과 — 762번역·L1/L2, L3 OPEN
+
+- 선언 `629ac3685dc92955c8c4658e86165fd56723bfa1` commit/push 뒤
+  initial6(A135/B121행·신규254 previous null×3)을 저작 전에 봉인했다.
+  KO 직접 독립 저작 뒤 다른 작성자/ROOT가762문구 전부를 대조했다.
+- callback16/17/18 신규14/82·14/82·15/90을 각 언어 KO 순서대로 썼다.
+  기존21,504/meta9/b48 보존, 누적22,266(각7,422)·b50이다.
+  각 언어 events889종6,354·endings234·catalog834다.
+- 독립 L2 필수0, 정밀4: CN 투자 행동/전화 이유2·TW 어머니의 말/무해성2.
+  네 문구 교차확인과 전체9파일·records 역치환으로
+  JA254/CN252/TW252 나머지 불변을 확인했다.
+- 일본어 실제43 기간 오탐(회고42·완료대화1)을 수리했다.
+  첫 좁은 과거문법이 기존수용63에 오탐을 낸 실패를 확인하고,
+  실제 기존 쉼표·과거형을 허용한 뒤 기존JA7,168 L1 오류0로 재검증했다.
+  독립 검토가 찾은 실제행동→과거의 계획2쌍도 술어 결속으로 닫았다.
+  전체문장 의미 인증은 아니며 full self196 PASS다.
+- 중국어 실제2문맥의 재차언급·간헐마주침 수량 오탐만 수리했다.
+  수량·단위·부호·시제·행 경계를 보존하며 빈도를 정확1회로 강제하지 않는다.
+  ZH self6236=6101+135 PASS, 신규135는 정상13·target변조103·source경계19다.
+- 최종 source/response/receipt6쌍·실물762 L1 오류0,
+  check/import --accept6 changed_files0. 최종254 records:
+  JA `8fa1e979a11c5240082552813aa1e0e0b7c5b9d887b8b972cb623e0d813048ab`,
+  CN `08dc7f5b4b1011d57f9c8212a14157f91acdf0fa0de71155522de2cc48a7f12a`,
+  TW `1f4ac04035cbd4ff9ab14b5eef0545ea90c05a294aaafb9b59f25da50fc11204`.
+- 완료192 WORK_LOG절1,104B만 history 앞으로 원문 이동했다.
+  44,955→46,059B SHA
+  `2273001a1b098f1f05b6be007abdf2f6691e873fce4921a3788a417fdb009398`.
+  기존 bytes·끝 LF2 유지, 같은 활성 이어보기 [~]·L3 OPEN이다.
+- 실제 회신/상환/취업/만남과 검토·약속·회복시도를 구분했다.
+  coin 설득중단/포지션, 아버지 emoji, 부모빚 채무자 등 원문 부채는 남겼다.
+  KO/EN·runtime·공개·fonts·save·human_gates 변경0, 원본 checkout 쓰기0.
+  전체 INCOMPLETE·full/main/product HOLD, 원어민/화면 OPEN·출시 데모 GO 유지.
+- portable checksum `6529cb72863de1f602e53f5cc87b221f01b8c3dc9219bfaf7d5ff92f47799b24`.
+- 최종 named12·EN strict·전량22,266 source/target hash와 L1·diff 검사 PASS.
+  full self196/ZH self6236이며 독립 JA83(정상50/변조33)·ZH48
+  (정상4/변조36/원문경계8)은 자체 fixture 수와 합산하지 않는다.
+  JA의 과거계획2쌍은 동일 고정집합에서 재검증해 잔여0으로 닫았다.
+  실제 stdout `order195-final-checks.log` 4,682bytes SHA
+  `b02899d52df1767b1d7f90172490ddba4f74aa4a7628990cea18ca20149d0e81`.

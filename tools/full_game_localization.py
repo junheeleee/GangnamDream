@@ -613,6 +613,71 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
                     source_numbers = value
                 else:
                     target_numbers = value
+        # Callback recollections put a native Korean month interval at the end
+        # of the opening sentence. Bind the past/elapsed syntax, number, unit
+        # and first-line ownership before admitting Japanese Arabic digits.
+        # Neither a future appointment nor an extra interval can supply it.
+        callback_month = re.search(
+            r'(?:게 |지 )(?P<number>한|두|석|세) 달(?: 전이다\.|이 지났다\.|\.)$',
+            source_numbers.split('\n', 1)[0],
+        )
+        callback_spans = []
+        callback_original_target = target_numbers
+        if callback_month:
+            native_time_bound = True
+            number = {'한': '1', '두': '2', '석': '3', '세': '3'}[callback_month.group('number')]
+            native = {'1': '一', '2': '二', '3': '三'}[number]
+            opening = target_numbers.split('\n', 1)[0]
+            # These two observed predicates report an accomplished resolution
+            # and an actual change in distance. A past plan to do either is
+            # not the same elapsed event, even with the correct month value.
+            for source_opening, action in (
+                ('카페에서의 일로 생긴 죄책감을 해소했던 게 두 달 전이다.',
+                 r'罪悪感を解消したのは、?[123一二三](?:か月|ヶ月|カ月)前'),
+                ('다은이 거리를 둔 지 두 달.',
+                 r'ダウンが距離を置くようになって、?[123一二三](?:か月|ヶ月|カ月)'),
+            ):
+                if leaf.source.split('\n', 1)[0] == source_opening and not re.search(action, opening):
+                    errors.append('source-bound callback accomplished-action mismatch')
+            interval = re.search(
+                r'(?:のは、?(?P<ago>[123一二三])(?:か月|ヶ月|カ月)前(?:のことだ|だった|だ)。|'
+                r'(?:てから|でから|になって|始めて)、?(?P<elapsed>[123一二三])'
+                r'(?:か月|ヶ月|カ月)(?:が過ぎた。|。))$', opening,
+            )
+            if interval is None:
+                errors.append('source-bound callback elapsed-month syntax/unit mismatch')
+            else:
+                group = 'ago' if interval.group('ago') is not None else 'elapsed'
+                start, end = interval.span(group)
+                if interval.group(group) not in (number, native) or _has_numeric_sign_prefix(opening, start):
+                    errors.append('source-bound callback elapsed-month value/sign mismatch')
+                callback_spans.append((start, interval.end()))
+                target_numbers = target_numbers[:start] + number + target_numbers[end:]
+            start, end = callback_month.span('number')
+            source_numbers = source_numbers[:start] + number + source_numbers[end:]
+        # The one-hour conversation is already completed; it is not a plan,
+        # a clock time, or an added hour attached to another paragraph.
+        conversation_source = '한 시간을 이야기했다.\n오래 말씀하시게 된 게 — 관계가 달라졌다는 뜻이었다.'
+        if leaf.source == conversation_source:
+            native_time_bound = True
+            conversation = re.match(r'(?:1|一)時間、話した。(?=\n)', target_numbers)
+            if conversation is None:
+                errors.append('source-bound completed conversation hour mismatch')
+            else:
+                callback_spans.append((0, conversation.end()))
+                target_numbers = '1' + target_numbers[1:]
+            source_numbers = '1' + source_numbers[1:]
+        if callback_month or leaf.source == conversation_source:
+            # Scan the pre-time-normalization text, including earlier money
+            # normalization; the one-character time substitutions keep offsets.
+            # A spelled-out extra quantity must not bypass the Arabic stream.
+            for quantity in re.finditer(
+                r'[+\-−]?[0-9０-９零一二三四五六七八九十百千万萬億兆]+\s*'
+                r'(?:か月|ヶ月|カ月|年|月|週間|週|日|時間|時|分|秒)', callback_original_target,
+            ):
+                if not any(start <= quantity.start() and quantity.end() <= end
+                           for start, end in callback_spans):
+                    errors.append('source-bound callback added/displaced time mismatch')
         # This final-sprint opening has less than one year before age 38.
         # Bind the complete sentence (including its limit), then admit 一年;
         # a different age, interval, sign or paragraph cannot supply the count.

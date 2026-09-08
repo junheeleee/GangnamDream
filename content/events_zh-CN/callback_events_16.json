@@ -1,0 +1,208 @@
+[
+  {
+    "id": "callback_cafe_greed_resisted_echo",
+    "title": "忍住贪念的结果",
+    "description": "在咖啡馆忍住贪念、转身离开，是两个月前的事。\n今天，当时在场的一个人联系了我。\n“幸好你当时没做。”",
+    "choices": [
+      {
+        "text": "“是啊。幸好没做。”",
+        "result_text": "听了那之后发生的事。\n当时忍住，是对的。"
+      },
+      {
+        "text": "“可我也想过，要是成了该多好”",
+        "result_text": "我说：“我也想过，要是成了该多好。”\n对方说：“就算成了，你下一局也会全押进去的。”"
+      }
+    ]
+  },
+  {
+    "id": "callback_cafe_guilt_resolved_echo",
+    "title": "放下了愧疚",
+    "description": "放下因咖啡馆那件事而生的愧疚，是两个月前的事。\n今天，又见到了那个人。",
+    "choices": [
+      {
+        "text": "自然地聊了起来",
+        "result_text": "很自然。\n那份愧疚已经解开了——从这次交谈中感受到了。\n心里揣着愧疚，聊起天来也会别扭。"
+      },
+      {
+        "text": "再次提起那件事",
+        "result_text": "我说：“那时候的事，我现在还会想起。”\n对方说：“我也是。”"
+      }
+    ]
+  },
+  {
+    "id": "callback_cafe_mentor_network_echo",
+    "title": "咖啡馆导师的人脉",
+    "description": "在咖啡馆认识的导师帮忙交换联系方式，是三个月前的事。\n那些联系人中，有一个人今天主动联系了我。",
+    "choices": [
+      {
+        "text": "又见了面",
+        "result_text": "见了面。\n从咖啡馆开始的相识——走到了这里。"
+      },
+      {
+        "text": "先了解了一下",
+        "result_text": "先了解了一下。\n是条值得信任的渠道。\n见了面。"
+      }
+    ]
+  },
+  {
+    "id": "callback_coin_greed_resisted_echo",
+    "title": "忍住炒币的贪念之后",
+    "description": "忍住贪念、把币卖掉，是两个月前的事。\n今天，查了一下那种币现在的价格。",
+    "choices": [
+      {
+        "text": "觉得卖得对",
+        "result_text": "又涨了一阵——后来跌到了一半。\n当时卖，是对的。\n忍住贪念的时机——被结果证明了。"
+      },
+      {
+        "text": "想到后来涨得更高，还是遗憾",
+        "result_text": "想起了后来涨得更高的时候。\n但也看到了之后跌得更低。\n能卖在最高点的人，靠的是运气。"
+      }
+    ]
+  },
+  {
+    "id": "callback_coin_helped_friend_echo",
+    "title": "劝朋友别炒币的那次",
+    "description": "朋友想往币里投入一大笔钱，我劝住了他，那是三个月前的事。\n今天，那个朋友联系了我。\n“哎，听你的话真是对了。”",
+    "choices": [
+      {
+        "text": "“那就好。太好了。”",
+        "result_text": "我说：“真是太好了。”\n朋友说：“那时候谢谢你了。”\n劝阻，本来也可能让关系变得不愉快。"
+      },
+      {
+        "text": "“只是运气好罢了”",
+        "result_text": "我说：“只是运气好罢了。”\n朋友说：“不是，是你看得准。”"
+      }
+    ]
+  },
+  {
+    "id": "callback_coin_lost_confirmed_echo",
+    "title": "炒币亏损落定",
+    "description": "炒币的亏损落定，是两个月前的事。\n今天，又看了一眼那个金额。",
+    "choices": [
+      {
+        "text": "当作学费，翻过这一页",
+        "result_text": "整理了一遍。\n记下了亏了多少钱。\n要让它成为学费——就不能再用同样的方式入场。"
+      },
+      {
+        "text": "寻找回本的方法",
+        "result_text": "想要回本。\n还在同一个地方找——就又是同样的方式。"
+      }
+    ]
+  },
+  {
+    "id": "callback_interview_lie_confessed_echo",
+    "title": "坦白面试谎言之后",
+    "description": "入职后，坦白了自己在面试时夸大的事，那是两个月前的事。\n今天，那位组长单独叫了我。",
+    "choices": [
+      {
+        "text": "忐忑地过去",
+        "result_text": "组长说：“很高兴你当时坦白告诉了我。”\n不是处分。\n坦白带来了信任。"
+      }
+    ]
+  },
+  {
+    "id": "callback_interview_lie_doubled_consequence",
+    "title": "把谎言越滚越大的结果",
+    "description": "面试时的夸大眼看要露馅，于是用更大的谎言掩盖，那是两个月前的事。\n今天，事情败露了。",
+    "choices": [
+      {
+        "text": "至少现在坦白",
+        "result_text": "说了出来。\n组长的表情很僵。\n他问：“为什么不早点说？”\n谎言积得越多——就越难开口。"
+      },
+      {
+        "text": "继续否认",
+        "result_text": "否认了。\n对方拿出了证据。\n谎言总会被揭穿。"
+      }
+    ]
+  },
+  {
+    "id": "callback_jaehyuk_02b_questioned_echo",
+    "title": "问过Jaehyuk的事",
+    "description": "对Jaehyuk的行为起了疑心，直接问了他，那是一个月前的事。\n今天，Jaehyuk主动找来了。",
+    "choices": [
+      {
+        "text": "听听他要说什么",
+        "result_text": "Jaehyuk说：“谢谢你当时直接问了我。”"
+      },
+      {
+        "text": "先问：“有话要说？”",
+        "result_text": "我问：“有话要说？”\nJaehyuk说：“嗯，是那时候的事。”"
+      }
+    ]
+  },
+  {
+    "id": "callback_jaehyuk_final_break_echo",
+    "title": "与Jaehyuk决裂",
+    "description": "彻底断绝与Jaehyuk的关系，是两个月前的事。\n今天，从共同认识的人那里听说了Jaehyuk的事。",
+    "choices": [
+      {
+        "text": "只是听着",
+        "result_text": "听了。\nJaehyuk还是老样子。\n这让我确认——断绝关系是对的。"
+      },
+      {
+        "text": "说：“别再聊那个人了”",
+        "result_text": "我说：“别再聊他的事了。”\n熟人说：“知道了。”\n断了的，就已经断了。"
+      }
+    ]
+  },
+  {
+    "id": "callback_investment_analysis_habit_echo",
+    "title": "分析成了习惯",
+    "description": "养成投资前先分析的习惯，是三个月前的事。\n今天，第一次——想不分析就买，临到头却停了下来。",
+    "choices": [
+      {
+        "text": "分析后再买",
+        "result_text": "停下来做了分析。\n结果不错。\n冲动涌上来时能停住——才是习惯真正的作用。"
+      },
+      {
+        "text": "这次就凭感觉来",
+        "result_text": "凭感觉行动了。\n结果还不知道。"
+      }
+    ]
+  },
+  {
+    "id": "callback_leverage_lesson_learned_echo",
+    "title": "杠杆教训之后",
+    "description": "用杠杆亏了一大笔，得到了教训，那是三个月前的事。\n今天，杠杆产品的广告又弹了出来。\n“这次就是机会。”",
+    "choices": [
+      {
+        "text": "关掉",
+        "result_text": "关掉了。\n广告总是说“这次就是机会”。\n那句话也有说对的时候。"
+      },
+      {
+        "text": "先看看内容",
+        "result_text": "看了。\n挺像那么回事。\n像那么回事，才危险。"
+      }
+    ]
+  },
+  {
+    "id": "callback_greed_learned_echo",
+    "title": "领教过贪婪",
+    "description": "亲身体会到贪婪会带来亏损，是三个月前的事。\n今天，相似的局面又来了。",
+    "choices": [
+      {
+        "text": "照那次的教训行动",
+        "result_text": "停住了。\n赚得够了，就退了出来。\n教训，是在同样的事再来时用的。"
+      },
+      {
+        "text": "觉得这次不一样",
+        "result_text": "说了“这次不一样”。\n说过这句话的人——总是见到同样的结果。"
+      }
+    ]
+  },
+  {
+    "id": "callback_startup_partial_exit_echo",
+    "title": "部分退出之后",
+    "description": "卖掉一部分初创公司的股份，是两个月前的事。\n手里还留着股份。\n今天，创始人发来了近况。",
+    "choices": [
+      {
+        "text": "审视一下剩下的股份该怎么办",
+        "result_text": "审视了一遍。\n退出的部分已经落定——剩下的部分还得继续观察。"
+      },
+      {
+        "text": "如果是好消息，继续持有更好吧",
+        "result_text": "决定继续持有。\n创始人的乐观——影响了判断。"
+      }
+    ]
+  }
+]
