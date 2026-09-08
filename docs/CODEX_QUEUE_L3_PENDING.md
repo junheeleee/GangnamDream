@@ -7,6 +7,7 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
+| 1 | [~] | ORDER-190 · 투자·인연 후속 번역 | [190](queue_active/ORDER-190.md) | 582번역 L1/L2 · L3 OPEN |
 | 2 | [~] | ORDER-189 · 마지막 질주·선택의 대가 번역 | [189](queue_active/ORDER-189.md) | 642번역 L1/L2 · L3 OPEN |
 | 3 | [~] | ORDER-188 · 관계·투자 후속 번역 | [188](queue_active/ORDER-188.md) | 600번역 L1/L2 · L3 OPEN |
 | 4 | [~] | ORDER-187 · 소비·독립 생활 번역 | [187](queue_active/ORDER-187.md) | 312번역 L1/L2 · L3 OPEN |

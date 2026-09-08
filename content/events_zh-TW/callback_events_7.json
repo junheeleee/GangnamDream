@@ -1,0 +1,182 @@
+[
+  {
+    "id": "callback_jiyeon_had_coffee_echo",
+    "title": "那次談話之後",
+    "description": "和 Jiyeon 喝咖啡的那個下午，已是一個月前的事。\n今天，做投資決定時，想起了她那時說的話。\n「在這個市場，人就是資產。」",
+    "choices": [
+      {
+        "text": "再聯絡她。想多聽她談談那句話",
+        "result_text": "Jiyeon 笑著說：「我等著呢。」\n聊了兩個小時。\n在江南生存下來的人，說的話就是不一樣。"
+      },
+      {
+        "text": "反覆想著那句話，自己判斷",
+        "result_text": "以那句話為依據，做了決定。\n判斷對了。\n用自己的思考消化過的建議——才留得最久。"
+      }
+    ]
+  },
+  {
+    "id": "callback_jiyeon_investment_talk_result",
+    "title": "那檔標的後來怎麼了",
+    "description": "那是和 Jiyeon 聊投資時，她提過的標的。\n她曾說：「現在買進，還不算晚。」\n今天，打開了那檔標的的走勢圖。",
+    "choices": [
+      {
+        "text": "把結果告訴 Jiyeon",
+        "result_text": "Jiyeon 說：「對吧。我就說嘛。」\n待在有自信的人身邊，自信也會感染過來。\n這就是這個人的力量。"
+      },
+      {
+        "text": "自己確認結果，再判斷要不要投資",
+        "result_text": "親自做了分析。\nJiyeon 說的，有對也有錯。\n檢驗別人的篤定。這就是投資。"
+      }
+    ]
+  },
+  {
+    "id": "callback_jiyeon_took_deal_consequence",
+    "title": "簽約之後的費用",
+    "description": "接受 Jiyeon 的提議，簽約至今已過了三個月。\n結算單第一頁，取得物件的相關稅款、中期款利息、法務費和預存款並列著。\n\n無論物件成敗如何，持有這份契約的期間，這些都是得先付的費用。",
+    "choices": [
+      {
+        "text": "向 Jiyeon 逐一確認費用項目",
+        "result_text": "Jiyeon 把契約和結算單並排攤開。\n「利息會隨時程改變，這筆預存款則會在付尾款時結算。」\n{name}在每個項目旁，記下付款時間和退款條件。如果沒有問清楚，那些數字看起來全都會像是虧損。"
+      },
+      {
+        "text": "重新仔細讀契約",
+        "result_text": "把契約讀了三遍。\n費用散在各個條款裡，加總之後，才發現還得另外準備維持資金。\n{name}決定，從下一份契約開始，簽名前都先做一張總費用表。"
+      }
+    ]
+  },
+  {
+    "id": "callback_jiyeon_refused_deal_echo",
+    "title": "Jiyeon 再次出現",
+    "description": "拒絕 Jiyeon 的提議，是兩個月前的事。\n今天，在咖啡館巧遇了她。\n「啊，Minjun哥。好高興見到你。」\n她的表情，看起來沒有不高興。",
+    "choices": [
+      {
+        "text": "一起坐下來聊聊",
+        "result_text": "Jiyeon 說：「你那時候沒答應是對的。我那個提議，也有點太勉強了。」\n拒絕，並不會切斷關係。\n反而，坦白的拒絕成了信任的起點。"
+      },
+      {
+        "text": "只打聲招呼，就避開",
+        "result_text": "簡短打了招呼，就離開了。\n沒有回頭。\nJiyeon 也想說些什麼，最後還是讓我走了。"
+      }
+    ]
+  },
+  {
+    "id": "callback_jiyeon_took_money_weight",
+    "title": "前輪的維修估價",
+    "description": "事故隔天，附近的自行車維修店。\n師傅轉了轉變形的前輪，說：\n「換掉的話，一共8萬韓元。」\n\n昨天收到的8萬韓元現金，還在{name}的口袋裡。",
+    "choices": [
+      {
+        "text": "用收到的8萬韓元，立刻修好",
+        "result_text": "{name}把一張5萬韓元、三張1萬韓元的紙鈔交給師傅。\n收到的錢，全數付了修理費。\n\n新的前輪不再晃動。{name}騎著自行車離開維修店。"
+      },
+      {
+        "text": "先不修，留下8萬韓元",
+        "result_text": "{name}只拿了估價單，又牽著變形的自行車走了出來。\n8萬韓元現金留在口袋裡，前輪也還是原樣。\n\n把自行車停在考試院前，走路進去了。"
+      }
+    ]
+  },
+  {
+    "id": "callback_sangchul_jiyeon_connection",
+    "title": "Sangchul 先提起的名字",
+    "description": "今天，和 Sangchul 吃飯時，他先開口問了。\n「Minjun，你認識 Han Jiyeon 嗎？\n她最近有在聊你的事。」",
+    "choices": [
+      {
+        "text": "「聊什麼？」繼續問",
+        "result_text": "Sangchul 說：「是好話。說你是個值得信任的人。」\nJiyeon、Sangchul——評價在這張人脈網裡流動著。\n名聲，就是在看不見的地方形成的。"
+      },
+      {
+        "text": "說聲「是嗎？」就帶過",
+        "result_text": "自然地帶過了。\nSangchul 聊起別的事。\n那一句話，卻在心裡留得比想像中久。"
+      }
+    ]
+  },
+  {
+    "id": "callback_forgave_jiyeon_outcome",
+    "title": "原諒之後",
+    "description": "那次談話，我原諒了 Jiyeon。\n從那之後，和 Jiyeon 的關係變了。\n今天，Jiyeon 帶著什麼東西出現了。\n「有個東西，一直想送給 Minjun哥。」",
+    "choices": [
+      {
+        "text": "收下",
+        "result_text": "是一本書。\n內頁用筆寫著一小段話。\n「我最初就是透過這本書，認識這個世界的。」\n原諒，以這樣的方式回來了。"
+      },
+      {
+        "text": "「沒關係。妳過得好就好」",
+        "result_text": "Jiyeon 停了一下，說：「好。謝謝你。」\n原諒，不是為了收到禮物。\nJiyeon 也明白了。"
+      }
+    ]
+  },
+  {
+    "id": "callback_jaehyuk_felt_kindness_echo",
+    "title": "Jaehyuk 的另一面",
+    "description": "Choi Jaehyuk 曾出乎意料地幫過忙。\n從那之後，看待 Jaehyuk 的眼光有了些變化。\n今天，又碰見了 Jaehyuk。\n還是個讓人不自在的人——卻有些不一樣了。",
+    "choices": [
+      {
+        "text": "先開口搭話",
+        "result_text": "Jaehyuk 簡短回應了。還是很尷尬。\n但現在已經知道，那不是他的全部。\n不再只憑一個面向，就看待一個人。"
+      },
+      {
+        "text": "直接走過去",
+        "result_text": "走了過去。\nJaehyuk 也走了過去。\n和複雜的人相處——也許這才是適當的距離。"
+      }
+    ]
+  },
+  {
+    "id": "callback_jaehyuk_stood_up_aftermath",
+    "title": "在 Jaehyuk 面前沒有退讓之後",
+    "description": "那天，在 Choi Jaehyuk 面前撐住了。\n周圍的反應很安靜。\n不知道那份安靜，是好是壞。\n今天，當時在場的一個人，私下聯絡了我。",
+    "choices": [
+      {
+        "text": "回應對方的聯絡",
+        "result_text": "「那天你做得很好。我也想那樣，可是沒能做到。」\n這句話，在心裡留了很久。\n撐住的人——會留在沒能撐住的人的記憶裡。"
+      },
+      {
+        "text": "說句「沒什麼啦」就帶過",
+        "result_text": "說了聲：「沒什麼啦。」\n對方卻說：「……不，真的很了不起。」\n當事人不知道，旁邊看著的人卻知道。"
+      }
+    ]
+  },
+  {
+    "id": "callback_jaehyuk_refused_news",
+    "title": "Jaehyuk 的消息",
+    "description": "拒絕 Choi Jaehyuk 的請求，是半年前的事。\n今天，業界認識的人聯絡了我。\n「欸，你認識 Choi Jaehyuk 嗎？聽說他最近有點不好過。」",
+    "choices": [
+      {
+        "text": "再問問，發生了什麼事",
+        "result_text": "對方說，他當初勉強鋪開的事業卡住了。\n要是一起做，我也會跟著卡住吧。\n拒絕——當時是勇氣，現在成了判斷力。"
+      },
+      {
+        "text": "說聲「喔」就帶過",
+        "result_text": "轉開了話題。\nJaehyuk 不好過，不是我的問題。\n拒絕，早就是很久以前的事了。"
+      }
+    ]
+  },
+  {
+    "id": "callback_climber_advanced_door",
+    "title": "下一個階段",
+    "description": "在專業化路線上，更上一個層級，已經六個月了。\n今天，同領域的前輩聯絡了我。\n「聽說你的事了。在哪裡學的？\n我知道有個職缺，要不要聊聊？」",
+    "choices": [
+      {
+        "text": "聽聽看",
+        "result_text": "原來，不是實力先去敲門。\n實力累積起來，門就會自己找上來。\n現在才明白，這個差別。"
+      },
+      {
+        "text": "「謝謝您，不過我現在想再多累積一點」",
+        "result_text": "前輩說：「好。準備好了再聯絡我。」\n明知道門已經開了，卻先把它關上。\n不急著往前，也是準備的一部分。"
+      }
+    ]
+  },
+  {
+    "id": "callback_elite_recognized_weight",
+    "title": "受到肯定之後",
+    "description": "實力獲得了肯定。\n從那之後，名字開始被人提起。\n今天，一位熟人說：\n「最近到處都聽得到你的事。」",
+    "choices": [
+      {
+        "text": "「是嗎？希望聽到的都是好話」",
+        "result_text": "「都是好話。所以才跟你說啊。」\n名字傳開——既是機會，也是責任。\n這才明白，即使在沒人看見的地方，也得把事情做好。"
+      },
+      {
+        "text": "「我好像被高估了」",
+        "result_text": "「我好像被高估了。」\n對方笑著說：「謙虛也是一種名聲。」\n放低自己，和本來就低，是兩回事。\n有人看得出這個差別。"
+      }
+    ]
+  }
+]

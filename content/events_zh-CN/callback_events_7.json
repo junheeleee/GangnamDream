@@ -1,0 +1,110 @@
+[
+  {
+    "id": "callback_jiyeon_had_coffee_echo",
+    "title": "那次谈话之后",
+    "description": "和 Jiyeon 喝咖啡的那个下午，已经是一个月前了。\n今天，作投资决定时，想起了她那天说的话。\n“在这个市场里，人就是资产。”",
+    "choices": [
+      {"text": "再联系她。想多听听那句话的意思", "result_text": "Jiyeon 笑着说：“我等着呢。”\n聊了两个小时。\n在江南生存下来的人，说的话就是不一样。"},
+      {"text": "反复琢磨那句话，独自判断", "result_text": "以那句话为依据，作了决定。\n判断对了。\n消化成自己想法的建议——留得最久。"}
+    ]
+  },
+  {
+    "id": "callback_jiyeon_investment_talk_result",
+    "title": "那个投资标的后来怎样了",
+    "description": "和 Jiyeon 聊投资时，她提过一个标的。\n那时她说：“现在买入，还不算晚。”\n今天，打开了那个标的的走势图。",
+    "choices": [
+      {"text": "把结果告诉 Jiyeon", "result_text": "Jiyeon 说：“对吧。我怎么说的来着。”\n待在自信的人身边，自信也会传过来。\n这就是她的力量。"},
+      {"text": "独自确认结果，判断要不要投", "result_text": "自己作了分析。\nJiyeon 的话，有对的，也有错的。\n验证别人的确信。这就是投资。"}
+    ]
+  },
+  {
+    "id": "callback_jiyeon_took_deal_consequence",
+    "title": "签约后的费用",
+    "description": "接受 Jiyeon 的提议、签下合同，已经三个月了。\n结算单的第一页，并列着购置相关税费、分期款利息、法律服务费和预存款。\n\n无论这处物业最终成败如何，持有合同期间，都得先付这些费用。",
+    "choices": [
+      {"text": "向 Jiyeon 逐项确认费用", "result_text": "Jiyeon 把合同和结算单并排摊开。\n“利息会随付款安排变化，这笔预存款会在付尾款时结算。”\n{name}在每项旁边记下支付时间和退款条件。若不问清楚，这些数字看起来会全是损失。"},
+      {"text": "重新仔细读一遍合同", "result_text": "把合同读了三遍。\n费用散落在各条款里，合起来看，另需一笔维持资金。\n{name}决定，下次签合同前，先列出总费用表。"}
+    ]
+  },
+  {
+    "id": "callback_jiyeon_refused_deal_echo",
+    "title": "Jiyeon 再次出现",
+    "description": "拒绝 Jiyeon 的提议，是两个月前的事了。\n今天，在咖啡馆偶然碰见。\n“啊，哥，见到你真好。”\n她的表情里，似乎没有不快。",
+    "choices": [
+      {"text": "坐下来一起聊聊", "result_text": "Jiyeon 说：“那时候没答应，是对的。我那个提议也有点勉强。”\n拒绝并没有切断关系。\n反而，坦诚的拒绝成了信任的开始。"},
+      {"text": "只打个招呼，避开这里", "result_text": "简单打了招呼，就出来了。\n没有回头。\nJiyeon 也想说些什么，最后还是任我离开了。"}
+    ]
+  },
+  {
+    "id": "callback_jiyeon_took_money_weight",
+    "title": "前轮维修报价",
+    "description": "事故第二天，附近的自行车修理店。\n师傅转了转歪掉的前轮，说：\n“连更换一起，8万韩元。”\n\n昨天收到的8万韩元现金，还在{name}的口袋里。",
+    "choices": [
+      {"text": "用收到的8万韩元，马上修好", "result_text": "{name}把一张5万韩元和三张1万韩元的纸币递给了师傅。\n收到的钱，一分不剩地付了修理费。\n\n新前轮不再晃动。{name}骑着自行车离开了修理店。"},
+      {"text": "先不修，留下8万韩元", "result_text": "{name}只拿了报价单，又推着歪掉的自行车出来了。\n8万韩元现金还留在口袋里，前轮也还是原样。\n\n把自行车停在考试院门前，步行进去了。"}
+    ]
+  },
+  {
+    "id": "callback_sangchul_jiyeon_connection",
+    "title": "Sangchul 先提起的名字",
+    "description": "今天和 Sangchul 吃饭时，他先问了。\n“Minjun，认识 Han Jiyeon 吗？\n她最近在说你的事。”",
+    "choices": [
+      {"text": "“说什么了？”继续问", "result_text": "Sangchul 说：“好话。说你是个值得信赖的人。”\nJiyeon，Sangchul——评价在这个圈子里流动着。\n声誉，是在看不见的地方形成的。"},
+      {"text": "说声“是吗”，就此带过", "result_text": "自然地带了过去。\nSangchul 换了个话题。\n那一句话，留下的时间比想象中更久。"}
+    ]
+  },
+  {
+    "id": "callback_forgave_jiyeon_outcome",
+    "title": "原谅之后",
+    "description": "那次谈话，原谅了 Jiyeon。\n从那以后，和 Jiyeon 的关系变了。\n今天，Jiyeon 拿着什么出现了。\n“有样东西，一直想送给哥。”",
+    "choices": [
+      {"text": "收下", "result_text": "是一本书。\n里面用笔写了一句短话。\n“这本书，是我最初认识这个世界的起点。”\n原谅，以这样的东西回来了。"},
+      {"text": "“不用了。你过得好就行。”", "result_text": "Jiyeon 停了一会儿，说：“好。谢谢你。”\n原谅，不是为了得到礼物。\nJiyeon 也明白了这一点。"}
+    ]
+  },
+  {
+    "id": "callback_jaehyuk_felt_kindness_echo",
+    "title": "Jaehyuk 的另一面",
+    "description": "Choi Jaehyuk 意外帮了忙的那件事。\n此后，看 Jaehyuk 的眼光有了一点变化。\n今天，又碰到了 Jaehyuk。\n他还是让人不自在——但有什么不一样了。",
+    "choices": [
+      {"text": "先开口打招呼", "result_text": "Jaehyuk 简短地应了一声。还是别扭。\n但现在知道了，那不是他的全部。\n不再只看一个人的一面。"},
+      {"text": "直接走过去", "result_text": "走了过去。\nJaehyuk 也走了过去。\n和复杂的人相处——也许，这就是合适的距离。"}
+    ]
+  },
+  {
+    "id": "callback_jaehyuk_stood_up_aftermath",
+    "title": "没有在 Jaehyuk 面前退让之后",
+    "description": "那天，在 Choi Jaehyuk 面前撑住了。\n周围的反应很安静。\n说不清那份安静是好是坏。\n今天，当时在场的人单独联系了过来。",
+    "choices": [
+      {"text": "回应对方", "result_text": "“那天你做得很好。我也想那么做，但没能做到。”\n这句话，留了很久。\n撑住的人——会留在没能撑住的人心里。"},
+      {"text": "说声“没什么”，带过去", "result_text": "说了声：“没什么。”\n对方却说：“……不是。真的很了不起。”\n当事人未必明白，看着的人却知道。"}
+    ]
+  },
+  {
+    "id": "callback_jaehyuk_refused_news",
+    "title": "Jaehyuk 的消息",
+    "description": "拒绝 Choi Jaehyuk 的请求，是半年前的事了。\n今天，业内的熟人联系了过来。\n“哎，你认识 Choi Jaehyuk 吗？听说他最近不太好过。”",
+    "choices": [
+      {"text": "继续问，出了什么事", "result_text": "说是勉强铺开的生意，陷入了困境。\n要是当时一起做，我也会一起陷进去。\n拒绝——当时是勇气，如今是判断力。"},
+      {"text": "说声“嗯”，带过去", "result_text": "转开了话题。\nJaehyuk 日子难过，并不是我的问题。\n拒绝，早就是很久以前的事了。"}
+    ]
+  },
+  {
+    "id": "callback_climber_advanced_door",
+    "title": "再往后的那一步",
+    "description": "在专业化道路上走上了下一层，已经六个月了。\n今天，同领域的前辈联系了过来。\n“听说你的事了。在哪儿学的？\n我知道一个职位，想不想聊聊？”",
+    "choices": [
+      {"text": "听听看", "result_text": "并不是实力先去敲门。\n实力积累起来，门就会自己找过来。\n现在，明白了其中的差别。"},
+      {"text": "“谢谢，但现在还想多积累一点。”", "result_text": "前辈说：“行。准备好了就联系我。”\n明知门已经打开，仍选择先关着。\n不急着往前，也是准备的一部分。"}
+    ]
+  },
+  {
+    "id": "callback_elite_recognized_weight",
+    "title": "得到认可之后",
+    "description": "实力得到了认可。\n从那以后，名字开始在人们口中流传。\n今天，一个熟人说：\n“最近到处都听到你的事。”",
+    "choices": [
+      {"text": "“是吗？希望听到的是好话。”", "result_text": "“是好话。所以才跟你说啊。”\n名字在人们口中流传——既是机会，也是责任。\n明白了，即使在没人看见的地方，也得做好。"},
+      {"text": "“感觉是高估我了。”", "result_text": "“感觉是高估我了。”\n对方笑着说：“谦虚也是一种好名声。”\n把自己放低，和本来就低，是两回事。\n有人能看出这份差别。"}
+    ]
+  }
+]

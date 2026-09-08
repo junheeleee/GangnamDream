@@ -187,3 +187,40 @@ named full-game-localization-overlays --list 뒤 선택12검사·EN·diff·전�
 
 이 범위·배치·증거 절차는 일회성이다. 지속 규칙은 I18N_INFRASTRUCTURE와
 언어별 용어집이 소유하며 새 서사·제품·출시 규칙을 만들지 않는다.
+
+## 수용 결과 — 582번역·L1/L2, L3 OPEN
+
+- 선언 `e7eb9dbf31777186d4a76b8142ce15dd1b67fb83` commit/push 뒤
+  initial source6(A103행/B93행·194 previous null)을 저작 전에 봉인했다.
+  세 작성자가 KO 직접 저작하고 다른 검토자/ROOT가582문구 전부를 대조했다.
+- 신규17/12/3행만 추가하고 기존6번1행6leaf의 값·순서·raw prefix,
+  각64선택·known2·LF209·{name}7을 보존했다. 기존18,828/meta9/batch41에서
+  19,410(각6,470), events729종5,402·endings234·catalog834씩, batch42다.
+- L2 필수 오류0, JA 선택의 이번/반복1곳·CN 회상어순/반응의 의미2곳·
+  TW 표정/6개월 경과2곳을 정밀화했다. 별도 검토자가5leaf를 다시 읽었다.
+  역치환으로 동결 records를 복원해 JA193/CN192/TW192의 다른 번역을 보존했다.
+- ZH 실제3표면(팀장1:1 제목/요청·단일 팁이 신뢰로 바뀌는 진행상)만
+  문맥에 결속해 수량 오탐을 수리했다. 값·부호·단위·주체·상태·문단·누락·
+  후행 정상문 차용·원문 경계를 검사했다. self5363=5214+69+80 PASS,
+  기존 JA 도구 변경0이다. 전역 의미 인증이나 원어민 판정은 아니다.
+- 최종 source/response/receipt6쌍을 initial 및 현재 source/target과 결속했다.
+  실물582 L1 오류0·check/import --accept changed_files0. records194 SHA는
+  JA `f7b08856a3476658fca6c0988ab62cc4b5ebe862f5bc74af5e17bf3a3a18855d`,
+  CN `09f7f90453210e5655590e269271c115375534a77d0d1caf2ba6cd21d5bccf93`,
+  TW `d9c5699049f2afae330d9f4327ef9c11e9ccaf3e30b4a9150771e5e472e0e050`.
+- 완료187 WORK_LOG절1,214bytes만 history 앞으로 원문 이동했다.
+  history39,230→40,444bytes, SHA
+  `9df5fafb1c8e9ba8ae0cc69c319d39926be3ba3bc2a0092b03f5d66c80c4009d`.
+  기존 내용·끝 LF2 byte-exact 보존, 같은 활성 이어보기 [~]·L3 OPEN이다.
+- 실제 회신·방문·입금·수리와 제안·예정·추정을 구별했다. 지갑직장·상사직함·
+  카페 미투자→수익 회상·사고/주거/기간 등 사양의 원문 부채는 번역으로 수리0.
+  KO/EN·runtime·공개·fonts·save·human_gates 변경0, 원본 checkout 쓰기0.
+  전체 INCOMPLETE·full/main/product HOLD·원어민/화면 OPEN,
+  출시 M01~M06 사용자 GO 유지. 자동 검사는 사람 판정 대체물이 아니다.
+- portable checksum `b819a24bfea0e3a92b69d2a94fe980993457fb866cc3de4740ab00e38645f42c`.
+
+- 최종 named12·EN strict·전량19,410 source/target hash와 L1·diff 검사 PASS.
+  full self192/ZH self5363이며, 별도 독립 가드44(정상6/변조30/원문경계8)
+  PASS는 자체 fixture 수와 합산하지 않는다.
+  실제 stdout `order190-final-checks.log` 4,682bytes SHA
+  `0918eec045e868ca00f96dc7549bfbea84725771c434b14f7ef0c42d469dfbc2`.

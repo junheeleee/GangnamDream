@@ -271,6 +271,8 @@ CALLBACK_COUNTER_KINDS = frozenset({
     "unanswered_call_rings", "karaoke_afterparty_round", "taeho_offer_ordinal", "shared_coin_loss_pair",
     "financial_tier", "callback_loan_rate", "callback_dinner_invitation",
     "escaped_elapsed_months", "freelance_request_ordinal", "holdem_loss_once",
+    "supervisor_one_on_one_title", "supervisor_one_on_one_request",
+    "investment_tip_trust",
 })
 LIFE_SCENE_COUNTER_KINDS = WORK_SCENE_COUNTER_KINDS | SPENDING_SCENE_COUNTER_KINDS | FAMILY_SCENE_COUNTER_KINDS | MEDIA_SCENE_COUNTER_KINDS | HIDDEN_SCENE_COUNTER_KINDS | PROLOGUE_COUNTER_KINDS | DRAMA_COUNTER_KINDS | CREATOR_COUNTER_KINDS | DAILY_MOMENT_COUNTER_KINDS | SOCIAL_COST_COUNTER_KINDS | CALLBACK_COUNTER_KINDS | frozenset({
     "remaining_four_month", "job_posting_count", "egg_count", "task_count",
@@ -1913,6 +1915,18 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
         quantities.append(CounterQuantity(
             match.start(), match.end(), Decimal(match.group("number")), "callback_loan_rate",
         ))
+    # A manager's one-to-one is a meeting format, not two detached counts or
+    # a score. Keep title and requested-meeting contexts distinct.
+    if source == "팀장의 1:1":
+        start = source.index("1:1")
+        quantities.append(CounterQuantity(start, start + 3, Decimal(1), "supervisor_one_on_one_title"))
+    for match in re.finditer(r"(?<=오늘 팀장이 )1:1(?= 미팅을 요청했다\.$)", source):
+        quantities.append(CounterQuantity(match.start(), match.end(), Decimal(1), "supervisor_one_on_one_request"))
+    # The single investment tip is becoming trust, not one received message
+    # in any other scene. Preserve the counted source and its ongoing state.
+    for match in re.finditer(r"(?<=고기 먹으면서 다음 투자 얘기가 나왔다\.\n)한 번(?=의 팁이 신뢰로 바뀌고 있었다\.$)", source):
+        if source[:match.start()].count("\n") == 2:
+            quantities.append(CounterQuantity(match.start(), match.end(), Decimal(1), "investment_tip_trust"))
     for match in re.finditer(r"(?<=대포통장에 손댔다가 빠져나온 지 )넉 달(?=이 됐다\.)", source):
         quantities.append(CounterQuantity(match.start(), match.end(), Decimal(4), "escaped_elapsed_months"))
     for match in SOURCE_HALF_PYEONG.finditer(source):
@@ -2133,6 +2147,10 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
 def _target_pattern_for_kind(kind: str) -> re.Pattern[str]:
     # The broad witnesses include observed wrong units/actions, so an invalid
     # first clause cannot borrow a later correct number of the same kind.
+    if kind == "investment_tip_trust":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})\s*(?P<callback_unit>條|条|則|则|次|公里|公斤|分鐘|分钟|年)\s*(?P<tip_noun>消息|提點|提点)")
+    if kind in {"supervisor_one_on_one_title", "supervisor_one_on_one_request"}:
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})[對对:：](?P<pair>{CHINESE_CARDINAL})(?P<callback_unit>會談|会谈|面談|面谈|年|公里)")
     if kind == "callback_loan_rate":
         return re.compile(rf"(?P<period>月|年|日)利率(?P<sign>[+＋−﹣－負负-])?\s*(?P<number>\d+(?:\.\d+)?|{CHINESE_CARDINAL})(?P<callback_unit>[%％]|[韓韩]元|公里|年)")
     if kind == "callback_dinner_invitation":
@@ -2689,6 +2707,17 @@ def _callback_quantity_valid(kind: str, match: re.Match[str], target: str) -> bo
     if fields.get("sign") or re.search(r"(?:不(?:是)?|沒(?:有)?|没(?:有)?)\s*$", before):
         return False
     unit = fields.get("callback_unit")
+    if kind == "investment_tip_trust":
+        return unit in {"條", "条", "則", "则", "次"} and before.endswith("\n") \
+            and before.count("\n") == 2 \
+            and bool(re.fullmatch(r"[，,](?:正在|正慢慢)[變变]成信任。", after))
+    if kind in {"supervisor_one_on_one_title", "supervisor_one_on_one_request"}:
+        if unit not in {"會談", "会谈", "面談", "面谈"} or _chinese_cardinal_value(fields.get("pair") or "") != Decimal(1):
+            return False
+        if kind == "supervisor_one_on_one_title":
+            return bool(re.fullmatch(r"[組组][長长]的", before)) and not after
+        return bool(re.search(r"(?:^|\n)今天，[組组][長长](?:要求|提出要進行|提出要进行)$", before)) \
+            and bool(re.fullmatch(r"。", after))
     if kind == "financial_tier":
         return unit == "金融圈" and not bool(re.match(r"[%％]|以上|以下|左右", after))
     if kind == "callback_loan_rate":
@@ -5718,6 +5747,122 @@ def _drama_parser_self_test() -> tuple[int, list[str]]:
     return cases, failures
 
 
+def _investment_tip_parser_self_test() -> tuple[int, list[str]]:
+    """One observed tip-to-trust metaphor; classifiers are not event waivers."""
+    cases, failures = 0, []
+    source = '상철이 "이번엔 내가 한 턱 낼게" 했다.\n고기 먹으면서 다음 투자 얘기가 나왔다.\n한 번의 팁이 신뢰로 바뀌고 있었다.'
+    rows = (
+        ('Sangchul 说：“这次我请客。”\n吃肉的时候，又聊起了下一笔投资。\n一条消息，正在变成信任。', "一条消息", "正在变成"),
+        ('Sangchul 說：「這次換我請客。」\n吃肉時，又聊起了下一次投資。\n一次提點，正慢慢變成信任。', "一次提點", "正慢慢變成"),
+    )
+
+    def check(target: str, valid: bool) -> None:
+        nonlocal cases
+        cases += 1
+        errors = _numeric_errors(source, target)
+        if bool(errors) == valid:
+            failures.append(f"investment tip expected valid={valid}: {target!r}: {errors}")
+
+    for normal, span, state in rows:
+        check(normal, True)
+        for classifier in ("條", "条", "則", "则", "次"):
+            check(normal.replace(span, "一" + classifier + ("消息" if "消息" in span else "提點")), True)
+        wrong_spans = (
+            span.replace("一", "二"), span.replace("一", "十一"),
+            span.replace("一", "零"), span.replace("一", "−一"),
+            span.replace("一", "+一"), span.replace("一", "0.5"),
+            "一公里消息", "一公斤提點", "一分鐘消息", "一年提點",
+            "一条工资", "一条消息息", span[1:], "",
+        )
+        for wrong_span in wrong_spans:
+            check(normal.replace(span, wrong_span), False)
+        for wrong_state in ("已经变成", "將會變成", "没有变成", "並非正在變成"):
+            check(normal.replace(state, wrong_state), False)
+        check(normal.replace(span, "不是" + span), False)
+        check(normal.replace("信任。", "不信任。"), False)
+        check("\n".join(reversed(normal.splitlines())), False)
+        check(normal.replace("\n" + span, " " + span), False)
+        check(normal.replace(span, span + "\n"), False)
+        check(normal + "\n" + normal.splitlines()[-1], False)
+        # A changed count, unit, or completed state before a correct clause
+        # remains unmatched; it cannot use the later clause as its witness.
+        for wrong in (normal.replace(span, wrong_spans[0]),
+                      normal.replace(span, "一公里消息"),
+                      normal.replace(state, "已经变成")):
+            check(wrong + "\n" + normal.splitlines()[-1], False)
+            check(wrong + normal.splitlines()[-1], False)
+    for changed_source in (
+        source.replace("한 번의 팁", "두 번의 팁"),
+        source.replace("한 번의 팁", "세 번의 팁"),
+        source.replace("팁이", "문자가"),
+        source.replace("신뢰로", "손실로"),
+        source.replace("바뀌고 있었다", "바뀌지 않았다"),
+        source.replace("바뀌고 있었다", "바뀌었다"),
+        source.replace("다음 투자", "다음 식사"),
+        source.replace("\n한 번", " 한 번"),
+    ):
+        cases += 1
+        if any(q.kind == "investment_tip_trust" for q in _source_counter_quantities(changed_source)):
+            failures.append(f"investment tip source boundary escaped: {changed_source!r}")
+    return cases, failures
+
+
+def _one_on_one_parser_self_test() -> tuple[int, list[str]]:
+    """Two actual supervisor surfaces, keeping format, requester and state."""
+    cases, failures = 0, []
+    title = "팀장의 1:1"
+    description = "팀장 위로 직접 올라가서 공로를 주장했던 게 한 달 전이다.\n오늘 팀장이 1:1 미팅을 요청했다."
+    rows = (
+        (title, "组长的1:1面谈", "1:1", "面谈", "supervisor_one_on_one_title"),
+        (title, "組長的一對一會談", "一對一", "會談", "supervisor_one_on_one_title"),
+        (description, "越过组长，直接向上级争取功劳，是一个月前的事了。\n今天，组长提出要进行1:1面谈。", "1:1", "面谈", "supervisor_one_on_one_request"),
+        (description, "越過組長，直接向上面爭取自己的功勞，是一個月前的事。\n今天，組長要求一對一會談。", "一對一", "會談", "supervisor_one_on_one_request"),
+    )
+    for source, normal, span, unit, kind in rows:
+        cases += 1
+        if _numeric_errors(source, normal):
+            failures.append(f"one-on-one actual control rejected: {normal}")
+        pair_variants = ("2:1", "1:2", "11:1", "-1:1", "1:-1", "1.1:1") if span == "1:1" else (
+            "二對一", "一對二", "十一對一", "-一對一", "一對-一", "一百對一",
+        )
+        mutations = [normal.replace(span, value) for value in pair_variants]
+        mutations += [
+            normal.replace(span, ""), normal.replace(unit, "公里"),
+            normal.replace(unit, "年"), normal.replace(unit, unit + "以上"),
+            normal.replace("组长", "同事").replace("組長", "同事"),
+        ]
+        if kind.endswith("request"):
+            mutations += [
+                normal.replace("提出要进行", "完成了").replace("要求", "完成了"),
+                normal.replace("提出要进行", "没有要求") if "提出要进行" in normal else normal.replace("要求", "沒有要求"),
+                "\n".join(reversed(normal.splitlines())),
+            ]
+        else:
+            mutations.append(normal + "。")
+        for wrong in mutations:
+            cases += 1
+            if not _numeric_errors(source, wrong):
+                failures.append(f"one-on-one mutation accepted: {wrong}")
+        quantities = [q for q in _source_counter_quantities(source) if q.kind == kind]
+        for wrong in (normal.replace(span, pair_variants[0]), normal.replace(unit, "公里")):
+            borrowed = wrong + "\n" + normal
+            matched, errors = _match_target_counter_quantities(borrowed, quantities)
+            errors += _unexpected_target_entity_errors(borrowed, quantities, matched)
+            cases += 1
+            if not errors:
+                failures.append(f"one-on-one invalid first clause borrowed later normal: {borrowed}")
+    for source in (
+        "팀장의 1:2", "팀장의 2:1", "축구의 1:1",
+        description.replace("미팅을 요청했다", "미팅을 끝냈다"),
+        description.replace("팀장이 1:1", "동료가 1:1"),
+    ):
+        cases += 1
+        if any(q.kind.startswith("supervisor_one_on_one") for q in _source_counter_quantities(source)):
+            failures.append(f"one-on-one source boundary escaped: {source}")
+    return cases, failures
+
+
+
 def _late_callback_parser_self_test() -> tuple[int, list[str]]:
     """Actual late callbacks: rates/tier, auxiliary verb, invitation and elapsed time."""
     cases, failures = 0, []
@@ -6269,6 +6414,12 @@ def run_self_test(
     late_callback_cases, late_callback_failures = _late_callback_parser_self_test()
     cases += late_callback_cases
     failures.extend(late_callback_failures)
+    one_on_one_cases, one_on_one_failures = _one_on_one_parser_self_test()
+    cases += one_on_one_cases
+    failures.extend(one_on_one_failures)
+    investment_tip_cases, investment_tip_failures = _investment_tip_parser_self_test()
+    cases += investment_tip_cases
+    failures.extend(investment_tip_failures)
 
     # Exact Korean-source catalogue names are not permission for unrelated
     # English prose or for deleting the noun around an allowed brand token.
