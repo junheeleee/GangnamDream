@@ -367,6 +367,66 @@ def collect(root: Path = ROOT) -> dict[str, Any]:
                               "demo_dynamic_overlap_static": len(demo_keys & {e.source for e in ui.entries})}}
 
 
+def _ja_father_call_time_numbers(source: str, target: str):
+    """Normalize only this completed call's three differently owned quantities."""
+    expected_source = (
+        '한 시간이 지났다.\n\n'
+        '평소엔 10분이었는데. 날씨, 음식, 서울 집값, 고향 동네 이야기.\n\n'
+        '일요일 오전에 이유 없이 먼저 건 전화 하나가 — 이 대화를 만든 것이다.'
+    )
+    if source != expected_source:
+        return None
+    # Keep the elapsed hour, usual duration and earlier outgoing call in their
+    # original paragraphs. An incoming call, plan or later correct quotation
+    # cannot supply one of these slots. These are grammar-bound counts, not a
+    # licence for arbitrary Japanese written numerals elsewhere in the leaf.
+    lines = target.split('\n')
+    errors = []
+    spans = []
+    replacements = []
+    slots = (
+        (0, r'(?P<number>[1１一])\s*時間(?:が)?(?:過ぎた|過ぎていた|経った|経っていた|たった|たっていた|経過した|経過していた)。',
+         '1', True, 'elapsed hour/state'),
+        (2, r'(?:いつも|普段|ふだん)(?:は|なら)(?P<number>10|１０|十)\s*分'
+            r'(?:だったのに|なのに|だったが|だったのだが|で終わるのに|で終わっていたのに|で済んでいたのに)。',
+         '10', False, 'usual minutes'),
+        (4, r'日曜(?:日)?(?:の)?午前(?:中)?(?:に)?、?'
+            r'(?:用事もなく|用もなく|特に用事もなく|特に用もなく|何の用事もなく|何の用もなく|理由もなく)'
+            r'、?(?:(?:自分|こちら)(?:のほう)?から(?:先に)?|先に)かけた'
+            r'(?P<number>[1１一])\s*(?:本|通)(?:の)?電話が(?:――|—|、)'
+            r'(?:この|今の|今回の)会話(?:を(?:生んだ|生み出した|作った|もたらした)|につながった)'
+            r'(?:のだ|のだった|んだ)?。',
+         '1', True, 'earlier outgoing call'),
+    )
+    for line_index, pattern, number, whole_line, label in slots:
+        match = None
+        if len(lines) > line_index:
+            match = (re.fullmatch if whole_line else re.match)(pattern, lines[line_index])
+        if match is None:
+            errors.append(f'source-bound father call {label} mismatch')
+            continue
+        offset = sum(len(line) + 1 for line in lines[:line_index])
+        spans.append((offset + match.start(), offset + match.end()))
+        start, end = match.span('number')
+        replacements.append((offset + start, offset + end, number))
+    # The legitimate 10 minutes must be consumed too; reusing the older
+    # one-hour-only callback scanner would wrongly reject that second slot.
+    for quantity in re.finditer(
+        r'[+\-−]?[0-9０-９零一二三四五六七八九十百千万萬億兆]+\s*'
+        r'(?:か月|ヶ月|カ月|年|月|週間|週|日|時間|時|分|秒|本|通)', target,
+    ):
+        if not any(start <= quantity.start() and quantity.end() <= end for start, end in spans):
+            errors.append('source-bound father call added/displaced quantity mismatch')
+    normalized_target = target
+    for start, end, number in sorted(replacements, reverse=True):
+        normalized_target = normalized_target[:start] + number + normalized_target[end:]
+    normalized_source = source.replace('한 시간', '1 시간', 1).replace('전화 하나', '전화 1', 1)
+    numeric = re.compile(r'(?<![\d.])[+-]?\d+(?:[,.]\d+)*')
+    if numeric.findall(normalized_source) != numeric.findall(normalized_target):
+        errors.append('source-bound father call ordered quantity mismatch')
+    return normalized_source, normalized_target, errors
+
+
 def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
     import ja_translation_pipeline as ja
     if leaf.group == "endings" and leaf.path == ("condition",):
@@ -390,6 +450,10 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
         numeric = re.compile(r"(?<![\d.])[+-]?\d+(?:[,.]\d+)*")
         source_numbers = ja.PLACEHOLDER.sub("", leaf.source)
         target_numbers = ja.PLACEHOLDER.sub("", text)
+        father_call = _ja_father_call_time_numbers(source_numbers, target_numbers)
+        if father_call is not None:
+            source_numbers, target_numbers, call_errors = father_call
+            errors.extend(call_errors)
         from zh_translation_audit import (
             _source_money_amounts, _target_money_amounts,
             _has_numeric_sign_prefix, MoneyAmount,

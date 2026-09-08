@@ -889,6 +889,99 @@ class ExchangeTests(unittest.TestCase):
                                 ('choices', 0, 'result_text'), changed, 'event_standard')
             self.assertTrue(tool.translation_errors(mutated, 'ja', good))
 
+    def test_callback_japanese_father_call_duration_roles(self):
+        source = ('한 시간이 지났다.\n\n'
+                  '평소엔 10분이었는데. 날씨, 음식, 서울 집값, 고향 동네 이야기.\n\n'
+                  '일요일 오전에 이유 없이 먼저 건 전화 하나가 — 이 대화를 만든 것이다.')
+        good = ('1時間が過ぎた。\n\n'
+                'いつもは10分だったのに。天気、食べ物、ソウルの住宅価格、故郷の町の話。\n\n'
+                '日曜の午前、用事もなく自分からかけた一本の電話が――この会話を生んだのだ。')
+        leaf = tool.Leaf('events', 'example', 'content/events/callback_events_55.json',
+                         ('choices', 1, 'result_text'), source, 'event_standard')
+        normals = (
+            good,
+            good.replace('1時間', '一時間').replace('10分', '十分').replace('一本', '一通'),
+            good.replace('1時間', '１時間').replace('10分', '１０分').replace('一本', '１通'),
+            good.replace('1時間が過ぎた', '1時間経った')
+                .replace('いつもは10分だったのに', 'いつもなら10分で終わるのに')
+                .replace('自分から', 'こちらから').replace('生んだのだ', '生み出した'),
+            good.replace('1時間が過ぎた', '一時間が経過した')
+                .replace('いつもは10分だったのに', '普段は十分だったのに'),
+            good.replace('日曜の午前、用事もなく自分からかけた一本の電話が――この会話を生んだのだ。',
+                         '日曜日の午前、理由もなく先にかけた一通の電話が、今回の会話につながったのだった。'),
+            good.replace('1時間が過ぎた', '一時間がたっていた')
+                .replace('いつもは10分だったのに', 'ふだんなら10分なのに'),
+            good.replace('1時間が過ぎた', '1時間過ぎていた')
+                .replace('いつもは10分だったのに', '普段は10分で済んでいたのに'),
+            good.replace('1時間', '一時間').replace('いつもは10分だったのに。', 'いつもは10分だったのだが。'),
+        )
+        for target in normals:
+            self.assertEqual(tool.translation_errors(leaf, 'ja', target), [], target)
+        bads = []
+        for old, alternatives in (
+            ('1時間が過ぎた。', ('2時間が過ぎた。', '二時間が過ぎた。', '11時間が過ぎた。',
+                              '1分が過ぎた。', '一日が過ぎた。', '-1時間が過ぎた。',
+                              '+1時間が過ぎた。', '−1時間が過ぎた。',
+                              '1時間が過ぎなかった。', '1時間話す予定だった。',
+                              '父が1時間話した。', '時間が過ぎた。',
+                              '二時間が過ぎた。1時間が過ぎた。')),
+            ('いつもは10分だったのに。', ('いつもは9分だったのに。', 'いつもは十一分だったのに。',
+                                      'いつもは10時間だったのに。', 'いつもは10秒だったのに。',
+                                      'いつもは-10分だったのに。', 'いつもは+10分だったのに。',
+                                      'いつもは−10分だったのに。', '今回は10分だったのに。',
+                                      '父だけは10分だったのに。', 'いつもは10分ではなかった。',
+                                      'いつもは短かったのに。',
+                                      'いつもは十日だったのに。いつもは10分だったのに。')),
+            ('自分からかけた一本の電話', ('父からかかってきた一本の電話', '自分からかける予定の一本の電話',
+                                    '自分からかけなかった一本の電話', '自分からかけた二本の電話',
+                                    '自分からかけた11通の電話', '自分からかけた一時間の電話',
+                                    '自分からかけた一人の電話', '自分からかけた-1通の電話',
+                                    '自分からかけた+1通の電話', '自分からかけた−一通の電話',
+                                    '自分からかけた電話')),
+        ):
+            bads.extend(good.replace(old, value) for value in alternatives)
+        bads.extend((
+            good.replace('天気、', '一時間。天気、'),
+            good.replace('天気、', '二通の電話。天気、'),
+            good.replace('生んだのだ。', '生まなかったのだ。'),
+            good.replace('日曜の午前', '日曜の夜'),
+            good.replace('1時間が過ぎた。', '時間が過ぎた。')
+                .replace('天気、', '1時間が過ぎた。天気、'),
+            good.replace('いつもは10分だったのに。', 'いつもは短かったのに。')
+                .replace('故郷の町の話。', '故郷の町の話。いつもは10分だったのに。'),
+            good.replace('一本の電話', '二本の電話') + good.split('\n')[-1],
+            '\n'.join(reversed(good.split('\n'))),
+        ))
+        for bad in bads:
+            errors = tool.translation_errors(leaf, 'ja', bad)
+            self.assertTrue(any('source-bound father call ' in error for error in errors), (bad, errors))
+
+    def test_callback_japanese_father_call_source_scope(self):
+        source = ('한 시간이 지났다.\n\n'
+                  '평소엔 10분이었는데. 날씨, 음식, 서울 집값, 고향 동네 이야기.\n\n'
+                  '일요일 오전에 이유 없이 먼저 건 전화 하나가 — 이 대화를 만든 것이다.')
+        good = ('1時間が過ぎた。\n\n'
+                'いつもは10分だったのに。天気、食べ物、ソウルの住宅価格、故郷の町の話。\n\n'
+                '日曜の午前、用事もなく自分からかけた一本の電話が――この会話を生んだのだ。')
+        for changed in (
+            source.replace('한 시간', '두 시간'), source.replace('지났다', '지날 것이다'),
+            source.replace('10분', '20분'), source.replace('10분', '10시간'),
+            source.replace('먼저 건', '아버지에게서 온'), source.replace('전화 하나', '전화 둘'),
+            source.replace('일요일 오전', '월요일 오후'), source + '\n그뿐이다.',
+        ):
+            self.assertIsNone(tool._ja_father_call_time_numbers(changed, good), changed)
+            leaf = tool.Leaf('events', 'example', 'content/events/callback_events_55.json',
+                             ('choices', 1, 'result_text'), changed, 'event_standard')
+            self.assertTrue(tool.translation_errors(leaf, 'ja', good), changed)
+        # Native-only source changes can still pass the old generic checker;
+        # licence OFF is not a claim that every semantic mutation is rejected.
+        native = good.replace('1時間', '一時間')
+        changed = source.replace('일요일 오전', '월요일 오후')
+        self.assertIsNone(tool._ja_father_call_time_numbers(changed, native))
+        leaf = tool.Leaf('events', 'example', 'content/events/callback_events_55.json',
+                         ('choices', 1, 'result_text'), changed, 'event_standard')
+        self.assertEqual(tool.translation_errors(leaf, 'ja', native), [])
+
     def test_family_source_bound_minsu(self):
         from zh_translation_audit import _untranslated_english_errors as check
         for source, target in (
