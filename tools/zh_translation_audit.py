@@ -277,6 +277,8 @@ CALLBACK_COUNTER_KINDS = frozenset({
     "banchan_son_visit_invitation", "warned_victim_meal_invitation",
     "leverage_trap_condition", "gray_entry_condition", "racetrack_win_count", "racetrack_loss_count",
     "additional_investment_review_count",
+    "first_meal_people_pair", "recalled_one_plus_one_offer", "promoted_each_greeting",
+    "headhunter_meeting_invitation", "retrospective_choice_pair",
 })
 LIFE_SCENE_COUNTER_KINDS = WORK_SCENE_COUNTER_KINDS | SPENDING_SCENE_COUNTER_KINDS | FAMILY_SCENE_COUNTER_KINDS | MEDIA_SCENE_COUNTER_KINDS | HIDDEN_SCENE_COUNTER_KINDS | PROLOGUE_COUNTER_KINDS | DRAMA_COUNTER_KINDS | CREATOR_COUNTER_KINDS | DAILY_MOMENT_COUNTER_KINDS | SOCIAL_COST_COUNTER_KINDS | CALLBACK_COUNTER_KINDS | frozenset({
     "remaining_four_month", "job_posting_count", "egg_count", "task_count",
@@ -1271,6 +1273,8 @@ def _source_counter_kind(
     following = source[match.end():].lstrip()
     preceding = source[max(0, match.start() - 120):match.start()]
     if counter == "번" and match.group("number") == "한":
+        if source.startswith('헤드헌터에게서 전화가 왔다.\n"현재 연봉 대비 ') and preceding.endswith('\n이직 의향이 있으시면 ') and following == '만나보시겠어요?"':
+            return "headhunter_meeting_invitation"
         if preceding.endswith('\n다음 날 또 문자가 왔다.\n레버리지는 ') and following == '물리면 스스로 끊기가 어렵다.\n그게 중독이었다.':
             return "leverage_trap_condition"
         if preceding == '상대가 요구를 꺼냈다.\n단순한 돈이 아니었다.\n회색지대에 ' and following == '발을 담그면 — 나오는 게 쉽지 않다.':
@@ -1665,6 +1669,18 @@ def _source_audience_quantities(source: str) -> list[CounterQuantity]:
 def _source_counter_quantities(source: str) -> list[CounterQuantity]:
     quantities: list[CounterQuantity] = []
     quantities.extend(_source_audience_quantities(source))
+    # The first shared meal, distributive greeting, and two retrospective
+    # choices own their complete predicates, not every bare 둘/한 명 in prose.
+    for pattern, value, kind in (
+        (r"(?<=^다은과 처음 )둘(?=이 밥을 먹었던 날\.\n한 달이 지났다\.\n오늘 다은에게서 카톡이 왔다\.\n'민준씨\. 다음 주에 혹시 시간 되세요\?'$)", 2, "first_meal_people_pair"),
+        (r'^한 명 한 명(?=한테 "잘 부탁해요"라고 했다\.\n다들 웃었다\.\n승진은 이 사람들 앞에서 더 잘 해야 한다는 신호였다\.$)', 1, "promoted_each_greeting"),
+        (r"(?<=\n\n)둘(?= 다 자기 선택이었다\.$)", 2, "retrospective_choice_pair"),
+    ):
+        if kind == "retrospective_choice_pair" and not source.startswith("달력에는 끝내 쓰지 않은 날짜가 있었다.\n{name}은 그 빈칸을 없던 약속처럼 미화하지 않았다. 늦었다는 사실과, 한 번은 제때 달려갔다는 사실을 같은 페이지에 적었다.\n\n"):
+            continue
+        for match in re.finditer(pattern, source):
+            if not _has_numeric_sign_prefix(source, match.start()):
+                quantities.append(CounterQuantity(match.start(), match.end(), Decimal(value), kind))
     for pattern, value, kind in (
         (r"(?<=나머지 )두 명(?=엔 카카오뱅크로 각 )", 2, "wedding_transfer_recipients"),
         (r"(?<=호텔 디럭스룸 )1박(?=\s+\. 조식 포함\.)", 1, "hotel_price_night"),
@@ -1794,7 +1810,8 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
             quantities.append(CounterQuantity(match.start(), match.end(), Decimal(198), "group_message_count"))
     if "삼각김밥" in source:
         for match in re.finditer(r"(?<!\d)1\s*\+\s*1(?!\d)", source):
-            quantities.append(CounterQuantity(match.start(), match.end(), Decimal(1), "one_plus_one_offer"))
+            kind = "recalled_one_plus_one_offer" if source == '편의점에 다시 들른 밤, 다은이 삼각김밥 진열대를 정리하다 말했다.\n"{name}씨, 처음 왔을 때 1+1 행사 알려드린 거 기억해요? 그날 바로 이름 물어보셨잖아요."' else "one_plus_one_offer"
+            quantities.append(CounterQuantity(match.start(), match.end(), Decimal(1), kind))
     for match in re.finditer(r"일요일\s+하나(?=$|[\s.,]|[를가는도])", source):
         quantities.append(CounterQuantity(match.start(), match.end(), Decimal(1), "sunday_count"))
     # Observed year-four noun counts carry their own objects: three notices
@@ -2171,6 +2188,16 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
 def _target_pattern_for_kind(kind: str) -> re.Pattern[str]:
     # The broad witnesses include observed wrong units/actions, so an invalid
     # first clause cannot borrow a later correct number of the same kind.
+    if kind == "first_meal_people_pair":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})\s*(?P<callback_unit>[個个]?人|年|公里)")
+    if kind == "recalled_one_plus_one_offer":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})\s*(?P<offer_operator>[+＋−-])\s*(?P<offer_free>{CHINESE_CARDINAL})(?:\s*(?:活動|活动)?[，,]?\s*[買买](?P<offer_buy>{CHINESE_CARDINAL})[送贈赠](?P<offer_gift>{CHINESE_CARDINAL}))?|[買买](?P<only_buy>{CHINESE_CARDINAL})[送贈赠](?P<only_gift>{CHINESE_CARDINAL})")
+    if kind == "promoted_each_greeting":
+        return re.compile(rf"(?P<implicit>挨[個个])|(?P<number>{CHINESE_CARDINAL})(?P<callback_unit>[個个]{{1,2}}|人|年|公里)")
+    if kind == "headhunter_meeting_invitation":
+        return re.compile(rf"[見见](?P<state>了|[過过])?(?P<sign>[+＋−﹣－負负-])?\s*(?P<number>{CHINESE_CARDINAL})?(?P<callback_unit>[個个]?面|次|年|公里)")
+    if kind == "retrospective_choice_pair":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})(?P<callback_unit>者|[個个]人|年|公里)")
     if kind == "additional_investment_review_count":
         return re.compile(rf"(?P<number>{CHINESE_CARDINAL})(?P<callback_unit>件事|點|点|項|项|年|公里)")
     if kind in {"leverage_trap_condition", "gray_entry_condition"}:
@@ -2743,6 +2770,33 @@ def _callback_quantity_valid(kind: str, match: re.Match[str], target: str) -> bo
     if fields.get("sign") or re.search(r"(?:不(?:是)?|沒(?:有)?|没(?:有)?)\s*$", before):
         return False
     unit = fields.get("callback_unit")
+    if kind in {"first_meal_people_pair", "recalled_one_plus_one_offer", "promoted_each_greeting", "headhunter_meeting_invitation", "retrospective_choice_pair"}:
+        # Only horizontal presentation spacing is immaterial; the source's
+        # paragraph and quoted-action positions remain part of each contract.
+        before = re.sub(r"[ \t　]+", "", before)
+        after = re.sub(r"[ \t　]+", "", after)
+    if kind == "first_meal_people_pair":
+        return unit in {"個人", "个人", "人"} and before in {"第一次和Daeun", "和Daeun第一次"} \
+            and bool(re.match(r"一起吃[飯饭]的那天。\n", after))
+    if kind == "recalled_one_plus_one_offer":
+        values = [fields.get(k) for k in ("number", "offer_free", "offer_buy", "offer_gift", "only_buy", "only_gift")]
+        if any(v and _chinese_cardinal_value(v) != 1 for v in values) or (fields.get("number") and fields.get("offer_operator") not in {"+", "＋"}):
+            return False
+        return before in {
+            '再次走进便利店的那个晚上，Daeun一边整理三角紫菜包饭的货架，一边说。\n“{name}，还记得您第一次来，我告诉您有',
+            '再次走進便利商店的那晚，Daeun整理著三角飯捲的貨架，開口說。\n「{name}，還記得你第一次來的時候，我告訴你有',
+        } and after in {'的活动吗？您那天马上就问了我的名字。”', '活動嗎？那天你馬上就問了我的名字。」'}
+    if kind == "promoted_each_greeting":
+        return not before and (bool(fields.get("implicit")) or unit in {"個個", "个个"}) \
+            and after in {'对大家说：“以后请多关照。”\n大家都笑了。\n升职，是个信号——在这些人面前，得做得更好。', '地說：「請多指教。」\n大家都笑了。\n升職，是得在這些人面前做得更好的訊號。'}
+    if kind == "headhunter_meeting_invitation":
+        lines = before.split("\n")
+        return not fields.get("state") and unit in {"面", "個面", "个面"} and len(lines) == 3 \
+            and lines[0] in {"猎头打来电话。", "獵頭打來了電話。"} \
+            and lines[2] in {"如果有意跳槽，愿意", "如果有意願換工作，要不要先"} and after in {'吗？”', '？”', '？」'}
+    if kind == "retrospective_choice_pair":
+        return unit == "者" and before.count("\n") == 3 and before.endswith("\n\n") \
+            and bool(re.fullmatch(r"，都是自己的[選选][擇择]。", after))
     if kind == "additional_investment_review_count":
         return unit in {"件事", "點", "点", "項", "项"} \
             and bool(re.fullmatch(r"又(?:多[檢检]查了|核查了)", before)) \
@@ -3386,6 +3440,8 @@ def _match_target_counter_quantities(
                 value = Decimal(2)
             if expected.kind in {"callback_dinner_invitation", "warned_victim_meal_invitation"} and not match.group("number"):
                 value = Decimal(1)
+            if expected.kind in {"promoted_each_greeting", "headhunter_meeting_invitation", "recalled_one_plus_one_offer"} and not match.group("number"):
+                value = Decimal(1)
             if expected.kind in SOCIAL_COST_COUNTER_KINDS and (not match.group("number") or expected.kind == "golf_round_fee_range"):
                 value = Decimal(1)
             if expected.kind == "birthday_greeting_people_range":
@@ -3584,6 +3640,13 @@ def _unexpected_target_entity_errors(
         ):
             continue
         value = _chinese_cardinal_value(match.group("number"))
+        if any(q.kind == "retrospective_choice_pair" for q in source_quantities) \
+                and target[:match.start()].endswith("把已经晚了，和有一次确实及时赶到了这") \
+                and re.fullmatch(rf"{CHINESE_CARDINAL}件", match.group()) \
+                and target[match.end():].startswith("事，写在同一页。\n\n"):
+            if value != 2:
+                errors.append("retrospective paired-fact reference quantity changed")
+            continue  # The same explicitly paired facts, not another two objects.
         # Chinese naturally introduces a singular classifier where Korean has
         # no overt `one`; only unmatched plural quantities are high-confidence
         # inventions at this automatic layer.
@@ -5813,6 +5876,81 @@ def _drama_parser_self_test() -> tuple[int, list[str]]:
     return cases, failures
 
 
+def _relationship_callback_parser_self_test() -> tuple[int, list[str]]:
+    """Five observed callback forms; finite source/target boundary witnesses."""
+    meal = "다은과 처음 둘이 밥을 먹었던 날.\n한 달이 지났다.\n오늘 다은에게서 카톡이 왔다.\n'민준씨. 다음 주에 혹시 시간 되세요?'"
+    offer = '편의점에 다시 들른 밤, 다은이 삼각김밥 진열대를 정리하다 말했다.\n"{name}씨, 처음 왔을 때 1+1 행사 알려드린 거 기억해요? 그날 바로 이름 물어보셨잖아요."'
+    greet = '한 명 한 명한테 "잘 부탁해요"라고 했다.\n다들 웃었다.\n승진은 이 사람들 앞에서 더 잘 해야 한다는 신호였다.'
+    hunt = '헤드헌터에게서 전화가 왔다.\n"현재 연봉 대비 30% 이상 조건입니다.\n이직 의향이 있으시면 한 번 만나보시겠어요?"'
+    memory = '달력에는 끝내 쓰지 않은 날짜가 있었다.\n{name}은 그 빈칸을 없던 약속처럼 미화하지 않았다. 늦었다는 사실과, 한 번은 제때 달려갔다는 사실을 같은 페이지에 적었다.\n\n둘 다 자기 선택이었다.'
+    rows = (
+        (meal, '第一次和Daeun两个人一起吃饭的那天。\n已经过去一个月了。\n今天，Daeun发来KakaoTalk消息。\n“Minjun，您下周有空吗？”', 'first_meal_people_pair', '两个人', ('三个人', '一个人', '−两个人', '+两个人', '两公里', '', '两个人还没', '两个人准备')),
+        (meal, '和 Daeun 第一次兩個人一起吃飯的那天。\n一個月過去了。\n今天，Daeun 傳來了 KakaoTalk 訊息。\n「Minjun，請問你下個星期有空嗎？」', 'first_meal_people_pair', '兩個人', ('三個人', '一個人', '−兩個人', '+兩個人', '兩年', '', '兩個人還沒', '兩個人準備')),
+        (offer, '再次走进便利店的那个晚上，Daeun一边整理三角紫菜包饭的货架，一边说。\n“{name}，还记得您第一次来，我告诉您有1+1买一送一的活动吗？您那天马上就问了我的名字。”', 'recalled_one_plus_one_offer', '1+1买一送一', ('2+1买一送一', '1+2买一送一', '1−1买一送一', '−1+1买一送一', '1+1公斤', '', '1+1买二送一', '1+1买一送二')),
+        (offer, '再次走進便利商店的那晚，Daeun 整理著三角飯捲的貨架，開口說。\n「{name}，還記得你第一次來的時候，我告訴你有1+1活動嗎？那天你馬上就問了我的名字。」', 'recalled_one_plus_one_offer', '1+1', ('2+1', '1+2', '1−1', '−1+1', '1+1公斤', '', '1+1買二送一', '1+1買一送二')),
+        (greet, '挨个对大家说：“以后请多关照。”\n大家都笑了。\n升职，是个信号——在这些人面前，得做得更好。', 'promoted_each_greeting', '挨个', ('三个人', '两个人', '−挨个', '+挨个', '一公里', '', '没有挨个', '准备挨个')),
+        (greet, '一個個地說：「請多指教。」\n大家都笑了。\n升職，是得在這些人面前做得更好的訊號。', 'promoted_each_greeting', '一個個', ('三個個', '兩個個', '−一個個', '+一個個', '一公里', '', '沒有一個個', '準備一個個')),
+        (hunt, '猎头打来电话。\n“以您目前的年薪为基准，条件在30%以上。\n如果有意跳槽，愿意见一面吗？”', 'headhunter_meeting_invitation', '见一面', ('见两面', '见三面', '见−个面', '见+一面', '见一公里', '', '见了一面', '见过一面')),
+        (hunt, '獵頭打來了電話。\n「條件是，相較於您目前的年薪，30%以上。\n如果有意願換工作，要不要先見個面？」', 'headhunter_meeting_invitation', '見個面', ('見兩個面', '見三個面', '見−個面', '見+個面', '見一公里', '', '見了個面', '見過個面')),
+        (memory, '日历上，有始终没有填下的日期。\n{name}没有把那片空白粉饰成从未有过的约定。把已经晚了，和有一次确实及时赶到了这两件事，写在同一页。\n\n两者，都是自己的选择。', 'retrospective_choice_pair', '两者', ('三者', '一者', '−两者', '+两者', '两公里', '', '并非两者', '两者并非')),
+        (memory, '日曆上，有最終沒有寫下的日期。\n{name}沒有把那片空白粉飾成一個不曾有過的約定。已經太遲的事實，和曾有一次及時趕到的事實，都寫在同一頁上。\n\n兩者，都是自己的選擇。', 'retrospective_choice_pair', '兩者', ('三者', '一者', '−兩者', '+兩者', '兩年', '', '並非兩者', '兩者並非')),
+    )
+    cases, failures = 0, []
+
+    def check(source: str, target: str, valid: bool) -> None:
+        nonlocal cases
+        cases += 1
+        errors = _numeric_errors(source, target)
+        if bool(errors) == valid:
+            failures.append(f"relationship callback expected valid={valid}: {source!r} -> {target!r}: {errors}")
+
+    for source, normal, kind, span, forms in rows:
+        check(source, normal, True)
+        for form in forms:
+            check(source, normal.replace(span, form), False)
+        check(source, normal.replace('\n', ' ', 1), False)
+        # Keep other durations/rates out of this witness: rejection must be
+        # owned by the newly supported kind, not borrowed from another count.
+        qs = [q for q in _source_counter_quantities(source) if q.kind == kind]
+        for form in (forms[0], forms[4]):
+            wrong = normal.replace(span, form) + '\n' + normal
+            matched, errors = _match_target_counter_quantities(wrong, qs)
+            errors += _unexpected_target_entity_errors(wrong, qs, matched)
+            cases += 1
+            if not errors:
+                failures.append(f"relationship callback borrowed later normal: {kind}: {wrong!r}")
+        changed = normal.replace('Daeun', 'Jiyeon') if kind in {'first_meal_people_pair', 'recalled_one_plus_one_offer'} else normal
+        if kind == 'promoted_each_greeting':
+            changed = '她' + normal
+        elif kind == 'headhunter_meeting_invitation':
+            changed = normal.replace('如果有意跳槽，', '').replace('如果有意願換工作，', '')
+        elif kind == 'retrospective_choice_pair':
+            changed = normal.replace('自己的', '別人的')
+        check(source, changed, False)
+    for source, kind, variants in (
+        (meal, 'first_meal_people_pair', ('셋이 밥을 먹었던', '둘이 밥을 먹을')),
+        (offer, 'recalled_one_plus_one_offer', ('2+1 행사', '1+1 선물')),
+        (greet, 'promoted_each_greeting', ('두 명 한 명한테', '한 명 한 명에게 보낼')),
+        (hunt, 'headhunter_meeting_invitation', ('두 번 만나보시겠어요?', '한 번 만났어요.')),
+        (memory, 'retrospective_choice_pair', ('셋 다 자기 선택이었다.', '둘 다 남의 선택이었다.')),
+    ):
+        original = {meal: '둘이 밥을 먹었던', offer: '1+1 행사', greet: '한 명 한 명한테', hunt: '한 번 만나보시겠어요?', memory: '둘 다 자기 선택이었다.'}[source]
+        for variant in variants:
+            cases += 1
+            changed = source.replace(original, variant)
+            if any(q.kind == kind for q in _source_counter_quantities(changed)):
+                failures.append(f"relationship callback source license escaped: {changed!r}")
+        cases += 1
+        if any(q.kind == kind for q in _source_counter_quantities('메모를 읽었다.')):
+            failures.append(f"relationship callback kind escaped absent source: {kind}")
+    # The CN apposition re-identifies precisely the same two recorded facts;
+    # it cannot accept another count, signed reference, or another noun.
+    source, normal = rows[8][:2]
+    for wrong in ('三件事', '一件事', '−两件事', '两个人', '两公里'):
+        check(source, normal.replace('两件事', wrong), False)
+    return cases, failures
+
+
 def _investment_callback_outcome_parser_self_test() -> tuple[int, list[str]]:
     """Four actual callback contexts: conditional traps, score, extra review."""
     leverage = "300만원을 더 넣었다.\n다음 날 또 문자가 왔다.\n레버리지는 한 번 물리면 스스로 끊기가 어렵다.\n그게 중독이었다."
@@ -6670,6 +6808,9 @@ def run_self_test(
     investment_callback_cases, investment_callback_failures = _investment_callback_outcome_parser_self_test()
     cases += investment_callback_cases
     failures.extend(investment_callback_failures)
+    relationship_callback_cases, relationship_callback_failures = _relationship_callback_parser_self_test()
+    cases += relationship_callback_cases
+    failures.extend(relationship_callback_failures)
 
     # Exact Korean-source catalogue names are not permission for unrelated
     # English prose or for deleting the noun around an allowed brand token.

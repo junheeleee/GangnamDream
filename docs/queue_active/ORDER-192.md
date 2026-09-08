@@ -159,3 +159,46 @@ named full-game-localization-overlays --list 뒤 선택12검사·EN·diff·전�
 
 이 범위·배치·증거 절차는 일회성이다. 지속 규칙은 I18N_INFRASTRUCTURE와
 언어별 용어집이 소유하며 새 서사·제품·출시 규칙을 만들지 않는다.
+
+## 수용 결과 — 360번역·L1/L2, L3 OPEN
+
+- 선언 `a50cc0939e9bd83e70e1c92120efde29de95487f` commit/push 뒤
+  initial source3(각121행·120 previous null)을 저작 전에 봉인했다.
+  KO 직접 독립 저작 뒤 다른 검토자/ROOT가360문구 전부를 대조했다.
+- 기존9번 첫12행70leaf의 값/순서/raw object prefix를 보존하고 새3행,
+  새10번17행만 썼다. 40선택·LF128·{name}8은 원문과 같다.
+  기존19,854/meta9/batch43에서20,214(각6,738),
+  events774종5,670·endings234·catalog834씩, batch44다.
+- L2 필수1: JA 사별 회고의 제때 달려간 실제 사실을 목적형에서 복원했다.
+  정밀3: JA 다은의 제대로 전달됨/존대, CN 문자 답장 채널,
+  TW 연락처 미수령이다. 다른 검토자가 네 수정문구를 재대조했고
+  역치환으로 동결 records를 복원해 다른 JA118/CN119/TW119문구 불변을 확인했다.
+- ZH 첫두사람식사·회고1+1·한명씩인사·이직만남제안·회고의두선택이라는
+  실제5문맥의 수량 오탐6leaf만 원문에 결속해 수리했다.
+  CN의 두사실 재지칭도 같은 두 사실로 소비하며 별도 수량 발명은 거부한다.
+  값·부호·단위·역할·상태·문단·누락·뒤정상문차용·원문경계를 검사했다.
+  ZH self5778=5628+150 PASS, 기존 JA 도구 변경0이다.
+  전역 의미 인증이나 원어민 판정은 아니다.
+- 명시 감사 차선에 이번 사양192 경로 하나만 등록했다. 나머지 검사·범위는
+  그대로이며, 미등록으로 시작을 거부한 뒤 같은 선택12 차선을 다시 실행한다.
+- 최종 source/response/receipt3쌍을 initial·현재 source/target과 결속했다.
+  실물360 L1 오류0·check/import --accept changed_files0. records120 SHA는
+  JA `4070e83934b23c771efd49269d0321329ab7b93a5eb322af2d2377705e993c67`,
+  CN `e76af138d69efb546c3ffac3b1a9fa9a0b2080d8d6b38b1c6c936f541eee5e62`,
+  TW `be3cd1230f6ee861413a51844b9862caf743a3a82055a4c3702e2f275b63f80c`.
+- 완료189 WORK_LOG절1,132bytes만 history 앞으로 원문 이동했다.
+  history41,632→42,764bytes SHA
+  `56e24d3d9df30b0e35ddff527850b1b02cf9b1f294d85a89b9fd33ced8589273`.
+  기존 내용·끝 LF2 byte-exact 보존, 같은 활성 이어보기 [~]·L3 OPEN이다.
+- 사별을 새 방문으로, 검진예약을 완료로, 이직제안을 채용으로 만들지 않았다.
+  실제 답장·앞선 제때 방문·상환은 지우지 않았다. 원문의 연봉30% 기준 생략·
+  시간 압축·주거조건 등 부채는 번역으로 수리0이다.
+  KO/EN·runtime·공개·fonts·save·human_gates 변경0, 원본 checkout 쓰기0.
+  전체 INCOMPLETE·full/main/product HOLD·원어민/화면 OPEN,
+  출시 M01~M06 사용자 GO 유지. 자동 검사는 사람 판정 대체물이 아니다.
+- portable checksum `826a91741140aab36d20c40b4a929683036ba7bce1a2f10f9cee1ffbabbdead6`.
+- 최종 named12·EN strict·전량20,214 source/target hash와 L1·diff 검사 PASS.
+  full self192/ZH self5778이며, 별도 독립 가드70(정상10/변조50/원문경계10)
+  PASS는 자체 fixture 수와 합산하지 않는다. 고정 집합 필수 발견0이다.
+  실제 stdout `order192-final-checks.log` 4,682bytes SHA
+  `b1aa14c9442ea6e4eb1f0f6dd67a6b11ad796426892b11aaf673af8d0e59c491`.
