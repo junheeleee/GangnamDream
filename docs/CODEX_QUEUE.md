@@ -78,6 +78,7 @@
 | 63 | [~] | ORDER-99 · SAVE-P0 | [99](queue_active/ORDER-99.md) | 사용자 확인 대기 |
 | 64 | [~] | ORDER-97 · LOC-0.5 | [97](queue_active/ORDER-97.md) | L3 대기 |
 | 65 | [~] | ORDER-98 · PAD-1 | [98](queue_active/ORDER-98.md) | 물리 패드 L3 OPEN |
+| 66 | [ ] | ORDER-203 · 원어민 게이트를 미검수 표시로 내린다 | [203](queue_active/ORDER-203.md) | 원장 7건·유저 표면 고지 · 선행 없음·미착수 |
 
 완료 검토 상세는 [원문 보관](queue_archive/CODEX_QUEUE_2026-09.md#현지화-수용-상세-2026-09-07)으로 옮겼다. 각 활성 L3는 OPEN이다.
 
