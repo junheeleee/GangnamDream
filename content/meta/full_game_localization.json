@@ -1281,6 +1281,42 @@
       "machine_validation": "PASS",
       "rendered_review": "OPEN",
       "native_review": "OPEN"
+    },
+    {
+      "order": "ORDER-185",
+      "group": "events",
+      "roots": [
+        "drama_public_contest_win",
+        "drama_health_scare",
+        "drama_apartment_lottery_win",
+        "drama_layoff_survivor",
+        "drama_mentor_intro",
+        "drama_startup_acquisition",
+        "drama_election_theme_stock",
+        "drama_parents_financial_crisis",
+        "startup_first_user_traction",
+        "startup_team_conflict",
+        "creator_algorithm_penalty",
+        "creator_hater_crisis",
+        "creator_collab_offer",
+        "drama_addiction_mirror",
+        "drama_addiction_debt",
+        "drama_addiction_warning",
+        "creator_first_income",
+        "creator_breakout_video",
+        "addiction_recovery_step",
+        "addiction_clean_hands_echo"
+      ],
+      "source_leaves": 146,
+      "target_leaves_by_locale": {
+        "ja": 146,
+        "zh-CN": 146,
+        "zh-TW": 146
+      },
+      "source_review": "Independent Korean-source comparison across all 438 leaves; startup acquisitions, creator views and estimated income, actual meetings/payments/calls, and recovery versus cure remain distinct; previous drama rows and all source/runtime preserved",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN"
     }
   ],
   "accepted": {
@@ -23316,6 +23352,590 @@
       "events:story_two_year:/title": {
         "source_sha256": "5f50536ef3c7d8f62a7537a420b93f09abcf57f8e0f2738bf92f6e0da9fd55d4",
         "target_sha256": "ce94127e8e74e8e0e572cd5564239d33bfc568d1f45e20de309cd6dee3953edf"
+      },
+      "events:addiction_clean_hands_echo:/choices/0/result_text": {
+        "source_sha256": "01092b8aabbe0f7b49edde1e0e748b42f89fb5485bdfe52c1b1672b3933eae6a",
+        "target_sha256": "23a56f5130027881409250691dd680894d25c0432d36e476716d85f400d58c8c"
+      },
+      "events:addiction_clean_hands_echo:/choices/0/text": {
+        "source_sha256": "9293cdbeb856d414b7d46b57a02d5b857f6c099b5dc5d39159cc86bf6652678c",
+        "target_sha256": "ea5d68b55323eb2fbbffb10e8a5b9d9e020014bd0aaf82011ce9266504b5d8eb"
+      },
+      "events:addiction_clean_hands_echo:/choices/1/result_text": {
+        "source_sha256": "66240da9d2d82d3c436e8f2701b9e05db78d6f3c2a13707874d79487269152a3",
+        "target_sha256": "ba49dbd6a4554e300f3242dfb9a18a7a8ddf94511471335424b5c94259cf929f"
+      },
+      "events:addiction_clean_hands_echo:/choices/1/text": {
+        "source_sha256": "b052e6b2c67b298ab0da75624fea16a50a0c9afea0b8db224d22b02cf9ae257f",
+        "target_sha256": "5e604bead2a9aa58a93604004d8cda17a020608c77e078733b2423a8c81373b4"
+      },
+      "events:addiction_clean_hands_echo:/description": {
+        "source_sha256": "40042a688e55c4a737aa6a787572b0ced09cab5f2a384f23c206b3aaca997b45",
+        "target_sha256": "d515d0b83d674cba319e09c3a572533d26db7274c5caa2ffe193256b7fae248f"
+      },
+      "events:addiction_clean_hands_echo:/title": {
+        "source_sha256": "3964a3f7727a4cfa297c63f33be26d0aff8a4d4e72f5a52b8a603c68e261134a",
+        "target_sha256": "c4380eed43ec7c8bcb387314ed39161c4a20d09f1ef66a7b7ad73c7aa83394cc"
+      },
+      "events:addiction_recovery_step:/choices/0/result_text": {
+        "source_sha256": "27338da41a081cc19cb2203db275e89e4ee13525d727ec38ecb350f2f4ec0d55",
+        "target_sha256": "100276a20cc28531784b382ad6b30bd83c9ff7b992970eca6fc436e522ae0735"
+      },
+      "events:addiction_recovery_step:/choices/0/text": {
+        "source_sha256": "6fa29701d831a67449b1d6d8e301bf04fd32a0415a958aa9cba98c24e2cc8826",
+        "target_sha256": "d22bbe47d7ed4b4ee5c5cc73e026a448b9817dacf51d02431594b91bdfb850b5"
+      },
+      "events:addiction_recovery_step:/choices/1/result_text": {
+        "source_sha256": "1295798edec3ed62c78841daacdd148a5b7872d3cbcaa12c7e0f851aeaf18451",
+        "target_sha256": "9c7fc937f7f116274b93c59d5fd1f46e2b9e53404b20ae7209772ff2524a8c11"
+      },
+      "events:addiction_recovery_step:/choices/1/text": {
+        "source_sha256": "2900933acee4c6f2f4dd55c86e02792282dd31ac0bce27233a9bfd047046814c",
+        "target_sha256": "11e17abba7098d67261b82e109bc7833fcc5593966ec775c174a2987b0a88322"
+      },
+      "events:addiction_recovery_step:/description": {
+        "source_sha256": "93e53c387e28bf71102331ff47f6b4125709c4972974e1a61e38dc4666f1d4ae",
+        "target_sha256": "adf9fdadd828969e469cd8ceb145e9210febe9ee655252a2973a4021a62c9c77"
+      },
+      "events:addiction_recovery_step:/title": {
+        "source_sha256": "f105371842ecedce17b61465458b0a513e80122b8b0a7cbe00dc77bb389e156e",
+        "target_sha256": "17da2f0a0772d8e0c52d79a427f05adc8eacb5f356eb3b2e5879d10d3f8e1d82"
+      },
+      "events:creator_algorithm_penalty:/choices/0/result_text": {
+        "source_sha256": "a2fd822e57c9770b8ba23b1477a1b7e2df5676730baae75b126fca1ee7dde940",
+        "target_sha256": "806191d61de1a0d982fd860bb8a3a1a99dc868b3d5326396c82b9371666adf73"
+      },
+      "events:creator_algorithm_penalty:/choices/0/text": {
+        "source_sha256": "d462afad5120c00a5d09728e42d7019029d6c49ded80bd5a59d86281762c8fbb",
+        "target_sha256": "fd1da995e128ba00c323a948f1e812897db2305d506a7996ddd03d460ad18860"
+      },
+      "events:creator_algorithm_penalty:/choices/1/result_text": {
+        "source_sha256": "e8e6f6247a7827ecfda460537c9a65b17e8aeb046112ddcdf43c6e10d32ebe73",
+        "target_sha256": "19dfa57c2626e318d4ac994a76f517737e8bfc62c83bc0e784a1021978b4ef07"
+      },
+      "events:creator_algorithm_penalty:/choices/1/text": {
+        "source_sha256": "faa55dc3719b97ed991520fde6ea1e7557c903674fbeb00e1d8088e4319b93a1",
+        "target_sha256": "00e31e0356640a2271644e37a1de5adbf4008d428e9b49744940f6886ba4e3c0"
+      },
+      "events:creator_algorithm_penalty:/choices/2/result_text": {
+        "source_sha256": "ff0c49c8f0ec0182900a67d4ca5cc9040fd990b1ad45c6fafcae51d10209aac5",
+        "target_sha256": "2d052dfcadac63da499c257669fb6862ffc7350c459cb6ab80da7e89af2abcec"
+      },
+      "events:creator_algorithm_penalty:/choices/2/text": {
+        "source_sha256": "fdca45dd7929300ddc34c5a3a8055f71c1cac58cf2bf3443ed2c323a51dbe039",
+        "target_sha256": "c34e8f876b3a67ffacd347019f7350e49f695fe6ff7762325e52d29a1d0bbf7b"
+      },
+      "events:creator_algorithm_penalty:/description": {
+        "source_sha256": "11b5c3e8bad352338709e6f4ea6f30c3b9e34862384179ba7e448294b63d0199",
+        "target_sha256": "f643e7e3c40786c3f4bc60500fe640a37ebbe9c03c8800b7273ca3f15378b60b"
+      },
+      "events:creator_algorithm_penalty:/title": {
+        "source_sha256": "091f60bac1d661610e4213900d133b1c596ef1d6a112d415cd0a176471c43eff",
+        "target_sha256": "759ae546177f320d84e47e9af826bc2844422e49d15a7970ef6b0e37726b0817"
+      },
+      "events:creator_breakout_video:/choices/0/result_text": {
+        "source_sha256": "2c1c455e5fe8a4197117ebfe986ae1b17b6ff21b1f6d99eaa5e834eee3fa8ad2",
+        "target_sha256": "835b53189dafe1a65393af6ecf9e4ce86016805360001e9f31d792b2114843bd"
+      },
+      "events:creator_breakout_video:/choices/0/text": {
+        "source_sha256": "ec68f1ddcb2d70de6c8388b89db50dbc9910f389cf33ba5c48cd07dbff208455",
+        "target_sha256": "f617a67fe487fe61f26dd05d6b2e1dfe6ceb76ec9edc5927e581fe70f641bc1b"
+      },
+      "events:creator_breakout_video:/choices/1/result_text": {
+        "source_sha256": "d0f23ffb964839a6e89a0d7ddcbe99338c158dc820b75cc4e13c72ae6afe8ffd",
+        "target_sha256": "117d536a93d0bcffbaa8c969083dbba634ce15e72fcdb0c4700b7c10cb41dca0"
+      },
+      "events:creator_breakout_video:/choices/1/text": {
+        "source_sha256": "ce23a9dc600f2f5581268fb8b88bb49850a7fa8774d514eb9b1ffa4e9e985335",
+        "target_sha256": "80890aa0e436c299d925abe911f0196107c1585e013b5955856caab1716fb311"
+      },
+      "events:creator_breakout_video:/choices/2/result_text": {
+        "source_sha256": "e2d45d053c5d86926007a5ebc0a9ed583c405c61cf3376c5eb06da1a22834c42",
+        "target_sha256": "bb888fbe186606d6bcef2519e71bdf860be7c7ff432287f4d97bc3202e8b97dc"
+      },
+      "events:creator_breakout_video:/choices/2/text": {
+        "source_sha256": "134c1bf0fa9bc0d27545881d11148864afaef2b2fa750a5dc0ddd6c736d03685",
+        "target_sha256": "6f778837ebabee9a9b593f234366a39f7a6c7955687cc185be1e2967944dfe37"
+      },
+      "events:creator_breakout_video:/description": {
+        "source_sha256": "a1ca3c5ac0def454882c4239d7528b5c2ccd2399839784d8a89f887afb61567f",
+        "target_sha256": "ac08b9a779d8b57551e8ce2cf23de5447631a3796fa337d0505f286c081ae5fa"
+      },
+      "events:creator_breakout_video:/title": {
+        "source_sha256": "9ff4e70eee6c030c5180fd60bc79f0fb85dfffd64eedd35dba1078cf77f2b495",
+        "target_sha256": "21fbd63cf81f4993b10f85421f2ed71d74296bdbcef53b36e8d2eadcc7b98c56"
+      },
+      "events:creator_collab_offer:/choices/0/result_text": {
+        "source_sha256": "ac24f43f8e794b7bdabffb4b1bf18590b6168ce54757b8703ee7dccae35e2fb0",
+        "target_sha256": "dbc1d60f3494cadb675da88a8fa1c309477f44b9cc936efe0070534750bf06a9"
+      },
+      "events:creator_collab_offer:/choices/0/text": {
+        "source_sha256": "301793e25e22fd3a98713693032c78b85b56ac8e403e2880053adeff701d2184",
+        "target_sha256": "2b83a4c6f091c04475ed5a012534e950760393b550875a6c8a7fee9db5687c20"
+      },
+      "events:creator_collab_offer:/choices/1/result_text": {
+        "source_sha256": "c558271af36307a1593ec95b9e330be2bd953e3d04bef98f7fedb3f958e1aff1",
+        "target_sha256": "1372ccd215e4e5692978ff36f50bd9eeb5f934200cd45f29a72e040d4f573edc"
+      },
+      "events:creator_collab_offer:/choices/1/text": {
+        "source_sha256": "5f37d4cb5eed756a7744e89d793f756a0bf385bd6e71cd45a17f5f7fbd0b4d58",
+        "target_sha256": "a7c224ba36866e33706db8f49fdae65aa9c08b4925d7173a47aa28185a31b188"
+      },
+      "events:creator_collab_offer:/choices/2/result_text": {
+        "source_sha256": "3148663cce98a15b56b6e61a9fbf4d2d1f8ae1ed163a2b541ef5957b32b021aa",
+        "target_sha256": "194bc612e9dd124225c2718c5bc16b17d17b4b6dc358bf1313f0186f8b9a138f"
+      },
+      "events:creator_collab_offer:/choices/2/text": {
+        "source_sha256": "e35cd1466bd8d17045e9bc75fae058009473d5c76bbe640786978bb6fabf4345",
+        "target_sha256": "9236f033e57cd714b6dc148471988123f5fb27628789dc1ba7978600cc98fb6d"
+      },
+      "events:creator_collab_offer:/description": {
+        "source_sha256": "45e1236c530d0644f45e757036237f178b1cc829abdd38803dc47c308fe0df0a",
+        "target_sha256": "b47469d8e388e8531f61b5b18220de408c1eca53fc0fd1981ea68f1387196415"
+      },
+      "events:creator_collab_offer:/title": {
+        "source_sha256": "ba03eee7e069fa4feac2946b5ee469ac797185b6c80ad36c7e22f6028812f4f2",
+        "target_sha256": "f57f3bb091699f305b58d2e54f97a2da52d8f6c7022fc8055d165b078897a6c8"
+      },
+      "events:creator_first_income:/choices/0/result_text": {
+        "source_sha256": "87f8539fe6aa7888a8031e573c3e34cfffeaa5b8082d3c70cd7a7eee5947b065",
+        "target_sha256": "290453d43168d3cebeaf3e83b8f4a59498c215af8289c6956356fbc75fe58866"
+      },
+      "events:creator_first_income:/choices/0/text": {
+        "source_sha256": "21062760fd56cceb56ed9503df871e31a7d710fb697227f81fd5216310c26c38",
+        "target_sha256": "5e3bb7d6e01a2b8b8dcff453ce57e3c43ac908bbfebc44df116be11ad0876af4"
+      },
+      "events:creator_first_income:/choices/1/result_text": {
+        "source_sha256": "58cd18303931a63b37aceefdf19bf0227ab97f8d2cdf3c36a1aa9c9e20ad5466",
+        "target_sha256": "0ab6fd9fd01d9aa7e3850e74ccf1e14b2a36ef905c26d113beba9711b4e7114d"
+      },
+      "events:creator_first_income:/choices/1/text": {
+        "source_sha256": "28cd89947fb1b85f9174e5f82e908b0ef6af6561a8d7a5bcc30fde722d4c8c83",
+        "target_sha256": "0e75c0c9a52307f365f58150fc208f96e1a8a461c719fcc895402b9790f28486"
+      },
+      "events:creator_first_income:/description": {
+        "source_sha256": "0293dfcead65ddad8a0e1d8b25eb84b7e76996b8f44fd45fbadd4be379683722",
+        "target_sha256": "db6b09f1663430247555c7537f900e78116005b2ca49a3560f55184fbcc939d2"
+      },
+      "events:creator_first_income:/title": {
+        "source_sha256": "e33bddc57cb3542aacef7b7abf7141324beec3068e3dd681dfb1954dfa83132f",
+        "target_sha256": "2763902b44338d0fd59ba316a4f7c0b6cf4adc746a29bf8b4b654ae5eff562d6"
+      },
+      "events:creator_hater_crisis:/choices/0/result_text": {
+        "source_sha256": "aea9e6f63448d454a1ee5f453758eb6d26e9a253fccaf4d5153e2a233a6422a2",
+        "target_sha256": "ba1ea0553a4c13484938829966990704a7430d1ab6e43d7c0e6bddc159c432e3"
+      },
+      "events:creator_hater_crisis:/choices/0/text": {
+        "source_sha256": "5dcd95eed35fb1c716ea2ef68e9b188ac1e936cf1d73a33de7ea016efb54db4c",
+        "target_sha256": "bdaea7ca6f707f7d2dade3780dfcd890d1edf9ff303c2f9c0285ba78d7391fdd"
+      },
+      "events:creator_hater_crisis:/choices/1/result_text": {
+        "source_sha256": "cc4b2415df8bbe819d2715d5666fb6c8949ece087c84ed90ce2db3f14c6f8bbf",
+        "target_sha256": "0073ceceb61fbf6c34755feaa01c70f3ce5a3e471713ddaef3892bab2b05a81f"
+      },
+      "events:creator_hater_crisis:/choices/1/text": {
+        "source_sha256": "27406aa1bd09a2f8c45a11f3e8710b534b0e01bfcd4fb180be4f93d0c43f3c54",
+        "target_sha256": "faefc90991e409500f2ac0c6c12bd8a0e899ba0ca61c972d4b18b2d1447cb631"
+      },
+      "events:creator_hater_crisis:/choices/2/result_text": {
+        "source_sha256": "2ebf08869bf1918dd8e5c008d9412b71a37befc43daecd417af129d5e2bde1c6",
+        "target_sha256": "ae367cf29c94e673bbd2ae4c35bed69591dd0c0eab39f7db6d0d599fddfb9e25"
+      },
+      "events:creator_hater_crisis:/choices/2/text": {
+        "source_sha256": "d7921c4fc846b1570e128867d24aa069ad248d3b7e3fefacabbd7a7d82f0ed7a",
+        "target_sha256": "f0791c4683a8ef91fc3c972ee8fa63089b17d63c3dcdc5ecccf95ae9d4d48ff4"
+      },
+      "events:creator_hater_crisis:/description": {
+        "source_sha256": "a999cf4aedd43627680824647650740c271d3752f7dcfc372ccd084f9da56130",
+        "target_sha256": "d3d76b085e1eb3a0bfd7d379a3da1b4c3c10680c330a93df6b3ef7e6cdb3ffc5"
+      },
+      "events:creator_hater_crisis:/title": {
+        "source_sha256": "29882737f8c6e4a9fd570782d77bc37d8a5b16b1e1af60f9f5ce79a9b3981f76",
+        "target_sha256": "47e6d0c73bff653a355ea4c6d9d5f9e0a2bff5956053581517f1f52af2c1abc3"
+      },
+      "events:drama_addiction_debt:/choices/0/result_text": {
+        "source_sha256": "8ae2fac62ee08f4653eda593977d639e6c3fbba0145d645e54bf826e2c5fa46a",
+        "target_sha256": "997f36899795824e82906c3a0f39d790e171fbc8bada96eb234e866563f0619f"
+      },
+      "events:drama_addiction_debt:/choices/0/text": {
+        "source_sha256": "d5bd01c78ea5bb34c89c8b24764139629a6c40278a98dc4d2ab39cec0468ca82",
+        "target_sha256": "724a9c256b5255422c7aa5e91a8974be1fa6dcbeb43b6d0fbd5af75f96546366"
+      },
+      "events:drama_addiction_debt:/choices/1/result_text": {
+        "source_sha256": "72362c7ef8af983e6eeacde437b025ed499c160711db8097b60eab28ebb171b0",
+        "target_sha256": "47e3bf8298be08758b87db4df7feed8325825ab5352811da761bf1d6cd0535bb"
+      },
+      "events:drama_addiction_debt:/choices/1/text": {
+        "source_sha256": "3bb52057198dfde831df70dd29ecd22456e7e7ebe8503e63af1905ca87269be6",
+        "target_sha256": "6d984d9f40262f1a319d386947c3e69903a014b7f4d6048ffafcb87efa1821f5"
+      },
+      "events:drama_addiction_debt:/choices/2/result_text": {
+        "source_sha256": "26b84977614aa0238a16f8475d638ab5a77b078b90009da7134ca4c1bfbdfd47",
+        "target_sha256": "12d95be73a6405d5b5caacf14890d5ca49563b495dd6d3e56ce39537bc10cd3a"
+      },
+      "events:drama_addiction_debt:/choices/2/text": {
+        "source_sha256": "9e43077b8ad62996e84f857a5a6c987d533d32d1fd84261ee267afad8fb92a67",
+        "target_sha256": "947abd44c568e2ff0d4df956fc07031531ae3e69812984fe01870ccb688c8442"
+      },
+      "events:drama_addiction_debt:/description": {
+        "source_sha256": "3e1947118dcc2c073c6a212e8696847242533aaed747c36351e7c034f0315f31",
+        "target_sha256": "5ceb16e24bbf8a279af763917422ad70691b8a9d4a2fa8f399419258c8d1a6a2"
+      },
+      "events:drama_addiction_debt:/title": {
+        "source_sha256": "ae36f76f74c554181a777e9980ff1b2f2fc6ed099f7fc430a53dd0419bcfa110",
+        "target_sha256": "bbfd6d6fdce45b2a66c1a9b99ca061c41cb555adccafa6f445b67d73e8001968"
+      },
+      "events:drama_addiction_mirror:/choices/0/result_text": {
+        "source_sha256": "a8ca713073fd5294168a02ee6d0e45c6dc5a82280c473e15349a278bd306f8d6",
+        "target_sha256": "73d38ef6bba8c1d4bc696bfa4bb03d0c8f704ce9fa3543876070763f86168cad"
+      },
+      "events:drama_addiction_mirror:/choices/0/text": {
+        "source_sha256": "61ae16292d7efbad28d0ae9a19e1b9c9a5a0b3c6e16aac2267928a020c7f309c",
+        "target_sha256": "0d5bc49232229c0e67ee877e19a8bd4e310b8078f54c314a94818184d6587143"
+      },
+      "events:drama_addiction_mirror:/choices/1/result_text": {
+        "source_sha256": "2682fff0f077802e3a3e43fa1b52291fd2b1ade89302bce33c2a3933b2f26b37",
+        "target_sha256": "c8520f32199945adf6c2be426752de48e0511e09a115b233f0463f6f592697d4"
+      },
+      "events:drama_addiction_mirror:/choices/1/text": {
+        "source_sha256": "7a8ec52c8e2c889545c7055808d0f6c5597a70d9445a3b97aec0b2d45cdf3c9c",
+        "target_sha256": "c24f630413a2ad74d21573da46840f36bd44911fca147b8c71cc0bd74787202d"
+      },
+      "events:drama_addiction_mirror:/description": {
+        "source_sha256": "ce77e8e816df57cb78a6cd9f0703f9e10cd9572e65c399f2aee82e53370310b5",
+        "target_sha256": "bc4ab4bcb96fafe45044bade5074c4c44f2ba169635238ea0fdc49b6764685cc"
+      },
+      "events:drama_addiction_mirror:/title": {
+        "source_sha256": "4a41000dadb7163f6d81f8f1129946601acb7553e13d0cc9bdd477cb7311d4d1",
+        "target_sha256": "4c59b9ec8cf6e682c9e48c0b2ebba4288ba59b54a2cf000233810e96b4950659"
+      },
+      "events:drama_addiction_warning:/choices/0/result_text": {
+        "source_sha256": "a87a6cc2698d4ee0416583c1d43af9a06f73e90833d8b40264cdf463cd4567fe",
+        "target_sha256": "df8aaa658499f02f5da238f95b2f495ab48044368c9a3aa22f2bc1269bea663f"
+      },
+      "events:drama_addiction_warning:/choices/0/text": {
+        "source_sha256": "818f832152bc8d2351234ed0fc9025bc5645a423e511bb176cf428fde10b8c75",
+        "target_sha256": "bd1ba6614ea31f7321007c53c5bbbcd236dee40a14a68a7cf480d8c7de5756ae"
+      },
+      "events:drama_addiction_warning:/choices/1/result_text": {
+        "source_sha256": "f4ee94141b0c5101977814cc10aea159dd64b094a543fe9375f2be14ce6391c0",
+        "target_sha256": "2b2da076e60ae39cf23d07fecbb17e410dbdd14f5c9a653bc9271a92f9a0cd99"
+      },
+      "events:drama_addiction_warning:/choices/1/text": {
+        "source_sha256": "acb627b579142260d01660d6b1eb635388b216acc2998ff2e291aa80da865185",
+        "target_sha256": "2f6eb113c0b9f80d46ee03cc956930201cf4ad27793551b3fc608041db37a685"
+      },
+      "events:drama_addiction_warning:/description": {
+        "source_sha256": "89890123373414df3ccb9602d89ecfc243c0456b1603f740b0773b03e3ff0d48",
+        "target_sha256": "decf976af7e51dce2be93175016f3ca74361333bb6e87d6f1f84398fdbe24c0c"
+      },
+      "events:drama_addiction_warning:/title": {
+        "source_sha256": "d04c56a163f2d95a6b1ce2d6d43b51fd2dbeba9ca66c2797a861f5e5328834a2",
+        "target_sha256": "810ff9b3be176fad19144f76ec531119e8d387661e8b96c442f412be717e9054"
+      },
+      "events:drama_apartment_lottery_win:/choices/0/result_text": {
+        "source_sha256": "2214a14f6886bebba80bb509e0503f13aba951b33bc39908f477dd48f0696187",
+        "target_sha256": "b96af7105bed090c5914161d402329caef6ab6dc98b67b3a5a2d3eb796dda09b"
+      },
+      "events:drama_apartment_lottery_win:/choices/0/text": {
+        "source_sha256": "8a6a783313f46dfedc2dc9872590ddbc58d6c5d65aac0e21a81569bee345e9fc",
+        "target_sha256": "4b9980a08c9d83763736f11605e115819cf92e2c09c56e1587c062baff9ea569"
+      },
+      "events:drama_apartment_lottery_win:/choices/1/result_text": {
+        "source_sha256": "2eac5961d79fb5be0721871fa61b253a6b326faf896d5ef973d7117a74f78c0f",
+        "target_sha256": "4a6307a53a60299b1facca57e324a58c69a65e70c4b8486fa0f2dd42247fdffa"
+      },
+      "events:drama_apartment_lottery_win:/choices/1/text": {
+        "source_sha256": "6771c6c12951527e529338aed4d773b1c733574d726b7d6dbc5358f2e26096b6",
+        "target_sha256": "4007bb42e9435739e2f9285c009d0af6e26e5e5001374a5921e5b98061036432"
+      },
+      "events:drama_apartment_lottery_win:/choices/2/result_text": {
+        "source_sha256": "9d34c9ad489abffe0e8667d7777aebe2ed1cd688b21ed02c5cd4fe11e3852fce",
+        "target_sha256": "96eddee99dc166bf4f2f26b104ffd9bdc5862aaaeae73a8a3fe0c2567fc3d44f"
+      },
+      "events:drama_apartment_lottery_win:/choices/2/text": {
+        "source_sha256": "82e42606e6465838c05cd2fec7a7ed8976db694df2253c7f54cb22d56ad4ad4c",
+        "target_sha256": "62fef6de6fb3a244364e4e1e7f2a88594cfe1226bb8cbb7d9f73864f52bd6814"
+      },
+      "events:drama_apartment_lottery_win:/description": {
+        "source_sha256": "ee3b7dc2996a92cf9de010dc1fd14c70bd53800aed02b06a4fc7dc10d26e3ddd",
+        "target_sha256": "ae16c87c1f6448a0794405279391695c642627c999123b502269869e5193aff6"
+      },
+      "events:drama_apartment_lottery_win:/title": {
+        "source_sha256": "97587c34e1e6c453e19f7fbe25883a7c5b6cad9e6e5a5b38295b691b8777c8fb",
+        "target_sha256": "4002e9954e02d141c5113bc6e8918138730fbcd4c331aa859ee0ddf2e0efd4ca"
+      },
+      "events:drama_election_theme_stock:/choices/0/result_text": {
+        "source_sha256": "e899180cc4eaa545e2ef40f50d4aafeba51637d6a1de5863973886c36a914bbf",
+        "target_sha256": "4b90ee8762cb4550e7c33d71804fb931203d55f2302e23ef3831b4175e9f05cf"
+      },
+      "events:drama_election_theme_stock:/choices/0/text": {
+        "source_sha256": "227b1e3bb8e7ddad8abba35ff10424d779956ae03eac71397dfea4ffe7c85c3e",
+        "target_sha256": "7c07935e578ae792ce91a15c3ff67e0f0f8f23e5cc1795d6b1d5ef8db76276a8"
+      },
+      "events:drama_election_theme_stock:/choices/1/result_text": {
+        "source_sha256": "2d6970f55bec505549df15421dd1eafc45007337682fc8a1e50e8a7b02e235ba",
+        "target_sha256": "868e04668ec4ca3410535b0b6a6e3ded89e8e606cd2249f24475f43ed6c4ecc8"
+      },
+      "events:drama_election_theme_stock:/choices/1/text": {
+        "source_sha256": "ff98cc00bdd02bcbc554c754390e9a153aee7fc57bc69bed2dc502b4dfd9d07d",
+        "target_sha256": "e4bc5b02535ffbfa8d2d9fa15d3a9969404e0c5fc365b7c2b030c8e85b28c2d6"
+      },
+      "events:drama_election_theme_stock:/choices/2/result_text": {
+        "source_sha256": "7b75c5847e7825ee59b4eef5bce3dad18b46a97185b6dc65a56536b137117669",
+        "target_sha256": "e3cbd9c3bccaaf4df62136cc162d18465a2c392cc8d9127a0a5edb79d7ca8d14"
+      },
+      "events:drama_election_theme_stock:/choices/2/text": {
+        "source_sha256": "d620c346219401896687d5a4836b5a20b88f27b359be75ce2114fe9abc31283d",
+        "target_sha256": "67482aa96e10af15737f87a78cdd2fa63e372661005a323bf8bcd71de9ebc176"
+      },
+      "events:drama_election_theme_stock:/description": {
+        "source_sha256": "ce82225418ca39a8a6967526234b2982b9414a3e073376079c0d643224f430a5",
+        "target_sha256": "ddc0d1f6734af6dfb26ec08cfd0a3382e4fa03b044517dcaec0225ebb9fc1164"
+      },
+      "events:drama_election_theme_stock:/title": {
+        "source_sha256": "63104737415d914d91607d3b0a844bc8354b1d2177a9ad73ec7db873ac971d34",
+        "target_sha256": "4230f625db52b2f95d4e88a614943536eeb4b70a0706aefe5d32e994731a7d8a"
+      },
+      "events:drama_health_scare:/choices/0/result_text": {
+        "source_sha256": "04846361880557ff8f2ca2bc899827ca609d731bfde64c85bed49253479876d7",
+        "target_sha256": "64cfe72a998e26b3878fce7b6bfe20b49274ccc45b745c30ab2eb8daa15cab66"
+      },
+      "events:drama_health_scare:/choices/0/text": {
+        "source_sha256": "6b7ebfdc916a51c023d7992609a73c9e1c5912c95db3b8938241850724720d5a",
+        "target_sha256": "31d0615b1ddc3476d2689af69ed4f370c07d2195df5d331536e7d1613c0ebf84"
+      },
+      "events:drama_health_scare:/choices/1/result_text": {
+        "source_sha256": "a4fec78cd3169b9a350ec1946ad096c4d975c248edaf09c6743c234b5e69bf15",
+        "target_sha256": "b217a0b2a081df104e494be60fa34716094c2a159023abb7c2094ff155ea023a"
+      },
+      "events:drama_health_scare:/choices/1/text": {
+        "source_sha256": "8e6e0b497ec94bdad56e9a2de3efdb2ae0309a6dd6d74dfa483df2b27fcf1ef6",
+        "target_sha256": "75d80f11f8b58a3821f46cb62825c67dbc839adce377d3c407589fd6612f9ddf"
+      },
+      "events:drama_health_scare:/choices/2/result_text": {
+        "source_sha256": "51efee5a16f86b7349138fc141741a54784f9a6428d47d047e4bae6a50bcad9c",
+        "target_sha256": "f7d2d84e457e2e96a43cfae9e5732291bebdd9e4985105d54518187e45dee606"
+      },
+      "events:drama_health_scare:/choices/2/text": {
+        "source_sha256": "322492292dae7a0ad184026398b492dab4cdad5ccf4bd44b2fda8abbe26f1428",
+        "target_sha256": "774c49730c33deaf4dc4fa2a25e3c29b46ff2eacca28c9476450801534fc5f31"
+      },
+      "events:drama_health_scare:/description": {
+        "source_sha256": "47ad7baaf60706e4cc5631c6c535a6748d1b28c7641c00162ead916f33837074",
+        "target_sha256": "d35c6e327f3914379ddb4ec480e23dc6d1780784e821132809a35eeba81c6d41"
+      },
+      "events:drama_health_scare:/title": {
+        "source_sha256": "105305ef31b15dd405f34e922e808246102f5d235a8ed41698de611a2bfb4696",
+        "target_sha256": "c44fc5dd354b658cd6422a345f0eac715c077116baa326a56b26716023c9a69b"
+      },
+      "events:drama_layoff_survivor:/choices/0/result_text": {
+        "source_sha256": "194c65d9a3c90bca8dab80797e78f2e4d503121742b73d21c277b440fc5f58ef",
+        "target_sha256": "1f3a282d4e2b9259f31addaa410cc68bc77e1533cc14853d073d3ddb5385240c"
+      },
+      "events:drama_layoff_survivor:/choices/0/text": {
+        "source_sha256": "44105ac019c89a9c67d68d11adf256b618d5917146b3a82d867715ad06f625b3",
+        "target_sha256": "3e3d473f1c18c0d9290ace119a4404d404139309ea176ad5bea33cfba4645f13"
+      },
+      "events:drama_layoff_survivor:/choices/1/result_text": {
+        "source_sha256": "16a6225336c2cdf14fd9aa7380dd4b0172866cbadabadf0b9e51e19499d6ebe3",
+        "target_sha256": "dbb850948628a4309515a5c8691b5718e80a3071f7fa26a426b270a57f80e039"
+      },
+      "events:drama_layoff_survivor:/choices/1/text": {
+        "source_sha256": "4d853688843c56c59703bee08c67eb21d5b3daabb966eff1e0759e2d9e31671d",
+        "target_sha256": "089b5d69afac2243b9a72c87cebadcbd175ffc48c7600692b02a80d7181d7bc5"
+      },
+      "events:drama_layoff_survivor:/choices/2/result_text": {
+        "source_sha256": "6c1427543bbf370d2c321560b6dabb606008116c6ad40e467ebffd46d1c171e1",
+        "target_sha256": "7868433eaea99a5d7d3142b9e404c0ae60a5c85faf85ed0d2d597e44f2df8e05"
+      },
+      "events:drama_layoff_survivor:/choices/2/text": {
+        "source_sha256": "cb70fbbfdaec0c0a27904ca10d220f4ab2662243a4825a7ad820f311b9055718",
+        "target_sha256": "1d64b1a83380116d27750ca80acbd4edb616098ed39cddb3fe7906efe32acac0"
+      },
+      "events:drama_layoff_survivor:/description": {
+        "source_sha256": "c1a2c4c5e803fc0d511e6ba4f956fde4d32fbc6abac4ceb8747649e8905fdb7f",
+        "target_sha256": "3a6d60208f227ac835a45b27b83b7b6c8c8b82dd70ad74118081d355c1851393"
+      },
+      "events:drama_layoff_survivor:/title": {
+        "source_sha256": "8abfe3d073385e5ae532f72ec0e923bb2c7feffd2aad5de1c96ab07a79f2570c",
+        "target_sha256": "5fe050073544c69321e61a2a271bd3f697dd68c1969a4fc0a818feb33b305ecc"
+      },
+      "events:drama_mentor_intro:/choices/0/result_text": {
+        "source_sha256": "7eccc9c6b752ea1a877ec64ebfff033f4a13f287877e27a414a2115b3b8714ef",
+        "target_sha256": "e09f6b99d04cd2b717d3884cef5da704db1e1a89bf1bfd93b2d44768ab55c83e"
+      },
+      "events:drama_mentor_intro:/choices/0/text": {
+        "source_sha256": "57b8330d5dedaa15c337e3b48507f2b86b6b750f5916d81c27be465d9f066a08",
+        "target_sha256": "298b6bdd46658e95d2603fc8f90ad34619f5ee2f0c733e29a18e4f3a63725789"
+      },
+      "events:drama_mentor_intro:/choices/1/result_text": {
+        "source_sha256": "6d8e5ab2e3621f616a2d63e4b444b125265024304de8f468dde2612fdf995031",
+        "target_sha256": "053e74ab4a3d4d40607a73d75ed5fe71c629fa69b803eac5f63686d25e6c7e05"
+      },
+      "events:drama_mentor_intro:/choices/1/text": {
+        "source_sha256": "da09c84d7199741421ef1ad5042b7183420345d67ae2f8d6f9035582deb9b04c",
+        "target_sha256": "829c202effbb6993cde6361fa9af75c96187afcd8bb72b00acdceb211ca44d91"
+      },
+      "events:drama_mentor_intro:/choices/2/result_text": {
+        "source_sha256": "d4308be2def6027cf0ca0e833955c955eb261dd16f5deb651bbb0341da2138d4",
+        "target_sha256": "712cd4e24c604684905ee01ac3ef648dda3a8aa3f33d8de89936f8408c411d60"
+      },
+      "events:drama_mentor_intro:/choices/2/text": {
+        "source_sha256": "ef1a9dc1211c34165517d93dd8c0272507d434bebeb8081483df8b7758de64b7",
+        "target_sha256": "ab9e5dd97333f95054f9bc5d3e9b4cc8298ac5fc052175bca52ec5a5373fbdec"
+      },
+      "events:drama_mentor_intro:/description": {
+        "source_sha256": "e2287590995836f5c6fa8a49b82193919cf56c5317d2d873133cd11fecd4e9ff",
+        "target_sha256": "a7a38c121cc982a015b075c8bdeb2f6acdfe59299cc07395a485e82f47d94c89"
+      },
+      "events:drama_mentor_intro:/title": {
+        "source_sha256": "6e2df7ea468762230eed8b5512544a48fe1f0642c843e802e415e8851606c56d",
+        "target_sha256": "8775f370e949f71ab02220a4a7245c31ca58c56c0b6e133593774a10b0cb82b4"
+      },
+      "events:drama_parents_financial_crisis:/choices/0/result_text": {
+        "source_sha256": "7e86a5ef0aa46f3b8b9bcf9e818b80bb019a2e3e3a4a135168cbb0ce683d68cc",
+        "target_sha256": "b6bfcecdd9e82bc2025c2108ae96f054740d8384f5c458eef1dfac4f4997dab6"
+      },
+      "events:drama_parents_financial_crisis:/choices/0/text": {
+        "source_sha256": "7d91de5aaa9f821a30fa41e29bd40fd5831483b19cfa490d228d3f77208d644d",
+        "target_sha256": "9e0b8c408db4f0d64bc83b3e3d919c6003bafc841b03518a63935393fd862093"
+      },
+      "events:drama_parents_financial_crisis:/choices/1/result_text": {
+        "source_sha256": "b99342c103632127a640bb6db728d641d3de5c480515d6be9c7172bfa7533acd",
+        "target_sha256": "554277812fef4efe6509e1c021d073cce832baa1350866e4dce8668b806f6ead"
+      },
+      "events:drama_parents_financial_crisis:/choices/1/text": {
+        "source_sha256": "ace81f16443de6f4fb57b185b12c43e232e3e65156e819766e60450d610efc80",
+        "target_sha256": "3c12170b012f1591a9f3f54ef089611cc8ffea8c088503b17fde09e90082c2ad"
+      },
+      "events:drama_parents_financial_crisis:/choices/2/result_text": {
+        "source_sha256": "a31a052aa5ebfa7ffed5a32e04576ba4c6f8d5dad084b0f45349a632707bccc3",
+        "target_sha256": "fa326d3f0545739610384ef0ed49085d649b70740246fb6f3b3063f53683c14a"
+      },
+      "events:drama_parents_financial_crisis:/choices/2/text": {
+        "source_sha256": "52b30a5a97af2de0982c69b9070ed01cd57f02c862b98b9aad99b9f753d412c0",
+        "target_sha256": "e79d0f076100870ed17fe2bf4e3a978571f48f0ec2fc106f1f85ccd6a400187b"
+      },
+      "events:drama_parents_financial_crisis:/description": {
+        "source_sha256": "fa8e83ac6a27c4b231e99404c3e575f3c90990267b55fccf19edcd169a3cb394",
+        "target_sha256": "946c3a135ef59cef7a5fdc1844691d5dc9b2adba68ad80d3744b385de18f6b24"
+      },
+      "events:drama_parents_financial_crisis:/title": {
+        "source_sha256": "724884d35061aea56aa6ad75926a651c1f2ee85fce90acb34888e90c4d562f74",
+        "target_sha256": "1dab031bd282a1069cafa311faceb9d77613000e4b6e8cac558d1ac5e1f6e4ac"
+      },
+      "events:drama_public_contest_win:/choices/0/result_text": {
+        "source_sha256": "be23b047eee0248b3e5332956441d30fcd3f39cd9152dd65e8cfbbaeb18acf72",
+        "target_sha256": "3ebcb7d399570b78a9781d6971a20658e7aadb484d1fbb5dc6fdbdf85c195c83"
+      },
+      "events:drama_public_contest_win:/choices/0/text": {
+        "source_sha256": "dbf596cb9a7bde44541c271ff6b931531ad50df38e0dce93807c2d89a8b0a4d5",
+        "target_sha256": "25473e5e9297756d498df3f32f1a6f527bcd94f431909a318788857ca3bdf0e4"
+      },
+      "events:drama_public_contest_win:/choices/1/result_text": {
+        "source_sha256": "c66b0131264bd53870081d7488423031bae6058b4365f8324fa578cd0eaebad8",
+        "target_sha256": "1e5fcb48094e8021c1955404b8b85c67855a0b4e728563592a54416e159293eb"
+      },
+      "events:drama_public_contest_win:/choices/1/text": {
+        "source_sha256": "16dc72278cfd3fe822b7c9d1b4193dfae1593c5f303b6713f45c76cbf5ba494c",
+        "target_sha256": "a18bbb8ff780af4a5e238e1ba7b3022d839771076b6985aad924d66a194833e9"
+      },
+      "events:drama_public_contest_win:/choices/2/result_text": {
+        "source_sha256": "443bd9d067b974a0259fdfccdd220b9339a516a208b1d63a720b6c07182284fd",
+        "target_sha256": "8d6fffc06be6f862286b85af27044d58805efd5792b0eaf3530d5889241cc723"
+      },
+      "events:drama_public_contest_win:/choices/2/text": {
+        "source_sha256": "67aa837af680f397037ba186ef1375d204f43de094539375f41d437aa230184f",
+        "target_sha256": "be2adeec42cd8b6a3a59a52b227bd0c722fe8bd24e0a0a4161b4b05ed0149108"
+      },
+      "events:drama_public_contest_win:/description": {
+        "source_sha256": "193ac4ddbe0e16ffc0caff08395f6cea990905767188b251e9b721f7ee6ba247",
+        "target_sha256": "fbbb1c7acc3abde18e42f1c9fdca85488b5fbe8d1d65b0f28acbb1459d8495fd"
+      },
+      "events:drama_public_contest_win:/title": {
+        "source_sha256": "761d8a761edaa9ee660b9a0af7b5dc46411b33eba10e5148dae5dfd47d03b5d4",
+        "target_sha256": "d5ff5b3d48faf34c2edee9f74f5e8b1dab0ca81f6d61126d5dc6ab01d8efe3cf"
+      },
+      "events:drama_startup_acquisition:/choices/0/result_text": {
+        "source_sha256": "6b4650a3ce48e11274c3dd7ed866beb2118418c340cfca4d280684da2a50564f",
+        "target_sha256": "8f123e08cd3a4341d9752f5b0367ba2534192ad8af1f46b1aa2f3ae677eec5d5"
+      },
+      "events:drama_startup_acquisition:/choices/0/text": {
+        "source_sha256": "020e9d46ac18b6d770c7728ed365dd61ecd36262e9dc7bdf7f9e3fa5c4f6968d",
+        "target_sha256": "143bd56ea4e53e4eb9efdd963b6029bd355831a26b92573c72b8f62ea6a5db39"
+      },
+      "events:drama_startup_acquisition:/choices/1/result_text": {
+        "source_sha256": "10ee83cf3d28f4a20e37fcb70c81a73eae88a4a8ef3f328e4435ce9e6413ba66",
+        "target_sha256": "5867fbe92e8ef020fabba539a2982b9af387f9208d22fd06c4df1f06e9250bec"
+      },
+      "events:drama_startup_acquisition:/choices/1/text": {
+        "source_sha256": "8550d8d8b3e7cacfa2e085f1f7d96bd3a87288a47e801e5a97690aade32af445",
+        "target_sha256": "ce618c22588a7fa119a92642c13e49df6b7328ded090458df92a4e6e425d746a"
+      },
+      "events:drama_startup_acquisition:/description": {
+        "source_sha256": "a0a8bd129084f2c9144e33f6f440f03b490c3e8e7017549196e10bc2adbe9543",
+        "target_sha256": "ef093508e91f58be072bbdaa448783250cb5da5295491be3a8abcb1be6182ba7"
+      },
+      "events:drama_startup_acquisition:/title": {
+        "source_sha256": "f31e1f98ab8fd6a4dc1dc127814d69fc9c4d552dda11879b29c5799af3487817",
+        "target_sha256": "7369eb8822319d91aa2b736174407baba9b78a3ad888074e725777e09d1120a4"
+      },
+      "events:startup_first_user_traction:/choices/0/result_text": {
+        "source_sha256": "b9ae0388192b6fb25af7dfd026888a6f3ff4540b8905c8ca3e622aa0945e3ee6",
+        "target_sha256": "44c529697d7b829024539ab34c7b6059360550db460b6af82461ba466c451825"
+      },
+      "events:startup_first_user_traction:/choices/0/text": {
+        "source_sha256": "291031c1f0c0a19ed6fd67b971388e0e5905de5c94a7603c344177e4826ad783",
+        "target_sha256": "dc014ef688f0faec02d9884ac05ff37c63753fc557e1bf2fda62d963345e20c4"
+      },
+      "events:startup_first_user_traction:/choices/1/result_text": {
+        "source_sha256": "defb0296af9e17a6f1fedd8ad106cd6d4327d80a3f5ba5ff4743c52a6fe3c535",
+        "target_sha256": "65b5517b443a80f8d70b1a036fa13b4a27621e47ebb642a9341e15242494f391"
+      },
+      "events:startup_first_user_traction:/choices/1/text": {
+        "source_sha256": "7f821c27529bd770f466d11540ec6a173cdd0e6265c4cf7c036cb1f90f8dd861",
+        "target_sha256": "29cf1ea66d8327bf5bcb1077a44f05b02fd317221f3250ee11b6bad6c1b26971"
+      },
+      "events:startup_first_user_traction:/description": {
+        "source_sha256": "e8fc2f476af7ed9111096a6abcc76fd0c1d23dbcadb090eb7fb6477a0ec5e06a",
+        "target_sha256": "842dc63109baaa578f654c6b7819416a0c6335375905154a68848fff2ab65890"
+      },
+      "events:startup_first_user_traction:/title": {
+        "source_sha256": "5a1a68854bb31eca82914daa17cd416cb2de5149bd2b35dff20402983ad9cb40",
+        "target_sha256": "ffa6a39983a4582d348c8c585191eeb3a90d308fabc277ed4c7d6dca9c3b20f9"
+      },
+      "events:startup_team_conflict:/choices/0/result_text": {
+        "source_sha256": "8452f8b32adde816ddacd959cf312b3e95a24d5f7acafbf3cb2cbb6f7dd6e4cb",
+        "target_sha256": "ae07a8c7bc2d6bbc0f52edb922bbfddfd5befa1b00478e5299f6cef17ee51939"
+      },
+      "events:startup_team_conflict:/choices/0/text": {
+        "source_sha256": "7f8d3b5b60ecfe218bb1b688b5ae653f3077f9fcaf5c665f9da87b096d4d27da",
+        "target_sha256": "4ba76dee8864af35f91985eab0f776addf473c0399ed9b5a6af7add36a00c40c"
+      },
+      "events:startup_team_conflict:/choices/1/result_text": {
+        "source_sha256": "4b68935c2588080ae5b727e7efe9f69b2012789c2cbf5efacd6e99f18c5a5173",
+        "target_sha256": "5ee102ca4c61cf67544ee5a8df6c905d324af419294342d82f8ed7e396d7e708"
+      },
+      "events:startup_team_conflict:/choices/1/text": {
+        "source_sha256": "ea9faef8d68642364aba3f68672921adce981901cceb0954029b67de54d0a9c3",
+        "target_sha256": "abede686dc2baf42592a27673bc2ddefec7b10943595b4b079afd570a79f23e9"
+      },
+      "events:startup_team_conflict:/choices/2/result_text": {
+        "source_sha256": "93c14c0d941fc76aa7232a09fb64a27c61ca6108dd414ebfa03eb5bb092c0e35",
+        "target_sha256": "0e56b8126d191aacabdc94c07d5dacff81beb542f6a9913a35a6e84353220c3e"
+      },
+      "events:startup_team_conflict:/choices/2/text": {
+        "source_sha256": "f9e62215ab1bed9f8d6503c0b2e6114bbb3d2cac540c845cb79212f94c731825",
+        "target_sha256": "a2fd97228d6fdd7bda2627f6c24e4314666d70e6a7d7018336be03c50e26c715"
+      },
+      "events:startup_team_conflict:/description": {
+        "source_sha256": "03b1580d90a73166fa6ff8d099662f9e9983cdc9b8c0cda515fccd00d58bb757",
+        "target_sha256": "4fb047a6ec90dd24f624e7c9332fa39471a3431a8ca719c433d700dbefc861ee"
+      },
+      "events:startup_team_conflict:/title": {
+        "source_sha256": "22683b8af80e651409efb2102e2b983e3c671cdd31d062e3b2f992c1fae5e239",
+        "target_sha256": "7722a7636e49c3cbd7219b9ec2762c9a58fa596b4b5dcec3b460dc67e49cead3"
       }
     },
     "zh-CN": {
@@ -45350,6 +45970,590 @@
       "events:story_two_year:/title": {
         "source_sha256": "5f50536ef3c7d8f62a7537a420b93f09abcf57f8e0f2738bf92f6e0da9fd55d4",
         "target_sha256": "4a3d9391f27c9ea8678c75c3064042d06bc5591eeff4cbfad4a45e44ff7bdcc9"
+      },
+      "events:addiction_clean_hands_echo:/choices/0/result_text": {
+        "source_sha256": "01092b8aabbe0f7b49edde1e0e748b42f89fb5485bdfe52c1b1672b3933eae6a",
+        "target_sha256": "958921d6ab5d0f1256ff5f600c674f86b49024222597b235bb0f4b1e76b21dca"
+      },
+      "events:addiction_clean_hands_echo:/choices/0/text": {
+        "source_sha256": "9293cdbeb856d414b7d46b57a02d5b857f6c099b5dc5d39159cc86bf6652678c",
+        "target_sha256": "945fdfd20a46d3cf28331de90b9f2ab16e544de7b0840ddf22c101f778f01f5e"
+      },
+      "events:addiction_clean_hands_echo:/choices/1/result_text": {
+        "source_sha256": "66240da9d2d82d3c436e8f2701b9e05db78d6f3c2a13707874d79487269152a3",
+        "target_sha256": "8b756de4843cd3b8346f030636277199cff760b32c9ac69c7ae8009d2fc79400"
+      },
+      "events:addiction_clean_hands_echo:/choices/1/text": {
+        "source_sha256": "b052e6b2c67b298ab0da75624fea16a50a0c9afea0b8db224d22b02cf9ae257f",
+        "target_sha256": "90fa5cc9d9e81b0d18eafa8c5ba0d06d3628ea846e9ad55e199cc91f6f15ba61"
+      },
+      "events:addiction_clean_hands_echo:/description": {
+        "source_sha256": "40042a688e55c4a737aa6a787572b0ced09cab5f2a384f23c206b3aaca997b45",
+        "target_sha256": "1b9f791b3273fa59e4bc3341829e2de8ba60fe33167eae6629bfe6a0b4a78847"
+      },
+      "events:addiction_clean_hands_echo:/title": {
+        "source_sha256": "3964a3f7727a4cfa297c63f33be26d0aff8a4d4e72f5a52b8a603c68e261134a",
+        "target_sha256": "280be381ea1376b696e9f0183d09d847b154f02c0540c3c27f886e9c3f0a9df9"
+      },
+      "events:addiction_recovery_step:/choices/0/result_text": {
+        "source_sha256": "27338da41a081cc19cb2203db275e89e4ee13525d727ec38ecb350f2f4ec0d55",
+        "target_sha256": "aa157bdeb697d3feb5f6bb68677c5899c8408f4e19bb7003f3b63ff195c096cb"
+      },
+      "events:addiction_recovery_step:/choices/0/text": {
+        "source_sha256": "6fa29701d831a67449b1d6d8e301bf04fd32a0415a958aa9cba98c24e2cc8826",
+        "target_sha256": "666c8225ae39bf8951974100832df9103f8d8dd5d21643a470e89bd874ea2c16"
+      },
+      "events:addiction_recovery_step:/choices/1/result_text": {
+        "source_sha256": "1295798edec3ed62c78841daacdd148a5b7872d3cbcaa12c7e0f851aeaf18451",
+        "target_sha256": "cec37a2c60814d43ac30c5d15233e5b0bfcc0a19e5b012cbdcb8b8c9d7d203ac"
+      },
+      "events:addiction_recovery_step:/choices/1/text": {
+        "source_sha256": "2900933acee4c6f2f4dd55c86e02792282dd31ac0bce27233a9bfd047046814c",
+        "target_sha256": "04323140b4945d905c80e3d15c1e12f8524617ce6cb88aeb7463b3334f7e7295"
+      },
+      "events:addiction_recovery_step:/description": {
+        "source_sha256": "93e53c387e28bf71102331ff47f6b4125709c4972974e1a61e38dc4666f1d4ae",
+        "target_sha256": "495df9c2f99d56af44b75c9733215d980227b7bf92e16e915bd2c9873c62767b"
+      },
+      "events:addiction_recovery_step:/title": {
+        "source_sha256": "f105371842ecedce17b61465458b0a513e80122b8b0a7cbe00dc77bb389e156e",
+        "target_sha256": "eae7a8dea347dacb108d487209a38c2d92d1cd9a5953f16270b2a3175a1a0a37"
+      },
+      "events:creator_algorithm_penalty:/choices/0/result_text": {
+        "source_sha256": "a2fd822e57c9770b8ba23b1477a1b7e2df5676730baae75b126fca1ee7dde940",
+        "target_sha256": "3db892e4553a502275fa74f58b983abc8b2c7d690d41bf00b8b24506ba2c2f30"
+      },
+      "events:creator_algorithm_penalty:/choices/0/text": {
+        "source_sha256": "d462afad5120c00a5d09728e42d7019029d6c49ded80bd5a59d86281762c8fbb",
+        "target_sha256": "435cf8a3a94ea50738118209e30822b91295e7b9f392e8112491e96e27dee7a1"
+      },
+      "events:creator_algorithm_penalty:/choices/1/result_text": {
+        "source_sha256": "e8e6f6247a7827ecfda460537c9a65b17e8aeb046112ddcdf43c6e10d32ebe73",
+        "target_sha256": "ebe7f4dd4e1c2a164dcbfc255cad24f818595179c9df678da61b6e051fa5d236"
+      },
+      "events:creator_algorithm_penalty:/choices/1/text": {
+        "source_sha256": "faa55dc3719b97ed991520fde6ea1e7557c903674fbeb00e1d8088e4319b93a1",
+        "target_sha256": "4530bf25278def0b37f6a12557782f0d4ecd6fc1c90e2805e026ae822404a891"
+      },
+      "events:creator_algorithm_penalty:/choices/2/result_text": {
+        "source_sha256": "ff0c49c8f0ec0182900a67d4ca5cc9040fd990b1ad45c6fafcae51d10209aac5",
+        "target_sha256": "35ce91760a373548dbe5c342173fddba286f7b5232a7a7b49d83ae0d72891e70"
+      },
+      "events:creator_algorithm_penalty:/choices/2/text": {
+        "source_sha256": "fdca45dd7929300ddc34c5a3a8055f71c1cac58cf2bf3443ed2c323a51dbe039",
+        "target_sha256": "c0262a8848d51556ffcd1d9313cf9da28dacfe4d6373047dfc34e30324ff5bc8"
+      },
+      "events:creator_algorithm_penalty:/description": {
+        "source_sha256": "11b5c3e8bad352338709e6f4ea6f30c3b9e34862384179ba7e448294b63d0199",
+        "target_sha256": "0c517298fd189081e288a809c0b9b187f5a457ba80b5ff3ea4c91240bcded2dd"
+      },
+      "events:creator_algorithm_penalty:/title": {
+        "source_sha256": "091f60bac1d661610e4213900d133b1c596ef1d6a112d415cd0a176471c43eff",
+        "target_sha256": "68b885bed8334e3755542e39f26ac8f8e9b456228296771e50bd66e8fbddd8b5"
+      },
+      "events:creator_breakout_video:/choices/0/result_text": {
+        "source_sha256": "2c1c455e5fe8a4197117ebfe986ae1b17b6ff21b1f6d99eaa5e834eee3fa8ad2",
+        "target_sha256": "74f461c4ed5218a848209109afa9f40305f164a74eb7ed3809551656bd256795"
+      },
+      "events:creator_breakout_video:/choices/0/text": {
+        "source_sha256": "ec68f1ddcb2d70de6c8388b89db50dbc9910f389cf33ba5c48cd07dbff208455",
+        "target_sha256": "f6757311d630bb4d1af617e85466f4b7bd9c7d9294e54a8a69adc1a1543f3dec"
+      },
+      "events:creator_breakout_video:/choices/1/result_text": {
+        "source_sha256": "d0f23ffb964839a6e89a0d7ddcbe99338c158dc820b75cc4e13c72ae6afe8ffd",
+        "target_sha256": "dea532db7fea4e1f3ab3cd9233d9564747098d79798845445b541d30253f7ed5"
+      },
+      "events:creator_breakout_video:/choices/1/text": {
+        "source_sha256": "ce23a9dc600f2f5581268fb8b88bb49850a7fa8774d514eb9b1ffa4e9e985335",
+        "target_sha256": "f01c2002010e80986b62761cd04573d2a6c5fa4439f3a8762b64b3d64a749864"
+      },
+      "events:creator_breakout_video:/choices/2/result_text": {
+        "source_sha256": "e2d45d053c5d86926007a5ebc0a9ed583c405c61cf3376c5eb06da1a22834c42",
+        "target_sha256": "6c8e23c58dd7a4a5465229cd6999c11b1d029074d42e1262545cff5139cbe1be"
+      },
+      "events:creator_breakout_video:/choices/2/text": {
+        "source_sha256": "134c1bf0fa9bc0d27545881d11148864afaef2b2fa750a5dc0ddd6c736d03685",
+        "target_sha256": "b1d56657a7fdc44efaeca1738cd7ba5a59d1825b5a4123e3e6809ae1a789f2ba"
+      },
+      "events:creator_breakout_video:/description": {
+        "source_sha256": "a1ca3c5ac0def454882c4239d7528b5c2ccd2399839784d8a89f887afb61567f",
+        "target_sha256": "38f64f7653706bd9536565d0a883ca55781c1e4257474bca3985319fbd3d86b2"
+      },
+      "events:creator_breakout_video:/title": {
+        "source_sha256": "9ff4e70eee6c030c5180fd60bc79f0fb85dfffd64eedd35dba1078cf77f2b495",
+        "target_sha256": "59a982f51100f19caa5872bfa10c74d8b12846eb7166369740de7977d6e4a8ad"
+      },
+      "events:creator_collab_offer:/choices/0/result_text": {
+        "source_sha256": "ac24f43f8e794b7bdabffb4b1bf18590b6168ce54757b8703ee7dccae35e2fb0",
+        "target_sha256": "33e455ca1470dc4efdbc6969f73c3a0fc23c91573087dbadfe5d903219540c29"
+      },
+      "events:creator_collab_offer:/choices/0/text": {
+        "source_sha256": "301793e25e22fd3a98713693032c78b85b56ac8e403e2880053adeff701d2184",
+        "target_sha256": "245c272d3f539e9e5ad7faf7d2eb0e47b11043202641b8119d30cb32af53ba07"
+      },
+      "events:creator_collab_offer:/choices/1/result_text": {
+        "source_sha256": "c558271af36307a1593ec95b9e330be2bd953e3d04bef98f7fedb3f958e1aff1",
+        "target_sha256": "22a4aa30dfdcaca495cf8d3074d6213adfdd64af235481e3280fee76a340fb2a"
+      },
+      "events:creator_collab_offer:/choices/1/text": {
+        "source_sha256": "5f37d4cb5eed756a7744e89d793f756a0bf385bd6e71cd45a17f5f7fbd0b4d58",
+        "target_sha256": "d24fc1219286e9c3d0e6fa3211c79a28497e12f9cdd39b056c06baf970f2f777"
+      },
+      "events:creator_collab_offer:/choices/2/result_text": {
+        "source_sha256": "3148663cce98a15b56b6e61a9fbf4d2d1f8ae1ed163a2b541ef5957b32b021aa",
+        "target_sha256": "ec61a599853bf12c91144c3aa3c768c8146a42798f0450d8b1ae5e51cd44d333"
+      },
+      "events:creator_collab_offer:/choices/2/text": {
+        "source_sha256": "e35cd1466bd8d17045e9bc75fae058009473d5c76bbe640786978bb6fabf4345",
+        "target_sha256": "d3ada9ca441943bc82ae7c690fdbbb98a72054f70e45e3f98b8eb44b98f12c17"
+      },
+      "events:creator_collab_offer:/description": {
+        "source_sha256": "45e1236c530d0644f45e757036237f178b1cc829abdd38803dc47c308fe0df0a",
+        "target_sha256": "eee00ef6f530783fa3f7ec7871585d417ed80a674fd0fbe476a23f80c95949cb"
+      },
+      "events:creator_collab_offer:/title": {
+        "source_sha256": "ba03eee7e069fa4feac2946b5ee469ac797185b6c80ad36c7e22f6028812f4f2",
+        "target_sha256": "63d140742af8ec1ab74f54bfd4796b4b8b73a9d32481e8d236f4134877c78915"
+      },
+      "events:creator_first_income:/choices/0/result_text": {
+        "source_sha256": "87f8539fe6aa7888a8031e573c3e34cfffeaa5b8082d3c70cd7a7eee5947b065",
+        "target_sha256": "7b3495951c0e1ebc797765e6d1f1ab88eb8df5f3c19c51d969b4ed5a11004ea4"
+      },
+      "events:creator_first_income:/choices/0/text": {
+        "source_sha256": "21062760fd56cceb56ed9503df871e31a7d710fb697227f81fd5216310c26c38",
+        "target_sha256": "fdde6163dc909e1f0f74fffcf011f7055192b063248055693d5a35da464997fe"
+      },
+      "events:creator_first_income:/choices/1/result_text": {
+        "source_sha256": "58cd18303931a63b37aceefdf19bf0227ab97f8d2cdf3c36a1aa9c9e20ad5466",
+        "target_sha256": "a75f77abe5b806c10eb08e3530d0809d839bf8667775ed3bf38d89fa18fe577c"
+      },
+      "events:creator_first_income:/choices/1/text": {
+        "source_sha256": "28cd89947fb1b85f9174e5f82e908b0ef6af6561a8d7a5bcc30fde722d4c8c83",
+        "target_sha256": "0f6b1177b86fe6ecec93f58109f89886236157e5e837a9c3e05c379f91c1bbef"
+      },
+      "events:creator_first_income:/description": {
+        "source_sha256": "0293dfcead65ddad8a0e1d8b25eb84b7e76996b8f44fd45fbadd4be379683722",
+        "target_sha256": "9524489d821dbb2868f0c9c51e9649d12849d6a24a1be54ba1272518b0dd67b6"
+      },
+      "events:creator_first_income:/title": {
+        "source_sha256": "e33bddc57cb3542aacef7b7abf7141324beec3068e3dd681dfb1954dfa83132f",
+        "target_sha256": "52e113e169f398beca62a487589876c0eb0fbb3d4ef3814143becf93011192d2"
+      },
+      "events:creator_hater_crisis:/choices/0/result_text": {
+        "source_sha256": "aea9e6f63448d454a1ee5f453758eb6d26e9a253fccaf4d5153e2a233a6422a2",
+        "target_sha256": "4bea3cb9e0aafd21a273f2323a8d0966738fe616b45b4b9b74e8aab45f08a09a"
+      },
+      "events:creator_hater_crisis:/choices/0/text": {
+        "source_sha256": "5dcd95eed35fb1c716ea2ef68e9b188ac1e936cf1d73a33de7ea016efb54db4c",
+        "target_sha256": "c0f5d7f9ede6ae33398be3eff425efa88b5b979f182da1f6e05bb8bd921a7bd4"
+      },
+      "events:creator_hater_crisis:/choices/1/result_text": {
+        "source_sha256": "cc4b2415df8bbe819d2715d5666fb6c8949ece087c84ed90ce2db3f14c6f8bbf",
+        "target_sha256": "994c695ad385e686121880c7a86c648282ea710a2c28e0a089cc2d563bf54db8"
+      },
+      "events:creator_hater_crisis:/choices/1/text": {
+        "source_sha256": "27406aa1bd09a2f8c45a11f3e8710b534b0e01bfcd4fb180be4f93d0c43f3c54",
+        "target_sha256": "1615f216b30325eb73fa6a1d0c0302c7da0aa49f3d4f9a7a8865b98641d6cda6"
+      },
+      "events:creator_hater_crisis:/choices/2/result_text": {
+        "source_sha256": "2ebf08869bf1918dd8e5c008d9412b71a37befc43daecd417af129d5e2bde1c6",
+        "target_sha256": "af91120d25c072cf8bf106a2ce1b040300b09a9c40f5fe2c5a8e8b98366f1b5c"
+      },
+      "events:creator_hater_crisis:/choices/2/text": {
+        "source_sha256": "d7921c4fc846b1570e128867d24aa069ad248d3b7e3fefacabbd7a7d82f0ed7a",
+        "target_sha256": "74f5ff9b1545162da2c01fb4c3ee82187986eb47045a5649f9b907ba8195e24a"
+      },
+      "events:creator_hater_crisis:/description": {
+        "source_sha256": "a999cf4aedd43627680824647650740c271d3752f7dcfc372ccd084f9da56130",
+        "target_sha256": "45414eaf30d8a08e01cbb12c502b5c905435ca083a157cef9345dcdd46c81ab0"
+      },
+      "events:creator_hater_crisis:/title": {
+        "source_sha256": "29882737f8c6e4a9fd570782d77bc37d8a5b16b1e1af60f9f5ce79a9b3981f76",
+        "target_sha256": "4fb8c92c95be8c0cefdd0f3e3049c6fa5ef396ac742d37b78300fdbd7f9886a8"
+      },
+      "events:drama_addiction_debt:/choices/0/result_text": {
+        "source_sha256": "8ae2fac62ee08f4653eda593977d639e6c3fbba0145d645e54bf826e2c5fa46a",
+        "target_sha256": "6263d7663a34cdf0585624be010b94adfaef5a73f171ef7f90a2255e474d6494"
+      },
+      "events:drama_addiction_debt:/choices/0/text": {
+        "source_sha256": "d5bd01c78ea5bb34c89c8b24764139629a6c40278a98dc4d2ab39cec0468ca82",
+        "target_sha256": "7101214995c4a9072a230a96e3ca17db5a7577512de38a9b3bed224fdec996eb"
+      },
+      "events:drama_addiction_debt:/choices/1/result_text": {
+        "source_sha256": "72362c7ef8af983e6eeacde437b025ed499c160711db8097b60eab28ebb171b0",
+        "target_sha256": "658be6cf2aec3450fdbc593b479e15e8e9621eb941c84645bb2066df3c168862"
+      },
+      "events:drama_addiction_debt:/choices/1/text": {
+        "source_sha256": "3bb52057198dfde831df70dd29ecd22456e7e7ebe8503e63af1905ca87269be6",
+        "target_sha256": "1df7bfc7a1166e17d9f5fc39e28e0500f34243d53f0866be41e1e4a302fadc85"
+      },
+      "events:drama_addiction_debt:/choices/2/result_text": {
+        "source_sha256": "26b84977614aa0238a16f8475d638ab5a77b078b90009da7134ca4c1bfbdfd47",
+        "target_sha256": "05f4269b0d454703eac5e510ef1d053b26c3e4ca8ae4e345debf49bd8269ace1"
+      },
+      "events:drama_addiction_debt:/choices/2/text": {
+        "source_sha256": "9e43077b8ad62996e84f857a5a6c987d533d32d1fd84261ee267afad8fb92a67",
+        "target_sha256": "25803261125b0f2d5dcf65d54a7a535d2c97c90d52ea0f28b7a6ff5a3826c9a3"
+      },
+      "events:drama_addiction_debt:/description": {
+        "source_sha256": "3e1947118dcc2c073c6a212e8696847242533aaed747c36351e7c034f0315f31",
+        "target_sha256": "4e8409eaec136a88c142f7a3896bd0050b17572443d28a910f7f93ec47d3593f"
+      },
+      "events:drama_addiction_debt:/title": {
+        "source_sha256": "ae36f76f74c554181a777e9980ff1b2f2fc6ed099f7fc430a53dd0419bcfa110",
+        "target_sha256": "33a4b59bb5764a5d7c3f9fe6b98abeaf3f40031861204e15f92cc7eddd4ff43c"
+      },
+      "events:drama_addiction_mirror:/choices/0/result_text": {
+        "source_sha256": "a8ca713073fd5294168a02ee6d0e45c6dc5a82280c473e15349a278bd306f8d6",
+        "target_sha256": "671e37b5cb28051d5d56ebcaa55ad21ce5b1187c7fca5a130dacf0a93c554ef4"
+      },
+      "events:drama_addiction_mirror:/choices/0/text": {
+        "source_sha256": "61ae16292d7efbad28d0ae9a19e1b9c9a5a0b3c6e16aac2267928a020c7f309c",
+        "target_sha256": "868d76d45a3b0c70d8c095503b6570016146f71547b25be8c2129083aef0b569"
+      },
+      "events:drama_addiction_mirror:/choices/1/result_text": {
+        "source_sha256": "2682fff0f077802e3a3e43fa1b52291fd2b1ade89302bce33c2a3933b2f26b37",
+        "target_sha256": "54ac28dbbb200bf675708efee261f587e51d4607e435f062ad7e4daaaa690b19"
+      },
+      "events:drama_addiction_mirror:/choices/1/text": {
+        "source_sha256": "7a8ec52c8e2c889545c7055808d0f6c5597a70d9445a3b97aec0b2d45cdf3c9c",
+        "target_sha256": "7071bc530e0a54da5503d338b84c8d2f64ff4ec4dcc24f2123ad53c6e2359e7f"
+      },
+      "events:drama_addiction_mirror:/description": {
+        "source_sha256": "ce77e8e816df57cb78a6cd9f0703f9e10cd9572e65c399f2aee82e53370310b5",
+        "target_sha256": "b4a045bd5f6369fe155c64fa10bf1e3d35ca1af3cfe333c87f69a52f7e1bb764"
+      },
+      "events:drama_addiction_mirror:/title": {
+        "source_sha256": "4a41000dadb7163f6d81f8f1129946601acb7553e13d0cc9bdd477cb7311d4d1",
+        "target_sha256": "5a0d0c8f37db3d1a72406a806f983df49c47919b93db0cfb923f0ce2653a327c"
+      },
+      "events:drama_addiction_warning:/choices/0/result_text": {
+        "source_sha256": "a87a6cc2698d4ee0416583c1d43af9a06f73e90833d8b40264cdf463cd4567fe",
+        "target_sha256": "625a46f8f63d5ca8453ee659a5c68d081b6e31c3145e8f058200d5bf86c3c1ac"
+      },
+      "events:drama_addiction_warning:/choices/0/text": {
+        "source_sha256": "818f832152bc8d2351234ed0fc9025bc5645a423e511bb176cf428fde10b8c75",
+        "target_sha256": "abd5967fb6da3e6a759b59d6cdd52601e5ab1d8a4cbfbba082187042f969da9e"
+      },
+      "events:drama_addiction_warning:/choices/1/result_text": {
+        "source_sha256": "f4ee94141b0c5101977814cc10aea159dd64b094a543fe9375f2be14ce6391c0",
+        "target_sha256": "8a8d5ef7b41725ee6276364647e9f36aaf8518ee4be99c8c4e8a1c0bc4e6a198"
+      },
+      "events:drama_addiction_warning:/choices/1/text": {
+        "source_sha256": "acb627b579142260d01660d6b1eb635388b216acc2998ff2e291aa80da865185",
+        "target_sha256": "50d8d64c9313f8a80f3b9c214c4994653c8e30b67093ae179ee97c6fc3d16d45"
+      },
+      "events:drama_addiction_warning:/description": {
+        "source_sha256": "89890123373414df3ccb9602d89ecfc243c0456b1603f740b0773b03e3ff0d48",
+        "target_sha256": "6dc879c9fe5644aa798127f0af1a2844e176c91bf5c2b7ea0457cc8beaa3630f"
+      },
+      "events:drama_addiction_warning:/title": {
+        "source_sha256": "d04c56a163f2d95a6b1ce2d6d43b51fd2dbeba9ca66c2797a861f5e5328834a2",
+        "target_sha256": "05d2a8c4e5c88bd6405f256765812a88af981068507a0761e08077b7f221cb7b"
+      },
+      "events:drama_apartment_lottery_win:/choices/0/result_text": {
+        "source_sha256": "2214a14f6886bebba80bb509e0503f13aba951b33bc39908f477dd48f0696187",
+        "target_sha256": "afdc81be05eaa8b7d7d00b2291717d851cffb994a75e01d1355847d912941357"
+      },
+      "events:drama_apartment_lottery_win:/choices/0/text": {
+        "source_sha256": "8a6a783313f46dfedc2dc9872590ddbc58d6c5d65aac0e21a81569bee345e9fc",
+        "target_sha256": "048d9f9aece85ca156b4425273838f777e5e43a2fe8d89fe953c2813d6361277"
+      },
+      "events:drama_apartment_lottery_win:/choices/1/result_text": {
+        "source_sha256": "2eac5961d79fb5be0721871fa61b253a6b326faf896d5ef973d7117a74f78c0f",
+        "target_sha256": "bcf8a5cc95a9054ec701e0ca2a221fa00049afc24825a0e5a39a14975b0c6313"
+      },
+      "events:drama_apartment_lottery_win:/choices/1/text": {
+        "source_sha256": "6771c6c12951527e529338aed4d773b1c733574d726b7d6dbc5358f2e26096b6",
+        "target_sha256": "fdcc116bfd85f0df1536330d26254affeefe52be6442ddcecc1a75b8cc5aeb07"
+      },
+      "events:drama_apartment_lottery_win:/choices/2/result_text": {
+        "source_sha256": "9d34c9ad489abffe0e8667d7777aebe2ed1cd688b21ed02c5cd4fe11e3852fce",
+        "target_sha256": "8c5962f739421ac831b7d071e9bee0336b851c1fe5fdf350cf87c4e52a253a5d"
+      },
+      "events:drama_apartment_lottery_win:/choices/2/text": {
+        "source_sha256": "82e42606e6465838c05cd2fec7a7ed8976db694df2253c7f54cb22d56ad4ad4c",
+        "target_sha256": "4a305ab0b0cf273ebe9587d4575ff1b2906fd04fd83d69af7f00d843e4799a21"
+      },
+      "events:drama_apartment_lottery_win:/description": {
+        "source_sha256": "ee3b7dc2996a92cf9de010dc1fd14c70bd53800aed02b06a4fc7dc10d26e3ddd",
+        "target_sha256": "1d8cfdeee522dd8c9a28293c7f586d40c989c1df22ed8ec1971e504aea930e7e"
+      },
+      "events:drama_apartment_lottery_win:/title": {
+        "source_sha256": "97587c34e1e6c453e19f7fbe25883a7c5b6cad9e6e5a5b38295b691b8777c8fb",
+        "target_sha256": "9c9042513f2e3d6bae1cffdb8cf151e12072c102c0ac9af4f29904b78078029c"
+      },
+      "events:drama_election_theme_stock:/choices/0/result_text": {
+        "source_sha256": "e899180cc4eaa545e2ef40f50d4aafeba51637d6a1de5863973886c36a914bbf",
+        "target_sha256": "7c7fd19fa3ca23745930eec5e170e8a436eb19db5b756c41f8e2f2213f779206"
+      },
+      "events:drama_election_theme_stock:/choices/0/text": {
+        "source_sha256": "227b1e3bb8e7ddad8abba35ff10424d779956ae03eac71397dfea4ffe7c85c3e",
+        "target_sha256": "1c6ecafce1563cba697d68a8e66767e311f97a0d4178ca0f607a53a91460de24"
+      },
+      "events:drama_election_theme_stock:/choices/1/result_text": {
+        "source_sha256": "2d6970f55bec505549df15421dd1eafc45007337682fc8a1e50e8a7b02e235ba",
+        "target_sha256": "a305d4376af7eadc9db6893a9b3052b14299b8ab6f2eeb83c90053fd8bfc2537"
+      },
+      "events:drama_election_theme_stock:/choices/1/text": {
+        "source_sha256": "ff98cc00bdd02bcbc554c754390e9a153aee7fc57bc69bed2dc502b4dfd9d07d",
+        "target_sha256": "4152c73b610039d50c4769768e67437c621ba93ebfb262f68fb795f82dbee749"
+      },
+      "events:drama_election_theme_stock:/choices/2/result_text": {
+        "source_sha256": "7b75c5847e7825ee59b4eef5bce3dad18b46a97185b6dc65a56536b137117669",
+        "target_sha256": "23d59a01319491e26064c4e840a48d79635ed49ad9dd04af62511c440f1f7f12"
+      },
+      "events:drama_election_theme_stock:/choices/2/text": {
+        "source_sha256": "d620c346219401896687d5a4836b5a20b88f27b359be75ce2114fe9abc31283d",
+        "target_sha256": "26c30d73e8820d3ecef8d23c2ffc8cd3a618ff0acfc417ce7c9dd9afb3162c7c"
+      },
+      "events:drama_election_theme_stock:/description": {
+        "source_sha256": "ce82225418ca39a8a6967526234b2982b9414a3e073376079c0d643224f430a5",
+        "target_sha256": "e1adcb7288c231f687d78f87b3087cbd90745c0771be28da10d0927d87517599"
+      },
+      "events:drama_election_theme_stock:/title": {
+        "source_sha256": "63104737415d914d91607d3b0a844bc8354b1d2177a9ad73ec7db873ac971d34",
+        "target_sha256": "00b209eef8f82b3c0e3987cbb93366bfac3fb2279cf75b1ebd9191031d58beab"
+      },
+      "events:drama_health_scare:/choices/0/result_text": {
+        "source_sha256": "04846361880557ff8f2ca2bc899827ca609d731bfde64c85bed49253479876d7",
+        "target_sha256": "1cfbf54e47f29168da4b217819212fa6f2d1cbfc74217183686662209b6266c0"
+      },
+      "events:drama_health_scare:/choices/0/text": {
+        "source_sha256": "6b7ebfdc916a51c023d7992609a73c9e1c5912c95db3b8938241850724720d5a",
+        "target_sha256": "10e084e0c9556baa5f5182d19e48de0ef42e9bd15f4101a27d33a891584916ca"
+      },
+      "events:drama_health_scare:/choices/1/result_text": {
+        "source_sha256": "a4fec78cd3169b9a350ec1946ad096c4d975c248edaf09c6743c234b5e69bf15",
+        "target_sha256": "abb3e77fbb820c2d15e81837fbec5f6032083b8be3305a7451d0beb4a18ffb3a"
+      },
+      "events:drama_health_scare:/choices/1/text": {
+        "source_sha256": "8e6e0b497ec94bdad56e9a2de3efdb2ae0309a6dd6d74dfa483df2b27fcf1ef6",
+        "target_sha256": "1a36eefb47f266cb7e78f73b35339653b8d0b490a45cdc8e2e519265cca02a20"
+      },
+      "events:drama_health_scare:/choices/2/result_text": {
+        "source_sha256": "51efee5a16f86b7349138fc141741a54784f9a6428d47d047e4bae6a50bcad9c",
+        "target_sha256": "607c0037884d9e9b18418fb11cbcd7dbf659ad93b6a71bd38f4999528dbf7345"
+      },
+      "events:drama_health_scare:/choices/2/text": {
+        "source_sha256": "322492292dae7a0ad184026398b492dab4cdad5ccf4bd44b2fda8abbe26f1428",
+        "target_sha256": "3695ef480c8e88536c3764d0242048d6fc71e76921e9549144179b2b601445d5"
+      },
+      "events:drama_health_scare:/description": {
+        "source_sha256": "47ad7baaf60706e4cc5631c6c535a6748d1b28c7641c00162ead916f33837074",
+        "target_sha256": "1abb6cff671104d9667789ed9c78fc1a283410dd09d465f40c003122498f6462"
+      },
+      "events:drama_health_scare:/title": {
+        "source_sha256": "105305ef31b15dd405f34e922e808246102f5d235a8ed41698de611a2bfb4696",
+        "target_sha256": "c01f1ca87df002f18a50dcf0c03913dddfdbbfe08c804a06c8aa93df583edba7"
+      },
+      "events:drama_layoff_survivor:/choices/0/result_text": {
+        "source_sha256": "194c65d9a3c90bca8dab80797e78f2e4d503121742b73d21c277b440fc5f58ef",
+        "target_sha256": "78689ef1761a40f08c6ce082d036303aa3c5fa388154283b31a67229bc6bf15b"
+      },
+      "events:drama_layoff_survivor:/choices/0/text": {
+        "source_sha256": "44105ac019c89a9c67d68d11adf256b618d5917146b3a82d867715ad06f625b3",
+        "target_sha256": "30e05a4387649e19b35ad11dbb55d32d3f4c1f55012cbb9e720361456e64f97c"
+      },
+      "events:drama_layoff_survivor:/choices/1/result_text": {
+        "source_sha256": "16a6225336c2cdf14fd9aa7380dd4b0172866cbadabadf0b9e51e19499d6ebe3",
+        "target_sha256": "d8247ccede450baa62ede1622a6c69a3ca40a57fef972c14904e24264e33a0d3"
+      },
+      "events:drama_layoff_survivor:/choices/1/text": {
+        "source_sha256": "4d853688843c56c59703bee08c67eb21d5b3daabb966eff1e0759e2d9e31671d",
+        "target_sha256": "042cf26970f438bd4ac2022e12cc47a0581588e9f1d0aca33ac34ffe520ad984"
+      },
+      "events:drama_layoff_survivor:/choices/2/result_text": {
+        "source_sha256": "6c1427543bbf370d2c321560b6dabb606008116c6ad40e467ebffd46d1c171e1",
+        "target_sha256": "b68ca6b9d06fabc3e746784a9b979e1312a44a0fa67f08446f37b8de1e0c372d"
+      },
+      "events:drama_layoff_survivor:/choices/2/text": {
+        "source_sha256": "cb70fbbfdaec0c0a27904ca10d220f4ab2662243a4825a7ad820f311b9055718",
+        "target_sha256": "214d905483e7ad6da4986ae6db217116a6d80d521d78b6828d58f928cae1eb70"
+      },
+      "events:drama_layoff_survivor:/description": {
+        "source_sha256": "c1a2c4c5e803fc0d511e6ba4f956fde4d32fbc6abac4ceb8747649e8905fdb7f",
+        "target_sha256": "a34a4b74ac7401863501f12586c5782cdd49cc6d1b2a00260c751bda036cb607"
+      },
+      "events:drama_layoff_survivor:/title": {
+        "source_sha256": "8abfe3d073385e5ae532f72ec0e923bb2c7feffd2aad5de1c96ab07a79f2570c",
+        "target_sha256": "9cb13e20326eaf8c17b010a0a56da7ad421e1d9bcd144bff93c7c32deed4137b"
+      },
+      "events:drama_mentor_intro:/choices/0/result_text": {
+        "source_sha256": "7eccc9c6b752ea1a877ec64ebfff033f4a13f287877e27a414a2115b3b8714ef",
+        "target_sha256": "8e7579d212d997c2502de790a784971093cf1bd8e8daf3978e06be471f544f9d"
+      },
+      "events:drama_mentor_intro:/choices/0/text": {
+        "source_sha256": "57b8330d5dedaa15c337e3b48507f2b86b6b750f5916d81c27be465d9f066a08",
+        "target_sha256": "72e45f0c401cb8baa7f3618c8505c7317c47f44e71e6b6397003a5662a401c87"
+      },
+      "events:drama_mentor_intro:/choices/1/result_text": {
+        "source_sha256": "6d8e5ab2e3621f616a2d63e4b444b125265024304de8f468dde2612fdf995031",
+        "target_sha256": "99d1cb1826c9345810b697e97cbe76511a4cb275107b0a89b38fd3b4a29b741f"
+      },
+      "events:drama_mentor_intro:/choices/1/text": {
+        "source_sha256": "da09c84d7199741421ef1ad5042b7183420345d67ae2f8d6f9035582deb9b04c",
+        "target_sha256": "c4e50e6331cad048e348dc60f6c28138441a3de040ddd7effbee707620262d76"
+      },
+      "events:drama_mentor_intro:/choices/2/result_text": {
+        "source_sha256": "d4308be2def6027cf0ca0e833955c955eb261dd16f5deb651bbb0341da2138d4",
+        "target_sha256": "5923999a32924a6c7c98432da4a8d41109b5d38a3165c7ae7bd3eca1fde26158"
+      },
+      "events:drama_mentor_intro:/choices/2/text": {
+        "source_sha256": "ef1a9dc1211c34165517d93dd8c0272507d434bebeb8081483df8b7758de64b7",
+        "target_sha256": "f07f0745a7b8ba3ec0092dd205851d16cc6889bad75847d5c698cafc38f26a0b"
+      },
+      "events:drama_mentor_intro:/description": {
+        "source_sha256": "e2287590995836f5c6fa8a49b82193919cf56c5317d2d873133cd11fecd4e9ff",
+        "target_sha256": "7bf7eb42f2fed5f7a4fab51de2f5dc2e8d3043d492c8b8bda136d62a4b222774"
+      },
+      "events:drama_mentor_intro:/title": {
+        "source_sha256": "6e2df7ea468762230eed8b5512544a48fe1f0642c843e802e415e8851606c56d",
+        "target_sha256": "6c865bee955e403867f144333c293a2aac0cd9f1e48b98505d3bffd1b1bebd15"
+      },
+      "events:drama_parents_financial_crisis:/choices/0/result_text": {
+        "source_sha256": "7e86a5ef0aa46f3b8b9bcf9e818b80bb019a2e3e3a4a135168cbb0ce683d68cc",
+        "target_sha256": "1724676f9c0a3fb5fcd233df42987257636a16bbc797e75de993a85984a6cf84"
+      },
+      "events:drama_parents_financial_crisis:/choices/0/text": {
+        "source_sha256": "7d91de5aaa9f821a30fa41e29bd40fd5831483b19cfa490d228d3f77208d644d",
+        "target_sha256": "bc4bc8363f4130b617b4f4fa88d8eb40b1e882781bbe903ef1e33ded698b2b74"
+      },
+      "events:drama_parents_financial_crisis:/choices/1/result_text": {
+        "source_sha256": "b99342c103632127a640bb6db728d641d3de5c480515d6be9c7172bfa7533acd",
+        "target_sha256": "38f0b639e37a0a8a6e7fc443cced3c1d0f93313e23abbe10a192969b1defe937"
+      },
+      "events:drama_parents_financial_crisis:/choices/1/text": {
+        "source_sha256": "ace81f16443de6f4fb57b185b12c43e232e3e65156e819766e60450d610efc80",
+        "target_sha256": "8222e5806c9ce180be339ac3e954e956aacff1a6b34a8ffab4df99da055cd899"
+      },
+      "events:drama_parents_financial_crisis:/choices/2/result_text": {
+        "source_sha256": "a31a052aa5ebfa7ffed5a32e04576ba4c6f8d5dad084b0f45349a632707bccc3",
+        "target_sha256": "d2fee123502326fc6c2e0df62a84095c5645c87b59b148dfdba49a05005da652"
+      },
+      "events:drama_parents_financial_crisis:/choices/2/text": {
+        "source_sha256": "52b30a5a97af2de0982c69b9070ed01cd57f02c862b98b9aad99b9f753d412c0",
+        "target_sha256": "f0d0ec64e0ef842f9f7f9afc859b4e665b85d69649110905dffe826b975120ef"
+      },
+      "events:drama_parents_financial_crisis:/description": {
+        "source_sha256": "fa8e83ac6a27c4b231e99404c3e575f3c90990267b55fccf19edcd169a3cb394",
+        "target_sha256": "f1654a71230e6520582fbce0771baa10e003d443e82fb6c214cfa50f2be389a4"
+      },
+      "events:drama_parents_financial_crisis:/title": {
+        "source_sha256": "724884d35061aea56aa6ad75926a651c1f2ee85fce90acb34888e90c4d562f74",
+        "target_sha256": "a90c9129b9f399d3e6b346510cdedac6eedd2bc88e676a2de0e6094d7840009e"
+      },
+      "events:drama_public_contest_win:/choices/0/result_text": {
+        "source_sha256": "be23b047eee0248b3e5332956441d30fcd3f39cd9152dd65e8cfbbaeb18acf72",
+        "target_sha256": "7bf516aea7ccb6f251aef1fd303193bd503cbf4475d4604ae2820873fb09c501"
+      },
+      "events:drama_public_contest_win:/choices/0/text": {
+        "source_sha256": "dbf596cb9a7bde44541c271ff6b931531ad50df38e0dce93807c2d89a8b0a4d5",
+        "target_sha256": "65eb4c796d53f873faafa6d2378f8d3ba1ce84de7c312c4929763e4e3c313d3e"
+      },
+      "events:drama_public_contest_win:/choices/1/result_text": {
+        "source_sha256": "c66b0131264bd53870081d7488423031bae6058b4365f8324fa578cd0eaebad8",
+        "target_sha256": "9b0e23cada44bcc2dcdda7d96bb1892227d1464a2c1232e17824c063374c6de8"
+      },
+      "events:drama_public_contest_win:/choices/1/text": {
+        "source_sha256": "16dc72278cfd3fe822b7c9d1b4193dfae1593c5f303b6713f45c76cbf5ba494c",
+        "target_sha256": "23ea1085eb8f6a1ad52eea5474f76047631a9e4534b57cbcbc6efb280e1de8e7"
+      },
+      "events:drama_public_contest_win:/choices/2/result_text": {
+        "source_sha256": "443bd9d067b974a0259fdfccdd220b9339a516a208b1d63a720b6c07182284fd",
+        "target_sha256": "5c29a59174e869a54833b6a1250dd72e31d6ea3ea6dc0a90d84ce20f7bf1ff89"
+      },
+      "events:drama_public_contest_win:/choices/2/text": {
+        "source_sha256": "67aa837af680f397037ba186ef1375d204f43de094539375f41d437aa230184f",
+        "target_sha256": "59ee4d63f440eb7b0a3ef2997d25002d6773908886d78cc9c7c29b2592a1a4a0"
+      },
+      "events:drama_public_contest_win:/description": {
+        "source_sha256": "193ac4ddbe0e16ffc0caff08395f6cea990905767188b251e9b721f7ee6ba247",
+        "target_sha256": "b6c6978d641fd86b5dbb9785d2584dfb9ce10fd6a1b7cdd1680cd0ff58998ccc"
+      },
+      "events:drama_public_contest_win:/title": {
+        "source_sha256": "761d8a761edaa9ee660b9a0af7b5dc46411b33eba10e5148dae5dfd47d03b5d4",
+        "target_sha256": "dc890e575c83d79ba32a101a74652ef9e56fb40c036eeb042654f54021a1cb8f"
+      },
+      "events:drama_startup_acquisition:/choices/0/result_text": {
+        "source_sha256": "6b4650a3ce48e11274c3dd7ed866beb2118418c340cfca4d280684da2a50564f",
+        "target_sha256": "57627b00a561ba97a3a742bbfdca14d02a45fae6e45d2acd112d5a34cd38ee5a"
+      },
+      "events:drama_startup_acquisition:/choices/0/text": {
+        "source_sha256": "020e9d46ac18b6d770c7728ed365dd61ecd36262e9dc7bdf7f9e3fa5c4f6968d",
+        "target_sha256": "c1d04b7fc195a161565c7471365401ed31c02762566302d63c130937c0111848"
+      },
+      "events:drama_startup_acquisition:/choices/1/result_text": {
+        "source_sha256": "10ee83cf3d28f4a20e37fcb70c81a73eae88a4a8ef3f328e4435ce9e6413ba66",
+        "target_sha256": "71e599e0a2ca7eabb48599c06a2d1b9caad095203c2a7382994f602754370079"
+      },
+      "events:drama_startup_acquisition:/choices/1/text": {
+        "source_sha256": "8550d8d8b3e7cacfa2e085f1f7d96bd3a87288a47e801e5a97690aade32af445",
+        "target_sha256": "fbc21edb586cdbac92abc3afd4669993c6f6d1c7b5e616bc2e46a066194fa8d0"
+      },
+      "events:drama_startup_acquisition:/description": {
+        "source_sha256": "a0a8bd129084f2c9144e33f6f440f03b490c3e8e7017549196e10bc2adbe9543",
+        "target_sha256": "aeec88c9b6e127e0026363c6d0251f448c4abbfc5a0e4648417991283b096368"
+      },
+      "events:drama_startup_acquisition:/title": {
+        "source_sha256": "f31e1f98ab8fd6a4dc1dc127814d69fc9c4d552dda11879b29c5799af3487817",
+        "target_sha256": "55108d344bd5b04fff51c59f944ac17d7fb4d7a31a80bd347806816bf02cf21d"
+      },
+      "events:startup_first_user_traction:/choices/0/result_text": {
+        "source_sha256": "b9ae0388192b6fb25af7dfd026888a6f3ff4540b8905c8ca3e622aa0945e3ee6",
+        "target_sha256": "c48d350b0ad70a0b19a9a468dba642515bdcd746993bf3d4d759cb9d1f2a1bbb"
+      },
+      "events:startup_first_user_traction:/choices/0/text": {
+        "source_sha256": "291031c1f0c0a19ed6fd67b971388e0e5905de5c94a7603c344177e4826ad783",
+        "target_sha256": "cfbd57124b84acbdd7e7df8b5a05cef2098f14db2b8e812f89577e6b02a94958"
+      },
+      "events:startup_first_user_traction:/choices/1/result_text": {
+        "source_sha256": "defb0296af9e17a6f1fedd8ad106cd6d4327d80a3f5ba5ff4743c52a6fe3c535",
+        "target_sha256": "48c1678fd91bd70071123f683bb66fcd1f092c264fbde61425fd62701d6c1eea"
+      },
+      "events:startup_first_user_traction:/choices/1/text": {
+        "source_sha256": "7f821c27529bd770f466d11540ec6a173cdd0e6265c4cf7c036cb1f90f8dd861",
+        "target_sha256": "04e1dd1d2003748c4ed7b4df7f592cb7f5532f2d98f80fdc8a3a4604daaa1a49"
+      },
+      "events:startup_first_user_traction:/description": {
+        "source_sha256": "e8fc2f476af7ed9111096a6abcc76fd0c1d23dbcadb090eb7fb6477a0ec5e06a",
+        "target_sha256": "413e09fbb03afad0976a8e51f8f5faa5db305ecf8bb142b4a2352976d25ddbaa"
+      },
+      "events:startup_first_user_traction:/title": {
+        "source_sha256": "5a1a68854bb31eca82914daa17cd416cb2de5149bd2b35dff20402983ad9cb40",
+        "target_sha256": "b6ad4a33c619353d2884a5fcc50371e8081eefa15d11bbb9c333b15c175d379d"
+      },
+      "events:startup_team_conflict:/choices/0/result_text": {
+        "source_sha256": "8452f8b32adde816ddacd959cf312b3e95a24d5f7acafbf3cb2cbb6f7dd6e4cb",
+        "target_sha256": "2e61da92638eefb8c579c887ad6a895b0da3dff3704337df0e6ab40f0bab47da"
+      },
+      "events:startup_team_conflict:/choices/0/text": {
+        "source_sha256": "7f8d3b5b60ecfe218bb1b688b5ae653f3077f9fcaf5c665f9da87b096d4d27da",
+        "target_sha256": "73f0e588f29990efdb78984db5f77b233a840dca548c35bd896dd5054e3c7527"
+      },
+      "events:startup_team_conflict:/choices/1/result_text": {
+        "source_sha256": "4b68935c2588080ae5b727e7efe9f69b2012789c2cbf5efacd6e99f18c5a5173",
+        "target_sha256": "246b7f3b6a5ed91ad5d782e42bba73664b877e7e15cb6c3f5f13a42ce8f67e71"
+      },
+      "events:startup_team_conflict:/choices/1/text": {
+        "source_sha256": "ea9faef8d68642364aba3f68672921adce981901cceb0954029b67de54d0a9c3",
+        "target_sha256": "82fb785bc22ac94dababd9ca461bc617227ca4b3067e8edc55263a644ef13e86"
+      },
+      "events:startup_team_conflict:/choices/2/result_text": {
+        "source_sha256": "93c14c0d941fc76aa7232a09fb64a27c61ca6108dd414ebfa03eb5bb092c0e35",
+        "target_sha256": "32e11863d9d5f6dfabc4ad9fe4b2d9fab9e5fb097854cb4a39fd94bce457b3e1"
+      },
+      "events:startup_team_conflict:/choices/2/text": {
+        "source_sha256": "f9e62215ab1bed9f8d6503c0b2e6114bbb3d2cac540c845cb79212f94c731825",
+        "target_sha256": "5220e366a95c0d8a9d2f7098e7e3660a914528cdf8b962ecfe9686721ee50dac"
+      },
+      "events:startup_team_conflict:/description": {
+        "source_sha256": "03b1580d90a73166fa6ff8d099662f9e9983cdc9b8c0cda515fccd00d58bb757",
+        "target_sha256": "88871526881946e892b6c898a4ac7d838b1b05f7e620bcbd109d6a1384c11e68"
+      },
+      "events:startup_team_conflict:/title": {
+        "source_sha256": "22683b8af80e651409efb2102e2b983e3c671cdd31d062e3b2f992c1fae5e239",
+        "target_sha256": "91f97aa129f55cff05253034fa127eefe66ba37e1c399b60478686307c492e39"
       }
     },
     "zh-TW": {
@@ -67384,10 +68588,594 @@
       "events:story_two_year:/title": {
         "source_sha256": "5f50536ef3c7d8f62a7537a420b93f09abcf57f8e0f2738bf92f6e0da9fd55d4",
         "target_sha256": "700adf60ade2136f274ab92a96d662645ff1dcab40dcfb9e2e2c3401eee63a49"
+      },
+      "events:addiction_clean_hands_echo:/choices/0/result_text": {
+        "source_sha256": "01092b8aabbe0f7b49edde1e0e748b42f89fb5485bdfe52c1b1672b3933eae6a",
+        "target_sha256": "729f2da4a885c2630ea752b5a718c4347ab6481d858e975b3217dff0a76aa29a"
+      },
+      "events:addiction_clean_hands_echo:/choices/0/text": {
+        "source_sha256": "9293cdbeb856d414b7d46b57a02d5b857f6c099b5dc5d39159cc86bf6652678c",
+        "target_sha256": "b0a26ccccc50aa2b71f51f2b8e3565b8a8a9666d235cc955978f229273e23d0c"
+      },
+      "events:addiction_clean_hands_echo:/choices/1/result_text": {
+        "source_sha256": "66240da9d2d82d3c436e8f2701b9e05db78d6f3c2a13707874d79487269152a3",
+        "target_sha256": "626e4a11063afe238667c82220e95c9175b4c4d864d54d33a6a6ed242e1e51e4"
+      },
+      "events:addiction_clean_hands_echo:/choices/1/text": {
+        "source_sha256": "b052e6b2c67b298ab0da75624fea16a50a0c9afea0b8db224d22b02cf9ae257f",
+        "target_sha256": "6b6ebcf89642a8584d17e6495bf84e6d61a80fcd4618c00ffeef1fdbd5bbc94f"
+      },
+      "events:addiction_clean_hands_echo:/description": {
+        "source_sha256": "40042a688e55c4a737aa6a787572b0ced09cab5f2a384f23c206b3aaca997b45",
+        "target_sha256": "a8a99fa4ec9b5ecef621335680c2dc6bf07f242e801bbe20170647378ba78bf0"
+      },
+      "events:addiction_clean_hands_echo:/title": {
+        "source_sha256": "3964a3f7727a4cfa297c63f33be26d0aff8a4d4e72f5a52b8a603c68e261134a",
+        "target_sha256": "356ad104a6efccc3d7575a485b404e16d345a7ae83c8d83ff641a1b09cdcd58a"
+      },
+      "events:addiction_recovery_step:/choices/0/result_text": {
+        "source_sha256": "27338da41a081cc19cb2203db275e89e4ee13525d727ec38ecb350f2f4ec0d55",
+        "target_sha256": "0dc1f3b3714cdec1f1f2c6cc6472b8e56b1150a052c8e80941f7fe16db7b72d7"
+      },
+      "events:addiction_recovery_step:/choices/0/text": {
+        "source_sha256": "6fa29701d831a67449b1d6d8e301bf04fd32a0415a958aa9cba98c24e2cc8826",
+        "target_sha256": "24b736997d9b6bb67d75ea20c250eff58cecb459349a4fc411b8f41574fdbe2a"
+      },
+      "events:addiction_recovery_step:/choices/1/result_text": {
+        "source_sha256": "1295798edec3ed62c78841daacdd148a5b7872d3cbcaa12c7e0f851aeaf18451",
+        "target_sha256": "c7b66c64769f9bf279df21cd17d4d343d85d98d2fcc0e7ab7e9225342410f9f7"
+      },
+      "events:addiction_recovery_step:/choices/1/text": {
+        "source_sha256": "2900933acee4c6f2f4dd55c86e02792282dd31ac0bce27233a9bfd047046814c",
+        "target_sha256": "e496cf9cff77952b7db37c776feec0cadf27c515961298cb7323feb15c5cf3f0"
+      },
+      "events:addiction_recovery_step:/description": {
+        "source_sha256": "93e53c387e28bf71102331ff47f6b4125709c4972974e1a61e38dc4666f1d4ae",
+        "target_sha256": "6c0e57921b7d0fcbfc71620e54a61fb6ddb390e63b3076fdab0e3f78a309d453"
+      },
+      "events:addiction_recovery_step:/title": {
+        "source_sha256": "f105371842ecedce17b61465458b0a513e80122b8b0a7cbe00dc77bb389e156e",
+        "target_sha256": "eae7a8dea347dacb108d487209a38c2d92d1cd9a5953f16270b2a3175a1a0a37"
+      },
+      "events:creator_algorithm_penalty:/choices/0/result_text": {
+        "source_sha256": "a2fd822e57c9770b8ba23b1477a1b7e2df5676730baae75b126fca1ee7dde940",
+        "target_sha256": "2f50b0dede9efb64f7839d797af8065024bbf2d63e5f86d2e04b7d517255fc9d"
+      },
+      "events:creator_algorithm_penalty:/choices/0/text": {
+        "source_sha256": "d462afad5120c00a5d09728e42d7019029d6c49ded80bd5a59d86281762c8fbb",
+        "target_sha256": "05983485383ddbbd6c440400f67ccf75ef344d4f50337585ec571f5b3b7eff08"
+      },
+      "events:creator_algorithm_penalty:/choices/1/result_text": {
+        "source_sha256": "e8e6f6247a7827ecfda460537c9a65b17e8aeb046112ddcdf43c6e10d32ebe73",
+        "target_sha256": "1dacf8b3533134055f451c1c336202fd725c5e9ac6617dd5aec1603c34dcb58e"
+      },
+      "events:creator_algorithm_penalty:/choices/1/text": {
+        "source_sha256": "faa55dc3719b97ed991520fde6ea1e7557c903674fbeb00e1d8088e4319b93a1",
+        "target_sha256": "771a26f0d04add25ed4c4e4f4e1d36eb87f7876feb3f010afa41d8880b7d51f7"
+      },
+      "events:creator_algorithm_penalty:/choices/2/result_text": {
+        "source_sha256": "ff0c49c8f0ec0182900a67d4ca5cc9040fd990b1ad45c6fafcae51d10209aac5",
+        "target_sha256": "72c15e62e7ad88d9e52cedc8fb2be779eccd6d5fa574740ef4e0197033fed6a9"
+      },
+      "events:creator_algorithm_penalty:/choices/2/text": {
+        "source_sha256": "fdca45dd7929300ddc34c5a3a8055f71c1cac58cf2bf3443ed2c323a51dbe039",
+        "target_sha256": "d90da13cda0423d5b8af35393fc2264fd26d63b8070ce34fbeb196b800733241"
+      },
+      "events:creator_algorithm_penalty:/description": {
+        "source_sha256": "11b5c3e8bad352338709e6f4ea6f30c3b9e34862384179ba7e448294b63d0199",
+        "target_sha256": "552c8a110bf39783d619df1d66bece3b7aa2761f3035771420461ac5baf946a7"
+      },
+      "events:creator_algorithm_penalty:/title": {
+        "source_sha256": "091f60bac1d661610e4213900d133b1c596ef1d6a112d415cd0a176471c43eff",
+        "target_sha256": "3af42f6e88c99f4673fd10cc4c0da42a0e50ae46ed7a2c4fa109efe25809756d"
+      },
+      "events:creator_breakout_video:/choices/0/result_text": {
+        "source_sha256": "2c1c455e5fe8a4197117ebfe986ae1b17b6ff21b1f6d99eaa5e834eee3fa8ad2",
+        "target_sha256": "a257644bd423d772b743e2a05ec250ab87128b306df79967311c32d84b26fa35"
+      },
+      "events:creator_breakout_video:/choices/0/text": {
+        "source_sha256": "ec68f1ddcb2d70de6c8388b89db50dbc9910f389cf33ba5c48cd07dbff208455",
+        "target_sha256": "dc5fcd12da276a2d85608baf4f1c788718817b9157967e3dedece9f96a6a8ab9"
+      },
+      "events:creator_breakout_video:/choices/1/result_text": {
+        "source_sha256": "d0f23ffb964839a6e89a0d7ddcbe99338c158dc820b75cc4e13c72ae6afe8ffd",
+        "target_sha256": "aa9b03378eb2a4c9e99b6dcc8f18110471b5f1215e335409f73053f3d0426f57"
+      },
+      "events:creator_breakout_video:/choices/1/text": {
+        "source_sha256": "ce23a9dc600f2f5581268fb8b88bb49850a7fa8774d514eb9b1ffa4e9e985335",
+        "target_sha256": "9863810e6f6b62fd31a766da33ec745de737942365d10cbdf6146fe8267d24ba"
+      },
+      "events:creator_breakout_video:/choices/2/result_text": {
+        "source_sha256": "e2d45d053c5d86926007a5ebc0a9ed583c405c61cf3376c5eb06da1a22834c42",
+        "target_sha256": "2ee445757b3b70ba850993f160528a09da84a033a35bee5d5044eea9e6e533b6"
+      },
+      "events:creator_breakout_video:/choices/2/text": {
+        "source_sha256": "134c1bf0fa9bc0d27545881d11148864afaef2b2fa750a5dc0ddd6c736d03685",
+        "target_sha256": "e19c22a47e021d1e8ff08041bd191532b23f57fcc74dbd1112f69e7d234970a2"
+      },
+      "events:creator_breakout_video:/description": {
+        "source_sha256": "a1ca3c5ac0def454882c4239d7528b5c2ccd2399839784d8a89f887afb61567f",
+        "target_sha256": "d381a5091b924f94dac7bc1f8471024ec8181fa21d88ac92b06b3f03598c5148"
+      },
+      "events:creator_breakout_video:/title": {
+        "source_sha256": "9ff4e70eee6c030c5180fd60bc79f0fb85dfffd64eedd35dba1078cf77f2b495",
+        "target_sha256": "9f772116f3ad457228dbb5fd69a234c714727fef8a5014e41ff33eb78d467cf4"
+      },
+      "events:creator_collab_offer:/choices/0/result_text": {
+        "source_sha256": "ac24f43f8e794b7bdabffb4b1bf18590b6168ce54757b8703ee7dccae35e2fb0",
+        "target_sha256": "7f22f1344a9a0a8f41ff3698b9d135fcc1554ecea7b11a92ff6c3f24a44a15fa"
+      },
+      "events:creator_collab_offer:/choices/0/text": {
+        "source_sha256": "301793e25e22fd3a98713693032c78b85b56ac8e403e2880053adeff701d2184",
+        "target_sha256": "6b21b3f7b2d314add13f322e254ef64c2ffa4495d5ef3792442aae08a528f260"
+      },
+      "events:creator_collab_offer:/choices/1/result_text": {
+        "source_sha256": "c558271af36307a1593ec95b9e330be2bd953e3d04bef98f7fedb3f958e1aff1",
+        "target_sha256": "ee9b56420d14fa66c264a865e8158d53987b63199ab222e2a10aa549e734850b"
+      },
+      "events:creator_collab_offer:/choices/1/text": {
+        "source_sha256": "5f37d4cb5eed756a7744e89d793f756a0bf385bd6e71cd45a17f5f7fbd0b4d58",
+        "target_sha256": "0dfe039d18d344e370c5ec04c8b82bafd48edbb39b3acf1e03e867fbba20b057"
+      },
+      "events:creator_collab_offer:/choices/2/result_text": {
+        "source_sha256": "3148663cce98a15b56b6e61a9fbf4d2d1f8ae1ed163a2b541ef5957b32b021aa",
+        "target_sha256": "6460144541e9b2f1ae52f3229acc366d42116e661b6c5a6be53044cd3e454ddb"
+      },
+      "events:creator_collab_offer:/choices/2/text": {
+        "source_sha256": "e35cd1466bd8d17045e9bc75fae058009473d5c76bbe640786978bb6fabf4345",
+        "target_sha256": "18702248b5be94d0eedd8f0d26776d3e930b41c2f929fc8a7319e1c35fea40b6"
+      },
+      "events:creator_collab_offer:/description": {
+        "source_sha256": "45e1236c530d0644f45e757036237f178b1cc829abdd38803dc47c308fe0df0a",
+        "target_sha256": "37af1f5b44056c9a6a155a9b7f4a5d3b0302673888234395873a8162bf6b4895"
+      },
+      "events:creator_collab_offer:/title": {
+        "source_sha256": "ba03eee7e069fa4feac2946b5ee469ac797185b6c80ad36c7e22f6028812f4f2",
+        "target_sha256": "3ce7ee523adf88c7f606580302a3b4e073c00c6e7262cc984e990de4e649b988"
+      },
+      "events:creator_first_income:/choices/0/result_text": {
+        "source_sha256": "87f8539fe6aa7888a8031e573c3e34cfffeaa5b8082d3c70cd7a7eee5947b065",
+        "target_sha256": "aaf6e28e50309b19a265848f66c2105d9ab3e29920d98b670deabdc60e965b39"
+      },
+      "events:creator_first_income:/choices/0/text": {
+        "source_sha256": "21062760fd56cceb56ed9503df871e31a7d710fb697227f81fd5216310c26c38",
+        "target_sha256": "f998a8e070e1af39754832032da65de6b630a6ad482281f8d7be204deeae2527"
+      },
+      "events:creator_first_income:/choices/1/result_text": {
+        "source_sha256": "58cd18303931a63b37aceefdf19bf0227ab97f8d2cdf3c36a1aa9c9e20ad5466",
+        "target_sha256": "2b6bcbe5604d57aeba49f74ab1e7de4c8faa4763d34485e8459e6a5988dedfea"
+      },
+      "events:creator_first_income:/choices/1/text": {
+        "source_sha256": "28cd89947fb1b85f9174e5f82e908b0ef6af6561a8d7a5bcc30fde722d4c8c83",
+        "target_sha256": "a2aa5ecac3b1dcb9b10695804ea243f53aa32deaafdf00f0069607bf905a2056"
+      },
+      "events:creator_first_income:/description": {
+        "source_sha256": "0293dfcead65ddad8a0e1d8b25eb84b7e76996b8f44fd45fbadd4be379683722",
+        "target_sha256": "8b2810c9e3d32fcfef73a229e328bb2cda7c6f3ba0c6bb3fac998e2eef7c6711"
+      },
+      "events:creator_first_income:/title": {
+        "source_sha256": "e33bddc57cb3542aacef7b7abf7141324beec3068e3dd681dfb1954dfa83132f",
+        "target_sha256": "2b1a27ada8caa1f80910f6b4fa4719cdc9ad3af0cb6a5f75f3d2ffbc3d546e9b"
+      },
+      "events:creator_hater_crisis:/choices/0/result_text": {
+        "source_sha256": "aea9e6f63448d454a1ee5f453758eb6d26e9a253fccaf4d5153e2a233a6422a2",
+        "target_sha256": "35ef7a1a7519175aca390e5f207166df189c7ab6a7b159880bd30591fbfcc164"
+      },
+      "events:creator_hater_crisis:/choices/0/text": {
+        "source_sha256": "5dcd95eed35fb1c716ea2ef68e9b188ac1e936cf1d73a33de7ea016efb54db4c",
+        "target_sha256": "5f8259b2b235edf1e5dc5df11207c42c67d6e7efdc7420178268d0b176582e56"
+      },
+      "events:creator_hater_crisis:/choices/1/result_text": {
+        "source_sha256": "cc4b2415df8bbe819d2715d5666fb6c8949ece087c84ed90ce2db3f14c6f8bbf",
+        "target_sha256": "b1a4d7d4f9d1764d1b51aad8db910289c3947ef29623ccc15b48fc38eb2a0ccb"
+      },
+      "events:creator_hater_crisis:/choices/1/text": {
+        "source_sha256": "27406aa1bd09a2f8c45a11f3e8710b534b0e01bfcd4fb180be4f93d0c43f3c54",
+        "target_sha256": "f560ec9ea83d933192ceb9954964ff0e5cad5f3e04bc9f27c58162a28edbe62c"
+      },
+      "events:creator_hater_crisis:/choices/2/result_text": {
+        "source_sha256": "2ebf08869bf1918dd8e5c008d9412b71a37befc43daecd417af129d5e2bde1c6",
+        "target_sha256": "53ef5e01612ac05cffd5670e286a530a29217acd84e42bab3a084ebd5077a68c"
+      },
+      "events:creator_hater_crisis:/choices/2/text": {
+        "source_sha256": "d7921c4fc846b1570e128867d24aa069ad248d3b7e3fefacabbd7a7d82f0ed7a",
+        "target_sha256": "ae3ec9f81d5209437435822af4ce6861ad6d7fa09c7e1396480d58cf0c37d53e"
+      },
+      "events:creator_hater_crisis:/description": {
+        "source_sha256": "a999cf4aedd43627680824647650740c271d3752f7dcfc372ccd084f9da56130",
+        "target_sha256": "826f401f83ea308ce8c1723f9b62ec00e975478f34ee44ec3b8ebf2344fcf585"
+      },
+      "events:creator_hater_crisis:/title": {
+        "source_sha256": "29882737f8c6e4a9fd570782d77bc37d8a5b16b1e1af60f9f5ce79a9b3981f76",
+        "target_sha256": "26eba1a8287499dd0ab45bb974b7ffd30436d3f4ad00338955f216a8fb33e4a9"
+      },
+      "events:drama_addiction_debt:/choices/0/result_text": {
+        "source_sha256": "8ae2fac62ee08f4653eda593977d639e6c3fbba0145d645e54bf826e2c5fa46a",
+        "target_sha256": "8e4f4f451c9e661d3a351f7cadbe2eb64dbc08556fff7ef0e2d21dc0d464a2e2"
+      },
+      "events:drama_addiction_debt:/choices/0/text": {
+        "source_sha256": "d5bd01c78ea5bb34c89c8b24764139629a6c40278a98dc4d2ab39cec0468ca82",
+        "target_sha256": "699ae366f9c961b1b1c4cfd77c8fadc41b903be27090122f3ab85fc46bf02af5"
+      },
+      "events:drama_addiction_debt:/choices/1/result_text": {
+        "source_sha256": "72362c7ef8af983e6eeacde437b025ed499c160711db8097b60eab28ebb171b0",
+        "target_sha256": "c19e3b53160b7fd3547a8c1532b391b39c51a4b45888b233bc86adf0cc5498f0"
+      },
+      "events:drama_addiction_debt:/choices/1/text": {
+        "source_sha256": "3bb52057198dfde831df70dd29ecd22456e7e7ebe8503e63af1905ca87269be6",
+        "target_sha256": "d187734c4b891446503bbe5721dfb727aeff571102a3176bb99bc697dfdb87f0"
+      },
+      "events:drama_addiction_debt:/choices/2/result_text": {
+        "source_sha256": "26b84977614aa0238a16f8475d638ab5a77b078b90009da7134ca4c1bfbdfd47",
+        "target_sha256": "a623d5c7797dfe3ddcb7ef5c7a9178208b6ef76b581ed92e7d3c32ab7b25bca1"
+      },
+      "events:drama_addiction_debt:/choices/2/text": {
+        "source_sha256": "9e43077b8ad62996e84f857a5a6c987d533d32d1fd84261ee267afad8fb92a67",
+        "target_sha256": "9efd23e4f8adaebe5bcc05ed4ad6a9ceba217b462cc270051120bf7564919ead"
+      },
+      "events:drama_addiction_debt:/description": {
+        "source_sha256": "3e1947118dcc2c073c6a212e8696847242533aaed747c36351e7c034f0315f31",
+        "target_sha256": "c373009420393e7149c0733cae2073f689df9943e6d118d9422e85bb0073bcd9"
+      },
+      "events:drama_addiction_debt:/title": {
+        "source_sha256": "ae36f76f74c554181a777e9980ff1b2f2fc6ed099f7fc430a53dd0419bcfa110",
+        "target_sha256": "5eef29afb0d2cf0b24f1a1c77def332f59a86f48326036372a1751510bf6c835"
+      },
+      "events:drama_addiction_mirror:/choices/0/result_text": {
+        "source_sha256": "a8ca713073fd5294168a02ee6d0e45c6dc5a82280c473e15349a278bd306f8d6",
+        "target_sha256": "434075b706321e68370e67f560dfdad2fea910729460b3cb050569cafbb31aa1"
+      },
+      "events:drama_addiction_mirror:/choices/0/text": {
+        "source_sha256": "61ae16292d7efbad28d0ae9a19e1b9c9a5a0b3c6e16aac2267928a020c7f309c",
+        "target_sha256": "0649c2532d6702f122dd43245261c53e302e5cc95567b37c31b329385f7b020e"
+      },
+      "events:drama_addiction_mirror:/choices/1/result_text": {
+        "source_sha256": "2682fff0f077802e3a3e43fa1b52291fd2b1ade89302bce33c2a3933b2f26b37",
+        "target_sha256": "d66892a730d2f39270aebab343529857a048f314d5562a9d6ee8dd4ad5e88ee7"
+      },
+      "events:drama_addiction_mirror:/choices/1/text": {
+        "source_sha256": "7a8ec52c8e2c889545c7055808d0f6c5597a70d9445a3b97aec0b2d45cdf3c9c",
+        "target_sha256": "14c032cef68fcdf9519ad27926f9e72050062c22462cc8ebf5f960bbc01542ca"
+      },
+      "events:drama_addiction_mirror:/description": {
+        "source_sha256": "ce77e8e816df57cb78a6cd9f0703f9e10cd9572e65c399f2aee82e53370310b5",
+        "target_sha256": "8cc6f93d96799d3d2d7912e6c26789b6039fc206e58fdf49cd825fcfcb11dd4c"
+      },
+      "events:drama_addiction_mirror:/title": {
+        "source_sha256": "4a41000dadb7163f6d81f8f1129946601acb7553e13d0cc9bdd477cb7311d4d1",
+        "target_sha256": "650e12c8b4e83be4b24312d3a1f7dca498e1647a56e717dba97a393770ebc25d"
+      },
+      "events:drama_addiction_warning:/choices/0/result_text": {
+        "source_sha256": "a87a6cc2698d4ee0416583c1d43af9a06f73e90833d8b40264cdf463cd4567fe",
+        "target_sha256": "ee589c18e64cd1ea78aa90d624ad621257d7ef9ae890ffe0da4f8aa2def0088f"
+      },
+      "events:drama_addiction_warning:/choices/0/text": {
+        "source_sha256": "818f832152bc8d2351234ed0fc9025bc5645a423e511bb176cf428fde10b8c75",
+        "target_sha256": "e84b7c01d762cb4e9d13250f6d0bffb39af6dc6c497eb4221c42ca02cd93fbdd"
+      },
+      "events:drama_addiction_warning:/choices/1/result_text": {
+        "source_sha256": "f4ee94141b0c5101977814cc10aea159dd64b094a543fe9375f2be14ce6391c0",
+        "target_sha256": "d06339305a361a8de2339b46fe57d18217a3d7321d13c6d2084196411c8e2161"
+      },
+      "events:drama_addiction_warning:/choices/1/text": {
+        "source_sha256": "acb627b579142260d01660d6b1eb635388b216acc2998ff2e291aa80da865185",
+        "target_sha256": "6e7b2e6acd6ed3c6914514c7271bb7f1973084f70ea8cfe0ef4c17922933316f"
+      },
+      "events:drama_addiction_warning:/description": {
+        "source_sha256": "89890123373414df3ccb9602d89ecfc243c0456b1603f740b0773b03e3ff0d48",
+        "target_sha256": "f34f408b99267e1d41ee1ff2a1629f0de229250b3aec7af941e5e5c74fb46b05"
+      },
+      "events:drama_addiction_warning:/title": {
+        "source_sha256": "d04c56a163f2d95a6b1ce2d6d43b51fd2dbeba9ca66c2797a861f5e5328834a2",
+        "target_sha256": "c08aea1f7405e1a9e9bda9bac5f60a44db7f1b921db10e5c554baa08908bfdab"
+      },
+      "events:drama_apartment_lottery_win:/choices/0/result_text": {
+        "source_sha256": "2214a14f6886bebba80bb509e0503f13aba951b33bc39908f477dd48f0696187",
+        "target_sha256": "c74d97e5c7d6c62fcac58e75ff4eabc04502265a982e563209efa04492dd90a4"
+      },
+      "events:drama_apartment_lottery_win:/choices/0/text": {
+        "source_sha256": "8a6a783313f46dfedc2dc9872590ddbc58d6c5d65aac0e21a81569bee345e9fc",
+        "target_sha256": "27d0c60bed0adbac9823cdfd855664a2e88c2b1c6b46f9fa108e7bc0105319a5"
+      },
+      "events:drama_apartment_lottery_win:/choices/1/result_text": {
+        "source_sha256": "2eac5961d79fb5be0721871fa61b253a6b326faf896d5ef973d7117a74f78c0f",
+        "target_sha256": "7da24cc605cd931f8a7a35b225ab8818e832b12bd8a8f12be6e123d4ae86a2d6"
+      },
+      "events:drama_apartment_lottery_win:/choices/1/text": {
+        "source_sha256": "6771c6c12951527e529338aed4d773b1c733574d726b7d6dbc5358f2e26096b6",
+        "target_sha256": "3620817f17470ee68aef8783bb26592ab27aea6da705b00ec8c8f536a15d612f"
+      },
+      "events:drama_apartment_lottery_win:/choices/2/result_text": {
+        "source_sha256": "9d34c9ad489abffe0e8667d7777aebe2ed1cd688b21ed02c5cd4fe11e3852fce",
+        "target_sha256": "5bef81ba444837a2a95213a524c1d195a0718642d8966f22013e5407a42fdf65"
+      },
+      "events:drama_apartment_lottery_win:/choices/2/text": {
+        "source_sha256": "82e42606e6465838c05cd2fec7a7ed8976db694df2253c7f54cb22d56ad4ad4c",
+        "target_sha256": "cc8373d264c708eb6e85bf29694b09ec20164f01f2d03b4ec51e01a5e9f2eea5"
+      },
+      "events:drama_apartment_lottery_win:/description": {
+        "source_sha256": "ee3b7dc2996a92cf9de010dc1fd14c70bd53800aed02b06a4fc7dc10d26e3ddd",
+        "target_sha256": "4d1340bcfac8aa89e1dfcb5cf9421ae1a9204144787a21379daa21344435caa8"
+      },
+      "events:drama_apartment_lottery_win:/title": {
+        "source_sha256": "97587c34e1e6c453e19f7fbe25883a7c5b6cad9e6e5a5b38295b691b8777c8fb",
+        "target_sha256": "1d64d86a673412ac0c0d1fe7c23ae5d75549eb162e509caac5b8a886cd0b899c"
+      },
+      "events:drama_election_theme_stock:/choices/0/result_text": {
+        "source_sha256": "e899180cc4eaa545e2ef40f50d4aafeba51637d6a1de5863973886c36a914bbf",
+        "target_sha256": "11be9548589f8aa7dcee73d034f97c5c64d0335f04c0129cffdb59a6a41176f0"
+      },
+      "events:drama_election_theme_stock:/choices/0/text": {
+        "source_sha256": "227b1e3bb8e7ddad8abba35ff10424d779956ae03eac71397dfea4ffe7c85c3e",
+        "target_sha256": "54171ee8323f720a48c84b749ce9fd8220bb0ea0368e27a5385cfbf7caaf6284"
+      },
+      "events:drama_election_theme_stock:/choices/1/result_text": {
+        "source_sha256": "2d6970f55bec505549df15421dd1eafc45007337682fc8a1e50e8a7b02e235ba",
+        "target_sha256": "6b813db9cf1b3905f7fed15f4910f8fdc30b37bd704f09b8cbf8a06f3d13ce18"
+      },
+      "events:drama_election_theme_stock:/choices/1/text": {
+        "source_sha256": "ff98cc00bdd02bcbc554c754390e9a153aee7fc57bc69bed2dc502b4dfd9d07d",
+        "target_sha256": "d8f47cf8065da25680a3987b8a71db8afdecf931bae8f8e972d175cc36f3ed47"
+      },
+      "events:drama_election_theme_stock:/choices/2/result_text": {
+        "source_sha256": "7b75c5847e7825ee59b4eef5bce3dad18b46a97185b6dc65a56536b137117669",
+        "target_sha256": "5e29e8a29284da2882837184575080efb1188d69047bcd13e19b460cddde3e28"
+      },
+      "events:drama_election_theme_stock:/choices/2/text": {
+        "source_sha256": "d620c346219401896687d5a4836b5a20b88f27b359be75ce2114fe9abc31283d",
+        "target_sha256": "860811d165b3673bae064bb17bb399ba98dd0bd1ba908a5ed22f11a6497365b9"
+      },
+      "events:drama_election_theme_stock:/description": {
+        "source_sha256": "ce82225418ca39a8a6967526234b2982b9414a3e073376079c0d643224f430a5",
+        "target_sha256": "93fe8749d94905ff1608c2270ce0f6c35c6e16e551bc0a04ae7de91e72d3a5a1"
+      },
+      "events:drama_election_theme_stock:/title": {
+        "source_sha256": "63104737415d914d91607d3b0a844bc8354b1d2177a9ad73ec7db873ac971d34",
+        "target_sha256": "4c2db9eb8c4cbee210050a9dcd90f2dec344cbf856caa332ab3b9c09da6b6884"
+      },
+      "events:drama_health_scare:/choices/0/result_text": {
+        "source_sha256": "04846361880557ff8f2ca2bc899827ca609d731bfde64c85bed49253479876d7",
+        "target_sha256": "c9e931e1b64e0f6fdb13515500ed829459e16bb987d8081c1f100cbc21524f70"
+      },
+      "events:drama_health_scare:/choices/0/text": {
+        "source_sha256": "6b7ebfdc916a51c023d7992609a73c9e1c5912c95db3b8938241850724720d5a",
+        "target_sha256": "dbf0855d46c0bed81b818a6d41b052444815f2e240875ff0e21ad3446b2bc190"
+      },
+      "events:drama_health_scare:/choices/1/result_text": {
+        "source_sha256": "a4fec78cd3169b9a350ec1946ad096c4d975c248edaf09c6743c234b5e69bf15",
+        "target_sha256": "3c7acae0770b616bf2f46bbea21ef75ace085920e25bafc1b2360411fae9ba1a"
+      },
+      "events:drama_health_scare:/choices/1/text": {
+        "source_sha256": "8e6e0b497ec94bdad56e9a2de3efdb2ae0309a6dd6d74dfa483df2b27fcf1ef6",
+        "target_sha256": "08802a750ac2767a2a6c02edb5d6df99ae1c5e6656778efef22434a1b9ed9408"
+      },
+      "events:drama_health_scare:/choices/2/result_text": {
+        "source_sha256": "51efee5a16f86b7349138fc141741a54784f9a6428d47d047e4bae6a50bcad9c",
+        "target_sha256": "7213926c8ba88c32ed5a7f2fc24abada83e0ffdb70952eb75bd4389c0520cbd3"
+      },
+      "events:drama_health_scare:/choices/2/text": {
+        "source_sha256": "322492292dae7a0ad184026398b492dab4cdad5ccf4bd44b2fda8abbe26f1428",
+        "target_sha256": "ae4dcf97c6bbbed83063fce9a7b2311a8c7a9293a722f18906995541fd7db6a8"
+      },
+      "events:drama_health_scare:/description": {
+        "source_sha256": "47ad7baaf60706e4cc5631c6c535a6748d1b28c7641c00162ead916f33837074",
+        "target_sha256": "be0c91b375f479bd73dc2618f038c5945d0916bfe28eca4399dce2004379307e"
+      },
+      "events:drama_health_scare:/title": {
+        "source_sha256": "105305ef31b15dd405f34e922e808246102f5d235a8ed41698de611a2bfb4696",
+        "target_sha256": "e69b66a50ef2a918151a3cb57327e9f502d8789a80bc42814d4bb4c84f93175a"
+      },
+      "events:drama_layoff_survivor:/choices/0/result_text": {
+        "source_sha256": "194c65d9a3c90bca8dab80797e78f2e4d503121742b73d21c277b440fc5f58ef",
+        "target_sha256": "fe602256e9bec6d186a471a0b8e16ccbb38960a07ebaf217d73862e96195eb5b"
+      },
+      "events:drama_layoff_survivor:/choices/0/text": {
+        "source_sha256": "44105ac019c89a9c67d68d11adf256b618d5917146b3a82d867715ad06f625b3",
+        "target_sha256": "347d46db6def2c5ac4bc6ca8ef9a935fce644769cf919b940e00b21eb346a696"
+      },
+      "events:drama_layoff_survivor:/choices/1/result_text": {
+        "source_sha256": "16a6225336c2cdf14fd9aa7380dd4b0172866cbadabadf0b9e51e19499d6ebe3",
+        "target_sha256": "dec698ecc2a4b65277d362ffdf1d08b398f05dbdae7b51f238692e5095763259"
+      },
+      "events:drama_layoff_survivor:/choices/1/text": {
+        "source_sha256": "4d853688843c56c59703bee08c67eb21d5b3daabb966eff1e0759e2d9e31671d",
+        "target_sha256": "6b6921c036a97d1a78b14f88f92eff7f1aac74fdcce7c49ccb3671c8564df91b"
+      },
+      "events:drama_layoff_survivor:/choices/2/result_text": {
+        "source_sha256": "6c1427543bbf370d2c321560b6dabb606008116c6ad40e467ebffd46d1c171e1",
+        "target_sha256": "e7c38e1019976454d5cf16bc3caaf14b70c6d8d3a1e90463863c3b37f674c623"
+      },
+      "events:drama_layoff_survivor:/choices/2/text": {
+        "source_sha256": "cb70fbbfdaec0c0a27904ca10d220f4ab2662243a4825a7ad820f311b9055718",
+        "target_sha256": "c8c7fd70a00219d07ed529268d6f05ed07f4ad974cb94c41783a5b77bc9334b5"
+      },
+      "events:drama_layoff_survivor:/description": {
+        "source_sha256": "c1a2c4c5e803fc0d511e6ba4f956fde4d32fbc6abac4ceb8747649e8905fdb7f",
+        "target_sha256": "4ea9909161213a737f9d698cd6c6c907065ef5c3f1c13ecf9a26938c939f10f9"
+      },
+      "events:drama_layoff_survivor:/title": {
+        "source_sha256": "8abfe3d073385e5ae532f72ec0e923bb2c7feffd2aad5de1c96ab07a79f2570c",
+        "target_sha256": "a1760767eaca0ddac057a634c4689146c879eb5a0a361ad37a78f3a81fa7c1ff"
+      },
+      "events:drama_mentor_intro:/choices/0/result_text": {
+        "source_sha256": "7eccc9c6b752ea1a877ec64ebfff033f4a13f287877e27a414a2115b3b8714ef",
+        "target_sha256": "c6ff2676ff00dbcb82cc9ec6b3f4d2806bfe30b6c33d3b71828246beda51a74d"
+      },
+      "events:drama_mentor_intro:/choices/0/text": {
+        "source_sha256": "57b8330d5dedaa15c337e3b48507f2b86b6b750f5916d81c27be465d9f066a08",
+        "target_sha256": "393109670dd7fcc6a2570381ea7c58b454e8c8de2229b50a70a946db585b584d"
+      },
+      "events:drama_mentor_intro:/choices/1/result_text": {
+        "source_sha256": "6d8e5ab2e3621f616a2d63e4b444b125265024304de8f468dde2612fdf995031",
+        "target_sha256": "933ef5aa4cb74adc48be8554d58e4e2d8a15eea107583ca782223cfed588ebf9"
+      },
+      "events:drama_mentor_intro:/choices/1/text": {
+        "source_sha256": "da09c84d7199741421ef1ad5042b7183420345d67ae2f8d6f9035582deb9b04c",
+        "target_sha256": "0cfe3942a69ca284a1aa215eb73abc2b05a0bccb77a8a88ca251be39999ca33d"
+      },
+      "events:drama_mentor_intro:/choices/2/result_text": {
+        "source_sha256": "d4308be2def6027cf0ca0e833955c955eb261dd16f5deb651bbb0341da2138d4",
+        "target_sha256": "6ca145847b5dc7b70e098a54898f52bc44b68f1fe0d04f0f9b581e148659b339"
+      },
+      "events:drama_mentor_intro:/choices/2/text": {
+        "source_sha256": "ef1a9dc1211c34165517d93dd8c0272507d434bebeb8081483df8b7758de64b7",
+        "target_sha256": "d487d76cb456b46c6dc07ca6470ba15df1b55dafbada45336801b5dd2ff5eb27"
+      },
+      "events:drama_mentor_intro:/description": {
+        "source_sha256": "e2287590995836f5c6fa8a49b82193919cf56c5317d2d873133cd11fecd4e9ff",
+        "target_sha256": "4f42206b2271efcf97d4eece0d4d0c40d842f713fd56acc0b99d9e700415b99a"
+      },
+      "events:drama_mentor_intro:/title": {
+        "source_sha256": "6e2df7ea468762230eed8b5512544a48fe1f0642c843e802e415e8851606c56d",
+        "target_sha256": "5e2d120ec190bb6ad87ab77b1a3d4e4bfae4c029175293f0bdee03825d9511cd"
+      },
+      "events:drama_parents_financial_crisis:/choices/0/result_text": {
+        "source_sha256": "7e86a5ef0aa46f3b8b9bcf9e818b80bb019a2e3e3a4a135168cbb0ce683d68cc",
+        "target_sha256": "b9dc7d1e54a88f4b62025bd70c9c418f4a312c21fb5107b8f461cc1d6ab5a5df"
+      },
+      "events:drama_parents_financial_crisis:/choices/0/text": {
+        "source_sha256": "7d91de5aaa9f821a30fa41e29bd40fd5831483b19cfa490d228d3f77208d644d",
+        "target_sha256": "90b102c6d1c6cd4f4731a492c3f33d8d98c72998e2d723802d21609f72809ba0"
+      },
+      "events:drama_parents_financial_crisis:/choices/1/result_text": {
+        "source_sha256": "b99342c103632127a640bb6db728d641d3de5c480515d6be9c7172bfa7533acd",
+        "target_sha256": "5e461fb928d226b0960ef8c86a694b165ac0af7455b55e59aa8fde81e01e7933"
+      },
+      "events:drama_parents_financial_crisis:/choices/1/text": {
+        "source_sha256": "ace81f16443de6f4fb57b185b12c43e232e3e65156e819766e60450d610efc80",
+        "target_sha256": "2d2ac86bb4fde98ec13cf362b0b2ec2f3a7b6c1d6f68b142763e34dd71680f1b"
+      },
+      "events:drama_parents_financial_crisis:/choices/2/result_text": {
+        "source_sha256": "a31a052aa5ebfa7ffed5a32e04576ba4c6f8d5dad084b0f45349a632707bccc3",
+        "target_sha256": "c80e8a7988572c2b52d4317c0c42698178de96d9fa1b1e066d183532d52eec9c"
+      },
+      "events:drama_parents_financial_crisis:/choices/2/text": {
+        "source_sha256": "52b30a5a97af2de0982c69b9070ed01cd57f02c862b98b9aad99b9f753d412c0",
+        "target_sha256": "f7363d9e68580188ecef7bdc6db3b3fe924619dbb0198012f411d86fe2b8fb12"
+      },
+      "events:drama_parents_financial_crisis:/description": {
+        "source_sha256": "fa8e83ac6a27c4b231e99404c3e575f3c90990267b55fccf19edcd169a3cb394",
+        "target_sha256": "29a8b1957f65b6d639ee00116e9f27c238fbbc8730ae482437357232c68bd4ae"
+      },
+      "events:drama_parents_financial_crisis:/title": {
+        "source_sha256": "724884d35061aea56aa6ad75926a651c1f2ee85fce90acb34888e90c4d562f74",
+        "target_sha256": "9256e7a6e49bd0cc4cb65408ef1d56a6bdffa192c99714a3962fdabae0442e8a"
+      },
+      "events:drama_public_contest_win:/choices/0/result_text": {
+        "source_sha256": "be23b047eee0248b3e5332956441d30fcd3f39cd9152dd65e8cfbbaeb18acf72",
+        "target_sha256": "5b741cb941a9532c26390fae2d1ce8f9b0aa0014842f0b32b859cd3aeb02a4a9"
+      },
+      "events:drama_public_contest_win:/choices/0/text": {
+        "source_sha256": "dbf596cb9a7bde44541c271ff6b931531ad50df38e0dce93807c2d89a8b0a4d5",
+        "target_sha256": "8c8e0b705232997134f05d09ea7489a648602debdc7ee587584e97669310610f"
+      },
+      "events:drama_public_contest_win:/choices/1/result_text": {
+        "source_sha256": "c66b0131264bd53870081d7488423031bae6058b4365f8324fa578cd0eaebad8",
+        "target_sha256": "35ba7a5b4c5bfd3c206e3be1a98b2a2aae9f9525ae78de4d7d134f0b5e90dd59"
+      },
+      "events:drama_public_contest_win:/choices/1/text": {
+        "source_sha256": "16dc72278cfd3fe822b7c9d1b4193dfae1593c5f303b6713f45c76cbf5ba494c",
+        "target_sha256": "3e5f881f4888358cd39df24b8ca26e63fcc03aec0b9da67981ae834b1260967b"
+      },
+      "events:drama_public_contest_win:/choices/2/result_text": {
+        "source_sha256": "443bd9d067b974a0259fdfccdd220b9339a516a208b1d63a720b6c07182284fd",
+        "target_sha256": "af3303ac4dd9785d2554c207db8c7a82f150abdcd2f10ad52ab9d3526c73382d"
+      },
+      "events:drama_public_contest_win:/choices/2/text": {
+        "source_sha256": "67aa837af680f397037ba186ef1375d204f43de094539375f41d437aa230184f",
+        "target_sha256": "036a730b2428c8b58da8d12ced91d9b047094d3c7ba9edabf4146281eeb1a22b"
+      },
+      "events:drama_public_contest_win:/description": {
+        "source_sha256": "193ac4ddbe0e16ffc0caff08395f6cea990905767188b251e9b721f7ee6ba247",
+        "target_sha256": "c4570142566aabe6798f1116fca45919142074bd7e716c6da9e0c8ab4b2b2de4"
+      },
+      "events:drama_public_contest_win:/title": {
+        "source_sha256": "761d8a761edaa9ee660b9a0af7b5dc46411b33eba10e5148dae5dfd47d03b5d4",
+        "target_sha256": "dd9add8f93c5154edceca59018f2ece0694a57b43acca0f27553dbf4e6529271"
+      },
+      "events:drama_startup_acquisition:/choices/0/result_text": {
+        "source_sha256": "6b4650a3ce48e11274c3dd7ed866beb2118418c340cfca4d280684da2a50564f",
+        "target_sha256": "4eca3cd0eeee8410ef18848b9bc7b18b8f0edeaebf9b4d6de4d2663d87e347c1"
+      },
+      "events:drama_startup_acquisition:/choices/0/text": {
+        "source_sha256": "020e9d46ac18b6d770c7728ed365dd61ecd36262e9dc7bdf7f9e3fa5c4f6968d",
+        "target_sha256": "14584e159572b4779786453019139f704495f639ce0ebfe40791e7e52034448b"
+      },
+      "events:drama_startup_acquisition:/choices/1/result_text": {
+        "source_sha256": "10ee83cf3d28f4a20e37fcb70c81a73eae88a4a8ef3f328e4435ce9e6413ba66",
+        "target_sha256": "66da518d6e57e090d0545f4e5a4bf0af81abf5577b054c8f5d3fa1437d285bfa"
+      },
+      "events:drama_startup_acquisition:/choices/1/text": {
+        "source_sha256": "8550d8d8b3e7cacfa2e085f1f7d96bd3a87288a47e801e5a97690aade32af445",
+        "target_sha256": "124faf4a9c6df95559fdb9cde045e56332d96eeb29b345aa986da146184e0207"
+      },
+      "events:drama_startup_acquisition:/description": {
+        "source_sha256": "a0a8bd129084f2c9144e33f6f440f03b490c3e8e7017549196e10bc2adbe9543",
+        "target_sha256": "fdd925fc3ae710f5bcc0212e33079dec29bf37222b3ff280bb4f31117c41a217"
+      },
+      "events:drama_startup_acquisition:/title": {
+        "source_sha256": "f31e1f98ab8fd6a4dc1dc127814d69fc9c4d552dda11879b29c5799af3487817",
+        "target_sha256": "42530ceb85f7e695d0a99e9a670d7d131be523f3fc8672af6159c0ce0c68269b"
+      },
+      "events:startup_first_user_traction:/choices/0/result_text": {
+        "source_sha256": "b9ae0388192b6fb25af7dfd026888a6f3ff4540b8905c8ca3e622aa0945e3ee6",
+        "target_sha256": "e16d9183924ef48e421faf34ac8edc70e20767a1c40c86b6ee106b618b982c1a"
+      },
+      "events:startup_first_user_traction:/choices/0/text": {
+        "source_sha256": "291031c1f0c0a19ed6fd67b971388e0e5905de5c94a7603c344177e4826ad783",
+        "target_sha256": "9660b99721456d42180402cb5a341467e5be968a2cd8d56cd11711e4864cde6b"
+      },
+      "events:startup_first_user_traction:/choices/1/result_text": {
+        "source_sha256": "defb0296af9e17a6f1fedd8ad106cd6d4327d80a3f5ba5ff4743c52a6fe3c535",
+        "target_sha256": "ea95353b66f1f162c30b80160368661abc4e6a97eabf2968f2b9f93f16cafee2"
+      },
+      "events:startup_first_user_traction:/choices/1/text": {
+        "source_sha256": "7f821c27529bd770f466d11540ec6a173cdd0e6265c4cf7c036cb1f90f8dd861",
+        "target_sha256": "a51974e227908aa25ed4e2f23ed51a3f4a9a0eb0af66cc656aa5c84b56e42fd8"
+      },
+      "events:startup_first_user_traction:/description": {
+        "source_sha256": "e8fc2f476af7ed9111096a6abcc76fd0c1d23dbcadb090eb7fb6477a0ec5e06a",
+        "target_sha256": "a3a95ef189a0d7716f59a45465f32db74981e30c06db1c3ea52358179dae15a4"
+      },
+      "events:startup_first_user_traction:/title": {
+        "source_sha256": "5a1a68854bb31eca82914daa17cd416cb2de5149bd2b35dff20402983ad9cb40",
+        "target_sha256": "42b71fe4948710c86f563445836d2d63f1663a5a7f30bd7e585226ebab03acd4"
+      },
+      "events:startup_team_conflict:/choices/0/result_text": {
+        "source_sha256": "8452f8b32adde816ddacd959cf312b3e95a24d5f7acafbf3cb2cbb6f7dd6e4cb",
+        "target_sha256": "a20af083e3c04172822e85ad17b342518a85156034ff1a1968a6c65d2cec3410"
+      },
+      "events:startup_team_conflict:/choices/0/text": {
+        "source_sha256": "7f8d3b5b60ecfe218bb1b688b5ae653f3077f9fcaf5c665f9da87b096d4d27da",
+        "target_sha256": "08f41ed4ab82645c14dd4b0e5bbcc4b21abf902ae34deac9e47772b940b93bfa"
+      },
+      "events:startup_team_conflict:/choices/1/result_text": {
+        "source_sha256": "4b68935c2588080ae5b727e7efe9f69b2012789c2cbf5efacd6e99f18c5a5173",
+        "target_sha256": "fd5de2c62bf435e6cf34308a2027efda5ff6371e9af052759dc1f8959233342f"
+      },
+      "events:startup_team_conflict:/choices/1/text": {
+        "source_sha256": "ea9faef8d68642364aba3f68672921adce981901cceb0954029b67de54d0a9c3",
+        "target_sha256": "052afff8b81601e39c6241dc2fa207832a8019570c2562439e6ee0e613f9cb9c"
+      },
+      "events:startup_team_conflict:/choices/2/result_text": {
+        "source_sha256": "93c14c0d941fc76aa7232a09fb64a27c61ca6108dd414ebfa03eb5bb092c0e35",
+        "target_sha256": "e97128f63019b87c82018355c0eaf1942c4926f134bace074cec61ff53a2c60c"
+      },
+      "events:startup_team_conflict:/choices/2/text": {
+        "source_sha256": "f9e62215ab1bed9f8d6503c0b2e6114bbb3d2cac540c845cb79212f94c731825",
+        "target_sha256": "17362babdc17e3d86ae51bf28e9d390c7b4f985ab6d8a7251c2ac89358c1461e"
+      },
+      "events:startup_team_conflict:/description": {
+        "source_sha256": "03b1580d90a73166fa6ff8d099662f9e9983cdc9b8c0cda515fccd00d58bb757",
+        "target_sha256": "aa958ed316225e99501e3ee18bc2fa325a9f42b57f91ee8f02bdc75af7697e5d"
+      },
+      "events:startup_team_conflict:/title": {
+        "source_sha256": "22683b8af80e651409efb2102e2b983e3c671cdd31d062e3b2f992c1fae5e239",
+        "target_sha256": "61a7d8858dac3dd38d756ebbe3ef2db680d85386d7f6894221b624fe942fc2b2"
       }
     }
   },
-  "accepted_sha256": "3ad35b35db66b42729729cc70277014ea44641b99a87da50f28529a29944abe8",
+  "accepted_sha256": "e1f22422ed1350663cc9d226488f3188fad46f9a115de8cbb77dc076aa02d2bc",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {

@@ -421,8 +421,10 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
         # Match its value/currency, then normalize those exact spans so Japanese
         # comma grouping does not pretend to change the explicit digit contract.
         mixed_source = [amount for amount in _source_money_amounts(source_numbers)
-            if source_numbers[amount.start:amount.end].endswith('원')
-            and re.search(r'\d+\s*[천백]|\d+,\d{3}|\d{4,}원|오천\s*원', source_numbers[amount.start:amount.end])]
+            if (source_numbers[amount.start:amount.end].endswith('원')
+                and re.search(r'\d+\s*[천백]|\d+,\d{3}|\d{4,}원|오천\s*원', source_numbers[amount.start:amount.end]))
+            or (re.fullmatch(r'6억\s+8천', source_numbers[amount.start:amount.end])
+                and source_numbers[:amount.start].endswith('분양가 '))]
         mixed_target = list(re.finditer(
             r"[+-]?\d+(?:,\d{3})*(?:億\s*\d+(?:,\d{3})*)?(?:(?:千万|万|千)(?:\d+(?:,\d{3})*)?)?ウォン(?!\s*(?:円|韓元|韩元|元|ドル|ウォン|[%％‰‱万萬億亿兆千百倍]))", target_numbers,
         ))
@@ -448,7 +450,9 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
                 if signed_value == value \
                         and candidate.group().startswith('+') == required_plus \
                         and not _has_numeric_sign_prefix(target_numbers, candidate.start()) \
-                        and not re.match(r"\s*[（(]\s*(?:円|ドル|元|人民元|韓元|韩元|ウォン)\s*[）)]", target_numbers[candidate.end():]):
+                        and not re.match(r"\s*[（(]\s*(?:円|ドル|元|人民元|韓元|韩元|ウォン)\s*[）)]", target_numbers[candidate.end():]) \
+                        and not (re.fullmatch(r'6억\s+8천', source_numbers[amount.start:amount.end])
+                            and re.match(r'\s*[（(]\s*(?:月|年|日|時間)\s*[）)]', target_numbers[candidate.end():])):
                     found = candidate
                     break
             if found is None:
@@ -467,6 +471,12 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
             MoneyAmount(start, end, amount.won)
             for amount, (start, end) in zip(mixed_source, consumed)
         ]) if len(consumed) == len(mixed_source) else target_numbers
+        if re.search(r'(?<=분양가 )6억\s+8천(?=[.。])', leaf.source):
+            # One purchase price cannot borrow a correct total placed after
+            # an invented native-number monthly fee or a different owner.
+            prices = list(re.finditer(r'[+\-−]?[0-9,一二三四五六七八九十百千万萬億兆]+\s*ウォン', text))
+            if len(prices) != 1 or not text[:prices[0].start()].endswith('分譲価格は'):
+                errors.append('source-bound apartment price owner/extra amount mismatch')
         # Korean mixed notation 5백만원 is 500万ウォン, not 5万ウォン.
         # Bind both the magnitude and currency before normalizing digits.
         for amount in re.finditer(r"(?<![\d.])(?P<number>[+-]?\d+)백만원", source_numbers):
@@ -570,9 +580,9 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
         # In the media scene 2030 labels young adults twice, not the year 2030.
         # Normalize only source-bound age-group spans; another number cannot
         # supply a missing group and neither occurrence may become a year.
-        source_youth = list(re.finditer(r'(?<![\d가-힣])2030(?=\s+청년)', source_numbers))
+        source_youth = list(re.finditer(r'(?<![\d가-힣])2030(?=\s+(?:청년|공감))', source_numbers))
         if leaf.group == 'events' and source_youth:
-            target_youth = list(re.finditer(r'20[・、/]\s*30代(?=の若者)', target_numbers))
+            target_youth = list(re.finditer(r'20[・、/]\s*30代(?=の(?:若者|共感))', target_numbers))
             if len(source_youth) != len(target_youth) or any(
                 _has_numeric_sign_prefix(target_numbers, match.start())
                 for match in target_youth
@@ -581,6 +591,11 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
             if [source_numbers.count('\n', 0, match.start()) for match in source_youth] != \
                     [target_numbers.count('\n', 0, match.start()) for match in target_youth]:
                 errors.append('source-bound young-adult paragraph ownership mismatch')
+            for source_group, target_group in zip(source_youth, target_youth):
+                if source_numbers[source_group.end():].startswith(' 공감'):
+                    titles = list(re.finditer(r'「(?P<age>20[・、/]\s*30代)の共感を呼ぶコンテンツとして話題」', target_numbers))
+                    if len(titles) != 1 or titles[0].start('age') != target_group.start():
+                        errors.append('source-bound young-adult news-title ownership mismatch')
             for age in re.finditer(r'[0-9一二三四五六七八九十百千]+\s*(?:代|歳)', target_numbers):
                 if not any(group.start() <= age.start() and age.end() <= group.end() for group in target_youth):
                     errors.append('source-bound added young-adult age mismatch')
@@ -618,6 +633,30 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
                     if re.search(r"[二三四五六七八九十百千萬万億兆]", remainder):
                         errors.append("catalog added native number mismatch")
                     target_numbers = re.sub(r"(?<![0-9一二三四五六七八九十百千萬万億兆])" + re.escape(before), after, target_numbers)
+        # The apology loses five thousand subscribers, not fifty million won.
+        # Bind the count to its subject and loss verb before expanding digits.
+        source_lost_subscribers = list(re.finditer(r'(?<=구독자 )5천 명(?=이 빠졌지만)', source_numbers))
+        if source_lost_subscribers:
+            target_lost_subscribers = list(re.finditer(r'(?<=登録者は)5,?000人(?=減ったが)', target_numbers))
+            for count in re.finditer(r'[+\-−]?[0-9,零一二三四五六七八九十百千万萬億兆]+\s*(?:人|名|ウォン|円)', target_numbers):
+                if not any(group.start() <= count.start() and count.end() <= group.end() for group in target_lost_subscribers):
+                    errors.append('source-bound lost-subscriber added count/owner mismatch')
+            if len(source_lost_subscribers) != len(target_lost_subscribers) or any(
+                _has_numeric_sign_prefix(target_numbers, match.start())
+                for match in target_lost_subscribers
+            ) or [source_numbers.count('\n', 0, match.start()) for match in source_lost_subscribers] != \
+                    [target_numbers.count('\n', 0, match.start()) for match in target_lost_subscribers]:
+                errors.append('source-bound lost-subscriber count/unit mismatch')
+            for value, matches, is_source in (
+                (source_numbers, source_lost_subscribers, True),
+                (target_numbers, target_lost_subscribers, False),
+            ):
+                for match in reversed(matches):
+                    value = value[:match.start()] + '5000' + value[match.end():]
+                if is_source:
+                    source_numbers = value
+                else:
+                    target_numbers = value
         if sorted(numeric.findall(source_numbers)) != sorted(numeric.findall(target_numbers)):
             errors.append("explicit numeric value/sign mismatch")
         if mixed_source and numeric.findall(source_numbers) != numeric.findall(target_numbers):

@@ -88,6 +88,50 @@ class ExchangeTests(unittest.TestCase):
         with self.assertRaises(tool.ContractError):
             tool.loads('{"text":"a","text":"b"}')
 
+    def test_creator_japanese_news_age_group_is_not_calendar_year(self):
+        source = '포털 뉴스에 링크가 올라왔다.\n"2030 공감 유발 콘텐츠로 화제"'
+        good = 'ポータルサイトのニュースにリンクが載った。\n「20・30代の共感を呼ぶコンテンツとして話題」'
+        leaf = tool.Leaf('events', 'example', 'content/events/drama_events.json',
+                         ('description',), source, 'event_standard')
+        self.assertEqual(tool.translation_errors(leaf, 'ja', good), [])
+        for wrong in (good.replace('30', '40'), good.replace('20・30代', '2030年'),
+                      good.replace('20・30代', '-20・30代'), good.replace('30代', '30年'),
+                      good.replace('20・30代の共感', '共感') + '20・30代の共感。',
+                      good + '四十代も。', good.replace('20・30代', '120・30代'),
+                      good.replace('「20・30代の共感を呼ぶコンテンツとして話題」', '「共感を呼ぶコンテンツとして話題」「20・30代の共感」')):
+            self.assertTrue(tool.translation_errors(leaf, 'ja', wrong), wrong)
+        year = tool.Leaf('events', 'example', 'content/events/drama_events.json',
+                         ('description',), source.replace('2030 ', '2030년 '), 'event_standard')
+        self.assertTrue(tool.translation_errors(year, 'ja', good))
+
+    def test_drama_japanese_implicit_apartment_price_keeps_full_won_value(self):
+        source = '분양가 6억 8천. 대출 없이는 불가능한 금액이다.'
+        good = '分譲価格は6億8000万ウォン。ローンなしでは手の届かない金額だ。'
+        leaf = tool.Leaf('events', 'example', 'content/events/drama_events.json',
+                         ('description',), source, 'event_standard')
+        self.assertEqual(tool.translation_errors(leaf, 'ja', good), [])
+        for wrong in (good.replace('8000', '800'), good.replace('8000万', '8000'),
+                      good.replace('ウォン', '円'), good.replace('ウォン', 'ドル'),
+                      good.replace('6億', '-6億'), good.replace('6億', '16億'),
+                      good.replace('ウォン', 'ウォン円'), good.replace('ウォン', 'ウォン（月）'),
+                      good.replace('6億8000万ウォン', '月額六億八千万ウォン。分譲価格は6億8000万ウォン')):
+            self.assertTrue(tool.translation_errors(leaf, 'ja', wrong), wrong)
+
+    def test_creator_japanese_lost_subscribers_keep_unit_sign_and_owner(self):
+        source = '구독자 5천 명이 빠졌지만 악플러들이 다른 타깃으로 갔다.'
+        good = '登録者は5000人減ったが、中傷する人たちは別の標的へ移った。'
+        leaf = tool.Leaf('events', 'example', 'content/events/drama_events.json',
+                         ('description',), source, 'event_standard')
+        for target in (good, good.replace('5000', '5,000')):
+            self.assertEqual(tool.translation_errors(leaf, 'ja', target), [])
+        for wrong in (good.replace('5000', '500'), good.replace('5000', '-5000'),
+                      good.replace('5000', '15000'), good.replace('5000人', '5000ウォン'),
+                      good.replace('減ったが', '増えたが'), good.replace('登録者は', '視聴者は'),
+                      good.replace('5000人', '') + '5000人。', good + '登録者は5000人減ったが。',
+                      good.replace('登録者は5000人減ったが', '登録者は五千人増えた。登録者は5000人減ったが'),
+                      good.replace('登録者は5000人減ったが', '視聴者は五千人減った。登録者は5000人減ったが')):
+            self.assertTrue(tool.translation_errors(leaf, 'ja', wrong), wrong)
+
     def test_drama_japanese_young_adult_groups_cannot_borrow_other_paragraphs(self):
         source = "'2030 청년 자산 형성 특집' 기사를 준비 중인 기자가 연락했다.\n\n'서울에서 혼자 자립한 2030 청년 이야기를 담고 싶어요.'\n\n노출이 되면 평판이 올라가지만, 사생활이 공개된다.\n거절하면 조용하게 살 수 있다."
         good = '「20・30代の若者の資産形成特集」の記事を準備している記者から、連絡が来た。\n\n「ソウルで一人で自立した、20・30代の若者の話を取り上げたいんです」\n\n人の目に触れれば評判は上がるが、私生活が公になる。\n断れば、静かに暮らせる。'

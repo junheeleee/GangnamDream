@@ -249,7 +249,14 @@ DRAMA_COUNTER_KINDS = frozenset({
     "dual_company_offer", "viral_view_over_count", "viral_subscriber_count",
     "approx_comment_count", "monthly_promised_return",
 })
-LIFE_SCENE_COUNTER_KINDS = WORK_SCENE_COUNTER_KINDS | SPENDING_SCENE_COUNTER_KINDS | FAMILY_SCENE_COUNTER_KINDS | MEDIA_SCENE_COUNTER_KINDS | HIDDEN_SCENE_COUNTER_KINDS | PROLOGUE_COUNTER_KINDS | DRAMA_COUNTER_KINDS | frozenset({
+CREATOR_COUNTER_KINDS = frozenset({
+    "health_age_decade", "bought_meal_once", "mentor_meeting_request", "bet_again_once",
+    "creator_weekly_uploads", "collab_both", "cofounder_departure_pair", "creator_age_group",
+    "creator_baseline_views", "creator_followup_views", "creator_total_views", "creator_comment_total",
+    "creator_subscribers_lost", "creator_subscribers_gained", "creator_collab_audience",
+    "creator_counter_views", "creator_counter_subscriber_delta",
+})
+LIFE_SCENE_COUNTER_KINDS = WORK_SCENE_COUNTER_KINDS | SPENDING_SCENE_COUNTER_KINDS | FAMILY_SCENE_COUNTER_KINDS | MEDIA_SCENE_COUNTER_KINDS | HIDDEN_SCENE_COUNTER_KINDS | PROLOGUE_COUNTER_KINDS | DRAMA_COUNTER_KINDS | CREATOR_COUNTER_KINDS | frozenset({
     "remaining_four_month", "job_posting_count", "egg_count", "task_count",
     "rental_home_ordinal", "mirror_glance", "gangnam_attempt",
     "university_year", "restaurant_per_person", "underground_exit",
@@ -373,6 +380,10 @@ SOURCE_WANTS_PARTICLE = re.compile(
     r"(?<=\{name\})이 원(?=하는 것을 본인보다 먼저 알고 있었다\.|"
     r"하는 것들이 아직도 여기 있는 걸까\.)"
 )
+SOURCE_RECOVERY_WON_PLACEHOLDER = re.compile(r"(?<=남은 돈: )OO만원(?=\.)")
+TARGET_RECOVERY_WON_PLACEHOLDER = re.compile(r"(?<![A-Za-z0-9])OO[萬万][韓韩]元")
+SOURCE_CREATOR_ESTIMATE_WON = re.compile(r"(?<=추정 수익: )₩(?P<number>[+-]?\d[\d,]*)(?=\n\n첫 번째 정산이었다\.)")
+SOURCE_CREATOR_MIXED_WON = re.compile(r"(?<![가-힣\d,.])(?P<ten>[+-]?\d+)만 (?P<thousand>\d+)천원(?=짜리 목표가 생겼다\.|을 받아들이고 전략을 접었다\.|\.\n고시원 이틀치 밥값\.)")
 SOURCE_BARE_ONE_MONEY = re.compile(
     r"(?<![가-힣])(?P<unit>억|만)\s*원"
 )
@@ -1229,6 +1240,15 @@ def _source_counter_kind(
 ) -> str:
     following = source[match.end():].lstrip()
     preceding = source[max(0, match.start() - 120):match.start()]
+    if counter == "대" and preceding.endswith("아직 ") and following.startswith("인데. 갑자기 몸이 무겁게 느껴진다."):
+        return "health_age_decade"
+    if counter == "번" and match.group("number") == "한":
+        if preceding.endswith("밥 ") and following.startswith("사줬다."):
+            return "bought_meal_once"
+        if following.startswith("만나보고 싶다") and "업계 유명인이 DM을 보냈다." in source:
+            return "mentor_meeting_request"
+        if preceding.endswith("만회하면 된다 — ") and following.startswith("만 더 크게 걸면"):
+            return "bet_again_once"
     if counter == "세" and preceding.endswith("재벌 ") and following.startswith("와의 접촉"):
         return "chaebol_family_generation"
     if counter == "번" and match.group("number") == "한":
@@ -1535,6 +1555,25 @@ def _source_counter_kind(
 
 def _source_audience_quantities(source: str) -> list[CounterQuantity]:
     quantities: list[CounterQuantity] = []
+    # Audience nouns and their predicates own these large values. A bare 만
+    # elsewhere is still money; losses, gains, totals and title counts differ.
+    for pattern, multiplier, kind in (
+        (r"(?<=지난 달까지 영상마다 )(?P<number>\d+)만 뷰(?=는 기본이었는데)", 10000, "creator_baseline_views"),
+        (r"(?<=후속 영상도 )(?P<number>\d+)만 뷰(?=가 됐다\.)", 10000, "creator_followup_views"),
+        (r"(?<=하루 만에 조회수는 )(?P<number>\d+)만(?=이 됐고 댓글은)", 10000, "creator_total_views"),
+        (r"(?<=댓글은 )(?P<number>\d+)만 개(?=가 달렸다\.)", 10000, "creator_comment_total"),
+        (r"(?<=구독자 )(?P<number>\d+)천 명(?=이 빠졌지만 악플러들이)", 1000, "creator_subscribers_lost"),
+        (r"(?<=구독자 )(?P<number>\d+)만(?=이 늘었지만 적도 그만큼)", 10000, "creator_subscribers_gained"),
+        (r"(?<=영상이 올라가자 구독자 )(?P<number>\d+)만 명(?=이 유입됐다\.)", 10000, "creator_subscribers_gained"),
+        (r"^(?P<number>\d+)만(?= 유튜버가 제안했다$)", 10000, "creator_collab_audience"),
+        (r"(?<=구독자 )(?P<number>\d+)만(?= 유튜버다\. 콜라보를 하자고\.)", 10000, "creator_collab_audience"),
+        (r"(?<=조회수: )(?P<number>\d[\d,]*)(?=\n구독자: \+)", 1, "creator_counter_views"),
+        (r"(?<=구독자: )\+(?P<number>\d[\d,]*)명(?=\n\n포털 뉴스에 링크가 올라왔다\.)", 1, "creator_counter_subscriber_delta"),
+    ):
+        for match in re.finditer(pattern, source):
+            if not _has_numeric_sign_prefix(source, match.start()):
+                quantities.append(CounterQuantity(match.start(), match.end(),
+                    Decimal(match.group("number").replace(",", "")) * multiplier, kind))
     for pattern, kind in (
         (r"(?<=짧은 영상이 )(?P<number>\d+)만 뷰(?=를 넘겼다\.)", "viral_view_over_count"),
         (r"(?<=구독자 )(?P<number>\d+)만명(?=\. 부업 수익이 생기기 시작했다\.)", "viral_subscriber_count"),
@@ -1565,6 +1604,16 @@ def _source_audience_quantities(source: str) -> list[CounterQuantity]:
 def _source_counter_quantities(source: str) -> list[CounterQuantity]:
     quantities: list[CounterQuantity] = []
     quantities.extend(_source_audience_quantities(source))
+    for pattern, value, kind in (
+        (r"(?<=한 달 동안 )일주일에 (?P<number>\d+)개씩(?= 올렸다\.)", None, "creator_weekly_uploads"),
+        (r"(?<![가-힣\d])2030(?= 공감 유발 콘텐츠로 화제)", 2030, "creator_age_group"),
+    ):
+        for match in re.finditer(pattern, source):
+            quantities.append(CounterQuantity(match.start(), match.end(),
+                Decimal(value if value is not None else match.group("number")), kind))
+    if "공동창업자는 B2B 피벗을 주장하고, 나는 B2C를 밀고 싶다." in source:
+        for match in re.finditer(r"(?<=마지막엔 )서로(?= 아무 말 없이 자리를 떴다\.)", source):
+            quantities.append(CounterQuantity(match.start(), match.end(), Decimal(2), "cofounder_departure_pair"))
     for pattern, value, kind in (
         (r"(?<=내일 )(?P<number>\d+)배(?=는 간다\.)", None, "rumor_multiplier"),
         (r"(?<![가-힣\d])2030(?= 청년)", 2030, "media_age_group"),
@@ -1952,6 +2001,9 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
             and re.search(r"그\s+$", source[:match.start()])
             and re.match(r"의\s+경계", source[match.end():])
         ) else "entity"
+        if match.group("number") == "둘" and source[:match.start()].endswith("서로 노출이 되면 ") \
+                and source[match.end():].startswith(" 다 좋죠."):
+            kind = "collab_both"
         if re.search(r'매물\s+$', source[:match.start()]) and source[match.end():].startswith(' 가운데'):
             kind = 'property_listing_count'
         if match.group("number") == "둘" and re.match(r' 중 하나(?:다|였다)', source[match.end():]):
@@ -2006,6 +2058,38 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
 def _target_pattern_for_kind(kind: str) -> re.Pattern[str]:
     # The broad witnesses include observed wrong units/actions, so an invalid
     # first clause cannot borrow a later correct number of the same kind.
+    if kind == "health_age_decade":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})(?P<approx>多|幾|几)?(?P<creator_unit>[歲岁]|台|年|公里)")
+    if kind == "bought_meal_once":
+        return re.compile(rf"吃了(?P<sign>[+＋−﹣－負负-])?\s*(?P<number>{CHINESE_CARDINAL})?(?P<creator_unit>[頓顿]飯|[頓顿]饭|次飯|次饭|年|公里)")
+    if kind == "mentor_meeting_request":
+        return re.compile(rf"(?P<state>想(?:和您)?|已經|已经)?[見见](?P<sign>[+＋−﹣－負负-])?\s*(?P<number>{CHINESE_CARDINAL})?(?P<creator_unit>[個个]?面|次|年|公里)")
+    if kind == "bet_again_once":
+        return re.compile(rf"(?P<frame>再[賭赌下]|就)[+＋−﹣－負负-]?\s*(?P<number>{CHINESE_CARDINAL})(?P<creator_unit>把|[筆笔]|次|年|公里)")
+    if kind == "creator_weekly_uploads":
+        return re.compile(rf"(?P<period>每(?:週|周|月|年|天|日|小時|小时|分鐘|分钟|秒))(?:上傳|上传)[+＋−﹣－負负-]?\s*(?P<number>{CHINESE_CARDINAL})(?P<creator_unit>支影片|[條条](?:影片|視頻|视频)?|年|人|公里)")
+    if kind == "collab_both":
+        return re.compile(rf"[對对](?P<sign>[+＋−﹣－負负-])?\s*(?:(?P<implicit>我們|我们|彼此|雙方|双方)|(?P<number>{CHINESE_CARDINAL})(?P<creator_unit>[個个]?人|年|公里))(?(sign)(?=都有好[處处]|[，,])|(?=都有好[處处]))")
+    if kind == "cofounder_departure_pair":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})(?P<creator_unit>人|年|公里)(?=一言不[發发]地[離离][開开]了|什麼也沒說，各自離席)")
+    if kind == "creator_age_group":
+        return re.compile(rf"(?P<number>二[、，,]\s*三十|20[、，,/]\s*30|{CHINESE_CARDINAL})(?P<creator_unit>[歲岁]|年)(?P<group_noun>人群|世代)")
+    if kind == "creator_baseline_views":
+        return re.compile(rf"(?P<frame>每條視頻|每条视频|每支影片)(?P<bound>至少都有|至多都有|不到)?[+＋−﹣－負负-]?\s*(?P<number>{CHINESE_CARDINAL})(?P<large_unit>[萬万])?(?P<creator_unit>播放|次觀看|次观看|年|人|公里|[韓韩]元)")
+    if kind == "creator_followup_views":
+        return re.compile(rf"(?P<frame>後續影片|后续视频)(?P<bound>也達到了|也达到了|不到|至少)?[+＋−﹣－負负-]?\s*(?P<number>{CHINESE_CARDINAL})(?P<large_unit>[萬万])?(?P<creator_unit>播放|次觀看|次观看|年|人|公里|[韓韩]元)")
+    if kind == "creator_total_views":
+        return re.compile(rf"(?P<frame>播放量|觀看次數)(?P<bound>就到了|到了|不到|至少)?[+＋−﹣－負负-]?\s*(?P<number>{CHINESE_CARDINAL})(?P<large_unit>[萬万])?(?P<creator_unit>人|年|公里|[韓韩]元)?")
+    if kind == "creator_comment_total":
+        return re.compile(rf"(?P<frame>評論|评论|留言)(?:有了|有)?[+＋−﹣－負负-]?\s*(?P<number>{CHINESE_CARDINAL})(?P<large_unit>[萬万])?(?P<creator_unit>[條条則则]|人|年|公里|[韓韩]元)")
+    if kind == "creator_subscribers_lost":
+        return re.compile(rf"(?P<frame>流失了|少了|增加了)[+＋−﹣－負负-]?\s*(?P<number>{CHINESE_CARDINAL})(?P<large_unit>[萬万])?(?P<creator_unit>名[訂订][閱阅]者|人|年|公里|公斤|[韓韩]元)")
+    if kind == "creator_subscribers_gained":
+        return re.compile(rf"(?P<frame>[訂订][閱阅](?:人[數数]|者)(?:增加|減少|减少)|湧入了|涌入了|帶來了|带来了)[+＋−﹣－負负-]?\s*(?P<number>{CHINESE_CARDINAL})(?P<large_unit>[萬万])?(?P<creator_unit>名[訂订][閱阅]者|人|年|公里|[韓韩]元)?")
+    if kind == "creator_collab_audience":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})(?P<large_unit>[萬万])?(?P<creator_unit>[訂订][閱阅](?:者的)?)?(?P<creator_person>YouTube博主|YouTuber)(?![^\W\u3400-\u4dbf\u4e00-\u9fff])")
+    if kind in {"creator_counter_views", "creator_counter_subscriber_delta"}:
+        return re.compile(rf"(?P<label>播放量|觀看次數|[訂订][閱阅]者|[訂订][閱阅]人[數数])[:：](?P<sign>[+＋−﹣－負负-])?\s*(?P<number>{CHINESE_CARDINAL})(?P<large_unit>[萬万])?(?P<creator_unit>人|年|公里|[韓韩]元)?")
     if kind == "rumor_multiplier":
         return re.compile(rf"(?P<number>{CHINESE_CARDINAL})\s*(?P<drama_unit>倍|年|[歲岁]|公里)")
     if kind == "chaebol_family_generation":
@@ -2478,6 +2562,65 @@ def _target_pattern_for_kind(kind: str) -> re.Pattern[str]:
     )
 
 
+def _creator_quantity_valid(kind: str, match: re.Match[str], target: str) -> bool:
+    before, after = target[:match.start()], target[match.end():]
+    fields = match.groupdict()
+    unit = fields.get("creator_unit")
+    if kind != "creator_counter_subscriber_delta" and fields.get("sign"):
+        return False
+    number_start = match.start("number") if fields.get("number") else match.start()
+    if kind != "creator_counter_subscriber_delta" and re.search(r"[+＋−﹣－負负-]\s*$", target[:number_start]):
+        return False
+    if re.search(r"(?:不到|不足|至多|最多|最少|大約|大约|約|约|沒有|没有|沒|没|不是|並非|并非|不|半)\s*$", before) \
+            or re.match(r"[ \t　]*(?:[%％‰倍萬万億亿兆]|以上|以下|左右|多|半)", after):
+        return False
+    end = bool(re.match(r"[ \t　]*(?:$|\n|[，。！？、；,.!?;」』）)])", after))
+    if kind == "health_age_decade":
+        return bool(fields.get("approx")) and unit in {"歲", "岁"} and end \
+            and bool(re.search(r"明明才$", before))
+    if kind == "bought_meal_once":
+        return unit in {"頓飯", "顿饭", "頓饭", "顿飯"} and end \
+            and bool(re.search(r"(?:請他們|请他们)$", before))
+    if kind == "mentor_meeting_request":
+        return fields.get("state") in {"想", "想和您"} and unit in {"面", "個面", "个面"} and end
+    if kind == "bet_again_once":
+        if fields.get("frame") == "就":
+            return unit == "次" and end and bool(re.search(r"再押大一點，$", before))
+        return unit in {"把", "筆", "笔"} and bool(re.match(r"大的(?:$|[。.!！])", after))
+    if kind == "creator_weekly_uploads":
+        return fields.get("period") in {"每週", "每周"} and unit in {"支影片", "條", "条", "條影片", "条影片", "條視頻", "条视频"} and end
+    if kind == "collab_both":
+        return bool(fields.get("implicit")) or unit in {"人", "個人", "个人"}
+    if kind == "cofounder_departure_pair":
+        return unit == "人" and bool(re.search(r"(?:最後|最后)，$", before))
+    if kind == "creator_age_group":
+        return re.sub(r"\s", "", match.group("number")) in {"二三十", "二、三十", "二，三十", "二,三十", "20、30", "20,30", "20，30", "20/30"} \
+            and unit in {"歲", "岁"} and bool(re.search(r"引[發发]$", before))
+    if kind == "creator_baseline_views":
+        return fields.get("bound") in {None, "至少都有"} and unit in {"播放", "次觀看", "次观看"} \
+            and bool(end or re.match(r"還是常態|还是常态|還是基本盤|还是基本盘", after))
+    if kind == "creator_followup_views":
+        return fields.get("bound") in {"也達到了", "也达到了"} and unit in {"播放", "次觀看", "次观看"} and end
+    if kind == "creator_total_views":
+        return fields.get("bound") in {"就到了", "到了"} and unit is None and end
+    if kind == "creator_comment_total":
+        return unit in {"條", "条", "則", "则"} and end
+    if kind == "creator_subscribers_lost":
+        return fields.get("frame") in {"流失了", "少了"} and unit in {"名訂閱者", "名订阅者"} and end
+    if kind == "creator_subscribers_gained":
+        frame = fields.get("frame", "")
+        return "增加" in frame and unit is None and end or frame in {"湧入了", "涌入了", "帶來了", "带来了"} \
+            and unit in {"名訂閱者", "名订阅者"} and end
+    if kind == "creator_collab_audience":
+        return bool(end or re.match(r"的邀[約约]|提出邀[約约]", after))
+    if kind == "creator_counter_views":
+        return fields.get("label") in {"播放量", "觀看次數"} and fields.get("sign") is None and unit is None and end
+    if kind == "creator_counter_subscriber_delta":
+        return fields.get("label") in {"訂閱人數", "订阅人数", "訂閱者", "订阅者"} \
+            and fields.get("sign") == "+" and unit == "人" and end
+    return False
+
+
 def _drama_quantity_valid(kind: str, match: re.Match[str], target: str) -> bool:
     before, after = target[:match.start()], target[match.end():]
     unit = match.groupdict().get("drama_unit")
@@ -2752,11 +2895,20 @@ def _match_target_counter_quantities(
                 continue
             if expected.kind in DRAMA_COUNTER_KINDS and not _drama_quantity_valid(expected.kind, match, target):
                 continue
+            if expected.kind in CREATOR_COUNTER_KINDS and not _creator_quantity_valid(expected.kind, match, target):
+                continue
             if expected.kind in LIFE_SCENE_COUNTER_KINDS:
                 number_start = match.start("number") if match.group("number") else match.start()
-                if expected.kind in {"exam_countdown", "video_view_count", "viral_view_over_count", "viral_subscriber_count", "approx_comment_count"}:
+                if expected.kind in {"exam_countdown", "video_view_count", "viral_view_over_count", "viral_subscriber_count", "approx_comment_count", "creator_counter_subscriber_delta"}:
                     number_start = match.start()  # 倒數 / 觀看次數 own 數 as a noun, not a numeric prefix.
-                if _has_numeric_sign_prefix(target, match.start()) or _has_numeric_sign_prefix(target, number_start):
+                if expected.kind == "creator_counter_subscriber_delta":
+                    # The previous labelled view total ends on the line above;
+                    # its digits are not a prefix of this explicitly signed row.
+                    line_start = target.rfind("\n", 0, match.start()) + 1
+                    prefix = target[line_start:match.start()]
+                    if _has_numeric_sign_prefix(prefix, len(prefix)):
+                        continue
+                elif _has_numeric_sign_prefix(target, match.start()) or _has_numeric_sign_prefix(target, number_start):
                     continue
                 if re.match(r"(?:[秒歲岁米年月日天元度人位]|公里|小時|小时|分鐘|分钟|韓元|韩元)", target[match.end():].lstrip()):
                     continue
@@ -2899,6 +3051,15 @@ def _match_target_counter_quantities(
                 # 一眼 is a glance after a seeing verb, not one physical eye.
                 continue
             value = _chinese_cardinal_value(match.group("number") or "")
+            if expected.kind in CREATOR_COUNTER_KINDS:
+                if expected.kind == "creator_age_group":
+                    value = Decimal(2030)
+                elif expected.kind == "collab_both" and match.groupdict().get("implicit"):
+                    value = Decimal(2)
+                elif expected.kind in {"mentor_meeting_request", "bought_meal_once"} and not match.group("number"):
+                    value = Decimal(1)
+                elif match.groupdict().get("large_unit"):
+                    value = value * 10000 if value is not None else None
             if expected.kind in DRAMA_COUNTER_KINDS:
                 if expected.kind == "media_age_group":
                     value = Decimal(2030)
@@ -3123,6 +3284,14 @@ def _mixed_manwon_value(match: re.Match[str]) -> Decimal:
 
 def _source_money_amounts(source: str) -> list[MoneyAmount]:
     amounts: list[MoneyAmount] = []
+    # The creator's estimate and mixed-unit prose are distinct amounts. Bind
+    # the observed predicates; do not join two separately stated payments.
+    for match in SOURCE_CREATOR_ESTIMATE_WON.finditer(source):
+        amounts.append(MoneyAmount(match.start(), match.end(), Decimal(match.group("number").replace(",", ""))))
+    for match in SOURCE_CREATOR_MIXED_WON.finditer(source):
+        ten = Decimal(match.group("ten"))
+        value = abs(ten) * 10000 + Decimal(match.group("thousand")) * 1000
+        amounts.append(MoneyAmount(match.start(), match.end(), -value if ten < 0 else value))
     # The purchase choice uses the mathematical minus U+2212, not an unsigned
     # amount preceded by an unsupported sign. Retain its sign and whole span.
     for match in re.finditer(r"(?<=산다 — 한 번쯤은 \()−(?P<number>\d[\d,]*)원(?=\)$)", source):
@@ -3202,6 +3371,9 @@ def _source_money_amounts(source: str) -> list[MoneyAmount]:
     for match in SOURCE_BARE_ONE_MONEY.finditer(source):
         if _overlaps(amounts, match.start(), match.end()):
             continue
+        if any(m.start() <= match.start() and match.end() <= m.end()
+               for m in SOURCE_RECOVERY_WON_PLACEHOLDER.finditer(source)):
+            continue  # Literal OO만원 is a blank balance, not one 만원.
         multiplier = {
             "만": Decimal(10_000),
             "억": Decimal(100_000_000),
@@ -3381,6 +3553,12 @@ def _numeric_errors(source: str, target: str) -> list[str]:
         errors.append("drama approximate Korean-won magnitude order changed")
     source_amounts = _source_money_amounts(source)
     target_amounts = _target_money_amounts(target)
+    # Existing generic won parsing accepts some postfix units. Close that
+    # inherited gap only for the newly owned estimate/mixed-settlement prose.
+    if SOURCE_CREATOR_ESTIMATE_WON.search(source) or SOURCE_CREATOR_MIXED_WON.search(source):
+        if any(re.match(r"[ \t　]*(?:[%％‰倍年月天日人位]|[個个]月|公斤|公里|米|小時|小时|分鐘|分钟|秒)", target[a.end:])
+               for a in target_amounts):
+            errors.append("creator settlement Korean-won unit suffix changed")
     for money_text, amounts in ((source, source_amounts), (target, target_amounts)):
         for amount in amounts:
             if not _has_numeric_sign_prefix(money_text, amount.start):
@@ -3397,14 +3575,21 @@ def _numeric_errors(source: str, target: str) -> list[str]:
             f"Korean-won values changed: {source_values} != {target_values}"
         )
     target_label_count = len(re.findall(r"韩元|韓元", target))
+    source_blanks = list(SOURCE_RECOVERY_WON_PLACEHOLDER.finditer(source))
+    target_blanks = list(TARGET_RECOVERY_WON_PLACEHOLDER.finditer(target))
+    if len(source_blanks) != len(target_blanks):
+        errors.append("literal recovery balance placeholder missing/invented")
+    if target_blanks and any(_has_numeric_sign_prefix(target, m.start()) or not re.match(
+            r"[ \t　]*(?:$|[。.!！'\x22’”」])", target[m.end():]) for m in target_blanks):
+        errors.append("literal recovery balance placeholder sign/unit changed")
     rhetorical_source = len(SOURCE_RHETORICAL_WON.findall(source))
     rhetorical_target = len(TARGET_RHETORICAL_WON.findall(target))
     if rhetorical_source != rhetorical_target:
         errors.append("rhetorical Korean-won phrase missing/invented")
     # A literal amount still needs its own label. Only the observed, source-
     # bound 어떤 원화도 construction can own an additional nonnumeric label.
-    expected_labels = len(target_amounts) + min(rhetorical_source, rhetorical_target) + approximate_labels
-    if (source_amounts or target_amounts or rhetorical_source or approximate_labels) and target_label_count != expected_labels:
+    expected_labels = len(target_amounts) + min(rhetorical_source, rhetorical_target) + approximate_labels + min(len(source_blanks), len(target_blanks))
+    if (source_amounts or target_amounts or rhetorical_source or approximate_labels or source_blanks) and target_label_count != expected_labels:
         errors.append(
             f"Korean-won label count/topology mismatch "
             f"{target_label_count} != {expected_labels}"
@@ -3505,6 +3690,21 @@ def _money_errors(lang: str, source: str, target: str) -> list[str]:
 
 def _untranslated_english_errors(source: str, target: str, *, catalog: bool = False) -> list[str]:
     scrubbed = PLACEHOLDER.sub(" ", target)
+    if source == "다른 플랫폼(숏폼/인스타)을 병행한다.":
+        matches = _bounded_latin_matches(scrubbed, "Instagram")
+        if not matches:
+            return ["source-bound short-form platform requires Instagram"]
+        for match in reversed(matches):
+            scrubbed = scrubbed[:match.start()] + " " + scrubbed[match.end():]
+    if re.search(r"^\d+만 유튜버가 제안했다$|구독자 \d+만 유튜버다\. 콜라보를 하자고\.", source):
+        # The creator noun may be YouTuber or YouTube + the Chinese occupation,
+        # never an arbitrary YouTube prefix or a free English sentence.
+        matches = _bounded_latin_matches(scrubbed, "YouTuber") + [m for m in _bounded_latin_matches(scrubbed, "YouTube")
+            if scrubbed[m.end():].startswith("博主")]
+        if not matches:
+            return ["source-bound collaboration creator name missing/changed"]
+        for match in sorted(matches, key=lambda m: m.start(), reverse=True):
+            scrubbed = scrubbed[:match.start()] + " " + scrubbed[match.end():]
     if re.search(r"(?<![가-힣])중고나라에 올려놓은 물건\.", source):
         # Official service contact: web.joongna.com -> joonggonara.co.kr;
         # the developer's apps.apple.com/kr/app/id896515652 entry uses Joonggonara Co.
@@ -5237,6 +5437,149 @@ def _drama_parser_self_test() -> tuple[int, list[str]]:
     return cases, failures
 
 
+def _creator_recovery_parser_self_test() -> tuple[int, list[str]]:
+    """Actual creator/recovery quantities, with source and predicate ownership."""
+    cases, failures = 0, []
+
+    def check(source: str, target: str, valid: bool) -> None:
+        nonlocal cases
+        cases += 1
+        lang = "zh-CN" if "韩元" in target else "zh-TW"
+        errors = _numeric_errors(source, target) + _money_errors(lang, source, target)
+        if bool(errors) == valid:
+            failures.append(f"creator expected valid={valid}: {source!r} -> {target!r}: {errors}")
+
+    fixtures = (
+        ("아직 20대인데. 갑자기 몸이 무겁게 느껴진다.", "明明才二十多岁。突然觉得身体好沉。", "二十多岁", ("三十多岁", "二十多台", "−二十多岁")),
+        ("아직 20대인데. 갑자기 몸이 무겁게 느껴진다.", "明明才二十幾歲。突然覺得身體沉重。", "二十幾歲", ("三十幾歲", "二十幾年", "−二十幾歲")),
+        ("밥 한 번 사줬다.", "请他们吃了一顿饭。", "一顿饭", ("两顿饭", "一年", "−一顿饭")),
+        ("밥 한 번 사줬다.", "請他們吃了頓飯。", "頓飯", ("兩頓飯", "一年", "−頓飯")),
+        ("업계 유명인이 DM을 보냈다. '한번 만나보고 싶다'는 메시지.", "業界名人傳來私訊：想見個面。", "想見個面", ("想見兩個面", "已經見個面", "想見一年")),
+        ("업계 유명인이 DM을 보냈다. '한번 만나보고 싶다'는 메시지.", "业界名人发来私信：想和您见一面。", "想和您见一面", ("想和您见两面", "已经见一面", "想和您见一年")),
+        ("만회하면 된다 — 한 번만 더 크게 걸면", "扳回来就行——只要再赌一把大的。", "一把", ("两把", "一年", "−一把")),
+        ("만회하면 된다 — 한 번만 더 크게 걸면", "只要再押大一點，就一次。", "一次", ("兩次", "一年", "−一次")),
+        ("한 달 동안 일주일에 3개씩 올렸다.", "连续一个月，每周上传三条。", "每周上传三条", ("每周上传四条", "每秒上传三条", "每周上传三公里")),
+        ("한 달 동안 일주일에 3개씩 올렸다.", "整整一個月，每週上傳三支影片。", "每週上傳三支影片", ("每週上傳兩支影片", "每月上傳三支影片", "每週上傳三人")),
+        ("서로 노출이 되면 둘 다 좋죠.", "互相曝光，对我们都有好处。", "我们", ("三个人", "一年", "−我们")),
+        ("서로 노출이 되면 둘 다 좋죠.", "互相曝光，對彼此都有好處。", "彼此", ("三人", "一年", "−彼此")),
+        ("공동창업자는 B2B 피벗을 주장하고, 나는 B2C를 밀고 싶다. 마지막엔 서로 아무 말 없이 자리를 떴다.", "共同創辦人主張B2B，我想推B2C。最後，兩人什麼也沒說，各自離席。", "兩人", ("三人", "兩年", "−兩人")),
+        ("공동창업자는 B2B 피벗을 주장하고, 나는 B2C를 밀고 싶다. 마지막엔 서로 아무 말 없이 자리를 떴다.", "共同创始人主张B2B，我想推B2C。最后，两人一言不发地离开了。", "两人", ("三人", "两公里", "−两人")),
+        ("2030 공감 유발 콘텐츠로 화제", "引发二三十岁人群共鸣。", "二三十岁", ("二四十岁", "二三十年", "−二三十岁")),
+        ("2030 공감 유발 콘텐츠로 화제", "引發二、三十歲世代共鳴。", "二、三十歲", ("二、四十歲", "二、三十年", "−二、三十歲")),
+        ("지난 달까지 영상마다 5만 뷰는 기본이었는데", "每条视频五万播放还是常态。", "五万播放", ("六万播放", "五万人", "−五万播放")),
+        ("지난 달까지 영상마다 5만 뷰는 기본이었는데", "每支影片至少都有5萬次觀看。", "5萬次觀看", ("6萬次觀看", "5萬公里", "−5萬次觀看")),
+        ("후속 영상도 30만 뷰가 됐다.", "后续视频也达到了30万播放。", "30万播放", ("40万播放", "30万人", "−30万播放")),
+        ("후속 영상도 30만 뷰가 됐다.", "後續影片也達到了30萬次觀看。", "30萬次觀看", ("20萬次觀看", "30萬年", "−30萬次觀看")),
+        ("하루 만에 조회수는 80만이 됐고 댓글은 1만 개가 달렸다.", "一天，播放量就到了80万，评论有了1万条。", "80万", ("90万", "80万人", "−80万")),
+        ("하루 만에 조회수는 80만이 됐고 댓글은 1만 개가 달렸다.", "一天，觀看次數就到了80萬，留言有1萬則。", "1萬則", ("2萬則", "1萬公里", "−1萬則")),
+        ("구독자 5천 명이 빠졌지만 악플러들이", "流失了五千名订阅者，恶评者却……", "五千名订阅者", ("六千名订阅者", "五千公里", "−五千名订阅者")),
+        ("구독자 5천 명이 빠졌지만 악플러들이", "少了5000名訂閱者，惡評者卻……", "5000名訂閱者", ("6000名訂閱者", "5000年", "−5000名訂閱者")),
+        ("구독자 2만이 늘었지만 적도 그만큼", "订阅者增加两万，敌人也增加。", "两万", ("三万", "两万年", "−两万")),
+        ("구독자 2만이 늘었지만 적도 그만큼", "訂閱人數增加2萬，敵人也增加。", "2萬", ("3萬", "2萬人", "−2萬")),
+        ("영상이 올라가자 구독자 3만 명이 유입됐다.", "视频发布后涌入了三万名订阅者。", "三万名订阅者", ("四万名订阅者", "三万公里", "−三万名订阅者")),
+        ("영상이 올라가자 구독자 3만 명이 유입됐다.", "影片發布後帶來了3萬名訂閱者。", "3萬名訂閱者", ("4萬名訂閱者", "3萬年", "−3萬名訂閱者")),
+        ("100만 유튜버가 제안했다", "百万订阅YouTube博主的邀约", "百万", ("两百万", "百", "−百万")),
+        ("100만 유튜버가 제안했다", "百萬YouTuber提出邀約", "百萬", ("兩百萬", "百", "−百萬")),
+        ("구독자 120만 유튜버다. 콜라보를 하자고.", "有120万订阅者的YouTube博主。", "120万", ("130万", "120", "−120万")),
+        ("구독자 120만 유튜버다. 콜라보를 하자고.", "有120萬訂閱者的YouTuber。", "120萬", ("130萬", "120", "−120萬")),
+    )
+    for source, normal, span, bads in fixtures:
+        check(source, normal, True)
+        check(source, normal.replace(span, ""), False)
+        for bad in bads:
+            changed = normal.replace(span, bad)
+            check(source, changed, False)
+            check(source, changed + "。" + normal, False)
+    source = "조회수: 420,000\n구독자: +8,200명\n\n포털 뉴스에 링크가 올라왔다."
+    for normal in ("播放量：420,000\n订阅者：+8,200人\n\n门户新闻登出了链接。", "觀看次數：420,000\n訂閱人數：+8,200人\n\n入口網站新聞登出了連結。"):
+        check(source, normal, True)
+        for old, new in (("420,000", "430,000"), ("420,000", "420,000年"), ("420,000", "−420,000"),
+                         ("+8,200人", "+8,300人"), ("+8,200人", "8,200人"), ("+8,200人", "−8,200人"),
+                         ("+8,200人", "+8,200年"), ("420,000", "8,200")):
+            changed = normal.replace(old, new)
+            check(source, changed, False)
+            check(source, changed + "\n" + normal, False)
+    for source, normal, old, wrong in (
+        ("후속 영상도 30만 뷰가 됐다.", "後續影片也達到了30萬次觀看。", "也達到了", "不到"),
+        ("지난 달까지 영상마다 5만 뷰는 기본이었는데", "每支影片至少都有5萬次觀看。", "至少都有", "至多都有"),
+        ("구독자 5천 명이 빠졌지만 악플러들이", "少了5000名訂閱者，", "少了", "增加了"),
+        ("구독자 2만이 늘었지만 적도 그만큼", "訂閱人數增加2萬，", "增加", "減少"),
+    ):
+        check(source, normal, True)
+        check(source, normal.replace(old, wrong), False)
+        check(source, normal.replace(old, wrong) + normal, False)
+    for source in ("2만 3천원짜리 목표가 생겼다.", "2만 3천원을 받아들이고 전략을 접었다."):
+        for normal in ("有了2万3000韩元的目标。", "接受了2萬3000韓元。"):
+            check(source, normal, True)
+            amount = re.search(r"2[萬万]3000[韓韩]元", normal).group()
+            for bad in (amount.replace("3000", "4000"), amount.replace("韓元", "元").replace("韩元", "元"),
+                        "−" + amount, "2萬韓元，3000韓元", "", amount + "%", amount + "公斤"):
+                check(source, normal.replace(amount, bad), False)
+                if bad:
+                    check(source, normal.replace(amount, bad) + normal, False)
+    source = "추정 수익: ₩23,400\n\n첫 번째 정산이었다.\n2만 3천원.\n고시원 이틀치 밥값."
+    for normal in ("预计收入：23,400韩元\n\n第一次结算。\n2万3000韩元。\n考试院两天的饭钱。", "預估收益：23,400韓元\n\n第一次結算。\n2萬3000韓元。\n考試院兩天的飯錢。"):
+        check(source, normal, True)
+        for wrong in (normal.replace("23,400", "23,000"), normal.replace("3000", "3400"),
+                      normal.replace("23,400", "−23,400"), normal.replace("23,400", ""),
+                      normal.replace("23,400", "23000").replace("3000韩元", "3400韩元").replace("3000韓元", "3400韓元"),
+                      normal.replace("韩元\n", "韩元%\n").replace("韓元\n", "韓元公斤\n")):
+            check(source, wrong, False)
+    for normal in ("剩余的钱：OO万韩元。", "剩下的錢：OO萬韓元。"):
+        source = "남은 돈: OO만원."
+        check(source, normal, True)
+        amount = re.search(r"OO[萬万][韓韩]元", normal).group()
+        for bad in ("", "1萬韓元", "−" + amount, amount.replace("萬", "億").replace("万", "亿"), amount + "年", amount + "。" + amount):
+            check(source, normal.replace(amount, bad), False)
+        check("돈은 그대로다.", normal, False)
+    for source, kind in (
+        ("자동차 20대인데. 갑자기 몸이 무겁게 느껴진다.", "health_age_decade"),
+        ("길 한 번 걸었다.", "bought_meal_once"), ("한번 만나보고 싶다", "mentor_meeting_request"),
+        ("그냥 한 번 더 걸었다.", "bet_again_once"), ("한 달 동안 일주일에 3개씩 먹었다.", "creator_weekly_uploads"),
+        ("다른 둘 다 좋죠.", "collab_both"), ("마지막엔 서로 아무 말 없이 자리를 떴다.", "cofounder_departure_pair"),
+        ("2030년 공감 유발 콘텐츠로 화제", "creator_age_group"),
+        ("지난 달까지 영상마다 5만원은 기본이었는데", "creator_baseline_views"),
+        ("후속 영상도 30만원이 됐다.", "creator_followup_views"),
+        ("하루 만에 자산은 80만이 됐고 댓글은", "creator_total_views"),
+        ("돈은 1만 개가 달렸다.", "creator_comment_total"),
+        ("구독자 5천 명이 늘었지만 악플러들이", "creator_subscribers_lost"),
+        ("구독자 2만이 줄었지만 적도 그만큼", "creator_subscribers_gained"),
+        ("100만 투자자가 제안했다", "creator_collab_audience"),
+        ("자산: 420,000\n구독자: +8,200명", "creator_counter_views"),
+        ("구독자: -8,200명\n\n포털 뉴스에 링크가 올라왔다.", "creator_counter_subscriber_delta"),
+    ):
+        cases += 1
+        if any(q.kind == kind for q in _source_counter_quantities(source)):
+            failures.append(f"creator source scope escaped: {kind}: {source}")
+    for source, normal, token in (
+        ("다른 플랫폼(숏폼/인스타)을 병행한다.", "同时经营其他平台（短视频/Instagram）。", "Instagram"),
+        ("100만 유튜버가 제안했다", "百万订阅YouTube博主的邀约", "YouTube"),
+        ("구독자 120만 유튜버다. 콜라보를 하자고.", "120萬訂閱者的YouTuber。", "YouTuber"),
+    ):
+        for target, valid in ((normal, True), (normal.replace(token, ""), False),
+                              (normal.replace(token, token + "_extra"), False), (normal.replace(token, "X" + token), False)):
+            cases += 1
+            errors = _untranslated_english_errors(source, target)
+            if bool(errors) == valid:
+                failures.append(f"creator brand expected valid={valid}: {source!r} -> {target!r}: {errors}")
+        # YouTuber is an established general loanword, not newly licensed by
+        # this batch. Only its newly bounded source-audience parser is tested.
+        if token != "YouTuber":
+            cases += 1
+            if not _untranslated_english_errors("종이를 읽었다.", normal):
+                failures.append(f"creator brand escaped absent source: {normal}")
+    # Independently observed new implicit-sign and wrong-unit borrowing gaps.
+    for source, normal, changed in (
+        ("업계 유명인이 DM을 보냈다. '한번 만나보고 싶다'는 메시지.", "想和您见一面。", "想和您见−个面。"),
+        ("구독자 5천 명이 빠졌지만 악플러들이", "流失了五千名订阅者，", "流失了五千公斤，"),
+        ("서로 노출이 되면 둘 다 좋죠.", "對彼此都有好處吧。", "對−彼此，"),
+    ):
+        check(source, normal, True)
+        check(source, changed, False)
+        check(source, changed + normal, False)
+    return cases, failures
+
+
 def run_self_test(
     manifest: dict[str, Any], runtime: dict[str, Any],
 ) -> list[str]:
@@ -5267,6 +5610,9 @@ def run_self_test(
     drama_cases, drama_failures = _drama_parser_self_test()
     cases += drama_cases
     failures.extend(drama_failures)
+    creator_cases, creator_failures = _creator_recovery_parser_self_test()
+    cases += creator_cases
+    failures.extend(creator_failures)
 
     # Exact Korean-source catalogue names are not permission for unrelated
     # English prose or for deleting the noun around an allowed brand token.
