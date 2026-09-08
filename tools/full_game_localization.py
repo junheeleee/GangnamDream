@@ -427,6 +427,114 @@ def _ja_father_call_time_numbers(source: str, target: str):
     return normalized_source, normalized_target, errors
 
 
+
+def _ja_investment_life_numbers(source: str, target: str):
+    """Bind written quantities to the complete observed Korean narrative.
+
+    Only owned numeral spans are canonicalized; unrelated digits and the
+    subsequent money/value/sign checks are deliberately left in the stream.
+    The contract is selected by source prose, never an event ID or target list.
+    """
+    contracts = {
+        "50만 원을 넣었다. 처음엔 두 배가 됐다.\n그리고 반 토막. 다시 조금 올라와서 -30%에 멈췄다.\n팔아야 하는데, 손에 안 잡혔다.\n코인의 마력은 그거였다. 손절이 불가능하다.": [[["두 배","2 배"]],[[0,"(?:初め|最初)(?:は|に)@N@倍になった。",2,"","observed value factor"]],"倍"],
+        "두 달 뒤 코인 시장이 42% 빠졌을 때 동창의 다온 상태 메시지가 조용해졌다.\n{name}은 아무 말도 안 했다.\n때로 가장 좋은 투자는 안 하는 것이다.": [[["두 달","2 달"]],[[0,"^@N@(?:か月|ヶ月|カ月|箇月)後、暗号資産市場が42%下落したとき",2,"","elapsed market months"]],"(?:か月|ヶ月|カ月|箇月|週間|週|日|年)"],
+        "SNS 피드가 코인 얘기로 도배됐다. 고등학교 동창이 코어코인으로 3000만 원 벌었다는 다온 상태 메시지를 올렸다. 직장 후배는 점심 때마다 코인 얘기만 한다. 나만 모르는 건가, 나만 뒤처진 건가. {name}은 처음으로 업비트 앱을 깔아봤다.": [[["3000만 원","30000000원"]],[[0,"高校(?:時代)?の同級生が、?コアコインで@N@ウォン(?:儲けた|もうけた|稼いだ)とダオンのステータスメッセージに書いた",30000000,"","classmate claimed profit"]],"(?:ウォン|ドル|円|ユーロ)"],
+        "완벽한 타이밍을 기다리는 동안 세 달이 지났다. 결국 그 타이밍은 오지 않았다.": [[["세 달","3 달"]],[[0,"完璧なタイミングを待つ(?:うち|間)に、?@N@(?:か月|ヶ月|カ月|箇月)が(?:過ぎた|経った)。",3,"","waiting months"]],"(?:か月|ヶ月|カ月|箇月|週間|週|日|年)"],
+        "밤 11시, 유튜브 알고리즘이 '미국 대형주 ETF 하나로 끝내는 투자법' 영상을 추천했다. 호기심에 클릭했다가 세 편을 연달아 봤다. 개별 종목을 고르는 스트레스 없이 시장 전체에 투자한다는 개념이 솔깃했다. {name}은 맥주를 내려놓고 메모장을 꺼냈다.": [[["ETF 하나","ETF 1"],["세 편","3 편"]],[[0,"ETF@N@(?:つ|本)で完結する投資法",1,"","quoted ETF count"],[0,"そのまま@N@(?:本|編)(?:続けて|連続で)見た。",3,"","watched videos"]],"(?:本|編|つ|人|時間)"],
+        "잘 모르지만 일단 발을 담갔다. 100달러짜리 경험이 앞으로 1000달러를 지켜줄 것이다.": [[],[[0,"。(?:ここで得た)?@N@ドル(?:分)?の経験が、",100,"","experience USD"],[0,"(?:この先|これから|今後)の@N@ドルを守ってくれる(?:だろう|はずだ)。",1000,"","future protected USD"]],"(?:ドル|ウォン|円|ユーロ)"],
+        "시장 평균보다 낮아도, 원금을 지키며 1년을 버텼다는 게 이미 대단한 일이다. 내일의 {name}은 오늘보다 강하다.": [[],[[0,"元本を守りながら@N@年(?:間)?(?:持ちこたえた|耐えた)。",1,"","completed principal year"]],"(?:年(?:間)?|か月|ヶ月|日|時間)"],
+        "1월 1일, {name}은 증권사 앱에서 '연간 수익률 리포트'를 열었다. +7.3%. 코스피 기준치는 +11.2%. 1년 동안 열심히 했는데 시장 평균을 못 이겼다는 숫자가 화면에 박혀 있다. 잘한 건지 못한 건지, 뭘 바꿔야 할지, 그냥 괜찮은 건지 — 아무도 정답을 알려주지 않는다.": [[],[[0,"。@N@年(?:間)?頑張ったのに、市場平均には勝てなかった。",1,"","worked review year"]],"(?:年(?:間)?|か月|ヶ月|時間)"],
+        "1년 수익률 점검": [[],[[0,"^@N@年(?:間)?の収益率を(?:振り返る|見直す|確認する|点検する|チェックする)$",1,"","review title year"]],"(?:年(?:間)?|か月|ヶ月|日|時間)"],
+        "저녁 뉴스에서 경제학자 세 명이 동시에 '부동산 버블 붕괴가 임박했다'고 경고했다. 댓글창엔 '이번엔 진짜다'와 '맨날 틀린 소리'가 반반이다. {name}의 포트폴리오에는 부동산 리츠가 꽤 많이 담겨 있다. 불안한 마음에 커피를 마시며 수익률 화면을 계속 새로고침 했다.": [[["세 명","3 명"]],[[0,"経済学者@N@(?:人|名)が(?:そろって|同時に)『不動産バブルの崩壊が迫っている』と警告した。",3,"","simultaneous economist warning"]],"(?:人|名|時間|年)"],
+        "세 시간 뒤 결론 없이 영상 탭을 닫았지만, 적어도 리밸런싱의 원칙은 이해했다. 지식이 쌓이면 결정이 조금씩 빨라진다.": [[["세 시간","3 시간"]],[[0,"^@N@時間後、結論(?:の出ないまま|が出ないまま)動画のタブを閉じた。",3,"","elapsed closing hours"]],"(?:時間|日|年|分|秒)"],
+        "요즘 핫한 K-뷰티 스타트업 공모주 청약이 열렸다. SNS에선 '상장 당일 따상 확실'이라는 말이 돈다. 경쟁률은 이미 820대 1을 넘겼고, 증권사 앱은 터질 듯 느리다. {name}은 청약 증거금 50만 원을 준비해두고 클릭을 망설이고 있다.": [[["따상","2 따상"]],[[0,"SNSでは『上場日に初値@N@倍、そのままストップ高は確実』という話が飛び交っている。",2,"","quoted IPO opening factor"]],"(?:倍|歳|年)"],
+        "세금 신고 시즌이 왔다. 홈택스 화면을 열었다가 모르는 항목이 너무 많았다. 친구에게 물어보니 '배당·이자 소득이 2000만 원 넘으면 종합과세 대상이야'라고 한다. {name}의 작년 금융소득을 계산해보니 그 선이 아슬아슬하다. 세금을 잘못 내면 나중에 더 큰 문제가 생길 수 있다.": [[["2000만 원","20000000원"]],[[0,"友人に聞くと『配当と利子の所得が@N@ウォンを超えると、総合課税の対象だよ』と言う。",20000000,"","quoted tax threshold"]],"(?:ウォン|ドル|円|ユーロ)"],
+        "유튜브 알고리즘이 보여준 영상이었다.\n'3배 레버리지 ETF, 1년 수익률 280%'\n\n댓글창은 열광했고, 몇몇은 '나도 했다'고 썼다.\n\n{name}은 계산기를 꺼냈다.\n지금 가진 돈에 3을 곱하면.": [[],[[1,"^『3倍レバレッジETF、@N@年(?:間)?の収益率280%』$",1,"","quoted leverage year"]],"(?:年(?:間)?|か月|ヶ月|日|時間)"],
+        "3억 2천. 그냥 나를 위한 돈이 아니다.\n\n언젠가 아이를 키우려면, 지금 이 싸움에서 지면 안 된다. 두렵지만, 동시에 목표가 선명해지는 기분이었다.": [[["3억 2천","320000000원"]],[[0,"^@N@(?:ウォン)?(?=。ただ自分のためのお金ではない。)",320000000,"won","implicit child amount"]],"(?:億|万|ウォン|ドル|円|ユーロ)"],
+        "뉴스 기사를 보다가 손이 멈췄다.\n「자녀 1인당 양육비 평균 3억 2천만 원」\n\n민준은 잠깐 계산기를 켰다. 대학까지 보내면 월 얼마가 드나. 사교육까지 더하면.\n\n숫자가 쌓일수록 가슴 한쪽이 무거워졌다.": [[["3억 2천만 원","320000000원"]],[[1,"^『子ども@N@人(?:当たり|あたり)の養育費、平均",1,"","per-child denominator"],[1,"養育費、平均@N@ウォン』$",320000000,"","average child cost"]],"(?:人|ウォン|ドル|円|ユーロ)"],
+        "이모티콘 몇 개 보내고 카톡창을 닫았다.\n\n서른셋. 대체 나는 뭘 하고 있나. 잠깐 그런 생각이 지나갔다. 지워야 할 생각이었지만, 쉽게 안 지워졌다.": [[["서른셋","33살"]],[[2,"^@N@歳。一体、自分は何をしているんだろう。",33,"","self age"]],"(?:歳|才|年|か月|日)"],
+        "고등학교 친구에게서 카톡이 왔다.\n「야 나 임신했어. 다음 달에 돌잔치 아니고… 아 그 전에 결혼식 먼저. 하하.」\n\n축하 이모티콘을 보내면서 민준은 잠깐 멈췄다.\n같은 나이다. 서른셋. 그 친구는 이미 다음 챕터로 넘어가고 있다.": [[["돌잔치","1살 돌잔치"],["서른셋","33살"]],[[1,"来月は@N@歳のお祝いじゃなくて",1,"","negated first birthday"],[4,"^同い年だ。@N@歳。その友人は、もう次の章へ進んでいる。",33,"","shared age"]],"(?:歳|才|年|か月|日)"],
+        "뉴스 헤드라인이 눈에 들어왔다.\n「국민연금 2055년 완전 고갈 전망... 지금 서른 세대는 한 푼도 못 받을 수도」\n\n2055년. 지금은 멀어 보여도, 민준이 노후를 살아갈 시간 안에 있는 해였다.\n\n그냥 지나치기엔 숫자가 너무 구체적이었다.": [[["서른","30"]],[[1,"今@N@歳の世代は、一銭も受け取れない可能性も』$",30,"","pension cohort possibility"]],"(?:歳|才|か月|日)"],
+        "짐을 정리하다가 대학 1학년 때 노트가 나왔다.\n\n「10년 안에 내 이름을 건 회사를 만들겠다. 30살에 세상을 바꾸겠다.」\n\n그때의 글씨가 지금보다 굵었다.": [[],[[0,"大学@N@年(?:生|次)のときのノートが出てきた。",1,"","university first year"]],"年(?:生|次)"],
+        "\"알겠습니다\" 하고 나왔다.\n\n1년을 갈아넣었다. B+. 다음 해도 같은 말을 듣게 될 것 같은 기분이 들었다. 이 회사에서 S는 가능한 걸까.": [[],[[2,"^(?:この)?@N@年(?:間)?を(?:すり減らして働いた|仕事につぎ込んだ)。B\\+。",1,"","completed work year"]],"(?:年(?:間)?|か月|ヶ月|日|時間)"],
+    }
+    contract = contracts.get(source)
+    if contract is None:
+        return None
+    import unicodedata
+
+    # This parser is local to the licensed slots. It is not a global allowance
+    # for Japanese numerals, group separators, money labels or omitted units.
+    digits = '〇零一二三四五六七八九'
+    digit_values = dict(zip(digits, (0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9)))
+
+    def integer(raw):
+        raw = unicodedata.normalize('NFKC', raw)
+        if not raw or raw[0] in '+-−':
+            return None
+        if ',' in raw and not re.fullmatch(
+            r'(?:(?:[1-9][0-9]{0,2}(?:,[0-9]{3})+|[0-9]+)[億万]?)+', raw,
+        ):
+            return None
+        raw = raw.replace(',', '')
+        total, section, pending = 0, 0, ''
+        for char in raw:
+            if char.isascii() and char.isdigit():
+                pending += char
+            elif char in digit_values:
+                pending += str(digit_values[char])
+            elif char in '十百千':
+                section += (int(pending) if pending else 1) * {'十': 10, '百': 100, '千': 1000}[char]
+                pending = ''
+            elif char in '万億':
+                section += int(pending) if pending else 0
+                total += (section or 1) * {'万': 10000, '億': 100000000}[char]
+                section, pending = 0, ''
+            else:
+                return None
+        return total + section + (int(pending) if pending else 0)
+
+    numeral = r'[+＋\-－−]?[0-9０-９〇零一二三四五六七八九十百千万億,，]+'
+    number_group = r'(?P<number>' + numeral + ')'
+    rewrites, slots, unit_pattern = contract
+    lines = target.split('\n')
+    errors, replacements, owned = [], [], []
+    for line_index, pattern, value, mode, label in slots:
+        matches = list(re.finditer(pattern.replace('@N@', number_group),
+                                   lines[line_index])) if line_index < len(lines) else []
+        if len(matches) != 1:
+            errors.append(f'source-bound investment/life {label} role/state/position mismatch')
+            continue
+        match = matches[0]
+        offset = sum(len(line) + 1 for line in lines[:line_index])
+        start, end = (offset + point for point in match.span('number'))
+        # Signed, malformed or changed values cannot borrow a later correct slot.
+        if integer(match.group('number')) != value:
+            errors.append(f'source-bound investment/life {label} value/sign mismatch')
+        owned.append((start, end))
+        if mode == 'won':
+            # Korean source omits 만 원 here, but its immediately following
+            # money/child-purpose sentence licenses exactly 320 million won.
+            end = offset + match.end()
+            replacements.append((start, end, str(value) + 'ウォン'))
+        else:
+            replacements.append((start, end, str(value)))
+
+    # Inspect all occurrences of the licensed unit family, not only the first
+    # valid witness. Extra/displaced/negated clauses cannot be laundered by
+    # repeating the normal clause in this line or a later paragraph.
+    for quantity in re.finditer('(?P<number>' + numeral + r')\s*(?:' + unit_pattern + ')', target):
+        start, end = quantity.span('number')
+        if not any(a <= start and end <= b for a, b in owned):
+            errors.append('source-bound investment/life added/displaced quantity mismatch')
+    normalized_source = source
+    for old, new in rewrites:
+        normalized_source = normalized_source.replace(old, new, 1)
+    normalized_target = target
+    for start, end, replacement in sorted(replacements, reverse=True):
+        normalized_target = normalized_target[:start] + replacement + normalized_target[end:]
+    return normalized_source, normalized_target, errors
+
 def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
     import ja_translation_pipeline as ja
     if leaf.group == "endings" and leaf.path == ("condition",):
@@ -450,6 +558,12 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
         numeric = re.compile(r"(?<![\d.])[+-]?\d+(?:[,.]\d+)*")
         source_numbers = ja.PLACEHOLDER.sub("", leaf.source)
         target_numbers = ja.PLACEHOLDER.sub("", text)
+        investment_life = _ja_investment_life_numbers(leaf.source, text)
+        if investment_life is not None:
+            source_numbers, target_numbers, quantity_errors = investment_life
+            source_numbers = ja.PLACEHOLDER.sub("", source_numbers)
+            target_numbers = ja.PLACEHOLDER.sub("", target_numbers)
+            errors.extend(quantity_errors)
         father_call = _ja_father_call_time_numbers(source_numbers, target_numbers)
         if father_call is not None:
             source_numbers, target_numbers, call_errors = father_call
@@ -987,6 +1101,8 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
             errors.append("explicit numeric value/sign mismatch")
         if mixed_source and numeric.findall(source_numbers) != numeric.findall(target_numbers):
             errors.append("mixed Korean-won ordered numeric ownership mismatch")
+        if investment_life is not None and numeric.findall(source_numbers) != numeric.findall(target_numbers):
+            errors.append("source-bound investment/life ordered numeric ownership mismatch")
         if native_time_bound and numeric.findall(source_numbers) != numeric.findall(target_numbers):
             errors.append("native time ordered numeric ownership mismatch")
     else:

@@ -268,6 +268,34 @@ SOCIAL_COST_COUNTER_KINDS = frozenset({
     "hotel_price_night", "omakase_rate_person", "golf_hole_count", "golf_round_count",
     "golf_round_fee_range", "luxury_shop_glance", "blind_date_meeting_once", "blind_date_coffee",
 })
+# ORDER207: complete Korean frames license only their local quantity slots.
+INVESTMENT_WORK_COUNTER_KINDS = frozenset(["investment_judgment_pair","investment_group_over","home_coffee_prepared","ipo_allotted_shares","ipo_allotment_delay","ipo_ratio_assessed","ipo_ratio_over","child_per_capita","parent_hospital_invitation","college_notebook_year","burnout_quarter_ordinal","private_manager_pair","headhunter_coffee_heard","headhunter_meeting_intention","headhunter_talk_invitation"])
+SOURCE_INVESTMENT_WORK_QUANTITIES = (
+    ("종목을 골랐다. 오르면 내 안목 덕분이고, 떨어지면 시장 탓이다.\n재밌다. 그리고 위험하다.\n둘 다 맞는 말이었다.", "둘 다", 2, "investment_judgment_pair"),
+    ("오후 2시, 주식 다온 단톡방에 '내일 급등 예정, 지금 진입 타이밍'이라는 메시지가 올라왔다. 보낸 사람은 예전에 한 번 맞춘 적 있는 아는 형이다. 방 안에 100명이 넘는데 벌써 절반이 '살게요'를 찍고 있다. 이 정보가 진짜인지 가짜인지, {name}은 스마트폰을 쥔 손에 땀이 난다.", "100명", 100, "investment_group_over"),
+    ("토요일 오전, 교보문고에서 워런 버핏 평전을 샀다. 집에 돌아와 커피 한 잔 내리고 소파에 앉았다. 주말 내내 책에서 눈을 떼지 못했다. 시장의 소음에서 벗어나 원칙으로 돌아가는 투자자의 이야기는 흔들리던 {name}의 마음을 조용히 다잡아줬다.", "커피 한 잔", 1, "home_coffee_prepared"),
+    ("배정 결과는 3주 뒤였다. 달랑 2주 배정됐지만, 상장 당일 소폭 올라 소박한 수익이 됐다.", "2주", 2, "ipo_allotted_shares"),
+    ("배정 결과는 3주 뒤였다. 달랑 2주 배정됐지만, 상장 당일 소폭 올라 소박한 수익이 됐다.", "3주", 3, "ipo_allotment_delay"),
+    ("경쟁률 820대 1의 기대감은 이미 주가에 다 반영됐다고 판단했다. 냉정한 시선이 지갑을 지켰다.", "820대 1", 820, "ipo_ratio_assessed"),
+    ("요즘 핫한 K-뷰티 스타트업 공모주 청약이 열렸다. SNS에선 '상장 당일 따상 확실'이라는 말이 돈다. 경쟁률은 이미 820대 1을 넘겼고, 증권사 앱은 터질 듯 느리다. {name}은 청약 증거금 50만 원을 준비해두고 클릭을 망설이고 있다.", "820대 1", 820, "ipo_ratio_over"),
+    ("뉴스 기사를 보다가 손이 멈췄다.\n「자녀 1인당 양육비 평균 3억 2천만 원」\n\n민준은 잠깐 계산기를 켰다. 대학까지 보내면 월 얼마가 드나. 사교육까지 더하면.\n\n숫자가 쌓일수록 가슴 한쪽이 무거워졌다.", "1인당", 1, "child_per_capita"),
+    ("\"아버지, 병원 한번 같이 가요.\"", "한번", 1, "parent_hospital_invitation"),
+    ("짐을 정리하다가 대학 1학년 때 노트가 나왔다.\n\n「10년 안에 내 이름을 건 회사를 만들겠다. 30살에 세상을 바꾸겠다.」\n\n그때의 글씨가 지금보다 굵었다.", "1학년", 1, "college_notebook_year"),
+    ("이를 악물었다. 일단 이번 분기까지.\n\n그 생각이 세 분기 째 이어지고 있다는 건, 나중에야 알게 됐다.", "세 분기 째", 3, "burnout_quarter_ordinal"),
+    ("회의실에서 단둘이 이야기했다. 팀장은 \"당연히 네 기여를 알고 있다\"고 했다.\n\n상황은 바뀌지 않았다. 하지만 다음 번엔 조심할 것이다. 그것만으로도 충분했다.", "단둘이", 2, "private_manager_pair"),
+    ("커피 한 잔 마시면서 이야기를 들었다.\n\n조건이 나쁘지 않았다. 가겠다는 결정은 아니었지만, 선택지가 있다는 것 자체가 다른 무게였다.", "커피 한 잔", 1, "headhunter_coffee_heard"),
+    ("\"한 번 만나보겠습니다.\" (이직 가능성 탐색)", "한 번", 1, "headhunter_meeting_intention"),
+    ("모르는 번호로 전화가 왔다. \"안녕하세요, 헤드헌팅 전문 회사 ○○입니다.\"\n\n연봉 15% 인상. 업종은 비슷. 회사 이름이 꽤 알려진 곳이었다.\n\n\"한 번 이야기라도 나눠보시겠어요?\"", "한 번", 1, "headhunter_talk_invitation"),
+)
+SOURCE_INVESTMENT_WORK_LATIN = {
+    "SNS 피드가 코인 얘기로 도배됐다. 고등학교 동창이 코어코인으로 3000만 원 벌었다는 다온 상태 메시지를 올렸다. 직장 후배는 점심 때마다 코인 얘기만 한다. 나만 모르는 건가, 나만 뒤처진 건가. {name}은 처음으로 업비트 앱을 깔아봤다.": ("Upbit", "installed_app"),
+    "점심을 먹다가 카카오뱅크 알림이 왔다. '배당금 입금 47,200원'. 별 기대 없이 들고 있던 주식에서 나온 돈이다. 적다면 적지만, 아무것도 안 했는데 돈이 들어온다는 감각은 처음이다. 입금 알림 화면을 캡처해서 한참 바라봤다.": ("KakaoBank", "dividend_notice"),
+    "처음으로 오르카 주식을 샀다. 달러로 결제하고, 미국 시장 마감 시간에 맞춰 새벽 3시에 일어나야 하고, 양도소득세는 250만 원 넘으면 직접 신고해야 한다는 걸 오늘 처음 알았다. 생각보다 훨씬 복잡하다. {name}은 환율 계산기를 켜놓고 멍하니 앉아 있었다.": ("Orca", "bought_stock"),
+    "세금 신고 시즌이 왔다. 홈택스 화면을 열었다가 모르는 항목이 너무 많았다. 친구에게 물어보니 '배당·이자 소득이 2000만 원 넘으면 종합과세 대상이야'라고 한다. {name}의 작년 금융소득을 계산해보니 그 선이 아슬아슬하다. 세금을 잘못 내면 나중에 더 큰 문제가 생길 수 있다.": ("Hometax", "opened_tax_page"),
+    "팀장이 발표했다. 지난달 민준이 야근하며 만든 분석 자료가, 팀장의 언어로 바뀌어서 임원 앞에 올라갔다.\n\n발표 후 임원이 말했다. \"김 팀장, 이번 분석 좋았어요.\"\n\n팀장이 웃었다. 민준 쪽은 안 봤다.": ("Kim", "manager_surname"),
+    "\"알겠습니다\" 하고 나왔다.\n\n1년을 갈아넣었다. B+. 다음 해도 같은 말을 듣게 될 것 같은 기분이 들었다. 이 회사에서 S는 가능한 걸까.": ("B+", "assessment_reflection"),
+    "연말 성과 면담. 팀장이 종이를 보면서 말했다.\n\n\"이번 년도 종합은 B+. S등급은 조금 어렵겠고... 내년을 봐야 할 것 같아.\"\n\nB+. 잘했지만 최고는 아닌, 그 말.": ("B+", "assessment_interview"),
+}
 CALLBACK_COUNTER_KINDS = frozenset({
     "parent_care_open_invitation", "parent_care_passed_invitation", "parent_care_retained_day",
     "renewed_proposal_doubt", "recalled_job_meeting_intention", "honesty_protected_pair",
@@ -296,7 +324,7 @@ CALLBACK_COUNTER_KINDS = frozenset({
     "tentative_greeting_once", "former_ceo_success", "callback_lotto_prize_rank",
     "repeated_topic_mention", "occasional_encounter",
 })
-LIFE_SCENE_COUNTER_KINDS = WORK_SCENE_COUNTER_KINDS | SPENDING_SCENE_COUNTER_KINDS | FAMILY_SCENE_COUNTER_KINDS | MEDIA_SCENE_COUNTER_KINDS | HIDDEN_SCENE_COUNTER_KINDS | PROLOGUE_COUNTER_KINDS | DRAMA_COUNTER_KINDS | CREATOR_COUNTER_KINDS | DAILY_MOMENT_COUNTER_KINDS | SOCIAL_COST_COUNTER_KINDS | CALLBACK_COUNTER_KINDS | frozenset({
+LIFE_SCENE_COUNTER_KINDS = INVESTMENT_WORK_COUNTER_KINDS | WORK_SCENE_COUNTER_KINDS | SPENDING_SCENE_COUNTER_KINDS | FAMILY_SCENE_COUNTER_KINDS | MEDIA_SCENE_COUNTER_KINDS | HIDDEN_SCENE_COUNTER_KINDS | PROLOGUE_COUNTER_KINDS | DRAMA_COUNTER_KINDS | CREATOR_COUNTER_KINDS | DAILY_MOMENT_COUNTER_KINDS | SOCIAL_COST_COUNTER_KINDS | CALLBACK_COUNTER_KINDS | frozenset({
     "remaining_four_month", "job_posting_count", "egg_count", "task_count",
     "rental_home_ordinal", "mirror_glance", "gangnam_attempt",
     "university_year", "restaurant_per_person", "underground_exit",
@@ -1773,6 +1801,18 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
         # This exact leaf has no quantities: 지워 둘 is the auxiliary 두다.
         return []
     quantities: list[CounterQuantity] = []
+    for raw, fragment, value, kind in SOURCE_INVESTMENT_WORK_QUANTITIES:
+        if source == raw or source == _mask_spans(raw, _source_money_amounts(raw)):
+            start = source.index(fragment)
+            quantities.append(CounterQuantity(start, start + len(fragment), Decimal(value), kind))
+        elif kind == "parent_hospital_invitation":
+            prefix, suffix = raw.split(fragment)
+            counted = re.fullmatch(re.escape(prefix) + r"(?P<number>\d+|"
+                + "|".join(map(re.escape, KOREAN_NATIVE_FORMS)) + r")\s*번" + re.escape(suffix), source)
+            if counted:
+                changed_value = _source_counter_value(counted.group("number"))
+                if changed_value is not None:
+                    quantities.append(CounterQuantity(len(prefix), len(source) - len(suffix), changed_value, kind))
     # Five complete sources own six independent slots. In the bereaved leaf
     # the earlier invitation and the retained day cannot backfill each other.
     for raw, fragment, number, kind in SOURCE_CARE_HONESTY_ECHO_QUANTITIES:
@@ -1962,6 +2002,8 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
         for match in re.finditer(pattern, source):
             if kind == "price_gap_pair" and not re.search(r"\s{2,}\. \s{2,}\. $", source[:match.start()]):
                 continue  # Exactly two preceding masked prices, not arbitrary people.
+            if any(q.kind in INVESTMENT_WORK_COUNTER_KINDS and match.start() < q.end and match.end() > q.start for q in quantities):
+                continue
             if (kind == "per_person_bill" or kind in LIFE_SCENE_COUNTER_KINDS) and _has_numeric_sign_prefix(source, match.start()):
                 continue  # Never mask the unsigned tail of a signed/fractional source count.
             quantities.append(CounterQuantity(match.start(), match.end(), Decimal(value), kind))
@@ -2364,7 +2406,203 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
     return sorted(quantities, key=lambda quantity: quantity.start)
 
 
+def _investment_work_pattern(kind: str) -> re.Pattern[str]:
+    """Local quantity witnesses, including wrong-unit forms for backfill checks."""
+    number = rf"(?P<sign>[+＋−﹣－負负-])?[ \t]*(?P<number>{CHINESE_CARDINAL})"
+    wrong = r"公里|公斤|年|天|秒|[個个]月|[韓韩]元"
+    if kind == "investment_judgment_pair":
+        pattern = number + rf"(?P<unit>句[話话]|[種种]說法|[种種]说法|件事|者|{wrong})"
+    elif kind == "investment_group_over":
+        pattern = rf"(?P<group_prefix>群(?:[組组])?(?:[裡里中])?(?:成[員员])?(?:已[經经])?(?:有)?(?:超[過过])?){number}(?P<over>多)?(?P<unit>人|名|位|{wrong})"
+    elif kind in {"home_coffee_prepared", "headhunter_coffee_heard"}:
+        verb = r"[沖冲煮泡]" if kind == "home_coffee_prepared" else r"喝"
+        pattern = verb + rf"(?P<state>了|好|著|着)?{number}?(?P<unit>杯|壺|壶|瓶|{wrong})?咖啡"
+    elif kind == "ipo_allotted_shares":
+        pattern = rf"(?:分(?:配)?到(?:了)?|配售了?|[獲获]配(?:了)?){number}(?P<unit>股|份|[週周]|{wrong})"
+    elif kind == "ipo_allotment_delay":
+        pattern = number + rf"(?P<unit>[個个]?星期|[週周]|{wrong})"
+    elif kind in {"ipo_ratio_over", "ipo_ratio_assessed"}:
+        pattern = number + rf"\s*(?P<unit>比|[：:∶]|股|[週周]|{wrong})\s*(?P<denom_sign>[+＋−﹣－負负-])?(?P<denominator>{CHINESE_CARDINAL})"
+    elif kind == "child_per_capita":
+        pattern = rf"每{number}?(?P<unit>名|位|[個个]|{wrong})?(?:子女|孩子|[兒儿]童)"
+    elif kind == "parent_hospital_invitation":
+        pattern = rf"去(?P<state>了|[過过])?{number}?(?P<unit>趟|次|回|{wrong})?[醫医]院"
+    elif kind == "college_notebook_year":
+        pattern = rf"(?:大(?:[學学])?{number}(?P<unit>年[級级]|[學学]年|{wrong})?|" \
+            r"(?P<entry>[剛刚]上大[學学]那年|大[學学][畢毕][業业]那年))"
+    elif kind == "burnout_quarter_ordinal":
+        pattern = rf"(?P<ordinal>第){number}(?P<unit>[個个]?季度|季|{wrong})"
+    elif kind == "private_manager_pair":
+        pattern = rf"(?:{number}(?P<unit>[個个]?人|位|{wrong})|(?P<implicit>咱[倆俩]|我[倆俩]|[倆俩])|" \
+            r"(?P<actors>我和[組组][長长]))"
+    elif kind == "headhunter_meeting_intention":
+        pattern = rf"[見见](?P<state>了|[過过])?{number}?(?P<unit>[個个]?面|次|回|{wrong})(?:聊聊)?"
+    elif kind == "headhunter_talk_invitation":
+        pattern = rf"(?:{number}?(?P<unit>次|回|{wrong})?(?:聊聊(?:看)?|[談谈][談谈]|[談谈]一[談谈]|交[談谈])|" \
+            rf"[聊談谈](?P<tail_sign>[+＋−﹣－負负-])?(?P<tail_number>{CHINESE_CARDINAL})(?P<tail_unit>次|回|{wrong}))"
+    else:
+        raise ValueError(kind)
+    return re.compile(pattern)
+
+
+def _investment_work_quantity_valid(kind: str, match: re.Match[str], target: str) -> bool:
+    """Preserve the witnessed predicate, line, owner and count; not all prose."""
+    fields = match.groupdict()
+    before, after = target[:match.start()], target[match.end():]
+    line = before.count("\n")
+    left = re.split(r"[。.!！?？；;\n]", before)[-1]
+    right = re.split(r"[。.!！?？；;\n]", after)[0]
+    unit = fields.get("unit") or fields.get("tail_unit") or ""
+    if fields.get("sign") or fields.get("denom_sign") or fields.get("tail_sign") or re.search(
+            r"(?:[沒没](?:有)?|未|不是|不曾|不會|不会|不再|[將将]要?|打算|計劃|计划|準備|准备)\s*$", before):
+        return False
+    if re.match(r"\s*(?:[%％‰倍]|公里|公斤|[韓韩]元|/[月年天]|每[月年天])", after):
+        return False
+    if kind == "investment_judgment_pair":
+        return unit in {"句话", "句話", "种说法", "種說法", "件事", "者"} and line == 2 \
+            and bool(re.fullmatch(r"(?:[這这那])?", left)) \
+            and bool(re.fullmatch(r"都(?:[沒没][錯错]|[沒没]有[錯错]|[對对]|正[確确]|是事[實实]|成立)(?:了)?", right)) \
+            and bool(re.fullmatch(r"(?:既)?(?:有趣|有意思)[。.]?(?:也|而且|又|同[時时]也)?危[險险][。.]", target.split("\n")[1]))
+    if kind == "investment_group_over":
+        return unit in {"人", "名", "位"} and line == 0 \
+            and not left \
+            and bool(fields.get("over") or re.search(r"超[過过]$", fields.get("group_prefix") or "")) \
+            and bool(re.match(r"[，,](?:已[經经])?(?:有)?一半(?:的人)?(?:都)?(?:在)?"
+                r"(?:打(?:出)?|[輸输]入(?:了)?)[“「\"](?:我[買买]|我要[買买])[”」\"][。.]", after))
+    if kind == "home_coffee_prepared":
+        return unit in {"", "杯"} and fields.get("state") in {"了", "好"} and line == 0 \
+            and bool(re.fullmatch(r"(?:回(?:到)?家(?:[後后])?|到家(?:[後后])?)[，,]?(?:[給给]自己)?", left)) \
+            and bool(re.match(r"[，,](?:坐(?:[進进上]|在)?(?:了)?沙[發发]|在沙[發发]上坐)", after))
+    if kind == "headhunter_coffee_heard":
+        return unit in {"", "杯"} and fields.get("state") in {None, "了", "著", "着"} and line == 0 \
+            and bool(re.fullmatch(r"(?:一[邊边]|[邊边])?", left)) \
+            and bool(re.fullmatch(r"[，,]?(?:一[邊边]|[邊边])?(?:[聽听]了?(?:[對对]方的)?(?:介[紹绍]|[說说]明)|[聽听][對对]方介[紹绍])", right)) \
+            and bool(re.search(r"(?:[並并][沒没]有|[還还]不(?:是)?|[尚未还沒没]+)[決决]定(?:要)?去", target))
+    if kind == "ipo_allotted_shares":
+        return unit == "股" and line == 0 and bool(re.fullmatch(r"(?:最[後后])?(?:只|只不[過过]|僅僅|仅仅|僅|仅)?", left)) \
+            and bool(re.match(r"[，,](?:不[過过]|但|但是|雖然|虽然)", after)) \
+            and bool(re.search(r"(?:上市|[掛挂]牌)(?:[當当]天|日).*小(?:幅上)?[漲涨]", target)) \
+            and not re.search(r"(?:[虧亏]損|[虧亏]了|大[賺赚]|翻倍|保[證证])", right)
+    if kind == "ipo_allotment_delay":
+        # This source's first 주 is elapsed weeks; the second is allotted
+        # shares. A later correct share/interval cannot cover this slot.
+        return unit in {"周", "週", "星期", "个星期", "個星期"} and line == 0 \
+            and ((before == "" and bool(re.fullmatch(r"[後后]公布配售[結结]果", right)))
+                 or (bool(re.fullmatch(r"配售[結结]果在", before))
+                     and bool(re.fullmatch(r"[後后](?:出[來来]|公布)了", right)))
+                 or (bool(re.fullmatch(r"[過过]了", before))
+                     and bool(re.fullmatch(r"[，,]配售[結结]果才出[來来]", right))))
+    if kind in {"ipo_ratio_over", "ipo_ratio_assessed"}:
+        if unit not in {"比", ":", "：", "∶"} or _chinese_cardinal_value(fields.get("denominator") or "") != 1 or line:
+            return False
+        if kind == "ipo_ratio_over":
+            return bool(re.fullmatch(r"(?:申[購购])?(?:競爭|竞争)(?:比(?:例)?|率)(?:已[經经])?超[過过]", left)) \
+                and bool(re.match(r"[，,]", after)) \
+                and bool(re.search(r"\{name\}.*(?:備好|备好|準備|准备).*?(?:猶豫|犹豫|遲遲[沒没]|迟迟[没沒]|[沒没]按|猶豫著|犹豫着)", target))
+        return bool(re.fullmatch(r"(?:[判斷判断]+)?", left)) \
+            and bool(re.search(r"(?:期待|預期|预期).*?(?:已[經经]|早已).*?(?:股[價价]|價格|价格)", after)) \
+            and not re.search(r"未|[沒没]有|不曾|未來|未来", right)
+    if kind == "child_per_capita":
+        return unit in {"", "名", "位", "个", "個"} and line == 1 \
+            and bool(re.fullmatch(r"[「“\"]", left)) and bool(re.match(r"(?:的)?平均(?:[養养]育|[撫抚]養)", after))
+    if kind == "parent_hospital_invitation":
+        return unit in {"", "趟", "次", "回"} and not fields.get("state") and line == 0 \
+            and bool(re.fullmatch(r"[「“\"](?:爸|爸爸|父[親亲])[，,](?:我[們们]一起|一起|我陪您|我陪你)(?:一起)?", before)) \
+            and bool(re.fullmatch(r"(?:看看)?(?:吧[。.]?|好[嗎吗][？?]|[，,]好[嗎吗][？?])[」”\"]", after))
+    if kind == "college_notebook_year":
+        if fields.get("entry"):
+            return bool(re.fullmatch(r"[剛刚]上大[學学]那年", fields["entry"])) and line == 0 \
+                and bool(re.fullmatch(r"整理(?:行李|[東东]西)(?:[時时])?[，,]?(?:翻出|找出|找到|發現|发现)(?:了)?", before)) \
+                and bool(re.match(r"(?:用)?的(?:筆記本|笔记本|筆記|笔记)", after))
+        return unit in {"", "年级", "年級", "学年", "學年"} and line == 0 \
+            and bool(re.search(r"整理(?:行李|[東东]西).*?(?:翻出|找出|找到|發現|发现)(?:了)?$", before)) \
+            and bool(re.match(r"(?:[時时])?的(?:筆記本|笔记本|筆記|笔记)", after))
+    if kind == "burnout_quarter_ordinal":
+        # A counted third quarter of continuing effort is not calendar Q3.
+        # Bare 第三季度/第三季 remains a witness, but not a valid classifier.
+        return unit in {"个季度", "個季度"} and line == 2 \
+            and bool(re.search(r"(?:[後后][來来]|直到[後后][來来]).*(?:發現|发现).*?(?:念[頭头]|想法|念[頭头].*|想法.*)", before)) \
+            and bool(re.search(r"(?:延[續续]|持[續续]|已[經经]是|到了|[進进]入)", before)) \
+            and not re.search(r"明年|下次|未來|未来|將會|将会|打算", before.split("\n")[-1]) \
+            and bool(re.fullmatch(r"(?:了)?[。.]", after))
+    if kind == "private_manager_pair":
+        if fields.get("actors"):
+            return not before \
+                and bool(re.fullmatch(r"在[會会][議议]室(?:[裡里])?(?:單獨|单独)(?:聊了聊|[談谈]了[談谈])", right)) \
+                and bool(re.search(r"[組组][長长][說说][：:]", target))
+        return unit in {"", "个人", "個人", "人", "位"} and line == 0 \
+            and bool(re.fullmatch(r"在[會会][議议]室(?:[裡里])?[，,]?", left)) \
+            and bool(re.match(r"(?:單獨|单独)(?:[談谈]了|聊了|交[談谈]了)", after)) \
+            and bool(re.search(r"[組组][長长][說说][：:]", target))
+    if kind == "headhunter_meeting_intention":
+        return unit in {"面", "个面", "個面"} and not fields.get("state") and line == 0 \
+            and bool(re.fullmatch(r"[「“\"](?:那就|我(?:[願愿]意|想|會会)|好[，,]那就)?(?:先)?", before)) \
+            and bool(re.fullmatch(r"(?:吧|看看)?[。.]?[」”\"]（(?:探一探|探索)(?:跳槽|[轉转][職职])的可能(?:性)?）", after))
+    if kind == "headhunter_talk_invitation":
+        return unit in {"", "次", "回"} and line == 4 \
+            and bool(re.fullmatch(r"[「“\"](?:您[願愿]意|要不要|您要不要|愿不愿意|願不願意)(?:先)?", left)) \
+            and bool(re.fullmatch(r"(?:[嗎吗])?[？?][」”\"]", after)) \
+            and bool(re.search(r"陌生.*[獵猎][頭头].*○○", target.split("\n")[0])) \
+            and bool(re.search(r"年薪.*15%", target.split("\n")[2]))
+    return False
+
+
+def _investment_work_latin_errors(source: str, target: str) -> tuple[str, list[str]]:
+    """Source-present brands and grades retain occurrence and narrative roles."""
+    if source not in SOURCE_INVESTMENT_WORK_LATIN:
+        return target, []
+    brand, role = SOURCE_INVESTMENT_WORK_LATIN[source]
+    matches = _bounded_latin_matches(target, brand)
+    wanted = source.count("B+") if brand == "B+" else 1
+    if len(matches) != wanted:
+        return target, [f"investment/work Latin count/boundary changed: {role}"]
+    valid = True
+    for match in matches:
+        before, after = target[:match.start()], target[match.end():]
+        left = re.split(r"[。.!！?？；;\n]", before)[-1]
+        if re.search(r"未來|未来|明天|不會|不会|沒有|没有|未曾|不曾|不是|[將将](?:會|会|要)|打算|計劃|计划|準備|准备", left):
+            valid = False
+        if brand == "Upbit":
+            valid &= bool(re.search(r"\{name\}第[一1]次(?:安[裝装]了?|[裝装]上了?|[安裝安装]+了?)\s*$", left)) \
+                and bool(re.match(r"\s*(?:App|[應应]用|(?:手機|手机)?[軟软]體|app)", after))
+        elif brand == "KakaoBank":
+            valid &= bool(re.fullmatch(r"(?:正在)?吃午[飯饭餐](?:[時时]|的[時时]候|途中|到一半)[，,]?(?:收到(?:了)?)?", left)) \
+                and bool(re.match(r"\s*(?:的|[發发][來来])?(?:通知|入[帳账]通知)", after))
+        elif brand == "Orca":
+            valid &= bool(re.search(r"第[一1]次[買买]了?\s*$", left)) \
+                and bool(re.match(r"\s*(?:的)?股票", after))
+        elif brand == "Hometax":
+            valid &= bool(re.search(r"(?:打[開开]|[開开]啟|[開开]了|[開开])\s*$", left)) \
+                and bool(re.match(r"\s*(?:[，,]|(?:[頁页]面|[畫画]面))", after))
+        elif brand == "Kim":
+            valid &= before.count("\n") == 2 and bool(re.search(r"[說说][：:]?[「“\"]$", before)) \
+                and bool(re.match(r"\s*[組组][長长][，,]", after)) \
+                and not bool(re.search(r"(?:金|(?:金\s*)?Kim\s*金|金\s*Kim)", target))
+        elif brand == "B+":
+            valid &= not bool(re.search(r"[+＋−﹣－-]\s*$", before)) \
+                and not bool(re.match(r"[+＋−﹣－-]|級以上|级以上", after))
+    if brand == "B+":
+        s_matches = _bounded_latin_matches(target, "S")
+        valid &= len(s_matches) == source.count("S")
+        if role == "assessment_interview":
+            valid &= len(target.split("\n")) == 5 and all(m.start() >= target.find("\n\n") for m in matches) \
+                and bool(re.search(r"S\s*[級级].*?(?:[難难]|不容易|不太可能)", target)) \
+                and not bool(re.search(r"S\s*[級级][^。.\n]*?(?:不[難难]|不困[難难]|[已經已经]+(?:拿到|得到|獲得|获得))", target)) \
+                and bool(re.search(r"(?:綜合|综合|總評|总评|評等|评级|評價|评价).*?B\+", target.split("\n")[2])) \
+                and matches[-1].start() == len("\n".join(target.split("\n")[:4])) + 1
+        else:
+            valid &= len(target.split("\n")) == 3 and bool(re.search(r"(?:明年|下[一年個个]+年|[來来]年|明年).*?(?:[會会]|好像)", target)) \
+                and bool(re.search(r"(?:可能|拿得到|能(?:拿到|得到)|能不能).*?S|S.*?(?:可能|[嗎吗？?])", target))
+    if not valid:
+        return target, [f"investment/work Latin role/state changed: {role}"]
+    for match in reversed(matches):
+        target = target[:match.start()] + " " * (match.end() - match.start()) + target[match.end():]
+    return target, []
+
+
 def _target_pattern_for_kind(kind: str) -> re.Pattern[str]:
+    if kind in INVESTMENT_WORK_COUNTER_KINDS:
+        return _investment_work_pattern(kind)
     if kind in {"parent_care_open_invitation", "parent_care_passed_invitation"}:
         return re.compile(rf"去(?P<state>了|[過过])?(?P<sign>[+＋−﹣－負负-])?\s*(?P<number>{CHINESE_CARDINAL})?(?P<callback_unit>趟|次|回|天|年|公里)?[醫医]院")
     if kind == "parent_care_retained_day":
@@ -3856,6 +4094,8 @@ def _match_target_counter_quantities(
         for match in pattern.finditer(target, search_start):
             if any(match.start() < row.end and match.end() > row.start for row in matched):
                 continue
+            if expected.kind in INVESTMENT_WORK_COUNTER_KINDS and not _investment_work_quantity_valid(expected.kind, match, target):
+                continue
             if expected.kind in WORK_SCENE_COUNTER_KINDS and not _work_quantity_valid(expected.kind, match, target):
                 continue
             if expected.kind in SPENDING_SCENE_COUNTER_KINDS and not _spending_quantity_valid(expected.kind, match, target):
@@ -4039,6 +4279,9 @@ def _match_target_counter_quantities(
                 # 一眼 is a glance after a seeing verb, not one physical eye.
                 continue
             value = _chinese_cardinal_value(match.group("number") or "")
+            if expected.kind in INVESTMENT_WORK_COUNTER_KINDS and not match.group("number"):
+                tail_number = match.groupdict().get("tail_number")
+                value = _chinese_cardinal_value(tail_number) if tail_number else Decimal(2 if expected.kind == "private_manager_pair" else 1)
             if expected.kind == "renewed_proposal_doubt" and match.groupdict().get("doubt_tail_number"):
                 value = _chinese_cardinal_value(match.group("doubt_tail_number"))
             if expected.kind in {"parent_care_open_invitation", "parent_care_passed_invitation", "parent_care_retained_day", "renewed_proposal_doubt", "recalled_job_meeting_intention"} and not match.group("number"):
@@ -4835,6 +5078,9 @@ def _money_errors(lang: str, source: str, target: str) -> list[str]:
 
 
 def _untranslated_english_errors(source: str, target: str, *, catalog: bool = False) -> list[str]:
+    target, scoped_errors = _investment_work_latin_errors(source, target)
+    if scoped_errors:
+        return scoped_errors
     scrubbed = PLACEHOLDER.sub(" ", target)
     if source == SOURCE_HOMETAX_REFUND_NOTICE:
         matches = _bounded_latin_matches(scrubbed, "Hometax")
@@ -8742,12 +8988,365 @@ def _care_honesty_echo_natural_self_test() -> tuple[int, list[str]]:
     return cases, failures
 
 
+def _investment_work_source_parser_self_test() -> tuple[int, list[str]]:
+    """Own ORDER207 tests; independent reviewer inputs are not consumed."""
+    cases, failures = 0, []
+    rows = (
+        ("종목을 골랐다. 오르면 내 안목 덕분이고, 떨어지면 시장 탓이다.\n재밌다. 그리고 위험하다.\n둘 다 맞는 말이었다.", "选好了股票。涨了是自己眼光好，跌了是市场不好。\n有趣。也危险。\n两句话都没错。", "挑了股票。漲了是自己眼光好，跌了是市場的錯。\n有趣。而且危險。\n兩種說法都沒錯。"),
+        ("SNS 피드가 코인 얘기로 도배됐다. 고등학교 동창이 코어코인으로 3000만 원 벌었다는 다온 상태 메시지를 올렸다. 직장 후배는 점심 때마다 코인 얘기만 한다. 나만 모르는 건가, 나만 뒤처진 건가. {name}은 처음으로 업비트 앱을 깔아봤다.", "社交平台的信息流被加密货币刷了屏。高中同学在Daon状态里说，靠Corecoin赚了3000万韩元。公司的后辈每到午饭就只聊币。难道只有我不知道，只有我落后了？{name}第一次装上了Upbit应用。", "社群動態滿滿都是加密貨幣。高中同學在 Daon 狀態訊息寫著，靠 Corecoin 賺了3,000萬韓元。公司後輩每到午餐時間，就只聊加密貨幣。難道只有我不知道，只有我落後了嗎。{name}第一次安裝了 Upbit App。"),
+        ("점심을 먹다가 카카오뱅크 알림이 왔다. '배당금 입금 47,200원'. 별 기대 없이 들고 있던 주식에서 나온 돈이다. 적다면 적지만, 아무것도 안 했는데 돈이 들어온다는 감각은 처음이다. 입금 알림 화면을 캡처해서 한참 바라봤다.", "吃午饭时，KakaoBank发来通知：“股息到账47,200韩元。”是那只没抱什么期待、一直拿着的股票分来的钱。说少是少，但什么也没做就有钱进账，这种感觉还是第一次。把到账通知截了图，看了很久。", "吃午餐時，KakaoBank 的通知跳了出來。「股息入帳47,200韓元」。是那檔沒抱什麼期待、一直持有的股票帶來的錢。要說少，是不多，但什麼也沒做就有錢進來的感覺，還是第一次。把入帳通知截了圖，看了好久。"),
+        ("오후 2시, 주식 다온 단톡방에 '내일 급등 예정, 지금 진입 타이밍'이라는 메시지가 올라왔다. 보낸 사람은 예전에 한 번 맞춘 적 있는 아는 형이다. 방 안에 100명이 넘는데 벌써 절반이 '살게요'를 찍고 있다. 이 정보가 진짜인지 가짜인지, {name}은 스마트폰을 쥔 손에 땀이 난다.", "下午2点，Daon股票群里冒出一条消息：“明天预计大涨，现在是进场时机。”发消息的是一位认识的大哥，以前曾说中过一次。群里有100多人，已经有一半在打“我买”。这消息是真是假？{name}攥着手机的手出了汗。", "下午2點，股票 Daon 群組裡出現一則訊息：「明天準備大漲，現在就是進場時機。」傳訊息的是一位認識的大哥，以前曾經說中過一次。群組裡有超過100人，已經有一半打出「我要買」。這消息究竟是真是假，{name}握著手機的手冒出了汗。"),
+        ("토요일 오전, 교보문고에서 워런 버핏 평전을 샀다. 집에 돌아와 커피 한 잔 내리고 소파에 앉았다. 주말 내내 책에서 눈을 떼지 못했다. 시장의 소음에서 벗어나 원칙으로 돌아가는 투자자의 이야기는 흔들리던 {name}의 마음을 조용히 다잡아줬다.", "周六上午，在教保文库买了沃伦·巴菲特的传记。回家冲了杯咖啡，坐进沙发。整个周末都没能把目光从书上移开。那位投资者远离市场杂音、回归原则的故事，静静地稳住了{name}动摇的心。", "星期六上午，在教保文庫買了華倫·巴菲特的評傳。回到家，沖了杯咖啡，坐上沙發。整個週末都捨不得把視線從書上移開。那位投資人遠離市場雜音、回到原則的故事，靜靜穩住了{name}搖擺的心。"),
+        ("처음으로 오르카 주식을 샀다. 달러로 결제하고, 미국 시장 마감 시간에 맞춰 새벽 3시에 일어나야 하고, 양도소득세는 250만 원 넘으면 직접 신고해야 한다는 걸 오늘 처음 알았다. 생각보다 훨씬 복잡하다. {name}은 환율 계산기를 켜놓고 멍하니 앉아 있었다.", "第一次买了Orca的股票。今天才知道，原来要用美元结算，要配合美国收盘时间凌晨3点起床，资本利得超过250万韩元还得自己报税。比想象中复杂得多。{name}开着汇率计算器，呆坐在那里。", "第一次買了 Orca 的股票。用美元付款，得配合美國股市收盤時間在凌晨3點起床，還有資本利得稅超過250萬韓元就得自己申報——這些都是今天才第一次知道。比想像中複雜得多。{name}開著匯率計算機，呆坐著。"),
+        ("배정 결과는 3주 뒤였다. 달랑 2주 배정됐지만, 상장 당일 소폭 올라 소박한 수익이 됐다.", "配售结果在3周后出来了。只分到了2股，不过上市当天小涨，赚了一点小钱。", "三週後公布配售結果。只分到了2股，但掛牌當天小漲，賺了點小錢。"),
+        ("경쟁률 820대 1의 기대감은 이미 주가에 다 반영됐다고 판단했다. 냉정한 시선이 지갑을 지켰다.", "判断820比1的期待，已经全算进了股价。冷静的目光守住了钱包。", "判斷820比1競爭比背後的期待，早已全數反映在股價裡。冷靜的眼光守住了荷包。"),
+        ("요즘 핫한 K-뷰티 스타트업 공모주 청약이 열렸다. SNS에선 '상장 당일 따상 확실'이라는 말이 돈다. 경쟁률은 이미 820대 1을 넘겼고, 증권사 앱은 터질 듯 느리다. {name}은 청약 증거금 50만 원을 준비해두고 클릭을 망설이고 있다.", "最近热门的一家韩妆初创公司的新股开放申购了。社交平台上流传着“上市当天肯定开盘翻倍再涨停”的说法。申购竞争比例已经超过820比1，券商应用慢得像要崩溃。{name}备好了50万韩元申购保证金，却迟迟没有点下去。", "最近很紅的韓國美妝新創公司，開放新股申購了。社群上流傳著「掛牌當天一定開盤翻倍，再衝漲停」的說法。競爭比已經超過820比1，券商 App 慢得像快要當機。{name}備好了50萬韓元申購保證金，卻遲遲沒按下去。"),
+        ("세금 신고 시즌이 왔다. 홈택스 화면을 열었다가 모르는 항목이 너무 많았다. 친구에게 물어보니 '배당·이자 소득이 2000만 원 넘으면 종합과세 대상이야'라고 한다. {name}의 작년 금융소득을 계산해보니 그 선이 아슬아슬하다. 세금을 잘못 내면 나중에 더 큰 문제가 생길 수 있다.", "报税季到了。打开Hometax页面，不认识的项目多得很。问了朋友，对方说：“股息和利息收入超过2000万韩元，就要合并计税。”算了算{name}去年的金融收入，差不多就在那条线边上。税交错了，以后可能惹出更大的麻烦。", "報稅季到了。打開 Hometax，畫面上不懂的項目太多。問了朋友，對方說：「股息和利息所得超過2,000萬韓元，就要合併課稅。」算了算{name}去年的金融所得，正好在那條線附近。稅繳錯了，之後可能惹上更大的麻煩。"),
+        ("뉴스 기사를 보다가 손이 멈췄다.\n「자녀 1인당 양육비 평균 3억 2천만 원」\n\n민준은 잠깐 계산기를 켰다. 대학까지 보내면 월 얼마가 드나. 사교육까지 더하면.\n\n숫자가 쌓일수록 가슴 한쪽이 무거워졌다.", "看着新闻，手停住了。\n“每名子女平均养育费用3亿2000万韩元”\n\nMinjun打开计算器算了算。如果一直供到大学，每月要花多少？再加上课外补习呢？\n\n数字越积越多，心的一角也沉了下去。", "看到一則新聞時，手停了下來。\n「每名子女的平均養育費用為3億2,000萬韓元」\n\nMinjun 打開計算機算了一下。如果一路供到大學，每個月要花多少。再加上補習呢。\n\n數字越加越多，心裡一角也越來越沉。"),
+        ("\"아버지, 병원 한번 같이 가요.\"", "“爸，我们一起去趟医院吧。”", "「爸，我陪您去一趟醫院吧。」"),
+        ("짐을 정리하다가 대학 1학년 때 노트가 나왔다.\n\n「10년 안에 내 이름을 건 회사를 만들겠다. 30살에 세상을 바꾸겠다.」\n\n그때의 글씨가 지금보다 굵었다.", "整理行李，翻出了大学一年级时的笔记本。\n\n“10年内，创办一家挂着自己名字的公司。30岁，改变世界。”\n\n那时的笔迹，比现在更粗。", "整理行李時，翻出了大一的筆記本。\n\n「十年內，我要成立一家以自己名字命名的公司。三十歲時，我要改變世界。」\n\n那時的字，比現在寫得更粗。"),
+        ("이를 악물었다. 일단 이번 분기까지.\n\n그 생각이 세 분기 째 이어지고 있다는 건, 나중에야 알게 됐다.", "咬紧了牙关。先撑过这个季度。\n\n直到后来才发现，这个念头已经延续到了第三个季度。", "咬緊了牙。至少撐完這一季。\n\n後來才發現，抱著同一個念頭，已經是第三個季度了。"),
+        ("회의실에서 단둘이 이야기했다. 팀장은 \"당연히 네 기여를 알고 있다\"고 했다.\n\n상황은 바뀌지 않았다. 하지만 다음 번엔 조심할 것이다. 그것만으로도 충분했다.", "在会议室里，两个人单独谈了。组长说：“你的贡献，我当然清楚。”\n\n状况没有改变。但下次他会小心。这就够了。", "在會議室裡，兩個人單獨談了。組長說：「你的貢獻，我當然知道。」\n\n情況沒有改變。但下次他會小心。光是這樣，就夠了。"),
+        ("팀장이 발표했다. 지난달 민준이 야근하며 만든 분석 자료가, 팀장의 언어로 바뀌어서 임원 앞에 올라갔다.\n\n발표 후 임원이 말했다. \"김 팀장, 이번 분석 좋았어요.\"\n\n팀장이 웃었다. 민준 쪽은 안 봤다.", "组长做了汇报。上个月Minjun加班做出的分析资料，被换成组长的话，摆到了高管面前。\n\n汇报结束，高管说：“Kim组长，这次分析不错。”\n\n组长笑了。没有看Minjun。", "組長做了簡報。Minjun 上個月加班做出的分析資料，換成組長的說法，呈到了高階主管面前。\n\n簡報結束後，高階主管說：「Kim 組長，這次分析做得很好。」\n\n組長笑了。沒有看向 Minjun。"),
+        ("커피 한 잔 마시면서 이야기를 들었다.\n\n조건이 나쁘지 않았다. 가겠다는 결정은 아니었지만, 선택지가 있다는 것 자체가 다른 무게였다.", "一边喝咖啡，一边听了介绍。\n\n条件不差。并没有决定要去，但有得选这件事本身，就有着不同的分量。", "喝著咖啡，聽了對方的介紹。\n\n條件不差。還不是決定要去，但光是知道有選擇，就有了不一樣的份量。"),
+        ("\"한 번 만나보겠습니다.\" (이직 가능성 탐색)", "“那就见个面吧。”（探一探跳槽的可能）", "「我願意見面聊聊。」（探索轉職的可能）"),
+        ("모르는 번호로 전화가 왔다. \"안녕하세요, 헤드헌팅 전문 회사 ○○입니다.\"\n\n연봉 15% 인상. 업종은 비슷. 회사 이름이 꽤 알려진 곳이었다.\n\n\"한 번 이야기라도 나눠보시겠어요?\"", "陌生号码打来电话。“您好，这里是专业猎头公司○○。”\n\n年薪上调15%。行业相近。公司名字还挺有名。\n\n“要不要先聊聊？”", "陌生號碼打來了。「您好，我是獵頭公司○○的人員。」\n\n年薪提高15%。產業相近。是一家頗有知名度的公司。\n\n「您願意先聊聊看嗎？」"),
+        ("\"알겠습니다\" 하고 나왔다.\n\n1년을 갈아넣었다. B+. 다음 해도 같은 말을 듣게 될 것 같은 기분이 들었다. 이 회사에서 S는 가능한 걸까.", "说了句“知道了”，就出来了。\n\n把1年都耗进去了。B+。有种预感，明年也会听到一样的话。在这家公司，真有可能拿到S吗？", "說了「我知道了」，走了出來。\n\n把一整年都磨進去了。B+。感覺明年好像還會聽到同樣的話。在這家公司，真的拿得到 S 嗎。"),
+        ("연말 성과 면담. 팀장이 종이를 보면서 말했다.\n\n\"이번 년도 종합은 B+. S등급은 조금 어렵겠고... 내년을 봐야 할 것 같아.\"\n\nB+. 잘했지만 최고는 아닌, 그 말.", "年终绩效面谈。组长看着纸说道。\n\n“你今年的综合评价是B+。S级有点难……看来要看明年了。”\n\nB+。做得不错，但不是最好。就是这个意思。", "年終績效面談。組長看著紙張說。\n\n「今年綜合評等是 B+。S 級有點難……可能得看明年了。」\n\nB+。做得不錯，但不是最好，那句話。"),
+    )
+
+    def check(source: str, target: str, expected: bool, category: str) -> None:
+        nonlocal cases
+        cases += 1
+        errors = _numeric_errors(source, target) + _untranslated_english_errors(source, target)
+        if bool(errors) == expected:
+            failures.append(f"investment/work {category} expected {expected}: {source!r} -> {target!r}: {errors}")
+
+    for source, cn, tw in rows:
+        for target in (cn, tw):
+            check(source, target, True, "actual")
+        quantities = [q for q in _source_counter_quantities(source)
+                      if q.kind in INVESTMENT_WORK_COUNTER_KINDS and q.kind != "ipo_allotment_delay"]
+        if quantities:
+            q = quantities[0]
+            for target in (cn, tw):
+                candidates = [m for m in _investment_work_pattern(q.kind).finditer(target)
+                              if _investment_work_quantity_valid(q.kind, m, target)]
+                if len(candidates) != 1:
+                    cases += 1
+                    failures.append(f"investment/work test needs one actual slot: {q.kind}")
+                    continue
+                match = candidates[0]
+                phrase = match.group()
+                # Wrong explicit number, signed count, wrong noun unit,
+                # missing clause, duplicate and wrong-then-correct backfill.
+                if match.group("number"):
+                    start, end = match.span("number")
+                    wrong = target[:start] + str(int(q.value) + 1) + target[end:]
+                    signed = target[:start] + "−" + target[start:]
+                else:
+                    start = match.start("unit") if match.groupdict().get("unit") else match.start()
+                    wrong = target[:start] + "三" + target[start:]
+                    signed = target[:start] + "−" + target[start:]
+                check(source, wrong, False, "value")
+                check(source, signed, False, "sign")
+                if match.groupdict().get("unit"):
+                    a, b = match.span("unit")
+                    check(source, target[:a] + "公里" + target[b:], False, "unit")
+                check(source, target[:match.start()] + target[match.end():], False, "missing")
+                check(source, target[:match.end()] + phrase + target[match.end():], False, "duplicate")
+                wrong_phrase = wrong[match.start():match.end() + len(wrong) - len(target)]
+                check(source, target[:match.start()] + wrong_phrase + "。" + target[match.start():], False, "later-correct")
+                check(source, target[:match.start()] + "没有" + target[match.start():], False, "negative")
+                check(source, target[:match.start()] + "明天打算" + target[match.start():], False, "future")
+                # This exact actor/action source frame is no licence elsewhere.
+                changed_source = "다른 사람의 이야기: " + source
+                cases += 1
+                if any(x.kind in INVESTMENT_WORK_COUNTER_KINDS for x in _source_counter_quantities(changed_source)):
+                    failures.append("investment/work source-context licence did not turn off")
+                # Explicit altered count is an E2E assertion, not just OFF.
+                raw, fragment, value, kind = next(x for x in SOURCE_INVESTMENT_WORK_QUANTITIES if x[0] == source)
+                changed = fragment.replace(str(value), str(value + 1), 1) if str(value) in fragment else {
+                    "둘 다": "셋 다", "커피 한 잔": "커피 두 잔", "한번": "두번",
+                    "세 분기 째": "네 분기 째", "단둘이": "세 명이", "한 번": "두 번",
+                }.get(fragment)
+                if changed:
+                    check(source.replace(fragment, changed, 1), target, False, "source-count-E2E")
+            if q.kind in {"ipo_ratio_over", "ipo_ratio_assessed"}:
+                for target in (cn, tw):
+                    check(source, target.replace("820比1", "1比820"), False, "ratio-order")
+                    check(source, target.replace("820比1", "820比2"), False, "ratio-denominator")
+            if q.kind == "ipo_allotted_shares":
+                for target in (cn, tw):
+                    check(source, target.replace("3周", "4周").replace("三週", "四週"), False, "allotment-delay")
+            if q.kind in {"parent_hospital_invitation", "headhunter_meeting_intention", "headhunter_talk_invitation"}:
+                for target in (cn, tw):
+                    check(source, target.replace("去", "去了", 1).replace("见", "见了", 1).replace("見", "見了", 1)
+                          if q.kind != "headhunter_talk_invitation" else target.replace("聊聊", "已经聊过", 1),
+                          False, "completed-instead-of-offer")
+        else:
+            brand, role = SOURCE_INVESTMENT_WORK_LATIN[source]
+            for target in (cn, tw):
+                for replacement in ("", "OtherBrand", brand + "x", "x" + brand, brand + "\u0301", "é" + brand, brand + brand):
+                    check(source, target.replace(brand, replacement, 1), False, "brand-count-boundary")
+                check(source, target + " I am a financial expert.", False, "English-prose")
+                check("여기에는 해당 상호나 등급이 없다.", target, False, "source-absent")
+                if brand == "B+":
+                    check(source, target.replace("B+", "S", 1), False, "grade-role")
+                    check(source, target.replace("S", "B+", 1), False, "aspiration-role")
+                else:
+                    first = _bounded_latin_matches(target, brand)[0]
+                    check(source, target[:first.start()] + "未來" + target[first.start():], False, "brand-action-state")
+    # Independently chosen natural replacements exercise the grammar, not a
+    # catalogue of permitted entire translations.
+    natural = (
+        (0, "两句话", "两件事"), (0, "兩種說法", "兩者"),
+        (3, "群里有100多人", "群里有超过100人"), (3, "群組裡有超過100人", "群組裡有100多人"),
+        (4, "冲了杯咖啡", "煮了一杯咖啡"), (4, "沖了杯咖啡", "泡了杯咖啡"),
+        (6, "分到了2股", "獲配了二股"), (6, "分到了2股", "分到了兩股"),
+        (7, "820比1", "820:1"), (8, "820比1", "820：1"),
+        (10, "每名子女", "每位孩子"), (10, "每名子女", "每一名子女"),
+        (11, "去趟医院吧", "去一次医院吧"), (11, "去一趟醫院吧", "去醫院吧"),
+        (12, "大学一年级", "大一"), (12, "大一", "大學一年級"),
+        (13, "第三个季度", "第3个季度"), (13, "第三個季度", "第3個季度"),
+        (14, "两个人", "两人"), (14, "兩個人", "兩人"),
+        (16, "喝咖啡", "喝一杯咖啡"), (16, "喝著咖啡", "喝著一杯咖啡"),
+        (17, "见个面吧", "见一面吧"), (17, "見面聊聊", "見個面"),
+        (18, "聊聊", "谈谈"), (18, "聊聊看", "談一談"),
+    )
+    for i, old, new in natural:
+        source, cn, tw = rows[i]
+        target = cn if old in cn else tw
+        cases += 1
+        if old not in target:
+            failures.append(f"investment/work natural fixture missing its clause: {i}:{old}")
+        else:
+            cases -= 1
+            check(source, target.replace(old, new, 1), True, "natural")
+    role_pairs = (
+        (0, "有趣。也危险。", "并不有趣。也危险。"),
+        (0, "有趣。而且危險。", "沒有趣。而且危險。"),
+        (3, "已经有一半在打“我买”。", "已经有一半买了。"),
+        (3, "已經有一半打出「我要買」。", "已經有一半買了。"),
+        (8, "已经超过820比1", "已经不到820比1"),
+        (8, "已經超過820比1", "已經不到820比1"),
+        (4, "冲了杯咖啡", "打算冲杯咖啡"),
+        (4, "沖了杯咖啡", "打算沖杯咖啡"),
+        (16, "一边喝咖啡", "打算喝咖啡"),
+        (16, "喝著咖啡", "打算喝咖啡"),
+        (20, "综合评价是B+", "综合评价不是B+"),
+        (20, "綜合評等是 B+", "綜合評等不是 B+"),
+        (20, "S级有点难", "S级不难"),
+        (20, "S 級有點難", "S 級不難"),
+    )
+    for i, old, new in role_pairs:
+        source, cn, tw = rows[i]
+        target = cn if old in cn else tw
+        cases += 1
+        if old not in target:
+            failures.append(f"investment/work role fixture missing its clause: {i}:{old}")
+        else:
+            cases -= 1
+            check(source, target.replace(old, new, 1), False, "role-state")
+    for i, cn, tw in (
+        (11, "“爸，我们一起去医院看看吧。”", "「爸，我陪您去醫院看看吧。」"),
+        (17, "“我愿意先见个面。”（探索跳槽的可能）", "「我願意先見個面。」（探索轉職的可能）"),
+    ):
+        for target in (cn, tw):
+            check(rows[i][0], target, True, "natural")
+            check(rows[i][0], target.replace("去", "去了", 1).replace("见", "见了", 1).replace("見", "見了", 1), False, "role-state")
+    return cases, failures
+
+
+def _investment_work_source_b2_self_test() -> tuple[int, list[str]]:
+    """Only the three revealed B1 observations; hidden reviewer inputs unused."""
+    rows = (
+        ("요즘 핫한 K-뷰티 스타트업 공모주 청약이 열렸다. SNS에선 '상장 당일 따상 확실'이라는 말이 돈다. 경쟁률은 이미 820대 1을 넘겼고, 증권사 앱은 터질 듯 느리다. {name}은 청약 증거금 50만 원을 준비해두고 클릭을 망설이고 있다.", "最近热门的一家韩妆初创公司的新股开放申购了。社交平台上流传着“上市当天肯定开盘翻倍再涨停”的说法。申购竞争比例已经超过820比1，券商应用慢得像要崩溃。{name}备好了50万韩元申购保证金，却迟迟没有点下去。", "最近很紅的韓國美妝新創公司，開放新股申購了。社群上流傳著「掛牌當天一定開盤翻倍，再衝漲停」的說法。競爭比已經超過820比1，券商 App 慢得像快要當機。{name}備好了50萬韓元申購保證金，卻遲遲沒按下去。"),
+        ("모르는 번호로 전화가 왔다. \"안녕하세요, 헤드헌팅 전문 회사 ○○입니다.\"\n\n연봉 15% 인상. 업종은 비슷. 회사 이름이 꽤 알려진 곳이었다.\n\n\"한 번 이야기라도 나눠보시겠어요?\"", "陌生号码打来电话。“您好，这里是专业猎头公司○○。”\n\n年薪上调15%。行业相近。公司名字还挺有名。\n\n“要不要先聊聊？”", "陌生號碼打來了。「您好，我是獵頭公司○○的人員。」\n\n年薪提高15%。產業相近。是一家頗有知名度的公司。\n\n「您願意先聊聊看嗎？」"),
+        ("이를 악물었다. 일단 이번 분기까지.\n\n그 생각이 세 분기 째 이어지고 있다는 건, 나중에야 알게 됐다.", "咬紧了牙关。先撑过这个季度。\n\n直到后来才发现，这个念头已经延续到了第三个季度。", "咬緊了牙。至少撐完這一季。\n\n後來才發現，抱著同一個念頭，已經是第三個季度了。"),
+    )
+    cases, failures = 0, []
+    def check(source: str, target: str, valid: bool, label: str) -> None:
+        nonlocal cases
+        cases += 1
+        errors = _numeric_errors(source, target)
+        if bool(errors) == valid:
+            failures.append(f"investment/work B2 {label} expected {valid}: {source!r} -> {target!r}: {errors}")
+    for index, (source, cn, tw) in enumerate(rows):
+        for target in (cn, tw):
+            check(source, target, True, "actual")
+            if index == 0:
+                normal = target.replace("820比1", "820∶1")
+                check(source, normal, True, "natural-ratio")
+                for bad in ("821∶1", "820∶2", "−820∶1", "820∶−1", "1∶820", "820公里1"):
+                    check(source, normal.replace("820∶1", bad), False, "ratio-value-sign-unit")
+                check(source, normal.replace("820∶1", "821∶1。820∶1"), False, "ratio-backfill")
+                check(source, normal.replace("超过", "不到").replace("超過", "不到"), False, "ratio-lower-bound")
+                check(source, normal.replace("50万", "60万").replace("50萬", "60萬"), False, "separate-deposit")
+            elif index == 1:
+                original = "“要不要先聊聊？”" if target == cn else "「您願意先聊聊看嗎？」"
+                invitation = "“您愿意先聊一次吗？”" if target == cn else "「您願意先聊一次嗎？」"
+                assert original in target
+                normal = target.replace(original, invitation)
+                check(source, normal, True, "natural-talk")
+                for bad in ("聊两次", "聊−一次", "聊一公里", "聊了一次"):
+                    check(source, normal.replace("聊一次", bad), False, "talk-count-state-unit")
+                check(source, normal.replace("聊一次", "聊两次。聊一次"), False, "talk-backfill")
+                check(source, normal.replace("您", "他"), False, "talk-actor")
+                check(source, normal.replace("愿意", "不愿意").replace("願意", "不願意"), False, "talk-negative")
+                check(source, normal.replace("吗？", "。").replace("嗎？", "。"), False, "talk-statement")
+                check(source, normal.replace(invitation, ""), False, "talk-missing")
+                check(source, normal.replace(invitation, "\n" + invitation), False, "talk-line")
+                check(source.replace("한 번", "두 번"), normal, False, "source-count-E2E")
+            else:
+                current = "第三个季度" if target == cn else "第三個季度"
+                check(source, target.replace(current, "第3个季度" if target == cn else "第3個季度"), True, "natural-counted-quarter")
+                for bad in ("第三季度", "第三季", "第四个季度", "第−三个季度", "第三公里"):
+                    check(source, target.replace(current, bad), False, "quarter-classifier-count")
+                check(source, target.replace(current, "第三季度。" + current), False, "quarter-backfill")
+                check(source, target.replace("后来", "明年").replace("後來", "明年"), False, "quarter-future")
+                check(source.replace("세 분기", "네 분기"), target, False, "source-count-E2E")
+            cases += 1
+            if any(q.kind in INVESTMENT_WORK_COUNTER_KINDS
+                   for q in _source_counter_quantities("다른 사람 이야기: " + source)):
+                failures.append("investment/work B2 source-context licence remains ON")
+    return cases, failures
+
+
+def _investment_work_source_b3_self_test() -> tuple[int, list[str]]:
+    """Four disclosed equivalent forms; no hidden reviewer inputs used.
+
+    The notebook quotation is a quantity fixture, not an L2 approval of its
+    company-naming clause. The published overlay has its separate refinement.
+    """
+    rows = (
+        ("private_manager_pair",
+         "我和组长在会议室里单独聊了聊。组长说：“你的贡献，我当然清楚。”\n\n情况没有改变。不过，下次他会小心些。这样就够了。",
+         "我和組長在會議室裡單獨聊了聊。組長說：「你的貢獻，我當然清楚。」\n\n情況沒有改變。不過，下次他會小心些。這樣就夠了。"),
+        ("ipo_allotted_shares",
+         "过了三个星期，配售结果才出来。最后只分到两股，不过上市当天小幅上涨，还是有了一点收益。",
+         "過了三個星期，配售結果才出來。最後只分到兩股，不過上市當天小幅上漲，還是有了一點收益。"),
+        ("college_notebook_year",
+         "整理行李时，翻出了刚上大学那年用的笔记本。\n\n「我要在十年内成立以自己名字为名的公司。三十岁时，要改变世界。」\n\n那时的字迹比现在粗。",
+         "整理行李時，翻出了剛上大學那年用的筆記本。\n\n「我要在十年內成立以自己名字為名的公司。三十歲時，要改變世界。」\n\n那時的字跡比現在粗。"),
+        ("home_coffee_prepared",
+         "星期六上午，在教保文库买了一本沃伦·巴菲特评传。回到家，给自己冲了杯咖啡，在沙发上坐下。整个周末都舍不得把目光从书上移开。投资者远离市场的喧嚣、回归原则的故事，让{name}摇摆的心静静安定下来。",
+         "星期六上午，在教保文庫買了一本華倫·巴菲特評傳。回到家，給自己沖了杯咖啡，在沙發上坐下。整個週末都捨不得把目光從書上移開。投資者遠離市場的喧囂、回歸原則的故事，讓{name}搖擺的心靜靜安定下來。"),
+    )
+    cases, failures = 0, []
+
+    def check(source: str, target: str, valid: bool, label: str) -> None:
+        nonlocal cases
+        cases += 1
+        errors = _numeric_errors(source, target)
+        if bool(errors) == valid:
+            failures.append(f"investment/work B3 {label} expected {valid}: {source!r} -> {target!r}: {errors}")
+
+    for kind, cn, tw in rows:
+        source = next(raw for raw, _, _, owned_kind in SOURCE_INVESTMENT_WORK_QUANTITIES if owned_kind == kind)
+        for traditional, target in enumerate((cn, tw)):
+            check(source, target, True, "revealed-or-regional-normal")
+            if kind == "private_manager_pair":
+                actors = "我和組長" if traditional else "我和组长"
+                talk = "單獨聊了聊" if traditional else "单独聊了聊"
+                normal = target.replace(talk, "單獨談了談" if traditional else "单独谈了谈")
+                check(source, normal, True, "natural-private-talk")
+                changes = (
+                    (actors, actors + "、同事"), (actors, "他和組長" if traditional else "他和组长"),
+                    (actors, "我和同事"), (actors, "−" + actors),
+                    (talk, "沒有" + talk), (talk, "打算單獨聊聊"),
+                    (talk, "公開聊了聊"), (talk, "單獨聊了三次"),
+                    (talk, "單獨聊了三公里"),
+                )
+                phrase = target.split("。")[0]
+                wrong_phrase = phrase.replace(actors, actors + "、同事")
+                changed_sources = (source.replace("단둘이", "세 명이"),)
+            elif kind == "ipo_allotted_shares":
+                weeks = "三個星期" if traditional else "三个星期"
+                shares = "兩股" if traditional else "两股"
+                check(source, target.replace(weeks, "三週" if traditional else "三周"), True, "natural-elapsed-weeks")
+                changes = (
+                    (weeks, "四個星期"), (weeks, "三個月"), (weeks, "三天"),
+                    (weeks, "−三個星期"), (weeks, "+三個星期"), (weeks, "3.5個星期"),
+                    (shares, "三股"), (shares, "兩份"), (shares, "−兩股"),
+                    ("過了" if traditional else "过了", "還要過"),
+                    ("才出來" if traditional else "才出来", "才會出來"),
+                    ("小幅上漲" if traditional else "小幅上涨", "小幅下跌"),
+                )
+                phrase = target.split("。")[0]
+                wrong_phrase = phrase.replace(weeks, "三個月")
+                changed_sources = (source.replace("3주", "4주"), source.replace("2주", "3주"))
+            elif kind == "college_notebook_year":
+                entry = "剛上大學那年" if traditional else "刚上大学那年"
+                check(source, target.replace("用的", "的", 1), True, "natural-entry-notebook")
+                changes = (
+                    (entry, "大學畢業那年" if traditional else "大学毕业那年"),
+                    (entry, "剛上高中那年"), (entry, "剛上大學第二年"),
+                    (entry, "明年" + entry), (entry, "−" + entry),
+                    ("整理行李", "他整理行李"), ("翻出了", "打算翻出"),
+                    ("十年", "十一年"), ("十年", "十個月"),
+                    ("三十歲" if traditional else "三十岁", "四十歲"),
+                )
+                phrase = target.split("。")[0]
+                wrong_phrase = phrase.replace(entry, "大學畢業那年")
+                changed_sources = (source.replace("1학년", "2학년"),)
+            else:
+                coffee = "沖了杯咖啡" if traditional else "冲了杯咖啡"
+                self_owner = "給自己" if traditional else "给自己"
+                check(source, target.replace(coffee, "煮好一杯咖啡"), True, "natural-self-coffee")
+                changes = (
+                    (coffee, "沖了兩壺咖啡"), (coffee, "沖了兩杯咖啡"),
+                    (coffee, "沖了−一杯咖啡"), (coffee, "沖了+一杯咖啡"),
+                    (coffee, "沖了一公里咖啡"), (coffee, "沖了一杯咖啡/月"),
+                    (coffee, "打算沖杯咖啡"), (coffee, "沒有沖杯咖啡"),
+                    (self_owner, "給同事"), (self_owner, "他給自己"),
+                )
+                phrase = target.split("。")[1]
+                wrong_phrase = phrase.replace(coffee, "沖了兩壺咖啡")
+                changed_sources = (source.replace("커피 한 잔", "커피 두 잔"),)
+            for old, new in changes:
+                assert old in target and old != new
+                check(source, target.replace(old, new, 1), False, "target-value-unit-state-owner")
+            for altered, label in (
+                (target.replace(phrase, "", 1), "target-missing-clause"),
+                (target.replace(phrase, "\n" + phrase, 1), "target-displaced-line"),
+                (target.replace(phrase, phrase + "。" + phrase, 1), "target-duplicate"),
+                (target.replace(phrase, wrong_phrase + "。" + phrase, 1), "target-later-correct"),
+            ):
+                check(source, altered, False, label)
+            for changed_source in changed_sources:
+                check(changed_source, target, False, "source-count-E2E")
+            cases += 1
+            if any(q.kind in INVESTMENT_WORK_COUNTER_KINDS
+                   for q in _source_counter_quantities("다른 사람 이야기: " + source)):
+                failures.append("investment/work B3 source-context licence remains ON")
+    return cases, failures
+
+
+def _investment_work_source_all_self_test() -> tuple[int, list[str]]:
+    cases, failures = _investment_work_source_parser_self_test()
+    extra_cases, extra_failures = _investment_work_source_b2_self_test()
+    b3_cases, b3_failures = _investment_work_source_b3_self_test()
+    # B4: the same completed allotment announcement may say 公布了.
+    source = next(raw for raw, _, _, kind in SOURCE_INVESTMENT_WORK_QUANTITIES if kind == "ipo_allotment_delay")
+    normal = "配售结果在三周后公布了。只分到了两股，不过上市当天小涨，赚了一点小钱。"
+    for target, valid in ((normal, True), (normal.replace("三周", "三个月"), False), (normal.replace("三周", "四周"), False)):
+        cases += 1
+        errors = _numeric_errors(source, target)
+        if bool(errors) == valid:
+            failures.append(f"investment/work B4 announced delay expected {valid}: {target!r}: {errors}")
+    return cases + extra_cases + b3_cases, failures + extra_failures + b3_failures
+
+
 def run_self_test(
     manifest: dict[str, Any], runtime: dict[str, Any],
 ) -> list[str]:
     failures: list[str] = []
     cases, life_failures = _life_scene_parser_self_test()
     failures.extend(life_failures)
+    investment_work_cases, investment_work_failures = _investment_work_source_all_self_test()
+    cases += investment_work_cases
+    failures.extend(investment_work_failures)
     gig_cases, gig_failures = _gig_approximate_money_parser_self_test()
     cases += gig_cases
     failures.extend(gig_failures)

@@ -2936,6 +2936,114 @@ class ExchangeTests(unittest.TestCase):
         leaf = tool.Leaf(**{**tool.asdict(self.leaf), "source": "다음\n주"})
         self.assertTrue(tool.translation_errors(leaf, "ja", "次の週"))
 
+
+    @staticmethod
+    def _investment_life_quantity_examples():
+        # Observed source/target pairs only; independent ROOT fixtures are not
+        # loaded, copied or used by these implementation-owned regressions.
+        return (
+            ("50만 원을 넣었다. 처음엔 두 배가 됐다.\n그리고 반 토막. 다시 조금 올라와서 -30%에 멈췄다.\n팔아야 하는데, 손에 안 잡혔다.\n코인의 마력은 그거였다. 손절이 불가능하다.", "50万ウォンを入れた。初めは2倍になった。\nそして半減。また少し上がり、-30%で止まった。\n売らなければいけないのに、手が動かなかった。\n暗号資産の魔力はそこだった。損切りができない。", ["2","二","２","3","倍","歳","倍になった","倍になるつもりだ"]),
+            ("두 달 뒤 코인 시장이 42% 빠졌을 때 동창의 다온 상태 메시지가 조용해졌다.\n{name}은 아무 말도 안 했다.\n때로 가장 좋은 투자는 안 하는 것이다.", "2か月後、暗号資産市場が42%下落したとき、同級生のダオンのステータスメッセージは静かになった。\n{name}は何も言わなかった。\n時には、何もしないことが最良の投資になる。", ["2","二","２","3","か月","週間","後、暗号資産","前、暗号資産"]),
+            ("SNS 피드가 코인 얘기로 도배됐다. 고등학교 동창이 코어코인으로 3000만 원 벌었다는 다온 상태 메시지를 올렸다. 직장 후배는 점심 때마다 코인 얘기만 한다. 나만 모르는 건가, 나만 뒤처진 건가. {name}은 처음으로 업비트 앱을 깔아봤다.", "SNSのフィードが暗号資産の話で埋め尽くされた。高校の同級生が、コアコインで3,000万ウォン儲けたとダオンのステータスメッセージに書いた。職場の後輩も、昼食のたびに暗号資産の話ばかりする。知らないのは自分だけなのか。取り残されているのは自分だけなのか。{name}は初めてアップビットのアプリを入れてみた。", ["3,000万","三千万","3000万","3,001万","ウォン","ドル","同級生が","自分が"]),
+            ("완벽한 타이밍을 기다리는 동안 세 달이 지났다. 결국 그 타이밍은 오지 않았다.", "完璧なタイミングを待つうちに、3か月が過ぎた。結局、そのタイミングは来なかった。", ["3","三","３","4","か月","週間","が過ぎた","が過ぎる予定だ"]),
+            ("밤 11시, 유튜브 알고리즘이 '미국 대형주 ETF 하나로 끝내는 투자법' 영상을 추천했다. 호기심에 클릭했다가 세 편을 연달아 봤다. 개별 종목을 고르는 스트레스 없이 시장 전체에 투자한다는 개념이 솔깃했다. {name}은 맥주를 내려놓고 메모장을 꺼냈다.", "夜11時、YouTubeのおすすめに『米国大型株ETF一つで完結する投資法』という動画が出てきた。興味を引かれてクリックし、そのまま3本続けて見た。個別銘柄を選ぶストレスなしに、市場全体へ投資するという考え方は魅力的だった。{name}はビールを置き、メモ帳を取り出した。", ["3","三","３","4","本続けて","人続けて","見た。","見るつもりだ。"]),
+            ("잘 모르지만 일단 발을 담갔다. 100달러짜리 경험이 앞으로 1000달러를 지켜줄 것이다.", "よく分からないが、ひとまず足を踏み入れた。100ドルの経験が、この先の1,000ドルを守ってくれるだろう。", ["100","百","１００","101","ドルの経験","ウォンの経験","この先の1,000ドルを守ってくれるだろう","この先の1,000ドルを守った"]),
+            ("시장 평균보다 낮아도, 원금을 지키며 1년을 버텼다는 게 이미 대단한 일이다. 내일의 {name}은 오늘보다 강하다.", "市場平均を下回っても、元本を守りながら一年間持ちこたえた。それだけで十分すごいことだ。明日の{name}は、今日より強い。", ["一","1","１","二","年間","か月間","持ちこたえた","持ちこたえたい"]),
+            ("1월 1일, {name}은 증권사 앱에서 '연간 수익률 리포트'를 열었다. +7.3%. 코스피 기준치는 +11.2%. 1년 동안 열심히 했는데 시장 평균을 못 이겼다는 숫자가 화면에 박혀 있다. 잘한 건지 못한 건지, 뭘 바꿔야 할지, 그냥 괜찮은 건지 — 아무도 정답을 알려주지 않는다.", "1月1日、{name}は証券会社のアプリで『年間収益率レポート』を開いた。+7.3%。KOSPIの基準値は+11.2%。一年間頑張ったのに、市場平均には勝てなかった。その数字が画面に突き刺さっている。よかったのか、悪かったのか。何を変えるべきなのか、このままでいいのか――誰も正解を教えてはくれない。", ["一年間","1年間","１年間","二年間","一年間頑張","一か月間頑張","頑張ったのに","頑張るつもりなのに"]),
+            ("1년 수익률 점검", "一年の収益率を振り返る", ["一","1","１","二","年の","か月の","収益率を振り返る","収益率を保証する"]),
+            ("저녁 뉴스에서 경제학자 세 명이 동시에 '부동산 버블 붕괴가 임박했다'고 경고했다. 댓글창엔 '이번엔 진짜다'와 '맨날 틀린 소리'가 반반이다. {name}의 포트폴리오에는 부동산 리츠가 꽤 많이 담겨 있다. 불안한 마음에 커피를 마시며 수익률 화면을 계속 새로고침 했다.", "夕方のニュースで、経済学者3人がそろって『不動産バブルの崩壊が迫っている』と警告した。コメント欄は『今度こそ本当だ』と『いつも外れてばかり』が半々だ。{name}のポートフォリオには、不動産REITがかなり入っている。不安を抱え、コーヒーを飲みながら収益率の画面を何度も更新した。", ["3","三","３","4","人が","時間が","経済学者","投資家"]),
+            ("세 시간 뒤 결론 없이 영상 탭을 닫았지만, 적어도 리밸런싱의 원칙은 이해했다. 지식이 쌓이면 결정이 조금씩 빨라진다.", "3時間後、結論の出ないまま動画のタブを閉じた。それでも、少なくともリバランスの原則は理解できた。知識が積み重なるほど、決断は少しずつ速くなる。", ["3","三","３","4","時間後","日後","閉じた。","閉じるつもりだ。"]),
+            ("요즘 핫한 K-뷰티 스타트업 공모주 청약이 열렸다. SNS에선 '상장 당일 따상 확실'이라는 말이 돈다. 경쟁률은 이미 820대 1을 넘겼고, 증권사 앱은 터질 듯 느리다. {name}은 청약 증거금 50만 원을 준비해두고 클릭을 망설이고 있다.", "今話題のKビューティー系スタートアップが、公募株の申し込みを受け付け始めた。SNSでは『上場日に初値2倍、そのままストップ高は確実』という話が飛び交っている。倍率はすでに820対1を超え、証券会社のアプリはパンクしそうなほど遅い。{name}は申込証拠金50万ウォンを用意して、クリックをためらっている。", ["2","二","２","3","倍、そのまま","歳、そのまま","という話が飛び交っている","と実現した"]),
+            ("세금 신고 시즌이 왔다. 홈택스 화면을 열었다가 모르는 항목이 너무 많았다. 친구에게 물어보니 '배당·이자 소득이 2000만 원 넘으면 종합과세 대상이야'라고 한다. {name}의 작년 금융소득을 계산해보니 그 선이 아슬아슬하다. 세금을 잘못 내면 나중에 더 큰 문제가 생길 수 있다.", "税金の申告時期が来た。ホームタックスの画面を開くと、分からない項目だらけだった。友人に聞くと『配当と利子の所得が2,000万ウォンを超えると、総合課税の対象だよ』と言う。{name}が昨年の金融所得を計算すると、その境目にぎりぎりだ。税金を間違えて納めれば、後でもっと大きな問題になりかねない。", ["2,000万","二千万","2000万","2,001万","ウォン","ドル","を超えると","に届かなくても"]),
+            ("유튜브 알고리즘이 보여준 영상이었다.\n'3배 레버리지 ETF, 1년 수익률 280%'\n\n댓글창은 열광했고, 몇몇은 '나도 했다'고 썼다.\n\n{name}은 계산기를 꺼냈다.\n지금 가진 돈에 3을 곱하면.", "YouTubeのおすすめに出てきた動画だった。\n『3倍レバレッジETF、一年の収益率280%』\n\nコメント欄は熱狂し、何人かは『自分もやった』と書いていた。\n\n{name}は電卓を取り出した。\n今あるお金に、3を掛けたら。", ["一年","1年","１年","二年","年の収益率","か月の収益率","『3倍レバレッジETF、","自分の3倍レバレッジETF、"]),
+            ("3억 2천. 그냥 나를 위한 돈이 아니다.\n\n언젠가 아이를 키우려면, 지금 이 싸움에서 지면 안 된다. 두렵지만, 동시에 목표가 선명해지는 기분이었다.", "3億2,000万。ただ自分のためのお金ではない。\n\nいつか子どもを育てるなら、今のこの戦いには負けられない。怖かったが、同時に目標がはっきりしていく気がした。", ["3億2,000万","三億二千万","320000000","3億2,001万","3億2,000万。","3億2,000万ドル。","ただ自分のためのお金ではない","ただ自分のための借金だった"]),
+            ("뉴스 기사를 보다가 손이 멈췄다.\n「자녀 1인당 양육비 평균 3억 2천만 원」\n\n민준은 잠깐 계산기를 켰다. 대학까지 보내면 월 얼마가 드나. 사교육까지 더하면.\n\n숫자가 쌓일수록 가슴 한쪽이 무거워졌다.", "ニュース記事を読んでいて、手が止まった。\n『子ども一人当たりの養育費、平均3億2,000万ウォン』\n\nミンジュンは少しの間、電卓を使った。大学まで行かせたら、月にいくらかかるのか。塾や習い事も加えたら。\n\n数字が積み上がるほど、胸の片側が重くなった。", ["一人","1人","１人","二人","人当たり","年間当たり","平均3億2,000万ウォン","合計3億2,000万ウォン"]),
+            ("이모티콘 몇 개 보내고 카톡창을 닫았다.\n\n서른셋. 대체 나는 뭘 하고 있나. 잠깐 그런 생각이 지나갔다. 지워야 할 생각이었지만, 쉽게 안 지워졌다.", "スタンプをいくつか送り、カカオトークを閉じた。\n\n33歳。一体、自分は何をしているんだろう。ふと、そんな考えがよぎった。消すべき考えだったが、簡単には消えなかった。", ["33","三十三","３３","34","歳。一体","年。一体","一体、自分","一体、友人"]),
+            ("고등학교 친구에게서 카톡이 왔다.\n「야 나 임신했어. 다음 달에 돌잔치 아니고… 아 그 전에 결혼식 먼저. 하하.」\n\n축하 이모티콘을 보내면서 민준은 잠깐 멈췄다.\n같은 나이다. 서른셋. 그 친구는 이미 다음 챕터로 넘어가고 있다.", "高校時代の友人からカカオトークが来た。\n「ねえ、妊娠したんだ。来月は一歳のお祝いじゃなくて……あ、その前に結婚式が先だね。はは」\n\nお祝いのスタンプを送りながら、ミンジュンはふと手を止めた。\n同い年だ。33歳。その友人は、もう次の章へ進んでいる。", ["33","三十三","３３","34","33歳","33年","同い年だ","年が違う"]),
+            ("뉴스 헤드라인이 눈에 들어왔다.\n「국민연금 2055년 완전 고갈 전망... 지금 서른 세대는 한 푼도 못 받을 수도」\n\n2055년. 지금은 멀어 보여도, 민준이 노후를 살아갈 시간 안에 있는 해였다.\n\n그냥 지나치기엔 숫자가 너무 구체적이었다.", "ニュースの見出しが目に入った。\n『国民年金、2055年に完全枯渇の見通し……今30歳の世代は、一銭も受け取れない可能性も』\n\n2055年。今は遠く見えても、ミンジュンが老後を過ごす時間の中にある年だった。\n\n見過ごすには、数字があまりにも具体的だった。", ["30","三十","３０","31","歳の世代","年の世代","可能性も","ことは確実だ"]),
+            ("짐을 정리하다가 대학 1학년 때 노트가 나왔다.\n\n「10년 안에 내 이름을 건 회사를 만들겠다. 30살에 세상을 바꾸겠다.」\n\n그때의 글씨가 지금보다 굵었다.", "荷物を整理していたら、大学一年生のときのノートが出てきた。\n\n『10年以内に自分の名を掲げた会社を作る。30歳で世界を変える』\n\nあの頃の字は、今より太かった。", ["一年生","1年生","１年生","二年生","年生のとき","年間後","大学一年生のときの","大学卒業のときの"]),
+            ("\"알겠습니다\" 하고 나왔다.\n\n1년을 갈아넣었다. B+. 다음 해도 같은 말을 듣게 될 것 같은 기분이 들었다. 이 회사에서 S는 가능한 걸까.", "「分かりました」と言って出た。\n\n一年をすり減らして働いた。B+。来年も同じことを言われそうな気がした。この会社でSは取れるのだろうか。", ["一年","1年","１年","二年","年をすり減らして","日をすり減らして","働いた。","働くつもりだ。"]),
+        )
+
+    def test_investment_life_written_quantity_normals(self):
+        for source, target, edits in self._investment_life_quantity_examples():
+            old, native, wide, *_ = edits
+            leaf = tool.Leaf('events', 'quantity_fixture', 'content/events/source.json',
+                             ('description',), source, 'shipping')
+            for text in (target, target.replace(old, native, 1), target.replace(old, wide, 1)):
+                with self.subTest(source=source, text=text):
+                    self.assertEqual(tool.translation_errors(leaf, 'ja', text), [])
+
+    def test_investment_life_quantity_value_role_state_mutations(self):
+        for source, target, edits in self._investment_life_quantity_examples():
+            old, native, wide, wrong, unit, wrong_unit, state, wrong_state = edits
+            leaf = tool.Leaf('events', 'quantity_fixture', 'content/events/source.json',
+                             ('description',), source, 'shipping')
+            mutants = (
+                target.replace(old, wrong, 1),
+                target.replace(old, '+' + old, 1),
+                target.replace(unit, wrong_unit, 1),
+                target.replace(state, wrong_state, 1),
+                target.replace(old, wrong, 1) + target,
+            )
+            for text in mutants:
+                with self.subTest(source=source, text=text):
+                    self.assertNotEqual(text, target)
+                    self.assertTrue(any('source-bound investment/life' in e
+                                        for e in tool.translation_errors(leaf, 'ja', text)))
+        # Both USD amounts remain assigned to different experience/future roles.
+        source, target, _ = self._investment_life_quantity_examples()[5]
+        wrong = target.replace('100ドル', '1,000ドル').replace('この先の1,000ドル', 'この先の100ドル')
+        leaf = tool.Leaf('events', 'quantity_fixture', 'content/events/source.json',
+                         ('description',), source, 'shipping')
+        self.assertTrue(any('source-bound investment/life' in e
+                            for e in tool.translation_errors(leaf, 'ja', wrong)))
+        # Untouched Arabic numbers also retain their attribution/order.
+        source, target, _ = self._investment_life_quantity_examples()[7]
+        wrong = target.replace('+7.3%', '+TEMP%').replace('+11.2%', '+7.3%').replace('+TEMP%', '+11.2%')
+        leaf = tool.Leaf('events', 'quantity_fixture', 'content/events/source.json',
+                         ('description',), source, 'shipping')
+        self.assertIn('source-bound investment/life ordered numeric ownership mismatch',
+                      tool.translation_errors(leaf, 'ja', wrong))
+
+    def test_investment_life_quantity_source_licence_boundaries(self):
+        for source, target, _ in self._investment_life_quantity_examples():
+            for changed in (source + ' 다른 장면.', '다른 인물. ' + source, source + '\n'):
+                with self.subTest(source=changed):
+                    self.assertNotEqual(changed, source)
+                    # Licence OFF is deliberately not a claim that the generic
+                    # semantic checker rejects every altered Korean narrative.
+                    self.assertIsNone(tool._ja_investment_life_numbers(changed, target))
+
+
+    def test_investment_life_three_reported_natural_regressions(self):
+        # Only the three disclosed normal readings and implementation-owned
+        # value/unit pairs; ROOT/independent hidden input files are not loaded.
+        cases = (
+            ("1년 수익률 점검", "1年間の収益率を見直す", [["1年間","2年間"],["1年間","1か月間"]]),
+            ("\"알겠습니다\" 하고 나왔다.\n\n1년을 갈아넣었다. B+. 다음 해도 같은 말을 듣게 될 것 같은 기분이 들었다. 이 회사에서 S는 가능한 걸까.", "「承知しました」と言って、その場を出た。\n\nこの一年を仕事につぎ込んだ。B+。来年もまた同じ言葉が返ってきそうだった。この会社でS評価を得ることはできるのだろうか。", [["この一年","この二年"],["この一年","この一か月"]]),
+            ("잘 모르지만 일단 발을 담갔다. 100달러짜리 경험이 앞으로 1000달러를 지켜줄 것이다.", "詳しくは分からないが、ひとまず踏み込んでみた。ここで得た100ドル分の経験が、これからの1,000ドルを守ってくれるはずだ。", [["100ドル分","1,000ドル分"],["100ドル分","100円分"]]),
+        )
+        for source, target, edits in cases:
+            leaf = tool.Leaf('events', 'quantity_fixture', 'content/events/source.json',
+                             ('description',), source, 'shipping')
+            with self.subTest(normal=target):
+                self.assertEqual(tool.translation_errors(leaf, 'ja', target), [])
+            for old, new in edits:
+                wrong = target.replace(old, new, 1)
+                with self.subTest(wrong=wrong):
+                    self.assertNotEqual(wrong, target)
+                    self.assertTrue(any('source-bound investment/life' in e
+                                        for e in tool.translation_errors(leaf, 'ja', wrong)))
+        source, target, _ = cases[2]
+        wrong = target.replace('100ドル分', '1,000ドル分').replace(
+            'これからの1,000ドル', 'これからの100ドル',
+        )
+        leaf = tool.Leaf('events', 'quantity_fixture', 'content/events/source.json',
+                         ('description',), source, 'shipping')
+        self.assertTrue(any('source-bound investment/life' in e
+                            for e in tool.translation_errors(leaf, 'ja', wrong)))
+
     def test_hangul(self):
         self.assertTrue(tool.translation_errors(self.leaf, "ja", "다음 주"))
 

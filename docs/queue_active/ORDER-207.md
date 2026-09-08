@@ -250,3 +250,5 @@ source manifest `edf845a7164b8fedc9ec027be7a7edc381a3dcdf67ff58c2858d44a3237b64b
 named full-game-localization-overlays --list 후 선택검사·EN·diff·전량수용hash/L1.
 전체audit/Godot/240주 실행0. 전체 INCOMPLETE·full/main/product HOLD·L3/원어민/화면 OPEN.
 출시후보 발급·인간게이트 통과가 아니다.
+
+수용·검증 기록: [L1/L2 결과](../queue_archive/ORDER-207_L1_L2_RESULTS.md).
