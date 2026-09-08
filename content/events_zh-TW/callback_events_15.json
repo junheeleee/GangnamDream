@@ -1,0 +1,167 @@
+[
+  {
+    "id": "callback_jiyeon_apology_made_echo",
+    "title": "道歉之後",
+    "description": "向 Jiyeon 道歉，已經是兩個月前的事。\nJiyeon 說了「沒關係」。\n今天，Jiyeon 主動聯絡，說想見面。",
+    "choices": [
+      {
+        "text": "去見面",
+        "result_text": "見面了。\n道歉後的第一次見面——和以前不一樣。"
+      },
+      {
+        "text": "還是有些尷尬。說下次再見",
+        "result_text": "說了：「我們很快再見吧。」\nJiyeon 說：「好。」\n尷尬，並不會因為逃避就消失。"
+      }
+    ]
+  },
+  {
+    "id": "callback_jiyeon_mentor_track_echo",
+    "title": "Jiyeon 的人脈",
+    "description": "把 Jiyeon 當作導師追隨，已經是三個月前的事。\n之後，與她介紹的人一直保持聯絡。\n今天，對方帶來了一個提案。",
+    "choices": [
+      {
+        "text": "聽了提案",
+        "result_text": "聽了聽。\n是透過 Jiyeon 而來的提案。"
+      },
+      {
+        "text": "先問了 Jiyeon",
+        "result_text": "先問了 Jiyeon。\n收到了「那位值得信任」的回覆。"
+      }
+    ]
+  },
+  {
+    "id": "callback_jiyeon_trust_built_echo",
+    "title": "累積起來的信任",
+    "description": "和 Jiyeon 之間的信任，花了很久才累積起來。\n而今天——Jiyeon 第一次說起了真正的心事。",
+    "choices": [
+      {
+        "text": "靜靜地聽",
+        "result_text": "聽了很久。\nJiyeon 說著說著——又說出了更多。\n信任需要很久才能累積——用上它，卻只是一瞬間的事。"
+      },
+      {
+        "text": "陪她一起想辦法",
+        "result_text": "一起聊了聊。\nJiyeon 說：「能讓我說這些話的人，真的不多。」"
+      }
+    ]
+  },
+  {
+    "id": "callback_jiyeon_opens_up_echo",
+    "title": "Jiyeon 敞開心扉的時候",
+    "description": "Jiyeon 第一次敞開心扉說話，已經是一個月前的事。\n之後，和 Jiyeon 的對話變得不一樣了。\n今天，她也主動開口了。",
+    "choices": [
+      {
+        "text": "這次也好好聽她說",
+        "result_text": "聽著她說。\nJiyeon 說：「跟 Minjun哥說，就很容易開口呢。」"
+      },
+      {
+        "text": "我也坦白說了",
+        "result_text": "彼此坦誠地聊了聊。\n一方敞開心，另一方也跟著敞開——對話就是這樣。"
+      }
+    ]
+  },
+  {
+    "id": "callback_jiyeon_referral_met_echo",
+    "title": "Jiyeon 的介紹",
+    "description": "見過 Jiyeon 介紹的人，已經是兩個月前的事。\n今天，對方又聯絡了我。",
+    "choices": [
+      {
+        "text": "再次見面",
+        "result_text": "又見了一面。\n因 Jiyeon 的介紹而開始的往來——不再需要透過 Jiyeon，也延續了下去。"
+      },
+      {
+        "text": "說「這次有點忙」",
+        "result_text": "說了：「最近有點忙。」\n對方理解了。"
+      }
+    ]
+  },
+  {
+    "id": "callback_jiyeon_deflected_business_echo",
+    "title": "避開生意話題的那次",
+    "description": "把 Jiyeon 的生意話題輕輕帶過，已經是兩個月前的事。\n今天，Jiyeon 又提起了那件事。\n這次，說得很直接。",
+    "choices": [
+      {
+        "text": "這次認真聽了",
+        "result_text": "聽了聽。\n比起輕輕帶過——聽過之後，反而更清楚了。"
+      },
+      {
+        "text": "這次也委婉地帶過",
+        "result_text": "又帶過了。\nJiyeon 的神情變了一瞬。\n她說：「我明白了。」"
+      }
+    ]
+  },
+  {
+    "id": "callback_jiyeon_mother_direct_echo",
+    "title": "直接和 Jiyeon 母親交談",
+    "description": "直接和 Jiyeon 母親談過話，已經是兩個月前的事。\n今天，Jiyeon 提起了這件事。\n「母親還稱讚 Minjun哥了呢。」",
+    "choices": [
+      {
+        "text": "「是嗎？請幫我轉達謝意。」",
+        "result_text": "Jiyeon 笑了。\n「我會轉達的。」"
+      },
+      {
+        "text": "平靜地回應：「那就好。」",
+        "result_text": "平靜地接受了。\nJiyeon 說：「真平靜呢。」"
+      }
+    ]
+  },
+  {
+    "id": "callback_jiyeon_gratitude_returned_echo",
+    "title": "回到身邊的感謝",
+    "description": "曾為 Jiyeon 付出的——以意想不到的方式回到了身邊。\n今天，Jiyeon 主動為我做了些什麼。",
+    "choices": [
+      {
+        "text": "心懷感激地接受",
+        "result_text": "心懷感激地接受了。\n付出何時會回到自己身上——無法預料。"
+      },
+      {
+        "text": "「妳不用這麼做的」",
+        "result_text": "說了：「妳不用這麼做的。」\nJiyeon 說：「我想這麼做。」"
+      }
+    ]
+  },
+  {
+    "id": "callback_daeun_bond_deepened_echo",
+    "title": "更深的關係",
+    "description": "感覺和 Daeun 的關係變深，已經是兩個月前的事。\n今天，Daeun 打來電話，語氣沉重。\n「Minjun，我現在有點難受。」",
+    "choices": [
+      {
+        "text": "「我現在可以出門。妳在哪裡？」",
+        "result_text": "出門了。\nDaeun 說：「其實不用過來的。」\n我說：「不會。」"
+      },
+      {
+        "text": "在電話裡聽她說",
+        "result_text": "在電話裡聽著。\n聊了一個小時。\n掛電話時，Daeun 說了：「謝謝。」"
+      }
+    ]
+  },
+  {
+    "id": "callback_daeun_second_date_echo",
+    "title": "第二次相聚",
+    "description": "第二次和 Daeun 單獨見面，已經是一個月前的事。\n今天，Daeun 提議了第三次。",
+    "choices": [
+      {
+        "text": "立刻回答「好啊」",
+        "result_text": "說了：「好啊。」\n成了三次。"
+      },
+      {
+        "text": "「我先確認行程，再聯絡妳」",
+        "result_text": "確認了行程。\n可以。\n聯絡了她。"
+      }
+    ]
+  },
+  {
+    "id": "callback_daeun_honest_echo",
+    "title": "對 Daeun 坦白的那次",
+    "description": "向 Daeun 坦白說了心裡的話，已經是兩個月前的事。\n那並不容易說出口。\n今天，Daeun 回想起了那一天。",
+    "choices": [
+      {
+        "text": "「要說出口，真的不容易」",
+        "result_text": "Daeun 說：「我知道。所以我很開心。」"
+      },
+      {
+        "text": "「只是覺得應該說出來」",
+        "result_text": "說了：「覺得應該說出來。」\nDaeun 說：「這樣的人並不多。」"
+      }
+    ]
+  }
+]

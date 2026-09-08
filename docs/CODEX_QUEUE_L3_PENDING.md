@@ -7,6 +7,7 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
+| 1 | [~] | ORDER-194 · 가족·회복·관계 후속 번역 | [194](queue_active/ORDER-194.md) | 714번역 L1/L2 · L3 OPEN |
 | 2 | [~] | ORDER-193 · 투자·사람 후속 결과 번역 | [193](queue_active/ORDER-193.md) | 576번역 L1/L2 · L3 OPEN |
 | 3 | [~] | ORDER-192 · 관계의 다음 말·책임 번역 | [192](queue_active/ORDER-192.md) | 360번역 L1/L2 · L3 OPEN |
 | 4 | [~] | ORDER-191 · 판단의 비용·작은 회신 번역 | [191](queue_active/ORDER-191.md) | 444번역 L1/L2 · L3 OPEN |

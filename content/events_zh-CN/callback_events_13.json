@@ -8,4 +8,130 @@
       {"text": "父亲说了谢谢，能这样就好", "result_text": "用拇指留下一条简短的回复，把手停在通话按钮上方。\n没有按下的按钮，在屏幕上亮了一会儿。过了片刻，屏幕先暗下去了。"}
     ]
   }
+  ,{
+    "id": "callback_father_apology_made_echo",
+    "title": "道歉之后",
+    "description": "向父亲道歉，已经是一个月前的事了。\n父亲说了句“没事”。\n今天，父亲打来了电话。",
+    "choices": [
+      {"text": "高兴地接起来", "result_text": "父亲没说别的，只问了问近况。\n但他打来电话——这本身就是回答。"},
+      {"text": "简短地聊了聊", "result_text": "简短地聊了聊。\n父亲说起了身体的事。"}
+    ]
+  },
+  {
+    "id": "callback_father_story_heard_echo",
+    "title": "父亲的故事",
+    "description": "听父亲讲年轻时候的故事，是两个月前的事。\n那时，第一次觉得父亲也是一个有自己人生的人。\n今天，父亲又提起了和那时相似的往事。",
+    "choices": [
+      {"text": "这次问得更深了些", "result_text": "父亲讲了一个小时。\n那段时间里——装着一个人的一生。"},
+      {"text": "静静地听", "result_text": "静静地听着。\n父亲说着说着——神情变了。"}
+    ]
+  },
+  {
+    "id": "callback_went_home_for_father_echo",
+    "title": "赶回家的那天之后",
+    "description": "为了父亲匆匆赶回老家，是两个月前的事。\n那天以后，父亲有了些变化。\n今天，母亲打来了电话。\n“你那次回来，你爸一直记着呢。”",
+    "choices": [
+      {"text": "下定决心，以后要更常回去", "result_text": "定下了下次回去的日期。\n父亲一直记着——这就是该回去的答案。"},
+      {"text": "对母亲说“您照顾好爸”", "result_text": "说了句：“您照顾好爸的身体。”\n母亲说：“你也得时不时回来看看。”"}
+    ]
+  },
+  {
+    "id": "callback_delayed_visiting_dad_consequence",
+    "title": "没能回去的分量",
+    "description": "因为忙，把探望父亲的事往后推，已经两个月了。\n今天，父亲发来一条短信。\n“Minjun，最近过得好吗。”",
+    "choices": [
+      {"text": "给父亲打电话", "result_text": "给父亲打了电话。\n父亲说：“好久没聊了。”\n那一条短信——意味着他在惦记儿子。"},
+      {"text": "发短信回复“我挺好的”", "result_text": "短信里只回了句“我挺好的”。\n父亲回道：“嗯，身体要好好的。”"}
+    ]
+  },
+  {
+    "id": "callback_told_dad_okay_echo",
+    "title": "说过自己没事",
+    "description": "对父亲说“我没事”，是两个月前的事。\n其实并不好。\n今天，父亲又问了。\n“最近怎么样。说实话。”",
+    "choices": [
+      {"text": "这次说了实话", "result_text": "说了句：“其实有点难熬。”\n父亲沉默了很久——才说：“这样啊。”"},
+      {"text": "说“还是挺好的”", "result_text": "说了句：“还是挺好的。”\n父亲说：“……嗯。”\n他似乎明明知道，却还是说了“嗯”。"}
+    ]
+  },
+  {
+    "id": "callback_saw_father_medical_echo",
+    "title": "陪父亲看过诊",
+    "description": "陪父亲一起走进诊室，是两个月前的事。\n亲耳听了医生的话。\n今天，后续检查的结果出来了。",
+    "choices": [
+      {"text": "陪父亲一起进去了", "result_text": "一起听到了“这次好转了”。\n父亲平静地说了声“嗯”。"},
+      {"text": "让父亲自己去看结果", "result_text": "父亲自己看了结果。\n后来只简短地告诉我：“说是没事。”"}
+    ]
+  },
+  {
+    "id": "callback_mlm_debt_closed_echo",
+    "title": "还清的那天",
+    "description": "把因传销欠下的债彻底还清，是一个月前的事。\n今天，当初借钱给我的人联系了我。\n“花了挺久啊。”",
+    "choices": [
+      {"text": "“谢谢你，等了这么久。”", "result_text": "说了句：“谢谢你等了这么久。”\n对方说：“肯还的人更少。”"},
+      {"text": "“嗯，这下结束了。”", "result_text": "只简短地说了句“这下结束了”。\n对方也简短地说：“嗯，那就好。”"}
+    ]
+  },
+  {
+    "id": "callback_mlm_refused_echo",
+    "title": "拒绝的分量",
+    "description": "拒绝加入传销，是三个月前的事。\n当时劝我加入的熟人，今天悄悄联系了我。\n“我不做那个了。全赔进去了。”",
+    "choices": [
+      {"text": "“是吗？你还好吗？”", "result_text": "说了句：“这样啊，肯定很难受吧。”\n对方说：“幸好你没进来。对不起。”\n当初拒绝是对的——而那个人并没有错。"},
+      {"text": "静静地听了对方说", "result_text": "只说了句“肯定很难熬吧”。\n对方沉默了一会儿。"}
+    ]
+  },
+  {
+    "id": "callback_addiction_boundary_held_echo",
+    "title": "守住界限之后",
+    "description": "眼看就要陷进某种东西的那一刻——守住界限，已经是两个月前的事了。\n今天，那股冲动又来了。",
+    "choices": [
+      {"text": "这次也守住界限", "result_text": "守住了。\n能守住两次——也就能守住三次。"},
+      {"text": "就这一次，没关系", "result_text": "有了这一次。\n“一次”，总是从这句话开始。"}
+    ]
+  },
+  {
+    "id": "callback_addiction_recovering_echo",
+    "title": "还在恢复中",
+    "description": "正在努力戒掉。\n到今天，已经两个月了。\n并不容易。",
+    "choices": [
+      {"text": "把这两个月记下来", "result_text": "在记事本里写下日期。\n两个月。\n看起来只是个小数字——却是每天做出决定的结果。"},
+      {"text": "觉得还有很长的路要走", "result_text": "还差得很远。\n但昨天守住了，今天也守住了。\n“还差得很远”，并不等于放弃。"}
+    ]
+  },
+  {
+    "id": "callback_health_ignored_twice_consequence",
+    "title": "拖了两次的后果",
+    "description": "把去医院的事拖了两次。\n今天，身体更难受了。\n不能再拖下去了。",
+    "choices": [
+      {"text": "现在就预约", "result_text": "预约了。\n医生说：“怎么现在才来？”\n那两次拖延——让后果更严重了。"},
+      {"text": "再撑一小会儿试试", "result_text": "撑了下去。\n一周后，情况更糟了。\n有的时候，硬撑并不是勇敢。"}
+    ]
+  },
+  {
+    "id": "callback_mlm_friend_recovered_echo",
+    "title": "朋友的恢复",
+    "description": "听说那个被传销拖垮的朋友正在慢慢恢复，是三个月前的事。\n今天，那个朋友亲自联系了我。\n“我最近好些了。”",
+    "choices": [
+      {"text": "“太好了。真的。”", "result_text": "说了句：“真的太好了。”\n朋友说：“多亏你没骂我，一直等着我。”"},
+      {"text": "“真了不起。你是怎么做到的？”", "result_text": "朋友讲了很久。\n讲的是独自撑过那些难关的事。"}
+    ]
+  },
+  {
+    "id": "callback_jeonse_insurance_saved_echo",
+    "title": "保险保住的东西",
+    "description": "当初买的全租保证金保险——终于在房东无力退还保证金时派上了用场。\n保险公司进行了代位赔付。\n全租保证金全部拿回来了。",
+    "choices": [
+      {"text": "下个住处也先买保险", "result_text": "在备忘录里，把买保险列为第一件要做的事。\n几万韩元的保险，保住了数亿韩元。"},
+      {"text": "松了口气。运气不错", "result_text": "运气不错。\n但那并不是运气，而是准备。"}
+    ]
+  },
+  {
+    "id": "callback_jeonse_planning_move_echo",
+    "title": "准备搬家的时候",
+    "description": "全租合同快到期了，正在准备搬家。\n今天跑了三家房产中介。\n明显感受到了江南一带和外围地区的差距。",
+    "choices": [
+      {"text": "搬到稍微靠近江南的地方", "result_text": "花的钱更多了。\n但那个街区——让人每天都能看见目标。"},
+      {"text": "现在还是省钱更合适", "result_text": "搬去了外围地区。\n攒下的钱更多了。"}
+    ]
+  }
 ]

@@ -1,0 +1,101 @@
+[
+  {
+    "id": "callback_jiyeon_apology_made_echo",
+    "title": "道过歉之后",
+    "description": "向Jiyeon道歉，是两个月前的事。\nJiyeon说了“没关系”。\n今天，Jiyeon主动联系，说想见一面。",
+    "choices": [
+      {"text": "去见她", "result_text": "见面了。\n道歉后的第一次见面——和以前不一样了。"},
+      {"text": "还有点尴尬。说下次再见", "result_text": "说了句：“改天见吧。”\nJiyeon说：“好。”\n尴尬，不会因为躲着就消失。"}
+    ]
+  },
+  {
+    "id": "callback_jiyeon_mentor_track_echo",
+    "title": "Jiyeon的人脉",
+    "description": "把Jiyeon当作导师一样跟随，是三个月前的事。\n之后，一直和Jiyeon介绍的人保持着联系。\n今天，那个人带来了一个提议。",
+    "choices": [
+      {"text": "听了那个提议", "result_text": "听了听。\n那是通过Jiyeon带来的提议。"},
+      {"text": "先问了Jiyeon", "result_text": "先问了Jiyeon。\n收到的回答是：“那位值得信任。”"}
+    ]
+  },
+  {
+    "id": "callback_jiyeon_trust_built_echo",
+    "title": "积累起来的信任",
+    "description": "和Jiyeon积累起信任，用了很久。\n而今天——Jiyeon第一次真正说起了心里话。",
+    "choices": [
+      {"text": "静静地听", "result_text": "听了很久。\nJiyeon说着说着——又说出了更多。\n信任积累起来要很久——用上它，却只在一瞬间。"},
+      {"text": "陪她一起想办法", "result_text": "一起聊了聊。\nJiyeon说：“能让我说这些的人，没几个。”"}
+    ]
+  },
+  {
+    "id": "callback_jiyeon_opens_up_echo",
+    "title": "Jiyeon敞开心扉的时候",
+    "description": "Jiyeon第一次敞开心扉说话，是一个月前的事。\n那之后，和Jiyeon的对话变了。\n今天，也是Jiyeon先开了口。",
+    "choices": [
+      {"text": "这次也好好听她说", "result_text": "听了她的话。\nJiyeon说：“和Minjun哥说话，能很顺畅地说出来。”"},
+      {"text": "自己也坦诚地说了", "result_text": "彼此坦诚地聊了聊。\n一方敞开了——另一方也会敞开，这就是交谈。"}
+    ]
+  },
+  {
+    "id": "callback_jiyeon_referral_met_echo",
+    "title": "Jiyeon的介绍",
+    "description": "见到Jiyeon介绍的那个人，是两个月前的事。\n今天，那个人又联系了我。",
+    "choices": [
+      {"text": "又见了一面", "result_text": "又见了一面。\nJiyeon牵起的线——不再依靠Jiyeon，也延续了下去。"},
+      {"text": "说了句“这次有点忙”", "result_text": "说了句：“最近有点忙。”\n对方理解了。"}
+    ]
+  },
+  {
+    "id": "callback_jiyeon_deflected_business_echo",
+    "title": "避开生意话题之后",
+    "description": "把Jiyeon谈生意的话轻轻带过，是两个月前的事。\n今天，Jiyeon又提起了那件事。\n这次很直接。",
+    "choices": [
+      {"text": "这次认真听了", "result_text": "听了听。\n比起轻轻带过——听过之后，事情更清楚了。"},
+      {"text": "这次也委婉地带过", "result_text": "又带过了。\nJiyeon的神情变了一瞬。\n她说：“我知道了。”"}
+    ]
+  },
+  {
+    "id": "callback_jiyeon_mother_direct_echo",
+    "title": "直接和Jiyeon的母亲交谈",
+    "description": "直接和Jiyeon的母亲交谈，是两个月前的事。\n今天，Jiyeon提起了那件事。\n“我母亲还夸Minjun哥了呢。”",
+    "choices": [
+      {"text": "“是吗？请替我谢谢她。”", "result_text": "Jiyeon笑了。\n“我会转达的。”"},
+      {"text": "平静地应道：“那挺好。”", "result_text": "平静地应了下来。\nJiyeon说：“还真平静呢。”"}
+    ]
+  },
+  {
+    "id": "callback_jiyeon_gratitude_returned_echo",
+    "title": "回来的谢意",
+    "description": "曾经给予Jiyeon的东西——以意想不到的方式回来了。\n今天，Jiyeon主动为我做了些什么。",
+    "choices": [
+      {"text": "心怀感谢地接受", "result_text": "心怀感谢地接受了。\n付出何时会回来——无法预料。"},
+      {"text": "“你其实不用这样的”", "result_text": "说了句：“你其实不用这样的。”\nJiyeon说：“我想这么做。”"}
+    ]
+  },
+  {
+    "id": "callback_daeun_bond_deepened_echo",
+    "title": "更深的关系",
+    "description": "感觉到和Daeun的关系更深了，是两个月前的事。\n今天，Daeun打来电话，语气沉重。\n“Minjun，我现在有点难熬。”",
+    "choices": [
+      {"text": "“我现在可以出来。你在哪里？”", "result_text": "出去了。\nDaeun说：“其实不用过来的。”\n说了句：“没事的。”"},
+      {"text": "在电话里听她说", "result_text": "在电话里听着。\n聊了一个小时。\n挂电话时，Daeun说了句“谢谢”。"}
+    ]
+  },
+  {
+    "id": "callback_daeun_second_date_echo",
+    "title": "第二次见面",
+    "description": "第二次和Daeun单独见面，是一个月前的事。\n今天，Daeun提出了第三次。",
+    "choices": [
+      {"text": "马上回答“好啊”", "result_text": "说了句：“好啊。”\n变成了三次。"},
+      {"text": "“我先确认一下安排，再联系你”", "result_text": "确认了日程。\n可以。\n联系了她。"}
+    ]
+  },
+  {
+    "id": "callback_daeun_honest_echo",
+    "title": "曾对Daeun坦诚相告",
+    "description": "对Daeun坦诚地说出那些话，是两个月前的事。\n那并不是容易说出口的事。\n今天，Daeun回想起了那天。",
+    "choices": [
+      {"text": "“那些话不太容易说出口”", "result_text": "Daeun说：“我知道。所以，我觉得很好。”"},
+      {"text": "“只是觉得应该说出来”", "result_text": "说了句：“觉得应该说出来。”\nDaeun说：“能这样的人，并不多。”"}
+    ]
+  }
+]

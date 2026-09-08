@@ -185,3 +185,39 @@ named full-game-localization-overlays --list 뒤 선택12·EN·diff·전량수�
 전체 INCOMPLETE·full/main/product HOLD·L3/원어민/화면 OPEN.
 출시 M01~M06 BUILD2026.08.31.1 사용자 GO 유지.
 이 문서는 일회성 범위이며 지속 규칙의 소유자는 I18N_INFRASTRUCTURE/용어집이다.
+
+## 수용 결과 — 714번역·L1/L2, L3 OPEN
+
+- 선언 `7ea34e40240ed4ebe3c6a82dc4c7035ab17fdaa1` commit/push 뒤
+  initial6(A119/B121행·신규238 previous null×3)을 저작 전에 봉인했다.
+  KO 직접 독립 저작 뒤 다른 작성자/ROOT가714문구 전부를 대조했다.
+- 13번 기존1행6문구·raw prefix JA962/CN731/TW752B를 보존하고
+  신규14/84를 붙였다. 새14번15/88·15번11/66은 KO 순서대로 썼다.
+  기존20,790/meta9/b46 보존, 누적21,504(각7,168)·b48이다.
+  각 언어 events846종6,100·endings234·catalog834다.
+- 독립 L2 필수0, 정밀5: CN 불명시 이유1·TW 반사실 부사2/
+  반복1/이유 표현1. 최종5문구 교차확인과 전체9파일·records 역치환으로
+  JA238/CN237/TW234 나머지 불변을 확인했다.
+- 실제3문맥의 ZH 오탐만 수리했다. 보험의 비용/보호원금 대략금액,
+  CEO의 과거 상태, 복권 등위/구매장수다. 원문 결속·역할·수량·단위/
+  부호·시제·경계를 유지했다. ZH self6101=5933+168 PASS.
+  자체168은 정상18·target변조130·source경계20이며 독립 검토와 분리한다.
+- 최종 source/response/receipt6쌍·실물714 L1 오류0,
+  check/import --accept6 changed_files0. 최종238 records:
+  JA `7e2511a98a675734eb2a1dcab24d1b289d3ae7cd583a711b4ef80bbb52b078fa`,
+  CN `328574b7d85b97205b7902a40192f0a56fdf63901833f8453c4fb9eb1f5f6f49`,
+  TW `0065e38c05dd7678c39e419464ca6ed7c9fee134a1cc6c7a9ff7ea712eac677d`.
+- 완료191 WORK_LOG절1,127B만 history 앞으로 원문 이동했다.
+  43,828→44,955B SHA
+  `5bed7ba993836688e0b739337cf473d32ae8c40a4a379a798a1124b381024dda`.
+  기존 bytes·끝 LF2 유지, 같은 활성 이어보기 [~]·L3 OPEN이다.
+- 실제 회신/상환/진료/만남과 조사중·제안·회복노력을 구분하고 원문 부채는
+  수리하지 않았다. KO/EN·runtime·공개·fonts·save·human_gates 변경0,
+  원본 checkout 쓰기0. 전체 INCOMPLETE·full/main/product HOLD,
+  원어민/화면 OPEN·출시 데모 GO 유지.
+- portable checksum `d2c36340b2f2d6101ec622378b4f267f1dd1bf42b65b398daa30d1b36fcec957`.
+- 최종 named12·EN strict·전량21,504 source/target hash와 L1·diff 검사 PASS.
+  full self192/ZH self6101이며 별도 독립 가드68(정상10/변조46/원문경계12)
+  PASS는 자체 fixture 수와 합산하지 않는다. 고정 집합 필수 발견0이다.
+  실제 stdout `order194-final-checks.log` 4,682bytes SHA
+  `0cddbb07fab35472dd27a0bdd7701e9bab9945107254fb9c073ed7a59e2cacac`.

@@ -1,0 +1,223 @@
+[
+  {
+    "id": "callback_usb_reported_to_company_echo",
+    "title": "通報之後",
+    "description": "向公司通報內部弊端，已經是兩個月前的事。\n今天，人資部門聯絡了我。\n「想向您說明處理結果。」",
+    "choices": [
+      {
+        "text": "聽取結果",
+        "result_text": "那名員工受到了懲處。\n聽到對方說：「謝謝您通報這件事。」\n做了對的事，能得到肯定——並不是每次都會這樣。"
+      },
+      {
+        "text": "等待通知結果的訊息",
+        "result_text": "確認了結果。\n有什麼改變了。"
+      }
+    ]
+  },
+  {
+    "id": "callback_stayed_clean_echo",
+    "title": "守住清白的那次",
+    "description": "面對誘惑，仍守住了清白，已經是三個月前的事。\n今天，回頭想了想——那個選擇是否正確。\n聽說當時那個誘惑的來源，最近出了問題。",
+    "choices": [
+      {
+        "text": "覺得還好當時撐住了",
+        "result_text": "當時撐住是對的。\n保持清白——不是失去機會，而是在等更好的機會。"
+      },
+      {
+        "text": "覺得自己運氣不錯",
+        "result_text": "也有運氣的成分。\n但那份運氣——是因為撐住了，才成了運氣。"
+      }
+    ]
+  },
+  {
+    "id": "callback_was_compromised_consequence",
+    "title": "妥協的代價",
+    "description": "越過界線，已經是兩個月前的事。\n當時覺得別無選擇。\n今天，那個選擇的後果回來了。",
+    "choices": [
+      {
+        "text": "尋找收拾局面的辦法",
+        "result_text": "試著收拾局面。\n卻很難完全回到原來的樣子。"
+      },
+      {
+        "text": "決定承認並改正",
+        "result_text": "承認了。\n對方說：「你願意坦白說，總是好一些。」"
+      }
+    ]
+  },
+  {
+    "id": "callback_formal_complaint_filed_echo",
+    "title": "正式申訴之後",
+    "description": "以書面向人資部門反映問題後，收到了回覆。",
+    "choices": [
+      {
+        "text": "閱讀結果通知",
+        "result_text": "人資部門的回覆寫著「正在釐清事實」。\n文件最下方，留著受理編號與承辦人的姓名。"
+      }
+    ]
+  },
+  {
+    "id": "callback_holdem_regular_echo",
+    "title": "成了德州撲克酒吧的常客",
+    "description": "成為德州撲克酒吧的常客，已經三個月了。\n今天，一個陌生號碼打了電話來。\n「請問，您是常來 OO 德州撲克酒吧的那位嗎？」",
+    "choices": [
+      {
+        "text": "「是，沒錯。請問有什麼事嗎？」",
+        "result_text": "對方是來邀請我參賽的。\n成了常客——就有了新的機會。"
+      },
+      {
+        "text": "警覺地問：「您怎麼知道我的聯絡方式？」",
+        "result_text": "提高了警覺。\n對方說：「是酒吧老闆告訴我的。」\n有戒心，並不是壞事。"
+      }
+    ]
+  },
+  {
+    "id": "callback_holdem_rule_made_echo",
+    "title": "訂下規則之後",
+    "description": "訂下不碰德州撲克的規則，已經是兩個月前的事。\n今天，經過了德州撲克酒吧門口。\n有一瞬間，想走進去。",
+    "choices": [
+      {
+        "text": "直接走過去",
+        "result_text": "走過去了。\n如果沒有規則——就進去了。\n規則，是在衝動出現時守住的。"
+      },
+      {
+        "text": "就一次，應該沒關係吧",
+        "result_text": "走了進去。\n兩個小時過去了。\n規則被打破了。"
+      }
+    ]
+  },
+  {
+    "id": "callback_holdem_knew_limit_echo",
+    "title": "知道自己的界限",
+    "description": "玩德州撲克時，知道自己的界限並就此停手，已經是一個月前的事。\n今天，當時一起玩的人聯絡了我。\n「您那時停手了，真的很不容易。」",
+    "choices": [
+      {
+        "text": "「沒什麼了不起，只是訂了規則而已。」",
+        "result_text": "說了：「只是事先有定下來。」\n對方說：「那就很不容易了。」"
+      },
+      {
+        "text": "「是嗎？只是那天運氣不好罷了。」",
+        "result_text": "說了：「因為運氣不好。」\n對方說：「……這樣說，反而更可怕呢。」"
+      }
+    ]
+  },
+  {
+    "id": "callback_lotto_5th_prize_echo",
+    "title": "中了五獎之後",
+    "description": "樂透中了五獎，已經是一個月前的事。\n獎金是5000韓元。\n今天，又買了樂透。",
+    "choices": [
+      {
+        "text": "只買1張，別讓它變成習慣。",
+        "result_text": "買了1張。\n5000韓元帶來了1000韓元的獲利。\n1張，就是標準。"
+      },
+      {
+        "text": "這次要不要多買一點",
+        "result_text": "買了5張。\n全部沒中。\n中了五獎——讓我又多買了5張。"
+      }
+    ]
+  },
+  {
+    "id": "callback_won_lottery_small_echo",
+    "title": "中了小獎之後",
+    "description": "彩券中了小額獎金，已經是兩個月前的事。\n當時很開心。\n今天，想了想那筆錢去了哪裡。",
+    "choices": [
+      {
+        "text": "存起來了",
+        "result_text": "存起來了。\n那個數字，現在仍留著。"
+      },
+      {
+        "text": "不太記得了。大概花在哪裡了吧",
+        "result_text": "想不起來。\n花在了某個地方。\n那筆小額獎金——就這樣流走，連記憶都沒留下。"
+      }
+    ]
+  },
+  {
+    "id": "callback_received_orthodox_award_echo",
+    "title": "獲獎之後",
+    "description": "循正統方式工作而獲得表揚，已經是兩個月前的事。\n今天，有人在團隊會議上提起了這件事。",
+    "choices": [
+      {
+        "text": "平靜地接受",
+        "result_text": "只說了句：「謝謝。」\n有人說：「其實，那才是最難的吧。」"
+      },
+      {
+        "text": "說「我只是做了自己的工作」",
+        "result_text": "說了：「也就是做自己的工作嘛。」\n對方笑了。"
+      }
+    ]
+  },
+  {
+    "id": "callback_bankrupt_ceo_mentor_echo",
+    "title": "成了導師的那位",
+    "description": "認識那位曾經風光一時、後來破產的 CEO，已經是兩個月前的事。\n之後也一直保持聯絡。\n今天，對方主動聯絡了我。\n「最近怎麼樣？有煩惱就說。」",
+    "choices": [
+      {
+        "text": "坦白說出最近的煩惱",
+        "result_text": "聊了一個小時。\n對方說：「要是我那時也做了那個選擇，或許就不一樣了。」"
+      },
+      {
+        "text": "說「我過得很好」",
+        "result_text": "說了：「我過得很好。」\n對方說：「嗯，那就好。」"
+      }
+    ]
+  },
+  {
+    "id": "callback_mindset_founder_echo",
+    "title": "創業者思維的結果",
+    "description": "決定像創業者一樣思考，已經是三個月前的事。\n今天，在會議上——那種思考方式顯現了出來。",
+    "choices": [
+      {
+        "text": "從那個角度提出建議",
+        "result_text": "提出了建議。\n組長問：「這個點子是怎麼來的？」\n像創業者一樣思考——在會議桌上顯現了出來。"
+      },
+      {
+        "text": "靜靜地聽",
+        "result_text": "靜靜地聽著。\n看見了那些沒有那個角度就會錯過的重點。"
+      }
+    ]
+  },
+  {
+    "id": "callback_tried_to_withdraw_result",
+    "title": "曾試著抽身",
+    "description": "試著從那段關係抽身，已經是兩個月前的事。\n並不容易。\n今天，整理了一下結果。",
+    "choices": [
+      {
+        "text": "抽身了——太好了",
+        "result_text": "離開了。\n沉重的東西變輕了。\n離開一段關係——有時並不是逃避。"
+      },
+      {
+        "text": "還沒完全抽身",
+        "result_text": "沒能完全離開。\n是有原因的。"
+      }
+    ]
+  },
+  {
+    "id": "callback_joined_victims_echo",
+    "title": "加入受害者團體之後",
+    "description": "加入受害者團體，已經是兩個月前的事。\n今天，在聚會中得知了集體訴訟的進度。",
+    "choices": [
+      {
+        "text": "繼續一起走下去",
+        "result_text": "訴訟仍在進行。\n如果只有自己一個人，就放棄了。"
+      },
+      {
+        "text": "太耗心力了。保持距離",
+        "result_text": "拉開了距離。\n開始感到疲憊。"
+      }
+    ]
+  },
+  {
+    "id": "callback_underground_network_member_consequence",
+    "title": "地下網絡的代價",
+    "description": "加入非正式網絡，已經是兩個月前的事。\n今天，裡頭有人提出了要求。\n那是個就算想離開，也沒那麼容易抽身的結構。",
+    "choices": [
+      {
+        "text": "拒絕要求，離開這裡",
+        "result_text": "拒絕了。\n要離開，並不容易。"
+      },
+      {
+        "text": "就做這一次",
+        "result_text": "做了。\n卻沒有只到這一次就結束。"
+      }
+    ]
+  }
+]

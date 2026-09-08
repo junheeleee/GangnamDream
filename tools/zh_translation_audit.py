@@ -280,7 +280,7 @@ CALLBACK_COUNTER_KINDS = frozenset({
     "first_meal_people_pair", "recalled_one_plus_one_offer", "promoted_each_greeting",
     "headhunter_meeting_invitation", "retrospective_choice_pair",
     "kept_envelope_elapsed_months", "tipsheet_win_count", "tipsheet_loss_count",
-    "tentative_greeting_once",
+    "tentative_greeting_once", "former_ceo_success", "callback_lotto_prize_rank",
 })
 LIFE_SCENE_COUNTER_KINDS = WORK_SCENE_COUNTER_KINDS | SPENDING_SCENE_COUNTER_KINDS | FAMILY_SCENE_COUNTER_KINDS | MEDIA_SCENE_COUNTER_KINDS | HIDDEN_SCENE_COUNTER_KINDS | PROLOGUE_COUNTER_KINDS | DRAMA_COUNTER_KINDS | CREATOR_COUNTER_KINDS | DAILY_MOMENT_COUNTER_KINDS | SOCIAL_COST_COUNTER_KINDS | CALLBACK_COUNTER_KINDS | frozenset({
     "remaining_four_month", "job_posting_count", "egg_count", "task_count",
@@ -441,11 +441,18 @@ TARGET_RHETORICAL_WON = re.compile(r"(?:每一|任何)(?:韩元|韓元)")
 CATALOG_APPROXIMATE_WON = (
     (re.compile(r"(?<![가-힣])몇백만원|(?<=입문 비용만 )수백(?=\.)"), re.compile(r"[幾几數数]百[萬万](?:韩元|韓元)")),
     (re.compile(r"(?<=예단만 )수천만|(?<=오늘 )수천만원(?=을 지켰다\.)"), re.compile(r"[幾几數数]千[萬万](?:韩元|韓元)")),
-    (re.compile(r"(?<![가-힣])억대(?= 계약|지만, 실패하면 백수다\.)"), re.compile(r"(?:上[亿億]|[数數][亿億])(?:韩元|韓元)")),
+    (re.compile(r"(?<![가-힣])억대(?= 계약|지만, 실패하면 백수다\.)|(?<=^첫 번째로 할 일로 보험 가입을 메모했다\.\n몇만원짜리 보험이 )수억(?=을 지켰다\.$)"), re.compile(r"(?:上[亿億]|[数數][亿億])(?:韩元|韓元)")),
     (re.compile(r"(?<=자산 )수십억(?=이라고 했다\.)"), re.compile(r"[幾几數数]十[亿億](?:韩元|韓元)")),
     (re.compile(r"(?<![가-힣])수백억(?= EXIT)"), re.compile(r"[数數]百[亿億](?:韩元|韓元)")),
     (re.compile(r"(?<![가-힣])수조원(?= 빅딜)"), re.compile(r"[数數](?:万亿|萬億|兆)(?:韩元|韓元)")),
 )
+SOURCE_INSURANCE_SAVED_PAIR = "첫 번째로 할 일로 보험 가입을 메모했다.\n몇만원짜리 보험이 수억을 지켰다."
+SOURCE_FORMER_CEO_SUCCESS = '한번 잘 나가다 부도가 났던 CEO를 만났던 게 두 달 전이다.\n그 이후에도 연락을 이어갔다.\n오늘 그분이 먼저 연락을 해왔다.\n"요즘 어때? 고민 있으면 말해."'
+SOURCE_LOTTO_CALLBACK_RANK = frozenset({
+    "5등 당첨 이후",
+    "로또 5등에 당첨됐던 게 한 달 전이다.\n당첨금 5천원.\n오늘 또 로또를 샀다.",
+    "5장을 샀다.\n전부 꽝이었다.\n5등 당첨이 — 5장을 더 사게 했다.",
+})
 KOREAN_UNIT_AMOUNT = re.compile(
     r"(?<![가-힣])(?P<number>\d[\d,.]*)\s*"
     r"(?P<units>천만|천|만|억)"
@@ -1675,6 +1682,15 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
         # This exact leaf has no quantities: 지워 둘 is the auxiliary 두다.
         return []
     quantities: list[CounterQuantity] = []
+    # Here 한번 is former success, not a numeric count of successful ventures.
+    if source == SOURCE_FORMER_CEO_SUCCESS:
+        quantities.append(CounterQuantity(0, 2, Decimal(1), "former_ceo_success"))
+    # Preserve this lottery rank independently of its purchase-sheet counts.
+    # Money is masked before counter collection, so compare the same masked
+    # source shape without licensing arbitrary occurrences of 5등.
+    if "5등" in source and any(source == _mask_spans(raw, _source_money_amounts(raw)) for raw in SOURCE_LOTTO_CALLBACK_RANK):
+        start = source.index("5등")
+        quantities.append(CounterQuantity(start, start + 2, Decimal(5), "callback_lotto_prize_rank"))
     quantities.extend(_source_audience_quantities(source))
     # The first shared meal, distributive greeting, and two retrospective
     # choices own their complete predicates, not every bare 둘/한 명 in prose.
@@ -2203,6 +2219,10 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
 def _target_pattern_for_kind(kind: str) -> re.Pattern[str]:
     # The broad witnesses include observed wrong units/actions, so an invalid
     # first clause cannot borrow a later correct number of the same kind.
+    if kind == "former_ceo_success":
+        return re.compile(rf"(?P<past>曾[經经]|一度)|(?P<number>{CHINESE_CARDINAL})(?P<callback_unit>次|年|公里)")
+    if kind == "callback_lotto_prize_rank":
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})(?P<callback_unit>等?[獎奖]|次|年|公里)")
     if kind == "tentative_greeting_once":
         return re.compile(rf"打(?P<state>了|[過过])?(?P<sign>[+＋−﹣－負负-])?\s*(?P<number>{CHINESE_CARDINAL})?(?P<callback_unit>[個个次]|年|公里)(?=招呼)")
     if kind in {"tipsheet_win_count", "tipsheet_loss_count"}:
@@ -2791,6 +2811,18 @@ def _callback_quantity_valid(kind: str, match: re.Match[str], target: str) -> bo
     if fields.get("sign") or re.search(r"(?:不(?:是)?|沒(?:有)?|没(?:有)?)\s*$", before):
         return False
     unit = fields.get("callback_unit")
+    if kind == "former_ceo_success":
+        return bool(fields.get("past")) and before in {"认识那位", "認識那位"} \
+            and bool(re.match(r"[風风]光(?:一[時时])?[、，,](?:後來|后来)破[產产]的\s*CEO[，,]", after))
+    if kind == "callback_lotto_prize_rank":
+        if unit not in {"等獎", "等奖", "獎", "奖"}:
+            return False
+        if before in {"中", "中了"} and after in {"之后", "之後"}:
+            return True
+        if before in {"中乐透", "樂透中了"} and re.match(r"，(?:已[經经])?是(?:一|1)[個个]月前的事。\n", after):
+            return True
+        return bool(re.fullmatch(rf"[買买]了{CHINESE_CARDINAL}[張张]。\n(?:全都|全部)[沒没]中。\n(?:那次|中了)", before)) \
+            and bool(re.fullmatch(rf"——[讓让](?:人|我)又多[買买]了{CHINESE_CARDINAL}[張张]。", after))
     if kind == "tentative_greeting_once":
         return not fields.get("state") and unit in {"個", "个", "次"} \
             and before in {"要不，还是", "要不要試著", "要不要试着"} \
@@ -3479,6 +3511,8 @@ def _match_target_counter_quantities(
                 # 一眼 is a glance after a seeing verb, not one physical eye.
                 continue
             value = _chinese_cardinal_value(match.group("number") or "")
+            if expected.kind == "former_ceo_success" and match.groupdict().get("past"):
+                value = Decimal(1)
             if expected.kind in {"leverage_trap_condition", "gray_entry_condition"} and match.groupdict().get("conditional"):
                 value = Decimal(1)
             if expected.kind == "shared_coin_loss_pair" and match.groupdict().get("implicit"):
@@ -4000,7 +4034,16 @@ def _numeric_errors(source: str, target: str) -> list[str]:
             if witness.group("unit") not in {"韓元", "韩元"}:
                 errors.append("callback saved-money magnitude unit changed")
     source_magnitude_order, target_magnitude_order = [], []
-    for magnitude_index, (source_pattern, target_pattern) in enumerate(CATALOG_APPROXIMATE_WON):
+    magnitude_patterns = CATALOG_APPROXIMATE_WON
+    if source == SOURCE_INSURANCE_SAVED_PAIR:
+        # Only this insured-cost/saved-principal pair owns a few ten-thousand
+        # won label. Other sources do not gain a generic approximate-money pass.
+        magnitude_patterns += ((re.compile("몇만원"), re.compile(r"[幾几數数][萬万][韓韩]元")),)
+        lines = target.split("\n")
+        if len(lines) != 2 or not re.fullmatch(
+                r"[幾几數数][萬万][韓韩]元的保[險险][，,](?:保住了|守住了)[數数][億亿][韓韩]元。", lines[-1]):
+            errors.append("insurance cost/saved-principal magnitude roles or state changed")
+    for magnitude_index, (source_pattern, target_pattern) in enumerate(magnitude_patterns):
         source_matches = list(source_pattern.finditer(source))
         target_matches = list(target_pattern.finditer(target))
         if drama_magnitude:
@@ -4151,7 +4194,7 @@ def _korean_money_units(source: str) -> set[str]:
 def _money_errors(lang: str, source: str, target: str) -> list[str]:
     errors: list[str] = []
     currency_probe = SOURCE_WANTS_PARTICLE.sub(lambda m: " " * len(m.group()), source)
-    has_won = bool(KOREAN_WON.search(currency_probe) or _source_money_amounts(source)
+    has_won = bool(KOREAN_WON.search(currency_probe) or _source_money_amounts(source) or source == SOURCE_INSURANCE_SAVED_PAIR
                    or any(pattern.search(source) for pattern, _ in CATALOG_APPROXIMATE_WON))
     expected = REGIONAL_TERMS[lang]["won"]
     wrong_region = REGIONAL_TERMS["zh-TW" if lang == "zh-CN" else "zh-CN"]["won"]
@@ -5924,6 +5967,95 @@ def _drama_parser_self_test() -> tuple[int, list[str]]:
     return cases, failures
 
 
+def _family_recovery_callback_parser_self_test() -> tuple[int, list[str]]:
+    """Three observed contexts, with finite value/role/source-bound witnesses."""
+    cases, failures = 0, []
+
+    def check(lang: str, source: str, target: str, valid: bool) -> None:
+        nonlocal cases
+        cases += 1
+        # Numeric/currency diagnostics must own a rejection; a region-script
+        # error in a mutation is not evidence that quantity meaning survived.
+        errors = _numeric_errors(source, target) + _money_errors(lang, source, target)
+        if bool(errors) == valid:
+            failures.append(f"family recovery expected valid={valid}: {source!r} -> {target!r}: {errors}")
+
+    insurance_rows = (
+        ("zh-CN", "在备忘录里，把买保险列为第一件要做的事。\n几万韩元的保险，保住了数亿韩元。", "几万韩元", "数亿韩元", "保住了"),
+        ("zh-TW", "把投保記為第一件要做的事。\n幾萬韓元的保險，守住了數億韓元。", "幾萬韓元", "數億韓元", "守住了"),
+    )
+    for lang, normal, cost, saved, state in insurance_rows:
+        check(lang, SOURCE_INSURANCE_SAVED_PAIR, normal, True)
+        for changed in (
+            normal.replace(cost, "數百萬韓元"), normal.replace(saved, "數千萬韓元"),
+            normal.replace(cost, saved).replace(state + saved, state + cost),
+            normal.replace(cost, "3萬韓元"), normal.replace(saved, "1億韓元"),
+            normal.replace(cost, "−" + cost), normal.replace(saved, "+" + saved),
+            normal.replace(cost, "幾萬公斤"), normal.replace(saved, "數億公里"),
+            normal.replace(saved, saved + "/月"), normal.replace(cost, cost + "%"),
+            normal.replace(state, "沒有" + state), normal.replace(state, "預計保住"),
+            normal.replace(cost, ""), normal.replace(saved, ""),
+            normal.replace("\n", " "),
+            normal.replace(saved, "數億公里") + "\n" + normal,
+        ):
+            check(lang, SOURCE_INSURANCE_SAVED_PAIR, changed, False)
+        for source in (
+            SOURCE_INSURANCE_SAVED_PAIR.replace("몇만원", "몇백만원"),
+            SOURCE_INSURANCE_SAVED_PAIR.replace("수억", "수천만원"),
+            SOURCE_INSURANCE_SAVED_PAIR.replace("지켰다", "잃었다"),
+        ):
+            check(lang, source, normal, False)
+
+    for lang, normal, past in (
+        ("zh-CN", '认识那位曾经风光、后来破产的CEO，是两个月前的事。\n之后也一直保持着联系。\n今天，他主动联系了我。\n“最近怎么样？有什么烦恼，就说说。”', "曾经"),
+        ("zh-TW", '認識那位曾經風光一時、後來破產的 CEO，已經是兩個月前的事。\n之後也一直保持聯絡。\n今天，對方主動聯絡了我。\n「最近怎麼樣？有煩惱就說。」', "曾經"),
+    ):
+        check(lang, SOURCE_FORMER_CEO_SUCCESS, normal, True)
+        check(lang, SOURCE_FORMER_CEO_SUCCESS, normal.replace(past, "一度"), True)
+        for bad in ("兩次", "一次", "三年", "一公里", "−" + past, "+" + past, "從未", "現在", "將會", "", "沒有" + past):
+            check(lang, SOURCE_FORMER_CEO_SUCCESS, normal.replace(past, bad), False)
+        check(lang, SOURCE_FORMER_CEO_SUCCESS, normal.replace(past, "一公里") + "\n" + normal, False)
+        check(lang, SOURCE_FORMER_CEO_SUCCESS, normal.replace("风光、后来破产", "破产、后来风光").replace("風光一時、後來破產", "破產、後來風光"), False)
+        check(lang, SOURCE_FORMER_CEO_SUCCESS, normal.replace(past, "\n" + past), False)
+        check(lang, SOURCE_FORMER_CEO_SUCCESS.replace("한번", "두 번"), normal, False)
+
+    title = "5등 당첨 이후"
+    description = "로또 5등에 당첨됐던 게 한 달 전이다.\n당첨금 5천원.\n오늘 또 로또를 샀다."
+    result = "5장을 샀다.\n전부 꽝이었다.\n5등 당첨이 — 5장을 더 사게 했다."
+    for lang, source, normal, rank in (
+        ("zh-CN", title, "中五等奖之后", "五等奖"),
+        ("zh-TW", title, "中了五獎之後", "五獎"),
+        ("zh-CN", description, "中乐透五等奖，是一个月前的事。\n奖金五千韩元。\n今天又买了乐透彩票。", "五等奖"),
+        ("zh-TW", description, "樂透中了五獎，已經是一個月前的事。\n獎金是5000韓元。\n今天，又買了樂透。", "五獎"),
+        ("zh-CN", result, "买了5张。\n全都没中。\n那次五等奖——让人又多买了5张。", "五等奖"),
+        ("zh-TW", result, "買了5張。\n全部沒中。\n中了五獎——讓我又多買了5張。", "五獎"),
+    ):
+        check(lang, source, normal, True)
+        check(lang, source, normal.replace(rank, rank.replace("五", "5")), True)
+        for bad in (rank.replace("五", "四"), rank.replace("五", "六"), "−" + rank, "+" + rank, "五公里", "五次", "五張", ""):
+            check(lang, source, normal.replace(rank, bad), False)
+        check(lang, source, normal.replace(rank, "沒有" + rank), False)
+        check(lang, source, normal.replace(rank, "五公里") + normal, False)
+        check(lang, source.replace("5등", "4등"), normal, False)
+        if source == result:
+            check(lang, source, normal.replace("5", "4", 1), False)
+            check(lang, source, normal.rsplit("5", 1)[0] + "4" + normal.rsplit("5", 1)[1], False)
+            check(lang, source, normal.replace("\n", " ", 1), False)
+            check(lang, source, normal.replace("全都没中", "全都中了").replace("全部沒中", "全部中了"), False)
+    for source, kind in (
+        (SOURCE_FORMER_CEO_SUCCESS.replace("한번 잘 나가다", "한번 실패하다"), "former_ceo_success"),
+        (SOURCE_FORMER_CEO_SUCCESS.replace("CEO", "직원"), "former_ceo_success"),
+        ("한번 잘 나갔다.", "former_ceo_success"),
+        ("5등 학생을 만났다.", "callback_lotto_prize_rank"),
+        ("5명을 만났다.", "callback_lotto_prize_rank"),
+        ("메모를 읽었다.", "callback_lotto_prize_rank"),
+    ):
+        cases += 1
+        if any(q.kind == kind for q in _source_counter_quantities(source)):
+            failures.append(f"family recovery source license escaped: {kind}: {source!r}")
+    return cases, failures
+
+
 def _followup_outcome_parser_self_test() -> tuple[int, list[str]]:
     """Five observed follow-up surfaces, with finite owned-boundary witnesses."""
     deletion = "누가 확실하다고 했는지보다 계약서가 무엇을 보장하지 않았는지 표시했다. 되돌릴 돈은 없었지만 다음 계약에서 지워 둘 문장은 생겼다."
@@ -6961,6 +7093,9 @@ def run_self_test(
     followup_outcome_cases, followup_outcome_failures = _followup_outcome_parser_self_test()
     cases += followup_outcome_cases
     failures.extend(followup_outcome_failures)
+    family_recovery_cases, family_recovery_failures = _family_recovery_callback_parser_self_test()
+    cases += family_recovery_cases
+    failures.extend(family_recovery_failures)
 
     # Exact Korean-source catalogue names are not permission for unrelated
     # English prose or for deleting the noun around an allowed brand token.

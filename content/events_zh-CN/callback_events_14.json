@@ -1,0 +1,136 @@
+[
+  {
+    "id": "callback_usb_reported_to_company_echo",
+    "title": "举报之后",
+    "description": "向公司举报内部违规行为，是两个月前的事。\n今天，人事部门联系了我。\n“想向您告知处理结果。”",
+    "choices": [
+      {"text": "听处理结果", "result_text": "那名员工受到了处分。\n听到了“感谢您的举报”。\n做了对的事，得到认可——并不是每次都能如此。"},
+      {"text": "等了通知结果的短信", "result_text": "确认了结果。\n有些东西变了。"}
+    ]
+  },
+  {
+    "id": "callback_stayed_clean_echo",
+    "title": "坚持不沾污的选择",
+    "description": "面对诱惑，还是坚持没让自己沾污，是三个月前的事。\n今天回过头想了想——那个选择是否正确。\n听说当时诱惑自己的那一方，最近出了问题。",
+    "choices": [
+      {"text": "觉得当时坚持得对", "result_text": "当时坚持下来是对的。\n保持干净——不是失去机会，而是在等更好的机会。"},
+      {"text": "觉得也许运气不错", "result_text": "也有运气的成分。\n但那份运气——是因为坚持住了，才成了运气。"}
+    ]
+  },
+  {
+    "id": "callback_was_compromised_consequence",
+    "title": "妥协的代价",
+    "description": "越过那条线，是两个月前的事。\n当时觉得别无选择。\n今天，那个选择回到了面前。",
+    "choices": [
+      {"text": "找了补救的办法", "result_text": "试着补救了。\n却很难完全挽回。"},
+      {"text": "决定承认，并纠正过来", "result_text": "承认了。\n对方说：“能坦白说出来，总归好些。”"}
+    ]
+  },
+  {
+    "id": "callback_formal_complaint_filed_echo",
+    "title": "正式投诉之后",
+    "description": "以书面形式向人事部门提出问题后，收到了回复。",
+    "choices": [
+      {"text": "读了结果通知", "result_text": "人事部门的回复里写着“正在核实相关事实”。\n文件最下方，留下了受理编号和负责人的名字。"}
+    ]
+  },
+  {
+    "id": "callback_holdem_regular_echo",
+    "title": "成了德州扑克酒吧的常客",
+    "description": "成为德州扑克酒吧的常客，已经三个月了。\n今天，一个陌生号码打来了电话。\n“请问，您是经常来OO德州扑克酒吧的那位吧？”",
+    "choices": [
+      {"text": "“对，是我。有什么事吗？”", "result_text": "是来邀请参加比赛的。\n成了常客——便有了新的机会。"},
+      {"text": "警惕地问：“您是怎么知道我联系方式的？”", "result_text": "保持着警惕。\n对方说：“酒吧老板告诉我的。”\n警惕并不是坏事。"}
+    ]
+  },
+  {
+    "id": "callback_holdem_rule_made_echo",
+    "title": "定下规则之后",
+    "description": "给自己定下不碰德州扑克的规则，是两个月前的事。\n今天，从德州扑克酒吧门前经过。\n有那么一会儿，想走进去。",
+    "choices": [
+      {"text": "就这样走过去", "result_text": "走了过去。\n如果没有那条规则——就会进去了。\n规则，就是要在冲动出现时守住的。"},
+      {"text": "就一次，应该没事吧", "result_text": "走了进去。\n两小时过去了。\n规则被打破了。"}
+    ]
+  },
+  {
+    "id": "callback_holdem_knew_limit_echo",
+    "title": "知道自己的限度",
+    "description": "玩德州扑克时，认清自己的限度，就此收手，是一个月前的事。\n今天，当时一起玩的人联系了我。\n“您那时候停下来了吧。能做到这点，很了不起。”",
+    "choices": [
+      {"text": "“没什么了不起的。只是有条规则。”", "result_text": "说了句：“只是事先给自己定好了。”\n对方说：“这就很了不起了。”"},
+      {"text": "“是吗？只是那天运气不好而已。”", "result_text": "说了句：“因为运气不好。”\n对方说：“……您这么说，反倒更让人害怕。”"}
+    ]
+  },
+  {
+    "id": "callback_lotto_5th_prize_echo",
+    "title": "中五等奖之后",
+    "description": "中乐透五等奖，是一个月前的事。\n奖金五千韩元。\n今天又买了乐透彩票。",
+    "choices": [
+      {"text": "只买1张。别养成习惯。", "result_text": "买了1张。\n五千韩元带来了一千韩元的收益。\n1张，就是定下的限度。"},
+      {"text": "这次要不要多买点", "result_text": "买了5张。\n全都没中。\n那次五等奖——让人又多买了5张。"}
+    ]
+  },
+  {
+    "id": "callback_won_lottery_small_echo",
+    "title": "中了小奖之后",
+    "description": "彩票中了笔小奖，是两个月前的事。\n当时很开心。\n今天想了想，那笔钱去了哪里。",
+    "choices": [
+      {"text": "存进了积蓄里", "result_text": "存起来了。\n现在，那个数字还在。"},
+      {"text": "记不清了。大概花在什么地方了吧", "result_text": "记不起来。\n花在了什么地方。\n那笔小奖金——就这么流走了，连记忆也没留下。"}
+    ]
+  },
+  {
+    "id": "callback_received_orthodox_award_echo",
+    "title": "受表彰之后",
+    "description": "靠正统的做事方式获得表彰，是两个月前的事。\n今天，团队开会时，有人提起了那件事。",
+    "choices": [
+      {"text": "平静地接受", "result_text": "只说了句“谢谢”。\n有人说：“其实，那才是最难的吧。”"},
+      {"text": "说了句“我只是做了工作而已”", "result_text": "说了句：“就是做了工作嘛。”\n对方笑了。"}
+    ]
+  },
+  {
+    "id": "callback_bankrupt_ceo_mentor_echo",
+    "title": "成为导师的那个人",
+    "description": "认识那位曾经风光、后来破产的CEO，是两个月前的事。\n之后也一直保持着联系。\n今天，他主动联系了我。\n“最近怎么样？有什么烦恼，就说说。”",
+    "choices": [
+      {"text": "坦诚地说出最近的烦恼", "result_text": "聊了一个小时。\n他说：“我要是那时也做了那个选择，或许就不一样了。”"},
+      {"text": "说“我过得挺好的”", "result_text": "说了句：“我过得挺好的。”\n他说：“嗯，那就好。”"}
+    ]
+  },
+  {
+    "id": "callback_mindset_founder_echo",
+    "title": "创业者思维带来的结果",
+    "description": "决定像创业者一样思考，是三个月前的事。\n今天开会时——那种思考方式显露了出来。",
+    "choices": [
+      {"text": "从那个角度提出建议", "result_text": "提出了建议。\n组长问：“这个想法是怎么来的？”\n像创业者一样思考——在会议桌上显现了出来。"},
+      {"text": "静静地听", "result_text": "静静地听着。\n看见了若没有那个视角，就会忽略的要点。"}
+    ]
+  },
+  {
+    "id": "callback_tried_to_withdraw_result",
+    "title": "曾试着抽身",
+    "description": "试着从那段关系里抽身，是两个月前的事。\n并不容易。\n今天，梳理了一下结果。",
+    "choices": [
+      {"text": "抽身了——太好了", "result_text": "出来了。\n原本沉重的东西，轻了。\n离开一段关系——有时并不是逃跑。"},
+      {"text": "还没能完全抽身", "result_text": "还没能完全出来。\n是有原因的。"}
+    ]
+  },
+  {
+    "id": "callback_joined_victims_echo",
+    "title": "加入受害者团体之后",
+    "description": "加入受害者团体，是两个月前的事。\n今天，团体分享了集体诉讼的进展。",
+    "choices": [
+      {"text": "继续和大家一起走下去", "result_text": "诉讼还在进行中。\n如果只有自己一个人，就会放弃了。"},
+      {"text": "太耗精力了。拉开些距离", "result_text": "拉开了距离。\n开始感到疲惫。"}
+    ]
+  },
+  {
+    "id": "callback_underground_network_member_consequence",
+    "title": "地下人脉网的代价",
+    "description": "加入那个非正式的人脉圈，是两个月前的事。\n今天，圈内有人提出了要求。\n那是个即使想走，也很难轻易离开的结构。",
+    "choices": [
+      {"text": "拒绝要求，然后离开", "result_text": "拒绝了。\n想离开并不容易。"},
+      {"text": "就做这一次", "result_text": "做了。\n却并没有到这一次就结束。"}
+    ]
+  }
+]
