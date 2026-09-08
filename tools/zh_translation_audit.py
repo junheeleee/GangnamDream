@@ -279,6 +279,8 @@ CALLBACK_COUNTER_KINDS = frozenset({
     "additional_investment_review_count",
     "first_meal_people_pair", "recalled_one_plus_one_offer", "promoted_each_greeting",
     "headhunter_meeting_invitation", "retrospective_choice_pair",
+    "kept_envelope_elapsed_months", "tipsheet_win_count", "tipsheet_loss_count",
+    "tentative_greeting_once",
 })
 LIFE_SCENE_COUNTER_KINDS = WORK_SCENE_COUNTER_KINDS | SPENDING_SCENE_COUNTER_KINDS | FAMILY_SCENE_COUNTER_KINDS | MEDIA_SCENE_COUNTER_KINDS | HIDDEN_SCENE_COUNTER_KINDS | PROLOGUE_COUNTER_KINDS | DRAMA_COUNTER_KINDS | CREATOR_COUNTER_KINDS | DAILY_MOMENT_COUNTER_KINDS | SOCIAL_COST_COUNTER_KINDS | CALLBACK_COUNTER_KINDS | frozenset({
     "remaining_four_month", "job_posting_count", "egg_count", "task_count",
@@ -1351,6 +1353,8 @@ def _source_counter_kind(
         return "mirror_glance"
     if counter == "번" and preceding.endswith("강남 ") and following.startswith("가보겠다고 했는데."):
         return "gangnam_attempt"
+    if counter == "번" and source == "한 번 인사라도 해볼까":
+        return "tentative_greeting_once"
     if counter == "번" and preceding.endswith("지하 ") and following == "출구":
         return "underground_exit"
     if counter == "달" and preceding.endswith("생각해보니 ") and following.startswith("이 넘었다"):
@@ -1667,6 +1671,9 @@ def _source_audience_quantities(source: str) -> list[CounterQuantity]:
 
 
 def _source_counter_quantities(source: str) -> list[CounterQuantity]:
+    if source == "누가 확실하다고 했는지보다 계약서가 무엇을 보장하지 않았는지 표시했다. 되돌릴 돈은 없었지만 다음 계약에서 지워 둘 문장은 생겼다.":
+        # This exact leaf has no quantities: 지워 둘 is the auxiliary 두다.
+        return []
     quantities: list[CounterQuantity] = []
     quantities.extend(_source_audience_quantities(source))
     # The first shared meal, distributive greeting, and two retrospective
@@ -1970,6 +1977,14 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
             quantities.append(CounterQuantity(match.start(group), match.end(group) + 1, Decimal(match.group(group)), kind))
     for match in re.finditer(r"(?<=대포통장에 손댔다가 빠져나온 지 )넉 달(?=이 됐다\.)", source):
         quantities.append(CounterQuantity(match.start(), match.end(), Decimal(4), "escaped_elapsed_months"))
+    if source == "봉투를 돌려주지 않고 가진 게 넉 달이 됐다.\n오늘 길에서 비슷하게 생긴 봉투를 봤다.\n그냥 스쳐지나가는 봉투인데 — 그때 생각이 났다.":
+        start = source.index("넉 달")
+        quantities.append(CounterQuantity(start, start + len("넉 달"), Decimal(4), "kept_envelope_elapsed_months"))
+    # This is a paid newsletter's three-month return record, not the earlier
+    # racetrack record. Keep wins and losses separately owned and in order.
+    for match in re.finditer(r"^3개월 결과: (?P<wins>\d+)승 (?P<losses>\d+)패\.(?=\n구독료 포함하면 마이너스였다\.\n정보를 파는 사람은 정보로 돈 버는 게 아니라 구독료로 돈 번다\.\n그 차이를 이제 알았다\.$)", source):
+        for group, kind in (("wins", "tipsheet_win_count"), ("losses", "tipsheet_loss_count")):
+            quantities.append(CounterQuantity(match.start(group), match.end(group) + 1, Decimal(match.group(group)), kind))
     for match in SOURCE_HALF_PYEONG.finditer(source):
         value = _decimal_value(match.group("number"))
         if value is not None:
@@ -2188,6 +2203,12 @@ def _source_counter_quantities(source: str) -> list[CounterQuantity]:
 def _target_pattern_for_kind(kind: str) -> re.Pattern[str]:
     # The broad witnesses include observed wrong units/actions, so an invalid
     # first clause cannot borrow a later correct number of the same kind.
+    if kind == "tentative_greeting_once":
+        return re.compile(rf"打(?P<state>了|[過过])?(?P<sign>[+＋−﹣－負负-])?\s*(?P<number>{CHINESE_CARDINAL})?(?P<callback_unit>[個个次]|年|公里)(?=招呼)")
+    if kind in {"tipsheet_win_count", "tipsheet_loss_count"}:
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})\s*(?P<callback_unit>勝|胜|敗|败|負|负|年|公里)")
+    if kind == "kept_envelope_elapsed_months":
+        return re.compile(rf"(?P<state>已[經经]|[還还]有)(?P<bound>不到|超過|超过|至少|大約|大约)?(?P<sign>[+＋−﹣－負负-])?\s*(?P<number>{CHINESE_CARDINAL})(?P<callback_unit>[個个]月|年|天|秒|公里)")
     if kind == "first_meal_people_pair":
         return re.compile(rf"(?P<number>{CHINESE_CARDINAL})\s*(?P<callback_unit>[個个]?人|年|公里)")
     if kind == "recalled_one_plus_one_offer":
@@ -2498,7 +2519,7 @@ def _target_pattern_for_kind(kind: str) -> re.Pattern[str]:
     if kind == "rental_home_ordinal":
         return re.compile(rf"第(?P<number>{CHINESE_CARDINAL})(?:(?:套|[間间])房(?=\s*(?:$|[，。！？、：；,.!?;:」』）)]|的(?:租[約约]|合同)))|[間间]的租[約约])")
     if kind == "gangnam_attempt":
-        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})次|[闖闯](?P<once>一)[闖闯]")
+        return re.compile(rf"(?P<number>{CHINESE_CARDINAL})(?P<attempt_unit>次|回|年|公里)|[闖闯](?P<once>一)[闖闯]")
     if kind == "work_cup_range":
         return re.compile(rf"(?P<number>{CHINESE_CARDINAL})(?:[~～至到-](?P<upper>{CHINESE_CARDINAL}))?(?P<work_unit>杯|罐|瓶|年)")
     if kind == "coworker_count":
@@ -2770,6 +2791,23 @@ def _callback_quantity_valid(kind: str, match: re.Match[str], target: str) -> bo
     if fields.get("sign") or re.search(r"(?:不(?:是)?|沒(?:有)?|没(?:有)?)\s*$", before):
         return False
     unit = fields.get("callback_unit")
+    if kind == "tentative_greeting_once":
+        return not fields.get("state") and unit in {"個", "个", "次"} \
+            and before in {"要不，还是", "要不要試著", "要不要试着"} \
+            and after in {"招呼", "招呼呢", "招呼呢？", "招呼？"}
+    if kind == "kept_envelope_elapsed_months":
+        return not fields.get("bound") and fields.get("state") in {"已經", "已经"} \
+            and unit in {"個月", "个月"} \
+            and before in {"没把信封还回去，留在自己手里", "沒有歸還，而是把信封留在手裡，"} \
+            and after.startswith("了。\n")
+    if kind == "tipsheet_win_count":
+        return unit in {"勝", "胜"} \
+            and bool(re.fullmatch(rf"{CHINESE_CARDINAL}[個个]月的[結结]果[：:]", before)) \
+            and bool(re.match(rf"\s*{CHINESE_CARDINAL}\s*[敗败負负]。\n", after))
+    if kind == "tipsheet_loss_count":
+        return unit in {"敗", "败", "負", "负"} \
+            and bool(re.fullmatch(rf"{CHINESE_CARDINAL}[個个]月的[結结]果[：:]{CHINESE_CARDINAL}\s*[勝胜]\s*", before)) \
+            and after.startswith("。\n")
     if kind in {"first_meal_people_pair", "recalled_one_plus_one_offer", "promoted_each_greeting", "headhunter_meeting_invitation", "retrospective_choice_pair"}:
         # Only horizontal presentation spacing is immaterial; the source's
         # paragraph and quoted-action positions remain part of each contract.
@@ -3326,6 +3364,13 @@ def _match_target_counter_quantities(
                     r"江南(?:[闖闯])?\s*$", target[max(0, match.start() - 12):match.start()],
                 ):
                     continue
+                if expected.kind == "gangnam_attempt" and match.groupdict().get("attempt_unit"):
+                    if match.group("attempt_unit") not in {"次", "回"}:
+                        continue
+                    if match.group("attempt_unit") == "回" and not re.search(
+                        r"(?:也說過要去|也说过要去)江南$", target[:match.start()],
+                    ):
+                        continue  # 回 is the recalled intention, not a completed trip.
             if expected.kind == 'laughter_once' and not (
                 re.search(r'(?:5|五)年(?:的份|份的笑)\s*$', target[max(0, match.start() - 20):match.start()])
                 or re.match(r'笑[盡尽](?:了)?(?:5|五)年', target[match.end():])
@@ -3440,7 +3485,7 @@ def _match_target_counter_quantities(
                 value = Decimal(2)
             if expected.kind in {"callback_dinner_invitation", "warned_victim_meal_invitation"} and not match.group("number"):
                 value = Decimal(1)
-            if expected.kind in {"promoted_each_greeting", "headhunter_meeting_invitation", "recalled_one_plus_one_offer"} and not match.group("number"):
+            if expected.kind in {"promoted_each_greeting", "headhunter_meeting_invitation", "recalled_one_plus_one_offer", "tentative_greeting_once"} and not match.group("number"):
                 value = Decimal(1)
             if expected.kind in SOCIAL_COST_COUNTER_KINDS and (not match.group("number") or expected.kind == "golf_round_fee_range"):
                 value = Decimal(1)
@@ -3928,6 +3973,9 @@ def _has_numeric_sign_prefix(text: str, start: int) -> bool:
 
 def _numeric_errors(source: str, target: str) -> list[str]:
     errors: list[str] = []
+    if source == "누가 확실하다고 했는지보다 계약서가 무엇을 보장하지 않았는지 표시했다. 되돌릴 돈은 없었지만 다음 계약에서 지워 둘 문장은 생겼다." \
+            and _target_pattern_for_kind("line").search(target):
+        errors.append("prospective deletion invented a sentence count")
     if re.search(r"\d{1,2}[:：]\d{2}", source):
         for timecode in re.finditer(r"(?<!\d)\d{1,2}[:：]\d{2}(?!\d)", target):
             if _has_numeric_sign_prefix(target, timecode.start()):
@@ -5876,6 +5924,105 @@ def _drama_parser_self_test() -> tuple[int, list[str]]:
     return cases, failures
 
 
+def _followup_outcome_parser_self_test() -> tuple[int, list[str]]:
+    """Five observed follow-up surfaces, with finite owned-boundary witnesses."""
+    deletion = "누가 확실하다고 했는지보다 계약서가 무엇을 보장하지 않았는지 표시했다. 되돌릴 돈은 없었지만 다음 계약에서 지워 둘 문장은 생겼다."
+    envelope = "봉투를 돌려주지 않고 가진 게 넉 달이 됐다.\n오늘 길에서 비슷하게 생긴 봉투를 봤다.\n그냥 스쳐지나가는 봉투인데 — 그때 생각이 났다."
+    driver = '밤늦게 탄 택시 기사 아저씨가 했던 이야기.\n"나도 젊었을 때 강남 한번 가보겠다고 했는데."\n그 말이 오늘 어려운 결정 앞에서 다시 떠올랐다.'
+    score = "3개월 결과: 2승 3패.\n구독료 포함하면 마이너스였다.\n정보를 파는 사람은 정보로 돈 버는 게 아니라 구독료로 돈 번다.\n그 차이를 이제 알았다."
+    greeting = "한 번 인사라도 해볼까"
+    cases, failures = 0, []
+
+    def check(source: str, target: str, valid: bool) -> None:
+        nonlocal cases
+        cases += 1
+        errors = _numeric_errors(source, target)
+        if bool(errors) == valid:
+            failures.append(f"follow-up outcome expected valid={valid}: {source!r} -> {target!r}: {errors}")
+
+    for normal, noun in (
+        ("比起谁说过万无一失，更着重标出了合同未曾保证的内容。没有能拿回来的钱，却有了下次签合同时要划掉的句子。", "句子"),
+        ("標出的不是誰曾說過一定沒問題，而是契約沒有保證什麼。已經沒有能拿回來的錢，但下一份契約裡，有了該刪掉的句子。", "句子"),
+    ):
+        check(deletion, normal, True)
+        for counted in ("一句", "兩句", "二行", "−兩句"):
+            check(deletion, normal.replace(noun, counted), False)
+        check(deletion, normal.replace(noun, "兩句") + normal, False)
+        check(deletion, normal + "另有10萬韓元。", False)
+    # The auxiliary exception must not erase an actual, explicitly counted
+    # sentence in another source, or consume its plural as a singular.
+    for source, normal, wrong in (
+        ("다음 계약에서 두 줄을 지웠다.", "刪掉了兩行。", "刪掉了一行。"),
+        ("다음 계약에서 한 줄을 지웠다.", "刪掉了一行。", "刪掉了兩行。"),
+    ):
+        check(source, normal, True)
+        check(source, wrong, False)
+    for normal, span in (
+        ("没把信封还回去，留在自己手里已经四个月了。\n今天在路上，看到了一个相似的信封。\n不过是擦身而过的信封——却想起了那时候。", "已经四个月"),
+        ("沒有歸還，而是把信封留在手裡，已經四個月了。\n今天，在路上看到了相似的信封。\n明明只是擦身而過的一只信封——卻想起了當時的事。", "已經四個月"),
+    ):
+        check(envelope, normal, True)
+        forms = ("已經三個月", "已經五個月", "已經−四個月", "已經+四個月", "已經四天", "已經四公里", "已經不到四個月", "還有四個月", "")
+        for form in forms:
+            check(envelope, normal.replace(span, form), False)
+        check(envelope, normal.replace("\n", " ", 1), False)
+        check(envelope, normal.replace("没把信封还回去，留在自己手里", "已把信封还回去，").replace("沒有歸還，而是把信封留在手裡，", "已經歸還了信封，"), False)
+        for form in (forms[0], forms[5]):
+            check(envelope, normal.replace(span, form) + "\n" + normal, False)
+    for normal, record in (
+        ("三个月的结果：两胜三负。\n算上订阅费，还是负收益。\n卖资讯的人，赚的不是资讯带来的钱，而是订阅费。\n现在才明白这其中的区别。", "两胜三负"),
+        ("3個月的結果：2勝3敗。\n連訂閱費一起算，還是虧損。\n賣資訊的人，賺的不是靠資訊投資的錢，而是訂閱費。\n現在才懂這個差別。", "2勝3敗"),
+    ):
+        check(score, normal, True)
+        for alternative in ("2勝3敗", "两胜三负", "兩勝三敗"):
+            check(score, normal.replace(record, alternative), True)
+        forms = ("一勝三敗", "兩勝四敗", "三勝兩敗", "兩敗三勝", "三敗兩勝", "−兩勝三敗", "兩勝−三敗", "+兩勝三敗", "兩公里三敗", "兩勝三年", "兩勝", "三敗", "", "預計兩勝三敗")
+        for form in forms:
+            check(score, normal.replace(record, form), False)
+        check(score, normal.replace("\n", " ", 1), False)
+        for form in (forms[2], forms[8]):
+            check(score, normal.replace(record, form) + "\n" + normal, False)
+        # Source values remain authoritative; changing the source score
+        # must not retain the old target's two wins and three losses.
+        check(score.replace("2승", "1승"), normal, False)
+        check(score.replace("3패", "4패"), normal, False)
+    for normal, counted in (
+        ("要不，还是打个招呼", "打个招呼"),
+        ("要不要試著打個招呼呢", "打個招呼"),
+    ):
+        check(greeting, normal, True)
+        forms = ("打兩個招呼", "打三次招呼", "打−個招呼", "打+個招呼", "打一年招呼", "打兩公里招呼", "打了個招呼", "打過個招呼", "不打個招呼", "")
+        for form in forms:
+            check(greeting, normal.replace(counted, form), False)
+        check(greeting, normal.replace("打", "\n打", 1), False)
+        for form in (forms[0], forms[5], forms[6]):
+            check(greeting, normal.replace(counted, form) + "，" + normal, False)
+    for normal, counted in (
+        ("那次深夜坐出租车，司机大叔说过。\n“我年轻的时候，也想着去江南闯一闯。”\n今天面对艰难的决定，那句话又浮了上来。", "闯一闯"),
+        ("那次深夜搭計程車，司機大叔說過的話。\n「我年輕時，也說過要去江南一回。」\n今天，面對一個艱難的決定，那句話又浮了上來。", "一回"),
+    ):
+        check(driver, normal, True)
+        for form in ("兩回", "−一回", "+一回", "一公里", ""):
+            check(driver, normal.replace(counted, form), False)
+        check(driver, normal.replace(counted, "兩回") + "\n" + normal, False)
+        check(driver, normal.replace(counted, "一公里") + "\n" + normal, False)
+        if counted == "一回":
+            check(driver, normal.replace("也說過要去", "已經去過"), False)
+            check(driver, normal.replace("也說過要去", "沒有要去"), False)
+    for source, kind, variants in (
+        (envelope, "kept_envelope_elapsed_months", (envelope.replace("넉 달", "다섯 달"), envelope.replace("돌려주지 않고", "돌려주고"))),
+        (score, "tipsheet_win_count", (score.replace("구독료 포함하면 마이너스였다.", "구독료 포함하면 플러스였다."), score.replace("결과:", "예상:"))),
+        (score, "tipsheet_loss_count", (score.replace("정보를 파는 사람", "선물을 파는 사람"), score.replace("3개월", "3년"))),
+        (greeting, "tentative_greeting_once", ("두 번 인사라도 해볼까", "한 번 인사했다")),
+        (driver, "gangnam_attempt", (driver.replace("가보겠다고 했는데", "갔다 왔는데"), driver.replace("강남", "부산"))),
+    ):
+        for changed in (*variants, "메모를 읽었다."):
+            cases += 1
+            if any(q.kind == kind for q in _source_counter_quantities(changed)):
+                failures.append(f"follow-up outcome source license escaped: {kind}: {changed!r}")
+    return cases, failures
+
+
 def _relationship_callback_parser_self_test() -> tuple[int, list[str]]:
     """Five observed callback forms; finite source/target boundary witnesses."""
     meal = "다은과 처음 둘이 밥을 먹었던 날.\n한 달이 지났다.\n오늘 다은에게서 카톡이 왔다.\n'민준씨. 다음 주에 혹시 시간 되세요?'"
@@ -6811,6 +6958,9 @@ def run_self_test(
     relationship_callback_cases, relationship_callback_failures = _relationship_callback_parser_self_test()
     cases += relationship_callback_cases
     failures.extend(relationship_callback_failures)
+    followup_outcome_cases, followup_outcome_failures = _followup_outcome_parser_self_test()
+    cases += followup_outcome_cases
+    failures.extend(followup_outcome_failures)
 
     # Exact Korean-source catalogue names are not permission for unrelated
     # English prose or for deleting the noun around an allowed brand token.

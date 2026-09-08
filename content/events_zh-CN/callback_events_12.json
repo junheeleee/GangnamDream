@@ -1,0 +1,227 @@
+[
+  {
+    "id": "callback_jiyeon_accepted_echo",
+    "title": "接受之后",
+    "description": "决定接受Jiyeon的话，是两个月前的事。\n觉得那样是对的。\n今天，Jiyeon发来了简短的消息。\n“Minjun哥，最近怎么样？”",
+    "choices": [
+      {
+        "text": "如实回答了",
+        "result_text": "说了句：“嗯，还在努力撑着。”\nJiyeon说：“那就是说，还过得去吧。”"
+      },
+      {
+        "text": "只说“挺好的”",
+        "result_text": "说了句：“挺好的。”\nJiyeon说：“那就好。”"
+      }
+    ]
+  },
+  {
+    "id": "callback_jiyeon_refused_coffee_echo",
+    "title": "拒绝喝咖啡之后",
+    "description": "拒绝Jiyeon喝咖啡的邀请，是一个月前的事。\n今天在走廊遇见了Jiyeon。\nJiyeon有些尴尬地笑了。",
+    "choices": [
+      {
+        "text": "“那次拒绝了你，不好意思”",
+        "result_text": "“当时实在没什么余力。”\nJiyeon说：“啊，没关系。我提得也挺突然的。”"
+      },
+      {
+        "text": "只打了个招呼，就走过去了",
+        "result_text": "用眼神打了个招呼。\nJiyeon也用眼神打了个招呼。"
+      }
+    ]
+  },
+  {
+    "id": "callback_jiyeon_prioritized_goal_echo",
+    "title": "选择目标的结果",
+    "description": "把目标放在和Jiyeon的关系之前，是三个月前的事。\n今天，重新想了想——当时的选择对不对。\n资产比那时多了。",
+    "choices": [
+      {
+        "text": "觉得那个选择是对的",
+        "result_text": "数字增加了。\n这却不能证明当时的选择就是对的。"
+      },
+      {
+        "text": "好像太冷淡了",
+        "result_text": "心里还留着遗憾。\n要抓住目标——但别太把人当成成本。"
+      }
+    ]
+  },
+  {
+    "id": "callback_jiyeon_honest_world_echo",
+    "title": "坦诚谈过这个世界",
+    "description": "向Jiyeon坦诚说出自己对世界的看法，是两个月前的事。\n今天，Jiyeon先联系了过来。\n“Minjun哥，你那时说的话，我总会想起。”",
+    "choices": [
+      {
+        "text": "“哪一部分？”",
+        "result_text": "Jiyeon准确地指出了一句话。\n那句话，是在坦诚交谈时说出来的。"
+      },
+      {
+        "text": "“是吗？那就好”",
+        "result_text": "说了句：“谢谢你还记得。”\nJiyeon笑了。"
+      }
+    ]
+  },
+  {
+    "id": "callback_daeun_kept_distance_echo",
+    "title": "保持距离之后",
+    "description": "决定和Daeun保持距离，是两个月前的事。\n今天远远地看到了Daeun。\n什么也没说，就走过去了。",
+    "choices": [
+      {
+        "text": "觉得这样也挺好",
+        "result_text": "走过去了。\n和好人之间的距离——也不一定非要近。"
+      },
+      {
+        "text": "要不，还是打个招呼",
+        "result_text": "说了句：“你好，Daeun。”\nDaeun说：“啊，Minjun。好久不见。”"
+      }
+    ]
+  },
+  {
+    "id": "callback_daeun_saw_her_ok_echo",
+    "title": "过得不错的Daeun",
+    "description": "确认Daeun过得不错，是一个月前的事。\n之后，心里轻松了一点。\n今天，又听到了关于Daeun的消息。",
+    "choices": [
+      {
+        "text": "觉得这样就好",
+        "result_text": "那就好。\n即使联系已经断了——光是知道对方过得不错，心里也轻松些。"
+      },
+      {
+        "text": "想着要不要联系一下",
+        "result_text": "想联系她。\n可这份心情，究竟是为了Daeun——还是为了自己，却分不清。"
+      }
+    ]
+  },
+  {
+    "id": "callback_daeun_uncertain_echo",
+    "title": "那份不确定",
+    "description": "那时，无法确定自己对Daeun的心意。\n那份不确定，直到现在也没有消散。\n今天，Daeun笑着走了过去。",
+    "choices": [
+      {
+        "text": "就这样放着了",
+        "result_text": "并不是所有感情，都必须清清楚楚。\n不确定的感情——也可能是对那个人的尊重。"
+      },
+      {
+        "text": "试着往更亲近的方向迈一步",
+        "result_text": "打了个招呼。\nDaeun很高兴。"
+      }
+    ]
+  },
+  {
+    "id": "callback_jaehyuk_heard_his_story_echo",
+    "title": "听过Jaehyuk的故事之后",
+    "description": "听Jaehyuk讲自己的事，是两个月前。\n那时再次明白——每个人都有自己的理由。\n今天遇见了Jaehyuk。",
+    "choices": [
+      {
+        "text": "“谢谢你那时跟我说那些”",
+        "result_text": "Jaehyuk说：“……谢什么。”\n没再说话——但表情不一样了。"
+      },
+      {
+        "text": "自然地打个招呼",
+        "result_text": "打了个招呼。\nJaehyuk也打了个招呼。"
+      }
+    ]
+  },
+  {
+    "id": "callback_jaehyuk_01b_pressed_result",
+    "title": "逼问Jaehyuk的结果",
+    "description": "那次对Jaehyuk步步紧逼，是一个月前的事。\n今天听说，Jaehyuk辞职了。",
+    "choices": [
+      {
+        "text": "想想是不是自己那次逼问产生了影响",
+        "result_text": "因果关系并不明确。\n但——那也可能成了最后的契机。"
+      },
+      {
+        "text": "那应该是个正确的决定",
+        "result_text": "那对Jaehyuk来说，应该是个正确的决定。"
+      }
+    ]
+  },
+  {
+    "id": "callback_sangchul_invited_echo",
+    "title": "Sangchul的邀请之后",
+    "description": "Sangchul邀请我参加那次聚会，是一个月前的事。\n在场认识的人——今天又联系了过来。",
+    "choices": [
+      {
+        "text": "继续来往",
+        "result_text": "又见面了。\nSangchul的人脉——既是他的，如今也有一点属于我了。"
+      },
+      {
+        "text": "说这次没时间",
+        "result_text": "说了句：“这次恐怕不行。”\n对方理解了。"
+      }
+    ]
+  },
+  {
+    "id": "callback_heeded_sangchul_warning_result",
+    "title": "听进Sangchul的警告",
+    "description": "两个月前，听进了Sangchul的警告。\n照着他的警告，没有去做那件事——今天看到了结果。\n走上那条路的人，吃了亏。",
+    "choices": [
+      {
+        "text": "联系Sangchul，道个谢",
+        "result_text": "说了句：“多亏您那时提醒，我才没去。谢谢您。”\nSangchul说：“应该的。谢什么。”"
+      },
+      {
+        "text": "默默松一口气",
+        "result_text": "默默松了一口气。\n听进那个警告，是对的。"
+      }
+    ]
+  },
+  {
+    "id": "callback_dismissed_sangchul_warning_result",
+    "title": "无视Sangchul的警告之后",
+    "description": "无视Sangchul的警告，是两个月前的事。\n今天，结果出来了。\n和他警告的一样。",
+    "choices": [
+      {
+        "text": "向Sangchul如实说了",
+        "result_text": "说了句：“您说得对。”\nSangchul说：“下次就听话。”"
+      },
+      {
+        "text": "默默记下教训",
+        "result_text": "没有说。\n但记住了。"
+      }
+    ]
+  },
+  {
+    "id": "callback_took_sangchul_tip_result",
+    "title": "Sangchul的消息带来的结果",
+    "description": "收到Sangchul的消息，照着采取行动，是两个月前的事。\n今天，结果有了定论。",
+    "choices": [
+      {
+        "text": "说准了——Sangchul有眼光啊",
+        "result_text": "说准了。\n简短地联系了Sangchul，只说了句“成了”。\nSangchul说：“那当然。”"
+      },
+      {
+        "text": "没说准——消息终究也不确定",
+        "result_text": "没说准。\nSangchul的消息，也不能保证。\n好意和准确的信息，并不是一回事。"
+      }
+    ]
+  },
+  {
+    "id": "callback_jiyeon_forgave_complexity_echo",
+    "title": "谅解了那些复杂之后",
+    "description": "理解并谅解了Jiyeon复杂的处境，是两个月前的事。\n那并不容易。\n今天，Jiyeon先联系了过来。",
+    "choices": [
+      {
+        "text": "高兴地回应",
+        "result_text": "聊了很久。\n原谅不是关系的终点——而是下一个阶段的开始。"
+      },
+      {
+        "text": "只简单问候几句",
+        "result_text": "简单互相问候了几句。\n原谅，并不意味着一切都会回来。"
+      }
+    ]
+  },
+  {
+    "id": "callback_jiyeon_acknowledged_echo",
+    "title": "承认过的错",
+    "description": "向Jiyeon承认自己的错误，是一个月前的事。\n今天，又想了想Jiyeon当时的反应。\n那时，Jiyeon什么也没说。",
+    "choices": [
+      {
+        "text": "觉得沉默也是一种反应",
+        "result_text": "什么也不说——也是一种表达。\nJiyeon的沉默——意味着她听到了。"
+      },
+      {
+        "text": "她似乎还没有接受",
+        "result_text": "她似乎还在消化。\n接受一个人的认错，也需要时间。"
+      }
+    ]
+  }
+]
