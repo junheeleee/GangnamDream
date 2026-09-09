@@ -452,7 +452,10 @@
         "docs/queue_active/ORDER-212.md",
         "docs/queue_archive/ORDER-212_L1_L2_RESULTS.md",
         "docs/queue_active/ORDER-214.md",
-        "docs/queue_archive/ORDER-214_L1_L2_RESULTS.md"
+        "docs/queue_archive/ORDER-214_L1_L2_RESULTS.md",
+        "docs/queue_active/ORDER-217.md",
+        "docs/queue_archive/ORDER-217_L1_L2_RESULTS.md",
+        "docs/agent_review_decisions.json"
       ],
       "tools": [
         "tools/full_game_localization_self_test.py",
