@@ -574,6 +574,8 @@
         "docs/queue_archive/ORDER-222_L1_L2_RESULTS.md",
         "docs/queue_active/ORDER-223.md",
         "docs/queue_archive/ORDER-223_L1_L2_RESULTS.md",
+        "docs/queue_active/ORDER-224.md",
+        "docs/queue_archive/ORDER-224_L1_L2_RESULTS.md",
         "docs/agent_review_decisions.json"
       ],
       "tools": [
