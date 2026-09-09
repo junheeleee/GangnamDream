@@ -580,6 +580,8 @@
         "docs/queue_archive/ORDER-225_L1_L2_RESULTS.md",
         "docs/queue_active/ORDER-226.md",
         "docs/queue_archive/ORDER-226_L1_L2_RESULTS.md",
+        "docs/queue_active/ORDER-227.md",
+        "docs/queue_archive/ORDER-227_L1_L2_RESULTS.md",
         "docs/agent_review_decisions.json"
       ],
       "tools": [
