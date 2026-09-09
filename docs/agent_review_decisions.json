@@ -311,6 +311,48 @@
         "path": "docs/queue_archive/ORDER-220.md",
         "sha256": "b7f4e194934e5776e54dd6673fa322459299c8e3b18134bc6e5da2e6e14f7c4b"
       }
+    },
+    {
+      "id": "order-221-source-2c972f6-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-09",
+      "decided_by": "Codex Rawls (independent fixed8 CI isolation fixtures); Codex ROOT (source review and targeted integration)",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-221",
+      "subject": {
+        "kind": "source",
+        "commit": "2c972f6de7d58f83a9fc0a616ca4b08b72b482ff",
+        "tree": "b7f9cc74a700e8bd2537bba2156f3c5d50adcbc4",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/queue_archive/ORDER-221.md",
+          "sha256": "d6bdb6d664e0090e0a100481cde2603df2c28a43b3f5d58bbbe8c0f555b073fd"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/queue_archive/ORDER-221.md",
+          "sha256": "d6bdb6d664e0090e0a100481cde2603df2c28a43b3f5d58bbbe8c0f555b073fd"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_rendered_localization",
+        "full_game_normal_speed_play",
+        "full_product_quality",
+        "remote_full_ci",
+        "external_release"
+      ],
+      "record": {
+        "path": "docs/queue_archive/ORDER-221.md",
+        "sha256": "d6bdb6d664e0090e0a100481cde2603df2c28a43b3f5d58bbbe8c0f555b073fd"
+      }
     }
   ]
 }
