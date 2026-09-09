@@ -1,13 +1,14 @@
 # ORDER-223 — 인물의 다음 삶 번역 검토
 
-> [~] 진행 — 세 언어 직접 저작·독립 전량 L2를 끝냈으며 교환·수용·회귀 검증은 아직 진행 중이다.
+> [~] 통합 검토 — 세 언어 직접 저작·독립 전량 L2·교환·수용·전량 L1·명시12를 통과했으며 최종 소스 결속을 진행한다.
 > 이 기록은 작업 GO나 본편 GO가 아니다. 본편 HOLD, 원어민·실제 화면·인간·물리 조작 미관찰을 유지한다.
 
 ## 신원·모집단
 
 기준1367b68dd655e5a730ab71a38109d2f6327ff255, 선언bacb5a7 뒤 clean wrapper
 0daed26407ce9d5ed4f1dbe0d94fbbe8eb015b00에서 초기 source3을 내보냈다.
-각124 previous_target=null이며, 현재 번역을 담은 최종 clean source는 뒤에 별도 결속한다.
+각124 previous_target=null이다. 최종 교환은 clean C1
+783a4ef97a61a66945de8e7c5c27e1f480952b43/tree97c04c8d45be53945bd33f8532f2a19fa128d056에 결속했다.
 
 19root/124leaf/39선택/LF410/{name}61/{keepsake}3씩, 총372문구다.
 KO5 aggregate76dd4e06174d69034e04a45c3375da23b8a6583d58a1432b49c010c0c51288dc,
@@ -115,10 +116,47 @@ private order223-zh-independent-registration-final.json6738B/
 06dc21e37cb37354975c6cc42502c68e15d778a85be530251f7152d8d53df7f5.
 등록 replay는 새 독립 검수 수에 더하지 않았으며 최종 통합 QA는 아래에 별도 결속한다.
 
-## 진행 중인 마감
+## 교환·수용·최종 회귀
 
-최종 clean source3/response3/check3/import3, 신규372 portable 수용·역제거 보존,
-전량 수용 hash/L1 한 번, 명시 overlays12 한 번과 독립 최종 검토가 남아 있다.
+최종 source3/response3은 각124개이며 C1의 동일 원문 manifest에 결속했다.
+check3/import--accept3 전부 PASS·changed_files0이다. 최초 null3export는 덮지 않았다.
+공식 receipt의 batch·source/target hash를 그대로 신규372로 수용했다.
+
+| locale | final batch ID | receipt checksum |
+|---|---|---|
+| ja | 95b0398ee2e60c6adc2e52f95f0e1b6f889931952dec65dc71d88a11ee013a30 | 6719d5f06df59fb48bc632afd94d9073bc7a2ea5d7a9a840d14287e38aefaa1f |
+| zh-CN | 694b7a14ab38084f9cae91cc25b6b4aed6f7e844333a64f6e92b9c2f44a74750 | dd8fec7a933685342d7dd6eefd3af20035a5667d77c76f1a83405175104147f7 |
+| zh-TW | c3694072cbc44d6f27ecbe8a19e2b3e692fe17d300a2891a19c91b7609ef25de | c3f212fe447b6956255f8dc52be4bf2b07829787f3aa7a2d9fc5e4849d4de18a |
+
+portable8966365B/5f779caca41cc6e16fd9fe1be5c75f3f32e28aa70e869e8e741560a76579c564,
+accepted SHA1258dad69646f0ec4e5c9cf9624f512fbc156b627dd78e93bec7d54194562cf7.
+신규372+b83를 역제거하고 이전 accepted SHA를 되돌리면 기존8871425B/
+ad08a4f76fddae27724e928c6234dcc2000bb844f9cd74b3a510bdb2ba6d4428과 raw exact다.
+기존34242/b82/meta9 및 역사 top-level 신원은 불변이다.
+private order223-exchange-acceptance.json6222B/
+2a98ebc326742eaa1ea06a2519a7ab3e638c0da2f2f5f839cee196665edc6ff3.
+
+전량 수용34,614의 hash/L1을 한 번 실행해 오류0, 입력599 전후 불변을 확인했다.
+각11,538=엔딩234+사건10,470+catalog834, 사건1,547종이다. 실행58.36초.
+남은 비보호 shipping147종1,108문구/언어이며 author_only105/741·공개 보호2누락·
+UI3,556/동적 미확정329/관계 표시명은 별도다. 이 수를 전체 UI 분모로 합산하지 않는다.
+private order223-all-accepted-l1-final.json78564B/
+9441f9f37fecb3dd989e0b5929ecd444b85d1f2ba331b727bc1bf16b5371e117.
+명시 full-game-localization-overlays12를 최종 한 번 실행해 전부 PASS다.
+source self52·full self237·JA self88·ZH self12272(기존12078+신규174+노출20),
+static audit ERROR0/WARNING0·coverage1561/1813·공개5언어14사건100leaf/121UI·
+scope verify141·context339/339·queue76을 확인했다. coverage1561은 수용1547+보호14로
+원어민/실제 도달 전량 커버리지가 아니다. 폰트 blocked 로그는 JP-first 변이 거부 fixture다.
+실행 원형은 private order223-targeted-qa.json9439B/
+6661c3ea7a75c633845c3518d1ed3a4e0b5184be89e052e0b00c4ca62e8c5eb5다.
+Plato의 독립 최종 receipt/portable 검토도 PASS·필수0이다. 초기/final/response/receipt12와
+372records exact, receipt 내부 checksum·state/native OPEN을 확인했다. 신규 suffix만
+제거한 원장은 C1 원장과 raw exact이며 보존 영역을 재직렬화하지 않았다.
+39입력 전후 불변, 검수자의 L1/QA/guard 재실행0이다.
+private order223-independent-final-receipts.json36667B/
+16a5f88af8ebfa84cd06be92a11c0a32b94723380f45f2218b9c8d888538f9cd.
+최종 제품 C2 통합 판정은 별도로 뒤에 결속한다.
+
 전체audit/Godot/240주 실행0. 자동 게이트는 도달 가능성과 계약 충족의 증거이지
 재미·깊이·문체의 증거가 아니다. 실제 원어민·화면·플레이·물리 입력 미관찰은 별도다.
 
