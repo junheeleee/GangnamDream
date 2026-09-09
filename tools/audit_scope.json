@@ -14,6 +14,38 @@
   ],
   "fast_lanes": [
     {
+      "id": "realization-protected-hash-reconciliation",
+      "paths": [
+        "tools/year5_reference_route_audit.py",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py"
+      ],
+      "owned_paths": [
+        "tools/year5_reference_route_audit.py",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/audit_scope.json",
+        "docs/queue_active/ORDER-218.md",
+        "docs/queue_archive/ORDER-218.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md",
+        "CLAUDE.md",
+        "docs/WORK_LOG.md",
+        "docs/STATUS.md",
+        "docs/agent_review_decisions.json"
+      ],
+      "tools": [
+        "tools/year5_reference_route_audit.py",
+        "tools/year5_reference_route_audit.py --self-test",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py --self-test",
+        "tools/story_demo_localization_audit.py --self-test",
+        "tools/story_demo_localization_audit.py",
+        "tools/full_body_translation_scope.py --self-test",
+        "tools/queue_index_self_test.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "승인된 자각 알림 metadata5줄의 고정 byte/hash 전이만. 제품·역사 pin·인간 판정 불변인 명시 정적 차선."
+    },
+    {
       "id": "core-loop-v2-modal-priority",
       "paths": [],
       "owned_paths": [
