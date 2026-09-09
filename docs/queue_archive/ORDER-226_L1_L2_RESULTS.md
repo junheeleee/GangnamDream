@@ -1,7 +1,7 @@
 # ORDER-226 — 연말 회고·부모·고립·회복 번역 검토
 
-> [~] 최종 교환 준비 — 원문20종154문구/언어 직접 저작·비저자 전량 대조·수정8건을 닫았다.
-> 신규 수용0, 누적35,610/각11,870/b85/meta9. 본편 HOLD·실제 관찰 OPEN이다.
+> [~] 최종 내부 판정 결속 — 원문20종154문구/언어 직접 저작·비저자 전량 대조·수정8건·수용을 마쳤다.
+> 신규462, 누적36,072/각12,024/b86/meta9. 본편 HOLD·실제 관찰 OPEN이다.
 
 ## 신원·범위
 
@@ -18,7 +18,7 @@ shipping20·protected0·author_only0. source manifest
 db7c9549e2692e657859d8d7329fbf9439894bcdf4c8bd379f85ba4a5d762d99,
 정렬 source record SHA2b1f0e8cabe752781c8dad14f8ec91b1df70c09b1f0ada642311bdf9d4778db9.
 arc_drama4/35·arc_year_close7/70·chapter_cards5/20·arc_addiction_recovery4/29다.
-기존 언어별49객체510leaf는 arc_drama42/398+year_close7/112이며 새 나머지6파일은 부재다.
+선언 시 기존 언어별49객체510leaf는 arc_drama42/398+year_close7/112이며 나머지6파일은 부재였다.
 
 Plato의 독립 초기 결속은 header11/body16·각154 previous-null·source/selection/batch SHA,
 KO4 raw·기존대상6 raw와 기존수용1,530값·새6부재·35,610/b85/meta9·agent12·인간
@@ -60,7 +60,8 @@ JA 첫154 실행은 exit0·입력 전후 동일이지만 stdout 수집이 잘려
 본문·가드 변경 없이 동일154를 한 번 재수집했고 입력20 전후 exact·154/0을 봉인했다.
 order226-ja-L1-capture.json18203B/0ef307c2fd3ec8dc4482c8e0efff9fd532d657688f44ba151089e15a00261ecc.
 두 실행을308개 검수나 두 독립 통과로 세지 않는다. CN 자체정밀2·TW9·JA5는 첫 검사 전
-직접 원문/문법 대조로 반영했고 초안·전후·이유를 저자 증거에 남겼다. 첫 진단 뒤 본문 변경0이다.
+직접 원문/문법 대조로 반영했고 초안·전후·이유를 저자 증거에 남겼다. 저자 동결 당시 첫 진단 뒤
+본문 변경0이었고, 이후 독립 L2의8문구 수정은 별도 절에 기록한다.
 
 CN/TW 공통 고립 두 분기의 `3분의 1`을 duration3+숫자1로 잘못 해석하는 진단,
 CN 사별4년차 `那个…空格`의 한 칸, TW 사별1년차 `各占…一角`의 분배 공간,
@@ -115,7 +116,7 @@ order226-independent-guard-B2.json42992B/a46de4e1d20e24123df02e02f4bb486ded02cb0
 검증하도록2개만 추가했다. 지정2개만 실행해0.534초 PASS, 추가2개를 역제거하면
 기존893823B 파일과 raw exact다. 새 self962450B/0c6739b40d1b8733806cf592af7722fe4e3727ffc19d8b2581a74d8959d3856c,
 ZH1564739B/4108c2ef7a17099c754ed9a526def5501586b0aed880f739ae75a7320496a458.
-전량 테스트243은 아직 실행 전이며 최종 named12 한 번에서 실행한다.
+전량 테스트243은 아래 최종 named12 한 번에서 실행했다.
 
 ### 수정 후 최종 L2 결속
 
@@ -156,11 +157,61 @@ order226-all-accepted-helper-independent-review.json3710B/78a0e9293780c37e8eba8e
 prior proof를 이번 파일로 잘못 바꾼 것을 diff에서 확인해 이전225 proof로 바로잡았다.
 helper 실행0이며 계획 검토를 실제 통과로 세지 않는다.
 
-누적 전량 accepted hash/L1와 명시 full-game-localization-overlays12는 최종 한 번씩만
-실행한다. 현재 저작 전 준비는 완료 수·원어민/화면·실제 도달 증거가 아니다.
-예상36,072/각12,024/b86·잔여84종622문구/언어는 수용 뒤에만 완료 수로 갱신한다.
-WORK38749B는 짧은 새 절 여유1251B이며 추가 history 이동 소유0이다.
+누적 전량 accepted hash/L1와 명시 full-game-localization-overlays12는 아래와 같이 최종 한 번씩
+실행했다. 저작 전 준비를 완료 수·원어민/화면·실제 도달 증거로 합산하지 않았다.
+36,072/각12,024/b86·잔여84종622문구/언어는 실제 수용·전량 계측 뒤에 갱신했다.
+WORK38749B에 짧은 새 절만 추가하며 추가 history 이동 소유0이다.
 공개 M01~M06·KO/EN·게임플레이·인간 원형을 보존한다. 전체audit·Godot·240주 재실행0,
 본편 HOLD·native/render/인간 플레이/물리 입력 OPEN·외부 출시 미승인이다.
 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
 지속 규칙은 I18N_INFRASTRUCTURE·용어집·WORK_UNIT 소유, 이번 모집단·소유·절차는 일회성이다.
+
+## 최종 교환·수용·회귀 결과
+
+clean C1 `2690fb27b5bcde040472b7331818931430880545`에서 final3export154를 발급했다.
+각 source header11/body16, response header11/body5이며 실제 target hash가 초기 null에서
+최종 L2 값으로 바뀐 것을 확인했다. check3/import--accept3 모두 PASS·changed_files0이다.
+private order226-exchange-command-outputs.json에 실제 명령 출력을 보존했다.
+
+| locale | final source SHA256 | batch ID |
+|---|---|---|
+| JA | 95c0703175e283175f960ae8cf1def1d9c1645dc88c50d2a24678096820aa341 | 5fd8b9df644a548122913c206af246f7f4e3b141dcbebc38270795f315e261e6 |
+| CN | 0cdd4d8f00e2821478e39318d86a4012ed1b2bc80b78c03954335064131b09fe | 792c578bdb9a42e5f82fe6bd613aeb6d6b2f3a192a4780a215692dfa40a88f61 |
+| TW | 07db2dea81b3238de666eacb537c1bf854931f407f4674c7b2bf025108eb47cb | 748e42bf7be4e54757274a670ab2e819953ed7bfdf9aeb3be50c8f1b40f12b41 |
+
+portable9345058B/SHAe10bf6aed07449f29821a961d0312a1e07a2d672d0e2e66d8ee5fca77e53e1a9,
+accepted canonical20494c020adf62fc61014b78b8cd781e90a98f66d4b58b79d09f21d5c16e427c다.
+신규462/b86만 역제거하고 acceptedSHA를 복원하면 이전9221418B/35,610/b85/meta9
+원형과 정확히 같다. 과거 source_revision·source_manifest·metadata 등 다른 top필드는 유지했다.
+계획 후 실제 적용 바이트/해시/역보존까지 확인했으며 이번 portable 적용 실패0이다.
+
+전량 accepted hash/L1을63.727초 한 번 실행해36,072 오류0·입력605 전후 exact를 확인했다.
+언어별 사건1,610종10,956문구·엔딩35종234문구·catalog834, 남은 비보호 shipping84종622문구다.
+order226-all-accepted-l1-final.json SHAe26505df9506b5acc87d9aff721f6c5687578daebee9c3db232fd20adfa802c1.
+UI·공개 보호 잔여·author-only·미확정 소비자를 이 완료 수에 넣지 않았다.
+
+지정 full-game-localization-overlays12도 한 번 실행해 전부 PASS·exit0이다.
+source52/self243(5.734초)/JA88/ZH12407/공개 demo self4, 실제5locale14event100leaf121UI,
+audit 두 호출 ERROR0/WARNING0, scope141/context342/queue76을 확인했다.
+skeleton1624/1813은 공개14를 포함해 portable 사건1610과 분모가 다르다.
+ZH self의 blocked행은 의도된 변이 거부이며 실제 현재 글꼴 오류나 화면 통과 판정이 아니다.
+등록 EXTRA2는 기존 비실행 등록 정보다. order226-targeted-qa.json SHA
+d4d72c583d61ec706c610f0441736afdb600ed9ce2e3a6e6f545bee9f03f88c0.
+전체audit·Godot·year5·240주 재실행0, 본편 HOLD·실제 관찰 OPEN이다.
+
+## 독립 수용·보존 결속
+
+Plato가 초기/최종/응답/영수증12개와 source154×3·최종L2·현재target·portable를 직접
+대조했다. 신규462 combined SHA c6c8f11ea29d986fe5d37378814ed9a1f781137a015bca04d896522f4c80fe9a,
+필수 지적0이다. 신규462/b86 raw 구간4곳 역제거와 accepted checksum 복원으로 이전
+9221418B 원장 전체를 정확히 복원했다. metadata9·이전35,610 순서·다른 top값도 보존한다.
+이번 소유를 제외해 다시 산출한 보호집합은1,893파일/602,615,471B이며 bd8f→C1→현재 raw exact다.
+이전225의1,896을 이번 수로 재사용하지 않았다. agent12·human 원형·project.godot 불변이다.
+이 검토 시 ROOT 원장·closure docs는 dirty였으며 clean C1 생성은 이전 별도 관측이다.
+검수자가 현재 clean이었다고 주장하지 않는다. WORK 실제39255B로 예산40000B 이하이며 역사 이동0이다.
+증거 .git/full-game-localization/order226-independent-final-receipts.json35199B,
+SHA047f453c929f30d95ce0e0fb436ff86b57b0ee518cd17e3cedcfab9947cdc6f8.
+고정53입력 최종 재결속 SHA f961cc5bf4a4bc98550ad91cb6a8e19091028c6641a5f05770e3d01127a3367a.
+독립 검수의 L1/QA 재실행0이며 C2 최종 내부 작업 판정은 별도 결속한다.
+closure 문서 확인 중 존재하지 않는 queue_registry_check.py를 호출해 exit2가 났다.
+검사 실행 전 경로 오류이며 등록된 queue_consistency_check.py로 확인했다. 검사 실패를 PASS로 바꾸지 않는다.
