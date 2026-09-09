@@ -144,6 +144,86 @@
         "path": "docs/queue_archive/ORDER-216.md",
         "sha256": "3121e2df64cfea28caa85eee0bcc292c78604f9807e86f5cebdc4a0a2e1bc2e9"
       }
+    },
+    {
+      "id": "order-217-source-6bc2688-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-09",
+      "decided_by": "Codex Plato (JA and independent receipts); Codex ROOT (zh-CN/zh-TW); Rawls (JA guard)",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-217",
+      "subject": {
+        "kind": "source",
+        "commit": "6bc268859d9854e78c55bd4ffb5360ba657f567e",
+        "tree": "9c729fba6a0ef7df6567a51a656fc61b3242706e",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/queue_archive/ORDER-217_L1_L2_RESULTS.md",
+          "sha256": "7194327265fa9c00b195dfabe6f3fc8947298053150bd83cae0877b48915155e"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/queue_archive/ORDER-217_L1_L2_RESULTS.md",
+          "sha256": "7194327265fa9c00b195dfabe6f3fc8947298053150bd83cae0877b48915155e"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_rendered_localization",
+        "full_product_quality",
+        "external_release"
+      ],
+      "record": {
+        "path": "docs/queue_archive/ORDER-217_L1_L2_RESULTS.md",
+        "sha256": "7194327265fa9c00b195dfabe6f3fc8947298053150bd83cae0877b48915155e"
+      }
+    },
+    {
+      "id": "order-218-source-6bc2688-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-09",
+      "decided_by": "Codex Rawls (independent of Poincare implementation); Codex ROOT",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-218",
+      "subject": {
+        "kind": "source",
+        "commit": "6bc268859d9854e78c55bd4ffb5360ba657f567e",
+        "tree": "9c729fba6a0ef7df6567a51a656fc61b3242706e",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/queue_archive/ORDER-218.md",
+          "sha256": "faeb1f1675657b89266c7d8237da8193235979ab191ce3b3fa4807fc87a2fd35"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/queue_archive/ORDER-218.md",
+          "sha256": "faeb1f1675657b89266c7d8237da8193235979ab191ce3b3fa4807fc87a2fd35"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_rendered_localization",
+        "full_product_quality",
+        "external_release"
+      ],
+      "record": {
+        "path": "docs/queue_archive/ORDER-218.md",
+        "sha256": "faeb1f1675657b89266c7d8237da8193235979ab191ce3b3fa4807fc87a2fd35"
+      }
     }
   ]
 }
