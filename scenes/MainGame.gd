@@ -8616,7 +8616,8 @@ func _present_tendency_realization(kind: String):
 		"invest": _tr("가격보다 먼저 위험이 걸리는 지점이 눈에 들어오기 시작했다.", "The points where risk could catch you began to stand out before the price itself."),
 		"found":  _tr("빈칸을 보면 누가 먼저 손을 움직여야 하는지 떠오르기 시작했다.", "When you saw an empty space, you began to know whose hands needed to move first."),
 	}.get(kind, "")
-	_open_modal(_tr("습관이 굳어진다", "A Habit Takes Hold"))
+	_open_modal(_tr("습관이 굳어진다", "A Habit Takes Hold"), false, "tendency_realization")
+	modal_layer.set_meta("tendency_kind", kind)
 	if modal_panel:
 		modal_panel.custom_minimum_size = Vector2(760, 360)
 		modal_panel.offset_top = -180
@@ -8625,6 +8626,8 @@ func _present_tendency_realization(kind: String):
 		modal_scroll.custom_minimum_size = Vector2(0, 230)
 	modal_body.add_child(_wrap_label(passive, 14, accent))
 	var continue_btn := _primary_cta_button(_tr("계속  ›", "Continue  ›"))
+	continue_btn.set_meta("tendency_realization_confirm", true)
+	continue_btn.set_meta("tendency_kind", kind)
 	continue_btn.pressed.connect(_close_modal)
 	continue_btn.call_deferred("grab_focus")
 	modal_body.add_child(continue_btn)

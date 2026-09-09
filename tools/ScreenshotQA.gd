@@ -557,6 +557,11 @@ func _ready() -> void:
 		_route_unknown_events = 0
 		_core_loop_v2_save_events.clear()
 		var core_loop = load("res://systems/DemoCoreLoopV2.gd")
+		if OS.get_cmdline_user_args().has("--modal-priority-only"):
+			if not await _run_core_loop_v2_modal_priority_component(lang, input_mode):
+				return
+			get_tree().quit(0)
+			return
 		if not await _assert_seoul_cycle_unmet_people_lock(core_loop):
 			return
 		if not await _assert_seoul_cycle_people_choice_board(input_mode, lang):
@@ -11545,6 +11550,238 @@ func _record_core_loop_v2_save(success: bool, slot: int) -> void:
 			"pending_world", {}) as Dictionary).get("bundle_id", "")),
 	})
 
+## Modal classification is side-effect free: an unknown kind or malformed
+## command must fail before the driver grabs any underlying control's focus.
+func _core_loop_v2_modal_command(scene: Node) -> Dictionary:
+	var modal := scene.get("modal_layer") as Control
+	if not is_instance_valid(modal) or not modal.is_visible_in_tree():
+		return {}
+	var kind := str(scene.get("_modal_kind"))
+	var command_key := ""
+	match kind:
+		"tendency_realization":
+			var tendency := str(modal.get_meta("tendency_kind", ""))
+			if tendency not in ["career", "invest", "found"] \
+					or tendency != str(GameState.tendency_realized):
+				return {"error": "tendency modal lost its realized owner"}
+			command_key = "tendency_realization_confirm"
+		"fresh_w1_application_send":
+			if not bool(modal.get_meta("fresh_w1_application_send", false)):
+				return {"error": "fresh W1 modal lost its owner metadata"}
+			command_key = "fresh_w1_application_send_button"
+		"core_loop_v2_month_summary":
+			if not bool(modal.get_meta("core_loop_v2_month_summary", false)):
+				return {"error": "month summary lost its owner metadata"}
+			command_key = "core_loop_v2_month_confirm"
+		_:
+			return {"error": "unexpected modal kind: " + kind}
+	var commands: Array[Button] = []
+	for child in modal.find_children("*", "Button", true, false):
+		if bool(child.get_meta(command_key, false)) and not child.is_queued_for_deletion():
+			commands.append(child as Button)
+	if commands.size() != 1:
+		return {"error": "modal command missing or duplicated: " + command_key}
+	var button := commands[0]
+	if not button.is_visible_in_tree() or button.disabled \
+			or button.focus_mode == Control.FOCUS_NONE:
+		return {"error": "modal command is not available: " + command_key}
+	if kind == "tendency_realization" and str(button.get_meta("tendency_kind", "")) \
+			!= str(modal.get_meta("tendency_kind", "")):
+		return {"error": "tendency confirm belongs to another owner"}
+	return {"owner": kind, "button": button}
+
+func _core_loop_v2_modal_state(scene: Node) -> Dictionary:
+	return {
+		"turn": int(GameState.turn), "month": int(GameState.month),
+		"week_of_month": int(GameState.week_of_month), "money": GameState.money,
+		"health": GameState.health, "mental": GameState.mental,
+		"ap": GameState.action_points,
+		"weekly_commitments": GameState.weekly_commitments.duplicate(true),
+		"pending_commitment": GameState.pending_weekly_commitment.duplicate(true),
+		"core_loop_v2": GameState.core_loop_v2_state.duplicate(true),
+		"tendency_score": GameState.tendency.duplicate(true),
+		"tendency_realized": str(GameState.tendency_realized),
+		"autosave_calls": int(scene.get_meta("_qa_core_loop_v2_autosave_call_count", 0)),
+		"save_events": _core_loop_v2_save_events.duplicate(true),
+	}
+
+func _core_loop_v2_modal_diagnostic(scene: Node) -> Dictionary:
+	var modal := scene.get("modal_layer") as Control
+	var title := scene.get("modal_title_label") as Label
+	var focus := get_viewport().gui_get_focus_owner()
+	var buttons: Array = []
+	if is_instance_valid(modal):
+		for child in modal.find_children("*", "Button", true, false):
+			buttons.append({"path": str(child.get_path()), "text": str(child.text),
+				"visible": child.is_visible_in_tree(), "disabled": child.disabled,
+				"queued": child.is_queued_for_deletion(),
+				"tendency_confirm": bool(child.get_meta("tendency_realization_confirm", false))})
+	return {
+		"kind": str(scene.get("_modal_kind")),
+		"title": title.text if is_instance_valid(title) else "",
+		"visible": modal.visible if is_instance_valid(modal) else false,
+		"in_tree": modal.is_visible_in_tree() if is_instance_valid(modal) else false,
+		"focus": str(focus.get_path()) if is_instance_valid(focus) else "",
+		"pending_tendency": str(scene.get("_pending_tendency_kind")),
+		"buttons": buttons, "state": _core_loop_v2_modal_state(scene),
+	}
+
+func _fail_core_loop_v2_modal(scene: Node, reason: String) -> void:
+	print("CORE_LOOP_V2_MODAL_DIAGNOSTIC " + JSON.stringify(
+		_core_loop_v2_modal_diagnostic(scene)))
+	_fail("Core Loop V2 modal input ownership failed at week %d: %s." % [
+		int(GameState.turn), reason])
+
+func _confirm_core_loop_v2_tendency(
+		scene: Node, input_mode: String, seen: Dictionary) -> bool:
+	var command := _core_loop_v2_modal_command(scene)
+	if str(command.get("owner", "")) != "tendency_realization":
+		_fail_core_loop_v2_modal(scene, str(command.get("error", "missing tendency modal")))
+		return false
+	var modal := scene.get("modal_layer") as Control
+	var owner := str(modal.get_meta("tendency_kind", ""))
+	if seen.has(owner):
+		_fail_core_loop_v2_modal(scene, "tendency confirmation repeated: " + owner)
+		return false
+	var before := _core_loop_v2_modal_state(scene)
+	print("CORE_LOOP_V2_MODAL_OBSERVED " + JSON.stringify(
+		_core_loop_v2_modal_diagnostic(scene)))
+	await _activate_route_control(command["button"], input_mode)
+	# Inspect the deferred resume; do not wait a guessed number of milliseconds
+	# or send a second acceptance to the result exposed by the modal's close.
+	for _frame in range(2):
+		await get_tree().process_frame
+	if modal.is_visible_in_tree() or _core_loop_v2_modal_state(scene) != before:
+		_fail_core_loop_v2_modal(scene, "tendency confirmation changed its underlying state")
+		return false
+	seen[owner] = true
+	print("CORE_LOOP_V2_MODAL_CONFIRMED device=%s kind=%s week=%d state_unchanged=1" % [
+		input_mode, owner, int(GameState.turn)])
+	return true
+
+## A controlled component, NOT a fresh W1-W24 replay: W17, boot flags and the
+## prior score are fixture inputs. The city application uses MainGame's real path.
+func _run_core_loop_v2_modal_priority_component(lang: String, input_mode: String) -> bool:
+	var core_loop = load("res://systems/DemoCoreLoopV2.gd")
+	var bundle_id := "m5_city_service_application"
+	var malformed_cases := 0
+	for initial_career in [8, 4]:
+		SaveManager.clear_loaded_resume_context()
+		GameState.start_new_game()
+		GameState.flags["prologue_done"] = true
+		GameState.flags["chapter_33_seen"] = true
+		GameState.flags["tutorial_shown"] = true
+		GameState.turn = 17
+		GameState.month = 5
+		GameState.week_of_month = 1
+		GameState.tendency = {"career": initial_career, "invest": 0, "found": 0}
+		GameState.tendency_realized = ""
+		GameState.add_log("Controlled W17 modal-priority component", "system")
+		if not bool(core_loop.initialize_for_run(true)):
+			_fail("Modal component could not initialize V2.")
+			return false
+		await _boot_main_game()
+		_mg.set_meta("_qa_core_loop_v2_autosave_call_count", 0)
+		var bundle: Dictionary = core_loop.bundle(bundle_id)
+		var allowed_weeks: Array = bundle.get("allowed_weeks", [])
+		if allowed_weeks.size() != 1 or int(allowed_weeks[0]) != 17 \
+				or str((bundle.get("action_config", {}) as Dictionary).get("execution", "")) != "application":
+			_fail("Modal component lost its canonical W17 application.")
+			return false
+		_mg.call("_core_loop_v2_begin_action_bundle", bundle_id, bundle)
+		for _frame in range(3):
+			await get_tree().process_frame
+		var receipt: Dictionary = core_loop.action_receipt(bundle_id)
+		var result := _find_visible_meta_button(_mg, "ap_result_confirm")
+		if int(GameState.tendency.get("career", 0)) != initial_career + 4 \
+				or receipt.is_empty() or not bool(core_loop.action_result_ready()) \
+				or result == null or int(GameState.turn) != 17:
+			_fail_core_loop_v2_modal(_mg, "W17 application did not create one score/result/receipt")
+			return false
+		if initial_career == 4:
+			if not _core_loop_v2_modal_command(_mg).is_empty() \
+					or not str(GameState.tendency_realized).is_empty():
+				_fail_core_loop_v2_modal(_mg, "below-threshold application manufactured a modal")
+				return false
+			print("CORE_LOOP_V2_MODAL_THRESHOLD_CONTROL_OK career=4->8 modal=0 week=17")
+			await _dispose_main_game()
+			continue
+		var modal := _mg.get("modal_layer") as Control
+		var command := _core_loop_v2_modal_command(_mg)
+		if str(command.get("owner", "")) != "tendency_realization" \
+				or not modal.is_visible_in_tree():
+			_fail_core_loop_v2_modal(_mg, "career 8->12 did not expose the recognized habit modal")
+			return false
+		var confirm := command["button"] as Button
+		# These are negative classifier probes only; do not dispatch a bad command
+		# or convert an expected rejection into an engine ERROR success condition.
+		var stable := _core_loop_v2_modal_state(_mg)
+		for bad_kind in ["", "unknown_fixture_modal"]:
+			_mg.set("_modal_kind", bad_kind)
+			if str(_core_loop_v2_modal_command(_mg).get("error", "")).is_empty():
+				_fail("Modal component accepted an unknown kind.")
+				return false
+			malformed_cases += 1
+		_mg.set("_modal_kind", "tendency_realization")
+		for bad_owner in ["", "invest"]:
+			confirm.set_meta("tendency_kind", bad_owner)
+			if str(_core_loop_v2_modal_command(_mg).get("error", "")).is_empty():
+				_fail("Modal component accepted a wrong command owner.")
+				return false
+			malformed_cases += 1
+		confirm.set_meta("tendency_kind", "career")
+		confirm.remove_meta("tendency_realization_confirm")
+		if str(_core_loop_v2_modal_command(_mg).get("error", "")).is_empty():
+			_fail("Modal component accepted a missing command.")
+			return false
+		malformed_cases += 1
+		confirm.set_meta("tendency_realization_confirm", true)
+		var duplicate := Button.new()
+		duplicate.set_meta("tendency_realization_confirm", true)
+		duplicate.set_meta("tendency_kind", "career")
+		modal.add_child(duplicate)
+		if str(_core_loop_v2_modal_command(_mg).get("error", "")).is_empty():
+			_fail("Modal component accepted duplicate owned commands.")
+			return false
+		malformed_cases += 1
+		duplicate.free()
+		if _core_loop_v2_modal_state(_mg) != stable:
+			_fail("Modal classifier probes changed product state.")
+			return false
+		# This is the exact underlying control the old driver found first. Leave
+		# it focused deliberately; only the modal-owned command may now fire.
+		result.grab_focus()
+		var result_presses := [0]
+		result.pressed.connect(func(): result_presses[0] += 1)
+		var seen: Dictionary = {}
+		if not await _confirm_core_loop_v2_tendency(_mg, input_mode, seen):
+			return false
+		if result_presses[0] != 0 or seen != {"career": true}:
+			_fail("Modal raw input leaked to the underlying result.")
+			return false
+		var next_result := _find_visible_meta_button(_mg, "ap_result_confirm")
+		if next_result == null:
+			_fail("Modal confirmation did not resume the legitimate result.")
+			return false
+		var resumed_presses := [0]
+		next_result.pressed.connect(func(): resumed_presses[0] += 1)
+		await _activate_route_control(next_result, input_mode)
+		for _frame in range(3):
+			await get_tree().process_frame
+		if resumed_presses[0] != 1 or not bool(core_loop.has_completed_bundle(bundle_id)) \
+				or core_loop.action_receipt(bundle_id) != receipt \
+				or int(GameState.turn) != 18 \
+				or (GameState.core_loop_v2_state.get("action_receipts", {}) as Dictionary).size() != 1:
+			_fail_core_loop_v2_modal(_mg, "legitimate result did not resume exactly once")
+			return false
+		print("CORE_LOOP_V2_MODAL_RESUME_OK device=%s week=17->18 application_receipts=1 result_inputs=1 malformed=%d" % [
+			input_mode, malformed_cases])
+		await _dispose_main_game()
+	if not _assert_core_loop_v2_input_purity(input_mode):
+		return false
+	print("CORE_LOOP_V2_MODAL_PRIORITY_OK device=%s lang=%s fixture=controlled-w17" % [input_mode, lang])
+	return true
+
 func _run_core_loop_v2_input_route(
 		lang: String, input_mode: String) -> bool:
 	var core_loop = load("res://systems/DemoCoreLoopV2.gd")
@@ -11590,6 +11827,7 @@ func _run_core_loop_v2_input_route(
 	var w1_job_hunt_answers := 0
 	var w1_job_hunt_review_inputs := 0
 	var w1_send_inputs := 0
+	var tendency_confirms_seen: Dictionary = {}
 	var hyunsu_terminal_allocation_week := 0
 	var hyunsu_followup_story_week := 0
 
@@ -11700,6 +11938,48 @@ func _run_core_loop_v2_input_route(
 						int(core_loop.month_for_turn(GameState.turn)),
 						roundi(float(GameState.money)), int(GameState.health),
 						int(GameState.mental)])
+
+			# A top-level modal owns acceptance before any visible-in-tree board,
+			# task or result below it. Never manufacture focus through that layer.
+			var modal_command := _core_loop_v2_modal_command(scene)
+			if not str(modal_command.get("error", "")).is_empty():
+				_fail_core_loop_v2_modal(scene, str(modal_command["error"]))
+				return false
+			var modal_owner := str(modal_command.get("owner", ""))
+			if modal_owner == "tendency_realization":
+				if not await _confirm_core_loop_v2_tendency(
+						scene, input_mode, tendency_confirms_seen):
+					return false
+				continue
+			if modal_owner == "fresh_w1_application_send":
+				if w1_send_inputs != 0:
+					_fail_core_loop_v2_modal(scene, "duplicate fresh W1 Send")
+					return false
+				await _activate_route_control(modal_command["button"], input_mode)
+				w1_send_inputs += 1
+				continue
+			if modal_owner == "core_loop_v2_month_summary":
+				var month_confirm := modal_command["button"] as Button
+				var modal := scene.get("modal_layer") as Control
+				var summary_month := int(modal.get_meta("core_loop_v2_month", 0))
+				if month_one_only:
+					if summary_month != 1 \
+							or not _assert_seoul_cycle_month_one_path(
+								core_loop, cycle_path, story_sequence, cycle_allocations) \
+							or not _assert_core_loop_v2_input_purity(input_mode):
+						return false
+					await _save("seoul_cycle_%s_%s_%s_month_end" % [
+						lang, input_mode, cycle_path], 0.0)
+					print("CORE_LOOP_V2_MONTH_ONE_PATH_OK device=%s lang=%s path=%s weeks=4 allocations=4 world=w3+w4 trigger_expiry=verified routines=suppressed input=raw" % [
+						input_mode, lang, cycle_path])
+					return true
+				if summary_month < 1 or summary_month > 5 \
+						or month_summaries_seen.has(summary_month):
+					_fail("Core Loop V2 month notebook repeated or mislabeled: %d." % summary_month)
+					return false
+				month_summaries_seen[summary_month] = true
+				await _activate_route_control(month_confirm, input_mode)
+				continue
 
 			# ORDER-92: the inventory promise now opens one scene-positioned
 			# commitment task. Follow its stable QA metadata with the selected raw
@@ -12488,32 +12768,6 @@ func _run_core_loop_v2_input_route(
 					return false
 				continue
 
-			var month_confirm := _find_visible_meta_button(
-				scene, "core_loop_v2_month_confirm")
-			if month_confirm != null:
-				var modal := scene.get("modal_layer") as Control
-				var summary_month := int(modal.get_meta(
-					"core_loop_v2_month", 0)) if is_instance_valid(modal) else 0
-				if month_one_only:
-					if summary_month != 1 \
-							or not _assert_seoul_cycle_month_one_path(
-								core_loop, cycle_path, story_sequence,
-								cycle_allocations) \
-							or not _assert_core_loop_v2_input_purity(input_mode):
-						return false
-					await _save("seoul_cycle_%s_%s_%s_month_end" % [
-						lang, input_mode, cycle_path], 0.0)
-					print("CORE_LOOP_V2_MONTH_ONE_PATH_OK device=%s lang=%s path=%s weeks=4 allocations=4 world=w3+w4 trigger_expiry=verified routines=suppressed input=raw" % [
-						input_mode, lang, cycle_path])
-					return true
-				if summary_month < 1 or summary_month > 5 \
-						or month_summaries_seen.has(summary_month):
-					_fail("Core Loop V2 month notebook repeated or mislabeled: %d." % summary_month)
-					return false
-				month_summaries_seen[summary_month] = true
-				await _activate_route_control(month_confirm, input_mode)
-				continue
-
 			var result_confirm := _find_visible_meta_button(
 				scene, "ap_result_confirm")
 			if result_confirm != null:
@@ -12597,22 +12851,6 @@ func _run_core_loop_v2_input_route(
 				transient_confirms_seen[transient_key] = true
 				await _activate_route_control(transient_confirm, input_mode)
 				continue
-
-			var modal_layer := scene.get("modal_layer") as Control
-			if is_instance_valid(modal_layer) and modal_layer.visible:
-				if bool(modal_layer.get_meta(
-						"fresh_w1_application_send", false)):
-					var send_button := _find_visible_meta_button(
-						scene, "fresh_w1_application_send_button")
-					if send_button == null or w1_send_inputs != 0:
-						_fail("Fresh W1 exposed a missing or duplicate Send command.")
-						return false
-					await _activate_route_control(send_button, input_mode)
-					w1_send_inputs += 1
-					continue
-				_fail("Core Loop V2 reached unexpected modal %s at week %d." % [
-					str(scene.get("_modal_kind")), int(GameState.turn)])
-				return false
 
 		elif script_path == "res://scenes/StartMenu.gd":
 			if not completion_checked:

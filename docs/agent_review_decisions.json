@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "delegation": {
+    "id": "user-2026-09-09-codex-game-quality",
+    "granted_at": "2026-09-09",
+    "granted_by": "user",
+    "delegated_to": "Codex",
+    "source": "전부 진행, 최종 검수 및 개선까지 전부 권한 넘김. 이제 사용자는 판단 안하고 Codex가 모든걸 담당해 계속 개선",
+    "scopes": ["game_development", "quality_review", "internal_product_decision"],
+    "exclusions": ["external_publication", "storefront_change", "expenditure", "legal_certification"],
+    "user_resign_required": false
+  },
+  "decisions": []
+}

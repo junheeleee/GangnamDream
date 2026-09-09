@@ -22,6 +22,7 @@ from pathlib import Path
 from typing import Any
 
 from queue_index import read_queue_index
+from human_gates import agent_review_status_lines, _delegated_review_lines
 ROOT = Path(__file__).resolve().parents[1]
 
 
@@ -698,31 +699,10 @@ def human_gate_delegated_review(ledger: dict, gate: dict) -> str:
     if not isinstance(reviews, list) or not reviews or not isinstance(reviews[-1], dict):
         return ""
     review = reviews[-1]
-    label = human_gate_delegated_label(review)
     record = str(review.get("record", "")).strip()
     record_line = f"<br><sub>{md_escape(record)}</sub>" if record else ""
-    if human_gate_review_matches_candidate(ledger, gate, review):
-        headline = f"판정: Claude(사용자 위임) — {md_escape(label)}"
-        status_line = "정본 서명: 사용자 최종 GO 대기"
-    else:
-        candidates = ledger.get("release_candidates", {})
-        revision_id = gate.get("revision")
-        candidate = candidates.get(revision_id, {}) if isinstance(candidates, dict) else {}
-        reviewed_ref = str(review.get("commit", ""))[:8] or "신원 없음"
-        active_ref = (
-            str(candidate.get("commit", ""))[:8]
-            if isinstance(candidate, dict) and candidate.get("status") == "active"
-            else "재빌드 대기"
-        )
-        headline = (
-            f"이전 후보 {md_escape(reviewed_ref)} 판정 · 현재 후보에 미적용 — "
-            f"{md_escape(label)}"
-        )
-        status_line = f"현재 후보 {md_escape(active_ref)}: 사람 판정 대기"
-    return (
-        f"<br><strong>{headline}</strong>"
-        f"{record_line}<br><sub>{status_line} · 정본 서명: 사용자 최종 GO 대기</sub>"
-    )
+    lines = _delegated_review_lines(ledger, gate)
+    return "<br>" + "<br>".join(md_escape(line) for line in lines) + record_line
 
 
 def human_gate_delegated_review_html(ledger: dict, gate: dict) -> str:
@@ -730,31 +710,10 @@ def human_gate_delegated_review_html(ledger: dict, gate: dict) -> str:
     if not isinstance(reviews, list) or not reviews or not isinstance(reviews[-1], dict):
         return ""
     review = reviews[-1]
-    label = html.escape(human_gate_delegated_label(review))
     record = str(review.get("record", "")).strip()
     record_line = f'<br><span style="color:var(--faint)">{html.escape(record)}</span>' if record else ""
-    if human_gate_review_matches_candidate(ledger, gate, review):
-        headline = f"판정: Claude(사용자 위임) — {label}"
-        status_line = "정본 서명: 사용자 최종 GO 대기"
-    else:
-        candidates = ledger.get("release_candidates", {})
-        revision_id = gate.get("revision")
-        candidate = candidates.get(revision_id, {}) if isinstance(candidates, dict) else {}
-        reviewed_ref = str(review.get("commit", ""))[:8] or "신원 없음"
-        active_ref = (
-            str(candidate.get("commit", ""))[:8]
-            if isinstance(candidate, dict) and candidate.get("status") == "active"
-            else "재빌드 대기"
-        )
-        headline = (
-            f"이전 후보 {html.escape(reviewed_ref)} 판정 · 현재 후보에 미적용 — {label}"
-        )
-        status_line = f"현재 후보 {html.escape(active_ref)}: 사람 판정 대기"
-    return (
-        f"<br><strong>{headline}</strong>"
-        f"{record_line}<br><span style=\"color:var(--faint)\">"
-        f"{status_line} · 정본 서명: 사용자 최종 GO 대기</span>"
-    )
+    lines = _delegated_review_lines(ledger, gate)
+    return "<br>" + "<br>".join(html.escape(line) for line in lines) + record_line
 
 
 def markdown() -> str:
@@ -803,11 +762,18 @@ def markdown() -> str:
         gate for gate in gate_source
         if isinstance(gate, dict) and gate.get("state") == "open"
     ] if isinstance(gate_source, list) else []
-    add("## 사람만 할 수 있는 판정")
+    add("## 에이전트 최종 판정")
     add("")
-    add("**초록불은 계약을 지켰다는 뜻이지 좋다는 뜻이 아니다.** 아래는 자동 검사가")
-    add("대신할 수 없어 남아 있는 것이며, 원장은")
-    add("[`human_gates.json`](human_gates.json)이 소유한다.")
+    for line in agent_review_status_lines(ROOT):
+        add(md_escape(line))
+        add("")
+    add("")
+    add("판정권·독립 검수·연속 실행의 정본은 [`WORK_UNIT.md`](WORK_UNIT.md)다.")
+    add("")
+    add("## 인간 증거 상태")
+    add("")
+    add("**자동 계약 통과는 품질 GO가 아니다.** 아래 역사 후보·관찰 요구는")
+    add("[`human_gates.json`](human_gates.json)에 원형 보존하며 에이전트 판정과 합산하지 않는다.")
     if demo_candidate_active:
         add("")
         if isinstance(demo_candidate_note, str) and demo_candidate_note.strip():
@@ -844,7 +810,7 @@ def markdown() -> str:
     add("")
 
     props = proposals()
-    add("## 당신의 결정을 기다리는 것")
+    add("## 후속 판단할 제안")
     add("")
     if props:
         add("에이전트가 작업 중 부딪혀 올린 제안이다. 규칙·상한은")
@@ -1119,9 +1085,15 @@ def build() -> str:
 </section>
 
 <section>
-  <h2>사람만 할 수 있는 판정</h2>
-  <p class="lede"><strong>초록불은 계약을 지켰다는 뜻이지 좋다는 뜻이 아니다.</strong>
-  범위·후보·표본·합격 기준이 같은 행에서 확인돼야 사람 판정을 출시 근거로 쓸 수 있다.</p>
+  <h2>에이전트 최종 판정</h2>
+  <p class="lede">{'<br>'.join(html.escape(line) for line in agent_review_status_lines(ROOT))}</p>
+  <p>판정권·독립 검수·연속 실행의 정본은 docs/WORK_UNIT.md다.</p>
+</section>
+
+<section>
+  <h2>인간 증거 상태</h2>
+  <p class="lede"><strong>자동 계약 통과는 품질 GO가 아니다.</strong>
+  아래 역사 후보·관찰 요구는 원형 보존하며 에이전트 판정과 합산하지 않는다.</p>
   {demo_candidate_note_html}
   {legacy_demo_note_html}
   <div class="scroll"><table>

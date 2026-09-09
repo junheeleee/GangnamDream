@@ -121,6 +121,22 @@ decisions의 각 기록 정확 필드:
 
 ## validator와 표시의 좁은 구현
 
+ROOT 독립 검토에서 판정 기록을 다음 커밋에 쓰면 clean HEAD가 달라져 GO를
+표시할 수 없는 자기참조 결함을 확인했다. caller는 판정 레코드가 아니라 Git의
+제품 변경 이력에서 source subject를 관측한다. 이후 차이는 고정된 판정·보고·큐·
+WORK_LOG·STATUS 운영 metadata 경로만 허용하며 tree diff로 재확인한다.
+docs 전체 허용이나 정본·원문·코드·manifest 변경을 숨기는 wrapper는 금지한다.
+실제 임시 Git의 제품→판정 wrapper 흐름과 제품 변경 혼합 반례를 검사한다.
+또한 `scope=work_unit`에만 조건부 필수 `unit_id`를 추가해 caller가 요청한
+같은 단위와만 매칭한다. internal_product에는 unit_id를 넣지 않는다.
+다른 작업의 GO 차용과 unit 없는 work_unit 호출은 HOLD/거부다.
+
+후속 자기참조 수리: 생성물 `docs/STATUS.md` 단독 미커밋 변경만 source 후보
+관측에서 제외한다. index/unstaged/untracked를 NUL 경로로 각각 읽고 합치며 다른
+metadata·코드·미추적 파일과 혼합되면 계속 HOLD다. 두 실제 임시 Git 흐름
+(work_unit GO3/internal_product GO1)의 원장 커밋→STATUS 생성→`--check`를
+수리 전후 같은 입력으로 확인한다. 다른 문서 전체를 dirty 예외로 허용하지 않는다.
+
 - 기존 load/load_ledger/validate_ledger/scope_blocks/open_gates/
   canonical_active_candidate의 인간 증거 의미와 본문 AST는 유지한다.
 - 별도 load_agent_review_ledger, validate_agent_review_ledger,

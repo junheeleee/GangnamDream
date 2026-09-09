@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 """자동으로 잴 수 없는 판정을 출력하고, 원장이 실제와 어긋나면 실패한다.
 
-`identity_signature_audit`만 하던 일을 모든 도메인으로 넓힌 것이다. 못 재는 것을
-조용히 넘어가면 초록불이 "다 됐다"로 읽힌다. **이 도구는 아무것도 통과시키지
-않는다** — 남은 사람 판정을 매번 화면에 올려 초록불의 뜻을 좁히는 것이 전부다.
+인간 증거 원장과 별도 에이전트 최종 판정을 구분한다. 구조 검사 성공은 품질 GO가
+아니다. 위임된 개발 판단은 계속하되 미관찰 인간 증거를 발급하지 않는다.
 
     python3 tools/human_gates.py            # 열린 게이트 전부 + 원장 검사
     python3 tools/human_gates.py --domain audio
@@ -18,9 +17,12 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
+import subprocess
 import sys
+from datetime import date
 from pathlib import Path
 from typing import Any
 
@@ -40,6 +42,305 @@ DELEGATED_DISPOSITIONS = {
     "PARTIAL_REJECT": ("all_except", True),
     "REJECT": ("all", False),
 }
+
+AGENT_LEDGER = "docs/agent_review_decisions.json"
+AGENT_SCOPES = {"work_unit", "internal_product"}
+AGENT_DELEGATED_SCOPES = {"game_development", "quality_review", "internal_product_decision"}
+AGENT_EXCLUSIONS = {"external_publication", "storefront_change", "expenditure", "legal_certification"}
+AGENT_EVIDENCE_KINDS = {
+    "source_review", "automated_contract", "agent_render_observation", "agent_runtime_observation",
+}
+AGENT_UNOBSERVED = {"native_reader", "human_playtest", "physical_controller_feel"}
+AGENT_METADATA_PATHS = {
+    AGENT_LEDGER, "docs/CODEX_QUEUE.md", "docs/CODEX_QUEUE_L3_PENDING.md",
+    "docs/WORK_LOG.md", "docs/STATUS.md", "docs/history/WORK_LOG_2026-09-07_localization.md",
+}
+AGENT_METADATA_REPORT_RE = re.compile(
+    r"^(?:docs/agent_reviews/[A-Za-z0-9_-]+\.(?:json|md)|"
+    r"docs/(?:queue_active|queue_archive)/ORDER-[0-9]+(?:_L1_L2_RESULTS)?\.md)$"
+)
+
+
+def load_agent_review_ledger(root: Path | None = None) -> dict[str, Any] | None:
+    """Read the separate agent ledger, rejecting duplicate JSON keys."""
+    def unique_object(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+        result: dict[str, Any] = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError(f"duplicate key: {key}")
+            result[key] = value
+        return result
+
+    try:
+        data = json.loads(((root or ROOT) / AGENT_LEDGER).read_text(encoding="utf-8"),
+                          object_pairs_hook=unique_object)
+    except (OSError, ValueError):
+        return None
+    return data if isinstance(data, dict) else None
+
+
+def _agent_git_tree(root: Path, commit: str) -> str | None:
+    if not isinstance(commit, str) or not COMMIT_RE.fullmatch(commit):
+        return None
+    try:
+        result = subprocess.run(
+            ["git", "show", "-s", "--format=%T", commit], cwd=root,
+            text=True, capture_output=True, timeout=5, check=False,
+        )
+    except (OSError, subprocess.TimeoutExpired):
+        return None
+    return result.stdout.strip() if result.returncode == 0 else None
+
+
+def _agent_subject_errors(subject: Any, root: Path) -> list[str]:
+    if not isinstance(subject, dict) or set(subject) != {"kind", "commit", "tree", "manifest_sha256"}:
+        return ["subject must have exactly kind/commit/tree/manifest_sha256"]
+    errors = []
+    if subject["kind"] not in ("source", "package"):
+        errors.append("subject.kind must be source or package")
+    for key in ("commit", "tree"):
+        if not isinstance(subject[key], str) or not COMMIT_RE.fullmatch(subject[key]):
+            errors.append(f"subject.{key} must be a full Git hash")
+    actual_tree = _agent_git_tree(root, subject["commit"])
+    if actual_tree is None or actual_tree != subject["tree"]:
+        errors.append("subject commit/tree does not match Git")
+    manifest = subject["manifest_sha256"]
+    if subject["kind"] == "source" and manifest is not None:
+        errors.append("source subject must not borrow a package manifest")
+    if subject["kind"] == "package" and (
+        not isinstance(manifest, str) or not SHA256_RE.fullmatch(manifest)
+    ):
+        errors.append("package subject requires a manifest SHA-256")
+    return errors
+
+
+def _agent_file_errors(item: Any, root: Path, evidence: bool = False) -> list[str]:
+    expected = {"path", "sha256", "kind"} if evidence else {"path", "sha256"}
+    if not isinstance(item, dict) or set(item) != expected:
+        return ["evidence/record has missing or unknown fields"]
+    errors = []
+    if evidence and item["kind"] not in tuple(AGENT_EVIDENCE_KINDS):
+        errors.append("agent evidence cannot certify human/native/physical observations")
+    path, digest = item["path"], item["sha256"]
+    if not isinstance(digest, str) or not SHA256_RE.fullmatch(digest):
+        errors.append("evidence/record requires a SHA-256")
+    if not isinstance(path, str) or not path or "\\" in path or "\0" in path or Path(path).is_absolute() or any(p in {"..", ".git"} for p in Path(path).parts):
+        return errors + ["evidence/record path must stay inside the repository"]
+    try:
+        resolved = (root / path).resolve()
+    except (OSError, RuntimeError, ValueError):
+        return errors + ["evidence/record path cannot be resolved safely"]
+    if not resolved.is_relative_to(root.resolve()) or not resolved.is_file():
+        return errors + ["evidence/record file missing or outside repository"]
+    try:
+        if hashlib.sha256(resolved.read_bytes()).hexdigest() != digest:
+            errors.append("evidence/record SHA-256 drift")
+    except OSError:
+        errors.append("evidence/record file unreadable")
+    return errors
+
+
+def validate_agent_review_ledger(ledger: Any, root: Path | None = None) -> list[str]:
+    """Validate authority and evidence identity, not the truth of review prose."""
+    root = root or ROOT
+    if not isinstance(ledger, dict) or set(ledger) != {"schema_version", "delegation", "decisions"}:
+        return ["agent ledger must have exactly schema_version/delegation/decisions"]
+    errors: list[str] = []
+    if type(ledger["schema_version"]) is not int or ledger["schema_version"] != 1:
+        errors.append("agent schema_version must be 1")
+    delegation = ledger["delegation"]
+    delegation_keys = {"id", "granted_at", "granted_by", "delegated_to", "source", "scopes", "exclusions", "user_resign_required"}
+    if not isinstance(delegation, dict) or set(delegation) != delegation_keys:
+        return errors + ["delegation has missing or unknown fields"]
+    for key in ("id", "source"):
+        if not isinstance(delegation[key], str) or not delegation[key].strip():
+            errors.append(f"delegation.{key} must be nonempty")
+    try:
+        if not isinstance(delegation["granted_at"], str) or not DATE_RE.fullmatch(delegation["granted_at"]):
+            raise ValueError()
+        date.fromisoformat(delegation["granted_at"])
+    except ValueError:
+        errors.append("delegation.granted_at must be a real YYYY-MM-DD")
+    if delegation["granted_by"] != "user" or delegation["delegated_to"] != "Codex":
+        errors.append("delegation must be user to Codex")
+    if delegation["user_resign_required"] is not False:
+        errors.append("delegated work must not require user re-signing")
+    for key, expected in (("scopes", AGENT_DELEGATED_SCOPES), ("exclusions", AGENT_EXCLUSIONS)):
+        value = delegation[key]
+        if not isinstance(value, list) or not all(isinstance(v, str) for v in value) or len(value) != len(expected) or set(value) != expected:
+            errors.append(f"delegation.{key} differs from the bounded user grant")
+    decisions = ledger["decisions"]
+    if not isinstance(decisions, list):
+        return errors + ["decisions must be a list"]
+    ids: set[str] = set()
+    decision_keys = {"id", "delegation_id", "decided_at", "decided_by", "authority", "scope", "subject", "verdict", "evidence", "unobserved", "record"}
+    for index, decision in enumerate(decisions):
+        prefix = f"decisions[{index}]"
+        local: list[str] = []
+        expected_keys = decision_keys | ({"unit_id"} if isinstance(decision, dict) and decision.get("scope") == "work_unit" else set())
+        if not isinstance(decision, dict) or set(decision) != expected_keys:
+            errors.append(f"{prefix}: missing or unknown fields")
+            continue
+        identifier = decision["id"]
+        if not isinstance(identifier, str) or not identifier.strip() or identifier in ids:
+            local.append("decision id empty or duplicate")
+        else:
+            ids.add(identifier)
+        if decision["delegation_id"] != delegation["id"]:
+            local.append("unknown delegation_id")
+        try:
+            if not isinstance(decision["decided_at"], str) or not DATE_RE.fullmatch(decision["decided_at"]):
+                raise ValueError()
+            if date.fromisoformat(decision["decided_at"]) < date.fromisoformat(delegation["granted_at"]):
+                raise ValueError()
+        except (ValueError, TypeError):
+            local.append("decision date invalid or before delegation")
+        reviewer = decision["decided_by"]
+        if not isinstance(reviewer, str) or not reviewer.strip() or reviewer.strip().casefold() == "user":
+            local.append("decided_by must identify an agent, not user")
+        if decision["authority"] != "user_delegated_agent_final":
+            local.append("wrong agent authority")
+        if decision["scope"] not in tuple(AGENT_SCOPES):
+            local.append("scope is not a delegated internal decision")
+        if decision["scope"] == "work_unit" and (
+            not isinstance(decision["unit_id"], str) or not decision["unit_id"].strip()
+            or decision["unit_id"] != decision["unit_id"].strip()
+        ):
+            local.append("work_unit requires an exact nonempty unit_id")
+        if decision["verdict"] not in ("GO", "HOLD", "REWORK"):
+            local.append("unknown agent verdict")
+        local.extend(_agent_subject_errors(decision["subject"], root))
+        evidence = decision["evidence"]
+        if not isinstance(evidence, list) or (decision["verdict"] == "GO" and not evidence):
+            local.append("GO requires nonempty evidence list")
+        else:
+            for item in evidence:
+                local.extend(_agent_file_errors(item, root, evidence=True))
+            subject = decision["subject"]
+            if isinstance(subject, dict) and subject.get("kind") == "package" and not any(
+                isinstance(item, dict) and item.get("sha256") == subject.get("manifest_sha256") for item in evidence
+            ):
+                local.append("package manifest must be bound to an evidence file")
+        unobserved = decision["unobserved"]
+        if not isinstance(unobserved, list) or not all(isinstance(v, str) and v.strip() for v in unobserved) or not AGENT_UNOBSERVED.issubset(unobserved):
+            local.append("unobserved must retain native_reader/human_playtest/physical_controller_feel")
+        local.extend(_agent_file_errors(decision["record"], root))
+        errors.extend(f"{prefix}: {error}" for error in local)
+    return errors
+
+
+def effective_agent_decision(
+    subject: dict[str, Any] | None, scope: str,
+    ledger: Any = None, root: Path | None = None, *, unit_id: str | None = None,
+) -> dict[str, Any]:
+    """Resolve only the caller-observed subject; never infer it from a decision."""
+    root = root or ROOT
+    data = load_agent_review_ledger(root) if ledger is None else ledger
+    errors = validate_agent_review_ledger(data, root)
+    result: dict[str, Any] = {
+        "verdict": "HOLD", "decided_by": None, "decision_id": None,
+        "unobserved": sorted(AGENT_UNOBSERVED), "errors": errors,
+        "reason": "현재 후보의 독립 최종 검수 기록 없음",
+        "user_resign_required": False if not errors else None,
+    }
+    if errors:
+        result["reason"] = "에이전트 판정 원장 계약 오류"
+        return result
+    if scope not in tuple(AGENT_SCOPES):
+        result["reason"] = "위임 범위 밖 — 외부 행위 권한으로 사용 불가"
+        return result
+    if (scope == "work_unit" and (not isinstance(unit_id, str) or not unit_id.strip() or unit_id != unit_id.strip())) or (scope == "internal_product" and unit_id is not None):
+        result["reason"] = "작업 단위 신원 미확정 또는 제품 범위와 혼합"
+        return result
+    if not data["decisions"]:
+        return result
+    if subject is None or _agent_subject_errors(subject, root):
+        result["reason"] = "현재 후보 신원 미확정 또는 작업 트리 변경 중"
+        return result
+    for decision in reversed(data["decisions"]):
+        if decision["subject"] == subject and decision["scope"] == scope and decision.get("unit_id") == unit_id:
+            result.update(verdict=decision["verdict"], decided_by=decision["decided_by"],
+                          decision_id=decision["id"], unobserved=decision["unobserved"],
+                          reason="현재 후보·범위와 일치하는 마지막 에이전트 판정")
+            break
+    return result
+
+
+def _agent_metadata_path(path: str) -> bool:
+    return path in AGENT_METADATA_PATHS or AGENT_METADATA_REPORT_RE.fullmatch(path) is not None
+
+
+def current_agent_source_subject(root: Path | None = None) -> dict[str, Any] | None:
+    """Observe the last product commit and verify any fixed-metadata-only wrapper.
+
+    Neither the decision ledger nor its claimed evidence paths select this identity.
+    Canon, balance, human evidence, manifests, runtime and code are never excluded.
+    """
+    root = root or ROOT
+
+    def read(*args: str) -> bytes:
+        result = subprocess.run(["git", *args], cwd=root, capture_output=True,
+                                timeout=5, check=False)
+        if result.returncode:
+            raise ValueError("Git identity unavailable")
+        return result.stdout
+
+    def paths(raw: bytes) -> list[str]:
+        return [p.decode("utf-8", errors="strict") for p in raw.split(b"\0") if p]
+
+    try:
+        # STATUS is an output of this resolver. Its sole dirty path must not
+        # change the identity/reason between dashboard generation and --check.
+        # Keep index, worktree and untracked paths distinct until NUL decoding;
+        # rename source paths and every other metadata/code path still block.
+        dirty: set[str] = set()
+        for args in (
+            ("diff", "--name-only", "--no-renames", "--ignore-submodules=none", "-z"),
+            ("diff", "--cached", "--name-only", "--no-renames", "--ignore-submodules=none", "-z"),
+            ("ls-files", "--others", "--exclude-standard", "-z"),
+        ):
+            dirty.update(paths(read(*args)))
+        if dirty - {"docs/STATUS.md"}:
+            return None
+        head = read("rev-parse", "HEAD").decode().strip()
+        history = read("rev-list", "--first-parent", "--max-count=128", head).decode().splitlines()
+        for commit in history:
+            parent_row = read("rev-list", "--parents", "-n", "1", commit).decode().split()
+            changed = paths(read("diff", "--name-only", "--no-renames", "-z", parent_row[1], commit)) if len(parent_row) > 1 else paths(read("ls-tree", "-r", "--name-only", "-z", commit))
+            if all(_agent_metadata_path(p) for p in changed):
+                continue
+            # Verify the actual wrapper, not just log-path filtering. A mixed code,
+            # source, manifest or canon change produces its own new candidate.
+            wrapper = paths(read("diff", "--name-only", "--no-renames", "-z", commit, head))
+            if any(not _agent_metadata_path(p) for p in wrapper):
+                return None
+            tree = read("rev-parse", f"{commit}^{{tree}}").decode().strip()
+            return {"kind": "source", "commit": commit, "tree": tree, "manifest_sha256": None}
+    except (OSError, ValueError, UnicodeError, subprocess.TimeoutExpired):
+        return None
+    return None
+
+
+def agent_review_status_lines(root: Path | None = None) -> list[str]:
+    """Shared plain-text view model for CLI, Markdown and HTML."""
+    root = root or ROOT
+    result = effective_agent_decision(current_agent_source_subject(root), "internal_product", root=root)
+    reviewer = result["decided_by"] or "미기록"
+    try:
+        human = json.loads((root / "docs/human_gates.json").read_text(encoding="utf-8"))
+        gates = human.get("gates", [])
+        counts = f"open={sum(g.get('state') == 'open' for g in gates)} done={sum(g.get('state') == 'done' for g in gates)}"
+    except (OSError, ValueError, AttributeError, TypeError):
+        counts = "원장 미확인"
+    lines = [f"에이전트 최종 판정: {result['verdict']} · 검수자 {reviewer}",
+             f"판정 근거: {result['reason']}",
+             f"인간 증거 상태: {counts} · 별도 human_gates.json의 실제 기록만 유효",
+             "미관찰 한계: " + ", ".join(result["unobserved"])]
+    if result["user_resign_required"] is False:
+        lines.append("개발·품질·내부 판정은 사용자 재서명 대기 없이 계속한다. 외부 출시 권한은 별도다.")
+    else:
+        lines.append("원장 계약 오류를 수리해야 한다. 오류를 제품 GO로 처리하지 않는다.")
+    return lines
 
 
 class LedgerValidationError(ValueError):
@@ -438,8 +739,8 @@ def _delegated_review_lines(ledger: dict, gate: dict) -> list[str]:
         label = "판정 오류"
     if _review_matches_active_candidate(ledger, gate, review):
         return [
-            f"판정: Claude(사용자 위임) — {label}",
-            "정본 서명: 사용자 최종 GO 대기",
+            f"역사 판정: {review.get('decided_by', '미기록')}(사용자 위임) — {label}",
+            "인간 증거와 현재 에이전트 최종 판정은 별도 원장에서 확인",
         ]
 
     revision_id = gate.get("revision")
@@ -452,9 +753,9 @@ def _delegated_review_lines(ledger: dict, gate: dict) -> list[str]:
         else "재빌드 대기"
     )
     return [
-        f"이전 후보 {reviewed_ref} 판정 · 현재 후보에 미적용 — {label}",
-        f"현재 후보 {active_ref}: 사람 판정 대기",
-        "정본 서명: 사용자 최종 GO 대기",
+        f"이전 후보 {reviewed_ref} 판정 · {review.get('decided_by', '미기록')} · 현재 후보에 미적용 — {label}",
+        f"현재 후보 {active_ref}: 인간 증거 미확인",
+        "현재 에이전트 최종 판정은 별도 원장에서 확인",
     ]
 
 
@@ -464,7 +765,9 @@ def print_pending(domain: str, indent: str = "  ") -> None:
     gates = [g for g in open_gates(domain)]
     if not gates:
         return
-    print(f"\n{indent}사람 판정 대기 — 자동으로 잴 수 없다. 통과 처리하지 않는다.")
+    print(f"\n{indent}인간 증거 상태 — 미관찰을 통과 처리하지 않는다.")
+    for line in agent_review_status_lines():
+        print(f"{indent}{line}")
     for gate in gates:
         print(
             f"{indent}  · {gate.get('gate', '<이름 없음>')}  "
@@ -491,6 +794,15 @@ def main() -> int:
             print(f"  ERROR: {error}")
         return 1
 
+    agent_errors = validate_agent_review_ledger(load_agent_review_ledger())
+    if agent_errors:
+        print("AGENT_REVIEW_LEDGER_FAIL")
+        for error in agent_errors:
+            print(f"  ERROR: {error}")
+        return 1
+    for line in agent_review_status_lines():
+        print(line)
+
     gates = ledger["gates"]
     rows = [
         gate for gate in gates
@@ -504,7 +816,7 @@ def main() -> int:
     if args.release_scope:
         filters.append(f"scope={args.release_scope}")
     suffix = f" ({', '.join(filters)})" if filters else ""
-    print(f"● 사람 판정 대기{suffix} — 자동 검사가 대신할 수 없다. 통과 처리하지 않는다.")
+    print(f"● 인간 증거 상태{suffix} — 관찰하지 않은 증거를 발급하지 않는다.")
     if not rows:
         print("    (열린 게이트 없음)")
     for domain in sorted({gate["domain"] for gate in rows}):

@@ -40,9 +40,13 @@ normal-speed verdicts must not be described as the public demo, the Next Fest
 submission, or the default external-test candidate. Those exact historical
 facts remain valid for the artifact that produced them.
 
-The full game remains M01–M60/W1–W240 and is HOLD. Chapter 5 remains HOLD until
-the required exact candidate and two normal-speed M49–M60 human replays close.
-Neither public-demo GO nor a legacy W1–W24 regression can close those gates.
+The full game remains M01–M60/W1–W240 and is HOLD; Chapter 5 also remains HOLD.
+The current delegated decision authority and independent review workflow are owned
+by [WORK_UNIT.md](WORK_UNIT.md#③-판정--권한과-증거를-분리). The required exact-candidate
+review is not complete. The historical two normal-speed M49–M60 human replay
+requirements remain unobserved evidence, not newly issued agent observations.
+Neither public-demo GO, a legacy W1–W24 regression, nor the delegation itself
+closes those evidence records or grants the full game GO.
 
 ## Artifact Identity, Save, and Third-Party Notice Gate
 
@@ -287,7 +291,9 @@ If a feature does not strengthen one of these, improve usability or create delig
   internal weeks, six settlements, save/resume, and return from transitions
   without a black cover or duplicate input owner.
 - The user's GO belongs only to the exact product/package/manifest identity
-  recorded above. Any changed candidate needs a new human verdict.
+  recorded above. A changed candidate needs a new exact-bound review under
+  [WORK_UNIT.md](WORK_UNIT.md#③-판정--권한과-증거를-분리); no historical human GO is inherited.
+  Agent internal-product decisions do not themselves authorize external publication.
 - Japanese, Simplified Chinese, and Traditional Chinese automation may prove
   parity and packaging, but native-language release claims remain OPEN.
 - Legacy W1–W24 V2 controller routes remain regression evidence only and cannot

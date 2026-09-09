@@ -5157,6 +5157,488 @@ class ExchangeTests(unittest.TestCase):
                         self.assertTrue(helper[2])
 
 
+    @staticmethod
+    def _amb_tradeoff_regression_cases():
+        # Keep multilingual fixture strings on short physical lines and check
+        # the real Python CLI, not merely decode/compile, in the final lane.
+        base = (
+            (
+                "events:amb_credit_confront:/choices/0/result_text",
+                (
+                    "{name}은 분명히 선을 그었다. 부장은 떨떠름하게 \"알았어\" 했다.\n"
+                    "호구는 면했다. 부장도 함부로 못 하게 됐다.\n"
+                    "대신 둘 사이엔 서늘한 거리가 생겼다.\n"
+                    "존중은 요구해야 얻어지지만 — 그 대가는 편안함이다."
+                ),
+                (
+                    "{name}ははっきり一線を引いた。部長は渋々「わかった」と言った。\n"
+                    "カモにならずに済んだ。部長も好き勝手はできなくなった。\n"
+                    "代わりに、2人の間には冷えた距離が生まれた。\n"
+                    "尊重は求めなければ得られないが――その代償は居心地のよさだ。"
+                ),
+            ),
+            (
+                "events:amb_credit_confront:/title",
+                (
+                    "독대"
+                ),
+                (
+                    "2人きりで"
+                ),
+            ),
+            (
+                "events:amb_credit_steal_00:/choices/2/result_text",
+                (
+                    "{name}은 임원에게 따로 자료 원본을 보냈다. '참고하시라'며.\n"
+                    "임원은 알아챘다. {name}의 이름이 윗선에 각인됐다.\n"
+                    "대신 부장은 — 누가 찔렀는지 안다. 보이지 않는 칼이 갈리기 시작했다.\n"
+                    "인정을 얻은 값으로, {name}은 적을 하나 만들었다."
+                ),
+                (
+                    "{name}は役員に別途、元の資料を送った。『ご参考までに』と添えて。\n"
+                    "役員は察した。上層部に{name}の名前が刻まれた。\n"
+                    "その代わり部長は――誰が告げたか知っている。見えない刃が研がれ始めた。\n"
+                    "認められた代償に、{name}は敵を1人作った。"
+                ),
+            ),
+            (
+                "events:amb_guarantee_00:/choices/1/result_text",
+                (
+                    "{name}은 결국 도장을 찍었다. 친구는 눈물까지 글썽이며 고마워했다.\n"
+                    "우정은 지켰다. 대신 — 남의 빚이 {name}의 어깨에 얹혔다.\n"
+                    "그 사업이 잘되길, {name}은 매일 빌게 됐다.\n"
+                    "호의로 찍은 도장 하나가, 평생의 불안이 될 줄도 모르고."
+                ),
+                (
+                    "{name}は結局、ハンコを押した。友人は涙まで浮かべて礼を言った。\n"
+                    "友情は守った。代わりに――他人の借金が{name}の肩に載った。\n"
+                    "あの事業がうまくいくようにと、{name}は毎日祈るようになった。\n"
+                    "好意で押したハンコ1つが、一生の不安になるとも知らずに。"
+                ),
+            ),
+            (
+                "events:amb_guarantee_00:/description",
+                (
+                    "고등학교 친구가 오랜만에 술을 사겠다며 불러냈다.\n"
+                    "몇 잔 돌고 나서야 본론이 나온다.\n"
+                    "\"사업 자금 대출인데, 보증인 한 명이 모자라. 도장만 찍어주면 돼.\n"
+                    "절대 너한테 피해 안 가. 우리 사이에 이 정도도 못 해줘?\"\n"
+                    "\n"
+                    "{name}은 안다. 보증은 남의 빚을 내 빚으로 만드는 일이라는 걸.\n"
+                    "그리고 — 거절은, 20년 우정에 금을 낸다는 것도."
+                ),
+                (
+                    "高校の友人が、久しぶりに飲もう、おごるからと呼び出した。\n"
+                    "何杯か飲んで、ようやく本題が出る。\n"
+                    "「事業資金の融資なんだけど、保証人が1人足りないんだ。ハンコを押すだけでいい。\n"
+                    "絶対に迷惑はかけない。俺たちの仲で、そのくらいも駄目か？」\n"
+                    "\n"
+                    "{name}は知っている。保証人になるとは、他人の借金を自分の借金にすることだと。\n"
+                    "そして――断れば、20年の友情にひびが入ることも。"
+                ),
+            ),
+            (
+                "events:amb_guarantee_00:/title",
+                (
+                    "도장 하나만"
+                ),
+                (
+                    "ハンコ1つだけ"
+                ),
+            ),
+            (
+                "events:amb_hoesik_00:/title",
+                (
+                    "한 잔 더"
+                ),
+                (
+                    "もう1杯"
+                ),
+            ),
+            (
+                "events:amb_hoesik_drink:/choices/0/result_text",
+                (
+                    "{name}은 숙취해소제를 털어넣고 출근했다.\n"
+                    "비틀거리며 하루를 버텼다. 결근은 면했지만,\n"
+                    "몸은 한참을 회복하지 못했다. 관계를 산 값은, 늘 몸으로 치른다."
+                ),
+                (
+                    "{name}は二日酔い対策の薬を流し込み、出勤した。\n"
+                    "ふらつきながら1日を乗り切った。欠勤は免れたが、\n"
+                    "体はなかなか回復しなかった。関係を買った代金は、いつも体で払う。"
+                ),
+            ),
+            (
+                "events:amb_hoesik_drink:/choices/1/result_text",
+                (
+                    "{name}은 반차를 냈다. 종일 앓았다.\n"
+                    "어제 쌓은 점수가 오늘 조금 깎였다.\n"
+                    "관계도, 건강도 다 가질 수는 없다는 걸 — 또 배웠다."
+                ),
+                (
+                    "{name}は半休を取った。1日中苦しんだ。\n"
+                    "昨日稼いだ点数が、今日少し削れた。\n"
+                    "関係も健康も、両方は手に入らない――また思い知らされた。"
+                ),
+            ),
+            (
+                "events:amb_holiday_00:/choices/1/result_text",
+                (
+                    "{name}은 \"일이 있다\"고 둘러댔다. 비교당할 일도, 차비 쓸 일도 없었다.\n"
+                    "대신 명절 내내 지금 사는 방에 혼자 있었다.\n"
+                    "아버지가 보낸 '밥은 챙겨 먹어라' 문자에 — 한참 답을 못 했다."
+                ),
+                (
+                    "{name}は「仕事がある」とごまかした。比較もされず、交通費もかからなかった。\n"
+                    "その代わり、旧正月の間ずっと、今暮らしている部屋で1人だった。\n"
+                    "父から届いた『ちゃんと飯を食えよ』というメッセージに――長いこと返事ができなかった。"
+                ),
+            ),
+            (
+                "events:amb_holiday_00:/choices/2/result_text",
+                (
+                    "{name}은 큰집은 건너뛰고, 아버지만 따로 찾아뵀다.\n"
+                    "둘이 먹은 국밥 한 그릇. 비교도, 잔소리도 없었다.\n"
+                    "차비는 들었지만 — 가장 보고 싶던 사람만, 조용히 보고 왔다."
+                ),
+                (
+                    "{name}は本家には寄らず、父だけに会いに行った。\n"
+                    "2人で食べた1杯のクッパ。比較も、小言もなかった。\n"
+                    "交通費はかかったが――いちばん会いたかった人だけに、静かに会ってきた。"
+                ),
+            ),
+            (
+                "events:amb_jeonse_00:/choices/2/result_text",
+                (
+                    "신호음이 세 번 울렸다. 집주인은 \"별 문제 없다\"며 말을 짧게 잘랐다."
+                ),
+                (
+                    "呼び出し音が3回鳴った。大家は「何も問題ありません」と、話を短く切り上げた。"
+                ),
+            ),
+            (
+                "events:amb_jeonse_00:/description",
+                (
+                    "옆집 아주머니가 {name}을 붙잡고 속삭인다.\n"
+                    "\"그 집주인 양반, 이 건물 말고도 빚이 산더미래.\n"
+                    "등기부는 떼봤어? 요즘 전세 사기 무서워.\"\n"
+                    "\n"
+                    "{name}의 전세보증금 — 몇 년을 모은 전 재산이 —\n"
+                    "그 집에 묶여 있다. '깡통전세' 네 글자가 머릿속을 맴돈다."
+                ),
+                (
+                    "隣の奥さんが{name}を呼び止め、声をひそめる。\n"
+                    "「ここの大家さん、この建物以外にも借金が山ほどあるんだって。\n"
+                    "登記は取ってみた？　最近、チョンセ詐欺は怖いよ」\n"
+                    "\n"
+                    "高額な保証金を預ける賃貸制度、チョンセ。その保証金に――何年もかけて貯めた{name}の全財産が――\n"
+                    "あの家で縛られている。保証金が戻らない『カントンチョンセ』。その韓国語4文字が頭の中を回る。"
+                ),
+            ),
+            (
+                "events:amb_jeonse_check:/description",
+                (
+                    "등기부를 떼보니 — 근저당이 시세의 80%.\n"
+                    "집주인이 무너지면 보증금은 한 푼도 못 건진다.\n"
+                    "다행히 아직 전세보증보험에 들 수 있는 마지노선은 넘기지 않았다.\n"
+                    "\n"
+                    "보험료 30만원. {name}의 한 달 식비보다 많다."
+                ),
+                (
+                    "登記を取ってみると――根抵当権の額が相場の80%。\n"
+                    "大家が倒れれば、保証金は一銭も戻らない。\n"
+                    "幸い、チョンセ保証金の返還保証保険に入れるぎりぎりの線は、まだ越えていなかった。\n"
+                    "\n"
+                    "保険料は30万ウォン。{name}の1か月の食費より高い。"
+                ),
+            ),
+            (
+                "events:amb_jobswitch_in:/description",
+                (
+                    "{name}은 사직서를 냈다. 안정된 월급을 제 손으로 버렸다.\n"
+                    "새 사무실은 활기차고, 사람들은 눈이 반짝였다.\n"
+                    "그리고 — 야근은 두 배, 미래는 안갯속.\n"
+                    "스톡옵션 종이 한 장이, 휴지가 될지 인생이 될지."
+                ),
+                (
+                    "{name}は退職届を出した。安定した給料を、自分の手で捨てた。\n"
+                    "新しいオフィスには活気があり、人々の目は輝いていた。\n"
+                    "そして――残業は2倍、未来は霧の中。\n"
+                    "ストックオプションの紙1枚が、紙くずになるのか、人生になるのか。"
+                ),
+            ),
+            (
+                "events:amb_mlm_00:/choices/0/result_text",
+                (
+                    "카페에서 두 시간을 보냈다. 화이트보드 그림과 \"수익구조\"라는 단어가 반복됐다."
+                ),
+                (
+                    "カフェで2時間過ごした。ホワイトボードの図と「収益構造」という言葉が繰り返された。"
+                ),
+            ),
+            (
+                "events:amb_mlm_00:/choices/1/result_text",
+                (
+                    "{name}은 \"관심 없어\" 하고 대화를 닫았다.\n"
+                    "동창은 \"기회를 발로 찬다\"며 비아냥댔고, 인연은 거기서 끊겼다.\n"
+                    "월 천의 환상도 함께 접었다. 절박할수록, 단호해야 했다."
+                ),
+                (
+                    "{name}は「興味ない」と会話を終えた。\n"
+                    "同級生は「チャンスを蹴るんだな」と嫌みを言い、縁はそこで切れた。\n"
+                    "月に1000万ウォンという幻想も畳んだ。追い詰められているときほど、きっぱり断らなくてはならなかった。"
+                ),
+            ),
+            (
+                "events:amb_mlm_00:/description",
+                (
+                    "연락 끊겼던 동창에게서 카톡이 왔다. 반가운 인사.\n"
+                    "\"잘 지내? 요즘 뭐 해? 나 좋은 사업 하나 하는데,\n"
+                    "무자본으로 월 천도 가능해. 너 같은 사람한테 딱이야.\n"
+                    "시간 되면 한번 보자, 응?\"\n"
+                    "\n"
+                    "무직에 통장은 바닥. {name}은 그게 뭔지 어렴풋이 안다.\n"
+                    "그래도 — '월 천'이라는 네 글자가 자꾸 눈에 밟힌다."
+                ),
+                (
+                    "連絡の途絶えていた同級生からカカオトークが来た。懐かしい挨拶。\n"
+                    "「元気？　最近どうしてる？　いいビジネスを始めたんだけど、\n"
+                    "元手なしで月に1000万ウォンもいけるんだ。お前みたいな人にぴったりでさ。\n"
+                    "時間があったら会おうよ。な？」\n"
+                    "\n"
+                    "無職で、口座は底をついている。{name}にも、それが何なのか薄々わかる。\n"
+                    "それでも――『月に千万』の4文字が、何度も目にちらついた。"
+                ),
+            ),
+            (
+                "events:amb_mlm_aftermath:/description",
+                (
+                    "다단계로 떠안은 물건은 창고에 그대로다. 한 개도 못 팔았다.\n"
+                    "그리고 — 300만원 카드값이 돌아왔다. 독촉 전화가 빗발친다.\n"
+                    "그 동창은 연락이 끊겼다. 처음부터 {name}은 '고객'이 아니라 '먹잇감'이었다.\n"
+                    "\n"
+                    "그날의 '한 번뿐인 기회'가, 매일 울리는 빚 독촉으로 돌아왔다."
+                ),
+                (
+                    "マルチ商法で抱え込んだ商品は、倉庫に置いたままだ。1つも売れなかった。\n"
+                    "そして――300万ウォンのカード請求が来た。督促の電話が鳴り続ける。\n"
+                    "あの同級生とは連絡が取れない。最初から{name}は『客』ではなく『獲物』だった。\n"
+                    "\n"
+                    "あの日の『一度きりのチャンス』が、毎日鳴る借金の督促になって戻ってきた。"
+                ),
+            ),
+            (
+                "events:amb_mlm_aftermath_father_passed:/choices/2/result_text",
+                (
+                    "{name}은 어머니에게 전화를 걸어 처음부터 끝까지 말했다.\n"
+                    "어머니는 아버지와 함께 비상금으로 남겨 둔 돈에서 300만원을 보냈다. \"왜 이 지경이 될 때까지 혼자 있었니.\"\n"
+                    "카드값은 막았지만, 이미 떠난 사람의 몫까지 모아 둔 돈을 빌렸다는 사실이 오래 남았다."
+                ),
+                (
+                    "{name}は母に電話をかけ、最初から最後まで話した。\n"
+                    "母は父と2人でいざというときのために残しておいた金から、300万ウォンを送った。「どうしてこんなことになるまで、1人で抱えていたの」\n"
+                    "カードの支払いは済んだが、もういない人の分まで貯めてあった金を借りたという事実が、長く残った。"
+                ),
+            ),
+            (
+                "events:amb_mlm_aftermath_father_passed:/description",
+                (
+                    "다단계로 떠안은 물건은 창고에 그대로다. 한 개도 못 팔았다.\n"
+                    "그리고 — 300만원 카드값이 돌아왔다. 독촉 전화가 빗발친다.\n"
+                    "그 동창은 연락이 끊겼다. 처음부터 {name}은 '고객'이 아니라 '먹잇감'이었다.\n"
+                    "\n"
+                    "그날의 '한 번뿐인 기회'가, 매일 울리는 빚 독촉으로 돌아왔다."
+                ),
+                (
+                    "マルチ商法で抱え込んだ商品は、倉庫に置いたままだ。1つも売れなかった。\n"
+                    "そして――300万ウォンのカード請求が来た。督促の電話が鳴り続ける。\n"
+                    "あの同級生とは連絡が取れない。最初から{name}は『客』ではなく『獲物』だった。\n"
+                    "\n"
+                    "あの日の『一度きりのチャンス』が、毎日鳴る借金の督促になって戻ってきた。"
+                ),
+            ),
+            (
+                "events:amb_wallet_00:/choices/2/result_text",
+                (
+                    "{name}은 모른 척 발걸음을 옮겼다.\n"
+                    "남의 돈도, 양심의 짐도 지지 않았다.\n"
+                    "다만 버스 안에서 내내 그 지갑이 생각났다.\n"
+                    "아무것도 안 하는 것도, 하나의 선택이었다."
+                ),
+                (
+                    "{name}は知らないふりで歩き出した。\n"
+                    "他人の金も、良心の重荷も背負わなかった。\n"
+                    "ただ、バスに乗っている間ずっと、あの財布が頭に浮かんだ。\n"
+                    "何もしないのも、1つの選択だった。"
+                ),
+            ),
+            (
+                "events:amb_wallet_payoff:/choices/0/result_text",
+                (
+                    "{name}은 주말마다 사장님 가게에 나갔다. 일당도, 배움도 쏠쏠했다.\n"
+                    "사장님은 장사 노하우와 사람 쓰는 법을 아낌없이 알려줬다.\n"
+                    "대신 {name}의 주말은 사라졌다. 쉴 틈은 줄었지만,\n"
+                    "정직이 만든 인연 하나가 — 든든한 뒷배가 되어갔다."
+                ),
+                (
+                    "{name}は週末になると社長の店へ行った。日当も、学びも悪くなかった。\n"
+                    "社長は商売のこつや人の使い方を、惜しみなく教えてくれた。\n"
+                    "代わりに{name}の週末は消えた。休む暇は減ったが、\n"
+                    "正直さが生んだ1つの縁が――心強い後ろ盾になっていった。"
+                ),
+            ),
+        )
+        natural = (
+            [["2人","二人"]],
+            [["2人きりで","二人だけで"]],
+            [["1人","一人"]],
+            [["ハンコ1つ","一つのハンコ"]],
+            [["1人","一名"],["20年","二十年"]],
+            [["ハンコ1つだけ","一つのハンコだけ"]],
+            [["もう1杯","あと一杯"]],
+            [["1日を","一日を"]],
+            [["1日中","一日じゅう"]],
+            [["1人だった","ひとりだった"]],
+            [["2人で","二人で"],["1杯の","一杯の"]],
+            [["3回","三度"]],
+            [["韓国語4文字","韓国語の四文字"]],
+            [["80%","八十%"],["30万","三十万"],["1か月","一ヶ月"]],
+            [["2倍","二倍"],["紙1枚","一枚の紙"]],
+            [["2時間","二時間"]],
+            [["1000万","千万"]],
+            [["1000万","千万"],["4文字","四文字"]],
+            [["1つも","一個も"]],
+            [["2人で","二人で"],["300万","三百万"],["1人で","ひとりで"]],
+            [["1つも","一個も"]],
+            [["1つの選択","一つの選択"]],
+            [["1つの縁","一つの縁"]],
+        )
+        mutations = (
+            [["2人","3人"],["2人","2日"],["冷えた距離が生まれた","冷えた距離は生まれなかった"]],
+            [["2人","3人"],["2人","2日"]],
+            [["1人","2人"],["敵を1人","味方を1人"]],
+            [["1つ","2つ"],["押したハンコ","押さなかったハンコ"]],
+            [["1人","2人"],["20年","21年"],["1人足りない","1人そろった"]],
+            [["1つ","2つ"],["1つ","1年"]],
+            [["1杯","2杯"],["1杯","1年"]],
+            [["1日","2日"],["1日","1時間"],["乗り切った","乗り切るつもりだ"]],
+            [["1日","2日"],["1日","1時間"],["苦しんだ","苦しまなかった"]],
+            [["1人","2人"],["1人","1日"],["1人だった","1人になる予定だった"]],
+            [["2人","3人"],["1杯","2杯"],["食べた","食べる予定の"]],
+            [["3回","4回"],["3回","3分"],["鳴った","鳴らなかった"]],
+            [["4文字","5文字"],["4文字","4年"]],
+            [["80%","81%"],["30万","31万"],["1か月","2か月"],["1か月","1年"]],
+            [["2倍","3倍"],["1枚","2枚"],["1枚","1年"]],
+            [["2時間","3時間"],["2時間","2日"],["過ごした","過ごす予定だ"]],
+            [["1000万","2000万"],["1000万ウォン","1000万円"],["月に","年に"]],
+            [["1000万","2000万"],["4文字","5文字"],["月に1000","年に1000"]],
+            [["1つ","2つ"],["300万","301万"],["売れなかった","売れた"]],
+            [["2人","3人"],["300万","301万"],["1人","2人"]],
+            [["1つ","2つ"],["300万","301万"],["一度きり","二度きり"]],
+            [["1つ","2つ"],["選択だった","選択ではなかった"]],
+            [["1つ","2つ"],["縁が","借金が"]],
+        )
+
+        def replace(text, changes):
+            for before, after in changes:
+                assert before in text
+                text = text.replace(before, after, 1)
+            return text
+
+        import re
+
+        cases = []
+        for index, (identity, source, target) in enumerate(base):
+            base_case = dict(id=identity, source=source, target=target)
+            cases.append(dict(base_case, key=f"{index}:actual", category="actual", expect="pass"))
+            cases.append(dict(base_case, key=f"{index}:natural", category="natural", expect="pass",
+                              target=replace(target, natural[index])))
+            for counter, change in enumerate(mutations[index]):
+                cases.append(dict(base_case, key=f"{index}:mutation:{counter}", category="target",
+                                  expect="reject", target=replace(target, [change])))
+            number = re.search(r"\d+", target)
+            assert number
+            signed = target[:number.start()] + "-" + target[number.start():]
+            cases.append(dict(base_case, key=f"{index}:sign", category="target",
+                              expect="reject", target=signed))
+            cases.append(dict(base_case, key=f"{index}:duplicate", category="target",
+                              expect="reject", target=target + " 追加で二人。"))
+            cases.append(dict(base_case, key=f"{index}:source-context", category="source_off",
+                              expect="off", source="별" + source))
+            source_number = re.search(r"\d+", source)
+            if source_number:
+                start, end = source_number.span()
+                changed = source[:start] + str(int(source_number.group()) + 1) + source[end:]
+                cases.append(dict(base_case, key=f"{index}:source-number", category="source_changed",
+                                  expect="off", source=changed))
+        return cases
+
+    def test_amb_tradeoff_source_bound_quantities(self):
+        cases = self._amb_tradeoff_regression_cases()
+        self.assertEqual(len(cases), 182)
+        for case in cases:
+            _, owner, pointer = case["id"].split(":")
+            path = tuple(int(part) if part.isdigit() else part
+                         for part in pointer[1:].split("/"))
+            leaf = tool.Leaf("events", owner, "amb-own-controls", path,
+                             case["source"], "event_standard")
+            with self.subTest(identity=case["key"]):
+                helper = tool._ja_amb_tradeoff_numbers(case["source"], case["target"])
+                errors = tool.translation_errors(leaf, "ja", case["target"])
+                if case["expect"] == "off":
+                    # A changed source has no new licence. E2E results are
+                    # observed separately, not declared a generic guarantee.
+                    self.assertIsNone(helper)
+                elif case["expect"] == "pass":
+                    self.assertEqual(errors, [])
+                    self.assertIsNotNone(helper)
+                    self.assertEqual(helper[2], [])
+                else:
+                    self.assertTrue(errors)
+                    self.assertIsNotNone(helper)
+                    self.assertTrue(helper[2])
+
+    @staticmethod
+    def _amb_bare_double_regression_cases():
+        original = next(case for case in ExchangeTests._amb_tradeoff_regression_cases()
+                        if case["key"] == "14:actual")
+        source = original["source"]
+        normal = original["target"].replace("残業は2倍", "残業は倍")
+        cases = []
+        for index, expression in enumerate(("残業は倍", "残業が倍", "残業は2倍", "残業は二倍")):
+            cases.append(dict(key=f"normal-{index}", expect="pass", source=source,
+                              target=normal.replace("残業は倍", expression)))
+        for index, expression in enumerate((
+            "残業は1倍", "残業は3倍", "残業は-2倍", "残業は-倍", "残業は半倍",
+            "残業は倍以上", "残業は倍以下", "残業は倍半", "残業は2倍以上", "残業は倍、さらに二倍",
+        )):
+            cases.append(dict(key=f"target-{index}", expect="reject", source=source,
+                              target=normal.replace("残業は倍", expression)))
+        cases.append(dict(key="target-sheet", expect="reject", source=source,
+                          target=normal.replace("紙1枚", "紙2枚")))
+        cases.append(dict(key="target-extra", expect="reject", source=source, target=normal + " 二時間。"))
+        cases.append(dict(key="source-context", expect="off", source="별" + source, target=normal))
+        cases.append(dict(key="source-number", expect="off", source=source.replace("두 배", "세 배"), target=normal))
+        return cases
+
+    def test_amb_bare_double_exposed_regression(self):
+        cases = self._amb_bare_double_regression_cases()
+        self.assertEqual(len(cases), 18)
+        for case in cases:
+            leaf = tool.Leaf("events", "amb_jobswitch_in", "amb-own-B2-controls", ("description",),
+                             case["source"], "event_standard")
+            with self.subTest(identity=case["key"]):
+                helper = tool._ja_amb_tradeoff_numbers(case["source"], case["target"])
+                errors = tool.translation_errors(leaf, "ja", case["target"])
+                if case["expect"] == "off":
+                    self.assertIsNone(helper)
+                elif case["expect"] == "pass":
+                    self.assertEqual(errors, [])
+                    self.assertEqual(helper[2], [])
+                else:
+                    self.assertTrue(errors)
+                    self.assertTrue(helper[2])
+
     def test_jsonl_duplicate(self):
         with tempfile.TemporaryDirectory() as folder:
             path = Path(folder) / "bad.jsonl"

@@ -1330,7 +1330,8 @@ def _terminology_errors(lang: str, source: str, target: str) -> list[str]:
     if "빌라" in source and ("别墅" in target or "別墅" in target):
         errors.append("Korean low-rise 빌라 was mistranslated as a detached villa")
     if "전세" in source:
-        if "월세" not in source and "月租" in target:
+        if ("월세" not in source and "月租" in target
+                and not _amb_jeonse_explains_no_rent(source, target)):
             errors.append("전세 was mistranslated as monthly rent")
         if "매매" not in source and ("买卖" in target or "買賣" in target):
             errors.append("전세 was mistranslated as a sale")
@@ -6020,6 +6021,204 @@ def _butterfly_chain_money(source: str, target: str, original: list[MoneyAmount]
         amounts.append(MoneyAmount(m.start(), m.end(), actual))
     return sorted(amounts, key=lambda a: a.start), errors
 
+SOURCE_AMB_SCENARIOS = {
+    "jeonse_explanation": (
+        "옆집 아주머니가 {name}을 붙잡고 속삭인다.\n"
+        "\"그 집주인 양반, 이 건물 말고도 빚이 산더미래.\n"
+        "등기부는 떼봤어? 요즘 전세 사기 무서워.\"\n"
+        "\n"
+        "{name}의 전세보증금 — 몇 년을 모은 전 재산이 —\n"
+        "그 집에 묶여 있다. '깡통전세' 네 글자가 머릿속을 맴돈다."
+    ),
+    "wallet_boundary": (
+        "{name}은 현금을 주머니에 넣고, 지갑만 우체통에 밀어 넣었다.\n"
+        "신분증은 주인에게 돌아갈 거다 — 그렇게 자신을 변명했다.\n"
+        "30만원이 생겼다. 그런데 그날 밤, 밥이 잘 넘어가지 않았다.\n"
+        "작은 선을 한 번 넘으면, 다음 선은 더 쉬워진다."
+    ),
+    "guarantee": (
+        "{name}은 보증 대신, 가진 선에서 작게 돕겠다 제안했다.\n"
+        "친구는 떨떠름해했다. 완전히 만족도, 완전히 등돌리지도 않았다.\n"
+        "선을 지키되 정도 지키려 한 절충 — 둘 다 어중간하게 남았다."
+    ),
+    "round": (
+        "부서 회식. 벌써 3차다. 부장이 {name}의 잔에 소주를 채운다.\n"
+        "\"신입이 빠지면 쓰나. 받아, 받아.\"\n"
+        "\n"
+        "내일은 중요한 일정이 있다. 속은 이미 뒤집혔다.\n"
+        "근데 여기서 빠지면 — '센스 없는 놈'이 된다.\n"
+        "한국 회사의 진짜 평가는, 책상이 아니라 술자리에서 난다."
+    ),
+    "both": (
+        "버티려다 결국 다시 잔을 받았다.\n"
+        "어정쩡하게 술도 마시고, 마음도 졸였다.\n"
+        "둘 다 피하려다, 둘 다 조금씩 잃는 — 가장 애매한 결말."
+    ),
+    "ring": (
+        "신호음이 세 번 울렸다. 집주인은 \"별 문제 없다\"며 말을 짧게 잘랐다."
+    ),
+    "sheet": (
+        "{name}은 사직서를 냈다. 안정된 월급을 제 손으로 버렸다.\n"
+        "새 사무실은 활기차고, 사람들은 눈이 반짝였다.\n"
+        "그리고 — 야근은 두 배, 미래는 안갯속.\n"
+        "스톡옵션 종이 한 장이, 휴지가 될지 인생이 될지."
+    ),
+    "monthly_result": (
+        "{name}은 \"관심 없어\" 하고 대화를 닫았다.\n"
+        "동창은 \"기회를 발로 찬다\"며 비아냥댔고, 인연은 거기서 끊겼다.\n"
+        "월 천의 환상도 함께 접었다. 절박할수록, 단호해야 했다."
+    ),
+    "monthly_intro": (
+        "연락 끊겼던 동창에게서 카톡이 왔다. 반가운 인사.\n"
+        "\"잘 지내? 요즘 뭐 해? 나 좋은 사업 하나 하는데,\n"
+        "무자본으로 월 천도 가능해. 너 같은 사람한테 딱이야.\n"
+        "시간 되면 한번 보자, 응?\"\n"
+        "\n"
+        "무직에 통장은 바닥. {name}은 그게 뭔지 어렴풋이 안다.\n"
+        "그래도 — '월 천'이라는 네 글자가 자꾸 눈에 밟힌다."
+    ),
+    "neither": (
+        "못 본 척 그냥 지나간다  (둘 다 안 함 / 찜찜함)"
+    ),
+}
+
+
+def _amb_scenario_kind(source: str) -> str | None:
+    """Only the complete observed Korean leaf owns these counter grammars."""
+    return next((key for key, value in SOURCE_AMB_SCENARIOS.items()
+                 if source == value), None)
+
+
+def _amb_jeonse_explains_no_rent(source: str, target: str) -> bool:
+    # The approved jeonse explanation mentions monthly rent only to deny it.
+    # A second rent occurrence, a positive payment, or another source is not
+    # licensed; numeric/other glossary checks still inspect the original text.
+    if (_amb_scenario_kind(source) != "jeonse_explanation"
+            or target.count("月租") != 1):
+        return False
+    lines = target.split("\n")
+    return len(lines) > 4 and re.search(
+        r"全租押金[—－-]*(?:免繳|不用繳)月租[、，,]"
+        r"(?:期滿|租期結束)應退還的高額押金", lines[4]) is not None
+
+
+def _amb_scenario_slots(source: str, target: str) -> tuple[list[CounterQuantity], list[CounterQuantity], list[str]]:
+    kind = _amb_scenario_kind(source)
+    ss, ts, errors = [], [], []
+    if kind is None:
+        return ss, ts, errors
+    n = CHINESE_CARDINAL
+
+    def bind(source_pattern: str, target_pattern: str, *, implicit: int | None = None,
+             role: str | None = None) -> None:
+        source_matches = list(re.finditer(source_pattern, source))
+        target_matches = list(re.finditer(target_pattern, target))
+        for m in source_matches:
+            value = _source_counter_value(m.group("number"))
+            ss.append(CounterQuantity(m.start(), m.end(), value, "amb_" + kind))
+        if len(source_matches) != len(target_matches):
+            errors.append("amb " + kind + " quantity/unit/occurrence count changed")
+            return
+        for a, b in zip(source_matches, target_matches):
+            expected = _source_counter_value(a.group("number"))
+            raw = b.groupdict().get("number")
+            actual = _chinese_cardinal_value(raw) if raw is not None else implicit
+            if actual is not None and b.groupdict().get("rise"):
+                # An increase of one original amount is a total of two;
+                # retain the parsed increment, never substitute source value.
+                actual += 1
+            start, end = b.span("q")
+            source_line = source[:a.start()].count("\n")
+            target_line = target[:start].count("\n")
+            line = target.split("\n")[target_line]
+            valid = actual == expected and source_line == target_line
+            valid = valid and not _has_numeric_sign_prefix(target, b.start()) and not _has_numeric_sign_prefix(target, start)
+            valid = valid and not re.match(
+                r"\s*(?:[%％‰倍年月日天人位]|[個个]月|公斤|公里|小時|小时|分鐘|分钟|秒|[/／])",
+                target[end:])
+            if role is not None and not re.search(role, line):
+                valid = False
+            if not valid:
+                errors.append("amb " + kind + " quantity/value/sign/line/role changed")
+                continue
+            ts.append(CounterQuantity(start, end, actual, "amb_" + kind))
+
+    if kind in {"guarantee", "both", "neither"}:
+        # Both sides/things are conceptual alternatives, never two people or
+        # a two-month duration. Each repeated source occurrence stays distinct.
+        bind(r"(?P<number>둘) 다",
+             rf"(?P<q>(?P<number>{n})(?:[邊边者樣样]|件事))")
+    elif kind == "round":
+        bind(r"(?P<number>3)차",
+             rf"(?P<q>第(?P<number>{n})(?:[場场輪轮]|[攤摊]))",
+             role=r"聚餐|[飲饮]酒|[飯饭]局|[酒餐]敘|聚[會会]")
+    elif kind == "ring":
+        bind(r"(?P<number>세) 번",
+             rf"(?P<q>(?P<number>{n})(?:[聲声次遍]))",
+             role=r"回[鈴铃]音|呼叫音|電話鈴聲|电话铃声|電話(?:鈴)?響")
+    elif kind == "sheet":
+        bind(r"(?P<number>한) 장",
+             rf"(?P<q>(?:(?:那)?(?P<number>{n})"
+             rf"(?:[紙纸](?=股票(?:期|選擇|选择)[權权])|[張张](?:[紙纸])?)|那[張张]))",
+             implicit=1, role=r"股票(?:期|選擇|选择)[權权]")
+        bind(r"(?P<number>두) 배",
+             rf"(?P<q>(?:(?P<rise>翻了|增加了)|(?:[變变]成(?:了)?|是原[來来]的))"
+             rf"(?P<number>{n})倍)", role=r"加班")
+    elif kind == "wallet_boundary":
+        bind(r"(?P<number>한) 번",
+             rf"(?P<q>一旦(?=跨[過过])|(?<=跨[過过])(?P<number>{n})次)",
+             implicit=1, role=r"小小的界[線线]")
+    elif kind == "monthly_intro":
+        # Chinese 见个面 explicitly supplies one meeting, not a completed
+        # meeting or a global license for uncounted occurrences elsewhere.
+        bind(r"(?P<number>한)번",
+             rf"[見见](?P<q>(?:(?P<number>{n})(?:次)?|[個个]))面",
+             implicit=1)
+    return ss, ts, errors
+
+
+def _amb_scenario_money(source: str, target: str, original: list[MoneyAmount]) -> tuple[list[MoneyAmount], int, list[str]]:
+    kind = _amb_scenario_kind(source)
+    if kind not in {"monthly_intro", "monthly_result"}:
+        return original, 0, []
+    amounts, shared, errors = list(original), 0, []
+    n = r"[0-9零〇一二两兩三四五六七八九十百千萬万億亿,]+"
+    monthly = r"(?:每(?:[個个])?月|[一1](?:[個个])?月|月(?:入|[賺赚]))[^0-9零〇一二两兩三四五六七八九十百千萬万億亿\n]{0,16}$"
+    for m in re.finditer(rf"(?<![0-9零〇一二两兩三四五六七八九十百千萬万億亿,])"
+                         rf"(?P<n>{n})(?P<label>[韓韩]元)?", target):
+        label = m.group("label")
+        line = target[:m.start()].count("\n")
+        prefix = target[:m.start()].split("\n")[-1]
+        # Only the final quoted monthly-earnings slogan can share the won
+        # label already printed in the earlier offer on line two.
+        bare_quote = (kind == "monthly_intro" and line == 6
+                      and re.search(r"[萬万億亿]", m.group("n")) is not None
+                      and re.search(monthly, prefix) is not None)
+        if not label and not bare_quote:
+            continue
+        if _overlaps(amounts, m.start(), m.end()):
+            continue
+        actual = _leisure_native_amount(m.group("n").replace(",", ""))
+        if actual is None:
+            errors.append("amb monthly earnings amount cannot be parsed")
+            continue
+        amounts.append(MoneyAmount(m.start(), m.end(), actual))
+        shared += int(not label)
+    amounts.sort(key=lambda a: a.start)
+    source_amounts = _source_money_amounts(source)
+    if len(amounts) != len(source_amounts):
+        errors.append("amb monthly earnings amount occurrence count changed")
+    for source_amount, amount in zip(source_amounts, amounts):
+        line = target[:amount.start].count("\n")
+        prefix = target[:amount.start].split("\n")[-1]
+        if source[:source_amount.start].count("\n") != line or not re.search(monthly, prefix):
+            errors.append("amb earnings monthly period/line/role changed")
+        if _has_numeric_sign_prefix(target, amount.start) or re.match(
+                r"\s*(?:[%％‰倍年月日天人位]|[個个]月|公斤|公里|小時|小时|分鐘|分钟|秒|[/／])",
+                target[amount.end:]):
+            errors.append("amb monthly earnings sign/unit/rate suffix changed")
+    return amounts, shared, errors
+
 def _numeric_errors(source: str, target: str) -> list[str]:
     errors: list[str] = []
     admin_source_slots, admin_target_slots, admin_errors = _investment_admin_slots(source, target)
@@ -6028,6 +6227,10 @@ def _numeric_errors(source: str, target: str) -> list[str]:
     admin_target_slots.extend(butterfly_target)
     errors.extend(butterfly_errors)
     errors.extend(admin_errors)
+    amb_source, amb_target, amb_errors = _amb_scenario_slots(source, target)
+    admin_source_slots.extend(amb_source)
+    admin_target_slots.extend(amb_target)
+    errors.extend(amb_errors)
     culture_source, culture_target, culture_errors = _korean_culture_slots(source, target)
     leisure_source, leisure_target, leisure_errors = _leisure_slots(source, target)
     admin_source_slots.extend(leisure_source)
@@ -6135,6 +6338,9 @@ def _numeric_errors(source: str, target: str) -> list[str]:
     target_amounts, butterfly_money_errors = _butterfly_chain_money(source, target, target_amounts)
     errors.extend(butterfly_money_errors)
     culture_shared_labels += cafe_shared_labels
+    target_amounts, amb_shared_labels, amb_money_errors = _amb_scenario_money(source, target, target_amounts)
+    culture_shared_labels += amb_shared_labels
+    errors.extend(amb_money_errors)
     errors.extend(cafe_money_errors)
     errors.extend(leisure_money_errors)
     errors.extend(culture_money_errors)
@@ -12776,11 +12982,797 @@ def _butterfly_chain_current_normal_self_test() -> tuple[int, list[str]]:
         failures.append("butterfly TW rice-roll count mutation accepted")
     return 2, failures
 
+def _amb_scenario_parser_self_test() -> tuple[int, list[str]]:
+    # Immutable pre-repair own72: 16 normal, 40 one-slot mutants,
+    # 16 source-OFF baseline controls. No private files are needed by CI.
+    fixtures = [
+        (
+            "guarantee", "events:amb_guarantee_00:/choices/2/result_text",
+            [
+                (
+                    "{name}没有答应担保，而是提议在能力范围内帮上一点。\n"
+                    "朋友有些不快。既没完全满意，也没彻底翻脸。\n"
+                    "既想守住界线，又想留住情分的折中——两边都悬在了半空。"
+                ),
+                (
+                    "{name}没有答应担保，而是提议在能力范围内帮上一点。\n"
+                    "朋友有些不快。既没完全满意，也没彻底翻脸。\n"
+                    "既想守住界线，又想留住情分的折中——两者都悬在了半空。"
+                ),
+            ],
+            [
+                (
+                    "{name}没有答应担保，而是提议在能力范围内帮上一点。\n"
+                    "朋友有些不快。既没完全满意，也没彻底翻脸。\n"
+                    "既想守住界线，又想留住情分的折中——三边都悬在了半空。"
+                ),
+                (
+                    "{name}没有答应担保，而是提议在能力范围内帮上一点。\n"
+                    "朋友有些不快。既没完全满意，也没彻底翻脸。\n"
+                    "既想守住界线，又想留住情分的折中——两个月都悬在了半空。"
+                ),
+                (
+                    "{name}没有答应担保，而是提议在能力范围内帮上一点。\n"
+                    "朋友有些不快。既没完全满意，也没彻底翻脸。\n"
+                    "既想守住界线，又想留住情分的折中——-两边都悬在了半空。"
+                ),
+                (
+                    "{name}没有答应担保，而是提议在能力范围内帮上一点。\n"
+                    "朋友有些不快。既没完全满意，也没彻底翻脸。\n"
+                    "既想守住界线，又想留住情分的折中——两边都悬在了半空，两边也一样。"
+                ),
+                (
+                    "{name}没有答应担保，而是提议在能力范围内帮上一点。\n"
+                    "朋友有些不快。既没完全满意，也没彻底翻脸。\n"
+                    "既想守住界线，又想留住情分的折中——两个人都悬在了半空。"
+                ),
+            ],
+            [
+                (
+                    (
+                        "{name}은 보증 대신, 가진 선에서 작게 돕겠다 제안했다.\n"
+                        "친구는 떨떠름해했다. 완전히 만족도, 완전히 등돌리지도 않았다.\n"
+                        "선을 지키되 정도 지키려 한 절충 — 둘 다 어중간하게 남았다. "
+                    ),
+                    ["counter quantity missing/changed: expected (entity, 2), target candidates=[]"],
+                ),
+                (
+                    (
+                        "{name}은 보증 대신, 가진 선에서 작게 돕겠다 제안했다.\n"
+                        "친구는 떨떠름해했다. 완전히 만족도, 완전히 등돌리지도 않았다.\n"
+                        "선을 지키되 정도 지키려 한 절충 — 셋 다 어중간하게 남았다."
+                    ),
+                    ["counter quantity missing/changed: expected (entity, 3), target candidates=[]"],
+                ),
+            ],
+        ),
+        (
+            "round", "events:amb_hoesik_00:/description",
+            [
+                (
+                    "部门聚餐，已经续到第三场。部长往{name}的杯子里倒满烧酒。\n"
+                    "\"新人怎么能先走。来，接着，接着。\"\n"
+                    "\n"
+                    "明天有重要安排。胃里已经翻江倒海。\n"
+                    "可这时候离开——就成了‘不懂看眼色的家伙’。\n"
+                    "在韩国公司，真正的评价不在办公桌前，而在酒桌上。"
+                ),
+                (
+                    "部门聚餐，已经续到第三轮。部长往{name}的杯子里倒满烧酒。\n"
+                    "\"新人怎么能先走。来，接着，接着。\"\n"
+                    "\n"
+                    "明天有重要安排。胃里已经翻江倒海。\n"
+                    "可这时候离开——就成了‘不懂看眼色的家伙’。\n"
+                    "在韩国公司，真正的评价不在办公桌前，而在酒桌上。"
+                ),
+            ],
+            [
+                (
+                    "部门聚餐，已经续到第二场。部长往{name}的杯子里倒满烧酒。\n"
+                    "\"新人怎么能先走。来，接着，接着。\"\n"
+                    "\n"
+                    "明天有重要安排。胃里已经翻江倒海。\n"
+                    "可这时候离开——就成了‘不懂看眼色的家伙’。\n"
+                    "在韩国公司，真正的评价不在办公桌前，而在酒桌上。"
+                ),
+                (
+                    "部门聚餐，已经续到第三天。部长往{name}的杯子里倒满烧酒。\n"
+                    "\"新人怎么能先走。来，接着，接着。\"\n"
+                    "\n"
+                    "明天有重要安排。胃里已经翻江倒海。\n"
+                    "可这时候离开——就成了‘不懂看眼色的家伙’。\n"
+                    "在韩国公司，真正的评价不在办公桌前，而在酒桌上。"
+                ),
+                (
+                    "部门聚餐，已经续到-第三场。部长往{name}的杯子里倒满烧酒。\n"
+                    "\"新人怎么能先走。来，接着，接着。\"\n"
+                    "\n"
+                    "明天有重要安排。胃里已经翻江倒海。\n"
+                    "可这时候离开——就成了‘不懂看眼色的家伙’。\n"
+                    "在韩国公司，真正的评价不在办公桌前，而在酒桌上。"
+                ),
+                (
+                    "部门聚餐，已经续到第三场、第三场。部长往{name}的杯子里倒满烧酒。\n"
+                    "\"新人怎么能先走。来，接着，接着。\"\n"
+                    "\n"
+                    "明天有重要安排。胃里已经翻江倒海。\n"
+                    "可这时候离开——就成了‘不懂看眼色的家伙’。\n"
+                    "在韩国公司，真正的评价不在办公桌前，而在酒桌上。"
+                ),
+                (
+                    "部门聚餐，已经续到第三场/周。部长往{name}的杯子里倒满烧酒。\n"
+                    "\"新人怎么能先走。来，接着，接着。\"\n"
+                    "\n"
+                    "明天有重要安排。胃里已经翻江倒海。\n"
+                    "可这时候离开——就成了‘不懂看眼色的家伙’。\n"
+                    "在韩国公司，真正的评价不在办公桌前，而在酒桌上。"
+                ),
+            ],
+            [
+                (
+                    (
+                        "부서 회식. 벌써 3차다. 부장이 {name}의 잔에 소주를 채운다.\n"
+                        "\"신입이 빠지면 쓰나. 받아, 받아.\"\n"
+                        "\n"
+                        "내일은 중요한 일정이 있다. 속은 이미 뒤집혔다.\n"
+                        "근데 여기서 빠지면 — '센스 없는 놈'이 된다.\n"
+                        "한국 회사의 진짜 평가는, 책상이 아니라 술자리에서 난다. "
+                    ),
+                    ["non-money number sequence changed: ['3'] != []"],
+                ),
+                (
+                    (
+                        "부서 회식. 벌써 4차다. 부장이 {name}의 잔에 소주를 채운다.\n"
+                        "\"신입이 빠지면 쓰나. 받아, 받아.\"\n"
+                        "\n"
+                        "내일은 중요한 일정이 있다. 속은 이미 뒤집혔다.\n"
+                        "근데 여기서 빠지면 — '센스 없는 놈'이 된다.\n"
+                        "한국 회사의 진짜 평가는, 책상이 아니라 술자리에서 난다."
+                    ),
+                    ["non-money number sequence changed: ['4'] != []"],
+                ),
+            ],
+        ),
+        (
+            "both", "events:amb_hoesik_dodge:/choices/1/result_text",
+            [
+                (
+                    "本想撑住，最后还是又接了酒杯。\n"
+                    "不上不下的，酒也喝了，心也悬着。\n"
+                    "两样都想躲，结果两样都失去了一点——最尴尬的结局。"
+                ),
+                (
+                    "本想撑住，最后还是又接了酒杯。\n"
+                    "不上不下的，酒也喝了，心也悬着。\n"
+                    "两者都想躲，结果两者都失去了一点——最尴尬的结局。"
+                ),
+            ],
+            [
+                (
+                    "本想撑住，最后还是又接了酒杯。\n"
+                    "不上不下的，酒也喝了，心也悬着。\n"
+                    "三样都想躲，结果两样都失去了一点——最尴尬的结局。"
+                ),
+                (
+                    "本想撑住，最后还是又接了酒杯。\n"
+                    "不上不下的，酒也喝了，心也悬着。\n"
+                    "两个月都想躲，结果两样都失去了一点——最尴尬的结局。"
+                ),
+                (
+                    "本想撑住，最后还是又接了酒杯。\n"
+                    "不上不下的，酒也喝了，心也悬着。\n"
+                    "-两样都想躲，结果两样都失去了一点——最尴尬的结局。"
+                ),
+                (
+                    "本想撑住，最后还是又接了酒杯。\n"
+                    "不上不下的，酒也喝了，心也悬着。\n"
+                    "两样都想躲，结果两样都失去了一点——两样都如此，最尴尬的结局。"
+                ),
+                (
+                    "本想撑住，最后还是又接了酒杯。\n"
+                    "不上不下的，酒也喝了，心也悬着。\n"
+                    "两个人都想躲，结果两样都失去了一点——最尴尬的结局。"
+                ),
+            ],
+            [
+                (
+                    (
+                        "버티려다 결국 다시 잔을 받았다.\n"
+                        "어정쩡하게 술도 마시고, 마음도 졸였다.\n"
+                        "둘 다 피하려다, 둘 다 조금씩 잃는 — 가장 애매한 결말. "
+                    ),
+                    ["counter quantity missing/changed: expected (entity, 2), target candidates=[]"],
+                ),
+                (
+                    (
+                        "버티려다 결국 다시 잔을 받았다.\n"
+                        "어정쩡하게 술도 마시고, 마음도 졸였다.\n"
+                        "셋 다 피하려다, 둘 다 조금씩 잃는 — 가장 애매한 결말."
+                    ),
+                    ["counter quantity missing/changed: expected (entity, 3), target candidates=[]","counter quantity missing/changed: expected (entity, 2), target candidates=[]"],
+                ),
+            ],
+        ),
+        (
+            "ring", "events:amb_jeonse_00:/choices/2/result_text",
+            [
+                "回铃音响了三声。房东只说\"没什么问题\"，就把话截住了。",
+                "回铃音响了三次。房东只说\"没什么问题\"，就把话截住了。",
+            ],
+            [
+                "回铃音响了四声。房东只说\"没什么问题\"，就把话截住了。",
+                "回铃音响了三分钟。房东只说\"没什么问题\"，就把话截住了。",
+                "回铃音响了-三声。房东只说\"没什么问题\"，就把话截住了。",
+                "回铃音响了三声，又响了三声。房东只说\"没什么问题\"，就把话截住了。",
+                "敲门声响了三声。房东只说\"没什么问题\"，就把话截住了。",
+            ],
+            [
+                (
+                    "신호음이 세 번 울렸다. 집주인은 \"별 문제 없다\"며 말을 짧게 잘랐다. ",
+                    ["counter quantity missing/changed: expected (occurrence, 3), target candidates=[]"],
+                ),
+                (
+                    "신호음이 네 번 울렸다. 집주인은 \"별 문제 없다\"며 말을 짧게 잘랐다.",
+                    ["counter quantity missing/changed: expected (occurrence, 4), target candidates=[]"],
+                ),
+            ],
+        ),
+        (
+            "sheet", "events:amb_jobswitch_in:/description",
+            [
+                (
+                    "{name}递了辞职信，亲手放弃了稳定的工资。\n"
+                    "新办公室充满活力，大家的眼里都闪着光。\n"
+                    "而加班翻了一倍——未来仍在雾里。\n"
+                    "一纸股票期权，究竟会变成废纸，还是人生的转机？"
+                ),
+                (
+                    "{name}递了辞职信，亲手放弃了稳定的工资。\n"
+                    "新办公室充满活力，大家的眼里都闪着光。\n"
+                    "而加班翻了一倍——未来仍在雾里。\n"
+                    "股票期权那一张纸，究竟会变成废纸，还是人生的转机？"
+                ),
+            ],
+            [
+                (
+                    "{name}递了辞职信，亲手放弃了稳定的工资。\n"
+                    "新办公室充满活力，大家的眼里都闪着光。\n"
+                    "而加班翻了一倍——未来仍在雾里。\n"
+                    "两纸股票期权，究竟会变成废纸，还是人生的转机？"
+                ),
+                (
+                    "{name}递了辞职信，亲手放弃了稳定的工资。\n"
+                    "新办公室充满活力，大家的眼里都闪着光。\n"
+                    "而加班翻了一倍——未来仍在雾里。\n"
+                    "一小时的股票期权，究竟会变成废纸，还是人生的转机？"
+                ),
+                (
+                    "{name}递了辞职信，亲手放弃了稳定的工资。\n"
+                    "新办公室充满活力，大家的眼里都闪着光。\n"
+                    "而加班翻了一倍——未来仍在雾里。\n"
+                    "-一纸股票期权，究竟会变成废纸，还是人生的转机？"
+                ),
+                (
+                    "{name}递了辞职信，亲手放弃了稳定的工资。\n"
+                    "新办公室充满活力，大家的眼里都闪着光。\n"
+                    "而加班翻了一倍——未来仍在雾里。\n"
+                    "一纸股票期权、一纸股票期权，究竟会变成废纸，还是人生的转机？"
+                ),
+                (
+                    "{name}递了辞职信，亲手放弃了稳定的工资。\n"
+                    "新办公室充满活力，大家的眼里都闪着光。\n"
+                    "而加班翻了两倍——未来仍在雾里。\n"
+                    "一纸股票期权，究竟会变成废纸，还是人生的转机？"
+                ),
+            ],
+            [
+                (
+                    (
+                        "{name}은 사직서를 냈다. 안정된 월급을 제 손으로 버렸다.\n"
+                        "새 사무실은 활기차고, 사람들은 눈이 반짝였다.\n"
+                        "그리고 — 야근은 두 배, 미래는 안갯속.\n"
+                        "스톡옵션 종이 한 장이, 휴지가 될지 인생이 될지. "
+                    ),
+                    ["counter quantity missing/changed: expected (sheet, 1), target candidates=[]"],
+                ),
+                (
+                    (
+                        "{name}은 사직서를 냈다. 안정된 월급을 제 손으로 버렸다.\n"
+                        "새 사무실은 활기차고, 사람들은 눈이 반짝였다.\n"
+                        "그리고 — 야근은 두 배, 미래는 안갯속.\n"
+                        "스톡옵션 종이 두 장이, 휴지가 될지 인생이 될지."
+                    ),
+                    ["counter quantity missing/changed: expected (sheet, 2), target candidates=[]"],
+                ),
+            ],
+        ),
+        (
+            "monthly_result", "events:amb_mlm_00:/choices/1/result_text",
+            [
+                (
+                    "{name}说了句\"没兴趣\"，结束了对话。\n"
+                    "老同学讥讽说\"有机会也往外踢\"，这段交情就此断了。\n"
+                    "月入千万韩元的幻想也一并收起。越是走投无路，就越要果断。"
+                ),
+                (
+                    "{name}说了句\"没兴趣\"，结束了对话。\n"
+                    "老同学讥讽说\"有机会也往外踢\"，这段交情就此断了。\n"
+                    "每个月赚一千万韩元的幻想也一并收起。越是走投无路，就越要果断。"
+                ),
+            ],
+            [
+                (
+                    "{name}说了句\"没兴趣\"，结束了对话。\n"
+                    "老同学讥讽说\"有机会也往外踢\"，这段交情就此断了。\n"
+                    "月入百万韩元的幻想也一并收起。越是走投无路，就越要果断。"
+                ),
+                (
+                    "{name}说了句\"没兴趣\"，结束了对话。\n"
+                    "老同学讥讽说\"有机会也往外踢\"，这段交情就此断了。\n"
+                    "月入千万日元的幻想也一并收起。越是走投无路，就越要果断。"
+                ),
+                (
+                    "{name}说了句\"没兴趣\"，结束了对话。\n"
+                    "老同学讥讽说\"有机会也往外踢\"，这段交情就此断了。\n"
+                    "月入负千万韩元的幻想也一并收起。越是走投无路，就越要果断。"
+                ),
+                (
+                    "{name}说了句\"没兴趣\"，结束了对话。\n"
+                    "老同学讥讽说\"有机会也往外踢\"，这段交情就此断了。\n"
+                    "月入千万韩元、月入千万韩元的幻想也一并收起。越是走投无路，就越要果断。"
+                ),
+                (
+                    "{name}说了句\"没兴趣\"，结束了对话。\n"
+                    "老同学讥讽说\"有机会也往外踢\"，这段交情就此断了。\n"
+                    "年入千万韩元的幻想也一并收起。越是走投无路，就越要果断。"
+                ),
+            ],
+            [
+                (
+                    (
+                        "{name}은 \"관심 없어\" 하고 대화를 닫았다.\n"
+                        "동창은 \"기회를 발로 찬다\"며 비아냥댔고, 인연은 거기서 끊겼다.\n"
+                        "월 천의 환상도 함께 접었다. 절박할수록, 단호해야 했다. "
+                    ),
+                    ["Korean-won values changed: [Decimal('10000000')] != []","Korean-won label count/topology mismatch 1 != 0"],
+                ),
+                (
+                    (
+                        "{name}은 \"관심 없어\" 하고 대화를 닫았다.\n"
+                        "동창은 \"기회를 발로 찬다\"며 비아냥댔고, 인연은 거기서 끊겼다.\n"
+                        "월 이천의 환상도 함께 접었다. 절박할수록, 단호해야 했다."
+                    ),
+                    ["Korean-won values changed: [Decimal('20000000')] != []","Korean-won label count/topology mismatch 1 != 0"],
+                ),
+            ],
+        ),
+        (
+            "monthly_intro", "events:amb_mlm_00:/description",
+            [
+                (
+                    "断了联系的老同学发来KakaoTalk消息，热情地打着招呼。\n"
+                    "\"过得怎么样？最近在做什么？我在做一门好生意，\n"
+                    "不用本钱，一个月赚一千万韩元也有可能。特别适合你这样的人。\n"
+                    "有空见个面吧，好吗？\"\n"
+                    "\n"
+                    "没工作，银行账户也见了底。{name}隐约知道那是什么。\n"
+                    "可那四个字——‘月入千万’——还是总在眼前晃。"
+                ),
+                (
+                    "断了联系的老同学发来KakaoTalk消息，热情地打着招呼。\n"
+                    "\"过得怎么样？最近在做什么？我在做一门好生意，\n"
+                    "不用本钱，一个月赚一千万韩元也有可能。特别适合你这样的人。\n"
+                    "有空见个面吧，好吗？\"\n"
+                    "\n"
+                    "没工作，银行账户也见了底。{name}隐约知道那是什么。\n"
+                    "可那四个字——‘月赚千万’——还是总在眼前晃。"
+                ),
+            ],
+            [
+                (
+                    "断了联系的老同学发来KakaoTalk消息，热情地打着招呼。\n"
+                    "\"过得怎么样？最近在做什么？我在做一门好生意，\n"
+                    "不用本钱，一个月赚九百万韩元也有可能。特别适合你这样的人。\n"
+                    "有空见个面吧，好吗？\"\n"
+                    "\n"
+                    "没工作，银行账户也见了底。{name}隐约知道那是什么。\n"
+                    "可那四个字——‘月入千万’——还是总在眼前晃。"
+                ),
+                (
+                    "断了联系的老同学发来KakaoTalk消息，热情地打着招呼。\n"
+                    "\"过得怎么样？最近在做什么？我在做一门好生意，\n"
+                    "不用本钱，一个月赚一千万韩元也有可能。特别适合你这样的人。\n"
+                    "有空见个面吧，好吗？\"\n"
+                    "\n"
+                    "没工作，银行账户也见了底。{name}隐约知道那是什么。\n"
+                    "可那四个字——‘月入百万’——还是总在眼前晃。"
+                ),
+                (
+                    "断了联系的老同学发来KakaoTalk消息，热情地打着招呼。\n"
+                    "\"过得怎么样？最近在做什么？我在做一门好生意，\n"
+                    "不用本钱，一个月赚一千万日元也有可能。特别适合你这样的人。\n"
+                    "有空见个面吧，好吗？\"\n"
+                    "\n"
+                    "没工作，银行账户也见了底。{name}隐约知道那是什么。\n"
+                    "可那四个字——‘月入千万’——还是总在眼前晃。"
+                ),
+                (
+                    "断了联系的老同学发来KakaoTalk消息，热情地打着招呼。\n"
+                    "\"过得怎么样？最近在做什么？我在做一门好生意，\n"
+                    "不用本钱，一个月赚负一千万韩元也有可能。特别适合你这样的人。\n"
+                    "有空见个面吧，好吗？\"\n"
+                    "\n"
+                    "没工作，银行账户也见了底。{name}隐约知道那是什么。\n"
+                    "可那四个字——‘月入千万’——还是总在眼前晃。"
+                ),
+                (
+                    "断了联系的老同学发来KakaoTalk消息，热情地打着招呼。\n"
+                    "\"过得怎么样？最近在做什么？我在做一门好生意，\n"
+                    "不用本钱，一年赚一千万韩元也有可能。特别适合你这样的人。\n"
+                    "有空见个面吧，好吗？\"\n"
+                    "\n"
+                    "没工作，银行账户也见了底。{name}隐约知道那是什么。\n"
+                    "可那四个字——‘月入千万’——还是总在眼前晃。"
+                ),
+            ],
+            [
+                (
+                    (
+                        "연락 끊겼던 동창에게서 카톡이 왔다. 반가운 인사.\n"
+                        "\"잘 지내? 요즘 뭐 해? 나 좋은 사업 하나 하는데,\n"
+                        "무자본으로 월 천도 가능해. 너 같은 사람한테 딱이야.\n"
+                        "시간 되면 한번 보자, 응?\"\n"
+                        "\n"
+                        "무직에 통장은 바닥. {name}은 그게 뭔지 어렴풋이 안다.\n"
+                        "그래도 — '월 천'이라는 네 글자가 자꾸 눈에 밟힌다. "
+                    ),
+                    ["Korean-won values changed: [Decimal('10000000'), Decimal('10000000')] != []","Korean-won label count/topology mismatch 1 != 0","counter quantity missing/changed: expected (occurrence, 1), target candidates=[]"],
+                ),
+                (
+                    (
+                        "연락 끊겼던 동창에게서 카톡이 왔다. 반가운 인사.\n"
+                        "\"잘 지내? 요즘 뭐 해? 나 좋은 사업 하나 하는데,\n"
+                        "무자본으로 월 이천도 가능해. 너 같은 사람한테 딱이야.\n"
+                        "시간 되면 한번 보자, 응?\"\n"
+                        "\n"
+                        "무직에 통장은 바닥. {name}은 그게 뭔지 어렴풋이 안다.\n"
+                        "그래도 — '월 천'이라는 네 글자가 자꾸 눈에 밟힌다."
+                    ),
+                    ["Korean-won values changed: [Decimal('20000000'), Decimal('10000000')] != []","Korean-won label count/topology mismatch 1 != 0","counter quantity missing/changed: expected (occurrence, 1), target candidates=[]"],
+                ),
+            ],
+        ),
+        (
+            "neither", "events:amb_wallet_00:/choices/2/text",
+            [
+                "装作没看见，直接走过  （两边都不沾 / 心里不踏实）",
+                "装作没看见，直接走过  （两件事都不做 / 心里不踏实）",
+            ],
+            [
+                "装作没看见，直接走过  （三边都不沾 / 心里不踏实）",
+                "装作没看见，直接走过  （两个月都不沾 / 心里不踏实）",
+                "装作没看见，直接走过  （-两边都不沾 / 心里不踏实）",
+                "装作没看见，直接走过  （两边都不沾，两边都不沾 / 心里不踏实）",
+                "装作没看见，直接走过  （两个人都不沾 / 心里不踏实）",
+            ],
+            [
+                (
+                    "못 본 척 그냥 지나간다  (둘 다 안 함 / 찜찜함) ",
+                    ["counter quantity missing/changed: expected (entity, 2), target candidates=[]"],
+                ),
+                (
+                    "못 본 척 그냥 지나간다  (셋 다 안 함 / 찜찜함)",
+                    ["counter quantity missing/changed: expected (entity, 3), target candidates=[]"],
+                ),
+            ],
+        ),
+    ]
+    cases, failures = 0, []
+    for kind, ident, normal, mutants, source_off in fixtures:
+        source = SOURCE_AMB_SCENARIOS[kind]
+        for target in normal:
+            cases += 1
+            errors = validate_text("zh-CN", ident, source, target)
+            if errors:
+                failures.append(f"amb own normal {kind}: {errors}")
+        for target in mutants:
+            cases += 1
+            if not validate_text("zh-CN", ident, source, target):
+                failures.append(f"amb own mutant {kind} accepted: {target}")
+        for changed_source, old_errors in source_off:
+            cases += 1
+            if (_amb_scenario_kind(changed_source) is not None
+                    or validate_text("zh-CN", ident, changed_source, normal[0]) != old_errors):
+                failures.append(f"amb source-OFF baseline {kind} changed")
+    return cases, failures
+
+
+def _amb_scenario_tw_self_test() -> tuple[int, list[str]]:
+    # Separate pre-repair TW36. The original CN72 inputs remain unchanged.
+    # One source-OFF housing mutation already passed the generic baseline;
+    # preserve that out-of-scope result, not a semantic acceptance claim.
+    fixtures = [
+        (
+            "ring", "events:amb_jeonse_00:/choices/2/result_text",
+            [
+                "電話響了三聲。房東只說「沒什麼問題」，便簡短地打斷了話題。",
+                "電話鈴響了三次。房東只說「沒什麼問題」，便簡短地打斷了話題。",
+            ],
+            [
+                "電話響了四聲。房東只說「沒什麼問題」，便簡短地打斷了話題。",
+                "電話響了三分鐘。房東只說「沒什麼問題」，便簡短地打斷了話題。",
+                "電話響了-三聲。房東只說「沒什麼問題」，便簡短地打斷了話題。",
+                "電話響了三聲，又響了三聲。房東只說「沒什麼問題」，便簡短地打斷了話題。",
+                "敲門聲響了三聲。房東只說「沒什麼問題」，便簡短地打斷了話題。",
+            ],
+            [
+                (
+                    "신호음이 세 번 울렸다. 집주인은 \"별 문제 없다\"며 말을 짧게 잘랐다. ",
+                    ["counter quantity missing/changed: expected (occurrence, 3), target candidates=[]"],
+                ),
+                (
+                    "신호음이 네 번 울렸다. 집주인은 \"별 문제 없다\"며 말을 짧게 잘랐다.",
+                    ["counter quantity missing/changed: expected (occurrence, 4), target candidates=[]"],
+                ),
+            ],
+        ),
+        (
+            "jeonse_explanation", "events:amb_jeonse_00:/description",
+            [
+                (
+                    "隔壁的阿姨拉住{name}，壓低聲音說。\n"
+                    "「聽說那位房東，除了這棟樓，還欠了一屁股債。\n"
+                    "你有去調過登記謄本嗎？最近全租詐騙很可怕耶。」\n"
+                    "\n"
+                    "{name}的全租押金——免繳月租、期滿應退還的高額押金，也是積攢幾年的全部家當——\n"
+                    "就押在那間房子上。「空殼全租」這四個字，在腦中揮之不去。"
+                ),
+                (
+                    "隔壁的阿姨拉住{name}，壓低聲音說。\n"
+                    "「聽說那位房東，除了這棟樓，還欠了一屁股債。\n"
+                    "你有去調過登記謄本嗎？最近全租詐騙很可怕耶。」\n"
+                    "\n"
+                    "{name}的全租押金——不用繳月租，租期結束應退還的高額押金，也是積攢幾年的全部家當——\n"
+                    "就押在那間房子上。「空殼全租」這四個字，在腦中揮之不去。"
+                ),
+            ],
+            [
+                (
+                    "隔壁的阿姨拉住{name}，壓低聲音說。\n"
+                    "「聽說那位房東，除了這棟樓，還欠了一屁股債。\n"
+                    "你有去調過登記謄本嗎？最近全租詐騙很可怕耶。」\n"
+                    "\n"
+                    "{name}的全租押金——繳月租、期滿應退還的高額押金，也是積攢幾年的全部家當——\n"
+                    "就押在那間房子上。「空殼全租」這四個字，在腦中揮之不去。"
+                ),
+                (
+                    "隔壁的阿姨拉住{name}，壓低聲音說。\n"
+                    "「聽說那位房東，除了這棟樓，還欠了一屁股債。\n"
+                    "你有去調過登記謄本嗎？最近全租詐騙很可怕耶。」\n"
+                    "\n"
+                    "{name}的全租押金——必須每月繳月租、期滿應退還的高額押金，也是積攢幾年的全部家當——\n"
+                    "就押在那間房子上。「空殼全租」這四個字，在腦中揮之不去。"
+                ),
+                (
+                    "隔壁的阿姨拉住{name}，壓低聲音說。\n"
+                    "「聽說那位房東，除了這棟樓，還欠了一屁股債。\n"
+                    "你有去調過登記謄本嗎？最近全租詐騙很可怕耶。」\n"
+                    "\n"
+                    "{name}的全租押金——免繳月租，另付月租、期滿應退還的高額押金，也是積攢幾年的全部家當——\n"
+                    "就押在那間房子上。「空殼全租」這四個字，在腦中揮之不去。"
+                ),
+                (
+                    "隔壁的阿姨拉住{name}，壓低聲音說。\n"
+                    "「聽說那位房東，除了這棟樓，還欠了一屁股債。\n"
+                    "你有去調過登記謄本嗎？最近全租詐騙很可怕耶。」\n"
+                    "\n"
+                    "{name}的全租押金——免繳月租、期滿應退還的高額押金，也是積攢幾年的全部家當——\n"
+                    "就押在那間房子上。「空殼全租」這五個字，在腦中揮之不去。"
+                ),
+                (
+                    "隔壁的阿姨拉住{name}，壓低聲音說。\n"
+                    "「聽說那位房東，除了這棟樓，還欠了一屁股債。\n"
+                    "你有去調過登記謄本嗎？最近全租詐騙很可怕耶。」\n"
+                    "\n"
+                    "{name}的月租押金——免繳月租、期滿應退還的高額押金，也是積攢幾年的全部家當——\n"
+                    "就押在那間房子上。「空殼全租」這四個字，在腦中揮之不去。"
+                ),
+            ],
+            [
+                (
+                    (
+                        "옆집 아주머니가 {name}을 붙잡고 속삭인다.\n"
+                        "\"그 집주인 양반, 이 건물 말고도 빚이 산더미래.\n"
+                        "등기부는 떼봤어? 요즘 전세 사기 무서워.\"\n"
+                        "\n"
+                        "{name}의 전세보증금 — 몇 년을 모은 전 재산이 —\n"
+                        "그 집에 묶여 있다. '깡통전세' 네 글자가 머릿속을 맴돈다. "
+                    ),
+                    ["전세 was mistranslated as monthly rent"],
+                ),
+                (
+                    (
+                        "옆집 아주머니가 {name}을 붙잡고 속삭인다.\n"
+                        "\"그 집주인 양반, 이 건물 말고도 빚이 산더미래.\n"
+                        "등기부는 떼봤어? 요즘 전세 사기 무서워.\"\n"
+                        "\n"
+                        "{name}의 월세보증금 — 몇 년을 모은 전 재산이 —\n"
+                        "그 집에 묶여 있다. '깡통전세' 네 글자가 머릿속을 맴돈다."
+                    ),
+                    [],
+                ),
+            ],
+        ),
+        (
+            "wallet_boundary", "events:amb_wallet_00:/choices/1/result_text",
+            [
+                (
+                    "{name}把現金收進口袋，只把錢包塞進郵筒。\n"
+                    "身分證會回到失主手上——就這樣替自己辯解。\n"
+                    "有了30萬韓元。可是那天晚上，飯卻難以下嚥。\n"
+                    "小小的界線一旦跨過，下次就更容易跨了。"
+                ),
+                (
+                    "{name}把現金收進口袋，只把錢包塞進郵筒。\n"
+                    "身分證會回到失主手上——就這樣替自己辯解。\n"
+                    "有了30萬韓元。可是那天晚上，飯卻難以下嚥。\n"
+                    "小小的界線只要跨過一次，下次就更容易跨了。"
+                ),
+            ],
+            [
+                (
+                    "{name}把現金收進口袋，只把錢包塞進郵筒。\n"
+                    "身分證會回到失主手上——就這樣替自己辯解。\n"
+                    "有了30萬韓元。可是那天晚上，飯卻難以下嚥。\n"
+                    "小小的界線跨過兩次，下次就更容易跨了。"
+                ),
+                (
+                    "{name}把現金收進口袋，只把錢包塞進郵筒。\n"
+                    "身分證會回到失主手上——就這樣替自己辯解。\n"
+                    "有了30萬韓元。可是那天晚上，飯卻難以下嚥。\n"
+                    "小小的界線只要跨過一個月，下次就更容易跨了。"
+                ),
+                (
+                    "{name}把現金收進口袋，只把錢包塞進郵筒。\n"
+                    "身分證會回到失主手上——就這樣替自己辯解。\n"
+                    "有了30萬韓元。可是那天晚上，飯卻難以下嚥。\n"
+                    "小小的界線只要跨過-一次，下次就更容易跨了。"
+                ),
+                (
+                    "{name}把現金收進口袋，只把錢包塞進郵筒。\n"
+                    "身分證會回到失主手上——就這樣替自己辯解。\n"
+                    "有了30萬韓元。可是那天晚上，飯卻難以下嚥。\n"
+                    "那個人一旦跨過，下次就更容易跨了。"
+                ),
+                (
+                    "{name}把現金收進口袋，只把錢包塞進郵筒。\n"
+                    "身分證會回到失主手上——就這樣替自己辯解。\n"
+                    "有了40萬韓元。可是那天晚上，飯卻難以下嚥。\n"
+                    "小小的界線一旦跨過，下次就更容易跨了。"
+                ),
+            ],
+            [
+                (
+                    (
+                        "{name}은 현금을 주머니에 넣고, 지갑만 우체통에 밀어 넣었다.\n"
+                        "신분증은 주인에게 돌아갈 거다 — 그렇게 자신을 변명했다.\n"
+                        "30만원이 생겼다. 그런데 그날 밤, 밥이 잘 넘어가지 않았다.\n"
+                        "작은 선을 한 번 넘으면, 다음 선은 더 쉬워진다. "
+                    ),
+                    ["counter quantity missing/changed: expected (occurrence, 1), target candidates=[]"],
+                ),
+                (
+                    (
+                        "{name}은 현금을 주머니에 넣고, 지갑만 우체통에 밀어 넣었다.\n"
+                        "신분증은 주인에게 돌아갈 거다 — 그렇게 자신을 변명했다.\n"
+                        "30만원이 생겼다. 그런데 그날 밤, 밥이 잘 넘어가지 않았다.\n"
+                        "작은 선을 두 번 넘으면, 다음 선은 더 쉬워진다."
+                    ),
+                    ["counter quantity missing/changed: expected (occurrence, 2), target candidates=[]"],
+                ),
+            ],
+        ),
+        (
+            "sheet", "events:amb_jobswitch_in:/description",
+            [
+                (
+                    "{name}遞了辭呈，親手放棄了穩定薪水。\n"
+                    "新辦公室充滿活力，大家眼裡都閃著光。\n"
+                    "然後——加班變成兩倍，未來卻霧茫茫。\n"
+                    "那張股票選擇權文件，會變成廢紙，還是改變人生？"
+                ),
+                (
+                    "{name}遞了辭呈，親手放棄了穩定薪水。\n"
+                    "新辦公室充滿活力，大家眼裡都閃著光。\n"
+                    "然後——加班變成兩倍，未來卻霧茫茫。\n"
+                    "那一張股票選擇權文件，會變成廢紙，還是改變人生？"
+                ),
+            ],
+            [
+                (
+                    "{name}遞了辭呈，親手放棄了穩定薪水。\n"
+                    "新辦公室充滿活力，大家眼裡都閃著光。\n"
+                    "然後——加班變成兩倍，未來卻霧茫茫。\n"
+                    "那兩張股票選擇權文件，會變成廢紙，還是改變人生？"
+                ),
+                (
+                    "{name}遞了辭呈，親手放棄了穩定薪水。\n"
+                    "新辦公室充滿活力，大家眼裡都閃著光。\n"
+                    "然後——加班變成兩倍，未來卻霧茫茫。\n"
+                    "那棟股票選擇權文件，會變成廢紙，還是改變人生？"
+                ),
+                (
+                    "{name}遞了辭呈，親手放棄了穩定薪水。\n"
+                    "新辦公室充滿活力，大家眼裡都閃著光。\n"
+                    "然後——加班變成兩倍，未來卻霧茫茫。\n"
+                    "-那張股票選擇權文件，會變成廢紙，還是改變人生？"
+                ),
+                (
+                    "{name}遞了辭呈，親手放棄了穩定薪水。\n"
+                    "新辦公室充滿活力，大家眼裡都閃著光。\n"
+                    "然後——加班變成兩倍，未來卻霧茫茫。\n"
+                    "那張股票選擇權文件、那張股票選擇權文件，會變成廢紙，還是改變人生？"
+                ),
+                (
+                    "{name}遞了辭呈，親手放棄了穩定薪水。\n"
+                    "新辦公室充滿活力，大家眼裡都閃著光。\n"
+                    "然後——加班變成三倍，未來卻霧茫茫。\n"
+                    "那張股票選擇權文件，會變成廢紙，還是改變人生？"
+                ),
+            ],
+            [
+                (
+                    (
+                        "{name}은 사직서를 냈다. 안정된 월급을 제 손으로 버렸다.\n"
+                        "새 사무실은 활기차고, 사람들은 눈이 반짝였다.\n"
+                        "그리고 — 야근은 두 배, 미래는 안갯속.\n"
+                        "스톡옵션 종이 한 장이, 휴지가 될지 인생이 될지. "
+                    ),
+                    ["counter quantity missing/changed: expected (sheet, 1), target candidates=[]"],
+                ),
+                (
+                    (
+                        "{name}은 사직서를 냈다. 안정된 월급을 제 손으로 버렸다.\n"
+                        "새 사무실은 활기차고, 사람들은 눈이 반짝였다.\n"
+                        "그리고 — 야근은 두 배, 미래는 안갯속.\n"
+                        "스톡옵션 종이 두 장이, 휴지가 될지 인생이 될지."
+                    ),
+                    ["counter quantity missing/changed: expected (sheet, 2), target candidates=[]"],
+                ),
+            ],
+        ),
+    ]
+    cases, failures = 0, []
+    for kind, ident, normal, mutants, source_off in fixtures:
+        source = SOURCE_AMB_SCENARIOS[kind]
+        for target in normal:
+            cases += 1
+            errors = validate_text("zh-TW", ident, source, target)
+            if errors:
+                failures.append(f"amb TW normal {kind}: {errors}")
+        for target in mutants:
+            cases += 1
+            if not validate_text("zh-TW", ident, source, target):
+                failures.append(f"amb TW mutant {kind} accepted: {target}")
+        for changed_source, old_errors in source_off:
+            cases += 1
+            if (_amb_scenario_kind(changed_source) is not None
+                    or validate_text("zh-TW", ident, changed_source, normal[0]) != old_errors):
+                failures.append(f"amb TW source-OFF baseline {kind} changed")
+    return cases, failures
+
+
 def run_self_test(
     manifest: dict[str, Any], runtime: dict[str, Any],
 ) -> list[str]:
     failures: list[str] = []
     cases, life_failures = _life_scene_parser_self_test()
+    amb_cases, amb_failures = _amb_scenario_parser_self_test()
+    cases += amb_cases
+    failures.extend(amb_failures)
+    amb_tw_cases, amb_tw_failures = _amb_scenario_tw_self_test()
+    cases += amb_tw_cases
+    failures.extend(amb_tw_failures)
     butterfly_cases, butterfly_failures = _butterfly_chain_parser_self_test()
     cases += butterfly_cases
     failures.extend(butterfly_failures)

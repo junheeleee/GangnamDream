@@ -57,8 +57,20 @@ if [[ "${mode}" == "surface-matrix" ]]; then
 fi
 
 cycle_path=""
+modal_priority_only=false
 resolution="1280x800"
-if [[ "${mode}" =~ ^month-one-(ko|en)-(keyboard|gamepad)-(livelihood|people|recovery)$ ]]; then
+if [[ "${mode}" == "modal-priority-ko-gamepad" || "${mode}" == "modal-priority-en-keyboard" ]]; then
+  modal_priority_only=true
+  route_mode="${mode#modal-priority-}"
+  language="${route_mode%%-*}"
+  device="${route_mode##*-}"
+  scope="core-loop-v2-${device}"
+  marker="CORE_LOOP_V2_MODAL_PRIORITY_OK device=${device} lang=${language} fixture=controlled-w17"
+  pad=""
+  if [[ "${device}" == "gamepad" ]]; then
+    pad="playstation"
+  fi
+elif [[ "${mode}" =~ ^month-one-(ko|en)-(keyboard|gamepad)-(livelihood|people|recovery)$ ]]; then
   language="${BASH_REMATCH[1]}"
   device="${BASH_REMATCH[2]}"
   cycle_path="${BASH_REMATCH[3]}"
@@ -87,13 +99,16 @@ else
       fi
       ;;
     *)
-      echo "usage: $0 {full-matrix|{ko|en}-{keyboard|gamepad}|month-one-matrix|surface-matrix|month-one-{ko|en}-{keyboard|gamepad}-{livelihood|people|recovery}|surface-{ko|en}-{1280x800|960x600}}" >&2
+      echo "usage: $0 {modal-priority-ko-gamepad|modal-priority-en-keyboard|full-matrix|{ko|en}-{keyboard|gamepad}|month-one-matrix|surface-matrix|month-one-{ko|en}-{keyboard|gamepad}-{livelihood|people|recovery}|surface-{ko|en}-{1280x800|960x600}}" >&2
       exit 2
       ;;
   esac
 fi
 
 qa_args=("--qa=${scope}" "--lang=${language}")
+if [[ "${modal_priority_only}" == true ]]; then
+  qa_args+=("--modal-priority-only")
+fi
 if [[ -n "${cycle_path}" ]]; then
   qa_args+=("--month-one-only" "--cycle-path=${cycle_path}")
 fi

@@ -14,6 +14,62 @@
   ],
   "fast_lanes": [
     {
+      "id": "core-loop-v2-modal-priority",
+      "paths": [],
+      "owned_paths": [
+        "scenes/MainGame.gd",
+        "tools/ScreenshotQA.gd",
+        "tools/run_core_loop_v2_input_qa.sh",
+        "docs/queue_active/ORDER-215.md",
+        "docs/queue_archive/ORDER-215.md",
+        "tools/audit_scope.json",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/WORK_LOG.md",
+        "docs/STATUS.md"
+      ],
+      "tools": [
+        "tools/run_core_loop_v2_input_qa.sh modal-priority-ko-gamepad",
+        "tools/run_core_loop_v2_input_qa.sh modal-priority-en-keyboard",
+        "tools/queue_index_self_test.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "기존 자각 metadata와 controlled W17 raw 입력 component만. 기존24/240주 매핑을 약화하지 않는 명시 차선."
+    },
+    {
+      "id": "delegated-agent-final-review",
+      "paths": [],
+      "owned_paths": [
+        "docs/agent_review_decisions.json",
+        "tools/human_gates.py",
+        "tools/agent_review_decisions_self_test.py",
+        "tools/project_dashboard.py",
+        "docs/WORK_UNIT.md",
+        "docs/MASTER_RELEASE_AUDIT.md",
+        "docs/DECISIONS.md",
+        "docs/PROPOSALS.md",
+        ".codex/skills/gangnamdream-dev/SKILL.md",
+        "docs/queue_active/ORDER-216.md",
+        "docs/queue_archive/ORDER-216.md",
+        "docs/history/WORK_LOG_2026-09-07_localization.md",
+        "tools/audit_scope.json",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/WORK_LOG.md",
+        "docs/STATUS.md"
+      ],
+      "tools": [
+        "tools/agent_review_decisions_self_test.py",
+        "tools/human_gates.py",
+        "tools/queue_index_self_test.py",
+        "tools/project_dashboard.py --md docs/STATUS.md --check",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "위임된 내부 판정과 인간 증거 원형 분리만. 명시 차선이며 제품·실플레이 통과를 대신하지 않는다."
+    },
+    {
       "id": "translation-protected-hash-reconciliation",
       "paths": [
         "tools/year5_reference_route_audit.py",
@@ -394,7 +450,9 @@
         "docs/queue_active/ORDER-211.md",
         "docs/queue_archive/ORDER-211_L1_L2_RESULTS.md",
         "docs/queue_active/ORDER-212.md",
-        "docs/queue_archive/ORDER-212_L1_L2_RESULTS.md"
+        "docs/queue_archive/ORDER-212_L1_L2_RESULTS.md",
+        "docs/queue_active/ORDER-214.md",
+        "docs/queue_archive/ORDER-214_L1_L2_RESULTS.md"
       ],
       "tools": [
         "tools/full_game_localization_self_test.py",
@@ -3299,6 +3357,44 @@
       "why": "승인된 번역의 정확한 역사 지문 전이와 기존 non-live·보호 manifest를 순수 소스에서 대조한다",
       "paths": [
         "tools/year5_reference_route_audit.py"
+      ]
+    },
+    {
+      "tool": "tools/agent_review_decisions_self_test.py",
+      "why": "별도 agent 판정의 권한·신원·실제 Git metadata wrapper·unit격리 및 인간 원장 원형",
+      "paths": [
+        "docs/agent_review_decisions.json",
+        "tools/human_gates.py",
+        "tools/agent_review_decisions_self_test.py",
+        "tools/project_dashboard.py",
+        "docs/WORK_UNIT.md",
+        "docs/MASTER_RELEASE_AUDIT.md",
+        "docs/DECISIONS.md",
+        "docs/PROPOSALS.md",
+        ".codex/skills/gangnamdream-dev/SKILL.md",
+        "docs/queue_active/ORDER-216.md",
+        "docs/queue_archive/ORDER-216.md",
+        "docs/history/WORK_LOG_2026-09-07_localization.md"
+      ]
+    },
+    {
+      "tool": "tools/run_core_loop_v2_input_qa.sh modal-priority-ko-gamepad",
+      "godot": true,
+      "why": "W17 자각 모달 우선·raw입력·아래결과1회·threshold/malformed component",
+      "paths": [
+        "scenes/MainGame.gd",
+        "tools/ScreenshotQA.gd",
+        "tools/run_core_loop_v2_input_qa.sh"
+      ]
+    },
+    {
+      "tool": "tools/run_core_loop_v2_input_qa.sh modal-priority-en-keyboard",
+      "godot": true,
+      "why": "W17 자각 모달 우선·raw입력·아래결과1회·threshold/malformed component",
+      "paths": [
+        "scenes/MainGame.gd",
+        "tools/ScreenshotQA.gd",
+        "tools/run_core_loop_v2_input_qa.sh"
       ]
     }
   ]

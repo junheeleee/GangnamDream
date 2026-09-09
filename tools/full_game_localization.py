@@ -1459,6 +1459,340 @@ def _ja_chain_support_salary_numbers(source: str, target: str):
     return normalized_source, normalized_target, sorted(set(errors))
 
 
+def _ja_amb_tradeoff_numbers(source: str, target: str):
+    """Bind witnessed trade-off counters/income to complete Korean sources.
+
+    Each owned quantity keeps its role, unit, value and source line. Japanese
+    numeral typography is normalized for existing checks; no leaf is waived
+    and prose outside the numerical neighbourhood is not a target template.
+    """
+    contracts = {
+        (
+            "{name}은 분명히 선을 그었다. 부장은 떨떠름하게 \"알았어\" 했다.\n"
+            "호구는 면했다. 부장도 함부로 못 하게 됐다.\n"
+            "대신 둘 사이엔 서늘한 거리가 생겼다.\n"
+            "존중은 요구해야 얻어지지만 — 그 대가는 편안함이다."
+        ): {
+            "rewrites": [["둘 사이","2 사이"]],
+            "slots": (
+                (2, "@N@人の(?:間|あいだ)(?:には|に)[^。\\n]{0,12}(?:距離|隔たり)(?:が|は)(?:生まれた|できた)", 2, "pair_distance"),
+            ),
+        },
+        (
+            "독대"
+        ): {
+            "rewrites": [["독대","2 대"]],
+            "slots": (
+                (0, "^@N@人(?:きり|だけ)(?:で)?$", 2, "private_pair"),
+            ),
+        },
+        (
+            "{name}은 임원에게 따로 자료 원본을 보냈다. '참고하시라'며.\n"
+            "임원은 알아챘다. {name}의 이름이 윗선에 각인됐다.\n"
+            "대신 부장은 — 누가 찔렀는지 안다. 보이지 않는 칼이 갈리기 시작했다.\n"
+            "인정을 얻은 값으로, {name}은 적을 하나 만들었다."
+        ): {
+            "rewrites": [["적을 하나","적을 1"]],
+            "slots": (
+                (3, "(?:敵を@N@(?:人|名)|@N@(?:人|名)の敵を)(?:作った|つくった|増やした)", 1, "enemy_created"),
+            ),
+        },
+        (
+            "{name}은 결국 도장을 찍었다. 친구는 눈물까지 글썽이며 고마워했다.\n"
+            "우정은 지켰다. 대신 — 남의 빚이 {name}의 어깨에 얹혔다.\n"
+            "그 사업이 잘되길, {name}은 매일 빌게 됐다.\n"
+            "호의로 찍은 도장 하나가, 평생의 불안이 될 줄도 모르고."
+        ): {
+            "rewrites": [["도장 하나","도장 1"]],
+            "slots": (
+                (3, "(?:押した|捺した)(?:(?:ハンコ|判子|印鑑)@N@(?:つ|個)|@N@(?:つ|個)の(?:ハンコ|判子|印鑑))", 1, "signed_stamp"),
+            ),
+        },
+        (
+            "고등학교 친구가 오랜만에 술을 사겠다며 불러냈다.\n"
+            "몇 잔 돌고 나서야 본론이 나온다.\n"
+            "\"사업 자금 대출인데, 보증인 한 명이 모자라. 도장만 찍어주면 돼.\n"
+            "절대 너한테 피해 안 가. 우리 사이에 이 정도도 못 해줘?\"\n"
+            "\n"
+            "{name}은 안다. 보증은 남의 빚을 내 빚으로 만드는 일이라는 걸.\n"
+            "그리고 — 거절은, 20년 우정에 금을 낸다는 것도."
+        ): {
+            "rewrites": [["한 명","1 명"]],
+            "slots": (
+                (2, "保証人(?:が|は)@N@(?:人|名)(?:足りない|不足して)", 1, "missing_guarantor"),
+                (6, "@N@年(?:の|間の)?友情", 20, "friendship_years"),
+            ),
+        },
+        (
+            "도장 하나만"
+        ): {
+            "rewrites": [["하나","1"]],
+            "slots": (
+                (0, "^(?:(?:ハンコ|判子|印鑑)@N@(?:つ|個)|@N@(?:つ|個)の(?:ハンコ|判子|印鑑))だけ$", 1, "stamp_title"),
+            ),
+        },
+        (
+            "한 잔 더"
+        ): {
+            "rewrites": [["한 잔","1 잔"]],
+            "slots": (
+                (0, "^(?:もう|あと)@N@杯$", 1, "additional_drink"),
+            ),
+        },
+        (
+            "{name}은 숙취해소제를 털어넣고 출근했다.\n"
+            "비틀거리며 하루를 버텼다. 결근은 면했지만,\n"
+            "몸은 한참을 회복하지 못했다. 관계를 산 값은, 늘 몸으로 치른다."
+        ): {
+            "rewrites": [["하루","1일"]],
+            "slots": (
+                (1, "@N@日(?:間)?を(?:乗り切った|耐え抜いた|しのいだ)", 1, "worked_day"),
+            ),
+        },
+        (
+            "{name}은 반차를 냈다. 종일 앓았다.\n"
+            "어제 쌓은 점수가 오늘 조금 깎였다.\n"
+            "관계도, 건강도 다 가질 수는 없다는 걸 — 또 배웠다."
+        ): {
+            "rewrites": [["종일","1일"]],
+            "slots": (
+                (0, "@N@日(?:中|じゅう)(?:苦しんだ|寝込んだ|うなされた)", 1, "sick_day"),
+            ),
+        },
+        (
+            "{name}은 \"일이 있다\"고 둘러댔다. 비교당할 일도, 차비 쓸 일도 없었다.\n"
+            "대신 명절 내내 지금 사는 방에 혼자 있었다.\n"
+            "아버지가 보낸 '밥은 챙겨 먹어라' 문자에 — 한참 답을 못 했다."
+        ): {
+            "rewrites": [["혼자","1 자"]],
+            "slots": (
+                (1, "(?:部屋で|部屋に)(?:@N@人|@NATIVE@)(?:だった|で過ごした|きりだった)", 1, "holiday_alone"),
+            ),
+        },
+        (
+            "{name}은 큰집은 건너뛰고, 아버지만 따로 찾아뵀다.\n"
+            "둘이 먹은 국밥 한 그릇. 비교도, 잔소리도 없었다.\n"
+            "차비는 들었지만 — 가장 보고 싶던 사람만, 조용히 보고 왔다."
+        ): {
+            "rewrites": [["둘이","2 이"],["한 그릇","1 그릇"]],
+            "slots": (
+                (1, "@N@人で食べた", 2, "shared_diners"),
+                (1, "@N@杯のクッパ", 1, "shared_bowl"),
+            ),
+        },
+        (
+            "신호음이 세 번 울렸다. 집주인은 \"별 문제 없다\"며 말을 짧게 잘랐다."
+        ): {
+            "rewrites": [["세 번","3 번"]],
+            "slots": (
+                (0, "呼び出し音(?:が|は)@N@(?:回|度)(?:鳴った|響いた)", 3, "phone_rings"),
+            ),
+        },
+        (
+            "옆집 아주머니가 {name}을 붙잡고 속삭인다.\n"
+            "\"그 집주인 양반, 이 건물 말고도 빚이 산더미래.\n"
+            "등기부는 떼봤어? 요즘 전세 사기 무서워.\"\n"
+            "\n"
+            "{name}의 전세보증금 — 몇 년을 모은 전 재산이 —\n"
+            "그 집에 묶여 있다. '깡통전세' 네 글자가 머릿속을 맴돈다."
+        ): {
+            "rewrites": [["네 글자","4 글자"]],
+            "slots": (
+                (5, "韓国語(?:の)?@N@文字", 4, "korean_character_count"),
+            ),
+        },
+        (
+            "등기부를 떼보니 — 근저당이 시세의 80%.\n"
+            "집주인이 무너지면 보증금은 한 푼도 못 건진다.\n"
+            "다행히 아직 전세보증보험에 들 수 있는 마지노선은 넘기지 않았다.\n"
+            "\n"
+            "보험료 30만원. {name}의 한 달 식비보다 많다."
+        ): {
+            "rewrites": [["한 달","1 달"]],
+            "slots": (
+                (0, "(?:相場|時価|市場価格)の@N@[%％]", 80, "mortgage_ratio"),
+                (4, "保険料(?:は|が)?@N@万ウォン", 30, "insurance_cost"),
+                (4, "@N@(?:か月|ヶ月|カ月|箇月)(?:の|分の)食費", 1, "food_month"),
+            ),
+        },
+        (
+            "{name}은 사직서를 냈다. 안정된 월급을 제 손으로 버렸다.\n"
+            "새 사무실은 활기차고, 사람들은 눈이 반짝였다.\n"
+            "그리고 — 야근은 두 배, 미래는 안갯속.\n"
+            "스톡옵션 종이 한 장이, 휴지가 될지 인생이 될지."
+        ): {
+            "rewrites": [["두 배","2 배"],["한 장","1 장"]],
+            "slots": (
+                (2, "残業(?:は|が)(?:@N@|(?P<double>))倍", 2, "overtime_multiple"),
+                (3, "ストックオプション(?:の)?(?:紙@N@枚|@N@枚の紙)", 1, "option_sheet"),
+            ),
+        },
+        (
+            "카페에서 두 시간을 보냈다. 화이트보드 그림과 \"수익구조\"라는 단어가 반복됐다."
+        ): {
+            "rewrites": [["두 시간","2 시간"]],
+            "slots": (
+                (0, "カフェで@N@時間(?:を)?(?:過ごした|費やした)", 2, "cafe_hours"),
+            ),
+        },
+        (
+            "{name}은 \"관심 없어\" 하고 대화를 닫았다.\n"
+            "동창은 \"기회를 발로 찬다\"며 비아냥댔고, 인연은 거기서 끊겼다.\n"
+            "월 천의 환상도 함께 접었다. 절박할수록, 단호해야 했다."
+        ): {
+            "rewrites": [["월 천","월 10000000원"]],
+            "slots": (
+                (2, "月(?:に|収(?:は)?)?@N@ウォン", 10000000, "abandoned_monthly_income"),
+            ),
+        },
+        (
+            "연락 끊겼던 동창에게서 카톡이 왔다. 반가운 인사.\n"
+            "\"잘 지내? 요즘 뭐 해? 나 좋은 사업 하나 하는데,\n"
+            "무자본으로 월 천도 가능해. 너 같은 사람한테 딱이야.\n"
+            "시간 되면 한번 보자, 응?\"\n"
+            "\n"
+            "무직에 통장은 바닥. {name}은 그게 뭔지 어렴풋이 안다.\n"
+            "그래도 — '월 천'이라는 네 글자가 자꾸 눈에 밟힌다."
+        ): {
+            "rewrites": [["월 천도","월 10000000원도"],["'월 천'","'월 10000000'"],["네 글자","4 글자"]],
+            "slots": (
+                (2, "月(?:に|収(?:は)?)?@N@ウォン(?:も|だって)?(?:いける|可能|稼げる)", 10000000, "quoted_monthly_income"),
+                (6, "[『「']月(?:に|収(?:は)?)?@N@(?:ウォン)?[』」']", 10000000, "recalled_monthly_income"),
+                (6, "@N@文字", 4, "recalled_character_count"),
+            ),
+        },
+        (
+            "다단계로 떠안은 물건은 창고에 그대로다. 한 개도 못 팔았다.\n"
+            "그리고 — 300만원 카드값이 돌아왔다. 독촉 전화가 빗발친다.\n"
+            "그 동창은 연락이 끊겼다. 처음부터 {name}은 '고객'이 아니라 '먹잇감'이었다.\n"
+            "\n"
+            "그날의 '한 번뿐인 기회'가, 매일 울리는 빚 독촉으로 돌아왔다."
+        ): {
+            "rewrites": [["한 개","1 개"],["한 번뿐","1 번뿐"]],
+            "slots": (
+                (0, "@N@(?:つ|個|点)(?:も)?(?:売れなかった|売れていない|売れず)", 1, "unsold_item"),
+                (1, "@N@万ウォン(?:の)?(?:カード請求|カードの請求)", 300, "card_bill"),
+                (4, "@N@(?:度|回)(?:きり|限り)のチャンス", 1, "one_time_opportunity"),
+            ),
+        },
+        (
+            "{name}은 어머니에게 전화를 걸어 처음부터 끝까지 말했다.\n"
+            "어머니는 아버지와 함께 비상금으로 남겨 둔 돈에서 300만원을 보냈다. \"왜 이 지경이 될 때까지 혼자 있었니.\"\n"
+            "카드값은 막았지만, 이미 떠난 사람의 몫까지 모아 둔 돈을 빌렸다는 사실이 오래 남았다."
+        ): {
+            "rewrites": [["아버지와 함께","아버지와 2"],["혼자","1 자"]],
+            "slots": (
+                (1, "父と@N@人で", 2, "parents_saved_pair"),
+                (1, "@N@万ウォンを(?:送った|送金した|振り込んだ)", 300, "mother_transferred_won"),
+                (1, "(?:@N@人|@NATIVE@)で(?:抱えていた|抱え込んでいた)", 1, "child_alone"),
+            ),
+        },
+        (
+            "{name}은 모른 척 발걸음을 옮겼다.\n"
+            "남의 돈도, 양심의 짐도 지지 않았다.\n"
+            "다만 버스 안에서 내내 그 지갑이 생각났다.\n"
+            "아무것도 안 하는 것도, 하나의 선택이었다."
+        ): {
+            "rewrites": [["하나의 선택","1 선택"]],
+            "slots": (
+                (3, "(?:何もしないのも|何もしないことも)[、，]?@N@(?:つ|個)の選択(?:だった|であった)", 1, "inaction_choice"),
+            ),
+        },
+        (
+            "{name}은 주말마다 사장님 가게에 나갔다. 일당도, 배움도 쏠쏠했다.\n"
+            "사장님은 장사 노하우와 사람 쓰는 법을 아낌없이 알려줬다.\n"
+            "대신 {name}의 주말은 사라졌다. 쉴 틈은 줄었지만,\n"
+            "정직이 만든 인연 하나가 — 든든한 뒷배가 되어갔다."
+        ): {
+            "rewrites": [["인연 하나","인연 1"]],
+            "slots": (
+                (3, "(?:正直さ|誠実さ)が(?:生んだ|もたらした)@N@(?:つ|個)の縁", 1, "honest_connection"),
+            ),
+        },
+    }
+
+    contract = contracts.get(source)
+    if contract is None:
+        return None
+    import unicodedata
+    from zh_translation_audit import _chinese_cardinal_value
+
+    digits = r"0-9０-９〇零一二三四五六七八九十百千万億"
+    number = r"(?<![" + digits + r",.，．])(?P<number>[+＋\-－−]?[" + digits + r",，]+)"
+    lines = target.split("\n")
+    errors, replacements, owned = [], [], []
+    for line, pattern, expected, label in contract["slots"]:
+        # Noun-before/after variants share one slot. Rename repeated group
+        # definitions so exactly one alternative capture can be populated.
+        parts = pattern.replace("@NATIVE@", "(?P<native>ひとり)").split("@N@")
+        compiled = parts[0]
+        for index, part in enumerate(parts[1:]):
+            compiled += number.replace("number>", f"number{index}>") + part
+        matches = list(re.finditer(compiled, lines[line])) if line < len(lines) else []
+        if len(matches) != 1:
+            errors.append(f"source-bound amb tradeoff {label} role/unit/line/count mismatch")
+            continue
+        match = matches[0]
+        captures = [(key, raw) for key, raw in match.groupdict().items() if raw is not None]
+        if len(captures) != 1:
+            errors.append(f"source-bound amb tradeoff {label} quantity slot mismatch")
+            continue
+        key, raw = captures[0]
+        start, end = match.span(key)
+        normalized = unicodedata.normalize("NFKC", raw).replace(",", "")
+        if "," in unicodedata.normalize("NFKC", raw) and not re.fullmatch(
+            r"[1-9][0-9]{0,2}(?:,[0-9]{3})+(?:万)?", unicodedata.normalize("NFKC", raw)
+        ):
+            errors.append(f"source-bound amb tradeoff {label} numeric grouping mismatch")
+        if key == "native":
+            value = 1
+        elif key == "double":
+            # Bare 倍 means twice only in this exact-source overtime slot.
+            # The zero-width capture inserts its numeric marker; 半/-/other
+            # numerals cannot be swallowed by the empty alternative.
+            value = 2
+        elif normalized.endswith("万"):
+            # The witnessed monthly quote is 千万/1000万, not 千ウォン.
+            coefficient = _chinese_cardinal_value(normalized[:-1])
+            value = coefficient * 10000 if coefficient is not None else None
+        else:
+            value = _chinese_cardinal_value(normalized)
+        if (raw and raw[:1] in "+＋-－−") or value != expected:
+            errors.append(f"source-bound amb tradeoff {label} value/sign mismatch")
+        if re.search(r"[+＋\-－−" + digits + r",.，．]\s*$", lines[line][:start]):
+            errors.append(f"source-bound amb tradeoff {label} numeric prefix mismatch")
+        if label == "overtime_multiple" and lines[line][match.end():].startswith("半"):
+            errors.append("source-bound amb tradeoff overtime_multiple fractional multiplier mismatch")
+        if re.match(r"\s*(?:[/／]|毎(?:時|日|月|年)|未満|以上|以下|程度|ほど|くらい|ぐらい|"
+                    r"円|ドル|ウォン|元|ユーロ|ではな|じゃな|"
+                    r"[（(]\s*(?:毎|月|日|年|時|円|ドル|元))", lines[line][match.end():]):
+            errors.append(f"source-bound amb tradeoff {label} qualifier mismatch")
+        offset = sum(len(part) + 1 for part in lines[:line])
+        amount_unit = 1 if lines[line][end:match.end()].startswith("万ウォン") else 0
+        owned.append((offset + start, offset + end + amount_unit))
+        # A native lexical 'ひとり' owns the same one-person slot; replace its
+        # whole span with the numeric stream marker, not the surrounding prose.
+        replacements.append((offset + start, offset + end, str(expected)))
+    # Fixed lexical Japanese 二日酔い is a hangover, not a two-day duration.
+    # These only remove that lexical span from this exact-source quantity scan;
+    # they never remove an Arabic number from the existing numeric comparison.
+    scan = target
+    for token in ("二日酔い",):
+        scan = scan.replace(token, " " * len(token))
+    units = r"(?:万|億)?(?:ウォン|円|ドル|元)|か月|ヶ月|カ月|箇月|年|日|時間|分|秒|人|名|回|度|つ|個|点|杯|枚|倍|文字|[%％]"
+    for quantity in re.finditer(number + r"\s*(?:" + units + ")", scan):
+        start, end = quantity.span("number")
+        if not any(a <= start and end <= b for a, b in owned):
+            errors.append("source-bound amb tradeoff added/displaced quantity mismatch")
+    normalized_source = source
+    for old, new in contract["rewrites"]:
+        normalized_source = normalized_source.replace(old, new, 1)
+    normalized_target = target
+    for start, end, replacement in sorted(replacements, reverse=True):
+        normalized_target = normalized_target[:start] + replacement + normalized_target[end:]
+    return normalized_source, normalized_target, sorted(set(errors))
+
+
 def _ja_korean_culture_address(source: str, target: str):
     """Permit ordinary male address only in the two observed non-romance quotes.
 
@@ -1515,6 +1849,12 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
             target_numbers = ja.PLACEHOLDER.sub("", target_numbers)
             errors.extend(quantity_errors)
         chain_support = _ja_chain_support_salary_numbers(leaf.source, text)
+        amb_tradeoff = _ja_amb_tradeoff_numbers(leaf.source, text)
+        if amb_tradeoff is not None:
+            source_numbers, target_numbers, quantity_errors = amb_tradeoff
+            source_numbers = ja.PLACEHOLDER.sub("", source_numbers)
+            target_numbers = ja.PLACEHOLDER.sub("", target_numbers)
+            errors.extend(quantity_errors)
         if chain_support is not None:
             source_numbers, target_numbers, quantity_errors = chain_support
             source_numbers = ja.PLACEHOLDER.sub("", source_numbers)
@@ -2091,6 +2431,8 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
             errors.append("source-bound leisure/race ordered numeric ownership mismatch")
         if cafe_encounter is not None and numeric.findall(source_numbers) != numeric.findall(target_numbers):
             errors.append("source-bound cafe/encounter ordered numeric ownership mismatch")
+        if amb_tradeoff is not None and numeric.findall(source_numbers) != numeric.findall(target_numbers):
+            errors.append("source-bound amb tradeoff ordered numeric ownership mismatch")
         if native_time_bound and numeric.findall(source_numbers) != numeric.findall(target_numbers):
             errors.append("native time ordered numeric ownership mismatch")
     else:
