@@ -7117,9 +7117,214 @@ def _early_connections_latin(source: str, target: str) -> tuple[str, list[str]]:
 
 
 
+# Exact Korean leaf identity gates only the observed first-life phrases.
+FIRST_LIFE_SOURCE_KIND = {
+    "fcd1df6b5b3a055af90c867ea1513bb81c31aa4a65444ba081074a2238a8c763": "chart",  # events:arc_ch1_invest_first_chart:/choices/0/result_text
+    "14a5226b3cf8d8db873a4dfc8c9f98918d5b05061bc3dce087f45e0e0e09749e": "chart_view",  # events:arc_ch1_invest_first_chart:/description
+    "5d1a6e972459a027b08e52a4d04ad554ef2c9153243a0f3d199a98f309f5e7d0": "deep_result",  # events:arc_ch1_theme_invest_deep:/choices/0/result_text
+    "15f5454a4033afffa1b7adc55e71b87c06f5aba603e45c55a5752fffa5a2779e": "deep_view",  # events:arc_ch1_theme_invest_deep:/description
+    "e459bc9c1124c7bd5ebb6d1ed0a1d6bdf99953d618c163cfcaa5b74c49d43511": "rings",  # events:arc_father_01_call:/description_if_known/opening_preplan_application_sent
+    "3ee6ba24c0fe02b4018a28b8e686e8559bc19c10cde2c5351e99e8367a69d46a": "half",  # events:arc_father_02_signal:/choices/0/result_text
+    "bef04fb2c419a6539bd08b94fb72efc44a9e1ca969e7c2937acf3594498e7f68": "choi",  # events:arc_father_02_signal:/description
+    "05578f4f5839df267e07b61e57f1d92d87aed8d196349cc7f6f8ad95ca58e130": "choi_low",  # events:arc_father_02_signal:/description_low_mental
+    "a092ce4eec036bb8ec1653521abadb4b41973e4b95bfa19ba8e3a22b25a02df0": "pair",  # events:arc_daeun_later_echo:/description
+    "04faf7de46b6a3271abc75a7f2f4082b153763ff1b5a94cb96560f6fb2a4f0e7": "photo",  # events:arc_hyunsu_lifeline_call:/description
+    "3a4c7304755e41da8cf144e68baad6412a2028c1523892d49626104f775defee": "per_line",  # events:arc_job_first_rejection:/choices/1/text
+    "181304b4f16e3fad48a996960bff714d96f006e1db1c470ecd62cdea1a04dbfa": "ads",  # events:arc_money_check_low:/choices/2/result_text
+    "240b4c295e6f90bc61e7cdb93648cf1f9c6ff2b987ba5853dcfb692b633bbc3b": "fraction",  # events:arc_money_check_mid:/choices/2/result_text
+    "462e1fb8846446e3b2fe7a215148736786b37ec0462ad7f9d70a0804afe443dd": "naver",  # events:arc_intro_02_dad_call:/choices/1/result_text
+    "ddf63cda9c28b34637094f6285727f88b2f14368ed317bd922fec808e9a15409": "albamon",  # events:arc_money_check_low:/choices/2/text
+    "c64226f0765bff2509c4add4fb470501b316340319b57e35cfa2187e05213c45": "rescue",  # events:arc_rescue_job:/description
+    "76aa255e99abc65f7de06868a2b06fa87dc90c2922f8bebd567e25bee369ac81": "wall",  # events:arc_gosiwon_wall:/description
+    "0fc36563ce6f7b5138938beca91e4e2f2af6e5e5f1a88f105834dcea0e3f0021": "dad_description",  # events:arc_intro_02_dad_call:/description
+    "47c9519edd66623ff072cde73869686013c1f6f89cd5b6ccc50521a62f0074c9": "dad_description_orthodox",  # events:arc_intro_02_dad_call:/description_orthodox
+    "c8767f3b90f43bbf5a6e0b37d9202b231326a04a53b2b9cdf972d9c142daa0ad": "dad_description_low_mental",  # events:arc_intro_02_dad_call:/description_low_mental
+    "b28c8c242a2d880a11bec72592902fc7b65be038a11520c4d2507d56b77db824": "dad_description_unorthodox",  # events:arc_intro_02_dad_call:/description_unorthodox
+    "9b5116157866367c6a03602ee1a38730a9bae09797ed4280f6348110e949f862": "sns_description",  # events:arc_intro_03_sns:/description
+    "b2fcd55b68693f94345994867c35a5df1a1d6ad4fcba972fd3498d15b46f43e5": "sns_description_orthodox",  # events:arc_intro_03_sns:/description_orthodox
+    "dc4494c62a6b57b51f398c598a72534bd4d7b04434e8c030fa6b44413acaca75": "sns_description_long_gosiwon",  # events:arc_intro_03_sns:/description_long_gosiwon
+    "8d9b0adff453bfb8ae17fa6f7eb7221a5e3900a149717862c89b4a65ec469d43": "sns_kept_clean_hands",  # events:arc_intro_03_sns:/description_if_known/kept_clean_hands
+    "d5f423cd60d413a6e1f49222d3e2607cf82e6fd5578377ffbbdfa92089a8df02": "sns_lent_account",  # events:arc_intro_03_sns:/description_if_known/lent_account
+}
+
+def _first_life_kind(source: str) -> str | None:
+    return FIRST_LIFE_SOURCE_KIND.get(hashlib.sha256(source.encode("utf-8")).hexdigest())
+
+
+def _first_life_slots(source: str, target: str, locale: str = "zh"):
+    """Project verified local quantities, not complete translated sentences.
+
+    Exact KO identities restrict polysemy (a stock share is not a week),
+    anaphoric quantities and clock spelling. Unowned amounts still enter the
+    existing money/counter pipeline. This is not general semantic certification.
+    """
+    kind = _first_life_kind(source)
+    ss, ts, errors = [], [], []
+    if kind is None:
+        return ss, ts, errors
+    label = "first-life " + kind
+    n = r"(?:[0-9０-９][0-9０-９,，]*|[零〇一二两兩三四五六七八九十百千]+)"
+
+    def bind(fragment, pattern, expected, *, occurrence=0, implicit=None, role=None):
+        starts = [m.start() for m in re.finditer(re.escape(fragment), source)]
+        a = starts[occurrence]
+        line = source[:a].count("\n")
+        ss.append(CounterQuantity(a, a + len(fragment), Decimal(str(expected)), label))
+        matches = [m for m in re.finditer(pattern, target)
+                   if target[:m.start()].count("\n") == line]
+        if len(matches) != 1:
+            errors.append(label + " quantity role/unit/line/count changed")
+            return
+        m = matches[0]
+        raw = m.groupdict().get("number")
+        value = implicit
+        if raw is not None:
+            value = _chinese_cardinal_value(unicodedata.normalize("NFKC", raw))
+            if m.groupdict().get("half"):
+                value = None if value is None else value + Decimal("0.5")
+            if m.groupdict().get("minutes"):
+                minutes = _chinese_cardinal_value(unicodedata.normalize("NFKC", m.group("minutes")))
+                if minutes is None or minutes >= 60:
+                    errors.append(label + " invalid minute component")
+                    value = None
+                elif value is not None:
+                    value += minutes / 60
+        if value != Decimal(str(expected)):
+            errors.append(label + " quantity value changed")
+        start, end = m.span("q")
+        if _has_numeric_sign_prefix(target, start):
+            errors.append(label + " quantity sign/prefix changed")
+        if re.match(r"\s*(?:[/／%％‰]|以上|以下|以内|以內|左右|前後|前后|くらい|ぐらい|"
+                    r"ほど|程度|未満|超|円|ドル|[韓韩]元|[个個]月|公斤|公里)", target[end:]):
+            errors.append(label + " quantity qualifier/unit suffix changed")
+        local = target.split("\n")[line]
+        if role and not re.search(role, local):
+            errors.append(label + " quantity predicate/actor changed")
+        ts.append(CounterQuantity(start, end, Decimal(str(expected)), label))
+
+    if locale == "ja":
+        if kind == "chart":
+            bind("한 주", rf"(?P<q>(?P<number>{n})株)(?=(?:だけ)?(?:を)?(?:買った|購入した))", 1)
+        elif kind == "half":
+            bind("2시간 반", rf"(?P<q>(?P<number>{n})時間(?:(?P<half>半)|(?P<minutes>{n})分))", 2.5,
+                 role=r"KTX.*(?:チャンウォン|昌原).*中央")
+            lines = target.split("\n")
+            local = lines[2] if len(lines) > 2 else ""
+            if not re.search(r"(?:切符|きっぷ|チケット).*(?:検索|調べ)", local) or re.search(
+                    r"(?:予約|購入)(?:し(?:た|て)|済|完了)", local):
+                errors.append(label + " ticket search changed to booking/purchase")
+        elif kind in {"wall", "deep_view", "deep_result"} or kind.startswith("dad_"):
+            ko_clock = list(re.finditer(r"새벽 (두|세|네) 시", source))
+            for index, m in enumerate(ko_clock):
+                value = {"두": 2, "세": 3, "네": 4}[m.group(1)]
+                previous = sum(x.group() == m.group() for x in ko_clock[:index])
+                bind(m.group(), rf"(?P<q>(?:午前|深夜)(?P<number>{n})時)", value,
+                     occurrence=previous)
+            if kind == "deep_view":
+                # The video counts share this clock-bearing leaf. Their native
+                # spelling must not become unchecked when the clock is projected.
+                bind("세 편", rf"動画(?:が|を)?(?P<q>(?P<number>{n})本)", 3)
+                bind("한 편", rf"(?:あと|もう)(?P<q>(?P<number>{n})本)(?=見)", 1)
+            for m in re.finditer(rf"(?:午前|午後|深夜)?{n}(?:時間|時|分|秒)", target):
+                if not any(q.start <= m.start() and m.end() <= q.end for q in ts):
+                    errors.append(label + " added/displaced clock or duration")
+        return ss, ts, sorted(set(errors))
+
+    if kind == "chart":
+        bind("한 주", rf"[買买](?:入|進|进)?了?(?P<q>(?P<number>{n})股)", 1)
+        bind("몇십 원", r"(?:[漲涨]|上[漲涨])(?:了|個|个)?(?P<q>[幾几數数]十[韓韩]元)",
+             10, implicit=10)
+    elif kind == "rings":
+        bind("세 번", rf"[響响](?:了|過|过)?(?P<q>(?P<number>{n})[聲声次])", 3,
+             role=r"父[親亲].*(?:接|[聽听]).*(?:電話|电话)")
+    elif kind == "half":
+        bind("2시간 반", rf"(?P<q>(?P<number>{n})(?:(?P<half>[個个]?半(?:小時|小时)|"
+             rf"(?:小時|小时)半|[.．]5(?:小時|小时))|"
+             rf"(?:小時|小时)(?P<minutes>{n})(?:分鐘|分钟)))", 2.5,
+             role=r"KTX.*昌原中央")
+        lines = target.split("\n")
+        local = lines[2] if len(lines) > 2 else ""
+        if not re.search(r"(?:查|搜|搜尋|搜索|查询|查詢).{0,8}(?:火車|火车|車票|车票|列車|列车)", local) or re.search(
+                r"(?<!未)(?<!没)(?<!沒)(?<!没有)(?<!沒有)(?:[訂订]|預約|预约)(?:好|了|妥)", local):
+            errors.append(label + " ticket search changed to booking/purchase")
+    elif kind == "pair":
+        # The Korean 各自-equivalent has two co-referents but no mandatory
+        # overt numeral. Only an overt pair next to separate directions is owned.
+        if re.search(rf"{n}[個个]?人", target):
+            bind("각자의", rf"(?P<q>(?P<number>{n})[個个]?人)(?=(?:就)?(?:各自|走(?:上|向)了?各自))", 2)
+    elif kind == "photo":
+        bind("한 장", rf"(?P<q>(?:(?P<number>{n})[張张]|那[張张]))(?=(?:西裝|西装|正裝|正装)照)", 1,
+             implicit=1, role=r"(?:拍|照).*")
+    elif kind == "per_line":
+        bind("한 줄씩", r"(?P<q>逐行|一行一行|一行行)(?=(?:地)?(?:修改|潤色|润色|修[訂订]|打磨))",
+             1, implicit=1)
+    elif kind == "ads":
+        bind("세 공고", rf"(?P<q>(?P<number>{n})(?:[條条份則则]招聘(?:信息|資訊|资讯|廣告|广告)|[則则個个份]職缺|[則则個个份]职缺))",
+             3, role=r"(?:收藏|[儲储]存|保存|存下)")
+    elif kind == "fraction":
+        bind("0.0몇 퍼센트", r"(?P<q>百分之(?:零[點点]零[幾几]|0\.0[幾几])|0\.0[幾几][%％])",
+             0, implicit=0)
+    return ss, ts, sorted(set(errors))
+
+
+def _first_life_latin(source: str, target: str):
+    """Admit only source-owned names/brands and Chinese candlestick nouns."""
+    kind = _first_life_kind(source)
+    if kind is None:
+        return target, []
+    errors, spans = [], []
+    label = "first-life " + kind
+
+    def own(pattern, source_fragment, expected=1, context=None):
+        matches = list(re.finditer(r"(?<![A-Za-z])(?P<latin>" + pattern + r")(?![A-Za-z])", target))
+        line = source[:source.index(source_fragment)].count("\n")
+        if len(matches) != expected or any(target[:m.start()].count("\n") != line for m in matches):
+            errors.append(label + " name/brand identity/line/count changed")
+        for m in matches:
+            lines = target.split("\n")
+            local = lines[line] if line < len(lines) else ""
+            if context and not re.search(context, local):
+                errors.append(label + " name/brand local role changed")
+            spans.append(m.span("latin"))
+
+    if kind in {"chart_view", "deep_result"}:
+        fragment = "빨간 봉" if kind == "chart_view" else "붉고 파란 봉"
+        matches = list(re.finditer(r"(?<![A-Za-z])K(?=[ \t]*[線线棒])(?![A-Za-z])", target))
+        line = source[:source.index(fragment)].count("\n")
+        if matches and (len(matches) not in {1, 2} or any(target[:m.start()].count("\n") != line for m in matches)):
+            errors.append(label + " candlestick noun count/line changed")
+        spans.extend(m.span() for m in matches)
+    elif kind in {"choi", "choi_low"}:
+        own("Choi", "최씨 아줌마", context=r"Choi[ \t]*(?:阿姨|女士|大[媽妈]|[嬸婶][嬸婶])")
+    elif kind == "naver":
+        own(r"Naver(?:[ \t]+Cafe)?|NAVER(?:[ \t]+Cafe)?", "네이버 카페",
+            context=r"(?:Naver|NAVER).*(?:[社論论]群|[論论][壇坛]|[社]區|社区|Cafe)")
+    elif kind == "albamon":
+        own("Albamon", "알바몬", context=r"(?:打[開开]|開[啟启]|開く).*Albamon")
+    elif kind.startswith("sns_"):
+        own("Park[ \t]+Minho", "박민호")
+        own("Lee[ \t]+(?:Suhyun|Suhyeon)", "이수현")
+        own("Kim[ \t]+(?:Junghun|Jeonghun)", "김정훈")
+    for start, end in sorted(spans, reverse=True):
+        target = target[:start] + " " * (end - start) + target[end:]
+    return target, sorted(set(errors))
+
+
+def _first_life_ja_address(source: str, target: str) -> bool:
+    if _first_life_kind(source) != "rescue" or target.count("お兄さん") != 1:
+        return False
+    lines = target.split("\n")
+    return (len(lines) > 2 and bool(re.search(r"コシウォン.*大家.*おばさん", lines[0]))
+            and bool(re.search(r"^[「『]お兄さん[、，,].*(?:最近|この頃|ここのところ).*仕事.*[？?][」』]$", lines[2])))
+
+
 def _numeric_errors(source: str, target: str) -> list[str]:
     source, target, errors = _callback_shadow_numbers(source, target)
     admin_source_slots, admin_target_slots, admin_errors = _investment_admin_slots(source, target)
+    first_source, first_target, first_errors = _first_life_slots(source, target)
+    admin_source_slots.extend(first_source)
+    admin_target_slots.extend(first_target)
+    errors.extend(first_errors)
     early_source, early_target, early_errors = _early_connections_slots(source, target)
     admin_source_slots.extend(early_source)
     admin_target_slots.extend(early_target)
@@ -7312,6 +7517,9 @@ def _numeric_errors(source: str, target: str) -> list[str]:
     # bound 어떤 원화도 construction can own an additional nonnumeric label.
     expected_labels = len(target_amounts) + min(rhetorical_source, rhetorical_target) + approximate_labels + min(len(source_blanks), len(target_blanks)) + int(golf_range_source)
     expected_labels -= culture_shared_labels
+    # The chart's measured deposit and approximate few-tens fluctuation have
+    # separate currency labels; the latter is validated by its own local slot.
+    expected_labels += int(_first_life_kind(source) == "chart")
     if (source_amounts or target_amounts or rhetorical_source or approximate_labels or source_blanks or golf_range_source) and target_label_count != expected_labels:
         errors.append(
             f"Korean-won label count/topology mismatch "
@@ -7416,6 +7624,9 @@ def _money_errors(lang: str, source: str, target: str) -> list[str]:
 
 
 def _untranslated_english_errors(source: str, target: str, *, catalog: bool = False) -> list[str]:
+    target, first_errors = _first_life_latin(source, target)
+    if first_errors:
+        return first_errors
     target, early_errors = _early_connections_latin(source, target)
     if early_errors:
         return early_errors

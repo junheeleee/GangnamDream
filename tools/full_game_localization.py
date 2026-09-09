@@ -2736,7 +2736,8 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
     if locale == "ja":
         errors = ja.validate_translation(ja.Entry(leaf.id, placeholder_source, leaf.owner,
                                                  format_template=leaf.format_template), placeholder_target)
-        if _ja_korean_culture_address(leaf.source, text):
+        from zh_translation_audit import _first_life_ja_address, _first_life_slots, _mask_spans
+        if _ja_korean_culture_address(leaf.source, text) or _first_life_ja_address(leaf.source, text):
             errors = [error for error in errors if error != "forbidden term お兄さん"]
         # Exact catalogue names may legitimately be all Latin. This does not
         # excuse English descriptions or partial brand-only translations.
@@ -3345,6 +3346,11 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
             source_numbers = ja.PLACEHOLDER.sub("", source_numbers)
             target_numbers = ja.PLACEHOLDER.sub("", target_numbers)
             errors.extend(quantity_errors)
+        first_source, first_target, first_errors = _first_life_slots(leaf.source, text, "ja")
+        if first_source or first_errors:
+            source_numbers = ja.PLACEHOLDER.sub("", _mask_spans(leaf.source, first_source))
+            target_numbers = ja.PLACEHOLDER.sub("", _mask_spans(text, first_target))
+            errors.extend(first_errors)
         if sorted(numeric.findall(source_numbers)) != sorted(numeric.findall(target_numbers)):
             errors.append("explicit numeric value/sign mismatch")
         if career_specialization is not None and numeric.findall(source_numbers) != numeric.findall(target_numbers):

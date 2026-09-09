@@ -51,27 +51,6 @@
 - 두 작업의 내부 GO는 소스09bfcde/tree d0cae44에 한정한다. 기존75개 큐·인간 원형·공개판 보존, 본편 HOLD·원어민/렌더/물리 미관찰 유지. 남은 비보호 shipping189종1,409문구/언어와 다른 UI 소비자는 별도다.
 - 다음 후보는 생활 후속·장 회수·목표23종177문구/언어이며 아직 미수용이다. 완료214/216절2,037B만 기존 history에 raw 이동했다.
 
-## 2026-09-09 (Codex — 나비효과·친절의 연쇄 번역)
-
-- 24종144문구씩을 세 언어로 직접 저작·전수 대조했다. 신규432·누적32,484.
-  주체·발신 문법·시간 표현7곳을 정밀화하고 기존32,052/meta9·공개판을 보존했다.
-- 초대와 수락·시간 재확인·실제 만남, 합격과 제안, 회신과 미발신을 구분했다.
-  원화·수량 검사 오탐은 원문 결속으로 수리하고 정상/변조 실패·같은 입력 재검증을 분리했다.
-- 초기/최종 source·response·receipt3쌍과 전량 hash/L1은 [상세 기록](queue_archive/ORDER-212_L1_L2_RESULTS.md)에 남긴다.
-  완료208절만 history로 raw exact 이동했다. KO/EN·runtime·save·font·human_gates 변경0.
-- 비보호 shipping 미작성250종1,818문구/locale와 비도달 author_only105종741문구,
-  공개 보호2문구·UI·표시 소비자를 분리한다. 전체 INCOMPLETE/HOLD·L3/원어민/화면 OPEN이다.
-- 기존 CI의 옛 번역 pin 충돌 두 종류는 별도 수리로 넘겼으며, 이 배치 PASS를 전체 CI GO로 부르지 않는다.
-
-## 2026-09-09 (Codex — 카페·뜻밖의 만남·SNS 번역)
-
-- 37종220문구씩을 세 언어로 직접 저작·전수 대조했다. 신규660·누적32,052.
-  기존31,392/meta9·공개판은 보존하고 관계·사고의 단정과 표현5곳만 정밀화했다.
-- 원화·횟수·순위 검사 오탐을 원문 결속으로 수리했다. 정상/변조 실패와 재검증,
-  source/response/receipt6쌍·전량 hash/L1은 [상세 기록](queue_archive/ORDER-211_L1_L2_RESULTS.md)에 남긴다.
-- KO/EN·runtime·save·fonts·human_gates 변경0. 원문 연결 부채는 몰래 수리하지 않았다.
-  main 정리는 출시 GO가 아니다. 전체 INCOMPLETE/HOLD·L3/원어민/화면 OPEN·데모 GO 유지.
-
 ## 2026-09-05 (Codex — ORDER-156 Chapter 5 생활 routine 배경 수리 선언)
 
 - `042f5ea` 두 경로 화면 관찰의 실제 routine 오배치 6회를 보존 저장과
