@@ -6219,8 +6219,225 @@ def _amb_scenario_money(source: str, target: str, original: list[MoneyAmount]) -
             errors.append("amb monthly earnings sign/unit/rate suffix changed")
     return amounts, shared, errors
 
-def _numeric_errors(source: str, target: str) -> list[str]:
+SOURCE_CALLBACK_SHADOW = {
+    "kim": "우편함에 등기우편이 와 있었다.\n\n○○은행. 수신인 {name}.\n\n'주채무자 김○○의 대출금 연체에 따라\n연대보증인인 귀하에게 채무 이행을 청구합니다.\n청구 금액: 32,000,000원.'\n\n도장 하나였다. 술자리에서, 우리 사이에, 찍었던.\n\n아버지가 평생 갚은 게 이거였다. 이제 {name} 차례였다.",
+    "agreement": "친구는 도망가지 않았다. 반지하 사무실에 혼자 있었다.\n\n\"미안하다. 미안하다는 말밖에 못 하겠다.\"\n\n사업이 망한 과정을 들었다. 사기를 당한 거였다. 그도.\n\n분할 상환 합의서를 같이 썼다. 일부는 {name}이 떠안았다.\n\n아버지 생각이 났다. 그때 그 사람도 — 이런 얼굴이었을까.",
+    "guarantors": "동창 단톡방이 시끄러웠다.\n\n그 친구 — 보증 부탁했던 — 사업이 부도났다고 했다.\n\n보증 선 사람이 둘 있었는데, 둘 다 수천만원씩 물어주게 생겼다고.\n\n{name}은 화면을 한참 봤다.\n\n그날 술자리에서 거절했을 때, 친구의 표정. 금이 가던 소리.\n그 금이 — {name}을 살렸다.",
+    "insured": "서류 접수, 심사, 두 달.\n\n보증금 전액이 돌아왔다.\n\n같은 건물 다른 세입자들은 배당 순위에서 밀려 절반도 못 건졌다.\n복도에서 마주친 옆집 사람의 얼굴을 잊을 수가 없다.\n\n30만원. 한 달 식비.\n그게 수천만원을 지켰다.\n\n보험은 손해 보는 게임이라고들 한다.\n맞다. 단 한 번만 빼고.",
+    "round": "2차 끝나고 팀장을 따로 잡았다.\n\n\"사실은 사업이 아니라 — 아버지 빚을 갚았습니다. 6년.\"\n\n팀장이 소주를 한 잔 따랐다. 한참 말이 없었다.\n\n\"발표는 내가 미룰게. 근데 — 빚 6년 갚은 놈이 사업 준비한 놈보다 나아.\n끈기는 못 꾸며내거든.\"\n\n거짓말은 사라졌다. 이상하게, 더 단단해진 채로.",
+    "elapsed": "또 그 질문이 왔다. 특별한 이유 없이, 밤에.\n\n행복한가.\n\n예전에 한 번 답한 적이 있다. 그날은 '그렇다'였다.\n\n그 사이 시간이 흘렀다. 통장도, 몸도, 사람도 달라졌다.\n\n지금은.",
+    "mlm": "카톡이 왔다. 그 동창이었다.\n\n호텔 세미나실에서 어깨를 감싸던. 등록비 300만원을 말하던.\n\n'야. 나 그거 나왔다. 너 박차고 나간 날 — 사실 그날부터 흔들렸어.\n빚 1,400 남았는데 그래도 나왔다.\n물류 일 시작했어. 한 번 보자. 내가 국밥 산다.'",
+    "distinction": "'다행이다. 고생했네. 밥은 다음에 꼭.'\n\n다음이 언제일지는 안 정했다.\n\n그 세미나실의 박수 소리가 아직 귀에 남아 있었다.\n사람은 미워하지 않기로 했다. 그 시스템을 미워하기로 했다.\n\n근데 그 둘을 분리하는 데는 시간이 걸린다.\n동창도 그걸 알 거다. 기다려줄 거다.",
+    "exacta": "월급날. 통장에 숫자가 찍혔다.\n\n한 달을 갈아 넣은 돈.\n\n그런데 머릿속에 다른 숫자가 떠올랐다.\n과천에서 쌍승이 터졌던 날. 5만원이 90만원이 되는 데 걸린 시간 — 2분.\n\n한 달 vs 2분.\n\n이 비교가 시작되는 순간이 제일 위험하다는 걸, 어디선가 읽은 적이 있다.",
+    "races": "토요일. 과천. 4호선.\n\n'딱 한 번'은 다섯 경주가 됐다. 15만원이 녹았다.\n\n90만원의 기억이 문제였다.\n그 기억이 있는 한 '한 번만'은 거짓말이다.\n자신에게 하는 거짓말. 제일 잘 속는 상대에게.\n\n돌아오는 지하철에서 {name}은 창에 비친 얼굴을 봤다.\n낯익은 표정이었다. 어디서 봤더라.\n\n— 베팅창 앞 아저씨들 표정이었다.",
+    "each": "공통 지인들을 한 명씩 물어봤다. 누군가가 흘렸다는 건 확실한데, 5주는 더 걸릴 것 같다."
+}
+
+def _callback_shadow_kind(source: str) -> str | None:
+    """Only the eleven reviewed complete KO leaves own these surface slots."""
+    return next((kind for kind, raw in SOURCE_CALLBACK_SHADOW.items() if raw == source), None)
+
+
+def _callback_shadow_latin(source: str, target: str) -> tuple[str, list[str]]:
+    if _callback_shadow_kind(source) != "kim":
+        return target, []
+    matches = list(re.finditer(r"(?<![A-Za-z0-9○])Kim[ \t]*○○(?![A-Za-z0-9○])", target))
+    if len(matches) != 1:
+        return target, ["callback-shadow masked debtor name/count/boundary changed"]
+    m = matches[0]
+    if target[:m.start()].count("\n") != 4 or not re.search(
+            r"主(?:要)?[債债][務务]人[ \t]*$", target[:m.start()]):
+        return target, ["callback-shadow masked debtor name role/line changed"]
+    return target[:m.start()] + " " * (m.end() - m.start()) + target[m.end():], []
+
+
+def _callback_shadow_numbers(source: str, target: str) -> tuple[str, str, list[str]]:
+    """Validate actual typed values, then blank only the bound spans.
+
+    Never replace a target numeral with an expected numeral. All unbound
+    money/counters and Latin text still reach the existing strict validators.
+    """
+    kind = _callback_shadow_kind(source)
+    if kind is None or kind == "kim":
+        return source, target, []
     errors: list[str] = []
+    ss: list[tuple[int, int]] = []
+    ts: list[tuple[int, int]] = []
+    lines = target.split("\n")
+    n = r"[0-9零〇一二两兩三四五六七八九十百千萬万億亿,]+"
+
+    def fail(what: str) -> None:
+        errors.append("callback-shadow " + kind + " " + what)
+
+    def source_span(fragment: str) -> int:
+        if source.count(fragment) != 1:
+            raise AssertionError("source-exact callback fragment is not unique")
+        a = source.index(fragment)
+        ss.append((a, a + len(fragment)))
+        return source[:a].count("\n")
+
+    def line_at(index: int) -> str:
+        if index >= len(lines):
+            fail("missing source quantity line")
+            return ""
+        return lines[index]
+
+    def take(m: re.Match[str], line: int, value: int | None = None) -> bool:
+        a, b = m.span("q")
+        raw = m.groupdict().get("number")
+        if value is not None and raw is not None and _chinese_cardinal_value(raw) != value:
+            fail("quantity/value changed")
+            return False
+        second = m.groupdict().get("number2")
+        if value is not None and second is not None and _chinese_cardinal_value(second) != value:
+            fail("second distributive quantity/value changed")
+            return False
+        row = line_at(line)
+        if _has_numeric_sign_prefix(row, a) or re.match(
+                r"\s*(?:[%％‰倍年月日天人位]|[個个]月|公斤|公里|小時|小时|分鐘|分钟|秒|[/／])",
+                row[b:]):
+            fail("quantity sign/unit/rate suffix changed")
+            return False
+        offset = sum(len(x) + 1 for x in lines[:line])
+        ts.append((offset + a, offset + b))
+        return True
+
+    def single(fragment: str, pattern: str, expected: int,
+               *, start: bool = False, role: str | None = None) -> None:
+        line = source_span(fragment)
+        row = line_at(line)
+        matches = list(re.finditer(pattern, row))
+        if len(matches) != 1 or (start and matches[0].start() != 0):
+            fail("quantity/unit/count/line changed")
+            return
+        m = matches[0]
+        if role and not re.search(role, row):
+            fail("quantity role/state changed")
+        take(m, line, expected)
+
+    if kind == "agreement":
+        # The scene explicitly contains the protagonist and the friend; their
+        # jointly written agreement may say two people or 双方, but not three.
+        line = source_span("같이 썼다")
+        row = line_at(line)
+        m = re.match(rf"(?:(?P<q>(?P<number>{n})人)|[雙双]方)?"
+                     r"(?:一起|共同)[寫写](?:了|下)分期"
+                     r"(?:[還还]款|償還|偿还)[協协][議议]", row)
+        if not m:
+            fail("actual joint agreement actor/action changed")
+        elif m.group("q"):
+            take(m, line, 2)
+    elif kind in {"guarantors", "insured"}:
+        line = source_span("수천만원")
+        row = line_at(line)
+        pattern = r"(?P<q>[幾几數数]千[萬万][韓韩]元)"
+        matches = list(re.finditer(pattern, target))
+        local = list(re.finditer(pattern, row))
+        if len(matches) != 1 or len(local) != 1:
+            fail("approximate won magnitude/unit/count/line changed")
+        else:
+            m = local[0]
+            take(m, line)
+            if kind == "guarantors":
+                if not re.search(r"各自|各", row) or re.search(r"合[計计]|[總总]共", row) \
+                        or not re.search(r"[賠赔]|[負负][擔担]|承[擔担]", row):
+                    fail("per-guarantor amount role changed")
+            elif not re.fullmatch(r"(?:保住了|守住了)" + pattern + r"[。.]",
+                                  row):
+                fail("actual saved-money role/state changed")
+    elif kind == "round":
+        line = source_span("2차")
+        row = line_at(line)
+        m = re.match(rf"(?P<q>(?:第(?P<number>{n})(?:[攤摊]|[輪轮]聚餐)|[續续][攤摊]))"
+                     r"[結结]束[後后]", row)
+        if m is None:
+            fail("second gathering completion/round/unit changed")
+        else:
+            take(m, line, 2)
+    elif kind == "elapsed":
+        line = source_span("그 사이 시간이 흘렀다.")
+        row = line_at(line)
+        # 사이 시간이 is not 二小时. An uncounted, already elapsed interval
+        # cannot acquire a numbered duration, a future plan or a negation.
+        m = re.match(r"(?P<q>(?:日子一天天[過过]去了?|"
+                     r"(?:光[陰阴]|[時时]光|[時时][間间])流逝了?|"
+                     r"[這这]段[時时][間间][過过]去了?))[。.]", row)
+        if m is None:
+            m = re.match(r"(?P<q>[這这]段日子[過过][後后])[，,]", row)
+        if m is None:
+            fail("uncounted elapsed-time state or invented duration changed")
+        else:
+            take(m, line)
+    elif kind == "mlm":
+        debt = re.search(r"빚 ([0-9,]+) 남았는데", source)
+        assert debt is not None
+        expected = Decimal(debt.group(1).replace(",", "")) * Decimal(10000)
+        line = source_span(debt.group(1))
+        row = line_at(line)
+        matches = list(re.finditer(rf"(?<![{NUMERIC_PREFIX_CHARACTERS}])"
+                                  rf"(?P<q>(?P<number>{n})[韓韩]元)", row))
+        if len(matches) != 1:
+            fail("remaining-debt amount/unit/count changed")
+        else:
+            m = matches[0]
+            actual = _leisure_native_amount(m.group("number").replace(",", ""))
+            if actual != expected:
+                fail("remaining-debt amount value changed")
+            elif not re.search(r"(?:[還还]剩(?:下)?|[還还]欠|仍欠|尚欠)"
+                               r"[ \t]*$", row[:m.start()]):
+                fail("remaining-debt owner/state changed")
+            else:
+                take(m, line)
+        single("한 번", rf"[見见](?P<q>(?:(?P<number>{n})(?:次)?|[個个]))面", 1)
+    elif kind == "distinction":
+        single("그 둘", rf"(?P<q>(?P<number>{n})(?:者|件事))", 2,
+               role=r"把.*分[開开]")
+    elif kind == "exacta":
+        line = source_span("쌍승")
+        row = line_at(line)
+        patterns = [
+            rf"(?P<q>按[順顺]序(?:猜中|押中)前(?P<number>{n})(?:名|匹)[賽赛]馬)",
+            rf"(?P<q>按[順顺]序(?:猜中|押中)前(?P<number>{n})(?:名|匹)[賽赛]马)",
+            rf"(?P<q>猜中前(?P<number>{n})(?:名|匹)[賽赛][馬马]的[順顺]序)",
+            rf"(?P<q>押中前(?P<number>{n})名[順顺]序)",
+        ]
+        matches = [m for p in patterns for m in re.finditer(p, row)]
+        if len(matches) != 1:
+            fail("ordered first-two-horses wager quantity/role changed")
+        else:
+            m = matches[0]
+            if re.search(r"(?:不|沒有|没有|沒|没|未|想|打算|準備|准备)\s*$",
+                         row[:m.start()]):
+                fail("actual ordered wager hit state changed")
+            take(m, line, 2)
+    elif kind == "races":
+        line = source_span("다섯 경주")
+        row = line_at(line)
+        matches = list(re.finditer(
+            rf"(?P<q>(?P<number>{n})[場场](?:[賽赛][馬马](?:比[賽赛])?|[賽赛]事))", row))
+        if len(matches) != 1:
+            fail("race quantity/unit/count changed")
+        else:
+            m = matches[0]
+            if not re.search(r"[變变]成了?$", row[:m.start()]) \
+                    or re.search(r"沒有|没有|沒|没|未|準備|准备|打算|將|将", row[:m.start()]):
+                fail("actual five-race escalation state changed")
+            take(m, line, 5)
+    elif kind == "each":
+        single("한 명씩", rf"(?P<q>逐一|(?P<number>{n})[個个]"
+               rf"(?:[個个]|接(?P<number2>{n})[個个]))"
+               r"(?:[詢询][問问]|[問问](?:[過过])?)", 1, start=True,
+               role=r"共同(?:[認认][識识])?的人")
+
+    def blank(text: str, spans: list[tuple[int, int]]) -> str:
+        for a, b in sorted(spans, reverse=True):
+            text = text[:a] + " " * (b - a) + text[b:]
+        return text
+    return blank(source, ss), blank(target, ts), errors
+
+
+def _numeric_errors(source: str, target: str) -> list[str]:
+    source, target, errors = _callback_shadow_numbers(source, target)
     admin_source_slots, admin_target_slots, admin_errors = _investment_admin_slots(source, target)
     butterfly_source, butterfly_target, butterfly_errors = _butterfly_chain_slots(source, target)
     admin_source_slots.extend(butterfly_source)
@@ -6480,6 +6697,7 @@ def _money_errors(lang: str, source: str, target: str) -> list[str]:
     currency_probe = SOURCE_WANTS_PARTICLE.sub(lambda m: " " * len(m.group()), source)
     currency_probe = _mask_spans(currency_probe, _leisure_nonmoney(source))
     has_won = bool(KOREAN_WON.search(currency_probe) or _source_money_amounts(source) or source == SOURCE_INSURANCE_SAVED_PAIR
+                   or _callback_shadow_kind(source) == "guarantors"
                    or source == SOURCE_KOREAN_CULTURE["currency_pair"]
                    or source in SOURCE_GIG_FEW_THOUSAND_WON
                    or any(pattern.search(source) for pattern, _ in CATALOG_APPROXIMATE_WON))
@@ -6501,6 +6719,9 @@ def _money_errors(lang: str, source: str, target: str) -> list[str]:
 
 
 def _untranslated_english_errors(source: str, target: str, *, catalog: bool = False) -> list[str]:
+    target, callback_errors = _callback_shadow_latin(source, target)
+    if callback_errors:
+        return callback_errors
     target, butterfly_errors = _butterfly_chain_latin(source, target)
     if butterfly_errors:
         return butterfly_errors
@@ -13762,11 +13983,299 @@ def _amb_scenario_tw_self_test() -> tuple[int, list[str]]:
     return cases, failures
 
 
+def _callback_shadow_parser_self_test() -> tuple[int, list[str]]:
+    """The immutable pre-code 184 controls; no private files at CI runtime."""
+    bases = [
+        ["kim", "zh-CN", "events:callback_guarantee_default:/description", "信箱里有一封挂号信。\n\n○○银行。收件人：{name}。\n\n“因主债务人Kim○○的贷款逾期，\n现向作为连带保证人的您请求履行债务。\n请求偿付金额：32,000,000韩元。”\n\n不过是盖了一枚章。在酒桌上，看在交情的份上，盖下的。\n\n父亲一辈子偿还的，就是这种债。现在轮到{name}了。"],
+        ["agreement", "zh-CN", "events:callback_guarantee_default:/choices/0/result_text", "朋友没有跑。一个人待在半地下的办公室里。\n\n“对不起。除了对不起，我也说不出别的了。”\n\n听他说了生意是怎么垮的。被骗了。他也是。\n\n两人一起写了分期还款协议。其中一部分由{name}承担。\n\n想起了父亲。那时候，那个人——是不是也露出过这样的表情。"],
+        ["guarantors", "zh-CN", "events:callback_guarantee_refused_news:/description", "同学群里闹哄哄的。\n\n听说那个朋友——求自己做担保的那个——生意破产了。\n\n有两个人给他做了担保，眼看各自都得赔上几千万韩元。\n\n{name}盯着屏幕看了很久。\n\n那天在酒桌上拒绝时，朋友的表情。交情裂开的声音。\n那道裂痕——救了{name}。"],
+        ["insured", "zh-CN", "events:callback_jeonse_auction_insured:/choices/0/result_text", "提交材料，审核，两个月。\n\n押金全额退了回来。\n\n同一栋楼的其他租客，受偿顺位靠后，连一半都没拿回来。\n在走廊里碰见的邻居，那张脸怎么也忘不了。\n\n30万韩元。一个月的伙食费。\n保住了几千万韩元。\n\n人们都说，保险是场赔钱的游戏。\n没错。只除了那么一次。"],
+        ["round", "zh-CN", "events:callback_lied_interview_surfaces:/choices/0/result_text", "第二摊结束后，单独叫住了组长。\n\n“其实不是做生意——是在还父亲的债。还了6年。”\n\n组长倒了一杯烧酒。很久没有说话。\n\n“汇报我来往后推。不过——还了6年债的人，比筹备生意的人强。\n毅力是编不出来的。”\n\n谎言消失了。奇怪的是，人反而更踏实了。"],
+        ["elapsed", "zh-CN", "events:callback_happy_yes:/description", "那个问题又来了。没什么特别的缘由，在夜里。\n\n幸福吗。\n\n以前回答过一次。那天说的是“幸福”。\n\n日子一天天过去了。银行账户、身体、身边的人，都变了。\n\n现在呢。"],
+        ["mlm", "zh-CN", "events:callback_mlm_friend_escaped:/description", "韩国聊天软件KakaoTalk上来了消息。是那个同学。\n\n在酒店会议室里搂着肩膀，说报名费要300万韩元的那个。\n\n“喂，我退出那个了。你愤然离开的那天——其实从那天起，我就动摇了。\n还剩1400万韩元的债，但我还是出来了。\n开始干物流了。见个面吧，我请你吃汤饭。”"],
+        ["distinction", "zh-CN", "events:callback_mlm_friend_escaped:/choices/1/result_text", "“那就好。你受苦了。下次一定一起吃饭。”\n\n没有定下次是什么时候。\n\n那间会议室的掌声，还在耳边响着。\n决定不去恨这个人。要恨，就恨那套体系。\n\n可要把这两者分开，需要时间。\n同学应该也明白。应该会等的。"],
+        ["exacta", "zh-CN", "events:callback_gambling_memory:/description", "发薪日。银行账户里多了一串数字。\n\n把一个月磨进去挣来的钱。\n\n脑海里却浮现出了另一串数字。\n在果川按顺序猜中前两名赛马的那天。5万韩元变成90万韩元，用了多久？2分钟。\n\n一个月，对上2分钟。\n\n曾在哪里读过：开始这么比较的那一刻，才最危险。"],
+        ["races", "zh-CN", "events:callback_gambling_memory:/choices/1/result_text", "星期六。果川。4号线。\n\n“就一次”，变成了五场赛马。15万韩元没了。\n\n问题就在那90万韩元的记忆。\n只要那份记忆还在，“就一次”就是谎话。\n骗自己。骗那个最容易上当的人。\n\n回程的地铁上，{name}看着车窗里映出的脸。\n熟悉的表情。在哪儿见过来着。\n\n——是投注窗口前，那些大叔的表情。"],
+        ["each", "zh-CN", "events:shadow_snitch_rumor:/choices/1/result_text", "一个个问过共同认识的人。可以确定，是有人放出了风声，但看来还要再花5周。"],
+        ["kim", "zh-TW", "events:callback_guarantee_default:/description", "信箱裡有一封掛號信。\n\n○○銀行。收件人：{name}。\n\n『因主債務人 Kim○○ 之貸款逾期，\n茲向身為連帶保證人之台端請求履行債務。\n請求金額：32,000,000韓元。』\n\n不過就是蓋了個章。在酒桌上，看在交情上蓋的。\n\n父親還了一輩子的，就是這種債。現在輪到{name}了。"],
+        ["agreement", "zh-TW", "events:callback_guarantee_default:/choices/0/result_text", "朋友沒有逃跑。獨自待在半地下室的辦公室裡。\n\n「對不起。我除了對不起，什麼也說不出來。」\n\n聽他說了生意倒閉的經過。他是被騙了。他也一樣。\n\n一起寫下分期償還協議。{name}扛下了其中一部分。\n\n想起了父親。當年那個人——也是這樣的表情嗎。"],
+        ["guarantors", "zh-TW", "events:callback_guarantee_refused_news:/description", "同學群組裡吵成一團。\n\n聽說那個朋友——拜託過自己作保的那個——生意倒了。\n\n有兩個人替他作保，眼看兩人各要賠上幾千萬韓元。\n\n{name}看著螢幕，久久沒有移開視線。\n\n那天在酒桌上拒絕時，朋友的表情。交情裂開的聲音。\n那道裂痕——救了{name}。"],
+        ["insured", "zh-TW", "events:callback_jeonse_auction_insured:/choices/0/result_text", "文件受理、審查，兩個月。\n\n押金全數回來了。\n\n同棟樓的其他房客，因分配順位排在後面，連一半都拿不回來。\n忘不了在走廊遇見的隔壁鄰居，那張臉。\n\n30萬韓元。一個月的伙食費。\n守住了幾千萬韓元。\n\n人們總說，保險是會吃虧的遊戲。\n沒錯。只除了一次。"],
+        ["round", "zh-TW", "events:callback_lied_interview_surfaces:/choices/0/result_text", "續攤結束後，單獨找了組長。\n\n「其實不是創業——是替父親還債。還了6年。」\n\n組長倒了一杯燒酒。許久沒有說話。\n\n「簡報我會幫你延後。不過——還了6年債的人，比準備創業的人更好。\n毅力是裝不出來的。」\n\n謊言消失了。奇怪的是，自己反而更堅定了。"],
+        ["elapsed", "zh-TW", "events:callback_happy_yes:/description", "那個問題又來了。沒有特別的理由，在夜裡。\n\n幸福嗎。\n\n以前回答過一次。那天的答案是『是』。\n\n日子一天天過去。銀行帳戶、身體、人都變了。\n\n現在呢。"],
+        ["mlm", "zh-TW", "events:callback_mlm_friend_escaped:/description", "KakaoTalk訊息來了。是那個同學。\n\n在飯店研討室裡摟過肩膀的。提過300萬韓元報名費的。\n\n『喂。我退出那個了。你憤而離開的那天——其實從那天起，我就開始動搖了。\n還欠1,400萬韓元，但我還是出來了。\n開始做物流了。找時間見個面，我請你吃湯飯。』"],
+        ["distinction", "zh-TW", "events:callback_mlm_friend_escaped:/choices/1/result_text", "『太好了。辛苦了。下次一定一起吃飯。』\n\n沒有約定下次是什麼時候。\n\n那間研討室裡的掌聲，還留在耳邊。\n決定不恨這個人。要恨的是那套體系。\n\n但要把這兩件事分開，需要時間。\n同學也會懂的。會等的。"],
+        ["exacta", "zh-TW", "events:callback_gambling_memory:/description", "發薪日。銀行帳戶裡出現一筆數字。\n\n耗進一個月心力換來的錢。\n\n腦中卻浮起了另一個數字。\n在果川，押中前兩名順序而大賺的那天。5萬韓元變成90萬韓元所花的時間——2分鐘。\n\n一個月 vs 2分鐘。\n\n曾在哪裡讀過，開始做這種比較的瞬間，最危險。"],
+        ["races", "zh-TW", "events:callback_gambling_memory:/choices/1/result_text", "星期六。果川。4號線。\n\n『就一次』變成了五場賽事。15萬韓元蒸發了。\n\n問題是那90萬韓元的記憶。\n只要記憶還在，『就一次』就是謊話。\n說給自己聽的謊話。說給最容易受騙的對象。\n\n回程地鐵上，{name}看著映在車窗上的臉。\n很熟悉的表情。在哪裡看過呢。\n\n——是投注窗口前，那些大叔的表情。"],
+        ["each", "zh-TW", "events:shadow_snitch_rumor:/choices/1/result_text", "逐一詢問共同認識的人。確定有人放了消息，但似乎還得花5週。"],
+    ]
+    controls = [
+        [0, "kim-zh-CN-actual", "normal", None, None, None],
+        [0, "kim-zh-CN-natural", "natural", None, [33, 36, "要债务人 "], None],
+        [0, "kim-zh-CN-bad-1", "target_mutant", None, [39, 39, "X"], None],
+        [0, "kim-zh-CN-bad-2", "target_mutant", None, [41, 41, "○"], None],
+        [0, "kim-zh-CN-bad-3", "target_mutant", None, [40, 41, ""], None],
+        [0, "kim-zh-CN-bad-4", "target_mutant", None, [36, 39, "Lee"], None],
+        [0, "kim-zh-CN-bad-5", "target_mutant", None, [83, 84, "1"], None],
+        [0, "kim-zh-CN-source-off", "source_off", [44, 45, "이"], None, ["untranslated English token remains: 'Kim'"]],
+        [0, "kim-zh-CN-source-off-suffix", "source_off", [172, 172, " "], None, ["untranslated English token remains: 'Kim'"]],
+        [1, "agreement-zh-CN-actual", "normal", None, None, None],
+        [1, "agreement-zh-CN-natural", "natural", None, [67, 71, "双方共同"], None],
+        [1, "agreement-zh-CN-bad-1", "target_mutant", None, [67, 68, "三"], None],
+        [1, "agreement-zh-CN-bad-2", "target_mutant", None, [69, 73, "准备一起写"], None],
+        [1, "agreement-zh-CN-bad-3", "target_mutant", None, [69, 73, "没有一起写"], None],
+        [1, "agreement-zh-CN-bad-4", "target_mutant", None, [68, 69, "年"], None],
+        [1, "agreement-zh-CN-source-off", "source_off", [102, 104, "혼자"], None, ["unmatched target entity quantity invented: 2"]],
+        [1, "agreement-zh-CN-source-off-suffix", "source_off", [161, 161, " "], None, ["unmatched target entity quantity invented: 2"]],
+        [2, "guarantors-zh-CN-actual", "normal", None, None, None],
+        [2, "guarantors-zh-CN-natural", "natural", None, [57, 58, "数"], None],
+        [2, "guarantors-zh-CN-bad-1", "target_mutant", None, [58, 59, "百"], None],
+        [2, "guarantors-zh-CN-bad-2", "target_mutant", None, [60, 62, "人"], None],
+        [2, "guarantors-zh-CN-bad-3", "target_mutant", None, [62, 62, "/月"], None],
+        [2, "guarantors-zh-CN-bad-4", "target_mutant", None, [57, 57, "-"], None],
+        [2, "guarantors-zh-CN-bad-5", "target_mutant", None, [51, 53, "合计"], None],
+        [2, "guarantors-zh-CN-source-off", "source_off", [70, 71, "백"], None, ["approximate Korean-won magnitude missing/invented", "translation invented a Korean-won label absent from source"]],
+        [2, "guarantors-zh-CN-source-off-suffix", "source_off", [161, 161, " "], None, ["approximate Korean-won magnitude missing/invented", "translation invented a Korean-won label absent from source"]],
+        [3, "insured-zh-CN-actual", "normal", None, None, None],
+        [3, "insured-zh-CN-natural", "natural", None, [89, 93, "守住了数"], None],
+        [3, "insured-zh-CN-bad-1", "target_mutant", None, [93, 94, "百"], None],
+        [3, "insured-zh-CN-bad-2", "target_mutant", None, [95, 97, "人"], None],
+        [3, "insured-zh-CN-bad-3", "target_mutant", None, [97, 97, "/月"], None],
+        [3, "insured-zh-CN-bad-4", "target_mutant", None, [89, 91, "损失"], None],
+        [3, "insured-zh-CN-bad-5", "target_mutant", None, [89, 92, "会保住"], None],
+        [3, "insured-zh-CN-source-off", "source_off", [118, 119, "백"], None, ["approximate Korean-won magnitude missing/invented", "Korean-won label count/topology mismatch 2 != 1"]],
+        [3, "insured-zh-CN-source-off-suffix", "source_off", [164, 164, " "], None, ["approximate Korean-won magnitude missing/invented", "Korean-won label count/topology mismatch 2 != 1"]],
+        [4, "round-zh-CN-actual", "normal", None, None, None],
+        [4, "round-zh-CN-natural", "natural", None, [2, 3, "轮聚餐"], None],
+        [4, "round-zh-CN-bad-1", "target_mutant", None, [1, 2, "三"], None],
+        [4, "round-zh-CN-bad-2", "target_mutant", None, [2, 3, "天"], None],
+        [4, "round-zh-CN-bad-3", "target_mutant", None, [5, 6, "前"], None],
+        [4, "round-zh-CN-bad-4", "target_mutant", None, [0, 6, "准备去第二摊时"], None],
+        [4, "round-zh-CN-source-off", "source_off", [0, 1, "3"], None, ["counter quantity missing/changed: expected (round, 3), target candidates=[]"]],
+        [4, "round-zh-CN-source-off-suffix", "source_off", [170, 170, " "], None, ["counter quantity missing/changed: expected (round, 2), target candidates=[]"]],
+        [5, "elapsed-zh-CN-actual", "normal", None, None, None],
+        [5, "elapsed-zh-CN-natural", "natural", None, [49, 56, "光阴流逝"], None],
+        [5, "elapsed-zh-CN-bad-1", "target_mutant", None, [49, 54, "两小时"], None],
+        [5, "elapsed-zh-CN-bad-2", "target_mutant", None, [51, 57, "将会一天天过去"], None],
+        [5, "elapsed-zh-CN-bad-3", "target_mutant", None, [49, 57, "时间没有流逝"], None],
+        [5, "elapsed-zh-CN-bad-4", "target_mutant", None, [49, 54, "两年"], None],
+        [5, "elapsed-zh-CN-source-off", "source_off", [72, 72, "두 "], None, ["counter quantity missing/changed: expected (duration_hour, 2), target candidates=[]"]],
+        [5, "elapsed-zh-CN-source-off-suffix", "source_off", [105, 105, " "], None, ["counter quantity missing/changed: expected (duration_hour, 2), target candidates=[]"]],
+        [6, "mlm-zh-CN-actual", "normal", None, None, None],
+        [6, "mlm-zh-CN-natural", "natural", None, [94, 98, "一千四百"], None],
+        [6, "mlm-zh-CN-bad-1", "target_mutant", None, [95, 96, "5"], None],
+        [6, "mlm-zh-CN-bad-2", "target_mutant", None, [98, 99, ""], None],
+        [6, "mlm-zh-CN-bad-3", "target_mutant", None, [101, 101, "/月"], None],
+        [6, "mlm-zh-CN-bad-4", "target_mutant", None, [94, 94, "-"], None],
+        [6, "mlm-zh-CN-bad-5", "target_mutant", None, [121, 122, "两次"], None],
+        [6, "mlm-zh-CN-bad-6", "target_mutant", None, [92, 94, "已经还清"], None],
+        [6, "mlm-zh-CN-source-off", "source_off", [99, 100, "5"], None, ["Korean-won values changed: [Decimal('3000000')] != [Decimal('3000000'), Decimal('14000000')]", "counter quantity missing/changed: expected (occurrence, 1), target candidates=[]", "non-money number sequence changed: ['1500'] != []"]],
+        [6, "mlm-zh-CN-source-off-suffix", "source_off", [146, 146, " "], None, ["Korean-won values changed: [Decimal('3000000')] != [Decimal('3000000'), Decimal('14000000')]", "counter quantity missing/changed: expected (occurrence, 1), target candidates=[]", "non-money number sequence changed: ['1400'] != []"]],
+        [7, "distinction-zh-CN-actual", "normal", None, None, None],
+        [7, "distinction-zh-CN-natural", "natural", None, [78, 79, "件事"], None],
+        [7, "distinction-zh-CN-bad-1", "target_mutant", None, [77, 78, "三"], None],
+        [7, "distinction-zh-CN-bad-2", "target_mutant", None, [78, 79, "年"], None],
+        [7, "distinction-zh-CN-bad-3", "target_mutant", None, [78, 79, "人"], None],
+        [7, "distinction-zh-CN-source-off", "source_off", [112, 113, "셋"], None, []],
+        [7, "distinction-zh-CN-source-off-suffix", "source_off", [153, 153, " "], None, []],
+        [8, "exacta-zh-CN-actual", "normal", None, None, None],
+        [8, "exacta-zh-CN-natural", "natural", None, [50, 60, "猜中前两名赛马的顺序"], None],
+        [8, "exacta-zh-CN-bad-1", "target_mutant", None, [56, 57, "三"], None],
+        [8, "exacta-zh-CN-bad-2", "target_mutant", None, [50, 50, "不"], None],
+        [8, "exacta-zh-CN-bad-3", "target_mutant", None, [58, 60, "骑手"], None],
+        [8, "exacta-zh-CN-bad-4", "target_mutant", None, [53, 53, "没"], None],
+        [8, "exacta-zh-CN-source-off", "source_off", [61, 62, "단"], None, ["unmatched target entity quantity invented: 2"]],
+        [8, "exacta-zh-CN-source-off-suffix", "source_off", [154, 154, " "], None, ["unmatched target entity quantity invented: 2"]],
+        [9, "races-zh-CN-actual", "normal", None, None, None],
+        [9, "races-zh-CN-natural", "natural", None, [26, 26, "比赛"], None],
+        [9, "races-zh-CN-bad-1", "target_mutant", None, [22, 23, "六"], None],
+        [9, "races-zh-CN-bad-2", "target_mutant", None, [23, 24, "年"], None],
+        [9, "races-zh-CN-bad-3", "target_mutant", None, [19, 22, "没有变成"], None],
+        [9, "races-zh-CN-bad-4", "target_mutant", None, [19, 22, "准备变成"], None],
+        [9, "races-zh-CN-source-off", "source_off", [24, 25, "여"], None, ["counter quantity missing/changed: expected (entity, 6), target candidates=[]"]],
+        [9, "races-zh-CN-source-off-suffix", "source_off", [190, 190, " "], None, ["counter quantity missing/changed: expected (entity, 5), target candidates=[]"]],
+        [10, "each-zh-CN-actual", "normal", None, None, None],
+        [10, "each-zh-CN-natural", "natural", None, [0, 3, "逐一"], None],
+        [10, "each-zh-CN-bad-1", "target_mutant", None, [0, 1, "两"], None],
+        [10, "each-zh-CN-bad-2", "target_mutant", None, [0, 5, "打算逐一问"], None],
+        [10, "each-zh-CN-bad-3", "target_mutant", None, [0, 5, "没有逐一问"], None],
+        [10, "each-zh-CN-bad-4", "target_mutant", None, [33, 34, "6"], None],
+        [10, "each-zh-CN-source-off", "source_off", [8, 9, "두"], None, ["counter quantity missing/changed: expected (entity, 2), target candidates=[('entity', Decimal('1'))]"]],
+        [10, "each-zh-CN-source-off-suffix", "source_off", [51, 51, " "], None, []],
+        [11, "kim-zh-TW-actual", "normal", None, None, None],
+        [11, "kim-zh-TW-natural", "natural", None, [33, 33, "要"], None],
+        [11, "kim-zh-TW-bad-1", "target_mutant", None, [40, 40, "X"], None],
+        [11, "kim-zh-TW-bad-2", "target_mutant", None, [42, 42, "○"], None],
+        [11, "kim-zh-TW-bad-3", "target_mutant", None, [41, 42, ""], None],
+        [11, "kim-zh-TW-bad-4", "target_mutant", None, [37, 40, "Lee"], None],
+        [11, "kim-zh-TW-bad-5", "target_mutant", None, [84, 85, "1"], None],
+        [11, "kim-zh-TW-source-off", "source_off", [44, 45, "이"], None, ["untranslated English token remains: 'Kim'"]],
+        [11, "kim-zh-TW-source-off-suffix", "source_off", [172, 172, " "], None, ["untranslated English token remains: 'Kim'"]],
+        [12, "agreement-zh-TW-actual", "normal", None, None, None],
+        [12, "agreement-zh-TW-natural", "natural", None, [71, 73, "兩人共同"], None],
+        [12, "agreement-zh-TW-bad-1", "target_mutant", None, [71, 71, "三人"], None],
+        [12, "agreement-zh-TW-bad-2", "target_mutant", None, [71, 75, "兩人準備一起寫"], None],
+        [12, "agreement-zh-TW-bad-3", "target_mutant", None, [71, 75, "兩人沒有一起寫"], None],
+        [12, "agreement-zh-TW-bad-4", "target_mutant", None, [71, 71, "兩年"], None],
+        [12, "agreement-zh-TW-source-off", "source_off", [102, 104, "혼자"], None, []],
+        [12, "agreement-zh-TW-source-off-suffix", "source_off", [161, 161, " "], None, []],
+        [13, "guarantors-zh-TW-actual", "normal", None, None, None],
+        [13, "guarantors-zh-TW-natural", "natural", None, [56, 57, "數"], None],
+        [13, "guarantors-zh-TW-bad-1", "target_mutant", None, [57, 58, "百"], None],
+        [13, "guarantors-zh-TW-bad-2", "target_mutant", None, [59, 61, "人"], None],
+        [13, "guarantors-zh-TW-bad-3", "target_mutant", None, [61, 61, "/月"], None],
+        [13, "guarantors-zh-TW-bad-4", "target_mutant", None, [56, 56, "-"], None],
+        [13, "guarantors-zh-TW-bad-5", "target_mutant", None, [52, 53, "總共"], None],
+        [13, "guarantors-zh-TW-source-off", "source_off", [70, 71, "백"], None, ["approximate Korean-won magnitude missing/invented", "translation invented a Korean-won label absent from source"]],
+        [13, "guarantors-zh-TW-source-off-suffix", "source_off", [161, 161, " "], None, ["approximate Korean-won magnitude missing/invented", "translation invented a Korean-won label absent from source"]],
+        [14, "insured-zh-TW-actual", "normal", None, None, None],
+        [14, "insured-zh-TW-natural", "natural", None, [88, 92, "保住了數"], None],
+        [14, "insured-zh-TW-bad-1", "target_mutant", None, [92, 93, "百"], None],
+        [14, "insured-zh-TW-bad-2", "target_mutant", None, [94, 96, "人"], None],
+        [14, "insured-zh-TW-bad-3", "target_mutant", None, [96, 96, "/月"], None],
+        [14, "insured-zh-TW-bad-4", "target_mutant", None, [88, 90, "損失"], None],
+        [14, "insured-zh-TW-bad-5", "target_mutant", None, [88, 91, "會守住"], None],
+        [14, "insured-zh-TW-source-off", "source_off", [118, 119, "백"], None, ["approximate Korean-won magnitude missing/invented", "Korean-won label count/topology mismatch 2 != 1"]],
+        [14, "insured-zh-TW-source-off-suffix", "source_off", [164, 164, " "], None, ["approximate Korean-won magnitude missing/invented", "Korean-won label count/topology mismatch 2 != 1"]],
+        [15, "round-zh-TW-actual", "normal", None, None, None],
+        [15, "round-zh-TW-natural", "natural", None, [0, 1, "第二"], None],
+        [15, "round-zh-TW-bad-1", "target_mutant", None, [0, 1, "第三"], None],
+        [15, "round-zh-TW-bad-2", "target_mutant", None, [0, 2, "第二天"], None],
+        [15, "round-zh-TW-bad-3", "target_mutant", None, [4, 5, "前"], None],
+        [15, "round-zh-TW-bad-4", "target_mutant", None, [0, 5, "準備去續攤時"], None],
+        [15, "round-zh-TW-source-off", "source_off", [0, 1, "3"], None, ["counter quantity missing/changed: expected (round, 3), target candidates=[]"]],
+        [15, "round-zh-TW-source-off-suffix", "source_off", [170, 170, " "], None, ["counter quantity missing/changed: expected (round, 2), target candidates=[]"]],
+        [16, "elapsed-zh-TW-actual", "normal", None, None, None],
+        [16, "elapsed-zh-TW-natural", "natural", None, [48, 55, "時光流逝了"], None],
+        [16, "elapsed-zh-TW-bad-1", "target_mutant", None, [48, 55, "兩小時過去了"], None],
+        [16, "elapsed-zh-TW-bad-2", "target_mutant", None, [50, 50, "將會"], None],
+        [16, "elapsed-zh-TW-bad-3", "target_mutant", None, [48, 55, "時間沒有流逝"], None],
+        [16, "elapsed-zh-TW-bad-4", "target_mutant", None, [48, 55, "兩年過去了"], None],
+        [16, "elapsed-zh-TW-source-off", "source_off", [72, 72, "두 "], None, ["counter quantity missing/changed: expected (duration_hour, 2), target candidates=[]"]],
+        [16, "elapsed-zh-TW-source-off-suffix", "source_off", [105, 105, " "], None, ["counter quantity missing/changed: expected (duration_hour, 2), target candidates=[]"]],
+        [17, "mlm-zh-TW-actual", "normal", None, None, None],
+        [17, "mlm-zh-TW-natural", "natural", None, [88, 93, "一千四百"], None],
+        [17, "mlm-zh-TW-bad-1", "target_mutant", None, [90, 91, "5"], None],
+        [17, "mlm-zh-TW-bad-2", "target_mutant", None, [93, 94, ""], None],
+        [17, "mlm-zh-TW-bad-3", "target_mutant", None, [96, 96, "/月"], None],
+        [17, "mlm-zh-TW-bad-4", "target_mutant", None, [88, 88, "-"], None],
+        [17, "mlm-zh-TW-bad-5", "target_mutant", None, [117, 118, "兩次"], None],
+        [17, "mlm-zh-TW-bad-6", "target_mutant", None, [86, 88, "已還清"], None],
+        [17, "mlm-zh-TW-source-off", "source_off", [99, 100, "5"], None, ["Korean-won values changed: [Decimal('3000000')] != [Decimal('3000000'), Decimal('14000000')]", "counter quantity missing/changed: expected (occurrence, 1), target candidates=[]", "non-money number sequence changed: ['1500'] != []"]],
+        [17, "mlm-zh-TW-source-off-suffix", "source_off", [146, 146, " "], None, ["Korean-won values changed: [Decimal('3000000')] != [Decimal('3000000'), Decimal('14000000')]", "counter quantity missing/changed: expected (occurrence, 1), target candidates=[]", "non-money number sequence changed: ['1400'] != []"]],
+        [18, "distinction-zh-TW-actual", "normal", None, None, None],
+        [18, "distinction-zh-TW-natural", "natural", None, [76, 78, "者"], None],
+        [18, "distinction-zh-TW-bad-1", "target_mutant", None, [75, 76, "三"], None],
+        [18, "distinction-zh-TW-bad-2", "target_mutant", None, [76, 78, "年"], None],
+        [18, "distinction-zh-TW-bad-3", "target_mutant", None, [76, 78, "人"], None],
+        [18, "distinction-zh-TW-source-off", "source_off", [112, 113, "셋"], None, ["unmatched target entity quantity invented: 2"]],
+        [18, "distinction-zh-TW-source-off-suffix", "source_off", [153, 153, " "], None, ["unmatched target entity quantity invented: 2"]],
+        [19, "exacta-zh-TW-actual", "normal", None, None, None],
+        [19, "exacta-zh-TW-natural", "natural", None, [49, 56, "按順序押中前兩匹賽馬"], None],
+        [19, "exacta-zh-TW-bad-1", "target_mutant", None, [52, 53, "三"], None],
+        [19, "exacta-zh-TW-bad-2", "target_mutant", None, [49, 56, "不分順序押中前兩名"], None],
+        [19, "exacta-zh-TW-bad-3", "target_mutant", None, [54, 54, "騎手的"], None],
+        [19, "exacta-zh-TW-bad-4", "target_mutant", None, [49, 49, "沒"], None],
+        [19, "exacta-zh-TW-source-off", "source_off", [61, 62, "단"], None, ["unmatched target entity quantity invented: 2"]],
+        [19, "exacta-zh-TW-source-off-suffix", "source_off", [154, 154, " "], None, ["unmatched target entity quantity invented: 2"]],
+        [20, "races-zh-TW-actual", "normal", None, None, None],
+        [20, "races-zh-TW-natural", "natural", None, [24, 25, "馬"], None],
+        [20, "races-zh-TW-bad-1", "target_mutant", None, [21, 22, "六"], None],
+        [20, "races-zh-TW-bad-2", "target_mutant", None, [22, 23, "年"], None],
+        [20, "races-zh-TW-bad-3", "target_mutant", None, [18, 21, "沒有變成"], None],
+        [20, "races-zh-TW-bad-4", "target_mutant", None, [18, 21, "準備變成"], None],
+        [20, "races-zh-TW-source-off", "source_off", [24, 25, "여"], None, ["counter quantity missing/changed: expected (entity, 6), target candidates=[]"]],
+        [20, "races-zh-TW-source-off-suffix", "source_off", [190, 190, " "], None, ["counter quantity missing/changed: expected (entity, 5), target candidates=[]"]],
+        [21, "each-zh-TW-actual", "normal", None, None, None],
+        [21, "each-zh-TW-natural", "natural", None, [0, 2, "一個個"], None],
+        [21, "each-zh-TW-bad-1", "target_mutant", None, [0, 2, "每兩人"], None],
+        [21, "each-zh-TW-bad-2", "target_mutant", None, [0, 0, "打算"], None],
+        [21, "each-zh-TW-bad-3", "target_mutant", None, [0, 0, "沒有"], None],
+        [21, "each-zh-TW-bad-4", "target_mutant", None, [26, 27, "6"], None],
+        [21, "each-zh-TW-source-off", "source_off", [8, 9, "두"], None, ["counter quantity missing/changed: expected (entity, 2), target candidates=[]"]],
+        [21, "each-zh-TW-source-off-suffix", "source_off", [51, 51, " "], None, ["counter quantity missing/changed: expected (entity, 1), target candidates=[]"]],
+    ]
+    failures: list[str] = []
+
+    def edit(text: str, patch: list[Any] | None) -> str:
+        if patch is None:
+            return text
+        start, end, replacement = patch
+        return text[:start] + replacement + text[end:]
+
+    for index, label, category, source_patch, target_patch, old_errors in controls:
+        kind, locale, ident, raw_target = bases[index]
+        source = edit(SOURCE_CALLBACK_SHADOW[kind], source_patch)
+        target = edit(raw_target, target_patch)
+        observed = validate_text(locale, ident, source, target)
+        if category == "source_off":
+            if _callback_shadow_kind(source) is not None or observed != old_errors:
+                failures.append("callback-shadow source-OFF baseline changed: " + label)
+        elif category in {"normal", "natural"}:
+            if observed:
+                failures.append("callback-shadow normal rejected: " + label + ": " + repr(observed))
+        elif not observed:
+            failures.append("callback-shadow target mutation accepted: " + label)
+    return len(controls), failures
+
+
+def _callback_shadow_exposed_self_test() -> tuple[int, list[str]]:
+    """Two ROOT-disclosed natural forms and their sealed 14-case regression."""
+    bases = [
+        ["elapsed", "zh-CN", "events:callback_happy_yes:/description", "那个问题又来了。没什么特别的缘由，在夜里。\n\n幸福吗。\n\n以前回答过一次。那天说的是“幸福”。\n\n这段日子过后，银行账户、身体、身边的人，都变了。\n\n现在呢。"],
+        ["each", "zh-TW", "events:shadow_snitch_rumor:/choices/1/result_text", "一個接一個詢問共同認識的人。確定有人放了消息，但似乎還得花5週。"],
+    ]
+    controls = [
+        [0, "cn_time_not_quantity-normal", "normal", None, None, None],
+        [0, "cn_time_not_quantity-bad-1", "target_mutant", None, [49, 54, "2小时"], None],
+        [0, "cn_time_not_quantity-bad-2", "target_mutant", None, [49, 54, "等这段日子过去"], None],
+        [0, "cn_time_not_quantity-bad-3", "target_mutant", None, [53, 55, "还没有过去"], None],
+        [0, "cn_time_not_quantity-source-off", "source_off", [72, 72, "두 "], None, ["counter quantity missing/changed: expected (duration_hour, 2), target candidates=[]"]],
+        [0, "cn_time_not_quantity-source-off-suffix", "source_off", [105, 105, " "], None, ["counter quantity missing/changed: expected (duration_hour, 2), target candidates=[]"]],
+        [1, "tw_each_person-normal", "normal", None, None, None],
+        [1, "tw_each_person-bad-1", "target_mutant", None, [0, 1, "兩"], None],
+        [1, "tw_each_person-bad-2", "target_mutant", None, [3, 4, "兩"], None],
+        [1, "tw_each_person-bad-3", "target_mutant", None, [1, 5, "年接一年"], None],
+        [1, "tw_each_person-bad-4", "target_mutant", None, [0, 0, "打算"], None],
+        [1, "tw_each_person-bad-5", "target_mutant", None, [0, 0, "沒有"], None],
+        [1, "tw_each_person-source-off", "source_off", [8, 9, "두"], None, ["counter quantity missing/changed: expected (entity, 2), target candidates=[('entity', Decimal('1')), ('entity', Decimal('1'))]"]],
+        [1, "tw_each_person-source-off-suffix", "source_off", [51, 51, " "], None, []],
+    ]
+    failures: list[str] = []
+
+    def edit(text: str, patch: list[Any] | None) -> str:
+        if patch is None:
+            return text
+        start, end, replacement = patch
+        return text[:start] + replacement + text[end:]
+
+    for index, label, category, source_patch, target_patch, old_errors in controls:
+        kind, locale, ident, raw_target = bases[index]
+        source = edit(SOURCE_CALLBACK_SHADOW[kind], source_patch)
+        target = edit(raw_target, target_patch)
+        observed = validate_text(locale, ident, source, target)
+        if category == "source_off":
+            if _callback_shadow_kind(source) is not None or observed != old_errors:
+                failures.append("callback-shadow exposed source-OFF changed: " + label)
+        elif category == "normal":
+            if observed:
+                failures.append("callback-shadow exposed normal rejected: " + label + ": " + repr(observed))
+        elif not observed:
+            failures.append("callback-shadow exposed mutation accepted: " + label)
+    return len(controls), failures
+
+
 def run_self_test(
     manifest: dict[str, Any], runtime: dict[str, Any],
 ) -> list[str]:
     failures: list[str] = []
     cases, life_failures = _life_scene_parser_self_test()
+    callback_shadow_cases, callback_shadow_failures = _callback_shadow_parser_self_test()
+    cases += callback_shadow_cases
+    failures.extend(callback_shadow_failures)
+    exposed_shadow_cases, exposed_shadow_failures = _callback_shadow_exposed_self_test()
+    cases += exposed_shadow_cases
+    failures.extend(exposed_shadow_failures)
     amb_cases, amb_failures = _amb_scenario_parser_self_test()
     cases += amb_cases
     failures.extend(amb_failures)

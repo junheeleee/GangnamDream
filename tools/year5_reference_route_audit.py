@@ -5415,8 +5415,160 @@ def order156_expected_image_registry_bytes(baseline: bytes) -> bytes | None:
     return expected.encode("utf-8")
 
 
+
+# ORDER-215's approved modal-input metadata is observed by ORDER-218 only.
+# Historical manifests and ORDER-156 predecessor registrations remain intact.
+ORDER215_MODAL_PATH = "scenes/MainGame.gd"
+ORDER215_MODAL_PREVIOUS_SHA256 = (
+    "3e15f8e44839857a4ad04ee3b1727f9869f72ebbb7cfe9153dfcf9f1d756629d"
+)
+ORDER215_MODAL_CURRENT_SHA256 = (
+    "77c690b8f4f41d9559b6aac25eb78d5de31d42be423dddbd3e889cf3287c67dd"
+)
+ORDER215_MODAL_TRANSITIONS = {
+    ORDER215_MODAL_PATH: (
+        ORDER215_MODAL_PREVIOUS_SHA256, ORDER215_MODAL_CURRENT_SHA256),
+}
+ORDER215_MODAL_PATCHES = (
+    (
+        '\t_open_modal(_tr("습관이 굳어진다", "A Habit Takes Hold"))\n',
+        '\t_open_modal(_tr("습관이 굳어진다", "A Habit Takes Hold"), '
+        'false, "tendency_realization")\n'
+        '\tmodal_layer.set_meta("tendency_kind", kind)\n',
+    ),
+    (
+        '\tcontinue_btn.pressed.connect(_close_modal)\n',
+        '\tcontinue_btn.set_meta("tendency_realization_confirm", true)\n'
+        '\tcontinue_btn.set_meta("tendency_kind", kind)\n'
+        '\tcontinue_btn.pressed.connect(_close_modal)\n',
+    ),
+)
+
+
+def order215_modal_project_bytes(current: bytes, relative: str) -> bytes:
+    """Expose historical bytes only from the entire approved modal successor."""
+    if relative != ORDER215_MODAL_PATH or hashlib.sha256(current).hexdigest() \
+            != ORDER215_MODAL_CURRENT_SHA256:
+        return current
+    projected = current
+    for before, after in ORDER215_MODAL_PATCHES:
+        before_bytes, after_bytes = before.encode("utf-8"), after.encode("utf-8")
+        if projected.count(after_bytes) != 1:
+            return current
+        projected = projected.replace(after_bytes, before_bytes, 1)
+    if hashlib.sha256(projected).hexdigest() != ORDER215_MODAL_PREVIOUS_SHA256:
+        return current
+    return projected
+
+
+def order215_modal_project_byte_hash(current_hash: str, relative: str) -> str:
+    """Historical observation only; production must also validate real raw bytes."""
+    if relative == ORDER215_MODAL_PATH \
+            and current_hash == ORDER215_MODAL_CURRENT_SHA256:
+        return ORDER215_MODAL_PREVIOUS_SHA256
+    return current_hash
+
+
+def order215_modal_source_errors(
+        relative: str, current: bytes, registered_previous: str) -> list[str]:
+    """Reject rollbacks and any change beyond the fixed two inverse blocks."""
+    errors: list[str] = []
+    if ORDER215_MODAL_TRANSITIONS != {
+            ORDER215_MODAL_PATH: (
+                ORDER215_MODAL_PREVIOUS_SHA256, ORDER215_MODAL_CURRENT_SHA256)}:
+        errors.append("ORDER-218: exact modal transition registry drifted")
+    if relative != ORDER215_MODAL_PATH:
+        errors.append("ORDER-218: modal transition path is not the owned path")
+    if registered_previous != ORDER215_MODAL_PREVIOUS_SHA256:
+        errors.append("ORDER-218: modal transition predecessor registry drifted")
+    if hashlib.sha256(current).hexdigest() != ORDER215_MODAL_CURRENT_SHA256:
+        errors.append("ORDER-218: unapproved current modal source bytes")
+    projected = order215_modal_project_bytes(current, relative)
+    if projected == current or hashlib.sha256(projected).hexdigest() \
+            != ORDER215_MODAL_PREVIOUS_SHA256:
+        errors.append("ORDER-218: exact modal inverse does not restore predecessor")
+    return errors
+
+
+def order215_modal_transition_self_test() -> tuple[list[str], int]:
+    """Finite raw, predecessor, path, registry and exact-inverse adversaries."""
+    from unittest.mock import patch
+
+    failures: list[str] = []
+    current = (ROOT / ORDER215_MODAL_PATH).read_bytes()
+    previous = order215_modal_project_bytes(current, ORDER215_MODAL_PATH)
+    cases = [
+        ("current", ORDER215_MODAL_PATH, current, ORDER215_MODAL_PREVIOUS_SHA256, True),
+        ("rollback", ORDER215_MODAL_PATH, previous, ORDER215_MODAL_PREVIOUS_SHA256, False),
+        ("wrong_path", "scenes/StoryMode.gd", current, ORDER215_MODAL_PREVIOUS_SHA256, False),
+    ]
+    mutations = (
+        ("modal_owner_missing", '\tmodal_layer.set_meta("tendency_kind", kind)\n', ""),
+        ("confirm_missing", '\tcontinue_btn.set_meta("tendency_realization_confirm", true)\n', ""),
+        ("button_kind_missing", '\tcontinue_btn.set_meta("tendency_kind", kind)\n', ""),
+        ("modal_kind", ', false, "tendency_realization")', ', false, "other_modal")'),
+        ("cancelable", ', false, "tendency_realization")', ', true, "tendency_realization")'),
+        ("modal_owner", 'modal_layer.set_meta("tendency_kind", kind)',
+         'modal_panel.set_meta("tendency_kind", kind)'),
+        ("confirm_false", 'set_meta("tendency_realization_confirm", true)',
+         'set_meta("tendency_realization_confirm", false)'),
+        ("button_kind_value", 'continue_btn.set_meta("tendency_kind", kind)',
+         'continue_btn.set_meta("tendency_kind", "career")'),
+        ("duplicate_confirm", '\tcontinue_btn.set_meta("tendency_realization_confirm", true)\n',
+         '\tcontinue_btn.set_meta("tendency_realization_confirm", true)\n'
+         '\tcontinue_btn.set_meta("tendency_realization_confirm", true)\n'),
+        ("metadata_order", '\tcontinue_btn.set_meta("tendency_realization_confirm", true)\n'
+         '\tcontinue_btn.set_meta("tendency_kind", kind)\n',
+         '\tcontinue_btn.set_meta("tendency_kind", kind)\n'
+         '\tcontinue_btn.set_meta("tendency_realization_confirm", true)\n'),
+        ("title", "습관이 굳어진다", "습관이 달라진다"),
+        ("signal", '\tcontinue_btn.pressed.connect(_close_modal)\n',
+         '\tcontinue_btn.pressed.connect(_end_turn)\n'),
+        ("other_function", 'func _open_modal(title, cancelable: bool = false, kind: String = ""):',
+         'func _open_modal(title, cancelable: bool = true, kind: String = ""):'),
+    )
+    for label, before, after in mutations:
+        if current.count(before.encode("utf-8")) != 1:
+            failures.append(f"ORDER-218 self fixture anchor not unique: {label}")
+        changed = current.replace(before.encode("utf-8"), after.encode("utf-8"), 1)
+        cases.append((label, ORDER215_MODAL_PATH, changed, ORDER215_MODAL_PREVIOUS_SHA256, False))
+    for suffix in (b"\n", b"# unrelated source change\n"):
+        cases.append(("appended", ORDER215_MODAL_PATH, current + suffix,
+                      ORDER215_MODAL_PREVIOUS_SHA256, False))
+    for registered in ("0" * 64, ORDER215_MODAL_CURRENT_SHA256,
+                       "f14677578581a5d21fc47103eab5ac199f3debac8ed00f4c994fc1ea7bd9160c"):
+        cases.append(("predecessor_registry", ORDER215_MODAL_PATH, current, registered, False))
+    for label, relative, raw, registered, expected in cases:
+        if (not order215_modal_source_errors(relative, raw, registered)) != expected:
+            failures.append(f"ORDER-218 raw case disagreed: {label}")
+    count = len(cases)
+    for relative, digest, expected in (
+            (ORDER215_MODAL_PATH, ORDER215_MODAL_CURRENT_SHA256, ORDER215_MODAL_PREVIOUS_SHA256),
+            (ORDER215_MODAL_PATH, "0" * 64, "0" * 64),
+            ("scenes/StoryMode.gd", ORDER215_MODAL_CURRENT_SHA256, ORDER215_MODAL_CURRENT_SHA256)):
+        count += 1
+        if order215_modal_project_byte_hash(digest, relative) != expected:
+            failures.append("ORDER-218 hash projection scope drifted")
+    for registry in ({}, {**ORDER215_MODAL_TRANSITIONS, "scenes/StoryMode.gd": (
+            ORDER215_MODAL_PREVIOUS_SHA256, ORDER215_MODAL_CURRENT_SHA256)}):
+        count += 1
+        with patch.dict(ORDER215_MODAL_TRANSITIONS, registry, clear=True):
+            if not order215_modal_source_errors(
+                    ORDER215_MODAL_PATH, current, ORDER215_MODAL_PREVIOUS_SHA256):
+                failures.append("ORDER-218 missing/expanded registry accepted")
+    count += 1
+    with patch.dict(globals(), {"ORDER215_MODAL_PATCHES": (
+            ("wrong inverse\n", ORDER215_MODAL_PATCHES[0][1]),
+            ORDER215_MODAL_PATCHES[1])}):
+        if not order215_modal_source_errors(
+                ORDER215_MODAL_PATH, current, ORDER215_MODAL_PREVIOUS_SHA256):
+            failures.append("ORDER-218 corrupted inverse accepted")
+    return failures, count
+
+
 def order156_project_bytes(current: bytes, relative: str) -> bytes:
     """Expose an older byte only from the complete exact ORDER-156 leaf."""
+    current = order215_modal_project_bytes(current, relative)
     transition = ORDER156_SOURCE_FILE_TRANSITIONS.get(relative)
     if transition is None or byte_sha256(current) != transition[1]:
         return current
@@ -5448,6 +5600,7 @@ def order156_project_payload(payload: Any, relative: str) -> Any:
 
 def order156_project_byte_hash(current_hash: str, relative: str) -> str:
     """Map only an exact ORDER-156 successor hash to its predecessor."""
+    current_hash = order215_modal_project_byte_hash(current_hash, relative)
     transition = ORDER156_SOURCE_FILE_TRANSITIONS.get(relative)
     if transition is not None and current_hash == transition[1]:
         return transition[0]
@@ -8112,6 +8265,12 @@ def validate_order138_registration(
 
 def validate_order156_registration(errors: list[str]) -> dict[str, int]:
     """Pin the exact routine-background leaf before every older receipt."""
+    try:
+        errors.extend(order215_modal_source_errors(
+            ORDER215_MODAL_PATH, (ROOT / ORDER215_MODAL_PATH).read_bytes(),
+            ORDER156_SOURCE_FILE_TRANSITIONS.get(ORDER215_MODAL_PATH, ("", ""))[1]))
+    except OSError as exc:
+        errors.append(f"ORDER-218: cannot read current modal source ({exc})")
     (
         parent_code,
         parent_commit,
@@ -8162,6 +8321,7 @@ def validate_order156_registration(errors: list[str]) -> dict[str, int]:
         try:
             baseline_bytes = order156_baseline_bytes(relative)
             current_bytes = (ROOT / relative).read_bytes()
+            current_bytes = order215_modal_project_bytes(current_bytes, relative)
         except (OSError, ValueError) as exc:
             errors.append(f"{owner}: cannot load exact source pair ({exc})")
             continue
@@ -10749,7 +10909,8 @@ def run_invalidated_self_test(
     for relative, transition in sorted(
             ORDER156_SOURCE_FILE_TRANSITIONS.items()):
         baseline_order156 = order156_baseline_bytes(relative)
-        current_order156 = (ROOT / relative).read_bytes()
+        current_order156 = order215_modal_project_bytes(
+            (ROOT / relative).read_bytes(), relative)
         case_count += 1
         if byte_sha256(baseline_order156) != transition[0] \
                 or byte_sha256(current_order156) != transition[1] \
@@ -12865,6 +13026,9 @@ def main() -> int:
         ending_failures, ending_cases = run_ending_translation_transition_self_test(manifest)
         failures.extend(ending_failures)
         cases += ending_cases
+        modal_failures, modal_cases = order215_modal_transition_self_test()
+        failures.extend(modal_failures)
+        cases += modal_cases
         if failures:
             for failure in failures:
                 print(f"YEAR5_REFERENCE_ROUTE_SELF_TEST_ERROR {failure}")

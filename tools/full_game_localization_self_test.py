@@ -5639,6 +5639,176 @@ class ExchangeTests(unittest.TestCase):
                     self.assertTrue(errors)
                     self.assertTrue(helper[2])
 
+    @staticmethod
+    def _callback_shadow_regression_cases():
+        # Keep multilingual fixtures on short physical lines; validate via Python CLI.
+        data = json.loads((
+            "[{\"id\":\"events:callback_gambling_memory:/choices/1/result_text\",\"source\":\"토"
+            "요일. 과천. 4호선.\\n\\n'딱 한 번'은 다섯 경주가 됐다. 15만원이 녹았다.\\n\\n90만원의 기억이 문제였다.\\n그 기억이 있는"
+            " 한 '한 번만'은 거짓말이다.\\n자신에게 하는 거짓말. 제일 잘 속는 상대에게.\\n\\n돌아오는 지하철에서 {name}은 창에 비친 얼"
+            "굴을 봤다.\\n낯익은 표정이었다. 어디서 봤더라.\\n\\n— 베팅창 앞 아저씨들 표정이었다.\",\"target\":\"土曜日。クァチョン。地下鉄"
+            "4号線。\\n\\n「一度だけ」が5レースになった。15万ウォンが溶けた。\\n\\n90万ウォンの記憶が問題だった。\\nあの記憶がある限り、「一度だけ」は嘘"
+            "だ。\\n自分につく嘘。いちばん簡単に騙せる相手に。\\n\\n帰りの地下鉄で、{name}は窓に映った顔を見た。\\n見覚えのある表情だった。どこで見たんだ"
+            "っけ。\\n\\n――馬券売り場の前にいた、おじさんたちの顔だった。\",\"natural\":[[\"一度だけ\",\"1回だけ\"],[\"5レース\",\"五レース\""
+            "],[\"15万ウォン\",\"十五万ウォン\"],[\"90万ウォン\",\"九十万ウォン\"]],\"mutations\":[[\"5レース\",\"六レース\"],[\"5"
+            "レース\",\"5週間\"],[\"一度だけ\",\"二度だけ\"],[\"地下鉄4号線\",\"地下鉄3号線\"],[\"15万ウォン\",\"90万ウォン\"],[\"90万ウォ"
+            "ン\",\"15万ウォン\"],[\"5レース\",\"-5レース\"],[\"5レース\",\"6レース、5レース\"]],\"sourceChange\":[\"다섯 경주\""
+            ",\"여섯 경주\"]},{\"id\":\"events:callback_gambling_memory:/description\",\"source\":\"월"
+            "급날. 통장에 숫자가 찍혔다.\\n\\n한 달을 갈아 넣은 돈.\\n\\n그런데 머릿속에 다른 숫자가 떠올랐다.\\n과천에서 쌍승이 터졌던 날."
+            " 5만원이 90만원이 되는 데 걸린 시간 — 2분.\\n\\n한 달 vs 2분.\\n\\n이 비교가 시작되는 순간이 제일 위험하다는 걸, 어디"
+            "선가 읽은 적이 있다.\",\"target\":\"給料日。口座に数字が刻まれた。\\n\\n1か月をすり減らして得た金。\\n\\nなのに、頭の中に別の数字が浮"
+            "かんだ。\\nクァチョンで馬単が当たった日。5万ウォンが90万ウォンになるまで――2分。\\n\\n1か月と2分。\\n\\nこの比較を始める瞬間がいちばん危な"
+            "いと、どこかで読んだことがある。\",\"natural\":[[\"1か月\",\"一ヶ月\"],[\"5万ウォン\",\"五万ウォン\"],[\"90万ウォン\",\"九十万"
+            "ウォン\"],[\"2分\",\"二分\"]],\"mutations\":[[\"1か月\",\"2か月\"],[\"1か月\",\"1週間\"],[\"2分\",\"二時間\"],[\""
+            "5万ウォン\",\"六万ウォン\"],[\"90万ウォン\",\"九万ウォン\"],[\"2分\",\"-2分\"],[\"1か月と2分\",\"2分と1か月\"]],\"sourc"
+            "eChange\":[\"2분\",\"3분\"]},{\"id\":\"events:callback_jeonse_auction_insured:/choice"
+            "s/0/result_text\",\"source\":\"서류 접수, 심사, 두 달.\\n\\n보증금 전액이 돌아왔다.\\n\\n같은 건물 다른 세입자"
+            "들은 배당 순위에서 밀려 절반도 못 건졌다.\\n복도에서 마주친 옆집 사람의 얼굴을 잊을 수가 없다.\\n\\n30만원. 한 달 식비.\\n그"
+            "게 수천만원을 지켰다.\\n\\n보험은 손해 보는 게임이라고들 한다.\\n맞다. 단 한 번만 빼고.\",\"target\":\"書類の受理、審査、2か"
+            "月。\\n\\n保証金が全額戻ってきた。\\n\\n同じ建物のほかの入居者は、配当順位が後になり半分も取り戻せなかった。\\n廊下ですれ違った隣人の顔が忘れられ"
+            "ない。\\n\\n30万ウォン。1か月分の食費。\\nそれが数千万ウォンを守った。\\n\\n保険は損をするゲームだと、人は言う。\\nそのとおりだ。たった一度を"
+            "除いては。\",\"natural\":[[\"2か月\",\"二ヶ月\"],[\"30万ウォン\",\"三十万ウォン\"],[\"1か月\",\"一ヶ月\"],[\"数千万\",\"何"
+            "千万\"],[\"一度\",\"1回\"]],\"mutations\":[[\"2か月\",\"三か月\"],[\"2か月\",\"二年\"],[\"30万ウォン\",\"三万ウォン\""
+            "],[\"1か月\",\"二か月\"],[\"数千万\",\"数百万\"],[\"一度\",\"二度\"],[\"2か月\",\"-2か月\"],[\"2か月\",\"3か月、2か月\"]]"
+            ",\"sourceChange\":[\"두 달\",\"세 달\"]},{\"id\":\"events:callback_jeonse_auction_uninsu"
+            "red:/choices/0/result_text\",\"source\":\"법원, 등기소, 주민센터를 한 달 동안 돌았다.\\n\\n최우선변제금과"
+            " 배당으로 보증금의 60%를 건졌다.\\n40%는 — 800만원은 사라졌다.\\n\\n그날 보험료 30만원이 아까웠다.\\n그 30만원이 80"
+            "0만원이었다.\\n\\n수업료치고 너무 비쌌다. 근데 이런 수업은 한 번이면 평생 간다.\",\"target\":\"裁判所、登記所、住民センターを1"
+            "か月かけて回った。\\n\\n最優先弁済と配当で、保証金の60％を取り戻した。\\n40％は――800万ウォンは消えた。\\n\\nあの日、30万ウォンの保険料"
+            "が惜しかった。\\nその30万ウォンが、800万ウォンだった。\\n\\n授業料にしては高すぎた。けれど、こんな授業は一度で一生身に残る。\",\"natura"
+            "l\":[[\"1か月\",\"一ヶ月\"],[\"60％\",\"六十％\"],[\"40％\",\"四十％\"],[\"800万ウォン\",\"八百万ウォン\"],[\"30万ウォン"
+            "\",\"三十万ウォン\"],[\"一度\",\"1回\"]],\"mutations\":[[\"1か月\",\"二ヶ月\"],[\"60％\",\"六十一％\"],[\"40％\",\""
+            "四十一％\"],[\"800万ウォン\",\"八十万ウォン\"],[\"30万ウォン\",\"三万ウォン\"],[\"一度\",\"二度\"],[\"1か月\",\"-1か月\"],["
+            "\"1か月\",\"一日\"]],\"sourceChange\":[\"60%\",\"61%\"]},{\"id\":\"events:callback_jeonse_au"
+            "ction_uninsured:/choices/1/result_text\",\"source\":\"임대인 주소지를 찾아갔다. 이미 비어 있었다."
+            "\\n\\n같은 피해자가 열일곱 명이라는 걸 거기서 알았다.\\n집단 소송에 이름을 올렸지만 — 회수 가능성은 낮다고 했다.\\n\\n법적 절차"
+            "를 놓친 사이 배당요구 기한이 지났다.\\n분노가 절차를 잡아먹었다.\\n\\n1,200만원. 서울이 가르치는 방식은 늘 이렇게 비싸다.\","
+            "\"target\":\"大家の住所を訪ねた。すでに空き家だった。\\n\\n同じ被害に遭った人が17人いると、そこで知った。\\n集団訴訟に名を連ねたが――回収"
+            "の見込みは低いと言われた。\\n\\n法的な手続きを逃すうちに、配当要求の期限が過ぎた。\\n怒りに、手続きが食われた。\\n\\n1,200万ウォン。ソウルが"
+            "何かを教えるときは、いつもこんなに高くつく。\",\"natural\":[[\"17人\",\"十七人\"],[\"1,200万ウォン\",\"千二百万ウォン\"]],\""
+            "mutations\":[[\"17人\",\"十八人\"],[\"17人\",\"17件\"],[\"1,200万ウォン\",\"百二十万ウォン\"],[\"1,200万ウォン"
+            "\",\"1200ウォン\"],[\"17人\",\"-17人\"],[\"17人\",\"18人、17人\"],[\"17人\",\"17人以上\"]],\"sourceChang"
+            "e\":[\"열일곱 명\",\"열여덟 명\"]},{\"id\":\"events:callback_lied_interview_surfaces:/choic"
+            "es/0/result_text\",\"source\":\"2차 끝나고 팀장을 따로 잡았다.\\n\\n\\\"사실은 사업이 아니라 — 아버지 빚을 갚았"
+            "습니다. 6년.\\\"\\n\\n팀장이 소주를 한 잔 따랐다. 한참 말이 없었다.\\n\\n\\\"발표는 내가 미룰게. 근데 — 빚 6년 갚은 놈이 "
+            "사업 준비한 놈보다 나아.\\n끈기는 못 꾸며내거든.\\\"\\n\\n거짓말은 사라졌다. 이상하게, 더 단단해진 채로.\",\"target\":\"二次"
+            "会が終わってから、チーム長を呼び止めて二人で話した。\\n\\n「本当は事業じゃなくて――父の借金を返していました。6年間」\\n\\nチーム長がソジュを一杯"
+            "注いだ。しばらく何も言わなかった。\\n\\n「発表は俺が延期させる。ただな――借金を6年返した奴は、事業を準備していた奴より頼もしいぞ。\\n粘り強さは、"
+            "嘘じゃ作れないからな」\\n\\n嘘は消えた。不思議と、自分は前より揺るがなくなっていた。\",\"natural\":[[\"二次会\",\"2次会\"],[\"二人で"
+            "話した\",\"個別に話した\"],[\"6年間\",\"六年間\"],[\"一杯\",\"1杯\"],[\"6年返した\",\"六年返した\"]],\"mutations\":[[\""
+            "二次会\",\"三次会\"],[\"二人で\",\"三人で\"],[\"6年間\",\"七年間\"],[\"一杯\",\"二杯\"],[\"6年返した\",\"六か月返した\"],[\"二次"
+            "会\",\"-2次会\"],[\"二次会\",\"二次面接\"],[\"一杯\",\"二杯、一杯\"]],\"sourceChange\":[\"2차\",\"3차\"]},{\"id\""
+            ":\"events:callback_lied_interview_surfaces:/choices/1/result_text\",\"source\":"
+            "\"일주일 동안 새벽 3시까지 사업계획서 양식을 공부했다.\\n\\n발표는 — 통과됐다. 임원이 고개를 끄덕였다.\\n\\n돌아오는 길에 팀장이"
+            " 어깨를 쳤다. \\\"역시 경험자네.\\\"\\n\\n그 말이 칭찬인데 체했다.\\n\\n거짓말은 이제 실력이 됐다. 근데 거짓말이 사라진 건 아니"
+            "었다.\\n더 깊이 들어갔을 뿐.\",\"target\":\"1週間、明け方3時まで事業計画書の書き方を勉強した。\\n\\n発表は――通った。役員が頷いた。"
+            "\\n\\n戻る途中、チーム長が肩を叩いた。「さすが経験者だな」\\n\\n褒め言葉なのに、胸につかえた。\\n\\n嘘は今や実力になった。けれど、嘘が消えたわけ"
+            "ではなかった。\\nもっと深く潜っただけだ。\",\"natural\":[[\"1週間\",\"一週間\"],[\"明け方3時\",\"午前三時\"]],\"mutation"
+            "s\":[[\"1週間\",\"二週間\"],[\"1週間\",\"一ヶ月\"],[\"明け方3時\",\"明け方四時\"],[\"明け方3時\",\"午後3時\"],[\"1週間\",\""
+            "-1週間\"],[\"1週間\",\"2週間、1週間\"],[\"明け方3時まで\",\"明け方3時から\"]],\"sourceChange\":[\"3시\",\"4시\"]}"
+            ",{\"id\":\"events:callback_mlm_friend_escaped:/description\",\"source\":\"카톡이 왔다. "
+            "그 동창이었다.\\n\\n호텔 세미나실에서 어깨를 감싸던. 등록비 300만원을 말하던.\\n\\n'야. 나 그거 나왔다. 너 박차고 나간 날 "
+            "— 사실 그날부터 흔들렸어.\\n빚 1,400 남았는데 그래도 나왔다.\\n물류 일 시작했어. 한 번 보자. 내가 국밥 산다.'\",\"tar"
+            "get\":\"KakaoTalkにメッセージが来た。あの同級生だった。\\n\\nホテルのセミナールームで肩を抱いてきた。登録料300万ウォンを口にした。\\"
+            "n\\n「なあ、俺、あれ抜けたよ。お前が席を蹴って出ていった日――実はあの日から迷ってた。\\n借金はまだ1,400万ウォンあるけど、それでも抜けた。\\n"
+            "物流の仕事を始めたんだ。今度会おう。クッパおごるよ」\",\"natural\":[[\"300万ウォン\",\"三百万ウォン\"],[\"1,400万ウォン\",\"千"
+            "四百万ウォン\"]],\"mutations\":[[\"1,400万ウォン\",\"1,400ウォン\"],[\"1,400万ウォン\",\"14,000ウォン\"],["
+            "\"300万ウォン\",\"三十万ウォン\"],[\"1,400万ウォン\",\"1,400万円\"],[\"1,400万ウォン\",\"-1,400万ウォン\"],[\"1,"
+            "400万ウォン\",\"1,500万ウォン、1,400万ウォン\"],[\"1,400万ウォン\",\"1,400万ウォン/月\"]],\"sourceChange\""
+            ":[\"1,400\",\"1,500\"]},{\"id\":\"events:shadow_old_promise:/choices/1/result_text"
+            "\",\"source\":\"{name}은 지금은 답을 확정할 수 없고 칠 주 안에 자기 쪽 결정을 다시 보내겠다고 적었다. 화면에는 발신 시"
+            "각만 남았다. 상대가 기다리겠다는 답이나 약속은 생기지 않았다.\",\"target\":\"{name}は今は答えを確定できないので、7週間以内に自"
+            "分の決断を改めて送ると書いた。画面には送信時刻だけが残った。相手から待つという返事も約束もなかった。\",\"natural\":[[\"7週間以内\",\"七週"
+            "間のうち\"]],\"mutations\":[[\"7週間\",\"八週間\"],[\"7週間\",\"七ヶ月\"],[\"7週間以内\",\"7週間後\"],[\"7週間\",\"-"
+            "7週間\"],[\"7週間\",\"8週間、7週間\"]],\"sourceChange\":[\"칠 주\",\"팔 주\"]},{\"id\":\"events:shadow"
+            "_promise_again:/description\",\"source\":\"칠 주 전에 자기 손으로 넣어 둔 달력 알림이 떴다. 예전 DM에"
+            "는 그날 보낸 말과 발신 시각만 남아 있었다. 읽음도 답장도 없었으므로 상대가 기다렸는지, 이미 떠났는지는 알 수 없었다.\\n\\n{na"
+            "me}이 확인할 수 있는 것은 자기 쪽에서 약속한 날짜가 오늘이라는 사실뿐이었다.\",\"target\":\"7週間前、自分で設定したカレンダーの"
+            "通知が出た。以前のDMには、あの日送った言葉と送信時刻だけが残っていた。既読も返事もなかったので、相手が待っていたのか、もう離れてしまったのかはわから"
+            "なかった。\\n\\n{name}が確かめられるのは、自分から約束した日が今日だという事実だけだった。\",\"natural\":[[\"7週間前\",\"七週間前"
+            "\"]],\"mutations\":[[\"7週間\",\"八週間\"],[\"7週間\",\"七ヶ月\"],[\"7週間前\",\"7週間後\"],[\"7週間\",\"-7週間\"]"
+            ",[\"7週間\",\"8週間、7週間\"]],\"sourceChange\":[\"칠 주\",\"팔 주\"]}]"
+        ))
+        cases = []
+        for index, row in enumerate(data):
+            base = {key: row[key] for key in ("id", "source", "target")}
+            cases.append(dict(base, key=f"{index}:actual", category="actual", expect="pass"))
+            natural = row["target"]
+            for old, new in row["natural"]:
+                natural = natural.replace(old, new)
+            cases.append(dict(base, key=f"{index}:natural", category="natural",
+                              expect="pass", target=natural))
+            for number, (old, new) in enumerate(row["mutations"]):
+                cases.append(dict(base, key=f"{index}:target-{number}", category="target",
+                                  expect="reject", target=row["target"].replace(old, new, 1)))
+            cases.append(dict(base, key=f"{index}:source-context", category="source_context",
+                              expect="off", source="별" + row["source"]))
+            old, new = row["sourceChange"]
+            cases.append(dict(base, key=f"{index}:source-number", category="source_quantity",
+                              expect="off", source=row["source"].replace(old, new, 1)))
+        return cases
+
+    def test_callback_shadow_typed_numeric_slots(self):
+        cases = self._callback_shadow_regression_cases()
+        self.assertEqual(len(cases), 110)
+        for case in cases:
+            _, owner, pointer = case["id"].split(":")
+            path = tuple(int(part) if part.isdigit() else part
+                         for part in pointer[1:].split("/"))
+            leaf = tool.Leaf("events", owner, "callback-own-controls", path,
+                             case["source"], "event_standard")
+            with self.subTest(identity=case["key"]):
+                helper = tool._ja_callback_shadow_numbers(case["source"], case["target"])
+                errors = tool.translation_errors(leaf, "ja", case["target"])
+                if case["expect"] == "off":
+                    # OFF is a licence boundary, not a universal semantic claim.
+                    self.assertIsNone(helper)
+                elif case["expect"] == "pass":
+                    self.assertEqual(errors, [])
+                    self.assertIsNotNone(helper)
+                    self.assertEqual(helper[2], [])
+                else:
+                    self.assertTrue(errors)
+                    self.assertIsNotNone(helper)
+                    self.assertTrue(helper[2])
+
+    def test_callback_shadow_colloquial_remaining_debt(self):
+        base = next(row for row in self._callback_shadow_regression_cases()
+                    if row["id"] == "events:callback_mlm_friend_escaped:/description"
+                    and row["category"] == "actual")
+        source = base["source"]
+        target = base["target"].replace("万ウォンあるけど", "万ウォン残ってるけど")
+        cases = [(source, target.replace("残ってる", form), "pass")
+                 for form in ("残ってる", "残っている")]
+        for old, new in (
+                ("1,400万ウォン", "1,400ウォン"),
+                ("1,400万ウォン", "14,000ウォン"),
+                ("1,400万ウォン", "-1,400万ウォン"),
+                ("1,400万ウォン", "1,400万ウォン/日"),
+                ("登録料300万ウォン", "登録料3,000万ウォン"),
+                ("1,400万ウォン", "1,400万ウォン、1,400万ウォン")):
+            cases.append((source, target.replace(old, new, 1), "reject"))
+        for old, new in (("카톡", "문자"), ("1,400", "1,500")):
+            cases.append((source.replace(old, new, 1), target, "off"))
+        self.assertEqual(len(cases), 10)
+        for source_text, target_text, expected in cases:
+            with self.subTest(target=target_text, expected=expected):
+                helper = tool._ja_callback_shadow_numbers(source_text, target_text)
+                leaf = tool.Leaf("events", "callback_mlm_friend_escaped",
+                                 "callback-colloquial-controls", ("description",),
+                                 source_text, "event_standard")
+                errors = tool.translation_errors(leaf, "ja", target_text)
+                if expected == "off":
+                    self.assertIsNone(helper)
+                elif expected == "pass":
+                    self.assertEqual(errors, [])
+                    self.assertIsNotNone(helper)
+                    self.assertEqual(helper[2], [])
+                else:
+                    self.assertTrue(errors)
+                    self.assertIsNotNone(helper)
+                    self.assertTrue(helper[2])
+
     def test_jsonl_duplicate(self):
         with tempfile.TemporaryDirectory() as folder:
             path = Path(folder) / "bad.jsonl"

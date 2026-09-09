@@ -1793,6 +1793,255 @@ def _ja_amb_tradeoff_numbers(source: str, target: str):
     return normalized_source, normalized_target, sorted(set(errors))
 
 
+def _ja_callback_shadow_numbers(source: str, target: str):
+    """Normalize only ten witnessed callback/shadow quantity contracts.
+
+    Whole Korean sources license line-local typed slots, not complete target
+    sentences. Original prose still runs through every existing text validator.
+    """
+    contracts = {
+        (
+            "토요일. 과천. 4호선.\n\n'딱 한 번'은 다섯 경주가 됐다. 15만원이 녹았다.\n\n90만원의 기억이 문제였다.\n그 기억이 있는 한 '"
+            "한 번만'은 거짓말이다.\n자신에게 하는 거짓말. 제일 잘 속는 상대에게.\n\n돌아오는 지하철에서 {name}은 창에 비친 얼굴을 봤다.\n"
+            "낯익은 표정이었다. 어디서 봤더라.\n\n— 베팅창 앞 아저씨들 표정이었다."
+        ): (
+            (0, "4호선", "4호선",
+                "(?:地下鉄)?@N@号線",
+                4, "subway_route", "number"),
+            (2, "한 번", "1 번",
+                "[「『]@N@(?:度|回)(?:だけ|きり)[」』](?:が|は)",
+                1, "once_became_races", "number"),
+            (2, "다섯 경주", "5 경주",
+                "@N@レース(?:になった|に増えた)",
+                5, "actual_races", "number"),
+            (2, "15만원", "150000원",
+                "@M@(?:が|を)(?:溶かした|溶けた|失った)",
+                150000, "actual_loss", "money"),
+            (4, "90만원", "900000원",
+                "@M@の記憶",
+                900000, "remembered_win", "money"),
+            (5, "한 번만", "1 번만",
+                "[「『]@N@(?:度|回)(?:だけ|きり)[」』](?:は)?(?:嘘|うそ)",
+                1, "once_is_lie", "number"),
+        ),
+        (
+            "월급날. 통장에 숫자가 찍혔다.\n\n한 달을 갈아 넣은 돈.\n\n그런데 머릿속에 다른 숫자가 떠올랐다.\n과천에서 쌍승이 터졌던 날. 5만원"
+            "이 90만원이 되는 데 걸린 시간 — 2분.\n\n한 달 vs 2분.\n\n이 비교가 시작되는 순간이 제일 위험하다는 걸, 어디선가 읽은 적이"
+            " 있다."
+        ): (
+            (2, "한 달", "1 달",
+                "@N@(?:か月|ヶ月|カ月|箇月)(?:間)?(?:を|分)",
+                1, "salary_month", "number"),
+            (5, "5만원", "50000원",
+                "@M@が",
+                50000, "past_stake", "money"),
+            (5, "90만원", "900000원",
+                "@M@に(?:なるまで|なったのは)",
+                900000, "past_return", "money"),
+            (5, "2분", "2분",
+                "(?:――|—|、|たった)@N@分",
+                2, "past_win_minutes", "number"),
+            (7, "한 달", "1 달",
+                "@N@(?:か月|ヶ月|カ月|箇月)(?:間)?(?:と|対)",
+                1, "compared_month", "number"),
+            (7, "2분", "2분",
+                "(?:と|対)@N@分",
+                2, "compared_minutes", "number"),
+        ),
+        (
+            "서류 접수, 심사, 두 달.\n\n보증금 전액이 돌아왔다.\n\n같은 건물 다른 세입자들은 배당 순위에서 밀려 절반도 못 건졌다.\n복도에서 마"
+            "주친 옆집 사람의 얼굴을 잊을 수가 없다.\n\n30만원. 한 달 식비.\n그게 수천만원을 지켰다.\n\n보험은 손해 보는 게임이라고들 한다.\n"
+            "맞다. 단 한 번만 빼고."
+        ): (
+            (0, "두 달", "2 달",
+                "(?:審査[、，]|審査に)@N@(?:か月|ヶ月|カ月|箇月)",
+                2, "insurance_review_months", "number"),
+            (7, "30만원", "300000원",
+                "@M@[。．]",
+                300000, "paid_premium", "money"),
+            (7, "한 달", "1 달",
+                "@N@(?:か月|ヶ月|カ月|箇月)分の食費",
+                1, "food_month", "number"),
+            (8, "수천만원", "근사원화",
+                "(?P<approx>(?:数千万|何千万)ウォン)",
+                None, "protected_approximate_won", "approx"),
+            (11, "한 번", "1 번",
+                "(?:たった|ただ)?@N@(?:度|回)を(?:除いて|除けば)",
+                1, "insurance_exception", "number"),
+        ),
+        (
+            "법원, 등기소, 주민센터를 한 달 동안 돌았다.\n\n최우선변제금과 배당으로 보증금의 60%를 건졌다.\n40%는 — 800만원은 사라졌다."
+            "\n\n그날 보험료 30만원이 아까웠다.\n그 30만원이 800만원이었다.\n\n수업료치고 너무 비쌌다. 근데 이런 수업은 한 번이면 평생 간다"
+            "."
+        ): (
+            (0, "한 달", "1 달",
+                "@N@(?:か月|ヶ月|カ月|箇月)(?:を|かけて|間)",
+                1, "procedure_month", "number"),
+            (2, "60%", "60%",
+                "保証金の@N@[%％]を(?:取り戻した|回収した)",
+                60, "recovered_share", "number"),
+            (3, "40%", "40%",
+                "@N@[%％]は",
+                40, "lost_share", "number"),
+            (3, "800만원", "8000000원",
+                "@M@は(?:消えた|失われた)",
+                8000000, "lost_principal", "money"),
+            (5, "30만원", "300000원",
+                "@M@の保険料",
+                300000, "foregone_premium", "money"),
+            (6, "30만원", "300000원",
+                "(?:その|あの)@M@が",
+                300000, "compared_premium", "money"),
+            (6, "800만원", "8000000원",
+                "@M@(?:だった|に相当した)",
+                8000000, "compared_loss", "money"),
+            (8, "한 번", "1 번",
+                "(?:授業は|授業なら)@N@(?:度|回)で",
+                1, "lasting_lesson", "number"),
+        ),
+        (
+            "임대인 주소지를 찾아갔다. 이미 비어 있었다.\n\n같은 피해자가 열일곱 명이라는 걸 거기서 알았다.\n집단 소송에 이름을 올렸지만 — 회수"
+            " 가능성은 낮다고 했다.\n\n법적 절차를 놓친 사이 배당요구 기한이 지났다.\n분노가 절차를 잡아먹었다.\n\n1,200만원. 서울이 가르치는"
+            " 방식은 늘 이렇게 비싸다."
+        ): (
+            (2, "열일곱 명", "17 명",
+                "(?:被害に遭った人が|被害者が|被害者は)@N@(?:人|名)(?:いる|いた|だった)",
+                17, "victims", "number"),
+            (8, "1,200만원", "12000000원",
+                "@M@[。．]",
+                12000000, "lost_won", "money"),
+        ),
+        (
+            "2차 끝나고 팀장을 따로 잡았다.\n\n\"사실은 사업이 아니라 — 아버지 빚을 갚았습니다. 6년.\"\n\n팀장이 소주를 한 잔 따랐다. 한참 "
+            "말이 없었다.\n\n\"발표는 내가 미룰게. 근데 — 빚 6년 갚은 놈이 사업 준비한 놈보다 나아.\n끈기는 못 꾸며내거든.\"\n\n거짓말은 사라"
+            "졌다. 이상하게, 더 단단해진 채로."
+        ): (
+            (0, "2차", "2차",
+                "@N@次会(?:が|の)?(?:終わ|終了)",
+                2, "after_party_round", "number"),
+            (0, "따로", "2명 따로",
+                "(?P<private>個別|内々)に|@N@人(?:だけ|きり)?で(?:話した|話をした)",
+                2, "private_conversation", "private"),
+            (2, "6년", "6년",
+                "@N@年(?:間)?[」』]",
+                6, "confessed_repayment_years", "number"),
+            (4, "한 잔", "1 잔",
+                "ソジュを@N@杯[、，]?(?:注いだ|ついだ)",
+                1, "poured_soju", "number"),
+            (6, "6년", "6년",
+                "借金を@N@年(?:間)?返した",
+                6, "manager_recalled_years", "number"),
+        ),
+        (
+            "일주일 동안 새벽 3시까지 사업계획서 양식을 공부했다.\n\n발표는 — 통과됐다. 임원이 고개를 끄덕였다.\n\n돌아오는 길에 팀장이 어깨를 "
+            "쳤다. \"역시 경험자네.\"\n\n그 말이 칭찬인데 체했다.\n\n거짓말은 이제 실력이 됐다. 근데 거짓말이 사라진 건 아니었다.\n더 깊이 들어"
+            "갔을 뿐."
+        ): (
+            (0, "일주일", "1주일",
+                "@N@週間[、，]",
+                1, "study_week", "number"),
+            (0, "3시", "3시",
+                "(?:明け方|早朝|午前)@N@時まで",
+                3, "dawn_deadline", "number"),
+        ),
+        (
+            "카톡이 왔다. 그 동창이었다.\n\n호텔 세미나실에서 어깨를 감싸던. 등록비 300만원을 말하던.\n\n'야. 나 그거 나왔다. 너 박차고 나"
+            "간 날 — 사실 그날부터 흔들렸어.\n빚 1,400 남았는데 그래도 나왔다.\n물류 일 시작했어. 한 번 보자. 내가 국밥 산다.'"
+        ): (
+            (2, "300만원", "3000000원",
+                "登録料@M@を(?:口にした|話した)",
+                3000000, "old_registration_fee", "money"),
+            (5, "1,400", "14000000원",
+                "借金はまだ@M@(?:ある|残って(?:いる|る))",
+                14000000, "remaining_debt", "money"),
+        ),
+        (
+            "{name}은 지금은 답을 확정할 수 없고 칠 주 안에 자기 쪽 결정을 다시 보내겠다고 적었다. 화면에는 발신 시각만 남았다. 상대가 "
+            "기다리겠다는 답이나 약속은 생기지 않았다."
+        ): (
+            (0, "칠 주", "7 주",
+                "@N@週間(?:以内|のうち)に",
+                7, "own_future_deadline", "number"),
+        ),
+        (
+            "칠 주 전에 자기 손으로 넣어 둔 달력 알림이 떴다. 예전 DM에는 그날 보낸 말과 발신 시각만 남아 있었다. 읽음도 답장도 없었으므로"
+            " 상대가 기다렸는지, 이미 떠났는지는 알 수 없었다.\n\n{name}이 확인할 수 있는 것은 자기 쪽에서 약속한 날짜가 오늘이라는 사실뿐"
+            "이었다."
+        ): (
+            (0, "칠 주", "7 주",
+                "@N@週間前",
+                7, "own_past_calendar", "number"),
+        ),
+    }
+    slots = contracts.get(source)
+    if slots is None:
+        return None
+    import unicodedata
+    from zh_translation_audit import _chinese_cardinal_value
+
+    digits = r"0-9０-９〇零一二三四五六七八九十百千"
+    number = (r"(?<![" + digits + r"万億,.，．数何])"
+              r"(?P<number>[+＋\-－−]?[" + digits + r",，]+)")
+    money = r"(?P<money>" + number + r"(?P<scale>万|億)?ウォン)"
+    lines = target.split("\n")
+    source_lines = source.split("\n")
+    errors, replacements, owned = [], [], []
+    for line, old, canonical, pattern, expected, label, mode in slots:
+        expression = pattern.replace("@M@", money).replace("@N@", number)
+        matches = list(re.finditer(expression, lines[line])) if line < len(lines) else []
+        if len(matches) != 1:
+            errors.append(f"source-bound callback/shadow {label} role/unit/line/count mismatch")
+        else:
+            match = matches[0]
+            native = match.groupdict().get("private")
+            approximate = match.groupdict().get("approx")
+            raw = match.groupdict().get("number") or ""
+            value = None
+            if native is not None:
+                start, end = match.span("private")
+                value = 2
+            elif approximate is not None:
+                start, end = match.span("approx")
+                value = None
+            else:
+                start, end = match.span("money" if mode == "money" else "number")
+                normalized = unicodedata.normalize("NFKC", raw)
+                if "," in normalized and not re.fullmatch(r"[1-9][0-9]{0,2}(?:,[0-9]{3})+", normalized):
+                    errors.append(f"source-bound callback/shadow {label} comma grouping mismatch")
+                value = _chinese_cardinal_value(normalized.replace(",", ""))
+                if mode == "money" and value is not None:
+                    value *= {"万": 10000, "億": 100000000, None: 1}[match.group("scale")]
+                if raw and raw[0] in "+＋-－−":
+                    errors.append(f"source-bound callback/shadow {label} sign mismatch")
+            if value != expected:
+                errors.append(f"source-bound callback/shadow {label} value mismatch")
+            if re.search(r"[" + digits + r"万億,.，．+＋\-－−]\s*$", lines[line][:start]):
+                errors.append(f"source-bound callback/shadow {label} numeric prefix mismatch")
+            if re.match(r"\s*(?:[/／]|以上|以下|未満|程度|ほど|くらい|ぐらい|"
+                        r"円|ドル|ウォン|元|ユーロ|"
+                        r"[（(]\s*(?:毎|月|日|年|時|円|ドル|元))", lines[line][end:]):
+                errors.append(f"source-bound callback/shadow {label} qualifier mismatch")
+            offset = sum(len(part) + 1 for part in lines[:line])
+            owned.append((offset + start, offset + end))
+            replacement = "金額概算" if mode == "approx" else str(expected)
+            if mode == "money":
+                replacement += "ウォン"
+            replacements.append((offset + start, offset + end, replacement))
+        # Only the exact source and witnessed source line own this rewrite.
+        source_lines[line] = source_lines[line].replace(old, canonical, 1)
+
+    units = (r"(?:万|億)?(?:ウォン|円|ドル|元)|週間|か月|ヶ月|カ月|箇月|"
+             r"時間|レース|号線|次会|年|日|分|秒|人|名|回|度|つ|個|杯|枚|倍|[%％]")
+    for quantity in re.finditer(number + r"\s*(?:" + units + ")", target):
+        start, end = quantity.span("number")
+        if not any(a <= start and end <= b for a, b in owned):
+            errors.append("source-bound callback/shadow added/displaced quantity mismatch")
+    normalized_target = target
+    for start, end, replacement in sorted(replacements, reverse=True):
+        normalized_target = normalized_target[:start] + replacement + normalized_target[end:]
+    return "\n".join(source_lines), normalized_target, sorted(set(errors))
+
+
 def _ja_korean_culture_address(source: str, target: str):
     """Permit ordinary male address only in the two observed non-romance quotes.
 
@@ -1850,6 +2099,12 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
             errors.extend(quantity_errors)
         chain_support = _ja_chain_support_salary_numbers(leaf.source, text)
         amb_tradeoff = _ja_amb_tradeoff_numbers(leaf.source, text)
+        callback_shadow = _ja_callback_shadow_numbers(leaf.source, text)
+        if callback_shadow is not None:
+            source_numbers, target_numbers, quantity_errors = callback_shadow
+            source_numbers = ja.PLACEHOLDER.sub("", source_numbers)
+            target_numbers = ja.PLACEHOLDER.sub("", target_numbers)
+            errors.extend(quantity_errors)
         if amb_tradeoff is not None:
             source_numbers, target_numbers, quantity_errors = amb_tradeoff
             source_numbers = ja.PLACEHOLDER.sub("", source_numbers)
@@ -2433,6 +2688,8 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
             errors.append("source-bound cafe/encounter ordered numeric ownership mismatch")
         if amb_tradeoff is not None and numeric.findall(source_numbers) != numeric.findall(target_numbers):
             errors.append("source-bound amb tradeoff ordered numeric ownership mismatch")
+        if callback_shadow is not None and numeric.findall(source_numbers) != numeric.findall(target_numbers):
+            errors.append("source-bound callback/shadow ordered numeric ownership mismatch")
         if native_time_bound and numeric.findall(source_numbers) != numeric.findall(target_numbers):
             errors.append("native time ordered numeric ownership mismatch")
     else:
