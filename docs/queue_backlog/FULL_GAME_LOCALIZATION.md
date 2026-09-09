@@ -40,8 +40,8 @@
   마지막 해40사건358·종막15사건197과 관계25사건164에 결혼·가족34사건206
   leaf/locale와 데이트·계절36사건209, 가족·직장·친구50사건380 및 남은 관계15종94
   leaf/locale, 생활·월세·첫 월급25종185 leaf/locale와
-  주거·건강25종176 leaf/locale와 직장·구직25종194 leaf/locale와 생활비25종186 leaf/locale와 가족25종172 leaf/locale와 생활 전환25종178 leaf/locale와 생활·숨은 사건25종198 leaf/locale와 회상·첫 생활25종158 leaf/locale와 후반 이정표·갈림길25종189 leaf/locale와 창업·크리에이터·회복20종146 leaf/locale와 가족·일상15종104 leaf/locale와 소비·독립 생활15종104 leaf/locale와 관계·투자 후속33종200 leaf/locale와 마지막 질주·선택의 대가36종214 leaf/locale와 투자·인연 후속32종194 leaf/locale와 판단의 비용·작은 회신25종148 leaf/locale와 관계의 다음 말·책임20종120 leaf/locale와 투자·사람 후속32종192 leaf/locale와 가족·회복·관계40종238 leaf/locale와 절제·신뢰·생활43종254 leaf/locale와 거절·재기·연락45종268 leaf/locale와 일·신뢰·되돌림43종258 leaf/locale와 생활 인연·마지막 전략19종114 leaf/locale와 어머니·일·살림20종116 leaf/locale와 친구·직장·살림17종92 leaf/locale와 아버지·관계·목표15종90 leaf/locale와 현수·가족·건강·목표41종246 leaf/locale와 직장·투자·이별40종240 leaf/locale와 소비·습관·도박·인연42종252 leaf/locale와 비교·돌봄·관계·재기40종240 leaf/locale와 도움·경계·가족·인맥16종96 leaf/locale와 투자·직장·불안·자기기준40종274 leaf/locale까지 총29,124번역이다
-  (언어별 엔딩234+사건8,640+catalog834). catalog 신규 작성2,485·
+  주거·건강25종176 leaf/locale와 직장·구직25종194 leaf/locale와 생활비25종186 leaf/locale와 가족25종172 leaf/locale와 생활 전환25종178 leaf/locale와 생활·숨은 사건25종198 leaf/locale와 회상·첫 생활25종158 leaf/locale와 후반 이정표·갈림길25종189 leaf/locale와 창업·크리에이터·회복20종146 leaf/locale와 가족·일상15종104 leaf/locale와 소비·독립 생활15종104 leaf/locale와 관계·투자 후속33종200 leaf/locale와 마지막 질주·선택의 대가36종214 leaf/locale와 투자·인연 후속32종194 leaf/locale와 판단의 비용·작은 회신25종148 leaf/locale와 관계의 다음 말·책임20종120 leaf/locale와 투자·사람 후속32종192 leaf/locale와 가족·회복·관계40종238 leaf/locale와 절제·신뢰·생활43종254 leaf/locale와 거절·재기·연락45종268 leaf/locale와 일·신뢰·되돌림43종258 leaf/locale와 생활 인연·마지막 전략19종114 leaf/locale와 어머니·일·살림20종116 leaf/locale와 친구·직장·살림17종92 leaf/locale와 아버지·관계·목표15종90 leaf/locale와 현수·가족·건강·목표41종246 leaf/locale와 직장·투자·이별40종240 leaf/locale와 소비·습관·도박·인연42종252 leaf/locale와 비교·돌봄·관계·재기40종240 leaf/locale와 도움·경계·가족·인맥16종96 leaf/locale와 투자·직장·불안·자기기준40종274 leaf/locale와 투자 연쇄·한국 생활38종276 leaf/locale까지 총29,952번역이다
+  (언어별 엔딩234+사건8,916+catalog834). catalog 신규 작성2,485·
   기존 JA 누락 수리1·기존 유지16을 구분한다. 엔딩35종과 catalog7섹션은 채웠지만
   사건·UI·표시 소비자는 아직 남는다. M07~M24 정적 연결은 해당 기간 모든 무작위
   사건·UI나 실플레이 전량의 번역 완료를 뜻하지 않는다. 원어민·화면·전체판은 OPEN.
@@ -421,3 +421,12 @@
 가정혼인비용·실제프로젝트수익과 주거·혼인 조건의 원문 부채를 구분했다.
 다음 관계·투자 후속33종의 두 배치와 남은 사건·UI·표시 소비자를 이어가며
 원어민·화면·전체판 판정은 OPEN이다.
+
+## 투자 연쇄·한국 생활의 원문 확인점
+
+38종276문구씩을 대조·수용했다. IPO·상철·재개발의 즉시 손익과 지연 산문,
+잔여권리 매각26억원의 새 순현금은 서로 다른 시점·장부다. 기회 결과를 앞당기거나
+기존 손익을 중복 지급하지 않는다. 급여·회식의 선후 압축, 한국 제도의 고정 금액·시각과
+조건/효과 차이는 [해당 원문 대조](../queue_active/ORDER-208.md)에 남겼다.
+다음 계절·동네·취미의 한국 생활39종과 남은 사건·UI·표시 소비자를 이어간다.
+원어민·화면·전체판 판정은 OPEN이며 정적 대조를 새 플레이 판정으로 합산하지 않는다.

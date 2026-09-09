@@ -986,8 +986,40 @@ def _script_forbidden_sets() -> dict[str, frozenset[str]]:
     return decoded
 
 
-def _tokens(text: str) -> list[str]:
-    return sorted(PLACEHOLDER.findall(text))
+# ORDER208: complete Korean sources own only their observed quantity/brand slots.
+# No event ID or translated sentence licenses a numeric exemption.
+SOURCE_INVESTMENT_ADMIN = {
+    "subscriptions": "구독 서비스 두 개를 해지했다.\n합산 4만 8천원.\n월세 인상분을 다른 곳에서 메꿨다.",
+    "fraction_buy": "3분의 1을 샀다.\n다음날 2% 더 빠졌다.\n추가로 3분의 1을 더 샀다. 분할의 이유였다.",
+    "sector_percent": "전세 사기 피해자 300명 뉴스가 터졌다.\n\n부동산 관련 종목들이 장 시작부터 빠지고 있었다.\n건설사 -3.2%. REITs -4.1%. 부동산 플랫폼 -2.8%.\n\n{name}은 포트폴리오를 봤다.\n공포가 가격을 만들 때, 지금이 기회인가 아직 바닥이 아닌가.",
+    "daily_interest": "알림 설정에 들어갔다.\n껐다.\n이자가 하루에 얼마인지 계산하지 않기로 했다.",
+    "zero_balance": "수익 중인 종목을 일부 팔았다.\n세금을 빼고 나니 딱 맞았다.\n통장이 0이 됐다. 출발점으로 돌아온 느낌.",
+    "overdraft": "오전 8시 41분.\n은행 앱 알림이 울렸다.\n\n'잔액이 마이너스입니다. 마이너스 통장 이자가 적용됩니다.'\n\n숫자: -34,200원.\n마이너스 통장 한도 잔액: 496만 7천800원.\n\n{name}은 앱을 닫았다가 다시 열었다.\n숫자는 그대로였다.",
+    "comments": "재테크 커뮤니티에 미국 대형주 ETF 장기 수익률 그래프가 올라왔다.\n20년 수익률 600%. 댓글이 수백 개.\n\n'나도 빨리 시작했어야 했는데.' {name}의 손에는 아직 아무것도 없다.\n인증샷을 보면서 뭔가 시작해야겠다는 충동이 올라왔다.\n지금 당장 분산 투자를 시작할 것인가, 공부를 더 할 것인가.",
+    "policy_three": "오전 10시 3분.\n\n뉴스 속보가 울렸다.\n기준금리 동결. 양도세 완화. 투기지역 일부 해제.\n\n세 가지가 동시에 나왔다.\n포트폴리오 화면이 깜빡였다.\n\n지금 움직이는 사람과 기다리는 사람의 결과가 나뉘는 순간이었다.",
+    "rumor_views": "부동산 커뮤니티가 술렁이고 있다. '다음 달 대출 규제 강화 확실시' — 출처 불명의 글.\n조회수 10만을 넘었다.\n\n실제 규제가 발표되기 전에 미리 움직이는 사람들이 생겼다.\n{name}이 보유한 자산 일부가 부동산 관련이다.\n루머를 믿고 행동할 것인가, 공식 발표까지 기다릴 것인가.",
+    "four_insurances": "편의점 알바 공고. 시급 10,320원.\n최저임금이다. 4대보험 적용, 주휴수당 포함 시 실질 시급은 조금 더 높다.\n\n편의점 점장이 이력서를 훑어봤다.\n\"지금 다른 알바 하고 있어요?\" 첫 질문이었다.",
+    "kakaopay": "카카오페이 알림: 건강보험료 고지서 도착.\n지역가입자. 소득도 없는데 매월 빠져나간다.\n\n직장 다닐 때는 회사가 절반 냈는데,\n백수가 되니 전부 내가 낸다.",
+    "round_exit": "\"내일 일이 있어서요.\" 1차 삼겹살에서 나왔다.\n\n팀장이 \"그래, 먼저 가.\" 했다. 표정은 읽기 어려웠다.\n이 눈치를 어떻게 받아들일지는, 아직 모르겠다.",
+    "round_choice": "1차까지만 — 일찍 빠진다",
+    "round_plan": "팀장이 단체 카톡을 보냈다.\n\"오늘 저녁 회식! 다들 참석 부탁드립니다 :)\"\n\n물음표가 없다. 요청이지만 거절이 어렵다.\n삼겹살집, 2차는 노래방, 3차는 포장마차.",
+    "tax_approx": "기본 서류만 냈다. 환급 예정액: 0원.\n\n나중에 알게 됐다. 월세 세액공제만 챙겼어도 수십만 원 돌아왔다고.\n다음 해엔 꼭 제대로 챙기기로 했다.",
+    "hometax": "1월, 회사에서 연말정산 서류 제출 요청이 왔다.\n국세청 홈택스, 공제 항목들이 잔뜩 뜬다.\n\n의료비, 교육비, 카드 사용액, 월세...\n이 공제를 얼마나 잘 챙기느냐에 따라 환급이 달라진다.",
+    "underground_pair": "정보의 질이 달랐다. 움직임이 달랐다.\n합법의 경계선에서 아슬아슬하게.\n수익이 올라갔다. 양심도 조금 내려갔다.\n두 개가 동시에 움직이는 삶이 시작됐다.",
+    "telegram": "어느 순간부터 다른 종류의 사람들이 연락을 해온다.\n제도권 밖에 있지만, 어마어마한 정보를 가진 사람들.\n\n\"당신은 원칙을 안 따르는 스타일이더라.\n그게 싫지 않아. 우리 모임 한 번 나와봐.\"\n\n텔레그램 채널 링크 하나.\n들어가보니 — 이건 차원이 다른 세계였다.",
+    "ipo_range": "직장 선배에게서 귀띔이 왔다.\n\"이번 AI 반도체 관련 기업 공모주, 기관들이 엄청 밀고 있어.\n균등배정으로 들어가면 상한가 두세 번은 기본이래.\"\n\n청약 증거금이 묶이고, 배정 여부는 운이지만,\n지금 이 시장 분위기라면 올 것 같다는 느낌이 든다.\n뭘 얼마나 넣을지가 관건이다.",
+}
+
+def _investment_admin_literal_percent(text: str, source: str | None) -> str:
+    if source == SOURCE_INVESTMENT_ADMIN["sector_percent"]:
+        # A stock loss followed by a period and REITs is not a printf %. R.
+        # Both Korean and Chinese punctuation are valid in this one slot.
+        text = re.sub(r"(?<=-3\.2)%[.。][ \t]*R(?=EITs\b)", "%·R", text)
+    return text
+
+
+def _tokens(text: str, *, source: str | None = None) -> list[str]:
+    return sorted(PLACEHOLDER.findall(_investment_admin_literal_percent(text, source)))
 
 
 def _name_is_used(source: str, korean: str) -> bool:
@@ -1745,6 +1777,9 @@ def _source_counter_kind(
 
 def _source_audience_quantities(source: str) -> list[CounterQuantity]:
     quantities: list[CounterQuantity] = []
+    if source == SOURCE_INVESTMENT_ADMIN["rumor_views"]:
+        start = source.index("10만")
+        quantities.append(CounterQuantity(start, start + 3, Decimal(100000), "entity"))
     if source == SOURCE_CREATOR_GROWTH_REASSESSMENT:
         # The dash after 명 is acting punctuation, not a missing person unit.
         # Do not change the generic counter suffix for unrelated source prose.
@@ -4554,6 +4589,11 @@ def _source_money_amounts(source: str) -> list[MoneyAmount]:
     # label and predicate are validated by golf_round_fee_range, not as 300,000.
     source = SOURCE_GOLF_FEE_RANGE.sub(lambda m: " " * len(m.group()), source)
     amounts: list[MoneyAmount] = []
+    for kind, fragment, value in (("subscriptions", "4만 8천원", 48000),
+                                  ("overdraft", "496만 7천800원", 4967800)):
+        if source == SOURCE_INVESTMENT_ADMIN[kind]:
+            start = source.index(fragment)
+            amounts.append(MoneyAmount(start, start + len(fragment), Decimal(value)))
     # The creator's estimate and mixed-unit prose are distinct amounts. Bind
     # the observed predicates; do not join two separately stated payments.
     for match in SOURCE_CREATOR_ESTIMATE_WON.finditer(source):
@@ -4835,8 +4875,162 @@ def _gig_few_thousand_role_errors(source: str, target: str) -> list[str]:
     return [] if valid else [f"gig few-thousand won {role} amount/role/state/line changed"]
 
 
+def _investment_admin_slots(source: str, target: str) -> tuple[list[CounterQuantity], list[CounterQuantity], list[str]]:
+    """Only validated local quantity spans leave the ordinary numeric audit.
+
+    Complete Korean sources license the slot, not the translation. Predicate,
+    line and unit grammar validates that slot; unrelated numbers remain visible.
+    """
+    kind = next((key for key, raw in SOURCE_INVESTMENT_ADMIN.items() if raw == source), None)
+    source_slots, target_slots, errors = [], [], []
+    if kind is None:
+        return source_slots, target_slots, errors
+    lines = target.split("\n")
+    cardinal = CHINESE_CARDINAL
+    stop = r"[。.]"
+    ordinal = rf"第(?P<number>{cardinal})(?:[場场攤摊]|[輪轮])"
+    if len(lines) != len(source.split("\n")):
+        errors.append(f"investment-admin {kind} paragraph/slot count changed")
+
+    def slot(fragment: str, line: int, pattern: str | tuple[str, ...], value: int, occurrence: int = 0, *, local: bool = False) -> None:
+        locations = list(re.finditer(re.escape(fragment), source))
+        start, end = locations[occurrence].span()
+        source_slots.append(CounterQuantity(start, end, Decimal(value), "investment_admin_" + kind))
+        patterns = (pattern,) if isinstance(pattern, str) else pattern
+        matches = [m for expression in patterns for m in
+                   (list(re.finditer(expression, lines[line])) if local else
+                    [re.fullmatch(expression, lines[line])]) if m] if line < len(lines) else []
+        match = matches[0] if len(matches) == 1 else None
+        if match is None or (match.groupdict().get("number") is not None and _chinese_cardinal_value(match.group("number")) != value):
+            errors.append(f"investment-admin {kind} quantity/unit/role/state/line changed")
+            return
+        start, end = match.span("q")
+        offset = sum(len(text) + 1 for text in lines[:line])
+        target_slots.append(CounterQuantity(offset + start, offset + end, Decimal(value), "investment_admin_" + kind))
+
+    if kind == "subscriptions":
+        slot("두 개", 0, rf"(?:取消|退[訂订])了(?P<q>(?P<number>{cardinal})(?:[項项個个]|種|种))"
+             rf"(?:[訂订][閱阅])(?:服[務务])?{stop}", 2)
+        amounts = _target_money_amounts(target)
+        masked = _mask_spans(target, amounts).split("\n")
+        if len(masked) != 3 or not re.fullmatch(r"(?:合[計计]|[總总][計计]|合起[來来](?:是)?)[ ]+[。.]", masked[1]):
+            errors.append("investment-admin subscriptions combined-saving role changed")
+    elif kind == "fraction_buy":
+        fraction = r"(?:三分之一|1[/／]3)"
+        slot("3분의 1", 0, rf"(?:先)?[買买](?:入|進|进)?了(?P<q>{fraction}){stop}", 1)
+        slot("3분의 1", 2, rf"(?:又加[買买]了|再[買买](?:入|進|进)?了?|[額额]外(?:又)?[買买](?:入)?了|追加[買买](?:入)?了)"
+             rf"(?P<q>{fraction}){stop}[^\n]*", 1, 1)
+        # The reflection after the second purchase is not a prose template.
+        # Its unowned numbers still pass through the ordinary numeric audit.
+        if len(re.findall(fraction, target)) != 2:
+            errors.append("investment-admin fraction_buy two separate purchases missing/duplicated")
+    elif kind == "daily_interest":
+        slot("하루", 2, rf"(?:[決决]定|打算)(?:不再(?:去)?|不去|不)(?:算|[計计]算)"
+             rf"(?P<q>每天|每日|一天|1天)(?:(?:[會会])?(?:[產产]生|生出)?多少利息|的利息){stop}", 1)
+    elif kind == "zero_balance":
+        slot("0", 2, rf"(?:[賬账帳]戶|[账賬]户)(?P<q>(?:[歸归]零了?|(?:[變变]成|成了)0(?:了)?)){stop}[^\n]*", 0)
+        if len(re.findall(r"(?:[賬账帳][戶户])(?:[歸归]零|[變变]成0|成了0)", target)) != 1:
+            errors.append("investment-admin zero_balance completed balance duplicated/missing")
+    elif kind == "comments":
+        noun = r"(?:[評评][論论]|留言)"
+        count = r"(?P<q>(?:好)?[幾几數数]百(?:[條条則则]|[個个])?)"
+        slot("수백 개", 1, (
+            rf"(?:^|[。.，,])(?:底下有|有)?{count}{noun}{stop}",
+            rf"(?:^|[。.，,]){noun}(?:已有|有|已[經经]有)?{count}{stop}",
+        ), 100, local=True)
+        witness = rf"(?:{noun}[^。.，,\n]*(?:[幾几數数][百千]|{cardinal})|[幾几數数][百千][^。.，,\n]*{noun})"
+        if len(lines) > 1 and len(re.findall(witness, lines[1])) != 1:
+            errors.append("investment-admin comments quantity predicate duplicated/missing")
+    elif kind == "policy_three":
+        slot("세 가지", 5, rf"(?:[這这])?(?P<q>(?P<number>{cardinal})(?:[項项](?:消息|政策)|件事|[個个]消息))"
+             rf"同[時时](?:公布|[發发]布|出[爐炉])(?:了)?{stop}", 3)
+    elif kind == "rumor_views":
+        slot("10만", 1, rf"(?:[瀏浏][覽览](?:量|次[數数])|[閱阅][讀读]量)(?:已[經经])?(?:超[過过]了?|突破了?)"
+             rf"(?P<q>(?:10[萬万]|十[萬万]|100,?000))(?:次)?{stop}", 100000)
+    elif kind == "four_insurances":
+        slot("4대", 1, rf"(?:[這这])?是最低工[資资](?:[標标][準准])?{stop}(?:有|[適适]用|享有|涵[蓋盖])"
+             rf"(?P<q>(?P<number>{cardinal})大)社[會会]保[險险][，,][^\n]*", 4)
+        if len(re.findall(rf"{cardinal}大社[會会]保[險险]", target)) != 1:
+            errors.append("investment-admin four_insurances coverage quantity duplicated/missing")
+    elif kind == "round_choice":
+        slot("1차", 0, rf"只(?:[參参]加|到)(?P<q>{ordinal})[—－-]{{1,2}}早[點点](?:[離离][開开]|走)", 1)
+    elif kind == "round_exit":
+        slot("1차", 0, rf"[「“\x22](?:我)?明天(?:[還还])?有事{stop}[」”\x22]"
+             rf"(?:吃完|在)(?P<q>{ordinal})的烤五花肉(?:店)?[，,]?(?:就)?(?:先)?[離离][開开]了{stop}", 1)
+    elif kind == "round_plan":
+        # Separate matches own distinct ordered stage/venue slots on this line.
+        first = r"(?:先(?:去|吃)|地[點点]是)烤五花肉(?:店)?[，,]"
+        third = rf"第(?:三|3)(?:[場场攤摊]|[輪轮])去[韓韩][國国]路[邊边][攤摊]{stop}"
+        slot("2차", 4, (
+            rf"{first}(?P<q>{ordinal})(?:去KTV|唱歌)[，,]{third}",
+            rf"{first}接[著着]到KTV[續续](?P<q>{ordinal})[，,]{third}",
+        ), 2)
+        second = r"(?:第(?:二|2)(?:[場场攤摊輪轮])(?:去KTV|唱歌)|接[著着]到KTV[續续]第(?:二|2)(?:[場场攤摊輪轮]))[，,]"
+        slot("3차", 4, rf"{first}{second}(?P<q>{ordinal})去[韓韩][國国]路[邊边][攤摊]{stop}", 3)
+    elif kind == "underground_pair":
+        slot("두 개", 3, rf"(?P<q>(?:(?P<number>{cardinal})者|[這这](?:兩|两|2)(?:者|[項项])))(?:同[時时])"
+             rf"(?:[變变]化|[變变][動动]|[變变]動)的生活[，,]?(?:就此)?[開开]始了?{stop}", 2)
+        if len(lines) != 4 or not re.fullmatch(
+                r"收益(?:上去了|上升了|增加了)[，,]良心也(?:往下滑了|下降了|降低了)一[點点][。.]", lines[2]):
+            errors.append("investment-admin underground_pair profit/conscience directions changed")
+    elif kind == "ipo_range":
+        slot("두세 번", 2, rf"[聽听][說说](?:走|用|按)均等配售(?:去申[購购]|[參参][與与])?[，,](?:[連连])?[漲涨]停"
+             rf"(?P<q>(?:[兩两]三|2[～~–—-]3)(?:次|回))都(?:是起步|是基本的|是基本|不稀奇|是起[碼码]的){stop}[」”\x22]", 2)
+    elif kind == "telegram":
+        slot("한 번", 4, rf"(?:我)?不[討讨][厭厌](?:[這这][樣样])?{stop}(?:有空)?[來来][參参]加"
+             rf"(?P<q>(?P<number>{cardinal})次)(?:我[們们]的|咱[們们]的)聚[會会]吧{stop}[」”\x22]", 1)
+    elif kind == "tax_approx":
+        if len(lines) != 4 or not re.fullmatch(
+                r"[後后][來来]才知道[，,。.]?(?:哪怕)?(?:[當当][時时])?(?:要是|只要|光是|只是)?(?:有)?"
+                r"(?:申[請请]|申[報报]|[辦办]理|[辦办]好)月租[稅税][額额](?:抵扣|抵[減减])"
+                r"[，,](?:就|也)(?:能|可以)(?:退回|拿回|[領领]回)[幾几數数]十[萬万][韓韩]元[。.]", lines[2]):
+            errors.append("investment-admin tax_approx missed conditional refund role changed")
+    elif kind == "sector_percent":
+        percent = r"[+\-]?\d+(?:\.\d+)?%"
+        if len(lines) < 4 or not re.fullmatch(
+                rf"(?:建[築筑]|建[設设])公司[ \t]*{percent}[。.][ \t]*REITs[ \t]*{percent}[。.][ \t]*"
+                rf"房地[產产]平[臺台][ \t]*{percent}[。.][ \t]*", lines[3]):
+            errors.append("investment-admin sector_percent stock/percentage order or unit changed")
+    if kind in {"subscriptions", "overdraft", "tax_approx"}:
+        for amount in _target_money_amounts(target):
+            if re.match(r"[ \t]*(?:[%％‰倍年月日天人位]|[個个]月|公斤|公里|米|小[時时]|分[鐘钟]|秒|[/／])", target[amount.end:]):
+                errors.append("investment-admin won amount unit/rate suffix changed")
+    if kind == "overdraft":
+        masked = _mask_spans(target, _target_money_amounts(target)).split("\n")
+        if len(masked) != 10 or not re.fullmatch(r"[數数]字[：:][ ]+[。.]", masked[5]) or not re.fullmatch(
+                r"透支[賬账帳][戶户]剩[餘余][額额]度[：:][ ]+[。.]", masked[6]):
+            errors.append("investment-admin overdraft balance/remaining-limit roles changed")
+    return source_slots, target_slots, errors
+
+
+def _investment_admin_latin_errors(source: str, target: str) -> tuple[str, list[str]]:
+    rules = {
+        "kakaopay": ("KakaoPay", 0, r"KakaoPay(?:[發发][來来]的|[傳传][來来])?通知[：:](?:[國国]民)?健康保[險险](?:[費费])?[繳缴][費费][單单](?:已(?:[經经])?送[達达]|到了)[。.]", True),
+        "hometax": ("Hometax", 1, r"(?:打[開开])?(?:[韓韩][國国])?[國国][稅税][廳厅](?:的)?Hometax(?:[網网]站上)?[，,](?:[頁页]面上)?(?:出[現现]了|跳出|列出)(?:了)?(?:[滿满][滿满]的|一大堆|[許许]多)扣除[項项]目[。.]", True),
+        "telegram": ("Telegram", 6, r"一[個个]Telegram[頻频]道(?:[連连][結结]|[鏈链]接)[。.]", True),
+        "round_plan": ("KTV", 4, r"(?:第(?:二|2)(?:[場场攤摊輪轮])去KTV|接[著着]到KTV[續续]第(?:二|2)(?:[場场攤摊輪轮]))[，,]", False),
+    }
+    kind = next((key for key in rules if source == SOURCE_INVESTMENT_ADMIN[key]), None)
+    if kind is None:
+        return target, []
+    brand, line, frame, required = rules[kind]
+    matches = _bounded_latin_matches(target, brand)
+    lines = target.split("\n")
+    if len(matches) != (1 if required else len(matches)) or len(matches) > 1 \
+            or (matches and (line >= len(lines) or not (re.search(frame, lines[line]) if kind == "round_plan" else re.fullmatch(frame, lines[line]))
+                            or target[:matches[0].start()].count("\n") != line)):
+        return target, [f"investment-admin {kind} brand count/boundary/role changed"]
+    if target.count(brand) != len(matches):
+        return target, [f"investment-admin {kind} brand Unicode boundary changed"]
+    for match in reversed(matches):
+        target = target[:match.start()] + " " * len(match.group()) + target[match.end():]
+    return target, []
+
+
 def _numeric_errors(source: str, target: str) -> list[str]:
     errors: list[str] = []
+    admin_source_slots, admin_target_slots, admin_errors = _investment_admin_slots(source, target)
+    errors.extend(admin_errors)
     if source == SOURCE_CREATOR_GROWTH_REASSESSMENT:
         growth = re.fullmatch(
             r"(?:[覺觉]得(?:進展|进展|速度)?(?:很)?慢|感[覺觉](?:進展|进展)?[緩缓]慢)[。.]\n"
@@ -4883,6 +5077,8 @@ def _numeric_errors(source: str, target: str) -> list[str]:
                 errors.append("callback saved-money magnitude unit changed")
     source_magnitude_order, target_magnitude_order = [], []
     magnitude_patterns = CATALOG_APPROXIMATE_WON
+    if source == SOURCE_INVESTMENT_ADMIN["tax_approx"]:
+        magnitude_patterns += ((re.compile("수십만 원"), re.compile(r"[幾几數数]十[萬万][韓韩]元")),)
     gig_magnitude = source in SOURCE_GIG_FEW_THOUSAND_WON
     if gig_magnitude:
         magnitude_patterns += (GIG_FEW_THOUSAND_WON_PATTERN,)
@@ -4984,9 +5180,9 @@ def _numeric_errors(source: str, target: str) -> list[str]:
         )
 
     source_quantities = _source_counter_quantities(
-        _mask_spans(source, source_amounts)
+        _mask_spans(_mask_spans(source, source_amounts), admin_source_slots)
     )
-    counter_target = _mask_spans(approximate_target, target_amounts)
+    counter_target = _mask_spans(_mask_spans(approximate_target, target_amounts), admin_target_slots)
     # 周六兩點 is Saturday at two, never sixty-two o'clock. Verify the
     # weekday separately, then mask it before matching adjacent clock digits.
     ko_weekdays = {day + "요일": i + 1 for i, day in enumerate("월화수목금토일")}
@@ -5017,7 +5213,7 @@ def _numeric_errors(source: str, target: str) -> list[str]:
     ))
 
     source_rest = _mask_spans(
-        _mask_spans(approximate_source, source_amounts), source_quantities
+        _mask_spans(_mask_spans(approximate_source, source_amounts), admin_source_slots), source_quantities
     )
     target_rest = _mask_spans(
         counter_target, target_quantities
@@ -5078,6 +5274,10 @@ def _money_errors(lang: str, source: str, target: str) -> list[str]:
 
 
 def _untranslated_english_errors(source: str, target: str, *, catalog: bool = False) -> list[str]:
+    target = _investment_admin_literal_percent(target, source)
+    target, admin_errors = _investment_admin_latin_errors(source, target)
+    if admin_errors:
+        return admin_errors
     target, scoped_errors = _investment_work_latin_errors(source, target)
     if scoped_errors:
         return scoped_errors
@@ -5233,7 +5433,7 @@ def validate_text(lang: str, key: str, source: str, target: Any) -> list[str]:
         errors.append("Hangul remains")
     if KANA.search(target):
         errors.append("Japanese kana remains")
-    if _tokens(source) != _tokens(target):
+    if _tokens(source, source=source) != _tokens(target, source=source):
         errors.append("placeholder/BBCode mismatch")
     if source.count("\n") != target.count("\n"):
         errors.append(
@@ -9338,12 +9538,500 @@ def _investment_work_source_all_self_test() -> tuple[int, list[str]]:
     return cases + extra_cases + b3_cases, failures + extra_failures + b3_failures
 
 
+def _investment_admin_parser_self_test() -> tuple[int, list[str]]:
+    """Author tests: actual, equivalent, target, source-OFF and E2E are distinct."""
+    cases, failures = 0, []
+    actuals = [
+      [
+        "subscriptions",
+        "zh-CN",
+        "取消了两项订阅服务。\n合计4万8千韩元。\n从别处补上了月租上涨的部分。",
+        "两项",
+        "三项"
+      ],
+      [
+        "fraction_buy",
+        "zh-CN",
+        "买入了三分之一。\n第二天又跌了2%。\n又加买了三分之一。这就是分批买入的理由。",
+        "三分之一",
+        "三分之二"
+      ],
+      [
+        "sector_percent",
+        "zh-CN",
+        "一则涉及300名受害者的全租诈骗新闻爆了出来。\n\n房地产相关股票从开盘起就在下跌。\n建筑公司-3.2%。REITs -4.1%。房地产平台-2.8%。\n\n{name}看着投资组合。\n当恐惧左右价格，现在是机会，还是尚未见底？",
+        "-3.2%",
+        "3.2%"
+      ],
+      [
+        "daily_interest",
+        "zh-CN",
+        "打开通知设置。\n关掉了。\n决定不去算每天会产生多少利息。",
+        "每天",
+        "每周"
+      ],
+      [
+        "zero_balance",
+        "zh-CN",
+        "卖掉了部分盈利中的持仓。\n扣完税，刚好够。\n账户归零了。像是又回到了起点。",
+        "归零",
+        "变成1"
+      ],
+      [
+        "overdraft",
+        "zh-CN",
+        "上午8点41分。\n银行应用的通知响了。\n\n“您的余额为负数，将计收透支账户利息。”\n\n数字：-34,200韩元。\n透支账户剩余额度：496万7800韩元。\n\n{name}关掉应用，又重新打开。\n数字没有变。",
+        "496万7800",
+        "496万7801"
+      ],
+      [
+        "comments",
+        "zh-CN",
+        "理财社区里有人发了美国大盘股ETF的长期收益走势图。\n20年收益率600%。几百条评论。\n\n“我也该早点开始的。”{name}手里却还什么都没有。\n看着这些截图，心里涌起了该做点什么的冲动。\n是现在就开始分散投资，还是再多学一些？",
+        "几百",
+        "几千"
+      ],
+      [
+        "policy_three",
+        "zh-CN",
+        "上午10点3分。\n\n新闻快讯响了。\n基准利率不变。放宽转让所得税政策。部分地区解除投机地区指定。\n\n三项消息同时公布。\n投资组合的页面闪了一下。\n\n此刻行动的人与选择等待的人，结果将从这里分岔。",
+        "三项",
+        "四项"
+      ],
+      [
+        "rumor_views",
+        "zh-CN",
+        "房地产社区里一片骚动。“下个月确定收紧贷款限制”——一篇来历不明的帖子。\n浏览量超过了10万。\n\n正式政策还没公布，已经有人提前行动。\n{name}持有的资产中，有一部分与房地产有关。\n是相信传闻采取行动，还是等官方公布？",
+        "10万",
+        "11万"
+      ],
+      [
+        "four_insurances",
+        "zh-CN",
+        "便利店兼职招聘。时薪10,320韩元。\n这是最低工资标准。有四大社会保险，加上周休津贴，实际时薪会再高一些。\n\n便利店店长扫了一眼简历。\n“现在还在别处打工吗？”这是第一个问题。",
+        "四大",
+        "五大"
+      ],
+      [
+        "kakaopay",
+        "zh-CN",
+        "KakaoPay通知：国民健康保险缴费单已送达。\n属于地区参保人。明明没有收入，每个月却都要扣钱。\n\n上班时，公司还承担一半，\n失业后，就全得自己付。",
+        "KakaoPay",
+        "KakaoPays"
+      ],
+      [
+        "round_exit",
+        "zh-CN",
+        "“明天还有事。”吃完第一场的烤五花肉，就离开了。\n\n组长说：“行，你先走吧。”表情难以揣摩。\n该怎样解读他的脸色，还不知道。",
+        "第一",
+        "第二"
+      ],
+      [
+        "round_choice",
+        "zh-CN",
+        "只参加第一场——早点离开",
+        "第一",
+        "第二"
+      ],
+      [
+        "round_plan",
+        "zh-CN",
+        "组长在KakaoTalk群里发了消息。\n“今晚聚餐！请大家都来 :)”\n\n没有问号。虽说是邀请，却很难拒绝。\n先去烤五花肉店，第二场去KTV，第三场去韩国路边摊。",
+        "第二",
+        "第三"
+      ],
+      [
+        "tax_approx",
+        "zh-CN",
+        "只交了基本材料。预计退税额：0韩元。\n\n后来才知道，光是申请月租税额抵扣，就能退回几十万韩元。\n决定明年一定要好好办。",
+        "几十万",
+        "几百万"
+      ],
+      [
+        "hometax",
+        "zh-CN",
+        "1月，公司发来通知，要求提交年末税款结算材料。\n打开国税厅Hometax，页面上出现了满满的扣除项目。\n\n医疗费、教育费、刷卡消费额、月租……\n这些扣除项目核对得有多仔细，会影响退税金额。",
+        "Hometax",
+        "Hometaxes"
+      ],
+      [
+        "underground_pair",
+        "zh-CN",
+        "信息的质量不同，行动也不同。\n在合法的边缘，险险游走。\n收益上去了，良心也往下滑了一点。\n两者同时变化的生活，就此开始。",
+        "两者",
+        "三者"
+      ],
+      [
+        "telegram",
+        "zh-CN",
+        "不知从什么时候起，另一类人开始主动联系自己。\n游离于正规体系之外，却掌握着惊人信息的人。\n\n“你是那种不按规矩来的人。\n我不讨厌这样。来参加一次我们的聚会吧。”\n\n一个Telegram频道链接。\n进去一看——这简直是另一个层次的世界。",
+        "Telegram",
+        "Telegrams"
+      ],
+      [
+        "ipo_range",
+        "zh-CN",
+        "公司前辈悄悄递来了消息。\n“这次那家AI半导体相关企业的新股，机构都在大力推。\n听说走均等配售，涨停两三次都是起步。”\n\n申购保证金会被冻结，能否获配也靠运气，\n但眼下的市场气氛，让人觉得机会也许真会来。\n关键是投什么、投多少。",
+        "两三次",
+        "三四次"
+      ],
+      [
+        "subscriptions",
+        "zh-TW",
+        "取消了兩項訂閱服務。\n合計4萬8,000韓元。\n從其他地方補上了月租的漲幅。",
+        "兩項",
+        "三項"
+      ],
+      [
+        "fraction_buy",
+        "zh-TW",
+        "買了三分之一。\n隔天又跌了2%。\n再買了三分之一。這就是分批買進的理由。",
+        "三分之一",
+        "三分之二"
+      ],
+      [
+        "sector_percent",
+        "zh-TW",
+        "全租詐騙受害者達300人的新聞爆了出來。\n\n房地產相關股票從開盤就一路下跌。\n建設公司-3.2%。REITs -4.1%。房地產平台-2.8%。\n\n{name}看著投資組合。\n恐懼正在決定價格，此刻是機會，還是尚未見底？",
+        "-3.2%",
+        "3.2%"
+      ],
+      [
+        "daily_interest",
+        "zh-TW",
+        "進了通知設定。\n關掉。\n決定不去算每天會生出多少利息。",
+        "每天",
+        "每周"
+      ],
+      [
+        "zero_balance",
+        "zh-TW",
+        "賣了部分正在獲利的投資標的。\n扣掉稅，剛剛好。\n帳戶變成0。感覺回到了起點。",
+        "0",
+        "1"
+      ],
+      [
+        "overdraft",
+        "zh-TW",
+        "上午8點41分。\n銀行 App 的通知響了。\n\n「您的餘額為負數，將計收透支帳戶利息。」\n\n數字：-34,200韓元。\n透支帳戶剩餘額度：496萬7,800韓元。\n\n{name}關掉 App，又打開。\n數字一點也沒變。",
+        "496萬7,800",
+        "496萬7,801"
+      ],
+      [
+        "comments",
+        "zh-TW",
+        "理財社群裡貼出了一張美國大型股 ETF 的長期報酬率圖。\n20年報酬率600%。底下有數百則留言。\n\n「我也該早點開始的。」{name}手裡卻還什麼都沒有。\n看著曬單，心裡湧起了該開始做點什麼的衝動。\n要現在就開始分散投資，還是再多學一點？",
+        "數百",
+        "數千"
+      ],
+      [
+        "policy_three",
+        "zh-TW",
+        "上午10點3分。\n\n新聞快訊響了。\n基準利率凍結。放寬資本利得稅。部分地區解除投機地區管制。\n\n三件事同時公布。\n投資組合的畫面閃了一下。\n\n現在行動的人，和選擇等待的人，結果就在這一刻開始分岔。",
+        "三件",
+        "四件"
+      ],
+      [
+        "rumor_views",
+        "zh-TW",
+        "房地產社群一陣騷動。「下個月幾乎確定會加強貸款管制」——一篇來源不明的貼文。\n瀏覽次數超過10萬。\n\n正式公布管制措施之前，已經有人先行動了。\n{name}持有的部分資產與房地產有關。\n要相信傳聞採取行動，還是等正式公告？",
+        "10萬",
+        "11萬"
+      ],
+      [
+        "four_insurances",
+        "zh-TW",
+        "便利商店的徵人公告。時薪10,320韓元。\n是最低工資。適用四大社會保險，若算進每週休息日津貼，實際時薪還會高一點。\n\n便利商店店長掃了一眼履歷。\n「你現在還有在做別的打工嗎？」這是第一個問題。",
+        "四大",
+        "五大"
+      ],
+      [
+        "kakaopay",
+        "zh-TW",
+        "KakaoPay通知：健康保險費繳費單已送達。\n地區投保人。明明沒有收入，卻每個月都得繳。\n\n上班的時候，公司還會出一半，\n失業後，全得自己付。",
+        "KakaoPay",
+        "KakaoPays"
+      ],
+      [
+        "round_exit",
+        "zh-TW",
+        "「我明天有事。」在第一攤的烤五花肉店就先離開了。\n\n組長說：「好，你先走。」看不出他臉上的意思。\n該怎麼理解這種微妙的氣氛，我還不知道。",
+        "第一",
+        "第二"
+      ],
+      [
+        "round_choice",
+        "zh-TW",
+        "只參加第一攤——早點離開",
+        "第一",
+        "第二"
+      ],
+      [
+        "round_plan",
+        "zh-TW",
+        "組長在KakaoTalk群組裡發了訊息。\n「今晚聚餐！請大家參加 :)」\n\n沒有問號。是請求，卻很難拒絕。\n先吃烤五花肉，第二攤唱歌，第三攤去韓國路邊攤。",
+        "第二",
+        "第三"
+      ],
+      [
+        "tax_approx",
+        "zh-TW",
+        "只交了基本資料。預計退稅金額：0韓元。\n\n後來才知道，當時要是有申報月租稅額抵減，就能拿回數十萬韓元。\n決定明年一定要好好處理。",
+        "數十萬",
+        "數百萬"
+      ],
+      [
+        "hometax",
+        "zh-TW",
+        "1月，公司通知繳交年末所得稅結算資料。\n國稅廳Hometax網站上，跳出一大堆扣除項目。\n\n醫療費、教育費、刷卡金額、月租……\n能拿回多少退稅，就看這些扣除額有沒有好好掌握。",
+        "Hometax",
+        "Hometaxes"
+      ],
+      [
+        "underground_pair",
+        "zh-TW",
+        "資訊的品質不同，動向也不同。\n在合法的邊界上，走得驚險。\n收益上升了，良心也下降了一點。\n兩者同時變動的生活開始了。",
+        "兩者",
+        "三者"
+      ],
+      [
+        "telegram",
+        "zh-TW",
+        "不知從何時起，開始有另一種人聯絡我。\n不在體制內，卻掌握著驚人資訊的人。\n\n「你是不照規矩走的那種人吧。\n我不討厭這樣。來參加一次我們的聚會吧。」\n\n一個Telegram頻道連結。\n進去一看——那是另一個層次的世界。",
+        "Telegram",
+        "Telegrams"
+      ],
+      [
+        "ipo_range",
+        "zh-TW",
+        "公司前輩透露了一個消息。\n「這次那家AI半導體相關企業的新股，機構投資人很捧場。\n聽說用均等配售去申購，漲停兩三次都是基本的。」\n\n申購保證金會被凍結，能不能獲配也得靠運氣，\n但看現在的市場氣氛，總覺得機會會來。\n關鍵在於，要投入什麼、投入多少。",
+        "兩三次",
+        "三四次"
+      ]
+    ]
+    equivalents = {
+        "subscriptions": (("合计", "总计"), ("合計", "總計")),
+        "fraction_buy": (("三分之一", "1/3"), ("三分之一", "1/3")),
+        "sector_percent": (("%。", "%. "), ("%。", "%. ")),
+        "daily_interest": (("决定不去算每天会产生多少利息", "决定不再计算每日的利息"), ("決定不去算每天會生出多少利息", "決定不再計算每日的利息")),
+        "zero_balance": (("账户归零了", "账户变成0了"), ("帳戶變成0", "帳戶歸零了")),
+        "overdraft": (("496万7800", "4,967,800"), ("496萬7,800", "4,967,800")),
+        "comments": (("几百条评论", "数百则评论"), ("數百則留言", "幾百條留言")),
+        "policy_three": (("三项消息同时公布", "这三件事同时发布了"), ("三件事同時公布", "這三項消息同時發布了")),
+        "rumor_views": (("浏览量超过了10万", "阅读量突破了100000次"), ("瀏覽次數超過10萬", "閱讀量突破了十萬次")),
+        "four_insurances": (("有四大社会保险", "享有四大社会保险"), ("適用四大社會保險", "享有四大社會保險")),
+        "kakaopay": (("KakaoPay通知", "KakaoPay发来的通知"), ("KakaoPay通知", "KakaoPay發來的通知")),
+        "round_exit": (("吃完第一场的烤五花肉，就离开了", "在第一场的烤五花肉店就先离开了"), ("在第一攤的烤五花肉店就先離開了", "吃完第一輪的烤五花肉，就離開了")),
+        "round_choice": (("只参加第一场——早点离开", "只到第一轮——早点走"), ("只參加第一攤——早點離開", "只到第一輪——早點走")),
+        "round_plan": (("先去烤五花肉店", "先吃烤五花肉"), ("先吃烤五花肉", "先去烤五花肉店")),
+        "tax_approx": (("后来才知道，光是申请", "后来才知道，当时只要申请"), ("後來才知道，當時要是有申報", "後來才知道，只要申報")),
+        "hometax": (("国税厅Hometax", "国税厅的Hometax"), ("國稅廳Hometax", "國稅廳的Hometax")),
+        "underground_pair": (("两者同时", "这两者同时"), ("兩者同時", "這兩者同時")),
+        "telegram": (("频道链接", "频道连结"), ("頻道連結", "頻道鏈接")),
+        "ipo_range": (("两三次", "2～3回"), ("兩三次", "2～3回")),
+    }
+    state_changes = {
+        "subscriptions": (("取消了", "没有取消"), ("取消了", "沒有取消")),
+        "fraction_buy": (("买入了", "打算买入"), ("買了", "打算買")),
+        "daily_interest": (("不去算", "已经算出"), ("不去算", "已經算出")),
+        "zero_balance": (("账户归零了", "别人的账户归零了"), ("帳戶變成0", "別人的帳戶變成0")),
+        "comments": (("几百条评论", "100条评论"), ("數百則留言", "100則留言")),
+        "policy_three": (("同时公布", "将同时公布"), ("同時公布", "將同時公布")),
+        "rumor_views": (("超过了", "未超过"), ("超過", "未超過")),
+        "four_insurances": (("有四大", "没有四大"), ("適用四大", "不適用四大")),
+        "kakaopay": (("已送达", "未送达"), ("已送達", "未送達")),
+        "round_exit": (("就离开了", "打算离开"), ("就先離開了", "打算離開")),
+        "round_choice": (("只参加", "已经参加了"), ("只參加", "已經參加了")),
+        "round_plan": (("第二场去KTV", "第二场已经去过KTV"), ("第二攤唱歌", "第二攤已經唱完歌")),
+        "tax_approx": (("就能退回", "已经退回"), ("就能拿回", "已經拿回")),
+        "hometax": (("国税厅", "银行"), ("國稅廳", "銀行")),
+        "underground_pair": (("良心也往下滑了", "良心也上升了"), ("良心也下降了", "良心也上升了")),
+        "telegram": (("来参加一次我们的聚会吧", "已经参加一次我们的聚会"), ("來參加一次我們的聚會吧", "已經參加一次我們的聚會")),
+        "ipo_range": (("涨停两三次", "已经涨停两三次"), ("漲停兩三次", "已經漲停兩三次")),
+    }
+
+    def check(kind: str, lang: str, source: str, target: str, expected: bool, label: str, *, axis: str = "all") -> None:
+        nonlocal cases
+        cases += 1
+        errors = (_numeric_errors(source, target) if axis == "numeric" else
+                  _untranslated_english_errors(source, target) if axis == "latin" else
+                  validate_text(lang, "events:investment-admin:" + kind, source, target))
+        if bool(errors) == expected:
+            failures.append(f"investment/admin {label} {kind}/{lang} expected {expected}: {errors}: {target!r}")
+
+    for kind, lang, target, old, new in actuals:
+        source = SOURCE_INVESTMENT_ADMIN[kind]
+        regional = int(lang == "zh-TW")
+        check(kind, lang, source, target, True, "actual")
+        before, after = equivalents[kind][regional]
+        assert before in target and before != after
+        natural = target.replace(before, after)
+        check(kind, lang, source, natural, True, "natural")
+        axis = "latin" if kind in {"kakaopay", "hometax", "telegram"} else "numeric"
+        check(kind, lang, source, target.replace(old, new, 1), False, "presealed-target", axis=axis)
+        # Source-OFF is a license observation, not a forced E2E claim.
+        altered_source = "별도의 상황이다. " + source
+        cases += 1
+        if _investment_admin_slots(altered_source, target) != ([], [], []) or _investment_admin_latin_errors(altered_source, target) != (target, []):
+            failures.append(f"investment/admin source-OFF failed: {kind}/{lang}")
+        if kind in state_changes:
+            before, after = state_changes[kind][regional]
+            assert before in target
+            check(kind, lang, source, target.replace(before, after, 1), False, "state/actor/unit", axis="numeric" if kind == "telegram" else axis)
+        # Each actual slot is independently challenged; correct later text may
+        # not launder an earlier wrong quantity in its same predicate line.
+        _, slots, _ = _investment_admin_slots(source, target)
+        for q in slots:
+            raw = target[q.start:q.end]
+            for replacement in ("−" + raw, raw + "公里", raw + raw):
+                changed = target[:q.start] + replacement + target[q.end:]
+                check(kind, lang, source, changed, False, "slot-sign/unit/duplicate", axis="numeric")
+            start, end = target.rfind("\n", 0, q.start) + 1, target.find("\n", q.end)
+            end = len(target) if end < 0 else end
+            line = target[start:end]
+            wrong = line[:q.start-start] + raw + "公里" + line[q.end-start:]
+            check(kind, lang, source, target[:start] + wrong + line + target[end:], False, "wrong-then-correct", axis="numeric")
+            check(kind, lang, source, target[:start] + line + line + target[end:], False, "same-line-duplicate", axis="numeric")
+        if kind in {"subscriptions", "overdraft"}:
+            for amount in _target_money_amounts(target):
+                for suffix in ("%", "公斤", "/月", "/小时"):
+                    check(kind, lang, source, target[:amount.end] + suffix + target[amount.end:], False, "won-postfix", axis="numeric")
+        if kind in {"kakaopay", "hometax", "telegram"}:
+            brand = {"kakaopay": "KakaoPay", "hometax": "Hometax", "telegram": "Telegram"}[kind]
+            for replacement in (brand + brand, "a" + brand, brand + "é", brand + "\u0301", brand + "_x"):
+                check(kind, lang, source, target.replace(brand, replacement, 1), False, "brand-count-boundary", axis="latin")
+            check(kind, lang, altered_source, target, False, "source-off-brand-E2E", axis="latin")
+        if kind == "tax_approx":
+            fragment = "几十万韩元" if regional == 0 else "數十萬韓元"
+            for replacement in ("10万韩元", "几百万韩元", "−" + fragment, fragment + "/月", fragment + fragment):
+                check(kind, lang, source, target.replace(fragment, replacement), False, "refund-magnitude-unit", axis="numeric")
+        if kind == "sector_percent":
+            for replacement in ("3.2%", "-3.3%", "-3.2%/月"):
+                check(kind, lang, source, target.replace("-3.2%", replacement, 1), False, "sector-number", axis="numeric")
+        for before, after in {
+            "subscriptions": (("두 개", "세 개"), ("4만 8천원", "4만 9천원")),
+            "fraction_buy": (("3분의 1", "4분의 1"),),
+            "rumor_views": (("10만", "11만원"),),
+            "four_insurances": (("4대보험", "5대보험"),),
+            "overdraft": (("496만 7천800원", "496만 7천801원"),),
+            "tax_approx": (("수십만 원", "수백만 원"),),
+        }.get(kind, ()):
+            changed_source = source.replace(before, after, 1)
+            cases += 1
+            if _investment_admin_slots(changed_source, target) != ([], [], []):
+                failures.append(f"investment/admin source quantity license stays ON {kind}")
+            check(kind, lang, changed_source, target, False, "source-quantity-E2E", axis="numeric")
+        if kind == "policy_three":
+            # Existing generic 가지 parsing does not count this altered source.
+            # Record OFF honestly; it is not an end-to-end rejection proof.
+            cases += 1
+            if _investment_admin_slots(source.replace("세 가지", "네 가지"), target) != ([], [], []):
+                failures.append("investment/admin changed policy count licence remains ON")
+    return cases, failures
+
+
+def _investment_admin_natural_self_test() -> tuple[int, list[str]]:
+    """Post-disclosure grammar regressions; not independent-review evidence."""
+    cases, failures = 0, []
+    revealed = [
+      [
+        "rumor_views",
+        "zh-CN",
+        "房地产社区议论纷纷。一篇来路不明的帖子写着——“下个月肯定收紧贷款限制”。\n阅读量已经突破十万。\n\n正式的限制措施还没公布，就有人提前行动了。\n{name}持有的部分资产与房地产有关。\n是相信传闻采取行动，还是等到官方发布？",
+        "房地产社区议论纷纷。一篇来路不明的帖子写着——“下个月肯定收紧贷款限制”。\n评论量已经突破十万。\n\n正式的限制措施还没公布，就有人提前行动了。\n{name}持有的部分资产与房地产有关。\n是相信传闻采取行动，还是等到官方发布？"
+      ],
+      [
+        "comments",
+        "zh-CN",
+        "理财社区里有人贴出了美国大盘股ETF的长期收益率走势图。\n二十年收益率600%，评论已有好几百条。\n\n“我也该早点开始的。”{name}手里却还什么都没有。\n看着这些晒出来的截图，想要开始做点什么的冲动涌了上来。\n是现在就开始分散投资，还是再多学一些？",
+        "理财社区里有人贴出了美国大盘股ETF的长期收益率走势图。\n二十年收益率600%，评论已有好几千条。\n\n“我也该早点开始的。”{name}手里却还什么都没有。\n看着这些晒出来的截图，想要开始做点什么的冲动涌了上来。\n是现在就开始分散投资，还是再多学一些？"
+      ],
+      [
+        "round_plan",
+        "zh-TW",
+        "組長在KakaoTalk群組裡傳了訊息。\n「今晚公司聚餐！請大家都來參加 :)」\n\n句尾沒有問號。雖然是請求，卻很難拒絕。\n地點是烤五花肉店，接著到KTV續第二攤，第三攤去韓國路邊攤。",
+        "組長在KakaoTalk群組裡傳了訊息。\n「今晚公司聚餐！請大家都來參加 :)」\n\n句尾沒有問號。雖然是請求，卻很難拒絕。\n地點是烤五花肉店，隔了兩天再到KTV，第三攤去韓國路邊攤。"
+      ],
+      [
+        "daily_interest",
+        "zh-TW",
+        "進到通知設定。\n把通知關了。\n決定不去計算一天會產生多少利息。",
+        "進到通知設定。\n把通知關了。\n決定不去計算一個月會產生多少利息。"
+      ],
+      [
+        "tax_approx",
+        "zh-CN",
+        "只交了基本资料。预计退税额：0韩元。\n\n后来才知道，哪怕当时只是办好月租税额抵扣，也能退回几十万韩元。\n下定决心，明年一定要认真办好。",
+        "只交了基本资料。预计退税额：0韩元。\n\n后来才知道，哪怕当时只是办好月租税额抵扣，也能退回几十亿韩元。\n下定决心，明年一定要认真办好。"
+      ],
+      [
+        "kakaopay",
+        "zh-TW",
+        "KakaoPay傳來通知：健康保險費繳費單到了。\n我是地區投保人。明明沒有收入，每個月卻照樣得繳。\n\n還在上班時，公司會負擔一半，\n失業後就得全部自己付。",
+        "KakaoPayScam傳來通知：健康保險費繳費單到了。\n我是地區投保人。明明沒有收入，每個月卻照樣得繳。\n\n還在上班時，公司會負擔一半，\n失業後就得全部自己付。"
+      ],
+      [
+        "fraction_buy",
+        "zh-CN",
+        "先买了三分之一。\n第二天又跌了2%。\n再买入三分之一。这就是分批买入的意义。",
+        "先买了三分之二。\n第二天又跌了2%。\n再买入三分之一。这就是分批买入的意义。"
+      ],
+      [
+        "ipo_range",
+        "zh-CN",
+        "职场前辈悄悄捎来一个消息。\n“这次跟AI半导体有关的企业要发行新股，机构都在大力支持。\n听说按均等配售参与，连涨停两三次都是起码的。”\n\n申购保证金会被占用，能不能获配要看运气，\n但在眼下这样的市场气氛里，总觉得有机会。\n关键是投什么，投多少。",
+        "职场前辈悄悄捎来一个消息。\n“这次跟AI半导体有关的企业要发行新股，机构都在大力支持。\n听说按均等配售参与，连涨停三四次都是起码的。”\n\n申购保证金会被占用，能不能获配要看运气，\n但在眼下这样的市场气氛里，总觉得有机会。\n关键是投什么，投多少。"
+      ]
+    ]
+    for kind, lang, normal, bad in revealed:
+        source = SOURCE_INVESTMENT_ADMIN[kind]
+        axis = _untranslated_english_errors if kind == "kakaopay" else _numeric_errors
+        variants = [(normal, True, "disclosed-normal"), (bad, False, "disclosed-mutation")]
+        nl, bl = normal.split("\n"), bad.split("\n")
+        line = next(i for i, pair in enumerate(zip(nl, bl)) if pair[0] != pair[1])
+        changed = nl.copy()
+        changed[line] = bl[line] + nl[line]
+        variants.append(("\n".join(changed), False, "wrong-then-normal"))
+        changed[line] = nl[line] + nl[line]
+        variants.append(("\n".join(changed), False, "same-line-duplicate"))
+        for quantity in _investment_admin_slots(source, normal)[1]:
+            value = normal[quantity.start:quantity.end]
+            for replacement in ("−" + value, value + "公里"):
+                variants.append((normal[:quantity.start] + replacement + normal[quantity.end:], False, "slot-sign-unit"))
+        if kind == "comments":
+            negative = normal.replace("评论已有", "评论没有")
+            variants.append((negative, False, "comment-negative"))
+            changed = nl.copy()
+            changed[line] = negative.split("\n")[line] + nl[line]
+            variants.append(("\n".join(changed), False, "negative-then-normal"))
+        if kind == "kakaopay":
+            variants.append((normal.replace("到了", "還沒到"), False, "bill-not-arrived"))
+        if kind == "tax_approx":
+            variants.append((normal.replace("也能退回", "已经退回"), False, "counterfactual-to-actual"))
+        for target, expected, label in variants:
+            cases += 1
+            errors = validate_text(lang, "events:investment-admin:" + kind, source, target) if expected else axis(source, target)
+            if bool(errors) == expected:
+                failures.append(f"investment/admin B2 {kind}/{label} expected {expected}: {errors}: {target!r}")
+        cases += 1
+        changed_source = "별도의 상황이다. " + source
+        if _investment_admin_slots(changed_source, normal) != ([], [], []) or _investment_admin_latin_errors(changed_source, normal) != (normal, []):
+            failures.append(f"investment/admin B2 source-OFF failed {kind}")
+    return cases, failures
+
+
 def run_self_test(
     manifest: dict[str, Any], runtime: dict[str, Any],
 ) -> list[str]:
     failures: list[str] = []
     cases, life_failures = _life_scene_parser_self_test()
     failures.extend(life_failures)
+    investment_admin_cases, investment_admin_failures = _investment_admin_parser_self_test()
+    cases += investment_admin_cases
+    failures.extend(investment_admin_failures)
+    investment_admin_natural_cases, investment_admin_natural_failures = _investment_admin_natural_self_test()
+    cases += investment_admin_natural_cases
+    failures.extend(investment_admin_natural_failures)
     investment_work_cases, investment_work_failures = _investment_work_source_all_self_test()
     cases += investment_work_cases
     failures.extend(investment_work_failures)

@@ -535,6 +535,174 @@ def _ja_investment_life_numbers(source: str, target: str):
         normalized_target = normalized_target[:start] + replacement + normalized_target[end:]
     return normalized_source, normalized_target, errors
 
+
+SECTOR_LITERAL_PERCENT_SOURCE = "전세 사기 피해자 300명 뉴스가 터졌다.\n\n부동산 관련 종목들이 장 시작부터 빠지고 있었다.\n건설사 -3.2%. REITs -4.1%. 부동산 플랫폼 -2.8%.\n\n{name}은 포트폴리오를 봤다.\n공포가 가격을 만들 때, 지금이 기회인가 아직 바닥이 아닌가."
+
+def _sector_literal_percent_pair(source: str, target: str):
+    """Only this prose quote has a percent/full-stop/REIT, not printf %. R."""
+    if source != SECTOR_LITERAL_PERCENT_SOURCE:
+        return None
+    # Mask only the literal percent sign at a number's end. Actual %s, width
+    # syntax, brace tokens and other printf sequences still reach the validators.
+    literal = re.compile(r"(?<=[0-9])%(?=[.。]\s*REITs?\b)")
+    return literal.sub("％", source), literal.sub("％", target)
+
+
+def _sector_percentage_errors(source: str, target: str) -> list[str]:
+    """Do not let the literal-percent token repair hide changed rate slots."""
+    if source != SECTOR_LITERAL_PERCENT_SOURCE:
+        return []
+    percentage = re.compile(
+        r"(?<![0-9０-９.+＋\-－−])[+-]?[0-9]+(?:\.[0-9]+)?[%％]"
+        r"(?![%％‰‱]|\s*(?:[/／]|ウォン|ドル|円|ユーロ|韓元|韩元|元|倍))"
+    )
+    def rates(value):
+        return [(value.count("\n", 0, match.start()), match.group().replace("％", "%"))
+                for match in percentage.finditer(value)]
+    if rates(source) != rates(target):
+        return ["source-bound sector percentage value/sign/unit/line/order mismatch"]
+    return []
+
+
+def _ja_market_admin_numbers(source: str, target: str):
+    """Complete-source licences for observed money, native counts and units.
+
+    Each quantity is attached to its owner/action and original line. Only the
+    numeric span is canonicalized; all other numbers remain in the final stream.
+    Shared won parsing is consumed on the ORIGINAL source, before any rewrite.
+    """
+    contracts = {
+        "구독 서비스 두 개를 해지했다.\n합산 4만 8천원.\n월세 인상분을 다른 곳에서 메꿨다.": {"rewrites":[["두 개","2 개"]],"slots":[[0,"^(?:(?:利用|使用|契約)していた|使っていた|不要な)?(?:サブスク|サブスクリプション|定額サービス)(?:を)?@N@(?:つ|件|個)(?:を)?解約した。$",2,"","cancelled subscriptions"],[1,"^(?:合計|合算|合わせて)@N@ウォン。$","money","","combined subscriptions cost"]],"units":"(?:つ|件|個|ウォン|ドル|円|ユーロ)","money":True},
+        "오전 8시 41분.\n은행 앱 알림이 울렸다.\n\n'잔액이 마이너스입니다. 마이너스 통장 이자가 적용됩니다.'\n\n숫자: -34,200원.\n마이너스 통장 한도 잔액: 496만 7천800원.\n\n{name}은 앱을 닫았다가 다시 열었다.\n숫자는 그대로였다.": {"rewrites":[],"slots":[[5,"^(?:表示された)?(?:数字|金額|残高)(?:は|[：:])@N@ウォン。$","money","","negative account balance"],[6,"^(?:当座貸越|マイナス通帳)の(?:利用可能残額|利用可能な残額|残りの利用可能額|残り利用可能額)(?:は|[：:])@N@ウォン。$","money","","available overdraft balance"]],"units":"(?:ウォン|ドル|円|ユーロ)","money":True},
+        "편의점 알바 공고. 시급 10,320원.\n최저임금이다. 4대보험 적용, 주휴수당 포함 시 실질 시급은 조금 더 높다.\n\n편의점 점장이 이력서를 훑어봤다.\n\"지금 다른 알바 하고 있어요?\" 첫 질문이었다.": {"rewrites":[],"slots":[[1,"^(?:最低賃金だ。)?(?:韓国の)?@N@大(?:社会)?保険(?:が|の)適用(?:され|あり)、",4,"","Korean statutory insurance schemes"]],"units":"(?:大(?:社会)?保険|年間の社会保険)","money":False},
+        "팀장이 단체 카톡을 보냈다.\n\"오늘 저녁 회식! 다들 참석 부탁드립니다 :)\"\n\n물음표가 없다. 요청이지만 거절이 어렵다.\n삼겹살집, 2차는 노래방, 3차는 포장마차.": {"rewrites":[],"slots":[[4,"^サムギョプサル(?:の店)?、(?:第)?@N@次会はカラオケ、",2,"","second karaoke round"],[4,"、(?:第)?@N@次会はポジャンマチャ。$",3,"","third street-stall round"]],"units":"(?:次会|軒目|時間)","money":False},
+        "1차까지만 — 일찍 빠진다": {"rewrites":[],"slots":[[0,"^@N@(?:次会|軒目)(?:だけ|まで)[—―－ー–-]+(?:早めに|早く)(?:抜ける|帰る|切り上げる)$",1,"","first-round departure choice"]],"units":"(?:次会|軒目|時間)","money":False},
+        "\"내일 일이 있어서요.\" 1차 삼겹살에서 나왔다.\n\n팀장이 \"그래, 먼저 가.\" 했다. 표정은 읽기 어려웠다.\n이 눈치를 어떻게 받아들일지는, 아직 모르겠다.": {"rewrites":[],"slots":[[0,"^[「『][^「」『』\\n]*[」』](?:第)?@N@次会のサムギョプサル(?:で(?:切り上げた|帰った)|の店を出た)。$",1,"","completed first-round departure"]],"units":"(?:次会|軒目|日目|時間)","money":False},
+        "다운로드 창을 닫고 단톡방 알림도 껐다.\n새벽 두 시, 손은 다시 화면을 찾았지만 앱은 없었다.": {"rewrites":[["새벽 두 시","새벽2시"]],"slots":[[1,"^(?:午前|深夜|夜中の)@N@時[、，,](?:手は)?(?:また|再び)画面(?:を(?:求めた|探した|探った)|に(?:伸びた|伸ばした))が、?アプリは(?:なかった|消えていた|入っていなかった)。$",2,"","late-night absent app"]],"units":"(?:時(?:間)?|日|分|秒)","money":False},
+        "화면을 닫았다.\n두 시간 후에 다시 열었다.\n시장은 위아래로 흔들렸다가 제자리였다.": {"rewrites":[["두 시간","2 시간"]],"slots":[[1,"^@N@時間(?:後(?:に)?|経ってから)[、，,]?(?:画面を)?(?:また|再び|もう一度)(?:画面を)?開いた。$",2,"","completed screen reopening after hours"]],"units":"(?:時間|日|時|分|秒)","money":False},
+        "직장 선배에게서 귀띔이 왔다.\n\"이번 AI 반도체 관련 기업 공모주, 기관들이 엄청 밀고 있어.\n균등배정으로 들어가면 상한가 두세 번은 기본이래.\"\n\n청약 증거금이 묶이고, 배정 여부는 운이지만,\n지금 이 시장 분위기라면 올 것 같다는 느낌이 든다.\n뭘 얼마나 넣을지가 관건이다.": {"rewrites":[["두세 번","2~3 번"]],"slots":[[2,"^(?:均等配分|均等割当)で(?:申し込めば|入れば)、?(?:ストップ高(?:は|が)?)?@N@(?:回|度)?[、，,〜～~・-](?=[0-9０-９〇零一二三四五六七八九十百千万億])",2,"","quoted limit-up range lower"],[2,"[、，,〜～~・-]@N@(?:回|度)(?:のストップ高)?(?:は)?(?:堅い|基本|当たり前|普通)(?:だ)?(?:らしい|そうだ)(?:よ)?[」』]$",3,"","quoted limit-up range upper"]],"units":"(?:回|度|年|倍)","money":False},
+        "뉴스를 켰다.\n\n'강남 아파트 평균 25억 돌파'\n\n25억.\n지금 {name}의 통장 잔고의 몇 배인지 계산이 안 됐다.\n\n그런데 저 아파트에 사는 사람들은 어떻게 산 걸까.": {"rewrites":[["25억","2500000000원"],["25억","2500000000원"]],"slots":[[2,"^[「『]カンナムのマンション(?:[、，,](?:平均|平均価格(?:が|は)?)|(?:の)?平均価格[、，,はが])@N@ウォン(?:を)?(?:突破|超えた)[」』]$",2500000000,"","quoted average apartment price"],[4,"^@N@(?:ウォン)?。$",2500000000,"implicit_won","repeated apartment price"]],"units":"(?:ウォン|ドル|円|ユーロ|億|万)","money":False},
+        "3분의 1을 샀다.\n다음날 2% 더 빠졌다.\n추가로 3분의 1을 더 샀다. 분할의 이유였다.": {"rewrites":[],"money":False,"units":"(?:分|[/／]|[%％]|パーセント)","slots":[[0,"^(?:まず|先に)?@F@を(?:買った|買い付けた|購入した)。",[3,1],"fraction","first completed purchase fraction"],[1,"^(?:翌日|次の日)(?:、(?:そこから)?)?(?:さらに|また)?@N@[%％](?:さらに)?(?:下がった|下落した|落ちた)。$",2,"","next-day additional decline"],[2,"^(?:追加(?:で|に)(?:もう)?|もう|さらに)(?:、)?@F@を(?:さらに|もう)?(?:買った|買い足した|買い増した|買い付けた|購入した)。",[3,1],"fraction","additional completed purchase fraction"]]},
+        "공포에 살 수 있었다.\n2개월 뒤 시장은 50% 반등했고, 그 포지션은 두 배가 됐다.": {"rewrites":[["두 배","2 배"]],"money":False,"units":"(?:か月|ヶ月|カ月|箇月|日|年|倍|[%％])","slots":[[1,"^@N@(?:か月|ヶ月|カ月|箇月)後[、，,]",2,"","market rebound elapsed months"],[1,"市場(?:は|が)@N@[%％](?:反発|反騰|回復|上昇)し[、，,]",50,"","market rebound rate"],[1,"(?:その|あの)ポジション(?:の価値)?(?:は|が)@N@倍(?:になった|に増えた|となった)。$",2,"","realized position factor"]]},
+    }
+    contract = contracts.get(source)
+    if contract is None:
+        return None
+    import unicodedata
+
+    def integer(raw):
+        raw = unicodedata.normalize("NFKC", raw).replace("−", "-")
+        if not raw:
+            return None
+        sign = -1 if raw.startswith("-") else 1
+        if raw.startswith(("+", "-")):
+            raw = raw[1:]
+        if not raw or ("," in raw and not re.fullmatch(
+            r"(?:(?:[1-9][0-9]{0,2}(?:,[0-9]{3})+|[0-9]+)[億万千百十]?)+", raw,
+        )):
+            return None
+        raw = raw.replace(",", "")
+        digits = dict(zip("〇零一二三四五六七八九", (0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9)))
+        total, section, pending = 0, 0, ""
+        for char in raw:
+            if char.isascii() and char.isdigit():
+                pending += char
+            elif char in digits:
+                pending += str(digits[char])
+            elif char in "十百千":
+                section += (int(pending) if pending else 1) * {"十": 10, "百": 100, "千": 1000}[char]
+                pending = ""
+            elif char in "万億":
+                section += int(pending) if pending else 0
+                total += (section or 1) * {"万": 10000, "億": 100000000}[char]
+                section, pending = 0, ""
+            else:
+                return None
+        return sign * (total + section + (int(pending) if pending else 0))
+
+    numeral = r"[+＋\-－−]?[0-9０-９〇零一二三四五六七八九十百千万億,，]+"
+    group = "(?P<number>" + numeral + ")"
+    fraction_group = ("(?P<fraction>(?:(?P<den>" + numeral + ")分の(?P<num>" + numeral + ")|"
+                      "(?P<slash_num>" + numeral + ")[/／](?P<slash_den>" + numeral + ")))" )
+    lines = target.split("\n")
+    errors, replacements, owned, source_replacements = [], [], [], []
+    money_by_line = {}
+    if contract["money"]:
+        from zh_translation_audit import _source_money_amounts
+        for amount in _source_money_amounts(source):
+            line = source.count("\n", 0, amount.start)
+            money_by_line.setdefault(line, []).append(amount)
+        for line, _, value, _, label in contract["slots"]:
+            if value != "money":
+                continue
+            amounts = money_by_line.get(line, [])
+            if len(amounts) != 1:
+                errors.append(f"source-bound market/admin {label} shared source amount mismatch")
+                continue
+            amount = amounts[0]
+            source_replacements.append((amount.start, amount.end, format(amount.won, "f") + "원"))
+
+    for line, pattern, expected, mode, label in contract["slots"]:
+        pattern = pattern.replace("@N@", group).replace("@F@", fraction_group)
+        matches = list(re.finditer(pattern, lines[line])) if line < len(lines) else []
+        if len(matches) != 1:
+            errors.append(f"source-bound market/admin {label} role/state/unit/position mismatch")
+            continue
+        match = matches[0]
+        if mode == "fraction":
+            # Denominator/numerator belong to one completed purchase, never a
+            # duration. Slash typography has the inverse written order; retain
+            # both values in source order rather than deleting either numeral.
+            den, num = ((match.group("den"), match.group("num")) if match.group("den") is not None
+                        else (match.group("slash_den"), match.group("slash_num")))
+            if [integer(den), integer(num)] != expected or any(
+                unicodedata.normalize("NFKC", raw).startswith(("+", "-", "−")) for raw in (den, num)
+            ):
+                errors.append(f"source-bound market/admin {label} value/sign mismatch")
+            offset = sum(len(part) + 1 for part in lines[:line])
+            start, end = (offset + point for point in match.span("fraction"))
+            owned.append((start, end))
+            replacements.append((start, end, f"{expected[0]}分の{expected[1]}"))
+            continue
+        if expected == "money":
+            amounts = money_by_line.get(line, [])
+            if len(amounts) != 1:
+                continue
+            expected = amounts[0].won
+        raw = match.group("number")
+        value = integer(raw)
+        canonical_raw = unicodedata.normalize("NFKC", raw).replace("−", "-")
+        if value != expected or canonical_raw.startswith("+") or (
+            expected >= 0 and canonical_raw.startswith("-")
+        ):
+            errors.append(f"source-bound market/admin {label} value/sign mismatch")
+        offset = sum(len(part) + 1 for part in lines[:line])
+        start, end = (offset + index for index in match.span("number"))
+        owned.append((start, end))
+        if mode == "implicit_won":
+            end = offset + match.end() - 1  # preserve the final full stop
+            replacement = str(expected) + "ウォン"
+        else:
+            replacement = str(expected)
+        replacements.append((start, end, replacement))
+
+    # A second correct witness cannot excuse an extra, wrong, signed, displaced
+    # or differently owned native quantity elsewhere in the same source leaf.
+    for quantity in re.finditer("(?P<number>" + numeral + r")\s*(?:" + contract["units"] + ")", target):
+        start, end = quantity.span("number")
+        if not any(a <= start and end <= b for a, b in owned):
+            errors.append("source-bound market/admin added/displaced quantity mismatch")
+    normalized_source = source
+    for start, end, replacement in sorted(source_replacements, reverse=True):
+        normalized_source = normalized_source[:start] + replacement + normalized_source[end:]
+    for old, new in contract["rewrites"]:
+        normalized_source = normalized_source.replace(old, new, 1)
+    normalized_target = target
+    for start, end, replacement in sorted(replacements, reverse=True):
+        normalized_target = normalized_target[:start] + replacement + normalized_target[end:]
+    return normalized_source, normalized_target, errors
+
+
 def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
     import ja_translation_pipeline as ja
     if leaf.group == "endings" and leaf.path == ("condition",):
@@ -543,9 +711,11 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
         return ["unsupported locale"]
     if not isinstance(text, str) or not text.strip():
         return ["blank/non-string translation"]
+    literal_pair = None if leaf.format_template else _sector_literal_percent_pair(leaf.source, text)
+    placeholder_source, placeholder_target = literal_pair or (leaf.source, text)
     if locale == "ja":
-        errors = ja.validate_translation(ja.Entry(leaf.id, leaf.source, leaf.owner,
-                                                 format_template=leaf.format_template), text)
+        errors = ja.validate_translation(ja.Entry(leaf.id, placeholder_source, leaf.owner,
+                                                 format_template=leaf.format_template), placeholder_target)
         # Exact catalogue names may legitimately be all Latin. This does not
         # excuse English descriptions or partial brand-only translations.
         if leaf.group == "catalog":
@@ -556,8 +726,14 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
             errors.append("newline mismatch")
         # Explicit Arabic digits remain exact; written counters are a reviewer gate.
         numeric = re.compile(r"(?<![\d.])[+-]?\d+(?:[,.]\d+)*")
-        source_numbers = ja.PLACEHOLDER.sub("", leaf.source)
-        target_numbers = ja.PLACEHOLDER.sub("", text)
+        source_numbers = ja.PLACEHOLDER.sub("", placeholder_source)
+        target_numbers = ja.PLACEHOLDER.sub("", placeholder_target)
+        market_admin = _ja_market_admin_numbers(leaf.source, text)
+        if market_admin is not None:
+            source_numbers, target_numbers, quantity_errors = market_admin
+            source_numbers = ja.PLACEHOLDER.sub("", source_numbers)
+            target_numbers = ja.PLACEHOLDER.sub("", target_numbers)
+            errors.extend(quantity_errors)
         investment_life = _ja_investment_life_numbers(leaf.source, text)
         if investment_life is not None:
             source_numbers, target_numbers, quantity_errors = investment_life
@@ -1103,6 +1279,8 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
             errors.append("mixed Korean-won ordered numeric ownership mismatch")
         if investment_life is not None and numeric.findall(source_numbers) != numeric.findall(target_numbers):
             errors.append("source-bound investment/life ordered numeric ownership mismatch")
+        if market_admin is not None and numeric.findall(source_numbers) != numeric.findall(target_numbers):
+            errors.append("source-bound market/admin ordered numeric ownership mismatch")
         if native_time_bound and numeric.findall(source_numbers) != numeric.findall(target_numbers):
             errors.append("native time ordered numeric ownership mismatch")
     else:
@@ -1119,10 +1297,11 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
             or text.count("[[c5read:") != len(target_slots):
         errors.append("Chapter 5 inline slot token/order/count mismatch")
     if not leaf.format_template:
-        source_printf = [t for t in ja.PLACEHOLDER.findall(leaf.source) if t.startswith("%")]
-        target_printf = [t for t in ja.PLACEHOLDER.findall(text) if t.startswith("%")]
+        source_printf = [t for t in ja.PLACEHOLDER.findall(placeholder_source) if t.startswith("%")]
+        target_printf = [t for t in ja.PLACEHOLDER.findall(placeholder_target) if t.startswith("%")]
         if source_printf != target_printf:
             errors.append("printf token order mismatch")
+        errors.extend(_sector_percentage_errors(leaf.source, text))
     return sorted(set(errors))
 
 
