@@ -40,8 +40,8 @@
   마지막 해40사건358·종막15사건197과 관계25사건164에 결혼·가족34사건206
   leaf/locale와 데이트·계절36사건209, 가족·직장·친구50사건380 및 남은 관계15종94
   leaf/locale, 생활·월세·첫 월급25종185 leaf/locale와
-  주거·건강25종176 leaf/locale와 직장·구직25종194 leaf/locale와 생활비25종186 leaf/locale와 가족25종172 leaf/locale와 생활 전환25종178 leaf/locale와 생활·숨은 사건25종198 leaf/locale와 회상·첫 생활25종158 leaf/locale와 후반 이정표·갈림길25종189 leaf/locale와 창업·크리에이터·회복20종146 leaf/locale와 가족·일상15종104 leaf/locale와 소비·독립 생활15종104 leaf/locale와 관계·투자 후속33종200 leaf/locale와 마지막 질주·선택의 대가36종214 leaf/locale와 투자·인연 후속32종194 leaf/locale와 판단의 비용·작은 회신25종148 leaf/locale와 관계의 다음 말·책임20종120 leaf/locale와 투자·사람 후속32종192 leaf/locale와 가족·회복·관계40종238 leaf/locale와 절제·신뢰·생활43종254 leaf/locale와 거절·재기·연락45종268 leaf/locale와 일·신뢰·되돌림43종258 leaf/locale와 생활 인연·마지막 전략19종114 leaf/locale와 어머니·일·살림20종116 leaf/locale와 친구·직장·살림17종92 leaf/locale와 아버지·관계·목표15종90 leaf/locale와 현수·가족·건강·목표41종246 leaf/locale와 직장·투자·이별40종240 leaf/locale와 소비·습관·도박·인연42종252 leaf/locale와 비교·돌봄·관계·재기40종240 leaf/locale와 도움·경계·가족·인맥16종96 leaf/locale와 투자·직장·불안·자기기준40종274 leaf/locale와 투자 연쇄·한국 생활38종276 leaf/locale와 계절·동네·취미39종242 leaf/locale와 도시 휴식·도박·우정39종238 leaf/locale와 카페·만남·SNS37종220 leaf/locale와 나비효과·친절의 연쇄24종144 leaf/locale까지 총32,484번역이다
-  (언어별 엔딩234+사건9,760+catalog834). catalog 신규 작성2,485·
+  주거·건강25종176 leaf/locale와 직장·구직25종194 leaf/locale와 생활비25종186 leaf/locale와 가족25종172 leaf/locale와 생활 전환25종178 leaf/locale와 생활·숨은 사건25종198 leaf/locale와 회상·첫 생활25종158 leaf/locale와 후반 이정표·갈림길25종189 leaf/locale와 창업·크리에이터·회복20종146 leaf/locale와 가족·일상15종104 leaf/locale와 소비·독립 생활15종104 leaf/locale와 관계·투자 후속33종200 leaf/locale와 마지막 질주·선택의 대가36종214 leaf/locale와 투자·인연 후속32종194 leaf/locale와 판단의 비용·작은 회신25종148 leaf/locale와 관계의 다음 말·책임20종120 leaf/locale와 투자·사람 후속32종192 leaf/locale와 가족·회복·관계40종238 leaf/locale와 절제·신뢰·생활43종254 leaf/locale와 거절·재기·연락45종268 leaf/locale와 일·신뢰·되돌림43종258 leaf/locale와 생활 인연·마지막 전략19종114 leaf/locale와 어머니·일·살림20종116 leaf/locale와 친구·직장·살림17종92 leaf/locale와 아버지·관계·목표15종90 leaf/locale와 현수·가족·건강·목표41종246 leaf/locale와 직장·투자·이별40종240 leaf/locale와 소비·습관·도박·인연42종252 leaf/locale와 비교·돌봄·관계·재기40종240 leaf/locale와 도움·경계·가족·인맥16종96 leaf/locale와 투자·직장·불안·자기기준40종274 leaf/locale와 투자 연쇄·한국 생활38종276 leaf/locale와 계절·동네·취미39종242 leaf/locale와 도시 휴식·도박·우정39종238 leaf/locale와 카페·만남·SNS37종220 leaf/locale와 나비효과·친절의 연쇄24종144 leaf/locale와 생활 선택·부채·직장24종169 leaf/locale까지 총32,991번역이다
+  (언어별 엔딩234+사건9,929+catalog834). catalog 신규 작성2,485·
   기존 JA 누락 수리1·기존 유지16을 구분한다. 엔딩35종과 catalog7섹션은 채웠지만
   사건·UI·표시 소비자는 아직 남는다. M07~M24 정적 연결은 해당 기간 모든 무작위
   사건·UI나 실플레이 전량의 번역 완료를 뜻하지 않는다. 원어민·화면·전체판은 OPEN.
@@ -476,3 +476,14 @@ SNS 수익 보장은 인물의 주장이며 배달 사고는 미발생 가정으
 완료212 뒤 실제 shipping 비보호 미작성은250종1,818문구/locale다.
 별도 author_only105종741문구와 공개 보호2문구를 이 분모에 섞지 않는다.
 UI·표시 소비자·원어민·화면·전체판 판정은 여전히 OPEN이다.
+
+## 생활 선택·부채·직장 후속의 원문 확인점
+
+생활24종169문구씩을 더해 수용32,991(각10,997), 사건1,468종9,929문구/locale다.
+현재 shipping 비보호 미작성은226종1,649문구/locale이며 author_only105종741,
+공개 보호2문구와 UI·표시 소비자는 별도다. 텍스트 수용으로 전체 플레이를 완료했다고 쓰지 않는다.
+전세보험 경계와 부모6년 상환 회고, 전화 중 태호 얼굴 묘사,300만원 카드빚/150만원 효과,
+보증 도움 제안과-30만원 효과 등 원문 부채는 번역에서 새 행동이나 정답으로 봉합하지 않았다.
+[전수 대조·수용 근거](../queue_archive/ORDER-214_L1_L2_RESULTS.md)에 현재 범위와 한계를 남긴다.
+다음 권고는 callback/shadow18종114문구/언어다. 보증·전세·건강·거짓말의 회수와
+미응답 창업 제안의 실제 사실 경계를 함께 읽고 별도 선언 후 진행한다. 아직 수용 수에 넣지 않는다.

@@ -113,7 +113,7 @@ source 후보는 판정 원장 값이 아니라 실제 Git 이력에서 관측�
 다른 metadata·코드·원문·미추적 파일이 하나라도 섞이면 이 예외를 적용하지 않는다.
 
 원장의 구조 통과는 품질 GO가 아니다. 독립 검수가 없거나 결함이 남으면 HOLD 또는
-REWORK다. 판정 기록이 비어 있는 현재 제품은 HOLD이며, 위임 자체로 GO가 되지 않는다.
+REWORK다. 해당 후보·범위의 판정 기록이 없으면 HOLD이며, 위임 자체로 GO가 되지 않는다.
 source와 package 판정도 서로 대신하지 않는다. package manifest는 실제 증거 파일의
 SHA와 같아야 한다. 이 원장은 인간 증거를 발급하지 않으므로 `unobserved`에는
 `native_reader`, `human_playtest`, `physical_controller_feel`을 계속 남긴다.

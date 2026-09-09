@@ -37,12 +37,18 @@ b8490b92147e41f3d3b9651d7af904658e95acc1159f402be9877cbca6252136이다.
 - ScreenshotQA.gd: 155870fb95722cbd1ca8ac01c5a4df414567a5190f48395f7dbe078c5e9b4b19
 - wrapper: ede5607f0413a32d1983e5a54f2731e7e73e6a5c58999136b75fbed4fd0a56bc
 
-## 경계와 남은 마감
+## 명시 차선 마감
+
+제품 ed8067c에서 core-loop-v2-modal-priority를 --list로 확인한 뒤6개 전부 통과했다.
+두 raw 입력 component, queue25/fence4, scope140, context 및 queue 계약을 포함한다.
+`.git/full-game-localization/order215-final-named-lane.json`에 실제 출력과 범위를 보존했다.
+이후215 제품3파일을 바꾸지 않았다. 다른 오더의 검사를 여기 합산하지 않는다.
+
+## 경계
 
 초기 자체 fixture의 잘못된 tendency_score 속성과 JSON 주차 비교 실패는
 수리 전 실패로 보존했다. 성공 marker만으로 앞선 실패를 지우지 않았다.
-shell syntax·context·queue·diff 통과. 병렬 변경을 좁은 차선의 소유 범위로
-확장하지 않으며, 통합 뒤 명시 차선 결과는 아래 후속 마감에 기록한다.
+shell syntax·context·queue·diff 통과. 병렬 변경을 좁은 차선의 소유 범위로 확장하지 않았다.
 fresh24주/240주·원격 CI 전체·인간 독해·물리 패드 조작감·재미 GO는 미판정이다.
 공개 M01~M06 GO는 보존, 본편 HOLD. 이 오더의 절차·범위는 일회성이고
 지속 입력 규칙은 기존 INPUT_UX의 의미 입력 소유를 따른다.

@@ -114,6 +114,34 @@ def _agent_subject_errors(subject: Any, root: Path) -> list[str]:
     return errors
 
 
+def _agent_file_is_git_storage(resolved: Path, root: Path) -> bool:
+    """Reject actual Git storage, including a worktree pointer and storage aliases."""
+    marker = root / ".git"
+    storage = [marker.resolve()]
+    for option in ("--absolute-git-dir", "--git-common-dir"):
+        result = subprocess.run(["git", "rev-parse", option], cwd=root,
+                                capture_output=True, timeout=5, check=False)
+        if result.returncode:
+            if marker.exists():
+                raise ValueError("Git storage identity unavailable")
+            # Non-Git fixture roots have no private storage to borrow. A real
+            # decision still needs the separately validated commit/tree identity.
+            continue
+        location = result.stdout.decode("utf-8", errors="strict").removesuffix("\n")
+        if not location:
+            raise ValueError("Git storage identity empty")
+        directory = Path(location)
+        storage.append((directory if directory.is_absolute() else root / directory).resolve())
+    for directory in storage:
+        if resolved.is_relative_to(directory):
+            return True
+        # resolve() can retain a case alias on a case-insensitive filesystem.
+        # Compare inode identity as well, not just lexically folded whole paths.
+        if directory.exists() and any(parent.samefile(directory) for parent in (resolved, *resolved.parents)):
+            return True
+    return False
+
+
 def _agent_file_errors(item: Any, root: Path, evidence: bool = False) -> list[str]:
     expected = {"path", "sha256", "kind"} if evidence else {"path", "sha256"}
     if not isinstance(item, dict) or set(item) != expected:
@@ -124,7 +152,7 @@ def _agent_file_errors(item: Any, root: Path, evidence: bool = False) -> list[st
     path, digest = item["path"], item["sha256"]
     if not isinstance(digest, str) or not SHA256_RE.fullmatch(digest):
         errors.append("evidence/record requires a SHA-256")
-    if not isinstance(path, str) or not path or "\\" in path or "\0" in path or Path(path).is_absolute() or any(p in {"..", ".git"} for p in Path(path).parts):
+    if not isinstance(path, str) or not path or "\\" in path or "\0" in path or Path(path).is_absolute() or any(p == ".." or p.casefold() == ".git" for p in Path(path).parts):
         return errors + ["evidence/record path must stay inside the repository"]
     try:
         resolved = (root / path).resolve()
@@ -132,6 +160,11 @@ def _agent_file_errors(item: Any, root: Path, evidence: bool = False) -> list[st
         return errors + ["evidence/record path cannot be resolved safely"]
     if not resolved.is_relative_to(root.resolve()) or not resolved.is_file():
         return errors + ["evidence/record file missing or outside repository"]
+    try:
+        if _agent_file_is_git_storage(resolved, root):
+            return errors + ["evidence/record must not use private Git storage"]
+    except (OSError, RuntimeError, ValueError, UnicodeError, subprocess.TimeoutExpired):
+        return errors + ["evidence/record Git storage boundary unavailable"]
     try:
         if hashlib.sha256(resolved.read_bytes()).hexdigest() != digest:
             errors.append("evidence/record SHA-256 drift")

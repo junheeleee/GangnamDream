@@ -13,7 +13,7 @@ CLAUDE·큐·PROPOSALS·개발 skill·출시 감사는 이를 참조한다. 사�
 
 새 agent_review_decisions.json은 인간 원장과 별개다. 권한·정확한 Git/package
 신원·범위·작업 ID·최신 판정·실제 증거 경로와 해시를 검증한다. source와 package,
-서로 다른 작업의 GO를 빌리지 못한다. 현재 decisions=[]이므로 HOLD가 정상이다.
+서로 다른 작업의 GO를 빌리지 못한다. 초기 decisions=[]이므로 HOLD가 정상이다.
 CLI/Markdown/HTML은 같은 helper로 에이전트 판정·인간 증거·미관찰 한계를 나눈다.
 
 Poincare의 구현 후 ROOT가 diff·호출부·유한 검사를 독립 검토했다. 최초 버전에서
@@ -36,10 +36,26 @@ ROOT가 판정 원장에 실제 작업 GO를 쓸 준비 중 생성 STATUS의 dir
 정확한 생성물 docs/STATUS.md 단독 dirty만 예외로 두고 다른 미커밋 파일은
 metadata라도 HOLD다. index·unstaged·untracked를 NUL 경로로 각각 읽으며,
 혼합·rename·개행/탭 유사 경로의 거부를 보존한다. ROOT가 변경부와 반례를 재검토했다.
-최종 human_gates.py SHA7c2847d452e9ea296f2c662bf1dc716586ba215cf958b4a98f779cdf00574614.
-자체182 최종 보고는 같은 private WT 경로의
+STATUS 단계 human_gates.py SHA7c2847d452e9ea296f2c662bf1dc716586ba215cf958b4a98f779cdf00574614.
+해당 단계 자체182 보고는 같은 private WT 경로의
 order216-status-self-reference-final.json 3595B /
 234572790fe2f84b72a210808d595b2c7cdf4ce24e4860fe995580994b8912cb이다.
+
+## 비공개 Git 증거 경계의 독립 발견
+
+첫7개 차선/182 자체 검사는 통과했지만, 독립 Plato가 실제 case-insensitive 환경의
+`.GIT/...` 별칭 우회를 발견했다. 이 통과를 최종 GO로 쓰지 않고 수리했다.
+정상 보고서·Git storage·pointer·대소문자·내부 symlink·별도 git-dir·연결 worktree의
+20경로를 record/evidence로 각각 고정했다. 최초40 중22통과18잘못허용에서
+수리 후40통과(정상8/거부32)다. 기존182 포함 최종 자체222이며 합산해262로 쓰지 않는다.
+lexical casefold와 실제 Git-dir/common-dir 및 pointer의 resolved/inode 경계를
+검사한다. 기존 source/STATUS 판정·인간 원장은 그대로다. 최종 소스 SHA는
+human_gates.py 59b62b8b8ee0ab3cb33a6c99f7802f8118d85472a0a2942e80ed0781ee7b47a1,
+self e655cf15685d40e3159caae57879c5123973ba0800f98644a35581392ae18c1b이다.
+같은 private WT의 order216-git-evidence-final.json 3395B /
+57b31cf2799ab544c68127c4d6e770fa9cab069d5bf7cbdc61d9d337c6bd8855에 최초실패를 보존한다.
+ROOT는 생성 Markdown의 trailing space5도 발견해 빈 문단으로 바꾸고
+generator→check/diff를 확인했다. STATUS는 수작업으로 고치지 않았다.
 
 ## 보존과 증거
 

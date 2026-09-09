@@ -163,6 +163,92 @@ def generated_status_cases(base: dict, human_raw: bytes) -> list[dict]:
     return results
 
 
+def git_evidence_boundary_cases() -> list[dict]:
+    """Exercise only real temporary Git storage and in-repository evidence paths."""
+    results: list[dict] = []
+    with tempfile.TemporaryDirectory(prefix="agent-git-evidence-") as directory:
+        container = Path(directory)
+        outside = container / "outside.md"
+        outside.write_text("outside evidence\n", encoding="utf-8")
+
+        def git(repo: Path, *args: str) -> str:
+            return subprocess.check_output(["git", *args], cwd=repo, text=True,
+                                           stderr=subprocess.DEVNULL).strip()
+
+        def check_file(name: str, repo: Path, path: str, allowed: bool) -> None:
+            candidate = repo / path
+            digest = hashlib.sha256(candidate.read_bytes()).hexdigest()
+            for evidence in (False, True):
+                item = {"path": path, "sha256": digest}
+                if evidence:
+                    item["kind"] = "source_review"
+                errors = gates._agent_file_errors(item, repo, evidence=evidence)
+                results.append({"name": name + ("-evidence" if evidence else "-record"),
+                                "expected_allowed": allowed, "observed_allowed": not errors,
+                                "errors": errors, "pass": allowed == (not errors)})
+
+        def public_report(repo: Path) -> None:
+            (repo / "docs").mkdir(exist_ok=True)
+            (repo / "docs/review.md").write_text("Source review only; no human evidence.\n",
+                                                 encoding="utf-8")
+
+        normal = container / "normal"
+        normal.mkdir()
+        git(normal, "init", "-q")
+        public_report(normal)
+        git(normal, "add", "docs/review.md")
+        git(normal, "-c", "user.name=Agent Fixture", "-c", "user.email=fixture@example.invalid",
+            "commit", "-qm", "fixture")
+        check_file("normal-public-report", normal, "docs/review.md", True)
+        (normal / "docs/public-link").symlink_to(normal / "docs/review.md")
+        check_file("normal-public-symlink", normal, "docs/public-link", True)
+        for spelling in (".git", ".GIT", ".GiT"):
+            alias = normal / spelling
+            if not alias.exists():
+                alias.symlink_to(normal / ".git", target_is_directory=True)
+            check_file("normal-" + spelling, normal, spelling + "/config", False)
+        (normal / "docs/git-file-link").symlink_to(normal / ".git/config")
+        check_file("normal-private-file-symlink", normal, "docs/git-file-link", False)
+        (normal / "docs/git-dir-link").symlink_to(normal / ".git", target_is_directory=True)
+        check_file("normal-private-directory-symlink", normal, "docs/git-dir-link/config", False)
+        (normal / "docs/escape").symlink_to(outside)
+        check_file("normal-outside-symlink", normal, "docs/escape", False)
+        check_file("normal-parent-escape", normal, "../outside.md", False)
+
+        separate = container / "separate"
+        separate.mkdir()
+        store = separate / "admin_store"
+        git(separate, "init", "-q", "--separate-git-dir=" + str(store))
+        public_report(separate)
+        check_file("separate-public-report", separate, "docs/review.md", True)
+        check_file("separate-direct-storage", separate, "admin_store/config", False)
+        check_file("separate-git-pointer", separate, ".git", False)
+        (separate / "docs/git-pointer-link").symlink_to(separate / ".git")
+        check_file("separate-pointer-symlink", separate, "docs/git-pointer-link", False)
+        (separate / "docs/storage-link").symlink_to(store, target_is_directory=True)
+        check_file("separate-storage-symlink", separate, "docs/storage-link/config", False)
+        alias = separate / "ADMIN_STORE"
+        if not alias.exists():
+            alias.symlink_to(store, target_is_directory=True)
+        check_file("separate-storage-case-alias", separate, "ADMIN_STORE/config", False)
+
+        linked = container / "linked"
+        git(normal, "worktree", "add", "-q", "-b", "linked-evidence", str(linked))
+        check_file("linked-public-report", linked, "docs/review.md", True)
+        check_file("linked-git-pointer", linked, ".git", False)
+        (linked / "docs/pointer-link").symlink_to(linked / ".git")
+        check_file("linked-pointer-symlink", linked, "docs/pointer-link", False)
+        git_dir = Path(git(linked, "rev-parse", "--absolute-git-dir"))
+        common_dir = Path(git(linked, "rev-parse", "--git-common-dir"))
+        if not common_dir.is_absolute():
+            common_dir = linked / common_dir
+        (linked / "docs/private-link").symlink_to(git_dir, target_is_directory=True)
+        (linked / "docs/common-link").symlink_to(common_dir, target_is_directory=True)
+        check_file("linked-private-storage", linked, "docs/private-link/HEAD", False)
+        check_file("linked-common-storage", linked, "docs/common-link/config", False)
+    return results
+
+
 def run() -> int:
     names: list[str] = []
 
@@ -352,6 +438,9 @@ def run() -> int:
 
     for result in generated_status_cases(base, human_raw):
         check("generated-status-" + result["name"], result["pass"])
+
+    for result in git_evidence_boundary_cases():
+        check("git-evidence-" + result["name"], result["pass"])
 
     # Real Git binding, without writing a commit or consulting a decision identity.
     commit = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()

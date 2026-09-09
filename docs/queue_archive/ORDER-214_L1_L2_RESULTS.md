@@ -64,6 +64,29 @@ edf845a7164b8fedc9ec027be7a7edc381a3dcdf67ff58c2858d44a3237b64b8에서
 기존 portable의 source_revision/manifest는 역사 snapshot으로 보존하며 새 교환
 헤더와 혼동하지 않는다. 입력·운영 검사를 번역 품질이나 실플레이로 합산하지 않는다.
 
-수용/명시 차선/정확 후보의 최종 마감은 이어서 기록한다.
+## 정확 교환과 수용
+
+final source 제품 ed8067c421d646abb015a6ef8521a4eaaf9eb290,
+tree6060537bcf84424e615058a0611c7ec0eac2e0d6에서 각169문구를 export했다.
+finalsource/response의 헤더·source·previous/current target과 receipt가 일치한다.
+세 check/import --accept 모두169, changed_files=0이다. 교환12개를 보존했다.
+
+| locale | batch ID | receipt 파일 SHA256 |
+|---|---|---|
+| ja | 6276a08c8efbb5579a8e8458be30cae58560c2baed61e9a2b2ad0aa335c42371 | 7e679f3fe535c3070ad7fc769dc2c0c14a8a8d649f10a173bfe6153909723cfa |
+| zh-CN | e5468784eae8575b117632829533e99d99c5d7718d5191dc89743ddd9109b8db | d172205312c26e41e9bdf6581d4b20ea931542e510541236894ee522e6bfd21f |
+| zh-TW | fca9e946c29906e860ec86f7fc37a684f6f41afec6b4bc954d346ba8c83c9cec | 4c29b397edd3a386a304a81a150131e74668412fc36cd0f98532f36f55490649 |
+
+수용 전 기존32,484와 신규507의 source/target hash·L1을 전량 실행해 오류0이다.
+입력30경로 전후 불변이며, 수용은 신규507만 append했다. 각10,997·총32,991/b79,
+메타9·옛32,484의 값과 순서·b78·나머지 top-level 원형을 보존했다.
+신규507/b79를 역제거한 raw가 옛8,425,796B/
+b73d519bdf516eacb2a2db2a7b72242fe5ff0397b85a5aa8ae5dc4217076a3f5와 정확히 같다.
+새 accepted SHA cef066d7685c1f2dbfe0bd57d236436c4379fb8de01a683ab3d6e54c5840e5cf,
+portable8552044B/32283da99eaa76b409da6dba65fc158eeea4bcafdd4f6cc3c229512163c9aaa5.
+사건1,468종9,929문구/locale, 남은 shipping 비보호226종1,649문구다.
+author_only105종741·공개 보호2·UI·표시 소비자는 이 잔여와 별개다.
+명시 차선과 독립 최종 후보 판정은 이어서 기록한다.
+
 이 오더의 수량·소유·검증 지시는 일회성이다. 지속 번역 규칙은 기존
 I18N_INFRASTRUCTURE, 위임된 최종 판단은 WORK_UNIT이 소유한다.
