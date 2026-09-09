@@ -4918,6 +4918,245 @@ class ExchangeTests(unittest.TestCase):
                 self.assertTrue(tool.translation_errors(leaf, "ja", mutant))
 
 
+    @staticmethod
+    def _chain_support_salary_regression_cases():
+        # Keep multilingual fixtures on short physical lines; verify via Python CLI.
+        exposed = [
+            (
+                "events:chain_exec_meal:/choices/0/result_text",
+                (
+                    "{name}은 답장 칸에 가능한 시간을 먼저 적었다.\n"
+                    "\"감사합니다. 이번 주 토요일 낮이라면 괜찮습니다.\"\n"
+                    "\n"
+                    "잠시 뒤 새 메시지가 왔다.\n"
+                    "\"그럼 토요일 12시 30분, 강남 ○○한정식에서 뵙죠.\"\n"
+                    "\n"
+                    "{name}은 날짜와 주소를 다시 확인해 보냈다.\n"
+                    "\"네, 그때 뵙겠습니다.\"\n"
+                    "두 사람의 확인이 끝난 뒤에야 달력에 약속을 넣었다."
+                ),
+                (
+                    "{name}は返信欄に、まず自分の都合のよい時間を書いた。\n"
+                    "「ありがとうございます。今週の土曜日の昼でしたら大丈夫です」\n"
+                    "\n"
+                    "少しして、新しいメッセージが届いた。\n"
+                    "「では土曜日の12時30分、江南の○○韓定食で会いましょう」\n"
+                    "\n"
+                    "{name}は日付と住所をもう一度確認して送った。\n"
+                    "「はい、その時間に伺います」\n"
+                    "二人の確認が済んでから、ようやくカレンダーに予定を入れた。"
+                ),
+                (
+                    "{name}は返信欄に、まず自分の都合のよい時間を書いた。\n"
+                    "「ありがとうございます。今週の土曜日の昼でしたら大丈夫です」\n"
+                    "\n"
+                    "少しして、新しいメッセージが届いた。\n"
+                    "「では土曜日の12時40分、江南の○○韓定食で会いましょう」\n"
+                    "\n"
+                    "{name}は日付と住所をもう一度確認して送った。\n"
+                    "「はい、その時間に伺います」\n"
+                    "二人の確認が済んでから、ようやくカレンダーに予定を入れた。"
+                ),
+            ),
+            (
+                "events:butterfly_resume_lie:/description",
+                (
+                    "취업 지원서를 쓰다가 멈췄다.\n"
+                    "\n"
+                    "자격증 칸. 토익 900이라고 적었다.\n"
+                    "\n"
+                    "실제 점수는 745.\n"
+                    "\n"
+                    "지원 마감이 2시간 뒤다. 재시험을 볼 시간이 없다."
+                ),
+                (
+                    "応募書類を書いていて、手が止まった。\n"
+                    "\n"
+                    "資格欄。TOEIC 900と書いた。\n"
+                    "\n"
+                    "実際の点数は745。\n"
+                    "\n"
+                    "応募締め切りまであと2時間。試験を受け直す時間はない。"
+                ),
+                (
+                    "応募書類を書いていて、手が止まった。\n"
+                    "\n"
+                    "資格欄。TOEIC 900と書いた。\n"
+                    "\n"
+                    "実際の点数は754。\n"
+                    "\n"
+                    "応募締め切りまであと2時間。試験を受け直す時間はない。"
+                ),
+            ),
+            (
+                "events:chain_neighbor_civil_servant:/choices/0/result_text",
+                (
+                    "서류를 갖춰 신청했다. 선정됐다.\n"
+                    "\n"
+                    "월세 지원 6개월. 총 120만원.\n"
+                    "\n"
+                    "{name}은 선정 문자 화면을 캡처해 보냈다.\n"
+                    "'덕분에 신청했어요. 고마워요.'\n"
+                    "\n"
+                    "잠시 뒤 엄지손가락 이모티콘 하나가 도착했다."
+                ),
+                (
+                    "書類をそろえて申請した。選ばれた。\n"
+                    "\n"
+                    "家賃補助は6か月。総額百二十万ウォン。\n"
+                    "\n"
+                    "{name}は選定を知らせるメッセージ画面を撮って送った。\n"
+                    "「おかげで申請できました。ありがとう」\n"
+                    "\n"
+                    "少しして、親指を立てた絵文字が一つ届いた。"
+                ),
+                (
+                    "書類をそろえて申請した。選ばれた。\n"
+                    "\n"
+                    "家賃補助は8か月。総額百二十万ウォン。\n"
+                    "\n"
+                    "{name}は選定を知らせるメッセージ画面を撮って送った。\n"
+                    "「おかげで申請できました。ありがとう」\n"
+                    "\n"
+                    "少しして、親指を立てた絵文字が一つ届いた。"
+                ),
+            ),
+            (
+                "events:chain_exec_interview:/choices/0/result_text",
+                (
+                    "\"지하철역에서 지갑을 주워서 돌려드렸습니다. 그게 전부입니다.\"\n"
+                    "\n"
+                    "면접관들이 서로를 봤다. 한 명이 웃었다.\n"
+                    "\"그 얘기 들었어요. 본인 입으로 듣고 싶었습니다.\"\n"
+                    "\n"
+                    "합격 통보는 사흘 뒤에 왔다. 기본급은 월 455만원이었다.\n"
+                    "\n"
+                    "첫 출근 날, {name}은 목에 건 사원증의 계열사 로고를 엄지로 한 번 문질렀다."
+                ),
+                (
+                    "「地下鉄の駅で財布を拾って、お返ししました。それだけです」\n"
+                    "\n"
+                    "面接官たちが顔を見合わせた。一人が笑った。\n"
+                    "「その話は聞きました。ご本人の口から聞きたかったんです」\n"
+                    "\n"
+                    "合格の知らせは3日後に届いた。基本給は月455万ウォンだった。\n"
+                    "\n"
+                    "初出勤の日、{name}は首から下げた社員証の系列会社のロゴを、親指で一度こすった。"
+                ),
+                (
+                    "「地下鉄の駅で財布を拾って、お返ししました。それだけです」\n"
+                    "\n"
+                    "面接官たちが顔を見合わせた。一人が笑った。\n"
+                    "「その話は聞きました。ご本人の口から聞きたかったんです」\n"
+                    "\n"
+                    "合格の知らせは3日後に届いた。基本給は月445万ウォンだった。\n"
+                    "\n"
+                    "初出勤の日、{name}は首から下げた社員証の系列会社のロゴを、親指で一度こすった。"
+                ),
+            ),
+        ]
+        cases = []
+        for i, (leaf_id, source, normal, mutant) in enumerate(exposed):
+            cases.extend((
+                (f"exposed-{i}-normal", "exposed_normal", leaf_id, source, normal),
+                (f"exposed-{i}-mutant", "exposed_mutant", leaf_id, source, mutant),
+            ))
+        actuals = (
+            (
+                "書類をそろえて申請した。支給対象に選ばれた。\n"
+                "\n"
+                "家賃の補助は6か月。合計120万ウォン。\n"
+                "\n"
+                "{name}は選定通知のメッセージ画面のスクリーンショットを送った。\n"
+                "『おかげで申請できました。ありがとうございます』\n"
+                "\n"
+                "少しして、親指を立てた絵文字が一つ届いた。"
+            ),
+            (
+                "「地下鉄の駅で財布を拾って、お返ししました。それだけです」\n"
+                "\n"
+                "面接官たちが顔を見合わせた。一人が笑った。\n"
+                "「その話は聞いています。ご本人の口から聞きたかったんです」\n"
+                "\n"
+                "合格の通知は三日後に来た。基本給は月455万ウォンだった。\n"
+                "\n"
+                "初出勤の日、{name}は首から下げた社員証の系列会社のロゴを、親指で一度こすった。"
+            ),
+        )
+        natural_rewrites = (
+            (("6か月", "六か月"), ("120万ウォン", "百二十万ウォン")),
+            (("455万ウォン", "四百五十五万ウォン"),),
+        )
+        mutations = (
+            (
+                ("百二十万", "百三十万"),
+                ("六か月", "六年"),
+                ("百二十万", "-百二十万"),
+                ("百二十万ウォン", "百二十万円"),
+                ("百二十万ウォン", "百二十万ウォン/月"),
+                ("一つ届いた", "二つ届いた"),
+            ),
+            (
+                ("四百五十五万", "四百四十五万"),
+                ("三日後", "三か月後"),
+                ("四百五十五万", "-四百五十五万"),
+                ("四百五十五万ウォン", "四百五十五万円"),
+                ("月四百五十五万", "年四百五十五万"),
+                ("一度こすった", "二度こすった"),
+            ),
+        )
+        source_changes = (
+            (
+                ("서류", "서류들"),
+                ("120만원", "130만원"),
+            ),
+            (
+                ("지하철역", "기차역"),
+                ("455만원", "445만원"),
+            ),
+        )
+        for i, actual in enumerate(actuals):
+            leaf_id, source, _, _ = exposed[i + 2]
+            natural = actual
+            for old, new in natural_rewrites[i]:
+                natural = natural.replace(old, new, 1)
+            cases.extend((
+                (f"actual-{i}", "own_actual", leaf_id, source, actual),
+                (f"natural-{i}-0", "own_natural", leaf_id, source, natural),
+            ))
+            for j, (old, new) in enumerate(mutations[i]):
+                cases.append((f"target-{i}-{j}", "own_target", leaf_id,
+                              source, natural.replace(old, new, 1)))
+            for j, (old, new) in enumerate(source_changes[i]):
+                cases.append((f"source-{i}-{j}", "source_off", leaf_id,
+                              source.replace(old, new, 1), natural))
+        return cases
+
+    def test_chain_support_salary_disclosed_regression(self):
+        cases = self._chain_support_salary_regression_cases()
+        self.assertEqual(len(cases), 28)
+        for identity, category, leaf_id, source, target in cases:
+            _, owner, pointer = leaf_id.split(":")
+            path = tuple(int(part) if part.isdigit() else part
+                         for part in pointer[1:].split("/"))
+            leaf = tool.Leaf("events", owner, "chain-support-control", path,
+                             source, "event_standard")
+            with self.subTest(identity=identity):
+                helper = tool._ja_chain_support_salary_numbers(source, target)
+                errors = tool.translation_errors(leaf, "ja", target)
+                if category == "source_off":
+                    # Licence absence is the assertion; generic E2E is separate.
+                    self.assertIsNone(helper)
+                elif category in ("exposed_normal", "own_actual", "own_natural"):
+                    self.assertEqual(errors, [])
+                    if helper is not None:
+                        self.assertEqual(helper[2], [])
+                else:
+                    self.assertTrue(errors)
+                    if helper is not None:
+                        self.assertTrue(helper[2])
+
+
     def test_jsonl_duplicate(self):
         with tempfile.TemporaryDirectory() as folder:
             path = Path(folder) / "bad.jsonl"

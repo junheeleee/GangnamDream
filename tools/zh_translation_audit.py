@@ -1224,6 +1224,8 @@ def _source_scoped_term_present(source: str, korean: str) -> bool:
 
 def _terminology_errors(lang: str, source: str, target: str) -> list[str]:
     errors: list[str] = []
+    name_probe, butterfly_name_errors = _butterfly_chain_name(source, target)
+    errors.extend(butterfly_name_errors)
     for pattern, romanized in RELATIONSHIP_SOURCE_NAMES:
         if pattern.search(source):
             if not _bounded_latin_matches(target, romanized):
@@ -1341,7 +1343,7 @@ def _terminology_errors(lang: str, source: str, target: str) -> list[str]:
                 "an invented Han-character-only name is not canonical"
             )
         if _name_is_used(source, korean) and _has_unapproved_han_alias(
-            target, romanized,
+            name_probe, romanized,
         ):
             errors.append(
                 f"cast name {romanized!r} has an unapproved Han-character alias"
@@ -5860,9 +5862,171 @@ def _cafe_encounter_latin(source: str, target: str) -> tuple[str, list[str]]:
     return target, []
 
 
+SOURCE_BUTTERFLY_CHAIN = {
+    "drunk": "늦은 밤 포장마차. 혼자 소주 한 잔.\n\n옆에 취한 50대 남자가 앉았다.\n\n\"회사 망했어. 10년 키운 거. 오늘 최종 결정 났어.\"\n\n남자는 명함을 꺼냈다. 이미 없어진 회사 이름이 찍혀 있었다.\n명함을 {name}에게 줬다. \"연락해. 내가 도움이 될 수도 있어.\"",
+    "contact": "\"어, 기억해. 잘 지냈어?\"\n\n한 달에 한두 번 연락이 됐다.\n그 사람은 인테리어 회사를 차리고 있었다.\n\n별 거 없는 일상 얘기. 근데 이상하게 가끔 보고 싶었다.\n서울에서 오래된 연락처가 하나 더 살아났다.",
+    "usb_discard": "USB는 서랍에 넣고 잊었다.\n\n두 달 뒤, 그 경쟁사가 뉴스에 나왔다.\n영업비밀 유출 혐의.\n\n{name}은 그 기사를 읽고 서랍을 열었다. USB가 있었다.\n그냥 버렸다.",
+    "usb_info": "USB 속 정보",
+    "usb_opened": "회사 로고 없는 폴더 하나.\n\n파일들이 열렸다. 엑셀 파일. 숫자들.\n\n보면 안 될 것 같았다. 이미 봤다.\n거래처 리스트, 납품 단가, 계약 조건.\n경쟁사가 원하는 정보였다.\n\n{name}은 USB를 뺐다.",
+    "usb_found": "회사 탕비실 테이블 위에 USB 하나가 있었다.\n\n아무 표시도 없었다. 일주일째 그 자리에 있었다.\n\n주인을 찾는 공지도 없었다. 버려진 것 같기도 했다.",
+    "usb_title": "USB",
+    "celeb": "새벽 2시 반. 문이 열렸다.\n\n모자를 깊이 눌러쓴 그 남자. 또 왔다.\n\n삼각김밥 두 개, 에너지 음료 하나. 같은 조합.\n\n\"여기가 제일 편해요. 아무도 아는 척 안 해서.\"\n\n그가 계산대 앞에서 잠깐 머뭇거렸다.\n\"저번에 그쪽이 모른 척해준 거 — 알아요. 고마웠어요.\"",
+    "phone": "편의점 출근길. 유리문에 A4 용지가 붙어 있었다.\n\n'혹시 지난 주 검은 봉투 보신 분 계신가요.\n어머니 수술비입니다. 사례하겠습니다.\n연락처: 010-XXXX-XXXX'\n\n{name}은 그 앞에 한참 서 있었다.\n\n그 봉투는 지금 고시원 서랍 안에 있다.",
+    "confirmation": "{name}은 답장 칸에 가능한 시간을 먼저 적었다.\n\"감사합니다. 이번 주 토요일 낮이라면 괜찮습니다.\"\n\n잠시 뒤 새 메시지가 왔다.\n\"그럼 토요일 12시 30분, 강남 ○○한정식에서 뵙죠.\"\n\n{name}은 날짜와 주소를 다시 확인해 보냈다.\n\"네, 그때 뵙겠습니다.\"\n두 사람의 확인이 끝난 뒤에야 달력에 약속을 넣었다.",
+    "invitation": "지갑을 역무실에 맡긴 지 여덟 주째. 저장하지 않은 번호에서 문자가 왔다.\n\n\"저번에 감사했습니다. 밥 한 번 사도 될까요?\"\n\n메시지 아래 답장 칸은 비어 있었다. 상대가 보낸 것은 식사 제안 하나뿐이었다. 날짜도 장소도 아직 정해지지 않았다.",
+    "help": "박스를 같이 날랐다. 용달차까지 세 번 왕복.\n\n다 싣고 나서 그 사람이 캔커피 두 개를 사왔다.\n\n\"고시원에서 정 든 사람은 {name}씨가 처음이에요.\"\n\n번호를 교환했다. 차가 골목을 빠져나갔다.\n\n옆방 불은 이제 안 켜진다. 휴대폰 연락처에는 새 이름 하나가 남았다.",
+    "belongings": "토요일 아침. 복도가 시끄러웠다.\n\n옆방 — 공시 붙은 그 사람이 짐을 빼고 있었다.\n\n박스 세 개, 캐리어 하나, 이불 한 채. 6개월 살림의 전부였다.\n\n\"어, {name}씨. 저 오늘 가요.\"\n\n계단에서 박스가 위태로웠다.",
+    "toeic_honest": "745로 냈다.\n\n면접까지 갔다. 면접관이 토익 점수를 보더니 \"좀 낮네요\" 했다.\n{name}은 \"준비 중입니다\"라고 답했다.\n\n붙었는지 안 붙었는지는 모른다. 하지만 거짓말을 안 했다.",
+    "toeic_application": "취업 지원서를 쓰다가 멈췄다.\n\n자격증 칸. 토익 900이라고 적었다.\n\n실제 점수는 745.\n\n지원 마감이 2시간 뒤다. 재시험을 볼 시간이 없다.",
+    "label": "여자가 손사래를 쳤다.\n\"뭘 그런 걸 갖고. 반찬이나 사가, 싸게 줄게.\"\n\n계란말이와 멸치볶음을 샀다. 값을 반만 받았다.\n\n그 뒤로 일주일에 한 번씩 들르게 됐다.\n세 번째로 받아온 반찬통 뚜껑에는 검은 유성펜으로 '김민준'이 적혀 있었다.",
+    "meal": "토요일 12시 30분. 서로 확인한 강남의 한정식집.\n\n지갑의 주인 — ○○그룹 전무가 먼저 와 있었다.\n\n\"그 지갑에 우리 어머니 사진이 있었어요. 마지막 사진이라.\"\n\n그가 잠깐 말을 멈췄다.\n\n\"밥 한 끼로 갚을 일은 아닌데, 일단 뭐 하시는 분인지 궁금해서요.\"",
+    "housing": "서류를 갖춰 신청했다. 선정됐다.\n\n월세 지원 6개월. 총 120만원.\n\n{name}은 선정 문자 화면을 캡처해 보냈다.\n'덕분에 신청했어요. 고마워요.'\n\n잠시 뒤 엄지손가락 이모티콘 하나가 도착했다.",
+}
+
+
+def _butterfly_chain_kind(source: str) -> str | None:
+    # Entire selected Korean leaf, never an ID or a keyword license.
+    return next((key for key, value in SOURCE_BUTTERFLY_CHAIN.items() if source == value), None)
+
+
+def _butterfly_chain_slots(source: str, target: str) -> tuple[list[CounterQuantity], list[CounterQuantity], list[str]]:
+    kind = _butterfly_chain_kind(source)
+    ss, ts, errors = [], [], []
+    if kind is None:
+        return ss, ts, errors
+    n = CHINESE_CARDINAL
+    lines = target.split("\n")
+
+    def slot(fragment: str, pattern: str, expected: int, *, implicit: int | None = None,
+             role: str | None = None, forbidden: str | None = None) -> None:
+        start = source.index(fragment)
+        line = source[:start].count("\n")
+        ss.append(CounterQuantity(start, start + len(fragment), Decimal(expected), "butterfly_" + kind))
+        matches = list(re.finditer(pattern, target, re.MULTILINE))
+        if len(matches) != 1 or target[:matches[0].start()].count("\n") != line:
+            errors.append("butterfly " + kind + " quantity/unit/count/line changed")
+            return
+        m = matches[0]
+        a, b = m.span("q")
+        raw = m.groupdict().get("number")
+        actual = _chinese_cardinal_value(raw) if raw is not None else implicit
+        valid = actual == expected and not _has_numeric_sign_prefix(target, m.start()) and not _has_numeric_sign_prefix(target, a)
+        valid = valid and not re.match(r"\s*(?:[%％‰]|公斤|公里|[/／])", target[b:])
+        if role and not re.search(role, lines[line]):
+            valid = False
+        if forbidden and re.search(forbidden, lines[line]):
+            valid = False
+        if not valid:
+            errors.append("butterfly " + kind + " quantity/value/sign/role/state changed")
+            return
+        ts.append(CounterQuantity(a, b, Decimal(actual), "butterfly_" + kind))
+
+    if kind == "drunk":
+        slot("50대", rf"(?P<q>(?P<number>{n})(?:多|[幾几])[歲岁])(?=的?(?:男人|男子|男性))", 50)
+    elif kind == "contact":
+        slot("한 달에", r"(?P<q>每(?:[個个])?月)(?:[會会])?(?:[聯联][絡络]|[聯联]系)", 1, implicit=1)
+        line = lines[2] if len(lines) > 2 else ""
+        m = re.fullmatch(r"(?:之[後后])?每(?:[個个])?月(?:[會会])?(?:[聯联][絡络]|[聯联]系)"
+                         r"(?P<a>[一二两兩三四五六七八九1-9])(?:到|至|、|-)?(?P<b>[一二两兩三四五六七八九1-9])次[。.]",
+                         line)
+        if m is None or (_chinese_cardinal_value(m.group("a")), _chinese_cardinal_value(m.group("b"))) != (1, 2):
+            errors.append("butterfly contact monthly one-to-two actual contact range/state changed")
+    elif kind == "celeb":
+        slot("삼각김밥 두 개", rf"(?P<q>(?P<number>{n})(?:份|[個个])三角(?:紫菜包[飯饭]|[飯饭][糰团捲卷]))", 2)
+        slot("에너지 음료 하나", rf"(?P<q>(?P<number>{n})(?:瓶|罐)(?:能量|提神)[飲饮]料)", 1)
+    elif kind == "confirmation":
+        slot("두 사람의", rf"^(?:直到)?(?P<q>[雙双]方|(?P<number>{n})(?:[個个])?人)都"
+             r"(?:[確确][認认])(?:[過过](?:[後后])?|[後后]|完之[後后])，才", 2, implicit=2)
+    elif kind == "invitation":
+        slot("여덟 주째", rf"(?P<q>第(?P<number>{n})(?:[個个])?(?:星期|[週周]))", 8)
+        slot("밥 한 번", rf"[請请](?:您|你)?吃(?P<q>(?:(?P<number>{n}))?[頓顿][飯饭])", 1,
+             implicit=1, role=r"(?:能|可以|可否).*[嗎吗？?]",
+             forbidden=r"已[經经]|沒有|没有|未曾")
+    elif kind == "meal":
+        slot("밥 한 끼", rf"(?P<q>(?:(?P<number>{n}))?[頓顿][飯饭])", 1, implicit=1,
+             role=r"(?:不是|並非|并非|不只是).*(?:[報报]答|[償偿][還还])")
+    elif kind == "help":
+        slot("세 번 왕복", rf"(?P<q>(?:往返了?|[來来]回跑了?|跑了)(?P<number>{n})(?:趟|[個个][來来]回))", 3,
+             role=r"[貨货][車车]")
+        slot("캔커피 두 개", rf"(?P<q>(?P<number>{n})(?:罐|听)咖啡)", 2,
+             role=r"[買买](?:了|[來来]|回)", forbidden=r"準備|准备|打算|沒有|没有|未曾")
+    elif kind == "belongings":
+        slot("박스 세 개", rf"(?P<q>(?P<number>{n})(?:[個个只隻])?(?:[紙纸]箱|箱子))", 3)
+        slot("이불 한 채", rf"(?P<q>(?P<number>{n})(?:床|[條条])(?:棉被|被子))", 1)
+    return ss, ts, errors
+
+
+def _butterfly_chain_latin(source: str, target: str) -> tuple[str, list[str]]:
+    kind = _butterfly_chain_kind(source)
+    if kind == "phone":
+        literals = ["010-XXXX-XXXX"]
+    elif kind in {"toeic_application", "toeic_honest"}:
+        # Chinese 托业/多益 remains valid. Only the optional whole Latin name
+        # is consumed here, not a prefix, suffix, number or English sentence.
+        if "TOEIC" not in target:
+            return target, []
+        literals = ["TOEIC"]
+    elif kind in {"usb_title", "usb_info", "usb_found", "usb_opened", "usb_discard"}:
+        if not re.search(r"USB|U[盘盤]", target):
+            return target, []
+        literals = ["USB", "U盘", "U盤"]
+    else:
+        return target, []
+    matches = [m for literal in literals for m in _bounded_latin_matches(target, literal)]
+    source_literal = "USB" if kind.startswith("usb_") else ("토익" if kind.startswith("toeic_") else "010-XXXX-XXXX")
+    expected_lines = [source[:m.start()].count("\n") for m in re.finditer(re.escape(source_literal), source)]
+    actual_lines = [target[:m.start()].count("\n") for m in sorted(matches, key=lambda m: m.start())]
+    if actual_lines != expected_lines:
+        return target, ["butterfly source-present literal boundary/count/line changed"]
+    for m in sorted(matches, key=lambda m: m.start(), reverse=True):
+        target = target[:m.start()] + " " * (m.end() - m.start()) + target[m.end():]
+    return target, []
+
+
+def _butterfly_chain_name(source: str, target: str) -> tuple[str, list[str]]:
+    if _butterfly_chain_kind(source) != "label":
+        return target, []
+    matches = _bounded_latin_matches(target, "Kim Minjun")
+    line = source[:source.index("김민준")].count("\n")
+    if len(matches) != 1 or target[:matches[0].start()].count("\n") != line:
+        return target, ["butterfly written-name value/boundary/count/line changed"]
+    # 寫著 is the verb introducing the source's written label, not a Hanja
+    # alias. Only this full source + exact quoted name combination is scrubbed
+    # for alias detection; actual Han aliases elsewhere remain visible.
+    probe = re.sub(r"[寫写][著着](?=[『「‘']Kim Minjun[』」’'])", "：", target)
+    return probe, []
+
+
+def _butterfly_chain_money(source: str, target: str, original: list[MoneyAmount]) -> tuple[list[MoneyAmount], list[str]]:
+    if _butterfly_chain_kind(source) != "housing":
+        return original, []
+    amounts, errors = list(original), []
+    # The full source owns one TOTAL rent subsidy. Parse the actual Han value,
+    # then let the unchanged ordered money comparison check against the source.
+    for m in re.finditer(r"(?<![0-9零〇一二两兩三四五六七八九十百千萬万億亿])"
+                         r"(?P<n>[零〇一二两兩三四五六七八九十百千][零〇一二两兩三四五六七八九十百千萬万億亿]*)[韓韩]元", target):
+        actual = _leisure_native_amount(m.group("n"))
+        if actual is None:
+            errors.append("butterfly housing Korean-won amount cannot be parsed")
+            continue
+        if target[:m.start()].count("\n") != 2 or re.match(r"\s*(?:[/／]|[%％‰]|人|月|年|天|倍)", target[m.end():]):
+            errors.append("butterfly housing total Korean-won line/unit changed")
+        prefix = target[:m.start()].split("\n")[-1]
+        if not re.search(r"(?:[總总](?:共|[計计])?|共|合[計计])[，,：: ]*$", prefix):
+            errors.append("butterfly housing total Korean-won role changed")
+        if _has_numeric_sign_prefix(target, m.start()):
+            errors.append("butterfly housing total Korean-won sign changed")
+        amounts = [a for a in amounts if not (a.start < m.end() and m.start() < a.end)]
+        amounts.append(MoneyAmount(m.start(), m.end(), actual))
+    return sorted(amounts, key=lambda a: a.start), errors
+
 def _numeric_errors(source: str, target: str) -> list[str]:
     errors: list[str] = []
     admin_source_slots, admin_target_slots, admin_errors = _investment_admin_slots(source, target)
+    butterfly_source, butterfly_target, butterfly_errors = _butterfly_chain_slots(source, target)
+    admin_source_slots.extend(butterfly_source)
+    admin_target_slots.extend(butterfly_target)
+    errors.extend(butterfly_errors)
     errors.extend(admin_errors)
     culture_source, culture_target, culture_errors = _korean_culture_slots(source, target)
     leisure_source, leisure_target, leisure_errors = _leisure_slots(source, target)
@@ -5968,6 +6132,8 @@ def _numeric_errors(source: str, target: str) -> list[str]:
     target_amounts, culture_shared_labels, culture_money_errors = _korean_culture_money(source, target, target_amounts)
     target_amounts, leisure_money_errors = _leisure_money(source, target, target_amounts)
     target_amounts, cafe_shared_labels, cafe_money_errors = _cafe_encounter_money(source, target, target_amounts)
+    target_amounts, butterfly_money_errors = _butterfly_chain_money(source, target, target_amounts)
+    errors.extend(butterfly_money_errors)
     culture_shared_labels += cafe_shared_labels
     errors.extend(cafe_money_errors)
     errors.extend(leisure_money_errors)
@@ -6129,6 +6295,9 @@ def _money_errors(lang: str, source: str, target: str) -> list[str]:
 
 
 def _untranslated_english_errors(source: str, target: str, *, catalog: bool = False) -> list[str]:
+    target, butterfly_errors = _butterfly_chain_latin(source, target)
+    if butterfly_errors:
+        return butterfly_errors
     target, cafe_errors = _cafe_encounter_latin(source, target)
     if cafe_errors:
         return cafe_errors
@@ -12518,11 +12687,109 @@ def _cafe_encounter_disclosed_self_test() -> tuple[int, list[str]]:
 
 
 
+
+def _butterfly_chain_parser_self_test() -> tuple[int, list[str]]:
+    # Own192 preimplementation fixture SHA 48e4b9d949c9505e0ba03c10506b549fd59a6fcc75e1b3af13eb0a6d872bea81.
+    # Actual24 + natural24 + single-field target120 + exact source-OFF24.
+    specimens = [
+        ["drunk","zh-CN","events:butterfly_drunk_investor:/description","深夜的韩国路边摊。独自喝一杯烧酒。\n\n一个喝醉了的五十多岁男人在旁边坐下。\n\n“公司倒了。我经营了十年。今天最终定下来了。”\n\n男人拿出名片。上面印着一家已经不存在的公司。\n他把名片递给{name}。“联系我。我也许能帮上忙。”","深夜的韩国路边摊。独自喝一杯烧酒。\n\n一个喝醉了的五十几岁男人在旁边坐下。\n\n“公司倒了。我经营了十年。今天最终定下来了。”\n\n男人拿出名片。上面印着一家已经不存在的公司。\n他把名片递给{name}。“联系我。我也许能帮上忙。”",[["五十多岁","六十多岁"],["五十多岁","五十辆"],["男人","女人"],["五十多岁","-五十多岁"],["五十多岁","五十多岁/年"]],["50대","60대"],["counter quantity missing/changed: expected (vehicle, 60), target candidates=[]"]],
+        ["contact","zh-CN","events:butterfly_old_contact:/choices/0/result_text","“啊，记得。你还好吗？”\n\n之后每个月联系一两次。\n那人正在开一家装修公司。\n\n聊的都是普通日常。可不知为什么，偶尔会想见见对方。\n在首尔，又一个旧联系人重新有了来往。","“啊，记得。你还好吗？”\n\n之后每月会联系一两次。\n那人正在开一家装修公司。\n\n聊的都是普通日常。可不知为什么，偶尔会想见见对方。\n在首尔，又一个旧联系人重新有了来往。",[["每个月","每两个月"],["一两次","两三次"],["一两次","一两年"],["每个月联系","每个月并未联系"],["一两次","一两次/月/年"]],["한 달에","두 달에"],["counter quantity missing/changed: expected (duration_month, 2), target candidates=[]"]],
+        ["usb_discard","zh-CN","events:butterfly_usb_dilemma:/choices/1/result_text","把U盘放进抽屉，就忘了。\n\n两个月后，那家竞争公司上了新闻。\n涉嫌泄露商业秘密。\n\n{name}看完报道，打开抽屉。U盘还在。\n直接扔了。","把USB放进抽屉，就忘了。\n\n两个月后，那家竞争公司上了新闻。\n涉嫌泄露商业秘密。\n\n{name}看完报道，打开抽屉。U盘还在。\n直接扔了。",[["U盘","U盘Pro"],["U盘","U"],["U盘","U盘U盘"],["U盘","U盘2"],["U盘","xU盘"]],["USB","DVD"],["untranslated English token remains: 'U'"]],
+        ["usb_info","zh-CN","events:butterfly_usb_dilemma:/title","U盘里的资料","USB里的资料",[["U盘","U盘Pro"],["U盘","U"],["U盘","U盘U盘"],["U盘","U盘2"],["U盘","xU盘"]],["USB","DVD"],["untranslated English token remains: 'U'"]],
+        ["usb_opened","zh-CN","events:butterfly_usb_found:/choices/0/result_text","一个没有公司标志的文件夹。\n\n文件打开了。Excel表格。数字。\n\n感觉不该看。但已经看到了。\n客户名单、供货单价、合同条款。\n是竞争对手想要的资料。\n\n{name}拔下了U盘。","一个没有公司标志的文件夹。\n\n文件打开了。Excel表格。数字。\n\n感觉不该看。但已经看到了。\n客户名单、供货单价、合同条款。\n是竞争对手想要的资料。\n\n{name}拔下了USB。",[["U盘","U盘Pro"],["U盘","U"],["U盘","U盘U盘"],["U盘","U盘2"],["U盘","xU盘"]],["USB","DVD"],["untranslated English token remains: 'U'"]],
+        ["usb_found","zh-CN","events:butterfly_usb_found:/description","公司茶水间的桌上有一个U盘。\n\n没有任何标记。已经放在那里一周了。\n\n也没有寻找失主的通知。好像是被丢弃的。","公司茶水间的桌上有一个USB。\n\n没有任何标记。已经放在那里一周了。\n\n也没有寻找失主的通知。好像是被丢弃的。",[["U盘","U盘Pro"],["U盘","U"],["U盘","U盘U盘"],["U盘","U盘2"],["U盘","xU盘"]],["USB","DVD"],["untranslated English token remains: 'U'"]],
+        ["usb_title","zh-CN","events:butterfly_usb_found:/title","U盘","USB",[["U盘","U盘Pro"],["U盘","U"],["U盘","U盘U盘"],["U盘","U盘2"],["U盘","xU盘"]],["USB","DVD"],["untranslated English token remains: 'U'"]],
+        ["celeb","zh-CN","events:chain_celeb_return:/description","凌晨两点半。门开了。\n\n把帽子压得很低的那个男人，又来了。\n\n两份三角紫菜包饭、一瓶能量饮料。还是同样的组合。\n\n“这里最自在。没人会表现出认得我。”\n\n他在收银台前迟疑了一下。\n“上次您装作不认识我——我知道。谢谢。”","凌晨两点半。门开了。\n\n把帽子压得很低的那个男人，又来了。\n\n两个三角紫菜包饭、一瓶能量饮料。还是同样的组合。\n\n“这里最自在。没人会表现出认得我。”\n\n他在收银台前迟疑了一下。\n“上次您装作不认识我——我知道。谢谢。”",[["两份三角紫菜包饭","三份三角紫菜包饭"],["两份三角紫菜包饭","两瓶三角紫菜包饭"],["一瓶能量饮料","两瓶能量饮料"],["一瓶能量饮料","零瓶能量饮料"],["两份三角紫菜包饭","两份三角紫菜包饭、两份三角紫菜包饭"]],["삼각김밥 두 개","삼각김밥 세 개"],["counter quantity missing/changed: expected (entity, 3), target candidates=[]"]],
+        ["phone","zh-CN","events:chain_envelope_guilt:/description","去便利店上班的路上。玻璃门上贴着一张A4纸。\n\n‘请问有人见过上周丢的黑色信封吗？\n那是我母亲的手术费。必有酬谢。\n联系电话：010-XXXX-XXXX’\n\n{name}在纸前站了很久。\n\n那个信封，现在就在考试院房间的抽屉里。","去便利店上班的路上。玻璃门上贴着一张A4纸。\n\n‘请问有人见过上周丢的黑色信封吗？\n那是我母亲的手术费。必有酬谢。\n联系电话： 010-XXXX-XXXX’\n\n{name}在纸前站了很久。\n\n那个信封，现在就在考试院房间的抽屉里。",[["010-XXXX-XXXX","011-XXXX-XXXX"],["010-XXXX-XXXX","010-XXX-XXXX"],["010-XXXX-XXXX","010-XXXX-XXXX 010-XXXX-XXXX"],["010-XXXX-XXXX","010--XXXX-XXXX"],["010-XXXX-XXXX","x010-XXXX-XXXX"]],["010-XXXX-XXXX","011-XXXX-XXXX"],["non-money number sequence changed: ['4', '11'] != ['4', '10']","untranslated English token remains: 'XXXX-XXXX'"]],
+        ["confirmation","zh-CN","events:chain_exec_meal:/choices/0/result_text","{name}先在回复框里写下自己有空的时间。\n“谢谢。这周六白天的话，我可以。”\n\n过了一会儿，又收到一条消息。\n“那就周六12点30分，在江南○○韩定食餐厅见吧。”\n\n{name}再次核对日期和地址，发了回复。\n“好的，到时见。”\n双方都确认后，才把这次约见记进日历。","{name}先在回复框里写下自己有空的时间。\n“谢谢。这周六白天的话，我可以。”\n\n过了一会儿，又收到一条消息。\n“那就周六12点30分，在江南○○韩定食餐厅见吧。”\n\n{name}再次核对日期和地址，发了回复。\n“好的，到时见。”\n两人都确认后，才把这次约见记进日历。",[["双方","单方"],["双方","三方"],["都确认","都还未确认"],["双方都","双方的朋友都"],["12","13"]],["두 사람의","세 사람의"],["counter quantity missing/changed: expected (entity, 3), target candidates=[]"]],
+        ["invitation","zh-CN","events:chain_exec_meal:/description","把钱包交到车站工作人员办公室后的第八周。一个没存过的号码发来短信。\n\n“上次谢谢您了。能请您吃顿饭吗？”\n\n消息下面的回复框还是空的。对方发来的，只是一个吃饭的提议。日期和地点都还没定。","把钱包交到车站工作人员办公室后的第八个星期。一个没存过的号码发来短信。\n\n“上次谢谢您了。能请您吃顿饭吗？”\n\n消息下面的回复框还是空的。对方发来的，只是一个吃饭的提议。日期和地点都还没定。",[["第八周","第七周"],["吃顿饭","吃三顿饭"],["能请您吃顿饭吗","已经请您吃顿饭了"],["第八周","第八年"],["吃顿饭","吃顿饭/天"]],["여덟 주째","아홉 주째"],["counter quantity missing/changed: expected (week, 9), target candidates=[('week', Decimal('8'))]","counter quantity missing/changed: expected (occurrence, 1), target candidates=[]"]],
+        ["help","zh-CN","events:chain_neighbor_moving:/choices/0/result_text","一起搬了箱子。到搬家货车那里往返了三趟。\n\n全部装好后，那人买来两罐咖啡。\n\n“{name}，您是我在考试院第一个觉得亲近的人。”\n\n交换了号码。车驶出了巷子。\n\n隔壁的灯以后不会再亮了。手机通讯录里，留下了一个新名字。","一起搬了箱子。到搬家货车那里跑了三个来回。\n\n全部装好后，那人买来两罐咖啡。\n\n“{name}，您是我在考试院第一个觉得亲近的人。”\n\n交换了号码。车驶出了巷子。\n\n隔壁的灯以后不会再亮了。手机通讯录里，留下了一个新名字。",[["三趟","四趟"],["两罐咖啡","三罐咖啡"],["两罐咖啡","两箱咖啡"],["三趟","三天"],["买来两罐咖啡","准备买两罐咖啡"]],["세 번 왕복","네 번 왕복"],["counter quantity missing/changed: expected (occurrence, 4), target candidates=[]","counter quantity missing/changed: expected (entity, 2), target candidates=[('entity', Decimal('1')), ('entity', Decimal('1'))]"]],
+        ["belongings","zh-CN","events:chain_neighbor_moving:/description","周六早上。走廊很吵。\n\n隔壁——考上公务员的那个人，正在往外搬东西。\n\n三个箱子、一个行李箱、一床被子。住了六个月，就这些家当。\n\n“啊，{name}，我今天搬走。”\n\n楼梯上的箱子摇摇欲坠。","周六早上。走廊很吵。\n\n隔壁——考上公务员的那个人，正在往外搬东西。\n\n三个箱子、一个行李箱、一条被子。住了六个月，就这些家当。\n\n“啊，{name}，我今天搬走。”\n\n楼梯上的箱子摇摇欲坠。",[["三个箱子","四个箱子"],["一床被子","两床被子"],["三个箱子、一个行李箱、一床被子","一个箱子、一个行李箱、三床被子"],["一床被子","一栋房子"],["一床被子","一床被子/年"]],["이불 한 채","이불 두 채"],["counter quantity missing/changed: expected (building, 2), target candidates=[]"]],
+        ["drunk","zh-TW","events:butterfly_drunk_investor:/description","深夜的韓國路邊攤。獨自喝著一杯燒酒。\n\n旁邊坐下了一個喝醉的五十多歲男人。\n\n「公司倒了。經營了10年的公司。今天終於定了。」\n\n男人掏出名片。上面印著已經不存在的公司名稱。\n他把名片遞給{name}。「聯絡我。我也許能幫上忙。」","深夜的韓國路邊攤。獨自喝著一杯燒酒。\n\n旁邊坐下了一個喝醉的五十幾歲男人。\n\n「公司倒了。經營了10年的公司。今天終於定了。」\n\n男人掏出名片。上面印著已經不存在的公司名稱。\n他把名片遞給{name}。「聯絡我。我也許能幫上忙。」",[["五十多歲","六十多歲"],["五十多歲","五十輛"],["男人","女人"],["五十多歲","-五十多歲"],["五十多歲","五十多歲/年"]],["50대","60대"],["counter quantity missing/changed: expected (vehicle, 60), target candidates=[]"]],
+        ["contact","zh-TW","events:butterfly_old_contact:/choices/0/result_text","「嗯，記得。你過得好嗎？」\n\n每個月聯絡一兩次。\n對方正在創辦室內裝修公司。\n\n只是聊些平凡的日常。但不知為什麼，偶爾會想見對方。\n在首爾，又有一個舊聯絡人重新有了往來。","「嗯，記得。你過得好嗎？」\n\n每月會聯絡一兩次。\n對方正在創辦室內裝修公司。\n\n只是聊些平凡的日常。但不知為什麼，偶爾會想見對方。\n在首爾，又有一個舊聯絡人重新有了往來。",[["每個月","每兩個月"],["一兩次","兩三次"],["一兩次","一兩年"],["每個月聯絡","每個月並未聯絡"],["一兩次","一兩次/月/年"]],["한 달에","두 달에"],["counter quantity missing/changed: expected (duration_month, 2), target candidates=[]"]],
+        ["toeic_honest","zh-TW","events:butterfly_resume_lie:/choices/0/result_text","填了745，送出。\n\n進到了面試。面試官看了TOEIC分數，說「有點低呢」。\n{name}回答：「我還在準備。」\n\n不知道有沒有錄取。但沒有說謊。","填了745，送出。\n\n進到了面試。面試官看了TOEIC測驗分數，說「有點低呢」。\n{name}回答：「我還在準備。」\n\n不知道有沒有錄取。但沒有說謊。",[["TOEIC","TOEICX"],["TOEIC","TOEIС"],["TOEIC","TOEIC TOEIC"],["745","746"],["TOEIC","xTOEIC"]],["토익","토플"],["untranslated English token remains: 'TOEIC'"]],
+        ["toeic_application","zh-TW","events:butterfly_resume_lie:/description","填求職申請表時，停了下來。\n\n證照欄。填了TOEIC 900分。\n\n實際分數是745。\n\n再過2個小時就截止了。來不及重考。","填求職申請表時，停了下來。\n\n證照欄。填了TOEIC測驗 900分。\n\n實際分數是745。\n\n再過2個小時就截止了。來不及重考。",[["TOEIC","TOEICX"],["TOEIC","TOEIС"],["TOEIC","TOEIC TOEIC"],["900","901"],["TOEIC","xTOEIC"]],["토익","토플"],["untranslated English token remains: 'TOEIC'"]],
+        ["label","zh-TW","events:chain_banchan_reunion:/choices/0/result_text","她擺擺手。\n「那有什麼。買點小菜回去吧，算你便宜一點。」\n\n買了煎蛋捲和炒小魚乾。她只收了一半的錢。\n\n之後，每個星期都會去一次。\n第三次拿回來的小菜盒蓋上，用黑色油性筆寫著『Kim Minjun』。","她擺擺手。\n「那有什麼。買點小菜回去吧，算你便宜一點。」\n\n買了煎蛋捲和炒小魚乾。她只收了一半的錢。\n\n之後，每個星期都會去一次。\n第三次拿回來的小菜盒蓋上，用黑色油性筆寫著「Kim Minjun」。",[["Kim Minjun","Kim Minjun（金敏俊）"],["Kim Minjun","金敏俊（Kim Minjun）"],["Kim Minjun","Kim Daeun"],["Kim Minjun","Kim Minjun Kim Minjun"],["Kim Minjun","Kim MinjunX"]],["김민준","김다은"],["cast name '김다은' must retain Romanized form 'Kim Daeun'; an invented Han-character-only name is not canonical","cast name '다은' must retain Romanized form 'Daeun'; an invented Han-character-only name is not canonical"]],
+        ["phone","zh-TW","events:chain_envelope_guilt:/description","去便利商店上班的路上。玻璃門貼著一張A4紙。\n\n『請問有人上個星期見過一個黑色信封嗎？\n那是我母親的手術費。會給謝禮。\n聯絡電話：010-XXXX-XXXX』\n\n{name}在那前面站了很久。\n\n那個信封，此刻就在考試院的抽屜裡。","去便利商店上班的路上。玻璃門貼著一張A4紙。\n\n『請問有人上個星期見過一個黑色信封嗎？\n那是我母親的手術費。會給謝禮。\n聯絡電話： 010-XXXX-XXXX』\n\n{name}在那前面站了很久。\n\n那個信封，此刻就在考試院的抽屜裡。",[["010-XXXX-XXXX","011-XXXX-XXXX"],["010-XXXX-XXXX","010-XXX-XXXX"],["010-XXXX-XXXX","010-XXXX-XXXX 010-XXXX-XXXX"],["010-XXXX-XXXX","010--XXXX-XXXX"],["010-XXXX-XXXX","x010-XXXX-XXXX"]],["010-XXXX-XXXX","011-XXXX-XXXX"],["non-money number sequence changed: ['4', '11'] != ['4', '10']","untranslated English token remains: 'XXXX-XXXX'"]],
+        ["confirmation","zh-TW","events:chain_exec_meal:/choices/0/result_text","{name}先在回覆欄填上有空的時間。\n「謝謝您。這個星期六白天的話，我可以。」\n\n過了一會兒，新訊息來了。\n「那就星期六12點30分，在江南○○韓式定食餐廳見吧。」\n\n{name}重新確認日期和地址後，傳了回覆。\n「好的，到時見。」\n直到雙方都確認過，才把約定填進行事曆。","{name}先在回覆欄填上有空的時間。\n「謝謝您。這個星期六白天的話，我可以。」\n\n過了一會兒，新訊息來了。\n「那就星期六12點30分，在江南○○韓式定食餐廳見吧。」\n\n{name}重新確認日期和地址後，傳了回覆。\n「好的，到時見。」\n直到兩人都確認過，才把約定填進行事曆。",[["雙方","單方"],["雙方","三方"],["都確認","都還未確認"],["雙方都","雙方的朋友都"],["12","13"]],["두 사람의","세 사람의"],["counter quantity missing/changed: expected (entity, 3), target candidates=[]"]],
+        ["invitation","zh-TW","events:chain_exec_meal:/description","把皮夾交給站務室後的第八個星期。一個沒存過的號碼傳來簡訊。\n\n「上次真是謝謝您。可以請您吃頓飯嗎？」\n\n訊息下方的回覆欄還空著。對方只提出了一次吃飯的邀請。日期和地點都還沒定。","把皮夾交給站務室後的第八週。一個沒存過的號碼傳來簡訊。\n\n「上次真是謝謝您。可以請您吃頓飯嗎？」\n\n訊息下方的回覆欄還空著。對方只提出了一次吃飯的邀請。日期和地點都還沒定。",[["第八個星期","第七個星期"],["吃頓飯","吃三頓飯"],["可以請您吃頓飯嗎","已經請您吃頓飯了"],["第八個星期","第八年"],["吃頓飯","吃頓飯/天"]],["여덟 주째","아홉 주째"],["counter quantity missing/changed: expected (week, 9), target candidates=[]","unmatched target entity quantity invented: 8"]],
+        ["meal","zh-TW","events:chain_exec_meal_arrival:/description","星期六12點30分。雙方確認過的江南韓式定食餐廳。\n\n皮夾的主人——○○集團的專務，已經先到了。\n\n「那個皮夾裡有我母親的照片。是最後一張。」\n\n他停頓了一下。\n\n「這不是請頓飯就能報答的，不過，我先想知道您是做什麼的。」","星期六12點30分。雙方確認過的江南韓式定食餐廳。\n\n皮夾的主人——○○集團的專務，已經先到了。\n\n「那個皮夾裡有我母親的照片。是最後一張。」\n\n他停頓了一下。\n\n「這不是請一頓飯就能報答的，不過，我先想知道您是做什麼的。」",[["請頓飯","請兩頓飯"],["請頓飯","請頓茶"],["請頓飯","請-一頓飯"],["請頓飯","請頓飯/天"],["這不是請頓飯就能報答的","這是請頓飯就能報答的"]],["밥 한 끼","밥 두 끼"],["counter quantity missing/changed: expected (meal, 2), target candidates=[]"]],
+        ["help","zh-TW","events:chain_neighbor_moving:/choices/0/result_text","一起搬紙箱。到小貨車那裡來回跑了三趟。\n\n全部裝好後，對方買了兩罐咖啡回來。\n\n「在考試院裡，{name}是第一個讓我覺得親近的人。」\n\n交換了號碼。車子駛出了巷子。\n\n隔壁房的燈，不會再亮了。手機聯絡人裡，留下了一個新名字。","一起搬紙箱。到小貨車那裡跑了三個來回。\n\n全部裝好後，對方買了兩罐咖啡回來。\n\n「在考試院裡，{name}是第一個讓我覺得親近的人。」\n\n交換了號碼。車子駛出了巷子。\n\n隔壁房的燈，不會再亮了。手機聯絡人裡，留下了一個新名字。",[["三趟","四趟"],["兩罐咖啡","三罐咖啡"],["兩罐咖啡","兩箱咖啡"],["三趟","三天"],["買了兩罐咖啡","準備買兩罐咖啡"]],["세 번 왕복","네 번 왕복"],["counter quantity missing/changed: expected (occurrence, 4), target candidates=[]","counter quantity missing/changed: expected (entity, 2), target candidates=[('entity', Decimal('1')), ('entity', Decimal('1'))]"]],
+        ["belongings","zh-TW","events:chain_neighbor_moving:/description","星期六早上。走廊很吵。\n\n隔壁房——考上公務員的那個人，正在搬東西。\n\n三個紙箱、一只行李箱、一床棉被。住了6個月，家當就只有這些。\n\n「啊，{name}，我今天要搬走了。」\n\n樓梯上的箱子搖搖欲墜。","星期六早上。走廊很吵。\n\n隔壁房——考上公務員的那個人，正在搬東西。\n\n三個紙箱、一只行李箱、一條棉被。住了6個月，家當就只有這些。\n\n「啊，{name}，我今天要搬走了。」\n\n樓梯上的箱子搖搖欲墜。",[["三個紙箱","四個紙箱"],["一床棉被","兩床棉被"],["三個紙箱、一只行李箱、一床棉被","一個紙箱、一只行李箱、三床棉被"],["一床棉被","一棟房子"],["一床棉被","一床棉被/年"]],["이불 한 채","이불 두 채"],["counter quantity missing/changed: expected (box, 3), target candidates=[]","counter quantity missing/changed: expected (building, 2), target candidates=[]","unmatched target entity quantity invented: 3"]],
+    ]
+    cases, failures = 0, []
+    for kind, locale, key, actual, natural, mutations, source_change, baseline_off in specimens:
+        source = SOURCE_BUTTERFLY_CHAIN[kind]
+        for label, target in (("actual", actual), ("natural", natural)):
+            cases += 1
+            errors = validate_text(locale, key, source, target)
+            if errors:
+                failures.append(f"butterfly {locale} {kind} {label} rejected: {errors}")
+        for before, after in mutations:
+            cases += 1
+            if before not in actual or not validate_text(locale, key, source, actual.replace(before, after, 1)):
+                failures.append(f"butterfly {locale} {kind} mutant accepted: {before} -> {after}")
+        cases += 1
+        before, after = source_change
+        changed_source = source.replace(before, after, 1)
+        errors = validate_text(locale, key, changed_source, actual)
+        if before not in source or _butterfly_chain_kind(changed_source) is not None or errors != baseline_off:
+            failures.append(f"butterfly {locale} {kind} source-OFF behavior changed: {errors}")
+    return cases, failures
+
+
+def _butterfly_chain_exposed_self_test() -> tuple[int, list[str]]:
+    # Previously independent ROOT8 exposed AFTER own192 was sealed.
+    # Baseline six normal passed; only two Han-written rent totals were false
+    # positives. These are disclosed regressions, not new blind evidence.
+    specimens = [
+        ["zh-CN","events:chain_exec_meal:/choices/0/result_text","{name}은 답장 칸에 가능한 시간을 먼저 적었다.\n\"감사합니다. 이번 주 토요일 낮이라면 괜찮습니다.\"\n\n잠시 뒤 새 메시지가 왔다.\n\"그럼 토요일 12시 30분, 강남 ○○한정식에서 뵙죠.\"\n\n{name}은 날짜와 주소를 다시 확인해 보냈다.\n\"네, 그때 뵙겠습니다.\"\n두 사람의 확인이 끝난 뒤에야 달력에 약속을 넣었다.","{name}先在回复栏写下了自己方便的时间。\n“谢谢您。这周六中午的话，我方便。”\n\n过了一会儿，新消息来了。\n“那就周六12点30分，在江南的○○韩定食见吧。”\n\n{name}再次确认日期和地址，发了过去。\n“好的，到时候见。”\n两个人都确认后，才把约定记进日历。","{name}先在回复栏写下了自己方便的时间。\n“谢谢您。这周六中午的话，我方便。”\n\n过了一会儿，新消息来了。\n“那就周六12点40分，在江南的○○韩定食见吧。”\n\n{name}再次确认日期和地址，发了过去。\n“好的，到时候见。”\n两个人都确认后，才把约定记进日历。"],
+        ["zh-TW","events:chain_exec_meal:/choices/0/result_text","{name}은 답장 칸에 가능한 시간을 먼저 적었다.\n\"감사합니다. 이번 주 토요일 낮이라면 괜찮습니다.\"\n\n잠시 뒤 새 메시지가 왔다.\n\"그럼 토요일 12시 30분, 강남 ○○한정식에서 뵙죠.\"\n\n{name}은 날짜와 주소를 다시 확인해 보냈다.\n\"네, 그때 뵙겠습니다.\"\n두 사람의 확인이 끝난 뒤에야 달력에 약속을 넣었다.","{name}先在回覆欄寫下自己方便的時間。\n「謝謝您。這週六中午的話，我可以。」\n\n過了一會兒，新訊息來了。\n「那就週六12點30分，在江南的○○韓定食見吧。」\n\n{name}再次確認日期和地址，傳了出去。\n「好的，到時候見。」\n兩個人都確認後，才把約定記進行事曆。","{name}先在回覆欄寫下自己方便的時間。\n「謝謝您。這週六中午的話，我可以。」\n\n過了一會兒，新訊息來了。\n「那就週六12點40分，在江南的○○韓定食見吧。」\n\n{name}再次確認日期和地址，傳了出去。\n「好的，到時候見。」\n兩個人都確認後，才把約定記進行事曆。"],
+        ["zh-CN","events:butterfly_resume_lie:/description","취업 지원서를 쓰다가 멈췄다.\n\n자격증 칸. 토익 900이라고 적었다.\n\n실제 점수는 745.\n\n지원 마감이 2시간 뒤다. 재시험을 볼 시간이 없다.","填写求职申请时，停下了手。\n\n资格证书栏。写上了托业900分。\n\n实际分数是745。\n\n离申请截止还有2小时。没有时间重考了。","填写求职申请时，停下了手。\n\n资格证书栏。写上了托业900分。\n\n实际分数是754。\n\n离申请截止还有2小时。没有时间重考了。"],
+        ["zh-TW","events:butterfly_resume_lie:/description","취업 지원서를 쓰다가 멈췄다.\n\n자격증 칸. 토익 900이라고 적었다.\n\n실제 점수는 745.\n\n지원 마감이 2시간 뒤다. 재시험을 볼 시간이 없다.","填寫求職申請時，停下了手。\n\n證照欄。寫上了多益900分。\n\n實際分數是745。\n\n距離申請截止還有2小時。沒有時間重考了。","填寫求職申請時，停下了手。\n\n證照欄。寫上了多益900分。\n\n實際分數是754。\n\n距離申請截止還有2小時。沒有時間重考了。"],
+        ["zh-CN","events:chain_neighbor_civil_servant:/choices/0/result_text","서류를 갖춰 신청했다. 선정됐다.\n\n월세 지원 6개월. 총 120만원.\n\n{name}은 선정 문자 화면을 캡처해 보냈다.\n'덕분에 신청했어요. 고마워요.'\n\n잠시 뒤 엄지손가락 이모티콘 하나가 도착했다.","备齐材料提交了申请。入选了。\n\n月租补助6个月，总共一百二十万韩元。\n\n{name}截下入选短信的画面，发了过去。\n“多亏你，我申请了。谢谢。”\n\n过了一会儿，收到了一个竖大拇指的表情。","备齐材料提交了申请。入选了。\n\n月租补助8个月，总共一百二十万韩元。\n\n{name}截下入选短信的画面，发了过去。\n“多亏你，我申请了。谢谢。”\n\n过了一会儿，收到了一个竖大拇指的表情。"],
+        ["zh-TW","events:chain_neighbor_civil_servant:/choices/0/result_text","서류를 갖춰 신청했다. 선정됐다.\n\n월세 지원 6개월. 총 120만원.\n\n{name}은 선정 문자 화면을 캡처해 보냈다.\n'덕분에 신청했어요. 고마워요.'\n\n잠시 뒤 엄지손가락 이모티콘 하나가 도착했다.","備齊文件提出申請。獲選了。\n\n月租補助6個月，總共一百二十萬韓元。\n\n{name}截下獲選簡訊的畫面，傳了出去。\n「多虧你，我申請了。謝謝。」\n\n過了一會兒，收到一個豎起大拇指的表情符號。","備齊文件提出申請。獲選了。\n\n月租補助8個月，總共一百二十萬韓元。\n\n{name}截下獲選簡訊的畫面，傳了出去。\n「多虧你，我申請了。謝謝。」\n\n過了一會兒，收到一個豎起大拇指的表情符號。"],
+        ["zh-CN","events:chain_exec_interview:/choices/0/result_text","\"지하철역에서 지갑을 주워서 돌려드렸습니다. 그게 전부입니다.\"\n\n면접관들이 서로를 봤다. 한 명이 웃었다.\n\"그 얘기 들었어요. 본인 입으로 듣고 싶었습니다.\"\n\n합격 통보는 사흘 뒤에 왔다. 기본급은 월 455만원이었다.\n\n첫 출근 날, {name}은 목에 건 사원증의 계열사 로고를 엄지로 한 번 문질렀다.","“我在地铁站捡到钱包，还给了他。仅此而已。”\n\n面试官们互相看了看。其中一人笑了。\n“我们听说了。想听你亲口说一遍。”\n\n三天后，录用通知来了。底薪是每月455万韩元。\n\n第一天上班，{name}用拇指蹭了一下挂在脖子上的工牌，上面印着那家关联公司的标志。","“我在地铁站捡到钱包，还给了他。仅此而已。”\n\n面试官们互相看了看。其中一人笑了。\n“我们听说了。想听你亲口说一遍。”\n\n三天后，录用通知来了。底薪是每月445万韩元。\n\n第一天上班，{name}用拇指蹭了一下挂在脖子上的工牌，上面印着那家关联公司的标志。"],
+        ["zh-TW","events:chain_exec_interview:/choices/0/result_text","\"지하철역에서 지갑을 주워서 돌려드렸습니다. 그게 전부입니다.\"\n\n면접관들이 서로를 봤다. 한 명이 웃었다.\n\"그 얘기 들었어요. 본인 입으로 듣고 싶었습니다.\"\n\n합격 통보는 사흘 뒤에 왔다. 기본급은 월 455만원이었다.\n\n첫 출근 날, {name}은 목에 건 사원증의 계열사 로고를 엄지로 한 번 문질렀다.","「我在地鐵站撿到錢包，還給了他。就只是這樣。」\n\n面試官們互相看了看。其中一人笑了。\n「我們聽說了。想聽你親口說一遍。」\n\n三天後，錄取通知來了。底薪是每月455萬韓元。\n\n第一天上班，{name}用拇指蹭了一下掛在脖子上的員工證，上面印著那家關係企業的標誌。","「我在地鐵站撿到錢包，還給了他。就只是這樣。」\n\n面試官們互相看了看。其中一人笑了。\n「我們聽說了。想聽你親口說一遍。」\n\n三天後，錄取通知來了。底薪是每月445萬韓元。\n\n第一天上班，{name}用拇指蹭了一下掛在脖子上的員工證，上面印著那家關係企業的標誌。"],
+    ]
+    cases, failures = 0, []
+    for locale, key, source, normal, mutant in specimens:
+        cases += 2
+        normal_errors = validate_text(locale, key, source, normal)
+        mutant_errors = validate_text(locale, key, source, mutant)
+        if normal_errors:
+            failures.append(f"butterfly exposed {locale} {key} normal rejected: {normal_errors}")
+        if not mutant_errors:
+            failures.append(f"butterfly exposed {locale} {key} mutant accepted")
+    return cases, failures
+
+
+def _butterfly_chain_current_normal_self_test() -> tuple[int, list[str]]:
+    # This existing TW form was green before the new CN counter helper.
+    source = SOURCE_BUTTERFLY_CHAIN["celeb"]
+    normal = "凌晨2點半。門開了。\n\n那個把帽子壓得很低的男人，又來了。\n\n兩個三角飯捲、一瓶能量飲料。一樣的組合。\n\n「這裡最自在。因為沒人會認出我就特地打招呼。」\n\n他在收銀台前稍稍猶豫了一下。\n「上次你裝作沒認出我——我知道。那天謝謝你。」"
+    failures = []
+    errors = validate_text("zh-TW", "events:chain_celeb_return:/description", source, normal)
+    if errors:
+        failures.append(f"butterfly existing TW rice-roll form regressed: {errors}")
+    if not validate_text("zh-TW", "events:chain_celeb_return:/description", source, normal.replace("兩個三角飯捲", "三個三角飯捲", 1)):
+        failures.append("butterfly TW rice-roll count mutation accepted")
+    return 2, failures
+
 def run_self_test(
     manifest: dict[str, Any], runtime: dict[str, Any],
 ) -> list[str]:
     failures: list[str] = []
     cases, life_failures = _life_scene_parser_self_test()
+    butterfly_cases, butterfly_failures = _butterfly_chain_parser_self_test()
+    cases += butterfly_cases
+    failures.extend(butterfly_failures)
+    butterfly_exposed_cases, butterfly_exposed_failures = _butterfly_chain_exposed_self_test()
+    cases += butterfly_exposed_cases
+    failures.extend(butterfly_exposed_failures)
+    butterfly_current_cases, butterfly_current_failures = _butterfly_chain_current_normal_self_test()
+    cases += butterfly_current_cases
+    failures.extend(butterfly_current_failures)
     cafe_cases, cafe_failures = _cafe_encounter_parser_self_test()
     cases += cafe_cases
     failures.extend(cafe_failures)

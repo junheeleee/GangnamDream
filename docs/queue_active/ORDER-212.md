@@ -139,3 +139,11 @@ docs/history/WORK_LOG_2026-09-07_localization.md 앞에 raw exact 이동한다.
 기존 history63581B/SHA4e266ae74fe6f2dbbfe0e099de7aeff7e49683159afe093635369b0ebf480bbd와
 끝 LF2를 선언 직전에 다시 봉인한다. 기존 내용 요약·삭제와 다른 절 이동은 허용하지 않는다.
 선언·소유·수량·배치 지시는 일회성이다. 지속 규칙은 기존 I18N_INFRASTRUCTURE.md가 소유한다.
+
+
+## 수용·검수 기록
+
+신규432와 기존32,052를 대조·수용한 결과·지문·검사 경계는
+[ORDER-212 L1/L2 기록](../queue_archive/ORDER-212_L1_L2_RESULTS.md)에 보존한다.
+전체 INCOMPLETE/HOLD와 L3·원어민·화면 OPEN은 유지한다.
+보관본을 apply_patch로 이동할 때는 내용뿐 아니라 기존 끝 LF2도 다시 대조한다.

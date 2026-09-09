@@ -7,6 +7,7 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
+| 1 | [~] | ORDER-212 · 선택의 나비효과·친절의 연쇄 번역 | [212](queue_active/ORDER-212.md) | 432번역 L1/L2 · L3 OPEN |
 | 2 | [~] | ORDER-211 · 카페·만남·SNS 생활 번역 | [211](queue_active/ORDER-211.md) | 660번역 L1/L2 · L3 OPEN |
 | 3 | [~] | ORDER-210 · 도시 휴식·도박·우정 번역 | [210](queue_active/ORDER-210.md) | 714번역 L1/L2 · L3 OPEN |
 | 4 | [~] | ORDER-209 · 계절·동네·취미 번역 | [209](queue_active/ORDER-209.md) | 726번역 L1/L2 · L3 OPEN |

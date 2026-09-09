@@ -1372,6 +1372,93 @@ def _ja_cafe_encounter_money_numbers(source: str, target: str):
     return normalized_source, normalized_target, sorted(set(errors))
 
 
+def _ja_chain_support_salary_numbers(source: str, target: str):
+    """Read native JA numerals only in two complete KO benefit/salary sources.
+
+    Owned quantities keep their line, role, unit and value. This supplies an
+    ordered numeric stream to existing checks; unrelated prose is not licensed.
+    """
+    contracts = {
+        (
+            "서류를 갖춰 신청했다. 선정됐다.\n"
+            "\n"
+            "월세 지원 6개월. 총 120만원.\n"
+            "\n"
+            "{name}은 선정 문자 화면을 캡처해 보냈다.\n"
+            "'덕분에 신청했어요. 고마워요.'\n"
+            "\n"
+            "잠시 뒤 엄지손가락 이모티콘 하나가 도착했다."
+        ): {
+            "rewrites": (("이모티콘 하나", "이모티콘 1"),),
+            "slots": (
+                (2, r"(?:家賃|月家賃)(?:の)?(?:補助|支援)(?:は)?\s*@N@(?:か月|ヶ月|カ月|箇月)", 6, "support_months"),
+                (2, r"(?:合計|総額|計)(?:は)?\s*@N@万ウォン", 120, "total_won"),
+                (7, r"絵文字が@N@(?:つ|個)(?:届いた|来た)", 1, "reply_emoji"),
+            ),
+        },
+        (
+            "\"지하철역에서 지갑을 주워서 돌려드렸습니다. 그게 전부입니다.\"\n"
+            "\n"
+            "면접관들이 서로를 봤다. 한 명이 웃었다.\n"
+            "\"그 얘기 들었어요. 본인 입으로 듣고 싶었습니다.\"\n"
+            "\n"
+            "합격 통보는 사흘 뒤에 왔다. 기본급은 월 455만원이었다.\n"
+            "\n"
+            "첫 출근 날, {name}은 목에 건 사원증의 계열사 로고를 엄지로 한 번 문질렀다."
+        ): {
+            "rewrites": (("한 명", "1 명"), ("사흘", "3일"), ("한 번", "1 번")),
+            "slots": (
+                (2, r"@N@人が笑った", 1, "interviewer"),
+                (5, r"合格の(?:通知|知らせ)は@N@日後に(?:来た|届いた)", 3, "notification_days"),
+                (5, r"基本給は月@N@万ウォン", 455, "monthly_base_won"),
+                (7, r"親指で@N@(?:度|回)(?:こすった|擦った)", 1, "thumb_action"),
+            ),
+        },
+    }
+    contract = contracts.get(source)
+    if contract is None:
+        return None
+    import unicodedata
+    from zh_translation_audit import _chinese_cardinal_value
+
+    digits = r"0-9０-９〇零一二三四五六七八九十百千"
+    number = r"(?<![" + digits + r"万億,.，．])(?P<number>[+＋\-－−]?[" + digits + r"]+)"
+    lines = target.split("\n")
+    errors, replacements, owned = [], [], []
+    for line, pattern, expected, label in contract["slots"]:
+        matches = list(re.finditer(pattern.replace("@N@", number), lines[line])) if line < len(lines) else []
+        if len(matches) != 1:
+            errors.append(f"source-bound chain support/salary {label} role/unit/line/count mismatch")
+            continue
+        match = matches[0]
+        start, end = match.span("number")
+        raw = unicodedata.normalize("NFKC", match.group("number"))
+        if raw[:1] in "+-−" or _chinese_cardinal_value(raw) != expected:
+            errors.append(f"source-bound chain support/salary {label} value/sign mismatch")
+        if re.search(r"[+＋\-－−" + digits + r"万億,.，．]\s*$", lines[line][:start]):
+            errors.append(f"source-bound chain support/salary {label} numeric prefix mismatch")
+        if re.match(r"\s*(?:[/／]|毎(?:時|日|月|年)|未満|以上|以下|程度|ほど|くらい|ぐらい|"
+                    r"円|ドル|ウォン|元|ユーロ|ではな|じゃな|"
+                    r"[（(]\s*(?:毎|月|日|年|時|円|ドル|元))", lines[line][match.end():]):
+            errors.append(f"source-bound chain support/salary {label} qualifier mismatch")
+        offset = sum(len(part) + 1 for part in lines[:line])
+        owned.append((offset + start, offset + end))
+        replacements.append((offset + start, offset + end, str(expected)))
+    # An extra/wrong quantity cannot borrow a later correct amount or counter.
+    units = r"(?:万|億)?(?:ウォン|円|ドル|元)|か月|ヶ月|カ月|箇月|年|日|時間|分|秒|人|名|回|度|つ|個"
+    for quantity in re.finditer(number + r"\s*(?:" + units + ")", target):
+        start, end = quantity.span("number")
+        if not any(a <= start and end <= b for a, b in owned):
+            errors.append("source-bound chain support/salary added/displaced quantity mismatch")
+    normalized_source = source
+    for old, new in contract["rewrites"]:
+        normalized_source = normalized_source.replace(old, new, 1)
+    normalized_target = target
+    for start, end, replacement in sorted(replacements, reverse=True):
+        normalized_target = normalized_target[:start] + replacement + normalized_target[end:]
+    return normalized_source, normalized_target, sorted(set(errors))
+
+
 def _ja_korean_culture_address(source: str, target: str):
     """Permit ordinary male address only in the two observed non-romance quotes.
 
@@ -1424,6 +1511,12 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
         leisure_gambling = _ja_leisure_gambling_numbers(leaf.source, text)
         if leisure_gambling is not None:
             source_numbers, target_numbers, quantity_errors = leisure_gambling
+            source_numbers = ja.PLACEHOLDER.sub("", source_numbers)
+            target_numbers = ja.PLACEHOLDER.sub("", target_numbers)
+            errors.extend(quantity_errors)
+        chain_support = _ja_chain_support_salary_numbers(leaf.source, text)
+        if chain_support is not None:
+            source_numbers, target_numbers, quantity_errors = chain_support
             source_numbers = ja.PLACEHOLDER.sub("", source_numbers)
             target_numbers = ja.PLACEHOLDER.sub("", target_numbers)
             errors.extend(quantity_errors)
