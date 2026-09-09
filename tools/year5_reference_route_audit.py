@@ -5490,12 +5490,198 @@ def order215_modal_source_errors(
     return errors
 
 
+# ORDER-220 adds only the approved health/mental preview-label lookup.
+# Validate the live raw first; these projections are historical observations.
+ORDER220_PREVIEW_PATH = "scenes/MainGame.gd"
+ORDER220_PREVIEW_PREVIOUS_SHA256 = (
+    "77c690b8f4f41d9559b6aac25eb78d5de31d42be423dddbd3e889cf3287c67dd"
+)
+ORDER220_PREVIEW_CURRENT_SHA256 = (
+    "5b891505892d3306197cb20b70e4e0d8074941aeb7ec40030857bd32bb912f88"
+)
+ORDER220_PREVIEW_TRANSITIONS = {
+    ORDER220_PREVIEW_PATH: (
+        ORDER220_PREVIEW_PREVIOUS_SHA256, ORDER220_PREVIEW_CURRENT_SHA256),
+}
+ORDER220_PREVIEW_PATCHES = (
+    (
+        '\t\tvar stat_name: String = str(_STAT_EN.get(key, key)) if '
+        'LocaleManager.is_english() else str(_STAT_KR.get(key, key))\n',
+        '\t\tvar stat_name: String = str(_STAT_EN.get(key, key)) if '
+        'LocaleManager.is_english() else str(_STAT_KR.get(key, key))\n'
+        '\t\tif key == "health":\n'
+        '\t\t\tstat_name = _tr("건강", "Health")\n'
+        '\t\telif key == "mental":\n'
+        '\t\t\tstat_name = _tr("정신", "Mental")\n',
+    ),
+)
+
+
+def order220_preview_project_bytes(current: bytes, relative: str) -> bytes:
+    """Project only the full approved successor and its unique inverse block."""
+    if relative != ORDER220_PREVIEW_PATH or hashlib.sha256(current).hexdigest() \
+            != ORDER220_PREVIEW_CURRENT_SHA256:
+        return current
+    projected = current
+    for before, after in ORDER220_PREVIEW_PATCHES:
+        before_bytes, after_bytes = before.encode("utf-8"), after.encode("utf-8")
+        if projected.count(after_bytes) != 1:
+            return current
+        projected = projected.replace(after_bytes, before_bytes, 1)
+    if hashlib.sha256(projected).hexdigest() != ORDER220_PREVIEW_PREVIOUS_SHA256:
+        return current
+    return projected
+
+
+def order220_preview_project_byte_hash(current_hash: str, relative: str) -> str:
+    """Observation only; this mapping cannot establish current raw validity."""
+    if relative == ORDER220_PREVIEW_PATH \
+            and current_hash == ORDER220_PREVIEW_CURRENT_SHA256:
+        return ORDER220_PREVIEW_PREVIOUS_SHA256
+    return current_hash
+
+
+def order220_preview_source_errors(
+        relative: str, current: bytes, registered_previous: str) -> list[str]:
+    """Reject rollback, changed registry, wrong path and any extra raw byte."""
+    errors: list[str] = []
+    if ORDER220_PREVIEW_TRANSITIONS != {
+            ORDER220_PREVIEW_PATH: (
+                ORDER220_PREVIEW_PREVIOUS_SHA256, ORDER220_PREVIEW_CURRENT_SHA256)}:
+        errors.append("ORDER-220: exact preview transition registry drifted")
+    if relative != ORDER220_PREVIEW_PATH:
+        errors.append("ORDER-220: preview transition path is not the owned path")
+    if registered_previous != ORDER220_PREVIEW_PREVIOUS_SHA256:
+        errors.append("ORDER-220: preview transition predecessor registry drifted")
+    if hashlib.sha256(current).hexdigest() != ORDER220_PREVIEW_CURRENT_SHA256:
+        errors.append("ORDER-220: unapproved current preview source bytes")
+    projected = order220_preview_project_bytes(current, relative)
+    if projected == current or hashlib.sha256(projected).hexdigest() \
+            != ORDER220_PREVIEW_PREVIOUS_SHA256:
+        errors.append("ORDER-220: exact preview inverse does not restore predecessor")
+    return errors
+
+
+def order220_main_source_errors(
+        relative: str, current: bytes, registered_order156: str) -> list[str]:
+    """Check current raw before observing either immutable historical layer."""
+    errors = order220_preview_source_errors(
+        relative, current, ORDER215_MODAL_CURRENT_SHA256)
+    if errors:
+        return errors
+    return order215_modal_source_errors(
+        relative, order220_preview_project_bytes(current, relative),
+        registered_order156)
+
+
+def order220_preview_transition_self_test() -> tuple[list[str], int]:
+    """The pre-code finite 26: raw/path/registry/inverse/hash/live composition."""
+    from unittest.mock import patch
+
+    failures: list[str] = []
+    relative = ORDER220_PREVIEW_PATH
+    current = (ROOT / relative).read_bytes()
+    previous = order220_preview_project_bytes(current, relative)
+    historical = order215_modal_project_bytes(previous, relative)
+    cases = [
+        ("approved_N", relative, current, True),
+        ("raw77c690", relative, previous, False),
+        ("raw3e15", relative, historical, False),
+        ("StoryMode_path", "scenes/StoryMode.gd", current, False),
+        ("case_changed_MainGame_path", "scenes/maingame.gd", current, False),
+    ]
+    mutations = (
+        ("health_label_wrong", 'stat_name = _tr("건강", "Health")',
+         'stat_name = _tr("건강", "Stamina")'),
+        ("mental_label_English_forced", 'stat_name = _tr("정신", "Mental")',
+         'stat_name = "Mental"'),
+        ("stress_minus_to_plus",
+         'merged["mental"] = int(merged.get("mental", 0)) - int(eff[k])',
+         'merged["mental"] = int(merged.get("mental", 0)) + int(eff[k])'),
+        ("stat_priority_swapped", 'var priority = ["money", "health", "mental"]',
+         'var priority = ["money", "mental", "health"]'),
+        ("sign_condition_changed", 'var sign: String = "+" if val > 0 else ""',
+         'var sign: String = "+" if val < 0 else ""'),
+        ("money_multiplier_changed", 'GameState.format_money(float(val))',
+         'GameState.format_money(float(val) * 2)'),
+        ("old215_confirm_false", 'set_meta("tendency_realization_confirm", true)',
+         'set_meta("tendency_realization_confirm", false)'),
+    )
+    for label, before, after in mutations:
+        if current.count(before.encode("utf-8")) != 1:
+            failures.append(f"ORDER-220 self fixture anchor not unique: {label}")
+        cases.append((label, relative, current.replace(
+            before.encode("utf-8"), after.encode("utf-8"), 1), False))
+    cases.append(("trailing_newline", relative, current + b"\n", False))
+    for label, path, raw, expected in cases:
+        errors = order220_preview_source_errors(
+            path, raw, ORDER220_PREVIEW_PREVIOUS_SHA256)
+        if (not errors) != expected:
+            failures.append(f"ORDER-220 raw case disagreed: {label}")
+        projected = order220_preview_project_bytes(raw, path)
+        if expected:
+            if hashlib.sha256(projected).hexdigest() \
+                    != ORDER220_PREVIEW_PREVIOUS_SHA256:
+                failures.append("ORDER-220 exact predecessor projection failed")
+        elif projected != raw:
+            failures.append(f"ORDER-220 non-owned raw projected: {label}")
+    count = len(cases)
+    for registry in (
+            {},
+            {**ORDER220_PREVIEW_TRANSITIONS, "scenes/StoryMode.gd": (
+                ORDER220_PREVIEW_PREVIOUS_SHA256, ORDER220_PREVIEW_CURRENT_SHA256)},
+            {relative: ("0" * 64, ORDER220_PREVIEW_CURRENT_SHA256)},
+            {relative: (ORDER220_PREVIEW_PREVIOUS_SHA256, "0" * 64)},
+            {relative: (ORDER220_PREVIEW_CURRENT_SHA256, ORDER220_PREVIEW_PREVIOUS_SHA256)}):
+        count += 1
+        with patch.dict(ORDER220_PREVIEW_TRANSITIONS, registry, clear=True):
+            if not order220_preview_source_errors(
+                    relative, current, ORDER220_PREVIEW_PREVIOUS_SHA256):
+                failures.append("ORDER-220 changed registry accepted")
+    before, after = ORDER220_PREVIEW_PATCHES[0]
+    for patches in (
+            (("wrong inverse\n", after),),
+            ((before, "missing after\n"),),
+            ((before, after), (before, after))):
+        count += 1
+        with patch.dict(globals(), {"ORDER220_PREVIEW_PATCHES": patches}):
+            if not order220_preview_source_errors(
+                    relative, current, ORDER220_PREVIEW_PREVIOUS_SHA256) \
+                    or order220_preview_project_bytes(current, relative) != current:
+                failures.append("ORDER-220 corrupt/nonunique inverse accepted")
+    for path, value, expected in (
+            (relative, ORDER220_PREVIEW_CURRENT_SHA256, ORDER220_PREVIEW_PREVIOUS_SHA256),
+            (relative, "0" * 64, "0" * 64),
+            ("scenes/StoryMode.gd", ORDER220_PREVIEW_CURRENT_SHA256,
+             ORDER220_PREVIEW_CURRENT_SHA256)):
+        count += 1
+        if order220_preview_project_byte_hash(value, path) != expected:
+            failures.append("ORDER-220 hash projection scope drifted")
+    count += 1
+    if order220_main_source_errors(relative, current, ORDER215_MODAL_PREVIOUS_SHA256) \
+            or hashlib.sha256(historical).hexdigest() != ORDER215_MODAL_PREVIOUS_SHA256 \
+            or order215_modal_project_byte_hash(
+                order220_preview_project_byte_hash(
+                    ORDER220_PREVIEW_CURRENT_SHA256, relative), relative) \
+            != ORDER215_MODAL_PREVIOUS_SHA256:
+        failures.append("ORDER-220 N-to77-to3e15 chain rejected")
+    count += 1
+    with patch.dict(globals(), {
+            "order220_preview_project_byte_hash": lambda value, path:
+                ORDER220_PREVIEW_PREVIOUS_SHA256}):
+        if not order220_main_source_errors(
+                relative, current + b"\n", ORDER215_MODAL_PREVIOUS_SHA256):
+            failures.append("ORDER-220 hash claim bypassed actual raw validation")
+    return failures, count
+
+
 def order215_modal_transition_self_test() -> tuple[list[str], int]:
     """Finite raw, predecessor, path, registry and exact-inverse adversaries."""
     from unittest.mock import patch
 
     failures: list[str] = []
     current = (ROOT / ORDER215_MODAL_PATH).read_bytes()
+    current = order220_preview_project_bytes(current, ORDER215_MODAL_PATH)
     previous = order215_modal_project_bytes(current, ORDER215_MODAL_PATH)
     cases = [
         ("current", ORDER215_MODAL_PATH, current, ORDER215_MODAL_PREVIOUS_SHA256, True),
@@ -5568,6 +5754,7 @@ def order215_modal_transition_self_test() -> tuple[list[str], int]:
 
 def order156_project_bytes(current: bytes, relative: str) -> bytes:
     """Expose an older byte only from the complete exact ORDER-156 leaf."""
+    current = order220_preview_project_bytes(current, relative)
     current = order215_modal_project_bytes(current, relative)
     transition = ORDER156_SOURCE_FILE_TRANSITIONS.get(relative)
     if transition is None or byte_sha256(current) != transition[1]:
@@ -5600,6 +5787,7 @@ def order156_project_payload(payload: Any, relative: str) -> Any:
 
 def order156_project_byte_hash(current_hash: str, relative: str) -> str:
     """Map only an exact ORDER-156 successor hash to its predecessor."""
+    current_hash = order220_preview_project_byte_hash(current_hash, relative)
     current_hash = order215_modal_project_byte_hash(current_hash, relative)
     transition = ORDER156_SOURCE_FILE_TRANSITIONS.get(relative)
     if transition is not None and current_hash == transition[1]:
@@ -8266,7 +8454,7 @@ def validate_order138_registration(
 def validate_order156_registration(errors: list[str]) -> dict[str, int]:
     """Pin the exact routine-background leaf before every older receipt."""
     try:
-        errors.extend(order215_modal_source_errors(
+        errors.extend(order220_main_source_errors(
             ORDER215_MODAL_PATH, (ROOT / ORDER215_MODAL_PATH).read_bytes(),
             ORDER156_SOURCE_FILE_TRANSITIONS.get(ORDER215_MODAL_PATH, ("", ""))[1]))
     except OSError as exc:
@@ -8321,6 +8509,7 @@ def validate_order156_registration(errors: list[str]) -> dict[str, int]:
         try:
             baseline_bytes = order156_baseline_bytes(relative)
             current_bytes = (ROOT / relative).read_bytes()
+            current_bytes = order220_preview_project_bytes(current_bytes, relative)
             current_bytes = order215_modal_project_bytes(current_bytes, relative)
         except (OSError, ValueError) as exc:
             errors.append(f"{owner}: cannot load exact source pair ({exc})")
@@ -10910,7 +11099,7 @@ def run_invalidated_self_test(
             ORDER156_SOURCE_FILE_TRANSITIONS.items()):
         baseline_order156 = order156_baseline_bytes(relative)
         current_order156 = order215_modal_project_bytes(
-            (ROOT / relative).read_bytes(), relative)
+            order220_preview_project_bytes((ROOT / relative).read_bytes(), relative), relative)
         case_count += 1
         if byte_sha256(baseline_order156) != transition[0] \
                 or byte_sha256(current_order156) != transition[1] \
@@ -13029,6 +13218,9 @@ def main() -> int:
         modal_failures, modal_cases = order215_modal_transition_self_test()
         failures.extend(modal_failures)
         cases += modal_cases
+        preview_failures, preview_cases = order220_preview_transition_self_test()
+        failures.extend(preview_failures)
+        cases += preview_cases
         if failures:
             for failure in failures:
                 print(f"YEAR5_REFERENCE_ROUTE_SELF_TEST_ERROR {failure}")

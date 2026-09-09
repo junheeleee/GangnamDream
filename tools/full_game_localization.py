@@ -2042,6 +2042,303 @@ def _ja_callback_shadow_numbers(source: str, target: str):
     return "\n".join(source_lines), normalized_target, sorted(set(errors))
 
 
+def _ja_career_specialization_numbers(source: str, target: str):
+    """Normalize 48 typed slots within 25 complete observed Korean sources.
+
+    Target contracts bind quantity, unit, line and nearby role, not whole prose.
+    All original translation validators remain active. Changed source is OFF.
+    """
+    contracts = {
+        (
+            "일주일 동안 고생했다. 세 번 수정했다.\n30만 원이 들어왔을 때 — 지금까지 받은 돈 중 가장 뿌듯했다."
+        ): (
+            (0, "일주일", 1, "週間",
+                "@Q@[、，]?(?:苦労|頑張|奮闘|手をかけた(?=[。．]))", "work_week"),
+            (0, "세 번", 3, "(?:回|度)",
+                "(?:(?P<revision_before>修正|手直し)は)?@Q@"
+                "(?(revision_before)[。．]|[、，]?(?:修正|手直し))", "revisions"),
+            (1, "30만 원", 300000, "money",
+                "@Q@が(?:入金|振り込まれ)", "received_won"),
+        ),
+        (
+            "SNS에 올린 작업물 — 누군가가 연락을 해왔다.\n\"이거 비슷한 거 하나 부탁드려도 될까요? 예산은 30만 원 정도인"
+            "데.\"\n\n처음이다. 계약서도 없고, 방법도 잘 모른다.\n하지만 첫 건은 어디서나 첫 건이다."
+        ): (
+            (1, "하나", 1, "(?:つ|点|個)",
+                "(?:もの|物)を@Q@(?:[、，])?(?:お願い|頼)", "requested_item"),
+            (1, "30만 원", 300000, "money",
+                "予算は@Q@(?:くらい|ぐらい|ほど|程度)", "approx_budget"),
+            (4, "첫 건", 1, "件",
+                "最初の@Q@は", "first_job_start"),
+            (4, "첫 건", 1, "件",
+                "[、，]最初の@Q@だ", "first_job_end"),
+        ),
+        (
+            "또 일어났다.\n이번엔 다른 회의에서, 다른 보고서로.\n{name}의 아이디어가 팀장 입을 통해 경영진에게 전달됐다.\n"
+            "\n첫 번째엔 참았다.\n두 번째라면 — 계속 참는 것도 선택이다."
+        ): (
+            (4, "첫 번째", 1, "(?:度目|回目)",
+                "@Q@は(?:耐え|我慢)", "first_theft"),
+            (5, "두 번째", 2, "(?:度目|回目)",
+                "@Q@なら", "second_theft"),
+            (5, "선택", 1, "(?:つ|個)",
+                "@Q@の選択", "one_option"),
+        ),
+        (
+            "\"오늘 일이 있어서요\" 하고 혼자 편의점에서 먹었다.\n양쪽에서 조금씩 밀려나는 느낌이었다.\n하지만 편했다."
+        ): (
+            (0, "혼자", 1, "人",
+                "@Q@でコンビニで(?:食べ|食事)", "alone_meal"),
+        ),
+        (
+            "양쪽 다 안 간다. 혼자 먹는다.  (독립 / 고립)"
+        ): (
+            (0, "혼자", 1, "人",
+                "@Q@で(?:食べる|食事をする)", "alone_choice"),
+        ),
+        (
+            "진급 발표가 났다.\n{name}의 이름이 없었다. 작년에 합류한 후배가 먼저 됐다.\n직속 팀장이 \"올해는 TO가 적었"
+            "고, 내년엔 꼭 챙겨줄게\"라고 했다.\n\n이 말을 이미 두 번 들었다."
+        ): (
+            (4, "두 번", 2, "(?:度|回)",
+                "(?:もう|すでに|既に)@Q@(?:聞いている|耳にしている)", "heard_promise"),
+        ),
+        (
+            "다음날 출근했다.\n아무것도 달라진 게 없었다. 그냥 또 하루가 지나갔다."
+        ): (
+            (1, "하루", 1, "日",
+                "(?:また|もう)@Q@が(?:過ぎた|過ぎていった)", "another_day"),
+        ),
+        (
+            "{name}은 반차를 냈다.\n아무데도 가지 않고 낮에 집에서 혼자 있었다.\n그게 전부였다. 그런데 — 많이 필요한 시"
+            "간이었다."
+        ): (
+            (1, "혼자", 1, "人",
+                "(?:家で|自宅で)@Q@で(?:過ごした|いた)", "home_alone"),
+        ),
+        (
+            "퇴근하고 지하철에 탔다.\n오늘만 세 번 참았다.\n상사의 말, 의미없는 야근, 아무도 고마워하지 않는 일.\n\n\"내일 그"
+            "냥 문자 하나 보내고 안 나가면 어떻게 될까.\"\n이 생각이 처음이 아니다."
+        ): (
+            (1, "세 번", 3, "(?:回|度)",
+                "(?:今日だけで)@Q@[、，]?(?:こらえた|我慢した|耐えた)", "endured_today"),
+            (4, "하나", 1, "通",
+                "メッセージを@Q@(?:送って|出して)", "imagined_message"),
+        ),
+        (
+            "오늘 하루만 더"
+        ): (
+            (0, "하루", 1, "日",
+                "(?:今日だけ[、，]?もう|今日[、，]あと)@Q@", "one_more_day"),
+        ),
+        (
+            "{name}은 인사팀에 면담을 신청했다.\n\"연봉 조정을 검토해주셨으면 합니다.\"\n결과는 한 달 후 — 기다리는 동안 "
+            "마음이 복잡했다."
+        ): (
+            (2, "한 달", 1, "(?:か月|ヶ月|カ月|箇月)",
+                "結果は@Q@後", "result_delay"),
+        ),
+        (
+            "대학 동기 재현이 찾아왔다.\n\"야, 나 지금 창업 중이거든. 공동창업자 한 명이 필요한데 — 너 딱이야.\"\n지분 10"
+            "%, 스톡옵션, 그리고 지금은 작은 월급.\n\n재현은 열정적이었다. 아이디어도 나쁘지 않았다.\n근데 성공 확률을 어떻게"
+            " 아는가."
+        ): (
+            (1, "한 명", 1, "人",
+                "共同創業者が@Q@必要", "cofounder_needed"),
+            (2, "10%", 10, "[%％]",
+                "持分@Q@", "equity_share"),
+        ),
+        (
+            "{name}은 저녁 약속을 정중히 미루고 보고서를 다시 열었다. 빈 사무실에서 표의 기준을 통일하고, 자기 주장과 맞"
+            "지 않는 숫자도 지우지 않았다.\n\n새벽이 가까워질수록 화면은 단순해졌다. 누가 발표하더라도 결론이 같은 자료를 만들고"
+            " 싶었다.\n\n메일을 보내자 사무실이 다시 조용해졌다. 이 길은 혼자 증명해야 하는 시간이 길었다. 대신 숫자가 자기 "
+            "대신 말할 수 있었다."
+        ): (
+            (4, "혼자", 1, "人",
+                "@Q@で証明しなければならない", "solitary_proof"),
+        ),
+        (
+            "한참을 고민했다. 결국엔 합류했다.\n하지만 그 동료에게 밥 한 번 샀다. 아무 말 없이.\n이 방식으로 올라가는 이상 "
+            "— 그 정도의 빚은 지고 가기로 했다."
+        ): (
+            (1, "한 번", 1, "(?:度|回)",
+                "その同僚には@Q@[、，]?(?:食事をおごった|ご飯をごちそうした)", "bought_meal"),
+        ),
+        (
+            "팀장이 {name}을 따로 불렀다.\n\"다음 달에 본사 TF 자리가 하나 생겼는데.\n이쪽에서 추천하면 들어갈 수 있어."
+            "\"\n\n{name}이 쌓아온 관계가, 숫자가 아닌 방식으로 결실을 맺었다.\n인정이 먼저가 아니었다. 신뢰가 먼저였다.\n"
+            "신뢰가 쌓이면, 기회는 스스로 찾아온다는 걸 배웠다.\n\n그런데 한편으로 — {name}보다 성과가 좋았던 동료 하나가"
+            " 탈락했다는 것도 알고 있었다."
+        ): (
+            (1, "하나", 1, "(?:つ|個)",
+                "枠が@Q@(?:でき|空い)", "tf_slot"),
+            (8, "하나", 1, "人",
+                "同僚が@Q@[、，]?(?:選考に落ち|落選し)", "rejected_colleague"),
+        ),
+        (
+            "하지만 혼자였다는 것도 안다 — 이 외로움도 내 선택이다"
+        ): (
+            (0, "혼자", 1, "人",
+                "@Q@だったことも(?:わかって|知って)いる", "past_alone"),
+        ),
+        (
+            "{name}은 이름 목록을 덮고 첫 제품 기획서를 썼다. 기능을 적기 전에 누가 언제 어떤 불편을 겪는지 한 문장으로"
+            " 고쳤다. 만들 수 있다는 이유만으로 넣은 기능은 지웠다.\n\n새벽이 되자 화면에는 화려한 소개 대신 작은 문제 하나만"
+            " 남았다. 그 문제가 진짜라면 기술은 도구가 될 수 있었다.\n\n{name}은 첫 번째 사용자에게 보여줄 수 있는 크기"
+            "까지 줄여보기로 했다. 회사의 시작은 완성품이 아니라 검증할 질문이었다."
+        ): (
+            (0, "한 문장", 1, "文",
+                "@Q@に(?:まとめ直した|書き直した)", "problem_sentence"),
+            (2, "하나", 1, "(?:つ|個)",
+                "問題が@Q@だけ(?:残った|残されていた)", "remaining_problem"),
+        ),
+        (
+            "{name}은 기능 목록을 덮고 사람들의 이름을 다시 배치했다. 서로 모르는 두 사람이 만나면 무엇을 줄 수 있는지 "
+            "화살표 옆에 적었다. 첫 모임은 여섯 명이면 충분했다.\n\n명함에는 거창한 직함 대신 연락할 이유가 되는 한 줄을 넣었"
+            "다. 한 사람이 다음 사람을 데려오는 구조가 제품의 첫 형태였다.\n\n초대 메시지를 보내자 읽음 표시가 하나씩 켜졌다."
+            " 이 사업의 첫 자산은 코드가 아니라, 같은 자리에 와줄 사람들의 신뢰였다."
+        ): (
+            (0, "두 사람", 2, "人",
+                "面識のない@Q@が会えば", "meeting_pair"),
+            (0, "여섯 명", 6, "人",
+                "最初の(?:集まり|集会)は@Q@いれば(?P<sufficiency>十分)(?![間分秒])", "planned_attendees"),
+            (2, "한 줄", 1, "行",
+                "連絡する理由になる@Q@を入れた", "contact_line"),
+            (2, "한 사람", 1, "人",
+                "@Q@が次の人を連れてくる", "referral_person"),
+            (4, "하나씩", 1, "(?:つ|件)",
+                "既読の表示が@Q@ずつ(?:ついた|点いた)", "read_receipt_each"),
+        ),
+        (
+            "창업 노트에는 서로 다른 두 페이지가 있었다. 한쪽에는 사람들이 반복해서 겪는 불편과 그것을 해결할 기능이 빼곡했다."
+            " 다른 쪽에는 만나게 하면 서로 필요한 것을 채울 사람들의 이름과 화살표가 이어졌다.\n\n제품에서 시작하면 아무도 만들"
+            "지 않은 것을 끝까지 구현해야 했다. 사람에서 시작하면 아직 형태 없는 가능성을 믿게 하고 같은 자리에 모아야 했다."
+            " 둘 다 사업이지만, 첫날에 하는 일부터 달랐다.\n\n{name}은 빈 표지에 회사 이름을 쓰기 전, 자신이 만들고 싶"
+            "은 것이 물건인지 관계인지 정해야 했다."
+        ): (
+            (0, "두 페이지", 2, "(?:つのページ|ページ)",
+                "異なる@Q@があった", "notebook_pages"),
+        ),
+        (
+            "{name}은 확신이 오는 조건을 세 줄로 적었다. 남들이 두려워한다는 이유만으로는 부족했다. 정보가 다르게 읽히고,"
+            " 틀렸을 때 감당할 선이 보일 때만 평소보다 크게 들어가기로 했다.\n\n다음 기회가 왔을 때 주문 금액을 두 배로 올렸"
+            "다가 확인 창에서 오래 멈췄다. 감각을 믿는다는 말은 충동에 맡긴다는 뜻이 아니었다.\n\n확신의 크기만큼 틀렸을 때의 "
+            "책임도 자기 것이었다. 그 무게까지 함께 걸기로 했다."
+        ): (
+            (0, "세 줄", 3, "行",
+                "条件を@Q@に(?:書いた|記した)", "written_rules"),
+            (2, "두 배", 2, "倍",
+                "注文金額を@Q@に上げて", "order_multiple"),
+        ),
+        (
+            "D와 커피를 마셨다. D 주변에는 또 다른 E, F가 있었다.\n{name}은 명함을 다섯 장 나눠줬다.\n처음엔 사람을"
+            " 만나는 게 투자였다.\n이제는 그 투자가 스스로 자라고 있었다."
+        ): (
+            (1, "다섯 장", 5, "枚",
+                "名刺を@Q@(?:配った|渡した)", "distributed_cards"),
+        ),
+        (
+            "{name}은 오래 기다렸다.\n자기가 알아본 섹터. 아무도 주목 안 하는 주식.\n기관이 매집하고 있다는 신호를 감으로"
+            " 읽었다.\n\n그리고 오늘, 크게 넣었다.\n평소 포지션의 두 배.\n\n두 시간 뒤 그 종목에서 호재가 터졌다.\n주가가 3"
+            "0% 올랐다.\n\n틀렸으면 끝이었다. 맞았다.\n투기형의 최고의 순간이었다."
+        ): (
+            (5, "두 배", 2, "倍",
+                "普段のポジションの@Q@", "position_multiple"),
+            (7, "두 시간", 2, "時間",
+                "@Q@後[、，]その銘柄に好材料が出た", "news_delay"),
+            (8, "30%", 30, "[%％]",
+                "株価が@Q@(?:上がった|上昇した)", "price_gain"),
+        ),
+        (
+            "답장이 왔다. 불편한 점, 원하는 점, 쓰는 이유.\n{name}이 생각 못 했던 방향들이 있었다.\n제품은 만드는 사람"
+            "이 아니라 쓰는 사람이 방향을 결정한다는 걸,\n한 사람의 피드백으로 배웠다."
+        ): (
+            (3, "한 사람", 1, "人",
+                "@Q@のフィードバックから学んだ", "one_feedback"),
+        ),
+        (
+            "감사했다. 하지만 할 일이 생겼다.\n{name}은 노트를 열고 다음 버전의 목록을 적기 시작했다.\n한 사람이 쓰면, "
+            "열 사람이 쓸 수 있다.\n열 사람이 쓰면, 백 사람이."
+        ): (
+            (2, "한 사람", 1, "人",
+                "^@Q@が使うなら", "first_user_if"),
+            (2, "열 사람", 10, "人",
+                "[、，]@Q@(?:が使うこともできる|にも使ってもらえるかもしれない)[。．]", "possible_ten"),
+            (3, "열 사람", 10, "人",
+                "^@Q@が使うなら", "ten_users_if"),
+            (3, "백 사람", 100, "人",
+                "[、，]@Q@も[。．]", "possible_hundred"),
+        ),
+        (
+            "몇 달을 만들었다.\n아무도 안 쓸 수도 있는 것을.\n\n그런데 오늘, 알림이 하나 왔다.\n첫 번째 진짜 사용자.\n\n모르"
+            "는 사람이, {name}이 만든 것을 찾아서 쓰고 있었다.\n\"이게 있어서 도움이 됐어요.\" 라는 한 줄.\n\n이 한 줄"
+            "을 위해서, 몇 달을 버텼다는 걸 처음으로 확인했다."
+        ): (
+            (3, "하나", 1, "件",
+                "通知が@Q@(?:届いた|来た)", "notification"),
+            (7, "한 줄", 1, "行",
+                "という@Q@[。．]", "quoted_line"),
+            (9, "한 줄", 1, "行",
+                "この@Q@のために", "recalled_line"),
+        ),
+    }
+    slots = contracts.get(source)
+    if slots is None:
+        return None
+    import unicodedata
+    from zh_translation_audit import _chinese_cardinal_value
+
+    digits = r"0-9０-９〇零一二三四五六七八九十百千"
+    number = (r"(?<![" + digits + r"万億,.，．数何])"
+              r"(?P<number>[+＋\-－−]?[" + digits + r",，]+)")
+    lines, source_lines = target.split("\n"), source.split("\n")
+    errors, owned, replacements = [], [], []
+    for line, anchor, expected, unit, frame, label in slots:
+        unit_pattern = r"(?P<scale>万|億)?ウォン" if unit == "money" else unit
+        quantity = r"(?P<quantity>" + number + unit_pattern + ")"
+        expression = frame.replace("@Q@", quantity)
+        matches = list(re.finditer(expression, lines[line])) if line < len(lines) else []
+        if len(matches) != 1:
+            errors.append(f"source-bound career/specialization {label} role/unit/line/count mismatch")
+        else:
+            match = matches[0]
+            raw = unicodedata.normalize("NFKC", match.group("number"))
+            if "," in raw and not re.fullmatch(r"[1-9][0-9]{0,2}(?:,[0-9]{3})+", raw):
+                errors.append(f"source-bound career/specialization {label} grouping mismatch")
+            value = _chinese_cardinal_value(raw.replace(",", ""))
+            if unit == "money" and value is not None:
+                value *= {"万": 10000, "億": 100000000, None: 1}[match.group("scale")]
+            if value != expected or raw.startswith(("+", "-", "−")):
+                errors.append(f"source-bound career/specialization {label} value/sign mismatch")
+            start, end = match.span("quantity")
+            if re.search(r"[" + digits + r"万億,.，．+＋\-－−]\s*$", lines[line][:start]):
+                errors.append(f"source-bound career/specialization {label} numeric prefix mismatch")
+            forbidden_suffix = r"\s*(?:[/／]|以上|以下|未満|超|円|ドル|ウォン|元|ユーロ)"
+            if label != "approx_budget":
+                forbidden_suffix += r"|\s*(?:程度|ほど|くらい|ぐらい|近く|前後)"
+            if re.match(forbidden_suffix, lines[line][end:]):
+                errors.append(f"source-bound career/specialization {label} qualifier mismatch")
+            offset = sum(len(part) + 1 for part in lines[:line])
+            owned.append((offset + start, offset + end))
+            if match.groupdict().get("sufficiency") is not None:
+                # This slot's 'six people suffice', not a ten-minute duration.
+                a, b = match.span("sufficiency")
+                owned.append((offset + a, offset + b))
+            replacements.append((offset + start, offset + end, str(expected) + "数"))
+        source_lines[line] = source_lines[line].replace(anchor, str(expected) + "数", 1)
+
+    units = (r"(?:万|億)?(?:ウォン|円|ドル|元)|週間|か月|ヶ月|カ月|箇月|"
+             r"時間|ページ|年|日|分|秒|人|名|回目?|度目?|つ|個|点|件|通|文|行|杯|枚|倍|[%％]")
+    for quantity in re.finditer(number + r"\s*(?:" + units + ")", target):
+        start, end = quantity.span("number")
+        if not any(a <= start and end <= b for a, b in owned):
+            errors.append("source-bound career/specialization added/displaced quantity mismatch")
+    normalized = target
+    for start, end, replacement in sorted(replacements, reverse=True):
+        normalized = normalized[:start] + replacement + normalized[end:]
+    return "\n".join(source_lines), normalized, sorted(set(errors))
+
+
 def _ja_korean_culture_address(source: str, target: str):
     """Permit ordinary male address only in the two observed non-romance quotes.
 
@@ -2672,8 +2969,16 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
                     source_numbers = value
                 else:
                     target_numbers = value
+        career_specialization = _ja_career_specialization_numbers(leaf.source, text)
+        if career_specialization is not None:
+            source_numbers, target_numbers, quantity_errors = career_specialization
+            source_numbers = ja.PLACEHOLDER.sub("", source_numbers)
+            target_numbers = ja.PLACEHOLDER.sub("", target_numbers)
+            errors.extend(quantity_errors)
         if sorted(numeric.findall(source_numbers)) != sorted(numeric.findall(target_numbers)):
             errors.append("explicit numeric value/sign mismatch")
+        if career_specialization is not None and numeric.findall(source_numbers) != numeric.findall(target_numbers):
+            errors.append("source-bound career/specialization ordered numeric ownership mismatch")
         if mixed_source and numeric.findall(source_numbers) != numeric.findall(target_numbers):
             errors.append("mixed Korean-won ordered numeric ownership mismatch")
         if investment_life is not None and numeric.findall(source_numbers) != numeric.findall(target_numbers):

@@ -9334,6 +9334,10 @@ func _choice_effects_preview(choice: Dictionary) -> String:
 		if val == 0:
 			continue
 		var stat_name: String = str(_STAT_EN.get(key, key)) if LocaleManager.is_english() else str(_STAT_KR.get(key, key))
+		if key == "health":
+			stat_name = _tr("건강", "Health")
+		elif key == "mental":
+			stat_name = _tr("정신", "Mental")
 		var sign: String = "+" if val > 0 else ""
 		if key == "money":
 			parts.append("%s %s%s" % [stat_name, sign, GameState.format_money(float(val))])

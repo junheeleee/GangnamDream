@@ -6436,9 +6436,147 @@ def _callback_shadow_numbers(source: str, target: str) -> tuple[str, str, list[s
     return blank(source, ss), blank(target, ts), errors
 
 
+SOURCE_AMB_SPECIALIZATION = {
+    "invite": (
+        "대학 동기 재현이 찾아왔다.\n"
+        "\"야, 나 지금 창업 중이거든. 공동창업자 한 명이 필요한데 — 너 딱이야.\"\n"
+        "지분 10%, 스톡옵션, 그리고 지금은 작은 월급.\n"
+        "\n"
+        "재현은 열정적이었다. 아이디어도 나쁘지 않았다.\n"
+        "근데 성공 확률을 어떻게 아는가."
+    ),
+    "declined": (
+        "재현은 아쉬워했지만 이해했다. \"언제든 생각 바뀌면 말해.\"\n"
+        "{name}은 자기 길을 걷기로 했다.\n"
+        "재현의 스타트업이 어떻게 됐는지는 — 나중에 알게 될 것이다."
+    ),
+    "career": (
+        "직장 생활이 1년을 넘기자 사무실의 보이지 않던 길이 보이기 시작했다. 야근해 만든 보고서는 숫자가 좋으면 임원 회의에 올라갔고, 회식 자리에서 이름이 오간 사람은 다음 프로젝트에 먼저 불렸다.\n"
+        "\n"
+        "{name}의 책상에는 성과표와 팀장에게서 온 저녁 약속이 나란히 놓여 있었다. 둘 다 회사에서 올라가는 방법이었다. 하나는 결과를 반박할 수 없게 만들고, 다른 하나는 결과를 말해줄 사람을 자기 편으로 만든다.\n"
+        "\n"
+        "모든 시간을 두 곳에 쓸 수는 없었다. 형광등 아래에서 어느 능력을 먼저 자기 이름으로 만들지 정해야 했다."
+    ),
+    "found": (
+        "창업 노트에는 서로 다른 두 페이지가 있었다. 한쪽에는 사람들이 반복해서 겪는 불편과 그것을 해결할 기능이 빼곡했다. 다른 쪽에는 만나게 하면 서로 필요한 것을 채울 사람들의 이름과 화살표가 이어졌다.\n"
+        "\n"
+        "제품에서 시작하면 아무도 만들지 않은 것을 끝까지 구현해야 했다. 사람에서 시작하면 아직 형태 없는 가능성을 믿게 하고 같은 자리에 모아야 했다. 둘 다 사업이지만, 첫날에 하는 일부터 달랐다.\n"
+        "\n"
+        "{name}은 빈 표지에 회사 이름을 쓰기 전, 자신이 만들고 싶은 것이 물건인지 관계인지 정해야 했다."
+    ),
+    "meal": (
+        "한참을 고민했다. 결국엔 합류했다.\n"
+        "하지만 그 동료에게 밥 한 번 샀다. 아무 말 없이.\n"
+        "이 방식으로 올라가는 이상 — 그 정도의 빚은 지고 가기로 했다."
+    ),
+}
+
+
+def _amb_specialization_kind(source: str) -> str | None:
+    """Five complete reviewed KO leaves, never a root-ID/substring waiver."""
+    return next((kind for kind, raw in SOURCE_AMB_SPECIALIZATION.items()
+                 if source == raw), None)
+
+
+def _amb_specialization_latin(source: str, target: str) -> tuple[str, list[str]]:
+    kind = _amb_specialization_kind(source)
+    if kind not in {"invite", "declined"}:
+        return target, []
+    # Jaehyun (재현) is not Jaehyuk (재혁). Both explicit mentions keep
+    # their separate source lines; no prefix, suffix, alias or omitted mention.
+    expected_lines = [source[:m.start()].count("\n")
+                      for m in re.finditer("재현", source)]
+    matches = _bounded_latin_matches(target, "Jaehyun")
+    if ([target[:m.start()].count("\n") for m in matches] != expected_lines
+            or target.count("Jaehyun") != len(matches)):
+        return target, ["specialization Jaehyun name identity/count/line/boundary changed"]
+    for m in reversed(matches):
+        target = target[:m.start()] + " " * len(m.group()) + target[m.end():]
+    return target, []
+
+
+def _amb_specialization_slots(source: str, target: str) -> tuple[list[CounterQuantity], list[CounterQuantity], list[str]]:
+    kind = _amb_specialization_kind(source)
+    ss: list[CounterQuantity] = []
+    ts: list[CounterQuantity] = []
+    errors: list[str] = []
+    if kind not in {"career", "found", "meal"}:
+        return ss, ts, errors
+    n = CHINESE_CARDINAL
+    lines = target.split("\n")
+
+    def bind(source_phrase: str, pattern: str, *, implicit: int | None = None,
+             line_role: str | None = None, full_line: bool = False) -> None:
+        start = source.index(source_phrase)
+        line = source[:start].count("\n")
+        expected = _source_counter_value(source_phrase.split()[0])
+        source_slot = CounterQuantity(start, start + len(source_phrase),
+                                      expected, "specialization_" + kind)
+        matches = ([m] if (m := re.fullmatch(pattern, lines[line])) else []) \
+            if full_line and line < len(lines) else list(re.finditer(pattern, target))
+        if len(matches) != 1:
+            errors.append("specialization " + kind + " quantity/unit/count/role changed")
+            return
+        m = matches[0]
+        offset = sum(len(s) + 1 for s in lines[:line]) if full_line else 0
+        a, b = m.span("q")
+        a, b = a + offset, b + offset
+        number = m.groupdict().get("number")
+        value = _chinese_cardinal_value(number) if number is not None else Decimal(implicit) if implicit is not None else None
+        target_line = target[:a].count("\n")
+        valid = value == expected and target_line == line
+        valid = valid and not _has_numeric_sign_prefix(target, a)
+        valid = valid and not re.match(
+            r"\s*(?:[%％‰倍年月日天人位]|[個个]月|公斤|公里|小時|小时|分鐘|分钟|秒|[/／])",
+            target[b:])
+        if line_role is not None and (target_line >= len(lines)
+                or not re.search(line_role, lines[target_line])):
+            valid = False
+        if not valid:
+            errors.append("specialization " + kind + " quantity/value/sign/line/role changed")
+            return
+        ss.append(source_slot)
+        ts.append(CounterQuantity(a, b, value, "specialization_" + kind))
+
+    if kind == "career":
+        bind("둘 다", rf"(?P<q>(?:[這这])?(?P<number>{n})"
+             r"(?:者|[條条]路|[種种](?:方式|方法)))都是在公司[裡里]"
+             r"(?:往上走|往上爬|升[遷迁])的(?:[辦办]法|方法)")
+        bind("두 곳", rf"(?P<q>(?:[這这])?(?P<number>{n})"
+             r"(?:[處处邊边]|[個个](?:方向|地方)))",
+             line_role=r"(?:不可能|不能).*?(?:所有|全部).*?[時时][間间].*?花在")
+    elif kind == "found":
+        # Page count is explicit even though the older generic KO parser did
+        # not count 페이지. The following dual is methods, never two people.
+        bind("두 페이지", r"[創创][業业][筆笔][記记](?:本)?(?:[裡里]|中)[，,]?\s*有"
+             rf"(?P<q>(?P<number>{n})(?:[頁页]|[個个][頁页]面))",
+             line_role=r"[創创][業业](?:[筆笔][記记]|[筆笔][記记]本)")
+        # 同样/同樣 is an anaphoric dual only in the explicit product/person
+        # contrast of this one source. It does not license a count globally.
+        bind("둘 다", rf"(?P<q>(?:(?P<number>{n})(?:者|[種种])(?=都是(?:做生意|事[業业]|生意))"
+             r"|同[樣样](?=是做生意)))", implicit=2,
+             line_role=r"[從从][產产]品.*?[從从]人")
+    else:
+        # A paid meal for the colleague after joining, not a plan, negation,
+        # meal bought for someone else, or a second meal borrowed as a witness.
+        if not lines or not re.search(
+                r"(?:最[後后]|最[終终])[還还]是加入了[。．]$", lines[0]):
+            errors.append("specialization meal actual joining state changed")
+        bind("한 번",
+             rf"(?:但|不[過过]|可是)[，,]?(?:[還还]是)?[請请]"
+             rf"(?:那位|那[個个]|那名)同事吃了(?P<q>(?P<number>{n})?[頓顿餐])"
+             r"[飯饭]?[。．](?:什[麼么]也[沒没][說说]|一句[話话]也[沒没][說说])[。．]",
+             implicit=1, full_line=True)
+    return ss, ts, errors
+
+
 def _numeric_errors(source: str, target: str) -> list[str]:
     source, target, errors = _callback_shadow_numbers(source, target)
     admin_source_slots, admin_target_slots, admin_errors = _investment_admin_slots(source, target)
+    specialization_source, specialization_target, specialization_errors = _amb_specialization_slots(source, target)
+    admin_source_slots.extend(specialization_source)
+    admin_target_slots.extend(specialization_target)
+    errors.extend(specialization_errors)
     butterfly_source, butterfly_target, butterfly_errors = _butterfly_chain_slots(source, target)
     admin_source_slots.extend(butterfly_source)
     admin_target_slots.extend(butterfly_target)
@@ -6719,6 +6857,9 @@ def _money_errors(lang: str, source: str, target: str) -> list[str]:
 
 
 def _untranslated_english_errors(source: str, target: str, *, catalog: bool = False) -> list[str]:
+    target, specialization_errors = _amb_specialization_latin(source, target)
+    if specialization_errors:
+        return specialization_errors
     target, callback_errors = _callback_shadow_latin(source, target)
     if callback_errors:
         return callback_errors
@@ -14265,11 +14406,892 @@ def _callback_shadow_exposed_self_test() -> tuple[int, list[str]]:
     return len(controls), failures
 
 
+def _amb_specialization_self_test() -> tuple[int, list[str]]:
+    """The unchanged 120 pre-code controls; no private runtime dependency."""
+    fixtures = [
+        ("invite", "zh-CN", "0:actual", "actual",
+        (
+            "大学同届的Jaehyun找来了。\n“喂，我正在创业。需要一名联合创始人——你正合适。”\n10%的股权、股票期权，还有眼下不多的月薪。\n\nJaehyun干劲十足。"
+            "想法也不差。\n可成功的概率，又怎么知道。"
+        ), None, []),
+        ("invite", "zh-CN", "0:natural", "natural",
+        (
+            "大学同届的同学Jaehyun找来了。\n“喂，我正在创业。需要一名联合创始人——你正合适。”\n10%的股权、股票期权，还有眼下不多的月薪。\n\nJaehyun干劲十"
+            "足。想法也不差。\n可成功的概率，又怎么知道。"
+        ), None, []),
+        ("invite", "zh-CN", "0:wrong_name", "mutant",
+        (
+            "大学同届的Jaehyuk找来了。\n“喂，我正在创业。需要一名联合创始人——你正合适。”\n10%的股权、股票期权，还有眼下不多的月薪。\n\nJaehyun干劲十足。"
+            "想法也不差。\n可成功的概率，又怎么知道。"
+        ), None, []),
+        ("invite", "zh-CN", "0:missing_first", "mutant",
+        (
+            "大学同届的他找来了。\n“喂，我正在创业。需要一名联合创始人——你正合适。”\n10%的股权、股票期权，还有眼下不多的月薪。\n\nJaehyun干劲十足。想法也不差。"
+            "\n可成功的概率，又怎么知道。"
+        ), None, []),
+        ("invite", "zh-CN", "0:missing_second", "mutant",
+        (
+            "大学同届的Jaehyun找来了。\n“喂，我正在创业。需要一名联合创始人——你正合适。”\n10%的股权、股票期权，还有眼下不多的月薪。\n\n他干劲十足。想法也不差。"
+            "\n可成功的概率，又怎么知道。"
+        ), None, []),
+        ("invite", "zh-CN", "0:ascii_prefix", "mutant",
+        (
+            "大学同届的xJaehyun找来了。\n“喂，我正在创业。需要一名联合创始人——你正合适。”\n10%的股权、股票期权，还有眼下不多的月薪。\n\nJaehyun干劲十足"
+            "。想法也不差。\n可成功的概率，又怎么知道。"
+        ), None, []),
+        ("invite", "zh-CN", "0:numeric_suffix", "mutant",
+        (
+            "大学同届的Jaehyun2找来了。\n“喂，我正在创业。需要一名联合创始人——你正合适。”\n10%的股权、股票期权，还有眼下不多的月薪。\n\nJaehyun干劲十足"
+            "。想法也不差。\n可成功的概率，又怎么知道。"
+        ), None, []),
+        ("invite", "zh-CN", "0:latin_suffix", "mutant",
+        (
+            "大学同届的Jaehyunish找来了。\n“喂，我正在创业。需要一名联合创始人——你正合适。”\n10%的股权、股票期权，还有眼下不多的月薪。\n\nJaehyun干劲"
+            "十足。想法也不差。\n可成功的概率，又怎么知道。"
+        ), None, []),
+        ("invite", "zh-CN", "0:extra_name", "mutant",
+        (
+            "大学同届的Jaehyun、Jaehyun找来了。\n“喂，我正在创业。需要一名联合创始人——你正合适。”\n10%的股权、股票期权，还有眼下不多的月薪。\n\nJaeh"
+            "yun干劲十足。想法也不差。\n可成功的概率，又怎么知道。"
+        ), None, []),
+        ("invite", "zh-CN", "0:invented_han_name", "mutant",
+        (
+            "大学同届的在贤找来了。\n“喂，我正在创业。需要一名联合创始人——你正合适。”\n10%的股权、股票期权，还有眼下不多的月薪。\n\nJaehyun干劲十足。想法也不差"
+            "。\n可成功的概率，又怎么知道。"
+        ), None, []),
+        ("invite", "zh-CN", "0:source_suffix", "source_off",
+        (
+            "大学同届的Jaehyun找来了。\n“喂，我正在创业。需要一名联合创始人——你正合适。”\n10%的股权、股票期权，还有眼下不多的月薪。\n\nJaehyun干劲十足。"
+            "想法也不差。\n可成功的概率，又怎么知道。"
+        ), (
+            "대학 동기 재현이 찾아왔다.\n\"야, 나 지금 창업 중이거든. 공동창업자 한 명이 필요한데 — 너 딱이야.\"\n지분 10%, 스톡옵션, 그리고 지금"
+            "은 작은 월급.\n\n재현은 열정적이었다. 아이디어도 나쁘지 않았다.\n근데 성공 확률을 어떻게 아는가. "
+        ), ["untranslated English token remains: 'Jaehyun'"]),
+        ("invite", "zh-CN", "0:source_changed", "source_off",
+        (
+            "大学同届的Jaehyun找来了。\n“喂，我正在创业。需要一名联合创始人——你正合适。”\n10%的股权、股票期权，还有眼下不多的月薪。\n\nJaehyun干劲十足。"
+            "想法也不差。\n可成功的概率，又怎么知道。"
+        ), (
+            "대학 동기 재혁이 찾아왔다.\n\"야, 나 지금 창업 중이거든. 공동창업자 한 명이 필요한데 — 너 딱이야.\"\n지분 10%, 스톡옵션, 그리고 지금"
+            "은 작은 월급.\n\n재현은 열정적이었다. 아이디어도 나쁘지 않았다.\n근데 성공 확률을 어떻게 아는가."
+        ), ["cast name '재혁' must retain Romanized form 'Jaehyuk'; an invented Han-character-only name is not canonical","untranslated English token remains: 'Jaehyun'"]),
+        ("invite", "zh-TW", "1:actual", "actual",
+        (
+            "同屆大學同學Jaehyun找上門來。\n「欸，我最近在創業。需要一個共同創辦人——你最適合了。」\n10%的股權、股票選擇權，還有目前不多的月薪。\n\nJaehyun"
+            "很有熱情。點子也不差。\n但成功的機率，又怎麼知道？"
+        ), None, []),
+        ("invite", "zh-TW", "1:natural", "natural",
+        (
+            "同屆大學同學同學Jaehyun找上門來。\n「欸，我最近在創業。需要一個共同創辦人——你最適合了。」\n10%的股權、股票選擇權，還有目前不多的月薪。\n\nJaehy"
+            "un很有熱情。點子也不差。\n但成功的機率，又怎麼知道？"
+        ), None, []),
+        ("invite", "zh-TW", "1:wrong_name", "mutant",
+        (
+            "同屆大學同學Jaehyuk找上門來。\n「欸，我最近在創業。需要一個共同創辦人——你最適合了。」\n10%的股權、股票選擇權，還有目前不多的月薪。\n\nJaehyun"
+            "很有熱情。點子也不差。\n但成功的機率，又怎麼知道？"
+        ), None, []),
+        ("invite", "zh-TW", "1:missing_first", "mutant",
+        (
+            "同屆大學同學他找上門來。\n「欸，我最近在創業。需要一個共同創辦人——你最適合了。」\n10%的股權、股票選擇權，還有目前不多的月薪。\n\nJaehyun很有熱情。點"
+            "子也不差。\n但成功的機率，又怎麼知道？"
+        ), None, []),
+        ("invite", "zh-TW", "1:missing_second", "mutant",
+        (
+            "同屆大學同學Jaehyun找上門來。\n「欸，我最近在創業。需要一個共同創辦人——你最適合了。」\n10%的股權、股票選擇權，還有目前不多的月薪。\n\n他很有熱情。點"
+            "子也不差。\n但成功的機率，又怎麼知道？"
+        ), None, []),
+        ("invite", "zh-TW", "1:ascii_prefix", "mutant",
+        (
+            "同屆大學同學xJaehyun找上門來。\n「欸，我最近在創業。需要一個共同創辦人——你最適合了。」\n10%的股權、股票選擇權，還有目前不多的月薪。\n\nJaehyu"
+            "n很有熱情。點子也不差。\n但成功的機率，又怎麼知道？"
+        ), None, []),
+        ("invite", "zh-TW", "1:numeric_suffix", "mutant",
+        (
+            "同屆大學同學Jaehyun2找上門來。\n「欸，我最近在創業。需要一個共同創辦人——你最適合了。」\n10%的股權、股票選擇權，還有目前不多的月薪。\n\nJaehyu"
+            "n很有熱情。點子也不差。\n但成功的機率，又怎麼知道？"
+        ), None, []),
+        ("invite", "zh-TW", "1:latin_suffix", "mutant",
+        (
+            "同屆大學同學Jaehyunish找上門來。\n「欸，我最近在創業。需要一個共同創辦人——你最適合了。」\n10%的股權、股票選擇權，還有目前不多的月薪。\n\nJaeh"
+            "yun很有熱情。點子也不差。\n但成功的機率，又怎麼知道？"
+        ), None, []),
+        ("invite", "zh-TW", "1:extra_name", "mutant",
+        (
+            "同屆大學同學Jaehyun、Jaehyun找上門來。\n「欸，我最近在創業。需要一個共同創辦人——你最適合了。」\n10%的股權、股票選擇權，還有目前不多的月薪。\n"
+            "\nJaehyun很有熱情。點子也不差。\n但成功的機率，又怎麼知道？"
+        ), None, []),
+        ("invite", "zh-TW", "1:invented_han_name", "mutant",
+        (
+            "同屆大學同學在賢找上門來。\n「欸，我最近在創業。需要一個共同創辦人——你最適合了。」\n10%的股權、股票選擇權，還有目前不多的月薪。\n\nJaehyun很有熱情。"
+            "點子也不差。\n但成功的機率，又怎麼知道？"
+        ), None, []),
+        ("invite", "zh-TW", "1:source_suffix", "source_off",
+        (
+            "同屆大學同學Jaehyun找上門來。\n「欸，我最近在創業。需要一個共同創辦人——你最適合了。」\n10%的股權、股票選擇權，還有目前不多的月薪。\n\nJaehyun"
+            "很有熱情。點子也不差。\n但成功的機率，又怎麼知道？"
+        ), (
+            "대학 동기 재현이 찾아왔다.\n\"야, 나 지금 창업 중이거든. 공동창업자 한 명이 필요한데 — 너 딱이야.\"\n지분 10%, 스톡옵션, 그리고 지금"
+            "은 작은 월급.\n\n재현은 열정적이었다. 아이디어도 나쁘지 않았다.\n근데 성공 확률을 어떻게 아는가. "
+        ), ["untranslated English token remains: 'Jaehyun'"]),
+        ("invite", "zh-TW", "1:source_changed", "source_off",
+        (
+            "同屆大學同學Jaehyun找上門來。\n「欸，我最近在創業。需要一個共同創辦人——你最適合了。」\n10%的股權、股票選擇權，還有目前不多的月薪。\n\nJaehyun"
+            "很有熱情。點子也不差。\n但成功的機率，又怎麼知道？"
+        ), (
+            "대학 동기 재혁이 찾아왔다.\n\"야, 나 지금 창업 중이거든. 공동창업자 한 명이 필요한데 — 너 딱이야.\"\n지분 10%, 스톡옵션, 그리고 지금"
+            "은 작은 월급.\n\n재현은 열정적이었다. 아이디어도 나쁘지 않았다.\n근데 성공 확률을 어떻게 아는가."
+        ), ["cast name '재혁' must retain Romanized form 'Jaehyuk'; an invented Han-character-only name is not canonical","untranslated English token remains: 'Jaehyun'"]),
+        ("declined", "zh-CN", "2:actual", "actual",
+        (
+            "Jaehyun虽然遗憾，但也理解。“什么时候改了主意，随时告诉我。”\n{name}决定走自己的路。\nJaehyun的创业公司后来怎么样了——以后会知道的。"
+        ), None, []),
+        ("declined", "zh-CN", "2:natural", "natural",
+        (
+            "同学Jaehyun虽然遗憾，但也理解。“什么时候改了主意，随时告诉我。”\n{name}决定走自己的路。\nJaehyun的创业公司后来怎么样了——以后会知道的。"
+        ), None, []),
+        ("declined", "zh-CN", "2:wrong_name", "mutant",
+        (
+            "Jaehyuk虽然遗憾，但也理解。“什么时候改了主意，随时告诉我。”\n{name}决定走自己的路。\nJaehyun的创业公司后来怎么样了——以后会知道的。"
+        ), None, []),
+        ("declined", "zh-CN", "2:missing_first", "mutant",
+        (
+            "他虽然遗憾，但也理解。“什么时候改了主意，随时告诉我。”\n{name}决定走自己的路。\nJaehyun的创业公司后来怎么样了——以后会知道的。"
+        ), None, []),
+        ("declined", "zh-CN", "2:missing_second", "mutant",
+        (
+            "Jaehyun虽然遗憾，但也理解。“什么时候改了主意，随时告诉我。”\n{name}决定走自己的路。\n他的创业公司后来怎么样了——以后会知道的。"
+        ), None, []),
+        ("declined", "zh-CN", "2:ascii_prefix", "mutant",
+        (
+            "xJaehyun虽然遗憾，但也理解。“什么时候改了主意，随时告诉我。”\n{name}决定走自己的路。\nJaehyun的创业公司后来怎么样了——以后会知道的。"
+        ), None, []),
+        ("declined", "zh-CN", "2:numeric_suffix", "mutant",
+        (
+            "Jaehyun2虽然遗憾，但也理解。“什么时候改了主意，随时告诉我。”\n{name}决定走自己的路。\nJaehyun的创业公司后来怎么样了——以后会知道的。"
+        ), None, []),
+        ("declined", "zh-CN", "2:latin_suffix", "mutant",
+        (
+            "Jaehyunish虽然遗憾，但也理解。“什么时候改了主意，随时告诉我。”\n{name}决定走自己的路。\nJaehyun的创业公司后来怎么样了——以后会知道的。"
+        ), None, []),
+        ("declined", "zh-CN", "2:extra_name", "mutant",
+        (
+            "Jaehyun、Jaehyun虽然遗憾，但也理解。“什么时候改了主意，随时告诉我。”\n{name}决定走自己的路。\nJaehyun的创业公司后来怎么样了——以后"
+            "会知道的。"
+        ), None, []),
+        ("declined", "zh-CN", "2:invented_han_name", "mutant",
+        (
+            "在贤虽然遗憾，但也理解。“什么时候改了主意，随时告诉我。”\n{name}决定走自己的路。\nJaehyun的创业公司后来怎么样了——以后会知道的。"
+        ), None, []),
+        ("declined", "zh-CN", "2:source_suffix", "source_off",
+        (
+            "Jaehyun虽然遗憾，但也理解。“什么时候改了主意，随时告诉我。”\n{name}决定走自己的路。\nJaehyun的创业公司后来怎么样了——以后会知道的。"
+        ), (
+            "재현은 아쉬워했지만 이해했다. \"언제든 생각 바뀌면 말해.\"\n{name}은 자기 길을 걷기로 했다.\n재현의 스타트업이 어떻게 됐는지는 — 나중에"
+            " 알게 될 것이다. "
+        ), ["untranslated English token remains: 'Jaehyun'"]),
+        ("declined", "zh-CN", "2:source_changed", "source_off",
+        (
+            "Jaehyun虽然遗憾，但也理解。“什么时候改了主意，随时告诉我。”\n{name}决定走自己的路。\nJaehyun的创业公司后来怎么样了——以后会知道的。"
+        ), (
+            "재혁은 아쉬워했지만 이해했다. \"언제든 생각 바뀌면 말해.\"\n{name}은 자기 길을 걷기로 했다.\n재현의 스타트업이 어떻게 됐는지는 — 나중에"
+            " 알게 될 것이다."
+        ), ["cast name '재혁' must retain Romanized form 'Jaehyuk'; an invented Han-character-only name is not canonical","untranslated English token remains: 'Jaehyun'"]),
+        ("declined", "zh-TW", "3:actual", "actual",
+        (
+            "Jaehyun雖然遺憾，但也理解。「隨時改變心意都可以跟我說。」\n{name}決定走自己的路。\nJaehyun的新創公司後來怎麼了——以後才會知道。"
+        ), None, []),
+        ("declined", "zh-TW", "3:natural", "natural",
+        (
+            "同學Jaehyun雖然遺憾，但也理解。「隨時改變心意都可以跟我說。」\n{name}決定走自己的路。\nJaehyun的新創公司後來怎麼了——以後才會知道。"
+        ), None, []),
+        ("declined", "zh-TW", "3:wrong_name", "mutant",
+        (
+            "Jaehyuk雖然遺憾，但也理解。「隨時改變心意都可以跟我說。」\n{name}決定走自己的路。\nJaehyun的新創公司後來怎麼了——以後才會知道。"
+        ), None, []),
+        ("declined", "zh-TW", "3:missing_first", "mutant",
+        (
+            "他雖然遺憾，但也理解。「隨時改變心意都可以跟我說。」\n{name}決定走自己的路。\nJaehyun的新創公司後來怎麼了——以後才會知道。"
+        ), None, []),
+        ("declined", "zh-TW", "3:missing_second", "mutant",
+        (
+            "Jaehyun雖然遺憾，但也理解。「隨時改變心意都可以跟我說。」\n{name}決定走自己的路。\n他的新創公司後來怎麼了——以後才會知道。"
+        ), None, []),
+        ("declined", "zh-TW", "3:ascii_prefix", "mutant",
+        (
+            "xJaehyun雖然遺憾，但也理解。「隨時改變心意都可以跟我說。」\n{name}決定走自己的路。\nJaehyun的新創公司後來怎麼了——以後才會知道。"
+        ), None, []),
+        ("declined", "zh-TW", "3:numeric_suffix", "mutant",
+        (
+            "Jaehyun2雖然遺憾，但也理解。「隨時改變心意都可以跟我說。」\n{name}決定走自己的路。\nJaehyun的新創公司後來怎麼了——以後才會知道。"
+        ), None, []),
+        ("declined", "zh-TW", "3:latin_suffix", "mutant",
+        (
+            "Jaehyunish雖然遺憾，但也理解。「隨時改變心意都可以跟我說。」\n{name}決定走自己的路。\nJaehyun的新創公司後來怎麼了——以後才會知道。"
+        ), None, []),
+        ("declined", "zh-TW", "3:extra_name", "mutant",
+        (
+            "Jaehyun、Jaehyun雖然遺憾，但也理解。「隨時改變心意都可以跟我說。」\n{name}決定走自己的路。\nJaehyun的新創公司後來怎麼了——以後才會知"
+            "道。"
+        ), None, []),
+        ("declined", "zh-TW", "3:invented_han_name", "mutant",
+        (
+            "在賢雖然遺憾，但也理解。「隨時改變心意都可以跟我說。」\n{name}決定走自己的路。\nJaehyun的新創公司後來怎麼了——以後才會知道。"
+        ), None, []),
+        ("declined", "zh-TW", "3:source_suffix", "source_off",
+        (
+            "Jaehyun雖然遺憾，但也理解。「隨時改變心意都可以跟我說。」\n{name}決定走自己的路。\nJaehyun的新創公司後來怎麼了——以後才會知道。"
+        ), (
+            "재현은 아쉬워했지만 이해했다. \"언제든 생각 바뀌면 말해.\"\n{name}은 자기 길을 걷기로 했다.\n재현의 스타트업이 어떻게 됐는지는 — 나중에"
+            " 알게 될 것이다. "
+        ), ["untranslated English token remains: 'Jaehyun'"]),
+        ("declined", "zh-TW", "3:source_changed", "source_off",
+        (
+            "Jaehyun雖然遺憾，但也理解。「隨時改變心意都可以跟我說。」\n{name}決定走自己的路。\nJaehyun的新創公司後來怎麼了——以後才會知道。"
+        ), (
+            "재혁은 아쉬워했지만 이해했다. \"언제든 생각 바뀌면 말해.\"\n{name}은 자기 길을 걷기로 했다.\n재현의 스타트업이 어떻게 됐는지는 — 나중에"
+            " 알게 될 것이다."
+        ), ["cast name '재혁' must retain Romanized form 'Jaehyuk'; an invented Han-character-only name is not canonical","untranslated English token remains: 'Jaehyun'"]),
+        ("career", "zh-CN", "4:actual", "actual",
+        (
+            "工作一年多之后，办公室里那些原本看不见的路，开始显露出来。加班做出的报告，只要数据漂亮，就能送上高管会议；在聚餐时被提起名字的人，会先被叫去参与下一个项目。\n\n"
+            "{name}的桌上，业绩表和组长发来的晚餐邀约并排放着。两者都是在公司里往上走的办法。一种是让成果无可辩驳，另一种是让能替成果说话的人站到自己这边。\n\n不可能把"
+            "全部时间同时花在这两处。在荧光灯下，必须决定先让哪种本事成为自己的招牌。"
+        ), None, []),
+        ("career", "zh-CN", "4:natural", "natural",
+        (
+            "工作一年多之后，办公室里那些原本看不见的路，开始显露出来。加班做出的报告，只要数据漂亮，就能送上高管会议；在聚餐时被提起名字的人，会先被叫去参与下一个项目。\n\n"
+            "{name}的桌上，业绩表和组长发来的晚餐邀约并排放着。这两条路都是在公司里往上走的办法。一种是让成果无可辩驳，另一种是让能替成果说话的人站到自己这边。\n\n不可"
+            "能把全部时间同时花在这两个方向。在荧光灯下，必须决定先让哪种本事成为自己的招牌。"
+        ), None, []),
+        ("career", "zh-CN", "4:dual_value", "mutant",
+        (
+            "工作一年多之后，办公室里那些原本看不见的路，开始显露出来。加班做出的报告，只要数据漂亮，就能送上高管会议；在聚餐时被提起名字的人，会先被叫去参与下一个项目。\n\n"
+            "{name}的桌上，业绩表和组长发来的晚餐邀约并排放着。三者都是在公司里往上走的办法。一种是让成果无可辩驳，另一种是让能替成果说话的人站到自己这边。\n\n不可能把"
+            "全部时间同时花在这两处。在荧光灯下，必须决定先让哪种本事成为自己的招牌。"
+        ), None, []),
+        ("career", "zh-CN", "4:place_value", "mutant",
+        (
+            "工作一年多之后，办公室里那些原本看不见的路，开始显露出来。加班做出的报告，只要数据漂亮，就能送上高管会议；在聚餐时被提起名字的人，会先被叫去参与下一个项目。\n\n"
+            "{name}的桌上，业绩表和组长发来的晚餐邀约并排放着。两者都是在公司里往上走的办法。一种是让成果无可辩驳，另一种是让能替成果说话的人站到自己这边。\n\n不可能把"
+            "全部时间同时花在这三处。在荧光灯下，必须决定先让哪种本事成为自己的招牌。"
+        ), None, []),
+        ("career", "zh-CN", "4:year_value", "mutant",
+        (
+            "工作两年多之后，办公室里那些原本看不见的路，开始显露出来。加班做出的报告，只要数据漂亮，就能送上高管会议；在聚餐时被提起名字的人，会先被叫去参与下一个项目。\n\n"
+            "{name}的桌上，业绩表和组长发来的晚餐邀约并排放着。两者都是在公司里往上走的办法。一种是让成果无可辩驳，另一种是让能替成果说话的人站到自己这边。\n\n不可能把"
+            "全部时间同时花在这两处。在荧光灯下，必须决定先让哪种本事成为自己的招牌。"
+        ), None, []),
+        ("career", "zh-CN", "4:year_unit", "mutant",
+        (
+            "工作一个月多之后，办公室里那些原本看不见的路，开始显露出来。加班做出的报告，只要数据漂亮，就能送上高管会议；在聚餐时被提起名字的人，会先被叫去参与下一个项目。\n"
+            "\n{name}的桌上，业绩表和组长发来的晚餐邀约并排放着。两者都是在公司里往上走的办法。一种是让成果无可辩驳，另一种是让能替成果说话的人站到自己这边。\n\n不可能"
+            "把全部时间同时花在这两处。在荧光灯下，必须决定先让哪种本事成为自己的招牌。"
+        ), None, []),
+        ("career", "zh-CN", "4:dual_people", "mutant",
+        (
+            "工作一年多之后，办公室里那些原本看不见的路，开始显露出来。加班做出的报告，只要数据漂亮，就能送上高管会议；在聚餐时被提起名字的人，会先被叫去参与下一个项目。\n\n"
+            "{name}的桌上，业绩表和组长发来的晚餐邀约并排放着。两个人都是在公司里往上走的办法。一种是让成果无可辩驳，另一种是让能替成果说话的人站到自己这边。\n\n不可能"
+            "把全部时间同时花在这两处。在荧光灯下，必须决定先让哪种本事成为自己的招牌。"
+        ), None, []),
+        ("career", "zh-CN", "4:dual_negative", "mutant",
+        (
+            "工作一年多之后，办公室里那些原本看不见的路，开始显露出来。加班做出的报告，只要数据漂亮，就能送上高管会议；在聚餐时被提起名字的人，会先被叫去参与下一个项目。\n\n"
+            "{name}的桌上，业绩表和组长发来的晚餐邀约并排放着。两者都不是在公司里往上走的办法。一种是让成果无可辩驳，另一种是让能替成果说话的人站到自己这边。\n\n不可能"
+            "把全部时间同时花在这两处。在荧光灯下，必须决定先让哪种本事成为自己的招牌。"
+        ), None, []),
+        ("career", "zh-CN", "4:dual_omitted", "mutant",
+        (
+            "工作一年多之后，办公室里那些原本看不见的路，开始显露出来。加班做出的报告，只要数据漂亮，就能送上高管会议；在聚餐时被提起名字的人，会先被叫去参与下一个项目。\n\n"
+            "{name}的桌上，业绩表和组长发来的晚餐邀约并排放着。这是在公司里往上走的办法。一种是让成果无可辩驳，另一种是让能替成果说话的人站到自己这边。\n\n不可能把全部"
+            "时间同时花在这两处。在荧光灯下，必须决定先让哪种本事成为自己的招牌。"
+        ), None, []),
+        ("career", "zh-CN", "4:line_swap", "mutant",
+        (
+            "工作一年多之后，办公室里那些原本看不见的路，开始显露出来。加班做出的报告，只要数据漂亮，就能送上高管会议；在聚餐时被提起名字的人，会先被叫去参与下一个项目。\n\n"
+            "不可能把全部时间同时花在这两处。在荧光灯下，必须决定先让哪种本事成为自己的招牌。\n\n{name}的桌上，业绩表和组长发来的晚餐邀约并排放着。两者都是在公司里往上"
+            "走的办法。一种是让成果无可辩驳，另一种是让能替成果说话的人站到自己这边。"
+        ), None, []),
+        ("career", "zh-CN", "4:source_suffix", "source_off",
+        (
+            "工作一年多之后，办公室里那些原本看不见的路，开始显露出来。加班做出的报告，只要数据漂亮，就能送上高管会议；在聚餐时被提起名字的人，会先被叫去参与下一个项目。\n\n"
+            "{name}的桌上，业绩表和组长发来的晚餐邀约并排放着。两者都是在公司里往上走的办法。一种是让成果无可辩驳，另一种是让能替成果说话的人站到自己这边。\n\n不可能把"
+            "全部时间同时花在这两处。在荧光灯下，必须决定先让哪种本事成为自己的招牌。"
+        ), (
+            "직장 생활이 1년을 넘기자 사무실의 보이지 않던 길이 보이기 시작했다. 야근해 만든 보고서는 숫자가 좋으면 임원 회의에 올라갔고, 회식 자리에서"
+            " 이름이 오간 사람은 다음 프로젝트에 먼저 불렸다.\n\n{name}의 책상에는 성과표와 팀장에게서 온 저녁 약속이 나란히 놓여 있었다. 둘 다 회"
+            "사에서 올라가는 방법이었다. 하나는 결과를 반박할 수 없게 만들고, 다른 하나는 결과를 말해줄 사람을 자기 편으로 만든다.\n\n모든 시간을 두 곳"
+            "에 쓸 수는 없었다. 형광등 아래에서 어느 능력을 먼저 자기 이름으로 만들지 정해야 했다. "
+        ), ["counter quantity missing/changed: expected (entity, 2), target candidates=[('entity', Decimal('1'))]"]),
+        ("career", "zh-CN", "4:source_changed", "source_off",
+        (
+            "工作一年多之后，办公室里那些原本看不见的路，开始显露出来。加班做出的报告，只要数据漂亮，就能送上高管会议；在聚餐时被提起名字的人，会先被叫去参与下一个项目。\n\n"
+            "{name}的桌上，业绩表和组长发来的晚餐邀约并排放着。两者都是在公司里往上走的办法。一种是让成果无可辩驳，另一种是让能替成果说话的人站到自己这边。\n\n不可能把"
+            "全部时间同时花在这两处。在荧光灯下，必须决定先让哪种本事成为自己的招牌。"
+        ), (
+            "직장 생활이 1년을 넘기자 사무실의 보이지 않던 길이 보이기 시작했다. 야근해 만든 보고서는 숫자가 좋으면 임원 회의에 올라갔고, 회식 자리에서"
+            " 이름이 오간 사람은 다음 프로젝트에 먼저 불렸다.\n\n{name}의 책상에는 성과표와 팀장에게서 온 저녁 약속이 나란히 놓여 있었다. 셋 다 회"
+            "사에서 올라가는 방법이었다. 하나는 결과를 반박할 수 없게 만들고, 다른 하나는 결과를 말해줄 사람을 자기 편으로 만든다.\n\n모든 시간을 두 곳"
+            "에 쓸 수는 없었다. 형광등 아래에서 어느 능력을 먼저 자기 이름으로 만들지 정해야 했다."
+        ), ["counter quantity missing/changed: expected (entity, 3), target candidates=[('entity', Decimal('1'))]"]),
+        ("career", "zh-TW", "5:actual", "actual",
+        (
+            "工作超過一年後，辦公室裡原本看不見的路漸漸浮現。加班做出的報告，只要數字漂亮，就能送上高層會議；在聚餐中被提到名字的人，則會優先被找去參與下一個專案。\n\n{na"
+            "me}的桌上，績效表與組長的晚餐邀約並排放著。兩者都是在公司裡往上爬的方法。一種讓成果無可反駁，另一種讓替成果發聲的人站在自己這邊。\n\n不可能把所有時間都花在兩"
+            "邊。日光燈下，得決定先讓哪一種能力成為自己的招牌。"
+        ), None, []),
+        ("career", "zh-TW", "5:natural", "natural",
+        (
+            "工作超過一年後，辦公室裡原本看不見的路漸漸浮現。加班做出的報告，只要數字漂亮，就能送上高層會議；在聚餐中被提到名字的人，則會優先被找去參與下一個專案。\n\n{na"
+            "me}的桌上，績效表與組長的晚餐邀約並排放著。這兩條路都是在公司裡往上爬的方法。一種讓成果無可反駁，另一種讓替成果發聲的人站在自己這邊。\n\n不可能把所有時間都花"
+            "在這兩個方向。日光燈下，得決定先讓哪一種能力成為自己的招牌。"
+        ), None, []),
+        ("career", "zh-TW", "5:dual_value", "mutant",
+        (
+            "工作超過一年後，辦公室裡原本看不見的路漸漸浮現。加班做出的報告，只要數字漂亮，就能送上高層會議；在聚餐中被提到名字的人，則會優先被找去參與下一個專案。\n\n{na"
+            "me}的桌上，績效表與組長的晚餐邀約並排放著。三者都是在公司裡往上爬的方法。一種讓成果無可反駁，另一種讓替成果發聲的人站在自己這邊。\n\n不可能把所有時間都花在兩"
+            "邊。日光燈下，得決定先讓哪一種能力成為自己的招牌。"
+        ), None, []),
+        ("career", "zh-TW", "5:place_value", "mutant",
+        (
+            "工作超過一年後，辦公室裡原本看不見的路漸漸浮現。加班做出的報告，只要數字漂亮，就能送上高層會議；在聚餐中被提到名字的人，則會優先被找去參與下一個專案。\n\n{na"
+            "me}的桌上，績效表與組長的晚餐邀約並排放著。兩者都是在公司裡往上爬的方法。一種讓成果無可反駁，另一種讓替成果發聲的人站在自己這邊。\n\n不可能把所有時間都花在三"
+            "邊。日光燈下，得決定先讓哪一種能力成為自己的招牌。"
+        ), None, []),
+        ("career", "zh-TW", "5:year_value", "mutant",
+        (
+            "工作超過兩年後，辦公室裡原本看不見的路漸漸浮現。加班做出的報告，只要數字漂亮，就能送上高層會議；在聚餐中被提到名字的人，則會優先被找去參與下一個專案。\n\n{na"
+            "me}的桌上，績效表與組長的晚餐邀約並排放著。兩者都是在公司裡往上爬的方法。一種讓成果無可反駁，另一種讓替成果發聲的人站在自己這邊。\n\n不可能把所有時間都花在兩"
+            "邊。日光燈下，得決定先讓哪一種能力成為自己的招牌。"
+        ), None, []),
+        ("career", "zh-TW", "5:year_unit", "mutant",
+        (
+            "工作超過一個月後，辦公室裡原本看不見的路漸漸浮現。加班做出的報告，只要數字漂亮，就能送上高層會議；在聚餐中被提到名字的人，則會優先被找去參與下一個專案。\n\n{n"
+            "ame}的桌上，績效表與組長的晚餐邀約並排放著。兩者都是在公司裡往上爬的方法。一種讓成果無可反駁，另一種讓替成果發聲的人站在自己這邊。\n\n不可能把所有時間都花在"
+            "兩邊。日光燈下，得決定先讓哪一種能力成為自己的招牌。"
+        ), None, []),
+        ("career", "zh-TW", "5:dual_people", "mutant",
+        (
+            "工作超過一年後，辦公室裡原本看不見的路漸漸浮現。加班做出的報告，只要數字漂亮，就能送上高層會議；在聚餐中被提到名字的人，則會優先被找去參與下一個專案。\n\n{na"
+            "me}的桌上，績效表與組長的晚餐邀約並排放著。兩個人都是在公司裡往上爬的方法。一種讓成果無可反駁，另一種讓替成果發聲的人站在自己這邊。\n\n不可能把所有時間都花在"
+            "兩邊。日光燈下，得決定先讓哪一種能力成為自己的招牌。"
+        ), None, []),
+        ("career", "zh-TW", "5:dual_negative", "mutant",
+        (
+            "工作超過一年後，辦公室裡原本看不見的路漸漸浮現。加班做出的報告，只要數字漂亮，就能送上高層會議；在聚餐中被提到名字的人，則會優先被找去參與下一個專案。\n\n{na"
+            "me}的桌上，績效表與組長的晚餐邀約並排放著。兩者都不是在公司裡往上爬的方法。一種讓成果無可反駁，另一種讓替成果發聲的人站在自己這邊。\n\n不可能把所有時間都花在"
+            "兩邊。日光燈下，得決定先讓哪一種能力成為自己的招牌。"
+        ), None, []),
+        ("career", "zh-TW", "5:dual_omitted", "mutant",
+        (
+            "工作超過一年後，辦公室裡原本看不見的路漸漸浮現。加班做出的報告，只要數字漂亮，就能送上高層會議；在聚餐中被提到名字的人，則會優先被找去參與下一個專案。\n\n{na"
+            "me}的桌上，績效表與組長的晚餐邀約並排放著。這是在公司裡往上爬的方法。一種讓成果無可反駁，另一種讓替成果發聲的人站在自己這邊。\n\n不可能把所有時間都花在兩邊。"
+            "日光燈下，得決定先讓哪一種能力成為自己的招牌。"
+        ), None, []),
+        ("career", "zh-TW", "5:line_swap", "mutant",
+        (
+            "工作超過一年後，辦公室裡原本看不見的路漸漸浮現。加班做出的報告，只要數字漂亮，就能送上高層會議；在聚餐中被提到名字的人，則會優先被找去參與下一個專案。\n\n不可能"
+            "把所有時間都花在兩邊。日光燈下，得決定先讓哪一種能力成為自己的招牌。\n\n{name}的桌上，績效表與組長的晚餐邀約並排放著。兩者都是在公司裡往上爬的方法。一種讓"
+            "成果無可反駁，另一種讓替成果發聲的人站在自己這邊。"
+        ), None, []),
+        ("career", "zh-TW", "5:source_suffix", "source_off",
+        (
+            "工作超過一年後，辦公室裡原本看不見的路漸漸浮現。加班做出的報告，只要數字漂亮，就能送上高層會議；在聚餐中被提到名字的人，則會優先被找去參與下一個專案。\n\n{na"
+            "me}的桌上，績效表與組長的晚餐邀約並排放著。兩者都是在公司裡往上爬的方法。一種讓成果無可反駁，另一種讓替成果發聲的人站在自己這邊。\n\n不可能把所有時間都花在兩"
+            "邊。日光燈下，得決定先讓哪一種能力成為自己的招牌。"
+        ), (
+            "직장 생활이 1년을 넘기자 사무실의 보이지 않던 길이 보이기 시작했다. 야근해 만든 보고서는 숫자가 좋으면 임원 회의에 올라갔고, 회식 자리에서"
+            " 이름이 오간 사람은 다음 프로젝트에 먼저 불렸다.\n\n{name}의 책상에는 성과표와 팀장에게서 온 저녁 약속이 나란히 놓여 있었다. 둘 다 회"
+            "사에서 올라가는 방법이었다. 하나는 결과를 반박할 수 없게 만들고, 다른 하나는 결과를 말해줄 사람을 자기 편으로 만든다.\n\n모든 시간을 두 곳"
+            "에 쓸 수는 없었다. 형광등 아래에서 어느 능력을 먼저 자기 이름으로 만들지 정해야 했다. "
+        ), ["counter quantity missing/changed: expected (entity, 2), target candidates=[('entity', Decimal('1'))]","counter quantity missing/changed: expected (place_count, 2), target candidates=[]"]),
+        ("career", "zh-TW", "5:source_changed", "source_off",
+        (
+            "工作超過一年後，辦公室裡原本看不見的路漸漸浮現。加班做出的報告，只要數字漂亮，就能送上高層會議；在聚餐中被提到名字的人，則會優先被找去參與下一個專案。\n\n{na"
+            "me}的桌上，績效表與組長的晚餐邀約並排放著。兩者都是在公司裡往上爬的方法。一種讓成果無可反駁，另一種讓替成果發聲的人站在自己這邊。\n\n不可能把所有時間都花在兩"
+            "邊。日光燈下，得決定先讓哪一種能力成為自己的招牌。"
+        ), (
+            "직장 생활이 1년을 넘기자 사무실의 보이지 않던 길이 보이기 시작했다. 야근해 만든 보고서는 숫자가 좋으면 임원 회의에 올라갔고, 회식 자리에서"
+            " 이름이 오간 사람은 다음 프로젝트에 먼저 불렸다.\n\n{name}의 책상에는 성과표와 팀장에게서 온 저녁 약속이 나란히 놓여 있었다. 셋 다 회"
+            "사에서 올라가는 방법이었다. 하나는 결과를 반박할 수 없게 만들고, 다른 하나는 결과를 말해줄 사람을 자기 편으로 만든다.\n\n모든 시간을 두 곳"
+            "에 쓸 수는 없었다. 형광등 아래에서 어느 능력을 먼저 자기 이름으로 만들지 정해야 했다."
+        ), ["counter quantity missing/changed: expected (entity, 3), target candidates=[('entity', Decimal('1'))]","counter quantity missing/changed: expected (place_count, 2), target candidates=[]"]),
+        ("found", "zh-CN", "6:actual", "actual",
+        (
+            "创业笔记里，有两页截然不同的内容。一页密密麻麻写着人们反复遇到的不便，以及解决这些问题的功能。另一页上，能满足彼此所需的人们的名字，用箭头连在一起。\n\n从产品出"
+            "发，就得把没人做过的东西真正做出来。从人出发，就得让人相信尚未成形的可能性，把他们聚到一起。同样是做生意，从第一天做的事起就不一样。\n\n在空白封面上写下公司名字"
+            "之前，{name}必须先决定，自己想创造的究竟是东西，还是人与人的关系。"
+        ), None, []),
+        ("found", "zh-CN", "6:natural", "natural",
+        (
+            "创业笔记里，有两个页面截然不同的内容。一页密密麻麻写着人们反复遇到的不便，以及解决这些问题的功能。另一页上，能满足彼此所需的人们的名字，用箭头连在一起。\n\n从产"
+            "品出发，就得把没人做过的东西真正做出来。从人出发，就得让人相信尚未成形的可能性，把他们聚到一起。两者都是事业，从第一天做的事起就不一样。\n\n在空白封面上写下公司"
+            "名字之前，{name}必须先决定，自己想创造的究竟是东西，还是人与人的关系。"
+        ), None, []),
+        ("found", "zh-CN", "6:pages_value", "mutant",
+        (
+            "创业笔记里，有三页截然不同的内容。一页密密麻麻写着人们反复遇到的不便，以及解决这些问题的功能。另一页上，能满足彼此所需的人们的名字，用箭头连在一起。\n\n从产品出"
+            "发，就得把没人做过的东西真正做出来。从人出发，就得让人相信尚未成形的可能性，把他们聚到一起。同样是做生意，从第一天做的事起就不一样。\n\n在空白封面上写下公司名字"
+            "之前，{name}必须先决定，自己想创造的究竟是东西，还是人与人的关系。"
+        ), None, []),
+        ("found", "zh-CN", "6:pages_unit", "mutant",
+        (
+            "创业笔记里，有两个月截然不同的内容。一页密密麻麻写着人们反复遇到的不便，以及解决这些问题的功能。另一页上，能满足彼此所需的人们的名字，用箭头连在一起。\n\n从产品"
+            "出发，就得把没人做过的东西真正做出来。从人出发，就得让人相信尚未成形的可能性，把他们聚到一起。同样是做生意，从第一天做的事起就不一样。\n\n在空白封面上写下公司名"
+            "字之前，{name}必须先决定，自己想创造的究竟是东西，还是人与人的关系。"
+        ), None, []),
+        ("found", "zh-CN", "6:dual_value", "mutant",
+        (
+            "创业笔记里，有两页截然不同的内容。一页密密麻麻写着人们反复遇到的不便，以及解决这些问题的功能。另一页上，能满足彼此所需的人们的名字，用箭头连在一起。\n\n从产品出"
+            "发，就得把没人做过的东西真正做出来。从人出发，就得让人相信尚未成形的可能性，把他们聚到一起。三者都是生意，从第一天做的事起就不一样。\n\n在空白封面上写下公司名字"
+            "之前，{name}必须先决定，自己想创造的究竟是东西，还是人与人的关系。"
+        ), None, []),
+        ("found", "zh-CN", "6:dual_people", "mutant",
+        (
+            "创业笔记里，有两页截然不同的内容。一页密密麻麻写着人们反复遇到的不便，以及解决这些问题的功能。另一页上，能满足彼此所需的人们的名字，用箭头连在一起。\n\n从产品出"
+            "发，就得把没人做过的东西真正做出来。从人出发，就得让人相信尚未成形的可能性，把他们聚到一起。两个人都是生意，从第一天做的事起就不一样。\n\n在空白封面上写下公司名"
+            "字之前，{name}必须先决定，自己想创造的究竟是东西，还是人与人的关系。"
+        ), None, []),
+        ("found", "zh-CN", "6:dual_negative", "mutant",
+        (
+            "创业笔记里，有两页截然不同的内容。一页密密麻麻写着人们反复遇到的不便，以及解决这些问题的功能。另一页上，能满足彼此所需的人们的名字，用箭头连在一起。\n\n从产品出"
+            "发，就得把没人做过的东西真正做出来。从人出发，就得让人相信尚未成形的可能性，把他们聚到一起。同样都不是做生意，从第一天做的事起就不一样。\n\n在空白封面上写下公司"
+            "名字之前，{name}必须先决定，自己想创造的究竟是东西，还是人与人的关系。"
+        ), None, []),
+        ("found", "zh-CN", "6:dual_omitted", "mutant",
+        (
+            "创业笔记里，有两页截然不同的内容。一页密密麻麻写着人们反复遇到的不便，以及解决这些问题的功能。另一页上，能满足彼此所需的人们的名字，用箭头连在一起。\n\n从产品出"
+            "发，就得把没人做过的东西真正做出来。从人出发，就得让人相信尚未成形的可能性，把他们聚到一起。做生意，从第一天做的事起就不一样。\n\n在空白封面上写下公司名字之前，"
+            "{name}必须先决定，自己想创造的究竟是东西，还是人与人的关系。"
+        ), None, []),
+        ("found", "zh-CN", "6:dual_repeated", "mutant",
+        (
+            "创业笔记里，有两页截然不同的内容。一页密密麻麻写着人们反复遇到的不便，以及解决这些问题的功能。另一页上，能满足彼此所需的人们的名字，用箭头连在一起。\n\n从产品出"
+            "发，就得把没人做过的东西真正做出来。从人出发，就得让人相信尚未成形的可能性，把他们聚到一起。同样是做生意，同样是做生意，从第一天做的事起就不一样。\n\n在空白封面"
+            "上写下公司名字之前，{name}必须先决定，自己想创造的究竟是东西，还是人与人的关系。"
+        ), None, []),
+        ("found", "zh-CN", "6:pages_sign", "mutant",
+        (
+            "创业笔记里，有-两页截然不同的内容。一页密密麻麻写着人们反复遇到的不便，以及解决这些问题的功能。另一页上，能满足彼此所需的人们的名字，用箭头连在一起。\n\n从产品"
+            "出发，就得把没人做过的东西真正做出来。从人出发，就得让人相信尚未成形的可能性，把他们聚到一起。同样是做生意，从第一天做的事起就不一样。\n\n在空白封面上写下公司名"
+            "字之前，{name}必须先决定，自己想创造的究竟是东西，还是人与人的关系。"
+        ), None, []),
+        ("found", "zh-CN", "6:source_suffix", "source_off",
+        (
+            "创业笔记里，有两页截然不同的内容。一页密密麻麻写着人们反复遇到的不便，以及解决这些问题的功能。另一页上，能满足彼此所需的人们的名字，用箭头连在一起。\n\n从产品出"
+            "发，就得把没人做过的东西真正做出来。从人出发，就得让人相信尚未成形的可能性，把他们聚到一起。同样是做生意，从第一天做的事起就不一样。\n\n在空白封面上写下公司名字"
+            "之前，{name}必须先决定，自己想创造的究竟是东西，还是人与人的关系。"
+        ), (
+            "창업 노트에는 서로 다른 두 페이지가 있었다. 한쪽에는 사람들이 반복해서 겪는 불편과 그것을 해결할 기능이 빼곡했다. 다른 쪽에는 만나게 하면 "
+            "서로 필요한 것을 채울 사람들의 이름과 화살표가 이어졌다.\n\n제품에서 시작하면 아무도 만들지 않은 것을 끝까지 구현해야 했다. 사람에서 시작하면"
+            " 아직 형태 없는 가능성을 믿게 하고 같은 자리에 모아야 했다. 둘 다 사업이지만, 첫날에 하는 일부터 달랐다.\n\n{name}은 빈 표지에 회사"
+            " 이름을 쓰기 전, 자신이 만들고 싶은 것이 물건인지 관계인지 정해야 했다. "
+        ), ["counter quantity missing/changed: expected (entity, 2), target candidates=[]"]),
+        ("found", "zh-CN", "6:source_changed", "source_off",
+        (
+            "创业笔记里，有两页截然不同的内容。一页密密麻麻写着人们反复遇到的不便，以及解决这些问题的功能。另一页上，能满足彼此所需的人们的名字，用箭头连在一起。\n\n从产品出"
+            "发，就得把没人做过的东西真正做出来。从人出发，就得让人相信尚未成形的可能性，把他们聚到一起。同样是做生意，从第一天做的事起就不一样。\n\n在空白封面上写下公司名字"
+            "之前，{name}必须先决定，自己想创造的究竟是东西，还是人与人的关系。"
+        ), (
+            "창업 노트에는 서로 다른 세 페이지가 있었다. 한쪽에는 사람들이 반복해서 겪는 불편과 그것을 해결할 기능이 빼곡했다. 다른 쪽에는 만나게 하면 "
+            "서로 필요한 것을 채울 사람들의 이름과 화살표가 이어졌다.\n\n제품에서 시작하면 아무도 만들지 않은 것을 끝까지 구현해야 했다. 사람에서 시작하면"
+            " 아직 형태 없는 가능성을 믿게 하고 같은 자리에 모아야 했다. 둘 다 사업이지만, 첫날에 하는 일부터 달랐다.\n\n{name}은 빈 표지에 회사"
+            " 이름을 쓰기 전, 자신이 만들고 싶은 것이 물건인지 관계인지 정해야 했다."
+        ), ["counter quantity missing/changed: expected (entity, 2), target candidates=[]"]),
+        ("found", "zh-TW", "7:actual", "actual",
+        (
+            "創業筆記裡有兩頁截然不同的內容。一邊密密麻麻寫著人們反覆遇到的不便，以及能解決它們的功能。另一邊則用姓名與箭頭連起那些一旦相識，就能滿足彼此所需的人。\n\n從產品"
+            "開始，就得把沒有人做過的東西實作到底。從人開始，就得讓人相信尚未成形的可能性，並聚到同一個地方。兩者都是事業，但從第一天做的事就不同。\n\n{name}在空白封面"
+            "寫下公司名稱前，得先決定自己想創造的，是東西，還是關係。"
+        ), None, []),
+        ("found", "zh-TW", "7:natural", "natural",
+        (
+            "創業筆記裡有兩個頁面截然不同的內容。一邊密密麻麻寫著人們反覆遇到的不便，以及能解決它們的功能。另一邊則用姓名與箭頭連起那些一旦相識，就能滿足彼此所需的人。\n\n從"
+            "產品開始，就得把沒有人做過的東西實作到底。從人開始，就得讓人相信尚未成形的可能性，並聚到同一個地方。同樣是做生意，但從第一天做的事就不同。\n\n{name}在空白"
+            "封面寫下公司名稱前，得先決定自己想創造的，是東西，還是關係。"
+        ), None, []),
+        ("found", "zh-TW", "7:pages_value", "mutant",
+        (
+            "創業筆記裡有三頁截然不同的內容。一邊密密麻麻寫著人們反覆遇到的不便，以及能解決它們的功能。另一邊則用姓名與箭頭連起那些一旦相識，就能滿足彼此所需的人。\n\n從產品"
+            "開始，就得把沒有人做過的東西實作到底。從人開始，就得讓人相信尚未成形的可能性，並聚到同一個地方。兩者都是事業，但從第一天做的事就不同。\n\n{name}在空白封面"
+            "寫下公司名稱前，得先決定自己想創造的，是東西，還是關係。"
+        ), None, []),
+        ("found", "zh-TW", "7:pages_unit", "mutant",
+        (
+            "創業筆記裡有兩個月截然不同的內容。一邊密密麻麻寫著人們反覆遇到的不便，以及能解決它們的功能。另一邊則用姓名與箭頭連起那些一旦相識，就能滿足彼此所需的人。\n\n從產"
+            "品開始，就得把沒有人做過的東西實作到底。從人開始，就得讓人相信尚未成形的可能性，並聚到同一個地方。兩者都是事業，但從第一天做的事就不同。\n\n{name}在空白封"
+            "面寫下公司名稱前，得先決定自己想創造的，是東西，還是關係。"
+        ), None, []),
+        ("found", "zh-TW", "7:dual_value", "mutant",
+        (
+            "創業筆記裡有兩頁截然不同的內容。一邊密密麻麻寫著人們反覆遇到的不便，以及能解決它們的功能。另一邊則用姓名與箭頭連起那些一旦相識，就能滿足彼此所需的人。\n\n從產品"
+            "開始，就得把沒有人做過的東西實作到底。從人開始，就得讓人相信尚未成形的可能性，並聚到同一個地方。三者都是事業，但從第一天做的事就不同。\n\n{name}在空白封面"
+            "寫下公司名稱前，得先決定自己想創造的，是東西，還是關係。"
+        ), None, []),
+        ("found", "zh-TW", "7:dual_people", "mutant",
+        (
+            "創業筆記裡有兩頁截然不同的內容。一邊密密麻麻寫著人們反覆遇到的不便，以及能解決它們的功能。另一邊則用姓名與箭頭連起那些一旦相識，就能滿足彼此所需的人。\n\n從產品"
+            "開始，就得把沒有人做過的東西實作到底。從人開始，就得讓人相信尚未成形的可能性，並聚到同一個地方。兩個人都是事業，但從第一天做的事就不同。\n\n{name}在空白封"
+            "面寫下公司名稱前，得先決定自己想創造的，是東西，還是關係。"
+        ), None, []),
+        ("found", "zh-TW", "7:dual_negative", "mutant",
+        (
+            "創業筆記裡有兩頁截然不同的內容。一邊密密麻麻寫著人們反覆遇到的不便，以及能解決它們的功能。另一邊則用姓名與箭頭連起那些一旦相識，就能滿足彼此所需的人。\n\n從產品"
+            "開始，就得把沒有人做過的東西實作到底。從人開始，就得讓人相信尚未成形的可能性，並聚到同一個地方。兩者都不是事業，但從第一天做的事就不同。\n\n{name}在空白封"
+            "面寫下公司名稱前，得先決定自己想創造的，是東西，還是關係。"
+        ), None, []),
+        ("found", "zh-TW", "7:dual_omitted", "mutant",
+        (
+            "創業筆記裡有兩頁截然不同的內容。一邊密密麻麻寫著人們反覆遇到的不便，以及能解決它們的功能。另一邊則用姓名與箭頭連起那些一旦相識，就能滿足彼此所需的人。\n\n從產品"
+            "開始，就得把沒有人做過的東西實作到底。從人開始，就得讓人相信尚未成形的可能性，並聚到同一個地方。事業，但從第一天做的事就不同。\n\n{name}在空白封面寫下公司"
+            "名稱前，得先決定自己想創造的，是東西，還是關係。"
+        ), None, []),
+        ("found", "zh-TW", "7:dual_repeated", "mutant",
+        (
+            "創業筆記裡有兩頁截然不同的內容。一邊密密麻麻寫著人們反覆遇到的不便，以及能解決它們的功能。另一邊則用姓名與箭頭連起那些一旦相識，就能滿足彼此所需的人。\n\n從產品"
+            "開始，就得把沒有人做過的東西實作到底。從人開始，就得讓人相信尚未成形的可能性，並聚到同一個地方。兩者都是事業，兩者都是事業，但從第一天做的事就不同。\n\n{nam"
+            "e}在空白封面寫下公司名稱前，得先決定自己想創造的，是東西，還是關係。"
+        ), None, []),
+        ("found", "zh-TW", "7:pages_sign", "mutant",
+        (
+            "創業筆記裡有-兩頁截然不同的內容。一邊密密麻麻寫著人們反覆遇到的不便，以及能解決它們的功能。另一邊則用姓名與箭頭連起那些一旦相識，就能滿足彼此所需的人。\n\n從產"
+            "品開始，就得把沒有人做過的東西實作到底。從人開始，就得讓人相信尚未成形的可能性，並聚到同一個地方。兩者都是事業，但從第一天做的事就不同。\n\n{name}在空白封"
+            "面寫下公司名稱前，得先決定自己想創造的，是東西，還是關係。"
+        ), None, []),
+        ("found", "zh-TW", "7:source_suffix", "source_off",
+        (
+            "創業筆記裡有兩頁截然不同的內容。一邊密密麻麻寫著人們反覆遇到的不便，以及能解決它們的功能。另一邊則用姓名與箭頭連起那些一旦相識，就能滿足彼此所需的人。\n\n從產品"
+            "開始，就得把沒有人做過的東西實作到底。從人開始，就得讓人相信尚未成形的可能性，並聚到同一個地方。兩者都是事業，但從第一天做的事就不同。\n\n{name}在空白封面"
+            "寫下公司名稱前，得先決定自己想創造的，是東西，還是關係。"
+        ), (
+            "창업 노트에는 서로 다른 두 페이지가 있었다. 한쪽에는 사람들이 반복해서 겪는 불편과 그것을 해결할 기능이 빼곡했다. 다른 쪽에는 만나게 하면 "
+            "서로 필요한 것을 채울 사람들의 이름과 화살표가 이어졌다.\n\n제품에서 시작하면 아무도 만들지 않은 것을 끝까지 구현해야 했다. 사람에서 시작하면"
+            " 아직 형태 없는 가능성을 믿게 하고 같은 자리에 모아야 했다. 둘 다 사업이지만, 첫날에 하는 일부터 달랐다.\n\n{name}은 빈 표지에 회사"
+            " 이름을 쓰기 전, 자신이 만들고 싶은 것이 물건인지 관계인지 정해야 했다. "
+        ), ["counter quantity missing/changed: expected (entity, 2), target candidates=[('entity', Decimal('1'))]"]),
+        ("found", "zh-TW", "7:source_changed", "source_off",
+        (
+            "創業筆記裡有兩頁截然不同的內容。一邊密密麻麻寫著人們反覆遇到的不便，以及能解決它們的功能。另一邊則用姓名與箭頭連起那些一旦相識，就能滿足彼此所需的人。\n\n從產品"
+            "開始，就得把沒有人做過的東西實作到底。從人開始，就得讓人相信尚未成形的可能性，並聚到同一個地方。兩者都是事業，但從第一天做的事就不同。\n\n{name}在空白封面"
+            "寫下公司名稱前，得先決定自己想創造的，是東西，還是關係。"
+        ), (
+            "창업 노트에는 서로 다른 세 페이지가 있었다. 한쪽에는 사람들이 반복해서 겪는 불편과 그것을 해결할 기능이 빼곡했다. 다른 쪽에는 만나게 하면 "
+            "서로 필요한 것을 채울 사람들의 이름과 화살표가 이어졌다.\n\n제품에서 시작하면 아무도 만들지 않은 것을 끝까지 구현해야 했다. 사람에서 시작하면"
+            " 아직 형태 없는 가능성을 믿게 하고 같은 자리에 모아야 했다. 둘 다 사업이지만, 첫날에 하는 일부터 달랐다.\n\n{name}은 빈 표지에 회사"
+            " 이름을 쓰기 전, 자신이 만들고 싶은 것이 물건인지 관계인지 정해야 했다."
+        ), ["counter quantity missing/changed: expected (entity, 2), target candidates=[('entity', Decimal('1'))]"]),
+        ("meal", "zh-CN", "8:actual", "actual",
+        (
+            "犹豫了很久。最后还是加入了。\n但请那位同事吃了一顿饭。什么也没说。\n既然要靠这种方式往上走——就决定背着这份亏欠继续走下去。"
+        ), None, []),
+        ("meal", "zh-CN", "8:natural", "natural",
+        (
+            "犹豫了很久。最后还是加入了。\n不过，还是请那位同事吃了顿饭。什么也没说。\n既然要靠这种方式往上走——就决定背着这份亏欠继续走下去。"
+        ), None, []),
+        ("meal", "zh-CN", "8:meal_value", "mutant",
+        (
+            "犹豫了很久。最后还是加入了。\n但请那位同事吃了两顿饭。什么也没说。\n既然要靠这种方式往上走——就决定背着这份亏欠继续走下去。"
+        ), None, []),
+        ("meal", "zh-CN", "8:meal_unit", "mutant",
+        (
+            "犹豫了很久。最后还是加入了。\n但请那位同事吃了一天饭。什么也没说。\n既然要靠这种方式往上走——就决定背着这份亏欠继续走下去。"
+        ), None, []),
+        ("meal", "zh-CN", "8:meal_actor", "mutant",
+        (
+            "犹豫了很久。最后还是加入了。\n但请组长吃了一顿饭。什么也没说。\n既然要靠这种方式往上走——就决定背着这份亏欠继续走下去。"
+        ), None, []),
+        ("meal", "zh-CN", "8:meal_negative", "mutant",
+        (
+            "犹豫了很久。最后还是加入了。\n但没有请那位同事吃了一顿饭。什么也没说。\n既然要靠这种方式往上走——就决定背着这份亏欠继续走下去。"
+        ), None, []),
+        ("meal", "zh-CN", "8:meal_plan", "mutant",
+        (
+            "犹豫了很久。最后还是加入了。\n但打算请那位同事吃了一顿饭。什么也没说。\n既然要靠这种方式往上走——就决定背着这份亏欠继续走下去。"
+        ), None, []),
+        ("meal", "zh-CN", "8:joined_negative", "mutant",
+        (
+            "犹豫了很久。最后还是没有加入。\n但请那位同事吃了一顿饭。什么也没说。\n既然要靠这种方式往上走——就决定背着这份亏欠继续走下去。"
+        ), None, []),
+        ("meal", "zh-CN", "8:meal_extra", "mutant",
+        (
+            "犹豫了很久。最后还是加入了。\n但请那位同事吃了一顿饭，还请同事吃了一顿饭。什么也没说。\n既然要靠这种方式往上走——就决定背着这份亏欠继续走下去。"
+        ), None, []),
+        ("meal", "zh-CN", "8:line_swap", "mutant",
+        (
+            "但请那位同事吃了一顿饭。什么也没说。\n犹豫了很久。最后还是加入了。\n既然要靠这种方式往上走——就决定背着这份亏欠继续走下去。"
+        ), None, []),
+        ("meal", "zh-CN", "8:source_suffix", "source_off",
+        (
+            "犹豫了很久。最后还是加入了。\n但请那位同事吃了一顿饭。什么也没说。\n既然要靠这种方式往上走——就决定背着这份亏欠继续走下去。"
+        ), (
+            "한참을 고민했다. 결국엔 합류했다.\n하지만 그 동료에게 밥 한 번 샀다. 아무 말 없이.\n이 방식으로 올라가는 이상 — 그 정도의 빚은 지고 가"
+            "기로 했다. "
+        ), ["counter quantity missing/changed: expected (occurrence, 1), target candidates=[]"]),
+        ("meal", "zh-CN", "8:source_changed", "source_off",
+        (
+            "犹豫了很久。最后还是加入了。\n但请那位同事吃了一顿饭。什么也没说。\n既然要靠这种方式往上走——就决定背着这份亏欠继续走下去。"
+        ), (
+            "한참을 고민했다. 결국엔 합류했다.\n하지만 그 동료에게 밥 두 번 샀다. 아무 말 없이.\n이 방식으로 올라가는 이상 — 그 정도의 빚은 지고 가"
+            "기로 했다."
+        ), ["counter quantity missing/changed: expected (occurrence, 2), target candidates=[]"]),
+        ("meal", "zh-TW", "9:actual", "actual",
+        (
+            "想了很久。最後還是加入了。\n但請那位同事吃了一頓飯。什麼也沒說。\n既然要用這種方式往上走——就決定背著這點虧欠走下去。"
+        ), None, []),
+        ("meal", "zh-TW", "9:natural", "natural",
+        (
+            "想了很久。最後還是加入了。\n不過，還是請那位同事吃了頓飯。什麼也沒說。\n既然要用這種方式往上走——就決定背著這點虧欠走下去。"
+        ), None, []),
+        ("meal", "zh-TW", "9:meal_value", "mutant",
+        (
+            "想了很久。最後還是加入了。\n但請那位同事吃了兩頓飯。什麼也沒說。\n既然要用這種方式往上走——就決定背著這點虧欠走下去。"
+        ), None, []),
+        ("meal", "zh-TW", "9:meal_unit", "mutant",
+        (
+            "想了很久。最後還是加入了。\n但請那位同事吃了一天飯。什麼也沒說。\n既然要用這種方式往上走——就決定背著這點虧欠走下去。"
+        ), None, []),
+        ("meal", "zh-TW", "9:meal_actor", "mutant",
+        (
+            "想了很久。最後還是加入了。\n但請組長吃了一頓飯。什麼也沒說。\n既然要用這種方式往上走——就決定背著這點虧欠走下去。"
+        ), None, []),
+        ("meal", "zh-TW", "9:meal_negative", "mutant",
+        (
+            "想了很久。最後還是加入了。\n但沒有請那位同事吃了一頓飯。什麼也沒說。\n既然要用這種方式往上走——就決定背著這點虧欠走下去。"
+        ), None, []),
+        ("meal", "zh-TW", "9:meal_plan", "mutant",
+        (
+            "想了很久。最後還是加入了。\n但打算請那位同事吃了一頓飯。什麼也沒說。\n既然要用這種方式往上走——就決定背著這點虧欠走下去。"
+        ), None, []),
+        ("meal", "zh-TW", "9:joined_negative", "mutant",
+        (
+            "想了很久。最後還是沒有加入。\n但請那位同事吃了一頓飯。什麼也沒說。\n既然要用這種方式往上走——就決定背著這點虧欠走下去。"
+        ), None, []),
+        ("meal", "zh-TW", "9:meal_extra", "mutant",
+        (
+            "想了很久。最後還是加入了。\n但請那位同事吃了一頓飯，還請同事吃了一頓飯。什麼也沒說。\n既然要用這種方式往上走——就決定背著這點虧欠走下去。"
+        ), None, []),
+        ("meal", "zh-TW", "9:line_swap", "mutant",
+        (
+            "但請那位同事吃了一頓飯。什麼也沒說。\n想了很久。最後還是加入了。\n既然要用這種方式往上走——就決定背著這點虧欠走下去。"
+        ), None, []),
+        ("meal", "zh-TW", "9:source_suffix", "source_off",
+        (
+            "想了很久。最後還是加入了。\n但請那位同事吃了一頓飯。什麼也沒說。\n既然要用這種方式往上走——就決定背著這點虧欠走下去。"
+        ), (
+            "한참을 고민했다. 결국엔 합류했다.\n하지만 그 동료에게 밥 한 번 샀다. 아무 말 없이.\n이 방식으로 올라가는 이상 — 그 정도의 빚은 지고 가"
+            "기로 했다. "
+        ), ["counter quantity missing/changed: expected (occurrence, 1), target candidates=[]"]),
+        ("meal", "zh-TW", "9:source_changed", "source_off",
+        (
+            "想了很久。最後還是加入了。\n但請那位同事吃了一頓飯。什麼也沒說。\n既然要用這種方式往上走——就決定背著這點虧欠走下去。"
+        ), (
+            "한참을 고민했다. 결국엔 합류했다.\n하지만 그 동료에게 밥 두 번 샀다. 아무 말 없이.\n이 방식으로 올라가는 이상 — 그 정도의 빚은 지고 가"
+            "기로 했다."
+        ), ["counter quantity missing/changed: expected (occurrence, 2), target candidates=[]"]),
+    ]
+    ids = {
+        "invite": "events:amb_startup_invite:/description",
+        "declined": "events:amb_startup_invite:/choices/1/result_text",
+        "career": "events:arc_spec_career:/description",
+        "found": "events:arc_spec_found:/description",
+        "meal": "events:arc_spec_climber_result:/choices/1/result_text",
+    }
+    controls = []
+    failures: list[str] = []
+    for kind, locale, label, category, target, override, baseline in fixtures:
+        source = SOURCE_AMB_SPECIALIZATION[kind] if override is None else override
+        expectation = ("normal" if category in {"actual", "natural"} else
+                       "reject" if category == "mutant" else
+                       "same_as_before_and_new_gate_off")
+        controls.append(dict(id=ids[kind], locale=locale, source=source,
+                             label=label, category=category, target=target,
+                             expect=expectation))
+        errors = validate_text(locale, ids[kind], source, target)
+        if category == "source_off":
+            ok = _amb_specialization_kind(source) is None and errors == baseline
+        elif expectation == "normal":
+            ok = not errors
+        else:
+            ok = bool(errors)
+        if not ok:
+            failures.append("specialization fixed control " + label + ": " + repr(errors))
+    input_sha = hashlib.sha256(json.dumps(
+        controls, ensure_ascii=False, sort_keys=True, separators=(",", ":"),
+    ).encode()).hexdigest()
+    if input_sha != "7408f04c4a4b8064b8c52cb092ceb17990164673255589731dd1af33ce896279":
+        failures.append("specialization original fixed 120 input changed")
+    return len(controls), failures
+
+
+def _amb_specialization_exposed_self_test() -> tuple[int, list[str]]:
+    """Two disclosed normal failures and their fixed22 regression controls."""
+    fixtures = [
+        ("found", "zh-CN", "0:exposed_normal", "normal",
+        (
+            "创业笔记里，有两页截然不同的内容。一页密密麻麻写着人们反复遇到的不便，以及解决这些问题的功能。另一页上，能满足彼此所需的人们的名字，用箭头连在一起。\n\n从产品出"
+            "发，就得把没人做过的东西真正做出来。从人出发，就得让人相信尚未成形的可能性，把他们聚到一起。两种都是做生意，从第一天做的事起就不一样。\n\n在空白封面上写下公司名"
+            "字之前，{name}必须先决定，自己想创造的究竟是东西，还是人与人的关系。"
+        ), None, []),
+        ("found", "zh-CN", "0:original_three", "mutant",
+        (
+            "创业笔记里，有两页截然不同的内容。一页密密麻麻写着人们反复遇到的不便，以及解决这些问题的功能。另一页上，能满足彼此所需的人们的名字，用箭头连在一起。\n\n从产品出"
+            "发，就得把没人做过的东西真正做出来。从人出发，就得让人相信尚未成形的可能性，把他们聚到一起。三种都是做生意，从第一天做的事起就不一样。\n\n在空白封面上写下公司名"
+            "字之前，{name}必须先决定，自己想创造的究竟是东西，还是人与人的关系。"
+        ), None, []),
+        ("found", "zh-CN", "0:unit_hours", "mutant",
+        (
+            "创业笔记里，有两页截然不同的内容。一页密密麻麻写着人们反复遇到的不便，以及解决这些问题的功能。另一页上，能满足彼此所需的人们的名字，用箭头连在一起。\n\n从产品出"
+            "发，就得把没人做过的东西真正做出来。从人出发，就得让人相信尚未成形的可能性，把他们聚到一起。两小时都是做生意，从第一天做的事起就不一样。\n\n在空白封面上写下公司"
+            "名字之前，{name}必须先决定，自己想创造的究竟是东西，还是人与人的关系。"
+        ), None, []),
+        ("found", "zh-CN", "0:people_role", "mutant",
+        (
+            "创业笔记里，有两页截然不同的内容。一页密密麻麻写着人们反复遇到的不便，以及解决这些问题的功能。另一页上，能满足彼此所需的人们的名字，用箭头连在一起。\n\n从产品出"
+            "发，就得把没人做过的东西真正做出来。从人出发，就得让人相信尚未成形的可能性，把他们聚到一起。两个人都是做生意，从第一天做的事起就不一样。\n\n在空白封面上写下公司"
+            "名字之前，{name}必须先决定，自己想创造的究竟是东西，还是人与人的关系。"
+        ), None, []),
+        ("found", "zh-CN", "0:negative", "mutant",
+        (
+            "创业笔记里，有两页截然不同的内容。一页密密麻麻写着人们反复遇到的不便，以及解决这些问题的功能。另一页上，能满足彼此所需的人们的名字，用箭头连在一起。\n\n从产品出"
+            "发，就得把没人做过的东西真正做出来。从人出发，就得让人相信尚未成形的可能性，把他们聚到一起。两种都不是做生意，从第一天做的事起就不一样。\n\n在空白封面上写下公司"
+            "名字之前，{name}必须先决定，自己想创造的究竟是东西，还是人与人的关系。"
+        ), None, []),
+        ("found", "zh-CN", "0:missing", "mutant",
+        (
+            "创业笔记里，有两页截然不同的内容。一页密密麻麻写着人们反复遇到的不便，以及解决这些问题的功能。另一页上，能满足彼此所需的人们的名字，用箭头连在一起。\n\n从产品出"
+            "发，就得把没人做过的东西真正做出来。从人出发，就得让人相信尚未成形的可能性，把他们聚到一起。做生意，从第一天做的事起就不一样。\n\n在空白封面上写下公司名字之前，"
+            "{name}必须先决定，自己想创造的究竟是东西，还是人与人的关系。"
+        ), None, []),
+        ("found", "zh-CN", "0:repeated", "mutant",
+        (
+            "创业笔记里，有两页截然不同的内容。一页密密麻麻写着人们反复遇到的不便，以及解决这些问题的功能。另一页上，能满足彼此所需的人们的名字，用箭头连在一起。\n\n从产品出"
+            "发，就得把没人做过的东西真正做出来。从人出发，就得让人相信尚未成形的可能性，把他们聚到一起。两种都是做生意，两种都是做生意，从第一天做的事起就不一样。\n\n在空白"
+            "封面上写下公司名字之前，{name}必须先决定，自己想创造的究竟是东西，还是人与人的关系。"
+        ), None, []),
+        ("found", "zh-CN", "0:line", "mutant",
+        (
+            "创业笔记里，有两页截然不同的内容。一页密密麻麻写着人们反复遇到的不便，以及解决这些问题的功能。另一页上，能满足彼此所需的人们的名字，用箭头连在一起。\n\n在空白封"
+            "面上写下公司名字之前，{name}必须先决定，自己想创造的究竟是东西，还是人与人的关系。\n\n从产品出发，就得把没人做过的东西真正做出来。从人出发，就得让人相信尚"
+            "未成形的可能性，把他们聚到一起。两种都是做生意，从第一天做的事起就不一样。"
+        ), None, []),
+        ("found", "zh-CN", "0:sign", "mutant",
+        (
+            "创业笔记里，有两页截然不同的内容。一页密密麻麻写着人们反复遇到的不便，以及解决这些问题的功能。另一页上，能满足彼此所需的人们的名字，用箭头连在一起。\n\n从产品出"
+            "发，就得把没人做过的东西真正做出来。从人出发，就得让人相信尚未成形的可能性，把他们聚到一起。-两种都是做生意，从第一天做的事起就不一样。\n\n在空白封面上写下公司"
+            "名字之前，{name}必须先决定，自己想创造的究竟是东西，还是人与人的关系。"
+        ), None, []),
+        ("found", "zh-CN", "0:source_suffix", "source_off",
+        (
+            "创业笔记里，有两页截然不同的内容。一页密密麻麻写着人们反复遇到的不便，以及解决这些问题的功能。另一页上，能满足彼此所需的人们的名字，用箭头连在一起。\n\n从产品出"
+            "发，就得把没人做过的东西真正做出来。从人出发，就得让人相信尚未成形的可能性，把他们聚到一起。两种都是做生意，从第一天做的事起就不一样。\n\n在空白封面上写下公司名"
+            "字之前，{name}必须先决定，自己想创造的究竟是东西，还是人与人的关系。"
+        ), (
+            "창업 노트에는 서로 다른 두 페이지가 있었다. 한쪽에는 사람들이 반복해서 겪는 불편과 그것을 해결할 기능이 빼곡했다. 다른 쪽에는 만나게 하면 "
+            "서로 필요한 것을 채울 사람들의 이름과 화살표가 이어졌다.\n\n제품에서 시작하면 아무도 만들지 않은 것을 끝까지 구현해야 했다. 사람에서 시작하면"
+            " 아직 형태 없는 가능성을 믿게 하고 같은 자리에 모아야 했다. 둘 다 사업이지만, 첫날에 하는 일부터 달랐다.\n\n{name}은 빈 표지에 회사"
+            " 이름을 쓰기 전, 자신이 만들고 싶은 것이 물건인지 관계인지 정해야 했다. "
+        ), ["counter quantity missing/changed: expected (entity, 2), target candidates=[]"]),
+        ("found", "zh-CN", "0:source_quantity", "source_off",
+        (
+            "创业笔记里，有两页截然不同的内容。一页密密麻麻写着人们反复遇到的不便，以及解决这些问题的功能。另一页上，能满足彼此所需的人们的名字，用箭头连在一起。\n\n从产品出"
+            "发，就得把没人做过的东西真正做出来。从人出发，就得让人相信尚未成形的可能性，把他们聚到一起。两种都是做生意，从第一天做的事起就不一样。\n\n在空白封面上写下公司名"
+            "字之前，{name}必须先决定，自己想创造的究竟是东西，还是人与人的关系。"
+        ), (
+            "창업 노트에는 서로 다른 두 페이지가 있었다. 한쪽에는 사람들이 반복해서 겪는 불편과 그것을 해결할 기능이 빼곡했다. 다른 쪽에는 만나게 하면 "
+            "서로 필요한 것을 채울 사람들의 이름과 화살표가 이어졌다.\n\n제품에서 시작하면 아무도 만들지 않은 것을 끝까지 구현해야 했다. 사람에서 시작하면"
+            " 아직 형태 없는 가능성을 믿게 하고 같은 자리에 모아야 했다. 셋 다 사업이지만, 첫날에 하는 일부터 달랐다.\n\n{name}은 빈 표지에 회사"
+            " 이름을 쓰기 전, 자신이 만들고 싶은 것이 물건인지 관계인지 정해야 했다."
+        ), ["counter quantity missing/changed: expected (entity, 3), target candidates=[]"]),
+        ("meal", "zh-TW", "1:exposed_normal", "normal",
+        (
+            "想了很久。最後還是加入了。\n但請那位同事吃了一餐。什麼也沒說。\n既然要用這種方式往上走——就決定背著這點虧欠走下去。"
+        ), None, []),
+        ("meal", "zh-TW", "1:original_two", "mutant",
+        (
+            "想了很久。最後還是加入了。\n但請那位同事吃了兩餐。什麼也沒說。\n既然要用這種方式往上走——就決定背著這點虧欠走下去。"
+        ), None, []),
+        ("meal", "zh-TW", "1:unit_day", "mutant",
+        (
+            "想了很久。最後還是加入了。\n但請那位同事吃了一天。什麼也沒說。\n既然要用這種方式往上走——就決定背著這點虧欠走下去。"
+        ), None, []),
+        ("meal", "zh-TW", "1:actor", "mutant",
+        (
+            "想了很久。最後還是加入了。\n但請組長吃了一餐。什麼也沒說。\n既然要用這種方式往上走——就決定背著這點虧欠走下去。"
+        ), None, []),
+        ("meal", "zh-TW", "1:negative", "mutant",
+        (
+            "想了很久。最後還是加入了。\n但沒有請那位同事吃了一餐。什麼也沒說。\n既然要用這種方式往上走——就決定背著這點虧欠走下去。"
+        ), None, []),
+        ("meal", "zh-TW", "1:plan", "mutant",
+        (
+            "想了很久。最後還是加入了。\n但打算請那位同事吃了一餐。什麼也沒說。\n既然要用這種方式往上走——就決定背著這點虧欠走下去。"
+        ), None, []),
+        ("meal", "zh-TW", "1:joining_negative", "mutant",
+        (
+            "想了很久。最後還是沒有加入。\n但請那位同事吃了一餐。什麼也沒說。\n既然要用這種方式往上走——就決定背著這點虧欠走下去。"
+        ), None, []),
+        ("meal", "zh-TW", "1:line", "mutant",
+        (
+            "但請那位同事吃了一餐。什麼也沒說。\n想了很久。最後還是加入了。\n既然要用這種方式往上走——就決定背著這點虧欠走下去。"
+        ), None, []),
+        ("meal", "zh-TW", "1:sign", "mutant",
+        (
+            "想了很久。最後還是加入了。\n但請那位同事吃了-一餐。什麼也沒說。\n既然要用這種方式往上走——就決定背著這點虧欠走下去。"
+        ), None, []),
+        ("meal", "zh-TW", "1:source_suffix", "source_off",
+        (
+            "想了很久。最後還是加入了。\n但請那位同事吃了一餐。什麼也沒說。\n既然要用這種方式往上走——就決定背著這點虧欠走下去。"
+        ), (
+            "한참을 고민했다. 결국엔 합류했다.\n하지만 그 동료에게 밥 한 번 샀다. 아무 말 없이.\n이 방식으로 올라가는 이상 — 그 정도의 빚은 지고 가"
+            "기로 했다. "
+        ), ["counter quantity missing/changed: expected (occurrence, 1), target candidates=[]"]),
+        ("meal", "zh-TW", "1:source_quantity", "source_off",
+        (
+            "想了很久。最後還是加入了。\n但請那位同事吃了一餐。什麼也沒說。\n既然要用這種方式往上走——就決定背著這點虧欠走下去。"
+        ), (
+            "한참을 고민했다. 결국엔 합류했다.\n하지만 그 동료에게 밥 두 번 샀다. 아무 말 없이.\n이 방식으로 올라가는 이상 — 그 정도의 빚은 지고 가"
+            "기로 했다."
+        ), ["counter quantity missing/changed: expected (occurrence, 2), target candidates=[]"]),
+    ]
+    ids = {"found": "events:arc_spec_found:/description",
+           "meal": "events:arc_spec_climber_result:/choices/1/result_text"}
+    controls = []
+    failures: list[str] = []
+    for kind, locale, label, category, target, override, baseline in fixtures:
+        source = SOURCE_AMB_SPECIALIZATION[kind] if override is None else override
+        expectation = ("normal" if category == "normal" else
+                       "reject" if category == "mutant" else
+                       "same_as_before_and_new_gate_off")
+        controls.append(dict(id=ids[kind], locale=locale, source=source,
+                             label=label, category=category, target=target,
+                             expect=expectation))
+        errors = validate_text(locale, ids[kind], source, target)
+        if category == "source_off":
+            ok = _amb_specialization_kind(source) is None and errors == baseline
+        elif expectation == "normal":
+            ok = not errors
+        else:
+            ok = bool(errors)
+        if not ok:
+            failures.append("specialization exposed control " + label + ": " + repr(errors))
+    input_sha = hashlib.sha256(json.dumps(
+        controls, ensure_ascii=False, sort_keys=True, separators=(",", ":"),
+    ).encode()).hexdigest()
+    if input_sha != "e0337e0fd891247a377662530416ab646f41ffff305c1eac9b1c4609fb2bd83f":
+        failures.append("specialization original disclosed22 input changed")
+    return len(controls), failures
+
+
 def run_self_test(
     manifest: dict[str, Any], runtime: dict[str, Any],
 ) -> list[str]:
     failures: list[str] = []
     cases, life_failures = _life_scene_parser_self_test()
+    specialization_cases, specialization_failures = _amb_specialization_self_test()
+    cases += specialization_cases
+    failures.extend(specialization_failures)
+    specialization_exposed_cases, specialization_exposed_failures = _amb_specialization_exposed_self_test()
+    cases += specialization_exposed_cases
+    failures.extend(specialization_exposed_failures)
     callback_shadow_cases, callback_shadow_failures = _callback_shadow_parser_self_test()
     cases += callback_shadow_cases
     failures.extend(callback_shadow_failures)

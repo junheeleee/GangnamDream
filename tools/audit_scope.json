@@ -14,6 +14,41 @@
   ],
   "fast_lanes": [
     {
+      "id": "choice-preview-localization",
+      "paths": [],
+      "owned_paths": [
+        "scenes/MainGame.gd",
+        "tools/ChoicePreviewLocaleCheck.gd",
+        "tools/ChoicePreviewLocaleCheck.gd.uid",
+        "tools/ChoicePreviewLocaleCheck.tscn",
+        "tools/run_choice_preview_locale_qa.sh",
+        "tools/year5_reference_route_audit.py",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/audit_scope.json",
+        "docs/queue_active/ORDER-220.md",
+        "docs/queue_archive/ORDER-220.md",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/WORK_LOG.md",
+        "docs/STATUS.md",
+        "docs/agent_review_decisions.json"
+      ],
+      "tools": [
+        "tools/year5_reference_route_audit.py",
+        "tools/year5_reference_route_audit.py --self-test",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py --self-test",
+        "tools/story_demo_localization_audit.py --self-test",
+        "tools/story_demo_localization_audit.py",
+        "tools/full_body_translation_scope.py --self-test",
+        "tools/run_choice_preview_locale_qa.sh",
+        "tools/queue_index_self_test.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Exact health/mental localization consumer and isolated actual Label component; historical fixed-hash chain preserved. No full-run or human/native approval."
+    },
+    {
       "id": "realization-protected-hash-reconciliation",
       "paths": [
         "tools/year5_reference_route_audit.py",
@@ -3432,6 +3467,18 @@
         "scenes/MainGame.gd",
         "tools/ScreenshotQA.gd",
         "tools/run_core_loop_v2_input_qa.sh"
+      ]
+    },
+    {
+      "tool": "tools/run_choice_preview_locale_qa.sh",
+      "godot": true,
+      "why": "Isolated five-locale choice-preview caller Label, merging/sign/order and partial community fallback; not rendered human play.",
+      "paths": [
+        "scenes/MainGame.gd",
+        "tools/ChoicePreviewLocaleCheck.gd",
+        "tools/ChoicePreviewLocaleCheck.gd.uid",
+        "tools/ChoicePreviewLocaleCheck.tscn",
+        "tools/run_choice_preview_locale_qa.sh"
       ]
     }
   ]
