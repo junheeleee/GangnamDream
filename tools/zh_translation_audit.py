@@ -6681,10 +6681,302 @@ def _life_reflection_slots(source: str, target: str) -> tuple[list[CounterQuanti
     return ss, ts, errors
 
 
+SOURCE_NEXT_LIFE = {
+    "keepsake": (
+        "짐을 싸다가, 손이 멈췄다.\n\n서랍 안쪽에 남아 있던 것. 종이 한 장일 수도, 화면에 남겨 둔 기록일 수도 있었다.\n\n{keepsake"
+        "}.\n\n이걸 처음 간직한 날과 지금 사이에 방이 하나 끝나고 있었다. 새 방으로 가져갈 상자와, 이 방에 남겨 둘 것 사이에서 {name"
+        "}은 한동안 움직이지 않았다."
+    ),
+    "self_owned": (
+        "\"아버지 회사 때문이에요?\"\n\n지연은 예상했다는 듯 짧게 웃었다. \"아니요. 제 것 하나 갖고 싶어서요. 아버지 회사 딸이 아닌 이름으로"
+        " 할 수 있는 거요.\" 말끝에 손가락이 수험서 표지를 한 번 눌렀다.\n\n{name}은 더 묻지 못했다. 출발선이 다른 사람에게도 자기 이"
+        "름으로 번 돈과 자리가 필요하다는 것을 처음 알았다. '제 것'이라는 두 글자가 커피보다 오래 입안에 남았다."
+    ),
+    "access_call": (
+        "오랜만에 마주 앉은 지연의 가방에서 두꺼운 수험서 모서리가 삐져나와 있었다. 커피를 기다리며 책을 밀어 넣던 그녀가 먼저 말했다.\n\n\"저"
+        " 요즘 공인중개사 시험 공부해요.\"\n\n{name}은 컵을 들다 멈췄다. 아버지가 부동산 회사를 운영하고, 좋은 매물을 전화 한 통으로 먼"
+        "저 보던 사람이었다. 굳이 퇴근 뒤 형광펜 자국을 늘려가며 자격증을 딸 이유가 쉽게 떠오르지 않았다.\n\n지연은 질문을 예상한 듯 책 위에"
+        " 손을 얹었다. 이번에는 아버지 회사의 이야기가 아니라 자기 이야기를 기다리는 얼굴이었다."
+    ),
+    "open_invite": (
+        "\"네, 나름 잘 지냈어요. 연락 주셔서 반가워요.\"\n\n지연의 답장은 금방 왔다. \"다행이네요. 저도 요즘 방향을 조금 바꿨어요. 언제 한"
+        "번 봐요.\" 약속 날짜는 붙지 않았다.\n\n{name}은 웃는 얼굴 하나를 보내고 대화창을 닫았다. 두 사람은 다시 서로의 삶 가장자리로 "
+        "물러났다. 그래도 이번에는 그 가장자리에 불이 하나 켜져 있었다."
+    ),
+    "two_worlds": (
+        "카카오톡 알림에 한지연이라는 이름이 떴다. 마지막 대화가 어디서 끝났는지 찾으려면 화면을 한참 올려야 했다. 새 메시지는 짧고 정중했다."
+        "\n\n\"오랜만이에요. 그때 이후로 어떻게 지내셨어요?\"\n\n상철의 소개, 처음 배운 짧은 매매, 서로 다른 세계가 잠깐 맞닿았던 날. 그로부"
+        "터 2년이 지났다. 각자의 생활이 바빠졌다는 말로 설명하기에는, 연락하지 않은 시간이 너무 반듯하게 쌓여 있었다.\n\n{name}은 답장 "
+        "칸을 열었다. 입력 중 표시가 사라지기 전에 어느 정도의 진심을 보낼지 정해야 했다."
+    ),
+    "voice_span": (
+        "\"정말 잘됐어요. 처음부터 끝까지 지연씨가 해낸 거잖아요.\"\n\n전화기 너머가 잠깐 조용해졌다. 지연이 낮게 웃었다. \"오빠가 그렇게 말해"
+        "주니까 이제야 좀 실감 나요. 오늘 아무한테나 전화한 거 아니에요.\"\n\n{name}은 대답 대신 창문에 흐르는 빗물을 봤다. 부산의 첫 "
+        "계약과 서울의 밤이 한 통화 안에 놓였다. 1년의 거리가 잠깐 목소리 한 뼘만큼 줄었다."
+    ),
+    "two_paths": (
+        "\"나도 여기서 버티고 있어요. 각자의 방향으로요.\"\n\n지연은 잠깐 조용했다가 \"그렇죠. 우리 둘 다 아직 가는 중이네요\"라고 답했다. 축"
+        "하 전화는 곧 안부 몇 마디로 끝났다.\n\n각자의 방향이라는 말은 틀리지 않았다. 전화를 끊은 뒤 서울의 밤과 부산 사무소의 불빛이 잠깐 "
+        "같은 높이에 있는 것처럼 느껴졌다가, 다시 멀어졌다."
+    ),
+    "breath": (
+        "창문 밖에 비가 치던 밤, 한지연에게서 전화가 왔다. 부산으로 내려간 뒤 처음 듣는 목소리였다. 1년 만이었다.\n\n\"계약 성사됐어요. 괴"
+        "정동 소형 빌라 매매요. 제가 처음부터 끝까지 맡은 첫 계약이에요.\"\n\n평소처럼 가볍게 자랑하는 말투가 아니었다. 서류를 정리하는 종이 "
+        "소리와 사무소 밖 버스 브레이크음이 전화기 너머로 섞였다. 지연은 웃다가 숨을 한 번 고르고, 계약 금액보다 자기 도장이 찍힌 순간을 더"
+        " 길게 설명했다.\n\n{name}은 축하보다 먼저, 이 소식을 왜 자기에게 전화해 전하고 싶었는지 생각했다."
+    ),
+    "bag": (
+        "\"그럼 자주 와요. 내가 기다릴게요.\"\n\n지연이 고개를 들었다. 도도하게 웃으려다 반 박자 늦게 표정이 풀렸다. \"정말 언제 와도 돼요?"
+        "\" \"언제든요.\"\n\n둘은 카페를 나와 지하철역까지 걸었다. 말이 없는데도 어색하지 않았다. 개찰구 앞에서 지연은 부산행 표가 든 가방을 "
+        "한 번 고쳐 멨다. 기다린다는 말이 돌아갈 사람의 어깨에 조용히 남았다."
+    ),
+    "seoul_year": (
+        "지연이 공인중개사 보수교육 때문에 이틀만 서울에 올라왔다. 가방 옆주머니에는 다음 날 부산으로 내려가는 KTX 표가 접혀 있었다. 둘이 "
+        "만난 곳은 청담의 화려한 카페가 아니라 {name}의 동네에 있는 작은 가게였다.\n\n지연은 창밖을 한참 보다가 말했다. \"서울이 이상하게"
+        " 낯설어요. 1년밖에 안 됐는데.\" 커피를 두 모금 마시고도 컵을 내려놓지 않았다.\n\n\"그래도 오빠가 있으니까, 이제야 좀 서울 같네요."
+        "\"\n\n말은 가볍게 했지만 손가락이 종이컵 이음새를 천천히 따라가고 있었다. 내일이면 다시 부산이었다."
+    ),
+    "daeun_year": (
+        "지연이 서울에 왔다. 공인중개사 보수교육 이틀짜리.\n\n같은 카페. 지연이 먼저 말했다. \"서울이 이상하게 낯설어. 1년밖에 안 됐는데.\""
+        "\n\n커피를 두 모금 마시더니 덧붙였다. \"오빠가 있어서 그나마 서울 같아.\"\n\n{name}은 잠깐 멈췄다.\n그 말의 무게를 알고 있었다."
+        " 그리고 — 이미 다른 사람이 있다는 것도 알고 있었다."
+    ),
+    "water": (
+        "지인과 점심을 먹다가 지연의 이름이 나왔다. 부산 사무소가 자리를 잡아 직원도 뽑았고, 동네에서 꼼꼼한 중개사로 제법 알려졌다고 했다. "
+        "{name}이 직접 묻지 않은 소식들이 식탁 위에 하나씩 놓였다.\n\n지인은 물을 한 모금 마신 뒤 덧붙였다. \"아, 거기서 만나는 사람도"
+        " 있대요. 부산 사람이래요.\"\n\n{name}의 젓가락이 반찬 위에서 잠깐 멈췄다. 잘됐다는 생각과, 자기가 모르는 계절이 그만큼 쌓였다는"
+        " 감각이 동시에 왔다. 어느 쪽도 거짓은 아니어서 감정에 하나의 이름을 붙이기 어려웠다."
+    ),
+    "same_five": (
+        "정리하지 않기로 했다.\n\n잘 산 5년인지, 못 산 5년인지 — 지금 결론 내릴 필요는 없었다.\n그건 더 나중에, 더 멀리서 봐야 보이는 "
+        "거니까.\n\n지금은 그냥 눈이 내리고 있었다.\n{name}은 창가에 앉아 그걸 봤다.\n\n따뜻하지도 춥지도 않은, 이상하게 평온한 밤이었다."
+    ),
+    "meal": (
+        "밥 한번 사준다"
+    ),
+    "boxes": (
+        "현수가 발령 소식을 전하며 마지막으로 방에 와 달라고 했다. {name}은 현수가 사는 고시원으로 찾아갔다. 문을 열자 현수가 짐을 싸고"
+        " 있었다.\n\n\"형, 저 발령났어요. 다음 주에 가야 해서요.\"\n\n경기도 어딘가의 군청이었다. 4년을 산 방인데 짐은 박스 두 개였다. 공"
+        "시 교재가 한 박스, 나머지 전부가 한 박스. 달력은 맨 위에 얹혀 있었다 — 시험 날짜에 쳐 둔 동그라미가 아직 선명했다.\n\n방문을 열"
+        "어 둔 채 현수는 테이프를 끊었다. 드르륵, 하는 소리가 복도까지 울렸다.\n\n이 방에서의 4년이 박스 두 개에 담겼다. 담기고 남은 것들"
+        "은 — 아마 몸에 새겨져서 같이 가는 거겠지."
+    ),
+    "two_words": (
+        "\"올해는 될 거야.\"\n\n근거 없는 말이었다. 그래도 현수가 씩 웃었다. 진짜 웃음이었다.\n\"형도 잘 될 거예요.\"\n\n방에 돌아와 누웠는데"
+        ", 그 말이 생각보다 오래 남았다. 근거 없는 말 두 개가 새벽 주방에서 오간 것뿐인데 — 이상하게 든든했다."
+    ),
+    "quiet_span": (
+        "\"기대할게요, 형!\"\n\n전화를 끊었다. 화면이 어두워지자 방이 한 뼘 더 조용해졌다.\n\n곧, 정말 곧이었다. {name}은 다시 책상 앞"
+        "에 앉았다. 어두워진 화면에 비친 얼굴이, 잠깐, 5년 전 주방의 그 얼굴 같았다."
+    ),
+    "map_pair": (
+        "막판이었다. 강남까지 정말 얼마 안 남았다.\n\n현수에게서 전화가 왔다. 영상통화.\n\n\"형! 진짜 오랜만이에요. 어떻게 지내요?\"\n\n화면 "
+        "속 현수 뒤로 사무실 형광등과 서류 더미가 보였다. 야근인 모양인데 얼굴은 편안했다. 자기 삶에 정착한 사람의 얼굴. 통화 중에 누가 부"
+        "르자 \"네, 금방 가요\" 하고 답하는 목소리에도 군더더기가 없었다.\n\n{name}은 화면 구석에 뜬 자기 얼굴을 봤다. 5년이 거기 있었"
+        "다.\n\n누가 더 멀리 왔는지는 재지 않기로 했다. 애초에 같은 지도를 걷고 있는 게 아니었다."
+    ),
+}
+
+
+def _next_life_slots(source: str, target: str) -> tuple[list[CounterQuantity], list[CounterQuantity], list[str]]:
+    """Exact KO life-stage leaves own local roles, never complete CN sentences.
+
+    Figurative spans, a Korean quote's brevity and a repeated co-referent year
+    are not fresh physical quantities. Only validated local spans are masked;
+    every other amount/counter still enters the unchanged numeric pipeline.
+    """
+    kind = next((k for k, v in SOURCE_NEXT_LIFE.items() if source == v), None)
+    ss: list[CounterQuantity] = []
+    ts: list[CounterQuantity] = []
+    errors: list[str] = []
+    if kind is None:
+        return ss, ts, errors
+    n = CHINESE_CARDINAL
+    lines = target.split("\n")
+    label = "next-life " + kind
+
+    def source_slot(fragment: str, value: int, occurrence: int = 0) -> int:
+        starts = [m.start() for m in re.finditer(re.escape(fragment), source)]
+        start = starts[occurrence]
+        ss.append(CounterQuantity(start, start + len(fragment), Decimal(value), label))
+        return source[:start].count("\n")
+
+    def bind(fragment: str, pattern: str, expected: int, *,
+             implicit: int | None = None, occurrence: int = 0,
+             role: str | None = None, state: bool = False) -> None:
+        line = source_slot(fragment, expected, occurrence)
+        matches = list(re.finditer(pattern, target))
+        if len(matches) != 1:
+            errors.append(label + " local quantity/unit/count missing or duplicated")
+            return
+        m = matches[0]
+        a, b = m.span("q")
+        raw = m.groupdict().get("number")
+        value = _chinese_cardinal_value(raw) if raw is not None else Decimal(
+            expected if implicit is None else implicit)
+        valid = value == expected and target[:a].count("\n") == line
+        valid = valid and not _has_numeric_sign_prefix(target, a)
+        valid = valid and not re.match(
+            r"\s*(?:[%％‰倍]|公斤|公里|公尺|米|分鐘|分钟|小時|小时|[/／])", target[b:])
+        if role and (line >= len(lines) or not re.search(role, lines[line])):
+            valid = False
+        if state:
+            start = max(target.rfind(c, 0, m.start()) for c in "\n。！？!?，,；;「“") + 1
+            prefix = target[start:m.start()]
+            if re.search(r"沒有|没有|沒|没|不曾|尚未|未曾|還未|还未|準備|准备|打算|計劃|计划|將要|将要|已經|已经", prefix):
+                valid = False
+        if not valid:
+            errors.append(label + " local value/sign/line/role/state changed")
+            return
+        ts.append(CounterQuantity(a, b, value, label))
+
+    if kind == "keepsake":
+        # 남겨 둘 is the verb 두다, not two. The one ending room is separate.
+        source_slot("둘 것", 0)
+        bind("방이 하나", rf"(?P<q>(?P<number>{n})[間间](?:房|屋子))", 1,
+             role=r"(?:日子|生活).*?(?:[結结]束|尾[聲声])")
+    elif kind == "self_owned":
+        bind("제 것 하나", rf"(?:有|[擁拥]有)(?P<q>(?P<number>{n})[樣样件]"
+             r"(?:真正)?(?:[屬属][於于]|[歸归])?自己的(?:東西|东西|事[業业]))", 1)
+        bind("한 번", rf"(?P<q>(?:[輕轻])?按了?(?P<number>{n})下)", 1,
+             role=r"手指.*?(?:[書书]|封面)", state=True)
+        # The translated short phrase has no literal two-character claim.
+        bind("두 글자", r"(?P<q>(?:[「“‘'](?:[屬属][於于]自己的|自己的(?:東西|东西)|我的(?:東西|东西))[」”’']"
+             r"(?:[這这](?:句|段)?短短(?:的)?(?:[幾几][個个]字|[幾几]字|的?[話话]|一句[話话]))?"
+             r"|短短的[「“‘'](?:[屬属][於于]自己的|自己的(?:東西|东西)|我的(?:東西|东西))[」”’']))",
+             2, role=r"(?:[嘴口][裡里中]|口中).*?(?:留|停)|(?:留|停).*?(?:嘴|口)")
+    elif kind == "access_call":
+        bind("한 통", rf"(?P<q>(?:打(?:(?P<number>{n}))?[個个通][電电][話话]"
+             rf"|(?P<bare>{n})通[電电][話话]))", 1, implicit=1,
+             role=r"只要.*?[電电][話话].*?就能.*?(?:看|[見见])", state=True)
+        # A bare 一通 also carries its own numeral; do not infer it from a
+        # second valid call elsewhere in the paragraph.
+        for m in re.finditer(rf"(?<!打)(?P<q>{n})通[電电][話话]", target):
+            if _chinese_cardinal_value(m.group("q")) != 1:
+                errors.append(label + " call count changed")
+        # Her father's company is background, not the actor of her access call.
+        # The unchanged TW prose may omit 她 after a clause boundary.
+        for m in re.finditer(r"只要.*?[電电][話话]", target):
+            start = max(target.rfind(c, 0, m.start()) for c in "\n。！？!?，,；;") + 1
+            if re.search(r"父[親亲]|爸爸|父母", target[start:m.start()]):
+                errors.append(label + " access-call actor changed")
+    elif kind == "open_invite":
+        bind("한번", rf"(?P<q>(?:改天|有空|哪天|找天|找[個个][時时][間间])"
+             rf"(?:再)?[見见](?:(?P<number>{n})面|[個个]面|面)吧)", 1, implicit=1,
+             role=r"(?:[沒没]有|未|不曾).*(?:日期|[約约]定.*?[時时][間间])|[沒没](?:有)?(?:附|[約约]|[訂订]).*?日期",
+             state=True)
+        bind("두 사람", rf"(?P<q>(?:我[們们])?(?P<number>{n})(?:[個个])?人)"
+             r"(?=(?:又|再|再次|重新)?退回)", 2)
+    elif kind == "two_worlds":
+        bind("서로 다른 세계", rf"(?P<q>(?:彼此不同的)?(?P<number>{n})[個个]"
+             r"(?:(?:各不相同|不同)(?:的)?)?世界)", 2,
+             role=rf"(?:彼此不同的{n}[個个]世界|{n}[個个](?:各不相同|不同)(?:的)?世界)"
+             r"短[暫暂].*?(?:相[觸触]|交[會会])")
+    elif kind == "voice_span":
+        bind("한 통화", rf"(?P<q>(?:同)?(?P<number>{n})通[電电][話话])", 1)
+        bind("한 뼘", r"(?P<q>(?:[聲声]音相隔的那一[點点]|一小段[聲声]音|咫尺的[聲声]音))",
+             1, role=r"(?:距[離离]).*?(?:[縮缩]|只剩)")
+    elif kind == "two_paths":
+        bind("둘", rf"(?P<q>我[們们](?:(?P<number>{n})(?:[個个]|人)|[倆俩])?[，,]?都)"
+             r"(?=[還还](?:走)?在(?:各自的)?路上)", 2, implicit=2)
+    elif kind == "breath":
+        contract_line = source[:source.index("계약 성사")].count("\n")
+        if contract_line >= len(lines) or not re.match(
+                r"^[「“\"']?合(?:同|[約约])(?:已(?:[經经])?)?"
+                r"(?:[談谈]成|成交|[簽签]成|[簽签]妥)了?[。！!]", lines[contract_line]):
+            errors.append(label + " first-contract completion changed")
+        bind("한 번", rf"(?P<q>(?:(?:[緩缓]了|[調调]勻|[調调]匀)(?P<number>{n})口[氣气]"
+             rf"|[調调]整了(?P<times>{n})次呼吸))", 1,
+             role=r"Jiyeon.*?(?:[緩缓]|[調调](?:整|勻|匀))", state=True)
+        if any(_chinese_cardinal_value(m.group(1)) != 1 for m in re.finditer(
+                rf"[調调]整了({n})次呼吸", target)):
+            errors.append(label + " breath count changed")
+    elif kind == "bag":
+        bind("한 번", r"(?P<q>(?:[調调]整了(?:一|1)下|重新背(?:好|妥)了?))", 1,
+             role=r"Jiyeon.*?(?:包|背)", state=True)
+    elif kind in {"seoul_year", "daeun_year"}:
+        # The two-day Seoul visit and the one-year separation are distinct.
+        # 第一天/第二天 return-ticket prose cannot supply the visit duration.
+        bind("이틀", rf"(?<!第)(?P<q>(?P<number>{n})[天日])(?=[。的，,]|$)", 2,
+             role=r"Jiyeon.*?(?:首[爾尔]|[進进]修|[教敎]育)")
+        bind("1년", rf"(?P<q>(?P<number>{n})年)", 1,
+             role=r"(?:明明)?才(?:一|1)年")
+    elif kind == "water":
+        bind("한 모금", rf"(?:熟人)(?P<q>喝了(?:(?P<number>{n}))?口水)", 1,
+             implicit=1, state=True)
+    elif kind == "same_five":
+        # Good/bad is one retrospective five-year interval, stated once or
+        # repeated in parallel. Count/values remain exact, no calendar waiver.
+        line = source_slot("5년", 5)
+        source_slot("5년", 5, 1)
+        matches = list(re.finditer(rf"(?P<number>{n})年", target))
+        values = [_chinese_cardinal_value(m.group("number")) for m in matches]
+        valid = values in ([Decimal(5)], [Decimal(5), Decimal(5)])
+        valid = valid and all(target[:m.start()].count("\n") == line
+                              and not _has_numeric_sign_prefix(target, m.start())
+                              for m in matches)
+        valid = valid and line < len(lines) and bool(re.search(
+            r"[過过]得好.*?(?:不好|不好的)|[過过]得好的.*?[過过]得不好的", lines[line]))
+        valid = valid and bool(re.search(r"(?:不必|[沒没]有必要|不用|不需要).*?(?:[現现]在|[結结][論论])", lines[line]))
+        if not valid:
+            errors.append(label + " co-referent five-year value/unit/count/state changed")
+        else:
+            ts.extend(CounterQuantity(m.start(), m.end(), Decimal(5), label) for m in matches)
+    elif kind == "meal":
+        bind("한번", rf"[請请](?:他)?(?P<q>吃(?:(?P<number>{n}))?[頓顿][飯饭])",
+             1, implicit=1, state=True)
+    elif kind == "boxes":
+        for i in range(2):
+            source_slot("두 개", 2, i)
+            source_slot("한 박스", 1, i)
+        # Inventory total2 + textbook1 + other1, then retrospective total2.
+        pattern = rf"(?P<number>{n})(?:[個个只])?(?:紙|纸)?箱(?:子)?"
+        matches = list(re.finditer(pattern, target))
+        values = [_chinese_cardinal_value(m.group("number")) for m in matches]
+        # 另一箱 includes the same explicit 一, so it is not a fresh unknown total.
+        if values != [Decimal(2), Decimal(1), Decimal(1), Decimal(2)] or [
+                target[:m.start()].count("\n") for m in matches] != [4, 4, 4, 8] or any(
+                    _has_numeric_sign_prefix(target, m.start()) for m in matches):
+            errors.append(label + " box total/partition/value/line/count changed")
+        else:
+            ts.extend(CounterQuantity(m.start(), m.end(), v, label) for m, v in zip(matches, values))
+    elif kind == "two_words":
+        bind("두 개", rf"(?P<q>(?P<number>{n})句)(?=(?:毫[無无][根據根据]+|"
+             r"[沒没]有?[根據根据]+)的?[話话])", 2)
+        # Two exchanged reassurances: Hyunsu's reply addresses his older friend.
+        reply_line = source[:source.index("형도")].count("\n")
+        if reply_line >= len(lines) or not re.search(
+                r"(?:哥[，,]?\s*(?:你|您)?|你|您)也[會会].*?(?:[順顺]利|好|成功)",
+                lines[reply_line]):
+            errors.append(label + " reciprocal encouragement recipient changed")
+    elif kind == "quiet_span":
+        bind("한 뼘", r"(?P<q>(?:又[靜静]了[幾几]分|又多了一分寂[靜静]|"
+             r"(?:更|又)(?:安)?[靜静]了一[點点]))", 1,
+             role=r"(?:房[間间]).*?(?:[靜静]|寂)")
+    elif kind == "map_pair":
+        incoming_line = source[:source.index("현수에게서 전화")].count("\n")
+        if incoming_line >= len(lines) or not re.match(
+                r"^(?:Kang\s+)?Hyunsu\s*(?:[給给]我)?打[來来]了?[電电][話话]",
+                lines[incoming_line]):
+            errors.append(label + " Hyunsu inbound-call direction changed")
+        bind("애초에 같은 지도를 걷고 있는 게 아니었다.",
+             rf"(?P<q>(?:(?:(?P<number>{n})(?:[個个])?人本[來来]|本[來来](?:(?P<middle>{n})人)?)"
+             rf"就(?:[沒没]有|[沒没])走在同一[張张]地[圖图]上"
+             rf"|[從从]一[開开]始[，,](?:我[們们])?(?P<people>{n})人走的就不是同一[張张]地[圖图]))",
+             2, implicit=2)
+        if any(_chinese_cardinal_value(m.group(1)) != 2 for m in re.finditer(
+                rf"(?:本[來来])?({n})人(?:走的就不是同一[張张]地[圖图]|就)", target)):
+            errors.append(label + " same-map people count changed")
+    return ss, ts, errors
+
 def _numeric_errors(source: str, target: str) -> list[str]:
     source, target, errors = _callback_shadow_numbers(source, target)
     admin_source_slots, admin_target_slots, admin_errors = _investment_admin_slots(source, target)
     reflection_source, reflection_target, reflection_errors = _life_reflection_slots(source, target)
+    next_source, next_target, next_errors = _next_life_slots(source, target)
+    admin_source_slots.extend(next_source)
+    admin_target_slots.extend(next_target)
+    errors.extend(next_errors)
     admin_source_slots.extend(reflection_source)
     admin_target_slots.extend(reflection_target)
     errors.extend(reflection_errors)
@@ -16455,12 +16747,877 @@ def _life_reflection_self_test() -> tuple[int, list[str]]:
     return len(controls) + len(independent), failures
 
 
+def _next_life_parser_self_test() -> tuple[int, list[str]]:
+    """Replay the immutable pre-code174; source-OFF preserves old observations."""
+    normals = {
+        "keepsake": {
+            "zh-CN": (
+                "收拾行李时，手停住了。\n\n留在抽屉深处的东西。可能是一张纸，也可能是留在屏幕里的记录。\n\n{keepsake}。\n\n从第一次珍藏它的那天到现在，有一间房"
+                "的日子正走向结束。在要带去新房间的箱子和要留在这间房的东西之间，{name}久久没有动。"
+            ),
+            "zh-TW": (
+                "打包到一半，手停住了。\n\n留在抽屜深處的東西。可能是一張紙，也可能是留在螢幕上的紀錄。\n\n{keepsake}。\n\n從最初留下它的那天到現在，一間房裡的"
+                "日子正走向尾聲。要帶往新房間的箱子，和要留在這間房裡的東西之間，{name}好一陣子都沒有動。"
+            ),
+        },
+        "self_owned": {
+            "zh-CN": (
+                "“是为了父亲的公司吗？”\n\nJiyeon像早就料到了，轻轻一笑。“不是。是想有一样属于自己的东西。能不用‘父亲公司老板的女儿’这个身份，而是用自己的名字"
+                "做的事。”说到最后，手指在备考书封面上按了一下。\n\n{name}没能再问。第一次明白，即使起跑线不同，也会需要凭自己的名字挣来的钱和位置。“属于自己的”"
+                "这短短几个字，比咖啡更久地留在嘴里。"
+            ),
+            "zh-TW": (
+                "「是因為你父親的公司嗎？」\n\nJiyeon 像早已料到，短短笑了一下。「不是。我想有一樣屬於自己的東西。不是頂著父親公司老闆女兒的身分，而是用自己的名字"
+                "去做的事。」話說完，手指在考試用書的封面上按了一下。\n\n{name}沒能再問下去。這才第一次明白，即使起跑線不同，也會需要用自己的名字賺來的錢，以及自己"
+                "的位置。她口中那句短短的「屬於自己的」，在嘴裡停留得比咖啡更久。"
+            ),
+        },
+        "access_call": {
+            "zh-CN": (
+                "久违地相对而坐，Jiyeon的包里露出了厚厚一本备考书的边角。等咖啡时，她把书往里推了推，先开了口。\n\n“我最近在准备韩国房地产经纪人资格考试。”\n\n{"
+                "name}端杯子的动作停住了。她父亲经营着房地产公司，而她只要打个电话，就能先看到好房源。实在不容易想到，她何必要在下班后不断添上荧光笔的划痕，去考一张"
+                "资格证。\n\nJiyeon像料到了这个疑问，把手放在书上。这次，她等着被问起的不是父亲的公司，而是她自己的事。"
+            ),
+            "zh-TW": (
+                "久違地相對而坐，Jiyeon 的包包裡露出厚厚一本考試用書的書角。等咖啡時，她一邊把書塞回去，一邊先開了口。\n\n「我最近在準備韓國不動產仲介師考試。」\n"
+                "\n{name}舉杯的動作停了下來。她的父親經營不動產公司，過去只要一通電話，就能搶先看到好物件。一時實在想不到，她為什麼要特地在下班後繼續畫螢光筆、去考"
+                "一張證照。\n\nJiyeon 像是料到會被問，把手放在書上。這一次，她的神情在等人問的不是父親公司的事，而是她自己的事。"
+            ),
+        },
+        "open_invite": {
+            "zh-CN": (
+                "“嗯，过得还不错。很高兴收到你的消息。”\n\nJiyeon很快回了过来。“那就好。我最近也稍微换了方向。改天见个面吧。”没有附上约定的日期。\n\n{name"
+                "}发去一个笑脸，关掉聊天窗口。两人又退回了彼此生活的边缘。但这次，那边缘亮起了一盏灯。"
+            ),
+            "zh-TW": (
+                "「嗯，算是過得還不錯。很高興收到你的訊息。」\n\nJiyeon 很快回了。「那就好。我最近也稍微換了個方向。有空見個面吧。」後面沒有附上約定的日期。\n\n{"
+                "name}傳了一個笑臉，關掉對話視窗。兩人再次退回彼此生活的邊緣。不過這一次，那個邊緣亮起了一盞燈。"
+            ),
+        },
+        "two_worlds": {
+            "zh-CN": (
+                "KakaoTalk通知里出现了Han Jiyeon的名字。要找到上一次对话停在哪里，得往上翻很久。新消息简短而客气。\n\n“好久不见。那之后过得怎么样？”"
+                "\n\nSangchul的介绍，初次学会的短线交易，两个不同的世界短暂相触的那一天。那之后已经过了两年。仅用各自忙于生活来解释，未曾联系的日子却积得太整齐了"
+                "。\n\n{name}打开了回复栏。在“正在输入”的提示消失之前，得决定送出多少真心。"
+            ),
+            "zh-TW": (
+                "KakaoTalk 通知上出現了 Han Jiyeon 的名字。要找上次對話停在哪裡，得把畫面往上滑很久。新訊息簡短而客氣。\n\n「好久不見。那之後，過得"
+                "還好嗎？」\n\nSangchul 的介紹、第一次學會的短線交易，還有兩個不同世界短暫交會的那一天。距今已經兩年了。沒聯絡的日子累積得太過整齊，單用「各自忙"
+                "著生活」已經不足以說明。\n\n{name}打開回覆欄。在「正在輸入」的提示消失前，得先決定要送出多少真心。"
+            ),
+        },
+        "voice_span": {
+            "zh-CN": (
+                "“真的太好了。从头到尾都是Jiyeon自己做到的。”\n\n电话那头安静了片刻。Jiyeon轻声笑了。“Minjun哥这么说，我才有点实感。今天这通电话，我"
+                "可不是随便找个人打的。”\n\n{name}没有回答，只看着窗上流下的雨水。釜山的第一笔交易和首尔的夜晚，被放进了同一通电话。一年的距离，短暂地缩成了声音相"
+                "隔的那一点。"
+            ),
+            "zh-TW": (
+                "「真的太好了。從頭到尾，都是 Jiyeon 自己做到的。」\n\n電話那頭安靜了片刻。Jiyeon 低低笑了。「聽你這麼說，現在才稍微有了實感。今天這通電話"
+                "，我不是隨便挑個人打的。」\n\n{name}沒有回答，只看著窗上滑落的雨水。釜山的第一份合約，和首爾的夜晚，放在了同一通電話裡。一年的距離，短暫縮成了一小"
+                "段聲音。"
+            ),
+        },
+        "two_paths": {
+            "zh-CN": (
+                "“我也还在这里撑着。朝各自的方向。”\n\nJiyeon安静了一会儿，回答：“是啊，我们都还在路上呢。”这通报喜的电话，很快就在几句问候里结束了。\n\n各自的"
+                "方向，这句话并没有错。挂断后，首尔的夜和釜山事务所的灯，仿佛短暂地处在了同一个高度，又再次远了。"
+            ),
+            "zh-TW": (
+                "「我也在這裡撐著。往各自的方向。」\n\nJiyeon 安靜了一會兒，才回答：「是啊。我們都還在路上呢。」這通道賀的電話，很快就在幾句近況寒暄中結束。\n\n「"
+                "各自的方向」並沒有說錯。掛斷後，首爾的夜晚和釜山事務所的燈光，有一瞬間像在同一個高度，隨後又遠了。"
+            ),
+        },
+        "breath": {
+            "zh-CN": (
+                "雨敲打窗外的夜里，Han Jiyeon打来了电话。自她南下釜山以来，还是第一次听见她的声音。隔了一年。\n\n“合同谈成了。槐亭洞一套小型低层公寓的买卖。这"
+                "是第一笔从头到尾都由我负责的交易。”\n\n她的语气不像平时那样轻松地炫耀。整理文件的纸声和事务所外公交车的刹车声，从电话那头交织着传来。Jiyeon笑了笑"
+                "，缓了一口气，比起合同金额，她用了更多的话来讲盖下自己印章的那一刻。\n\n在道贺之前，{name}先想到的是，她为什么想给自己打电话，说这个消息。"
+            ),
+            "zh-TW": (
+                "雨打著窗戶的夜裡，Han Jiyeon 打來了電話。這是她南下釜山後，第一次聽見她的聲音。隔了一年。\n\n「合約談成了。槐亭洞一間小型低樓層集合住宅的買賣"
+                "。這是第一份從頭到尾都由我負責的合約。」\n\n不是她平時輕鬆炫耀的語氣。整理文件的紙張聲，和事務所外公車的煞車聲，混著從電話那頭傳來。Jiyeon 笑了一"
+                "下，調整了一次呼吸。比起成交金額，她花了更多時間，說自己印章蓋下去的那一刻。\n\n在說恭喜之前，{name}先想的是，她為什麼想特地打電話，把這個消息告訴"
+                "自己。"
+            ),
+        },
+        "bag": {
+            "zh-CN": (
+                "“那就常来吧。我会等你。”\n\nJiyeon抬起头。本想露出高傲的笑，表情却过了半拍便柔和下来。“真的什么时候来都可以吗？”“随时都可以。”\n\n两人出了咖"
+                "啡馆，步行到地铁站。没有说话，也不尴尬。在闸机前，Jiyeon调整了一下装着釜山车票的包。那句等候，静静留在了将要回去的人的肩上。"
+            ),
+            "zh-TW": (
+                "「那就常來吧。我會等你。」\n\nJiyeon 抬起頭。本想維持那略帶傲氣的笑，表情卻慢了半拍鬆開。「真的什麼時候來都可以嗎？」「隨時都可以。」\n\n兩人走出"
+                "咖啡廳，一路走到地鐵站。即使不說話，也不覺得尷尬。驗票閘門前，Jiyeon 把放著釜山車票的包包重新背好。「我會等你」這句話，靜靜留在即將回去的人的肩上"
+                "。"
+            ),
+        },
+        "seoul_year": {
+            "zh-CN": (
+                "Jiyeon为了韩国房地产经纪人的继续教育，只来首尔待两天。包的侧袋里，折着第二天返回釜山的韩国高速铁路KTX车票。两人见面的地方不是清潭那种华丽的咖啡"
+                "馆，而是{name}住处附近的一家小店。\n\nJiyeon望了窗外很久，说：“首尔莫名变得陌生了。明明才一年。”喝了两口咖啡，也没有放下杯子。\n\n“不过，"
+                "有Minjun哥在，总算有点首尔的感觉了。”\n\n话说得轻巧，手指却慢慢沿着纸杯接缝划过。明天就又要回釜山了。"
+            ),
+            "zh-TW": (
+                "Jiyeon 為了不動產仲介師的在職進修，北上首爾待兩天。包包側袋裡，折著隔天回釜山的 KTX 車票。兩人見面的地方，不是清潭洞華麗的咖啡廳，而是{na"
+                "me}住處附近的小店。\n\nJiyeon 望著窗外很久，才說：「首爾變得好陌生，真奇怪。明明才一年而已。」喝了兩口咖啡，她仍沒有放下杯子。\n\n「不過，因為"
+                "有你在，現在才有點回到首爾的感覺。」\n\n話說得輕鬆，手指卻慢慢沿著紙杯的接縫滑動。明天，就又要回釜山了。"
+            ),
+        },
+        "daeun_year": {
+            "zh-CN": (
+                "Jiyeon来首尔了。两天的韩国房地产经纪人继续教育。\n\n同一家咖啡馆。Jiyeon先开了口：“首尔莫名变得陌生了。明明才一年。”\n\n她喝了两口咖啡，又"
+                "说：“有Minjun哥在，才多少有点首尔的感觉。”\n\n{name}停了片刻。\n明白那句话的分量。也明白——自己已经有了另一个人。"
+            ),
+            "zh-TW": (
+                "Jiyeon 來到了首爾。是為了兩天的不動產仲介師在職進修。\n\n同一間咖啡廳。Jiyeon 先開了口。「首爾變得好陌生，真奇怪。明明才一年而已。」\n\n喝"
+                "了兩口咖啡後，她又說：「有你在，才多少有些回到首爾的感覺。」\n\n{name}停頓了一下。\n他明白那句話的分量。而且——也明白，自己已經有了另一個人。"
+            ),
+        },
+        "water": {
+            "zh-CN": (
+                "和熟人吃午饭时，说起了Jiyeon的名字。听说釜山的事务所站稳了脚跟，还招了员工，在附近也以细致的经纪人颇有名气。{name}没有主动问过的消息，被一件"
+                "件摆上了餐桌。\n\n熟人喝了口水，又补了一句：“对了，听说她在那里也有交往的对象。是釜山人。”\n\n{name}的筷子在小菜上方停了一下。替她高兴的念头，与"
+                "她已积攒了这么多自己不知道的季节的感觉，同时涌来。哪一种都不是假的，所以很难为这份心情取一个名字。"
+            ),
+            "zh-TW": (
+                "和熟人吃午飯時，話題提到了 Jiyeon。聽說釜山的事務所穩定下來了，也請了員工，在附近頗有細心仲介的名聲。那些{name}沒有主動問起的消息，一件件擺"
+                "上了餐桌。\n\n熟人喝了一口水，又補了一句。「啊，聽說她在那邊也有交往對象了。是釜山人。」\n\n{name}的筷子在小菜上方停了一下。替她高興的念頭，和她已"
+                "經累積了那麼多自己不知道的季節的感覺，同時湧來。兩種感受都是真的，很難替它們取一個共同的名字。"
+            ),
+        },
+        "same_five": {
+            "zh-CN": (
+                "决定不去梳理。\n\n是过得好的五年，还是过得不好的五年——现在没有必要下结论。\n那些事，要再晚些、站得再远些，才看得清。\n\n此刻，只是下着雪。\n{name"
+                "}坐在窗边，看着它。\n\n不暖，也不冷，一个莫名平静的夜晚。"
+            ),
+            "zh-TW": (
+                "決定不去整理了。\n\n這五年，過得好還是不好——不必現在就下結論。\n因為那得等更久以後，從更遠的地方回頭看，才看得清楚。\n\n此刻，只是下著雪。\n{name"
+                "}坐在窗邊，看著。\n\n既不溫暖，也不寒冷，是個莫名平靜的夜晚。"
+            ),
+        },
+        "meal": {
+            "zh-CN": (
+                "请他吃顿饭"
+            ),
+            "zh-TW": (
+                "請他吃頓飯"
+            ),
+        },
+        "boxes": {
+            "zh-CN": (
+                "Hyunsu带来了工作分配的消息，请{name}最后再去一趟房间。到了他住的考试院，门一开，就看见Hyunsu正在收拾行李。\n\n“哥，我的工作分配下来了"
+                "。下周就得过去。”\n\n是京畿道某个郡的政府机关。住了四年的房间，行李却只有两个箱子。公务员考试教材占一箱，其余所有东西占一箱。日历放在最上面——考试日期"
+                "上的圈还很清楚。\n\nHyunsu敞着房门，扯断了胶带。刺啦一声，传到了走廊。\n\n在这间房里的四年，装进了两个箱子。装完后剩下的那些——也许已经刻在身上，"
+                "会跟着他一起走吧。"
+            ),
+            "zh-TW": (
+                "Hyunsu 告知分發的消息，請他最後再去房間一趟。{name}來到 Hyunsu 住的考試院。門一開，Hyunsu 正在打包。\n\n「哥，我分發了。下星"
+                "期就得過去了。」\n\n是京畿道某處的郡廳。在這間房住了四年，行李卻只有兩個紙箱。一箱是公務員考試教材，另一箱裝著其餘所有東西。月曆擺在最上面——考試日期上"
+                "畫的圓圈，還很清楚。\n\nHyunsu 敞著房門，扯斷膠帶。撕拉一聲，響到了走廊。\n\n這間房裡的四年，裝進了兩個紙箱。裝不進去的那些——大概已經刻在身上，"
+                "會跟著一起走吧。"
+            ),
+        },
+        "two_words": {
+            "zh-CN": (
+                "“今年一定能考上的。”\n\n毫无根据的话。可Hyunsu还是咧嘴笑了。是发自内心的笑。\n“哥，你也会顺利的。”\n\n回房间躺下后，那句话在心里留得比想象中久"
+                "。无非是两句毫无根据的话，在凌晨的厨房里来回了一趟——却莫名让人踏实。"
+            ),
+            "zh-TW": (
+                "「今年會上的。」\n\n毫無根據的一句話。Hyunsu 卻咧嘴笑了。是真心的笑。\n「哥也會順利的。」\n\n回房躺下後，那句話留在心裡的時間，比想像中還久。不過"
+                "是在凌晨的廚房裡，交換了兩句毫無根據的話——卻莫名讓人踏實。"
+            ),
+        },
+        "quiet_span": {
+            "zh-CN": (
+                "“那我等着，哥！”\n\n挂掉了电话。屏幕暗下去，房间仿佛又静了几分。\n\n很快，真的很快了。{name}又坐回书桌前。映在暗下的屏幕里的那张脸，有一瞬，像极"
+                "了五年前厨房里的那张脸。"
+            ),
+            "zh-TW": (
+                "「我等著喔，哥！」\n\n掛了電話。螢幕暗下來，房間又多了一分寂靜。\n\n快了，真的快了。{name}再次坐回書桌前。映在暗下來的螢幕上的臉，有一瞬間，像極了"
+                "五年前廚房裡的那張臉。"
+            ),
+        },
+        "map_pair": {
+            "zh-CN": (
+                "已是最后关头。离江南真的没剩多远了。\n\nHyunsu打来了电话。视频通话。\n\n“哥！真的好久不见了。最近过得怎么样？”\n\n屏幕里，Hyunsu身后是办公"
+                "室的荧光灯和一叠叠文件。似乎在加班，神情却很安稳。那是已经在自己的生活里落了脚的人的脸。通话中有人叫他，他回答“好，马上来”的声音也干净利落。\n\n{na"
+                "me}看着屏幕角落里自己的脸。五年都在那里。\n\n决定不去衡量谁走得更远。本来就没有走在同一张地图上。"
+            ),
+            "zh-TW": (
+                "已經到了最後關頭。離江南，真的只差一點了。\n\nHyunsu 打來電話。視訊通話。\n\n「哥！真的好久不見。最近過得怎麼樣？」\n\n螢幕裡，Hyunsu 身後"
+                "是辦公室的日光燈和堆疊的文件。看來是在加班，神情卻很放鬆。那是一張已經在自己的生活裡安頓下來的臉。通話中有人叫他，他回答「好，我馬上過去」，語氣也俐落乾"
+                "脆。\n\n{name}看著螢幕角落裡自己的臉。五年，全在那裡。\n\n不打算比較誰走得更遠。從一開始，兩人走的就不是同一張地圖。"
+            ),
+        },
+    }
+    # Large multilingual fixtures use short adjacent literals for Python CLI.
+    specs = [
+        ("keepsake", "zh-CN", "keepsake/zh-CN/actual", "actual", "accept", 120, 120, ""),
+        ("keepsake", "zh-CN", "keepsake/zh-CN/natural", "natural", "accept", 75, 76, (
+            "屋子"
+        )),
+        ("keepsake", "zh-CN", "keepsake/zh-CN/quantity", "target_quantity", "reject", 73, 74, (
+            "两"
+        )),
+        ("keepsake", "zh-CN", "keepsake/zh-CN/money_extra", "target_money_extra", "reject", 120, 120, (
+            "\n另外花了100韩元。"
+        )),
+        ("keepsake", "zh-TW", "keepsake/zh-TW/actual", "actual", "accept", 123, 123, ""),
+        ("keepsake", "zh-TW", "keepsake/zh-TW/natural", "natural", "accept", 73, 74, (
+            "屋子"
+        )),
+        ("keepsake", "zh-TW", "keepsake/zh-TW/quantity", "target_quantity", "reject", 71, 72, (
+            "兩"
+        )),
+        ("keepsake", "zh-TW", "keepsake/zh-TW/money_extra", "target_money_extra", "reject", 123, 123, (
+            "\n另外花了100韓元。"
+        )),
+        ("keepsake", "zh-CN", "keepsake/source_off", "source_off", "helper_off_baseline_observation", 120, 120, ""),
+        ("self_owned", "zh-CN", "self_owned/zh-CN/actual", "actual", "accept", 170, 170, ""),
+        ("self_owned", "zh-CN", "self_owned/zh-CN/natural", "natural", "accept", 41, 46, (
+            "自己的东西"
+        )),
+        ("self_owned", "zh-CN", "self_owned/zh-CN/quantity", "target_quantity", "reject", 39, 40, (
+            "三"
+        )),
+        ("self_owned", "zh-CN", "self_owned/zh-CN/money_extra", "target_money_extra", "reject", 170, 170, (
+            "\n另外花了100韩元。"
+        )),
+        ("self_owned", "zh-TW", "self_owned/zh-TW/actual", "actual", "accept", 184, 184, ""),
+        ("self_owned", "zh-TW", "self_owned/zh-TW/natural", "natural", "accept", 44, 49, (
+            "自己的東西"
+        )),
+        ("self_owned", "zh-TW", "self_owned/zh-TW/quantity", "target_quantity", "reject", 42, 43, (
+            "三"
+        )),
+        ("self_owned", "zh-TW", "self_owned/zh-TW/money_extra", "target_money_extra", "reject", 184, 184, (
+            "\n另外花了100韓元。"
+        )),
+        ("self_owned", "zh-CN", "self_owned/source_off", "source_off", "helper_off_baseline_observation", 170, 170, ""),
+        ("access_call", "zh-CN", "access_call/zh-CN/actual", "actual", "accept", 206, 206, ""),
+        ("access_call", "zh-CN", "access_call/zh-CN/natural", "natural", "accept", 108, 109, (
+            "一通"
+        )),
+        ("access_call", "zh-CN", "access_call/zh-CN/quantity", "target_quantity", "reject", 108, 109, (
+            "两通"
+        )),
+        ("access_call", "zh-CN", "access_call/zh-CN/money_extra", "target_money_extra", "reject", 206, 206, (
+            "\n另外花了100韩元。"
+        )),
+        ("access_call", "zh-TW", "access_call/zh-TW/actual", "actual", "accept", 211, 211, ""),
+        ("access_call", "zh-TW", "access_call/zh-TW/natural", "natural", "accept", 109, 111, (
+            "打個"
+        )),
+        ("access_call", "zh-TW", "access_call/zh-TW/quantity", "target_quantity", "reject", 109, 110, (
+            "兩"
+        )),
+        ("access_call", "zh-TW", "access_call/zh-TW/money_extra", "target_money_extra", "reject", 211, 211, (
+            "\n另外花了100韓元。"
+        )),
+        ("access_call", "zh-CN", "access_call/source_off", "source_off", "helper_off_baseline_observation", 206, 206, ""),
+        ("open_invite", "zh-CN", "open_invite/zh-CN/actual", "actual", "accept", 119, 119, ""),
+        ("open_invite", "zh-CN", "open_invite/zh-CN/natural", "natural", "accept", 51, 55, (
+            "有空见一"
+        )),
+        ("open_invite", "zh-CN", "open_invite/zh-CN/quantity", "target_quantity", "reject", 54, 55, (
+            "三次"
+        )),
+        ("open_invite", "zh-CN", "open_invite/zh-CN/money_extra", "target_money_extra", "reject", 119, 119, (
+            "\n另外花了100韩元。"
+        )),
+        ("open_invite", "zh-TW", "open_invite/zh-TW/actual", "actual", "accept", 126, 126, ""),
+        ("open_invite", "zh-TW", "open_invite/zh-TW/natural", "natural", "accept", 53, 57, (
+            "改天見一"
+        )),
+        ("open_invite", "zh-TW", "open_invite/zh-TW/quantity", "target_quantity", "reject", 56, 57, (
+            "三次"
+        )),
+        ("open_invite", "zh-TW", "open_invite/zh-TW/money_extra", "target_money_extra", "reject", 126, 126, (
+            "\n另外花了100韓元。"
+        )),
+        ("open_invite", "zh-CN", "open_invite/source_off", "source_off", "helper_off_baseline_observation", 119, 119, ""),
+        ("two_worlds", "zh-CN", "two_worlds/zh-CN/actual", "actual", "accept", 193, 193, ""),
+        ("two_worlds", "zh-CN", "two_worlds/zh-CN/natural", "natural", "accept", 102, 103, (
+            "各不相"
+        )),
+        ("two_worlds", "zh-CN", "two_worlds/zh-CN/quantity", "target_quantity", "reject", 100, 101, (
+            "三"
+        )),
+        ("two_worlds", "zh-CN", "two_worlds/zh-CN/money_extra", "target_money_extra", "reject", 193, 193, (
+            "\n另外花了100韩元。"
+        )),
+        ("two_worlds", "zh-TW", "two_worlds/zh-TW/actual", "actual", "accept", 204, 204, ""),
+        ("two_worlds", "zh-TW", "two_worlds/zh-TW/natural", "natural", "accept", 113, 113, (
+            "的"
+        )),
+        ("two_worlds", "zh-TW", "two_worlds/zh-TW/quantity", "target_quantity", "reject", 109, 110, (
+            "三"
+        )),
+        ("two_worlds", "zh-TW", "two_worlds/zh-TW/money_extra", "target_money_extra", "reject", 204, 204, (
+            "\n另外花了100韓元。"
+        )),
+        ("two_worlds", "zh-CN", "two_worlds/source_off", "source_off", "helper_off_baseline_observation", 193, 193, ""),
+        ("voice_span", "zh-CN", "voice_span/zh-CN/actual", "actual", "accept", 158, 158, ""),
+        ("voice_span", "zh-CN", "voice_span/zh-CN/natural", "natural", "accept", 149, 157, (
+            "一小段声音"
+        )),
+        ("voice_span", "zh-CN", "voice_span/zh-CN/quantity", "target_quantity", "reject", 154, 157, (
+            "两米"
+        )),
+        ("voice_span", "zh-CN", "voice_span/zh-CN/money_extra", "target_money_extra", "reject", 158, 158, (
+            "\n另外花了100韩元。"
+        )),
+        ("voice_span", "zh-TW", "voice_span/zh-TW/actual", "actual", "accept", 156, 156, ""),
+        ("voice_span", "zh-TW", "voice_span/zh-TW/natural", "natural", "accept", 150, 155, (
+            "聲音相隔的那一點"
+        )),
+        ("voice_span", "zh-TW", "voice_span/zh-TW/quantity", "target_quantity", "reject", 150, 153, (
+            "兩公尺"
+        )),
+        ("voice_span", "zh-TW", "voice_span/zh-TW/money_extra", "target_money_extra", "reject", 156, 156, (
+            "\n另外花了100韓元。"
+        )),
+        ("voice_span", "zh-CN", "voice_span/source_off", "source_off", "helper_off_baseline_observation", 158, 158, ""),
+        ("two_paths", "zh-CN", "two_paths/zh-CN/actual", "actual", "accept", 124, 124, ""),
+        ("two_paths", "zh-CN", "two_paths/zh-CN/natural", "natural", "accept", 42, 42, (
+            "俩"
+        )),
+        ("two_paths", "zh-CN", "two_paths/zh-CN/quantity", "target_quantity", "reject", 40, 42, (
+            "他们三人"
+        )),
+        ("two_paths", "zh-CN", "two_paths/zh-CN/money_extra", "target_money_extra", "reject", 124, 124, (
+            "\n另外花了100韩元。"
+        )),
+        ("two_paths", "zh-TW", "two_paths/zh-TW/actual", "actual", "accept", 125, 125, ""),
+        ("two_paths", "zh-TW", "two_paths/zh-TW/natural", "natural", "accept", 43, 43, (
+            "兩人"
+        )),
+        ("two_paths", "zh-TW", "two_paths/zh-TW/quantity", "target_quantity", "reject", 41, 43, (
+            "他們三人"
+        )),
+        ("two_paths", "zh-TW", "two_paths/zh-TW/money_extra", "target_money_extra", "reject", 125, 125, (
+            "\n另外花了100韓元。"
+        )),
+        ("two_paths", "zh-CN", "two_paths/source_off", "source_off", "helper_off_baseline_observation", 124, 124, ""),
+        ("breath", "zh-CN", "breath/zh-CN/actual", "actual", "accept", 224, 224, ""),
+        ("breath", "zh-CN", "breath/zh-CN/natural", "natural", "accept", 153, 158, (
+            "调整了一次呼吸"
+        )),
+        ("breath", "zh-CN", "breath/zh-CN/quantity", "target_quantity", "reject", 155, 156, (
+            "两"
+        )),
+        ("breath", "zh-CN", "breath/zh-CN/money_extra", "target_money_extra", "reject", 224, 224, (
+            "\n另外花了100韩元。"
+        )),
+        ("breath", "zh-TW", "breath/zh-TW/actual", "actual", "accept", 231, 231, ""),
+        ("breath", "zh-TW", "breath/zh-TW/natural", "natural", "accept", 154, 161, (
+            "緩了一口氣"
+        )),
+        ("breath", "zh-TW", "breath/zh-TW/quantity", "target_quantity", "reject", 157, 158, (
+            "兩"
+        )),
+        ("breath", "zh-TW", "breath/zh-TW/money_extra", "target_money_extra", "reject", 231, 231, (
+            "\n另外花了100韓元。"
+        )),
+        ("breath", "zh-CN", "breath/source_off", "source_off", "helper_off_baseline_observation", 224, 224, ""),
+        ("bag", "zh-CN", "bag/zh-CN/actual", "actual", "accept", 141, 141, ""),
+        ("bag", "zh-CN", "bag/zh-CN/natural", "natural", "accept", 107, 112, (
+            "重新背好了"
+        )),
+        ("bag", "zh-CN", "bag/zh-CN/quantity", "target_quantity", "reject", 110, 111, (
+            "三"
+        )),
+        ("bag", "zh-CN", "bag/zh-CN/money_extra", "target_money_extra", "reject", 141, 141, (
+            "\n另外花了100韩元。"
+        )),
+        ("bag", "zh-TW", "bag/zh-TW/actual", "actual", "accept", 153, 153, ""),
+        ("bag", "zh-TW", "bag/zh-TW/natural", "natural", "accept", 127, 128, (
+            "妥"
+        )),
+        ("bag", "zh-TW", "bag/zh-TW/quantity", "target_quantity", "reject", 127, 128, (
+            "了三次"
+        )),
+        ("bag", "zh-TW", "bag/zh-TW/money_extra", "target_money_extra", "reject", 153, 153, (
+            "\n另外花了100韓元。"
+        )),
+        ("bag", "zh-CN", "bag/source_off", "source_off", "helper_off_baseline_observation", 141, 141, ""),
+        ("seoul_year", "zh-CN", "seoul_year/zh-CN/actual", "actual", "accept", 206, 206, ""),
+        ("seoul_year", "zh-CN", "seoul_year/zh-CN/natural", "natural", "accept", 127, 128, (
+            "1"
+        )),
+        ("seoul_year", "zh-CN", "seoul_year/zh-CN/quantity", "target_quantity", "reject", 127, 128, (
+            "两"
+        )),
+        ("seoul_year", "zh-CN", "seoul_year/zh-CN/money_extra", "target_money_extra", "reject", 206, 206, (
+            "\n另外花了100韩元。"
+        )),
+        ("seoul_year", "zh-TW", "seoul_year/zh-TW/actual", "actual", "accept", 204, 204, ""),
+        ("seoul_year", "zh-TW", "seoul_year/zh-TW/natural", "natural", "accept", 122, 123, (
+            "1"
+        )),
+        ("seoul_year", "zh-TW", "seoul_year/zh-TW/quantity", "target_quantity", "reject", 122, 123, (
+            "兩"
+        )),
+        ("seoul_year", "zh-TW", "seoul_year/zh-TW/money_extra", "target_money_extra", "reject", 204, 204, (
+            "\n另外花了100韓元。"
+        )),
+        ("seoul_year", "zh-CN", "seoul_year/source_off", "source_off", "helper_off_baseline_observation", 206, 206, ""),
+        ("daeun_year", "zh-CN", "daeun_year/zh-CN/actual", "actual", "accept", 140, 140, ""),
+        ("daeun_year", "zh-CN", "daeun_year/zh-CN/natural", "natural", "accept", 61, 62, (
+            "1"
+        )),
+        ("daeun_year", "zh-CN", "daeun_year/zh-CN/quantity", "target_quantity", "reject", 61, 62, (
+            "两"
+        )),
+        ("daeun_year", "zh-CN", "daeun_year/zh-CN/money_extra", "target_money_extra", "reject", 140, 140, (
+            "\n另外花了100韩元。"
+        )),
+        ("daeun_year", "zh-TW", "daeun_year/zh-TW/actual", "actual", "accept", 150, 150, ""),
+        ("daeun_year", "zh-TW", "daeun_year/zh-TW/natural", "natural", "accept", 67, 68, (
+            "1"
+        )),
+        ("daeun_year", "zh-TW", "daeun_year/zh-TW/quantity", "target_quantity", "reject", 67, 68, (
+            "兩"
+        )),
+        ("daeun_year", "zh-TW", "daeun_year/zh-TW/money_extra", "target_money_extra", "reject", 150, 150, (
+            "\n另外花了100韓元。"
+        )),
+        ("daeun_year", "zh-CN", "daeun_year/source_off", "source_off", "helper_off_baseline_observation", 140, 140, ""),
+        ("water", "zh-CN", "water/zh-CN/actual", "actual", "accept", 201, 201, ""),
+        ("water", "zh-CN", "water/zh-CN/natural", "natural", "accept", 89, 89, (
+            "一"
+        )),
+        ("water", "zh-CN", "water/zh-CN/quantity", "target_quantity", "reject", 89, 89, (
+            "两"
+        )),
+        ("water", "zh-CN", "water/zh-CN/money_extra", "target_money_extra", "reject", 201, 201, (
+            "\n另外花了100韩元。"
+        )),
+        ("water", "zh-TW", "water/zh-TW/actual", "actual", "accept", 199, 199, ""),
+        ("water", "zh-TW", "water/zh-TW/natural", "natural", "accept", 87, 88, ""),
+        ("water", "zh-TW", "water/zh-TW/quantity", "target_quantity", "reject", 87, 88, (
+            "兩"
+        )),
+        ("water", "zh-TW", "water/zh-TW/money_extra", "target_money_extra", "reject", 199, 199, (
+            "\n另外花了100韓元。"
+        )),
+        ("water", "zh-CN", "water/source_off", "source_off", "helper_off_baseline_observation", 201, 201, ""),
+        ("same_five", "zh-CN", "same_five/zh-CN/actual", "actual", "accept", 105, 105, ""),
+        ("same_five", "zh-CN", "same_five/zh-CN/natural", "natural", "accept", 14, 15, (
+            "5"
+        )),
+        ("same_five", "zh-CN", "same_five/zh-CN/quantity", "target_quantity", "reject", 14, 15, (
+            "六"
+        )),
+        ("same_five", "zh-CN", "same_five/zh-CN/money_extra", "target_money_extra", "reject", 105, 105, (
+            "\n另外花了100韩元。"
+        )),
+        ("same_five", "zh-TW", "same_five/zh-TW/actual", "actual", "accept", 107, 107, ""),
+        ("same_five", "zh-TW", "same_five/zh-TW/natural", "natural", "accept", 11, 12, (
+            "5"
+        )),
+        ("same_five", "zh-TW", "same_five/zh-TW/quantity", "target_quantity", "reject", 11, 12, (
+            "六"
+        )),
+        ("same_five", "zh-TW", "same_five/zh-TW/money_extra", "target_money_extra", "reject", 107, 107, (
+            "\n另外花了100韓元。"
+        )),
+        ("same_five", "zh-CN", "same_five/source_off", "source_off", "helper_off_baseline_observation", 105, 105, ""),
+        ("meal", "zh-CN", "meal/zh-CN/actual", "actual", "accept", 5, 5, ""),
+        ("meal", "zh-CN", "meal/zh-CN/natural", "natural", "accept", 3, 3, (
+            "一"
+        )),
+        ("meal", "zh-CN", "meal/zh-CN/quantity", "target_quantity", "reject", 3, 3, (
+            "三"
+        )),
+        ("meal", "zh-CN", "meal/zh-CN/money_extra", "target_money_extra", "reject", 5, 5, (
+            "\n另外花了100韩元。"
+        )),
+        ("meal", "zh-TW", "meal/zh-TW/actual", "actual", "accept", 5, 5, ""),
+        ("meal", "zh-TW", "meal/zh-TW/natural", "natural", "accept", 3, 3, (
+            "一"
+        )),
+        ("meal", "zh-TW", "meal/zh-TW/quantity", "target_quantity", "reject", 3, 3, (
+            "三"
+        )),
+        ("meal", "zh-TW", "meal/zh-TW/money_extra", "target_money_extra", "reject", 5, 5, (
+            "\n另外花了100韓元。"
+        )),
+        ("meal", "zh-CN", "meal/source_off", "source_off", "helper_off_baseline_observation", 5, 5, ""),
+        ("boxes", "zh-CN", "boxes/zh-CN/actual", "actual", "accept", 237, 237, ""),
+        ("boxes", "zh-CN", "boxes/zh-CN/natural", "natural", "accept", 114, 117, (
+            "只纸箱"
+        )),
+        ("boxes", "zh-CN", "boxes/zh-CN/quantity", "target_quantity", "reject", 113, 114, (
+            "三"
+        )),
+        ("boxes", "zh-CN", "boxes/zh-CN/money_extra", "target_money_extra", "reject", 237, 237, (
+            "\n另外花了100韩元。"
+        )),
+        ("boxes", "zh-TW", "boxes/zh-TW/actual", "actual", "accept", 236, 236, ""),
+        ("boxes", "zh-TW", "boxes/zh-TW/natural", "natural", "accept", 111, 113, ""),
+        ("boxes", "zh-TW", "boxes/zh-TW/quantity", "target_quantity", "reject", 110, 111, (
+            "三"
+        )),
+        ("boxes", "zh-TW", "boxes/zh-TW/money_extra", "target_money_extra", "reject", 236, 236, (
+            "\n另外花了100韓元。"
+        )),
+        ("boxes", "zh-CN", "boxes/source_off", "source_off", "helper_off_baseline_observation", 237, 237, ""),
+        ("two_words", "zh-CN", "two_words/zh-CN/actual", "actual", "accept", 111, 111, ""),
+        ("two_words", "zh-CN", "two_words/zh-CN/natural", "natural", "accept", 82, 84, (
+            "没有"
+        )),
+        ("two_words", "zh-CN", "two_words/zh-CN/quantity", "target_quantity", "reject", 80, 81, (
+            "三"
+        )),
+        ("two_words", "zh-CN", "two_words/zh-CN/money_extra", "target_money_extra", "reject", 111, 111, (
+            "\n另外花了100韩元。"
+        )),
+        ("two_words", "zh-TW", "two_words/zh-TW/actual", "actual", "accept", 106, 106, ""),
+        ("two_words", "zh-TW", "two_words/zh-TW/natural", "natural", "accept", 90, 92, (
+            "沒"
+        )),
+        ("two_words", "zh-TW", "two_words/zh-TW/quantity", "target_quantity", "reject", 88, 89, (
+            "三"
+        )),
+        ("two_words", "zh-TW", "two_words/zh-TW/money_extra", "target_money_extra", "reject", 106, 106, (
+            "\n另外花了100韓元。"
+        )),
+        ("two_words", "zh-CN", "two_words/source_off", "source_off", "helper_off_baseline_observation", 111, 111, ""),
+        ("quiet_span", "zh-CN", "quiet_span/zh-CN/actual", "actual", "accept", 88, 88, ""),
+        ("quiet_span", "zh-CN", "quiet_span/zh-CN/natural", "natural", "accept", 27, 32, (
+            "更安静了一点"
+        )),
+        ("quiet_span", "zh-CN", "quiet_span/zh-CN/quantity", "target_quantity", "reject", 30, 32, (
+            "三分钟"
+        )),
+        ("quiet_span", "zh-CN", "quiet_span/zh-CN/money_extra", "target_money_extra", "reject", 88, 88, (
+            "\n另外花了100韩元。"
+        )),
+        ("quiet_span", "zh-TW", "quiet_span/zh-TW/actual", "actual", "accept", 87, 87, ""),
+        ("quiet_span", "zh-TW", "quiet_span/zh-TW/natural", "natural", "accept", 25, 31, (
+            "安靜了一點"
+        )),
+        ("quiet_span", "zh-TW", "quiet_span/zh-TW/quantity", "target_quantity", "reject", 27, 29, (
+            "三分鐘"
+        )),
+        ("quiet_span", "zh-TW", "quiet_span/zh-TW/money_extra", "target_money_extra", "reject", 87, 87, (
+            "\n另外花了100韓元。"
+        )),
+        ("quiet_span", "zh-CN", "quiet_span/source_off", "source_off", "helper_off_baseline_observation", 88, 88, ""),
+        ("map_pair", "zh-CN", "map_pair/zh-CN/actual", "actual", "accept", 202, 202, ""),
+        ("map_pair", "zh-CN", "map_pair/zh-CN/natural", "natural", "accept", 190, 193, (
+            "两人就没"
+        )),
+        ("map_pair", "zh-CN", "map_pair/zh-CN/quantity", "target_quantity", "reject", 190, 190, (
+            "三人"
+        )),
+        ("map_pair", "zh-CN", "map_pair/zh-CN/money_extra", "target_money_extra", "reject", 202, 202, (
+            "\n另外花了100韩元。"
+        )),
+        ("map_pair", "zh-TW", "map_pair/zh-TW/actual", "actual", "accept", 213, 213, ""),
+        ("map_pair", "zh-TW", "map_pair/zh-TW/natural", "natural", "accept", 200, 200, (
+            "我們"
+        )),
+        ("map_pair", "zh-TW", "map_pair/zh-TW/quantity", "target_quantity", "reject", 200, 201, (
+            "三"
+        )),
+        ("map_pair", "zh-TW", "map_pair/zh-TW/money_extra", "target_money_extra", "reject", 213, 213, (
+            "\n另外花了100韓元。"
+        )),
+        ("map_pair", "zh-CN", "map_pair/source_off", "source_off", "helper_off_baseline_observation", 202, 202, ""),
+        ("access_call", "zh-CN", "access_call/target_action", "target_action", "reject", 107, 108, (
+            "已经打了"
+        )),
+        ("breath", "zh-CN", "breath/target_action", "target_action", "reject", 153, 155, (
+            "准备缓"
+        )),
+        ("bag", "zh-TW", "bag/target_action", "target_action", "reject", 124, 124, (
+            "還沒"
+        )),
+        ("water", "zh-CN", "water/target_actor", "target_actor", "reject", 85, 87, (
+            "Jiyeon"
+        )),
+        ("meal", "zh-CN", "meal/target_action", "target_action", "reject", 0, 3, (
+            "已经请他吃过"
+        )),
+        ("open_invite", "zh-CN", "open_invite/target_action", "target_action", "reject", 51, 57, (
+            "昨天见过面了"
+        )),
+        ("two_paths", "zh-CN", "two_paths/target_state", "target_state", "reject", 43, 47, (
+            "已经抵达终点"
+        )),
+        ("boxes", "zh-TW", "boxes/target_sign", "target_sign", "reject", 110, 110, (
+            "負"
+        )),
+        ("seoul_year", "zh-CN", "seoul_year/target_unit", "target_unit", "reject", 128, 129, (
+            "个月"
+        )),
+        ("same_five", "zh-TW", "same_five/target_unit", "target_unit", "reject", 12, 13, (
+            "個月"
+        )),
+        ("two_worlds", "zh-CN", "two_worlds/target_sign", "target_sign", "reject", 100, 100, (
+            "-"
+        )),
+        ("two_words", "zh-CN", "two_words/target_unit", "target_unit", "reject", 81, 82, (
+            "个人"
+        )),
+    ]
+    off_errors = {
+    "keepsake/source_off": [
+        "counter quantity missing/changed: expected (entity, 2), target candidates=[('entity', Decimal('1'))]"
+    ],
+    "self_owned/source_off": [
+        "counter quantity missing/changed: expected (character, 2), target candidates=[]"
+    ],
+    "access_call/source_off": [
+        "counter quantity missing/changed: expected (message, 1), target candidates=[]"
+    ],
+    "open_invite/source_off": [
+        "counter quantity missing/changed: expected (occurrence, 1), target candidates=[]"
+    ],
+    "two_worlds/source_off": [
+        "unmatched target entity quantity invented: 2"
+    ],
+    "voice_span/source_off": [
+        "counter quantity missing/changed: expected (span, 1), target candidates=[]"
+    ],
+    "two_paths/source_off": [
+        "counter quantity missing/changed: expected (entity, 2), target candidates=[('entity', Decimal('1'))]"
+    ],
+    "breath/source_off": [
+        "counter quantity missing/changed: expected (occurrence, 1), target candidates=[]"
+    ],
+    "bag/source_off": [],
+    "seoul_year/source_off": [
+        "non-money number sequence changed: ['1'] != []"
+    ],
+    "daeun_year/source_off": [
+        "non-money number sequence changed: ['1'] != []"
+    ],
+    "water/source_off": [
+        "counter quantity missing/changed: expected (sip, 1), target candidates=[]"
+    ],
+    "same_five/source_off": [
+        "non-money number sequence changed: ['5', '5'] != []"
+    ],
+    "meal/source_off": [
+        "counter quantity missing/changed: expected (occurrence, 1), target candidates=[]"
+    ],
+    "boxes/source_off": [],
+    "two_words/source_off": [
+        "counter quantity missing/changed: expected (entity, 2), target candidates=[]"
+    ],
+    "quiet_span/source_off": [
+        "counter quantity missing/changed: expected (span, 1), target candidates=[]"
+    ],
+    "map_pair/source_off": []
+}
+    failures: list[str] = []
+    controls = []
+    for kind, locale, key, category, expected, start, end, replacement in specs:
+        source = SOURCE_NEXT_LIFE[kind] + (" " if category == "source_off" else "")
+        normal = normals[kind][locale]
+        target = normal[:start] + replacement + normal[end:]
+        controls.append(dict(kind=kind, locale=locale, key=key, category=category,
+                             expected=expected, source=source, target=target))
+        errors = _numeric_errors(source, target)
+        if category == "source_off":
+            valid = _next_life_slots(source, target) == ([], [], [])
+            valid = valid and errors == off_errors[key]
+        else:
+            valid = bool(errors) == (expected == "reject")
+        if not valid:
+            failures.append("next-life frozen fixture " + key + ": " + repr(errors))
+    actual_hash = hashlib.sha256(json.dumps(
+        controls, ensure_ascii=False, sort_keys=True,
+        separators=(",", ":")).encode()).hexdigest()
+    if actual_hash != "065794942c95914f3c07d2a83b53d136836b418ed2ec00003eca557dd1813fde":
+        failures.append("next-life immutable174 input/expectation hash changed")
+    return len(controls), failures
+
+def _next_life_exposed_self_test() -> tuple[int, list[str]]:
+    """Twenty exposed controls from original independent108; not new evidence."""
+    # The original B1/B2 failures and independent input108 remain immutable.
+    # Only target strings are repeated; complete KO contracts reuse the 18 sources.
+    specs = [
+        ("02-natural", "self_owned", "zh-CN",
+         "events:arc_jiyeon_real_reason:/choices/0/result_text", "pass",
+         (
+            "“是为了父亲的公司吗？”\n\nJiyeon像早就料到了，轻轻一笑。“不是。是想有一件真正归自己的东西。能不用‘父亲公司老板的女儿’这个身份，而是用"
+            "自己的名字做的事。”说到最后，手指在备考书封面上轻按一下。\n\n{name}没能再问。第一次明白，即使起跑线不同，也会需要凭自己的名字挣来的钱和位"
+            "置。“属于自己的”这句短短的话，比咖啡更久地留在嘴里。"
+        )),
+        ("04-natural", "open_invite", "zh-CN",
+         "events:arc_jiyeon_year3:/choices/0/result_text", "pass",
+         (
+            "“嗯，过得还不错。很高兴收到你的消息。”\n\nJiyeon很快回了过来。“那就好。我最近也稍微换了方向。找天见面吧。”没有附上约定的日期。\n\n{n"
+            "ame}发去一个笑脸，关掉聊天窗口。两人又退回了彼此生活的边缘。但这次，那边缘亮起了一盏灯。"
+        )),
+        ("05-natural", "two_worlds", "zh-TW",
+         "events:arc_jiyeon_year3:/description", "pass",
+         (
+            "KakaoTalk 通知上出現了 Han Jiyeon 的名字。要找上次對話停在哪裡，得把畫面往上滑很久。新訊息簡短而客氣。\n\n「好久不見。那之"
+            "後，過得還好嗎？」\n\nSangchul 的介紹、第一次學會的短線交易，還有彼此不同的兩個世界短暫交會的那一天。距今已經2年了。沒聯絡的日子累積得"
+            "太過整齊，單用「各自忙著生活」已經不足以說明。\n\n{name}打開回覆欄。在「正在輸入」的提示消失前，得先決定要送出多少真心。"
+        )),
+        ("07-natural", "two_paths", "zh-TW",
+         "events:arc_jiyeon_year4_call:/choices/2/result_text", "pass",
+         (
+            "「我也在這裡撐著。往各自的方向。」\n\nJiyeon 安靜了一會兒，才回答：「是啊。我們兩個，都還走在各自的路上呢。」這通道賀的電話，很快就在幾句"
+            "近況寒暄中結束。\n\n「各自的方向」並沒有說錯。掛斷後，首爾的夜晚和釜山事務所的燈光，有一瞬間像在同一個高度，隨後又遠了。"
+        )),
+        ("08-natural", "breath", "zh-CN",
+         "events:arc_jiyeon_year4_call:/description", "pass",
+         (
+            "雨敲打窗外的夜里，Han Jiyeon打来了电话。自她南下釜山以来，还是第一次听见她的声音。隔了一年。\n\n“合同谈成了。槐亭洞一套小型低层公寓的"
+            "买卖。这是第一笔从头到尾都由我负责的交易。”\n\n她的语气不像平时那样轻松地炫耀。整理文件的纸声和事务所外公交车的刹车声，从电话那头交织着传来。J"
+            "iyeon笑了笑，调匀一口气，比起合同金额，她用了更多的话来讲盖下自己印章的那一刻。\n\n在道贺之前，{name}先想到的是，她为什么想给自己打电"
+            "话，说这个消息。"
+        )),
+        ("17-natural", "quiet_span", "zh-TW",
+         "events:hyunsu_year5_call:/choices/1/result_text", "pass",
+         (
+            "「我等著喔，哥！」\n\n掛了電話。螢幕暗下來，房間彷彿又靜了一點。\n\n快了，真的快了。{name}再次坐回書桌前。映在暗下來的螢幕上的臉，有一瞬間"
+            "，像極了五年前廚房裡的那張臉。"
+        )),
+        ("18-natural", "map_pair", "zh-CN",
+         "events:hyunsu_year5_call:/description", "pass",
+         (
+            "已是最后关头。离江南真的没剩多远了。\n\nHyunsu打来了电话。视频通话。\n\n“哥！真的好久不见了。最近过得怎么样？”\n\n屏幕里，Hyunsu身"
+            "后是办公室的荧光灯和一叠叠文件。似乎在加班，神情却很安稳。那是已经在自己的生活里落了脚的人的脸。通话中有人叫他，他回答“好，马上来”的声音也干净"
+            "利落。\n\n{name}看着屏幕角落里自己的脸。五年都在那里。\n\n决定不去衡量谁走得更远。两个人本来就没走在同一张地图上。"
+        )),
+        ("03-target-2", "access_call", "zh-TW",
+         "events:arc_jiyeon_real_reason:/description", "reject",
+         (
+            "久違地相對而坐，Jiyeon 的包包裡露出厚厚一本考試用書的書角。等咖啡時，她一邊把書塞回去，一邊先開了口。\n\n「我最近在準備韓國不動產仲介師考"
+            "試。」\n\n{name}舉杯的動作停了下來。她的父親經營不動產公司，而她父親過去只要打個電話，就能搶先看到好物件。一時實在想不到，她為什麼要特地在"
+            "下班後繼續畫螢光筆、去考一張證照。\n\nJiyeon 像是料到會被問，把手放在書上。這一次，她的神情在等人問的不是父親公司的事，而是她自己的事。"
+        )),
+        ("06-target-2", "voice_span", "zh-CN",
+         "events:arc_jiyeon_year4_call:/choices/0/result_text", "reject",
+         (
+            "“真的太好了。从头到尾都是Jiyeon自己做到的。”\n\n电话那头安静了片刻。Jiyeon轻声笑了。“Minjun哥这么说，我才有点实感。今天这通"
+            "电话，我可不是随便找个人打的。”\n\n{name}没有回答，只看着窗上流下的雨水。釜山的第一笔交易和首尔的夜晚，被放进了两通电话。一年的距离，短暂"
+            "地缩成了一小段声音的距离。"
+        )),
+        ("10-target-2", "seoul_year", "zh-CN",
+         "events:arc_jiyeon_year4_seoul:/description", "reject",
+         (
+            "Jiyeon为了韩国房地产经纪人的继续教育，只来首尔待两个月。包的侧袋里，折着第二天返回釜山的韩国高速铁路KTX车票。两人见面的地方不是清潭那种"
+            "华丽的咖啡馆，而是{name}住处附近的一家小店。\n\nJiyeon望了窗外很久，说：“首尔莫名变得陌生了。明明才1年。”喝了两口咖啡，也没有放下"
+            "杯子。\n\n“不过，有Minjun哥在，总算有点首尔的感觉了。”\n\n话说得轻巧，手指却慢慢沿着纸杯接缝划过。明天就又要回釜山了。"
+        )),
+        ("16-target-2", "two_words", "zh-CN",
+         "events:hyunsu_study_together:/choices/0/result_text", "reject",
+         (
+            "“今年一定能考上的。”\n\n毫无根据的话。可Hyunsu还是咧嘴笑了。是发自内心的笑。\n“我也会顺利的。”\n\n回房间躺下后，那句话在心里留得比想象"
+            "中久。无非是两句没有根据的话，在凌晨的厨房里来回了一趟——却莫名让人踏实。"
+        )),
+        ("03-natural", "access_call", "zh-TW",
+         "events:arc_jiyeon_real_reason:/description", "pass",
+         (
+            "久違地相對而坐，Jiyeon 的包包裡露出厚厚一本考試用書的書角。等咖啡時，她一邊把書塞回去，一邊先開了口。\n\n「我最近在準備韓國不動產仲介師考"
+            "試。」\n\n{name}舉杯的動作停了下來。她的父親經營不動產公司，而她過去只要打個電話，就能搶先看到好物件。一時實在想不到，她為什麼要特地在下班"
+            "後繼續畫螢光筆、去考一張證照。\n\nJiyeon 像是料到會被問，把手放在書上。這一次，她的神情在等人問的不是父親公司的事，而是她自己的事。"
+        )),
+        ("06-natural", "voice_span", "zh-CN",
+         "events:arc_jiyeon_year4_call:/choices/0/result_text", "pass",
+         (
+            "“真的太好了。从头到尾都是Jiyeon自己做到的。”\n\n电话那头安静了片刻。Jiyeon轻声笑了。“Minjun哥这么说，我才有点实感。今天这通"
+            "电话，我可不是随便找个人打的。”\n\n{name}没有回答，只看着窗上流下的雨水。釜山的第一笔交易和首尔的夜晚，被放进了同一通电话。一年的距离，短"
+            "暂地缩成了一小段声音的距离。"
+        )),
+        ("10-natural", "seoul_year", "zh-CN",
+         "events:arc_jiyeon_year4_seoul:/description", "pass",
+         (
+            "Jiyeon为了韩国房地产经纪人的继续教育，只来首尔待两天。包的侧袋里，折着第二天返回釜山的韩国高速铁路KTX车票。两人见面的地方不是清潭那种华"
+            "丽的咖啡馆，而是{name}住处附近的一家小店。\n\nJiyeon望了窗外很久，说：“首尔莫名变得陌生了。明明才1年。”喝了两口咖啡，也没有放下杯"
+            "子。\n\n“不过，有Minjun哥在，总算有点首尔的感觉了。”\n\n话说得轻巧，手指却慢慢沿着纸杯接缝划过。明天就又要回釜山了。"
+        )),
+        ("16-natural", "two_words", "zh-CN",
+         "events:hyunsu_study_together:/choices/0/result_text", "pass",
+         (
+            "“今年一定能考上的。”\n\n毫无根据的话。可Hyunsu还是咧嘴笑了。是发自内心的笑。\n“哥，你也会顺利的。”\n\n回房间躺下后，那句话在心里留得比"
+            "想象中久。无非是两句没有根据的话，在凌晨的厨房里来回了一趟——却莫名让人踏实。"
+        )),
+        ("02-target-2", "self_owned", "zh-CN",
+         "events:arc_jiyeon_real_reason:/choices/0/result_text", "reject",
+         (
+            "“是为了父亲的公司吗？”\n\nJiyeon像早就料到了，轻轻一笑。“不是。是想有一件真正归自己的东西。能不用‘父亲公司老板的女儿’这个身份，而是用"
+            "自己的名字做的事。”说到最后，手指在备考书封面上按了两下。\n\n{name}没能再问。第一次明白，即使起跑线不同，也会需要凭自己的名字挣来的钱和位"
+            "置。“属于自己的”这句短短的话，比咖啡更久地留在嘴里。"
+        )),
+        ("08-target-2", "breath", "zh-CN",
+         "events:arc_jiyeon_year4_call:/description", "reject",
+         (
+            "雨敲打窗外的夜里，Han Jiyeon打来了电话。自她南下釜山以来，还是第一次听见她的声音。隔了一年。\n\n“合同还没谈成。槐亭洞一套小型低层公寓"
+            "的买卖。这是第一笔从头到尾都由我负责的交易。”\n\n她的语气不像平时那样轻松地炫耀。整理文件的纸声和事务所外公交车的刹车声，从电话那头交织着传来。"
+            "Jiyeon笑了笑，调匀一口气，比起合同金额，她用了更多的话来讲盖下自己印章的那一刻。\n\n在道贺之前，{name}先想到的是，她为什么想给自己打"
+            "电话，说这个消息。"
+        )),
+        ("11-natural", "daeun_year", "zh-TW",
+         "events:arc_jiyeon_year4_seoul_daeun:/description", "pass",
+         (
+            "Jiyeon 來到了首爾。是為了兩日的不動產仲介師在職進修。\n\n同一間咖啡廳。Jiyeon 先開了口。「首爾變得好陌生，真奇怪。明明才1年而已。"
+            "」\n\n喝了2口咖啡後，她又說：「有你在，才多少有些回到首爾的感覺。」\n\n{name}停頓了一下。\n他明白那句話的分量。而且——也明白，自己已經有"
+            "了另一個人。"
+        )),
+        ("18-target-2", "map_pair", "zh-CN",
+         "events:hyunsu_year5_call:/description", "reject",
+         (
+            "已是最后关头。离江南真的没剩多远了。\n\n给Hyunsu拨去了电话。视频通话。\n\n“哥！真的好久不见了。最近过得怎么样？”\n\n屏幕里，Hyunsu"
+            "身后是办公室的荧光灯和一叠叠文件。似乎在加班，神情却很安稳。那是已经在自己的生活里落了脚的人的脸。通话中有人叫他，他回答“好，马上来”的声音也干"
+            "净利落。\n\n{name}看着屏幕角落里自己的脸。五年都在那里。\n\n决定不去衡量谁走得更远。两个人本来就没走在同一张地图上。"
+        )),
+        ("11-target-1", "daeun_year", "zh-TW",
+         "events:arc_jiyeon_year4_seoul_daeun:/description", "reject",
+         (
+            "Jiyeon 來到了首爾。是為了三日的不動產仲介師在職進修。\n\n同一間咖啡廳。Jiyeon 先開了口。「首爾變得好陌生，真奇怪。明明才1年而已。"
+            "」\n\n喝了2口咖啡後，她又說：「有你在，才多少有些回到首爾的感覺。」\n\n{name}停頓了一下。\n他明白那句話的分量。而且——也明白，自己已經有"
+            "了另一個人。"
+        )),
+    ]
+    controls = [
+        {"case_id": cid, "kind": kind, "locale": locale, "leaf_id": leaf_id,
+         "expected": expected, "source": SOURCE_NEXT_LIFE[kind], "target": target}
+        for cid, kind, locale, leaf_id, expected, target in specs
+    ]
+    failures: list[str] = []
+    actual_hash = hashlib.sha256(json.dumps(
+        controls, ensure_ascii=False, sort_keys=True,
+        separators=(",", ":")).encode()).hexdigest()
+    if actual_hash != "01ad120efc90698f1054002f71742c1b259216cb7bc7506057b7fcb438a57485":
+        failures.append("next-life exposed20 immutable input/expectation changed")
+    for c in controls:
+        source, target = c["source"], c["target"]
+        _, _, typed = _next_life_slots(source, target)
+        errors = validate_text(c["locale"], c["leaf_id"], source, target)
+        if c["expected"] == "pass":
+            if typed or errors:
+                failures.append(f"next-life exposed {c['case_id']} normal: {errors}")
+        elif c["expected"] == "reject":
+            if not any(e.startswith("next-life " + c["kind"]) for e in typed) or not errors:
+                failures.append(f"next-life exposed {c['case_id']} typed/E2E rejection missing")
+        else:
+            failures.append(f"next-life exposed {c['case_id']} unknown expectation")
+    return len(controls), failures
+
+
 def run_self_test(
     manifest: dict[str, Any], runtime: dict[str, Any],
 ) -> list[str]:
     failures: list[str] = []
     cases, life_failures = _life_scene_parser_self_test()
     reflection_cases, reflection_failures = _life_reflection_self_test()
+    next_cases, next_failures = _next_life_parser_self_test()
+    cases += next_cases
+    failures.extend(next_failures)
+    next_exposed_cases, next_exposed_failures = _next_life_exposed_self_test()
+    cases += next_exposed_cases
+    failures.extend(next_exposed_failures)
     cases += reflection_cases
     failures.extend(reflection_failures)
     specialization_cases, specialization_failures = _amb_specialization_self_test()
