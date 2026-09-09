@@ -7318,6 +7318,96 @@ def _first_life_ja_address(source: str, target: str) -> bool:
             and bool(re.search(r"^[「『]お兄さん[、，,].*(?:最近|この頃|ここのところ).*仕事.*[？?][」』]$", lines[2])))
 
 
+YEAR_END_SOURCE_KIND = {
+    "7437b3477a9eba5170a4ef7f2424173899fbdcabb135e591ed268d26b1168d97": "fraction",
+    "c66e993b3aa17dbe8ada9653c2d27fc3af520a2911b4a77251648cb4f81824dc": "blank",
+    "cac28de6f7f058e25dcf8af4a791f69fc8bc5a54357047c09af4814d52346b08": "desk",
+    "acd48d4e26b07718d5cd591b4379b9abce493e030946f0cf4dff48d8031edc89": "breath",
+    "8e62ac011449615f22e3ed6531a981ed5465c638ac44650a34aa22843611a7d0": "clues",
+}
+
+
+def _year_end_kind(source: str) -> str | None:
+    return YEAR_END_SOURCE_KIND.get(hashlib.sha256(source.encode("utf-8")).hexdigest())
+
+
+def _year_end_slots(source: str, target: str):
+    """Own five observed counted roles, leaving all other values to the audit.
+
+    A progress fraction is not elapsed minutes; a demonstrative can identify
+    one unwritten cell. Exact KO identity and local predicates constrain these
+    projections. They neither whitelist complete translations nor certify the
+    surrounding story, its reachability, or any medical recovery claim.
+    """
+    kind = _year_end_kind(source)
+    ss, ts, errors = [], [], []
+    if kind is None:
+        return ss, ts, errors
+    label = "year-end " + kind
+    n = r"(?:[0-9０-９]+|[零〇一二两兩三四五六七八九十百千]+)"
+
+    def value(raw):
+        return _chinese_cardinal_value(unicodedata.normalize("NFKC", raw))
+
+    def bind(fragment, patterns, expected=1, *, fraction=False):
+        start = source.index(fragment)
+        line = source[:start].count("\n")
+        ss.append(CounterQuantity(start, start + len(fragment), Decimal(expected), label))
+        if isinstance(patterns, str):
+            patterns = [patterns]
+        matches = [m for pattern in patterns for m in re.finditer(pattern, target, re.MULTILINE)
+                   if target[:m.start()].count("\n") == line]
+        if len(matches) != 1:
+            errors.append(label + " local quantity role/unit/line/count changed")
+            return
+        match = matches[0]
+        groups = match.groupdict()
+        if fraction:
+            den = groups.get("den") or groups.get("den_slash")
+            num = groups.get("num") or groups.get("num_slash")
+            if value(den) != 3 or value(num) != 1:
+                errors.append(label + " progress numerator/denominator changed")
+        elif groups.get("number") is not None and value(groups["number"]) != expected:
+            errors.append(label + " local quantity value changed")
+        a, b = match.span("q")
+        if _has_numeric_sign_prefix(target, a):
+            errors.append(label + " local quantity sign/prefix changed")
+        # A completed local predicate must not be borrowed from a negated or
+        # future clause. Do not inspect unrelated earlier clauses for polarity.
+        prefix = re.split(r"[，,。！？!?\n]", target[max(0, match.start() - 8):match.start()])[-1]
+        if re.search(r"(?:[未不沒没]|[負负]|尚未|[將将會会]|打算|計畫|计划)[^，。！？\n]*$", prefix):
+            errors.append(label + " local action polarity changed")
+        ts.append(CounterQuantity(a, b, Decimal(expected), label))
+
+    if kind == "fraction":
+        q = (rf"(?P<q>(?P<den>{n})分之(?P<num>{n})|"
+             rf"(?P<num_slash>{n})[/／](?P<den_slash>{n}))")
+        bind("3분의 1", rf"(?:走(?:過|过)?了|(?:已(?:經|经)?)走(?:過|过|完)了?){q}"
+             r"(?:的路(?:程)?)?(?=[，。！？!?\n]|$)", fraction=True)
+    elif kind == "blank":
+        absent = (r"(?:還|还)?(?:[沒没]能(?:[寫写]下|填上)|[寫写]不下|"
+                  r"[無无]法[寫写]下|未能[寫写]下)父[親亲](?:的)?名字的")
+        # Both noun/relative-clause orders preserve the same single father-name
+        # blank. Numerals in earlier calendar cells remain outside this slot.
+        before = rf"(?P<q>(?:那)?(?P<number>{n})[個个格欄栏]|那[個个])"
+        after = (rf"(?P<q>(?:那)?(?P<number>{n})(?:[格欄栏]|[個个](?:空格|空白格|格子))|"
+                 r"那[個个](?:空格|空白格|格子))")
+        bind("한 칸", [before + rf"(?={absent}(?:空格|空白格|空白|格子))",
+                        absent + after + r"(?=[，。！？!?\n]|$)"])
+    elif kind == "desk":
+        bind("한 칸씩", rf"(?:各自?|分[別别])[佔占](?:[據据])?了?"
+             rf"(?:(?:書桌|书桌|桌面|桌)上)?的?"
+             rf"(?P<q>(?P<number>{n})(?:[角格處处]|[個个](?:位置|角落)|[塊块](?:地方|空間|空间)))"
+             r"(?=[，。！？!?\n]|$)")
+    elif kind == "breath":
+        bind("한 번", [rf"[緩缓]了(?P<q>(?P<number>{n})?口[氣气])(?=[，。！？!?\n]|$)",
+                        rf"[調调]整了(?P<q>(?P<number>{n})[下次])(?=呼吸[，。！？!?\n]|呼吸$)"])
+    elif kind == "clues":
+        bind("셋", rf"^(?:[這这])?(?P<q>(?P<number>{n})(?:者|[條条][線线](?:索)?|[個个][線线]索))"
+             r"(?=(?:交[會会匯汇]|[匯汇]聚)(?:在|於|于)(?:同一|一)[點点])", 3)
+    return ss, ts, sorted(set(errors))
+
+
 def _numeric_errors(source: str, target: str) -> list[str]:
     source, target, errors = _callback_shadow_numbers(source, target)
     admin_source_slots, admin_target_slots, admin_errors = _investment_admin_slots(source, target)
@@ -7325,6 +7415,10 @@ def _numeric_errors(source: str, target: str) -> list[str]:
     admin_source_slots.extend(first_source)
     admin_target_slots.extend(first_target)
     errors.extend(first_errors)
+    year_source, year_target, year_errors = _year_end_slots(source, target)
+    admin_source_slots.extend(year_source)
+    admin_target_slots.extend(year_target)
+    errors.extend(year_errors)
     early_source, early_target, early_errors = _early_connections_slots(source, target)
     admin_source_slots.extend(early_source)
     admin_target_slots.extend(early_target)

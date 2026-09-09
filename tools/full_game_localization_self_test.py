@@ -8279,6 +8279,2243 @@ class ExchangeTests(unittest.TestCase):
             with self.assertRaises(tool.ContractError):
                 tool.read_jsonl(path)
 
+    def test_year_end_presealed_root_controls(self):
+        # Frozen order226-root-guard-input.json SHA 9d02bb20f1c9b0322db498066cb57b2e91072652943fff23e4b3e08020d6275a
+        # Compact edits reconstruct exact inputs, never current game files.
+        import zh_translation_audit as z
+        data = json.loads(r'''{
+  "sources": {
+    "fraction": "쓸쓸했다. 솔직히.\n\n강남까지 아직 멀다. 3분의 1 왔다.\n그런데 함께 기뻐할 사람을 만들지 않은 채 여기까지 왔다는 것 — 그게 이 숫자의 그림자였다.",
+    "blank": "36세의 마지막 밤, {name}은 옥상까지 계단으로 올라왔다. 코트 주머니에는 몸의 이상을 확인한 진료 안내가 있었고, 휴대폰 통화 목록 위에는 더는 걸 수 없는 아버지의 이름이 남아 있었다.\n\n강남에 가면 제일 먼저 모시겠다고 했던 약속은 일정표에서 지울 수도, 다른 사람에게 넘길 수도 없었다. 목표까지 남은 시간은 1년인데 그 도착을 보여 줄 사람은 이미 한 명 줄었다. 어머니의 마지막 연락과 병원에서 온 검사 알림이 같은 화면에 떴다.\n\n{name}은 옥상 난간에 수첩을 펴고 마지막 해 열두 달을 그렸다. 목표를 밀어 넣을 칸, 몸을 돌볼 칸, 아직 전화를 받을 사람에게 갈 칸이 서로 겹쳤다. 바람이 불 때마다 아버지 이름을 적지 못한 한 칸이 먼저 들렸다.",
+    "desk": "첫해의 마지막 밤, 지금 사는 방의 책상 위에는 수첩과 휴대폰, 접어 둔 영수증들이 한 칸씩 자리를 차지했다. 수첩 첫 줄의 '{notebook_motive}' 아래에는 '30억. 5년.'과 열두 달의 숫자가 이어졌다. 월세, 교통비, 들어온 돈, 손실. 사람 이름은 숫자 사이에 끼어 있었고, 만나지 못한 날은 어디에도 적혀 있지 않았다.\n\n{name}은 휴대폰의 총자산 {assets}와 첫 페이지를 번갈아 봤다. 첫해 첫날 적은 목표는 지워지지 않았지만, 그 숫자만으로 올해를 설명할 수는 없었다.\n\n자정까지 4분. 휴대폰 화면 위에서 날짜가 바뀌기 전 마지막 분들이 흘렀다. {name}은 마지막 페이지를 반으로 갈라 '지킨 것'과 '미룬 것'이라고 썼다. 어느 쪽부터 채울지 정하면, 다른 한쪽은 오늘 밤 비어 있게 된다.",
+    "breath": "36세의 마지막 밤, {name}은 옥상까지 계단으로 올라오며 숨을 한 번 고쳤다. 작년 한강에서 서류를 잠그고 대화 알림을 지운 뒤 화면은 조용해졌고 속도는 빨라졌다. 올해 몸의 이상을 알린 진료 안내와 마지막 연락의 이름은 그 잠금 화면 위로 다시 떠올랐다.\n\n누구의 문장을 지웠는지보다 지운 뒤 얼마나 편했는지가 먼저 생각났다. 목표까지 남은 1년의 달력은 돈을 위한 일정만 넣으면 반듯했다. 검사와 사람의 시간을 넣는 순간 칸이 겹쳤다.\n\n{name}은 빈 달력을 난간에 폈다. 앞으로 달려온 것인지 무엇을 피해온 것인지, 비어 있는 칸만 봐서는 구분할 수 없었다.",
+    "clues": "사흘 밤을 들였다.\n등기 한 장, 그 시절 기사 한 줄, 머릿속 한 장면씩.\n\n한PD건설을 피하던 이름. 아버지에게 박상진을 보증한 '임가'. 충청도서 올라와 누군가를 밟고 강남에 선 사람.\n\n셋이 한 점에서 만났다. 임상철.\n\n누가 알려준 게 아니다. 민준이 조각에서 사람을 세웠다.\n알고 나니, 같은 카페의 같은 자리가 다르게 보였다."
+  },
+  "targets": {
+    "fraction:ja": "寂しかった。正直に言えば。\n\nカンナムまではまだ遠い。3分の1まで来た。\nけれど、一緒に喜ぶ相手を作らないままここまで来たこと――それが、この数字の影だった。",
+    "blank:ja": "36歳の最後の夜、{name}は階段で屋上まで上がってきた。コートのポケットには体の異常が確認された診療案内があり、携帯の通話一覧には、もう電話をかけられない父の名前が残っていた。\n\nカンナムに行ったら真っ先に父の世話をすると言った約束は、予定表から消すことも、別の人に引き渡すこともできなかった。目標まで残り1年なのに、そこに着いた姿を見せる相手は、もう一人減っていた。母からの最後の連絡と、病院からの検査通知が、同じ画面に表示された。\n\n{name}は屋上の手すりに手帳を広げ、最後の年の十二か月を描いた。目標を押し込む欄、体をいたわる欄、まだ電話に出てくれる人のもとへ行く欄が、重なり合った。風が吹くたび、父の名前を書けなかった一つの欄が、真っ先に浮き上がった。",
+    "desk:ja": "最初の年の最後の夜、今暮らしている部屋の机には、手帳と携帯、折り畳んだレシートがそれぞれ場所を取っていた。手帳の最初の行の「{notebook_motive}」の下には「30億ウォン。5年。」と、十二か月分の数字が続いていた。家賃、交通費、入ってきた金、損失。人の名前は数字の間に挟まれ、会えなかった日はどこにも書かれていなかった。\n\n{name}は携帯の総資産{assets}と最初のページを交互に見た。最初の年の初日に書いた目標は消えていないが、その数字だけでは今年を説明できなかった。\n\n午前零時まで4分。携帯の画面で、日付が変わるまでの最後の数分が過ぎていく。{name}は最後のページを半分に分け、「守ったもの」と「先延ばしにしたもの」と書いた。どちらから埋めるかを決めれば、もう片方は今夜、空いたままになる。",
+    "breath:ja": "36歳の最後の夜、{name}は階段で屋上へ上がりながら、一度息を整えた。去年、漢江で書類をロックし、会話の通知を消してから、画面は静かになり、進む速度は上がった。今年、体の異常を知らせた診療案内と、最後の連絡の名前は、そのロック画面の上に再び浮かんだ。\n\n誰の言葉を消したかより、消した後どれほど楽だったかを先に思い出した。目標まで残り1年のカレンダーは、金のための予定だけならきれいに並んだ。検査と人のための時間を入れた途端、欄は重なった。\n\n{name}は空白のカレンダーを手すりに広げた。前へ走ってきたのか、何かを避けてきたのか、空欄を見ただけでは区別がつかなかった。",
+    "clues:ja": "三晩を費やした。\n登記簿一枚、あの頃の記事の一行、頭の中の場面を一つずつ。\n\nハンPD建設を避けていた名前。父にパク・サンジンのことを保証した「イムという男」。忠清道から上京し、誰かを踏みつけてカンナムに立った人。\n\n三つが一点で重なった。イム・サンチョル。\n\n誰かに教えられたのではない。ミンジュンが断片から、一人の人間を組み立てた。\n知ってしまうと、同じカフェの同じ席が違って見えた。",
+    "fraction:zh-CN": "说实话，很寂寞。\n\n离江南还远。才走了三分之一。\n可一路走到这里，却没有结识能一起高兴的人——这就是这个数字的阴影。",
+    "blank:zh-CN": "36岁的最后一夜，{name}沿楼梯登上了天台。大衣口袋里，装着确认身体异常的诊疗通知；手机通话列表上，还留着再也无法拨通的父亲的名字。\n\n说过到了江南，最先接父亲过去的约定，既无法从日程表里擦掉，也无法转交给别人。离目标还剩一年，可是能见证自己抵达的人，已经少了一个。母亲最近一次联系和医院发来的检查提醒，出现在同一个屏幕上。\n\n{name}在天台栏杆上摊开手册，画出最后一年的十二个月。塞进目标的格子、照顾身体的格子、去见还会接听电话的人的格子，彼此重叠。每次风吹来，那个没能写下父亲名字的空格，总是先被掀起。",
+    "desk:zh-CN": "第一年的最后一夜，住处的书桌上，手册、手机和折好的收据各占了一格。手册第一行的‘{notebook_motive}’下面，接着是‘30亿韩元。5年。’和十二个月的数字。月租、交通费、收入、损失。人名夹在数字之间，没能见面的日子却哪里都没写。\n\n{name}交替看着手机上的总资产{assets}和手册第一页。第一年第一天写下的目标没有擦掉，可光凭那个数字，解释不了这一年。\n\n离午夜还有4分钟。手机屏幕上，日期改变前的最后几分钟正在流逝。{name}把最后一页分成两半，写下‘守住的’和‘推迟的’。决定先填哪边，另一边今夜就会空着。",
+    "breath:zh-CN": "36岁的最后一夜，{name}沿楼梯登上天台，调整了一下呼吸。去年在汉江边锁起文件、删掉聊天通知后，屏幕安静了，速度也快了。今年告知身体异常的诊疗通知，和最后一次联系的名字，又浮现在那个锁着的屏幕上。\n\n最先想起的，不是删掉了谁的话，而是删掉以后多么轻松。离目标还剩一年的日历，只放进赚钱的日程，就整整齐齐。可一放进检查和留给人的时间，格子便重叠了。\n\n{name}在栏杆上摊开空白日历。一路是在向前跑，还是在躲开什么，光看空着的格子，分辨不出来。",
+    "clues:zh-CN": "花了三个夜晚。\n一张登记文件，一行当年的报道，脑海里一幕幕画面。\n\n避开 HanPD 建设这个名字的人。向父亲担保 Park Sangjin 可信的那个‘姓 Im 的’。从忠清道上来，踩着别人站在江南的人。\n\n三条线交汇在同一点。Im Sangchul。\n\n不是谁告诉他的。Minjun 从碎片里拼出了这个人。\n知道以后，同一家咖啡馆的同一个座位，看起来不一样了。",
+    "fraction:zh-TW": "說真的，很寂寞。\n\n離江南還遠。走了三分之一。\n可是一路走到這裡，卻沒有讓能一起高興的人走進生活——那就是這個數字的陰影。",
+    "blank:zh-TW": "36歲的最後一夜，{name}沿著樓梯走上屋頂。大衣口袋裡，放著確認身體出了異狀後收到的就診指引；手機通話列表上還留著父親的名字，卻再也無法打電話給他。\n\n說好到了江南就先接父親過來的承諾，既不能從行事曆上刪掉，也不能交給別人。距離目標只剩1年，能見證自己抵達的人，卻已經少了一個。母親最近一次的聯絡與醫院傳來的檢查提醒，出現在同一個畫面上。\n\n{name}在屋頂欄杆上攤開筆記本，畫出最後一年的十二個月。要塞進目標的格子、照顧身體的格子、去見仍會接電話的人的格子，彼此重疊。每當風吹來，寫不下父親名字的那一格，總是先被掀起。",
+    "desk:zh-TW": "第一年的最後一夜，現在住的房間裡，筆記本、手機與摺好的收據，各占了書桌上的一角。筆記本第一行的「{notebook_motive}」下面，接著「30億韓元。5年。」和十二個月的數字。月租、交通費、進帳、虧損。人名夾在數字之間，沒能見面的日子卻哪裡都沒寫。\n\n{name}交替看著手機上的總資產{assets}與第一頁。第一年第一天寫下的目標沒有被擦去，但光靠那個數字，已經無法說清這一年。\n\n距離午夜還有4分鐘。手機畫面上，日期改變前的最後幾分鐘正流逝著。{name}把最後一頁分成兩半，寫上「守住的」與「延後的」。決定先填哪一邊，另一邊今晚就會空著。",
+    "breath:zh-TW": "36歲的最後一夜，{name}沿著樓梯走上屋頂，途中緩了一口氣。去年在漢江邊鎖上文件、刪掉對話通知之後，畫面安靜了，速度也快了。今年告知身體異狀的就診指引與最後聯絡的名字，又浮現在那個鎖定畫面上。\n\n比起刪掉了誰的話，先想到的竟是刪掉之後有多輕鬆。距離目標剩下1年的日曆，只填賺錢的行程，就會很整齊。一放進檢查與留給人的時間，格子便重疊了。\n\n{name}把空白日曆攤在欄杆上。是一路向前跑來，還是一直在逃避什麼，光看那些空格，分不出來。",
+    "clues:zh-TW": "花了三個夜晚。\n一張登記資料、一行當年的報導、腦海裡的一幕幕。\n\n迴避 HanPD 建設的那個名字。向父親保證 Park Sangjin 可信的「姓 Im 的人」。從忠清道北上，踩著別人站上江南的人。\n\n三者交會在同一點。Im Sangchul。\n\n不是誰告訴他的。Minjun 從碎片裡拼出了一個人。\n知道之後，同一家咖啡館、同一個座位，看起來也不同了。"
+  },
+  "cases": [
+    {
+      "case_id": "root-0",
+      "locale": "ja",
+      "scope": "fraction",
+      "group": "actual",
+      "leaf_id": "events:arc_1b_isolation:/choices/2/result_text",
+      "expected": {
+        "E2E": "allow",
+        "new_slot": "not_asserted"
+      },
+      "source_base": "fraction",
+      "target_base": "fraction:ja",
+      "source_edits": [],
+      "target_edits": []
+    },
+    {
+      "case_id": "root-1",
+      "locale": "ja",
+      "scope": "blank",
+      "group": "actual",
+      "leaf_id": "events:arc_year4_close_father_passed:/description",
+      "expected": {
+        "E2E": "allow",
+        "new_slot": "not_asserted"
+      },
+      "source_base": "blank",
+      "target_base": "blank:ja",
+      "source_edits": [],
+      "target_edits": []
+    },
+    {
+      "case_id": "root-2",
+      "locale": "ja",
+      "scope": "desk",
+      "group": "actual",
+      "leaf_id": "events:arc_year1_close_father_passed:/description",
+      "expected": {
+        "E2E": "allow",
+        "new_slot": "not_asserted"
+      },
+      "source_base": "desk",
+      "target_base": "desk:ja",
+      "source_edits": [],
+      "target_edits": []
+    },
+    {
+      "case_id": "root-3",
+      "locale": "ja",
+      "scope": "breath",
+      "group": "actual",
+      "leaf_id": "events:arc_year4_close_father_passed:/description_if_known/year3_avoidant",
+      "expected": {
+        "E2E": "allow",
+        "new_slot": "not_asserted"
+      },
+      "source_base": "breath",
+      "target_base": "breath:ja",
+      "source_edits": [],
+      "target_edits": []
+    },
+    {
+      "case_id": "root-4",
+      "locale": "ja",
+      "scope": "clues",
+      "group": "actual",
+      "leaf_id": "events:hidden_whole_picture:/description",
+      "expected": {
+        "E2E": "allow",
+        "new_slot": "not_asserted"
+      },
+      "source_base": "clues",
+      "target_base": "clues:ja",
+      "source_edits": [],
+      "target_edits": []
+    },
+    {
+      "case_id": "root-5",
+      "locale": "zh-CN",
+      "scope": "fraction",
+      "group": "actual",
+      "leaf_id": "events:arc_1b_isolation:/choices/2/result_text",
+      "expected": {
+        "E2E": "allow",
+        "new_slot": "not_asserted"
+      },
+      "source_base": "fraction",
+      "target_base": "fraction:zh-CN",
+      "source_edits": [],
+      "target_edits": []
+    },
+    {
+      "case_id": "root-6",
+      "locale": "zh-CN",
+      "scope": "blank",
+      "group": "actual",
+      "leaf_id": "events:arc_year4_close_father_passed:/description",
+      "expected": {
+        "E2E": "allow",
+        "new_slot": "not_asserted"
+      },
+      "source_base": "blank",
+      "target_base": "blank:zh-CN",
+      "source_edits": [],
+      "target_edits": []
+    },
+    {
+      "case_id": "root-7",
+      "locale": "zh-CN",
+      "scope": "desk",
+      "group": "actual",
+      "leaf_id": "events:arc_year1_close_father_passed:/description",
+      "expected": {
+        "E2E": "allow",
+        "new_slot": "not_asserted"
+      },
+      "source_base": "desk",
+      "target_base": "desk:zh-CN",
+      "source_edits": [],
+      "target_edits": []
+    },
+    {
+      "case_id": "root-8",
+      "locale": "zh-CN",
+      "scope": "breath",
+      "group": "actual",
+      "leaf_id": "events:arc_year4_close_father_passed:/description_if_known/year3_avoidant",
+      "expected": {
+        "E2E": "allow",
+        "new_slot": "not_asserted"
+      },
+      "source_base": "breath",
+      "target_base": "breath:zh-CN",
+      "source_edits": [],
+      "target_edits": []
+    },
+    {
+      "case_id": "root-9",
+      "locale": "zh-CN",
+      "scope": "clues",
+      "group": "actual",
+      "leaf_id": "events:hidden_whole_picture:/description",
+      "expected": {
+        "E2E": "allow",
+        "new_slot": "not_asserted"
+      },
+      "source_base": "clues",
+      "target_base": "clues:zh-CN",
+      "source_edits": [],
+      "target_edits": []
+    },
+    {
+      "case_id": "root-10",
+      "locale": "zh-TW",
+      "scope": "fraction",
+      "group": "actual",
+      "leaf_id": "events:arc_1b_isolation:/choices/2/result_text",
+      "expected": {
+        "E2E": "allow",
+        "new_slot": "not_asserted"
+      },
+      "source_base": "fraction",
+      "target_base": "fraction:zh-TW",
+      "source_edits": [],
+      "target_edits": []
+    },
+    {
+      "case_id": "root-11",
+      "locale": "zh-TW",
+      "scope": "blank",
+      "group": "actual",
+      "leaf_id": "events:arc_year4_close_father_passed:/description",
+      "expected": {
+        "E2E": "allow",
+        "new_slot": "not_asserted"
+      },
+      "source_base": "blank",
+      "target_base": "blank:zh-TW",
+      "source_edits": [],
+      "target_edits": []
+    },
+    {
+      "case_id": "root-12",
+      "locale": "zh-TW",
+      "scope": "desk",
+      "group": "actual",
+      "leaf_id": "events:arc_year1_close_father_passed:/description",
+      "expected": {
+        "E2E": "allow",
+        "new_slot": "not_asserted"
+      },
+      "source_base": "desk",
+      "target_base": "desk:zh-TW",
+      "source_edits": [],
+      "target_edits": []
+    },
+    {
+      "case_id": "root-13",
+      "locale": "zh-TW",
+      "scope": "breath",
+      "group": "actual",
+      "leaf_id": "events:arc_year4_close_father_passed:/description_if_known/year3_avoidant",
+      "expected": {
+        "E2E": "allow",
+        "new_slot": "not_asserted"
+      },
+      "source_base": "breath",
+      "target_base": "breath:zh-TW",
+      "source_edits": [],
+      "target_edits": []
+    },
+    {
+      "case_id": "root-14",
+      "locale": "zh-TW",
+      "scope": "clues",
+      "group": "actual",
+      "leaf_id": "events:hidden_whole_picture:/description",
+      "expected": {
+        "E2E": "allow",
+        "new_slot": "not_asserted"
+      },
+      "source_base": "clues",
+      "target_base": "clues:zh-TW",
+      "source_edits": [],
+      "target_edits": []
+    },
+    {
+      "case_id": "root-15",
+      "locale": "zh-CN",
+      "scope": "fraction",
+      "group": "natural",
+      "leaf_id": "events:arc_1b_isolation:/choices/2/result_text",
+      "expected": {
+        "E2E": "allow",
+        "new_slot": "not_asserted"
+      },
+      "source_base": "fraction",
+      "target_base": "fraction:zh-CN",
+      "source_edits": [],
+      "target_edits": [
+        [
+          19,
+          "三分之一",
+          "1/3"
+        ]
+      ]
+    },
+    {
+      "case_id": "root-16",
+      "locale": "zh-CN",
+      "scope": "fraction",
+      "group": "natural",
+      "leaf_id": "events:arc_1b_isolation:/choices/2/result_text",
+      "expected": {
+        "E2E": "allow",
+        "new_slot": "not_asserted"
+      },
+      "source_base": "fraction",
+      "target_base": "fraction:zh-CN",
+      "source_edits": [],
+      "target_edits": [
+        [
+          22,
+          "一",
+          "1"
+        ]
+      ]
+    },
+    {
+      "case_id": "root-17",
+      "locale": "zh-CN",
+      "scope": "fraction",
+      "group": "mutant",
+      "leaf_id": "events:arc_1b_isolation:/choices/2/result_text",
+      "expected": {
+        "E2E": "reject",
+        "new_slot": "not_asserted"
+      },
+      "source_base": "fraction",
+      "target_base": "fraction:zh-CN",
+      "source_edits": [],
+      "target_edits": [
+        [
+          22,
+          "一",
+          "二"
+        ]
+      ]
+    },
+    {
+      "case_id": "root-18",
+      "locale": "zh-CN",
+      "scope": "fraction",
+      "group": "mutant",
+      "leaf_id": "events:arc_1b_isolation:/choices/2/result_text",
+      "expected": {
+        "E2E": "reject",
+        "new_slot": "not_asserted"
+      },
+      "source_base": "fraction",
+      "target_base": "fraction:zh-CN",
+      "source_edits": [],
+      "target_edits": [
+        [
+          19,
+          "三",
+          "四"
+        ]
+      ]
+    },
+    {
+      "case_id": "root-19",
+      "locale": "zh-CN",
+      "scope": "fraction",
+      "group": "mutant",
+      "leaf_id": "events:arc_1b_isolation:/choices/2/result_text",
+      "expected": {
+        "E2E": "reject",
+        "new_slot": "not_asserted"
+      },
+      "source_base": "fraction",
+      "target_base": "fraction:zh-CN",
+      "source_edits": [],
+      "target_edits": [
+        [
+          19,
+          "三分之一",
+          "3/1"
+        ]
+      ]
+    },
+    {
+      "case_id": "root-20",
+      "locale": "zh-CN",
+      "scope": "fraction",
+      "group": "mutant",
+      "leaf_id": "events:arc_1b_isolation:/choices/2/result_text",
+      "expected": {
+        "E2E": "reject",
+        "new_slot": "not_asserted"
+      },
+      "source_base": "fraction",
+      "target_base": "fraction:zh-CN",
+      "source_edits": [],
+      "target_edits": [
+        [
+          19,
+          "",
+          "-"
+        ]
+      ]
+    },
+    {
+      "case_id": "root-21",
+      "locale": "zh-CN",
+      "scope": "fraction",
+      "group": "mutant",
+      "leaf_id": "events:arc_1b_isolation:/choices/2/result_text",
+      "expected": {
+        "E2E": "reject",
+        "new_slot": "not_asserted"
+      },
+      "source_base": "fraction",
+      "target_base": "fraction:zh-CN",
+      "source_edits": [],
+      "target_edits": [
+        [
+          23,
+          "",
+          "小时"
+        ]
+      ]
+    },
+    {
+      "case_id": "root-22",
+      "locale": "zh-CN",
+      "scope": "fraction",
+      "group": "mutant",
+      "leaf_id": "events:arc_1b_isolation:/choices/2/result_text",
+      "expected": {
+        "E2E": "reject",
+        "new_slot": "not_asserted"
+      },
+      "source_base": "fraction",
+      "target_base": "fraction:zh-CN",
+      "source_edits": [],
+      "target_edits": [
+        [
+          23,
+          "",
+          "韓元"
+        ]
+      ]
+    },
+    {
+      "case_id": "root-23",
+      "locale": "zh-CN",
+      "scope": "fraction",
+      "group": "mutant",
+      "leaf_id": "events:arc_1b_isolation:/choices/2/result_text",
+      "expected": {
+        "E2E": "reject",
+        "new_slot": "not_asserted"
+      },
+      "source_base": "fraction",
+      "target_base": "fraction:zh-CN",
+      "source_edits": [],
+      "target_edits": [
+        [
+          17,
+          "",
+          "没"
+        ],
+        [
+          18,
+          "了",
+          ""
+        ]
+      ]
+    },
+    {
+      "case_id": "root-24",
+      "locale": "zh-CN",
+      "scope": "fraction",
+      "group": "source_off",
+      "leaf_id": "events:arc_1b_isolation:/choices/2/result_text",
+      "expected": {
+        "E2E": "observe_only",
+        "new_slot": "OFF"
+      },
+      "source_base": "fraction",
+      "target_base": "fraction:zh-CN",
+      "source_edits": [
+        [
+          86,
+          "",
+          " "
+        ]
+      ],
+      "target_edits": []
+    },
+    {
+      "case_id": "root-25",
+      "locale": "zh-CN",
+      "scope": "blank",
+      "group": "source_off",
+      "leaf_id": "events:arc_year4_close_father_passed:/description",
+      "expected": {
+        "E2E": "observe_only",
+        "new_slot": "OFF"
+      },
+      "source_base": "blank",
+      "target_base": "blank:zh-CN",
+      "source_edits": [
+        [
+          376,
+          "",
+          " "
+        ]
+      ],
+      "target_edits": []
+    },
+    {
+      "case_id": "root-26",
+      "locale": "zh-CN",
+      "scope": "desk",
+      "group": "source_off",
+      "leaf_id": "events:arc_year1_close_father_passed:/description",
+      "expected": {
+        "E2E": "observe_only",
+        "new_slot": "OFF"
+      },
+      "source_base": "desk",
+      "target_base": "desk:zh-CN",
+      "source_edits": [
+        [
+          409,
+          "",
+          " "
+        ]
+      ],
+      "target_edits": []
+    },
+    {
+      "case_id": "root-27",
+      "locale": "zh-CN",
+      "scope": "breath",
+      "group": "source_off",
+      "leaf_id": "events:arc_year4_close_father_passed:/description_if_known/year3_avoidant",
+      "expected": {
+        "E2E": "observe_only",
+        "new_slot": "OFF"
+      },
+      "source_base": "breath",
+      "target_base": "breath:zh-CN",
+      "source_edits": [
+        [
+          320,
+          "",
+          " "
+        ]
+      ],
+      "target_edits": []
+    },
+    {
+      "case_id": "root-28",
+      "locale": "zh-CN",
+      "scope": "clues",
+      "group": "source_off",
+      "leaf_id": "events:hidden_whole_picture:/description",
+      "expected": {
+        "E2E": "observe_only",
+        "new_slot": "OFF"
+      },
+      "source_base": "clues",
+      "target_base": "clues:zh-CN",
+      "source_edits": [
+        [
+          189,
+          "",
+          " "
+        ]
+      ],
+      "target_edits": []
+    },
+    {
+      "case_id": "root-29",
+      "locale": "zh-TW",
+      "scope": "fraction",
+      "group": "natural",
+      "leaf_id": "events:arc_1b_isolation:/choices/2/result_text",
+      "expected": {
+        "E2E": "allow",
+        "new_slot": "not_asserted"
+      },
+      "source_base": "fraction",
+      "target_base": "fraction:zh-TW",
+      "source_edits": [],
+      "target_edits": [
+        [
+          18,
+          "三分之一",
+          "1/3"
+        ]
+      ]
+    },
+    {
+      "case_id": "root-30",
+      "locale": "zh-TW",
+      "scope": "fraction",
+      "group": "natural",
+      "leaf_id": "events:arc_1b_isolation:/choices/2/result_text",
+      "expected": {
+        "E2E": "allow",
+        "new_slot": "not_asserted"
+      },
+      "source_base": "fraction",
+      "target_base": "fraction:zh-TW",
+      "source_edits": [],
+      "target_edits": [
+        [
+          21,
+          "一",
+          "1"
+        ]
+      ]
+    },
+    {
+      "case_id": "root-31",
+      "locale": "zh-TW",
+      "scope": "fraction",
+      "group": "mutant",
+      "leaf_id": "events:arc_1b_isolation:/choices/2/result_text",
+      "expected": {
+        "E2E": "reject",
+        "new_slot": "not_asserted"
+      },
+      "source_base": "fraction",
+      "target_base": "fraction:zh-TW",
+      "source_edits": [],
+      "target_edits": [
+        [
+          21,
+          "一",
+          "二"
+        ]
+      ]
+    },
+    {
+      "case_id": "root-32",
+      "locale": "zh-TW",
+      "scope": "fraction",
+      "group": "mutant",
+      "leaf_id": "events:arc_1b_isolation:/choices/2/result_text",
+      "expected": {
+        "E2E": "reject",
+        "new_slot": "not_asserted"
+      },
+      "source_base": "fraction",
+      "target_base": "fraction:zh-TW",
+      "source_edits": [],
+      "target_edits": [
+        [
+          18,
+          "三",
+          "四"
+        ]
+      ]
+    },
+    {
+      "case_id": "root-33",
+      "locale": "zh-TW",
+      "scope": "fraction",
+      "group": "mutant",
+      "leaf_id": "events:arc_1b_isolation:/choices/2/result_text",
+      "expected": {
+        "E2E": "reject",
+        "new_slot": "not_asserted"
+      },
+      "source_base": "fraction",
+      "target_base": "fraction:zh-TW",
+      "source_edits": [],
+      "target_edits": [
+        [
+          18,
+          "三分之一",
+          "3/1"
+        ]
+      ]
+    },
+    {
+      "case_id": "root-34",
+      "locale": "zh-TW",
+      "scope": "fraction",
+      "group": "mutant",
+      "leaf_id": "events:arc_1b_isolation:/choices/2/result_text",
+      "expected": {
+        "E2E": "reject",
+        "new_slot": "not_asserted"
+      },
+      "source_base": "fraction",
+      "target_base": "fraction:zh-TW",
+      "source_edits": [],
+      "target_edits": [
+        [
+          18,
+          "",
+          "-"
+        ]
+      ]
+    },
+    {
+      "case_id": "root-35",
+      "locale": "zh-TW",
+      "scope": "fraction",
+      "group": "mutant",
+      "leaf_id": "events:arc_1b_isolation:/choices/2/result_text",
+      "expected": {
+        "E2E": "reject",
+        "new_slot": "not_asserted"
+      },
+      "source_base": "fraction",
+      "target_base": "fraction:zh-TW",
+      "source_edits": [],
+      "target_edits": [
+        [
+          22,
+          "",
+          "小时"
+        ]
+      ]
+    },
+    {
+      "case_id": "root-36",
+      "locale": "zh-TW",
+      "scope": "fraction",
+      "group": "mutant",
+      "leaf_id": "events:arc_1b_isolation:/choices/2/result_text",
+      "expected": {
+        "E2E": "reject",
+        "new_slot": "not_asserted"
+      },
+      "source_base": "fraction",
+      "target_base": "fraction:zh-TW",
+      "source_edits": [],
+      "target_edits": [
+        [
+          22,
+          "",
+          "韓元"
+        ]
+      ]
+    },
+    {
+      "case_id": "root-37",
+      "locale": "zh-TW",
+      "scope": "fraction",
+      "group": "mutant",
+      "leaf_id": "events:arc_1b_isolation:/choices/2/result_text",
+      "expected": {
+        "E2E": "reject",
+        "new_slot": "not_asserted"
+      },
+      "source_base": "fraction",
+      "target_base": "fraction:zh-TW",
+      "source_edits": [],
+      "target_edits": [
+        [
+          16,
+          "",
+          "没"
+        ],
+        [
+          17,
+          "了",
+          ""
+        ]
+      ]
+    },
+    {
+      "case_id": "root-38",
+      "locale": "zh-TW",
+      "scope": "fraction",
+      "group": "source_off",
+      "leaf_id": "events:arc_1b_isolation:/choices/2/result_text",
+      "expected": {
+        "E2E": "observe_only",
+        "new_slot": "OFF"
+      },
+      "source_base": "fraction",
+      "target_base": "fraction:zh-TW",
+      "source_edits": [
+        [
+          86,
+          "",
+          " "
+        ]
+      ],
+      "target_edits": []
+    },
+    {
+      "case_id": "root-39",
+      "locale": "zh-TW",
+      "scope": "blank",
+      "group": "source_off",
+      "leaf_id": "events:arc_year4_close_father_passed:/description",
+      "expected": {
+        "E2E": "observe_only",
+        "new_slot": "OFF"
+      },
+      "source_base": "blank",
+      "target_base": "blank:zh-TW",
+      "source_edits": [
+        [
+          376,
+          "",
+          " "
+        ]
+      ],
+      "target_edits": []
+    },
+    {
+      "case_id": "root-40",
+      "locale": "zh-TW",
+      "scope": "desk",
+      "group": "source_off",
+      "leaf_id": "events:arc_year1_close_father_passed:/description",
+      "expected": {
+        "E2E": "observe_only",
+        "new_slot": "OFF"
+      },
+      "source_base": "desk",
+      "target_base": "desk:zh-TW",
+      "source_edits": [
+        [
+          409,
+          "",
+          " "
+        ]
+      ],
+      "target_edits": []
+    },
+    {
+      "case_id": "root-41",
+      "locale": "zh-TW",
+      "scope": "breath",
+      "group": "source_off",
+      "leaf_id": "events:arc_year4_close_father_passed:/description_if_known/year3_avoidant",
+      "expected": {
+        "E2E": "observe_only",
+        "new_slot": "OFF"
+      },
+      "source_base": "breath",
+      "target_base": "breath:zh-TW",
+      "source_edits": [
+        [
+          320,
+          "",
+          " "
+        ]
+      ],
+      "target_edits": []
+    },
+    {
+      "case_id": "root-42",
+      "locale": "zh-TW",
+      "scope": "clues",
+      "group": "source_off",
+      "leaf_id": "events:hidden_whole_picture:/description",
+      "expected": {
+        "E2E": "observe_only",
+        "new_slot": "OFF"
+      },
+      "source_base": "clues",
+      "target_base": "clues:zh-TW",
+      "source_edits": [
+        [
+          189,
+          "",
+          " "
+        ]
+      ],
+      "target_edits": []
+    },
+    {
+      "case_id": "root-43",
+      "locale": "zh-CN",
+      "scope": "blank",
+      "group": "natural",
+      "leaf_id": "events:arc_year4_close_father_passed:/description",
+      "expected": {
+        "E2E": "allow",
+        "new_slot": "not_asserted"
+      },
+      "source_base": "blank",
+      "target_base": "blank:zh-CN",
+      "source_edits": [],
+      "target_edits": [
+        [
+          237,
+          "",
+          "一"
+        ]
+      ]
+    },
+    {
+      "case_id": "root-44",
+      "locale": "zh-CN",
+      "scope": "blank",
+      "group": "natural",
+      "leaf_id": "events:arc_year4_close_father_passed:/description",
+      "expected": {
+        "E2E": "allow",
+        "new_slot": "not_asserted"
+      },
+      "source_base": "blank",
+      "target_base": "blank:zh-CN",
+      "source_edits": [],
+      "target_edits": [
+        [
+          236,
+          "那个",
+          ""
+        ],
+        [
+          247,
+          "空",
+          "那一"
+        ]
+      ]
+    },
+    {
+      "case_id": "root-45",
+      "locale": "zh-CN",
+      "scope": "blank",
+      "group": "mutant",
+      "leaf_id": "events:arc_year4_close_father_passed:/description",
+      "expected": {
+        "E2E": "reject",
+        "new_slot": "not_asserted"
+      },
+      "source_base": "blank",
+      "target_base": "blank:zh-CN",
+      "source_edits": [],
+      "target_edits": [
+        [
+          237,
+          "",
+          "两"
+        ]
+      ]
+    },
+    {
+      "case_id": "root-46",
+      "locale": "zh-CN",
+      "scope": "blank",
+      "group": "mutant",
+      "leaf_id": "events:arc_year4_close_father_passed:/description",
+      "expected": {
+        "E2E": "reject",
+        "new_slot": "not_asserted"
+      },
+      "source_base": "blank",
+      "target_base": "blank:zh-CN",
+      "source_edits": [],
+      "target_edits": [
+        [
+          237,
+          "个",
+          "些"
+        ]
+      ]
+    },
+    {
+      "case_id": "root-47",
+      "locale": "zh-CN",
+      "scope": "blank",
+      "group": "mutant",
+      "leaf_id": "events:arc_year4_close_father_passed:/description",
+      "expected": {
+        "E2E": "reject",
+        "new_slot": "not_asserted"
+      },
+      "source_base": "blank",
+      "target_base": "blank:zh-CN",
+      "source_edits": [],
+      "target_edits": [
+        [
+          238,
+          "没能",
+          "已经"
+        ]
+      ]
+    },
+    {
+      "case_id": "root-48",
+      "locale": "zh-CN",
+      "scope": "blank",
+      "group": "mutant",
+      "leaf_id": "events:arc_year4_close_father_passed:/description",
+      "expected": {
+        "E2E": "reject",
+        "new_slot": "not_asserted"
+      },
+      "source_base": "blank",
+      "target_base": "blank:zh-CN",
+      "source_edits": [],
+      "target_edits": [
+        [
+          242,
+          "父",
+          "母"
+        ]
+      ]
+    },
+    {
+      "case_id": "root-49",
+      "locale": "zh-TW",
+      "scope": "blank",
+      "group": "mutant",
+      "leaf_id": "events:arc_year4_close_father_passed:/description",
+      "expected": {
+        "E2E": "reject",
+        "new_slot": "not_asserted"
+      },
+      "source_base": "blank",
+      "target_base": "blank:zh-TW",
+      "source_edits": [],
+      "target_edits": [
+        [
+          253,
+          "一",
+          "兩"
+        ]
+      ]
+    },
+    {
+      "case_id": "root-50",
+      "locale": "zh-TW",
+      "scope": "blank",
+      "group": "mutant",
+      "leaf_id": "events:arc_year4_close_father_passed:/description",
+      "expected": {
+        "E2E": "reject",
+        "new_slot": "not_asserted"
+      },
+      "source_base": "blank",
+      "target_base": "blank:zh-TW",
+      "source_edits": [],
+      "target_edits": [
+        [
+          244,
+          "",
+          "已"
+        ],
+        [
+          245,
+          "不",
+          ""
+        ]
+      ]
+    },
+    {
+      "case_id": "root-51",
+      "locale": "zh-TW",
+      "scope": "desk",
+      "group": "natural",
+      "leaf_id": "events:arc_year1_close_father_passed:/description",
+      "expected": {
+        "E2E": "allow",
+        "new_slot": "not_asserted"
+      },
+      "source_base": "desk",
+      "target_base": "desk:zh-TW",
+      "source_edits": [],
+      "target_edits": [
+        [
+          33,
+          "書桌上的",
+          ""
+        ],
+        [
+          38,
+          "角",
+          "個位置"
+        ]
+      ]
+    },
+    {
+      "case_id": "root-52",
+      "locale": "zh-TW",
+      "scope": "desk",
+      "group": "natural",
+      "leaf_id": "events:arc_year1_close_father_passed:/description",
+      "expected": {
+        "E2E": "allow",
+        "new_slot": "not_asserted"
+      },
+      "source_base": "desk",
+      "target_base": "desk:zh-TW",
+      "source_edits": [],
+      "target_edits": [
+        [
+          31,
+          "",
+          "自"
+        ],
+        [
+          33,
+          "書桌上的",
+          ""
+        ],
+        [
+          38,
+          "角",
+          "塊地方"
+        ]
+      ]
+    },
+    {
+      "case_id": "root-53",
+      "locale": "zh-TW",
+      "scope": "desk",
+      "group": "mutant",
+      "leaf_id": "events:arc_year1_close_father_passed:/description",
+      "expected": {
+        "E2E": "reject",
+        "new_slot": "not_asserted"
+      },
+      "source_base": "desk",
+      "target_base": "desk:zh-TW",
+      "source_edits": [],
+      "target_edits": [
+        [
+          37,
+          "一",
+          "兩"
+        ]
+      ]
+    },
+    {
+      "case_id": "root-54",
+      "locale": "zh-TW",
+      "scope": "desk",
+      "group": "mutant",
+      "leaf_id": "events:arc_year1_close_father_passed:/description",
+      "expected": {
+        "E2E": "reject",
+        "new_slot": "not_asserted"
+      },
+      "source_base": "desk",
+      "target_base": "desk:zh-TW",
+      "source_edits": [],
+      "target_edits": [
+        [
+          31,
+          "占",
+          "花"
+        ],
+        [
+          33,
+          "書桌上的",
+          ""
+        ]
+      ]
+    },
+    {
+      "case_id": "root-55",
+      "locale": "zh-TW",
+      "scope": "desk",
+      "group": "mutant",
+      "leaf_id": "events:arc_year1_close_father_passed:/description",
+      "expected": {
+        "E2E": "reject",
+        "new_slot": "not_asserted"
+      },
+      "source_base": "desk",
+      "target_base": "desk:zh-TW",
+      "source_edits": [],
+      "target_edits": [
+        [
+          30,
+          "各",
+          "共同"
+        ]
+      ]
+    },
+    {
+      "case_id": "root-56",
+      "locale": "zh-TW",
+      "scope": "desk",
+      "group": "mutant",
+      "leaf_id": "events:arc_year1_close_father_passed:/description",
+      "expected": {
+        "E2E": "reject",
+        "new_slot": "not_asserted"
+      },
+      "source_base": "desk",
+      "target_base": "desk:zh-TW",
+      "source_edits": [],
+      "target_edits": [
+        [
+          202,
+          "4",
+          "5"
+        ]
+      ]
+    },
+    {
+      "case_id": "root-57",
+      "locale": "zh-TW",
+      "scope": "desk",
+      "group": "mutant",
+      "leaf_id": "events:arc_year1_close_father_passed:/description",
+      "expected": {
+        "E2E": "reject",
+        "new_slot": "not_asserted"
+      },
+      "source_base": "desk",
+      "target_base": "desk:zh-TW",
+      "source_edits": [],
+      "target_edits": [
+        [
+          73,
+          "0",
+          "1"
+        ]
+      ]
+    },
+    {
+      "case_id": "root-58",
+      "locale": "zh-TW",
+      "scope": "breath",
+      "group": "natural",
+      "leaf_id": "events:arc_year4_close_father_passed:/description_if_known/year3_avoidant",
+      "expected": {
+        "E2E": "allow",
+        "new_slot": "not_asserted"
+      },
+      "source_base": "breath",
+      "target_base": "breath:zh-TW",
+      "source_edits": [],
+      "target_edits": [
+        [
+          26,
+          "緩",
+          "調整"
+        ],
+        [
+          29,
+          "口氣",
+          "次呼吸"
+        ]
+      ]
+    },
+    {
+      "case_id": "root-59",
+      "locale": "zh-TW",
+      "scope": "breath",
+      "group": "natural",
+      "leaf_id": "events:arc_year4_close_father_passed:/description_if_known/year3_avoidant",
+      "expected": {
+        "E2E": "allow",
+        "new_slot": "not_asserted"
+      },
+      "source_base": "breath",
+      "target_base": "breath:zh-TW",
+      "source_edits": [],
+      "target_edits": [
+        [
+          28,
+          "一",
+          ""
+        ]
+      ]
+    },
+    {
+      "case_id": "root-60",
+      "locale": "zh-TW",
+      "scope": "breath",
+      "group": "mutant",
+      "leaf_id": "events:arc_year4_close_father_passed:/description_if_known/year3_avoidant",
+      "expected": {
+        "E2E": "reject",
+        "new_slot": "not_asserted"
+      },
+      "source_base": "breath",
+      "target_base": "breath:zh-TW",
+      "source_edits": [],
+      "target_edits": [
+        [
+          28,
+          "一",
+          "兩"
+        ]
+      ]
+    },
+    {
+      "case_id": "root-61",
+      "locale": "zh-TW",
+      "scope": "breath",
+      "group": "mutant",
+      "leaf_id": "events:arc_year4_close_father_passed:/description_if_known/year3_avoidant",
+      "expected": {
+        "E2E": "reject",
+        "new_slot": "not_asserted"
+      },
+      "source_base": "breath",
+      "target_base": "breath:zh-TW",
+      "source_edits": [],
+      "target_edits": [
+        [
+          26,
+          "緩",
+          "屏住"
+        ]
+      ]
+    },
+    {
+      "case_id": "root-62",
+      "locale": "zh-TW",
+      "scope": "breath",
+      "group": "mutant",
+      "leaf_id": "events:arc_year4_close_father_passed:/description_if_known/year3_avoidant",
+      "expected": {
+        "E2E": "reject",
+        "new_slot": "not_asserted"
+      },
+      "source_base": "breath",
+      "target_base": "breath:zh-TW",
+      "source_edits": [],
+      "target_edits": [
+        [
+          26,
+          "",
+          "沒有"
+        ],
+        [
+          27,
+          "了",
+          ""
+        ]
+      ]
+    },
+    {
+      "case_id": "root-63",
+      "locale": "zh-TW",
+      "scope": "breath",
+      "group": "mutant",
+      "leaf_id": "events:arc_year4_close_father_passed:/description_if_known/year3_avoidant",
+      "expected": {
+        "E2E": "reject",
+        "new_slot": "not_asserted"
+      },
+      "source_base": "breath",
+      "target_base": "breath:zh-TW",
+      "source_edits": [],
+      "target_edits": [
+        [
+          130,
+          "1",
+          "2"
+        ]
+      ]
+    },
+    {
+      "case_id": "root-64",
+      "locale": "zh-TW",
+      "scope": "clues",
+      "group": "natural",
+      "leaf_id": "events:hidden_whole_picture:/description",
+      "expected": {
+        "E2E": "allow",
+        "new_slot": "not_asserted"
+      },
+      "source_base": "clues",
+      "target_base": "clues:zh-TW",
+      "source_edits": [],
+      "target_edits": [
+        [
+          103,
+          "者",
+          "條線索"
+        ]
+      ]
+    },
+    {
+      "case_id": "root-65",
+      "locale": "zh-TW",
+      "scope": "clues",
+      "group": "natural",
+      "leaf_id": "events:hidden_whole_picture:/description",
+      "expected": {
+        "E2E": "allow",
+        "new_slot": "not_asserted"
+      },
+      "source_base": "clues",
+      "target_base": "clues:zh-TW",
+      "source_edits": [],
+      "target_edits": [
+        [
+          102,
+          "三",
+          "3"
+        ]
+      ]
+    },
+    {
+      "case_id": "root-66",
+      "locale": "zh-TW",
+      "scope": "clues",
+      "group": "mutant",
+      "leaf_id": "events:hidden_whole_picture:/description",
+      "expected": {
+        "E2E": "reject",
+        "new_slot": "not_asserted"
+      },
+      "source_base": "clues",
+      "target_base": "clues:zh-TW",
+      "source_edits": [],
+      "target_edits": [
+        [
+          102,
+          "三",
+          "兩"
+        ]
+      ]
+    },
+    {
+      "case_id": "root-67",
+      "locale": "zh-TW",
+      "scope": "clues",
+      "group": "mutant",
+      "leaf_id": "events:hidden_whole_picture:/description",
+      "expected": {
+        "E2E": "reject",
+        "new_slot": "not_asserted"
+      },
+      "source_base": "clues",
+      "target_base": "clues:zh-TW",
+      "source_edits": [],
+      "target_edits": [
+        [
+          102,
+          "三",
+          "四"
+        ]
+      ]
+    },
+    {
+      "case_id": "root-68",
+      "locale": "zh-TW",
+      "scope": "clues",
+      "group": "mutant",
+      "leaf_id": "events:hidden_whole_picture:/description",
+      "expected": {
+        "E2E": "reject",
+        "new_slot": "not_asserted"
+      },
+      "source_base": "clues",
+      "target_base": "clues:zh-TW",
+      "source_edits": [],
+      "target_edits": [
+        [
+          103,
+          "者",
+          "個人"
+        ]
+      ]
+    },
+    {
+      "case_id": "root-69",
+      "locale": "zh-TW",
+      "scope": "clues",
+      "group": "mutant",
+      "leaf_id": "events:hidden_whole_picture:/description",
+      "expected": {
+        "E2E": "reject",
+        "new_slot": "not_asserted"
+      },
+      "source_base": "clues",
+      "target_base": "clues:zh-TW",
+      "source_edits": [],
+      "target_edits": [
+        [
+          104,
+          "",
+          "沒有"
+        ]
+      ]
+    },
+    {
+      "case_id": "root-70",
+      "locale": "zh-TW",
+      "scope": "clues",
+      "group": "mutant",
+      "leaf_id": "events:hidden_whole_picture:/description",
+      "expected": {
+        "E2E": "reject",
+        "new_slot": "not_asserted"
+      },
+      "source_base": "clues",
+      "target_base": "clues:zh-TW",
+      "source_edits": [],
+      "target_edits": [
+        [
+          2,
+          "三",
+          "四"
+        ]
+      ]
+    }
+  ]
+}''')
+        reconstructed = []
+        for item in data['cases']:
+            row = {key: item[key] for key in ('case_id', 'locale', 'scope', 'group', 'leaf_id', 'expected')}
+            for field in ('source', 'target'):
+                text = data[field + 's'][item[field + '_base']]
+                for start, old, new in reversed(item[field + '_edits']):
+                    self.assertEqual(text[start:start + len(old)], old)
+                    text = text[:start] + new + text[start + len(old):]
+                row[field] = text
+            reconstructed.append(row)
+        self.assertEqual(len(reconstructed), 71)
+        self.assertEqual(tool.digest(reconstructed), 'f5cfa863965e39b045890c29f064fe2b212605fffcee1c49b8fbe779deac4884')
+        for row in reconstructed:
+            with self.subTest(case=row['case_id']):
+                owner, pointer = row['leaf_id'].split(':', 2)[1:]
+                path = tuple(int(part) if part.isdigit() else part for part in pointer.strip('/').split('/'))
+                source_file = 'arc_drama.json' if row['scope'] in {'fraction', 'clues'} else 'arc_year_close.json'
+                leaf = tool.Leaf('events', owner, 'content/events/' + source_file, path, row['source'], 'event')
+                errors = tool.translation_errors(leaf, row['locale'], row['target'])
+                expected = row['expected']
+                if expected['E2E'] == 'allow':
+                    self.assertEqual(errors, [])
+                elif expected['E2E'] == 'reject':
+                    self.assertTrue(errors)
+                if expected['new_slot'] != 'not_asserted':
+                    slots = z._year_end_slots(row['source'], row['target'])
+                    if expected['new_slot'] == 'OFF':
+                        self.assertIsNone(z._year_end_kind(row['source']))
+                        self.assertEqual(slots, ([], [], []))
+                    elif expected['new_slot'] == 'allow':
+                        self.assertTrue(slots[0])
+                        self.assertEqual(slots[2], [])
+                    else:
+                        self.assertTrue(slots[2])
+
+    def test_year_end_presealed_independent_controls(self):
+        # Frozen order226-independent-guard-fixtures.json SHA 194d600c85ed75f207d9392912c1d8f271a0f35e650ff18886906d513ddb66fb
+        # Compact edits reconstruct exact inputs, never current game files.
+        import zh_translation_audit as z
+        data = json.loads(r'''{
+  "sources": {
+    "fraction": "쓸쓸했다. 솔직히.\n\n강남까지 아직 멀다. 3분의 1 왔다.\n그런데 함께 기뻐할 사람을 만들지 않은 채 여기까지 왔다는 것 — 그게 이 숫자의 그림자였다.",
+    "cell": "36세의 마지막 밤, {name}은 옥상까지 계단으로 올라왔다. 코트 주머니에는 몸의 이상을 확인한 진료 안내가 있었고, 휴대폰 통화 목록 위에는 더는 걸 수 없는 아버지의 이름이 남아 있었다.\n\n강남에 가면 제일 먼저 모시겠다고 했던 약속은 일정표에서 지울 수도, 다른 사람에게 넘길 수도 없었다. 목표까지 남은 시간은 1년인데 그 도착을 보여 줄 사람은 이미 한 명 줄었다. 어머니의 마지막 연락과 병원에서 온 검사 알림이 같은 화면에 떴다.\n\n{name}은 옥상 난간에 수첩을 펴고 마지막 해 열두 달을 그렸다. 목표를 밀어 넣을 칸, 몸을 돌볼 칸, 아직 전화를 받을 사람에게 갈 칸이 서로 겹쳤다. 바람이 불 때마다 아버지 이름을 적지 못한 한 칸이 먼저 들렸다."
+  },
+  "targets": {
+    "fraction:zh-CN": "说实话，很寂寞。\n\n离江南还远。才走了三分之一。\n可一路走到这里，却没有结识能一起高兴的人——这就是这个数字的阴影。",
+    "cell:zh-CN": "36岁的最后一夜，{name}沿楼梯登上了天台。大衣口袋里，装着确认身体异常的诊疗通知；手机通话列表上，还留着再也无法拨通的父亲的名字。\n\n说过到了江南，最先接父亲过去的约定，既无法从日程表里擦掉，也无法转交给别人。离目标还剩一年，可是能见证自己抵达的人，已经少了一个。母亲最近一次联系和医院发来的检查提醒，出现在同一个屏幕上。\n\n{name}在天台栏杆上摊开手册，画出最后一年的十二个月。塞进目标的格子、照顾身体的格子、去见还会接听电话的人的格子，彼此重叠。每次风吹来，那个没能写下父亲名字的空格，总是先被掀起。",
+    "fraction:zh-TW": "說真的，很寂寞。\n\n離江南還遠。走了三分之一。\n可是一路走到這裡，卻沒有讓能一起高興的人走進生活——那就是這個數字的陰影。",
+    "cell:zh-TW": "36歲的最後一夜，{name}沿著樓梯走上屋頂。大衣口袋裡，放著確認身體出了異狀後收到的就診指引；手機通話列表上還留著父親的名字，卻再也無法打電話給他。\n\n說好到了江南就先接父親過來的承諾，既不能從行事曆上刪掉，也不能交給別人。距離目標只剩1年，能見證自己抵達的人，卻已經少了一個。母親最近一次的聯絡與醫院傳來的檢查提醒，出現在同一個畫面上。\n\n{name}在屋頂欄杆上攤開筆記本，畫出最後一年的十二個月。要塞進目標的格子、照顧身體的格子、去見仍會接電話的人的格子，彼此重疊。每當風吹來，寫不下父親名字的那一格，總是先被掀起。"
+  },
+  "cases": [
+    {
+      "case_id": "zh-CN-fraction-actual",
+      "locale": "zh-CN",
+      "scope": "fraction",
+      "group": "actual_normal",
+      "leaf_id": "events:arc_1b_isolation:/choices/2/result_text",
+      "expected": {
+        "E2E": "allow",
+        "new_slot": "allow"
+      },
+      "source_base": "fraction",
+      "target_base": "fraction:zh-CN",
+      "source_edits": [],
+      "target_edits": []
+    },
+    {
+      "case_id": "zh-CN-fraction-natural",
+      "locale": "zh-CN",
+      "scope": "fraction",
+      "group": "natural_normal",
+      "leaf_id": "events:arc_1b_isolation:/choices/2/result_text",
+      "expected": {
+        "E2E": "allow",
+        "new_slot": "allow"
+      },
+      "source_base": "fraction",
+      "target_base": "fraction:zh-CN",
+      "source_edits": [],
+      "target_edits": [
+        [
+          16,
+          "才",
+          "这条路，已经"
+        ],
+        [
+          18,
+          "了",
+          "过"
+        ]
+      ]
+    },
+    {
+      "case_id": "zh-CN-fraction-numerator",
+      "locale": "zh-CN",
+      "scope": "fraction",
+      "group": "target_mutant",
+      "leaf_id": "events:arc_1b_isolation:/choices/2/result_text",
+      "expected": {
+        "E2E": "reject",
+        "new_slot": "reject"
+      },
+      "source_base": "fraction",
+      "target_base": "fraction:zh-CN",
+      "source_edits": [],
+      "target_edits": [
+        [
+          22,
+          "一",
+          "二"
+        ]
+      ]
+    },
+    {
+      "case_id": "zh-CN-fraction-denominator",
+      "locale": "zh-CN",
+      "scope": "fraction",
+      "group": "target_mutant",
+      "leaf_id": "events:arc_1b_isolation:/choices/2/result_text",
+      "expected": {
+        "E2E": "reject",
+        "new_slot": "reject"
+      },
+      "source_base": "fraction",
+      "target_base": "fraction:zh-CN",
+      "source_edits": [],
+      "target_edits": [
+        [
+          19,
+          "三",
+          "四"
+        ]
+      ]
+    },
+    {
+      "case_id": "zh-CN-fraction-sign",
+      "locale": "zh-CN",
+      "scope": "fraction",
+      "group": "target_mutant",
+      "leaf_id": "events:arc_1b_isolation:/choices/2/result_text",
+      "expected": {
+        "E2E": "reject",
+        "new_slot": "reject"
+      },
+      "source_base": "fraction",
+      "target_base": "fraction:zh-CN",
+      "source_edits": [],
+      "target_edits": [
+        [
+          19,
+          "",
+          "负"
+        ]
+      ]
+    },
+    {
+      "case_id": "zh-CN-fraction-time-unit",
+      "locale": "zh-CN",
+      "scope": "fraction",
+      "group": "target_mutant",
+      "leaf_id": "events:arc_1b_isolation:/choices/2/result_text",
+      "expected": {
+        "E2E": "reject",
+        "new_slot": "reject"
+      },
+      "source_base": "fraction",
+      "target_base": "fraction:zh-CN",
+      "source_edits": [],
+      "target_edits": [
+        [
+          16,
+          "才",
+          ""
+        ],
+        [
+          21,
+          "之一",
+          "钟"
+        ]
+      ]
+    },
+    {
+      "case_id": "zh-CN-fraction-not-reached",
+      "locale": "zh-CN",
+      "scope": "fraction",
+      "group": "target_role_probe",
+      "leaf_id": "events:arc_1b_isolation:/choices/2/result_text",
+      "expected": {
+        "E2E": "reject",
+        "new_slot": "reject"
+      },
+      "source_base": "fraction",
+      "target_base": "fraction:zh-CN",
+      "source_edits": [],
+      "target_edits": [
+        [
+          16,
+          "才",
+          "还没"
+        ],
+        [
+          18,
+          "了",
+          "到"
+        ]
+      ]
+    },
+    {
+      "case_id": "zh-CN-fraction-source-off",
+      "locale": "zh-CN",
+      "scope": "fraction",
+      "group": "source_OFF",
+      "leaf_id": "events:arc_1b_isolation:/choices/2/result_text",
+      "expected": {
+        "new_slot": "OFF",
+        "E2E": "observe_only"
+      },
+      "source_base": "fraction",
+      "target_base": "fraction:zh-CN",
+      "source_edits": [
+        [
+          28,
+          "1",
+          "2"
+        ]
+      ],
+      "target_edits": []
+    },
+    {
+      "case_id": "zh-CN-cell-actual",
+      "locale": "zh-CN",
+      "scope": "cell",
+      "group": "actual_normal",
+      "leaf_id": "events:arc_year4_close_father_passed:/description",
+      "expected": {
+        "E2E": "allow",
+        "new_slot": "allow"
+      },
+      "source_base": "cell",
+      "target_base": "cell:zh-CN",
+      "source_edits": [],
+      "target_edits": []
+    },
+    {
+      "case_id": "zh-CN-cell-natural",
+      "locale": "zh-CN",
+      "scope": "cell",
+      "group": "natural_normal",
+      "leaf_id": "events:arc_year4_close_father_passed:/description",
+      "expected": {
+        "E2E": "allow",
+        "new_slot": "allow"
+      },
+      "source_base": "cell",
+      "target_base": "cell:zh-CN",
+      "source_edits": [],
+      "target_edits": [
+        [
+          237,
+          "个",
+          "一格还"
+        ],
+        [
+          240,
+          "写下",
+          "填上"
+        ],
+        [
+          248,
+          "格",
+          "白"
+        ]
+      ]
+    },
+    {
+      "case_id": "zh-CN-cell-plural",
+      "locale": "zh-CN",
+      "scope": "cell",
+      "group": "target_mutant",
+      "leaf_id": "events:arc_year4_close_father_passed:/description",
+      "expected": {
+        "E2E": "reject",
+        "new_slot": "reject"
+      },
+      "source_base": "cell",
+      "target_base": "cell:zh-CN",
+      "source_edits": [],
+      "target_edits": [
+        [
+          237,
+          "个",
+          "两格"
+        ],
+        [
+          248,
+          "格",
+          "白"
+        ]
+      ]
+    },
+    {
+      "case_id": "zh-CN-cell-owner",
+      "locale": "zh-CN",
+      "scope": "cell",
+      "group": "target_role_probe",
+      "leaf_id": "events:arc_year4_close_father_passed:/description",
+      "expected": {
+        "E2E": "reject",
+        "new_slot": "reject"
+      },
+      "source_base": "cell",
+      "target_base": "cell:zh-CN",
+      "source_edits": [],
+      "target_edits": [
+        [
+          242,
+          "父",
+          "母"
+        ]
+      ]
+    },
+    {
+      "case_id": "zh-CN-cell-written",
+      "locale": "zh-CN",
+      "scope": "cell",
+      "group": "target_role_probe",
+      "leaf_id": "events:arc_year4_close_father_passed:/description",
+      "expected": {
+        "E2E": "reject",
+        "new_slot": "reject"
+      },
+      "source_base": "cell",
+      "target_base": "cell:zh-CN",
+      "source_edits": [],
+      "target_edits": [
+        [
+          238,
+          "没能",
+          "已经"
+        ]
+      ]
+    },
+    {
+      "case_id": "zh-CN-cell-source-off",
+      "locale": "zh-CN",
+      "scope": "cell",
+      "group": "source_OFF",
+      "leaf_id": "events:arc_year4_close_father_passed:/description",
+      "expected": {
+        "new_slot": "OFF",
+        "E2E": "observe_only"
+      },
+      "source_base": "cell",
+      "target_base": "cell:zh-CN",
+      "source_edits": [
+        [
+          364,
+          "한",
+          "두"
+        ]
+      ],
+      "target_edits": []
+    },
+    {
+      "case_id": "zh-CN-cell-moved-owner",
+      "locale": "zh-CN",
+      "scope": "cell",
+      "group": "target_mutant",
+      "leaf_id": "events:arc_year4_close_father_passed:/description",
+      "expected": {
+        "E2E": "reject",
+        "new_slot": "reject"
+      },
+      "source_base": "cell",
+      "target_base": "cell:zh-CN",
+      "source_edits": [],
+      "target_edits": [
+        [
+          195,
+          "塞进目标",
+          "写父亲名字"
+        ],
+        [
+          242,
+          "父亲",
+          ""
+        ]
+      ]
+    },
+    {
+      "case_id": "zh-TW-fraction-actual",
+      "locale": "zh-TW",
+      "scope": "fraction",
+      "group": "actual_normal",
+      "leaf_id": "events:arc_1b_isolation:/choices/2/result_text",
+      "expected": {
+        "E2E": "allow",
+        "new_slot": "allow"
+      },
+      "source_base": "fraction",
+      "target_base": "fraction:zh-TW",
+      "source_edits": [],
+      "target_edits": []
+    },
+    {
+      "case_id": "zh-TW-fraction-natural",
+      "locale": "zh-TW",
+      "scope": "fraction",
+      "group": "natural_normal",
+      "leaf_id": "events:arc_1b_isolation:/choices/2/result_text",
+      "expected": {
+        "E2E": "allow",
+        "new_slot": "allow"
+      },
+      "source_base": "fraction",
+      "target_base": "fraction:zh-TW",
+      "source_edits": [],
+      "target_edits": [
+        [
+          16,
+          "",
+          "這條路，已經"
+        ],
+        [
+          17,
+          "了",
+          "過"
+        ]
+      ]
+    },
+    {
+      "case_id": "zh-TW-fraction-numerator",
+      "locale": "zh-TW",
+      "scope": "fraction",
+      "group": "target_mutant",
+      "leaf_id": "events:arc_1b_isolation:/choices/2/result_text",
+      "expected": {
+        "E2E": "reject",
+        "new_slot": "reject"
+      },
+      "source_base": "fraction",
+      "target_base": "fraction:zh-TW",
+      "source_edits": [],
+      "target_edits": [
+        [
+          21,
+          "一",
+          "二"
+        ]
+      ]
+    },
+    {
+      "case_id": "zh-TW-fraction-denominator",
+      "locale": "zh-TW",
+      "scope": "fraction",
+      "group": "target_mutant",
+      "leaf_id": "events:arc_1b_isolation:/choices/2/result_text",
+      "expected": {
+        "E2E": "reject",
+        "new_slot": "reject"
+      },
+      "source_base": "fraction",
+      "target_base": "fraction:zh-TW",
+      "source_edits": [],
+      "target_edits": [
+        [
+          18,
+          "三",
+          "四"
+        ]
+      ]
+    },
+    {
+      "case_id": "zh-TW-fraction-sign",
+      "locale": "zh-TW",
+      "scope": "fraction",
+      "group": "target_mutant",
+      "leaf_id": "events:arc_1b_isolation:/choices/2/result_text",
+      "expected": {
+        "E2E": "reject",
+        "new_slot": "reject"
+      },
+      "source_base": "fraction",
+      "target_base": "fraction:zh-TW",
+      "source_edits": [],
+      "target_edits": [
+        [
+          18,
+          "",
+          "負"
+        ]
+      ]
+    },
+    {
+      "case_id": "zh-TW-fraction-time-unit",
+      "locale": "zh-TW",
+      "scope": "fraction",
+      "group": "target_mutant",
+      "leaf_id": "events:arc_1b_isolation:/choices/2/result_text",
+      "expected": {
+        "E2E": "reject",
+        "new_slot": "reject"
+      },
+      "source_base": "fraction",
+      "target_base": "fraction:zh-TW",
+      "source_edits": [],
+      "target_edits": [
+        [
+          20,
+          "之一",
+          "鐘"
+        ]
+      ]
+    },
+    {
+      "case_id": "zh-TW-fraction-not-reached",
+      "locale": "zh-TW",
+      "scope": "fraction",
+      "group": "target_role_probe",
+      "leaf_id": "events:arc_1b_isolation:/choices/2/result_text",
+      "expected": {
+        "E2E": "reject",
+        "new_slot": "reject"
+      },
+      "source_base": "fraction",
+      "target_base": "fraction:zh-TW",
+      "source_edits": [],
+      "target_edits": [
+        [
+          16,
+          "",
+          "還沒"
+        ],
+        [
+          17,
+          "了",
+          "到"
+        ]
+      ]
+    },
+    {
+      "case_id": "zh-TW-fraction-source-off",
+      "locale": "zh-TW",
+      "scope": "fraction",
+      "group": "source_OFF",
+      "leaf_id": "events:arc_1b_isolation:/choices/2/result_text",
+      "expected": {
+        "new_slot": "OFF",
+        "E2E": "observe_only"
+      },
+      "source_base": "fraction",
+      "target_base": "fraction:zh-TW",
+      "source_edits": [
+        [
+          28,
+          "1",
+          "2"
+        ]
+      ],
+      "target_edits": []
+    },
+    {
+      "case_id": "zh-TW-cell-actual",
+      "locale": "zh-TW",
+      "scope": "cell",
+      "group": "actual_normal",
+      "leaf_id": "events:arc_year4_close_father_passed:/description",
+      "expected": {
+        "E2E": "allow",
+        "new_slot": "allow"
+      },
+      "source_base": "cell",
+      "target_base": "cell:zh-TW",
+      "source_edits": [],
+      "target_edits": []
+    },
+    {
+      "case_id": "zh-TW-cell-natural",
+      "locale": "zh-TW",
+      "scope": "cell",
+      "group": "natural_normal",
+      "leaf_id": "events:arc_year4_close_father_passed:/description",
+      "expected": {
+        "E2E": "allow",
+        "new_slot": "allow"
+      },
+      "source_base": "cell",
+      "target_base": "cell:zh-TW",
+      "source_edits": [],
+      "target_edits": [
+        [
+          244,
+          "",
+          "那個還"
+        ],
+        [
+          252,
+          "那一",
+          "空"
+        ]
+      ]
+    },
+    {
+      "case_id": "zh-TW-cell-plural",
+      "locale": "zh-TW",
+      "scope": "cell",
+      "group": "target_mutant",
+      "leaf_id": "events:arc_year4_close_father_passed:/description",
+      "expected": {
+        "E2E": "reject",
+        "new_slot": "reject"
+      },
+      "source_base": "cell",
+      "target_base": "cell:zh-TW",
+      "source_edits": [],
+      "target_edits": [
+        [
+          253,
+          "一",
+          "兩"
+        ]
+      ]
+    },
+    {
+      "case_id": "zh-TW-cell-owner",
+      "locale": "zh-TW",
+      "scope": "cell",
+      "group": "target_role_probe",
+      "leaf_id": "events:arc_year4_close_father_passed:/description",
+      "expected": {
+        "E2E": "reject",
+        "new_slot": "reject"
+      },
+      "source_base": "cell",
+      "target_base": "cell:zh-TW",
+      "source_edits": [],
+      "target_edits": [
+        [
+          247,
+          "父",
+          "母"
+        ]
+      ]
+    },
+    {
+      "case_id": "zh-TW-cell-written",
+      "locale": "zh-TW",
+      "scope": "cell",
+      "group": "target_role_probe",
+      "leaf_id": "events:arc_year4_close_father_passed:/description",
+      "expected": {
+        "E2E": "reject",
+        "new_slot": "reject"
+      },
+      "source_base": "cell",
+      "target_base": "cell:zh-TW",
+      "source_edits": [],
+      "target_edits": [
+        [
+          244,
+          "",
+          "已經"
+        ],
+        [
+          245,
+          "不",
+          ""
+        ]
+      ]
+    },
+    {
+      "case_id": "zh-TW-cell-source-off",
+      "locale": "zh-TW",
+      "scope": "cell",
+      "group": "source_OFF",
+      "leaf_id": "events:arc_year4_close_father_passed:/description",
+      "expected": {
+        "new_slot": "OFF",
+        "E2E": "observe_only"
+      },
+      "source_base": "cell",
+      "target_base": "cell:zh-TW",
+      "source_edits": [
+        [
+          364,
+          "한",
+          "두"
+        ]
+      ],
+      "target_edits": []
+    },
+    {
+      "case_id": "zh-TW-cell-moved-owner",
+      "locale": "zh-TW",
+      "scope": "cell",
+      "group": "target_mutant",
+      "leaf_id": "events:arc_year4_close_father_passed:/description",
+      "expected": {
+        "E2E": "reject",
+        "new_slot": "reject"
+      },
+      "source_base": "cell",
+      "target_base": "cell:zh-TW",
+      "source_edits": [],
+      "target_edits": [
+        [
+          203,
+          "要塞進目標",
+          "寫父親名字"
+        ],
+        [
+          247,
+          "父親",
+          ""
+        ]
+      ]
+    }
+  ]
+}''')
+        reconstructed = []
+        for item in data['cases']:
+            row = {key: item[key] for key in ('case_id', 'locale', 'scope', 'group', 'leaf_id', 'expected')}
+            for field in ('source', 'target'):
+                text = data[field + 's'][item[field + '_base']]
+                for start, old, new in reversed(item[field + '_edits']):
+                    self.assertEqual(text[start:start + len(old)], old)
+                    text = text[:start] + new + text[start + len(old):]
+                row[field] = text
+            reconstructed.append(row)
+        self.assertEqual(len(reconstructed), 30)
+        self.assertEqual(tool.digest(reconstructed), '76b8d8874726445311447ae8a3e99c3c329d7b4c8429498b81791bb0ab898290')
+        for row in reconstructed:
+            with self.subTest(case=row['case_id']):
+                owner, pointer = row['leaf_id'].split(':', 2)[1:]
+                path = tuple(int(part) if part.isdigit() else part for part in pointer.strip('/').split('/'))
+                source_file = 'arc_drama.json' if row['scope'] in {'fraction', 'clues'} else 'arc_year_close.json'
+                leaf = tool.Leaf('events', owner, 'content/events/' + source_file, path, row['source'], 'event')
+                errors = tool.translation_errors(leaf, row['locale'], row['target'])
+                expected = row['expected']
+                if expected['E2E'] == 'allow':
+                    self.assertEqual(errors, [])
+                elif expected['E2E'] == 'reject':
+                    self.assertTrue(errors)
+                if expected['new_slot'] != 'not_asserted':
+                    slots = z._year_end_slots(row['source'], row['target'])
+                    if expected['new_slot'] == 'OFF':
+                        self.assertIsNone(z._year_end_kind(row['source']))
+                        self.assertEqual(slots, ([], [], []))
+                    elif expected['new_slot'] == 'allow':
+                        self.assertTrue(slots[0])
+                        self.assertEqual(slots[2], [])
+                    else:
+                        self.assertTrue(slots[2])
+
 
 if __name__ == "__main__":
     suite = unittest.defaultTestLoader.loadTestsFromTestCase(ExchangeTests)
