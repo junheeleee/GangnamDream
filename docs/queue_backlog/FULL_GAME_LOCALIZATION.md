@@ -40,8 +40,8 @@
   마지막 해40사건358·종막15사건197과 관계25사건164에 결혼·가족34사건206
   leaf/locale와 데이트·계절36사건209, 가족·직장·친구50사건380 및 남은 관계15종94
   leaf/locale, 생활·월세·첫 월급25종185 leaf/locale와
-  주거·건강25종176 leaf/locale와 직장·구직25종194 leaf/locale와 생활비25종186 leaf/locale와 가족25종172 leaf/locale와 생활 전환25종178 leaf/locale와 생활·숨은 사건25종198 leaf/locale와 회상·첫 생활25종158 leaf/locale와 후반 이정표·갈림길25종189 leaf/locale와 창업·크리에이터·회복20종146 leaf/locale와 가족·일상15종104 leaf/locale와 소비·독립 생활15종104 leaf/locale와 관계·투자 후속33종200 leaf/locale와 마지막 질주·선택의 대가36종214 leaf/locale와 투자·인연 후속32종194 leaf/locale와 판단의 비용·작은 회신25종148 leaf/locale와 관계의 다음 말·책임20종120 leaf/locale와 투자·사람 후속32종192 leaf/locale와 가족·회복·관계40종238 leaf/locale와 절제·신뢰·생활43종254 leaf/locale와 거절·재기·연락45종268 leaf/locale와 일·신뢰·되돌림43종258 leaf/locale와 생활 인연·마지막 전략19종114 leaf/locale와 어머니·일·살림20종116 leaf/locale와 친구·직장·살림17종92 leaf/locale와 아버지·관계·목표15종90 leaf/locale와 현수·가족·건강·목표41종246 leaf/locale와 직장·투자·이별40종240 leaf/locale와 소비·습관·도박·인연42종252 leaf/locale와 비교·돌봄·관계·재기40종240 leaf/locale와 도움·경계·가족·인맥16종96 leaf/locale와 투자·직장·불안·자기기준40종274 leaf/locale와 투자 연쇄·한국 생활38종276 leaf/locale와 계절·동네·취미39종242 leaf/locale와 도시 휴식·도박·우정39종238 leaf/locale와 카페·만남·SNS37종220 leaf/locale와 나비효과·친절의 연쇄24종144 leaf/locale와 생활 선택·부채·직장24종169 leaf/locale와 선택 후속·미응답 약속18종114 leaf/locale와 직장·전문화19종126 leaf/locale까지 총33,711번역이다
-  (언어별 엔딩234+사건10,169+catalog834). catalog 신규 작성2,485·
+  주거·건강25종176 leaf/locale와 직장·구직25종194 leaf/locale와 생활비25종186 leaf/locale와 가족25종172 leaf/locale와 생활 전환25종178 leaf/locale와 생활·숨은 사건25종198 leaf/locale와 회상·첫 생활25종158 leaf/locale와 후반 이정표·갈림길25종189 leaf/locale와 창업·크리에이터·회복20종146 leaf/locale와 가족·일상15종104 leaf/locale와 소비·독립 생활15종104 leaf/locale와 관계·투자 후속33종200 leaf/locale와 마지막 질주·선택의 대가36종214 leaf/locale와 투자·인연 후속32종194 leaf/locale와 판단의 비용·작은 회신25종148 leaf/locale와 관계의 다음 말·책임20종120 leaf/locale와 투자·사람 후속32종192 leaf/locale와 가족·회복·관계40종238 leaf/locale와 절제·신뢰·생활43종254 leaf/locale와 거절·재기·연락45종268 leaf/locale와 일·신뢰·되돌림43종258 leaf/locale와 생활 인연·마지막 전략19종114 leaf/locale와 어머니·일·살림20종116 leaf/locale와 친구·직장·살림17종92 leaf/locale와 아버지·관계·목표15종90 leaf/locale와 현수·가족·건강·목표41종246 leaf/locale와 직장·투자·이별40종240 leaf/locale와 소비·습관·도박·인연42종252 leaf/locale와 비교·돌봄·관계·재기40종240 leaf/locale와 도움·경계·가족·인맥16종96 leaf/locale와 투자·직장·불안·자기기준40종274 leaf/locale와 투자 연쇄·한국 생활38종276 leaf/locale와 계절·동네·취미39종242 leaf/locale와 도시 휴식·도박·우정39종238 leaf/locale와 카페·만남·SNS37종220 leaf/locale와 나비효과·친절의 연쇄24종144 leaf/locale와 생활 선택·부채·직장24종169 leaf/locale와 선택 후속·미응답 약속18종114 leaf/locale와 직장·전문화19종126 leaf/locale와 선택 회수·목표 재고23종177 leaf/locale까지 총34,242번역이다
+  (언어별 엔딩234+사건10,346+catalog834). catalog 신규 작성2,485·
   기존 JA 누락 수리1·기존 유지16을 구분한다. 엔딩35종과 catalog7섹션은 채웠지만
   사건·UI·표시 소비자는 아직 남는다. M07~M24 정적 연결은 해당 기간 모든 무작위
   사건·UI나 실플레이 전량의 번역 완료를 뜻하지 않는다. 원어민·화면·전체판은 OPEN.
@@ -508,3 +508,11 @@ UI·표시 소비자·원어민·화면·전체판 판정은 여전히 OPEN이�
 - 남은 비보호 shipping은189종1,409문구/언어다. author_only105종741·공개 보호 미번역2·UI/동적 미확정/표시 이름은 별도로 남는다. 보호14종102문구는 이 원장 밖이며 기존100문구가 있고 foreshadow2만 비어 있다. 전체 번역이나 본편 GO가 아니다.
 - 다음 권고는 선택 회수·목표 재고23종177문구/언어다. h2 전10+chapter callback 전8+부모 theme3+왜 강남인가 생존/사후2를 한 연결 묶음으로 본다. 아직 선언·저작·수용 전이다.
 - 해당 후속의 deferred 지연과 min_turn9999 재검사/별도 시간창 dispatch는 구별한다. 원문 예약만으로 실제 도달을 주장하지 않으며 런타임 수리는 별도 작업이다.
+
+## 선택 회수·목표 재고 묶음 수용 (2026-09-09)
+
+- 위219절의 다음23종은 당시 미착수 기록이다. 이번222에서23종177문구씩 직접 번역·독립 전량 대조해 신규531을 수용했다. 누적34,242/각11,414/b82/meta9, 사건1,528종10,346문구/언어다.
+- 남은 비보호 shipping은166종1,232문구/언어다. author_only105종741·공개 보호 미번역2·UI/동적 미확정/표시 이름은 별도이며 전체 INCOMPLETE/HOLD를 유지한다.
+- 현수 부친 제사와 주인공 아버지 생사, 터미널 방문/전화, 실제 네 번째 신호 응답/신호만 있음, 서명 없는 봉투, 결혼 의사/날짜 전, 과거 두 시각 발신/이번 한 칸 미결 제안을 구분했다.
+- 원문 현수4년 반복·path_cost와 회고2+2연차·midpoint/deferred 시점·공통 married/seen flag·min_turn9999 dispatch는 번역에서 새 사실로 봉합하지 않았다. 실제 도달이나 원어민·화면 관찰을 주장하지 않는다.
+- 다음 인물 서사19종은 원문·소비자 사전 검토 중이며 아직 별도 선언·저작·수용 전이다. 후속 UI 소비자 수리도 별도 범위로 관리한다. [현재 수용과 독립 검수](../queue_archive/ORDER-222_L1_L2_RESULTS.md).
