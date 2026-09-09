@@ -7,6 +7,7 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
+| 1 | [~] | ORDER-209 · 계절·동네·취미 번역 | [209](queue_active/ORDER-209.md) | 726번역 L1/L2 · L3 OPEN |
 | 2 | [~] | ORDER-208 · 투자 연쇄·한국 생활 번역 | [208](queue_active/ORDER-208.md) | 828번역 L1/L2 · L3 OPEN |
 | 3 | [~] | ORDER-207 · 투자·직장·불안·자기 기준 번역 | [207](queue_active/ORDER-207.md) | 822번역 L1/L2 · L3 OPEN |
 | 4 | [~] | ORDER-206 · 도움·경계·가족·인맥 후속 번역 | [206](queue_active/ORDER-206.md) | 288번역 L1/L2 · L3 OPEN |

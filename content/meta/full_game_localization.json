@@ -2568,6 +2568,77 @@
       "machine_validation": "PASS",
       "rendered_review": "OPEN",
       "native_review": "OPEN"
+    },
+    {
+      "order": "ORDER-209",
+      "group": "events",
+      "roots": [
+        "kx_claw_machine",
+        "kx_coin_noraebang",
+        "kx_cold_snap",
+        "kx_english_academy",
+        "kx_fine_dust",
+        "kx_gosi_study",
+        "kx_hagwon",
+        "kx_hangang_chimaek",
+        "kx_heatwave",
+        "kx_kakao_emoticon",
+        "kx_monsoon",
+        "kx_mukbang",
+        "kx_namsan_tower",
+        "kx_naver_cafe",
+        "kx_open_chat",
+        "kx_pc_bang",
+        "kx_spring_cherry",
+        "kx_suneung_day",
+        "kx_viral_meme"
+      ],
+      "source_leaves": 122,
+      "target_leaves_by_locale": {
+        "ja": 122,
+        "zh-CN": 122,
+        "zh-TW": 122
+      },
+      "source_review": "Independent direct Korean comparison of all three locales. Preserve Korean seasons, particulate wording, feels-like temperature, KRW costs, class times, quoted English, real versus imagined exchanges, and choice-specific leisure actions without repairing Korean condition/effect debts.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN"
+    },
+    {
+      "order": "ORDER-209",
+      "group": "events",
+      "roots": [
+        "kx_chuseok_traffic",
+        "kx_civil_defense_siren",
+        "kx_delivery_app",
+        "kx_friend_military",
+        "kx_gogi_buffet",
+        "kx_holiday_alone",
+        "kx_kdrama_binge",
+        "kx_kpop_concert",
+        "kx_kpop_ticketing",
+        "kx_malatang_tanghulu",
+        "kx_north_korea_news",
+        "kx_photocard",
+        "kx_reserve_duty",
+        "kx_saju_cafe",
+        "kx_seollal_sebae",
+        "kx_street_food",
+        "kx_tarot",
+        "kx_tteokbokki",
+        "kx_us_korea_news",
+        "kx_yearly_fortune"
+      ],
+      "source_leaves": 120,
+      "target_leaves_by_locale": {
+        "ja": 120,
+        "zh-CN": 120,
+        "zh-TW": 120
+      },
+      "source_review": "Independent direct Korean comparison of all three locales. Preserve ticket success versus failure without scalper purchase, food quantities and money gaps, reported fortune/news claims, civil-defense versus reservist status, actual military/family replies, and Korean holidays without inventing outcomes.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN"
     }
   ],
   "accepted": {
@@ -42507,6 +42578,974 @@
       "events:unorthodox_underground_network:/title": {
         "source_sha256": "2454092789a61a691b019f466ea668ce6873e8a39afee18d526ebca8f79bf2fb",
         "target_sha256": "755589008b6b9e956bcebd856875e4ab54cc6887fd5b6a80ccbc69e28c41ece4"
+      },
+      "events:kx_claw_machine:/choices/0/result_text": {
+        "source_sha256": "03dc08692fa1fb19e287f0a0cc762b43332b1b025e2bfa3966cf04fcebb01cdd",
+        "target_sha256": "74f275ddf9449de36e77e2c351487bb9abdc788927bc3e029c3dfe89d9393618"
+      },
+      "events:kx_claw_machine:/choices/0/text": {
+        "source_sha256": "6a765c4ef229cc99f7f8ecc93de66760facf87f947e1321a6f979f30bd66dc14",
+        "target_sha256": "007c021ba7bea20571f392c48b75efde33203e57e582e816606e0193beeebe00"
+      },
+      "events:kx_claw_machine:/choices/1/result_text": {
+        "source_sha256": "4e369a1cc1b680760127a8285621d2e6675302b80a201e82477f478038c57ad8",
+        "target_sha256": "000e00ff62d6eee90eb3acfa4f533e3e893f6847be2b8400c73e74d43ece8e49"
+      },
+      "events:kx_claw_machine:/choices/1/text": {
+        "source_sha256": "4c5d8724cba58e7de5f014ee56ceca613ec0c3a857b3bddfe13366e9e9fa744a",
+        "target_sha256": "e3679002cf1bd4c4869cabf7466bfba9a0c0589d1cc2aaa32c72a4a41d87f061"
+      },
+      "events:kx_claw_machine:/choices/2/result_text": {
+        "source_sha256": "bdd054bdf31ed27d43a4b4f9b48d2ba21959f98a5151fe847d35c48e76ac32db",
+        "target_sha256": "fb15c37d9cdea7ffbece75308576455354c1f75e90087ad3866837528900c306"
+      },
+      "events:kx_claw_machine:/choices/2/text": {
+        "source_sha256": "3d2b0d5ac371c4ce2a7ea2daf072c842dbe511e1741c38069f08d0d44d385975",
+        "target_sha256": "77a49add6b36c59d53fc28f302839bee4f85a909b5f3195301445f96beb90be8"
+      },
+      "events:kx_claw_machine:/description": {
+        "source_sha256": "8504e593b14c5952e10bd805e0d4328c35aa6bdcf9ec664baae0692f6bb1c2c5",
+        "target_sha256": "abf7a0141a1008c65708fc59e352ba65043f28cce428dbc9b13cba9d54fae956"
+      },
+      "events:kx_claw_machine:/title": {
+        "source_sha256": "48416ad79073813573be537f9a4f7763e8d88a95629a90cb69d7760be6e5d1f6",
+        "target_sha256": "c381cec7c31389aa74195030319a1ea540fcb4684af97bf0e33b4a1cafb35c46"
+      },
+      "events:kx_coin_noraebang:/choices/0/result_text": {
+        "source_sha256": "b7924938fcf2aa516a43aa6234bb725d45d105b865db51310d217cf566667e36",
+        "target_sha256": "153c3a2bbe2452f3c22647064d629b124f3313887fb065368b68648dd0603d65"
+      },
+      "events:kx_coin_noraebang:/choices/0/text": {
+        "source_sha256": "dc1b608d5ac76267846603c5b054ad3ec197cd395ed6bdca202479349492ca0c",
+        "target_sha256": "12bb2571ab88582139a2dcc8b2564c05370eb980fb5004ae067c8a6ca216e5fc"
+      },
+      "events:kx_coin_noraebang:/choices/1/result_text": {
+        "source_sha256": "e6a915ecb4b055668325b4a45c78d90daf7ae4f3a566f971c856344b0cdca1b4",
+        "target_sha256": "de12f3c2e6df4434ef688405d8f3a20350f40e4986a980ac736e18dca743c055"
+      },
+      "events:kx_coin_noraebang:/choices/1/text": {
+        "source_sha256": "66bbd8c163d8b5f78c0231dcbad983d1351322fde3fd13491e2c6b7b55a53ff2",
+        "target_sha256": "3b20897cc7343642e30b321c9d471315d0b8c0b76a0221a2398c37bad8708278"
+      },
+      "events:kx_coin_noraebang:/choices/2/result_text": {
+        "source_sha256": "cef9539551cf74c733d5c5ff96859b9652189c8ebb7a4846583795c3cafa9c31",
+        "target_sha256": "a6e4924d3633661706cbecdc7f71f161e9781f181fa5dbc5bca0f1e97c9a548f"
+      },
+      "events:kx_coin_noraebang:/choices/2/text": {
+        "source_sha256": "128a25b620ea3ed3011fcc07da1e2493d69ae1495ddcd04c3366104d586277c2",
+        "target_sha256": "9fba3fc687d01f80c1f6a3bbae776029534d5bb939c9eb2eb96909c4ec9c3608"
+      },
+      "events:kx_coin_noraebang:/description": {
+        "source_sha256": "767c55020a37f1060727bc89525b69e48a22f4f67fdc3fc93010dd38821fee71",
+        "target_sha256": "822e03c079403c1668438f91ecf85d400f6a3977e9bf877e7c6ca3d04139bf79"
+      },
+      "events:kx_coin_noraebang:/title": {
+        "source_sha256": "f7ef4c9f22488ee3ecac26093849ce6a8c33b7fe18c233cd448928be63cdc6cd",
+        "target_sha256": "bf6b5b0a12a9d2e280db1c3219e71dc9d79a82c55461a1a167936554c2ca030a"
+      },
+      "events:kx_cold_snap:/choices/0/result_text": {
+        "source_sha256": "a2e22b9e06288a7c4bec078f4ef1a35bd9977035c91e77348a8371fe0c1a430f",
+        "target_sha256": "1854fa47a781b8fd8b7c24fc165cb58f408d673442672ca69e4208e1b8f366ed"
+      },
+      "events:kx_cold_snap:/choices/0/text": {
+        "source_sha256": "fdaeeaffb84290048094abf5fc390c74ea195a043cc602388a16e70db57ef2ec",
+        "target_sha256": "a64abe32a8972ad7e233ea49c46734e98025843088265e5784049694e049a8de"
+      },
+      "events:kx_cold_snap:/choices/1/result_text": {
+        "source_sha256": "554a0c468b7e97ff134dc47125eebd4a7b717f5b6731afe5fbfd77a6f60a1a37",
+        "target_sha256": "39e4598e113d19bea1738eaa0c9bb7642bec8e8163150e9b0b5bf4db16c3be13"
+      },
+      "events:kx_cold_snap:/choices/1/text": {
+        "source_sha256": "01ac6db4ccaba08fc5ab50948c2f121a852c716306991db5018a1b14340aa6e2",
+        "target_sha256": "0de8d47f3471cce9985a2dbb3353e0d1eb17a8a5f664e9cfb6ab8b67beb1f0a1"
+      },
+      "events:kx_cold_snap:/description": {
+        "source_sha256": "a57bcd898a19fe963b2537ee9a216ddc0e67f4c4026e6dbdeaeac619040d6573",
+        "target_sha256": "834f3c919900a7fd288cd3aa6ff4a7b76f1da5bd0417644defed460245e057da"
+      },
+      "events:kx_cold_snap:/title": {
+        "source_sha256": "f7da07ad0f751c8a8a180966f75c43b31c6cc3ca946a8bf76a8b80da750612ef",
+        "target_sha256": "029f84a43366e61c475686b59fc6f393a342768acdf8554d9a6faf2171a16eee"
+      },
+      "events:kx_english_academy:/choices/0/result_text": {
+        "source_sha256": "3c38c1b57fda680b10dfd3de4d76b7cdc1de5c3c2cec45c8310ad50840a54fdc",
+        "target_sha256": "0804804f3fddf30ddce91d3eca62ef265bd8ff15a02c40616d0432a304d8f304"
+      },
+      "events:kx_english_academy:/choices/0/text": {
+        "source_sha256": "6f4911474cecc68a035dd42e6446588e1c7b06b4a78873e85929dcf014e11603",
+        "target_sha256": "639702c47ba7a5e260937977d097d11a2fded39fa6b80b5657cb974cd1afd0e6"
+      },
+      "events:kx_english_academy:/choices/1/result_text": {
+        "source_sha256": "a9cc49b3d4a1aa5e23fc8f96c0ba43cdc4239e1b7d93edc0074e9f0827e7b3db",
+        "target_sha256": "66c4de19fca831ea6d856a517b6cea4c712e575a37728ba9577d129ad4ed4c15"
+      },
+      "events:kx_english_academy:/choices/1/text": {
+        "source_sha256": "ef106a2cb4148f11bd8c649443b8cedab3807a242ff6d9537c2a905d07f45d4a",
+        "target_sha256": "4551d5293d5b90a96eb2219f2e0d4b63e1c41d2c5b898fed4254f0f1269fa567"
+      },
+      "events:kx_english_academy:/description": {
+        "source_sha256": "3bb0e32f6fff23fc98b4d2e94e463d0878333f99cd091db3147d73dfd6fd92b3",
+        "target_sha256": "d451f00804329bf2c12998322f5179d8aa311056e30033f683ead020937f3433"
+      },
+      "events:kx_english_academy:/title": {
+        "source_sha256": "566497e78d05ba76a84b5dbc13561781c4cb4dbea9963617d4139d412eed9f74",
+        "target_sha256": "b0a3f4a4404aa5ebe64683175b47ac837937455a8760d71d6ab977cec1b7ed35"
+      },
+      "events:kx_fine_dust:/choices/0/result_text": {
+        "source_sha256": "412c8ea5aacea87f20ec136acb0c1d2e05b32d054b1bf2efef2e812b26b056ea",
+        "target_sha256": "10d928d718e7ac0882e7367ea01cc443cd6f2eaecc6793ea6449e0f206739171"
+      },
+      "events:kx_fine_dust:/choices/0/text": {
+        "source_sha256": "f4f82a2edb357870bae0e84e94fd1317f1ac773dd266060d6f1dcbdf0a08b3a4",
+        "target_sha256": "40f77c3496d0f2d9f8feeed0820349c7a801da151cf93f9b001ea61ccc3fd49c"
+      },
+      "events:kx_fine_dust:/choices/1/result_text": {
+        "source_sha256": "963cc782387df30a22467c3550c136750d80f3150b5d3be39e18f3504ed1b39b",
+        "target_sha256": "95872f82c0b5d0d579727df6efbde5cf04fdd6ae3d3fd7524ba2c6cd6d05d52b"
+      },
+      "events:kx_fine_dust:/choices/1/text": {
+        "source_sha256": "7860c308eded89e6efd71f7849b8650702a87c9b5237a50c5ac62c5d5fde3c16",
+        "target_sha256": "7d40f617ff4ba975a54fe198641962baad9a191c41194b469239f6b3688948fe"
+      },
+      "events:kx_fine_dust:/description": {
+        "source_sha256": "c55290071361033ebd26c043259a09d5a2c0d53fcc163f905fb20d2bdbff2d78",
+        "target_sha256": "825eaab2e290c5ed0de9e94f14f6cf5eff248b3946c77e316c14fb59a5011b5e"
+      },
+      "events:kx_fine_dust:/title": {
+        "source_sha256": "dcf70f4325ba552db50fbba1b970e311bdddd4924151fa85f5ae48038d465a90",
+        "target_sha256": "a1b93bade5654271ec4b09a35cdd4b6f0f531fa835848fa2a44b648fd5d52d82"
+      },
+      "events:kx_gosi_study:/choices/0/result_text": {
+        "source_sha256": "45b1b335e995ecd615dcd2c905c5d17fc64415f591f0630fa3bfde6ae8721634",
+        "target_sha256": "a561af441be8e14aa675d236655a381752e14a335748ab40acba4a4175fe7dcf"
+      },
+      "events:kx_gosi_study:/choices/0/text": {
+        "source_sha256": "0d8541de4f47695d3b71cb6a63fa279daf4574d2725644218806cfad114f82e5",
+        "target_sha256": "19b527659c8c1e0d1703bb0d2e36c6dfd3541515bcba39a756843148d9ae8d0f"
+      },
+      "events:kx_gosi_study:/choices/1/result_text": {
+        "source_sha256": "04fe6de5bdf56e42102767f8a422dd2606d0561d2657cf5ed7ca51429eea9d4b",
+        "target_sha256": "ae2e16171632c7968becaa9183a7c76f522d9f8440a6810906507a7a7b1950f0"
+      },
+      "events:kx_gosi_study:/choices/1/text": {
+        "source_sha256": "f2b9a7b14d4e4c6f933f110e13818a28e437e7f66de015111643c43cbfac4632",
+        "target_sha256": "8b41086319183c19b3d7450b16d552e1bfa2c134a41ef11cdd227e7e627bc034"
+      },
+      "events:kx_gosi_study:/description": {
+        "source_sha256": "fd26ea1667b604e72b7fb8681539301e05146832359e550e97b3b7dc2c7d304f",
+        "target_sha256": "1a0cf0549435f3d89c744fc51e33e8c9c177b8ee539f217572ecd411e5f1c922"
+      },
+      "events:kx_gosi_study:/title": {
+        "source_sha256": "95c1bb4593d9b9f6c8580b78a61e83e0c47ccc15a23c89098af0ab224f45c175",
+        "target_sha256": "dbb5aca462c4bd0647404794c8e18fba0e0ca0db6c95e705f82db2409905871b"
+      },
+      "events:kx_hagwon:/choices/0/result_text": {
+        "source_sha256": "83701a91b1dd7f531409bced3f5d46931b89ada9056e93b23c9b7a887b269faa",
+        "target_sha256": "b99ac750310be6beb9dd9055bd9125c39692fc7568f2f3c51dc9375ea451360d"
+      },
+      "events:kx_hagwon:/choices/0/text": {
+        "source_sha256": "8a8940cc108c0de0216193de3f38ec6ae76a6e26e62777ebefafca1f3ef78db4",
+        "target_sha256": "fa590b2d13cd003d86f64de55836dd1bc631625c0ce26906ab5d62ea6a020921"
+      },
+      "events:kx_hagwon:/choices/1/result_text": {
+        "source_sha256": "16a34262c2ad063aa326ed96755f6ff45336e8550b714f4aa15f5a29e91e0e82",
+        "target_sha256": "f025569b2a67a9a95fb4c524ee07dca76cac669c9d1300656f44f887f7e04df5"
+      },
+      "events:kx_hagwon:/choices/1/text": {
+        "source_sha256": "77d24e6a37691f778e7e4e767c5bcb7ff3bf5c6d8fede37630245ce948fc885a",
+        "target_sha256": "4295e596482c0055c1efc3ef903e043de35d850da8e2ba5574cc37d603ca32b1"
+      },
+      "events:kx_hagwon:/description": {
+        "source_sha256": "391b21488d95abf4d8c100323ca9f7ce5575961b8c8ab51e007cee2361b04874",
+        "target_sha256": "4b3de8993ecd5ccb681640f855b118017ada8e097f4b8173bf0f74e48e7bbbb6"
+      },
+      "events:kx_hagwon:/title": {
+        "source_sha256": "1739c0f28127f753d90d9ea0b9b4a1300be1fb4f6c8fbdd641d036c87db03fcb",
+        "target_sha256": "dd4bcfccd713f4f77a3db20ff50808dd53be14a0b2b51a808b8340a00f3dfb86"
+      },
+      "events:kx_hangang_chimaek:/choices/0/result_text": {
+        "source_sha256": "d20d4723f41868ac5d7bea8442289ba87653c0d7b1e5ad98d5e1edc196328c9c",
+        "target_sha256": "e2e5a7356540092f1377dad0f58a255d56dc11a5689747e4a20a6d68f77a10b8"
+      },
+      "events:kx_hangang_chimaek:/choices/0/text": {
+        "source_sha256": "0cf106ad8d0f259fbd588b58be9b4a44eeec5d5b867e7b281e62d06446631865",
+        "target_sha256": "c1f869e7e742ea7f59e91e199ee1c57efea2acbd6caa5b1e70643e53e2cd7059"
+      },
+      "events:kx_hangang_chimaek:/choices/1/result_text": {
+        "source_sha256": "e53e6b6060f1553ee400f6e36f859e23ebc4f68443dac8dcf4021c208db17e6e",
+        "target_sha256": "f7d36e8a5c7663d5d7f3b484ac9daf1761f45853feea4b08452dce980dc4a890"
+      },
+      "events:kx_hangang_chimaek:/choices/1/text": {
+        "source_sha256": "934f29e3e681256810bbaa5d748d11aea4dd426690fe2894e9ef219b46622e3a",
+        "target_sha256": "d6be8cd049ed612a52d95c1ae8373c4fda8b6781df9eb2254ca0ebaa9f1df700"
+      },
+      "events:kx_hangang_chimaek:/choices/2/result_text": {
+        "source_sha256": "187289e0937363aa1ed32bc8e83d7269390511670fd3713fcced84a3be5d0cc1",
+        "target_sha256": "895bca17e991365d527c58043d8c9d21d0cfd01d890d35366dc2fb3e5282e694"
+      },
+      "events:kx_hangang_chimaek:/choices/2/text": {
+        "source_sha256": "55a2e365707dc0a76dfe709015707fb1d6d65d04a5fb0ac97ff55996090a56b1",
+        "target_sha256": "854da387d4f7eb8fd5c43cef3115d3bf59379e5774ac05f8dba875d7ac093c76"
+      },
+      "events:kx_hangang_chimaek:/description": {
+        "source_sha256": "5f0f87d7101ccaff7c341661add3f90ba7c47ccb4336a3c7854f11e57a8381fb",
+        "target_sha256": "b160f3c411bd95e1eaa1f0d25b94be963ea0f1a81f09ee7506db4ace68f74167"
+      },
+      "events:kx_hangang_chimaek:/title": {
+        "source_sha256": "116bb00f761d0196dfaab969ad22c930e7baf5e30c7d32a10b463bf59dc634c1",
+        "target_sha256": "8ab7cd571d70c5036fbb33cceb4f3b4d8536b71bcab85f87443ded278d2a9010"
+      },
+      "events:kx_heatwave:/choices/0/result_text": {
+        "source_sha256": "298308044c394593e0be82372aef53a8de545e2a9454f3d2ae6c24f8d3fc4642",
+        "target_sha256": "3e04fb9c83f96db71ae9b280059a680d030bfe0784e90c845415f74b3895ca2a"
+      },
+      "events:kx_heatwave:/choices/0/text": {
+        "source_sha256": "57acbc4ccca7a5de34f89f2abaf7fea66c25de0584632ad2b1a9056942582e4d",
+        "target_sha256": "a5fa19b72848f0fb1186be881b410492c225e6f27539f832e514e7b173b9a6c6"
+      },
+      "events:kx_heatwave:/choices/1/result_text": {
+        "source_sha256": "c88265e37413d91b52464060d3e8bfa2574e5faf6a25c10686d0fb0c7f70195a",
+        "target_sha256": "0f6b5e792a2fd27dd0b552027e0e7204bc9100cb57556f34f5a42017824ff936"
+      },
+      "events:kx_heatwave:/choices/1/text": {
+        "source_sha256": "4c7e226ed8629ecfbcf9a73e69fce762fe963da3b11f97a20f9c72684710df4b",
+        "target_sha256": "b2f912fbd02c0f38587ba7d5f9e9f5f5adf3abff69cc622992d1e727440d051b"
+      },
+      "events:kx_heatwave:/description": {
+        "source_sha256": "8221927df49d694020994581ce151ee5eb9fea1549d031288b7d9f06b7dde3f1",
+        "target_sha256": "b634f0254092f318214a948c1f8a5641ec8b79bffa18b570506735c8af3118b4"
+      },
+      "events:kx_heatwave:/title": {
+        "source_sha256": "cebfc485b981d2eafb5ca0934d04fa2d3dd832701cc0e8efe8d82d660c7cb385",
+        "target_sha256": "264b9313fd22a60186acb6bf7cc4b64f1249bd3f3f7f0ac7fbb7e537028dc55d"
+      },
+      "events:kx_kakao_emoticon:/choices/0/result_text": {
+        "source_sha256": "152ec1c7a28c412e7594f878ccce3980a032feec92efa4bee2d89b0506476f28",
+        "target_sha256": "c0b4a017fe75323848d0f1aa4fe4aa4e94e7f8b575157865ce5b453901bce487"
+      },
+      "events:kx_kakao_emoticon:/choices/0/text": {
+        "source_sha256": "a9bc6098ba163865d6027600ac3b75b01128b4265c5d507b9b4f5001fe43c9cb",
+        "target_sha256": "60a9ffc47f764c399bf938aea3f6fd3d72e2eb5f31d09b401cec62520072bfc5"
+      },
+      "events:kx_kakao_emoticon:/choices/1/result_text": {
+        "source_sha256": "fa96a8ce74243a4bbc5021a545d65eaf70ec3e26eb34a18d3fc0af02b3c6a129",
+        "target_sha256": "cdf48ffad0c7fe3e7a48cefa865d2fac5d19239490d98db92b25ebda16a3c67c"
+      },
+      "events:kx_kakao_emoticon:/choices/1/text": {
+        "source_sha256": "629a35f5a6ef0b2b4006153f5540c4a110c436e058972b7304705943a5cc5a25",
+        "target_sha256": "22a027ec85c776a9543ec57d6483296633f2194c1dd91cb0b06e0ec2b4fc75af"
+      },
+      "events:kx_kakao_emoticon:/description": {
+        "source_sha256": "c1a08b839d1ce4205798a690d71373faebebf0f006575e3a6dfca66ada86c346",
+        "target_sha256": "5ba5b8db96986433ad457eda77b7ecc3304a210852ca28dec3c513fbf02ecc33"
+      },
+      "events:kx_kakao_emoticon:/title": {
+        "source_sha256": "922dc5b68372e6af22ab94efdee3472461a3318b04d45c22c48d1f59957a1834",
+        "target_sha256": "08ea9069aa830e9a03724bac8fa7bfbf50e5841b7a81ab38d31708da2c9c994d"
+      },
+      "events:kx_monsoon:/choices/0/result_text": {
+        "source_sha256": "43780519ae7aca980a0947970e2a14873c83b8fb7b9f09695b7f2820ab0b44b0",
+        "target_sha256": "74795b10128a5431ca60c2a1815d12e8e54baebfce1b095af0e5e383be0fba37"
+      },
+      "events:kx_monsoon:/choices/0/text": {
+        "source_sha256": "8ceecc9ae94b815943ce40b4f26c39412b1d819f77f425665db6ea3e64f89de1",
+        "target_sha256": "67b66b831e97f01c544842397cd427c387322f4f2bd9fac0f13d1d433fb95411"
+      },
+      "events:kx_monsoon:/choices/1/result_text": {
+        "source_sha256": "d75e991be462ee4edaed101515fba45a4b3b2108ad7d1b7f2feda3a5fb0cf9d4",
+        "target_sha256": "c924cde40fc87f2e7e72b844845bd83dd34a2d20c38e604fdbe9828cfd7f5533"
+      },
+      "events:kx_monsoon:/choices/1/text": {
+        "source_sha256": "b72efba99e05117a8a830ee984c4073b048fb0b6afee3646d7ed4b1d513aff57",
+        "target_sha256": "5df43313d394bc89ede69c02d376f1088384ae00d9e011906f3aa38096759c38"
+      },
+      "events:kx_monsoon:/description": {
+        "source_sha256": "7af66be39e5f0115235e683f153a18e63e8c6955bd9e25b0d767ee70f0c75d78",
+        "target_sha256": "d7ea4fd8aea53ed8ddcffbfc7fb2aee0723c4622374a79d2dbf86b216c44e1f6"
+      },
+      "events:kx_monsoon:/title": {
+        "source_sha256": "0276a9a2ed1e72159ce6944e9b13c46b5e48fb67969c8c57739bdf62ec8d2930",
+        "target_sha256": "0b40e7ba7876020f05b737ed1e6b808e7fbb716336ebd4bb6dae46e15e59ad03"
+      },
+      "events:kx_mukbang:/choices/0/result_text": {
+        "source_sha256": "437f467c2b06a6e841808c017ef42d215e38ba082417d062ff164fb75dbbe801",
+        "target_sha256": "093b4573e60ed6e7ba4e9338071d6d424896d0f5eedae7b91f1e367bee80dddd"
+      },
+      "events:kx_mukbang:/choices/0/text": {
+        "source_sha256": "9b54d42b66c5e2087333b74686b27dbfe664ca0c8131bf629e8644296b69206f",
+        "target_sha256": "9a978846c27ff14d5253b517e13361e57d008a061fd2f4987663564f9c0ae60a"
+      },
+      "events:kx_mukbang:/choices/1/result_text": {
+        "source_sha256": "bb8f9c066938ceaa0458595255efe0d88cb460a0d6596dcb0d8b88cf3af50c5c",
+        "target_sha256": "c46ab120f704dba9cf6a8896b738ae972536f3f1a0e5705a48a3f33421ec1f1b"
+      },
+      "events:kx_mukbang:/choices/1/text": {
+        "source_sha256": "29d1c063897f208953b955b2071cde457d13eee3e892460a901a70dcaee10158",
+        "target_sha256": "28410ef1d0819a7a52bf2b1434810256aaae2ecbfdf01bd82b2e01b2695ca4b3"
+      },
+      "events:kx_mukbang:/description": {
+        "source_sha256": "31947bc592e95c38a0473f62912acbc751e7a734f33d1147eb8caf9009bbd3cf",
+        "target_sha256": "2c72ec9dcd97c85c3745ce5797b995d6f0bb4f35272048778798543af243ba7a"
+      },
+      "events:kx_mukbang:/title": {
+        "source_sha256": "bdd62bfb839aecafb5004d787c58ddee9204f5480201eddcd596b64ba473c27c",
+        "target_sha256": "2727e0c5dd620a8afa9183583a8e89da6b33e6b59f81859a667de298da21c3cf"
+      },
+      "events:kx_namsan_tower:/choices/0/result_text": {
+        "source_sha256": "8c896bca3f13dfbd30891dc73156044bf88efd95a4c2e537de2e2e597a8469d0",
+        "target_sha256": "940d6dc43110a030130aa3a433915c2e6ecdcd618c6f19733ea26c77254eb7f7"
+      },
+      "events:kx_namsan_tower:/choices/0/text": {
+        "source_sha256": "c3187db2d3e4adb7ee8e013acbbb20031d9f3fb66309446f4064d64b3d3b41ce",
+        "target_sha256": "ba0e0bd6b553c4fe88471366df06d003d50c8e0731c4b6b279b38cfc6fbe4dc0"
+      },
+      "events:kx_namsan_tower:/choices/1/result_text": {
+        "source_sha256": "0d8c843af5d6103dec4e18a99f256176001c6c9134cc076801157b939d3c5cc1",
+        "target_sha256": "cbfe798a38bd85f0f7e8d20f1864e41fa5bd345ead5bb828ddffeed78f47fbd7"
+      },
+      "events:kx_namsan_tower:/choices/1/text": {
+        "source_sha256": "b80a6a07497823fa69ba04115e9c5421d547dcab3f5068ee7d3172be8d28d67a",
+        "target_sha256": "abd00e0a0a40394b4d99b35b52add62b47647822a788a2194de886fe0bde52da"
+      },
+      "events:kx_namsan_tower:/description": {
+        "source_sha256": "c7f793388b2ff3187b0ed030e663a766c5238566390db69ef5422aa3d9870936",
+        "target_sha256": "5eaca3551e18eafc9ee4a4e6247e8a7674b5b41c5960cbd33adb8822c5754118"
+      },
+      "events:kx_namsan_tower:/title": {
+        "source_sha256": "7d079a53d1b44a965bbd9496ddc1464d91b3c77b7857c74b179abce4856ffd3c",
+        "target_sha256": "9c80350265fe81bb5afe673cba1fb8a6c50c6ceab1442bebaf7c5b89b4c3ab27"
+      },
+      "events:kx_naver_cafe:/choices/0/result_text": {
+        "source_sha256": "57166ddf170f9dbb088dd394d26449481f7587a7df999dd6359d0ea8880297a4",
+        "target_sha256": "7c86d05c440e5e32bc69106f2f817b74daa16ee790d656e9c6a43dcd4cc06273"
+      },
+      "events:kx_naver_cafe:/choices/0/text": {
+        "source_sha256": "d9fd7106b8c8b60470d5f5beaa75821ce4857f2295537e3ce944cabb350f6abd",
+        "target_sha256": "9e6649a429c4fadbae2cd61700cd06eff543886aba05db439a416e347eb09685"
+      },
+      "events:kx_naver_cafe:/choices/1/result_text": {
+        "source_sha256": "c7d26b94c6a648cea611c3d0f41679d1d123ca688823ffb2383a23de4332d6f9",
+        "target_sha256": "2ec739041fbcaa2d7a2e458148df78f349b8df66ea496c8e6905f89ced96931d"
+      },
+      "events:kx_naver_cafe:/choices/1/text": {
+        "source_sha256": "82c0a7e9eadacfe2b635499327173c8b6f04c64aa80bd910c5e2cde1cd677804",
+        "target_sha256": "b0dba508e8acc24cd4e1d2c293eb34fb16c6190bbdde9e14c5f70bcc9ef3a1c8"
+      },
+      "events:kx_naver_cafe:/description": {
+        "source_sha256": "f2456194ee5cd07fb0144e58b10fec6939a5308767a9103218e61b00c7d87d91",
+        "target_sha256": "b61d319c328072a7c9a6b12633575d3d3c0c74fe57529db85035927a02f17d23"
+      },
+      "events:kx_naver_cafe:/title": {
+        "source_sha256": "7da8d31403a4f3aab12e1c43d3cdce2e96d58de2ad966597ffc620bb9897842b",
+        "target_sha256": "79f705d11a26d8ce091053d7bc112c248e578d8432928c95111ca0786b3aab4e"
+      },
+      "events:kx_open_chat:/choices/0/result_text": {
+        "source_sha256": "7aa325999ae1e5118c46b628e10f3b1f417bf51892d5265ef438d518721f996a",
+        "target_sha256": "0b17e54470abefd8feb1f79cb645dcea792a62ebd05a9394d7d6dd571e9d403f"
+      },
+      "events:kx_open_chat:/choices/0/text": {
+        "source_sha256": "9cc2d107c004dcb8d392e76fcfd637d981fdd13c2aaf3129f29b68ecd949f34c",
+        "target_sha256": "7a6a4fdb22588fa662185efadb70f49e70024e88df99de1ce9cd13311da631a3"
+      },
+      "events:kx_open_chat:/choices/1/result_text": {
+        "source_sha256": "f93f823b8e84f44c050237de8b3550237c384d003ef180d7aa0be67bfc90e97c",
+        "target_sha256": "df0ff3aa1550c97bb47d065db55fce2f227e5b648fd1c0f76c365393800156a0"
+      },
+      "events:kx_open_chat:/choices/1/text": {
+        "source_sha256": "9491d4ddea8068fec66508e89682e5da7d4d7054dceac53e680e13f0023bf46a",
+        "target_sha256": "2acd56f737a206ea2ce8975c2a496a56c0d0ce7722eb533ac8bbae5ac585f6fa"
+      },
+      "events:kx_open_chat:/description": {
+        "source_sha256": "555d257dbe5c663e7ea54ca8c7548050a1449113894b579c17d71bf1f4b5e214",
+        "target_sha256": "d973184a35684b426e9722d3459bc715bcde05ad8331ec408abe5d1844d57124"
+      },
+      "events:kx_open_chat:/title": {
+        "source_sha256": "d87dc2984928ad60653053eb8fa643f8c8540bfcb40da90c18de7b99772bc6c4",
+        "target_sha256": "3741c20ef84492e333c4a883e1d0dff9875a8de91ef8e1cde5ad315824cfa5e0"
+      },
+      "events:kx_pc_bang:/choices/0/result_text": {
+        "source_sha256": "8f0beaa4062d0b732b06b1838ccdd3db3593d9dff5e65f17990a69380d7e9c8d",
+        "target_sha256": "8c8e65270c8fca94bc401c65818d0461892673e2307763035506a2af1edbda1a"
+      },
+      "events:kx_pc_bang:/choices/0/text": {
+        "source_sha256": "13db11be2d1231c7ab9c3a32f2443a9adb90a868955f4834a51f821673529a5a",
+        "target_sha256": "6a5dbd7e2a0d8f47a2584d354a7df31706e4488fb9ac03a7427a8014ecc94e66"
+      },
+      "events:kx_pc_bang:/choices/1/result_text": {
+        "source_sha256": "4569ae7403a4e0020a75c11b117e344efc022bd4d36f90ee23494027410d6352",
+        "target_sha256": "4e5557f56e61c9c9a957b8bf4799e12b0933c8792eb721ac2a53c918597382f9"
+      },
+      "events:kx_pc_bang:/choices/1/text": {
+        "source_sha256": "c046fd33a001e574e4406f110f3409d2c8b49cbeb2d814ae1533ff1ea6022d32",
+        "target_sha256": "72e839aaa4376eb53981a084b75bbf991d070908cfc0f191c06fc7030389fa1a"
+      },
+      "events:kx_pc_bang:/choices/2/result_text": {
+        "source_sha256": "90d171a5f4b093e762ecce4ee8dfc20a6f5efea85bfd38b566bbef223929d63b",
+        "target_sha256": "113853a440438d77e9469a102bbd344f0c8aaf96093b9c27b7d45f5037249051"
+      },
+      "events:kx_pc_bang:/choices/2/text": {
+        "source_sha256": "721087217f46eb0d7b229cb44f1f6cc6f143999ee5dfa0b0229afee4a20755fc",
+        "target_sha256": "7ff47eb8fda92d54cfd16e6c94e600e79be68e8616d46015299d3c46257b424f"
+      },
+      "events:kx_pc_bang:/description": {
+        "source_sha256": "9468a6e97e650b55e7705e6f2645e3aa1b4c7cd71fc1a1c18bb345b5f5f61a47",
+        "target_sha256": "23f900fb8c2ed29d8a08f2cb99cf63d95391ca1544cce32213c1074f537dfbd8"
+      },
+      "events:kx_pc_bang:/title": {
+        "source_sha256": "dbaa6f85fc16b8ce05d18b6f460960f10428d0fe504af3a6d1040d22ee8f94fe",
+        "target_sha256": "81039fd74ca64535e3dc6c7c799bc0eb67db58607cebceb78f094edc4287f1b1"
+      },
+      "events:kx_spring_cherry:/choices/0/result_text": {
+        "source_sha256": "d37ee506902479ce1a96dcdc114f3ca01082c3bf0ca12f31e8cf690801a8013a",
+        "target_sha256": "7c8ccfb7e45521bcb45a59e88c6cf23cdccc04ec630cac8ca7118e91200f00c4"
+      },
+      "events:kx_spring_cherry:/choices/0/text": {
+        "source_sha256": "12599def8c3be8b03f657fe7bc6aca509ea0ff33cb03b2b271fd6784188630d6",
+        "target_sha256": "0f9d0446bc77ea84107a55812ac53577353bd189f9fee14d5091bfdca309d531"
+      },
+      "events:kx_spring_cherry:/choices/1/result_text": {
+        "source_sha256": "9d598fb56e6b931587fd56a533232f2988b96ddf62312b04c20083b97b152985",
+        "target_sha256": "52c652923b8052ed8cf96385366865bdaadcd6bdb815ea36920a33d13f506640"
+      },
+      "events:kx_spring_cherry:/choices/1/text": {
+        "source_sha256": "4cd99e3e72b09bc9fa78036c2a7268ad07496d5a6aa6533a2503325974d52d9f",
+        "target_sha256": "5f30777821360cb18edf2e20ca09ad00d96eda212a8ad4cf270f8153909694f8"
+      },
+      "events:kx_spring_cherry:/description": {
+        "source_sha256": "ecf79546a39553dc11f40674fe71fb4d76aeaac4737aa0f1bcf8a8eb9a0c2fea",
+        "target_sha256": "c67bfa685fbaed6f6fd7930f6552a9e3f1255689a4bc027c369528f4203afa0c"
+      },
+      "events:kx_spring_cherry:/title": {
+        "source_sha256": "6cf4d90ae3048ae9b1427f19fb235114bb99a4c7f1af9d77494051b059f73130",
+        "target_sha256": "dcf2b0c5db314601ebef4cee83aabaced86c9045aa988e1a4d56b0d1e1997246"
+      },
+      "events:kx_suneung_day:/choices/0/result_text": {
+        "source_sha256": "740ef376a4e294121fc7dbc384e7fb535d2e7b3a5080a4a8e1f19799d2c8222b",
+        "target_sha256": "4055e6184856a912b4a94cbe7824b2db0746f01c683216da9d621020632fc494"
+      },
+      "events:kx_suneung_day:/choices/0/text": {
+        "source_sha256": "8c0710cdcb04b2bac8dcbe0276100827deaa54f45b162d63642a8aa77e5da4e4",
+        "target_sha256": "a06682fe296487f2d38f478b64c17c5b52f5e5f51b6b019b328976a10bb4ca1d"
+      },
+      "events:kx_suneung_day:/choices/1/result_text": {
+        "source_sha256": "dd09d58b15cebf6409e43cb0c8bfa2349a491eaa4faf6590d370654193e831d6",
+        "target_sha256": "40922b6bf9fe85602dc15ad8e646748bf6feb1c97a0e05cc5558c397e9b2a97c"
+      },
+      "events:kx_suneung_day:/choices/1/text": {
+        "source_sha256": "8145f0c43f7c2ff5b18b63ccdf6b177d93ac8b3995f273019877c9b5411000ac",
+        "target_sha256": "f557d59e33bed2cf0daaea94fdaf74daf31fe14b7aff15bf67a6b46909b4c9fc"
+      },
+      "events:kx_suneung_day:/description": {
+        "source_sha256": "bf7ab2c787dafdb48d55b9952bd8ede82ace5af89a7723a07c86dacfca6ec45c",
+        "target_sha256": "655494e06285061d5b0d287cc53ffc76de94d0dff250c74a62f44b58e55e0ffa"
+      },
+      "events:kx_suneung_day:/title": {
+        "source_sha256": "063d5ec14439dc8c203797dbae4126656aac9fd18512d701be494843d9896859",
+        "target_sha256": "dadf18668b3c133db929aaec8c4a9d45a5af57255c5ae1235feacac4857de764"
+      },
+      "events:kx_viral_meme:/choices/0/result_text": {
+        "source_sha256": "005aea15ebb2e1546969484a6b359496b82c77cc151ce5aaaa40e3efc4bdc69e",
+        "target_sha256": "b35de5fad74632243fcdb75f0498743e502aa83284d34daf4ad9e2755e2fff88"
+      },
+      "events:kx_viral_meme:/choices/0/text": {
+        "source_sha256": "d974b6d7363f483043b9aab852d9c399205badb3157757db6e14a599ad295c9f",
+        "target_sha256": "861a026fb8591cd83531eae9d91be67fa1f8b8e6e82e448ad54f9cea1b850236"
+      },
+      "events:kx_viral_meme:/choices/1/result_text": {
+        "source_sha256": "b64990b9dea78e75244e8207962f6507975c3e5127a5264aa81cc58d04d2c77d",
+        "target_sha256": "b030d7ed631d2c700f80e4491d2484346d3b31684a3b3131b7276fc152e343ce"
+      },
+      "events:kx_viral_meme:/choices/1/text": {
+        "source_sha256": "ad8e5169defe7754f77d034bd7c82f8cc01c563c87ab65cf39093925d820a610",
+        "target_sha256": "2c811984950872d2f11dda4689b91ef38f6bfa55015105b653e08e0d19d71919"
+      },
+      "events:kx_viral_meme:/description": {
+        "source_sha256": "5f5594c38752ea3ccafe208b2dd12983ec8c11146beb8d12892b4c35af55240d",
+        "target_sha256": "de0a9e4b4350e4e9d0261c18cbea1ff76d77d32bfd973d405e38509af6f742ae"
+      },
+      "events:kx_viral_meme:/title": {
+        "source_sha256": "2f8c400a46438ea77b91be15ac7a6314b4df2f9ce3e533880cfa7874ac9ce657",
+        "target_sha256": "6417b6156c248bf52446662bf298aa3503ec4c776d1f4ae0fe749f6d68ca5e1a"
+      },
+      "events:kx_chuseok_traffic:/choices/0/result_text": {
+        "source_sha256": "e834e316e113cee015dca59d1bb8cf3cef204b977175cfd037b67ffda8d54cff",
+        "target_sha256": "d61bad1163b6f5f6f2c73f9b6819cee9a44136590c155a8fb0fdd609fe57d585"
+      },
+      "events:kx_chuseok_traffic:/choices/0/text": {
+        "source_sha256": "38938749ab68fe05479afdaa70e3f400f0389d5af1ae400df3dfd905f66625d1",
+        "target_sha256": "1cba6d5b97d9f333c1b94d36fd6ed0bf5a578755985934d40a7d19938f9aaa30"
+      },
+      "events:kx_chuseok_traffic:/choices/1/result_text": {
+        "source_sha256": "2767f2b631916d344803eea1b1d6f48fb3b0685b439dcd7a0b05a3233923a01b",
+        "target_sha256": "728ee9d1f258bfdaca6b656d8637737ab7dfecc2946e788e36c91bf56b0cf439"
+      },
+      "events:kx_chuseok_traffic:/choices/1/text": {
+        "source_sha256": "1c9c13da7dbaab042af83d9d7854f302d4ff55d197002b53418a8b096899f16a",
+        "target_sha256": "32040f944a56b1fb12d6b7d9ba152e2d50120d977a71797b8020192117934452"
+      },
+      "events:kx_chuseok_traffic:/description": {
+        "source_sha256": "e5f111831bc97c5aa21dd2299855019fcb1187544c802598e65f3db8ff6dd148",
+        "target_sha256": "987838c8e23f84a30776642297a8196f6b16935e7333b047674f897ffc24d4cc"
+      },
+      "events:kx_chuseok_traffic:/title": {
+        "source_sha256": "3ecc2ab58b23f4e47d1553da10535fcedf961fc518a44d1195cf2b77012f6875",
+        "target_sha256": "b45ff1bcaf5649b80de595b52d9424cdd0b2ee13d083baf3019a5f0ac3742b4d"
+      },
+      "events:kx_civil_defense_siren:/choices/0/result_text": {
+        "source_sha256": "3d0cc7fe25043d80e3c2087938175a574b6d3da326edbdead295c3d8118c2fea",
+        "target_sha256": "2558bacf4f34ff888885bbff840acc7cd507fa3780671cde48fe7b0c989ab071"
+      },
+      "events:kx_civil_defense_siren:/choices/0/text": {
+        "source_sha256": "efc120c97035c1915315afa25fb241179685531875c155a57d8253ead6cac3d8",
+        "target_sha256": "a3ef2402901959a7337f45f2015c88b4b3aa0d053d2a0b23c429c7e1a1d370bc"
+      },
+      "events:kx_civil_defense_siren:/choices/1/result_text": {
+        "source_sha256": "fd20d7f1ea4f3e360a52950274a868df0bdc8923ede23ee15d0323787ea8bd45",
+        "target_sha256": "66d0669ec361fb974e9617b769356a1f736ddc5886c67e90601df67d2f730a10"
+      },
+      "events:kx_civil_defense_siren:/choices/1/text": {
+        "source_sha256": "042e8fa3143d264e16002dc50a4ea44b67bb78da05363f4ef5ee343243b09b3a",
+        "target_sha256": "ad79af4eaf9fc1efecafbebadc67d656e12083593511e0b6cebe37707a78e22e"
+      },
+      "events:kx_civil_defense_siren:/description": {
+        "source_sha256": "af55dd3115cda3eada19f2ab6815fc1de32fca3ce1a9fbf0a727d8bbb92e9724",
+        "target_sha256": "872700b34fd4488942b0a263f6c90d1be7f6d38a816e0f2bbf25f4aa12ddcb01"
+      },
+      "events:kx_civil_defense_siren:/title": {
+        "source_sha256": "36adfd7a2fdda3ffc2a8d6acfa0e8200cd08caa90effdd9b965eda25ba08e3f5",
+        "target_sha256": "60b60f1d343133f39bcf625e7f37b7bf463a2db8feba084fc7a08d8237623dd0"
+      },
+      "events:kx_delivery_app:/choices/0/result_text": {
+        "source_sha256": "bfe5b3b0ed540ae4a4eddc7a6857015f8c41cc88251644fdf7f159478909f744",
+        "target_sha256": "5149dbe9ec6800fcd80c048a80e3ba4bf0fc78cf476f7466db136af36c24a0f6"
+      },
+      "events:kx_delivery_app:/choices/0/text": {
+        "source_sha256": "77f8f669a65acbfe41d4b6c506335c526f22902d74643676bb58313c0af91e82",
+        "target_sha256": "66a8adce891e9dd2b34e685e90eeebe09329b33a773dc34cdd6c94d5636ae630"
+      },
+      "events:kx_delivery_app:/choices/1/result_text": {
+        "source_sha256": "ab0711ec24a50ff6f2c8346df585241f2edc3ed0eff304c81241cd0cfa0cd535",
+        "target_sha256": "7d4065a31b912e8fbd55a8c5ee40b30935a62fad7dde84fd0b2da8b3d8c76d03"
+      },
+      "events:kx_delivery_app:/choices/1/text": {
+        "source_sha256": "1500ccaa89b8ac82654928e33e5d4993f9554b1cab083152bc05ff5c2a072c7c",
+        "target_sha256": "90c2136dc6566cf6d4abd0c840648ea8eb1de03e12a20d5185b2292eee7c271e"
+      },
+      "events:kx_delivery_app:/description": {
+        "source_sha256": "918dbc9d15eaf2e28874e8cf583afdce0242db93d4de6ab9c46095b3a0398b59",
+        "target_sha256": "a84254262e698e250e69ebf0aebb3ab3bef3695c0b35586447fb10cc0a1216c9"
+      },
+      "events:kx_delivery_app:/title": {
+        "source_sha256": "6122c45dbaeabe620676b76f598769738d9a6efee39c4e3848c837c4754f75c3",
+        "target_sha256": "ad4f7f33f38e6cbe835a276e06590575b8c54991ba8431f1ae6db859c061ed8c"
+      },
+      "events:kx_friend_military:/choices/0/result_text": {
+        "source_sha256": "660065ba61cb6ab6f80a184793cadd0cff8a644b8aac93e0ae9f76969ff4fe89",
+        "target_sha256": "2ee89d61110b875a22eacd091dfd8b7f0176914b1c5ea259b5ea6e4342c70a89"
+      },
+      "events:kx_friend_military:/choices/0/text": {
+        "source_sha256": "4c1debec131054e18aaac6ff07128f393cfb571a7b971a83b91032b21d47ca60",
+        "target_sha256": "d26b200b147b511aaa8ea2aea58a1d7fcfb2523ca2ab1209613ea1ddd5402227"
+      },
+      "events:kx_friend_military:/choices/1/result_text": {
+        "source_sha256": "b942587d39f8c3eb9f1226cd0a4dc4b338a41298b00501a49b56dddad4735e53",
+        "target_sha256": "516b06e3b3ba34ebe1b0777c115425e4cb1290125b92a67d4d611972c7172a97"
+      },
+      "events:kx_friend_military:/choices/1/text": {
+        "source_sha256": "3812cfc70fab9253ad435b77ce27fb006503714c31adee6b78c7f5a70305ce80",
+        "target_sha256": "2e518697db942114481072872084ec4a31912d72129fe73e97395ae966b4d2a6"
+      },
+      "events:kx_friend_military:/description": {
+        "source_sha256": "084a0902934ef6e51c6ac1c5d4b469b693707b989dd94f17345d2094726b2774",
+        "target_sha256": "da4f47dd5c22542eb73cd44d6c0399b5c3378c38b50224a41aacdcaf07e85592"
+      },
+      "events:kx_friend_military:/title": {
+        "source_sha256": "4fb9015b430d72fae5502a36f5b78c2dc5c397d3d0ab972469ff2b9838036c80",
+        "target_sha256": "d83ba3813baf5a2b62d40bbd4f1238c8b86809ec45bf31a2e2a6c496c7460e54"
+      },
+      "events:kx_gogi_buffet:/choices/0/result_text": {
+        "source_sha256": "a427025c833d358b5d93815562f78b03aefd29c033993184ba2b032828e6aaa7",
+        "target_sha256": "ef1f4c03e37ebfeca8bd2487cc743c836e62d082bcfb56bd4a48bca5ac061db3"
+      },
+      "events:kx_gogi_buffet:/choices/0/text": {
+        "source_sha256": "819509dbcf71e30961138840d25df6a804d9a1febc9f4ece9de84a23d0cb94c1",
+        "target_sha256": "b05aa00fa4ac9fd441dda5977a6c1bfca7e518c35a982a7ddd89d2ce986572f0"
+      },
+      "events:kx_gogi_buffet:/choices/1/result_text": {
+        "source_sha256": "0ae9824005abc2f92ac100df1f140df80e98eb18e767c30267d96190f84e341b",
+        "target_sha256": "5c356112a6c6f837477021d0d0118015e55a2104896e389eb1e7b972a60b401f"
+      },
+      "events:kx_gogi_buffet:/choices/1/text": {
+        "source_sha256": "095380b3163bade8345f5ce194a338d2cd7c44fcdeb060d19493092cf7212edc",
+        "target_sha256": "deba5681ccaa683ed24cd3a4591c27e2fd17a00e901ad8a5f5e8c2cc6e96b457"
+      },
+      "events:kx_gogi_buffet:/description": {
+        "source_sha256": "e479e4923dcb69969db1b977369aeafb372adbe85b9f0a125f6a5e960144d43a",
+        "target_sha256": "cc1064bd596da30a5c2d8a19ed60fec22c37fc59e526664110b514f2ae3aa14b"
+      },
+      "events:kx_gogi_buffet:/title": {
+        "source_sha256": "8b78b3f7f04d96c98261eeaac707a35e83aada428769f9ad165358622617182c",
+        "target_sha256": "69a5cfe5d6356ebc69451d9bb5ba714e11e3387356c74bfadfe105b7cf0d7d62"
+      },
+      "events:kx_holiday_alone:/choices/0/result_text": {
+        "source_sha256": "4d291a4fd5139eca466dd4bf364a20869763ab47593b0dc1e06f35180fbc2efe",
+        "target_sha256": "6ff45a9f86a2161b65833ae2cb4c4fad1bb739f3b8ec176d9dbf35d6c3a20b89"
+      },
+      "events:kx_holiday_alone:/choices/0/text": {
+        "source_sha256": "94f9bacebc6a2e6ab935346192e2f96dc327eda979c01fcc01bf6157d6e2f44f",
+        "target_sha256": "24069dd003b00c76da2802c5df0782f1f4f9ce354525216fb216d9337d067100"
+      },
+      "events:kx_holiday_alone:/choices/1/result_text": {
+        "source_sha256": "5bcaf604047c2a2fa09b7d2931c706d29ec7bfceef3cba267d33d432a64c4839",
+        "target_sha256": "ec3ece9025cef1669795fe7d4d07ba962f2891c854b204eeb67e1ae1296593ed"
+      },
+      "events:kx_holiday_alone:/choices/1/text": {
+        "source_sha256": "026eb3ec97765116a664e3f391661a308d2833c257b569d7f713994f88df2afd",
+        "target_sha256": "ad2e8d3d6aa8be2af4d43177175ada1db47c6fca641d5a98e795d7a86685349f"
+      },
+      "events:kx_holiday_alone:/description": {
+        "source_sha256": "ad901dc2f533a159f165dee98303d3695ba1271069667c0c5131d8aadf53adfd",
+        "target_sha256": "ded1cc479979276489217db249fc827cbef1c535ebfba257f302e2c8e68f0b58"
+      },
+      "events:kx_holiday_alone:/title": {
+        "source_sha256": "d8d4868104d9e7a4de08fafa4693acd4c44ed19d47636723b9f76ba69ba82d3e",
+        "target_sha256": "80ec340650de20122814e4a629b3d84e7ac7624d385e06187535ab0154216ddc"
+      },
+      "events:kx_kdrama_binge:/choices/0/result_text": {
+        "source_sha256": "e4040d966ea3ccadfeb90e77a1154651cf8941beba2e02c90999c98c536661e8",
+        "target_sha256": "9e56a7c26dcfd8204d67ac600a20bfaf43906eaacac39f71264b60be61e02b98"
+      },
+      "events:kx_kdrama_binge:/choices/0/text": {
+        "source_sha256": "4c46d4c64148d8f39fd7422f47d8b421f1393c05a14b23513ff8dc6cc073eee3",
+        "target_sha256": "168367235f78586a3af34cd9b3d8b4c247e5615ba0bcd7bb62ceecf65461dbcc"
+      },
+      "events:kx_kdrama_binge:/choices/1/result_text": {
+        "source_sha256": "6cd69abdfabfbbb0a355dd9e6f8f9b4bb8b0f0d43f34b18a5ae649db983dd527",
+        "target_sha256": "a03141a8ebaa776ae2aa13284007f913ef1670eed341422795f35016321b405b"
+      },
+      "events:kx_kdrama_binge:/choices/1/text": {
+        "source_sha256": "5ba78ea21f84c2d510cd1bcf04678ae7f4961b2ded9dcbe8998b9ec4bd4fcc02",
+        "target_sha256": "da5c0088b2defa027c3db2a47503899d40ff6866783a859b43657846a81d2c9c"
+      },
+      "events:kx_kdrama_binge:/description": {
+        "source_sha256": "7e4b42d88262fa91b4c9881d518bd7d85ce868482ab6884a7f07dd6668a69949",
+        "target_sha256": "5d3cc114619dd92350cf736a79b3dc425e15be5e1b9887baeb8a69d4b38e6c18"
+      },
+      "events:kx_kdrama_binge:/title": {
+        "source_sha256": "3cc0d1c5f5bbaa3f9df5487afa4759080d6050f2de6dfa646269952e4885b95c",
+        "target_sha256": "fc882bde101bd7ca062f4a37c83717e659c521591c3b940a9ad285cb4a269b48"
+      },
+      "events:kx_kpop_concert:/choices/0/result_text": {
+        "source_sha256": "1f451273af5413fc8e2809f5fdaee62a29fff6d709066d115597f33e7eaa2d45",
+        "target_sha256": "35d27e99920cac51fdb9fc61a719a7ef3f946038b4d8ec2dc56a03afd57c45d5"
+      },
+      "events:kx_kpop_concert:/choices/0/text": {
+        "source_sha256": "420e00dad978dcc2ca2ed767b116bb8a781aa260288037e000c6aa77439092e5",
+        "target_sha256": "2e66c15508659204230ff24a3573fc971db94ccda9f019bde1896a765f14e1ab"
+      },
+      "events:kx_kpop_concert:/choices/1/result_text": {
+        "source_sha256": "9c4dae286ebcbaea77781eeeb50203afa7085731cfe0ffd9d5a22c71e1112fe8",
+        "target_sha256": "8e4d95ac8b1eea231bc1223cab2d668a66fbcc1cd00ada77946aaaf4a7822799"
+      },
+      "events:kx_kpop_concert:/choices/1/text": {
+        "source_sha256": "2c36d82edc33658558e28a9f1520d93b3f5dd9afa7700cfa298fd3437ce96fb3",
+        "target_sha256": "8061b32bb539d90da0cc7fc984493eaa58bdffb6c1d2b4b854e8c61b88cf4b06"
+      },
+      "events:kx_kpop_concert:/description": {
+        "source_sha256": "2c9beb759acafaf5f563242cd58fd42af518bd934af0be56a8ff0b37098ce2ac",
+        "target_sha256": "a356aa9e8c15d4857067c0875a468fc1fed2b67c5bf5bd7cdae31f33a9c61e7a"
+      },
+      "events:kx_kpop_concert:/title": {
+        "source_sha256": "eb6ff249ab8fadfd79747db5ec699f051e79e3bcb9058b74874b5f5312cac803",
+        "target_sha256": "a1e35bac375fe73c6ce06a3ba438b44657eed4e9f02c8f0980cdde11aad7566c"
+      },
+      "events:kx_kpop_ticketing:/choices/0/result_text": {
+        "source_sha256": "6e31eecb8505fc249b94cdf0dfd9bca59d80707457c08a470531789e9f7a973c",
+        "target_sha256": "18a38fd2e443d02389cdc1962003752e9919b02d1fbae6fab9197121a98ff8e5"
+      },
+      "events:kx_kpop_ticketing:/choices/0/text": {
+        "source_sha256": "651002f9e7f60ea299d020b7858a5e3215be5fb8f91a8075646a2d6ec91a9d6f",
+        "target_sha256": "f72550ebe6279794ed568f9c7b16977729b8d2466ffd5fe3f14ac69c6db4eb76"
+      },
+      "events:kx_kpop_ticketing:/choices/1/result_text": {
+        "source_sha256": "481ae1fba1d6b80ff1b2e5ef19bd9d519253d047f4df991f9db85e41d747a0d6",
+        "target_sha256": "f00d54e6c0a542f19671801a7e71e86a4f8954204345bbf97c6a61c4612fe631"
+      },
+      "events:kx_kpop_ticketing:/choices/1/text": {
+        "source_sha256": "3fe7f4f675b55346d27fcd594ba676f2a98d63ba30ec48937310733bc65fea0b",
+        "target_sha256": "0e527c7d620e96ac33495e04400e96e602b80d23e97ad2b1a7d2475f1cc229fd"
+      },
+      "events:kx_kpop_ticketing:/description": {
+        "source_sha256": "6ecb060411183d254caeeabccdf35e8b22a52e6b0af094ca2d2b6364af75fa49",
+        "target_sha256": "b7f9a2d577cdc8a8bb62770cda45850d9d491014b2e3502fa174444b040c8ef9"
+      },
+      "events:kx_kpop_ticketing:/title": {
+        "source_sha256": "c27f328986bbc1f6173e1fb47e234d1ed92629bd1faa211c414ac35e72c740cc",
+        "target_sha256": "5a1c9a6be5c20686d88db5cca6621956d04876ba2e43de28d2c61bd8a2d8b955"
+      },
+      "events:kx_malatang_tanghulu:/choices/0/result_text": {
+        "source_sha256": "c1fe1086e19ec95da4d5012ad445e3276a2f0d085d2d5444b2179acb8cde2164",
+        "target_sha256": "8a0726df27d1718b5e6116bf61b60c41c160f143ad90ee539a7fd3ce7e028b50"
+      },
+      "events:kx_malatang_tanghulu:/choices/0/text": {
+        "source_sha256": "73ede24a52ad99e385af9e3c5515c6ce30f5fb897f9f9e8e6d75e91cc2351314",
+        "target_sha256": "cb56005beadf5d018cb30a5bc4ca2f160ff25b4923e29d8f66c2a8138ab1177d"
+      },
+      "events:kx_malatang_tanghulu:/choices/1/result_text": {
+        "source_sha256": "5980f78a0d5881778af51e5f49d23355bed937c1b544127fbae69056079a0d66",
+        "target_sha256": "ba28309154e9faee16574fb4ef33e99b888a6c6caf941f22d346406287c72cce"
+      },
+      "events:kx_malatang_tanghulu:/choices/1/text": {
+        "source_sha256": "2f13e4a6a6f31a9d4a7eef888f979ecdc8094d47b3f8abecaa028918ce9797c7",
+        "target_sha256": "a265170e78f5dd1be7ecc9ef2c706084aa82d39775107e00af37d604b266d339"
+      },
+      "events:kx_malatang_tanghulu:/description": {
+        "source_sha256": "7216920f6a793a6ef51fdc0c1b4ad774fde411795975b5aa0d73396e579242b8",
+        "target_sha256": "0154f29dcecb8338cacb6da848aaa98bdc69d792d2e4dbed6328f6310a099120"
+      },
+      "events:kx_malatang_tanghulu:/title": {
+        "source_sha256": "1ee44e83fb36626b7c906c3fe3d9f87333bea9730404d14ab840b194c64a98ca",
+        "target_sha256": "763c97a7748f9e5960c6b1895cf7782721f8ebbe841557cf6526f04c2a726e67"
+      },
+      "events:kx_north_korea_news:/choices/0/result_text": {
+        "source_sha256": "22151b852d719dc0b9cde6aeda87b165087c1de07711dc5c4445932f55c5297f",
+        "target_sha256": "bde264497b0646fb52c6c2d91e90d957d321faf14ef2b6aca03b2e9cabfa5e81"
+      },
+      "events:kx_north_korea_news:/choices/0/text": {
+        "source_sha256": "52a008e3ffd56860997d363ca0dfd83f58675033449d80cbc09dfe98f39d8510",
+        "target_sha256": "026874d41f8de76e31612fbe4e53e1aae4bd967127e539ea6dfa345158faa1f2"
+      },
+      "events:kx_north_korea_news:/choices/1/result_text": {
+        "source_sha256": "84c37dd21acbde1f336f41ecd50fef8f3881879fd915752ffd4e1951da43112d",
+        "target_sha256": "70aeebe2a0e2844646a3162128262de18c6b00c09ae890538512a00848f2801a"
+      },
+      "events:kx_north_korea_news:/choices/1/text": {
+        "source_sha256": "5e7e9d6cf41f5963b862756472787bb47c2c8a1f1b05a18d96b62e644be84700",
+        "target_sha256": "290ca97426879bfa6c4de43505e0bf67d935554106b56556085edde386d6913a"
+      },
+      "events:kx_north_korea_news:/description": {
+        "source_sha256": "8d0cff7b5eeff708b929975dcf31adcd118718c6ba3a83ba5ee4a874e738f5be",
+        "target_sha256": "f33dd8efedd2445d530b48506374d8c97e78fe55659012261e9cef21c468fcb8"
+      },
+      "events:kx_north_korea_news:/title": {
+        "source_sha256": "13a31eeb35e214998c4b62a23dc798d0e330c1b6dc645ee72e73111fc734c8c5",
+        "target_sha256": "b7d3cb7dbc545e361a4dc617044a6810d1cbd57a8a7796c189d48c7999f6833a"
+      },
+      "events:kx_photocard:/choices/0/result_text": {
+        "source_sha256": "8bb06b94e9863a7a8580495f0b0850133a804c050e2a34b7adc79f63e6686f38",
+        "target_sha256": "9776ee7060d010c1f1ee680507fa62c4778a79bab7c54415a97331238ed32b61"
+      },
+      "events:kx_photocard:/choices/0/text": {
+        "source_sha256": "7408e06327aa1c69b9e8794c37082b0dbb3ba1852e637e4ca2d5a4f33d46a4a6",
+        "target_sha256": "55c3057a11a304a9459d63c2f30ae73466904ce5d1ad0efe06b3204e03c19035"
+      },
+      "events:kx_photocard:/choices/1/result_text": {
+        "source_sha256": "74879e2ab9f4235fe6a590ce84c04b4ed4a130a803c0c2972249db9e9b615cd2",
+        "target_sha256": "46b80b69f6c4ef0523c3aaaed91e8b858697f7e1a35d0904f13c4849db296c77"
+      },
+      "events:kx_photocard:/choices/1/text": {
+        "source_sha256": "61f7e82f25148be17092793729277e4afd71a89b04524ad7185ff5b1c076e23d",
+        "target_sha256": "8d65572550f0eea718a249bd0a4f7fbee622fc8d835b70641ec3b45322903968"
+      },
+      "events:kx_photocard:/description": {
+        "source_sha256": "0c91e6d7c6dd086c20a9ce954597b98112856598c0928d5f0ad0202154287b3a",
+        "target_sha256": "d47500b76ef948e7322dc98ae4a59a3e575de8a9063df6d83a716adf5f57c816"
+      },
+      "events:kx_photocard:/title": {
+        "source_sha256": "8f8536eebcf116de29e6248d84ba2023b99b0df339eb4fb2be781b9b3aeac61c",
+        "target_sha256": "10ee0fced49b999341655a737908fc3044d97ef8f1af9d4f5b5283f9805f32ed"
+      },
+      "events:kx_reserve_duty:/choices/0/result_text": {
+        "source_sha256": "cd35bf2a5acc9992cf2d397ac6dfe3d9088167cd828efe1ec7d85274e637f835",
+        "target_sha256": "cde3e4ff9417deae01f5d6b4107d4143a9bdb41ca7468dad98839dbbb87d5f36"
+      },
+      "events:kx_reserve_duty:/choices/0/text": {
+        "source_sha256": "e78036d35e6bdf8cb974bf6e2110bdf96f332e95f4ce5ba168fba580c26ddb5d",
+        "target_sha256": "61a756a3295ef41ca5d810f3722558fd873b3d297bc16db85e649fecae6e345a"
+      },
+      "events:kx_reserve_duty:/choices/1/result_text": {
+        "source_sha256": "7cbf689c353c286217a87ba13370830683fb2b32f2a4802ac590d5f4602868ee",
+        "target_sha256": "cc28b3ef59f5c4c71fe997dc28aa216d3ae325df3e2d6c14d1c61a8a9afa7d92"
+      },
+      "events:kx_reserve_duty:/choices/1/text": {
+        "source_sha256": "f29df510fc8ad54dfafd35d475b8358217bb62a8544d3ab2c9b17786ce6f89f7",
+        "target_sha256": "090b0319e7649d858b0ec182b11386e89db6a21f2c4e2b38f5a651088ccad29d"
+      },
+      "events:kx_reserve_duty:/description": {
+        "source_sha256": "a35524f3dcab3a43723b0aa9736a34eae3f344d7e7cdc2833b9887037cba451a",
+        "target_sha256": "21c16ad62fef3adb441c54dd72cd829854827762bfc378c8fb6419ae02bbe2c7"
+      },
+      "events:kx_reserve_duty:/title": {
+        "source_sha256": "64f27070cd50cf5ecf3ac55ece4890bb07bbb7e5b738d77d669ead988e3fe788",
+        "target_sha256": "805293b89cb348cd7827aa161615f1cda7fac6116bca0543ddc59d1514ca3b30"
+      },
+      "events:kx_saju_cafe:/choices/0/result_text": {
+        "source_sha256": "8ec42b441cdaac968e2299800cb5e280de5ad3174e0cdf93f0348f2aa885f660",
+        "target_sha256": "21c9a6123f04a574688a9da1fced80365aec62d9312bf9e7ac4eba280cbdbab8"
+      },
+      "events:kx_saju_cafe:/choices/0/text": {
+        "source_sha256": "34d8734c46b0469a436b7642bbf91dd75c4f19f1ef067b71bd176b9f2e0ec670",
+        "target_sha256": "c3ffe5e0baf63d4797efdefa2d98839c90b9f96f0fd010b1b637ee7bc1990937"
+      },
+      "events:kx_saju_cafe:/choices/1/result_text": {
+        "source_sha256": "2f75643e22c3c1480d4e657da3c6c3a77ef80dc35ef068ee85bd2bb5f9edbf43",
+        "target_sha256": "0c6e36b7b4d40041d048122bd8f21b8635c300edfc4dfafe651f124455cf2d72"
+      },
+      "events:kx_saju_cafe:/choices/1/text": {
+        "source_sha256": "b669897938996514e26d793458d843b791ba1387f8c45ae71744aa4025952e27",
+        "target_sha256": "6b58b07173c835a640d5b768e973abb4ce09874b1220d2f47295cc0ff21db1f0"
+      },
+      "events:kx_saju_cafe:/description": {
+        "source_sha256": "8161ab8606afa31b0f36c3dfb8b1c8c32c6cc7be38ffa9def88bab065c9f0467",
+        "target_sha256": "6909af91a47d088696641dab772234901bf6ac302d0dae4b5419e5708ad4aecf"
+      },
+      "events:kx_saju_cafe:/title": {
+        "source_sha256": "cdf5dd7d94e81ab307d6dc2f53506fa5d483b517ee80a980d7a36d4c5d3f2498",
+        "target_sha256": "d856d85654df646ddbc56a0cb65051fb11cb76b2b5b973c647071fbc41faed28"
+      },
+      "events:kx_seollal_sebae:/choices/0/result_text": {
+        "source_sha256": "309b485f66e1036ddf1b36be7a788dfb5ec40875d34945bc0e40c4d6c58524bd",
+        "target_sha256": "a3310c78488e4b9da1971c7d807595037f8b961c3683bb76c18bdacf14c61850"
+      },
+      "events:kx_seollal_sebae:/choices/0/text": {
+        "source_sha256": "d4e072c6b2e009e072d7c460b199094e3b6efbbb8012b8f237766fae36785372",
+        "target_sha256": "79cb1a4c1ce5ef489f1af5a9dad361d9664e912b42b4391ff258f4bcfdcd3fe4"
+      },
+      "events:kx_seollal_sebae:/choices/1/result_text": {
+        "source_sha256": "f8380a57d645118dec47b19ec77efd5edbc985bfcc5e7f1155be12e8400bd438",
+        "target_sha256": "a428672d69df7025c87616495eaa94fce8cebf9d16654df52a0cb86797a3d01c"
+      },
+      "events:kx_seollal_sebae:/choices/1/text": {
+        "source_sha256": "6709b0ffed78ee6790fc4193be8ba45f36b866db25961a727891cfd115a98071",
+        "target_sha256": "4b1b4db52110a1f9ba12107abab9819f38649ba73b86976ac731c83e61431272"
+      },
+      "events:kx_seollal_sebae:/description": {
+        "source_sha256": "6701123ee644e0a88e59da4b5aee55ed1a3e836387c17653fc3b8228640f4cac",
+        "target_sha256": "cd4f4ed3ee28d3cffed48c9bed7db0dd94ed2517f85dccea6a7562ef7c79c00e"
+      },
+      "events:kx_seollal_sebae:/title": {
+        "source_sha256": "a33ce5070160343e12716176eb8ade2819e58d7c4a930e32eb4507d70cf4e4c7",
+        "target_sha256": "d60f5161973964cab4e0253314742d85a9cee9350a7af84680a1362c0db75a53"
+      },
+      "events:kx_street_food:/choices/0/result_text": {
+        "source_sha256": "d55ac7fcc3075f6ffaae330ba271349b34c7c040d3194af904a906a222bb50ff",
+        "target_sha256": "4557664c65107b2e2c3506b5f7b0f6660c0fa3a0a44d484f8c183e0c73c5910c"
+      },
+      "events:kx_street_food:/choices/0/text": {
+        "source_sha256": "b433b9f9c69d59775bcedfefded2d8b65e63d897a329fcf5eb4ad4464b9e4795",
+        "target_sha256": "89a9098078078e0a6d812a58bf0ddc355a24c0f6f0598e11906e02d91ca4f9ad"
+      },
+      "events:kx_street_food:/choices/1/result_text": {
+        "source_sha256": "97eb64d5ad8a561df5ade50d755570771b75c92cf5e7a058987a66a4d6a55dc6",
+        "target_sha256": "40076b313c3bb19691f823d8b55b6a4ce141f3a1109143899bf665d781750bf1"
+      },
+      "events:kx_street_food:/choices/1/text": {
+        "source_sha256": "c3d9fdc4f26e9c8e20466cfb018c71392d225fb7a41fb32cab8dae2e004a8cb6",
+        "target_sha256": "b1b8c79f822e00d1089550cbf89bc6cdcabf76feec449fff53b8f85e2f380d41"
+      },
+      "events:kx_street_food:/description": {
+        "source_sha256": "6547c33c73cd4ef7dbc5cceb41568fb61bdbb2ecd100b8bfea80f22a3451efb0",
+        "target_sha256": "4233431ca7edf4d869bc3b7a8a930f2becf618359092cc3c8e8321794a1f76c3"
+      },
+      "events:kx_street_food:/title": {
+        "source_sha256": "9bac99fc118c652ed174b23f9ff0cdde096d0a8c90681f59bec63c4141d7b4e6",
+        "target_sha256": "3caec99ed61abfb49198f385bc6a5a8f714335c0486c847c81c3b646116a43ff"
+      },
+      "events:kx_tarot:/choices/0/result_text": {
+        "source_sha256": "a63a6ad91eda45a1deaeb65d6de54fe9fc6da87d99b610d855e761fc192b9b0a",
+        "target_sha256": "702e0b1cf08ccf7a78c9c496a57d06b8f879da3817e2e7d5e5dadea12cb9bbe4"
+      },
+      "events:kx_tarot:/choices/0/text": {
+        "source_sha256": "a89dc7fdd68f491a03d9fb2647ea99d4a16227350bd74de40deedb6a46aba569",
+        "target_sha256": "3d7cfeb1617047ca1cad89875a1d8c74fa01f19973582daf9e1bcd30508f300d"
+      },
+      "events:kx_tarot:/choices/1/result_text": {
+        "source_sha256": "aa4e5705bfc630e3a4f80c656f83c6882bc7a17b4a6ab92baaa87d48bf7c8028",
+        "target_sha256": "308d963f5d95c6809e63fabf019a4adf5ae1a6aa975e3647ab7e8402417790ed"
+      },
+      "events:kx_tarot:/choices/1/text": {
+        "source_sha256": "4572f91cd457be1c028883a9482adebe9c01a5c799b3745f113137c8d8dd4b5e",
+        "target_sha256": "2c30033350a4f3bf781cf873c9cc988aff78951ae2c8bd4ee867cb5335555398"
+      },
+      "events:kx_tarot:/description": {
+        "source_sha256": "ff23850571e4ed123403af2e43f50872c3840dce4f2464c189e21b633c15b7fa",
+        "target_sha256": "fffd66dda9f6b0003ea29541a7b331c468ba00485b9a52402c20c4e8a512c210"
+      },
+      "events:kx_tarot:/title": {
+        "source_sha256": "b9e73aaeb85f3caa24996dcad7abe75aa424910dbc470bed4e1142dbb75b744b",
+        "target_sha256": "7e71e5fd50ad244665a912d967a474a4719d847c2f6bfd0e7697ce7629391dcf"
+      },
+      "events:kx_tteokbokki:/choices/0/result_text": {
+        "source_sha256": "c53b6f4e17e0d31ff989d121cdb65757ff5eaa83f1048b56c4bd2c15bd9f7e54",
+        "target_sha256": "08c4ea59308ed458daaa1d50cab4fd717eec56e1d8aef71322d2da2226a367be"
+      },
+      "events:kx_tteokbokki:/choices/0/text": {
+        "source_sha256": "f443f7b9df64fae69099d448d72e090a06f46017c864edeb2983acfebb19030f",
+        "target_sha256": "466593cb2467e2387903d59b16fbf530f481320f47c077d2edb200e2035a226e"
+      },
+      "events:kx_tteokbokki:/choices/1/result_text": {
+        "source_sha256": "57004342d28d4b40ae94714ebdbe4dd2b71b072b64321e5c78cea2320c15c7d5",
+        "target_sha256": "98583c7cf37199ad8639bafc774f33c087e219aa50e690274aca7fabd353991d"
+      },
+      "events:kx_tteokbokki:/choices/1/text": {
+        "source_sha256": "4b9be3a5b024d9a581f03ea9b4573d7edb4d6c257db86d752b84f196f3dc35ee",
+        "target_sha256": "a96c061ba913316dbec5070909a437577bb0dbb5fa3ef513a231220de055cdfe"
+      },
+      "events:kx_tteokbokki:/description": {
+        "source_sha256": "7b1e2ff54b67993d3dd25145f33388fabfc8543c64425bf50fb9b89f02129cf2",
+        "target_sha256": "2fac01a6c95589921d20914e5e999d82f4cdaaa1d151b1aa9c0e6a18f39d95da"
+      },
+      "events:kx_tteokbokki:/title": {
+        "source_sha256": "f55cdc8d3dafe6a343bcbc304fdf1ec1a2e58f6c4413e90a320709fcac5358ff",
+        "target_sha256": "946b26ddf3369049147f0d3996116b4fcce2c1449577bde805182e1016625387"
+      },
+      "events:kx_us_korea_news:/choices/0/result_text": {
+        "source_sha256": "41b4ffbe53d7b89af6409b44c974c68ea904562e48c562b879ef51bcc9d23952",
+        "target_sha256": "73319fdc40878d9335d30f653e7161dbeed47ba8214534706a16cbe78856e735"
+      },
+      "events:kx_us_korea_news:/choices/0/text": {
+        "source_sha256": "fda8dc1217f86de524df21802d7f2937bd4f164b853dd39f0bb80721c3d4164d",
+        "target_sha256": "c8c6f15322dffad232d82fbdd33a6b8937833831edb288448011c21b99d53e86"
+      },
+      "events:kx_us_korea_news:/choices/1/result_text": {
+        "source_sha256": "932eee2d342cc2fbb308d93adaa06a615f8cfac08a6a0ba5d06aaed6fc892731",
+        "target_sha256": "e2c3006ab232ef1e65e206706db395d3288fd9f5ae19cf5c0fa14ca4bdf53a94"
+      },
+      "events:kx_us_korea_news:/choices/1/text": {
+        "source_sha256": "6b04d99d9c47adf540f2f32e4e6185e3f7210f263c97c86aea52881ba32d39e8",
+        "target_sha256": "0c15a7af27ad50988327d9d1bc96857db7ce815365c40b0e0ccad7d8b2f3ce4c"
+      },
+      "events:kx_us_korea_news:/description": {
+        "source_sha256": "31cd234e19c75208a5fd8b717987faa894807fe187ac43a89529274e8e748e4d",
+        "target_sha256": "5b3d1982dd82ff841ff2fdb5ec0aff4a2f8fe01f792ce20180c817327d97eb61"
+      },
+      "events:kx_us_korea_news:/title": {
+        "source_sha256": "39c6f8de52a25025462b39c6d60cb4b0d0b9d882f0f28014285771937913cd25",
+        "target_sha256": "7b9c41d26f46da45a26d8e3ea9583ecf09d5ebbf524f0ab9a324d7f0471f1423"
+      },
+      "events:kx_yearly_fortune:/choices/0/result_text": {
+        "source_sha256": "5ae73b9eabca7207fdb5fe0baae0125e53fa41b34abb26b4775b6cfafd971ed6",
+        "target_sha256": "939021cca6d9ee328e5497ccabe24c59cfff26ea1dc662a6c31b45086efdb279"
+      },
+      "events:kx_yearly_fortune:/choices/0/text": {
+        "source_sha256": "e18ab6ce8f0787267c6e4061c5cad9fcad1435f726bf07de81ecff8eaffafeab",
+        "target_sha256": "de0e6bc8ad43c7c054f97338b7cc6c71c84869d213f7f8e9afc1ed6035792215"
+      },
+      "events:kx_yearly_fortune:/choices/1/result_text": {
+        "source_sha256": "8f2308a99befc22d3d922e904b2c2466398bb42e960d4456797441f71455051f",
+        "target_sha256": "a62e2c61e7848e5b83a08152391e27ed7465778dd29d6c49c7a916afe0273dab"
+      },
+      "events:kx_yearly_fortune:/choices/1/text": {
+        "source_sha256": "2572bdeb43902aeb81d5e4d6ef6123033670322c8558e7fad1244f429e2e44f4",
+        "target_sha256": "8a1f286de85e1af28da9d31f8b5ff85a85b27ec7f04e37bb173bfb79dd8070be"
+      },
+      "events:kx_yearly_fortune:/description": {
+        "source_sha256": "decef64b43ddfd8f49eaeb82f9a421240e824cb15f7087ec10ae426a694f4e2b",
+        "target_sha256": "7a2782030671bedaec06a3b4e473cdb48a19b3b0f996631326c7621bc895e7a8"
+      },
+      "events:kx_yearly_fortune:/title": {
+        "source_sha256": "c66a7a61ea95dbde0a25d1d7082c63dc7a387b55e298a7470e027b7152d4253a",
+        "target_sha256": "4a09bdf668bd3b7503ed2b6b9aa55ec37416bce5948e35b19a322f25266856bc"
       }
     },
     "zh-CN": {
@@ -82445,6 +83484,974 @@
       "events:unorthodox_underground_network:/title": {
         "source_sha256": "2454092789a61a691b019f466ea668ce6873e8a39afee18d526ebca8f79bf2fb",
         "target_sha256": "56380891c3d750ddb2072b45cbdfc85d9895ac288b6d97747cd31860db5338ac"
+      },
+      "events:kx_claw_machine:/choices/0/result_text": {
+        "source_sha256": "03dc08692fa1fb19e287f0a0cc762b43332b1b025e2bfa3966cf04fcebb01cdd",
+        "target_sha256": "92def1e77cfe23fac87656a82b6264af84bb2bcceb401503abba7bb5769e3cad"
+      },
+      "events:kx_claw_machine:/choices/0/text": {
+        "source_sha256": "6a765c4ef229cc99f7f8ecc93de66760facf87f947e1321a6f979f30bd66dc14",
+        "target_sha256": "2a79ae14f8d70a4e8d41aa6682e568637920bc7892aaee5f8f8a4e613b3fb876"
+      },
+      "events:kx_claw_machine:/choices/1/result_text": {
+        "source_sha256": "4e369a1cc1b680760127a8285621d2e6675302b80a201e82477f478038c57ad8",
+        "target_sha256": "8ef68ecd941b588d0118ae7080792e35cfa801b5a390408358a6ad12acfc3a12"
+      },
+      "events:kx_claw_machine:/choices/1/text": {
+        "source_sha256": "4c5d8724cba58e7de5f014ee56ceca613ec0c3a857b3bddfe13366e9e9fa744a",
+        "target_sha256": "95a4dbccf1cad25e3658d6043987a8938709527ada8f98c3c2851566a995a2d9"
+      },
+      "events:kx_claw_machine:/choices/2/result_text": {
+        "source_sha256": "bdd054bdf31ed27d43a4b4f9b48d2ba21959f98a5151fe847d35c48e76ac32db",
+        "target_sha256": "83ecad87030dd0e6abb7c58f94efecfdee9744eb6587bf5b341244dc3c76c954"
+      },
+      "events:kx_claw_machine:/choices/2/text": {
+        "source_sha256": "3d2b0d5ac371c4ce2a7ea2daf072c842dbe511e1741c38069f08d0d44d385975",
+        "target_sha256": "e56540d6ae9ea27f7972f4a121baf3adceb8aeee613a65e6f409f8d24e497825"
+      },
+      "events:kx_claw_machine:/description": {
+        "source_sha256": "8504e593b14c5952e10bd805e0d4328c35aa6bdcf9ec664baae0692f6bb1c2c5",
+        "target_sha256": "54d0ec38c11553724d59ac9aad999ad356b9c7f3b8c6d86bb6f827692b9875c4"
+      },
+      "events:kx_claw_machine:/title": {
+        "source_sha256": "48416ad79073813573be537f9a4f7763e8d88a95629a90cb69d7760be6e5d1f6",
+        "target_sha256": "a56e83af90794ea35c6e684a1be9dfb41ecb2ca99a11d5aef8ff3e2be60926e5"
+      },
+      "events:kx_coin_noraebang:/choices/0/result_text": {
+        "source_sha256": "b7924938fcf2aa516a43aa6234bb725d45d105b865db51310d217cf566667e36",
+        "target_sha256": "3d9df63e22bde48869f09931db89a0c6fac0f46791917563ace89ca682b6bb9f"
+      },
+      "events:kx_coin_noraebang:/choices/0/text": {
+        "source_sha256": "dc1b608d5ac76267846603c5b054ad3ec197cd395ed6bdca202479349492ca0c",
+        "target_sha256": "96641c2018040cc3525912d5ab391e8217787fa67f0eb15e88e488fd6fb8838c"
+      },
+      "events:kx_coin_noraebang:/choices/1/result_text": {
+        "source_sha256": "e6a915ecb4b055668325b4a45c78d90daf7ae4f3a566f971c856344b0cdca1b4",
+        "target_sha256": "45d0b1e5d9833d580ca2f0a7cc48e71b84c6bc54331e1f00d63a69771890f785"
+      },
+      "events:kx_coin_noraebang:/choices/1/text": {
+        "source_sha256": "66bbd8c163d8b5f78c0231dcbad983d1351322fde3fd13491e2c6b7b55a53ff2",
+        "target_sha256": "f80637012fee4e229accdc337086573f7a4c1854b584ad8bfb81d300807c3945"
+      },
+      "events:kx_coin_noraebang:/choices/2/result_text": {
+        "source_sha256": "cef9539551cf74c733d5c5ff96859b9652189c8ebb7a4846583795c3cafa9c31",
+        "target_sha256": "d8460592f2fb46aabf8677aea86d29688a63d53a204eaabf11dcb319eb1de72d"
+      },
+      "events:kx_coin_noraebang:/choices/2/text": {
+        "source_sha256": "128a25b620ea3ed3011fcc07da1e2493d69ae1495ddcd04c3366104d586277c2",
+        "target_sha256": "252d372732583b7c9f5acec45714ee040722c728da7ee3ea2d55f5947f77c5af"
+      },
+      "events:kx_coin_noraebang:/description": {
+        "source_sha256": "767c55020a37f1060727bc89525b69e48a22f4f67fdc3fc93010dd38821fee71",
+        "target_sha256": "07d5c85be95544626cf7c220a378a022b7bf77f879f943b9193a123bd4f361c4"
+      },
+      "events:kx_coin_noraebang:/title": {
+        "source_sha256": "f7ef4c9f22488ee3ecac26093849ce6a8c33b7fe18c233cd448928be63cdc6cd",
+        "target_sha256": "0c78b8e0123435415611737d56d779a3b43dd1cd399ca88e7d5cc6699ba67068"
+      },
+      "events:kx_cold_snap:/choices/0/result_text": {
+        "source_sha256": "a2e22b9e06288a7c4bec078f4ef1a35bd9977035c91e77348a8371fe0c1a430f",
+        "target_sha256": "a30ab201e2d609330902e9e14e06f61facbdeeff67958d122422c36295366ca8"
+      },
+      "events:kx_cold_snap:/choices/0/text": {
+        "source_sha256": "fdaeeaffb84290048094abf5fc390c74ea195a043cc602388a16e70db57ef2ec",
+        "target_sha256": "413f74620bb49da351112ede00e3ef0259b92a98111cf75303ae61783f9c76b4"
+      },
+      "events:kx_cold_snap:/choices/1/result_text": {
+        "source_sha256": "554a0c468b7e97ff134dc47125eebd4a7b717f5b6731afe5fbfd77a6f60a1a37",
+        "target_sha256": "9c92ae9d635dba20ed9ba6e832d175e2ffd07631f2d8a5cd91b61d71c033d055"
+      },
+      "events:kx_cold_snap:/choices/1/text": {
+        "source_sha256": "01ac6db4ccaba08fc5ab50948c2f121a852c716306991db5018a1b14340aa6e2",
+        "target_sha256": "661d45b5d4673a16d9f48eeb69ad7815eaf7f24e110b3bc8e05a2d4cfecb3124"
+      },
+      "events:kx_cold_snap:/description": {
+        "source_sha256": "a57bcd898a19fe963b2537ee9a216ddc0e67f4c4026e6dbdeaeac619040d6573",
+        "target_sha256": "39e40d6cdece426b22cdad7c877c52216f7621ea2a9fcc3157049c8662165097"
+      },
+      "events:kx_cold_snap:/title": {
+        "source_sha256": "f7da07ad0f751c8a8a180966f75c43b31c6cc3ca946a8bf76a8b80da750612ef",
+        "target_sha256": "e1a049907334ace9e40ef7d1cb1d8242ec1e22b53cbb76760da11309699222c8"
+      },
+      "events:kx_english_academy:/choices/0/result_text": {
+        "source_sha256": "3c38c1b57fda680b10dfd3de4d76b7cdc1de5c3c2cec45c8310ad50840a54fdc",
+        "target_sha256": "c88945959457030884447f2dbfd304ae2263e831f8876176cb2d83836c2112dc"
+      },
+      "events:kx_english_academy:/choices/0/text": {
+        "source_sha256": "6f4911474cecc68a035dd42e6446588e1c7b06b4a78873e85929dcf014e11603",
+        "target_sha256": "357bcc845a710cb686be9b619d2b57c3972d6df033b08a3b1a9b6f9d5589d49a"
+      },
+      "events:kx_english_academy:/choices/1/result_text": {
+        "source_sha256": "a9cc49b3d4a1aa5e23fc8f96c0ba43cdc4239e1b7d93edc0074e9f0827e7b3db",
+        "target_sha256": "f24195191040eb53b0a40f9037d9b90c7b1be58ba2a39b6448c0fd8a28f282ff"
+      },
+      "events:kx_english_academy:/choices/1/text": {
+        "source_sha256": "ef106a2cb4148f11bd8c649443b8cedab3807a242ff6d9537c2a905d07f45d4a",
+        "target_sha256": "fbaf965556c76263232fc489967b51d5d5a36db8c4636d4d17a9ec0b761bc46a"
+      },
+      "events:kx_english_academy:/description": {
+        "source_sha256": "3bb0e32f6fff23fc98b4d2e94e463d0878333f99cd091db3147d73dfd6fd92b3",
+        "target_sha256": "065e13ce7d9ce7dd95407b3879de27be9509f7a06078dd68c74fdf1e737cebe2"
+      },
+      "events:kx_english_academy:/title": {
+        "source_sha256": "566497e78d05ba76a84b5dbc13561781c4cb4dbea9963617d4139d412eed9f74",
+        "target_sha256": "fef73ee9b7540e65367f2b134f6556fb0f8bd912cb14e6800fe5cacb8e294f8d"
+      },
+      "events:kx_fine_dust:/choices/0/result_text": {
+        "source_sha256": "412c8ea5aacea87f20ec136acb0c1d2e05b32d054b1bf2efef2e812b26b056ea",
+        "target_sha256": "6b882a601dcde855632cf2561141681c9a9098a0f6636900124a00eff2cca69a"
+      },
+      "events:kx_fine_dust:/choices/0/text": {
+        "source_sha256": "f4f82a2edb357870bae0e84e94fd1317f1ac773dd266060d6f1dcbdf0a08b3a4",
+        "target_sha256": "057b5b67b3e07db947584fd86b37779c3d5f7ddb85419aad18e2da30da210b27"
+      },
+      "events:kx_fine_dust:/choices/1/result_text": {
+        "source_sha256": "963cc782387df30a22467c3550c136750d80f3150b5d3be39e18f3504ed1b39b",
+        "target_sha256": "7c86de5a191230e93604f62eb7f5c6344b7a3c8a50966706ae0828f7305b7bad"
+      },
+      "events:kx_fine_dust:/choices/1/text": {
+        "source_sha256": "7860c308eded89e6efd71f7849b8650702a87c9b5237a50c5ac62c5d5fde3c16",
+        "target_sha256": "7f2d77ab45789f4f53e66c05b60e3f28f57c08bbf0d76b4368c6a723ba44b66c"
+      },
+      "events:kx_fine_dust:/description": {
+        "source_sha256": "c55290071361033ebd26c043259a09d5a2c0d53fcc163f905fb20d2bdbff2d78",
+        "target_sha256": "64db18581c44eb042109209a4803f9b5ce0ce21e54cbc525c890dba6187ee5eb"
+      },
+      "events:kx_fine_dust:/title": {
+        "source_sha256": "dcf70f4325ba552db50fbba1b970e311bdddd4924151fa85f5ae48038d465a90",
+        "target_sha256": "7ef01cf3fe495649105f21a6a44018c8f2d0a24f119ba860361affb5557370ac"
+      },
+      "events:kx_gosi_study:/choices/0/result_text": {
+        "source_sha256": "45b1b335e995ecd615dcd2c905c5d17fc64415f591f0630fa3bfde6ae8721634",
+        "target_sha256": "dd2bd6178c612cda4ab8abbc7188b6c4b954083828cda380826532c33578b096"
+      },
+      "events:kx_gosi_study:/choices/0/text": {
+        "source_sha256": "0d8541de4f47695d3b71cb6a63fa279daf4574d2725644218806cfad114f82e5",
+        "target_sha256": "47c395365d7e93ee573e582f94f968cfc57ddfa4811f84f4f84b90f911913d7a"
+      },
+      "events:kx_gosi_study:/choices/1/result_text": {
+        "source_sha256": "04fe6de5bdf56e42102767f8a422dd2606d0561d2657cf5ed7ca51429eea9d4b",
+        "target_sha256": "85303f79362035277effc293295fe3fba2b5460116e4af8f79d769a8838a3a62"
+      },
+      "events:kx_gosi_study:/choices/1/text": {
+        "source_sha256": "f2b9a7b14d4e4c6f933f110e13818a28e437e7f66de015111643c43cbfac4632",
+        "target_sha256": "e5a4e1fd2ba60c743c7ba90ca3417f555ae98a7dec1216152d2d32cff25689a9"
+      },
+      "events:kx_gosi_study:/description": {
+        "source_sha256": "fd26ea1667b604e72b7fb8681539301e05146832359e550e97b3b7dc2c7d304f",
+        "target_sha256": "211093b06ce13f2834e85db3e8e4de71efe412190fe36cb70febb258f494127a"
+      },
+      "events:kx_gosi_study:/title": {
+        "source_sha256": "95c1bb4593d9b9f6c8580b78a61e83e0c47ccc15a23c89098af0ab224f45c175",
+        "target_sha256": "cbdde6ce6a1d1f863e9b727319fdce717c3536f5c3c1720a001977dfb32c09f0"
+      },
+      "events:kx_hagwon:/choices/0/result_text": {
+        "source_sha256": "83701a91b1dd7f531409bced3f5d46931b89ada9056e93b23c9b7a887b269faa",
+        "target_sha256": "cab4000a1e0cf21a6dc58a10e4986284ddaa7385cf2ce2ec20509c67b8bf6c03"
+      },
+      "events:kx_hagwon:/choices/0/text": {
+        "source_sha256": "8a8940cc108c0de0216193de3f38ec6ae76a6e26e62777ebefafca1f3ef78db4",
+        "target_sha256": "6182f8a8f69b924838f3d71f9bc6dd0c2b136b722f11c2688ead79ba0e5aae4a"
+      },
+      "events:kx_hagwon:/choices/1/result_text": {
+        "source_sha256": "16a34262c2ad063aa326ed96755f6ff45336e8550b714f4aa15f5a29e91e0e82",
+        "target_sha256": "d23c7b030011ad03d63bb6cd302e0353710e5a860b838986dada36011c54d6da"
+      },
+      "events:kx_hagwon:/choices/1/text": {
+        "source_sha256": "77d24e6a37691f778e7e4e767c5bcb7ff3bf5c6d8fede37630245ce948fc885a",
+        "target_sha256": "e33b9ce4d0ef865871946c81863e27c46bafb162f673955fd8860b1ed282cfdd"
+      },
+      "events:kx_hagwon:/description": {
+        "source_sha256": "391b21488d95abf4d8c100323ca9f7ce5575961b8c8ab51e007cee2361b04874",
+        "target_sha256": "441d88ecb586ea98116e168046358551fde9cdd559da9f6d3653591e0eec0caa"
+      },
+      "events:kx_hagwon:/title": {
+        "source_sha256": "1739c0f28127f753d90d9ea0b9b4a1300be1fb4f6c8fbdd641d036c87db03fcb",
+        "target_sha256": "9f113118866972191be91ef3421ecbec3e237e7294489ed0ffcb51e30528a2e1"
+      },
+      "events:kx_hangang_chimaek:/choices/0/result_text": {
+        "source_sha256": "d20d4723f41868ac5d7bea8442289ba87653c0d7b1e5ad98d5e1edc196328c9c",
+        "target_sha256": "9db9063800ba4210abc636f24985444bea188f252ace08ae59f4fbfbbfb360c4"
+      },
+      "events:kx_hangang_chimaek:/choices/0/text": {
+        "source_sha256": "0cf106ad8d0f259fbd588b58be9b4a44eeec5d5b867e7b281e62d06446631865",
+        "target_sha256": "7c49b0ee9d5210a55f6b9316878083a2e6cc2248b6faea4fa730fbd8b0c80450"
+      },
+      "events:kx_hangang_chimaek:/choices/1/result_text": {
+        "source_sha256": "e53e6b6060f1553ee400f6e36f859e23ebc4f68443dac8dcf4021c208db17e6e",
+        "target_sha256": "8576e8f4fc475a037930a02155184844c916aad222f476d74bf32e5964c50423"
+      },
+      "events:kx_hangang_chimaek:/choices/1/text": {
+        "source_sha256": "934f29e3e681256810bbaa5d748d11aea4dd426690fe2894e9ef219b46622e3a",
+        "target_sha256": "890d408db97f6681a288d152a7121eaa2de278bf26dfb1c1940029c19a794b67"
+      },
+      "events:kx_hangang_chimaek:/choices/2/result_text": {
+        "source_sha256": "187289e0937363aa1ed32bc8e83d7269390511670fd3713fcced84a3be5d0cc1",
+        "target_sha256": "a0856370417f8fd573b3118ce7474eabf4c55db74f055bb2329479e0689d0f15"
+      },
+      "events:kx_hangang_chimaek:/choices/2/text": {
+        "source_sha256": "55a2e365707dc0a76dfe709015707fb1d6d65d04a5fb0ac97ff55996090a56b1",
+        "target_sha256": "ca773015c1d09ec3989c5887132e57e190c2d86142feb43b97f4ef3a7891cea6"
+      },
+      "events:kx_hangang_chimaek:/description": {
+        "source_sha256": "5f0f87d7101ccaff7c341661add3f90ba7c47ccb4336a3c7854f11e57a8381fb",
+        "target_sha256": "a37bcd533393c7f441341c8cbe094e9aaf693f82bd932dae1902c60202c7238a"
+      },
+      "events:kx_hangang_chimaek:/title": {
+        "source_sha256": "116bb00f761d0196dfaab969ad22c930e7baf5e30c7d32a10b463bf59dc634c1",
+        "target_sha256": "0eab1178ce4e661188b45b12b2a91b06b4f3d6ec84187fda9704066e790814a3"
+      },
+      "events:kx_heatwave:/choices/0/result_text": {
+        "source_sha256": "298308044c394593e0be82372aef53a8de545e2a9454f3d2ae6c24f8d3fc4642",
+        "target_sha256": "31dfc871dfff9edb620a6071b642b9337d6ae3446865f5b4bdb13f744e449cc4"
+      },
+      "events:kx_heatwave:/choices/0/text": {
+        "source_sha256": "57acbc4ccca7a5de34f89f2abaf7fea66c25de0584632ad2b1a9056942582e4d",
+        "target_sha256": "4380759e55df1b558e0a0a767e37a4ad2a0b713a154b0fd9b385b375ec024fdd"
+      },
+      "events:kx_heatwave:/choices/1/result_text": {
+        "source_sha256": "c88265e37413d91b52464060d3e8bfa2574e5faf6a25c10686d0fb0c7f70195a",
+        "target_sha256": "31ca6a4c5fda659d5cf85ec00e4f270a2df9e8d4d96bd6183756844fead6deea"
+      },
+      "events:kx_heatwave:/choices/1/text": {
+        "source_sha256": "4c7e226ed8629ecfbcf9a73e69fce762fe963da3b11f97a20f9c72684710df4b",
+        "target_sha256": "17e62bfc1499ca558c5e5ca29d9c3b9fe90d1c705864ac757a714862a7859cc6"
+      },
+      "events:kx_heatwave:/description": {
+        "source_sha256": "8221927df49d694020994581ce151ee5eb9fea1549d031288b7d9f06b7dde3f1",
+        "target_sha256": "96a9d19d066df8b19606aeccffa30fb6ba1d45ae502e49e9ce1c31e1b34a73b6"
+      },
+      "events:kx_heatwave:/title": {
+        "source_sha256": "cebfc485b981d2eafb5ca0934d04fa2d3dd832701cc0e8efe8d82d660c7cb385",
+        "target_sha256": "92e305909e81dd2db31e9e066ac335c5c60bdef30c747b428873206e45fd8634"
+      },
+      "events:kx_kakao_emoticon:/choices/0/result_text": {
+        "source_sha256": "152ec1c7a28c412e7594f878ccce3980a032feec92efa4bee2d89b0506476f28",
+        "target_sha256": "b8508ab9d1a432421e82926833370b001622d142ee9a4e7ad1f797d83bb0bfa1"
+      },
+      "events:kx_kakao_emoticon:/choices/0/text": {
+        "source_sha256": "a9bc6098ba163865d6027600ac3b75b01128b4265c5d507b9b4f5001fe43c9cb",
+        "target_sha256": "5732c0c5cde52df64e4bae150f958edbcba10d04161f7aec596f34629a611bcd"
+      },
+      "events:kx_kakao_emoticon:/choices/1/result_text": {
+        "source_sha256": "fa96a8ce74243a4bbc5021a545d65eaf70ec3e26eb34a18d3fc0af02b3c6a129",
+        "target_sha256": "1a59a87b08457663adb4bbf3b0c651a125a02411d97033585e962b41cc67e854"
+      },
+      "events:kx_kakao_emoticon:/choices/1/text": {
+        "source_sha256": "629a35f5a6ef0b2b4006153f5540c4a110c436e058972b7304705943a5cc5a25",
+        "target_sha256": "e45a677cd50e878f7b7d00ce80acc2370744176cc62644b75173b4e84928e7d4"
+      },
+      "events:kx_kakao_emoticon:/description": {
+        "source_sha256": "c1a08b839d1ce4205798a690d71373faebebf0f006575e3a6dfca66ada86c346",
+        "target_sha256": "60627b4b519d7c5a221051edb0188c43823e3e69e3762526db904529f7e0d216"
+      },
+      "events:kx_kakao_emoticon:/title": {
+        "source_sha256": "922dc5b68372e6af22ab94efdee3472461a3318b04d45c22c48d1f59957a1834",
+        "target_sha256": "d31d75c0e659acc1be37670be4c0afe129071c958b70b4b1133400ccdeddb6c9"
+      },
+      "events:kx_monsoon:/choices/0/result_text": {
+        "source_sha256": "43780519ae7aca980a0947970e2a14873c83b8fb7b9f09695b7f2820ab0b44b0",
+        "target_sha256": "1b526c4416a515b867d0f6ddbdb5a6e8ef7e2b1d6e4e4f510ebf54ee3e5d6d77"
+      },
+      "events:kx_monsoon:/choices/0/text": {
+        "source_sha256": "8ceecc9ae94b815943ce40b4f26c39412b1d819f77f425665db6ea3e64f89de1",
+        "target_sha256": "d9a8903981dfc86ddb1f71cd0f90ce1972ea6b5d5a8f29abcbcb20e9433e5767"
+      },
+      "events:kx_monsoon:/choices/1/result_text": {
+        "source_sha256": "d75e991be462ee4edaed101515fba45a4b3b2108ad7d1b7f2feda3a5fb0cf9d4",
+        "target_sha256": "01f7e96b01c4ee27dff0312454a6df2f08fbc309db8b676748d1c2f095d2140a"
+      },
+      "events:kx_monsoon:/choices/1/text": {
+        "source_sha256": "b72efba99e05117a8a830ee984c4073b048fb0b6afee3646d7ed4b1d513aff57",
+        "target_sha256": "0578b7c5e3c06cbbb9e5ec4f6ff889823bcd1b3cac30025871ff235695874b69"
+      },
+      "events:kx_monsoon:/description": {
+        "source_sha256": "7af66be39e5f0115235e683f153a18e63e8c6955bd9e25b0d767ee70f0c75d78",
+        "target_sha256": "65bef2abb2f1fb310a0f138b977db193b89e42092eef723ce2e6cdaf369691be"
+      },
+      "events:kx_monsoon:/title": {
+        "source_sha256": "0276a9a2ed1e72159ce6944e9b13c46b5e48fb67969c8c57739bdf62ec8d2930",
+        "target_sha256": "45832ec4b1f2766f14edf19a23115f46170aa83c2800fa5de1aba30db79ce588"
+      },
+      "events:kx_mukbang:/choices/0/result_text": {
+        "source_sha256": "437f467c2b06a6e841808c017ef42d215e38ba082417d062ff164fb75dbbe801",
+        "target_sha256": "1b2b78d60d27fafa213bc4fa39bb6f67db68f113fae8447cccc73d6818ad9af2"
+      },
+      "events:kx_mukbang:/choices/0/text": {
+        "source_sha256": "9b54d42b66c5e2087333b74686b27dbfe664ca0c8131bf629e8644296b69206f",
+        "target_sha256": "c85940317c39a8541964311eced721c0dd404f732550f5479eb627712344c280"
+      },
+      "events:kx_mukbang:/choices/1/result_text": {
+        "source_sha256": "bb8f9c066938ceaa0458595255efe0d88cb460a0d6596dcb0d8b88cf3af50c5c",
+        "target_sha256": "decaf07a59207f941728115e21fd912cec52e85ac0217ae39df36bf9d7bc1c9b"
+      },
+      "events:kx_mukbang:/choices/1/text": {
+        "source_sha256": "29d1c063897f208953b955b2071cde457d13eee3e892460a901a70dcaee10158",
+        "target_sha256": "f1e5e8a4675008682e7de1533245374736f9481919398ac39f3abc8fb8d0d921"
+      },
+      "events:kx_mukbang:/description": {
+        "source_sha256": "31947bc592e95c38a0473f62912acbc751e7a734f33d1147eb8caf9009bbd3cf",
+        "target_sha256": "f88f75ee26cae75f2cf874236e18b941b64fa82008e2c646d53539342c7e3af8"
+      },
+      "events:kx_mukbang:/title": {
+        "source_sha256": "bdd62bfb839aecafb5004d787c58ddee9204f5480201eddcd596b64ba473c27c",
+        "target_sha256": "e8f9650511ba1d51d21c2f8bf7211ede17f51d8873f74fb9666adfc5fee44953"
+      },
+      "events:kx_namsan_tower:/choices/0/result_text": {
+        "source_sha256": "8c896bca3f13dfbd30891dc73156044bf88efd95a4c2e537de2e2e597a8469d0",
+        "target_sha256": "fa38280aea8063bff3705fc2e1631479b305758dba42692d56d265e8c007e3ec"
+      },
+      "events:kx_namsan_tower:/choices/0/text": {
+        "source_sha256": "c3187db2d3e4adb7ee8e013acbbb20031d9f3fb66309446f4064d64b3d3b41ce",
+        "target_sha256": "7a27d51abb4f5f809ebc499180b5d58d8ee4b2d7ff3c186cdbc44e234702e939"
+      },
+      "events:kx_namsan_tower:/choices/1/result_text": {
+        "source_sha256": "0d8c843af5d6103dec4e18a99f256176001c6c9134cc076801157b939d3c5cc1",
+        "target_sha256": "9905b1bcb184f1f5acbd4bee8e46d8719ce265caa3a4d5eca6afcbf7037c0f5b"
+      },
+      "events:kx_namsan_tower:/choices/1/text": {
+        "source_sha256": "b80a6a07497823fa69ba04115e9c5421d547dcab3f5068ee7d3172be8d28d67a",
+        "target_sha256": "9865caa9c336e1b8e1f5e46db7b02b106e9c5eab3a11833856fe18c41d065756"
+      },
+      "events:kx_namsan_tower:/description": {
+        "source_sha256": "c7f793388b2ff3187b0ed030e663a766c5238566390db69ef5422aa3d9870936",
+        "target_sha256": "2317bd0f3ce1812e539921b328517cc0b2742fe6e0a526f2727260dab11fad05"
+      },
+      "events:kx_namsan_tower:/title": {
+        "source_sha256": "7d079a53d1b44a965bbd9496ddc1464d91b3c77b7857c74b179abce4856ffd3c",
+        "target_sha256": "c4e4a065c4ac7226d92d5e2b87b838b299cae879c014aa7212bc6dc5a8755621"
+      },
+      "events:kx_naver_cafe:/choices/0/result_text": {
+        "source_sha256": "57166ddf170f9dbb088dd394d26449481f7587a7df999dd6359d0ea8880297a4",
+        "target_sha256": "10d81faa9693276035cf543230595c33b1fc36b3974c6b3c0901fe4b5dc10a3e"
+      },
+      "events:kx_naver_cafe:/choices/0/text": {
+        "source_sha256": "d9fd7106b8c8b60470d5f5beaa75821ce4857f2295537e3ce944cabb350f6abd",
+        "target_sha256": "7c7d5fed22cbe2da2e25178916ad96af6c829a64fbdcee35c9c4fe657ad994f4"
+      },
+      "events:kx_naver_cafe:/choices/1/result_text": {
+        "source_sha256": "c7d26b94c6a648cea611c3d0f41679d1d123ca688823ffb2383a23de4332d6f9",
+        "target_sha256": "247b12a89d93ebecd2fca4693da5f804f613fb4e910cea0c5361d12466d8c1a2"
+      },
+      "events:kx_naver_cafe:/choices/1/text": {
+        "source_sha256": "82c0a7e9eadacfe2b635499327173c8b6f04c64aa80bd910c5e2cde1cd677804",
+        "target_sha256": "944520a9790b4323247d9cf9ff3ff7b1ccea15a99a50a39ad85b53ededd15555"
+      },
+      "events:kx_naver_cafe:/description": {
+        "source_sha256": "f2456194ee5cd07fb0144e58b10fec6939a5308767a9103218e61b00c7d87d91",
+        "target_sha256": "fac75e4dffb42e9ff23d17e80f20f86a5ae8bc504fe5eb2f31cca6c43914435c"
+      },
+      "events:kx_naver_cafe:/title": {
+        "source_sha256": "7da8d31403a4f3aab12e1c43d3cdce2e96d58de2ad966597ffc620bb9897842b",
+        "target_sha256": "7f25d5356712199fc64a3ec40f8fff2db3d2d254554b9f913284325c3d20c295"
+      },
+      "events:kx_open_chat:/choices/0/result_text": {
+        "source_sha256": "7aa325999ae1e5118c46b628e10f3b1f417bf51892d5265ef438d518721f996a",
+        "target_sha256": "5e4bb4daa2373264d2d258e9097d95982a87b4ccb9587b611aa61dc3977fe38e"
+      },
+      "events:kx_open_chat:/choices/0/text": {
+        "source_sha256": "9cc2d107c004dcb8d392e76fcfd637d981fdd13c2aaf3129f29b68ecd949f34c",
+        "target_sha256": "e59bf305f0c9685f28efdebeb8e8ed90a4a2d2dc79182bcf5aca6c0b3c84f3af"
+      },
+      "events:kx_open_chat:/choices/1/result_text": {
+        "source_sha256": "f93f823b8e84f44c050237de8b3550237c384d003ef180d7aa0be67bfc90e97c",
+        "target_sha256": "2a14cc1861de43cd1854c51b9cb9cea0db7a5d669e80d7cb6dff0dc156af5dfc"
+      },
+      "events:kx_open_chat:/choices/1/text": {
+        "source_sha256": "9491d4ddea8068fec66508e89682e5da7d4d7054dceac53e680e13f0023bf46a",
+        "target_sha256": "0eea07c233e2537c2f5de11b85e8361a5fcf656a5220f81b38c73503b6fe6a9b"
+      },
+      "events:kx_open_chat:/description": {
+        "source_sha256": "555d257dbe5c663e7ea54ca8c7548050a1449113894b579c17d71bf1f4b5e214",
+        "target_sha256": "617a6d5bb7924d68a8a0dbe5139242d0404af091a31e5cad82132268ba36f9e9"
+      },
+      "events:kx_open_chat:/title": {
+        "source_sha256": "d87dc2984928ad60653053eb8fa643f8c8540bfcb40da90c18de7b99772bc6c4",
+        "target_sha256": "52255638bb3644f28db0936e9e08fcee2400f0df168c3d119f35362b6e16e692"
+      },
+      "events:kx_pc_bang:/choices/0/result_text": {
+        "source_sha256": "8f0beaa4062d0b732b06b1838ccdd3db3593d9dff5e65f17990a69380d7e9c8d",
+        "target_sha256": "e685142a70b9ad76beafa2d0baeeb450f4c9723f00a08f3d3eb9e7b399a904a5"
+      },
+      "events:kx_pc_bang:/choices/0/text": {
+        "source_sha256": "13db11be2d1231c7ab9c3a32f2443a9adb90a868955f4834a51f821673529a5a",
+        "target_sha256": "3ce9305efaca2f4653f2cc838868bb3d44c33b5780a4bdfb413a3cdfabf39ae8"
+      },
+      "events:kx_pc_bang:/choices/1/result_text": {
+        "source_sha256": "4569ae7403a4e0020a75c11b117e344efc022bd4d36f90ee23494027410d6352",
+        "target_sha256": "04748afab22741cc4445977aa08a933c9c342a31b192f18ed751630ae01d9dcf"
+      },
+      "events:kx_pc_bang:/choices/1/text": {
+        "source_sha256": "c046fd33a001e574e4406f110f3409d2c8b49cbeb2d814ae1533ff1ea6022d32",
+        "target_sha256": "e59ab6648627d183fd9509b139fed22b8c4a7aa4f71bb34d1bdb02e3a161efa7"
+      },
+      "events:kx_pc_bang:/choices/2/result_text": {
+        "source_sha256": "90d171a5f4b093e762ecce4ee8dfc20a6f5efea85bfd38b566bbef223929d63b",
+        "target_sha256": "a0197d3c18308fd0f387443bf52e112e33976d985eaa0da296ef26b21ed25ce0"
+      },
+      "events:kx_pc_bang:/choices/2/text": {
+        "source_sha256": "721087217f46eb0d7b229cb44f1f6cc6f143999ee5dfa0b0229afee4a20755fc",
+        "target_sha256": "dfa33639d3e49e343ca02c5d07cd789dbfb11f81191db16caca334a55fdaa42c"
+      },
+      "events:kx_pc_bang:/description": {
+        "source_sha256": "9468a6e97e650b55e7705e6f2645e3aa1b4c7cd71fc1a1c18bb345b5f5f61a47",
+        "target_sha256": "2dad44e5e011800ca3d9ae7ca3aaef3f3ac2dd98fa54ee686b96c92028179f8e"
+      },
+      "events:kx_pc_bang:/title": {
+        "source_sha256": "dbaa6f85fc16b8ce05d18b6f460960f10428d0fe504af3a6d1040d22ee8f94fe",
+        "target_sha256": "8dc38d673aa4be4a4e6f726f22ca2b2aaf773774fbd4df3edfb0434b01f99071"
+      },
+      "events:kx_spring_cherry:/choices/0/result_text": {
+        "source_sha256": "d37ee506902479ce1a96dcdc114f3ca01082c3bf0ca12f31e8cf690801a8013a",
+        "target_sha256": "c2ccbb0d0ba05e471688e7777ad2f9df40ed4c3c5f1a37590cf30a14e94514cb"
+      },
+      "events:kx_spring_cherry:/choices/0/text": {
+        "source_sha256": "12599def8c3be8b03f657fe7bc6aca509ea0ff33cb03b2b271fd6784188630d6",
+        "target_sha256": "8b13bce44624ea3e9b7444643d5141b46fe3be7547e2513b0e856fa9e4734899"
+      },
+      "events:kx_spring_cherry:/choices/1/result_text": {
+        "source_sha256": "9d598fb56e6b931587fd56a533232f2988b96ddf62312b04c20083b97b152985",
+        "target_sha256": "c8ebb76042b594ab61d8361b2401e489cf40717a396111fa5421ee96ccf96c79"
+      },
+      "events:kx_spring_cherry:/choices/1/text": {
+        "source_sha256": "4cd99e3e72b09bc9fa78036c2a7268ad07496d5a6aa6533a2503325974d52d9f",
+        "target_sha256": "ad7115550f2222148c8a5e575d4d0dbb755e1c421bbc19ac917aa8f6c4cd2223"
+      },
+      "events:kx_spring_cherry:/description": {
+        "source_sha256": "ecf79546a39553dc11f40674fe71fb4d76aeaac4737aa0f1bcf8a8eb9a0c2fea",
+        "target_sha256": "638f6b39845e0a3d3de41f87f8db3b96038e9f6b651941799b4f46eab5693036"
+      },
+      "events:kx_spring_cherry:/title": {
+        "source_sha256": "6cf4d90ae3048ae9b1427f19fb235114bb99a4c7f1af9d77494051b059f73130",
+        "target_sha256": "91e760f1ea464df40d2d0d41710c2de1a061dc0b2eb6a06cb78bd28d9c5e5758"
+      },
+      "events:kx_suneung_day:/choices/0/result_text": {
+        "source_sha256": "740ef376a4e294121fc7dbc384e7fb535d2e7b3a5080a4a8e1f19799d2c8222b",
+        "target_sha256": "ac49a306b7b3e327289a3ccc99aeafce591a25c3ddf8485c1cbac318a81f87a8"
+      },
+      "events:kx_suneung_day:/choices/0/text": {
+        "source_sha256": "8c0710cdcb04b2bac8dcbe0276100827deaa54f45b162d63642a8aa77e5da4e4",
+        "target_sha256": "38836dfe5262d7c14847bf6546c8dc8bd2a0c2c0ab6415aea5340baa29e0ac64"
+      },
+      "events:kx_suneung_day:/choices/1/result_text": {
+        "source_sha256": "dd09d58b15cebf6409e43cb0c8bfa2349a491eaa4faf6590d370654193e831d6",
+        "target_sha256": "1aaaa0595b35baa31c77fe7b04fad20d08a9956b82b3e5fbdff92a85b2d3180f"
+      },
+      "events:kx_suneung_day:/choices/1/text": {
+        "source_sha256": "8145f0c43f7c2ff5b18b63ccdf6b177d93ac8b3995f273019877c9b5411000ac",
+        "target_sha256": "9142fbe135f220e1eea83b08eb57c30aa48b4b05bf7d1bbbbcad1f06b19838e5"
+      },
+      "events:kx_suneung_day:/description": {
+        "source_sha256": "bf7ab2c787dafdb48d55b9952bd8ede82ace5af89a7723a07c86dacfca6ec45c",
+        "target_sha256": "9ab26bbf9ebe5f6077810000440560601d0910129dc9629d464b75b32e3ce66c"
+      },
+      "events:kx_suneung_day:/title": {
+        "source_sha256": "063d5ec14439dc8c203797dbae4126656aac9fd18512d701be494843d9896859",
+        "target_sha256": "27cb1f78602b6bb5ae73e539def019ce0018d12c36b283bc672972302a84b10a"
+      },
+      "events:kx_viral_meme:/choices/0/result_text": {
+        "source_sha256": "005aea15ebb2e1546969484a6b359496b82c77cc151ce5aaaa40e3efc4bdc69e",
+        "target_sha256": "1b6afdc7c9bb4bea363d0a937fc567b2246086c282efcecbd9c67373335cd96c"
+      },
+      "events:kx_viral_meme:/choices/0/text": {
+        "source_sha256": "d974b6d7363f483043b9aab852d9c399205badb3157757db6e14a599ad295c9f",
+        "target_sha256": "0bf31082fb79ac5a8bc71bb616a9cb3e28529bab6794e752070eb72689ccc476"
+      },
+      "events:kx_viral_meme:/choices/1/result_text": {
+        "source_sha256": "b64990b9dea78e75244e8207962f6507975c3e5127a5264aa81cc58d04d2c77d",
+        "target_sha256": "4784fe2b602a3ca095b03c9afd4922164c22d9c6c2012c84a044c4e2c8e3820f"
+      },
+      "events:kx_viral_meme:/choices/1/text": {
+        "source_sha256": "ad8e5169defe7754f77d034bd7c82f8cc01c563c87ab65cf39093925d820a610",
+        "target_sha256": "44dd18c359a0c47549144dcadb06d7a0d8ebc7ea2970b3e6f3340292468eb8a4"
+      },
+      "events:kx_viral_meme:/description": {
+        "source_sha256": "5f5594c38752ea3ccafe208b2dd12983ec8c11146beb8d12892b4c35af55240d",
+        "target_sha256": "b06f2f22a900e0b00da1ecd2b0591cf29870998c396caba440f765539c17108e"
+      },
+      "events:kx_viral_meme:/title": {
+        "source_sha256": "2f8c400a46438ea77b91be15ac7a6314b4df2f9ce3e533880cfa7874ac9ce657",
+        "target_sha256": "0d1d0316c150c225fb94645c3e7e9b1c6ae6a73065e4cb99ceb63a5cef62ee1b"
+      },
+      "events:kx_chuseok_traffic:/choices/0/result_text": {
+        "source_sha256": "e834e316e113cee015dca59d1bb8cf3cef204b977175cfd037b67ffda8d54cff",
+        "target_sha256": "0f2665c84e5d367660c8f396582b67a4bce6d0d5caa76bf637e532d9524ec31c"
+      },
+      "events:kx_chuseok_traffic:/choices/0/text": {
+        "source_sha256": "38938749ab68fe05479afdaa70e3f400f0389d5af1ae400df3dfd905f66625d1",
+        "target_sha256": "83f8f49b717b763e9b25f0dd07ff97c100f2ae13eb8753c7514a2154d9c56363"
+      },
+      "events:kx_chuseok_traffic:/choices/1/result_text": {
+        "source_sha256": "2767f2b631916d344803eea1b1d6f48fb3b0685b439dcd7a0b05a3233923a01b",
+        "target_sha256": "d8256e116716bda8d1e27b08455e81a329935104934ba28e3bc50398fd40a710"
+      },
+      "events:kx_chuseok_traffic:/choices/1/text": {
+        "source_sha256": "1c9c13da7dbaab042af83d9d7854f302d4ff55d197002b53418a8b096899f16a",
+        "target_sha256": "3fd7128ec11d097e3549f3277cece957cf0eb3b6c5f9d5d9f0c295f4ed1ac976"
+      },
+      "events:kx_chuseok_traffic:/description": {
+        "source_sha256": "e5f111831bc97c5aa21dd2299855019fcb1187544c802598e65f3db8ff6dd148",
+        "target_sha256": "05982b3814f3e2600fa6cb6809888e87b35132a144c1e58bbb8d7741e6cabfe3"
+      },
+      "events:kx_chuseok_traffic:/title": {
+        "source_sha256": "3ecc2ab58b23f4e47d1553da10535fcedf961fc518a44d1195cf2b77012f6875",
+        "target_sha256": "f7037289b28a030772a2d4d480e214b882dda9d6d9de0866671ea8a2d0b2ead3"
+      },
+      "events:kx_civil_defense_siren:/choices/0/result_text": {
+        "source_sha256": "3d0cc7fe25043d80e3c2087938175a574b6d3da326edbdead295c3d8118c2fea",
+        "target_sha256": "d9e6fb06ca876eac16dd2d51302c81f8f42d0f6c53d1954db09123573a4cfbcd"
+      },
+      "events:kx_civil_defense_siren:/choices/0/text": {
+        "source_sha256": "efc120c97035c1915315afa25fb241179685531875c155a57d8253ead6cac3d8",
+        "target_sha256": "638519cb9620b8551bdda9e683dc997cac691dc1fffe7450dae6d7513ae65b69"
+      },
+      "events:kx_civil_defense_siren:/choices/1/result_text": {
+        "source_sha256": "fd20d7f1ea4f3e360a52950274a868df0bdc8923ede23ee15d0323787ea8bd45",
+        "target_sha256": "a3be8f215e4dea407c3e5a968fa58f4d12d0cc8ed50a12ab0d36ed614ab0f1ad"
+      },
+      "events:kx_civil_defense_siren:/choices/1/text": {
+        "source_sha256": "042e8fa3143d264e16002dc50a4ea44b67bb78da05363f4ef5ee343243b09b3a",
+        "target_sha256": "2c05623b83a490bf69df345205802f8e8cc96c074812cacdff758298c5f81464"
+      },
+      "events:kx_civil_defense_siren:/description": {
+        "source_sha256": "af55dd3115cda3eada19f2ab6815fc1de32fca3ce1a9fbf0a727d8bbb92e9724",
+        "target_sha256": "41b51de0ba04fedf43dd80d9d32ee49e6a5d2bd42b038ffdefbd4a7cb8029a53"
+      },
+      "events:kx_civil_defense_siren:/title": {
+        "source_sha256": "36adfd7a2fdda3ffc2a8d6acfa0e8200cd08caa90effdd9b965eda25ba08e3f5",
+        "target_sha256": "28ac27d0d7742b486f70fc3f3eec936efcdcf6dcbb3fc41ac26e1eb00a67e188"
+      },
+      "events:kx_delivery_app:/choices/0/result_text": {
+        "source_sha256": "bfe5b3b0ed540ae4a4eddc7a6857015f8c41cc88251644fdf7f159478909f744",
+        "target_sha256": "e8dbc78ce73b26a499b506752b7b485dd8b544739951c3fa2b49ebe24cda771e"
+      },
+      "events:kx_delivery_app:/choices/0/text": {
+        "source_sha256": "77f8f669a65acbfe41d4b6c506335c526f22902d74643676bb58313c0af91e82",
+        "target_sha256": "0e033fec27f2acef0be618411c8cc10bec8b5f581c5feef402b1c1cb85d9313f"
+      },
+      "events:kx_delivery_app:/choices/1/result_text": {
+        "source_sha256": "ab0711ec24a50ff6f2c8346df585241f2edc3ed0eff304c81241cd0cfa0cd535",
+        "target_sha256": "a066969fd8529d6912ed3a0a2bd0bfccf17b11d014f9a0a3d38956d25a90de54"
+      },
+      "events:kx_delivery_app:/choices/1/text": {
+        "source_sha256": "1500ccaa89b8ac82654928e33e5d4993f9554b1cab083152bc05ff5c2a072c7c",
+        "target_sha256": "b5bb84403b9f1051f77bf7150a2fd823a820097689282bef5495bd48d9e06b50"
+      },
+      "events:kx_delivery_app:/description": {
+        "source_sha256": "918dbc9d15eaf2e28874e8cf583afdce0242db93d4de6ab9c46095b3a0398b59",
+        "target_sha256": "ecc9df48d36e03e437a29ceebf9adae3797f8fff8799088e1ae8eb51d912e972"
+      },
+      "events:kx_delivery_app:/title": {
+        "source_sha256": "6122c45dbaeabe620676b76f598769738d9a6efee39c4e3848c837c4754f75c3",
+        "target_sha256": "8fee739a09389d8261de8ad75584202dad15c539d050124a6b96d2863f8bfd1f"
+      },
+      "events:kx_friend_military:/choices/0/result_text": {
+        "source_sha256": "660065ba61cb6ab6f80a184793cadd0cff8a644b8aac93e0ae9f76969ff4fe89",
+        "target_sha256": "9990d322a455fee41d27396fd45a2b36c754c2df50b5b14f1a1576f127e9bd69"
+      },
+      "events:kx_friend_military:/choices/0/text": {
+        "source_sha256": "4c1debec131054e18aaac6ff07128f393cfb571a7b971a83b91032b21d47ca60",
+        "target_sha256": "5394c22486290a8542f506aca53c5a4f8ee06a9e11d788780f869076906ae762"
+      },
+      "events:kx_friend_military:/choices/1/result_text": {
+        "source_sha256": "b942587d39f8c3eb9f1226cd0a4dc4b338a41298b00501a49b56dddad4735e53",
+        "target_sha256": "f3768a5e340b2307873ca02956afd982ff45b9ee4e7a982ddca514a28d94fa5f"
+      },
+      "events:kx_friend_military:/choices/1/text": {
+        "source_sha256": "3812cfc70fab9253ad435b77ce27fb006503714c31adee6b78c7f5a70305ce80",
+        "target_sha256": "d19c03ceda721e44b6e41e4200b373034cb3296361a7b88aebad514a765303e4"
+      },
+      "events:kx_friend_military:/description": {
+        "source_sha256": "084a0902934ef6e51c6ac1c5d4b469b693707b989dd94f17345d2094726b2774",
+        "target_sha256": "9b9eb8c4eb42434f0bd1daf8f90283be8ff794d9a6d9f005e994e7b4446553c5"
+      },
+      "events:kx_friend_military:/title": {
+        "source_sha256": "4fb9015b430d72fae5502a36f5b78c2dc5c397d3d0ab972469ff2b9838036c80",
+        "target_sha256": "67de742c7d37770ec1d545acf9588b7c820504db38d1d433f68e029332c8aae0"
+      },
+      "events:kx_gogi_buffet:/choices/0/result_text": {
+        "source_sha256": "a427025c833d358b5d93815562f78b03aefd29c033993184ba2b032828e6aaa7",
+        "target_sha256": "6d659303636cc87aced7e5c1429aef79ac0cd2a9965b1bc6d821ec2be821f2bd"
+      },
+      "events:kx_gogi_buffet:/choices/0/text": {
+        "source_sha256": "819509dbcf71e30961138840d25df6a804d9a1febc9f4ece9de84a23d0cb94c1",
+        "target_sha256": "0b1d171615421e628bda93285368002b977b6467fc690b29f221668a9ed3e425"
+      },
+      "events:kx_gogi_buffet:/choices/1/result_text": {
+        "source_sha256": "0ae9824005abc2f92ac100df1f140df80e98eb18e767c30267d96190f84e341b",
+        "target_sha256": "2d3569ae1800441fdc88d62b1e694975cc296d2dcfbc167b77507a9cdafdce2f"
+      },
+      "events:kx_gogi_buffet:/choices/1/text": {
+        "source_sha256": "095380b3163bade8345f5ce194a338d2cd7c44fcdeb060d19493092cf7212edc",
+        "target_sha256": "3ce38f2058a7a2ec54d532d74b7f7d222199ad41450d207b03aa93d7be27ce00"
+      },
+      "events:kx_gogi_buffet:/description": {
+        "source_sha256": "e479e4923dcb69969db1b977369aeafb372adbe85b9f0a125f6a5e960144d43a",
+        "target_sha256": "3e58a015dc46c0421c1f7f1a8c5c5148edd49cfbe3117e5395ee86c32ae714fb"
+      },
+      "events:kx_gogi_buffet:/title": {
+        "source_sha256": "8b78b3f7f04d96c98261eeaac707a35e83aada428769f9ad165358622617182c",
+        "target_sha256": "538ce5efb4635a46e68ee2b92142a479c70757b8706102b6d80ace79f2a5d590"
+      },
+      "events:kx_holiday_alone:/choices/0/result_text": {
+        "source_sha256": "4d291a4fd5139eca466dd4bf364a20869763ab47593b0dc1e06f35180fbc2efe",
+        "target_sha256": "4a6810bc948e5f6a7caa1acb27e0ed73cda32bdeea516d44b3a9938bb91b3b47"
+      },
+      "events:kx_holiday_alone:/choices/0/text": {
+        "source_sha256": "94f9bacebc6a2e6ab935346192e2f96dc327eda979c01fcc01bf6157d6e2f44f",
+        "target_sha256": "6d80d1e6e20bb0ac4232edeecb19b738d9251c03a934475cd3b26df84b6cbb32"
+      },
+      "events:kx_holiday_alone:/choices/1/result_text": {
+        "source_sha256": "5bcaf604047c2a2fa09b7d2931c706d29ec7bfceef3cba267d33d432a64c4839",
+        "target_sha256": "68e3d720aa3dd7d4bfe894f27d70b92e608f2cc16fd2778a8e0a737340fc547c"
+      },
+      "events:kx_holiday_alone:/choices/1/text": {
+        "source_sha256": "026eb3ec97765116a664e3f391661a308d2833c257b569d7f713994f88df2afd",
+        "target_sha256": "61d27610645a26c7e904fddcd23eeb8cd699c7a4fe38569f8adc4b1078fccaec"
+      },
+      "events:kx_holiday_alone:/description": {
+        "source_sha256": "ad901dc2f533a159f165dee98303d3695ba1271069667c0c5131d8aadf53adfd",
+        "target_sha256": "30749bbfdfb8e16f3899db7c57f268f1c279e01fa32c80c526169747f90a58ec"
+      },
+      "events:kx_holiday_alone:/title": {
+        "source_sha256": "d8d4868104d9e7a4de08fafa4693acd4c44ed19d47636723b9f76ba69ba82d3e",
+        "target_sha256": "bb09a5947238fb8676243dab9a67fe5d7847a47a4c2a1822a3d391239eb42945"
+      },
+      "events:kx_kdrama_binge:/choices/0/result_text": {
+        "source_sha256": "e4040d966ea3ccadfeb90e77a1154651cf8941beba2e02c90999c98c536661e8",
+        "target_sha256": "93908560670211d96ee7708bf7604fd93d0baab9c238c10b8c3105d685176dc2"
+      },
+      "events:kx_kdrama_binge:/choices/0/text": {
+        "source_sha256": "4c46d4c64148d8f39fd7422f47d8b421f1393c05a14b23513ff8dc6cc073eee3",
+        "target_sha256": "d0c9af91156addd697444c3babd4fa732c38507a262b7b7b4c810331bc40dc35"
+      },
+      "events:kx_kdrama_binge:/choices/1/result_text": {
+        "source_sha256": "6cd69abdfabfbbb0a355dd9e6f8f9b4bb8b0f0d43f34b18a5ae649db983dd527",
+        "target_sha256": "fa8748c5361e5c85ee8fe10779c84bea3aa64bdf757312670d21e7d7017a193b"
+      },
+      "events:kx_kdrama_binge:/choices/1/text": {
+        "source_sha256": "5ba78ea21f84c2d510cd1bcf04678ae7f4961b2ded9dcbe8998b9ec4bd4fcc02",
+        "target_sha256": "cf0b800697b4037f89d7b4d38f6832de07ca5d3106527eaccefbafa566f0790f"
+      },
+      "events:kx_kdrama_binge:/description": {
+        "source_sha256": "7e4b42d88262fa91b4c9881d518bd7d85ce868482ab6884a7f07dd6668a69949",
+        "target_sha256": "048006dfe660dac81e09b9964661a9e10022e78531a12be7bf9206195f2e904e"
+      },
+      "events:kx_kdrama_binge:/title": {
+        "source_sha256": "3cc0d1c5f5bbaa3f9df5487afa4759080d6050f2de6dfa646269952e4885b95c",
+        "target_sha256": "c268198649577a61521f1c07440944dd8a677fad183e0a656b5501b85c5d96ce"
+      },
+      "events:kx_kpop_concert:/choices/0/result_text": {
+        "source_sha256": "1f451273af5413fc8e2809f5fdaee62a29fff6d709066d115597f33e7eaa2d45",
+        "target_sha256": "2a2f48627e4328c88d6d28ccf50fb69f83186e392150c36378ec199ad959e3f2"
+      },
+      "events:kx_kpop_concert:/choices/0/text": {
+        "source_sha256": "420e00dad978dcc2ca2ed767b116bb8a781aa260288037e000c6aa77439092e5",
+        "target_sha256": "40fd87e90e2b86287e7e938bfbb903c6f2d5efdc4433abe67be98e3df27b20f0"
+      },
+      "events:kx_kpop_concert:/choices/1/result_text": {
+        "source_sha256": "9c4dae286ebcbaea77781eeeb50203afa7085731cfe0ffd9d5a22c71e1112fe8",
+        "target_sha256": "25ad377546e14ded2f11e33d08ec3240e1bcca4a700db88bb9677323d52533f9"
+      },
+      "events:kx_kpop_concert:/choices/1/text": {
+        "source_sha256": "2c36d82edc33658558e28a9f1520d93b3f5dd9afa7700cfa298fd3437ce96fb3",
+        "target_sha256": "7640e076930e2949d0f55d3a8a6c1e58f7b1f1058235b981542359876c48008e"
+      },
+      "events:kx_kpop_concert:/description": {
+        "source_sha256": "2c9beb759acafaf5f563242cd58fd42af518bd934af0be56a8ff0b37098ce2ac",
+        "target_sha256": "0265295c3ea78577e4a43a0e6e2ef84d67610638c218956007ee8f9f633a7277"
+      },
+      "events:kx_kpop_concert:/title": {
+        "source_sha256": "eb6ff249ab8fadfd79747db5ec699f051e79e3bcb9058b74874b5f5312cac803",
+        "target_sha256": "79d8930ffef598f8803f5fc936c33cdc1b0b2bb2d77a61d644afe931ee233250"
+      },
+      "events:kx_kpop_ticketing:/choices/0/result_text": {
+        "source_sha256": "6e31eecb8505fc249b94cdf0dfd9bca59d80707457c08a470531789e9f7a973c",
+        "target_sha256": "6657cfbb897f6e4728b163843e2e4a5b22eba5d0709dd58a66b2e32c03ad741a"
+      },
+      "events:kx_kpop_ticketing:/choices/0/text": {
+        "source_sha256": "651002f9e7f60ea299d020b7858a5e3215be5fb8f91a8075646a2d6ec91a9d6f",
+        "target_sha256": "545419433a69a41541f4dadf5b14a9a13559ba8e46a71accec5f5134be40e3de"
+      },
+      "events:kx_kpop_ticketing:/choices/1/result_text": {
+        "source_sha256": "481ae1fba1d6b80ff1b2e5ef19bd9d519253d047f4df991f9db85e41d747a0d6",
+        "target_sha256": "4ff3d7ec37e8b95c9e34e1c495c73c771c65eee6f3bc69f6b586c27bf75d2a22"
+      },
+      "events:kx_kpop_ticketing:/choices/1/text": {
+        "source_sha256": "3fe7f4f675b55346d27fcd594ba676f2a98d63ba30ec48937310733bc65fea0b",
+        "target_sha256": "c62ba61632a79e022d58c155aa849724a91276de10e87cc6875e2d61f88bd3e8"
+      },
+      "events:kx_kpop_ticketing:/description": {
+        "source_sha256": "6ecb060411183d254caeeabccdf35e8b22a52e6b0af094ca2d2b6364af75fa49",
+        "target_sha256": "4be710f71c10955e6f3f0637346db2e19054439db5689800eacdf653b280c106"
+      },
+      "events:kx_kpop_ticketing:/title": {
+        "source_sha256": "c27f328986bbc1f6173e1fb47e234d1ed92629bd1faa211c414ac35e72c740cc",
+        "target_sha256": "c9d81766705125eeec356fadae47876919e8f251bfd9aca41363474b06efcf45"
+      },
+      "events:kx_malatang_tanghulu:/choices/0/result_text": {
+        "source_sha256": "c1fe1086e19ec95da4d5012ad445e3276a2f0d085d2d5444b2179acb8cde2164",
+        "target_sha256": "8c24f91061c8dfb80afba00842ff8378f06bbeca9c809cb99642ab3b8658f0e3"
+      },
+      "events:kx_malatang_tanghulu:/choices/0/text": {
+        "source_sha256": "73ede24a52ad99e385af9e3c5515c6ce30f5fb897f9f9e8e6d75e91cc2351314",
+        "target_sha256": "c8d82c033426706a425a14721cbb22abbe059a48102b38bdfbfd5dd8ebd95a9c"
+      },
+      "events:kx_malatang_tanghulu:/choices/1/result_text": {
+        "source_sha256": "5980f78a0d5881778af51e5f49d23355bed937c1b544127fbae69056079a0d66",
+        "target_sha256": "b1df9dd3a7798c1914f4c302334f5ce4650c7ff126999f34ee1397fd39dc8e79"
+      },
+      "events:kx_malatang_tanghulu:/choices/1/text": {
+        "source_sha256": "2f13e4a6a6f31a9d4a7eef888f979ecdc8094d47b3f8abecaa028918ce9797c7",
+        "target_sha256": "6081ff2bf85a1807105d5cfdc274c8af13c7c680e7b65cb6e5e744954710b77c"
+      },
+      "events:kx_malatang_tanghulu:/description": {
+        "source_sha256": "7216920f6a793a6ef51fdc0c1b4ad774fde411795975b5aa0d73396e579242b8",
+        "target_sha256": "b1d381be956a037dfd2a3fb815ce2537b603bf7b3342617974e11e0b8929518a"
+      },
+      "events:kx_malatang_tanghulu:/title": {
+        "source_sha256": "1ee44e83fb36626b7c906c3fe3d9f87333bea9730404d14ab840b194c64a98ca",
+        "target_sha256": "a58d3a3bd5515642f1e03f5d1740edf6fdb2bf803a75050c94d78a8ff307b968"
+      },
+      "events:kx_north_korea_news:/choices/0/result_text": {
+        "source_sha256": "22151b852d719dc0b9cde6aeda87b165087c1de07711dc5c4445932f55c5297f",
+        "target_sha256": "d8a6264b6e9b684a02af63478c419c2dca7c5af90721aabd4e39d0297390ea58"
+      },
+      "events:kx_north_korea_news:/choices/0/text": {
+        "source_sha256": "52a008e3ffd56860997d363ca0dfd83f58675033449d80cbc09dfe98f39d8510",
+        "target_sha256": "f7f8cff6aba121eeac1ca3f50815f33d9834ddfa1a5cff193245eca74f9e4476"
+      },
+      "events:kx_north_korea_news:/choices/1/result_text": {
+        "source_sha256": "84c37dd21acbde1f336f41ecd50fef8f3881879fd915752ffd4e1951da43112d",
+        "target_sha256": "09149b03ebd296120c0ac189c48edab36bba1ef96a27a2593581b9622c549d8a"
+      },
+      "events:kx_north_korea_news:/choices/1/text": {
+        "source_sha256": "5e7e9d6cf41f5963b862756472787bb47c2c8a1f1b05a18d96b62e644be84700",
+        "target_sha256": "5e6618177855b3d1582c1fa121bbd3a11263129a0a07e375f4d703be134b4dbf"
+      },
+      "events:kx_north_korea_news:/description": {
+        "source_sha256": "8d0cff7b5eeff708b929975dcf31adcd118718c6ba3a83ba5ee4a874e738f5be",
+        "target_sha256": "a195bc56d25a475761eabbb9f9a2281ed160bcae552c92b59034e4b62e2c31df"
+      },
+      "events:kx_north_korea_news:/title": {
+        "source_sha256": "13a31eeb35e214998c4b62a23dc798d0e330c1b6dc645ee72e73111fc734c8c5",
+        "target_sha256": "6afd4152b85c750b684894e6e5f127fea1c1744ff97ea25fbdfbb7e6a02cfbaf"
+      },
+      "events:kx_photocard:/choices/0/result_text": {
+        "source_sha256": "8bb06b94e9863a7a8580495f0b0850133a804c050e2a34b7adc79f63e6686f38",
+        "target_sha256": "b107dc036113c7d5741f5545328170b35965364e2c6eee6844b8fdaf74b1a0cc"
+      },
+      "events:kx_photocard:/choices/0/text": {
+        "source_sha256": "7408e06327aa1c69b9e8794c37082b0dbb3ba1852e637e4ca2d5a4f33d46a4a6",
+        "target_sha256": "fda4e4e23759f75dc32e2c73c3de0bd23ae08bb0923319130085289a7002223c"
+      },
+      "events:kx_photocard:/choices/1/result_text": {
+        "source_sha256": "74879e2ab9f4235fe6a590ce84c04b4ed4a130a803c0c2972249db9e9b615cd2",
+        "target_sha256": "7c1453e172f85305d1560e9b8f9bedd0a5082b64479bcd440d273193743d1ea3"
+      },
+      "events:kx_photocard:/choices/1/text": {
+        "source_sha256": "61f7e82f25148be17092793729277e4afd71a89b04524ad7185ff5b1c076e23d",
+        "target_sha256": "ebfb2c5d962edeadb5116155f380bc4f1cf3ed6f41c1dd7d7ffd74d9c3d54143"
+      },
+      "events:kx_photocard:/description": {
+        "source_sha256": "0c91e6d7c6dd086c20a9ce954597b98112856598c0928d5f0ad0202154287b3a",
+        "target_sha256": "3a502a17fc4b01a08caabf7f6dfdb19d011baebf9b3496080cb670696e77be1b"
+      },
+      "events:kx_photocard:/title": {
+        "source_sha256": "8f8536eebcf116de29e6248d84ba2023b99b0df339eb4fb2be781b9b3aeac61c",
+        "target_sha256": "56a7b333fd45514751cfab146c288814aae40b2dd866efcc8b77649a524d02a5"
+      },
+      "events:kx_reserve_duty:/choices/0/result_text": {
+        "source_sha256": "cd35bf2a5acc9992cf2d397ac6dfe3d9088167cd828efe1ec7d85274e637f835",
+        "target_sha256": "1c6af0bb9def482cdc11f18e4eb39e6cb21afce9208f82f182495e65ccde15d7"
+      },
+      "events:kx_reserve_duty:/choices/0/text": {
+        "source_sha256": "e78036d35e6bdf8cb974bf6e2110bdf96f332e95f4ce5ba168fba580c26ddb5d",
+        "target_sha256": "ebc6e940f890b7d5dfa0440f700086068b7ffe6f1c3fdb747669692d7ac4f2df"
+      },
+      "events:kx_reserve_duty:/choices/1/result_text": {
+        "source_sha256": "7cbf689c353c286217a87ba13370830683fb2b32f2a4802ac590d5f4602868ee",
+        "target_sha256": "f84a643e2a34c65475143607587c224aa29b4b155719d098108e99229387c69e"
+      },
+      "events:kx_reserve_duty:/choices/1/text": {
+        "source_sha256": "f29df510fc8ad54dfafd35d475b8358217bb62a8544d3ab2c9b17786ce6f89f7",
+        "target_sha256": "f59f14672bf01d753fadb9686a3f0a899e585cfbe228cb0aafab92613a875a32"
+      },
+      "events:kx_reserve_duty:/description": {
+        "source_sha256": "a35524f3dcab3a43723b0aa9736a34eae3f344d7e7cdc2833b9887037cba451a",
+        "target_sha256": "1b534c73f93c061a0ce1fecf7868847ae91d883cb330c54987ff23381e6e002f"
+      },
+      "events:kx_reserve_duty:/title": {
+        "source_sha256": "64f27070cd50cf5ecf3ac55ece4890bb07bbb7e5b738d77d669ead988e3fe788",
+        "target_sha256": "e73b83a541b26197ad67f621cae77187d8c39039a1fe5830204ae49a7481a9b1"
+      },
+      "events:kx_saju_cafe:/choices/0/result_text": {
+        "source_sha256": "8ec42b441cdaac968e2299800cb5e280de5ad3174e0cdf93f0348f2aa885f660",
+        "target_sha256": "1ee08be215b5c4d4661ba28877865dc84e2012b6e768f4e102dc22f284b63b1e"
+      },
+      "events:kx_saju_cafe:/choices/0/text": {
+        "source_sha256": "34d8734c46b0469a436b7642bbf91dd75c4f19f1ef067b71bd176b9f2e0ec670",
+        "target_sha256": "0eef01f7410ed9e0b7791b64200d02479bce51a8c219ce8147ad815a543cc24e"
+      },
+      "events:kx_saju_cafe:/choices/1/result_text": {
+        "source_sha256": "2f75643e22c3c1480d4e657da3c6c3a77ef80dc35ef068ee85bd2bb5f9edbf43",
+        "target_sha256": "b8701e569bbbb06664e3756b31b14fca6bbaf5da4dfc54d4833f572f6782b76e"
+      },
+      "events:kx_saju_cafe:/choices/1/text": {
+        "source_sha256": "b669897938996514e26d793458d843b791ba1387f8c45ae71744aa4025952e27",
+        "target_sha256": "f625471455d293e2a3492a3164ebf9de4516ae4034547bc2fb9f52c4d2e2f370"
+      },
+      "events:kx_saju_cafe:/description": {
+        "source_sha256": "8161ab8606afa31b0f36c3dfb8b1c8c32c6cc7be38ffa9def88bab065c9f0467",
+        "target_sha256": "af01a4ac2c86799ab36e899ece07f40b1b61115a033c52a9c184ddfa3ae30951"
+      },
+      "events:kx_saju_cafe:/title": {
+        "source_sha256": "cdf5dd7d94e81ab307d6dc2f53506fa5d483b517ee80a980d7a36d4c5d3f2498",
+        "target_sha256": "8b92171b9289ce1cc16413df0add44dec58ad975af23a06a578b06fb46db7050"
+      },
+      "events:kx_seollal_sebae:/choices/0/result_text": {
+        "source_sha256": "309b485f66e1036ddf1b36be7a788dfb5ec40875d34945bc0e40c4d6c58524bd",
+        "target_sha256": "52374bac052ee868c24fdc764b5df51a6cf3b43244a899f7cb514cce55930fb2"
+      },
+      "events:kx_seollal_sebae:/choices/0/text": {
+        "source_sha256": "d4e072c6b2e009e072d7c460b199094e3b6efbbb8012b8f237766fae36785372",
+        "target_sha256": "3ac33fe20a04afddcdf720330995ff7dd44aa3d4dd396d2ea29369e75435e3e9"
+      },
+      "events:kx_seollal_sebae:/choices/1/result_text": {
+        "source_sha256": "f8380a57d645118dec47b19ec77efd5edbc985bfcc5e7f1155be12e8400bd438",
+        "target_sha256": "334b27b065df437a9bc06895aa0b90f6318820193351ef5903c62ce80bfdba46"
+      },
+      "events:kx_seollal_sebae:/choices/1/text": {
+        "source_sha256": "6709b0ffed78ee6790fc4193be8ba45f36b866db25961a727891cfd115a98071",
+        "target_sha256": "e08131817139a6638d044bec12ffcb09b383dd4424635ec73a9ffabeed9e22d8"
+      },
+      "events:kx_seollal_sebae:/description": {
+        "source_sha256": "6701123ee644e0a88e59da4b5aee55ed1a3e836387c17653fc3b8228640f4cac",
+        "target_sha256": "fbac1762d164c3b2453c89fff4222df6b4a8c33f35d88d5a728e955e1f7abe45"
+      },
+      "events:kx_seollal_sebae:/title": {
+        "source_sha256": "a33ce5070160343e12716176eb8ade2819e58d7c4a930e32eb4507d70cf4e4c7",
+        "target_sha256": "996da9bc21129eead7228a5cfe30ee477d087e21274e651ceb0e59fe61b439ff"
+      },
+      "events:kx_street_food:/choices/0/result_text": {
+        "source_sha256": "d55ac7fcc3075f6ffaae330ba271349b34c7c040d3194af904a906a222bb50ff",
+        "target_sha256": "90586cebdeca61f2f5f972574f62f178fd11f60757cbb9b7fd67ca4b710e4820"
+      },
+      "events:kx_street_food:/choices/0/text": {
+        "source_sha256": "b433b9f9c69d59775bcedfefded2d8b65e63d897a329fcf5eb4ad4464b9e4795",
+        "target_sha256": "da4cd74f86cdec92585addbd61caa432cf7be96cec375f79cfaecfe1c9f49dc9"
+      },
+      "events:kx_street_food:/choices/1/result_text": {
+        "source_sha256": "97eb64d5ad8a561df5ade50d755570771b75c92cf5e7a058987a66a4d6a55dc6",
+        "target_sha256": "4a51feaa6143da39d06c4cfda5049952de412397cd0c50b4441e4904fe6a651b"
+      },
+      "events:kx_street_food:/choices/1/text": {
+        "source_sha256": "c3d9fdc4f26e9c8e20466cfb018c71392d225fb7a41fb32cab8dae2e004a8cb6",
+        "target_sha256": "3931e25fbd07369e209d75ab110d632ae3d2cb31500bcba03882c5c4fd6a2fdc"
+      },
+      "events:kx_street_food:/description": {
+        "source_sha256": "6547c33c73cd4ef7dbc5cceb41568fb61bdbb2ecd100b8bfea80f22a3451efb0",
+        "target_sha256": "ec964b0457005e66b2099900abf5362fcdf0a28bd14c5f9ee7c5e449bb9ef0cc"
+      },
+      "events:kx_street_food:/title": {
+        "source_sha256": "9bac99fc118c652ed174b23f9ff0cdde096d0a8c90681f59bec63c4141d7b4e6",
+        "target_sha256": "1b4a3b414ac78280ec22f6d68b049b45104d7b3879e7e49033c487f86c7d9f59"
+      },
+      "events:kx_tarot:/choices/0/result_text": {
+        "source_sha256": "a63a6ad91eda45a1deaeb65d6de54fe9fc6da87d99b610d855e761fc192b9b0a",
+        "target_sha256": "5c629181b9568091cb420fca63275755c6dc6a7d618bcedf97732760ed3059be"
+      },
+      "events:kx_tarot:/choices/0/text": {
+        "source_sha256": "a89dc7fdd68f491a03d9fb2647ea99d4a16227350bd74de40deedb6a46aba569",
+        "target_sha256": "93ccf867dd7389c1b1d4b292276023368597cc5272d8b76180c205181bdda555"
+      },
+      "events:kx_tarot:/choices/1/result_text": {
+        "source_sha256": "aa4e5705bfc630e3a4f80c656f83c6882bc7a17b4a6ab92baaa87d48bf7c8028",
+        "target_sha256": "7b7d6dbd1fd1868d91d0b31b75c072542af4f3e097b3096c22e4f0c18dbf883f"
+      },
+      "events:kx_tarot:/choices/1/text": {
+        "source_sha256": "4572f91cd457be1c028883a9482adebe9c01a5c799b3745f113137c8d8dd4b5e",
+        "target_sha256": "63e5b34974db9bef261e509f1819718866c001159aa02fda1b556deff40dfaf2"
+      },
+      "events:kx_tarot:/description": {
+        "source_sha256": "ff23850571e4ed123403af2e43f50872c3840dce4f2464c189e21b633c15b7fa",
+        "target_sha256": "b95228b7ce7d5c7fc520cff60f68dff583beb01e7be4d865ec979e9de42b82f6"
+      },
+      "events:kx_tarot:/title": {
+        "source_sha256": "b9e73aaeb85f3caa24996dcad7abe75aa424910dbc470bed4e1142dbb75b744b",
+        "target_sha256": "c011d68fd5f256937b2b5e48d3c6c729e871c878fc70e0cd98195f0514872eea"
+      },
+      "events:kx_tteokbokki:/choices/0/result_text": {
+        "source_sha256": "c53b6f4e17e0d31ff989d121cdb65757ff5eaa83f1048b56c4bd2c15bd9f7e54",
+        "target_sha256": "7679c1c6993be762f1620f991f1fb767b650f3c9c42d31ec7d317ca1ca23ff21"
+      },
+      "events:kx_tteokbokki:/choices/0/text": {
+        "source_sha256": "f443f7b9df64fae69099d448d72e090a06f46017c864edeb2983acfebb19030f",
+        "target_sha256": "e82a63044b0e3b0a88c8343d3dd0e806533d210441571568acffe10c5735353a"
+      },
+      "events:kx_tteokbokki:/choices/1/result_text": {
+        "source_sha256": "57004342d28d4b40ae94714ebdbe4dd2b71b072b64321e5c78cea2320c15c7d5",
+        "target_sha256": "e6eabce5c52bfa036e65ab1c50fdd98ded0c282ca4b4170a696f73003b92562e"
+      },
+      "events:kx_tteokbokki:/choices/1/text": {
+        "source_sha256": "4b9be3a5b024d9a581f03ea9b4573d7edb4d6c257db86d752b84f196f3dc35ee",
+        "target_sha256": "700c611feadc9b0666c041aafb96c60be7baca6c54197f6cbca2f609d8888fa0"
+      },
+      "events:kx_tteokbokki:/description": {
+        "source_sha256": "7b1e2ff54b67993d3dd25145f33388fabfc8543c64425bf50fb9b89f02129cf2",
+        "target_sha256": "1ede41e8e5fc90996c3b255719ef51655a326eb0c65e5b088ddfc46e29b37a29"
+      },
+      "events:kx_tteokbokki:/title": {
+        "source_sha256": "f55cdc8d3dafe6a343bcbc304fdf1ec1a2e58f6c4413e90a320709fcac5358ff",
+        "target_sha256": "c56c0e05f462ee176a6f230b33f9029762836d953a2634c1f717acd387b270a5"
+      },
+      "events:kx_us_korea_news:/choices/0/result_text": {
+        "source_sha256": "41b4ffbe53d7b89af6409b44c974c68ea904562e48c562b879ef51bcc9d23952",
+        "target_sha256": "4bb4b42a6088d5da10ef6a9f711b1ab7f9333360e08ad740ef17ce56319d0bd5"
+      },
+      "events:kx_us_korea_news:/choices/0/text": {
+        "source_sha256": "fda8dc1217f86de524df21802d7f2937bd4f164b853dd39f0bb80721c3d4164d",
+        "target_sha256": "fec23473f35c3cb3074c9b9c73b8a7800b408dc9117439416b3485f915d453ef"
+      },
+      "events:kx_us_korea_news:/choices/1/result_text": {
+        "source_sha256": "932eee2d342cc2fbb308d93adaa06a615f8cfac08a6a0ba5d06aaed6fc892731",
+        "target_sha256": "63a29ac9216c17b8bd202a34be3a3576e8d52e8f01d3656727c25e5c77338c6f"
+      },
+      "events:kx_us_korea_news:/choices/1/text": {
+        "source_sha256": "6b04d99d9c47adf540f2f32e4e6185e3f7210f263c97c86aea52881ba32d39e8",
+        "target_sha256": "3784dff16786e24361e10702b8215483dc845f1bb8102c2d63a39149f5234ab6"
+      },
+      "events:kx_us_korea_news:/description": {
+        "source_sha256": "31cd234e19c75208a5fd8b717987faa894807fe187ac43a89529274e8e748e4d",
+        "target_sha256": "0357f11d19148411c1bb4f01d9c3d2b0e8474f90d4dec50473c077d3754576ee"
+      },
+      "events:kx_us_korea_news:/title": {
+        "source_sha256": "39c6f8de52a25025462b39c6d60cb4b0d0b9d882f0f28014285771937913cd25",
+        "target_sha256": "b2592fa72f8a1a993b3e4f041ea4a87a32b7b78b9cbe39cf3af9ef4582a63562"
+      },
+      "events:kx_yearly_fortune:/choices/0/result_text": {
+        "source_sha256": "5ae73b9eabca7207fdb5fe0baae0125e53fa41b34abb26b4775b6cfafd971ed6",
+        "target_sha256": "329cdbb0f6c50f2b1038ca1ec2ba29106b7e44daaedd4d0eca83a55a039516c6"
+      },
+      "events:kx_yearly_fortune:/choices/0/text": {
+        "source_sha256": "e18ab6ce8f0787267c6e4061c5cad9fcad1435f726bf07de81ecff8eaffafeab",
+        "target_sha256": "72323bb63ee6ff130a15d049841e1be402eb5eab0aeb89cf229edab998a18082"
+      },
+      "events:kx_yearly_fortune:/choices/1/result_text": {
+        "source_sha256": "8f2308a99befc22d3d922e904b2c2466398bb42e960d4456797441f71455051f",
+        "target_sha256": "9c5dc6230ff03facd943eade80562ea48b1cb9b86d7e9e1dff244b1dd959ce2f"
+      },
+      "events:kx_yearly_fortune:/choices/1/text": {
+        "source_sha256": "2572bdeb43902aeb81d5e4d6ef6123033670322c8558e7fad1244f429e2e44f4",
+        "target_sha256": "bb7f9d0094b7716e6f7679350641abc0b3bb2bdc360cf772aa668245c8b4b051"
+      },
+      "events:kx_yearly_fortune:/description": {
+        "source_sha256": "decef64b43ddfd8f49eaeb82f9a421240e824cb15f7087ec10ae426a694f4e2b",
+        "target_sha256": "3383917d008cff2754d8095c00b5b0b021670de8ce3759123ad7988405b04c8e"
+      },
+      "events:kx_yearly_fortune:/title": {
+        "source_sha256": "c66a7a61ea95dbde0a25d1d7082c63dc7a387b55e298a7470e027b7152d4253a",
+        "target_sha256": "2178788533a7b35488ea129661c7e1b2fda800975829d23a1cf6d21cf1b043b2"
       }
     },
     "zh-TW": {
@@ -122383,10 +124390,978 @@
       "events:unorthodox_underground_network:/title": {
         "source_sha256": "2454092789a61a691b019f466ea668ce6873e8a39afee18d526ebca8f79bf2fb",
         "target_sha256": "661b0ce84cf49487832e094016d162102fd2283558902cca8e1ce8974beec8ea"
+      },
+      "events:kx_claw_machine:/choices/0/result_text": {
+        "source_sha256": "03dc08692fa1fb19e287f0a0cc762b43332b1b025e2bfa3966cf04fcebb01cdd",
+        "target_sha256": "a1b50682a5c3e5f9ef57ec75208022485f3cd14290f9c972b17d1020ae780460"
+      },
+      "events:kx_claw_machine:/choices/0/text": {
+        "source_sha256": "6a765c4ef229cc99f7f8ecc93de66760facf87f947e1321a6f979f30bd66dc14",
+        "target_sha256": "8a09750066fe90a8c7e0ac9d15bb84e927bcee4d2f726de312ad80cc2f67d703"
+      },
+      "events:kx_claw_machine:/choices/1/result_text": {
+        "source_sha256": "4e369a1cc1b680760127a8285621d2e6675302b80a201e82477f478038c57ad8",
+        "target_sha256": "4f7ec5f19ba7edfb6cadd25a4e23e888091b9dbcf79f026779e4b616b492a3bc"
+      },
+      "events:kx_claw_machine:/choices/1/text": {
+        "source_sha256": "4c5d8724cba58e7de5f014ee56ceca613ec0c3a857b3bddfe13366e9e9fa744a",
+        "target_sha256": "0876d23022eea93f9441c420d1ae8a79dc50e9481458f58ab173b3d66b95fe9b"
+      },
+      "events:kx_claw_machine:/choices/2/result_text": {
+        "source_sha256": "bdd054bdf31ed27d43a4b4f9b48d2ba21959f98a5151fe847d35c48e76ac32db",
+        "target_sha256": "0a648120251dabc49963e7e0977ac4b5a2074a0683c708b18451c99870b46d96"
+      },
+      "events:kx_claw_machine:/choices/2/text": {
+        "source_sha256": "3d2b0d5ac371c4ce2a7ea2daf072c842dbe511e1741c38069f08d0d44d385975",
+        "target_sha256": "1bc5ea1e283f6908a06c361ba14b0a1124eb3348253a45294f3537a9edc43619"
+      },
+      "events:kx_claw_machine:/description": {
+        "source_sha256": "8504e593b14c5952e10bd805e0d4328c35aa6bdcf9ec664baae0692f6bb1c2c5",
+        "target_sha256": "d2230afa01096aeb117a55345e2e62380ac325bb6aefebb39432cd1a3192bcc4"
+      },
+      "events:kx_claw_machine:/title": {
+        "source_sha256": "48416ad79073813573be537f9a4f7763e8d88a95629a90cb69d7760be6e5d1f6",
+        "target_sha256": "5673cdf1b1cbfb5e58bd312dd752804910f3c9378d99964e330c7305e38b8bfe"
+      },
+      "events:kx_coin_noraebang:/choices/0/result_text": {
+        "source_sha256": "b7924938fcf2aa516a43aa6234bb725d45d105b865db51310d217cf566667e36",
+        "target_sha256": "7a1fe47f842c03c8e8099b8b25958c7375cc6774fe6f7db39e24840cbea28fa0"
+      },
+      "events:kx_coin_noraebang:/choices/0/text": {
+        "source_sha256": "dc1b608d5ac76267846603c5b054ad3ec197cd395ed6bdca202479349492ca0c",
+        "target_sha256": "74519d3c11ca381530cc6e3deb5263456b330f3862e1d3c60e7daa73d337a632"
+      },
+      "events:kx_coin_noraebang:/choices/1/result_text": {
+        "source_sha256": "e6a915ecb4b055668325b4a45c78d90daf7ae4f3a566f971c856344b0cdca1b4",
+        "target_sha256": "0b845ad4fe685fc4f150db6cd132ea5c943b7e5a6e4ba3be942dfad471286b1e"
+      },
+      "events:kx_coin_noraebang:/choices/1/text": {
+        "source_sha256": "66bbd8c163d8b5f78c0231dcbad983d1351322fde3fd13491e2c6b7b55a53ff2",
+        "target_sha256": "164cc5a9b1ec4bb4faf23cd69267ee053c626d0ecf7fec387a1e03f8b584782b"
+      },
+      "events:kx_coin_noraebang:/choices/2/result_text": {
+        "source_sha256": "cef9539551cf74c733d5c5ff96859b9652189c8ebb7a4846583795c3cafa9c31",
+        "target_sha256": "1a724d26b113de8f88b757b4c20218daa576f0d898db712762644f7ee39ac676"
+      },
+      "events:kx_coin_noraebang:/choices/2/text": {
+        "source_sha256": "128a25b620ea3ed3011fcc07da1e2493d69ae1495ddcd04c3366104d586277c2",
+        "target_sha256": "f160954fb8f98f24af052a60e0b98f78f4078ed2684ec2a9129c04eb0228cad0"
+      },
+      "events:kx_coin_noraebang:/description": {
+        "source_sha256": "767c55020a37f1060727bc89525b69e48a22f4f67fdc3fc93010dd38821fee71",
+        "target_sha256": "3f692babca355a4574e853e603a3d6e7603e7a1ee97789b8a87a62d3e408b7d8"
+      },
+      "events:kx_coin_noraebang:/title": {
+        "source_sha256": "f7ef4c9f22488ee3ecac26093849ce6a8c33b7fe18c233cd448928be63cdc6cd",
+        "target_sha256": "2d71eab9c32182b091b057a958aea9d86439fb0e595fcd1682a7a973205eeab1"
+      },
+      "events:kx_cold_snap:/choices/0/result_text": {
+        "source_sha256": "a2e22b9e06288a7c4bec078f4ef1a35bd9977035c91e77348a8371fe0c1a430f",
+        "target_sha256": "4b99e84b7623d0e74d4eb50cd74a56d8bb5fd440d43360d8a9d0e94f97612162"
+      },
+      "events:kx_cold_snap:/choices/0/text": {
+        "source_sha256": "fdaeeaffb84290048094abf5fc390c74ea195a043cc602388a16e70db57ef2ec",
+        "target_sha256": "b99c4dc3f35362ec038ed8582cc277797bd28d5f1067b09f4a182f348fa236be"
+      },
+      "events:kx_cold_snap:/choices/1/result_text": {
+        "source_sha256": "554a0c468b7e97ff134dc47125eebd4a7b717f5b6731afe5fbfd77a6f60a1a37",
+        "target_sha256": "3647e1d528b3407e45e9b5a3fc956fac023346b4bcd383ad2a6ba7dfb7e94935"
+      },
+      "events:kx_cold_snap:/choices/1/text": {
+        "source_sha256": "01ac6db4ccaba08fc5ab50948c2f121a852c716306991db5018a1b14340aa6e2",
+        "target_sha256": "b93bb1611448f74fd721faf6ad6c72da20c07127e842e088e3b50c98f885032e"
+      },
+      "events:kx_cold_snap:/description": {
+        "source_sha256": "a57bcd898a19fe963b2537ee9a216ddc0e67f4c4026e6dbdeaeac619040d6573",
+        "target_sha256": "a4d70deaeeb12f2fc192c4b612738ad7604cfb28c66bdd317e243714a60c7702"
+      },
+      "events:kx_cold_snap:/title": {
+        "source_sha256": "f7da07ad0f751c8a8a180966f75c43b31c6cc3ca946a8bf76a8b80da750612ef",
+        "target_sha256": "258c502c08de75e325a34fd02cba05e732893ddbd92224a15205ede3efeb58bb"
+      },
+      "events:kx_english_academy:/choices/0/result_text": {
+        "source_sha256": "3c38c1b57fda680b10dfd3de4d76b7cdc1de5c3c2cec45c8310ad50840a54fdc",
+        "target_sha256": "cb156d5c8b0f711791e922c4df349f3df323635aab487e1d761a741f6e511e52"
+      },
+      "events:kx_english_academy:/choices/0/text": {
+        "source_sha256": "6f4911474cecc68a035dd42e6446588e1c7b06b4a78873e85929dcf014e11603",
+        "target_sha256": "a64c486d5c45cd8c429424c0f29854c75b8b79bf2dd4c067529e9bd471db9ff6"
+      },
+      "events:kx_english_academy:/choices/1/result_text": {
+        "source_sha256": "a9cc49b3d4a1aa5e23fc8f96c0ba43cdc4239e1b7d93edc0074e9f0827e7b3db",
+        "target_sha256": "9954fff2969b795e7b9efb62aec43bbfe85e81fa14174046fd6b745be7fc9a09"
+      },
+      "events:kx_english_academy:/choices/1/text": {
+        "source_sha256": "ef106a2cb4148f11bd8c649443b8cedab3807a242ff6d9537c2a905d07f45d4a",
+        "target_sha256": "d32a1d5b23c14efeebd0d716d082a2ba44974ef7fc9d72305a0d9f24969b4ab9"
+      },
+      "events:kx_english_academy:/description": {
+        "source_sha256": "3bb0e32f6fff23fc98b4d2e94e463d0878333f99cd091db3147d73dfd6fd92b3",
+        "target_sha256": "f1d5619fdcd0837880f79aa35713beb16d5bac3e550202ba4950dada8fab0c18"
+      },
+      "events:kx_english_academy:/title": {
+        "source_sha256": "566497e78d05ba76a84b5dbc13561781c4cb4dbea9963617d4139d412eed9f74",
+        "target_sha256": "35f66829bd32ec362fea18736c28e88f25645957fc762ee5a61f0dddd41a9ca6"
+      },
+      "events:kx_fine_dust:/choices/0/result_text": {
+        "source_sha256": "412c8ea5aacea87f20ec136acb0c1d2e05b32d054b1bf2efef2e812b26b056ea",
+        "target_sha256": "67a2bed55e1ae16432012620fa8ac084efe92f868bb3d2f77da1531a0f3858eb"
+      },
+      "events:kx_fine_dust:/choices/0/text": {
+        "source_sha256": "f4f82a2edb357870bae0e84e94fd1317f1ac773dd266060d6f1dcbdf0a08b3a4",
+        "target_sha256": "e685034af2d7ee50a712145d687538061540217f22d520326336d74c65e6006c"
+      },
+      "events:kx_fine_dust:/choices/1/result_text": {
+        "source_sha256": "963cc782387df30a22467c3550c136750d80f3150b5d3be39e18f3504ed1b39b",
+        "target_sha256": "8526d601272ee1e74de8e5d8005ff4a841d09a7487945ac2f3b7b8189bea0680"
+      },
+      "events:kx_fine_dust:/choices/1/text": {
+        "source_sha256": "7860c308eded89e6efd71f7849b8650702a87c9b5237a50c5ac62c5d5fde3c16",
+        "target_sha256": "d9b6a1bc60855835ce40c006b4e99a25a22c8e8b94bd1f0593ca47ad20267abe"
+      },
+      "events:kx_fine_dust:/description": {
+        "source_sha256": "c55290071361033ebd26c043259a09d5a2c0d53fcc163f905fb20d2bdbff2d78",
+        "target_sha256": "835b03b0fdb8ce247b1ad96469c18228b27b120b1db8c6317c07872e3416ca44"
+      },
+      "events:kx_fine_dust:/title": {
+        "source_sha256": "dcf70f4325ba552db50fbba1b970e311bdddd4924151fa85f5ae48038d465a90",
+        "target_sha256": "8f170cef311fec5101ba53bf6dc931958a9b5fb8232309d7e07391a4cd9f0c82"
+      },
+      "events:kx_gosi_study:/choices/0/result_text": {
+        "source_sha256": "45b1b335e995ecd615dcd2c905c5d17fc64415f591f0630fa3bfde6ae8721634",
+        "target_sha256": "480722b8bdef5815b7dcd0d6dd3d357a38ff1ce97f52cc601330b01c10a514c1"
+      },
+      "events:kx_gosi_study:/choices/0/text": {
+        "source_sha256": "0d8541de4f47695d3b71cb6a63fa279daf4574d2725644218806cfad114f82e5",
+        "target_sha256": "123b6da5a73768fd95e0a13f68740b48d4a7dc11b96f1c8d76834e6d4130d233"
+      },
+      "events:kx_gosi_study:/choices/1/result_text": {
+        "source_sha256": "04fe6de5bdf56e42102767f8a422dd2606d0561d2657cf5ed7ca51429eea9d4b",
+        "target_sha256": "be8611a9fdace345d00efa35c1ab59ca8dbc2c487391912f3c101498ce6cc50b"
+      },
+      "events:kx_gosi_study:/choices/1/text": {
+        "source_sha256": "f2b9a7b14d4e4c6f933f110e13818a28e437e7f66de015111643c43cbfac4632",
+        "target_sha256": "c44ce3f8886c75f00a007edfb447a82852acf7924050c48ed785dea8a6cdac76"
+      },
+      "events:kx_gosi_study:/description": {
+        "source_sha256": "fd26ea1667b604e72b7fb8681539301e05146832359e550e97b3b7dc2c7d304f",
+        "target_sha256": "f1a70e630dfc318ef7708536ed23872e8b70a2d0c66dedb741de7474daa3bd70"
+      },
+      "events:kx_gosi_study:/title": {
+        "source_sha256": "95c1bb4593d9b9f6c8580b78a61e83e0c47ccc15a23c89098af0ab224f45c175",
+        "target_sha256": "feda023305158bce81c9ec39b043a6acf85f495f9f3a11bf61bea9bd812ca99c"
+      },
+      "events:kx_hagwon:/choices/0/result_text": {
+        "source_sha256": "83701a91b1dd7f531409bced3f5d46931b89ada9056e93b23c9b7a887b269faa",
+        "target_sha256": "cad195f9e310c1e6d1bcc1a52bc993e64cad0d00f4097dbefc3995facff0ddcb"
+      },
+      "events:kx_hagwon:/choices/0/text": {
+        "source_sha256": "8a8940cc108c0de0216193de3f38ec6ae76a6e26e62777ebefafca1f3ef78db4",
+        "target_sha256": "670ed8c76bf711531017ba0ba0c32cd6b5dfaeae20e7378845700bbb4555d9f9"
+      },
+      "events:kx_hagwon:/choices/1/result_text": {
+        "source_sha256": "16a34262c2ad063aa326ed96755f6ff45336e8550b714f4aa15f5a29e91e0e82",
+        "target_sha256": "2f58ffd7f1fb4699503ab10b4d222e9767e95cc5a178b3b3b48cdc2eca9a92de"
+      },
+      "events:kx_hagwon:/choices/1/text": {
+        "source_sha256": "77d24e6a37691f778e7e4e767c5bcb7ff3bf5c6d8fede37630245ce948fc885a",
+        "target_sha256": "bc3ab2d43d7ce22535d84ff2f3501436a03181e92237d853610fa5d460fe6489"
+      },
+      "events:kx_hagwon:/description": {
+        "source_sha256": "391b21488d95abf4d8c100323ca9f7ce5575961b8c8ab51e007cee2361b04874",
+        "target_sha256": "2657f29bb4c8216b75c3a33e14d9761721421ec9b512faeb65592c256c58a76d"
+      },
+      "events:kx_hagwon:/title": {
+        "source_sha256": "1739c0f28127f753d90d9ea0b9b4a1300be1fb4f6c8fbdd641d036c87db03fcb",
+        "target_sha256": "cf5cab8e494fb1cd53d423a9201c8a13662b9b9fb495daf2fe6a437d0a3ac472"
+      },
+      "events:kx_hangang_chimaek:/choices/0/result_text": {
+        "source_sha256": "d20d4723f41868ac5d7bea8442289ba87653c0d7b1e5ad98d5e1edc196328c9c",
+        "target_sha256": "4a0f1a65653d6821f1b5ba3dd785745ec9378cf2aa3d0f4c029db26df7670073"
+      },
+      "events:kx_hangang_chimaek:/choices/0/text": {
+        "source_sha256": "0cf106ad8d0f259fbd588b58be9b4a44eeec5d5b867e7b281e62d06446631865",
+        "target_sha256": "25d03e5024d949ba332bc1c8dd94aeacfeb146f6411801d754cfe4432f17f280"
+      },
+      "events:kx_hangang_chimaek:/choices/1/result_text": {
+        "source_sha256": "e53e6b6060f1553ee400f6e36f859e23ebc4f68443dac8dcf4021c208db17e6e",
+        "target_sha256": "02934b35b74d6bbf657c1ac39891ec963cce23176bff0149ea6cb30c837ff9eb"
+      },
+      "events:kx_hangang_chimaek:/choices/1/text": {
+        "source_sha256": "934f29e3e681256810bbaa5d748d11aea4dd426690fe2894e9ef219b46622e3a",
+        "target_sha256": "92d8014abc898474885a7a9ef71d9a7709ae1659ea1752406f34b8d491b0069d"
+      },
+      "events:kx_hangang_chimaek:/choices/2/result_text": {
+        "source_sha256": "187289e0937363aa1ed32bc8e83d7269390511670fd3713fcced84a3be5d0cc1",
+        "target_sha256": "662d9e793f020f7d3248033b326d8f215a18e8b948a19ca1eefe59317ff9a02e"
+      },
+      "events:kx_hangang_chimaek:/choices/2/text": {
+        "source_sha256": "55a2e365707dc0a76dfe709015707fb1d6d65d04a5fb0ac97ff55996090a56b1",
+        "target_sha256": "f0014f80389da655da209fae81b8b051fc07d83386591ab054a39aac08ea3b52"
+      },
+      "events:kx_hangang_chimaek:/description": {
+        "source_sha256": "5f0f87d7101ccaff7c341661add3f90ba7c47ccb4336a3c7854f11e57a8381fb",
+        "target_sha256": "2c1c61b8dda26621b34235dec44d0187ca05d8ffd769f45cfa97e048dee317a3"
+      },
+      "events:kx_hangang_chimaek:/title": {
+        "source_sha256": "116bb00f761d0196dfaab969ad22c930e7baf5e30c7d32a10b463bf59dc634c1",
+        "target_sha256": "7cdcf2a413794ba010730fd5d174826472d7a725c623f9535fa0516a7d6710da"
+      },
+      "events:kx_heatwave:/choices/0/result_text": {
+        "source_sha256": "298308044c394593e0be82372aef53a8de545e2a9454f3d2ae6c24f8d3fc4642",
+        "target_sha256": "f77032a63b2f0318eba49d52e2bce540e3a321a4d5c8c63e2fdd2a0aeee64101"
+      },
+      "events:kx_heatwave:/choices/0/text": {
+        "source_sha256": "57acbc4ccca7a5de34f89f2abaf7fea66c25de0584632ad2b1a9056942582e4d",
+        "target_sha256": "3dcaa6345633741b7f022a4fbd50f4de624c017ad55c180dcc2a2e8fdf74c545"
+      },
+      "events:kx_heatwave:/choices/1/result_text": {
+        "source_sha256": "c88265e37413d91b52464060d3e8bfa2574e5faf6a25c10686d0fb0c7f70195a",
+        "target_sha256": "e40024c047d18aec70859d41236b3d103a8954f3b013492c9f2e7a893d32b289"
+      },
+      "events:kx_heatwave:/choices/1/text": {
+        "source_sha256": "4c7e226ed8629ecfbcf9a73e69fce762fe963da3b11f97a20f9c72684710df4b",
+        "target_sha256": "affcfb17595cf175e8d7cf792031200f2e4b3b327110e3e2259a150d8f08a3ff"
+      },
+      "events:kx_heatwave:/description": {
+        "source_sha256": "8221927df49d694020994581ce151ee5eb9fea1549d031288b7d9f06b7dde3f1",
+        "target_sha256": "6afded03cda32c70d65fdb293bb29192cc41a10866c3fd8cac73ed0e491810a3"
+      },
+      "events:kx_heatwave:/title": {
+        "source_sha256": "cebfc485b981d2eafb5ca0934d04fa2d3dd832701cc0e8efe8d82d660c7cb385",
+        "target_sha256": "f0067e6ba329b7a9aefd176efa840aecb88badce5e715e2fa6794fb80454b5b0"
+      },
+      "events:kx_kakao_emoticon:/choices/0/result_text": {
+        "source_sha256": "152ec1c7a28c412e7594f878ccce3980a032feec92efa4bee2d89b0506476f28",
+        "target_sha256": "e8a94ed142367b7eca3ca02ef5d561ed0ae430bc6aadef4382967c4cd8ebbdbf"
+      },
+      "events:kx_kakao_emoticon:/choices/0/text": {
+        "source_sha256": "a9bc6098ba163865d6027600ac3b75b01128b4265c5d507b9b4f5001fe43c9cb",
+        "target_sha256": "6215671ca846f458959f645e6cc36826e27246c789fd93623aba55b7c853dadf"
+      },
+      "events:kx_kakao_emoticon:/choices/1/result_text": {
+        "source_sha256": "fa96a8ce74243a4bbc5021a545d65eaf70ec3e26eb34a18d3fc0af02b3c6a129",
+        "target_sha256": "5db7d341769ba3865dfbcb8c3f93a332c0105779b4cfc778e5f2990ae1db0378"
+      },
+      "events:kx_kakao_emoticon:/choices/1/text": {
+        "source_sha256": "629a35f5a6ef0b2b4006153f5540c4a110c436e058972b7304705943a5cc5a25",
+        "target_sha256": "406f7dce40725c8a5a6c5cb0dc7378b8f38f61558e2a43c82d1cd67e5eba94fb"
+      },
+      "events:kx_kakao_emoticon:/description": {
+        "source_sha256": "c1a08b839d1ce4205798a690d71373faebebf0f006575e3a6dfca66ada86c346",
+        "target_sha256": "436338d009b88f155dfa26c3a9264a1d7b2c91f56f37c64e087e7010cb663eb9"
+      },
+      "events:kx_kakao_emoticon:/title": {
+        "source_sha256": "922dc5b68372e6af22ab94efdee3472461a3318b04d45c22c48d1f59957a1834",
+        "target_sha256": "10a6e917fa7c94a793f5862a2e82945276c7231dfac90eb93bd055deb53bf7d3"
+      },
+      "events:kx_monsoon:/choices/0/result_text": {
+        "source_sha256": "43780519ae7aca980a0947970e2a14873c83b8fb7b9f09695b7f2820ab0b44b0",
+        "target_sha256": "f358c3c3bd65d0aa9b53283445280e21ac0180e5c0b9ec4f602d2262a6119795"
+      },
+      "events:kx_monsoon:/choices/0/text": {
+        "source_sha256": "8ceecc9ae94b815943ce40b4f26c39412b1d819f77f425665db6ea3e64f89de1",
+        "target_sha256": "3520dfe7fd6680ad638332affa9c016ca751daf6052b98655e40ee7ed1bcd7a7"
+      },
+      "events:kx_monsoon:/choices/1/result_text": {
+        "source_sha256": "d75e991be462ee4edaed101515fba45a4b3b2108ad7d1b7f2feda3a5fb0cf9d4",
+        "target_sha256": "69ee33beeff191e47af4444684b19e662464a7374d028ad05dc5994d9b19a47f"
+      },
+      "events:kx_monsoon:/choices/1/text": {
+        "source_sha256": "b72efba99e05117a8a830ee984c4073b048fb0b6afee3646d7ed4b1d513aff57",
+        "target_sha256": "a52bd6e4d5389e5cecff7a5446d96827d93477d7588cc42443b589aecf2ade77"
+      },
+      "events:kx_monsoon:/description": {
+        "source_sha256": "7af66be39e5f0115235e683f153a18e63e8c6955bd9e25b0d767ee70f0c75d78",
+        "target_sha256": "2646f382228c7e0be7af960d17c3b756b62a7ba95e1ff859ca4f47ae182159e3"
+      },
+      "events:kx_monsoon:/title": {
+        "source_sha256": "0276a9a2ed1e72159ce6944e9b13c46b5e48fb67969c8c57739bdf62ec8d2930",
+        "target_sha256": "873f0e95f3cbe415c6b469e9ef80cc0aaa22aacfcec9576c00238e1ddbe596fa"
+      },
+      "events:kx_mukbang:/choices/0/result_text": {
+        "source_sha256": "437f467c2b06a6e841808c017ef42d215e38ba082417d062ff164fb75dbbe801",
+        "target_sha256": "1e1b9e6a82d49eba9535705ee2d7765ff9c24ff0f18011a9bf317ef89301fad1"
+      },
+      "events:kx_mukbang:/choices/0/text": {
+        "source_sha256": "9b54d42b66c5e2087333b74686b27dbfe664ca0c8131bf629e8644296b69206f",
+        "target_sha256": "47fb3dec1e2feeeead0ae62039ac5a1d9624ed9102a83ab00ec07598d28856df"
+      },
+      "events:kx_mukbang:/choices/1/result_text": {
+        "source_sha256": "bb8f9c066938ceaa0458595255efe0d88cb460a0d6596dcb0d8b88cf3af50c5c",
+        "target_sha256": "280cc34c8cb0281e395f2e065a37d34c1ae0efbccef8c5274eaf16e535b057d2"
+      },
+      "events:kx_mukbang:/choices/1/text": {
+        "source_sha256": "29d1c063897f208953b955b2071cde457d13eee3e892460a901a70dcaee10158",
+        "target_sha256": "063624982232d53ccae8d8caf70ff4652e5447175de83be1ed9b04a737740fce"
+      },
+      "events:kx_mukbang:/description": {
+        "source_sha256": "31947bc592e95c38a0473f62912acbc751e7a734f33d1147eb8caf9009bbd3cf",
+        "target_sha256": "f21fea4c1753445a4c9b01384377c1ef8b7c3c163a4988bc28f568ef3811f070"
+      },
+      "events:kx_mukbang:/title": {
+        "source_sha256": "bdd62bfb839aecafb5004d787c58ddee9204f5480201eddcd596b64ba473c27c",
+        "target_sha256": "e8f9650511ba1d51d21c2f8bf7211ede17f51d8873f74fb9666adfc5fee44953"
+      },
+      "events:kx_namsan_tower:/choices/0/result_text": {
+        "source_sha256": "8c896bca3f13dfbd30891dc73156044bf88efd95a4c2e537de2e2e597a8469d0",
+        "target_sha256": "cbe4eab1ec42811601b9a35ab3ff46e78a1d54992fcc378ae093507806570890"
+      },
+      "events:kx_namsan_tower:/choices/0/text": {
+        "source_sha256": "c3187db2d3e4adb7ee8e013acbbb20031d9f3fb66309446f4064d64b3d3b41ce",
+        "target_sha256": "e053ca1920e8ab30a750e4038a1a80d4bbe94dab9b2d29698bdbaca206829208"
+      },
+      "events:kx_namsan_tower:/choices/1/result_text": {
+        "source_sha256": "0d8c843af5d6103dec4e18a99f256176001c6c9134cc076801157b939d3c5cc1",
+        "target_sha256": "19fc91e60d0d95b282207cbe522dbeb3a988d77c43c15999e39a3d4c91388c55"
+      },
+      "events:kx_namsan_tower:/choices/1/text": {
+        "source_sha256": "b80a6a07497823fa69ba04115e9c5421d547dcab3f5068ee7d3172be8d28d67a",
+        "target_sha256": "09d8c2e2977ea2cbb2d5c72e55821a42ab794bba3e37d1064a3dc8694fc7fa35"
+      },
+      "events:kx_namsan_tower:/description": {
+        "source_sha256": "c7f793388b2ff3187b0ed030e663a766c5238566390db69ef5422aa3d9870936",
+        "target_sha256": "585cef2bfffb075a0997d800b66db63798ad051f947aad4b1c3544f2612b4a1d"
+      },
+      "events:kx_namsan_tower:/title": {
+        "source_sha256": "7d079a53d1b44a965bbd9496ddc1464d91b3c77b7857c74b179abce4856ffd3c",
+        "target_sha256": "07aa4d0886ddc3fcdde94175ee95ba75c3b68937ca2565995f01d4da71bf603b"
+      },
+      "events:kx_naver_cafe:/choices/0/result_text": {
+        "source_sha256": "57166ddf170f9dbb088dd394d26449481f7587a7df999dd6359d0ea8880297a4",
+        "target_sha256": "2430ad5fa2c9667777d4072485ab0826a9564fcc96d5c4ce35df1156ccc63f52"
+      },
+      "events:kx_naver_cafe:/choices/0/text": {
+        "source_sha256": "d9fd7106b8c8b60470d5f5beaa75821ce4857f2295537e3ce944cabb350f6abd",
+        "target_sha256": "cee74fa41d3e07a18c34c8a2ae44b98306a98079fabf2a70386885913a96461c"
+      },
+      "events:kx_naver_cafe:/choices/1/result_text": {
+        "source_sha256": "c7d26b94c6a648cea611c3d0f41679d1d123ca688823ffb2383a23de4332d6f9",
+        "target_sha256": "3413783a342bc955f3d1a3b2ca2e3082f39b730e28c8b62ce25bf0fc8f470281"
+      },
+      "events:kx_naver_cafe:/choices/1/text": {
+        "source_sha256": "82c0a7e9eadacfe2b635499327173c8b6f04c64aa80bd910c5e2cde1cd677804",
+        "target_sha256": "a61dcca2a7ef882970c738b2340fc31e96ef81760a80d603e53093f871d98a09"
+      },
+      "events:kx_naver_cafe:/description": {
+        "source_sha256": "f2456194ee5cd07fb0144e58b10fec6939a5308767a9103218e61b00c7d87d91",
+        "target_sha256": "b595b4b9e58af36285d4efe8eb037a9e448144ff75b180f4c9c9e8b8a4ef7f6b"
+      },
+      "events:kx_naver_cafe:/title": {
+        "source_sha256": "7da8d31403a4f3aab12e1c43d3cdce2e96d58de2ad966597ffc620bb9897842b",
+        "target_sha256": "d4ac05ef63e8a4556411d20c0b4d9e6f5206e9e0b226bf974ea15cebdafb4101"
+      },
+      "events:kx_open_chat:/choices/0/result_text": {
+        "source_sha256": "7aa325999ae1e5118c46b628e10f3b1f417bf51892d5265ef438d518721f996a",
+        "target_sha256": "02142c32c42ffe5f7120e3b26720f47c2236e780272f8f1912882c456d60e051"
+      },
+      "events:kx_open_chat:/choices/0/text": {
+        "source_sha256": "9cc2d107c004dcb8d392e76fcfd637d981fdd13c2aaf3129f29b68ecd949f34c",
+        "target_sha256": "c5e440326c5aa2bb10d0370ae6fdb60fb209ba309cdb7543ba1c6e78e8863370"
+      },
+      "events:kx_open_chat:/choices/1/result_text": {
+        "source_sha256": "f93f823b8e84f44c050237de8b3550237c384d003ef180d7aa0be67bfc90e97c",
+        "target_sha256": "fbf4c9957abccd4e8eab2048e9d7d30cbfd8c312ee9fe83a838c6e57beb61da8"
+      },
+      "events:kx_open_chat:/choices/1/text": {
+        "source_sha256": "9491d4ddea8068fec66508e89682e5da7d4d7054dceac53e680e13f0023bf46a",
+        "target_sha256": "8deeae916559d93d1b0c65e7ba69fe5ff0ff5a24ca93f7b0622a19915a941377"
+      },
+      "events:kx_open_chat:/description": {
+        "source_sha256": "555d257dbe5c663e7ea54ca8c7548050a1449113894b579c17d71bf1f4b5e214",
+        "target_sha256": "5fe70cf49013b87de246b9e045a348737adecd1c89299ddc886feedc115ad433"
+      },
+      "events:kx_open_chat:/title": {
+        "source_sha256": "d87dc2984928ad60653053eb8fa643f8c8540bfcb40da90c18de7b99772bc6c4",
+        "target_sha256": "f1176cfdf0b8b1b8cc321d7cfe3f8bdea0a456e9040e8b6bc9c18a153319f418"
+      },
+      "events:kx_pc_bang:/choices/0/result_text": {
+        "source_sha256": "8f0beaa4062d0b732b06b1838ccdd3db3593d9dff5e65f17990a69380d7e9c8d",
+        "target_sha256": "09bf3e8d40c529669a7b29a474a92c002a07234c284b0d604822c8a0c30e284d"
+      },
+      "events:kx_pc_bang:/choices/0/text": {
+        "source_sha256": "13db11be2d1231c7ab9c3a32f2443a9adb90a868955f4834a51f821673529a5a",
+        "target_sha256": "d561bbf3ffcb5429109e91d64b3dab23c2af8e6c46681e09431e35290e32e69e"
+      },
+      "events:kx_pc_bang:/choices/1/result_text": {
+        "source_sha256": "4569ae7403a4e0020a75c11b117e344efc022bd4d36f90ee23494027410d6352",
+        "target_sha256": "8ea4884dc570615c5b3a50da48598f6f9d909be9fa1f3bb6c97a0a5e5eb9363d"
+      },
+      "events:kx_pc_bang:/choices/1/text": {
+        "source_sha256": "c046fd33a001e574e4406f110f3409d2c8b49cbeb2d814ae1533ff1ea6022d32",
+        "target_sha256": "76cfad02ebc28a3e04c786f0a3111a153624d06c6a0938eda189cc445e1421b6"
+      },
+      "events:kx_pc_bang:/choices/2/result_text": {
+        "source_sha256": "90d171a5f4b093e762ecce4ee8dfc20a6f5efea85bfd38b566bbef223929d63b",
+        "target_sha256": "fd814c9595ffe3b66b199e4ff0915c2a92179439af7d24c126106125ca620c30"
+      },
+      "events:kx_pc_bang:/choices/2/text": {
+        "source_sha256": "721087217f46eb0d7b229cb44f1f6cc6f143999ee5dfa0b0229afee4a20755fc",
+        "target_sha256": "eb17e9a0c6a34a9a26f2ca0e977d12ff5cb8637063c5c4482702c8d9daba1b64"
+      },
+      "events:kx_pc_bang:/description": {
+        "source_sha256": "9468a6e97e650b55e7705e6f2645e3aa1b4c7cd71fc1a1c18bb345b5f5f61a47",
+        "target_sha256": "5926c304aab1ea021ee24933282a87bf59f08be815a5b382abad606cf86f0bf9"
+      },
+      "events:kx_pc_bang:/title": {
+        "source_sha256": "dbaa6f85fc16b8ce05d18b6f460960f10428d0fe504af3a6d1040d22ee8f94fe",
+        "target_sha256": "d91146364886b6425aafb04c7ff1f81912ca96f8b2c9e28a04f8a0d2ef0e5b74"
+      },
+      "events:kx_spring_cherry:/choices/0/result_text": {
+        "source_sha256": "d37ee506902479ce1a96dcdc114f3ca01082c3bf0ca12f31e8cf690801a8013a",
+        "target_sha256": "5ad4f6f36b0767f2dbf1d9e9ac8c52a412ed641dac6065667289d8e30d04b2b0"
+      },
+      "events:kx_spring_cherry:/choices/0/text": {
+        "source_sha256": "12599def8c3be8b03f657fe7bc6aca509ea0ff33cb03b2b271fd6784188630d6",
+        "target_sha256": "3e6d3ae14f15bcf84544c3a17e0ed9b2260fda658ef9713ab360c96595ab3a62"
+      },
+      "events:kx_spring_cherry:/choices/1/result_text": {
+        "source_sha256": "9d598fb56e6b931587fd56a533232f2988b96ddf62312b04c20083b97b152985",
+        "target_sha256": "be59b5eb025bbbc4c7aa77156b481213d1aac37f12b8a47b68442fb1df213208"
+      },
+      "events:kx_spring_cherry:/choices/1/text": {
+        "source_sha256": "4cd99e3e72b09bc9fa78036c2a7268ad07496d5a6aa6533a2503325974d52d9f",
+        "target_sha256": "2cf66e5b8d043f56d147a555193e4609ce371c9fc290d8c31e72f33a05a6b87e"
+      },
+      "events:kx_spring_cherry:/description": {
+        "source_sha256": "ecf79546a39553dc11f40674fe71fb4d76aeaac4737aa0f1bcf8a8eb9a0c2fea",
+        "target_sha256": "17a374de0264e90813e1bb9e66177dfe36e8db17e31d10ec000a2726fd55ec1c"
+      },
+      "events:kx_spring_cherry:/title": {
+        "source_sha256": "6cf4d90ae3048ae9b1427f19fb235114bb99a4c7f1af9d77494051b059f73130",
+        "target_sha256": "4bb97c7632f9b0d6f5ec6c4850568f940e7b3af77cdca4cfa54cbc78ff0b8a94"
+      },
+      "events:kx_suneung_day:/choices/0/result_text": {
+        "source_sha256": "740ef376a4e294121fc7dbc384e7fb535d2e7b3a5080a4a8e1f19799d2c8222b",
+        "target_sha256": "c218b128b57cc3f977beaac31cee78fa9a9e0f11c1217272a43933df07185ff6"
+      },
+      "events:kx_suneung_day:/choices/0/text": {
+        "source_sha256": "8c0710cdcb04b2bac8dcbe0276100827deaa54f45b162d63642a8aa77e5da4e4",
+        "target_sha256": "5fd1490b76cdb8033ce494f7503b615bdc1831eb0a29d592840cb3369ed2b908"
+      },
+      "events:kx_suneung_day:/choices/1/result_text": {
+        "source_sha256": "dd09d58b15cebf6409e43cb0c8bfa2349a491eaa4faf6590d370654193e831d6",
+        "target_sha256": "ba04da377c3d7be14eff231278c29e53bab07938ba4105ae4afa6f46034b5fbe"
+      },
+      "events:kx_suneung_day:/choices/1/text": {
+        "source_sha256": "8145f0c43f7c2ff5b18b63ccdf6b177d93ac8b3995f273019877c9b5411000ac",
+        "target_sha256": "5367d2e288e5309817aef20a3c0cdfcda8cdd7e2902bb9fb2813b0aa0f8d579d"
+      },
+      "events:kx_suneung_day:/description": {
+        "source_sha256": "bf7ab2c787dafdb48d55b9952bd8ede82ace5af89a7723a07c86dacfca6ec45c",
+        "target_sha256": "6f1ffdc02658407ac72bacd8c331d4dd947748869a4e7a2c513b77a8b6560b96"
+      },
+      "events:kx_suneung_day:/title": {
+        "source_sha256": "063d5ec14439dc8c203797dbae4126656aac9fd18512d701be494843d9896859",
+        "target_sha256": "16988bd5aedc30bb18dd334e70db5e176d886c1f50fba1aa01e722c69563e1ed"
+      },
+      "events:kx_viral_meme:/choices/0/result_text": {
+        "source_sha256": "005aea15ebb2e1546969484a6b359496b82c77cc151ce5aaaa40e3efc4bdc69e",
+        "target_sha256": "55d467fb5608716a80d3e9520b03b46ee50a9951246c64ad0694952c29ff1ed2"
+      },
+      "events:kx_viral_meme:/choices/0/text": {
+        "source_sha256": "d974b6d7363f483043b9aab852d9c399205badb3157757db6e14a599ad295c9f",
+        "target_sha256": "fa8cd0371867973f7aa9ee183bb286bf56431931dbef8141214f4d4a23973e77"
+      },
+      "events:kx_viral_meme:/choices/1/result_text": {
+        "source_sha256": "b64990b9dea78e75244e8207962f6507975c3e5127a5264aa81cc58d04d2c77d",
+        "target_sha256": "b7d15d99b7801723fd808fd802f9afb735062fe5e8cd12741c77f480fa6b81ef"
+      },
+      "events:kx_viral_meme:/choices/1/text": {
+        "source_sha256": "ad8e5169defe7754f77d034bd7c82f8cc01c563c87ab65cf39093925d820a610",
+        "target_sha256": "76499d396b7207eae10f15838e6e7eb663abc2069d847a743c4dc0540c9a3a39"
+      },
+      "events:kx_viral_meme:/description": {
+        "source_sha256": "5f5594c38752ea3ccafe208b2dd12983ec8c11146beb8d12892b4c35af55240d",
+        "target_sha256": "bd80a9147ff6dbf9d01440a43a845f0b155b37a1f36f3d36908462350ddc7d29"
+      },
+      "events:kx_viral_meme:/title": {
+        "source_sha256": "2f8c400a46438ea77b91be15ac7a6314b4df2f9ce3e533880cfa7874ac9ce657",
+        "target_sha256": "70d3144a47d929647f0267de99694461eb694005ea44e0b276679cf19db2111f"
+      },
+      "events:kx_chuseok_traffic:/choices/0/result_text": {
+        "source_sha256": "e834e316e113cee015dca59d1bb8cf3cef204b977175cfd037b67ffda8d54cff",
+        "target_sha256": "0fb50c0d0aafd17de73c0bc5ff0b5ddabc20fa2e6bcd287f21f0a5638c5a8d95"
+      },
+      "events:kx_chuseok_traffic:/choices/0/text": {
+        "source_sha256": "38938749ab68fe05479afdaa70e3f400f0389d5af1ae400df3dfd905f66625d1",
+        "target_sha256": "83299cf4c34ebe8ebaa568bdbcfa282eaa7df061b56dbcc161fb012dc3574cff"
+      },
+      "events:kx_chuseok_traffic:/choices/1/result_text": {
+        "source_sha256": "2767f2b631916d344803eea1b1d6f48fb3b0685b439dcd7a0b05a3233923a01b",
+        "target_sha256": "bc67036666330e455a4c5c9fd29a0035eb23d856f65b817df874e99f78e6c67d"
+      },
+      "events:kx_chuseok_traffic:/choices/1/text": {
+        "source_sha256": "1c9c13da7dbaab042af83d9d7854f302d4ff55d197002b53418a8b096899f16a",
+        "target_sha256": "7d564154209f7dfe93b4ff42adb7d94a064cf1ab851a6a36c5d993c54e871a9e"
+      },
+      "events:kx_chuseok_traffic:/description": {
+        "source_sha256": "e5f111831bc97c5aa21dd2299855019fcb1187544c802598e65f3db8ff6dd148",
+        "target_sha256": "0f5a8c80f7cb2bf6827e61fbb808fcdfdd6d63ddd3ecc4d831b17939eab5ae58"
+      },
+      "events:kx_chuseok_traffic:/title": {
+        "source_sha256": "3ecc2ab58b23f4e47d1553da10535fcedf961fc518a44d1195cf2b77012f6875",
+        "target_sha256": "f11f7c5e210dc714c6dbefdfb9033c158470b173b1144de58f87e3f25537022a"
+      },
+      "events:kx_civil_defense_siren:/choices/0/result_text": {
+        "source_sha256": "3d0cc7fe25043d80e3c2087938175a574b6d3da326edbdead295c3d8118c2fea",
+        "target_sha256": "773d2481793764a26430db2d6510cd671bc6fd1d8bf50d1810002dd1d89f2ef1"
+      },
+      "events:kx_civil_defense_siren:/choices/0/text": {
+        "source_sha256": "efc120c97035c1915315afa25fb241179685531875c155a57d8253ead6cac3d8",
+        "target_sha256": "7b6ef23de12fb97f8cd6207969bb23bb77bb9d180b60d742698785659e88a178"
+      },
+      "events:kx_civil_defense_siren:/choices/1/result_text": {
+        "source_sha256": "fd20d7f1ea4f3e360a52950274a868df0bdc8923ede23ee15d0323787ea8bd45",
+        "target_sha256": "bf561fbd4d4ad99f9ade3d29cc23795895cc2f6c71001e64b440a199fe114316"
+      },
+      "events:kx_civil_defense_siren:/choices/1/text": {
+        "source_sha256": "042e8fa3143d264e16002dc50a4ea44b67bb78da05363f4ef5ee343243b09b3a",
+        "target_sha256": "1cd861ff342febb14fcdea0b46889b6d59c7a8c2815aacb3593cc82771b63b23"
+      },
+      "events:kx_civil_defense_siren:/description": {
+        "source_sha256": "af55dd3115cda3eada19f2ab6815fc1de32fca3ce1a9fbf0a727d8bbb92e9724",
+        "target_sha256": "ca66f9201558594660bd59767d1ebe4821c8e1cc294b7793f9756da84df5fe3d"
+      },
+      "events:kx_civil_defense_siren:/title": {
+        "source_sha256": "36adfd7a2fdda3ffc2a8d6acfa0e8200cd08caa90effdd9b965eda25ba08e3f5",
+        "target_sha256": "dd72881d75cc8c4714c9289d12326e830996a3c546dd76e33f703f2bba6b1651"
+      },
+      "events:kx_delivery_app:/choices/0/result_text": {
+        "source_sha256": "bfe5b3b0ed540ae4a4eddc7a6857015f8c41cc88251644fdf7f159478909f744",
+        "target_sha256": "ed1098790f125c5846492775ddb1489912a71c2e7a402961cc8350d6df1587fe"
+      },
+      "events:kx_delivery_app:/choices/0/text": {
+        "source_sha256": "77f8f669a65acbfe41d4b6c506335c526f22902d74643676bb58313c0af91e82",
+        "target_sha256": "4783c2024f0502227ebc30e00ff663e28d6f002cbb1fa4d1c93866f5442c0d39"
+      },
+      "events:kx_delivery_app:/choices/1/result_text": {
+        "source_sha256": "ab0711ec24a50ff6f2c8346df585241f2edc3ed0eff304c81241cd0cfa0cd535",
+        "target_sha256": "f258ee71f9057b7b783ca9d270810ee643d65668167aab0c68f94d1c5bdacfe7"
+      },
+      "events:kx_delivery_app:/choices/1/text": {
+        "source_sha256": "1500ccaa89b8ac82654928e33e5d4993f9554b1cab083152bc05ff5c2a072c7c",
+        "target_sha256": "be2a0b9e112f5af853bf76120e7d8f57ecc1abbadc164a3d10daadbe2b37f186"
+      },
+      "events:kx_delivery_app:/description": {
+        "source_sha256": "918dbc9d15eaf2e28874e8cf583afdce0242db93d4de6ab9c46095b3a0398b59",
+        "target_sha256": "078fbc0c0105b814fdf56fe266ddf96403125f253e3dbc72e8b7b39bbf0e1dab"
+      },
+      "events:kx_delivery_app:/title": {
+        "source_sha256": "6122c45dbaeabe620676b76f598769738d9a6efee39c4e3848c837c4754f75c3",
+        "target_sha256": "9a03e6e1c3ab1ed35ebd92be7495683aa3ce01808be0f5c54e9ccf0f0a7b6fc0"
+      },
+      "events:kx_friend_military:/choices/0/result_text": {
+        "source_sha256": "660065ba61cb6ab6f80a184793cadd0cff8a644b8aac93e0ae9f76969ff4fe89",
+        "target_sha256": "dc08bfb3da3b3def1a5065b40ebf6ead94db62549c190493545bd7014d54374c"
+      },
+      "events:kx_friend_military:/choices/0/text": {
+        "source_sha256": "4c1debec131054e18aaac6ff07128f393cfb571a7b971a83b91032b21d47ca60",
+        "target_sha256": "eafbfad56abc37963f94212dd2c7d271afa7f8aca500b0cdddaa30e53d2c315c"
+      },
+      "events:kx_friend_military:/choices/1/result_text": {
+        "source_sha256": "b942587d39f8c3eb9f1226cd0a4dc4b338a41298b00501a49b56dddad4735e53",
+        "target_sha256": "e18dba2355ad066b6f64613a83c02f266ee5b9978b09a34ec4402bea9d524aea"
+      },
+      "events:kx_friend_military:/choices/1/text": {
+        "source_sha256": "3812cfc70fab9253ad435b77ce27fb006503714c31adee6b78c7f5a70305ce80",
+        "target_sha256": "b627c6965f0b865e4b1f250be57fee8d89b5e67aa5c207edbf9a7939fdb76f13"
+      },
+      "events:kx_friend_military:/description": {
+        "source_sha256": "084a0902934ef6e51c6ac1c5d4b469b693707b989dd94f17345d2094726b2774",
+        "target_sha256": "e1dbc69d83f39115e5c0b032d0e86c74e08ecbc44e56203aea3c883976c712aa"
+      },
+      "events:kx_friend_military:/title": {
+        "source_sha256": "4fb9015b430d72fae5502a36f5b78c2dc5c397d3d0ab972469ff2b9838036c80",
+        "target_sha256": "2236f68e0bd3df60e8b8e7432d724a4a5ad3a35de51af8bc2bdb37096692a618"
+      },
+      "events:kx_gogi_buffet:/choices/0/result_text": {
+        "source_sha256": "a427025c833d358b5d93815562f78b03aefd29c033993184ba2b032828e6aaa7",
+        "target_sha256": "9c4d7157b056f679e37f279e8abff5d67490bfbc243c8b5f02c5d39535f02186"
+      },
+      "events:kx_gogi_buffet:/choices/0/text": {
+        "source_sha256": "819509dbcf71e30961138840d25df6a804d9a1febc9f4ece9de84a23d0cb94c1",
+        "target_sha256": "28f9a86fc61523960ab3c4f6e0a4dbb93ebf063a5e6710ac81be0ae3fcac0b7c"
+      },
+      "events:kx_gogi_buffet:/choices/1/result_text": {
+        "source_sha256": "0ae9824005abc2f92ac100df1f140df80e98eb18e767c30267d96190f84e341b",
+        "target_sha256": "588a6dbfbf7e4f2914434a34e6a41808e67cb4785a99061c0dc889284fba8368"
+      },
+      "events:kx_gogi_buffet:/choices/1/text": {
+        "source_sha256": "095380b3163bade8345f5ce194a338d2cd7c44fcdeb060d19493092cf7212edc",
+        "target_sha256": "a06aa68e10acdd28755ec3f92b9f88e1a4db1ca62503ce9d525e51ec62f88b6c"
+      },
+      "events:kx_gogi_buffet:/description": {
+        "source_sha256": "e479e4923dcb69969db1b977369aeafb372adbe85b9f0a125f6a5e960144d43a",
+        "target_sha256": "6d6ba57f92cb3a3e19aced60fa7bcc54884237ea8e810e2b9a1c6841d8572381"
+      },
+      "events:kx_gogi_buffet:/title": {
+        "source_sha256": "8b78b3f7f04d96c98261eeaac707a35e83aada428769f9ad165358622617182c",
+        "target_sha256": "727e7c57a209618fc9fea179acc92cd4e0f33dbb648ed181246c81e91d706eed"
+      },
+      "events:kx_holiday_alone:/choices/0/result_text": {
+        "source_sha256": "4d291a4fd5139eca466dd4bf364a20869763ab47593b0dc1e06f35180fbc2efe",
+        "target_sha256": "02073a269c6cb9e05f8fab8a15545231270ca19a27f4973a7bfdcc73b5070297"
+      },
+      "events:kx_holiday_alone:/choices/0/text": {
+        "source_sha256": "94f9bacebc6a2e6ab935346192e2f96dc327eda979c01fcc01bf6157d6e2f44f",
+        "target_sha256": "96ba6d75fcc68a9eef5738db24ec516145569150c242129022a31119933399c5"
+      },
+      "events:kx_holiday_alone:/choices/1/result_text": {
+        "source_sha256": "5bcaf604047c2a2fa09b7d2931c706d29ec7bfceef3cba267d33d432a64c4839",
+        "target_sha256": "701a95796867b0bc3eca970080ec242cb54c4c97002400cd74c172e8ceb47850"
+      },
+      "events:kx_holiday_alone:/choices/1/text": {
+        "source_sha256": "026eb3ec97765116a664e3f391661a308d2833c257b569d7f713994f88df2afd",
+        "target_sha256": "a03f56775777f13a3eeff5ea880451916d4ac6e44c4b470e5f819fbfec97c9ae"
+      },
+      "events:kx_holiday_alone:/description": {
+        "source_sha256": "ad901dc2f533a159f165dee98303d3695ba1271069667c0c5131d8aadf53adfd",
+        "target_sha256": "50ff1473c9c58c2d3f93cc28fc2595d7c0b16b6d8928c294f99c9fc1d0130769"
+      },
+      "events:kx_holiday_alone:/title": {
+        "source_sha256": "d8d4868104d9e7a4de08fafa4693acd4c44ed19d47636723b9f76ba69ba82d3e",
+        "target_sha256": "659d25b455afe76bd514654c11309d3b3bb423b59554d483ffdd6077ff691da0"
+      },
+      "events:kx_kdrama_binge:/choices/0/result_text": {
+        "source_sha256": "e4040d966ea3ccadfeb90e77a1154651cf8941beba2e02c90999c98c536661e8",
+        "target_sha256": "e09428279a23ff7866589a9966af2470d5c5d4662cbe08b3711ac7d3699290f2"
+      },
+      "events:kx_kdrama_binge:/choices/0/text": {
+        "source_sha256": "4c46d4c64148d8f39fd7422f47d8b421f1393c05a14b23513ff8dc6cc073eee3",
+        "target_sha256": "df50bbfea8cfe843f05d3ceb70c290b41ac03313b539fc4d35f4837faef828a7"
+      },
+      "events:kx_kdrama_binge:/choices/1/result_text": {
+        "source_sha256": "6cd69abdfabfbbb0a355dd9e6f8f9b4bb8b0f0d43f34b18a5ae649db983dd527",
+        "target_sha256": "b2a92619d1af249fd41ae84e50146437f33cef1e52c253ffce26db92ee4395b8"
+      },
+      "events:kx_kdrama_binge:/choices/1/text": {
+        "source_sha256": "5ba78ea21f84c2d510cd1bcf04678ae7f4961b2ded9dcbe8998b9ec4bd4fcc02",
+        "target_sha256": "f3195840d4de84b2a62bec8c09c535d943412af7d000e3031a978a2fc6fbe593"
+      },
+      "events:kx_kdrama_binge:/description": {
+        "source_sha256": "7e4b42d88262fa91b4c9881d518bd7d85ce868482ab6884a7f07dd6668a69949",
+        "target_sha256": "de1391041fad74208e4ded2d4166ac8bca534bc27f45f9ec5b87d5b49f01e913"
+      },
+      "events:kx_kdrama_binge:/title": {
+        "source_sha256": "3cc0d1c5f5bbaa3f9df5487afa4759080d6050f2de6dfa646269952e4885b95c",
+        "target_sha256": "499809f3111d43c04f306b5e963574d3783590235ba762203cf05079e8a970b4"
+      },
+      "events:kx_kpop_concert:/choices/0/result_text": {
+        "source_sha256": "1f451273af5413fc8e2809f5fdaee62a29fff6d709066d115597f33e7eaa2d45",
+        "target_sha256": "d92424ce6e3c1f6958391b15db89d476f250f0b75bc7e20bde0f84a491c100c6"
+      },
+      "events:kx_kpop_concert:/choices/0/text": {
+        "source_sha256": "420e00dad978dcc2ca2ed767b116bb8a781aa260288037e000c6aa77439092e5",
+        "target_sha256": "14569004f2a0785d2a5b62f7d31222c71727f52ef4c78c0395251ce2c8a34c18"
+      },
+      "events:kx_kpop_concert:/choices/1/result_text": {
+        "source_sha256": "9c4dae286ebcbaea77781eeeb50203afa7085731cfe0ffd9d5a22c71e1112fe8",
+        "target_sha256": "8b239ec06d33beb8ab0aef766f34eeff737f2e7b264c672cf28e4d16e1d8223b"
+      },
+      "events:kx_kpop_concert:/choices/1/text": {
+        "source_sha256": "2c36d82edc33658558e28a9f1520d93b3f5dd9afa7700cfa298fd3437ce96fb3",
+        "target_sha256": "da5c20e2223b687d6772e9304b947eecaf122cee9aefbe0476b594a0d4783d73"
+      },
+      "events:kx_kpop_concert:/description": {
+        "source_sha256": "2c9beb759acafaf5f563242cd58fd42af518bd934af0be56a8ff0b37098ce2ac",
+        "target_sha256": "5342fdd810a767cfdbbfd95499830f43b8fe176ec2619689393f2483e98660c1"
+      },
+      "events:kx_kpop_concert:/title": {
+        "source_sha256": "eb6ff249ab8fadfd79747db5ec699f051e79e3bcb9058b74874b5f5312cac803",
+        "target_sha256": "2f47356b2b5f174543bc9d32b2fd26c1dd5a397d14137648516749261d31c7a0"
+      },
+      "events:kx_kpop_ticketing:/choices/0/result_text": {
+        "source_sha256": "6e31eecb8505fc249b94cdf0dfd9bca59d80707457c08a470531789e9f7a973c",
+        "target_sha256": "4c54164e892563060435b634417e90111818a3f1c381913e7d674a11f94bb6e4"
+      },
+      "events:kx_kpop_ticketing:/choices/0/text": {
+        "source_sha256": "651002f9e7f60ea299d020b7858a5e3215be5fb8f91a8075646a2d6ec91a9d6f",
+        "target_sha256": "503a358e550cc5f6c7d54e04735c94fa7fd59611266cacbccd994679691ed04c"
+      },
+      "events:kx_kpop_ticketing:/choices/1/result_text": {
+        "source_sha256": "481ae1fba1d6b80ff1b2e5ef19bd9d519253d047f4df991f9db85e41d747a0d6",
+        "target_sha256": "bce0609e046f45a3b511247f02f3a134288e4c852f948d500051984aa14d7fe9"
+      },
+      "events:kx_kpop_ticketing:/choices/1/text": {
+        "source_sha256": "3fe7f4f675b55346d27fcd594ba676f2a98d63ba30ec48937310733bc65fea0b",
+        "target_sha256": "2a9bde05f49f39c9c3ba80886239d32d033fe48376f8994e4f6e7416e60d1aab"
+      },
+      "events:kx_kpop_ticketing:/description": {
+        "source_sha256": "6ecb060411183d254caeeabccdf35e8b22a52e6b0af094ca2d2b6364af75fa49",
+        "target_sha256": "1a526d3f30dc1328082ea13c9292365330cc2c29158125b80024f83096c53304"
+      },
+      "events:kx_kpop_ticketing:/title": {
+        "source_sha256": "c27f328986bbc1f6173e1fb47e234d1ed92629bd1faa211c414ac35e72c740cc",
+        "target_sha256": "8ae712ffc1aa284e09a00e9189a8141544515fbb1106c81d482a260ebb2492c8"
+      },
+      "events:kx_malatang_tanghulu:/choices/0/result_text": {
+        "source_sha256": "c1fe1086e19ec95da4d5012ad445e3276a2f0d085d2d5444b2179acb8cde2164",
+        "target_sha256": "4dccb9c99f2eb3900a9f812b792ca2ff80f2f14c59623e2bd5a5e6b75286462d"
+      },
+      "events:kx_malatang_tanghulu:/choices/0/text": {
+        "source_sha256": "73ede24a52ad99e385af9e3c5515c6ce30f5fb897f9f9e8e6d75e91cc2351314",
+        "target_sha256": "0b1eea151b20e97636d15db3229a201705f64c0876e31561906a721029c8b07d"
+      },
+      "events:kx_malatang_tanghulu:/choices/1/result_text": {
+        "source_sha256": "5980f78a0d5881778af51e5f49d23355bed937c1b544127fbae69056079a0d66",
+        "target_sha256": "8b322a42955ec240d85852aefdb754abd745eabbd0a746f1a66018123b1f4b9d"
+      },
+      "events:kx_malatang_tanghulu:/choices/1/text": {
+        "source_sha256": "2f13e4a6a6f31a9d4a7eef888f979ecdc8094d47b3f8abecaa028918ce9797c7",
+        "target_sha256": "4f2dbeb6958f8d1989f08162087e09bbfcb3dc2e0bbbfc500784b1a9a0249fe3"
+      },
+      "events:kx_malatang_tanghulu:/description": {
+        "source_sha256": "7216920f6a793a6ef51fdc0c1b4ad774fde411795975b5aa0d73396e579242b8",
+        "target_sha256": "43cc146cd849cca6acf42e753fa07dee153a2151577b20301190d19635e3447f"
+      },
+      "events:kx_malatang_tanghulu:/title": {
+        "source_sha256": "1ee44e83fb36626b7c906c3fe3d9f87333bea9730404d14ab840b194c64a98ca",
+        "target_sha256": "36b7b6e75b3303729cff0d9930ba67f1c96c1de860f32c802cc97c8e5493258d"
+      },
+      "events:kx_north_korea_news:/choices/0/result_text": {
+        "source_sha256": "22151b852d719dc0b9cde6aeda87b165087c1de07711dc5c4445932f55c5297f",
+        "target_sha256": "c5b4331c948f44916c79fd6e502205744b43700234247454389f5912e1b96e2b"
+      },
+      "events:kx_north_korea_news:/choices/0/text": {
+        "source_sha256": "52a008e3ffd56860997d363ca0dfd83f58675033449d80cbc09dfe98f39d8510",
+        "target_sha256": "7d234404cd117c35f16916e16454c2793cc98e7b87dad696c89fcdbf55e84f3b"
+      },
+      "events:kx_north_korea_news:/choices/1/result_text": {
+        "source_sha256": "84c37dd21acbde1f336f41ecd50fef8f3881879fd915752ffd4e1951da43112d",
+        "target_sha256": "2ee6514b2a07919b7d068ff09bb307f97796e94072796a3e5f913fc44ca1faa1"
+      },
+      "events:kx_north_korea_news:/choices/1/text": {
+        "source_sha256": "5e7e9d6cf41f5963b862756472787bb47c2c8a1f1b05a18d96b62e644be84700",
+        "target_sha256": "ec92541f0ea90fdc273ee189463166ca9b871da8fd4ab463665e6fe3aa87c5be"
+      },
+      "events:kx_north_korea_news:/description": {
+        "source_sha256": "8d0cff7b5eeff708b929975dcf31adcd118718c6ba3a83ba5ee4a874e738f5be",
+        "target_sha256": "9fec5299c0a769c80d7a7765c6249799c741712796576614f781ef57130f6e57"
+      },
+      "events:kx_north_korea_news:/title": {
+        "source_sha256": "13a31eeb35e214998c4b62a23dc798d0e330c1b6dc645ee72e73111fc734c8c5",
+        "target_sha256": "e7de32695c06db50b1b78b25a81d3615e6665570195b32ff1486cbee5722a87d"
+      },
+      "events:kx_photocard:/choices/0/result_text": {
+        "source_sha256": "8bb06b94e9863a7a8580495f0b0850133a804c050e2a34b7adc79f63e6686f38",
+        "target_sha256": "2cced820dbb128d7b4f31be5eb5cbe8a74ffcf278b0045f0f5ee2106c32acc6e"
+      },
+      "events:kx_photocard:/choices/0/text": {
+        "source_sha256": "7408e06327aa1c69b9e8794c37082b0dbb3ba1852e637e4ca2d5a4f33d46a4a6",
+        "target_sha256": "d6c2c5ea0850ceb6a22fce4456a1e1cbebc1978de602ff3c8b2bc4b5f3b6e1b1"
+      },
+      "events:kx_photocard:/choices/1/result_text": {
+        "source_sha256": "74879e2ab9f4235fe6a590ce84c04b4ed4a130a803c0c2972249db9e9b615cd2",
+        "target_sha256": "ae6c700b0a7a6de1532c72c7bab668d8d5690aaccb74bfc8a9835085721e22c3"
+      },
+      "events:kx_photocard:/choices/1/text": {
+        "source_sha256": "61f7e82f25148be17092793729277e4afd71a89b04524ad7185ff5b1c076e23d",
+        "target_sha256": "286672132c54b5fff147d181850248d79e6e82585ec3f3b826530b2860e0e4aa"
+      },
+      "events:kx_photocard:/description": {
+        "source_sha256": "0c91e6d7c6dd086c20a9ce954597b98112856598c0928d5f0ad0202154287b3a",
+        "target_sha256": "1a92160b7d2d14d5db7d40eac9997a3de0b4e59dd75e6f891572c6a11ae10a73"
+      },
+      "events:kx_photocard:/title": {
+        "source_sha256": "8f8536eebcf116de29e6248d84ba2023b99b0df339eb4fb2be781b9b3aeac61c",
+        "target_sha256": "b16f5f6ef16b46a8b4a544506a8fc7807ad32ee534c012837f8a1ce8b5ff7054"
+      },
+      "events:kx_reserve_duty:/choices/0/result_text": {
+        "source_sha256": "cd35bf2a5acc9992cf2d397ac6dfe3d9088167cd828efe1ec7d85274e637f835",
+        "target_sha256": "7ff5e13f08e5bc42064ec198da374844ac9759eb997e94b9ce364b1c8fa6d7a1"
+      },
+      "events:kx_reserve_duty:/choices/0/text": {
+        "source_sha256": "e78036d35e6bdf8cb974bf6e2110bdf96f332e95f4ce5ba168fba580c26ddb5d",
+        "target_sha256": "bb74f2db415a91b0443e411b52825a302964bae2947669be68b143552dade8c0"
+      },
+      "events:kx_reserve_duty:/choices/1/result_text": {
+        "source_sha256": "7cbf689c353c286217a87ba13370830683fb2b32f2a4802ac590d5f4602868ee",
+        "target_sha256": "82a9aa34c3234eebb6f8103569351460160cb96ac92a80c2d8aead1714f3ff50"
+      },
+      "events:kx_reserve_duty:/choices/1/text": {
+        "source_sha256": "f29df510fc8ad54dfafd35d475b8358217bb62a8544d3ab2c9b17786ce6f89f7",
+        "target_sha256": "940ff2176f220adc6b0f76fbd7e14e2adbeb3c47b6619b086fa29d517ee8e153"
+      },
+      "events:kx_reserve_duty:/description": {
+        "source_sha256": "a35524f3dcab3a43723b0aa9736a34eae3f344d7e7cdc2833b9887037cba451a",
+        "target_sha256": "9feb0f8e42197582fbc01afc82afe141bc6585b7bbec636d61a5b1b90e2d2c62"
+      },
+      "events:kx_reserve_duty:/title": {
+        "source_sha256": "64f27070cd50cf5ecf3ac55ece4890bb07bbb7e5b738d77d669ead988e3fe788",
+        "target_sha256": "85b8c95a233f57a46d44ef8aad995a75b604dd5cb22231e940979f48896f5def"
+      },
+      "events:kx_saju_cafe:/choices/0/result_text": {
+        "source_sha256": "8ec42b441cdaac968e2299800cb5e280de5ad3174e0cdf93f0348f2aa885f660",
+        "target_sha256": "3ffec9686da16d099181196bec4d988cc1b91e70bda9900a02b6bb7840e89d85"
+      },
+      "events:kx_saju_cafe:/choices/0/text": {
+        "source_sha256": "34d8734c46b0469a436b7642bbf91dd75c4f19f1ef067b71bd176b9f2e0ec670",
+        "target_sha256": "50006cc8bb3bf3557a79c538fa666ae961cff97b665ca3ef59ff110cf919da1b"
+      },
+      "events:kx_saju_cafe:/choices/1/result_text": {
+        "source_sha256": "2f75643e22c3c1480d4e657da3c6c3a77ef80dc35ef068ee85bd2bb5f9edbf43",
+        "target_sha256": "9eda345568f004bd151ce44ece61dbeff9fc5bf91d8d10d440e7f121b4f05c9d"
+      },
+      "events:kx_saju_cafe:/choices/1/text": {
+        "source_sha256": "b669897938996514e26d793458d843b791ba1387f8c45ae71744aa4025952e27",
+        "target_sha256": "efa1e806dbb7f7f6eda5b1facdb18a12994324fb14d17796354683b70a3473e3"
+      },
+      "events:kx_saju_cafe:/description": {
+        "source_sha256": "8161ab8606afa31b0f36c3dfb8b1c8c32c6cc7be38ffa9def88bab065c9f0467",
+        "target_sha256": "184221b76501b6903d2b6c2c93dc518cec5933c324f4f492c4baadf754d2355c"
+      },
+      "events:kx_saju_cafe:/title": {
+        "source_sha256": "cdf5dd7d94e81ab307d6dc2f53506fa5d483b517ee80a980d7a36d4c5d3f2498",
+        "target_sha256": "1ff4f36effdf6a09a4896756faa41f3c4e2a7c4a3927a81cdc0d985e91cd0d0e"
+      },
+      "events:kx_seollal_sebae:/choices/0/result_text": {
+        "source_sha256": "309b485f66e1036ddf1b36be7a788dfb5ec40875d34945bc0e40c4d6c58524bd",
+        "target_sha256": "45098126be8cf5587984df55ca43ae404ee2be71968528a549a48dcb0b3e461a"
+      },
+      "events:kx_seollal_sebae:/choices/0/text": {
+        "source_sha256": "d4e072c6b2e009e072d7c460b199094e3b6efbbb8012b8f237766fae36785372",
+        "target_sha256": "8ca60b2d2090c64e5cf5d2e1bbde976552cde21aff6f40e2848ab611770b9d9e"
+      },
+      "events:kx_seollal_sebae:/choices/1/result_text": {
+        "source_sha256": "f8380a57d645118dec47b19ec77efd5edbc985bfcc5e7f1155be12e8400bd438",
+        "target_sha256": "9dba28c1399c295d3417fddf121bf3372c3e34048eae1e9638da74ffbf5dde9a"
+      },
+      "events:kx_seollal_sebae:/choices/1/text": {
+        "source_sha256": "6709b0ffed78ee6790fc4193be8ba45f36b866db25961a727891cfd115a98071",
+        "target_sha256": "55a3be0ebde89a2637c5626ae1c1abd9b62375a479d21f00c1fb49508ccf26a4"
+      },
+      "events:kx_seollal_sebae:/description": {
+        "source_sha256": "6701123ee644e0a88e59da4b5aee55ed1a3e836387c17653fc3b8228640f4cac",
+        "target_sha256": "df3f78b506ec064090234cbb08d61efa4851fb4910ecb5e307000e92e579ec95"
+      },
+      "events:kx_seollal_sebae:/title": {
+        "source_sha256": "a33ce5070160343e12716176eb8ade2819e58d7c4a930e32eb4507d70cf4e4c7",
+        "target_sha256": "f33b546c32c1c87b1c3596d709af3954e9badd0b2ae79743423549150e3bf8df"
+      },
+      "events:kx_street_food:/choices/0/result_text": {
+        "source_sha256": "d55ac7fcc3075f6ffaae330ba271349b34c7c040d3194af904a906a222bb50ff",
+        "target_sha256": "b0b60ef3787af56210073d1c02d3279dff85d72f356a9ed343f67b0826634a8b"
+      },
+      "events:kx_street_food:/choices/0/text": {
+        "source_sha256": "b433b9f9c69d59775bcedfefded2d8b65e63d897a329fcf5eb4ad4464b9e4795",
+        "target_sha256": "8b312f2a62e59d274226759ac4920c62d9f7a4939ebc9d806d31aa17cd6017a1"
+      },
+      "events:kx_street_food:/choices/1/result_text": {
+        "source_sha256": "97eb64d5ad8a561df5ade50d755570771b75c92cf5e7a058987a66a4d6a55dc6",
+        "target_sha256": "1272ab5039e302638c90844015719eb10470d6961308046edbdf9e00d4718d83"
+      },
+      "events:kx_street_food:/choices/1/text": {
+        "source_sha256": "c3d9fdc4f26e9c8e20466cfb018c71392d225fb7a41fb32cab8dae2e004a8cb6",
+        "target_sha256": "2c799b28719d9b31e96effe44e09312860fc63fee1459349c8b8e225435ba211"
+      },
+      "events:kx_street_food:/description": {
+        "source_sha256": "6547c33c73cd4ef7dbc5cceb41568fb61bdbb2ecd100b8bfea80f22a3451efb0",
+        "target_sha256": "49fa9744b5bfc0e7b567c13cbd11e66e74b28e1e90b2090348e6b2462101c22b"
+      },
+      "events:kx_street_food:/title": {
+        "source_sha256": "9bac99fc118c652ed174b23f9ff0cdde096d0a8c90681f59bec63c4141d7b4e6",
+        "target_sha256": "0299def1062323ba37b4eb8d1c531dc61d3012e0533506ce4a8f440e5f29d1ce"
+      },
+      "events:kx_tarot:/choices/0/result_text": {
+        "source_sha256": "a63a6ad91eda45a1deaeb65d6de54fe9fc6da87d99b610d855e761fc192b9b0a",
+        "target_sha256": "652db65ec41d8be848d8937df738764025b559d037abccb6069ce0ae74f69930"
+      },
+      "events:kx_tarot:/choices/0/text": {
+        "source_sha256": "a89dc7fdd68f491a03d9fb2647ea99d4a16227350bd74de40deedb6a46aba569",
+        "target_sha256": "63deb26d67f425ad6d1775d07e2421cac0dbc76a09ef5c16fe9f8d5f3343612e"
+      },
+      "events:kx_tarot:/choices/1/result_text": {
+        "source_sha256": "aa4e5705bfc630e3a4f80c656f83c6882bc7a17b4a6ab92baaa87d48bf7c8028",
+        "target_sha256": "7b7608cc7bb935b925175062650f5c0a88075a4bdc9115dd451bfecd3c84cc29"
+      },
+      "events:kx_tarot:/choices/1/text": {
+        "source_sha256": "4572f91cd457be1c028883a9482adebe9c01a5c799b3745f113137c8d8dd4b5e",
+        "target_sha256": "e43358ab20572523eb7059c635f95ec916aefde35f899f66a692fcdceceee8c3"
+      },
+      "events:kx_tarot:/description": {
+        "source_sha256": "ff23850571e4ed123403af2e43f50872c3840dce4f2464c189e21b633c15b7fa",
+        "target_sha256": "667f195af44e2d26b4db4b6829bd8c31274fc9070fda0979be98e5d8e7c93a01"
+      },
+      "events:kx_tarot:/title": {
+        "source_sha256": "b9e73aaeb85f3caa24996dcad7abe75aa424910dbc470bed4e1142dbb75b744b",
+        "target_sha256": "6903654e5589c037d1cf991cd341c14c4c0d2dff0ed1780e38f6cf72f49f64ee"
+      },
+      "events:kx_tteokbokki:/choices/0/result_text": {
+        "source_sha256": "c53b6f4e17e0d31ff989d121cdb65757ff5eaa83f1048b56c4bd2c15bd9f7e54",
+        "target_sha256": "87f13204afc895e27b00a67a66372cc8196253fd1368ff95c2f4534bee06761f"
+      },
+      "events:kx_tteokbokki:/choices/0/text": {
+        "source_sha256": "f443f7b9df64fae69099d448d72e090a06f46017c864edeb2983acfebb19030f",
+        "target_sha256": "7e33c06148effc50ff05d16c02b976a3c456c4985c8369ec2410c5caea5da4a0"
+      },
+      "events:kx_tteokbokki:/choices/1/result_text": {
+        "source_sha256": "57004342d28d4b40ae94714ebdbe4dd2b71b072b64321e5c78cea2320c15c7d5",
+        "target_sha256": "e813f0df19be85a363ba18c5326cfa89d7375cec1223c296b68a85e23519236f"
+      },
+      "events:kx_tteokbokki:/choices/1/text": {
+        "source_sha256": "4b9be3a5b024d9a581f03ea9b4573d7edb4d6c257db86d752b84f196f3dc35ee",
+        "target_sha256": "c390a903bf8f71b266d21305080a80d4f604f4ba956ee9a6a6eb63e539cf7e6b"
+      },
+      "events:kx_tteokbokki:/description": {
+        "source_sha256": "7b1e2ff54b67993d3dd25145f33388fabfc8543c64425bf50fb9b89f02129cf2",
+        "target_sha256": "e0936e316910f3ba1ba6508c568d0b49cb14b9248f44eed0bfecde8876c18596"
+      },
+      "events:kx_tteokbokki:/title": {
+        "source_sha256": "f55cdc8d3dafe6a343bcbc304fdf1ec1a2e58f6c4413e90a320709fcac5358ff",
+        "target_sha256": "3d69e3b25870596a32c0c4b41ca6c27c6646e3e21ca74aa64ec7fdc695ffb1b7"
+      },
+      "events:kx_us_korea_news:/choices/0/result_text": {
+        "source_sha256": "41b4ffbe53d7b89af6409b44c974c68ea904562e48c562b879ef51bcc9d23952",
+        "target_sha256": "9b0ef557297514a7f6f30b0ff67f647ab9d513f8a7c585f30a9fa491ef8ee195"
+      },
+      "events:kx_us_korea_news:/choices/0/text": {
+        "source_sha256": "fda8dc1217f86de524df21802d7f2937bd4f164b853dd39f0bb80721c3d4164d",
+        "target_sha256": "b922c4ff9868f95b4f7559a5f561ce045ad1e4d38570996e327a29360957d7e7"
+      },
+      "events:kx_us_korea_news:/choices/1/result_text": {
+        "source_sha256": "932eee2d342cc2fbb308d93adaa06a615f8cfac08a6a0ba5d06aaed6fc892731",
+        "target_sha256": "27806de1ba340daa26fe24d65f7b844a92bb2f09d3b24e7f9a6c7e75d6252153"
+      },
+      "events:kx_us_korea_news:/choices/1/text": {
+        "source_sha256": "6b04d99d9c47adf540f2f32e4e6185e3f7210f263c97c86aea52881ba32d39e8",
+        "target_sha256": "04b96c5f6154f533927b5c815ea759ca7a6ad8f794157621b1d3fd3b05e674db"
+      },
+      "events:kx_us_korea_news:/description": {
+        "source_sha256": "31cd234e19c75208a5fd8b717987faa894807fe187ac43a89529274e8e748e4d",
+        "target_sha256": "4950da621b554da58b67c6b6f4a11734e7f0155e3e42cee6b3378ee52bcc5ec4"
+      },
+      "events:kx_us_korea_news:/title": {
+        "source_sha256": "39c6f8de52a25025462b39c6d60cb4b0d0b9d882f0f28014285771937913cd25",
+        "target_sha256": "40b30c2d11a60bb368477f41e3f799635aca0786bdc23ba049443f17571feb07"
+      },
+      "events:kx_yearly_fortune:/choices/0/result_text": {
+        "source_sha256": "5ae73b9eabca7207fdb5fe0baae0125e53fa41b34abb26b4775b6cfafd971ed6",
+        "target_sha256": "fc3aa88ee15e85c5488a12a0e69417cdc149806367a29ce3cbe2268ef1565868"
+      },
+      "events:kx_yearly_fortune:/choices/0/text": {
+        "source_sha256": "e18ab6ce8f0787267c6e4061c5cad9fcad1435f726bf07de81ecff8eaffafeab",
+        "target_sha256": "763cb94e46339368ec92d817edd89cc9b91dfc5253cb0b795fc94e47ac073260"
+      },
+      "events:kx_yearly_fortune:/choices/1/result_text": {
+        "source_sha256": "8f2308a99befc22d3d922e904b2c2466398bb42e960d4456797441f71455051f",
+        "target_sha256": "9500a8b4d929e16c5f57ecb48b94072be32af0aea9f3be601507f3405748b169"
+      },
+      "events:kx_yearly_fortune:/choices/1/text": {
+        "source_sha256": "2572bdeb43902aeb81d5e4d6ef6123033670322c8558e7fad1244f429e2e44f4",
+        "target_sha256": "f27d2717fe7f41af28b84e297fa9947cd5ecfe89e4e5c2b997517f5f563443f7"
+      },
+      "events:kx_yearly_fortune:/description": {
+        "source_sha256": "decef64b43ddfd8f49eaeb82f9a421240e824cb15f7087ec10ae426a694f4e2b",
+        "target_sha256": "33824e3f91cadc57239b5a12b68fc571d62c002fa963b18113ea48312ae5e9ed"
+      },
+      "events:kx_yearly_fortune:/title": {
+        "source_sha256": "c66a7a61ea95dbde0a25d1d7082c63dc7a387b55e298a7470e027b7152d4253a",
+        "target_sha256": "3745f8132270598c325759e2f57b53798a8435d9ae1608728f6eaa27795b7116"
       }
     }
   },
-  "accepted_sha256": "9ee0966de571b0969150b19d01bbe7443cc4868c977809ebf924e2e914939e4f",
+  "accepted_sha256": "5ea879a1076fd5972c43cf2611a02e108e27d6a0f7fb203da4e72437250b7bd5",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {

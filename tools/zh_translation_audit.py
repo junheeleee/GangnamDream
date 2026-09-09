@@ -988,6 +988,48 @@ def _script_forbidden_sets() -> dict[str, frozenset[str]]:
 
 # ORDER208: complete Korean sources own only their observed quantity/brand slots.
 # No event ID or translated sentence licenses a numeric exemption.
+# Exact Korean cultural-life sources own local quantities and named services.
+# Target prose is not a sentence allowlist; only the licensed slots are masked.
+SOURCE_KOREAN_CULTURE = {
+    "ticket_resale": "'죄송합니다. 매진되었습니다.' 5초 만에.\n암표는 정가의 세 배. 안 산다. 안 산다. ...안 사기로 했다.\n\n분하지만, 분할 줄 아는 무언가가 있다는 게\n이 팍팍한 5년에 위로이기도 했다.",
+    "spa_fee": "온수 탕에 발을 담그자 온몸이 녹았다.\n\n찜질복 입고 계란 하나 까먹으며 누워 있었다.\n서울 생존의 비밀 중 하나다. 1만 2천 원에 온기, 샤워, 잠자리.",
+    "daily_duolingo": "듀오링고 설치했다. 무료다.\n\n하루 10분이 습관이 됐다. 느리지만 꾸준했다.\n공짜로도 할 수 있는 것들이 있다.",
+    "mask_grade": "마스크 쓰고 나섰다. 숨은 답답하고 안경에 김은 서렸지만.\n\n이 나라에서 마스크는 이미 계절 소품이 됐다.\n택배 기사도, 배달 라이더도, 전부 KF94.",
+    "learning_rank": "학원을 다닐 돈은 없다. 유튜브로 시작하기로 했다.\n\n배움의 밀도는 서울이 전국 1위다.\n원하는 강의를 찾는 것도 능력이다.",
+    "education_fraction": "밤 10시, 대치동 학원 거리.\n중고등학생들이 학원에서 쏟아져 나온다.\n\n수학, 영어, 과학, 논술...\n이 거리의 부모들은 강남 집값의 3분의 1을 교육비에 쓴다고 한다.",
+    "whole_day_video": "그냥 하루 종일 유튜브",
+    "daily_reading": "하루 30분씩 읽기 시작했다.\n\n3개월 후, 입지, 학군, 역세권이라는 단어를 자연스럽게 쓰고 있었다.\n정보는 읽는 시간만큼 쌓인다.",
+    "naver_comments": "네이버 카페 '부동산 스터디'.\n가입 인원 47만 명.\n\n글 하나에 댓글이 200개.\n강남 아파트 시세, 청약 당첨 후기, 임장 일지...\n\n이게 한국 부동산 정보의 실제 허브다.",
+    "naver_title": "네이버 카페",
+    "age_chat": "다온 오픈채팅 '서울 2030 재테크 모임'.\n익명으로 들어왔다.\n\n채팅창이 쉬지 않고 올라온다.\n부동산, 주식, 코인, 그리고 아파트 청약.",
+    "cherry_week": "4월 첫째 주, 벚꽃이 폭발했다.\n여의도 둑방, 석촌호수, 경복궁 돌담길.\n\n꽃이 지기까지는 일주일.\n서울 전체가 이 일주일에 몰려든다.",
+    "exam_weekday": "11월 셋째 주 목요일.\n전투기가 이착륙을 멈추고, 주식 시장이 한 시간 늦게 열렸다.\n\n대한민국이 18세 아이들 시험 하나에\n잠깐 일시정지 버튼을 눌렀다.",
+    "meme_retweets": "트위터(X)에 밈이 돌고 있다.\n「33세 백수, 통장 50만원, 강남은 언제쯤」\n\n리트윗 수가 6만을 넘었다.\n댓글창에 '나야 나'가 가득하다.",
+    "delivery_reward": "30분 뒤 문 앞에 도착한 치킨.\n혼자 먹는데도 '문 앞에 두고 가주세요'를 누르는 게 한국식.\n\n배달비가 아깝다가도, 따뜻한 한 끼 앞에선 다 잊힌다.\n오늘 하루를 버틴 나에게 주는 만 9천 원짜리 상.",
+    "delivery_saved": "결국 앱을 껐다. 편의점 도시락에 컵라면.\n\n배달비 3천 5백 원을 아낀 게 뿌듯하면서도 좀 서글펐다.\n이 작은 계산들이 모여 강남으로 가는 거라고, 스스로를 다독였다.",
+    "delivery_menu": "야근 후 텅 빈 고시원 방.\n배달앱을 켠다. 최소주문 1만 5천, 배달비 3천 5백.\n\n장바구니에 담았다 뺐다를 반복한다.\n별점 4.8과 4.6 사이에서, 또 한참 고민한다.",
+    "military_range": "친구한테서 카톡이 왔다.\n\"나 다음 달에 입대해. 2년 동안 연락 못 할 수도 있어.\"\n\n한국 남자에게 군 복무는 선택이 아니다.\n18개월~2년. 강남으로 가는 시간표에 그게 낀다.",
+    "buffet_plate": "다섯 접시째. 더 이상 무리라는 걸 알면서도 한 점 더.\n\n배는 터질 것 같고 마음은 든든했다.\n오랜만에 '배부르게 먹었다'는 포만감. 이런 날도 가끔은 있어야 한다.",
+    "buffet_price": "1인 1만 5천 원 고기 무한리필.\n불판 위에 삼겹살이 지글거린다.\n\n'본전은 뽑아야 한다'는 한국인의 본능이 깨어난다.\n상추에 고기, 마늘, 쌈장 — 한입 가득.",
+    "ticket_queue": "대기열 2만 번대에서 기적처럼 한 자리.\n3층 끝이면 어떤가, 같은 공기를 마시는데.\n\n손이 떨렸다. 통장은 가벼워졌지만 마음은 꽉 찼다.\n강남은 멀어도, 오늘 잡은 이 한 자리는 진짜 내 것이다.",
+    "spice_level": "2단계 맵기에 도전했다가 입에 불이 났다.\n탕후루의 단맛으로 겨우 진화했다. 맵고 달고, 정신없는 조합.\n\n유행 한번 따라가 봤다. 다음 달이면 또 다른 게 유행하겠지만.",
+    "rice_roll": "결국 익숙한 김밥천국. 라면에 김밥 한 줄.\n\n유행은 빠르게 지나가지만, 분식집 라면은 10년째 그 자리다.\n변하지 않는 게 주는 안정감도 있다.",
+    "street_fish": "퇴근길, 골목 모퉁이 붕어빵 노점.\n천 원에 세 마리. 호호 불며 받아 든 종이봉투가 손을 데운다.\n\n요즘은 붕어빵 파는 곳을 알려주는 앱까지 있다.\n— 겨울 한국의 길거리는 냄새부터 다르다.",
+    "currency_pair": "해외 큰 선거의 결과가 나왔다.\n한국 언론이 일제히 한미동맹과 방위비 분담금 얘기를 꺼낸다.\n원/달러 환율이 움직이기 시작했다.",
+    "claw_cost": "만 원 가까이 썼다. 인형은 결국 나왔다.\n\n근데 이건 천 원짜리 인형이 아니라 만 원짜리 인형이 됐다.\n오기는 늘 비싸다. 강남도 이런 식이면 안 되는데.",
+    "karaoke_result": "두 곡을 더 넣었다. 화면에 88점이 떴고, 아무도 없는데 박수 효과음이 울렸다.\n\n노래방에서 우는 사람이 왜 그렇게 많은지, 오늘은 좀 알 것 같았다.\n일주일이 조금 가벼워졌다.",
+    "karaoke_description": "막차가 끊긴 밤, 골목 코인노래방.\n천 원에 네 곡. 부스 안은 혼자다.\n\n끈적한 소파, 탬버린 하나, 그리고 익숙한 발라드 번호.\n오늘 하루가 무거웠다.",
+    "river_ramen": "라면 기계에서 뽑은 사천 원짜리 행복.\n강바람이 국물 위로 불었다.\n\n치킨 시킨 옆 돗자리가 부럽지 않았다고 하면 거짓말이지만 —\n그래도 오늘 밤 한강은 모두에게 공평했다.",
+    "mukbang_portion": "새벽 1시, 배는 고프고 돈은 없다.\n유튜브를 열었더니 알고리즘이 먹방을 추천한다.\n\n1인분 짜장면을 네 그릇째 먹는 유튜버.\n섬네일만 봐도 침이 고인다.",
+    "large_price_list": "10억, 20억, 30억...\n\n숫자들이 너무 커서 현실감이 없었다.\n자꾸 보면 박탈감이 생겨서, 탭을 닫았다.",
+    "reply_threshold": "\"월 200으로 뭘 먼저 해야 할까요?\" 올렸다.\n답이 빠르게 달렸다. 10개가 넘었다. 전부 달랐다.\n\n정답은 없지만, 고민하는 사람들이 있다는 게 위안이 됐다.",
+    "coffee_pause": "카페 안 사람들은 다 제자리였다. 나도 그랬다.\n\n사이렌이 꺼지고 서울이 다시 움직였다. 5분.\n이 나라에서 위기는, 커피 한 모금만큼의 일시정지였다.",
+    "drama_episodes": "화제의 새 드라마 16부작.\n\"딱 한 편만\" 했는데 어느새 새벽 4시.\n\n다음 화 자동재생 5초 카운트.\n끄려던 손가락이, 멈춘다.",
+    "fortune_fee": "\"올해는 재물이 들어오는 방향인데, 본인이 잡을 준비가 돼 있어야 해요.\"\n\n5만 원짜리 말이지만, 이상하게 마음이 가벼워졌다.\n사주의 힘인지, 돈 쓴 김에 믿어보기로 한 건지 — 구분이 안 됐다.",
+    "newyear_gift": "\"열심히 하고 있어요.\" 웃으며 넘겼다.\n\n세뱃돈 10만 원이 지갑에 들어왔다.\n잔소리와 용돈은 항상 같이 온다. 이것도 한국 명절이다.",
+    "tarot_app": "\"그냥 앱이잖아\" 하고 넘긴다",
+}
+
 SOURCE_INVESTMENT_ADMIN = {
     "subscriptions": "구독 서비스 두 개를 해지했다.\n합산 4만 8천원.\n월세 인상분을 다른 곳에서 메꿨다.",
     "fraction_buy": "3분의 1을 샀다.\n다음날 2% 더 빠졌다.\n추가로 3분의 1을 더 샀다. 분할의 이유였다.",
@@ -4588,7 +4630,8 @@ def _source_money_amounts(source: str) -> list[MoneyAmount]:
     # This one observed fee is a 200,000–300,000-won range. Its endpoints,
     # label and predicate are validated by golf_round_fee_range, not as 300,000.
     source = SOURCE_GOLF_FEE_RANGE.sub(lambda m: " " * len(m.group()), source)
-    amounts: list[MoneyAmount] = []
+    amounts: list[MoneyAmount] = _korean_culture_source_money(source)
+    source = _mask_spans(source, _korean_culture_nonmoney(source))
     for kind, fragment, value in (("subscriptions", "4만 8천원", 48000),
                                   ("overdraft", "496만 7천800원", 4967800)):
         if source == SOURCE_INVESTMENT_ADMIN[kind]:
@@ -5027,10 +5070,284 @@ def _investment_admin_latin_errors(source: str, target: str) -> tuple[str, list[
     return target, []
 
 
+def _korean_culture_kind(source: str) -> str | None:
+    return next((kind for kind, raw in SOURCE_KOREAN_CULTURE.items() if raw == source), None)
+
+
+def _korean_culture_nonmoney(source: str) -> list[CounterQuantity]:
+    # Bare 만 remains money everywhere else. These complete sources name
+    # retweets and a queue band; no generic counter-suffix rule is widened.
+    kind = _korean_culture_kind(source)
+    fragment = {"meme_retweets": "6만", "ticket_queue": "2만 번대"}.get(kind)
+    if fragment is None:
+        return []
+    start = source.index(fragment)
+    return [CounterQuantity(start, start + len(fragment), Decimal(0), "culture_nonmoney")]
+
+
+def _korean_culture_source_money(source: str) -> list[MoneyAmount]:
+    kind = _korean_culture_kind(source)
+    fragments = {
+        "spa_fee": ("1만 2천 원",),
+        "delivery_reward": ("만 9천 원",),
+        "delivery_saved": ("3천 5백 원",),
+        "delivery_menu": ("1만 5천", "3천 5백"),
+        "buffet_price": ("1만 5천 원",),
+    }.get(kind, ())
+    amounts = []
+    for fragment in fragments:
+        # Parse the actual source components, not an expected target total.
+        match = re.fullmatch(r"(?:(?P<man>\d*)만\s*)?(?:(?P<thousand>\d+)천\s*)?(?:(?P<hundred>\d+)백\s*)?(?:원)?", fragment)
+        assert match
+        value = (int(match.group("man") or 1) * 10000 if "만" in fragment else 0)
+        value += int(match.group("thousand") or 0) * 1000 + int(match.group("hundred") or 0) * 100
+        start = source.index(fragment)
+        amounts.append(MoneyAmount(start, start + len(fragment), Decimal(value)))
+    return amounts
+
+
+def _korean_culture_money(source: str, target: str, original: list[MoneyAmount]) -> tuple[list[MoneyAmount], int, list[str]]:
+    kind = _korean_culture_kind(source)
+    licensed = {"spa_fee", "delivery_reward", "delivery_saved", "delivery_menu", "buffet_price",
+                "claw_cost", "river_ramen", "large_price_list", "fortune_fee", "newyear_gift"}
+    if kind not in licensed:
+        return original, 0, []
+    amounts = list(original)
+    errors = []
+    # Native cardinal amounts are supported only inside these money sources.
+    # Every wrong native value is parsed too, so value/sign/order checks remain.
+    def native_value(raw: str) -> Decimal | None:
+        for units, multiplier in (("億亿", 100000000), ("萬万", 10000)):
+            split = re.split(f"[{units}]", raw)
+            if len(split) == 2:
+                high, low = native_value(split[0] or "一"), native_value(split[1] or "零")
+                return high * multiplier + low if high is not None and low is not None else None
+            if len(split) > 2:
+                return None
+        return _chinese_cardinal_value(raw)
+    for match in re.finditer(r"(?P<n>[零〇一二两兩三四五六七八九十百千][零〇一二两兩三四五六七八九十百千萬万億亿]*)[韓韩]元", target):
+        number = native_value(match.group("n"))
+        if number is not None:
+            amounts = [a for a in amounts if not (match.start() <= a.start < a.end <= match.end())]
+            amounts.append(MoneyAmount(match.start(), match.end(), number))
+    shared = 0
+    if kind == "large_price_list":
+        # A single terminal label can govern a coordinated list on this line.
+        # It cannot license unlabeled money elsewhere or a missing list member.
+        line = target.split("\n")[0]
+        pattern = rf"(?P<a>{CHINESE_CARDINAL})[億亿][、,，]\s*(?P<b>{CHINESE_CARDINAL})[億亿][、,，]\s*(?P<c>{CHINESE_CARDINAL})[億亿][韓韩]元"
+        match = re.match(pattern, line)
+        if match:
+            amounts = [a for a in amounts if not (match.start() <= a.start < a.end <= match.end())]
+            for group in ("a", "b", "c"):
+                value = _chinese_cardinal_value(match.group(group))
+                amounts.append(MoneyAmount(match.start(group), match.end(group) + 1 + (2 if group == "c" else 0), value * 100000000))
+            shared = 2
+    amounts.sort(key=lambda a: a.start)
+    expected = _source_money_amounts(source)
+    if len(amounts) == len(expected):
+        for s, t in zip(expected, amounts):
+            if source[:s.start].count("\n") != target[:t.start].count("\n"):
+                errors.append("culture money line/role displaced")
+    for amount in amounts:
+        if re.match(r"\s*(?:[%％‰倍年月日天人位]|[個个]月|公斤|公里|小時|小时|分鐘|分钟|秒|[/／])", target[amount.end:]):
+            errors.append("culture money unit/rate suffix changed")
+    # Local money predicates retain their stated role. Unowned narrative
+    # outside these clauses is deliberately not made into a prose template.
+    lines = target.split("\n")
+    if kind in {"delivery_saved", "newyear_gift", "claw_cost"}:
+        line = lines[0 if kind == "claw_cost" else 2] if len(lines) > 2 else ""
+        predicate = {"delivery_saved": r"(?:省下|省了|[節节]省了|少花了)",
+                     "newyear_gift": r"(?:[進进]了|[進进]到|收到了|拿到了)",
+                     "claw_cost": r"(?:花了|花掉|花去|用了)"}[kind]
+        if not re.search(predicate, line) or re.search(
+                rf"(?:沒有|没有|沒能|没能|未曾|尚未|打算|準備|准备|將會|将会)[^。.!！]{{0,8}}{predicate}", line):
+            errors.append("culture money spent/saved/received state changed")
+        if kind == "delivery_saved" and not re.search(r"(?:配送|外送|送餐|[運运])[費费]", line):
+            errors.append("culture delivery saving owner changed")
+        if kind == "claw_cost" and not re.search(r"將近|将近|接近|差不多|近", line):
+            errors.append("culture claw spending approximation changed")
+    if kind == "delivery_menu" and len(amounts) == 2:
+        roles = (r"起送[價价]|最低(?:起送|訂購|订购|訂單|订单)(?:金額|金额)?|最低消[費费]",
+                 r"(?:配送|外送|送餐|[運运])[費费]")
+        for index, (amount, role) in enumerate(zip(amounts, roles)):
+            clause = re.split(r"[。.!！,，\n]", target[:amount.start])[-1]
+            postposed_minimum = index == 0 and re.match(r"起送(?:[，,。.]|$)", target[amount.end:])
+            if not re.search(role, clause) and not postposed_minimum:
+                errors.append("culture minimum-order/delivery money role swapped")
+    if kind == "fortune_fee" and len(lines) > 2 and not re.search(r"[話话]|[說说]法", lines[2]):
+        errors.append("culture fortune fee no longer prices the spoken advice")
+    return amounts, shared, errors
+
+
+def _korean_culture_latin(source: str, target: str) -> tuple[str, list[str]]:
+    kind = _korean_culture_kind(source)
+    licence = {
+        "daily_duolingo": ("Duolingo", 0, None),
+        "mask_grade": ("KF94", 3, None),
+        "naver_comments": ("Naver", 0, None), "naver_title": ("Naver", 0, None),
+        "meme_retweets": ("Twitter", 0, r"推特"),
+        "karaoke_description": ("KTV", 0, r"(?:投[幣币](?:式)?)?(?:練歌房|练歌房|卡拉OK)"),
+        "karaoke_result": ("KTV", 2, r"(?:練歌房|练歌房|卡拉OK)"),
+        "street_fish": ("App", 3, r"[應应]用(?:程式)?"),
+        "tarot_app": ("App", 0, r"[應应]用(?:程式)?"),
+    }.get(kind)
+    if licence is None:
+        return target, []
+    brand, line, alias = licence
+    latin = _bounded_latin_matches(target, brand)
+    if brand == "Naver":
+        # Cafe is the named forum service here, not a globally admitted word.
+        complete = _bounded_latin_matches(target, "Naver Cafe")
+        latin = complete + [m for m in latin if not any(c.start() <= m.start() < m.end() <= c.end() for c in complete)]
+    native = list(re.finditer(alias, target)) if alias else []
+    mentions = sorted(latin + native, key=lambda m: m.start())
+    if len(mentions) != 1 or target[:mentions[0].start()].count("\n") != line:
+        return target, [f"culture source-present service {brand} count/line/boundary changed"]
+    if kind == "daily_duolingo" and re.search(r"(?:尚未|還沒|还没|沒有|没有|準備|准备|打算)[^。.!！]{0,8}(?:安[裝装]|[裝装])", target.split("\n")[0]):
+        return target, ["culture installed learning app changed to absent/plan"]
+    # The local source role may be phrased naturally, but a different service
+    # or a copied mention on another line does not lend its Latin licence.
+    for match in reversed(latin):
+        target = target[:match.start()] + " " * (match.end() - match.start()) + target[match.end():]
+    return target, []
+
+
+def _korean_culture_slots(source: str, target: str) -> tuple[list[CounterQuantity], list[CounterQuantity], list[str]]:
+    kind = _korean_culture_kind(source)
+    source_slots, target_slots, errors = [], [], []
+    if kind is None:
+        return source_slots, target_slots, errors
+    lines = target.split("\n")
+    cardinal = CHINESE_CARDINAL
+    offsets = [sum(len(s) + 1 for s in lines[:i]) for i in range(len(lines))]
+    def slot(fragment: str, line: int, pattern: str, value: int, occurrence: int = 0,
+             *, groups: dict[str, int] | None = None, role: str | None = None) -> None:
+        positions = list(re.finditer(re.escape(fragment), source))
+        start, end = positions[occurrence].span()
+        source_slots.append(CounterQuantity(start, end, Decimal(value), "culture_" + kind))
+        matches = list(re.finditer(pattern, lines[line])) if line < len(lines) else []
+        if len(matches) != 1:
+            errors.append(f"culture {kind} quantity/unit/count/line missing or duplicated")
+            return
+        match = matches[0]
+        values = groups if groups is not None else {"number": value}
+        valid = all(match.groupdict().get(group) is None or _chinese_cardinal_value(match.group(group)) == expected
+                    for group, expected in values.items())
+        qstart, qend = match.span("q")
+        prefix = lines[line][:match.start()]
+        if lines[line].count(match.group("q")) != 1:
+            valid = False
+        # Only immediately governing negation/plan markers are owned here;
+        # this is not a whole-paragraph semantic audit.
+        if re.search(r"(?:沒有|没有|未曾|尚未|不曾|不會|不会|不是|並非|并非|打算|計劃|计划|將要|将要|準備|准备)\s*$", prefix):
+            valid = False
+        if kind in {"daily_duolingo", "daily_reading", "naver_comments", "meme_retweets", "ticket_queue", "spice_level", "karaoke_result"} and re.search(
+                r"(?:沒有|没有|未曾|尚未|不曾|不會|不会|打算|計劃|计划|將要|将要|準備|准备|將會|将会)[^，,。.!！？?]{0,8}$", prefix):
+            valid = False
+        if role and not re.search(role, lines[line]):
+            valid = False
+        if _has_numeric_sign_prefix(lines[line], qstart):
+            valid = False
+        if re.match(r"\s*(?:[%％‰]|公斤|公里|[/／])", lines[line][qend:]):
+            valid = False
+        if not valid:
+            errors.append(f"culture {kind} quantity/value/sign/role/state changed")
+            return
+        target_slots.append(CounterQuantity(offsets[line] + qstart, offsets[line] + qend, Decimal(value), "culture_" + kind))
+
+    if kind in {"daily_duolingo", "daily_reading"}:
+        line, minutes = (2, 10) if kind == "daily_duolingo" else (0, 30)
+        slot("하루", line, rf"(?P<q>每[天日]|天天)(?:花|[讀读])?(?={cardinal}(?:分[鐘钟]))", 1,
+             role=r"習慣|习惯|[讀读]|[閱阅][讀读]")
+        if line < len(lines) and len(re.findall(r"每(?:[天日周週月年]|小時|小时)|天天", lines[line])) != 1:
+            errors.append("culture daily frequency duplicated or borrowed")
+    elif kind == "whole_day_video":
+        slot("하루 종일", 0, r"(?P<q>整天|一整天|一整日|一整[個个]白天)(?=看YouTube)", 1)
+    elif kind == "learning_rank":
+        slot("1위", 2, rf"(?:[韓韩][國国]|全[國国])(?:排名|排|是)?(?P<q>第(?P<number>{cardinal})(?:名)?)", 1,
+             role=r"首[爾尔]")
+    elif kind == "education_fraction":
+        slot("3분의 1", 4, rf"(?P<q>(?P<den>{cardinal})分之(?P<num>{cardinal})|(?P<numa>\d+)[/／](?P<dena>\d+))", 0,
+             groups={"den": 3, "num": 1, "numa": 1, "dena": 3},
+             role=r"(?:据说|據說|听说|聽說).*(?:家[長长]|父母).*(?:教育).*(?:房[價价])")
+    elif kind == "naver_comments":
+        slot("200개", 3, rf"(?:就)?有(?P<q>(?P<number>{cardinal})[條条則则](?:[評评][論论]|留言))", 200,
+             role=r"帖|貼|[貼贴]文")
+        slot("47만 명", 1, rf"(?P<q>(?P<number>{cardinal})[萬万]人)", 47,
+             role=r"註冊|注册|會員|会员|加入|成員|成员")
+    elif kind == "age_chat":
+        slot("2030", 0, r"(?P<q>(?P<twenty>[二三四五六七八九])[、,，]?(?P<thirty>[二三四五六七八九])十[歲岁]|(?P<a>20)[、,，至到\-~～]*(?P<b>30)(?:[歲岁]))", 0,
+             groups={"twenty": 2, "thirty": 3, "a": 20, "b": 30}, role=r"首[爾尔]")
+    elif kind == "cherry_week":
+        slot("4월 첫째 주", 0, rf"(?P<q>(?P<month>{cardinal})月(?:的)?第(?P<week>{cardinal})(?:[個个])?(?:星期|[週周]))", 0,
+             groups={"month": 4, "week": 1})
+    elif kind == "exam_weekday":
+        slot("11월 셋째 주 목요일", 0, rf"(?P<q>(?P<month>{cardinal})月(?:的)?第(?P<week>{cardinal})[週周](?:的)?星期四)", 0,
+             groups={"month": 11, "week": 3})
+    elif kind == "meme_retweets":
+        slot("6만", 3, rf"(?:[轉转][發发推](?:[數数])?)(?:已[經经]?)?(?:超[過过]了?|逾)(?P<q>(?P<scaled>{cardinal})[萬万](?:次)?|(?P<number>{cardinal})次)", 60000,
+             groups={"scaled": 6, "number": 60000})
+    elif kind == "military_range":
+        slot("18개월~2년", 4, rf"(?P<q>(?P<months>{cardinal})[個个]月(?:到|至|[~～–—\-])(?P<years>{cardinal})年)", 0,
+             groups={"months": 18, "years": 2})
+    elif kind == "buffet_plate":
+        slot("다섯 접시째", 0, rf"(?P<q>第(?P<number>{cardinal})[盤盘])", 5)
+    elif kind == "buffet_price":
+        slot("1인", 0, rf"(?P<q>每人|每位|(?P<number>{cardinal})人(?:份)?)(?=\d|[零〇一二两兩三四五六七八九十百千])", 1)
+    elif kind == "ticket_queue":
+        slot("2만 번대", 0, rf"(?:排在|排到)(?P<q>(?P<number>{cardinal})[萬万]多[號号])", 2)
+        slot("한 자리", 0, rf"(?:[搶抢]到)(?:了)?(?P<q>(?P<number>{cardinal})[個个](?:座位|位子)|[這这]一席)", 1)
+        slot("한 자리", 4, rf"(?P<q>(?:[這这][個个](?:座位|位子))|[這这](?P<number>{cardinal})席)", 1, 1,
+             role=r"[搶抢]到.*(?:我的|屬於我|属于我)")
+        if lines and re.search(r"(?:沒|没|不|尚未|將|将|想)[^。.!！]{0,5}[搶抢]到", lines[0]):
+            errors.append("culture ticket_queue acquired seat changed to absent/plan")
+        if len(lines) > 4 and re.search(r"(?:不是|並非|并非|不屬於|不属于)[^。.!！]*(?:我的|我)", lines[4]):
+            errors.append("culture ticket_queue retained seat ownership negated")
+    elif kind == "spice_level":
+        slot("2단계", 0, rf"挑[戰战]了(?P<q>(?P<number>{cardinal})[級级]辣)", 2)
+    elif kind == "rice_roll":
+        slot("한 줄", 0, rf"(?P<q>(?P<number>{cardinal})[卷捲](?:紫菜包[飯饭]|[飯饭][捲卷]))", 1)
+    elif kind == "street_fish":
+        slot("세 마리", 1, rf"[韓韩]元(?P<q>(?P<number>{cardinal})[個个])", 3)
+    elif kind == "currency_pair":
+        slot("원/달러", 2, r"(?P<q>[韓韩]元[兌兑]美元)(?:的)?[匯汇]率(?:開始|开始)", 0)
+        if len(re.findall(r"[韓韩]元", target)) != 1 or target.count("美元") != 1:
+            errors.append("culture currency pair duplicated or borrowed")
+    elif kind == "mukbang_portion":
+        slot("1인분", 3, rf"(?P<q>(?P<number>{cardinal})人份|[單单]人份)(?:的)?炸[醬酱][麵面]", 1)
+    elif kind == "reply_threshold":
+        slot("10개", 1, rf"超[過过](?P<q>(?P<number>{cardinal})[則则條条])", 10,
+             role=r"回[覆复].*(?:[來来]了)")
+    elif kind == "coffee_pause":
+        slot("한 모금", 3, rf"(?P<q>(?P<number>{cardinal})口咖啡|喝口咖啡)(?:那[麼么]短的|[那這这][麼么]短的)?[暫暂]停", 1,
+             role=r"危[機机]")
+    elif kind == "drama_episodes":
+        slot("16부작", 0, rf"(?:共|[劇剧][，,]?)(?P<q>(?P<number>{cardinal})集)", 16)
+    elif kind == "karaoke_result":
+        slot("두 곡", 0, rf"又(?:加(?:[點点])?了?|[點点]了)(?P<q>(?P<number>{cardinal})首(?:歌)?)", 2)
+        witnesses = list(re.finditer(rf"(?:加(?:[點点])?了?|[點点]了){cardinal}(?P<unit>首(?:歌)?|[個个]?小時|小时|年|人|[張张]|次|[韓韩]元)", lines[0])) if lines else []
+        if len(witnesses) != 1 or witnesses[0].group("unit") not in {"首", "首歌"}:
+            errors.append("culture added karaoke songs unit/witness borrowed")
+    elif kind == "ticket_resale":
+        slot("세 배", 1, rf"原[價价]的(?P<q>(?P<number>{cardinal})倍)", 3,
+             role=r"[黃黄]牛票")
+        witnesses = list(re.finditer(rf"原[價价]的{cardinal}(?P<unit>倍|年|人|次|[個个]?小時|小时|[韓韩]元)", lines[1])) if len(lines) > 1 else []
+        if len(witnesses) != 1 or witnesses[0].group("unit") != "倍":
+            errors.append("culture resale multiplier unit/witness borrowed")
+        if len(lines) > 1 and (not re.search(r"不[買买]", lines[1]) or re.search(r"(?<!不)[買买]了|已(?:[經经])?購[買买]", lines[1])):
+            errors.append("culture resale price / decision not to buy changed")
+    return source_slots, target_slots, errors
+
+
 def _numeric_errors(source: str, target: str) -> list[str]:
     errors: list[str] = []
     admin_source_slots, admin_target_slots, admin_errors = _investment_admin_slots(source, target)
     errors.extend(admin_errors)
+    culture_source, culture_target, culture_errors = _korean_culture_slots(source, target)
+    admin_source_slots.extend(culture_source)
+    admin_target_slots.extend(culture_target)
+    errors.extend(culture_errors)
     if source == SOURCE_CREATOR_GROWTH_REASSESSMENT:
         growth = re.fullmatch(
             r"(?:[覺觉]得(?:進展|进展|速度)?(?:很)?慢|感[覺觉](?:進展|进展)?[緩缓]慢)[。.]\n"
@@ -5120,6 +5437,8 @@ def _numeric_errors(source: str, target: str) -> list[str]:
         errors.append("drama approximate Korean-won magnitude order changed")
     source_amounts = _source_money_amounts(source)
     target_amounts = _target_money_amounts(target)
+    target_amounts, culture_shared_labels, culture_money_errors = _korean_culture_money(source, target, target_amounts)
+    errors.extend(culture_money_errors)
     if source == SOURCE_JEONSE_PARTIAL_RETURN:
         # The source owns an actual partial return and a one-off loss, not a
         # full refund, a future payment or a monthly rate with the same digits.
@@ -5173,6 +5492,7 @@ def _numeric_errors(source: str, target: str) -> list[str]:
     # A literal amount still needs its own label. Only the observed, source-
     # bound 어떤 원화도 construction can own an additional nonnumeric label.
     expected_labels = len(target_amounts) + min(rhetorical_source, rhetorical_target) + approximate_labels + min(len(source_blanks), len(target_blanks)) + int(golf_range_source)
+    expected_labels -= culture_shared_labels
     if (source_amounts or target_amounts or rhetorical_source or approximate_labels or source_blanks or golf_range_source) and target_label_count != expected_labels:
         errors.append(
             f"Korean-won label count/topology mismatch "
@@ -5254,6 +5574,7 @@ def _money_errors(lang: str, source: str, target: str) -> list[str]:
     errors: list[str] = []
     currency_probe = SOURCE_WANTS_PARTICLE.sub(lambda m: " " * len(m.group()), source)
     has_won = bool(KOREAN_WON.search(currency_probe) or _source_money_amounts(source) or source == SOURCE_INSURANCE_SAVED_PAIR
+                   or source == SOURCE_KOREAN_CULTURE["currency_pair"]
                    or source in SOURCE_GIG_FEW_THOUSAND_WON
                    or any(pattern.search(source) for pattern, _ in CATALOG_APPROXIMATE_WON))
     expected = REGIONAL_TERMS[lang]["won"]
@@ -5274,6 +5595,9 @@ def _money_errors(lang: str, source: str, target: str) -> list[str]:
 
 
 def _untranslated_english_errors(source: str, target: str, *, catalog: bool = False) -> list[str]:
+    target, culture_errors = _korean_culture_latin(source, target)
+    if culture_errors:
+        return culture_errors
     target = _investment_admin_literal_percent(target, source)
     target, admin_errors = _investment_admin_latin_errors(source, target)
     if admin_errors:
@@ -10020,12 +10344,289 @@ def _investment_admin_natural_self_test() -> tuple[int, list[str]]:
     return cases, failures
 
 
+def _korean_culture_parser_self_test() -> tuple[int, list[str]]:
+    """Own cultural-life regressions; independent external cases are separate."""
+    failures: list[str] = []
+    cases = 0
+    rows = [
+        ("spa_fee", "zh-CN", "双脚泡进热水池，全身都融化了。\n\n穿着汗蒸服，剥了个鸡蛋吃，躺在那里。\n这是在首尔生存的诀窍之一。1.2万韩元，换来暖意、淋浴和睡觉的地方。", "双脚泡进热水池，全身都融化了。\n\n穿着汗蒸服，剥了个鸡蛋吃，躺在那里。\n这是在首尔生存的诀窍之一。13,000韩元，换来暖意、淋浴和睡觉的地方。"),
+        ("spa_fee", "zh-TW", "腳一浸進熱水池，全身都融化了。\n\n穿著汗蒸服，剝了顆蛋吃，躺著不動。\n這是首爾生存祕訣之一。12,000韓元，換來溫暖、洗澡和睡覺的地方。", "腳一浸進熱水池，全身都融化了。\n\n穿著汗蒸服，剝了顆蛋吃，躺著不動。\n這是首爾生存祕訣之一。13,000韓元，換來溫暖、洗澡和睡覺的地方。"),
+        ("daily_duolingo", "zh-CN", "装了Duolingo。免费的。\n\n每天10分钟，成了习惯。进度慢，却一直在坚持。\n有些事，不花钱也能做到。", "装了Duolingo。免费的。\n\n每周10分钟，成了习惯。进度慢，却一直在坚持。\n有些事，不花钱也能做到。"),
+        ("daily_duolingo", "zh-TW", "安裝了Duolingo，免費的。\n\n每天十分鐘成了習慣。進展慢，但一直持續著。\n有些事，不花錢也能做到。", "安裝了Duolingo，免費的。\n\n每周十分鐘成了習慣。進展慢，但一直持續著。\n有些事，不花錢也能做到。"),
+        ("mask_grade", "zh-CN", "戴着口罩出了门。虽然呼吸闷得慌，眼镜也起了雾。\n\n在这个国家，口罩早已成了应季用品。\n快递员、外卖骑手，全都戴着KF94。", "戴着口罩出了门。虽然呼吸闷得慌，眼镜也起了雾。\n\n在这个国家，口罩早已成了应季用品。\n快递员、外卖骑手，全都戴着KF95。"),
+        ("mask_grade", "zh-TW", "戴著口罩出門了。雖然呼吸悶得慌，眼鏡也起了霧。\n\n在這個國家，口罩早已成了季節配件。\n宅配員、外送員，人人都戴KF94。", "戴著口罩出門了。雖然呼吸悶得慌，眼鏡也起了霧。\n\n在這個國家，口罩早已成了季節配件。\n宅配員、外送員，人人都戴KF95。"),
+        ("learning_rank", "zh-CN", "没钱上补习班。决定从YouTube开始。\n\n论学习资源的密度，首尔在韩国排第一。\n能找到自己想学的课程，也是一种本事。", "没钱上补习班。决定从YouTube开始。\n\n论学习资源的密度，首尔在韩国排第二。\n能找到自己想学的课程，也是一种本事。"),
+        ("learning_rank", "zh-TW", "沒有錢上補習班，決定從YouTube開始。\n\n論學習資源的密度，首爾是全國第一。\n能找到自己想上的課，也是一種本事。", "沒有錢上補習班，決定從YouTube開始。\n\n論學習資源的密度，首爾是全國第二。\n能找到自己想上的課，也是一種本事。"),
+        ("education_fraction", "zh-CN", "晚上10点，大峙洞补习班一条街。\n初高中生从补习班里涌出来。\n\n数学、英语、科学、论述写作……\n据说这条街上的家长，花在教育上的钱相当于江南房价的三分之一。", "晚上10点，大峙洞补习班一条街。\n初高中生从补习班里涌出来。\n\n数学、英语、科学、论述写作……\n据说这条街上的家长，花在教育上的钱相当于江南房价的四分之一。"),
+        ("education_fraction", "zh-TW", "晚上十點，大峙洞的補習班街。\n國高中生從補習班裡魚貫而出。\n\n數學、英文、自然、論述寫作……\n聽說這條街上的家長，花在教育上的錢相當於江南房價的三分之一。", "晚上十點，大峙洞的補習班街。\n國高中生從補習班裡魚貫而出。\n\n數學、英文、自然、論述寫作……\n聽說這條街上的家長，花在教育上的錢相當於江南房價的四分之一。"),
+        ("whole_day_video", "zh-CN", "干脆整天看YouTube", "干脆整年看YouTube"),
+        ("whole_day_video", "zh-TW", "乾脆整天看YouTube", "乾脆整年看YouTube"),
+        ("daily_reading", "zh-CN", "开始每天读30分钟。\n\n3个月后，地段、学区、地铁站周边这些词，已经能自然地说出口。\n信息随着花在阅读上的时间，一点点积累。", "开始每周读30分钟。\n\n3个月后，地段、学区、地铁站周边这些词，已经能自然地说出口。\n信息随着花在阅读上的时间，一点点积累。"),
+        ("daily_reading", "zh-TW", "開始每天花30分鐘閱讀。\n\n三個月後，地段、學區、鄰近車站這些詞，已經能自然地掛在嘴邊。\n花多少時間讀，資訊就累積多少。", "開始每周花30分鐘閱讀。\n\n三個月後，地段、學區、鄰近車站這些詞，已經能自然地掛在嘴邊。\n花多少時間讀，資訊就累積多少。"),
+        ("naver_comments", "zh-CN", "Naver论坛“房产研习”。\n注册会员47万人。\n\n一篇帖子就有200条评论。\n江南公寓行情、新房申购中签心得、实地看房日记……\n\n这里才是韩国房产信息真正的集散地。", "Navar论坛“房产研习”。\n注册会员47万人。\n\n一篇帖子就有200条评论。\n江南公寓行情、新房申购中签心得、实地看房日记……\n\n这里才是韩国房产信息真正的集散地。"),
+        ("naver_comments", "zh-TW", "Naver社群「房地產研習」。\n註冊會員47萬人。\n\n一篇貼文就有200則留言。\n江南公寓行情、住宅申購中籤心得、實地看房日誌……\n\n這才是韓國房地產資訊真正的集散地。", "Navar社群「房地產研習」。\n註冊會員47萬人。\n\n一篇貼文就有200則留言。\n江南公寓行情、住宅申購中籤心得、實地看房日誌……\n\n這才是韓國房地產資訊真正的集散地。"),
+        ("naver_title", "zh-CN", "Naver论坛", "Navar论坛"),
+        ("naver_title", "zh-TW", "Naver網路社群", "Navar網路社群"),
+        ("age_chat", "zh-CN", "Daon开放聊天室：“首尔二三十岁理财交流群”。\n匿名进了群。\n\n聊天窗口不停地滚动。\n房产、股票、加密货币，还有新建公寓申购。", "Daon开放聊天室：“首尔四五十岁理财交流群”。\n匿名进了群。\n\n聊天窗口不停地滚动。\n房产、股票、加密货币，还有新建公寓申购。"),
+        ("age_chat", "zh-TW", "Daon開放聊天室「首爾二、三十歲族群理財聚會」。\n匿名加入了。\n\n聊天訊息不停往上跳。\n房地產、股票、加密貨幣，還有住宅申購。", "Daon開放聊天室「首爾四五十岁族群理財聚會」。\n匿名加入了。\n\n聊天訊息不停往上跳。\n房地產、股票、加密貨幣，還有住宅申購。"),
+        ("cherry_week", "zh-CN", "4月的第一个星期，樱花一下子全开了。\n汝矣岛堤岸、石村湖、景福宫石墙路。\n\n离花谢还有一个星期。\n整个首尔，都挤进了这一个星期里。", "4月的第二週，樱花一下子全开了。\n汝矣岛堤岸、石村湖、景福宫石墙路。\n\n离花谢还有一个星期。\n整个首尔，都挤进了这一个星期里。"),
+        ("cherry_week", "zh-TW", "四月第一週，櫻花一口氣盛開了。\n汝矣島河堤、石村湖、景福宮石牆路。\n\n再過一週，花就會謝。\n整個首爾都擠進了這一週。", "四月第二週，櫻花一口氣盛開了。\n汝矣島河堤、石村湖、景福宮石牆路。\n\n再過一週，花就會謝。\n整個首爾都擠進了這一週。"),
+        ("exam_weekday", "zh-CN", "11月第三周的星期四。\n战斗机停止起降，股市推迟了一个小时开盘。\n\n为了18岁孩子们的一场考试，\n整个韩国短暂地按下了暂停键。", "11月第四週的星期四。\n战斗机停止起降，股市推迟了一个小时开盘。\n\n为了18岁孩子们的一场考试，\n整个韩国短暂地按下了暂停键。"),
+        ("exam_weekday", "zh-TW", "十一月第三週的星期四。\n戰鬥機停止起降，股市延後一小時開盤。\n\n大韓民國為了18歲孩子們的一場考試，\n短暫按下了暫停鍵。", "十一月第四週的星期四。\n戰鬥機停止起降，股市延後一小時開盤。\n\n大韓民國為了18歲孩子們的一場考試，\n短暫按下了暫停鍵。"),
+        ("meme_retweets", "zh-CN", "Twitter（X）上流传着一个梗。\n“33岁，没工作，银行账户里50万韩元，什么时候才能去江南”\n\n转发数超过了6万。\n评论区里满是“是我本人”。", "Twitter（X）上流传着一个梗。\n“33岁，没工作，银行账户里50万韩元，什么时候才能去江南”\n\n转发数超过了7万。\n评论区里满是“是我本人”。"),
+        ("meme_retweets", "zh-TW", "Twitter（X）上流傳著一張迷因。\n「33歲失業，銀行帳戶50萬韓元，到底何時才能進江南」\n\n轉推數超過了6萬。\n留言區滿滿都是「這不就是我」。", "Twitter（X）上流傳著一張迷因。\n「33歲失業，銀行帳戶50萬韓元，到底何時才能進江南」\n\n轉推數超過了7万。\n留言區滿滿都是「這不就是我」。"),
+        ("delivery_reward", "zh-CN", "30分钟后，炸鸡送到了门口。\n明明是一个人吃，却也按下“请放在门口”，这很韩国。\n\n本来还心疼配送费，可面对热乎乎的一顿饭，全忘了。\n花1.9万韩元，奖给撑过今天的自己。", "30分钟后，炸鸡送到了门口。\n明明是一个人吃，却也按下“请放在门口”，这很韩国。\n\n本来还心疼配送费，可面对热乎乎的一顿饭，全忘了。\n花18,000韩元，奖给撑过今天的自己。"),
+        ("delivery_reward", "zh-TW", "三十分鐘後，炸雞送到了門前。\n明明獨自吃，還是按了「請放在門口」——這就是韓國式作風。\n\n原本還心疼外送費，面對熱騰騰的一餐，就全忘了。\n送給撐過今天的自己，一份19,000韓元的獎賞。", "三十分鐘後，炸雞送到了門前。\n明明獨自吃，還是按了「請放在門口」——這就是韓國式作風。\n\n原本還心疼外送費，面對熱騰騰的一餐，就全忘了。\n送給撐過今天的自己，一份18,000韓元的獎賞。"),
+        ("delivery_saved", "zh-CN", "最后关掉了应用。便利店盒饭，加杯面。\n\n省下3500韩元配送费，既有点得意，又有点心酸。\n这些细小的盘算攒在一起，就能走到江南，我这样安慰自己。", "最后关掉了应用。便利店盒饭，加杯面。\n\n省下4500韩元配送费，既有点得意，又有点心酸。\n这些细小的盘算攒在一起，就能走到江南，我这样安慰自己。"),
+        ("delivery_saved", "zh-TW", "最後還是關了App。便利商店便當配杯麵。\n\n省下3,500韓元的外送費，既有點得意，又有點心酸。\n安慰自己，就是靠這些小小的盤算，一步步走向江南。", "最後還是關了App。便利商店便當配杯麵。\n\n省下4500韓元的外送費，既有點得意，又有點心酸。\n安慰自己，就是靠這些小小的盤算，一步步走向江南。"),
+        ("delivery_menu", "zh-CN", "加班后，空荡荡的考试院房间。\n打开外卖应用。起送价1.5万韩元，配送费3500韩元。\n\n购物车里加了又删，删了又加。\n又在4.8分和4.6分之间，犹豫了好久。", "加班后，空荡荡的考试院房间。\n打开外卖应用。起送价16,000韩元，配送费3500韩元。\n\n购物车里加了又删，删了又加。\n又在4.8分和4.6分之间，犹豫了好久。"),
+        ("delivery_menu", "zh-TW", "加完班，回到空蕩蕩的考試院房間。\n打開外送App。最低訂購金額15,000韓元，外送費3,500韓元。\n\n反覆把餐點加進購物車，又刪掉。\n在4.8顆星和4.6顆星之間，又猶豫了好久。", "加完班，回到空蕩蕩的考試院房間。\n打開外送App。最低訂購金額16,000韓元，外送費3,500韓元。\n\n反覆把餐點加進購物車，又刪掉。\n在4.8顆星和4.6顆星之間，又猶豫了好久。"),
+        ("military_range", "zh-CN", "朋友发来了KakaoTalk消息。\n“我下个月入伍。可能两年都联系不上。”\n\n对韩国男人来说，服兵役不是一道选择题。\n18个月到2年。通往江南的时间表里，也夹着这一段。", "朋友发来了KakaoTalk消息。\n“我下个月入伍。可能两年都联系不上。”\n\n对韩国男人来说，服兵役不是一道选择题。\n十九個月到2年。通往江南的时间表里，也夹着这一段。"),
+        ("military_range", "zh-TW", "朋友傳來了KakaoTalk訊息。\n「我下個月要入伍了，這兩年可能沒辦法聯絡。」\n\n對韓國男人來說，服兵役不是選擇題。\n十八個月到兩年。往江南的時間表裡，也得插進這一段。", "朋友傳來了KakaoTalk訊息。\n「我下個月要入伍了，這兩年可能沒辦法聯絡。」\n\n對韓國男人來說，服兵役不是選擇題。\n十九個月到兩年。往江南的時間表裡，也得插進這一段。"),
+        ("buffet_plate", "zh-CN", "第五盘。明知已经吃不下，还是再来一片。\n\n肚子快撑破了，心里却踏实。\n久违了这种“吃得饱饱的”满足感。偶尔，也该有这样的日子。", "第六盤。明知已经吃不下，还是再来一片。\n\n肚子快撑破了，心里却踏实。\n久违了这种“吃得饱饱的”满足感。偶尔，也该有这样的日子。"),
+        ("buffet_plate", "zh-TW", "已經第五盤了。明知再吃就太勉強，還是又夾了一片。\n\n肚子快撐破，心裡卻很踏實。\n久違的「吃得好飽」的滿足感。偶爾也該有這種日子。", "已經第六盤了。明知再吃就太勉強，還是又夾了一片。\n\n肚子快撐破，心裡卻很踏實。\n久違的「吃得好飽」的滿足感。偶爾也該有這種日子。"),
+        ("buffet_price", "zh-CN", "每人1.5万韩元，烤肉不限量。\n五花肉在烤盘上滋滋作响。\n\n韩国人“怎么也得吃回本”的本能醒了。\n生菜包着肉、蒜和韩式包饭酱——满满一口。", "每人16,000韩元，烤肉不限量。\n五花肉在烤盘上滋滋作响。\n\n韩国人“怎么也得吃回本”的本能醒了。\n生菜包着肉、蒜和韩式包饭酱——满满一口。"),
+        ("buffet_price", "zh-TW", "每人15,000韓元，烤肉吃到飽。\n烤盤上的五花肉滋滋作響。\n\n韓國人「一定要吃回本」的本能甦醒了。\n生菜包上肉、蒜頭、韓式包飯醬——滿滿一大口。", "每人16,000韓元，烤肉吃到飽。\n烤盤上的五花肉滋滋作響。\n\n韓國人「一定要吃回本」的本能甦醒了。\n生菜包上肉、蒜頭、韓式包飯醬——滿滿一大口。"),
+        ("ticket_queue", "zh-CN", "排在两万多号的队列里，竟然奇迹般抢到一个座位。\n三楼最边上又怎样，呼吸的是同一片空气。\n\n手在发抖。银行账户余额少了，心却满满的。\n江南再远，今天抢到的这个座位，也是真正属于我的。", "排在三萬多號的队列里，竟然奇迹般抢到一个座位。\n三楼最边上又怎样，呼吸的是同一片空气。\n\n手在发抖。银行账户余额少了，心却满满的。\n江南再远，今天抢到的这个座位，也是真正属于我的。"),
+        ("ticket_queue", "zh-TW", "排到兩萬多號，卻奇蹟般搶到了一個位子。\n三樓最邊邊又怎樣，呼吸的可是同一片空氣。\n\n手還在抖。銀行帳戶瘦了，心卻滿了。\n江南再遠，今天搶到的這一席，確實是我的。", "排到三萬多號，卻奇蹟般搶到了一個位子。\n三樓最邊邊又怎樣，呼吸的可是同一片空氣。\n\n手還在抖。銀行帳戶瘦了，心卻滿了。\n江南再遠，今天搶到的這一席，確實是我的。"),
+        ("spice_level", "zh-CN", "挑战了二级辣，嘴里像着了火。\n靠糖葫芦的甜味才勉强灭了火。又辣又甜，令人晕头转向的搭配。\n\n也跟了一回风。虽然到了下个月，大概又会流行别的东西。", "挑战了三級辣，嘴里像着了火。\n靠糖葫芦的甜味才勉强灭了火。又辣又甜，令人晕头转向的搭配。\n\n也跟了一回风。虽然到了下个月，大概又会流行别的东西。"),
+        ("spice_level", "zh-TW", "挑戰了二級辣，嘴巴像燒起來一樣。\n靠糖葫蘆的甜味，才勉強滅了火。又辣又甜，讓人應接不暇。\n\n也跟了一回潮流。雖然下個月，大概又流行別的了。", "挑戰了三級辣，嘴巴像燒起來一樣。\n靠糖葫蘆的甜味，才勉強滅了火。又辣又甜，讓人應接不暇。\n\n也跟了一回潮流。雖然下個月，大概又流行別的了。"),
+        ("rice_roll", "zh-CN", "最后还是去了熟悉的紫菜包饭天国。方便面配一卷紫菜包饭。\n\n潮流转眼就过去，小吃店的方便面却十年如一日。\n不变的东西，也能让人安心。", "最后还是去了熟悉的紫菜包饭天国。方便面配兩捲紫菜包饭。\n\n潮流转眼就过去，小吃店的方便面却十年如一日。\n不变的东西，也能让人安心。"),
+        ("rice_roll", "zh-TW", "最後還是去了熟悉的飯捲天國。泡麵配一捲飯捲。\n\n流行很快就過去，但小吃店的泡麵，十年來一直都在。\n不變的東西，也能讓人安心。", "最後還是去了熟悉的飯捲天國。泡麵配兩捲飯捲。\n\n流行很快就過去，但小吃店的泡麵，十年來一直都在。\n不變的東西，也能讓人安心。"),
+        ("street_fish", "zh-CN", "下班路上，巷子转角卖鲫鱼饼的小摊。\n1000韩元三个。呼呼吹着气接过纸袋，手也暖了。\n\n如今甚至有专门找鲫鱼饼摊的应用。\n——韩国冬天的街头，连气味都不一样。", "下班路上，巷子转角卖鲫鱼饼的小摊。\n1000韩元四個。呼呼吹着气接过纸袋，手也暖了。\n\n如今甚至有专门找鲫鱼饼摊的应用。\n——韩国冬天的街头，连气味都不一样。"),
+        ("street_fish", "zh-TW", "下班路上，巷口的韓式鯛魚燒攤。\n一千韓元三個。接過紙袋，一邊呼呼吹氣，手也暖了起來。\n\n現在甚至有App告訴你哪裡在賣鯛魚燒。\n——冬天的韓國街頭，連氣味都不一樣。", "下班路上，巷口的韓式鯛魚燒攤。\n一千韓元四個。接過紙袋，一邊呼呼吹氣，手也暖了起來。\n\n現在甚至有App告訴你哪裡在賣鯛魚燒。\n——冬天的韓國街頭，連氣味都不一樣。"),
+        ("currency_pair", "zh-CN", "海外一场重要选举的结果出来了。\n韩国媒体齐齐谈起韩美同盟和防卫费分摊。\n韩元兑美元的汇率开始变动。", "海外一场重要选举的结果出来了。\n韩国媒体齐齐谈起韩美同盟和防卫费分摊。\n美元兌韓元的汇率开始变动。"),
+        ("currency_pair", "zh-TW", "海外一場重要選舉的結果出爐了。\n韓國媒體同時談起韓美同盟與防衛費分攤。\n韓元兌美元匯率開始變動。", "海外一場重要選舉的結果出爐了。\n韓國媒體同時談起韓美同盟與防衛費分攤。\n美元兌韓元匯率開始變動。"),
+        ("claw_cost", "zh-CN", "花了将近1万韩元。玩偶总算出来了。\n\n可这已经不是1000韩元的玩偶，而是1万韩元的玩偶了。\n赌气总是很贵。去江南，可不能也这样。", "花了将近二萬韩元。玩偶总算出来了。\n\n可这已经不是1000韩元的玩偶，而是1万韩元的玩偶了。\n赌气总是很贵。去江南，可不能也这样。"),
+        ("claw_cost", "zh-TW", "花了將近一萬韓元，娃娃終於掉了出來。\n\n但它已經不是一千韓元的娃娃，而是一萬韓元的娃娃了。\n不服輸總是很貴。往江南的路，可不能也走成這樣。", "花了將近二萬韓元，娃娃終於掉了出來。\n\n但它已經不是一千韓元的娃娃，而是一萬韓元的娃娃了。\n不服輸總是很貴。往江南的路，可不能也走成這樣。"),
+        ("karaoke_result", "zh-CN", "又加了两首。屏幕上跳出88分，明明没有别人，却响起了掌声的音效。\n\n今天似乎有点明白，为什么那么多人会在练歌房里哭了。\n这一周，稍稍轻了一点。", "又加了两首。屏幕上跳出88分，明明没有别人，却响起了掌声的音效。\n\n今天似乎有点明白，为什么那么多人会在KTVX里哭了。\n这一周，稍稍轻了一点。"),
+        ("karaoke_result", "zh-TW", "又加點了兩首歌。螢幕跳出88分，明明沒別人，卻響起了掌聲音效。\n\n今天似乎有點懂，為什麼那麼多人會在KTV裡哭了。\n這一週，好像輕了一點。", "又加點了兩首歌。螢幕跳出88分，明明沒別人，卻響起了掌聲音效。\n\n今天似乎有點懂，為什麼那麼多人會在KTVX裡哭了。\n這一週，好像輕了一點。"),
+        ("karaoke_description", "zh-CN", "末班车已经停运的夜里，巷子里的投币练歌房。\n1000韩元唱四首。隔间里只有自己。\n\n黏糊糊的沙发，一个铃鼓，还有熟悉的抒情歌编号。\n今天这一天，很沉重。", "末班车已经停运的夜里，巷子里的KTVX。\n1000韩元唱四首。隔间里只有自己。\n\n黏糊糊的沙发，一个铃鼓，还有熟悉的抒情歌编号。\n今天这一天，很沉重。"),
+        ("karaoke_description", "zh-TW", "末班車已停駛的夜裡，巷內的投幣式KTV。\n一千韓元唱四首，包廂裡只有自己。\n\n黏黏的沙發、一個鈴鼓，還有熟悉的抒情歌編號。\n今天一整天都很沉重。", "末班車已停駛的夜裡，巷內的投幣式KTVX。\n一千韓元唱四首，包廂裡只有自己。\n\n黏黏的沙發、一個鈴鼓，還有熟悉的抒情歌編號。\n今天一整天都很沉重。"),
+        ("river_ramen", "zh-CN", "煮面机里端出的幸福，值4000韩元。\n江风吹过汤面。\n\n要说不羡慕隔壁垫子上点了炸鸡的人，那是假的——\n可今晚的汉江，对每个人都一样。", "煮面机里端出的幸福，值五千韩元。\n江风吹过汤面。\n\n要说不羡慕隔壁垫子上点了炸鸡的人，那是假的——\n可今晚的汉江，对每个人都一样。"),
+        ("river_ramen", "zh-TW", "泡麵機煮出來的幸福，四千韓元。\n江風吹過湯面。\n\n要說不羨慕隔壁叫炸雞的那張野餐墊，那是騙人的——\n但今晚的漢江，對每個人都一樣公平。", "泡麵機煮出來的幸福，五千韓元。\n江風吹過湯面。\n\n要說不羨慕隔壁叫炸雞的那張野餐墊，那是騙人的——\n但今晚的漢江，對每個人都一樣公平。"),
+        ("mukbang_portion", "zh-CN", "凌晨1点，肚子饿，手里又没钱。\n打开YouTube，算法推荐了吃播。\n\n一人份的炸酱面，视频博主已经吃到第四碗。\n光看封面就咽口水。", "凌晨1点，肚子饿，手里又没钱。\n打开YouTube，算法推荐了吃播。\n\n雙人份的炸酱面，视频博主已经吃到第四碗。\n光看封面就咽口水。"),
+        ("mukbang_portion", "zh-TW", "凌晨一點，肚子餓，卻沒錢。\n打開YouTube，演算法就推薦了吃播。\n\n畫面裡的YouTuber正在吃第四碗單人份炸醬麵。\n光看縮圖就讓人流口水。", "凌晨一點，肚子餓，卻沒錢。\n打開YouTube，演算法就推薦了吃播。\n\n畫面裡的YouTuber正在吃第四碗雙人份炸醬麵。\n光看縮圖就讓人流口水。"),
+        ("large_price_list", "zh-CN", "10亿韩元、20亿韩元、30亿韩元……\n\n数字大得没有真实感。\n看多了只觉得被落下，便关掉了标签页。", "10亿韩元、21億韩元、30亿韩元……\n\n数字大得没有真实感。\n看多了只觉得被落下，便关掉了标签页。"),
+        ("large_price_list", "zh-TW", "10億、20億、30億韓元……\n\n數字大得毫無真實感。\n看久了只會覺得自己少了什麼，於是關掉分頁。", "10億、21億、30億韓元……\n\n數字大得毫無真實感。\n看久了只會覺得自己少了什麼，於是關掉分頁。"),
+        ("reply_threshold", "zh-CN", "发了一句：“每月200万韩元，应该先做什么？”\n回复很快就来了。超过10条。每条都不一样。\n\n虽然没有标准答案，但知道还有人在为同样的事烦恼，也算是安慰。", "发了一句：“每月200万韩元，应该先做什么？”\n回复很快就来了。超过十一則。每条都不一样。\n\n虽然没有标准答案，但知道还有人在为同样的事烦恼，也算是安慰。"),
+        ("reply_threshold", "zh-TW", "發了一句：「每月200萬韓元，該先做什麼呢？」\n回覆很快就來了，超過十則，每則都不一樣。\n\n雖然沒有標準答案，但知道有人也在煩惱，就讓人覺得安慰。", "發了一句：「每月200萬韓元，該先做什麼呢？」\n回覆很快就來了，超過十一則，每則都不一樣。\n\n雖然沒有標準答案，但知道有人也在煩惱，就讓人覺得安慰。"),
+        ("coffee_pause", "zh-CN", "咖啡馆里的人都待在原位。我也是。\n\n警报停了，首尔又动了起来。5分钟。\n在这个国家，危机只是一口咖啡那么短的暂停。", "咖啡馆里的人都待在原位。我也是。\n\n警报停了，首尔又动了起来。5分钟。\n在这个国家，危机只是喝兩口咖啡那么短的暂停。"),
+        ("coffee_pause", "zh-TW", "咖啡館裡的人，全都待在原位。我也一樣。\n\n警報停了，首爾又動了起來。五分鐘。\n在這個國家，危機就是喝口咖啡那麼短的暫停。", "咖啡館裡的人，全都待在原位。我也一樣。\n\n警報停了，首爾又動了起來。五分鐘。\n在這個國家，危機就是喝兩口咖啡那麼短的暫停。"),
+        ("drama_episodes", "zh-CN", "热议的新剧，一共16集。\n说着“就看一集”，回过神来已是凌晨4点。\n\n自动播放下一集，5秒倒计时。\n准备关掉的手指，停住了。", "热议的新剧，一共十七集。\n说着“就看一集”，回过神来已是凌晨4点。\n\n自动播放下一集，5秒倒计时。\n准备关掉的手指，停住了。"),
+        ("drama_episodes", "zh-TW", "話題新劇，共十六集。\n本來說「只看一集」，回過神來已經凌晨四點。\n\n下一集自動播放，倒數五秒。\n本想按掉的手指，停住了。", "話題新劇，共十七集。\n本來說「只看一集」，回過神來已經凌晨四點。\n\n下一集自動播放，倒數五秒。\n本想按掉的手指，停住了。"),
+        ("fortune_fee", "zh-CN", "“今年是财运往你这边来的走势，不过，你得先准备好接住它。”\n\n花5万韩元买来的话，却莫名让心里轻松了些。\n是八字的力量，还是觉得钱都花了，不妨信一回——分不清。", "“今年是财运往你这边来的走势，不过，你得先准备好接住它。”\n\n花六萬韩元买来的话，却莫名让心里轻松了些。\n是八字的力量，还是觉得钱都花了，不妨信一回——分不清。"),
+        ("fortune_fee", "zh-TW", "「今年財運是朝進財的方向走，但你自己得準備好，才能抓得住。」\n\n雖然是花五萬韓元買來的話，心卻莫名輕了。\n是八字的力量，還是錢都花了，乾脆信一回——分不清。", "「今年財運是朝進財的方向走，但你自己得準備好，才能抓得住。」\n\n雖然是花六萬韓元買來的話，心卻莫名輕了。\n是八字的力量，還是錢都花了，乾脆信一回——分不清。"),
+        ("newyear_gift", "zh-CN", "笑着应付过去：“我在努力呢。”\n\n10万韩元的压岁钱进了钱包。\n唠叨和零花钱，总是一起到来。这也是韩国的节日。", "笑着应付过去：“我在努力呢。”\n\n十一萬韩元的压岁钱进了钱包。\n唠叨和零花钱，总是一起到来。这也是韩国的节日。"),
+        ("newyear_gift", "zh-TW", "笑著說「我有在努力」，就帶過了。\n\n十萬韓元的拜年錢進了皮夾。\n嘮叨和零用錢總是一起來。這也是韓國的節日。", "笑著說「我有在努力」，就帶過了。\n\n十一萬韓元的拜年錢進了皮夾。\n嘮叨和零用錢總是一起來。這也是韓國的節日。"),
+        ("tarot_app", "zh-CN", "说句“不就是个应用嘛”，不当回事", "说句“不就是个AppX嘛”，不当回事"),
+        ("tarot_app", "zh-TW", "說句「不就是個App嗎」，就算了", "說句「不就是個AppX嗎」，就算了"),
+    ]
+    def check(lang: str, source: str, target: str, expected: bool, label: str) -> None:
+        nonlocal cases
+        cases += 1
+        errors = validate_text(lang, 'events:culture-own-regression:/description', source, target)
+        if bool(errors) == expected:
+            failures.append(f'culture {label}: {errors!r}')
+    for kind, lang, target, wrong in rows:
+        source = SOURCE_KOREAN_CULTURE[kind]
+        check(lang, source, target, True, kind + ' actual')
+        check(lang, source, wrong, False, kind + ' changed quantity/brand')
+        cases += 1
+        off = '앞선 기록이 달라졌다.\n' + source
+        if _korean_culture_kind(off) is not None or _korean_culture_slots(off, target) != ([], [], []) or _korean_culture_source_money(off):
+            failures.append('culture source-boundary licence leaked: ' + kind)
+        _, quantities, _ = _korean_culture_slots(source, target)
+        if quantities:
+            q = quantities[0]
+            piece = target[q.start:q.end]
+            for changed in ('', '−' + piece, piece * 2, piece + '公斤'):
+                check(lang, source, target[:q.start] + changed + target[q.end:], False, kind + ' slot missing/sign/duplicate/unit')
+        if kind in {'spa_fee', 'delivery_reward', 'delivery_saved', 'delivery_menu', 'buffet_price', 'claw_cost', 'river_ramen', 'large_price_list', 'fortune_fee', 'newyear_gift'}:
+            money, _, _ = _korean_culture_money(source, target, _target_money_amounts(target))
+            q = money[0]
+            piece = target[q.start:q.end]
+            for changed in ('', '−' + piece, piece + '，' + piece, piece + '/月'):
+                check(lang, source, target[:q.start] + changed + target[q.end:], False, kind + ' money missing/sign/duplicate/rate')
+    for kind, lang, target, expected in [
+        ("spa_fee", "zh-CN", "双脚泡进热水池，全身都融化了。\n\n穿着汗蒸服，剥了个鸡蛋吃，躺在那里。\n这是在首尔生存的诀窍之一。一万二千韩元，换来暖意、淋浴和睡觉的地方。", True),
+        ("spa_fee", "zh-TW", "腳一浸進熱水池，全身都融化了。\n\n穿著汗蒸服，剝了顆蛋吃，躺著不動。\n這是首爾生存祕訣之一。一萬二千韓元，換來溫暖、洗澡和睡覺的地方。", True),
+        ("daily_duolingo", "zh-CN", "装了Duolingo。免费的。\n\n每日10分钟，成了习惯。进度慢，却一直在坚持。\n有些事，不花钱也能做到。", True),
+        ("daily_duolingo", "zh-TW", "安裝了Duolingo，免費的。\n\n每日十分鐘成了習慣。進展慢，但一直持續著。\n有些事，不花錢也能做到。", True),
+        ("learning_rank", "zh-CN", "没钱上补习班。决定从YouTube开始。\n\n论学习资源的密度，首尔在韩国排第一名。\n能找到自己想学的课程，也是一种本事。", True),
+        ("learning_rank", "zh-TW", "沒有錢上補習班，決定從YouTube開始。\n\n論學習資源的密度，首爾是全國第一名。\n能找到自己想上的課，也是一種本事。", True),
+        ("education_fraction", "zh-CN", "晚上10点，大峙洞补习班一条街。\n初高中生从补习班里涌出来。\n\n数学、英语、科学、论述写作……\n据说这条街上的家长，花在教育上的钱相当于江南房价的1/3。", True),
+        ("education_fraction", "zh-TW", "晚上十點，大峙洞的補習班街。\n國高中生從補習班裡魚貫而出。\n\n數學、英文、自然、論述寫作……\n聽說這條街上的家長，花在教育上的錢相當於江南房價的1/3。", True),
+        ("whole_day_video", "zh-CN", "干脆一整天看YouTube", True),
+        ("whole_day_video", "zh-TW", "乾脆一整天看YouTube", True),
+        ("daily_reading", "zh-CN", "开始每日读30分钟。\n\n3个月后，地段、学区、地铁站周边这些词，已经能自然地说出口。\n信息随着花在阅读上的时间，一点点积累。", True),
+        ("daily_reading", "zh-TW", "開始每日花30分鐘閱讀。\n\n三個月後，地段、學區、鄰近車站這些詞，已經能自然地掛在嘴邊。\n花多少時間讀，資訊就累積多少。", True),
+        ("naver_title", "zh-CN", "Naver网络论坛", True),
+        ("naver_title", "zh-TW", "Naver討論社群", True),
+        ("age_chat", "zh-CN", "Daon开放聊天室：“首尔二、三十岁理财交流群”。\n匿名进了群。\n\n聊天窗口不停地滚动。\n房产、股票、加密货币，还有新建公寓申购。", True),
+        ("age_chat", "zh-TW", "Daon開放聊天室「首爾二三十歲族群理財聚會」。\n匿名加入了。\n\n聊天訊息不停往上跳。\n房地產、股票、加密貨幣，還有住宅申購。", True),
+        ("cherry_week", "zh-CN", "4月的第1周，樱花一下子全开了。\n汝矣岛堤岸、石村湖、景福宫石墙路。\n\n离花谢还有一个星期。\n整个首尔，都挤进了这一个星期里。", True),
+        ("cherry_week", "zh-TW", "四月第1週，櫻花一口氣盛開了。\n汝矣島河堤、石村湖、景福宮石牆路。\n\n再過一週，花就會謝。\n整個首爾都擠進了這一週。", True),
+        ("exam_weekday", "zh-CN", "11月第3周的星期四。\n战斗机停止起降，股市推迟了一个小时开盘。\n\n为了18岁孩子们的一场考试，\n整个韩国短暂地按下了暂停键。", True),
+        ("exam_weekday", "zh-TW", "十一月第3週的星期四。\n戰鬥機停止起降，股市延後一小時開盤。\n\n大韓民國為了18歲孩子們的一場考試，\n短暫按下了暫停鍵。", True),
+        ("delivery_reward", "zh-CN", "30分钟后，炸鸡送到了门口。\n明明是一个人吃，却也按下“请放在门口”，这很韩国。\n\n本来还心疼配送费，可面对热乎乎的一顿饭，全忘了。\n花一万九千韩元，奖给撑过今天的自己。", True),
+        ("delivery_reward", "zh-TW", "三十分鐘後，炸雞送到了門前。\n明明獨自吃，還是按了「請放在門口」——這就是韓國式作風。\n\n原本還心疼外送費，面對熱騰騰的一餐，就全忘了。\n送給撐過今天的自己，一份一萬九千韓元的獎賞。", True),
+        ("delivery_saved", "zh-CN", "最后关掉了应用。便利店盒饭，加杯面。\n\n省下三千五百韩元配送费，既有点得意，又有点心酸。\n这些细小的盘算攒在一起，就能走到江南，我这样安慰自己。", True),
+        ("delivery_saved", "zh-TW", "最後還是關了App。便利商店便當配杯麵。\n\n省下三千五百韓元的外送費，既有點得意，又有點心酸。\n安慰自己，就是靠這些小小的盤算，一步步走向江南。", True),
+        ("delivery_menu", "zh-CN", "加班后，空荡荡的考试院房间。\n打开外卖应用。起送价一万五千韩元，配送费3500韩元。\n\n购物车里加了又删，删了又加。\n又在4.8分和4.6分之间，犹豫了好久。", True),
+        ("delivery_menu", "zh-TW", "加完班，回到空蕩蕩的考試院房間。\n打開外送App。最低訂購金額一萬五千韓元，外送費3,500韓元。\n\n反覆把餐點加進購物車，又刪掉。\n在4.8顆星和4.6顆星之間，又猶豫了好久。", True),
+        ("military_range", "zh-CN", "朋友发来了KakaoTalk消息。\n“我下个月入伍。可能两年都联系不上。”\n\n对韩国男人来说，服兵役不是一道选择题。\n十八个月至两年。通往江南的时间表里，也夹着这一段。", True),
+        ("military_range", "zh-TW", "朋友傳來了KakaoTalk訊息。\n「我下個月要入伍了，這兩年可能沒辦法聯絡。」\n\n對韓國男人來說，服兵役不是選擇題。\n18個月至2年。往江南的時間表裡，也得插進這一段。", True),
+        ("buffet_plate", "zh-CN", "第5盘。明知已经吃不下，还是再来一片。\n\n肚子快撑破了，心里却踏实。\n久违了这种“吃得饱饱的”满足感。偶尔，也该有这样的日子。", True),
+        ("buffet_plate", "zh-TW", "已經第5盤了。明知再吃就太勉強，還是又夾了一片。\n\n肚子快撐破，心裡卻很踏實。\n久違的「吃得好飽」的滿足感。偶爾也該有這種日子。", True),
+        ("buffet_price", "zh-CN", "每人一万五千韩元，烤肉不限量。\n五花肉在烤盘上滋滋作响。\n\n韩国人“怎么也得吃回本”的本能醒了。\n生菜包着肉、蒜和韩式包饭酱——满满一口。", True),
+        ("buffet_price", "zh-TW", "每人一萬五千韓元，烤肉吃到飽。\n烤盤上的五花肉滋滋作響。\n\n韓國人「一定要吃回本」的本能甦醒了。\n生菜包上肉、蒜頭、韓式包飯醬——滿滿一大口。", True),
+        ("spice_level", "zh-CN", "挑战了2级辣，嘴里像着了火。\n靠糖葫芦的甜味才勉强灭了火。又辣又甜，令人晕头转向的搭配。\n\n也跟了一回风。虽然到了下个月，大概又会流行别的东西。", True),
+        ("spice_level", "zh-TW", "挑戰了2級辣，嘴巴像燒起來一樣。\n靠糖葫蘆的甜味，才勉強滅了火。又辣又甜，讓人應接不暇。\n\n也跟了一回潮流。雖然下個月，大概又流行別的了。", True),
+        ("rice_roll", "zh-CN", "最后还是去了熟悉的紫菜包饭天国。方便面配1卷紫菜包饭。\n\n潮流转眼就过去，小吃店的方便面却十年如一日。\n不变的东西，也能让人安心。", True),
+        ("rice_roll", "zh-TW", "最後還是去了熟悉的飯捲天國。泡麵配1捲飯捲。\n\n流行很快就過去，但小吃店的泡麵，十年來一直都在。\n不變的東西，也能讓人安心。", True),
+        ("street_fish", "zh-CN", "下班路上，巷子转角卖鲫鱼饼的小摊。\n1000韩元3个。呼呼吹着气接过纸袋，手也暖了。\n\n如今甚至有专门找鲫鱼饼摊的应用。\n——韩国冬天的街头，连气味都不一样。", True),
+        ("street_fish", "zh-TW", "下班路上，巷口的韓式鯛魚燒攤。\n一千韓元3個。接過紙袋，一邊呼呼吹氣，手也暖了起來。\n\n現在甚至有App告訴你哪裡在賣鯛魚燒。\n——冬天的韓國街頭，連氣味都不一樣。", True),
+        ("river_ramen", "zh-CN", "煮面机里端出的幸福，值四千韩元。\n江风吹过汤面。\n\n要说不羡慕隔壁垫子上点了炸鸡的人，那是假的——\n可今晚的汉江，对每个人都一样。", True),
+        ("river_ramen", "zh-TW", "泡麵機煮出來的幸福，4000韓元。\n江風吹過湯面。\n\n要說不羨慕隔壁叫炸雞的那張野餐墊，那是騙人的——\n但今晚的漢江，對每個人都一樣公平。", True),
+        ("mukbang_portion", "zh-CN", "凌晨1点，肚子饿，手里又没钱。\n打开YouTube，算法推荐了吃播。\n\n单人份的炸酱面，视频博主已经吃到第四碗。\n光看封面就咽口水。", True),
+        ("mukbang_portion", "zh-TW", "凌晨一點，肚子餓，卻沒錢。\n打開YouTube，演算法就推薦了吃播。\n\n畫面裡的YouTuber正在吃第四碗一人份炸醬麵。\n光看縮圖就讓人流口水。", True),
+        ("reply_threshold", "zh-CN", "发了一句：“每月200万韩元，应该先做什么？”\n回复很快就来了。超过十条。每条都不一样。\n\n虽然没有标准答案，但知道还有人在为同样的事烦恼，也算是安慰。", True),
+        ("reply_threshold", "zh-TW", "發了一句：「每月200萬韓元，該先做什麼呢？」\n回覆很快就來了，超過10則，每則都不一樣。\n\n雖然沒有標準答案，但知道有人也在煩惱，就讓人覺得安慰。", True),
+        ("coffee_pause", "zh-CN", "咖啡馆里的人都待在原位。我也是。\n\n警报停了，首尔又动了起来。5分钟。\n在这个国家，危机只是喝口咖啡那么短的暂停。", True),
+        ("coffee_pause", "zh-TW", "咖啡館裡的人，全都待在原位。我也一樣。\n\n警報停了，首爾又動了起來。五分鐘。\n在這個國家，危機就是一口咖啡那麼短的暫停。", True),
+        ("drama_episodes", "zh-CN", "热议的新剧，一共十六集。\n说着“就看一集”，回过神来已是凌晨4点。\n\n自动播放下一集，5秒倒计时。\n准备关掉的手指，停住了。", True),
+        ("drama_episodes", "zh-TW", "話題新劇，共16集。\n本來說「只看一集」，回過神來已經凌晨四點。\n\n下一集自動播放，倒數五秒。\n本想按掉的手指，停住了。", True),
+        ("fortune_fee", "zh-CN", "“今年是财运往你这边来的走势，不过，你得先准备好接住它。”\n\n花五万韩元买来的话，却莫名让心里轻松了些。\n是八字的力量，还是觉得钱都花了，不妨信一回——分不清。", True),
+        ("fortune_fee", "zh-TW", "「今年財運是朝進財的方向走，但你自己得準備好，才能抓得住。」\n\n雖然是花5萬韓元買來的話，心卻莫名輕了。\n是八字的力量，還是錢都花了，乾脆信一回——分不清。", True),
+        ("newyear_gift", "zh-CN", "笑着应付过去：“我在努力呢。”\n\n十万韩元的压岁钱进了钱包。\n唠叨和零花钱，总是一起到来。这也是韩国的节日。", True),
+        ("newyear_gift", "zh-TW", "笑著說「我有在努力」，就帶過了。\n\n10萬韓元的拜年錢進了皮夾。\n嘮叨和零用錢總是一起來。這也是韓國的節日。", True),
+        ("daily_duolingo", "zh-CN", "准备安装Duolingo。免费的。\n\n每天10分钟，成了习惯。进度慢，却一直在坚持。\n有些事，不花钱也能做到。", False),
+        ("daily_duolingo", "zh-TW", "打算安裝Duolingo，免費的。\n\n每天十分鐘成了習慣。進展慢，但一直持續著。\n有些事，不花錢也能做到。", False),
+        ("daily_reading", "zh-CN", "打算每天读30分钟。\n\n3个月后，地段、学区、地铁站周边这些词，已经能自然地说出口。\n信息随着花在阅读上的时间，一点点积累。", False),
+        ("daily_reading", "zh-TW", "打算每天花30分鐘閱讀。\n\n三個月後，地段、學區、鄰近車站這些詞，已經能自然地掛在嘴邊。\n花多少時間讀，資訊就累積多少。", False),
+        ("naver_comments", "zh-CN", "Naver论坛“房产研习”。\n注册会员47万人。\n\n一篇帖子将会有200条评论。\n江南公寓行情、新房申购中签心得、实地看房日记……\n\n这里才是韩国房产信息真正的集散地。", False),
+        ("naver_comments", "zh-TW", "Naver社群「房地產研習」。\n註冊會員47萬人。\n\n一篇貼文將會有200則留言。\n江南公寓行情、住宅申購中籤心得、實地看房日誌……\n\n這才是韓國房地產資訊真正的集散地。", False),
+        ("meme_retweets", "zh-CN", "Twitter（X）上流传着一个梗。\n“33岁，没工作，银行账户里50万韩元，什么时候才能去江南”\n\n转发数将会超过6万。\n评论区里满是“是我本人”。", False),
+        ("meme_retweets", "zh-TW", "Twitter（X）上流傳著一張迷因。\n「33歲失業，銀行帳戶50萬韓元，到底何時才能進江南」\n\n轉推數將會超過6萬。\n留言區滿滿都是「這不就是我」。", False),
+        ("delivery_saved", "zh-CN", "最后关掉了应用。便利店盒饭，加杯面。\n\n打算省下3500韩元配送费，既有点得意，又有点心酸。\n这些细小的盘算攒在一起，就能走到江南，我这样安慰自己。", False),
+        ("delivery_saved", "zh-TW", "最後還是關了App。便利商店便當配杯麵。\n\n打算省下3,500韓元的外送費，既有點得意，又有點心酸。\n安慰自己，就是靠這些小小的盤算，一步步走向江南。", False),
+        ("ticket_queue", "zh-CN", "排在两万多号的队列里，竟然奇迹般没有抢到一个座位。\n三楼最边上又怎样，呼吸的是同一片空气。\n\n手在发抖。银行账户余额少了，心却满满的。\n江南再远，今天抢到的这个座位，也是真正属于我的。", False),
+        ("ticket_queue", "zh-TW", "排到兩萬多號，卻奇蹟般沒有搶到了一個位子。\n三樓最邊邊又怎樣，呼吸的可是同一片空氣。\n\n手還在抖。銀行帳戶瘦了，心卻滿了。\n江南再遠，今天搶到的這一席，確實是我的。", False),
+        ("claw_cost", "zh-CN", "打算花将近1万韩元。玩偶总算出来了。\n\n可这已经不是1000韩元的玩偶，而是1万韩元的玩偶了。\n赌气总是很贵。去江南，可不能也这样。", False),
+        ("claw_cost", "zh-TW", "打算花將近一萬韓元，娃娃終於掉了出來。\n\n但它已經不是一千韓元的娃娃，而是一萬韓元的娃娃了。\n不服輸總是很貴。往江南的路，可不能也走成這樣。", False),
+        ("newyear_gift", "zh-CN", "笑着应付过去：“我在努力呢。”\n\n10万韩元的压岁钱将会进到钱包。\n唠叨和零花钱，总是一起到来。这也是韩国的节日。", False),
+        ("newyear_gift", "zh-TW", "笑著說「我有在努力」，就帶過了。\n\n十萬韓元的拜年錢將會進到皮夾。\n嘮叨和零用錢總是一起來。這也是韓國的節日。", False),
+    ]:
+        check(lang, SOURCE_KOREAN_CULTURE[kind], target, expected, kind + ' natural/state')
+    for kind, lang, before, after, target in [
+        ("spa_fee", "zh-CN", "1만 2천", "1만 3천", "双脚泡进热水池，全身都融化了。\n\n穿着汗蒸服，剥了个鸡蛋吃，躺在那里。\n这是在首尔生存的诀窍之一。1.2万韩元，换来暖意、淋浴和睡觉的地方。"),
+        ("spa_fee", "zh-TW", "1만 2천", "1만 3천", "腳一浸進熱水池，全身都融化了。\n\n穿著汗蒸服，剝了顆蛋吃，躺著不動。\n這是首爾生存祕訣之一。12,000韓元，換來溫暖、洗澡和睡覺的地方。"),
+        ("education_fraction", "zh-CN", "3분의 1", "4분의 1", "晚上10点，大峙洞补习班一条街。\n初高中生从补习班里涌出来。\n\n数学、英语、科学、论述写作……\n据说这条街上的家长，花在教育上的钱相当于江南房价的三分之一。"),
+        ("education_fraction", "zh-TW", "3분의 1", "4분의 1", "晚上十點，大峙洞的補習班街。\n國高中生從補習班裡魚貫而出。\n\n數學、英文、自然、論述寫作……\n聽說這條街上的家長，花在教育上的錢相當於江南房價的三分之一。"),
+        ("meme_retweets", "zh-CN", "6만", "7만", "Twitter（X）上流传着一个梗。\n“33岁，没工作，银行账户里50万韩元，什么时候才能去江南”\n\n转发数超过了6万。\n评论区里满是“是我本人”。"),
+        ("meme_retweets", "zh-TW", "6만", "7만", "Twitter（X）上流傳著一張迷因。\n「33歲失業，銀行帳戶50萬韓元，到底何時才能進江南」\n\n轉推數超過了6萬。\n留言區滿滿都是「這不就是我」。"),
+        ("military_range", "zh-CN", "18개월", "19개월", "朋友发来了KakaoTalk消息。\n“我下个月入伍。可能两年都联系不上。”\n\n对韩国男人来说，服兵役不是一道选择题。\n18个月到2年。通往江南的时间表里，也夹着这一段。"),
+        ("military_range", "zh-TW", "18개월", "19개월", "朋友傳來了KakaoTalk訊息。\n「我下個月要入伍了，這兩年可能沒辦法聯絡。」\n\n對韓國男人來說，服兵役不是選擇題。\n十八個月到兩年。往江南的時間表裡，也得插進這一段。"),
+        ("buffet_price", "zh-CN", "1인", "2인", "每人1.5万韩元，烤肉不限量。\n五花肉在烤盘上滋滋作响。\n\n韩国人“怎么也得吃回本”的本能醒了。\n生菜包着肉、蒜和韩式包饭酱——满满一口。"),
+        ("buffet_price", "zh-TW", "1인", "2인", "每人15,000韓元，烤肉吃到飽。\n烤盤上的五花肉滋滋作響。\n\n韓國人「一定要吃回本」的本能甦醒了。\n生菜包上肉、蒜頭、韓式包飯醬——滿滿一大口。"),
+        ("ticket_queue", "zh-CN", "2만 번대", "3만 번대", "排在两万多号的队列里，竟然奇迹般抢到一个座位。\n三楼最边上又怎样，呼吸的是同一片空气。\n\n手在发抖。银行账户余额少了，心却满满的。\n江南再远，今天抢到的这个座位，也是真正属于我的。"),
+        ("ticket_queue", "zh-TW", "2만 번대", "3만 번대", "排到兩萬多號，卻奇蹟般搶到了一個位子。\n三樓最邊邊又怎樣，呼吸的可是同一片空氣。\n\n手還在抖。銀行帳戶瘦了，心卻滿了。\n江南再遠，今天搶到的這一席，確實是我的。"),
+    ]:
+        source = SOURCE_KOREAN_CULTURE[kind].replace(before, after, 1)
+        # These changed sources do not acquire the new licence. Their generic
+        # rejection is observed separately, not a claim of typed recognition.
+        check(lang, source, target, False, kind + ' changed source E2E')
+    return cases, failures
+
+def _korean_culture_disclosed_self_test() -> tuple[int, list[str]]:
+    """B2 disclosed regressions, kept separate from their independent provenance.
+
+    The B1 CN third-Thursday fixture is intentionally no longer positive:
+    the Korean source specifies Thursday of the third week. Its sealed B1
+    input/result files remain unchanged; the current positive states 周.
+    """
+    failures = []
+    rows = [
+        ("zh-CN", "events:kx_open_chat:/choices/1/result_text", SOURCE_KOREAN_CULTURE["reply_threshold"], "发了句：“每月200万韩元，我该先做些什么？”\n回复很快就来了，超过十条，每条都不一样。\n\n虽然没有标准答案，但知道有人也在为这些事发愁，多少让人安心了些。", True),
+        ("zh-CN", "events:kx_open_chat:/choices/1/result_text", SOURCE_KOREAN_CULTURE["reply_threshold"], "发了句：“每月200万韩元，我该先做些什么？”\n回复很快就来了，超过二十条，每条都不一样。\n\n虽然没有标准答案，但知道有人也在为这些事发愁，多少让人安心了些。", False),
+        ("zh-CN", "events:kx_viral_meme:/description", SOURCE_KOREAN_CULTURE["meme_retweets"], "推特(X)上流传着一个梗图。\n“33岁，没工作，账户里50万韩元，什么时候才能到江南？”\n\n转发已经超过六万次。\n评论里满是“这不就是我”。", True),
+        ("zh-CN", "events:kx_viral_meme:/description", SOURCE_KOREAN_CULTURE["meme_retweets"], "推特(X)上流传着一个梗图。\n“33岁，没工作，账户里50万韩元，什么时候才能到江南？”\n\n转发已经超过六千次。\n评论里满是“这不就是我”。", False),
+        ("zh-CN", "events:kx_claw_machine:/description", "지하철역 출구 인형뽑기 코너.\n유리 안에 인기 캐릭터 인형이 쌓여 있다. 한 번에 천 원.\n\n\"두 번이면 뽑을 것 같은데\"\n그 생각이 드는 순간, 이미 함정이다.", "地铁站出口的抓娃娃区。\n玻璃后面堆着热门角色的玩偶。每抓一次要一千韩元。\n\n“感觉抓两次就能抓到了。”\n冒出这个念头的时候，就已经掉进陷阱了。", True),
+        ("zh-CN", "events:kx_claw_machine:/description", "지하철역 출구 인형뽑기 코너.\n유리 안에 인기 캐릭터 인형이 쌓여 있다. 한 번에 천 원.\n\n\"두 번이면 뽑을 것 같은데\"\n그 생각이 드는 순간, 이미 함정이다.", "地铁站出口的抓娃娃区。\n玻璃后面堆着热门角色的玩偶。每抓一次要两千韩元。\n\n“感觉抓两次就能抓到了。”\n冒出这个念头的时候，就已经掉进陷阱了。", False),
+        ("zh-CN", "events:kx_delivery_app:/description", SOURCE_KOREAN_CULTURE["delivery_menu"], "加完班，回到空荡荡的考试院房间。\n打开外卖应用。最低起送金额一万五千韩元，配送费三千五百韩元。\n\n购物车里的东西加了又删。\n评分4.8和4.6之间，又犹豫了好一阵。", True),
+        ("zh-CN", "events:kx_delivery_app:/description", SOURCE_KOREAN_CULTURE["delivery_menu"], "加完班，回到空荡荡的考试院房间。\n打开外卖应用。最低起送金额一万五千韩元，配送费三千六百韩元。\n\n购物车里的东西加了又删。\n评分4.8和4.6之间，又犹豫了好一阵。", False),
+        ("zh-TW", "events:kx_coin_noraebang:/choices/0/result_text", SOURCE_KOREAN_CULTURE["karaoke_result"], "又加點了兩首歌。螢幕跳出88分，明明一個人也沒有，卻響起了掌聲音效。\n\n今天似乎有點懂了，為什麼那麼多人會在KTV裡哭。\n這一週，也輕了一點。", True),
+        ("zh-TW", "events:kx_coin_noraebang:/choices/0/result_text", SOURCE_KOREAN_CULTURE["karaoke_result"], "又加點了三首歌。螢幕跳出88分，明明一個人也沒有，卻響起了掌聲音效。\n\n今天似乎有點懂了，為什麼那麼多人會在KTV裡哭。\n這一週，也輕了一點。", False),
+        ("zh-TW", "events:kx_hangang_chimaek:/choices/1/result_text", SOURCE_KOREAN_CULTURE["river_ramen"], "用煮麵機換來的幸福，要四千韓元。\n河風吹過湯面。\n\n要說不羨慕隔壁野餐墊上點了炸雞的人，那是騙人的——\n但今晚的漢江，對每個人都是公平的。", True),
+        ("zh-TW", "events:kx_hangang_chimaek:/choices/1/result_text", SOURCE_KOREAN_CULTURE["river_ramen"], "用煮麵機換來的幸福，要五千韓元。\n河風吹過湯面。\n\n要說不羨慕隔壁野餐墊上點了炸雞的人，那是騙人的——\n但今晚的漢江，對每個人都是公平的。", False),
+        ("zh-TW", "events:kx_reserve_duty:/description", "문자가 왔다.\n「민방위 교육 소집 통지서. 일시: ○월 ○일 09:00. 장소: 주민센터 대강당. 불참 시 과태료.」\n\n예비군은 몇 해 전에 끝났다. 이제는 민방위다.\n훈련장 위장 크림 대신, 접이식 의자에 앉아 4시간짜리 안보 강의를 듣는다.\n달력에 표시했다. 또 반나절을 잃는다.", "收到一封簡訊。\n「民防教育召集通知。時間：○月○日09:00。地點：居民中心大禮堂。缺席將處以罰款。」\n\n後備軍訓練幾年前就結束了，現在輪到民防。\n不用再往臉上抹訓練場的迷彩膏，而是坐在折疊椅上，聽四個小時的安全保障講座。\n在月曆上做了記號。又要失去半天。", True),
+        ("zh-TW", "events:kx_reserve_duty:/description", "문자가 왔다.\n「민방위 교육 소집 통지서. 일시: ○월 ○일 09:00. 장소: 주민센터 대강당. 불참 시 과태료.」\n\n예비군은 몇 해 전에 끝났다. 이제는 민방위다.\n훈련장 위장 크림 대신, 접이식 의자에 앉아 4시간짜리 안보 강의를 듣는다.\n달력에 표시했다. 또 반나절을 잃는다.", "收到一封簡訊。\n「民防教育召集通知。時間：○月○日09:00。地點：居民中心大禮堂。缺席將處以罰款。」\n\n後備軍訓練幾年前就結束了，現在輪到民防。\n不用再往臉上抹訓練場的迷彩膏，而是坐在折疊椅上，聽五個小時的安全保障講座。\n在月曆上做了記號。又要失去半天。", False),
+        ("zh-TW", "events:kx_kpop_ticketing:/choices/1/result_text", SOURCE_KOREAN_CULTURE["ticket_resale"], "「很抱歉，已售罄。」才五秒鐘。\n黃牛票是原價的三倍。不買。不買。……最後決定不買。\n\n雖然不甘心，但還有能讓自己不甘心的事，\n在這緊繃的五年裡，也算一種安慰。", True),
+        ("zh-TW", "events:kx_kpop_ticketing:/choices/1/result_text", SOURCE_KOREAN_CULTURE["ticket_resale"], "「很抱歉，已售罄。」才五秒鐘。\n黃牛票是原價的四倍。不買。不買。……最後決定不買。\n\n雖然不甘心，但還有能讓自己不甘心的事，\n在這緊繃的五年裡，也算一種安慰。", False),
+        ("zh-CN", "events:kx_delivery_app:/description", SOURCE_KOREAN_CULTURE["delivery_menu"], "加完班，回到空荡荡的考试院房间。\n打开外卖App。一万五千韩元起送，配送费三千五百韩元。\n\n购物车里加了又删，删了又加。\n评分4.8和4.6，又让人犹豫了好一阵。", True),
+        ("zh-CN", "events:kx_delivery_app:/description", SOURCE_KOREAN_CULTURE["delivery_menu"], "加完班，回到空荡荡的考试院房间。\n打开外卖App。一万五千韩元起送，配送费三万五千韩元。\n\n购物车里加了又删，删了又加。\n评分4.8和4.6，又让人犹豫了好一阵。", False),
+        ("zh-CN", "events:kx_naver_cafe:/description", SOURCE_KOREAN_CULTURE["naver_comments"], "Naver Cafe上的“房产研习”。\n已有四十七万人加入。\n\n一篇帖子下就有两百条留言。\n江南公寓的行情、住宅申购中签的心得、实地看房记录……\n\n这里就是韩国房产资讯真正的汇集之处。", True),
+        ("zh-CN", "events:kx_naver_cafe:/description", SOURCE_KOREAN_CULTURE["naver_comments"], "Naver Cafe上的“房产研习”。\n已有四十七万人加入。\n\n一篇帖子下就有两百次转发。\n江南公寓的行情、住宅申购中签的心得、实地看房记录……\n\n这里就是韩国房产资讯真正的汇集之处。", False),
+        ("zh-CN", "events:kx_friend_military:/description", SOURCE_KOREAN_CULTURE["military_range"], "朋友发来KakaoTalk消息。\n“我下个月就入伍了，可能两年都没办法联系。”\n\n对韩国男人来说，服兵役不是可选项。\n十八个月到两年。这段时间，就这样插进了通往江南的时间表。", True),
+        ("zh-CN", "events:kx_friend_military:/description", SOURCE_KOREAN_CULTURE["military_range"], "朋友发来KakaoTalk消息。\n“我下个月就入伍了，可能两年都没办法联系。”\n\n对韩国男人来说，服兵役不是可选项。\n十八个星期到两年。这段时间，就这样插进了通往江南的时间表。", False),
+        ("zh-TW", "events:kx_english_academy:/choices/1/result_text", SOURCE_KOREAN_CULTURE["daily_duolingo"], "安裝了Duolingo。是免費的。\n\n每天十分鐘成了習慣。慢歸慢，還是持續了下去。\n有些事，不花錢也做得到。", True),
+        ("zh-TW", "events:kx_english_academy:/choices/1/result_text", SOURCE_KOREAN_CULTURE["daily_duolingo"], "安裝了Duolingo。是免費的。\n\n每天十小時成了習慣。慢歸慢，還是持續了下去。\n有些事，不花錢也做得到。", False),
+        ("zh-TW", "events:kx_kpop_ticketing:/choices/0/result_text", SOURCE_KOREAN_CULTURE["ticket_queue"], "原本排到兩萬多號，竟像奇蹟般搶到一個位子。\n在三樓的最邊邊又怎樣，能呼吸同樣的空氣。\n\n手在發抖。帳戶變輕了，心卻滿滿的。\n江南還很遠，但今天搶到的這個位子，確實是我的。", True),
+        ("zh-TW", "events:kx_kpop_ticketing:/choices/0/result_text", "대기열 2천 번대에서 기적처럼 한 자리.\n3층 끝이면 어떤가, 같은 공기를 마시는데.\n\n손이 떨렸다. 통장은 가벼워졌지만 마음은 꽉 찼다.\n강남은 멀어도, 오늘 잡은 이 한 자리는 진짜 내 것이다.", "原本排到兩萬多號，竟像奇蹟般搶到一個位子。\n在三樓的最邊邊又怎樣，能呼吸同樣的空氣。\n\n手在發抖。帳戶變輕了，心卻滿滿的。\n江南還很遠，但今天搶到的這個位子，確實是我的。", False),
+        ("zh-TW", "events:kx_cold_snap:/choices/0/result_text", SOURCE_KOREAN_CULTURE["spa_fee"], "腳一泡進熱水，全身都鬆開了。\n\n穿著汗蒸服躺著，剝了一顆蛋來吃。\n這是撐過首爾生活的祕訣之一。一萬二千韓元，換來暖意、淋浴和睡覺的地方。", True),
+        ("zh-TW", "events:kx_cold_snap:/choices/0/result_text", "온수 탕에 발을 담그자 온몸이 녹았다.\n\n찜질복 입고 계란 하나 까먹으며 누워 있었다.\n서울 생존의 비밀 중 하나다. 2만 2천 원에 온기, 샤워, 잠자리.", "腳一泡進熱水，全身都鬆開了。\n\n穿著汗蒸服躺著，剝了一顆蛋來吃。\n這是撐過首爾生活的祕訣之一。一萬二千韓元，換來暖意、淋浴和睡覺的地方。", False),
+        ("zh-CN", "events:kx_suneung_day:/description", SOURCE_KOREAN_CULTURE["exam_weekday"], "11月第三周的星期四。\n战斗机停止起降，股市推迟了一个小时开盘。\n\n为了18岁孩子们的一场考试，\n整个韩国短暂地按下了暂停键。", True),
+        ("zh-CN", "events:kx_suneung_day:/description", SOURCE_KOREAN_CULTURE["exam_weekday"], "11月第三个星期四。\n战斗机停止起降，股市推迟了一个小时开盘。\n\n为了18岁孩子们的一场考试，\n整个韩国短暂地按下了暂停键。", False),
+        ("zh-CN", "events:kx_coin_noraebang:/choices/0/result_text", SOURCE_KOREAN_CULTURE["karaoke_result"], "又加了两首。屏幕上跳出88分，明明没有别人，却响起了掌声的音效。\n\n今天似乎有点明白，为什么那么多人会在练歌房里哭了。\n这一周，稍稍轻了一点。", True),
+        ("zh-CN", "events:kx_coin_noraebang:/choices/0/result_text", SOURCE_KOREAN_CULTURE["karaoke_result"], "又加了三首歌。屏幕上跳出88分，明明没有别人，却响起了掌声的音效。\n\n今天似乎有点明白，为什么那么多人会在练歌房里哭了。\n这一周，稍稍轻了一点。", False),
+        ("zh-CN", "events:kx_coin_noraebang:/choices/0/result_text", SOURCE_KOREAN_CULTURE["karaoke_result"], "又加了兩小時。屏幕上跳出88分，明明没有别人，却响起了掌声的音效。\n\n今天似乎有点明白，为什么那么多人会在练歌房里哭了。\n这一周，稍稍轻了一点。", False),
+        ("zh-CN", "events:kx_coin_noraebang:/choices/0/result_text", SOURCE_KOREAN_CULTURE["karaoke_result"], "又加了−两首。屏幕上跳出88分，明明没有别人，却响起了掌声的音效。\n\n今天似乎有点明白，为什么那么多人会在练歌房里哭了。\n这一周，稍稍轻了一点。", False),
+        ("zh-CN", "events:kx_coin_noraebang:/choices/0/result_text", SOURCE_KOREAN_CULTURE["karaoke_result"], "又加了三小時。又加點了两首。屏幕上跳出88分，明明没有别人，却响起了掌声的音效。\n\n今天似乎有点明白，为什么那么多人会在练歌房里哭了。\n这一周，稍稍轻了一点。", False),
+        ("zh-CN", "events:kx_kpop_ticketing:/choices/1/result_text", SOURCE_KOREAN_CULTURE["ticket_resale"], "“抱歉，门票已售罄。”才过了5秒。\n黄牛票是原价的三倍。不买。不买。……决定不买了。\n\n虽然不甘心，可还有件事能让自己如此不甘心，\n在这艰涩的5年里，也算一种安慰。", True),
+        ("zh-CN", "events:kx_kpop_ticketing:/choices/1/result_text", SOURCE_KOREAN_CULTURE["ticket_resale"], "“抱歉，门票已售罄。”才过了5秒。\n黄牛票是原价的四倍。不买。不买。……决定不买了。\n\n虽然不甘心，可还有件事能让自己如此不甘心，\n在这艰涩的5年里，也算一种安慰。", False),
+        ("zh-CN", "events:kx_kpop_ticketing:/choices/1/result_text", SOURCE_KOREAN_CULTURE["ticket_resale"], "“抱歉，门票已售罄。”才过了5秒。\n黄牛票是原价的三年。不买。不买。……决定不买了。\n\n虽然不甘心，可还有件事能让自己如此不甘心，\n在这艰涩的5年里，也算一种安慰。", False),
+        ("zh-CN", "events:kx_kpop_ticketing:/choices/1/result_text", SOURCE_KOREAN_CULTURE["ticket_resale"], "“抱歉，门票已售罄。”才过了5秒。\n黄牛票是原价的−三倍。不买。不买。……决定不买了。\n\n虽然不甘心，可还有件事能让自己如此不甘心，\n在这艰涩的5年里，也算一种安慰。", False),
+        ("zh-CN", "events:kx_kpop_ticketing:/choices/1/result_text", SOURCE_KOREAN_CULTURE["ticket_resale"], "“抱歉，门票已售罄。”才过了5秒。\n黄牛票是原价的三年。黃牛票是原價的三倍。不买。不买。……决定不买了。\n\n虽然不甘心，可还有件事能让自己如此不甘心，\n在这艰涩的5年里，也算一种安慰。", False),
+        ("zh-CN", "events:kx_kpop_ticketing:/choices/1/result_text", "'죄송합니다. 매진되었습니다.' 5초 만에.\n주차료는 정가의 세 배. 안 산다. 안 산다. ...안 사기로 했다.\n\n분하지만, 분할 줄 아는 무언가가 있다는 게\n이 팍팍한 5년에 위로이기도 했다.", "“抱歉，门票已售罄。”才过了5秒。\n黄牛票是原价的三倍。不买。不买。……决定不买了。\n\n虽然不甘心，可还有件事能让自己如此不甘心，\n在这艰涩的5年里，也算一种安慰。", None),
+        ("zh-CN", "events:kx_kpop_ticketing:/choices/1/result_text", "'죄송합니다. 매진되었습니다.' 5초 만에.\n암표는 정가의 네 배. 안 산다. 안 산다. ...안 사기로 했다.\n\n분하지만, 분할 줄 아는 무언가가 있다는 게\n이 팍팍한 5년에 위로이기도 했다.", "“抱歉，门票已售罄。”才过了5秒。\n黄牛票是原价的三倍。不买。不买。……决定不买了。\n\n虽然不甘心，可还有件事能让自己如此不甘心，\n在这艰涩的5年里，也算一种安慰。", None),
+        ("zh-TW", "events:kx_suneung_day:/description", SOURCE_KOREAN_CULTURE["exam_weekday"], "十一月第三週的星期四。\n戰鬥機停止起降，股市延後一小時開盤。\n\n大韓民國為了18歲孩子們的一場考試，\n短暫按下了暫停鍵。", True),
+        ("zh-TW", "events:kx_suneung_day:/description", SOURCE_KOREAN_CULTURE["exam_weekday"], "十一月第三個星期四。\n戰鬥機停止起降，股市延後一小時開盤。\n\n大韓民國為了18歲孩子們的一場考試，\n短暫按下了暫停鍵。", False),
+        ("zh-TW", "events:kx_coin_noraebang:/choices/0/result_text", SOURCE_KOREAN_CULTURE["karaoke_result"], "又加點了兩首歌。螢幕跳出88分，明明沒別人，卻響起了掌聲音效。\n\n今天似乎有點懂，為什麼那麼多人會在KTV裡哭了。\n這一週，好像輕了一點。", True),
+        ("zh-TW", "events:kx_coin_noraebang:/choices/0/result_text", SOURCE_KOREAN_CULTURE["karaoke_result"], "又加點了三首歌。螢幕跳出88分，明明沒別人，卻響起了掌聲音效。\n\n今天似乎有點懂，為什麼那麼多人會在KTV裡哭了。\n這一週，好像輕了一點。", False),
+        ("zh-TW", "events:kx_coin_noraebang:/choices/0/result_text", SOURCE_KOREAN_CULTURE["karaoke_result"], "又加點了兩小時。螢幕跳出88分，明明沒別人，卻響起了掌聲音效。\n\n今天似乎有點懂，為什麼那麼多人會在KTV裡哭了。\n這一週，好像輕了一點。", False),
+        ("zh-TW", "events:kx_coin_noraebang:/choices/0/result_text", SOURCE_KOREAN_CULTURE["karaoke_result"], "又加點了−兩首歌。螢幕跳出88分，明明沒別人，卻響起了掌聲音效。\n\n今天似乎有點懂，為什麼那麼多人會在KTV裡哭了。\n這一週，好像輕了一點。", False),
+        ("zh-TW", "events:kx_coin_noraebang:/choices/0/result_text", SOURCE_KOREAN_CULTURE["karaoke_result"], "又加點了三小時。又加點了兩首歌。螢幕跳出88分，明明沒別人，卻響起了掌聲音效。\n\n今天似乎有點懂，為什麼那麼多人會在KTV裡哭了。\n這一週，好像輕了一點。", False),
+        ("zh-TW", "events:kx_kpop_ticketing:/choices/1/result_text", SOURCE_KOREAN_CULTURE["ticket_resale"], "「很抱歉，已售罄。」才五秒。\n黃牛票是原價的三倍。不買，不買。……決定不買了。\n\n雖然不甘心，但還有一件事能讓自己如此不甘心，\n對這艱難的五年來說，也算是一種安慰。", True),
+        ("zh-TW", "events:kx_kpop_ticketing:/choices/1/result_text", SOURCE_KOREAN_CULTURE["ticket_resale"], "「很抱歉，已售罄。」才五秒。\n黃牛票是原價的四倍。不買，不買。……決定不買了。\n\n雖然不甘心，但還有一件事能讓自己如此不甘心，\n對這艱難的五年來說，也算是一種安慰。", False),
+        ("zh-TW", "events:kx_kpop_ticketing:/choices/1/result_text", SOURCE_KOREAN_CULTURE["ticket_resale"], "「很抱歉，已售罄。」才五秒。\n黃牛票是原價的三年。不買，不買。……決定不買了。\n\n雖然不甘心，但還有一件事能讓自己如此不甘心，\n對這艱難的五年來說，也算是一種安慰。", False),
+        ("zh-TW", "events:kx_kpop_ticketing:/choices/1/result_text", SOURCE_KOREAN_CULTURE["ticket_resale"], "「很抱歉，已售罄。」才五秒。\n黃牛票是原價的−三倍。不買，不買。……決定不買了。\n\n雖然不甘心，但還有一件事能讓自己如此不甘心，\n對這艱難的五年來說，也算是一種安慰。", False),
+        ("zh-TW", "events:kx_kpop_ticketing:/choices/1/result_text", SOURCE_KOREAN_CULTURE["ticket_resale"], "「很抱歉，已售罄。」才五秒。\n黃牛票是原價的三年。黃牛票是原價的三倍。不買，不買。……決定不買了。\n\n雖然不甘心，但還有一件事能讓自己如此不甘心，\n對這艱難的五年來說，也算是一種安慰。", False),
+        ("zh-TW", "events:kx_kpop_ticketing:/choices/1/result_text", "'죄송합니다. 매진되었습니다.' 5초 만에.\n주차료는 정가의 세 배. 안 산다. 안 산다. ...안 사기로 했다.\n\n분하지만, 분할 줄 아는 무언가가 있다는 게\n이 팍팍한 5년에 위로이기도 했다.", "「很抱歉，已售罄。」才五秒。\n黃牛票是原價的三倍。不買，不買。……決定不買了。\n\n雖然不甘心，但還有一件事能讓自己如此不甘心，\n對這艱難的五年來說，也算是一種安慰。", None),
+        ("zh-TW", "events:kx_kpop_ticketing:/choices/1/result_text", "'죄송합니다. 매진되었습니다.' 5초 만에.\n암표는 정가의 네 배. 안 산다. 안 산다. ...안 사기로 했다.\n\n분하지만, 분할 줄 아는 무언가가 있다는 게\n이 팍팍한 5년에 위로이기도 했다.", "「很抱歉，已售罄。」才五秒。\n黃牛票是原價的三倍。不買，不買。……決定不買了。\n\n雖然不甘心，但還有一件事能讓自己如此不甘心，\n對這艱難的五年來說，也算是一種安慰。", None),
+    ]
+    for locale, key, source, target, expected in rows:
+        if expected is None:
+            if _korean_culture_kind(source) is not None:
+                failures.append('culture disclosed source licence leaked')
+            continue  # The inherited generic E2E result is separately reported.
+        errors = validate_text(locale, key, source, target)
+        if bool(errors) == expected:
+            failures.append(f'culture disclosed {key}: {errors!r}')
+    return len(rows), failures
+
 def run_self_test(
     manifest: dict[str, Any], runtime: dict[str, Any],
 ) -> list[str]:
     failures: list[str] = []
     cases, life_failures = _life_scene_parser_self_test()
     failures.extend(life_failures)
+    culture_cases, culture_failures = _korean_culture_parser_self_test()
+    cases += culture_cases
+    failures.extend(culture_failures)
+    culture_disclosed_cases, culture_disclosed_failures = _korean_culture_disclosed_self_test()
+    cases += culture_disclosed_cases
+    failures.extend(culture_disclosed_failures)
     investment_admin_cases, investment_admin_failures = _investment_admin_parser_self_test()
     cases += investment_admin_cases
     failures.extend(investment_admin_failures)

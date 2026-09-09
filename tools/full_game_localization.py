@@ -703,6 +703,173 @@ def _ja_market_admin_numbers(source: str, target: str):
     return normalized_source, normalized_target, errors
 
 
+
+def _ja_korean_culture_numbers(source: str, target: str):
+    """Observed Korean-life quantities: source identity, local role, line and unit.
+
+    Only the owned number spans are canonicalized. Unrelated prose is not a
+    translation template, and extra amounts/counts remain visible to both the
+    local coverage check and the existing complete numeric stream.
+    """
+    contracts = {
+        "온수 탕에 발을 담그자 온몸이 녹았다.\n\n찜질복 입고 계란 하나 까먹으며 누워 있었다.\n서울 생존의 비밀 중 하나다. 1만 2천 원에 온기, 샤워, 잠자리.": {"rewrites":[["1만 2천 원","12000원"]],"slots":[[3,"@N@ウォン(?:で|に対し)",12000,"spa package price"]],"units":"ウォン|ドル|円|ユーロ|元","checks":[]},
+        "라면 기계에서 뽑은 사천 원짜리 행복.\n강바람이 국물 위로 불었다.\n\n치킨 시킨 옆 돗자리가 부럽지 않았다고 하면 거짓말이지만 —\n그래도 오늘 밤 한강은 모두에게 공평했다.": {"rewrites":[["사천 원","4000원"]],"slots":[[0,"@N@ウォン(?:の|分の|で(?:得た|買った|買える|手に入れた|手に入る))(?:ささやかな)?(?:幸せ|幸福)",4000,"ramyeon happiness price"]],"units":"ウォン|ドル|円|ユーロ|元","checks":[]},
+        "새벽 1시, 배는 고프고 돈은 없다.\n유튜브를 열었더니 알고리즘이 먹방을 추천한다.\n\n1인분 짜장면을 네 그릇째 먹는 유튜버.\n섬네일만 봐도 침이 고인다.": {"rewrites":[["네 그릇째","4그릇째"]],"slots":[[0,"(?:午前|深夜|夜中の)@N@時",1,"late-night clock"],[3,"@N@人前(?:の|分の)?(?:チャジャン麺|ジャージャー麺)",1,"serving size"],[3,"@N@(?:杯|皿|鉢)(?:目)",4,"streamer bowl ordinal"]],"units":"人前|杯|皿|鉢|時(?:間)?|分|秒","checks":[[3,"(?:ユーチューバー|配信者|動画投稿者)","streamer owner"],[3,"(?:食べ進めている|食べている|食べ続けている|食べる)","eating state"]]},
+        "다온 오픈채팅 '서울 2030 재테크 모임'.\n익명으로 들어왔다.\n\n채팅창이 쉬지 않고 올라온다.\n부동산, 주식, 코인, 그리고 아파트 청약.": {"rewrites":[["2030","20 30"]],"slots":[[0,"[「『]ソウル(?:の)?\\s*@N@(?:代)?(?:[・、〜～~]|と)",20,"quoted young-adult lower decade"],[0,"(?:[・、〜～~]|と)@N@代",30,"quoted young-adult upper decade"]],"units":"代|年|歳","checks":[[0,"(?:資産運用|資産づくり|財テク|投資|マネー)[^「」『』\\n]*[」』]","quoted finance group"]]},
+        "고화질 모니터로 채용 공고와 부동산 시세를 뒤졌다.\n집보다 빠른 인터넷, 천오백 원어치는 했다.": {"rewrites":[["천오백 원","1500원"]],"slots":[[1,"@N@ウォン(?:分|の|だけ|程度)",1500,"PC room received value"]],"units":"ウォン|ドル|円|ユーロ|元","checks":[[1,"(?:価値|元は取れ|見合|甲斐)","received value"]]},
+        "결국 들어가지 않았다. 천오백 원도 아껴야 했다.\n빗속을 걸으며 라면 냄새만 기억에 담았다.": {"rewrites":[["천오백 원","1500원"]],"slots":[[0,"@N@ウォン",1500,"not-entered money to save"]],"units":"ウォン|ドル|円|ユーロ|元","checks":[[0,"(?:入らなかった|入らず|入店しなかった|入店せず)","not-entered state"],[0,"(?:節約|惜し|浮か|出費|大事)","saving purpose"]]},
+        "비 오는 오후, 갈 데가 없어 PC방에 들어갔다.\n시간당 천오백 원. 알바생이 자리 번호를 찍어준다.\n\n옆자리에서 누군가 시킨 컵라면 냄새가 모니터를 타고 넘어온다.\n— 피방 라면은 왜 더 맛있을까.": {"rewrites":[["시간당 천오백 원","1시간1500원"]],"slots":[[1,"(?:@N@)?時間(?:あたり|当たり|につき)?|毎時",1,"hourly rate denominator"],[1,"@N@ウォン",1500,"hourly PC room rate"]],"units":"時間|日|分|秒|ウォン|ドル|円|ユーロ|元","checks":[]},
+        "4월 첫째 주, 벚꽃이 폭발했다.\n여의도 둑방, 석촌호수, 경복궁 돌담길.\n\n꽃이 지기까지는 일주일.\n서울 전체가 이 일주일에 몰려든다.": {"rewrites":[["첫째","1"],["일주일","1주"],["일주일","1주"]],"slots":[[0,"@N@月",4,"blossom calendar month"],[0,"(?:第)?@N@週|最初の週",1,"blossom first week"],[3,"@N@週(?:間)?",1,"flower remaining week"],[4,"@N@週(?:間)?",1,"crowd same week"]],"units":"月|週|日|年","checks":[]},
+        "11월 셋째 주 목요일.\n전투기가 이착륙을 멈추고, 주식 시장이 한 시간 늦게 열렸다.\n\n대한민국이 18세 아이들 시험 하나에\n잠깐 일시정지 버튼을 눌렀다.": {"rewrites":[["셋째","3"],["한 시간","1시간"],["시험 하나","시험1"]],"slots":[[0,"@N@月",11,"exam calendar month"],[0,"(?:第)?@N@週(?:の|[、，,])?(?:木曜日|木曜)",3,"exam third-week Thursday"],[1,"@N@時間(?:遅く|遅れ(?:て|で))",1,"stock opening delay"],[3,"@N@歳",18,"candidate age"],[3,"@N@つの試験",1,"single exam"]],"units":"月|週|時間|歳|つ","checks":[[1,"(?:株式市場|株式相場|株式の市場|株式取引|証券市場)","stock market owner"],[1,"(?:開いた|開き|始まった|始まり|開始した)","completed later opening"]]},
+        "30분 뒤 문 앞에 도착한 치킨.\n혼자 먹는데도 '문 앞에 두고 가주세요'를 누르는 게 한국식.\n\n배달비가 아깝다가도, 따뜻한 한 끼 앞에선 다 잊힌다.\n오늘 하루를 버틴 나에게 주는 만 9천 원짜리 상.": {"rewrites":[["만 9천 원","19000원"],["오늘 하루","오늘1일"]],"slots":[[0,"@N@分(?:後|経って)",30,"delivery elapsed minutes"],[4,"今日@N@日",1,"survived day reward"],[4,"@N@ウォン(?:の|分の)(?:ご褒美|褒美|賞)",19000,"received reward price"]],"units":"分|時間|日|ウォン|ドル|円|ユーロ|元","checks":[[0,"(?:届いた|到着した)","completed delivery"]]},
+        "결국 앱을 껐다. 편의점 도시락에 컵라면.\n\n배달비 3천 5백 원을 아낀 게 뿌듯하면서도 좀 서글펐다.\n이 작은 계산들이 모여 강남으로 가는 거라고, 스스로를 다독였다.": {"rewrites":[["3천 5백 원","3500원"]],"slots":[[2,"(?:配達料|配送料|送料)(?:の|は|を)?\\s*@N@ウォン",3500,"saved delivery fee"]],"units":"ウォン|ドル|円|ユーロ|元","checks":[[2,"(?:節約でき|節約した|浮かせ|浮い|節約して)","saved fee state"]]},
+        "야근 후 텅 빈 고시원 방.\n배달앱을 켠다. 최소주문 1만 5천, 배달비 3천 5백.\n\n장바구니에 담았다 뺐다를 반복한다.\n별점 4.8과 4.6 사이에서, 또 한참 고민한다.": {"rewrites":[["1만 5천","15000원"],["3천 5백","3500원"]],"slots":[[1,"(?:最低注文額|最低注文金額|最低注文)(?:は|が|の)?\\s*@N@ウォン",15000,"minimum order price"],[1,"(?:配達料|配送料|送料)(?:は|が|の)?\\s*@N@ウォン",3500,"delivery fee"]],"units":"ウォン|ドル|円|ユーロ|元","checks":[]},
+        "1인 1만 5천 원 고기 무한리필.\n불판 위에 삼겹살이 지글거린다.\n\n'본전은 뽑아야 한다'는 한국인의 본능이 깨어난다.\n상추에 고기, 마늘, 쌈장 — 한입 가득.": {"rewrites":[["1만 5천 원","15000원"]],"slots":[[0,"@N@人(?:あたり|当たり|につき)?",1,"buffet person denominator"],[0,"@N@ウォン",15000,"buffet per-person price"]],"units":"人|ウォン|ドル|円|ユーロ|元","checks":[[0,"(?:食べ放題|おかわり自由)","buffet price role"]]},
+        "아무도 없는 서울을 걸었다.\n\n강변이 비어있었다. 한강 다리가 멀리 보였다.\n1년에 한 번, 이 도시가 숨 쉬는 날이다.": {"rewrites":[["1년에 한 번","1년1번"]],"slots":[[3,"(?:@N@)?年(?:に|ごとに)|毎年",1,"once-year denominator"],[3,"@N@(?:度|回)",1,"annual occurrence"]],"units":"年|月|週|日|度|回","checks":[]},
+        "1인분이라 좀 멋쩍었지만, 아주머니가 떡을 더 얹어줬다.\n\"많이 먹어요, 총각.\"\n그 한마디에 떡볶이보다 마음이 더 데워졌다.": {"rewrites":[],"slots":[[0,"@N@人前",1,"served portion"]],"units":"人前|人分|時間|週間","checks":[]},
+        "기본 떡볶이 1인분만": {"rewrites":[],"slots":[[0,"@N@人前(?:だけ|のみ)",1,"only selected serving"]],"units":"人前|人分|時間|週間","checks":[]},
+        "스펙을 올리려고 영어 학원을 등록했다.\n수강생 대부분이 직장인이다. 저녁 7시 반 수업.\n\n선생님이 자기소개를 시킨다.\n\"My name is... I am... working at...\"": {"rewrites":[["저녁 7시 반","19:30"]],"slots":[],"units":"時(?:間)?|分|秒","checks":[[1,"(?:授業|クラス|講義)","evening class owner"]],"clock":True},
+        "계란까지 풀어 끓인 라면에 게임 한 판. 한 판이 세 판이 됐다.\n\n죄책감 반, 행복 반.\n그래도 비 오는 날 피방만 한 도피처가 없다는 건 사실이었다.": {"rewrites":[["한 판","1판"],["한 판","1판"],["세 판","3판"]],"slots":[[0,"ゲーム(?:を)?@N@(?:戦|回|ゲーム)",1,"initial game count"],[0,"[。．]@N@(?:戦|回|ゲーム)が",1,"repeated initial game count"],[0,"(?:戦|回|ゲーム)が@N@(?:戦|回|ゲーム)(?:になった|に増えた)",3,"realized game count"]],"units":"戦|回|ゲーム|時間|分|日","checks":[]},
+        "밤 10시, 대치동 학원 거리.\n중고등학생들이 학원에서 쏟아져 나온다.\n\n수학, 영어, 과학, 논술...\n이 거리의 부모들은 강남 집값의 3분의 1을 교육비에 쓴다고 한다.": {"rewrites":[],"slots":[[4,"(?:住宅|家|住居|マンション)(?:の)?(?:価格|値段)の@F@",[3,1],"reported parental education price fraction"]],"units":"分の|[/／]","checks":[[4,"(?:親|保護者).*カンナム","parents own comparison"],[4,"教育費.*(?:という|そうだ|らしい|とのこと)","reported education expense"]]},
+        "막차가 끊긴 밤, 골목 코인노래방.\n천 원에 네 곡. 부스 안은 혼자다.\n\n끈적한 소파, 탬버린 하나, 그리고 익숙한 발라드 번호.\n오늘 하루가 무거웠다.": {"rewrites":[["천 원","1000원"],["네 곡","4곡"]],"slots":[[1,"@N@ウォン(?:で|払えば|を払えば)",1000,"four-song bundle price"],[1,"@N@曲",4,"four-song bundle count"]],"units":"ウォン|ドル|円|曲|時間|分|秒","checks":[]},
+    }
+    contract = contracts.get(source)
+    if contract is None:
+        return None
+    import unicodedata
+
+    def integer(raw):
+        if raw is None:  # 시간당 / 年に can have an implicit denominator of one.
+            return 1
+        raw = unicodedata.normalize("NFKC", raw).replace("−", "-")
+        if raw.startswith(("+", "-")):
+            return None
+        if "," in raw and not re.fullmatch(
+            r"(?:(?:[1-9][0-9]{0,2}(?:,[0-9]{3})+|[0-9]+)[万千百十]?)+", raw,
+        ):
+            return None
+        digits = dict(zip("〇零一二三四五六七八九", (0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9)))
+        total, section, pending = 0, 0, ""
+        for char in raw.replace(",", ""):
+            if char.isascii() and char.isdigit():
+                pending += char
+            elif char in digits:
+                pending += str(digits[char])
+            elif char in "十百千":
+                section += (int(pending) if pending else 1) * {"十": 10, "百": 100, "千": 1000}[char]
+                pending = ""
+            elif char == "万":
+                total += (section + (int(pending) if pending else 0) or 1) * 10000
+                section, pending = 0, ""
+            else:
+                return None
+        return total + section + (int(pending) if pending else 0)
+
+    number = r"[+＋\-－−]?[0-9０-９〇零一二三四五六七八九十百千万億,，]+"
+    group = "(?P<number>" + number + ")"
+    fraction = ("(?P<fraction>(?P<den>" + number + ")分の(?P<num>" + number + ")|"
+                "(?P<num_slash>" + number + ")[/／](?P<den_slash>" + number + "))")
+    lines = target.split("\n")
+    errors, replacements, owned = [], [], []
+    if contract.get("clock"):
+        # This source alone says evening 7:30. The 12/24-hour renderings own
+        # the same instant, not a duration or a different class on another line.
+        pattern = (r"(?P<phase>午後|夜|晩|午前|朝)?(?P<hour>" + number + ")"
+                   r"(?::(?P<minute>" + number + ")|：(?P<wide_minute>" + number + ")|"
+                   r"時(?:(?P<word_minute>" + number + r")分|(?P<half>半)))")
+        matches = list(re.finditer(pattern, lines[1])) if len(lines) > 1 else []
+        if len(matches) != 1:
+            errors.append("source-bound Korean-life evening class clock missing/duplicated")
+        else:
+            match = matches[0]
+            hour = integer(match.group("hour"))
+            minute = 30 if match.group("half") else integer(
+                match.group("minute") or match.group("wide_minute") or match.group("word_minute"))
+            phase = match.group("phase")
+            if phase in ("午後", "夜", "晩") and hour is not None and 0 < hour < 12:
+                hour += 12
+            if phase in ("午前", "朝") or hour != 19 or minute != 30:
+                errors.append("source-bound Korean-life evening class clock value/phase mismatch")
+            if re.match(r"(?:ではな|じゃな|時間|分|秒)", lines[1][match.end():]):
+                errors.append("source-bound Korean-life evening class clock state/unit mismatch")
+            offset = len(lines[0]) + 1
+            owned.append((offset + match.start(), offset + match.end()))
+            replacements.append((offset + match.start(), offset + match.end(), "19:30"))
+    for line, pattern, expected, label in contract["slots"]:
+        pattern = pattern.replace("@N@", group).replace("@F@", fraction)
+        matches = list(re.finditer(pattern, lines[line])) if line < len(lines) else []
+        if len(matches) != 1:
+            errors.append(f"source-bound Korean-life {label} role/unit/position mismatch")
+            continue
+        match = matches[0]
+        if isinstance(expected, list):
+            den = match.group("den") or match.group("den_slash")
+            num = match.group("num") or match.group("num_slash")
+            if [integer(den), integer(num)] != expected:
+                errors.append(f"source-bound Korean-life {label} value/sign mismatch")
+            offset = sum(len(part) + 1 for part in lines[:line])
+            start, end = match.span("fraction")
+            owned.append((offset + start, offset + end))
+            replacements.append((offset + start, offset + end, f"{expected[0]}分の{expected[1]}"))
+            continue
+        raw = match.group("number")
+        if integer(raw) != expected:
+            errors.append(f"source-bound Korean-life {label} value/sign mismatch")
+        start, end = match.span("number") if raw is not None else (match.start(), match.start())
+        # A digit/scale immediately before a local match cannot be discarded as
+        # prose; neither can a native wrong unit followed by a correct witness.
+        if start and re.search(number + r"$", lines[line][:start]):
+            errors.append(f"source-bound Korean-life {label} numeric prefix mismatch")
+        offset = sum(len(part) + 1 for part in lines[:line])
+        owned.append((offset + start, offset + end))
+        replacements.append((offset + start, offset + end, str(expected)))
+        tail = lines[line][match.end():]
+        if re.match(r"\s*(?:[/／]|毎(?:時|日|月|年)|(?:円|ドル|ウォン|元|ユーロ)|"
+                    r"ではな(?:く|い|かった)|じゃな(?:い|かった|く)|未満|以上|以下|超|より(?:安|高)|"
+                    r"[（(]\s*(?:毎|月|日|年|時|ドル|円))", tail):
+            errors.append(f"source-bound Korean-life {label} qualifier mismatch")
+
+    for line, pattern, label in contract["checks"]:
+        if line >= len(lines) or not re.search(pattern, lines[line]) or re.search(
+            r"(?:届かな|到着しな|開かな|開始しな|食べ(?:ていない|なかった|ない)|"
+            r"節約できな|節約しな(?!くては)|価値はな|価値がな)", lines[line],
+        ):
+            errors.append(f"source-bound Korean-life {label} state/owner mismatch")
+    for quantity in re.finditer("(?P<number>" + number + r")\s*(?:" + contract["units"] + ")", target):
+        start, end = quantity.span("number")
+        if not any(a <= start and end <= b for a, b in owned):
+            errors.append("source-bound Korean-life added/displaced quantity mismatch")
+    normalized_source = source
+    for old, new in contract["rewrites"]:
+        normalized_source = normalized_source.replace(old, new, 1)
+    normalized_target = target
+    for start, end, replacement in sorted(replacements, reverse=True):
+        normalized_target = normalized_target[:start] + replacement + normalized_target[end:]
+    return normalized_source, normalized_target, errors
+
+
+def _ja_korean_culture_address(source: str, target: str):
+    """Permit ordinary male address only in the two observed non-romance quotes.
+
+    Jiyeon's 오빠 rule is unchanged. No global term deletion: every occurrence
+    must belong to the source-licensed reply or shopkeeper quote on its line.
+    """
+    contracts = {
+        "\"잘 되시길 바라요.\" 복도에서 짧게 했다.\n\"고맙습니다. 형도요.\" 돌아온 답.\n\n서로의 이름도 모르지만, 이 고시원 복도에서 가장 따뜻한 인사였다.": "[「『](?:どうも|本当に)?(?:ありがとうございます|ありがとう)。お兄さんも(?:頑張ってください)?[。！!]?[」』](?:と(?:いう)?(?:返事|答え)?が?|という返事が)?(?:返ってきた|返って来た|返された|返事があった|答えた|言われた)",
+        "1인분이라 좀 멋쩍었지만, 아주머니가 떡을 더 얹어줬다.\n\"많이 먹어요, 총각.\"\n그 한마디에 떡볶이보다 마음이 더 데워졌다.": "[「『](?:いっぱい|たくさん)(?:食べ(?:なさい|て)(?:ね|ください)?|召し上が(?:れ|ってください))[、，,]お兄さん[。！!]?[」』]",
+    }
+    pattern = contracts.get(source)
+    if pattern is None or "お兄さん" not in target:
+        return False
+    lines = target.split("\n")
+    if len(lines) < 2 or target.count("お兄さん") != 1:
+        return False
+    match = re.search(pattern, lines[1])
+    return bool(match and "お兄さん" in match.group()
+                and not re.search(r"(?:ジヨン|ヒョンス|返ってこな|言わな|答えな|なかった)", lines[1]))
+
+
+
 def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
     import ja_translation_pipeline as ja
     if leaf.group == "endings" and leaf.path == ("condition",):
@@ -716,6 +883,8 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
     if locale == "ja":
         errors = ja.validate_translation(ja.Entry(leaf.id, placeholder_source, leaf.owner,
                                                  format_template=leaf.format_template), placeholder_target)
+        if _ja_korean_culture_address(leaf.source, text):
+            errors = [error for error in errors if error != "forbidden term お兄さん"]
         # Exact catalogue names may legitimately be all Latin. This does not
         # excuse English descriptions or partial brand-only translations.
         if leaf.group == "catalog":
@@ -728,6 +897,12 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
         numeric = re.compile(r"(?<![\d.])[+-]?\d+(?:[,.]\d+)*")
         source_numbers = ja.PLACEHOLDER.sub("", placeholder_source)
         target_numbers = ja.PLACEHOLDER.sub("", placeholder_target)
+        korean_culture = _ja_korean_culture_numbers(leaf.source, text)
+        if korean_culture is not None:
+            source_numbers, target_numbers, quantity_errors = korean_culture
+            source_numbers = ja.PLACEHOLDER.sub("", source_numbers)
+            target_numbers = ja.PLACEHOLDER.sub("", target_numbers)
+            errors.extend(quantity_errors)
         market_admin = _ja_market_admin_numbers(leaf.source, text)
         if market_admin is not None:
             source_numbers, target_numbers, quantity_errors = market_admin
@@ -1281,6 +1456,8 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
             errors.append("source-bound investment/life ordered numeric ownership mismatch")
         if market_admin is not None and numeric.findall(source_numbers) != numeric.findall(target_numbers):
             errors.append("source-bound market/admin ordered numeric ownership mismatch")
+        if korean_culture is not None and numeric.findall(source_numbers) != numeric.findall(target_numbers):
+            errors.append("source-bound Korean-life ordered numeric ownership mismatch")
         if native_time_bound and numeric.findall(source_numbers) != numeric.findall(target_numbers):
             errors.append("native time ordered numeric ownership mismatch")
     else:
