@@ -6,9 +6,144 @@
     "granted_by": "user",
     "delegated_to": "Codex",
     "source": "전부 진행, 최종 검수 및 개선까지 전부 권한 넘김. 이제 사용자는 판단 안하고 Codex가 모든걸 담당해 계속 개선",
-    "scopes": ["game_development", "quality_review", "internal_product_decision"],
-    "exclusions": ["external_publication", "storefront_change", "expenditure", "legal_certification"],
+    "scopes": [
+      "game_development",
+      "quality_review",
+      "internal_product_decision"
+    ],
+    "exclusions": [
+      "external_publication",
+      "storefront_change",
+      "expenditure",
+      "legal_certification"
+    ],
     "user_resign_required": false
   },
-  "decisions": []
+  "decisions": [
+    {
+      "id": "order-214-source-3ab1391-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-09",
+      "decided_by": "Codex Plato (JA); Codex ROOT (zh-CN/zh-TW); Rawls (independent receipt verification)",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-214",
+      "subject": {
+        "kind": "source",
+        "commit": "3ab1391ff476bbb8a857e12dc0a6267de0ac1123",
+        "tree": "23c66e2e4fea39bf81dc7573a8aeabb9ad3ba760",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/queue_archive/ORDER-214_L1_L2_RESULTS.md",
+          "sha256": "b9153f5f7e96e5a9234b1e3a604079373a968d3b0a2642c2c2208a7d04135e61"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/queue_archive/ORDER-214_L1_L2_RESULTS.md",
+          "sha256": "b9153f5f7e96e5a9234b1e3a604079373a968d3b0a2642c2c2208a7d04135e61"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_rendered_localization",
+        "full_product_quality",
+        "external_release"
+      ],
+      "record": {
+        "path": "docs/queue_archive/ORDER-214_L1_L2_RESULTS.md",
+        "sha256": "b9153f5f7e96e5a9234b1e3a604079373a968d3b0a2642c2c2208a7d04135e61"
+      }
+    },
+    {
+      "id": "order-215-source-3ab1391-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-09",
+      "decided_by": "Codex ROOT (independent of Rawls implementation)",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-215",
+      "subject": {
+        "kind": "source",
+        "commit": "3ab1391ff476bbb8a857e12dc0a6267de0ac1123",
+        "tree": "23c66e2e4fea39bf81dc7573a8aeabb9ad3ba760",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/queue_archive/ORDER-215.md",
+          "sha256": "acc42a396d1bf59b43c5758640e6cbddb2dda68760f20ffccf0e2748876b9270"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/queue_archive/ORDER-215.md",
+          "sha256": "acc42a396d1bf59b43c5758640e6cbddb2dda68760f20ffccf0e2748876b9270"
+        },
+        {
+          "kind": "agent_runtime_observation",
+          "path": "docs/queue_archive/ORDER-215.md",
+          "sha256": "acc42a396d1bf59b43c5758640e6cbddb2dda68760f20ffccf0e2748876b9270"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "full_game_normal_speed_play",
+        "full_product_quality",
+        "external_release"
+      ],
+      "record": {
+        "path": "docs/queue_archive/ORDER-215.md",
+        "sha256": "acc42a396d1bf59b43c5758640e6cbddb2dda68760f20ffccf0e2748876b9270"
+      }
+    },
+    {
+      "id": "order-216-source-3ab1391-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-09",
+      "decided_by": "Codex Plato (independent of Poincare implementation); Codex ROOT",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-216",
+      "subject": {
+        "kind": "source",
+        "commit": "3ab1391ff476bbb8a857e12dc0a6267de0ac1123",
+        "tree": "23c66e2e4fea39bf81dc7573a8aeabb9ad3ba760",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/queue_archive/ORDER-216.md",
+          "sha256": "3121e2df64cfea28caa85eee0bcc292c78604f9807e86f5cebdc4a0a2e1bc2e9"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/queue_archive/ORDER-216.md",
+          "sha256": "3121e2df64cfea28caa85eee0bcc292c78604f9807e86f5cebdc4a0a2e1bc2e9"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "full_game_normal_speed_play",
+        "full_product_quality",
+        "external_release"
+      ],
+      "record": {
+        "path": "docs/queue_archive/ORDER-216.md",
+        "sha256": "3121e2df64cfea28caa85eee0bcc292c78604f9807e86f5cebdc4a0a2e1bc2e9"
+      }
+    }
+  ]
 }
