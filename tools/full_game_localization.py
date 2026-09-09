@@ -2339,6 +2339,317 @@ def _ja_career_specialization_numbers(source: str, target: str):
     return "\n".join(source_lines), normalized, sorted(set(errors))
 
 
+def _ja_life_ledger_reflection_numbers(source: str, target: str):
+    """Keep typed time/money/counter roles in 29 exact Korean life reflections.
+
+    Only owned spans are normalized; other prose and existing checks remain.
+    Full target sentences are never lookup keys. Changed Korean sources are OFF.
+    """
+    contracts = {
+        (
+            "3년째 정석을 지켰다.\n\n일해서 번 돈을 나누고, 남긴 몫은 적금과 분산투자로 보냈다. 큰 베팅은 피했다. 안전했다. 그리고 "
+            "더뎠다.\n\n오늘 SNS에서 누가 코인으로 한 달에 1억을 벌었다는 글을 봤다. 동창 하나는 분양권 프리미엄으로 {name}의 "
+            "1년치를 한 번에 먹었다고 했다.\n\n{name}은 돈이 들어올 때마다 같은 순서로 나눈다. 틀린 길은 아니다. 그런데 화면 속"
+            " 숫자가 멈춰 있는 것처럼 보이는 날이 있다.\n\n이게 정석의 무게였다. 지루함. 그리고 이게 맞나, 하는 의심."
+        ): (
+            (0, "3년째", 3, "年", "@Q@目(?:になった|だった|に入った)", "third_orthodox_year"),
+            (4, "한 달", 1, "month", "@Q@(?:に|で)", "reported_month"),
+            (4, "1억", 100000000, "money", "@Q@(?:を)?稼いだという", "reported_won"),
+            (4, "하나", 1, "人", "同級生の@Q@は", "one_classmate"),
+            (4, "1년치", 1, "年", "\\{name\\}の@Q@分", "protagonist_annual_income"),
+            (4, "한 번", 1, "度", "@Q@に稼いだ", "single_gain"),
+        ),
+        (
+            "3년째 비정석이었다.\n\n레버리지, 단타, 남들이 안 가는 자리. 자산은 출렁였다. 어떤 달은 두 배였고, 어떤 달은 반토막이었"
+            "다.\n\n문제는 돈이 아니라 잠이었다. 새벽 3시에 눈이 떠진다. 손이 먼저 핸드폰을 켜고 차트를 본다. 빨간색이면 심장이 내려"
+            "앉고, 파란색이면 잠이 더 안 온다.\n\n3년 전에는 이게 자유처럼 느껴졌다. 지금은 — 한 번의 잘못된 클릭이 모든 걸 되돌릴"
+            " 수 있다는 걸 안다.\n\n이게 비정석의 무게였다. 불안. 그리고 내가 통제하고 있는 게 맞나, 하는 의심."
+        ): (
+            (0, "3년째", 3, "年", "@Q@目(?:だった|になった|に入った)", "third_risk_year"),
+            (2, "두 배", 2, "multiple", "@Q@になった月", "doubled_month"),
+            (2, "반토막", 0.5, "half", "@Q@になった月", "halved_month"),
+            (4, "3시", 3, "時", "(?:午前|明け方の)@Q@に目が(?:覚める|覚めた)", "waking_3am"),
+            (6, "3년", 3, "年", "@Q@前には", "three_years_ago"),
+            (6, "한 번", 1, "度", "@Q@クリックを間違えれば", "single_wrong_click"),
+        ),
+        (
+            "새벽 3시의 차트"
+        ): (
+            (0, "3시", 3, "時", "(?:午前|明け方(?:の)?)@Q@のチャート", "chart_3am"),
+        ),
+        (
+            "가장 솔직한 말이었다.\n\n처음엔 강남이 '해방'처럼 느껴졌다.\n지금은 그게 뭔지, 정확히 모른다.\n\n모른다는 것을 아는 것. "
+            "그게 3년 전보다 나아진 것일 수도 있었다."
+        ): (
+            (5, "3년", 3, "年", "@Q@前より", "compared_three_years_ago"),
+        ),
+        (
+            "밤 11시.\n\n오늘 처음으로 자산이 그 숫자를 넘겼다.\n{name}은 강남 방향 야경이 보이는 곳에 혼자 서 있었다.\n\n누가 "
+            "물어봤다.\n아버지였을 수도 있고, 현수였을 수도 있고, 그냥 어디선가 들려온 목소리였을 수도 있다.\n\n\"처음에 왜 강남이었어?"
+            "\"\n\n3년 가까이 달려온 {name}에게 — 처음 들었던 것과 다른 답이 있었다."
+        ): (
+            (0, "11시", 11, "時", "(?:夜(?:の)?|午後)@Q@[。．]", "night_11pm"),
+            (3, "혼자", 1, "person", "@Q@で立っていた", "alone_night_view"),
+            (10, "3년", 3, "年", "@Q@近く走り続けてきた", "nearly_three_years"),
+        ),
+        (
+            "밤 11시.\n\n오늘 처음으로 자산이 그 숫자를 넘겼다.\n{name}은 강남 방향 야경이 보이는 곳에 혼자 서 있었다.\n\n누가 "
+            "물어봤다.\n아버지였을 수도 있고, 현수였을 수도 있고, 그냥 어디선가 들려온 목소리였을 수도 있다.\n\n\"처음에 왜 강남이었어?"
+            "\"\n\n3년 가까이 달려온 {name}에게 — 처음 들었던 것과 다른 답이 있었다.\n\n사실 이 질문을 스스로에게 미리 던져본 적"
+            "이 있다.\n자존심인지 목표인지 헷갈렸던 날, 이유를 다시 정리했었다.\n그래서 지금 — 답이 바로 나왔다."
+        ): (
+            (0, "11시", 11, "時", "(?:夜(?:の)?|午後)@Q@[。．]", "night_11pm"),
+            (3, "혼자", 1, "person", "@Q@で立っていた", "alone_night_view"),
+            (10, "3년", 3, "年", "@Q@近く走り続けてきた", "nearly_three_years"),
+            (13, "다시", 1, "again", "理由を@Q@整理した", "prior_reason_revisit"),
+        ),
+        (
+            "밤 11시.\n\n오늘 처음으로 자산이 그 숫자를 넘겼다.\n{name}은 강남 방향 야경보다 계좌 알림을 먼저 다시 열었다. 숫자"
+            "는 그대로였다. 한 번 더 새로고침했다.\n\n누가 물어봤다.\n아버지였을 수도 있고, 현수였을 수도 있고, 그냥 어디선가 들려온 "
+            "목소리였을 수도 있다.\n\n\"처음에 왜 강남이었어?\"\n\n답보다 다음 목표액이 먼저 떠올랐다. 3년 전과 달라진 건 이유보다 계산"
+            " 속도였다."
+        ): (
+            (0, "11시", 11, "時", "(?:夜(?:の)?|午後)@Q@[。．]", "night_11pm"),
+            (3, "한 번", 1, "度", "もう@Q@[、，]?(?:更新した|更新し直した)", "one_refresh"),
+            (10, "3년", 3, "年", "@Q@前と変わった", "changed_three_years_ago"),
+        ),
+        (
+            "밤 11시.\n\n오늘 처음으로 자산이 그 숫자를 넘겼다.\n{name}은 강남 방향 야경이 보이는 곳에 혼자 서 있었다. 불빛 아"
+            "래에는 막차를 기다리는 사람들과 아직 문을 닫지 못한 가게들이 있었다.\n\n누가 물어봤다.\n아버지였을 수도 있고, 현수였을 수도"
+            " 있고, 그냥 어디선가 들려온 목소리였을 수도 있다. 목소리마다 얼굴이 있었다.\n\n\"처음에 왜 강남이었어?\"\n\n처음으로 답이 "
+            "숫자가 아니라 이름들과 함께 떠올랐다."
+        ): (
+            (0, "11시", 11, "時", "(?:夜(?:の)?|午後)@Q@[。．]", "night_11pm"),
+            (3, "혼자", 1, "person", "@Q@で立っていた", "alone_night_view"),
+        ),
+        (
+            "밤 11시.\n\n오늘 처음으로 자산이 그 숫자를 넘겼다.\n{name}은 강남 방향 야경이 보이는 곳에 혼자 서 있었다.\n\n누가 "
+            "물어봤다.\n아버지의 목소리였을 수도 있고, 현수였을 수도 있고, 그냥 어디선가 들려온 목소리였을 수도 있다.\n\n\"처음에 왜 강"
+            "남이었어?\"\n\n3년 가까이 달려온 {name}에게 — 처음 들었던 것과 다른 답이 있었다."
+        ): (
+            (0, "11시", 11, "時", "(?:夜(?:の)?|午後)@Q@[。．]", "night_11pm"),
+            (3, "혼자", 1, "person", "@Q@で立っていた", "alone_night_view"),
+            (10, "3년", 3, "年", "@Q@近く走り続けてきた", "nearly_three_years"),
+        ),
+        (
+            "밤 11시.\n\n오늘 처음으로 자산이 그 숫자를 넘겼다.\n{name}은 강남 방향 야경이 보이는 곳에 혼자 서 있었다.\n\n누가 "
+            "물어봤다.\n아버지의 목소리였을 수도 있고, 현수였을 수도 있고, 그냥 어디선가 들려온 목소리였을 수도 있다.\n\n\"처음에 왜 강"
+            "남이었어?\"\n\n3년 가까이 달려온 {name}에게 — 처음 들었던 것과 다른 답이 있었다.\n\n사실 이 질문을 스스로에게 미리 "
+            "던져본 적이 있다.\n자존심인지 목표인지 헷갈렸던 날, 이유를 다시 정리했었다.\n그래서 지금 — 답이 바로 나왔다."
+        ): (
+            (0, "11시", 11, "時", "(?:夜(?:の)?|午後)@Q@[。．]", "night_11pm"),
+            (3, "혼자", 1, "person", "@Q@で立っていた", "alone_night_view"),
+            (10, "3년", 3, "年", "@Q@近く走り続けてきた", "nearly_three_years"),
+            (13, "다시", 1, "again", "理由を@Q@整理した", "prior_reason_revisit"),
+        ),
+        (
+            "밤 11시.\n\n오늘 처음으로 자산이 그 숫자를 넘겼다.\n{name}은 강남 방향 야경보다 계좌 알림을 먼저 다시 열었다. 숫자"
+            "는 그대로였다. 한 번 더 새로고침했다.\n\n누가 물어봤다.\n아버지의 목소리였을 수도 있고, 현수였을 수도 있고, 그냥 어디선가"
+            " 들려온 목소리였을 수도 있다.\n\n\"처음에 왜 강남이었어?\"\n\n답보다 다음 목표액이 먼저 떠올랐다. 3년 전과 달라진 건 이유"
+            "보다 계산 속도였다."
+        ): (
+            (0, "11시", 11, "時", "(?:夜(?:の)?|午後)@Q@[。．]", "night_11pm"),
+            (3, "한 번", 1, "度", "もう@Q@[、，]?(?:更新した|更新し直した)", "one_refresh"),
+            (10, "3년", 3, "年", "@Q@前と変わった", "changed_three_years_ago"),
+        ),
+        (
+            "밤 11시.\n\n오늘 처음으로 자산이 그 숫자를 넘겼다.\n{name}은 강남 방향 야경이 보이는 곳에 혼자 서 있었다. 불빛 아"
+            "래에는 막차를 기다리는 사람들과 아직 문을 닫지 못한 가게들이 있었다.\n\n누가 물어봤다.\n아버지의 목소리였을 수도 있고, 현수"
+            "였을 수도 있고, 그냥 어디선가 들려온 목소리였을 수도 있다. 목소리마다 얼굴이 있었다.\n\n\"처음에 왜 강남이었어?\"\n\n처음으"
+            "로 답이 숫자가 아니라 이름들과 함께 떠올랐다."
+        ): (
+            (0, "11시", 11, "時", "(?:夜(?:の)?|午後)@Q@[。．]", "night_11pm"),
+            (3, "혼자", 1, "person", "@Q@で立っていた", "alone_night_view"),
+        ),
+        (
+            "현수한테 연락이 왔다. 최종 면접에서 떨어졌다고. 4년의 끝이었다.\n\n그런데 목소리가 담담했다. 수화기 너머에서 뭔가 마시는 "
+            "소리가 났다. 커피 같은 것. 세상이 끝난 사람은 커피를 마시지 않는다.\n\n\"다시 하죠 뭐. 저는 이 속도로 사는 사람이에요."
+            "\"\n\n위로할 말을 고르던 {name}이 오히려 멈췄다. 4년을 잃은 사람이 저 문장을 갖고 있었다. 서울에서 3년째 달리는 {"
+            "name}에게는 없는 문장이었다."
+        ): (
+            (0, "4년", 4, "年", "@Q@の終わりだった", "hyunsu_four_year_end"),
+            (6, "4년", 4, "年", "@Q@を失った人", "hyunsu_four_year_loss"),
+            (6, "3년째", 3, "年", "@Q@目の\\{name\\}", "protagonist_third_year"),
+        ),
+        (
+            "현수의 4년"
+        ): (
+            (0, "4년", 4, "年", "ヒョンスの@Q@", "hyunsu_four_year_title"),
+        ),
+        (
+            "달력을 넘기다 멈췄다. 지난 1년, 사람을 만난 주가 몇이나 되나 세어 봤다.\n\n손가락을 하나씩 접었다. 한 손이 다 접히기 "
+            "전에 셈이 끝났다. 나머지 마흔몇 개의 칸은 전부 숫자였다. 매수, 매도, 이자 납입일. 볼펜으로 눌러쓴 글씨들이 칸마다 빽빽"
+            "했다.\n\n방은 조용했다. 냉장고 돌아가는 소리가 유난히 크게 들리는 종류의 조용함이었다.\n\n통장은 늘었다. 달력은 정직했다. "
+            "두 장부가 서로 다른 말을 하고 있었다."
+        ): (
+            (0, "1년", 1, "年", "(?:この|過去の)@Q@(?:間)?[、，]", "past_year_calendar"),
+            (2, "하나씩", 1, "本", "指を@Q@ずつ折(?:った|っていった)", "folded_finger_each"),
+            (2, "한 손", 1, "hand", "@Q@を全部折る前", "under_one_hand"),
+            (2, "마흔몇 개", 40, "forty_some", "残りの@Q@のマス", "forty_some_cells"),
+            (6, "두 장부", 2, "つ", "@Q@の帳簿", "two_ledgers"),
+        ),
+        (
+            "손가락으로 세는 1년"
+        ): (
+            (0, "1년", 1, "年", "指で数える@Q@", "calendar_year_title"),
+        ),
+        (
+            "달력을 덮으면서 잠깐, 남들 통장이 떠올랐다. 같은 1년을 숫자로만 채운 사람들의 속도.\n\n지키는 데 쓴 시간이 늦은 값으로 "
+            "돌아올까 봐. 정직한 불안이었다.\n\n불을 끄고 누워서도, 그 셈은 한동안 꺼지지 않았다."
+        ): (
+            (0, "1년", 1, "年", "同じ@Q@を", "compared_same_year"),
+        ),
+        (
+            "같은 달력인데 다른 게 보였다. 지난 1년, 사람을 놓지 않고 왔다.\n\n칸마다 숫자 사이에 다른 글씨가 섞여 있었다. 생일, "
+            "병문안, 늦은 저녁 약속. 볼펜 색이 다른 그 글씨들이 달력 위에 드문드문, 그러나 꾸준히 박혀 있었다.\n\n그러느라 남들보다 "
+            "느렸다. 그건 사실이었다. 숫자만 적은 달력이었으면 통장이 더 두꺼웠을 것이다.\n\n위로가 아니라 확인이었다. 이게 내가 쓴 시"
+            "간이다. 페이지를 넘기는 손이 무겁지 않았다."
+        ): (
+            (0, "1년", 1, "年", "(?:この|過去の)@Q@(?:間)?[、，]", "kept_past_year"),
+        ),
+        (
+            "지키면서 온 1년"
+        ): (
+            (0, "1년", 1, "年", "守りながら来た@Q@", "kept_year_title"),
+        ),
+        (
+            "남은 1년은 다르게 쓴다"
+        ): (
+            (0, "1년", 1, "年", "(?:残りの|あと)@Q@は", "remaining_year_choice"),
+        ),
+        (
+            "세수를 하다 고개를 들었다. 거울 속 얼굴이 낯설었다.\n\n눈 밑의 그늘은 아는 그늘이었는데, 그 위의 눈빛이 모르는 눈빛이었다"
+            ". 물이 턱 끝에서 떨어지는 동안 {name}은 그 얼굴을 마주 보고 서 있었다.\n\n시간을 접어서 여기까지 달려왔다. 며칠씩 "
+            "사라진 주말들, 미룬 전화들, 접힌 채로 쌓인 것들. 접은 것들은 없어진 게 아니라 어딘가에 쌓여 있었다 — 이 얼굴에도.\n\n"
+            "남은 건 1년. 그 1년을 어떻게 쓸 것인가."
+        ): (
+            (6, "1년", 1, "年", "残りは@Q@[。．]", "remaining_year"),
+            (6, "1년", 1, "年", "その@Q@を", "use_same_remaining_year"),
+        ),
+        (
+            "2년 전, {name}은 청구서를 보고도 접었다. 대가는 알고 시작했다고, 끝까지 가겠다고.\n\n2년이 더 지났다. 청구서는 더"
+            " 두꺼워졌다. 거울 속 얼굴, 멀어진 사람들, 미뤄둔 몸.\n\n끝이 보이는 지금 — 그 값이 정말 그만한 가치였는지 묻는 순간이"
+            " 온다."
+        ): (
+            (0, "2년", 2, "年", "@Q@前[、，]", "bill_two_years_ago"),
+            (2, "2년", 2, "年", "(?:さらに|もう)@Q@が過ぎた", "further_two_years"),
+        ),
+        (
+            "그래도 마지막 1년은 다시 전력으로"
+        ): (
+            (0, "1년", 1, "年", "最後の@Q@は", "last_year_choice"),
+            (0, "다시", 1, "again", "@Q@全力で", "renewed_full_effort"),
+        ),
+        (
+            "2년 전, {name}은 잃은 것 중 하나를 되찾기로 했다. 미룬 전화, 미룬 검진, 미룬 사람.\n\n그 작은 결정이 2년 동안"
+            " 조용히 자랐다. 다시 이어진 관계, 챙긴 몸. 목표를 향해 달리면서도 그 끈은 놓지 않았다.\n\n마지막 해를 시작하는 지금, "
+            "{name}은 그게 얼마나 다행이었는지 안다."
+        ): (
+            (0, "2년", 2, "年", "@Q@前[、，]", "reclaim_two_years_ago"),
+            (0, "하나", 1, "つ", "@Q@を取り戻すことにした", "one_reclaimed"),
+            (2, "2년", 2, "年", "@Q@(?:かけて|をかけて|の間)静かに育った", "decision_two_year_growth"),
+        ),
+        (
+            "기대가 없으면 실망도 없다. {name}은 그 공식으로 4년을 버텼다. 효율적이었다. 가끔 너무 효율적이라 무서웠다."
+        ): (
+            (0, "4년", 4, "年", "@Q@(?:間)?を耐えた", "endured_four_years"),
+        ),
+        (
+            "이해하는 것과 다 받아주는 건 다르다. {name}은 이제 그 경계를 안다. 믿되, 전부를 맡기지는 않는다. 그것도 1년이 가"
+            "르쳐준 거였다."
+        ): (
+            (0, "1년", 1, "年", "@Q@が教えてくれた", "year_taught_boundary"),
+        ),
+        (
+            "작년에 {name}은 금 간 관계를 끊지 않고 이해하기로 했다. 호구일 수도 있다고 생각하면서도.\n\n1년이 지나 보니 — 그 "
+            "사람은 변하지 않았다. 하지만 {name}을 미워하지 않고 사는 법은 배웠다. 손해를 봤을 수도 있다. 그런데 마음은 가벼웠다"
+            "."
+        ): (
+            (2, "1년", 1, "年", "@Q@(?:が過ぎて|たって)みると", "one_year_later"),
+        ),
+        (
+            "마지막 해다.\n\n2년 전, {name}은 무게를 견디다 방향을 한 번 틀었다. 정석이던 사람은 위험을 들였고, 위험하던 사람은"
+            " 안전장치를 달았다.\n\n그때는 흔들린 것 같아 부끄러웠다. 지금 보니 — 그건 흔들린 게 아니라 조정이었다. 자기를 너무 믿지"
+            " 않은 것. 그게 살린 부분이 있었다."
+        ): (
+            (2, "2년", 2, "年", "@Q@前[、，]", "adjustment_two_years_ago"),
+            (2, "한 번", 1, "度", "@Q@[、，]方向を変えた", "one_direction_change"),
+        ),
+        (
+            "마지막 해다.\n\n2년 전 이맘때, 무게를 견디다 못해 흔들릴 뻔했던 날이 있었다. 그때 {name}은 자기 방식을 끝까지 밀었"
+            "다.\n\n지금 와서 보면 — 그 선택이 맞았는지 틀렸는지는 결과가 말해줄 거다. 다만 한 가지는 분명했다. 흔들리지 않은 사람은"
+            ", 적어도 자기 자신한테 변명할 게 없다."
+        ): (
+            (2, "2년", 2, "年", "@Q@前の今頃", "same_season_two_years_ago"),
+            (4, "한 가지", 1, "つ", "ただ@Q@[、，]はっきりしていた", "one_clear_thing"),
+        ),
+    }
+    slots = contracts.get(source)
+    if slots is None:
+        return None
+    import unicodedata
+    from zh_translation_audit import _chinese_cardinal_value
+
+    numeral_chars = r"0-9０-９〇零一二三四五六七八九十百千"
+    numeral = (r"(?<![" + numeral_chars + r"万億,.，．数何半])"
+               r"(?P<number>[+＋\-－−]?[" + numeral_chars + r",，]+)")
+    units = {
+        "month": r"(?:ひと月|" + numeral + r"(?:か月|ヶ月|カ月|箇月))",
+        "money": numeral + r"(?P<scale>万|億)?ウォン",
+        "multiple": r"(?:" + numeral + r")?倍",
+        "half": r"半分",
+        "person": r"(?:ひとり|" + numeral + r"人)",
+        "hand": r"片手",
+        "again": r"(?:もう" + numeral + r"度|改めて|再び)",
+        "forty_some": numeral + r"(?:いくつ|数個)",
+    }
+    lines, source_lines = target.split("\n"), source.split("\n")
+    errors, owned, replacements = [], [], []
+    for line, anchor, expected, unit, frame, label in slots:
+        quantity = r"(?P<quantity>" + units.get(unit, numeral + unit) + ")"
+        matches = list(re.finditer(frame.replace("@Q@", quantity), lines[line])) if line < len(lines) else []
+        if len(matches) != 1:
+            errors.append(f"source-bound life reflection {label} role/unit/line/count mismatch")
+        else:
+            match = matches[0]
+            raw = match.groupdict().get("number")
+            value = {"month": 1, "multiple": 2, "half": 0.5,
+                     "person": 1, "hand": 1, "again": 1}.get(unit)
+            if raw is not None:
+                raw = unicodedata.normalize("NFKC", raw)
+                if "," in raw and not re.fullmatch(r"[1-9][0-9]{0,2}(?:,[0-9]{3})+", raw):
+                    errors.append(f"source-bound life reflection {label} grouping mismatch")
+                value = _chinese_cardinal_value(raw.replace(",", ""))
+                if unit == "money" and value is not None:
+                    value *= {"万": 10000, "億": 100000000, None: 1}[match.group("scale")]
+                if raw.startswith(("+", "-", "−")):
+                    errors.append(f"source-bound life reflection {label} sign mismatch")
+            if value != expected:
+                errors.append(f"source-bound life reflection {label} value mismatch")
+            start, end = match.span("quantity")
+            if re.search(r"[" + numeral_chars + r"万億,.，．+＋\-－−半]\s*$", lines[line][:start]):
+                errors.append(f"source-bound life reflection {label} numeric prefix mismatch")
+            if re.match(r"\s*(?:[/／]|以上|以下|未満|超|程度|ほど|くらい|ぐらい|前後|"
+                        r"円|ドル|ウォン|元|ユーロ|[%％])", lines[line][end:]):
+                errors.append(f"source-bound life reflection {label} qualifier mismatch")
+            offset = sum(len(part) + 1 for part in lines[:line])
+            owned.append((offset + start, offset + end))
+            replacements.append((offset + start, offset + end, str(expected) + "数"))
+        # Repeated source anchors on one line own successive source occurrences.
+        source_lines[line] = source_lines[line].replace(anchor, str(expected) + "数", 1)
+
+    scan_units = (r"(?:万|億)?(?:ウォン|円|ドル|元)|週間|か月|ヶ月|カ月|箇月|"
+                  r"時間|年|月|日|時|分|秒|人|名|回|度|本|つ|個|枚|杯|倍|いくつ|[%％]")
+    for quantity in re.finditer(numeral + r"\s*(?:" + scan_units + ")", target):
+        start, end = quantity.span("number")
+        if not any(a <= start and end <= b for a, b in owned):
+            errors.append("source-bound life reflection added/displaced quantity mismatch")
+    normalized = target
+    for start, end, replacement in sorted(replacements, reverse=True):
+        normalized = normalized[:start] + replacement + normalized[end:]
+    return "\n".join(source_lines), normalized, sorted(set(errors))
+
+
 def _ja_korean_culture_address(source: str, target: str):
     """Permit ordinary male address only in the two observed non-romance quotes.
 
@@ -2435,6 +2746,10 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
             source_numbers, target_numbers, quantity_errors = investment_life
             source_numbers = ja.PLACEHOLDER.sub("", source_numbers)
             target_numbers = ja.PLACEHOLDER.sub("", target_numbers)
+            errors.extend(quantity_errors)
+        life_reflection = _ja_life_ledger_reflection_numbers(leaf.source, text)
+        if life_reflection is not None:
+            source_numbers, target_numbers, quantity_errors = life_reflection
             errors.extend(quantity_errors)
         father_call = _ja_father_call_time_numbers(source_numbers, target_numbers)
         if father_call is not None:
