@@ -1,6 +1,6 @@
 # ORDER-217 — 선택의 후속·미응답 약속 번역 검토
 
-> [~] 검증 중 — 독립 원문 대조 완료, 텍스트 수용·최종 차선은 아직 미완료다.
+> [~] 검증 중 — 독립 원문 대조·텍스트 수용 완료, 최종 차선·종료 검수 대기.
 > 본편 전체 HOLD·원어민/화면 미관찰. 사람 판정 기록은 변경하지 않는다.
 
 ## 원문과 저작
@@ -82,6 +82,25 @@ JA114와 ZH228 최종 문구의 표적 L1 진단은0이다. 전체 차선 검사
 - order217-root-zh-independent-probes.json: ROOT 별도6쌍, 완성 검사 실행 전 봉인.
 - order217-work-log-raw-move.json: 완료213절466B만 이동, 옛 history와 끝LF2 raw 복원.
 
-최종 교환·기존32991/신규342 전량 지문·L1·portable 수용·차선·독립 종료 검수는
-아직 대기다. 현재 수용 수32991을 올리거나 이 작업을 GO로 기록하지 않았다.
+## 최종 수용
+
+clean C1 27baec9718ca62d498df2c1bd8481f4ed1bbca71,
+tree02099810e362046a853a9cd35e6854677ef77357에서 final export→response→
+check/import --accept를 각 언어에 실행했다. 114씩 통과했고 changed_files=0이다.
+initial3/final3/response3/receipt3의 교환12 지문과 순서를 private
+order217-root-portable-acceptance.json에 보존했다. 현재 collector8cf471…은
+처음과 같고 역사 원장의 source_revision/manifest는 덮지 않았다.
+
+ROOT가 동일 C1의 기존32,991+신규342 전량을 실제 hash/L1 대조했다.
+오류0, 입력503개 전후 동일, 57.69초다. order217-root-full-accepted-l1.json에
+실제 입력 지문·신규342 영수증·범위를 보존했다.
+수용은33,333(각11,111)/b80/meta9, 사건1,486종10,043문구/locale다.
+비보호 shipping 잔여는 실제208종1,535문구/locale다. UI 등 별도 잔여를 지우지 않았다.
+
+portable:8,639,778B/34740a735bed834100fe4781b759ed468d0cfdf527fec8253b4ff870eff92193.
+accepted SHA468d1ecdf539b7b075d911c0a24f223d170ff705f03975cd3f0e8c5e1c175237.
+신규342+b80만 역제거하고 accepted SHA를 복원하면 옛8,552,044B/
+32283da99eaa76b409da6dba65fc158eeea4bcafdd4f6cc3c229512163c9aaa5와 byte-exact다.
+기존 순서·메타9·역사 header·공개 데모·human 원장을 보존했다.
+최종 차선과 독립 교환/종료 검수는 대기이며 아직 작업 GO를 기록하지 않았다.
 선언·소유·배치·회귀 절차는 일회성이며 지속 규칙은 기존 I18N 정본을 따른다.
