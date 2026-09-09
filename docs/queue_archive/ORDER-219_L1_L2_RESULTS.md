@@ -70,6 +70,38 @@ JA 문맥별 수량과 ZH 인명·둘 지시·식사 분류사의 실제 오탐�
 
 ## 증거 위치와 한계
 
+## 정확 제품의 수용과 전량 회귀
+
+clean 제품 C1 10dec57c46c457eb9d189064314a3d876706c303, tree3a64e0d1dea1732e497abcdad0e8c2586be68d1c에서
+final export3→response3→check3/import3을 실행했다. 모두126문구·changed_files0이다.
+수용 원장은 8734890B/642cbb0c73023f859840175cc2438b02ad39e7e3565bda8d979853470a7a27fb,
+accepted SHA886387fe2891d70e3544fde04955eae7d3d3b5e40e768061ad3c964ce846429b다.
+신규378/b81을 역제거하면 기존33333/b80·legacy header·meta9와 전체 raw가 복원된다.
+receipt 해시는 batch/state/native/translations 전체(자기 해시 제외)를 소유한다.
+첫 ROOT append harness는 translations만의 digest와 비교하다 쓰기 전에 멈췄으며,
+기존 파이프라인 계약대로 계산한 뒤 수용했다. 교환 원형은 바꾸지 않았다.
+
+| locale | 교환 원형 | bytes | SHA256 |
+|---|---|---:|---|
+| ja | order219-initial.source.jsonl | 103415 | af8f64deee05af4f831ef6ced5b722ff93d677181a50297f4bcb2f2371d8b8f1 |
+| ja | order219-final.source.jsonl | 103415 | 39a3269edb029300543a4556b432649908f8347cfbe5ccbf391cb12e87e282b0 |
+| ja | order219-final.response.jsonl | 49315 | 4c8a9d6d6004b182ccd8f8784b5a1b49761ed08290ba905c548ebbe88a73db1b |
+| ja | receipt | 31007 | 02b38652379a91b9b79a24f46e60ab157aa61218228fc4ac4eeec758ab11aea0 |
+| zh-CN | order219-initial.source.jsonl | 104174 | b1f6718ee8ac94f75814f678bd4fc514502272b100bc6631fcc8c75d100c8ad5 |
+| zh-CN | order219-final.source.jsonl | 104174 | ce4e01623448b803ca850f41261ae064b316b08c822831e5a57071ed9581c314 |
+| zh-CN | order219-final.response.jsonl | 44367 | 1e42e64b8264e0e0655696ecf84014cff956b71c0ff4ed7c4ed8db233e72beab |
+| zh-CN | receipt | 31010 | 940cf10eb8a3a9971090af6bd87da7df348304c7a6ad46b82738d9e4b9cf24f5 |
+| zh-TW | order219-initial.source.jsonl | 104174 | 65bfbcc5f7b7b40819363871055a76913ddc516d02f9db1c27d6ed7359322256 |
+| zh-TW | order219-final.source.jsonl | 104174 | fb900ee4005c8d3f8dca1b44f4d3874c6b7d7a3d4d2708833e0d502715bf149e |
+| zh-TW | order219-final.response.jsonl | 43924 | e6616c23e46d88d44af409ca360aa8d1d2206422721d056789a7330acb835864 |
+| zh-TW | receipt | 31010 | c7224c0c4d7fc8975048f00263595ceb3c22f10a635ccb0db59b8b49f8891cf5 |
+
+ROOT 전량33711 source/target hash와 L1 오류0. 신규378과 기존33333을 모두 포함하며
+입력586파일은 전후 불변이다. 언어별 엔딩234+사건10169+catalog834=11237이다.
+private order219-all-accepted-l1.json 67839B/dff9d5d98c90808bb9aa6ab5ded77f8025a5536ce5bc5cea3349cba13abf8cbf.
+같은 검사의 내부 표본 수와 독립 검수 수를 합산하지 않는다. 원어민·렌더·본편은 OPEN이다.
+
+
 ### 가드의 독립 첫 실행
 
 저자 고정 JA248·ZH120은 통과했지만 ROOT 별도9쌍18평가는14/18이었다.
