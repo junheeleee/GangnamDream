@@ -1,7 +1,7 @@
 # ORDER-224 — 초기 인연·투자·카지노 연쇄 번역 검토
 
 > [~] 진행 — 직접 저작405문구의 독립 전량 대조와 국소 검사 수리를 마쳤다.
-> 아직 신규 수용0이며 이번 작업 GO도 발급하지 않았다. 본편 HOLD를 유지한다.
+> 신규405 수용과 누적35,019 hash/L1을 통과했다. 최종 통합 판정 전이며 본편 HOLD를 유지한다.
 
 ## 신원·범위
 
@@ -23,7 +23,7 @@ Plato의 준비 결속은16입력 불변·기존34614/b83/meta9·신규수용0�
 
 ROOT가 JA135, Rawls가 CN135, Poincare가 TW135를 한국어에서 각각 직접 저작했다.
 EN 중역·간번 변환0. Plato는 JA135, ROOT는 CN135/TW135를 독립 전량 대조한다.
-최초 실패·중간 원형을 보존하며 최종 source/target 지문을 결속했다. 수용은 아직 전이다.
+최초 실패·중간 원형을 보존하며 최종 source/target 지문을 결속했다. 이 L2 단계는 수용 전이었다.
 
 ROOT 중국어 대조는 선택135 원문과 대상문구를0–44/45–89/90–134로 나눠 모두 읽었다.
 CN 저자의 자체3leaf 교정은 상철 이름 복원·이미 알고 있던 사실·새 주소의 기록을 구분했다.
@@ -110,7 +110,7 @@ ROOT는 새 ‘不退費’3글자에 ‘三個字’를 거부하고 거짓 ‘
 원래61거부 기대를 바꾸거나 이12를 PASS로 재분류하지 않으며, 미검출 한계와 실제 제품
 전문 대조를 분리한다. 이 국소 검사에 전체 문장 의미 인증을 맡기지 않는 범위 판단이다.
 OFF20은 helper OFF·기존 E2E13거부/7허용 exact, 별도 메타2는2/2 기대 충족이다.
-최종 export/check/import3·신규405/b84·전량 accepted hash/L1·명시12는 아직 미실행이다.
+위 B3 시점에는 최종 export/check/import3·신규405/b84·전량 accepted hash/L1·명시12가 미실행이었다.
 최종 B4동결 뒤 ROOT의 선택405 L1은 오류0/입력12 전후 불변이다. 초기135×3의
 source/id/path/hash를 현재 KO와 확인한 뒤 실제 언어별 validator에 전달했다.
 아직 수용이나 전량 수용 원장 검사는 아니다.
@@ -124,6 +124,40 @@ B3 대비 채널4만 변했고 나머지113 결과는 exact다. OFF20 helper OFF
 ROOT·Poincare·Plato는 실제 KO5/CN5/TW5 전문에 허위 환급·회신·유죄 확정·조사
 완료·가족의 직위 치환이 없음을 별도 확인했다. 의미12 한계의 공개와 실제405
 전량 L2를 유지하는 조건으로 국소 수량/성씨 검사의 범위 판단을 확정했다.
+
+## 교환·수용·최종 회귀
+
+clean 제품 C1 5cf31685d522e468b5868827bc4e168bff46dd74에서 최종3export를 생성했다.
+각135개·동일 KO manifest·현재 target hash에 결속했고 초기 null3export는 보존했다.
+최종 response3과 공식 check3/import--accept3 모두 PASS·changed_files0이다.
+기존 번역을 덮지 않고 공식 receipt source/target hash405개만 portable에 추가했다.
+
+| locale | final batch ID | receipt checksum |
+|---|---|---|
+| ja | 39379a3409df471ebbe444bb8049311887385c784fe94236af4d083c82a68c77 | 9b850cb8c2db42bfe5d41e3966511a0bdb5a82fa2162192c89f2319408faa250 |
+| zh-CN | 646de9e303c8a59a791ebce2da15ee1dfdcf035f9756f4d9990b4cc62798317b | 00b59fd013d1afd0b7a0cbbb4bb2f821d965c50e2bf873597971d46a62093153 |
+| zh-TW | 1d0d5f34842d2f829626aaef74a01bf4eea86a9a5b61eb9177ccabbcb284e350 | cb0ef10fc9041ed43331a861de8c14063010eede465af11f306705b8dce1412c |
+
+portable9070924B/SHA65f3c93ed21c97ada138f836fc6d10c2130887b41578ae7c1729e494e5e1ae4a,
+accepted SHA1d022ae5986c7bcca72c7bf8593ed0e74832711d42653e4a2ab6118af5c33f75.
+신규405+b84 역제거 및 기존 accepted SHA 복원은 기존8966365B/
+5f779caca41cc6e16fd9fe1be5c75f3f32e28aa70e869e8e741560a76579c564와 raw exact다.
+기존34,614·b83·meta9·역사 top-level source 신원을 보존했다.
+private order224-exchange-acceptance.json7197B/
+02a7bab012cfa25ba3ccfbb5613e48e8d58d8f08357cb10e93e0f8ca8b32f634.
+
+전량35,019 hash/L1을 한 번 실행해 오류0·입력599 전후 불변을 확인했다(59.189초).
+각11,673=엔딩234+사건10,605+catalog834, 사건1,566종이다.
+남은 비보호 shipping128종973문구/언어이며 공개 보호·author_only·UI/표시 소비자는 별도다.
+private order224-all-accepted-l1-final.json84347B/
+e3c92bed0a49e581482f30590999d4a89946af7f245ce16735961d32a3daee22.
+명시 full-game-localization-overlays12를 최종 한 번 실행해 전부 PASS다.
+source self52·full self238·JA self88·ZH self12407, static audit ERROR0/WARNING0,
+coverage1580/1813·공개5언어14사건100leaf/121UI·scope verify141·context340/340·
+queue76을 확인했다. coverage1580은 수용1566+공개 보호14이며 실플레이 전량 커버리지가 아니다.
+ZH font blocked 출력은 JP-first 변이의 정상 거부이며 실제 폰트 장애가 아니다.
+원형은 private order224-targeted-qa.json이다. 전체audit/Godot/240주 재실행0이다.
+독립 최종 C2 통합 검토·작업 판정은 다음 단계이며 본편 HOLD와 구분한다.
 
 ## 현재 증거 파일
 
