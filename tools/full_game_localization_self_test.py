@@ -6869,6 +6869,69 @@ class ExchangeTests(unittest.TestCase):
                     self.assertTrue(errors)
 
 
+    def test_casino_reply_numeric_roles(self):
+        # Keep multilingual fixtures on short physical lines; use the real Python CLI.
+        source_base = (
+            "답장을 보내자 1분도 지나지 않아 승차권 QR과 좌석 번호가 도착했다.\n\n\"내일 오전 6시 40분. 늦지 마요.\"\n\n방 안은 "
+            "그대로였지만, 내일 아침의 방향만 정선 쪽으로 바뀌었다."
+        )
+        data = json.loads(
+            "[[\"actual:ja:arrival_time:1\",\"actual\",null,\"返事を送ると、一分もしないうちに乗車券のQRコードと"
+            "座席番号が届いた。\\n\\n「明日の午前6時40分。遅れないでください」\\n\\n部屋の中は変わらなかったが、明日の朝の行き先だけが、チョンソン"
+            "へと変わった。\"],[\"natural:ja:arrival_time:1\",\"natural\",null,\"返事を送ると、1分もしないうち"
+            "に乗車券のQRコードと座席番号が届いた。\\n\\n「明日の午前6時40分。遅れないでください」\\n\\n部屋の中は変わらなかったが、明日の朝の行"
+            "き先だけが、チョンソンへと変わった。\"],[\"natural:ja:arrival_time:2\",\"natural\",null,\"返事を送"
+            "ると、一分足らずで乗車券のQRコードと座席番号が届いた。\\n\\n「明日の午前六時四十分。遅れないでください」\\n\\n部屋の中は変わらなかった"
+            "が、明日の朝の行き先だけが、チョンソンへと変わった。\"],[\"target_mutation:ja:arrival_time:1\",\"tar"
+            "get_mutation\",null,\"返事を送ると、二分もしないうちに乗車券のQRコードと座席番号が届いた。\\n\\n「明日の午前6時40分"
+            "。遅れないでください」\\n\\n部屋の中は変わらなかったが、明日の朝の行き先だけが、チョンソンへと変わった。\"],[\"target_mutat"
+            "ion:ja:arrival_time:2\",\"target_mutation\",null,\"返事を送ると、一秒もしないうちに乗車券のQRコ"
+            "ードと座席番号が届いた。\\n\\n「明日の午前6時40分。遅れないでください」\\n\\n部屋の中は変わらなかったが、明日の朝の行き先だけが、チョ"
+            "ンソンへと変わった。\"],[\"target_mutation:ja:arrival_time:3\",\"target_mutation\",nu"
+            "ll,\"返事を送ると、一分もしないうちに乗車券のQRコードと座席番号が届いた。\\n\\n「明日の午前7時40分。遅れないでください」\\n\\n部"
+            "屋の中は変わらなかったが、明日の朝の行き先だけが、チョンソンへと変わった。\"],[\"target_mutation:ja:arrival_t"
+            "ime:4\",\"target_mutation\",null,\"返事を送ると、一分もしないうちに乗車券のQRコードと座席番号が届いた。\\n\\n"
+            "「明日の午前6時41分。遅れないでください」\\n\\n部屋の中は変わらなかったが、明日の朝の行き先だけが、チョンソンへと変わった。\"],[\"t"
+            "arget_mutation:ja:arrival_time:5\",\"target_mutation\",null,\"返事を送ると、一分もしな"
+            "いうちに乗車券のQRコードと座席番号が届いた。\\n\\n「明日の午後6時40分。遅れないでください」\\n\\n部屋の中は変わらなかったが、明日の"
+            "朝の行き先だけが、チョンソンへと変わった。\"],[\"target_mutation:ja:arrival_time:6\",\"target_m"
+            "utation\",null,\"返事を送ると、一分もしないうちに乗車券のQRコードと座席番号が届く予定だ。\\n\\n「明日の午前6時40分。遅れ"
+            "ないでください」\\n\\n部屋の中は変わらなかったが、明日の朝の行き先だけが、チョンソンへと変わった。\"],[\"source_off:ja:a"
+            "rrival_time:1\",\"source_off\",[101,101,\" \"],\"返事を送ると、一分もしないうちに乗車券のQRコードと座"
+            "席番号が届いた。\\n\\n「明日の午前6時40分。遅れないでください」\\n\\n部屋の中は変わらなかったが、明日の朝の行き先だけが、チョンソンへ"
+            "と変わった。\"],[\"source_off:ja:arrival_time:2\",\"source_off\",[8,9,\"2\"],\"返事を送る"
+            "と、一分もしないうちに乗車券のQRコードと座席番号が届いた。\\n\\n「明日の午前6時40分。遅れないでください」\\n\\n部屋の中は変わらなか"
+            "ったが、明日の朝の行き先だけが、チョンソンへと変わった。\"]]"
+        )
+        controls = []
+        leaf_id = "events:arc_sangchul_casino_decision:/choices/0/result_text"
+        for cid, category, change, target in data:
+            source = source_base
+            if change is not None:
+                a, b, replacement = change
+                source = source[:a] + replacement + source[b:]
+            controls.append([cid, source, target, "ja", leaf_id, category])
+        self.assertEqual(len(controls), 11)
+        self.assertEqual(tool.digest(controls), "c2421adb540073b7501f52b3c0a810cf68e4a82ad9fb3268c0a0330c02752375")
+        for cid, source, target, _, _, category in controls:
+            leaf = tool.Leaf("events", "arc_sangchul_casino_decision",
+                             "content/events/arc_events.json",
+                             ("choices", 0, "result_text"), source, "event_standard")
+            with self.subTest(case=cid):
+                result = tool._ja_casino_reply_numbers(source, target)
+                errors = tool.translation_errors(leaf, "ja", target)
+                if category == "source_off":
+                    self.assertIsNone(result)
+                elif category in {"actual", "natural"}:
+                    self.assertIsNotNone(result)
+                    self.assertEqual(result[2], [])
+                    self.assertEqual(errors, [])
+                else:
+                    self.assertIsNotNone(result)
+                    self.assertTrue(result[2])
+                    self.assertTrue(errors)
+
+
     def test_jsonl_duplicate(self):
         with tempfile.TemporaryDirectory() as folder:
             path = Path(folder) / "bad.jsonl"

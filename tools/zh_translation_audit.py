@@ -6969,9 +6969,161 @@ def _next_life_slots(source: str, target: str) -> tuple[list[CounterQuantity], l
             errors.append(label + " same-map people count changed")
     return ss, ts, errors
 
+SOURCE_EARLY_CONNECTIONS = {
+    "consider": (
+        "\"저축은 기본이지. 근데 저축만으론 절대 안 돼.\"\n임상철이 웃으며 말했다.\n\"여튼 한번 생각해봐. 급하진 않아.\"\n사무실을 나왔"
+        "다. 마음 한구석이 묵직했다."
+    ),
+    "reasons": (
+        "\"그 세 가지 이유, 전부 이해해요.\" (판단하지 않았다)"
+    ),
+    "nonrefund": (
+        "분양 취소 안내가 먼저 도착했다. 회색 문장 아래 환불 불가라는 네 글자가 선명했다. 잠시 뒤 한지연이 직접 전화를 걸어왔다.\n\n"
+        "\"미안해요. 저도 몰랐어요. 확인하고 또 확인했는데….\"\n\n평소 흔들리지 않던 목소리가 문장 끝마다 낮아졌다. 진심인지 아닌지 판"
+        "단하려 했지만, 사라진 계약금의 액수가 다른 생각을 밀어냈다.\n\n{name}은 고시원 천장의 얼룩을 바라봤다. 지연이 익숙하게 걷"
+        "던 세계에도 막힌 문이 있다는 걸 알게 된 밤이었다."
+    ),
+    "remember_pair": (
+        "{name}은 메모장에 두 줄을 적었다.\n\n갈 수 있는 돈.\n잃어도 되는 돈.\n\n첫 줄에는 통장 잔고가 들어갔다. 두 번째 줄에는"
+        " 숫자보다 사람 이름이 먼저 떠올랐다. 아버지가 잃은 것은 원금만이 아니었다. 누군가를 믿어도 된다는 감각까지 함께 갚았다.\n\n카"
+        "지노에 들어가는 데 필요한 것은 멈출 숫자일지도 모른다. 이번에는 그 숫자와 소개한 사람의 이름을 둘 다 기억해야 했다.\n\n휴대폰"
+        " 위에는 상철의 '편하게 와요'가 아직 켜져 있었다."
+    ),
+    "invite": (
+        "전화가 아니라 문자였다. 임상철의 이름 아래 짧은 문장 두 개가 떠 있었다.\n\n\"이번 주말 어때요? 사람 몇이서 정선 카지노 갑니"
+        "다.\"\n\"차편은 내가 잡아둘게요. 테이블 쪽 자리도 봐뒀으니 편하게 와요.\"\n\n방 안의 소리는 그대로인데, 화면 속 문장만 다른 "
+        "온도를 가진 것 같았다. 정선. 칩. 사업하는 사람들. 상철이 열어주겠다고 했던 문과 비슷한 냄새가 났다.\n\n갈 수 있는 돈과 잃"
+        "어도 되는 돈은 같은 금액이 아니었다. 누구와 같은 테이블에 앉는지도, 얼마를 거는지만큼 중요할 터였다.\n\n{name}은 답장을 "
+        "쓰지 않은 채 통장 잔고를 확인했다."
+    ),
+    "invite_known": (
+        "전화가 아니라 문자였다. 임상철의 이름 아래 짧은 문장 두 개가 떠 있었다.\n\n\"이번 주말 어때요? 사람 몇이서 정선 카지노 갑니"
+        "다.\"\n\"차편은 내가 잡아둘게요. 테이블 쪽 자리도 봐뒀으니 편하게 와요.\"\n\n알고 있는 지금, 그 '편하게'라는 말이 걸렸다. "
+        "아버지를 무너뜨린 일도 누군가가 자리를 마련하고, 믿을 만한 사람을 소개하면서 시작됐다.\n\n카지노. 자금. 네트워크. 상철이 살아"
+        "온 세계. 이번에는 그 구조를 알고도 그의 손님으로 들어갈 것인지가 남았다.\n\n{name}은 답장을 쓰지 않은 채 통장 잔고를 확"
+        "인했다."
+    ),
+    "world_warning": (
+        "임상철이 말을 고르더니 천천히 꺼냈다.\n\"업계에서 말이 좀 있어. 확실한 건 아니야, 아직은.\n근데 그 분양 — 내가 좀 알아볼게"
+        ".\"\n\"그 애가 나쁜 사람이라는 게 아니야.\n근데 거기 연결된 돈의 흐름을 — 네가 알아야 해.\"\n\n{name}은 사무소를 나오면"
+        "서 생각했다.\n두 세계가 생각보다 훨씬 가까이 붙어 있다는 걸."
+    ),
+    "surname": (
+        "결정을 앞두고 임상철을 찾아갔다.\n조언을 구하려고.\n\n대화 중에 한지연 얘기가 나왔다. 의도한 건 아닌데,\n자연스럽게 — 그 사람"
+        "을 알게 됐다고, 부동산 관련 제안을 받았다고.\n\n임상철의 표정이 바뀌었다.\n\n\"한지연. 성이 한씨야?\" \"네.\"\n\"어디 집 딸이"
+        "야?\" \"건설 쪽이라고 들었는데...\"\n임상철이 잠시 생각하더니 낮게 말했다.\n\n\"한PD건설.\"\n\n그 이름. 지난번 모임에서 스쳐"
+        " 지나간 바로 그 이름이었다.\n임상철의 얼굴이 굳어 있었다.\n\"그 집 분양 얘기 꺼냈지?\""
+    ),
+    "world_title": (
+        "두 세계가 붙어 있는 자리"
+    ),
+}
+
+
+def _early_connections_slots(source: str, target: str) -> tuple[list[CounterQuantity], list[CounterQuantity], list[str]]:
+    """Nine exact KO anchors license local quantity roles, never whole prose."""
+    kind = next((k for k, v in SOURCE_EARLY_CONNECTIONS.items() if source == v), None)
+    ss: list[CounterQuantity] = []
+    ts: list[CounterQuantity] = []
+    errors: list[str] = []
+    if kind is None or kind == "surname":
+        return ss, ts, errors
+    n = CHINESE_CARDINAL
+    label = "early-connection " + kind
+    lines = target.split("\n")
+
+    def source_slot(fragment: str, value: int) -> int:
+        start = source.index(fragment)
+        ss.append(CounterQuantity(start, start + len(fragment), Decimal(value), label))
+        return source[:start].count("\n")
+
+    def bind(fragment: str, pattern: str, value: int) -> tuple[int, re.Match | None]:
+        line = source_slot(fragment, value)
+        matches = list(re.finditer(pattern, target))
+        if len(matches) != 1:
+            errors.append(label + " local quantity/unit/count missing or duplicated")
+            return line, None
+        m = matches[0]
+        a, b = m.span("q")
+        raw = m.groupdict().get("number")
+        parsed = _chinese_cardinal_value(raw) if raw is not None else Decimal(value)
+        # Explicit translated character counts describe the localized phrase;
+        # the typed stream still projects that metatext to the KO source value.
+        expected = len(m.group("phrase")) if raw is not None and "phrase" in m.re.groupindex else value
+        if parsed != expected or target[:a].count("\n") != line or _has_numeric_sign_prefix(target, a) or re.match(
+                r"\s*(?:[/／%％‰]|倍|公斤|公里|米|分鐘|分钟|小時|小时)", target[b:]):
+            errors.append(label + " local value/sign/unit/line mismatch")
+        else:
+            ts.append(CounterQuantity(a, b, Decimal(value), label))
+        return line, m
+
+    if kind == "consider":
+        line, m = bind("한번", rf"(?P<q>(?:想(?:一)?想(?:看)?|考[慮虑](?:一下|看看|考[慮虑]|(?P<number>{n})次)))", 1)
+        if m and line < len(lines):
+            prefix = lines[line][:m.start() - sum(len(x) + 1 for x in lines[:line])]
+            if re.search(r"已[經经]?|曾[經经]?|不用|不必|無須|无需|不要|別|别|不再", prefix):
+                errors.append(label + " open suggestion became completed/negated action")
+    elif kind == "reasons":
+        line, _ = bind("세 가지", rf"(?P<q>(?P<number>{n})(?:[個个種种條条項项])?理由)", 3)
+        if line >= len(lines) or not re.search(r"(?:都|全(?:部)?)(?:能)?(?:理解|明白|懂)", lines[line]):
+            errors.append(label + " all reasons understood predicate changed")
+    elif kind == "nonrefund":
+        bind("네 글자", rf"(?P<q>(?P<phrase>(?:不予|無法|无法|不能|不可|不得)退款|不(?:退費|退费|退款))[”’」\"']?"
+             rf"(?:(?:這|这)?(?:(?P<number>{n})[個个]?|[幾几][個个]?)?字(?:[樣样])?))", 4)
+    elif kind == "remember_pair":
+        line = source_slot("둘 다", 2)
+        text = lines[line] if line < len(lines) else ""
+        if (not re.search(r"(?:數字|数字|停手的(?:金額|金额))", text)
+                or not re.search(r"(?:介紹人|介绍人|介紹者|介绍者|牽線者|牵线者)的?(?:名字|姓名)", text)
+                or not re.search(r"(?:同時|同时|都|兩者|两者)", text)
+                or not re.search(r"(?:記住|记住|記牢|记牢|牢記|牢记|不能忘(?:記|记)?)", text)
+                or re.search(r"只需|只要記|只要记|不必|不用|不記|不记|不要", text)):
+            errors.append(label + " both number and introducer-name ownership changed")
+        pair = list(re.finditer(rf"(?P<number>{n})[樣样者]", text))
+        offset = sum(len(x) + 1 for x in lines[:line])
+        if pair:
+            if len(pair) != 1 or _chinese_cardinal_value(pair[0].group("number")) != 2 or _has_numeric_sign_prefix(text, pair[0].start()):
+                errors.append(label + " paired-reference count/sign changed")
+            else:
+                ts.append(CounterQuantity(offset + pair[0].start(), offset + pair[0].end(), Decimal(2), label))
+        # Both named references can be expressed without an overt numeral.
+    elif kind in {"invite", "invite_known"}:
+        line, _ = bind("두 개", rf"(?P<q>(?P<number>{n})(?:句|[個个段]短句|[條条](?:簡短|简短)的句子))", 2)
+        if line >= len(lines) or not re.search(r"Im\s+Sangchul", lines[line]) or not re.search(r"短信|簡訊|简讯|文字訊息|文字讯息", lines[line]):
+            errors.append(label + " message-count sender/channel changed")
+        text = lines[line] if line < len(lines) else ""
+        message = r"(?:短信|簡訊|简讯|文字訊息|文字讯息)"
+        phone = r"(?:電話|电话)"
+        # Both clause orders are valid; a negated SMS cannot own the count.
+        if (len(re.findall(message, text)) != 1 or len(re.findall(phone, text)) != 1
+                or len(re.findall(rf"(?<![不非沒没])是[ \t]*{message}", text)) != 1
+                or len(re.findall(rf"(?<![是不沒没])(?:不是|並非|并非)[ \t]*{phone}", text)) != 1):
+            errors.append(label + " positive SMS / negative telephone channel polarity changed")
+    elif kind in {"world_warning", "world_title"}:
+        bind("두 세계", rf"(?P<q>(?P<number>{n})[個个種种方]?世界)", 2)
+    return ss, ts, errors
+
+
+def _early_connections_latin(source: str, target: str) -> tuple[str, list[str]]:
+    """Only the observed surname question owns an additional standalone Han."""
+    if source != SOURCE_EARLY_CONNECTIONS["surname"]:
+        return target, []
+    line = source[:source.index("성이 한씨야")].count("\n")
+    matches = list(re.finditer(r"(?<![不沒没])姓(?:的)?(?:是)?[ \t]*(?P<name>[A-Za-z]+)(?=[ \t]*(?:[嗎吗])?[？?])", target))
+    if len(matches) != 1 or matches[0].group("name") != "Han" or target[:matches[0].start()].count("\n") != line:
+        return target, ["early-connection surname name/question/boundary/count changed"]
+    start, end = matches[0].span("name")
+    return target[:start] + " " * (end - start) + target[end:], []
+
+
+
 def _numeric_errors(source: str, target: str) -> list[str]:
     source, target, errors = _callback_shadow_numbers(source, target)
     admin_source_slots, admin_target_slots, admin_errors = _investment_admin_slots(source, target)
+    early_source, early_target, early_errors = _early_connections_slots(source, target)
+    admin_source_slots.extend(early_source)
+    admin_target_slots.extend(early_target)
+    errors.extend(early_errors)
     reflection_source, reflection_target, reflection_errors = _life_reflection_slots(source, target)
     next_source, next_target, next_errors = _next_life_slots(source, target)
     admin_source_slots.extend(next_source)
@@ -7264,6 +7416,9 @@ def _money_errors(lang: str, source: str, target: str) -> list[str]:
 
 
 def _untranslated_english_errors(source: str, target: str, *, catalog: bool = False) -> list[str]:
+    target, early_errors = _early_connections_latin(source, target)
+    if early_errors:
+        return early_errors
     target, specialization_errors = _amb_specialization_latin(source, target)
     if specialization_errors:
         return specialization_errors
@@ -17606,11 +17761,660 @@ def _next_life_exposed_self_test() -> tuple[int, list[str]]:
     return len(controls), failures
 
 
+def _early_connections_self_test() -> tuple[int, list[str]]:
+    """Owned pre-code85; external semantic observations are not assertions."""
+    data = json.loads(
+        "[[\"actual:zh-CN:consider:1\",\"consider\",\"zh-CN\",\"actual\",\"events:arc_in"
+        "vest_guidance:/choices/1/result_text\",null,\"“存钱是基本功。可光存钱，绝对不够。”\\nIm Sa"
+        "ngchul 笑着说。\\n“总之，想想看。不急。”\\n走出办公室，心里有个角落沉甸甸的。\"],[\"natural:zh-CN:conside"
+        "r:1\",\"consider\",\"zh-CN\",\"natural\",\"events:arc_invest_guidance:/choices"
+        "/1/result_text\",null,\"“存钱是基本功。可光存钱，绝对不够。”\\nIm Sangchul 笑着说。\\n“总之，考虑一下。"
+        "不急。”\\n走出办公室，心里有个角落沉甸甸的。\"],[\"target_mutation:zh-CN:consider:1\",\"conside"
+        "r\",\"zh-CN\",\"target_mutation\",\"events:arc_invest_guidance:/choices/1/re"
+        "sult_text\",null,\"“存钱是基本功。可光存钱，绝对不够。”\\nIm Sangchul 笑着说。\\n“总之，想两次。不急。”\\n"
+        "走出办公室，心里有个角落沉甸甸的。\"],[\"target_mutation:zh-CN:consider:2\",\"consider\",\"zh"
+        "-CN\",\"target_mutation\",\"events:arc_invest_guidance:/choices/1/result_t"
+        "ext\",null,\"“存钱是基本功。可光存钱，绝对不够。”\\nIm Sangchul 笑着说。\\n“总之，已经想过一次了。不急。”\\n走出"
+        "办公室，心里有个角落沉甸甸的。\"],[\"actual:zh-CN:reasons:1\",\"reasons\",\"zh-CN\",\"actual\""
+        ",\"events:arc_jiyeon_05_epilogue:/choices/2/text\",null,\"“那三种理由，我都能理解。”（"
+        "没有评判）\"],[\"natural:zh-CN:reasons:1\",\"reasons\",\"zh-CN\",\"natural\",\"events"
+        ":arc_jiyeon_05_epilogue:/choices/2/text\",null,\"“那三个理由，我都能理解。”（没有评判）\"],"
+        "[\"target_mutation:zh-CN:reasons:1\",\"reasons\",\"zh-CN\",\"target_mutation\""
+        ",\"events:arc_jiyeon_05_epilogue:/choices/2/text\",null,\"“那四种理由，我都能理解。”（"
+        "没有评判）\"],[\"target_mutation:zh-CN:reasons:2\",\"reasons\",\"zh-CN\",\"target_m"
+        "utation\",\"events:arc_jiyeon_05_epilogue:/choices/2/text\",null,\"“那三种理由，"
+        "我都不能理解。”（没有评判）\"],[\"actual:zh-CN:nonrefund:1\",\"nonrefund\",\"zh-CN\",\"actu"
+        "al\",\"events:arc_opp_jiyeon_lose:/description\",null,\"预售取消的通知先到了。灰色的文字下面"
+        "，‘不予退款’几个字格外清楚。片刻后，Han Jiyeon 亲自打来电话。\\n\\n“对不起。我也不知道。我确认了又确认，可是……”\\n\\n平"
+        "时沉稳的声音，每到句末就低下去。想判断她是否真心，可消失的定金数额，挤走了别的念头。\\n\\n{name}看着考试院天花板上的污渍。那天晚上，"
+        "才知道 Jiyeon 熟悉的那个世界里，也有打不开的门。\"],[\"natural:zh-CN:nonrefund:1\",\"nonrefund"
+        "\",\"zh-CN\",\"natural\",\"events:arc_opp_jiyeon_lose:/description\",null,\"预售"
+        "取消的通知先到了。灰色的文字下面，‘不予退款’这几个字格外清楚。片刻后，Han Jiyeon 亲自打来电话。\\n\\n“对不起。我也不知道。我"
+        "确认了又确认，可是……”\\n\\n平时沉稳的声音，每到句末就低下去。想判断她是否真心，可消失的定金数额，挤走了别的念头。\\n\\n{name}看"
+        "着考试院天花板上的污渍。那天晚上，才知道 Jiyeon 熟悉的那个世界里，也有打不开的门。\"],[\"target_mutation:zh-C"
+        "N:nonrefund:1\",\"nonrefund\",\"zh-CN\",\"target_mutation\",\"events:arc_opp_j"
+        "iyeon_lose:/description\",null,\"预售取消的通知先到了。灰色的文字下面，‘可以退款’几个字格外清楚。片刻后，Ha"
+        "n Jiyeon 亲自打来电话。\\n\\n“对不起。我也不知道。我确认了又确认，可是……”\\n\\n平时沉稳的声音，每到句末就低下去。想判断她是"
+        "否真心，可消失的定金数额，挤走了别的念头。\\n\\n{name}看着考试院天花板上的污渍。那天晚上，才知道 Jiyeon 熟悉的那个世界里，也"
+        "有打不开的门。\"],[\"target_mutation:zh-CN:nonrefund:2\",\"nonrefund\",\"zh-CN\",\"ta"
+        "rget_mutation\",\"events:arc_opp_jiyeon_lose:/description\",null,\"预售取消的通知"
+        "先到了。灰色的文字下面，‘不予退款’三个字格外清楚。片刻后，Han Jiyeon 亲自打来电话。\\n\\n“对不起。我也不知道。我确认了又确认"
+        "，可是……”\\n\\n平时沉稳的声音，每到句末就低下去。想判断她是否真心，可消失的定金数额，挤走了别的念头。\\n\\n{name}看着考试院天花"
+        "板上的污渍。那天晚上，才知道 Jiyeon 熟悉的那个世界里，也有打不开的门。\"],[\"actual:zh-CN:remember_pair"
+        ":1\",\"remember_pair\",\"zh-CN\",\"actual\",\"events:arc_sangchul_casino_cost:"
+        "/description_if_known/sangchul_truth_known\",null,\"{name}在记事本里写下两行。\\n\\n"
+        "够去一趟的钱。\\n亏得起的钱。\\n\\n第一行填了账户余额。第二行，先想到的不是数字，而是人的名字。父亲失去的不只是本金。连可以相信别人的感觉"
+        "，也一并拿去偿还了。\\n\\n进赌场所需的，或许是一个该停手的数字。这次，那个数字和介绍人的名字，两样都得记住。\\n\\n手机上，Sangchu"
+        "l 那句‘放轻松，来就行’还亮着。\"],[\"natural:zh-CN:remember_pair:1\",\"remember_pair\",\""
+        "zh-CN\",\"natural\",\"events:arc_sangchul_casino_cost:/description_if_know"
+        "n/sangchul_truth_known\",null,\"{name}在记事本里写下两行。\\n\\n够去一趟的钱。\\n亏得起的钱。\\n\\n第"
+        "一行填了账户余额。第二行，先想到的不是数字，而是人的名字。父亲失去的不只是本金。连可以相信别人的感觉，也一并拿去偿还了。\\n\\n进赌场所需的"
+        "，或许是一个该停手的数字。这次，那个数字和介绍人的名字，都得记牢。\\n\\n手机上，Sangchul 那句‘放轻松，来就行’还亮着。\"],[\""
+        "target_mutation:zh-CN:remember_pair:1\",\"remember_pair\",\"zh-CN\",\"target"
+        "_mutation\",\"events:arc_sangchul_casino_cost:/description_if_known/sang"
+        "chul_truth_known\",null,\"{name}在记事本里写下两行。\\n\\n够去一趟的钱。\\n亏得起的钱。\\n\\n第一行填了账户"
+        "余额。第二行，先想到的不是数字，而是人的名字。父亲失去的不只是本金。连可以相信别人的感觉，也一并拿去偿还了。\\n\\n进赌场所需的，或许是一个"
+        "该停手的数字。这次，那个数字和介绍人的名字，只需记住一样。\\n\\n手机上，Sangchul 那句‘放轻松，来就行’还亮着。\"],[\"targ"
+        "et_mutation:zh-CN:remember_pair:2\",\"remember_pair\",\"zh-CN\",\"target_mut"
+        "ation\",\"events:arc_sangchul_casino_cost:/description_if_known/sangchul"
+        "_truth_known\",null,\"{name}在记事本里写下两行。\\n\\n够去一趟的钱。\\n亏得起的钱。\\n\\n第一行填了账户余额。第"
+        "二行，先想到的不是数字，而是人的名字。父亲失去的不只是本金。连可以相信别人的感觉，也一并拿去偿还了。\\n\\n进赌场所需的，或许是一个该停手的"
+        "数字。这次，那个数字和赌场老板的名字，两样都得记住。\\n\\n手机上，Sangchul 那句‘放轻松，来就行’还亮着。\"],[\"actual:"
+        "zh-CN:invite:1\",\"invite\",\"zh-CN\",\"actual\",\"events:arc_sangchul_casino_"
+        "invite:/description\",null,\"不是电话，是短信。Im Sangchul 的名字下，亮着两句短短的话。\\n\\n“这个周"
+        "末怎么样？几个人一起去旌善赌场。”\\n“车我来安排。牌桌那边的位置也看好了，放轻松，来就行。”\\n\\n屋里的声音没变，只有屏幕里的句子，仿佛"
+        "换了温度。旌善。筹码。做生意的人。很像 Sangchul 曾说要替他打开的那扇门，透出的气味。\\n\\n够去一趟的钱，和亏得起的钱，不是同一个"
+        "数。与谁坐在同一张牌桌上，想必和押多少同样重要。\\n\\n{name}没有写回复，先查了账户余额。\"],[\"natural:zh-CN:inv"
+        "ite:1\",\"invite\",\"zh-CN\",\"natural\",\"events:arc_sangchul_casino_invite:/"
+        "description\",null,\"不是电话，是短信。Im Sangchul 的名字下，亮着两个短句。\\n\\n“这个周末怎么样？几个人一起"
+        "去旌善赌场。”\\n“车我来安排。牌桌那边的位置也看好了，放轻松，来就行。”\\n\\n屋里的声音没变，只有屏幕里的句子，仿佛换了温度。旌善。筹码"
+        "。做生意的人。很像 Sangchul 曾说要替他打开的那扇门，透出的气味。\\n\\n够去一趟的钱，和亏得起的钱，不是同一个数。与谁坐在同一张牌"
+        "桌上，想必和押多少同样重要。\\n\\n{name}没有写回复，先查了账户余额。\"],[\"target_mutation:zh-CN:invit"
+        "e:1\",\"invite\",\"zh-CN\",\"target_mutation\",\"events:arc_sangchul_casino_in"
+        "vite:/description\",null,\"不是电话，是短信。Im Sangchul 的名字下，亮着三句短短的话。\\n\\n“这个周末怎"
+        "么样？几个人一起去旌善赌场。”\\n“车我来安排。牌桌那边的位置也看好了，放轻松，来就行。”\\n\\n屋里的声音没变，只有屏幕里的句子，仿佛换了"
+        "温度。旌善。筹码。做生意的人。很像 Sangchul 曾说要替他打开的那扇门，透出的气味。\\n\\n够去一趟的钱，和亏得起的钱，不是同一个数。"
+        "与谁坐在同一张牌桌上，想必和押多少同样重要。\\n\\n{name}没有写回复，先查了账户余额。\"],[\"actual:zh-CN:invite"
+        "_known:1\",\"invite_known\",\"zh-CN\",\"actual\",\"events:arc_sangchul_casino_"
+        "invite:/description_if_known/sangchul_truth_known\",null,\"不是电话，是短信。Im S"
+        "angchul 的名字下，亮着两句短短的话。\\n\\n“这个周末怎么样？几个人一起去旌善赌场。”\\n“车我来安排。牌桌那边的位置也看好了，放轻"
+        "松，来就行。”\\n\\n如今知道了，那句‘放轻松’便让人在意。压垮父亲的事，也是从有人安排位置、介绍值得信任的人开始的。\\n\\n赌场。资金。人"
+        "脉。Sangchul 一路走来的世界。这一次，剩下的问题是，明知它的结构，还要不要作为他的客人走进去。\\n\\n{name}没有写回复，先查了"
+        "账户余额。\"],[\"natural:zh-CN:invite_known:1\",\"invite_known\",\"zh-CN\",\"natura"
+        "l\",\"events:arc_sangchul_casino_invite:/description_if_known/sangchul_t"
+        "ruth_known\",null,\"不是电话，是短信。Im Sangchul 的名字下，亮着两个短句。\\n\\n“这个周末怎么样？几个人一起去"
+        "旌善赌场。”\\n“车我来安排。牌桌那边的位置也看好了，放轻松，来就行。”\\n\\n如今知道了，那句‘放轻松’便让人在意。压垮父亲的事，也是从有"
+        "人安排位置、介绍值得信任的人开始的。\\n\\n赌场。资金。人脉。Sangchul 一路走来的世界。这一次，剩下的问题是，明知它的结构，还要不要"
+        "作为他的客人走进去。\\n\\n{name}没有写回复，先查了账户余额。\"],[\"target_mutation:zh-CN:invite_kn"
+        "own:1\",\"invite_known\",\"zh-CN\",\"target_mutation\",\"events:arc_sangchul_c"
+        "asino_invite:/description_if_known/sangchul_truth_known\",null,\"不是电话，是短"
+        "信。Im Sangchul 的名字下，亮着三句短短的话。\\n\\n“这个周末怎么样？几个人一起去旌善赌场。”\\n“车我来安排。牌桌那边的位置也"
+        "看好了，放轻松，来就行。”\\n\\n如今知道了，那句‘放轻松’便让人在意。压垮父亲的事，也是从有人安排位置、介绍值得信任的人开始的。\\n\\n赌"
+        "场。资金。人脉。Sangchul 一路走来的世界。这一次，剩下的问题是，明知它的结构，还要不要作为他的客人走进去。\\n\\n{name}没有写"
+        "回复，先查了账户余额。\"],[\"actual:zh-CN:world_warning:1\",\"world_warning\",\"zh-CN\","
+        "\"actual\",\"events:arc_sangchul_jiyeon_reveal:/choices/0/result_text\",nu"
+        "ll,\"Im Sangchul 斟酌着，慢慢开口。\\n“业内有些传闻。还没确定，至少现在没有。\\n不过，那个预售项目——我会查一查。”\\n“"
+        "不是说那孩子人不好。\\n可是，连在那后面的资金流向——你得知道。”\\n\\n走出办公室时，{name}想。\\n两个世界相贴得比想象中近得多。\""
+        "],[\"natural:zh-CN:world_warning:1\",\"world_warning\",\"zh-CN\",\"natural\",\""
+        "events:arc_sangchul_jiyeon_reveal:/choices/0/result_text\",null,\"Im San"
+        "gchul 斟酌着，慢慢开口。\\n“业内有些传闻。还没确定，至少现在没有。\\n不过，那个预售项目——我会查一查。”\\n“不是说那孩子人不好。"
+        "\\n可是，连在那后面的资金流向——你得知道。”\\n\\n走出办公室时，{name}想。\\n这两个世界相贴得比想象中近得多。\"],[\"targe"
+        "t_mutation:zh-CN:world_warning:1\",\"world_warning\",\"zh-CN\",\"target_muta"
+        "tion\",\"events:arc_sangchul_jiyeon_reveal:/choices/0/result_text\",null,"
+        "\"Im Sangchul 斟酌着，慢慢开口。\\n“业内有些传闻。还没确定，至少现在没有。\\n不过，那个预售项目——我会查一查。”\\n“不是说"
+        "那孩子人不好。\\n可是，连在那后面的资金流向——你得知道。”\\n\\n走出办公室时，{name}想。\\n三个世界相贴得比想象中近得多。\"],["
+        "\"actual:zh-CN:surname:1\",\"surname\",\"zh-CN\",\"actual\",\"events:arc_sangch"
+        "ul_jiyeon_reveal:/description\",null,\"做决定之前，去找了 Im Sangchul。\\n想听听他的建议。\\"
+        "n\\n谈着谈着，提起了 Han Jiyeon。并不是有意的，\\n只是很自然地——说认识了这个人，收到了房产相关的提议。\\n\\nIm Sang"
+        "chul 的表情变了。\\n\\n“Han Jiyeon。姓 Han？”“是。”\\n“谁家的女儿？”“听说家里是做建筑的……”\\nIm Sang"
+        "chul 想了一会儿，压低声音。\\n\\n“HanPD 建设。”\\n\\n那个名字。就是上次聚会时，一闪而过的那个名字。\\nIm Sangchu"
+        "l 脸色凝重。\\n“她提了家里那个预售项目吧？”\"],[\"natural:zh-CN:surname:1\",\"surname\",\"zh-CN"
+        "\",\"natural\",\"events:arc_sangchul_jiyeon_reveal:/description\",null,\"做决定"
+        "之前，去找了 Im Sangchul。\\n想听听他的建议。\\n\\n谈着谈着，提起了 Han Jiyeon。并不是有意的，\\n只是很自然地——"
+        "说认识了这个人，收到了房产相关的提议。\\n\\nIm Sangchul 的表情变了。\\n\\n“Han Jiyeon。姓Han吗？”“是。”\\n"
+        "“谁家的女儿？”“听说家里是做建筑的……”\\nIm Sangchul 想了一会儿，压低声音。\\n\\n“HanPD 建设。”\\n\\n那个名字。"
+        "就是上次聚会时，一闪而过的那个名字。\\nIm Sangchul 脸色凝重。\\n“她提了家里那个预售项目吧？”\"],[\"target_muta"
+        "tion:zh-CN:surname:1\",\"surname\",\"zh-CN\",\"target_mutation\",\"events:arc_"
+        "sangchul_jiyeon_reveal:/description\",null,\"做决定之前，去找了 Im Sangchul。\\n想听听"
+        "他的建议。\\n\\n谈着谈着，提起了 Han Jiyeon。并不是有意的，\\n只是很自然地——说认识了这个人，收到了房产相关的提议。\\n\\nI"
+        "m Sangchul 的表情变了。\\n\\n“Han Jiyeon。姓 Kim？”“是。”\\n“谁家的女儿？”“听说家里是做建筑的……”\\nI"
+        "m Sangchul 想了一会儿，压低声音。\\n\\n“HanPD 建设。”\\n\\n那个名字。就是上次聚会时，一闪而过的那个名字。\\nIm S"
+        "angchul 脸色凝重。\\n“她提了家里那个预售项目吧？”\"],[\"target_mutation:zh-CN:surname:2\",\"s"
+        "urname\",\"zh-CN\",\"target_mutation\",\"events:arc_sangchul_jiyeon_reveal:/"
+        "description\",null,\"做决定之前，去找了 Im Sangchul。\\n想听听他的建议。\\n\\n谈着谈着，提起了 Han Ji"
+        "yeon。并不是有意的，\\n只是很自然地——说认识了这个人，收到了房产相关的提议。\\n\\nIm Sangchul 的表情变了。\\n\\n“Ha"
+        "n Jiyeon。姓 Hanx？”“是。”\\n“谁家的女儿？”“听说家里是做建筑的……”\\nIm Sangchul 想了一会儿，压低声音。\\"
+        "n\\n“HanPD 建设。”\\n\\n那个名字。就是上次聚会时，一闪而过的那个名字。\\nIm Sangchul 脸色凝重。\\n“她提了家里那个"
+        "预售项目吧？”\"],[\"actual:zh-CN:world_title:1\",\"world_title\",\"zh-CN\",\"actual\""
+        ",\"events:arc_sangchul_jiyeon_reveal:/title\",null,\"两个世界相接的地方\"],[\"natura"
+        "l:zh-CN:world_title:1\",\"world_title\",\"zh-CN\",\"natural\",\"events:arc_san"
+        "gchul_jiyeon_reveal:/title\",null,\"两种世界交汇之处\"],[\"target_mutation:zh-CN:w"
+        "orld_title:1\",\"world_title\",\"zh-CN\",\"target_mutation\",\"events:arc_sang"
+        "chul_jiyeon_reveal:/title\",null,\"三个世界相接的地方\"],[\"target_mutation:zh-CN:w"
+        "orld_title:2\",\"world_title\",\"zh-CN\",\"target_mutation\",\"events:arc_sang"
+        "chul_jiyeon_reveal:/title\",null,\"两个人相接的地方\"],[\"actual:zh-TW:consider:1\""
+        ",\"consider\",\"zh-TW\",\"actual\",\"events:arc_invest_guidance:/choices/1/re"
+        "sult_text\",null,\"「存錢是基本。但光靠存錢，絕對不夠。」\\nIm Sangchul 笑著說。\\n「總之，想想看。不急。」\\n"
+        "走出事務所，心裡有一角沉甸甸的。\"],[\"natural:zh-TW:consider:1\",\"consider\",\"zh-TW\",\"nat"
+        "ural\",\"events:arc_invest_guidance:/choices/1/result_text\",null,\"「存錢是基本"
+        "。但光靠存錢，絕對不夠。」\\nIm Sangchul 笑著說。\\n「總之，考慮一下。不急。」\\n走出事務所，心裡有一角沉甸甸的。\"],[\"t"
+        "arget_mutation:zh-TW:consider:1\",\"consider\",\"zh-TW\",\"target_mutation\","
+        "\"events:arc_invest_guidance:/choices/1/result_text\",null,\"「存錢是基本。但光靠存錢"
+        "，絕對不夠。」\\nIm Sangchul 笑著說。\\n「總之，想兩次。不急。」\\n走出事務所，心裡有一角沉甸甸的。\"],[\"target_m"
+        "utation:zh-TW:consider:2\",\"consider\",\"zh-TW\",\"target_mutation\",\"events"
+        ":arc_invest_guidance:/choices/1/result_text\",null,\"「存錢是基本。但光靠存錢，絕對不夠。」"
+        "\\nIm Sangchul 笑著說。\\n「總之，已經想過一次了。不急。」\\n走出事務所，心裡有一角沉甸甸的。\"],[\"actual:zh-T"
+        "W:reasons:1\",\"reasons\",\"zh-TW\",\"actual\",\"events:arc_jiyeon_05_epilogue"
+        ":/choices/2/text\",null,\"「那三個理由，我都理解。」（沒有評斷）\"],[\"natural:zh-TW:reasons:"
+        "1\",\"reasons\",\"zh-TW\",\"natural\",\"events:arc_jiyeon_05_epilogue:/choices"
+        "/2/text\",null,\"「那三種理由，我都理解。」（沒有評斷）\"],[\"target_mutation:zh-TW:reasons:1"
+        "\",\"reasons\",\"zh-TW\",\"target_mutation\",\"events:arc_jiyeon_05_epilogue:/"
+        "choices/2/text\",null,\"「那四個理由，我都理解。」（沒有評斷）\"],[\"target_mutation:zh-TW:re"
+        "asons:2\",\"reasons\",\"zh-TW\",\"target_mutation\",\"events:arc_jiyeon_05_epi"
+        "logue:/choices/2/text\",null,\"「那三個理由，我都不理解。」（沒有評斷）\"],[\"actual:zh-TW:non"
+        "refund:1\",\"nonrefund\",\"zh-TW\",\"actual\",\"events:arc_opp_jiyeon_lose:/de"
+        "scription\",null,\"預售案取消通知先到了。灰色文句下，「不予退款」幾個字格外清楚。過了一會兒，Han Jiyeon 親自打來電"
+        "話。\\n\\n「對不起。我也不知道。我明明確認了又確認……」\\n\\n平時穩定的聲音，每到句末就低了下去。想判斷她是不是真心，消失的簽約金金額，"
+        "卻擠開了其他念頭。\\n\\n{name}望著考試院天花板上的污漬。那天晚上，才知道，就連 Jiyeon 熟門熟路的世界，也有走不通的門。\"],"
+        "[\"natural:zh-TW:nonrefund:1\",\"nonrefund\",\"zh-TW\",\"natural\",\"events:arc"
+        "_opp_jiyeon_lose:/description\",null,\"預售案取消通知先到了。灰色文句下，「不予退款」幾字格外清楚。過了一"
+        "會兒，Han Jiyeon 親自打來電話。\\n\\n「對不起。我也不知道。我明明確認了又確認……」\\n\\n平時穩定的聲音，每到句末就低了下去。"
+        "想判斷她是不是真心，消失的簽約金金額，卻擠開了其他念頭。\\n\\n{name}望著考試院天花板上的污漬。那天晚上，才知道，就連 Jiyeon "
+        "熟門熟路的世界，也有走不通的門。\"],[\"target_mutation:zh-TW:nonrefund:1\",\"nonrefund\",\"z"
+        "h-TW\",\"target_mutation\",\"events:arc_opp_jiyeon_lose:/description\",null"
+        ",\"預售案取消通知先到了。灰色文句下，「可以退款」幾個字格外清楚。過了一會兒，Han Jiyeon 親自打來電話。\\n\\n「對不起。我也不知"
+        "道。我明明確認了又確認……」\\n\\n平時穩定的聲音，每到句末就低了下去。想判斷她是不是真心，消失的簽約金金額，卻擠開了其他念頭。\\n\\n{n"
+        "ame}望著考試院天花板上的污漬。那天晚上，才知道，就連 Jiyeon 熟門熟路的世界，也有走不通的門。\"],[\"target_mutati"
+        "on:zh-TW:nonrefund:2\",\"nonrefund\",\"zh-TW\",\"target_mutation\",\"events:ar"
+        "c_opp_jiyeon_lose:/description\",null,\"預售案取消通知先到了。灰色文句下，「不予退款」三個字格外清楚。過"
+        "了一會兒，Han Jiyeon 親自打來電話。\\n\\n「對不起。我也不知道。我明明確認了又確認……」\\n\\n平時穩定的聲音，每到句末就低了下"
+        "去。想判斷她是不是真心，消失的簽約金金額，卻擠開了其他念頭。\\n\\n{name}望著考試院天花板上的污漬。那天晚上，才知道，就連 Jiyeo"
+        "n 熟門熟路的世界，也有走不通的門。\"],[\"actual:zh-TW:remember_pair:1\",\"remember_pair\",\""
+        "zh-TW\",\"actual\",\"events:arc_sangchul_casino_cost:/description_if_known"
+        "/sangchul_truth_known\",null,\"{name}在記事本上寫下兩行。\\n\\n去得了的錢。\\n輸得起的錢。\\n\\n第一行"
+        "填了銀行帳戶餘額。第二行，比起數字，先浮現的卻是人名。父親失去的不只是本金。連相信別人也沒關係的感覺，都一起賠了進去。\\n\\n進賭場所需要的"
+        "，或許是該停手的數字。這次，得同時記住那個數字，和介紹人的名字。\\n\\n手機上，Sangchul 那句「輕鬆來就好」還亮著。\"],[\"nat"
+        "ural:zh-TW:remember_pair:1\",\"remember_pair\",\"zh-TW\",\"natural\",\"events:"
+        "arc_sangchul_casino_cost:/description_if_known/sangchul_truth_known\",n"
+        "ull,\"{name}在記事本上寫下兩行。\\n\\n去得了的錢。\\n輸得起的錢。\\n\\n第一行填了銀行帳戶餘額。第二行，比起數字，先浮現的卻是"
+        "人名。父親失去的不只是本金。連相信別人也沒關係的感覺，都一起賠了進去。\\n\\n進賭場所需要的，或許是該停手的數字。這次，那個數字與介紹人的名"
+        "字，兩者都要記住。\\n\\n手機上，Sangchul 那句「輕鬆來就好」還亮著。\"],[\"target_mutation:zh-TW:reme"
+        "mber_pair:1\",\"remember_pair\",\"zh-TW\",\"target_mutation\",\"events:arc_san"
+        "gchul_casino_cost:/description_if_known/sangchul_truth_known\",null,\"{n"
+        "ame}在記事本上寫下兩行。\\n\\n去得了的錢。\\n輸得起的錢。\\n\\n第一行填了銀行帳戶餘額。第二行，比起數字，先浮現的卻是人名。父親失去"
+        "的不只是本金。連相信別人也沒關係的感覺，都一起賠了進去。\\n\\n進賭場所需要的，或許是該停手的數字。這次，只需記住那個數字，不必記住介紹人的"
+        "名字。\\n\\n手機上，Sangchul 那句「輕鬆來就好」還亮著。\"],[\"target_mutation:zh-TW:remember_p"
+        "air:2\",\"remember_pair\",\"zh-TW\",\"target_mutation\",\"events:arc_sangchul_"
+        "casino_cost:/description_if_known/sangchul_truth_known\",null,\"{name}在記"
+        "事本上寫下兩行。\\n\\n去得了的錢。\\n輸得起的錢。\\n\\n第一行填了銀行帳戶餘額。第二行，比起數字，先浮現的卻是人名。父親失去的不只是本金"
+        "。連相信別人也沒關係的感覺，都一起賠了進去。\\n\\n進賭場所需要的，或許是該停手的數字。這次，得同時記住那個數字，和賭場老闆的名字。\\n\\n"
+        "手機上，Sangchul 那句「輕鬆來就好」還亮著。\"],[\"actual:zh-TW:invite:1\",\"invite\",\"zh-TW\""
+        ",\"actual\",\"events:arc_sangchul_casino_invite:/description\",null,\"不是電話，"
+        "是簡訊。Im Sangchul 的名字下，浮著兩句簡短的話。\\n\\n「這週末有空嗎？幾個人一起去旌善賭場。」\\n「車我會安排好。賭桌那邊的位"
+        "子也看過了，輕鬆來就好。」\\n\\n房裡的聲音沒變，只有螢幕上的句子，彷彿帶著不同的溫度。旌善。籌碼。做生意的人。氣味像極了 Sangchul"
+        " 說要替他打開的那扇門。\\n\\n有錢去，和輸得起，不是同一個金額。和誰坐在同一張桌前，想必跟押多少錢一樣重要。\\n\\n{name}沒有寫回覆"
+        "，先查看銀行帳戶餘額。\"],[\"natural:zh-TW:invite:1\",\"invite\",\"zh-TW\",\"natural\",\"ev"
+        "ents:arc_sangchul_casino_invite:/description\",null,\"不是電話，是簡訊。Im Sangch"
+        "ul 的名字下，浮著兩個短句。\\n\\n「這週末有空嗎？幾個人一起去旌善賭場。」\\n「車我會安排好。賭桌那邊的位子也看過了，輕鬆來就好。」\\n"
+        "\\n房裡的聲音沒變，只有螢幕上的句子，彷彿帶著不同的溫度。旌善。籌碼。做生意的人。氣味像極了 Sangchul 說要替他打開的那扇門。\\n\\"
+        "n有錢去，和輸得起，不是同一個金額。和誰坐在同一張桌前，想必跟押多少錢一樣重要。\\n\\n{name}沒有寫回覆，先查看銀行帳戶餘額。\"],["
+        "\"target_mutation:zh-TW:invite:1\",\"invite\",\"zh-TW\",\"target_mutation\",\"e"
+        "vents:arc_sangchul_casino_invite:/description\",null,\"不是電話，是簡訊。Im Sangc"
+        "hul 的名字下，浮著三句簡短的話。\\n\\n「這週末有空嗎？幾個人一起去旌善賭場。」\\n「車我會安排好。賭桌那邊的位子也看過了，輕鬆來就好。"
+        "」\\n\\n房裡的聲音沒變，只有螢幕上的句子，彷彿帶著不同的溫度。旌善。籌碼。做生意的人。氣味像極了 Sangchul 說要替他打開的那扇門。"
+        "\\n\\n有錢去，和輸得起，不是同一個金額。和誰坐在同一張桌前，想必跟押多少錢一樣重要。\\n\\n{name}沒有寫回覆，先查看銀行帳戶餘額。\""
+        "],[\"actual:zh-TW:invite_known:1\",\"invite_known\",\"zh-TW\",\"actual\",\"even"
+        "ts:arc_sangchul_casino_invite:/description_if_known/sangchul_truth_kno"
+        "wn\",null,\"不是電話，是簡訊。Im Sangchul 的名字下，浮著兩句簡短的話。\\n\\n「這週末有空嗎？幾個人一起去旌善賭場。」\\"
+        "n「車我會安排好。賭桌那邊的位子也看過了，輕鬆來就好。」\\n\\n如今知道了，那句「輕鬆」讓人在意。讓父親垮下的事，也是從有人安排位子、介紹值"
+        "得信任的人開始。\\n\\n賭場。資金。人脈。Sangchul 一路生活的世界。這次剩下的，是明知那個結構，還要不要以他的客人身分走進去。\\n\\"
+        "n{name}沒有寫回覆，先查看銀行帳戶餘額。\"],[\"natural:zh-TW:invite_known:1\",\"invite_know"
+        "n\",\"zh-TW\",\"natural\",\"events:arc_sangchul_casino_invite:/description_i"
+        "f_known/sangchul_truth_known\",null,\"不是電話，是簡訊。Im Sangchul 的名字下，浮著兩個短句。\\"
+        "n\\n「這週末有空嗎？幾個人一起去旌善賭場。」\\n「車我會安排好。賭桌那邊的位子也看過了，輕鬆來就好。」\\n\\n如今知道了，那句「輕鬆」讓人"
+        "在意。讓父親垮下的事，也是從有人安排位子、介紹值得信任的人開始。\\n\\n賭場。資金。人脈。Sangchul 一路生活的世界。這次剩下的，是明"
+        "知那個結構，還要不要以他的客人身分走進去。\\n\\n{name}沒有寫回覆，先查看銀行帳戶餘額。\"],[\"target_mutation:zh"
+        "-TW:invite_known:1\",\"invite_known\",\"zh-TW\",\"target_mutation\",\"events:a"
+        "rc_sangchul_casino_invite:/description_if_known/sangchul_truth_known\","
+        "null,\"不是電話，是簡訊。Im Sangchul 的名字下，浮著三句簡短的話。\\n\\n「這週末有空嗎？幾個人一起去旌善賭場。」\\n「車我"
+        "會安排好。賭桌那邊的位子也看過了，輕鬆來就好。」\\n\\n如今知道了，那句「輕鬆」讓人在意。讓父親垮下的事，也是從有人安排位子、介紹值得信任的"
+        "人開始。\\n\\n賭場。資金。人脈。Sangchul 一路生活的世界。這次剩下的，是明知那個結構，還要不要以他的客人身分走進去。\\n\\n{na"
+        "me}沒有寫回覆，先查看銀行帳戶餘額。\"],[\"actual:zh-TW:world_warning:1\",\"world_warning\","
+        "\"zh-TW\",\"actual\",\"events:arc_sangchul_jiyeon_reveal:/choices/0/result_"
+        "text\",null,\"Im Sangchul 斟酌了字句，才慢慢開口。\\n「業界有些傳聞。還不能確定，至少目前不能。\\n不過，那個預售案—"
+        "—我來打聽一下。」\\n「不是說那孩子是壞人。\\n但和那裡相連的資金流向——你得知道。」\\n\\n走出事務所時，{name}想著。\\n原來，兩個"
+        "世界比想像中靠得近得多。\"],[\"natural:zh-TW:world_warning:1\",\"world_warning\",\"zh-TW"
+        "\",\"natural\",\"events:arc_sangchul_jiyeon_reveal:/choices/0/result_text\""
+        ",null,\"Im Sangchul 斟酌了字句，才慢慢開口。\\n「業界有些傳聞。還不能確定，至少目前不能。\\n不過，那個預售案——我來打聽"
+        "一下。」\\n「不是說那孩子是壞人。\\n但和那裡相連的資金流向——你得知道。」\\n\\n走出事務所時，{name}想著。\\n原來，這兩個世界比想"
+        "像中靠得近得多。\"],[\"target_mutation:zh-TW:world_warning:1\",\"world_warning\",\"z"
+        "h-TW\",\"target_mutation\",\"events:arc_sangchul_jiyeon_reveal:/choices/0/"
+        "result_text\",null,\"Im Sangchul 斟酌了字句，才慢慢開口。\\n「業界有些傳聞。還不能確定，至少目前不能。\\n不過"
+        "，那個預售案——我來打聽一下。」\\n「不是說那孩子是壞人。\\n但和那裡相連的資金流向——你得知道。」\\n\\n走出事務所時，{name}想著。"
+        "\\n原來，三個世界比想像中靠得近得多。\"],[\"actual:zh-TW:surname:1\",\"surname\",\"zh-TW\",\"act"
+        "ual\",\"events:arc_sangchul_jiyeon_reveal:/description\",null,\"做決定前，去找了 I"
+        "m Sangchul。\\n想聽聽他的意見。\\n\\n聊著聊著，提到了 Han Jiyeon。不是刻意的，\\n只是很自然地——說認識了這個人，收"
+        "到了不動產相關的提案。\\n\\nIm Sangchul 的表情變了。\\n\\n「Han Jiyeon。姓 Han？」 「對。」\\n「誰家的女兒？"
+        "」 「聽說是做營造的……」\\nIm Sangchul 想了一下，壓低聲音。\\n\\n「HanPD 建設。」\\n\\n那個名字。正是上次聚會裡一閃"
+        "而過的名字。\\nIm Sangchul 的臉繃著。\\n「她提起自家的預售案了吧？」\"],[\"natural:zh-TW:surname:1\""
+        ",\"surname\",\"zh-TW\",\"natural\",\"events:arc_sangchul_jiyeon_reveal:/descr"
+        "iption\",null,\"做決定前，去找了 Im Sangchul。\\n想聽聽他的意見。\\n\\n聊著聊著，提到了 Han Jiyeon。不"
+        "是刻意的，\\n只是很自然地——說認識了這個人，收到了不動產相關的提案。\\n\\nIm Sangchul 的表情變了。\\n\\n「Han Jiye"
+        "on。姓Han嗎？」 「對。」\\n「誰家的女兒？」 「聽說是做營造的……」\\nIm Sangchul 想了一下，壓低聲音。\\n\\n「HanP"
+        "D 建設。」\\n\\n那個名字。正是上次聚會裡一閃而過的名字。\\nIm Sangchul 的臉繃著。\\n「她提起自家的預售案了吧？」\"],[\""
+        "target_mutation:zh-TW:surname:1\",\"surname\",\"zh-TW\",\"target_mutation\",\""
+        "events:arc_sangchul_jiyeon_reveal:/description\",null,\"做決定前，去找了 Im Sang"
+        "chul。\\n想聽聽他的意見。\\n\\n聊著聊著，提到了 Han Jiyeon。不是刻意的，\\n只是很自然地——說認識了這個人，收到了不動產相"
+        "關的提案。\\n\\nIm Sangchul 的表情變了。\\n\\n「Han Jiyeon。姓 Kim？」 「對。」\\n「誰家的女兒？」 「聽說是"
+        "做營造的……」\\nIm Sangchul 想了一下，壓低聲音。\\n\\n「HanPD 建設。」\\n\\n那個名字。正是上次聚會裡一閃而過的名字。"
+        "\\nIm Sangchul 的臉繃著。\\n「她提起自家的預售案了吧？」\"],[\"target_mutation:zh-TW:surname:"
+        "2\",\"surname\",\"zh-TW\",\"target_mutation\",\"events:arc_sangchul_jiyeon_rev"
+        "eal:/description\",null,\"做決定前，去找了 Im Sangchul。\\n想聽聽他的意見。\\n\\n聊著聊著，提到了 Ha"
+        "n Jiyeon。不是刻意的，\\n只是很自然地——說認識了這個人，收到了不動產相關的提案。\\n\\nIm Sangchul 的表情變了。\\n\\"
+        "n「Han Jiyeon。姓 Hanx？」 「對。」\\n「誰家的女兒？」 「聽說是做營造的……」\\nIm Sangchul 想了一下，壓低聲"
+        "音。\\n\\n「HanPD 建設。」\\n\\n那個名字。正是上次聚會裡一閃而過的名字。\\nIm Sangchul 的臉繃著。\\n「她提起自家的預"
+        "售案了吧？」\"],[\"actual:zh-TW:world_title:1\",\"world_title\",\"zh-TW\",\"actual\","
+        "\"events:arc_sangchul_jiyeon_reveal:/title\",null,\"兩個世界相連的地方\"],[\"natural"
+        ":zh-TW:world_title:1\",\"world_title\",\"zh-TW\",\"natural\",\"events:arc_sang"
+        "chul_jiyeon_reveal:/title\",null,\"兩個世界接壤之處\"],[\"target_mutation:zh-TW:wo"
+        "rld_title:1\",\"world_title\",\"zh-TW\",\"target_mutation\",\"events:arc_sangc"
+        "hul_jiyeon_reveal:/title\",null,\"三個世界相連的地方\"],[\"target_mutation:zh-TW:wo"
+        "rld_title:2\",\"world_title\",\"zh-TW\",\"target_mutation\",\"events:arc_sangc"
+        "hul_jiyeon_reveal:/title\",null,\"兩個人相連的地方\"],[\"target_mutation:zh-CN:con"
+        "sider:3\",\"consider\",\"zh-CN\",\"target_mutation\",\"events:arc_invest_guida"
+        "nce:/choices/1/result_text\",null,\"“存钱是基本功。可光存钱，绝对不够。”\\nIm Sangchul 笑着说"
+        "。\\n“总之，已经想过两次了。不急。”\\n走出办公室，心里有个角落沉甸甸的。\"],[\"source_off:zh-CN:consider:1"
+        "\",\"consider\",\"zh-CN\",\"source_off\",\"events:arc_invest_guidance:/choices"
+        "/1/result_text\",[88,88,\" \"],\"“存钱是基本功。可光存钱，绝对不够。”\\nIm Sangchul 笑着说。\\n“总"
+        "之，想想看。不急。”\\n走出办公室，心里有个角落沉甸甸的。\"],[\"source_off:zh-CN:consider:2\",\"consid"
+        "er\",\"zh-CN\",\"source_off\",\"events:arc_invest_guidance:/choices/1/result"
+        "_text\",[47,48,\"두\"],\"“存钱是基本功。可光存钱，绝对不够。”\\nIm Sangchul 笑着说。\\n“总之，想想看。不急。"
+        "”\\n走出办公室，心里有个角落沉甸甸的。\"],[\"source_off:zh-CN:reasons:1\",\"reasons\",\"zh-CN\""
+        ",\"source_off\",\"events:arc_jiyeon_05_epilogue:/choices/2/text\",[32,32,\""
+        " \"],\"“那三种理由，我都能理解。”（没有评判）\"],[\"source_off:zh-CN:reasons:2\",\"reasons\",\"z"
+        "h-CN\",\"source_off\",\"events:arc_jiyeon_05_epilogue:/choices/2/text\",[3,"
+        "4,\"네\"],\"“那三种理由，我都能理解。”（没有评判）\"],[\"source_off:zh-CN:nonrefund:1\",\"nonref"
+        "und\",\"zh-CN\",\"source_off\",\"events:arc_opp_jiyeon_lose:/description\",[2"
+        "45,245,\" \"],\"预售取消的通知先到了。灰色的文字下面，‘不予退款’几个字格外清楚。片刻后，Han Jiyeon 亲自打来电话。\\n"
+        "\\n“对不起。我也不知道。我确认了又确认，可是……”\\n\\n平时沉稳的声音，每到句末就低下去。想判断她是否真心，可消失的定金数额，挤走了别的"
+        "念头。\\n\\n{name}看着考试院天花板上的污渍。那天晚上，才知道 Jiyeon 熟悉的那个世界里，也有打不开的门。\"],[\"source"
+        "_off:zh-CN:nonrefund:2\",\"nonrefund\",\"zh-CN\",\"source_off\",\"events:arc_o"
+        "pp_jiyeon_lose:/description\",[36,37,\"세\"],\"预售取消的通知先到了。灰色的文字下面，‘不予退款’几个字"
+        "格外清楚。片刻后，Han Jiyeon 亲自打来电话。\\n\\n“对不起。我也不知道。我确认了又确认，可是……”\\n\\n平时沉稳的声音，每到句"
+        "末就低下去。想判断她是否真心，可消失的定金数额，挤走了别的念头。\\n\\n{name}看着考试院天花板上的污渍。那天晚上，才知道 Jiyeon"
+        " 熟悉的那个世界里，也有打不开的门。\"],[\"source_off:zh-CN:remember_pair:1\",\"remember_pai"
+        "r\",\"zh-CN\",\"source_off\",\"events:arc_sangchul_casino_cost:/description_"
+        "if_known/sangchul_truth_known\",[245,245,\" \"],\"{name}在记事本里写下两行。\\n\\n够去一趟"
+        "的钱。\\n亏得起的钱。\\n\\n第一行填了账户余额。第二行，先想到的不是数字，而是人的名字。父亲失去的不只是本金。连可以相信别人的感觉，也一并"
+        "拿去偿还了。\\n\\n进赌场所需的，或许是一个该停手的数字。这次，那个数字和介绍人的名字，两样都得记住。\\n\\n手机上，Sangchul 那句"
+        "‘放轻松，来就行’还亮着。\"],[\"source_off:zh-CN:remember_pair:2\",\"remember_pair\",\"z"
+        "h-CN\",\"source_off\",\"events:arc_sangchul_casino_cost:/description_if_kn"
+        "own/sangchul_truth_known\",[199,202,\"하나만\"],\"{name}在记事本里写下两行。\\n\\n够去一趟的钱。"
+        "\\n亏得起的钱。\\n\\n第一行填了账户余额。第二行，先想到的不是数字，而是人的名字。父亲失去的不只是本金。连可以相信别人的感觉，也一并拿去偿"
+        "还了。\\n\\n进赌场所需的，或许是一个该停手的数字。这次，那个数字和介绍人的名字，两样都得记住。\\n\\n手机上，Sangchul 那句‘放轻"
+        "松，来就行’还亮着。\"],[\"source_off:zh-CN:invite:1\",\"invite\",\"zh-CN\",\"source_off"
+        "\",\"events:arc_sangchul_casino_invite:/description\",[308,308,\" \"],\"不是电话"
+        "，是短信。Im Sangchul 的名字下，亮着两句短短的话。\\n\\n“这个周末怎么样？几个人一起去旌善赌场。”\\n“车我来安排。牌桌那边的"
+        "位置也看好了，放轻松，来就行。”\\n\\n屋里的声音没变，只有屏幕里的句子，仿佛换了温度。旌善。筹码。做生意的人。很像 Sangchul 曾说"
+        "要替他打开的那扇门，透出的气味。\\n\\n够去一趟的钱，和亏得起的钱，不是同一个数。与谁坐在同一张牌桌上，想必和押多少同样重要。\\n\\n{na"
+        "me}没有写回复，先查了账户余额。\"],[\"source_off:zh-CN:invite:2\",\"invite\",\"zh-CN\",\"sou"
+        "rce_off\",\"events:arc_sangchul_casino_invite:/description\",[31,32,\"세\"],"
+        "\"不是电话，是短信。Im Sangchul 的名字下，亮着两句短短的话。\\n\\n“这个周末怎么样？几个人一起去旌善赌场。”\\n“车我来安排。"
+        "牌桌那边的位置也看好了，放轻松，来就行。”\\n\\n屋里的声音没变，只有屏幕里的句子，仿佛换了温度。旌善。筹码。做生意的人。很像 Sangch"
+        "ul 曾说要替他打开的那扇门，透出的气味。\\n\\n够去一趟的钱，和亏得起的钱，不是同一个数。与谁坐在同一张牌桌上，想必和押多少同样重要。\\n"
+        "\\n{name}没有写回复，先查了账户余额。\"],[\"source_off:zh-CN:invite_known:1\",\"invite_kn"
+        "own\",\"zh-CN\",\"source_off\",\"events:arc_sangchul_casino_invite:/descript"
+        "ion_if_known/sangchul_truth_known\",[292,292,\" \"],\"不是电话，是短信。Im Sangchul"
+        " 的名字下，亮着两句短短的话。\\n\\n“这个周末怎么样？几个人一起去旌善赌场。”\\n“车我来安排。牌桌那边的位置也看好了，放轻松，来就行。”"
+        "\\n\\n如今知道了，那句‘放轻松’便让人在意。压垮父亲的事，也是从有人安排位置、介绍值得信任的人开始的。\\n\\n赌场。资金。人脉。Sangc"
+        "hul 一路走来的世界。这一次，剩下的问题是，明知它的结构，还要不要作为他的客人走进去。\\n\\n{name}没有写回复，先查了账户余额。\"]"
+        ",[\"source_off:zh-CN:invite_known:2\",\"invite_known\",\"zh-CN\",\"source_off"
+        "\",\"events:arc_sangchul_casino_invite:/description_if_known/sangchul_tr"
+        "uth_known\",[31,32,\"세\"],\"不是电话，是短信。Im Sangchul 的名字下，亮着两句短短的话。\\n\\n“这个周末怎么"
+        "样？几个人一起去旌善赌场。”\\n“车我来安排。牌桌那边的位置也看好了，放轻松，来就行。”\\n\\n如今知道了，那句‘放轻松’便让人在意。压垮父"
+        "亲的事，也是从有人安排位置、介绍值得信任的人开始的。\\n\\n赌场。资金。人脉。Sangchul 一路走来的世界。这一次，剩下的问题是，明知它"
+        "的结构，还要不要作为他的客人走进去。\\n\\n{name}没有写回复，先查了账户余额。\"],[\"source_off:zh-CN:world_"
+        "warning:1\",\"world_warning\",\"zh-CN\",\"source_off\",\"events:arc_sangchul_j"
+        "iyeon_reveal:/choices/0/result_text\",[179,179,\" \"],\"Im Sangchul 斟酌着，慢慢"
+        "开口。\\n“业内有些传闻。还没确定，至少现在没有。\\n不过，那个预售项目——我会查一查。”\\n“不是说那孩子人不好。\\n可是，连在那后面的资"
+        "金流向——你得知道。”\\n\\n走出办公室时，{name}想。\\n两个世界相贴得比想象中近得多。\"],[\"source_off:zh-CN:w"
+        "orld_warning:2\",\"world_warning\",\"zh-CN\",\"source_off\",\"events:arc_sangc"
+        "hul_jiyeon_reveal:/choices/0/result_text\",[152,153,\"세\"],\"Im Sangchul 斟"
+        "酌着，慢慢开口。\\n“业内有些传闻。还没确定，至少现在没有。\\n不过，那个预售项目——我会查一查。”\\n“不是说那孩子人不好。\\n可是，连在"
+        "那后面的资金流向——你得知道。”\\n\\n走出办公室时，{name}想。\\n两个世界相贴得比想象中近得多。\"],[\"source_off:zh"
+        "-CN:surname:1\",\"surname\",\"zh-CN\",\"source_off\",\"events:arc_sangchul_jiy"
+        "eon_reveal:/description\",[266,266,\" \"],\"做决定之前，去找了 Im Sangchul。\\n想听听他的建"
+        "议。\\n\\n谈着谈着，提起了 Han Jiyeon。并不是有意的，\\n只是很自然地——说认识了这个人，收到了房产相关的提议。\\n\\nIm S"
+        "angchul 的表情变了。\\n\\n“Han Jiyeon。姓 Han？”“是。”\\n“谁家的女儿？”“听说家里是做建筑的……”\\nIm S"
+        "angchul 想了一会儿，压低声音。\\n\\n“HanPD 建设。”\\n\\n那个名字。就是上次聚会时，一闪而过的那个名字。\\nIm Sang"
+        "chul 脸色凝重。\\n“她提了家里那个预售项目吧？”\"],[\"source_off:zh-CN:surname:2\",\"surname\","
+        "\"zh-CN\",\"source_off\",\"events:arc_sangchul_jiyeon_reveal:/description\","
+        "[125,126,\"김\"],\"做决定之前，去找了 Im Sangchul。\\n想听听他的建议。\\n\\n谈着谈着，提起了 Han Jiyeon"
+        "。并不是有意的，\\n只是很自然地——说认识了这个人，收到了房产相关的提议。\\n\\nIm Sangchul 的表情变了。\\n\\n“Han Ji"
+        "yeon。姓 Han？”“是。”\\n“谁家的女儿？”“听说家里是做建筑的……”\\nIm Sangchul 想了一会儿，压低声音。\\n\\n“H"
+        "anPD 建设。”\\n\\n那个名字。就是上次聚会时，一闪而过的那个名字。\\nIm Sangchul 脸色凝重。\\n“她提了家里那个预售项目吧"
+        "？”\"],[\"source_off:zh-CN:world_title:1\",\"world_title\",\"zh-CN\",\"source_o"
+        "ff\",\"events:arc_sangchul_jiyeon_reveal:/title\",[14,14,\" \"],\"两个世界相接的地方\""
+        "],[\"source_off:zh-CN:world_title:2\",\"world_title\",\"zh-CN\",\"source_off\""
+        ",\"events:arc_sangchul_jiyeon_reveal:/title\",[0,1,\"세\"],\"两个世界相接的地方\"]]"
+    )
+    controls = []
+    for cid, kind, locale, category, leaf_id, change, target in data:
+        source = SOURCE_EARLY_CONNECTIONS[kind]
+        if change is not None:
+            a, b, replacement = change
+            source = source[:a] + replacement + source[b:]
+        controls.append([cid, source, target, locale, leaf_id, category])
+    errors: list[str] = []
+    checksum = hashlib.sha256(json.dumps(
+        controls, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+    if checksum != "050f6a4a8ae1a1d7f44a803981cc9f0151887c127176b9fcff80c6c70decc785":
+        errors.append("early-connection immutable85 input/expectation changed")
+    for cid, source, target, locale, leaf_id, category in controls:
+        ss, ts, typed = _early_connections_slots(source, target)
+        latin, latin_errors = _early_connections_latin(source, target)
+        typed += latin_errors
+        whole = validate_text(locale, leaf_id, source, target)
+        if category in {"actual", "natural"}:
+            if typed or whole:
+                errors.append(f"early-connection {cid} normal: {typed + whole}")
+        elif category == "target_mutation":
+            if not typed or not whole:
+                errors.append(f"early-connection {cid} typed/E2E rejection missing")
+        elif category == "source_off":
+            if ss or ts or typed or latin != target:
+                errors.append(f"early-connection {cid} source-OFF boundary changed")
+        else:
+            errors.append(f"early-connection {cid} unknown test category")
+    return len(controls), errors
+
+
+
+def _early_connections_exposed_self_test() -> tuple[int, list[str]]:
+    """B2 exposed14 + own14 target and8 OFF; not independent certification."""
+    # Frozen B2 inputs retain first failures; non-owned relation semantics stay observations.
+    data = json.loads(
+        "[[\"exposed:reasons-zh-TW-natural\",\"reasons\",\"zh-TW\",\"events:arc_jiyeon"
+        "_05_epilogue:/choices/2/text\",\"\",\"accept\",\"「那三項理由，我全都能理解。」（沒有評斷）\"],[\"o"
+        "wn_mutant:reasons-zh-TW-natural\",\"reasons\",\"zh-TW\",\"events:arc_jiyeon_"
+        "05_epilogue:/choices/2/text\",\"\",\"reject_typed_and_e2e\",\"「那四項理由，我全都能理解。"
+        "」（沒有評斷）\"],[\"exposed:refund-zh-TW-natural\",\"nonrefund\",\"zh-TW\",\"events:"
+        "arc_opp_jiyeon_lose:/description\",\"\",\"accept\",\"預售案取消通知先到了。灰色文句下，「不退費」這"
+        "幾個字格外清楚。過了一會兒，Han Jiyeon 親自打來電話。\\n\\n「對不起。我也不知道。我明明確認了又確認……」\\n\\n平時穩定的聲音"
+        "，每到句末就低了下去。想判斷她是不是真心，消失的簽約金金額，卻擠開了其他念頭。\\n\\n{name}望著考試院天花板上的污漬。那天晚上，才知道"
+        "，就連 Jiyeon 熟門熟路的世界，也有走不通的門。\"],[\"own_mutant:refund-zh-TW-natural\",\"nonr"
+        "efund\",\"zh-TW\",\"events:arc_opp_jiyeon_lose:/description\",\"\",\"reject_ty"
+        "ped_and_e2e\",\"預售案取消通知先到了。灰色文句下，「可退費」這幾個字格外清楚。過了一會兒，Han Jiyeon 親自打來電話。\\"
+        "n\\n「對不起。我也不知道。我明明確認了又確認……」\\n\\n平時穩定的聲音，每到句末就低了下去。想判斷她是不是真心，消失的簽約金金額，卻擠開"
+        "了其他念頭。\\n\\n{name}望著考試院天花板上的污漬。那天晚上，才知道，就連 Jiyeon 熟門熟路的世界，也有走不通的門。\"],[\"e"
+        "xposed:cost-zh-TW-natural\",\"remember_pair\",\"zh-TW\",\"events:arc_sangchu"
+        "l_casino_cost:/description_if_known/sangchul_truth_known\",\"\",\"accept\","
+        "\"{name}在記事本上寫下兩行。\\n\\n去得了的錢。\\n輸得起的錢。\\n\\n第一行填了銀行帳戶餘額。第二行，比起數字，先浮現的卻是人名。父"
+        "親失去的不只是本金。連相信別人也沒關係的感覺，都一起賠了進去。\\n\\n進賭場所需要的，或許是該停手的數字。這回，停手的金額與牽線者的姓名，兩"
+        "者都不能忘。\\n\\n手機上，Sangchul 那句「輕鬆來就好」還亮著。\"],[\"own_mutant:cost-zh-TW-natural"
+        "\",\"remember_pair\",\"zh-TW\",\"events:arc_sangchul_casino_cost:/descriptio"
+        "n_if_known/sangchul_truth_known\",\"\",\"reject_typed_and_e2e\",\"{name}在記事本"
+        "上寫下兩行。\\n\\n去得了的錢。\\n輸得起的錢。\\n\\n第一行填了銀行帳戶餘額。第二行，比起數字，先浮現的卻是人名。父親失去的不只是本金。連"
+        "相信別人也沒關係的感覺，都一起賠了進去。\\n\\n進賭場所需要的，或許是該停手的數字。這回，停手的金額與受害者的姓名，兩者都不能忘。\\n\\n手"
+        "機上，Sangchul 那句「輕鬆來就好」還亮著。\"],[\"exposed:invite-zh-TW-natural\",\"invite\",\""
+        "zh-TW\",\"events:arc_sangchul_casino_invite:/description\",\"\",\"accept\",\"不"
+        "是電話，是簡訊。Im Sangchul 的名字下，顯示著兩段短句。\\n\\n「這週末有空嗎？幾個人一起去旌善賭場。」\\n「車我會安排好。賭桌那"
+        "邊的位子也看過了，輕鬆來就好。」\\n\\n房裡的聲音沒變，只有螢幕上的句子，彷彿帶著不同的溫度。旌善。籌碼。做生意的人。氣味像極了 Sangc"
+        "hul 說要替他打開的那扇門。\\n\\n有錢去，和輸得起，不是同一個金額。和誰坐在同一張桌前，想必跟押多少錢一樣重要。\\n\\n{name}沒有"
+        "寫回覆，先查看銀行帳戶餘額。\"],[\"own_mutant:invite-zh-TW-natural\",\"invite\",\"zh-TW\",\""
+        "events:arc_sangchul_casino_invite:/description\",\"\",\"reject_typed_and_e"
+        "2e\",\"不是電話，是簡訊。Im Sangchul 的名字下，顯示著三段短句。\\n\\n「這週末有空嗎？幾個人一起去旌善賭場。」\\n「車我會安"
+        "排好。賭桌那邊的位子也看過了，輕鬆來就好。」\\n\\n房裡的聲音沒變，只有螢幕上的句子，彷彿帶著不同的溫度。旌善。籌碼。做生意的人。氣味像極了"
+        " Sangchul 說要替他打開的那扇門。\\n\\n有錢去，和輸得起，不是同一個金額。和誰坐在同一張桌前，想必跟押多少錢一樣重要。\\n\\n{n"
+        "ame}沒有寫回覆，先查看銀行帳戶餘額。\"],[\"exposed:invite_known-zh-TW-natural\",\"invite_k"
+        "nown\",\"zh-TW\",\"events:arc_sangchul_casino_invite:/description_if_known"
+        "/sangchul_truth_known\",\"\",\"accept\",\"不是電話，是簡訊。Im Sangchul 的名字下，顯示著兩段短句。"
+        "\\n\\n「這週末有空嗎？幾個人一起去旌善賭場。」\\n「車我會安排好。賭桌那邊的位子也看過了，輕鬆來就好。」\\n\\n如今知道了，那句「輕鬆」讓"
+        "人在意。讓父親垮下的事，也是從有人安排位子、介紹值得信任的人開始。\\n\\n賭場。資金。人脈。Sangchul 一路生活的世界。這次剩下的，是"
+        "明知那個結構，還要不要以他的客人身分走進去。\\n\\n{name}沒有寫回覆，先查看銀行帳戶餘額。\"],[\"own_mutant:invite"
+        "_known-zh-TW-natural\",\"invite_known\",\"zh-TW\",\"events:arc_sangchul_casi"
+        "no_invite:/description_if_known/sangchul_truth_known\",\"\",\"reject_typed"
+        "_and_e2e\",\"不是電話，是簡訊。Im Sangchul 的名字下，顯示著三段短句。\\n\\n「這週末有空嗎？幾個人一起去旌善賭場。」\\"
+        "n「車我會安排好。賭桌那邊的位子也看過了，輕鬆來就好。」\\n\\n如今知道了，那句「輕鬆」讓人在意。讓父親垮下的事，也是從有人安排位子、介紹值"
+        "得信任的人開始。\\n\\n賭場。資金。人脈。Sangchul 一路生活的世界。這次剩下的，是明知那個結構，還要不要以他的客人身分走進去。\\n\\"
+        "n{name}沒有寫回覆，先查看銀行帳戶餘額。\"],[\"exposed:world_result-zh-TW-natural\",\"world"
+        "_warning\",\"zh-TW\",\"events:arc_sangchul_jiyeon_reveal:/choices/0/result"
+        "_text\",\"\",\"accept\",\"Im Sangchul 斟酌了字句，才慢慢開口。\\n「業界有些傳聞。還不能確定，至少目前不能。\\n不"
+        "過，那個預售案——我來打聽一下。」\\n「不是說那孩子是壞人。\\n但和那裡相連的資金流向——你得知道。」\\n\\n走出事務所時，{name}想著"
+        "。\\n才發現，這兩方世界，比想像中貼近得多。\"],[\"own_mutant:world_result-zh-TW-natural\",\"wor"
+        "ld_warning\",\"zh-TW\",\"events:arc_sangchul_jiyeon_reveal:/choices/0/resu"
+        "lt_text\",\"\",\"reject_typed_and_e2e\",\"Im Sangchul 斟酌了字句，才慢慢開口。\\n「業界有些傳聞。"
+        "還不能確定，至少目前不能。\\n不過，那個預售案——我來打聽一下。」\\n「不是說那孩子是壞人。\\n但和那裡相連的資金流向——你得知道。」\\n\\"
+        "n走出事務所時，{name}想著。\\n才發現，這三方世界，比想像中貼近得多。\"],[\"exposed:world_title-zh-TW-n"
+        "atural\",\"world_title\",\"zh-TW\",\"events:arc_sangchul_jiyeon_reveal:/titl"
+        "e\",\"\",\"accept\",\"兩方世界相接之處\"],[\"own_mutant:world_title-zh-TW-natural\",\"wo"
+        "rld_title\",\"zh-TW\",\"events:arc_sangchul_jiyeon_reveal:/title\",\"\",\"reje"
+        "ct_typed_and_e2e\",\"三方世界相接之處\"],[\"exposed:refund-zh-CN-natural\",\"nonrefu"
+        "nd\",\"zh-CN\",\"events:arc_opp_jiyeon_lose:/description\",\"\",\"accept\",\"预售取"
+        "消的通知先到了。灰色的文字下面，‘不退款’这几个字格外清楚。片刻后，Han Jiyeon 亲自打来电话。\\n\\n“对不起。我也不知道。我确认"
+        "了又确认，可是……”\\n\\n平时沉稳的声音，每到句末就低下去。想判断她是否真心，可消失的定金数额，挤走了别的念头。\\n\\n{name}看着考"
+        "试院天花板上的污渍。那天晚上，才知道 Jiyeon 熟悉的那个世界里，也有打不开的门。\"],[\"own_mutant:refund-zh-C"
+        "N-natural\",\"nonrefund\",\"zh-CN\",\"events:arc_opp_jiyeon_lose:/descriptio"
+        "n\",\"\",\"reject_typed_and_e2e\",\"预售取消的通知先到了。灰色的文字下面，‘可退款’这几个字格外清楚。片刻后，Han"
+        " Jiyeon 亲自打来电话。\\n\\n“对不起。我也不知道。我确认了又确认，可是……”\\n\\n平时沉稳的声音，每到句末就低下去。想判断她是否"
+        "真心，可消失的定金数额，挤走了别的念头。\\n\\n{name}看着考试院天花板上的污渍。那天晚上，才知道 Jiyeon 熟悉的那个世界里，也有"
+        "打不开的门。\"],[\"exposed:cost-zh-CN-natural\",\"remember_pair\",\"zh-CN\",\"events"
+        ":arc_sangchul_casino_cost:/description_if_known/sangchul_truth_known\","
+        "\"\",\"accept\",\"{name}在记事本里写下两行。\\n\\n够去一趟的钱。\\n亏得起的钱。\\n\\n第一行填了账户余额。第二行，先想到的"
+        "不是数字，而是人的名字。父亲失去的不只是本金。连可以相信别人的感觉，也一并拿去偿还了。\\n\\n进赌场所需的，或许是一个该停手的数字。这回，停"
+        "手的金额和牵线者的姓名，二者都要记牢。\\n\\n手机上，Sangchul 那句‘放轻松，来就行’还亮着。\"],[\"own_mutant:cos"
+        "t-zh-CN-natural\",\"remember_pair\",\"zh-CN\",\"events:arc_sangchul_casino_c"
+        "ost:/description_if_known/sangchul_truth_known\",\"\",\"reject_typed_and_e"
+        "2e\",\"{name}在记事本里写下两行。\\n\\n够去一趟的钱。\\n亏得起的钱。\\n\\n第一行填了账户余额。第二行，先想到的不是数字，而是人"
+        "的名字。父亲失去的不只是本金。连可以相信别人的感觉，也一并拿去偿还了。\\n\\n进赌场所需的，或许是一个该停手的数字。这回，停手的金额和牵线者"
+        "的姓名，三者都要记牢。\\n\\n手机上，Sangchul 那句‘放轻松，来就行’还亮着。\"],[\"exposed:invite-zh-CN-n"
+        "atural\",\"invite\",\"zh-CN\",\"events:arc_sangchul_casino_invite:/descripti"
+        "on\",\"\",\"accept\",\"不是电话，是短信。Im Sangchul 的名字下，显示着两条简短的句子。\\n\\n“这个周末怎么样？几个人"
+        "一起去旌善赌场。”\\n“车我来安排。牌桌那边的位置也看好了，放轻松，来就行。”\\n\\n屋里的声音没变，只有屏幕里的句子，仿佛换了温度。旌善。"
+        "筹码。做生意的人。很像 Sangchul 曾说要替他打开的那扇门，透出的气味。\\n\\n够去一趟的钱，和亏得起的钱，不是同一个数。与谁坐在同一"
+        "张牌桌上，想必和押多少同样重要。\\n\\n{name}没有写回复，先查了账户余额。\"],[\"own_mutant:invite-zh-CN-n"
+        "atural\",\"invite\",\"zh-CN\",\"events:arc_sangchul_casino_invite:/descripti"
+        "on\",\"\",\"reject_typed_and_e2e\",\"不是电话，是短信。Im Sangchul 的名字下，显示着三条简短的句子。\\n"
+        "\\n“这个周末怎么样？几个人一起去旌善赌场。”\\n“车我来安排。牌桌那边的位置也看好了，放轻松，来就行。”\\n\\n屋里的声音没变，只有屏幕里"
+        "的句子，仿佛换了温度。旌善。筹码。做生意的人。很像 Sangchul 曾说要替他打开的那扇门，透出的气味。\\n\\n够去一趟的钱，和亏得起的钱"
+        "，不是同一个数。与谁坐在同一张牌桌上，想必和押多少同样重要。\\n\\n{name}没有写回复，先查了账户余额。\"],[\"exposed:inv"
+        "ite_known-zh-CN-natural\",\"invite_known\",\"zh-CN\",\"events:arc_sangchul_c"
+        "asino_invite:/description_if_known/sangchul_truth_known\",\"\",\"accept\",\""
+        "不是电话，是短信。Im Sangchul 的名字下，显示着两条简短的句子。\\n\\n“这个周末怎么样？几个人一起去旌善赌场。”\\n“车我来安排"
+        "。牌桌那边的位置也看好了，放轻松，来就行。”\\n\\n如今知道了，那句‘放轻松’便让人在意。压垮父亲的事，也是从有人安排位置、介绍值得信任的人"
+        "开始的。\\n\\n赌场。资金。人脉。Sangchul 一路走来的世界。这一次，剩下的问题是，明知它的结构，还要不要作为他的客人走进去。\\n\\n"
+        "{name}没有写回复，先查了账户余额。\"],[\"own_mutant:invite_known-zh-CN-natural\",\"invit"
+        "e_known\",\"zh-CN\",\"events:arc_sangchul_casino_invite:/description_if_kn"
+        "own/sangchul_truth_known\",\"\",\"reject_typed_and_e2e\",\"不是电话，是短信。Im Sangc"
+        "hul 的名字下，显示着三条简短的句子。\\n\\n“这个周末怎么样？几个人一起去旌善赌场。”\\n“车我来安排。牌桌那边的位置也看好了，放轻松，"
+        "来就行。”\\n\\n如今知道了，那句‘放轻松’便让人在意。压垮父亲的事，也是从有人安排位置、介绍值得信任的人开始的。\\n\\n赌场。资金。人脉。"
+        "Sangchul 一路走来的世界。这一次，剩下的问题是，明知它的结构，还要不要作为他的客人走进去。\\n\\n{name}没有写回复，先查了账户"
+        "余额。\"],[\"exposed:world_result-zh-CN-natural\",\"world_warning\",\"zh-CN\",\"e"
+        "vents:arc_sangchul_jiyeon_reveal:/choices/0/result_text\",\"\",\"accept\",\""
+        "Im Sangchul 斟酌着，慢慢开口。\\n“业内有些传闻。还没确定，至少现在没有。\\n不过，那个预售项目——我会查一查。”\\n“不是说那"
+        "孩子人不好。\\n可是，连在那后面的资金流向——你得知道。”\\n\\n走出办公室时，{name}想。\\n原来，这两方世界，比想象中靠得更近。\"]"
+        ",[\"own_mutant:world_result-zh-CN-natural\",\"world_warning\",\"zh-CN\",\"eve"
+        "nts:arc_sangchul_jiyeon_reveal:/choices/0/result_text\",\"\",\"reject_type"
+        "d_and_e2e\",\"Im Sangchul 斟酌着，慢慢开口。\\n“业内有些传闻。还没确定，至少现在没有。\\n不过，那个预售项目——我会"
+        "查一查。”\\n“不是说那孩子人不好。\\n可是，连在那后面的资金流向——你得知道。”\\n\\n走出办公室时，{name}想。\\n原来，这三方世界"
+        "，比想象中靠得更近。\"],[\"exposed:surname-zh-CN-natural\",\"surname\",\"zh-CN\",\"event"
+        "s:arc_sangchul_jiyeon_reveal:/description\",\"\",\"accept\",\"做决定之前，去找了 Im S"
+        "angchul。\\n想听听他的建议。\\n\\n谈着谈着，提起了 Han Jiyeon。并不是有意的，\\n只是很自然地——说认识了这个人，收到了"
+        "房产相关的提议。\\n\\nIm Sangchul 的表情变了。\\n\\n“Han Jiyeon，她姓的是 Han？”“对。”\\n“谁家的女儿？”"
+        "“听说家里是做建筑的……”\\nIm Sangchul 想了一会儿，压低声音。\\n\\n“HanPD 建设。”\\n\\n那个名字。就是上次聚会时，"
+        "一闪而过的那个名字。\\nIm Sangchul 脸色凝重。\\n“她提了家里那个预售项目吧？”\"],[\"own_mutant:surname-"
+        "zh-CN-natural\",\"surname\",\"zh-CN\",\"events:arc_sangchul_jiyeon_reveal:/d"
+        "escription\",\"\",\"reject_typed_and_e2e\",\"做决定之前，去找了 Im Sangchul。\\n想听听他的建议"
+        "。\\n\\n谈着谈着，提起了 Han Jiyeon。并不是有意的，\\n只是很自然地——说认识了这个人，收到了房产相关的提议。\\n\\nIm Sa"
+        "ngchul 的表情变了。\\n\\n“Han Jiyeon，她姓的是 Kim？”“对。”\\n“谁家的女儿？”“听说家里是做建筑的……”\\nIm"
+        " Sangchul 想了一会儿，压低声音。\\n\\n“HanPD 建设。”\\n\\n那个名字。就是上次聚会时，一闪而过的那个名字。\\nIm Sa"
+        "ngchul 脸色凝重。\\n“她提了家里那个预售项目吧？”\"],[\"exposed:world_title-zh-CN-natural\",\""
+        "world_title\",\"zh-CN\",\"events:arc_sangchul_jiyeon_reveal:/title\",\"\",\"ac"
+        "cept\",\"两方世界相连之处\"],[\"own_mutant:world_title-zh-CN-natural\",\"world_title"
+        "\",\"zh-CN\",\"events:arc_sangchul_jiyeon_reveal:/title\",\"\",\"reject_typed_"
+        "and_e2e\",\"三方世界相连之处\"],[\"own_off:reasons-zh-TW-natural\",\"reasons\",\"zh-TW"
+        "\",\"events:arc_jiyeon_05_epilogue:/choices/2/text\",\" \",\"new_helper_off\""
+        ",\"「那三項理由，我全都能理解。」（沒有評斷）\"],[\"own_off:refund-zh-TW-natural\",\"nonrefund\","
+        "\"zh-TW\",\"events:arc_opp_jiyeon_lose:/description\",\" \",\"new_helper_off\""
+        ",\"預售案取消通知先到了。灰色文句下，「不退費」這幾個字格外清楚。過了一會兒，Han Jiyeon 親自打來電話。\\n\\n「對不起。我也不知"
+        "道。我明明確認了又確認……」\\n\\n平時穩定的聲音，每到句末就低了下去。想判斷她是不是真心，消失的簽約金金額，卻擠開了其他念頭。\\n\\n{n"
+        "ame}望著考試院天花板上的污漬。那天晚上，才知道，就連 Jiyeon 熟門熟路的世界，也有走不通的門。\"],[\"own_off:cost-"
+        "zh-TW-natural\",\"remember_pair\",\"zh-TW\",\"events:arc_sangchul_casino_cos"
+        "t:/description_if_known/sangchul_truth_known\",\" \",\"new_helper_off\",\"{n"
+        "ame}在記事本上寫下兩行。\\n\\n去得了的錢。\\n輸得起的錢。\\n\\n第一行填了銀行帳戶餘額。第二行，比起數字，先浮現的卻是人名。父親失去"
+        "的不只是本金。連相信別人也沒關係的感覺，都一起賠了進去。\\n\\n進賭場所需要的，或許是該停手的數字。這回，停手的金額與牽線者的姓名，兩者都不"
+        "能忘。\\n\\n手機上，Sangchul 那句「輕鬆來就好」還亮著。\"],[\"own_off:invite-zh-TW-natural\",\"i"
+        "nvite\",\"zh-TW\",\"events:arc_sangchul_casino_invite:/description\",\" \",\"n"
+        "ew_helper_off\",\"不是電話，是簡訊。Im Sangchul 的名字下，顯示著兩段短句。\\n\\n「這週末有空嗎？幾個人一起去旌善"
+        "賭場。」\\n「車我會安排好。賭桌那邊的位子也看過了，輕鬆來就好。」\\n\\n房裡的聲音沒變，只有螢幕上的句子，彷彿帶著不同的溫度。旌善。籌碼。"
+        "做生意的人。氣味像極了 Sangchul 說要替他打開的那扇門。\\n\\n有錢去，和輸得起，不是同一個金額。和誰坐在同一張桌前，想必跟押多少錢"
+        "一樣重要。\\n\\n{name}沒有寫回覆，先查看銀行帳戶餘額。\"],[\"own_off:invite_known-zh-TW-natural"
+        "\",\"invite_known\",\"zh-TW\",\"events:arc_sangchul_casino_invite:/descripti"
+        "on_if_known/sangchul_truth_known\",\" \",\"new_helper_off\",\"不是電話，是簡訊。Im Sa"
+        "ngchul 的名字下，顯示著兩段短句。\\n\\n「這週末有空嗎？幾個人一起去旌善賭場。」\\n「車我會安排好。賭桌那邊的位子也看過了，輕鬆來就"
+        "好。」\\n\\n如今知道了，那句「輕鬆」讓人在意。讓父親垮下的事，也是從有人安排位子、介紹值得信任的人開始。\\n\\n賭場。資金。人脈。Sang"
+        "chul 一路生活的世界。這次剩下的，是明知那個結構，還要不要以他的客人身分走進去。\\n\\n{name}沒有寫回覆，先查看銀行帳戶餘額。\"]"
+        ",[\"own_off:world_result-zh-TW-natural\",\"world_warning\",\"zh-TW\",\"events"
+        ":arc_sangchul_jiyeon_reveal:/choices/0/result_text\",\" \",\"new_helper_of"
+        "f\",\"Im Sangchul 斟酌了字句，才慢慢開口。\\n「業界有些傳聞。還不能確定，至少目前不能。\\n不過，那個預售案——我來打聽一下。"
+        "」\\n「不是說那孩子是壞人。\\n但和那裡相連的資金流向——你得知道。」\\n\\n走出事務所時，{name}想著。\\n才發現，這兩方世界，比想像"
+        "中貼近得多。\"],[\"own_off:world_title-zh-TW-natural\",\"world_title\",\"zh-TW\",\"e"
+        "vents:arc_sangchul_jiyeon_reveal:/title\",\" \",\"new_helper_off\",\"兩方世界相接之"
+        "處\"],[\"own_off:surname-zh-CN-natural\",\"surname\",\"zh-CN\",\"events:arc_san"
+        "gchul_jiyeon_reveal:/description\",\" \",\"new_helper_off\",\"做决定之前，去找了 Im S"
+        "angchul。\\n想听听他的建议。\\n\\n谈着谈着，提起了 Han Jiyeon。并不是有意的，\\n只是很自然地——说认识了这个人，收到了"
+        "房产相关的提议。\\n\\nIm Sangchul 的表情变了。\\n\\n“Han Jiyeon，她姓的是 Han？”“对。”\\n“谁家的女儿？”"
+        "“听说家里是做建筑的……”\\nIm Sangchul 想了一会儿，压低声音。\\n\\n“HanPD 建设。”\\n\\n那个名字。就是上次聚会时，"
+        "一闪而过的那个名字。\\nIm Sangchul 脸色凝重。\\n“她提了家里那个预售项目吧？”\"]]"
+    )
+    controls = [
+        (case_id, SOURCE_EARLY_CONNECTIONS[kind] + suffix, target, locale, leaf_id, expected)
+        for case_id, kind, locale, leaf_id, suffix, expected, target in data
+    ]
+    checksum = hashlib.sha256(json.dumps(
+        controls, ensure_ascii=False, separators=(",", ":")
+    ).encode()).hexdigest()
+    failures: list[str] = []
+    if checksum != "af9126d8a6202d8d402c0fd5f1f3b5b09e03a4e70b5c1c4b6aeff6dacfd31844" or len(controls) != 36:
+        failures.append("early-connection exposed36 immutable input/expectation mismatch")
+    for case_id, source, target, locale, leaf_id, expected in controls:
+        ss, ts, typed = _early_connections_slots(source, target)
+        latin_target, latin_errors = _early_connections_latin(source, target)
+        typed += latin_errors
+        errors = validate_text(locale, leaf_id, source, target)
+        if expected == "accept":
+            okay = not typed and not errors
+        elif expected == "reject_typed_and_e2e":
+            okay = bool(typed and errors)
+        else:
+            okay = not ss and not ts and not typed and latin_target == target
+        if not okay:
+            failures.append(f"{case_id}: typed={typed}, errors={errors}")
+    return len(controls), failures
+
+
+def _early_connections_refund_literal_self_test() -> tuple[int, list[str]]:
+    """Two frozen local-character controls, separate from exposed36."""
+    source = SOURCE_EARLY_CONNECTIONS["nonrefund"]
+    locale = "zh-TW"
+    leaf_id = "events:arc_opp_jiyeon_lose:/description"
+    data = json.loads(
+        "[[\"refund_localized_literal_three\",\"預售案取消通知先到了。灰色文句下，「不退費」這三個字格外清楚。過了一"
+        "會兒，Han Jiyeon 親自打來電話。\\n\\n「對不起。我也不知道。我明明確認了又確認……」\\n\\n平時穩定的聲音，每到句末就低了下去。"
+        "想判斷她是不是真心，消失的簽約金金額，卻擠開了其他念頭。\\n\\n{name}望著考試院天花板上的污漬。那天晚上，才知道，就連 Jiyeon "
+        "熟門熟路的世界，也有走不通的門。\",\"accept\"],[\"refund_localized_literal_wrong_four\",\"預售"
+        "案取消通知先到了。灰色文句下，「不退費」這四個字格外清楚。過了一會兒，Han Jiyeon 親自打來電話。\\n\\n「對不起。我也不知道。我明"
+        "明確認了又確認……」\\n\\n平時穩定的聲音，每到句末就低了下去。想判斷她是不是真心，消失的簽約金金額，卻擠開了其他念頭。\\n\\n{name}"
+        "望著考試院天花板上的污漬。那天晚上，才知道，就連 Jiyeon 熟門熟路的世界，也有走不通的門。\",\"reject_typed_and_e2"
+        "e\"]]"
+    )
+    controls = [(case_id, source, target, locale, leaf_id, expected)
+                for case_id, target, expected in data]
+    checksum = hashlib.sha256(json.dumps(
+        controls, ensure_ascii=False, separators=(",", ":")
+    ).encode()).hexdigest()
+    failures: list[str] = []
+    if checksum != "5a47cceabd67e56d97b9a91aa5abad8f8d9315fc369f2cc37810a1251782328d" or len(controls) != 2:
+        failures.append("early-connection refund literal2 input/expectation mismatch")
+    for case_id, src, target, loc, lid, expected in controls:
+        _, _, typed = _early_connections_slots(src, target)
+        errors = validate_text(loc, lid, src, target)
+        okay = not typed and not errors if expected == "accept" else bool(typed and errors)
+        if not okay:
+            failures.append(f"{case_id}: typed={typed}, errors={errors}")
+    return len(controls), failures
+
+
+def _early_connections_channel_self_test() -> tuple[int, list[str]]:
+    """Reused4 channel negatives/base4 plus own4 reversed-order normals."""
+    data = json.loads(
+        "[[\"invite\",\"zh-TW\",\"events:arc_sangchul_casino_invite:/description\",\"i"
+        "nvite-zh-TW-natural\",\"invite-zh-TW-target-2\",\"不是電話，是簡訊。Im Sangchul 的名字"
+        "下，顯示著兩段短句。\\n\\n「這週末有空嗎？幾個人一起去旌善賭場。」\\n「車我會安排好。賭桌那邊的位子也看過了，輕鬆來就好。」\\n\\n房裡的"
+        "聲音沒變，只有螢幕上的句子，彷彿帶著不同的溫度。旌善。籌碼。做生意的人。氣味像極了 Sangchul 說要替他打開的那扇門。\\n\\n有錢去，"
+        "和輸得起，不是同一個金額。和誰坐在同一張桌前，想必跟押多少錢一樣重要。\\n\\n{name}沒有寫回覆，先查看銀行帳戶餘額。\"],[\"invi"
+        "te_known\",\"zh-TW\",\"events:arc_sangchul_casino_invite:/description_if_k"
+        "nown/sangchul_truth_known\",\"invite_known-zh-TW-natural\",\"invite_known-"
+        "zh-TW-target-2\",\"不是電話，是簡訊。Im Sangchul 的名字下，顯示著兩段短句。\\n\\n「這週末有空嗎？幾個人一起去旌"
+        "善賭場。」\\n「車我會安排好。賭桌那邊的位子也看過了，輕鬆來就好。」\\n\\n如今知道了，那句「輕鬆」讓人在意。讓父親垮下的事，也是從有人安排"
+        "位子、介紹值得信任的人開始。\\n\\n賭場。資金。人脈。Sangchul 一路生活的世界。這次剩下的，是明知那個結構，還要不要以他的客人身分走"
+        "進去。\\n\\n{name}沒有寫回覆，先查看銀行帳戶餘額。\"],[\"invite\",\"zh-CN\",\"events:arc_sangchul"
+        "_casino_invite:/description\",\"invite-zh-CN-natural\",\"invite-zh-CN-targ"
+        "et-2\",\"不是电话，是短信。Im Sangchul 的名字下，显示着两条简短的句子。\\n\\n“这个周末怎么样？几个人一起去旌善赌场。”\\"
+        "n“车我来安排。牌桌那边的位置也看好了，放轻松，来就行。”\\n\\n屋里的声音没变，只有屏幕里的句子，仿佛换了温度。旌善。筹码。做生意的人。很"
+        "像 Sangchul 曾说要替他打开的那扇门，透出的气味。\\n\\n够去一趟的钱，和亏得起的钱，不是同一个数。与谁坐在同一张牌桌上，想必和押多"
+        "少同样重要。\\n\\n{name}没有写回复，先查了账户余额。\"],[\"invite_known\",\"zh-CN\",\"events:arc_s"
+        "angchul_casino_invite:/description_if_known/sangchul_truth_known\",\"inv"
+        "ite_known-zh-CN-natural\",\"invite_known-zh-CN-target-2\",\"不是电话，是短信。Im Sa"
+        "ngchul 的名字下，显示着两条简短的句子。\\n\\n“这个周末怎么样？几个人一起去旌善赌场。”\\n“车我来安排。牌桌那边的位置也看好了，放"
+        "轻松，来就行。”\\n\\n如今知道了，那句‘放轻松’便让人在意。压垮父亲的事，也是从有人安排位置、介绍值得信任的人开始的。\\n\\n赌场。资金。"
+        "人脉。Sangchul 一路走来的世界。这一次，剩下的问题是，明知它的结构，还要不要作为他的客人走进去。\\n\\n{name}没有写回复，先查"
+        "了账户余额。\"]]"
+    )
+    controls = []
+    for kind, locale, leaf_id, base_id, mutant_id, target in data:
+        source = SOURCE_EARLY_CONNECTIONS[kind]
+        phone, message = ("電話", "簡訊") if locale == "zh-TW" else ("电话", "短信")
+        original = f"不是{phone}，是{message}"
+        mutant = target.replace(original, f"不是{message}，是{phone}", 1)
+        reverse = target.replace(original, f"是{message}，不是{phone}", 1)
+        controls.extend([
+            (base_id, source, target, locale, leaf_id, "accept"),
+            (mutant_id, source, mutant, locale, leaf_id, "reject_typed_and_e2e"),
+            ("own_reverse:" + base_id, source, reverse, locale, leaf_id, "accept"),
+        ])
+    checksum = hashlib.sha256(json.dumps(
+        controls, ensure_ascii=False, separators=(",", ":")
+    ).encode()).hexdigest()
+    failures: list[str] = []
+    if checksum != "e95180780a4147496d0077f990d775baef122545681fbf1544dae480aaadf932" or len(controls) != 12:
+        failures.append("early-connection channel12 input/expectation mismatch")
+    for case_id, source, target, locale, leaf_id, expected in controls:
+        _, _, typed = _early_connections_slots(source, target)
+        errors = validate_text(locale, leaf_id, source, target)
+        okay = not typed and not errors if expected == "accept" else bool(typed and errors)
+        if not okay:
+            failures.append(f"{case_id}: typed={typed}, errors={errors}")
+    return len(controls), failures
+
+
 def run_self_test(
     manifest: dict[str, Any], runtime: dict[str, Any],
 ) -> list[str]:
     failures: list[str] = []
     cases, life_failures = _life_scene_parser_self_test()
+    early_cases, early_failures = _early_connections_self_test()
+    cases += early_cases
+    failures.extend(early_failures)
+    early_exposed_cases, early_exposed_failures = _early_connections_exposed_self_test()
+    cases += early_exposed_cases
+    failures.extend(early_exposed_failures)
+    early_literal_cases, early_literal_failures = _early_connections_refund_literal_self_test()
+    cases += early_literal_cases
+    failures.extend(early_literal_failures)
+    early_channel_cases, early_channel_failures = _early_connections_channel_self_test()
+    cases += early_channel_cases
+    failures.extend(early_channel_failures)
     reflection_cases, reflection_failures = _life_reflection_self_test()
     next_cases, next_failures = _next_life_parser_self_test()
     cases += next_cases

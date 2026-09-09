@@ -2672,6 +2672,57 @@ def _ja_korean_culture_address(source: str, target: str):
 
 
 
+def _ja_casino_reply_numbers(source: str, target: str):
+    SOURCE = (
+        "답장을 보내자 1분도 지나지 않아 승차권 QR과 좌석 번호가 도착했다.\n\n\"내일 오전 6시 40분. 늦지 마요.\"\n\n방 안은 그대"
+        "로였지만, 내일 아침의 방향만 정선 쪽으로 바뀌었다."
+    )
+    """One witnessed reply owns elapsed-under-one-minute and next-day06:40."""
+    if source != SOURCE:
+        return None
+    import unicodedata
+    from zh_translation_audit import _chinese_cardinal_value, _has_numeric_sign_prefix
+    digits = r"0-9０-９〇零一二三四五六七八九十百千"
+    number = r"(?<![" + digits + r".,，．])[" + digits + r"]+"
+    elapsed = list(re.finditer(r"(?P<n>" + number + r")分(?:もしないうちに|も(?:経た|たた)ないうちに|も(?:経た|たた)ず(?:に)?|もかからず(?:に)?|足らずで|未満で)", target))
+    clocks = list(re.finditer(r"(?P<period>午前|午後)(?P<h>" + number + r")時(?P<m>" + number + r")分", target))
+    errors, spans, replacements = [], [], []
+    label = "source-bound casino reply"
+    def own(m, name, expected, line):
+        a, b = m.span(name)
+        v = _chinese_cardinal_value(unicodedata.normalize("NFKC", m.group(name)))
+        if v != expected or _has_numeric_sign_prefix(target, a) or target[:a].count("\n") != line:
+            errors.append(label + " value/sign/line mismatch")
+        spans.append((a, b))
+        replacements.append((a, b, str(expected)))
+    if len(elapsed) != 1:
+        errors.append(label + " elapsed-under-minute count/unit/predicate changed")
+    else:
+        own(elapsed[0], "n", 1, 0)
+        line0 = target.split("\n")[0]
+        if not re.search(r"(?:返事|返信|返答).{0,8}(?:送|送信)", line0[:elapsed[0].start()]) or not re.search(
+                r"QR(?:コード)?.*?座席番号.*?(?:届いた|到着した|送られてきた)", line0):
+            errors.append(label + " actual reply-before-ticket receipt changed")
+        if re.search(r"(?:届いた|到着した|送られてきた)(?:わけ|の|とは|かも|はず).*?(?:ない|なかった|予定)", line0):
+            errors.append(label + " actual ticket receipt negated/uncertain")
+    if len(clocks) != 1:
+        errors.append(label + " departure clock count/unit changed")
+    else:
+        own(clocks[0], "h", 6, 2)
+        own(clocks[0], "m", 40, 2)
+        if clocks[0].group("period") != "午前" or not re.search(r"明日", target.split("\n")[2]):
+            errors.append(label + " next-day morning changed")
+        if re.match(r"(?:頃|ごろ|くらい|ぐらい|前後|以上|以下|以降|未満|まで)", target[clocks[0].end():]):
+            errors.append(label + " fixed departure time qualifier changed")
+    for m in re.finditer(r"(?P<n>" + number + r")(?:時間|週間|か月|ヶ月|ウォン|円|秒|分|時|日|年|回|人|枚|つ|個)", target):
+        if m.span("n") not in spans:
+            errors.append(label + " extra/displaced quantity")
+    normalized = target
+    for a, b, value in sorted(replacements, reverse=True):
+        normalized = normalized[:a] + value + normalized[b:]
+    return source, normalized, sorted(set(errors))
+
+
 def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
     import ja_translation_pipeline as ja
     if leaf.group == "endings" and leaf.path == ("condition",):
@@ -2751,6 +2802,10 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
         if life_reflection is not None:
             source_numbers, target_numbers, quantity_errors = life_reflection
             errors.extend(quantity_errors)
+        casino_reply = _ja_casino_reply_numbers(leaf.source, text)
+        if casino_reply is not None:
+            source_numbers, target_numbers, casino_errors = casino_reply
+            errors.extend(casino_errors)
         father_call = _ja_father_call_time_numbers(source_numbers, target_numbers)
         if father_call is not None:
             source_numbers, target_numbers, call_errors = father_call
