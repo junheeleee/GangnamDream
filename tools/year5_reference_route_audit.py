@@ -551,6 +551,26 @@ ORDER134_PROTECTED_FILE_TRANSITIONS = {
         "81d015f171a414b7443fdeda22d55e8022507f987d829067fa96385eae392366",
     ),
 }
+# ORDER-157/159/160 reviewed translation lineage: 0 -> 3 -> 17 -> 35 roots.
+# Keep the manifest's historical []\n registry immutable. These three pinned
+# ORDER-160 blobs alone replace that old working-file expectation, not user GO.
+ENDING_TRANSLATION_COMMIT = "74be170376b9c64c43811a02058cc2ffd8306f0f"
+ENDING_TRANSLATION_PROTECTED_FILE_TRANSITIONS = {
+    "content/endings_ja.json": (
+        "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+        "24a912608c75e43d9902c4334cfb6926d95647e40b20d3fafadc12f6b046cb7f",
+    ),
+    "content/endings_zh-CN.json": (
+        "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+        "35ab6ba6a5a4b944e8e5f9b16beecdc3fe807dc792d046408d6f83180623f1e8",
+    ),
+    "content/endings_zh-TW.json": (
+        "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+        "2b895ebe9b27ee4ac98ebe6612462c7d650ef6da19ec0e068ff8dff575f53ec8",
+    ),
+}
+
+
 ORDER134_SOURCE_TRANSITION_CONTRACT = {
     "order_id": "ORDER-134",
     "baseline_commit": EXPECTED_BASELINE,
@@ -5219,6 +5239,116 @@ def advance_exact_hash(
     return current_hash
 
 
+def ending_translation_expected_hash(
+    relative: str,
+    registered_hash: str,
+    inherited_hash: str,
+    errors: list[str],
+) -> str:
+    """Advance only a known locale's original registry predecessor.
+
+    The target is a constant, never the current file hash. Even replacing the
+    old registry pin with this reviewed current hash is an explicit failure.
+    """
+    transition = ENDING_TRANSLATION_PROTECTED_FILE_TRANSITIONS.get(relative)
+    if transition is None:
+        return inherited_hash
+    if registered_hash != transition[0] or inherited_hash != transition[0]:
+        errors.append(
+            f"{relative}: ending translation historical registry predecessor drifted")
+        return inherited_hash
+    return advance_exact_hash(inherited_hash, transition)
+
+
+def run_ending_translation_transition_self_test(
+    manifest: dict[str, Any],
+) -> tuple[list[str], int]:
+    """Pinned raw blobs and finite path/predecessor/current mutation controls."""
+    failures: list[str] = []
+    cases = 0
+    expected_paths = {
+        "content/endings_ja.json", "content/endings_zh-CN.json",
+        "content/endings_zh-TW.json",
+    }
+    if set(ENDING_TRANSLATION_PROTECTED_FILE_TRANSITIONS) != expected_paths:
+        return ["ending translation: exact three-path map changed"], 0
+    blobs: dict[str, bytes] = {}
+    for relative, (old_hash, current_hash) in \
+            ENDING_TRANSLATION_PROTECTED_FILE_TRANSITIONS.items():
+        try:
+            old_blob = git_blob(EXPECTED_BASELINE, relative)
+            blob = git_blob(ENDING_TRANSLATION_COMMIT, relative)
+        except ValueError as exc:
+            failures.append(f"ending translation pinned fixture: {exc}")
+            continue
+        if old_blob != b"[]\n" or byte_sha256(old_blob) != old_hash:
+            failures.append(f"{relative}: historical empty fixture drifted")
+        if byte_sha256(blob) != current_hash:
+            failures.append(f"{relative}: ORDER-160 pinned fixture drifted")
+        if (ROOT / relative).read_bytes() != blob:
+            failures.append(f"{relative}: working blob differs from pinned ORDER-160")
+        blobs[relative] = blob
+    if len(blobs) != 3 or failures:
+        return failures, cases
+
+    def accepted(relative: str, registered: str, inherited: str, raw: bytes) -> bool:
+        errors: list[str] = []
+        expected = ending_translation_expected_hash(
+            relative, registered, inherited, errors)
+        return not errors and byte_sha256(raw) == expected
+
+    def check(label: str, observed: bool, expected: bool) -> None:
+        nonlocal cases
+        cases += 1
+        if observed != expected:
+            failures.append(f"ending translation {label}: expected {expected}, got {observed}")
+
+    files = manifest.get("protected_hashes", {}).get("files", {})
+    for relative, blob in blobs.items():
+        previous, current = ENDING_TRANSLATION_PROTECTED_FILE_TRANSITIONS[relative]
+        check(relative + "/current", accepted(relative, files.get(relative), previous, blob), True)
+        for label, registered, inherited in (
+            ("unknown_old", "0" * 64, "0" * 64),
+            ("registry_refreshed_to_current", current, current),
+            ("registry_only_tamper", current, previous),
+            ("inherited_only_tamper", previous, current),
+        ):
+            check(relative + "/" + label,
+                  accepted(relative, registered, inherited, blob), False)
+        rows = strict_loads(blob.decode("utf-8"), relative)
+        if not isinstance(rows, list) or len(rows) != 35:
+            failures.append(f"{relative}: pinned ending root shape changed")
+            continue
+        encode = lambda value: json.dumps(
+            value, ensure_ascii=False, indent=2).encode("utf-8") + b"\n"
+        metadata_changed = copy.deepcopy(rows)
+        notes = [row for row in metadata_changed if "condition" in row]
+        if len(notes) != 3:
+            failures.append(f"{relative}: historical notes expected exactly three")
+            continue
+        notes[0]["condition"] = "mutated retained historical metadata"
+        other_locale = next(path for path in blobs if path != relative)
+        mutants = (
+            ("current_byte_tamper", blob + b" "),
+            ("rollback_empty", b"[]\n"),
+            ("wrong_locale_blob", blobs[other_locale]),
+            ("reordered_rows", encode(list(reversed(rows)))),
+            ("deleted_row", encode(rows[1:])),
+            ("added_row", encode(rows + [copy.deepcopy(rows[0])])),
+            ("retained_metadata_changed", encode(metadata_changed)),
+        )
+        for label, raw in mutants:
+            check(relative + "/" + label,
+                  accepted(relative, previous, previous, raw), False)
+    for path in ("content/endings_fr.json", "content/endings_ja_extra.json",
+                 "content/endings.json", "content/endings_en.json"):
+        errors: list[str] = []
+        old_hash = "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+        result = ending_translation_expected_hash(path, old_hash, old_hash, errors)
+        check(path + "/no_transition", result == old_hash and not errors, True)
+    return failures, cases
+
+
 @functools.lru_cache(maxsize=None)
 def order156_baseline_bytes(relative: str) -> bytes:
     """Load one exact source from the closed ORDER-155 product."""
@@ -9405,6 +9535,8 @@ def validate_protected_hashes(
         pre_order150_expected_hash = effective_expected_hash
         effective_expected_hash = advance_exact_hash(
             effective_expected_hash, order150_transition)
+        effective_expected_hash = ending_translation_expected_hash(
+            relative, expected_hash, effective_expected_hash, errors)
         if actual_hash != effective_expected_hash:
             errors.append(f"{owner}: working-tree byte hash drifted")
         transition = ORDER134_PROTECTED_FILE_TRANSITIONS.get(relative)
@@ -12730,6 +12862,9 @@ def main() -> int:
 
     if args.self_test:
         failures, cases = run_self_test(manifest, context)
+        ending_failures, ending_cases = run_ending_translation_transition_self_test(manifest)
+        failures.extend(ending_failures)
+        cases += ending_cases
         if failures:
             for failure in failures:
                 print(f"YEAR5_REFERENCE_ROUTE_SELF_TEST_ERROR {failure}")

@@ -199,6 +199,36 @@ PUBLIC_DEMO_FROZEN_FILES = {
         "6da7ea2acaa83b7e4dd859fdbe1406d3c11d967f350cfba4907f6da753389df4",
 }
 
+# The deployed demo identity and PUBLIC_DEMO_FROZEN_FILES above are historical.
+# ORDER-165 approved exactly one current-source CN sentence (ef931a5a40434bc9dc644d0fcbb1713cdd026c64).
+# This does not update the deployed package, its user GO, or any native gate.
+PUBLIC_DEMO_REVIEWED_WORKING_SOURCE_TRANSITIONS = {
+    "content/events_zh-CN/story_demo_events.json": (
+        "cd67bf8007c6dad44d8c6161a52ad44484ea510ab084acd18f68ba4c535dc142",
+        "4e749e041c7d463d26aa3c54da284b4d5da1455611b0af651b74a81b6048bbc8",
+    ),
+}
+
+
+def _public_demo_working_source_hash_errors(
+    relative: str, historical_hash: str, actual_hash: str,
+) -> list[str]:
+    errors: list[str] = []
+    effective_hash = historical_hash
+    transition = PUBLIC_DEMO_REVIEWED_WORKING_SOURCE_TRANSITIONS.get(relative)
+    if transition is not None:
+        if historical_hash != transition[0]:
+            errors.append(f"public demo historical source pin drifted: {relative}")
+        else:
+            effective_hash = transition[1]
+    if actual_hash != effective_hash:
+        errors.append(
+            f"public demo frozen file drifted: {relative} "
+            f"sha256={actual_hash}, expected={effective_hash}"
+        )
+    return errors
+
+
 # These are hashes of the rejected product's economic housing functions.  The
 # repair may add a presentation projection, but must not rewrite rent, deposit,
 # ownership, upgrade, or month-end settlement semantics.
@@ -2126,11 +2156,8 @@ def validate_preserved_product_boundaries(model: AuditModel, errors: list[str]) 
         except OSError as exc:
             errors.append(f"public demo frozen file unavailable: {relative}: {exc}")
             continue
-        if actual_hash != expected_hash:
-            errors.append(
-                f"public demo frozen file drifted: {relative} "
-                f"sha256={actual_hash}, expected={expected_hash}"
-            )
+        errors.extend(_public_demo_working_source_hash_errors(
+            relative, expected_hash, actual_hash))
 
 
 def validate_model(model: AuditModel) -> list[str]:
@@ -2585,6 +2612,82 @@ def run_self_test() -> int:
     return cases
 
 
+def _reviewed_public_source_self_tests() -> int:
+    cases = 0
+
+    def check(ok: bool, message: str) -> None:
+        nonlocal cases
+        cases += 1
+        if not ok:
+            raise AssertionError(message)
+
+    relative = "content/events_zh-CN/story_demo_events.json"
+    prior, current = PUBLIC_DEMO_REVIEWED_WORKING_SOURCE_TRANSITIONS[relative]
+    check(set(PUBLIC_DEMO_REVIEWED_WORKING_SOURCE_TRANSITIONS) == {relative},
+          "reviewed working-source transition widened")
+    check(PUBLIC_DEMO_FROZEN_FILES[relative] == prior,
+          "historical demo source pin was refreshed")
+    raw = (ROOT / relative).read_bytes()
+    check(_sha256_bytes(raw) == current, "reviewed CN source baseline drifted")
+    check(not _public_demo_working_source_hash_errors(relative, prior, current),
+          "exact approved CN working source rejected")
+    old_sentence = "这些记录留在同一块屏幕上。".encode("utf-8")
+    new_sentence = "这两条记录留在同一块屏幕上。".encode("utf-8")
+    check(raw.count(new_sentence) == 1 and raw.count(old_sentence) == 0,
+          "reviewed CN one-sentence topology drifted")
+    inverse = raw.replace(new_sentence, old_sentence, 1)
+    check(_sha256_bytes(inverse) == prior,
+          "CN inverse failed to restore exact historical bytes")
+    original = json.loads(inverse)
+    reviewed = json.loads(raw)
+    check([x["id"] for x in original] == [x["id"] for x in reviewed],
+          "CN root order changed")
+    fixed = copy.deepcopy(reviewed)
+    target = next(x for x in fixed if x["id"] == "arc_temptation_fallout")
+    target["description"] = target["description"].replace(
+        new_sentence.decode("utf-8"), old_sentence.decode("utf-8"), 1)
+    check(fixed == original, "CN change extends beyond the approved leaf")
+
+    mutants = {
+        "rollback_historical": inverse,
+        "three_not_two": raw.replace(new_sentence, "这三条记录留在同一块屏幕上。".encode("utf-8")),
+        "delete_sentence": raw.replace(new_sentence, b""),
+        "further_text": raw.replace(new_sentence, new_sentence + b" drift"),
+        "drop_placeholder": raw.replace(b"{name}", b"name", 1),
+        "LF": raw + b"\n",
+        "reorder": json.dumps(list(reversed(reviewed)), ensure_ascii=False).encode("utf-8"),
+        "delete_root": json.dumps(reviewed[:-1], ensure_ascii=False).encode("utf-8"),
+        "duplicate_key": raw.replace(b'"id":', b'"id":"duplicate", "id":', 1),
+    }
+    for label, payload in mutants.items():
+        check(payload != raw, f"ineffective public source mutant: {label}")
+        check(bool(_public_demo_working_source_hash_errors(
+            relative, prior, _sha256_bytes(payload))),
+            f"public source mutation accepted: {label}")
+    for label, previous, actual in (
+        ("refresh_registry_to_current", current, current),
+        ("unknown_old", "0" * 64, current),
+        ("unknown_both", "0" * 64, "0" * 64),
+    ):
+        check(bool(_public_demo_working_source_hash_errors(relative, previous, actual)),
+              f"historical pin mutation accepted: {label}")
+    for wrong_path in (
+        "content/events_ja/story_demo_events.json",
+        "content/events_zh-TW/story_demo_events.json",
+        "content/events_zh-CN/another_events.json",
+    ):
+        check(bool(_public_demo_working_source_hash_errors(wrong_path, prior, current)),
+              f"CN transition borrowed by another path: {wrong_path}")
+    for path, historical in PUBLIC_DEMO_FROZEN_FILES.items():
+        if path == relative:
+            continue
+        check(not _public_demo_working_source_hash_errors(path, historical, historical),
+              f"unchanged protected source rejected: {path}")
+        check(bool(_public_demo_working_source_hash_errors(path, historical, "0" * 64)),
+              f"unrelated protected drift accepted: {path}")
+    return cases
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--self-test", action="store_true")
@@ -2592,6 +2695,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.self_test:
         try:
             cases = run_self_test()
+            cases += _reviewed_public_source_self_tests()
         except AssertionError as exc:
             print(f"CHAPTER5_HUMAN_REJECT_SELF_TEST_FAIL {exc}", file=sys.stderr)
             return 1
