@@ -18,6 +18,7 @@ func _ready() -> void:
 
 func _run() -> void:
 	var original_language := LocaleManager.language
+	_check_year_scene_templates()
 	_check_language_codes()
 	_check_existing_translated_overlay()
 	_check_ui_context_contract()
@@ -210,6 +211,194 @@ func _check_ui_format_contract() -> void:
 					% invalid_codepoint)
 	LocaleManager.refresh_community_packs()
 	LocaleManager.language = original_language
+
+func _check_year_scene_templates() -> void:
+	# Synthetic seen-history tests the real formatter, not shared run reachability.
+	var qa_namespace := OS.get_environment("STORY_NAMEPLATE_QA_NAMESPACE")
+	var qa_path := OS.get_user_data_dir().simplify_path()
+	var isolation := "unobserved"
+	if not qa_namespace.is_empty():
+		var boot := get_tree().get_script() as Script
+		var namespace_pattern := RegEx.new()
+		var pattern_valid := namespace_pattern.compile(
+			"^GangnamDream_StoryNameplateQA_[0-9a-f]{32}$") == OK
+		var storage_valid := pattern_valid \
+			and namespace_pattern.search(qa_namespace) != null \
+			and boot != null \
+			and boot.resource_path == "res://tools/StoryNameplateBootstrap.gd" \
+			and bool(ProjectSettings.get_setting(
+				"application/config/use_custom_user_dir", false)) \
+			and str(ProjectSettings.get_setting(
+				"application/config/custom_user_dir_name", "")) == qa_namespace \
+			and qa_path.is_absolute_path() and qa_path.get_file() == qa_namespace
+		_expect(storage_valid, "Year-scene pre-autoload namespace is not exact.")
+		var storage_paths: Array[String] = [
+			SaveManager.settings_path(), MetaProgression.meta_save_path(),
+			DisplayManager.display_settings_path(),
+		]
+		for slot in range(11):
+			storage_paths.append(SaveManager.slot_path(slot))
+		for storage_path in storage_paths:
+			var resolved := ProjectSettings.globalize_path(storage_path).simplify_path()
+			var inside := resolved.get_base_dir() == qa_path
+			_expect(inside, "Year-scene storage escaped isolated user directory: %s" % resolved)
+			storage_valid = storage_valid and inside
+		if not storage_valid:
+			return
+		isolation = "preautoload"
+		print("STORY_NAMEPLATE_QA_USER_DIR=%s" % qa_path)
+
+	var original_language := LocaleManager.language
+	var original_seen: Dictionary = GameState.run_seen_scenes_by_year.duplicate(true)
+	var original_selected: Dictionary = GameState.year_scenes.duplicate(true)
+	var original_state: Dictionary = GameState.serialize().duplicate(true)
+	var original_builtin: Dictionary = LocaleManager._builtin_ui_tables.duplicate(true)
+	var original_community: Dictionary = LocaleManager._community_ui_tables.duplicate(true)
+	var original_misses: Dictionary = LocaleManager._ui_misses.duplicate(true)
+	var original_format_errors: Dictionary = LocaleManager._ui_format_errors.duplicate(true)
+	var fixture_ids: Array[String] = [
+		"hidden_whole_picture", "arc_36_father_comes_to_seoul", "gambling_rock_bottom",
+	]
+	# The source scores are 93, 69, 2 for this seen order; all families differ.
+	var fixture_year := 4
+	var locales: Array[String] = ["ko", "en", "ja", "zh-CN", "zh-TW"]
+	var ko_templates: Array[String] = [
+		"「%s」", "그 해를 접으면, 「%s」이 가장 먼저 남았다.",
+	]
+	var en_templates: Array[String] = [
+		"“%s”", "When that year folded shut, “%s” was the scene that remained.",
+	]
+	var fields: Array[String] = ["text", "result_text"]
+	var titles_by_locale: Dictionary = {}
+	var templates_by_locale: Dictionary = {}
+	for lang in locales:
+		var titles: Dictionary = {}
+		for basename in ["arc_drama", "arc_addiction_recovery"]:
+			var directory := "res://content/events" if lang == "ko" \
+				else "res://content/events_%s" % lang
+			var path := directory.path_join("%s.json" % basename)
+			var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
+			_expect(parsed is Array, "Year-scene raw event array missing: %s" % path)
+			if not parsed is Array:
+				continue
+			for raw_event in parsed:
+				if not raw_event is Dictionary:
+					continue
+				var event_id := str(raw_event.get("id", ""))
+				if event_id not in fixture_ids:
+					continue
+				var raw_title: Variant = raw_event.get("title", null)
+				_expect(not titles.has(event_id), "Year-scene duplicate raw title: %s/%s" % [lang, event_id])
+				_expect(raw_title is String and not str(raw_title).is_empty(),
+					"Year-scene raw title missing: %s/%s" % [lang, event_id])
+				if raw_title is String:
+					titles[event_id] = raw_title
+		_expect(titles.size() == 3, "Year-scene raw title coverage is not 3: %s" % lang)
+		titles_by_locale[lang] = titles
+		var templates: Array[String] = []
+		if lang == "ko":
+			templates = ko_templates.duplicate()
+		elif lang == "en":
+			templates = en_templates.duplicate()
+		else:
+			var ui_path := "res://locale/ui_%s.json" % lang
+			var raw_ui: Variant = JSON.parse_string(FileAccess.get_file_as_string(ui_path))
+			_expect(raw_ui is Dictionary, "Year-scene raw UI dictionary missing: %s" % lang)
+			for key in ko_templates:
+				var raw_template: Variant = raw_ui.get(key, null) if raw_ui is Dictionary else null
+				var template := str(raw_template) if raw_template is String else ""
+				var valid := not template.is_empty() and template.count("%s") == 1 \
+					and not template.replace("%s", "").contains("%") \
+					and not template.contains("\n") and not template.contains("\r")
+				_expect(valid, "Year-scene raw template missing or invalid: %s/%s" % [lang, key])
+				# Keep the real call below even when a key is absent. Never format null.
+				templates.append(template if valid else "")
+		templates_by_locale[lang] = templates
+
+	GameState.run_seen_scenes_by_year = {str(fixture_year): fixture_ids.duplicate()}
+	var fixture_state: Dictionary = GameState.serialize().duplicate(true)
+	LocaleManager._builtin_ui_tables.clear()
+	# This built-in fixture must not be satisfied by a user/community translation.
+	LocaleManager._community_ui_tables = {"ja": {}, "zh-CN": {}, "zh-TW": {}}
+	LocaleManager._ui_misses.clear()
+	LocaleManager._ui_format_errors.clear()
+	var observed_choices := 0
+	var observed_fields := 0
+	for lang in locales:
+		_set_language_without_persisting(lang)
+		var choices: Array = GameState.build_year_scene_choices(fixture_year)
+		observed_choices += choices.size()
+		_expect(choices.size() == 3, "Year-scene real caller did not return 3 choices: %s" % lang)
+		var titles: Dictionary = titles_by_locale.get(lang, {})
+		var english_titles: Dictionary = titles_by_locale.get("en", {})
+		var templates: Array = templates_by_locale.get(lang, [])
+		for index in range(mini(choices.size(), fixture_ids.size())):
+			var choice_value: Variant = choices[index]
+			_expect(choice_value is Dictionary, "Year-scene choice is not a dictionary: %s/%d" % [lang, index])
+			if not choice_value is Dictionary:
+				continue
+			var choice: Dictionary = choice_value
+			var scene_id := fixture_ids[index]
+			var title := str(titles.get(scene_id, ""))
+			var english_title := str(english_titles.get(scene_id, ""))
+			_expect(choice.size() == 4 and choice.has("text") and choice.has("result_text"),
+				"Year-scene choice shape changed: %s/%s" % [lang, scene_id])
+			_expect(choice.get("year_scene", null) == {"year": fixture_year, "scene_id": scene_id},
+				"Year-scene ID/order/year payload changed: %s/%s" % [lang, scene_id])
+			_expect(choice.get("effects", null) == {},
+				"Year-scene formatter introduced effects: %s/%s" % [lang, scene_id])
+			_expect(str(DataRegistry.find_event(scene_id).get("title", "")) == title,
+				"Year-scene live title differs from raw locale title: %s/%s" % [lang, scene_id])
+			_expect(DataRegistry.english_event_title(scene_id, "") == english_title,
+				"Year-scene explicit English title map changed: %s/%s" % [lang, scene_id])
+			if lang != "en":
+				_expect(not title.is_empty() and title != english_title,
+					"Year-scene local title fixture cannot distinguish English: %s/%s" % [lang, scene_id])
+			for field_index in range(fields.size()):
+				var field := fields[field_index]
+				var value: Variant = choice.get(field, null)
+				var actual := str(value) if value is String else ""
+				observed_fields += 1
+				_expect(value is String and not actual.is_empty() and not actual.contains("%s"),
+					"Year-scene field is empty, non-text or unformatted: %s/%s/%s" % [lang, scene_id, field])
+				var template := str(templates[field_index]) if field_index < templates.size() else ""
+				if not template.is_empty() and not title.is_empty():
+					# Literal substitution is an independent oracle, not ui_format.
+					_expect(actual == template.replace("%s", title),
+						"Year-scene localized template/title mismatch: %s/%s/%s" % [lang, scene_id, field])
+				print("I18N_YEAR_SCENE_FIELD " + JSON.stringify({
+					"locale": lang, "scene_id": scene_id, "field": field,
+					"actual": actual, "raw_template_present": not template.is_empty(),
+				}))
+		for key in ko_templates:
+			_expect(not LocaleManager.get_ui_misses(lang).has(key),
+				"Year-scene exact template used English fallback: %s/%s" % [lang, key])
+		_expect(GameState.serialize() == fixture_state,
+			"Year-scene caller mutated gameplay state: %s" % lang)
+	_expect(observed_choices == 15 and observed_fields == 30,
+		"Year-scene runtime coverage is not 5 locales / 15 choices / 30 fields.")
+	_expect(LocaleManager._ui_format_errors.is_empty(), "Year-scene caller recorded a format error.")
+
+	# No early return after mutation: missing dictionaries/keys still reach restore.
+	GameState.run_seen_scenes_by_year = original_seen
+	GameState.year_scenes = original_selected
+	LocaleManager.language = original_language
+	DataRegistry.reload()
+	LocaleManager._builtin_ui_tables = original_builtin
+	LocaleManager._community_ui_tables = original_community
+	LocaleManager._ui_misses = original_misses
+	LocaleManager._ui_format_errors = original_format_errors
+	var state_restored: bool = GameState.serialize() == original_state
+	_expect(state_restored, "Year-scene fixture did not restore original gameplay state.")
+	_expect(LocaleManager.language == original_language \
+		and LocaleManager._ui_misses == original_misses \
+		and LocaleManager._ui_format_errors == original_format_errors,
+		"Year-scene fixture did not restore language/diagnostics.")
+	var summary := "locales=5 choices=%d text_result=%d state_restored=%d isolation=%s user_dir=%s" \
+		% [observed_choices, observed_fields, 1 if state_restored else 0, isolation, qa_path]
+	print("I18N_YEAR_SCENE_TEMPLATES_OBSERVED %s failures=%d" % [summary, _failures.size()])
+	if _failures.is_empty():
+		print("I18N_YEAR_SCENE_TEMPLATES_OK " + summary)
 
 func _check_exact_whole_won_contract() -> void:
 	var original_language := LocaleManager.language
