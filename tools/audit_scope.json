@@ -14,6 +14,29 @@
   ],
   "fast_lanes": [
     {
+      "id": "choice-preview-ui-inventory",
+      "paths": [],
+      "owned_paths": [
+        "tools/ja_translation_pipeline.py",
+        "tools/audit_scope.json",
+        "docs/queue_active/ORDER-220.md",
+        "docs/queue_archive/ORDER-220.md",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/WORK_LOG.md",
+        "docs/STATUS.md",
+        "docs/agent_review_decisions.json"
+      ],
+      "tools": [
+        "tools/ja_translation_pipeline.py --self-test",
+        "tools/zh_translation_audit.py --self-test",
+        "tools/queue_index_self_test.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Exact two post-plan choice-preview UI calls: retain real occurrence counts and immutable public manifest; recheck only failed inventory consumers, not unchanged long route/runtime gates."
+    },
+    {
       "id": "choice-preview-localization",
       "paths": [],
       "owned_paths": [
@@ -32,7 +55,8 @@
         "docs/CODEX_QUEUE_L3_PENDING.md",
         "docs/WORK_LOG.md",
         "docs/STATUS.md",
-        "docs/agent_review_decisions.json"
+        "docs/agent_review_decisions.json",
+        "tools/ja_translation_pipeline.py"
       ],
       "tools": [
         "tools/year5_reference_route_audit.py",

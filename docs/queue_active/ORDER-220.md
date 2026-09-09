@@ -65,3 +65,29 @@ queue/index/scope/context를 포함한다. stdout와 Godot log 양쪽 오류·�
 
 지속 언어 routing 규칙은 기존 I18N_INFRASTRUCTURE가 소유한다. 이번 exact 소유·전이·절차는 일회성이다.
 자동 게이트는 도달성과 계약 증거이지 재미·깊이·문체의 증거가 아니다.
+
+## 2026-09-09 필수 QA 통합 보완 선언 — 제품 범위 추가 없음
+
+clean source65f97eb100e630bedd7993a893406ec495fc5c6b에서 최종 overlay 차선이
+JA pipeline self와 ZH UI context에서 실패했다. 승인한 literal _tr2 때문에
+실제 호출3342/legacy3308이 과거 계획3340/3306보다2개 늘어난 정확한 의존 결함이다.
+번역·MainGame·UI dictionary·공개 manifest를 바꾸는 신규 제품 범위가 아니다.
+기존 실패 원형을 보존하고 같은220의 필수 검사 통합 파일만 아래처럼 추가 소유한다.
+
+- Rawls: tools/ja_translation_pipeline.py의 현재 UI inventory 검증과 그 focused self만.
+  전달받은 UiCall에서 MainGame/_choice_effects_preview/legacy의 건강/Health,
+  정신/Mental을 각1회 검증한다. 삭제·중복·함수/KO/EN 이동을 거부한다.
+- 관측 calls·통계3342/3308은 그대로 반환한다. 원형 계약을 변형하지 않은 별도
+  기대 view에서 current_source_snapshot의 두 count와 final phase의 두 count만
+  고정 등록2를 더한다. 발견 개수에 따른 자동 허용·호출 필터·일반 숫자 면제는 금지다.
+- 디스크 demo_localization_scope 전체 raw, ORDER96 상수·107-key·34 migration·29 IDs,
+  key SHA·baseline/A/B phase와 기존69 self는 원형을 보존한다. 기존 final3340/3306
+  기대값과 새 실제3342/3308은 따로 검증한다. 정상·변조를 코드 전에 봉인한다.
+- ROOT: 기존 audit_scope 소유 안에 이 파일과 명시 choice-preview-ui-inventory 차선을
+  등록한다. 실패2와 새 focused 회귀만 다시 실행하고, 이미 진행 중인 원래220 차선의
+  두 긴 self·Godot을 이유 없이 재실행하지 않는다. 소스/검사 입력 불변을 별도로 결속한다.
+  독립 고정10입력은 private order220-root-ui-inventory-precode.json에 코드 전 봉인했다.
+- 기존219 수용 원형·L2·교환은 불변이다. 새 pipeline을 쓰는 최종 전량 L1은 입력 지문과
+  함께 재확인한다. 같은 실패의 수리·재검을 새 블라인드 표본으로 세지 않는다.
+
+이 파일 소유 보완과 검사 순서는 이번 오더 한정이다. 두 활성 배치와 제품 범위는 유지한다.
