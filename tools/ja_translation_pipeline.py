@@ -1268,6 +1268,60 @@ def _candidate_selector(
     return path, function, encode(korean), encode(english)
 
 
+def _choice_preview_ui_expected_view(
+    calls: Iterable[UiCall], historical_view: dict[str, Any], kind: str,
+) -> tuple[dict[str, Any], list[str]]:
+    """Add two declared calls to expectations, never to observed statistics."""
+    registered = {
+        ("scenes/MainGame.gd", "_choice_effects_preview", "legacy",
+         "건강", "Health", ""): 1,
+        ("scenes/MainGame.gd", "_choice_effects_preview", "legacy",
+         "정신", "Mental", ""): 1,
+    }
+    counts = dict.fromkeys(registered, 0)
+    errors: list[str] = []
+    for call in calls:
+        selector = (call.path, call.function, call.api, call.korean,
+                    call.english, call.context_id)
+        if selector in counts:
+            counts[selector] += 1
+        elif (call.path, call.function) == (
+            "scenes/MainGame.gd", "_choice_effects_preview",
+        ):
+            errors.append(f"source: choice-preview unexpected selector {selector!r}")
+    for selector, expected in registered.items():
+        if counts[selector] != expected:
+            errors.append(
+                f"source: choice-preview registered selector {selector!r} "
+                f"count {counts[selector]} != {expected}"
+            )
+    pinned_counts = {
+        "snapshot": {
+            "legacy_pair_call_occurrences": 3283,
+            "post_migration_legacy_pair_call_occurrences": 3249,
+        },
+        "final": {
+            "total_ui_call_occurrences": 3340,
+            "legacy_pair_call_occurrences": 3306,
+        },
+        "final_self_stats": {"source_calls": 3340, "legacy_calls": 3306},
+    }
+    view = dict(historical_view)
+    if kind not in pinned_counts:
+        errors.append(f"manifest: unknown choice-preview expected view {kind!r}")
+        return view, errors
+    for key, historical in pinned_counts[kind].items():
+        if type(view.get(key)) is not int or view[key] != historical:
+            errors.append(
+                f"manifest: choice-preview historical {kind}.{key} "
+                f"{view.get(key)!r} != {historical}"
+            )
+        else:
+            # Fixed declared delta, independent of discovery/multiplicity.
+            view[key] = historical + 2
+    return view, errors
+
+
 def validate_ui_parameterized_contract(
     contract: dict[str, Any],
     calls: Iterable[UiCall],
@@ -2048,6 +2102,11 @@ def validate_ui_parameterized_contract(
     if not isinstance(expected_phase, dict):
         errors.append(f"manifest: source inventory phase {observed_phase} is malformed")
         expected_phase = {}
+    if observed_phase == "final":
+        expected_phase, preview_errors = _choice_preview_ui_expected_view(
+            call_rows, expected_phase, "final"
+        )
+        errors.extend(preview_errors)
     actual_inventory = {
         "migrated_calls": sum(
             int(registry[selector]["count"]) for selector in migrated_selectors
@@ -2133,6 +2192,10 @@ def validate_ui_context_contract(
             "four legacy inventory fields"
         )
         current_snapshot = {}
+    current_snapshot, preview_errors = _choice_preview_ui_expected_view(
+        calls, current_snapshot, "snapshot"
+    )
+    errors.extend(preview_errors)
     baseline_calls = current_snapshot.get("legacy_pair_call_occurrences")
     supplemental_rows = parameter_contract.get(
         "localized_argument_registry", []
@@ -3204,6 +3267,108 @@ def write_scope(scope: str, blueprint: Any, translated: dict[str, str]) -> None:
         write_json(ROOT / "locale/catalog_ja.json", resolved)
 
 
+def _choice_preview_ui_inventory_self_test(
+    inventory: Optional[UiInventory] = None,
+) -> tuple[int, list[str]]:
+    """Nineteen fixed exposed-scope controls; no generator or full self run."""
+    from dataclasses import replace
+
+    inventory = inventory if inventory is not None else collect_ui_inventory()
+    manifest = read_json(UI_CONTEXT_MANIFEST_PATH)
+    manifest_before = _canonical_json_sha256(manifest)
+    snapshot = manifest["ui_semantic_context_blocker"]["current_source_snapshot"]
+    phases = manifest["ui_parameterized_template_plan"]["source_inventory_phases"]
+    calls_before = inventory.calls
+    failures = [f"choice-preview actual inventory: {e}" for e in inventory.errors]
+    if (inventory.stats.get("source_calls"), inventory.stats.get("legacy_calls")) \
+            != (3342, 3308):
+        failures.append("choice-preview actual counts must remain 3342/3308")
+    if (phases["final"]["total_ui_call_occurrences"],
+        phases["final"]["legacy_pair_call_occurrences"]) != (3340, 3306):
+        failures.append("choice-preview historical final plan changed")
+    owner = ("scenes/MainGame.gd", "_choice_effects_preview")
+    registered = [
+        next((call for call in inventory.calls
+              if (call.path, call.function, call.api, call.korean, call.english,
+                  call.context_id) == (*owner, "legacy", ko, en, "")), None)
+        for ko, en in (("건강", "Health"), ("정신", "Mental"))
+    ]
+    controls = json.loads(
+        "[{\"id\":\"actual\",\"operation\":\"none\",\"pass\":true},{\"id\":\"reordered\",\"operation\":\"revers"
+        "e\",\"pass\":true},{\"id\":\"delete_health\",\"operation\":\"delete\",\"row\":0,\"pass\":false},{\"id"
+        "\":\"duplicate_health\",\"operation\":\"duplicate\",\"row\":0,\"pass\":false},{\"id\":\"delete_ment"
+        "al\",\"operation\":\"delete\",\"row\":1,\"pass\":false},{\"id\":\"duplicate_mental\",\"operation\":\""
+        "duplicate\",\"row\":1,\"pass\":false},{\"id\":\"rollback_both\",\"operation\":\"delete_both\",\"pas"
+        "s\":false},{\"id\":\"changed_function\",\"operation\":\"replace\",\"row\":0,\"field\":\"function\",\""
+        "value\":\"_other_preview\",\"pass\":false},{\"id\":\"changed_path\",\"operation\":\"replace\",\"row"
+        "\":1,\"field\":\"path\",\"value\":\"scenes/Other.gd\",\"pass\":false},{\"id\":\"changed_api\",\"opera"
+        "tion\":\"replace\",\"row\":0,\"field\":\"api\",\"value\":\"context\",\"pass\":false},{\"id\":\"changed_"
+        "korean\",\"operation\":\"replace\",\"row\":0,\"field\":\"korean\",\"value\":\"체력\",\"pass\":false},{\"i"
+        "d\":\"changed_english\",\"operation\":\"replace\",\"row\":1,\"field\":\"english\",\"value\":\"Mind\",\""
+        "pass\":false},{\"id\":\"changed_context_id\",\"operation\":\"replace\",\"row\":0,\"field\":\"contex"
+        "t_id\",\"value\":\"ui.extra.health\",\"pass\":false},{\"id\":\"source_changed_literal\",\"operati"
+        "on\":\"source\",\"source\":\"func _choice_effects_preview():\\n\\t_tr(\\\"건강\\\", \\\"Body\\\")\\n\\t_t"
+        "r(\\\"정신\\\", \\\"Mental\\\")\\n\",\"pass\":false},{\"id\":\"source_moved_function\",\"operation\":\"sou"
+        "rce\",\"source\":\"func moved():\\n\\t_tr(\\\"건강\\\", \\\"Health\\\")\\n\\t_tr(\\\"정신\\\", \\\"Mental\\\")\\n\""
+        ",\"pass\":false},{\"id\":\"snapshot_legacy_pair_call_occurrences_tamper\",\"operation\":\"view"
+        "\",\"kind\":\"snapshot\",\"field\":\"legacy_pair_call_occurrences\",\"value\":3284,\"pass\":false}"
+        ",{\"id\":\"snapshot_post_migration_legacy_pair_call_occurrences_tamper\",\"operation\":\"vie"
+        "w\",\"kind\":\"snapshot\",\"field\":\"post_migration_legacy_pair_call_occurrences\",\"value\":32"
+        "50,\"pass\":false},{\"id\":\"final_total_ui_call_occurrences_tamper\",\"operation\":\"view\",\"k"
+        "ind\":\"final\",\"field\":\"total_ui_call_occurrences\",\"value\":3341,\"pass\":false},{\"id\":\"fi"
+        "nal_legacy_pair_call_occurrences_tamper\",\"operation\":\"view\",\"kind\":\"final\",\"field\":\"l"
+        "egacy_pair_call_occurrences\",\"value\":3307,\"pass\":false}]"
+    )
+    for control in controls:
+        calls = list(inventory.calls)
+        current_snapshot, current_final = dict(snapshot), dict(phases["final"])
+        operation = control["operation"]
+        row = registered[control.get("row", 0)]
+        if operation == "reverse":
+            calls.reverse()
+        elif operation == "delete" and row in calls:
+            calls.remove(row)
+        elif operation == "duplicate" and row is not None:
+            calls.append(row)
+        elif operation == "delete_both":
+            calls = [call for call in calls if call not in registered]
+        elif operation == "replace" and row in calls:
+            calls[calls.index(row)] = replace(
+                row, **{control["field"]: control["value"]}
+            )
+        elif operation == "source":
+            parsed, parse_errors = parse_ui_calls(owner[0], control["source"])
+            if parse_errors:
+                failures.append(f'{control["id"]}: source fixture parse errors')
+            calls = [call for call in calls if call not in registered] + parsed
+        elif operation == "view":
+            changed = current_snapshot if control["kind"] == "snapshot" else current_final
+            changed[control["field"]] = control["value"]
+        snapshot_before, final_before = dict(current_snapshot), dict(current_final)
+        view_snapshot, snapshot_errors = _choice_preview_ui_expected_view(
+            calls, current_snapshot, "snapshot"
+        )
+        view_final, final_errors = _choice_preview_ui_expected_view(
+            calls, current_final, "final"
+        )
+        errors = snapshot_errors + final_errors
+        if control["pass"] != (not errors):
+            failures.append(f'{control["id"]}: expected pass={control["pass"]}: {errors}')
+        if control["pass"]:
+            expected_snapshot, expected_final = dict(snapshot), dict(phases["final"])
+            expected_snapshot.update(legacy_pair_call_occurrences=3285,
+                                     post_migration_legacy_pair_call_occurrences=3251)
+            expected_final.update(total_ui_call_occurrences=3342,
+                                  legacy_pair_call_occurrences=3308)
+            if view_snapshot != expected_snapshot or view_final != expected_final:
+                failures.append(f'{control["id"]}: expected view changed unowned fields')
+        if current_snapshot != snapshot_before or current_final != final_before:
+            failures.append(f'{control["id"]}: input view mutated')
+    if inventory.calls != calls_before or _canonical_json_sha256(manifest) != manifest_before:
+        failures.append("choice-preview input calls/manifest mutated")
+    return len(controls), failures
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -3472,9 +3637,13 @@ def main() -> int:
             "parameter_argument_provenance_calls": 15,
             "parameter_existing_lookup_before_format_provenance_calls": 2,
         }
+        current_parameter_stats, preview_errors = _choice_preview_ui_expected_view(
+            ui_inventory.calls, exact_parameter_stats, "final_self_stats"
+        )
+        failures.extend(preview_errors)
         stale_parameter_stats = {
             key: (ui_inventory.stats.get(key), expected)
-            for key, expected in exact_parameter_stats.items()
+            for key, expected in current_parameter_stats.items()
             if ui_inventory.stats.get(key) != expected
         }
         if stale_parameter_stats:
@@ -3898,6 +4067,9 @@ def main() -> int:
             failures.append(
                 "stale existing lookup-before-format provenance was not rejected"
             )
+        preview_cases, preview_failures = _choice_preview_ui_inventory_self_test(ui_inventory)
+        cases += preview_cases
+        failures.extend(preview_failures)
         if failures:
             print(
                 f"JA_TRANSLATE_SELF_TEST_FAIL cases={cases} "

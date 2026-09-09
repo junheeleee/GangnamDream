@@ -68,3 +68,29 @@ source65f97eb의 overlay12에서 JA pipeline self와 ZH UI context가 실패했�
 이를 무시하거나 호출을 숨기지 않고, 정확한 두 소비자만 별도 현재 기대 view로 검증한다.
 디스크 공개 manifest와 원형 계획·기존69 self는 보존한다. active220의 별도 보완 선언
 전에는 이 추가 파일을 쓰지 않았다. 수리·독립 회귀 완료 전 본 작업도 GO가 아니다.
+
+원래220 차선은 full-body52·year5 self513·causal 실제/590 self·demo self4/실제·
+scope141·queue index25·year5 실제까지 통과했다. causal590은631.85초였다.
+그 뒤 shell wrapper의 실행 비트가 없어 직접 실행 전에 PermissionError로 중단됐다.
+자기 검사는 bash로 호출했기 때문에 놓친 통합 결함이다. 이미 소유한 wrapper의
+내용은 그대로 두고100644→100755만 고쳤다. 긴 통과 검사9개는 반복하지 않고,
+미실행 Godot component와 마지막 context/queue만 실행해 결과를 따로 결속한다.
+첫 실패 차선 전체를 PASS라고 기록하지 않는다.
+
+실행 비트 수리 뒤 ROOT가 동일64를 독립 실제 실행했다. Godot/runner exit0,
+두 로그 오류0, 실제 Label44/의도된 무표시20·선택과 정의된 상태 snapshot64 불변이다.
+원형 runner_result/stdout/stderr/godot.log는 아래 격리 증거 디렉터리에 보존했다.
+`/var/folders/yr/mf2mg8vn7yld9rk4rf3qh2y80000gn/T/gangnam-choice-preview-locale-yml86ep0`.
+ROOT의 개별 assertion·전후 source 지문·로그 재독은
+private order220-root-actual-component-final.json에 따로 기록한다.
+이는 실제 caller가 만든 텍스트 component 검수이며 렌더/전체 플레이/사람 관찰은 아니다.
+
+UI inventory 보완은 ja_translation_pipeline 한 파일에 한정했다. 실제3342/3308은
+그대로 반환하고, 두 exact 등록을 각각1회 검사한 뒤 역사 기준의 별도 기대값에만2를 더한다.
+manifest 전체 raw·과거 phase·ORDER96·기존69 검사는 그대로다. 추가 영구 CLI는 없다.
+저자 고정19(정상2/변조17)와 ROOT 코드 전 별도10입력은 모두 기대 일치했다.
+ROOT는 실제 diff 전량을 읽고 전달 calls·계약이 바뀌지 않는지와 삭제·중복·이동·
+KO/EN 교환·미등록 추가·과거 rollback·역사/현재 count 재핀을 양쪽 실제 validator로 확인했다.
+private order220-root-ui-inventory-final.json은 최초 독립10 결과이며 저자19와 분리한다.
+최종 pipeline SHA0b3c9421fa1228834749309dd56ecaf8bfcf7bdea03100f44cd7eb327a94eb6d.
+의존 차선과 최종 전량 L1은 이 동결 뒤 실행한다.
