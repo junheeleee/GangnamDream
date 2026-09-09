@@ -1,6 +1,6 @@
 # ORDER-222 — 선택 회수·목표 재고 번역 검토
 
-> [~] 번역 수용·독립 전량 대조 완료. 최종 명시 차선과 정확 소스 내부 판정은 아래 확정 절에서 닫는다.
+> [x] 완료 — 정확 소스의 ORDER222 작업 한정 내부 GO. 최종 확정 절이 현재 판정을 소유하며 앞의 진행·실패·대기는 당시 기록이다.
 > 본편 HOLD·원어민/실제 화면/인간/물리 조작 미관찰은 유지한다.
 
 ## 신원·모집단
@@ -272,3 +272,29 @@ KO/EN·MainGame·LocaleManager·UI·폰트·project.godot·user 저장·인간 �
 지속 규칙은 I18N_INFRASTRUCTURE·언어 용어집·WORK_UNIT이 이미 소유한다.
 이번23개·177·파일 소유·검수/실행 순서·조건부 source-bound 오탐 수리는 일회성이다.
 ```
+
+## 최종 확정 — 위임된 내부 작업 GO
+
+2026-09-09, 제품 소스712bcd1010ed62ba3475e85c5a222fc29a8a8006,
+tree4b514a37338b3f29e8ade06c0c267b9058e06481의 ORDER222만 GO다.
+clean Git에서 source observer도 이 신원을 반환했다.
+Plato가 실제 번역 검수·수량 guard·교환/수용·회귀 원문을 통합 검토했고 필수 잔여0을 판정했다.
+본인의 CN 저작을 단독 승인하지 않고 ROOT의 독립177 직접 대조/최종3수정 재독해에 결속했다.
+JA는 Plato, CN/TW는 ROOT, ZH guard는 Poincare, 수용 구조는 Rawls가 각각 저자와 분리돼 있다.
+
+독립 최종 보고 order222-independent-integration-final.json38924B/
+70fdd8d6cc73aba2a211ed039800a9b08d298073552c56a5725b14f2982a1034.
+69입력 전후 aggregate6d73049327f37eb55c23befc285609fe6680f41cabf500915624a25d423cccba,
+신규531 결속·기존33711 역제거·593개 L1 입력 현재SHA exact·named12(11고유) 원문을 확인했다.
+named12 실행 근거 order222-targeted-qa.json4664B/
+df7279a855d16b15904f305aa8cf50eb35ed574d6d1b5eaa1af1398b68d7e9a0.
+검수자가 전량 L1·명시 차선을 다시 돌려 증거 수를 부풀리지 않았다.
+
+이후 변경은 이 판정 문장·기존75행 큐 복원·WORK_LOG·새agent decision1·generated STATUS인
+metadata wrapper만 허용한다. 기존8판정·human45OPEN/public1GO·원문·runtime·사용자 파일을 보존한다.
+착수 사양 원문은 위 fence에 byte-exact로 보존하고 active 파일만 보관본으로 이동한다.
+다음 인물19종/124문구는 사전 조사이며 이번531수용·현재 GO 분모에 넣지 않는다.
+
+이 GO는 번역·검사 수리 작업 단위에 한정한다. 전체 본편 HOLD,
+실제 원어민/화면/정상 속도 플레이/물리 패드·새 후보 원격 CI·외부 출시는 미관찰 또는 별도다.
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
