@@ -4627,6 +4627,7 @@ def _mixed_manwon_value(match: re.Match[str]) -> Decimal:
 
 
 def _source_money_amounts(source: str) -> list[MoneyAmount]:
+    source = _mask_spans(source, _leisure_nonmoney(source))
     # This one observed fee is a 200,000–300,000-won range. Its endpoints,
     # label and predicate are validated by golf_round_fee_range, not as 300,000.
     source = SOURCE_GOLF_FEE_RANGE.sub(lambda m: " " * len(m.group()), source)
@@ -5340,11 +5341,327 @@ def _korean_culture_slots(source: str, target: str) -> tuple[list[CounterQuantit
     return source_slots, target_slots, errors
 
 
+SOURCE_LEISURE_GAMBLING = {
+    "spa_entry": "갈 곳 없는 주말 밤, 찜질방.\n입장 9천 원에 하룻밤. 양머리 수건 접는 법을 배웠다.\n\n맥반석 계란을 이마에 탁 깨서 까먹고, 식혜 한 캔.\n불가마에 들어가니 5년 치 피로가 땀으로 빠지는 것 같았다.",
+    "spa_eggs": "맥반석 계란 두 개에 식혜. 불가마-냉탕-불가마.\n\n이 조합을 발명한 사람에게 상을 줘야 한다.\n땀을 빼고 나오니 머리가 맑았다. 9천 원어치 명상이었다.",
+    "comic_hourly": "비 오는 일요일, 만화카페.\n시간당 2천 원에 라면·음료 무제한, 푹신한 빈백.\n\n읽고 싶던 만화를 스무 권 쌓아두고 파묻혔다.\n바깥세상이 잠깐 사라졌다.",
+    "comic_finished": "라면 한 그릇 끓여 먹고, 만화 스무 권을 다 봤다.\n\n해가 진 줄도 몰랐다. 목이 뻐근했지만 마음은 가벼웠다.\n이천 원짜리 도피처치고 완벽했다.",
+    "arcade_exchange": "번화가 오락실.\n펌프(댄스 발판), 농구 게임, 그리고 인생네컷 부스.\n\n동전 교환기에 천 원을 넣자 100원짜리가 쏟아진다.\n— 오랜만이다, 이 소리.",
+    "arcade_pump": "펌프 한 곡 밟는다 — 땀 좀 빼자",
+    "arcade_fitness": "발판을 밟다 보니 금세 숨이 찼다. 옆 고수가 흘끔 봤다.\n\n못해도 재밌었다. 이게 한국식 리듬게임.\n오백 원으로 헬스장 한 타임 효과를 봤다.",
+    "escape_fee": "지인들과 방탈출 카페.\n1인 2만 원, 제한시간 60분. 자물쇠, 암호, 자외선 펜.\n\n문이 잠기고 타이머가 빨갛게 줄어들기 시작한다.\n\"단서는 다 방 안에 있습니다.\"",
+    "subway_skip_choice": "한 대 보내고 다음 걸 탄다",
+    "subway_skip_result": "한 대를 그냥 보냈다. 다음 것도 만원이었지만 조금 나았다.\n\n2분 늦는 대신 끼여 죽지 않기로 했다.\n가끔은 그 2분이 하루의 멘탈을 지킨다.",
+    "bike_freedom": "한강을 따라 달렸다. 바람, 윤슬, 다리 밑 그늘.\n\n천 원으로 이만한 자유가 또 없다.\n페달을 밟는 동안만큼은 30억도, 마감도 뒤로 밀렸다.",
+    "bike_service": "서울 공공자전거 따릉이.\n앱으로 QR을 찍고 천 원에 한 시간. 거치대에서 자전거를 뺀다.\n\n날이 좋다. 페달을 밟자 바람이 분다.",
+    "poker_first_loss": "2시간에 2만원 손실.\n근데 두 번 블러핑에 성공했고, 한 번은 큰 팟을 땄다가 다시 잃었다.\n\n계단 올라오면서 생각했다. 이거 공부할 게 있는 게임이구나.",
+    "poker_bad_beat": "포켓 에이스.\n\n이 패로 지는 확률은 20% 미만이다. 플랍, 턴 — 여전히 선두.\n\n리버에서 상대가 트리플을 맞혔다.\n\n통계적으로 말도 안 되는 일이 방금 눈앞에서 일어났다.",
+    "poker_tilt_loss": "감정으로 판단했다. 결과는 예정돼 있었다.\n\n15만원을 잃고 나왔다.\n계단 위 강남 거리. 차갑고 밝았다.\n\n원칙이 무너지는 게 항상 이렇게 빠르다.",
+    "poker_elder": "브레이크 타임.\n\n자판기 커피를 뽑다가 옆자리 노인과 눈이 마주쳤다.\n\n60대. 테이블에서 한 번도 흔들리지 않는 사람이었다.\n\n\"얼마나 됐어요?\" 그가 먼저 물었다.",
+    "poker_sip": "노인이 고개를 끄덕였다.\n\"포커는 패를 이기는 게임이 아니야. 사람을 이기는 게임이야.\"\n\n자판기 커피를 한 모금 마셨다.\n\"진짜 블러프는 손이 떨리지 않는 거야. 마음이 흔들리지 않는 거고.\"\n\n짧은 대화였는데, 뭔가 달랐다.",
+    "poker_loss_title": "5연패",
+    "poker_loss_streak": "오늘 다섯 판을 연속으로 졌다.\n\n통계적으로는 가능하다. 80% 우위에서도 다섯 번 연속 질 수 있다.\n\n근데 지금 {name}이 통계를 쓰고 있는 건 아닌 것 같았다.\n\n뭔가 오늘은 다른 것 같다.",
+    "poker_two_mistakes": "칩을 정리하고 일어났다.\n딜러가 \"수고하셨어요\" 했다.\n\n계단을 올라오며 생각했다.\n오늘 잘못한 판 두 개가 보였다.\n그게 보인다는 건, 배우고 있다는 거다.",
+    "poker_extra_loss": "한 판 더 했다.\n지금 상태에서 잘 될 리 없었다.\n\n4만원을 더 잃고 나왔다.\n\n총 손실을 계산하며 계단을 내려왔다 — 아니, 올라왔다.\n엘리베이터 문이 닫혔다.",
+    "poker_discount": "자리비 30% 할인. 6,000원.\n테이블 사람들도 낯이 익어졌다.\n\n여기 오면 직장도 나이도 없다. 패 앞에서는 다 같다.\n그게 이상하게 편했다.",
+    "chip_value": "정선 카지노 환전 창구.\n\n{name}은 현금을 내밀었다. 직원이 세더니 칩을 밀어줬다.\n\n초록색, 검정색, 보라색. 무게가 있었다.\n\n이상했다. 방금까지 돈이었던 게, 손에 쥐니 장난감 같았다.\n5만원이 칩 한 개. 그 칩이 5만원이라는 실감이 — 안 났다.\n\n그게 이 게임의 첫 번째 속임수라는 걸, {name}은 나중에 알게 된다.",
+    "chip_limit": "10만원어치만 바꿨다. 지갑은 차에 두고 왔다.\n\n칩 두 개. 이게 오늘의 전부다.\n잃으면 끝, 따면 일어선다. 규칙을 미리 정해두니 마음이 가벼웠다.\n\n칩이 가벼워 보일수록, 한도를 정하는 사람이 이긴다.",
+    "chip_loaded": "30만원어치 칩을 받았다. 묵직했다.\n\n넉넉해야 마음 편히 친다고 생각했다.\n근데 그 '넉넉함'이 곧 기준이 됐다. 30만원은 어느새 '오늘 쓸 돈'이 되어 있었다.\n\n많이 바꿀수록 많이 잃는 구조라는 걸, 환전 창구에선 아무도 말해주지 않았다.",
+    "comp_offer": "집에 있던 {name}의 휴대폰이 짧게 울렸다. 앞서 소개받은 카지노 클럽의 숙박 안내였다.\n\n「객실 1박과 조식을 무료로 제공합니다. 이용 가능한 날짜를 문의해 주세요.」\n\n누구 이름도 적혀 있지 않은 안내였다. 그래도 {name}은 '무료'라는 단어 위에서 손가락을 멈췄다.\n\n답장을 쓰려다 달력을 열었다. 비어 있는 칸 하나에 넓은 침대와 늦은 아침이 먼저 들어왔다. 그다음에는 호텔 아래층의 테이블이 떠올랐다.\n\n화면 밖은 여전히 익숙한 방이었다. 메시지 입력 칸의 커서가 깜빡였다.",
+    "comp_declined": "{name}은 「안내 감사합니다. 이번에는 가지 않겠습니다」라고 적어 보냈다.\n\n입력 칸이 비고, 보낸 문장 옆에 전송 시각만 남았다. 답장은 아직 없었다.\n\n휴대폰을 책상에 내려놓았다. 달력에는 날짜를 더하지 않았다. 창밖에서 차 한 대가 지나가는 동안에도 방 안의 물건들은 제자리에 있었다.\n\n'무료'라는 글자는 남아 있었다. 이번에는 그 아래로 시간을 더 쓰지 않았다.",
+    "poker_calm": "{name}은 협상에서 한 번 더 침착해졌다.\n\n상대가 먼저 패를 까게 만드는 법. 내 패를 안 들키는 법.\n그건 테이블에서 비싼 수업료를 내고 배운 거였다.\n\n이제 그 수업료를, 테이블 밖에서 회수하기로 했다.\n홀덤장에 가는 횟수가 줄었다. 대신 통장이 늘었다.",
+    "mentor_home": "과천. 경마 아저씨가 오늘은 술이 약간 들어가 있었다.\n\n\"내가 왕년에 말이야.\" 그가 웃었다. 근데 눈은 안 웃었다.\n\n\"집 한 채 있었어. 안양에. 애도 둘이고.\"\n\n{name}은 가만히 들었다.\n\n\"여기 20년이야. 처음엔 나도 재미로 왔지. 근데 따는 날이 있었거든. 그 날의 기분을 못 잊어. 그게 문제야.\"\n\n그가 경마신문을 접었다. \"형은 적당히 해. 나처럼 되지 말고.\"",
+    "mentor_loss": "아저씨 이야기는 슬펐다. 하지만 {name}은 오늘 마권을 샀다.\n\n'나는 저 정도는 아니니까.' 그 거리감이 위안이 됐다.\n\n3만원을 잃고 막차를 탔다.\n창밖을 보다가, 아저씨의 \"나처럼 되지 마\"가 다시 들렸다.\n그 말은 미래에서 보내온 경고 같았다. 안 들은 척했다.",
+    "last_line_member": "그날의 마지막 경주.\n\n베팅창 앞이 유독 붐볐다. {name}은 줄에 섰다.\n\n앞 사람이 만원짜리를 세고 있었다. 손이 떨렸다. 지폐가 몇 장 안 남아 있었다.\n뒤 사람은 혼잣말을 했다. \"이번엔 진짜… 이번엔 돼야 하는데.\"\n\n마지막 경주에는, 오늘 잃은 걸 만회하려는 사람들만 남는다.\n\n{name}도 그 줄의 한 명이었다.",
+    "horse_tip": "편의점 구석 자리에 혼자 앉아 있는 남자가 말을 걸었다.\n\n\"젊어 보이는데 경마 알아요?\"\n\n마커가 빼곡히 칠해진 경마신문. 40대 후반. 커피를 홀짝이며 번호를 적고 있었다.\n\n\"다음 주 토요일, 3번이 확실해. 봄비가 오면 과천 주로는 내측 마가 강하거든.\"\n\n돈을 번다는 사람인지, 허세인지 알 수 없었다.\n하지만 말하는 방식에 확신이 있었다.",
+    "race_observed": "2경주만 봤다. 관람대에서 말들이 코너를 도는 걸 봤다.\n빠르고 조용했다. 생각보다 볼 게 있었다.\n마권은 안 샀다. 그것도 하나의 선택이었다.",
+    "race_elder": "옆에 있던 60대 아저씨가 신문지 한 장을 펼쳤다.\n각 마의 최근 전적, 기수, 중량, 날씨 적응력.\n\"3번이 과천 주로 강해. 근데 오늘 날씨가 변수야.\"\n10분 설명을 들었다. 절반도 못 알아들었다.",
+    "tip_bought": "표를 보며 3번 단승을 샀다. 3번이 2위로 들어왔다.\n단승은 1위만 환급. 한 끗 차이.\n아저씨를 찾았는데 이미 없었다.",
+    "tip_rejected": "내 감으로 11번을 찍었다. 꼴찌였다.\n족보 아저씨 생각이 났다. 사지 말길 잘한 건지 모르겠다.",
+    "horse_three_title": "3번이 확실해요",
+    "horse_three_tip": "오늘도 과천.\n\n입구 앞에서 아까 그 아저씨와 비슷한 사람이 인쇄물을 흔들었다.\n\"3번이 확실해요. 오늘 컨디션 최상이야.\"\n\n지난주에도 다른 아저씨가 3번이 확실하다고 했었다.\n\n{name}은 잠깐 멈췄다.",
+    "horse_three_bet": "3번 단승 10,000원",
+    "horse_analysis": "경주마 정보 게시판 앞에 10분 서 있었다.\n기수 체중, 최근 3경주 순위, 주로 적성.\n숫자로 보니 오히려 8번이 나았다.\n8번은 3위로 들어왔다. 연승이었으면 환급됐다.",
+    "horse_result_title": "3번 결과",
+    "horse_progress": "스타트가 끊겼다.\n\n관람대 사람들이 일제히 일어났다. 누군가 이름을 불렀다. 3번, 3번.\n\n제1코너. 선두. 희망이 잠깐 생겼다.\n\n최종 직선. 3번이 서서히 밀렸다.",
+    "horse_fifth": "5위.\n\n만원짜리 한 장이 종이 한 장이 됐다.\n아저씨를 찾았다. 이미 다른 사람에게 다른 번호를 팔고 있었다.\n\n{name}은 계단을 내려오면서 다음 경주 시간을 확인했다.\n그게 문제였다.",
+    "horse_stop": "만원치고 괜찮은 구경이었다.\n경주마가 달리는 건 생각보다 웅장했다.\n{name}은 거기서 멈추기로 했다. 오늘은.",
+    "race_exacta": "연속 두 경주를 맞혔다.\n\n1등, 2등 마 두 마리 순서까지 맞히는 쌍승이었다.\n\n환급금이 화면에 떴다. 베팅금의 18배.\n\n주변 아저씨들이 박수를 쳤다. {name}은 마권을 손에 쥔 채 멍했다.",
+    "race_payout": "5만원 베팅에 90만원 환급.\n경마공원역으로 가는 길, 발걸음이 가벼웠다.\n그 가벼움이 오래가지 않는다는 걸 — 나중에 알게 된다.",
+    "race_rebet": "5만원을 다시 넣었다.\n말들이 달렸다. 결과는 꽝.\n\n나올 때 손에 남은 건 40만원이었다.\n아까보다 많지만, 잃은 50만원이 계속 생각났다.\n이게 도박이 사람을 잡는 방식이라는 걸 몸으로 배웠다.",
+    "race_spent": "마지막 경주가 끝났다.\n\n손에 남은 마권들. 전부 꽝.\n\n경마공원역 플랫폼. 4호선 막차 방향으로 사람들이 흘러갔다.\n\n오늘 쓴 돈: 7만원.\n\n지하철 안, {name}은 창밖 불빛을 봤다. 아무 생각도 안 났다.",
+    "race_two_films": "7만원짜리 토요일이었다.\n영화 두 편 값. 나쁘지 않은 구경이었다.\n다음에 또 올지는 모르겠다.\n\n지하철이 달렸다. 서울로 돌아갔다.",
+    "race_third_weekend": "어느새 세 번째 주말이었다.\n\n4호선에 탔을 때 이제 경마공원역에서 자동으로 일어난다.\n\n베팅 패턴도 생겼다. 좋아하는 기수도 생겼다.\n\n거기까지는 괜찮았다. 문제는 — 이번 주 적자를 다음 주에 만회하려는 생각이 생겼다는 거다.",
+    "race_running_loss": "8만원을 썼다. 만회는 없었다.\n\n경마공원역 계단을 내려오면서 총합을 계산했다.\n3주 합산 -23만원.\n\n숫자가 나오자 머릿속이 조용해졌다.\n이 조용함이 제일 나쁜 신호라는 걸 — 아직 모르고 있었다.",
+    "race_six_types": "한 시간 동안 경마신문을 읽었다.\n\n3연단, 단승, 연승, 복승, 쌍승 — 베팅 방식만 여섯 가지였다.\n기수 승률, 조교사 기록, 주로별 특성.\n\n이걸 다 보는 사람들이 있다는 게 신기했다.\n'읽는다'는 게 무슨 말인지 조금 알 것 같았다.",
+    "race_seven": "7번 말을 골랐다. 이름이 마음에 들었다.\n\n졌다.\n\n아저씨가 말했다. \"느낌이 맞을 때도 있어. 근데 느낌은 누적이야.\"\n무슨 말인지 알 것 같기도 하고 모를 것 같기도 했다.",
+    "friend_invitation": "직접 연락해봤다. \"야, 밥 한번 먹자.\"",
+    "friend_funding_title": "50억 투자 유치",
+    "friend_funding": "뉴스 기사에 친구 이름이 나왔다.\n\n「스타트업 ○○, 시리즈 A 50억 투자 유치」\n\n대학 동기다. 같이 막걸리 마시면서 \"언젠가 창업하자\"고 했던 친구. 그게 그냥 술자리 얘기가 아니었나 보다.",
+    "last_unmarried": "친구 모임에서 결혼 안 한 사람이 민준이랑 한 명 남았다.\n\n둘이 포장마차에 남아서 소주를 더 시켰다. \"우리 둘이 끝까지 이러고 있는 거 아니야?\" 웃으면서 했는데, 농담이 아니었다.\n\n같은 처지인 것 같지만, 방향이 달랐다.",
+}
+
+
+def _leisure_gambling_kind(source: str) -> str | None:
+    return next((kind for kind, raw in SOURCE_LEISURE_GAMBLING.items() if source == raw), None)
+
+
+def _leisure_nonmoney(source: str) -> list[CounterQuantity]:
+    # This is 滿員, not ten thousand won. No general 만/원 rule changes.
+    if source != SOURCE_LEISURE_GAMBLING["subway_skip_result"]:
+        return []
+    start = source.index("만원")
+    return [CounterQuantity(start, start + 2, Decimal(0), "full_train")]
+
+
+def _leisure_native_amount(raw: str) -> Decimal | None:
+    for units, multiplier in (("億亿", 100000000), ("萬万", 10000)):
+        parts = re.split(f"[{units}]", raw)
+        if len(parts) == 2:
+            high = _leisure_native_amount(parts[0] or "一")
+            low = _leisure_native_amount(parts[1] or "零")
+            return high * multiplier + low if high is not None and low is not None else None
+        if len(parts) > 2:
+            return None
+    return _chinese_cardinal_value(raw)
+
+
+def _leisure_money(source: str, target: str, original: list[MoneyAmount]) -> tuple[list[MoneyAmount], list[str]]:
+    kind = _leisure_gambling_kind(source)
+    if kind is None:
+        return original, []
+    amounts, errors = list(original), []
+    # Parse *every* native value in the licensed source, including incorrect
+    # values and signs; do not substitute an expected amount or mask a unit.
+    for m in re.finditer(r"(?<![0-9零〇一二两兩三四五六七八九十百千萬万億亿])(?P<sign>[+\-−]?)(?P<n>[零〇一二两兩三四五六七八九十百千][零〇一二两兩三四五六七八九十百千萬万億亿]*)[韓韩]元", target):
+        value = _leisure_native_amount(m.group("n"))
+        if value is not None:
+            if m.group("sign") in {"-", "−"}:
+                value = -value
+            amounts = [a for a in amounts if not (a.start < m.end() and m.start() < a.end)]
+            amounts.append(MoneyAmount(m.start(), m.end(), value))
+    amounts.sort(key=lambda a: a.start)
+    expected = _source_money_amounts(source)
+    for a in amounts:
+        if re.match(r"\s*(?:[%％‰倍年月日天人位]|[個个]月|公斤|公里|小時|小时|分鐘|分钟|秒|[/／])", target[a.end:]):
+            errors.append("leisure money unit/rate suffix changed")
+    if len(expected) == len(amounts):
+        for s, t in zip(expected, amounts):
+            if source[:s.start].count("\n") != target[:t.start].count("\n"):
+                errors.append("leisure money line/role displaced")
+    loss_kinds = {"poker_first_loss", "poker_tilt_loss", "poker_extra_loss", "mentor_loss"}
+    for i, a in enumerate(amounts):
+        line = target.split("\n")[target[:a.start].count("\n")]
+        clause = re.split(r"[，,。.!！\n]", target[:a.start])[-1]
+        if kind in loss_kinds:
+            if not re.search(r"[輸输]|[損损]失", line) or re.search(r"沒有|没有|沒能|没能|未曾|打算|準備|准备|將會|将会", clause):
+                errors.append("leisure actual loss changed to gain/absent/plan")
+        if kind == "arcade_exchange" and i == 1 and not re.search(r"硬[幣币]|[銅铜]板", line):
+            errors.append("leisure returned coin denomination role changed")
+        if kind == "comic_hourly" and not re.search(r"每小[時时]|一小[時时]", line):
+            errors.append("leisure hourly comic fee period changed")
+        if kind == "race_payout":
+            role = r"下注|投注|押了|押注" if i == 0 else r"派彩|[領领]回|拿到|取回|[領领]取"
+            if not re.search(role, line):
+                errors.append("leisure stake/payout role changed")
+        if kind == "last_line_member" and not re.search(r"前面|前方", line):
+            errors.append("leisure preceding bettor cash ownership changed")
+    if kind == "friend_funding" and amounts:
+        line = target.split("\n")[target[:amounts[0].start].count("\n")]
+        if not re.search(r"(?:初[創创]企業|初[創创]企业|新[創创]公司|初[創创]公司).*○○", line):
+            errors.append("leisure friend's company funding owner changed")
+    return amounts, errors
+
+
+def _leisure_latin(source: str, target: str) -> tuple[str, list[str]]:
+    kind = _leisure_gambling_kind(source)
+    settings = {
+        "arcade_exchange": ("Pump", 1, r"跳舞[機机]"),
+        "arcade_pump": ("Pump", 0, r"跳舞[機机]"),
+        "bike_service": ("Ddareungi", 0, r"叮[鈴铃][鈴铃]|[首爾尔]*公共自行[車车]"),
+        "poker_bad_beat": ("A", 0, r"[對对](?:A|[尖王牌])"),
+    }
+    if kind not in settings:
+        return target, []
+    brand, line, alias = settings[kind]
+    mentions = _bounded_latin_matches(target, brand)
+    if any(target[:m.start()].count("\n") != line for m in mentions) or len(mentions) > 1:
+        return target, ["leisure source-present brand count/line/boundary changed"]
+    # Aliases need no Latin exception. An extended/fused identifier remains
+    # unconsumed and the ordinary Latin check rejects it.
+    if not mentions and not re.search(alias, target.split("\n")[line]):
+        return target, ["leisure source-present brand missing"]
+    for m in reversed(mentions):
+        target = target[:m.start()] + " " * (m.end() - m.start()) + target[m.end():]
+    return target, []
+
+
+def _leisure_slots(source: str, target: str) -> tuple[list[CounterQuantity], list[CounterQuantity], list[str]]:
+    kind = _leisure_gambling_kind(source)
+    ss, ts, errors = [], [], []
+    if kind is None:
+        return ss, ts, errors
+    lines = target.split("\n")
+    offsets = [sum(len(x) + 1 for x in lines[:i]) for i in range(len(lines))]
+    n = CHINESE_CARDINAL
+
+    def slot(fragment: str, pattern: str, value: int, occurrence: int = 0,
+             target_occurrence: int = 0, total: int = 1, role: str | None = None,
+             forbidden: str | None = None, line_override: int | None = None) -> None:
+        source_matches = list(re.finditer(re.escape(fragment), source))
+        start, end = source_matches[occurrence].span()
+        line = source[:start].count("\n") if line_override is None else line_override
+        ss.append(CounterQuantity(start, end, Decimal(value), "leisure_" + kind))
+        if line >= len(lines):
+            errors.append("leisure " + kind + " missing quantity line")
+            return
+        matches = list(re.finditer(pattern, lines[line]))
+        if len(matches) != total:
+            errors.append("leisure " + kind + " quantity/unit/count missing or duplicated")
+            return
+        m = matches[target_occurrence]
+        a, b = m.span("q")
+        numeric = m.groupdict().get("number")
+        valid = numeric is None or _chinese_cardinal_value(numeric) == value
+        valid = valid and not _has_numeric_sign_prefix(lines[line], a)
+        valid = valid and not re.match(r"\s*(?:[%％‰]|公斤|公里|[/／])", lines[line][b:])
+        if role and not re.search(role, lines[line]):
+            valid = False
+        if forbidden and re.search(forbidden, lines[line]):
+            valid = False
+        # Immediately governing sign/negation/plan is never silently dropped.
+        if re.search(r"(?:沒有|没有|沒能|没能|尚未|未曾|不是|並非|并非|將要|将要|準備|准备|打算)\s*$", lines[line][:m.start()]):
+            valid = False
+        if not valid:
+            errors.append("leisure " + kind + " quantity/value/sign/role/state changed")
+            return
+        ts.append(CounterQuantity(offsets[line] + a, offsets[line] + b, Decimal(value), "leisure_" + kind))
+
+    def all_horses() -> None:
+        for raw in sorted(set(re.findall(r"\d+번", source))):
+            matches = list(re.finditer(re.escape(raw), source))
+            by_line = {}
+            for m in matches:
+                by_line.setdefault(source[:m.start()].count("\n"), []).append(m)
+            for occurrence, m in enumerate(matches):
+                line = source[:m.start()].count("\n")
+                target_occurrence = by_line[line].index(m)
+                slot(raw, rf"(?P<q>(?P<number>{n})[號号](?:馬|马)?)(?!線|线)", int(raw[:-1]),
+                     occurrence, target_occurrence, len(by_line[line]))
+
+    horse_kinds = {"horse_tip", "race_elder", "tip_bought", "tip_rejected", "horse_three_title",
+                  "horse_three_tip", "horse_three_bet", "horse_analysis", "horse_result_title",
+                  "horse_progress", "race_seven"}
+    if kind in horse_kinds:
+        all_horses()
+    if kind == "spa_eggs":
+        slot("두 개", rf"(?P<q>(?P<number>{n})[個个顆颗](?:麥飯石|麦饭石)?(?:烤)?蛋)", 2)
+    elif kind == "comic_hourly":
+        slot("스무 권", rf"(?P<q>(?P<number>{n})本)", 20, role=r"漫[畫画]")
+    elif kind == "escape_fee":
+        slot("1인", rf"(?P<q>每人|每位|(?P<number>{n})人)(?=[\d零〇一二两兩三四五六七八九十百千])", 1)
+    elif kind in {"subway_skip_choice", "subway_skip_result"}:
+        slot("한 대", rf"(?<![下第])(?P<q>(?:[這这](?:一)?)班|(?P<number>{n})班(?:[車车])?)", 1,
+             role=r"放[過过走]|[讓让].*(?:先走|走了)", forbidden=r"(?:搭|坐)了[這这]班")
+    elif kind == "poker_bad_beat":
+        slot("포켓 에이스", rf"(?:手[裡里])?(?P<q>(?P<number>{n})[對对]A)", 1)
+        slot("트리플", rf"(?P<q>(?P<number>{n})[條条])", 3,
+             role=r"[對对]方.*(?:湊|凑|成)", forbidden=r"沒有|没有|未曾|尚未|打算")
+    elif kind in {"poker_elder", "race_elder"}:
+        slot("60대", rf"(?P<q>(?P<number>{n})多[歲岁]|(?P<plain>60)[歲岁]左右)", 60)
+        if kind == "poker_elder":
+            slot("한 번도 흔들리지 않는", r"(?P<q>(?:[從从]未(?:見|见)?他?|[從从](?:沒|没)(?:有)?)(?:[動动][搖摇])(?:過|过)?)(?:的人)?", 1)
+    elif kind == "poker_sip":
+        slot("한 모금", rf"(?:喝|啜|抿)了?(?P<q>(?:(?P<number>{n}))?口)(?=[^。.!！\n]*(?:咖啡))", 1)
+    elif kind == "poker_loss_title":
+        slot("5연패", rf"(?P<q>(?P<number>{n})[連连][敗败])", 5)
+    elif kind == "poker_loss_streak":
+        slot("다섯 판", rf"(?:[連连][輸输]了?)(?P<q>(?P<number>{n})局)", 5,
+             role=r"今天", forbidden=r"沒有|没有|尚未|打算")
+    elif kind == "poker_two_mistakes":
+        slot("두 개", rf"(?P<q>(?P<number>{n})局)", 2,
+             role=r"(?:看清|看出|看到了).*(?:[錯错]|局)", forbidden=r"沒|没|尚未|打算")
+    elif kind == "poker_discount":
+        slot("30% 할인", rf"(?P<q>(?:[優优]惠|折扣|減免|减免)(?P<number>{n})%|打七折|七折)", 30)
+    elif kind == "chip_value":
+        slot("한 개", rf"(?P<q>(?P<number>{n})(?:枚|[個个])(?:[籌筹][碼码]))", 1)
+        slot("첫 번째", rf"(?P<q>第(?P<number>{n})[個个](?:[騙骗]局|[騙骗]術|[騙骗]术))", 1)
+    elif kind == "chip_limit":
+        slot("두 개", rf"(?P<q>(?P<number>{n})(?:枚|[個个])(?:[籌筹][碼码]))", 2,
+             role=r"今天", forbidden=r"未曾|尚未|沒有|没有|打算")
+    elif kind in {"comp_offer", "comp_declined"}:
+        line = 4 if kind == "comp_offer" else 6
+        slot("'무료'라는 단어" if kind == "comp_offer" else "'무료'라는 글자",
+             rf"[「“\"']免[費费][」”\"'](?:的)?(?P<q>(?P<number>{n})[個个]字|字[樣样]|[詞词]|字)", 2,
+             line_override=line)
+        if kind == "comp_offer":
+            slot("1박", rf"(?P<q>(?P<number>{n})[晚夜](?:客房)?)", 1,
+                 role=r"免費|免费", forbidden=r"已經.*預訂|已经.*预订|確定.*日期|确定.*日期")
+        if re.search(r"已[經经]?(?:收到回[覆复]|[預预][訂订]|入住)|已[經经]?(?:確認|确认).*日期", target):
+            errors.append("leisure comp offer became confirmed reply/booking")
+    elif kind == "poker_calm":
+        slot("한 번 더", rf"(?:又|更加|更)(?P<q>(?:多)?(?:沉[穩稳]了|沉住了)(?:(?P<number>{n})次[氣气]|一些|一點|一点))", 1,
+             role=r"[談谈]判", forbidden=r"未曾|尚未|沒有|没有|失去|打算")
+    elif kind == "mentor_home":
+        slot("한 채", rf"(?:有[過过]?|擁有|拥有)(?P<q>(?:(?P<number>{n}))?(?:套房|[間间]房子))", 1,
+             role=r"以前|有[過过]", forbidden=r"現在|现在")
+        slot("둘", rf"(?P<q>(?P<number>{n})[個个]孩子)", 2,
+             role=r"[還还]有|孩子")
+    elif kind == "last_line_member":
+        slot("한 명", rf"(?P<q>(?P<number>{n})[個个]|一[員员])", 1,
+             role=r"\{name\}.*[隊队]伍")
+    elif kind == "race_observed":
+        slot("2경주", rf"(?:看了|[觀看观赏]了)(?P<q>(?P<number>{n})[場场](?:比[賽赛]|[賽赛]事))", 2,
+             forbidden=r"沒有|没有|尚未|打算")
+        if not re.search(r"(?:沒|没|沒有|没有)[買买]馬票|(?:沒|没|沒有|没有)[買买]马票", target):
+            errors.append("leisure observed races acquired a bet")
+    if kind == "tip_bought":
+        slot("2위", rf"(?P<q>第(?P<number>{n})(?:名)?)", 2,
+             forbidden=r"未曾|尚未|沒有|没有|將會|将会")
+        slot("1위", rf"(?P<q>第(?P<number>{n})(?:名)?)", 1, role=r"只有|僅|仅")
+    elif kind == "horse_analysis":
+        slot("3경주", rf"最近(?P<q>(?P<number>{n})[場场](?:比[賽赛])?)", 3)
+        slot("3위", rf"(?P<q>第(?P<number>{n})(?:名)?)", 3)
+        if not re.search(r"要是.*[買买].*位置.*(?:派彩|拿到)", target):
+            errors.append("leisure unplaced analysis bet became actual payout")
+    elif kind == "horse_progress":
+        slot("제1코너", rf"(?P<q>第(?P<number>{n})[個个](?:[彎弯]道|角落))", 1, role=r"[領领]先")
+    elif kind == "horse_fifth":
+        slot("5위", rf"(?P<q>第(?P<number>{n})名)", 5)
+    elif kind == "race_exacta":
+        slot("두 경주", rf"(?P<q>(?P<number>{n})[場场](?:比[賽赛]|[賽赛]事))", 2, role=r"連|连")
+        slot("1등", rf"(?P<q>第(?P<number>{n})(?:名)?)", 1, target_occurrence=0, total=2,
+             role=r"[順顺]序")
+        slot("2등", rf"(?P<q>第(?P<number>{n})(?:名)?)", 2, target_occurrence=1, total=2)
+        slot("두 마리", rf"(?P<q>(?P<number>{n})匹[馬马])", 2)
+        slot("18배", rf"(?P<q>(?P<number>{n})倍)", 18, role=r"投注")
+    elif kind == "race_two_films":
+        slot("두 편", rf"(?P<q>(?P<number>{n})(?:[場场]電影|[場场]电影|[張张]電影票|[張张]电影票|部電影|部电影))", 2)
+    elif kind == "race_third_weekend":
+        slot("세 번째 주말", rf"(?P<q>第(?P<number>{n})[個个][週周]末)", 3)
+    elif kind == "race_six_types":
+        slot("3연단", rf"(?P<q>(?P<number>{n})重彩)", 3, target_occurrence=0, total=2)
+        # 二重彩 names the source 쌍승, not a second invented amount.
+        slot("쌍승", rf"(?P<q>(?P<number>{n})重彩)", 2, target_occurrence=1, total=2)
+        slot("여섯 가지", rf"(?P<q>(?P<number>{n})[種种])", 6, role=r"下注|投注")
+    elif kind == "friend_invitation":
+        slot("한번", rf"(?:找天|改天|有空)(?:一起)?吃(?P<q>(?:(?P<number>{n}))?[頓顿個个]飯|[頓顿個个]饭)(?:吧|[？?])", 1,
+             role=r"主[動动].*(?:[聯联][絡络]|[聯联]系)", forbidden=r"昨天|已經|已经|未曾|沒有|没有")
+    elif kind == "last_unmarried":
+        slot("결혼 안 한 사람", r"(?P<q>(?:還|还)?(?:沒|没|沒有|没有)結婚的|(?:還|还)?(?:沒|没|沒有|没有)结婚的)", 0)
+        slot("한 명", rf"(?:另(?:外)?)(?P<q>(?P<number>{n})[個个]?人)", 1, role=r"Minjun.*(?:和|與|与)")
+    return ss, ts, errors
+
+
 def _numeric_errors(source: str, target: str) -> list[str]:
     errors: list[str] = []
     admin_source_slots, admin_target_slots, admin_errors = _investment_admin_slots(source, target)
     errors.extend(admin_errors)
     culture_source, culture_target, culture_errors = _korean_culture_slots(source, target)
+    leisure_source, leisure_target, leisure_errors = _leisure_slots(source, target)
+    admin_source_slots.extend(leisure_source)
+    admin_target_slots.extend(leisure_target)
+    errors.extend(leisure_errors)
     admin_source_slots.extend(culture_source)
     admin_target_slots.extend(culture_target)
     errors.extend(culture_errors)
@@ -5438,6 +5755,8 @@ def _numeric_errors(source: str, target: str) -> list[str]:
     source_amounts = _source_money_amounts(source)
     target_amounts = _target_money_amounts(target)
     target_amounts, culture_shared_labels, culture_money_errors = _korean_culture_money(source, target, target_amounts)
+    target_amounts, leisure_money_errors = _leisure_money(source, target, target_amounts)
+    errors.extend(leisure_money_errors)
     errors.extend(culture_money_errors)
     if source == SOURCE_JEONSE_PARTIAL_RETURN:
         # The source owns an actual partial return and a one-off loss, not a
@@ -5573,6 +5892,7 @@ def _korean_money_units(source: str) -> set[str]:
 def _money_errors(lang: str, source: str, target: str) -> list[str]:
     errors: list[str] = []
     currency_probe = SOURCE_WANTS_PARTICLE.sub(lambda m: " " * len(m.group()), source)
+    currency_probe = _mask_spans(currency_probe, _leisure_nonmoney(source))
     has_won = bool(KOREAN_WON.search(currency_probe) or _source_money_amounts(source) or source == SOURCE_INSURANCE_SAVED_PAIR
                    or source == SOURCE_KOREAN_CULTURE["currency_pair"]
                    or source in SOURCE_GIG_FEW_THOUSAND_WON
@@ -5595,6 +5915,9 @@ def _money_errors(lang: str, source: str, target: str) -> list[str]:
 
 
 def _untranslated_english_errors(source: str, target: str, *, catalog: bool = False) -> list[str]:
+    target, leisure_errors = _leisure_latin(source, target)
+    if leisure_errors:
+        return leisure_errors
     target, culture_errors = _korean_culture_latin(source, target)
     if culture_errors:
         return culture_errors
@@ -10615,11 +10938,453 @@ def _korean_culture_disclosed_self_test() -> tuple[int, list[str]]:
             failures.append(f'culture disclosed {key}: {errors!r}')
     return len(rows), failures
 
+
+def _leisure_gambling_parser_self_test() -> tuple[int, list[str]]:
+    """Own ORDER210 cases; independent hidden results are never loaded."""
+    failures: list[str] = []
+    cases = 0
+    normals = (
+        ("spa_entry", "zh-CN", "无处可去的周末夜晚，去了汗蒸房。\n入场费九千韩元，可以待一晚。学会了怎么把毛巾折成羊角帽。\n\n把麦饭石烤蛋往额头上一磕，剥着吃，再来一罐甜米露。\n走进高温汗蒸室，仿佛五年的疲惫都随着汗流了出去。", True),
+        ("spa_entry", "zh-TW", "週末晚上沒地方去，來到汗蒸幕。\n入場9千韓元，就能待上一晚。學會了怎麼把毛巾摺成羊角帽。\n\n拿麥飯石烤蛋往額頭上一敲，剝來吃，再喝一罐韓式甜米釀。\n走進高溫汗蒸房，彷彿五年來累積的疲勞都隨汗水排了出來。", True),
+        ("spa_eggs", "zh-CN", "两个麦饭石烤蛋，配上甜米露。高温汗蒸室——冷水池——高温汗蒸室。\n\n发明这套组合的人真该得个奖。\n出了一身汗再出来，头脑清清爽爽。花九千韩元做了场冥想。", True),
+        ("spa_eggs", "zh-TW", "兩顆麥飯石烤蛋配韓式甜米釀。高溫汗蒸房、冷水池、再回高溫汗蒸房。\n\n真該頒個獎給發明這套組合的人。\n流完汗走出來，腦袋清醒了。這是價值9千韓元的冥想。", True),
+        ("comic_hourly", "zh-CN", "下雨的星期天，去了漫画咖啡馆。\n每小时两千韩元，方便面和饮料不限量，还有软乎乎的懒人沙发。\n\n把想看的二十本漫画堆在身边，一头埋了进去。\n外面的世界暂时消失了。", True),
+        ("comic_hourly", "zh-TW", "下雨的星期天，來到漫畫咖啡廳。\n每小時2千韓元，泡麵、飲料無限供應，還有柔軟的懶骨頭沙發。\n\n把一直想看的漫畫堆了二十本，埋首其中。\n外面的世界暫時消失了。", True),
+        ("comic_finished", "zh-CN", "煮了碗方便面吃，把二十本漫画全看完了。\n\n连天黑了都不知道。脖子发僵，心里却很轻松。\n两千韩元的避难所，已经很完美了。", True),
+        ("comic_finished", "zh-TW", "煮了一碗泡麵吃，把二十本漫畫全看完了。\n\n連太陽下山都沒發現。脖子痠了，心卻輕了。\n以兩千韓元的避風港來說，無可挑剔。", True),
+        ("arcade_exchange", "zh-CN", "闹市区的游戏厅。\nPump跳舞机、投篮机，还有人生四格自拍亭。\n\n往换币机里放进一千韩元，一百韩元的硬币哗啦啦落下来。\n——好久没听到这声音了。", True),
+        ("arcade_exchange", "zh-TW", "鬧區的電子遊樂場。\nPump跳舞機（踩踏式舞蹈遊戲）、投籃機，還有人生四格拍貼亭。\n\n把一千韓元放進兌幣機，100韓元的硬幣嘩啦啦掉了出來。\n——好久沒聽見這個聲音了。", True),
+        ("arcade_pump", "zh-CN", "在Pump上跳一首——出点汗", True),
+        ("arcade_pump", "zh-TW", "踩一首跳舞機——流點汗吧", True),
+        ("arcade_fitness", "zh-CN", "踩着舞步，没多久就气喘吁吁。旁边的高手瞥了一眼。\n\n玩得不好也很开心。这就是韩国的节奏游戏。\n五百韩元，练出了去一趟健身房的效果。", True),
+        ("arcade_fitness", "zh-TW", "踩著舞台，沒多久就喘了。旁邊的高手瞥了一眼。\n\n玩得不好也很開心。這就是韓式節奏遊戲。\n花五百韓元，就有上健身房練一堂的效果。", True),
+        ("escape_fee", "zh-CN", "和熟人们一起来玩密室逃脱。\n每人两万韩元，限时60分钟。挂锁、密码、紫外线笔。\n\n门锁上了，红色的倒计时开始一格格减少。\n“线索全都在房间里。”", True),
+        ("escape_fee", "zh-TW", "和認識的人一起來玩密室逃脫。\n每人2萬韓元，限時60分鐘。鎖頭、密碼、紫外線筆。\n\n門上了鎖，紅色的計時器開始倒數。\n「線索全都在房間裡。」", True),
+        ("subway_skip_choice", "zh-CN", "放过这一班，坐下一班", True),
+        ("subway_skip_choice", "zh-TW", "讓這班先走，搭下一班", True),
+        ("subway_skip_result", "zh-CN", "放走了一班车。下一班也满了，但稍微好些。\n\n宁可迟到两分钟，也不想被挤死。\n有时候，那两分钟能保住一整天的心情。", True),
+        ("subway_skip_result", "zh-TW", "讓一班車先走了。下一班也滿載，但好了一點。\n\n寧願遲到2分鐘，也不要被擠死。\n有時，那2分鐘就能保住一整天的心情。", True),
+        ("bike_freedom", "zh-CN", "沿着汉江骑。风、粼粼波光、桥下的阴凉。\n\n一千韩元，哪里还能换来这样的自由。\n至少在踩着踏板的时候，三十亿韩元和截止日期都被甩在了身后。", True),
+        ("bike_freedom", "zh-TW", "沿著漢江騎。風、粼粼波光、橋下的樹蔭。\n\n一千韓元，換不到比這更自在的時光了。\n踩著踏板的時候，30億韓元也好，截止期限也好，都被拋到了身後。", True),
+        ("bike_service", "zh-CN", "首尔公共自行车“叮铃铃”。\n用应用扫二维码，一千韩元骑一小时。从车架上取下自行车。\n\n天气很好。踩动踏板，风迎面吹来。", True),
+        ("bike_service", "zh-TW", "首爾的公共自行車Ddareungi。\n用手機應用程式掃描QR碼，一千韓元騎一小時。把自行車從停車架上牽出來。\n\n天氣很好。踩下踏板，風便迎面而來。", True),
+        ("poker_first_loss", "zh-CN", "两个小时输了两万韩元。\n不过，诈唬成功了两次，还有一次赢下了大底池，后来又输掉了。\n\n上楼梯时想着：原来这是个有东西可钻研的游戏。", True),
+        ("poker_first_loss", "zh-TW", "兩小時輸了2萬韓元。\n不過詐唬成功了兩次，還有一次贏下大底池，接著又輸了回去。\n\n走上樓梯時想著，原來這是個有東西可以鑽研的遊戲。", True),
+        ("poker_bad_beat", "zh-CN", "手里一对A。\n\n拿这手牌输的概率不到20%。翻牌、转牌——仍然领先。\n\n河牌一出，对方凑成了三条。\n\n从统计上看简直不合理的事，就这样发生在眼前。", True),
+        ("poker_bad_beat", "zh-TW", "手裡一對A。\n\n拿這手牌輸的機率不到20%。翻牌、轉牌——仍然領先。\n\n河牌讓對方湊成了三條。\n\n統計上難以置信的事，剛剛就在眼前發生了。", True),
+        ("poker_tilt_loss", "zh-CN", "凭情绪作了判断。结果早已注定。\n\n输了十五万韩元，走了出来。\n楼梯上方的江南街头，冷而明亮。\n\n原则的崩塌，总是这么快。", True),
+        ("poker_tilt_loss", "zh-TW", "憑情緒做了判斷。結果早就注定。\n\n輸了15萬韓元才離開。\n樓梯上方的江南街頭，冷冽而明亮。\n\n原則崩塌，總是這麼快。", True),
+        ("poker_elder", "zh-CN", "中场休息。\n\n在自动售货机前买咖啡时，和邻座的老人对上了视线。\n\n六十多岁。牌桌上，从未见他动摇过。\n\n“玩多久了？”他先开口问。", True),
+        ("poker_elder", "zh-TW", "休息時間。\n\n在販賣機買咖啡時，和坐隔壁的老人對上了眼。\n\n六十多歲。在牌桌上從沒動搖過的人。\n\n「玩多久了？」他先開口問。", True),
+        ("poker_sip", "zh-CN", "老人点了点头。\n“扑克不是赢过牌的游戏，是赢过人的游戏。”\n\n他喝了口自动售货机的咖啡。\n“真正的诈唬，是手不抖，心也不动摇。”\n\n只是短短几句话，却有些不一样。", True),
+        ("poker_sip", "zh-TW", "老人點點頭。\n「撲克不是贏過牌的遊戲，是贏過人的遊戲。」\n\n啜了口販賣機咖啡。\n「真正的詐唬，是手不發抖。也是心不動搖。」\n\n短短幾句對話，卻有些不一樣。", True),
+        ("poker_loss_title", "zh-CN", "五连败", True),
+        ("poker_loss_title", "zh-TW", "五連敗", True),
+        ("poker_loss_streak", "zh-CN", "今天连输了五局。\n\n从统计上说，这也可能。即使有80%的优势，也可能连输五次。\n\n可此刻，{name}似乎并没有在运用统计学。\n\n总觉得，今天有点不一样。", True),
+        ("poker_loss_streak", "zh-TW", "今天連輸了五局。\n\n統計上是有可能的。即使有80%的優勢，也可能連輸五次。\n\n可是{name}現在似乎不是在運用統計。\n\n總覺得今天有哪裡不一樣。", True),
+        ("poker_two_mistakes", "zh-CN", "收好筹码，站起来。\n荷官说：“辛苦了。”\n\n走上楼梯时回想着。\n看清了今天打错的两局。\n能看清，说明自己还在学。", True),
+        ("poker_two_mistakes", "zh-TW", "整理好籌碼，站起身。\n荷官說：「辛苦了。」\n\n走上樓梯時想了想。\n看出了今天有兩局打錯了。\n能看出來，就表示還在學。", True),
+        ("poker_extra_loss", "zh-CN", "又打了一局。\n这种状态，怎么可能打好。\n\n又输了四万韩元，走了出来。\n\n算着总共输了多少，走下楼梯——不，是走上楼梯。\n电梯门关上了。", True),
+        ("poker_extra_loss", "zh-TW", "又打了一局。\n這種狀態下，怎麼可能打得好。\n\n又輸了4萬韓元才走。\n\n算著總共輸了多少，走下樓梯——不，是走上樓梯。\n電梯門關上了。", True),
+        ("poker_discount", "zh-CN", "座位费优惠30%，6,000韩元。\n牌桌上的人，也渐渐眼熟了。\n\n来这里，不问职业，不问年龄。牌面前人人一样。\n那种感觉，莫名让人放松。", True),
+        ("poker_discount", "zh-TW", "座位費打七折，6,000韓元。\n同桌的人也漸漸面熟了。\n\n來到這裡，不看工作，也不看年齡。在牌面前人人平等。\n這種感覺，莫名讓人自在。", True),
+        ("chip_value", "zh-CN", "旌善赌场的兑换窗口。\n\n{name}递出现金。工作人员数了数，把筹码推过来。\n\n绿色、黑色、紫色，沉甸甸的。\n\n真奇怪。刚才还是钱，握在手里，却像玩具。\n五万韩元换一枚筹码。那枚筹码值五万韩元——竟然毫无实感。\n\n后来，{name}才会明白，这是这场游戏的第一个骗局。", True),
+        ("chip_value", "zh-TW", "旌善賭場的兌換櫃檯。\n\n{name}遞出現金。工作人員數了數，把籌碼推過來。\n\n綠色、黑色、紫色。沉甸甸的。\n\n很奇怪。剛剛還是錢的東西，握在手裡卻像玩具。\n5萬韓元一枚籌碼。那枚籌碼就是5萬韓元——完全沒有實感。\n\n{name}後來才會明白，這就是這場遊戲的第一個騙局。", True),
+        ("chip_limit", "zh-CN", "只换了十万韩元。钱包留在了车里。\n\n两枚筹码，就是今天的全部。\n输了就结束，赢了就起身。提前定好规矩，心里轻松了些。\n\n筹码看起来越轻，越是设下限额的人能赢。", True),
+        ("chip_limit", "zh-TW", "只換了10萬韓元。錢包留在車上。\n\n兩枚籌碼。今天就只有這些。\n輸了就結束，贏了就起身。事先訂好規則，心裡輕鬆多了。\n\n籌碼看起來越輕，懂得設下限額的人就越能贏。", True),
+        ("chip_loaded", "zh-CN", "拿到三十万韩元的筹码，沉甸甸的。\n\n觉得备足了，才玩得安心。\n可是，那份“充裕”很快就成了标准。三十万韩元，不知不觉变成了“今天要花的钱”。\n\n换得越多，输得越多——兑换窗口没有人告诉自己这一点。", True),
+        ("chip_loaded", "zh-TW", "拿到30萬韓元的籌碼，沉甸甸的。\n\n覺得備得充裕，才能安心玩。\n可是那份「充裕」，很快就變成了基準。30萬韓元不知不覺成了「今天要花的錢」。\n\n換得越多，就輸得越多——兌換櫃檯前，沒人告訴自己這套機制。", True),
+        ("comp_offer", "zh-CN", "在家的{name}听见手机短促地响了一声。是此前有人介绍过的赌场俱乐部发来的住宿通知。\n\n“免费提供一晚客房及早餐。请咨询可入住日期。”\n\n通知上没有写任何人的名字。可{name}的手指，还是停在了“免费”两个字上。\n\n正要回复，又打开了日历。宽大的床和慵懒的早晨，先占据了一个空白格子。接着，酒店楼下的赌桌也浮现在脑海里。\n\n屏幕之外，仍是那间熟悉的房间。消息输入框里的光标，一闪一闪。", True),
+        ("comp_offer", "zh-TW", "待在家裡的{name}，手機短短響了一聲。是先前有人介紹的賭場俱樂部寄來的住宿通知。\n\n「免費提供一晚客房與早餐。歡迎洽詢可入住日期。」\n\n通知上沒寫任何人的名字。即使如此，{name}的手指還是在「免費」兩個字上停住了。\n\n正要回訊息，卻先打開了行事曆。空白的格子裡，先浮現寬敞的床和晚起的早晨。接著想起的，是飯店樓下的牌桌。\n\n螢幕外仍是熟悉的房間。訊息輸入欄的游標閃爍著。", True),
+        ("comp_declined", "zh-CN", "{name}打下“谢谢通知，这次我就不去了”，发了出去。\n\n输入框空了，发出的句子旁边，只留下发送时间。还没有回复。\n\n把手机放到书桌上。没有在日历上添任何日期。窗外有一辆车驶过，房间里的东西依然各在原处。\n\n“免费”两个字还在。这一次，没有再把时间花在它下面。", True),
+        ("comp_declined", "zh-TW", "{name}打上「謝謝通知，這次就不去了」，送了出去。\n\n輸入欄清空，送出的句子旁只留下傳送時間。還沒有回覆。\n\n把手機放到書桌上。行事曆裡沒有新增日期。窗外一輛車駛過，房間裡的東西依舊待在原位。\n\n「免費」的字樣還在。這一次，沒有在那下面繼續耗費時間。", True),
+        ("poker_calm", "zh-CN", "{name}在谈判中，又沉稳了一些。\n\n让对方先亮底牌，藏好自己的底牌。\n这些，都是在牌桌上付过昂贵学费才学来的。\n\n现在，决定在牌桌之外把学费赚回来。\n去德州扑克馆的次数少了，银行账户里的钱反而多了。", True),
+        ("poker_calm", "zh-TW", "{name}在談判中，又多沉住了一次氣。\n\n讓對方先亮底牌的方法，不讓自己的底牌被看穿的方法。\n那是在牌桌上付了昂貴學費才學來的。\n\n現在，決定到牌桌外把這筆學費賺回來。\n去德州撲克場的次數少了，銀行帳戶裡的錢卻多了。", True),
+        ("mentor_home", "zh-CN", "果川。今天，赛马大叔喝了点酒。\n\n“想当年我啊……”他笑着，眼睛却没笑。\n\n“我也有过一套房，在安养。还有两个孩子。”\n\n{name}静静听着。\n\n“来这儿二十年了。刚开始我也只是图个乐。可有一天赢了。就是忘不了那天的感觉。问题就在这儿。”\n\n他折起赛马报。“哥，你适可而止，别变成我这样。”", True),
+        ("mentor_home", "zh-TW", "果川。今天，賽馬大叔帶著一點酒意。\n\n「想當年啊。」他笑了，眼睛卻沒在笑。\n\n「我以前有間房子，在安養。還有兩個孩子。」\n\n{name}靜靜聽著。\n\n「我來這裡二十年了。一開始也是來玩玩的。可是有一天贏了錢，那天的心情忘不掉。問題就出在這裡。」\n\n他把賽馬報摺起來。「老哥，你適可而止就好，別變成我這樣。」", True),
+        ("mentor_loss", "zh-CN", "大叔的故事让人难过，可{name}今天还是买了马票。\n\n“我还没到他那种地步。”这份距离感让人安心。\n\n输了三万韩元，坐上末班车。\n望着窗外，大叔那句“别变成我这样”又在耳边响起。\n那句话，像是从未来传来的警告。假装没听见。", True),
+        ("mentor_loss", "zh-TW", "大叔的故事讓人難過。但{name}今天還是買了馬票。\n\n「我還沒到那個地步。」這份距離感成了安慰。\n\n輸了3萬韓元，搭上末班車。\n望著窗外，又聽見大叔那句「別變成我這樣」。\n那句話像從未來傳來的警告。假裝沒聽見。", True),
+        ("last_line_member", "zh-CN", "那天的最后一场赛马。\n\n投注窗口前格外拥挤，{name}排进队伍。\n\n前面的人数着一万韩元的纸币，手在抖。手里的钞票已经没剩几张。\n后面的人自言自语：“这回真的……这回一定得中啊。”\n\n到了最后一场，留下来的，都是想把今天输的钱赢回来的人。\n\n{name}也是队伍中的一个。", True),
+        ("last_line_member", "zh-TW", "當天最後一場比賽。\n\n下注窗口前格外擁擠。{name}排進隊伍。\n\n前面的人數著一萬韓元的紙鈔，手在發抖。剩下的鈔票沒幾張了。\n後面的人喃喃自語：「這次真的……這次一定要中啊。」\n\n最後一場比賽，留下的都是想把今天輸掉的錢贏回來的人。\n\n{name}也是隊伍中的一員。", True),
+        ("horse_tip", "zh-CN", "独自坐在便利店角落里的男人，开口搭了话。\n\n“看着挺年轻，懂赛马吗？”\n\n手里的赛马报被记号笔涂得密密麻麻。四十多岁、快五十了。他一边小口喝咖啡，一边写号码。\n\n“下周六，3号准没错。一下春雨，果川跑道上走内道的马就占优势。”\n\n不知道他是真的靠这个赚了钱，还是在吹牛。\n可他说话的方式，透着十足的把握。", True),
+        ("horse_tip", "zh-TW", "獨自坐在便利商店角落的男人搭了話。\n\n「看起來很年輕，懂賽馬嗎？」\n\n賽馬報上畫滿了螢光筆。他四十多歲、快五十了，一邊啜著咖啡，一邊記下號碼。\n\n「下星期六，3號穩的。一下春雨，果川跑道就對內側的馬有利。」\n\n不知道他是真的賺得到錢，還是在吹牛。\n但他的說話方式，確實充滿自信。", True),
+        ("race_observed", "zh-CN", "只看了两场比赛。在看台上望着马群转过弯道。\n很快，也很安静。比想象中有看头。\n没买马票。那也是一种选择。", True),
+        ("race_observed", "zh-TW", "只看了兩場比賽。在看台上看著馬群轉過彎道。\n快，而安靜。比想像中有看頭。\n沒有買馬票。那也是一種選擇。", True),
+        ("race_elder", "zh-CN", "旁边一位六十多岁的大叔，展开一张报纸。\n每匹马近期的战绩、骑师、负磅、对天气的适应能力。\n“3号跑果川很强，可今天的天气是个变数。”\n听他讲了十分钟，连一半也没听懂。", True),
+        ("race_elder", "zh-TW", "身旁一位六十多歲的大叔攤開一張報紙。\n每匹馬的近況、騎師、負磅、對天氣的適應力。\n「3號跑果川跑道很強。不過今天天氣是個變數。」\n聽了十分鐘的解說，連一半都沒聽懂。", True),
+        ("tip_bought", "zh-CN", "照着表，买了3号的独赢。3号跑了第二。\n独赢只有第一名才有派彩。就差那么一点。\n想找那位大叔，他已经不在了。", True),
+        ("tip_bought", "zh-TW", "看著表，買了3號獨贏。3號跑進第二名。\n獨贏只有第一名才派彩。就差那麼一點。\n回頭找大叔，他早就不見了。", True),
+        ("tip_rejected", "zh-CN", "凭感觉选了11号，结果垫底。\n想起卖分析表的大叔。不知道没买他的表，到底做得对不对。", True),
+        ("tip_rejected", "zh-TW", "憑直覺選了11號。最後一名。\n想起那個賣攻略的大叔。不知道沒買到底對不對。", True),
+        ("horse_three_title", "zh-CN", "3号准没错", True),
+        ("horse_three_title", "zh-TW", "3號穩的", True),
+        ("horse_three_tip", "zh-CN", "今天又来到果川。\n\n入口前，一个和刚才那位大叔长得有些像的人，挥着印刷品。\n“3号准没错，今天状态最好。”\n\n上周，也有另一位大叔说3号准没错。\n\n{name}停了片刻。", True),
+        ("horse_three_tip", "zh-TW", "今天又來到果川。\n\n入口前，有個人長得像先前那位大叔，揮著印好的紙。\n「3號穩的。今天狀態最好。」\n\n上星期，也有另一位大叔說3號穩的。\n\n{name}停了一下。", True),
+        ("horse_three_bet", "zh-CN", "买3号独赢，10,000韩元", True),
+        ("horse_three_bet", "zh-TW", "3號獨贏，10,000韓元", True),
+        ("horse_analysis", "zh-CN", "在赛驹信息栏前站了十分钟。\n骑师体重、最近三场比赛的名次、跑道适性。\n从数字上看，反倒是8号更好。\n8号跑了第三。要是买了位置，就能拿到派彩。", True),
+        ("horse_analysis", "zh-TW", "在賽馬資料看板前站了十分鐘。\n騎師體重、最近三場的名次、跑道適性。\n從數據來看，反而是8號更好。\n8號跑進第三名。要是買位置就能派彩了。", True),
+        ("horse_result_title", "zh-CN", "3号的结果", True),
+        ("horse_result_title", "zh-TW", "3號的結果", True),
+        ("horse_progress", "zh-CN", "比赛开始。\n\n看台上的人一齐站起来。有人喊着名字：3号，3号。\n\n第一个弯道，领先。希望短暂地升了起来。\n\n最后的直道上，3号渐渐落后。", True),
+        ("horse_progress", "zh-TW", "開閘了。\n\n看台上的人同時站起來。有人喊著名字。3號、3號。\n\n第一個彎道，領先。短暫燃起希望。\n\n最後直路，3號漸漸落後。", True),
+        ("horse_fifth", "zh-CN", "第五名。\n\n一张一万韩元的马票，变成了一张废纸。\n去找那位大叔，他已经在向别的人卖别的号码。\n\n{name}走下楼梯时，查看了下一场的时间。\n问题就在这里。", True),
+        ("horse_fifth", "zh-TW", "第五名。\n\n一張一萬韓元的鈔票，變成了一張廢紙。\n去找大叔。他已經在向別人推銷別的號碼。\n\n{name}走下樓梯時，看了下一場的時間。\n問題就在這裡。", True),
+        ("horse_stop", "zh-CN", "花一万韩元，看了场不错的热闹。\n赛马奔跑起来，比想象中壮观。\n{name}决定到此为止。至少今天如此。", True),
+        ("horse_stop", "zh-TW", "花一萬韓元看這場比賽，還算不錯。\n賽馬奔跑的場面，比想像中壯觀。\n{name}決定到此為止。至少今天。", True),
+        ("race_exacta", "zh-CN", "连续猜中了两场比赛。\n\n是连第一、第二名两匹马的顺序都要猜对的二重彩。\n\n屏幕上显示了派彩金额，是投注额的18倍。\n\n周围的大叔们鼓起掌来。{name}握着马票，愣在原地。", True),
+        ("race_exacta", "zh-TW", "連著押中了兩場比賽。\n\n是連第一名、第二名兩匹馬的順序都要猜中的二重彩。\n\n派彩金額出現在螢幕上。是投注金額的18倍。\n\n周圍的大叔們鼓起掌來。{name}握著馬票，愣住了。", True),
+        ("race_payout", "zh-CN", "下注五万韩元，拿到九十万韩元派彩。\n走向赛马公园站的路上，脚步轻快。\n后来才会知道——那份轻快，持续不了多久。", True),
+        ("race_payout", "zh-TW", "下注5萬韓元，領回90萬韓元。\n走向賽馬公園站的路上，腳步很輕。\n後來才會知道——這份輕快並不長久。", True),
+        ("race_rebet", "zh-CN", "又投了五万韩元。\n马群跑了起来，结果没中。\n\n出来时，手里剩下的是四十万韩元。\n比先前多，可输掉的五十万韩元，却一直萦绕在脑海里。\n亲身体会到了，赌博是怎样抓住人的。", True),
+        ("race_rebet", "zh-TW", "又押了5萬韓元。\n馬群奔跑。結果沒中。\n\n離開時，手上剩下40萬韓元。\n比剛才多，可是輸掉的50萬韓元一直在腦中打轉。\n親身學會了，賭博就是這樣抓住人的。", True),
+        ("race_spent", "zh-CN", "最后一场比赛结束了。\n\n手里剩下的马票，全都没中。\n\n赛马公园站的站台上，人们涌向4号线末班车的方向。\n\n今天花掉的钱：七万韩元。\n\n地铁里，{name}望着窗外的灯光，脑子里一片空白。", True),
+        ("race_spent", "zh-TW", "最後一場比賽結束了。\n\n手裡剩下的馬票，全都沒中。\n\n賽馬公園站的月台。人潮朝4號線末班車的方向流動。\n\n今天花掉的錢：7萬韓元。\n\n地鐵裡，{name}望著窗外的燈光，腦中一片空白。", True),
+        ("race_two_films", "zh-CN", "一个花了七万韩元的星期六。\n两场电影的钱，倒也看了场不错的热闹。\n不知道以后还会不会来。\n\n地铁向前行驶，回到了首尔。", True),
+        ("race_two_films", "zh-TW", "花了7萬韓元的星期六。\n兩張電影票的錢。看得還算不錯。\n不知道下次還會不會來。\n\n地鐵奔馳著，回到首爾。", True),
+        ("race_third_weekend", "zh-CN", "不知不觉，已经是第三个周末。\n\n坐上4号线，如今一到赛马公园站，就会自动站起来。\n\n有了固定的下注习惯，也有了喜欢的骑师。\n\n到这里还算没问题。问题是——开始想着，下周要把这周输掉的钱赢回来。", True),
+        ("race_third_weekend", "zh-TW", "不知不覺，已經是第三個週末。\n\n搭上4號線，現在一到賽馬公園站就會自動站起來。\n\n有了固定的下注模式，也有了喜歡的騎師。\n\n到這裡都還好。問題是——開始想著，下星期要把這星期輸掉的錢贏回來。", True),
+        ("race_running_loss", "zh-CN", "花掉八万韩元，没能翻本。\n\n走下赛马公园站的楼梯时，算了一遍总账。\n三周合计：-二十三万韩元。\n\n数字一出来，脑子里就安静了。\n还不知道——这样的安静，才是最坏的征兆。", True),
+        ("race_running_loss", "zh-TW", "花了8萬韓元。沒有翻本。\n\n走下賽馬公園站的樓梯，算了總數。\n三週合計，-23萬韓元。\n\n數字一出來，腦中就安靜了。\n還不知道——這份安靜，才是最壞的訊號。", True),
+        ("race_six_types", "zh-CN", "读了一个小时的赛马报。\n\n三重彩、独赢、位置、连赢、二重彩——光投注方式就有六种。\n骑师胜率、练马师记录、各种跑道的特点。\n\n竟然有人把这些全看进去，真让人惊讶。\n似乎有点懂了，“读”是什么意思。", True),
+        ("race_six_types", "zh-TW", "讀了一小時的賽馬報。\n\n三重彩、獨贏、位置、連贏、二重彩——光下注方式就有六種。\n騎師勝率、練馬師紀錄、各跑道的特性。\n\n居然有人會把這些全看一遍，真不可思議。\n好像稍微懂了「讀」是什麼意思。", True),
+        ("race_seven", "zh-CN", "选了7号马，喜欢它的名字。\n\n输了。\n\n大叔说：“感觉也有准的时候，可感觉是积累出来的。”\n仿佛听懂了一点，又仿佛没懂。", True),
+        ("race_seven", "zh-TW", "選了7號馬。喜歡牠的名字。\n\n輸了。\n\n大叔說：「感覺有時候也會中。不過，感覺是累積出來的。」\n似懂非懂。", True),
+        ("friend_invitation", "zh-CN", "主动联系了：“喂，找天吃顿饭吧。”", True),
+        ("friend_invitation", "zh-TW", "主動聯絡了。「欸，找天吃個飯吧。」", True),
+        ("friend_funding_title", "zh-CN", "拿到五十亿韩元融资", True),
+        ("friend_funding_title", "zh-TW", "募得50億韓元投資", True),
+        ("friend_funding", "zh-CN", "新闻报道里，出现了朋友的名字。\n\n“初创企业○○，完成五十亿韩元A轮融资”\n\n是同届大学同学，曾一起喝着马格利米酒，说“以后咱们创业吧”的那个朋友。看来，那并不只是酒桌上的话。", True),
+        ("friend_funding", "zh-TW", "新聞報導裡出現了朋友的名字。\n\n「新創公司○○完成A輪募資，獲得50億韓元投資」\n\n是大學同學。曾一起喝著馬格利酒，說「有一天來創業吧」的朋友。看來那不只是酒桌上的話。", True),
+        ("last_unmarried", "zh-CN", "朋友聚会里，还没结婚的，只剩Minjun和另一个人。\n\n两人留在韩国路边摊，又点了烧酒。“咱俩不会一直这样下去吧？”笑着说的，却不是玩笑。\n\n看似处境相同，方向却不一样。", True),
+        ("last_unmarried", "zh-TW", "朋友群裡，沒結婚的只剩Minjun和另一個人。\n\n兩人留在韓國路邊攤，又點了燒酒。「我們該不會就這樣，一直剩彼此吧？」笑著說出口，卻不是玩笑。\n\n看似處境相同，方向卻不一樣。", True),
+        ("tip_bought", "zh-CN", "照着表，买了三号的独赢。三号跑了第二。\n独赢只有第一名才有派彩。就差那么一点。\n想找那位大叔，他已经不在了。", False),
+        ("tip_rejected", "zh-TW", "憑直覺選了十一號。最後一名。\n想起那個賣攻略的大叔。不知道沒買到底對不對。", False),
+        ("horse_analysis", "zh-TW", "在賽馬資料看板前站了十分鐘。\n騎師體重、最近三場的名次、跑道適性。\n從數據來看，反而是八號更好。\n八號跑進第三名。要是買位置就能派彩了。", False),
+        ("poker_loss_title", "zh-CN", "5连败", False),
+        ("poker_discount", "zh-TW", "座位費優惠30%，6,000韓元。\n同桌的人也漸漸面熟了。\n\n來到這裡，不看工作，也不看年齡。在牌面前人人平等。\n這種感覺，莫名讓人自在。", False),
+        ("chip_limit", "zh-CN", "只换了十万韩元。钱包留在了车里。\n\n两枚筹码，就是今天的全部。\n输了就结束，赢了就起身。提前定好规矩，心里轻松了些。\n\n筹码看起来越轻，越是设下限额的人能赢。", False),
+        ("friend_invitation", "zh-TW", "主動聯絡了。「欸，改天一起吃頓飯吧。」", False),
+        ("poker_sip", "zh-CN", "老人点了点头。\n“扑克不是赢过牌的游戏，是赢过人的游戏。”\n\n他喝了一口自动售货机的咖啡。\n“真正的诈唬，是手不抖，心也不动摇。”\n\n只是短短几句话，却有些不一样。", False),
+        ("comp_offer", "zh-TW", "待在家裡的{name}，手機短短響了一聲。是先前有人介紹的賭場俱樂部寄來的住宿通知。\n\n「免費提供一夜客房與早餐。歡迎洽詢可入住日期。」\n\n通知上沒寫任何人的名字。即使如此，{name}的手指還是在「免費」兩個字上停住了。\n\n正要回訊息，卻先打開了行事曆。空白的格子裡，先浮現寬敞的床和晚起的早晨。接著想起的，是飯店樓下的牌桌。\n\n螢幕外仍是熟悉的房間。訊息輸入欄的游標閃爍著。", False),
+        ("last_unmarried", "zh-CN", "朋友聚会里，还没结婚的，只剩Minjun和另外一人。\n\n两人留在韩国路边摊，又点了烧酒。“咱俩不会一直这样下去吧？”笑着说的，却不是玩笑。\n\n看似处境相同，方向却不一样。", False),
+    )
+    for kind, lang, target, source_probe in normals:
+        source = SOURCE_LEISURE_GAMBLING[kind]
+        cases += 1
+        errors = validate_text(lang, "events:leisure_regression", source, target)
+        if errors:
+            failures.append(f"leisure normal {kind}/{lang}: {errors}")
+        if source_probe:
+            cases += 1
+            # This checks the new licence boundary, not a claim that every
+            # changed-source pair is rejected by every old generic rule.
+            if _leisure_gambling_kind("다른 장면에서 하는 말: " + source) is not None:
+                failures.append(f"leisure source licence leaked {kind}/{lang}")
+    mutants = (
+        ("spa_entry", "无处可去的周末夜晚，去了汗蒸房。\n入场费九千美元，可以待一晚。学会了怎么把毛巾折成羊角帽。\n\n把麦饭石烤蛋往额头上一磕，剥着吃，再来一罐甜米露。\n走进高温汗蒸室，仿佛五年的疲惫都随着汗流了出去。"),
+        ("spa_entry", "无处可去的周末夜晚，去了汗蒸房。\n入场费九千韩元/月，可以待一晚。学会了怎么把毛巾折成羊角帽。\n\n把麦饭石烤蛋往额头上一磕，剥着吃，再来一罐甜米露。\n走进高温汗蒸室，仿佛五年的疲惫都随着汗流了出去。"),
+        ("spa_entry", "无处可去的周末夜晚，去了汗蒸房。\n入场费九千韩元，九千韩元，可以待一晚。学会了怎么把毛巾折成羊角帽。\n\n把麦饭石烤蛋往额头上一磕，剥着吃，再来一罐甜米露。\n走进高温汗蒸室，仿佛五年的疲惫都随着汗流了出去。"),
+        ("spa_entry", "週末晚上沒地方去，來到汗蒸幕。\n入場9千美元，就能待上一晚。學會了怎麼把毛巾摺成羊角帽。\n\n拿麥飯石烤蛋往額頭上一敲，剝來吃，再喝一罐韓式甜米釀。\n走進高溫汗蒸房，彷彿五年來累積的疲勞都隨汗水排了出來。"),
+        ("spa_entry", "週末晚上沒地方去，來到汗蒸幕。\n入場9千韓元/月，就能待上一晚。學會了怎麼把毛巾摺成羊角帽。\n\n拿麥飯石烤蛋往額頭上一敲，剝來吃，再喝一罐韓式甜米釀。\n走進高溫汗蒸房，彷彿五年來累積的疲勞都隨汗水排了出來。"),
+        ("spa_entry", "週末晚上沒地方去，來到汗蒸幕。\n入場9千韓元，千韓元，就能待上一晚。學會了怎麼把毛巾摺成羊角帽。\n\n拿麥飯石烤蛋往額頭上一敲，剝來吃，再喝一罐韓式甜米釀。\n走進高溫汗蒸房，彷彿五年來累積的疲勞都隨汗水排了出來。"),
+        ("spa_eggs", "两个麦饭石烤蛋，配上甜米露。高温汗蒸室——冷水池——高温汗蒸室。\n\n发明这套组合的人真该得个奖。\n出了一身汗再出来，头脑清清爽爽。花九千美元做了场冥想。"),
+        ("spa_eggs", "两个麦饭石烤蛋，配上甜米露。高温汗蒸室——冷水池——高温汗蒸室。\n\n发明这套组合的人真该得个奖。\n出了一身汗再出来，头脑清清爽爽。花九千韩元/月做了场冥想。"),
+        ("spa_eggs", "两个麦饭石烤蛋，配上甜米露。高温汗蒸室——冷水池——高温汗蒸室。\n\n发明这套组合的人真该得个奖。\n出了一身汗再出来，头脑清清爽爽。花九千韩元，九千韩元做了场冥想。"),
+        ("spa_eggs", "兩顆麥飯石烤蛋配韓式甜米釀。高溫汗蒸房、冷水池、再回高溫汗蒸房。\n\n真該頒個獎給發明這套組合的人。\n流完汗走出來，腦袋清醒了。這是價值9千美元的冥想。"),
+        ("spa_eggs", "兩顆麥飯石烤蛋配韓式甜米釀。高溫汗蒸房、冷水池、再回高溫汗蒸房。\n\n真該頒個獎給發明這套組合的人。\n流完汗走出來，腦袋清醒了。這是價值9千韓元/月的冥想。"),
+        ("spa_eggs", "兩顆麥飯石烤蛋配韓式甜米釀。高溫汗蒸房、冷水池、再回高溫汗蒸房。\n\n真該頒個獎給發明這套組合的人。\n流完汗走出來，腦袋清醒了。這是價值9千韓元，千韓元的冥想。"),
+        ("comic_hourly", "下雨的星期天，去了漫画咖啡馆。\n每小时两千美元，方便面和饮料不限量，还有软乎乎的懒人沙发。\n\n把想看的二十本漫画堆在身边，一头埋了进去。\n外面的世界暂时消失了。"),
+        ("comic_hourly", "下雨的星期天，去了漫画咖啡馆。\n每小时两千韩元/月，方便面和饮料不限量，还有软乎乎的懒人沙发。\n\n把想看的二十本漫画堆在身边，一头埋了进去。\n外面的世界暂时消失了。"),
+        ("comic_hourly", "下雨的星期天，去了漫画咖啡馆。\n每小时两千韩元，两千韩元，方便面和饮料不限量，还有软乎乎的懒人沙发。\n\n把想看的二十本漫画堆在身边，一头埋了进去。\n外面的世界暂时消失了。"),
+        ("comic_hourly", "下雨的星期天，來到漫畫咖啡廳。\n每小時2千美元，泡麵、飲料無限供應，還有柔軟的懶骨頭沙發。\n\n把一直想看的漫畫堆了二十本，埋首其中。\n外面的世界暫時消失了。"),
+        ("comic_hourly", "下雨的星期天，來到漫畫咖啡廳。\n每小時2千韓元/月，泡麵、飲料無限供應，還有柔軟的懶骨頭沙發。\n\n把一直想看的漫畫堆了二十本，埋首其中。\n外面的世界暫時消失了。"),
+        ("comic_hourly", "下雨的星期天，來到漫畫咖啡廳。\n每小時2千韓元，千韓元，泡麵、飲料無限供應，還有柔軟的懶骨頭沙發。\n\n把一直想看的漫畫堆了二十本，埋首其中。\n外面的世界暫時消失了。"),
+        ("comic_finished", "煮了碗方便面吃，把二十本漫画全看完了。\n\n连天黑了都不知道。脖子发僵，心里却很轻松。\n两千美元的避难所，已经很完美了。"),
+        ("comic_finished", "煮了碗方便面吃，把二十本漫画全看完了。\n\n连天黑了都不知道。脖子发僵，心里却很轻松。\n两千韩元/月的避难所，已经很完美了。"),
+        ("comic_finished", "煮了碗方便面吃，把二十本漫画全看完了。\n\n连天黑了都不知道。脖子发僵，心里却很轻松。\n两千韩元，两千韩元的避难所，已经很完美了。"),
+        ("comic_finished", "煮了一碗泡麵吃，把二十本漫畫全看完了。\n\n連太陽下山都沒發現。脖子痠了，心卻輕了。\n以兩千美元的避風港來說，無可挑剔。"),
+        ("comic_finished", "煮了一碗泡麵吃，把二十本漫畫全看完了。\n\n連太陽下山都沒發現。脖子痠了，心卻輕了。\n以兩千韓元/月的避風港來說，無可挑剔。"),
+        ("comic_finished", "煮了一碗泡麵吃，把二十本漫畫全看完了。\n\n連太陽下山都沒發現。脖子痠了，心卻輕了。\n以兩千韓元，兩千韓元的避風港來說，無可挑剔。"),
+        ("arcade_exchange", "闹市区的游戏厅。\nPump跳舞机、投篮机，还有人生四格自拍亭。\n\n往换币机里放进一千美元，一百韩元的硬币哗啦啦落下来。\n——好久没听到这声音了。"),
+        ("arcade_exchange", "闹市区的游戏厅。\nPump跳舞机、投篮机，还有人生四格自拍亭。\n\n往换币机里放进一千韩元/月，一百韩元的硬币哗啦啦落下来。\n——好久没听到这声音了。"),
+        ("arcade_exchange", "闹市区的游戏厅。\nPump跳舞机、投篮机，还有人生四格自拍亭。\n\n往换币机里放进一千韩元，一千韩元，一百韩元的硬币哗啦啦落下来。\n——好久没听到这声音了。"),
+        ("arcade_exchange", "鬧區的電子遊樂場。\nPump跳舞機（踩踏式舞蹈遊戲）、投籃機，還有人生四格拍貼亭。\n\n把一千美元放進兌幣機，100韓元的硬幣嘩啦啦掉了出來。\n——好久沒聽見這個聲音了。"),
+        ("arcade_exchange", "鬧區的電子遊樂場。\nPump跳舞機（踩踏式舞蹈遊戲）、投籃機，還有人生四格拍貼亭。\n\n把一千韓元/月放進兌幣機，100韓元的硬幣嘩啦啦掉了出來。\n——好久沒聽見這個聲音了。"),
+        ("arcade_exchange", "鬧區的電子遊樂場。\nPump跳舞機（踩踏式舞蹈遊戲）、投籃機，還有人生四格拍貼亭。\n\n把一千韓元，一千韓元放進兌幣機，100韓元的硬幣嘩啦啦掉了出來。\n——好久沒聽見這個聲音了。"),
+        ("arcade_fitness", "踩着舞步，没多久就气喘吁吁。旁边的高手瞥了一眼。\n\n玩得不好也很开心。这就是韩国的节奏游戏。\n五百美元，练出了去一趟健身房的效果。"),
+        ("arcade_fitness", "踩着舞步，没多久就气喘吁吁。旁边的高手瞥了一眼。\n\n玩得不好也很开心。这就是韩国的节奏游戏。\n五百韩元/月，练出了去一趟健身房的效果。"),
+        ("arcade_fitness", "踩着舞步，没多久就气喘吁吁。旁边的高手瞥了一眼。\n\n玩得不好也很开心。这就是韩国的节奏游戏。\n五百韩元，五百韩元，练出了去一趟健身房的效果。"),
+        ("arcade_fitness", "踩著舞台，沒多久就喘了。旁邊的高手瞥了一眼。\n\n玩得不好也很開心。這就是韓式節奏遊戲。\n花五百美元，就有上健身房練一堂的效果。"),
+        ("arcade_fitness", "踩著舞台，沒多久就喘了。旁邊的高手瞥了一眼。\n\n玩得不好也很開心。這就是韓式節奏遊戲。\n花五百韓元/月，就有上健身房練一堂的效果。"),
+        ("arcade_fitness", "踩著舞台，沒多久就喘了。旁邊的高手瞥了一眼。\n\n玩得不好也很開心。這就是韓式節奏遊戲。\n花五百韓元，五百韓元，就有上健身房練一堂的效果。"),
+        ("escape_fee", "和熟人们一起来玩密室逃脱。\n每人两万美元，限时60分钟。挂锁、密码、紫外线笔。\n\n门锁上了，红色的倒计时开始一格格减少。\n“线索全都在房间里。”"),
+        ("escape_fee", "和熟人们一起来玩密室逃脱。\n每人两万韩元/月，限时60分钟。挂锁、密码、紫外线笔。\n\n门锁上了，红色的倒计时开始一格格减少。\n“线索全都在房间里。”"),
+        ("escape_fee", "和熟人们一起来玩密室逃脱。\n每人两万韩元，两万韩元，限时60分钟。挂锁、密码、紫外线笔。\n\n门锁上了，红色的倒计时开始一格格减少。\n“线索全都在房间里。”"),
+        ("escape_fee", "和認識的人一起來玩密室逃脫。\n每人2萬美元，限時60分鐘。鎖頭、密碼、紫外線筆。\n\n門上了鎖，紅色的計時器開始倒數。\n「線索全都在房間裡。」"),
+        ("escape_fee", "和認識的人一起來玩密室逃脫。\n每人2萬韓元/月，限時60分鐘。鎖頭、密碼、紫外線筆。\n\n門上了鎖，紅色的計時器開始倒數。\n「線索全都在房間裡。」"),
+        ("escape_fee", "和認識的人一起來玩密室逃脫。\n每人2萬韓元，2萬韓元，限時60分鐘。鎖頭、密碼、紫外線筆。\n\n門上了鎖，紅色的計時器開始倒數。\n「線索全都在房間裡。」"),
+        ("bike_freedom", "沿着汉江骑。风、粼粼波光、桥下的阴凉。\n\n一千美元，哪里还能换来这样的自由。\n至少在踩着踏板的时候，三十亿韩元和截止日期都被甩在了身后。"),
+        ("bike_freedom", "沿着汉江骑。风、粼粼波光、桥下的阴凉。\n\n一千韩元/月，哪里还能换来这样的自由。\n至少在踩着踏板的时候，三十亿韩元和截止日期都被甩在了身后。"),
+        ("bike_freedom", "沿着汉江骑。风、粼粼波光、桥下的阴凉。\n\n一千韩元，一千韩元，哪里还能换来这样的自由。\n至少在踩着踏板的时候，三十亿韩元和截止日期都被甩在了身后。"),
+        ("bike_freedom", "沿著漢江騎。風、粼粼波光、橋下的樹蔭。\n\n一千美元，換不到比這更自在的時光了。\n踩著踏板的時候，30億韓元也好，截止期限也好，都被拋到了身後。"),
+        ("bike_freedom", "沿著漢江騎。風、粼粼波光、橋下的樹蔭。\n\n一千韓元/月，換不到比這更自在的時光了。\n踩著踏板的時候，30億韓元也好，截止期限也好，都被拋到了身後。"),
+        ("bike_freedom", "沿著漢江騎。風、粼粼波光、橋下的樹蔭。\n\n一千韓元，一千韓元，換不到比這更自在的時光了。\n踩著踏板的時候，30億韓元也好，截止期限也好，都被拋到了身後。"),
+        ("bike_service", "首尔公共自行车“叮铃铃”。\n用应用扫二维码，一千美元骑一小时。从车架上取下自行车。\n\n天气很好。踩动踏板，风迎面吹来。"),
+        ("bike_service", "首尔公共自行车“叮铃铃”。\n用应用扫二维码，一千韩元/月骑一小时。从车架上取下自行车。\n\n天气很好。踩动踏板，风迎面吹来。"),
+        ("bike_service", "首尔公共自行车“叮铃铃”。\n用应用扫二维码，一千韩元，一千韩元骑一小时。从车架上取下自行车。\n\n天气很好。踩动踏板，风迎面吹来。"),
+        ("bike_service", "首爾的公共自行車Ddareungi。\n用手機應用程式掃描QR碼，一千美元騎一小時。把自行車從停車架上牽出來。\n\n天氣很好。踩下踏板，風便迎面而來。"),
+        ("bike_service", "首爾的公共自行車Ddareungi。\n用手機應用程式掃描QR碼，一千韓元/月騎一小時。把自行車從停車架上牽出來。\n\n天氣很好。踩下踏板，風便迎面而來。"),
+        ("bike_service", "首爾的公共自行車Ddareungi。\n用手機應用程式掃描QR碼，一千韓元，一千韓元騎一小時。把自行車從停車架上牽出來。\n\n天氣很好。踩下踏板，風便迎面而來。"),
+        ("poker_first_loss", "两个小时输了两万美元。\n不过，诈唬成功了两次，还有一次赢下了大底池，后来又输掉了。\n\n上楼梯时想着：原来这是个有东西可钻研的游戏。"),
+        ("poker_first_loss", "两个小时输了两万韩元/月。\n不过，诈唬成功了两次，还有一次赢下了大底池，后来又输掉了。\n\n上楼梯时想着：原来这是个有东西可钻研的游戏。"),
+        ("poker_first_loss", "两个小时输了两万韩元，两万韩元。\n不过，诈唬成功了两次，还有一次赢下了大底池，后来又输掉了。\n\n上楼梯时想着：原来这是个有东西可钻研的游戏。"),
+        ("poker_first_loss", "兩小時輸了2萬美元。\n不過詐唬成功了兩次，還有一次贏下大底池，接著又輸了回去。\n\n走上樓梯時想著，原來這是個有東西可以鑽研的遊戲。"),
+        ("poker_first_loss", "兩小時輸了2萬韓元/月。\n不過詐唬成功了兩次，還有一次贏下大底池，接著又輸了回去。\n\n走上樓梯時想著，原來這是個有東西可以鑽研的遊戲。"),
+        ("poker_first_loss", "兩小時輸了2萬韓元，2萬韓元。\n不過詐唬成功了兩次，還有一次贏下大底池，接著又輸了回去。\n\n走上樓梯時想著，原來這是個有東西可以鑽研的遊戲。"),
+        ("poker_tilt_loss", "凭情绪作了判断。结果早已注定。\n\n输了十五万美元，走了出来。\n楼梯上方的江南街头，冷而明亮。\n\n原则的崩塌，总是这么快。"),
+        ("poker_tilt_loss", "凭情绪作了判断。结果早已注定。\n\n输了十五万韩元/月，走了出来。\n楼梯上方的江南街头，冷而明亮。\n\n原则的崩塌，总是这么快。"),
+        ("poker_tilt_loss", "凭情绪作了判断。结果早已注定。\n\n输了十五万韩元，十五万韩元，走了出来。\n楼梯上方的江南街头，冷而明亮。\n\n原则的崩塌，总是这么快。"),
+        ("poker_tilt_loss", "憑情緒做了判斷。結果早就注定。\n\n輸了15萬美元才離開。\n樓梯上方的江南街頭，冷冽而明亮。\n\n原則崩塌，總是這麼快。"),
+        ("poker_tilt_loss", "憑情緒做了判斷。結果早就注定。\n\n輸了15萬韓元/月才離開。\n樓梯上方的江南街頭，冷冽而明亮。\n\n原則崩塌，總是這麼快。"),
+        ("poker_tilt_loss", "憑情緒做了判斷。結果早就注定。\n\n輸了15萬韓元，15萬韓元才離開。\n樓梯上方的江南街頭，冷冽而明亮。\n\n原則崩塌，總是這麼快。"),
+        ("poker_extra_loss", "又打了一局。\n这种状态，怎么可能打好。\n\n又输了四万美元，走了出来。\n\n算着总共输了多少，走下楼梯——不，是走上楼梯。\n电梯门关上了。"),
+        ("poker_extra_loss", "又打了一局。\n这种状态，怎么可能打好。\n\n又输了四万韩元/月，走了出来。\n\n算着总共输了多少，走下楼梯——不，是走上楼梯。\n电梯门关上了。"),
+        ("poker_extra_loss", "又打了一局。\n这种状态，怎么可能打好。\n\n又输了四万韩元，四万韩元，走了出来。\n\n算着总共输了多少，走下楼梯——不，是走上楼梯。\n电梯门关上了。"),
+        ("poker_extra_loss", "又打了一局。\n這種狀態下，怎麼可能打得好。\n\n又輸了4萬美元才走。\n\n算著總共輸了多少，走下樓梯——不，是走上樓梯。\n電梯門關上了。"),
+        ("poker_extra_loss", "又打了一局。\n這種狀態下，怎麼可能打得好。\n\n又輸了4萬韓元/月才走。\n\n算著總共輸了多少，走下樓梯——不，是走上樓梯。\n電梯門關上了。"),
+        ("poker_extra_loss", "又打了一局。\n這種狀態下，怎麼可能打得好。\n\n又輸了4萬韓元，4萬韓元才走。\n\n算著總共輸了多少，走下樓梯——不，是走上樓梯。\n電梯門關上了。"),
+        ("poker_discount", "座位费优惠30%，6,000美元。\n牌桌上的人，也渐渐眼熟了。\n\n来这里，不问职业，不问年龄。牌面前人人一样。\n那种感觉，莫名让人放松。"),
+        ("poker_discount", "座位费优惠30%，6,000韩元/月。\n牌桌上的人，也渐渐眼熟了。\n\n来这里，不问职业，不问年龄。牌面前人人一样。\n那种感觉，莫名让人放松。"),
+        ("poker_discount", "座位费优惠30%，6,000韩元，6,000韩元。\n牌桌上的人，也渐渐眼熟了。\n\n来这里，不问职业，不问年龄。牌面前人人一样。\n那种感觉，莫名让人放松。"),
+        ("poker_discount", "座位費打七折，6,000美元。\n同桌的人也漸漸面熟了。\n\n來到這裡，不看工作，也不看年齡。在牌面前人人平等。\n這種感覺，莫名讓人自在。"),
+        ("poker_discount", "座位費打七折，6,000韓元/月。\n同桌的人也漸漸面熟了。\n\n來到這裡，不看工作，也不看年齡。在牌面前人人平等。\n這種感覺，莫名讓人自在。"),
+        ("poker_discount", "座位費打七折，6,000韓元，6,000韓元。\n同桌的人也漸漸面熟了。\n\n來到這裡，不看工作，也不看年齡。在牌面前人人平等。\n這種感覺，莫名讓人自在。"),
+        ("chip_value", "旌善赌场的兑换窗口。\n\n{name}递出现金。工作人员数了数，把筹码推过来。\n\n绿色、黑色、紫色，沉甸甸的。\n\n真奇怪。刚才还是钱，握在手里，却像玩具。\n五万美元换一枚筹码。那枚筹码值五万韩元——竟然毫无实感。\n\n后来，{name}才会明白，这是这场游戏的第一个骗局。"),
+        ("chip_value", "旌善赌场的兑换窗口。\n\n{name}递出现金。工作人员数了数，把筹码推过来。\n\n绿色、黑色、紫色，沉甸甸的。\n\n真奇怪。刚才还是钱，握在手里，却像玩具。\n五万韩元/月换一枚筹码。那枚筹码值五万韩元——竟然毫无实感。\n\n后来，{name}才会明白，这是这场游戏的第一个骗局。"),
+        ("chip_value", "旌善赌场的兑换窗口。\n\n{name}递出现金。工作人员数了数，把筹码推过来。\n\n绿色、黑色、紫色，沉甸甸的。\n\n真奇怪。刚才还是钱，握在手里，却像玩具。\n五万韩元，五万韩元换一枚筹码。那枚筹码值五万韩元——竟然毫无实感。\n\n后来，{name}才会明白，这是这场游戏的第一个骗局。"),
+        ("chip_value", "旌善賭場的兌換櫃檯。\n\n{name}遞出現金。工作人員數了數，把籌碼推過來。\n\n綠色、黑色、紫色。沉甸甸的。\n\n很奇怪。剛剛還是錢的東西，握在手裡卻像玩具。\n5萬美元一枚籌碼。那枚籌碼就是5萬韓元——完全沒有實感。\n\n{name}後來才會明白，這就是這場遊戲的第一個騙局。"),
+        ("chip_value", "旌善賭場的兌換櫃檯。\n\n{name}遞出現金。工作人員數了數，把籌碼推過來。\n\n綠色、黑色、紫色。沉甸甸的。\n\n很奇怪。剛剛還是錢的東西，握在手裡卻像玩具。\n5萬韓元/月一枚籌碼。那枚籌碼就是5萬韓元——完全沒有實感。\n\n{name}後來才會明白，這就是這場遊戲的第一個騙局。"),
+        ("chip_value", "旌善賭場的兌換櫃檯。\n\n{name}遞出現金。工作人員數了數，把籌碼推過來。\n\n綠色、黑色、紫色。沉甸甸的。\n\n很奇怪。剛剛還是錢的東西，握在手裡卻像玩具。\n5萬韓元，5萬韓元一枚籌碼。那枚籌碼就是5萬韓元——完全沒有實感。\n\n{name}後來才會明白，這就是這場遊戲的第一個騙局。"),
+        ("chip_limit", "只换了十万美元。钱包留在了车里。\n\n两枚筹码，就是今天的全部。\n输了就结束，赢了就起身。提前定好规矩，心里轻松了些。\n\n筹码看起来越轻，越是设下限额的人能赢。"),
+        ("chip_limit", "只换了十万韩元/月。钱包留在了车里。\n\n两枚筹码，就是今天的全部。\n输了就结束，赢了就起身。提前定好规矩，心里轻松了些。\n\n筹码看起来越轻，越是设下限额的人能赢。"),
+        ("chip_limit", "只换了十万韩元，十万韩元。钱包留在了车里。\n\n两枚筹码，就是今天的全部。\n输了就结束，赢了就起身。提前定好规矩，心里轻松了些。\n\n筹码看起来越轻，越是设下限额的人能赢。"),
+        ("chip_limit", "只換了10萬美元。錢包留在車上。\n\n兩枚籌碼。今天就只有這些。\n輸了就結束，贏了就起身。事先訂好規則，心裡輕鬆多了。\n\n籌碼看起來越輕，懂得設下限額的人就越能贏。"),
+        ("chip_limit", "只換了10萬韓元/月。錢包留在車上。\n\n兩枚籌碼。今天就只有這些。\n輸了就結束，贏了就起身。事先訂好規則，心裡輕鬆多了。\n\n籌碼看起來越輕，懂得設下限額的人就越能贏。"),
+        ("chip_limit", "只換了10萬韓元，10萬韓元。錢包留在車上。\n\n兩枚籌碼。今天就只有這些。\n輸了就結束，贏了就起身。事先訂好規則，心裡輕鬆多了。\n\n籌碼看起來越輕，懂得設下限額的人就越能贏。"),
+        ("chip_loaded", "拿到三十万美元的筹码，沉甸甸的。\n\n觉得备足了，才玩得安心。\n可是，那份“充裕”很快就成了标准。三十万韩元，不知不觉变成了“今天要花的钱”。\n\n换得越多，输得越多——兑换窗口没有人告诉自己这一点。"),
+        ("chip_loaded", "拿到三十万韩元/月的筹码，沉甸甸的。\n\n觉得备足了，才玩得安心。\n可是，那份“充裕”很快就成了标准。三十万韩元，不知不觉变成了“今天要花的钱”。\n\n换得越多，输得越多——兑换窗口没有人告诉自己这一点。"),
+        ("chip_loaded", "拿到三十万韩元，三十万韩元的筹码，沉甸甸的。\n\n觉得备足了，才玩得安心。\n可是，那份“充裕”很快就成了标准。三十万韩元，不知不觉变成了“今天要花的钱”。\n\n换得越多，输得越多——兑换窗口没有人告诉自己这一点。"),
+        ("chip_loaded", "拿到30萬美元的籌碼，沉甸甸的。\n\n覺得備得充裕，才能安心玩。\n可是那份「充裕」，很快就變成了基準。30萬韓元不知不覺成了「今天要花的錢」。\n\n換得越多，就輸得越多——兌換櫃檯前，沒人告訴自己這套機制。"),
+        ("chip_loaded", "拿到30萬韓元/月的籌碼，沉甸甸的。\n\n覺得備得充裕，才能安心玩。\n可是那份「充裕」，很快就變成了基準。30萬韓元不知不覺成了「今天要花的錢」。\n\n換得越多，就輸得越多——兌換櫃檯前，沒人告訴自己這套機制。"),
+        ("chip_loaded", "拿到30萬韓元，30萬韓元的籌碼，沉甸甸的。\n\n覺得備得充裕，才能安心玩。\n可是那份「充裕」，很快就變成了基準。30萬韓元不知不覺成了「今天要花的錢」。\n\n換得越多，就輸得越多——兌換櫃檯前，沒人告訴自己這套機制。"),
+        ("mentor_loss", "大叔的故事让人难过，可{name}今天还是买了马票。\n\n“我还没到他那种地步。”这份距离感让人安心。\n\n输了三万美元，坐上末班车。\n望着窗外，大叔那句“别变成我这样”又在耳边响起。\n那句话，像是从未来传来的警告。假装没听见。"),
+        ("mentor_loss", "大叔的故事让人难过，可{name}今天还是买了马票。\n\n“我还没到他那种地步。”这份距离感让人安心。\n\n输了三万韩元/月，坐上末班车。\n望着窗外，大叔那句“别变成我这样”又在耳边响起。\n那句话，像是从未来传来的警告。假装没听见。"),
+        ("mentor_loss", "大叔的故事让人难过，可{name}今天还是买了马票。\n\n“我还没到他那种地步。”这份距离感让人安心。\n\n输了三万韩元，三万韩元，坐上末班车。\n望着窗外，大叔那句“别变成我这样”又在耳边响起。\n那句话，像是从未来传来的警告。假装没听见。"),
+        ("mentor_loss", "大叔的故事讓人難過。但{name}今天還是買了馬票。\n\n「我還沒到那個地步。」這份距離感成了安慰。\n\n輸了3萬美元，搭上末班車。\n望著窗外，又聽見大叔那句「別變成我這樣」。\n那句話像從未來傳來的警告。假裝沒聽見。"),
+        ("mentor_loss", "大叔的故事讓人難過。但{name}今天還是買了馬票。\n\n「我還沒到那個地步。」這份距離感成了安慰。\n\n輸了3萬韓元/月，搭上末班車。\n望著窗外，又聽見大叔那句「別變成我這樣」。\n那句話像從未來傳來的警告。假裝沒聽見。"),
+        ("mentor_loss", "大叔的故事讓人難過。但{name}今天還是買了馬票。\n\n「我還沒到那個地步。」這份距離感成了安慰。\n\n輸了3萬韓元，3萬韓元，搭上末班車。\n望著窗外，又聽見大叔那句「別變成我這樣」。\n那句話像從未來傳來的警告。假裝沒聽見。"),
+        ("last_line_member", "那天的最后一场赛马。\n\n投注窗口前格外拥挤，{name}排进队伍。\n\n前面的人数着一万美元的纸币，手在抖。手里的钞票已经没剩几张。\n后面的人自言自语：“这回真的……这回一定得中啊。”\n\n到了最后一场，留下来的，都是想把今天输的钱赢回来的人。\n\n{name}也是队伍中的一个。"),
+        ("last_line_member", "那天的最后一场赛马。\n\n投注窗口前格外拥挤，{name}排进队伍。\n\n前面的人数着一万韩元/月的纸币，手在抖。手里的钞票已经没剩几张。\n后面的人自言自语：“这回真的……这回一定得中啊。”\n\n到了最后一场，留下来的，都是想把今天输的钱赢回来的人。\n\n{name}也是队伍中的一个。"),
+        ("last_line_member", "那天的最后一场赛马。\n\n投注窗口前格外拥挤，{name}排进队伍。\n\n前面的人数着一万韩元，一万韩元的纸币，手在抖。手里的钞票已经没剩几张。\n后面的人自言自语：“这回真的……这回一定得中啊。”\n\n到了最后一场，留下来的，都是想把今天输的钱赢回来的人。\n\n{name}也是队伍中的一个。"),
+        ("last_line_member", "當天最後一場比賽。\n\n下注窗口前格外擁擠。{name}排進隊伍。\n\n前面的人數著一萬美元的紙鈔，手在發抖。剩下的鈔票沒幾張了。\n後面的人喃喃自語：「這次真的……這次一定要中啊。」\n\n最後一場比賽，留下的都是想把今天輸掉的錢贏回來的人。\n\n{name}也是隊伍中的一員。"),
+        ("last_line_member", "當天最後一場比賽。\n\n下注窗口前格外擁擠。{name}排進隊伍。\n\n前面的人數著一萬韓元/月的紙鈔，手在發抖。剩下的鈔票沒幾張了。\n後面的人喃喃自語：「這次真的……這次一定要中啊。」\n\n最後一場比賽，留下的都是想把今天輸掉的錢贏回來的人。\n\n{name}也是隊伍中的一員。"),
+        ("last_line_member", "當天最後一場比賽。\n\n下注窗口前格外擁擠。{name}排進隊伍。\n\n前面的人數著一萬韓元，一萬韓元的紙鈔，手在發抖。剩下的鈔票沒幾張了。\n後面的人喃喃自語：「這次真的……這次一定要中啊。」\n\n最後一場比賽，留下的都是想把今天輸掉的錢贏回來的人。\n\n{name}也是隊伍中的一員。"),
+        ("horse_three_bet", "买3号独赢，10,000美元"),
+        ("horse_three_bet", "买3号独赢，10,000韩元/月"),
+        ("horse_three_bet", "买3号独赢，10,000韩元，10,000韩元"),
+        ("horse_three_bet", "3號獨贏，10,000美元"),
+        ("horse_three_bet", "3號獨贏，10,000韓元/月"),
+        ("horse_three_bet", "3號獨贏，10,000韓元，10,000韓元"),
+        ("horse_fifth", "第五名。\n\n一张一万美元的马票，变成了一张废纸。\n去找那位大叔，他已经在向别的人卖别的号码。\n\n{name}走下楼梯时，查看了下一场的时间。\n问题就在这里。"),
+        ("horse_fifth", "第五名。\n\n一张一万韩元/月的马票，变成了一张废纸。\n去找那位大叔，他已经在向别的人卖别的号码。\n\n{name}走下楼梯时，查看了下一场的时间。\n问题就在这里。"),
+        ("horse_fifth", "第五名。\n\n一张一万韩元，一万韩元的马票，变成了一张废纸。\n去找那位大叔，他已经在向别的人卖别的号码。\n\n{name}走下楼梯时，查看了下一场的时间。\n问题就在这里。"),
+        ("horse_fifth", "第五名。\n\n一張一萬美元的鈔票，變成了一張廢紙。\n去找大叔。他已經在向別人推銷別的號碼。\n\n{name}走下樓梯時，看了下一場的時間。\n問題就在這裡。"),
+        ("horse_fifth", "第五名。\n\n一張一萬韓元/月的鈔票，變成了一張廢紙。\n去找大叔。他已經在向別人推銷別的號碼。\n\n{name}走下樓梯時，看了下一場的時間。\n問題就在這裡。"),
+        ("horse_fifth", "第五名。\n\n一張一萬韓元，一萬韓元的鈔票，變成了一張廢紙。\n去找大叔。他已經在向別人推銷別的號碼。\n\n{name}走下樓梯時，看了下一場的時間。\n問題就在這裡。"),
+        ("horse_stop", "花一万美元，看了场不错的热闹。\n赛马奔跑起来，比想象中壮观。\n{name}决定到此为止。至少今天如此。"),
+        ("horse_stop", "花一万韩元/月，看了场不错的热闹。\n赛马奔跑起来，比想象中壮观。\n{name}决定到此为止。至少今天如此。"),
+        ("horse_stop", "花一万韩元，一万韩元，看了场不错的热闹。\n赛马奔跑起来，比想象中壮观。\n{name}决定到此为止。至少今天如此。"),
+        ("horse_stop", "花一萬美元看這場比賽，還算不錯。\n賽馬奔跑的場面，比想像中壯觀。\n{name}決定到此為止。至少今天。"),
+        ("horse_stop", "花一萬韓元/月看這場比賽，還算不錯。\n賽馬奔跑的場面，比想像中壯觀。\n{name}決定到此為止。至少今天。"),
+        ("horse_stop", "花一萬韓元，一萬韓元看這場比賽，還算不錯。\n賽馬奔跑的場面，比想像中壯觀。\n{name}決定到此為止。至少今天。"),
+        ("race_payout", "下注五万美元，拿到九十万韩元派彩。\n走向赛马公园站的路上，脚步轻快。\n后来才会知道——那份轻快，持续不了多久。"),
+        ("race_payout", "下注五万韩元/月，拿到九十万韩元派彩。\n走向赛马公园站的路上，脚步轻快。\n后来才会知道——那份轻快，持续不了多久。"),
+        ("race_payout", "下注五万韩元，五万韩元，拿到九十万韩元派彩。\n走向赛马公园站的路上，脚步轻快。\n后来才会知道——那份轻快，持续不了多久。"),
+        ("race_payout", "下注5萬美元，領回90萬韓元。\n走向賽馬公園站的路上，腳步很輕。\n後來才會知道——這份輕快並不長久。"),
+        ("race_payout", "下注5萬韓元/月，領回90萬韓元。\n走向賽馬公園站的路上，腳步很輕。\n後來才會知道——這份輕快並不長久。"),
+        ("race_payout", "下注5萬韓元，5萬韓元，領回90萬韓元。\n走向賽馬公園站的路上，腳步很輕。\n後來才會知道——這份輕快並不長久。"),
+        ("race_rebet", "又投了五万美元。\n马群跑了起来，结果没中。\n\n出来时，手里剩下的是四十万韩元。\n比先前多，可输掉的五十万韩元，却一直萦绕在脑海里。\n亲身体会到了，赌博是怎样抓住人的。"),
+        ("race_rebet", "又投了五万韩元/月。\n马群跑了起来，结果没中。\n\n出来时，手里剩下的是四十万韩元。\n比先前多，可输掉的五十万韩元，却一直萦绕在脑海里。\n亲身体会到了，赌博是怎样抓住人的。"),
+        ("race_rebet", "又投了五万韩元，五万韩元。\n马群跑了起来，结果没中。\n\n出来时，手里剩下的是四十万韩元。\n比先前多，可输掉的五十万韩元，却一直萦绕在脑海里。\n亲身体会到了，赌博是怎样抓住人的。"),
+        ("race_rebet", "又押了5萬美元。\n馬群奔跑。結果沒中。\n\n離開時，手上剩下40萬韓元。\n比剛才多，可是輸掉的50萬韓元一直在腦中打轉。\n親身學會了，賭博就是這樣抓住人的。"),
+        ("race_rebet", "又押了5萬韓元/月。\n馬群奔跑。結果沒中。\n\n離開時，手上剩下40萬韓元。\n比剛才多，可是輸掉的50萬韓元一直在腦中打轉。\n親身學會了，賭博就是這樣抓住人的。"),
+        ("race_rebet", "又押了5萬韓元，5萬韓元。\n馬群奔跑。結果沒中。\n\n離開時，手上剩下40萬韓元。\n比剛才多，可是輸掉的50萬韓元一直在腦中打轉。\n親身學會了，賭博就是這樣抓住人的。"),
+        ("race_spent", "最后一场比赛结束了。\n\n手里剩下的马票，全都没中。\n\n赛马公园站的站台上，人们涌向4号线末班车的方向。\n\n今天花掉的钱：七万美元。\n\n地铁里，{name}望着窗外的灯光，脑子里一片空白。"),
+        ("race_spent", "最后一场比赛结束了。\n\n手里剩下的马票，全都没中。\n\n赛马公园站的站台上，人们涌向4号线末班车的方向。\n\n今天花掉的钱：七万韩元/月。\n\n地铁里，{name}望着窗外的灯光，脑子里一片空白。"),
+        ("race_spent", "最后一场比赛结束了。\n\n手里剩下的马票，全都没中。\n\n赛马公园站的站台上，人们涌向4号线末班车的方向。\n\n今天花掉的钱：七万韩元，七万韩元。\n\n地铁里，{name}望着窗外的灯光，脑子里一片空白。"),
+        ("race_spent", "最後一場比賽結束了。\n\n手裡剩下的馬票，全都沒中。\n\n賽馬公園站的月台。人潮朝4號線末班車的方向流動。\n\n今天花掉的錢：7萬美元。\n\n地鐵裡，{name}望著窗外的燈光，腦中一片空白。"),
+        ("race_spent", "最後一場比賽結束了。\n\n手裡剩下的馬票，全都沒中。\n\n賽馬公園站的月台。人潮朝4號線末班車的方向流動。\n\n今天花掉的錢：7萬韓元/月。\n\n地鐵裡，{name}望著窗外的燈光，腦中一片空白。"),
+        ("race_spent", "最後一場比賽結束了。\n\n手裡剩下的馬票，全都沒中。\n\n賽馬公園站的月台。人潮朝4號線末班車的方向流動。\n\n今天花掉的錢：7萬韓元，7萬韓元。\n\n地鐵裡，{name}望著窗外的燈光，腦中一片空白。"),
+        ("race_two_films", "一个花了七万美元的星期六。\n两场电影的钱，倒也看了场不错的热闹。\n不知道以后还会不会来。\n\n地铁向前行驶，回到了首尔。"),
+        ("race_two_films", "一个花了七万韩元/月的星期六。\n两场电影的钱，倒也看了场不错的热闹。\n不知道以后还会不会来。\n\n地铁向前行驶，回到了首尔。"),
+        ("race_two_films", "一个花了七万韩元，七万韩元的星期六。\n两场电影的钱，倒也看了场不错的热闹。\n不知道以后还会不会来。\n\n地铁向前行驶，回到了首尔。"),
+        ("race_two_films", "花了7萬美元的星期六。\n兩張電影票的錢。看得還算不錯。\n不知道下次還會不會來。\n\n地鐵奔馳著，回到首爾。"),
+        ("race_two_films", "花了7萬韓元/月的星期六。\n兩張電影票的錢。看得還算不錯。\n不知道下次還會不會來。\n\n地鐵奔馳著，回到首爾。"),
+        ("race_two_films", "花了7萬韓元，7萬韓元的星期六。\n兩張電影票的錢。看得還算不錯。\n不知道下次還會不會來。\n\n地鐵奔馳著，回到首爾。"),
+        ("race_running_loss", "花掉八万美元，没能翻本。\n\n走下赛马公园站的楼梯时，算了一遍总账。\n三周合计：-二十三万韩元。\n\n数字一出来，脑子里就安静了。\n还不知道——这样的安静，才是最坏的征兆。"),
+        ("race_running_loss", "花掉八万韩元/月，没能翻本。\n\n走下赛马公园站的楼梯时，算了一遍总账。\n三周合计：-二十三万韩元。\n\n数字一出来，脑子里就安静了。\n还不知道——这样的安静，才是最坏的征兆。"),
+        ("race_running_loss", "花掉八万韩元，八万韩元，没能翻本。\n\n走下赛马公园站的楼梯时，算了一遍总账。\n三周合计：-二十三万韩元。\n\n数字一出来，脑子里就安静了。\n还不知道——这样的安静，才是最坏的征兆。"),
+        ("race_running_loss", "花了8萬美元。沒有翻本。\n\n走下賽馬公園站的樓梯，算了總數。\n三週合計，-23萬韓元。\n\n數字一出來，腦中就安靜了。\n還不知道——這份安靜，才是最壞的訊號。"),
+        ("race_running_loss", "花了8萬韓元/月。沒有翻本。\n\n走下賽馬公園站的樓梯，算了總數。\n三週合計，-23萬韓元。\n\n數字一出來，腦中就安靜了。\n還不知道——這份安靜，才是最壞的訊號。"),
+        ("race_running_loss", "花了8萬韓元，8萬韓元。沒有翻本。\n\n走下賽馬公園站的樓梯，算了總數。\n三週合計，-23萬韓元。\n\n數字一出來，腦中就安靜了。\n還不知道——這份安靜，才是最壞的訊號。"),
+        ("friend_funding_title", "拿到五十亿美元融资"),
+        ("friend_funding_title", "拿到五十亿韩元/月融资"),
+        ("friend_funding_title", "拿到五十亿韩元，五十亿韩元融资"),
+        ("friend_funding_title", "募得50億美元投資"),
+        ("friend_funding_title", "募得50億韓元/月投資"),
+        ("friend_funding_title", "募得50億韓元，50億韓元投資"),
+        ("friend_funding", "新闻报道里，出现了朋友的名字。\n\n“初创企业○○，完成五十亿美元A轮融资”\n\n是同届大学同学，曾一起喝着马格利米酒，说“以后咱们创业吧”的那个朋友。看来，那并不只是酒桌上的话。"),
+        ("friend_funding", "新闻报道里，出现了朋友的名字。\n\n“初创企业○○，完成五十亿韩元/月A轮融资”\n\n是同届大学同学，曾一起喝着马格利米酒，说“以后咱们创业吧”的那个朋友。看来，那并不只是酒桌上的话。"),
+        ("friend_funding", "新闻报道里，出现了朋友的名字。\n\n“初创企业○○，完成五十亿韩元，五十亿韩元A轮融资”\n\n是同届大学同学，曾一起喝着马格利米酒，说“以后咱们创业吧”的那个朋友。看来，那并不只是酒桌上的话。"),
+        ("friend_funding", "新聞報導裡出現了朋友的名字。\n\n「新創公司○○完成A輪募資，獲得50億美元投資」\n\n是大學同學。曾一起喝著馬格利酒，說「有一天來創業吧」的朋友。看來那不只是酒桌上的話。"),
+        ("friend_funding", "新聞報導裡出現了朋友的名字。\n\n「新創公司○○完成A輪募資，獲得50億韓元/月投資」\n\n是大學同學。曾一起喝著馬格利酒，說「有一天來創業吧」的朋友。看來那不只是酒桌上的話。"),
+        ("friend_funding", "新聞報導裡出現了朋友的名字。\n\n「新創公司○○完成A輪募資，獲得50億韓元，50億韓元投資」\n\n是大學同學。曾一起喝著馬格利酒，說「有一天來創業吧」的朋友。看來那不只是酒桌上的話。"),
+        ("spa_eggs", "三个麦饭石烤蛋，配上甜米露。高温汗蒸室——冷水池——高温汗蒸室。\n\n发明这套组合的人真该得个奖。\n出了一身汗再出来，头脑清清爽爽。花九千韩元做了场冥想。"),
+        ("spa_eggs", "三顆麥飯石烤蛋配韓式甜米釀。高溫汗蒸房、冷水池、再回高溫汗蒸房。\n\n真該頒個獎給發明這套組合的人。\n流完汗走出來，腦袋清醒了。這是價值9千韓元的冥想。"),
+        ("escape_fee", "和熟人们一起来玩密室逃脱。\n每月两万韩元，限时60分钟。挂锁、密码、紫外线笔。\n\n门锁上了，红色的倒计时开始一格格减少。\n“线索全都在房间里。”"),
+        ("escape_fee", "和認識的人一起來玩密室逃脫。\n每月2萬韓元，限時60分鐘。鎖頭、密碼、紫外線筆。\n\n門上了鎖，紅色的計時器開始倒數。\n「線索全都在房間裡。」"),
+        ("subway_skip_choice", "放过三班，坐下一班"),
+        ("subway_skip_choice", "讓三班先走，搭下一班"),
+        ("subway_skip_result", "放走了三班车。下一班也满了，但稍微好些。\n\n宁可迟到两分钟，也不想被挤死。\n有时候，那两分钟能保住一整天的心情。"),
+        ("subway_skip_result", "讓三班車先走了。下一班也滿載，但好了一點。\n\n寧願遲到2分鐘，也不要被擠死。\n有時，那2分鐘就能保住一整天的心情。"),
+        ("poker_bad_beat", "手里一对A。\n\n拿这手牌输的概率不到20%。翻牌、转牌——仍然领先。\n\n河牌一出，对方凑成了四條。\n\n从统计上看简直不合理的事，就这样发生在眼前。"),
+        ("poker_bad_beat", "手裡一對A。\n\n拿這手牌輸的機率不到20%。翻牌、轉牌——仍然領先。\n\n河牌讓對方湊成了四條。\n\n統計上難以置信的事，剛剛就在眼前發生了。"),
+        ("poker_elder", "中场休息。\n\n在自动售货机前买咖啡时，和邻座的老人对上了视线。\n\n七十多岁。牌桌上，从未见他动摇过。\n\n“玩多久了？”他先开口问。"),
+        ("poker_elder", "休息時間。\n\n在販賣機買咖啡時，和坐隔壁的老人對上了眼。\n\n七十多歲。在牌桌上從沒動搖過的人。\n\n「玩多久了？」他先開口問。"),
+        ("poker_elder", "中场休息。\n\n在自动售货机前买咖啡时，和邻座的老人对上了视线。\n\n六十多岁。牌桌上，動搖過。\n\n“玩多久了？”他先开口问。"),
+        ("poker_elder", "休息時間。\n\n在販賣機買咖啡時，和坐隔壁的老人對上了眼。\n\n六十多歲。在牌桌上動搖過的人。\n\n「玩多久了？」他先開口問。"),
+        ("poker_sip", "老人点了点头。\n“扑克不是赢过牌的游戏，是赢过人的游戏。”\n\n他喝了兩口自动售货机的咖啡。\n“真正的诈唬，是手不抖，心也不动摇。”\n\n只是短短几句话，却有些不一样。"),
+        ("poker_sip", "老人點點頭。\n「撲克不是贏過牌的遊戲，是贏過人的遊戲。」\n\n喝了兩口販賣機咖啡。\n「真正的詐唬，是手不發抖。也是心不動搖。」\n\n短短幾句對話，卻有些不一樣。"),
+        ("poker_loss_title", "六连败"),
+        ("poker_loss_title", "六連敗"),
+        ("poker_loss_streak", "今天连输了六局。\n\n从统计上说，这也可能。即使有80%的优势，也可能连输五次。\n\n可此刻，{name}似乎并没有在运用统计学。\n\n总觉得，今天有点不一样。"),
+        ("poker_loss_streak", "今天連輸了六局。\n\n統計上是有可能的。即使有80%的優勢，也可能連輸五次。\n\n可是{name}現在似乎不是在運用統計。\n\n總覺得今天有哪裡不一樣。"),
+        ("poker_two_mistakes", "收好筹码，站起来。\n荷官说：“辛苦了。”\n\n走上楼梯时回想着。\n看清了今天打错的三局。\n能看清，说明自己还在学。"),
+        ("poker_two_mistakes", "整理好籌碼，站起身。\n荷官說：「辛苦了。」\n\n走上樓梯時想了想。\n看出了今天有三局打錯了。\n能看出來，就表示還在學。"),
+        ("poker_discount", "座位费打八折，6,000韩元。\n牌桌上的人，也渐渐眼熟了。\n\n来这里，不问职业，不问年龄。牌面前人人一样。\n那种感觉，莫名让人放松。"),
+        ("poker_discount", "座位費打八折，6,000韓元。\n同桌的人也漸漸面熟了。\n\n來到這裡，不看工作，也不看年齡。在牌面前人人平等。\n這種感覺，莫名讓人自在。"),
+        ("chip_value", "旌善赌场的兑换窗口。\n\n{name}递出现金。工作人员数了数，把筹码推过来。\n\n绿色、黑色、紫色，沉甸甸的。\n\n真奇怪。刚才还是钱，握在手里，却像玩具。\n五万韩元换一枚筹码。那枚筹码值五万韩元——竟然毫无实感。\n\n后来，{name}才会明白，这是这场游戏的第二個骗局。"),
+        ("chip_value", "旌善賭場的兌換櫃檯。\n\n{name}遞出現金。工作人員數了數，把籌碼推過來。\n\n綠色、黑色、紫色。沉甸甸的。\n\n很奇怪。剛剛還是錢的東西，握在手裡卻像玩具。\n5萬韓元一枚籌碼。那枚籌碼就是5萬韓元——完全沒有實感。\n\n{name}後來才會明白，這就是這場遊戲的第二個騙局。"),
+        ("chip_limit", "只换了十万韩元。钱包留在了车里。\n\n三枚筹码，就是今天的全部。\n输了就结束，赢了就起身。提前定好规矩，心里轻松了些。\n\n筹码看起来越轻，越是设下限额的人能赢。"),
+        ("chip_limit", "只換了10萬韓元。錢包留在車上。\n\n三枚籌碼。今天就只有這些。\n輸了就結束，贏了就起身。事先訂好規則，心裡輕鬆多了。\n\n籌碼看起來越輕，懂得設下限額的人就越能贏。"),
+        ("comp_offer", "在家的{name}听见手机短促地响了一声。是此前有人介绍过的赌场俱乐部发来的住宿通知。\n\n“免费提供兩晚客房及早餐。请咨询可入住日期。”\n\n通知上没有写任何人的名字。可{name}的手指，还是停在了“免费”两个字上。\n\n正要回复，又打开了日历。宽大的床和慵懒的早晨，先占据了一个空白格子。接着，酒店楼下的赌桌也浮现在脑海里。\n\n屏幕之外，仍是那间熟悉的房间。消息输入框里的光标，一闪一闪。"),
+        ("comp_offer", "待在家裡的{name}，手機短短響了一聲。是先前有人介紹的賭場俱樂部寄來的住宿通知。\n\n「免費提供兩晚客房與早餐。歡迎洽詢可入住日期。」\n\n通知上沒寫任何人的名字。即使如此，{name}的手指還是在「免費」兩個字上停住了。\n\n正要回訊息，卻先打開了行事曆。空白的格子裡，先浮現寬敞的床和晚起的早晨。接著想起的，是飯店樓下的牌桌。\n\n螢幕外仍是熟悉的房間。訊息輸入欄的游標閃爍著。"),
+        ("comp_offer", "在家的{name}听见手机短促地响了一声。是此前有人介绍过的赌场俱乐部发来的住宿通知。\n\n“免费提供一晚客房及早餐。请咨询可入住日期。”\n\n通知上没有写任何人的名字。可{name}的手指，还是停在了“免费”三個字上。\n\n正要回复，又打开了日历。宽大的床和慵懒的早晨，先占据了一个空白格子。接着，酒店楼下的赌桌也浮现在脑海里。\n\n屏幕之外，仍是那间熟悉的房间。消息输入框里的光标，一闪一闪。"),
+        ("comp_offer", "待在家裡的{name}，手機短短響了一聲。是先前有人介紹的賭場俱樂部寄來的住宿通知。\n\n「免費提供一晚客房與早餐。歡迎洽詢可入住日期。」\n\n通知上沒寫任何人的名字。即使如此，{name}的手指還是在「免費」三個字上停住了。\n\n正要回訊息，卻先打開了行事曆。空白的格子裡，先浮現寬敞的床和晚起的早晨。接著想起的，是飯店樓下的牌桌。\n\n螢幕外仍是熟悉的房間。訊息輸入欄的游標閃爍著。"),
+        ("comp_offer", "在家的{name}听见手机短促地响了一声。是此前有人介绍过的赌场俱乐部发来的住宿通知。\n\n“免费提供一晚客房及早餐。已經確認預訂日期。”\n\n通知上没有写任何人的名字。可{name}的手指，还是停在了“免费”两个字上。\n\n正要回复，又打开了日历。宽大的床和慵懒的早晨，先占据了一个空白格子。接着，酒店楼下的赌桌也浮现在脑海里。\n\n屏幕之外，仍是那间熟悉的房间。消息输入框里的光标，一闪一闪。"),
+        ("comp_offer", "待在家裡的{name}，手機短短響了一聲。是先前有人介紹的賭場俱樂部寄來的住宿通知。\n\n「免費提供一晚客房與早餐。已經確認預訂日期。」\n\n通知上沒寫任何人的名字。即使如此，{name}的手指還是在「免費」兩個字上停住了。\n\n正要回訊息，卻先打開了行事曆。空白的格子裡，先浮現寬敞的床和晚起的早晨。接著想起的，是飯店樓下的牌桌。\n\n螢幕外仍是熟悉的房間。訊息輸入欄的游標閃爍著。"),
+        ("comp_declined", "{name}打下“谢谢通知，这次我就不去了”，发了出去。\n\n输入框空了，发出的句子旁边，只留下发送时间。还没有回复。\n\n把手机放到书桌上。没有在日历上添任何日期。窗外有一辆车驶过，房间里的东西依然各在原处。\n\n“免费”三個字还在。这一次，没有再把时间花在它下面。"),
+        ("poker_calm", "{name}在谈判中，已經失去了冷靜。\n\n让对方先亮底牌，藏好自己的底牌。\n这些，都是在牌桌上付过昂贵学费才学来的。\n\n现在，决定在牌桌之外把学费赚回来。\n去德州扑克馆的次数少了，银行账户里的钱反而多了。"),
+        ("poker_calm", "{name}在談判中，已經失去了冷靜。\n\n讓對方先亮底牌的方法，不讓自己的底牌被看穿的方法。\n那是在牌桌上付了昂貴學費才學來的。\n\n現在，決定到牌桌外把這筆學費賺回來。\n去德州撲克場的次數少了，銀行帳戶裡的錢卻多了。"),
+        ("mentor_home", "果川。今天，赛马大叔喝了点酒。\n\n“想当年我啊……”他笑着，眼睛却没笑。\n\n“我也有过一套房，在安养。还有三個孩子。”\n\n{name}静静听着。\n\n“来这儿二十年了。刚开始我也只是图个乐。可有一天赢了。就是忘不了那天的感觉。问题就在这儿。”\n\n他折起赛马报。“哥，你适可而止，别变成我这样。”"),
+        ("mentor_home", "果川。今天，賽馬大叔帶著一點酒意。\n\n「想當年啊。」他笑了，眼睛卻沒在笑。\n\n「我以前有間房子，在安養。還有三個孩子。」\n\n{name}靜靜聽著。\n\n「我來這裡二十年了。一開始也是來玩玩的。可是有一天贏了錢，那天的心情忘不掉。問題就出在這裡。」\n\n他把賽馬報摺起來。「老哥，你適可而止就好，別變成我這樣。」"),
+        ("mentor_home", "果川。今天，赛马大叔喝了点酒。\n\n“想当年我啊……”他笑着，眼睛却没笑。\n\n“我也現在擁有兩間房子，在安养。还有两个孩子。”\n\n{name}静静听着。\n\n“来这儿二十年了。刚开始我也只是图个乐。可有一天赢了。就是忘不了那天的感觉。问题就在这儿。”\n\n他折起赛马报。“哥，你适可而止，别变成我这样。”"),
+        ("mentor_home", "果川。今天，賽馬大叔帶著一點酒意。\n\n「想當年啊。」他笑了，眼睛卻沒在笑。\n\n「我現在擁有兩間房子，在安養。還有兩個孩子。」\n\n{name}靜靜聽著。\n\n「我來這裡二十年了。一開始也是來玩玩的。可是有一天贏了錢，那天的心情忘不掉。問題就出在這裡。」\n\n他把賽馬報摺起來。「老哥，你適可而止就好，別變成我這樣。」"),
+        ("last_line_member", "那天的最后一场赛马。\n\n投注窗口前格外拥挤，{name}排进队伍。\n\n前面的人数着一万韩元的纸币，手在抖。手里的钞票已经没剩几张。\n后面的人自言自语：“这回真的……这回一定得中啊。”\n\n到了最后一场，留下来的，都是想把今天输的钱赢回来的人。\n\n{name}也是队伍中的三個人。"),
+        ("last_line_member", "當天最後一場比賽。\n\n下注窗口前格外擁擠。{name}排進隊伍。\n\n前面的人數著一萬韓元的紙鈔，手在發抖。剩下的鈔票沒幾張了。\n後面的人喃喃自語：「這次真的……這次一定要中啊。」\n\n最後一場比賽，留下的都是想把今天輸掉的錢贏回來的人。\n\n{name}也是隊伍中的三個人。"),
+        ("horse_tip", "独自坐在便利店角落里的男人，开口搭了话。\n\n“看着挺年轻，懂赛马吗？”\n\n手里的赛马报被记号笔涂得密密麻麻。四十多岁、快五十了。他一边小口喝咖啡，一边写号码。\n\n“下周六，4號准没错。一下春雨，果川跑道上走内道的马就占优势。”\n\n不知道他是真的靠这个赚了钱，还是在吹牛。\n可他说话的方式，透着十足的把握。"),
+        ("horse_tip", "獨自坐在便利商店角落的男人搭了話。\n\n「看起來很年輕，懂賽馬嗎？」\n\n賽馬報上畫滿了螢光筆。他四十多歲、快五十了，一邊啜著咖啡，一邊記下號碼。\n\n「下星期六，4號穩的。一下春雨，果川跑道就對內側的馬有利。」\n\n不知道他是真的賺得到錢，還是在吹牛。\n但他的說話方式，確實充滿自信。"),
+        ("race_observed", "只看了三場比赛。在看台上望着马群转过弯道。\n很快，也很安静。比想象中有看头。\n没买马票。那也是一种选择。"),
+        ("race_observed", "只看了三場比賽。在看台上看著馬群轉過彎道。\n快，而安靜。比想像中有看頭。\n沒有買馬票。那也是一種選擇。"),
+        ("race_elder", "旁边一位七十多岁的大叔，展开一张报纸。\n每匹马近期的战绩、骑师、负磅、对天气的适应能力。\n“3号跑果川很强，可今天的天气是个变数。”\n听他讲了十分钟，连一半也没听懂。"),
+        ("race_elder", "身旁一位七十多歲的大叔攤開一張報紙。\n每匹馬的近況、騎師、負磅、對天氣的適應力。\n「3號跑果川跑道很強。不過今天天氣是個變數。」\n聽了十分鐘的解說，連一半都沒聽懂。"),
+        ("race_elder", "旁边一位六十多岁的大叔，展开一张报纸。\n每匹马近期的战绩、骑师、负磅、对天气的适应能力。\n“4號跑果川很强，可今天的天气是个变数。”\n听他讲了十分钟，连一半也没听懂。"),
+        ("race_elder", "身旁一位六十多歲的大叔攤開一張報紙。\n每匹馬的近況、騎師、負磅、對天氣的適應力。\n「4號跑果川跑道很強。不過今天天氣是個變數。」\n聽了十分鐘的解說，連一半都沒聽懂。"),
+        ("tip_bought", "照着表，买了3号的独赢。3号跑了第三。\n独赢只有第一名才有派彩。就差那么一点。\n想找那位大叔，他已经不在了。"),
+        ("tip_bought", "看著表，買了3號獨贏。3號跑進第三名。\n獨贏只有第一名才派彩。就差那麼一點。\n回頭找大叔，他早就不見了。"),
+        ("tip_bought", "照着表，买了3号的独赢。3号跑了第二。\n独赢只有第二名才有派彩。就差那么一点。\n想找那位大叔，他已经不在了。"),
+        ("tip_bought", "看著表，買了3號獨贏。3號跑進第二名。\n獨贏只有第二名才派彩。就差那麼一點。\n回頭找大叔，他早就不見了。"),
+        ("tip_rejected", "凭感觉选了12號，结果垫底。\n想起卖分析表的大叔。不知道没买他的表，到底做得对不对。"),
+        ("tip_rejected", "憑直覺選了12號。最後一名。\n想起那個賣攻略的大叔。不知道沒買到底對不對。"),
+        ("horse_three_title", "4號准没错"),
+        ("horse_three_title", "4號穩的"),
+        ("horse_three_tip", "今天又来到果川。\n\n入口前，一个和刚才那位大叔长得有些像的人，挥着印刷品。\n“4號准没错，今天状态最好。”\n\n上周，也有另一位大叔说3号准没错。\n\n{name}停了片刻。"),
+        ("horse_three_tip", "今天又來到果川。\n\n入口前，有個人長得像先前那位大叔，揮著印好的紙。\n「4號穩的。今天狀態最好。」\n\n上星期，也有另一位大叔說3號穩的。\n\n{name}停了一下。"),
+        ("horse_three_bet", "买4號独赢，10,000韩元"),
+        ("horse_three_bet", "4號獨贏，10,000韓元"),
+        ("horse_analysis", "在赛驹信息栏前站了十分钟。\n骑师体重、最近三场比赛的名次、跑道适性。\n从数字上看，反倒是9號更好。\n8号跑了第三。要是买了位置，就能拿到派彩。"),
+        ("horse_analysis", "在賽馬資料看板前站了十分鐘。\n騎師體重、最近三場的名次、跑道適性。\n從數據來看，反而是9號更好。\n8號跑進第三名。要是買位置就能派彩了。"),
+        ("horse_analysis", "在赛驹信息栏前站了十分钟。\n骑师体重、最近三场比赛的名次、跑道适性。\n从数字上看，反倒是8号更好。\n8号跑了第四。要是买了位置，就能拿到派彩。"),
+        ("horse_analysis", "在賽馬資料看板前站了十分鐘。\n騎師體重、最近三場的名次、跑道適性。\n從數據來看，反而是8號更好。\n8號跑進第四名。要是買位置就能派彩了。"),
+        ("horse_result_title", "4號的结果"),
+        ("horse_result_title", "4號的結果"),
+        ("horse_progress", "比赛开始。\n\n看台上的人一齐站起来。有人喊着名字：3号，3号。\n\n第二個弯道，领先。希望短暂地升了起来。\n\n最后的直道上，3号渐渐落后。"),
+        ("horse_progress", "開閘了。\n\n看台上的人同時站起來。有人喊著名字。3號、3號。\n\n第二個彎道，領先。短暫燃起希望。\n\n最後直路，3號漸漸落後。"),
+        ("horse_fifth", "第四名。\n\n一张一万韩元的马票，变成了一张废纸。\n去找那位大叔，他已经在向别的人卖别的号码。\n\n{name}走下楼梯时，查看了下一场的时间。\n问题就在这里。"),
+        ("horse_fifth", "第四名。\n\n一張一萬韓元的鈔票，變成了一張廢紙。\n去找大叔。他已經在向別人推銷別的號碼。\n\n{name}走下樓梯時，看了下一場的時間。\n問題就在這裡。"),
+        ("race_exacta", "连续猜中了三場比赛。\n\n是连第一、第二名两匹马的顺序都要猜对的二重彩。\n\n屏幕上显示了派彩金额，是投注额的18倍。\n\n周围的大叔们鼓起掌来。{name}握着马票，愣在原地。"),
+        ("race_exacta", "連著押中了三場比賽。\n\n是連第一名、第二名兩匹馬的順序都要猜中的二重彩。\n\n派彩金額出現在螢幕上。是投注金額的18倍。\n\n周圍的大叔們鼓起掌來。{name}握著馬票，愣住了。"),
+        ("race_exacta", "连续猜中了两场比赛。\n\n是连第一、第三名两匹马的顺序都要猜对的二重彩。\n\n屏幕上显示了派彩金额，是投注额的18倍。\n\n周围的大叔们鼓起掌来。{name}握着马票，愣在原地。"),
+        ("race_exacta", "連著押中了兩場比賽。\n\n是連第一名、第三名兩匹馬的順序都要猜中的二重彩。\n\n派彩金額出現在螢幕上。是投注金額的18倍。\n\n周圍的大叔們鼓起掌來。{name}握著馬票，愣住了。"),
+        ("race_two_films", "一个花了七万韩元的星期六。\n三張電影票的钱，倒也看了场不错的热闹。\n不知道以后还会不会来。\n\n地铁向前行驶，回到了首尔。"),
+        ("race_two_films", "花了7萬韓元的星期六。\n三張電影票的錢。看得還算不錯。\n不知道下次還會不會來。\n\n地鐵奔馳著，回到首爾。"),
+        ("race_third_weekend", "不知不觉，已经是第四個周末。\n\n坐上4号线，如今一到赛马公园站，就会自动站起来。\n\n有了固定的下注习惯，也有了喜欢的骑师。\n\n到这里还算没问题。问题是——开始想着，下周要把这周输掉的钱赢回来。"),
+        ("race_third_weekend", "不知不覺，已經是第四個週末。\n\n搭上4號線，現在一到賽馬公園站就會自動站起來。\n\n有了固定的下注模式，也有了喜歡的騎師。\n\n到這裡都還好。問題是——開始想著，下星期要把這星期輸掉的錢贏回來。"),
+        ("race_six_types", "读了一个小时的赛马报。\n\n三重彩、独赢、位置、连赢、二重彩——光投注方式就有五種。\n骑师胜率、练马师记录、各种跑道的特点。\n\n竟然有人把这些全看进去，真让人惊讶。\n似乎有点懂了，“读”是什么意思。"),
+        ("race_six_types", "讀了一小時的賽馬報。\n\n三重彩、獨贏、位置、連贏、二重彩——光下注方式就有五種。\n騎師勝率、練馬師紀錄、各跑道的特性。\n\n居然有人會把這些全看一遍，真不可思議。\n好像稍微懂了「讀」是什麼意思。"),
+        ("race_six_types", "读了一个小时的赛马报。\n\n二重彩、独赢、位置、连赢、二重彩——光投注方式就有六种。\n骑师胜率、练马师记录、各种跑道的特点。\n\n竟然有人把这些全看进去，真让人惊讶。\n似乎有点懂了，“读”是什么意思。"),
+        ("race_six_types", "讀了一小時的賽馬報。\n\n二重彩、獨贏、位置、連贏、二重彩——光下注方式就有六種。\n騎師勝率、練馬師紀錄、各跑道的特性。\n\n居然有人會把這些全看一遍，真不可思議。\n好像稍微懂了「讀」是什麼意思。"),
+        ("race_seven", "选了8號马，喜欢它的名字。\n\n输了。\n\n大叔说：“感觉也有准的时候，可感觉是积累出来的。”\n仿佛听懂了一点，又仿佛没懂。"),
+        ("race_seven", "選了8號馬。喜歡牠的名字。\n\n輸了。\n\n大叔說：「感覺有時候也會中。不過，感覺是累積出來的。」\n似懂非懂。"),
+        ("friend_invitation", "主动联系了：“喂，昨天已經一起吃過飯了。”"),
+        ("friend_invitation", "主動聯絡了。「欸，昨天已經一起吃過飯了。」"),
+        ("last_unmarried", "朋友聚会里，还没结婚的，只剩Minjun和另外兩個人。\n\n两人留在韩国路边摊，又点了烧酒。“咱俩不会一直这样下去吧？”笑着说的，却不是玩笑。\n\n看似处境相同，方向却不一样。"),
+        ("last_unmarried", "朋友群裡，沒結婚的只剩Minjun和另外兩個人。\n\n兩人留在韓國路邊攤，又點了燒酒。「我們該不會就這樣，一直剩彼此吧？」笑著說出口，卻不是玩笑。\n\n看似處境相同，方向卻不一樣。"),
+    )
+    for kind, target in mutants:
+        cases += 1
+        if not _numeric_errors(SOURCE_LEISURE_GAMBLING[kind], target):
+            failures.append(f"leisure numeric mutant allowed {kind}: {target!r}")
+    return cases, failures
+
+
+def _leisure_gambling_disclosed_self_test() -> tuple[int, list[str]]:
+    """Four ORDER210 B2 checks copied from the two disclosed immutable pairs."""
+    failures: list[str] = []
+    cases = 0
+    pairs = (
+        ("comic_hourly", "zh-CN",
+         "下雨的星期天，来到漫画咖啡馆。\n每小时两千韩元，拉面和饮料不限量，还有软软的懒人沙发。\n\n把一直想看的漫画堆了二十本，埋头读了起来。\n外面的世界暂时消失了。",
+         "下雨的星期天，来到漫画咖啡馆。\n每小时两千韩元，拉面和饮料不限量，还有软软的懒人沙发。\n\n把一直想看的漫画堆了十本，埋头读了起来。\n外面的世界暂时消失了。"),
+        ("race_exacta", "zh-TW",
+         "連著猜中了兩場賽事。\n\n這一注要把第一、第二名兩匹馬的先後順序也猜對。\n\n螢幕上跳出了派彩金額。是投注金額的十八倍。\n\n周圍的大叔們鼓起掌來。{name}握著馬票，整個人愣住了。",
+         "連著猜中了兩場賽事。\n\n這一注要把第一、第二名兩匹馬的先後順序也猜對。\n\n螢幕上跳出了派彩金額。是投注金額的八倍。\n\n周圍的大叔們鼓起掌來。{name}握著馬票，整個人愣住了。"),
+    )
+    for kind, lang, normal, mutant in pairs:
+        source = SOURCE_LEISURE_GAMBLING[kind]
+        cases += 1
+        errors = validate_text(lang, "events:leisure_disclosed_regression", source, normal)
+        if errors:
+            failures.append(f"leisure disclosed normal {kind}/{lang}: {errors}")
+        cases += 1
+        errors = _numeric_errors(source, mutant)
+        if not any(error.startswith("leisure " + kind + " ") for error in errors):
+            failures.append(f"leisure disclosed numeric mutant not directly rejected {kind}/{lang}: {errors}")
+    return cases, failures
+
+
 def run_self_test(
     manifest: dict[str, Any], runtime: dict[str, Any],
 ) -> list[str]:
     failures: list[str] = []
     cases, life_failures = _life_scene_parser_self_test()
+    leisure_cases, leisure_failures = _leisure_gambling_parser_self_test()
+    cases += leisure_cases
+    failures.extend(leisure_failures)
+    leisure_disclosed_cases, leisure_disclosed_failures = _leisure_gambling_disclosed_self_test()
+    cases += leisure_disclosed_cases
+    failures.extend(leisure_disclosed_failures)
     failures.extend(life_failures)
     culture_cases, culture_failures = _korean_culture_parser_self_test()
     cases += culture_cases

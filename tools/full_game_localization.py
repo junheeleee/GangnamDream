@@ -848,6 +848,223 @@ def _ja_korean_culture_numbers(source: str, target: str):
     return normalized_source, normalized_target, errors
 
 
+def _ja_leisure_gambling_numbers(source: str, target: str):
+    """Source-exact leisure/race quantities, with local roles and line ownership.
+
+    Canonicalize only the owned numerals. The existing won parser, complete
+    numeric stream, token and paragraph checks still run afterwards. This is
+    not a target-prose template, a global native-number waiver or a legal claim.
+    """
+    contracts = {
+        "2시간에 2만원 손실.\n근데 두 번 블러핑에 성공했고, 한 번은 큰 팟을 땄다가 다시 잃었다.\n\n계단 올라오면서 생각했다. 이거 공부할 게 있는 게임이구나.": {
+            "rewrites": [["2만원","20000원"],["두 번","2번"],["한 번","1번"]],
+            "slots": [
+                [0,"@N@時間(?:で|に)",2,"first-visit elapsed hours"],
+                [0,"@N@ウォン(?:の)?損失",20000,"first-visit actual loss"],
+                [1,["@N@(?:回|度)(?:の)?ブラフ(?:が|は)?成功(?:し|した)","ブラフ(?:は|が)?@N@(?:回|度)成功(?:し|した)"],2,"successful bluff count"],
+                [1,"@N@(?:回|度)(?:は)?大きなポットを(?:取って|獲得して|勝ち取って)",1,"big-pot win count"],
+            ],
+            "checks": [[1,"(?:また|再び|もう一度)失った","big pot subsequently lost"]],
+            "forbidden": [[1,"成功しな|成功していない|取っていない|失わな|失っていない"]],
+        },
+        "집에 있던 {name}의 휴대폰이 짧게 울렸다. 앞서 소개받은 카지노 클럽의 숙박 안내였다.\n\n「객실 1박과 조식을 무료로 제공합니다. 이용 가능한 날짜를 문의해 주세요.」\n\n누구 이름도 적혀 있지 않은 안내였다. 그래도 {name}은 '무료'라는 단어 위에서 손가락을 멈췄다.\n\n답장을 쓰려다 달력을 열었다. 비어 있는 칸 하나에 넓은 침대와 늦은 아침이 먼저 들어왔다. 그다음에는 호텔 아래층의 테이블이 떠올랐다.\n\n화면 밖은 여전히 익숙한 방이었다. 메시지 입력 칸의 커서가 깜빡였다.": {
+            "rewrites": [["칸 하나","칸 1"]],
+            "slots": [
+                [2,"@N@泊(?:分)?(?:の)?(?:お部屋|部屋|客室|宿泊)",1,"offered room nights"],
+                [6,"(?:空いている|空いた|空白の|空の|空白|空欄|空き枠(?:が)?|空きマス(?:が)?)@N@(?:枠|マス|つ|個)",1,"empty calendar slot"],
+            ],
+            "checks": [[2,"(?:朝食|朝ごはん|朝御飯)","breakfast offer"],[2,"無料(?:で|にて)?(?:ご)?(?:提供|用意|案内)|無料(?:です|となります)","free offer"],[2,"(?:日程|日付|日時|日|日取り).*(?:お問い合わせ|問い合わせ|お尋ね|おたずね|ご相談|相談)(?:ください|下さい|願います)","date inquiry not reservation"]],
+            "forbidden": [[2,"有料|予約済|予約した|予約され|予約が(?:成立|確定)|予約を(?:承|取)|提供しない|提供いたしません|無料ではな"],[6,"空いていない|埋まった|埋まっている"]],
+        },
+        "발판을 밟다 보니 금세 숨이 찼다. 옆 고수가 흘끔 봤다.\n\n못해도 재밌었다. 이게 한국식 리듬게임.\n오백 원으로 헬스장 한 타임 효과를 봤다.": {
+            "rewrites": [["오백 원","500원"],["한 타임","1타임"]],
+            "slots": [
+                [3,"@N@ウォン(?:で|を使って|払って|を払って)",500,"pump exercise cost"],
+                [3,"(?:ジム|スポーツジム|フィットネスジム)(?:に|での|で|の)?@N@(?:回|度)(?:行った)?分",1,"gym session equivalent"],
+            ],
+            "checks": [[3,"(?:運動|トレーニング)(?:に|を|の).*(?:なった|した|得た)|(?:効果|運動量).*(?:得た|あった|になった|だった)","received exercise equivalent"]],
+            "forbidden": [[3,"ならな|なっていない|しなかった|予定|つもり|なかった|効果がない"]],
+        },
+        "번화가 오락실.\n펌프(댄스 발판), 농구 게임, 그리고 인생네컷 부스.\n\n동전 교환기에 천 원을 넣자 100원짜리가 쏟아진다.\n— 오랜만이다, 이 소리.": {
+            "rewrites": [["인생네컷","사진4컷"],["천 원","1000원"]],
+            "slots": [
+                [1,"@N@コマ(?:写真|の写真)?",4,"photo format count"],
+                [3,"(?:両替機|硬貨交換機)(?:に|へ)@N@ウォン(?:を)?(?:入れ|投入)",1000,"cash inserted"],
+                [3,"@N@ウォン(?:の)?(?:硬貨|コイン)",100,"coin denomination"],
+            ],
+            "checks": [[3,"(?:硬貨|コイン)(?:が|は|の).*(?:出てくる|出てきた|出た|こぼれ|落ち|流れ)","coin output"]],
+            "forbidden": [[3,"入れな|投入しな|出てこな|出なかった|予定|つもり"]],
+        },
+        "한강을 따라 달렸다. 바람, 윤슬, 다리 밑 그늘.\n\n천 원으로 이만한 자유가 또 없다.\n페달을 밟는 동안만큼은 30억도, 마감도 뒤로 밀렸다.": {
+            "rewrites": [["천 원","1000원"],["30억","3000000000원"]],
+            "slots": [
+                [2,"@N@ウォン(?:で|にして|を払って)",1000,"cycling freedom price"],
+                [3,"@N@ウォン(?:も|や|は|と)",3000000000,"deferred financial goal"],
+            ],
+            "checks": [[3,"(?:ペダル|自転車|こいで|漕いで)","cycling period"],[3,"(?:締め切り|締切).*(?:後回し|頭の隅|追いや|忘れ|気になら|遠の|置き去り)","goal and deadline deferred"]],
+            "forbidden": [[3,"所有|手に入れ|達成した|達成して|獲得した"]],
+        },
+        "서울 공공자전거 따릉이.\n앱으로 QR을 찍고 천 원에 한 시간. 거치대에서 자전거를 뺀다.\n\n날이 좋다. 페달을 밟자 바람이 분다.": {
+            "rewrites": [["천 원","1000원"],["한 시간","1시간"]],
+            "slots": [
+                [1,"@N@ウォン(?:で|につき|を払って)",1000,"cycle hire price"],
+                [1,"(?:ウォン(?:で|につき)|利用時間(?:は|が)|借り(?:られる|る)(?:のは)?)[、，,\\s]*@N@時間",1,"cycle hire duration"],
+            ],
+            "checks": [[1,"(?:ラック|スタンド|駐輪台|自転車置き場).*(?:引き出す|取り出す|出す|外す|取り外す)","actual bicycle removal"]],
+            "forbidden": [[1,"引き出していない|取り出していない|引き出さな|取り出さな|出さな|外していない|予定|つもり"]],
+        },
+        "라면 한 그릇 끓여 먹고, 만화 스무 권을 다 봤다.\n\n해가 진 줄도 몰랐다. 목이 뻐근했지만 마음은 가벼웠다.\n이천 원짜리 도피처치고 완벽했다.": {
+            "rewrites": [["한 그릇","1그릇"],["스무 권","20권"],["이천 원","2000원"]],
+            "slots": [
+                [0,"ラーメン(?:を|の)?@N@杯",1,"cooked noodle bowl"],
+                [0,"漫画(?:を|の)?@N@冊",20,"completed comics"],
+                [3,"@N@ウォン(?:の|で(?:得た|買った)|にしては)",2000,"escape-place price"],
+            ],
+            "checks": [[0,"(?:全部|すべて|全て)?(?:読んだ|読み終えた|読み切った)","completed comic reading"]],
+            "forbidden": [[0,"読んでいない|読まな|読む予定|読むつもり"]],
+        },
+        "지인들과 방탈출 카페.\n1인 2만 원, 제한시간 60분. 자물쇠, 암호, 자외선 펜.\n\n문이 잠기고 타이머가 빨갛게 줄어들기 시작한다.\n\"단서는 다 방 안에 있습니다.\"": {
+            "rewrites": [["2만 원","20000원"]],
+            "slots": [
+                [1,"@N@人(?:あたり|当たり|につき|分)?",1,"escape person denominator"],
+                [1,"@N@ウォン",20000,"escape person fee"],
+                [1,"(?:制限時間|持ち時間|タイムリミット)(?:は|が|[：:])?@N@分",60,"escape limit minutes"],
+            ],
+            "checks": [],
+            "forbidden": [[1,"経過時間|制限時間ではな|持ち時間ではな"]],
+        },
+        "8만원을 썼다. 만회는 없었다.\n\n경마공원역 계단을 내려오면서 총합을 계산했다.\n3주 합산 -23만원.\n\n숫자가 나오자 머릿속이 조용해졌다.\n이 조용함이 제일 나쁜 신호라는 걸 — 아직 모르고 있었다.": {
+            "rewrites": [["8만원","80000원"],["-23만원","-230000원"]],
+            "slots": [
+                [0,"@N@ウォン(?:を)?(?:使った|払った|費やした)",80000,"actual spent amount"],
+                [3,"@N@週(?:間)?",3,"loss accumulation period"],
+                [3,"(?:合計|累計|総計|通算)(?:は|で|[：:])?[、，,\\s]*@N@ウォン",-230000,"accumulated negative balance"],
+            ],
+            "checks": [[0,"(?:取り返せなかった|取り戻せなかった|取り返すことはできなかった|取り戻すことはできなかった|巻き返せなかった|挽回できなかった)","no recovery"]],
+            "forbidden": [],
+        },
+        "한 시간 동안 경마신문을 읽었다.\n\n3연단, 단승, 연승, 복승, 쌍승 — 베팅 방식만 여섯 가지였다.\n기수 승률, 조교사 기록, 주로별 특성.\n\n이걸 다 보는 사람들이 있다는 게 신기했다.\n'읽는다'는 게 무슨 말인지 조금 알 것 같았다.": {
+            "rewrites": [["한 시간","1시간"],["여섯 가지","6가지"]],
+            "slots": [
+                [0,"@N@時間",1,"completed newspaper reading duration"],
+                [2,"@N@連単",3,"ordered three-horse betting form"],
+                [2,"(?:賭け方|賭けの方法|賭ける方法|ベットの種類|賭式|賭けの種類|賭け方の種類)(?:だけでも|だけで|だけ|は|が|でも)?@N@(?:種類|種)",6,"reported betting form count"],
+            ],
+            "checks": [[0,"競馬新聞(?:を)?(?:[^。\\n]*)(?:読んだ|読み終えた|読み通した)","completed newspaper reading"]],
+            "forbidden": [[0,"読まな|読んでいない|予定|つもり"]],
+        },
+        "그날의 마지막 경주.\n\n베팅창 앞이 유독 붐볐다. {name}은 줄에 섰다.\n\n앞 사람이 만원짜리를 세고 있었다. 손이 떨렸다. 지폐가 몇 장 안 남아 있었다.\n뒤 사람은 혼잣말을 했다. \"이번엔 진짜… 이번엔 돼야 하는데.\"\n\n마지막 경주에는, 오늘 잃은 걸 만회하려는 사람들만 남는다.\n\n{name}도 그 줄의 한 명이었다.": {
+            "rewrites": [["만원짜리","10000원짜리"],["한 명","1명"]],
+            "slots": [
+                [4,"(?:前の人|前に並ぶ人|前にいる人)(?:が|は)@N@ウォン(?:の)?(?:札|紙幣)",10000,"front person's denomination"],
+                [9,"(?:その|あの|この)(?:列|行列)(?:の|にいる)?@N@人",1,"protagonist among queue"],
+            ],
+            "checks": [[4,"(?:札|紙幣)(?:を)?数えていた","front person's counting"]],
+            "forbidden": [[4,"数えていな|数えていない|数えなかった|数える予定"]],
+        },
+        "5위.\n\n만원짜리 한 장이 종이 한 장이 됐다.\n아저씨를 찾았다. 이미 다른 사람에게 다른 번호를 팔고 있었다.\n\n{name}은 계단을 내려오면서 다음 경주 시간을 확인했다.\n그게 문제였다.": {
+            "rewrites": [["만원짜리","10000원짜리"],["한 장","1장"],["한 장","1장"]],
+            "slots": [
+                [0,"^@N@(?:着|位)(?:だった)?[。．]?$",5,"horse finish rank"],
+                [2,"@N@ウォン",10000,"losing ticket amount"],
+                [2,"ウォン(?:の)?(?:馬券|券|札)?@N@枚",1,"original ticket count"],
+                [2,"(?:ただの)?(?:紙切れ|紙)(?:の)?@N@枚",1,"worthless paper count"],
+            ],
+            "checks": [[2,"(?:紙切れ|紙)(?:の)?[^。\\n]*(?:になった|に変わった|となった)","ticket became paper"]],
+            "forbidden": [[2,"なる予定|なるつもり|ならな|変わらな|なっていない"]],
+        },
+        "만원치고 괜찮은 구경이었다.\n경주마가 달리는 건 생각보다 웅장했다.\n{name}은 거기서 멈추기로 했다. 오늘은.": {
+            "rewrites": [["만원치고","10000원치고"]],
+            "slots": [
+                [0,"@N@ウォン(?:にしては|で(?:見た|得た)(?:もの)?としては|の値段にしては)",10000,"completed viewing value"],
+            ],
+            "checks": [[0,"(?:見物|見世物|観戦|見応え|見ごたえ).*(?:だった|があった|の価値はあった)","completed viewing"]],
+            "forbidden": [[0,"になるだろう|になる予定|になるはず|見る予定"]],
+        },
+    }
+    contract = contracts.get(source)
+    if contract is None:
+        return None
+    import unicodedata
+
+    def integer(raw):
+        raw = unicodedata.normalize("NFKC", raw).replace("−", "-")
+        raw = raw.replace("マイナス", "-").replace("プラス", "+")
+        if not raw or raw.startswith("+"):
+            return None
+        sign = -1 if raw.startswith("-") else 1
+        raw = raw.lstrip("-")
+        if not raw or ("," in raw and not re.fullmatch(
+            r"(?:(?:[1-9][0-9]{0,2}(?:,[0-9]{3})+|[0-9]+)[億万千百十]?)+", raw,
+        )):
+            return None
+        digits = dict(zip("〇零一二三四五六七八九", (0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9)))
+        total, section, pending = 0, 0, ""
+        for char in raw.replace(",", ""):
+            if char.isascii() and char.isdigit():
+                pending += char
+            elif char in digits:
+                pending += str(digits[char])
+            elif char in "十百千":
+                section += (int(pending) if pending else 1) * {"十": 10, "百": 100, "千": 1000}[char]
+                pending = ""
+            elif char in "万億":
+                total += (section + (int(pending) if pending else 0) or 1) * {"万": 10000, "億": 100000000}[char]
+                section, pending = 0, ""
+            else:
+                return None
+        return sign * (total + section + (int(pending) if pending else 0))
+
+    number = r"(?:マイナス|プラス|[+＋\-－−])?[0-9０-９〇零一二三四五六七八九十百千万億,，]+"
+    group = "(?P<number>" + number + ")"
+    lines = target.split("\n")
+    errors, replacements, owned = [], [], []
+    for line, pattern, expected, label in contract["slots"]:
+        patterns = pattern if isinstance(pattern, list) else [pattern]
+        matches = [match for local_pattern in patterns
+                   for match in re.finditer(local_pattern.replace("@N@", group), lines[line])] if line < len(lines) else []
+        if len(matches) != 1:
+            errors.append(f"source-bound leisure/race {label} role/unit/position mismatch")
+            continue
+        match = matches[0]
+        raw = match.group("number")
+        if integer(raw) != expected:
+            errors.append(f"source-bound leisure/race {label} value/sign mismatch")
+        start, end = match.span("number")
+        # Do not match a good suffix inside an extra sign/number, or silently
+        # accept a second denomination, hourly rate or negated/approximate price.
+        if start and re.search(number + r"\s*$", lines[line][:start]):
+            errors.append(f"source-bound leisure/race {label} numeric prefix mismatch")
+        if re.match(r"\s*(?:[/／]|毎(?:時|日|月|年)|未満|以上|以下|程度|ぐらい|くらい|"
+                    r"(?:円|ドル|ウォン|元|ユーロ)|ではな|じゃな|"
+                    r"[（(]\s*(?:毎|月|日|年|時|円|ドル|元))", lines[line][match.end():]):
+            errors.append(f"source-bound leisure/race {label} qualifier mismatch")
+        offset = sum(len(part) + 1 for part in lines[:line])
+        owned.append((offset + start, offset + end))
+        replacements.append((offset + start, offset + end, str(expected)))
+    for line, pattern, label in contract["checks"]:
+        if line >= len(lines) or not re.search(pattern, lines[line]):
+            errors.append(f"source-bound leisure/race {label} state/owner mismatch")
+    for line, pattern in contract["forbidden"]:
+        if line < len(lines) and re.search(pattern, lines[line]):
+            errors.append("source-bound leisure/race changed local state/owner mismatch")
+    # Coverage is bounded to the licensed leaf, and keeps duplicate/native
+    # amounts, periods and counts visible even after a correct later witness.
+    units = (r"ウォン|ドル|円|ユーロ|元|泊|枠|マス|個|つ|回|度|コマ|時間|"
+             r"年間|年|か月|ヶ月|日|週間|週|分|秒|冊|杯|人|名|枚|着|位|連単|種類|種")
+    for quantity in re.finditer("(?P<number>" + number + r")\s*(?:" + units + ")", target):
+        start, end = quantity.span("number")
+        if not any(a <= start and end <= b for a, b in owned):
+            errors.append("source-bound leisure/race added/displaced quantity mismatch")
+    normalized_source = source
+    for old, new in contract["rewrites"]:
+        normalized_source = normalized_source.replace(old, new, 1)
+    normalized_target = target
+    for start, end, replacement in sorted(replacements, reverse=True):
+        normalized_target = normalized_target[:start] + replacement + normalized_target[end:]
+    return normalized_source, normalized_target, sorted(set(errors))
+
+
 def _ja_korean_culture_address(source: str, target: str):
     """Permit ordinary male address only in the two observed non-romance quotes.
 
@@ -897,6 +1114,12 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
         numeric = re.compile(r"(?<![\d.])[+-]?\d+(?:[,.]\d+)*")
         source_numbers = ja.PLACEHOLDER.sub("", placeholder_source)
         target_numbers = ja.PLACEHOLDER.sub("", placeholder_target)
+        leisure_gambling = _ja_leisure_gambling_numbers(leaf.source, text)
+        if leisure_gambling is not None:
+            source_numbers, target_numbers, quantity_errors = leisure_gambling
+            source_numbers = ja.PLACEHOLDER.sub("", source_numbers)
+            target_numbers = ja.PLACEHOLDER.sub("", target_numbers)
+            errors.extend(quantity_errors)
         korean_culture = _ja_korean_culture_numbers(leaf.source, text)
         if korean_culture is not None:
             source_numbers, target_numbers, quantity_errors = korean_culture
@@ -1458,6 +1681,8 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
             errors.append("source-bound market/admin ordered numeric ownership mismatch")
         if korean_culture is not None and numeric.findall(source_numbers) != numeric.findall(target_numbers):
             errors.append("source-bound Korean-life ordered numeric ownership mismatch")
+        if leisure_gambling is not None and numeric.findall(source_numbers) != numeric.findall(target_numbers):
+            errors.append("source-bound leisure/race ordered numeric ownership mismatch")
         if native_time_bound and numeric.findall(source_numbers) != numeric.findall(target_numbers):
             errors.append("native time ordered numeric ownership mismatch")
     else:

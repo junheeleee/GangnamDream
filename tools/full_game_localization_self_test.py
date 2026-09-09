@@ -3613,6 +3613,651 @@ class ExchangeTests(unittest.TestCase):
                 self.assertTrue(tool.translation_errors(leaf, "ja", wrong))
 
 
+    @staticmethod
+    def _leisure_race_regression_cases():
+        # Authored before implementation; independent ROOT fixtures are not
+        # included here. Exact source owners remain distinct from target prose.
+        # 대형 다국어 fixture는 여러 물리행으로 나누고 실제 Python CLI로 검사한다.
+        return [
+            {
+                "source": (
+                    "집에 있던 {name}의 휴대폰이 짧게 울렸다. 앞서 소개받은 카지노 클럽의 숙박 안내였다.\n\n「객실 1박과 조식을 무료로 제공합니다. 이용 가"
+                    "능한 날짜를 문의해 주세요.」\n\n누구 이름도 적혀 있지 않은 안내였다. 그래도 {name}은 '무료'라는 단어 위에서 손가락을 멈췄다.\n\n답장을"
+                    " 쓰려다 달력을 열었다. 비어 있는 칸 하나에 넓은 침대와 늦은 아침이 먼저 들어왔다. 그다음에는 호텔 아래층의 테이블이 떠올랐다.\n\n화면 밖은"
+                    " 여전히 익숙한 방이었다. 메시지 입력 칸의 커서가 깜빡였다."
+                ),
+                "target": (
+                    "家にいた{name}のスマホが短く鳴った。以前紹介されたカジノクラブからの宿泊案内だった。\n\n「一泊のお部屋と朝食を無料でご提供いたします。ご利用可能な日程をお"
+                    "問い合わせください」\n\n誰の名前も書かれていない案内だった。それでも{name}は、「無料」という言葉の上で指を止めた。\n\n返事を書きかけて、カレンダーを開いた"
+                    "。空いている一枠に、広いベッドと遅い朝が先に入り込んだ。その次に、ホテルの下の階のテーブルが浮かんだ。\n\n画面の外は、相変わらず見慣れた部屋だった。メッセージの"
+                    "入力欄でカーソルが点滅していた。"
+                ),
+                "natural": [
+                    (
+                        "家にいた{name}のスマホが短く鳴った。以前紹介されたカジノクラブからの宿泊案内だった。\n\n「1泊のお部屋と朝食を無料でご提供いたします。ご利用可能な日程をお"
+                        "問い合わせください」\n\n誰の名前も書かれていない案内だった。それでも{name}は、「無料」という言葉の上で指を止めた。\n\n返事を書きかけて、カレンダーを開いた"
+                        "。空いている1枠に、広いベッドと遅い朝が先に入り込んだ。その次に、ホテルの下の階のテーブルが浮かんだ。\n\n画面の外は、相変わらず見慣れた部屋だった。メッセージの"
+                        "入力欄でカーソルが点滅していた。"
+                    ),
+                    (
+                        "家にいた{name}のスマホが短く鳴った。以前紹介されたカジノクラブからの宿泊案内だった。\n\n「一泊分の客室と朝食を無料で提供します。利用できる日付をお尋ねくだ"
+                        "さい」\n\n誰の名前も書かれていない案内だった。それでも{name}は、「無料」という言葉の上で指を止めた。\n\n返事を書きかけて、カレンダーを開いた。空いている一"
+                        "枠に、広いベッドと遅い朝が先に入り込んだ。その次に、ホテルの下の階のテーブルが浮かんだ。\n\n画面の外は、相変わらず見慣れた部屋だった。メッセージの入力欄でカーソ"
+                        "ルが点滅していた。"
+                    ),
+                ],
+                "changes": [
+                    [
+                        "一泊",
+                        "二泊",
+                    ],
+                    [
+                        "一泊",
+                        "一年",
+                    ],
+                    [
+                        "一泊",
+                        "+一泊",
+                    ],
+                    [
+                        "空いている一枠",
+                        "空いている二枠",
+                    ],
+                    [
+                        "ご利用可能な日程をお問い合わせください",
+                        "ご利用日程は予約済みです",
+                    ],
+                ],
+                "source_change": [
+                    "1박",
+                    "2박",
+                ],
+                "focus_line": 2,
+                "id": "events:casino_comp_offer:/description",
+            },
+            {
+                "source": "발판을 밟다 보니 금세 숨이 찼다. 옆 고수가 흘끔 봤다.\n\n못해도 재밌었다. 이게 한국식 리듬게임.\n오백 원으로 헬스장 한 타임 효과를 봤다.",
+                "target": (
+                    "パネルを踏んでいるうちに、すぐ息が上がった。隣の上級者がちらりと見た。\n\n下手でも楽しかった。これが韓国式のリズムゲーム。\n500ウォンでジム一回分の運動になっ"
+                    "た。"
+                ),
+                "natural": [
+                    (
+                        "パネルを踏んでいるうちに、すぐ息が上がった。隣の上級者がちらりと見た。\n\n下手でも楽しかった。これが韓国式のリズムゲーム。\n五百ウォンでジム1度分の運動になった"
+                        "。"
+                    ),
+                    (
+                        "パネルを踏んでいるうちに、すぐ息が上がった。隣の上級者がちらりと見た。\n\n下手でも楽しかった。これが韓国式のリズムゲーム。\n五百ウォンで、ジムに一度行った分の運"
+                        "動をした。"
+                    ),
+                ],
+                "changes": [
+                    [
+                        "ジム一回分",
+                        "ジム二回分",
+                    ],
+                    [
+                        "500ウォン",
+                        "500ドル",
+                    ],
+                    [
+                        "500ウォン",
+                        "+500ウォン",
+                    ],
+                    [
+                        "ジム一回分",
+                        "ジム一時間分",
+                    ],
+                    [
+                        "運動になった",
+                        "運動にはならなかった",
+                    ],
+                ],
+                "source_change": [
+                    "오백 원",
+                    "육백 원",
+                ],
+                "focus_line": 3,
+                "id": "events:kx_arcade:/choices/0/result_text",
+            },
+            {
+                "source": (
+                    "번화가 오락실.\n펌프(댄스 발판), 농구 게임, 그리고 인생네컷 부스.\n\n동전 교환기에 천 원을 넣자 100원짜리가 쏟아진다.\n— 오랜만이다, "
+                    "이 소리."
+                ),
+                "target": (
+                    "繁華街のゲームセンター。\nパンプのダンスパネル、バスケットボールゲーム、それから四コマ写真のブース。\n\n両替機に1,000ウォンを入れると、100ウォン硬貨がざ"
+                    "らざらと出てくる。\n――久しぶりだな、この音。"
+                ),
+                "natural": [
+                    (
+                        "繁華街のゲームセンター。\nパンプのダンスパネル、バスケットボールゲーム、それから4コマ写真のブース。\n\n両替機に千ウォンを入れると、100ウォン硬貨がざらざらと"
+                        "出てくる。\n――久しぶりだな、この音。"
+                    ),
+                    (
+                        "繁華街のゲームセンター。\nパンプのダンスパネル、バスケットボールゲーム、それから四コマ写真のブース。\n\n両替機に千ウォンを入れたら、百ウォンの硬貨が出てきた。\n"
+                        "――久しぶりだな、この音。"
+                    ),
+                ],
+                "changes": [
+                    [
+                        "1,000ウォン",
+                        "10,000ウォン",
+                    ],
+                    [
+                        "1,000ウォン",
+                        "1,000ドル",
+                    ],
+                    [
+                        "1,000ウォン",
+                        "+1,000ウォン",
+                    ],
+                    [
+                        "四コマ",
+                        "三コマ",
+                    ],
+                    [
+                        "入れると",
+                        "入れなかったが",
+                    ],
+                ],
+                "source_change": [
+                    "천 원",
+                    "이천 원",
+                ],
+                "focus_line": 3,
+                "id": "events:kx_arcade:/description",
+            },
+            {
+                "source": "한강을 따라 달렸다. 바람, 윤슬, 다리 밑 그늘.\n\n천 원으로 이만한 자유가 또 없다.\n페달을 밟는 동안만큼은 30억도, 마감도 뒤로 밀렸다.",
+                "target": (
+                    "漢江に沿って走った。風、水面のきらめき、橋の下の影。\n\n1,000ウォンで、これほどの自由はほかにない。\nペダルを踏んでいる間だけは、30億ウォンも締め切りも後"
+                    "回しになった。"
+                ),
+                "natural": [
+                    (
+                        "漢江に沿って走った。風、水面のきらめき、橋の下の影。\n\n千ウォンで、これほどの自由はほかにない。\nペダルを踏んでいる間だけは、三十億ウォンも締め切りも後回しにな"
+                        "った。"
+                    ),
+                    (
+                        "漢江に沿って走った。風、水面のきらめき、橋の下の影。\n\n1,000ウォンで、これほどの自由はほかにない。\nペダルをこいでいる間は、三十億ウォンも締め切りも頭の隅"
+                        "に追いやられた。"
+                    ),
+                ],
+                "changes": [
+                    [
+                        "30億ウォン",
+                        "31億ウォン",
+                    ],
+                    [
+                        "30億ウォン",
+                        "30億ドル",
+                    ],
+                    [
+                        "30億ウォン",
+                        "+30億ウォン",
+                    ],
+                    [
+                        "1,000ウォン",
+                        "2,000ウォン",
+                    ],
+                    [
+                        "後回しになった",
+                        "自分の所有物になった",
+                    ],
+                ],
+                "source_change": [
+                    "30억",
+                    "31억",
+                ],
+                "focus_line": 3,
+                "id": "events:kx_ddareungi:/choices/0/result_text",
+            },
+            {
+                "source": "서울 공공자전거 따릉이.\n앱으로 QR을 찍고 천 원에 한 시간. 거치대에서 자전거를 뺀다.\n\n날이 좋다. 페달을 밟자 바람이 분다.",
+                "target": (
+                    "ソウルの公共レンタサイクル、タルンイ。\nアプリでQRコードを読み取り、1,000ウォンで一時間。ラックから自転車を引き出す。\n\nいい天気だ。ペダルを踏むと、風が"
+                    "吹く。"
+                ),
+                "natural": [
+                    "ソウルの公共レンタサイクル、タルンイ。\nアプリでQRコードを読み取り、千ウォンで1時間。ラックから自転車を引き出す。\n\nいい天気だ。ペダルを踏むと、風が吹く。",
+                    "ソウルの公共レンタサイクル、タルンイ。\nアプリでQRを読み込むと、千ウォンで一時間使える。ラックから自転車を取り出す。\n\nいい天気だ。ペダルを踏むと、風が吹く。",
+                ],
+                "changes": [
+                    [
+                        "一時間",
+                        "二時間",
+                    ],
+                    [
+                        "一時間",
+                        "一日",
+                    ],
+                    [
+                        "一時間",
+                        "+一時間",
+                    ],
+                    [
+                        "1,000ウォン",
+                        "2,000ウォン",
+                    ],
+                    [
+                        "引き出す",
+                        "引き出していない",
+                    ],
+                ],
+                "source_change": [
+                    "한 시간",
+                    "두 시간",
+                ],
+                "focus_line": 1,
+                "id": "events:kx_ddareungi:/description",
+            },
+            {
+                "source": (
+                    "라면 한 그릇 끓여 먹고, 만화 스무 권을 다 봤다.\n\n해가 진 줄도 몰랐다. 목이 뻐근했지만 마음은 가벼웠다.\n이천 원짜리 도피처치고 완벽했다"
+                    "."
+                ),
+                "target": (
+                    "ラーメンを一杯作って食べ、漫画二十冊を全部読んだ。\n\n日が沈んだことにも気づかなかった。首は凝ったが、心は軽かった。\n2,000ウォンの逃げ場所としては完璧だっ"
+                    "た。"
+                ),
+                "natural": [
+                    "ラーメンを一杯作って食べ、漫画20冊を全部読んだ。\n\n日が沈んだことにも気づかなかった。首は凝ったが、心は軽かった。\n二千ウォンの逃げ場所としては完璧だった。",
+                    (
+                        "ラーメン一杯を作って食べて、漫画を二十冊すべて読み終えた。\n\n日が沈んだことにも気づかなかった。首は凝ったが、心は軽かった。\n2,000ウォンの逃げ場所としては"
+                        "完璧だった。"
+                    ),
+                ],
+                "changes": [
+                    [
+                        "二十冊",
+                        "二十一冊",
+                    ],
+                    [
+                        "二十冊",
+                        "二十杯",
+                    ],
+                    [
+                        "二十冊",
+                        "+二十冊",
+                    ],
+                    [
+                        "一杯",
+                        "二杯",
+                    ],
+                    [
+                        "全部読んだ",
+                        "まだ読んでいない",
+                    ],
+                ],
+                "source_change": [
+                    "스무 권",
+                    "서른 권",
+                ],
+                "focus_line": 0,
+                "id": "events:kx_manhwa_cafe:/choices/0/result_text",
+            },
+            {
+                "source": (
+                    "지인들과 방탈출 카페.\n1인 2만 원, 제한시간 60분. 자물쇠, 암호, 자외선 펜.\n\n문이 잠기고 타이머가 빨갛게 줄어들기 시작한다.\n\"단서는"
+                    " 다 방 안에 있습니다.\""
+                ),
+                "target": (
+                    "知り合いたちと脱出ゲームカフェへ。\n一人2万ウォン、制限時間60分。南京錠、暗号、紫外線ペン。\n\nドアが施錠され、赤いタイマーが減り始める。\n「手がかりは、すべ"
+                    "て部屋の中にあります」"
+                ),
+                "natural": [
+                    (
+                        "知り合いたちと脱出ゲームカフェへ。\n1人20,000ウォン、制限時間六十分。南京錠、暗号、紫外線ペン。\n\nドアが施錠され、赤いタイマーが減り始める。\n「手がかり"
+                        "は、すべて部屋の中にあります」"
+                    ),
+                    (
+                        "知り合いたちと脱出ゲームカフェへ。\n一人あたり二万ウォン、持ち時間は六十分。南京錠、暗号、紫外線ペン。\n\nドアが施錠され、赤いタイマーが減り始める。\n「手がかり"
+                        "は、すべて部屋の中にあります」"
+                    ),
+                ],
+                "changes": [
+                    [
+                        "2万ウォン",
+                        "3万ウォン",
+                    ],
+                    [
+                        "60分",
+                        "60秒",
+                    ],
+                    [
+                        "2万ウォン",
+                        "+2万ウォン",
+                    ],
+                    [
+                        "一人",
+                        "二人",
+                    ],
+                    [
+                        "制限時間",
+                        "経過時間",
+                    ],
+                ],
+                "source_change": [
+                    "60분",
+                    "90분",
+                ],
+                "focus_line": 1,
+                "id": "events:kx_room_escape:/description",
+            },
+            {
+                "source": (
+                    "8만원을 썼다. 만회는 없었다.\n\n경마공원역 계단을 내려오면서 총합을 계산했다.\n3주 합산 -23만원.\n\n숫자가 나오자 머릿속이 조용해졌다.\n이"
+                    " 조용함이 제일 나쁜 신호라는 걸 — 아직 모르고 있었다."
+                ),
+                "target": (
+                    "8万ウォン使った。取り返せなかった。\n\n競馬公園駅の階段を降りながら、合計を計算した。\n3週間で、合計マイナス23万ウォン。\n\n数字にすると、頭の中が静かになっ"
+                    "た。\nこの静けさが最悪の兆候だとは――まだ知らなかった。"
+                ),
+                "natural": [
+                    (
+                        "八万ウォン使った。取り返せなかった。\n\n競馬公園駅の階段を降りながら、合計を計算した。\n三週間で、合計−230,000ウォン。\n\n数字にすると、頭の中が静かにな"
+                        "った。\nこの静けさが最悪の兆候だとは――まだ知らなかった。"
+                    ),
+                    (
+                        "8万ウォン使った。取り返せなかった。\n\n競馬公園駅の階段を降りながら、合計を計算した。\n三週間の累計は、マイナス二十三万ウォンだった。\n\n数字にすると、頭の中が"
+                        "静かになった。\nこの静けさが最悪の兆候だとは――まだ知らなかった。"
+                    ),
+                ],
+                "changes": [
+                    [
+                        "3週間",
+                        "4週間",
+                    ],
+                    [
+                        "3週間",
+                        "3か月",
+                    ],
+                    [
+                        "マイナス23万",
+                        "プラス23万",
+                    ],
+                    [
+                        "8万ウォン使った",
+                        "23万ウォン使った",
+                    ],
+                    [
+                        "取り返せなかった",
+                        "取り返した",
+                    ],
+                ],
+                "source_change": [
+                    "3주",
+                    "4주",
+                ],
+                "focus_line": 3,
+                "id": "events:race_addiction_warning:/choices/1/result_text",
+            },
+            {
+                "source": (
+                    "한 시간 동안 경마신문을 읽었다.\n\n3연단, 단승, 연승, 복승, 쌍승 — 베팅 방식만 여섯 가지였다.\n기수 승률, 조교사 기록, 주로별 특성."
+                    "\n\n이걸 다 보는 사람들이 있다는 게 신기했다.\n'읽는다'는 게 무슨 말인지 조금 알 것 같았다."
+                ),
+                "target": (
+                    "一時間、競馬新聞を読んだ。\n\n三連単、単勝、複勝、馬連、馬単――賭け方だけでも六種類あった。\n騎手の勝率、調教師の成績、コースごとの特徴。\n\nこんなものまで全部"
+                    "見る人がいるのかと、不思議だった。\n「読む」とはどういうことなのか、少しわかった気がした。"
+                ),
+                "natural": [
+                    (
+                        "1時間、競馬新聞を読んだ。\n\n3連単、単勝、複勝、馬連、馬単――賭け方だけでも6種類あった。\n騎手の勝率、調教師の成績、コースごとの特徴。\n\nこんなものまで全部"
+                        "見る人がいるのかと、不思議だった。\n「読む」とはどういうことなのか、少しわかった気がした。"
+                    ),
+                    (
+                        "競馬新聞を一時間かけて読んだ。\n\n三連単、単勝、複勝、馬連、馬単――賭け方だけでも六種類あった。\n騎手の勝率、調教師の成績、コースごとの特徴。\n\nこんなものまで"
+                        "全部見る人がいるのかと、不思議だった。\n「読む」とはどういうことなのか、少しわかった気がした。"
+                    ),
+                ],
+                "changes": [
+                    [
+                        "一時間",
+                        "二時間",
+                    ],
+                    [
+                        "一時間",
+                        "一日",
+                    ],
+                    [
+                        "一時間",
+                        "+一時間",
+                    ],
+                    [
+                        "三連単",
+                        "二連単",
+                    ],
+                    [
+                        "競馬新聞を読んだ",
+                        "競馬新聞を読む予定だ",
+                    ],
+                ],
+                "source_change": [
+                    "여섯 가지",
+                    "일곱 가지",
+                ],
+                "focus_line": 0,
+                "id": "events:race_early_lesson:/choices/0/result_text",
+            },
+            {
+                "source": (
+                    "그날의 마지막 경주.\n\n베팅창 앞이 유독 붐볐다. {name}은 줄에 섰다.\n\n앞 사람이 만원짜리를 세고 있었다. 손이 떨렸다. 지폐가 몇 장 "
+                    "안 남아 있었다.\n뒤 사람은 혼잣말을 했다. \"이번엔 진짜… 이번엔 돼야 하는데.\"\n\n마지막 경주에는, 오늘 잃은 걸 만회하려는 사람들만 남는다"
+                    ".\n\n{name}도 그 줄의 한 명이었다."
+                ),
+                "target": (
+                    "その日、最後のレース。\n\n発売窓口の前が、ひときわ混んでいた。{name}は列に並んだ。\n\n前の人が1万ウォン札を数えていた。手が震えていた。紙幣は、もう数枚し"
+                    "か残っていなかった。\n後ろの人は独り言をつぶやいた。「今度こそ、本当に……今度こそ当たってくれないと」\n\n最後のレースには、今日の負けを取り返そうとする人たちだ"
+                    "けが残る。\n\n{name}も、その列の一人だった。"
+                ),
+                "natural": [
+                    (
+                        "その日、最後のレース。\n\n発売窓口の前が、ひときわ混んでいた。{name}は列に並んだ。\n\n前の人が一万ウォン札を数えていた。手が震えていた。紙幣は、もう数枚し"
+                        "か残っていなかった。\n後ろの人は独り言をつぶやいた。「今度こそ、本当に……今度こそ当たってくれないと」\n\n最後のレースには、今日の負けを取り返そうとする人たちだ"
+                        "けが残る。\n\n{name}も、その列の1人だった。"
+                    ),
+                    (
+                        "その日、最後のレース。\n\n発売窓口の前が、ひときわ混んでいた。{name}は列に並んだ。\n\n前に並ぶ人は一万ウォンの紙幣を数えていた。手が震えていて、残りはわず"
+                        "かだった。\n後ろの人は独り言をつぶやいた。「今度こそ、本当に……今度こそ当たってくれないと」\n\n最後のレースには、今日の負けを取り返そうとする人たちだけが残る。"
+                        "\n\n{name}も、その列の一人だった。"
+                    ),
+                ],
+                "changes": [
+                    [
+                        "1万ウォン札",
+                        "2万ウォン札",
+                    ],
+                    [
+                        "1万ウォン札",
+                        "1万ドル札",
+                    ],
+                    [
+                        "1万ウォン札",
+                        "+1万ウォン札",
+                    ],
+                    [
+                        "前の人",
+                        "後ろの人",
+                    ],
+                    [
+                        "数えていた",
+                        "数えていなかった",
+                    ],
+                ],
+                "source_change": [
+                    "만원짜리",
+                    "이만원짜리",
+                ],
+                "focus_line": 4,
+                "id": "events:race_last_bettor:/description",
+            },
+            {
+                "source": (
+                    "5위.\n\n만원짜리 한 장이 종이 한 장이 됐다.\n아저씨를 찾았다. 이미 다른 사람에게 다른 번호를 팔고 있었다.\n\n{name}은 계단을 내려오면"
+                    "서 다음 경주 시간을 확인했다.\n그게 문제였다."
+                ),
+                "target": (
+                    "5着。\n\n1万ウォンの一枚が、ただの紙一枚になった。\nおじさんを探した。もう別の人に、別の番号を売っていた。\n\n{name}は階段を降りながら、次のレースの時間"
+                    "を確かめた。\nそれが問題だった。"
+                ),
+                "natural": [
+                    (
+                        "五着。\n\n10,000ウォンの1枚が、ただの紙1枚になった。\nおじさんを探した。もう別の人に、別の番号を売っていた。\n\n{name}は階段を降りながら、次のレー"
+                        "スの時間を確かめた。\nそれが問題だった。"
+                    ),
+                    (
+                        "5着。\n\n一万ウォンの馬券一枚が、ただの紙切れ一枚に変わった。\nおじさんを探した。もう別の人に、別の番号を売っていた。\n\n{name}は階段を降りながら、次のレ"
+                        "ースの時間を確かめた。\nそれが問題だった。"
+                    ),
+                ],
+                "changes": [
+                    [
+                        "5着",
+                        "4着",
+                    ],
+                    [
+                        "5着",
+                        "5人",
+                    ],
+                    [
+                        "1万ウォン",
+                        "-1万ウォン",
+                    ],
+                    [
+                        "ウォンの一枚",
+                        "ウォンの二枚",
+                    ],
+                    [
+                        "紙一枚になった",
+                        "紙一枚になる予定だ",
+                    ],
+                ],
+                "source_change": [
+                    "5위",
+                    "4위",
+                ],
+                "focus_line": 2,
+                "id": "events:race_number_three_result:/choices/0/result_text",
+            },
+            {
+                "source": "만원치고 괜찮은 구경이었다.\n경주마가 달리는 건 생각보다 웅장했다.\n{name}은 거기서 멈추기로 했다. 오늘은.",
+                "target": "1万ウォンにしては、悪くない見物だった。\n競走馬が駆ける姿は、思ったより雄大だった。\n{name}は、そこでやめることにした。今日は。",
+                "natural": [
+                    "一万ウォンにしては、悪くない見物だった。\n競走馬が駆ける姿は、思ったより雄大だった。\n{name}は、そこでやめることにした。今日は。",
+                    "一万ウォンで見たものとしては、悪くない見物だった。\n競走馬が駆ける姿は、思ったより雄大だった。\n{name}は、そこでやめることにした。今日は。",
+                ],
+                "changes": [
+                    [
+                        "1万ウォン",
+                        "2万ウォン",
+                    ],
+                    [
+                        "1万ウォン",
+                        "1万ドル",
+                    ],
+                    [
+                        "1万ウォン",
+                        "+1万ウォン",
+                    ],
+                    [
+                        "1万ウォンにしては",
+                        "1万ウォン/時間にしては",
+                    ],
+                    [
+                        "見物だった",
+                        "見物になるだろう",
+                    ],
+                ],
+                "source_change": [
+                    "만원치고",
+                    "이만원치고",
+                ],
+                "focus_line": 0,
+                "id": "events:race_number_three_result:/choices/1/result_text",
+            },
+        ]
+
+    def test_leisure_race_local_quantity_normals(self):
+        count = 0
+        for case in self._leisure_race_regression_cases():
+            for text in [case["target"], *case["natural"]]:
+                with self.subTest(identity=case["id"], target=text):
+                    leaf = tool.Leaf("events", case["id"], "own-leisure-fixture",
+                                     ("description",), case["source"], "event")
+                    result = tool._ja_leisure_gambling_numbers(case["source"], text)
+                    self.assertIsNotNone(result)
+                    self.assertEqual(result[2], [])
+                    self.assertEqual(tool.translation_errors(leaf, "ja", text), [])
+                    count += 1
+        self.assertEqual(count, 36)
+
+    def test_leisure_race_quantity_mutations_are_directly_rejected(self):
+        count = 0
+        for case in self._leisure_race_regression_cases():
+            source, target = case["source"], case["target"]
+            mutants = []
+            for old, new in case["changes"]:
+                self.assertIn(old, target)
+                mutants.append(target.replace(old, new, 1))
+            line = case["focus_line"]
+            original = target.split("\n")
+            borrowed = mutants[0].split("\n")
+            borrowed[line] += " " + original[line]
+            mutants.append("\n".join(borrowed))
+            moved = list(original)
+            other = 0 if line else 1
+            moved[line], moved[other] = moved[other], moved[line]
+            mutants.append("\n".join(moved))
+            for text in mutants:
+                with self.subTest(identity=case["id"], target=text):
+                    leaf = tool.Leaf("events", case["id"], "own-leisure-fixture",
+                                     ("description",), source, "event")
+                    result = tool._ja_leisure_gambling_numbers(source, text)
+                    self.assertIsNotNone(result)
+                    self.assertTrue(result[2])  # Not borrowed paragraph/money errors.
+                    self.assertTrue(tool.translation_errors(leaf, "ja", text))
+                    count += 1
+        self.assertEqual(count, 84)
+
+    def test_leisure_race_source_boundaries_are_not_licensed(self):
+        count = 0
+        for case in self._leisure_race_regression_cases():
+            old, new = case["source_change"]
+            self.assertIn(old, case["source"])
+            for source in (case["source"] + " ", case["source"].replace(old, new, 1)):
+                with self.subTest(identity=case["id"], source=source):
+                    self.assertIsNone(tool._ja_leisure_gambling_numbers(
+                        source, case["natural"][0]))
+                    count += 1
+        # This asserts licence absence, not blanket generic E2E rejection.
+        self.assertEqual(count, 24)
+
+
+    def test_holdem_first_visit_two_bluffs_one_big_pot_public_regression(self):
+        # ROOT's unchanged B1 input was disclosed after it exposed the missing
+        # written-count check. This is a public regression, not fresh independence.
+        source = "2시간에 2만원 손실.\n근데 두 번 블러핑에 성공했고, 한 번은 큰 팟을 땄다가 다시 잃었다.\n\n계단 올라오면서 생각했다. 이거 공부할 게 있는 게임이구나."
+        actual = "2時間で2万ウォンの損失。\nでも二回ブラフが成功し、一度は大きなポットを取って、また失った。\n\n階段を上がりながら思った。これは、勉強することのあるゲームなんだ。"
+        public = "2時間で2万ウォンの損失。\nでもブラフは二度成功し、一度は大きなポットを取って、また失った。\n\n階段を上りながら思った。これは勉強することがあるゲームなんだ。"
+        normals = [actual, public, actual.replace("二回", "2度").replace("一度", "1回")]
+        wrong = [public.replace("二度", "三度"), actual.replace("二回", "三回"),
+                 actual.replace("一度", "二度")]
+        leaf = tool.Leaf("events", "holdem_first_visit", "own-public-B2",
+                         ("choices", 0, "result_text"), source, "gambling")
+        for target in normals:
+            with self.subTest(target=target):
+                self.assertEqual(tool._ja_leisure_gambling_numbers(source, target)[2], [])
+                self.assertEqual(tool.translation_errors(leaf, "ja", target), [])
+        for target in wrong:
+            with self.subTest(target=target):
+                self.assertTrue(tool._ja_leisure_gambling_numbers(source, target)[2])
+                self.assertTrue(tool.translation_errors(leaf, "ja", target))
+        for changed_source in (source + " ", source.replace("두 번", "세 번")):
+            self.assertIsNone(tool._ja_leisure_gambling_numbers(changed_source, public))
+
+
     def test_jsonl_duplicate(self):
         with tempfile.TemporaryDirectory() as folder:
             path = Path(folder) / "bad.jsonl"

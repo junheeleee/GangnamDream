@@ -133,3 +133,10 @@ ROOT: portable원장/queue·L3/이사양/CLAUDE·WORK·STATUS/backlog, 필요시
 선언·수용숫자와소유는일회성,지속규칙은기존I18N정본소유. 결과가크면등록한archive에분리한다.
 
 완료 시 WORK_LOG의207절(2026-09-09 투자·직장·불안·자기 기준 번역)1,280B, SHA `aea0f22c05dfd2c3bc095f0bebc63c6d31a17a5334f0c4e476f473aee82f9244`만 9/7 history 앞으로 exact 이동할 수 있다. 기존 history 전체와 EOF LF2는 선언 신원에서 다시 봉인하고 보존한다.
+
+
+## 수용·검수 기록
+
+신규714과 기존30,678을 대조·수용한 결과·지문·검사 경계는
+[ORDER-210 L1/L2 기록](../queue_archive/ORDER-210_L1_L2_RESULTS.md)에 보존한다.
+전체 INCOMPLETE/HOLD와 L3·원어민·화면 OPEN은 유지한다.
