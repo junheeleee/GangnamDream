@@ -1065,6 +1065,313 @@ def _ja_leisure_gambling_numbers(source: str, target: str):
     return normalized_source, normalized_target, sorted(set(errors))
 
 
+def _ja_cafe_encounter_money_numbers(source: str, target: str):
+    """Normalize witnessed cafe/encounter money slots, never an entire leaf.
+
+    Complete KO source licenses own amounts and the adjacent counters sharing
+    their ordered stream. Japanese prose outside those slots is not templated.
+    Original currency, token, paragraph and mixed-money checks still follow.
+    """
+    contracts = {
+        (
+            "{name}은 6,500원짜리 아메리카노를 시켰다.\n"
+            "그래도 한 번은,\n"
+            "강남에서 큰돈 이야기가 오가는 자리에 앉아 보고 싶었다.\n"
+            "\n"
+            "옆 테이블. 정장 입은 남자가 통화 중이다.\n"
+            "\"그 입주권 마지막 한 자리예요. 오늘 안 잡으면 끝나요.\n"
+            "재개발 확정 났다니까. ...네, 현금 5천이면 됩니다.\"\n"
+            "\n"
+            "{name}의 귀가 저절로 그쪽으로 기운다."
+        ): {
+            "rewrites": [["6,500원","6500원"],["한 번","1 번"],["한 자리","1 자리"],["현금 5천","현금 50000000원"]],
+            "slots": [
+                [0,"@N@ウォン(?:の|する)?アメリカーノ",6500,"coffee_price"],
+                [1,"@N@(?:度|回)(?:は)",1,"one_wished_visit"],
+                [5,"(?:最後の|ラストの)@N@(?:枠|席|口)",1,"quoted_last_slot"],
+                [6,"(?:現金|キャッシュ)(?:は|が|なら)?\\s*@N@ウォン",50000000,"cash_quote"],
+            ],
+        },
+        (
+            "\"이쪽 일을 하신다. 그래요?\"\n"
+            "남자의 눈이 가늘어진다. 시험하듯 묻는다.\n"
+            "\"매매가 5억, 전세 3억 5천, 대출 1억이면\n"
+            "취득비 빼고 실투자금 얼마 잡아요?\"\n"
+            "\n"
+            "{name}은 계산하지 못했다.\n"
+            "등에서 식은땀이 흐른다."
+        ): {
+            "rewrites": [["5억","500000000원"],["3억 5천","350000000원"],["1억","100000000원"]],
+            "slots": [
+                [2,"(?:売買価格|売値)(?:は|が)?@N@ウォン",500000000,"sale_price"],
+                [2,"(?:チョンセ(?:保証金)?)(?:は|が|の)?@N@ウォン",350000000,"jeonse_deposit"],
+                [2,"(?:借入(?:金)?|ローン)(?:は|が|の)?@N@ウォン",100000000,"loan"],
+            ],
+        },
+        (
+            "\"한 2억쯤...?\" {name}이 아무 숫자나 던졌다.\n"
+            "남자가 코웃음을 쳤다.\n"
+            "\"5억에서 전세 3억 5천, 대출 1억을 빼면 5천이잖아. 학생, 아는 척하려면 계산부터 하고 와.\"\n"
+            "\n"
+            "옆 테이블 사람들이 힐끔거렸다.\n"
+            "{name}의 얼굴이 화끈거렸다. 숫자 하나만으로도 허세는 바로 들켰다."
+        ): {
+            "rewrites": [["2억","200000000원"],["5억","500000000원"],["3억 5천","350000000원"],["1억","100000000원"],["5천이잖아","50000000원이잖아"],["숫자 하나","숫자 1"]],
+            "slots": [
+                [0,"@N@ウォン(?:くらい|ぐらい|ほど)",200000000,"wrong_approx_answer"],
+                [2,"@N@ウォンから",500000000,"sale_price"],
+                [2,"(?:チョンセ(?:保証金)?)(?:の|は)?@N@ウォン",350000000,"jeonse_deposit"],
+                [2,"(?:借入(?:金)?|ローン)(?:の|は)?@N@ウォン",100000000,"loan"],
+                [2,"(?:引けば|残るのは|差額は)[、，\\s]*@N@ウォン",50000000,"remainder"],
+                [5,"(?:たった)?@N@(?:つ|個)(?:の)?数字",1,"one_wrong_number"],
+            ],
+        },
+        (
+            "신호음 세 번. \"여보세요.\"\n"
+            "김 부장은 {name}을 기억 못 했다. {name}은 둘러댔다.\n"
+            "\"그때 카페에서... 입주권 건 소개받았던 사람입니다.\"\n"
+            "\n"
+            "잠깐의 침묵. 그러더니 목소리가 부드러워진다.\n"
+            "\"아아, 그거. 아직 한 자리 있어요. 근데 프리미엄 올랐어.\n"
+            "지금 7천. 오늘내일 안에 결정해야 돼. 어떻게, 들어와요?\""
+        ): {
+            "rewrites": [["세 번","3 번"],["한 자리","1 자리"],["지금 7천","지금 70000000원"]],
+            "slots": [
+                [0,"呼び出し音(?:が|は)?@N@(?:回|度)",3,"rings"],
+                [5,"(?:まだ)?@N@(?:枠|席|口)(?:あります|残って)",1,"remaining_slot"],
+                [6,"(?:今(?:は|なら)|現在(?:は)?|いま(?:は|なら))@N@ウォン",70000000,"raised_premium_quote"],
+            ],
+        },
+        (
+            "{name}은 김 부장에게 등기를 들이밀었다.\n"
+            "\"2천은 거품이잖아요. 5천에 합시다. 아니면 신고하든가.\"\n"
+            "김 부장의 표정이 일그러졌다. 그러더니, 마지못해 끄덕였다.\n"
+            "\"...물건은 볼 줄 아네. 좋아, 5천.\"\n"
+            "\n"
+            "검증한 자만이 깎을 수 있다. {name}은 제값에 들어갈 문턱까지 왔다."
+        ): {
+            "rewrites": [["2천은","20000000원은"],["5천에","50000000원에"],["5천.","50000000원."]],
+            "slots": [
+                [1,"@N@ウォン(?:は|が)?(?:水増し|上乗せ分)",20000000,"markup"],
+                [1,"@N@ウォン(?:に|で)(?:しましょう|しよう|お願いします)",50000000,"counteroffer"],
+                [3,"(?:いいよ|よし|わかった)[、，\\s]*@N@ウォン",50000000,"agreed_quote"],
+            ],
+        },
+        (
+            "김 부장에게 등기를 내밀었다. \"2천은 거품이잖아요.\" 그가 눈을 피했다."
+        ): {
+            "rewrites": [["2천은","20000000원은"]],
+            "slots": [
+                [0,"@N@ウォン(?:は|が)?(?:水増し|上乗せ分)",20000000,"markup"],
+            ],
+        },
+        (
+            "{name}은 사흘을 매달렸다. 등기부등본, 부동산 카페, 뉴스.\n"
+            "진실은 절반이었다 — 재개발은 진짜다. 확정도 맞다.\n"
+            "근데 김 부장은 조합원도 뭣도 아닌 그냥 브로커였고,\n"
+            "7천 중 2천은 그의 '수고비'로 부풀려진 거품이었다.\n"
+            "\n"
+            "진짜 기회 위에, 가짜 가격표가 붙어 있었다."
+        ): {
+            "rewrites": [["사흘","3일"],["7천 중 2천","70000000원 중 20000000원"]],
+            "slots": [
+                [0,"@N@日(?:間)?(?:[、，]|調べ|かけ|を)",3,"investigation_days"],
+                [3,"@N@ウォンのうち",70000000,"total_quote"],
+                [3,"(?:のうち|うち|中の)[、，\\s]*@N@ウォン",20000000,"included_markup"],
+            ],
+        },
+        (
+            "비 오는 날은 콜이 많고, 할증이 붙는다.\n"
+            "그만큼 위험하고, 그만큼 번다.\n"
+            "\n"
+            "{name}은 새벽 한 시까지 뛰었다.\n"
+            "젖은 옷, 시린 손, 통장에 찍힌 4만 8천원.\n"
+            "\n"
+            "몸은 부서질 것 같았지만, 숫자는 정직했다.\n"
+            "이렇게라도 메워야, 본업 월급이 온전히 남는다.\n"
+            "\n"
+            "강남은 이 빗속 어딘가에서, 한 콜씩 가까워지고 있었다."
+        ): {
+            "rewrites": [["한 시","1 시"],["4만 8천원","48000원"],["한 콜씩","1 콜씩"]],
+            "slots": [
+                [3,"(?:午前|深夜|夜中の)@N@時まで(?:走|働|配達)",1,"shift_end_am"],
+                [4,"(?:口座(?:に|へ)(?:記された|入った|振り込まれた)|入金された)[、，\\s]*@N@ウォン",48000,"actual_shift_earnings"],
+                [9,"(?:依頼|配達|注文)@N@件ずつ",1,"one_delivery_at_a_time"],
+            ],
+        },
+        (
+            "야간 알바 마감 정리 중. 마지막 손님이 나가고 자동문이 잠긴 뒤였다.\n"
+            "\n"
+            "{name}은 의자를 올리고 테이블 아래를 닦다가 검은 봉투 하나를 발견했다. 안에는 고무줄로 묶인 5만원권이 들어 "
+            "있었다. 두 번 세어도 50만원이었다.\n"
+            "\n"
+            "천장 모서리의 CCTV 표시등이 붉게 깜박였다. 쓰레기봉투를 묶는 동안에도 자동문 너머로 돌아오는 사람은 없었다."
+        ): {
+            "rewrites": [["봉투 하나","봉투 1"],["5만원권","50000원권"],["두 번","2 번"],["50만원","500000원"]],
+            "slots": [
+                [2,"(?:黒い|黒の)?袋を@N@(?:つ|個)",1,"one_found_bag"],
+                [2,"@N@ウォン(?:の)?(?:札|紙幣)",50000,"banknote_denomination"],
+                [2,"@N@(?:度|回)数え",2,"countings"],
+                [2,"(?:数えても|総額は|合計は)@N@ウォン",500000,"bag_total"],
+            ],
+        },
+        (
+            "5만원짜리 세 장이 있었다.\n"
+            "\n"
+            "역무원이 지나갔다. {name}은 계단을 내려갔다.\n"
+            "\n"
+            "집까지 오는 내내 발걸음이 무거웠다.\n"
+            "15만원이 생겼는데 아무것도 안 생긴 것 같았다."
+        ): {
+            "rewrites": [["5만원짜리","50000원짜리"],["세 장","3 장"],["15만원","150000원"]],
+            "slots": [
+                [0,"@N@ウォン(?:の)?(?:札|紙幣)",50000,"banknote_denomination"],
+                [0,"(?:札|紙幣)(?:が|は)?@N@枚",3,"banknote_count"],
+                [5,"@N@ウォン(?:が|を)(?:手に入った|手にした|得た)",150000,"acquired_total"],
+            ],
+        },
+        (
+            "퇴근 인파가 빠진 지하철역 계단. 벽 쪽에 검은 지갑 하나가 펼쳐진 채 떨어져 있었다.\n"
+            "\n"
+            "{name}은 지나쳤다가 두 칸을 다시 올라왔다. 안에는 ○○그룹 전무이사라고 적힌 명함, 카드 여러 장, 5만원권 "
+            "세 장이 가지런히 끼워져 있었다.\n"
+            "\n"
+            "개찰구 쪽에서는 안내 방송이 반복됐다. 지갑을 든 손 앞에서 계단을 오르내리는 사람들은 아무도 멈추지 않았다."
+        ): {
+            "rewrites": [["두 칸","2 칸"],["5만원권","50000원권"],["세 장","3 장"]],
+            "slots": [
+                [2,"@N@段(?:上り|登り|上がり)",2,"stairs_retraced"],
+                [2,"@N@ウォン(?:の)?(?:札|紙幣)",50000,"banknote_denomination"],
+                [2,"(?:札|紙幣)(?:が|は)?@N@枚",3,"banknote_count"],
+            ],
+        },
+        (
+            "십 분이 삼십 분이 됐다.\n"
+            "갭투자, 레버리지, 입주권, 프리미엄 —\n"
+            "{name}은 처음 듣는 부동산 용어를 수첩에 적었다.\n"
+            "\n"
+            "남자는 명함도 주지 않았고 이름도 알려 주지 않았다. 그래도 오늘 들은 숫자와 용어는 수첩에 남았다."
+        ): {
+            "rewrites": [["십 분이","10 분이"],["삼십 분이","30 분이"]],
+            "slots": [
+                [0,"^@N@分(?:が|のはずが|の予定が)",10,"promised_minutes"],
+                [0,"(?:が|のはずが|の予定が)@N@分(?:になった|となった|に延びた)",30,"actual_minutes"],
+            ],
+        },
+        (
+            "남자가 잠깐 생각했다.\n"
+            "\"저도 33살에 서울 올라왔어요. 편하게 얘기 한 번 해요.\"\n"
+            "\n"
+            "명함을 받았다. 작은 투자사 대표였다.\n"
+            "\n"
+            "물건 3만원을 팔고, 연락처를 얻었다.\n"
+            "중고 거래가 이렇게 쓰이는 줄은 몰랐다."
+        ): {
+            "rewrites": [["한 번","1 번"],["3만원","30000원"]],
+            "slots": [
+                [1,"(?:私|僕|俺)(?:も|は)@N@歳(?:で|のときに|の頃に)ソウル(?:に|へ)",33,"speaker_move_age"],
+                [1,"(?:@N@(?:度|回)[、，]?)?(?:気軽に|気楽に)(?:お)?話(?:し)?(?:を)?しましょう",1,"open_chat_invitation"],
+                [5,"(?:物|品物)(?:を|が)?@N@ウォンで(?:売り|売って|売った)",30000,"actual_sale_proceeds"],
+            ],
+        },
+        (
+            "5만원.\n"
+            "\n"
+            "2등도 1등도 아니지만 5만원이었다.\n"
+            "\n"
+            "{name}은 그걸 다시 투자하거나 복권을 더 사지 않았다.\n"
+            "그냥 밥을 사먹었다. 좋은 거 먹었다.\n"
+            "\n"
+            "그게 복권의 올바른 사용법인지는 모르겠지만, 기분은 좋았다."
+        ): {
+            "rewrites": [["5만원.","50000원."],["5만원이었다","50000원이었다"]],
+            "slots": [
+                [0,"^@N@ウォン[。.]?$",50000,"lottery_prize"],
+                [2,"^@N@等(?:でも|も)",2,"excluded_second_rank"],
+                [2,"(?:でも|も)@N@等(?:でも|も)(?:ない|なく)",1,"excluded_first_rank"],
+                [2,"(?:が|けれど|それでも)[、，\\s]*@N@ウォン",50000,"repeated_prize"],
+            ],
+        },
+    }
+    contract = contracts.get(source)
+    if contract is None:
+        return None
+    import unicodedata
+
+    def integer(raw):
+        raw = unicodedata.normalize("NFKC", raw).replace("−", "-")
+        if not raw or raw.startswith("+"):
+            return None
+        sign = -1 if raw.startswith("-") else 1
+        raw = raw.lstrip("-")
+        if not raw or ("," in raw and not re.fullmatch(
+            r"(?:(?:[1-9][0-9]{0,2}(?:,[0-9]{3})+|[0-9]+)[億万千百十]?)+", raw,
+        )):
+            return None
+        digits = dict(zip("〇零一二三四五六七八九", (0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9)))
+        total, section, pending = 0, 0, ""
+        for char in raw.replace(",", ""):
+            if char.isascii() and char.isdigit():
+                pending += char
+            elif char in digits:
+                pending += str(digits[char])
+            elif char in "十百千":
+                section += (int(pending) if pending else 1) * {"十": 10, "百": 100, "千": 1000}[char]
+                pending = ""
+            elif char in "万億":
+                total += (section + (int(pending) if pending else 0) or 1) * {"万": 10000, "億": 100000000}[char]
+                section, pending = 0, ""
+            else:
+                return None
+        return sign * (total + section + (int(pending) if pending else 0))
+
+    number = r"[+＋\-－−]?[0-9０-９〇零一二三四五六七八九十百千万億,，]+"
+    group = r"(?<![0-9０-９〇零一二三四五六七八九十百千万億,.，．])(?P<number>" + number + ")"
+    lines = target.split("\n")
+    errors, replacements, owned = [], [], []
+    for line, pattern, expected, label in contract["slots"]:
+        matches = list(re.finditer(pattern.replace("@N@", group), lines[line])) if line < len(lines) else []
+        if len(matches) != 1:
+            errors.append(f"source-bound cafe/encounter {label} role/unit/line/count mismatch")
+            continue
+        match = matches[0]
+        start, end = match.span("number")
+        raw_number = match.group("number")
+        if raw_number is None and label == "open_chat_invitation":
+            # Korean 한 번 is a nonfixed invitation here. Japanese may leave
+            # the single encounter implicit, but must still invite, not report
+            # a completed meeting. Insert only a canonical stream marker.
+            start = end = match.start()
+        elif raw_number is None or integer(raw_number) != expected:
+            errors.append(f"source-bound cafe/encounter {label} value/sign mismatch")
+        if start and re.search(r"[+＋\-－−0-9０-９〇零一二三四五六七八九十百千万億,.，．]\s*$", lines[line][:start]):
+            errors.append(f"source-bound cafe/encounter {label} numeric prefix mismatch")
+        suffix = lines[line][match.end():]
+        if re.match(r"\s*(?:[/／]|毎(?:時|日|月|年)|未満|以上|以下|"
+                    r"(?:円|ドル|ウォン|元|ユーロ)|ではな|じゃな|"
+                    r"[（(]\s*(?:毎|月|日|年|時|円|ドル|元))", suffix):
+            errors.append(f"source-bound cafe/encounter {label} qualifier mismatch")
+        if label != "wrong_approx_answer" and re.match(r"\s*(?:程度|ぐらい|くらい|ほど)", suffix):
+            errors.append(f"source-bound cafe/encounter {label} approximate amount mismatch")
+        offset = sum(len(part) + 1 for part in lines[:line])
+        owned.append((offset + start, offset + end))
+        replacements.append((offset + start, offset + end, str(expected)))
+    # Reject extra amounts/counts before or after a valid witness; no later
+    # correct price can pay for a duplicate, another role, unit or hourly rate.
+    units = r"ウォン|ドル|円|ユーロ|元|枠|席|口|個|つ|回|度|時間|時|日|分|秒|人|名|枚|段|件|歳|等"
+    for quantity in re.finditer(group + r"\s*(?:" + units + ")", target):
+        start, end = quantity.span("number")
+        if not any(a <= start and end <= b for a, b in owned):
+            errors.append("source-bound cafe/encounter added/displaced quantity mismatch")
+    normalized_source = source
+    for old, new in contract["rewrites"]:
+        normalized_source = normalized_source.replace(old, new, 1)
+    normalized_target = target
+    for start, end, replacement in sorted(replacements, reverse=True):
+        normalized_target = normalized_target[:start] + replacement + normalized_target[end:]
+    return normalized_source, normalized_target, sorted(set(errors))
+
+
 def _ja_korean_culture_address(source: str, target: str):
     """Permit ordinary male address only in the two observed non-romance quotes.
 
@@ -1121,6 +1428,12 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
             target_numbers = ja.PLACEHOLDER.sub("", target_numbers)
             errors.extend(quantity_errors)
         korean_culture = _ja_korean_culture_numbers(leaf.source, text)
+        cafe_encounter = _ja_cafe_encounter_money_numbers(leaf.source, text)
+        if cafe_encounter is not None:
+            source_numbers, target_numbers, quantity_errors = cafe_encounter
+            source_numbers = ja.PLACEHOLDER.sub("", source_numbers)
+            target_numbers = ja.PLACEHOLDER.sub("", target_numbers)
+            errors.extend(quantity_errors)
         if korean_culture is not None:
             source_numbers, target_numbers, quantity_errors = korean_culture
             source_numbers = ja.PLACEHOLDER.sub("", source_numbers)
@@ -1683,6 +1996,8 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
             errors.append("source-bound Korean-life ordered numeric ownership mismatch")
         if leisure_gambling is not None and numeric.findall(source_numbers) != numeric.findall(target_numbers):
             errors.append("source-bound leisure/race ordered numeric ownership mismatch")
+        if cafe_encounter is not None and numeric.findall(source_numbers) != numeric.findall(target_numbers):
+            errors.append("source-bound cafe/encounter ordered numeric ownership mismatch")
         if native_time_bound and numeric.findall(source_numbers) != numeric.findall(target_numbers):
             errors.append("native time ordered numeric ownership mismatch")
     else:

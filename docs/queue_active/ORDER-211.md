@@ -190,3 +190,10 @@ initial A107/B115행×3의 previous=null220을 봉인한 다음 저작한다.
 완료 때 최근 WORK_LOG가 예산을 넘으면 완료208절만 9/7 history 앞에 raw exact 이동할 수 있다.
 이동 전 해당 절/기존 history/EOF LF2를 봉인하며 기존 내용을 요약하거나 삭제하지 않는다.
 선언·소유·수용숫자는 일회성. 지속 현지화 규칙은 기존 `I18N_INFRASTRUCTURE.md`가 소유한다.
+
+
+## 수용·검수 기록
+
+신규660과 기존31,392를 대조·수용한 결과·지문·검사 경계는
+[ORDER-211 L1/L2 기록](../queue_archive/ORDER-211_L1_L2_RESULTS.md)에 보존한다.
+전체 INCOMPLETE/HOLD와 L3·원어민·화면 OPEN은 유지한다.

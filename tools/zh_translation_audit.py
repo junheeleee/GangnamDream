@@ -4632,6 +4632,7 @@ def _source_money_amounts(source: str) -> list[MoneyAmount]:
     # label and predicate are validated by golf_round_fee_range, not as 300,000.
     source = SOURCE_GOLF_FEE_RANGE.sub(lambda m: " " * len(m.group()), source)
     amounts: list[MoneyAmount] = _korean_culture_source_money(source)
+    amounts.extend(_cafe_encounter_source_money(source))
     source = _mask_spans(source, _korean_culture_nonmoney(source))
     for kind, fragment, value in (("subscriptions", "4만 8천원", 48000),
                                   ("overdraft", "496만 7천800원", 4967800)):
@@ -5653,6 +5654,212 @@ def _leisure_slots(source: str, target: str) -> tuple[list[CounterQuantity], lis
     return ss, ts, errors
 
 
+SOURCE_CAFE_ENCOUNTER = {
+    "wallet_cash": (
+        "5만원짜리 세 장이 있었다.\n\n역무원이 지나갔다. {name}은 계단을 내려갔다.\n\n집까지 오는 내내 발걸음이 무거웠다.\n"
+        "15만원이 생겼는데 아무것도 안 생긴 것 같았다."
+    ),
+    "coffee": "\"무직이요. 근데 이대로는 못 살겠어서,\n뭐라도 배우려고 강남까지 와서 커피 한 잔 시켜놓고 앉아있었습니다.\"\n\n남자는 어이없다는 듯 웃었다. 그러더니 의자를 돌려 앉았다.\n\"5천만원짜리 얘기에 낡은 패딩 입은 사람이 끼어드네.\n근데 뭐 — 시간은 많아 보이니까. 딱 십 분만 얘기해줄게.\"",
+    "arithmetic": "\"한 2억쯤...?\" {name}이 아무 숫자나 던졌다.\n남자가 코웃음을 쳤다.\n\"5억에서 전세 3억 5천, 대출 1억을 빼면 5천이잖아. 학생, 아는 척하려면 계산부터 하고 와.\"\n\n옆 테이블 사람들이 힐끔거렸다.\n{name}의 얼굴이 화끈거렸다. 숫자 하나만으로도 허세는 바로 들켰다.",
+    "phone": "몇 달이 지났다. {name}은 악착같이 종잣돈을 모았다.\n그리고 — 그날 카페에서 훔쳐본 번호 하나가,\n여전히 머릿속에서 지워지지 않는다. 김 부장. 010-XXXX.\n\n새벽 3시. {name}은 휴대폰을 들었다 놨다.\n그 입주권 — 아직 살아있을까. 전화 한 통이면 알 수 있다.",
+    "rings_result": "신호음이 세 번 울렸다. 심장이 따라 뛰었다.",
+    "rings_offer": "신호음 세 번. \"여보세요.\"\n김 부장은 {name}을 기억 못 했다. {name}은 둘러댔다.\n\"그때 카페에서... 입주권 건 소개받았던 사람입니다.\"\n\n잠깐의 침묵. 그러더니 목소리가 부드러워진다.\n\"아아, 그거. 아직 한 자리 있어요. 근데 프리미엄 올랐어.\n지금 7천. 오늘내일 안에 결정해야 돼. 어떻게, 들어와요?\"",
+    "agencies": "공인중개사 두 곳에 전화했다. 숫자를 교차 확인했다.",
+    "verify": "{name}은 사흘을 매달렸다. 등기부등본, 부동산 카페, 뉴스.\n진실은 절반이었다 — 재개발은 진짜다. 확정도 맞다.\n근데 김 부장은 조합원도 뭣도 아닌 그냥 브로커였고,\n7천 중 2천은 그의 '수고비'로 부풀려진 거품이었다.\n\n진짜 기회 위에, 가짜 가격표가 붙어 있었다.",
+    "smart": "{name}은 김 부장에게 등기를 들이밀었다.\n\"2천은 거품이잖아요. 5천에 합시다. 아니면 신고하든가.\"\n김 부장의 표정이 일그러졌다. 그러더니, 마지못해 끄덕였다.\n\"...물건은 볼 줄 아네. 좋아, 5천.\"\n\n검증한 자만이 깎을 수 있다. {name}은 제값에 들어갈 문턱까지 왔다.",
+    "drunk": "야간 알바 마감 직전. 취한 40대 남자가 들어왔다.\n\n캔맥주 하나를 계산하고 나가나 싶었는데 계산대 앞에 섰다.\n\n\"나 40에 직장 잘렸어. 근데 잘린 게 인생 최고의 일이었어.\"\n\n아무도 없는 편의점. {name}은 다음 손님을 기다리는 척했다.",
+    "stairs": "퇴근 인파가 빠진 지하철역 계단. 벽 쪽에 검은 지갑 하나가 펼쳐진 채 떨어져 있었다.\n\n{name}은 지나쳤다가 두 칸을 다시 올라왔다. 안에는 ○○그룹 전무이사라고 적힌 명함, 카드 여러 장, 5만원권 세 장이 가지런히 끼워져 있었다.\n\n개찰구 쪽에서는 안내 방송이 반복됐다. 지갑을 든 손 앞에서 계단을 오르내리는 사람들은 아무도 멈추지 않았다.",
+    "woman": "동네 편의점 계산대. {name}은 즉석밥과 달걀, 라면을 카운터 위에 올리고 카드를 내밀었다.\n\n'한도 초과'.\n\n직원이 같은 카드를 다시 받아 들었고, 뒤에 선 사람의 장바구니 모서리가 종아리에 한 번 닿았다. {name}은 가격표를 훑으며 무엇부터 내려놓을지 손을 뻗었다.\n\n\"제가 낼게요.\"\n\n뒤에 서 있던 50대 여자의 카드가 단말기 앞에 먼저 놓였다.",
+    "departure": "여자가 웃었다.\n\"됐어요. 나도 옛날에 그런 적 있었어.\"\n\n계산이 끝나고 각자 나갔다.\n\n{name}은 주차장에서 봉투 손잡이를 한 손에 모아 쥐었다. 여자는 이미 횡단보도 건너편으로 사라진 뒤였다.",
+    "karrot": "당근마켓에 안 쓰는 물건을 올렸다.\n\n구매자가 나타났다. 약속 장소는 강남역 근처 카페 앞.\n\n50대 남자가 왔다. 물건을 보더니 \"잘 쓸게요\" 하고 가격 그대로 줬다.\n\n\"혹시 요즘 뭐 하세요?\" 그가 물었다.",
+    "chat": "남자가 잠깐 생각했다.\n\"저도 33살에 서울 올라왔어요. 편하게 얘기 한 번 해요.\"\n\n명함을 받았다. 작은 투자사 대표였다.\n\n물건 3만원을 팔고, 연락처를 얻었다.\n중고 거래가 이렇게 쓰이는 줄은 몰랐다.",
+    "lottery_shop": "편의점 계산대 옆에 복권이 있었다.\n\n\"오늘 여기서 1등 나왔어요\" 스티커가 붙어 있었다.\n\n{name}은 5,000원짜리 한 장을 들었다.\n이번 달 식비에서 5,000원이 빠진다.",
+    "lottery_result": "5만원.\n\n2등도 1등도 아니지만 5만원이었다.\n\n{name}은 그걸 다시 투자하거나 복권을 더 사지 않았다.\n그냥 밥을 사먹었다. 좋은 거 먹었다.\n\n그게 복권의 올바른 사용법인지는 모르겠지만, 기분은 좋았다.",
+    "paper": "{name}은 시간표를 더 빡빡하게 짰다.\n\n이동 시간엔 오디오북, 식사 중엔 강의, 자기 전엔 회고.\n빈틈을 다 메웠다. 효율은 올라갔다.\n\n근데 몸이 신호를 보내기 시작했다.\n눈 밑 떨림, 소화불량, 자다 깨는 새벽.\n\n갓생과 번아웃은 종이 한 장 차이였다.\n{name}은 그 종이 위를 아슬아슬하게 걷고 있었다.",
+    "noodles": "'도시락 살 돈으로 쌀 사서 밥 해먹으세요!'\n'4,800원이면 라면 6개입니다 정신차리세요!'\n\n웃다가 진지하게 반성하게 됐다.\n\n그날부터 {name}은 뭘 사기 전에 거지방을 떠올렸다.\n익명 100명의 잔소리가 머릿속에 자동 재생됐다.\n\n신기하게 한 달 지출이 줄었다.\n부끄러움이 이렇게 돈이 될 줄은 몰랐다.",
+    "laugh": "한 번 웃고 방을 나간다. 이런 걸로 스트레스받기 싫다.",
+    "screenshots": "{name}은 매수 버튼에서 손가락을 뗐다.\n그리고 방을 나왔다.\n\n진짜 고수는 자기 돈으로 조용히 번다.\n남한테 회비 받고 종목 찍어주지 않는다.\n\n수익 인증 500개보다, 그 단순한 논리 하나가 {name}을 지켰다.\n\n며칠 뒤, 그 방이 사기로 뉴스에 나왔다.\n{name}은 기사를 끝까지 읽지 않았다. 안 봐도 알았으니까.",
+    "countdown_title": "반대매매 D-1",
+    "countdown": "새벽 두 시. HTS 화면이 빨갛다.\n\n신용융자로 산 주식이 이틀째 하한가 근처다.\n증권사 앱에 알림이 떴다.\n\n'담보 부족. 추가 입금 또는 반대매매 예정 (D-1).'\n\n반대매매. 내일 장 시작과 동시에, 증권사가 {name}의 주식을 강제로 팔아버린다.\n시장가로. 헐값에.\n\n{name}은 계좌를 봤다. 추가 입금할 돈은 없었다.\n빌려서 산 욕심이, 빌린 만큼의 무게로 돌아오고 있었다.",
+    "delivery": "비 오는 날은 콜이 많고, 할증이 붙는다.\n그만큼 위험하고, 그만큼 번다.\n\n{name}은 새벽 한 시까지 뛰었다.\n젖은 옷, 시린 손, 통장에 찍힌 4만 8천원.\n\n몸은 부서질 것 같았지만, 숫자는 정직했다.\n이렇게라도 메워야, 본업 월급이 온전히 남는다.\n\n강남은 이 빗속 어딘가에서, 한 콜씩 가까워지고 있었다.",
+}
+
+
+def _cafe_encounter_kind(source: str) -> str | None:
+    # Full Korean leaf equality, not a keyword license or an event-ID waiver.
+    return next((kind for kind, raw in SOURCE_CAFE_ENCOUNTER.items() if source == raw), None)
+
+
+def _cafe_encounter_source_money(source: str) -> list[MoneyAmount]:
+    kind = _cafe_encounter_kind(source)
+    settings = {"smart": ("5천", 50000000), "delivery": ("4만 8천원", 48000)}
+    if kind not in settings:
+        return []
+    fragment, value = settings[kind]
+    # The middle offer '5천에' has a postposition the old matcher misses;
+    # the later '좋아, 5천' is already parsed and must remain a third amount.
+    start = source.index(fragment)
+    return [MoneyAmount(start, start + len(fragment), Decimal(value))]
+
+
+def _cafe_encounter_money(source: str, target: str, original: list[MoneyAmount]) -> tuple[list[MoneyAmount], int, list[str]]:
+    kind = _cafe_encounter_kind(source)
+    if kind not in {"arithmetic", "verify", "smart", "delivery", "wallet_cash", "chat", "lottery_result"}:
+        return original, 0, []
+    amounts, shared, errors = list(original), 0, []
+    n = r"[0-9零〇一二两兩三四五六七八九十百千萬万億亿,]+"
+    # Every observed amount is parsed from the target, never replaced with its
+    # expected source value. Bare scaled values share won only in two clauses.
+    for m in re.finditer(rf"(?<![0-9零〇一二两兩三四五六七八九十百千萬万億亿,])(?P<n>{n})(?P<label>[韓韩]元)?", target):
+        if _overlaps(amounts, m.start(), m.end()):
+            continue
+        label = m.group("label")
+        line = target[:m.start()].count("\n")
+        if not label and not (kind in {"arithmetic", "verify"}
+                and line == (2 if kind == "arithmetic" else 3)
+                and re.search(r"[萬万億亿]", m.group("n"))):
+            continue
+        parsed = _target_money_amounts(m.group("n") + "韓元")
+        value = parsed[0].won if len(parsed) == 1 and parsed[0].start == 0 else _leisure_native_amount(m.group("n"))
+        if value is None:
+            errors.append("cafe money unparsed native amount")
+            continue
+        amounts.append(MoneyAmount(m.start(), m.end(), value))
+        shared += int(not label)
+    amounts.sort(key=lambda a: a.start)
+    expected = _source_money_amounts(source)
+    if len(amounts) == len(expected):
+        for s, t in zip(expected, amounts):
+            if source[:s.start].count("\n") != target[:t.start].count("\n"):
+                errors.append("cafe money amount line/order/role changed")
+    for a in amounts:
+        if _has_numeric_sign_prefix(target, a.start) or re.match(
+                r"\s*(?:[%％‰倍年月日天人位]|[個个]月|公斤|公里|小時|小时|分鐘|分钟|秒|[/／])", target[a.end:]):
+            errors.append("cafe money sign/unit/rate suffix changed")
+    if kind == "arithmetic" and len(amounts) == 5:
+        for i, role in ((2, r"全租(?:押金|保[證证]金)"), (3, r"[貸贷]款")):
+            a = amounts[i]
+            clause_start = max(target.rfind(c, 0, a.start) for c in "\n，,。「“")
+            ends = [target.find(c, a.end) for c in "\n，,。？?」”"]
+            clause_end = min((x for x in ends if x >= 0), default=len(target))
+            if not re.search(role, target[clause_start + 1:clause_end]):
+                errors.append("cafe money deposit/loan ownership changed")
+    if kind == "verify" and len(amounts) == 2:
+        line = target.split("\n")[3] if len(target.split("\n")) > 3 else ""
+        if not re.search(r"辛苦[費费]|酬[勞劳]|手[續续][費费]", line):
+            errors.append("cafe money broker fee role changed")
+    return amounts, shared, errors
+
+
+def _cafe_encounter_slots(source: str, target: str) -> tuple[list[CounterQuantity], list[CounterQuantity], list[str]]:
+    kind = _cafe_encounter_kind(source)
+    ss, ts, errors = [], [], []
+    if kind is None:
+        return ss, ts, errors
+    lines = target.split("\n")
+    offsets = [sum(len(x) + 1 for x in lines[:i]) for i in range(len(lines))]
+    n = CHINESE_CARDINAL
+
+    def slot(fragment: str, pattern: str, value: int, *, role: str | None = None,
+             forbidden: str | None = None, implicit: int | None = None) -> None:
+        start = source.index(fragment)
+        line = source[:start].count("\n")
+        ss.append(CounterQuantity(start, start + len(fragment), Decimal(value), "cafe_" + kind))
+        matches = list(re.finditer(pattern, target))
+        if len(matches) != 1 or target[:matches[0].start()].count("\n") != line or line >= len(lines):
+            errors.append("cafe " + kind + " quantity/unit/count/line missing or duplicated")
+            return
+        m = matches[0]
+        a, b = m.span("q")
+        number = m.groupdict().get("number")
+        actual = _chinese_cardinal_value(number) if number is not None else implicit
+        sign_start = m.start() if kind == "coffee" else a
+        valid = actual == value and not _has_numeric_sign_prefix(target, sign_start)
+        valid = valid and not re.match(r"\s*(?:[%％‰]|公斤|公里|[/／])", target[b:])
+        if role and not re.search(role, lines[line]):
+            valid = False
+        if kind in {"rings_result", "rings_offer"} and not re.search(role, m.group("q")):
+            valid = False  # No same-line borrowing from an unrelated occurrence.
+        if forbidden and re.search(forbidden, lines[line]):
+            valid = False
+        if re.search(r"(?:沒有|没有|沒能|没能|尚未|未曾|並非|并非|打算|準備|准备)\s*$", target[offsets[line]:m.start()]):
+            valid = False
+        if not valid:
+            errors.append("cafe " + kind + " quantity/value/sign/role/state changed")
+            return
+        ts.append(CounterQuantity(a, b, Decimal(value), "cafe_" + kind))
+
+    if kind == "coffee":
+        slot("커피 한 잔", rf"(?:[點点]|叫|[訂订]了?)(?:了)?(?P<q>(?:(?P<number>{n}))?杯咖啡)", 1,
+             implicit=1, forbidden=r"沒[點点]|没[點点]|未[點点]|打算|準備|准备")
+    elif kind in {"rings_result", "rings_offer"}:
+        fragment = "세 번"
+        ring = r"(?:回[鈴铃](?:音|[聲声])|[鈴铃][聲声])"
+        slot(fragment, rf"(?P<q>(?:{ring}(?:[響响]了?)?)?(?P<number>{n})(?:[聲声]|次|遍)(?:{ring})?)", 3,
+             role=ring, forbidden=r"沒|没|沒有|没有|未|打算|準備|准备")
+    elif kind == "agencies":
+        slot("두 곳", rf"(?P<q>(?P<number>{n})家(?:持牌)?(?:房[產产]中介|房仲業者|房仲业者|房仲|不[動动][產产]中介))", 2,
+             role=r"(?:打了?[電电][話话]|打[電电][話话]問|打电话问|打給|打给|致[電电])",
+             forbidden=r"打算|準備|准备|[將将]要|沒|没|未曾")
+    elif kind == "phone":
+        slot("전화 한 통", rf"打(?P<q>(?:(?P<number>{n}))?(?:通|[個个])[電电][話话])", 1,
+             implicit=1, role=r"就(?:能)?知道|就能(?:得知|知[曉晓])",
+             forbidden=r"已[經经].*打|打了.*[電电][話话]|沒|没|未能")
+    elif kind in {"drunk", "woman", "karrot"}:
+        age = 40 if kind == "drunk" else 50
+        sex = r"男人|男[子性]|醉漢|醉汉" if kind != "woman" else r"女人|女[子性]"
+        slot(str(age) + "대", rf"(?P<q>(?P<number>{n})多[歲岁])", age, role=sex)
+        if kind == "drunk":
+            slot("40에", rf"我(?P<q>(?P<number>{n})[歲岁])", 40,
+                 role=r"被.*(?:炒|[開开]了|[開开]除)|失業|失业")
+    elif kind == "stairs":
+        slot("두 칸", rf"(?P<q>(?P<number>{n})(?:[級级]台[階阶]|[階阶](?:[樓楼]梯)?))", 2,
+             role=r"往上|往回上|上了|走回", forbidden=r"往下|下了|向下")
+    elif kind == "noodles":
+        slot("라면 6개", rf"(?P<q>(?P<number>{n})(?:包|袋)(?:方便[麵面]|泡[麵面]|拉[麵面]))", 6)
+    elif kind == "screenshots":
+        slot("500개", rf"(?P<q>(?P<number>{n})[張张份](?:[獲获]利|盈利)(?:[紀纪][錄录])?截[圖图])", 500)
+    elif kind == "paper":
+        slot("종이 한 장", rf"(?P<q>(?P<number>{n})(?:[張张層层](?:薄薄的?|薄的?)?)?[紙纸])", 1,
+             forbidden=r"並非|并非|不是|沒有|没有")
+    elif kind == "laugh":
+        slot("한 번 웃고", rf"(?P<q>笑(?:[過过]|一笑|了(?:一[下次])?|一下))", 1, implicit=1,
+             forbidden=r"沒笑|没笑|不笑|笑.*(?:[兩两二三2-9])")
+    elif kind == "chat":
+        slot("얘기 한 번", r"(?P<q>(?:[隨随]便|[輕轻][鬆松]|一起)?聊聊吧|聊一[下次]吧)", 1, implicit=1,
+             forbidden=r"已[經经]|聊[過过]了|聊.*(?:[兩两二三2-9])")
+    elif kind == "departure":
+        slot("각자 나갔다", rf"(?P<q>(?:(?P<number>{n})人)?各自走了出去|彼此分[開开]走了出去)", 2,
+             implicit=2, forbidden=r"一起|一同")
+        slot("한 손", rf"(?P<q>(?P<number>{n})[只隻]手)", 1)
+    elif kind == "lottery_shop":
+        slot("1등", r"(?P<q>一等[獎奖]|[頭头][獎奖彩])", 1, implicit=1,
+             role=r"今天.*(?:開出|开出|出了|中出)", forbidden=rf"(?:{n})(?:次|[個个]).*(?:[獎奖]|彩)")
+    elif kind == "lottery_result":
+        # Two ordered negated prize ranks; neither is a winning payout.
+        slot("2등", r"(?:不是|也不是|沒中|没中)(?P<q>二(?:等)?[獎奖]|[貳贰]獎|[貳贰]奖)", 2, implicit=2)
+        slot("1등", r"(?:不是|也不是|沒中|没中)(?P<q>一等[獎奖]|[頭头][獎奖彩])", 1, implicit=1)
+        if len(ts) == 2 and ts[0].start >= ts[1].start:
+            errors.append("cafe lottery result negated prize order changed")
+    elif kind in {"countdown", "countdown_title"}:
+        slot("D-1", rf"(?P<q>D-1|(?:倒[數数](?:[計计][時时])?|倒[計计][時时]|[還还]剩|[還还]有)(?P<number>{n})天)", 1,
+             implicit=1, forbidden=r"已[過过]|已[經经]|[過过]了")
+    return ss, ts, errors
+
+
+def _cafe_encounter_latin(source: str, target: str) -> tuple[str, list[str]]:
+    kind = _cafe_encounter_kind(source)
+    if kind not in {"phone", "karrot"}:
+        return target, []
+    prepared, line = ("010-XXXX", 2) if kind == "phone" else ("Karrot", 0)
+    matches = _bounded_latin_matches(target, prepared)
+    if len(matches) != 1 or target[:matches[0].start()].count("\n") != line:
+        return target, ["cafe source-present phone/brand boundary/count/line changed"]
+    m = matches[0]
+    target = target[:m.start()] + " " * (m.end() - m.start()) + target[m.end():]
+    return target, []
+
+
 def _numeric_errors(source: str, target: str) -> list[str]:
     errors: list[str] = []
     admin_source_slots, admin_target_slots, admin_errors = _investment_admin_slots(source, target)
@@ -5662,6 +5869,10 @@ def _numeric_errors(source: str, target: str) -> list[str]:
     admin_source_slots.extend(leisure_source)
     admin_target_slots.extend(leisure_target)
     errors.extend(leisure_errors)
+    cafe_source, cafe_target, cafe_errors = _cafe_encounter_slots(source, target)
+    admin_source_slots.extend(cafe_source)
+    admin_target_slots.extend(cafe_target)
+    errors.extend(cafe_errors)
     admin_source_slots.extend(culture_source)
     admin_target_slots.extend(culture_target)
     errors.extend(culture_errors)
@@ -5756,6 +5967,9 @@ def _numeric_errors(source: str, target: str) -> list[str]:
     target_amounts = _target_money_amounts(target)
     target_amounts, culture_shared_labels, culture_money_errors = _korean_culture_money(source, target, target_amounts)
     target_amounts, leisure_money_errors = _leisure_money(source, target, target_amounts)
+    target_amounts, cafe_shared_labels, cafe_money_errors = _cafe_encounter_money(source, target, target_amounts)
+    culture_shared_labels += cafe_shared_labels
+    errors.extend(cafe_money_errors)
     errors.extend(leisure_money_errors)
     errors.extend(culture_money_errors)
     if source == SOURCE_JEONSE_PARTIAL_RETURN:
@@ -5915,6 +6129,9 @@ def _money_errors(lang: str, source: str, target: str) -> list[str]:
 
 
 def _untranslated_english_errors(source: str, target: str, *, catalog: bool = False) -> list[str]:
+    target, cafe_errors = _cafe_encounter_latin(source, target)
+    if cafe_errors:
+        return cafe_errors
     target, leisure_errors = _leisure_latin(source, target)
     if leisure_errors:
         return leisure_errors
@@ -11374,11 +11591,944 @@ def _leisure_gambling_disclosed_self_test() -> tuple[int, list[str]]:
     return cases, failures
 
 
+def _cafe_encounter_parser_self_test() -> tuple[int, list[str]]:
+    # Same 161 inputs sealed before implementation in own fixture SHA
+    # 60c6dd2fae46b32f555cbf5094e611dc6c4777cfe75b94f07e2ea2e49574a61d.
+    # 38 actual FPs + 8 old normal controls + 23 variants + 69 mutants + 23 OFF.
+    normals = {
+        ("coffee", "zh-CN", "events:cafe_humble:/description"): (
+            "“我没工作。可也不能一直这么过下去，\n就想学点什么，才跑来江南，点杯咖啡坐在这儿。”\n\n男人像是觉得荒唐，笑了笑，然后转过椅子坐下。\n"
+            "“穿着旧棉服的人，也来插话这5千万韩元的买卖啊。\n"
+            "不过嘛——看起来你时间不少。我就跟你讲十分钟。”"
+        ),
+        ("arithmetic", "zh-CN", "events:cafe_bluff_caught:/description"): (
+            "“大概2亿韩元左右……？”{name}随口报了个数字。\n男人嗤笑了一声。\n"
+            "“5亿韩元减去全租押金3亿5千万韩元，再减1亿韩元贷款，不就是5千万韩元吗。同学，想装懂，先把账算明白再来。”\n\n邻桌的人侧目看过来。\n"
+            "{name}脸上发烫。只消一个数字，虚张声势就露了底。"
+        ),
+        ("phone", "zh-CN", "events:cafe_cb_stole_00:/description"): (
+            "几个月过去了。{name}拼命攒下了一笔本金。\n而那天在咖啡馆偷看到的那个号码——\n却始终没能从脑子里抹去。Manager Kim。010-XXXX。\n"
+            "\n凌晨3点。{name}拿起手机，又放下。\n"
+            "那个入住权——还在吗？打个电话就能知道。"
+        ),
+        ("rings_result", "zh-CN", "events:cafe_cb_stole_00:/choices/0/result_text"): (
+            "回铃音响了三声，心也跟着跳。"
+        ),
+        ("rings_offer", "zh-CN", "events:cafe_cb_stole_call:/description"): (
+            "三声回铃音。“喂。”\nManager Kim不记得{name}。{name}找了个说法。\n“我就是之前在咖啡馆……听人介绍过入住权的那个人。”\n\n"
+            "短暂的沉默。随后，声音柔和了起来。\n“啊，那个啊。还剩一个名额。不过溢价涨了。\n"
+            "现在是7千万韩元。这一两天就得定下来。怎么样，要参与吗？”"
+        ),
+        ("agencies", "zh-CN", "events:cafe_cb_stole_call:/choices/0/result_text"): (
+            "给两家持牌房产中介打了电话，交叉核对了数字。"
+        ),
+        ("verify", "zh-CN", "events:cafe_cb_stole_verify:/description"): (
+            "{name}一连查了三天。产权登记簿副本、房产论坛、新闻。\n只有一半是真的——再开发是真的，也确实定下来了。\n"
+            "可Manager Kim根本不是什么组合成员，只是个掮客，\n7千万韩元里，有2千万韩元是以他的“辛苦费”为名抬上去的虚价。\n\n"
+            "真实的机会，被贴上了虚假的价签。"
+        ),
+        ("smart", "zh-CN", "events:cafe_cb_stole_smart:/description"): (
+            "{name}把产权登记资料递到Manager Kim面前。\n“这2千万韩元是虚价吧。5千万韩元成交。不然就举报。”\n"
+            "Manager Kim脸色一僵，随后不情愿地点了点头。\n“……还挺会看项目。行，5千万韩元。”\n\n"
+            "查清底细的人，才有资格砍价。{name}已经走到以实价入场的门槛前。"
+        ),
+        ("drunk", "zh-CN", "events:rare_drunk_wisdom:/description"): (
+            "夜班快结束时，一个四十多岁的醉汉走了进来。\n\n买了一罐啤酒，以为他要走，却站在了收银台前。\n\n"
+            "“我四十岁的时候被公司开了。可被开除，是我这辈子最好的事。”\n\n"
+            "便利店里空无一人。{name}装作在等下一位客人。"
+        ),
+        ("stairs", "zh-CN", "events:rare_wallet_executive:/description"): (
+            "下班人潮散去后的地铁站台阶上，一个黑色钱包敞着，掉在靠墙的地方。\n\n"
+            "{name}走过去，又往上折回两级台阶。里面整齐地夹着一张写有○○集团专务董事的名片、几张卡，还有三张5万韩元的钞票。\n\n"
+            "检票口那边的广播反复响着。在那只拿着钱包的手前，上下台阶的人没有一个停下来。"
+        ),
+        ("woman", "zh-CN", "events:rare_market_kind_stranger:/description"): (
+            "小区便利店的收银台。{name}把即食米饭、鸡蛋和方便面放上柜台，递出银行卡。\n\n‘超出限额。’\n\n"
+            "店员又接过同一张卡，身后那人的购物篮边角碰了一下小腿。{name}扫过价签，伸出手，犹豫着先放下哪样。\n\n“我来付吧。”\n\n"
+            "身后那位五十多岁的女人，先把自己的卡放在了刷卡机前。"
+        ),
+        ("departure", "zh-CN", "events:rare_market_kind_stranger:/choices/0/result_text"): (
+            "女人笑了。\n“算了，我以前也碰到过这种事。”\n\n结完账，各自走了出去。\n\n"
+            "{name}站在停车场，把袋子的提手拢在一只手里。女人早已消失在人行横道的另一边。"
+        ),
+        ("karrot", "zh-CN", "events:rare_junk_sale_mentor:/description"): (
+            "把不用的东西挂到了Karrot二手交易平台上。\n\n有买家了。约在江南站附近的一家咖啡馆门前。\n\n"
+            "来的是个五十多岁的男人。他看了看东西，说了句“我会好好用的”，就按标价付了钱。\n\n"
+            "“您最近在做什么呢？”他问。"
+        ),
+        ("chat", "zh-CN", "events:rare_junk_sale_mentor:/choices/0/result_text"): (
+            "男人想了片刻。\n“我也是33岁才来首尔的。有空随便聊聊吧。”\n\n接过了名片。原来是一家小投资公司的负责人。\n\n卖了3万韩元的东西，还拿到了联系方式。\n"
+            "没想到二手交易还有这样的用处。"
+        ),
+        ("lottery_shop", "zh-CN", "events:rare_convenience_lottery:/description"): (
+            "便利店收银台旁摆着彩票。\n\n上面贴着“今天这里出了一等奖”的贴纸。\n\n{name}拿起了一张5,000韩元的彩票。\n"
+            "这个月的饭钱要少5,000韩元了。"
+        ),
+        ("lottery_result", "zh-CN", "events:rare_lottery_result:/choices/0/result_text"): (
+            "5万韩元。\n\n不是二等奖，也不是一等奖，但也有5万韩元。\n\n{name}没有拿它再投资，也没再买彩票。\n只是买了顿饭，吃得不错。\n\n"
+            "不知道这算不算彩票的正确用法，但心情很好。"
+        ),
+        ("paper", "zh-CN", "events:godsaeng_paradox:/choices/1/result_text"): (
+            "{name}把时间表排得更满了。\n\n路上听有声书，吃饭看讲座，睡前做复盘。\n所有空隙都填上了，效率提高了。\n\n可身体开始发出信号。\n"
+            "眼皮跳、消化不良、凌晨醒来。\n\n自律人生与倦怠，只有一纸之隔。\n"
+            "{name}正摇摇晃晃地走在那张纸上。"
+        ),
+        ("noodles", "zh-CN", "events:geojibang_chat:/choices/0/result_text"): (
+            "‘买盒饭的钱拿去买米，自己做饭吧！’\n‘4,800韩元够买6包方便面了，清醒点！’\n\n笑着笑着，竟认真反省起来。\n\n"
+            "从那天起，{name}每次买东西前都会想起穷鬼群。\n100个匿名者的唠叨，在脑子里自动播放。\n\n神奇的是，一个月的开销真的少了。\n"
+            "没想到，羞耻感也能变成钱。"
+        ),
+        ("laugh", "zh-CN", "events:geojibang_chat:/choices/1/text"): (
+            "笑过就退群，不想为这种事承受压力"
+        ),
+        ("screenshots", "zh-CN", "events:leading_room_joined:/choices/1/result_text"): (
+            "{name}把手指从买入键上移开。\n然后退了群。\n\n真正的高手，会用自己的钱默默地赚。\n不会收别人的会费，再给人推荐股票。\n\n"
+            "比起500张盈利截图，这个简单的道理保护了{name}。\n\n几天后，那个群因诈骗上了新闻。\n"
+            "{name}没有把报道看完。不看也知道。"
+        ),
+        ("countdown_title", "zh-CN", "events:debt_invest_margin_call:/title"): (
+            "强制平仓倒计时D-1"
+        ),
+        ("countdown", "zh-CN", "events:debt_invest_margin_call:/description"): (
+            "凌晨两点，HTS交易软件的屏幕一片红。\n\n融资买来的股票，已经是第二天徘徊在跌停附近。\n券商应用弹出通知。\n\n"
+            "‘担保不足。请追加资金，否则预计强制平仓（D-1）。’\n\n强制平仓。明天一开盘，券商就会强行卖掉{name}的股票。\n按市价，贱卖。\n\n"
+            "{name}看了看账户，已经没有钱追加了。\n"
+            "借钱买来的贪念，正带着与借款相等的重量压回来。"
+        ),
+        ("delivery", "zh-CN", "events:gig_delivery_night:/choices/0/result_text"): (
+            "雨天单子多，还有加价。\n多一分危险，也多一分收入。\n\n{name}一直跑到凌晨一点。\n衣服湿透，手指冰凉，账户里到账4万8千韩元。\n\n"
+            "身体像要散架，可数字是诚实的。\n至少这样补上缺口，本职工作的工资才能完整地留下。\n\n"
+            "江南就在这片雨中的某个地方，每送一单，就近一点。"
+        ),
+        ("coffee", "zh-TW", "events:cafe_humble:/description"): (
+            "「我沒工作。可是實在不想再這樣過下去，\n想學點什麼，才跑到江南，點杯咖啡坐在這裡。」\n\n男人像是覺得荒唐，笑了。接著把椅子轉了過來。\n"
+            "「一個穿舊羽絨外套的人，跑來插話談5千萬韓元的生意。\n"
+            "不過嘛——看來你時間挺多的。就跟你講十分鐘。」"
+        ),
+        ("arithmetic", "zh-TW", "events:cafe_bluff_caught:/description"): (
+            "「大概2億韓元左右……？」{name}隨口報了個數字。\n男人嗤笑一聲。\n"
+            "「5億韓元減掉全租保證金3億5千萬，再減貸款1億，不就5千萬韓元嗎？同學，想裝懂，先把算術學會再來。」\n\n隔壁桌的人偷偷看了過來。\n"
+            "{name}的臉燙了起來。光是一個數字，就讓裝出來的底氣露了餡。"
+        ),
+        ("phone", "zh-TW", "events:cafe_cb_stole_00:/description"): (
+            "幾個月過去了。{name}拚命存下了第一筆本錢。\n而那天——在咖啡館偷看到的那個號碼，\n始終沒有從腦中消失。Manager Kim。010-XXXX。\n"
+            "\n凌晨三點。{name}拿起手機，又放下。\n"
+            "那個入住權——還在嗎？打一通電話就能知道。"
+        ),
+        ("rings_result", "zh-TW", "events:cafe_cb_stole_00:/choices/0/result_text"): (
+            "回鈴聲響了三次。心臟也跟著跳。"
+        ),
+        ("rings_offer", "zh-TW", "events:cafe_cb_stole_call:/description"): (
+            "回鈴聲響了三次。「喂。」\nManager Kim不記得{name}。{name}編了個說法。\n「之前在咖啡館……您跟我介紹過入住權的事。」\n\n"
+            "短暫的沉默。接著，對方的聲音柔和了下來。\n「喔喔，那個。還有一個名額。不過溢價漲了。\n"
+            "現在7千萬韓元。這一兩天就得決定。怎樣，要進來嗎？」"
+        ),
+        ("agencies", "zh-TW", "events:cafe_cb_stole_call:/choices/0/result_text"): (
+            "打給了兩家房仲業者，交叉核對那些數字。"
+        ),
+        ("verify", "zh-TW", "events:cafe_cb_stole_verify:/description"): (
+            "{name}花了三天埋頭查證。登記謄本、房地產網路社群、新聞。\n話只有一半是真的——重建案是真的，也確實已經定案。\n"
+            "可是Manager Kim既不是組合成員，也不是什麼別的人物，只是個掮客，\n7千萬韓元裡，有2千萬是他冠上「辛苦費」灌出來的水分。\n\n"
+            "真正的機會，上面卻貼了張假的價目表。"
+        ),
+        ("smart", "zh-TW", "events:cafe_cb_stole_smart:/description"): (
+            "{name}把登記資料推到Manager Kim面前。\n「2千萬韓元是灌水吧。5千萬韓元成交。不然就檢舉。」\n"
+            "Manager Kim的表情扭曲了一下，接著不情願地點頭。\n「……還懂得看標的嘛。好，5千萬韓元。」\n\n"
+            "查證過的人，才有本事砍價。{name}已經來到以合理價格進場的門檻前。"
+        ),
+        ("drunk", "zh-TW", "events:rare_drunk_wisdom:/description"): (
+            "大夜班快結束時，一個喝醉的四十多歲男人走進來。\n\n以為他買了一罐啤酒就要走，結果他站在櫃檯前不動。\n\n"
+            "「我四十歲被公司炒了。不過，被炒卻是我人生最好的事。」\n\n"
+            "店裡沒有其他客人。{name}裝作在等下一位客人。"
+        ),
+        ("stairs", "zh-TW", "events:rare_wallet_executive:/description"): (
+            "下班人潮散去後的地鐵站樓梯。靠牆的地方，掉著一個攤開的黑色皮夾。\n\n"
+            "{name}走過頭，又往上走回兩階。裡面整齊夾著一張寫著「○○集團專務董事」的名片、幾張卡，以及三張5萬韓元鈔票。\n\n"
+            "驗票閘門那頭，廣播反覆播放。皮夾握在手中，眼前上下樓梯的人，沒有一個停下腳步。"
+        ),
+        ("woman", "zh-TW", "events:rare_market_kind_stranger:/description"): (
+            "住家附近便利商店的櫃檯。{name}把即食白飯、雞蛋和泡麵放上檯面，遞出卡片。\n\n「超過額度」。\n\n"
+            "店員又接過同一張卡，後面客人購物籃的邊角碰了一下小腿。{name}掃過價標，伸手想著該先放回哪一樣。\n\n「我來付吧。」\n\n"
+            "身後那位五十多歲女人的卡，已經先放到了刷卡機前。"
+        ),
+        ("departure", "zh-TW", "events:rare_market_kind_stranger:/choices/0/result_text"): (
+            "女人笑了。\n「不用啦。我以前也碰過這種事。」\n\n結完帳，兩人各自走了出去。\n\n"
+            "{name}在停車場把袋子的提把攏到同一隻手裡。女人早已走到斑馬線對面，不見人影。"
+        ),
+        ("karrot", "zh-TW", "events:rare_junk_sale_mentor:/description"): (
+            "把用不到的東西放上韓國二手交易平台Karrot。\n\n有人想買。約在江南站附近的咖啡館前。\n\n"
+            "一個五十多歲的男人來了。看了東西，說「我會好好用的」，照開價付了錢。\n\n"
+            "「方便問一下，您最近在做什麼嗎？」他問。"
+        ),
+        ("chat", "zh-TW", "events:rare_junk_sale_mentor:/choices/0/result_text"): (
+            "男人想了一下。\n「我也是三十三歲才來首爾。找個機會，輕鬆聊聊吧。」\n\n接過名片，才知道是間小型投資公司的負責人。\n\n"
+            "賣了3萬韓元的東西，還拿到了聯絡方式。\n"
+            "沒想到二手交易也能有這樣的用途。"
+        ),
+        ("lottery_shop", "zh-TW", "events:rare_convenience_lottery:/description"): (
+            "便利商店櫃檯旁，擺著彩券。\n\n上面貼了一張「今天本店開出頭獎」的貼紙。\n\n{name}拿起一張5,000韓元的刮刮樂。\n"
+            "這個月的伙食費，就要少掉5,000韓元。"
+        ),
+        ("lottery_result", "zh-TW", "events:rare_lottery_result:/choices/0/result_text"): (
+            "5萬韓元。\n\n不是貳獎，也不是頭獎，但確實是5萬韓元。\n\n{name}沒有拿去再投資，也沒再買彩券。\n就只是拿去吃飯，吃了頓好的。\n\n"
+            "不知道這是不是彩券的正確用法，不過心情很好。"
+        ),
+        ("paper", "zh-TW", "events:godsaeng_paradox:/choices/1/result_text"): (
+            "{name}把時間表排得更緊。\n\n移動時聽有聲書、吃飯看課程、睡前檢討。\n把空隙全填滿了。效率也提高了。\n\n可是身體開始發出訊號。\n"
+            "下眼皮抽動、消化不良、凌晨睡到一半醒來。\n\n自律人生和身心耗竭，只隔著薄薄一張紙。\n"
+            "{name}正走在那張紙上，搖搖欲墜。"
+        ),
+        ("noodles", "zh-TW", "events:geojibang_chat:/choices/0/result_text"): (
+            "「拿買便當的錢去買米，自己煮飯啦！」\n「4,800韓元能買六包泡麵，清醒一點！」\n\n笑著笑著，還真的反省起來。\n\n"
+            "從那天開始，{name}每次買東西前，都會想到窮鬼群組。\n一百個匿名網友的碎念，在腦中自動播放。\n\n神奇的是，一個月的開銷真的減少了。\n"
+            "沒想到不好意思，也能換成錢。"
+        ),
+        ("laugh", "zh-TW", "events:geojibang_chat:/choices/1/text"): (
+            "笑過就退群。不想為這種事增加壓力。"
+        ),
+        ("screenshots", "zh-TW", "events:leading_room_joined:/choices/1/result_text"): (
+            "{name}把手指從買進鍵上移開。\n然後退出群組。\n\n真正的高手，會用自己的錢默默賺。\n不會收別人的會費，替人報明牌。\n\n"
+            "比起五百張獲利截圖，這個簡單的道理保護了{name}。\n\n幾天後，那個群組因為詐騙上了新聞。\n"
+            "{name}沒有把報導看完。不看，也知道了。"
+        ),
+        ("countdown_title", "zh-TW", "events:debt_invest_margin_call:/title"): (
+            "強制平倉倒數一天"
+        ),
+        ("countdown", "zh-TW", "events:debt_invest_margin_call:/description"): (
+            "凌晨兩點，電腦交易系統HTS的畫面一片紅。\n\n融資買進的股票，已經連續兩天徘徊在跌停附近。\n券商應用程式跳出通知。\n\n"
+            "「擔保不足。請補繳款項，否則將強制平倉（倒數一天）。」\n\n強制平倉。明天一開盤，券商就會把{name}的股票強行賣掉。\n按市價。賤價賣掉。\n\n"
+            "{name}看了看帳戶，沒有錢可以再補。\n"
+            "借錢買下的貪念，正帶著那筆借款的重量壓回來。"
+        ),
+        ("delivery", "zh-TW", "events:gig_delivery_night:/choices/0/result_text"): (
+            "下雨天訂單多，還有加成。\n多一分危險，也多賺一分。\n\n{name}跑到了凌晨一點。\n濕透的衣服、冰冷的手，銀行帳戶裡入帳的4萬8千韓元。\n\n"
+            "身體像快散架了，數字卻很老實。\n得靠這樣補上缺口，本業薪水才能完整留下來。\n\n"
+            "江南就在這場雨的某處，隨著一張張訂單，慢慢靠近。"
+        ),
+    }
+    edits = (
+        ("coffee", "zh-TW", "events:cafe_humble:/description",
+         (
+          ((
+              "點杯咖啡坐在這裡"
+          ), (
+              "叫了杯咖啡，坐在這裡"
+          ), True),
+          ((
+              "點杯咖啡"
+          ), (
+              "點兩杯咖啡"
+          ), False),
+          ((
+              "點杯咖啡"
+          ), (
+              "點壺咖啡"
+          ), False),
+          ((
+              "點杯咖啡"
+          ), (
+              "沒點咖啡"
+          ), False),
+         ),
+         ("커피 한 잔", "커피 두 잔"),
+         ["counter quantity missing/changed: expected (cup, 2), target candidates=[]"]),
+        ("arithmetic", "zh-TW", "events:cafe_bluff_caught:/description",
+         (
+          ((
+              "5億韓元減掉全租保證金3億5千萬，再減貸款1億"
+          ), (
+              "用5億韓元扣除3億5千萬的全租保證金，再扣掉1億貸款"
+          ), True),
+          ((
+              "全租保證金3億5千萬"
+          ), (
+              "全租保證金3億4千萬"
+          ), False),
+          ((
+              "貸款1億"
+          ), (
+              "貸款1億／月"
+          ), False),
+          ((
+              "貸款1億"
+          ), (
+              "薪水1億"
+          ), False),
+         ),
+         ("대출 1억", "대출 2억"),
+         ["Korean-won values changed: [Decimal('200000000'), Decimal('500000000'), Decimal('350000000'), Decimal('200000000'), Decimal('50000000')] != [Decimal('200000000'), Decimal('500000000'), Decimal('50000000')]","non-money number sequence changed: [] != ['3', '5', '1']"]),
+        ("phone", "zh-TW", "events:cafe_cb_stole_00:/description",
+         (
+          ((
+              "打一通電話就能知道"
+          ), (
+              "打通電話問問就知道了"
+          ), True),
+          ((
+              "010-XXXX"
+          ), (
+              "011-XXXX"
+          ), False),
+          ((
+              "010-XXXX"
+          ), (
+              "010-XXXXabc"
+          ), False),
+          ((
+              "打一通電話"
+          ), (
+              "打兩通電話"
+          ), False),
+         ),
+         ("전화 한 통", "전화 두 통"),
+         ["counter quantity missing/changed: expected (message, 2), target candidates=[('message', Decimal('1'))]","untranslated English token remains: 'XXXX'"]),
+        ("rings_result", "zh-CN", "events:cafe_cb_stole_00:/choices/0/result_text",
+         (
+          ((
+              "回铃音响了三声，心也跟着跳。"
+          ), (
+              "响了三遍回铃音，心也跟着跳。"
+          ), True),
+          ((
+              "三声"
+          ), (
+              "二声"
+          ), False),
+          ((
+              "三声"
+          ), (
+              "三年"
+          ), False),
+          ((
+              "回铃音响了三声"
+          ), (
+              "回铃音没响三声"
+          ), False),
+         ),
+         ("세 번", "네 번"),
+         ["counter quantity missing/changed: expected (occurrence, 4), target candidates=[]"]),
+        ("rings_offer", "zh-CN", "events:cafe_cb_stole_call:/description",
+         (
+          ((
+              "三声回铃音。“喂。”"
+          ), (
+              "回铃音响了三次。“喂。”"
+          ), True),
+          ((
+              "三声"
+          ), (
+              "四声"
+          ), False),
+          ((
+              "三声"
+          ), (
+              "三年"
+          ), False),
+          ((
+              "三声回铃音"
+          ), (
+              "没有三声回铃音"
+          ), False),
+         ),
+         ("신호음 세 번", "신호음 네 번"),
+         ["counter quantity missing/changed: expected (occurrence, 4), target candidates=[]"]),
+        ("agencies", "zh-CN", "events:cafe_cb_stole_call:/choices/0/result_text",
+         (
+          ((
+              "给两家持牌房产中介打了电话，交叉核对了数字。"
+          ), (
+              "打电话问了两家持牌房产中介，交叉核对了数字。"
+          ), True),
+          ((
+              "两家"
+          ), (
+              "三家"
+          ), False),
+          ((
+              "两家"
+          ), (
+              "两公里外的"
+          ), False),
+          ((
+              "打了电话"
+          ), (
+              "打算打电话"
+          ), False),
+         ),
+         ("두 곳", "세 곳"),
+         ["counter quantity missing/changed: expected (place_count, 3), target candidates=[]"]),
+        ("verify", "zh-TW", "events:cafe_cb_stole_verify:/description",
+         (
+          ((
+              "7千萬韓元裡，有2千萬"
+          ), (
+              "在7千萬韓元之中，2千萬"
+          ), True),
+          ((
+              "有2千萬"
+          ), (
+              "有3千萬"
+          ), False),
+          ((
+              "有2千萬"
+          ), (
+              "有2千個月"
+          ), False),
+          ((
+              "有2千萬"
+          ), (
+              "有−2千萬"
+          ), False),
+         ),
+         ("7천 중 2천", "7천 중 3천"),
+         ["Korean-won values changed: [Decimal('70000000'), Decimal('30000000')] != [Decimal('70000000')]","non-money number sequence changed: [] != ['2']"]),
+        ("smart", "zh-TW", "events:cafe_cb_stole_smart:/description",
+         (
+          ((
+              "好，5千萬韓元"
+          ), (
+              "行，就5千萬韓元"
+          ), True),
+          ((
+              "好，5千萬韓元"
+          ), (
+              "好，6千萬韓元"
+          ), False),
+          ((
+              "好，5千萬韓元"
+          ), (
+              "好，5千萬韓元／年"
+          ), False),
+          ((
+              "好，5千萬韓元"
+          ), (
+              "好，5千萬韓元，5千萬韓元"
+          ), False),
+         ),
+         ("좋아, 5천", "좋아, 6천"),
+         ["Korean-won values changed: [Decimal('20000000'), Decimal('60000000')] != [Decimal('20000000'), Decimal('50000000'), Decimal('50000000')]","non-money number sequence changed: ['5'] != []"]),
+        ("drunk", "zh-CN", "events:rare_drunk_wisdom:/description",
+         (
+          ((
+              "一个四十多岁的醉汉走了进来"
+          ), (
+              "有个四十多岁、喝醉酒的男人进来了"
+          ), True),
+          ((
+              "四十多岁"
+          ), (
+              "五十多岁"
+          ), False),
+          ((
+              "我四十岁的时候"
+          ), (
+              "我四十一岁的时候"
+          ), False),
+          ((
+              "我四十岁的时候"
+          ), (
+              "我四十年之后"
+          ), False),
+         ),
+         ("40대", "50대"),
+         ["counter quantity missing/changed: expected (vehicle, 50), target candidates=[]","non-money number sequence changed: ['40'] != []"]),
+        ("stairs", "zh-CN", "events:rare_wallet_executive:/description",
+         (
+          ((
+              "往上折回两级台阶"
+          ), (
+              "往回上了两阶楼梯"
+          ), True),
+          ((
+              "两级台阶"
+          ), (
+              "三级台阶"
+          ), False),
+          ((
+              "两级台阶"
+          ), (
+              "两米"
+          ), False),
+          ((
+              "往上折回"
+          ), (
+              "往下折回"
+          ), False),
+         ),
+         ("두 칸", "세 칸"),
+         ["counter quantity missing/changed: expected (cell, 3), target candidates=[]"]),
+        ("woman", "zh-CN", "events:rare_market_kind_stranger:/description",
+         (
+          ((
+              "五十多岁的女人"
+          ), (
+              "年纪五十多岁的女人"
+          ), True),
+          ((
+              "五十多岁"
+          ), (
+              "六十多岁"
+          ), False),
+          ((
+              "五十多岁"
+          ), (
+              "五十多个月大"
+          ), False),
+          ((
+              "五十多岁的女人"
+          ), (
+              "五十多岁的男人"
+          ), False),
+         ),
+         ("50대", "60대"),
+         ["counter quantity missing/changed: expected (vehicle, 60), target candidates=[]"]),
+        ("departure", "zh-TW", "events:rare_market_kind_stranger:/choices/0/result_text",
+         (
+          ((
+              "兩人各自走了出去"
+          ), (
+              "彼此分開走了出去"
+          ), True),
+          ((
+              "兩人"
+          ), (
+              "三人"
+          ), False),
+          ((
+              "兩人各自走了出去"
+          ), (
+              "兩人一起走了出去"
+          ), False),
+          ((
+              "同一隻手"
+          ), (
+              "雙手"
+          ), False),
+         ),
+         ("각자 나갔다", "함께 나갔다"),
+         ["unmatched target entity quantity invented: 2"]),
+        ("karrot", "zh-TW", "events:rare_junk_sale_mentor:/description",
+         (
+          ((
+              "韓國二手交易平台Karrot"
+          ), (
+              "Karrot這個韓國二手交易平台"
+          ), True),
+          ((
+              "Karrot"
+          ), (
+              "KarrotXYZ"
+          ), False),
+          ((
+              "Karrot"
+          ), (
+              "Karrot Karrot"
+          ), False),
+          ((
+              "五十多歲"
+          ), (
+              "四十多歲"
+          ), False),
+         ),
+         ("당근마켓", "중고나라"),
+         ["counter quantity missing/changed: expected (vehicle, 50), target candidates=[]","untranslated English token remains: 'Karrot'"]),
+        ("chat", "zh-CN", "events:rare_junk_sale_mentor:/choices/0/result_text",
+         (
+          ((
+              "有空随便聊聊吧"
+          ), (
+              "有空一起聊聊吧"
+          ), True),
+          ((
+              "有空随便聊聊吧"
+          ), (
+              "有空随便聊两次吧"
+          ), False),
+          ((
+              "有空随便聊聊吧"
+          ), (
+              "我们已经聊过了"
+          ), False),
+          ((
+              "33岁"
+          ), (
+              "34岁"
+          ), False),
+         ),
+         ("얘기 한 번", "얘기 두 번"),
+         ["counter quantity missing/changed: expected (occurrence, 2), target candidates=[]"]),
+        ("lottery_shop", "zh-TW", "events:rare_convenience_lottery:/description",
+         (
+          ((
+              "今天本店開出頭獎"
+          ), (
+              "今天這裡開出頭彩"
+          ), True),
+          ((
+              "頭獎"
+          ), (
+              "貳獎"
+          ), False),
+          ((
+              "今天本店"
+          ), (
+              "明天本店"
+          ), False),
+          ((
+              "開出頭獎"
+          ), (
+              "開出兩次頭獎"
+          ), False),
+         ),
+         ("1등", "2등"),
+         ["non-money number sequence changed: ['2'] != []"]),
+        ("lottery_result", "zh-CN", "events:rare_lottery_result:/choices/0/result_text",
+         (
+          ((
+              "不是二等奖，也不是一等奖"
+          ), (
+              "没中二等奖，也没中头奖"
+          ), True),
+          ((
+              "二等奖"
+          ), (
+              "三等奖"
+          ), False),
+          ((
+              "一等奖"
+          ), (
+              "三等奖"
+          ), False),
+          ((
+              "不是二等奖"
+          ), (
+              "是二等奖"
+          ), False),
+         ),
+         ("2등", "3등"),
+         ["non-money number sequence changed: ['3', '1'] != []"]),
+        ("paper", "zh-CN", "events:godsaeng_paradox:/choices/1/result_text",
+         (
+          ((
+              "只有一纸之隔"
+          ), (
+              "只隔着一层薄纸"
+          ), True),
+          ((
+              "一纸之隔"
+          ), (
+              "两张纸之隔"
+          ), False),
+          ((
+              "一纸之隔"
+          ), (
+              "一米之隔"
+          ), False),
+          ((
+              "只有一纸之隔"
+          ), (
+              "并非一纸之隔"
+          ), False),
+         ),
+         ("종이 한 장", "종이 두 장"),
+         ["counter quantity missing/changed: expected (sheet, 2), target candidates=[]"]),
+        ("noodles", "zh-CN", "events:geojibang_chat:/choices/0/result_text",
+         (
+          ((
+              "6包方便面"
+          ), (
+              "六袋方便面"
+          ), True),
+          ((
+              "6包方便面"
+          ), (
+              "7包方便面"
+          ), False),
+          ((
+              "6包方便面"
+          ), (
+              "6个人"
+          ), False),
+          ((
+              "6包方便面"
+          ), (
+              "−6包方便面"
+          ), False),
+         ),
+         ("라면 6개", "라면 7개"),
+         ["counter quantity missing/changed: expected (entity, 7), target candidates=[('entity', Decimal('100')), ('entity', Decimal('1'))]","non-money number sequence changed: [] != ['6']"]),
+        ("laugh", "zh-CN", "events:geojibang_chat:/choices/1/text",
+         (
+          ((
+              "笑过就退群"
+          ), (
+              "笑一笑就退群"
+          ), True),
+          ((
+              "笑过就退群"
+          ), (
+              "笑两次就退群"
+          ), False),
+          ((
+              "笑过就退群"
+          ), (
+              "没笑就退群"
+          ), False),
+          ((
+              "笑过就退群"
+          ), (
+              "笑过两回就退群"
+          ), False),
+         ),
+         ("한 번 웃고", "두 번 웃고"),
+         ["counter quantity missing/changed: expected (occurrence, 2), target candidates=[]"]),
+        ("screenshots", "zh-TW", "events:leading_room_joined:/choices/1/result_text",
+         (
+          ((
+              "五百張獲利截圖"
+          ), (
+              "五百份獲利紀錄截圖"
+          ), True),
+          ((
+              "五百張"
+          ), (
+              "六百張"
+          ), False),
+          ((
+              "五百張獲利截圖"
+          ), (
+              "五百個人"
+          ), False),
+          ((
+              "五百張獲利截圖"
+          ), (
+              "五百張獲利截圖、五百張獲利截圖"
+          ), False),
+         ),
+         ("500개", "600개"),
+         ["unmatched target entity quantity invented: 500","non-money number sequence changed: ['600'] != []"]),
+        ("countdown_title", "zh-CN", "events:debt_invest_margin_call:/title",
+         (
+          ((
+              "强制平仓倒计时D-1"
+          ), (
+              "距强制平仓还有一天"
+          ), True),
+          ((
+              "D-1"
+          ), (
+              "D-2"
+          ), False),
+          ((
+              "倒计时D-1"
+          ), (
+              "倒计时一个月"
+          ), False),
+          ((
+              "强制平仓倒计时D-1"
+          ), (
+              "已经强制平仓一天"
+          ), False),
+         ),
+         ("D-1", "D-2"),
+         ["non-money number sequence changed: ['-2'] != ['-1']","untranslated English token remains: 'D-1'"]),
+        ("countdown", "zh-TW", "events:debt_invest_margin_call:/description",
+         (
+          ((
+              "倒數一天"
+          ), (
+              "還剩一天"
+          ), True),
+          ((
+              "倒數一天"
+          ), (
+              "倒數兩天"
+          ), False),
+          ((
+              "倒數一天"
+          ), (
+              "倒數一個月"
+          ), False),
+          ((
+              "倒數一天"
+          ), (
+              "已過一天"
+          ), False),
+         ),
+         ("D-1", "D-2"),
+         ["non-money number sequence changed: ['-2'] != []"]),
+        ("delivery", "zh-TW", "events:gig_delivery_night:/choices/0/result_text",
+         (
+          ((
+              "銀行帳戶裡入帳的4萬8千韓元"
+          ), (
+              "銀行帳戶裡記著的48,000韓元"
+          ), True),
+          ((
+              "4萬8千韓元"
+          ), (
+              "4萬9千韓元"
+          ), False),
+          ((
+              "4萬8千韓元"
+          ), (
+              "4萬8千韓元／月"
+          ), False),
+          ((
+              "4萬8千韓元"
+          ), (
+              "−4萬8千韓元"
+          ), False),
+         ),
+         ("4만 8천원", "4만 9천원"),
+         ["Korean-won values changed: [Decimal('40000'), Decimal('9000')] != [Decimal('48000')]"]),
+    )
+    cases, failures = 0, []
+    for (kind, lang, key), target in normals.items():
+        cases += 1
+        errors = validate_text(lang, key, SOURCE_CAFE_ENCOUNTER[kind], target)
+        if errors:
+            failures.append(f"cafe actual normal {kind}/{lang}: {errors}")
+    for kind, lang, key, changes, source_off, old_errors in edits:
+        source, normal = SOURCE_CAFE_ENCOUNTER[kind], normals[(kind, lang, key)]
+        for before, after, accepted in changes:
+            cases += 1
+            if normal.count(before) != 1:
+                failures.append(f"cafe fixed target edit not unique {kind}/{lang}: {before!r}")
+                continue
+            errors = validate_text(lang, key, source, normal.replace(before, after, 1))
+            if bool(errors) == accepted:
+                failures.append(f"cafe fixed target expected {accepted} {kind}/{lang}: {errors}")
+        cases += 1
+        before, after = source_off
+        changed_source = source.replace(before, after, 1)
+        errors = validate_text(lang, key, changed_source, normal)
+        if source.count(before) != 1 or _cafe_encounter_kind(changed_source) is not None:
+            failures.append(f"cafe source-OFF retained its license {kind}/{lang}")
+        if sorted(errors) != sorted(old_errors):
+            failures.append(f"cafe source-OFF baseline changed {kind}/{lang}: {errors}")
+    return cases, failures
+
+
+
+def _cafe_encounter_disclosed_self_test() -> tuple[int, list[str]]:
+    # ROOT's eight CN/TW pairs were blind at B1 (2/8 normals accepted).
+    # Same disclosed inputs: a public regression after repair, not fresh review.
+    # Root fixture SHA 350b499d953369eceabaf02e5f8f440fe6a3bc371cef18f6bdc4b24757ea0444.
+    pairs = (
+        ("zh-CN", "events:cafe_humble:/choices/0/result_text",
+         (
+             "십 분이 삼십 분이 됐다.\n갭투자, 레버리지, 입주권, 프리미엄 —\n{name}은 처음 듣는 부동산 용어를 수첩에 적었다.\n\n"
+             "남자는 명함도 주지 않았고 이름도 알려 주지 않았다. 그래도 오늘 들은 숫자와 용어는 수첩에 남았다."
+         ),
+         (
+             "十分钟变成了三十分钟。\n利用全租押金的差额投资、杠杆、入住权、溢价——\n{name}把第一次听说的房地产术语记在了本子上。\n\n"
+             "男人没有给名片，也没有告诉他姓名。不过，今天听到的数字和术语留在了本子上。"
+         ),
+         "三十分钟", "四十分钟", "expected (duration_minute, 30)"),
+        ("zh-TW", "events:cafe_humble:/choices/0/result_text",
+         (
+             "십 분이 삼십 분이 됐다.\n갭투자, 레버리지, 입주권, 프리미엄 —\n{name}은 처음 듣는 부동산 용어를 수첩에 적었다.\n\n"
+             "남자는 명함도 주지 않았고 이름도 알려 주지 않았다. 그래도 오늘 들은 숫자와 용어는 수첩에 남았다."
+         ),
+         (
+             "十分鐘變成了三十分鐘。\n利用全租押金的差額投資、槓桿、入住權、溢價——\n{name}把第一次聽到的房地產術語記在了筆記本裡。\n\n"
+             "男人沒有給名片，也沒有告訴他姓名。不過，今天聽到的數字與術語留在了筆記本裡。"
+         ),
+         "三十分鐘", "四十分鐘", "expected (duration_minute, 30)"),
+        ("zh-CN", "events:rare_wallet_executive:/choices/1/result_text",
+         (
+             "5만원짜리 세 장이 있었다.\n\n역무원이 지나갔다. {name}은 계단을 내려갔다.\n\n집까지 오는 내내 발걸음이 무거웠다.\n"
+             "15만원이 생겼는데 아무것도 안 생긴 것 같았다."
+         ),
+         (
+             "里面有三张五万韩元的钞票。\n\n站务员走了过去。{name}走下了楼梯。\n\n回家的路上，脚步一直很沉。\n"
+             "多了十五万韩元，却像什么也没得到。"
+         ),
+         "三张", "四张", "expected (sheet, 3)"),
+        ("zh-TW", "events:rare_wallet_executive:/choices/1/result_text",
+         (
+             "5만원짜리 세 장이 있었다.\n\n역무원이 지나갔다. {name}은 계단을 내려갔다.\n\n집까지 오는 내내 발걸음이 무거웠다.\n"
+             "15만원이 생겼는데 아무것도 안 생긴 것 같았다."
+         ),
+         (
+             "裡面有三張五萬韓元的鈔票。\n\n站務員走了過去。{name}走下了樓梯。\n\n回家的路上，腳步一直很沉。\n"
+             "多了十五萬韓元，卻像什麼也沒得到。"
+         ),
+         "三張", "四張", "expected (sheet, 3)"),
+        ("zh-CN", "events:rare_junk_sale_mentor:/choices/0/result_text",
+         (
+             "남자가 잠깐 생각했다.\n\"저도 33살에 서울 올라왔어요. 편하게 얘기 한 번 해요.\"\n\n명함을 받았다. 작은 투자사 대표였다.\n\n"
+             "물건 3만원을 팔고, 연락처를 얻었다.\n"
+             "중고 거래가 이렇게 쓰이는 줄은 몰랐다."
+         ),
+         (
+             "男人想了想。\n“我也是三十三岁来首尔的。改天轻松聊聊吧。”\n\n接过名片。对方是一家小投资公司的负责人。\n\n卖掉三万韩元的东西，得到了联系方式。\n"
+             "没想到二手交易还有这样的用处。"
+         ),
+         "三十三岁", "三十四岁", "expected (age, 33)"),
+        ("zh-TW", "events:rare_junk_sale_mentor:/choices/0/result_text",
+         (
+             "남자가 잠깐 생각했다.\n\"저도 33살에 서울 올라왔어요. 편하게 얘기 한 번 해요.\"\n\n명함을 받았다. 작은 투자사 대표였다.\n\n"
+             "물건 3만원을 팔고, 연락처를 얻었다.\n"
+             "중고 거래가 이렇게 쓰이는 줄은 몰랐다."
+         ),
+         (
+             "男人想了想。\n「我也是三十三歲來首爾的。改天輕鬆聊聊吧。」\n\n接過名片。對方是一家小投資公司的負責人。\n\n賣掉三萬韓元的東西，得到了聯絡方式。\n"
+             "沒想到二手交易還有這樣的用處。"
+         ),
+         "三十三歲", "三十四歲", "expected (age, 33)"),
+        ("zh-CN", "events:rare_lottery_result:/choices/0/result_text",
+         (
+             "5만원.\n\n2등도 1등도 아니지만 5만원이었다.\n\n{name}은 그걸 다시 투자하거나 복권을 더 사지 않았다.\n"
+             "그냥 밥을 사먹었다. 좋은 거 먹었다.\n\n"
+             "그게 복권의 올바른 사용법인지는 모르겠지만, 기분은 좋았다."
+         ),
+         (
+             "五万韩元。\n\n虽然不是二等奖，也不是一等奖，但那是五万韩元。\n\n{name}没有拿去继续投资，也没再买彩票。\n只是吃了顿饭。吃了点好的。\n\n"
+             "不知道这算不算彩票的正确用法，但心情很好。"
+         ),
+         "二等奖", "三等奖", "cafe lottery_result quantity/unit/count/line"),
+        ("zh-TW", "events:rare_lottery_result:/choices/0/result_text",
+         (
+             "5만원.\n\n2등도 1등도 아니지만 5만원이었다.\n\n{name}은 그걸 다시 투자하거나 복권을 더 사지 않았다.\n"
+             "그냥 밥을 사먹었다. 좋은 거 먹었다.\n\n"
+             "그게 복권의 올바른 사용법인지는 모르겠지만, 기분은 좋았다."
+         ),
+         (
+             "五萬韓元。\n\n雖然不是二獎，也不是頭獎，但那是五萬韓元。\n\n{name}沒有拿去繼續投資，也沒再買彩券。\n只是吃了頓飯。吃了點好的。\n\n"
+             "不知道這算不算彩券的正確用法，但心情很好。"
+         ),
+         "二獎", "三獎", "cafe lottery_result quantity/unit/count/line"),
+    )
+    cases, failures = 0, []
+    for lang, key, source, normal, before, after, expected_error in pairs:
+        cases += 1
+        errors = validate_text(lang, key, source, normal)
+        if errors:
+            failures.append(f"cafe disclosed normal {key}/{lang}: {errors}")
+        cases += 1
+        if normal.count(before) != 1:
+            failures.append(f"cafe disclosed fixed edit not unique {key}/{lang}")
+            continue
+        errors = validate_text(lang, key, source, normal.replace(before, after, 1))
+        if not any(expected_error in error for error in errors):
+            failures.append(f"cafe disclosed mutant lacks typed rejection {key}/{lang}: {errors}")
+    return cases, failures
+
+
+
 def run_self_test(
     manifest: dict[str, Any], runtime: dict[str, Any],
 ) -> list[str]:
     failures: list[str] = []
     cases, life_failures = _life_scene_parser_self_test()
+    cafe_cases, cafe_failures = _cafe_encounter_parser_self_test()
+    cases += cafe_cases
+    failures.extend(cafe_failures)
+    cafe_disclosed_cases, cafe_disclosed_failures = _cafe_encounter_disclosed_self_test()
+    cases += cafe_disclosed_cases
+    failures.extend(cafe_disclosed_failures)
     leisure_cases, leisure_failures = _leisure_gambling_parser_self_test()
     cases += leisure_cases
     failures.extend(leisure_failures)

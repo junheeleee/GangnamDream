@@ -4258,6 +4258,666 @@ class ExchangeTests(unittest.TestCase):
             self.assertIsNone(tool._ja_leisure_gambling_numbers(changed_source, public))
 
 
+    @staticmethod
+    def _cafe_encounter_regression_cases():
+        # Large multilingual fixtures use adjacent short physical lines;
+        # validate the final suite through the actual Python CLI.
+        base = [
+            (
+                "events:cafe_00:/description",
+                "content/events/scenario_cafe.json",
+                (
+                    "{name}은 6,500원짜리 아메리카노를 시켰다.\n"
+                    "그래도 한 번은,\n"
+                    "강남에서 큰돈 이야기가 오가는 자리에 앉아 보고 싶었다.\n"
+                    "\n"
+                    "옆 테이블. 정장 입은 남자가 통화 중이다.\n"
+                    "\"그 입주권 마지막 한 자리예요. 오늘 안 잡으면 끝나요.\n"
+                    "재개발 확정 났다니까. ...네, 현금 5천이면 됩니다.\"\n"
+                    "\n"
+                    "{name}의 귀가 저절로 그쪽으로 기운다."
+                ),
+                (
+                    "{name}は6,500ウォンのアメリカーノを頼んだ。\n"
+                    "それでも一度は、\n"
+                    "カンナムで大きな金の話が飛び交う席に座ってみたかった。\n"
+                    "\n"
+                    "隣のテーブル。スーツ姿の男が電話をしている。\n"
+                    "「その入居権、最後の一枠ですよ。今日押さえなければ終わりです。\n"
+                    "再開発は決まったんですって。……ええ、現金5,000万ウォンで大丈夫です」\n"
+                    "\n"
+                    "{name}の耳が、自然とそちらへ傾く。"
+                ),
+                (
+                    "{name}は6,500ウォンのアメリカーノを頼んだ。\n"
+                    "それでも一度は、\n"
+                    "カンナムで大きな金の話が飛び交う席に座ってみたかった。\n"
+                    "\n"
+                    "隣のテーブル。スーツ姿の男が電話をしている。\n"
+                    "「その入居権、最後の一枠ですよ。今日押さえなければ終わりです。\n"
+                    "再開発は決まったんですって。……ええ、現金は五千万ウォンで大丈夫です」\n"
+                    "\n"
+                    "{name}の耳が、自然とそちらへ傾く。"
+                ),
+            ),
+            (
+                "events:cafe_bluff_01:/description",
+                "content/events/scenario_cafe.json",
+                (
+                    "\"이쪽 일을 하신다. 그래요?\"\n"
+                    "남자의 눈이 가늘어진다. 시험하듯 묻는다.\n"
+                    "\"매매가 5억, 전세 3억 5천, 대출 1억이면\n"
+                    "취득비 빼고 실투자금 얼마 잡아요?\"\n"
+                    "\n"
+                    "{name}은 계산하지 못했다.\n"
+                    "등에서 식은땀이 흐른다."
+                ),
+                (
+                    "「この業界で仕事をしてる。そうなの？」\n"
+                    "男の目が細くなる。試すように尋ねる。\n"
+                    "「売買価格5億ウォン、チョンセ保証金3億5,000万ウォン、借入1億ウォンなら、\n"
+                    "取得費用を除いた実際の自己資金はいくらで見てる？」\n"
+                    "\n"
+                    "{name}は計算できなかった。\n"
+                    "背中を冷たい汗が伝う。"
+                ),
+                (
+                    "「この業界で仕事をしてる。そうなの？」\n"
+                    "男の目が細くなる。試すように尋ねる。\n"
+                    "「売買価格は5億ウォン、チョンセ保証金は3億5000万ウォン、借入は1億ウォンなら、\n"
+                    "取得費用を除いた実際の自己資金はいくらで見てる？」\n"
+                    "\n"
+                    "{name}は計算できなかった。\n"
+                    "背中を冷たい汗が伝う。"
+                ),
+            ),
+            (
+                "events:cafe_bluff_caught:/description",
+                "content/events/scenario_cafe.json",
+                (
+                    "\"한 2억쯤...?\" {name}이 아무 숫자나 던졌다.\n"
+                    "남자가 코웃음을 쳤다.\n"
+                    "\"5억에서 전세 3억 5천, 대출 1억을 빼면 5천이잖아. 학생, 아는 척하려면 계산부터 하고 와.\"\n"
+                    "\n"
+                    "옆 테이블 사람들이 힐끔거렸다.\n"
+                    "{name}의 얼굴이 화끈거렸다. 숫자 하나만으로도 허세는 바로 들켰다."
+                ),
+                (
+                    "「2億ウォンくらい……？」{name}は適当な数字を口にした。\n"
+                    "男が鼻で笑った。\n"
+                    "「5億ウォンからチョンセの3億5,000万ウォンと借入1億ウォンを引けば、5,000万ウォンだろ。学生さん、知ったか"
+                    "ぶりをするなら、計算してから来な」\n"
+                    "\n"
+                    "隣のテーブルの人たちがちらちら見た。\n"
+                    "{name}の顔が熱くなった。たった一つの数字で、虚勢はすぐに見破られた。"
+                ),
+                (
+                    "「2億ウォンくらい……？」{name}は適当な数字を口にした。\n"
+                    "男が鼻で笑った。\n"
+                    "「5億ウォンからチョンセ保証金の3億5000万ウォンと借入の1億ウォンを引けば、残るのは五千万ウォンだろ。学生さん、"
+                    "知ったかぶりをするなら、計算してから来な」\n"
+                    "\n"
+                    "隣のテーブルの人たちがちらちら見た。\n"
+                    "{name}の顔が熱くなった。たった一つの数字で、虚勢はすぐに見破られた。"
+                ),
+            ),
+            (
+                "events:cafe_cb_stole_call:/description",
+                "content/events/scenario_cafe_callback.json",
+                (
+                    "신호음 세 번. \"여보세요.\"\n"
+                    "김 부장은 {name}을 기억 못 했다. {name}은 둘러댔다.\n"
+                    "\"그때 카페에서... 입주권 건 소개받았던 사람입니다.\"\n"
+                    "\n"
+                    "잠깐의 침묵. 그러더니 목소리가 부드러워진다.\n"
+                    "\"아아, 그거. 아직 한 자리 있어요. 근데 프리미엄 올랐어.\n"
+                    "지금 7천. 오늘내일 안에 결정해야 돼. 어떻게, 들어와요?\""
+                ),
+                (
+                    "呼び出し音が三回。「もしもし」\n"
+                    "キム部長は{name}を覚えていなかった。{name}は話を取り繕った。\n"
+                    "「あのときカフェで……入居権の件を紹介していただいた者です」\n"
+                    "\n"
+                    "短い沈黙。それから、声が柔らかくなる。\n"
+                    "「ああ、あれね。まだ一枠ありますよ。ただ、プレミアムが上がってね。\n"
+                    "今は7,000万ウォン。今日か明日には決めてもらわないと。どう、入る？」"
+                ),
+                (
+                    "呼び出し音が三回。「もしもし」\n"
+                    "キム部長は{name}を覚えていなかった。{name}は話を取り繕った。\n"
+                    "「あのときカフェで……入居権の件を紹介していただいた者です」\n"
+                    "\n"
+                    "短い沈黙。それから、声が柔らかくなる。\n"
+                    "「ああ、あれね。まだ一枠ありますよ。ただ、プレミアムが上がってね。\n"
+                    "今なら七千万ウォン。今日か明日には決めてもらわないと。どう、入る？」"
+                ),
+            ),
+            (
+                "events:cafe_cb_stole_smart:/description",
+                "content/events/scenario_cafe_callback.json",
+                (
+                    "{name}은 김 부장에게 등기를 들이밀었다.\n"
+                    "\"2천은 거품이잖아요. 5천에 합시다. 아니면 신고하든가.\"\n"
+                    "김 부장의 표정이 일그러졌다. 그러더니, 마지못해 끄덕였다.\n"
+                    "\"...물건은 볼 줄 아네. 좋아, 5천.\"\n"
+                    "\n"
+                    "검증한 자만이 깎을 수 있다. {name}은 제값에 들어갈 문턱까지 왔다."
+                ),
+                (
+                    "{name}はキム部長に登記書類を突きつけた。\n"
+                    "「2,000万ウォンは水増しでしょう。5,000万ウォンにしましょう。でなければ通報します」\n"
+                    "キム部長の顔がゆがんだ。それから、渋々うなずいた。\n"
+                    "「……物件を見る目はあるな。いいよ、5,000万ウォンだ」\n"
+                    "\n"
+                    "確かめた者だけが値を下げられる。{name}は適正な値段で投資する、その一歩手前まで来た。"
+                ),
+                (
+                    "{name}はキム部長に登記書類を突きつけた。\n"
+                    "「二千万ウォンは水増しでしょう。五千万ウォンにしましょう。でなければ通報します」\n"
+                    "キム部長の顔がゆがんだ。それから、渋々うなずいた。\n"
+                    "「……物件を見る目はあるな。いいよ、五千万ウォンだ」\n"
+                    "\n"
+                    "確かめた者だけが値を下げられる。{name}は適正な値段で投資する、その一歩手前まで来た。"
+                ),
+            ),
+            (
+                "events:cafe_cb_stole_verify:/choices/0/result_text",
+                "content/events/scenario_cafe_callback.json",
+                (
+                    "김 부장에게 등기를 내밀었다. \"2천은 거품이잖아요.\" 그가 눈을 피했다."
+                ),
+                (
+                    "キム部長に登記書類を突きつけた。「2,000万ウォンは水増しでしょう」男が目をそらした。"
+                ),
+                (
+                    "キム部長に登記書類を突きつけた。「二千万ウォンは上乗せ分でしょう」男が目をそらした。"
+                ),
+            ),
+            (
+                "events:cafe_cb_stole_verify:/description",
+                "content/events/scenario_cafe_callback.json",
+                (
+                    "{name}은 사흘을 매달렸다. 등기부등본, 부동산 카페, 뉴스.\n"
+                    "진실은 절반이었다 — 재개발은 진짜다. 확정도 맞다.\n"
+                    "근데 김 부장은 조합원도 뭣도 아닌 그냥 브로커였고,\n"
+                    "7천 중 2천은 그의 '수고비'로 부풀려진 거품이었다.\n"
+                    "\n"
+                    "진짜 기회 위에, 가짜 가격표가 붙어 있었다."
+                ),
+                (
+                    "{name}は三日間、調べ続けた。登記簿謄本、不動産のネット掲示板、ニュース。\n"
+                    "本当だったのは半分――再開発は本物だ。決定したのも事実だった。\n"
+                    "だが、キム部長は組合員でも何でもない、ただのブローカーで、\n"
+                    "7,000万ウォンのうち2,000万ウォンは、彼の「手間賃」として水増しされた分だった。\n"
+                    "\n"
+                    "本物のチャンスに、偽りの値札がついていた。"
+                ),
+                (
+                    "{name}は三日間、調べ続けた。登記簿謄本、不動産のネット掲示板、ニュース。\n"
+                    "本当だったのは半分――再開発は本物だ。決定したのも事実だった。\n"
+                    "だが、キム部長は組合員でも何でもない、ただのブローカーで、\n"
+                    "七千万ウォンのうち二千万ウォンは、彼の「手間賃」として水増しされた分だった。\n"
+                    "\n"
+                    "本物のチャンスに、偽りの値札がついていた。"
+                ),
+            ),
+            (
+                "events:gig_delivery_night:/choices/0/result_text",
+                "content/events/viral_events.json",
+                (
+                    "비 오는 날은 콜이 많고, 할증이 붙는다.\n"
+                    "그만큼 위험하고, 그만큼 번다.\n"
+                    "\n"
+                    "{name}은 새벽 한 시까지 뛰었다.\n"
+                    "젖은 옷, 시린 손, 통장에 찍힌 4만 8천원.\n"
+                    "\n"
+                    "몸은 부서질 것 같았지만, 숫자는 정직했다.\n"
+                    "이렇게라도 메워야, 본업 월급이 온전히 남는다.\n"
+                    "\n"
+                    "강남은 이 빗속 어딘가에서, 한 콜씩 가까워지고 있었다."
+                ),
+                (
+                    "雨の日は依頼が多く、割増もつく。\n"
+                    "その分危険で、その分稼げる。\n"
+                    "\n"
+                    "{name}は午前一時まで走った。\n"
+                    "濡れた服、冷え切った手、口座に記された4万8千ウォン。\n"
+                    "\n"
+                    "体は壊れそうだったが、数字は正直だった。\n"
+                    "こうしてでも穴を埋めてこそ、本業の給料をまるごと残せる。\n"
+                    "\n"
+                    "カンナムはこの雨のどこかで、依頼一件ずつ近づいていた。"
+                ),
+                (
+                    "雨の日は依頼が多く、割増もつく。\n"
+                    "その分危険で、その分稼げる。\n"
+                    "\n"
+                    "{name}は午前1時まで走った。\n"
+                    "濡れた服、冷え切った手、口座に入った四万八千ウォン。\n"
+                    "\n"
+                    "体は壊れそうだったが、数字は正直だった。\n"
+                    "こうしてでも穴を埋めてこそ、本業の給料をまるごと残せる。\n"
+                    "\n"
+                    "カンナムはこの雨のどこかで、依頼一件ずつ近づいていた。"
+                ),
+            ),
+            (
+                "events:rare_night_alva_find:/description",
+                "content/events/rare_encounter_events.json",
+                (
+                    "야간 알바 마감 정리 중. 마지막 손님이 나가고 자동문이 잠긴 뒤였다.\n"
+                    "\n"
+                    "{name}은 의자를 올리고 테이블 아래를 닦다가 검은 봉투 하나를 발견했다. 안에는 고무줄로 묶인 5만"
+                    "원권이 들어 있었다. 두 번 세어도 50만원이었다.\n"
+                    "\n"
+                    "천장 모서리의 CCTV 표시등이 붉게 깜박였다. 쓰레기봉투를 묶는 동안에도 자동문 너머로 돌아오는 사람은"
+                    " 없었다."
+                ),
+                (
+                    "夜勤のアルバイトで閉店作業をしていた。最後の客が出て、自動ドアを施錠したあとだった。\n"
+                    "\n"
+                    "{name}は椅子を上げ、テーブルの下を拭いていて、黒い袋を一つ見つけた。中には輪ゴムで束ねた五万ウォン札が入ってい"
+                    "た。二度数えても50万ウォンだった。\n"
+                    "\n"
+                    "天井の隅で、防犯カメラの表示灯が赤く点滅していた。ごみ袋の口を縛っているあいだも、自動ドアの向こうに戻ってくる人はい"
+                    "なかった。"
+                ),
+                (
+                    "夜勤のアルバイトで閉店作業をしていた。最後の客が出て、自動ドアを施錠したあとだった。\n"
+                    "\n"
+                    "{name}は椅子を上げ、テーブルの下を拭いていて、黒い袋を一つ見つけた。中には輪ゴムで束ねた5万ウォンの紙幣が入っ"
+                    "ていた。二度数えても50万ウォンだった。\n"
+                    "\n"
+                    "天井の隅で、防犯カメラの表示灯が赤く点滅していた。ごみ袋の口を縛っているあいだも、自動ドアの向こうに戻ってくる人はい"
+                    "なかった。"
+                ),
+            ),
+            (
+                "events:rare_wallet_executive:/choices/1/result_text",
+                "content/events/rare_encounter_events.json",
+                (
+                    "5만원짜리 세 장이 있었다.\n"
+                    "\n"
+                    "역무원이 지나갔다. {name}은 계단을 내려갔다.\n"
+                    "\n"
+                    "집까지 오는 내내 발걸음이 무거웠다.\n"
+                    "15만원이 생겼는데 아무것도 안 생긴 것 같았다."
+                ),
+                (
+                    "五万ウォン札が三枚あった。\n"
+                    "\n"
+                    "駅員が通り過ぎた。{name}は階段を下りた。\n"
+                    "\n"
+                    "家に着くまで、ずっと足取りが重かった。\n"
+                    "15万ウォンが手に入ったのに、何も手に入っていない気がした。"
+                ),
+                (
+                    "5万ウォンの紙幣が3枚あった。\n"
+                    "\n"
+                    "駅員が通り過ぎた。{name}は階段を下りた。\n"
+                    "\n"
+                    "家に着くまで、ずっと足取りが重かった。\n"
+                    "15万ウォンが手に入ったのに、何も手に入っていない気がした。"
+                ),
+            ),
+            (
+                "events:rare_wallet_executive:/description",
+                "content/events/rare_encounter_events.json",
+                (
+                    "퇴근 인파가 빠진 지하철역 계단. 벽 쪽에 검은 지갑 하나가 펼쳐진 채 떨어져 있었다.\n"
+                    "\n"
+                    "{name}은 지나쳤다가 두 칸을 다시 올라왔다. 안에는 ○○그룹 전무이사라고 적힌 명함, 카드 여러 장"
+                    ", 5만원권 세 장이 가지런히 끼워져 있었다.\n"
+                    "\n"
+                    "개찰구 쪽에서는 안내 방송이 반복됐다. 지갑을 든 손 앞에서 계단을 오르내리는 사람들은 아무도 멈추지 않"
+                    "았다."
+                ),
+                (
+                    "帰宅客の波が引いた地下鉄駅の階段。壁際に、黒い財布が開いたまま落ちていた。\n"
+                    "\n"
+                    "{name}は通り過ぎてから、二段上り直した。中には○○グループ専務取締役と書かれた名刺、数枚のカード、五万ウォン札"
+                    "三枚が、きちんと差し込まれていた。\n"
+                    "\n"
+                    "改札のほうでは案内放送が繰り返されていた。財布を持つ手の前を行き交う人は、誰も足を止めなかった。"
+                ),
+                (
+                    "帰宅客の波が引いた地下鉄駅の階段。壁際に、黒い財布が開いたまま落ちていた。\n"
+                    "\n"
+                    "{name}は通り過ぎてから、二段上り直した。中には○○グループ専務取締役と書かれた名刺、数枚のカード、5万ウォンの"
+                    "紙幣が三枚、きちんと差し込まれていた。\n"
+                    "\n"
+                    "改札のほうでは案内放送が繰り返されていた。財布を持つ手の前を行き交う人は、誰も足を止めなかった。"
+                ),
+            ),
+        ]
+        # index, identity, category, source edit, target variant, target edit
+        operations = [
+            (0, "cafe_cash.actual", "actual",
+                None, 3, None),
+            (0, "cafe_cash.natural", "natural",
+                None, 4, None),
+            (0, "cafe_cash.wrong_value", "target_value",
+                None, 3, (142, "5", "6")),
+            (0, "cafe_cash.wrong_currency", "target_currency",
+                None, 3, (148, "ウォン", "ドル")),
+            (0, "cafe_cash.source_off", "source_context_off",
+                (25, "켰", "키려 했"), 3, None),
+            (1, "cafe_arithmetic_question.actual", "actual",
+                None, 3, None),
+            (1, "cafe_arithmetic_question.natural", "natural",
+                None, 4, None),
+            (1, "cafe_arithmetic_question.wrong_value", "target_value",
+                None, 3, (59, "5", "4")),
+            (1, "cafe_arithmetic_question.wrong_currency", "target_currency",
+                None, 3, (65, "ウォン", "ドル")),
+            (1, "cafe_arithmetic_question.source_off", "source_context_off",
+                (37, "묻는", "대답한"), 3, None),
+            (2, "cafe_arithmetic_caught.actual", "actual",
+                None, 3, None),
+            (2, "cafe_arithmetic_caught.natural", "natural",
+                None, 4, None),
+            (2, "cafe_arithmetic_caught.wrong_value", "target_value",
+                None, 3, (78, "5", "6")),
+            (2, "cafe_arithmetic_caught.wrong_currency", "target_currency",
+                None, 3, (84, "ウォン", "ドル")),
+            (2, "cafe_arithmetic_caught.source_off", "source_context_off",
+                (20, "아무 숫자나 던졌", "외운 숫자를 정확히 답했"), 3, None),
+            (3, "cafe_call_quote.actual", "actual",
+                None, 3, None),
+            (3, "cafe_call_quote.natural", "natural",
+                None, 4, None),
+            (3, "cafe_call_quote.wrong_value", "target_value",
+                None, 3, (141, "7", "8")),
+            (3, "cafe_call_quote.wrong_currency", "target_currency",
+                None, 3, (147, "ウォン", "ドル")),
+            (3, "cafe_call_quote.source_off", "source_context_off",
+                (105, "부드러", "날카로"), 3, None),
+            (4, "cafe_bargain.actual", "actual",
+                None, 3, None),
+            (4, "cafe_bargain.natural", "natural",
+                None, 4, None),
+            (4, "cafe_bargain.wrong_value", "target_value",
+                None, 3, (43, "5", "6")),
+            (4, "cafe_bargain.wrong_currency", "target_currency",
+                None, 3, (49, "ウォン", "ドル")),
+            (4, "cafe_bargain.source_off", "source_context_off",
+                (83, "마지못해 끄덕였", "끝내 거절했"), 3, None),
+            (5, "cafe_markup_confront.actual", "actual",
+                None, 3, None),
+            (5, "cafe_markup_confront.natural", "natural",
+                None, 4, None),
+            (5, "cafe_markup_confront.wrong_value", "target_value",
+                None, 3, (17, "2", "3")),
+            (5, "cafe_markup_confront.wrong_currency", "target_currency",
+                None, 3, (23, "ウォン", "ドル")),
+            (5, "cafe_markup_confront.source_off", "source_context_off",
+                (11, "내밀었", "감췄"), 3, None),
+            (6, "cafe_markup_discovery.actual", "actual",
+                None, 3, None),
+            (6, "cafe_markup_discovery.natural", "natural",
+                None, 4, None),
+            (6, "cafe_markup_discovery.wrong_value", "target_value",
+                None, 3, (114, "2", "3")),
+            (6, "cafe_markup_discovery.wrong_currency", "target_currency",
+                None, 3, (120, "ウォン", "ドル")),
+            (6, "cafe_markup_discovery.source_off", "source_context_off",
+                (87, "그냥 브로커였", "실제 조합원이었"), 3, None),
+            (7, "delivery_earned.actual", "actual",
+                None, 3, None),
+            (7, "delivery_earned.natural", "natural",
+                None, 4, None),
+            (7, "delivery_earned.wrong_value", "target_value",
+                None, 3, (72, "8", "9")),
+            (7, "delivery_earned.wrong_currency", "target_currency",
+                None, 3, (74, "ウォン", "ドル")),
+            (7, "delivery_earned.source_off", "source_context_off",
+                (77, "통장에 찍힌", "목표로 잡은"), 3, None),
+            (8, "envelope_denomination.actual", "actual",
+                None, 3, None),
+            (8, "envelope_denomination.natural", "natural",
+                None, 4, None),
+            (8, "envelope_denomination.wrong_value", "target_value",
+                None, 3, (91, "五", "四")),
+            (8, "envelope_denomination.wrong_currency", "target_currency",
+                None, 3, (93, "ウォン", "ドル")),
+            (8, "envelope_denomination.source_off", "source_context_off",
+                (123, "이었", "일 것이라 짐작했"), 3, None),
+            (9, "wallet_cash_result.actual", "actual",
+                None, 3, None),
+            (9, "wallet_cash_result.natural", "natural",
+                None, 4, None),
+            (9, "wallet_cash_result.wrong_value", "target_value",
+                None, 3, (0, "五", "四")),
+            (9, "wallet_cash_result.wrong_currency", "target_currency",
+                None, 3, (2, "ウォン", "ドル")),
+            (9, "wallet_cash_result.source_off", "source_context_off",
+                (22, "지나갔", "다가와 말을 걸었"), 3, None),
+            (10, "wallet_cash_description.actual", "actual",
+                None, 3, None),
+            (10, "wallet_cash_description.natural", "natural",
+                None, 4, None),
+            (10, "wallet_cash_description.wrong_value", "target_value",
+                None, 3, (91, "五", "四")),
+            (10, "wallet_cash_description.wrong_currency", "target_currency",
+                None, 3, (93, "ウォン", "ドル")),
+            (10, "wallet_cash_description.source_off", "source_context_off",
+                (87, "전무이", "택시기"), 3, None),
+            (10, "wallet_description.wrong_count", "target_counter",
+                None, 3, (97, "三", "四")),
+            (9, "wallet_result.wrong_count", "target_counter",
+                None, 3, (7, "三", "四")),
+            (8, "envelope.wrong_count", "target_counter",
+                None, 3, (104, "二", "三")),
+            (0, "cafe_cash.wrong_sign", "target_sign",
+                None, 3, (142, "", "−")),
+            (7, "delivery.wrong_sign", "target_sign",
+                None, 3, (70, "", "−")),
+            (2, "cafe_wrong_answer.wrong_sign", "target_sign",
+                None, 3, (1, "", "−")),
+            (8, "envelope.English_residue", "target_english_residue",
+                None, 4, (187, "", " Please contact the owner.")),
+            (10, "wallet.English_residue", "target_english_residue",
+                None, 4, (166, "", " This is not my wallet.")),
+            (7, "delivery.wrong_rate", "target_money_topology",
+                None, 3, (77, "", "／時間")),
+            (5, "cafe_markup.duplicate_amount", "target_money_topology",
+                None, 3, (26, "", "、2,000万ウォン")),
+            (6, "cafe_discovery.role_swap", "target_money_topology",
+                None, 3, (102, "7,000万ウォンのうち2", "2,000万ウォンのうち7")),
+            (0, "source_cash_changed", "source_quantity_changed",
+                (152, "5", "6"), 3, None),
+            (5, "source_markup_changed", "source_quantity_changed",
+                (18, "2", "3"), 3, None),
+            (7, "source_delivery_changed", "source_quantity_changed",
+                (87, "8", "9"), 3, None),
+            (10, "source_count_changed", "source_quantity_changed",
+                (115, "세", "네"), 3, None),
+        ]
+        cases = []
+        for index, identity, category, source_edit, variant, target_edit in operations:
+            row = base[index]
+            source, target = row[2], row[variant]
+            if source_edit:
+                at, old, new = source_edit
+                assert source[at:at + len(old)] == old
+                source = source[:at] + new + source[at + len(old):]
+            if target_edit:
+                at, old, new = target_edit
+                assert target[at:at + len(old)] == old
+                target = target[:at] + new + target[at + len(old):]
+            cases.append((identity, category, row[0], row[1], source, target))
+        return cases
+
+    def test_cafe_encounter_money_source_scoped_regression(self):
+        counts = {"actual": 0, "natural": 0, "target": 0, "source": 0}
+        for identity, category, leaf_id, source_path, source, target in self._cafe_encounter_regression_cases():
+            _, owner, pointer = leaf_id.split(":")
+            path = tuple(int(part) if part.isdigit() else part for part in pointer[1:].split("/"))
+            leaf = tool.Leaf("events", owner, source_path, path, source, "event_standard")
+            with self.subTest(identity=identity):
+                helper = tool._ja_cafe_encounter_money_numbers(source, target)
+                errors = tool.translation_errors(leaf, "ja", target)
+                if category.startswith("source_"):
+                    # Licence OFF and inherited E2E rejection are separate checks.
+                    self.assertIsNone(helper)
+                    self.assertTrue(errors)
+                    counts["source"] += 1
+                elif category in ("actual", "natural"):
+                    self.assertIsNotNone(helper)
+                    self.assertEqual(helper[2], [])
+                    self.assertEqual(errors, [])
+                    counts[category] += 1
+                elif category == "target_english_residue":
+                    # Existing nonnumeric English limitation: not part of this
+                    # numeric repair and not counted as a rejected mutation.
+                    self.assertIsNotNone(helper)
+                    self.assertEqual(helper[2], [])
+                    self.assertEqual(errors, [])
+                    counts["target"] += 1
+                else:
+                    self.assertIsNotNone(helper)
+                    self.assertTrue(helper[2])
+                    self.assertTrue(errors)
+                    counts["target"] += 1
+        self.assertEqual(counts, {"actual": 11, "natural": 11, "target": 33, "source": 15})
+
+
+    @staticmethod
+    def _cafe_encounter_disclosed_ja_cases():
+        # These four JA inputs were disclosed only after the independent B1
+        # failed. Their B2 replay is a public regression, not new independence.
+        return [
+            (
+                "events:cafe_humble:/choices/0/result_text",
+                (
+                    "십 분이 삼십 분이 됐다.\n"
+                    "갭투자, 레버리지, 입주권, 프리미엄 —\n"
+                    "{name}은 처음 듣는 부동산 용어를 수첩에 적었다.\n"
+                    "\n"
+                    "남자는 명함도 주지 않았고 이름도 알려 주지 않았다. 그래도 오늘 들은 숫자와 용어는 수첩에 남았다"
+                    "."
+                ),
+                (
+                    "十分が三十分になった。\n"
+                    "チョンセの保証金との差額を使う投資、レバレッジ、再開発住宅の入居権、プレミアム——\n"
+                    "{name}は初めて聞く不動産用語を手帳に書き留めた。\n"
+                    "\n"
+                    "男は名刺も渡さず、名前も教えなかった。それでも、今日聞いた数字と言葉は手帳に残った。"
+                ),
+                (
+                    "十分が四十分になった。\n"
+                    "チョンセの保証金との差額を使う投資、レバレッジ、再開発住宅の入居権、プレミアム——\n"
+                    "{name}は初めて聞く不動産用語を手帳に書き留めた。\n"
+                    "\n"
+                    "男は名刺も渡さず、名前も教えなかった。それでも、今日聞いた数字と言葉は手帳に残った。"
+                ),
+            ),
+            (
+                "events:rare_wallet_executive:/choices/1/result_text",
+                (
+                    "5만원짜리 세 장이 있었다.\n"
+                    "\n"
+                    "역무원이 지나갔다. {name}은 계단을 내려갔다.\n"
+                    "\n"
+                    "집까지 오는 내내 발걸음이 무거웠다.\n"
+                    "15만원이 생겼는데 아무것도 안 생긴 것 같았다."
+                ),
+                (
+                    "五万ウォン札が三枚あった。\n"
+                    "\n"
+                    "駅員が通り過ぎた。{name}は階段を下りた。\n"
+                    "\n"
+                    "家に着くまで、ずっと足取りが重かった。\n"
+                    "十五万ウォンを手にしたのに、何も得ていない気がした。"
+                ),
+                (
+                    "五万ウォン札が四枚あった。\n"
+                    "\n"
+                    "駅員が通り過ぎた。{name}は階段を下りた。\n"
+                    "\n"
+                    "家に着くまで、ずっと足取りが重かった。\n"
+                    "十五万ウォンを手にしたのに、何も得ていない気がした。"
+                ),
+            ),
+            (
+                "events:rare_junk_sale_mentor:/choices/0/result_text",
+                (
+                    "남자가 잠깐 생각했다.\n"
+                    "\"저도 33살에 서울 올라왔어요. 편하게 얘기 한 번 해요.\"\n"
+                    "\n"
+                    "명함을 받았다. 작은 투자사 대표였다.\n"
+                    "\n"
+                    "물건 3만원을 팔고, 연락처를 얻었다.\n"
+                    "중고 거래가 이렇게 쓰이는 줄은 몰랐다."
+                ),
+                (
+                    "男は少し考えた。\n"
+                    "「私も三十三歳でソウルに出てきたんです。気軽にお話ししましょう」\n"
+                    "\n"
+                    "名刺を受け取った。小さな投資会社の代表だった。\n"
+                    "\n"
+                    "品物を三万ウォンで売り、連絡先を得た。\n"
+                    "中古品の取引に、こんな使い道があるとは知らなかった。"
+                ),
+                (
+                    "男は少し考えた。\n"
+                    "「私も三十四歳でソウルに出てきたんです。気軽にお話ししましょう」\n"
+                    "\n"
+                    "名刺を受け取った。小さな投資会社の代表だった。\n"
+                    "\n"
+                    "品物を三万ウォンで売り、連絡先を得た。\n"
+                    "中古品の取引に、こんな使い道があるとは知らなかった。"
+                ),
+            ),
+            (
+                "events:rare_lottery_result:/choices/0/result_text",
+                (
+                    "5만원.\n"
+                    "\n"
+                    "2등도 1등도 아니지만 5만원이었다.\n"
+                    "\n"
+                    "{name}은 그걸 다시 투자하거나 복권을 더 사지 않았다.\n"
+                    "그냥 밥을 사먹었다. 좋은 거 먹었다.\n"
+                    "\n"
+                    "그게 복권의 올바른 사용법인지는 모르겠지만, 기분은 좋았다."
+                ),
+                (
+                    "五万ウォン。\n"
+                    "\n"
+                    "二等でも一等でもないが、五万ウォンだった。\n"
+                    "\n"
+                    "{name}はそれをまた投資に回したり、宝くじを買い足したりしなかった。\n"
+                    "ただ食事をした。うまいものを食べた。\n"
+                    "\n"
+                    "それが宝くじの正しい使い方かどうかはわからないが、気分はよかった。"
+                ),
+                (
+                    "五万ウォン。\n"
+                    "\n"
+                    "三等でも一等でもないが、五万ウォンだった。\n"
+                    "\n"
+                    "{name}はそれをまた投資に回したり、宝くじを買い足したりしなかった。\n"
+                    "ただ食事をした。うまいものを食べた。\n"
+                    "\n"
+                    "それが宝くじの正しい使い方かどうかはわからないが、気分はよかった。"
+                ),
+            ),
+        ]
+
+    def test_cafe_encounter_disclosed_ja_regression(self):
+        cases = self._cafe_encounter_disclosed_ja_cases()
+        self.assertEqual(len(cases), 4)
+        for leaf_id, source, normal, mutant in cases:
+            _, owner, pointer = leaf_id.split(":")
+            path = tuple(int(part) if part.isdigit() else part for part in pointer[1:].split("/"))
+            leaf = tool.Leaf("events", owner, "disclosed-JA-only", path, source, "event_standard")
+            with self.subTest(identity=leaf_id):
+                self.assertEqual(tool._ja_cafe_encounter_money_numbers(source, normal)[2], [])
+                self.assertEqual(tool.translation_errors(leaf, "ja", normal), [])
+                self.assertTrue(tool._ja_cafe_encounter_money_numbers(source, mutant)[2])
+                self.assertTrue(tool.translation_errors(leaf, "ja", mutant))
+
+
     def test_jsonl_duplicate(self):
         with tempfile.TemporaryDirectory() as folder:
             path = Path(folder) / "bad.jsonl"
