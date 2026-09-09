@@ -37,6 +37,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Godot ${{ env.GODOT_VERSION }} 설치
+        working-directory: ${{ runner.temp }}
         run: |
           curl -sSL -o godot.zip \
             "https://github.com/godotengine/godot-builds/releases/download/${GODOT_VERSION}-stable/Godot_v${GODOT_VERSION}-stable_linux.x86_64.zip"

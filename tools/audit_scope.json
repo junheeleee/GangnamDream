@@ -14,6 +14,28 @@
   ],
   "fast_lanes": [
     {
+      "id": "ci-checkout-isolation",
+      "paths": [],
+      "owned_paths": [
+        ".github/workflows/ci.yml",
+        "tools/audit_scope.json",
+        "CLAUDE.md",
+        "docs/queue_active/ORDER-221.md",
+        "docs/queue_archive/ORDER-221.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/WORK_LOG.md",
+        "docs/STATUS.md",
+        "docs/agent_review_decisions.json"
+      ],
+      "tools": [
+        "tools/agent_review_decisions_self_test.py",
+        "tools/queue_index_self_test.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "One CI install-step cwd isolation; preserve strict dirty-source identity and all downstream audit/runtime commands. Mock setup evidence is not a remote full-CI result."
+    },
+    {
       "id": "choice-preview-ui-inventory",
       "paths": [],
       "owned_paths": [
