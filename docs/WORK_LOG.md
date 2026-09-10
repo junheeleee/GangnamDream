@@ -23,6 +23,21 @@
 > [`7/25`](history/WORK_LOG_2026-07-25.md)에 손실 없이 보존한다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
 
+## 2026-09-10 (Codex — 중국어 폰트 경로 검사 정합성)
+
+- 공유 SC/TC 인식·JP부재 false-ready·legacy 비활성 witness를 수리했다.
+  독립source30/연결5·저자32/추가7·명시6 PASS. 최초실패·같은입력 재검은 별도 보존.
+  기존정의200 raw exact, 번역/폰트/runtime 변경0·수용38,437/b96/meta9 그대로다.
+- 제품source d3913f9/tree355c7c74, Poincare work_unit237 GO/필수0.
+  [고정 결과·선언](queue_archive/ORDER-237_FONT_ROUTE_RESULTS.md).
+  최종증거 `.git/full-game-localization/order237-poincare-final.json` SHA
+  `d6a7b2d2c1b28f212f570e132ed8a52218992437b8e43b3ad94d554b6a35de71`.
+- 실제 CN/TW 각6/6이나 원장 full SHA 누락으로 ready=false다. 별도 지문2항목
+  보강을 준비했다. 원장/역사 공개판/인간 원형·본편HOLD·native/render OPEN 유지.
+- 완료225/224 원문1203B raw이동·역복원, history85067B/EOF1 고정.
+  보고서 이름의 metadata 예외를 오인한 신원은 철회·정정했고 최종보고서 동결 뒤
+  허용 metadata만 마감했다. 이번 범위·봉인·마감은 일회성이다.
+
 ## 2026-09-10 (Codex — ORDER-236 엔딩 통계·재시작23단위·UI42키 번역)
 
 - JA기존42 전량 검수·5정밀화, CN/TW 신규84 KO직접 저작·비저자126 대조.

@@ -983,6 +983,48 @@
         "path": "docs/queue_archive/ORDER-236_L1_L2_RESULTS.md",
         "sha256": "c2b6326e84f0eaf3fadd743e724d64fc617c9176e0d63b6afef87533c47cc585"
       }
+    },
+    {
+      "id": "order-237-source-d3913f9-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-10",
+      "decided_by": "Codex Poincare (independent exact-source final); Codex Rawls (independent source30); Codex ROOT (integration)",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-237",
+      "subject": {
+        "kind": "source",
+        "commit": "d3913f9f17d0ae7e49068746bebc6f42486de965",
+        "tree": "355c7c74881df3435168807d6cbe4eefcd4db431",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/queue_archive/ORDER-237_FONT_ROUTE_RESULTS.md",
+          "sha256": "f916a564eae9886b2628aca64433d945692ba6e6959b83180a6afcd2b950160f"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/queue_archive/ORDER-237_FONT_ROUTE_RESULTS.md",
+          "sha256": "f916a564eae9886b2628aca64433d945692ba6e6959b83180a6afcd2b950160f"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_rendered_localization",
+        "full_game_normal_speed_play",
+        "full_product_quality",
+        "remote_full_ci_for_this_candidate",
+        "external_release"
+      ],
+      "record": {
+        "path": "docs/queue_archive/ORDER-237_FONT_ROUTE_RESULTS.md",
+        "sha256": "f916a564eae9886b2628aca64433d945692ba6e6959b83180a6afcd2b950160f"
+      }
     }
   ]
 }
