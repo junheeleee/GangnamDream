@@ -4632,6 +4632,7 @@ def _mixed_manwon_value(match: re.Match[str]) -> Decimal:
 
 
 def _source_money_amounts(source: str) -> list[MoneyAmount]:
+    source = _mask_spans(source, _late_game_nonmoney(source))
     source = _mask_spans(source, _leisure_nonmoney(source))
     # This one observed fee is a 200,000–300,000-won range. Its endpoints,
     # label and predicate are validated by golf_round_fee_range, not as 300,000.
@@ -7574,6 +7575,155 @@ def _midgame_sleep_name(source: str, target: str):
     return target[:a] + " " * (b - a) + target[b:], []
 
 
+LATE_GAME_SOURCE_KIND = {
+    "b77b8f4ac6ffccf98553e16280a147f96f3e4f08cbd2344ed73810ccc8674c92": "call",
+    "5a1021ea95c6865809f68a6cbebd2410077d9096b7a0086d3d768ed815b1f978": "body_today",
+    "15a94e4768129f3beee3f5e1b9d5d7a2c721e7bccb244d7c35646223457b8f6b": "three_things",
+    "b4636c43968b189bb991875ad682e3bdc68fdde8ec1c73bc17363182b856d916": "two_glances",
+    "30fee8b3c44f98c83094d6b6ed8b5743dcd642a510f53f219751731bca35c8bc": "screen_choice",
+    "8d8d779711969085d156915f41d14de47617cb35d5751882a3bfb58f1bb6953f": "screen_prose",
+    "ba92d8f59bd93ba976799847b5f1936042ed48d92ad909001026eee560d03981": "two_digits",
+    "4ee8d69126619e005b58df1abe6bcfbcf1d64012521b16700a7e93198c3ff4d8": "past_all_in",
+    "633e30078a8b238f1eb494f979de220279a53ddd6ea62f993cd1fde072a5d687": "weeks",
+    "b2de148f9b328c29ede80542ba98e2a1a3c78793cd578da252fa1554a0a66e55": "both_limits",
+    "abe4e6239123a08345844698a6070bc16b5c7683c41736cf43784f7ccc876d9a": "hours",
+    "5269efd6035d26f32ac65b40a9edcdbc66fe0e26588197164a48615e083a24a9": "never_happy",
+    "337bb90611f7fb57c8b3fa858360ea7295b6ce901a707d1b370e307d8c16e207": "two_people",
+    "3555025cf6e8180c3179e6a487ab7ba673c8a2617451a44c74f1aa5e768112a2": "meet_intent",
+    "45383badb4b14bc0d13df913ca7e64ac3b8a6857e94fe309964f35c62d302c36": "never_collapsed",
+    "a7c285afeef473fe8691c52c753994cf9d69b5740c6f6271b0ebfe8de29ec27e": "daily_saving",
+    "4909a92391732999790a6b37663102b8d7313c87dda83358b173a415f18b1948": "mentor_visit",
+}
+
+
+def _late_game_kind(source: str) -> str | None:
+    return LATE_GAME_SOURCE_KIND.get(hashlib.sha256(source.encode("utf-8")).hexdigest())
+
+
+def _late_game_nonmoney(source: str):
+    # 구원받은 is 'having been helped/saved', not nine Korean won. The exact
+    # source identity expires this exception when the source sentence changes.
+    if _late_game_kind(source) != "mentor_visit":
+        return []
+    start = source.index("구원받은")
+    return [CounterQuantity(start, start + len("구원받은"), Decimal(0), "nonmoney_rescue")]
+
+
+def _late_game_slots(source: str, target: str):
+    """Bind observed counter idioms to local roles, retaining other checks.
+
+    An intention to meet is not one completed meeting; a two-digit dividend is
+    not two people; once in a negative-experience idiom is not a count receipt.
+    Exact source, original line, unit and predicate own each narrow projection.
+    This is not a story-truth or native-quality certificate.
+    """
+    kind = _late_game_kind(source)
+    ss, ts, errors = [], [], []
+    if kind is None:
+        return ss, ts, errors
+    label = "late-game " + kind
+    n = r"[0-9０-９零〇一二两兩三四五六七八九十百千]+"
+
+    def bind(fragment, patterns, expected=1, occurrence=0):
+        starts = [m.start() for m in re.finditer(re.escape(fragment), source)]
+        start = starts[occurrence]
+        line = source[:start].count("\n")
+        ss.append(CounterQuantity(start, start + len(fragment), Decimal(expected), label))
+        if isinstance(patterns, str):
+            patterns = [patterns]
+        matches = [m for pattern in patterns for m in re.finditer(pattern, target)
+                   if target[:m.start()].count("\n") == line]
+        if len(matches) != 1:
+            errors.append(label + " local quantity role/unit/line/count changed")
+            return
+        match = matches[0]
+        raw = match.groupdict().get("number")
+        if raw is not None and _chinese_cardinal_value(unicodedata.normalize("NFKC", raw)) != expected:
+            errors.append(label + " local quantity value changed")
+        a, b = match.span("q")
+        if _has_numeric_sign_prefix(target, a):
+            errors.append(label + " local quantity sign/prefix changed")
+        prefix = re.split(r"[，,。！？!?\n]", target[max(0, match.start() - 8):match.start()])[-1]
+        if kind == "past_all_in" and re.search(r"[未不沒没][^，,。\n]*$", prefix):
+            errors.append(label + " experience polarity changed")
+        if kind in {"never_happy", "never_collapsed"} and re.search(
+                r"(?:[並并]非|不是|並不是|并不是)[ \t]*$", prefix):
+            errors.append(label + " negative experience was itself negated")
+        ts.append(CounterQuantity(a, b, Decimal(expected), label))
+
+    if kind == "call":
+        bind("세 번", rf"(?:回[鈴铃][聲声])?[響响](?:了|[過过])(?P<q>(?P<number>{n})(?:[聲声]|次))(?=[，,]|[後后])", 3)
+        bind("언제 한번 보자는", rf"(?P<q>(?:哪天|改天)[見见](?:(?P<number>{n})?[個个]?面))")
+    elif kind == "body_today":
+        bind("오늘을 한 번 돌려줬다", [
+            r"(?P<q>[這这]次)(?=[給给]了身[體体](?:一[個个])?今天)",
+            rf"(?P<q>[這这](?P<number>{n})次)(?=[，,][給给]身[體体]的不是)"])
+    elif kind == "three_things":
+        bind("그 셋", [rf"[這这](?P<q>(?P<number>{n})(?:件事|項事情|项事情))(?=重[讀读])",
+                      rf"重新[讀读][過过][這这](?P<q>(?P<number>{n})[樣样])(?=[，,])"], 3)
+    elif kind == "two_glances":
+        bind("한 번", rf"(?<![又再])看(?P<q>(?P<number>{n})眼)(?=距[離离]目[標标])")
+        bind("한 번", rf"(?:又|再)看(?P<q>(?P<number>{n})眼)(?=已[經经]付出)", occurrence=1)
+    elif kind in {"screen_choice", "screen_prose"}:
+        screen = rf"(?P<q>(?:同)?(?P<number>{n})(?:屏|[個个](?:[畫画]面|[螢萤]幕|屏幕)))"
+        patterns = [screen + (r"(?=[，,])" if kind == "screen_choice" else r"(?=(?:[裡里])?[疊叠]著|[裡里][疊叠][著着])")]
+        if kind == "screen_prose":
+            # The same single phone owns all three superimposed entries.
+            patterns.append(r"(?P<q>手機上)(?=卻同時疊著)")
+        bind("한 화면", patterns)
+    elif kind == "two_digits":
+        bind("두 자릿수", rf"(?P<q>(?P<number>{n})位[數数])(?=的[數数]字|[。.]|$)", 2)
+    elif kind == "past_all_in":
+        bind("한번 전부를 걸어본", r"(?P<q>曾[經经]押上(?:一切|全部)|押上[過过](?:全部|一切))(?=的人(?:都)?知道)")
+    elif kind == "weeks":
+        bind("스물네 개의 주", rf"(?:[擠挤][進进]|[湧涌][進进])(?:了)?(?P<q>(?P<number>{n})[週周])(?=[裡里])", 24)
+    elif kind == "both_limits":
+        bind("둘 다", rf"(?P<q>(?P<number>{n})者)(?=都(?:[沒没](?:有|能)?|未)[從从])", 2)
+    elif kind == "hours":
+        bind("세 시간 남짓", rf"[還还]有(?P<q>(?P<number>{n})(?:[個个]多小[時时]|小[時时]多(?:[一1][點点])?))(?=[。.]|$)", 3)
+    elif kind in {"never_happy", "never_collapsed"}:
+        negative = rf"(?:[從从]來[沒没]有|从来没有|[從从](?:未|[沒没])|(?P<number>{n})次也[沒没]有)"
+        if kind == "never_happy":
+            bind("한 번도 기쁘지 않았다", rf"(?P<q>{negative}(?:感到[過过]?)?(?:高[興兴]|[開开]心)[過过]?)")
+        else:
+            bind("한 번도 무너지지 않았다", rf"(?P<q>{negative}崩塌[過过]?)")
+    elif kind == "two_people":
+        bind("둘 다", rf"(?P<q>(?P<number>{n})[個个]?人)(?=都知道)", 2)
+    elif kind == "meet_intent":
+        bind("한번 보자", rf"(?P<q>找[機机][會会][見见](?:(?P<number>{n})?[個个]?面|[見见])吧)")
+    elif kind == "mentor_visit":
+        bind("한 번 가볼게요", r"(?P<q>我[會会]去看看)(?=[。.]|[」”\"])")
+    return ss, ts, sorted(set(errors))
+
+
+def _late_game_money(source: str, target: str, amounts):
+    if _late_game_kind(source) != "daily_saving":
+        return amounts, []
+    line = source[:source.index("매일 만원씩")].count("\n")
+    pattern = (r"(?:每天|每日)(?:存(?:入)?|定期[儲储]蓄)"
+               r"(?P<q>(?P<n>[0-9０-９零〇一二两兩三四五六七八九十百千,]+)"
+               r"(?P<scale>[萬万])?[韓韩]元)")
+    matches = [m for m in re.finditer(pattern, target) if target[:m.start()].count("\n") == line]
+    if len(matches) != 1:
+        return amounts, ["late-game daily saving amount/unit/line/count changed"]
+    m = matches[0]
+    raw = unicodedata.normalize("NFKC", m.group("n")).replace(",", "")
+    value = _chinese_cardinal_value(raw)
+    if value is not None:
+        value *= 10000 if m.group("scale") else 1
+    errors = []
+    if value != 10000:
+        errors.append("late-game daily saving amount value changed")
+    if _has_numeric_sign_prefix(target, m.start("q")) or re.match(
+            r"[ \t]*(?:[%％‰倍年月日天人位]|[/／]|[個个]月|公里|公斤)", target[m.end():]):
+        errors.append("late-game daily saving sign/rate/unit changed")
+    a, b = m.span("q")
+    result = [x for x in amounts if not (a <= x.start < x.end <= b)]
+    if value is not None:
+        result.append(MoneyAmount(a, b, Decimal(value)))
+    return sorted(result, key=lambda x: x.start), errors
+
+
 def _numeric_errors(source: str, target: str) -> list[str]:
     source, target, errors = _callback_shadow_numbers(source, target)
     admin_source_slots, admin_target_slots, admin_errors = _investment_admin_slots(source, target)
@@ -7589,6 +7739,10 @@ def _numeric_errors(source: str, target: str) -> list[str]:
     admin_source_slots.extend(midgame_source)
     admin_target_slots.extend(midgame_target)
     errors.extend(midgame_errors)
+    late_source, late_target, late_errors = _late_game_slots(source, target)
+    admin_source_slots.extend(late_source)
+    admin_target_slots.extend(late_target)
+    errors.extend(late_errors)
     early_source, early_target, early_errors = _early_connections_slots(source, target)
     admin_source_slots.extend(early_source)
     admin_target_slots.extend(early_target)
@@ -7715,6 +7869,8 @@ def _numeric_errors(source: str, target: str) -> list[str]:
         errors.append("drama approximate Korean-won magnitude order changed")
     source_amounts = _source_money_amounts(source)
     target_amounts = _target_money_amounts(target)
+    target_amounts, late_money_errors = _late_game_money(source, target, target_amounts)
+    errors.extend(late_money_errors)
     target_amounts, culture_shared_labels, culture_money_errors = _korean_culture_money(source, target, target_amounts)
     target_amounts, midgame_shared_labels, midgame_money_errors = _midgame_money(source, target, target_amounts)
     culture_shared_labels += midgame_shared_labels
@@ -7867,6 +8023,7 @@ def _korean_money_units(source: str) -> set[str]:
 def _money_errors(lang: str, source: str, target: str) -> list[str]:
     errors: list[str] = []
     currency_probe = SOURCE_WANTS_PARTICLE.sub(lambda m: " " * len(m.group()), source)
+    currency_probe = _mask_spans(currency_probe, _late_game_nonmoney(source))
     currency_probe = _mask_spans(currency_probe, _leisure_nonmoney(source))
     has_won = bool(KOREAN_WON.search(currency_probe) or _source_money_amounts(source) or source == SOURCE_INSURANCE_SAVED_PAIR
                    or _callback_shadow_kind(source) == "guarantors"

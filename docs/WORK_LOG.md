@@ -444,21 +444,3 @@
   manifest/checksum과 `archive_restored=false`, `candidate_eligible=false`를 고정했다.
 - `cb06744`는 exact 실물 또는 selected-source의 `missing_with_loss_receipt`만
   허용한다. 204개 변조와 독립 검토를 통과했고 사람 게이트는 그대로다.
-
-## 2026-08-31 (Codex — 공개 스토리 데모 선택 밀도 exact 실측)
-
-- active `story_demo_rc` exact `16675f6` / tree `aed6904f` / BUILD
-  `2026.08.25.1`을 제품 변경 없이 읽어 M01~M06의 11 runtime variant·24 choice와
-  실제 controller·StoryMode 소비자를 연결했다. clean 360 + fallout 720 = 1,080개
-  고유 완주 signature가 9개 영수증과 6회 정산을 가지며, 전부 생존한다.
-- 기존 selector 검사는 17/24만 고른다. M6는 M3~M5 exact 선택을 읽지 않고,
-  M2 환수 callback은 M6 전에 due가 되어도 데모 안에서 소비되지 않으며, M6 다섯
-  선택은 recap 뒤 이야기 독자가 없다. clean 재유혹 0, fallout 심화 후 세계 반응 0,
-  비-bridge 21개 중 명시적 포기 없음 6개, 보이는 수치 변화 18/24 대 exact 이야기
-  독자 6개를 다음 최소 수리의 입력으로 확정했다.
-- 측정기 구현 `a4d3271`은 exact commit/tree/BUILD와 8개 Git blob, 24개 ordered
-  축 분류, 실행 가능한 receipt/follow-up true branch와 selector caller를 고정한다.
-  Python self-test 44·JSON assertion·정적 감사·Godot 4.6.2 전체 감사와
-  68 스크립트 컴파일이 실패 플래그 0으로 GREEN이고, 독립 반례 검토
-  P0/P1/P2도 0이다. 자동화는 사람의 정상 속도 밀도·재미를 판정하지 않아
-  두 값은 `not_measured`, 사람 게이트는 OPEN이다.
