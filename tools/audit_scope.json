@@ -597,7 +597,9 @@
         "docs/queue_active/ORDER-232.md",
         "docs/queue_archive/ORDER-232_L1_L2_RESULTS.md",
         "docs/queue_active/ORDER-233.md",
-        "docs/queue_archive/ORDER-233_L1_L2_RESULTS.md"
+        "docs/queue_archive/ORDER-233_L1_L2_RESULTS.md",
+        "docs/queue_active/ORDER-234.md",
+        "docs/queue_archive/ORDER-234_L1_L2_RESULTS.md"
       ],
       "tools": [
         "tools/full_game_localization_self_test.py",
