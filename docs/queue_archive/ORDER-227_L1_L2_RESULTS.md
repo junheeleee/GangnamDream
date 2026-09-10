@@ -49,3 +49,37 @@ CN/TW12필드는 실제 영어 제목/문장으로 나왔다. script/parse/compi
 /private/tmp/gangnam-i18n-year-baseline.Rktu5A/godot.log에 보존했다.
 두 저자는 이 기준선 봉인 전 실제 사전 쓰기0을 지켰고, 봉인 뒤에만4값을 append했다.
 HOME·제품모드·프로젝트파일·실제 사용자 저장파일 변경0, 새 임시 namespace는 삭제하지 않는다.
+
+## 최종 실제 출력·수용
+
+UI/검사 C1 clean `25821b48b7f0ee53194bd9db61ea34ab88356c35`에서 final2export를 발급하고
+같은 f452dab9 검사 코드를 실행했다. 실제 engine exit0·정확 I18N 성공마커,
+15선택/30필드·state_restored1·pre/post 격리·script/parse/engine 오류0·입력13 불변이다.
+CN/TW12필드만 지역 문구·제목으로 바뀌고 KO/EN/JA18필드는 기준선과 exact다.
+기존 invalid-format 의도 경고19는 전후 동일하며 실제 오류나 새 성공으로 합산하지 않는다.
+runtime-final.json SHAea3920c2e10c738fe512a3d8fe3bbed02d4fafc74fe49badac7fe020906635d4,
+engine은 /private/tmp/gangnam-i18n-year-final.FAEBk9/godot.log에 보존한다.
+runner 자체 exit0이 아니라 JSON 안 engine_exit·마커·전체 로그·격리·15/30을 판정했다.
+
+ROOT는 검사 코드 전체와 실제 기록을 검토했고 Poincare는 UI4의 비저자로 원문·L2·raw사전·
+raw제목15를 독립 대입해 기대30필드 전부를 비교했다. source/L2/결과 필수0이다.
+검사 저자 역할은 숨기지 않는다. order227-independent-runtime-final-review.json8279B/SHA
+a14889dceb2ec1a2396955d80f68a01cc09c2a22be4613f7a402c11eb338be5e. 재실행0이다.
+
+최종 check2/import--accept2는 각2문구 PASS·changed_files0다. 공식 영수증과 L2의4
+source/target hash를 새 portable b87에 결속했다. 누적36,076/JA12,024·CN/TW각12,026,
+portable9346971B/SHA6f0922de659bbf70dc9054a9508ef582f8633d1ad9a57a5d939eb6d065bd1fdf다.
+신규4+b87만 역제거하면 이전9345058B/36,072/b86/meta9의 전체 raw를 정확히 복원한다.
+다른 top값/순서·기존 accepted 순서/값은 그대로다. 계획뿐 아니라 실제 적용 raw·역보존을 확인했다.
+CN/TW 사전122→124 각각12207B/c5c89de364bf82f2a6fcf74b9eb6763bd987e6eea23d65e6ded9690ab60dc585,
+12302B/e15c31da7138f23bff2eded59cc51eae14e8ae2de1d3d56a5dfbeb79b1b0b85a다.
+신규2씩 역제거하면 각 기존raw exact이며 JA 원형은 그대로다. 이전226 whole605 입력 중
+이 두 UI파일만 바뀌었고 역보존으로 기존36,072의 해시/검사 증거와 연결했다. 전체L1 재실행0이다.
+
+공개 demo 정적5locale14사건100문구121UI PASS·scope verify141/guard6·context343·queue76
+및 diff 검사를 통과했다. direct verify의 EXTRA15는 비실행 등록 정보이며 이전 명시차선
+출력의 마지막 EXTRA2행만 보인 것과 분리한다. 일반 경로선택25개는 --list만 확인했고
+선언대로 해당 소비자·추가4·공개 정적·문서 검사만 실행했다. 전체audit·overlays12·240주0이다.
+실제 교환/표적 명령 출력 order227-command-results.json SHA
+5ec3d28600708e0e73801d4c6535c14cbe16abdbf9e4114dbb439c70892d61ce.
+WORK39609B(새354B)·예산40000이하·history 이동0, 실제 원어민/화면/실플레이·전체판은 미판정이다.

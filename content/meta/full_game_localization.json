@@ -3113,6 +3113,24 @@
       "machine_validation": "PASS",
       "rendered_review": "OPEN",
       "native_review": "OPEN"
+    },
+    {
+      "order": "ORDER-227",
+      "group": "ui",
+      "roots": [
+        "「%s」",
+        "그 해를 접으면, 「%s」이 가장 먼저 남았다."
+      ],
+      "source_leaves": 2,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 2,
+        "zh-TW": 2
+      },
+      "source_review": "Four independently reviewed Korean-direct Chinese year-recollection templates. The same real builder emitted 15 choices / 30 fields across five locales; Chinese12 changed from English fallback while KO/EN/JA18 and gameplay state were preserved. Existing Japanese dictionary values are not newly accepted. Synthetic caller QA is not rendered/native or real-route play evidence.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN"
     }
   ],
   "accepted": {
@@ -99310,6 +99328,14 @@
       "events:recovery_relapse_test:/title": {
         "source_sha256": "2244bdd3f6edceaebf95ac3a0c9ad96b376af15a77a4eab4064796523c45c0df",
         "target_sha256": "f01b9c0c0b82760bde2a2ffff03cf0dd0f4928db338f02e09c09aedb13fc4d57"
+      },
+      "ui:「%s」:/「%s」": {
+        "source_sha256": "b1b2b3853d761dd95b4b94aaaff31b9f4aa7da19a82c8bbd8272642528449303",
+        "target_sha256": "9351ceafc2642854825196ee438bdf8031d4411e70654f2e1c5b0bfd0d26807b"
+      },
+      "ui:그 해를 접으면, 「%s」이 가장 먼저 남았다.:/그 해를 접으면, 「%s」이 가장 먼저 남았다.": {
+        "source_sha256": "ae359a0819e86bf5792ddee3603ac065af3ce9d8c805cd118a084ea04f1b1bd2",
+        "target_sha256": "2fc4f7c48bffe36eed935ca2c29062fd1c1d69c61c2c80b3d77080f380c551b0"
       }
     },
     "zh-TW": {
@@ -147408,10 +147434,18 @@
       "events:recovery_relapse_test:/title": {
         "source_sha256": "2244bdd3f6edceaebf95ac3a0c9ad96b376af15a77a4eab4064796523c45c0df",
         "target_sha256": "7527a3cb8bc662f7cce0f77fd135e49c45bc5be58a7602d73b7666514b1c07b6"
+      },
+      "ui:「%s」:/「%s」": {
+        "source_sha256": "b1b2b3853d761dd95b4b94aaaff31b9f4aa7da19a82c8bbd8272642528449303",
+        "target_sha256": "abd3d3362e8c68eddf1ba16a13bf4fd59c057759ccef234f02f3d9cc71bb88d0"
+      },
+      "ui:그 해를 접으면, 「%s」이 가장 먼저 남았다.:/그 해를 접으면, 「%s」이 가장 먼저 남았다.": {
+        "source_sha256": "ae359a0819e86bf5792ddee3603ac065af3ce9d8c805cd118a084ea04f1b1bd2",
+        "target_sha256": "34c693d7e03c9350ad186eac5ad2f740e9538a4286a2247b3026122817a1e96c"
       }
     }
   },
-  "accepted_sha256": "20494c020adf62fc61014b78b8cd781e90a98f66d4b58b79d09f21d5c16e427c",
+  "accepted_sha256": "dbad7e387fc9279e248735a8b6f67081689b2aabfacc00196df3ffe2558c8bce",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
