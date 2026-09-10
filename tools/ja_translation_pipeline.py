@@ -2962,6 +2962,62 @@ def _midgame_win_numbers(source: str, target: str):
     return normalized_source, normalized_target, sorted(set(errors))
 
 
+def _early_housing_numbers(source: str, target: str):
+    """Expand one complete Korean housing quote, preserving amount and role.
+
+    In this source, '천 / 오십오' means ten million / 550,000 won;
+    these are not new quantities in the Japanese translation. No other
+    source receives this normalization, including an edited version of it.
+    """
+    if hashlib.sha256(source.encode("utf-8")).hexdigest() != \
+            "bd168dbc409b1b7a92e5fbf0c846e64269ad9f0445dee4cda3d526a738552ba6":
+        return None
+    import unicodedata
+    from decimal import Decimal
+    from zh_translation_audit import _chinese_cardinal_value, _has_numeric_sign_prefix
+
+    label = "source-bound early housing"
+    chars = "0-9０-９零〇一二三四五六七八九十百千.,，．"
+    money = re.compile(
+        rf"(?<![{chars}万萬億兆])(?P<sign>[+\-−]?)(?P<n>[{chars}]+)"
+        r"(?P<scale>万|萬|億)?[ \t]*(?P<unit>ウォン|円|ドル)"
+    )
+    matches = list(money.finditer(target))
+    errors, replacements = [], []
+    if len(matches) != 2:
+        errors.append(label + " money count/unit mismatch")
+    for index, (match, expected) in enumerate(zip(matches, (10_000_000, 550_000))):
+        raw = unicodedata.normalize("NFKC", match.group("n"))
+        arabic = re.fullmatch(
+            r"(?P<n>(?:[0-9]{1,3}(?:,[0-9]{3})+|[0-9]+)(?:\.[0-9]+)?)(?P<factor>十|百|千)?", raw
+        )
+        amount = (Decimal(arabic.group("n").replace(",", ""))
+                  * {None: 1, "十": 10, "百": 100, "千": 1000}[arabic.group("factor")]) if arabic else \
+            _chinese_cardinal_value(raw) if not any(c.isdigit() and c not in "零〇" for c in raw) else None
+        if amount is not None:
+            amount *= {None: 1, "万": 10_000, "萬": 10_000, "億": 100_000_000}[match.group("scale")]
+        if amount != expected or match.group("sign") or _has_numeric_sign_prefix(target, match.start()):
+            errors.append(label + " value/sign mismatch")
+        if match.group("unit") != "ウォン":
+            errors.append(label + " currency mismatch")
+        if target.count("\n", 0, match.start()) != 4:
+            errors.append(label + " quote ownership mismatch")
+        prefix = target[:match.start()]
+        owner = r"保証金(?:は|が)?[ \t]*$" if index == 0 else \
+            r"(?:家賃(?:は|が)?月(?:額)?|月(?:々)?の家賃(?:は|が)?|月額家賃(?:は|が)?)[ \t]*$"
+        if not re.search(owner, prefix):
+            errors.append(label + " deposit/monthly-rent owner mismatch")
+        if re.match(r"[ \t]*(?:円|ドル|ウォン|[%％‰万萬億兆倍]|[/／]|ではない|未満|以上|以下)", target[match.end():]):
+            errors.append(label + " amount qualifier/unit mismatch")
+        if amount is not None:
+            replacements.append((match.start(), match.end(), format(amount, "f") + "ウォン"))
+    normalized_target = target
+    for start, end, replacement in reversed(replacements):
+        normalized_target = normalized_target[:start] + replacement + normalized_target[end:]
+    normalized_source = source.replace("보증금 천에 월 오십오", "보증금 10000000원에 월 550000원")
+    return normalized_source, normalized_target, sorted(set(errors))
+
+
 def validate_translation(entry: Entry, translated: Any) -> list[str]:
     errors: list[str] = []
     if not isinstance(translated, str) or not translated.strip():

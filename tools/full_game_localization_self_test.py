@@ -10629,6 +10629,3245 @@ class ExchangeTests(unittest.TestCase):
                 else:
                     self.assertEqual(not errors, row["expected"], errors)
 
+
+    def test_order230_ja_frozen_housing_controls(self):
+        import ja_translation_pipeline as ja
+        # Pre-code ROOT21 + independent blind12; failures are retained in
+        # the order report. Full source changes disable only this local guard.
+        data = json.loads(r'''{"source":"4월 초, 봄비가 그친 신촌 골목. {name}은 고시원을 벗어날 방이 있는지 알아보려고 작은 부동산 문을 열었다.\n\n책상 건너 남자가 반지하 원룸 매물표를 계산기 옆에 놓았다.\n\n\"이 방은 보증금 천에 월 오십오. 관리비는 별도예요.\"\n\n지금 가진 돈으로는 보증금부터 멀었다. {name}이 계산기 버튼을 몇 번 더 누르는 동안, 남자는 그 손끝과 낡은 운동화를 가만히 봤다.\n\n\"지금 사정으로는 좀 힘들겠는데요.\"\n\n{name}이 의자를 밀고 일어났다. 남자는 종이컵 두 개를 꺼냈다.\n\n\"잠깐. 방 못 구했다고 바로 쫓아낼 수는 없잖아요. 따뜻한 커피 한 잔은 드릴 수 있어요.\"","target":"4月初め、春の雨が上がった新村の路地。{name}はコシウォンを出て暮らせる部屋がないかと、小さな不動産屋のドアを開けた。\n\n机の向こうの男が、半地下のワンルームの物件票を電卓の隣に置いた。\n\n「この部屋は保証金1,000万ウォン、家賃は月55万ウォン。管理費は別です」\n\n今持っている金では、保証金からして遠かった。{name}が電卓のボタンを何度か押し直す間、男はその指先と古びたスニーカーをじっと見ていた。\n\n「今のご事情だと、少し厳しそうですね」\n\n{name}は椅子を引いて立った。男は紙コップを二つ出した。\n\n「ちょっと。部屋が見つからなかったからって、すぐ追い返すわけにもいきません。温かいコーヒーを一杯くらいなら、お出しできます」","cases":[{"label":"root.actual","expected":true,"source_edits":[],"target_edits":[]},{"label":"root.ungrouped","expected":true,"source_edits":[],"target_edits":[[107,",",""]]},{"label":"root.native-units","expected":true,"source_edits":[],"target_edits":[[120,"55","五十五"],[106,"1,000","一千"]]},{"label":"root.expanded-won","expected":true,"source_edits":[],"target_edits":[[122,"万","0,000"],[111,"万",",000"],[107,"","0"]]},{"label":"root.deposit-value","expected":false,"source_edits":[],"target_edits":[[108,"0","1"]]},{"label":"root.rent-value","expected":false,"source_edits":[],"target_edits":[[121,"5","0"]]},{"label":"root.deposit-scale","expected":false,"source_edits":[],"target_edits":[[111,"万",""]]},{"label":"root.rent-scale","expected":false,"source_edits":[],"target_edits":[[122,"万","億"]]},{"label":"root.deposit-currency","expected":false,"source_edits":[],"target_edits":[[112,"ウォン","円"]]},{"label":"root.rent-currency","expected":false,"source_edits":[],"target_edits":[[123,"ウォン","ドル"]]},{"label":"root.deposit-positive-sign","expected":false,"source_edits":[],"target_edits":[[106,"","+"]]},{"label":"root.rent-negative-sign","expected":false,"source_edits":[],"target_edits":[[120,"","−"]]},{"label":"root.rent-year","expected":false,"source_edits":[],"target_edits":[[119,"月","年"]]},{"label":"root.deposit-wrong-owner","expected":false,"source_edits":[],"target_edits":[[103,"保証金","家賃"]]},{"label":"root.reversed-values","expected":false,"source_edits":[],"target_edits":[[120,"55","1,000"],[106,"1,000","55"]]},{"label":"root.missing-rent","expected":false,"source_edits":[],"target_edits":[[111,"万ウォン、家賃は月55",""]]},{"label":"root.added-fee-amount","expected":false,"source_edits":[],"target_edits":[[132,"","途5万ウォン"]]},{"label":"root.amount-negation","expected":false,"source_edits":[],"target_edits":[[126,"","ではない"]]},{"label":"root.source-off-punctuation","expected":null,"source_edits":[[327,"","。"]],"target_edits":[]},{"label":"root.source-off-deposit","expected":null,"source_edits":[[111,"","이"]],"target_edits":[]},{"label":"root.source-off-rent","expected":null,"source_edits":[[118,"오",""],[116,"오","육"]],"target_edits":[]},{"label":"plato.ja_house_actual","expected":true,"source_edits":[],"target_edits":[]},{"label":"plato.ja_house_kanji_natural","expected":true,"source_edits":[],"target_edits":[[119,"月55","五十五"],[116,"","月々の"],[115,"","で"],[106,"1,000","は一千"],[102,"は","の"]]},{"label":"plato.ja_house_mixed_scale_natural","expected":true,"source_edits":[],"target_edits":[[118,"は月","が"],[116,"","月額"],[107,",000","千"],[106,"","が"]]},{"label":"plato.ja_house_deposit_tenth","expected":false,"source_edits":[],"target_edits":[[107,",0",""]]},{"label":"plato.ja_house_rent_fifty","expected":false,"source_edits":[],"target_edits":[[121,"5","0"]]},{"label":"plato.ja_house_wrong_currency","expected":false,"source_edits":[],"target_edits":[[119,"月55","五十五"],[116,"","月々の"],[112,"ウォン","円で"],[106,"1,000","は一千"],[102,"は","の"]]},{"label":"plato.ja_house_owner_swap","expected":false,"source_edits":[],"target_edits":[[120,"55","1,000"],[106,"1,000","55"]]},{"label":"plato.ja_house_year_not_month","expected":false,"source_edits":[],"target_edits":[[118,"は月","が"],[116,"","年額"],[107,",000","千"],[106,"","が"]]},{"label":"plato.ja_house_negative_deposit","expected":false,"source_edits":[],"target_edits":[[106,"","-"]]},{"label":"plato.ja_house_source_deposit_off","expected":null,"source_edits":[[111,"","이"]],"target_edits":[]},{"label":"plato.ja_house_source_period_off","expected":null,"source_edits":[[114,"월","연"]],"target_edits":[]},{"label":"plato.ja_house_source_context_off","expected":null,"source_edits":[[13,"신촌","다른"]],"target_edits":[]}]}''')
+        reconstructed = []
+        for case in data['cases']:
+            row = {key: case[key] for key in ('label', 'expected')}
+            for field in ('source', 'target'):
+                value = data[field]
+                for start, before, after in case[field + '_edits']:
+                    self.assertEqual(value[start:start + len(before)], before)
+                    value = value[:start] + after + value[start + len(before):]
+                row[field] = value
+            reconstructed.append(row)
+        self.assertEqual(len(reconstructed), 33)
+        self.assertEqual(tool.digest(reconstructed), 'bad2387b601b97d3af45416331e2aded94bbb8cb2401744ab8fe3f50e402f1e0')
+        for row in reconstructed:
+            with self.subTest(case=row['label']):
+                local = ja._early_housing_numbers(row['source'], row['target'])
+                leaf = tool.Leaf('events', 'v2_sangchul_housing_lead',
+                                 'content/events/core_loop_v2_events.json', ('description',),
+                                 row['source'], 'event_standard', 'shipping')
+                errors = tool.translation_errors(leaf, 'ja', row['target'])
+                if row['expected'] is None:
+                    self.assertIsNone(local)
+                else:
+                    self.assertIsNotNone(local)
+                    self.assertEqual(not errors, row['expected'], errors)
+                    self.assertEqual(not local[2], row['expected'], local[2])
+
+
+    def test_order230_zh_frozen_easter_core_controls(self):
+        import zh_translation_audit as z
+        # Author's pre-code119 + independent ROOT blind34. Both source-OFF
+        # behavior and clean normal bases are retained, not global amnesties.
+        data = json.loads(r'''{
+  "sources": {
+    "782e15211cffb9fa354b68b3d931f582b35ba81b973271a51b5bfa4db33d8845": "물 한 잔 마시고 계획을 다시 적는다",
+    "cec5a733c08b781616ee582e888886e6bcb22a50138dd16b3a3d8cbaddc492b2": "고시원에 산 지 30개월이 넘었다.\n\n{name}은 이제 이 좁은 방의 모든 것을 안다.\n어느 벽이 옆방 코 고는 소리를 가장 잘 통과시키는지.\n공용 주방 냉장고에서 누구 반찬이 제일 오래 안 상하는지.\n샤워실 3번 칸 수압이 새벽 두 시에 가장 세다는 것.\n\n이쯤 되면 이건 거주가 아니라 수행이다.\n\n{name}은 문득 거울을 봤다. 도사 같은 표정의 남자가 거기 있었다.",
+    "c6a321a2be0b318d545556d149bfbb5223745fd8e3beacec0e82ebca0b1610de": "{name}은 한 번도 편법을 쓰지 않았다.\n\n야근을 빠지지 않았고, 세금을 정직하게 냈고, 위험한 투자에 손대지 않았다.\n사회가 '바르게 살라'고 한 그대로 살았다.\n\n그런데 통장은 1억을 못 넘었다.\n\n같은 시기에 시작한 누구는 코인으로, 누구는 부동산 갭투자로, 누구는 부모 도움으로 강남에 갔다.\n\n{name}은 계산기를 들여다봤다.\n정직함의 값은 — 도대체 얼마일까.",
+    "fcecdf67cae0681f44972c7dcbeff8eafee44718b0eee37003afd3d5800eddd5": "참치마요 하나, 스팸 하나.\n\n계산대에서 2,400원.\n\n{name}은 두 개를 들고 나오며 이상하게 부자가 된 기분이었다.\n\n행복의 기준이 이렇게 낮아진 게 슬픈 건지, 다행인 건지.\n둘 다인 것 같았다.\n\n그래도 오늘 저녁은 두 개다.",
+    "1ae6a12d8cdb68e4ccbb9221d18f84f123b92c2b09432d2d55922b332de73a03": "편의점 삼각김밥 코너 앞.\n\n{name}은 진열대를 보다가 깨달았다.\n전주비빔, 참치마요, 스팸, 김치볶음밥 — 모든 맛을 외우고 있었다.\n어느 편의점 브랜드의 어느 삼각김밥이 밥알이 더 차진지까지.\n\n통장 잔고를 봤다. 80만원 아래.\n\n5년 전에도, 지금도, 저녁은 삼각김밥이다.\n변한 게 있다면 — 이제 데우지 않고도 먹을 수 있다는 것.",
+    "eeb3d117da277d117a78231971a6cb718fb85b5447ac4d4dab92ac7c79ea2f62": "\"그날 1+1 알려주셔서 고마웠어요.\"",
+    "9547103c7605f871fd332f4032cd3eb0ac01c732637824b275527294dce94ad6": "\"그건 행사라서 알려 드린 건데요.\"\n\n다은이 웃었다. \"그래도 잘 드셨다니 다행이네요.\"\n\n{name}은 고맙다는 말을 한 번 더 하고 계산을 마쳤다. 문을 열고 나가려는데 다은이 말했다. \"다음엔 행사표부터 보세요, {name} 씨.\"\n\n{name}도 웃으며 \"네, 다은 씨\" 하고 답했다.",
+    "2112ae87bfab64f48741d46eb7d214e2aa160f4627cb26783eaa75df65caec62": "\"지난번 1+1, 잘 먹었습니다.\"",
+    "e2d4f2cf131b38960779f2d61f497621c8f3afaa59892973cc62d032e6c49bb7": "처음 만난 밤 “아직 모르겠다”고 답했던 {name}은, 답 대신 함께 앉을 한 시간을 먼저 만들었다.",
+    "bac63e48f4aca2388c76f0b3db9004d6f8342e8f19f80f01e6256f6a7f03fa06": "\"오늘은 네 문제부터 보자. 내 건 뒤에 할게.\"",
+    "9b4e996b8dda6f0f4e23e93d0f76953a1cdab3d877ec374ea11292df92b7442d": "늦은 밤. 카카오톡에 낯익은 이름이 떴다. 최재혁.\n\n\"{name}, 나 재혁이야. 군대 동기 최재혁. 기억나지? 오랜만이다. 잘 지냈어?\"\n\n스물두 살, 같은 내무반에서 지냈다. 제대한 뒤 몇 번 안부를 주고받다가 번호가 바뀌고 연락이 끊겼다.\n\n{name}은 입력창을 열었다. 십 년을 한 문장으로 건너갈 차례였다.",
+    "43ad2c67fc0f41bbf853709618a70d119557207dc4a095ca7a05ac1b1150469d": "{name}은 채용 기록에서 미래산업기술 옆 칸에 ‘불합격’을 적고, 면접 때 받은 질문을 그 아래에 옮겨 적었다.",
+    "0ea7dbca93999b1226682bc6d90335d7966eab82580471d4cffefce9129174a4": "오전. 휴대폰에 ‘(주)미래산업기술 채용 결과 안내’라는 문자가 왔다.\n\n“검토 결과 이번 채용에는 함께하기 어렵게 되었습니다.”\n\n지원서를 보냈고, 면접까지 갔다. 이번에는 거기까지였다.",
+    "b0242b1b3f525f8e3edb8b0f9ec0f8c2fabdc72e56c29ce6a30ee4dd99146c9b": "미래산업기술 채용 결과",
+    "03c38501aad3a10e0d676bd02d54b9a07bbaff33edfad1b5460f4db45fade183": "미래산업기술에 지원서를 보낸다",
+    "db7cfe0ee42ed15f2ecd61a1bbb8207a18dbf1cecb7170329cc4b510dc15cd55": "다음 날 아침, {name}은 고시원 책상 앞에 앉았다.\n\n들어올 돈은 없었다. 다음 달 고시원비부터 지금 가진 돈보다 컸다.\n\n고등학교 단톡방에 또 결혼 소식이 올라왔다. {name}은 ‘축하해’를 치고 폰을 뒤집었다. 잠시 뒤, 폰을 다시 들고 구인 앱을 켰다.\n\n편의점, 배달, 카페, 중소기업 사무직. 공고 목록을 내리던 손가락이 한 곳에서 멈췄다. ‘(주)미래산업기술 사무보조.’ 주 4일 계약직. 경력 무관. 엑셀 가능자. 마포구.\n\n{name}은 육 년 공백이 적힌 이력서 파일을 불러왔다. 가족 빚이라는 말까지 쓰지는 않았다. 화면 아래에는 지원 버튼이 남아 있었다.",
+    "ee170b65446101b790c9dd742e98acd4dfec0f531aea835b6168c046f913ba1f": "4월 초, 봄비가 그친 신촌 골목. {name}은 고시원을 벗어날 방이 있는지 알아보려고 작은 부동산 문을 열었다.\n\n책상 건너 남자가 반지하 원룸 매물표를 계산기 옆에 놓았다.\n\n\"이 방은 보증금 천에 월 오십오. 관리비는 별도예요.\"\n\n지금 가진 돈으로는 보증금부터 멀었다. {name}이 계산기 버튼을 몇 번 더 누르는 동안, 남자는 그 손끝과 낡은 운동화를 가만히 봤다.\n\n\"지금 사정으로는 좀 힘들겠는데요.\"\n\n{name}이 의자를 밀고 일어났다. 남자는 종이컵 두 개를 꺼냈다.\n\n\"잠깐. 방 못 구했다고 바로 쫓아낼 수는 없잖아요. 따뜻한 커피 한 잔은 드릴 수 있어요.\"",
+    "0442c0381202e2b503849bffab3d1cb9f9fc44fa35abb3b3a8d9904b60168735": "서린물산 채용팀에서 두 줄짜리 메일이 왔다.\n\n“지원해 주셔서 감사합니다. 검토 결과 이번 전형에는 함께하기 어렵게 되었습니다.”\n\n경력 공백을 숨기지 않고 보낸 지원서였다. 답은 숨길 것조차 없을 만큼 짧았다.",
+    "53deb64271610a7046d21997dcabe23931a76c4b2be9e581c73e1502ed16a3e7": "서린물산 채용 결과"
+  },
+  "targets": {
+    "205f6af54733fd20077030b87452ba2bb24edde64af0474d67736a3fb9ca8a9b": "喝杯水，重新写下计划",
+    "669e17f284d6c822b087a46f1eb26f03c5e91a08c522e051b57c2f0dd6c3df8b": "在考试院住了超过30个月。\n\n{name}如今对这间狭小的屋子了如指掌。\n哪面墙最能传来隔壁的鼾声。\n公共厨房的冰箱里，谁的小菜最耐放。\n淋浴间3号隔间的水压，在凌晨两点最足。\n\n到了这份上，与其说是居住，不如说是修行。\n\n{name}忽然照了照镜子。里面站着一个神情像修行高人的男人。",
+    "8d3d7f9740499b5eae53449105b37dcd62b799a141c731dee4c0b6fc9dbe18d6": "{name}从没走过歪门邪道。\n\n该加的班一次没落，税老老实实地交，危险的投资从不碰。\n社会让人“好好做人”，就照着那套活了下来。\n\n可银行账户里的钱，始终没超过1亿韩元。\n\n同一时期起步的人，有人靠加密货币，有人靠房地产差额投资，有人靠父母帮忙，去了江南。\n\n{name}盯着计算器。\n诚实的价码——究竟是多少？",
+    "379bb2ea3d6f7f78ccf83304c9f849fab9388932f27e0531f38a469b71007b51": "一个金枪鱼蛋黄酱，一个世棒午餐肉。\n\n收银台结账，2,400韩元。\n\n{name}拿着两个走出来，莫名觉得自己成了有钱人。\n\n幸福的标准降得这么低，该难过，还是该庆幸？\n似乎两样都有。\n\n不过，今天的晚饭有两个。",
+    "f335310fd419113b770d5e77d87ec07adf6b37249d934223efdaa5f223fad727": "便利店的三角紫菜包饭货架前。\n\n{name}看着货架，突然发现。\n全州拌饭、金枪鱼蛋黄酱、世棒午餐肉、泡菜炒饭——每种口味都记得清清楚楚。\n甚至知道，哪家便利店的哪款三角紫菜包饭，米粒更有嚼劲。\n\n看了看银行账户余额。不到80万韩元。\n\n五年前是这样，如今也是，晚饭仍是三角紫菜包饭。\n要说有什么变了——就是现在不加热也能吃了。",
+    "f9a24b4bde655ffffa5b15d618aeaadd4a5aa57543c5fbfd9c8a97175702624e": "“那天谢谢你告诉我买一送一的事。”",
+    "c922715f3233bba229cb2886fc98ce1a202f950015f59d62f900406d46a919a2": "“那个是店里做活动，我才告诉你的。”\n\nDaeun 笑了。“不过，你吃得开心就好。”\n\n{name}又道了声谢，结完账。正要推门出去时，Daeun 说：“下次先看看活动牌吧，{name}。”\n\n{name}也笑着答道：“好，Daeun。”",
+    "4995199dbb2528c6780f0922cf7da00a7acfc9c73bbd2cf9fb23347d559d5c7e": "“上次那份买一送一，挺好吃的。”",
+    "78a5cdd238d1b9789ee186b2f5627947f7f6bbcb732ed490d8e899998ba4a77e": "初次见面的那晚，{name}说过“还不知道”。这次，没有给出答案，而是先留出了可以一起坐下的一个小时。",
+    "09bdfcd27362bf328745e73114fa7f4b19fa6ec2f0fd197b8e94e8234010c249": "“今天先看你的题。我的放后面。”",
+    "340a343be3f41837bd1524c004d85b2724bb09387a4e0d28e0e6775d7a6211c3": "深夜，KakaoTalk 上出现了一个熟悉的名字。Choi Jaehyuk。\n\n“{name}，我是 Jaehyuk 啊。一起当兵的 Choi Jaehyuk。还记得吧？好久不见，过得怎么样？”\n\n二十二岁时，住在同一间营房。退伍后，互相问候过几次，后来换了号码，联系就断了。\n\n{name}打开输入框。该用一句话，跨过这十年了。",
+    "a0a98771e8bd357cabb11d12ceca9917ae63ec41f4e207943bc44f56aaf4323f": "{name}在求职记录里 Mirae 产业技术旁边的格子写下“未录用”，又把面试时问到的问题抄在下面。",
+    "55e8c930efcf1fb86c104485c4acdcce1d3a06d349310b320e8971c1f8fc8e81": "上午，手机收到一条题为“Mirae 产业技术股份公司招聘结果通知”的短信。\n\n“经审核，很遗憾本次无法录用您。”\n\n投了申请，也去过面试。这一次，只走到了这里。",
+    "f1e568aca641e4110bde4fc7fa04b78dc766882c0dd148734bb355fabcdd5b58": "Mirae 产业技术招聘结果",
+    "a124941b115889e7cb4af4d7d28d9791c6ba2f69e682aa4ca42ac25311131d31": "向 Mirae 产业技术发送求职申请",
+    "b4fb90c342ff08e687e88c9110a1c7fdea4dae9ad24f42da4091b0a80cf6f595": "第二天早上，{name}坐在考试院的书桌前。\n\n没有钱会进账。光是下个月的考试院住宿费，就已经比手头的钱多。\n\n高中同学群里又传来结婚的消息。{name}打下“恭喜”，把手机翻了过去。过了一会儿，又拿起手机，打开招聘应用。\n\n便利店、配送、咖啡馆、中小企业文职。划过招聘列表的手指，在一处停下了。“Mirae 产业技术股份公司行政助理。”每周四天的合同工。不限经验。会用 Excel。麻浦区。\n\n{name}调出了那份写着六年空白期的简历。没有写到家里的债务。屏幕下方，申请按钮还在那里。",
+    "653f4f44736a3d31918be53e77c11208c863661d81ffaba14b57d390d1b829f7": "4月初，春雨刚停的新村小巷。{name}想看看有没有能搬出考试院住的房间，推开了一家小房产中介的门。\n\n桌子对面的男人，把半地下单间公寓的房源单放在计算器旁。\n\n“这间押金1000万韩元，月租55万韩元。管理费另算。”\n\n以手头的钱，连押金都还差得远。{name}又按了几下计算器，男人静静地看着那双手和旧运动鞋。\n\n“按您现在的情况，有点困难啊。”\n\n{name}推开椅子，站了起来。男人拿出两个纸杯。\n\n“等等。也不能因为您没找到房子，就马上赶您走吧。请您喝杯热咖啡，还是可以的。”",
+    "db2c653bd17613ba6a9a843b33286041c550623823c83e3156127585ad4be067": "Seorin 物产招聘团队发来一封只有两行的邮件。\n\n“感谢您的申请。经审核，很遗憾本轮无法录用您。”\n\n寄出的申请里，没有隐瞒工作经历的空白期。回复却短得，连藏点什么的余地都没有。",
+    "2cdc8c447b4a829ac4ca906d747902e05eb336871e15b2b089502ad7fcaa075e": "Seorin 物产招聘结果",
+    "1b62140cab23f93adbd54861a53835fc46064301975f9159dd10c31ec29e0b56": "喝杯水，重新寫下計畫",
+    "ad46e0eaee4ed90918c4120194f9ba46c3c5b33821fe18d23e8e7d47883dc608": "在考試院住了超過30個月。\n\n{name}如今對這間窄小房間的一切都瞭若指掌。\n哪面牆最容易傳來隔壁的打呼聲。\n公共廚房冰箱裡，誰的配菜最耐放。\n淋浴間第3間隔間的水壓，在凌晨兩點最強。\n\n到了這個地步，已經不是住在這裡，而是在修行了。\n\n{name}忽然看向鏡子。裡面站著一個神情宛如得道高人的男人。",
+    "5717e9ca0b33ff5ed8c15a3b80813f0ba24ed2ca57a409f4adbf1ecd7fa16dd1": "{name}從沒走過旁門左道。\n\n加班從不缺席，老實繳稅，也沒碰過高風險投資。\n社會叫人「正正當當地過日子」，就照著做了。\n\n可是銀行帳戶裡的錢，始終沒超過1億韓元。\n\n同一時期起步的人，有人靠加密貨幣，有人靠利用全租押金、只自備房價差額的房產投資，有人靠父母幫忙，去了江南。\n\n{name}盯著計算機。\n誠實的價碼——到底是多少？",
+    "dfd343f9a517f377b165e611ed3cbb8cedd894c3e18923c050dde079139e5b2f": "一個鮪魚美乃滋，一個SPAM午餐肉。\n\n結帳，2,400韓元。\n\n{name}拿著兩個飯捲走出店門，莫名覺得自己有錢了。\n\n幸福的門檻變得這麼低，究竟是悲哀，還是幸運。\n好像兩者都是。\n\n不管怎樣，今晚有兩個。",
+    "14cc18b1ad965a718195540a86d5c6b03e02207ce3264863d7593cf54f9ed963": "便利商店的三角飯捲區前。\n\n{name}看著貨架，忽然發現。\n全州拌飯、鮪魚美乃滋、SPAM午餐肉、泡菜炒飯——每一種口味都記得。\n連哪家便利商店、哪種飯捲的米飯比較有黏勁，都一清二楚。\n\n看了銀行帳戶餘額。不到80萬韓元。\n\n五年前是這樣，現在也是，晚餐都是三角飯捲。\n真要說有什麼改變——如今不用加熱也吃得下了。",
+    "10b59c344e904ac8a5970f6da184f0c490d2a0b0864de70444f052c4599c7628": "「謝謝你那天提醒我買一送一的活動。」",
+    "6f321ee682b0db59baf22550a97df1fff2e7748a3ba256229f061d4d17623828": "「那是店裡的活動，我才提醒你的。」\n\nDaeun笑了。「不過，你吃得開心就好。」\n\n{name}又道了一次謝，結完帳。正要推門出去時，Daeun說：「下次先看特價牌喔，{name}。」\n\n{name}也笑著回答：「好，Daeun。」",
+    "53028fed64ea234117dc7d623cef3e41411194de31edb5d0ed4a0b93e6f37c7c": "「上次買一送一的東西，很好吃，謝謝。」",
+    "aa695a80e1edb82a323f54511716f85f29263e534efc2a7c44f7addde6631be8": "初次見面的那晚，{name}回答「還不知道」。這次沒有給出答案，而是先挪出一小時，好讓兩人坐在一起。",
+    "6b318bde10cc7d72b9308cfb6c3dc5a5d1297fdbcbf68a18f5637a45df413f1b": "「今天先看你的題目，我的等一下再弄。」",
+    "c48a531aef31ecbbb74c66f6daf4869b3e06e58680e0684e2b450772ddd4297a": "深夜。KakaoTalk跳出一個熟悉的名字。Choi Jaehyuk。\n\n「{name}，我是Jaehyuk。跟你一起當兵的Choi Jaehyuk，還記得吧？好久不見，最近過得怎樣？」\n\n二十二歲時，住在同一間營舍。退伍後互相問候過幾次，後來換了號碼，就斷了聯絡。\n\n{name}打開輸入框。該用一句話，跨過這十年了。",
+    "f086d242434faaf46a9e373025c6d62618c1cea34b6f9803be79c2df3af0318f": "{name}在求職紀錄中，Mirae產業技術旁的欄位寫上「未錄取」，再把面試時被問到的問題抄在下面。",
+    "10c44a019dbd96270078fe9c83a70085d645d595292f2e2fd72a57086f326e04": "上午。手機收到一封簡訊，標題是「Mirae產業技術股份有限公司甄選結果通知」。\n\n「經審慎評估，本次未能錄取您。」\n\n投了履歷，也去面試了。這一次，就到這裡。",
+    "5a27dd63ff294610aae13b63af45035a95b9b882205ccdf425012fb1ab45f53b": "Mirae產業技術甄選結果",
+    "3d478fbd84ea4a728d7c8992febb6272ca566bb6b60c08a87c98df3077afc1f1": "把履歷投給Mirae產業技術",
+    "886ebd83c5b6f66e76de3a2c2c50fef0c07f9303582f2e97b7ec09a549b630aa": "隔天早上，{name}坐在考試院的書桌前。\n\n沒有任何收入進帳。光是下個月的考試院房租，就比現在手上的錢還多。\n\n高中同學的群組裡，又有人傳來結婚的消息。{name}打了「恭喜」，把手機翻面放下。過了一會兒，又拿起手機，打開求職應用程式。\n\n便利商店、外送、咖啡店、中小企業的行政職。往下滑著職缺清單的手指，在一處停了下來。「Mirae產業技術股份有限公司，行政助理。」每週工作4天的約聘職。不限經歷。須會使用Excel。麻浦區。\n\n{name}開啟那份寫著六年空窗期的履歷檔案。並沒有寫到家裡的債務。畫面下方，應徵按鈕還在。",
+    "b996722fc5e006aca752e3e3093eb72cfbd883f878694c94f3a1a929b7d3e639": "四月初，春雨剛停的首爾新村巷弄。{name}想找個房間搬離考試院，推開一間小房仲店的門。\n\n書桌對面的男人，把半地下套房的物件資料放在計算機旁。\n\n「這間押金1,000萬韓元，月租55萬韓元，管理費另計。」\n\n以目前手上的錢，光押金就差得遠。{name}又按了幾次計算機，男人靜靜看著那雙手和磨舊的球鞋。\n\n「以你目前的狀況，恐怕有點困難。」\n\n{name}推開椅子站起來。男人拿出兩個紙杯。\n\n「等等。總不能因為你沒找到房子，就馬上趕你走吧。至少還能請你喝杯熱咖啡。」",
+    "ef039fdace0512732ae206cfe09081ad09a153cc391ab8b2abf6a28b5b519416": "Seorin物產招募團隊寄來一封只有兩行的電子郵件。\n\n「感謝您的應徵。經評估，本次甄選未能錄取您。」\n\n那份寄出的履歷，沒有隱瞞工作空窗期。回覆卻短得連遮掩的餘地都沒有。",
+    "a9a20d04b551b331498576d98d4990641eaab258b3dc4be3ccfa1bcd769e189a": "Seorin物產甄選結果"
+  },
+  "cases": [
+    {
+      "id": "rawls.actual-zh-CN-water",
+      "leaf_id": "events:egg_4am_clarity:/choices/1/text",
+      "locale": "zh-CN",
+      "expected": true,
+      "normal_base": null,
+      "source_path": "content/events/easter_eggs.json",
+      "path": [
+        "choices",
+        1,
+        "text"
+      ],
+      "source_base": "782e15211cffb9fa354b68b3d931f582b35ba81b973271a51b5bfa4db33d8845",
+      "source_edits": [],
+      "target_base": "205f6af54733fd20077030b87452ba2bb24edde64af0474d67736a3fb9ca8a9b",
+      "target_edits": []
+    },
+    {
+      "id": "rawls.actual-zh-CN-stall",
+      "leaf_id": "events:egg_gosiwon_sage:/description",
+      "locale": "zh-CN",
+      "expected": true,
+      "normal_base": null,
+      "source_path": "content/events/easter_eggs.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "cec5a733c08b781616ee582e888886e6bcb22a50138dd16b3a3d8cbaddc492b2",
+      "source_edits": [],
+      "target_base": "669e17f284d6c822b087a46f1eb26f03c5e91a08c522e051b57c2f0dd6c3df8b",
+      "target_edits": []
+    },
+    {
+      "id": "rawls.actual-zh-CN-never",
+      "leaf_id": "events:egg_honest_paradox:/description",
+      "locale": "zh-CN",
+      "expected": true,
+      "normal_base": null,
+      "source_path": "content/events/easter_eggs.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "c6a321a2be0b318d545556d149bfbb5223745fd8e3beacec0e82ebca0b1610de",
+      "source_edits": [],
+      "target_base": "8d3d7f9740499b5eae53449105b37dcd62b799a141c731dee4c0b6fc9dbe18d6",
+      "target_edits": []
+    },
+    {
+      "id": "rawls.actual-zh-CN-spam_food",
+      "leaf_id": "events:egg_triangle_kimbap:/choices/0/result_text",
+      "locale": "zh-CN",
+      "expected": true,
+      "normal_base": null,
+      "source_path": "content/events/easter_eggs.json",
+      "path": [
+        "choices",
+        0,
+        "result_text"
+      ],
+      "source_base": "fcecdf67cae0681f44972c7dcbeff8eafee44718b0eee37003afd3d5800eddd5",
+      "source_edits": [],
+      "target_base": "379bb2ea3d6f7f78ccf83304c9f849fab9388932f27e0531f38a469b71007b51",
+      "target_edits": []
+    },
+    {
+      "id": "rawls.actual-zh-CN-spam_list",
+      "leaf_id": "events:egg_triangle_kimbap:/description",
+      "locale": "zh-CN",
+      "expected": true,
+      "normal_base": null,
+      "source_path": "content/events/easter_eggs.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "1ae6a12d8cdb68e4ccbb9221d18f84f123b92c2b09432d2d55922b332de73a03",
+      "source_edits": [],
+      "target_base": "f335310fd419113b770d5e77d87ec07adf6b37249d934223efdaa5f223fad727",
+      "target_edits": []
+    },
+    {
+      "id": "rawls.actual-zh-CN-offer_thanks",
+      "leaf_id": "events:v2_daeun_return_after_distance:/choices/1/text",
+      "locale": "zh-CN",
+      "expected": true,
+      "normal_base": null,
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "choices",
+        1,
+        "text"
+      ],
+      "source_base": "eeb3d117da277d117a78231971a6cb718fb85b5447ac4d4dab92ac7c79ea2f62",
+      "source_edits": [],
+      "target_base": "f9a24b4bde655ffffa5b15d618aeaadd4a5aa57543c5fbfd9c8a97175702624e",
+      "target_edits": []
+    },
+    {
+      "id": "rawls.actual-zh-CN-thanks_once",
+      "leaf_id": "events:v2_daeun_return_named:/choices/1/result_text",
+      "locale": "zh-CN",
+      "expected": true,
+      "normal_base": null,
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "choices",
+        1,
+        "result_text"
+      ],
+      "source_base": "9547103c7605f871fd332f4032cd3eb0ac01c732637824b275527294dce94ad6",
+      "source_edits": [],
+      "target_base": "c922715f3233bba229cb2886fc98ce1a202f950015f59d62f900406d46a919a2",
+      "target_edits": []
+    },
+    {
+      "id": "rawls.actual-zh-CN-offer_food",
+      "leaf_id": "events:v2_daeun_return_named:/choices/1/text",
+      "locale": "zh-CN",
+      "expected": true,
+      "normal_base": null,
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "choices",
+        1,
+        "text"
+      ],
+      "source_base": "2112ae87bfab64f48741d46eb7d214e2aa160f4627cb26783eaa75df65caec62",
+      "source_edits": [],
+      "target_base": "4995199dbb2528c6780f0922cf7da00a7acfc9c73bbd2cf9fb23347d559d5c7e",
+      "target_edits": []
+    },
+    {
+      "id": "rawls.actual-zh-CN-together_hour",
+      "leaf_id": "events:v2_hyunsu_player_reachout:/description_memory_if_known/relationship_memory:hyunsu:hyunsu_honest_uncertainty",
+      "locale": "zh-CN",
+      "expected": true,
+      "normal_base": null,
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "description_memory_if_known",
+        "relationship_memory:hyunsu:hyunsu_honest_uncertainty"
+      ],
+      "source_base": "e2d4f2cf131b38960779f2d61f497621c8f3afaa59892973cc62d032e6c49bb7",
+      "source_edits": [],
+      "target_base": "78a5cdd238d1b9789ee186b2f5627947f7f6bbcb732ed490d8e899998ba4a77e",
+      "target_edits": []
+    },
+    {
+      "id": "rawls.actual-zh-CN-your_questions",
+      "leaf_id": "events:v2_hyunsu_study_followup:/choices/1/text",
+      "locale": "zh-CN",
+      "expected": true,
+      "normal_base": null,
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "choices",
+        1,
+        "text"
+      ],
+      "source_base": "bac63e48f4aca2388c76f0b3db9004d6f8342e8f19f80f01e6256f6a7f03fa06",
+      "source_edits": [],
+      "target_base": "09bdfcd27362bf328745e73114fa7f4b19fa6ec2f0fd197b8e94e8234010c249",
+      "target_edits": []
+    },
+    {
+      "id": "rawls.actual-zh-CN-one_sentence",
+      "leaf_id": "events:v2_jaehyuk_message:/description",
+      "locale": "zh-CN",
+      "expected": true,
+      "normal_base": null,
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "9b4e996b8dda6f0f4e23e93d0f76953a1cdab3d877ec374ea11292df92b7442d",
+      "source_edits": [],
+      "target_base": "340a343be3f41837bd1524c004d85b2724bb09387a4e0d28e0e6775d7a6211c3",
+      "target_edits": []
+    },
+    {
+      "id": "rawls.actual-zh-CN-mirae_record",
+      "leaf_id": "events:v2_mirae_result_message:/choices/0/result_text",
+      "locale": "zh-CN",
+      "expected": true,
+      "normal_base": null,
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "choices",
+        0,
+        "result_text"
+      ],
+      "source_base": "43ad2c67fc0f41bbf853709618a70d119557207dc4a095ca7a05ac1b1150469d",
+      "source_edits": [],
+      "target_base": "a0a98771e8bd357cabb11d12ceca9917ae63ec41f4e207943bc44f56aaf4323f",
+      "target_edits": []
+    },
+    {
+      "id": "rawls.actual-zh-CN-mirae_notice",
+      "leaf_id": "events:v2_mirae_result_message:/description",
+      "locale": "zh-CN",
+      "expected": true,
+      "normal_base": null,
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "0ea7dbca93999b1226682bc6d90335d7966eab82580471d4cffefce9129174a4",
+      "source_edits": [],
+      "target_base": "55e8c930efcf1fb86c104485c4acdcce1d3a06d349310b320e8971c1f8fc8e81",
+      "target_edits": []
+    },
+    {
+      "id": "rawls.actual-zh-CN-mirae_title",
+      "leaf_id": "events:v2_mirae_result_message:/title",
+      "locale": "zh-CN",
+      "expected": true,
+      "normal_base": null,
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "title"
+      ],
+      "source_base": "b0242b1b3f525f8e3edb8b0f9ec0f8c2fabdc72e56c29ce6a30ee4dd99146c9b",
+      "source_edits": [],
+      "target_base": "f1e568aca641e4110bde4fc7fa04b78dc766882c0dd148734bb355fabcdd5b58",
+      "target_edits": []
+    },
+    {
+      "id": "rawls.actual-zh-CN-mirae_apply",
+      "leaf_id": "events:v2_opening_application_send:/choices/0/text",
+      "locale": "zh-CN",
+      "expected": true,
+      "normal_base": null,
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "choices",
+        0,
+        "text"
+      ],
+      "source_base": "03c38501aad3a10e0d676bd02d54b9a07bbaff33edfad1b5460f4db45fade183",
+      "source_edits": [],
+      "target_base": "a124941b115889e7cb4af4d7d28d9791c6ba2f69e682aa4ca42ac25311131d31",
+      "target_edits": []
+    },
+    {
+      "id": "rawls.actual-zh-CN-mirae_listing",
+      "leaf_id": "events:v2_opening_application_send:/description",
+      "locale": "zh-CN",
+      "expected": true,
+      "normal_base": null,
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "db7cfe0ee42ed15f2ecd61a1bbb8207a18dbf1cecb7170329cc4b510dc15cd55",
+      "source_edits": [],
+      "target_base": "b4fb90c342ff08e687e88c9110a1c7fdea4dae9ad24f42da4091b0a80cf6f595",
+      "target_edits": []
+    },
+    {
+      "id": "rawls.actual-zh-CN-coffee_offer",
+      "leaf_id": "events:v2_sangchul_housing_lead:/description",
+      "locale": "zh-CN",
+      "expected": true,
+      "normal_base": null,
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "ee170b65446101b790c9dd742e98acd4dfec0f531aea835b6168c046f913ba1f",
+      "source_edits": [],
+      "target_base": "653f4f44736a3d31918be53e77c11208c863661d81ffaba14b57d390d1b829f7",
+      "target_edits": []
+    },
+    {
+      "id": "rawls.actual-zh-CN-seorin_notice",
+      "leaf_id": "events:v2_seorin_result_message:/description",
+      "locale": "zh-CN",
+      "expected": true,
+      "normal_base": null,
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "0442c0381202e2b503849bffab3d1cb9f9fc44fa35abb3b3a8d9904b60168735",
+      "source_edits": [],
+      "target_base": "db2c653bd17613ba6a9a843b33286041c550623823c83e3156127585ad4be067",
+      "target_edits": []
+    },
+    {
+      "id": "rawls.actual-zh-CN-seorin_title",
+      "leaf_id": "events:v2_seorin_result_message:/title",
+      "locale": "zh-CN",
+      "expected": true,
+      "normal_base": null,
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "title"
+      ],
+      "source_base": "53deb64271610a7046d21997dcabe23931a76c4b2be9e581c73e1502ed16a3e7",
+      "source_edits": [],
+      "target_base": "2cdc8c447b4a829ac4ca906d747902e05eb336871e15b2b089502ad7fcaa075e",
+      "target_edits": []
+    },
+    {
+      "id": "rawls.actual-zh-TW-water",
+      "leaf_id": "events:egg_4am_clarity:/choices/1/text",
+      "locale": "zh-TW",
+      "expected": true,
+      "normal_base": null,
+      "source_path": "content/events/easter_eggs.json",
+      "path": [
+        "choices",
+        1,
+        "text"
+      ],
+      "source_base": "782e15211cffb9fa354b68b3d931f582b35ba81b973271a51b5bfa4db33d8845",
+      "source_edits": [],
+      "target_base": "1b62140cab23f93adbd54861a53835fc46064301975f9159dd10c31ec29e0b56",
+      "target_edits": []
+    },
+    {
+      "id": "rawls.actual-zh-TW-stall",
+      "leaf_id": "events:egg_gosiwon_sage:/description",
+      "locale": "zh-TW",
+      "expected": true,
+      "normal_base": null,
+      "source_path": "content/events/easter_eggs.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "cec5a733c08b781616ee582e888886e6bcb22a50138dd16b3a3d8cbaddc492b2",
+      "source_edits": [],
+      "target_base": "ad46e0eaee4ed90918c4120194f9ba46c3c5b33821fe18d23e8e7d47883dc608",
+      "target_edits": []
+    },
+    {
+      "id": "rawls.actual-zh-TW-never",
+      "leaf_id": "events:egg_honest_paradox:/description",
+      "locale": "zh-TW",
+      "expected": true,
+      "normal_base": null,
+      "source_path": "content/events/easter_eggs.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "c6a321a2be0b318d545556d149bfbb5223745fd8e3beacec0e82ebca0b1610de",
+      "source_edits": [],
+      "target_base": "5717e9ca0b33ff5ed8c15a3b80813f0ba24ed2ca57a409f4adbf1ecd7fa16dd1",
+      "target_edits": []
+    },
+    {
+      "id": "rawls.actual-zh-TW-spam_food",
+      "leaf_id": "events:egg_triangle_kimbap:/choices/0/result_text",
+      "locale": "zh-TW",
+      "expected": true,
+      "normal_base": null,
+      "source_path": "content/events/easter_eggs.json",
+      "path": [
+        "choices",
+        0,
+        "result_text"
+      ],
+      "source_base": "fcecdf67cae0681f44972c7dcbeff8eafee44718b0eee37003afd3d5800eddd5",
+      "source_edits": [],
+      "target_base": "dfd343f9a517f377b165e611ed3cbb8cedd894c3e18923c050dde079139e5b2f",
+      "target_edits": []
+    },
+    {
+      "id": "rawls.actual-zh-TW-spam_list",
+      "leaf_id": "events:egg_triangle_kimbap:/description",
+      "locale": "zh-TW",
+      "expected": true,
+      "normal_base": null,
+      "source_path": "content/events/easter_eggs.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "1ae6a12d8cdb68e4ccbb9221d18f84f123b92c2b09432d2d55922b332de73a03",
+      "source_edits": [],
+      "target_base": "14cc18b1ad965a718195540a86d5c6b03e02207ce3264863d7593cf54f9ed963",
+      "target_edits": []
+    },
+    {
+      "id": "rawls.actual-zh-TW-offer_thanks",
+      "leaf_id": "events:v2_daeun_return_after_distance:/choices/1/text",
+      "locale": "zh-TW",
+      "expected": true,
+      "normal_base": null,
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "choices",
+        1,
+        "text"
+      ],
+      "source_base": "eeb3d117da277d117a78231971a6cb718fb85b5447ac4d4dab92ac7c79ea2f62",
+      "source_edits": [],
+      "target_base": "10b59c344e904ac8a5970f6da184f0c490d2a0b0864de70444f052c4599c7628",
+      "target_edits": []
+    },
+    {
+      "id": "rawls.actual-zh-TW-thanks_once",
+      "leaf_id": "events:v2_daeun_return_named:/choices/1/result_text",
+      "locale": "zh-TW",
+      "expected": true,
+      "normal_base": null,
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "choices",
+        1,
+        "result_text"
+      ],
+      "source_base": "9547103c7605f871fd332f4032cd3eb0ac01c732637824b275527294dce94ad6",
+      "source_edits": [],
+      "target_base": "6f321ee682b0db59baf22550a97df1fff2e7748a3ba256229f061d4d17623828",
+      "target_edits": []
+    },
+    {
+      "id": "rawls.actual-zh-TW-offer_food",
+      "leaf_id": "events:v2_daeun_return_named:/choices/1/text",
+      "locale": "zh-TW",
+      "expected": true,
+      "normal_base": null,
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "choices",
+        1,
+        "text"
+      ],
+      "source_base": "2112ae87bfab64f48741d46eb7d214e2aa160f4627cb26783eaa75df65caec62",
+      "source_edits": [],
+      "target_base": "53028fed64ea234117dc7d623cef3e41411194de31edb5d0ed4a0b93e6f37c7c",
+      "target_edits": []
+    },
+    {
+      "id": "rawls.actual-zh-TW-together_hour",
+      "leaf_id": "events:v2_hyunsu_player_reachout:/description_memory_if_known/relationship_memory:hyunsu:hyunsu_honest_uncertainty",
+      "locale": "zh-TW",
+      "expected": true,
+      "normal_base": null,
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "description_memory_if_known",
+        "relationship_memory:hyunsu:hyunsu_honest_uncertainty"
+      ],
+      "source_base": "e2d4f2cf131b38960779f2d61f497621c8f3afaa59892973cc62d032e6c49bb7",
+      "source_edits": [],
+      "target_base": "aa695a80e1edb82a323f54511716f85f29263e534efc2a7c44f7addde6631be8",
+      "target_edits": []
+    },
+    {
+      "id": "rawls.actual-zh-TW-your_questions",
+      "leaf_id": "events:v2_hyunsu_study_followup:/choices/1/text",
+      "locale": "zh-TW",
+      "expected": true,
+      "normal_base": null,
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "choices",
+        1,
+        "text"
+      ],
+      "source_base": "bac63e48f4aca2388c76f0b3db9004d6f8342e8f19f80f01e6256f6a7f03fa06",
+      "source_edits": [],
+      "target_base": "6b318bde10cc7d72b9308cfb6c3dc5a5d1297fdbcbf68a18f5637a45df413f1b",
+      "target_edits": []
+    },
+    {
+      "id": "rawls.actual-zh-TW-one_sentence",
+      "leaf_id": "events:v2_jaehyuk_message:/description",
+      "locale": "zh-TW",
+      "expected": true,
+      "normal_base": null,
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "9b4e996b8dda6f0f4e23e93d0f76953a1cdab3d877ec374ea11292df92b7442d",
+      "source_edits": [],
+      "target_base": "c48a531aef31ecbbb74c66f6daf4869b3e06e58680e0684e2b450772ddd4297a",
+      "target_edits": []
+    },
+    {
+      "id": "rawls.actual-zh-TW-mirae_record",
+      "leaf_id": "events:v2_mirae_result_message:/choices/0/result_text",
+      "locale": "zh-TW",
+      "expected": true,
+      "normal_base": null,
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "choices",
+        0,
+        "result_text"
+      ],
+      "source_base": "43ad2c67fc0f41bbf853709618a70d119557207dc4a095ca7a05ac1b1150469d",
+      "source_edits": [],
+      "target_base": "f086d242434faaf46a9e373025c6d62618c1cea34b6f9803be79c2df3af0318f",
+      "target_edits": []
+    },
+    {
+      "id": "rawls.actual-zh-TW-mirae_notice",
+      "leaf_id": "events:v2_mirae_result_message:/description",
+      "locale": "zh-TW",
+      "expected": true,
+      "normal_base": null,
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "0ea7dbca93999b1226682bc6d90335d7966eab82580471d4cffefce9129174a4",
+      "source_edits": [],
+      "target_base": "10c44a019dbd96270078fe9c83a70085d645d595292f2e2fd72a57086f326e04",
+      "target_edits": []
+    },
+    {
+      "id": "rawls.actual-zh-TW-mirae_title",
+      "leaf_id": "events:v2_mirae_result_message:/title",
+      "locale": "zh-TW",
+      "expected": true,
+      "normal_base": null,
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "title"
+      ],
+      "source_base": "b0242b1b3f525f8e3edb8b0f9ec0f8c2fabdc72e56c29ce6a30ee4dd99146c9b",
+      "source_edits": [],
+      "target_base": "5a27dd63ff294610aae13b63af45035a95b9b882205ccdf425012fb1ab45f53b",
+      "target_edits": []
+    },
+    {
+      "id": "rawls.actual-zh-TW-mirae_apply",
+      "leaf_id": "events:v2_opening_application_send:/choices/0/text",
+      "locale": "zh-TW",
+      "expected": true,
+      "normal_base": null,
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "choices",
+        0,
+        "text"
+      ],
+      "source_base": "03c38501aad3a10e0d676bd02d54b9a07bbaff33edfad1b5460f4db45fade183",
+      "source_edits": [],
+      "target_base": "3d478fbd84ea4a728d7c8992febb6272ca566bb6b60c08a87c98df3077afc1f1",
+      "target_edits": []
+    },
+    {
+      "id": "rawls.actual-zh-TW-mirae_listing",
+      "leaf_id": "events:v2_opening_application_send:/description",
+      "locale": "zh-TW",
+      "expected": true,
+      "normal_base": null,
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "db7cfe0ee42ed15f2ecd61a1bbb8207a18dbf1cecb7170329cc4b510dc15cd55",
+      "source_edits": [],
+      "target_base": "886ebd83c5b6f66e76de3a2c2c50fef0c07f9303582f2e97b7ec09a549b630aa",
+      "target_edits": []
+    },
+    {
+      "id": "rawls.actual-zh-TW-coffee_offer",
+      "leaf_id": "events:v2_sangchul_housing_lead:/description",
+      "locale": "zh-TW",
+      "expected": true,
+      "normal_base": null,
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "ee170b65446101b790c9dd742e98acd4dfec0f531aea835b6168c046f913ba1f",
+      "source_edits": [],
+      "target_base": "b996722fc5e006aca752e3e3093eb72cfbd883f878694c94f3a1a929b7d3e639",
+      "target_edits": []
+    },
+    {
+      "id": "rawls.actual-zh-TW-seorin_notice",
+      "leaf_id": "events:v2_seorin_result_message:/description",
+      "locale": "zh-TW",
+      "expected": true,
+      "normal_base": null,
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "0442c0381202e2b503849bffab3d1cb9f9fc44fa35abb3b3a8d9904b60168735",
+      "source_edits": [],
+      "target_base": "ef039fdace0512732ae206cfe09081ad09a153cc391ab8b2abf6a28b5b519416",
+      "target_edits": []
+    },
+    {
+      "id": "rawls.actual-zh-TW-seorin_title",
+      "leaf_id": "events:v2_seorin_result_message:/title",
+      "locale": "zh-TW",
+      "expected": true,
+      "normal_base": null,
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "title"
+      ],
+      "source_base": "53deb64271610a7046d21997dcabe23931a76c4b2be9e581c73e1502ed16a3e7",
+      "source_edits": [],
+      "target_base": "a9a20d04b551b331498576d98d4990641eaab258b3dc4be3ccfa1bcd769e189a",
+      "target_edits": []
+    },
+    {
+      "id": "rawls.PASS-zh-CN-water-38",
+      "leaf_id": "events:egg_4am_clarity:/choices/1/text",
+      "locale": "zh-CN",
+      "expected": true,
+      "normal_base": "rawls.actual-zh-CN-water",
+      "source_path": "content/events/easter_eggs.json",
+      "path": [
+        "choices",
+        1,
+        "text"
+      ],
+      "source_base": "782e15211cffb9fa354b68b3d931f582b35ba81b973271a51b5bfa4db33d8845",
+      "source_edits": [],
+      "target_base": "205f6af54733fd20077030b87452ba2bb24edde64af0474d67736a3fb9ca8a9b",
+      "target_edits": [
+        [
+          1,
+          "",
+          "一"
+        ]
+      ]
+    },
+    {
+      "id": "rawls.PASS-zh-TW-water-39",
+      "leaf_id": "events:egg_4am_clarity:/choices/1/text",
+      "locale": "zh-TW",
+      "expected": true,
+      "normal_base": "rawls.actual-zh-TW-water",
+      "source_path": "content/events/easter_eggs.json",
+      "path": [
+        "choices",
+        1,
+        "text"
+      ],
+      "source_base": "782e15211cffb9fa354b68b3d931f582b35ba81b973271a51b5bfa4db33d8845",
+      "source_edits": [],
+      "target_base": "1b62140cab23f93adbd54861a53835fc46064301975f9159dd10c31ec29e0b56",
+      "target_edits": [
+        [
+          2,
+          "",
+          "清"
+        ],
+        [
+          1,
+          "",
+          "一"
+        ]
+      ]
+    },
+    {
+      "id": "rawls.PASS-zh-TW-stall-40",
+      "leaf_id": "events:egg_gosiwon_sage:/description",
+      "locale": "zh-TW",
+      "expected": true,
+      "normal_base": "rawls.actual-zh-TW-stall",
+      "source_path": "content/events/easter_eggs.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "cec5a733c08b781616ee582e888886e6bcb22a50138dd16b3a3d8cbaddc492b2",
+      "source_edits": [],
+      "target_base": "ad46e0eaee4ed90918c4120194f9ba46c3c5b33821fe18d23e8e7d47883dc608",
+      "target_edits": [
+        [
+          76,
+          "第3間",
+          "三號"
+        ]
+      ]
+    },
+    {
+      "id": "rawls.PASS-zh-TW-never-41",
+      "leaf_id": "events:egg_honest_paradox:/description",
+      "locale": "zh-TW",
+      "expected": true,
+      "normal_base": "rawls.actual-zh-TW-never",
+      "source_path": "content/events/easter_eggs.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "c6a321a2be0b318d545556d149bfbb5223745fd8e3beacec0e82ebca0b1610de",
+      "source_edits": [],
+      "target_base": "5717e9ca0b33ff5ed8c15a3b80813f0ba24ed2ca57a409f4adbf1ecd7fa16dd1",
+      "target_edits": [
+        [
+          8,
+          "",
+          "有"
+        ],
+        [
+          7,
+          "",
+          "來"
+        ]
+      ]
+    },
+    {
+      "id": "rawls.PASS-zh-CN-never-42",
+      "leaf_id": "events:egg_honest_paradox:/description",
+      "locale": "zh-CN",
+      "expected": true,
+      "normal_base": "rawls.actual-zh-CN-never",
+      "source_path": "content/events/easter_eggs.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "c6a321a2be0b318d545556d149bfbb5223745fd8e3beacec0e82ebca0b1610de",
+      "source_edits": [],
+      "target_base": "8d3d7f9740499b5eae53449105b37dcd62b799a141c731dee4c0b6fc9dbe18d6",
+      "target_edits": [
+        [
+          8,
+          "",
+          "有"
+        ],
+        [
+          6,
+          "从",
+          "一次也"
+        ]
+      ]
+    },
+    {
+      "id": "rawls.PASS-zh-CN-offer_thanks-43",
+      "leaf_id": "events:v2_daeun_return_after_distance:/choices/1/text",
+      "locale": "zh-CN",
+      "expected": true,
+      "normal_base": "rawls.actual-zh-CN-offer_thanks",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "choices",
+        1,
+        "text"
+      ],
+      "source_base": "eeb3d117da277d117a78231971a6cb718fb85b5447ac4d4dab92ac7c79ea2f62",
+      "source_edits": [],
+      "target_base": "f9a24b4bde655ffffa5b15d618aeaadd4a5aa57543c5fbfd9c8a97175702624e",
+      "target_edits": [
+        [
+          9,
+          "买一送一",
+          "1+1"
+        ]
+      ]
+    },
+    {
+      "id": "rawls.PASS-zh-TW-offer_food-44",
+      "leaf_id": "events:v2_daeun_return_named:/choices/1/text",
+      "locale": "zh-TW",
+      "expected": true,
+      "normal_base": "rawls.actual-zh-TW-offer_food",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "choices",
+        1,
+        "text"
+      ],
+      "source_base": "2112ae87bfab64f48741d46eb7d214e2aa160f4627cb26783eaa75df65caec62",
+      "source_edits": [],
+      "target_base": "53028fed64ea234117dc7d623cef3e41411194de31edb5d0ed4a0b93e6f37c7c",
+      "target_edits": [
+        [
+          4,
+          "一送一",
+          "1贈1"
+        ]
+      ]
+    },
+    {
+      "id": "rawls.PASS-zh-TW-together_hour-45",
+      "leaf_id": "events:v2_hyunsu_player_reachout:/description_memory_if_known/relationship_memory:hyunsu:hyunsu_honest_uncertainty",
+      "locale": "zh-TW",
+      "expected": true,
+      "normal_base": "rawls.actual-zh-TW-together_hour",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "description_memory_if_known",
+        "relationship_memory:hyunsu:hyunsu_honest_uncertainty"
+      ],
+      "source_base": "e2d4f2cf131b38960779f2d61f497621c8f3afaa59892973cc62d032e6c49bb7",
+      "source_edits": [],
+      "target_base": "aa695a80e1edb82a323f54511716f85f29263e534efc2a7c44f7addde6631be8",
+      "target_edits": [
+        [
+          43,
+          "兩人",
+          "我們倆"
+        ]
+      ]
+    },
+    {
+      "id": "rawls.PASS-zh-CN-your_questions-46",
+      "leaf_id": "events:v2_hyunsu_study_followup:/choices/1/text",
+      "locale": "zh-CN",
+      "expected": true,
+      "normal_base": "rawls.actual-zh-CN-your_questions",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "choices",
+        1,
+        "text"
+      ],
+      "source_base": "bac63e48f4aca2388c76f0b3db9004d6f8342e8f19f80f01e6256f6a7f03fa06",
+      "source_edits": [],
+      "target_base": "09bdfcd27362bf328745e73114fa7f4b19fa6ec2f0fd197b8e94e8234010c249",
+      "target_edits": [
+        [
+          8,
+          "",
+          "目"
+        ],
+        [
+          6,
+          "",
+          "那边"
+        ]
+      ]
+    },
+    {
+      "id": "rawls.PASS-zh-CN-thanks_once-47",
+      "leaf_id": "events:v2_daeun_return_named:/choices/1/result_text",
+      "locale": "zh-CN",
+      "expected": true,
+      "normal_base": "rawls.actual-zh-CN-thanks_once",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "choices",
+        1,
+        "result_text"
+      ],
+      "source_base": "9547103c7605f871fd332f4032cd3eb0ac01c732637824b275527294dce94ad6",
+      "source_edits": [],
+      "target_base": "c922715f3233bba229cb2886fc98ce1a202f950015f59d62f900406d46a919a2",
+      "target_edits": [
+        [
+          54,
+          "",
+          "谢"
+        ],
+        [
+          53,
+          "",
+          "一"
+        ],
+        [
+          51,
+          "道",
+          "说"
+        ]
+      ]
+    },
+    {
+      "id": "rawls.PASS-zh-TW-one_sentence-48",
+      "leaf_id": "events:v2_jaehyuk_message:/description",
+      "locale": "zh-TW",
+      "expected": true,
+      "normal_base": "rawls.actual-zh-TW-one_sentence",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "9b4e996b8dda6f0f4e23e93d0f76953a1cdab3d877ec374ea11292df92b7442d",
+      "source_edits": [],
+      "target_base": "c48a531aef31ecbbb74c66f6daf4869b3e06e58680e0684e2b450772ddd4297a",
+      "target_edits": [
+        [
+          151,
+          "話",
+          "子"
+        ],
+        [
+          150,
+          "",
+          "個"
+        ]
+      ]
+    },
+    {
+      "id": "rawls.PASS-zh-TW-coffee_offer-49",
+      "leaf_id": "events:v2_sangchul_housing_lead:/description",
+      "locale": "zh-TW",
+      "expected": true,
+      "normal_base": "rawls.actual-zh-TW-coffee_offer",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "ee170b65446101b790c9dd742e98acd4dfec0f531aea835b6168c046f913ba1f",
+      "source_edits": [],
+      "target_base": "b996722fc5e006aca752e3e3093eb72cfbd883f878694c94f3a1a929b7d3e639",
+      "target_edits": [
+        [
+          229,
+          "",
+          "一"
+        ]
+      ]
+    },
+    {
+      "id": "rawls.PASS-zh-TW-mirae_title-50",
+      "leaf_id": "events:v2_mirae_result_message:/title",
+      "locale": "zh-TW",
+      "expected": true,
+      "normal_base": "rawls.actual-zh-TW-mirae_title",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "title"
+      ],
+      "source_base": "b0242b1b3f525f8e3edb8b0f9ec0f8c2fabdc72e56c29ce6a30ee4dd99146c9b",
+      "source_edits": [],
+      "target_base": "5a27dd63ff294610aae13b63af45035a95b9b882205ccdf425012fb1ab45f53b",
+      "target_edits": [
+        [
+          5,
+          "",
+          " "
+        ]
+      ]
+    },
+    {
+      "id": "rawls.PASS-zh-TW-seorin_title-51",
+      "leaf_id": "events:v2_seorin_result_message:/title",
+      "locale": "zh-TW",
+      "expected": true,
+      "normal_base": "rawls.actual-zh-TW-seorin_title",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "title"
+      ],
+      "source_base": "53deb64271610a7046d21997dcabe23931a76c4b2be9e581c73e1502ed16a3e7",
+      "source_edits": [],
+      "target_base": "a9a20d04b551b331498576d98d4990641eaab258b3dc4be3ccfa1bcd769e189a",
+      "target_edits": [
+        [
+          6,
+          "",
+          " "
+        ]
+      ]
+    },
+    {
+      "id": "rawls.PASS-zh-TW-spam_list-52",
+      "leaf_id": "events:egg_triangle_kimbap:/description",
+      "locale": "zh-TW",
+      "expected": true,
+      "normal_base": "rawls.actual-zh-TW-spam_list",
+      "source_path": "content/events/easter_eggs.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "1ae6a12d8cdb68e4ccbb9221d18f84f123b92c2b09432d2d55922b332de73a03",
+      "source_edits": [],
+      "target_base": "14cc18b1ad965a718195540a86d5c6b03e02207ce3264863d7593cf54f9ed963",
+      "target_edits": [
+        [
+          46,
+          "",
+          " "
+        ]
+      ]
+    },
+    {
+      "id": "rawls.REJECT-zh-CN-water-53",
+      "leaf_id": "events:egg_4am_clarity:/choices/1/text",
+      "locale": "zh-CN",
+      "expected": false,
+      "normal_base": "rawls.actual-zh-CN-water",
+      "source_path": "content/events/easter_eggs.json",
+      "path": [
+        "choices",
+        1,
+        "text"
+      ],
+      "source_base": "782e15211cffb9fa354b68b3d931f582b35ba81b973271a51b5bfa4db33d8845",
+      "source_edits": [],
+      "target_base": "205f6af54733fd20077030b87452ba2bb24edde64af0474d67736a3fb9ca8a9b",
+      "target_edits": [
+        [
+          1,
+          "",
+          "两"
+        ]
+      ]
+    },
+    {
+      "id": "rawls.REJECT-zh-TW-water-54",
+      "leaf_id": "events:egg_4am_clarity:/choices/1/text",
+      "locale": "zh-TW",
+      "expected": false,
+      "normal_base": "rawls.actual-zh-TW-water",
+      "source_path": "content/events/easter_eggs.json",
+      "path": [
+        "choices",
+        1,
+        "text"
+      ],
+      "source_base": "782e15211cffb9fa354b68b3d931f582b35ba81b973271a51b5bfa4db33d8845",
+      "source_edits": [],
+      "target_base": "1b62140cab23f93adbd54861a53835fc46064301975f9159dd10c31ec29e0b56",
+      "target_edits": [
+        [
+          1,
+          "杯",
+          "兩壺"
+        ]
+      ]
+    },
+    {
+      "id": "rawls.REJECT-zh-CN-water-55",
+      "leaf_id": "events:egg_4am_clarity:/choices/1/text",
+      "locale": "zh-CN",
+      "expected": false,
+      "normal_base": "rawls.actual-zh-CN-water",
+      "source_path": "content/events/easter_eggs.json",
+      "path": [
+        "choices",
+        1,
+        "text"
+      ],
+      "source_base": "782e15211cffb9fa354b68b3d931f582b35ba81b973271a51b5bfa4db33d8845",
+      "source_edits": [],
+      "target_base": "205f6af54733fd20077030b87452ba2bb24edde64af0474d67736a3fb9ca8a9b",
+      "target_edits": [
+        [
+          1,
+          "",
+          "+一"
+        ]
+      ]
+    },
+    {
+      "id": "rawls.REJECT-zh-CN-stall-56",
+      "leaf_id": "events:egg_gosiwon_sage:/description",
+      "locale": "zh-CN",
+      "expected": false,
+      "normal_base": "rawls.actual-zh-CN-stall",
+      "source_path": "content/events/easter_eggs.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "cec5a733c08b781616ee582e888886e6bcb22a50138dd16b3a3d8cbaddc492b2",
+      "source_edits": [],
+      "target_base": "669e17f284d6c822b087a46f1eb26f03c5e91a08c522e051b57c2f0dd6c3df8b",
+      "target_edits": [
+        [
+          72,
+          "3",
+          "4"
+        ]
+      ]
+    },
+    {
+      "id": "rawls.REJECT-zh-TW-stall-57",
+      "leaf_id": "events:egg_gosiwon_sage:/description",
+      "locale": "zh-TW",
+      "expected": false,
+      "normal_base": "rawls.actual-zh-TW-stall",
+      "source_path": "content/events/easter_eggs.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "cec5a733c08b781616ee582e888886e6bcb22a50138dd16b3a3d8cbaddc492b2",
+      "source_edits": [],
+      "target_base": "ad46e0eaee4ed90918c4120194f9ba46c3c5b33821fe18d23e8e7d47883dc608",
+      "target_edits": [
+        [
+          77,
+          "3",
+          "4"
+        ]
+      ]
+    },
+    {
+      "id": "rawls.REJECT-zh-CN-stall-58",
+      "leaf_id": "events:egg_gosiwon_sage:/description",
+      "locale": "zh-CN",
+      "expected": false,
+      "normal_base": "rawls.actual-zh-CN-stall",
+      "source_path": "content/events/easter_eggs.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "cec5a733c08b781616ee582e888886e6bcb22a50138dd16b3a3d8cbaddc492b2",
+      "source_edits": [],
+      "target_base": "669e17f284d6c822b087a46f1eb26f03c5e91a08c522e051b57c2f0dd6c3df8b",
+      "target_edits": [
+        [
+          83,
+          "两",
+          "三"
+        ]
+      ]
+    },
+    {
+      "id": "rawls.REJECT-zh-TW-stall-59",
+      "leaf_id": "events:egg_gosiwon_sage:/description",
+      "locale": "zh-TW",
+      "expected": false,
+      "normal_base": "rawls.actual-zh-TW-stall",
+      "source_path": "content/events/easter_eggs.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "cec5a733c08b781616ee582e888886e6bcb22a50138dd16b3a3d8cbaddc492b2",
+      "source_edits": [],
+      "target_base": "ad46e0eaee4ed90918c4120194f9ba46c3c5b33821fe18d23e8e7d47883dc608",
+      "target_edits": [
+        [
+          9,
+          "0",
+          "1"
+        ]
+      ]
+    },
+    {
+      "id": "rawls.REJECT-zh-TW-never-60",
+      "leaf_id": "events:egg_honest_paradox:/description",
+      "locale": "zh-TW",
+      "expected": false,
+      "normal_base": "rawls.actual-zh-TW-never",
+      "source_path": "content/events/easter_eggs.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "c6a321a2be0b318d545556d149bfbb5223745fd8e3beacec0e82ebca0b1610de",
+      "source_edits": [],
+      "target_base": "5717e9ca0b33ff5ed8c15a3b80813f0ba24ed2ca57a409f4adbf1ecd7fa16dd1",
+      "target_edits": [
+        [
+          6,
+          "從沒",
+          "曾經"
+        ]
+      ]
+    },
+    {
+      "id": "rawls.REJECT-zh-TW-never-61",
+      "leaf_id": "events:egg_honest_paradox:/description",
+      "locale": "zh-TW",
+      "expected": false,
+      "normal_base": "rawls.actual-zh-TW-never",
+      "source_path": "content/events/easter_eggs.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "c6a321a2be0b318d545556d149bfbb5223745fd8e3beacec0e82ebca0b1610de",
+      "source_edits": [],
+      "target_base": "5717e9ca0b33ff5ed8c15a3b80813f0ba24ed2ca57a409f4adbf1ecd7fa16dd1",
+      "target_edits": [
+        [
+          6,
+          "",
+          "並非"
+        ]
+      ]
+    },
+    {
+      "id": "rawls.REJECT-zh-CN-offer_thanks-62",
+      "leaf_id": "events:v2_daeun_return_after_distance:/choices/1/text",
+      "locale": "zh-CN",
+      "expected": false,
+      "normal_base": "rawls.actual-zh-CN-offer_thanks",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "choices",
+        1,
+        "text"
+      ],
+      "source_base": "eeb3d117da277d117a78231971a6cb718fb85b5447ac4d4dab92ac7c79ea2f62",
+      "source_edits": [],
+      "target_base": "f9a24b4bde655ffffa5b15d618aeaadd4a5aa57543c5fbfd9c8a97175702624e",
+      "target_edits": [
+        [
+          12,
+          "一",
+          "二"
+        ]
+      ]
+    },
+    {
+      "id": "rawls.REJECT-zh-CN-offer_food-63",
+      "leaf_id": "events:v2_daeun_return_named:/choices/1/text",
+      "locale": "zh-CN",
+      "expected": false,
+      "normal_base": "rawls.actual-zh-CN-offer_food",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "choices",
+        1,
+        "text"
+      ],
+      "source_base": "2112ae87bfab64f48741d46eb7d214e2aa160f4627cb26783eaa75df65caec62",
+      "source_edits": [],
+      "target_base": "4995199dbb2528c6780f0922cf7da00a7acfc9c73bbd2cf9fb23347d559d5c7e",
+      "target_edits": [
+        [
+          6,
+          "一",
+          "二"
+        ]
+      ]
+    },
+    {
+      "id": "rawls.REJECT-zh-TW-offer_thanks-64",
+      "leaf_id": "events:v2_daeun_return_after_distance:/choices/1/text",
+      "locale": "zh-TW",
+      "expected": false,
+      "normal_base": "rawls.actual-zh-TW-offer_thanks",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "choices",
+        1,
+        "text"
+      ],
+      "source_base": "eeb3d117da277d117a78231971a6cb718fb85b5447ac4d4dab92ac7c79ea2f62",
+      "source_edits": [],
+      "target_base": "10b59c344e904ac8a5970f6da184f0c490d2a0b0864de70444f052c4599c7628",
+      "target_edits": [
+        [
+          12,
+          "一",
+          "二"
+        ]
+      ]
+    },
+    {
+      "id": "rawls.REJECT-zh-TW-offer_food-65",
+      "leaf_id": "events:v2_daeun_return_named:/choices/1/text",
+      "locale": "zh-TW",
+      "expected": false,
+      "normal_base": "rawls.actual-zh-TW-offer_food",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "choices",
+        1,
+        "text"
+      ],
+      "source_base": "2112ae87bfab64f48741d46eb7d214e2aa160f4627cb26783eaa75df65caec62",
+      "source_edits": [],
+      "target_base": "53028fed64ea234117dc7d623cef3e41411194de31edb5d0ed4a0b93e6f37c7c",
+      "target_edits": [
+        [
+          4,
+          "一",
+          "二"
+        ]
+      ]
+    },
+    {
+      "id": "rawls.REJECT-zh-TW-offer_food-66",
+      "leaf_id": "events:v2_daeun_return_named:/choices/1/text",
+      "locale": "zh-TW",
+      "expected": false,
+      "normal_base": "rawls.actual-zh-TW-offer_food",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "choices",
+        1,
+        "text"
+      ],
+      "source_base": "2112ae87bfab64f48741d46eb7d214e2aa160f4627cb26783eaa75df65caec62",
+      "source_edits": [],
+      "target_base": "53028fed64ea234117dc7d623cef3e41411194de31edb5d0ed4a0b93e6f37c7c",
+      "target_edits": [
+        [
+          7,
+          "",
+          "斤"
+        ],
+        [
+          5,
+          "",
+          "斤"
+        ]
+      ]
+    },
+    {
+      "id": "rawls.REJECT-zh-TW-offer_food-67",
+      "leaf_id": "events:v2_daeun_return_named:/choices/1/text",
+      "locale": "zh-TW",
+      "expected": false,
+      "normal_base": "rawls.actual-zh-TW-offer_food",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "choices",
+        1,
+        "text"
+      ],
+      "source_base": "2112ae87bfab64f48741d46eb7d214e2aa160f4627cb26783eaa75df65caec62",
+      "source_edits": [],
+      "target_base": "53028fed64ea234117dc7d623cef3e41411194de31edb5d0ed4a0b93e6f37c7c",
+      "target_edits": [
+        [
+          3,
+          "",
+          "買一送一、"
+        ]
+      ]
+    },
+    {
+      "id": "rawls.REJECT-zh-TW-together_hour-68",
+      "leaf_id": "events:v2_hyunsu_player_reachout:/description_memory_if_known/relationship_memory:hyunsu:hyunsu_honest_uncertainty",
+      "locale": "zh-TW",
+      "expected": false,
+      "normal_base": "rawls.actual-zh-TW-together_hour",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "description_memory_if_known",
+        "relationship_memory:hyunsu:hyunsu_honest_uncertainty"
+      ],
+      "source_base": "e2d4f2cf131b38960779f2d61f497621c8f3afaa59892973cc62d032e6c49bb7",
+      "source_edits": [],
+      "target_base": "aa695a80e1edb82a323f54511716f85f29263e534efc2a7c44f7addde6631be8",
+      "target_edits": [
+        [
+          43,
+          "兩",
+          "三"
+        ]
+      ]
+    },
+    {
+      "id": "rawls.REJECT-zh-TW-together_hour-69",
+      "leaf_id": "events:v2_hyunsu_player_reachout:/description_memory_if_known/relationship_memory:hyunsu:hyunsu_honest_uncertainty",
+      "locale": "zh-TW",
+      "expected": false,
+      "normal_base": "rawls.actual-zh-TW-together_hour",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "description_memory_if_known",
+        "relationship_memory:hyunsu:hyunsu_honest_uncertainty"
+      ],
+      "source_base": "e2d4f2cf131b38960779f2d61f497621c8f3afaa59892973cc62d032e6c49bb7",
+      "source_edits": [],
+      "target_base": "aa695a80e1edb82a323f54511716f85f29263e534efc2a7c44f7addde6631be8",
+      "target_edits": [
+        [
+          37,
+          "一",
+          "兩"
+        ]
+      ]
+    },
+    {
+      "id": "rawls.REJECT-zh-TW-together_hour-70",
+      "leaf_id": "events:v2_hyunsu_player_reachout:/description_memory_if_known/relationship_memory:hyunsu:hyunsu_honest_uncertainty",
+      "locale": "zh-TW",
+      "expected": false,
+      "normal_base": "rawls.actual-zh-TW-together_hour",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "description_memory_if_known",
+        "relationship_memory:hyunsu:hyunsu_honest_uncertainty"
+      ],
+      "source_base": "e2d4f2cf131b38960779f2d61f497621c8f3afaa59892973cc62d032e6c49bb7",
+      "source_edits": [],
+      "target_base": "aa695a80e1edb82a323f54511716f85f29263e534efc2a7c44f7addde6631be8",
+      "target_edits": [
+        [
+          43,
+          "兩",
+          "我一個"
+        ]
+      ]
+    },
+    {
+      "id": "rawls.REJECT-zh-CN-your_questions-71",
+      "leaf_id": "events:v2_hyunsu_study_followup:/choices/1/text",
+      "locale": "zh-CN",
+      "expected": false,
+      "normal_base": "rawls.actual-zh-CN-your_questions",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "choices",
+        1,
+        "text"
+      ],
+      "source_base": "bac63e48f4aca2388c76f0b3db9004d6f8342e8f19f80f01e6256f6a7f03fa06",
+      "source_edits": [],
+      "target_base": "09bdfcd27362bf328745e73114fa7f4b19fa6ec2f0fd197b8e94e8234010c249",
+      "target_edits": [
+        [
+          5,
+          "你",
+          "我"
+        ]
+      ]
+    },
+    {
+      "id": "rawls.REJECT-zh-CN-your_questions-72",
+      "leaf_id": "events:v2_hyunsu_study_followup:/choices/1/text",
+      "locale": "zh-CN",
+      "expected": false,
+      "normal_base": "rawls.actual-zh-CN-your_questions",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "choices",
+        1,
+        "text"
+      ],
+      "source_base": "bac63e48f4aca2388c76f0b3db9004d6f8342e8f19f80f01e6256f6a7f03fa06",
+      "source_edits": [],
+      "target_base": "09bdfcd27362bf328745e73114fa7f4b19fa6ec2f0fd197b8e94e8234010c249",
+      "target_edits": [
+        [
+          7,
+          "",
+          "四道"
+        ]
+      ]
+    },
+    {
+      "id": "rawls.REJECT-zh-TW-your_questions-73",
+      "leaf_id": "events:v2_hyunsu_study_followup:/choices/1/text",
+      "locale": "zh-TW",
+      "expected": false,
+      "normal_base": "rawls.actual-zh-TW-your_questions",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "choices",
+        1,
+        "text"
+      ],
+      "source_base": "bac63e48f4aca2388c76f0b3db9004d6f8342e8f19f80f01e6256f6a7f03fa06",
+      "source_edits": [],
+      "target_base": "6b318bde10cc7d72b9308cfb6c3dc5a5d1297fdbcbf68a18f5637a45df413f1b",
+      "target_edits": [
+        [
+          5,
+          "你",
+          "他"
+        ]
+      ]
+    },
+    {
+      "id": "rawls.REJECT-zh-CN-thanks_once-74",
+      "leaf_id": "events:v2_daeun_return_named:/choices/1/result_text",
+      "locale": "zh-CN",
+      "expected": false,
+      "normal_base": "rawls.actual-zh-CN-thanks_once",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "choices",
+        1,
+        "result_text"
+      ],
+      "source_base": "9547103c7605f871fd332f4032cd3eb0ac01c732637824b275527294dce94ad6",
+      "source_edits": [],
+      "target_base": "c922715f3233bba229cb2886fc98ce1a202f950015f59d62f900406d46a919a2",
+      "target_edits": [
+        [
+          53,
+          "",
+          "两"
+        ]
+      ]
+    },
+    {
+      "id": "rawls.REJECT-zh-CN-thanks_once-75",
+      "leaf_id": "events:v2_daeun_return_named:/choices/1/result_text",
+      "locale": "zh-CN",
+      "expected": false,
+      "normal_base": "rawls.actual-zh-CN-thanks_once",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "choices",
+        1,
+        "result_text"
+      ],
+      "source_base": "9547103c7605f871fd332f4032cd3eb0ac01c732637824b275527294dce94ad6",
+      "source_edits": [],
+      "target_base": "c922715f3233bba229cb2886fc98ce1a202f950015f59d62f900406d46a919a2",
+      "target_edits": [
+        [
+          50,
+          "又",
+          ""
+        ]
+      ]
+    },
+    {
+      "id": "rawls.REJECT-zh-TW-one_sentence-76",
+      "leaf_id": "events:v2_jaehyuk_message:/description",
+      "locale": "zh-TW",
+      "expected": false,
+      "normal_base": "rawls.actual-zh-TW-one_sentence",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "9b4e996b8dda6f0f4e23e93d0f76953a1cdab3d877ec374ea11292df92b7442d",
+      "source_edits": [],
+      "target_base": "c48a531aef31ecbbb74c66f6daf4869b3e06e58680e0684e2b450772ddd4297a",
+      "target_edits": [
+        [
+          149,
+          "一",
+          "兩"
+        ]
+      ]
+    },
+    {
+      "id": "rawls.REJECT-zh-TW-one_sentence-77",
+      "leaf_id": "events:v2_jaehyuk_message:/description",
+      "locale": "zh-TW",
+      "expected": false,
+      "normal_base": "rawls.actual-zh-TW-one_sentence",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "9b4e996b8dda6f0f4e23e93d0f76953a1cdab3d877ec374ea11292df92b7442d",
+      "source_edits": [],
+      "target_base": "c48a531aef31ecbbb74c66f6daf4869b3e06e58680e0684e2b450772ddd4297a",
+      "target_edits": [
+        [
+          156,
+          "",
+          "二"
+        ]
+      ]
+    },
+    {
+      "id": "rawls.REJECT-zh-CN-coffee_offer-78",
+      "leaf_id": "events:v2_sangchul_housing_lead:/description",
+      "locale": "zh-CN",
+      "expected": false,
+      "normal_base": "rawls.actual-zh-CN-coffee_offer",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "ee170b65446101b790c9dd742e98acd4dfec0f531aea835b6168c046f913ba1f",
+      "source_edits": [],
+      "target_base": "653f4f44736a3d31918be53e77c11208c863661d81ffaba14b57d390d1b829f7",
+      "target_edits": [
+        [
+          231,
+          "",
+          "两"
+        ]
+      ]
+    },
+    {
+      "id": "rawls.REJECT-zh-CN-coffee_offer-79",
+      "leaf_id": "events:v2_sangchul_housing_lead:/description",
+      "locale": "zh-CN",
+      "expected": false,
+      "normal_base": "rawls.actual-zh-CN-coffee_offer",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "ee170b65446101b790c9dd742e98acd4dfec0f531aea835b6168c046f913ba1f",
+      "source_edits": [],
+      "target_base": "653f4f44736a3d31918be53e77c11208c863661d81ffaba14b57d390d1b829f7",
+      "target_edits": [
+        [
+          231,
+          "杯",
+          "壶"
+        ]
+      ]
+    },
+    {
+      "id": "rawls.REJECT-zh-CN-coffee_offer-80",
+      "leaf_id": "events:v2_sangchul_housing_lead:/description",
+      "locale": "zh-CN",
+      "expected": false,
+      "normal_base": "rawls.actual-zh-CN-coffee_offer",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "ee170b65446101b790c9dd742e98acd4dfec0f531aea835b6168c046f913ba1f",
+      "source_edits": [],
+      "target_base": "653f4f44736a3d31918be53e77c11208c863661d81ffaba14b57d390d1b829f7",
+      "target_edits": [
+        [
+          235,
+          "，还是可以的",
+          ""
+        ],
+        [
+          231,
+          "",
+          "了"
+        ],
+        [
+          228,
+          "请您",
+          "我"
+        ]
+      ]
+    },
+    {
+      "id": "rawls.REJECT-zh-TW-coffee_offer-81",
+      "leaf_id": "events:v2_sangchul_housing_lead:/description",
+      "locale": "zh-TW",
+      "expected": false,
+      "normal_base": "rawls.actual-zh-TW-coffee_offer",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "ee170b65446101b790c9dd742e98acd4dfec0f531aea835b6168c046f913ba1f",
+      "source_edits": [],
+      "target_base": "b996722fc5e006aca752e3e3093eb72cfbd883f878694c94f3a1a929b7d3e639",
+      "target_edits": [
+        [
+          92,
+          "",
+          "0"
+        ]
+      ]
+    },
+    {
+      "id": "rawls.REJECT-zh-TW-spam_food-82",
+      "leaf_id": "events:egg_triangle_kimbap:/choices/0/result_text",
+      "locale": "zh-TW",
+      "expected": false,
+      "normal_base": "rawls.actual-zh-TW-spam_food",
+      "source_path": "content/events/easter_eggs.json",
+      "path": [
+        "choices",
+        0,
+        "result_text"
+      ],
+      "source_base": "fcecdf67cae0681f44972c7dcbeff8eafee44718b0eee37003afd3d5800eddd5",
+      "source_edits": [],
+      "target_base": "dfd343f9a517f377b165e611ed3cbb8cedd894c3e18923c050dde079139e5b2f",
+      "target_edits": [
+        [
+          14,
+          "",
+          "X"
+        ]
+      ]
+    },
+    {
+      "id": "rawls.REJECT-zh-TW-spam_food-83",
+      "leaf_id": "events:egg_triangle_kimbap:/choices/0/result_text",
+      "locale": "zh-TW",
+      "expected": false,
+      "normal_base": "rawls.actual-zh-TW-spam_food",
+      "source_path": "content/events/easter_eggs.json",
+      "path": [
+        "choices",
+        0,
+        "result_text"
+      ],
+      "source_base": "fcecdf67cae0681f44972c7dcbeff8eafee44718b0eee37003afd3d5800eddd5",
+      "source_edits": [],
+      "target_base": "dfd343f9a517f377b165e611ed3cbb8cedd894c3e18923c050dde079139e5b2f",
+      "target_edits": [
+        [
+          10,
+          "",
+          "SPAM "
+        ]
+      ]
+    },
+    {
+      "id": "rawls.REJECT-zh-TW-spam_list-84",
+      "leaf_id": "events:egg_triangle_kimbap:/description",
+      "locale": "zh-TW",
+      "expected": false,
+      "normal_base": "rawls.actual-zh-TW-spam_list",
+      "source_path": "content/events/easter_eggs.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "1ae6a12d8cdb68e4ccbb9221d18f84f123b92c2b09432d2d55922b332de73a03",
+      "source_edits": [],
+      "target_base": "14cc18b1ad965a718195540a86d5c6b03e02207ce3264863d7593cf54f9ed963",
+      "target_edits": [
+        [
+          46,
+          "",
+          "X"
+        ]
+      ]
+    },
+    {
+      "id": "rawls.REJECT-zh-TW-spam_list-85",
+      "leaf_id": "events:egg_triangle_kimbap:/description",
+      "locale": "zh-TW",
+      "expected": false,
+      "normal_base": "rawls.actual-zh-TW-spam_list",
+      "source_path": "content/events/easter_eggs.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "1ae6a12d8cdb68e4ccbb9221d18f84f123b92c2b09432d2d55922b332de73a03",
+      "source_edits": [],
+      "target_base": "14cc18b1ad965a718195540a86d5c6b03e02207ce3264863d7593cf54f9ed963",
+      "target_edits": [
+        [
+          42,
+          "",
+          "SPAM "
+        ]
+      ]
+    },
+    {
+      "id": "rawls.REJECT-zh-TW-mirae_record-86",
+      "leaf_id": "events:v2_mirae_result_message:/choices/0/result_text",
+      "locale": "zh-TW",
+      "expected": false,
+      "normal_base": "rawls.actual-zh-TW-mirae_record",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "choices",
+        0,
+        "result_text"
+      ],
+      "source_base": "43ad2c67fc0f41bbf853709618a70d119557207dc4a095ca7a05ac1b1150469d",
+      "source_edits": [],
+      "target_base": "f086d242434faaf46a9e373025c6d62618c1cea34b6f9803be79c2df3af0318f",
+      "target_edits": [
+        [
+          18,
+          "",
+          "X"
+        ]
+      ]
+    },
+    {
+      "id": "rawls.REJECT-zh-TW-mirae_record-87",
+      "leaf_id": "events:v2_mirae_result_message:/choices/0/result_text",
+      "locale": "zh-TW",
+      "expected": false,
+      "normal_base": "rawls.actual-zh-TW-mirae_record",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "choices",
+        0,
+        "result_text"
+      ],
+      "source_base": "43ad2c67fc0f41bbf853709618a70d119557207dc4a095ca7a05ac1b1150469d",
+      "source_edits": [],
+      "target_base": "f086d242434faaf46a9e373025c6d62618c1cea34b6f9803be79c2df3af0318f",
+      "target_edits": [
+        [
+          13,
+          "",
+          "Mirae "
+        ]
+      ]
+    },
+    {
+      "id": "rawls.REJECT-zh-TW-mirae_notice-88",
+      "leaf_id": "events:v2_mirae_result_message:/description",
+      "locale": "zh-TW",
+      "expected": false,
+      "normal_base": "rawls.actual-zh-TW-mirae_notice",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "0ea7dbca93999b1226682bc6d90335d7966eab82580471d4cffefce9129174a4",
+      "source_edits": [],
+      "target_base": "10c44a019dbd96270078fe9c83a70085d645d595292f2e2fd72a57086f326e04",
+      "target_edits": [
+        [
+          21,
+          "",
+          "X"
+        ]
+      ]
+    },
+    {
+      "id": "rawls.REJECT-zh-TW-mirae_notice-89",
+      "leaf_id": "events:v2_mirae_result_message:/description",
+      "locale": "zh-TW",
+      "expected": false,
+      "normal_base": "rawls.actual-zh-TW-mirae_notice",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "0ea7dbca93999b1226682bc6d90335d7966eab82580471d4cffefce9129174a4",
+      "source_edits": [],
+      "target_base": "10c44a019dbd96270078fe9c83a70085d645d595292f2e2fd72a57086f326e04",
+      "target_edits": [
+        [
+          16,
+          "",
+          "Mirae "
+        ]
+      ]
+    },
+    {
+      "id": "rawls.REJECT-zh-TW-mirae_title-90",
+      "leaf_id": "events:v2_mirae_result_message:/title",
+      "locale": "zh-TW",
+      "expected": false,
+      "normal_base": "rawls.actual-zh-TW-mirae_title",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "title"
+      ],
+      "source_base": "b0242b1b3f525f8e3edb8b0f9ec0f8c2fabdc72e56c29ce6a30ee4dd99146c9b",
+      "source_edits": [],
+      "target_base": "5a27dd63ff294610aae13b63af45035a95b9b882205ccdf425012fb1ab45f53b",
+      "target_edits": [
+        [
+          5,
+          "",
+          "X"
+        ]
+      ]
+    },
+    {
+      "id": "rawls.REJECT-zh-TW-mirae_title-91",
+      "leaf_id": "events:v2_mirae_result_message:/title",
+      "locale": "zh-TW",
+      "expected": false,
+      "normal_base": "rawls.actual-zh-TW-mirae_title",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "title"
+      ],
+      "source_base": "b0242b1b3f525f8e3edb8b0f9ec0f8c2fabdc72e56c29ce6a30ee4dd99146c9b",
+      "source_edits": [],
+      "target_base": "5a27dd63ff294610aae13b63af45035a95b9b882205ccdf425012fb1ab45f53b",
+      "target_edits": [
+        [
+          0,
+          "",
+          "Mirae "
+        ]
+      ]
+    },
+    {
+      "id": "rawls.REJECT-zh-TW-mirae_apply-92",
+      "leaf_id": "events:v2_opening_application_send:/choices/0/text",
+      "locale": "zh-TW",
+      "expected": false,
+      "normal_base": "rawls.actual-zh-TW-mirae_apply",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "choices",
+        0,
+        "text"
+      ],
+      "source_base": "03c38501aad3a10e0d676bd02d54b9a07bbaff33edfad1b5460f4db45fade183",
+      "source_edits": [],
+      "target_base": "3d478fbd84ea4a728d7c8992febb6272ca566bb6b60c08a87c98df3077afc1f1",
+      "target_edits": [
+        [
+          10,
+          "",
+          "X"
+        ]
+      ]
+    },
+    {
+      "id": "rawls.REJECT-zh-TW-mirae_apply-93",
+      "leaf_id": "events:v2_opening_application_send:/choices/0/text",
+      "locale": "zh-TW",
+      "expected": false,
+      "normal_base": "rawls.actual-zh-TW-mirae_apply",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "choices",
+        0,
+        "text"
+      ],
+      "source_base": "03c38501aad3a10e0d676bd02d54b9a07bbaff33edfad1b5460f4db45fade183",
+      "source_edits": [],
+      "target_base": "3d478fbd84ea4a728d7c8992febb6272ca566bb6b60c08a87c98df3077afc1f1",
+      "target_edits": [
+        [
+          10,
+          "",
+          " Mirae"
+        ]
+      ]
+    },
+    {
+      "id": "rawls.REJECT-zh-TW-mirae_listing-94",
+      "leaf_id": "events:v2_opening_application_send:/description",
+      "locale": "zh-TW",
+      "expected": false,
+      "normal_base": "rawls.actual-zh-TW-mirae_listing",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "db7cfe0ee42ed15f2ecd61a1bbb8207a18dbf1cecb7170329cc4b510dc15cd55",
+      "source_edits": [],
+      "target_base": "886ebd83c5b6f66e76de3a2c2c50fef0c07f9303582f2e97b7ec09a549b630aa",
+      "target_edits": [
+        [
+          168,
+          "",
+          "X"
+        ]
+      ]
+    },
+    {
+      "id": "rawls.REJECT-zh-TW-mirae_listing-95",
+      "leaf_id": "events:v2_opening_application_send:/description",
+      "locale": "zh-TW",
+      "expected": false,
+      "normal_base": "rawls.actual-zh-TW-mirae_listing",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "db7cfe0ee42ed15f2ecd61a1bbb8207a18dbf1cecb7170329cc4b510dc15cd55",
+      "source_edits": [],
+      "target_base": "886ebd83c5b6f66e76de3a2c2c50fef0c07f9303582f2e97b7ec09a549b630aa",
+      "target_edits": [
+        [
+          168,
+          "",
+          " Mirae"
+        ]
+      ]
+    },
+    {
+      "id": "rawls.REJECT-zh-TW-seorin_notice-96",
+      "leaf_id": "events:v2_seorin_result_message:/description",
+      "locale": "zh-TW",
+      "expected": false,
+      "normal_base": "rawls.actual-zh-TW-seorin_notice",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "0442c0381202e2b503849bffab3d1cb9f9fc44fa35abb3b3a8d9904b60168735",
+      "source_edits": [],
+      "target_base": "ef039fdace0512732ae206cfe09081ad09a153cc391ab8b2abf6a28b5b519416",
+      "target_edits": [
+        [
+          6,
+          "",
+          "X"
+        ]
+      ]
+    },
+    {
+      "id": "rawls.REJECT-zh-TW-seorin_notice-97",
+      "leaf_id": "events:v2_seorin_result_message:/description",
+      "locale": "zh-TW",
+      "expected": false,
+      "normal_base": "rawls.actual-zh-TW-seorin_notice",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "0442c0381202e2b503849bffab3d1cb9f9fc44fa35abb3b3a8d9904b60168735",
+      "source_edits": [],
+      "target_base": "ef039fdace0512732ae206cfe09081ad09a153cc391ab8b2abf6a28b5b519416",
+      "target_edits": [
+        [
+          0,
+          "",
+          "Seorin "
+        ]
+      ]
+    },
+    {
+      "id": "rawls.REJECT-zh-TW-seorin_title-98",
+      "leaf_id": "events:v2_seorin_result_message:/title",
+      "locale": "zh-TW",
+      "expected": false,
+      "normal_base": "rawls.actual-zh-TW-seorin_title",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "title"
+      ],
+      "source_base": "53deb64271610a7046d21997dcabe23931a76c4b2be9e581c73e1502ed16a3e7",
+      "source_edits": [],
+      "target_base": "a9a20d04b551b331498576d98d4990641eaab258b3dc4be3ccfa1bcd769e189a",
+      "target_edits": [
+        [
+          6,
+          "",
+          "X"
+        ]
+      ]
+    },
+    {
+      "id": "rawls.REJECT-zh-TW-seorin_title-99",
+      "leaf_id": "events:v2_seorin_result_message:/title",
+      "locale": "zh-TW",
+      "expected": false,
+      "normal_base": "rawls.actual-zh-TW-seorin_title",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "title"
+      ],
+      "source_base": "53deb64271610a7046d21997dcabe23931a76c4b2be9e581c73e1502ed16a3e7",
+      "source_edits": [],
+      "target_base": "a9a20d04b551b331498576d98d4990641eaab258b3dc4be3ccfa1bcd769e189a",
+      "target_edits": [
+        [
+          0,
+          "",
+          "Seorin "
+        ]
+      ]
+    },
+    {
+      "id": "rawls.OFF-water",
+      "leaf_id": "events:egg_4am_clarity:/choices/1/text",
+      "locale": "zh-CN",
+      "expected": "local_off",
+      "normal_base": "rawls.actual-zh-CN-water",
+      "source_path": "content/events/easter_eggs.json",
+      "path": [
+        "choices",
+        1,
+        "text"
+      ],
+      "source_base": "782e15211cffb9fa354b68b3d931f582b35ba81b973271a51b5bfa4db33d8845",
+      "source_edits": [
+        [
+          20,
+          "",
+          " "
+        ]
+      ],
+      "target_base": "205f6af54733fd20077030b87452ba2bb24edde64af0474d67736a3fb9ca8a9b",
+      "target_edits": []
+    },
+    {
+      "id": "rawls.OFF-stall",
+      "leaf_id": "events:egg_gosiwon_sage:/description",
+      "locale": "zh-CN",
+      "expected": "local_off",
+      "normal_base": "rawls.actual-zh-CN-stall",
+      "source_path": "content/events/easter_eggs.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "cec5a733c08b781616ee582e888886e6bcb22a50138dd16b3a3d8cbaddc492b2",
+      "source_edits": [
+        [
+          210,
+          "",
+          " "
+        ]
+      ],
+      "target_base": "669e17f284d6c822b087a46f1eb26f03c5e91a08c522e051b57c2f0dd6c3df8b",
+      "target_edits": []
+    },
+    {
+      "id": "rawls.OFF-never",
+      "leaf_id": "events:egg_honest_paradox:/description",
+      "locale": "zh-CN",
+      "expected": "local_off",
+      "normal_base": "rawls.actual-zh-CN-never",
+      "source_path": "content/events/easter_eggs.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "c6a321a2be0b318d545556d149bfbb5223745fd8e3beacec0e82ebca0b1610de",
+      "source_edits": [
+        [
+          210,
+          "",
+          " "
+        ]
+      ],
+      "target_base": "8d3d7f9740499b5eae53449105b37dcd62b799a141c731dee4c0b6fc9dbe18d6",
+      "target_edits": []
+    },
+    {
+      "id": "rawls.OFF-spam_food",
+      "leaf_id": "events:egg_triangle_kimbap:/choices/0/result_text",
+      "locale": "zh-CN",
+      "expected": "local_off",
+      "normal_base": "rawls.actual-zh-CN-spam_food",
+      "source_path": "content/events/easter_eggs.json",
+      "path": [
+        "choices",
+        0,
+        "result_text"
+      ],
+      "source_base": "fcecdf67cae0681f44972c7dcbeff8eafee44718b0eee37003afd3d5800eddd5",
+      "source_edits": [
+        [
+          133,
+          "",
+          " "
+        ]
+      ],
+      "target_base": "379bb2ea3d6f7f78ccf83304c9f849fab9388932f27e0531f38a469b71007b51",
+      "target_edits": []
+    },
+    {
+      "id": "rawls.OFF-spam_list",
+      "leaf_id": "events:egg_triangle_kimbap:/description",
+      "locale": "zh-CN",
+      "expected": "local_off",
+      "normal_base": "rawls.actual-zh-CN-spam_list",
+      "source_path": "content/events/easter_eggs.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "1ae6a12d8cdb68e4ccbb9221d18f84f123b92c2b09432d2d55922b332de73a03",
+      "source_edits": [
+        [
+          192,
+          "",
+          " "
+        ]
+      ],
+      "target_base": "f335310fd419113b770d5e77d87ec07adf6b37249d934223efdaa5f223fad727",
+      "target_edits": []
+    },
+    {
+      "id": "rawls.OFF-offer_thanks",
+      "leaf_id": "events:v2_daeun_return_after_distance:/choices/1/text",
+      "locale": "zh-CN",
+      "expected": "local_off",
+      "normal_base": "rawls.actual-zh-CN-offer_thanks",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "choices",
+        1,
+        "text"
+      ],
+      "source_base": "eeb3d117da277d117a78231971a6cb718fb85b5447ac4d4dab92ac7c79ea2f62",
+      "source_edits": [
+        [
+          21,
+          "",
+          " "
+        ]
+      ],
+      "target_base": "f9a24b4bde655ffffa5b15d618aeaadd4a5aa57543c5fbfd9c8a97175702624e",
+      "target_edits": []
+    },
+    {
+      "id": "rawls.OFF-thanks_once",
+      "leaf_id": "events:v2_daeun_return_named:/choices/1/result_text",
+      "locale": "zh-CN",
+      "expected": "local_off",
+      "normal_base": "rawls.actual-zh-CN-thanks_once",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "choices",
+        1,
+        "result_text"
+      ],
+      "source_base": "9547103c7605f871fd332f4032cd3eb0ac01c732637824b275527294dce94ad6",
+      "source_edits": [
+        [
+          164,
+          "",
+          " "
+        ]
+      ],
+      "target_base": "c922715f3233bba229cb2886fc98ce1a202f950015f59d62f900406d46a919a2",
+      "target_edits": []
+    },
+    {
+      "id": "rawls.OFF-offer_food",
+      "leaf_id": "events:v2_daeun_return_named:/choices/1/text",
+      "locale": "zh-CN",
+      "expected": "local_off",
+      "normal_base": "rawls.actual-zh-CN-offer_food",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "choices",
+        1,
+        "text"
+      ],
+      "source_base": "2112ae87bfab64f48741d46eb7d214e2aa160f4627cb26783eaa75df65caec62",
+      "source_edits": [
+        [
+          19,
+          "",
+          " "
+        ]
+      ],
+      "target_base": "4995199dbb2528c6780f0922cf7da00a7acfc9c73bbd2cf9fb23347d559d5c7e",
+      "target_edits": []
+    },
+    {
+      "id": "rawls.OFF-together_hour",
+      "leaf_id": "events:v2_hyunsu_player_reachout:/description_memory_if_known/relationship_memory:hyunsu:hyunsu_honest_uncertainty",
+      "locale": "zh-CN",
+      "expected": "local_off",
+      "normal_base": "rawls.actual-zh-CN-together_hour",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "description_memory_if_known",
+        "relationship_memory:hyunsu:hyunsu_honest_uncertainty"
+      ],
+      "source_base": "e2d4f2cf131b38960779f2d61f497621c8f3afaa59892973cc62d032e6c49bb7",
+      "source_edits": [
+        [
+          57,
+          "",
+          " "
+        ]
+      ],
+      "target_base": "78a5cdd238d1b9789ee186b2f5627947f7f6bbcb732ed490d8e899998ba4a77e",
+      "target_edits": []
+    },
+    {
+      "id": "rawls.OFF-your_questions",
+      "leaf_id": "events:v2_hyunsu_study_followup:/choices/1/text",
+      "locale": "zh-CN",
+      "expected": "local_off",
+      "normal_base": "rawls.actual-zh-CN-your_questions",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "choices",
+        1,
+        "text"
+      ],
+      "source_base": "bac63e48f4aca2388c76f0b3db9004d6f8342e8f19f80f01e6256f6a7f03fa06",
+      "source_edits": [
+        [
+          27,
+          "",
+          " "
+        ]
+      ],
+      "target_base": "09bdfcd27362bf328745e73114fa7f4b19fa6ec2f0fd197b8e94e8234010c249",
+      "target_edits": []
+    },
+    {
+      "id": "rawls.OFF-one_sentence",
+      "leaf_id": "events:v2_jaehyuk_message:/description",
+      "locale": "zh-CN",
+      "expected": "local_off",
+      "normal_base": "rawls.actual-zh-CN-one_sentence",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "9b4e996b8dda6f0f4e23e93d0f76953a1cdab3d877ec374ea11292df92b7442d",
+      "source_edits": [
+        [
+          178,
+          "",
+          " "
+        ]
+      ],
+      "target_base": "340a343be3f41837bd1524c004d85b2724bb09387a4e0d28e0e6775d7a6211c3",
+      "target_edits": []
+    },
+    {
+      "id": "rawls.OFF-mirae_record",
+      "leaf_id": "events:v2_mirae_result_message:/choices/0/result_text",
+      "locale": "zh-CN",
+      "expected": "local_off",
+      "normal_base": "rawls.actual-zh-CN-mirae_record",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "choices",
+        0,
+        "result_text"
+      ],
+      "source_base": "43ad2c67fc0f41bbf853709618a70d119557207dc4a095ca7a05ac1b1150469d",
+      "source_edits": [
+        [
+          64,
+          "",
+          " "
+        ]
+      ],
+      "target_base": "a0a98771e8bd357cabb11d12ceca9917ae63ec41f4e207943bc44f56aaf4323f",
+      "target_edits": []
+    },
+    {
+      "id": "rawls.OFF-mirae_notice",
+      "leaf_id": "events:v2_mirae_result_message:/description",
+      "locale": "zh-CN",
+      "expected": "local_off",
+      "normal_base": "rawls.actual-zh-CN-mirae_notice",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "0ea7dbca93999b1226682bc6d90335d7966eab82580471d4cffefce9129174a4",
+      "source_edits": [
+        [
+          105,
+          "",
+          " "
+        ]
+      ],
+      "target_base": "55e8c930efcf1fb86c104485c4acdcce1d3a06d349310b320e8971c1f8fc8e81",
+      "target_edits": []
+    },
+    {
+      "id": "rawls.OFF-mirae_title",
+      "leaf_id": "events:v2_mirae_result_message:/title",
+      "locale": "zh-CN",
+      "expected": "local_off",
+      "normal_base": "rawls.actual-zh-CN-mirae_title",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "title"
+      ],
+      "source_base": "b0242b1b3f525f8e3edb8b0f9ec0f8c2fabdc72e56c29ce6a30ee4dd99146c9b",
+      "source_edits": [
+        [
+          12,
+          "",
+          " "
+        ]
+      ],
+      "target_base": "f1e568aca641e4110bde4fc7fa04b78dc766882c0dd148734bb355fabcdd5b58",
+      "target_edits": []
+    },
+    {
+      "id": "rawls.OFF-mirae_apply",
+      "leaf_id": "events:v2_opening_application_send:/choices/0/text",
+      "locale": "zh-CN",
+      "expected": "local_off",
+      "normal_base": "rawls.actual-zh-CN-mirae_apply",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "choices",
+        0,
+        "text"
+      ],
+      "source_base": "03c38501aad3a10e0d676bd02d54b9a07bbaff33edfad1b5460f4db45fade183",
+      "source_edits": [
+        [
+          16,
+          "",
+          " "
+        ]
+      ],
+      "target_base": "a124941b115889e7cb4af4d7d28d9791c6ba2f69e682aa4ca42ac25311131d31",
+      "target_edits": []
+    },
+    {
+      "id": "rawls.OFF-mirae_listing",
+      "leaf_id": "events:v2_opening_application_send:/description",
+      "locale": "zh-CN",
+      "expected": "local_off",
+      "normal_base": "rawls.actual-zh-CN-mirae_listing",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "db7cfe0ee42ed15f2ecd61a1bbb8207a18dbf1cecb7170329cc4b510dc15cd55",
+      "source_edits": [
+        [
+          325,
+          "",
+          " "
+        ]
+      ],
+      "target_base": "b4fb90c342ff08e687e88c9110a1c7fdea4dae9ad24f42da4091b0a80cf6f595",
+      "target_edits": []
+    },
+    {
+      "id": "rawls.OFF-coffee_offer",
+      "leaf_id": "events:v2_sangchul_housing_lead:/description",
+      "locale": "zh-CN",
+      "expected": "local_off",
+      "normal_base": "rawls.actual-zh-CN-coffee_offer",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "ee170b65446101b790c9dd742e98acd4dfec0f531aea835b6168c046f913ba1f",
+      "source_edits": [
+        [
+          327,
+          "",
+          " "
+        ]
+      ],
+      "target_base": "653f4f44736a3d31918be53e77c11208c863661d81ffaba14b57d390d1b829f7",
+      "target_edits": []
+    },
+    {
+      "id": "rawls.OFF-seorin_notice",
+      "leaf_id": "events:v2_seorin_result_message:/description",
+      "locale": "zh-CN",
+      "expected": "local_off",
+      "normal_base": "rawls.actual-zh-CN-seorin_notice",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "0442c0381202e2b503849bffab3d1cb9f9fc44fa35abb3b3a8d9904b60168735",
+      "source_edits": [
+        [
+          118,
+          "",
+          " "
+        ]
+      ],
+      "target_base": "db2c653bd17613ba6a9a843b33286041c550623823c83e3156127585ad4be067",
+      "target_edits": []
+    },
+    {
+      "id": "rawls.OFF-seorin_title",
+      "leaf_id": "events:v2_seorin_result_message:/title",
+      "locale": "zh-CN",
+      "expected": "local_off",
+      "normal_base": "rawls.actual-zh-CN-seorin_title",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "title"
+      ],
+      "source_base": "53deb64271610a7046d21997dcabe23931a76c4b2be9e581c73e1502ed16a3e7",
+      "source_edits": [
+        [
+          10,
+          "",
+          " "
+        ]
+      ],
+      "target_base": "2cdc8c447b4a829ac4ca906d747902e05eb336871e15b2b089502ad7fcaa075e",
+      "target_edits": []
+    },
+    {
+      "id": "root.cup.normal",
+      "leaf_id": "events:egg_4am_clarity:/choices/1/text",
+      "locale": "zh-CN",
+      "expected": true,
+      "normal_base": null,
+      "source_path": "content/events/easter_eggs.json",
+      "path": [
+        "choices",
+        1,
+        "text"
+      ],
+      "source_base": "782e15211cffb9fa354b68b3d931f582b35ba81b973271a51b5bfa4db33d8845",
+      "source_edits": [],
+      "target_base": "205f6af54733fd20077030b87452ba2bb24edde64af0474d67736a3fb9ca8a9b",
+      "target_edits": []
+    },
+    {
+      "id": "root.cup.mutant",
+      "leaf_id": "events:egg_4am_clarity:/choices/1/text",
+      "locale": "zh-CN",
+      "expected": false,
+      "normal_base": "root.cup.normal",
+      "source_path": "content/events/easter_eggs.json",
+      "path": [
+        "choices",
+        1,
+        "text"
+      ],
+      "source_base": "782e15211cffb9fa354b68b3d931f582b35ba81b973271a51b5bfa4db33d8845",
+      "source_edits": [],
+      "target_base": "205f6af54733fd20077030b87452ba2bb24edde64af0474d67736a3fb9ca8a9b",
+      "target_edits": [
+        [
+          1,
+          "",
+          "两"
+        ]
+      ]
+    },
+    {
+      "id": "root.shower.normal",
+      "leaf_id": "events:egg_gosiwon_sage:/description",
+      "locale": "zh-CN",
+      "expected": true,
+      "normal_base": null,
+      "source_path": "content/events/easter_eggs.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "cec5a733c08b781616ee582e888886e6bcb22a50138dd16b3a3d8cbaddc492b2",
+      "source_edits": [],
+      "target_base": "669e17f284d6c822b087a46f1eb26f03c5e91a08c522e051b57c2f0dd6c3df8b",
+      "target_edits": []
+    },
+    {
+      "id": "root.shower.mutant",
+      "leaf_id": "events:egg_gosiwon_sage:/description",
+      "locale": "zh-CN",
+      "expected": false,
+      "normal_base": "root.shower.normal",
+      "source_path": "content/events/easter_eggs.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "cec5a733c08b781616ee582e888886e6bcb22a50138dd16b3a3d8cbaddc492b2",
+      "source_edits": [],
+      "target_base": "669e17f284d6c822b087a46f1eb26f03c5e91a08c522e051b57c2f0dd6c3df8b",
+      "target_edits": [
+        [
+          72,
+          "3",
+          "4"
+        ]
+      ]
+    },
+    {
+      "id": "root.promotion.normal",
+      "leaf_id": "events:v2_daeun_return_after_distance:/choices/1/text",
+      "locale": "zh-TW",
+      "expected": true,
+      "normal_base": null,
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "choices",
+        1,
+        "text"
+      ],
+      "source_base": "eeb3d117da277d117a78231971a6cb718fb85b5447ac4d4dab92ac7c79ea2f62",
+      "source_edits": [],
+      "target_base": "10b59c344e904ac8a5970f6da184f0c490d2a0b0864de70444f052c4599c7628",
+      "target_edits": []
+    },
+    {
+      "id": "root.promotion.mutant",
+      "leaf_id": "events:v2_daeun_return_after_distance:/choices/1/text",
+      "locale": "zh-TW",
+      "expected": false,
+      "normal_base": "root.promotion.normal",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "choices",
+        1,
+        "text"
+      ],
+      "source_base": "eeb3d117da277d117a78231971a6cb718fb85b5447ac4d4dab92ac7c79ea2f62",
+      "source_edits": [],
+      "target_base": "10b59c344e904ac8a5970f6da184f0c490d2a0b0864de70444f052c4599c7628",
+      "target_edits": [
+        [
+          12,
+          "一",
+          "二"
+        ]
+      ]
+    },
+    {
+      "id": "root.thanks.normal",
+      "leaf_id": "events:v2_daeun_return_named:/choices/1/result_text",
+      "locale": "zh-CN",
+      "expected": true,
+      "normal_base": null,
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "choices",
+        1,
+        "result_text"
+      ],
+      "source_base": "9547103c7605f871fd332f4032cd3eb0ac01c732637824b275527294dce94ad6",
+      "source_edits": [],
+      "target_base": "c922715f3233bba229cb2886fc98ce1a202f950015f59d62f900406d46a919a2",
+      "target_edits": []
+    },
+    {
+      "id": "root.thanks.mutant",
+      "leaf_id": "events:v2_daeun_return_named:/choices/1/result_text",
+      "locale": "zh-CN",
+      "expected": false,
+      "normal_base": "root.thanks.normal",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "choices",
+        1,
+        "result_text"
+      ],
+      "source_base": "9547103c7605f871fd332f4032cd3eb0ac01c732637824b275527294dce94ad6",
+      "source_edits": [],
+      "target_base": "c922715f3233bba229cb2886fc98ce1a202f950015f59d62f900406d46a919a2",
+      "target_edits": [
+        [
+          53,
+          "",
+          "两"
+        ]
+      ]
+    },
+    {
+      "id": "root.your-questions.normal",
+      "leaf_id": "events:v2_hyunsu_study_followup:/choices/1/text",
+      "locale": "zh-CN",
+      "expected": true,
+      "normal_base": null,
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "choices",
+        1,
+        "text"
+      ],
+      "source_base": "bac63e48f4aca2388c76f0b3db9004d6f8342e8f19f80f01e6256f6a7f03fa06",
+      "source_edits": [],
+      "target_base": "09bdfcd27362bf328745e73114fa7f4b19fa6ec2f0fd197b8e94e8234010c249",
+      "target_edits": []
+    },
+    {
+      "id": "root.your-questions.mutant",
+      "leaf_id": "events:v2_hyunsu_study_followup:/choices/1/text",
+      "locale": "zh-CN",
+      "expected": false,
+      "normal_base": "root.your-questions.normal",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "choices",
+        1,
+        "text"
+      ],
+      "source_base": "bac63e48f4aca2388c76f0b3db9004d6f8342e8f19f80f01e6256f6a7f03fa06",
+      "source_edits": [],
+      "target_base": "09bdfcd27362bf328745e73114fa7f4b19fa6ec2f0fd197b8e94e8234010c249",
+      "target_edits": [
+        [
+          5,
+          "你的",
+          "四道"
+        ]
+      ]
+    },
+    {
+      "id": "root.single-sentence.normal",
+      "leaf_id": "events:v2_jaehyuk_message:/description",
+      "locale": "zh-TW",
+      "expected": true,
+      "normal_base": null,
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "9b4e996b8dda6f0f4e23e93d0f76953a1cdab3d877ec374ea11292df92b7442d",
+      "source_edits": [],
+      "target_base": "c48a531aef31ecbbb74c66f6daf4869b3e06e58680e0684e2b450772ddd4297a",
+      "target_edits": []
+    },
+    {
+      "id": "root.single-sentence.mutant",
+      "leaf_id": "events:v2_jaehyuk_message:/description",
+      "locale": "zh-TW",
+      "expected": false,
+      "normal_base": "root.single-sentence.normal",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "9b4e996b8dda6f0f4e23e93d0f76953a1cdab3d877ec374ea11292df92b7442d",
+      "source_edits": [],
+      "target_base": "c48a531aef31ecbbb74c66f6daf4869b3e06e58680e0684e2b450772ddd4297a",
+      "target_edits": [
+        [
+          149,
+          "一",
+          "兩"
+        ]
+      ]
+    },
+    {
+      "id": "root.coffee.normal",
+      "leaf_id": "events:v2_sangchul_housing_lead:/description",
+      "locale": "zh-CN",
+      "expected": true,
+      "normal_base": null,
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "ee170b65446101b790c9dd742e98acd4dfec0f531aea835b6168c046f913ba1f",
+      "source_edits": [],
+      "target_base": "653f4f44736a3d31918be53e77c11208c863661d81ffaba14b57d390d1b829f7",
+      "target_edits": []
+    },
+    {
+      "id": "root.coffee.mutant",
+      "leaf_id": "events:v2_sangchul_housing_lead:/description",
+      "locale": "zh-CN",
+      "expected": false,
+      "normal_base": "root.coffee.normal",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "ee170b65446101b790c9dd742e98acd4dfec0f531aea835b6168c046f913ba1f",
+      "source_edits": [],
+      "target_base": "653f4f44736a3d31918be53e77c11208c863661d81ffaba14b57d390d1b829f7",
+      "target_edits": [
+        [
+          231,
+          "",
+          "两"
+        ]
+      ]
+    },
+    {
+      "id": "root.never.normal",
+      "leaf_id": "events:egg_honest_paradox:/description",
+      "locale": "zh-TW",
+      "expected": true,
+      "normal_base": null,
+      "source_path": "content/events/easter_eggs.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "c6a321a2be0b318d545556d149bfbb5223745fd8e3beacec0e82ebca0b1610de",
+      "source_edits": [],
+      "target_base": "5717e9ca0b33ff5ed8c15a3b80813f0ba24ed2ca57a409f4adbf1ecd7fa16dd1",
+      "target_edits": []
+    },
+    {
+      "id": "root.never.mutant",
+      "leaf_id": "events:egg_honest_paradox:/description",
+      "locale": "zh-TW",
+      "expected": false,
+      "normal_base": "root.never.normal",
+      "source_path": "content/events/easter_eggs.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "c6a321a2be0b318d545556d149bfbb5223745fd8e3beacec0e82ebca0b1610de",
+      "source_edits": [],
+      "target_base": "5717e9ca0b33ff5ed8c15a3b80813f0ba24ed2ca57a409f4adbf1ecd7fa16dd1",
+      "target_edits": [
+        [
+          6,
+          "從沒",
+          "曾經"
+        ]
+      ]
+    },
+    {
+      "id": "root.together.normal",
+      "leaf_id": "events:v2_hyunsu_player_reachout:/description_memory_if_known/relationship_memory:hyunsu:hyunsu_honest_uncertainty",
+      "locale": "zh-TW",
+      "expected": true,
+      "normal_base": null,
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "description_memory_if_known",
+        "relationship_memory:hyunsu:hyunsu_honest_uncertainty"
+      ],
+      "source_base": "e2d4f2cf131b38960779f2d61f497621c8f3afaa59892973cc62d032e6c49bb7",
+      "source_edits": [],
+      "target_base": "aa695a80e1edb82a323f54511716f85f29263e534efc2a7c44f7addde6631be8",
+      "target_edits": []
+    },
+    {
+      "id": "root.together.mutant",
+      "leaf_id": "events:v2_hyunsu_player_reachout:/description_memory_if_known/relationship_memory:hyunsu:hyunsu_honest_uncertainty",
+      "locale": "zh-TW",
+      "expected": false,
+      "normal_base": "root.together.normal",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "description_memory_if_known",
+        "relationship_memory:hyunsu:hyunsu_honest_uncertainty"
+      ],
+      "source_base": "e2d4f2cf131b38960779f2d61f497621c8f3afaa59892973cc62d032e6c49bb7",
+      "source_edits": [],
+      "target_base": "aa695a80e1edb82a323f54511716f85f29263e534efc2a7c44f7addde6631be8",
+      "target_edits": [
+        [
+          43,
+          "兩",
+          "三"
+        ]
+      ]
+    },
+    {
+      "id": "root.mirae.normal",
+      "leaf_id": "events:v2_mirae_result_message:/title",
+      "locale": "zh-CN",
+      "expected": true,
+      "normal_base": null,
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "title"
+      ],
+      "source_base": "b0242b1b3f525f8e3edb8b0f9ec0f8c2fabdc72e56c29ce6a30ee4dd99146c9b",
+      "source_edits": [],
+      "target_base": "f1e568aca641e4110bde4fc7fa04b78dc766882c0dd148734bb355fabcdd5b58",
+      "target_edits": []
+    },
+    {
+      "id": "root.mirae.mutant",
+      "leaf_id": "events:v2_mirae_result_message:/title",
+      "locale": "zh-CN",
+      "expected": false,
+      "normal_base": "root.mirae.normal",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "title"
+      ],
+      "source_base": "b0242b1b3f525f8e3edb8b0f9ec0f8c2fabdc72e56c29ce6a30ee4dd99146c9b",
+      "source_edits": [],
+      "target_base": "f1e568aca641e4110bde4fc7fa04b78dc766882c0dd148734bb355fabcdd5b58",
+      "target_edits": [
+        [
+          6,
+          "产业技术",
+          "餐饮"
+        ]
+      ]
+    },
+    {
+      "id": "root.seorin.normal",
+      "leaf_id": "events:v2_seorin_result_message:/title",
+      "locale": "zh-CN",
+      "expected": true,
+      "normal_base": null,
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "title"
+      ],
+      "source_base": "53deb64271610a7046d21997dcabe23931a76c4b2be9e581c73e1502ed16a3e7",
+      "source_edits": [],
+      "target_base": "2cdc8c447b4a829ac4ca906d747902e05eb336871e15b2b089502ad7fcaa075e",
+      "target_edits": []
+    },
+    {
+      "id": "root.seorin.mutant",
+      "leaf_id": "events:v2_seorin_result_message:/title",
+      "locale": "zh-CN",
+      "expected": false,
+      "normal_base": "root.seorin.normal",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "title"
+      ],
+      "source_base": "53deb64271610a7046d21997dcabe23931a76c4b2be9e581c73e1502ed16a3e7",
+      "source_edits": [],
+      "target_base": "2cdc8c447b4a829ac4ca906d747902e05eb336871e15b2b089502ad7fcaa075e",
+      "target_edits": [
+        [
+          7,
+          "物产",
+          "银行"
+        ]
+      ]
+    },
+    {
+      "id": "root.spam.normal",
+      "leaf_id": "events:egg_triangle_kimbap:/choices/0/result_text",
+      "locale": "zh-TW",
+      "expected": true,
+      "normal_base": null,
+      "source_path": "content/events/easter_eggs.json",
+      "path": [
+        "choices",
+        0,
+        "result_text"
+      ],
+      "source_base": "fcecdf67cae0681f44972c7dcbeff8eafee44718b0eee37003afd3d5800eddd5",
+      "source_edits": [],
+      "target_base": "dfd343f9a517f377b165e611ed3cbb8cedd894c3e18923c050dde079139e5b2f",
+      "target_edits": []
+    },
+    {
+      "id": "root.spam.mutant",
+      "leaf_id": "events:egg_triangle_kimbap:/choices/0/result_text",
+      "locale": "zh-TW",
+      "expected": false,
+      "normal_base": "root.spam.normal",
+      "source_path": "content/events/easter_eggs.json",
+      "path": [
+        "choices",
+        0,
+        "result_text"
+      ],
+      "source_base": "fcecdf67cae0681f44972c7dcbeff8eafee44718b0eee37003afd3d5800eddd5",
+      "source_edits": [],
+      "target_base": "dfd343f9a517f377b165e611ed3cbb8cedd894c3e18923c050dde079139e5b2f",
+      "target_edits": [
+        [
+          14,
+          "午餐肉",
+          "投資"
+        ]
+      ]
+    },
+    {
+      "id": "root.cup.explicit",
+      "leaf_id": "events:egg_4am_clarity:/choices/1/text",
+      "locale": "zh-CN",
+      "expected": true,
+      "normal_base": null,
+      "source_path": "content/events/easter_eggs.json",
+      "path": [
+        "choices",
+        1,
+        "text"
+      ],
+      "source_base": "782e15211cffb9fa354b68b3d931f582b35ba81b973271a51b5bfa4db33d8845",
+      "source_edits": [],
+      "target_base": "205f6af54733fd20077030b87452ba2bb24edde64af0474d67736a3fb9ca8a9b",
+      "target_edits": [
+        [
+          1,
+          "",
+          "一"
+        ]
+      ]
+    },
+    {
+      "id": "root.shower.role",
+      "leaf_id": "events:egg_gosiwon_sage:/description",
+      "locale": "zh-CN",
+      "expected": false,
+      "normal_base": "root.shower.normal",
+      "source_path": "content/events/easter_eggs.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "cec5a733c08b781616ee582e888886e6bcb22a50138dd16b3a3d8cbaddc492b2",
+      "source_edits": [],
+      "target_base": "669e17f284d6c822b087a46f1eb26f03c5e91a08c522e051b57c2f0dd6c3df8b",
+      "target_edits": [
+        [
+          72,
+          "3号隔间",
+          "第三次"
+        ]
+      ]
+    },
+    {
+      "id": "root.shower.sign",
+      "leaf_id": "events:egg_gosiwon_sage:/description",
+      "locale": "zh-CN",
+      "expected": false,
+      "normal_base": "root.shower.normal",
+      "source_path": "content/events/easter_eggs.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "cec5a733c08b781616ee582e888886e6bcb22a50138dd16b3a3d8cbaddc492b2",
+      "source_edits": [],
+      "target_base": "669e17f284d6c822b087a46f1eb26f03c5e91a08c522e051b57c2f0dd6c3df8b",
+      "target_edits": [
+        [
+          72,
+          "",
+          "−"
+        ]
+      ]
+    },
+    {
+      "id": "root.housing.deposit",
+      "leaf_id": "events:v2_sangchul_housing_lead:/description",
+      "locale": "zh-CN",
+      "expected": false,
+      "normal_base": "root.coffee.normal",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "ee170b65446101b790c9dd742e98acd4dfec0f531aea835b6168c046f913ba1f",
+      "source_edits": [],
+      "target_base": "653f4f44736a3d31918be53e77c11208c863661d81ffaba14b57d390d1b829f7",
+      "target_edits": [
+        [
+          86,
+          "1",
+          "2"
+        ]
+      ]
+    },
+    {
+      "id": "root.housing.currency",
+      "leaf_id": "events:v2_sangchul_housing_lead:/description",
+      "locale": "zh-CN",
+      "expected": false,
+      "normal_base": "root.coffee.normal",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "ee170b65446101b790c9dd742e98acd4dfec0f531aea835b6168c046f913ba1f",
+      "source_edits": [],
+      "target_base": "653f4f44736a3d31918be53e77c11208c863661d81ffaba14b57d390d1b829f7",
+      "target_edits": [
+        [
+          99,
+          "韩",
+          "日"
+        ]
+      ]
+    },
+    {
+      "id": "root.cup.source-off",
+      "leaf_id": "events:egg_4am_clarity:/choices/1/text",
+      "locale": "zh-CN",
+      "expected": "local_off",
+      "normal_base": "root.cup.normal",
+      "source_path": "content/events/easter_eggs.json",
+      "path": [
+        "choices",
+        1,
+        "text"
+      ],
+      "source_base": "782e15211cffb9fa354b68b3d931f582b35ba81b973271a51b5bfa4db33d8845",
+      "source_edits": [
+        [
+          20,
+          "",
+          " "
+        ]
+      ],
+      "target_base": "205f6af54733fd20077030b87452ba2bb24edde64af0474d67736a3fb9ca8a9b",
+      "target_edits": []
+    },
+    {
+      "id": "root.shower.source-off",
+      "leaf_id": "events:egg_gosiwon_sage:/description",
+      "locale": "zh-CN",
+      "expected": "local_off",
+      "normal_base": "root.shower.normal",
+      "source_path": "content/events/easter_eggs.json",
+      "path": [
+        "description"
+      ],
+      "source_base": "cec5a733c08b781616ee582e888886e6bcb22a50138dd16b3a3d8cbaddc492b2",
+      "source_edits": [
+        [
+          210,
+          "",
+          " "
+        ]
+      ],
+      "target_base": "669e17f284d6c822b087a46f1eb26f03c5e91a08c522e051b57c2f0dd6c3df8b",
+      "target_edits": []
+    },
+    {
+      "id": "root.your-questions.source-off",
+      "leaf_id": "events:v2_hyunsu_study_followup:/choices/1/text",
+      "locale": "zh-CN",
+      "expected": "local_off",
+      "normal_base": "root.your-questions.normal",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "choices",
+        1,
+        "text"
+      ],
+      "source_base": "bac63e48f4aca2388c76f0b3db9004d6f8342e8f19f80f01e6256f6a7f03fa06",
+      "source_edits": [
+        [
+          27,
+          "",
+          " "
+        ]
+      ],
+      "target_base": "09bdfcd27362bf328745e73114fa7f4b19fa6ec2f0fd197b8e94e8234010c249",
+      "target_edits": []
+    },
+    {
+      "id": "root.mirae.source-off",
+      "leaf_id": "events:v2_mirae_result_message:/title",
+      "locale": "zh-CN",
+      "expected": "local_off",
+      "normal_base": "root.mirae.normal",
+      "source_path": "content/events/core_loop_v2_events.json",
+      "path": [
+        "title"
+      ],
+      "source_base": "b0242b1b3f525f8e3edb8b0f9ec0f8c2fabdc72e56c29ce6a30ee4dd99146c9b",
+      "source_edits": [
+        [
+          12,
+          "",
+          " "
+        ]
+      ],
+      "target_base": "f1e568aca641e4110bde4fc7fa04b78dc766882c0dd148734bb355fabcdd5b58",
+      "target_edits": []
+    },
+    {
+      "id": "root.spam.source-off",
+      "leaf_id": "events:egg_triangle_kimbap:/choices/0/result_text",
+      "locale": "zh-TW",
+      "expected": "local_off",
+      "normal_base": "root.spam.normal",
+      "source_path": "content/events/easter_eggs.json",
+      "path": [
+        "choices",
+        0,
+        "result_text"
+      ],
+      "source_base": "fcecdf67cae0681f44972c7dcbeff8eafee44718b0eee37003afd3d5800eddd5",
+      "source_edits": [
+        [
+          133,
+          "",
+          " "
+        ]
+      ],
+      "target_base": "dfd343f9a517f377b165e611ed3cbb8cedd894c3e18923c050dde079139e5b2f",
+      "target_edits": []
+    }
+  ]
+}''')
+        reconstructed = []
+        for case in data['cases']:
+            row = {k: v for k, v in case.items() if not k.endswith(('_base', '_edits'))}
+            row['normal_base'] = case['normal_base']
+            for field in ('source', 'target'):
+                value = data[field + 's'][case[field + '_base']]
+                for start, before, after in case[field + '_edits']:
+                    self.assertEqual(value[start:start + len(before)], before)
+                    value = value[:start] + after + value[start + len(before):]
+                row[field] = value
+            reconstructed.append(row)
+        self.assertEqual(len(reconstructed), 153)
+        self.assertEqual(tool.digest(reconstructed), '0e869da0417a936ab047651008c9564fd64705c60b291ba61e31effb0d6c5c80')
+        by_id = {row['id']: row for row in reconstructed}
+        observed = {}
+        for row in reconstructed:
+            with self.subTest(case=row['id']):
+                owner = row['leaf_id'].split(':', 2)[1]
+                leaf = tool.Leaf('events', owner, row['source_path'], tuple(row['path']),
+                                 row['source'], 'event_standard', 'shipping')
+                errors = tool.translation_errors(leaf, row['locale'], row['target'])
+                observed[row['id']] = errors
+                if row['expected'] == 'local_off':
+                    self.assertIsNone(z._easter_core_kind(row['source']))
+                    self.assertEqual(z._easter_core_slots(row['source'], row['target']), ([], [], []))
+                    self.assertEqual(z._easter_core_latin(row['source'], row['target']), (row['target'], []))
+                else:
+                    self.assertEqual(not errors, row['expected'], errors)
+        for row in reconstructed:
+            if row['expected'] is False:
+                with self.subTest(normal_base_for=row['id']):
+                    base = by_id[row['normal_base']]
+                    self.assertIs(base['expected'], True)
+                    self.assertEqual(base['source'], row['source'])
+                    self.assertEqual((base['leaf_id'], base['locale']), (row['leaf_id'], row['locale']))
+                    self.assertEqual(observed[base['id']], [])
+
 if __name__ == "__main__":
     suite = unittest.defaultTestLoader.loadTestsFromTestCase(ExchangeTests)
     result = unittest.TextTestRunner(verbosity=1).run(suite)

@@ -7724,9 +7724,157 @@ def _late_game_money(source: str, target: str, amounts):
     return sorted(result, key=lambda x: x.start), errors
 
 
+# ORDER230: complete Korean-source identities, not leaf-ID or target prose allowlists.
+EASTER_CORE_SOURCE_KIND = {
+    "ffc649b3aaf34a4c8aff9ffe2ca8c74d23ce392da8178eae90508987a5f9e246": "water",
+    "99220462b7d883c5a422b8100d37cc21a23c5f91334790ea813f779259582828": "stall",
+    "d4eaaed21d4cd0133731bf63600638bf957f909098ce9a76ea693de44bccc546": "never",
+    "c6a9768be0200809fd2d2359eaf1ad6818ab411242c6357c8a8851a8dc775742": "spam_food",
+    "be5dc2abd3f2010b6e30ea3a06ab9248cd6d1fc66f8ab31c0883e8dd0108839c": "spam_list",
+    "02718f4af68fcdd431f8f81b4d90ff9101a9cee5ad0773e37e48cb406df690d1": "offer_thanks",
+    "72bc6b87d4d3a58dc6b16b6cc9188a41059a4d95b76a4a80849ffde6ddec54dc": "thanks_once",
+    "7235d15c91abf6180d6bd1de206ec01ddbdea663b7206525f381674abe56bbaa": "offer_food",
+    "43bb0a6978770415b8dacfbc49dd753c79c2ad77eae58139a192c46aa21f559a": "together_hour",
+    "1ff188cf411fcf69f19855ead683acd014785fa9a4b9bcec28743ef80bc8b0b6": "your_questions",
+    "eb6c701be1ec670697cbf39219e5a0cdcc331cdc15d1604ed3bb7d095b321d62": "one_sentence",
+    "46c44d0644039d69be18b7c2a570c029eee43153af43884ba97fdef20dc47ad1": "mirae_record",
+    "1992a28ff5ebe326d48b3c9bca83c7b49ccf274b0375e71315789278a498c718": "mirae_notice",
+    "32ecad4a2e19d9b57e87c0d8a7376dbd303dd80245d994e80658de29b5bd03df": "mirae_title",
+    "e4af1067a7a3952b33abef7e020bf0ff06c8e0fca8e2fb4af5249f6de86247fc": "mirae_apply",
+    "49ca67743e919a0d8b7417782b6274f6e5f25e9bfa1a39e90f57f9cce9e06dec": "mirae_listing",
+    "bd168dbc409b1b7a92e5fbf0c846e64269ad9f0445dee4cda3d526a738552ba6": "coffee_offer",
+    "6b51c3f78fe5dd7ec707bdecd93032c8b1268a6713526a9d423d54080b366fab": "seorin_notice",
+    "2b8cabbe60bbf297b8f6f160603b8f81adae6f9c0d614be2dac16bdfabe01826": "seorin_title"
+}
+
+
+def _easter_core_kind(source: str) -> str | None:
+    return EASTER_CORE_SOURCE_KIND.get(hashlib.sha256(source.encode("utf-8")).hexdigest())
+
+
+def _easter_core_slots(source: str, target: str):
+    """Project only reviewed local counters; keep all other quantity/money checks."""
+    kind = _easter_core_kind(source)
+    ss, ts, errors = [], [], []
+    if kind is None:
+        return ss, ts, errors
+    n = r"[0-9０-９零〇一二两兩三四五六七八九十百千]+"
+    label = "easter-core " + kind
+
+    def bind(fragment, pattern, expected=1, role=None):
+        start = source.index(fragment)
+        line = source[:start].count("\n")
+        ss.append(CounterQuantity(start, start + len(fragment), Decimal(expected), label))
+        matches = list(re.finditer(pattern, target))
+        if len(matches) != 1:
+            errors.append(label + " local quantity/unit/count missing or duplicated")
+            return
+        m = matches[0]
+        a, b = m.span("q")
+        raw = m.groupdict().get("number")
+        if raw is not None and _chinese_cardinal_value(unicodedata.normalize("NFKC", raw)) != expected:
+            errors.append(label + " local quantity value changed")
+        if target[:a].count("\n") != line or _has_numeric_sign_prefix(target, a):
+            errors.append(label + " quantity line/sign/prefix changed")
+        if re.match(r"[ \t]*(?:[/／%％‰]|倍|公斤|公里|[韓韩]元)", target[b:]):
+            errors.append(label + " quantity unit/rate suffix changed")
+        if role is not None and not role(m):
+            errors.append(label + " local counter owner/predicate changed")
+        ts.append(CounterQuantity(a, b, Decimal(expected), label))
+
+    def clause_prefix(m):
+        return re.split(r"[，,。！？!?\n]", target[:m.start("q")])[-1]
+
+    if kind == "water":
+        bind("한 잔", rf"喝(?:了)?(?P<q>(?P<number>{n})?杯(?:清|白[開开])?水)")
+    elif kind == "stall":
+        bind("3번 칸", rf"(?P<q>第?(?P<number>{n})(?:[號号](?:隔[間间]|[間间]|格)|[間间]隔[間间]|格))", 3,
+             lambda m: bool(re.search(r"淋浴|浴室", target[target.rfind("\n", 0, m.start()) + 1:m.start()])))
+    elif kind == "never":
+        negative = rf"(?:[從从](?:來[沒没]有|来[沒没]有|[沒没](?:有)?|未|來不|来不)|未曾|不曾|(?P<number>{n})次也[沒没]有)"
+        bind("한 번도 편법을 쓰지 않았다",
+             rf"(?P<q>{negative}(?:走|用)(?:[過过])?(?:旁[門门]左道|歪[門门]邪道|捷[徑径]))",
+             role=lambda m: not re.search(r"(?:[並并]非|[並并]?不是|[沒没]有|不)[ \t]*$", clause_prefix(m)))
+    elif kind in {"offer_thanks", "offer_food"}:
+        start = source.index("1+1")
+        ss.append(CounterQuantity(start, start + 3, Decimal(1), label))
+        patterns = rf"(?P<q>(?:[買买購购](?P<a>{n})[送贈赠](?P<b>{n})|(?P<c>{n})[+＋](?P<d>{n})))"
+        matches = list(re.finditer(patterns, target))
+        if len(matches) != 1:
+            errors.append(label + " promotion count/unit missing or duplicated")
+        else:
+            m = matches[0]
+            values = [v for v in (m.group("a"), m.group("b"), m.group("c"), m.group("d")) if v is not None]
+            if any(_chinese_cardinal_value(unicodedata.normalize("NFKC", v)) != 1 for v in values):
+                errors.append(label + " buy/free quantities changed")
+            if target[:m.start()].count("\n") != source[:start].count("\n") or _has_numeric_sign_prefix(target, m.start()):
+                errors.append(label + " promotion line/sign changed")
+            if re.match(r"[ \t]*(?:元|[韓韩]元|斤|公斤|人|年|天|日|倍|[%％/／])", target[m.end():]):
+                errors.append(label + " promotion unit/rate changed")
+            ts.append(CounterQuantity(m.start(), m.end(), Decimal(1), label))
+    elif kind == "together_hour":
+        people = rf"(?P<q>(?:我[們们](?P<number>{n})[個个]?|(?P<other>{n})[個个]?人|我[們们]?[倆俩]))"
+        # Explicit co-participants own the count; the following 一起 is not another pair.
+        explicit = list(re.finditer(people, target))
+        if explicit:
+            m = explicit[0]
+            raw = m.groupdict().get("other")
+            if raw is not None and _chinese_cardinal_value(raw) != 2:
+                errors.append(label + " co-participant quantity changed")
+            bind("함께", people, 2, lambda m: bool(re.match(r"(?:能|可以)?坐", target[m.end():]))
+                 and bool(re.search(r"(?:[讓让]|可以|能|供)[^，,。\n]{0,5}$", clause_prefix(m))))
+        else:
+            bind("함께", r"(?P<q>一起|一同)(?=坐)", 2,
+                 lambda m: bool(re.search(r"(?:可以|能|供)[ \t]*$", clause_prefix(m))))
+    elif kind == "your_questions":
+        bind("네 문제", r"(?P<q>你(?:那[邊边])?的(?:[題题]目?|[問问][題题]))",
+             role=lambda m: bool(re.search(r"先看[ \t]*$", clause_prefix(m))))
+    elif kind == "thanks_once":
+        bind("한 번 더", rf"(?:又|再)(?:道|[說说])(?:了)?(?P<q>(?P<number>{n})?(?:[聲声]|次)[謝谢](?:[謝谢])?)")
+    elif kind == "one_sentence":
+        bind("한 문장", rf"(?P<q>(?P<number>{n})(?:句[話话]?|[個个]句子))",
+             role=lambda m: bool(re.search(r"(?:用|以)[ \t]*$", clause_prefix(m))))
+    elif kind == "coffee_offer":
+        bind("커피 한 잔", rf"(?P<q>(?P<number>{n})?杯(?:[熱热]|[溫温][熱热])?咖啡)",
+             role=lambda m: bool(re.search(r"(?:[請请]|[給给]|提供|招待)[^，,。\n]{0,8}$", clause_prefix(m))))
+    return ss, ts, sorted(set(errors))
+
+
+def _easter_core_latin(source: str, target: str):
+    """Source-present company/food names keep bounded identity, count and line."""
+    kind = _easter_core_kind(source)
+    if kind is None or not kind.startswith(("mirae_", "seorin_", "spam_")):
+        return target, []
+    if kind.startswith("mirae_"):
+        fragment, romanized = "미래산업기술", "Mirae"
+        name = r"Mirae[ \t　]*[產产][業业]技[術术]"
+    elif kind.startswith("seorin_"):
+        fragment, romanized = "서린물산", "Seorin"
+        name = r"Seorin[ \t　]*物[產产]"
+    else:
+        fragment, romanized = "스팸", "SPAM"
+        name = r"(?:SPAM[ \t　]*(?:午餐肉)?|世棒[ \t　]*午餐肉)"
+    matches = list(re.finditer(r"(?<![A-Za-z0-9_])" + name + r"(?![A-Za-z0-9_])", target))
+    expected_lines = [source[:m.start()].count("\n") for m in re.finditer(fragment, source)]
+    if ([target[:m.start()].count("\n") for m in matches] != expected_lines
+            or len(_bounded_latin_matches(target, romanized)) != target.count(romanized)
+            or (romanized in target and target.count(romanized) != len(matches))):
+        return target, ["easter-core source brand identity/count/line/boundary changed"]
+    if kind.startswith("spam_") and any(not re.match(r"[ \t]*(?:$|[，,、。.;；—－」”'])", target[m.end():]) for m in matches):
+        return target, ["easter-core food-flavour brand boundary changed"]
+    for m in reversed(matches):
+        target = target[:m.start()] + " " * len(m.group()) + target[m.end():]
+    return target, []
+
+
+
 def _numeric_errors(source: str, target: str) -> list[str]:
     source, target, errors = _callback_shadow_numbers(source, target)
     admin_source_slots, admin_target_slots, admin_errors = _investment_admin_slots(source, target)
+    easter_source, easter_target, easter_errors = _easter_core_slots(source, target)
+    admin_source_slots.extend(easter_source)
+    admin_target_slots.extend(easter_target)
+    errors.extend(easter_errors)
     first_source, first_target, first_errors = _first_life_slots(source, target)
     admin_source_slots.extend(first_source)
     admin_target_slots.extend(first_target)
@@ -8048,6 +8196,9 @@ def _money_errors(lang: str, source: str, target: str) -> list[str]:
 
 
 def _untranslated_english_errors(source: str, target: str, *, catalog: bool = False) -> list[str]:
+    target, easter_errors = _easter_core_latin(source, target)
+    if easter_errors:
+        return easter_errors
     target, midgame_errors = _midgame_latin(source, target)
     if midgame_errors:
         return midgame_errors
