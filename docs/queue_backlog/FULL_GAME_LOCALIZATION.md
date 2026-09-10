@@ -44,7 +44,10 @@
   leaf/locale, 생활·월세·첫 월급25종185 leaf/locale와
   주거·건강25종176 leaf/locale와 직장·구직25종194 leaf/locale와 생활비25종186 leaf/locale와 가족25종172 leaf/locale와 생활 전환25종178 leaf/locale와 생활·숨은 사건25종198 leaf/locale와 회상·첫 생활25종158 leaf/locale와 후반 이정표·갈림길25종189 leaf/locale와 창업·크리에이터·회복20종146 leaf/locale와 가족·일상15종104 leaf/locale와 소비·독립 생활15종104 leaf/locale와 관계·투자 후속33종200 leaf/locale와 마지막 질주·선택의 대가36종214 leaf/locale와 투자·인연 후속32종194 leaf/locale와 판단의 비용·작은 회신25종148 leaf/locale와 관계의 다음 말·책임20종120 leaf/locale와 투자·사람 후속32종192 leaf/locale와 가족·회복·관계40종238 leaf/locale와 절제·신뢰·생활43종254 leaf/locale와 거절·재기·연락45종268 leaf/locale와 일·신뢰·되돌림43종258 leaf/locale와 생활 인연·마지막 전략19종114 leaf/locale와 어머니·일·살림20종116 leaf/locale와 친구·직장·살림17종92 leaf/locale와 아버지·관계·목표15종90 leaf/locale와 현수·가족·건강·목표41종246 leaf/locale와 직장·투자·이별40종240 leaf/locale와 소비·습관·도박·인연42종252 leaf/locale와 비교·돌봄·관계·재기40종240 leaf/locale와 도움·경계·가족·인맥16종96 leaf/locale와 투자·직장·불안·자기기준40종274 leaf/locale와 투자 연쇄·한국 생활38종276 leaf/locale와 계절·동네·취미39종242 leaf/locale와 도시 휴식·도박·우정39종238 leaf/locale와 카페·만남·SNS37종220 leaf/locale와 나비효과·친절의 연쇄24종144 leaf/locale와 생활 선택·부채·직장24종169 leaf/locale와 선택 후속·미응답 약속18종114 leaf/locale와 직장·전문화19종126 leaf/locale와 선택 회수·목표 재고23종177 leaf/locale와 인물의 다음 삶19종124 leaf/locale와 초기 인연·투자·카지노19종135 leaf/locale와 첫 생활·인연24종197 leaf/locale와 연말·부모·회복20종154 leaf/locale와 중반 생활20종169 leaf/locale와 후반 이정표·NG+22종197 leaf/locale와 이스터에그·초기 코어20종116 leaf/locale와 초기 코어22종140 leaf/locale까지 총37,938번역이다
   (언어별 엔딩234+사건11,578+catalog834). 별도 중국어 UI4와 기록 불러오기 UI24키×3,
-  엔딩 통계·재시작23단위·UI42키×3까지 더한 수용은 총38,437(JA12,811·CN/TW각12,813)이며 전체 UI 완료가 아니다. 이번126은 기존JA42 검수·5정밀화와 CN/TW신규84다. 이전 엔딩 기록156·설정60과 별도 검수다.
+  엔딩 통계·재시작23단위·UI42키×3까지38,437을 수용했고, 관계 이름14+새로그6의
+  세 언어60을 더해 총38,497(JA12,831·CN/TW각12,833)이다. 전체 UI 완료가 아니다.
+  관계 배치는 JA기존7 보존·13신규와 CN/TW각20신규이며 이름 저장·ID·과거로그는 바꾸지 않는다.
+  이전126은 기존JA42 검수·5정밀화와 CN/TW신규84였고 엔딩 기록156·설정60과 별도 검수다.
   저장 UI72는 기존JA24 검수·2정밀화와 CN/TW 신규48, 갤러리 UI81은 기존JA27 검수·3정밀화와
   CN/TW 직접 신규54다. 갤러리의 음식 오역·빈 상태 부정 반전, TW 지역 자형4를 정밀화했고
   슬롯·호환·삭제 확인·열람/해금 의미와 기존 UI 원형을 보존했다. catalog 신규 작성2,485·
@@ -79,7 +82,11 @@
 - 관계 표시 수리: `GameState.apply_relationship_effect`의 원문 이름을 저장한 채
   `RelationshipSystem.get_display_name`이 exact14만 번역한다. MainGame sidebar/VIP와
   RelationshipSystem 종료/passive의 이름 읽기4곳을 연결했다. 현재21위치/14종과
-  resolved/unresolved를 별도 관측하며 event leaf 추가0이다. 실제 실행·수용 마감은 진행 중이다. 다음은
+  resolved/unresolved를 별도 관측하며 event leaf 추가0이다. 별도 저장 공간의 실제 component65는
+  5언어 이름Label·새로그·상태/이름 보존을 통과했고 렌더/인간 플레이 증거는 아니다.
+  다음 관계패널31키 중 가족1은 기수용이며 중국어 각30키가 남는다. 소개팅·썸·전 연인도
+  romantic→연인/Partner로 분류하는 기존 태그는 별도 중립화 대상이다. 저장type·효과는 유지한다.
+  그 뒤는
   `MetaProgression._localized_title`, `GameState.tendency_name/tendency_desc`,
   `_localized_route_label/_localized_profile_label/_roll_run_theme`,
   `HoldemClub._fmt`의 non-KO=EN 분기를 개별 표시 계약으로 검사한다.
