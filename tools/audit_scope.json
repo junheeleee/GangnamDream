@@ -14,6 +14,32 @@
   ],
   "fast_lanes": [
     {
+      "id": "chinese-font-ledger-pins",
+      "paths": [],
+      "owned_paths": [
+        "assets/fonts/FONT_LICENSE_LEDGER.md",
+        "content/meta/third_party_notices.json",
+        "tools/audit_scope.json",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/queue_active/ORDER-238.md",
+        "docs/queue_archive/ORDER-238.md",
+        "docs/WORK_LOG.md",
+        "docs/history/WORK_LOG_2026-09-07_localization.md",
+        "docs/STATUS.md",
+        "docs/agent_review_decisions.json",
+        "docs/queue_backlog/FULL_GAME_LOCALIZATION.md"
+      ],
+      "tools": [
+        "tools/third_party_notice_audit.py --self-test",
+        "tools/queue_index_self_test.py",
+        "tools/agent_review_decisions_self_test.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Approved SC/TC full-hash ledger addition and one generated notice provenance scalar. No runtime/font/code change, old-package recertification, translation collector or native/render claim."
+    },
+    {
       "id": "chinese-font-route-recognizer",
       "paths": [],
       "owned_paths": [
