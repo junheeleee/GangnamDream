@@ -23,6 +23,21 @@
 > [`7/25`](history/WORK_LOG_2026-07-25.md)에 손실 없이 보존한다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
 
+## 2026-09-10 (Codex — ORDER-235 엔딩 기록19단위·UI52키 번역)
+
+- JA기존52 전량 검수·4정밀화, CN/TW 신규104 KO직접 저작 및 비저자156 전량대조.
+  CN 사람축 축소1은 별도 의미수리. 선제연락·네 주범주·옛저장 미분류·크레딧 전진 보존.
+- 첫L1 JA2/CN1/TW1 오탐 원형을 보존하고 exact UI key+KO3의 숫자 비교만 보강.
+  고정84: 정상20 PASS/정상base 통과한 변조48 거부/OFF16 helperNone·이전오류exact.
+  기존 문자·토큰·원화 검사 유지. 신규self2로252→254, 전체suite는 최종차선에서1회.
+- 공식 C1 check/import6 changed_files0, 신규156/b95 수용 및 기존38155/b94/meta9 raw 역복원.
+  누적38,311(JA12,769/CN·TW12,771). 전량L1 38,311/오류0·명시12 PASS, 입력 전후exact.
+- 제품23f5571e/tree8e4e484b, Poincare 비저자 work_unit235 한정GO/필수0.
+  [결과·52문구·최초실패·선언](queue_archive/ORDER-235_L1_L2_RESULTS.md).
+  공개·인간 원형/본편HOLD, native/render OPEN. Godot/full/240·실제화면 GO0.
+- 선언 때 완료219/220절999B raw이동 완료. 마감 WORK37725B/EOF2에 신규절만 추가,
+  history82677B/EOF1 불변. 이번19단위·소유·마감은 일회성, 동적 UI·소비자 채무는 별도다.
+
 ## 2026-09-10 (Codex — ORDER-234 설정11단위·UI20키 번역)
 
 - JA기존20 전량 검수·무수정, CN/TW 직접 신규40를 비저자 전량 대조해60 수용.
