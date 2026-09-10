@@ -647,6 +647,48 @@
         "path": "docs/queue_archive/ORDER-228_L1_L2_RESULTS.md",
         "sha256": "2099182f2c958d6b9cfa7d8f24762b7d14c88eb987e9f660533e072e7cefb808"
       }
+    },
+    {
+      "id": "order-229-source-18845f2-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-10",
+      "decided_by": "Codex Plato (nonauthor TW197 and exact C2 integration); Codex Rawls (nonauthor JA197); Codex Poincare (nonauthor CN197, ZH guards and self registration); Codex ROOT (integration)",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-229",
+      "subject": {
+        "kind": "source",
+        "commit": "18845f2dee7d78ad9ca967ac99579ce8488efcbc",
+        "tree": "7e0375e30d87c07f9a5b50b13703a437cbf2db60",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/queue_archive/ORDER-229_L1_L2_RESULTS.md",
+          "sha256": "4ec94a5c434f118846335651f53dea750ca99966052b2eb92c26d219de8afcd7"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/queue_archive/ORDER-229_L1_L2_RESULTS.md",
+          "sha256": "4ec94a5c434f118846335651f53dea750ca99966052b2eb92c26d219de8afcd7"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_rendered_localization",
+        "full_game_normal_speed_play",
+        "full_product_quality",
+        "remote_full_ci_for_this_candidate",
+        "external_release"
+      ],
+      "record": {
+        "path": "docs/queue_archive/ORDER-229_L1_L2_RESULTS.md",
+        "sha256": "4ec94a5c434f118846335651f53dea750ca99966052b2eb92c26d219de8afcd7"
+      }
     }
   ]
 }
