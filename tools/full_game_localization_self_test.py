@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """Fail-closed, file-isolated tests for bounded full-game translation exchange."""
 from __future__ import annotations
 

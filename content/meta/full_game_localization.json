@@ -3466,6 +3466,64 @@
       "machine_validation": "PASS",
       "rendered_review": "OPEN",
       "native_review": "OPEN"
+    },
+    {
+      "order": "ORDER-236",
+      "group": "ui",
+      "roots": [
+        "  최고 자산 %s 중 결말에 %d%% 지킴",
+        "#강남드림 #GangnamDream",
+        "%d세",
+        "%d주",
+        "5년의 발자취",
+        "[강남드림 마지막 기록]",
+        "가격표 너머의 위험을 살피기 시작했다",
+        "강남 아파트 입성",
+        "결과 복사하기",
+        "나이",
+        "다시 볼 기록",
+        "다시 시작한다면",
+        "다음 일을 찾는 중",
+        "마지막 거처: %s",
+        "마지막 일",
+        "마지막 일: %s",
+        "만난 사건: %d / %d개",
+        "복사됨",
+        "살던 곳",
+        "살아낸 시간",
+        "서울에 들고 온 50만원과 지난 5년의 선택이 이 마지막 장에 함께 남았다.",
+        "숫자를 보고도 거래를 서두르지 않았다",
+        "스타트업 엑싯 성공",
+        "아버지 아크를 아직 시작하지 않았습니다.",
+        "아직 만나지 못한 이야기가 %d개 더 있습니다.",
+        "아파트 입성",
+        "엔딩 도감  %d / %d 발견",
+        "엔딩: \"%s\"",
+        "원룸 이사 성공",
+        "이번 삶에서 한지연을 만나지 못했습니다.",
+        "정계 진출",
+        "창업 도전",
+        "창업 이야기 — 아이디어 하나로 엑싯까지, 아직 만나지 못했습니다.",
+        "창업과 크리에이터 이야기, 둘 다 아직 만나지 못했습니다.",
+        "최종 자산",
+        "최종 자산: %s  (목표 달성률 %d%%)",
+        "크리에이터 수익화 성공",
+        "크리에이터 이야기 — 구독자 100만까지, 아직 만나지 못했습니다.",
+        "크리에이터 활동 시작",
+        "투자 기술을 먼저 키웠다면 결과가 달랐을까요?",
+        "플레이어: %s  |  33세 → %d세  |  %d개월",
+        "한지연의 진실을 끝까지 보지 못했습니다."
+      ],
+      "source_leaves": 42,
+      "target_leaves_by_locale": {
+        "ja": 42,
+        "zh-CN": 42,
+        "zh-TW": 42
+      },
+      "source_review": "Direct Korean review of 42 ending-statistics, milestones, clipboard and restart UI keys across 23 judgment units per locale: existing Japanese42 reviewed and selected meaning errors refined; Simplified and Traditional Chinese42 each independently authored. Preserve distinct asset, age, month, turn, packaged event and ending-collection counters; won, all formatting slots, housing and startup/creator/politics fact boundaries. Preserve all unselected UI raw through inverse. Dynamic inserts, five-year early-ending framing, NG counter debt, runtime logic, native reading and rendered output remain outside this text-only review.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN"
     }
   ],
   "accepted": {
@@ -54545,6 +54603,174 @@
       "ui:후일담:/후일담": {
         "source_sha256": "4ca32f1d934ec6891b5ced200d73c536e41ed14c7d2dca4085ab33ba02054542",
         "target_sha256": "8321c1ac4ec231815fbab47885da9e03b52d296bc2137015910fb5d040e6da20"
+      },
+      "ui:  최고 자산 %s 중 결말에 %d%% 지킴:/  최고 자산 %s 중 결말에 %d%% 지킴": {
+        "source_sha256": "f4afd3687222ca7fbd9e98001c2b65f17db769d8a09bce60c91d737e4b765617",
+        "target_sha256": "fb3e68623e7580f3de590c8f42e425474524bdc440f011f47e1909be24fde5fd"
+      },
+      "ui:#강남드림 #GangnamDream:/#강남드림 #GangnamDream": {
+        "source_sha256": "bd0e895251b817b6d093ba6c1e8a898367889e653fc0b96dc6668dd22e6a2b80",
+        "target_sha256": "d8acaeedf8cc07bd1c542835b4cd3f2dbd7a7273799e187a3ed7a400a0073904"
+      },
+      "ui:%d세:/%d세": {
+        "source_sha256": "db4b20df3457c9f1280c2ed22c1374123bfae8020bafc42b2049c04013c09334",
+        "target_sha256": "ec61b3190620ddd6296798f8ead131ec2d4e07dc66137ed7f6644aee05a56538"
+      },
+      "ui:%d주:/%d주": {
+        "source_sha256": "cbbe9a8ffdddc1634c585b8700e31bccbb61b24a907ad30451c821f833766b61",
+        "target_sha256": "9e4cbc400fc6d2fb685e993c2dc29d6a8cde35c6e52c8144ce31fe8bc2d097b8"
+      },
+      "ui:5년의 발자취:/5년의 발자취": {
+        "source_sha256": "47f021fcd6e3332b34cd56f3d1b1e4ed1113e4b1d34eb874fa15074886fa0da4",
+        "target_sha256": "2ab2da02fc64941e8fcd63db8441e2e4268da4aea682233c52c8a2e8b9d3bf1c"
+      },
+      "ui:[강남드림 마지막 기록]:/[강남드림 마지막 기록]": {
+        "source_sha256": "2e0bd394a740bd4cdce28459109cc2709a67f0f1b90de47fe87e1f9bae4b2f2a",
+        "target_sha256": "5ea05c2664917785c62ed5c53ebe01f8f817a5a260ff0e71b0df5bafd6c2e8e4"
+      },
+      "ui:가격표 너머의 위험을 살피기 시작했다:/가격표 너머의 위험을 살피기 시작했다": {
+        "source_sha256": "61f06b4da45ef469d2d307c09f0d7e76eff58ff51133c2bd607375f6bb1a341b",
+        "target_sha256": "a1871e488b986612a5a9d50e36c2d53624ba202204ff7dc9a4fc052a97844d12"
+      },
+      "ui:강남 아파트 입성:/강남 아파트 입성": {
+        "source_sha256": "a7390f0660ed3e19cab9a6703c5d603876eb08f72ebbc30605b03382ff02d7d3",
+        "target_sha256": "a2c8d7023358a12085aabd6d721f0ed602081605be8dcc504ed1859e80982d57"
+      },
+      "ui:결과 복사하기:/결과 복사하기": {
+        "source_sha256": "bf467e502b853e67488830304ca9d0c5ffab9f7456789cb6f08796d1a5c4b3d7",
+        "target_sha256": "4a8af9520999cb9b8275532b41daa6e156f20cea1a7a0af9b9ac42de1ff10b8f"
+      },
+      "ui:나이:/나이": {
+        "source_sha256": "ee8b91bfd2fb420a55188a351b60b18fa0914694ad8567bc42695d29ef9153c3",
+        "target_sha256": "2f9f674fc8b7a9ce814bc93a7b4ac0d6c78f8091ca6202f08f3b736c0b300a55"
+      },
+      "ui:다시 볼 기록:/다시 볼 기록": {
+        "source_sha256": "b53def5261a0fd7e2e4ef16559e7f19be9f1ffd6ba79d79e6b597421d58d04f2",
+        "target_sha256": "bc780414eefa4037763a88ec96b87adabed2489e713a3b58e62a043e471c79c3"
+      },
+      "ui:다시 시작한다면:/다시 시작한다면": {
+        "source_sha256": "9a2442c58568aa75d86b3185b443a02f6a2c1ae228623c467f8d7aa146d0fab3",
+        "target_sha256": "082953e17a3cabd6b74b8f450f769e2073df5bc3ca939ea5e9f5b4a880e0d78f"
+      },
+      "ui:다음 일을 찾는 중:/다음 일을 찾는 중": {
+        "source_sha256": "f9a73af8dd2dba965d819963f6a40a198a384925817d668b702e588e0d3fdf98",
+        "target_sha256": "acd7a88c49d62b1c150002fe61ae78114138143299f4d1fec2c8cb150c225230"
+      },
+      "ui:마지막 거처: %s:/마지막 거처: %s": {
+        "source_sha256": "0db33436e9c77a04e72c25c1b480b52edeb9ca153ce5efca7757a4d3b982b9cd",
+        "target_sha256": "7f7e569c109c49c6b7dc9ae67787122df73a9717e4d616487f1f71fe3e52589d"
+      },
+      "ui:마지막 일: %s:/마지막 일: %s": {
+        "source_sha256": "1d02263b2cf536a07aef6da46df3c55608f7f9681a8f94e6587031ee3f825701",
+        "target_sha256": "82607fb4d82818939b7f3d569a1fa51be2b6bfead867416be783dfa364577671"
+      },
+      "ui:마지막 일:/마지막 일": {
+        "source_sha256": "76a7505994e933e35de4013593c43d9723705ace47dd6416777323a5eff231b9",
+        "target_sha256": "b27da13088b968ab7f4a18617e7d3116432aa1087bed8ca48b78fbd24b95afc6"
+      },
+      "ui:만난 사건: %d / %d개:/만난 사건: %d ~1 %d개": {
+        "source_sha256": "9788d0229a22e124358e5bce7b231492fec3913db961cd459340653c36c91624",
+        "target_sha256": "609ea7880ed0686712239b617b512ad8bebe058c329066545c27d0ad8697453b"
+      },
+      "ui:복사됨:/복사됨": {
+        "source_sha256": "7683d99cae4ad712f56d135d6f1bc70f46b265912283466fe148e27ba8f8cb60",
+        "target_sha256": "acaa59c84d6cdc3c12421197f4b7474baed539898f55a24373d05b8535ec1e4e"
+      },
+      "ui:살던 곳:/살던 곳": {
+        "source_sha256": "dd6b9538f3255c2d605a207e082b66b640835c01c4c1540d36c5dbeb312b7918",
+        "target_sha256": "a14a2ef1f7b07ab906f0ccc912797df5ee711af23c9a0c921fbfa62c0d889222"
+      },
+      "ui:살아낸 시간:/살아낸 시간": {
+        "source_sha256": "fbec07e9e939c46c0c304fa77aa342d416352437e51c185e34e1932d02700423",
+        "target_sha256": "f54ff42ed958d56a27c7cb9ef61a28de36525758b9f8ad329f1e290fe2b4593d"
+      },
+      "ui:서울에 들고 온 50만원과 지난 5년의 선택이 이 마지막 장에 함께 남았다.:/서울에 들고 온 50만원과 지난 5년의 선택이 이 마지막 장에 함께 남았다.": {
+        "source_sha256": "0a6261f1a22587db430e8c683ce216b238e6307fb4d84497fba95042610c3516",
+        "target_sha256": "f23b745bb5b2eb46323a77263b5638472c41cfe721698a0c89fe215dad85fc71"
+      },
+      "ui:숫자를 보고도 거래를 서두르지 않았다:/숫자를 보고도 거래를 서두르지 않았다": {
+        "source_sha256": "787abc2ab17ab7c33a86296437e110db240404f167fcf2294485c0b6aa2de7a9",
+        "target_sha256": "acfe84737d488018cfa7301c5554482975e5a84ae85b80a0100ccafd1641805b"
+      },
+      "ui:스타트업 엑싯 성공:/스타트업 엑싯 성공": {
+        "source_sha256": "d8e36d60a69bfa703f623b3fc02c599c8ab76fff1bbbe0708f3e448d11ca62be",
+        "target_sha256": "32d0272a983705ee97c49580c0d24eb0363fac8cb5440cdd6e86b7939c9b4469"
+      },
+      "ui:아버지 아크를 아직 시작하지 않았습니다.:/아버지 아크를 아직 시작하지 않았습니다.": {
+        "source_sha256": "221b487ec07fc30cb1377db12f0cf648683da3e3b7478ab61fab898d81d73a2f",
+        "target_sha256": "43fb2ede9263766cddb0d2d5f2f81e965ea5446b0de5aee629590cca54312b60"
+      },
+      "ui:아직 만나지 못한 이야기가 %d개 더 있습니다.:/아직 만나지 못한 이야기가 %d개 더 있습니다.": {
+        "source_sha256": "8878d31ba2640e5e9d1785d87ebdada1ec6de173e17ce3a64bdef78fd785a3fb",
+        "target_sha256": "fc87f06bfcfd13995d7acdf2e17cba747bd677f16b874c9321dfdcc280f43abb"
+      },
+      "ui:아파트 입성:/아파트 입성": {
+        "source_sha256": "e8d420977f509c2480cff35ab4b236ada61deec7b7cb8e3ba6f4ac7685c2c1fa",
+        "target_sha256": "d55adadd0acf9a2eb534fadb2a4898c53b759556923bf17f01fe356aee18eee0"
+      },
+      "ui:엔딩 도감  %d / %d 발견:/엔딩 도감  %d ~1 %d 발견": {
+        "source_sha256": "bdaea8ca6cf9d3c91b397fb95b6316d551d36dd648a0347c788ad67adf27a73a",
+        "target_sha256": "11a869dcf1645a2a579e41d950116a9de65dc032c686284370cfba3a122453f9"
+      },
+      "ui:엔딩: \"%s\":/엔딩: \"%s\"": {
+        "source_sha256": "6ac93d4027e8d6e671c04c1810e12db0e98ac332b7fde606d319ace1af3b4cbd",
+        "target_sha256": "bef266d09697139749d7ca0f4abf0c994702ace92bf8c48c895be24e9721829e"
+      },
+      "ui:원룸 이사 성공:/원룸 이사 성공": {
+        "source_sha256": "2bdc82eff20f8a56f0d749b2191ae2fa1e7a6d0d590b3eaedb44fe507849fc1a",
+        "target_sha256": "2ff60c894e8c1c9a0273e0fb8e71d86b27e552f33342c38110525b41afc5aa37"
+      },
+      "ui:이번 삶에서 한지연을 만나지 못했습니다.:/이번 삶에서 한지연을 만나지 못했습니다.": {
+        "source_sha256": "98f2189e51e476a053f478c93b2cf69d5d0ac3144adc7db31a9a813ba399eef4",
+        "target_sha256": "b6de664bb195b22e40826843fe99daa3c2066ed8252cb65957a465a62798963f"
+      },
+      "ui:정계 진출:/정계 진출": {
+        "source_sha256": "b09bcc72c0f0cb3b00200a5f575a93b999b922d4daff60aed36c2008edf4b528",
+        "target_sha256": "4e182b302735e9af1f3740bab3a83d3e75aa5aa27aff1dc360d8cda505c03a51"
+      },
+      "ui:창업 도전:/창업 도전": {
+        "source_sha256": "d3c7c0771c4bc3a12637a43933a15c258e5181ab558bab80f253ce5ff8cabc44",
+        "target_sha256": "2d7205b8c8975db88516802b6fe1f03135e9501d575c7d495932505fd817fa51"
+      },
+      "ui:창업 이야기 — 아이디어 하나로 엑싯까지, 아직 만나지 못했습니다.:/창업 이야기 — 아이디어 하나로 엑싯까지, 아직 만나지 못했습니다.": {
+        "source_sha256": "611af0cc743bf3c34b39345cb4268011cd617c7de253124e20ea6498d352509e",
+        "target_sha256": "3d83b1e0c15132759ce006c264640e54c0b1fff8ceca37aa1d61ebf0470db8d8"
+      },
+      "ui:창업과 크리에이터 이야기, 둘 다 아직 만나지 못했습니다.:/창업과 크리에이터 이야기, 둘 다 아직 만나지 못했습니다.": {
+        "source_sha256": "ba07d6f65fa1a9c8524e614ee28c645979a81af23a3b8116d799d219530d487d",
+        "target_sha256": "7861ee62d05643d95ee9a2f764ba1863f21fa6789f06696088e3a706da93d0ea"
+      },
+      "ui:최종 자산: %s  (목표 달성률 %d%%):/최종 자산: %s  (목표 달성률 %d%%)": {
+        "source_sha256": "1a408567af1bd84e368fa4d933f3e389ed61779886ba851ee36ed2c7d9f4a25b",
+        "target_sha256": "8711930ce120742cbcac6733721f1c623f7c30e0e81430c895c5b5e6cfce221d"
+      },
+      "ui:최종 자산:/최종 자산": {
+        "source_sha256": "2429b28ee5c9c6a0677e02a6ae3ad54ee69b947eada385a5db5a1177310e068a",
+        "target_sha256": "e90a994b4320b402cfb49a2c81c52db8c44414506b529b577724ecec56342100"
+      },
+      "ui:크리에이터 수익화 성공:/크리에이터 수익화 성공": {
+        "source_sha256": "4a180dda16b2880ddfcb5a5cc68d2122168e10b528066e77f0081f096a3d3a67",
+        "target_sha256": "4cc7c59d64e14a5d7b1fb1ae7a8b1a5273c226256349fc93801b0c69a81b48a1"
+      },
+      "ui:크리에이터 이야기 — 구독자 100만까지, 아직 만나지 못했습니다.:/크리에이터 이야기 — 구독자 100만까지, 아직 만나지 못했습니다.": {
+        "source_sha256": "42a8a5ae609fd4a42755fe3f777715dc65dd0f09d638e08248530bbd4a7afcef",
+        "target_sha256": "cfc166c56b4dc8413e0bace8b082d2b35224908538b766854099cdee5ac15c3d"
+      },
+      "ui:크리에이터 활동 시작:/크리에이터 활동 시작": {
+        "source_sha256": "b13c0d497bb63e19dced5be4c99bb0fce62bdf9b4122757fd9b1e46e4a3288de",
+        "target_sha256": "6ed020c4123a282aff46bbd2f7e64be31b843515523d1520cb6e19470c77adda"
+      },
+      "ui:투자 기술을 먼저 키웠다면 결과가 달랐을까요?:/투자 기술을 먼저 키웠다면 결과가 달랐을까요?": {
+        "source_sha256": "6f09799e202b5bda7dc724bf45d36d3031e554c9186a406e9dada6b36dbed0ab",
+        "target_sha256": "62a49e017997cdf32500834828aa46e12eae04cd6724a8569d823d65d56008c6"
+      },
+      "ui:플레이어: %s  |  33세 → %d세  |  %d개월:/플레이어: %s  |  33세 → %d세  |  %d개월": {
+        "source_sha256": "5736d77b589e66414cf025dc7ba724594b5f558c8b8ff25db63b9515a1db3219",
+        "target_sha256": "3189513f5f2530590514b713fde5616e83f92e17f9baf2775b4ab031c381acb9"
+      },
+      "ui:한지연의 진실을 끝까지 보지 못했습니다.:/한지연의 진실을 끝까지 보지 못했습니다.": {
+        "source_sha256": "832ab5db250dc5f3dfbe1b354f2185c5e6b2f8c07d855d66b2de53776a96a3e2",
+        "target_sha256": "845bfa24b2ac9175c33fc7c1340443334e4cff9e43f884ce38cad44c3576e27e"
       }
     },
     "zh-CN": {
@@ -105631,6 +105857,174 @@
       "ui:후일담:/후일담": {
         "source_sha256": "4ca32f1d934ec6891b5ced200d73c536e41ed14c7d2dca4085ab33ba02054542",
         "target_sha256": "61b817768da4c1a2a0b8914c35f3672a459208b87e52277ffb1baa4ee7c5af9a"
+      },
+      "ui:  최고 자산 %s 중 결말에 %d%% 지킴:/  최고 자산 %s 중 결말에 %d%% 지킴": {
+        "source_sha256": "f4afd3687222ca7fbd9e98001c2b65f17db769d8a09bce60c91d737e4b765617",
+        "target_sha256": "05184766f3ab368b514f8a8f263670e57062528ddb67951875572fb816c66c8f"
+      },
+      "ui:#강남드림 #GangnamDream:/#강남드림 #GangnamDream": {
+        "source_sha256": "bd0e895251b817b6d093ba6c1e8a898367889e653fc0b96dc6668dd22e6a2b80",
+        "target_sha256": "ecce002af1e17d9cac2cfb73f0bc582d3e6d8153ea79c0a866fbb94087b8dc48"
+      },
+      "ui:%d세:/%d세": {
+        "source_sha256": "db4b20df3457c9f1280c2ed22c1374123bfae8020bafc42b2049c04013c09334",
+        "target_sha256": "2bab4aeb390e49728f1cbd4b3fbf7174bca1c0251cba9a90d9aa58099c0d0bc1"
+      },
+      "ui:%d주:/%d주": {
+        "source_sha256": "cbbe9a8ffdddc1634c585b8700e31bccbb61b24a907ad30451c821f833766b61",
+        "target_sha256": "3634afc6d0e3fd7f3a7b4e3a021423400627c83cbe34365439e4b0e9e5844216"
+      },
+      "ui:5년의 발자취:/5년의 발자취": {
+        "source_sha256": "47f021fcd6e3332b34cd56f3d1b1e4ed1113e4b1d34eb874fa15074886fa0da4",
+        "target_sha256": "8ff747016ab92c3c3d6f79f11dceaed2fc82ccbc9fabd068d4c9b7fcb951dbc7"
+      },
+      "ui:[강남드림 마지막 기록]:/[강남드림 마지막 기록]": {
+        "source_sha256": "2e0bd394a740bd4cdce28459109cc2709a67f0f1b90de47fe87e1f9bae4b2f2a",
+        "target_sha256": "e2ab97531de8eb56866621f677981b7ab73114c658ca3b94a11fd407cd68c8ac"
+      },
+      "ui:가격표 너머의 위험을 살피기 시작했다:/가격표 너머의 위험을 살피기 시작했다": {
+        "source_sha256": "61f06b4da45ef469d2d307c09f0d7e76eff58ff51133c2bd607375f6bb1a341b",
+        "target_sha256": "5c36835dc95dc0d553f114c5b849995e8819b639da4efff5c9869eeae32902e0"
+      },
+      "ui:강남 아파트 입성:/강남 아파트 입성": {
+        "source_sha256": "a7390f0660ed3e19cab9a6703c5d603876eb08f72ebbc30605b03382ff02d7d3",
+        "target_sha256": "4926f1540ef2139584d00eab1b975a652fcaf87ecec0831fe9b705bfef7cb317"
+      },
+      "ui:결과 복사하기:/결과 복사하기": {
+        "source_sha256": "bf467e502b853e67488830304ca9d0c5ffab9f7456789cb6f08796d1a5c4b3d7",
+        "target_sha256": "18ae39301afdc000af0188c78456d5710ba97b47f8844b610c4015bb599c05e1"
+      },
+      "ui:나이:/나이": {
+        "source_sha256": "ee8b91bfd2fb420a55188a351b60b18fa0914694ad8567bc42695d29ef9153c3",
+        "target_sha256": "ee0b4b6f0b7ade7957e2c31e8338cb5b69cde615ed5b8127c3aa85fcace90e14"
+      },
+      "ui:다시 볼 기록:/다시 볼 기록": {
+        "source_sha256": "b53def5261a0fd7e2e4ef16559e7f19be9f1ffd6ba79d79e6b597421d58d04f2",
+        "target_sha256": "77f52c3ad71fbb4b7148d3afecca7f6214a19244f612f6c794015d9c25fcb856"
+      },
+      "ui:다시 시작한다면:/다시 시작한다면": {
+        "source_sha256": "9a2442c58568aa75d86b3185b443a02f6a2c1ae228623c467f8d7aa146d0fab3",
+        "target_sha256": "639d636b3fbe4add26d00dfa99ae5c5aafd98228b0b7dedc80fe0819bd82c563"
+      },
+      "ui:다음 일을 찾는 중:/다음 일을 찾는 중": {
+        "source_sha256": "f9a73af8dd2dba965d819963f6a40a198a384925817d668b702e588e0d3fdf98",
+        "target_sha256": "59b8fcbd49c957e688615964095e67df2ac87500edc01dc420c1230b7a1f919d"
+      },
+      "ui:마지막 거처: %s:/마지막 거처: %s": {
+        "source_sha256": "0db33436e9c77a04e72c25c1b480b52edeb9ca153ce5efca7757a4d3b982b9cd",
+        "target_sha256": "2dc927bc64a5cf75557665ff3cc9c2368690282fbbb0cda197ee3d9cd9649d65"
+      },
+      "ui:마지막 일: %s:/마지막 일: %s": {
+        "source_sha256": "1d02263b2cf536a07aef6da46df3c55608f7f9681a8f94e6587031ee3f825701",
+        "target_sha256": "96e7fd432e1abcf93b87c87c36c51a7a9c2d3ce471af7704f5f8a733b670753b"
+      },
+      "ui:마지막 일:/마지막 일": {
+        "source_sha256": "76a7505994e933e35de4013593c43d9723705ace47dd6416777323a5eff231b9",
+        "target_sha256": "3b36024e30859106c0fb656985f60158a8ada7fef1efa9068fb46a7fe35e409a"
+      },
+      "ui:만난 사건: %d / %d개:/만난 사건: %d ~1 %d개": {
+        "source_sha256": "9788d0229a22e124358e5bce7b231492fec3913db961cd459340653c36c91624",
+        "target_sha256": "c13f97428b4516fb3aaf848c0f7b1f9a4868cdf8663b42e849cca0a395d3246c"
+      },
+      "ui:복사됨:/복사됨": {
+        "source_sha256": "7683d99cae4ad712f56d135d6f1bc70f46b265912283466fe148e27ba8f8cb60",
+        "target_sha256": "94a13ba81cb4ae78cd90273a2f6dd65ce1a83e28e5174220424da56f27ee445c"
+      },
+      "ui:살던 곳:/살던 곳": {
+        "source_sha256": "dd6b9538f3255c2d605a207e082b66b640835c01c4c1540d36c5dbeb312b7918",
+        "target_sha256": "5735eb7b766f6335c161fac5eb223e1873d7a0e866e8dade9a9d8961ef573a2e"
+      },
+      "ui:살아낸 시간:/살아낸 시간": {
+        "source_sha256": "fbec07e9e939c46c0c304fa77aa342d416352437e51c185e34e1932d02700423",
+        "target_sha256": "970444ae17b847744284532974289375d4f4876a4e6459b4166359bb24f10a81"
+      },
+      "ui:서울에 들고 온 50만원과 지난 5년의 선택이 이 마지막 장에 함께 남았다.:/서울에 들고 온 50만원과 지난 5년의 선택이 이 마지막 장에 함께 남았다.": {
+        "source_sha256": "0a6261f1a22587db430e8c683ce216b238e6307fb4d84497fba95042610c3516",
+        "target_sha256": "876351ea6c77e20ccdf39495f8f2f70ee1b6a41a6c655da2ae70ab3dee0e314d"
+      },
+      "ui:숫자를 보고도 거래를 서두르지 않았다:/숫자를 보고도 거래를 서두르지 않았다": {
+        "source_sha256": "787abc2ab17ab7c33a86296437e110db240404f167fcf2294485c0b6aa2de7a9",
+        "target_sha256": "c4d9a8770195cad202f3d6c621c20368fff6047ca33bd58be35c96fecf1a2f8b"
+      },
+      "ui:스타트업 엑싯 성공:/스타트업 엑싯 성공": {
+        "source_sha256": "d8e36d60a69bfa703f623b3fc02c599c8ab76fff1bbbe0708f3e448d11ca62be",
+        "target_sha256": "95a2ccca4ebbdef3c98e33b4fb25457d27b1c6909886c8d847a6f2025668d24d"
+      },
+      "ui:아버지 아크를 아직 시작하지 않았습니다.:/아버지 아크를 아직 시작하지 않았습니다.": {
+        "source_sha256": "221b487ec07fc30cb1377db12f0cf648683da3e3b7478ab61fab898d81d73a2f",
+        "target_sha256": "c7df3de57f3aad0bcfbc83af25b39362de31ee77ef9751cb180b48c507875e7a"
+      },
+      "ui:아직 만나지 못한 이야기가 %d개 더 있습니다.:/아직 만나지 못한 이야기가 %d개 더 있습니다.": {
+        "source_sha256": "8878d31ba2640e5e9d1785d87ebdada1ec6de173e17ce3a64bdef78fd785a3fb",
+        "target_sha256": "d9e1f9159cfc7825e44807515d9dc2dd24d1476e627010a01a8856cac57e9737"
+      },
+      "ui:아파트 입성:/아파트 입성": {
+        "source_sha256": "e8d420977f509c2480cff35ab4b236ada61deec7b7cb8e3ba6f4ac7685c2c1fa",
+        "target_sha256": "a73d7e66c99c46d683f0971c45095e7b926335875b651005b17ebf7f3b62316e"
+      },
+      "ui:엔딩 도감  %d / %d 발견:/엔딩 도감  %d ~1 %d 발견": {
+        "source_sha256": "bdaea8ca6cf9d3c91b397fb95b6316d551d36dd648a0347c788ad67adf27a73a",
+        "target_sha256": "48f08f10bf9b3ade73048231e98eecf2a96ab38d9b889c54ef64e9e6877ae6de"
+      },
+      "ui:엔딩: \"%s\":/엔딩: \"%s\"": {
+        "source_sha256": "6ac93d4027e8d6e671c04c1810e12db0e98ac332b7fde606d319ace1af3b4cbd",
+        "target_sha256": "23c8f19f56eddcc3ccde1227dd4118ec62816557dffe023d172213886166ca34"
+      },
+      "ui:원룸 이사 성공:/원룸 이사 성공": {
+        "source_sha256": "2bdc82eff20f8a56f0d749b2191ae2fa1e7a6d0d590b3eaedb44fe507849fc1a",
+        "target_sha256": "129b42554287126b657fa9a7539a2c4d3270acdc3a06e2db4c0694e2e7479277"
+      },
+      "ui:이번 삶에서 한지연을 만나지 못했습니다.:/이번 삶에서 한지연을 만나지 못했습니다.": {
+        "source_sha256": "98f2189e51e476a053f478c93b2cf69d5d0ac3144adc7db31a9a813ba399eef4",
+        "target_sha256": "47562135e3e0dd076b933d8890c29af48c2c767fd6d5c1fb8f868dc8d2b2f890"
+      },
+      "ui:정계 진출:/정계 진출": {
+        "source_sha256": "b09bcc72c0f0cb3b00200a5f575a93b999b922d4daff60aed36c2008edf4b528",
+        "target_sha256": "674141c2d79cbfa531f926921cecc93af8314d4a5fd4050d0daf7bfb1c5a2a7e"
+      },
+      "ui:창업 도전:/창업 도전": {
+        "source_sha256": "d3c7c0771c4bc3a12637a43933a15c258e5181ab558bab80f253ce5ff8cabc44",
+        "target_sha256": "4426658d783920da2adbd4d573c117b47a202106d128da81ed08fd6dda576617"
+      },
+      "ui:창업 이야기 — 아이디어 하나로 엑싯까지, 아직 만나지 못했습니다.:/창업 이야기 — 아이디어 하나로 엑싯까지, 아직 만나지 못했습니다.": {
+        "source_sha256": "611af0cc743bf3c34b39345cb4268011cd617c7de253124e20ea6498d352509e",
+        "target_sha256": "264eee50f38203b6862a972d6cddf0df9563d7ce05ab82f01bcc1ece558b7ef0"
+      },
+      "ui:창업과 크리에이터 이야기, 둘 다 아직 만나지 못했습니다.:/창업과 크리에이터 이야기, 둘 다 아직 만나지 못했습니다.": {
+        "source_sha256": "ba07d6f65fa1a9c8524e614ee28c645979a81af23a3b8116d799d219530d487d",
+        "target_sha256": "58556d0109656a6adef02a8f360d394cebecdcd98f6855efdd1eb13cfded2236"
+      },
+      "ui:최종 자산: %s  (목표 달성률 %d%%):/최종 자산: %s  (목표 달성률 %d%%)": {
+        "source_sha256": "1a408567af1bd84e368fa4d933f3e389ed61779886ba851ee36ed2c7d9f4a25b",
+        "target_sha256": "03e97ca3641f0c7958fc33aa5247efb19103042121768c80f7c09258ab4ccb82"
+      },
+      "ui:최종 자산:/최종 자산": {
+        "source_sha256": "2429b28ee5c9c6a0677e02a6ae3ad54ee69b947eada385a5db5a1177310e068a",
+        "target_sha256": "9376837821f179a4ed8d92ea231fd89cf3f10df8892410bb41e971ab33e2441e"
+      },
+      "ui:크리에이터 수익화 성공:/크리에이터 수익화 성공": {
+        "source_sha256": "4a180dda16b2880ddfcb5a5cc68d2122168e10b528066e77f0081f096a3d3a67",
+        "target_sha256": "e99fd03a6dc91263e8b20142f9c3a8a5d0ce61672178a9f4d0fe52791eb5bd48"
+      },
+      "ui:크리에이터 이야기 — 구독자 100만까지, 아직 만나지 못했습니다.:/크리에이터 이야기 — 구독자 100만까지, 아직 만나지 못했습니다.": {
+        "source_sha256": "42a8a5ae609fd4a42755fe3f777715dc65dd0f09d638e08248530bbd4a7afcef",
+        "target_sha256": "c94198668670d61d101dbc26626df2223f0c9c522c2695806a2f0937f618e707"
+      },
+      "ui:크리에이터 활동 시작:/크리에이터 활동 시작": {
+        "source_sha256": "b13c0d497bb63e19dced5be4c99bb0fce62bdf9b4122757fd9b1e46e4a3288de",
+        "target_sha256": "f51c5dca9178075b1af4287e5ea393658a0caa55505531df2529bead5a97c781"
+      },
+      "ui:투자 기술을 먼저 키웠다면 결과가 달랐을까요?:/투자 기술을 먼저 키웠다면 결과가 달랐을까요?": {
+        "source_sha256": "6f09799e202b5bda7dc724bf45d36d3031e554c9186a406e9dada6b36dbed0ab",
+        "target_sha256": "7b600880715a21154dc60fca62c5b1416862abafa3946c372cf1baa88d44798b"
+      },
+      "ui:플레이어: %s  |  33세 → %d세  |  %d개월:/플레이어: %s  |  33세 → %d세  |  %d개월": {
+        "source_sha256": "5736d77b589e66414cf025dc7ba724594b5f558c8b8ff25db63b9515a1db3219",
+        "target_sha256": "93b3c23c0ef94835b1ea4a25ae3d598a8201a40575ed3bdc66675c6788e03a96"
+      },
+      "ui:한지연의 진실을 끝까지 보지 못했습니다.:/한지연의 진실을 끝까지 보지 못했습니다.": {
+        "source_sha256": "832ab5db250dc5f3dfbe1b354f2185c5e6b2f8c07d855d66b2de53776a96a3e2",
+        "target_sha256": "2fd8e90ea2dc9520999b3953ed607c28bcb485c9b5d1a833aa73e3974f63dcd5"
       }
     },
     "zh-TW": {
@@ -156717,10 +157111,178 @@
       "ui:후일담:/후일담": {
         "source_sha256": "4ca32f1d934ec6891b5ced200d73c536e41ed14c7d2dca4085ab33ba02054542",
         "target_sha256": "8321c1ac4ec231815fbab47885da9e03b52d296bc2137015910fb5d040e6da20"
+      },
+      "ui:  최고 자산 %s 중 결말에 %d%% 지킴:/  최고 자산 %s 중 결말에 %d%% 지킴": {
+        "source_sha256": "f4afd3687222ca7fbd9e98001c2b65f17db769d8a09bce60c91d737e4b765617",
+        "target_sha256": "cfbbabcc5afd0d82e416ec07c414866b5d7d19b27f0c198d7797334fc2eafb0d"
+      },
+      "ui:#강남드림 #GangnamDream:/#강남드림 #GangnamDream": {
+        "source_sha256": "bd0e895251b817b6d093ba6c1e8a898367889e653fc0b96dc6668dd22e6a2b80",
+        "target_sha256": "ecce002af1e17d9cac2cfb73f0bc582d3e6d8153ea79c0a866fbb94087b8dc48"
+      },
+      "ui:%d세:/%d세": {
+        "source_sha256": "db4b20df3457c9f1280c2ed22c1374123bfae8020bafc42b2049c04013c09334",
+        "target_sha256": "801f58115b8bee74e942ba2c8bd51f5476e032b73296fca7baad3e9d1dc3eeba"
+      },
+      "ui:%d주:/%d주": {
+        "source_sha256": "cbbe9a8ffdddc1634c585b8700e31bccbb61b24a907ad30451c821f833766b61",
+        "target_sha256": "0950a126a855e10e1847b99c95564728992babce50601e7ff4f620acaf3292d4"
+      },
+      "ui:5년의 발자취:/5년의 발자취": {
+        "source_sha256": "47f021fcd6e3332b34cd56f3d1b1e4ed1113e4b1d34eb874fa15074886fa0da4",
+        "target_sha256": "e59c3a16c44914df3c712363d5d5e734bb1a49d8245340d87d2cc9026de6527b"
+      },
+      "ui:[강남드림 마지막 기록]:/[강남드림 마지막 기록]": {
+        "source_sha256": "2e0bd394a740bd4cdce28459109cc2709a67f0f1b90de47fe87e1f9bae4b2f2a",
+        "target_sha256": "d320fc19cfe318ac35852b9c9e8aa90f3c8edf2ce5150e33299b61615e2b0d1e"
+      },
+      "ui:가격표 너머의 위험을 살피기 시작했다:/가격표 너머의 위험을 살피기 시작했다": {
+        "source_sha256": "61f06b4da45ef469d2d307c09f0d7e76eff58ff51133c2bd607375f6bb1a341b",
+        "target_sha256": "609bc352bd21f6f9269de4d8020341826bc53721f1bad0d420970af5e6a7d7ab"
+      },
+      "ui:강남 아파트 입성:/강남 아파트 입성": {
+        "source_sha256": "a7390f0660ed3e19cab9a6703c5d603876eb08f72ebbc30605b03382ff02d7d3",
+        "target_sha256": "1f7f6327e98a3ddeaf9f7955fd5ae61fe5629d51dce1f0a09389b3c04681afa2"
+      },
+      "ui:결과 복사하기:/결과 복사하기": {
+        "source_sha256": "bf467e502b853e67488830304ca9d0c5ffab9f7456789cb6f08796d1a5c4b3d7",
+        "target_sha256": "75952beaa93665fc55066463d66591932816473d1451a318e3c50e6ca8304896"
+      },
+      "ui:나이:/나이": {
+        "source_sha256": "ee8b91bfd2fb420a55188a351b60b18fa0914694ad8567bc42695d29ef9153c3",
+        "target_sha256": "d2215e18c2b79ed0e6b76ab23edb4a1b7afc7c178e6bb3c8b028460852b68e64"
+      },
+      "ui:다시 볼 기록:/다시 볼 기록": {
+        "source_sha256": "b53def5261a0fd7e2e4ef16559e7f19be9f1ffd6ba79d79e6b597421d58d04f2",
+        "target_sha256": "b38ff9f1397ab29ec8080ac0bdc5bf3b072f158ff108afbb4a5fe3256117b44b"
+      },
+      "ui:다시 시작한다면:/다시 시작한다면": {
+        "source_sha256": "9a2442c58568aa75d86b3185b443a02f6a2c1ae228623c467f8d7aa146d0fab3",
+        "target_sha256": "171cbfce2265115ee320148d8878f75d2126e953a636478e417ad6dda59dc99d"
+      },
+      "ui:다음 일을 찾는 중:/다음 일을 찾는 중": {
+        "source_sha256": "f9a73af8dd2dba965d819963f6a40a198a384925817d668b702e588e0d3fdf98",
+        "target_sha256": "d02252c9563d3d6bdc3f61330da0e318775b78e2e565aefe5f1f949cff3c54e1"
+      },
+      "ui:마지막 거처: %s:/마지막 거처: %s": {
+        "source_sha256": "0db33436e9c77a04e72c25c1b480b52edeb9ca153ce5efca7757a4d3b982b9cd",
+        "target_sha256": "9504cde4b9b0be110b4036948bad0ab24f9ee93a62e34a0ef3f987808a1d67de"
+      },
+      "ui:마지막 일: %s:/마지막 일: %s": {
+        "source_sha256": "1d02263b2cf536a07aef6da46df3c55608f7f9681a8f94e6587031ee3f825701",
+        "target_sha256": "5ce26223a2eb589158376323eb0d9f12b99a10ff50e7f94c0376848118887223"
+      },
+      "ui:마지막 일:/마지막 일": {
+        "source_sha256": "76a7505994e933e35de4013593c43d9723705ace47dd6416777323a5eff231b9",
+        "target_sha256": "9afdf97a365ce170d2fa359763fa358cc9f8d6dcc156f1981e40d29510cb6056"
+      },
+      "ui:만난 사건: %d / %d개:/만난 사건: %d ~1 %d개": {
+        "source_sha256": "9788d0229a22e124358e5bce7b231492fec3913db961cd459340653c36c91624",
+        "target_sha256": "ac12e69e806cd6b039b23ce2c11fa363dccd35c2273edd9ebff679d77e628bb5"
+      },
+      "ui:복사됨:/복사됨": {
+        "source_sha256": "7683d99cae4ad712f56d135d6f1bc70f46b265912283466fe148e27ba8f8cb60",
+        "target_sha256": "16abe50c723789c536bfc9561b56ddf11d772d73427c2bdab4d7ebab3f540354"
+      },
+      "ui:살던 곳:/살던 곳": {
+        "source_sha256": "dd6b9538f3255c2d605a207e082b66b640835c01c4c1540d36c5dbeb312b7918",
+        "target_sha256": "2ebffa6fda682c1fd655351483fdff76b8892dbd13451623d62da95d28fe5ac2"
+      },
+      "ui:살아낸 시간:/살아낸 시간": {
+        "source_sha256": "fbec07e9e939c46c0c304fa77aa342d416352437e51c185e34e1932d02700423",
+        "target_sha256": "baa38daab317664bf783a1fe25edc7ec90e34ac005aeb46687596d294d257468"
+      },
+      "ui:서울에 들고 온 50만원과 지난 5년의 선택이 이 마지막 장에 함께 남았다.:/서울에 들고 온 50만원과 지난 5년의 선택이 이 마지막 장에 함께 남았다.": {
+        "source_sha256": "0a6261f1a22587db430e8c683ce216b238e6307fb4d84497fba95042610c3516",
+        "target_sha256": "4636d67ee3e0c96ce0907d3a45e9d904a9818b0e9d090d31cd6082d284318c0f"
+      },
+      "ui:숫자를 보고도 거래를 서두르지 않았다:/숫자를 보고도 거래를 서두르지 않았다": {
+        "source_sha256": "787abc2ab17ab7c33a86296437e110db240404f167fcf2294485c0b6aa2de7a9",
+        "target_sha256": "266f8a3d0fc325078291c3be1caef805efd97f5dedb3a1208c3a06fd97ffd53d"
+      },
+      "ui:스타트업 엑싯 성공:/스타트업 엑싯 성공": {
+        "source_sha256": "d8e36d60a69bfa703f623b3fc02c599c8ab76fff1bbbe0708f3e448d11ca62be",
+        "target_sha256": "c4efea062afbdfc62e887318cf745bf36075c44ac5834a19e0ee475ef1093941"
+      },
+      "ui:아버지 아크를 아직 시작하지 않았습니다.:/아버지 아크를 아직 시작하지 않았습니다.": {
+        "source_sha256": "221b487ec07fc30cb1377db12f0cf648683da3e3b7478ab61fab898d81d73a2f",
+        "target_sha256": "fd2ff7287d7f4150c462c23c491f791418d289a2fcf178b948b86fb08c51a72f"
+      },
+      "ui:아직 만나지 못한 이야기가 %d개 더 있습니다.:/아직 만나지 못한 이야기가 %d개 더 있습니다.": {
+        "source_sha256": "8878d31ba2640e5e9d1785d87ebdada1ec6de173e17ce3a64bdef78fd785a3fb",
+        "target_sha256": "fdb408016848514a670912a4b398d0536c4673c0763421bcd3546bdb880f2b84"
+      },
+      "ui:아파트 입성:/아파트 입성": {
+        "source_sha256": "e8d420977f509c2480cff35ab4b236ada61deec7b7cb8e3ba6f4ac7685c2c1fa",
+        "target_sha256": "0d7bb8eda7bfed294f7a15017964439d0858f177e00f0b836f6ba1994181a410"
+      },
+      "ui:엔딩 도감  %d / %d 발견:/엔딩 도감  %d ~1 %d 발견": {
+        "source_sha256": "bdaea8ca6cf9d3c91b397fb95b6316d551d36dd648a0347c788ad67adf27a73a",
+        "target_sha256": "1b44fc3e32bcad56707b8f279628920105c99a19680fcf497c38238a9fa252b6"
+      },
+      "ui:엔딩: \"%s\":/엔딩: \"%s\"": {
+        "source_sha256": "6ac93d4027e8d6e671c04c1810e12db0e98ac332b7fde606d319ace1af3b4cbd",
+        "target_sha256": "db5f79cd177484da559de7c92b8110fbc3c8263d85f92a66c12b2ecf68b6ec8f"
+      },
+      "ui:원룸 이사 성공:/원룸 이사 성공": {
+        "source_sha256": "2bdc82eff20f8a56f0d749b2191ae2fa1e7a6d0d590b3eaedb44fe507849fc1a",
+        "target_sha256": "587ff614c08c63371b7bb78e71b1d076b324c6e4fa039d84ac544c424fc71b98"
+      },
+      "ui:이번 삶에서 한지연을 만나지 못했습니다.:/이번 삶에서 한지연을 만나지 못했습니다.": {
+        "source_sha256": "98f2189e51e476a053f478c93b2cf69d5d0ac3144adc7db31a9a813ba399eef4",
+        "target_sha256": "f1fd31abf1cd08386431522bdf23e4ae7b81c72999e66228ac70fa0c5ecea55b"
+      },
+      "ui:정계 진출:/정계 진출": {
+        "source_sha256": "b09bcc72c0f0cb3b00200a5f575a93b999b922d4daff60aed36c2008edf4b528",
+        "target_sha256": "22e1e6de7fe4a246ad9c8fbdf28f513b2ea38eeffdf52c450bbffbf72e759c78"
+      },
+      "ui:창업 도전:/창업 도전": {
+        "source_sha256": "d3c7c0771c4bc3a12637a43933a15c258e5181ab558bab80f253ce5ff8cabc44",
+        "target_sha256": "34cfb78dd125129d3718fda25f6ae4203aa8c3f53819446ce440bd7af08ebc1f"
+      },
+      "ui:창업 이야기 — 아이디어 하나로 엑싯까지, 아직 만나지 못했습니다.:/창업 이야기 — 아이디어 하나로 엑싯까지, 아직 만나지 못했습니다.": {
+        "source_sha256": "611af0cc743bf3c34b39345cb4268011cd617c7de253124e20ea6498d352509e",
+        "target_sha256": "d989929f41528236464b043186ad83e315ac590892979cdff589d9dc48fbf0be"
+      },
+      "ui:창업과 크리에이터 이야기, 둘 다 아직 만나지 못했습니다.:/창업과 크리에이터 이야기, 둘 다 아직 만나지 못했습니다.": {
+        "source_sha256": "ba07d6f65fa1a9c8524e614ee28c645979a81af23a3b8116d799d219530d487d",
+        "target_sha256": "9d44646769158c2c2680bbe86bab1fab39241d36ac057a9b5da77e8ec2540f51"
+      },
+      "ui:최종 자산: %s  (목표 달성률 %d%%):/최종 자산: %s  (목표 달성률 %d%%)": {
+        "source_sha256": "1a408567af1bd84e368fa4d933f3e389ed61779886ba851ee36ed2c7d9f4a25b",
+        "target_sha256": "d90a451f7107757dd9a5c4d7167c385aef1e4b7e0b61516bb06f6d3f166120f3"
+      },
+      "ui:최종 자산:/최종 자산": {
+        "source_sha256": "2429b28ee5c9c6a0677e02a6ae3ad54ee69b947eada385a5db5a1177310e068a",
+        "target_sha256": "10e9bc83922cc799dd43cd0c75a7f48202eefbc1e2f362e7feeb719d8d851ad7"
+      },
+      "ui:크리에이터 수익화 성공:/크리에이터 수익화 성공": {
+        "source_sha256": "4a180dda16b2880ddfcb5a5cc68d2122168e10b528066e77f0081f096a3d3a67",
+        "target_sha256": "9bb279bd09fa4b3afe1184090c2c03b8322a255342c7da7a5137377af551d57e"
+      },
+      "ui:크리에이터 이야기 — 구독자 100만까지, 아직 만나지 못했습니다.:/크리에이터 이야기 — 구독자 100만까지, 아직 만나지 못했습니다.": {
+        "source_sha256": "42a8a5ae609fd4a42755fe3f777715dc65dd0f09d638e08248530bbd4a7afcef",
+        "target_sha256": "c0cc5018b893a19a52f93496f8aee4a24ce015a62e17d3182399e4c8d1bbb946"
+      },
+      "ui:크리에이터 활동 시작:/크리에이터 활동 시작": {
+        "source_sha256": "b13c0d497bb63e19dced5be4c99bb0fce62bdf9b4122757fd9b1e46e4a3288de",
+        "target_sha256": "ea2331603e2660918694c44f54e178aae1ee71429548b41d957ea51ecde7a8a2"
+      },
+      "ui:투자 기술을 먼저 키웠다면 결과가 달랐을까요?:/투자 기술을 먼저 키웠다면 결과가 달랐을까요?": {
+        "source_sha256": "6f09799e202b5bda7dc724bf45d36d3031e554c9186a406e9dada6b36dbed0ab",
+        "target_sha256": "1a1e1feff4e85c08dd2f974713ebfdd8cd85a596c7eae4db05e1991cd18506e2"
+      },
+      "ui:플레이어: %s  |  33세 → %d세  |  %d개월:/플레이어: %s  |  33세 → %d세  |  %d개월": {
+        "source_sha256": "5736d77b589e66414cf025dc7ba724594b5f558c8b8ff25db63b9515a1db3219",
+        "target_sha256": "205ed690f3f93446cea3829bc85291f0f9a266d6e284ff80c8bb259febfcdc5a"
+      },
+      "ui:한지연의 진실을 끝까지 보지 못했습니다.:/한지연의 진실을 끝까지 보지 못했습니다.": {
+        "source_sha256": "832ab5db250dc5f3dfbe1b354f2185c5e6b2f8c07d855d66b2de53776a96a3e2",
+        "target_sha256": "e0c8448abaa6fa4f119a91ebb2631797c8cf64f89d2a5216d5a5360a1a015255"
       }
     }
   },
-  "accepted_sha256": "a0a4d8b0ba03c0552437a3fe03b8a0702f2e2955ba07853991630320aebf0790",
+  "accepted_sha256": "f5b8c4b19faa9277cbbe6b72996e07f44396436504b87aebcd1cd6ebd30fef52",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
