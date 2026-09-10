@@ -9030,7 +9030,11 @@ def static_ui_coverage(
             continue
         legacy_covered += 1
         entry = legacy_entries[source]
-        for error in validate_text(lang, entry.key, source, target):
+        # Match the full-game exchange's source-owner identity; keep the
+        # inventory alias below for diagnostics, not source-bound validation.
+        pointer = source.replace("~", "~0").replace("/", "~1")
+        validation_key = f"ui:{source}:/{pointer}"
+        for error in validate_text(lang, validation_key, source, target):
             errors.append(f"{lang}:{entry.key}: {error}")
     context_covered = 0
     for context_id in sorted(expected_context):

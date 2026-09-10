@@ -3362,6 +3362,42 @@
       "machine_validation": "PASS",
       "rendered_review": "OPEN",
       "native_review": "OPEN"
+    },
+    {
+      "order": "ORDER-234",
+      "group": "ui",
+      "roots": [
+        "BGM",
+        "게임 엔진·서체·음원의 출처와 라이선스를 확인합니다.",
+        "나중에 로드",
+        "데이터 모드의 활성화와 로드 순서를 변경합니다.",
+        "먼저 로드",
+        "모드 관리",
+        "밸런스 프리셋",
+        "변경은 다음 실행부터 적용됩니다. 위에 있는 모드가 먼저 로드됩니다.",
+        "색 테마",
+        "색각 접근성",
+        "이미지·오디오 교체",
+        "전체화면",
+        "제3자 고지",
+        "진동",
+        "창 해상도",
+        "창모드",
+        "카메라·초상·날씨 움직임을 최소화합니다.",
+        "커스텀 이벤트",
+        "테두리 없음",
+        "화면 모드"
+      ],
+      "source_leaves": 20,
+      "target_leaves_by_locale": {
+        "ja": 20,
+        "zh-CN": 20,
+        "zh-TW": 20
+      },
+      "source_review": "Direct Korean review of 20 settings UI keys across 11 observed judgment units per locale: existing Japanese20 reviewed; Simplified and Traditional Chinese20 each independently authored. Preserve display modes, reduced-motion meaning, mod-next-launch policy and earlier/later load ordering. Preserve six protected controls and all unselected UI raw through inverse. Dynamic names/legal bodies and actual settings/device operations are outside this text review.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN"
     }
   ],
   "accepted": {
@@ -54153,6 +54189,86 @@
       "ui:회상  %d / %d:/회상  %d ~1 %d": {
         "source_sha256": "b2f377e80f108a2e0ec7488ac18b1a84d2dd63e768febaf717a322566fdc9299",
         "target_sha256": "cc1020bf8c0ecd51025ea7dc763cc2f6bbe20e7069cc467a66f23df7141220ab"
+      },
+      "ui:BGM:/BGM": {
+        "source_sha256": "b574eca9320677b4330da87eab4a2d27b6c5b283e9ffbf0dc0d1a77b5bab916a",
+        "target_sha256": "2427b41526043e7ed506de1ba30dadbae17c21383ed8133077745c417946bd23"
+      },
+      "ui:게임 엔진·서체·음원의 출처와 라이선스를 확인합니다.:/게임 엔진·서체·음원의 출처와 라이선스를 확인합니다.": {
+        "source_sha256": "d9a268258429e833b9b0e57a2b80b4fbb94324d6463808545d9cf20686d4f39a",
+        "target_sha256": "b9c8b66fb943efedc13a713271ce5be3cee57cc4b4dfc2021ef758a0e07bb8ba"
+      },
+      "ui:나중에 로드:/나중에 로드": {
+        "source_sha256": "08ed38aaf19134614592edb6d314de2d5bad6c079f175c199e3d0b992d1d2d35",
+        "target_sha256": "47d550b631d95441fe9b277c3aac6a1984e8180dce4d764c03ee7eb8ada32e0c"
+      },
+      "ui:데이터 모드의 활성화와 로드 순서를 변경합니다.:/데이터 모드의 활성화와 로드 순서를 변경합니다.": {
+        "source_sha256": "6a1ec33d169f6755c7f3cc74e157120b7c3bf81378a7c8c675100f58fb95ac09",
+        "target_sha256": "dd6a6fb9751dbfb46596ffa038b039b368dc404d8d204510f9149a9d468730f0"
+      },
+      "ui:먼저 로드:/먼저 로드": {
+        "source_sha256": "59c5055d0e68a30ee5d8d1b4c82adc7435c010e03bc029ad07d86da0bdc93e20",
+        "target_sha256": "8c93fae306a7f0356704caf1149dd265d9bc8835916a29f4c45e0ae019d06e5d"
+      },
+      "ui:모드 관리:/모드 관리": {
+        "source_sha256": "9a0f77e1ca0cda60e20f322a0d9c3bfd96f253139bf2bfd35770e01cd8acdd7a",
+        "target_sha256": "c5a3473b762bc0ec3e009f5512cf6e70f7781d9e1bbce2eadcb2a2b3dcf57c63"
+      },
+      "ui:밸런스 프리셋:/밸런스 프리셋": {
+        "source_sha256": "c7b223d4b7ffc9fd30711385288ad6762e6fac836ee3a8301583cd0f16b0e1a6",
+        "target_sha256": "ed80ab741f31a28cf2e4449487d3b6d50ef4ee27d433274631bf7eb0db7c6288"
+      },
+      "ui:변경은 다음 실행부터 적용됩니다. 위에 있는 모드가 먼저 로드됩니다.:/변경은 다음 실행부터 적용됩니다. 위에 있는 모드가 먼저 로드됩니다.": {
+        "source_sha256": "c596c724ba3035360fe284bf7ddd85f9f6db72f8ac820acd71d319c4863e333b",
+        "target_sha256": "00aae0b45694a2a10fa3d0029dac57d37f40d20aa3929c831fd827a2212761d3"
+      },
+      "ui:색 테마:/색 테마": {
+        "source_sha256": "bee29bdb681ba4b46dcf07070e119faee161ad2ee61ae32370e9e53c5dfa02ef",
+        "target_sha256": "c86966675a3dfc28fb228c4156a69203193ca6cf83c0a6e21283ef69bd5a65d9"
+      },
+      "ui:색각 접근성:/색각 접근성": {
+        "source_sha256": "8cc136f0c37ba5389439da58998c71c01c8404eaf936a517beaeecde32ba04a4",
+        "target_sha256": "abfc635f52c0c44054c3f43b3b1f90f883a3e35fede1065a39b75d52ab18a246"
+      },
+      "ui:이미지·오디오 교체:/이미지·오디오 교체": {
+        "source_sha256": "27f1293c5def2f704f52077e94a845896642f23b7d85414d868945a043188086",
+        "target_sha256": "c3150247d1a3eaa4c74c4cb207f45d9f569f0ab1bd10cdd909ea49e96d61c1a0"
+      },
+      "ui:전체화면:/전체화면": {
+        "source_sha256": "a573b730841dedbb92a8d5308deed50aa7419b85c3b93136fe5271da3b3f4bd2",
+        "target_sha256": "1492a7824542b731c6b4c426fe3e82b4ca7de95d8816991d5cbf1bcc538e4da1"
+      },
+      "ui:제3자 고지:/제3자 고지": {
+        "source_sha256": "77dfc1bd2ff70558d2b7898a5b6124bd06c432ceaaa24c35edb5c2d118f9939b",
+        "target_sha256": "ce39dffa6726b14b60aa5330dde50abc318ce6c7732eb3250b55583cb27858f2"
+      },
+      "ui:진동:/진동": {
+        "source_sha256": "2caaccbdebd21ae51a3ef15f650c8096831c3a6645b35ac1985f38a0be5e3b21",
+        "target_sha256": "6c409fb8b7c6409672edf1d68ceb27162374a22be9c2fac06681b92f25a2bbb7"
+      },
+      "ui:창 해상도:/창 해상도": {
+        "source_sha256": "67b04bf2fc8877aa4af6f53562037aa3d6d51b6c4e11717c6faa5c43b1a1addd",
+        "target_sha256": "caf88710c2360022224cb92cbad90c8b0f77cec9f0db61a57444711a801d7f7a"
+      },
+      "ui:창모드:/창모드": {
+        "source_sha256": "140c09325216a181a1e98d91aea542c6e79c907e0532466670ec33915017b446",
+        "target_sha256": "5967cc0ebbe497c18f76a318fb27490dc8db70bd3e638a6604821d39ecb7f4f0"
+      },
+      "ui:카메라·초상·날씨 움직임을 최소화합니다.:/카메라·초상·날씨 움직임을 최소화합니다.": {
+        "source_sha256": "784941021374a0dc8ee7be68c3ed03c9ff1ebe2c1c8d10b52afbc9659dbbd536",
+        "target_sha256": "61ec4ee34f9116c8aa3200f5c5d83600c35bce171f599df4a9b61d29f6a8c12f"
+      },
+      "ui:커스텀 이벤트:/커스텀 이벤트": {
+        "source_sha256": "40d740357324c14eafec3c5ca8675b4f70539307a7aacae50ce36c8510dc3008",
+        "target_sha256": "f353775d70f2da7942882d05afa2a5f58a20f7ca65f3863f13e85cc0429c7eae"
+      },
+      "ui:테두리 없음:/테두리 없음": {
+        "source_sha256": "e50b3edd98ca6c0eb194babe78d5e595a6691af9b18086ff96fef4952c8b416f",
+        "target_sha256": "699ac33af7e80e31418d1a30f0cea7584c8a9b9ff3dd3b644b5bd3a0510fe9a4"
+      },
+      "ui:화면 모드:/화면 모드": {
+        "source_sha256": "ea34aa0749c919ab5ed4926809d99dc99abce2f269303df851d206e3e43baa35",
+        "target_sha256": "ee4b9598c5bf4ddb81fd4ea8b956db5d22528b039ccf8d98ee5a02865efbbb65"
       }
     },
     "zh-CN": {
@@ -104951,6 +105067,86 @@
       "ui:회상  %d / %d:/회상  %d ~1 %d": {
         "source_sha256": "b2f377e80f108a2e0ec7488ac18b1a84d2dd63e768febaf717a322566fdc9299",
         "target_sha256": "da23624413918077ebb6950e447d924fb0eef8bf91ff5931db8c6e0838019e89"
+      },
+      "ui:BGM:/BGM": {
+        "source_sha256": "b574eca9320677b4330da87eab4a2d27b6c5b283e9ffbf0dc0d1a77b5bab916a",
+        "target_sha256": "8dbdd7e2e12dfc5ded864e65611c8f11616d12ac64416e437c1cc62e8bc0680d"
+      },
+      "ui:게임 엔진·서체·음원의 출처와 라이선스를 확인합니다.:/게임 엔진·서체·음원의 출처와 라이선스를 확인합니다.": {
+        "source_sha256": "d9a268258429e833b9b0e57a2b80b4fbb94324d6463808545d9cf20686d4f39a",
+        "target_sha256": "a8fb3091a1376f4318359b68f3cb69725ecc45dab8d4647ce94467bc958c7047"
+      },
+      "ui:나중에 로드:/나중에 로드": {
+        "source_sha256": "08ed38aaf19134614592edb6d314de2d5bad6c079f175c199e3d0b992d1d2d35",
+        "target_sha256": "a991e756261a705cb7f7d2659c68bedfbf60c7a820c858a446f581a120f7ff5f"
+      },
+      "ui:데이터 모드의 활성화와 로드 순서를 변경합니다.:/데이터 모드의 활성화와 로드 순서를 변경합니다.": {
+        "source_sha256": "6a1ec33d169f6755c7f3cc74e157120b7c3bf81378a7c8c675100f58fb95ac09",
+        "target_sha256": "4ed4306ec204b4020847450b643858e7667d40d932785192b24b1885833e59f3"
+      },
+      "ui:먼저 로드:/먼저 로드": {
+        "source_sha256": "59c5055d0e68a30ee5d8d1b4c82adc7435c010e03bc029ad07d86da0bdc93e20",
+        "target_sha256": "143ffccac94a6594cb365ad294071ba6f7f97ff152c3b82b6af2ee83971fc1f8"
+      },
+      "ui:모드 관리:/모드 관리": {
+        "source_sha256": "9a0f77e1ca0cda60e20f322a0d9c3bfd96f253139bf2bfd35770e01cd8acdd7a",
+        "target_sha256": "69f66f5d103637e968631db02493376771fa2ed3d73e76c8976af788e58b0b54"
+      },
+      "ui:밸런스 프리셋:/밸런스 프리셋": {
+        "source_sha256": "c7b223d4b7ffc9fd30711385288ad6762e6fac836ee3a8301583cd0f16b0e1a6",
+        "target_sha256": "359d61fe51f2f883f7cfa9691004d4691c06ca30d7d013d7fe47293da78ea344"
+      },
+      "ui:변경은 다음 실행부터 적용됩니다. 위에 있는 모드가 먼저 로드됩니다.:/변경은 다음 실행부터 적용됩니다. 위에 있는 모드가 먼저 로드됩니다.": {
+        "source_sha256": "c596c724ba3035360fe284bf7ddd85f9f6db72f8ac820acd71d319c4863e333b",
+        "target_sha256": "afc8fc248cad3df6d86410e0a190743e893fa6ceefb1acac01d5898b087e4226"
+      },
+      "ui:색 테마:/색 테마": {
+        "source_sha256": "bee29bdb681ba4b46dcf07070e119faee161ad2ee61ae32370e9e53c5dfa02ef",
+        "target_sha256": "f9f2ff45412df6bef58e75cdf2894c825487209ee7ba470debce92a0652ec84c"
+      },
+      "ui:색각 접근성:/색각 접근성": {
+        "source_sha256": "8cc136f0c37ba5389439da58998c71c01c8404eaf936a517beaeecde32ba04a4",
+        "target_sha256": "92dc29d25c85ad46d6b04f019ab67949e5416c35deb264931ebd523a19fa5307"
+      },
+      "ui:이미지·오디오 교체:/이미지·오디오 교체": {
+        "source_sha256": "27f1293c5def2f704f52077e94a845896642f23b7d85414d868945a043188086",
+        "target_sha256": "e985e13539ead30f2438ee51784a46a981bf3adf9abb5347244b05ba659e8492"
+      },
+      "ui:전체화면:/전체화면": {
+        "source_sha256": "a573b730841dedbb92a8d5308deed50aa7419b85c3b93136fe5271da3b3f4bd2",
+        "target_sha256": "e5ab5180af19b818a1138d25711c0db7298055ff25de30ffd38c5f85fb64113f"
+      },
+      "ui:제3자 고지:/제3자 고지": {
+        "source_sha256": "77dfc1bd2ff70558d2b7898a5b6124bd06c432ceaaa24c35edb5c2d118f9939b",
+        "target_sha256": "b43a94556e715d3e7ea8b529f98d2f95c2a6dde6a1295fd12ad20c1e8e91b23d"
+      },
+      "ui:진동:/진동": {
+        "source_sha256": "2caaccbdebd21ae51a3ef15f650c8096831c3a6645b35ac1985f38a0be5e3b21",
+        "target_sha256": "f042de25618c6a458a12fa31ffdab47915f7f889f948b418f62b83f9c1a98883"
+      },
+      "ui:창 해상도:/창 해상도": {
+        "source_sha256": "67b04bf2fc8877aa4af6f53562037aa3d6d51b6c4e11717c6faa5c43b1a1addd",
+        "target_sha256": "2de25206d00dcada803eb5c22d856623def59474dd629a7e8af5af35fe920240"
+      },
+      "ui:창모드:/창모드": {
+        "source_sha256": "140c09325216a181a1e98d91aea542c6e79c907e0532466670ec33915017b446",
+        "target_sha256": "8147dd813f96d4ac6b13f5387b9555d5e53bf3bccd19a30a625d2eb2d24e58a7"
+      },
+      "ui:카메라·초상·날씨 움직임을 최소화합니다.:/카메라·초상·날씨 움직임을 최소화합니다.": {
+        "source_sha256": "784941021374a0dc8ee7be68c3ed03c9ff1ebe2c1c8d10b52afbc9659dbbd536",
+        "target_sha256": "be2bedf94e027ba1c3bf0ae848ea05b088874bf34a221ab57cb033cf9899d89f"
+      },
+      "ui:커스텀 이벤트:/커스텀 이벤트": {
+        "source_sha256": "40d740357324c14eafec3c5ca8675b4f70539307a7aacae50ce36c8510dc3008",
+        "target_sha256": "85e60b531cd645d219e09b5f4514e0a36cd79fcdabdb599308c03cd5061e5738"
+      },
+      "ui:테두리 없음:/테두리 없음": {
+        "source_sha256": "e50b3edd98ca6c0eb194babe78d5e595a6691af9b18086ff96fef4952c8b416f",
+        "target_sha256": "43b14076f1438c0184a90184efe82e62053c8fde1e0aa3fdff21eb09205ac535"
+      },
+      "ui:화면 모드:/화면 모드": {
+        "source_sha256": "ea34aa0749c919ab5ed4926809d99dc99abce2f269303df851d206e3e43baa35",
+        "target_sha256": "e3e7e266f5c2eaad6963ce933db0ba2553a36dd6bd654a05a2721e5cbfdfe77f"
       }
     },
     "zh-TW": {
@@ -155749,10 +155945,90 @@
       "ui:회상  %d / %d:/회상  %d ~1 %d": {
         "source_sha256": "b2f377e80f108a2e0ec7488ac18b1a84d2dd63e768febaf717a322566fdc9299",
         "target_sha256": "cc1020bf8c0ecd51025ea7dc763cc2f6bbe20e7069cc467a66f23df7141220ab"
+      },
+      "ui:BGM:/BGM": {
+        "source_sha256": "b574eca9320677b4330da87eab4a2d27b6c5b283e9ffbf0dc0d1a77b5bab916a",
+        "target_sha256": "2427b41526043e7ed506de1ba30dadbae17c21383ed8133077745c417946bd23"
+      },
+      "ui:게임 엔진·서체·음원의 출처와 라이선스를 확인합니다.:/게임 엔진·서체·음원의 출처와 라이선스를 확인합니다.": {
+        "source_sha256": "d9a268258429e833b9b0e57a2b80b4fbb94324d6463808545d9cf20686d4f39a",
+        "target_sha256": "2b910e599df65444a20393b6a2ab2b8a1400ee7bc21ab996ea159f3d5b1fb775"
+      },
+      "ui:나중에 로드:/나중에 로드": {
+        "source_sha256": "08ed38aaf19134614592edb6d314de2d5bad6c079f175c199e3d0b992d1d2d35",
+        "target_sha256": "25268f1a54f619e8ae13da7b7377264df44a15088c46f1e3cd1c797d7245e5d7"
+      },
+      "ui:데이터 모드의 활성화와 로드 순서를 변경합니다.:/데이터 모드의 활성화와 로드 순서를 변경합니다.": {
+        "source_sha256": "6a1ec33d169f6755c7f3cc74e157120b7c3bf81378a7c8c675100f58fb95ac09",
+        "target_sha256": "3a9a9a37b3db974dd05290c77866bd046ad88adaad8fb924519e3656b9eac5a7"
+      },
+      "ui:먼저 로드:/먼저 로드": {
+        "source_sha256": "59c5055d0e68a30ee5d8d1b4c82adc7435c010e03bc029ad07d86da0bdc93e20",
+        "target_sha256": "4d88d908b9861a7fb1f87f33e23f83c13296a9b9ec4149e0522e4b120cd0940d"
+      },
+      "ui:모드 관리:/모드 관리": {
+        "source_sha256": "9a0f77e1ca0cda60e20f322a0d9c3bfd96f253139bf2bfd35770e01cd8acdd7a",
+        "target_sha256": "5d36c6b9106443f6a8e45a3491ef5260f19823d1899672a119d2c667ca82a676"
+      },
+      "ui:밸런스 프리셋:/밸런스 프리셋": {
+        "source_sha256": "c7b223d4b7ffc9fd30711385288ad6762e6fac836ee3a8301583cd0f16b0e1a6",
+        "target_sha256": "f5277e5e734e3f48135e67fe7f9cdc96f63a44f58d14a56df3c7f3f8d5470c85"
+      },
+      "ui:변경은 다음 실행부터 적용됩니다. 위에 있는 모드가 먼저 로드됩니다.:/변경은 다음 실행부터 적용됩니다. 위에 있는 모드가 먼저 로드됩니다.": {
+        "source_sha256": "c596c724ba3035360fe284bf7ddd85f9f6db72f8ac820acd71d319c4863e333b",
+        "target_sha256": "6dba258763f82c6055f662baea3e0da24a14f7aa3d88f2f3fd90374277884390"
+      },
+      "ui:색 테마:/색 테마": {
+        "source_sha256": "bee29bdb681ba4b46dcf07070e119faee161ad2ee61ae32370e9e53c5dfa02ef",
+        "target_sha256": "4204bcc4046d30037622e44e5ce2d7892c27786aa85a402ff8197c8707e885da"
+      },
+      "ui:색각 접근성:/색각 접근성": {
+        "source_sha256": "8cc136f0c37ba5389439da58998c71c01c8404eaf936a517beaeecde32ba04a4",
+        "target_sha256": "bcd71a8fa3fb1806a5c71ef7cb347cdc4cf8cd56aaf1fa1525ac3d20a6ec7545"
+      },
+      "ui:이미지·오디오 교체:/이미지·오디오 교체": {
+        "source_sha256": "27f1293c5def2f704f52077e94a845896642f23b7d85414d868945a043188086",
+        "target_sha256": "d8956e2dec4319a389854c3180e3a3cc5c3a57946328b2be48ae9585315063ee"
+      },
+      "ui:전체화면:/전체화면": {
+        "source_sha256": "a573b730841dedbb92a8d5308deed50aa7419b85c3b93136fe5271da3b3f4bd2",
+        "target_sha256": "405d395dcf75f8b25a405190ec1e09bd08d0b27fa4204cd1741315d244010398"
+      },
+      "ui:제3자 고지:/제3자 고지": {
+        "source_sha256": "77dfc1bd2ff70558d2b7898a5b6124bd06c432ceaaa24c35edb5c2d118f9939b",
+        "target_sha256": "a127dbed95f25ddf637f65d150fac298e2068da05eb6b7d5dbf4b90e3ed0d3bd"
+      },
+      "ui:진동:/진동": {
+        "source_sha256": "2caaccbdebd21ae51a3ef15f650c8096831c3a6645b35ac1985f38a0be5e3b21",
+        "target_sha256": "c40b295def2852671cb53ff554e6d5305da997c22fda1723035a16872a78156a"
+      },
+      "ui:창 해상도:/창 해상도": {
+        "source_sha256": "67b04bf2fc8877aa4af6f53562037aa3d6d51b6c4e11717c6faa5c43b1a1addd",
+        "target_sha256": "84d7cdc01ff212977c921715ff2e4d60e2ce49578690cc566279e1d7d33ce182"
+      },
+      "ui:창모드:/창모드": {
+        "source_sha256": "140c09325216a181a1e98d91aea542c6e79c907e0532466670ec33915017b446",
+        "target_sha256": "1efec4305d368026ec68d3ea780fd1bfc9c9d5a5af77676d12b919b80a68e4f0"
+      },
+      "ui:카메라·초상·날씨 움직임을 최소화합니다.:/카메라·초상·날씨 움직임을 최소화합니다.": {
+        "source_sha256": "784941021374a0dc8ee7be68c3ed03c9ff1ebe2c1c8d10b52afbc9659dbbd536",
+        "target_sha256": "d4680de8368d3a151ad2dfe9ea84c37d7fa244e338bbd6200105c7bf36c7f48f"
+      },
+      "ui:커스텀 이벤트:/커스텀 이벤트": {
+        "source_sha256": "40d740357324c14eafec3c5ca8675b4f70539307a7aacae50ce36c8510dc3008",
+        "target_sha256": "3eb8eb6350d97bb8e4a5f142cc54fdaab18c07ca4fd69705fb9b21f31244b569"
+      },
+      "ui:테두리 없음:/테두리 없음": {
+        "source_sha256": "e50b3edd98ca6c0eb194babe78d5e595a6691af9b18086ff96fef4952c8b416f",
+        "target_sha256": "ba27458c70a1efea4cded16d7d406d74849f8c97c3753970ae4cd48e691de0d9"
+      },
+      "ui:화면 모드:/화면 모드": {
+        "source_sha256": "ea34aa0749c919ab5ed4926809d99dc99abce2f269303df851d206e3e43baa35",
+        "target_sha256": "58a8f3eb6f1abdf1d8a06b1bf47253c62d7ce09580d72a0c5c7030172b1af49e"
       }
     }
   },
-  "accepted_sha256": "7c4e836471752ac58c13c279abac8d390ce66e679a9449a1a458c15fbd61f331",
+  "accepted_sha256": "0015daf1e2da47fab1acebf75c5b15a4d31af7f06f525a43a830a83909efa31c",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {

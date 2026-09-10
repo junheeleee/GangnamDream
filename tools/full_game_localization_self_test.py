@@ -79,6 +79,45 @@ class ExchangeTests(unittest.TestCase):
                 self.assertIsNone(_ui_third_party_notice_numbers(locale, off_leaf.id, source, actual))
                 self.assertTrue(tool.translation_errors(off_leaf, locale, actual))
 
+    def test_static_ui_third_party_source_identity_and_context_boundary(self):
+        from types import SimpleNamespace
+        import zh_translation_audit as zh
+
+        def check(locale, source, target, *, context=False):
+            alias = "ui::2187::b19568049a12"
+            context_id = "ctx:independent-third-party"
+            entry = SimpleNamespace(key=alias, source=source, context_id=context_id)
+            inventory = SimpleNamespace(
+                legacy_entries=[] if context else [entry],
+                planned_context_entries=[entry] if context else [],
+                legacy_blueprint={} if context else {source: None},
+                planned_context_blueprint={context_id: None} if context else {},
+            )
+            with patch.object(zh, "_static_ui_inventory", return_value=inventory), \
+                    patch.object(zh, "_story_demo_exclusive_ui_pairs", return_value=({}, [])), \
+                    patch.object(zh, "validate_text", wraps=zh.validate_text) as validate:
+                result = zh.static_ui_coverage(
+                    locale, {"merged_pairs": {}}, True,
+                    actual_override={context_id if context else source: target},
+                )
+            canonical = tool.Leaf("ui", source, "runtime:static_ui", (source,),
+                                  source, "ui_static_context").id
+            validate.assert_called_once_with(locale, alias if context else canonical, source, target)
+            for error in result[-1]:
+                self.assertTrue(error.startswith(f"{locale}:{alias}: "), error)
+            return result[-1]
+
+        for locale, actual in (("zh-CN", "第三方声明"), ("zh-TW", "第三方聲明")):
+            with self.subTest(locale=locale):
+                self.assertEqual(check(locale, "제3자 고지", actual), [])
+                self.assertEqual(check(locale, "제3자 고지", "第三方告知"), [])
+                for mutant in (actual.replace("三", "四"), actual + "3", actual[3:]):
+                    self.assertEqual(check(locale, "제3자 고지", actual), [])
+                    self.assertTrue(check(locale, "제3자 고지", mutant))
+                for source in ("제4자 고지", "제3자 고지 ", "경로~/ 제3자 고지"):
+                    self.assertTrue(check(locale, source, actual))
+                self.assertTrue(check(locale, "제3자 고지", actual, context=True))
+
     def test_catalog_japanese_numeric_contexts(self):
         for source, target in (
             ("2030 직장인", "20・30代の会社員"),
