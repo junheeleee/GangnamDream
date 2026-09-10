@@ -1,6 +1,6 @@
 # ORDER-237 FONT ROUTE RESULTS
 
-Status: implementation and targeted QA complete; exact-source independent final review pending.
+Status: 구현·표적 검증 완료. 최종 위임 판정과 exact source는 별도 [판정 원장](../agent_review_decisions.json)의 ORDER-237 기록을 함께 읽는다. 이 보고서 자체는 본편·폰트 전체 준비·사람 GO가 아니다.
 
 ## 범위·신원
 
@@ -14,7 +14,11 @@ Status: implementation and targeted QA complete; exact-source independent final 
 `6794c988c900d2d65d83261ba1ba2d0589281eca33b8ae23abb1737bef608fc6`.
 원형 1,615,386B, SHA
 `913c8ec8e23661848eb55b6ed9354bced8542ce9b5a2595f746612ed8c5b8064`.
-현재 source commit/tree는 독립 최종 판정 때 Git에서 직접 결속한다.
+코드 변경 commit은 `b2faed2205d97ddefa75fe3041ba80a8ad6df9eb`이다. 이는 최종
+source 신원과 다르다. 이 보고서 이름은 resolver의 metadata 예외에 포함되지 않아
+문서1줄 정밀화 `fc1e8d4`도 새 source였다. ROOT의 최초 C1 유지 추정을 철회했으며,
+현재 최종 보고서·선언 원문을 먼저 커밋한 뒤 Git에서 관측한 source에 독립 판정을
+결속한다. 이후 이 파일은 동결하고 마감은 기존 허용 metadata만 변경한다.
 
 ## 생산자·소비자·수리
 
@@ -116,3 +120,114 @@ history85,067B/EOF1의 역복원 exact를 확인했고 완료절은1,500B 이내
 자동 검사는 계약 증거이지 재미·깊이·문체 증거가 아니다. 공개 M01~M06 GO와
 인간 원형 OPEN45는 유지하며, 본편HOLD·native/render/물리·외부 출시·현재원격CI는
 별도 미관찰이다. 실제 중국어 준비 전체 GO나 새 사람 GO를 발급하지 않는다.
+
+## 독립 코드 검토와 최종 결속 절차
+
+Poincare는 새 코드 전량과 기존 정의 보존을 직접 읽고 필수 코드 지적0을 기록했다.
+독립 코드 검토의 원형은 `order237-independent-code-review-initial.json`,
+7,294B / `ff672f5c9ced8e2cec3c3538c1cd20f41db1d8bd2ec0f6cf0313618b4829efb1`.
+그 뒤 보고서의 함수/클래스 분모를 위와 같이 정밀화했다. 사적 저자 proof의
+unchanged_existing_function_count 이름이 센 것은 정의200이며 함수200이 아니다.
+QA 입력142 중 코드·자원 등139는 그대로이고 결과 문서3개의 주석만 후속 변경됐다.
+Poincare의 RO 비교에서 C1과 이후 문서 wrapper를 혼용한 assert도 보존하며,
+QA→C1 Git blob→후속 보고서 diff로 분리했다. 이것은 제품 QA 재실행/실패가 아니다.
+
+이 최종 본문과 아래 선언 원문을 커밋한 후, 비저자는 실제 resolver commit/tree와
+QA·보호 입력을 다시 결속해 work_unit237만 판정한다. 이후 최종 private proof의
+경로·SHA는 WORK_LOG 마감절에, 해당 source·이 보고서의 고정 SHA·판정은 위 원장에
+남긴다. 같은 파일을 다시 고쳐 새로운 source로 만드는 순환을 피하며, 원장은 후보를
+선택하지 않고 Git의 관측 신원을 기록한다. 이 결속 절차는 이번 오더에 한정한다.
+
+## 착수 사양 원문 보존
+
+#### [~] ORDER-237 — 중국어 폰트 경로 감사 정합성
+
+상태: [~] 착수 — 만지는 파일: 아래 exact 12개. 2026-09-10 Codex.
+부모: [전체 현지화](../queue_backlog/FULL_GAME_LOCALIZATION.md).
+기준: clean main `fe9b6e4d359903d5e96e1f6bff5a6091af5552c8`, tree
+`dfb9902998f74259d2af1932fdcf6303964c7f93`. 앞236은 독립 wrapper PASS로 종료했다.
+
+## 문제와 1단위
+
+FontKit은 정규화한 locale의 SC/TC를 공유 UI 역할의 primary로 쓰는데,
+감사는 과거 attach_locale_fallbacks(font, language)의 append-before-JP만 찾는다.
+이 인식 실패를 실제 JP-first로 혼동하는 정적 오탐 1종을 고친다.
+번역·UI 파일을 수량에 맞춰 섞지 않는 단일 감사 수리다. 번역 수용 증분0.
+
+- 지우면: 현재 구현된 지역 폰트 계약의 readiness를 정확히 판정하지 못한다.
+- 상태 차이: 게임 상태·24주·선택은 N/A. 잘못된 SC/TC·JP 연결과 정상 연결의
+  정적 판정을 구별한다. runtime·픽셀·폰트 자원을 바꾸지 않는다.
+- 경쟁: 알려진 정상 구조, 미인식 구조, 실제 순서·지역 불일치, 자원 부재를
+  같은 성공으로 묶지 않는다. wholefile hash나 현재 파일 자체를 정답으로 쓰지 않는다.
+
+## 소유권
+
+- `tools/zh_translation_audit.py`
+- `tools/audit_scope.json`
+- `CLAUDE.md`
+- `docs/CODEX_QUEUE.md`
+- `docs/CODEX_QUEUE_L3_PENDING.md`
+- `docs/queue_active/ORDER-237.md`
+- `docs/queue_archive/ORDER-237_FONT_ROUTE_RESULTS.md`
+- `docs/WORK_LOG.md`
+- `docs/history/WORK_LOG_2026-09-07_localization.md`
+- `docs/STATUS.md`
+- `docs/agent_review_decisions.json`
+- `docs/queue_backlog/FULL_GAME_LOCALIZATION.md`
+
+제품은 ZH 감사 1파일뿐이다. full_game_localization.py·그 self·JA pipeline,
+모든 KO/EN/JA/CN/TW 문자열·portable 원장·runtime·assets/fonts/OFL·license ledger,
+LocaleManager/SHIPPING_LANGUAGES·FontRoutingCheck·project.godot·사용자 save/settings,
+공개 demo·human_gates 원형은 비소유다. 수용38,437/b96/meta9·인간OPEN45/공개GO1,
+본편HOLD를 보존한다. 코드4 중 나머지3은 raw 불변이다.
+
+WORK 완료절은 1,500B 이내로 예약한다. 현재 WORK39,301B/EOF2에서 완결된
+225→224 두 절의 연속 원문1,203B만 기존 history 맨 앞에 이동한다.
+블록 SHA `a914880c75b9dd6d55a4ed16f55e4596fe660b9450daa5b57ea84e05750bbda8`.
+시작 `## 2026-09-10 (Codex — 첫 생활·가족·우정 번역)`부터 다음 CI 설치 절 직전.
+history83,864B/EOF1 원형 위에 prepend하며 기대85,067B/EOF1,
+SHA `bb13f2a5058074894fe814a4d50b94afd5311b6f475d20960e412a038dcf80b5`.
+WORK는38,098B/EOF2가 되고 완료 후 최대39,598B다. 압축·정규화·기존223/222 재이동0.
+적용 후 양쪽 raw 역복원·EOF를 다시 확인한다. 작업 이력은 삭제하지 않는다.
+
+## 구현 계약
+
+1. 승인 SC/TC 지역과 실제 요청 primary를 결속한다. JP override, 지역 교환,
+   빈 값·res 밖·누락 자원은 거부한다. source 상수와 일치만으로 허용하지 않는다.
+2. 알려진 modern 함수의 normalize→path/load→shared FontVariation.base_font,
+   400/600/700 weight, Pretendard→JP→emoji 실행 관계를 한정 인식한다.
+   주석·문자열·다른 함수·죽은 분기·뒤 JP 덮어쓰기는 정상 witness가 아니다.
+3. 기존 legacy helper와 good/bad fixture의 raw·기대는 유지한다. 잘못된 modern을
+   unrelated legacy로 통과시키지 않는다. 미지원 구조는 fail closed한다.
+   helper의 ja/ko/unknown OFF와 상위 API의 지원 경계를 보존한다.
+4. cmap·OFL/ledger/resource 확인은 계속 별도 필수다. 새 인식 성공이 이를 면제하지
+   않는다. 역사 shared_han_jp_first 필드는 보수적 위험 지표로 유지하고 진단에서
+   정적 미인식/지역 불일치를 실제 engine 관측처럼 쓰지 않는다.
+5. 새 focused self와 --self-test-font-route 조기 CLI를 같은 파일에 추가한다.
+   기존 전체 self에 작은 hook만 허용하며 번역 숫자·문자·의미·token 검사는 불변이다.
+
+## 검증·독립 판정
+
+저자와 비저자가 각각 정상/정상base 연결 mutant/locale OFF를 코드 전 private 봉인한다.
+고정 FontKit 원형·변형·기대·glyph 집합으로 baseline/post 각1회, 실패와 같은 입력
+재검을 별도 보존한다. 24는 초안 참고 수일 뿐 목표가 아니다. 정상base가 통과해야
+mutant 거부로 센다. 현재 CN/TW의 FONT_SAMPLES만 고정하며 UI collector는 실행하지 않는다.
+
+- 새 focused route regression + 기존 legacy good/bad·empty/JP override 재생.
+- 현재 CN/TW 실제 resource·고정 sample cmap·license 정적 readiness 기록.
+- `python3 tools/audit_select.py --lane chinese-font-route-recognizer`:
+  focused self, queue-index self, agent-ledger self, audit_select --verify와 always 검사.
+- 비저자 전수 코드 검토, 변경 함수/추가 hook 역제거로 기존 raw/AST 복원,
+  비소유·보호 입력·원장 불변, diff/context/queue/dashboard 확인.
+
+전체 ZH12k self·전체수용38k L1·full localization12차선·audit.sh·Godot·240주·
+실제 화면 실행0이 기본이다. 관측한 static readiness만 주장한다. 신규 결함이 실제
+runtime 수리를 요구하면 별도 선언한다. native/render/human/physical/다른 플랫폼은
+미관찰이며 새 원어민·플레이·출시 GO를 만들지 않는다.
+
+독립 검수는 실제 exact source commit/tree와 증거 SHA에 결속해 work_unit237만
+GO/HOLD/REWORK 판정한다. 자동 검사는 계약 증거이지 재미·깊이·문체 증거가 아니다.
+사양·pin·WORK 이동은 일회성이다. 지속 인식 계약은 새 helper docstring/회귀가 소유하며
+현재 구현을 이미 설명하는 I18N 정본은 복제하거나 변경하지 않는다.
+
+결과: [표적 수리·최초 실패·독립 검수](../queue_archive/ORDER-237_FONT_ROUTE_RESULTS.md).
