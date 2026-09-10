@@ -32,6 +32,82 @@ class ExchangeTests(unittest.TestCase):
     def test_valid_exact_exchange(self):
         self.assertEqual(tool.check_batch(self.inventory, self.batch, self.response), {self.leaf.id: "次の週"})
 
+    def test_ending_record_typed_native_numerals_and_off_boundaries(self):
+        from zh_translation_audit import _ui_ending_record_numbers
+        cases = [
+            ("5년, 다섯 장면",
+             ["5年、5つの場面", "五年、五つの場面", "５年、５つの場面",
+              "5年間、五つの場面", "5つの場面、5年"],
+             ["6年、5つの場面", "五年、六つの場面", "５年、６つの場面",
+              "-5年、5つの場面", "5年、+5つの場面", "4.5年、5つの場面",
+              "5日、5つの場面", "5年、5週間", "5年、5つの場面、5つの場面",
+              "5年、5つの場面、3人", "5つの場面", "5年"]),
+            ("네 칸을 합치면 살아온 주 수가 된다.",
+             ["4つの欄を合わせると、生きてきた週数になる。",
+              "四つの欄を合わせると、生きてきた週数になる。",
+              "４つの欄を合わせると、生きてきた週数になる。",
+              "四つの欄を合計すると、生きてきた週数になる。",
+              "4つの欄を足すと、生きてきた週数になる。"],
+             ["5つの欄を合わせると、生きてきた週数になる。",
+              "五つの欄を合わせると、生きてきた週数になる。",
+              "５つの欄を合わせると、生きてきた週数になる。",
+              "-4つの欄を合わせると、生きてきた週数になる。",
+              "+4つの欄を合わせると、生きてきた週数になる。",
+              "4.5つの欄を合わせると、生きてきた週数になる。",
+              "4週間を合わせると、生きてきた週数になる。",
+              "4週を合わせると、生きてきた欄の数になる。",
+              "欄を合わせると、生きてきた週数になる。",
+              "4つの欄と4つの欄を合わせると、生きてきた週数になる。",
+              "4つの欄を合わせると、生きてきた週数になる。あと1年。",
+              "4人を合わせると、生きてきた週数になる。"]),
+        ]
+        for source, normals, mutants in cases:
+            leaf = tool.Leaf("ui", source, "runtime:static_ui", (source,), source, "ui_static_context")
+            for target in normals:
+                self.assertEqual(tool.translation_errors(leaf, "ja", target), [])
+            for target in mutants:
+                self.assertEqual(tool.translation_errors(leaf, "ja", normals[0]), [])
+                self.assertTrue(tool.translation_errors(leaf, "ja", target), target)
+            for key, other in ((leaf.id, source + " "),
+                               (leaf.id + "/other", source), ("events:" + source, source)):
+                self.assertIsNone(_ui_ending_record_numbers("ja", key, other, normals[0]))
+            self.assertIsNone(_ui_ending_record_numbers("en", leaf.id, source, normals[0]))
+
+    def test_ending_record_both_axes_and_actual_static_ui_route(self):
+        from types import SimpleNamespace
+        import zh_translation_audit as zh
+        source = "둘 다"
+        leaf = tool.Leaf("ui", source, "runtime:static_ui", (source,), source, "ui_static_context")
+        for locale, two, money, negation in (
+                ("zh-CN", "两", "钱", "并非"), ("zh-TW", "兩", "錢", "並非")):
+            normals = [two + "者兼有", two + "者都有", "二者兼有", two + "者兼具", "二者皆有"]
+            mutants = ["只有" + money, "只有人", "三者兼有", "一者兼有",
+                       two + "周都有", "-2者兼有", two + "者都没有",
+                       negation + two + "者兼有", two + "者兼有3",
+                       two + "者兼有，" + two + "者兼有", "兼有", "2.5者兼有"]
+            for target in normals:
+                self.assertEqual(tool.translation_errors(leaf, locale, target), [])
+                self.assertEqual(zh.validate_text(locale, leaf.id, source, target), [])
+            for target in mutants:
+                self.assertEqual(tool.translation_errors(leaf, locale, normals[0]), [])
+                self.assertTrue(tool.translation_errors(leaf, locale, target), target)
+            for key, other in ((leaf.id, source + " "), (leaf.id, "셋 다"),
+                               ("ui:other:/other", source), ("ui:둘 다:/other", source)):
+                self.assertIsNone(zh._ui_ending_record_numbers(locale, key, other, normals[0]))
+            alias = "ui::fixture::both"
+            entry = SimpleNamespace(key=alias, source=source, context_id="ctx:fixture-both")
+            inv = SimpleNamespace(legacy_entries=[entry], planned_context_entries=[],
+                                  legacy_blueprint={source: None}, planned_context_blueprint={})
+            for target in (normals[0], mutants[2]):
+                with patch.object(zh, "_static_ui_inventory", return_value=inv), \
+                        patch.object(zh, "_story_demo_exclusive_ui_pairs", return_value=({}, [])), \
+                        patch.object(zh, "validate_text", wraps=zh.validate_text) as validate:
+                    result = zh.static_ui_coverage(locale, {"merged_pairs": {}}, True,
+                                                   actual_override={source: target})
+                validate.assert_called_once_with(locale, leaf.id, source, target)
+                self.assertEqual(bool(result[-1]), target != normals[0])
+                self.assertTrue(all(error.startswith(f"{locale}:{alias}: ") for error in result[-1]))
+
     def test_settings_third_party_label_source_key_and_quantity_boundaries(self):
         from zh_translation_audit import _ui_third_party_notice_numbers, validate_text
         source = "제3자 고지"

@@ -8573,6 +8573,66 @@ def _ui_third_party_notice_numbers(lang: str, key: str, source: str, target: str
     return "", "", []
 
 
+def _ui_ending_record_numbers(lang: str, key: str, source: str, target: str):
+    """Compare typed quantities in three exact ending-record UI sources.
+
+    Korean native numerals and the Chinese two-alternative pronoun are not
+    additional quantities. Only numeric validation receives this pair; the
+    complete originals still undergo script, token, terminology and money checks.
+    Edited source/key and other locales retain their previous validation path.
+    """
+    scene = "5년, 다섯 장면"
+    cells = "네 칸을 합치면 살아온 주 수가 된다."
+    if key != "ui:" + source + ":/" + source.replace("~", "~0").replace("/", "~1"):
+        return None
+    if lang in LANGUAGES and source == "둘 다":
+        # This is a two-axis label, not two people or two weeks. Parse its
+        # cardinal owner and positive joint inclusion, not a target allowlist.
+        match = re.fullmatch(
+            r"(?P<n>[0-9０-９零〇一二两兩三四五六七八九十百千]+)者"
+            r"(?:都有|皆有|兼有|兼具)", target,
+        )
+        value = None
+        if match:
+            raw = unicodedata.normalize("NFKC", match.group("n"))
+            value = int(raw) if raw.isascii() and raw.isdigit() else \
+                _chinese_cardinal_value(raw)
+        if value != 2:
+            return source, target, ["source-bound ending-record both-axis quantity/role mismatch"]
+        return "", "", []
+    if lang != "ja" or source not in (scene, cells):
+        return None
+    chars = "0-9０-９零〇一二三四五六七八九十百千万萬億兆.,，．"
+    number = rf"(?<![{chars}])(?P<sign>[+＋\-−－]?)(?P<n>[{chars}]+)"
+    slots = [(5, r"年(?:間)?", "5년"),
+             (5, r"(?:つの)?(?:場面|シーン)", "다섯 장면")] if source == scene else \
+            [(4, r"(?:つの)?(?:欄|枠|項目)", "네 칸")]
+    errors, spans = [], []
+    for expected, unit, korean in slots:
+        matches = list(re.finditer(number + unit, target))
+        if len(matches) != 1:
+            errors.append("source-bound ending-record quantity count/unit mismatch")
+        for match in matches:
+            raw = unicodedata.normalize("NFKC", match.group("n"))
+            value = int(raw) if raw.isascii() and raw.isdigit() else \
+                _chinese_cardinal_value(raw)
+            if value != expected or match.group("sign") \
+                    or _has_numeric_sign_prefix(target, match.start()):
+                errors.append("source-bound ending-record quantity value/sign mismatch")
+            if re.match(r"[ \t]*(?:[/／%％‰]|以上|以下|未満)", target[match.end():]):
+                errors.append("source-bound ending-record quantity qualifier mismatch")
+            spans.append((match.start(), match.end()))
+    numeric_source = source
+    for _, _, korean in slots:
+        numeric_source = numeric_source.replace(korean, "")
+    numeric_target = target
+    for start, end in sorted(spans, reverse=True):
+        numeric_target = numeric_target[:start] + " " * (end - start) + numeric_target[end:]
+    if re.search(r"[0-9０-９零〇一二三四五六七八九十百千万萬億兆]", numeric_target):
+        errors.append("source-bound ending-record added quantity mismatch")
+    return numeric_source, numeric_target, sorted(set(errors))
+
+
 def validate_text(lang: str, key: str, source: str, target: Any) -> list[str]:
     """Validate one Korean-source Chinese target without generating content."""
     if lang not in LANGUAGES:
@@ -8597,6 +8657,9 @@ def validate_text(lang: str, key: str, source: str, target: Any) -> list[str]:
     if source.count("\n\n") != target.count("\n\n"):
         errors.append("paragraph mismatch")
     notice_numbers = _ui_third_party_notice_numbers(lang, key, source, target)
+    record_numbers = _ui_ending_record_numbers(lang, key, source, target)
+    if record_numbers is not None:
+        notice_numbers = record_numbers
     if notice_numbers is None:
         errors.extend(_numeric_errors(source, target))
     else:

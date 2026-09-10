@@ -3420,6 +3420,11 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
         if notice_numbers is not None:
             source_numbers, target_numbers, notice_errors = notice_numbers
             errors.extend(notice_errors)
+        from zh_translation_audit import _ui_ending_record_numbers
+        record_numbers = _ui_ending_record_numbers(locale, leaf.id, leaf.source, text)
+        if record_numbers is not None:
+            source_numbers, target_numbers, record_errors = record_numbers
+            errors.extend(record_errors)
         if sorted(numeric.findall(source_numbers)) != sorted(numeric.findall(target_numbers)):
             errors.append("explicit numeric value/sign mismatch")
         if career_specialization is not None and numeric.findall(source_numbers) != numeric.findall(target_numbers):
