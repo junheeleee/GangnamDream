@@ -3279,6 +3279,46 @@
       "machine_validation": "PASS",
       "rendered_review": "OPEN",
       "native_review": "OPEN"
+    },
+    {
+      "order": "ORDER-232",
+      "group": "ui",
+      "roots": [
+        "24주 데모",
+        "24주 데모에서는 이 기록을 열 수 없음",
+        "V2 테스트",
+        "‹  슬롯 1–5",
+        "기록 불러오기",
+        "다른 빌드에서 저장됨",
+        "다른 테스트판의 분리된 기록",
+        "더 최신 버전의 저장 파일이라 열 수 없음",
+        "데모 기록 · 정식판에서 이어갈 수 있음",
+        "뒤로",
+        "비어 있음",
+        "삭제 확인",
+        "슬롯 %d",
+        "슬롯 6–10  ›",
+        "이어갈 시간을 선택하세요.",
+        "이전 버전",
+        "이전 저장 형식 · 호환 모드",
+        "자동저장",
+        "저장 삭제",
+        "정식판",
+        "챕터 %d · %d주차  ·  %s",
+        "취소",
+        "페이지 %d / 2",
+        "호환되지 않거나 손상된 기록"
+      ],
+      "source_leaves": 24,
+      "target_leaves_by_locale": {
+        "ja": 24,
+        "zh-CN": 24,
+        "zh-TW": 24
+      },
+      "source_review": "Direct Korean review of 24 load-panel UI keys per locale: existing Japanese24 reviewed; Simplified and Traditional Chinese24 each independently authored. Preserve save compatibility, ranges, printf argument order, historical build labels and shared empty-state meaning. Unselected UI raw bytes restored exactly after inverse removal. No save operations, runtime edits, native or rendered observation.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN"
     }
   ],
   "accepted": {
@@ -53866,6 +53906,102 @@
       "events:v2_sangchul_demo_echo:/title": {
         "source_sha256": "4da575c250e3ba5a6144fa847c3fe9fc82fcff7c5c78b237162a7b46d0c83f85",
         "target_sha256": "36d9aac11f24459ec0ad348b4a365073d9043885017075fd664e58a04296d0f6"
+      },
+      "ui:24주 데모:/24주 데모": {
+        "source_sha256": "4c84176845ba4096e3e82fcc5f1a7e586f469a9cc8281142cf40a6b68964f5a6",
+        "target_sha256": "beec56983a199a9117105a7cc16e4fda97944b2a15c1d65422b0a635ceabc12c"
+      },
+      "ui:24주 데모에서는 이 기록을 열 수 없음:/24주 데모에서는 이 기록을 열 수 없음": {
+        "source_sha256": "d5e486f6c097be4283d0225a41095c8634ed71b910af5c489aaed87109a7bde6",
+        "target_sha256": "8eb20173e53772a460a7872e1ceb737c55053ef3364e75b71c1f626fc5bbf87a"
+      },
+      "ui:V2 테스트:/V2 테스트": {
+        "source_sha256": "beff5224774ee2d63b10c09f96d28323e69d3194181c6ae437d400aa0c5e18f9",
+        "target_sha256": "e45aa2c73e40e933483788cdfb680853f3e8b5ce9bc9ca551ea96b92e8b19209"
+      },
+      "ui:‹  슬롯 1–5:/‹  슬롯 1–5": {
+        "source_sha256": "2831f338e74875122aff85ab5878c5887d82aaacb531013c85424f4bb7825ca7",
+        "target_sha256": "b69b2815b917c954d2aad33603b3de7b866661117bffc66e190b89b87f310933"
+      },
+      "ui:기록 불러오기:/기록 불러오기": {
+        "source_sha256": "67394355f02bfa4b241d08b9d85cc443667cbe46b3bf9da08ef12b42c9c9b0d7",
+        "target_sha256": "0a8ff0ecce995af937b00f15d0b664aa6e04b29b59d4463303ab8a8ffe36a081"
+      },
+      "ui:다른 빌드에서 저장됨:/다른 빌드에서 저장됨": {
+        "source_sha256": "8f1a3ffaee15741ded45ff00bf19c065ecb7d195fd73afa2708a2029bf05d7a6",
+        "target_sha256": "ae40990d0353a0795d84b4588acb33767954eb56d0c0e219df421efd8244f0ef"
+      },
+      "ui:다른 테스트판의 분리된 기록:/다른 테스트판의 분리된 기록": {
+        "source_sha256": "3c4743cb0d7027f27f34f1ee0580fb4f62298c79e6b0343544d7c02fb094a405",
+        "target_sha256": "de49a91c395ab687dfda324a81c3d5092964822436f3987e621e83f8ec865ad5"
+      },
+      "ui:더 최신 버전의 저장 파일이라 열 수 없음:/더 최신 버전의 저장 파일이라 열 수 없음": {
+        "source_sha256": "99fd29c2a937568008839525c8d4d8fcce5454afed24aa2fc5a471afe28f9492",
+        "target_sha256": "b69cf9a2813179c37a4fdb22bc4413ae9484d2700bdeb1a94746d908159310f1"
+      },
+      "ui:데모 기록 · 정식판에서 이어갈 수 있음:/데모 기록 · 정식판에서 이어갈 수 있음": {
+        "source_sha256": "aa38b8722b236b810fa8b21ad04b2d6e70a8481b05687325d75955b00b11a4a9",
+        "target_sha256": "6516b247befae3beadddbee1039bae55ee8ea91d2516da4dee3350f6646ef5ff"
+      },
+      "ui:뒤로:/뒤로": {
+        "source_sha256": "737df4502c0386e928a0bca0f370c5d36eab1ca6f294eeca4f9a98959e966869",
+        "target_sha256": "7fb931689396ea9276110804156dbd08fcb6a857bdc645498cc003f92ccfc5e2"
+      },
+      "ui:비어 있음:/비어 있음": {
+        "source_sha256": "8991253aba5332fb5232d267fc26b4e718e3240940773c02c52081f2e9b686d8",
+        "target_sha256": "e0d5478a83975f70952bc96bb2253733db1ad9a42b5b5452ed9e6eb85a1234b4"
+      },
+      "ui:삭제 확인:/삭제 확인": {
+        "source_sha256": "b5f9da0ae8ae8fb58c2fa0b8ea5c4a488939b127d6104c7154472910df9a815f",
+        "target_sha256": "733c547315e87410dfa1e5521768667c14a12a26b5172960ceb00bdc49d1fa3c"
+      },
+      "ui:슬롯 %d:/슬롯 %d": {
+        "source_sha256": "9e681dfb90cb3972f0a8922e0bc83765e918604316d2be2fd5302040f038389e",
+        "target_sha256": "bccab4ea941c75c2722762fa13568de51d701fb7e7f5a1904a378f67585b1345"
+      },
+      "ui:슬롯 6–10  ›:/슬롯 6–10  ›": {
+        "source_sha256": "59fbe182edf7e58f0db649bda6351804ab1574bd408e10a37412dc1bb6cb9058",
+        "target_sha256": "09e8e70230c80847dd292799c79c8b9a3d8fda3157d285be10c73a5655cc9b45"
+      },
+      "ui:이어갈 시간을 선택하세요.:/이어갈 시간을 선택하세요.": {
+        "source_sha256": "2dd69195d65da64bc212f2282bc77bcb6ce988b9f20e790822e7d67f120262a3",
+        "target_sha256": "29b08f9bd64b820257d97483ba249f54d8c5c4913d73502ec91a14fbf8f95f2e"
+      },
+      "ui:이전 버전:/이전 버전": {
+        "source_sha256": "63ca564b9e162ff7c8b82f91ce5e36ac77ee0294a7aa34bf8e34b7de65009824",
+        "target_sha256": "3c8640493fc42131d15946a7f976e47519ffbebcecbacc8045589486938cdf6f"
+      },
+      "ui:이전 저장 형식 · 호환 모드:/이전 저장 형식 · 호환 모드": {
+        "source_sha256": "de1bb2f7b8cef238cff3ac22c2c4c5b475a7a9ec97e3cf6953cc4846cf353ae6",
+        "target_sha256": "35b0157c039ab404bc30e4e2dc9fd0644e3552ced26125029ccf7b279281de72"
+      },
+      "ui:자동저장:/자동저장": {
+        "source_sha256": "c3b3e5cb09ddc1bb1e84a37ce36c3624734d5a96a7a1d7401e4eacb5f92f4d9a",
+        "target_sha256": "b1f481c4c901e1efb2c1af7faa76820f6062b7c5da3d34f96245efe4de4aa361"
+      },
+      "ui:저장 삭제:/저장 삭제": {
+        "source_sha256": "48807fc41d14b39504f5cdcfc353221210d584edc11316f7480c09359e8cbcba",
+        "target_sha256": "4cd716ea420154ebbe0b81de7c25d646a3ed436a16bad4e8b3a4555635b48365"
+      },
+      "ui:정식판:/정식판": {
+        "source_sha256": "d5370668d41b9471be28c976131103f53769464229a6f16489453c8d2be6c7b8",
+        "target_sha256": "6c447a4f37bed0913f5a01e321e4cfcfa08fb2bab0c982ebb4ba25b6c522533a"
+      },
+      "ui:챕터 %d · %d주차  ·  %s:/챕터 %d · %d주차  ·  %s": {
+        "source_sha256": "8507ba8eade9b9efbfe2665dd1eeb616a78577cbdceda91e34a086d6a830da65",
+        "target_sha256": "eea124b7d1599f9df552351a6404d28d23121579d8ff0063bb0472f7e4f0b439"
+      },
+      "ui:취소:/취소": {
+        "source_sha256": "dc6bea83812fc651300d3bf56f5b78a24af7865d19b9a9a02a198f5af178899f",
+        "target_sha256": "928a54f145b53b987d55a5a2be2a0878a0cb87f30405ba7cf294db428c4ca6c3"
+      },
+      "ui:페이지 %d / 2:/페이지 %d ~1 2": {
+        "source_sha256": "c84dac86602347b867ab9132e59d7592602fadf305dd3d02316b39590a640eb0",
+        "target_sha256": "e690bf01a9fccc98f11c9bc230d81a15c69f43ade76523b6063efd134b74a2b9"
+      },
+      "ui:호환되지 않거나 손상된 기록:/호환되지 않거나 손상된 기록": {
+        "source_sha256": "7a4a60b578e9b6511f8ff17b521d44a67ebc3a04d7387ae2f93f38b6e7922480",
+        "target_sha256": "91e9d715cb66222d29ab218fd79eb154a98271ccbe3b31c44a43419e10e82e90"
       }
     },
     "zh-CN": {
@@ -104460,6 +104596,102 @@
       "events:v2_sangchul_demo_echo:/title": {
         "source_sha256": "4da575c250e3ba5a6144fa847c3fe9fc82fcff7c5c78b237162a7b46d0c83f85",
         "target_sha256": "0fe498400c2fd092558e057e77ab85575ddab4d97ab05708cdef34ebebb39a47"
+      },
+      "ui:24주 데모:/24주 데모": {
+        "source_sha256": "4c84176845ba4096e3e82fcc5f1a7e586f469a9cc8281142cf40a6b68964f5a6",
+        "target_sha256": "1b4ec30157e61720c01d2e7c2a3d8906e6e952171d736f53c4f5791f5528943a"
+      },
+      "ui:24주 데모에서는 이 기록을 열 수 없음:/24주 데모에서는 이 기록을 열 수 없음": {
+        "source_sha256": "d5e486f6c097be4283d0225a41095c8634ed71b910af5c489aaed87109a7bde6",
+        "target_sha256": "44e3d63bf33553c8ee1108a85dd3e8d81f346ae7319d1a18445600effe7b264e"
+      },
+      "ui:V2 테스트:/V2 테스트": {
+        "source_sha256": "beff5224774ee2d63b10c09f96d28323e69d3194181c6ae437d400aa0c5e18f9",
+        "target_sha256": "83ec2e6dedecd945aed25bbe72255083f8c8a68db96b656c52b2b5b115fbd74d"
+      },
+      "ui:‹  슬롯 1–5:/‹  슬롯 1–5": {
+        "source_sha256": "2831f338e74875122aff85ab5878c5887d82aaacb531013c85424f4bb7825ca7",
+        "target_sha256": "24fe0bd525712af0650a2e0f44b95b48bc582579ec9c0ed413c0759881a5d362"
+      },
+      "ui:기록 불러오기:/기록 불러오기": {
+        "source_sha256": "67394355f02bfa4b241d08b9d85cc443667cbe46b3bf9da08ef12b42c9c9b0d7",
+        "target_sha256": "1a893e9bbe0dadf4547d59179d54f500ae3b2583ef512e825b1e18de909a2cbe"
+      },
+      "ui:다른 빌드에서 저장됨:/다른 빌드에서 저장됨": {
+        "source_sha256": "8f1a3ffaee15741ded45ff00bf19c065ecb7d195fd73afa2708a2029bf05d7a6",
+        "target_sha256": "0dedb5154fe5dec7a8eece54c3886f046fa203b22eade158c5a08c0fa8d6564c"
+      },
+      "ui:다른 테스트판의 분리된 기록:/다른 테스트판의 분리된 기록": {
+        "source_sha256": "3c4743cb0d7027f27f34f1ee0580fb4f62298c79e6b0343544d7c02fb094a405",
+        "target_sha256": "a73b7a57dd9bd2c8346a76943776578f3e0fd37ceecabda21b943710ab348b0b"
+      },
+      "ui:더 최신 버전의 저장 파일이라 열 수 없음:/더 최신 버전의 저장 파일이라 열 수 없음": {
+        "source_sha256": "99fd29c2a937568008839525c8d4d8fcce5454afed24aa2fc5a471afe28f9492",
+        "target_sha256": "c77f6c18c5fab907dfa55034b2452627533cb890193972ec6b121f38b0469013"
+      },
+      "ui:데모 기록 · 정식판에서 이어갈 수 있음:/데모 기록 · 정식판에서 이어갈 수 있음": {
+        "source_sha256": "aa38b8722b236b810fa8b21ad04b2d6e70a8481b05687325d75955b00b11a4a9",
+        "target_sha256": "4fe94ef722c527288c08a365e482e681c6ba1c18ba80838547be77007dd92a64"
+      },
+      "ui:뒤로:/뒤로": {
+        "source_sha256": "737df4502c0386e928a0bca0f370c5d36eab1ca6f294eeca4f9a98959e966869",
+        "target_sha256": "c008f063456a7abe570061ed52efc46bf205a0192a647150737af383f27dad34"
+      },
+      "ui:비어 있음:/비어 있음": {
+        "source_sha256": "8991253aba5332fb5232d267fc26b4e718e3240940773c02c52081f2e9b686d8",
+        "target_sha256": "c536d44e661d901daf866e81e963e79c35eb89c8a05b8ff1be604206adf9b9f4"
+      },
+      "ui:삭제 확인:/삭제 확인": {
+        "source_sha256": "b5f9da0ae8ae8fb58c2fa0b8ea5c4a488939b127d6104c7154472910df9a815f",
+        "target_sha256": "5bd101c8093fcbcdfda8cc621950f3077d8a9b467b7c4b8c31d83b2cf8adb9c6"
+      },
+      "ui:슬롯 %d:/슬롯 %d": {
+        "source_sha256": "9e681dfb90cb3972f0a8922e0bc83765e918604316d2be2fd5302040f038389e",
+        "target_sha256": "aaf69d36838e2d4061a3c7e9c8af103f54217c50d6b5b90e0df145166a510547"
+      },
+      "ui:슬롯 6–10  ›:/슬롯 6–10  ›": {
+        "source_sha256": "59fbe182edf7e58f0db649bda6351804ab1574bd408e10a37412dc1bb6cb9058",
+        "target_sha256": "c785aade9816719ca1022389cc4f33980373e38425f05fe7961645b0363491bd"
+      },
+      "ui:이어갈 시간을 선택하세요.:/이어갈 시간을 선택하세요.": {
+        "source_sha256": "2dd69195d65da64bc212f2282bc77bcb6ce988b9f20e790822e7d67f120262a3",
+        "target_sha256": "1ac5ce56a74271ac9c936a1f675bc27242980c670a276642e1a6aca9435290c0"
+      },
+      "ui:이전 버전:/이전 버전": {
+        "source_sha256": "63ca564b9e162ff7c8b82f91ce5e36ac77ee0294a7aa34bf8e34b7de65009824",
+        "target_sha256": "0677f6ee23cf988ee4015bfbf482e7be8e97627f3dbb72736570c2f2e6ead895"
+      },
+      "ui:이전 저장 형식 · 호환 모드:/이전 저장 형식 · 호환 모드": {
+        "source_sha256": "de1bb2f7b8cef238cff3ac22c2c4c5b475a7a9ec97e3cf6953cc4846cf353ae6",
+        "target_sha256": "afb0aa68128cb5a6165205dc4bac21fea65a8bdb2ffe54b3e675ad9b60cbcc4f"
+      },
+      "ui:자동저장:/자동저장": {
+        "source_sha256": "c3b3e5cb09ddc1bb1e84a37ce36c3624734d5a96a7a1d7401e4eacb5f92f4d9a",
+        "target_sha256": "be1de96e0d85eba4f959341e002fea3fd0d1288566b16ea0b3591c187f6156a0"
+      },
+      "ui:저장 삭제:/저장 삭제": {
+        "source_sha256": "48807fc41d14b39504f5cdcfc353221210d584edc11316f7480c09359e8cbcba",
+        "target_sha256": "ad1624c6ff46f5a8e1fe7a2d897277217c5f2404c2c5953494e4e397636444b8"
+      },
+      "ui:정식판:/정식판": {
+        "source_sha256": "d5370668d41b9471be28c976131103f53769464229a6f16489453c8d2be6c7b8",
+        "target_sha256": "7a0af398021a38b8a202a66b969207a07d205d82681380d4f847d80409f3e624"
+      },
+      "ui:챕터 %d · %d주차  ·  %s:/챕터 %d · %d주차  ·  %s": {
+        "source_sha256": "8507ba8eade9b9efbfe2665dd1eeb616a78577cbdceda91e34a086d6a830da65",
+        "target_sha256": "48c7dd0b275ee5245442f5c16b05af67c5f0c7bd00255a2e2c12d55bcd7366c3"
+      },
+      "ui:취소:/취소": {
+        "source_sha256": "dc6bea83812fc651300d3bf56f5b78a24af7865d19b9a9a02a198f5af178899f",
+        "target_sha256": "4fa6cdbf13079926965f04ae1a16b9d6c0d6ba3ca287f399132620e167d1bcdf"
+      },
+      "ui:페이지 %d / 2:/페이지 %d ~1 2": {
+        "source_sha256": "c84dac86602347b867ab9132e59d7592602fadf305dd3d02316b39590a640eb0",
+        "target_sha256": "63b5f17ddac9ccfd1ad39016befa18704e5b3bfaa0b3c7b26d80ad905ab278bf"
+      },
+      "ui:호환되지 않거나 손상된 기록:/호환되지 않거나 손상된 기록": {
+        "source_sha256": "7a4a60b578e9b6511f8ff17b521d44a67ebc3a04d7387ae2f93f38b6e7922480",
+        "target_sha256": "16ec4917848f2566f62cf40e92a1dfed8fd22a2218f9ab95db3bc839e8e65c48"
       }
     },
     "zh-TW": {
@@ -155054,10 +155286,106 @@
       "events:v2_sangchul_demo_echo:/title": {
         "source_sha256": "4da575c250e3ba5a6144fa847c3fe9fc82fcff7c5c78b237162a7b46d0c83f85",
         "target_sha256": "e49ba2c1ad202d29ba50ddccb42063d97eff0610e2eef5496479a6594b081639"
+      },
+      "ui:24주 데모:/24주 데모": {
+        "source_sha256": "4c84176845ba4096e3e82fcc5f1a7e586f469a9cc8281142cf40a6b68964f5a6",
+        "target_sha256": "ac6620a8d94f378bc461987c4c89fa215d121d79b11684398af1f4b93893ef52"
+      },
+      "ui:24주 데모에서는 이 기록을 열 수 없음:/24주 데모에서는 이 기록을 열 수 없음": {
+        "source_sha256": "d5e486f6c097be4283d0225a41095c8634ed71b910af5c489aaed87109a7bde6",
+        "target_sha256": "53fe46cc627d7d63c946baa526e838027d1f73d04fb8b8673c4ffac2ac83e704"
+      },
+      "ui:V2 테스트:/V2 테스트": {
+        "source_sha256": "beff5224774ee2d63b10c09f96d28323e69d3194181c6ae437d400aa0c5e18f9",
+        "target_sha256": "a98e2a8560cccf4132841ab69297ef34518ccccc4eeb489c0087ca364a459491"
+      },
+      "ui:‹  슬롯 1–5:/‹  슬롯 1–5": {
+        "source_sha256": "2831f338e74875122aff85ab5878c5887d82aaacb531013c85424f4bb7825ca7",
+        "target_sha256": "ee19a23088aea008e9a6ad1520e9abba2a981fe62d53601003b9fa964744858e"
+      },
+      "ui:기록 불러오기:/기록 불러오기": {
+        "source_sha256": "67394355f02bfa4b241d08b9d85cc443667cbe46b3bf9da08ef12b42c9c9b0d7",
+        "target_sha256": "1e0a3a41a35e2fcd80fd3c1db747502f1e42c8df43fefc0691ee22348770cf43"
+      },
+      "ui:다른 빌드에서 저장됨:/다른 빌드에서 저장됨": {
+        "source_sha256": "8f1a3ffaee15741ded45ff00bf19c065ecb7d195fd73afa2708a2029bf05d7a6",
+        "target_sha256": "893712b98f99f48ff34afbdaa3abdcc82568c9a553f6adb68937b34e67e7cbc7"
+      },
+      "ui:다른 테스트판의 분리된 기록:/다른 테스트판의 분리된 기록": {
+        "source_sha256": "3c4743cb0d7027f27f34f1ee0580fb4f62298c79e6b0343544d7c02fb094a405",
+        "target_sha256": "3eb421d906a109db9bc86d7a86ca2585dcb0fcd3e37fe57f050e6c50fa83455f"
+      },
+      "ui:더 최신 버전의 저장 파일이라 열 수 없음:/더 최신 버전의 저장 파일이라 열 수 없음": {
+        "source_sha256": "99fd29c2a937568008839525c8d4d8fcce5454afed24aa2fc5a471afe28f9492",
+        "target_sha256": "a12271cdc29c9217fb2151fbf237dd6b725f8cd4764a04f14e0a3ffe004a2b24"
+      },
+      "ui:데모 기록 · 정식판에서 이어갈 수 있음:/데모 기록 · 정식판에서 이어갈 수 있음": {
+        "source_sha256": "aa38b8722b236b810fa8b21ad04b2d6e70a8481b05687325d75955b00b11a4a9",
+        "target_sha256": "5c1df170a37ef7a961f70c5ff73f09ea73ab4d28dc3b93b784b050805e124b31"
+      },
+      "ui:뒤로:/뒤로": {
+        "source_sha256": "737df4502c0386e928a0bca0f370c5d36eab1ca6f294eeca4f9a98959e966869",
+        "target_sha256": "c008f063456a7abe570061ed52efc46bf205a0192a647150737af383f27dad34"
+      },
+      "ui:비어 있음:/비어 있음": {
+        "source_sha256": "8991253aba5332fb5232d267fc26b4e718e3240940773c02c52081f2e9b686d8",
+        "target_sha256": "89fb91ceee2ee22b8fc1c9b3e7d841ec0441eca57ab48b8065382779be9f5934"
+      },
+      "ui:삭제 확인:/삭제 확인": {
+        "source_sha256": "b5f9da0ae8ae8fb58c2fa0b8ea5c4a488939b127d6104c7154472910df9a815f",
+        "target_sha256": "5599b9b597ba84b5c475a544cf59ceb4428ee2b4deac4d6362fa267f17381923"
+      },
+      "ui:슬롯 %d:/슬롯 %d": {
+        "source_sha256": "9e681dfb90cb3972f0a8922e0bc83765e918604316d2be2fd5302040f038389e",
+        "target_sha256": "420e8519e00c7c6b339798a5009aa9072fa537950ebe404f18db09450e7d1651"
+      },
+      "ui:슬롯 6–10  ›:/슬롯 6–10  ›": {
+        "source_sha256": "59fbe182edf7e58f0db649bda6351804ab1574bd408e10a37412dc1bb6cb9058",
+        "target_sha256": "9e922d5e8b1ec37124cb95185f56b25b32f8ac5f49c833aeae0a68be35c10f6f"
+      },
+      "ui:이어갈 시간을 선택하세요.:/이어갈 시간을 선택하세요.": {
+        "source_sha256": "2dd69195d65da64bc212f2282bc77bcb6ce988b9f20e790822e7d67f120262a3",
+        "target_sha256": "a5c501798ff08a0943a325dd2caae4778d3f7861b9ff40d3d0ed39ee5a572bc7"
+      },
+      "ui:이전 버전:/이전 버전": {
+        "source_sha256": "63ca564b9e162ff7c8b82f91ce5e36ac77ee0294a7aa34bf8e34b7de65009824",
+        "target_sha256": "6472d83b425a1834904db9d12977f274c86bdf8cda78ed85d471bb3af54facae"
+      },
+      "ui:이전 저장 형식 · 호환 모드:/이전 저장 형식 · 호환 모드": {
+        "source_sha256": "de1bb2f7b8cef238cff3ac22c2c4c5b475a7a9ec97e3cf6953cc4846cf353ae6",
+        "target_sha256": "ec22acbe4d38ab9e37217b4bc7f7de7393fbe4fb8ac8b73fbc549b4055696846"
+      },
+      "ui:자동저장:/자동저장": {
+        "source_sha256": "c3b3e5cb09ddc1bb1e84a37ce36c3624734d5a96a7a1d7401e4eacb5f92f4d9a",
+        "target_sha256": "533c1a5702ac45f225c2bea53a10da2884bfecd183f74b0cb04ea85d89f698c8"
+      },
+      "ui:저장 삭제:/저장 삭제": {
+        "source_sha256": "48807fc41d14b39504f5cdcfc353221210d584edc11316f7480c09359e8cbcba",
+        "target_sha256": "f9d3ed7704e0bdeb85404ca8045669ce532d73f4e27741c9a10b7863e8cc9127"
+      },
+      "ui:정식판:/정식판": {
+        "source_sha256": "d5370668d41b9471be28c976131103f53769464229a6f16489453c8d2be6c7b8",
+        "target_sha256": "7a0af398021a38b8a202a66b969207a07d205d82681380d4f847d80409f3e624"
+      },
+      "ui:챕터 %d · %d주차  ·  %s:/챕터 %d · %d주차  ·  %s": {
+        "source_sha256": "8507ba8eade9b9efbfe2665dd1eeb616a78577cbdceda91e34a086d6a830da65",
+        "target_sha256": "568907b8c0b4e5c23d91cf3b441a021a034ab6b4f9b8750a5819cabc01bcc0f2"
+      },
+      "ui:취소:/취소": {
+        "source_sha256": "dc6bea83812fc651300d3bf56f5b78a24af7865d19b9a9a02a198f5af178899f",
+        "target_sha256": "4fa6cdbf13079926965f04ae1a16b9d6c0d6ba3ca287f399132620e167d1bcdf"
+      },
+      "ui:페이지 %d / 2:/페이지 %d ~1 2": {
+        "source_sha256": "c84dac86602347b867ab9132e59d7592602fadf305dd3d02316b39590a640eb0",
+        "target_sha256": "d2b62cbc36fad72e7a4a0cdfd0eaafd7dd5cd39dd00a86a7b74d163408698ad0"
+      },
+      "ui:호환되지 않거나 손상된 기록:/호환되지 않거나 손상된 기록": {
+        "source_sha256": "7a4a60b578e9b6511f8ff17b521d44a67ebc3a04d7387ae2f93f38b6e7922480",
+        "target_sha256": "bc6f7d1751e4a631dbe48391e44509024d658fbd1972c642b7cea985cad1da4f"
       }
     }
   },
-  "accepted_sha256": "28fc58934d8fae18e9d7a98ffd76ce54dc2a0842528e1c46ae88e062704dbec6",
+  "accepted_sha256": "a502f791ff2a7ad9b2cc6647ef5f76850f707c8ec5078638d2e0f88a0be273dc",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
