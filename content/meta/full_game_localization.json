@@ -3398,6 +3398,74 @@
       "machine_validation": "PASS",
       "rendered_review": "OPEN",
       "native_review": "OPEN"
+    },
+    {
+      "order": "ORDER-235",
+      "group": "ui",
+      "roots": [
+        "%d년 차",
+        "1주 전",
+        "5년, 다섯 장면",
+        "5년의 기록",
+        "Godot Engine으로 제작",
+        "{date} · {weeks}주차",
+        "{n}주 전",
+        "간직한 것들",
+        "같은 결말도 곁에 누가 남았는지에 따라 다른 표정을 갖는다.",
+        "그 사람들은",
+        "그리고 이 5년을 살아 준 당신에게.",
+        "기록 I",
+        "기록 II · 마지막 장",
+        "기록 III",
+        "기록 없음",
+        "기록된 인연 없음",
+        "난이도: %s",
+        "남겨 둔 장면들",
+        "남은 것과 다음 삶",
+        "네 칸을 합치면 살아온 주 수가 된다.",
+        "다시 시작",
+        "돈만",
+        "둘 다",
+        "마지막 기록",
+        "마지막 연락  {when}",
+        "마지막 장",
+        "마지막 장면",
+        "먼저 연락한 횟수  {n}회",
+        "메인 메뉴",
+        "미니게임 마스터리: ",
+        "사람만",
+        "새로 열린 기록",
+        "새로 열린 기록 없음",
+        "선택의 흔적",
+        "선택한 방식: %s",
+        "시간의 기록",
+        "어느 쪽도 아님",
+        "업적: %s",
+        "엔딩",
+        "연락 원장",
+        "이번 주",
+        "이전",
+        "이전 저장의 {n}주는 어느 칸이었는지 되살릴 수 없다.",
+        "장면 %d / %d",
+        "장면 계속",
+        "제작",
+        "주",
+        "칭호: 「%s」  %s",
+        "크레딧 뒤로",
+        "크레딧으로",
+        "평가 대신, 이 5년이 어디에 남았는지만 적는다.",
+        "후일담"
+      ],
+      "source_leaves": 52,
+      "target_leaves_by_locale": {
+        "ja": 52,
+        "zh-CN": 52,
+        "zh-TW": 52
+      },
+      "source_review": "Direct Korean review of 52 ending-record UI keys across 19 observed judgment units per locale: existing Japanese52 reviewed and proven meaning errors refined; Simplified and Traditional Chinese52 each independently authored. Preserve scene/credits/page progression, four week categories, initiated contacts, relative dates and every formatting slot. Preserve all unselected UI raw through inverse. Dynamic inserts, conditional ending prose, runtime operations, native and actual rendering remain outside this text review.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN"
     }
   ],
   "accepted": {
@@ -54269,6 +54337,214 @@
       "ui:화면 모드:/화면 모드": {
         "source_sha256": "ea34aa0749c919ab5ed4926809d99dc99abce2f269303df851d206e3e43baa35",
         "target_sha256": "ee4b9598c5bf4ddb81fd4ea8b956db5d22528b039ccf8d98ee5a02865efbbb65"
+      },
+      "ui:%d년 차:/%d년 차": {
+        "source_sha256": "8342945ad68892c3818edc36ecb0803ff8747e8db9fafedc5119bc0dfda2f2b9",
+        "target_sha256": "e859e66b5dc2a7d20c6402646995659fc1268e32fa3ffd4dc394acb6d5d259bc"
+      },
+      "ui:1주 전:/1주 전": {
+        "source_sha256": "6b4a7a038d6590f10cd609214c88901965af64c3d6a6b7e776eab40d3e35673d",
+        "target_sha256": "c2355b778407fc27ace54412ee3634fa34ee84ffef54d0f1e3fe075ef3275a54"
+      },
+      "ui:5년, 다섯 장면:/5년, 다섯 장면": {
+        "source_sha256": "634d1766bc750e10aa9ab8d2aca5e3b27b76c7fbd679bc200fc4f92518b29828",
+        "target_sha256": "cee06f17a324e2d5bf2561d068c6e931050ea6c58cdef7f7515288659f872e5f"
+      },
+      "ui:5년의 기록:/5년의 기록": {
+        "source_sha256": "a450c57dc8c522175609d6e1ab56bb56f18aa5c8517b70e0e9cee3e4b6b2236b",
+        "target_sha256": "00256fd7cb382c4d3db801b7791a06e13e9bec7c389f271d1f49377286c333ce"
+      },
+      "ui:Godot Engine으로 제작:/Godot Engine으로 제작": {
+        "source_sha256": "0ce0a689397fde2aed7b6ba5db94fa1fd295865ffee8418d8cd13dd88848e9e6",
+        "target_sha256": "ede515abd6567c912985755cf916ebe683d878c672bbd79ec2faf87be0322f07"
+      },
+      "ui:{date} · {weeks}주차:/{date} · {weeks}주차": {
+        "source_sha256": "f132a4391b5f58995d417987b058cf0996bf04f0895f66195ed225a662bc1350",
+        "target_sha256": "af663f8117b6fb625d339576d53b17bf146199792f3106bbab1e93a5a8e4ec6a"
+      },
+      "ui:{n}주 전:/{n}주 전": {
+        "source_sha256": "60511c71261ce043c1b453793b3b25702c168ad62ed024c9b50389deec5624a3",
+        "target_sha256": "aa469614d451c37101f7a241e4b511490c8bef281dd4e931839fc97c7f11ff69"
+      },
+      "ui:간직한 것들:/간직한 것들": {
+        "source_sha256": "ef5166234ff7059c9c35737ef67a592d1d00d4e7f7504e1306b7d2ba1107f15f",
+        "target_sha256": "e7a1d04bde42411044b8deb81885df5a3cfe8afc03fd9500a6782c6f62bdd17b"
+      },
+      "ui:같은 결말도 곁에 누가 남았는지에 따라 다른 표정을 갖는다.:/같은 결말도 곁에 누가 남았는지에 따라 다른 표정을 갖는다.": {
+        "source_sha256": "1e11d74b4739ea5bc84520bbf1575056c60f414d65a3ed25c43beb2c1f202076",
+        "target_sha256": "333829b1b97f91bd31f770836741ac42465ce1aa492c2d22e47e3de1e1ba73ea"
+      },
+      "ui:그 사람들은:/그 사람들은": {
+        "source_sha256": "1c8d9e91db8f82b9093113ad63b3d53e849290d93199098189aa0253c4560ef7",
+        "target_sha256": "41f138cd3b7fe7457867ff1733bc0c89763a521882e10efe048aa6244a282d7e"
+      },
+      "ui:그리고 이 5년을 살아 준 당신에게.:/그리고 이 5년을 살아 준 당신에게.": {
+        "source_sha256": "24cb8fd4d116c15e21b52e765062dfbae7b119d4b0a426b951581ba9f04792f3",
+        "target_sha256": "81e2701be65c70573dcf81ebf64d026486540f8355e7d77264b731c1bc879158"
+      },
+      "ui:기록 I:/기록 I": {
+        "source_sha256": "030f6e619f4970f57d1f17b4ee3d9968db269a8095869809ddd72d713aa496ec",
+        "target_sha256": "2976aba749003034b8697b6801ec31177a62987e372296a075c12c460910130b"
+      },
+      "ui:기록 II · 마지막 장:/기록 II · 마지막 장": {
+        "source_sha256": "2b7b1420e28d2f428d5e36f76a82d94c7fbf1202da8450ba1bfa25271652cd69",
+        "target_sha256": "e2ca2aea200920871f294de7895470cd4bd3e36a05eaebfb670458482467acd6"
+      },
+      "ui:기록 III:/기록 III": {
+        "source_sha256": "188c2a2e54d6ee49141c0ccc8c04bba3b13b8849d79cb31dcbcaebdc05b448d9",
+        "target_sha256": "76ff0d5a273b6f7e6b62bc7cd41fddf5993f90780b8309cdcde38e7e79205916"
+      },
+      "ui:기록 없음:/기록 없음": {
+        "source_sha256": "b2a91a0c69f9b73971b6ec688ed9b457cacffec3036a2b9afbc96a4de36a7725",
+        "target_sha256": "aa9180f8df72aa975cf771b7c51d91ce37015deddfbe808bc976ba1ed51c1bad"
+      },
+      "ui:기록된 인연 없음:/기록된 인연 없음": {
+        "source_sha256": "f13aa3e8d74b039ff45159099e55793a4f6d742a96e90c7d55e27f49302049d3",
+        "target_sha256": "0a4107f20cf11e46b78115c780bfe5ef6a798246a38ace1c00a5d3892cd4dd2c"
+      },
+      "ui:난이도: %s:/난이도: %s": {
+        "source_sha256": "9cf1b51e53b57f4dd1ec861dacf37879ad0f9c799b975c9c07f40ab0c10818a5",
+        "target_sha256": "b4dde0f6d5b20eaedb47192527803c6897b6af4a143cac11ac81641311b9faf5"
+      },
+      "ui:남겨 둔 장면들:/남겨 둔 장면들": {
+        "source_sha256": "950d67639a464fae4d5947cec05943a7e3d9f7e143ed525170e51ac5e40d19c2",
+        "target_sha256": "2c0087ea32686435061be6fa5a751c7a4a2de0df6ead7a5c23e5b927bda5f695"
+      },
+      "ui:남은 것과 다음 삶:/남은 것과 다음 삶": {
+        "source_sha256": "201eb4a49959282607fdfef23b518686f54c7fd01ea84f30670e3e71ba89a233",
+        "target_sha256": "1df972dd1498985f8b61f06c8e9636b8389c3bd32e572f4d0ae2b53c6476c45a"
+      },
+      "ui:네 칸을 합치면 살아온 주 수가 된다.:/네 칸을 합치면 살아온 주 수가 된다.": {
+        "source_sha256": "183f6159cfc99f5440a839b81fbb74b760c7cf1723a4d38da70859bfd79396ed",
+        "target_sha256": "4b886e4c22bff569be6dfbfc3eb38877a31d0184588e974f0c3baa925cd39e38"
+      },
+      "ui:다시 시작:/다시 시작": {
+        "source_sha256": "3474da04f5b046ec1a4808be3866c373f4263bf8cdad9c97d3e43b73a54022c5",
+        "target_sha256": "da88b105ab61ea8a67fdc175e00353a3367a57b6d9423c7a2da4312e8a1f9bfc"
+      },
+      "ui:돈만:/돈만": {
+        "source_sha256": "623219be2c8407ef6820e9b48ba972550e72153193e1deff1adcae6a34f51171",
+        "target_sha256": "2df6fcb277421055c5899ea113a86768fe0781789e9022c34dea8a697ce3cd49"
+      },
+      "ui:둘 다:/둘 다": {
+        "source_sha256": "3a6f737e1106b8c4c588555ff89cdb10a1d90fd0405661cef7600e4598d2b280",
+        "target_sha256": "d027f88ea476018ebda590ae9285188fa28a94fdc9c33ab7c7293073acc3bb00"
+      },
+      "ui:마지막 기록:/마지막 기록": {
+        "source_sha256": "b4e920b9a15842e70f0610a84ec578ca0b9c0d650a666e0435256567191499a0",
+        "target_sha256": "2f4af72dfa4d7746beff0f8dbad901cda0fc8fada4fea61588401cc29e8fae27"
+      },
+      "ui:마지막 연락  {when}:/마지막 연락  {when}": {
+        "source_sha256": "d6ca8e303c698e00f11d63c5cc9a7c9c92ac3d6396bf6b4af7354460d80e5efb",
+        "target_sha256": "6311b3d6ad2e481ce0c6b5897f58e3440ab28b6c582f54bae115cc21ff6428a6"
+      },
+      "ui:마지막 장:/마지막 장": {
+        "source_sha256": "95a3b33683033dee3376e5548e6608e1cfb2d7e8c9fa706aa6159122cf09a1ff",
+        "target_sha256": "37e444f68d4b1b35dc93c494e08d3c1c5057a3975dc347d2c7a79ddd1865237e"
+      },
+      "ui:마지막 장면:/마지막 장면": {
+        "source_sha256": "0df7bb156651990d245549739cede4b5c6dcc48c4503dc7e63383c52cf81a3bc",
+        "target_sha256": "73472759eb4c07faf254844e0cd0c2aa8654201d7bf3577c425fe9994dc134ef"
+      },
+      "ui:먼저 연락한 횟수  {n}회:/먼저 연락한 횟수  {n}회": {
+        "source_sha256": "040b9b602893f004042c2dad952e2ec6d6a25ed4f5deb21bb524f08fe7987d51",
+        "target_sha256": "3dcf3d7dc8839f8527718ae984e24cc1bdee01132003976ccc1240f969f3c083"
+      },
+      "ui:메인 메뉴:/메인 메뉴": {
+        "source_sha256": "db066087dd45fbedbdb19a3d394bdc89137c6b5ef376a17d2b6f68e8a01e641c",
+        "target_sha256": "109b239c6ff1e9cf520843af9340dfb3a4f1f8f775e6ebb73fc3688d2f082734"
+      },
+      "ui:미니게임 마스터리: :/미니게임 마스터리: ": {
+        "source_sha256": "89c00c2faa42cd44eceff832b236cd4a4ff26a0b34d03b8e5781e28725fffc51",
+        "target_sha256": "8922d4c25fa8770ce1f22948ae7e981e61b4efbe2c542657e5b4816bf3a4857f"
+      },
+      "ui:사람만:/사람만": {
+        "source_sha256": "46170b64e368ace0469eb5cafd99c2d2b76fc5303eb0e750874af9aaaff2d1b4",
+        "target_sha256": "cd7a966ad6ab67c21b1c92d9d7dc4ae1d74ca3e5e4336a5fb13393839a3ccd3b"
+      },
+      "ui:새로 열린 기록 없음:/새로 열린 기록 없음": {
+        "source_sha256": "9b50cc6f89af0467f951b5a0abfd842832fa174111b2d47b2b95bc49ad3f21b5",
+        "target_sha256": "8c16b155d362d2c02a23a3e3bd7489b4be345082b2e0eec5bfe0ba33e39c9e81"
+      },
+      "ui:새로 열린 기록:/새로 열린 기록": {
+        "source_sha256": "7238791906c7e9c0a15c484744b5cbb212cab7bd581285dc69705b0e6f94318d",
+        "target_sha256": "acb1ec03a2a9a7e10ef3a4274b2a843cf74a587986bb1ccd25dece9403dbd5e9"
+      },
+      "ui:선택의 흔적:/선택의 흔적": {
+        "source_sha256": "d9e6413c00fb7ed25d2d5a1266b03ee353a958e93d869f4da056b28ad641117c",
+        "target_sha256": "36f416fe08d4155e7c45ee4e58188bbddda56f8757cfd3ec52fa1699f9925d7d"
+      },
+      "ui:선택한 방식: %s:/선택한 방식: %s": {
+        "source_sha256": "628a33f5077a8b34cc2b55745fb438fde023446773dbf61719e9f62dad80d0f1",
+        "target_sha256": "efb2346a6c1e4033a417be3b06fda5eba2fc4219742503789090f74f8344b8aa"
+      },
+      "ui:시간의 기록:/시간의 기록": {
+        "source_sha256": "453e793fe20ba697a780586f18402da1914c13a6bc521a8cabc89dc6a0f16527",
+        "target_sha256": "1238a745ee142554fe37c196f52e9b1fc99c2a70d4a79fc7e2818250e754cf9d"
+      },
+      "ui:어느 쪽도 아님:/어느 쪽도 아님": {
+        "source_sha256": "ed64f6c37e00c474d27e97dcb2bb7513b48ab5dfd5de354d93bb791211149a67",
+        "target_sha256": "5aaac9302f2f5ae1c8832a7f82e0ddc4fe6a410969aa89456ec8d2c21c617f33"
+      },
+      "ui:업적: %s:/업적: %s": {
+        "source_sha256": "01f2a4f03befd99549f291bae06c89e9614a629462879fac20df57caa53af751",
+        "target_sha256": "732c3feef800a7245b91a85162baf2b8c06a55b515f0a00bbc9b86269a23f189"
+      },
+      "ui:엔딩:/엔딩": {
+        "source_sha256": "89bc0385d202e00c394f47ca59ae58a80611aea1d4d7ae8eeddc3be8fd114062",
+        "target_sha256": "73e5f788a7f7a0e955ef193bd316842b10e8f68bdba7630a6f6f9833771b7fc9"
+      },
+      "ui:연락 원장:/연락 원장": {
+        "source_sha256": "f07a6f5b49bd92cbfb51eb7f7fb9f953c261c01472a5629f08111803bfe3209c",
+        "target_sha256": "49a8a687b1ede85c4b8c0ff8aac6285e24d49c454164cdb4e8dfde3174847bd1"
+      },
+      "ui:이번 주:/이번 주": {
+        "source_sha256": "cbe50bddb16b458c51ed6e8501ea41f35da959753e6673a66a222955f4ffdc15",
+        "target_sha256": "8d0286b9727e87246c93ac6435f7f8a4c062d338fbf9648c8e4ae6fa7154ad60"
+      },
+      "ui:이전 저장의 {n}주는 어느 칸이었는지 되살릴 수 없다.:/이전 저장의 {n}주는 어느 칸이었는지 되살릴 수 없다.": {
+        "source_sha256": "00db9f0e10f2275974dac7a57251c371dd718dc4f4c1cf0a22cc788639beca47",
+        "target_sha256": "550380f409e9047008718e2b25482fb9f4b7787820cd437fccd1618b9db444a1"
+      },
+      "ui:이전:/이전": {
+        "source_sha256": "2ce8881e680938299c0f21ae2ca1914527a8a1e3342459993d5a76f5b9f85853",
+        "target_sha256": "7fb931689396ea9276110804156dbd08fcb6a857bdc645498cc003f92ccfc5e2"
+      },
+      "ui:장면 %d / %d:/장면 %d ~1 %d": {
+        "source_sha256": "9a7d2797d51c6fc89d7a466ef3ca86c48e3e1afe2c719a7f61e7bb8d83af97ef",
+        "target_sha256": "883acfe347fb12eb2b54bdc35a1870c0a5292c17e803960367f2ac5bec4fd4ec"
+      },
+      "ui:장면 계속:/장면 계속": {
+        "source_sha256": "88ab1322717f2d7881c6ee5008fb28f4ae297f534e40cb648ec43582e2b9ecd7",
+        "target_sha256": "226e34c152a33b29d64a14482ee8a9127a983ca5cb0cd3da2eb4065bad0ec56d"
+      },
+      "ui:제작:/제작": {
+        "source_sha256": "ef790e18c7e29bfa64b486abf92073efb127cbc2134a706ca033e77dd20b3c2e",
+        "target_sha256": "59e6574bf41fd03ea272dcc25e8b0e953882cacdab37620fd188bc51f2480f76"
+      },
+      "ui:주:/주": {
+        "source_sha256": "fd300b1ebe5f7054e78bf6255a10ea4630333a77d966d246d7447edfddd4d990",
+        "target_sha256": "5a34bca704e673f6f5eee819cabc98c700f2593a22b4c21ec3a70087d2cede63"
+      },
+      "ui:칭호: 「%s」  %s:/칭호: 「%s」  %s": {
+        "source_sha256": "1c84824da6e11b6ec38389446599febb94fd9ce7d8dd446fd92fd1f7c0fe7270",
+        "target_sha256": "6cd224dc139d1c45dcf7d4e5a22df2d1e74a14c641995cff9e72b93b259f322d"
+      },
+      "ui:크레딧 뒤로:/크레딧 뒤로": {
+        "source_sha256": "3209412eaac8c1dfc073bcb70c86a08cb6d0d2aa9f661de561baa608fa9b5056",
+        "target_sha256": "de528530fb57ff56c5d467de29dfffc8fdb7d996c1351100ab1de3a034cc8c99"
+      },
+      "ui:크레딧으로:/크레딧으로": {
+        "source_sha256": "5bd30cfe7320e083944b3b420f31aa0adc424236794f738d5f1ecc3a8b8c2137",
+        "target_sha256": "93dd04b43dc76437e7c07fcf6b809f0fc140c3a40871498af9ccd5b5357ee264"
+      },
+      "ui:평가 대신, 이 5년이 어디에 남았는지만 적는다.:/평가 대신, 이 5년이 어디에 남았는지만 적는다.": {
+        "source_sha256": "51fea73e5c54709c1e545eec843848f21a774dfddf14accd49b0f57355f794a6",
+        "target_sha256": "ee603a847efc533b87c617203521416205ec9caecb19b3cb8941eb1f75746a6f"
+      },
+      "ui:후일담:/후일담": {
+        "source_sha256": "4ca32f1d934ec6891b5ced200d73c536e41ed14c7d2dca4085ab33ba02054542",
+        "target_sha256": "8321c1ac4ec231815fbab47885da9e03b52d296bc2137015910fb5d040e6da20"
       }
     },
     "zh-CN": {
@@ -105147,6 +105423,214 @@
       "ui:화면 모드:/화면 모드": {
         "source_sha256": "ea34aa0749c919ab5ed4926809d99dc99abce2f269303df851d206e3e43baa35",
         "target_sha256": "e3e7e266f5c2eaad6963ce933db0ba2553a36dd6bd654a05a2721e5cbfdfe77f"
+      },
+      "ui:%d년 차:/%d년 차": {
+        "source_sha256": "8342945ad68892c3818edc36ecb0803ff8747e8db9fafedc5119bc0dfda2f2b9",
+        "target_sha256": "095b396e9be987b36c59c4a4afa87ff13744bd1b3dab6f2f40484947e8efb00b"
+      },
+      "ui:1주 전:/1주 전": {
+        "source_sha256": "6b4a7a038d6590f10cd609214c88901965af64c3d6a6b7e776eab40d3e35673d",
+        "target_sha256": "feda34015795a030bed15e27b5ce9660c3b7bd52beabdc31b21bd00f6f508149"
+      },
+      "ui:5년, 다섯 장면:/5년, 다섯 장면": {
+        "source_sha256": "634d1766bc750e10aa9ab8d2aca5e3b27b76c7fbd679bc200fc4f92518b29828",
+        "target_sha256": "2276bb81df9ab432e1ce50604651f98bdd291b1137c6c5d4f8e3b26f8f363782"
+      },
+      "ui:5년의 기록:/5년의 기록": {
+        "source_sha256": "a450c57dc8c522175609d6e1ab56bb56f18aa5c8517b70e0e9cee3e4b6b2236b",
+        "target_sha256": "c07c506ad4a558d90bc52c9f60e77943be8bf9fc13089b723c9ceb825424bec9"
+      },
+      "ui:Godot Engine으로 제작:/Godot Engine으로 제작": {
+        "source_sha256": "0ce0a689397fde2aed7b6ba5db94fa1fd295865ffee8418d8cd13dd88848e9e6",
+        "target_sha256": "ba8e029d34f0ddbd2883da873114912909f8b826a079bc814f1560b7d3eade01"
+      },
+      "ui:{date} · {weeks}주차:/{date} · {weeks}주차": {
+        "source_sha256": "f132a4391b5f58995d417987b058cf0996bf04f0895f66195ed225a662bc1350",
+        "target_sha256": "901c15921d7914a80a42fa3dc20e8245b2dc504d673d49fb2f69fadbf1a20f28"
+      },
+      "ui:{n}주 전:/{n}주 전": {
+        "source_sha256": "60511c71261ce043c1b453793b3b25702c168ad62ed024c9b50389deec5624a3",
+        "target_sha256": "d567d8250140b50a3e9da4cab66d66ff5c38b53abe6afc9022ebb9c0a69e9422"
+      },
+      "ui:간직한 것들:/간직한 것들": {
+        "source_sha256": "ef5166234ff7059c9c35737ef67a592d1d00d4e7f7504e1306b7d2ba1107f15f",
+        "target_sha256": "1387e4b32d2f6c9968244e51bd1e4cd9f39fd2ba1ddabd843a4f1dc7f19a1e53"
+      },
+      "ui:같은 결말도 곁에 누가 남았는지에 따라 다른 표정을 갖는다.:/같은 결말도 곁에 누가 남았는지에 따라 다른 표정을 갖는다.": {
+        "source_sha256": "1e11d74b4739ea5bc84520bbf1575056c60f414d65a3ed25c43beb2c1f202076",
+        "target_sha256": "d0c88743d9bd141fcb599219c8fd866be9032e5d55416b80dcf1ff80f469d822"
+      },
+      "ui:그 사람들은:/그 사람들은": {
+        "source_sha256": "1c8d9e91db8f82b9093113ad63b3d53e849290d93199098189aa0253c4560ef7",
+        "target_sha256": "588821bc84e35092005908b4b937a72ab9223abb04a1f42d4385a36d97effb7a"
+      },
+      "ui:그리고 이 5년을 살아 준 당신에게.:/그리고 이 5년을 살아 준 당신에게.": {
+        "source_sha256": "24cb8fd4d116c15e21b52e765062dfbae7b119d4b0a426b951581ba9f04792f3",
+        "target_sha256": "918ad605ff0d00740b1d109f3ca75af0828b13ad619e586ad3b681c707e87022"
+      },
+      "ui:기록 I:/기록 I": {
+        "source_sha256": "030f6e619f4970f57d1f17b4ee3d9968db269a8095869809ddd72d713aa496ec",
+        "target_sha256": "225e002e2406992952d463aa1441658b7153ba70410fa66e6edc9df3e18173cc"
+      },
+      "ui:기록 II · 마지막 장:/기록 II · 마지막 장": {
+        "source_sha256": "2b7b1420e28d2f428d5e36f76a82d94c7fbf1202da8450ba1bfa25271652cd69",
+        "target_sha256": "45e5d35ce7470a16cf5251edc4fd4fd52655aea688a390151d2a624498c7c8dd"
+      },
+      "ui:기록 III:/기록 III": {
+        "source_sha256": "188c2a2e54d6ee49141c0ccc8c04bba3b13b8849d79cb31dcbcaebdc05b448d9",
+        "target_sha256": "bb00c326b210c3f94b9eeaa42c4f6c3d4b42098dbd798eb0b0bc3d6bd955ad54"
+      },
+      "ui:기록 없음:/기록 없음": {
+        "source_sha256": "b2a91a0c69f9b73971b6ec688ed9b457cacffec3036a2b9afbc96a4de36a7725",
+        "target_sha256": "d4270c7ad9e2fa13c949139ead04c6c38a8bda40cb6e7d68ead366245b2bd2e0"
+      },
+      "ui:기록된 인연 없음:/기록된 인연 없음": {
+        "source_sha256": "f13aa3e8d74b039ff45159099e55793a4f6d742a96e90c7d55e27f49302049d3",
+        "target_sha256": "909d57c87a020e438ca5c8ab059b0b1f0eb6e0df7df9ace856d974fb039c9f8a"
+      },
+      "ui:난이도: %s:/난이도: %s": {
+        "source_sha256": "9cf1b51e53b57f4dd1ec861dacf37879ad0f9c799b975c9c07f40ab0c10818a5",
+        "target_sha256": "c0e117c162bd6ff8e9a276f50d810c18566ee9363cdbd563647043a9256c0325"
+      },
+      "ui:남겨 둔 장면들:/남겨 둔 장면들": {
+        "source_sha256": "950d67639a464fae4d5947cec05943a7e3d9f7e143ed525170e51ac5e40d19c2",
+        "target_sha256": "7a6eae47b2624ffded9d7cd221901fc495e3c39eeaa6af9d36f2237debc792ae"
+      },
+      "ui:남은 것과 다음 삶:/남은 것과 다음 삶": {
+        "source_sha256": "201eb4a49959282607fdfef23b518686f54c7fd01ea84f30670e3e71ba89a233",
+        "target_sha256": "28885b58819216745d0c003eabdc05f255dcbef4a990c31180f7229fbe15e9d0"
+      },
+      "ui:네 칸을 합치면 살아온 주 수가 된다.:/네 칸을 합치면 살아온 주 수가 된다.": {
+        "source_sha256": "183f6159cfc99f5440a839b81fbb74b760c7cf1723a4d38da70859bfd79396ed",
+        "target_sha256": "84996c25ac91b0a6496f3fb9be12a71682d33f8df2e2410e8a07626b305fe964"
+      },
+      "ui:다시 시작:/다시 시작": {
+        "source_sha256": "3474da04f5b046ec1a4808be3866c373f4263bf8cdad9c97d3e43b73a54022c5",
+        "target_sha256": "a5223d6942b5133dc9c8001e569cad742b2a1aaa2f3609146ecbfa5df230e41b"
+      },
+      "ui:돈만:/돈만": {
+        "source_sha256": "623219be2c8407ef6820e9b48ba972550e72153193e1deff1adcae6a34f51171",
+        "target_sha256": "451fc424c37d3e659322323bbc1dfe85ce70eb1ef336ba495f433499717aabfe"
+      },
+      "ui:둘 다:/둘 다": {
+        "source_sha256": "3a6f737e1106b8c4c588555ff89cdb10a1d90fd0405661cef7600e4598d2b280",
+        "target_sha256": "51113252ed3f6a5c63fec0baf3caa0e8902e352e1598f228ec48c2a01c17aa80"
+      },
+      "ui:마지막 기록:/마지막 기록": {
+        "source_sha256": "b4e920b9a15842e70f0610a84ec578ca0b9c0d650a666e0435256567191499a0",
+        "target_sha256": "3fd5358571a2a0b3bda6b70aa1c7d81b65799faae232937337881e54daaf489d"
+      },
+      "ui:마지막 연락  {when}:/마지막 연락  {when}": {
+        "source_sha256": "d6ca8e303c698e00f11d63c5cc9a7c9c92ac3d6396bf6b4af7354460d80e5efb",
+        "target_sha256": "cc204acf39f9f0579728f71bc144c7562d9661c162ed875dd842e66fe88e79ea"
+      },
+      "ui:마지막 장:/마지막 장": {
+        "source_sha256": "95a3b33683033dee3376e5548e6608e1cfb2d7e8c9fa706aa6159122cf09a1ff",
+        "target_sha256": "6da1240cbb78d00ea76735fd0e1ee6159ca192430594b21d4fedf9b8f32679fa"
+      },
+      "ui:마지막 장면:/마지막 장면": {
+        "source_sha256": "0df7bb156651990d245549739cede4b5c6dcc48c4503dc7e63383c52cf81a3bc",
+        "target_sha256": "c5f89443016652528cfdf414d3d9285e9d66d8fdc7962a0e89d3f74841c9c120"
+      },
+      "ui:먼저 연락한 횟수  {n}회:/먼저 연락한 횟수  {n}회": {
+        "source_sha256": "040b9b602893f004042c2dad952e2ec6d6a25ed4f5deb21bb524f08fe7987d51",
+        "target_sha256": "442d2c544d2a12fe63e4d3e59874a26721eeb25c50cbc26b6d0c95c2902c2d85"
+      },
+      "ui:메인 메뉴:/메인 메뉴": {
+        "source_sha256": "db066087dd45fbedbdb19a3d394bdc89137c6b5ef376a17d2b6f68e8a01e641c",
+        "target_sha256": "e0dafc6182380e6f93c062b62e0f6fbce0beb8acf8f6ce55a8520604b9c087f0"
+      },
+      "ui:미니게임 마스터리: :/미니게임 마스터리: ": {
+        "source_sha256": "89c00c2faa42cd44eceff832b236cd4a4ff26a0b34d03b8e5781e28725fffc51",
+        "target_sha256": "a4969cacc401a0db45ec0a02b9d1707e32007db683dcab90ee18ee915c761222"
+      },
+      "ui:사람만:/사람만": {
+        "source_sha256": "46170b64e368ace0469eb5cafd99c2d2b76fc5303eb0e750874af9aaaff2d1b4",
+        "target_sha256": "b92ded91c4a171fe3bea2561a3fa01e18e1f90147fa6847a08c8d566a891d18b"
+      },
+      "ui:새로 열린 기록 없음:/새로 열린 기록 없음": {
+        "source_sha256": "9b50cc6f89af0467f951b5a0abfd842832fa174111b2d47b2b95bc49ad3f21b5",
+        "target_sha256": "3111b4593e0d2f72884c5a18d9c3894e21383ae85060827c261871c2992abaf2"
+      },
+      "ui:새로 열린 기록:/새로 열린 기록": {
+        "source_sha256": "7238791906c7e9c0a15c484744b5cbb212cab7bd581285dc69705b0e6f94318d",
+        "target_sha256": "3874751433e5c3c6e73d0117687a7ff79390c59fc2d5d243aacace9c1a37fa37"
+      },
+      "ui:선택의 흔적:/선택의 흔적": {
+        "source_sha256": "d9e6413c00fb7ed25d2d5a1266b03ee353a958e93d869f4da056b28ad641117c",
+        "target_sha256": "cbffcc1aabd92583f172e1afb13e5c34a97d67f6912c8e2b3881e3fe290f7d71"
+      },
+      "ui:선택한 방식: %s:/선택한 방식: %s": {
+        "source_sha256": "628a33f5077a8b34cc2b55745fb438fde023446773dbf61719e9f62dad80d0f1",
+        "target_sha256": "ec05b696d53a2c16855fd139bba5018d7d9d7e6a961a67b97655ee362ccaf27e"
+      },
+      "ui:시간의 기록:/시간의 기록": {
+        "source_sha256": "453e793fe20ba697a780586f18402da1914c13a6bc521a8cabc89dc6a0f16527",
+        "target_sha256": "c43c741072d457dad1031bd513a7066edeaba03db7f289bda05f268a999c774c"
+      },
+      "ui:어느 쪽도 아님:/어느 쪽도 아님": {
+        "source_sha256": "ed64f6c37e00c474d27e97dcb2bb7513b48ab5dfd5de354d93bb791211149a67",
+        "target_sha256": "1c99eb2b573a10b591ed992d219dd3b38d9c19ae1f09c7ce6a9f5a64ad7b1f51"
+      },
+      "ui:업적: %s:/업적: %s": {
+        "source_sha256": "01f2a4f03befd99549f291bae06c89e9614a629462879fac20df57caa53af751",
+        "target_sha256": "6f1176f45bda71047be5a1068d850eaf4f826635f5fba6982d875e09d30ec8ae"
+      },
+      "ui:엔딩:/엔딩": {
+        "source_sha256": "89bc0385d202e00c394f47ca59ae58a80611aea1d4d7ae8eeddc3be8fd114062",
+        "target_sha256": "a659c3d682022cfb7e3fab82670d54594c31b3cea6c051cf40c0a59f6095ca9b"
+      },
+      "ui:연락 원장:/연락 원장": {
+        "source_sha256": "f07a6f5b49bd92cbfb51eb7f7fb9f953c261c01472a5629f08111803bfe3209c",
+        "target_sha256": "f1a395087a434171e037d27c4e65e1df3fb1ce84836dd0829f9c9d795525822c"
+      },
+      "ui:이번 주:/이번 주": {
+        "source_sha256": "cbe50bddb16b458c51ed6e8501ea41f35da959753e6673a66a222955f4ffdc15",
+        "target_sha256": "b097a5b0e85827e8d5cd224791043313b54f1657456fd2fa74c06d4d575f673a"
+      },
+      "ui:이전 저장의 {n}주는 어느 칸이었는지 되살릴 수 없다.:/이전 저장의 {n}주는 어느 칸이었는지 되살릴 수 없다.": {
+        "source_sha256": "00db9f0e10f2275974dac7a57251c371dd718dc4f4c1cf0a22cc788639beca47",
+        "target_sha256": "b74cd6cc5e8a2f523969aa2c83455fa297305ef900467d34e20adb5cd49305d6"
+      },
+      "ui:이전:/이전": {
+        "source_sha256": "2ce8881e680938299c0f21ae2ca1914527a8a1e3342459993d5a76f5b9f85853",
+        "target_sha256": "c008f063456a7abe570061ed52efc46bf205a0192a647150737af383f27dad34"
+      },
+      "ui:장면 %d / %d:/장면 %d ~1 %d": {
+        "source_sha256": "9a7d2797d51c6fc89d7a466ef3ca86c48e3e1afe2c719a7f61e7bb8d83af97ef",
+        "target_sha256": "854994b6d6f4be6731fee03f73367a5490dcd07f9314fcf892901b281cd808c9"
+      },
+      "ui:장면 계속:/장면 계속": {
+        "source_sha256": "88ab1322717f2d7881c6ee5008fb28f4ae297f534e40cb648ec43582e2b9ecd7",
+        "target_sha256": "0191510c3e0e69ba441ae0d10e7b414b699cb984193800f7d143e96ccb730560"
+      },
+      "ui:제작:/제작": {
+        "source_sha256": "ef790e18c7e29bfa64b486abf92073efb127cbc2134a706ca033e77dd20b3c2e",
+        "target_sha256": "59e6574bf41fd03ea272dcc25e8b0e953882cacdab37620fd188bc51f2480f76"
+      },
+      "ui:주:/주": {
+        "source_sha256": "fd300b1ebe5f7054e78bf6255a10ea4630333a77d966d246d7447edfddd4d990",
+        "target_sha256": "701af33c6ad6f11d6268e6d86ceeaa25417025a40bcccbb106d8006055783a61"
+      },
+      "ui:칭호: 「%s」  %s:/칭호: 「%s」  %s": {
+        "source_sha256": "1c84824da6e11b6ec38389446599febb94fd9ce7d8dd446fd92fd1f7c0fe7270",
+        "target_sha256": "055bae0247ea429f99a3d22d12f119df44a4c84a4678815c19431de5ad7399f7"
+      },
+      "ui:크레딧 뒤로:/크레딧 뒤로": {
+        "source_sha256": "3209412eaac8c1dfc073bcb70c86a08cb6d0d2aa9f661de561baa608fa9b5056",
+        "target_sha256": "ab547c29a48604e51a6f0dbf2875dd56c91903303afa3b9f213e76d1d4de65c9"
+      },
+      "ui:크레딧으로:/크레딧으로": {
+        "source_sha256": "5bd30cfe7320e083944b3b420f31aa0adc424236794f738d5f1ecc3a8b8c2137",
+        "target_sha256": "e88787552b4628990027013439b260bc2bb15f7dd6620b371e2b46180c06f7ed"
+      },
+      "ui:평가 대신, 이 5년이 어디에 남았는지만 적는다.:/평가 대신, 이 5년이 어디에 남았는지만 적는다.": {
+        "source_sha256": "51fea73e5c54709c1e545eec843848f21a774dfddf14accd49b0f57355f794a6",
+        "target_sha256": "cd8efc643d953b549f9b1d3ff402c8a4c4ee936f6c56eb03407271b5665651e9"
+      },
+      "ui:후일담:/후일담": {
+        "source_sha256": "4ca32f1d934ec6891b5ced200d73c536e41ed14c7d2dca4085ab33ba02054542",
+        "target_sha256": "61b817768da4c1a2a0b8914c35f3672a459208b87e52277ffb1baa4ee7c5af9a"
       }
     },
     "zh-TW": {
@@ -156025,10 +156509,218 @@
       "ui:화면 모드:/화면 모드": {
         "source_sha256": "ea34aa0749c919ab5ed4926809d99dc99abce2f269303df851d206e3e43baa35",
         "target_sha256": "58a8f3eb6f1abdf1d8a06b1bf47253c62d7ce09580d72a0c5c7030172b1af49e"
+      },
+      "ui:%d년 차:/%d년 차": {
+        "source_sha256": "8342945ad68892c3818edc36ecb0803ff8747e8db9fafedc5119bc0dfda2f2b9",
+        "target_sha256": "095b396e9be987b36c59c4a4afa87ff13744bd1b3dab6f2f40484947e8efb00b"
+      },
+      "ui:1주 전:/1주 전": {
+        "source_sha256": "6b4a7a038d6590f10cd609214c88901965af64c3d6a6b7e776eab40d3e35673d",
+        "target_sha256": "c84e42c613357306605549c530b87aeed7139895d4077cc895b54b0f77bdb817"
+      },
+      "ui:5년, 다섯 장면:/5년, 다섯 장면": {
+        "source_sha256": "634d1766bc750e10aa9ab8d2aca5e3b27b76c7fbd679bc200fc4f92518b29828",
+        "target_sha256": "2b3db2b53e3b38923b3fc18a1ba8da8f5f6e524b2e76d2775d2f38ca3233a1d9"
+      },
+      "ui:5년의 기록:/5년의 기록": {
+        "source_sha256": "a450c57dc8c522175609d6e1ab56bb56f18aa5c8517b70e0e9cee3e4b6b2236b",
+        "target_sha256": "e2bc60e562ff74b6b7d11b6f5ad770ff0b74b29f36eb15e2b00aaa22a7ab7c67"
+      },
+      "ui:Godot Engine으로 제작:/Godot Engine으로 제작": {
+        "source_sha256": "0ce0a689397fde2aed7b6ba5db94fa1fd295865ffee8418d8cd13dd88848e9e6",
+        "target_sha256": "e50a477656ea4203715c289dc1563c83c24f2bead5cfd821cdd248b8f85b9b46"
+      },
+      "ui:{date} · {weeks}주차:/{date} · {weeks}주차": {
+        "source_sha256": "f132a4391b5f58995d417987b058cf0996bf04f0895f66195ed225a662bc1350",
+        "target_sha256": "2aa304493b89c105c790e5615a73471eb9eb74922b5687fdeffb66eaf322b9b7"
+      },
+      "ui:{n}주 전:/{n}주 전": {
+        "source_sha256": "60511c71261ce043c1b453793b3b25702c168ad62ed024c9b50389deec5624a3",
+        "target_sha256": "37b2061d13231ab486c922d373eb399da523978232ed80e3c9903a208524bb09"
+      },
+      "ui:간직한 것들:/간직한 것들": {
+        "source_sha256": "ef5166234ff7059c9c35737ef67a592d1d00d4e7f7504e1306b7d2ba1107f15f",
+        "target_sha256": "762afdb4473ec66c5149276d8c371a241e7bfb48296f58677cc3ad0a83675c48"
+      },
+      "ui:같은 결말도 곁에 누가 남았는지에 따라 다른 표정을 갖는다.:/같은 결말도 곁에 누가 남았는지에 따라 다른 표정을 갖는다.": {
+        "source_sha256": "1e11d74b4739ea5bc84520bbf1575056c60f414d65a3ed25c43beb2c1f202076",
+        "target_sha256": "5d65b262dd24c5b8b8a7fea473569e248dcc0bc0503d5c5552c7c1edd0629275"
+      },
+      "ui:그 사람들은:/그 사람들은": {
+        "source_sha256": "1c8d9e91db8f82b9093113ad63b3d53e849290d93199098189aa0253c4560ef7",
+        "target_sha256": "588821bc84e35092005908b4b937a72ab9223abb04a1f42d4385a36d97effb7a"
+      },
+      "ui:그리고 이 5년을 살아 준 당신에게.:/그리고 이 5년을 살아 준 당신에게.": {
+        "source_sha256": "24cb8fd4d116c15e21b52e765062dfbae7b119d4b0a426b951581ba9f04792f3",
+        "target_sha256": "82005495385973a2f343bd67f2ec0c39db285ccbb7cd2c641cc2adfe107ddd3e"
+      },
+      "ui:기록 I:/기록 I": {
+        "source_sha256": "030f6e619f4970f57d1f17b4ee3d9968db269a8095869809ddd72d713aa496ec",
+        "target_sha256": "0581bd07334483ac47cccbfba655ee8b58611d81557657049ed4e6eaf84cd3ed"
+      },
+      "ui:기록 II · 마지막 장:/기록 II · 마지막 장": {
+        "source_sha256": "2b7b1420e28d2f428d5e36f76a82d94c7fbf1202da8450ba1bfa25271652cd69",
+        "target_sha256": "9d7b1398a51dcaf8798086a0301ac724ca2a9b7cb9d077b0d82a223bac91c098"
+      },
+      "ui:기록 III:/기록 III": {
+        "source_sha256": "188c2a2e54d6ee49141c0ccc8c04bba3b13b8849d79cb31dcbcaebdc05b448d9",
+        "target_sha256": "bcea1ce1ae76fafb52046029111d6c0161ce6a47257d0b494f049ce8491c609b"
+      },
+      "ui:기록 없음:/기록 없음": {
+        "source_sha256": "b2a91a0c69f9b73971b6ec688ed9b457cacffec3036a2b9afbc96a4de36a7725",
+        "target_sha256": "4388bf788567afc0fa8cebfcda7a7bdabbc73b24c516ea5583e25b16bbfc6d45"
+      },
+      "ui:기록된 인연 없음:/기록된 인연 없음": {
+        "source_sha256": "f13aa3e8d74b039ff45159099e55793a4f6d742a96e90c7d55e27f49302049d3",
+        "target_sha256": "3b61ea9ff6d8b3246add8645998366f14b1461d0d3d247f2a25ae16b6fc61910"
+      },
+      "ui:난이도: %s:/난이도: %s": {
+        "source_sha256": "9cf1b51e53b57f4dd1ec861dacf37879ad0f9c799b975c9c07f40ab0c10818a5",
+        "target_sha256": "bceaa5af1e600e5b0d4dd2ba97f9146f29709bb0ad67132f309721ba13839caf"
+      },
+      "ui:남겨 둔 장면들:/남겨 둔 장면들": {
+        "source_sha256": "950d67639a464fae4d5947cec05943a7e3d9f7e143ed525170e51ac5e40d19c2",
+        "target_sha256": "ebe956d8d7ee2262b69ae5b74fea44dc3dcca0ed06fabab2cf049850bd8c08df"
+      },
+      "ui:남은 것과 다음 삶:/남은 것과 다음 삶": {
+        "source_sha256": "201eb4a49959282607fdfef23b518686f54c7fd01ea84f30670e3e71ba89a233",
+        "target_sha256": "6ab58d1f4b5850863b48987045878acbd417e39e4880509abb78501a7fd15cac"
+      },
+      "ui:네 칸을 합치면 살아온 주 수가 된다.:/네 칸을 합치면 살아온 주 수가 된다.": {
+        "source_sha256": "183f6159cfc99f5440a839b81fbb74b760c7cf1723a4d38da70859bfd79396ed",
+        "target_sha256": "58ccdee9a4ae49dc3602646467ebe5dcbcf19c6b8a7df4acdef8c98e04cfac21"
+      },
+      "ui:다시 시작:/다시 시작": {
+        "source_sha256": "3474da04f5b046ec1a4808be3866c373f4263bf8cdad9c97d3e43b73a54022c5",
+        "target_sha256": "26ee8a4d3897a1de38a71fb4ef172c9f17425c891ce3d2f0f7c98fed3c69e329"
+      },
+      "ui:돈만:/돈만": {
+        "source_sha256": "623219be2c8407ef6820e9b48ba972550e72153193e1deff1adcae6a34f51171",
+        "target_sha256": "ca095cf46c010da3c08efd806fb7766d7aaf92d0b3b14fe74edc9b68252f44cc"
+      },
+      "ui:둘 다:/둘 다": {
+        "source_sha256": "3a6f737e1106b8c4c588555ff89cdb10a1d90fd0405661cef7600e4598d2b280",
+        "target_sha256": "b69ddf50d976c0b659386ce4fa8dee04d92f66032ce254ba3e36e27bfced4a8f"
+      },
+      "ui:마지막 기록:/마지막 기록": {
+        "source_sha256": "b4e920b9a15842e70f0610a84ec578ca0b9c0d650a666e0435256567191499a0",
+        "target_sha256": "3330d5e1874f4799b3b8f72549174c90d63148a799999eedfb3fb8977c7cd361"
+      },
+      "ui:마지막 연락  {when}:/마지막 연락  {when}": {
+        "source_sha256": "d6ca8e303c698e00f11d63c5cc9a7c9c92ac3d6396bf6b4af7354460d80e5efb",
+        "target_sha256": "955a3db623b90bae3fe56f9bb09a5f1f17516ca706c83f28bcda43870b403b9d"
+      },
+      "ui:마지막 장:/마지막 장": {
+        "source_sha256": "95a3b33683033dee3376e5548e6608e1cfb2d7e8c9fa706aa6159122cf09a1ff",
+        "target_sha256": "eabc631fba7ea863607af346a596699acfabb9d0514d6f4be1a4c927ff81b643"
+      },
+      "ui:마지막 장면:/마지막 장면": {
+        "source_sha256": "0df7bb156651990d245549739cede4b5c6dcc48c4503dc7e63383c52cf81a3bc",
+        "target_sha256": "d2935e0becc59e930b9c8c27d5e6034b348f1a1d19622a8e8ee69aed96477153"
+      },
+      "ui:먼저 연락한 횟수  {n}회:/먼저 연락한 횟수  {n}회": {
+        "source_sha256": "040b9b602893f004042c2dad952e2ec6d6a25ed4f5deb21bb524f08fe7987d51",
+        "target_sha256": "b1ec8df8130ab9bd4c1e730e7bf9822b7b7fc80c886d9af9bfb9f078c3266fb1"
+      },
+      "ui:메인 메뉴:/메인 메뉴": {
+        "source_sha256": "db066087dd45fbedbdb19a3d394bdc89137c6b5ef376a17d2b6f68e8a01e641c",
+        "target_sha256": "6fa939639a6ed10032d8b76c58907d050a74cdecbfe50bf2ec23e3cc596ce1d6"
+      },
+      "ui:미니게임 마스터리: :/미니게임 마스터리: ": {
+        "source_sha256": "89c00c2faa42cd44eceff832b236cd4a4ff26a0b34d03b8e5781e28725fffc51",
+        "target_sha256": "6412001d6a2144163a97fe117f81584472ff0992b39ea5e11b4b3899e4c85273"
+      },
+      "ui:사람만:/사람만": {
+        "source_sha256": "46170b64e368ace0469eb5cafd99c2d2b76fc5303eb0e750874af9aaaff2d1b4",
+        "target_sha256": "e4fbf3aa63597d772cd29163fb5d14da409b083c17353267dca3f426ac0b231a"
+      },
+      "ui:새로 열린 기록 없음:/새로 열린 기록 없음": {
+        "source_sha256": "9b50cc6f89af0467f951b5a0abfd842832fa174111b2d47b2b95bc49ad3f21b5",
+        "target_sha256": "6cd49ea6fb9bdfc8b30ee3dde4636c4537d69a9216c36b948afbc1a3c6a9a674"
+      },
+      "ui:새로 열린 기록:/새로 열린 기록": {
+        "source_sha256": "7238791906c7e9c0a15c484744b5cbb212cab7bd581285dc69705b0e6f94318d",
+        "target_sha256": "6d0030142a0a91871d11dd5fd6102cafd143d786713677e245130f1cc174984e"
+      },
+      "ui:선택의 흔적:/선택의 흔적": {
+        "source_sha256": "d9e6413c00fb7ed25d2d5a1266b03ee353a958e93d869f4da056b28ad641117c",
+        "target_sha256": "c7540f847195bfa61689979e6af07ce7b7af4790db37342ada836079c70c92f5"
+      },
+      "ui:선택한 방식: %s:/선택한 방식: %s": {
+        "source_sha256": "628a33f5077a8b34cc2b55745fb438fde023446773dbf61719e9f62dad80d0f1",
+        "target_sha256": "cab894906b86a094e5eaef6261bc2e16d9a0ead5b11bc61fa0e756813bc85f73"
+      },
+      "ui:시간의 기록:/시간의 기록": {
+        "source_sha256": "453e793fe20ba697a780586f18402da1914c13a6bc521a8cabc89dc6a0f16527",
+        "target_sha256": "16f7585fd666697e7c5507fc006a84a822168f60e891b7a9edb93d20ae515c67"
+      },
+      "ui:어느 쪽도 아님:/어느 쪽도 아님": {
+        "source_sha256": "ed64f6c37e00c474d27e97dcb2bb7513b48ab5dfd5de354d93bb791211149a67",
+        "target_sha256": "5869e71095bff8a5f6c5d263bdf929ddcf2af307a426c55610b6716e04943a26"
+      },
+      "ui:업적: %s:/업적: %s": {
+        "source_sha256": "01f2a4f03befd99549f291bae06c89e9614a629462879fac20df57caa53af751",
+        "target_sha256": "6f1176f45bda71047be5a1068d850eaf4f826635f5fba6982d875e09d30ec8ae"
+      },
+      "ui:엔딩:/엔딩": {
+        "source_sha256": "89bc0385d202e00c394f47ca59ae58a80611aea1d4d7ae8eeddc3be8fd114062",
+        "target_sha256": "805cdb26b2c5670b7f157f74eb4cc32f8765f68cc553341a0cd55c1d2e8d8545"
+      },
+      "ui:연락 원장:/연락 원장": {
+        "source_sha256": "f07a6f5b49bd92cbfb51eb7f7fb9f953c261c01472a5629f08111803bfe3209c",
+        "target_sha256": "0586bb026f128077a0571f1ee2f3084cabe473322278a2342e4b0ff68d33db6f"
+      },
+      "ui:이번 주:/이번 주": {
+        "source_sha256": "cbe50bddb16b458c51ed6e8501ea41f35da959753e6673a66a222955f4ffdc15",
+        "target_sha256": "b4435109d4063c273fbbbb40a0fec06e86073b0803504354c187ea11e3ae1893"
+      },
+      "ui:이전 저장의 {n}주는 어느 칸이었는지 되살릴 수 없다.:/이전 저장의 {n}주는 어느 칸이었는지 되살릴 수 없다.": {
+        "source_sha256": "00db9f0e10f2275974dac7a57251c371dd718dc4f4c1cf0a22cc788639beca47",
+        "target_sha256": "ebcac2c773207665fa96c7c3109c71dee63c103306f4b0af1e221553a32dac21"
+      },
+      "ui:이전:/이전": {
+        "source_sha256": "2ce8881e680938299c0f21ae2ca1914527a8a1e3342459993d5a76f5b9f85853",
+        "target_sha256": "a3df62c3c49dfe0ae3240e934a583e2d2aa719b322941b4feb7eccc505714e66"
+      },
+      "ui:장면 %d / %d:/장면 %d ~1 %d": {
+        "source_sha256": "9a7d2797d51c6fc89d7a466ef3ca86c48e3e1afe2c719a7f61e7bb8d83af97ef",
+        "target_sha256": "2d09902dd97b4e826c726848189b8c1a2961b190c0a5400dadf1410396845730"
+      },
+      "ui:장면 계속:/장면 계속": {
+        "source_sha256": "88ab1322717f2d7881c6ee5008fb28f4ae297f534e40cb648ec43582e2b9ecd7",
+        "target_sha256": "64e8b77900433bcb860c72d03b4b5a19322efd38333948db3473566648918748"
+      },
+      "ui:제작:/제작": {
+        "source_sha256": "ef790e18c7e29bfa64b486abf92073efb127cbc2134a706ca033e77dd20b3c2e",
+        "target_sha256": "5a6e13c214c08f01763a4c318519c5edf1d2c620ade98d3a01d5046cf2b14536"
+      },
+      "ui:주:/주": {
+        "source_sha256": "fd300b1ebe5f7054e78bf6255a10ea4630333a77d966d246d7447edfddd4d990",
+        "target_sha256": "5a34bca704e673f6f5eee819cabc98c700f2593a22b4c21ec3a70087d2cede63"
+      },
+      "ui:칭호: 「%s」  %s:/칭호: 「%s」  %s": {
+        "source_sha256": "1c84824da6e11b6ec38389446599febb94fd9ce7d8dd446fd92fd1f7c0fe7270",
+        "target_sha256": "e3ddd38937ea6f01a7470d9d0ed56431e6a36e09c87d01225809b2c6aa22d9a4"
+      },
+      "ui:크레딧 뒤로:/크레딧 뒤로": {
+        "source_sha256": "3209412eaac8c1dfc073bcb70c86a08cb6d0d2aa9f661de561baa608fa9b5056",
+        "target_sha256": "6d32e25377755e9e742dc9cabcf653b748f15d391d6228975fcd0b0a35c706a0"
+      },
+      "ui:크레딧으로:/크레딧으로": {
+        "source_sha256": "5bd30cfe7320e083944b3b420f31aa0adc424236794f738d5f1ecc3a8b8c2137",
+        "target_sha256": "1a8fe093d7d1a7e6e7358a8b0cd3c08c22771e82fc317154cda1e643851609a1"
+      },
+      "ui:평가 대신, 이 5년이 어디에 남았는지만 적는다.:/평가 대신, 이 5년이 어디에 남았는지만 적는다.": {
+        "source_sha256": "51fea73e5c54709c1e545eec843848f21a774dfddf14accd49b0f57355f794a6",
+        "target_sha256": "e6ea4ae62a4afc2c6b70977c2202638bc60875922093a4bd03401412b2822af4"
+      },
+      "ui:후일담:/후일담": {
+        "source_sha256": "4ca32f1d934ec6891b5ced200d73c536e41ed14c7d2dca4085ab33ba02054542",
+        "target_sha256": "8321c1ac4ec231815fbab47885da9e03b52d296bc2137015910fb5d040e6da20"
       }
     }
   },
-  "accepted_sha256": "0015daf1e2da47fab1acebf75c5b15a4d31af7f06f525a43a830a83909efa31c",
+  "accepted_sha256": "a0a4d8b0ba03c0552437a3fe03b8a0702f2e2955ba07853991630320aebf0790",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
