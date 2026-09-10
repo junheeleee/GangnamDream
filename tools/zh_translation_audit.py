@@ -8551,6 +8551,28 @@ def _untranslated_english_errors(source: str, target: str, *, catalog: bool = Fa
     return []
 
 
+def _ui_third_party_notice_numbers(lang: str, key: str, source: str, target: str):
+    """Bind the complete settings label, not a count of three notices.
+
+    Only the numeric check receives the normalized pair. All script, markup,
+    terminology and other validation still receives the original source/target.
+    A changed source/key is outside this contract, including whitespace edits.
+    """
+    if key != "ui:제3자 고지:/제3자 고지" or source != "제3자 고지":
+        return None
+    patterns = {
+        "ja": r"(?:サードパーティー|第三者)(?:ライセンス|に関する通知)",
+        "zh-CN": r"第三方(?:声明|告知|通知)",
+        "zh-TW": r"第三方(?:聲明|告知|通知)",
+    }
+    pattern = patterns.get(lang)
+    if pattern is None:
+        return None
+    if re.fullmatch(pattern, target) is None:
+        return source, target, ["source-bound third-party notice role/label mismatch"]
+    return "", "", []
+
+
 def validate_text(lang: str, key: str, source: str, target: Any) -> list[str]:
     """Validate one Korean-source Chinese target without generating content."""
     if lang not in LANGUAGES:
@@ -8574,7 +8596,13 @@ def validate_text(lang: str, key: str, source: str, target: Any) -> list[str]:
         )
     if source.count("\n\n") != target.count("\n\n"):
         errors.append("paragraph mismatch")
-    errors.extend(_numeric_errors(source, target))
+    notice_numbers = _ui_third_party_notice_numbers(lang, key, source, target)
+    if notice_numbers is None:
+        errors.extend(_numeric_errors(source, target))
+    else:
+        numeric_source, numeric_target, notice_errors = notice_numbers
+        errors.extend(notice_errors)
+        errors.extend(_numeric_errors(numeric_source, numeric_target))
     if HANGUL.search(source) and not HAN.search(target) \
             and not _allows_latin_only(source, target, catalog=catalog_context):
         errors.append("no Chinese Han glyphs in translated Korean source")

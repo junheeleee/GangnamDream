@@ -32,6 +32,53 @@ class ExchangeTests(unittest.TestCase):
     def test_valid_exact_exchange(self):
         self.assertEqual(tool.check_batch(self.inventory, self.batch, self.response), {self.leaf.id: "次の週"})
 
+    def test_settings_third_party_label_source_key_and_quantity_boundaries(self):
+        from zh_translation_audit import _ui_third_party_notice_numbers, validate_text
+        source = "제3자 고지"
+        key = "ui:제3자 고지:/제3자 고지"
+        leaf = tool.Leaf("ui", source, "runtime:static_ui", (source,), source, "ui_static_context")
+        cases = {
+            "ja": (
+                ["サードパーティーライセンス", "サードパーティーに関する通知", "第三者に関する通知"],
+                ["ライセンス", "サードパーティー", "第四者に関する通知",
+                 "サードパーティーライセンス（3件）", "3種類のサードパーティーライセンス",
+                 "サードパーティーライセンス2円", "-3件のサードパーティーライセンス"],
+            ),
+            "zh-CN": (
+                ["第三方声明", "第三方告知", "第三方通知"],
+                ["声明", "第三方", "第四方声明", "第方声明", "第三方第三方声明",
+                 "第三方声明3", "3第三方声明", "第三方声明+1", "第三方声明3项", "第三方声明3小时"],
+            ),
+            "zh-TW": (
+                ["第三方聲明", "第三方告知", "第三方通知"],
+                ["聲明", "第三方", "第四方聲明", "第方聲明", "第三方第三方聲明",
+                 "第三方聲明3", "3第三方聲明", "第三方聲明+1", "第三方聲明3項", "第三方聲明3小時"],
+            ),
+        }
+        for locale, (normals, mutants) in cases.items():
+            actual = normals[0]
+            mutants += [actual + actual, actual + "３", actual + "三", actual + " ",
+                        " " + actual, actual + "\n", actual + "%d", actual + "[b]x[/b]"]
+            for text in normals:
+                with self.subTest(locale=locale, normal=text):
+                    self.assertEqual(_ui_third_party_notice_numbers(locale, key, source, text), ("", "", []))
+                    self.assertEqual(tool.translation_errors(leaf, locale, text), [])
+                    if locale != "ja":
+                        self.assertEqual(validate_text(locale, key, source, text), [])
+            for text in mutants:
+                with self.subTest(locale=locale, mutant=text):
+                    self.assertEqual(tool.translation_errors(leaf, locale, actual), [])
+                    self.assertIn("source-bound third-party notice role/label mismatch",
+                                  tool.translation_errors(leaf, locale, text))
+            for changed_source in ("제4자 고지", source + " ", source + " 안내"):
+                off_leaf = tool.Leaf("ui", source, "runtime:static_ui", (source,), changed_source, "ui_static_context")
+                self.assertIsNone(_ui_third_party_notice_numbers(locale, key, changed_source, actual))
+                self.assertTrue(tool.translation_errors(off_leaf, locale, actual))
+            for group, owner, path in (("ui", "other", ("other",)), ("events", source, (source,))):
+                off_leaf = tool.Leaf(group, owner, "runtime:static_ui", path, source, "ui_static_context")
+                self.assertIsNone(_ui_third_party_notice_numbers(locale, off_leaf.id, source, actual))
+                self.assertTrue(tool.translation_errors(off_leaf, locale, actual))
+
     def test_catalog_japanese_numeric_contexts(self):
         for source, target in (
             ("2030 직장인", "20・30代の会社員"),
