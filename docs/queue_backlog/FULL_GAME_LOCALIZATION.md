@@ -14,8 +14,8 @@
   원문 도달·화면·자연스러움은 별도 검사한다. 실제 결말 판정 로직은 변경0이다.
 - catalog: assets/jobs/items/achievements/clues/thoughts/news 7섹션/834 leaf.
 - UI: 정적·문맥 key와 동적 pair를 합집합으로 계측한다. 기존 demo 동적 701키만
-  본편 전체 동적 분모인 것처럼 사용하지 않는다. 현재 정적/문맥 2,864와 demo
-  동적의 합집합은 3,556키, 전역 미확정 후보 329를 더한 포착 분모는 3,885키다.
+  본편 전체 동적 분모인 것처럼 사용하지 않는다. 현재 정적/문맥 2,877와 demo
+  동적의 합집합은 3,569키, 전역 미확정 후보 329를 더한 포착 분모는 3,898키다.
   JSON 계약·관계 표시 이름·독립 이름표·분기 조립문까지 확인 전에는 이 수를
   최종 전체 UI 분모라고 부르지 않는다.
 - runtime: 대상 언어 overlay가 모든 수집 필드를 실제로 읽는지, 조건별 reader,
@@ -26,10 +26,12 @@
   기본 내장 overlay는 Chapter5 reader를 지원하지만 커뮤니티 sanitizer는 별도다.
   기존 i18n skeleton 검사에서 JA/ZH reader 누락을 허용하는 경로는 full strict
   완료 근거로 쓰지 않는다. 중국어 CJK AUTO 속도 분기는 이미 정상이다.
-- 현재 수집된 번역 leaf는 17,374다(최초17,408에서 비표시 엔딩 메타34 분리).
-  그중 정적 계약 지원17,045, 소비자 미확정329를 분리한다. foreshadow6의
+- 현재 수집된 번역 leaf는 17,387다(최초17,408에서 비표시 엔딩 메타34 분리 뒤
+  관계 표시용 고유 UI키13 추가). 정적 계약 지원17,058, 소비자 미확정329를 분리한다. foreshadow6의
   builtin-overlay validator를 보강했으며 표시 완료나 외부팩 지원은 아니다. 관계 표시명
-  21위치는 이 leaf 분모 밖 미지원이다. JSON pair 미해석 138건은 진단이지
+  21위치는 별도 occurrence 증거에서14개 UI키로 연결되며 event leaf로 더하지 않는다.
+  portable 원장 상단의 source_revision/분모는 역사 스냅샷으로 보존하며 현재 수집기와 혼동하지 않는다.
+  JSON pair 미해석 138건은 진단이지
   번역문 138개가 아니다. 이 수들을 더해 허위 전체 커버리지를 만들지 않는다.
 - 엔딩 `with_daeun`, `late_call`, `instant_legend`의 언어별22 번역 leaf와
   초반 이후 8개 root의 언어별94 leaf를 수용했다. 최초357 중 비표시 메타9를
@@ -74,9 +76,10 @@
   없는 번호 안내는 실제 발신이고 loneliness의 목소리는 기억이다. 고시원 배경/
   현재 주거와 first-loss 보유자산 가드 부재는 별도 원문·소비자 확인점이지
   실제 Chapter5 재진입·인간 REJECT를 입증하지 않는다.
-- 다음 runtime 수리의 실제 소비자: `GameState.apply_relationship_effect`는 원문
-  이름을 저장하고 `MainGame:9852/18298`, `RelationshipSystem:30/50`이 그대로
-  표시한다. 저장 값을 바꾸지 않는 locale 표시 resolver가 필요하다. 또한
+- 관계 표시 수리: `GameState.apply_relationship_effect`의 원문 이름을 저장한 채
+  `RelationshipSystem.get_display_name`이 exact14만 번역한다. MainGame sidebar/VIP와
+  RelationshipSystem 종료/passive의 이름 읽기4곳을 연결했다. 현재21위치/14종과
+  resolved/unresolved를 별도 관측하며 event leaf 추가0이다. 실제 실행·수용 마감은 진행 중이다. 다음은
   `MetaProgression._localized_title`, `GameState.tendency_name/tendency_desc`,
   `_localized_route_label/_localized_profile_label/_roll_run_theme`,
   `HoldemClub._fmt`의 non-KO=EN 분기를 개별 표시 계약으로 검사한다.
