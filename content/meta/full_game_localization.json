@@ -3319,6 +3319,49 @@
       "machine_validation": "PASS",
       "rendered_review": "OPEN",
       "native_review": "OPEN"
+    },
+    {
+      "order": "ORDER-233",
+      "group": "ui",
+      "roots": [
+        "CG",
+        "CG  %d / %d",
+        "ui.archive.previous_page",
+        "ui.archive.record_fallback",
+        "ui.navigation.archive",
+        "계절의 기록",
+        "그 밤",
+        "다음",
+        "명장면",
+        "미해금",
+        "발견된 비밀  %d",
+        "비밀 기록",
+        "비밀 기록 %02d",
+        "시작의 기록",
+        "아직 드러난 비밀 기록이 없습니다.",
+        "아직 보지 못한 장면",
+        "엔딩 기록",
+        "열람 전용 · 선택은 현재 기록을 바꾸지 않음",
+        "이 장면을 본 뒤 열립니다.",
+        "장면 기록",
+        "장면 기록 %02d",
+        "지나온 장면은 남지만, 다시 보는 선택은 현재를 바꾸지 않습니다.",
+        "첫 키스",
+        "탭 이동",
+        "특별한 이야기",
+        "페이지",
+        "회상  %d / %d"
+      ],
+      "source_leaves": 27,
+      "target_leaves_by_locale": {
+        "ja": 27,
+        "zh-CN": 27,
+        "zh-TW": 27
+      },
+      "source_review": "Direct Korean review of 27 gallery UI keys across 20 judgment units per locale: existing Japanese27 reviewed; Simplified and Traditional Chinese27 each independently authored. Correct Japanese scene-label and undiscovered-secret polarity; preserve context IDs, unlock/read-only meanings, printf order and zero padding. Unselected UI raw bytes restored after inverse removal. No replay/save operations, runtime edits, native or rendered observation.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN"
     }
   ],
   "accepted": {
@@ -54002,6 +54045,114 @@
       "ui:호환되지 않거나 손상된 기록:/호환되지 않거나 손상된 기록": {
         "source_sha256": "7a4a60b578e9b6511f8ff17b521d44a67ebc3a04d7387ae2f93f38b6e7922480",
         "target_sha256": "91e9d715cb66222d29ab218fd79eb154a98271ccbe3b31c44a43419e10e82e90"
+      },
+      "ui:CG  %d / %d:/CG  %d ~1 %d": {
+        "source_sha256": "c43c79a9e8f7aaa8d121be26f75d17cf81090062c26f2e952d054567f6969b0c",
+        "target_sha256": "b44168ebe8932ec462f46534ec9ae1ae78793516d3e71ae64a4f110d99268289"
+      },
+      "ui:CG:/CG": {
+        "source_sha256": "bf2a60ec78ad3d49ac614d70cb6f5bc4e8af5a4f43932921b97d99b1c07421b5",
+        "target_sha256": "ac3ed2bd3d9cee6cc489227f5afc00cd694722e4f086e0573444bfd924427e35"
+      },
+      "ui:ui.archive.previous_page:/ui.archive.previous_page": {
+        "source_sha256": "bc8fc5cb880cc369c9b947956fa4290a1c746b88178c39ed6e6ff0ecc43d4e1c",
+        "target_sha256": "22ac720c2629e9fca87736af674f123b167f65c93c8b6a29721e299e781b47aa"
+      },
+      "ui:ui.archive.record_fallback:/ui.archive.record_fallback": {
+        "source_sha256": "d1f45d906b15ec3a7803f9be4da0b3c585e502870e570458798af171acf12e88",
+        "target_sha256": "a0f71499b66ac7a59bbd097de25f19e3b8e01b2b723261cb4d38de125ba478e1"
+      },
+      "ui:ui.navigation.archive:/ui.navigation.archive": {
+        "source_sha256": "7187ebd50f09e617b5cfb3a8a939a279f80e8610eac200346c00485bd89fbecf",
+        "target_sha256": "da2e20bf80509014ecb5b06931384fcb203c5bb6f01a0ef62a1f82feadbb511e"
+      },
+      "ui:계절의 기록:/계절의 기록": {
+        "source_sha256": "6cf3ca9bff56c3dd2ef1feb0a5e80d58e29b90d4e53f1dbb543aef9739dea71f",
+        "target_sha256": "cbb4113cdeec4563497e13f0582457bc8ab9735325d5929a243af0e5a76b2707"
+      },
+      "ui:그 밤:/그 밤": {
+        "source_sha256": "1d14caa0899ec352f07b80da2755155c6f8a44b25d3c60484c6dabb602f530b3",
+        "target_sha256": "6982f776304e3c8417618a7a71c8d0a6e1a8472b9de17c76b1af27589872096d"
+      },
+      "ui:다음:/다음": {
+        "source_sha256": "a0c1edd93402d4bdbc029fc95ae2fb3047a353e1007442601fa7a3363e35dc03",
+        "target_sha256": "c300f8b33d202fb7410dc37e8f60fb7605a56f473202d1d3c932bc387f6012f6"
+      },
+      "ui:명장면:/명장면": {
+        "source_sha256": "b9f26781e83f43a2f520f8c77e579a69b1e8c1d26698bffcaa23f2c07fbb0cbb",
+        "target_sha256": "94f49615ac96256dc884a50f1e9e735e66c4f90acc6fa5420cc896534cc68da7"
+      },
+      "ui:미해금:/미해금": {
+        "source_sha256": "b63f828a9f1e3b7a79cb2f191d1b0ca72d35e6e6616bb3a9de7f38196fa43554",
+        "target_sha256": "8c47c0f9d334b284b19c23b201094ab4281f689724f2e041d4d8ff3c486badb2"
+      },
+      "ui:발견된 비밀  %d:/발견된 비밀  %d": {
+        "source_sha256": "5bfd9d7baee81f4c22f394ba7964a9c3c6ab865f0828956ceca1dab9ab6701b3",
+        "target_sha256": "8ff4342f06a04c8ac7dbc2d5a7f904531e877ddeccb5430819062c801a07c9be"
+      },
+      "ui:비밀 기록 %02d:/비밀 기록 %02d": {
+        "source_sha256": "a4255f83932a98ff12b08b81a887961636c8470a9d371e0306ceabdd2078f4ca",
+        "target_sha256": "608c2327025c359d77ff7098c04b3403e0966b4a587301ab6b7095ea3037b193"
+      },
+      "ui:비밀 기록:/비밀 기록": {
+        "source_sha256": "15f8f6b728e5eabd87a6afb2d3b97c063fa45fddd1ffedf55b2c33d19e283a03",
+        "target_sha256": "a542a62ea988f615c053f987cf96d51546333d1e85018c40b3b962f0c8f09dc6"
+      },
+      "ui:시작의 기록:/시작의 기록": {
+        "source_sha256": "5456dae929119c0b26502be7ad67879751446a54c56a55a38c84bd892d74d283",
+        "target_sha256": "bcb96f4bdb10b5b307702a970d07e1e30a4a68c9e3ba5e5e7e7b2128723edd81"
+      },
+      "ui:아직 드러난 비밀 기록이 없습니다.:/아직 드러난 비밀 기록이 없습니다.": {
+        "source_sha256": "ccdbfa53faf168782862fdf151b7be9e411787a2f8c8671e007a8fb11c90ce14",
+        "target_sha256": "90b1bdfe030e4be2e8a7925b3815dc1e0302a56bb470f9be1d672c4287df6d4c"
+      },
+      "ui:아직 보지 못한 장면:/아직 보지 못한 장면": {
+        "source_sha256": "569e277b66a48ae2acd7cffe511deb4a9a585d75c9137a63b4e471c9b6454636",
+        "target_sha256": "599630802c68785670455a9f5b5b06832a8ceeb8da08e7817ee37753605958ce"
+      },
+      "ui:엔딩 기록:/엔딩 기록": {
+        "source_sha256": "2628ef7c038f713bd043eed5bd9fc3d9c879e43e38a765aecb94ddbe02ad25ed",
+        "target_sha256": "368b4ac0309fec92395396753ee97523a8e20a96947d87ad52cf06ce56916bf9"
+      },
+      "ui:열람 전용 · 선택은 현재 기록을 바꾸지 않음:/열람 전용 · 선택은 현재 기록을 바꾸지 않음": {
+        "source_sha256": "50b133a0de06b7ddfa8514dab77deaf96f3ab697c05c4cc2ff1b1c2ff0db8e18",
+        "target_sha256": "18308701308a397e6b6c945ead7ac58f9e5057578c48784d080b4d2cf901ac32"
+      },
+      "ui:이 장면을 본 뒤 열립니다.:/이 장면을 본 뒤 열립니다.": {
+        "source_sha256": "2acb7b2f25906d4c754ea0d2a481c07caa3d92e220f453fe36044b6ca261659c",
+        "target_sha256": "fb68e06f16005227d4e393c9281bfb16f38f5b92082afc20d38f9abffd4bad90"
+      },
+      "ui:장면 기록 %02d:/장면 기록 %02d": {
+        "source_sha256": "545696da509f511ff7fa34f766b518c29bb2557edd09cfcf16db2174063b7fe4",
+        "target_sha256": "d7da68251f042e733e076102e70da1124b23f167f8663ecabfe554afc6d4b394"
+      },
+      "ui:장면 기록:/장면 기록": {
+        "source_sha256": "b1c56910abd2ae4235e2144a7ea051491de5d2eafabcbf1bbcd4f07e18a95263",
+        "target_sha256": "d2cbe73af90115f9fe61b08ef6f0231381e230aaa74b2913d6ea24ac1a789b4d"
+      },
+      "ui:지나온 장면은 남지만, 다시 보는 선택은 현재를 바꾸지 않습니다.:/지나온 장면은 남지만, 다시 보는 선택은 현재를 바꾸지 않습니다.": {
+        "source_sha256": "1d624adf906a85fd867efabb8980e9bf91dbb2f245f35a2449c071c1aa8e1162",
+        "target_sha256": "3b6b5136830e49537c0746af8031f50915195be750b85c3975b2a59770b2a642"
+      },
+      "ui:첫 키스:/첫 키스": {
+        "source_sha256": "647eb2131f56d4ea7d4ef27ffba6f7eed2c5edfdb1d5d55b0270bbaec380b75e",
+        "target_sha256": "b5ae2982d753f17aa878f21172edacf9cf186ac0cd8c32183ecebe4202eff706"
+      },
+      "ui:탭 이동:/탭 이동": {
+        "source_sha256": "5df6a359ddcecbf3152a67b801f5a269a7a81172b072cba643219218edef1643",
+        "target_sha256": "265da81c599c8aca4f797a6ef1e0bae10dd14a7bdf0fdbb419246bff3da9e915"
+      },
+      "ui:특별한 이야기:/특별한 이야기": {
+        "source_sha256": "10ccd7651f1ca4456c3661246c466659a8aba6f47592c6a89d98f120738b28cf",
+        "target_sha256": "24855f69fe3749f7700d1ba56702fd4e46057ec3b1d258dcb55640ba4897e0b2"
+      },
+      "ui:페이지:/페이지": {
+        "source_sha256": "c73ded3ed6beb5e2d5549c5e174f0249c1d2f954fc77ef5111541b25218fc1d1",
+        "target_sha256": "55281357a0d7551ea08012dbdadb3ba9fcdc1bd7ba5e932586ef46827d92719f"
+      },
+      "ui:회상  %d / %d:/회상  %d ~1 %d": {
+        "source_sha256": "b2f377e80f108a2e0ec7488ac18b1a84d2dd63e768febaf717a322566fdc9299",
+        "target_sha256": "cc1020bf8c0ecd51025ea7dc763cc2f6bbe20e7069cc467a66f23df7141220ab"
       }
     },
     "zh-CN": {
@@ -104692,6 +104843,114 @@
       "ui:호환되지 않거나 손상된 기록:/호환되지 않거나 손상된 기록": {
         "source_sha256": "7a4a60b578e9b6511f8ff17b521d44a67ebc3a04d7387ae2f93f38b6e7922480",
         "target_sha256": "16ec4917848f2566f62cf40e92a1dfed8fd22a2218f9ab95db3bc839e8e65c48"
+      },
+      "ui:CG  %d / %d:/CG  %d ~1 %d": {
+        "source_sha256": "c43c79a9e8f7aaa8d121be26f75d17cf81090062c26f2e952d054567f6969b0c",
+        "target_sha256": "b44168ebe8932ec462f46534ec9ae1ae78793516d3e71ae64a4f110d99268289"
+      },
+      "ui:CG:/CG": {
+        "source_sha256": "bf2a60ec78ad3d49ac614d70cb6f5bc4e8af5a4f43932921b97d99b1c07421b5",
+        "target_sha256": "ac3ed2bd3d9cee6cc489227f5afc00cd694722e4f086e0573444bfd924427e35"
+      },
+      "ui:ui.archive.previous_page:/ui.archive.previous_page": {
+        "source_sha256": "bc8fc5cb880cc369c9b947956fa4290a1c746b88178c39ed6e6ff0ecc43d4e1c",
+        "target_sha256": "4c878afc9f09a404c54597184aefe5e5ee247088f87fe77358d090f9af703c1c"
+      },
+      "ui:ui.archive.record_fallback:/ui.archive.record_fallback": {
+        "source_sha256": "d1f45d906b15ec3a7803f9be4da0b3c585e502870e570458798af171acf12e88",
+        "target_sha256": "8f81b435823881aebe5cf04cb2f108df1ca3a05e1f28ed259a0a8c6f09110985"
+      },
+      "ui:ui.navigation.archive:/ui.navigation.archive": {
+        "source_sha256": "7187ebd50f09e617b5cfb3a8a939a279f80e8610eac200346c00485bd89fbecf",
+        "target_sha256": "8f81b435823881aebe5cf04cb2f108df1ca3a05e1f28ed259a0a8c6f09110985"
+      },
+      "ui:계절의 기록:/계절의 기록": {
+        "source_sha256": "6cf3ca9bff56c3dd2ef1feb0a5e80d58e29b90d4e53f1dbb543aef9739dea71f",
+        "target_sha256": "ea6baf46f45ea11e03f4b676eff82e00c1791a82267186afd4a4ab4ae2a28a94"
+      },
+      "ui:그 밤:/그 밤": {
+        "source_sha256": "1d14caa0899ec352f07b80da2755155c6f8a44b25d3c60484c6dabb602f530b3",
+        "target_sha256": "f188ca34743b6bb3a443fc532caf46aba5190e1f0d3f5afaca4e5dc1bbc866ca"
+      },
+      "ui:다음:/다음": {
+        "source_sha256": "a0c1edd93402d4bdbc029fc95ae2fb3047a353e1007442601fa7a3363e35dc03",
+        "target_sha256": "1bcb0ae2a77ea8703ad2b75cd71bf92b3be182cdc2009fbe51dbae63f03b9906"
+      },
+      "ui:명장면:/명장면": {
+        "source_sha256": "b9f26781e83f43a2f520f8c77e579a69b1e8c1d26698bffcaa23f2c07fbb0cbb",
+        "target_sha256": "8b8c385beadae265aa6ad1ab221838b0967cde346044f8340a29bf3299311e21"
+      },
+      "ui:미해금:/미해금": {
+        "source_sha256": "b63f828a9f1e3b7a79cb2f191d1b0ca72d35e6e6616bb3a9de7f38196fa43554",
+        "target_sha256": "cbf0ce410b0b7d6ba01dbd91b8ae6d35b18ec202f310472053b476df467c43eb"
+      },
+      "ui:발견된 비밀  %d:/발견된 비밀  %d": {
+        "source_sha256": "5bfd9d7baee81f4c22f394ba7964a9c3c6ab865f0828956ceca1dab9ab6701b3",
+        "target_sha256": "b8384beaccc585d14af158257ab5ff7f07619617ad4f1b40a6300c94a81a114c"
+      },
+      "ui:비밀 기록 %02d:/비밀 기록 %02d": {
+        "source_sha256": "a4255f83932a98ff12b08b81a887961636c8470a9d371e0306ceabdd2078f4ca",
+        "target_sha256": "79a6f1ab1bbad701163179fd62d4f9fe736171a2f5367e907961e8cb6092c27f"
+      },
+      "ui:비밀 기록:/비밀 기록": {
+        "source_sha256": "15f8f6b728e5eabd87a6afb2d3b97c063fa45fddd1ffedf55b2c33d19e283a03",
+        "target_sha256": "8c4ddf609052b330291f6ddddd8aa03048f6b45c465c30c009877f188dc2726c"
+      },
+      "ui:시작의 기록:/시작의 기록": {
+        "source_sha256": "5456dae929119c0b26502be7ad67879751446a54c56a55a38c84bd892d74d283",
+        "target_sha256": "0e67178a1428a997860eb96c31cda858fc602c73a636efa9c102845c3e08d8d0"
+      },
+      "ui:아직 드러난 비밀 기록이 없습니다.:/아직 드러난 비밀 기록이 없습니다.": {
+        "source_sha256": "ccdbfa53faf168782862fdf151b7be9e411787a2f8c8671e007a8fb11c90ce14",
+        "target_sha256": "612953d8117310c3a70526cab4f97112b7ed96b98dc415a1df0a9e4deac07aca"
+      },
+      "ui:아직 보지 못한 장면:/아직 보지 못한 장면": {
+        "source_sha256": "569e277b66a48ae2acd7cffe511deb4a9a585d75c9137a63b4e471c9b6454636",
+        "target_sha256": "426cf0dcbbf6fc6178aa8c653f07062f5534316875028d708bae97ad315c1211"
+      },
+      "ui:엔딩 기록:/엔딩 기록": {
+        "source_sha256": "2628ef7c038f713bd043eed5bd9fc3d9c879e43e38a765aecb94ddbe02ad25ed",
+        "target_sha256": "323b8ff4c27e16ce812cf0b0784595abe65b72b50a41521c94ae877759237da0"
+      },
+      "ui:열람 전용 · 선택은 현재 기록을 바꾸지 않음:/열람 전용 · 선택은 현재 기록을 바꾸지 않음": {
+        "source_sha256": "50b133a0de06b7ddfa8514dab77deaf96f3ab697c05c4cc2ff1b1c2ff0db8e18",
+        "target_sha256": "f9bfc1473b7e6aadbcd1fe91982d8c207c62c02b2df6b5b20cc298b3be46c253"
+      },
+      "ui:이 장면을 본 뒤 열립니다.:/이 장면을 본 뒤 열립니다.": {
+        "source_sha256": "2acb7b2f25906d4c754ea0d2a481c07caa3d92e220f453fe36044b6ca261659c",
+        "target_sha256": "a0daa6a3ca677e71745225c1983ec540ca4b478380d143d2ff47b9a12faa37e3"
+      },
+      "ui:장면 기록 %02d:/장면 기록 %02d": {
+        "source_sha256": "545696da509f511ff7fa34f766b518c29bb2557edd09cfcf16db2174063b7fe4",
+        "target_sha256": "1d99830bb8de97e16907e69306dd33efc0b60031dc9abafae33f12652592791e"
+      },
+      "ui:장면 기록:/장면 기록": {
+        "source_sha256": "b1c56910abd2ae4235e2144a7ea051491de5d2eafabcbf1bbcd4f07e18a95263",
+        "target_sha256": "93913529c2243541a4bf7d176353867e6c31622817eb60b39160df5a39af5f94"
+      },
+      "ui:지나온 장면은 남지만, 다시 보는 선택은 현재를 바꾸지 않습니다.:/지나온 장면은 남지만, 다시 보는 선택은 현재를 바꾸지 않습니다.": {
+        "source_sha256": "1d624adf906a85fd867efabb8980e9bf91dbb2f245f35a2449c071c1aa8e1162",
+        "target_sha256": "8ad5311a2af7296edaba39892826692e040069d6dfda4e929ffbc312bc3f34e8"
+      },
+      "ui:첫 키스:/첫 키스": {
+        "source_sha256": "647eb2131f56d4ea7d4ef27ffba6f7eed2c5edfdb1d5d55b0270bbaec380b75e",
+        "target_sha256": "facadee0d8967aca24c9674a68f6857fdd5c993fb174c3858b97a429ef9b589c"
+      },
+      "ui:탭 이동:/탭 이동": {
+        "source_sha256": "5df6a359ddcecbf3152a67b801f5a269a7a81172b072cba643219218edef1643",
+        "target_sha256": "85f34ad536e13277fc4082f2f54ef96a8bec9befae284ef455773d34982f4a41"
+      },
+      "ui:특별한 이야기:/특별한 이야기": {
+        "source_sha256": "10ccd7651f1ca4456c3661246c466659a8aba6f47592c6a89d98f120738b28cf",
+        "target_sha256": "d91bad17efab280909386184106e61bd08981555f083f90746c23f8fbcaeecc5"
+      },
+      "ui:페이지:/페이지": {
+        "source_sha256": "c73ded3ed6beb5e2d5549c5e174f0249c1d2f954fc77ef5111541b25218fc1d1",
+        "target_sha256": "ecd72c257a72f24bb78e2962093603f6929c88a928cbe9ed36c4d2755dfb9894"
+      },
+      "ui:회상  %d / %d:/회상  %d ~1 %d": {
+        "source_sha256": "b2f377e80f108a2e0ec7488ac18b1a84d2dd63e768febaf717a322566fdc9299",
+        "target_sha256": "da23624413918077ebb6950e447d924fb0eef8bf91ff5931db8c6e0838019e89"
       }
     },
     "zh-TW": {
@@ -155382,10 +155641,118 @@
       "ui:호환되지 않거나 손상된 기록:/호환되지 않거나 손상된 기록": {
         "source_sha256": "7a4a60b578e9b6511f8ff17b521d44a67ebc3a04d7387ae2f93f38b6e7922480",
         "target_sha256": "bc6f7d1751e4a631dbe48391e44509024d658fbd1972c642b7cea985cad1da4f"
+      },
+      "ui:CG  %d / %d:/CG  %d ~1 %d": {
+        "source_sha256": "c43c79a9e8f7aaa8d121be26f75d17cf81090062c26f2e952d054567f6969b0c",
+        "target_sha256": "b44168ebe8932ec462f46534ec9ae1ae78793516d3e71ae64a4f110d99268289"
+      },
+      "ui:CG:/CG": {
+        "source_sha256": "bf2a60ec78ad3d49ac614d70cb6f5bc4e8af5a4f43932921b97d99b1c07421b5",
+        "target_sha256": "ac3ed2bd3d9cee6cc489227f5afc00cd694722e4f086e0573444bfd924427e35"
+      },
+      "ui:ui.archive.previous_page:/ui.archive.previous_page": {
+        "source_sha256": "bc8fc5cb880cc369c9b947956fa4290a1c746b88178c39ed6e6ff0ecc43d4e1c",
+        "target_sha256": "a3df62c3c49dfe0ae3240e934a583e2d2aa719b322941b4feb7eccc505714e66"
+      },
+      "ui:ui.archive.record_fallback:/ui.archive.record_fallback": {
+        "source_sha256": "d1f45d906b15ec3a7803f9be4da0b3c585e502870e570458798af171acf12e88",
+        "target_sha256": "dc697225a8ba0e742fd1844d0c19c62df47b0bba138588dae079c75bc81cc1ab"
+      },
+      "ui:ui.navigation.archive:/ui.navigation.archive": {
+        "source_sha256": "7187ebd50f09e617b5cfb3a8a939a279f80e8610eac200346c00485bd89fbecf",
+        "target_sha256": "dc697225a8ba0e742fd1844d0c19c62df47b0bba138588dae079c75bc81cc1ab"
+      },
+      "ui:계절의 기록:/계절의 기록": {
+        "source_sha256": "6cf3ca9bff56c3dd2ef1feb0a5e80d58e29b90d4e53f1dbb543aef9739dea71f",
+        "target_sha256": "e7ef83a5b945dd8cde98ecd6d05b5d89e0f4ac7106f38c70f57582edcb65ea5b"
+      },
+      "ui:그 밤:/그 밤": {
+        "source_sha256": "1d14caa0899ec352f07b80da2755155c6f8a44b25d3c60484c6dabb602f530b3",
+        "target_sha256": "f188ca34743b6bb3a443fc532caf46aba5190e1f0d3f5afaca4e5dc1bbc866ca"
+      },
+      "ui:다음:/다음": {
+        "source_sha256": "a0c1edd93402d4bdbc029fc95ae2fb3047a353e1007442601fa7a3363e35dc03",
+        "target_sha256": "52d8336a244a5aa39038afb9cafd24ed0139d748b192864401dcb2c1ccc24403"
+      },
+      "ui:명장면:/명장면": {
+        "source_sha256": "b9f26781e83f43a2f520f8c77e579a69b1e8c1d26698bffcaa23f2c07fbb0cbb",
+        "target_sha256": "2013bddbadb012cfb1358c4cd5c23437dca13b6080848ffb4faa84852118139f"
+      },
+      "ui:미해금:/미해금": {
+        "source_sha256": "b63f828a9f1e3b7a79cb2f191d1b0ca72d35e6e6616bb3a9de7f38196fa43554",
+        "target_sha256": "7219c6e86b6fc0848b7f9cc2f02a113ca259b21b10257fdd838c7df8ebfe424b"
+      },
+      "ui:발견된 비밀  %d:/발견된 비밀  %d": {
+        "source_sha256": "5bfd9d7baee81f4c22f394ba7964a9c3c6ab865f0828956ceca1dab9ab6701b3",
+        "target_sha256": "ddd6c8064a84c5131619b0195513b58dfafcd7d60ed1f79b80fdc042e06b248f"
+      },
+      "ui:비밀 기록 %02d:/비밀 기록 %02d": {
+        "source_sha256": "a4255f83932a98ff12b08b81a887961636c8470a9d371e0306ceabdd2078f4ca",
+        "target_sha256": "c587ef76be425f0cbf68fdba4584ec275b45132c2189acb9a07b8e486668e20f"
+      },
+      "ui:비밀 기록:/비밀 기록": {
+        "source_sha256": "15f8f6b728e5eabd87a6afb2d3b97c063fa45fddd1ffedf55b2c33d19e283a03",
+        "target_sha256": "576fcea004f8ae28a38839e028802b5e8cd9ea14e4a44b36ebadcddff2fbeed5"
+      },
+      "ui:시작의 기록:/시작의 기록": {
+        "source_sha256": "5456dae929119c0b26502be7ad67879751446a54c56a55a38c84bd892d74d283",
+        "target_sha256": "704277c1cab78c66bb75d6d30052cfbf207a9536e459ddbdbf8d75c5d91c2754"
+      },
+      "ui:아직 드러난 비밀 기록이 없습니다.:/아직 드러난 비밀 기록이 없습니다.": {
+        "source_sha256": "ccdbfa53faf168782862fdf151b7be9e411787a2f8c8671e007a8fb11c90ce14",
+        "target_sha256": "03871499106446393b05e93d77302d3466ce6c6838e4cf1df026d7be395498ee"
+      },
+      "ui:아직 보지 못한 장면:/아직 보지 못한 장면": {
+        "source_sha256": "569e277b66a48ae2acd7cffe511deb4a9a585d75c9137a63b4e471c9b6454636",
+        "target_sha256": "a34b666709f4bb16a2db56eea62f27ace28279de2f713f55c4e3781d710bf057"
+      },
+      "ui:엔딩 기록:/엔딩 기록": {
+        "source_sha256": "2628ef7c038f713bd043eed5bd9fc3d9c879e43e38a765aecb94ddbe02ad25ed",
+        "target_sha256": "f0a8a5fb1b66fb2d37554e8c6aa62ce5c8915f8eef4644ec24be1ea2955758ba"
+      },
+      "ui:열람 전용 · 선택은 현재 기록을 바꾸지 않음:/열람 전용 · 선택은 현재 기록을 바꾸지 않음": {
+        "source_sha256": "50b133a0de06b7ddfa8514dab77deaf96f3ab697c05c4cc2ff1b1c2ff0db8e18",
+        "target_sha256": "32129b568f6445a8bdec894026d048f57e38e78a23315137ba8f5708e2372871"
+      },
+      "ui:이 장면을 본 뒤 열립니다.:/이 장면을 본 뒤 열립니다.": {
+        "source_sha256": "2acb7b2f25906d4c754ea0d2a481c07caa3d92e220f453fe36044b6ca261659c",
+        "target_sha256": "31484199cd54fedd3558080a05f53945badd50a71bcec62a45d7c5b71e2cfa6b"
+      },
+      "ui:장면 기록 %02d:/장면 기록 %02d": {
+        "source_sha256": "545696da509f511ff7fa34f766b518c29bb2557edd09cfcf16db2174063b7fe4",
+        "target_sha256": "190e3cd836864e5fdb3dd50ab220badd6b771a3bfd70f3a138aca2901e15b97a"
+      },
+      "ui:장면 기록:/장면 기록": {
+        "source_sha256": "b1c56910abd2ae4235e2144a7ea051491de5d2eafabcbf1bbcd4f07e18a95263",
+        "target_sha256": "7686343bc0bdbdd5b74ecf9890f39fab4280ca9e7b72204351312b91e4f9af9c"
+      },
+      "ui:지나온 장면은 남지만, 다시 보는 선택은 현재를 바꾸지 않습니다.:/지나온 장면은 남지만, 다시 보는 선택은 현재를 바꾸지 않습니다.": {
+        "source_sha256": "1d624adf906a85fd867efabb8980e9bf91dbb2f245f35a2449c071c1aa8e1162",
+        "target_sha256": "b4ce7bddda48b7ec67d7f74398aaef73aa157d593e2edb0d6250f22b393493cf"
+      },
+      "ui:첫 키스:/첫 키스": {
+        "source_sha256": "647eb2131f56d4ea7d4ef27ffba6f7eed2c5edfdb1d5d55b0270bbaec380b75e",
+        "target_sha256": "facadee0d8967aca24c9674a68f6857fdd5c993fb174c3858b97a429ef9b589c"
+      },
+      "ui:탭 이동:/탭 이동": {
+        "source_sha256": "5df6a359ddcecbf3152a67b801f5a269a7a81172b072cba643219218edef1643",
+        "target_sha256": "b5f406aaea3ba339c9431c634f05e91c14e5342fa83493843e2346ef35d2db61"
+      },
+      "ui:특별한 이야기:/특별한 이야기": {
+        "source_sha256": "10ccd7651f1ca4456c3661246c466659a8aba6f47592c6a89d98f120738b28cf",
+        "target_sha256": "c056584c3be151f4bc6af2528e9d8ba5e724adf8230df8a062238a770453d7e0"
+      },
+      "ui:페이지:/페이지": {
+        "source_sha256": "c73ded3ed6beb5e2d5549c5e174f0249c1d2f954fc77ef5111541b25218fc1d1",
+        "target_sha256": "9fde6aa191180089da58203e71b07b351f72fb9fb1eb94f49a7ab15aa95deffe"
+      },
+      "ui:회상  %d / %d:/회상  %d ~1 %d": {
+        "source_sha256": "b2f377e80f108a2e0ec7488ac18b1a84d2dd63e768febaf717a322566fdc9299",
+        "target_sha256": "cc1020bf8c0ecd51025ea7dc763cc2f6bbe20e7069cc467a66f23df7141220ab"
       }
     }
   },
-  "accepted_sha256": "a502f791ff2a7ad9b2cc6647ef5f76850f707c8ec5078638d2e0f88a0be273dc",
+  "accepted_sha256": "7c4e836471752ac58c13c279abac8d390ce66e679a9449a1a458c15fbd61f331",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {

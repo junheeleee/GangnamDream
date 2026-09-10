@@ -41,9 +41,11 @@
   leaf/locale와 데이트·계절36사건209, 가족·직장·친구50사건380 및 남은 관계15종94
   leaf/locale, 생활·월세·첫 월급25종185 leaf/locale와
   주거·건강25종176 leaf/locale와 직장·구직25종194 leaf/locale와 생활비25종186 leaf/locale와 가족25종172 leaf/locale와 생활 전환25종178 leaf/locale와 생활·숨은 사건25종198 leaf/locale와 회상·첫 생활25종158 leaf/locale와 후반 이정표·갈림길25종189 leaf/locale와 창업·크리에이터·회복20종146 leaf/locale와 가족·일상15종104 leaf/locale와 소비·독립 생활15종104 leaf/locale와 관계·투자 후속33종200 leaf/locale와 마지막 질주·선택의 대가36종214 leaf/locale와 투자·인연 후속32종194 leaf/locale와 판단의 비용·작은 회신25종148 leaf/locale와 관계의 다음 말·책임20종120 leaf/locale와 투자·사람 후속32종192 leaf/locale와 가족·회복·관계40종238 leaf/locale와 절제·신뢰·생활43종254 leaf/locale와 거절·재기·연락45종268 leaf/locale와 일·신뢰·되돌림43종258 leaf/locale와 생활 인연·마지막 전략19종114 leaf/locale와 어머니·일·살림20종116 leaf/locale와 친구·직장·살림17종92 leaf/locale와 아버지·관계·목표15종90 leaf/locale와 현수·가족·건강·목표41종246 leaf/locale와 직장·투자·이별40종240 leaf/locale와 소비·습관·도박·인연42종252 leaf/locale와 비교·돌봄·관계·재기40종240 leaf/locale와 도움·경계·가족·인맥16종96 leaf/locale와 투자·직장·불안·자기기준40종274 leaf/locale와 투자 연쇄·한국 생활38종276 leaf/locale와 계절·동네·취미39종242 leaf/locale와 도시 휴식·도박·우정39종238 leaf/locale와 카페·만남·SNS37종220 leaf/locale와 나비효과·친절의 연쇄24종144 leaf/locale와 생활 선택·부채·직장24종169 leaf/locale와 선택 후속·미응답 약속18종114 leaf/locale와 직장·전문화19종126 leaf/locale와 선택 회수·목표 재고23종177 leaf/locale와 인물의 다음 삶19종124 leaf/locale와 초기 인연·투자·카지노19종135 leaf/locale와 첫 생활·인연24종197 leaf/locale와 연말·부모·회복20종154 leaf/locale와 중반 생활20종169 leaf/locale와 후반 이정표·NG+22종197 leaf/locale와 이스터에그·초기 코어20종116 leaf/locale와 초기 코어22종140 leaf/locale까지 총37,938번역이다
-  (언어별 엔딩234+사건11,578+catalog834). 별도 중국어 UI4와 기록 불러오기 UI24키×3을 더한 수용은
-  총38,014(JA12,670·CN/TW각12,672)이며 전체 UI 완료가 아니다. 새 UI72는 기존JA24 검수·2정밀화와
-  CN/TW 직접 신규48이다. 슬롯·호환·삭제 확인의 의미와 기존 UI 원형을 보존했다. catalog 신규 작성2,485·
+  (언어별 엔딩234+사건11,578+catalog834). 별도 중국어 UI4와 기록 불러오기 UI24키×3,
+  갤러리20단위·UI27키×3을 더한 수용은 총38,095(JA12,697·CN/TW각12,699)이며 전체 UI 완료가 아니다.
+  저장 UI72는 기존JA24 검수·2정밀화와 CN/TW 신규48, 갤러리 UI81은 기존JA27 검수·3정밀화와
+  CN/TW 직접 신규54다. 갤러리의 음식 오역·빈 상태 부정 반전, TW 지역 자형4를 정밀화했고
+  슬롯·호환·삭제 확인·열람/해금 의미와 기존 UI 원형을 보존했다. catalog 신규 작성2,485·
   기존 JA 누락 수리1·기존 유지16을 구분한다. 엔딩35종과 catalog7섹션은 채웠지만
   보호·author-only 원고와 UI·표시 소비자 검증은 아직 남는다. M07~M24 정적 연결은 해당 기간 모든 무작위
   사건·UI나 실플레이 전량의 번역 완료를 뜻하지 않는다. 원어민·화면·전체판은 OPEN.
