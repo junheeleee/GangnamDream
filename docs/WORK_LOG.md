@@ -154,32 +154,6 @@
   본편 HOLD·native/render OPEN. 다음22 원문 독립조사 완료, 번역은 아직0.
 - 기존 현지화/판정 정본 유지, 이번 선택·파일·마감 순서는 일회성. 과거 이력 이동0.
 
-## 2026-09-10 (Codex — ORDER-229 후반·NG+22종 번역)
-
-- JA/CN/TW 각197 KO 직접 저작·비저자 전량 대조, 정밀화10 뒤591 수용.
-  누적37,174(JA12,390/CN·TW12,392)/b89/meta9, 비보호 사건 잔여42종256문구/언어.
-- 실제 수량·통화 오탐만 exact source-bound 수리. 첫 자연형2·이중부정2 실패 보존,
-  고정181(정상71/거부71/OFF39, 고유150)과 기존245 self 원형을 유지했다.
-  전량 수용 L1 오류0/724입력, 명시12 PASS/729입력·self246 전후 exact.
-- 제품18845f2d/tree7e0375e3, 독립 Plato work_unit229 한정 GO/필수0.
-  [결과·선언 원형](queue_archive/ORDER-229_L1_L2_RESULTS.md). 공개 데모·인간 원장 보존,
-  본편 HOLD·native/render OPEN. ZH 정적 font blocked는 별도 표적 수리 대상이다.
-- WORK 말미 과거절1411B를 history에 raw 이동(본문1410+앞LF1), 역복원 exact.
-  다음 이스터에그/초기 코어20종116문구는 원문/사양 준비만 완료, 수용량에 미포함.
-  번역·호칭·판정 규범은 기존 정본 유지, 이번 파일/선택/마감 순서는 일회성이다.
-
-## 2026-09-10 (Codex — ORDER-228 중반 생활20종 번역)
-
-- JA/CN/TW 각169문구 직접 저작·비저자 전량 대조, 표현7개 정밀화 후507 수용.
-  현재36,583(JA12,193/CN·TW12,195)/b88/meta9, 비보호 사건 잔여64종453문구/언어.
-- 실제 숫자·인명 오탐만 source-bound 수리. 고정212와 기존243 self 보존,
-  전체 수용 L1 오류0/605입력, 명시12 차선 PASS/610입력 전후 exact.
-- 제품 c6434252 /tree d923a903, 독립 Plato work_unit228 GO/필수0.
-  [결과·선언 원형](queue_archive/ORDER-228_L1_L2_RESULTS.md). 사람 원장·공개 데모 유지,
-  본편 HOLD·native/render OPEN. 중국어 정적 font readiness blocked는 별도 후속이다.
-- 기존138 원고1784B는 9/7 이력에 보관하고 구분LF1B까지 역복원한다. 원문 손실0.
-  다음22종197문구/언어는 ROOT·Rawls 사전조사만 완료, 아직 번역 실적이 아니다.
-
 ## 2026-09-09 (Codex — CI 설치 위치 격리)
 
 - checkout에 남던 Godot ZIP을 설치 step 한 줄로 runner.temp에 격리했다. 기존 dirty 소스 차단과 뒤7개 단계는 보존했다. [수리·독립 검토](queue_archive/ORDER-221.md).
