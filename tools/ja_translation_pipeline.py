@@ -1287,6 +1287,73 @@ RELATIONSHIP_UI_NAMES = {
 }
 
 
+RELATIONSHIP_PANEL_SOURCE_REPLACEMENTS = (
+    ("_relationship_type_label", "연인", "Partner", "연애 관련", "Romance"),
+    (
+        "_render_sidebars",
+        "아직 중요한 인연이 없습니다. 관계 행동이나 스토리 진행으로 인물이 기록됩니다.",
+        "No important relationships yet. People appear here through relationship actions or story progress.",
+        "아직 기록된 인연이 없습니다. 이야기를 진행하며 맺은 인연이 여기에 표시됩니다.",
+        "No connections recorded yet. Connections formed through the story appear here.",
+    ),
+)
+
+
+def _relationship_panel_historical_calls(
+    calls: Iterable[UiCall],
+) -> tuple[tuple[UiCall, ...], list[str]]:
+    """Check two exact current pairs, then project only historical comparisons.
+
+    This never edits the collector's calls, entries or source-key inventory.
+    The retained actual-partner fallback is not the neutral category label.
+    """
+    from dataclasses import replace
+
+    expected = {
+        ("scenes/MainGame.gd", function, "legacy", ko, en, ""): (old_ko, old_en)
+        for function, old_ko, old_en, ko, en in RELATIONSHIP_PANEL_SOURCE_REPLACEMENTS
+    }
+    retained = ("scenes/MainGame.gd", "_maybe_add_date_card", "legacy",
+                "연인", "partner", "")
+    counts = dict.fromkeys(expected, 0)
+    sensitive = {value for row in RELATIONSHIP_PANEL_SOURCE_REPLACEMENTS
+                 for value in (row[1], row[3])}
+    projected: list[UiCall] = []
+    errors: list[str] = []
+    retained_count = 0
+    for call in calls:
+        selector = (call.path, call.function, call.api, call.korean,
+                    call.english, call.context_id)
+        if selector in expected:
+            counts[selector] += 1
+            old_ko, old_en = expected[selector]
+            projected.append(replace(call, korean=old_ko, english=old_en))
+        else:
+            projected.append(call)
+            if selector == retained:
+                retained_count += 1
+            elif call.korean in sensitive:
+                errors.append(f"source: relationship panel unexpected selector {selector!r}")
+    if any(count != 1 for count in counts.values()) or retained_count != 1:
+        errors.append(
+            f"source: relationship panel requires exact two substitutions and "
+            f"retained partner: {list(counts.values())}/{retained_count}"
+        )
+    return tuple(projected), errors
+
+
+def _relationship_panel_historical_keys(
+    calls: Iterable[UiCall], source_keys: set[str],
+) -> tuple[set[str], list[str]]:
+    """Undo the two approved source substitutions for the immutable key hash."""
+    _projected, errors = _relationship_panel_historical_calls(calls)
+    current = {row[3] for row in RELATIONSHIP_PANEL_SOURCE_REPLACEMENTS}
+    historical = {row[1] for row in RELATIONSHIP_PANEL_SOURCE_REPLACEMENTS}
+    if not current.issubset(source_keys):
+        errors.append("source: relationship panel current source keys missing")
+    return (set(source_keys) - current) | historical, errors
+
+
 def _relationship_ui_registry_errors(calls: Iterable[UiCall]) -> list[str]:
     """Exact additive source ownership; never remove calls from observation."""
     expected = {(ko, en, "legacy", ""): 1
@@ -1306,6 +1373,7 @@ def _relationship_ui_expected_view(
     source_keys: Optional[set[str]] = None,
 ) -> tuple[dict[str, Any], list[str]]:
     """Extend verified historical expectations, not discovered statistics."""
+    calls = tuple(calls)
     errors = _relationship_ui_registry_errors(calls)
     view = dict(previous_view)
     old_counts = {
@@ -1326,7 +1394,11 @@ def _relationship_ui_expected_view(
     if source_keys is not None:
         # Family is an existing shared key (FAM/Family); thirteen are new.
         added = set(RELATIONSHIP_UI_NAMES) - {"가족"}
-        historical_keys = set(source_keys) - added
+        panel_historical_keys, panel_errors = _relationship_panel_historical_keys(
+            calls, source_keys
+        )
+        errors.extend(panel_errors)
+        historical_keys = panel_historical_keys - added
         historical_hash = hashlib.sha256(
             "\n".join(sorted(historical_keys)).encode("utf-8")
         ).hexdigest()
@@ -1335,7 +1407,7 @@ def _relationship_ui_expected_view(
         if view.get("legacy_korean_source_keys") != len(historical_keys) \
                 or view.get("legacy_korean_source_keys_sha256") != historical_hash:
             errors.append("manifest: relationship historical key set/hash drifted")
-        current_keys = historical_keys | added
+        current_keys = set(source_keys)
         view["legacy_korean_source_keys"] = len(current_keys)
         view["legacy_korean_source_keys_sha256"] = hashlib.sha256(
             "\n".join(sorted(current_keys)).encode("utf-8")
@@ -2249,10 +2321,19 @@ def validate_ui_context_contract(
     legacy_calls = [*legacy_api_calls, *branch_calls, *format_calls]
     context_calls = [call for call in calls if call.api == "context"]
     source_keys = {call.korean for call in calls}
+    historical_calls, panel_errors = _relationship_panel_historical_calls(calls)
+    errors.extend(panel_errors)
     variants: dict[str, set[str]] = {}
     for call in calls:
         variants.setdefault(call.korean, set()).add(call.english)
-    collisions = {key: values for key, values in variants.items() if len(values) > 1}
+    current_collisions = {key: values for key, values in variants.items() if len(values) > 1}
+    # Validate the unchanged historical partition against exact inverse pairs.
+    # Keep the actual current collision inventory separate and visible below.
+    historical_variants: dict[str, set[str]] = {}
+    for call in historical_calls:
+        historical_variants.setdefault(call.korean, set()).add(call.english)
+    collisions = {key: values for key, values in historical_variants.items()
+                  if len(values) > 1}
 
     historical_baseline = {
         key: contract.get(key) for key in ORDER96_HISTORICAL_UI_BASELINE
@@ -2603,8 +2684,12 @@ def validate_ui_context_contract(
         "context_calls": len(context_calls),
         "source_calls": len(calls),
         "legacy_keys": len(source_keys),
-        "collision_keys": len(collisions),
-        "format_equivalent": len(partition.get("format_equivalent", {})),
+        "collision_keys": len(current_collisions),
+        "format_equivalent": len(set(partition.get("format_equivalent", {}))
+                                 & set(current_collisions)),
+        "historical_collision_keys": len(collisions),
+        "historical_format_equivalent": len(partition.get("format_equivalent", {})),
+        "panel_source_substitutions": 2 if not panel_errors else 0,
         "shared_translation": len(partition.get("shared_translation", {})),
         "context_split": len(partition.get("context_split", {})),
         "planned_context_ids": len(registry),
@@ -3642,6 +3727,94 @@ def _relationship_ui_inventory_self_test(
     return cases + old_cases, failures + old_failures
 
 
+def _relationship_panel_inventory_self_test(
+    inventory: Optional[UiInventory] = None, include_historical: bool = True,
+) -> tuple[int, list[str]]:
+    """Fixed source-only controls plus an explicit old29 fixture projection."""
+    from dataclasses import replace
+
+    inventory = inventory if inventory is not None else collect_ui_inventory()
+    fixed = json.loads(
+        "{\"schema_version\":1,\"scope\":\"ORDER-240 exact two source substitutions; source-only, not translation QA\",\"source_rows\":[{\"path\":\"scenes/MainGame.gd\",\"function\":\"_relationship_type_label\",\"api\":\"legacy\",\"context_id\":\"\",\"before_ko\":\"연인\",\"before_en\":\"Partner\",\"after_ko\":\"연애 관련\",\"after_en\":\"Romance\"},{\"path\":\"scenes/MainGame.gd\",\"function\":\"_render_sidebars\",\"api\":\"legacy\",\"context_id\":\"\",\"before_ko\":\"아직 중요한 인연이 없습니다. 관계 행동이나 스토리 진행으로 인물이 기록됩니다.\",\"before_en\":\"No important relationships yet. People appear here through relationship actions or story progress.\",\"after_ko\":\"아직 기록된 인연이 없습니다. 이야기를 진행하며 맺은 인연이 여기에 표시됩니다.\",\"after_en\":\"No connections recorded yet. Connections formed through the story appear here.\"}],\"current_expected\":{\"source_calls\":3356,\"legacy_calls\":3322,\"legacy_keys\":2849,\"context_calls\":34,\"planned_context_ids\":29,\"collision_keys\":100,\"format_equivalent\":28,\"shared_translation\":45,\"context_split\":27},\"historical_expected\":{\"legacy_keys\":2848,\"collision_keys\":101,\"format_equivalent\":29},\"controls\":[{\"id\":\"actual\",\"op\":\"none\",\"pass\":true},{\"id\":\"reordered\",\"op\":\"reverse\",\"pass\":true},{\"id\":\"line_only\",\"op\":\"line\",\"pass\":true},{\"id\":\"delete_0\",\"op\":\"delete\",\"row\":0,\"pass\":false},{\"id\":\"duplicate_0\",\"op\":\"duplicate\",\"row\":0,\"pass\":false},{\"id\":\"path_0\",\"op\":\"replace\",\"row\":0,\"field\":\"path\",\"value\":\"scenes/Other.gd\",\"pass\":false},{\"id\":\"function_0\",\"op\":\"replace\",\"row\":0,\"field\":\"function\",\"value\":\"other\",\"pass\":false},{\"id\":\"api_0\",\"op\":\"replace\",\"row\":0,\"field\":\"api\",\"value\":\"context\",\"pass\":false},{\"id\":\"korean_0\",\"op\":\"replace\",\"row\":0,\"field\":\"korean\",\"value\":\"변조\",\"pass\":false},{\"id\":\"english_0\",\"op\":\"replace\",\"row\":0,\"field\":\"english\",\"value\":\"Changed\",\"pass\":false},{\"id\":\"context_id_0\",\"op\":\"replace\",\"row\":0,\"field\":\"context_id\",\"value\":\"ui.unowned\",\"pass\":false},{\"id\":\"delete_1\",\"op\":\"delete\",\"row\":1,\"pass\":false},{\"id\":\"duplicate_1\",\"op\":\"duplicate\",\"row\":1,\"pass\":false},{\"id\":\"path_1\",\"op\":\"replace\",\"row\":1,\"field\":\"path\",\"value\":\"scenes/Other.gd\",\"pass\":false},{\"id\":\"function_1\",\"op\":\"replace\",\"row\":1,\"field\":\"function\",\"value\":\"other\",\"pass\":false},{\"id\":\"api_1\",\"op\":\"replace\",\"row\":1,\"field\":\"api\",\"value\":\"context\",\"pass\":false},{\"id\":\"korean_1\",\"op\":\"replace\",\"row\":1,\"field\":\"korean\",\"value\":\"변조\",\"pass\":false},{\"id\":\"english_1\",\"op\":\"replace\",\"row\":1,\"field\":\"english\",\"value\":\"Changed\",\"pass\":false},{\"id\":\"context_id_1\",\"op\":\"replace\",\"row\":1,\"field\":\"context_id\",\"value\":\"ui.unowned\",\"pass\":false},{\"id\":\"rollback_both\",\"op\":\"rollback\",\"pass\":false},{\"id\":\"remove_retained_partner\",\"op\":\"remove_partner\",\"pass\":false},{\"id\":\"mutate_retained_partner\",\"op\":\"mutate_partner\",\"pass\":false},{\"id\":\"extra_new_key_owner\",\"op\":\"extra_owner\",\"pass\":false},{\"id\":\"unrelated_key_drift\",\"op\":\"key_drift\",\"pass\":false}]}"
+    )
+    failures = list(inventory.errors)
+    before = inventory.calls
+    for field, expected in fixed["current_expected"].items():
+        if inventory.stats.get(field) != expected:
+            failures.append(f"relationship panel actual {field} != {expected}")
+    expected_rows = tuple(
+        (row["function"], row["before_ko"], row["before_en"],
+         row["after_ko"], row["after_en"]) for row in fixed["source_rows"]
+    )
+    if RELATIONSHIP_PANEL_SOURCE_REPLACEMENTS != expected_rows:
+        failures.append("relationship panel fixed source pairs drifted")
+    registered = [
+        next((c for c in before if
+              (c.path, c.function, c.api, c.korean, c.english, c.context_id) ==
+              (row["path"], row["function"], row["api"], row["after_ko"],
+               row["after_en"], row["context_id"])), None)
+        for row in fixed["source_rows"]
+    ]
+    retained = next((c for c in before if
+                     (c.path, c.function, c.api, c.korean, c.english, c.context_id) ==
+                     ("scenes/MainGame.gd", "_maybe_add_date_card", "legacy",
+                      "연인", "partner", "")), None)
+    manifest = read_json(UI_CONTEXT_MANIFEST_PATH)
+    manifest_before = _canonical_json_sha256(manifest)
+    phase = manifest["ui_parameterized_template_plan"]["source_inventory_phases"]["final"]
+    for control in fixed["controls"]:
+        changed = list(before)
+        op = control["op"]
+        row = registered[control.get("row", 0)]
+        if op == "reverse":
+            changed.reverse()
+        elif op == "line":
+            changed = [replace(c, line=c.line + 10) for c in changed]
+        elif op == "delete" and row in changed:
+            changed.remove(row)
+        elif op == "duplicate" and row is not None:
+            changed.append(row)
+        elif op == "replace" and row in changed:
+            changed[changed.index(row)] = replace(
+                row, **{control["field"]: control["value"]}
+            )
+        elif op == "rollback":
+            changed = list(_relationship_panel_historical_calls(changed)[0])
+        elif op == "remove_partner" and retained in changed:
+            changed.remove(retained)
+        elif op == "mutate_partner" and retained in changed:
+            changed[changed.index(retained)] = replace(retained, english="Partner")
+        elif op == "extra_owner" and row is not None:
+            changed.append(replace(row, function="unowned"))
+        elif op == "key_drift":
+            other = next(c for c in changed if c not in registered and c != retained)
+            changed[changed.index(other)] = replace(other, korean="unowned_source_drift")
+        unchanged = tuple(changed)
+        keys = {c.korean for c in changed}
+        view, errors = _relationship_ui_expected_view(changed, phase, "keys", keys)
+        if (not errors) != control["pass"]:
+            failures.append(f'{control["id"]}: pass={control["pass"]}: {errors}')
+        if control["pass"] and view.get("legacy_korean_source_keys") != 2849:
+            failures.append(f'{control["id"]}: current key count was hidden')
+        if tuple(changed) != unchanged:
+            failures.append(f'{control["id"]}: source fixture mutated')
+    if before != inventory.calls or _canonical_json_sha256(manifest) != manifest_before:
+        failures.append("relationship panel source/manifest mutated")
+    cases = len(fixed["controls"])
+    if include_historical:
+        projected, projection_errors = _relationship_panel_historical_calls(before)
+        failures.extend(projection_errors)
+        historical_stats = dict(inventory.stats)
+        historical_stats.update(fixed["historical_expected"])
+        # Only the old29 call/stat fixture is projected; the returned collector
+        # inventory and the fixed historical methods themselves stay untouched.
+        historical = replace(inventory, calls=projected, stats=historical_stats)
+        old_cases, old_failures = _relationship_ui_inventory_self_test(historical)
+        cases += old_cases
+        failures.extend(old_failures)
+    return cases, failures
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -4349,7 +4522,7 @@ def main() -> int:
             failures.append(
                 "stale existing lookup-before-format provenance was not rejected"
             )
-        preview_cases, preview_failures = _relationship_ui_inventory_self_test(ui_inventory)
+        preview_cases, preview_failures = _relationship_panel_inventory_self_test(ui_inventory)
         cases += preview_cases
         failures.extend(preview_failures)
         if failures:

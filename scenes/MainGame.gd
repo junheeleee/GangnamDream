@@ -9826,7 +9826,7 @@ func _render_sidebars():
 	_clear_box(relationship_box)
 	relationship_box.add_child(_info_section_title(_tr("내 사람들", "Relationships"), "#d8b4fe"))
 	if GameState.relationships.is_empty():
-		relationship_box.add_child(_info_empty_card(_tr("아직 중요한 인연이 없습니다. 관계 행동이나 스토리 진행으로 인물이 기록됩니다.", "No important relationships yet. People appear here through relationship actions or story progress."), "#64748b"))
+		relationship_box.add_child(_info_empty_card(_tr("아직 기록된 인연이 없습니다. 이야기를 진행하며 맺은 인연이 여기에 표시됩니다.", "No connections recorded yet. Connections formed through the story appear here."), "#64748b"))
 	for rel in GameState.relationships:
 		var affection = int(rel.get("affection", 40))
 		var trust = int(rel.get("trust", 40))
@@ -23101,7 +23101,7 @@ func _info_compact_value_bar(label_text: String, value: int, max_value: int, col
 
 func _relationship_type_label(type_str: String) -> String:
 	return {
-		"romantic": _tr("연인", "Partner"),
+		"romantic": _tr("연애 관련", "Romance"),
 		"mentor": _tr("멘토", "Mentor"),
 		"business": _tr("비즈니스", "Business"),
 		"family": _tr("가족", "Family"),

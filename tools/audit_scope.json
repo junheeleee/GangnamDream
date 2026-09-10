@@ -14,6 +14,40 @@
   ],
   "fast_lanes": [
     {
+      "id": "relationship-panel-localization",
+      "paths": [],
+      "owned_paths": [
+        "scenes/MainGame.gd",
+        "tools/ja_translation_pipeline.py",
+        "locale/ui_ja.json",
+        "locale/ui_zh-CN.json",
+        "locale/ui_zh-TW.json",
+        "content/meta/full_game_localization.json",
+        "tools/RelationshipPanelLocaleCheck.tscn",
+        "tools/run_relationship_panel_locale_qa.sh",
+        "tools/audit_scope.json",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/queue_active/ORDER-240.md",
+        "docs/queue_archive/ORDER-240.md",
+        "docs/WORK_LOG.md",
+        "docs/STATUS.md",
+        "docs/queue_backlog/FULL_GAME_LOCALIZATION.md",
+        "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-240.json"
+      ],
+      "tools": [
+        "tools/ja_translation_pipeline.py --self-test",
+        "tools/full_game_localization_self_test.py",
+        "tools/en_coverage_check.py",
+        "tools/queue_index_self_test.py",
+        "tools/agent_review_decisions_self_test.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Relationship panel source copy2 and thirty UI keys; neutral category and story-only empty guidance with unchanged state and historical source contracts. Actual five-locale isolated component runs separately."
+    },
+    {
       "id": "relationship-display-localization",
       "paths": [],
       "owned_paths": [
@@ -3663,6 +3697,20 @@
         "scenes/MainGame.gd",
         "tools/RelationshipDisplayLocaleCheck.tscn",
         "tools/run_relationship_display_locale_qa.sh",
+        "locale/ui_ja.json",
+        "locale/ui_zh-CN.json",
+        "locale/ui_zh-TW.json"
+      ]
+    },
+    {
+      "tool": "tools/run_relationship_panel_locale_qa.sh",
+      "godot": true,
+      "why": "Fresh pre-autoload isolated relationship panel labels and fixed type/affinity/hint/fallback cases in five locales; not rendered or human play.",
+      "paths": [
+        "systems/RelationshipSystem.gd",
+        "scenes/MainGame.gd",
+        "tools/RelationshipPanelLocaleCheck.tscn",
+        "tools/run_relationship_panel_locale_qa.sh",
         "locale/ui_ja.json",
         "locale/ui_zh-CN.json",
         "locale/ui_zh-TW.json"
