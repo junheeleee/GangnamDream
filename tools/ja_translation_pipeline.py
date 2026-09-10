@@ -2879,6 +2879,89 @@ def exact_translation_for_entry(entry: Entry) -> Optional[str]:
     return EXACT_TRANSLATIONS.get(entry.source)
 
 
+def _midgame_win_numbers(source: str, target: str):
+    """Normalize only two complete KO contracts, keeping typed numeric owners."""
+    kind = {
+        "f66faca22a524b1b64a2d01a94fc1ef8be466175c674efe14e1a23765a1a1985": "title",
+        "8fa14cda736d18bd30f5673048b267720588958cda27cf9b0cd93b4bac26ae6f": "description",
+    }.get(hashlib.sha256(source.encode("utf-8")).hexdigest())
+    if kind is None:
+        return None
+    import unicodedata
+    from decimal import Decimal
+    from zh_translation_audit import _chinese_cardinal_value, _has_numeric_sign_prefix
+
+    label = "source-bound midgame first-win"
+    chars = "0-9０-９零〇一二三四五六七八九十百千.,，．"
+    number = rf"(?<![{chars}万萬億兆])(?P<sign>[+\-−]?)(?P<n>[{chars}]+)"
+    money_pattern = re.compile(number + r"(?P<scale>万|萬|億)?[ \t]*(?P<unit>ウォン|円|ドル)")
+    errors, replacements = [], []
+
+    def value(match):
+        raw = unicodedata.normalize("NFKC", match.group("n"))
+        arabic = re.fullmatch(r"(?P<n>(?:[0-9]{1,3}(?:,[0-9]{3})+|[0-9]+)(?:\.[0-9]+)?)(?P<p>十|百|千)?", raw)
+        if arabic:
+            amount = Decimal(arabic.group("n").replace(",", ""))
+            return amount * {None: 1, "十": 10, "百": 100, "千": 1000}[arabic.group("p")]
+        if any(char.isdigit() and char not in "零〇" for char in raw):
+            return None
+        return _chinese_cardinal_value(raw)
+
+    def own(match, expected, line, scale=1, unit=""):
+        amount = value(match)
+        if amount is not None:
+            amount *= scale
+        if (amount != expected or match.group("sign")
+                or _has_numeric_sign_prefix(target, match.start())
+                or target.count("\n", 0, match.start()) != line):
+            errors.append(label + " value/sign/line mismatch")
+        if amount is not None:
+            replacements.append((match.start(), match.end(), format(amount, "f") + unit))
+
+    monies = list(money_pattern.finditer(target))
+    wanted = [(50_000_000, 0)] if kind == "title" else [
+        (50_000_000, 0), (3_000_000_000, 2), (500_000, 2),
+    ]
+    if len(monies) != len(wanted):
+        errors.append(label + " won count/unit mismatch")
+    for match, (expected, line) in zip(monies, wanted):
+        if match.group("unit") != "ウォン":
+            errors.append(label + " currency mismatch")
+        scale = {None: 1, "万": 10_000, "萬": 10_000, "億": 100_000_000}[match.group("scale")]
+        own(match, expected, line, scale, "ウォン")
+        if re.match(r"[ \t]*(?:円|ドル|ウォン|[%％‰万萬億兆倍]|[/／]|ではない|未満|以上|以下)", target[match.end():]):
+            errors.append(label + " amount qualifier/unit mismatch")
+    if kind == "title":
+        if len(monies) != 1 or target.strip() != monies[0].group():
+            errors.append(label + " title denomination mismatch")
+        normalized_source = "50000000원"
+    else:
+        counts = list(re.finditer(number + r"桁", target))
+        factors = list(re.finditer(number + r"倍", target))
+        if len(counts) != 1 or len(factors) != 1:
+            errors.append(label + " display-digit/factor count or unit mismatch")
+        for match in counts:
+            own(match, 8, 0, unit="桁")
+            if not re.search(r"(?:画面|液晶|ディスプレイ|表示)[^。！？\n]{0,20}$", target[:match.start()]):
+                errors.append(label + " display-digit owner mismatch")
+        for match in factors:
+            own(match, 100, 2, unit="倍")
+            if not re.search(r"残高[^。！？\n]{0,60}$", target[:match.start()]):
+                errors.append(label + " balance-factor owner mismatch")
+            state = re.match(r"(?:に(?:まで)?(?:なっていた|なった|なっている|増えていた|増えた|増えている)|と(?:なっていた|なった))", target[match.end():])
+            if state is None or re.match(r"(?:わけではない|とは限らない|はず|予定)", target[match.end() + (state.end() if state else 0):]):
+                errors.append(label + " completed balance-factor state mismatch")
+        normalized_source = (source.replace("50,000,000원", "50000000원")
+                             .replace("30억", "3000000000원")
+                             .replace("50만원", "500000원")
+                             .replace("여덟 자리", "8 자리")
+                             .replace("백 배", "100 배"))
+    normalized_target = target
+    for start, end, replacement in sorted(replacements, reverse=True):
+        normalized_target = normalized_target[:start] + replacement + normalized_target[end:]
+    return normalized_source, normalized_target, sorted(set(errors))
+
+
 def validate_translation(entry: Entry, translated: Any) -> list[str]:
     errors: list[str] = []
     if not isinstance(translated, str) or not translated.strip():

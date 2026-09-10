@@ -2811,6 +2811,12 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
         if father_call is not None:
             source_numbers, target_numbers, call_errors = father_call
             errors.extend(call_errors)
+        midgame_win = ja._midgame_win_numbers(leaf.source, text)
+        if midgame_win is not None:
+            source_numbers, target_numbers, win_errors = midgame_win
+            source_numbers = ja.PLACEHOLDER.sub("", source_numbers)
+            target_numbers = ja.PLACEHOLDER.sub("", target_numbers)
+            errors.extend(win_errors)
         from zh_translation_audit import (
             _source_money_amounts, _target_money_amounts,
             _has_numeric_sign_prefix, MoneyAmount,

@@ -1226,6 +1226,8 @@ def _terminology_errors(lang: str, source: str, target: str) -> list[str]:
     errors: list[str] = []
     name_probe, butterfly_name_errors = _butterfly_chain_name(source, target)
     errors.extend(butterfly_name_errors)
+    name_probe, midgame_name_errors = _midgame_sleep_name(source, name_probe)
+    errors.extend(midgame_name_errors)
     for pattern, romanized in RELATIONSHIP_SOURCE_NAMES:
         if pattern.search(source):
             if not _bounded_latin_matches(target, romanized):
@@ -7408,6 +7410,170 @@ def _year_end_slots(source: str, target: str):
     return ss, ts, sorted(set(errors))
 
 
+MIDGAME_SOURCE_KIND = {
+    "65e6ed7f2701551ec8099acd31ea8547c085d0fa1b4c266e093d283d3d04cb00": "daily",
+    "8397c92fdbbec5047cf10b49578f5e23ab061caedc4fdb583584ad5349f32ca6": "leverage",
+    "a8c2686432f7c52405c40bfce008a6da2281ae876794bfe9059875b54c22df12": "never",
+    "5f288f9995103365a59114aa8920c1173211e0952d35dcbe7f493f0376c91ff4": "rooms",
+    "96c6e76c9e03340710a2fd9a7a809c2605322326a254b460c4b6aa18e7e09f5e": "prices",
+    "42c66583a2803f939a4b41ab1be5ac3266da5312908cb8c286a6fe6595a0663b": "empty_room",
+    "fe02980a338deef82801ad1d98f18bc754d39b665a6e6e283a5865fb2a230f1a": "car",
+    "1210ca42bab2a914d1c63ff6a0d75d7a38df4445802a27adb074ef14af21de29": "tasks",
+    "12ae21ba35bb5c50034d9138b08b95dcc291f51f69026cc3c1b999c4e3cf73b9": "memory_range",
+    "626e8d99d05c12c3b1abd662f2b74986aada1ecb2ff76d326445947feff72887": "paycheck",
+    "a30c3256b8270e52dcb99a06d2bce7fd8cf0d98d209dc17ec5caa2c4adf2b071": "mingi_reply",
+    "7714592166adcfbfc7aa7332632dbc66d1664706507014e723deda952a8dd400": "mingi_send",
+    "6d75c197890bbd733a12fe284084d2d12c3acc6a5a5e6fd4d983342c643f61af": "mingi_invite",
+    "f66faca22a524b1b64a2d01a94fc1ef8be466175c674efe14e1a23765a1a1985": "win_title",
+    "9a56b269fb481cfbae250df1ab9fa1756391c4b3f3c5acd218e551b39804e7cb": "one_move",
+    "0c535d1862ddfda2ff5e7ccd7c67a768be3b1ae28b427e80ede34c8bfd4efed8": "sleep_quote",
+}
+
+
+def _midgame_kind(source: str) -> str | None:
+    return MIDGAME_SOURCE_KIND.get(hashlib.sha256(source.encode("utf-8")).hexdigest())
+
+
+def _midgame_slots(source: str, target: str):
+    """Project observed local roles, not whole translations or narrative truth.
+
+    Chinese 每天/另一間 and negative-experience idioms cannot be compared
+    as literal Korean counter tokens. A source identity, original line, local
+    predicate and amount/range witness own each projection. Other numbers and
+    all narrative assertions remain subject to their existing checks and L2.
+    """
+    kind = _midgame_kind(source)
+    ss, ts, errors = [], [], []
+    if kind is None:
+        return ss, ts, errors
+    label = "midgame " + kind
+    n = r"[0-9０-９零〇一二两兩三四五六七八九十百千]+"
+
+    def bind(fragment, patterns, expected=1):
+        start = source.index(fragment)
+        line = source[:start].count("\n")
+        ss.append(CounterQuantity(start, start + len(fragment), Decimal(expected), label))
+        if isinstance(patterns, str):
+            patterns = [patterns]
+        matches = [m for pattern in patterns for m in re.finditer(pattern, target)
+                   if target[:m.start()].count("\n") == line]
+        if len(matches) != 1:
+            errors.append(label + " local quantity role/unit/line/count changed")
+            return
+        match = matches[0]
+        raw = match.groupdict().get("number")
+        if raw is not None and _chinese_cardinal_value(unicodedata.normalize("NFKC", raw)) != expected:
+            errors.append(label + " local quantity value changed")
+        a, b = match.span("q")
+        if _has_numeric_sign_prefix(target, a):
+            errors.append(label + " local quantity sign/prefix changed")
+        ts.append(CounterQuantity(a, b, Decimal(expected), label))
+
+    if kind == "daily":
+        bind("하루에", rf"[資资][產产](?P<q>每天|每日|(?P<number>{n})天)"
+             r"(?=(?:都)?(?:要|[會会])?(?:波[動动]|起伏))")
+    elif kind == "leverage":
+        bind("한 번에", rf"(?P<q>一[舉举]|(?P<number>{n})次(?:就)?)(?=翻[盤盘])")
+    elif kind == "never":
+        bind("한 번도", r"(?P<q>從來[沒没]有|从来没有|[從从](?:[沒没]|未))(?=(?:描[繪绘]|想像|想象)[過过])")
+    elif kind == "rooms":
+        bind("방 하나", [rf"(?P<q>(?P<number>{n})[間间](?:房)?)"
+             r"(?=可以(?:[給给]來首[爾尔]的父[親亲]住|[給给]来首尔的父亲住|讓父親上來時住))",
+             rf"父[親亲][來来][時时]可以住其中(?P<q>(?P<number>{n})[間间])(?=[，,])"])
+        bind("다른 방", rf"(?P<q>另(?P<number>{n})[間间](?:房)?)(?=也可以(?:空[著着]|留空))")
+        # 둘 here is the prospective verb 두다, not the cardinal two.
+        bind("비워 둘", r"也可以(?P<q>空[著着]|留空)")
+    elif kind == "empty_room":
+        bind("방 하나", rf"(?P<q>(?P<number>{n})[間间]房)(?=上(?:停住)?[。。，,])")
+        bind("비워 둘 자리 하나", rf"(?P<q>(?P<number>{n})(?:[處处]|[個个]))(?=要空[著着]的位置)")
+    elif kind == "car":
+        bind("한 번", [rf"(?P<q>(?P<number>{n})[陣阵])(?=[車车](?:[聲声][經经][過过]|子駛過的聲音))",
+                        rf"[車车][聲声][經经][過过](?P<q>(?P<number>{n})次)"])
+    elif kind == "tasks":
+        bind("두 가지", rf"[這这](?P<q>(?P<number>{n})件事(?:情)?)(?=[—－-]*(?:真|能|可))", 2)
+    elif kind == "memory_range":
+        bind("한두 개", r"(?P<q>一[兩两]|一到[兩两])(?=句[話话])")
+        bind("둘 다", rf"(?P<q>(?P<number>{n})(?:者|[個个]))(?=都[關关]掉)", 2)
+    elif kind == "paycheck":
+        # No-spending hypothesis, not a literal minute/fen amount or a receipt.
+        bind("한 번도 안 쓰고", r"就算[這这][筆笔][錢钱](?P<q>(?:一次也|一分都)?不花)(?=[，,])")
+    elif kind == "one_move":
+        bind("한 번", [r"(?P<q>既然要去[，,]就(?:一次)?好好去)$",
+                       rf"既然去[，,]就好好去(?P<q>(?P<number>{n})次)$"])
+    return ss, ts, sorted(set(errors))
+
+
+def _midgame_money(source: str, target: str, amounts):
+    kind = _midgame_kind(source)
+    errors, shared = [], 0
+    if kind == "win_title":
+        # Keep complete denominations already understood by the generic
+        # parser (50,000,000韓元 / 5,000萬韓元), then add native 五千萬.
+        if len(amounts) == 1 and amounts[0].start == 0 and amounts[0].end == len(target):
+            return amounts, 0, []
+        match = re.fullmatch(r"(?P<n>[0-9０-９零〇一二两兩三四五六七八九十百千]+)[萬万][韓韩]元", target)
+        if match is None:
+            return amounts, 0, ["midgame win title value/unit changed"]
+        value = _chinese_cardinal_value(unicodedata.normalize("NFKC", match.group("n")))
+        if value is None:
+            return amounts, 0, ["midgame win title cardinal changed"]
+        return [MoneyAmount(0, len(target), value * 10000)], 0, []
+    if kind != "prices":
+        return amounts, shared, errors
+    # Only the price-list line may share its terminal Korean-won label.
+    # The cheapest apartment and later total-assets sentence remain separate.
+    matches = [m for m in re.finditer(r"(?P<n>[0-9０-９]+)[億亿](?P<won>[韓韩]元)?", target)
+               if target[:m.start()].count("\n") == 2]
+    if len(matches) != 4 or [unicodedata.normalize("NFKC", m.group("n")) for m in matches] != ["17", "20", "25", "35"]:
+        return amounts, 0, ["midgame apartment price value/order/unit/count changed"]
+    if not matches[0].group("won") or not matches[-1].group("won"):
+        errors.append("midgame apartment price currency ownership changed")
+    for i, m in enumerate(matches):
+        if _has_numeric_sign_prefix(target, m.start()) or re.match(
+                r"[ \t]*(?:[%％‰倍年月日天人位]|[/／]|[個个]月|公里|公斤)", target[m.end():]):
+            errors.append("midgame apartment price sign/rate/unit changed")
+        if i in {1, 2} and not re.fullmatch(r"[ \t]*[、，,][ \t]*", target[m.end():matches[i + 1].start()]):
+            errors.append("midgame apartment shared price-list topology changed")
+        shared += int(not m.group("won"))
+    result = [a for a in amounts if target[:a.start].count("\n") != 2]
+    result.extend(MoneyAmount(m.start(), m.end(), Decimal(unicodedata.normalize("NFKC", m.group("n"))) * 100000000) for m in matches)
+    return sorted(result, key=lambda a: a.start), shared, errors
+
+
+def _midgame_latin(source: str, target: str):
+    kind = _midgame_kind(source)
+    if kind not in {"paycheck", "mingi_invite", "mingi_send", "mingi_reply"}:
+        return target, []
+    name = "KakaoBank" if kind == "paycheck" else "Mingi"
+    matches = _bounded_latin_matches(target, name)
+    if len(matches) != 1 or target[:matches[0].start()].count("\n") != 0:
+        return target, ["midgame source-owned name/brand boundary/count/line changed"]
+    if name == "Mingi" and _has_unapproved_han_alias(target, name):
+        return target, ["midgame source-owned Mingi has an unapproved Han alias"]
+    local = target.split("\n")[0]
+    contexts = {"paycheck": r"KakaoBank[ \t]*的通知[響响]了",
+                "mingi_invite": r"高中同[學学].*Mingi.*(?:喜帖|[請请]柬)",
+                "mingi_send": r"Mingi.*(?:恭喜|祝[賀贺])",
+                "mingi_reply": r"Mingi.*(?:恭喜|祝[賀贺])"}
+    if not re.search(contexts[kind], local):
+        return target, ["midgame source-owned name/brand local role changed"]
+    m = matches[0]
+    return target[:m.start()] + " " * (m.end() - m.start()) + target[m.end():], []
+
+
+def _midgame_sleep_name(source: str, target: str):
+    if _midgame_kind(source) != "sleep_quote":
+        return target, []
+    names = _bounded_latin_matches(target, "Hyunsu")
+    # A quoted imperative after a name is dialogue, not a new Han alias.
+    # Require the tell/sleep action too; never whitelist arbitrary parentheses.
+    match = re.fullmatch(r"(?:叫|[對对])[ \t]*Hyunsu[ \t]*(?:[說说])?(?P<q>[「“\"]睡吧[」”\"])[，,](?:然[後后])?自己也睡了[。.]?", target)
+    if len(names) != 1 or match is None:
+        return target, ["midgame Hyunsu sleep utterance/name/action changed"]
+    a, b = match.span("q")
+    return target[:a] + " " * (b - a) + target[b:], []
+
+
 def _numeric_errors(source: str, target: str) -> list[str]:
     source, target, errors = _callback_shadow_numbers(source, target)
     admin_source_slots, admin_target_slots, admin_errors = _investment_admin_slots(source, target)
@@ -7419,6 +7585,10 @@ def _numeric_errors(source: str, target: str) -> list[str]:
     admin_source_slots.extend(year_source)
     admin_target_slots.extend(year_target)
     errors.extend(year_errors)
+    midgame_source, midgame_target, midgame_errors = _midgame_slots(source, target)
+    admin_source_slots.extend(midgame_source)
+    admin_target_slots.extend(midgame_target)
+    errors.extend(midgame_errors)
     early_source, early_target, early_errors = _early_connections_slots(source, target)
     admin_source_slots.extend(early_source)
     admin_target_slots.extend(early_target)
@@ -7546,6 +7716,9 @@ def _numeric_errors(source: str, target: str) -> list[str]:
     source_amounts = _source_money_amounts(source)
     target_amounts = _target_money_amounts(target)
     target_amounts, culture_shared_labels, culture_money_errors = _korean_culture_money(source, target, target_amounts)
+    target_amounts, midgame_shared_labels, midgame_money_errors = _midgame_money(source, target, target_amounts)
+    culture_shared_labels += midgame_shared_labels
+    errors.extend(midgame_money_errors)
     target_amounts, leisure_money_errors = _leisure_money(source, target, target_amounts)
     target_amounts, cafe_shared_labels, cafe_money_errors = _cafe_encounter_money(source, target, target_amounts)
     target_amounts, butterfly_money_errors = _butterfly_chain_money(source, target, target_amounts)
@@ -7718,6 +7891,9 @@ def _money_errors(lang: str, source: str, target: str) -> list[str]:
 
 
 def _untranslated_english_errors(source: str, target: str, *, catalog: bool = False) -> list[str]:
+    target, midgame_errors = _midgame_latin(source, target)
+    if midgame_errors:
+        return midgame_errors
     target, first_errors = _first_life_latin(source, target)
     if first_errors:
         return first_errors

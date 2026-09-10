@@ -60,9 +60,10 @@ human_gates.json·출시 언어·스토어는 비소유다.
 
 ## 원문 채무와 사실 안전선
 
-현수 새벽1시→자정→자정 전 역전, first-win 5천만원/50만원×100 및
+arc_night_routine의 새벽1시→자정→자정 전 역전, first-win의
 아이스크림5천원/효과1만5천원, four-months ID/반년 제목, 연차와 dispatch 주차 차이는
 번역에서 몰래 정정하지 않는다. 사별 first-win은 실제 발신·없는 번호 안내·발신 시각이며,
+first-win의 50만원×100=5천만원은 정상 산술이므로 그대로 유지한다.
 money-loneliness 사별은 연락처·기록·기억이지 새 통화/녹음이 아니다.
 first-win 사별의 고시원 계단/current_housing 및 first-loss의 보유자산 가드 부재는
 소비자 국소 사전 조사 채무이지 Ch5 결혼 뒤 실제 재진입을 입증한 결함이 아니다.
