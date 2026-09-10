@@ -48,11 +48,14 @@
 이어보기는 `[~]`·`L3 OPEN` 행만 담으며 순서 정렬이나 사람 판정 승격을 하지 않는다.
 파서가 읽는 이어보기 게이트는 `· L3 OPEN`으로 끝내며 L3 표기는 한 번만 쓴다.
 
+| 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
+|---:|:---:|---|---|---|
+| 1 | [~] | ORDER-238 · 중국어 폰트 전체 지문 보강 | [238](queue_active/ORDER-238.md) | 선언 · 검사/최종 미실행 |
+
 [활성 L3 검수 대기 행 이어보기](CODEX_QUEUE_L3_PENDING.md) <!-- queue-index-include -->
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-238 · 중국어 폰트 전체 지문 보강 | [238](queue_active/ORDER-238.md) | 선언 · 검사/최종 미실행 |
 | 55 | [~] | ORDER-158 · 본편 8장면 번역 | [158](queue_active/ORDER-158.md) | L1/L2 PASS · 원어민 OPEN |
 | 56 | [~] | ORDER-157 · 본편 일본어·중국어 전체 번역 | [157](queue_active/ORDER-157.md) | 전체 INCOMPLETE · 원어민 OPEN |
 | 57 | [~] | ORDER-156 · Ch5 생활 routine 실제 배경 | [156](queue_active/ORDER-156.md) | 입력 QA 잔여 · 사람 OPEN·HOLD |
