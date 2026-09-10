@@ -7868,9 +7868,187 @@ def _easter_core_latin(source: str, target: str):
 
 
 
+# ORDER231: licenses are complete raw Korean sources; no leaf or target whitelist.
+CORE_WORK_SOURCE_KIND = {
+    "464288e71d562ca7c65bf2d2eadc92b63843b14796e5fa801e99c74c9c490cf8": "two_sms",
+    "46063e538f40d3c97179a326d7a862115bc85ffa2a7141a555bd53fba777af73": "sample_clock",
+    "66dd8b26b1b4676c46d49591db37eacc1725be9e75fc05d173160f707b5ea641": "sample_lights",
+    "89055a06554f64a113205e5eb5864e8305a0e5809ba70201aac147c407648712": "clock_glance",
+    "3fe73d4bda05da248feb37ab4722b8d15eaca786246fe406a8ba54a98e55ff64": "two_days",
+    "d470e34b71cba5cd625ed0e82f758e13d835583a90d3b39f937212d7d807e297": "yesterday_question",
+    "a5020fe67145186eb9af4a1c5c27aba585c07ba76b1ee38c0982e252a10c880e": "tuesday",
+    "9b3d58bcd1cd5ff4c9d77487cab0aec773958814cd040c95a2123735ea127573": "bill_clock",
+    "7de35d71792e1b87d843310aae2d67292948236b5150afe97ac86ac0dd6246f2": "father_note",
+    "f845925b57fca4a1044bda5dc9f736840c4019f69c7c9fa50c7a3c9a436b7938": "dodam_notice",
+    "b603a4e28f1854df90eab80ee5ceff3c05fae6c9896f98f0ca3e6f1876d223b4": "dodam_title",
+    "3a9feda86f1adcab2a534580c054a3c538c2fcb9605a59d166971e804382c40c": "nap",
+    "d8dbaa8c05c3a34b492a2ee0d24e677160c0db670587f3098a408ca19986889f": "father_detail",
+    "fb4cb46202772662045777daf45450bd872454d0e755aded4fa573c899c0636b": "father_ask",
+    "d71506134a6b440da1b0e3956dd64d862a4dd321082ff4986915f2303b32097b": "father_signal",
+    "51313b6fdb75314da5792ad7697a88678d60a8da3495b7465a65efadf0dc6360": "receipt_spending",
+    "478b436714e2c327c869521aa5e6eb01f78d5c719a2a5b65eec08866ec5414f2": "wrist",
+    "d73b803621f8bb91be11b82e800619dcaa4720a568e2193feb9a1d60ee3f2cea": "inventory_three",
+    "aa90b8662adf1eff4eec95b6d90a4dfd6cfbf11e7802cc94a38ada3109f64749": "cafe_glance",
+    "eb298380644d4723da9df22929dd6d148098ea98529d5bedeafafa60badf85d6": "class_three",
+    "12bde6d72e6e413bb322c980027e7e4c38f23818a07773b022795b605b14ce11": "next_day",
+    "dea7bfa256226b5ccd904f9dedbc2083d2784c824adce9a1bea4dd33dc51e974": "ledger",
+    "1e32a63a5839a0985b23478e828bd4689156c8fddabbd3c328ed28a0e5989c3a": "housing",
+    "890bc9698097c56141b30a6eed7d6f7e8bd1dfe3753a490a642c41959b64ef50": "co_lift"
+}
+
+
+def _core_work_kind(source: str) -> str | None:
+    return CORE_WORK_SOURCE_KIND.get(hashlib.sha256(source.encode("utf-8")).hexdigest())
+
+
+def _core_work_numbers(source: str, target: str):
+    """Disambiguate two lexical boundaries, retaining every number and weekday."""
+    kind = _core_work_kind(source)
+    if kind in {"sample_clock", "sample_lights", "bill_clock"}:
+        # A comma in this working view prevents weekday 五 from being read as
+        # a magnitude prefix on 18:00; the existing weekday/time checks still run.
+        target = re.sub(r"((?:星期|[週周]|[禮礼]拜)[一二三四五六日天1-7])([ \t]*)(?=[0-9]{1,2}[:：][0-9]{2})",
+                        r"\1，\2", target)
+    if kind == "tuesday":
+        # 上週一起 means 'together last week', not the weekday 周一.
+        target = re.sub(r"(上[週周])(?=一(?:起|同))", r"\1，", target)
+    return source, target, []
+
+
+def _core_work_slots(source: str, target: str):
+    """Bind native/implicit counts to their local owners, line, unit and value."""
+    kind = _core_work_kind(source)
+    ss, ts, errors = [], [], []
+    if kind is None:
+        return ss, ts, errors
+    n = r"[0-9０-９零〇一二两兩三四五六七八九十百千]+"
+    label = "core-work " + kind
+
+    def bind(fragment, pattern, expected=1, *, occurrence=0, role=None, printed=None):
+        starts = [m.start() for m in re.finditer(re.escape(fragment), source)]
+        start = starts[occurrence]
+        line = source[:start].count("\n")
+        ss.append(CounterQuantity(start, start + len(fragment), Decimal(expected), label))
+        matches = [m for m in re.finditer(pattern, target)
+                   if target[:m.start("q")].count("\n") == line
+                   and not any(x.start < m.end("q") and m.start("q") < x.end for x in ts)]
+        if len(matches) != 1:
+            errors.append(label + " quantity/role/line/count missing or duplicated")
+            return
+        m = matches[0]
+        a, b = m.span("q")
+        raw = m.groupdict().get("number")
+        if raw is not None and _chinese_cardinal_value(unicodedata.normalize("NFKC", raw)) != (
+                expected if printed is None else printed):
+            errors.append(label + " local quantity value changed")
+        if _has_numeric_sign_prefix(target, a):
+            errors.append(label + " quantity sign/prefix changed")
+        if re.match(r"[ \t]*(?:[/／%％‰]|倍|公斤|公里|[韓韩]元)", target[b:]):
+            errors.append(label + " quantity unit/rate suffix changed")
+        if role is not None and not role(m):
+            errors.append(label + " local quantity owner/predicate changed")
+        ts.append(CounterQuantity(a, b, Decimal(expected), label))
+
+    def clause(m):
+        a, b = m.span("q")
+        left = re.split(r"[，,。！？!?\n]", target[:a])[-1]
+        right = re.split(r"[，,。！？!?\n]", target[b:])[0]
+        return left, right
+
+    if kind == "two_sms":
+        bind("두 문자", rf"(?P<q>(?P<number>{n})[條条封則则](?:短[信訊讯]|[簡简][訊讯]))", 2,
+             role=lambda m: bool(re.search(r"(?:申[請请]|[應应]徵|[應应]征)[編编]?[號号]|申[請请][編编][號号]", clause(m)[1])))
+    elif kind == "sample_lights":
+        bind("2개", rf"(?P<q>(?P<number>{n})[盞盏](?:[應应]急[燈灯]|[緊紧]急(?:照明)?[燈灯]))", 2)
+    elif kind == "clock_glance":
+        bind("한 번 더", rf"(?:又|再)(?:抬[頭头])?看(?:了)?(?P<q>(?P<number>{n})(?:眼|次))",
+             role=lambda m: bool(re.search(r"[鐘钟]|[時时][鐘钟]", clause(m)[1])))
+    elif kind == "two_days":
+        day = rf"(?P<q>(?:這|这)?(?P<number>{n})[天日])"
+        bind("하루", day)
+        bind("하루", day, occurrence=1)
+    elif kind in {"yesterday_question", "tuesday"}:
+        bind("어제 하루", rf"(?P<q>(?:昨天|昨日)(?:(?P<number>{n})天)?)")
+    elif kind == "nap":
+        bind("한 번 더", rf"(?:又|再)(?P<q>睡(?:了|[過过])?(?:(?P<number>{n})[覺觉]|[著着]))")
+    elif kind == "father_signal":
+        bind("한번", rf"你(?:[跟和]他)?(?P<q>(?:[聯联][絡络繫系]|[聯联]系)(?:他)?"
+             rf"(?:(?P<number>{n})(?:下|次)|看看)?)",
+             role=lambda m: not re.search(r"(?:[別别]|不要|不必|[沒没]有)[ \t]*$", clause(m)[0]))
+    elif kind == "receipt_spending":
+        bind("영수증 한 장", rf"(?P<q>(?:(?P<number>{n})[張张]|[這这]?[張张])?[紙纸]?[質质本]?"
+             rf"收[據据])", role=lambda m: bool(re.search(r"[錢钱]|花|金[額额]", "".join(clause(m)))))
+    elif kind == "wrist":
+        bind("한 번", rf"(?P<q>(?:伸了伸|伸展(?:了)?(?P<number>{n})(?:下|次)|[舒伸]展(?:了)?))"
+             rf"(?=[^，,。\n]{{0,10}}手腕)")
+    elif kind in {"inventory_three", "class_three"}:
+        bind("세 가지", rf"(?P<q>(?P<number>{n})(?:件事(?:情)?|[項项](?:工作)?))", 3,
+             role=lambda m: bool(re.match(r"(?:都|全)?(?:做完|完成|全做完|都完成)", clause(m)[1])))
+    elif kind == "cafe_glance":
+        bind("한 번", rf"看(?:了)?(?:[^，,。\n]{{0,10}}咖啡(?:店|[館馆]))?"
+             rf"(?P<q>(?P<number>{n})(?:眼|次))",
+             role=lambda m: bool(re.search(r"咖啡(?:店|[館馆])", "".join(clause(m)))))
+    elif kind == "next_day":
+        bind("다음 날", rf"(?P<q>第(?P<number>{n})天|隔天|翌日|次日|下一天)", printed=2)
+        bind("하루", rf"(?P<q>日子|(?:那|[這这])?(?P<number>{n})天)",
+             role=lambda m: bool(re.search(r"先|省|撐|撑|[過过]", "".join(clause(m)))))
+    elif kind == "ledger":
+        bind("두 장", rf"(?P<q>(?P<number>{n})[張张][^，,。\n]{{0,18}}收[據据])", 2)
+        bind("두 번", rf"(?:[計计]?算)(?:了|過|过)?(?P<q>(?P<number>{n})(?:遍|次))", 2)
+    elif kind == "housing":
+        cell = rf"(?P<q>(?P<number>{n})(?:格|[欄栏]))"
+        bind("세 칸", cell, 3)
+        bind("세 가지", rf"(?P<q>(?P<number>{n})(?:[樣样項项]|[個个](?:[條条]件|[標标][準准])))(?![裡里])", 3)
+        bind("세 칸", cell, 3, occurrence=1)
+        bind("이 셋", rf"[這这](?P<q>(?P<number>{n})(?:[樣样項项]|[個个](?:[條条]件|[標标][準准])))[裡里中]", 3)
+        bind("하나", rf"(?:先(?:保|守)住)(?P<q>(?P<number>{n})(?:[樣样項项]|[個个](?:[條条]件|[標标][準准])))")
+    elif kind == "co_lift":
+        bind("누가 먼저랄 것 없이", rf"(?P<q>(?P<number>{n})[個个]?人)"
+             r"(?=[^，,。\n]{0,16}(?:抓住|抓起|抬起|搬起))", 2,
+             role=lambda m: bool(re.search(r"抓住|抓起|抬起|搬起", clause(m)[1])))
+    return ss, ts, sorted(set(errors))
+
+
+def _core_work_latin(source: str, target: str):
+    """License only source-owned Dodam and Choi occurrences, not English prose."""
+    kind = _core_work_kind(source)
+    if kind is None or kind not in {
+            "father_note", "father_detail", "father_ask", "father_signal",
+            "dodam_notice", "dodam_title"}:
+        return target, []
+    surname = kind.startswith("father_")
+    fragment, name = ("최씨", "Choi") if surname else ("도담고객센터", "Dodam")
+    matches = _bounded_latin_matches(target, name)
+    required = [source[:m.start()].count("\n") for m in re.finditer(fragment, source)]
+    lines = [target[:m.start()].count("\n") for m in matches]
+    # The explicitly addressed 아저씨 may repeat his known surname in that
+    # same question. It is not a second named neighbour or arbitrary name slot.
+    allowed = [required]
+    if kind == "father_detail":
+        allowed.append([0] + required)
+    if lines not in allowed or target.count(name) != len(matches):
+        return target, ["core-work source name identity/count/line/boundary changed"]
+    if not surname and any(not re.match(r"[ \t　]*(?:客服中心|[客顧顾]戶服務中心|客户服务中心)",
+                                       target[m.end():]) for m in matches):
+        return target, ["core-work source company role changed"]
+    if kind == "father_detail" and lines == [0] + required:
+        first_line = target.split("\n")[0]
+        if not re.search(r"哪.*[醫医]院", first_line):
+            return target, ["core-work addressed surname role changed"]
+    for m in reversed(matches):
+        target = target[:m.start()] + " " * len(m.group()) + target[m.end():]
+    return target, []
+
+
 def _numeric_errors(source: str, target: str) -> list[str]:
+    source, target, core_work_errors = _core_work_numbers(source, target)
     source, target, errors = _callback_shadow_numbers(source, target)
+    errors.extend(core_work_errors)
     admin_source_slots, admin_target_slots, admin_errors = _investment_admin_slots(source, target)
+    core_source, core_target, core_errors = _core_work_slots(source, target)
+    admin_source_slots.extend(core_source)
+    admin_target_slots.extend(core_target)
+    errors.extend(core_errors)
     easter_source, easter_target, easter_errors = _easter_core_slots(source, target)
     admin_source_slots.extend(easter_source)
     admin_target_slots.extend(easter_target)
@@ -8196,6 +8374,9 @@ def _money_errors(lang: str, source: str, target: str) -> list[str]:
 
 
 def _untranslated_english_errors(source: str, target: str, *, catalog: bool = False) -> list[str]:
+    target, core_work_errors = _core_work_latin(source, target)
+    if core_work_errors:
+        return core_work_errors
     target, easter_errors = _easter_core_latin(source, target)
     if easter_errors:
         return easter_errors

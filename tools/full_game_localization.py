@@ -2723,6 +2723,54 @@ def _ja_casino_reply_numbers(source: str, target: str):
     return source, normalized, sorted(set(errors))
 
 
+def _ja_core_calendar_week_numbers(source: str, target: str):
+    """One hiring notice: calendar June, second week, morning (not duration).
+
+    Korean writes the ordinal as a word; Japanese may write 第2週 or 二週目.
+    Bind the opening slot and the April application in the last paragraph.
+    Every other numeric, token and paragraph check still runs unchanged.
+    """
+    if hashlib.sha256(source.encode("utf-8")).hexdigest() != \
+            "f845925b57fca4a1044bda5dc9f736840c4019f69c7c9fa50c7a3c9a436b7938":
+        return None
+    import unicodedata
+    number = r"[0-9０-９零〇一二三四五六七八九十百]+"
+    week = rf"(?:第(?P<ordinal>{number})週|(?P<weekme>{number})週目)"
+    opening = re.match(
+        rf"(?P<date>(?P<month>{number})月(?:の)?{week})(?:の|、|。|[ \t])*"
+        r"(?:午前(?:中)?|朝)(?=[。、, \t])", target
+    )
+    label = "source-bound core calendar week"
+    errors = []
+    if opening is None:
+        return source, target, [label + " unit/position/morning mismatch"]
+    month = unicodedata.normalize("NFKC", opening.group("month"))
+    ordinal = unicodedata.normalize("NFKC", opening.group("ordinal") or opening.group("weekme"))
+    if month not in ("6", "六") or ordinal not in ("2", "二"):
+        errors.append(label + " value/sign mismatch")
+    all_weeks = list(re.finditer(rf"(?:第{number}週|{number}週目)", target))
+    if len(all_weeks) != 1:
+        errors.append(label + " duplicate/missing week mismatch")
+    start, end = opening.span("date")
+    replacements = [(start, end, "6月")]
+    applications = list(re.finditer(
+        rf"(?m)^(?P<month>{number})月(?=に(?:送った|提出した|応募した))", target
+    ))
+    if len(applications) != 1 or target.count("\n", 0, applications[0].start()) != 4:
+        errors.append(label + " application month position/unit mismatch")
+    else:
+        application = applications[0]
+        if unicodedata.normalize("NFKC", application.group("month")) not in ("4", "四"):
+            errors.append(label + " application month value/sign mismatch")
+        replacements.append((*application.span("month"), "4"))
+    if len(list(re.finditer(rf"{number}月", target))) != 2:
+        errors.append(label + " duplicate/missing calendar month mismatch")
+    normalized = target
+    for start, end, replacement in sorted(replacements, reverse=True):
+        normalized = normalized[:start] + replacement + normalized[end:]
+    return source, normalized, errors
+
+
 def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
     import ja_translation_pipeline as ja
     if leaf.group == "endings" and leaf.path == ("condition",):
@@ -2751,6 +2799,10 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
         numeric = re.compile(r"(?<![\d.])[+-]?\d+(?:[,.]\d+)*")
         source_numbers = ja.PLACEHOLDER.sub("", placeholder_source)
         target_numbers = ja.PLACEHOLDER.sub("", placeholder_target)
+        core_calendar_week = _ja_core_calendar_week_numbers(leaf.source, text)
+        if core_calendar_week is not None:
+            source_numbers, target_numbers, calendar_errors = core_calendar_week
+            errors.extend(calendar_errors)
         leisure_gambling = _ja_leisure_gambling_numbers(leaf.source, text)
         if leisure_gambling is not None:
             source_numbers, target_numbers, quantity_errors = leisure_gambling
