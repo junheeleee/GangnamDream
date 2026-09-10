@@ -23,6 +23,23 @@
 > [`7/25`](history/WORK_LOG_2026-07-25.md)에 손실 없이 보존한다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
 
+## 2026-09-10 (Codex — ORDER-236 엔딩 통계·재시작23단위·UI42키 번역)
+
+- JA기존42 전량 검수·5정밀화, CN/TW 신규84 KO직접 저작·비저자126 대조.
+  CN시간절·TW지연진실 각1 선택정밀화. 최종 자산/보존률·거처·미경험 사실 경계 보존.
+- 첫L1 CN/TW각3leaf6진단은 원형보존, exact UI/KO3의 브랜드·범주2·구독자100만만 수리.
+  독립60+actual2 및 별도앞한정사10은 원형/정상base/OFF를 보존해 재검했다.
+  전역면제·검사맞춤산문0. 선택126 L1/회귀 및 최종전체38,437 오류0·명시12 PASS.
+- 첫 명시12의 Python direct-file UTF8 실패 뒤 self 인코딩1줄만 추가, 원형/AST 동등성 및
+  같은 전체수용·명시12 재검 PASS. 첫 실패/첫 전체수용PASS를 별도 보존했다.
+- 공식 C1 check/import6 changed_files0, 신규126/b96 수용 및 기존38311/b95/meta9 raw 역복원.
+  누적38,437(JA12,811/CN·TW12,813). UI전체/동적값/원어민·화면 완료는 아니다.
+- 제품218b7fa4/tree5efee35b, Poincare 비저자 work_unit236 한정GO/필수0.
+  [결과·42문구·최초실패·선언](queue_archive/ORDER-236_L1_L2_RESULTS.md).
+  공개·인간 원형/본편HOLD, native/render OPEN. Godot/full/240·실제화면 GO0.
+- 선언 완료223/222절1187B raw이동, 마감 WORK37820B/EOF2에 신규절만 추가.
+  history83864B/EOF1 불변. 이번23단위·소유·마감은 일회성, 남은 UI·소비자 수리를 계속한다.
+
 ## 2026-09-10 (Codex — ORDER-235 엔딩 기록19단위·UI52키 번역)
 
 - JA기존52 전량 검수·4정밀화, CN/TW 신규104 KO직접 저작 및 비저자156 전량대조.
