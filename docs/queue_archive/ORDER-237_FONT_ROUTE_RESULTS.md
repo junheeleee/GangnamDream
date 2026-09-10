@@ -29,7 +29,7 @@ Status: implementation and targeted QA complete; exact-source independent final 
   구제하지 않고 literal·죽은 분기·early return·뒤 덮어쓰기를 막는다.
 - `font_route.ready`는 이제 긍정 경로 증명을 직접 AND한다. JP 자원이 없다는 이유만으로
   미인식 경로가 ready가 되던 연결 결함도 닫았다. cmap/OFL/원장 조건은 면제하지 않는다.
-- 나머지 기존 함수200개 raw 불변. 허용 기존변경3은 font_route, main의 early CLI,
+- 나머지 기존 top-level 정의200개(함수196·클래스4) raw 불변. 허용 변경함수3은 font_route, main의 early CLI,
   run_self_test의3줄 hook뿐이다. 신규 구간/ast import/이3함수를 역복원하면 원형
   전체 raw·AST가 exact다. 나머지 번역 코드3·runtime·문구·폰트·인간 원형은 불변이다.
 
