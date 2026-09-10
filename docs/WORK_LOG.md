@@ -463,3 +463,4 @@
   M06 실제 영수증→M07~M12를 잇고 runtime occurrence와 story-map 월 소유권을
   대조한다. 진단 trace에서 세 경로 모두 비었던 M11 W41~W44와 M08·M10의
   상태별 장면, M11 receipt를 읽는 M12 보스를 먼저 수리한다.
+
