@@ -1,5 +1,7 @@
 # Active Queue Spec: ORDER-228
 
+#### [~] ORDER-228 [전체 현지화] 중반 생활20종 직접 번역
+
 > [~] 2026-09-10 착수 — 중반 생활20종의 JA·zh-CN·zh-TW 직접 번역.
 > 실행 순서는 CODEX_QUEUE.md, 최종 내부 권한과 실제 관찰 경계는 WORK_UNIT.md가 소유한다.
 
