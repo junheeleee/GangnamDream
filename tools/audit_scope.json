@@ -2015,6 +2015,11 @@
       ]
     },
     {
+      "tool": "tools/zh_translation_audit.py --self-test-font-route",
+      "paths": [],
+      "why": "고정 중국어 폰트 경로 정상·반례 및 실제6글자 정적 관측; 전체 번역 collector나 렌더 검수가 아님"
+    },
+    {
       "tool": "tools/zh_translation_audit.py --self-test",
       "why": "간·번체 혼용, 엔·위안 전환, 한글·가나, 숫자·토큰 손실, 임의 인명 한자와 JP-first 글꼴 경로 변이를 거부",
       "paths": [

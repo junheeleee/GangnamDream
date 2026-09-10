@@ -11,6 +11,7 @@ static UI, catalog names, and a project-owned locale font must be complete.
 from __future__ import annotations
 
 import argparse
+import ast
 import hashlib
 import json
 import pathlib
@@ -8976,6 +8977,559 @@ def _locale_font_precedes_jp(source: str, primary_exists: bool) -> bool:
     )
 
 
+class _FontRouteUnsupported(ValueError):
+    """Outside the deliberately small, non-executing FontKit source grammar."""
+
+
+class _FontRouteReturn(Exception):
+    def __init__(self, value: Any):
+        self.value = value
+
+
+class _FontRouteFont:
+    def __init__(self, kind: str, path: str = "", origin: tuple[str, ...] = ()):
+        self.kind = kind
+        self.path = path
+        self.origin = origin
+        self.base_font: Any = None
+        self.variation_opentype: dict[str, Any] = {}
+        self.fallbacks: list[Any] = []
+
+
+def _font_route_code_lines(source: str) -> list[tuple[int, str]]:
+    """Lex comments/strings first; quoted/dead witness text is never code.
+
+    This is a finite GDScript subset, not a general parser or an engine proof.
+    Multiline strings remain single literal tokens; balanced continuations are
+    joined without turning their contents into statements.
+    """
+    if len(source) > 200000:
+        raise _FontRouteUnsupported("source size outside bounded grammar")
+    cleaned: list[str] = []
+    i = 0
+    while i < len(source):
+        char = source[i]
+        if char == "#":
+            end = source.find("\n", i)
+            i = len(source) if end < 0 else end
+        elif char in ("'", '"'):
+            quote = char * 3 if source.startswith(char * 3, i) else char
+            start = i
+            i += len(quote)
+            while i < len(source):
+                if source[i] == "\\":
+                    i += 2
+                elif source.startswith(quote, i):
+                    i += len(quote)
+                    break
+                else:
+                    i += 1
+            else:
+                raise _FontRouteUnsupported("unterminated source string")
+            try:
+                value = ast.literal_eval(source[start:i])
+            except (ValueError, SyntaxError) as exc:
+                raise _FontRouteUnsupported("unsupported string escape") from exc
+            cleaned.append(repr(value))
+        else:
+            cleaned.append(char)
+            i += 1
+    # Strings are now escaped single-line Python literals. Count brackets using
+    # a second token scan so brackets inside those literals cannot affect flow.
+    result: list[tuple[int, str]] = []
+    pending = ""
+    indent = 0
+    balance = 0
+    for raw in "".join(cleaned).splitlines():
+        line = raw.strip()
+        if not line:
+            continue
+        if not pending:
+            indent = len(raw.expandtabs(4)) - len(raw.expandtabs(4).lstrip())
+        pending += (" " if pending else "") + line.rstrip("\\").rstrip()
+        quoted = re.sub(r"'(?:\\.|[^'\\])*'|\"(?:\\.|[^\"\\])*\"", "''", line)
+        balance += sum(quoted.count(c) for c in "([{")
+        balance -= sum(quoted.count(c) for c in ")]}")
+        if balance < 0:
+            raise _FontRouteUnsupported("unbalanced source delimiters")
+        if balance == 0 and not line.endswith("\\"):
+            result.append((indent, pending))
+            pending = ""
+    if pending or balance:
+        raise _FontRouteUnsupported("incomplete source continuation")
+    return result
+
+
+class _FontRouteProgram:
+    """Bounded symbolic execution of known source, never eval/exec/Godot.
+
+    Only the expressions and control statements below are supported. Resources
+    are symbolic project-owned files, with all optional fallbacks present so a
+    missing/reordered fallback cannot hide behind an unavailable-resource arm.
+    Caches, aliases, shared object identity and later assignments are observed.
+    Unknown reachable syntax/calls fail closed rather than token-match success.
+    """
+
+    PATHS = {
+        "zh-CN": "res://assets/fonts/NotoSansSC-Variable.ttf",
+        "zh-TW": "res://assets/fonts/NotoSansTC-Variable.ttf",
+        "ja": "res://assets/fonts/NotoSansJP-Variable.ttf",
+        "emoji": "res://assets/fonts/NotoColorEmoji.ttf",
+        400: "res://assets/fonts/Pretendard-Regular.ttf",
+        600: "res://assets/fonts/Pretendard-SemiBold.ttf",
+        700: "res://assets/fonts/Pretendard-Bold.ttf",
+    }
+
+    def __init__(self, lines: list[tuple[int, str]]):
+        self.globals: dict[str, Any] = {}
+        self.functions: dict[str, Any] = {}
+        self.stack: list[str] = []
+        self.trace: list[tuple[str, tuple[Any, ...]]] = []
+        self.steps = 0
+        i = 0
+        while i < len(lines):
+            indent, line = lines[i]
+            if indent:
+                raise _FontRouteUnsupported("unexpected top-level indentation")
+            function = re.fullmatch(r"static func (\w+)\((.*?)\)(?:\s*->\s*\w+)?:", line)
+            if function:
+                name, args = function.groups()
+                if name in self.functions:
+                    raise _FontRouteUnsupported("duplicate function: " + name)
+                params = []
+                for arg in args.split(",") if args else []:
+                    param = re.fullmatch(r"\s*(\w+)(?:\s*:\s*\w+)?\s*", arg)
+                    if not param:
+                        raise _FontRouteUnsupported("unsupported parameter")
+                    params.append(param.group(1))
+                end = i + 1
+                while end < len(lines) and lines[end][0] > 0:
+                    end += 1
+                self.functions[name] = (params, lines[i + 1:end])
+                i = end
+                continue
+            declaration = re.fullmatch(r"(?:const|static var) (\w+)(?:\s*:\s*\w+)?\s*:?=\s*(.+)", line)
+            if declaration:
+                name, expression = declaration.groups()
+                if name in self.globals:
+                    raise _FontRouteUnsupported("duplicate declaration: " + name)
+                self.globals[name] = self.expression(expression, {})
+            elif not re.fullmatch(r"(?:extends|class_name) \w+", line):
+                raise _FontRouteUnsupported("unsupported top-level statement")
+            i += 1
+
+    def tick(self) -> None:
+        self.steps += 1
+        if self.steps > 12000:
+            raise _FontRouteUnsupported("symbolic step budget exceeded")
+
+    def expression(self, text: str, env: dict[str, Any]) -> Any:
+        text = re.sub(r"\s+as\s+(?:FontFile|FontVariation|Font)$", "", text)
+        try:
+            node = ast.parse(text, mode="eval").body
+        except SyntaxError as exc:
+            raise _FontRouteUnsupported("unsupported expression: " + text[:100]) from exc
+        return self.value(node, env)
+
+    def value(self, node: ast.AST, env: dict[str, Any]) -> Any:
+        self.tick()
+        if isinstance(node, ast.Constant):
+            return node.value
+        if isinstance(node, ast.Name):
+            if node.id in {"null", "true", "false"}:
+                return {"null": None, "true": True, "false": False}[node.id]
+            if node.id in env:
+                return env[node.id]
+            if node.id in self.globals:
+                return self.globals[node.id]
+            if node.id in {"Font", "FontFile", "FontVariation", "ResourceLoader", "TextServerManager"}:
+                return ("builtin", node.id)
+            raise _FontRouteUnsupported("unbound identifier: " + node.id)
+        if isinstance(node, (ast.List, ast.Tuple)):
+            return [self.value(v, env) for v in node.elts]
+        if isinstance(node, ast.Dict):
+            return {self.value(k, env): self.value(v, env) for k, v in zip(node.keys, node.values)}
+        if isinstance(node, ast.Subscript):
+            return self.value(node.value, env)[self.value(node.slice, env)]
+        if isinstance(node, ast.Attribute):
+            obj = self.value(node.value, env)
+            if isinstance(obj, _FontRouteFont) and node.attr in {"base_font", "variation_opentype", "fallbacks"}:
+                return getattr(obj, node.attr)
+            raise _FontRouteUnsupported("unsupported attribute: " + node.attr)
+        if isinstance(node, ast.UnaryOp) and isinstance(node.op, ast.Not):
+            return not self.value(node.operand, env)
+        if isinstance(node, ast.BoolOp):
+            result: Any = isinstance(node.op, ast.And)
+            for v in node.values:
+                result = self.value(v, env)
+                if isinstance(node.op, ast.And) and not result or isinstance(node.op, ast.Or) and result:
+                    break
+            return result
+        if isinstance(node, ast.Compare):
+            left = self.value(node.left, env)
+            for op, right_node in zip(node.ops, node.comparators):
+                right = self.value(right_node, env)
+                if isinstance(op, (ast.Is, ast.IsNot)):
+                    matched = isinstance(left, _FontRouteFont) and right == ("builtin", left.kind) if isinstance(right, tuple) and right[:1] == ("builtin",) else left is right
+                    okay = not matched if isinstance(op, ast.IsNot) else matched
+                elif isinstance(op, ast.Eq):
+                    okay = left == right
+                elif isinstance(op, ast.NotEq):
+                    okay = left != right
+                elif isinstance(op, ast.In):
+                    okay = left in right
+                elif isinstance(op, ast.NotIn):
+                    okay = left not in right
+                else:
+                    raise _FontRouteUnsupported("unsupported comparison")
+                if not okay:
+                    return False
+                left = right
+            return True
+        if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Mod):
+            left, right = self.value(node.left, env), self.value(node.right, env)
+            if not isinstance(left, str):
+                raise _FontRouteUnsupported("unsupported formatting")
+            return left % (tuple(right) if isinstance(right, list) else right)
+        if isinstance(node, ast.Call) and not node.keywords:
+            args = [self.value(a, env) for a in node.args]
+            if isinstance(node.func, ast.Name):
+                if node.func.id == "load" and len(args) == 1:
+                    if args[0] not in self.PATHS.values():
+                        raise _FontRouteUnsupported("load outside approved font paths")
+                    return _FontRouteFont("FontFile", args[0], tuple(self.stack))
+                return self.call(node.func.id, args)
+            if isinstance(node.func, ast.Attribute):
+                obj, method = self.value(node.func.value, env), node.func.attr
+                if obj == ("builtin", "FontVariation") and method == "new" and not args:
+                    return _FontRouteFont("FontVariation", origin=tuple(self.stack))
+                if obj == ("builtin", "ResourceLoader") and method == "exists" and len(args) == 1:
+                    return args[0] in self.PATHS.values()
+                if obj == ("builtin", "TextServerManager") and method == "get_primary_interface" and not args:
+                    return ("text_server",)
+                if obj == ("text_server",) and method == "name_to_tag" and args == ["wght"]:
+                    return "wght"
+                if method == "is_empty" and not args and isinstance(obj, (str, dict, list)):
+                    return not obj
+                if method == "has" and len(args) == 1 and isinstance(obj, (dict, list)):
+                    return args[0] in obj
+                if method == "values" and not args and isinstance(obj, dict):
+                    return list(obj.values())
+                if method == "append" and len(args) == 1 and isinstance(obj, list):
+                    obj.append(args[0])
+                    return None
+                if isinstance(obj, str):
+                    if method == "strip_edges" and not args:
+                        return obj.strip()
+                    if method == "to_lower" and not args:
+                        return obj.lower()
+                    if method == "replace" and len(args) == 2 and all(isinstance(v, str) for v in args):
+                        return obj.replace(*args)
+                raise _FontRouteUnsupported("unsupported method: " + method)
+        raise _FontRouteUnsupported("unsupported expression node: " + type(node).__name__)
+
+    def assign(self, target: str, value: Any, env: dict[str, Any]) -> None:
+        node = ast.parse(target, mode="eval").body
+        if isinstance(node, ast.Name):
+            (self.globals if node.id in self.globals else env)[node.id] = value
+        elif isinstance(node, ast.Subscript):
+            obj = self.value(node.value, env)
+            if not isinstance(obj, dict):
+                raise _FontRouteUnsupported("only dictionary assignment supported")
+            obj[self.value(node.slice, env)] = value
+        elif isinstance(node, ast.Attribute):
+            obj = self.value(node.value, env)
+            if not isinstance(obj, _FontRouteFont) or node.attr not in {"base_font", "variation_opentype", "fallbacks"}:
+                raise _FontRouteUnsupported("unsupported attribute assignment")
+            setattr(obj, node.attr, value)
+        else:
+            raise _FontRouteUnsupported("unsupported assignment")
+
+    def block(self, lines: list[tuple[int, str]], env: dict[str, Any]) -> None:
+        if not lines:
+            raise _FontRouteUnsupported("empty executable block")
+        level = lines[0][0]
+        i = 0
+        while i < len(lines):
+            self.tick()
+            indent, line = lines[i]
+            if indent != level:
+                raise _FontRouteUnsupported("unowned indentation")
+            end = i + 1
+            while end < len(lines) and lines[end][0] > level:
+                end += 1
+            children = lines[i + 1:end]
+            if line.startswith("if ") and line.endswith(":"):
+                taken = bool(self.expression(line[3:-1], env))
+                if taken:
+                    self.block(children, env)
+                while end < len(lines) and lines[end][0] == level and (lines[end][1].startswith("elif ") or lines[end][1] == "else:"):
+                    arm = lines[end][1]
+                    arm_start = end + 1
+                    end = arm_start
+                    while end < len(lines) and lines[end][0] > level:
+                        end += 1
+                    if not taken and (arm == "else:" or self.expression(arm[5:-1], env)):
+                        self.block(lines[arm_start:end], env)
+                        taken = True
+            elif line.startswith("for ") and line.endswith(":"):
+                match = re.fullmatch(r"for (\w+) in (.+):", line)
+                if not match:
+                    raise _FontRouteUnsupported("unsupported loop")
+                values = self.expression(match.group(2), env)
+                if not isinstance(values, list) or len(values) > 16:
+                    raise _FontRouteUnsupported("unbounded loop")
+                for value in values:
+                    env[match.group(1)] = value
+                    self.block(children, env)
+            elif line.startswith("match ") and line.endswith(":"):
+                value = self.expression(line[6:-1], env)
+                if not children:
+                    raise _FontRouteUnsupported("empty match")
+                j, arm_level = 0, children[0][0]
+                while j < len(children):
+                    arm_indent, arm = children[j]
+                    if arm_indent != arm_level or not arm.endswith(":"):
+                        raise _FontRouteUnsupported("unsupported match arm")
+                    stop = j + 1
+                    while stop < len(children) and children[stop][0] > arm_level:
+                        stop += 1
+                    if arm == "_:" or value == self.expression(arm[:-1], env):
+                        self.block(children[j + 1:stop], env)
+                        break
+                    j = stop
+            elif children:
+                raise _FontRouteUnsupported("unsupported compound statement")
+            elif line == "return" or line.startswith("return "):
+                raise _FontRouteReturn(None if line == "return" else self.expression(line[7:], env))
+            else:
+                declaration = re.fullmatch(r"var (\w+)(?:\s*:\s*\w+(?:\[\w+\])?)?\s*:?=\s*(.+)", line)
+                assignment = re.fullmatch(r"(.+?)\s*=(?!=)\s*(.+)", line)
+                if declaration:
+                    env[declaration.group(1)] = self.expression(declaration.group(2), env)
+                elif assignment:
+                    self.assign(assignment.group(1).strip(), self.expression(assignment.group(2), env), env)
+                else:
+                    self.expression(line, env)
+            i = end
+
+    def call(self, name: str, args: list[Any]) -> Any:
+        self.tick()
+        if name not in self.functions or len(self.stack) >= 24:
+            raise _FontRouteUnsupported("unsupported or recursive call: " + name)
+        params, lines = self.functions[name]
+        if len(params) != len(args):
+            raise _FontRouteUnsupported("argument count: " + name)
+        self.trace.append((name, tuple(args)))
+        self.stack.append(name)
+        try:
+            self.block(lines, dict(zip(params, args)))
+        except _FontRouteReturn as result:
+            return result.value
+        finally:
+            self.stack.pop()
+        return None
+
+
+def _font_route_legacy_active(lines: list[tuple[int, str]]) -> bool:
+    """Only an active straight-line legacy append sequence is a witness.
+
+    This guard supplements (never changes) the historical regex helper. It
+    tracks the one optional local alias, rejects branches/early returns and
+    overwrites, and requires the dedicated then JP calls to own the same font.
+    """
+    functions = [(i, line) for i, (indent, line) in enumerate(lines)
+                 if not indent and line.startswith("static func attach_locale_fallbacks(")]
+    if len(functions) != 1:
+        return False
+    index, signature = functions[0]
+    if not re.fullmatch(r"static func attach_locale_fallbacks\(font:\s*Font(?:File)?,\s*language:\s*String\)(?:\s*->\s*void)?:", signature):
+        return False
+    end = index + 1
+    while end < len(lines) and lines[end][0] > 0:
+        end += 1
+    body = lines[index + 1:end]
+    if len(body) not in (2, 3) or len({indent for indent, _ in body}) != 1:
+        return False
+    alias: str | None = None
+    offset = 0
+    if len(body) == 3:
+        match = re.fullmatch(r"var (\w+)\s*:?=\s*_get_dedicated_locale_font\(language\)", body[0][1])
+        if not match:
+            return False
+        alias, offset = match.group(1), 1
+        if alias in ("font", "language"):
+            return False
+    def call_shape(text: str, expected: str) -> bool:
+        try:
+            return ast.dump(ast.parse(text, mode="eval"), include_attributes=False) == ast.dump(ast.parse(expected, mode="eval"), include_attributes=False)
+        except SyntaxError:
+            return False
+    dedicated = alias or "_get_dedicated_locale_font(language)"
+    return call_shape(body[offset][1], f"_append_fallback(font, {dedicated})") and call_shape(body[offset + 1][1], "_append_fallback(font, _get_jp_font())")
+
+
+def _font_route_source_contract(
+    source: str, lang: str, primary: str, primary_exists: bool,
+) -> dict[str, Any] | None:
+    """Recognize the finite legacy or shared-role Chinese source contract.
+
+    Locale OFF returns None; success requires recognized AND no errors. Approved
+    regional paths are policy, not inferred from the candidate's own constants.
+    The modern model follows reachable normalize/load/shared-role effects with
+    caches, alias identity and overwrite order, not whole-source hashes or an
+    equality template. Malformed modern never falls through to legacy. This
+    bounded recognizer is not a GDScript prover, resource/license audit, or a
+    physical-render claim; font_route retains those independent static gates.
+    """
+    if lang not in LANGUAGES:
+        return None
+    errors: list[str] = []
+    if primary != _FontRouteProgram.PATHS[lang]:
+        errors.append("requested primary does not match approved " + lang + " font")
+    if not primary_exists:
+        errors.append("approved primary resource is absent")
+    result = {"model": "unrecognized", "recognized": False, "errors": errors}
+    try:
+        lines = _font_route_code_lines(source)
+        modern = any(re.search(r"\b(?:configure_language|_ensure_ui_fonts|_ui_fonts)\b", re.sub(r"'(?:\\.|[^'\\])*'|\"(?:\\.|[^\"\\])*\"", "''", line)) for _, line in lines)
+        if not modern:
+            result["model"] = "legacy"
+            # Keep the old recognizer and its historical good/bad fixtures exact.
+            # Pass lexed code so comment/string bait cannot become a witness.
+            legacy_source = "\n".join(
+                " " * indent + re.sub(r"'(?:\\.|[^'\\])*'|\"(?:\\.|[^\"\\])*\"", "''", line)
+                for indent, line in lines
+            )
+            result["recognized"] = bool(
+                _font_route_legacy_active(lines)
+                and _locale_font_precedes_jp(legacy_source, primary_exists)
+            )
+            if not result["recognized"]:
+                errors.append("legacy append-before-JP source contract unrecognized")
+            return result
+        result["model"] = "shared-role"
+        program = _FontRouteProgram(lines)
+        for key, value in [("ZH_CN_FONT_PATH", program.PATHS["zh-CN"]), ("ZH_TW_FONT_PATH", program.PATHS["zh-TW"]), ("JP_FONT_PATH", program.PATHS["ja"]), ("WEIGHT_REGULAR", 400), ("WEIGHT_SEMIBOLD", 600), ("WEIGHT_BOLD", 700)]:
+            if program.globals.get(key) != value:
+                raise _FontRouteUnsupported("region/weight constant mismatch: " + key)
+        aliases = {"zh-CN": ["zh-CN", "zh", "zh_hans", " CN "], "zh-TW": ["zh-TW", "zh_hant", " TW "], "ja": ["ja", "ja-jp"], "ko": ["ko"], "en": ["en"]}
+        for normalized, spellings in aliases.items():
+            for spelling in spellings:
+                if program.call("_normalize_language", [spelling]) != normalized:
+                    raise _FontRouteUnsupported("locale normalization mismatch")
+        if program.call("dedicated_locale_font_path", [lang]) != primary:
+            raise _FontRouteUnsupported("locale-to-path dispatch mismatch")
+        # Start with lazy-created shared roles, then change languages on the SAME
+        # identities. Cold locale caches witness the actual path/load dependency.
+        roles = [program.call(name, []) for name in ("ui_regular", "ui_semibold", "ui_bold")]
+        for selected in ("ja", lang, "en", lang):
+            program.call("configure_language", [selected])
+            if program.globals.get("_active_language") != selected:
+                raise _FontRouteUnsupported("active locale binding mismatch")
+            if selected != lang:
+                continue
+            shared = program.globals.get("_ui_fonts")
+            if not isinstance(shared, dict) or set(shared) != {400, 600, 700}:
+                raise _FontRouteUnsupported("shared weight roles mismatch")
+            for weight, role in zip((400, 600, 700), roles):
+                if not isinstance(role, _FontRouteFont) or role.kind != "FontVariation" or shared[weight] is not role:
+                    raise _FontRouteUnsupported("shared FontVariation identity mismatch")
+                base = role.base_font
+                if not isinstance(base, _FontRouteFont) or base.path != primary or "_get_locale_font" not in base.origin:
+                    raise _FontRouteUnsupported("shared primary load/region mismatch")
+                if role.variation_opentype != {"wght": weight}:
+                    raise _FontRouteUnsupported("shared variation weight mismatch")
+                fallbacks = role.fallbacks
+                if len(fallbacks) != 3 or not all(isinstance(f, _FontRouteFont) for f in fallbacks):
+                    raise _FontRouteUnsupported("shared fallback role count mismatch")
+                pretendard, jp, emoji = fallbacks
+                if pretendard.path != program.PATHS[weight] or emoji.path != program.PATHS["emoji"]:
+                    raise _FontRouteUnsupported("Pretendard/emoji fallback order mismatch")
+                if jp.kind != "FontVariation" or not isinstance(jp.base_font, _FontRouteFont) or jp.base_font.path != program.PATHS["ja"] or jp.variation_opentype != {"wght": weight}:
+                    raise _FontRouteUnsupported("JP fallback weight/order mismatch")
+                before = (base, dict(role.variation_opentype), list(fallbacks))
+                program.call("attach_locale_fallbacks", [role])
+                program.call("attach_emoji_fallback", [role])
+                if (role.base_font, role.variation_opentype, role.fallbacks) != before:
+                    raise _FontRouteUnsupported("shared route overwritten by attach")
+        if not any(name == "_get_locale_font" and args == (lang,) for name, args in program.trace):
+            raise _FontRouteUnsupported("active locale getter not reached")
+        result["recognized"] = True
+    except (ValueError, SyntaxError, KeyError, IndexError, TypeError, AttributeError, RecursionError) as exc:
+        errors.append("source contract unrecognized: " + str(exc)[:180])
+    return result
+
+
+def _font_route_focused_self_test() -> tuple[int, list[str]]:
+    """Replay the immutable author source32; no collectors or resource writes.
+
+    Sources below are test inputs, never recognition hashes/templates. Initial
+    modern false negatives and the separate real ledger blocker are preserved in
+    ORDER237 private baseline evidence; OFF and invalid-base counts are distinct.
+    """
+    controls = json.loads("{\"unit\":\"ORDER-237\",\"author\":\"Plato\",\"sealed_before_product_code\":true,\"approved_paths\":{\"zh-CN\":\"res://assets/fonts/NotoSansSC-Variable.ttf\",\"zh-TW\":\"res://assets/fonts/NotoSansTC-Variable.ttf\"},\"bases\":{\"modern\":\"extends Node\\nclass_name FontKit\\n## 폰트 유틸 — locale별 primary와 프로젝트 소유 폴백을 한 체인으로 묶어\\n## 플랫폼별 OS 폰트 선택 차이를 제거한다. KO/EN은 Pretendard, 일본어와\\n## 중국어는 Noto Sans JP/SC/TC의 같은 웨이트, 이모지는 Noto Color Emoji를 사용한다.\\n##\\n## 문제: Pretendard(.ttf)에는 이모지 글리프가 없다. 폴백을 안 걸면 Godot이 OS\\n##       폰트를 들쭉날쭉 골라 써서, 어떤 이모지(예: 🤝 U+1F91D, 2016)는 안 나오고\\n##       플랫폼마다 결과가 달라진다.\\n## 시도1(실패): SystemFont(\\\"Apple Color Emoji\\\" 등) 폴백 → has_char는 true지만\\n##       런타임 렌더링엔 안 쓰여서 🤝가 여전히 안 나왔다.\\n## 해결: NotoColorEmoji.ttf 를 직접 번들하고 FontFile 폴백으로 건다. 실제 폰트\\n##       파일이라 렌더링에 확실히 사용되고, 모든 플랫폼에서 동일하게 보인다.\\n\\nconst EMOJI_FONT_PATH := \\\"res://assets/fonts/NotoColorEmoji.ttf\\\"\\nconst JP_FONT_PATH := \\\"res://assets/fonts/NotoSansJP-Variable.ttf\\\"\\nconst ZH_CN_FONT_PATH := \\\"res://assets/fonts/NotoSansSC-Variable.ttf\\\"\\nconst ZH_TW_FONT_PATH := \\\"res://assets/fonts/NotoSansTC-Variable.ttf\\\"\\nconst PRETENDARD_REGULAR_PATH := \\\"res://assets/fonts/Pretendard-Regular.ttf\\\"\\nconst PRETENDARD_SEMIBOLD_PATH := \\\"res://assets/fonts/Pretendard-SemiBold.ttf\\\"\\nconst PRETENDARD_BOLD_PATH := \\\"res://assets/fonts/Pretendard-Bold.ttf\\\"\\n\\nconst WEIGHT_REGULAR := 400\\nconst WEIGHT_SEMIBOLD := 600\\nconst WEIGHT_BOLD := 700\\n\\nstatic var _emoji_font: FontFile = null\\nstatic var _jp_font: FontFile = null\\nstatic var _locale_fonts: Dictionary = {}\\nstatic var _pretendard_fonts: Dictionary = {}\\nstatic var _jp_variations: Dictionary = {}\\nstatic var _locale_variations: Dictionary = {}\\nstatic var _ui_fonts: Dictionary = {}\\nstatic var _active_language := \\\"en\\\"\\n\\nstatic func _get_emoji_font() -> FontFile:\\n\\tif _emoji_font == null and ResourceLoader.exists(EMOJI_FONT_PATH):\\n\\t\\tvar res = load(EMOJI_FONT_PATH)\\n\\t\\tif res is FontFile:\\n\\t\\t\\t_emoji_font = res\\n\\treturn _emoji_font\\n\\nstatic func _get_jp_font() -> FontFile:\\n\\tif _jp_font == null and ResourceLoader.exists(JP_FONT_PATH):\\n\\t\\tvar res = load(JP_FONT_PATH)\\n\\t\\tif res is FontFile:\\n\\t\\t\\t_jp_font = res\\n\\treturn _jp_font\\n\\nstatic func _get_locale_font(language: String) -> FontFile:\\n\\tvar normalized := _normalize_language(language)\\n\\tif normalized == \\\"ja\\\":\\n\\t\\treturn _get_jp_font()\\n\\tif _locale_fonts.has(normalized):\\n\\t\\treturn _locale_fonts[normalized] as FontFile\\n\\tvar path := dedicated_locale_font_path(normalized)\\n\\tvar result: FontFile = null\\n\\tif not path.is_empty() and ResourceLoader.exists(path):\\n\\t\\tresult = load(path) as FontFile\\n\\t_locale_fonts[normalized] = result\\n\\treturn result\\n\\nstatic func _get_pretendard_font(weight: int) -> FontFile:\\n\\tif _pretendard_fonts.has(weight):\\n\\t\\treturn _pretendard_fonts[weight] as FontFile\\n\\tvar path := PRETENDARD_REGULAR_PATH\\n\\tmatch weight:\\n\\t\\tWEIGHT_SEMIBOLD:\\n\\t\\t\\tpath = PRETENDARD_SEMIBOLD_PATH\\n\\t\\tWEIGHT_BOLD:\\n\\t\\t\\tpath = PRETENDARD_BOLD_PATH\\n\\tvar result: FontFile = null\\n\\tif ResourceLoader.exists(path):\\n\\t\\tresult = load(path) as FontFile\\n\\t_pretendard_fonts[weight] = result\\n\\treturn result\\n\\nstatic func _get_jp_variation(weight: int) -> FontVariation:\\n\\tif _jp_variations.has(weight):\\n\\t\\treturn _jp_variations[weight] as FontVariation\\n\\tvar result := FontVariation.new()\\n\\tresult.base_font = _get_jp_font()\\n\\tvar text_server := TextServerManager.get_primary_interface()\\n\\tresult.variation_opentype = {text_server.name_to_tag(\\\"wght\\\"): weight}\\n\\t_jp_variations[weight] = result\\n\\treturn result\\n\\nstatic func _get_locale_variation(language: String, weight: int) -> FontVariation:\\n\\tvar normalized := _normalize_language(language)\\n\\tif normalized == \\\"ja\\\":\\n\\t\\treturn _get_jp_variation(weight)\\n\\tvar key := \\\"%s:%d\\\" % [normalized, weight]\\n\\tif _locale_variations.has(key):\\n\\t\\treturn _locale_variations[key] as FontVariation\\n\\tvar result := FontVariation.new()\\n\\tresult.base_font = _get_locale_font(normalized)\\n\\tvar text_server := TextServerManager.get_primary_interface()\\n\\tresult.variation_opentype = {text_server.name_to_tag(\\\"wght\\\"): weight}\\n\\t_locale_variations[key] = result\\n\\treturn result\\n\\nstatic func _append_fallback(font: Font, fallback: Font) -> void:\\n\\tif fallback == null:\\n\\t\\treturn\\n\\tvar fallbacks: Array[Font] = font.fallbacks\\n\\tif not fallbacks.has(fallback):\\n\\t\\tfallbacks.append(fallback)\\n\\t\\tfont.fallbacks = fallbacks\\n\\nstatic func _normalize_language(language: String) -> String:\\n\\tvar normalized := language.strip_edges().replace(\\\"_\\\", \\\"-\\\").to_lower()\\n\\tif normalized in [\\\"ja\\\", \\\"ja-jp\\\", \\\"jp\\\"]:\\n\\t\\treturn \\\"ja\\\"\\n\\tif normalized in [\\\"ko\\\", \\\"ko-kr\\\", \\\"kr\\\"]:\\n\\t\\treturn \\\"ko\\\"\\n\\tif normalized in [\\\"en\\\", \\\"en-us\\\", \\\"en-gb\\\"]:\\n\\t\\treturn \\\"en\\\"\\n\\tif normalized in [\\\"zh\\\", \\\"zh-cn\\\", \\\"zh-hans\\\", \\\"cn\\\"]:\\n\\t\\treturn \\\"zh-CN\\\"\\n\\tif normalized in [\\\"zh-tw\\\", \\\"zh-hant\\\", \\\"tw\\\"]:\\n\\t\\treturn \\\"zh-TW\\\"\\n\\treturn language\\n\\nstatic func _ensure_ui_fonts() -> void:\\n\\tif not _ui_fonts.is_empty():\\n\\t\\treturn\\n\\tfor weight in [WEIGHT_REGULAR, WEIGHT_SEMIBOLD, WEIGHT_BOLD]:\\n\\t\\t_ui_fonts[weight] = FontVariation.new()\\n\\tconfigure_language(_active_language)\\n\\n## Stable role resources are shared by every scene. Their internals change when\\n## the locale changes, so already-built Controls and custom drawing code switch\\n## together instead of retaining the font selected at construction time.\\nstatic func configure_language(language: String) -> void:\\n\\t_active_language = _normalize_language(language)\\n\\tif _ui_fonts.is_empty():\\n\\t\\tfor weight in [WEIGHT_REGULAR, WEIGHT_SEMIBOLD, WEIGHT_BOLD]:\\n\\t\\t\\t_ui_fonts[weight] = FontVariation.new()\\n\\tvar locale_primary := _active_language in [\\\"ja\\\", \\\"zh-CN\\\", \\\"zh-TW\\\"]\\n\\tvar text_server := TextServerManager.get_primary_interface()\\n\\tvar weight_tag := text_server.name_to_tag(\\\"wght\\\")\\n\\tfor weight in [WEIGHT_REGULAR, WEIGHT_SEMIBOLD, WEIGHT_BOLD]:\\n\\t\\tvar role := _ui_fonts[weight] as FontVariation\\n\\t\\tvar pretendard := _get_pretendard_font(weight)\\n\\t\\tvar fallbacks: Array[Font] = []\\n\\t\\tif locale_primary:\\n\\t\\t\\trole.base_font = _get_locale_font(_active_language)\\n\\t\\t\\trole.variation_opentype = {weight_tag: weight}\\n\\t\\t\\tif pretendard != null:\\n\\t\\t\\t\\tfallbacks.append(pretendard)\\n\\t\\t\\tif _active_language != \\\"ja\\\":\\n\\t\\t\\t\\tfallbacks.append(_get_jp_variation(weight))\\n\\t\\telse:\\n\\t\\t\\trole.base_font = pretendard\\n\\t\\t\\trole.variation_opentype = {}\\n\\t\\t\\tfallbacks.append(_get_jp_variation(weight))\\n\\t\\tvar emoji := _get_emoji_font()\\n\\t\\tif emoji != null:\\n\\t\\t\\tfallbacks.append(emoji)\\n\\t\\trole.fallbacks = fallbacks\\n\\nstatic func active_language() -> String:\\n\\treturn _active_language\\n\\nstatic func ui_regular() -> Font:\\n\\t_ensure_ui_fonts()\\n\\treturn _ui_fonts[WEIGHT_REGULAR] as Font\\n\\nstatic func ui_semibold() -> Font:\\n\\t_ensure_ui_fonts()\\n\\treturn _ui_fonts[WEIGHT_SEMIBOLD] as Font\\n\\nstatic func ui_bold() -> Font:\\n\\t_ensure_ui_fonts()\\n\\treturn _ui_fonts[WEIGHT_BOLD] as Font\\n\\n## 언어별 전용 폰트 경로. 빈 문자열은 OS 폴백에 기대지 않는 명시적 차단 상태다.\\nstatic func dedicated_locale_font_path(language: String) -> String:\\n\\tmatch _normalize_language(language):\\n\\t\\t\\\"ja\\\":\\n\\t\\t\\treturn JP_FONT_PATH\\n\\t\\t\\\"zh-CN\\\":\\n\\t\\t\\treturn ZH_CN_FONT_PATH\\n\\t\\t\\\"zh-TW\\\":\\n\\t\\t\\treturn ZH_TW_FONT_PATH\\n\\treturn \\\"\\\"\\n\\nstatic func has_dedicated_locale_font(language: String) -> bool:\\n\\tvar path := dedicated_locale_font_path(language)\\n\\treturn not path.is_empty() and ResourceLoader.exists(path)\\n\\n## 중국어에서는 SC/TC 전용 자형이 JP 폴백보다 먼저 선택된다.\\nstatic func dedicated_locale_font_precedes_jp(language: String) -> bool:\\n\\tvar normalized := _normalize_language(language)\\n\\treturn normalized in [\\\"zh-CN\\\", \\\"zh-TW\\\"] \\\\\\n\\t\\tand has_dedicated_locale_font(normalized)\\n\\n## 전용 자형이 없거나 체인 순서가 틀릴 때만 JP-first 위험으로 판정한다.\\nstatic func shared_han_jp_first(language: String) -> bool:\\n\\tvar normalized := _normalize_language(language)\\n\\treturn normalized in [\\\"zh-CN\\\", \\\"zh-TW\\\"] \\\\\\n\\t\\tand not dedicated_locale_font_precedes_jp(language) \\\\\\n\\t\\tand ResourceLoader.exists(JP_FONT_PATH)\\n\\n## 일본어 폴백은 언어 전환 뒤에도 같은 FontFile 리소스가 재사용되도록 항상\\n## 연결한다. 실제 일본어 선택 노출 여부는 LocaleManager allowlist가 결정한다.\\nstatic func attach_locale_fallbacks(font: Font) -> void:\\n\\tif font == null:\\n\\t\\treturn\\n\\t_ensure_ui_fonts()\\n\\tif font in _ui_fonts.values():\\n\\t\\treturn\\n\\t_append_fallback(font, _get_jp_variation(WEIGHT_REGULAR))\\n\\n## FontFile(Pretendard)에 이모지 폴백을 1회 붙인다. null 안전.\\nstatic func attach_emoji_fallback(font: Font) -> void:\\n\\tif font == null:\\n\\t\\treturn\\n\\t_ensure_ui_fonts()\\n\\tif font in _ui_fonts.values():\\n\\t\\treturn\\n\\tattach_locale_fallbacks(font)\\n\\t_append_fallback(font, _get_emoji_font())\\n\",\"legacy\":\"static func attach_locale_fallbacks(font: FontFile, language: String) -> void:\\n    var locale_font := _get_dedicated_locale_font(language)\\n    _append_fallback(font, locale_font)\\n    _append_fallback(font, _get_jp_font())\\n\",\"malformed_modern_legacy_bait\":\"extends Node\\nclass_name FontKit\\n## 폰트 유틸 — locale별 primary와 프로젝트 소유 폴백을 한 체인으로 묶어\\n## 플랫폼별 OS 폰트 선택 차이를 제거한다. KO/EN은 Pretendard, 일본어와\\n## 중국어는 Noto Sans JP/SC/TC의 같은 웨이트, 이모지는 Noto Color Emoji를 사용한다.\\n##\\n## 문제: Pretendard(.ttf)에는 이모지 글리프가 없다. 폴백을 안 걸면 Godot이 OS\\n##       폰트를 들쭉날쭉 골라 써서, 어떤 이모지(예: 🤝 U+1F91D, 2016)는 안 나오고\\n##       플랫폼마다 결과가 달라진다.\\n## 시도1(실패): SystemFont(\\\"Apple Color Emoji\\\" 등) 폴백 → has_char는 true지만\\n##       런타임 렌더링엔 안 쓰여서 🤝가 여전히 안 나왔다.\\n## 해결: NotoColorEmoji.ttf 를 직접 번들하고 FontFile 폴백으로 건다. 실제 폰트\\n##       파일이라 렌더링에 확실히 사용되고, 모든 플랫폼에서 동일하게 보인다.\\n\\nconst EMOJI_FONT_PATH := \\\"res://assets/fonts/NotoColorEmoji.ttf\\\"\\nconst JP_FONT_PATH := \\\"res://assets/fonts/NotoSansJP-Variable.ttf\\\"\\nconst ZH_CN_FONT_PATH := \\\"res://assets/fonts/NotoSansSC-Variable.ttf\\\"\\nconst ZH_TW_FONT_PATH := \\\"res://assets/fonts/NotoSansTC-Variable.ttf\\\"\\nconst PRETENDARD_REGULAR_PATH := \\\"res://assets/fonts/Pretendard-Regular.ttf\\\"\\nconst PRETENDARD_SEMIBOLD_PATH := \\\"res://assets/fonts/Pretendard-SemiBold.ttf\\\"\\nconst PRETENDARD_BOLD_PATH := \\\"res://assets/fonts/Pretendard-Bold.ttf\\\"\\n\\nconst WEIGHT_REGULAR := 400\\nconst WEIGHT_SEMIBOLD := 600\\nconst WEIGHT_BOLD := 700\\n\\nstatic var _emoji_font: FontFile = null\\nstatic var _jp_font: FontFile = null\\nstatic var _locale_fonts: Dictionary = {}\\nstatic var _pretendard_fonts: Dictionary = {}\\nstatic var _jp_variations: Dictionary = {}\\nstatic var _locale_variations: Dictionary = {}\\nstatic var _ui_fonts: Dictionary = {}\\nstatic var _active_language := \\\"en\\\"\\n\\nstatic func _get_emoji_font() -> FontFile:\\n\\tif _emoji_font == null and ResourceLoader.exists(EMOJI_FONT_PATH):\\n\\t\\tvar res = load(EMOJI_FONT_PATH)\\n\\t\\tif res is FontFile:\\n\\t\\t\\t_emoji_font = res\\n\\treturn _emoji_font\\n\\nstatic func _get_jp_font() -> FontFile:\\n\\tif _jp_font == null and ResourceLoader.exists(JP_FONT_PATH):\\n\\t\\tvar res = load(JP_FONT_PATH)\\n\\t\\tif res is FontFile:\\n\\t\\t\\t_jp_font = res\\n\\treturn _jp_font\\n\\nstatic func _get_locale_font(language: String) -> FontFile:\\n\\tvar normalized := _normalize_language(language)\\n\\tif normalized == \\\"ja\\\":\\n\\t\\treturn _get_jp_font()\\n\\tif _locale_fonts.has(normalized):\\n\\t\\treturn _locale_fonts[normalized] as FontFile\\n\\tvar path := dedicated_locale_font_path(normalized)\\n\\tvar result: FontFile = null\\n\\tif not path.is_empty() and ResourceLoader.exists(path):\\n\\t\\tresult = load(path) as FontFile\\n\\t_locale_fonts[normalized] = result\\n\\treturn result\\n\\nstatic func _get_pretendard_font(weight: int) -> FontFile:\\n\\tif _pretendard_fonts.has(weight):\\n\\t\\treturn _pretendard_fonts[weight] as FontFile\\n\\tvar path := PRETENDARD_REGULAR_PATH\\n\\tmatch weight:\\n\\t\\tWEIGHT_SEMIBOLD:\\n\\t\\t\\tpath = PRETENDARD_SEMIBOLD_PATH\\n\\t\\tWEIGHT_BOLD:\\n\\t\\t\\tpath = PRETENDARD_BOLD_PATH\\n\\tvar result: FontFile = null\\n\\tif ResourceLoader.exists(path):\\n\\t\\tresult = load(path) as FontFile\\n\\t_pretendard_fonts[weight] = result\\n\\treturn result\\n\\nstatic func _get_jp_variation(weight: int) -> FontVariation:\\n\\tif _jp_variations.has(weight):\\n\\t\\treturn _jp_variations[weight] as FontVariation\\n\\tvar result := FontVariation.new()\\n\\tresult.base_font = _get_jp_font()\\n\\tvar text_server := TextServerManager.get_primary_interface()\\n\\tresult.variation_opentype = {text_server.name_to_tag(\\\"wght\\\"): weight}\\n\\t_jp_variations[weight] = result\\n\\treturn result\\n\\nstatic func _get_locale_variation(language: String, weight: int) -> FontVariation:\\n\\tvar normalized := _normalize_language(language)\\n\\tif normalized == \\\"ja\\\":\\n\\t\\treturn _get_jp_variation(weight)\\n\\tvar key := \\\"%s:%d\\\" % [normalized, weight]\\n\\tif _locale_variations.has(key):\\n\\t\\treturn _locale_variations[key] as FontVariation\\n\\tvar result := FontVariation.new()\\n\\tresult.base_font = _get_locale_font(normalized)\\n\\tvar text_server := TextServerManager.get_primary_interface()\\n\\tresult.variation_opentype = {text_server.name_to_tag(\\\"wght\\\"): weight}\\n\\t_locale_variations[key] = result\\n\\treturn result\\n\\nstatic func _append_fallback(font: Font, fallback: Font) -> void:\\n\\tif fallback == null:\\n\\t\\treturn\\n\\tvar fallbacks: Array[Font] = font.fallbacks\\n\\tif not fallbacks.has(fallback):\\n\\t\\tfallbacks.append(fallback)\\n\\t\\tfont.fallbacks = fallbacks\\n\\nstatic func _normalize_language(language: String) -> String:\\n\\tvar normalized := language.strip_edges().replace(\\\"_\\\", \\\"-\\\").to_lower()\\n\\tif normalized in [\\\"ja\\\", \\\"ja-jp\\\", \\\"jp\\\"]:\\n\\t\\treturn \\\"ja\\\"\\n\\tif normalized in [\\\"ko\\\", \\\"ko-kr\\\", \\\"kr\\\"]:\\n\\t\\treturn \\\"ko\\\"\\n\\tif normalized in [\\\"en\\\", \\\"en-us\\\", \\\"en-gb\\\"]:\\n\\t\\treturn \\\"en\\\"\\n\\tif normalized in [\\\"zh\\\", \\\"zh-cn\\\", \\\"zh-hans\\\", \\\"cn\\\"]:\\n\\t\\treturn \\\"zh-CN\\\"\\n\\tif normalized in [\\\"zh-tw\\\", \\\"zh-hant\\\", \\\"tw\\\"]:\\n\\t\\treturn \\\"zh-TW\\\"\\n\\treturn language\\n\\nstatic func _ensure_ui_fonts() -> void:\\n\\tif not _ui_fonts.is_empty():\\n\\t\\treturn\\n\\tfor weight in [WEIGHT_REGULAR, WEIGHT_SEMIBOLD, WEIGHT_BOLD]:\\n\\t\\t_ui_fonts[weight] = FontVariation.new()\\n\\tconfigure_language(_active_language)\\n\\n## Stable role resources are shared by every scene. Their internals change when\\n## the locale changes, so already-built Controls and custom drawing code switch\\n## together instead of retaining the font selected at construction time.\\nstatic func configure_language(language: String) -> void:\\n\\t_active_language = _normalize_language(language)\\n\\tif _ui_fonts.is_empty():\\n\\t\\tfor weight in [WEIGHT_REGULAR, WEIGHT_SEMIBOLD, WEIGHT_BOLD]:\\n\\t\\t\\t_ui_fonts[weight] = FontVariation.new()\\n\\tvar locale_primary := _active_language in [\\\"ja\\\", \\\"zh-CN\\\", \\\"zh-TW\\\"]\\n\\tvar text_server := TextServerManager.get_primary_interface()\\n\\tvar weight_tag := text_server.name_to_tag(\\\"wght\\\")\\n\\tfor weight in [WEIGHT_REGULAR, WEIGHT_SEMIBOLD, WEIGHT_BOLD]:\\n\\t\\tvar role := _ui_fonts[weight] as FontVariation\\n\\t\\tvar pretendard := _get_pretendard_font(weight)\\n\\t\\tvar fallbacks: Array[Font] = []\\n\\t\\tif false:\\n\\t\\t\\trole.base_font = _get_locale_font(_active_language)\\n\\t\\t\\trole.variation_opentype = {weight_tag: weight}\\n\\t\\t\\tif pretendard != null:\\n\\t\\t\\t\\tfallbacks.append(pretendard)\\n\\t\\t\\tif _active_language != \\\"ja\\\":\\n\\t\\t\\t\\tfallbacks.append(_get_jp_variation(weight))\\n\\t\\telse:\\n\\t\\t\\trole.base_font = pretendard\\n\\t\\t\\trole.variation_opentype = {}\\n\\t\\t\\tfallbacks.append(_get_jp_variation(weight))\\n\\t\\tvar emoji := _get_emoji_font()\\n\\t\\tif emoji != null:\\n\\t\\t\\tfallbacks.append(emoji)\\n\\t\\trole.fallbacks = fallbacks\\n\\nstatic func active_language() -> String:\\n\\treturn _active_language\\n\\nstatic func ui_regular() -> Font:\\n\\t_ensure_ui_fonts()\\n\\treturn _ui_fonts[WEIGHT_REGULAR] as Font\\n\\nstatic func ui_semibold() -> Font:\\n\\t_ensure_ui_fonts()\\n\\treturn _ui_fonts[WEIGHT_SEMIBOLD] as Font\\n\\nstatic func ui_bold() -> Font:\\n\\t_ensure_ui_fonts()\\n\\treturn _ui_fonts[WEIGHT_BOLD] as Font\\n\\n## 언어별 전용 폰트 경로. 빈 문자열은 OS 폴백에 기대지 않는 명시적 차단 상태다.\\nstatic func dedicated_locale_font_path(language: String) -> String:\\n\\tmatch _normalize_language(language):\\n\\t\\t\\\"ja\\\":\\n\\t\\t\\treturn JP_FONT_PATH\\n\\t\\t\\\"zh-CN\\\":\\n\\t\\t\\treturn ZH_CN_FONT_PATH\\n\\t\\t\\\"zh-TW\\\":\\n\\t\\t\\treturn ZH_TW_FONT_PATH\\n\\treturn \\\"\\\"\\n\\nstatic func has_dedicated_locale_font(language: String) -> bool:\\n\\tvar path := dedicated_locale_font_path(language)\\n\\treturn not path.is_empty() and ResourceLoader.exists(path)\\n\\n## 중국어에서는 SC/TC 전용 자형이 JP 폴백보다 먼저 선택된다.\\nstatic func dedicated_locale_font_precedes_jp(language: String) -> bool:\\n\\tvar normalized := _normalize_language(language)\\n\\treturn normalized in [\\\"zh-CN\\\", \\\"zh-TW\\\"] \\\\\\n\\t\\tand has_dedicated_locale_font(normalized)\\n\\n## 전용 자형이 없거나 체인 순서가 틀릴 때만 JP-first 위험으로 판정한다.\\nstatic func shared_han_jp_first(language: String) -> bool:\\n\\tvar normalized := _normalize_language(language)\\n\\treturn normalized in [\\\"zh-CN\\\", \\\"zh-TW\\\"] \\\\\\n\\t\\tand not dedicated_locale_font_precedes_jp(language) \\\\\\n\\t\\tand ResourceLoader.exists(JP_FONT_PATH)\\n\\n## 일본어 폴백은 언어 전환 뒤에도 같은 FontFile 리소스가 재사용되도록 항상\\n## 연결한다. 실제 일본어 선택 노출 여부는 LocaleManager allowlist가 결정한다.\\nstatic func attach_locale_fallbacks(font: Font) -> void:\\n\\tif font == null:\\n\\t\\treturn\\n\\t_ensure_ui_fonts()\\n\\tif font in _ui_fonts.values():\\n\\t\\treturn\\n\\t_append_fallback(font, _get_jp_variation(WEIGHT_REGULAR))\\n\\n## FontFile(Pretendard)에 이모지 폴백을 1회 붙인다. null 안전.\\nstatic func attach_emoji_fallback(font: Font) -> void:\\n\\tif font == null:\\n\\t\\treturn\\n\\t_ensure_ui_fonts()\\n\\tif font in _ui_fonts.values():\\n\\t\\treturn\\n\\tattach_locale_fallbacks(font)\\n\\t_append_fallback(font, _get_emoji_font())\\n\\nstatic func attach_locale_fallbacks(font: FontFile, language: String) -> void:\\n    var locale_font := _get_dedicated_locale_font(language)\\n    _append_fallback(font, locale_font)\\n    _append_fallback(font, _get_jp_font())\\n\"},\"cases\":[{\"id\":\"modern_cn\",\"lang\":\"zh-CN\",\"base\":\"modern\",\"edits\":[],\"primary\":\"res://assets/fonts/NotoSansSC-Variable.ttf\",\"primary_exists\":true,\"expected\":true,\"normal_base\":null,\"source_sha256\":\"08b4ec9d8d22bd1055b9528b63de5be8cdbaf2c0eafcde19a7fdad95cc44e212\"},{\"id\":\"modern_tw\",\"lang\":\"zh-TW\",\"base\":\"modern\",\"edits\":[],\"primary\":\"res://assets/fonts/NotoSansTC-Variable.ttf\",\"primary_exists\":true,\"expected\":true,\"normal_base\":null,\"source_sha256\":\"08b4ec9d8d22bd1055b9528b63de5be8cdbaf2c0eafcde19a7fdad95cc44e212\"},{\"id\":\"modern_comments\",\"lang\":\"zh-CN\",\"base\":\"modern\",\"edits\":[[\"var role := _ui_fonts[weight] as FontVariation\",\"var role := _ui_fonts[weight] as FontVariation # route alias\",1]],\"primary\":\"res://assets/fonts/NotoSansSC-Variable.ttf\",\"primary_exists\":true,\"expected\":true,\"normal_base\":null,\"source_sha256\":\"e32d26627856aa9c094f491abf352e294b21c2f2d4453e23ee637d20fa2d8448\"},{\"id\":\"modern_spaces\",\"lang\":\"zh-CN\",\"base\":\"modern\",\"edits\":[[\"\\t\",\"    \",221]],\"primary\":\"res://assets/fonts/NotoSansSC-Variable.ttf\",\"primary_exists\":true,\"expected\":true,\"normal_base\":null,\"source_sha256\":\"d9296d6581f47cec464dbec10f53117ed8d029a80b329a145ebbff1132dfa6ea\"},{\"id\":\"legacy_good\",\"lang\":\"zh-CN\",\"base\":\"legacy\",\"edits\":[],\"primary\":\"res://assets/fonts/NotoSansSC-Variable.ttf\",\"primary_exists\":true,\"expected\":true,\"normal_base\":null,\"source_sha256\":\"3179db95861c14e55eb3c495a45991b73ebd2c490a6e5fbd7c7dee360adb0439\"},{\"id\":\"legacy_direct\",\"lang\":\"zh-CN\",\"base\":\"legacy\",\"edits\":[[\"    var locale_font := _get_dedicated_locale_font(language)\\n    _append_fallback(font, locale_font)\",\"    _append_fallback(font, _get_dedicated_locale_font(language))\",1]],\"primary\":\"res://assets/fonts/NotoSansSC-Variable.ttf\",\"primary_exists\":true,\"expected\":true,\"normal_base\":null,\"source_sha256\":\"c9aa5cadd4ec400834222d626b22facef3fe3e25ad4619e7046bfa59e1198237\"},{\"id\":\"legacy_bad_order\",\"lang\":\"zh-CN\",\"base\":\"legacy\",\"edits\":[[\"    _append_fallback(font, locale_font)\\n    _append_fallback(font, _get_jp_font())\",\"    _append_fallback(font, _get_jp_font())\\n    _append_fallback(font, locale_font)\",1]],\"primary\":\"res://assets/fonts/NotoSansSC-Variable.ttf\",\"primary_exists\":true,\"expected\":false,\"normal_base\":\"legacy_good\",\"source_sha256\":\"d90141f56537ca24155190c55ea6264975e2af6ce548f14116217ccf9fcece85\"},{\"id\":\"zh-CN_jp\",\"lang\":\"zh-CN\",\"base\":\"modern\",\"edits\":[],\"primary\":\"res://assets/fonts/NotoSansJP-Variable.ttf\",\"primary_exists\":true,\"expected\":false,\"normal_base\":\"modern_cn\",\"source_sha256\":\"08b4ec9d8d22bd1055b9528b63de5be8cdbaf2c0eafcde19a7fdad95cc44e212\"},{\"id\":\"zh-CN_swap\",\"lang\":\"zh-CN\",\"base\":\"modern\",\"edits\":[],\"primary\":\"res://assets/fonts/NotoSansTC-Variable.ttf\",\"primary_exists\":true,\"expected\":false,\"normal_base\":\"modern_cn\",\"source_sha256\":\"08b4ec9d8d22bd1055b9528b63de5be8cdbaf2c0eafcde19a7fdad95cc44e212\"},{\"id\":\"zh-CN_empty\",\"lang\":\"zh-CN\",\"base\":\"modern\",\"edits\":[],\"primary\":\"\",\"primary_exists\":false,\"expected\":false,\"normal_base\":\"modern_cn\",\"source_sha256\":\"08b4ec9d8d22bd1055b9528b63de5be8cdbaf2c0eafcde19a7fdad95cc44e212\"},{\"id\":\"zh-CN_outside\",\"lang\":\"zh-CN\",\"base\":\"modern\",\"edits\":[],\"primary\":\"/tmp/fake.ttf\",\"primary_exists\":true,\"expected\":false,\"normal_base\":\"modern_cn\",\"source_sha256\":\"08b4ec9d8d22bd1055b9528b63de5be8cdbaf2c0eafcde19a7fdad95cc44e212\"},{\"id\":\"zh-CN_missing\",\"lang\":\"zh-CN\",\"base\":\"modern\",\"edits\":[],\"primary\":\"res://assets/fonts/NotoSansSC-Variable.ttf\",\"primary_exists\":false,\"expected\":false,\"normal_base\":\"modern_cn\",\"source_sha256\":\"08b4ec9d8d22bd1055b9528b63de5be8cdbaf2c0eafcde19a7fdad95cc44e212\"},{\"id\":\"zh-TW_jp\",\"lang\":\"zh-TW\",\"base\":\"modern\",\"edits\":[],\"primary\":\"res://assets/fonts/NotoSansJP-Variable.ttf\",\"primary_exists\":true,\"expected\":false,\"normal_base\":\"modern_tw\",\"source_sha256\":\"08b4ec9d8d22bd1055b9528b63de5be8cdbaf2c0eafcde19a7fdad95cc44e212\"},{\"id\":\"zh-TW_swap\",\"lang\":\"zh-TW\",\"base\":\"modern\",\"edits\":[],\"primary\":\"res://assets/fonts/NotoSansSC-Variable.ttf\",\"primary_exists\":true,\"expected\":false,\"normal_base\":\"modern_tw\",\"source_sha256\":\"08b4ec9d8d22bd1055b9528b63de5be8cdbaf2c0eafcde19a7fdad95cc44e212\"},{\"id\":\"zh-TW_empty\",\"lang\":\"zh-TW\",\"base\":\"modern\",\"edits\":[],\"primary\":\"\",\"primary_exists\":false,\"expected\":false,\"normal_base\":\"modern_tw\",\"source_sha256\":\"08b4ec9d8d22bd1055b9528b63de5be8cdbaf2c0eafcde19a7fdad95cc44e212\"},{\"id\":\"zh-TW_outside\",\"lang\":\"zh-TW\",\"base\":\"modern\",\"edits\":[],\"primary\":\"/tmp/fake.ttf\",\"primary_exists\":true,\"expected\":false,\"normal_base\":\"modern_tw\",\"source_sha256\":\"08b4ec9d8d22bd1055b9528b63de5be8cdbaf2c0eafcde19a7fdad95cc44e212\"},{\"id\":\"zh-TW_missing\",\"lang\":\"zh-TW\",\"base\":\"modern\",\"edits\":[],\"primary\":\"res://assets/fonts/NotoSansTC-Variable.ttf\",\"primary_exists\":false,\"expected\":false,\"normal_base\":\"modern_tw\",\"source_sha256\":\"08b4ec9d8d22bd1055b9528b63de5be8cdbaf2c0eafcde19a7fdad95cc44e212\"},{\"id\":\"wrong_normalize\",\"lang\":\"zh-CN\",\"base\":\"modern\",\"edits\":[[\"return \\\"zh-CN\\\"\",\"return \\\"zh-TW\\\"\",1]],\"primary\":\"res://assets/fonts/NotoSansSC-Variable.ttf\",\"primary_exists\":true,\"expected\":false,\"normal_base\":\"modern_cn\",\"source_sha256\":\"63b92ac7ea5fdd68eac9cdecd618838ea9620ffe2aba43b0e7ba9900870d08ef\"},{\"id\":\"wrong_path\",\"lang\":\"zh-CN\",\"base\":\"modern\",\"edits\":[[\"return ZH_CN_FONT_PATH\",\"return ZH_TW_FONT_PATH\",1]],\"primary\":\"res://assets/fonts/NotoSansSC-Variable.ttf\",\"primary_exists\":true,\"expected\":false,\"normal_base\":\"modern_cn\",\"source_sha256\":\"cc5ead1d86ba7e7585fb09340460bd625eacfcc182423ae598034870f7362048\"},{\"id\":\"wrong_load\",\"lang\":\"zh-CN\",\"base\":\"modern\",\"edits\":[[\"result = load(path) as FontFile\",\"result = load(JP_FONT_PATH) as FontFile\",2]],\"primary\":\"res://assets/fonts/NotoSansSC-Variable.ttf\",\"primary_exists\":true,\"expected\":false,\"normal_base\":\"modern_cn\",\"source_sha256\":\"79f97f78259ef90b3b0b9c8567739a137e8c90065e1d8eca1937fd174beff4ad\"},{\"id\":\"dead_primary\",\"lang\":\"zh-CN\",\"base\":\"modern\",\"edits\":[[\"if locale_primary:\",\"if false:\",1]],\"primary\":\"res://assets/fonts/NotoSansSC-Variable.ttf\",\"primary_exists\":true,\"expected\":false,\"normal_base\":\"modern_cn\",\"source_sha256\":\"45cb22ff94214f83ddf8b84aab275a13a94b95295bc1c024671c9fadb9684f76\"},{\"id\":\"string_primary\",\"lang\":\"zh-CN\",\"base\":\"modern\",\"edits\":[[\"role.base_font = _get_locale_font(_active_language)\",\"var bait := \\\"role.base_font = _get_locale_font(_active_language)\\\"\",1]],\"primary\":\"res://assets/fonts/NotoSansSC-Variable.ttf\",\"primary_exists\":true,\"expected\":false,\"normal_base\":\"modern_cn\",\"source_sha256\":\"d6f273c2fd062dd1f4b97de8b8544c54a87a63c89534d9dce31564b1bdf31986\"},{\"id\":\"comment_primary\",\"lang\":\"zh-CN\",\"base\":\"modern\",\"edits\":[[\"role.base_font = _get_locale_font(_active_language)\",\"# role.base_font = _get_locale_font(_active_language)\",1]],\"primary\":\"res://assets/fonts/NotoSansSC-Variable.ttf\",\"primary_exists\":true,\"expected\":false,\"normal_base\":\"modern_cn\",\"source_sha256\":\"b644131045b71551788a098ae19d5c8d51c83672146ce0eb0a95f69e20feecee\"},{\"id\":\"late_jp_overwrite\",\"lang\":\"zh-CN\",\"base\":\"modern\",\"edits\":[[\"role.fallbacks = fallbacks\",\"role.fallbacks = fallbacks\\n\\t\\trole.base_font = _get_jp_font()\",1]],\"primary\":\"res://assets/fonts/NotoSansSC-Variable.ttf\",\"primary_exists\":true,\"expected\":false,\"normal_base\":\"modern_cn\",\"source_sha256\":\"9a21e350098c0bde0edadad81bb5b992e6aa54d52162cc7a8d5286b4adcbbb2a\"},{\"id\":\"wrong_weight\",\"lang\":\"zh-CN\",\"base\":\"modern\",\"edits\":[[\"const WEIGHT_BOLD := 700\",\"const WEIGHT_BOLD := 800\",1]],\"primary\":\"res://assets/fonts/NotoSansSC-Variable.ttf\",\"primary_exists\":true,\"expected\":false,\"normal_base\":\"modern_cn\",\"source_sha256\":\"204200c076a8d78ccad793ee8218f203883fc15aab558b27eb41d30447fa6b20\"},{\"id\":\"wrong_fallback\",\"lang\":\"zh-CN\",\"base\":\"modern\",\"edits\":[[\"fallbacks.append(pretendard)\",\"fallbacks.append(_get_jp_variation(weight))\",1]],\"primary\":\"res://assets/fonts/NotoSansSC-Variable.ttf\",\"primary_exists\":true,\"expected\":false,\"normal_base\":\"modern_cn\",\"source_sha256\":\"5f3504f3d9b1e059a925f502aceb982cbc04b86361348929d136cfb182152523\"},{\"id\":\"early_return\",\"lang\":\"zh-CN\",\"base\":\"modern\",\"edits\":[[\"static func configure_language(language: String) -> void:\\n\",\"static func configure_language(language: String) -> void:\\n\\treturn\\n\",1]],\"primary\":\"res://assets/fonts/NotoSansSC-Variable.ttf\",\"primary_exists\":true,\"expected\":false,\"normal_base\":\"modern_cn\",\"source_sha256\":\"48426e677a8c592540f2d40906e9e1c69accd7f37c6f1c48c233775fdeb07a86\"},{\"id\":\"unrelated_witness\",\"lang\":\"zh-CN\",\"base\":\"modern\",\"edits\":[[\"static func configure_language(language: String)\",\"static func unused_configure_language(language: String)\",1]],\"primary\":\"res://assets/fonts/NotoSansSC-Variable.ttf\",\"primary_exists\":true,\"expected\":false,\"normal_base\":\"modern_cn\",\"source_sha256\":\"d4da5097df0dc11d4426b03286204f521ebd955ce0098164cb0d8b3333d0e58b\"},{\"id\":\"no_legacy_escape\",\"lang\":\"zh-CN\",\"base\":\"malformed_modern_legacy_bait\",\"edits\":[],\"primary\":\"res://assets/fonts/NotoSansSC-Variable.ttf\",\"primary_exists\":true,\"expected\":false,\"normal_base\":\"modern_cn\",\"source_sha256\":\"1a41056dab41e41b966304fd0d2f567ba80e83d05da680b7a4f58207c2bc2b21\"},{\"id\":\"off_ja\",\"lang\":\"ja\",\"base\":\"modern\",\"edits\":[],\"primary\":\"res://assets/fonts/NotoSansSC-Variable.ttf\",\"primary_exists\":true,\"expected\":null,\"normal_base\":null,\"source_sha256\":\"08b4ec9d8d22bd1055b9528b63de5be8cdbaf2c0eafcde19a7fdad95cc44e212\"},{\"id\":\"off_ko\",\"lang\":\"ko\",\"base\":\"modern\",\"edits\":[],\"primary\":\"res://assets/fonts/NotoSansSC-Variable.ttf\",\"primary_exists\":true,\"expected\":null,\"normal_base\":null,\"source_sha256\":\"08b4ec9d8d22bd1055b9528b63de5be8cdbaf2c0eafcde19a7fdad95cc44e212\"},{\"id\":\"off_unknown\",\"lang\":\"unknown\",\"base\":\"modern\",\"edits\":[],\"primary\":\"res://assets/fonts/NotoSansSC-Variable.ttf\",\"primary_exists\":true,\"expected\":null,\"normal_base\":null,\"source_sha256\":\"08b4ec9d8d22bd1055b9528b63de5be8cdbaf2c0eafcde19a7fdad95cc44e212\"}],\"font_samples\":{\"zh-CN\":[27721,35821,38065,38376,21518,12290],\"zh-TW\":[28450,35486,37666,38272,24460,12290]},\"limits\":[\"Finite authored controls, not independent blind controls.\",\"Baseline old helper lacks lang/primary binding and OFF contract.\",\"Mutant rejection counts only with passing normal base.\",\"No UI collector, runtime, render, native, or full-product claim.\"]}")
+    failures: list[str] = []
+    observed: dict[str, Any] = {}
+    for case in controls["cases"]:
+        source = controls["bases"][case["base"]]
+        for old, new, count in case["edits"]:
+            if source.count(old) != count:
+                failures.append(case["id"] + ": frozen edit occurrence changed")
+            source = source.replace(old, new)
+        if hashlib.sha256(source.encode()).hexdigest() != case["source_sha256"]:
+            failures.append(case["id"] + ": frozen fixture source changed")
+        result = _font_route_source_contract(source, case["lang"], case["primary"], case["primary_exists"])
+        actual = None if result is None else bool(result["recognized"] and not result["errors"])
+        observed[case["id"]] = actual
+        if actual != case["expected"]:
+            failures.append(f"{case['id']}: expected={case['expected']} actual={result}")
+    for case in controls["cases"]:
+        if case["normal_base"] and observed[case["normal_base"]] is not True:
+            failures.append(case["id"] + ": mutant normal base did not pass")
+    legacy_controls = json.loads("{\"unit\":\"ORDER-237\",\"purpose\":\"Separate exposed legacy-active-flow addendum, original author32 unchanged\",\"code_before\":{\"bytes\":1673675,\"sha256\":\"b7386ad2c602a9e4770cf1e3fb3c9ef7893a24006df930c843e4fcfbe9d2f223\"},\"cases\":[{\"id\":\"normal_var\",\"source\":\"static func attach_locale_fallbacks(font: FontFile, language: String) -> void:\\n    var locale_font := _get_dedicated_locale_font(language)\\n    _append_fallback(font, locale_font)\\n    _append_fallback(font, _get_jp_font())\\n\",\"source_sha256\":\"3179db95861c14e55eb3c495a45991b73ebd2c490a6e5fbd7c7dee360adb0439\",\"lang\":\"zh-CN\",\"primary\":\"res://assets/fonts/NotoSansSC-Variable.ttf\",\"primary_exists\":true,\"expected\":true,\"normal_base\":null},{\"id\":\"normal_direct\",\"source\":\"static func attach_locale_fallbacks(font: FontFile, language: String) -> void:\\n    _append_fallback(font, _get_dedicated_locale_font(language))\\n    _append_fallback(font, _get_jp_font())\\n\",\"source_sha256\":\"c9aa5cadd4ec400834222d626b22facef3fe3e25ad4619e7046bfa59e1198237\",\"lang\":\"zh-CN\",\"primary\":\"res://assets/fonts/NotoSansSC-Variable.ttf\",\"primary_exists\":true,\"expected\":true,\"normal_base\":null},{\"id\":\"literal_bait\",\"source\":\"static func attach_locale_fallbacks(font: FontFile, language: String) -> void:\\n    var text := '    var locale_font := _get_dedicated_locale_font(language)\\\\n    _append_fallback(font, locale_font)\\\\n    _append_fallback(font, _get_jp_font())\\\\n'\\n\",\"source_sha256\":\"f0b75c2ec3884e84fad9486e360b8bd4ab63a8b06d1e2c33234548cfcf2e1ff2\",\"lang\":\"zh-CN\",\"primary\":\"res://assets/fonts/NotoSansSC-Variable.ttf\",\"primary_exists\":true,\"expected\":false,\"normal_base\":\"normal_var\"},{\"id\":\"dead_branch\",\"source\":\"static func attach_locale_fallbacks(font: FontFile, language: String) -> void:\\n    if false:\\n        var locale_font := _get_dedicated_locale_font(language)\\n        _append_fallback(font, locale_font)\\n        _append_fallback(font, _get_jp_font())\\n\",\"source_sha256\":\"342160a508c55759c42cffe2a90d6ed7dcd81252c44de988c378fd4f5f7b1e1d\",\"lang\":\"zh-CN\",\"primary\":\"res://assets/fonts/NotoSansSC-Variable.ttf\",\"primary_exists\":true,\"expected\":false,\"normal_base\":\"normal_var\"},{\"id\":\"early_return\",\"source\":\"static func attach_locale_fallbacks(font: FontFile, language: String) -> void:\\n    return\\n    var locale_font := _get_dedicated_locale_font(language)\\n    _append_fallback(font, locale_font)\\n    _append_fallback(font, _get_jp_font())\\n\",\"source_sha256\":\"6aec7eb4aa97bfc63238e54d2d411f127d9fba911c0b6234331e535282eedc62\",\"lang\":\"zh-CN\",\"primary\":\"res://assets/fonts/NotoSansSC-Variable.ttf\",\"primary_exists\":true,\"expected\":false,\"normal_base\":\"normal_var\"},{\"id\":\"alias_overwrite\",\"source\":\"static func attach_locale_fallbacks(font: FontFile, language: String) -> void:\\n    var locale_font := _get_dedicated_locale_font(language)\\n    locale_font = _get_jp_font()\\n    _append_fallback(font, locale_font)\\n    _append_fallback(font, _get_jp_font())\\n\",\"source_sha256\":\"29fa43a8c5ffb39402c424f10913bb0f9b15eed5eb86c4a9e53f12ffb5c06f5d\",\"lang\":\"zh-CN\",\"primary\":\"res://assets/fonts/NotoSansSC-Variable.ttf\",\"primary_exists\":true,\"expected\":false,\"normal_base\":\"normal_var\"},{\"id\":\"comment_only\",\"source\":\"static func attach_locale_fallbacks(font: FontFile, language: String) -> void:\\n    # var locale_font := _get_dedicated_locale_font(language)\\n    # _append_fallback(font, locale_font)\\n    # _append_fallback(font, _get_jp_font())\\n\",\"source_sha256\":\"c1bfb9ba61b2147a2331b1946a475523ee5e983490a18292530fc254ffe18a3f\",\"lang\":\"zh-CN\",\"primary\":\"res://assets/fonts/NotoSansSC-Variable.ttf\",\"primary_exists\":true,\"expected\":false,\"normal_base\":\"normal_var\"}]}")
+    for case in legacy_controls["cases"]:
+        result = _font_route_source_contract(case["source"], case["lang"], case["primary"], case["primary_exists"])
+        actual = bool(result and result["recognized"] and not result["errors"])
+        if actual != case["expected"]:
+            failures.append("legacy-active/" + case["id"] + ": " + str(result))
+    return len(controls["cases"]) + len(legacy_controls["cases"]), failures
+
+
+def _font_route_focused_main(languages: Iterable[str]) -> int:
+    cases, failures = _font_route_focused_self_test()
+    print(f"ZH_FONT_ROUTE_SELF_TEST {'FAIL' if failures else 'PASS'} cases={cases}")
+    source = (ROOT / "autoloads/FontKit.gd").read_text(encoding="utf-8")
+    for lang in languages:
+        primary = _gd_string_constant(source, FONT_CONSTANTS[lang])
+        path = _project_path(primary)
+        contract = _font_route_source_contract(source, lang, primary, bool(path and path.is_file()))
+        if not contract or not contract["recognized"] or contract["errors"]:
+            failures.append(f"{lang}: actual source contract {contract}")
+        route = font_route(lang, required_codepoints=FONT_SAMPLES[lang])
+        # Static readiness stays independent: this lane must not mask/repair the
+        # older license-ledger blocker or call it a physical JP/render defect.
+        print("ZH_FONT_ROUTE_SOURCE " + json.dumps({"lang": lang, **(contract or {})}, ensure_ascii=False))
+        print("ZH_FONT_ROUTE_STATIC " + json.dumps({
+            "lang": lang, "primary": route.primary,
+            "shared_han_jp_first": route.shared_han_jp_first,
+            "covered": route.covered, "required": route.required,
+            "ready": route.ready, "diagnostics": route.diagnostics,
+            "sample_scope": "existing FONT_SAMPLES only; no UI collector",
+        }, ensure_ascii=False))
+    empty = font_route("zh-CN", override_primary="", required_codepoints=FONT_SAMPLES["zh-CN"])
+    jp = font_route("zh-CN", override_primary=_FontRouteProgram.PATHS["ja"], required_codepoints=FONT_SAMPLES["zh-CN"])
+    if empty.ready or not empty.shared_han_jp_first or empty.covered != 0 or jp.ready:
+        failures.append("historical empty/JP primary rejection changed")
+    print("ZH_FONT_ROUTE_OVERRIDE " + json.dumps({
+        "empty_ready": empty.ready, "empty_covered": empty.covered,
+        "empty_risk": empty.shared_han_jp_first, "jp_ready": jp.ready,
+    }))
+    for failure in failures:
+        print("  " + failure)
+    return int(bool(failures))
+
+
 def font_route(
     lang: str, override_primary: str | None = None,
     required_codepoints: Iterable[int] | None = None,
@@ -8998,18 +9552,17 @@ def font_route(
         if cmap_error:
             diagnostics.append(cmap_error)
 
-    locale_font_precedes_jp = _locale_font_precedes_jp(
-        source, primary_exists
+    source_contract = _font_route_source_contract(source, lang, primary, primary_exists)
+    locale_font_precedes_jp = bool(
+        source_contract and source_contract["recognized"] and not source_contract["errors"]
     )
     jp_project_path = _project_path(jp_path)
     shared_han_jp_first = bool(
         jp_project_path is not None and jp_project_path.is_file()
         and not locale_font_precedes_jp
     )
-    if primary_exists and not locale_font_precedes_jp:
-        diagnostics.append(
-            "active-language dedicated Chinese font is not appended before JP"
-        )
+    if source_contract:
+        diagnostics.extend(source_contract["errors"])
 
     ledger_ok = False
     if primary_exists and project_path is not None:
@@ -9018,7 +9571,7 @@ def font_route(
             diagnostics.append(ledger_error)
 
     ready = bool(
-        primary_exists and covered == required and ledger_ok
+        primary_exists and covered == required and ledger_ok and locale_font_precedes_jp
         and not shared_han_jp_first
     )
     return FontRoute(
@@ -19557,6 +20110,9 @@ def run_self_test(
 ) -> list[str]:
     failures: list[str] = []
     cases, life_failures = _life_scene_parser_self_test()
+    font_cases, font_failures = _font_route_focused_self_test()
+    cases += font_cases
+    failures.extend(font_failures)
     early_cases, early_failures = _early_connections_self_test()
     cases += early_cases
     failures.extend(early_failures)
@@ -21199,7 +21755,13 @@ def main() -> int:
     parser.add_argument("--lang", choices=("all",) + LANGUAGES, default="all")
     parser.add_argument("--strict", action="store_true")
     parser.add_argument("--self-test", action="store_true")
+    parser.add_argument("--self-test-font-route", action="store_true")
     args = parser.parse_args()
+
+    if args.self_test_font_route:
+        if args.self_test or args.strict:
+            parser.error("--self-test-font-route is a separate focused lane")
+        return _font_route_focused_main(LANGUAGES if args.lang == "all" else (args.lang,))
 
     manifest = read_json(demo_scope.MANIFEST_PATH)
     observed, runtime, errors = demo_scope.build_scope()
