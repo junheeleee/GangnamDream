@@ -1,0 +1,316 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-239",
+  "scope": "work_unit",
+  "verdict": "GO",
+  "required": [],
+  "optional": [],
+  "source_commit": "ea47abc4584a1f84bb7433d3ea06a58ce784e0e6",
+  "source_tree": "eeb78a3b6f323d803ef6ae69b34af5e7ce351495",
+  "observed_head": "ea47abc4584a1f84bb7433d3ea06a58ce784e0e6",
+  "subject": {
+    "kind": "source",
+    "commit": "ea47abc4584a1f84bb7433d3ea06a58ce784e0e6",
+    "tree": "eeb78a3b6f323d803ef6ae69b34af5e7ce351495",
+    "manifest_sha256": null
+  },
+  "reviewer": {
+    "name": "Poincare",
+    "task": "/root/final_regression_review",
+    "role": "Non-author language, code and final work-unit reviewer",
+    "independent_of": "ROOT authored translations/integration; Plato authored runtime/collectors; Rawls authored isolated runtime harness."
+  },
+  "decision": "GO only for exact14 stored relationship-name display projection and six new-log parent templates, their60 locale values and bounded collector/acceptance integration. No unresolved required defect was found in this declared scope.",
+  "population": {
+    "korean_role_names": 14,
+    "korean_role_occurrences": 21,
+    "parent_templates": 6,
+    "localized_values_reviewed": 60,
+    "english_role_fallbacks_reviewed": 14,
+    "new_dictionary_values": 53,
+    "preserved_JA_values": 7,
+    "new_accepted_records": 60,
+    "actual_runtime_groups": 65,
+    "locales": 5,
+    "families_per_locale": 13,
+    "physical_name_read_callsites": 4,
+    "logical_name_display_log_consumers": 7,
+    "note": "Occurrence evidence, locale values, source self-tests and replayed runtime groups are separate denominators, not a summed independent sample."
+  },
+  "readscope": [
+    "Active239 and WORK_UNIT; actual KO producers and associated choices/results for21 role-name occurrences, shared family ID and six actual log consumers; full20x3 table plus EN14 (prior immutable language review).",
+    "Entire frozen five-source diff, runtime getter/callers, GameState name/ID/log/serialization behavior and LocaleManager.ui; new JA current-view and full resolved-evidence helpers/hooks and new self registration (prior immutable code review).",
+    "Final archive report; actual embedded531-line runtime test and entire shell/Python isolation runner; frozen100 expected strings equal approved20x5 table.",
+    "Retained runtime runner JSON65 cases, current13 input pins, stdout/stderr/Godot log hashes and exact markers/error scan; first-failure proof pins and JSON roundtrip adjudication.",
+    "First selected L1 envelope, targeted author evidence, whole-accepted result and its actual helper; reconstructed current1183 hash map equals preserved run digest without running validators.",
+    "Current60 UI values equal reviewed table; portable summary and Rawls independent source/response/receipt/portable readback; actual Git ownership/protected raw/source resolver/WORK-history inverse."
+  ],
+  "method": {
+    "no_new_tests": true,
+    "language": "Full source-grounded internal L2, not a random sample or native-reader claim; final60 targets and EN14 rebound to unchanged approved table.",
+    "code": "Finite static source review and raw/AST preservation. Reviewed5 source file pins remain exact; old full256 tests/277 methods raw preserved with2 new tests. Current inventory extension does not rewrite historical manifests or filter real discovery.",
+    "actual_runtime": "Directly read harness, retained result and logs. Exact65 unique IDs; all actual==expected, state_ok==true, pass==true. In-memory parsed save payload expectations are deep-copied before load, not derived from loaded output.",
+    "evidence_rebinding": "Read-only JSON/hash/Git calculations only. No collector, export/import, L1, self-test, named QA or Godot replay by this final reviewer."
+  },
+  "repairs_and_failed_attempts": [
+    {
+      "kind": "language_required",
+      "count": 2,
+      "description": "CN/TW cafe-friend modifiers could imply that the other person was a regular customer. Corrected to the friend met at the player's usual cafe, consistent with the actual employee source."
+    },
+    {
+      "kind": "language_optional",
+      "description": "EN Former Romantic Partner clarifies non-business relationship; JA 紹介された相手 is stage-neutral. ROOT's initial claim that the former JA text invented meeting completion was withdrawn because the KO choice result actually contains the cafe encounter. Target3 changed/57 unchanged; EN1 changed/13 unchanged."
+    },
+    {
+      "kind": "engine_invocation1",
+      "result": "FAIL before cases: reserved namespace identifier",
+      "repair": "Identifier only; original proof retained."
+    },
+    {
+      "kind": "engine_invocation2",
+      "result": "FAIL before cases: Variant-derived bool inference",
+      "repair": "Explicit bool annotations; original proof retained."
+    },
+    {
+      "kind": "engine_invocation3",
+      "result": "First completed65: displays65 match; state60 pass/5 fail",
+      "repair": "ROOT independently identified35 exact-value int-to-float JSON transport paths. Only save_language fixture expectation timing/types corrected; no numeric rounding, field masking or product change. First player name was not separately observed."
+    },
+    {
+      "kind": "engine_invocation4",
+      "result": "Same65 replay PASS; state65 and display65 match, five directly observed player names QA Custom Player",
+      "repair": "Frozen parsed relationships/logs before load and explicit player-name assertion. Replays are not extra unique coverage."
+    }
+  ],
+  "execution_evidence": {
+    "selected_L1": {
+      "records": 60,
+      "errors": 0,
+      "attempts": 1,
+      "evidence": ".git/full-game-localization/order239-first-l1.json"
+    },
+    "author_targeted": {
+      "ja_controls": 29,
+      "composition": "10 new registry controls + unchanged historical19",
+      "full_new_tests": 2,
+      "failures": 0,
+      "input_pins": 15,
+      "inputs_exact": true,
+      "independent_blind_claim": false
+    },
+    "runtime": {
+      "final_invocation": 4,
+      "cases": 65,
+      "passed": 65,
+      "failed": 0,
+      "engine_exit": 0,
+      "memory_restored": 1,
+      "marker": "RELATIONSHIP_DISPLAY_CHECK_OK cases=65 locales=5 names=14 parents=6 isolation=preautoload rendered=0",
+      "input_pins": 13,
+      "current_and_before_after_exact": true,
+      "retained_runner_sha256": "ab6924db5d88a1513c592238a4864960e3e59cb4cf3a803c753deaabffeb2b65",
+      "retained_stdout_and_Godot_log_sha256": "7bcf5cc67208ee039ac7de077fa98b08b26855ffe93d2acd16d9e2b6f92b7b65",
+      "stderr_bytes": 0,
+      "exact_marker_once_per_log": true,
+      "fatal_errors": 0,
+      "isolation": "Fresh namespace set by existing bootstrap before autoloads; actual user-directory validation, bounded process group, timeout and dual-log scan. Existing player storage/project file unchanged. Isolated storage/evidence retained.",
+      "capture_limit": "Tool envelope was truncated, but full engine logs/runner JSON were independently read at retained paths and match sealed hashes.",
+      "save_limit": "In-memory serialize/JSON.parse/load of relationships, historical logs, custom name and language switching; not existing player disk-save bytes or all legacy migrations."
+    },
+    "whole_accepted_L1": {
+      "accepted": 38497,
+      "errors": 0,
+      "attempts": 1,
+      "elapsed_seconds": 70.085471625,
+      "input_count": 1183,
+      "input_manifest_sha256": "f1273c725a5fd1ab8df70e5e82d8e5aac6cb16b6f0fe1c5073220cf9606bb129",
+      "current_input_manifest_exact": true,
+      "source_manifest_sha256": "d6395149ccb1babcfa4402d9cc5c7709656fa1f755915f49a4df7fee556cd416"
+    },
+    "named_lane": {
+      "reported_selected": 8,
+      "reported_exit": 0,
+      "reported_full_self_tests": 258,
+      "evidence_level": "Post-execution result summary only; no preserved full stdout or before/after source-input manifest. Not upgraded to fully captured independently verified lane output.",
+      "evidence": ".git/full-game-localization/order239-named-first.json"
+    }
+  },
+  "acceptance": {
+    "current": {
+      "records": 38497,
+      "batches": 97,
+      "metadata": 9,
+      "by_locale": {
+        "ja": 12831,
+        "zh-CN": 12833,
+        "zh-TW": 12833
+      }
+    },
+    "added": 60,
+    "portable": {
+      "bytes": 9985516,
+      "sha256": "44fd6ae8229c322c61a136c64c85255015e6bf7db05208f867065a39d94a8e71"
+    },
+    "preserved": {
+      "records": 38437,
+      "batches": 96,
+      "metadata": 9,
+      "bytes": 9968564,
+      "sha256": "be2e85433d70e2cc26bf4ec83ca15abeffa0a98e2dc6f0e9ec9bfb5bb035c927"
+    },
+    "independent_receipt_readback": "Rawls RO command c92b81/final b164a4: all20x3 source/response/header/approved/UI/receipt/portable records exact; initial/final source unchanged except previous_target; new60+b97 removal and accepted digest restoration invert to old raw exactly.20 input pins before/after exact; no new proof file or validator execution.",
+    "receipt_sha256": {
+      "ja": "0140365459c9d9046ad6e4f6a2d9fdfc17504cda7eb77f22e6cb3391bd4aae94",
+      "zh-CN": "fb78b7b40ad73645b747041b4a880cdc6ed088bdd97cb454b3dc13b6267e3e39",
+      "zh-TW": "3537d1838d665fc7a64ae8beac50520111c1fc07e25646ae7b7f3b5e3a621c50"
+    },
+    "boundary": "Resolved21 occurrences are not extra event leaves or receipt entries. Historical top-level source/coverage, old accepted records, b96 and metadata9 remain unchanged; current acceptance is separate. Official receipt INCOMPLETE/human OPEN is preserved."
+  },
+  "source_and_preservation": {
+    "clean_before_write": true,
+    "source_resolver_directly_observed": true,
+    "changed_from_base": 21,
+    "declared_owned_paths": 23,
+    "outside_scope": [],
+    "code5_and_current_UI60_rebound": true,
+    "C1_to_final": "b5e2e22→ea47abc changes only portable, CLAUDE, STATUS, archive report and localization backlog; reviewed runtime/collector/UI/harness source unchanged.",
+    "protected": {
+      "docs/human_gates.json": {
+        "bytes": 103390,
+        "sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6",
+        "baseline_raw_exact": true
+      },
+      "docs/agent_review_decisions.json": {
+        "bytes": 40330,
+        "sha256": "3cde777bce3cbd989d7d473cbab5262f4a355beb09bef4d4037785dad99bf206",
+        "baseline_raw_exact": true
+      },
+      "project.godot": {
+        "bytes": 4699,
+        "sha256": "78e98d7bdc1349570df6f2cc7ca6cbb11d4fc5451f5bbfdd338561653c7380c5",
+        "baseline_raw_exact": true
+      },
+      "content/meta/demo_localization_scope.json": {
+        "bytes": 75684,
+        "sha256": "9d50b64e6bc09d8e3e8e670fc48163ed5a0a419263cd0ffc601aac45c7abc7b6",
+        "baseline_raw_exact": true
+      },
+      "autoloads/GameState.gd": {
+        "bytes": 217568,
+        "sha256": "8a40740286ff910b2a16049e2c2794cc0dc22fed5dfc78d2fc6ce458c833018d",
+        "baseline_raw_exact": true
+      },
+      "autoloads/LocaleManager.gd": {
+        "bytes": 20574,
+        "sha256": "9417e6b9e241e1d2b9ec7a7668cf4d19fe337ce6719d87e032020fe421ceec9a",
+        "baseline_raw_exact": true
+      },
+      "autoloads/DataRegistry.gd": {
+        "bytes": 62059,
+        "sha256": "9ee97b7003efb1d9b80673d1fce162b71ab0cb6f929a363e04ead29a98d9a1df",
+        "baseline_raw_exact": true
+      },
+      "autoloads/SaveManager.gd": {
+        "bytes": 30849,
+        "sha256": "4ab9189029fde33df5addf4f9d2569c19d30f4575f1a534ad6a197c2429cd959",
+        "baseline_raw_exact": true
+      }
+    },
+    "old_agent_decisions": 25,
+    "WORK": {
+      "bytes": 37339,
+      "sha256": "2fe6f27c640cf95e05dca51b9457fe4fe785c168e57731b6ce19f54573a13dae",
+      "eof_LF": 2
+    },
+    "history": {
+      "bytes": 87964,
+      "sha256": "088819803283c7958b45c65369be6891e8ea37438c3a76450b8a40b49abb0b9e",
+      "eof_LF": 1
+    },
+    "raw_move": {
+      "bytes": 2037,
+      "sha256": "df7e3fdb282916315622cb0d7c169f0b054d785809d56d4c4f4c65ae3f1e04e4",
+      "old_WORK_exact_removal": true,
+      "old_history_suffix_exact": true
+    },
+    "pending_wrapper": "ROOT owns ledger25→26/queue/WORK/STATUS/allowed report closure. This file records the reviewed source before those metadata-only operations; it does not certify an unobserved future wrapper."
+  },
+  "proof_pins": {
+    ".git/full-game-localization/order239-language-review.json": {
+      "bytes": 21777,
+      "sha256": "5ac24043d497133f01068b0bfffba506c86a789b1871b5d559611e88c9be5918"
+    },
+    ".git/full-game-localization/order239-code-static-review.json": {
+      "bytes": 7386,
+      "sha256": "5bc51e9a5f20c8a0fa921d4bb8ad7e0b33af00647b95e32b3d5787bf7e718309"
+    },
+    ".git/full-game-localization/order239-translation-final.json": {
+      "bytes": 4624,
+      "sha256": "72565027bfb179977687662a908a4923da8310cb2ebbd3670c267e909fb00089"
+    },
+    ".git/full-game-localization/order239-relationship-display-final.json": {
+      "bytes": 14326,
+      "sha256": "c16ab1859f1a3e68e5deb9776a1638a4a283794325303d297dd5ab8edbf6b119"
+    },
+    ".git/full-game-localization/order239-root-json-roundtrip-adjudication.json": {
+      "bytes": 2179,
+      "sha256": "7977dba91fd21dc463340a0c4b07dd3587fc14332c80494f9e9596e66179e09f"
+    },
+    ".git/full-game-localization/order239-first-l1.json": {
+      "bytes": 22586,
+      "sha256": "f64101fb37cf33af25b2178d593853919e76fd9c0edbf040d5456d2abb3c6d0f"
+    },
+    ".git/full-game-localization/order239-portable-proof.json": {
+      "bytes": 506,
+      "sha256": "9a1662463f5d4529db2f4bf94d5b97e63f6b275bbc35f2a75a546254fd95101f"
+    },
+    ".git/full-game-localization/order239-all-accepted-l1-result.json": {
+      "bytes": 941,
+      "sha256": "19e8d3ede0bb64d02daa694046cbe79eb5ebe69216257be217565ee101f571de"
+    },
+    ".git/full-game-localization/order239-named-first.json": {
+      "bytes": 1383,
+      "sha256": "ee0bd5ca499ce6f24df335fa1737db237c0551aa61a7d765de58fa5ac0bab393"
+    },
+    ".git/full-game-localization/order239-author-first-targeted.json": {
+      "bytes": 18187,
+      "sha256": "22d60e9e547c74c0263114137f3dd36e2fbd9a548a8f1409dc924d5530307781"
+    },
+    "docs/queue_archive/ORDER-239.md": {
+      "bytes": 9253,
+      "sha256": "492dfd205933714970dda7b93efd5bc0e9d06b84c29fdd38a1e37c5a156e1789"
+    },
+    "docs/queue_active/ORDER-239.md": {
+      "bytes": 5991,
+      "sha256": "962711e75ca01c1c15b670db4dce485c898390be4257f0e1258b29023e4ba4ea"
+    }
+  },
+  "limits": [
+    "Existing romantic category label 연인/Partner overstates blind-date/crush/ex stages. It is unchanged, explicitly excluded from name14+parent6 and assigned to a separate neutral-category/UI follow-up, not silently accepted as correct.",
+    "Type/affinity/effect hints, fallback2, empty-VIP prose and remaining30 UI keys are not translated completion or whole-panel GO.",
+    "Finite recognizer is not arbitrary GDScript reachability or future alias proof. Actual current callers are supported by separate isolated execution; no broad parser assurance.",
+    "Headless caller-created Label inspection is not rendered screenshot/font-quality, native-reader, physical controller, human play or normal-speed full-game observation.",
+    "No current package/build revalidation, public release, remote CI, legal certification or full internal-product GO. Historical public GO1, human OPEN45 and full-product HOLD remain.",
+    "Named8 summary capture is weaker than full log/input-manifest evidence and is reported as such; retained runtime and whole-accepted evidence are stronger separately."
+  ],
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "rendered_screen",
+    "normal_speed_full_play",
+    "current_remote_CI",
+    "current_public_package"
+  ],
+  "reviewer_operations": {
+    "product_writes": 0,
+    "git_writes": 0,
+    "collector_calls": 0,
+    "L1_calls": 0,
+    "QA_calls": 0,
+    "Godot_calls": 0,
+    "output_only": "docs/agent_reviews/ORDER-239.json",
+    "read_preparation_note": "A read of nonexistent prior ORDER238 agent-review filename failed; no source/QA mutation or test was involved."
+  }
+}

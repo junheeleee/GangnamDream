@@ -23,6 +23,21 @@
 > [`7/25`](history/WORK_LOG_2026-07-25.md)에 손실 없이 보존한다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
 
+## 2026-09-10 (Codex — 관계 이름·새 로그 세 언어 표시)
+
+- 역할14·부모 로그6의60값 수용, 신규값53(JA13/CN·TW20), 기존 JA7 보존.
+  저장명/ID/이전로그·관계 단계·효과/확률 불변. UI 추가행 역제거·runtime2 역복원 exact.
+- 선택L1 60/0·전량38,497/0(입력1183 exact)·명시8 PASS. 실제 격리65 PASS,
+  앞선 parse2/각0경우 및 첫완주60/65 상태 비교 실패 원형 보존. JSON 타입 변환만
+  분리해 load전 parsed기대값 고정, 동일65·직접 플레이어명5·상태65 모두 통과했다.
+- 공식20×3 receipt 결속·기존38437/b96/meta9 원형. 누적38,497/b97,
+  JA12,831·CN/TW각12,833. finite collector는 현재21위치14키만 resolved다.
+- 제품source ea47abc4/treeeeb78a3b, Poincare work_unit239 GO/필수0.
+  [결과·실패·선언](queue_archive/ORDER-239.md), [직접 검수](agent_reviews/ORDER-239.json).
+  완료229/228 원문2037B raw이동·역복원. 기존 큐75행·판정25·인간 원형 보존.
+- 이번 범위·봉인·마감은 일회성. 공개GO1/인간OPEN45/본편HOLD,
+  native/render/인간플레이/물리감각 별도. 다음 유형의 연인 과장·남은 관계UI30은 미착수다.
+
 ## 2026-09-10 (Codex — 중국어 폰트 원장 지문 보강)
 
 - 승인 SC/TC full64 두 행과 생성 고지의 원장 SHA1개만 보강했다. 원장 +415B,
