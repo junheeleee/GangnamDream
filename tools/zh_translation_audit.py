@@ -8633,6 +8633,91 @@ def _ui_ending_record_numbers(lang: str, key: str, source: str, target: str):
     return numeric_source, numeric_target, sorted(set(errors))
 
 
+def _ui_ending_restart_contract(lang: str, key: str, source: str, target: str):
+    """Type three exact ending/restart slots without waiving a whole leaf.
+
+    The share hashtag is an existing brand identifier, not a translated display
+    title. The two unexperienced stories are categories, not two people; a
+    million subscribers is a count, not a won amount. Only the relevant checker
+    receives a normalized slot. Original script, markup, newlines and English
+    checks remain active. Other sources, owners and locales are untouched.
+    """
+    tag = "#강남드림 #GangnamDream"
+    both = "창업과 크리에이터 이야기, 둘 다 아직 만나지 못했습니다."
+    subscribers = "크리에이터 이야기 — 구독자 100만까지, 아직 만나지 못했습니다."
+    if lang not in LANGUAGES or source not in (tag, both, subscribers) or \
+            key != "ui:" + source + ":/" + source.replace("~", "~0").replace("/", "~1"):
+        return None
+    result = {"numeric_pair": (source, target), "money_pair": (source, target),
+              "terminology_source": source, "latin_only": False, "errors": []}
+    errors = result["errors"]
+    if source == tag:
+        if target != "#GangnamDream":
+            errors.append("source-bound ending share hashtag identity/count mismatch")
+        else:
+            result["terminology_source"] = source.replace("#강남드림", "#GangnamDream")
+            result["latin_only"] = True
+        return result
+
+    # Parse roles and their common negative predicate, not a sentence allowlist.
+    creator = r"(?:内容|內容)?(?:创作者|創作者)"
+    startup = r"(?:创业|創業)"
+    unseen = r"(?:还没(?:有)?|還沒(?:有)?|还未|還未|尚未)(?:经历|經歷|体验|體驗|接触|接觸)(?:过|過)?"
+    digits = r"0-9０-９零〇一二两兩三四五六七八九十百千万萬亿億.,，．"
+    if source == both:
+        role = rf"(?:{startup}|{creator})"
+        match = re.fullmatch(
+            rf"(?P<a>{role})(?:和|与|與|及|、)(?P<b>{role})"
+            rf"(?:的|(?:这|這)(?P<n>[{digits}]+)(?:种|種))故事[，,、 ]*"
+            rf"(?:你)?(?:都|均|皆){unseen}[。.!！]?", target,
+        )
+        if match is None or bool(re.fullmatch(startup, match.group("a"))) == \
+                bool(re.fullmatch(startup, match.group("b"))):
+            errors.append("source-bound restart both-story roles/polarity mismatch")
+            return result
+        numeric_target = target
+        if match.group("n") is not None:
+            raw = unicodedata.normalize("NFKC", match.group("n"))
+            if _chinese_cardinal_value(raw) != 2:
+                errors.append("source-bound restart story-category cardinality mismatch")
+            start, end = match.span("n")
+            numeric_target = target[:start] + " " * (end - start) + target[end:]
+        result["numeric_pair"] = (source.replace("둘 다", ""), numeric_target)
+        return result
+
+    # Separators may occur inside a number, never alone or at its ends: a
+    # suffix-owner phrase ends in 訂閱者， and that comma is not a second count.
+    numeral = r"0-9０-９零〇一二两兩三四五六七八九十百千万萬亿億"
+    number = rf"(?<![{digits}])(?P<sign>[+＋\-−－]?)(?P<n>[{numeral}](?:[{digits}]*[{numeral}])?)"
+    subscriber = r"(?:订阅者|訂閱者)"
+    # Prefix and suffix quantity owners are both natural Chinese. Locate the
+    # actual number span so no other quantity or currency is removed with it.
+    matches = list(re.finditer(rf"{subscriber}(?:达到|達到|达|達)?\s*{number}", target))
+    matches += list(re.finditer(rf"{number}\s*(?:名|位|个|個)?{subscriber}", target))
+    if len(matches) != 1 or re.search(creator, target) is None or \
+            re.search(unseen, target) is None or re.search(r"(?:已经|已經)(?:经历|經歷|体验|體驗)", target):
+        errors.append("source-bound restart subscriber quantity/role/polarity mismatch")
+    numeric_target = target
+    for match in matches:
+        raw = unicodedata.normalize("NFKC", match.group("n")).replace(",", "")
+        scale = 10000 if raw.endswith(("万", "萬")) else 1
+        value = _chinese_cardinal_value(raw[:-1] if scale != 1 else raw)
+        if value is None or value * scale != 1000000 or match.group("sign") or \
+                _has_numeric_sign_prefix(target, match.start("n")):
+            errors.append("source-bound restart subscriber value/sign mismatch")
+        if re.match(r"\s*(?:[/／%％‰]|以上|以下|多|余|餘)", target[match.end():]):
+            errors.append("source-bound restart subscriber qualifier mismatch")
+        if re.search(r"(?:超过|超過|多于|多於|少于|少於|至少|至多|最多|不足|不到|"
+                     r"大约|大約|约|約|接近|将近|將近|逾|近)\s*$", target[:match.start("n")]):
+            errors.append("source-bound restart subscriber prefix qualifier mismatch")
+    for start, end in sorted({m.span("n") for m in matches}, reverse=True):
+        numeric_target = numeric_target[:start] + " " * (end - start) + numeric_target[end:]
+    numeric_source = source.replace("100만", "")
+    result["numeric_pair"] = (numeric_source, numeric_target)
+    result["money_pair"] = (numeric_source, numeric_target)
+    return result
+
+
 def validate_text(lang: str, key: str, source: str, target: Any) -> list[str]:
     """Validate one Korean-source Chinese target without generating content."""
     if lang not in LANGUAGES:
@@ -8660,6 +8745,9 @@ def validate_text(lang: str, key: str, source: str, target: Any) -> list[str]:
     record_numbers = _ui_ending_record_numbers(lang, key, source, target)
     if record_numbers is not None:
         notice_numbers = record_numbers
+    restart = _ui_ending_restart_contract(lang, key, source, target)
+    if restart is not None:
+        notice_numbers = (*restart["numeric_pair"], restart["errors"])
     if notice_numbers is None:
         errors.extend(_numeric_errors(source, target))
     else:
@@ -8667,11 +8755,12 @@ def validate_text(lang: str, key: str, source: str, target: Any) -> list[str]:
         errors.extend(notice_errors)
         errors.extend(_numeric_errors(numeric_source, numeric_target))
     if HANGUL.search(source) and not HAN.search(target) \
-            and not _allows_latin_only(source, target, catalog=catalog_context):
+            and not _allows_latin_only(source, target, catalog=catalog_context) \
+            and not (restart is not None and restart["latin_only"]):
         errors.append("no Chinese Han glyphs in translated Korean source")
     errors.extend(_script_errors(lang, target))
-    errors.extend(_terminology_errors(lang, source, target))
-    errors.extend(_money_errors(lang, source, target))
+    errors.extend(_terminology_errors(lang, source if restart is None else restart["terminology_source"], target))
+    errors.extend(_money_errors(lang, *((source, target) if restart is None else restart["money_pair"])))
     errors.extend(_untranslated_english_errors(source, target, catalog=catalog_context))
     return list(dict.fromkeys(errors))
 
