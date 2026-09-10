@@ -2803,6 +2803,82 @@ class ExchangeTests(unittest.TestCase):
         self.assertEqual(tool.event_overlay_support(("choices", 0, "relationship_effects", 0, "name")),
                          "validator_contract_missing")
 
+    def test_relationship_display_source_contract_exact_projection(self):
+        # Author regression, separate from the independent pre-code runtime roster.
+        paths = ("systems/RelationshipSystem.gd", "scenes/MainGame.gd")
+        sources = {p: (tool.ROOT / p).read_text(encoding="utf-8") for p in paths}
+        before = copy.deepcopy(sources)
+        self.assertTrue(tool.relationship_display_source_contract(sources)["recognized"])
+        rs, main = paths
+        family = '\t\t"가족": return LocaleManager.ui("가족", "Family")\n'
+        source_changes = [
+            ("missing_branch", rs, family, ""),
+            ("duplicate_branch", rs, family, family + family),
+            ("wrong_fallback", rs, family, family.replace('"Family"', '"Parents"')),
+            ("normalized_default", rs, '\treturn raw_name\n', '\treturn raw_name.strip_edges()\n'),
+            ("state_write", rs, '\tmatch raw_name:\n', '\tGameState.relationships.clear()\n\tmatch raw_name:\n'),
+            ("dead_match", rs, '\tmatch raw_name:\n', '\tif false:\n\t\tmatch raw_name:\n'),
+            ("comment_branch", rs, family, '\t\t#' + family.lstrip()),
+            ("label_bypass", main,
+             'relationship_system.get_display_name(str(rel.get("name", "?")))',
+             'str(rel.get("name", "?"))'),
+            ("vip_bypass", main,
+             'rel_names.append(relationship_system.get_display_name(str(rel.get("name", "?"))))',
+             'rel_names.append(str(rel.get("name", "?")))'),
+            ("ended_bypass", rs,
+             'get_display_name(str(rel.get("name", LocaleManager.ui("누군가", "someone"))))',
+             'rel.get("name", LocaleManager.ui("누군가", "someone"))'),
+            ("passive_bypass", rs,
+             'var rel_name = get_display_name(str(rel.get("name", LocaleManager.ui("인연", "Connection"))))',
+             'var rel_name = rel.get("name", LocaleManager.ui("인연", "Connection"))'),
+            ("passive_overwrite", rs, '\tif affection < 45:\n',
+             '\trel_name = "가족"\n\tif affection < 45:\n'),
+        ]
+        for case, path, old, new in source_changes:
+            with self.subTest(case=case):
+                self.assertIn(old, sources[path])
+                changed = dict(sources)
+                changed[path] = sources[path].replace(old, new, 1)
+                self.assertFalse(tool.relationship_display_source_contract(changed)["recognized"])
+        with self.subTest(case="new_unresolved_reader"):
+            changed = dict(sources)
+            changed[rs] += '\nfunc new_bypass(rel):\n\tprint(rel.get("name", "?"))\n'
+            self.assertFalse(tool.relationship_display_source_contract(changed)["recognized"])
+        with self.subTest(case="multiline_string_is_not_a_resolver"):
+            start = sources[rs].index('func get_display_name(')
+            end = sources[rs].index('func process_monthly_relationships(')
+            changed = dict(sources)
+            changed[rs] = (sources[rs][:start] + 'const DECOY = """\n' +
+                           sources[rs][start:end] + '"""\n' + sources[rs][end:])
+            self.assertFalse(tool.relationship_display_source_contract(changed)["recognized"])
+        self.assertEqual(sources, before)
+
+    def test_relationship_display_occurrences_remain_separate_from_leaves(self):
+        import ja_translation_pipeline as ja
+        sources = {p: (tool.ROOT / p).read_text(encoding="utf-8") for p in
+                   ("systems/RelationshipSystem.gd", "scenes/MainGame.gd")}
+        row = {"choices": [{"relationship_effects": [
+            {"id": "parents_family", "name": "부모님"},
+            {"id": "parents_family", "name": "가족"},
+            {"id": "custom", "name": "새로운 사용자 이름"}]}]}
+        before = copy.deepcopy(row)
+        occurrences = tool.unsupported_relationship_display_names("fixture", row, "source.json")
+        result = tool.relationship_display_evidence(occurrences, sources, set(ja.RELATIONSHIP_UI_NAMES))
+        self.assertEqual((result["occurrences"], result["unique_korean"]), (3, 3))
+        self.assertEqual([r["ui_leaf_id"] for r in result["resolved"]],
+                         ["ui:부모님:/부모님", "ui:가족:/가족"])
+        self.assertEqual([r["ko"] for r in result["unresolved"]], ["새로운 사용자 이름"])
+        missing_ui = tool.relationship_display_evidence(occurrences, sources, {"가족"})
+        self.assertEqual(len(missing_ui["resolved"]), 1)
+        broken = dict(sources)
+        broken["systems/RelationshipSystem.gd"] = ""
+        missing_route = tool.relationship_display_evidence(occurrences, broken, set(ja.RELATIONSHIP_UI_NAMES))
+        self.assertEqual(missing_route["resolved"], [])
+        self.assertEqual(missing_route["unresolved"], occurrences)
+        self.assertEqual(row, before)
+        self.assertEqual(tool.event_overlay_support(("choices", 0, "relationship_effects", 0, "name")),
+                         "validator_contract_missing")
+
     def internal_note_fixture(self, root):
         inventory = copy.deepcopy(self.inventory)
         inventory["endings"]["example"]["condition"] = "age >= 38"

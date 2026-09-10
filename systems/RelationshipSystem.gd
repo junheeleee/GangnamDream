@@ -3,6 +3,25 @@ extends Node
 signal relationship_added(rel: Dictionary)
 signal relationship_changed(rel: Dictionary)
 
+## Display projection only. Keep saved names, IDs and unknown/custom labels intact.
+func get_display_name(raw_name: String) -> String:
+	match raw_name:
+		"가족": return LocaleManager.ui("가족", "Family")
+		"강남 인맥": return LocaleManager.ui("강남 인맥", "Gangnam Contact")
+		"부모님": return LocaleManager.ui("부모님", "Parents")
+		"사업 파트너": return LocaleManager.ui("사업 파트너", "Business Partner")
+		"새벽 통화 친구": return LocaleManager.ui("새벽 통화 친구", "Late-night Phone Friend")
+		"소개팅 상대": return LocaleManager.ui("소개팅 상대", "Blind Date")
+		"썸 상대": return LocaleManager.ui("썸 상대", "Romantic Interest")
+		"업계 지인": return LocaleManager.ui("업계 지인", "Industry Acquaintance")
+		"옆방 이웃": return LocaleManager.ui("옆방 이웃", "Next-door Neighbor")
+		"인생 멘토": return LocaleManager.ui("인생 멘토", "Life Mentor")
+		"전 연인": return LocaleManager.ui("전 연인", "Former Romantic Partner")
+		"직장 선배": return LocaleManager.ui("직장 선배", "Senior Colleague")
+		"친한 친구": return LocaleManager.ui("친한 친구", "Close Friend")
+		"카페 단골 친구": return LocaleManager.ui("카페 단골 친구", "Friend at My Usual Café")
+	return raw_name
+
 func process_monthly_relationships():
 	# 역순 인덱스로 순회해야 제거 중 인덱스 오류 없음
 	var i = GameState.relationships.size() - 1
@@ -27,7 +46,7 @@ func process_monthly_relationships():
 		var affection_val = int(rel.get("affection", 0))
 		var trust_val     = int(rel.get("trust", 0))
 		if affection_val <= 0 or (affection_val <= 5 and trust_val <= 10):
-			GameState.add_log(LocaleManager.ui("%s와의 관계가 끊어졌다.", "Relationship with %s ended.") % rel.get("name", LocaleManager.ui("누군가", "someone")), "relationship")
+			GameState.add_log(LocaleManager.ui("%s와의 관계가 끊어졌다.", "Relationship with %s ended.") % get_display_name(str(rel.get("name", LocaleManager.ui("누군가", "someone")))), "relationship")
 			GameState.relationships.remove_at(i)
 		else:
 			relationship_changed.emit(rel)
@@ -47,7 +66,7 @@ func get_affinity_label(value):
 func _apply_passive(rel):
 	var affection = int(rel.get("affection", 40))
 	var trust = int(rel.get("trust", 40))
-	var rel_name = rel.get("name", LocaleManager.ui("인연", "Connection"))
+	var rel_name = get_display_name(str(rel.get("name", LocaleManager.ui("인연", "Connection"))))
 	if affection < 45:
 		return
 	match str(rel.get("type", "friends")):

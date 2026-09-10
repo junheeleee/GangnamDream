@@ -14,6 +14,44 @@
   ],
   "fast_lanes": [
     {
+      "id": "relationship-display-localization",
+      "paths": [],
+      "owned_paths": [
+        "systems/RelationshipSystem.gd",
+        "scenes/MainGame.gd",
+        "tools/ja_translation_pipeline.py",
+        "tools/full_game_localization.py",
+        "tools/full_game_localization_self_test.py",
+        "locale/ui_ja.json",
+        "locale/ui_zh-CN.json",
+        "locale/ui_zh-TW.json",
+        "content/meta/full_game_localization.json",
+        "tools/RelationshipDisplayLocaleCheck.tscn",
+        "tools/run_relationship_display_locale_qa.sh",
+        "tools/audit_scope.json",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/queue_active/ORDER-239.md",
+        "docs/queue_archive/ORDER-239.md",
+        "docs/WORK_LOG.md",
+        "docs/history/WORK_LOG_2026-09-07_localization.md",
+        "docs/STATUS.md",
+        "docs/queue_backlog/FULL_GAME_LOCALIZATION.md",
+        "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-239.json"
+      ],
+      "tools": [
+        "tools/ja_translation_pipeline.py --self-test",
+        "tools/full_game_localization_self_test.py",
+        "tools/en_coverage_check.py",
+        "tools/queue_index_self_test.py",
+        "tools/agent_review_decisions_self_test.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Exact relationship-name display projection and twenty UI keys; preserve historical UI inventories and raw save identity. Isolated actual-caller Godot evidence runs separately once, not full-game or native play."
+    },
+    {
       "id": "chinese-font-ledger-pins",
       "paths": [],
       "owned_paths": [
@@ -3614,6 +3652,20 @@
         "tools/ChoicePreviewLocaleCheck.gd.uid",
         "tools/ChoicePreviewLocaleCheck.tscn",
         "tools/run_choice_preview_locale_qa.sh"
+      ]
+    },
+    {
+      "tool": "tools/run_relationship_display_locale_qa.sh",
+      "godot": true,
+      "why": "Pre-autoload isolated relationship Label and newly formatted logs in five locales; raw names, shared family identity and saved history retained. Not rendered human play.",
+      "paths": [
+        "systems/RelationshipSystem.gd",
+        "scenes/MainGame.gd",
+        "tools/RelationshipDisplayLocaleCheck.tscn",
+        "tools/run_relationship_display_locale_qa.sh",
+        "locale/ui_ja.json",
+        "locale/ui_zh-CN.json",
+        "locale/ui_zh-TW.json"
       ]
     }
   ]

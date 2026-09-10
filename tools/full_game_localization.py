@@ -154,6 +154,171 @@ def unsupported_relationship_display_names(owner: str, row: dict[str, Any], file
     return result
 
 
+def _relationship_source_functions(source: str) -> dict[str, list[tuple[int, tuple[str, ...]]]]:
+    """Tokenize only: comments and multiline strings cannot impersonate code.
+
+    The supported projection/caller grammar below is deliberately finite; this
+    is not a general GDScript control-flow or reachability proof.
+    """
+    import io
+    import tokenize
+
+    lines = source.splitlines()
+    statements: list[tuple[int, tuple[str, ...]]] = []
+    parts: list[str] = []
+    indent = 0
+    try:
+        for token in tokenize.generate_tokens(io.StringIO(source).readline):
+            if token.type in {tokenize.COMMENT, tokenize.NL, tokenize.INDENT,
+                              tokenize.DEDENT, tokenize.ENCODING}:
+                continue
+            if token.type in {tokenize.NEWLINE, tokenize.ENDMARKER}:
+                if parts:
+                    statements.append((indent, tuple(parts)))
+                    parts = []
+                continue
+            if token.type == tokenize.ERRORTOKEN and token.string.isspace():
+                continue
+            if not parts:
+                prefix = lines[token.start[0] - 1][:token.start[1]]
+                indent = len(prefix.expandtabs(4))
+            parts.append(token.string)
+    except (tokenize.TokenError, IndentationError, IndexError) as exc:
+        raise ContractError(f"relationship source lexical error: {exc}") from exc
+    functions: dict[str, list[tuple[int, tuple[str, ...]]]] = {}
+    current = None
+    for indentation, tokens in statements:
+        if indentation == 0:
+            current = None
+            start = 1 if tokens[:1] == ("static",) else 0
+            if tokens[start:start + 1] == ("func",) and len(tokens) > start + 1:
+                current = tokens[start + 1]
+                if current in functions:
+                    raise ContractError(f"duplicate relationship source function {current}")
+                functions[current] = []
+        if current is not None:
+            functions[current].append((indentation, tokens))
+    return functions
+
+
+def relationship_display_source_contract(sources: dict[str, str]) -> dict[str, Any]:
+    """Recognize exact raw-name projection and its four live name reads."""
+    import ja_translation_pipeline as ja
+
+    errors: list[str] = []
+    try:
+        rs = _relationship_source_functions(sources["systems/RelationshipSystem.gd"])
+        main = _relationship_source_functions(sources["scenes/MainGame.gd"])
+    except (KeyError, ContractError) as exc:
+        return {"recognized": False, "errors": [str(exc)], "names": []}
+
+    def statement(text: str) -> tuple[str, ...]:
+        return _relationship_source_functions("func _fixture():\n\t" + text + "\n")["_fixture"][1][1]
+
+    expected_resolver = [
+        (0, statement("func get_display_name(raw_name: String) -> String:")),
+        (4, statement("match raw_name:")),
+        *[(8, statement(json.dumps(ko, ensure_ascii=False) + ": return LocaleManager.ui(" +
+                         json.dumps(ko, ensure_ascii=False) + ", " +
+                         json.dumps(en, ensure_ascii=False) + ")"))
+          for ko, en in ja.RELATIONSHIP_UI_NAMES.items()],
+        (4, statement("return raw_name")),
+    ]
+    resolver = rs.get("get_display_name", [])
+    # Branch order has no semantic effect, but multiplicity, exact source and
+    # fallback, no extra statements, and the raw-name default are mandatory.
+    if len(resolver) != len(expected_resolver) \
+            or resolver[:2] != expected_resolver[:2] \
+            or resolver[-1:] != expected_resolver[-1:] \
+            or sorted(resolver[2:-1]) != sorted(expected_resolver[2:-1]):
+        errors.append("relationship resolver is not the exact14 pure raw-name projection")
+
+    routes = [
+        ("main", "_render_sidebars", 8,
+         'var name_lbl: Label = _label(relationship_system.get_display_name(str(rel.get("name", "?"))), 16, "#e8eaf0")',
+         ['for rel in GameState.relationships:']),
+        ("main", "_ap_vip_network", 8,
+         'rel_names.append(relationship_system.get_display_name(str(rel.get("name", "?"))))',
+         ['for rel in GameState.relationships:']),
+        ("rs", "process_monthly_relationships", 12,
+         'GameState.add_log(LocaleManager.ui("%s와의 관계가 끊어졌다.", "Relationship with %s ended.") % get_display_name(str(rel.get("name", LocaleManager.ui("누군가", "someone")))), "relationship")',
+         ['while i >= 0:', 'if affection_val <= 0 or (affection_val <= 5 and trust_val <= 10):']),
+        ("rs", "_apply_passive", 4,
+         'var rel_name = get_display_name(str(rel.get("name", LocaleManager.ui("인연", "Connection"))))', []),
+    ]
+    permitted_reads: set[tuple[str, str, int]] = set()
+    for namespace, function, indentation, text, ancestors in routes:
+        rows = (main if namespace == "main" else rs).get(function, [])
+        wanted = statement(text)
+        matches = []
+        stack: list[tuple[int, tuple[str, ...]]] = []
+        for index, (level, tokens) in enumerate(rows[1:], 1):
+            while stack and stack[-1][0] >= level:
+                stack.pop()
+            if tokens == wanted and level == indentation:
+                if [r[1] for r in stack] == [statement(a) for a in ancestors]:
+                    matches.append(index)
+            if tokens[-1:] == (":",):
+                stack.append((level, tokens))
+        if len(matches) != 1:
+            errors.append(f"relationship display caller missing/ambiguous: {namespace}.{function}")
+        else:
+            permitted_reads.add((namespace, function, matches[0]))
+            if any(level == 4 and tokens[:1] == ("return",)
+                   for level, tokens in rows[1:matches[0]]):
+                errors.append(f"relationship display caller has an early return: {function}")
+
+    # New direct rel.name readers must not silently inherit the repaired claim.
+    for namespace, functions in (("main", main), ("rs", rs)):
+        for function, rows in functions.items():
+            for index, (_level, tokens) in enumerate(rows):
+                joined = " ".join(tokens)
+                if ('rel . get ( "name"' in joined or 'rel [ "name" ]' in joined) \
+                        and (namespace, function, index) not in permitted_reads:
+                    errors.append(f"unresolved relationship name read: {namespace}.{function}")
+
+    passive = rs.get("_apply_passive", [])
+    if sum(tokens[:2] == ("var", "rel_name") or tokens[:2] == ("rel_name", "=")
+           for _level, tokens in passive) != 1:
+        errors.append("relationship passive display argument was overwritten")
+    passive_parents = [
+        ('%s: 생활비 분담 효과 +10만원', '%s: shared living cost effect +100,000 won'),
+        ('%s 멘토: 투자 인사이트 +20만원 가치', '%s mentor: investment insight worth 200,000 won'),
+        ('%s: 비즈니스 파트너 수익 공유 +15만원', '%s: business partner profit share +150,000 won'),
+        ('%s: 가족 지원금 +30만원', '%s: family support +300,000 won'),
+    ]
+    for ko, en in passive_parents:
+        wanted = statement('GameState.add_log(LocaleManager.ui(' +
+                           json.dumps(ko, ensure_ascii=False) + ', ' +
+                           json.dumps(en) + ') % rel_name, "relationship")')
+        if sum(tokens == wanted for _level, tokens in passive) != 1:
+            errors.append(f"relationship passive parent no longer consumes display argument: {ko}")
+    return {"recognized": not errors, "errors": errors,
+            "names": list(ja.RELATIONSHIP_UI_NAMES) if not errors else [],
+            "name_read_consumers": len(permitted_reads)}
+
+
+def relationship_display_evidence(
+    occurrences: list[dict[str, Any]], sources: dict[str, str], ui_keys: set[str],
+) -> dict[str, Any]:
+    contract = relationship_display_source_contract(sources)
+    supported = set(contract["names"]) & ui_keys
+    resolved, unresolved = [], []
+    for occurrence in occurrences:
+        if occurrence["ko"] in supported:
+            row = dict(occurrence)
+            row["kind"] = "resolved_relationship_display_name"
+            row["detail"] = "Stored raw name projected through exact locale UI resolver; gameplay overlay remains forbidden."
+            row["ui_leaf_id"] = "ui:" + row["ko"] + ":" + pointer((row["ko"],))
+            resolved.append(row)
+        else:
+            unresolved.append(occurrence)
+    return {"occurrences": len(occurrences),
+            "unique_korean": len({row["ko"] for row in occurrences}),
+            "resolved": resolved, "unresolved": unresolved, "contract": contract,
+            "scope": "Occurrence evidence only, not additional event leaves or acceptance receipts."}
+
+
 def get_at(value: Any, path: tuple[Any, ...]) -> Any:
     try:
         for key in path:
@@ -306,6 +471,14 @@ def collect(root: Path = ROOT) -> dict[str, Any]:
         add("ui", key, "runtime:static_ui", (key,), entry.source, "ui_static_context",
             protected=key in protected_ui, format_template=entry.format_template)
         ui_seen.add(key)
+    relationship_evidence = relationship_display_evidence(
+        [row for row in unsupported if row["kind"] == "unsupported_relationship_display_name"],
+        {path: (root / path).read_text(encoding="utf-8") for path in
+         ("systems/RelationshipSystem.gd", "scenes/MainGame.gd")}, ui_seen,
+    )
+    unsupported = [row for row in unsupported
+                   if row["kind"] != "unsupported_relationship_display_name"]
+    unsupported.extend(relationship_evidence["unresolved"])
     _, runtime, errors = demo.build_scope()
     unsupported.extend({"kind": "demo_dynamic_contract", "detail": e} for e in errors)
     demo_keys = set(runtime["merged_pairs"])
@@ -359,6 +532,7 @@ def collect(root: Path = ROOT) -> dict[str, Any]:
     hashes = {name: sha_file(root / name) for name in sorted(source_files)}
     return {"leaves": sorted(leaves, key=lambda leaf: leaf.id), "source_hashes": hashes,
             "source_manifest_sha256": digest(hashes), "unsupported": unsupported,
+            "relationship_display_names": relationship_evidence,
             "internal_ending_notes": internal_ending_notes,
             "events": source_events, "endings": source_endings, "catalog": source_catalog,
             "source_counts": {"packaged_events": len(source_events), "shipping_events": len(source_events) - len(author_only),
@@ -3857,6 +4031,7 @@ def main(argv=None) -> int:
                       "source_manifest_sha256": inventory["source_manifest_sha256"],
                       "internal_ending_notes": inventory["internal_ending_notes"],
                       "unsupported": inventory["unsupported"],
+                      "relationship_display_names": inventory["relationship_display_names"],
                       "unsupported_relationship_display_names": {
                           "occurrences": sum(u["kind"] == "unsupported_relationship_display_name" for u in inventory["unsupported"]),
                           "unique_korean": len({u["ko"] for u in inventory["unsupported"] if u["kind"] == "unsupported_relationship_display_name"}),

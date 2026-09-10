@@ -9856,7 +9856,7 @@ func _render_sidebars():
 		var title_row: HBoxContainer = HBoxContainer.new()
 		title_row.add_theme_constant_override("separation", 8)
 		body_parent.add_child(title_row)
-		var name_lbl: Label = _label(str(rel.get("name", "?")), 16, "#e8eaf0")
+		var name_lbl: Label = _label(relationship_system.get_display_name(str(rel.get("name", "?"))), 16, "#e8eaf0")
 		if _font_bold:
 			name_lbl.add_theme_font_override("font", _font_bold)
 		name_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -18302,7 +18302,7 @@ func _ap_vip_network():
 		var aff_before = int(rel.get("affection", 40))
 		rel["affection"] = clamp(aff_before + 15, 0, 100)
 		rel["trust"] = clamp(int(rel.get("trust", 30)) + 8, 0, 100)
-		rel_names.append(str(rel.get("name", "?")))
+		rel_names.append(relationship_system.get_display_name(str(rel.get("name", "?"))))
 	if rel_names.is_empty():
 		GameState.add_log(_tr(
 			"VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.",

@@ -1268,6 +1268,81 @@ def _candidate_selector(
     return path, function, encode(korean), encode(english)
 
 
+RELATIONSHIP_UI_OWNER = ("systems/RelationshipSystem.gd", "get_display_name")
+RELATIONSHIP_UI_NAMES = {
+    "가족": "Family",
+    "강남 인맥": "Gangnam Contact",
+    "부모님": "Parents",
+    "사업 파트너": "Business Partner",
+    "새벽 통화 친구": "Late-night Phone Friend",
+    "소개팅 상대": "Blind Date",
+    "썸 상대": "Romantic Interest",
+    "업계 지인": "Industry Acquaintance",
+    "옆방 이웃": "Next-door Neighbor",
+    "인생 멘토": "Life Mentor",
+    "전 연인": "Former Romantic Partner",
+    "직장 선배": "Senior Colleague",
+    "친한 친구": "Close Friend",
+    "카페 단골 친구": "Friend at My Usual Café",
+}
+
+
+def _relationship_ui_registry_errors(calls: Iterable[UiCall]) -> list[str]:
+    """Exact additive source ownership; never remove calls from observation."""
+    expected = {(ko, en, "legacy", ""): 1
+                for ko, en in RELATIONSHIP_UI_NAMES.items()}
+    observed: dict[tuple[str, str, str, str], int] = {}
+    for call in calls:
+        if (call.path, call.function) == RELATIONSHIP_UI_OWNER:
+            key = (call.korean, call.english, call.api, call.context_id)
+            observed[key] = observed.get(key, 0) + 1
+    return ([] if observed == expected else [
+        f"source: relationship display exact14 registry differs: {observed!r}"
+    ])
+
+
+def _relationship_ui_expected_view(
+    calls: Iterable[UiCall], previous_view: dict[str, Any], kind: str,
+    source_keys: Optional[set[str]] = None,
+) -> tuple[dict[str, Any], list[str]]:
+    """Extend verified historical expectations, not discovered statistics."""
+    errors = _relationship_ui_registry_errors(calls)
+    view = dict(previous_view)
+    old_counts = {
+        "snapshot": {"legacy_pair_call_occurrences": 3285,
+                     "post_migration_legacy_pair_call_occurrences": 3251},
+        "final": {"total_ui_call_occurrences": 3342,
+                  "legacy_pair_call_occurrences": 3308},
+        "final_self_stats": {"source_calls": 3342, "legacy_calls": 3308},
+        "keys": {},
+    }
+    if kind not in old_counts:
+        return view, errors + [f"manifest: unknown relationship view {kind!r}"]
+    for key, old in old_counts[kind].items():
+        if type(view.get(key)) is not int or view[key] != old:
+            errors.append(f"manifest: relationship pre-addition {key} != {old}")
+        else:
+            view[key] = old + 14
+    if source_keys is not None:
+        # Family is an existing shared key (FAM/Family); thirteen are new.
+        added = set(RELATIONSHIP_UI_NAMES) - {"가족"}
+        historical_keys = set(source_keys) - added
+        historical_hash = hashlib.sha256(
+            "\n".join(sorted(historical_keys)).encode("utf-8")
+        ).hexdigest()
+        if not set(RELATIONSHIP_UI_NAMES).issubset(source_keys):
+            errors.append("source: relationship display keys are missing")
+        if view.get("legacy_korean_source_keys") != len(historical_keys) \
+                or view.get("legacy_korean_source_keys_sha256") != historical_hash:
+            errors.append("manifest: relationship historical key set/hash drifted")
+        current_keys = historical_keys | added
+        view["legacy_korean_source_keys"] = len(current_keys)
+        view["legacy_korean_source_keys_sha256"] = hashlib.sha256(
+            "\n".join(sorted(current_keys)).encode("utf-8")
+        ).hexdigest()
+    return view, errors
+
+
 def _choice_preview_ui_expected_view(
     calls: Iterable[UiCall], historical_view: dict[str, Any], kind: str,
 ) -> tuple[dict[str, Any], list[str]]:
@@ -2107,6 +2182,10 @@ def validate_ui_parameterized_contract(
             call_rows, expected_phase, "final"
         )
         errors.extend(preview_errors)
+        expected_phase, relationship_errors = _relationship_ui_expected_view(
+            call_rows, expected_phase, "final", source_keys
+        )
+        errors.extend(relationship_errors)
     actual_inventory = {
         "migrated_calls": sum(
             int(registry[selector]["count"]) for selector in migrated_selectors
@@ -2196,6 +2275,10 @@ def validate_ui_context_contract(
         calls, current_snapshot, "snapshot"
     )
     errors.extend(preview_errors)
+    current_snapshot, relationship_errors = _relationship_ui_expected_view(
+        calls, current_snapshot, "snapshot"
+    )
+    errors.extend(relationship_errors)
     baseline_calls = current_snapshot.get("legacy_pair_call_occurrences")
     supplemental_rows = parameter_contract.get(
         "localized_argument_registry", []
@@ -2277,6 +2360,10 @@ def validate_ui_context_contract(
         source_keys - nonbaseline_templates - branch_templates
         - supplemental_templates - split_literal_templates
     )
+    current_snapshot, relationship_key_errors = _relationship_ui_expected_view(
+        calls, current_snapshot, "keys", baseline_source_keys
+    )
+    errors.extend(relationship_key_errors)
     current_source_key_count = current_snapshot.get("legacy_korean_source_keys")
     if current_source_key_count != len(baseline_source_keys):
         errors.append(
@@ -3508,6 +3595,53 @@ def _choice_preview_ui_inventory_self_test(
     return len(controls), failures
 
 
+def _relationship_ui_inventory_self_test(
+    inventory: Optional[UiInventory] = None,
+) -> tuple[int, list[str]]:
+    """Current14 delta plus the unchanged historical choice-preview roster."""
+    from dataclasses import replace
+
+    inventory = inventory if inventory is not None else collect_ui_inventory()
+    calls = inventory.calls
+    failures = list(inventory.errors)
+    failures.extend(_relationship_ui_registry_errors(calls))
+    if (inventory.stats.get("source_calls"), inventory.stats.get("legacy_calls"),
+            inventory.stats.get("legacy_keys")) != (3356, 3322, 2848):
+        failures.append("relationship actual inventory must be3356/3322/2848")
+    roles = [c for c in calls if (c.path, c.function) == RELATIONSHIP_UI_OWNER]
+    cases = 1
+    if len(roles) == 14:
+        first = roles[0]
+        mutations = [list(reversed(calls)), [c for c in calls if c != first],
+                     [*calls, first]]
+        for field, value in (("path", "systems/Other.gd"),
+                             ("function", "other"), ("korean", "없는 관계"),
+                             ("english", "Different"), ("api", "context"),
+                             ("context_id", "ui.other")):
+            mutations.append([replace(c, **{field: value}) if c == first else c
+                              for c in calls])
+        for index, changed in enumerate(mutations):
+            cases += 1
+            okay = not _relationship_ui_registry_errors(changed)
+            if okay != (index == 0):
+                failures.append(f"relationship registry control{index} differs")
+    else:
+        failures.append("relationship self roster requires fourteen actual calls")
+
+    # An explicit historical fixture projection, never a collector filter.
+    # Keep the old19 tests and their3342/3308 expectations byte-for-byte.
+    role_ids = {id(call) for call in roles}
+    historical_calls = tuple(c for c in calls if id(c) not in role_ids)
+    historical_stats = dict(inventory.stats)
+    historical_stats["source_calls"] = len(historical_calls)
+    historical_stats["legacy_calls"] = sum(
+        c.api in {"legacy", "format", "branch"} for c in historical_calls
+    )
+    historical = replace(inventory, calls=historical_calls, stats=historical_stats)
+    old_cases, old_failures = _choice_preview_ui_inventory_self_test(historical)
+    return cases + old_cases, failures + old_failures
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -3751,6 +3885,11 @@ def main() -> int:
         phase_inventory = parameter_contract.get(
             "source_inventory_phases", {}
         ).get(parameter_phase, {})
+        phase_inventory, relationship_key_errors = _relationship_ui_expected_view(
+            ui_inventory.calls, phase_inventory, "keys",
+            {call.korean for call in ui_inventory.calls},
+        )
+        failures.extend(relationship_key_errors)
         expected_legacy_entries = int(
             phase_inventory.get("legacy_korean_source_keys", -1)
         )
@@ -3780,6 +3919,10 @@ def main() -> int:
             ui_inventory.calls, exact_parameter_stats, "final_self_stats"
         )
         failures.extend(preview_errors)
+        current_parameter_stats, relationship_errors = _relationship_ui_expected_view(
+            ui_inventory.calls, current_parameter_stats, "final_self_stats"
+        )
+        failures.extend(relationship_errors)
         stale_parameter_stats = {
             key: (ui_inventory.stats.get(key), expected)
             for key, expected in current_parameter_stats.items()
@@ -4206,7 +4349,7 @@ def main() -> int:
             failures.append(
                 "stale existing lookup-before-format provenance was not rejected"
             )
-        preview_cases, preview_failures = _choice_preview_ui_inventory_self_test(ui_inventory)
+        preview_cases, preview_failures = _relationship_ui_inventory_self_test(ui_inventory)
         cases += preview_cases
         failures.extend(preview_failures)
         if failures:
