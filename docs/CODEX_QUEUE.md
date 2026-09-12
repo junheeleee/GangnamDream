@@ -50,7 +50,7 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-253 · 칭호 도감 안내 번역 | [253](queue_active/ORDER-253.md) | 기존20키·60 초안 · 독립 검토 뒤 적용 · 본편 HOLD |
+| 1 | [~] | ORDER-253 · 칭호 도감 안내 번역 | [253](queue_active/ORDER-253.md) | 기존20키·60 L1 · 실제 소비자410 준비 · 본편 HOLD |
 | 2 | [~] | ORDER-244 · 칭호 원형 검사 정합 | [244](queue_active/ORDER-244.md) | MetaProgression 1원인 · 고정18 · 실패2 재검증 |
 | 3 | [~] | ORDER-243 · 현지화 CI 정합 | [243](queue_active/ORDER-243.md) | 이전 CI5실패·원인3 표적 수리 · 본편 HOLD |
 

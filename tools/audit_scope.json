@@ -168,6 +168,42 @@
       "why": "One direct Chinese numeric consumer reuses the exact existing dice-title helper. Frozen direct and isolated static-function controls precede the same actual live UI audit. Shared final unique12 includes previous named11 plus one registered regression; preserve first10/11 failure and original source/targets/38818 receipts. Generic numeric grammar, runtime405 inputs and human gates unchanged."
     },
     {
+      "id": "title-parent-ui-localization",
+      "paths": [],
+      "owned_paths": [
+        "locale/ui_ja.json",
+        "locale/ui_zh-CN.json",
+        "locale/ui_zh-TW.json",
+        "tools/MetaTitleLocaleCheck.tscn",
+        "tools/run_meta_title_locale_qa.sh",
+        "tools/audit_scope.json",
+        "content/meta/full_game_localization.json",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/queue_active/ORDER-253.md",
+        "docs/queue_archive/ORDER-253.md",
+        "docs/WORK_LOG.md",
+        "docs/STATUS.md",
+        "docs/queue_backlog/FULL_GAME_LOCALIZATION.md",
+        "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-253.json"
+      ],
+      "tools": [
+        "tools/zh_dice_title_consumer_self_test.py",
+        "tools/meta_title_locale_successor_self_test.py",
+        "tools/ja_translation_pipeline.py --self-test",
+        "tools/ja_translation_audit.py --scope ui",
+        "tools/full_game_localization_self_test.py",
+        "tools/zh_translation_audit.py --self-test",
+        "tools/en_coverage_check.py",
+        "tools/queue_index_self_test.py",
+        "tools/agent_review_decisions_self_test.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Existing parent20 UI keys,60 approved targets and isolated actual410=retained405 plus five collection-chrome groups.110 nested core-label comparisons are not new cases. Preserve IDs, source/current-history expectations, gameplay, true-log non-message fields, saves and human evidence. Final unique12 reuses registered checks without local full audit or engine duplication."
+    },
+    {
       "id": "asset-life-meta-title-localization",
       "paths": [],
       "owned_paths": [
