@@ -1,0 +1,173 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-254",
+  "scope": "work_unit",
+  "reviewer": "Poincare",
+  "authority": "user_delegated_agent_final",
+  "role": "Independent nonauthor wording, helper/fixture and final reviewer. ROOT authored/applied wording and ran QA; Plato authored source helper/self; Rawls authored frozen controls/runtime.",
+  "verdict": "GO",
+  "required": [],
+  "optional": [],
+  "subject": {
+    "kind": "source",
+    "commit": "d722204ffdfde75014974bf141be660d73bed1cc",
+    "tree": "f542f67b0aa5b5102dcbfb4ad7ebe5db18e75d44",
+    "manifest_sha256": null
+  },
+  "review": {
+    "commit": "abf8e0d352dff8ae94b6cc0ef27e3a8395bd322a",
+    "tree": "74355b145d76af9aeadbab0c794158f1d05687e0",
+    "clean": true,
+    "source_resolver": "Read actual resolver rules and first-parent changes: abf8 wrapper contains only STATUS; d722 includes source-affecting CLAUDE/backlog. Identity does not come from a previous decision."
+  },
+  "decision": "The declared two-description KO/EN source repair and its finite regression contract are complete on this local source. No other title, translation, public release or full-product GO is granted.",
+  "population": {
+    "wording": "clean_run_title.desc and father_peace_title.desc, KO/TITLE_EN four literals; names/IDs/conditions unchanged.",
+    "source": "Current frozen18 = normal2 + valid negative14 + claim1 + OFF1; preserved logical23/19/24/18 separately.",
+    "runtime": "One isolated ROOT execution, 100+100+110+95+5+5 =415 unique groups. Old410 plus new5 locales; six conditions and one KO lifecycle are nested, not extra runs.",
+    "acceptance": "No new translation or acceptance.38878 records,103 batches,retained metadata9 remain raw exact."
+  },
+  "readscope_and_method": [
+    "Reused my exact pinned wording/helper/runtime/driver reviews; read applied self seven functions, complete frozen18 and actual first-post outputs, binding-only delta and old whole inverse.",
+    "Read first runtime envelope, runner JSON and raw stdout/stderr/Godot logs; compared all415 actual/expected/pass/state records and old410 IDs/results against253. Independently compared approved descriptions to current/alternate getters and collection values.",
+    "Compared captured full before/expected/after and disk values; read cache, six conditions and KO save/duplicate/log observations. No reliance on the runtime author's comparison as the sole evidence.",
+    "Read all final12 child streams, base64 raw bindings, L1 output, actual source/operating-document/scope diffs and resolver rules. All1582 QA pins independently equal review Git blobs and current raw files; runtime19 equal checkpoint/source/review/current.",
+    "Read-only Git, JSON/hash/AST comparisons only. Skill-directed human/remote/fallback boundaries retained; no new repository module, collector, engine or QA execution."
+  ],
+  "findings": {
+    "wording": "Past starting intention plus same-ended-row assets of at least3 billion won replaces unsupported lifetime abstinence/virtue. Past reciprocal reconciliation remains; the unguaranteed blossom deadline is removed. Names and poetic Last Spring unchanged; KO/EN parity and equality threshold preserved.",
+    "source": "Approved four-literal inverse restores original MP edbc exactly. Helper v2 protects optional malformed registry access without broadening frozen18. Both normal live bases pass before14 negatives count; bad raw/forged observations never enter old248. Valid raw with wrong claim keeps source validity but snapshot rejection; OFF original diagnostic remains.",
+    "source_chronology": "First baseline retained new-helper absence/current MP blocked/effective negatives0. First post18 passes at79dc61d; final named source stdout is byte-exact to that first post. Baseline inner18 includes four private inputs absent from post inner14; each before/after map is exact, not claimed mutually identical.",
+    "runtime": "Applied decoded fixture equals reviewed private candidate except authorized false→true; wrapper exact. Current FULL50 is validated before copy-only desc4 inverse. Old20 aggregate groups validate current getter2 before historical desc projection; parent5 remains current. All old410 IDs and actual/expected payloads match253.",
+    "state": "Old140 plus new21 unique full-state/disk observations are exact against expected. JSON has172 full-state serializations because11 new condition/lifecycle observations are copied into a flattened list; unique161, not172 independent observations. Hash/delta-only success records remain a weaker observation class. Expected cache/title-ID/log writes and JSON numeric-type restoration are not zero-delta claims.",
+    "cross_run_comparison": "Direct comparison of old140 full observations gives420 snapshots: only two initial free-run category entries differ in each snapshot (840 leaf differences: jobs/finance to finance/investment). They are present from each run's before, not within-run drift. Of420 raw disk fields, only the next EN before changes877 to1779 bytes and exactly equals the newly preceding KO lifecycle disk; other419 fields match253.",
+    "runtime_boundaries": "New6 conditions are [true,false,false,false,false,true], including exact3B/split-row rejection and past reconciliation after death. KO lifecycle pre-seeds other48 synthetic IDs, observes only two new unlocks, duplicate suppression, save/load and logs. Memory restore1 is a marker without a separate final full snapshot, and is not launch-disk rollback. Isolated QA disk is retained; no player-owned save was accessed by this reviewer.",
+    "preservation": "Declaration→source changes12 are exactly owned products6 plus operating6; source→review STATUS only. MP names/conditions restored with four inverse literals, UI3 and portable whole raw unchanged. Independent Plato RO additionally bound protected9 including JA/Chapter/project/human and old38 agent decisions. Human OPEN45/public GO1/full-product HOLD remain.",
+    "qa": "All38878 accepted records report zero errors/accepted_delta0. New source manifest7872eba3…b48ae2 reflects the source repair, not stale portable reissuance. Final12 exit0; fullself262, JA pipeline146, direct16/static4, ZH12446 and JA2952/errors0. Registry146 retains EXTRA18 advisories. ZH skeleton394/2923,context5/29,glyph1380/1404 are not complete translation or rendered coverage."
+  },
+  "measurements": {
+    "runtime_checkpoint": {
+      "commit": "c2b2f873a83823d85927d521780b0fa80ab1858d",
+      "tree": "2239fab0df521865541d516a61cae33ab67d2df4"
+    },
+    "runtime_seconds": 83.958650708,
+    "runtime_outer_inputs": 1194,
+    "runtime_inner_inputs": 19,
+    "runtime_inner_outer_intersection": 18,
+    "runtime_error_scan": 0,
+    "stdout_equals_godot": true,
+    "all_accepted_seconds": 72.605077959,
+    "all_accepted_inputs": 1194,
+    "all_accepted_errors": 0,
+    "named_seconds": 97.459144458,
+    "named_children": 12,
+    "named_inputs": 1582,
+    "named_outer_inputs": 1194,
+    "current_source_manifest_sha256": "7872eba3ca57cd1884c7f1b138b40212e08136a77923ddb701185a6a29b48ae2",
+    "collected": {
+      "total": 17462,
+      "supported": 17133,
+      "unverified": 329
+    },
+    "portable": {
+      "bytes": 10107460,
+      "sha256": "441405364190916c0865fac713794db5466c6d7446a73d6d13fa36bcb2224d63"
+    }
+  },
+  "evidence": {
+    ".git/full-game-localization/order254-desc-independent-review.json": {
+      "bytes": 6455,
+      "sha256": "0e585491fc411bbe7c09a1d4497e4847fbb439be85ad5baea1991698c78313be"
+    },
+    ".git/full-game-localization/order254-desc-approved.json": {
+      "bytes": 2275,
+      "sha256": "91de1e8f9c2d61f54fd2830dec44ccf2401804cbef8954e23d48562aa2c2292a"
+    },
+    ".git/full-game-localization/order254-helper-controls-independent-review.json": {
+      "bytes": 7487,
+      "sha256": "7bab378fc130715658f707317f5d634db7876c6b143c97ed266f167dda70a8a5"
+    },
+    ".git/full-game-localization/order254-runtime-independent-review.json": {
+      "bytes": 3613,
+      "sha256": "956a4b64061f3b18a4a9e0e21bb0ece910d35cffa0e1313afeef7fcec57768f4"
+    },
+    ".git/full-game-localization/order254-source-post-independent-review.json": {
+      "bytes": 4849,
+      "sha256": "51b0e476c7407d4c046d08fb16c0f2a3652cf32822c64bcf875375666de6d742"
+    },
+    ".git/full-game-localization/order254-root-drivers-independent-review.json": {
+      "bytes": 6598,
+      "sha256": "8e9298f1f97284ae83d56ab907394a44404a00b98d8682129ad402e8f1c4a3c7"
+    },
+    ".git/full-game-localization/order254-baseline-first.json": {
+      "bytes": 428756,
+      "sha256": "17e5f4d9d697aacb2b31398abcb4b2142e6185e86b28223017220936c6dd053e"
+    },
+    ".git/full-game-localization/order254-desc-controls.json": {
+      "bytes": 23806,
+      "sha256": "1804a8194bccd71894f4e1baf2aa98ee72e407e5169f2820bfd68bee93f8f6a0"
+    },
+    ".git/full-game-localization/order254-source-post-first.json": {
+      "bytes": 1967010,
+      "sha256": "29ca4c987e7f44b854ec0f523cef075be574535e9d7306d1dea4500df884a541"
+    },
+    ".git/full-game-localization/order254-all-accepted-l1-first.json": {
+      "bytes": 375357,
+      "sha256": "adcb662845138df3ff70ad71ad4d18e3f033c311694a9082c4a4767e685d6ac3"
+    },
+    ".git/full-game-localization/order254-named-first.json": {
+      "bytes": 4479139,
+      "sha256": "0a6f730425ed89b8757f6e39622e44041e1ef329cb3c162e2d1c5d01454c36fc"
+    },
+    ".git/full-game-localization/order254-named-outer-first.json": {
+      "bytes": 375167,
+      "sha256": "a6df7890cf229344ea5643d8bd5065086ce8d3937aca4ab93d9ad0debce18e01"
+    },
+    ".git/full-game-localization/order254-actual-first.json": {
+      "bytes": 8411170,
+      "sha256": "ce7e8a04df7244f21f64b4267aae4d19cb905efceabadce38ec151d85c0a7896"
+    },
+    "/var/folders/yr/mf2mg8vn7yld9rk4rf3qh2y80000gn/T/gangnam-meta-title-9kvnqkub/runner_result.json": {
+      "bytes": 11986607,
+      "sha256": "ae55a8e4a29cf024157f41c93171ab2055ff01efe843fc99028256c9293ddbb9"
+    },
+    "/var/folders/yr/mf2mg8vn7yld9rk4rf3qh2y80000gn/T/gangnam-meta-title-9kvnqkub/stdout.log": {
+      "bytes": 7119396,
+      "sha256": "f6f70fd79cf79062ab4257115b56f0cf47a5c99922bc167aba4786a2680b5183"
+    },
+    "/var/folders/yr/mf2mg8vn7yld9rk4rf3qh2y80000gn/T/gangnam-meta-title-9kvnqkub/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "/var/folders/yr/mf2mg8vn7yld9rk4rf3qh2y80000gn/T/gangnam-meta-title-9kvnqkub/godot.log": {
+      "bytes": 7119396,
+      "sha256": "f6f70fd79cf79062ab4257115b56f0cf47a5c99922bc167aba4786a2680b5183"
+    }
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "rendered_layout",
+    "normal_speed_playthrough",
+    "new_candidate_remote_CI",
+    "full_product_quality"
+  ],
+  "limits": [
+    "JA/zh-CN/zh-TW still use English fallback for these two descriptions; this unit adds no localized lookup or target text.",
+    "Finite raw/consumer tests do not prove arbitrary malformed registry or deeper inverse-branch coverage. Source, expected historical views and actual current observations remain distinct.",
+    "Remote a88/07ef outcomes belong to their own exact checkouts and are not combined with this verdict. Existing243/244 and broader product/human gates are not closed.",
+    "Private static preparation and readback mistakes remain in their original records; no first execution was erased, renamed as success or silently rerun."
+  ],
+  "normative_disposition": "One-time application of existing source-fact, bilingual and authority contracts; no new standing norm.",
+  "reviewer_actions": {
+    "product_writes": 0,
+    "public_writes": 0,
+    "git_writes": 0,
+    "repo_imports": 0,
+    "tests": 0,
+    "collector": 0,
+    "engine": 0,
+    "remote_fetches": 0
+  }
+}

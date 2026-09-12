@@ -1,3 +1,42 @@
+# ORDER-254 — 두 칭호 설명 사실 경계 수리 결과
+
+[x] ORDER-254 — 2026-09-13. 비저자 Poincare LOCAL work_unit GO.
+
+제품 source `d722204ffdfde75014974bf141be660d73bed1cc`, tree
+`f542f67b0aa5b5102dcbfb4ad7ebe5db18e75d44`; clean 검토 HEAD
+`abf8e0d352dff8ae94b6cc0ef27e3a8395bd322a`, tree
+`74355b145d76af9aeadbab0c794158f1d05687e0`에 결속한다.
+
+## 결과와 경계
+
+청렴·아버지 두 설명의 KO/EN4 리터럴만 수리했다. 이름·조건·UI3·수용38878은 불변이다.
+생산자/독자: MetaProgression.ALL_TITLES/TITLE_EN → get_title_info/_localized_title →
+MainGame 도감·해금·엔딩 카드. 현재 원문 MP62261/b5c73771, 네 설명 역복원→edbc exact.
+상태 변화: 표시 설명만 변경. 시작 의사·종료 자산과 과거 화해는 유지하되 과도한 사실 단정은 제거했다.
+서사 위치/계층/선택 포기: 해당 없음 — 기존 표시 수리, 새 게임 선택·수치·라우팅 변경0.
+
+첫 baseline18은 capture 완료/유효변조0, 새 API 부재와 옛 raw 허가를 보존했다.
+첫 post18은79dc61d에서 정상2/유효변조14/claim1/OFF1 PASS, 역사23/19/24/18 원형을 유지했다.
+baseline 내부18(사적4 포함)과 post 내부14를 같은 모집단으로 부르지 않는다.
+첫 격리415는c2b2f87에서83.958650708초/외부1194·내부19 불변으로 통과했다.
+기존410+신규5이며 조건6·KO lifecycle1·신규fullstate21은 nested다.
+상태복구1·process exit0·stdout/Godot log ERROR/leak0. 실제 정상속도 게임 완주는 아니다.
+이전410의 actual/expected는 보존됐지만 시작 시 임의 run_theme_categories 값까지
+별도 실행 사이에 같다고 주장하지 않는다. 각 실행의 기대 상태와 디스크를 대조한다.
+현재 카탈로그 승인 뒤 네 필드만 복사본에 역복원하며, 과거뷰와 현재 관측을 구분한다.
+
+최종cleanabf에서 전체38878 L1 오류0/72.605077959초/1194 불변, portable raw exact다.
+고유12는97.459144458초/1582입력 불변, 외부97.728499875초/1194 불변으로 통과했다.
+source18/역사·수량40·direct16/static4는 별도 모집단이다. ZH12446은 skeleton이고
+legacy394/2923·context5/29·glyph1380/1404를 전체UI 완료로 확대하지 않는다.
+일회성 적용·새 규범0. 공개GO1·인간OPEN45·본편HOLD와 기존 사람 증거를 보존한다.
+원어민·렌더·인간플레이·물리패드·본편/새 원격CI·외부출시 GO는 아니다.
+이 수리는 아직 두 칭호의 JA/ZH 번역이 아니다. 남은11/22표면 번역은 다음 단위다.
+
+[독립 판정](../agent_reviews/ORDER-254.json) · SHA `2b65abaab02c7f6edee67f894e4fac83d209b47fc988cf872d9cb9ff69667f13`
+
+## 선언·진행 원문 보존
+
 # 칭호 두 설명의 사실 경계 정밀화
 
 #### [~] ORDER-254 칭호 두 설명 원문 정밀화
