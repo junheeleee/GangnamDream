@@ -33,6 +33,8 @@ if not re.search(r"(?m)^const MG9_FIXTURE_APPROVED := true$", script):
     parser.error("reviewed MG9 fixture not frozen; no engine launched")
 if not re.search(r"(?m)^const PARENT_FIXTURE_APPROVED := true$", script):
     parser.error("reviewed parent20 fixture not frozen; no engine launched")
+if not re.search(r"(?m)^const DESC_FIXTURE_APPROVED := true$", script):
+    parser.error("reviewed source-description fixture not frozen; no engine launched")
 # Import only existing platform namespace/process/storage helpers; no self-test.
 sys.dont_write_bytecode = True
 spec = importlib.util.spec_from_file_location(
@@ -115,6 +117,8 @@ mg9_marker = 'META_TITLE_MG9_CHECK_OK cases=95 locales=5 selected=9 preserved=41
 mg9_markers = re.findall(r"(?m)^META_TITLE_MG9_CHECK_OK[^\r\n]*$", stdout)
 parent_marker = "META_TITLE_PARENT_CHECK_OK cases=5 locales=5 keys=20 states=2 core_labels=110 isolation=preautoload rendered=0"
 parent_markers = re.findall(r"(?m)^META_TITLE_PARENT_CHECK_OK[^\r\n]*$", stdout)
+desc_marker = "META_TITLE_DESC_CHECK_OK cases=5 locales=5 descriptions=2 conditions_once=6 lifecycle_once=1 isolation=preautoload rendered=0"
+desc_markers = re.findall(r"(?m)^META_TITLE_DESC_CHECK_OK[^\r\n]*$", stdout)
 failure_pattern = re.compile(
     r"META_TITLE_CHECK_FAIL|STORY_NAMEPLATE_CHECK_FAIL|SCRIPT ERROR|Parse Error|"
     r"Compile Error|Failed to load script|\bERROR:|ObjectDB instances leaked|resources still in use",
@@ -126,12 +130,14 @@ next_cases = []
 a11_cases = []
 mg9_cases = []
 parent_cases = []
+desc_cases = []
 try:
     cases = [json.loads(line) for line in case_lines]
     next_cases = [json.loads(line) for line in re.findall(r"(?m)^META_TITLE_NEXT_CASE (.+)$", stdout)]
     a11_cases = [json.loads(line) for line in re.findall(r"(?m)^META_TITLE_A11_CASE (.+)$", stdout)]
     mg9_cases = [json.loads(line) for line in re.findall(r"(?m)^META_TITLE_MG9_CASE (.+)$", stdout)]
     parent_cases = [json.loads(line) for line in re.findall(r"(?m)^META_TITLE_PARENT_CASE (.+)$", stdout)]
+    desc_cases = [json.loads(line) for line in re.findall(r"(?m)^META_TITLE_DESC_CASE (.+)$", stdout)]
 except ValueError as exc:
     result["case_json_error"] = repr(exc)
 locales = ["ko", "en", "ja", "zh-CN", "zh-TW"]
@@ -144,6 +150,7 @@ a11_expected_ids = {locale + "/a11/" + family for locale in locales for family i
 mg9_families = ['get/holdem_master_title', 'get/racetrack_master_title', 'get/scalping_master_title', 'get/baccarat_master_title', 'get/blackjack_master_title', 'get/slot_master_title', 'get/roulette_master_title', 'get/bigwheel_master_title', 'get/daisai_master_title', 'preserved_old30_remaining11', 'unknown_custom', 'collection_locked', 'collection_unlocked', 'conditions_and_mastery', 'unlock_return_duplicate', 'unlock_toast_log', 'monthly_component_toast_without_game_log', 'ending_cached_cards', 'language_storage_cached_origin']
 mg9_expected_ids = {locale + "/mg9/" + family for locale in locales for family in mg9_families}
 parent_expected_ids = {locale + "/title_parent/collection_chrome" for locale in locales}
+desc_expected_ids = {locale + "/desc_repair/two_titles" for locale in locales}
 after = pins()
 passed = (result["status"] == "completed" and proc.returncode == 0 and not group_error
           and engine_file.is_file() and not failure_pattern.search(combined)
@@ -165,6 +172,15 @@ passed = (result["status"] == "completed" and proc.returncode == 0 and not group
           and all(c.get("pass") is True and c.get("state_ok") is True
                   and c.get("details", {}).get("core_label_comparisons") == 22
                   and len(c.get("details", {}).get("states", [])) == 2 for c in parent_cases)
+          and desc_markers == [desc_marker]
+          and len(desc_cases) == 5 and {c.get("id") for c in desc_cases} == desc_expected_ids
+          and all(c.get("pass") is True and c.get("state_ok") is True
+                  and c.get("details", {}).get("canonical_getters_nested") == 2
+                  and c.get("details", {}).get("known_custom_nested") == 2
+                  and c.get("details", {}).get("collection_cards_nested") == 50 for c in desc_cases)
+          and sum(len(c.get("details", {}).get("conditions", {}).get("rows", [])) for c in desc_cases) == 6
+          and sum(bool(c.get("details", {}).get("lifecycle")) for c in desc_cases) == 1
+          and all(bool(c.get("details", {}).get("lifecycle")) == c.get("id", "").startswith("ko/") for c in desc_cases)
           and before == after)
 result.update(status="passed" if passed else "failed", engine_exit=proc.returncode,
               group_error=group_error, storage_error=storage_error, cases=cases,
@@ -172,8 +188,11 @@ result.update(status="passed" if passed else "failed", engine_exit=proc.returnco
               a11_markers=a11_markers, a11_cases=a11_cases,
               mg9_markers=mg9_markers, mg9_cases=mg9_cases,
               parent_markers=parent_markers, parent_cases=parent_cases,
+              desc_markers=desc_markers, desc_cases=desc_cases,
+              description_boundary="Old410 IDs retained. Every raw50 check is approved current catalogs followed by desc4-only validated historical equality; old aggregate20 verify current getter2 before desc-only projection. Parent5 remains current. New5 distinct, condition6 and one KO lifecycle nested; EN fallback in JA/ZH is not localization completion.",
               parent_boundary="Original405 IDs and non-language expectations retained; approved parent20 changes CN/TW40 and JA uncommon12 groups. New5 chrome groups include110 core-label comparisons nested, not110 additional cases. No historical projection of actual parent text.",
-              population_boundary="old100 95direct+5history, NEXT100 95direct+5history, A11 105direct+5history; MG9new95 direct. Old310 and new95 distinct; MG9conditions180 nested, not extra cases; priorA11conditions175 unchanged",
+              predecessor_population_boundary="old100 95direct+5history, NEXT100 95direct+5history, A11 105direct+5history; MG9new95 direct. Old310 and new95 distinct; MG9conditions180 nested, not extra cases; priorA11conditions175 unchanged",
+              population_boundary="Old410 retained with 20 aggregate groups using approved two-description inverse after current checks; new5 actual current groups bring total415. New6 conditions once, not six extra cases. The predecessor population field describes the pre-description fixture only.",
               source_after=after, source_files_unchanged=before == after,
               storage_retained=str(qa_user), whole_self_or_audit=False,
               boundary="Fixed actual-caller regression only; no whole-title/UI/render/native/full-game GO.")
