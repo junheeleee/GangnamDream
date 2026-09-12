@@ -4,8 +4,8 @@
 
 [~] 착수 — 2026-09-13, Codex. 기준 clean main
 `d56f4722622d46c256060bf8079e333f4e3bf474`, tree
-`772e31f0aaf53bfecfd871ad36d96f4279ec25e8`. 공식39022/b106/meta9는
-그대로이며 신규 수용은 아직0이다. 기존 현지화 계약의 일회성 적용이다.
+`772e31f0aaf53bfecfd871ad36d96f4279ec25e8`. 착수시 공식39022/b106/meta9이며
+신규 수용은0이었다. 기존 현지화 계약의 일회성 적용이다.
 
 ## 한 단위와 근거
 
@@ -74,3 +74,13 @@ human ledger·공개 후보·손상 mirror를 보존한다. old39022 portable �
 기계 PASS는 도달성·계약 증거이지 재미·문체·실제 패널/언어갱신·렌더·원어민·
 인간 플레이·물리 패드 증거가 아니다. 번역·수용 한정 단위판정만 가능하며
 공개GO1·인간OPEN45·본편HOLD를 유지한다. 새 영구 규칙·출시 승격0이다.
+
+## 적용·공식 수용 중간 증거
+
+독립54 언어69b320ae·비활성 보조5 검토60845265 필수0 뒤 ROOT가 gate/SHA만 결속했다.
+clean4141142 실제18/protected0/17legacy+1context(809aad2b),54 L1(68016052),
+편집전source-export(164acc54)는 각각첫PASS/1194불변이다. 최초 사전·차선patch
+afd96de9/e74e8f77을 보존·적용했다. clean ea4c4b8에서 공식18×3 export2161c308,
+check4711f65f, importb66d94f8은 각각첫PASS/1194불변/changed_files0이다.
+response ecbb653b·portable212519e9 출력과 receipt54를 결속해39076/b107/meta9를
+수용했다. old39022 전체raw는 exact 역복원된다. 전체L1·고유12·최종단위판정은 후속이다.

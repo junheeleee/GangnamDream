@@ -3879,6 +3879,40 @@
       "machine_validation": "PASS",
       "rendered_review": "OPEN",
       "native_review": "OPEN"
+    },
+    {
+      "order": "ORDER-258",
+      "group": "ui",
+      "roots": [
+        "%s/%s 탭 · %s 뒤로",
+        "ui.situation.body_tag",
+        "건강",
+        "금수저",
+        "기록",
+        "명문대 중퇴",
+        "배경",
+        "소지품",
+        "스탯",
+        "스토리",
+        "시황",
+        "인물",
+        "정보",
+        "정보 기록",
+        "정신",
+        "지방 상경",
+        "직업",
+        "총자산"
+      ],
+      "source_leaves": 18,
+      "target_leaves_by_locale": {
+        "ja": 18,
+        "zh-CN": 18,
+        "zh-TW": 18
+      },
+      "source_review": "Direct Korean and independent full54 review of17 existing legacy Info keys plus existing BODY context. JA born-wealthy semantic repair1, other17 retained; CN/TW18 each appended. Health/BODY and Job/Career/Log/Archive meanings, tab names and three ordered glyph arguments preserved. No game code, actual panel/live-refresh, rendered, native or human-play judgment.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN"
     }
   ],
   "accepted": {
@@ -55906,6 +55940,78 @@
       "ui:챕터 %d · %d주차 · %s:/챕터 %d · %d주차 · %s": {
         "source_sha256": "cfb0616e9c2f550c4d0680672986951d2d43354c340416e4d3026e54b55e78ed",
         "target_sha256": "eea124b7d1599f9df552351a6404d28d23121579d8ff0063bb0472f7e4f0b439"
+      },
+      "ui:%s/%s 탭 · %s 뒤로:/%s~1%s 탭 · %s 뒤로": {
+        "source_sha256": "8dc4cac745d0375b1bcf87e8aacae70ed42e546013b22497438eeb2d46bff969",
+        "target_sha256": "64935d3d5f8d6c0a6238acc7a4a7989cd685c0e001f1f648e1cbb5adb6bac949"
+      },
+      "ui:ui.situation.body_tag:/ui.situation.body_tag": {
+        "source_sha256": "6301c976cf4c52bef834c784bb49073ae45e4d75449a3a9044c4461e0580fe05",
+        "target_sha256": "3e311fe934c30080ca89dcc15e8fa9c2d75e3cfc43b7c9cbff29befc4c41dd97"
+      },
+      "ui:건강:/건강": {
+        "source_sha256": "dc451c0fcbac59779530ca65a97cd91beda6ffe02b69d489c45f030fe615af36",
+        "target_sha256": "5944416d021b7431f0dfd1c2cdb9d6d2b936eb722b77b184513ce35c081999cc"
+      },
+      "ui:금수저:/금수저": {
+        "source_sha256": "229005060e2f417ef72a31e81327253f162958c91ed6460fde244107797e4d86",
+        "target_sha256": "63048fd23dabd4c7fa22fe73d5a00b6fd56a3e135fa825163f96e13bab1557f1"
+      },
+      "ui:기록:/기록": {
+        "source_sha256": "6de2048e8776cf145fc3e463326059bd6dc1c010e6d30d37da2811f4e1f94b41",
+        "target_sha256": "a0f71499b66ac7a59bbd097de25f19e3b8e01b2b723261cb4d38de125ba478e1"
+      },
+      "ui:명문대 중퇴:/명문대 중퇴": {
+        "source_sha256": "6e35d35e416fd89c017821e4100dba859da56723dba65ddf11380fd731d3a4ca",
+        "target_sha256": "34149107d56c72be9a662869cc5b792349a5b3460d0d2b8e1851b8c6ff64ca7b"
+      },
+      "ui:배경:/배경": {
+        "source_sha256": "408954ea03be5eae4e00ee36cadb17f3253347cdbb6eeaae32f7ea65479bfa1b",
+        "target_sha256": "ac6c1adae89d088b8b1e2131245d3af8a2dc008dc57bbe1719a13f4addc4eeac"
+      },
+      "ui:소지품:/소지품": {
+        "source_sha256": "9ac65be116d2b22439c8166cbcbdbc29848d37b134dcbab6f5cf94a4299912e8",
+        "target_sha256": "4fa821c24484db7009366ee375c431c70cf5be76d2fb361b8d716239c53caf61"
+      },
+      "ui:스탯:/스탯": {
+        "source_sha256": "5419cf254589877a556725b9d5f6d6c1cb3f4da5cc08825bdce9e73308a79915",
+        "target_sha256": "c06d94458f3a0304c16f0d159e4f9f77b3c666412eb32cd75a60f55f58214581"
+      },
+      "ui:스토리:/스토리": {
+        "source_sha256": "030d72be42c6465e262cbaaf4f5ec398464345c572544f9cbe8e1bd1a1cedc65",
+        "target_sha256": "070c54295533a150765c3d6cc07454d99fb5d64c8980c4cd7437ac946cf97c76"
+      },
+      "ui:시황:/시황": {
+        "source_sha256": "ad57fc55eecdb27df1776cf7be8caa419c1d89378fe5191975f6b22c16ac88b6",
+        "target_sha256": "7228d1f3ed3646607247909feadff41621e8ad547fcf141de5cb48644bea23e0"
+      },
+      "ui:인물:/인물": {
+        "source_sha256": "04c12710827b822ee230674380ed2c4d438689a01869fafafe0be2f9ccf1a377",
+        "target_sha256": "1a33b9a4edf0a3ded2adda849edf383bdc5c85bb60e37dec25a733cdfebd1e41"
+      },
+      "ui:정보 기록:/정보 기록": {
+        "source_sha256": "6c1225087ff6efde320cbcecbe6c103bb44c1d91d84869ec9c0a34f01daca623",
+        "target_sha256": "852f8403be957c26a3b54f82b1f4f7f3082769808a37575601e289fa935d7256"
+      },
+      "ui:정보:/정보": {
+        "source_sha256": "dc95ac682624499a9879c8a616ea05294d741992bbc545ef24d3d1247d42e1ab",
+        "target_sha256": "f203f0df19a929bac0710a3474f96b9c583c5ac582597df86341cb8e1c924d92"
+      },
+      "ui:정신:/정신": {
+        "source_sha256": "274e5dff829c07c6dcddeb05bc77f9a0fca68ada9edfda279b59dc426d00acfc",
+        "target_sha256": "05e3a811a3f127f294ed024624fe9248ebf49e3f2e028d081d11f9853c69f7c0"
+      },
+      "ui:지방 상경:/지방 상경": {
+        "source_sha256": "586e53cc74c342a88dd26400fdfc0faea00aafa8fd073c242e5f2b92ea4077e9",
+        "target_sha256": "7ab0bf17f3c32287f30408c2bb6188584c063dea1c643cb1b49599db65e8e8a1"
+      },
+      "ui:직업:/직업": {
+        "source_sha256": "43be915199bcc613b024169ae88c0db9b830d5b864335b04ac39a3748820a9f8",
+        "target_sha256": "40a59467a4c2d78a9648923e4d1689afed7bd4517f4a61b17c4a007ef1ed567f"
+      },
+      "ui:총자산:/총자산": {
+        "source_sha256": "7af19af19403433b351eb70891b8f77e3dcb07dc23017b34461a6be6bd9b1555",
+        "target_sha256": "1a350dd6e94159a25364fc739418d8041281229915232621352a71266a5efe7a"
       }
     },
     "zh-CN": {
@@ -107940,6 +108046,78 @@
       "ui:챕터 %d · %d주차 · %s:/챕터 %d · %d주차 · %s": {
         "source_sha256": "cfb0616e9c2f550c4d0680672986951d2d43354c340416e4d3026e54b55e78ed",
         "target_sha256": "9330c83f93b1daac71e83872bdea8265bd12893738796d6c6e15b5d57acd9c66"
+      },
+      "ui:%s/%s 탭 · %s 뒤로:/%s~1%s 탭 · %s 뒤로": {
+        "source_sha256": "8dc4cac745d0375b1bcf87e8aacae70ed42e546013b22497438eeb2d46bff969",
+        "target_sha256": "751dd7215b92b75cab96843a927b9752bad4184f9dde20e57ab92cb300ab4d71"
+      },
+      "ui:ui.situation.body_tag:/ui.situation.body_tag": {
+        "source_sha256": "6301c976cf4c52bef834c784bb49073ae45e4d75449a3a9044c4461e0580fe05",
+        "target_sha256": "3e311fe934c30080ca89dcc15e8fa9c2d75e3cfc43b7c9cbff29befc4c41dd97"
+      },
+      "ui:건강:/건강": {
+        "source_sha256": "dc451c0fcbac59779530ca65a97cd91beda6ffe02b69d489c45f030fe615af36",
+        "target_sha256": "5944416d021b7431f0dfd1c2cdb9d6d2b936eb722b77b184513ce35c081999cc"
+      },
+      "ui:금수저:/금수저": {
+        "source_sha256": "229005060e2f417ef72a31e81327253f162958c91ed6460fde244107797e4d86",
+        "target_sha256": "ac9db540bf49318dcb718b48b2f787c93df516e53e4e4e67bb408b74972a3ea4"
+      },
+      "ui:기록:/기록": {
+        "source_sha256": "6de2048e8776cf145fc3e463326059bd6dc1c010e6d30d37da2811f4e1f94b41",
+        "target_sha256": "76d5fd9ff196f372df177608725b8f3232b2ae582610f92cd621f166d149af8e"
+      },
+      "ui:명문대 중퇴:/명문대 중퇴": {
+        "source_sha256": "6e35d35e416fd89c017821e4100dba859da56723dba65ddf11380fd731d3a4ca",
+        "target_sha256": "7285c1baf9e3fc8c6601856c0f2db46a4ace58d30b47d2ff510e5c402ce325db"
+      },
+      "ui:배경:/배경": {
+        "source_sha256": "408954ea03be5eae4e00ee36cadb17f3253347cdbb6eeaae32f7ea65479bfa1b",
+        "target_sha256": "13c69d0b5a49334e83f78a4888f1546216a058bbd68e9b4d7aaf805fa77c8ac5"
+      },
+      "ui:소지품:/소지품": {
+        "source_sha256": "9ac65be116d2b22439c8166cbcbdbc29848d37b134dcbab6f5cf94a4299912e8",
+        "target_sha256": "4d30dfb429a9213c7ebd3f49b3770e587f8a73f8769e24ea44ab4d44d2737118"
+      },
+      "ui:스탯:/스탯": {
+        "source_sha256": "5419cf254589877a556725b9d5f6d6c1cb3f4da5cc08825bdce9e73308a79915",
+        "target_sha256": "41642c435dfce0c544ae8fefa7450b5960bb26efae94f565344cf5d6206694f7"
+      },
+      "ui:스토리:/스토리": {
+        "source_sha256": "030d72be42c6465e262cbaaf4f5ec398464345c572544f9cbe8e1bd1a1cedc65",
+        "target_sha256": "b07031c068d4712269b98b8120dced455f1668c1db05646a877d1a2ddc7b74f3"
+      },
+      "ui:시황:/시황": {
+        "source_sha256": "ad57fc55eecdb27df1776cf7be8caa419c1d89378fe5191975f6b22c16ac88b6",
+        "target_sha256": "e26dba57b69d81f5b680d07db810e7239398eb8b1a0542b753fdd795a0691298"
+      },
+      "ui:인물:/인물": {
+        "source_sha256": "04c12710827b822ee230674380ed2c4d438689a01869fafafe0be2f9ccf1a377",
+        "target_sha256": "1a33b9a4edf0a3ded2adda849edf383bdc5c85bb60e37dec25a733cdfebd1e41"
+      },
+      "ui:정보 기록:/정보 기록": {
+        "source_sha256": "6c1225087ff6efde320cbcecbe6c103bb44c1d91d84869ec9c0a34f01daca623",
+        "target_sha256": "d7135a1bdeef1da37a87094cd5809c67d5f74475be852dd5d32be7be4f4727d1"
+      },
+      "ui:정보:/정보": {
+        "source_sha256": "dc95ac682624499a9879c8a616ea05294d741992bbc545ef24d3d1247d42e1ab",
+        "target_sha256": "bf2f70a8a1eec91af650cd09193322de88f6268fcc8c4dec640ea7d1bfd9658b"
+      },
+      "ui:정신:/정신": {
+        "source_sha256": "274e5dff829c07c6dcddeb05bc77f9a0fca68ada9edfda279b59dc426d00acfc",
+        "target_sha256": "05e3a811a3f127f294ed024624fe9248ebf49e3f2e028d081d11f9853c69f7c0"
+      },
+      "ui:지방 상경:/지방 상경": {
+        "source_sha256": "586e53cc74c342a88dd26400fdfc0faea00aafa8fd073c242e5f2b92ea4077e9",
+        "target_sha256": "de4333cdc42ced9399312fc148f2685346f856cd8c106acaad630c080b7b4323"
+      },
+      "ui:직업:/직업": {
+        "source_sha256": "43be915199bcc613b024169ae88c0db9b830d5b864335b04ac39a3748820a9f8",
+        "target_sha256": "9f6ff0eec71807ff092bbd36dc038e2a6c0e5324b0dfe86d203278e8b0c8fbbe"
+      },
+      "ui:총자산:/총자산": {
+        "source_sha256": "7af19af19403433b351eb70891b8f77e3dcb07dc23017b34461a6be6bd9b1555",
+        "target_sha256": "c65662c8496dc759143723eeea58ba76ac57dc4e14a9cf8931a86f49075f583d"
       }
     },
     "zh-TW": {
@@ -159974,10 +160152,82 @@
       "ui:챕터 %d · %d주차 · %s:/챕터 %d · %d주차 · %s": {
         "source_sha256": "cfb0616e9c2f550c4d0680672986951d2d43354c340416e4d3026e54b55e78ed",
         "target_sha256": "4d5b73b57105cba6edb296afebda83106dbffc80cbeb1b62b81c228c43a9ccbb"
+      },
+      "ui:%s/%s 탭 · %s 뒤로:/%s~1%s 탭 · %s 뒤로": {
+        "source_sha256": "8dc4cac745d0375b1bcf87e8aacae70ed42e546013b22497438eeb2d46bff969",
+        "target_sha256": "d4de44977db197f28f3d916c2c54e53076f5fdd34192a0db8c164b9c8df2122f"
+      },
+      "ui:ui.situation.body_tag:/ui.situation.body_tag": {
+        "source_sha256": "6301c976cf4c52bef834c784bb49073ae45e4d75449a3a9044c4461e0580fe05",
+        "target_sha256": "8329f3cf551ffc989a4daec85bce3c59382407d15ccda9994d35cc595f276583"
+      },
+      "ui:건강:/건강": {
+        "source_sha256": "dc451c0fcbac59779530ca65a97cd91beda6ffe02b69d489c45f030fe615af36",
+        "target_sha256": "5944416d021b7431f0dfd1c2cdb9d6d2b936eb722b77b184513ce35c081999cc"
+      },
+      "ui:금수저:/금수저": {
+        "source_sha256": "229005060e2f417ef72a31e81327253f162958c91ed6460fde244107797e4d86",
+        "target_sha256": "75c25078adf3290a5af00570e4dd1372dffdf1612d9aedda4be9e2566f5b5ca0"
+      },
+      "ui:기록:/기록": {
+        "source_sha256": "6de2048e8776cf145fc3e463326059bd6dc1c010e6d30d37da2811f4e1f94b41",
+        "target_sha256": "f324f05c1f5007cf170c59b4dd9d1f7e94b56a773097f593843ae9d505672ea4"
+      },
+      "ui:명문대 중퇴:/명문대 중퇴": {
+        "source_sha256": "6e35d35e416fd89c017821e4100dba859da56723dba65ddf11380fd731d3a4ca",
+        "target_sha256": "3a1811be1e6f17413246f9f054e1404e22e0388f9f6dc54b7447e039dddfb5fb"
+      },
+      "ui:배경:/배경": {
+        "source_sha256": "408954ea03be5eae4e00ee36cadb17f3253347cdbb6eeaae32f7ea65479bfa1b",
+        "target_sha256": "13c69d0b5a49334e83f78a4888f1546216a058bbd68e9b4d7aaf805fa77c8ac5"
+      },
+      "ui:소지품:/소지품": {
+        "source_sha256": "9ac65be116d2b22439c8166cbcbdbc29848d37b134dcbab6f5cf94a4299912e8",
+        "target_sha256": "2b3163d84e2b85f6fee90ace3a56efeac25b596c910f97ed5132eadd70689031"
+      },
+      "ui:스탯:/스탯": {
+        "source_sha256": "5419cf254589877a556725b9d5f6d6c1cb3f4da5cc08825bdce9e73308a79915",
+        "target_sha256": "59937a9bdb176e5ec1dbc440e7b0f0275edb4da3f7c7bf06f5ef17c5cb34a3ee"
+      },
+      "ui:스토리:/스토리": {
+        "source_sha256": "030d72be42c6465e262cbaaf4f5ec398464345c572544f9cbe8e1bd1a1cedc65",
+        "target_sha256": "86569f5bf1d0f9501e088d680250bb2a92aa8f3b3e1a73fe132479d7c59d95cd"
+      },
+      "ui:시황:/시황": {
+        "source_sha256": "ad57fc55eecdb27df1776cf7be8caa419c1d89378fe5191975f6b22c16ac88b6",
+        "target_sha256": "e26dba57b69d81f5b680d07db810e7239398eb8b1a0542b753fdd795a0691298"
+      },
+      "ui:인물:/인물": {
+        "source_sha256": "04c12710827b822ee230674380ed2c4d438689a01869fafafe0be2f9ccf1a377",
+        "target_sha256": "1a33b9a4edf0a3ded2adda849edf383bdc5c85bb60e37dec25a733cdfebd1e41"
+      },
+      "ui:정보 기록:/정보 기록": {
+        "source_sha256": "6c1225087ff6efde320cbcecbe6c103bb44c1d91d84869ec9c0a34f01daca623",
+        "target_sha256": "f05115c9660a451ee2edb0914a18fcd1742d67e4ed869e6d07292d1fd34e524f"
+      },
+      "ui:정보:/정보": {
+        "source_sha256": "dc95ac682624499a9879c8a616ea05294d741992bbc545ef24d3d1247d42e1ab",
+        "target_sha256": "700744bbec2ab90b0665b920fd965354fc7c8d57a8c9f7f3d079c570f4e8cee2"
+      },
+      "ui:정신:/정신": {
+        "source_sha256": "274e5dff829c07c6dcddeb05bc77f9a0fca68ada9edfda279b59dc426d00acfc",
+        "target_sha256": "05e3a811a3f127f294ed024624fe9248ebf49e3f2e028d081d11f9853c69f7c0"
+      },
+      "ui:지방 상경:/지방 상경": {
+        "source_sha256": "586e53cc74c342a88dd26400fdfc0faea00aafa8fd073c242e5f2b92ea4077e9",
+        "target_sha256": "ba0aa5ee3dcd511373b6ad30749d6c8a0d0fc5c80c0ef9a6f4285b578ad666cc"
+      },
+      "ui:직업:/직업": {
+        "source_sha256": "43be915199bcc613b024169ae88c0db9b830d5b864335b04ac39a3748820a9f8",
+        "target_sha256": "40a59467a4c2d78a9648923e4d1689afed7bd4517f4a61b17c4a007ef1ed567f"
+      },
+      "ui:총자산:/총자산": {
+        "source_sha256": "7af19af19403433b351eb70891b8f77e3dcb07dc23017b34461a6be6bd9b1555",
+        "target_sha256": "cad030cd4ed84f636daaef19557c11e1f9bd44741504fd347eed6c2c5801308f"
       }
     }
   },
-  "accepted_sha256": "defc946a5b331408d163e655b40ecd4a13a86c41be67970431515da4dc9696c6",
+  "accepted_sha256": "27f30fe234ef234c6c27a559d730c80c1ae96f8c0f752adef94c7648462dbaed",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {

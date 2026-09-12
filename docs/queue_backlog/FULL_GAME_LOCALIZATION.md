@@ -165,14 +165,20 @@ skipped이며 업로드 파일도 없었다. 이 새 원인은 별도 좁은 수
   JA 전체·기존28·공개공유15를 보존하고 CN/TW각13만 추가했다. 게임코드·저장로직·
   수집 분모17484는 바뀌지 않았다. 전체L1·고유12 및 단위판정은 별도 exact 실행·
   독립보고에 결속하며 실제 모달·저장/불러오기·렌더·원어민·본편GO가 아니다.
+  정보 패널17 legacy와 기존 BODY 문맥1의54도 직접KO·독립 전량검토 뒤
+  clean ea4c4b8 공식export/check/import로 수용했다. 현재39076
+  (JA13024/CN·TW13026)/b107/meta9이며 old39022 전체raw 역복원exact다.
+  JA 금수저의 돈줄 오역1만 고치고 기존17과 인접 context/관계/주거는 보존했다.
+  CN/TW각18을 추가했으며 코드·저장·분모는 같다. 전체L1·고유12·단위판정은
+  exact 증거가 소유한다. 실제패널·정적라벨 언어갱신·렌더·원어민 완료는 아니다.
   이후 `_localized_profile_label/_roll_run_theme`와 `HoldemClub._fmt`의 non-KO=EN 분기를
   실제 표시 계약으로 검사한다. `_localized_route_label`의4매핑은 현재 caller0이므로
   이를 번역하거나 노출해 플레이어 표면 수리·진척으로 세지 않는다.
   `GameState.tendency_name/tendency_desc`는 외부 caller0인 휴면 호환 helper다.
   현재 자각 모달은 별도 `_tr` 산문3을 읽으므로 휴면6문구만 번역해 표시 수리로 세지 않는다.
   `MainGame._choice_effects_preview`의 건강/정신은 기존 `_tr` 소비자로 연결했다.
-  CN/TW 사전의 해당 키 부재·다른 소비자까지 완료한 것은 아니다. 번역 파일만
-  채워도 남은 소비자는 저절로 바뀌지 않는다.
+  CN/TW의 건강/정신은 위 정보 패널 단위에서 채웠다. 다른 표시 소비자와
+  실제 표면의 완료를 뜻하지 않으며 남은 언어 직행 분기는 별도다.
 - 기존 JA 정밀화: `arc_father_legacy.description`과
   `arc_y5_final_offer.description`의 `30億`을 용어집의 `30億ウォン`으로
   명시했다. 별도169 선언 뒤 두 target/수용 hash만 갱신했으며 기존8,947와
