@@ -4,10 +4,18 @@
 > [9/12 현지화 보존본](history/WORK_LOG_2026-09-12_localization.md)에 손실 없이 보존한다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg`로 필요한 항목을 찾는다.
 
+## 2026-09-13 (Codex — 칭호 보너스·언어 갱신 착수)
+
+- [별도 선언](queue_active/ORDER-256.md): visible8×JA/CN/TW24와 같은Button 언어 갱신만 맡는다.
+  최대11제품경로, MP/GS/LM/JA pipeline/Chapter/Year5·조건·보너스 계산·기존수용38944는 보존한다.
+- ordered IDs가 정하는 표시 순서·범주별cap 합산을 유지하고, 양수 규칙의 빈보너스와 명시0항목을 구분한다.
+  사적 source/runtime 저작과 비저자 기대 봉인 뒤 ROOT가 실행한다. 신규제품/수용/실제검사0이다.
+
 ## 2026-09-13 (Codex — 마지막 11칭호 내부 마감)
 
 - Poincare LOCAL work_unit GO. source adc4990 / 검토 478c44c 한정이다.
 - [원문·관측·한계](queue_archive/ORDER-255.md)와 독립 보고 원형을 보존하고 기존39판정에 단위1만 더했다.
+- clean f417b51의 마감metadata6 첫PASS/38.06187975초·1194불변 뒤 main/원격mirror를 atomic FF했다.
 - 공개 GO1·인간 OPEN45·본편 HOLD 유지. bonus/top과 별도 발견은 다음 미착수 범위다.
 
 ## 2026-09-13 (Codex — 남은 칭호520 첫 통과·66 공식 수용)
