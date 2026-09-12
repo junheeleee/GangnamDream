@@ -1,0 +1,327 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-245",
+  "scope": "work_unit",
+  "subject": {
+    "kind": "source",
+    "commit": "72c349ab7ea9fd89f07160a6e8770ec0435210dc",
+    "tree": "3dc128c1c510d7e0e63f94da935c9948f850405b",
+    "manifest_sha256": null
+  },
+  "source_commit": "72c349ab7ea9fd89f07160a6e8770ec0435210dc",
+  "source_tree": "3dc128c1c510d7e0e63f94da935c9948f850405b",
+  "verdict": "GO",
+  "required": [],
+  "optional": [],
+  "reviewer": "Poincare / final_regression_review",
+  "independent_of": "ROOT language/acceptance; Rawls source; Plato runtime tests",
+  "observed_head": "886909a4e9f0174578942b663e3ffa9dcb0c43e5",
+  "observed_tree": "808c2ae5ec798cf5e373dc24620d20eca1254ffd",
+  "observed_clean": true,
+  "identity_method": "Read current_agent_source_subject directly: exact72c349/3dc128. Inspected source-to-HEAD diff: STATUS only. No decision ledger or null closure template used to infer identity.",
+  "population": {
+    "existing_titles": 10,
+    "KO_surfaces": 20,
+    "locales": [
+      "ja",
+      "zh-CN",
+      "zh-TW"
+    ],
+    "translated_values": 60,
+    "remaining_titles_excluded": 31,
+    "legacy_titles_total_preserved": 50
+  },
+  "verdict_basis": [
+    "All60 KO-direct translations independently reviewed before UI writes; optional3 adopted, final57 unchanged. Same current/UI/L1/source/receipt values match that approved table.",
+    "Localized name/description lookups preserve title IDs, KO/EN constants, unlocking conditions, bonuses, save values, unselected titles and existing nine localized titles.",
+    "Current raw-authority successor and Chapter gates preserve predecessor bytes/expectations through validated inverse views; captured hash alone cannot license changed raw source.",
+    "Observed old100/new100 isolated consumer groups and current24/historical18 source controls pass after recorded repairs. Actual fixtures and raw evidence remain bound to current product.",
+    "Official60 accepted; old38638 ledger/raw and prior UI content preserved; whole accepted L1 and required local lane pass at the exact final candidate."
+  ],
+  "read_scope_and_method": [
+    "Earlier complete language60/source4/wiring2/newself and decoded runtime new23+changed2 functions were directly reviewed; reused only after current SHA/Git rebinding.",
+    "Current final active245/246, WORK_UNIT source rules, source-affecting CLAUDE/backlog/243244 outcome records, official9 stdout records, receipt proof and same60 L1 were read.",
+    "Retained runtime artifacts and19 input pins rehashed, not rerun. Named source JSON equals prior current24/historical18 result object; fixed quantity24 stdout equals prior post bytes.",
+    "All1205 named hashes compared with current raw and review-HEAD Git blobs; source difference is STATUS1. All1193 whole-L1 source/data hashes reconstructed and matched retained manifest digest.",
+    "Protected16 relevant paths and UI raw prefixes/order/values compared baseline eb7e215 to current source; old WORK archive directly compared whole bytes."
+  ],
+  "evidence_pins": {
+    ".git/full-game-localization/order245-language-review-final.json": {
+      "bytes": 5175,
+      "sha256": "c8b057612405760a0599c7a71e912f2c1b2171deada57da64826b290b598538e"
+    },
+    ".git/full-game-localization/order245-source-wiring-review.json": {
+      "bytes": 8755,
+      "sha256": "ba0ad6ee075f28592f6c2c270fb373250cbfc8f0fd1eeb1e2725da3e008b489f"
+    },
+    ".git/full-game-localization/order245-source-repair-self-review.json": {
+      "bytes": 6979,
+      "sha256": "300ce1a22a392f2cd3a6aea54675971423cd80af545d6a2c32715827092fd2b9"
+    },
+    ".git/full-game-localization/order245-source-count-recheck-review.json": {
+      "bytes": 5896,
+      "sha256": "41c94ba069cc1ec544ac47883ddea4ef9ee370d780c425417a5b1211c6ca052e"
+    },
+    ".git/full-game-localization/order245-runtime-independent-review.json": {
+      "bytes": 7469,
+      "sha256": "66f2f3462fdab8d80c3f38c45fde5c8a8f9a9d25b3da1714f3d20a5ec66c3e32"
+    },
+    ".git/full-game-localization/order245-independent-receipts.json": {
+      "bytes": 11327,
+      "sha256": "ee3a6b9f0445e915c59966a1375b30b9f0a6d8d0da8358d0c3721c29a134e553"
+    },
+    ".git/full-game-localization/order245-l1-after-order246.json": {
+      "bytes": 30224,
+      "sha256": "94836b229acc3c0bd9f2a2b3dba69d945bc808fd5b41b1cfdebc83bcbfb87ff0"
+    },
+    ".git/full-game-localization/order245-exchange-export-first.json": {
+      "bytes": 3428,
+      "sha256": "c4ef0923dd604080aec857f1f16ca7622343278c9af311840cc729431b1541bb"
+    },
+    ".git/full-game-localization/order245-exchange-check-first.json": {
+      "bytes": 3122,
+      "sha256": "227faeeb3851e1e507301cc7af027c633024c6a9311011bfc8be7deaa3e72a02"
+    },
+    ".git/full-game-localization/order245-exchange-import-first.json": {
+      "bytes": 3167,
+      "sha256": "ca978840f0889d2abf8aee9901489e6e5fd24db20f5aac476f7f87f21b302849"
+    },
+    ".git/full-game-localization/order245-portable-proof.json": {
+      "bytes": 498,
+      "sha256": "425f709024676f82b2fad4877509dfec6e0cd1ce34aa4d6aa1d70258ae79d971"
+    }
+  },
+  "product_pins": {
+    "autoloads/MetaProgression.gd": {
+      "bytes": 56110,
+      "sha256": "a3435ebd18cee005720a98633fa290754b23cf944b241cef25848b3cf114b7bd"
+    },
+    "tools/ja_translation_pipeline.py": {
+      "bytes": 240183,
+      "sha256": "173228d3c6641b95b8fe5f09f7696a15af2ff44f7871d01f9a0f13947458f376"
+    },
+    "tools/meta_title_locale_successor.py": {
+      "bytes": 9828,
+      "sha256": "5dc0f6ddc14ef5f427010cdebb225ce66bd25e42d9671c2889eb671b2b42cd74"
+    },
+    "tools/chapter1_core_loop_v2_causal_ledger_check.py": {
+      "bytes": 1460248,
+      "sha256": "0c8d5db6f0ad4d9d34518eaf531cc543c153b48c64efd71f05f5d33c64cc1f79"
+    },
+    "tools/meta_title_locale_successor_self_test.py": {
+      "bytes": 38295,
+      "sha256": "78408176dbcc94fe18a81f33e74224d493d913234bb9e20ccfa585b193559ee0"
+    },
+    "tools/MetaTitleLocaleCheck.tscn": {
+      "bytes": 89095,
+      "sha256": "2f4d877485d3dd74deed0917759203c9c2ab1006a1edb9c1e97d7e537a9918c2"
+    },
+    "tools/run_meta_title_locale_qa.sh": {
+      "bytes": 8891,
+      "sha256": "22c55884c4dedcf7a6832004876312fd83920545743d303ecc3b07906f199c83"
+    },
+    "tools/full_game_localization.py": {
+      "bytes": 276088,
+      "sha256": "c294603d7b2f99177ae9734661abb5ee82efae6cf4e47f353e408bd7b79e66b9"
+    },
+    "tools/audit.sh": {
+      "bytes": 79946,
+      "sha256": "c906ff8b56a33a2861833997f3c244e9c3581b641c2c97f5c9d93863bd6127f7"
+    },
+    "tools/audit_scope.json": {
+      "bytes": 148875,
+      "sha256": "734224ae92be62e2a43b796ea313d5cb25cdf1308385ddac44946923e31efef2"
+    }
+  },
+  "source_to_consumer": {
+    "producer": "autoloads/MetaProgression.gd:669 (_localized_title)",
+    "reader": "autoloads/MetaProgression.gd:659 (get_title_info) and existing collection/toast/ending consumers in fixed runtime evidence",
+    "historical_gate": "tools/chapter1_core_loop_v2_causal_ledger_check.py:4487",
+    "state_change": "Display name/description only; gameplay and persisted title IDs unchanged",
+    "forgoing_scope": "Unselected31 remain outside this localization batch; no new gameplay choice",
+    "narrative_position": "Existing tendency/relationship/lifestyle titles; not new story beats",
+    "scene_tier": "Not a scene-authoring unit",
+    "closes": "This20-surface/60-value display and accepted-regression batch only"
+  },
+  "language": {
+    "final_table_sha256": "1fcd5836e0e66771606eda67461373a26a8d61f31cf6a9e00cd2816efa699a38",
+    "records60_sha256": "b0c6ffc89a708b646d2185bb060e7a540352f79f9e933d693a3ca8b81317ba52",
+    "required_semantic_repairs": 0,
+    "optional_refinements_applied": 3,
+    "first_numeric_FP_did_not_change_approved_prose": true
+  },
+  "observed_runtime": {
+    "invocations": 1,
+    "process_seconds": 26.432583708,
+    "old_groups": 100,
+    "new_groups": 100,
+    "old_current_groups": 95,
+    "old_validated_historical_unselected_groups": 5,
+    "raw_full_state_top_level_groups": 30,
+    "digest_delta_only_top_level_groups": 170,
+    "inputs19_exact": true,
+    "stdout_and_Godot_log_equal_and_error_free": true,
+    "stderr_empty": true,
+    "state_restored_marker": 1,
+    "raw_runner_sha256": "d97483b80cfc39cfda80142835a858a8480d19192f8dcd88c63854d560ed6933",
+    "boundary": "20 new families x5 locales are100, not100 independent features. Nested115 condition and50 split-unlock observations are not extra cases. Historical groups validate current dictionaries before name/desc inverse; no rendered/human claim."
+  },
+  "official_acceptance": {
+    "official_commit": "c399f54d15d2b2f3ad3a1b8394d0c18f40ce61f0",
+    "export": 3,
+    "check": 3,
+    "import_accept": 3,
+    "each_leaves": 20,
+    "all_exit0": true,
+    "check_import_changed_files": 0,
+    "source_manifest_sha256": "6607e0ae40e2d74793cd6073fac2460eb1a985eaaaf4ad2bb81554d776e55bf7",
+    "new_records": 60,
+    "accepted": 38698,
+    "batches": 100,
+    "retained_metadata": 9,
+    "current_portable": {
+      "bytes": 10051010,
+      "sha256": "c8f174234aa07dbed3a1764cf8d28801cc0329c4d336b4e14540377177185980"
+    },
+    "old_raw_inverse": {
+      "bytes": 10030021,
+      "sha256": "3fc92d608aaf27a8e6a4ee3207ce3895bb1290f9ed6084c18961aed7c1d718ab",
+      "accepted": 38638,
+      "batches": 99
+    },
+    "independent_receipt_evidence": "Plato's compact transcription of one RO verifier, not raw stdout archival and not ORDER246 self approval.",
+    "preserved_ledger_metadata": "Older descriptive source_revision/source_counts remain raw-preserved; current collector statistics come from actual L1, not rewritten ledger metadata."
+  },
+  "repairs_and_first_results": [
+    {
+      "event": "First collector attempt",
+      "result": "NameError Path before translation L1 reached0",
+      "evidence_sha256": "44e047e0704e0f39d4a10dd7cdbda31359844ca33c07411bd6227905984649bc",
+      "repair": "Only span-local pathlib import and derived pins; failed original retained. Initial static review missed namespace binding."
+    },
+    {
+      "event": "First reached60 L1",
+      "result": "58 clean, correct CN/TW 两条路之间/兩條路之間 falsely rejected",
+      "evidence_sha256": "c538abdd608004309280c3dbae51a2e0d1d257d8858c4da53137d4517d08c891",
+      "repair": "Separate ORDER246 exact-title validator repair; prose unchanged; same60 final errors0."
+    },
+    {
+      "event": "Historical mock forwarding",
+      "result": "Nonauthor static defect found before self execution",
+      "repair": "Dynamic callback lookup forwards nested old18 forged-hash mock; old18 raw untouched."
+    },
+    {
+      "event": "First current24 self",
+      "result": "Raw/registry18 passed; semantic6 aborted before consumer; history18 not executed",
+      "evidence_sha256": "37a134fe5cb62ee5f094b62e11b94d116cd7c0fd6f2dc39e90f2d8fd21c509b5",
+      "repair": "Wrong38 assumption corrected to43=selected20+nonselected23, including unchanged mastery5; recipes/expected24 unchanged. Prior static review also missed the count."
+    },
+    {
+      "event": "Same24 corrected self",
+      "result": "current24/24 and historical18/18 passed; repeated once in final named with identical full result object",
+      "evidence_sha256": "03648349a6840810fc94ffea6fcf5b6ba0ffea2f07982789e9305fcc1aaddf4e"
+    },
+    {
+      "event": "246 first post execution scope",
+      "result": "Selector ignored: full260 ran, not selected1; original preserved. Final named runs full260 again, separately.",
+      "evidence_sha256": "f8b70a0ec03596c5611a68d295c8bee140c23e36ce6c03da7d6212544c090535"
+    }
+  ],
+  "final_local_QA": {
+    "all_accepted": {
+      "path": ".git/full-game-localization/order245-all-accepted-l1-first.json",
+      "bytes": 1661,
+      "sha256": "fb93d81363bdc422e699b8e02e7efb8c836201e543fc4a584e5701f45c7e43d4",
+      "invocations": 1,
+      "accepted": 38698,
+      "errors": 0,
+      "by_locale": {
+        "ja": 12898,
+        "zh-CN": 12900,
+        "zh-TW": 12900
+      },
+      "process_seconds": 72.20369725,
+      "input1193_before_after_exact": true,
+      "manifest_sha256": "1324797d9422740ce85c51a9320913dd9c9aa15e10809f6a52dfc26862fbc681",
+      "binding": "The retained result stores count/digest, not the full map. I reconstructed its exact1193 map from the named capture and Git source blobs; digest exact."
+    },
+    "named": {
+      "path": ".git/full-game-localization/order245-named-first.json",
+      "bytes": 497909,
+      "sha256": "025e26f18048e163063cd266f3a55e819d89f44ec9e55326d79ffc2106197100",
+      "invocations": 1,
+      "children": 11,
+      "all_exits": 0,
+      "process_seconds": 93.453311833,
+      "full_child_stdout_stderr_retained": true,
+      "input1205_before_after_current_review_HEAD_exact": true,
+      "source1204_raw_exact_and_STATUS1_wrapper_only": true,
+      "results": {
+        "source_controls": "current24/24 and historical18/18",
+        "full_exchange_self": 260,
+        "JA_pipeline_self": 146,
+        "ZH_self": 12446,
+        "JA_current_UI": "2913 strings/errors0/beta",
+        "EN": "clean",
+        "registry": 145,
+        "queue_fixtures": 25,
+        "queue_fence_subcases": 4,
+        "agent_fixtures": 222,
+        "context_docs": 362,
+        "queue_active": 79
+      }
+    },
+    "limits": "These are local scoped regression results, not complete-game or remote-CI PASS. ZH skeleton and beta UI markers retain their limited meanings."
+  },
+  "preservation": {
+    "WORK_archive": {
+      "bytes": 38932,
+      "sha256": "4cf8dfe3c9f3b793a3a11d57788d3701a740c0d99e846805f7eb804f1e8b4479",
+      "whole_old_raw_exact": true,
+      "EOF_LF": 2
+    },
+    "current_WORK": {
+      "bytes": 2909,
+      "sha256": "3780bf97fdb15b40de0b2e4b1b38b5da776e264ac745e2db9acc7e72241a2662",
+      "EOF_LF": 2
+    },
+    "UI_added_each": 20,
+    "UI_previous_keys": {
+      "ja": 2931,
+      "zh-CN": 356,
+      "zh-TW": 356
+    },
+    "old_values_order_prefix_exact": true,
+    "protected16": "MainGame/GameState/LocaleManager/SaveManager/project/human/agent/public scopes/full wrapper/243 helper+28/244 helper+18/Chapter ledger+debt are baseline=source=current raw.",
+    "concurrent_records": "Source includes explicit old243244 CI-result observations in their active docs. They are separate operational evidence, not245/246 product success or a new historical test waiver."
+  },
+  "known_limits": [
+    "Automatic gates establish contracts, not fun/depth/native quality. Internal full-product HOLD and actual human evidence remain unchanged.",
+    "Five-year retrospective may unlock early; legacy free_time_count attainability and romantic-type versus reciprocal partnership are pre-existing source debts, not repaired here.",
+    "Five relationships do not guarantee five intimate friends; stress prose does not diagnose or certify recovery.",
+    "Remaining31 titles and unresolved dynamic/UI surfaces are excluded; accepted38698 is not all possible game strings.",
+    "Remote exact41e06cd main34691376114/mirror34691376116 are recorded failures in frozen source docs; neither this source's remote success nor243244 final GO is supplied by local tests.",
+    "Final source still records QA-pending historical statements. Later outcome publication is metadata only; CLAUDE/backlog changes must create a new source rather than borrowing this subject."
+  ],
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "rendered_current_UI",
+    "complete_game_quality",
+    "release_or_store_approval",
+    "remote_CI_for_this_source"
+  ],
+  "reviewer_execution": {
+    "new_tests": 0,
+    "new_L1": 0,
+    "new_collector": 0,
+    "engine": 0,
+    "player_save_access": 0,
+    "product_or_ops_writes": 0,
+    "private_reports_only": true,
+    "source_resolver_read_only": 1
+  },
+  "preparation_notes": "RO calculations first used a plain-string source digest instead of Leaf(path,field,ko), then compared STATUS wrapper against product source as if identical. Both local assertions were corrected to the inspected schemas/Git boundary before this verdict; no product/test execution failure or evidence mutation.",
+  "authority_boundary": "GO applies only to ORDER-245 work_unit at this exact subject; not ORDER246 by implication, not243244, not full game, remote CI, native or release."
+}

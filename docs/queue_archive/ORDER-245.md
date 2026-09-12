@@ -1,3 +1,71 @@
+# 성향·관계·생활 칭호 세 언어 — 결과
+
+[x] ORDER-245 — 2026-09-12. 독립 Poincare work_unit GO 한정.
+
+source `72c349ab7ea9fd89f07160a6e8770ec0435210dc`, tree
+`3dc128c1c510d7e0e63f94da935c9948f850405b`; 검토 HEAD
+`886909a4e9f0174578942b663e3ffa9dcb0c43e5`의 clean 후보다.
+공개 M01~M06 GO1·인간 OPEN45·본편 HOLD를 보존한다.
+원어민·렌더·정상 속도 인간 플레이·외부 출시 판정은 하지 않았다.
+
+공통 최종 명시11은 93.453311833초/입력1205 exact/각 exit0이다.
+두 단위에 같은 실행을 결속하며 두 번 실행한 것으로 세지 않는다.
+source24/역사18·fullself260·JA146·ZH12446·EN clean·JA UI2913,
+registry145(EXTRA17 고지 유지)·queue25/fence4·agent222·context362·active79다.
+246의 영향7은 이11의 진부분집합이다. 전체 수용38698 L1/hash는 별도1회
+72.20369725초/입력1193 exact/오류0이며 두 명령은 병렬로 실행했다.
+이전 exact41 main/mirror CI failure2는 별도이며 이 결과로 닫지 않는다.
+
+## 제품과 원형
+
+- 기존10칭호 name/desc20의 JA·CN·TW60을 직접 번역·독립 전량 검토했다.
+  UI3는20씩 추가/기존 수정0, KO/EN·50 ID/조건/보너스/저장·기존9·나머지31 보존.
+- c399f54 exact 공식 export3은 exit0, check/import 각3은 exit0·changed_files0다.
+  신규60만 수용해38638→38698/b99→b100/meta9, 옛 원장 raw 역복원 exact다.
+  언어별 JA12898·CN/TW12900, UI252/254/254이며 전체 UI 완료는 아니다.
+- actual old100/new100은 첫 실행 PASS, 입력19 전후=최종 source exact다.
+  old95 current와 old5의 검증된 name/desc 역사 관측을 구분한다.
+  full state는 old30뿐이며 old70/new100은 digest/delta, 실제 렌더가 아니다.
+  새100 안의 조건115·해금50 등 중첩 관측을 새 최상위 표본으로 더하지 않는다.
+  이미 생성된 엔딩 title cache는 언어 변경으로 재번역되지 않는다.
+- 첫 collector Path NameError로 L1 도달0, import1행 수리 뒤58/2 수량오탐을
+  보존했다. 별도246 뒤 **같은60·원문/번역 변경0** 재검증은 오류0이다.
+- 첫 source self는 raw18 통과/semantic6 미도달/역사18 미실행이었다.
+  기존 mastery5를 놓친 호출수38 가정을43/20/23으로 고친 뒤 같은24/역사18 통과.
+  첫 실패·고정 기대·옛 함수/ledger/map/pin은 유지하고 역변환만 제한했다.
+
+```text
+도달 경로      : META_TITLE_NEXT_CHECK_OK cases=100 locales=5 selected=10 preserved=40 conditions=23 isolation=preautoload rendered=0
+생산자 ↔ 독자   : MetaProgression._localized_title ↔ 도감/알림/로그/엔딩 카드
+바꾸는 상태     : 수용38638→38698; 해금·조건·저장·게임플레이 변경0
+포기 시 잃는 것 : 없음 — 신규 선택/효과가 아닌 표시 현지화
+서사 위치       : 기존 성향·관계·생활 칭호10; 새 사건0
+장면 계층       : 해당 없음 — UI 현지화
+닫는 것         : 선택20표면 단위; 본편·인간·원어민 닫기0
+```
+
+원문의 조기 5년 회고·legacy free_time_count·romantic/상호교제 차이·
+관계5/친한친구5 차이와 stress 비진단 의미는 그대로다. 이번 작업 지시는
+일회성이며 새 규범 없음. [독립 판정](../agent_reviews/ORDER-245.json)이 결과를 소유한다.
+
+## 원형 증거
+
+.git/full-game-localization/ 원형(변경 없이 보존):
+
+- `order245-named-first.json`: `025e26f18048e163063cd266f3a55e819d89f44ec9e55326d79ffc2106197100`.
+- `order245-all-accepted-l1-first.json`: `fb93d81363bdc422e699b8e02e7efb8c836201e543fc4a584e5701f45c7e43d4`.
+- `order245-title-translations-final.json`: `1fcd5836e0e66771606eda67461373a26a8d61f31cf6a9e00cd2816efa699a38`.
+- `order245-language-review-final.json`: `c8b057612405760a0599c7a71e912f2c1b2171deada57da64826b290b598538e`.
+- `order245-l1-first.json`: `44e047e0704e0f39d4a10dd7cdbda31359844ca33c07411bd6227905984649bc`.
+- `order245-l1-after-path-fix.json`: `c538abdd608004309280c3dbae51a2e0d1d257d8858c4da53137d4517d08c891`.
+- `order245-l1-after-order246.json`: `94836b229acc3c0bd9f2a2b3dba69d945bc808fd5b41b1cfdebc83bcbfb87ff0`.
+- `order245-source-controls-first.json`: `37a134fe5cb62ee5f094b62e11b94d116cd7c0fd6f2dc39e90f2d8fd21c509b5`.
+- `order245-source-controls-after-count-fix.json`: `03648349a6840810fc94ffea6fcf5b6ba0ffea2f07982789e9305fcc1aaddf4e`.
+- `order245-actual-first.json`: `02c6b566fe005cfd041a0ed4024e239559f46b96436bb89519f3ff3967036727`.
+- `order245-portable-proof.json`: `425f709024676f82b2fad4877509dfec6e0cd1ce34aa4d6aa1d70258ae79d971`.
+
+## 선언·진행 원문 보존
+
 # 성향·관계·생활 칭호의 세 언어 표시
 
 #### [~] ORDER-245 성향·관계·생활 칭호 현지화

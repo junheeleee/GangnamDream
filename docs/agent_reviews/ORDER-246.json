@@ -1,0 +1,241 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-246",
+  "scope": "work_unit",
+  "subject": {
+    "kind": "source",
+    "commit": "72c349ab7ea9fd89f07160a6e8770ec0435210dc",
+    "tree": "3dc128c1c510d7e0e63f94da935c9948f850405b",
+    "manifest_sha256": null
+  },
+  "source_commit": "72c349ab7ea9fd89f07160a6e8770ec0435210dc",
+  "source_tree": "3dc128c1c510d7e0e63f94da935c9948f850405b",
+  "verdict": "GO",
+  "required": [],
+  "optional": [],
+  "reviewer": "Poincare / final_regression_review",
+  "independent_of": "ROOT ZH adapter/registration and Plato new unittest; Rawls fixed-case author",
+  "observed_head": "886909a4e9f0174578942b663e3ffa9dcb0c43e5",
+  "observed_tree": "808c2ae5ec798cf5e373dc24620d20eca1254ffd",
+  "observed_clean": true,
+  "identity": "current_agent_source_subject observed exact72c349/3dc128; review wrapper differs only by STATUS. No closure-template nulls or old verdict selected this subject.",
+  "population": {
+    "exact_KO_source": "두 길 사이",
+    "exact_leaf_id": "ui:두 길 사이:/두 길 사이",
+    "locales": [
+      "zh-CN",
+      "zh-TW"
+    ],
+    "actual_initial_false_positives": 2,
+    "frozen_controls": 24,
+    "normal": 6,
+    "mutant_with_valid_base": 14,
+    "OFF": 4
+  },
+  "verdict_basis": [
+    "The actual2 translations preserve source quantity2 and path/between semantics; no prose rewrite was needed.",
+    "Exact full source/key/CN-TW gate plus whole-label grammar allows only declared unsigned cardinal2. Matched numeral spans alone are normalized/masked for numeric comparison.",
+    "Malformed text retains originals plus local error. General parser, public full wrapper, other script/token/line/terminology/money checks and prior expectations remain unchanged.",
+    "Same pre-frozen24 pass through helper/direct/full, all14 negatives have passing corresponding normal bases, OFF4 ordered baseline arrays remain exact, and both money diagnostics plus placeholder diagnostic remain.",
+    "Whole old ZH/self raw inverses are exact. Shared final local11 strictly covers this unit's7 commands at the exact same tested source; same60 L1 and all accepted entries are clean."
+  ],
+  "read_scope_and_method": [
+    "Read active246, frozen24, all baseline direct/full errors, entire new helper and validate_text context, entire new unittest, registry diff.",
+    "AST-extracted frozen payload exact against private specification and measured baseline; old280 method AST/whole raw inverse checked without test execution.",
+    "Read original post envelope and every24 result, main CLI implementation, all final11 child outputs and precise source/input binding.",
+    "Reused only hash-identical code and prior nonauthor evidence; no new cases, no new validator or engine execution."
+  ],
+  "evidence_pins": {
+    ".git/full-game-localization/order246-baseline-self-independent-review.json": {
+      "bytes": 8308,
+      "sha256": "b07364af08e4e3c439b521085c237f7fb977d2023824613e12533a4282601d7e"
+    },
+    ".git/full-game-localization/order246-post-independent-review.json": {
+      "bytes": 5291,
+      "sha256": "c56d919ac5c75fe6039595276fbbef8b860d29322f1252e3818dd89d6750b5fb"
+    },
+    ".git/full-game-localization/order245-l1-after-order246.json": {
+      "bytes": 30224,
+      "sha256": "94836b229acc3c0bd9f2a2b3dba69d945bc808fd5b41b1cfdebc83bcbfb87ff0"
+    },
+    ".git/full-game-localization/order245-all-accepted-l1-first.json": {
+      "bytes": 1661,
+      "sha256": "fb93d81363bdc422e699b8e02e7efb8c836201e543fc4a584e5701f45c7e43d4"
+    },
+    ".git/full-game-localization/order245-named-first.json": {
+      "bytes": 497909,
+      "sha256": "025e26f18048e163063cd266f3a55e819d89f44ec9e55326d79ffc2106197100"
+    }
+  },
+  "frozen_spec": {
+    "path": ".git/full-game-localization/order246-two-paths-precode-spec.json",
+    "bytes": 15527,
+    "sha256": "704408926322a8c61f13c6d170e3621260905414954878823c08c868bbb98aae"
+  },
+  "baseline": {
+    "path": ".git/full-game-localization/order246-baseline-result.json",
+    "bytes": 57119,
+    "sha256": "15e6f6de0bbdac75ee286502b1961ccbdbbc86e58882ff1b98e1e314e63a4b0e",
+    "helper_absent": 24,
+    "direct_full_calls_each": 24,
+    "normal_pass_each": 0,
+    "raw_mutant_reject_each": 11,
+    "effective_mutant_reject_each": 0,
+    "input14_exact": true,
+    "note": "Three wrong singular/zero mutants originally passed; all normals failed, so raw11 rejections were not effective negative coverage."
+  },
+  "product_pins": {
+    "tools/zh_translation_audit.py": {
+      "bytes": 1684275,
+      "sha256": "7e57de05a113e33b10fcc6ed1a66da8998ee9f1c13ae8789afe7b5403832b6f0"
+    },
+    "tools/full_game_localization_self_test.py": {
+      "bytes": 1581446,
+      "sha256": "80c5aaf07fd4d30195d5041dcab8aab707580f38c5e536341b190c666952407f"
+    },
+    "tools/audit_scope.json": {
+      "bytes": 148875,
+      "sha256": "734224ae92be62e2a43b796ea313d5cb25cdf1308385ddac44946923e31efef2"
+    },
+    "tools/full_game_localization.py": {
+      "bytes": 276088,
+      "sha256": "c294603d7b2f99177ae9734661abb5ee82efae6cf4e47f353e408bd7b79e66b9"
+    }
+  },
+  "inverse_preservation": {
+    "ZH": {
+      "bytes": 1682962,
+      "sha256": "ef58e32b361f48969fe4d749f1d05cee17482a7df287b1b0befb07160817c2a0",
+      "remove": "Only new _ui_two_paths_title_numbers and numeric-selection hook"
+    },
+    "full_self": {
+      "bytes": 1565121,
+      "sha256": "129091d63e0df275f83fce69ea1ad4b0e64640386a12629429daa51d9d92becb",
+      "remove": "Only test_order246_two_paths_title_frozen24",
+      "old_methods_AST": 280,
+      "old_tests": 259,
+      "new_tests": 260
+    },
+    "prior_scope_registration_parsed_exact": true,
+    "UI60_source_runtime_and_portable_not_modified_by246": true
+  },
+  "source_to_consumer": {
+    "producer": "tools/zh_translation_audit.py:8620 (_ui_two_paths_title_numbers)",
+    "consumer": "validate_text numeric pair -> unchanged full_game_localization.translation_errors",
+    "state_change": "Only exact-title numeric validation; no gameplay or translated display mutation",
+    "forgoing_scope": "Two faithful Chinese titles stay incorrectly blocked",
+    "scene_tier": "Not a story scene",
+    "closes": "One confirmed source-bound quantity false-positive cause"
+  },
+  "observed_first_post": {
+    "path": ".git/full-game-localization/order245-order246-post-first.json",
+    "bytes": 38359,
+    "sha256": "f8b70a0ec03596c5611a68d295c8bee140c23e36ce6c03da7d6212544c090535",
+    "command": [
+      "python3",
+      "tools/full_game_localization_self_test.py",
+      "ExchangeTests.test_order246_two_paths_title_frozen24"
+    ],
+    "intended_selected_tests": 1,
+    "actual_suite_tests": 260,
+    "suite_invocations": 1,
+    "process_seconds": 17.95176925,
+    "suite_reported_seconds": 17.784,
+    "exit": 0,
+    "mistake": "__main__ ignores selector and loads whole ExchangeTests. This was an unnecessary broad first execution, disclosed by ROOT; not selected1/old0.",
+    "fixed24_trace": {
+      "helper": 24,
+      "direct": 24,
+      "full": 24,
+      "normal": 6,
+      "valid_mutant": 14,
+      "OFF": 4,
+      "all_valid": true,
+      "input11_exact": true,
+      "money2_and_token1_baseline_messages_retained": true
+    },
+    "old259_evidence": "Consolidated full260 OK, not individual old-test traces.",
+    "provenance": "First original and pre-execution proof remain immutable; no separate targeted24 retry."
+  },
+  "final_QA": {
+    "same60_L1": {
+      "errors": 0,
+      "language_values_unchanged": true,
+      "source_manifest_sha256": "6607e0ae40e2d74793cd6073fac2460eb1a985eaaaf4ad2bb81554d776e55bf7"
+    },
+    "all_accepted": {
+      "path": ".git/full-game-localization/order245-all-accepted-l1-first.json",
+      "bytes": 1661,
+      "sha256": "fb93d81363bdc422e699b8e02e7efb8c836201e543fc4a584e5701f45c7e43d4",
+      "invocations": 1,
+      "accepted": 38698,
+      "errors": 0,
+      "by_locale": {
+        "ja": 12898,
+        "zh-CN": 12900,
+        "zh-TW": 12900
+      },
+      "process_seconds": 72.20369725,
+      "input1193_before_after_exact": true,
+      "manifest_sha256": "1324797d9422740ce85c51a9320913dd9c9aa15e10809f6a52dfc26862fbc681",
+      "binding": "The retained result stores count/digest, not the full map. I reconstructed its exact1193 map from the named capture and Git source blobs; digest exact."
+    },
+    "shared_named": {
+      "path": ".git/full-game-localization/order245-named-first.json",
+      "bytes": 497909,
+      "sha256": "025e26f18048e163063cd266f3a55e819d89f44ec9e55326d79ffc2106197100",
+      "invocations": 1,
+      "children": 11,
+      "exit": 0,
+      "process_seconds": 93.453311833,
+      "input1205_before_after_exact": true,
+      "review_HEAD1205_exact": true,
+      "product_source1204_exact_STATUS1_wrapper": true
+    },
+    "required_lane7_is_strict_subset_of_shared11": true,
+    "full_self_final": {
+      "tests": 260,
+      "suite_invocations": 1,
+      "suite_reported_seconds": 18.284,
+      "process_seconds": 18.417127125,
+      "exit": 0,
+      "new24_stdout_byte_exact_first_post": true,
+      "stdout_sha256": "8f0b982136983c5e28e663d684f34b8170631e90cda028d5613a4c20dd43003c"
+    },
+    "total_full_suite_invocations_in_recorded_246_work": 2,
+    "uniqueness_note": "Same260 executed first post and again in final named; do not call520 unique cases or48 new frozen controls. No engine re-execution."
+  },
+  "OFF_observations": {
+    "source_one_source_space_wrong_key": "Helper None; each direct/full ordered error list remains ['unmatched target entity quantity invented: 2'].",
+    "locale_ja": "Helper None; direct has the exact baseline message unsupported Chinese locale 'ja'; full [] remains intentionally different."
+  },
+  "diagnostic_output_boundary": "All24 validator result records print before result subTest assertions. Fixture schema and Leaf identity checks are earlier setup assertions, not guaranteed full-output handling for arbitrary setup failure.",
+  "preservation": "Human/project/agent/public scopes and predecessor243244 artifacts remain raw unchanged; shared WORK history preservation is documented in independent245 review. No waived old expectations or policy broadening.",
+  "limits": [
+    "Finite optional 在 + unsigned cardinal + 条/條路之間/之间 grammar, not universal acceptance or a claim that every unlisted natural expression is a translation defect.",
+    "Method-local collector0/engine0 cannot be generalized to every old full260 test.",
+    "This GO concerns the exact numeric repair only. ORDER245 content/official acceptance is a separately reviewed unit, not implied by numeric PASS.",
+    "Local named/allaccepted success does not repair or approve243244 remote exact41 failures, nor prove remote CI for72c349.",
+    "ZH skeleton/static-font/UI beta results are scoped diagnostics, not native/readability/rendered full coverage.",
+    "Full internal product remains HOLD; no release/human/native/rendered GO."
+  ],
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "rendered_current_UI",
+    "complete_game_quality",
+    "release_or_store_approval",
+    "remote_CI_for_this_source"
+  ],
+  "reviewer_execution": {
+    "new_tests": 0,
+    "new_L1": 0,
+    "new_collector": 0,
+    "engine": 0,
+    "player_save_access": 0,
+    "product_or_ops_writes": 0,
+    "private_reports_only": true
+  },
+  "authority_boundary": "GO only for ORDER-246 work_unit at exact72c349/3dc128. Post-review source-affecting edits require new identity; later metadata publication is not new product observation."
+}
