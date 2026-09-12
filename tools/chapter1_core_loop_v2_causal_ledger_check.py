@@ -32,6 +32,7 @@ from typing import Any
 from unittest.mock import patch
 
 import main_game_locale_history as locale_history
+import meta_title_locale_history as meta_title_history
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -4464,6 +4465,15 @@ def _order243_main_source_errors(
 def _audited_source_snapshot_errors(
         source_hashes: dict[str, str]) -> list[str]:
     errors: list[str] = []
+    meta_title_raw: bytes | None = None
+    if meta_title_history.META_TITLE_PATH in source_hashes:
+        try:
+            meta_title_raw = (ROOT / meta_title_history.META_TITLE_PATH).read_bytes()
+            errors.extend(meta_title_history.meta_title_history_source_errors(
+                meta_title_history.META_TITLE_PATH, meta_title_raw,
+                source_hashes[meta_title_history.META_TITLE_PATH]))
+        except OSError as exc:
+            errors.append(f"ORDER-244: cannot read current meta-title source ({exc})")
     if ORDER215_MODAL_PATH in source_hashes:
         try:
             errors.extend(_order243_main_source_errors(
@@ -4544,9 +4554,13 @@ def _audited_source_snapshot_errors(
                         f"source: ORDER-156 transition predecessor mismatch {relative_path}")
                 else:
                     expected_digest = successor[1]
+            observed_digest = _file_digest(relative_path)
+            if relative_path == meta_title_history.META_TITLE_PATH and meta_title_raw is not None:
+                observed_digest = meta_title_history.meta_title_history_project_byte_hash(
+                    observed_digest, relative_path, meta_title_raw)
             if order215_modal_project_byte_hash(
                     order220_preview_project_byte_hash(
-                        _order243_history_byte_hash(_file_digest(relative_path), relative_path),
+                        _order243_history_byte_hash(observed_digest, relative_path),
                         relative_path), relative_path) == expected_digest:
                 continue
             errors.append(

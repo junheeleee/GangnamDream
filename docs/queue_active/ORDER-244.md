@@ -50,3 +50,13 @@ wrong/case path·옛 raw·문구/ID/필드·함수/저장·registry/forged 관�
 clean 제품·검토 HEAD와 독립 검토 뒤243과 합쳐 GitHub 일회성 runner의 exact CI를
 요청한다. 로컬 전체 감사/실제 세이브 사용0. CI 밖 새 실패는 별도 오더다.
 자동/정적 증거는 렌더·원어민·인간 실플레이·재미·전체판 GO가 아니다.
+
+## 구현 고정
+
+칭호 raw helper와 Chapter snapshot hook만 연결했다. import1·raw gate·observer를
+역제거하면 기존 Chapter 전체와 옛 map/159함수 원형이 exact다. 새18 명세 SHA
+`b19daec06150fecf571dbc034d257c43ef9d6f463686294b267cdf1f86a49556`,
+self SHA `0f00061417669ae026bd3d647156dad9a0e0b4920ee0c4414e49a5c26fdfcdf9`.
+저자 own18 cheap 첫1회는 PASS18/입력8 exact이며 최종 self의 최초 실행과 구분한다.
+새 명시 차선은18·실패 Chapter2·변경 운영5의8검사다. 기존 제품 녹색4를 다시
+실행하지 않고, 운영5는 선언/등록 입력이 바뀌었으므로 현재 범위에서 검사한다.

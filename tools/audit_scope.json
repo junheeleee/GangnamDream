@@ -14,6 +14,37 @@
   ],
   "fast_lanes": [
     {
+      "id": "meta-title-history-reconciliation",
+      "paths": [],
+      "owned_paths": [
+        "tools/meta_title_locale_history.py",
+        "tools/meta_title_locale_history_self_test.py",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/audit.sh",
+        "tools/audit_scope.json",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/queue_active/ORDER-243.md",
+        "docs/queue_active/ORDER-244.md",
+        "docs/queue_archive/ORDER-244.md",
+        "docs/WORK_LOG.md",
+        "docs/STATUS.md",
+        "docs/queue_backlog/FULL_GAME_LOCALIZATION.md",
+        "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-244.json"
+      ],
+      "tools": [
+        "tools/meta_title_locale_history_self_test.py",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py --self-test",
+        "tools/queue_index_self_test.py",
+        "tools/agent_review_decisions_self_test.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Only the newly observed MetaProgression source snapshot mismatch: fixed eighteen raw/inverse controls and the two failed Chapter1 invocations. Preserve old pins, actual runtime and previous nine historical green results; no redundant full localization replay."
+    },
+    {
       "id": "ci-localization-reconciliation",
       "paths": [],
       "owned_paths": [
@@ -1072,6 +1103,21 @@
     }
   ],
   "checks": [
+    {
+      "tool": "tools/meta_title_locale_history_self_test.py",
+      "why": "Validate the current title lookup before a unique exact inverse for historical source observation; reject rollback, tampered source/registry and forged digest without changing old baseline pins.",
+      "paths": [
+        "tools/meta_title_locale_history.py",
+        "tools/meta_title_locale_history_self_test.py",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/main_game_locale_history.py",
+        "tools/ja_translation_pipeline.py",
+        "autoloads/MetaProgression.gd",
+        "content/meta/chapter1_core_loop_v2_causal_ledger.json",
+        "tools/chapter1_core_loop_v2_causal_debt_baseline.json",
+        "tools/audit.sh"
+      ]
+    },
     {
       "tool": "tools/ci_localization_reconciliation_self_test.py",
       "why": "Finite live-byte/inverse-history, retained Japanese key and genuinely empty Chinese overlay regressions; old source pins and strict rejection remain intact.",
