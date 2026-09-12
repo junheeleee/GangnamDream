@@ -14,6 +14,521 @@ import full_game_localization as tool
 
 
 class ExchangeTests(unittest.TestCase):
+    def test_order241_vip_empty_person_frozen_controls(self):
+        import hashlib
+        import zh_translation_audit as zh
+        # Poincare's pre-code 30, unchanged: actual2 + normal8 + mutant14 + OFF6.
+        cases = json.loads(r'''[
+  {
+    "id": "A01-cn-implicit",
+    "category": "actual",
+    "locale": "zh-CN",
+    "key": "ui:VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.:/VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.",
+    "source": "VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.",
+    "target": "在VIP聚会的陌生人中，我主动打了招呼。离开时，有个人问起了下次见面的事。",
+    "reason": "Actual approved CN: 有个人 is an indefinite singular with 一 omitted.",
+    "expected_adapter_active": true,
+    "expected_numeric_pass": true,
+    "normal_base_id": "A01-cn-implicit",
+    "source_sha256": "c1641e0becf2bb364a43d69a9165f50c6c86c57c48935dbe6fcb90d2260cf782",
+    "target_sha256": "515bd05dde01a869b1e3885478ab5ad83f9a1a00bbc27c4371b8ddd864db8375"
+  },
+  {
+    "id": "A02-tw-implicit",
+    "category": "actual",
+    "locale": "zh-TW",
+    "key": "ui:VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.:/VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.",
+    "source": "VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.",
+    "target": "在VIP聚會的陌生面孔間，我先打了招呼。離開時，有個人問起下次見面的事。",
+    "reason": "Actual approved TW: 有個人 is an indefinite singular with 一 omitted.",
+    "expected_adapter_active": true,
+    "expected_numeric_pass": true,
+    "normal_base_id": "A02-tw-implicit",
+    "source_sha256": "c1641e0becf2bb364a43d69a9165f50c6c86c57c48935dbe6fcb90d2260cf782",
+    "target_sha256": "ccadd5b71ee360e3915816429e028ec845ebb5e5753537f2e68aab1b18118a3b"
+  },
+  {
+    "id": "N-cn-han",
+    "category": "normal",
+    "locale": "zh-CN",
+    "key": "ui:VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.:/VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.",
+    "source": "VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.",
+    "target": "在VIP聚会的陌生人中，我主动打了招呼。离开时，有一个人问起了下次见面的事。",
+    "reason": "Same departure/asking-person slot, explicit unsigned singular 一; numeric form only.",
+    "expected_adapter_active": true,
+    "expected_numeric_pass": true,
+    "normal_base_id": "N-cn-han",
+    "source_sha256": "c1641e0becf2bb364a43d69a9165f50c6c86c57c48935dbe6fcb90d2260cf782",
+    "target_sha256": "2f02e2928674be99a5e4e9733faa67f6a10ccd6a7390d56381a69a6744c08c92"
+  },
+  {
+    "id": "N-cn-ascii",
+    "category": "normal",
+    "locale": "zh-CN",
+    "key": "ui:VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.:/VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.",
+    "source": "VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.",
+    "target": "在VIP聚会的陌生人中，我主动打了招呼。离开时，有1个人问起了下次见面的事。",
+    "reason": "Same departure/asking-person slot, explicit unsigned singular 1; numeric form only.",
+    "expected_adapter_active": true,
+    "expected_numeric_pass": true,
+    "normal_base_id": "N-cn-ascii",
+    "source_sha256": "c1641e0becf2bb364a43d69a9165f50c6c86c57c48935dbe6fcb90d2260cf782",
+    "target_sha256": "598a70aedcf024ee67050710297254815d4a27cdbc218d35cbb2ff1dab3e5cfa"
+  },
+  {
+    "id": "N-cn-fullwidth",
+    "category": "normal",
+    "locale": "zh-CN",
+    "key": "ui:VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.:/VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.",
+    "source": "VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.",
+    "target": "在VIP聚会的陌生人中，我主动打了招呼。离开时，有１个人问起了下次见面的事。",
+    "reason": "Same departure/asking-person slot, explicit unsigned singular １; numeric form only.",
+    "expected_adapter_active": true,
+    "expected_numeric_pass": true,
+    "normal_base_id": "N-cn-fullwidth",
+    "source_sha256": "c1641e0becf2bb364a43d69a9165f50c6c86c57c48935dbe6fcb90d2260cf782",
+    "target_sha256": "809887ca8f6f37d8cc07f73cdf6230503ea05d59adf276a631a9787095beec48"
+  },
+  {
+    "id": "N-tw-han",
+    "category": "normal",
+    "locale": "zh-TW",
+    "key": "ui:VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.:/VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.",
+    "source": "VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.",
+    "target": "在VIP聚會的陌生面孔間，我先打了招呼。離開時，有一個人問起下次見面的事。",
+    "reason": "Same departure/asking-person slot, explicit unsigned singular 一; numeric form only.",
+    "expected_adapter_active": true,
+    "expected_numeric_pass": true,
+    "normal_base_id": "N-tw-han",
+    "source_sha256": "c1641e0becf2bb364a43d69a9165f50c6c86c57c48935dbe6fcb90d2260cf782",
+    "target_sha256": "143183c8fa56d29008b6d25df6c69f764cfffecdf1f946a8f212dc1d93c105fe"
+  },
+  {
+    "id": "N-tw-ascii",
+    "category": "normal",
+    "locale": "zh-TW",
+    "key": "ui:VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.:/VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.",
+    "source": "VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.",
+    "target": "在VIP聚會的陌生面孔間，我先打了招呼。離開時，有1個人問起下次見面的事。",
+    "reason": "Same departure/asking-person slot, explicit unsigned singular 1; numeric form only.",
+    "expected_adapter_active": true,
+    "expected_numeric_pass": true,
+    "normal_base_id": "N-tw-ascii",
+    "source_sha256": "c1641e0becf2bb364a43d69a9165f50c6c86c57c48935dbe6fcb90d2260cf782",
+    "target_sha256": "f9dceeebda6a862e89f0aa2970d625ca1e09d25cd5877a016e49711dcbfb976a"
+  },
+  {
+    "id": "N-tw-fullwidth",
+    "category": "normal",
+    "locale": "zh-TW",
+    "key": "ui:VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.:/VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.",
+    "source": "VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.",
+    "target": "在VIP聚會的陌生面孔間，我先打了招呼。離開時，有１個人問起下次見面的事。",
+    "reason": "Same departure/asking-person slot, explicit unsigned singular １; numeric form only.",
+    "expected_adapter_active": true,
+    "expected_numeric_pass": true,
+    "normal_base_id": "N-tw-fullwidth",
+    "source_sha256": "c1641e0becf2bb364a43d69a9165f50c6c86c57c48935dbe6fcb90d2260cf782",
+    "target_sha256": "58c75f9f1b2b4914ed08e2060188af9c2db3a1da2e81668913d3d612c7336b1c"
+  },
+  {
+    "id": "N-cn-natural",
+    "category": "normal",
+    "locale": "zh-CN",
+    "key": "ui:VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.:/VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.",
+    "source": "VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.",
+    "target": "在VIP聚会的陌生人中，我主动打了招呼。临走时，有一个人询问下次见面的事。",
+    "reason": "Independent natural departure and asking verbs; one inquirer, no confirmed appointment.",
+    "expected_adapter_active": true,
+    "expected_numeric_pass": true,
+    "normal_base_id": "N-cn-natural",
+    "source_sha256": "c1641e0becf2bb364a43d69a9165f50c6c86c57c48935dbe6fcb90d2260cf782",
+    "target_sha256": "f290f7023483dffb439a1c0c5e84761dc7a6d86128269029d81413ce56f9ff3e"
+  },
+  {
+    "id": "N-tw-natural",
+    "category": "normal",
+    "locale": "zh-TW",
+    "key": "ui:VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.:/VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.",
+    "source": "VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.",
+    "target": "在VIP聚會的陌生面孔間，我先打了招呼。離場時，一個人問起下次碰面的事。",
+    "reason": "Independent natural departure/meeting wording; one inquirer and no added meeting completion.",
+    "expected_adapter_active": true,
+    "expected_numeric_pass": true,
+    "normal_base_id": "N-tw-natural",
+    "source_sha256": "c1641e0becf2bb364a43d69a9165f50c6c86c57c48935dbe6fcb90d2260cf782",
+    "target_sha256": "a01bceb5c6cd830340c33f9bf0b6a03ece93c7758df4dbed0817bfc01e41e0a3"
+  },
+  {
+    "id": "M01-cn-two-digit",
+    "category": "mutant",
+    "locale": "zh-CN",
+    "key": "ui:VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.:/VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.",
+    "source": "VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.",
+    "target": "在VIP聚会的陌生人中，我主动打了招呼。离开时，有2个人问起了下次见面的事。",
+    "reason": "Two people instead of the one departure inquirer.",
+    "expected_adapter_active": true,
+    "expected_numeric_pass": false,
+    "normal_base_id": "N-cn-ascii",
+    "source_sha256": "c1641e0becf2bb364a43d69a9165f50c6c86c57c48935dbe6fcb90d2260cf782",
+    "target_sha256": "3f823a0ccd5cc0a328db6ca777b4dc83aa800a13c5535b7fe32179ab2034214f"
+  },
+  {
+    "id": "M02-tw-four-han",
+    "category": "mutant",
+    "locale": "zh-TW",
+    "key": "ui:VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.:/VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.",
+    "source": "VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.",
+    "target": "在VIP聚會的陌生面孔間，我先打了招呼。離開時，有四個人問起下次見面的事。",
+    "reason": "Four people instead of one.",
+    "expected_adapter_active": true,
+    "expected_numeric_pass": false,
+    "normal_base_id": "N-tw-han",
+    "source_sha256": "c1641e0becf2bb364a43d69a9165f50c6c86c57c48935dbe6fcb90d2260cf782",
+    "target_sha256": "3a7905164e7f95c836f29085e80556687943c40019a433daea231424ac08aee3"
+  },
+  {
+    "id": "M03-cn-two-native",
+    "category": "mutant",
+    "locale": "zh-CN",
+    "key": "ui:VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.:/VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.",
+    "source": "VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.",
+    "target": "在VIP聚会的陌生人中，我主动打了招呼。离开时，有两个人问起了下次见面的事。",
+    "reason": "两 is two, not an alternative spelling for one.",
+    "expected_adapter_active": true,
+    "expected_numeric_pass": false,
+    "normal_base_id": "N-cn-han",
+    "source_sha256": "c1641e0becf2bb364a43d69a9165f50c6c86c57c48935dbe6fcb90d2260cf782",
+    "target_sha256": "84529cc095c3e75ebe53a9b4e69f1cfe9e25ac0f815abb5daf9a9129c12920ce"
+  },
+  {
+    "id": "M04-tw-two-native",
+    "category": "mutant",
+    "locale": "zh-TW",
+    "key": "ui:VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.:/VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.",
+    "source": "VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.",
+    "target": "在VIP聚會的陌生面孔間，我先打了招呼。離開時，有兩個人問起下次見面的事。",
+    "reason": "兩 is two; locale-specific form must not be treated as singular.",
+    "expected_adapter_active": true,
+    "expected_numeric_pass": false,
+    "normal_base_id": "N-tw-han",
+    "source_sha256": "c1641e0becf2bb364a43d69a9165f50c6c86c57c48935dbe6fcb90d2260cf782",
+    "target_sha256": "682330ea7c875f055416be43f03e225d55d22a8f793946c750e386e34742cd7c"
+  },
+  {
+    "id": "M05-cn-person-deleted",
+    "category": "mutant",
+    "locale": "zh-CN",
+    "key": "ui:VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.:/VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.",
+    "source": "VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.",
+    "target": "在VIP聚会的陌生人中，我主动打了招呼。离开时，问起了下次见面的事。",
+    "reason": "The departure asking-person slot is deleted; a scalar elsewhere cannot restore it.",
+    "expected_adapter_active": true,
+    "expected_numeric_pass": false,
+    "normal_base_id": "A01-cn-implicit",
+    "source_sha256": "c1641e0becf2bb364a43d69a9165f50c6c86c57c48935dbe6fcb90d2260cf782",
+    "target_sha256": "7d4ec16bf0eabff27f449bbf7c5888d09de6babb6ed4d9211ecb31d9ef8c0297"
+  },
+  {
+    "id": "M06-tw-group-unit",
+    "category": "mutant",
+    "locale": "zh-TW",
+    "key": "ui:VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.:/VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.",
+    "source": "VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.",
+    "target": "在VIP聚會的陌生面孔間，我先打了招呼。離開時，有一群人問起下次見面的事。",
+    "reason": "One group of people is not one individual; count owner/unit changes.",
+    "expected_adapter_active": true,
+    "expected_numeric_pass": false,
+    "normal_base_id": "N-tw-han",
+    "source_sha256": "c1641e0becf2bb364a43d69a9165f50c6c86c57c48935dbe6fcb90d2260cf782",
+    "target_sha256": "2c8239f2fc6204af309f0c17eb44047776b7de9c79d41bab86fe3c8fb58402fc"
+  },
+  {
+    "id": "M07-cn-positive-sign",
+    "category": "mutant",
+    "locale": "zh-CN",
+    "key": "ui:VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.:/VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.",
+    "source": "VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.",
+    "target": "在VIP聚会的陌生人中，我主动打了招呼。离开时，有+1个人问起了下次见面的事。",
+    "reason": "Source has an unsigned cardinal person count, not signed +1.",
+    "expected_adapter_active": true,
+    "expected_numeric_pass": false,
+    "normal_base_id": "N-cn-ascii",
+    "source_sha256": "c1641e0becf2bb364a43d69a9165f50c6c86c57c48935dbe6fcb90d2260cf782",
+    "target_sha256": "d69314040111cbf95ec08dfb08a385714876d45432ccf3015811544c01b0f836"
+  },
+  {
+    "id": "M08-tw-negative-fullwidth",
+    "category": "mutant",
+    "locale": "zh-TW",
+    "key": "ui:VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.:/VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.",
+    "source": "VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.",
+    "target": "在VIP聚會的陌生面孔間，我先打了招呼。離開時，有－１個人問起下次見面的事。",
+    "reason": "Fullwidth negative sign must not be discarded while normalizing a digit.",
+    "expected_adapter_active": true,
+    "expected_numeric_pass": false,
+    "normal_base_id": "N-tw-fullwidth",
+    "source_sha256": "c1641e0becf2bb364a43d69a9165f50c6c86c57c48935dbe6fcb90d2260cf782",
+    "target_sha256": "28e4cac9b32aad85c45302f72395034816d995e95353085e66b79ec0a4f6dba1"
+  },
+  {
+    "id": "M09-cn-duplicate-slot",
+    "category": "mutant",
+    "locale": "zh-CN",
+    "key": "ui:VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.:/VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.",
+    "source": "VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.",
+    "target": "在VIP聚会的陌生人中，我主动打了招呼。离开时，有个人问起了下次见面的事。离开时，有个人问起了下次见面的事。",
+    "reason": "Duplicate implicit-singular departure/asking slot; exactly one witness is required.",
+    "expected_adapter_active": true,
+    "expected_numeric_pass": false,
+    "normal_base_id": "A01-cn-implicit",
+    "source_sha256": "c1641e0becf2bb364a43d69a9165f50c6c86c57c48935dbe6fcb90d2260cf782",
+    "target_sha256": "5b7996cf4564161b680cbb7ef574e63fd4c5193f50495967a285fd25e6295c6e"
+  },
+  {
+    "id": "M10-tw-count-moved",
+    "category": "mutant",
+    "locale": "zh-TW",
+    "key": "ui:VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.:/VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.",
+    "source": "VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.",
+    "target": "在VIP聚會的陌生面孔間，我先向一個人打了招呼。離開時，大家問起下次見面的事。",
+    "reason": "The single person belongs to greeting, while plural people ask at departure; wrong-slot numeric backfill must fail.",
+    "expected_adapter_active": true,
+    "expected_numeric_pass": false,
+    "normal_base_id": "A02-tw-implicit",
+    "source_sha256": "c1641e0becf2bb364a43d69a9165f50c6c86c57c48935dbe6fcb90d2260cf782",
+    "target_sha256": "bafe6cd5f3353aef3991b1bfd1164cc421212c72eb29f0b63f7c4e64cd27bdbc"
+  },
+  {
+    "id": "M11-cn-extra-person-count",
+    "category": "mutant",
+    "locale": "zh-CN",
+    "key": "ui:VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.:/VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.",
+    "source": "VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.",
+    "target": "在VIP聚会的陌生人中，我主动打了招呼。离开时，有一个人问起了下次见面的事。又有两个人也问起下次见面的事。",
+    "reason": "Valid one-person slot plus extra two-person quantity; normalization must not mask remainder quantities.",
+    "expected_adapter_active": true,
+    "expected_numeric_pass": false,
+    "normal_base_id": "N-cn-han",
+    "source_sha256": "c1641e0becf2bb364a43d69a9165f50c6c86c57c48935dbe6fcb90d2260cf782",
+    "target_sha256": "33b09b55404e7a840cde21bf07a044fce37d640f98c47dc13ff8e6a0733b5694"
+  },
+  {
+    "id": "M12-tw-plural",
+    "category": "mutant",
+    "locale": "zh-TW",
+    "key": "ui:VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.:/VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.",
+    "source": "VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.",
+    "target": "在VIP聚會的陌生面孔間，我先打了招呼。離開時，有些人問起下次見面的事。",
+    "reason": "Plural some people is not the source's one person.",
+    "expected_adapter_active": true,
+    "expected_numeric_pass": false,
+    "normal_base_id": "A02-tw-implicit",
+    "source_sha256": "c1641e0becf2bb364a43d69a9165f50c6c86c57c48935dbe6fcb90d2260cf782",
+    "target_sha256": "310dcf233f912da6bef0466ee408758be5aad13245c058ab6b6a0aa02fcded55"
+  },
+  {
+    "id": "M13-cn-extra-time",
+    "category": "mutant",
+    "locale": "zh-CN",
+    "key": "ui:VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.:/VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.",
+    "source": "VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.",
+    "target": "在VIP聚会的陌生人中，我主动打了招呼。离开时，有个人问起了下次见面的事，还说要等2天。",
+    "reason": "Valid implicit-person slot plus a new two-day quantity outside it; ordinary numeric checks must remain active.",
+    "expected_adapter_active": true,
+    "expected_numeric_pass": false,
+    "normal_base_id": "A01-cn-implicit",
+    "source_sha256": "c1641e0becf2bb364a43d69a9165f50c6c86c57c48935dbe6fcb90d2260cf782",
+    "target_sha256": "8086abccbfcbf1dca2a48ceb54d5855e8ce50a376af83e318fb52b814db1ba3c"
+  },
+  {
+    "id": "M14-tw-person-recipient",
+    "category": "mutant",
+    "locale": "zh-TW",
+    "key": "ui:VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.:/VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.",
+    "source": "VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.",
+    "target": "在VIP聚會的陌生面孔間，我先打了招呼。離開時，我向一個人問起下次見面的事。",
+    "reason": "One person becomes the question's recipient and the protagonist asks; the licensed person-as-inquirer role is absent.",
+    "expected_adapter_active": true,
+    "expected_numeric_pass": false,
+    "normal_base_id": "N-tw-han",
+    "source_sha256": "c1641e0becf2bb364a43d69a9165f50c6c86c57c48935dbe6fcb90d2260cf782",
+    "target_sha256": "c3c3a73b2dc7bd00c7e614fcaa9e7effeead07a5f0175d6868886b9c8950a2f5"
+  },
+  {
+    "id": "O01-cn-legacy-alias",
+    "category": "off",
+    "locale": "zh-CN",
+    "key": "ui::0000::835170ad24e8",
+    "source": "VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.",
+    "target": "在VIP聚会的陌生人中，我主动打了招呼。离开时，有个人问起了下次见面的事。",
+    "reason": "An inventory alias is not the canonical full UI leaf key.",
+    "expected_adapter_active": false,
+    "expected_numeric_pass": false,
+    "normal_base_id": null,
+    "comparison": "numeric result and full validate_text result must equal frozen baseline for the same exact inputs",
+    "source_sha256": "c1641e0becf2bb364a43d69a9165f50c6c86c57c48935dbe6fcb90d2260cf782",
+    "target_sha256": "515bd05dde01a869b1e3885478ab5ad83f9a1a00bbc27c4371b8ddd864db8375"
+  },
+  {
+    "id": "O02-tw-event-key",
+    "category": "off",
+    "locale": "zh-TW",
+    "key": "events:vip_empty:/description",
+    "source": "VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.",
+    "target": "在VIP聚會的陌生面孔間，我先打了招呼。離開時，有個人問起下次見面的事。",
+    "reason": "The same prose at an event key is outside the exact UI ownership gate.",
+    "expected_adapter_active": false,
+    "expected_numeric_pass": false,
+    "normal_base_id": null,
+    "comparison": "numeric result and full validate_text result must equal frozen baseline for the same exact inputs",
+    "source_sha256": "c1641e0becf2bb364a43d69a9165f50c6c86c57c48935dbe6fcb90d2260cf782",
+    "target_sha256": "ccadd5b71ee360e3915816429e028ec845ebb5e5753537f2e68aab1b18118a3b"
+  },
+  {
+    "id": "O03-cn-source-whitespace",
+    "category": "off",
+    "locale": "zh-CN",
+    "key": "ui:VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.:/VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.",
+    "source": "VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다. ",
+    "target": "在VIP聚会的陌生人中，我主动打了招呼。离开时，有个人问起了下次见面的事。",
+    "reason": "Keep the original canonical key but change the complete KO by one trailing space; full-source gate must switch OFF.",
+    "expected_adapter_active": false,
+    "expected_numeric_pass": false,
+    "normal_base_id": null,
+    "comparison": "numeric result and full validate_text result must equal frozen baseline for the same exact inputs",
+    "source_sha256": "fe599ac9397068634cf97fb88ce9163726975948e583ec18ce644670a96ad841",
+    "target_sha256": "515bd05dde01a869b1e3885478ab5ad83f9a1a00bbc27c4371b8ddd864db8375"
+  },
+  {
+    "id": "O04-tw-source-two",
+    "category": "off",
+    "locale": "zh-TW",
+    "key": "ui:VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.:/VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.",
+    "source": "VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 두 사람이 다음 약속을 물었다.",
+    "target": "在VIP聚會的陌生面孔間，我先打了招呼。離開時，有個人問起下次見面的事。",
+    "reason": "Keep the original canonical key but change one to two in KO; no repaired projection may override changed source quantity.",
+    "expected_adapter_active": false,
+    "expected_numeric_pass": false,
+    "normal_base_id": null,
+    "comparison": "numeric result and full validate_text result must equal frozen baseline for the same exact inputs",
+    "source_sha256": "11eff5c388515e08301d1100979ddd807b7402af6f5116b75828c9db0ff40b30",
+    "target_sha256": "ccadd5b71ee360e3915816429e028ec845ebb5e5753537f2e68aab1b18118a3b"
+  },
+  {
+    "id": "O05-ja-locale",
+    "category": "off",
+    "locale": "ja",
+    "key": "ui:VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.:/VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.",
+    "source": "VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.",
+    "target": "在VIP聚会的陌生人中，我主动打了招呼。离开时，有个人问起了下次见面的事。",
+    "reason": "JA is outside the two allowed Chinese locales. Chinese numeric scalar expectation is separate from locale validation.",
+    "expected_adapter_active": false,
+    "expected_numeric_pass": false,
+    "normal_base_id": null,
+    "comparison": "numeric result and full validate_text result must equal frozen baseline for the same exact inputs",
+    "source_sha256": "c1641e0becf2bb364a43d69a9165f50c6c86c57c48935dbe6fcb90d2260cf782",
+    "target_sha256": "515bd05dde01a869b1e3885478ab5ad83f9a1a00bbc27c4371b8ddd864db8375"
+  },
+  {
+    "id": "O06-en-locale",
+    "category": "off",
+    "locale": "en",
+    "key": "ui:VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.:/VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.",
+    "source": "VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.",
+    "target": "在VIP聚會的陌生面孔間，我先打了招呼。離開時，有個人問起下次見面的事。",
+    "reason": "EN is outside the two allowed Chinese locales; no general language or locale waiver.",
+    "expected_adapter_active": false,
+    "expected_numeric_pass": false,
+    "normal_base_id": null,
+    "comparison": "numeric result and full validate_text result must equal frozen baseline for the same exact inputs",
+    "source_sha256": "c1641e0becf2bb364a43d69a9165f50c6c86c57c48935dbe6fcb90d2260cf782",
+    "target_sha256": "ccadd5b71ee360e3915816429e028ec845ebb5e5753537f2e68aab1b18118a3b"
+  }
+]''')
+        baseline_off = json.loads(r'''{
+  "O01-cn-legacy-alias": {
+    "numeric_errors": [
+      "counter quantity missing/changed: expected (entity, 1), target candidates=[]"
+    ],
+    "validate_errors": [
+      "counter quantity missing/changed: expected (entity, 1), target candidates=[]"
+    ]
+  },
+  "O02-tw-event-key": {
+    "numeric_errors": [
+      "counter quantity missing/changed: expected (entity, 1), target candidates=[]"
+    ],
+    "validate_errors": [
+      "counter quantity missing/changed: expected (entity, 1), target candidates=[]"
+    ]
+  },
+  "O03-cn-source-whitespace": {
+    "numeric_errors": [
+      "counter quantity missing/changed: expected (entity, 1), target candidates=[]"
+    ],
+    "validate_errors": [
+      "counter quantity missing/changed: expected (entity, 1), target candidates=[]"
+    ]
+  },
+  "O04-tw-source-two": {
+    "numeric_errors": [
+      "counter quantity missing/changed: expected (entity, 2), target candidates=[]"
+    ],
+    "validate_errors": [
+      "counter quantity missing/changed: expected (entity, 2), target candidates=[]"
+    ]
+  },
+  "O05-ja-locale": {
+    "numeric_errors": [
+      "counter quantity missing/changed: expected (entity, 1), target candidates=[]"
+    ],
+    "validate_errors": [
+      "unsupported Chinese locale 'ja'"
+    ]
+  },
+  "O06-en-locale": {
+    "numeric_errors": [
+      "counter quantity missing/changed: expected (entity, 1), target candidates=[]"
+    ],
+    "validate_errors": [
+      "unsupported Chinese locale 'en'"
+    ]
+  }
+}''')
+        self.assertEqual(tool.digest(cases), "499735e5ae88e7c907b21631271d75de9d44181147130580ea9e85d94139519c")
+        self.assertEqual(len(cases), 30)
+        by_id = {case["id"]: case for case in cases}
+        passed_bases = set()
+        for case in cases:
+            with self.subTest(case=case["id"]):
+                source, target = case["source"], case["target"]
+                self.assertEqual(hashlib.sha256(source.encode("utf-8")).hexdigest(),
+                                 case["source_sha256"])
+                self.assertEqual(hashlib.sha256(target.encode("utf-8")).hexdigest(),
+                                 case["target_sha256"])
+                adapted = zh._ui_vip_empty_person_numbers(
+                    case["locale"], case["key"], source, target)
+                self.assertEqual(adapted is not None, case["expected_adapter_active"])
+                if adapted is None:
+                    numeric = zh._numeric_errors(source, target)
+                else:
+                    numeric_source, numeric_target, local_errors = adapted
+                    numeric = local_errors + zh._numeric_errors(numeric_source, numeric_target)
+                validation = zh.validate_text(case["locale"], case["key"], source, target)
+                self.assertEqual(not numeric, case["expected_numeric_pass"], numeric)
+                if case["category"] == "off":
+                    self.assertEqual(numeric, baseline_off[case["id"]]["numeric_errors"])
+                    self.assertEqual(validation, baseline_off[case["id"]]["validate_errors"])
+                else:
+                    self.assertEqual(not validation, case["expected_numeric_pass"], validation)
+                    if case["category"] == "mutant":
+                        self.assertIn(case["normal_base_id"], by_id)
+                        self.assertIn(case["normal_base_id"], passed_bases)
+                    elif not numeric and not validation:
+                        passed_bases.add(case["id"])
+
+
     def setUp(self):
         self.leaf = tool.Leaf("endings", "example", "content/endings.json", ("title",),
                               "다음 주", "ending")

@@ -1,3 +1,29 @@
+## 2026-09-10 (Codex — ORDER-231 초기 코어22종 번역)
+
+- JA/CN/TW 각140 KO 직접 저작·비저자 전량 대조, 필수2/권고3 정밀화 뒤420 수용.
+  누적37,942(JA12,646/CN·TW12,648)/b91/meta9. 비보호 shipping 사건 텍스트 결손0,
+  보호/author-only·UI·소비자·실제 표시·원어민은 별도 미완료다.
+- 실제 오탐 exact source만 수리. 고정212 기대 보존, 전체수용 L1 오류0/738입력1회,
+  명시12 첫 self CLI실패→동일12 PASS/743입력·self250. literal 형식수리만 전체ASTexact.
+  첫 locale인자 누락·형식실패·불필요 --help 실제250추가실행1을 원형으로 기록했다.
+- 제품20560eb5/tree05bd9f69, 독립 Poincare work_unit231 한정 GO/필수0.
+  [결과·실패·선언 원형](queue_archive/ORDER-231_L1_L2_RESULTS.md). 공개/인간 원형 보존,
+  본편 HOLD·native/render OPEN. 자동 계약 검사는 재미·깊이·문체 판정이 아니다.
+- WORK 말미 과거4절5460B를 history에 LF1+raw 이동, 나머지 원형 보존.
+  기존 현지화/판정 정본 유지, 이번 선택·파일·마감은 일회성. 다음 UI불러오기24키는
+  원문·소비자 사전조사만 완료했으며 아직 번역/수용으로 세지 않는다.
+
+## 2026-09-10 (Codex — ORDER-230 이스터에그·초기 코어20종 번역)
+
+- JA/CN/TW 각116 직접 저작·비저자 전량 대조 뒤348 수용. 누적37,522/b90/meta9,
+  비보호 사건 잔여22종140문구/언어. JA3·TW4 정밀화, 첫 실패 원형 보존.
+- 실제 오탐만 exact source-bound 수리. 고정 JA33/ZH153·self248, 전체수용 L1
+  오류0/734입력·명시12 PASS/739입력 전후 exact. Godot/full/240 재실행0.
+- 제품e38dbe54/tree7314e95c, 독립 Plato work_unit230 한정 GO/필수0.
+  [결과·선언 원형](queue_archive/ORDER-230_L1_L2_RESULTS.md). 공개·인간 원형 보존,
+  본편 HOLD·native/render OPEN. 다음22 원문 독립조사 완료, 번역은 아직0.
+- 기존 현지화/판정 정본 유지, 이번 선택·파일·마감 순서는 일회성. 과거 이력 이동0.
+
 ## 2026-09-10 (Codex — ORDER-229 후반·NG+22종 번역)
 
 - JA/CN/TW 각197 KO 직접 저작·비저자 전량 대조, 정밀화10 뒤591 수용.

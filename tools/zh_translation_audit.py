@@ -8574,6 +8574,49 @@ def _ui_third_party_notice_numbers(lang: str, key: str, source: str, target: str
     return "", "", []
 
 
+def _ui_vip_empty_person_numbers(lang: str, key: str, source: str, target: str):
+    """Restore omitted 一 only in the exact VIP departure/inquirer slot.
+
+    This finite UI grammar checks one person asking about the next meeting,
+    not a completed appointment or an arbitrary classifier elsewhere. Only
+    numeric validation receives the insertion; every other check receives the
+    original target. Edited source/key and non-Chinese locales stay OFF.
+    """
+    expected = "VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다."
+    if lang not in LANGUAGES or source != expected or \
+            key != "ui:" + expected + ":/" + expected:
+        return None
+    digits = r"0-9０-９零〇一二两兩三四五六七八九十百千万萬亿億"
+    person = rf"(?:有(?P<implicit>[个個])人|(?:有)?(?P<n>[{digits}]+)[个個]人)"
+    departure = r"(?:离开|临走|离席)时|(?:離開|臨走|離場|離席)時"
+    question = r"(?:问起|询问|問起|詢問)(?:了)?(?:下次|下一次)(?:见面|見面|碰面)的事"
+    matches = list(re.finditer(
+        rf"(?:^|[。！？!?；;\n])[ \t]*(?:{departure})[，,][ \t]*"
+        rf"{person}{question}(?=[，,。！？!?；;\n]|$)", target,
+    ))
+    if len(matches) != 1:
+        return source, target, ["source-bound VIP departure single-inquirer role/count mismatch"]
+    match = matches[0]
+    errors = []
+    if match.group("n") is not None:
+        raw = unicodedata.normalize("NFKC", match.group("n"))
+        if _chinese_cardinal_value(raw) != 1:
+            errors.append("source-bound VIP inquirer cardinality mismatch")
+    # Do not borrow a count from the greeting or accept a duplicated person
+    # elsewhere. The general numeric parser still checks all remaining text.
+    mentions = list(re.finditer(
+        rf"有[个個]人|(?:有)?[{digits}]+(?:[个個]人|[名位]人?)", target,
+    ))
+    if len(mentions) != 1 or not (
+            match.start() <= mentions[0].start() < mentions[0].end() <= match.end()):
+        errors.append("source-bound VIP extra/moved person quantity mismatch")
+    numeric_target = target
+    if match.group("implicit") is not None:
+        at = match.start("implicit")
+        numeric_target = target[:at] + "一" + target[at:]
+    return source, numeric_target, errors
+
+
 def _ui_ending_record_numbers(lang: str, key: str, source: str, target: str):
     """Compare typed quantities in three exact ending-record UI sources.
 
@@ -8749,6 +8792,9 @@ def validate_text(lang: str, key: str, source: str, target: Any) -> list[str]:
     restart = _ui_ending_restart_contract(lang, key, source, target)
     if restart is not None:
         notice_numbers = (*restart["numeric_pair"], restart["errors"])
+    vip_numbers = _ui_vip_empty_person_numbers(lang, key, source, target)
+    if vip_numbers is not None:
+        notice_numbers = vip_numbers
     if notice_numbers is None:
         errors.extend(_numeric_errors(source, target))
     else:
