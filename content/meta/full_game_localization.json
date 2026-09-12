@@ -3560,6 +3560,52 @@
       "machine_validation": "PASS",
       "rendered_review": "OPEN",
       "native_review": "OPEN"
+    },
+    {
+      "order": "ORDER-240",
+      "group": "ui",
+      "roots": [
+        "VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.",
+        "가까운 사이",
+        "가끔 먼저 연락이 오는 사이",
+        "공부한 내용을 다시 물어볼 수 있는 사람",
+        "관계",
+        "내 사람들",
+        "누군가",
+        "느슨한 인연",
+        "늦은 답장도 기다려 주는 친구",
+        "다음 투자를 함께 읽고 이유까지 묻는 사람",
+        "말이 끊겨도 전화를 바로 끊지 않는 가족",
+        "먼저 연락하고 새로운 자리에 함께 가는 친구",
+        "멀어진 관계",
+        "멘토",
+        "불안한 관계",
+        "비즈니스",
+        "새 소식을 가끔 건네는 사이",
+        "신뢰",
+        "아직 기록된 인연이 없습니다. 이야기를 진행하며 맺은 인연이 여기에 표시됩니다.",
+        "연애 관련",
+        "운명 공동체",
+        "위기 때 먼저 전화하고 실제 비용도 함께 드는 가족",
+        "이름을 걸고 수익 기회를 함께 검토하는 사이",
+        "인연",
+        "읽어 볼 것을 가끔 건네는 사람",
+        "작은 일거리를 먼저 묻는 사이",
+        "지친 날 먼저 안부를 묻는 사이",
+        "친구",
+        "호감",
+        "힘든 밤과 생활비를 함께 상의하는 사이"
+      ],
+      "source_leaves": 30,
+      "target_leaves_by_locale": {
+        "ja": 30,
+        "zh-CN": 30,
+        "zh-TW": 30
+      },
+      "source_review": "Direct Korean review of relationship panel labels, affection summaries, hints and fallbacks in two functional groups of fifteen. Neutral romance category and story-only empty guidance preserve saved relationship stages, names and effects. Actual isolated component checks are not native or rendered play.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN"
     }
   ],
   "accepted": {
@@ -54887,6 +54933,126 @@
       "ui:카페 단골 친구:/카페 단골 친구": {
         "source_sha256": "7727ce9e0ca4954d7af6fe4060724a221c1ae1523864e70a81dc9d7b2bd00cc6",
         "target_sha256": "8a743acb05dca795b43f554bcc3f46f6ed1db5a891c6698eac7e958903aefde6"
+      },
+      "ui:VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.:/VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.": {
+        "source_sha256": "835170ad24e80addba09fa9923dced17e627339893cca7b707c62978f5368543",
+        "target_sha256": "81c7f77ac735cc79895612415623b8816b42195e3c54f50ebd614ba9626c623c"
+      },
+      "ui:가까운 사이:/가까운 사이": {
+        "source_sha256": "b74882449a877dcdea9b8ae293d1abe83dee09bfe82d4ca9a71f9944a30db7e6",
+        "target_sha256": "6bf189ab191f13d424e27671503dd9f5bfb9fbd34d508e4dd79f7e023146c02b"
+      },
+      "ui:가끔 먼저 연락이 오는 사이:/가끔 먼저 연락이 오는 사이": {
+        "source_sha256": "e6789ea5d5d7abdd682f872dda9c93f2e4b33bf82b34dea6a6abc3d57918c6bf",
+        "target_sha256": "6ad596ad1623f53b6a57e6b75bce594f9b9d4798ae6f3c7b644b798073cdd1ad"
+      },
+      "ui:공부한 내용을 다시 물어볼 수 있는 사람:/공부한 내용을 다시 물어볼 수 있는 사람": {
+        "source_sha256": "2d7ca5b42cfe91bfd42e168dc82b0e7bb40b6b117710fc76384cdfc397d69530",
+        "target_sha256": "36b15f434071bafcffcc0690c0fc2e0cd03857c567573268460172dd8614e669"
+      },
+      "ui:관계:/관계": {
+        "source_sha256": "53ed89314a0ab8e5849b022eb551516cc38ea723202af6501b26619782aa53bf",
+        "target_sha256": "e3ce7ebd7bc058f8f333fa8edf53cc9b7e9d62a3c1882a81fc33e65e86488c36"
+      },
+      "ui:내 사람들:/내 사람들": {
+        "source_sha256": "5fe55f7f67e7145502bb34dfbf8981a00aab87bc7ff65ff33976ebf705ba5e1e",
+        "target_sha256": "863595a1d3fa5f6146b765196b87cb1a179eecc03346ff071ab3a9c63b483051"
+      },
+      "ui:누군가:/누군가": {
+        "source_sha256": "76826761f5d7c9b5bda838e5e14d0d0154f7dc7db9757c5ff9437421676f2c49",
+        "target_sha256": "d04b2fe525e10aef1b91bb60b3496ffbeb70ff9d1b365afa7779970ec368f3ef"
+      },
+      "ui:느슨한 인연:/느슨한 인연": {
+        "source_sha256": "a2e3651302269f9409f17078b9b248258c071e829048db7e759bcd4679fdc075",
+        "target_sha256": "f0d8988675d1aa31bfa1be3d12cb9dd329c0ee148aaf8d73757f3cc606252ad0"
+      },
+      "ui:늦은 답장도 기다려 주는 친구:/늦은 답장도 기다려 주는 친구": {
+        "source_sha256": "fd872fb4dc30441526ddb9a59bcf55bc74af3bbf51f65a43bc7b20a143d8d3d8",
+        "target_sha256": "69e70af93d38b1b7578748a28d601a2ba9927e8c328f84e33ffd485ea98134be"
+      },
+      "ui:다음 투자를 함께 읽고 이유까지 묻는 사람:/다음 투자를 함께 읽고 이유까지 묻는 사람": {
+        "source_sha256": "4c0d096188f9048e6034faf067ecaaa0e68807f6cd0e5a29fc5ed5df4f9efee8",
+        "target_sha256": "dbb58e9c069cc78f62b431988920d4a4afa87972cddc6c51c5508374cfb16a0c"
+      },
+      "ui:말이 끊겨도 전화를 바로 끊지 않는 가족:/말이 끊겨도 전화를 바로 끊지 않는 가족": {
+        "source_sha256": "0f4201ecea73da19f7d7b015a07e9c060340fa125452dd44a919eab96839fce8",
+        "target_sha256": "3684d025ccde4ef07a10918fa0bca1cbd97bbd717e6b346be916bbb8c47f8e2e"
+      },
+      "ui:먼저 연락하고 새로운 자리에 함께 가는 친구:/먼저 연락하고 새로운 자리에 함께 가는 친구": {
+        "source_sha256": "ac0c7bb021277baa74cf7097e69d35991e964f893b5d2160b4a776a0f8a06fb6",
+        "target_sha256": "34d27ecc0fa07e3a2297b3b120ea25a07973cd9f5963b8553b3c1da753ad81de"
+      },
+      "ui:멀어진 관계:/멀어진 관계": {
+        "source_sha256": "e0c7924c28b5aec2e08635ded7aa09ec4b064b31e108d3e0f3b52ce7c5a5ea1d",
+        "target_sha256": "73ed44aab253a45d8474ba94d3fc1ac61b44d5c83eb95f7fc83d12cffb03206a"
+      },
+      "ui:멘토:/멘토": {
+        "source_sha256": "d57f333c9f0833a78b7d470c27800d81c83802b0f94e9242ce8c8fc87b75e25f",
+        "target_sha256": "901cf68f1079019c1ef4b2c54a0c783c5feef41c2164f528a9f03db4bc18cdbf"
+      },
+      "ui:불안한 관계:/불안한 관계": {
+        "source_sha256": "e47d77f443c896e2023c4f7571ac2059ba4498541d9ff2bcddbf45b4b799955e",
+        "target_sha256": "9d7b3c0a7eaa2baa9b496b60149078f9431c3175e24f17274f29b1575670563e"
+      },
+      "ui:비즈니스:/비즈니스": {
+        "source_sha256": "b700ed9af2a95e13034f877ddd69c25dd31f76dd2b2deaffec72d2c0c560bb45",
+        "target_sha256": "2a9bbf666814f2173c9c02e0fa2a678371b0acd1ac7958d66af5309a0fe2cdc0"
+      },
+      "ui:새 소식을 가끔 건네는 사이:/새 소식을 가끔 건네는 사이": {
+        "source_sha256": "b3ac74e8750e80f72055f7f30ab1a7ced1b827c0fc46d843caec6fcc91708236",
+        "target_sha256": "4b98ff70976c45f237038107cd6b55064c60c2b7f88e1fea17ee2beaed599201"
+      },
+      "ui:신뢰:/신뢰": {
+        "source_sha256": "04d5adc6a1f4d5a1ac350e23e34392a53627f7e8146289d511fdac075cb6f0b8",
+        "target_sha256": "7a6a42c2c6808715517554c07ec5b0a04fdb27a913ee19025cffe5d085c11cc9"
+      },
+      "ui:아직 기록된 인연이 없습니다. 이야기를 진행하며 맺은 인연이 여기에 표시됩니다.:/아직 기록된 인연이 없습니다. 이야기를 진행하며 맺은 인연이 여기에 표시됩니다.": {
+        "source_sha256": "58385b0b1fad8d0b57056dc7f1a5a80f0c8d9de11c16c72763c866277a917918",
+        "target_sha256": "5cada93e74fb2de85ac59814dc90e51ee5eff47eb360ac08fd2331cc745d8801"
+      },
+      "ui:연애 관련:/연애 관련": {
+        "source_sha256": "42cc27624b688b0603919718ceb078b1dc1b50677b0d11d254ed0b2371066ce8",
+        "target_sha256": "4e05fa728a1e4292fc55242f4a7e4a72a03173b7e6ef49fe031dc1f90162c9f3"
+      },
+      "ui:운명 공동체:/운명 공동체": {
+        "source_sha256": "0c09dee5c99fe76e899355b5526c8bf2005e661555115fadc94a6a4cd98df3e6",
+        "target_sha256": "dcdd22eba7828119a42aaf47019749c6c051d3934f607cd1fafe7f9761e64c31"
+      },
+      "ui:위기 때 먼저 전화하고 실제 비용도 함께 드는 가족:/위기 때 먼저 전화하고 실제 비용도 함께 드는 가족": {
+        "source_sha256": "eae051c6af0b3059a76426ddb25eb82b1fbbc3412a1104d1b629dd36d30c61cf",
+        "target_sha256": "53a6bd25da762605fef753e36abc62d507b614fad5335d9659ec99e18d08240d"
+      },
+      "ui:이름을 걸고 수익 기회를 함께 검토하는 사이:/이름을 걸고 수익 기회를 함께 검토하는 사이": {
+        "source_sha256": "626029012e67d6761f79644c4f868f39cb655dd5cc2a5f2bfc94124471f3bf01",
+        "target_sha256": "6ef1e31da424d5211ed2106e73241ce9da41dabf6dc9e42511bce9300064cfac"
+      },
+      "ui:인연:/인연": {
+        "source_sha256": "2baea6965ce77c08d1026320a1eb2a3106df7fc26dbdd41c81def5d36086af90",
+        "target_sha256": "03de2349a5ae330edbafbfaea303399d059b88ae660357f3f63ab0e42c6bab9e"
+      },
+      "ui:읽어 볼 것을 가끔 건네는 사람:/읽어 볼 것을 가끔 건네는 사람": {
+        "source_sha256": "cd0b8540b32aa63b3e9e595e97e88543da36f27b90f7311e28fc4f0a7d46c262",
+        "target_sha256": "0d84e2ca01b567b685d6584d4e3edccc6941907a3559c89a95c9ae2f9b3c21f5"
+      },
+      "ui:작은 일거리를 먼저 묻는 사이:/작은 일거리를 먼저 묻는 사이": {
+        "source_sha256": "60e125d7e5006d85930565ac4958c4c135fe3289e32cd4fe51ce3e3237e54484",
+        "target_sha256": "8fbd520c63876e89dee0e27f5f4d1dc4dbb1c900f6bab57abeb31f14948aaa6b"
+      },
+      "ui:지친 날 먼저 안부를 묻는 사이:/지친 날 먼저 안부를 묻는 사이": {
+        "source_sha256": "0e87cf3d4f7bced5199099c0d4e6ae33ac4ea89386c5144515cd704129f592f1",
+        "target_sha256": "f179e5b483e3180cd81157b23445bbef9af9bc860d5f45bd00b698e929dc87bf"
+      },
+      "ui:친구:/친구": {
+        "source_sha256": "7f43a26ab08f23cf41c390920e36bab1bbb1a48a5c8c6b60054010a06fe085e4",
+        "target_sha256": "52be2f8dcf02f8d38ce9a62bbf55b098e0e95526b18b2a7493ec040680b0f940"
+      },
+      "ui:호감:/호감": {
+        "source_sha256": "9cd7ef20bd81b41313c6523424a4113eebc60d99fb8291b2bfbb8ca859d072de",
+        "target_sha256": "e1e354e61bfe99e488f7388a0bfec347f009bb88fbd81c41228df9b5a19daa93"
+      },
+      "ui:힘든 밤과 생활비를 함께 상의하는 사이:/힘든 밤과 생활비를 함께 상의하는 사이": {
+        "source_sha256": "0221a45b53595ab6fbad9a7171370560be86771c67c3923470486aae98cd2424",
+        "target_sha256": "3bcc4c59bb6870cd5c363866a1ba7ea6e53add60e42158914c99e9c0721412ca"
       }
     },
     "zh-CN": {
@@ -106221,6 +106387,126 @@
       "ui:카페 단골 친구:/카페 단골 친구": {
         "source_sha256": "7727ce9e0ca4954d7af6fe4060724a221c1ae1523864e70a81dc9d7b2bd00cc6",
         "target_sha256": "245b2d82d7bae3b3c9afe7de37f9842156612b1743ead77fa79fe805cd4b61b1"
+      },
+      "ui:VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.:/VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.": {
+        "source_sha256": "835170ad24e80addba09fa9923dced17e627339893cca7b707c62978f5368543",
+        "target_sha256": "1c18f0e1779bb17192afc9f2d237e0e287f9e57997a154d2016f1a72325d1320"
+      },
+      "ui:가까운 사이:/가까운 사이": {
+        "source_sha256": "b74882449a877dcdea9b8ae293d1abe83dee09bfe82d4ca9a71f9944a30db7e6",
+        "target_sha256": "813b3aadc9d7f36a9e74213c36441aa9e9d8db52b2e0f8064fcd033c51235c9d"
+      },
+      "ui:가끔 먼저 연락이 오는 사이:/가끔 먼저 연락이 오는 사이": {
+        "source_sha256": "e6789ea5d5d7abdd682f872dda9c93f2e4b33bf82b34dea6a6abc3d57918c6bf",
+        "target_sha256": "e669b4df0e6acc28de8b017cf77eb8168ba2fbdbb4cbae45250751dcfb162eda"
+      },
+      "ui:공부한 내용을 다시 물어볼 수 있는 사람:/공부한 내용을 다시 물어볼 수 있는 사람": {
+        "source_sha256": "2d7ca5b42cfe91bfd42e168dc82b0e7bb40b6b117710fc76384cdfc397d69530",
+        "target_sha256": "5a4f811f998d256890d668669164cab31d9b1fe9ef348e021f3a14c687913c9d"
+      },
+      "ui:관계:/관계": {
+        "source_sha256": "53ed89314a0ab8e5849b022eb551516cc38ea723202af6501b26619782aa53bf",
+        "target_sha256": "62e82148acfe5e9bd8067b756f916655a75ad84a50e2e6119832b4e46fe9d6bf"
+      },
+      "ui:내 사람들:/내 사람들": {
+        "source_sha256": "5fe55f7f67e7145502bb34dfbf8981a00aab87bc7ff65ff33976ebf705ba5e1e",
+        "target_sha256": "523caa03064a58e5ec6025a29ebc10a16c3f7635ef5adb2123b2415f005709eb"
+      },
+      "ui:누군가:/누군가": {
+        "source_sha256": "76826761f5d7c9b5bda838e5e14d0d0154f7dc7db9757c5ff9437421676f2c49",
+        "target_sha256": "7a011bb978c2d9c04ad8e59dc6f73a03436ea8e1f7e008a16cb0754f22a41070"
+      },
+      "ui:느슨한 인연:/느슨한 인연": {
+        "source_sha256": "a2e3651302269f9409f17078b9b248258c071e829048db7e759bcd4679fdc075",
+        "target_sha256": "438162784b5019deb211d4db3b060c0359937f42e51dfa4f33ef5aed21572be1"
+      },
+      "ui:늦은 답장도 기다려 주는 친구:/늦은 답장도 기다려 주는 친구": {
+        "source_sha256": "fd872fb4dc30441526ddb9a59bcf55bc74af3bbf51f65a43bc7b20a143d8d3d8",
+        "target_sha256": "c0b51c7765e34fe2316e1877b64c0e9b8a5c25f502f2ab36e7a01d04936d3bca"
+      },
+      "ui:다음 투자를 함께 읽고 이유까지 묻는 사람:/다음 투자를 함께 읽고 이유까지 묻는 사람": {
+        "source_sha256": "4c0d096188f9048e6034faf067ecaaa0e68807f6cd0e5a29fc5ed5df4f9efee8",
+        "target_sha256": "2f5dac0232426d3e03ef25ac9625fc99f3ae2d7b2f194eb138596bc701969e8b"
+      },
+      "ui:말이 끊겨도 전화를 바로 끊지 않는 가족:/말이 끊겨도 전화를 바로 끊지 않는 가족": {
+        "source_sha256": "0f4201ecea73da19f7d7b015a07e9c060340fa125452dd44a919eab96839fce8",
+        "target_sha256": "01c4961b874b9b8b98432a56e1e504f2c947a327ecf640764e0c7e00f61c9703"
+      },
+      "ui:먼저 연락하고 새로운 자리에 함께 가는 친구:/먼저 연락하고 새로운 자리에 함께 가는 친구": {
+        "source_sha256": "ac0c7bb021277baa74cf7097e69d35991e964f893b5d2160b4a776a0f8a06fb6",
+        "target_sha256": "15ca97a39a3487cbb4d594f263002b101e22f213b8e10496b0712b4f92d1cfd0"
+      },
+      "ui:멀어진 관계:/멀어진 관계": {
+        "source_sha256": "e0c7924c28b5aec2e08635ded7aa09ec4b064b31e108d3e0f3b52ce7c5a5ea1d",
+        "target_sha256": "c662889736f8847c73feeb894d8b20848685494b25a312f0bac79151f12b7b48"
+      },
+      "ui:멘토:/멘토": {
+        "source_sha256": "d57f333c9f0833a78b7d470c27800d81c83802b0f94e9242ce8c8fc87b75e25f",
+        "target_sha256": "f29580a1f9f861f4c40e9d18626626b8dcca72031e53a1b7081648fba59e15d3"
+      },
+      "ui:불안한 관계:/불안한 관계": {
+        "source_sha256": "e47d77f443c896e2023c4f7571ac2059ba4498541d9ff2bcddbf45b4b799955e",
+        "target_sha256": "a9f5e8606328d5b2a970258f8542ba78a54d9306efab527b185c7f3890864fe8"
+      },
+      "ui:비즈니스:/비즈니스": {
+        "source_sha256": "b700ed9af2a95e13034f877ddd69c25dd31f76dd2b2deaffec72d2c0c560bb45",
+        "target_sha256": "12765d03ee07f1bccb3941a0eb3769fa20edae29b9f7d775824dabaaa85e4333"
+      },
+      "ui:새 소식을 가끔 건네는 사이:/새 소식을 가끔 건네는 사이": {
+        "source_sha256": "b3ac74e8750e80f72055f7f30ab1a7ced1b827c0fc46d843caec6fcc91708236",
+        "target_sha256": "1b5b465121415661f42e5f09b5ad4e849336ab03dd1e1df6cb5d811b094d04b2"
+      },
+      "ui:신뢰:/신뢰": {
+        "source_sha256": "04d5adc6a1f4d5a1ac350e23e34392a53627f7e8146289d511fdac075cb6f0b8",
+        "target_sha256": "506e486efafad1e3b200a9870b605905e546e0fe417cfa985563e20dcc430f08"
+      },
+      "ui:아직 기록된 인연이 없습니다. 이야기를 진행하며 맺은 인연이 여기에 표시됩니다.:/아직 기록된 인연이 없습니다. 이야기를 진행하며 맺은 인연이 여기에 표시됩니다.": {
+        "source_sha256": "58385b0b1fad8d0b57056dc7f1a5a80f0c8d9de11c16c72763c866277a917918",
+        "target_sha256": "79f3870f2a86da4d78493cb20937cfe37c2f71c8caf112077254b30583e35a94"
+      },
+      "ui:연애 관련:/연애 관련": {
+        "source_sha256": "42cc27624b688b0603919718ceb078b1dc1b50677b0d11d254ed0b2371066ce8",
+        "target_sha256": "c543d760b17cfaa8732f4d26ec10a82206c1b158414d55583ce061864daaddba"
+      },
+      "ui:운명 공동체:/운명 공동체": {
+        "source_sha256": "0c09dee5c99fe76e899355b5526c8bf2005e661555115fadc94a6a4cd98df3e6",
+        "target_sha256": "c0a5336984d9eda38f2e15edc4116ad92eb5e5494e7ba3febdfe7380bbe4f6c0"
+      },
+      "ui:위기 때 먼저 전화하고 실제 비용도 함께 드는 가족:/위기 때 먼저 전화하고 실제 비용도 함께 드는 가족": {
+        "source_sha256": "eae051c6af0b3059a76426ddb25eb82b1fbbc3412a1104d1b629dd36d30c61cf",
+        "target_sha256": "be487ab169e6ff21662b6a3f776a7e315096ee41c11006220706f1ee2366bd78"
+      },
+      "ui:이름을 걸고 수익 기회를 함께 검토하는 사이:/이름을 걸고 수익 기회를 함께 검토하는 사이": {
+        "source_sha256": "626029012e67d6761f79644c4f868f39cb655dd5cc2a5f2bfc94124471f3bf01",
+        "target_sha256": "4466ed55acb68f0841d43899a8747d54a19898d41483b84d50c8d1a867071ddf"
+      },
+      "ui:인연:/인연": {
+        "source_sha256": "2baea6965ce77c08d1026320a1eb2a3106df7fc26dbdd41c81def5d36086af90",
+        "target_sha256": "268e7a14e595490fa1905988d094976dd551d1f34469a1553c71775d31e4bd08"
+      },
+      "ui:읽어 볼 것을 가끔 건네는 사람:/읽어 볼 것을 가끔 건네는 사람": {
+        "source_sha256": "cd0b8540b32aa63b3e9e595e97e88543da36f27b90f7311e28fc4f0a7d46c262",
+        "target_sha256": "cba76a01ae7560e44d77371790bd215220a5eab638a9fe0549b12f33d344abe5"
+      },
+      "ui:작은 일거리를 먼저 묻는 사이:/작은 일거리를 먼저 묻는 사이": {
+        "source_sha256": "60e125d7e5006d85930565ac4958c4c135fe3289e32cd4fe51ce3e3237e54484",
+        "target_sha256": "9d0a3eeed11086bf5b75c0960fc6d7d7f6b327ae93db6b7b4348ad140a909862"
+      },
+      "ui:지친 날 먼저 안부를 묻는 사이:/지친 날 먼저 안부를 묻는 사이": {
+        "source_sha256": "0e87cf3d4f7bced5199099c0d4e6ae33ac4ea89386c5144515cd704129f592f1",
+        "target_sha256": "fa84a8574b74ef47bfe629ea80f85cedb069e3a31796ef74cae052ca14e0cfa1"
+      },
+      "ui:친구:/친구": {
+        "source_sha256": "7f43a26ab08f23cf41c390920e36bab1bbb1a48a5c8c6b60054010a06fe085e4",
+        "target_sha256": "d5f99c1e3d7d348bec2465594877a85bee20914e0566676447d02ef2ebd099d4"
+      },
+      "ui:호감:/호감": {
+        "source_sha256": "9cd7ef20bd81b41313c6523424a4113eebc60d99fb8291b2bfbb8ca859d072de",
+        "target_sha256": "c41cfe07b1c2e1a4fafef77e2301f9f0215e582bdc40bc7f4d9bd98fd82072e1"
+      },
+      "ui:힘든 밤과 생활비를 함께 상의하는 사이:/힘든 밤과 생활비를 함께 상의하는 사이": {
+        "source_sha256": "0221a45b53595ab6fbad9a7171370560be86771c67c3923470486aae98cd2424",
+        "target_sha256": "1588e29ad318225070abc20c56c7c66e89101d9e4ce75c742b8a3e76f1665901"
       }
     },
     "zh-TW": {
@@ -157555,10 +157841,130 @@
       "ui:카페 단골 친구:/카페 단골 친구": {
         "source_sha256": "7727ce9e0ca4954d7af6fe4060724a221c1ae1523864e70a81dc9d7b2bd00cc6",
         "target_sha256": "1c4121210d8bdd830cfd366e46664bc37f9bb22e4c2eec97260ddba0a6036b41"
+      },
+      "ui:VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.:/VIP 모임의 낯선 얼굴들 사이에서 먼저 인사를 건넸다. 떠날 때 한 사람이 다음 약속을 물었다.": {
+        "source_sha256": "835170ad24e80addba09fa9923dced17e627339893cca7b707c62978f5368543",
+        "target_sha256": "bc52bf52ab9b05088f919a97ec9e5e1f242cefa1020c0cfca4f0308ed4f45461"
+      },
+      "ui:가까운 사이:/가까운 사이": {
+        "source_sha256": "b74882449a877dcdea9b8ae293d1abe83dee09bfe82d4ca9a71f9944a30db7e6",
+        "target_sha256": "d04bb0d90607b4a4b38442485e0d3272679faa87bd1745f780bffcf0c26b2693"
+      },
+      "ui:가끔 먼저 연락이 오는 사이:/가끔 먼저 연락이 오는 사이": {
+        "source_sha256": "e6789ea5d5d7abdd682f872dda9c93f2e4b33bf82b34dea6a6abc3d57918c6bf",
+        "target_sha256": "e00b5c089bc63b0d54857b9aa90ad192b1a2efddd8a015fb82d45c22d9648934"
+      },
+      "ui:공부한 내용을 다시 물어볼 수 있는 사람:/공부한 내용을 다시 물어볼 수 있는 사람": {
+        "source_sha256": "2d7ca5b42cfe91bfd42e168dc82b0e7bb40b6b117710fc76384cdfc397d69530",
+        "target_sha256": "ce900dcb658ee9764e601856b9953558b3a007936c7d60532820619c68925d2a"
+      },
+      "ui:관계:/관계": {
+        "source_sha256": "53ed89314a0ab8e5849b022eb551516cc38ea723202af6501b26619782aa53bf",
+        "target_sha256": "fae6e853da562cae1e6452361d8f4b7e9d7d4798f17acf207b3fc4e17e8bc679"
+      },
+      "ui:내 사람들:/내 사람들": {
+        "source_sha256": "5fe55f7f67e7145502bb34dfbf8981a00aab87bc7ff65ff33976ebf705ba5e1e",
+        "target_sha256": "e886563e05267bb22b0d6550da0905b0cfbd515676340cc1d3421488bdb2f148"
+      },
+      "ui:누군가:/누군가": {
+        "source_sha256": "76826761f5d7c9b5bda838e5e14d0d0154f7dc7db9757c5ff9437421676f2c49",
+        "target_sha256": "fac948303293e685bac4c2b4ed1513b37086612ed6914a73a115f33e2f5582db"
+      },
+      "ui:느슨한 인연:/느슨한 인연": {
+        "source_sha256": "a2e3651302269f9409f17078b9b248258c071e829048db7e759bcd4679fdc075",
+        "target_sha256": "438162784b5019deb211d4db3b060c0359937f42e51dfa4f33ef5aed21572be1"
+      },
+      "ui:늦은 답장도 기다려 주는 친구:/늦은 답장도 기다려 주는 친구": {
+        "source_sha256": "fd872fb4dc30441526ddb9a59bcf55bc74af3bbf51f65a43bc7b20a143d8d3d8",
+        "target_sha256": "e9f90475b6862d7389ed65b9fb03cc2970e95ce2d90529efa029de60e1c7cc25"
+      },
+      "ui:다음 투자를 함께 읽고 이유까지 묻는 사람:/다음 투자를 함께 읽고 이유까지 묻는 사람": {
+        "source_sha256": "4c0d096188f9048e6034faf067ecaaa0e68807f6cd0e5a29fc5ed5df4f9efee8",
+        "target_sha256": "26711bde95ea1c541643f48de9c9acea7c5da59690cb4c072745ac03c520f3fb"
+      },
+      "ui:말이 끊겨도 전화를 바로 끊지 않는 가족:/말이 끊겨도 전화를 바로 끊지 않는 가족": {
+        "source_sha256": "0f4201ecea73da19f7d7b015a07e9c060340fa125452dd44a919eab96839fce8",
+        "target_sha256": "12c0fb9d228e81777824e8f72a86015c6d7fd609f465f18d08dcd5a39669e7d5"
+      },
+      "ui:먼저 연락하고 새로운 자리에 함께 가는 친구:/먼저 연락하고 새로운 자리에 함께 가는 친구": {
+        "source_sha256": "ac0c7bb021277baa74cf7097e69d35991e964f893b5d2160b4a776a0f8a06fb6",
+        "target_sha256": "f3549cfb0d2a5ee432efdc6e042f05e04284154670040a4094760eb4c12f9322"
+      },
+      "ui:멀어진 관계:/멀어진 관계": {
+        "source_sha256": "e0c7924c28b5aec2e08635ded7aa09ec4b064b31e108d3e0f3b52ce7c5a5ea1d",
+        "target_sha256": "96f29e57c0eb8eeb7634d5a67539cd1ebbd490524652d7093344fabc13d22464"
+      },
+      "ui:멘토:/멘토": {
+        "source_sha256": "d57f333c9f0833a78b7d470c27800d81c83802b0f94e9242ce8c8fc87b75e25f",
+        "target_sha256": "03a14f6aacf7bb8dc9129e5386d05f79bc7268e01271e28aaa4b4cc10ded87b5"
+      },
+      "ui:불안한 관계:/불안한 관계": {
+        "source_sha256": "e47d77f443c896e2023c4f7571ac2059ba4498541d9ff2bcddbf45b4b799955e",
+        "target_sha256": "d4c4f8c3ea6d519f01120b349a770c3cda95920f6d0e315d02c5cf5f62b8d373"
+      },
+      "ui:비즈니스:/비즈니스": {
+        "source_sha256": "b700ed9af2a95e13034f877ddd69c25dd31f76dd2b2deaffec72d2c0c560bb45",
+        "target_sha256": "651337dd7ea20c0061d629199b3d2c85f14bc68e73c6ca12982bc9b356fb5768"
+      },
+      "ui:새 소식을 가끔 건네는 사이:/새 소식을 가끔 건네는 사이": {
+        "source_sha256": "b3ac74e8750e80f72055f7f30ab1a7ced1b827c0fc46d843caec6fcc91708236",
+        "target_sha256": "34d4ecd46abde4dde3bd7dc9155eaca9b8089110db9bc936d72d44d440a82fa4"
+      },
+      "ui:신뢰:/신뢰": {
+        "source_sha256": "04d5adc6a1f4d5a1ac350e23e34392a53627f7e8146289d511fdac075cb6f0b8",
+        "target_sha256": "506e486efafad1e3b200a9870b605905e546e0fe417cfa985563e20dcc430f08"
+      },
+      "ui:아직 기록된 인연이 없습니다. 이야기를 진행하며 맺은 인연이 여기에 표시됩니다.:/아직 기록된 인연이 없습니다. 이야기를 진행하며 맺은 인연이 여기에 표시됩니다.": {
+        "source_sha256": "58385b0b1fad8d0b57056dc7f1a5a80f0c8d9de11c16c72763c866277a917918",
+        "target_sha256": "9dab299d6ea539336879c7baf4bc2e8b4363a2fe6786bafab8637c2a9d9029a0"
+      },
+      "ui:연애 관련:/연애 관련": {
+        "source_sha256": "42cc27624b688b0603919718ceb078b1dc1b50677b0d11d254ed0b2371066ce8",
+        "target_sha256": "61f25d16e3e65c6f9acd541f2bf2be172b854939d7f881a8e5ac055e496104f2"
+      },
+      "ui:운명 공동체:/운명 공동체": {
+        "source_sha256": "0c09dee5c99fe76e899355b5526c8bf2005e661555115fadc94a6a4cd98df3e6",
+        "target_sha256": "d3a12d7293b73340dc98b37cfb013b1eb2286dd0ed09a87ad082eec50836625f"
+      },
+      "ui:위기 때 먼저 전화하고 실제 비용도 함께 드는 가족:/위기 때 먼저 전화하고 실제 비용도 함께 드는 가족": {
+        "source_sha256": "eae051c6af0b3059a76426ddb25eb82b1fbbc3412a1104d1b629dd36d30c61cf",
+        "target_sha256": "6e3420a7a828c7d5b36b96cfce7c1599862141fb53edb0a4504c6d5111a4767b"
+      },
+      "ui:이름을 걸고 수익 기회를 함께 검토하는 사이:/이름을 걸고 수익 기회를 함께 검토하는 사이": {
+        "source_sha256": "626029012e67d6761f79644c4f868f39cb655dd5cc2a5f2bfc94124471f3bf01",
+        "target_sha256": "6d0e10466bafed0e85cee5b46f18268386f08a58afd7f91cf8e283866e00b3f6"
+      },
+      "ui:인연:/인연": {
+        "source_sha256": "2baea6965ce77c08d1026320a1eb2a3106df7fc26dbdd41c81def5d36086af90",
+        "target_sha256": "aa772628867fda534dfeb4ca5e74083ec89efbeef66bb35147aa0a2c351adc97"
+      },
+      "ui:읽어 볼 것을 가끔 건네는 사람:/읽어 볼 것을 가끔 건네는 사람": {
+        "source_sha256": "cd0b8540b32aa63b3e9e595e97e88543da36f27b90f7311e28fc4f0a7d46c262",
+        "target_sha256": "a022e97767da149324314ae70806f2fbe8d8105f9573d3c42666355bc229cd02"
+      },
+      "ui:작은 일거리를 먼저 묻는 사이:/작은 일거리를 먼저 묻는 사이": {
+        "source_sha256": "60e125d7e5006d85930565ac4958c4c135fe3289e32cd4fe51ce3e3237e54484",
+        "target_sha256": "82ddfc83c8c2d996c46c4ff22a7549e6156ff21763ba404245611af23fa6c38f"
+      },
+      "ui:지친 날 먼저 안부를 묻는 사이:/지친 날 먼저 안부를 묻는 사이": {
+        "source_sha256": "0e87cf3d4f7bced5199099c0d4e6ae33ac4ea89386c5144515cd704129f592f1",
+        "target_sha256": "4e8c28e14067c1265c0b929503c41cff379206aceeab48794db79d2432f061ac"
+      },
+      "ui:친구:/친구": {
+        "source_sha256": "7f43a26ab08f23cf41c390920e36bab1bbb1a48a5c8c6b60054010a06fe085e4",
+        "target_sha256": "d5f99c1e3d7d348bec2465594877a85bee20914e0566676447d02ef2ebd099d4"
+      },
+      "ui:호감:/호감": {
+        "source_sha256": "9cd7ef20bd81b41313c6523424a4113eebc60d99fb8291b2bfbb8ca859d072de",
+        "target_sha256": "c41cfe07b1c2e1a4fafef77e2301f9f0215e582bdc40bc7f4d9bd98fd82072e1"
+      },
+      "ui:힘든 밤과 생활비를 함께 상의하는 사이:/힘든 밤과 생활비를 함께 상의하는 사이": {
+        "source_sha256": "0221a45b53595ab6fbad9a7171370560be86771c67c3923470486aae98cd2424",
+        "target_sha256": "b9e6975179e9380be82678c88813d9da56bb21349e8e5aeafa8b8dad4e922826"
       }
     }
   },
-  "accepted_sha256": "35eb4154dc18c5d140066de1302aaf6217f825c6d7b0c47796afe0934605a5f9",
+  "accepted_sha256": "bdce2dafd4f62770ef47d948fc8f27ecd2de7c98ca91e4b50598ea4767accd90",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
