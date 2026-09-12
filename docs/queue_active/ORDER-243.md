@@ -84,3 +84,13 @@ main 동기화에 딸린 원격 mirror run은 별도 결과로 기록한다. 새
 - 원형 private28 SHA `1cc159530b713e307f3d364942a1fb099451ff4b6657a5c9917710fc08d83534`,
   self 코드 SHA `12ff8ba402154da0318565dc1b985676e6d2f679f9213c0ca8ff4f17a019ea38`.
   새28은 최종 명시11의 일부로 처음 실행한다. 기존26과 합쳐 새 표본이라 세지 않는다.
+
+## 최초 명시11과 후속 분리
+
+HEAD `8870649`/제품 `33179f8`에서 명시11은9 PASS/2 FAIL, 입력1,197 전후 raw exact다.
+신규28·year5 self513·demo self16·JA clean2893 및 운영5는 통과했다.
+Chapter1 일반/self만 MetaProgression 옛 스냅샷1원인으로 실패했다. self는 repository
+fixture에서 멈췄으므로 그 실행에서 옛26 통과를 주장하지 않는다.
+원형372,230B SHA `7854ff0cb7e1b7186a6856c878cad750266a195171208a9e61df4e2ebeca22f4`.
+새 원인은 [244](ORDER-244.md)로 분리한다. 기존 녹색9를 반복하지 않으며243 최종 GO는
+아직 보류, 두 수리 뒤 exact 원격CI를 공동 확인한다.
