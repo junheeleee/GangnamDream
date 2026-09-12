@@ -14,6 +14,2320 @@ import full_game_localization as tool
 
 
 class ExchangeTests(unittest.TestCase):
+    def test_order251_ui_dice_title_frozen(self):
+        """Evaluate the fixed40 before asserting; no collector or engine."""
+        import contextlib
+        import dataclasses
+        import hashlib
+        import io
+        import traceback
+        import ja_translation_pipeline as ja
+        import zh_translation_audit as zh
+
+        # Pre-code corpus and ROOT first baseline are immutable provenance.
+        # Private files are not dependencies of this tracked regression.
+        cases = json.loads(r'''[
+  {
+    "id": "actual_ja",
+    "kind": "normal",
+    "locale": "ja",
+    "key": "ui:다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.:/다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "source": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "target": "大小（タイサイ）を15ラウンド以上。3個のサイコロが転がる音を覚えている。",
+    "base": null,
+    "expected_adapter_active": true,
+    "expected_helper": "PASS",
+    "expected_full": "PASS",
+    "manual_leaf": {
+      "group": "ui",
+      "owner": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+      "source_path": "runtime:static_ui",
+      "path": [
+        "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다."
+      ],
+      "category": "ui_static_context",
+      "format_template": false,
+      "runtime_support": "builtin_overlay_static_only"
+    },
+    "reason": "Frozen actual target from first54; rounds15 and dice3 have distinct owners.",
+    "source_utf8_sha256": "55eddf23fc0bb1982d45e42d0c052d6b56f04f800728766c5f25b5bf4bc153b1",
+    "target_utf8_sha256": "de755b5b20790151cfaca537118f4d4f371127e3bb4ea28b9c3ab617ff6a5a73"
+  },
+  {
+    "id": "actual_cn",
+    "kind": "normal",
+    "locale": "zh-CN",
+    "key": "ui:다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.:/다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "source": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "target": "骰宝玩过15轮以上。还记得三颗骰子滚动的声音。",
+    "base": null,
+    "expected_adapter_active": true,
+    "expected_helper": "PASS",
+    "expected_full": "PASS",
+    "manual_leaf": {
+      "group": "ui",
+      "owner": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+      "source_path": "runtime:static_ui",
+      "path": [
+        "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다."
+      ],
+      "category": "ui_static_context",
+      "format_template": false,
+      "runtime_support": "builtin_overlay_static_only"
+    },
+    "reason": "Frozen actual target from first54; rounds15 and dice3 have distinct owners.",
+    "source_utf8_sha256": "55eddf23fc0bb1982d45e42d0c052d6b56f04f800728766c5f25b5bf4bc153b1",
+    "target_utf8_sha256": "9ede483d7e3709fe983ce0d6e97d64dc868c994dd5f080f7fec6ea87c66f5ed2"
+  },
+  {
+    "id": "actual_tw",
+    "kind": "normal",
+    "locale": "zh-TW",
+    "key": "ui:다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.:/다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "source": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "target": "骰寶玩了15局以上。還記得三顆骰子滾動的聲音。",
+    "base": null,
+    "expected_adapter_active": true,
+    "expected_helper": "PASS",
+    "expected_full": "PASS",
+    "manual_leaf": {
+      "group": "ui",
+      "owner": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+      "source_path": "runtime:static_ui",
+      "path": [
+        "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다."
+      ],
+      "category": "ui_static_context",
+      "format_template": false,
+      "runtime_support": "builtin_overlay_static_only"
+    },
+    "reason": "Frozen actual target from first54; rounds15 and dice3 have distinct owners.",
+    "source_utf8_sha256": "55eddf23fc0bb1982d45e42d0c052d6b56f04f800728766c5f25b5bf4bc153b1",
+    "target_utf8_sha256": "2ee05c0cf191192d193c4095ba0a7ccb2ccba940871693452e53e9cff7122819"
+  },
+  {
+    "id": "ja_native_counts",
+    "kind": "normal",
+    "locale": "ja",
+    "key": "ui:다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.:/다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "source": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "target": "大小（タイサイ）を十五ラウンド以上。三個のサイコロが転がる音を覚えている。",
+    "base": null,
+    "expected_adapter_active": true,
+    "expected_helper": "PASS",
+    "expected_full": "PASS",
+    "manual_leaf": {
+      "group": "ui",
+      "owner": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+      "source_path": "runtime:static_ui",
+      "path": [
+        "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다."
+      ],
+      "category": "ui_static_context",
+      "format_template": false,
+      "runtime_support": "builtin_overlay_static_only"
+    },
+    "reason": "Natural Kanji fifteen and three with object classifier.",
+    "source_utf8_sha256": "55eddf23fc0bb1982d45e42d0c052d6b56f04f800728766c5f25b5bf4bc153b1",
+    "target_utf8_sha256": "6eb23474d1a308ef8321b41e8f67aeb1923fa00a184d1e350bb8422322034063"
+  },
+  {
+    "id": "ja_fullwidth_mitsu",
+    "kind": "normal",
+    "locale": "ja",
+    "key": "ui:다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.:/다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "source": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "target": "大小（タイサイ）を１５ラウンド以上。三つのサイコロが転がる音を覚えている。",
+    "base": null,
+    "expected_adapter_active": true,
+    "expected_helper": "PASS",
+    "expected_full": "PASS",
+    "manual_leaf": {
+      "group": "ui",
+      "owner": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+      "source_path": "runtime:static_ui",
+      "path": [
+        "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다."
+      ],
+      "category": "ui_static_context",
+      "format_template": false,
+      "runtime_support": "builtin_overlay_static_only"
+    },
+    "reason": "Fullwidth15 and native three-object counter; same quantities.",
+    "source_utf8_sha256": "55eddf23fc0bb1982d45e42d0c052d6b56f04f800728766c5f25b5bf4bc153b1",
+    "target_utf8_sha256": "c07b93f77f6def5fd945c9aa8ad59dd19db9e5bd46fc792422e6d924b7b42989"
+  },
+  {
+    "id": "cn_native_fifteen_ge",
+    "kind": "normal",
+    "locale": "zh-CN",
+    "key": "ui:다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.:/다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "source": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "target": "骰宝玩过十五轮以上。还记得3个骰子滚动的声音。",
+    "base": null,
+    "expected_adapter_active": true,
+    "expected_helper": "PASS",
+    "expected_full": "PASS",
+    "manual_leaf": {
+      "group": "ui",
+      "owner": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+      "source_path": "runtime:static_ui",
+      "path": [
+        "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다."
+      ],
+      "category": "ui_static_context",
+      "format_template": false,
+      "runtime_support": "builtin_overlay_static_only"
+    },
+    "reason": "Native十五 and Arabic3 with 个 object classifier.",
+    "source_utf8_sha256": "55eddf23fc0bb1982d45e42d0c052d6b56f04f800728766c5f25b5bf4bc153b1",
+    "target_utf8_sha256": "5894c996734ea4e7f83d4938d1891f2177ff77c4a9a0a743090e19d7ebb85794"
+  },
+  {
+    "id": "cn_fullwidth_counts",
+    "kind": "normal",
+    "locale": "zh-CN",
+    "key": "ui:다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.:/다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "source": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "target": "骰宝玩过１５轮以上。还记得３颗骰子滚动的声音。",
+    "base": null,
+    "expected_adapter_active": true,
+    "expected_helper": "PASS",
+    "expected_full": "PASS",
+    "manual_leaf": {
+      "group": "ui",
+      "owner": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+      "source_path": "runtime:static_ui",
+      "path": [
+        "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다."
+      ],
+      "category": "ui_static_context",
+      "format_template": false,
+      "runtime_support": "builtin_overlay_static_only"
+    },
+    "reason": "Fullwidth15/3 retains rounds and dice owners.",
+    "source_utf8_sha256": "55eddf23fc0bb1982d45e42d0c052d6b56f04f800728766c5f25b5bf4bc153b1",
+    "target_utf8_sha256": "f4bf07dae6737ca2af01ae896c284c9dca5a968060631eb7e658ba4d83ccf080"
+  },
+  {
+    "id": "tw_native_fifteen_ge",
+    "kind": "normal",
+    "locale": "zh-TW",
+    "key": "ui:다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.:/다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "source": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "target": "骰寶玩了十五局以上。還記得3個骰子滾動的聲音。",
+    "base": null,
+    "expected_adapter_active": true,
+    "expected_helper": "PASS",
+    "expected_full": "PASS",
+    "manual_leaf": {
+      "group": "ui",
+      "owner": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+      "source_path": "runtime:static_ui",
+      "path": [
+        "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다."
+      ],
+      "category": "ui_static_context",
+      "format_template": false,
+      "runtime_support": "builtin_overlay_static_only"
+    },
+    "reason": "Native十五 and Arabic3 with 個 object classifier.",
+    "source_utf8_sha256": "55eddf23fc0bb1982d45e42d0c052d6b56f04f800728766c5f25b5bf4bc153b1",
+    "target_utf8_sha256": "1f6f196d5fd012282bc6117d38200c423366b4a5e5e958c9cf6df89f946ca45d"
+  },
+  {
+    "id": "tw_fullwidth_counts",
+    "kind": "normal",
+    "locale": "zh-TW",
+    "key": "ui:다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.:/다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "source": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "target": "骰寶玩了１５局以上。還記得３顆骰子滾動的聲音。",
+    "base": null,
+    "expected_adapter_active": true,
+    "expected_helper": "PASS",
+    "expected_full": "PASS",
+    "manual_leaf": {
+      "group": "ui",
+      "owner": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+      "source_path": "runtime:static_ui",
+      "path": [
+        "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다."
+      ],
+      "category": "ui_static_context",
+      "format_template": false,
+      "runtime_support": "builtin_overlay_static_only"
+    },
+    "reason": "Fullwidth15/3 retains rounds and dice owners.",
+    "source_utf8_sha256": "55eddf23fc0bb1982d45e42d0c052d6b56f04f800728766c5f25b5bf4bc153b1",
+    "target_utf8_sha256": "433a4d993ce11e8fba1a405fb8a45136d7e58bfec948a157d6c89f57fed7a62f"
+  },
+  {
+    "id": "ja_round_value14",
+    "kind": "mutant",
+    "locale": "ja",
+    "key": "ui:다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.:/다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "source": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "target": "大小（タイサイ）を14ラウンド以上。3個のサイコロが転がる音を覚えている。",
+    "base": "actual_ja",
+    "expected_adapter_active": true,
+    "expected_helper": "REJECT",
+    "expected_full": "REJECT",
+    "manual_leaf": {
+      "group": "ui",
+      "owner": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+      "source_path": "runtime:static_ui",
+      "path": [
+        "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다."
+      ],
+      "category": "ui_static_context",
+      "format_template": false,
+      "runtime_support": "builtin_overlay_static_only"
+    },
+    "reason": "Wrong played-round count.",
+    "failure_family": "numeric_role",
+    "source_utf8_sha256": "55eddf23fc0bb1982d45e42d0c052d6b56f04f800728766c5f25b5bf4bc153b1",
+    "target_utf8_sha256": "dbe0c46fc9ed6aba91d1bb3f4e2544f0c51fcfe7e953d3b596e8584fa70c528e"
+  },
+  {
+    "id": "cn_dice_value4",
+    "kind": "mutant",
+    "locale": "zh-CN",
+    "key": "ui:다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.:/다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "source": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "target": "骰宝玩过15轮以上。还记得四颗骰子滚动的声音。",
+    "base": "actual_cn",
+    "expected_adapter_active": true,
+    "expected_helper": "REJECT",
+    "expected_full": "REJECT",
+    "manual_leaf": {
+      "group": "ui",
+      "owner": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+      "source_path": "runtime:static_ui",
+      "path": [
+        "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다."
+      ],
+      "category": "ui_static_context",
+      "format_template": false,
+      "runtime_support": "builtin_overlay_static_only"
+    },
+    "reason": "Wrong exact dice count.",
+    "failure_family": "numeric_role",
+    "source_utf8_sha256": "55eddf23fc0bb1982d45e42d0c052d6b56f04f800728766c5f25b5bf4bc153b1",
+    "target_utf8_sha256": "c5550b4527aab6d22d5153fee729cd58ce40dc6581108baaeb79ecf3e703d575"
+  },
+  {
+    "id": "tw_round_dice_exchange",
+    "kind": "mutant",
+    "locale": "zh-TW",
+    "key": "ui:다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.:/다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "source": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "target": "骰寶玩了3局以上。還記得十五顆骰子滾動的聲音。",
+    "base": "actual_tw",
+    "expected_adapter_active": true,
+    "expected_helper": "REJECT",
+    "expected_full": "REJECT",
+    "manual_leaf": {
+      "group": "ui",
+      "owner": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+      "source_path": "runtime:static_ui",
+      "path": [
+        "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다."
+      ],
+      "category": "ui_static_context",
+      "format_template": false,
+      "runtime_support": "builtin_overlay_static_only"
+    },
+    "reason": "Bag of numbers15/3 unchanged but round and dice ownership exchanged.",
+    "failure_family": "numeric_role",
+    "source_utf8_sha256": "55eddf23fc0bb1982d45e42d0c052d6b56f04f800728766c5f25b5bf4bc153b1",
+    "target_utf8_sha256": "33e69b573ce507c370f7dfc108806dcf4e4a28a878cfb62048387e4ba3a770c1"
+  },
+  {
+    "id": "ja_positive_dice_sign",
+    "kind": "mutant",
+    "locale": "ja",
+    "key": "ui:다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.:/다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "source": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "target": "大小（タイサイ）を15ラウンド以上。+3個のサイコロが転がる音を覚えている。",
+    "base": "actual_ja",
+    "expected_adapter_active": true,
+    "expected_helper": "REJECT",
+    "expected_full": "REJECT",
+    "manual_leaf": {
+      "group": "ui",
+      "owner": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+      "source_path": "runtime:static_ui",
+      "path": [
+        "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다."
+      ],
+      "category": "ui_static_context",
+      "format_template": false,
+      "runtime_support": "builtin_overlay_static_only"
+    },
+    "reason": "Invented explicit plus sign on dice count.",
+    "failure_family": "numeric_role",
+    "source_utf8_sha256": "55eddf23fc0bb1982d45e42d0c052d6b56f04f800728766c5f25b5bf4bc153b1",
+    "target_utf8_sha256": "3c6f4c16897d6d2bece476ef9e872b010f1c812cca881573232a20524264533b"
+  },
+  {
+    "id": "cn_negative_dice_sign",
+    "kind": "mutant",
+    "locale": "zh-CN",
+    "key": "ui:다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.:/다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "source": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "target": "骰宝玩过15轮以上。还记得−3颗骰子滚动的声音。",
+    "base": "actual_cn",
+    "expected_adapter_active": true,
+    "expected_helper": "REJECT",
+    "expected_full": "REJECT",
+    "manual_leaf": {
+      "group": "ui",
+      "owner": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+      "source_path": "runtime:static_ui",
+      "path": [
+        "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다."
+      ],
+      "category": "ui_static_context",
+      "format_template": false,
+      "runtime_support": "builtin_overlay_static_only"
+    },
+    "reason": "Unicode minus sign must not be skipped by a numeral search.",
+    "failure_family": "numeric_role",
+    "source_utf8_sha256": "55eddf23fc0bb1982d45e42d0c052d6b56f04f800728766c5f25b5bf4bc153b1",
+    "target_utf8_sha256": "f07257cf41372e8586f2dc3694c244f0208a7d593c8bd0c551fab881327bb2f9"
+  },
+  {
+    "id": "tw_fractional_dice",
+    "kind": "mutant",
+    "locale": "zh-TW",
+    "key": "ui:다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.:/다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "source": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "target": "骰寶玩了15局以上。還記得3.5顆骰子滾動的聲音。",
+    "base": "actual_tw",
+    "expected_adapter_active": true,
+    "expected_helper": "REJECT",
+    "expected_full": "REJECT",
+    "manual_leaf": {
+      "group": "ui",
+      "owner": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+      "source_path": "runtime:static_ui",
+      "path": [
+        "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다."
+      ],
+      "category": "ui_static_context",
+      "format_template": false,
+      "runtime_support": "builtin_overlay_static_only"
+    },
+    "reason": "Fractional dice count changes value and integer object semantics.",
+    "failure_family": "numeric_role",
+    "source_utf8_sha256": "55eddf23fc0bb1982d45e42d0c052d6b56f04f800728766c5f25b5bf4bc153b1",
+    "target_utf8_sha256": "aa159163ad9d83ed63eb6a2e51d529740409ba0e655f15e325e4aff2a2571eec"
+  },
+  {
+    "id": "cn_fractional_rounds",
+    "kind": "mutant",
+    "locale": "zh-CN",
+    "key": "ui:다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.:/다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "source": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "target": "骰宝玩过15.5轮以上。还记得三颗骰子滚动的声音。",
+    "base": "actual_cn",
+    "expected_adapter_active": true,
+    "expected_helper": "REJECT",
+    "expected_full": "REJECT",
+    "manual_leaf": {
+      "group": "ui",
+      "owner": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+      "source_path": "runtime:static_ui",
+      "path": [
+        "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다."
+      ],
+      "category": "ui_static_context",
+      "format_template": false,
+      "runtime_support": "builtin_overlay_static_only"
+    },
+    "reason": "Separate first-slot decimal/round-count value must not truncate.",
+    "failure_family": "numeric_role",
+    "source_utf8_sha256": "55eddf23fc0bb1982d45e42d0c052d6b56f04f800728766c5f25b5bf4bc153b1",
+    "target_utf8_sha256": "b2351fb842da392ad3900df8b4e2f2d8e2e996a1debcabbedb5dc674cc7db1e3"
+  },
+  {
+    "id": "ja_person_unit",
+    "kind": "mutant",
+    "locale": "ja",
+    "key": "ui:다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.:/다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "source": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "target": "大小（タイサイ）を15ラウンド以上。3人のサイコロが転がる音を覚えている。",
+    "base": "actual_ja",
+    "expected_adapter_active": true,
+    "expected_helper": "REJECT",
+    "expected_full": "REJECT",
+    "manual_leaf": {
+      "group": "ui",
+      "owner": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+      "source_path": "runtime:static_ui",
+      "path": [
+        "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다."
+      ],
+      "category": "ui_static_context",
+      "format_template": false,
+      "runtime_support": "builtin_overlay_static_only"
+    },
+    "reason": "Person classifier cannot stand for dice objects.",
+    "failure_family": "numeric_role",
+    "source_utf8_sha256": "55eddf23fc0bb1982d45e42d0c052d6b56f04f800728766c5f25b5bf4bc153b1",
+    "target_utf8_sha256": "436c75e34036983d4525e8f97bdb650831eab4e1906b7d52a3a76c18499b6d3c"
+  },
+  {
+    "id": "cn_period_unit",
+    "kind": "mutant",
+    "locale": "zh-CN",
+    "key": "ui:다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.:/다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "source": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "target": "骰宝玩过15年以上。还记得三颗骰子滚动的声音。",
+    "base": "actual_cn",
+    "expected_adapter_active": true,
+    "expected_helper": "REJECT",
+    "expected_full": "REJECT",
+    "manual_leaf": {
+      "group": "ui",
+      "owner": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+      "source_path": "runtime:static_ui",
+      "path": [
+        "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다."
+      ],
+      "category": "ui_static_context",
+      "format_template": false,
+      "runtime_support": "builtin_overlay_static_only"
+    },
+    "reason": "Years cannot replace game-round count.",
+    "failure_family": "numeric_role",
+    "source_utf8_sha256": "55eddf23fc0bb1982d45e42d0c052d6b56f04f800728766c5f25b5bf4bc153b1",
+    "target_utf8_sha256": "df85be2c8d1e705a0d5e2e3e3d60b9bb8da70069ff81958d8a922dd803e28544"
+  },
+  {
+    "id": "tw_chip_owner",
+    "kind": "mutant",
+    "locale": "zh-TW",
+    "key": "ui:다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.:/다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "source": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "target": "骰寶玩了15局以上。還記得三顆籌碼滾動的聲音。",
+    "base": "actual_tw",
+    "expected_adapter_active": true,
+    "expected_helper": "REJECT",
+    "expected_full": "REJECT",
+    "manual_leaf": {
+      "group": "ui",
+      "owner": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+      "source_path": "runtime:static_ui",
+      "path": [
+        "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다."
+      ],
+      "category": "ui_static_context",
+      "format_template": false,
+      "runtime_support": "builtin_overlay_static_only"
+    },
+    "reason": "Correct numeric/classifier with wrong counted object owner.",
+    "failure_family": "numeric_role",
+    "source_utf8_sha256": "55eddf23fc0bb1982d45e42d0c052d6b56f04f800728766c5f25b5bf4bc153b1",
+    "target_utf8_sha256": "1403eeb28a3a4cb03e3cb14757c64e03b89ce65704d283eb7ddfffe6d3617547"
+  },
+  {
+    "id": "tw_duplicate_dice_count",
+    "kind": "mutant",
+    "locale": "zh-TW",
+    "key": "ui:다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.:/다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "source": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "target": "骰寶玩了15局以上。還記得三顆骰子、三顆骰子滾動的聲音。",
+    "base": "actual_tw",
+    "expected_adapter_active": true,
+    "expected_helper": "REJECT",
+    "expected_full": "REJECT",
+    "manual_leaf": {
+      "group": "ui",
+      "owner": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+      "source_path": "runtime:static_ui",
+      "path": [
+        "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다."
+      ],
+      "category": "ui_static_context",
+      "format_template": false,
+      "runtime_support": "builtin_overlay_static_only"
+    },
+    "reason": "Duplicate exact dice quantity must not be masked twice.",
+    "failure_family": "numeric_role",
+    "source_utf8_sha256": "55eddf23fc0bb1982d45e42d0c052d6b56f04f800728766c5f25b5bf4bc153b1",
+    "target_utf8_sha256": "6b20aec40d6e5845d5dad0e5b3fa106fb1896d27457457e817b9b2996d52df89"
+  },
+  {
+    "id": "ja_missing_dice_count",
+    "kind": "mutant",
+    "locale": "ja",
+    "key": "ui:다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.:/다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "source": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "target": "大小（タイサイ）を15ラウンド以上。サイコロが転がる音を覚えている。",
+    "base": "actual_ja",
+    "expected_adapter_active": true,
+    "expected_helper": "REJECT",
+    "expected_full": "REJECT",
+    "manual_leaf": {
+      "group": "ui",
+      "owner": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+      "source_path": "runtime:static_ui",
+      "path": [
+        "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다."
+      ],
+      "category": "ui_static_context",
+      "format_template": false,
+      "runtime_support": "builtin_overlay_static_only"
+    },
+    "reason": "Dice noun alone loses the source count.",
+    "failure_family": "numeric_role",
+    "source_utf8_sha256": "55eddf23fc0bb1982d45e42d0c052d6b56f04f800728766c5f25b5bf4bc153b1",
+    "target_utf8_sha256": "294a38c11d4b502afd9649fb90b64e12c09e51d7fc87778f25c565b2052b36b2"
+  },
+  {
+    "id": "cn_missing_round_count",
+    "kind": "mutant",
+    "locale": "zh-CN",
+    "key": "ui:다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.:/다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "source": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "target": "骰宝玩过。还记得三颗骰子滚动的声音。",
+    "base": "actual_cn",
+    "expected_adapter_active": true,
+    "expected_helper": "REJECT",
+    "expected_full": "REJECT",
+    "manual_leaf": {
+      "group": "ui",
+      "owner": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+      "source_path": "runtime:static_ui",
+      "path": [
+        "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다."
+      ],
+      "category": "ui_static_context",
+      "format_template": false,
+      "runtime_support": "builtin_overlay_static_only"
+    },
+    "reason": "Correct dice clause cannot excuse missing first-slot rounds.",
+    "failure_family": "numeric_role",
+    "source_utf8_sha256": "55eddf23fc0bb1982d45e42d0c052d6b56f04f800728766c5f25b5bf4bc153b1",
+    "target_utf8_sha256": "7c6bc88fe4fef5d7dae74b3b101560064b8d90eff5713e0984e07f3a48838d20"
+  },
+  {
+    "id": "tw_extra_native_count",
+    "kind": "mutant",
+    "locale": "zh-TW",
+    "key": "ui:다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.:/다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "source": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "target": "骰寶玩了15局以上。還記得三顆骰子滾動的聲音。另外兩次。",
+    "base": "actual_tw",
+    "expected_adapter_active": true,
+    "expected_helper": "REJECT",
+    "expected_full": "REJECT",
+    "manual_leaf": {
+      "group": "ui",
+      "owner": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+      "source_path": "runtime:static_ui",
+      "path": [
+        "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다."
+      ],
+      "category": "ui_static_context",
+      "format_template": false,
+      "runtime_support": "builtin_overlay_static_only"
+    },
+    "reason": "Unowned extra native number must survive normalization and reject.",
+    "failure_family": "numeric_role",
+    "source_utf8_sha256": "55eddf23fc0bb1982d45e42d0c052d6b56f04f800728766c5f25b5bf4bc153b1",
+    "target_utf8_sha256": "db8f293bbea82a35f1fe373afa8b25e4a0a73d86f60016266699d3d429cb5191"
+  },
+  {
+    "id": "ja_extra_arabic_count",
+    "kind": "mutant",
+    "locale": "ja",
+    "key": "ui:다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.:/다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "source": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "target": "大小（タイサイ）を15ラウンド以上。3個のサイコロが転がる音を覚えている。番号7。",
+    "base": "actual_ja",
+    "expected_adapter_active": true,
+    "expected_helper": "REJECT",
+    "expected_full": "REJECT",
+    "manual_leaf": {
+      "group": "ui",
+      "owner": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+      "source_path": "runtime:static_ui",
+      "path": [
+        "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다."
+      ],
+      "category": "ui_static_context",
+      "format_template": false,
+      "runtime_support": "builtin_overlay_static_only"
+    },
+    "reason": "Unowned Arabic number must not disappear with the two owned spans.",
+    "failure_family": "numeric_role",
+    "source_utf8_sha256": "55eddf23fc0bb1982d45e42d0c052d6b56f04f800728766c5f25b5bf4bc153b1",
+    "target_utf8_sha256": "33e20301209ea1b6c07c414f6107be9f4966379046a86078c9bc24289c9d3bcc"
+  },
+  {
+    "id": "cn_newline_movement",
+    "kind": "mutant",
+    "locale": "zh-CN",
+    "key": "ui:다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.:/다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "source": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "target": "骰宝玩过15轮以上。\n还记得三颗骰子滚动的声音。",
+    "base": "actual_cn",
+    "expected_adapter_active": true,
+    "expected_helper": "REJECT",
+    "expected_full": "REJECT",
+    "manual_leaf": {
+      "group": "ui",
+      "owner": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+      "source_path": "runtime:static_ui",
+      "path": [
+        "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다."
+      ],
+      "category": "ui_static_context",
+      "format_template": false,
+      "runtime_support": "builtin_overlay_static_only"
+    },
+    "reason": "SourceLF0; second-slot quantity moved to another line.",
+    "failure_family": "numeric_role",
+    "independent_diagnostic": "newline",
+    "source_utf8_sha256": "55eddf23fc0bb1982d45e42d0c052d6b56f04f800728766c5f25b5bf4bc153b1",
+    "target_utf8_sha256": "daf8775a5d7870813f193ce84da918781ab4283969cac5af7653b02ad884dfcd"
+  },
+  {
+    "id": "tw_sentence_order",
+    "kind": "mutant",
+    "locale": "zh-TW",
+    "key": "ui:다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.:/다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "source": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "target": "還記得三顆骰子滾動的聲音。骰寶玩了15局以上。",
+    "base": "actual_tw",
+    "expected_adapter_active": true,
+    "expected_helper": "REJECT",
+    "expected_full": "REJECT",
+    "manual_leaf": {
+      "group": "ui",
+      "owner": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+      "source_path": "runtime:static_ui",
+      "path": [
+        "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다."
+      ],
+      "category": "ui_static_context",
+      "format_template": false,
+      "runtime_support": "builtin_overlay_static_only"
+    },
+    "reason": "Preserved numbers in reversed first/second source slots are outside the declared bounded order.",
+    "failure_family": "numeric_role",
+    "source_utf8_sha256": "55eddf23fc0bb1982d45e42d0c052d6b56f04f800728766c5f25b5bf4bc153b1",
+    "target_utf8_sha256": "341395c3563d3d842bf667e16f9f9d10ac5f783b9daf07e3bed16cd51f86ea29"
+  },
+  {
+    "id": "ja_displaced_dice_quantity",
+    "kind": "mutant",
+    "locale": "ja",
+    "key": "ui:다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.:/다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "source": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "target": "大小（タイサイ）を15ラウンド以上、3個。サイコロが転がる音を覚えている。",
+    "base": "actual_ja",
+    "expected_adapter_active": true,
+    "expected_helper": "REJECT",
+    "expected_full": "REJECT",
+    "manual_leaf": {
+      "group": "ui",
+      "owner": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+      "source_path": "runtime:static_ui",
+      "path": [
+        "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다."
+      ],
+      "category": "ui_static_context",
+      "format_template": false,
+      "runtime_support": "builtin_overlay_static_only"
+    },
+    "reason": "Quantity detached into first clause cannot license unquantified dice in second clause.",
+    "failure_family": "numeric_role",
+    "source_utf8_sha256": "55eddf23fc0bb1982d45e42d0c052d6b56f04f800728766c5f25b5bf4bc153b1",
+    "target_utf8_sha256": "c099c6326b6cb768d3878c731872c5b848898230bc43d1aacec02e98327b26ae"
+  },
+  {
+    "id": "tw_round_threshold_below",
+    "kind": "mutant",
+    "locale": "zh-TW",
+    "key": "ui:다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.:/다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "source": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "target": "骰寶玩了15局以下。還記得三顆骰子滾動的聲音。",
+    "base": "actual_tw",
+    "expected_adapter_active": true,
+    "expected_helper": "REJECT",
+    "expected_full": "REJECT",
+    "manual_leaf": {
+      "group": "ui",
+      "owner": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+      "source_path": "runtime:static_ui",
+      "path": [
+        "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다."
+      ],
+      "category": "ui_static_context",
+      "format_template": false,
+      "runtime_support": "builtin_overlay_static_only"
+    },
+    "reason": "At least15 cannot become at most15.",
+    "failure_family": "numeric_role",
+    "source_utf8_sha256": "55eddf23fc0bb1982d45e42d0c052d6b56f04f800728766c5f25b5bf4bc153b1",
+    "target_utf8_sha256": "d99b29b9acc1634feb594c74fd9d47f3f1e1f28459d0f5c3ea873f228744b0ba"
+  },
+  {
+    "id": "cn_approximate_round_prefix",
+    "kind": "mutant",
+    "locale": "zh-CN",
+    "key": "ui:다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.:/다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "source": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "target": "骰宝玩过约15轮以上。还记得三颗骰子滚动的声音。",
+    "base": "actual_cn",
+    "expected_adapter_active": true,
+    "expected_helper": "REJECT",
+    "expected_full": "REJECT",
+    "manual_leaf": {
+      "group": "ui",
+      "owner": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+      "source_path": "runtime:static_ui",
+      "path": [
+        "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다."
+      ],
+      "category": "ui_static_context",
+      "format_template": false,
+      "runtime_support": "builtin_overlay_static_only"
+    },
+    "reason": "Approximation qualifier cannot weaken the source integer threshold.",
+    "failure_family": "numeric_role",
+    "source_utf8_sha256": "55eddf23fc0bb1982d45e42d0c052d6b56f04f800728766c5f25b5bf4bc153b1",
+    "target_utf8_sha256": "82285043f236bad8161063b784d1b65809338c162d16f9432f7745a8fed7a665"
+  },
+  {
+    "id": "ja_minimum_dice_prefix",
+    "kind": "mutant",
+    "locale": "ja",
+    "key": "ui:다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.:/다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "source": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "target": "大小（タイサイ）を15ラウンド以上。少なくとも3個のサイコロが転がる音を覚えている。",
+    "base": "actual_ja",
+    "expected_adapter_active": true,
+    "expected_helper": "REJECT",
+    "expected_full": "REJECT",
+    "manual_leaf": {
+      "group": "ui",
+      "owner": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+      "source_path": "runtime:static_ui",
+      "path": [
+        "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다."
+      ],
+      "category": "ui_static_context",
+      "format_template": false,
+      "runtime_support": "builtin_overlay_static_only"
+    },
+    "reason": "Exact three dice cannot become at least three.",
+    "failure_family": "numeric_role",
+    "source_utf8_sha256": "55eddf23fc0bb1982d45e42d0c052d6b56f04f800728766c5f25b5bf4bc153b1",
+    "target_utf8_sha256": "e63504deb92885a3d792be0b45f81a64092acdf2df723a2741c9b580e6a17a7f"
+  },
+  {
+    "id": "cn_added_money",
+    "kind": "mutant",
+    "locale": "zh-CN",
+    "key": "ui:다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.:/다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "source": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "target": "骰宝玩过15轮以上。还记得三颗骰子滚动的声音。花了1韩元。",
+    "base": "actual_cn",
+    "expected_adapter_active": true,
+    "expected_helper": "REJECT",
+    "expected_full": "REJECT",
+    "manual_leaf": {
+      "group": "ui",
+      "owner": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+      "source_path": "runtime:static_ui",
+      "path": [
+        "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다."
+      ],
+      "category": "ui_static_context",
+      "format_template": false,
+      "runtime_support": "builtin_overlay_static_only"
+    },
+    "reason": "Extra currency amount must reject and retain its original independent money diagnostic.",
+    "failure_family": "numeric_role",
+    "independent_diagnostic": "money",
+    "source_utf8_sha256": "55eddf23fc0bb1982d45e42d0c052d6b56f04f800728766c5f25b5bf4bc153b1",
+    "target_utf8_sha256": "0cd1e95b725c3567298a53fc4925b579e027e606d7f4197931c04ac62c51d2ce"
+  },
+  {
+    "id": "ja_added_placeholder",
+    "kind": "mutant",
+    "locale": "ja",
+    "key": "ui:다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.:/다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "source": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "target": "大小（タイサイ）を15ラウンド以上。3個のサイコロが転がる音を覚えている。{name}",
+    "base": "actual_ja",
+    "expected_adapter_active": true,
+    "expected_helper": "PASS",
+    "expected_full": "REJECT",
+    "manual_leaf": {
+      "group": "ui",
+      "owner": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+      "source_path": "runtime:static_ui",
+      "path": [
+        "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다."
+      ],
+      "category": "ui_static_context",
+      "format_template": false,
+      "runtime_support": "builtin_overlay_static_only"
+    },
+    "reason": "Numerically correct target with invented runtime placeholder; local numeric may pass, full must reject.",
+    "failure_family": "independent_original_text",
+    "independent_diagnostic": "placeholder",
+    "source_utf8_sha256": "55eddf23fc0bb1982d45e42d0c052d6b56f04f800728766c5f25b5bf4bc153b1",
+    "target_utf8_sha256": "27770d381fa09e4d1d7a4350e0d762cce4353b3de6c6fc7db59675678635a966"
+  },
+  {
+    "id": "tw_added_BBCode",
+    "kind": "mutant",
+    "locale": "zh-TW",
+    "key": "ui:다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.:/다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "source": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "target": "骰寶玩了15局以上。還記得三顆骰子滾動的聲音。[b]",
+    "base": "actual_tw",
+    "expected_adapter_active": true,
+    "expected_helper": "PASS",
+    "expected_full": "REJECT",
+    "manual_leaf": {
+      "group": "ui",
+      "owner": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+      "source_path": "runtime:static_ui",
+      "path": [
+        "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다."
+      ],
+      "category": "ui_static_context",
+      "format_template": false,
+      "runtime_support": "builtin_overlay_static_only"
+    },
+    "reason": "Numerically correct target with unmatched/added BBCode; local numeric may pass, full must reject.",
+    "failure_family": "independent_original_text",
+    "independent_diagnostic": "placeholder",
+    "source_utf8_sha256": "55eddf23fc0bb1982d45e42d0c052d6b56f04f800728766c5f25b5bf4bc153b1",
+    "target_utf8_sha256": "868a80f7ca7688de5d7a582289514a3f5bc06d3fa242ab853d61b8044fe47559"
+  },
+  {
+    "id": "cn_traditional_classifier",
+    "kind": "mutant",
+    "locale": "zh-CN",
+    "key": "ui:다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.:/다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "source": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "target": "骰宝玩过15轮以上。还记得三顆骰子滚动的声音。",
+    "base": "actual_cn",
+    "expected_adapter_active": true,
+    "expected_helper": "PASS",
+    "expected_full": "REJECT",
+    "manual_leaf": {
+      "group": "ui",
+      "owner": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+      "source_path": "runtime:static_ui",
+      "path": [
+        "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다."
+      ],
+      "category": "ui_static_context",
+      "format_template": false,
+      "runtime_support": "builtin_overlay_static_only"
+    },
+    "reason": "Dice3 remains numeric-equivalent but Traditional-only顆 in CN must retain original script diagnostic.",
+    "failure_family": "independent_original_text",
+    "independent_diagnostic": "script",
+    "source_utf8_sha256": "55eddf23fc0bb1982d45e42d0c052d6b56f04f800728766c5f25b5bf4bc153b1",
+    "target_utf8_sha256": "f3274d53c8f3d241c1a19dfdd7f41a8e38c3a88f95123d9c70d52478420b7a46"
+  },
+  {
+    "id": "tw_simplified_classifier",
+    "kind": "mutant",
+    "locale": "zh-TW",
+    "key": "ui:다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.:/다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "source": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "target": "骰寶玩了15局以上。還記得三颗骰子滾動的聲音。",
+    "base": "actual_tw",
+    "expected_adapter_active": true,
+    "expected_helper": "PASS",
+    "expected_full": "REJECT",
+    "manual_leaf": {
+      "group": "ui",
+      "owner": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+      "source_path": "runtime:static_ui",
+      "path": [
+        "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다."
+      ],
+      "category": "ui_static_context",
+      "format_template": false,
+      "runtime_support": "builtin_overlay_static_only"
+    },
+    "reason": "Dice3 remains numeric-equivalent but Simplified-only颗 in TW must retain original script diagnostic.",
+    "failure_family": "independent_original_text",
+    "independent_diagnostic": "script",
+    "source_utf8_sha256": "55eddf23fc0bb1982d45e42d0c052d6b56f04f800728766c5f25b5bf4bc153b1",
+    "target_utf8_sha256": "ac2ac9a55c7dc3ba4eea46f3887633a63f23559690b13cee4b6039d7bf6c61c2"
+  },
+  {
+    "id": "key_OFF",
+    "kind": "OFF",
+    "locale": "ja",
+    "key": "ui:dice_title_wrong_owner:/다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "source": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "target": "大小（タイサイ）を15ラウンド以上。3個のサイコロが転がる音を覚えている。",
+    "base": null,
+    "expected_adapter_active": false,
+    "expected_helper": "NONE",
+    "expected_full": "PRESERVE_BASELINE",
+    "manual_leaf": {
+      "group": "ui",
+      "owner": "dice_title_wrong_owner",
+      "source_path": "runtime:static_ui",
+      "path": [
+        "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다."
+      ],
+      "category": "ui_static_context",
+      "format_template": false,
+      "runtime_support": "builtin_overlay_static_only"
+    },
+    "reason": "Wrong owner/key cannot activate exact UI-source adapter.",
+    "precode_full_errors": null,
+    "source_utf8_sha256": "55eddf23fc0bb1982d45e42d0c052d6b56f04f800728766c5f25b5bf4bc153b1",
+    "target_utf8_sha256": "de755b5b20790151cfaca537118f4d4f371127e3bb4ea28b9c3ab617ff6a5a73"
+  },
+  {
+    "id": "source_OFF",
+    "kind": "OFF",
+    "locale": "zh-CN",
+    "key": "ui:다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.:/다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "source": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다. ",
+    "target": "骰宝玩过15轮以上。还记得三颗骰子滚动的声音。",
+    "base": null,
+    "expected_adapter_active": false,
+    "expected_helper": "NONE",
+    "expected_full": "PRESERVE_BASELINE",
+    "manual_leaf": {
+      "group": "ui",
+      "owner": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+      "source_path": "runtime:static_ui",
+      "path": [
+        "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다."
+      ],
+      "category": "ui_static_context",
+      "format_template": false,
+      "runtime_support": "builtin_overlay_static_only"
+    },
+    "reason": "Changed full source while key stays original must remain OFF.",
+    "precode_full_errors": null,
+    "source_utf8_sha256": "63fb290d80d8d9df38cd65484c551ef36a67e5154d3e9c9a336c6d1e2ffd3c71",
+    "target_utf8_sha256": "9ede483d7e3709fe983ce0d6e97d64dc868c994dd5f080f7fec6ea87c66f5ed2"
+  },
+  {
+    "id": "unrelated_counter_OFF",
+    "kind": "OFF",
+    "locale": "zh-TW",
+    "key": "ui:세 개의 주사위가 구른다.:/세 개의 주사위가 구른다.",
+    "source": "세 개의 주사위가 구른다.",
+    "target": "三顆骰子滾動。",
+    "base": null,
+    "expected_adapter_active": false,
+    "expected_helper": "NONE",
+    "expected_full": "PRESERVE_BASELINE",
+    "manual_leaf": {
+      "group": "ui",
+      "owner": "세 개의 주사위가 구른다.",
+      "source_path": "runtime:static_ui",
+      "path": [
+        "세 개의 주사위가 구른다."
+      ],
+      "category": "ui_static_context",
+      "format_template": false,
+      "runtime_support": "builtin_overlay_static_only"
+    },
+    "reason": "Different dice prose must not inherit this source-bound fix; preserve actual baseline even if it is a known generic FP.",
+    "precode_full_errors": null,
+    "source_utf8_sha256": "57e18f8c87400f4354931c16c81687a9b5fccfbdd9a2900f25bd4382e1119cd4",
+    "target_utf8_sha256": "7be2ee13f66b96e156baab61a8b5c3793449d5661151a6a34f28073ac95064b5"
+  },
+  {
+    "id": "locale_OFF",
+    "kind": "OFF",
+    "locale": "en",
+    "key": "ui:다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.:/다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "source": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "target": "Played 15 or more Dai Sai rounds. You remember the sound of three dice rolling.",
+    "base": null,
+    "expected_adapter_active": false,
+    "expected_helper": "NONE",
+    "expected_full": "PRESERVE_BASELINE",
+    "manual_leaf": {
+      "group": "ui",
+      "owner": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+      "source_path": "runtime:static_ui",
+      "path": [
+        "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다."
+      ],
+      "category": "ui_static_context",
+      "format_template": false,
+      "runtime_support": "builtin_overlay_static_only"
+    },
+    "reason": "Unsupported full-pipeline locale remains OFF; do not approve EN through numeric adapter.",
+    "precode_full_errors": null,
+    "source_utf8_sha256": "55eddf23fc0bb1982d45e42d0c052d6b56f04f800728766c5f25b5bf4bc153b1",
+    "target_utf8_sha256": "cbbcbd5d4a2be66518be50f4fe69ebe8f5c7f30ba6455bab4e521879c4b26ff9"
+  },
+  {
+    "id": "order249_valid_OFF",
+    "kind": "OFF",
+    "locale": "ja",
+    "key": "ui:다섯 번의 인생:/다섯 번의 인생",
+    "source": "다섯 번의 인생",
+    "target": "5度の人生",
+    "base": null,
+    "expected_adapter_active": false,
+    "expected_helper": "NONE",
+    "expected_full": "PRESERVE_BASELINE",
+    "manual_leaf": {
+      "group": "ui",
+      "owner": "다섯 번의 인생",
+      "source_path": "runtime:static_ui",
+      "path": [
+        "다섯 번의 인생"
+      ],
+      "category": "ui_static_context",
+      "format_template": false,
+      "runtime_support": "builtin_overlay_static_only"
+    },
+    "reason": "Existing ORDER249 valid source keeps its own adapter; new dice adapter is None and full baseline unchanged.",
+    "precode_full_errors": null,
+    "source_utf8_sha256": "513252b677132dda7020ff58475c7f6bfb94bd65632d4ad429baeb307db2b30a",
+    "target_utf8_sha256": "dc3ea3940825c5f7cf8486f63aa1815fa35ee8e3d3df00e6dc9f2ded0151d291"
+  }
+]''')
+        original_baseline = json.loads(r'''{
+  "actual_ja": {
+    "validate_translation": [],
+    "lines": [
+      0,
+      0
+    ],
+    "paragraphs": [
+      0,
+      0
+    ]
+  },
+  "actual_cn": {
+    "script": [],
+    "money": [],
+    "terminology": [],
+    "english": [],
+    "tokens": [
+      [],
+      []
+    ],
+    "lines": [
+      0,
+      0
+    ],
+    "paragraphs": [
+      0,
+      0
+    ]
+  },
+  "actual_tw": {
+    "script": [],
+    "money": [],
+    "terminology": [],
+    "english": [],
+    "tokens": [
+      [],
+      []
+    ],
+    "lines": [
+      0,
+      0
+    ],
+    "paragraphs": [
+      0,
+      0
+    ]
+  },
+  "ja_native_counts": {
+    "validate_translation": [],
+    "lines": [
+      0,
+      0
+    ],
+    "paragraphs": [
+      0,
+      0
+    ]
+  },
+  "ja_fullwidth_mitsu": {
+    "validate_translation": [],
+    "lines": [
+      0,
+      0
+    ],
+    "paragraphs": [
+      0,
+      0
+    ]
+  },
+  "cn_native_fifteen_ge": {
+    "script": [],
+    "money": [],
+    "terminology": [],
+    "english": [],
+    "tokens": [
+      [],
+      []
+    ],
+    "lines": [
+      0,
+      0
+    ],
+    "paragraphs": [
+      0,
+      0
+    ]
+  },
+  "cn_fullwidth_counts": {
+    "script": [],
+    "money": [],
+    "terminology": [],
+    "english": [],
+    "tokens": [
+      [],
+      []
+    ],
+    "lines": [
+      0,
+      0
+    ],
+    "paragraphs": [
+      0,
+      0
+    ]
+  },
+  "tw_native_fifteen_ge": {
+    "script": [],
+    "money": [],
+    "terminology": [],
+    "english": [],
+    "tokens": [
+      [],
+      []
+    ],
+    "lines": [
+      0,
+      0
+    ],
+    "paragraphs": [
+      0,
+      0
+    ]
+  },
+  "tw_fullwidth_counts": {
+    "script": [],
+    "money": [],
+    "terminology": [],
+    "english": [],
+    "tokens": [
+      [],
+      []
+    ],
+    "lines": [
+      0,
+      0
+    ],
+    "paragraphs": [
+      0,
+      0
+    ]
+  },
+  "ja_round_value14": {
+    "validate_translation": [],
+    "lines": [
+      0,
+      0
+    ],
+    "paragraphs": [
+      0,
+      0
+    ]
+  },
+  "cn_dice_value4": {
+    "script": [],
+    "money": [],
+    "terminology": [],
+    "english": [],
+    "tokens": [
+      [],
+      []
+    ],
+    "lines": [
+      0,
+      0
+    ],
+    "paragraphs": [
+      0,
+      0
+    ]
+  },
+  "tw_round_dice_exchange": {
+    "script": [],
+    "money": [],
+    "terminology": [],
+    "english": [],
+    "tokens": [
+      [],
+      []
+    ],
+    "lines": [
+      0,
+      0
+    ],
+    "paragraphs": [
+      0,
+      0
+    ]
+  },
+  "ja_positive_dice_sign": {
+    "validate_translation": [],
+    "lines": [
+      0,
+      0
+    ],
+    "paragraphs": [
+      0,
+      0
+    ]
+  },
+  "cn_negative_dice_sign": {
+    "script": [],
+    "money": [],
+    "terminology": [],
+    "english": [],
+    "tokens": [
+      [],
+      []
+    ],
+    "lines": [
+      0,
+      0
+    ],
+    "paragraphs": [
+      0,
+      0
+    ]
+  },
+  "tw_fractional_dice": {
+    "script": [],
+    "money": [],
+    "terminology": [],
+    "english": [],
+    "tokens": [
+      [],
+      []
+    ],
+    "lines": [
+      0,
+      0
+    ],
+    "paragraphs": [
+      0,
+      0
+    ]
+  },
+  "cn_fractional_rounds": {
+    "script": [],
+    "money": [],
+    "terminology": [],
+    "english": [],
+    "tokens": [
+      [],
+      []
+    ],
+    "lines": [
+      0,
+      0
+    ],
+    "paragraphs": [
+      0,
+      0
+    ]
+  },
+  "ja_person_unit": {
+    "validate_translation": [],
+    "lines": [
+      0,
+      0
+    ],
+    "paragraphs": [
+      0,
+      0
+    ]
+  },
+  "cn_period_unit": {
+    "script": [],
+    "money": [],
+    "terminology": [],
+    "english": [],
+    "tokens": [
+      [],
+      []
+    ],
+    "lines": [
+      0,
+      0
+    ],
+    "paragraphs": [
+      0,
+      0
+    ]
+  },
+  "tw_chip_owner": {
+    "script": [],
+    "money": [],
+    "terminology": [],
+    "english": [],
+    "tokens": [
+      [],
+      []
+    ],
+    "lines": [
+      0,
+      0
+    ],
+    "paragraphs": [
+      0,
+      0
+    ]
+  },
+  "tw_duplicate_dice_count": {
+    "script": [],
+    "money": [],
+    "terminology": [],
+    "english": [],
+    "tokens": [
+      [],
+      []
+    ],
+    "lines": [
+      0,
+      0
+    ],
+    "paragraphs": [
+      0,
+      0
+    ]
+  },
+  "ja_missing_dice_count": {
+    "validate_translation": [],
+    "lines": [
+      0,
+      0
+    ],
+    "paragraphs": [
+      0,
+      0
+    ]
+  },
+  "cn_missing_round_count": {
+    "script": [],
+    "money": [],
+    "terminology": [],
+    "english": [],
+    "tokens": [
+      [],
+      []
+    ],
+    "lines": [
+      0,
+      0
+    ],
+    "paragraphs": [
+      0,
+      0
+    ]
+  },
+  "tw_extra_native_count": {
+    "script": [],
+    "money": [],
+    "terminology": [],
+    "english": [],
+    "tokens": [
+      [],
+      []
+    ],
+    "lines": [
+      0,
+      0
+    ],
+    "paragraphs": [
+      0,
+      0
+    ]
+  },
+  "ja_extra_arabic_count": {
+    "validate_translation": [],
+    "lines": [
+      0,
+      0
+    ],
+    "paragraphs": [
+      0,
+      0
+    ]
+  },
+  "cn_newline_movement": {
+    "script": [],
+    "money": [],
+    "terminology": [],
+    "english": [],
+    "tokens": [
+      [],
+      []
+    ],
+    "lines": [
+      0,
+      1
+    ],
+    "paragraphs": [
+      0,
+      0
+    ]
+  },
+  "tw_sentence_order": {
+    "script": [],
+    "money": [],
+    "terminology": [],
+    "english": [],
+    "tokens": [
+      [],
+      []
+    ],
+    "lines": [
+      0,
+      0
+    ],
+    "paragraphs": [
+      0,
+      0
+    ]
+  },
+  "ja_displaced_dice_quantity": {
+    "validate_translation": [],
+    "lines": [
+      0,
+      0
+    ],
+    "paragraphs": [
+      0,
+      0
+    ]
+  },
+  "tw_round_threshold_below": {
+    "script": [],
+    "money": [],
+    "terminology": [],
+    "english": [],
+    "tokens": [
+      [],
+      []
+    ],
+    "lines": [
+      0,
+      0
+    ],
+    "paragraphs": [
+      0,
+      0
+    ]
+  },
+  "cn_approximate_round_prefix": {
+    "script": [],
+    "money": [],
+    "terminology": [],
+    "english": [],
+    "tokens": [
+      [],
+      []
+    ],
+    "lines": [
+      0,
+      0
+    ],
+    "paragraphs": [
+      0,
+      0
+    ]
+  },
+  "ja_minimum_dice_prefix": {
+    "validate_translation": [],
+    "lines": [
+      0,
+      0
+    ],
+    "paragraphs": [
+      0,
+      0
+    ]
+  },
+  "cn_added_money": {
+    "script": [],
+    "money": [
+      "translation invented a Korean-won label absent from source"
+    ],
+    "terminology": [],
+    "english": [],
+    "tokens": [
+      [],
+      []
+    ],
+    "lines": [
+      0,
+      0
+    ],
+    "paragraphs": [
+      0,
+      0
+    ]
+  },
+  "ja_added_placeholder": {
+    "validate_translation": [
+      "placeholder mismatch [] != ['{name}']"
+    ],
+    "lines": [
+      0,
+      0
+    ],
+    "paragraphs": [
+      0,
+      0
+    ]
+  },
+  "tw_added_BBCode": {
+    "script": [],
+    "money": [],
+    "terminology": [],
+    "english": [],
+    "tokens": [
+      [],
+      [
+        "[b]"
+      ]
+    ],
+    "lines": [
+      0,
+      0
+    ],
+    "paragraphs": [
+      0,
+      0
+    ]
+  },
+  "cn_traditional_classifier": {
+    "script": [
+      "regional script mismatch: characters='顆' belongs to zh-TW in this gate"
+    ],
+    "money": [],
+    "terminology": [],
+    "english": [],
+    "tokens": [
+      [],
+      []
+    ],
+    "lines": [
+      0,
+      0
+    ],
+    "paragraphs": [
+      0,
+      0
+    ]
+  },
+  "tw_simplified_classifier": {
+    "script": [
+      "regional script mismatch: characters='颗' belongs to zh-CN in this gate"
+    ],
+    "money": [],
+    "terminology": [],
+    "english": [],
+    "tokens": [
+      [],
+      []
+    ],
+    "lines": [
+      0,
+      0
+    ],
+    "paragraphs": [
+      0,
+      0
+    ]
+  },
+  "key_OFF": {
+    "validate_translation": [],
+    "lines": [
+      0,
+      0
+    ],
+    "paragraphs": [
+      0,
+      0
+    ]
+  },
+  "source_OFF": {
+    "script": [],
+    "money": [],
+    "terminology": [],
+    "english": [],
+    "tokens": [
+      [],
+      []
+    ],
+    "lines": [
+      0,
+      0
+    ],
+    "paragraphs": [
+      0,
+      0
+    ]
+  },
+  "unrelated_counter_OFF": {
+    "script": [],
+    "money": [],
+    "terminology": [],
+    "english": [],
+    "tokens": [
+      [],
+      []
+    ],
+    "lines": [
+      0,
+      0
+    ],
+    "paragraphs": [
+      0,
+      0
+    ]
+  },
+  "locale_OFF": {
+    "lines": [
+      0,
+      0
+    ],
+    "paragraphs": [
+      0,
+      0
+    ]
+  },
+  "order249_valid_OFF": {
+    "validate_translation": [],
+    "lines": [
+      0,
+      0
+    ],
+    "paragraphs": [
+      0,
+      0
+    ]
+  }
+}''')
+        off_baseline = json.loads(r'''{
+  "key_OFF": [
+    "explicit numeric value/sign mismatch"
+  ],
+  "source_OFF": [
+    "counter quantity missing/changed: expected (entity, 3), target candidates=[]"
+  ],
+  "unrelated_counter_OFF": [
+    "counter quantity missing/changed: expected (entity, 3), target candidates=[]"
+  ],
+  "locale_OFF": [
+    "unsupported locale"
+  ],
+  "order249_valid_OFF": []
+}''')
+        retained_independent = json.loads(r'''{
+  "cn_newline_movement": [
+    "newline mismatch 0 != 1"
+  ],
+  "cn_added_money": [
+    "Korean-won values changed: [] != [Decimal('1')]",
+    "translation invented a Korean-won label absent from source"
+  ],
+  "ja_added_placeholder": [
+    "placeholder mismatch [] != ['{name}']"
+  ],
+  "tw_added_BBCode": [
+    "placeholder/BBCode mismatch"
+  ],
+  "cn_traditional_classifier": [
+    "regional script mismatch: characters='顆' belongs to zh-TW in this gate"
+  ],
+  "tw_simplified_classifier": [
+    "regional script mismatch: characters='颗' belongs to zh-CN in this gate"
+  ]
+}''')
+        normalization = json.loads(r'''{
+  "actual_ja": {
+    "source_edits": [
+      {
+        "start": 15,
+        "end": 18,
+        "before": "세 개",
+        "after": "3개"
+      }
+    ],
+    "target_edits": [
+      {
+        "start": 9,
+        "end": 11,
+        "before": "15",
+        "after": "15"
+      },
+      {
+        "start": 18,
+        "end": 20,
+        "before": "3個",
+        "after": "3個"
+      }
+    ],
+    "source": "다이사이 15라운드 이상. 3개의 주사위가 구르는 소리를 기억한다.",
+    "target": "大小（タイサイ）を15ラウンド以上。3個のサイコロが転がる音を覚えている。"
+  },
+  "actual_cn": {
+    "source_edits": [
+      {
+        "start": 15,
+        "end": 18,
+        "before": "세 개",
+        "after": "3개"
+      }
+    ],
+    "target_edits": [
+      {
+        "start": 4,
+        "end": 6,
+        "before": "15",
+        "after": "15"
+      },
+      {
+        "start": 13,
+        "end": 15,
+        "before": "三颗",
+        "after": "3个"
+      }
+    ],
+    "source": "다이사이 15라운드 이상. 3개의 주사위가 구르는 소리를 기억한다.",
+    "target": "骰宝玩过15轮以上。还记得3个骰子滚动的声音。"
+  },
+  "actual_tw": {
+    "source_edits": [
+      {
+        "start": 15,
+        "end": 18,
+        "before": "세 개",
+        "after": "3개"
+      }
+    ],
+    "target_edits": [
+      {
+        "start": 4,
+        "end": 6,
+        "before": "15",
+        "after": "15"
+      },
+      {
+        "start": 13,
+        "end": 15,
+        "before": "三顆",
+        "after": "3個"
+      }
+    ],
+    "source": "다이사이 15라운드 이상. 3개의 주사위가 구르는 소리를 기억한다.",
+    "target": "骰寶玩了15局以上。還記得3個骰子滾動的聲音。"
+  },
+  "ja_native_counts": {
+    "source_edits": [
+      {
+        "start": 15,
+        "end": 18,
+        "before": "세 개",
+        "after": "3개"
+      }
+    ],
+    "target_edits": [
+      {
+        "start": 9,
+        "end": 11,
+        "before": "十五",
+        "after": "15"
+      },
+      {
+        "start": 18,
+        "end": 20,
+        "before": "三個",
+        "after": "3個"
+      }
+    ],
+    "source": "다이사이 15라운드 이상. 3개의 주사위가 구르는 소리를 기억한다.",
+    "target": "大小（タイサイ）を15ラウンド以上。3個のサイコロが転がる音を覚えている。"
+  },
+  "ja_fullwidth_mitsu": {
+    "source_edits": [
+      {
+        "start": 15,
+        "end": 18,
+        "before": "세 개",
+        "after": "3개"
+      }
+    ],
+    "target_edits": [
+      {
+        "start": 9,
+        "end": 11,
+        "before": "１５",
+        "after": "15"
+      },
+      {
+        "start": 18,
+        "end": 20,
+        "before": "三つ",
+        "after": "3個"
+      }
+    ],
+    "source": "다이사이 15라운드 이상. 3개의 주사위가 구르는 소리를 기억한다.",
+    "target": "大小（タイサイ）を15ラウンド以上。3個のサイコロが転がる音を覚えている。"
+  },
+  "cn_native_fifteen_ge": {
+    "source_edits": [
+      {
+        "start": 15,
+        "end": 18,
+        "before": "세 개",
+        "after": "3개"
+      }
+    ],
+    "target_edits": [
+      {
+        "start": 4,
+        "end": 6,
+        "before": "十五",
+        "after": "15"
+      },
+      {
+        "start": 13,
+        "end": 15,
+        "before": "3个",
+        "after": "3个"
+      }
+    ],
+    "source": "다이사이 15라운드 이상. 3개의 주사위가 구르는 소리를 기억한다.",
+    "target": "骰宝玩过15轮以上。还记得3个骰子滚动的声音。"
+  },
+  "cn_fullwidth_counts": {
+    "source_edits": [
+      {
+        "start": 15,
+        "end": 18,
+        "before": "세 개",
+        "after": "3개"
+      }
+    ],
+    "target_edits": [
+      {
+        "start": 4,
+        "end": 6,
+        "before": "１５",
+        "after": "15"
+      },
+      {
+        "start": 13,
+        "end": 15,
+        "before": "３颗",
+        "after": "3个"
+      }
+    ],
+    "source": "다이사이 15라운드 이상. 3개의 주사위가 구르는 소리를 기억한다.",
+    "target": "骰宝玩过15轮以上。还记得3个骰子滚动的声音。"
+  },
+  "tw_native_fifteen_ge": {
+    "source_edits": [
+      {
+        "start": 15,
+        "end": 18,
+        "before": "세 개",
+        "after": "3개"
+      }
+    ],
+    "target_edits": [
+      {
+        "start": 4,
+        "end": 6,
+        "before": "十五",
+        "after": "15"
+      },
+      {
+        "start": 13,
+        "end": 15,
+        "before": "3個",
+        "after": "3個"
+      }
+    ],
+    "source": "다이사이 15라운드 이상. 3개의 주사위가 구르는 소리를 기억한다.",
+    "target": "骰寶玩了15局以上。還記得3個骰子滾動的聲音。"
+  },
+  "tw_fullwidth_counts": {
+    "source_edits": [
+      {
+        "start": 15,
+        "end": 18,
+        "before": "세 개",
+        "after": "3개"
+      }
+    ],
+    "target_edits": [
+      {
+        "start": 4,
+        "end": 6,
+        "before": "１５",
+        "after": "15"
+      },
+      {
+        "start": 13,
+        "end": 15,
+        "before": "３顆",
+        "after": "3個"
+      }
+    ],
+    "source": "다이사이 15라운드 이상. 3개의 주사위가 구르는 소리를 기억한다.",
+    "target": "骰寶玩了15局以上。還記得3個骰子滾動的聲音。"
+  },
+  "ja_added_placeholder": {
+    "source_edits": [
+      {
+        "start": 15,
+        "end": 18,
+        "before": "세 개",
+        "after": "3개"
+      }
+    ],
+    "target_edits": [
+      {
+        "start": 9,
+        "end": 11,
+        "before": "15",
+        "after": "15"
+      },
+      {
+        "start": 18,
+        "end": 20,
+        "before": "3個",
+        "after": "3個"
+      }
+    ],
+    "source": "다이사이 15라운드 이상. 3개의 주사위가 구르는 소리를 기억한다.",
+    "target": "大小（タイサイ）を15ラウンド以上。3個のサイコロが転がる音を覚えている。{name}"
+  },
+  "tw_added_BBCode": {
+    "source_edits": [
+      {
+        "start": 15,
+        "end": 18,
+        "before": "세 개",
+        "after": "3개"
+      }
+    ],
+    "target_edits": [
+      {
+        "start": 4,
+        "end": 6,
+        "before": "15",
+        "after": "15"
+      },
+      {
+        "start": 13,
+        "end": 15,
+        "before": "三顆",
+        "after": "3個"
+      }
+    ],
+    "source": "다이사이 15라운드 이상. 3개의 주사위가 구르는 소리를 기억한다.",
+    "target": "骰寶玩了15局以上。還記得3個骰子滾動的聲音。[b]"
+  },
+  "cn_traditional_classifier": {
+    "source_edits": [
+      {
+        "start": 15,
+        "end": 18,
+        "before": "세 개",
+        "after": "3개"
+      }
+    ],
+    "target_edits": [
+      {
+        "start": 4,
+        "end": 6,
+        "before": "15",
+        "after": "15"
+      },
+      {
+        "start": 13,
+        "end": 15,
+        "before": "三顆",
+        "after": "3个"
+      }
+    ],
+    "source": "다이사이 15라운드 이상. 3개의 주사위가 구르는 소리를 기억한다.",
+    "target": "骰宝玩过15轮以上。还记得3个骰子滚动的声音。"
+  },
+  "tw_simplified_classifier": {
+    "source_edits": [
+      {
+        "start": 15,
+        "end": 18,
+        "before": "세 개",
+        "after": "3개"
+      }
+    ],
+    "target_edits": [
+      {
+        "start": 4,
+        "end": 6,
+        "before": "15",
+        "after": "15"
+      },
+      {
+        "start": 13,
+        "end": 15,
+        "before": "三颗",
+        "after": "3個"
+      }
+    ],
+    "source": "다이사이 15라운드 이상. 3개의 주사위가 구르는 소리를 기억한다.",
+    "target": "骰寶玩了15局以上。還記得3個骰子滾動的聲音。"
+  }
+}''')
+        paths = (
+            "tools/full_game_localization.py",
+            "tools/full_game_localization_self_test.py",
+            "tools/ja_translation_pipeline.py", "tools/zh_translation_audit.py",
+            "tools/data/opencc_script_variants_1_3_1.json",
+            "tools/data/LICENSE-OpenCC-2.0.txt",
+            "autoloads/MetaProgression.gd",
+            "locale/ui_ja.json", "locale/ui_zh-CN.json", "locale/ui_zh-TW.json",
+        )
+        component_calls = {"original": 0, "normalized": 0}
+
+        def capture(callback):
+            stdout, stderr = io.StringIO(), io.StringIO()
+            value, exception = None, None
+            with contextlib.redirect_stdout(stdout), contextlib.redirect_stderr(stderr):
+                try:
+                    value = callback()
+                except Exception:
+                    exception = traceback.format_exc()
+            return {"value": value, "exception": exception,
+                    "stdout": stdout.getvalue(), "stderr": stderr.getvalue()}
+
+        def pins():
+            result = {}
+            for relative in paths:
+                raw = (tool.ROOT / relative).read_bytes()
+                result[relative] = {
+                    "bytes": len(raw), "sha256": hashlib.sha256(raw).hexdigest()}
+            return result
+
+        def components(case, source, target, stage):
+            # Observe unchanged nonnumeric checkers on the same40 inputs;
+            # these calls neither feed nor replace the production full result.
+            result = {}
+            callbacks = {}
+            if case["locale"] == "ja":
+                callbacks["validate_translation"] = lambda: ja.validate_translation(
+                    ja.Entry(case["key"], source, case["manual_leaf"]["owner"],
+                             format_template=case["manual_leaf"]["format_template"]), target)
+            elif case["locale"] in ("zh-CN", "zh-TW"):
+                callbacks = {
+                    "script": lambda: zh._script_errors(case["locale"], target),
+                    "money": lambda: zh._money_errors(case["locale"], source, target),
+                    "terminology": lambda: zh._terminology_errors(case["locale"], source, target),
+                    "english": lambda: zh._untranslated_english_errors(source, target, catalog=False),
+                    "tokens": lambda: [zh._tokens(source, source=source),
+                                      zh._tokens(target, source=source)],
+                }
+            for name, callback in callbacks.items():
+                result[name] = capture(callback)
+                component_calls[stage] += 1
+            result["lines"] = capture(lambda: [source.count("\n"), target.count("\n")])
+            result["paragraphs"] = capture(lambda: [source.count("\n\n"), target.count("\n\n")])
+            return result
+
+        def values(observed):
+            return {name: item["value"] for name, item in observed.items()}
+
+        def observations_ok(observed):
+            return all(item["exception"] is None for item in observed.values())
+
+        def apply_owned(original, edits):
+            # Independently frozen literal offsets. Only these two target spans
+            # and the one KO classifier span may differ; no whole-text rewrite.
+            cursor, pieces = 0, []
+            for edit in edits:
+                start, end = edit["start"], edit["end"]
+                if not (cursor <= start <= end <= len(original)) or \
+                        original[start:end] != edit["before"]:
+                    raise ValueError("frozen owned span does not match original")
+                pieces.extend((original[cursor:start], edit["after"]))
+                cursor = end
+            return "".join(pieces) + original[cursor:]
+
+        before = capture(pins)
+        results = []
+        for case in cases:
+            fields = dict(case["manual_leaf"])
+            fields["path"] = tuple(fields["path"])
+            leaf_result = capture(lambda: tool.Leaf(source=case["source"], **fields))
+            leaf = leaf_result["value"]
+            # Helper and full each run exactly once per frozen row, independently.
+            helper = capture(lambda: tool._ui_dice_title_numbers(
+                case["locale"], case["key"], case["source"], case["target"]))
+            full = capture(lambda: tool.translation_errors(leaf, case["locale"], case["target"]))
+            original = components(case, case["source"], case["target"], "original")
+            value, errors = helper["value"], full["value"]
+            shape = (isinstance(value, tuple) and len(value) == 3
+                     and isinstance(value[0], str) and isinstance(value[1], str)
+                     and isinstance(value[2], list)
+                     and all(isinstance(error, str) for error in value[2]))
+            error_list = (isinstance(errors, list)
+                          and all(isinstance(error, str) for error in errors))
+            checks = {
+                "manual_leaf_constructed": leaf_result["exception"] is None,
+                "manual_leaf_id_exact": leaf is not None and leaf.id == case["key"],
+                "source_utf8_sha256_exact": hashlib.sha256(
+                    case["source"].encode("utf-8")).hexdigest() == case["source_utf8_sha256"],
+                "target_utf8_sha256_exact": hashlib.sha256(
+                    case["target"].encode("utf-8")).hexdigest() == case["target_utf8_sha256"],
+                "helper_no_exception": helper["exception"] is None,
+                "full_no_exception": full["exception"] is None,
+                "full_error_list": error_list,
+                "original_components_no_exception": observations_ok(original),
+                "original_components_baseline_exact": values(original) == original_baseline[case["id"]],
+            }
+            normalized, span_result = None, None
+            if case["expected_adapter_active"]:
+                checks["helper_active_tuple"] = shape
+                if case["expected_helper"] == "PASS":
+                    checks["helper_pass"] = shape and value[2] == []
+                    expected = normalization[case["id"]]
+                    span_result = capture(lambda: (
+                        apply_owned(case["source"], expected["source_edits"]),
+                        apply_owned(case["target"], expected["target_edits"])))
+                    checks["frozen_owned_spans_valid"] = (
+                        span_result["exception"] is None
+                        and span_result["value"] == (expected["source"], expected["target"]))
+                    checks["normalized_nonowned_spans_unchanged"] = (
+                        shape and value[:2] == span_result["value"])
+                else:
+                    checks["helper_reject"] = shape and bool(value[2])
+                    checks["reject_preserves_original_pair"] = (
+                        shape and value[:2] == (case["source"], case["target"]))
+            else:
+                checks["helper_exact_None"] = value is None
+                checks["OFF_full_baseline_errors_exact"] = error_list and errors == off_baseline[case["id"]]
+
+            if case["expected_full"] == "PASS":
+                checks["full_pass"] = error_list and errors == []
+            elif case["expected_full"] == "REJECT":
+                checks["full_reject"] = error_list and bool(errors)
+            if case["id"] in retained_independent:
+                checks["independent_full_diagnostics_retained_exact"] = error_list and all(
+                    error in errors for error in retained_independent[case["id"]])
+
+            if shape and value[2] == []:
+                normalized = components(case, value[0], value[1], "normalized")
+                expected_components = copy.deepcopy(original_baseline[case["id"]])
+                # Erasing a foreign classifier can remove its local script
+                # diagnostic. The ORIGINAL diagnosis must still survive full().
+                if case["id"] in ("cn_traditional_classifier", "tw_simplified_classifier"):
+                    expected_components["script"] = []
+                    checks["original_foreign_script_observed"] = bool(
+                        original_baseline[case["id"]]["script"])
+                checks["normalized_components_no_exception"] = observations_ok(normalized)
+                checks["normalized_independent_components_preserved"] = (
+                    values(normalized) == expected_components)
+            results.append({
+                "id": case["id"], "kind": case["kind"], "base": case["base"],
+                "locale": case["locale"], "key": case["key"],
+                "source": case["source"], "target": case["target"],
+                "expected_helper": case["expected_helper"], "expected_full": case["expected_full"],
+                "manual_leaf": dataclasses.asdict(leaf) if leaf is not None else None,
+                "manual_leaf_exception": leaf_result["exception"],
+                "helper": helper, "full_manual_Leaf": full,
+                "original_components": original, "normalized_components": normalized,
+                "frozen_span_replay": span_result,
+                "checks": checks, "passed": all(checks.values()),
+            })
+        after = capture(pins)
+        by_id = {row["id"]: row for row in results}
+        for row in results:
+            base = by_id.get(row["base"])
+            row["normal_base_passed"] = bool(
+                base is not None and base["kind"] == "normal" and base["passed"]
+                and base["checks"].get("helper_pass") is True
+                and base["checks"].get("full_pass") is True
+                and all(base[key] == row[key] for key in ("locale", "key", "source")))
+            row["valid_negative"] = (
+                row["kind"] == "mutant" and row["normal_base_passed"] and row["passed"])
+            row["valid_result"] = row["passed"] and (
+                row["kind"] != "mutant" or row["normal_base_passed"])
+        counts = {kind: sum(row["kind"] == kind for row in results)
+                  for kind in ("normal", "mutant", "OFF")}
+        cases_sha256 = hashlib.sha256(json.dumps(
+            cases, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode("utf-8")).hexdigest()
+        roster_ok = (
+            len(results) == 40 and len(by_id) == 40
+            and counts == {"normal": 9, "mutant": 26, "OFF": 5}
+            and cases_sha256 == "911edd395ca593a136d50c5cb41461427fdfda369489f4a426b9fde5ddd56d8c"
+            and set(off_baseline) == {row["id"] for row in cases if row["kind"] == "OFF"}
+            and set(original_baseline) == set(by_id)
+            and set(normalization) == {row["id"] for row in cases if row["expected_helper"] == "PASS"})
+        inputs_unchanged = (
+            before["exception"] is None and after["exception"] is None
+            and before["value"] == after["value"])
+        passed = roster_ok and inputs_unchanged and all(row["valid_result"] for row in results)
+        print("ORDER251_UI_DICE_TITLE_FROZEN40 " + json.dumps({
+            "provenance": {
+                "spec_sha256": "c2806e4d2c431f280460603d3ac98081357c50bf2c557cbdf8318b95a02e48ab",
+                "cases_sha256": cases_sha256,
+                "baseline_sha256": "d211a3f1be9b3ba592a84a1f1c9d516ac80c6b9a83eff7de58d54a49e80f616e",
+                "chronology": "Original40 expectations pre-code; OFF5 and original component values are separate first-baseline observations.",
+            },
+            "cases": len(results), "counts": counts, "roster_ok": roster_ok, "results": results,
+            "normal_passed": sum(row["kind"] == "normal" and row["passed"] for row in results),
+            "valid_negatives": sum(row["valid_negative"] for row in results),
+            "input_before": before, "input_after": after, "inputs_unchanged": inputs_unchanged,
+            "execution_counts": {
+                "helper": len(results), "full_manual_Leaf": len(results),
+                "independent_component_calls": component_calls,
+                "collector": 0, "engine": 0},
+            "limits": "Exact-source numeric contracts only; not native/rendered/full-product GO.",
+            "passed": passed,
+        }, ensure_ascii=False), flush=True)
+        # No row assertion can prevent a later frozen row or original diagnostic
+        # from being captured. Failed normal bases never yield effective negatives.
+        for row in results:
+            with self.subTest(id=row["id"]):
+                self.assertTrue(row["valid_result"], row)
+        self.assertTrue(roster_ok, counts)
+        self.assertTrue(inputs_unchanged, {"before": before, "after": after})
+
     def test_order249_ja_life_count_frozen33(self):
         """One source-bound regression; 33 frozen rows, not 33 suite tests."""
         import contextlib

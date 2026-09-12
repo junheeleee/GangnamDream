@@ -2235,12 +2235,12 @@ MG9_SPEC = json.loads(r'''{
       "sha256": "0f00061417669ae026bd3d647156dad9a0e0b4920ee0c4414e49a5c26fdfcdf9"
     },
     "tools/full_game_localization.py": {
-      "bytes": 278655,
-      "sha256": "90b2f806580ab1d342b17646a605f4513d3123b1e8ef29ea32c5d9a689c5a383"
+      "bytes": 282812,
+      "sha256": "9aa3e45cbee1831d421315fc43fdcd9351b1e0394f9995931622592d569110b5"
     },
     "tools/full_game_localization_self_test.py": {
-      "bytes": 1605401,
-      "sha256": "0dc399b90f4f5d11a0bd20ef3ae8a06a64634797770f952813899f9ba0ecf74f"
+      "bytes": 1689986,
+      "sha256": "7c6619c4991cb773f3b1958b21e7ec340e596caa0744b0d659fc1c25f022ca8d"
     },
     "autoloads/GameState.gd": {
       "bytes": 217568,

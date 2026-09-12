@@ -65,6 +65,35 @@
       "why": "Exact two-path UI title quantity repair: fixed24 (6 normal,14 linked negatives,4 OFF) inside one new exchange test. Generic numeral parser and previous expectations unchanged. The final title-localization lane is a strict superset; execute its unique11 once at the same exact candidate and bind both scopes, not two duplicate runs."
     },
     {
+      "id": "dice-title-quantity",
+      "paths": [],
+      "owned_paths": [
+        "tools/full_game_localization.py",
+        "tools/meta_title_locale_successor_self_test.py",
+        "tools/full_game_localization_self_test.py",
+        "tools/audit_scope.json",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/queue_active/ORDER-251.md",
+        "docs/queue_archive/ORDER-251.md",
+        "docs/WORK_LOG.md",
+        "docs/STATUS.md",
+        "docs/queue_backlog/FULL_GAME_LOCALIZATION.md",
+        "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-251.json"
+      ],
+      "tools": [
+        "tools/full_game_localization_self_test.py",
+        "tools/meta_title_locale_successor_self_test.py",
+        "tools/zh_translation_audit.py --self-test",
+        "tools/queue_index_self_test.py",
+        "tools/agent_review_decisions_self_test.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Exact one dice-title UI source quantity repair for JA/CN/TW. Frozen precode cases and old261 methods preserved; actual15-round/3-dice roles, signs, units, independent diagnostics and OFF boundaries retained. Final minigame title named11 is a strict superset; execute once at the same exact source and bind both units, not duplicate runners. No generic Chinese counter, original source/translation, runtime405 input or gameplay changes."
+    },
+    {
       "id": "minigame-meta-title-localization",
       "paths": [],
       "owned_paths": [

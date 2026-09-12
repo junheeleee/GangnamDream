@@ -2990,6 +2990,72 @@ def _ja_ui_life_count_numbers(locale: str, key: str, source: str, target: str):
     return numeric_source, numeric_target, []
 
 
+def _ui_dice_title_numbers(locale: str, key: str, source: str, target: str):
+    """Bind two numeric roles in one UI leaf, without rewriting its prose.
+
+    The first number is the exact threshold 15 with "at least", not any value
+    above 15. The second is exactly three dice in the rolling-sound clause.
+    Only their numeral/classifier spans normalize; errors return the originals.
+    Script and token correctness remain separate from this numeric contract.
+    """
+    expected = "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다."
+    if locale not in ("ja", "zh-CN", "zh-TW") or source != expected \
+            or key != "ui:" + expected + ":/" + expected:
+        return None
+    label = "source-bound dice-title"
+    if not isinstance(target, str) or "\n" in target or "\r" in target:
+        return source, target, [label + " quantity line/type mismatch"]
+    import unicodedata
+
+    digits = "0-9０-９零〇○一二两兩三四五六七八九十百千万萬亿億兆.,，．"
+    if locale == "ja":
+        opening = r"(?:大小[（(]タイサイ[）)]|タイサイ)を"
+        round_unit = r"ラウンド"
+        dice_frame = (
+            rf"(?P<dice>[{digits}]+)(?P<classifier>個|つ)"
+            r"のサイコロが転がる音"
+        )
+    else:
+        opening = r"骰[宝寶]玩[过過了]"
+        round_unit = r"[轮輪局]"
+        dice_frame = (
+            rf"[还還][记記]得(?P<dice>[{digits}]+)"
+            r"(?P<classifier>[颗顆个個])骰子[滚滾][动動]的[声聲]音"
+        )
+    # Anchoring both clauses prevents a later correct quantity from repairing
+    # a missing, signed, approximated, displaced or wrongly owned first count.
+    rounds = re.match(
+        opening + rf"(?P<rounds>[{digits}]+)" + round_unit + r"以上[。.]",
+        target,
+    )
+    if rounds is None:
+        return source, target, [label + " round value/unit/threshold/position mismatch"]
+    dice = re.compile(dice_frame).match(target, rounds.end())
+    if dice is None:
+        return source, target, [label + " dice count/unit/owner/position mismatch"]
+    errors = []
+    if unicodedata.normalize("NFKC", rounds.group("rounds")) not in ("15", "十五"):
+        errors.append(label + " round threshold value mismatch")
+    if unicodedata.normalize("NFKC", dice.group("dice")) not in ("3", "三"):
+        errors.append(label + " dice value/sign mismatch")
+    round_span = rounds.span("rounds")
+    dice_span = (dice.start("dice"), dice.end("classifier"))
+    remainder = target
+    for start, end in sorted((round_span, dice_span), reverse=True):
+        remainder = remainder[:start] + " " * (end - start) + remainder[end:]
+    if re.search(r"[0-9０-９零〇○一二两兩三四五六七八九十百千万萬亿億兆]", remainder):
+        errors.append(label + " extra/duplicate/displaced quantity mismatch")
+    if errors:
+        return source, target, sorted(set(errors))
+    classifier = "个" if locale == "zh-CN" else "個"
+    numeric_target = target
+    for start, end, replacement in sorted(
+        ((*round_span, "15"), (*dice_span, "3" + classifier)), reverse=True,
+    ):
+        numeric_target = numeric_target[:start] + replacement + numeric_target[end:]
+    return source.replace("세 개", "3개", 1), numeric_target, []
+
+
 def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
     import ja_translation_pipeline as ja
     if leaf.group == "endings" and leaf.path == ("condition",):
@@ -3648,6 +3714,10 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
         if life_count_numbers is not None:
             source_numbers, target_numbers, life_count_errors = life_count_numbers
             errors.extend(life_count_errors)
+        dice_numbers = _ui_dice_title_numbers(locale, leaf.id, leaf.source, text)
+        if dice_numbers is not None:
+            source_numbers, target_numbers, dice_errors = dice_numbers
+            errors.extend(dice_errors)
         if sorted(numeric.findall(source_numbers)) != sorted(numeric.findall(target_numbers)):
             errors.append("explicit numeric value/sign mismatch")
         if career_specialization is not None and numeric.findall(source_numbers) != numeric.findall(target_numbers):
@@ -3672,7 +3742,17 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
             errors.append("native time ordered numeric ownership mismatch")
     else:
         from zh_translation_audit import validate_text
-        errors = validate_text(locale, leaf.id, leaf.source, text)
+        dice_numbers = _ui_dice_title_numbers(locale, leaf.id, leaf.source, text)
+        if dice_numbers is None:
+            errors = validate_text(locale, leaf.id, leaf.source, text)
+        else:
+            numeric_source, numeric_target, dice_errors = dice_numbers
+            errors = validate_text(locale, leaf.id, numeric_source, numeric_target)
+            errors.extend(dice_errors)
+            # Numeric-equivalent 顆/颗 must not erase an original script error.
+            # No diagnostic string is filtered; all non-owned prose is exact.
+            from zh_translation_audit import _script_errors
+            errors.extend(_script_errors(locale, text))
         if leaf.format_template:
             errors.extend(ja.ui_placeholder_errors(leaf.source, text))
     # StoryMode replaces each indexed slot exactly once, in source order, then

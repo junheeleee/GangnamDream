@@ -50,3 +50,25 @@ helper 구현 전에 실제 정상3과 자연 수 표기, 숫자·부호·소수
 로컬 full audit·240주·새 CI 반복을 추가하지 않는다. 독립 단위 판정 뒤에만 마감한다.
 본 단위 지시는 일회성이며 기존 수량·원문 안전선 규범을 바꾸지 않는다.
 공개GO1·인간OPEN45·본편HOLD와 native/render/인간 관찰 미실시를 유지한다.
+
+## 첫 고정 대조 관측
+
+독립 PRECODE40은 정상9/숫자·역할변조22/독립진단변조4/OFF5다.
+`order251-dice-controls.json` 64185B/c2806e4d2c431f280460603d3ac98081357c50bf2c557cbdf8318b95a02e48ab.
+ROOT는 구현 전 같은40을 전량 실행했다. `order251-baseline-first.json`
+452565B/d211a3f1be9b3ba592a84a1f1c9d516ac80c6b9a83eff7de58d54a49e80f616e,
+0.493초/입력1193 불변/예외0. 정상 full0/9·유효변조0이며 baseline 기록 성공을
+수리 통과로 세지 않는다. 잘못된 JA 주사위 개수 누락은 기존 검사가 놓쳤다.
+원문 script·placeholder·BBCode·돈·LF 진단도 별도 캡처했다. cross-script 2는
+정확한 수량을 helper에서 허용해도 원문 `_script_errors`를 보존하여 full은 거부해야 한다.
+이후 동일40·원형261을 바꾸지 않는 helper/self 저작을 병렬 진행한다.
+
+## 수리 뒤 첫 대조
+
+exact helper1과 self 메서드1을 적용했다. 기존261 tests/21 helper 및 검사기49함수는
+raw 역복원으로 보존했다. MG9_SPEC 의존핀만 full `90b2f806…→9aa3e45c…`,
+self `0dc399b9…→7c6619c4…`로 재결속했다. source23·역사19/24/18 기대 변경0이다.
+`order251-post-first.json` 501219B/daaf5cb2ecb9cd96040b77b0507c0f8b4a31ca85415761faf0d4aec60fe39897,
+exit0/0.554초/입력1193·내부10 불변. 정상9·유효변조26·OFF5가 전부 기대대로다.
+원래54 L1 재검사도 오류0, 401351B/0a58464e9e415c2c8f037b65c85e3cd76335f5634b6ab08b3329d56ada506dcf.
+원형 첫 실패3·baseline40을 보존했다. 정식 수용·최종 공통11·독립 단위판정은 아직이다.
