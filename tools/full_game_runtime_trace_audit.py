@@ -34,10 +34,11 @@ IMMERSION_LOOP_SCRIPT = ROOT / "tools" / "ImmersionLoopCheck.gd"
 MAIN_GAME_SCRIPT = ROOT / "scenes" / "MainGame.gd"
 AUDIO_MANAGER_SCRIPT = ROOT / "autoloads" / "AudioManager.gd"
 AUDIT_RUNNER_SHA256 = (
-    "af026c518fddc2b4928965d30a11124d80a5a5c3f988dbd44d3dc59727fc1f1e"
+    "c906ff8b56a33a2861833997f3c244e9c3581b641c2c97f5c9d93863bd6127f7"
 )
-# ORDER-156 adds routine-background checks and their collected exit flags only.
-# Prior seal: 0986ed97b197a80c4375b002c037bab6eb8e03c44daa3d7a91690c6c98991c50.
+# ORDER-247 reseals the current runner after ORDER-243/244 check registration
+# and ORDER-245's successor command; the added exit flags still propagate failures.
+# Prior seal: af026c518fddc2b4928965d30a11124d80a5a5c3f988dbd44d3dc59727fc1f1e.
 # The teardown/error-policy blocks below remain byte-exact.
 
 AUDIO_MIX_DRAIN_CRITICAL_BLOCK = (

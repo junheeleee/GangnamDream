@@ -58,3 +58,18 @@ driver12546B/`51bb111851ee0518ff5013cccd19a576c60977b19f96e04b86b738367ab088a1`�
 
 자동 PASS는 계약·회귀 증거이며 재미·문체·화면·원어민·인간 실플레이·본편 GO가 아니다.
 공개 GO1·인간 OPEN45·본편 HOLD를 유지한다. 작업 제한은 일회성이며 새 규범은 없다.
+
+## 구현·최초 대조
+
+선언 `52b3af4b445233831cb3a39e6a46ddb03ee0fa43` 뒤 baseline25를 실행했다.
+정상 current는 REJECT·옛 sealed raw는 PASS였고 유효 negative는0이다. 첫 원형
+`order247-baseline-first.json` 47751B/80d57c938c95795d1b48ba0349d4cf2966d51f56b8365f8a8d435261697ad562,
+exit1/0.745초/실제25call·입력4 전후exact를 보존한다.
+
+검사기는 단일 지문+출처 주석만4추가/3삭제다. 현171119B/b49b282d를 되돌리면
+기존171037B/f74c8265이며 guard/self·실행 AST 나머지는 원형이다. scope26추가줄은
+명시 차선24와 source의존2뿐이다. audit raw c906과 제품·번역은 변경0이다.
+같은25 첫 post는 정상1PASS/변조24REJECT·입력4 exact, exit0/0.773초다.
+`order247-post-first.json` 47853B/e6f72b36c869513524a7a8543d6c9713d090c93a707c5f5e8a2f4102e23a0afe.
+고유 입력은25이며 baseline+post를 새50개 검사로 세지 않는다. 최종 명시5·독립
+단위판정·새 exact 원격 CI는 아직 남는다.

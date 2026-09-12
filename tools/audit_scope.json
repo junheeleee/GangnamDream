@@ -14,6 +14,30 @@
   ],
   "fast_lanes": [
     {
+      "id": "audit-runner-seal",
+      "paths": [],
+      "owned_paths": [
+        "tools/full_game_runtime_trace_audit.py",
+        "tools/audit_scope.json",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/queue_active/ORDER-247.md",
+        "docs/queue_archive/ORDER-247.md",
+        "docs/WORK_LOG.md",
+        "docs/STATUS.md",
+        "docs/queue_backlog/FULL_GAME_LOCALIZATION.md",
+        "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-247.json"
+      ],
+      "tools": [
+        "tools/full_game_runtime_trace_audit.py --self-test",
+        "tools/full_game_runtime_trace_audit.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Single current audit.sh seal repair with frozen25 before/after observations; existing trace self/normal plus routing/context/queue only. No runner, policy, runtime, expectation or localization edits; no local engine/full-run execution."
+    },
+    {
       "id": "two-path-title-quantity",
       "paths": [],
       "owned_paths": [
@@ -1439,6 +1463,7 @@
       "tool": "tools/full_game_runtime_trace_audit.py --self-test",
       "why": "fresh-title W1~W240 occurrence JSONL·후보 신원·무주입·선택/result·엔딩 계약의 변이 거부; 실제 3경로 완주는 실행하지 않음",
       "paths": [
+        "tools/audit.sh",
         "tools/FullGameRuntimeTrace.gd",
         "tools/FullGameRuntimeTrace.gd.uid",
         "tools/FullGameRuntimeTrace.tscn",
@@ -1458,6 +1483,7 @@
       "tool": "tools/full_game_runtime_trace_audit.py",
       "why": "세 fresh-title profile과 recorder/runner의 정적 계약만 검사하고 runtime_trace=PENDING·human gate OPEN을 유지",
       "paths": [
+        "tools/audit.sh",
         "tools/FullGameRuntimeTrace.gd",
         "tools/FullGameRuntimeTrace.gd.uid",
         "tools/FullGameRuntimeTrace.tscn",
