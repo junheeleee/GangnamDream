@@ -1,3 +1,32 @@
+# ORDER-253 — 도감 안내 번역 결과
+
+[x] ORDER-253 — 2026-09-13. 비저자 Poincare LOCAL work_unit GO.
+
+source `225300a0857ac6d929db8c3c82a8c1e97088cf33`, tree
+`eb709ca539b9333e3281878a40718c04f588e287`; clean 검토 HEAD
+`fcc8bfdd644434758aff60cbad288e8c2e5af4ff`에 결속한다.
+
+## 결과와 경계
+
+번역20키/JA·CN·TW60 공식 수용 →38878/b103/meta9. 이전38818 raw역복원exact.
+JA18유지·희귀/요약2정밀화, CN/TW40신규. 독립60 언어·runtime 사전검토 필수0.
+생산자/독자: LocaleManager.ui/ui_context → MainGame 도감·해금 toast/log.
+상태: 번역/라벨만 변경, 조건·마스터리·보너스·캐시·저장·게임플레이 변경0.
+격리 actual410(기존405+신규5) PASS, 라벨110은 nested다. 73.277609125초,
+외부1194/내부19불변·상태복구1·process exit0·두 raw log ERROR/leak0.
+전체38878 L1 오류0/72.692293458초/1194불변. 고유12는96.899736583초/
+1580입력불변, outer97.170780666초/1194불변으로 통과했다.
+source23·역사19/24/18, 수량40, direct16/static4는 서로 다른 검사 모집단이다.
+ZH12446은 skeleton, legacy394/2923·context5/29·glyph1380/1404이며 전체UI가 아니다.
+서사 위치/계층/선택 포기: 해당 없음 — 기존 표시 번역, 게임 선택/효과 변경0.
+일회성 작업이며 새 규범 없음. 공개GO1·인간OPEN45·본편HOLD를 유지한다.
+원어민·렌더·인간플레이·물리패드·전체판/새 원격CI·외부출시 GO가 아니다.
+자동 검사·에이전트 검수는 실제 인간 관찰을 발급하지 않는다.
+
+[독립 판정](../agent_reviews/ORDER-253.json) · SHA `a2e87c9325dc5e6bccecccc470b3542db0793561e5bb2b61ce454751e8a25a45`
+
+## 선언·진행 원문 보존
+
 # 칭호 도감·해금 안내 세 언어 현지화
 
 #### [~] ORDER-253 칭호 도감 안내 번역

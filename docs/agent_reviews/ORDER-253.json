@@ -1,0 +1,148 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-253",
+  "scope": "work_unit",
+  "reviewer": "Poincare",
+  "authority": "user_delegated_agent_final",
+  "role": "Independent nonauthor language, fixture and final reviewer. Rawls authored language; Plato authored fixture; ROOT applied products, ran QA and accepted receipts.",
+  "verdict": "GO",
+  "required": [],
+  "optional": [],
+  "subject": {
+    "kind": "source",
+    "commit": "225300a0857ac6d929db8c3c82a8c1e97088cf33",
+    "tree": "eb709ca539b9333e3281878a40718c04f588e287",
+    "manifest_sha256": null
+  },
+  "review": {
+    "commit": "fcc8bfdd644434758aff60cbad288e8c2e5af4ff",
+    "tree": "192b20f544769e8952e4072ce2fcd24e7c42609b",
+    "clean_observed_before_report_write": true,
+    "source_resolver": "Independently read resolver rules and traversed first-parent changes. Only STATUS differs from source; CLAUDE/backlog are source-affecting and included in225300a."
+  },
+  "decision": "Declared title-collection/unlock parent20 translation and its bounded consumers satisfy the local ORDER253 contract. This is not full-title/full-panel/full-product, rendered, native, human or remote release approval.",
+  "population": {
+    "language": "20 Korean sources × JA/zh-CN/zh-TW =60 internally reviewed and newly accepted records. JA18 existing values preserved, uncommon/summary2 refined; CN/TW20 each added. Three printf keys retain four ordered typed tokens.",
+    "owned_products": [
+      "locale/ui_ja.json",
+      "locale/ui_zh-CN.json",
+      "locale/ui_zh-TW.json",
+      "tools/MetaTitleLocaleCheck.tscn",
+      "tools/run_meta_title_locale_qa.sh",
+      "tools/audit_scope.json",
+      "content/meta/full_game_localization.json"
+    ],
+    "actual": "One ROOT execution:100+100+110+95+5=410 unique groups. Old405 IDs retained; new5 are language-specific title_parent/collection_chrome.0/50 and9/50 states give110 nested core-label comparisons, not110 extra cases.",
+    "official": "20×3 source/response/check/import/receipt records;38818→38878 accepted,102→103 batches, retained metadata9 unchanged."
+  },
+  "readscope_and_method": [
+    "Reused my completed full60 Korean-direct language and full private runtime source reviews at exact fixed hashes; mechanically verified approved rows and actual applied delta. No repeated language authorship or QA.",
+    "Read active253, source-affecting CLAUDE/backlog/queue/WORK changes, complete product/scope diff and actual source consumers already covered by static review. Baseline a88e5c8→source changes12 are declared products7 plus operating documents5; source→review is STATUS only.",
+    "Read all official phase children, source/response/receipt rows by exact owner/path (including two context IDs), actual UI, portable and first60 L1 records. Independently recalculated canonical receipt digests and exact old portable/UI inverses against Git baseline.",
+    "Read actual runner result, raw stdout/stderr/Godot logs and all410 actual/expected/pass/state fields. Verified19 runtime inputs before/after and checkpoint→source→review/current Git blobs. Read Rawls full supplemental runtime comparison, attributed below.",
+    "Read final L1 and12 named children including raw diagnostic stdout/stderr; decoded all base64 raw streams and verified byte/hash/text equality. All1580 named capture pins equal before/after/current/review Git blobs; source differs only STATUS. Both outer1194 captures exact."
+  ],
+  "findings": {
+    "language": "Required0/optional0. JA uncommon アンコモン distinguishes rare レア; summary 解放/―― remains faithful. 历程/歷程 is a functional meta category, not added gameplay. Shared investment6/assets3/housing2 usages considered without claiming all natural reachability.",
+    "runtime_applied": "Reviewed candidate→applied scene has exactly approval false→true and language/review provenance constants changed; wrapper exact. Original99 functions and26 constants previously proved raw preserved; four scoped hooks and new5 functions only.",
+    "actual": "All410 actual==expected,pass/state_ok true; original50 KO/EN assertion true. Unique ID digest ccf82a87d94f6dd2143d3b9dfd233c06a20e2047d3af6ab7da7af0199525fc54. Engine exit0, process-group/storage errors null, five markers and restore1, stdout=Godot bytes; forbidden error/leak scan0.",
+    "state_and_old405": "Rawls independently verified353 old outputs exact and approved-only CN/TW40+JA12 changes, plus full-state140/disk140 expected exact. Cross-run initial random categories differ from actual250 but are present in each initial before and remain unchanged; approved log58 differences are separate. I verified all captured expected/after hashes, exact flags and empty unexpected deltas. Expected unlock/cache/log deltas are not claimed zero.",
+    "acceptance": "New60 pairs equal approved table/source/response/L1/currentUI/receipts/portable. Removing60+b103 and restoring canonical accepted digest reproduces old10091936B/d867cf04d1370acaccce381114e00d67b5083e64519bab3e425b8711be0c1eee exactly. Current10107460B/441405364190916c0865fac713794db5466c6d7446a73d6d13fa36bcb2224d63; JA12958,CN12960,TW12960.",
+    "preservation": "MainGame/MetaProgression/GameState/LocaleManager, source/history validators, audit.sh, project and human/agent ledgers unchanged against baseline/actual/source/review. Existing37 agent decisions, historical public GO1 and human OPEN45 remain; full-product HOLD unchanged."
+  },
+  "actual_execution_evidence": {
+    "checkpoint": "3369477aee714c0a6a609f661bf325433eb6a3e3",
+    "tree": "312e35c6f973d006f62c8e94dd84a6a46b17c2e0",
+    "actual410_seconds": 73.277609125,
+    "actual_outer1194_exact": true,
+    "actual_inner19_exact": true,
+    "official": "Export/check/import first executions3 children each exit0,20 per locale; check/import changed_files0. Original native OPEN/full-game INCOMPLETE retained.",
+    "first_selected_L1": "60/error0; no translation repair/retest needed in253.",
+    "final_all_accepted_L1": {
+      "records": 38878,
+      "errors": 0,
+      "seconds": 72.692293458,
+      "input1194_exact": true
+    },
+    "final_named": {
+      "unique_children": 12,
+      "exit_zero": 12,
+      "seconds": 96.899736583,
+      "input1580_exact": true,
+      "outer_seconds": 97.170780666,
+      "outer1194_exact": true,
+      "populations": "Source current23 plus historical19/24/18 separately preserved; fullself262 (retained25140 trace normal9/valid26/OFF5); JA pipeline146; direct16/static4; ZH12446; registry146/Godotguard6; queue25/fence4; agent222; context and activequeue."
+    },
+    "diagnostics": "fullself/direct stderr includes successful unittest summaries and retained diagnostic fixtures, not actual failure. Registry EXTRA18 remains advisory. ZH legacy394/2923,context5/29 and glyph CN1380/TW1404 are separate metrics, not complete translation/render coverage."
+  },
+  "evidence": {
+    ".git/full-game-localization/order253-language-independent-review.json": {
+      "bytes": 9594,
+      "sha256": "ea7241eeefab0e0df767cb741a4d31a34cf67fe014a2f5d9d550b326dd690245"
+    },
+    ".git/full-game-localization/order253-runtime-independent-review.json": {
+      "bytes": 9809,
+      "sha256": "f4e36067fe369cbc5974f3de393d050d84d216dac4d83c525193fe3b5547e5ff"
+    },
+    ".git/full-game-localization/order253-title-parent-translations-approved.json": {
+      "bytes": 4837,
+      "sha256": "02cc0df72be5b22389a75f1b319077b4ca225e0e8c55d2e9908c736c678dc5ec"
+    },
+    ".git/full-game-localization/order253-actual-first.json": {
+      "bytes": 7283750,
+      "sha256": "f62ec434b0c70b0605d471a2479ef091f484cb83e94fc1ade62a783dff4235a3"
+    },
+    ".git/full-game-localization/order253-runtime-actual-independent.json": {
+      "bytes": 20898,
+      "sha256": "e3a96ba0c3ab29634464ee61226e7d9c61a440d213e5d7b72d058303d7f640b6"
+    },
+    ".git/full-game-localization/order253-export-first.json": {
+      "bytes": 379181,
+      "sha256": "bd3799e38d01f456fe8ccd1c9bdd29642bab25056df5f69a086a93fc90693f7f"
+    },
+    ".git/full-game-localization/order253-check-first.json": {
+      "bytes": 378557,
+      "sha256": "dc4d36818406d41f1e6bcf857cf58b1bf640339a6a44bac2af3938c4aa23df7c"
+    },
+    ".git/full-game-localization/order253-import-first.json": {
+      "bytes": 378659,
+      "sha256": "0dd8dce3852000bc03d03b0d93cf746c190db5c5421c821696036de86dce5a08"
+    },
+    ".git/full-game-localization/order253-all-accepted-l1-first.json": {
+      "bytes": 375291,
+      "sha256": "9d5883d71de689f44aae281342e7094341335259bfb458fc8d2b6f6b88c9549c"
+    },
+    ".git/full-game-localization/order253-named-first.json": {
+      "bytes": 3783456,
+      "sha256": "3d71cafd2df370ffff0743f2528bf262fb8af7a669b9228887a7cdf7fb7c06fc"
+    },
+    ".git/full-game-localization/order253-named-launch-first.json": {
+      "bytes": 375168,
+      "sha256": "7178ba703ca315e3009236f6eaa1b71a2f9790269ef1dfa5acfc97223c9c0cee"
+    },
+    ".git/full-game-localization/order253-final-source-binding-independent.json": {
+      "bytes": 10567,
+      "sha256": "490dcbdf529d5ef3f0d71db6c0106e55f8b1b3f94c088fa0fe28d8018f25f517"
+    }
+  },
+  "observation_limits": [
+    "410 are isolated headless component groups, not rendered layout/native reading/natural play or410 independent full-state snapshots. Parent successful10 subobservations preserve hashes/flags/deltas, not full raw state bodies; independently reconstructed full states140.",
+    "Runtime19 intersects outer1194 in18 files; NotificationToast is separately captured inner-only. No claim that1194 contains every runtime input.",
+    "Restore marker covers GameState/MetaProgression memory. Fresh preautoload QA namespace retains settings/meta files; no claim all disk bytes restored to launch or user saves inspected. This review read captured logs/result only.",
+    "Existing historical name/description projections in old100/NEXT100/A11 are retained; parent actual text is not projected to old English. New253 does not prove unchanged source-history populations as new blind tests.",
+    "Bonus prose8, top-button refresh, close label, remaining11 titles/22 surfaces and their two separately adjudicated source descriptions are outside253 and remain later work.",
+    "No new remote CI fetch, full audit, engine, collector, repository import or product test by this reviewer. No fresh253 remote/native/human/render/full-game GO. Prior CI candidates are separate.",
+    "Read-only preparation KeyError and wrong raw-versus-canonical hash assumption were corrected on unchanged evidence, recorded in binding; neither is a product failure nor an additional passing test."
+  ],
+  "actions": {
+    "private_reports_only": true,
+    "product_or_ops_or_public_writes": 0,
+    "git_writes": 0,
+    "tests": 0,
+    "engine": 0,
+    "collector": 0,
+    "remote": 0,
+    "user_save_reads": 0
+  },
+  "skill_influence": "gangnamdream-dev preserved story/source canon, targeted evidence scope, queue ownership and the separation of automated contracts from human/render approval."
+}
