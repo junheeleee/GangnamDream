@@ -3713,6 +3713,40 @@
       "machine_validation": "PASS",
       "rendered_review": "OPEN",
       "native_review": "OPEN"
+    },
+    {
+      "order": "ORDER-250",
+      "group": "ui",
+      "roots": [
+        "경마 귀신",
+        "경마장 15판 이상. 폼지는 가끔 거짓말을 한다. 나는 이제 그것도 안다.",
+        "기본전략의 달인",
+        "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+        "룰렛 15스핀 이상. 하우스엣지 2.7%는 알지만 멈출 수 없다.",
+        "바늘의 눈",
+        "바카라 15라운드 이상. 로드맵을 외웠지만 그게 아무 의미도 없다는 것도 안다.",
+        "블랙잭 15핸드 이상. 패를 보고 멈출지 받을지를 안다. 이게 이 게임의 전부다.",
+        "빅휠 15스핀 이상. 가장 단순한 게임이지만 45:1을 노린다.",
+        "스캘퍼",
+        "스캘핑 트레이딩 15회 이상. 1분 안에 사고 팔고. 손이 기억한다.",
+        "슬롯머신 20스핀 이상. 777이 나왔을 때 그 소리가 아직도 귓가에 맴돈다.",
+        "잭팟 사냥꾼",
+        "정선 카지노 상주자",
+        "제로의 지배자",
+        "주사위의 밤",
+        "지하 홀덤 클럽 15판 이상. 이제 패를 읽는다기보다, 상대를 읽는다.",
+        "홀덤 무법자"
+      ],
+      "source_leaves": 18,
+      "target_leaves_by_locale": {
+        "ja": 18,
+        "zh-CN": 18,
+        "zh-TW": 18
+      },
+      "source_review": "Direct Korean and independent full54 review of nine minigame title names and descriptions. Original play units, 15/20 thresholds, 777 recollection, one minute, 2.7 percent, 45:1 and three dice preserved without repairing source counter debts. Conditions, mastery, bonuses, saved IDs, prior thirty localized and remaining eleven titles unchanged. Isolated actual consumers are not native or rendered play.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN"
     }
   ],
   "accepted": {
@@ -55396,6 +55430,78 @@
       "ui:현금 1000만원. 서울에서 처음으로 숨이 트이는 느낌이었다.:/현금 1000만원. 서울에서 처음으로 숨이 트이는 느낌이었다.": {
         "source_sha256": "7446729ea98f2bdb6cd51b7d5e33159138608274b17018678c68175c72cfc6fe",
         "target_sha256": "2f12d9ef03933f35dfe2f993fd1799a499c956199f2cabf23dd99a845147a658"
+      },
+      "ui:경마 귀신:/경마 귀신": {
+        "source_sha256": "5a6567810eca7c199493def89611433790254713c21c3a33b51ad86c4bd04d6c",
+        "target_sha256": "abd8adb071e103a1a7c84dc4e97048ed436ade984d6be6dc4052fb49540c0b89"
+      },
+      "ui:경마장 15판 이상. 폼지는 가끔 거짓말을 한다. 나는 이제 그것도 안다.:/경마장 15판 이상. 폼지는 가끔 거짓말을 한다. 나는 이제 그것도 안다.": {
+        "source_sha256": "4f634b674407f95dd38d3559a3f7bd4c4bd82cf478f6b906b0a7bab48400964b",
+        "target_sha256": "e9850d6350173116dc90914a3b13c99e783531f45e44cbd0a044731ac33b54c5"
+      },
+      "ui:기본전략의 달인:/기본전략의 달인": {
+        "source_sha256": "e64e91f1d435fdd95cb4f929ad33a5ea64d505fa593a657e6c6eba26e2c9ef69",
+        "target_sha256": "ce11f373d79ed96dced9545e4534b5c689aa92652b0a3ab03d16bca9670d878c"
+      },
+      "ui:다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.:/다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.": {
+        "source_sha256": "16f2fbb1bcaed033ff2c267c01629b4d4ddb44296bf96f0c94c0fc9d29aa8612",
+        "target_sha256": "0c65537eed3e840c8c8966d24e755f9a7f3054cdf4a3b4e0cee8af29d53bb8e2"
+      },
+      "ui:룰렛 15스핀 이상. 하우스엣지 2.7%는 알지만 멈출 수 없다.:/룰렛 15스핀 이상. 하우스엣지 2.7%는 알지만 멈출 수 없다.": {
+        "source_sha256": "2afe3750d7318d9e61602faca51e8fcd6be798e917d513bed7271762b7127b71",
+        "target_sha256": "52f7433ec5801c09f0dbb65991013e76a8ee2331c6bba8910dd91f142d646d35"
+      },
+      "ui:바늘의 눈:/바늘의 눈": {
+        "source_sha256": "2c65109b2f5a1522d03aca60b06a5e85f8d70bed221cebff29ca6f06e2b20bd0",
+        "target_sha256": "7882e77a0aef7589d5f9b45c4ad7abc5f34a68a6c45ff9d0d8924df38233162e"
+      },
+      "ui:바카라 15라운드 이상. 로드맵을 외웠지만 그게 아무 의미도 없다는 것도 안다.:/바카라 15라운드 이상. 로드맵을 외웠지만 그게 아무 의미도 없다는 것도 안다.": {
+        "source_sha256": "b071f2be7e7719e91ac9a7b8a926c44d251656e6ea4c79f50e6fff0c0774f413",
+        "target_sha256": "75e96e7a64edd0a2cd5851beafca0eacb4f3ee17c2cf420baa31b05886549544"
+      },
+      "ui:블랙잭 15핸드 이상. 패를 보고 멈출지 받을지를 안다. 이게 이 게임의 전부다.:/블랙잭 15핸드 이상. 패를 보고 멈출지 받을지를 안다. 이게 이 게임의 전부다.": {
+        "source_sha256": "53a077598b134957befed93f72f681685fce452808219e5471f727090b808d39",
+        "target_sha256": "ab7611a2df135f9cde48137902871facae0d0a8d412737703aee73e3574bf713"
+      },
+      "ui:빅휠 15스핀 이상. 가장 단순한 게임이지만 45:1을 노린다.:/빅휠 15스핀 이상. 가장 단순한 게임이지만 45:1을 노린다.": {
+        "source_sha256": "e3a91931032bda5fb89ded187461ad550350c58ae4bfd4dfa8ab8992c73a2983",
+        "target_sha256": "1114e595160763f0129625905ed7593de854ba3254fc7cd6ca19f630b7977319"
+      },
+      "ui:스캘퍼:/스캘퍼": {
+        "source_sha256": "f597c3504751c62a37bfb2a2031760f4c637ba5a60426d500731e36ccbbbfa9d",
+        "target_sha256": "86bf5f3b76c994b643e241007a1693ab18ae717e1b26c5f90d99951ae5238278"
+      },
+      "ui:스캘핑 트레이딩 15회 이상. 1분 안에 사고 팔고. 손이 기억한다.:/스캘핑 트레이딩 15회 이상. 1분 안에 사고 팔고. 손이 기억한다.": {
+        "source_sha256": "61538b32c0864d5fcb74c3a53bbcc44e83e8aa8551c87fcde4416f361ee7252d",
+        "target_sha256": "e2f2eef67680473f1961d61be653706883d45cd108d8ded013409a06aed1cc51"
+      },
+      "ui:슬롯머신 20스핀 이상. 777이 나왔을 때 그 소리가 아직도 귓가에 맴돈다.:/슬롯머신 20스핀 이상. 777이 나왔을 때 그 소리가 아직도 귓가에 맴돈다.": {
+        "source_sha256": "a1ce04021d22a66a4f449ba1733c450494a1f5f7d94480fc96bd5d7bc89dc5c6",
+        "target_sha256": "f680f37769b469ab0526244d1510a9053c51eafada07692c7e9cc1a26d93f3de"
+      },
+      "ui:잭팟 사냥꾼:/잭팟 사냥꾼": {
+        "source_sha256": "37c980dbceeca1c7efcff76a1b968d064857191b475713b92205d6da439baf14",
+        "target_sha256": "3fa195f3176066a639ade66989ef8b51ea5db9dc3e5f46bf4cac34120f8f35f8"
+      },
+      "ui:정선 카지노 상주자:/정선 카지노 상주자": {
+        "source_sha256": "056dbf8453212466b3dff2a3a1ad32cc48b0bf7a9eefdc98ef4e077e5ce0ddeb",
+        "target_sha256": "78a141ad701af8bac8f557bd8df141215e57d9c6ffb544d7627db11857a90652"
+      },
+      "ui:제로의 지배자:/제로의 지배자": {
+        "source_sha256": "9ae982171225d91f50035499f9726280067eff43dab5c139d8c9c31428942c2c",
+        "target_sha256": "5aa40360e0ef977f5f1ae689ae6f506ff3179eed32d2f443ad78bbef9156d919"
+      },
+      "ui:주사위의 밤:/주사위의 밤": {
+        "source_sha256": "fbadf67730ccac2e142e382c62d6eff43907299df3cc3e51d2c7b2043f3f39b0",
+        "target_sha256": "43c969093444052e5aa1e17533a2338f331baa4861a7582b828a92dbefd2d888"
+      },
+      "ui:지하 홀덤 클럽 15판 이상. 이제 패를 읽는다기보다, 상대를 읽는다.:/지하 홀덤 클럽 15판 이상. 이제 패를 읽는다기보다, 상대를 읽는다.": {
+        "source_sha256": "30c1b2956349974a6f0420dff0187f0aaf2d47b6f0e4c2cea600da88387e6a3d",
+        "target_sha256": "3a0314a42b36b6e07448dc0bdef3a06bbf28e368b3718df00d2e1177ed05ee89"
+      },
+      "ui:홀덤 무법자:/홀덤 무법자": {
+        "source_sha256": "62fec7419a1997bd852328e85a3d55e0e4ae07dc0b41faf8ad74732296646326",
+        "target_sha256": "7bdebecf71e4de8713651a70d69b3f4a6cf8cb4d81f81e5de6fe2a6f3dc23010"
       }
     },
     "zh-CN": {
@@ -107086,6 +107192,78 @@
       "ui:현금 1000만원. 서울에서 처음으로 숨이 트이는 느낌이었다.:/현금 1000만원. 서울에서 처음으로 숨이 트이는 느낌이었다.": {
         "source_sha256": "7446729ea98f2bdb6cd51b7d5e33159138608274b17018678c68175c72cfc6fe",
         "target_sha256": "8b3411b0f9f3e4cf07a8e3b97f2e6bbe0f0b9fba9441e93c50c98f1857dc0373"
+      },
+      "ui:경마 귀신:/경마 귀신": {
+        "source_sha256": "5a6567810eca7c199493def89611433790254713c21c3a33b51ad86c4bd04d6c",
+        "target_sha256": "1ef6d62edbe70b6303585ab788eed0b7003679260e24e79f050580288baa157f"
+      },
+      "ui:경마장 15판 이상. 폼지는 가끔 거짓말을 한다. 나는 이제 그것도 안다.:/경마장 15판 이상. 폼지는 가끔 거짓말을 한다. 나는 이제 그것도 안다.": {
+        "source_sha256": "4f634b674407f95dd38d3559a3f7bd4c4bd82cf478f6b906b0a7bab48400964b",
+        "target_sha256": "021cffb2bb47fba56a105f90fd6330fe8d901e6bf304ad3bb2f5798248cf2bdc"
+      },
+      "ui:기본전략의 달인:/기본전략의 달인": {
+        "source_sha256": "e64e91f1d435fdd95cb4f929ad33a5ea64d505fa593a657e6c6eba26e2c9ef69",
+        "target_sha256": "ef2e035c8821bce5eb20261cb8251061ce559b11f4f9209bcf4f050071a23c37"
+      },
+      "ui:다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.:/다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.": {
+        "source_sha256": "16f2fbb1bcaed033ff2c267c01629b4d4ddb44296bf96f0c94c0fc9d29aa8612",
+        "target_sha256": "ab5763a41bfeae6761622621b9193ceecac00f6c3df74bd38cf478cfaf81e1df"
+      },
+      "ui:룰렛 15스핀 이상. 하우스엣지 2.7%는 알지만 멈출 수 없다.:/룰렛 15스핀 이상. 하우스엣지 2.7%는 알지만 멈출 수 없다.": {
+        "source_sha256": "2afe3750d7318d9e61602faca51e8fcd6be798e917d513bed7271762b7127b71",
+        "target_sha256": "45971d6595be7a706bc71ea4ac2fc057052e89a92ec8c3a66ba5f49158a15651"
+      },
+      "ui:바늘의 눈:/바늘의 눈": {
+        "source_sha256": "2c65109b2f5a1522d03aca60b06a5e85f8d70bed221cebff29ca6f06e2b20bd0",
+        "target_sha256": "d41380289e2d9604394cfe2c15c746faffea66c1487b44dc28e1793236cd70ee"
+      },
+      "ui:바카라 15라운드 이상. 로드맵을 외웠지만 그게 아무 의미도 없다는 것도 안다.:/바카라 15라운드 이상. 로드맵을 외웠지만 그게 아무 의미도 없다는 것도 안다.": {
+        "source_sha256": "b071f2be7e7719e91ac9a7b8a926c44d251656e6ea4c79f50e6fff0c0774f413",
+        "target_sha256": "f3588c61ce452807646e8a787b06102e5e1a2e624e8f5ae850fe665d132aa055"
+      },
+      "ui:블랙잭 15핸드 이상. 패를 보고 멈출지 받을지를 안다. 이게 이 게임의 전부다.:/블랙잭 15핸드 이상. 패를 보고 멈출지 받을지를 안다. 이게 이 게임의 전부다.": {
+        "source_sha256": "53a077598b134957befed93f72f681685fce452808219e5471f727090b808d39",
+        "target_sha256": "4cdc72a53b50c68f29046a4d37f3a9c187ad47bed62f13c6a7decc0ddf8bec2e"
+      },
+      "ui:빅휠 15스핀 이상. 가장 단순한 게임이지만 45:1을 노린다.:/빅휠 15스핀 이상. 가장 단순한 게임이지만 45:1을 노린다.": {
+        "source_sha256": "e3a91931032bda5fb89ded187461ad550350c58ae4bfd4dfa8ab8992c73a2983",
+        "target_sha256": "b9ab0461005014ad96389a2c4b18f484b0ab11074ef2721638729f040ac3446c"
+      },
+      "ui:스캘퍼:/스캘퍼": {
+        "source_sha256": "f597c3504751c62a37bfb2a2031760f4c637ba5a60426d500731e36ccbbbfa9d",
+        "target_sha256": "6c564ceaaf294fbd3dee16b18cacc65aba105e9fc4cab4b4f2e71b352a1863e8"
+      },
+      "ui:스캘핑 트레이딩 15회 이상. 1분 안에 사고 팔고. 손이 기억한다.:/스캘핑 트레이딩 15회 이상. 1분 안에 사고 팔고. 손이 기억한다.": {
+        "source_sha256": "61538b32c0864d5fcb74c3a53bbcc44e83e8aa8551c87fcde4416f361ee7252d",
+        "target_sha256": "31db9c24f26fb6b32d531234b19285c89a958847f3e72665f53e8ae72baedb24"
+      },
+      "ui:슬롯머신 20스핀 이상. 777이 나왔을 때 그 소리가 아직도 귓가에 맴돈다.:/슬롯머신 20스핀 이상. 777이 나왔을 때 그 소리가 아직도 귓가에 맴돈다.": {
+        "source_sha256": "a1ce04021d22a66a4f449ba1733c450494a1f5f7d94480fc96bd5d7bc89dc5c6",
+        "target_sha256": "9033af3ff317ebb8a2bef52fd1eb28b724ee868eebcb3f1fdaa611a29a83bb1e"
+      },
+      "ui:잭팟 사냥꾼:/잭팟 사냥꾼": {
+        "source_sha256": "37c980dbceeca1c7efcff76a1b968d064857191b475713b92205d6da439baf14",
+        "target_sha256": "753117f412c4f378af7e1aa6c4ed853ae41edee83b3db0228bd670ce8f111d33"
+      },
+      "ui:정선 카지노 상주자:/정선 카지노 상주자": {
+        "source_sha256": "056dbf8453212466b3dff2a3a1ad32cc48b0bf7a9eefdc98ef4e077e5ce0ddeb",
+        "target_sha256": "4884f81c3fcb6e4eedfb1e1d9afc1ab2a0b3fe7e5527743c44bb1986d6215536"
+      },
+      "ui:제로의 지배자:/제로의 지배자": {
+        "source_sha256": "9ae982171225d91f50035499f9726280067eff43dab5c139d8c9c31428942c2c",
+        "target_sha256": "77c631ac30dfdc1cf539a30e4d1b1085e5582a48823729a26156da55b8aa6286"
+      },
+      "ui:주사위의 밤:/주사위의 밤": {
+        "source_sha256": "fbadf67730ccac2e142e382c62d6eff43907299df3cc3e51d2c7b2043f3f39b0",
+        "target_sha256": "02749bbdd5d775a117a0b65619bb4829381013003272abe35f1a1ece396db7d9"
+      },
+      "ui:지하 홀덤 클럽 15판 이상. 이제 패를 읽는다기보다, 상대를 읽는다.:/지하 홀덤 클럽 15판 이상. 이제 패를 읽는다기보다, 상대를 읽는다.": {
+        "source_sha256": "30c1b2956349974a6f0420dff0187f0aaf2d47b6f0e4c2cea600da88387e6a3d",
+        "target_sha256": "d83d20b1a6f8193adf271707030249fc6c247d828de3b55e80f970373e15a278"
+      },
+      "ui:홀덤 무법자:/홀덤 무법자": {
+        "source_sha256": "62fec7419a1997bd852328e85a3d55e0e4ae07dc0b41faf8ad74732296646326",
+        "target_sha256": "2e40c3eed38cd7ba2d81c61b0b2fafa8a3a6637b7878381564f1af6baa7014d0"
       }
     },
     "zh-TW": {
@@ -158776,10 +158954,82 @@
       "ui:현금 1000만원. 서울에서 처음으로 숨이 트이는 느낌이었다.:/현금 1000만원. 서울에서 처음으로 숨이 트이는 느낌이었다.": {
         "source_sha256": "7446729ea98f2bdb6cd51b7d5e33159138608274b17018678c68175c72cfc6fe",
         "target_sha256": "cefc0366de973509aa060fcde6a0e850361e9b9f7b0f153a83d092b4b0d11483"
+      },
+      "ui:경마 귀신:/경마 귀신": {
+        "source_sha256": "5a6567810eca7c199493def89611433790254713c21c3a33b51ad86c4bd04d6c",
+        "target_sha256": "1738c19296ad7a8c7b4c68ce8bdf9169c508136b99b511c61cdafd77f743b3bd"
+      },
+      "ui:경마장 15판 이상. 폼지는 가끔 거짓말을 한다. 나는 이제 그것도 안다.:/경마장 15판 이상. 폼지는 가끔 거짓말을 한다. 나는 이제 그것도 안다.": {
+        "source_sha256": "4f634b674407f95dd38d3559a3f7bd4c4bd82cf478f6b906b0a7bab48400964b",
+        "target_sha256": "7c15e68d04ee355c2b2da9308c64318cbd98aea6dcce724353670b0f6cd0c44e"
+      },
+      "ui:기본전략의 달인:/기본전략의 달인": {
+        "source_sha256": "e64e91f1d435fdd95cb4f929ad33a5ea64d505fa593a657e6c6eba26e2c9ef69",
+        "target_sha256": "2dc87fb7834db10a551385cb93ccafd144829bc723a5f72a01b821cb1a33767b"
+      },
+      "ui:다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.:/다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.": {
+        "source_sha256": "16f2fbb1bcaed033ff2c267c01629b4d4ddb44296bf96f0c94c0fc9d29aa8612",
+        "target_sha256": "4bdcc1481b1ebb7e70be149e467028602eed176665e8349e98db9a8f1520b358"
+      },
+      "ui:룰렛 15스핀 이상. 하우스엣지 2.7%는 알지만 멈출 수 없다.:/룰렛 15스핀 이상. 하우스엣지 2.7%는 알지만 멈출 수 없다.": {
+        "source_sha256": "2afe3750d7318d9e61602faca51e8fcd6be798e917d513bed7271762b7127b71",
+        "target_sha256": "942c10df5421d8e712992a837bb2647d78240acb08261698370be72927452a06"
+      },
+      "ui:바늘의 눈:/바늘의 눈": {
+        "source_sha256": "2c65109b2f5a1522d03aca60b06a5e85f8d70bed221cebff29ca6f06e2b20bd0",
+        "target_sha256": "5e79578074873820798f213caefabac8cb23b710dfca547168dd462936682545"
+      },
+      "ui:바카라 15라운드 이상. 로드맵을 외웠지만 그게 아무 의미도 없다는 것도 안다.:/바카라 15라운드 이상. 로드맵을 외웠지만 그게 아무 의미도 없다는 것도 안다.": {
+        "source_sha256": "b071f2be7e7719e91ac9a7b8a926c44d251656e6ea4c79f50e6fff0c0774f413",
+        "target_sha256": "7d6eb2832865185fced8f426ca2abc769f271081e459f389e865ff7e69972da8"
+      },
+      "ui:블랙잭 15핸드 이상. 패를 보고 멈출지 받을지를 안다. 이게 이 게임의 전부다.:/블랙잭 15핸드 이상. 패를 보고 멈출지 받을지를 안다. 이게 이 게임의 전부다.": {
+        "source_sha256": "53a077598b134957befed93f72f681685fce452808219e5471f727090b808d39",
+        "target_sha256": "e0de2012626e4a4d05fa463403c9a58d88f863c5b34ad529807c5b3c75364b00"
+      },
+      "ui:빅휠 15스핀 이상. 가장 단순한 게임이지만 45:1을 노린다.:/빅휠 15스핀 이상. 가장 단순한 게임이지만 45:1을 노린다.": {
+        "source_sha256": "e3a91931032bda5fb89ded187461ad550350c58ae4bfd4dfa8ab8992c73a2983",
+        "target_sha256": "28a6dcfd54baa232ddee207a8889e4544f41045805f0308125e683fd5482fbda"
+      },
+      "ui:스캘퍼:/스캘퍼": {
+        "source_sha256": "f597c3504751c62a37bfb2a2031760f4c637ba5a60426d500731e36ccbbbfa9d",
+        "target_sha256": "96a7114221680b9b62e645c8cbd8cfaa5f7c47d6887a50996d6c2f233a0e6582"
+      },
+      "ui:스캘핑 트레이딩 15회 이상. 1분 안에 사고 팔고. 손이 기억한다.:/스캘핑 트레이딩 15회 이상. 1분 안에 사고 팔고. 손이 기억한다.": {
+        "source_sha256": "61538b32c0864d5fcb74c3a53bbcc44e83e8aa8551c87fcde4416f361ee7252d",
+        "target_sha256": "da7d324aa915d6e145342ad968c38d26c593a245260ee5c519098dd2affbf3fb"
+      },
+      "ui:슬롯머신 20스핀 이상. 777이 나왔을 때 그 소리가 아직도 귓가에 맴돈다.:/슬롯머신 20스핀 이상. 777이 나왔을 때 그 소리가 아직도 귓가에 맴돈다.": {
+        "source_sha256": "a1ce04021d22a66a4f449ba1733c450494a1f5f7d94480fc96bd5d7bc89dc5c6",
+        "target_sha256": "906741a73c7bb2bf4edbb01936ca8e4df7caa01a535629a49161ba27dc0c8c89"
+      },
+      "ui:잭팟 사냥꾼:/잭팟 사냥꾼": {
+        "source_sha256": "37c980dbceeca1c7efcff76a1b968d064857191b475713b92205d6da439baf14",
+        "target_sha256": "0ea4b8375282edcd7fa32d2eb577d7179710385b33c4504278cc57e40d401ada"
+      },
+      "ui:정선 카지노 상주자:/정선 카지노 상주자": {
+        "source_sha256": "056dbf8453212466b3dff2a3a1ad32cc48b0bf7a9eefdc98ef4e077e5ce0ddeb",
+        "target_sha256": "01afa74900d9dc6d66267d3a3bc04ad2b366f8d03d297fe01421ec5d0fa40a46"
+      },
+      "ui:제로의 지배자:/제로의 지배자": {
+        "source_sha256": "9ae982171225d91f50035499f9726280067eff43dab5c139d8c9c31428942c2c",
+        "target_sha256": "77c631ac30dfdc1cf539a30e4d1b1085e5582a48823729a26156da55b8aa6286"
+      },
+      "ui:주사위의 밤:/주사위의 밤": {
+        "source_sha256": "fbadf67730ccac2e142e382c62d6eff43907299df3cc3e51d2c7b2043f3f39b0",
+        "target_sha256": "02749bbdd5d775a117a0b65619bb4829381013003272abe35f1a1ece396db7d9"
+      },
+      "ui:지하 홀덤 클럽 15판 이상. 이제 패를 읽는다기보다, 상대를 읽는다.:/지하 홀덤 클럽 15판 이상. 이제 패를 읽는다기보다, 상대를 읽는다.": {
+        "source_sha256": "30c1b2956349974a6f0420dff0187f0aaf2d47b6f0e4c2cea600da88387e6a3d",
+        "target_sha256": "60cf1115dbdb336f21007d82f2862becf4458e61fd7e5bf8afc0f3a0d8f95708"
+      },
+      "ui:홀덤 무법자:/홀덤 무법자": {
+        "source_sha256": "62fec7419a1997bd852328e85a3d55e0e4ae07dc0b41faf8ad74732296646326",
+        "target_sha256": "57ae9ff1a05e85a87c3d5d4d8b3b12f4ee5f0d0b69ab452f4a551839dafb35f0"
       }
     }
   },
-  "accepted_sha256": "cef4117089e9d70d3199d4e66498677a54ceaa2562129fdffcf2b0cc3f5d2b26",
+  "accepted_sha256": "8e0f3cab49e80a93a8bdaf1e887c619e7a2c66a700304ba8f61794eddd37e83d",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {

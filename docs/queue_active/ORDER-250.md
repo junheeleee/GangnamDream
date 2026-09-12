@@ -118,3 +118,12 @@ export했다. source manifest `f6b32cfb01cb25dc44bb472494a6c1017407418807a0425ce
 exit0/71.310초/외부1193·내부19 입력 불변이다. old310과new95, 새 조건180 nested는
 별개다. 고유 QA 저장·프로세스 종료·상태 복원·양쪽 로그 오류0을 요구한 component PASS이며
 화면/원어민/인간플레이나 본편 GO는 아니다. 정식 신규 수용54와 최종 독립 판정은 아직이다.
+
+## 공식 수용
+
+251 수리 뒤 같은54 L1 오류0이다. clean `bb47b2a9b50737a1ecea93803ad131e032fd0401`에서
+공식 export/check/import를 각18×3으로 수행했다. check/import changed_files0,
+입력1193 불변이며 새 receipt3은 native OPEN이다. 기존38764 전체 raw역복원exact로
+54를 더해38818/b102/meta9를 수용했다. 원장 SHA
+`d867cf04d1370acaccce381114e00d67b5083e64519bab3e425b8711be0c1eee`.
+전체 수용L1·공통11·최종독립 판정은 이 새 소스 체크포인트 뒤 실행한다.
