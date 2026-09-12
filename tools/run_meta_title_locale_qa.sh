@@ -29,6 +29,8 @@ if not re.search(r"(?m)^const NEXT_FIXTURE_APPROVED := true$", script):
     parser.error("reviewed next20 fixture not frozen; no engine launched")
 if not re.search(r"(?m)^const A11_FIXTURE_APPROVED := true$", script):
     parser.error("reviewed A11 fixture not frozen; no engine launched")
+if not re.search(r"(?m)^const MG9_FIXTURE_APPROVED := true$", script):
+    parser.error("reviewed MG9 fixture not frozen; no engine launched")
 # Import only existing platform namespace/process/storage helpers; no self-test.
 sys.dont_write_bytecode = True
 spec = importlib.util.spec_from_file_location(
@@ -107,6 +109,8 @@ next_marker = "META_TITLE_NEXT_CHECK_OK cases=100 locales=5 selected=10 preserve
 next_markers = re.findall(r"(?m)^META_TITLE_NEXT_CHECK_OK[^\r\n]*$", stdout)
 a11_marker = "META_TITLE_A11_CHECK_OK cases=110 locales=5 selected=11 preserved=39 conditions=35 shared_rows=4 isolation=preautoload rendered=0"
 a11_markers = re.findall(r"(?m)^META_TITLE_A11_CHECK_OK[^\r\n]*$", stdout)
+mg9_marker = 'META_TITLE_MG9_CHECK_OK cases=95 locales=5 selected=9 preserved=41 conditions=36 isolation=preautoload rendered=0'
+mg9_markers = re.findall(r"(?m)^META_TITLE_MG9_CHECK_OK[^\r\n]*$", stdout)
 failure_pattern = re.compile(
     r"META_TITLE_CHECK_FAIL|STORY_NAMEPLATE_CHECK_FAIL|SCRIPT ERROR|Parse Error|"
     r"Compile Error|Failed to load script|\bERROR:|ObjectDB instances leaked|resources still in use",
@@ -116,10 +120,12 @@ case_lines = re.findall(r"(?m)^META_TITLE_CASE (.+)$", stdout)
 cases = []
 next_cases = []
 a11_cases = []
+mg9_cases = []
 try:
     cases = [json.loads(line) for line in case_lines]
     next_cases = [json.loads(line) for line in re.findall(r"(?m)^META_TITLE_NEXT_CASE (.+)$", stdout)]
     a11_cases = [json.loads(line) for line in re.findall(r"(?m)^META_TITLE_A11_CASE (.+)$", stdout)]
+    mg9_cases = [json.loads(line) for line in re.findall(r"(?m)^META_TITLE_MG9_CASE (.+)$", stdout)]
 except ValueError as exc:
     result["case_json_error"] = repr(exc)
 locales = ["ko", "en", "ja", "zh-CN", "zh-TW"]
@@ -129,6 +135,8 @@ next_families = ["next10/selected/steady_youth","next10/selected/elite_course","
 next_expected_ids = {locale + "/" + family for locale in locales for family in next_families}
 a11_families = ["get/first_investment", "get/margin_called", "get/invest_master_title", "get/survived_broke", "get/first_10m_title", "get/first_100m_title", "get/five_runs_title", "get/ten_runs_title", "get/gangnam_dream_title", "get/burnout_survivor", "get/ordinary_end_title", "preserved_old19_remaining20", "unknown_custom", "collection_locked", "collection_unlocked", "condition_boundaries", "unlock_return_duplicate", "unlock_toast_log", "monthly_component_toast_without_game_log", "ending_cached_cards", "language_storage_cached_origin", "shared_gangnam_current_reader"]
 a11_expected_ids = {locale + "/a11/" + family for locale in locales for family in a11_families}
+mg9_families = ['get/holdem_master_title', 'get/racetrack_master_title', 'get/scalping_master_title', 'get/baccarat_master_title', 'get/blackjack_master_title', 'get/slot_master_title', 'get/roulette_master_title', 'get/bigwheel_master_title', 'get/daisai_master_title', 'preserved_old30_remaining11', 'unknown_custom', 'collection_locked', 'collection_unlocked', 'conditions_and_mastery', 'unlock_return_duplicate', 'unlock_toast_log', 'monthly_component_toast_without_game_log', 'ending_cached_cards', 'language_storage_cached_origin']
+mg9_expected_ids = {locale + "/mg9/" + family for locale in locales for family in mg9_families}
 after = pins()
 passed = (result["status"] == "completed" and proc.returncode == 0 and not group_error
           and engine_file.is_file() and not failure_pattern.search(combined)
@@ -142,12 +150,16 @@ passed = (result["status"] == "completed" and proc.returncode == 0 and not group
           and a11_markers == [a11_marker]
           and len(a11_cases) == 110 and {c.get("id") for c in a11_cases} == a11_expected_ids
           and all(c.get("pass") is True and c.get("state_ok") is True for c in a11_cases)
+          and mg9_markers == [mg9_marker]
+          and len(mg9_cases) == 95 and {c.get("id") for c in mg9_cases} == mg9_expected_ids
+          and all(c.get("pass") is True and c.get("state_ok") is True for c in mg9_cases)
           and before == after)
 result.update(status="passed" if passed else "failed", engine_exit=proc.returncode,
               group_error=group_error, storage_error=storage_error, cases=cases,
               markers=markers, next_markers=next_markers, next_cases=next_cases,
               a11_markers=a11_markers, a11_cases=a11_cases,
-              population_boundary="old100 (95 direct+5 validated history), NEXT100 (95 direct+5 validated history), A11 new110 distinct; conditions175 nested, not extra cases",
+              mg9_markers=mg9_markers, mg9_cases=mg9_cases,
+              population_boundary="old100 95direct+5history, NEXT100 95direct+5history, A11 105direct+5history; MG9new95 direct. Old310 and new95 distinct; MG9conditions180 nested, not extra cases; priorA11conditions175 unchanged",
               source_after=after, source_files_unchanged=before == after,
               storage_retained=str(qa_user), whole_self_or_audit=False,
               boundary="Fixed actual-caller regression only; no whole-title/UI/render/native/full-game GO.")

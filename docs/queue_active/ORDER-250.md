@@ -108,3 +108,13 @@ MG9_BINDING 승인·실제 핀만 정렬했다. 첫 source 대조23(정상3/변�
 exit0/0.632초/입력1193 불변. collector·엔진·수량 검사0이다.
 승인54 언어 독립 필수0, private runtime 필수0이며 실제405와 정식 수용은 아직이다.
 이 source-only checkpoint 이후 공식18 source export와 UI/런타임 적용을 계속한다.
+
+source-only `925f0405626c8d547a5ab3aa6c798de031fbe26f`에서 공식18×3을
+export했다. source manifest `f6b32cfb01cb25dc44bb472494a6c1017407418807a0425ce97c6ddff737e446`.
+승인54/UI3와 검토 fixture를 적용했다. 첫54 L1은51PASS·다이사이 desc 세 언어의
+수량 오탐3이다. `order250-l1-first.json` 401447B/8720d4046a43e9b30077f04d66f11eb397563d1f425679394bb9be0ac1ac1a0c.
+별도 작은 검사 수리를 선언하며 번역·정상 기대를 통과용으로 바꾸지 않는다.
+첫 실제405는 `order250-actual-first.json` 7231171B/db1c7349c08c801c1358d589dfd744cde853ca2ce2e4e5fe4329f8a94b202a6c,
+exit0/71.310초/외부1193·내부19 입력 불변이다. old310과new95, 새 조건180 nested는
+별개다. 고유 QA 저장·프로세스 종료·상태 복원·양쪽 로그 오류0을 요구한 component PASS이며
+화면/원어민/인간플레이나 본편 GO는 아니다. 정식 신규 수용54와 최종 독립 판정은 아직이다.
