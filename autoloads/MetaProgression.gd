@@ -736,6 +736,39 @@ func _localized_title(title: Dictionary) -> Dictionary:
 		"stress_survivor":
 			localized["name"] = LocaleManager.ui("다음 아침", "The Next Morning")
 			localized["desc"] = LocaleManager.ui("마음이 버티기 어려웠던 밤이 지나고도, 다음 아침은 왔다.", "A night when it was hard to hold yourself together passed, and the next morning still came.")
+		"first_investment":
+			localized["name"] = LocaleManager.ui("첫 투자", "First Investment")
+			localized["desc"] = LocaleManager.ui("처음으로 주식을 샀다. 그날부터 매일 앱을 열게 됐다.", "Bought your first stock. From that day on, you opened the app every day.")
+		"margin_called":
+			localized["name"] = LocaleManager.ui("마진콜의 교훈", "Lesson of the Margin Call")
+			localized["desc"] = LocaleManager.ui("레버리지 포지션이 강제청산됐다. 비싼 수업료였다.", "A leveraged position was liquidated. An expensive lesson.")
+		"invest_master_title":
+			localized["name"] = LocaleManager.ui("닫힌 노트북", "The Closed Laptop")
+			localized["desc"] = LocaleManager.ui("새벽 시장을 지켜보다 스스로 정한 때에 화면을 닫을 수 있게 됐다.", "After watching the market before dawn, you learned to close the screen at the moment you had set for yourself.")
+		"survived_broke":
+			localized["name"] = LocaleManager.ui("통장 0원 생존자", "Zero-Balance Survivor")
+			localized["desc"] = LocaleManager.ui("잔고가 마이너스까지 내려갔다 돌아왔다.", "Your balance went below zero and came back.")
+		"first_10m_title":
+			localized["name"] = LocaleManager.ui("첫 1000만원", "First KRW 10M")
+			localized["desc"] = LocaleManager.ui("현금 1000만원. 서울에서 처음으로 숨이 트이는 느낌이었다.", "KRW 10 million cash. For the first time in Seoul, you could breathe.")
+		"first_100m_title":
+			localized["name"] = LocaleManager.ui("첫 1억", "First KRW 100M")
+			localized["desc"] = LocaleManager.ui("총자산 1억. 뭔가 달라지는 것 같기도 하고 아닌 것 같기도 하다.", "KRW 100 million net worth. Something changed. Or maybe nothing did.")
+		"five_runs_title":
+			localized["name"] = LocaleManager.ui("다섯 번의 인생", "Five Lives")
+			localized["desc"] = LocaleManager.ui("다섯 번의 삶을 끝까지 살아냈다. 매번 달랐다.", "Lived five lives all the way through. Each one was different.")
+		"ten_runs_title":
+			localized["name"] = LocaleManager.ui("열 번의 인생", "Ten Lives")
+			localized["desc"] = LocaleManager.ui("열 번을 살았다. 이제 이 도시의 반복되는 얼굴이 보이기 시작한다.", "Lived ten lives. The city's recurring patterns are starting to show.")
+		"gangnam_dream_title":
+			localized["name"] = LocaleManager.ui("강남드림 달성자", "Gangnam Dream Achiever")
+			localized["desc"] = LocaleManager.ui("총자산 30억. 강남드림을 이뤘다. 다음엔 뭘 꿈꿔야 할까.", "KRW 3 billion net worth. You achieved the Gangnam Dream. What do you dream of next?")
+		"burnout_survivor":
+			localized["name"] = LocaleManager.ui("번아웃 생존자", "Burnout Survivor")
+			localized["desc"] = LocaleManager.ui("번아웃 엔딩을 경험했다. 열심히 사는 것의 대가를 배웠다.", "Experienced the burnout ending. You learned the price of trying too hard.")
+		"ordinary_end_title":
+			localized["name"] = LocaleManager.ui("평범한 행복", "Ordinary Happiness")
+			localized["desc"] = LocaleManager.ui("ordinary_life 엔딩. 평범함도 하나의 성취다.", "Ordinary Life ending. Even normalcy can be an achievement.")
 	return localized
 
 func check_and_unlock_titles() -> Array:

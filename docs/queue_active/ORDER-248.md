@@ -101,7 +101,16 @@ source를 그 증거로 바꾸지 않는다. 248은 별도 최종 source·L1·ac
 기간의 제품/검사0 기록은 아래 원형대로 보존한다. 공개GO1·인간OPEN45·본편HOLD.
 원격 동기화는 기존 실행 종료 뒤 사용자 요청 범위의 main/mirror FF로만 진행한다.
 
-## 비공개 저작·적용 준비
+## 소스 적용·첫 대조 (2026-09-12 14:14Z)
+
+선언58a00c8 뒤 소스4·self·명시 차선의6파일을 적용했다. 새 source 정상3/변조16의
+첫19는 전부 PASS이며 기존245의24와244의18은 별도 역사 관측으로 PASS다.
+`order248-source-controls-first.json`919420B/a41cf9d8에 전체 출력·1193입력 전후
+exact·0.537초·exit0을 보존했다. 합쳐서 새61검사로 세지 않는다. self 실제 적용
+84339B/3985d7f0과 원형 역복원은 별도20bc08c6에 결속했다. UI·수용·engine0이며
+이후 clean source checkpoint에서 공식22 수집/export와 세 언어66 첫L1을 진행한다.
+
+## 비공개 저작·적용 준비 (적용 전 역사 기록)
 
 현재 제품 적용0·collector/L1/Godot0·수용0이다. Rawls의 KR직접66 초안
 `order248-title-translations-draft.json`32920B/92d0ee0e는 원형 보존했다.

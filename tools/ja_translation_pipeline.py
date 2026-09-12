@@ -2754,6 +2754,187 @@ def build_ui_context_layers(
     )
 
 
+# BEGIN_META_TITLE_SUCCESSOR_248
+from contextlib import contextmanager
+from pathlib import Path
+import meta_title_locale_successor as a11_successor
+
+A11_META_TITLE_UI_ROWS = a11_successor.A11_SOURCE_ROWS
+A11_META_TITLE_UI_CURRENT = {
+    "source_calls": 3416, "legacy_calls": 3382, "legacy_api_calls": 3326,
+    "legacy_keys": 2905, "context_calls": 34, "planned_context_ids": 29,
+    "collision_keys": 104, "format_equivalent": 28, "shared_translation": 49,
+    "context_split": 27,
+}
+A11_META_TITLE_SHARED = (
+    "autoloads/GameState.gd", "get_current_title", "legacy",
+    "강남드림 달성자", "Gangnam Dreamer", "",
+)
+
+
+def _a11_meta_title_predecessor_calls(
+    calls: Iterable[UiCall], source: Optional[str] = None,
+) -> tuple[tuple[UiCall, ...], str, list[str]]:
+    """Validate current raw before removing only the eleven owned title pairs."""
+    from collections import Counter
+    calls = tuple(calls)
+    source = source if source is not None else (
+        ROOT / a11_successor.MP_PATH).read_bytes().decode("utf-8")
+    raw = source.encode("utf-8")
+    errors = a11_successor.a11_source_errors(a11_successor.MP_PATH, raw)
+    errors.extend(a11_successor.a11_source_errors(
+        a11_successor.JA_PATH, Path(__file__).read_bytes()))
+    if errors:
+        return calls, source, errors
+    expected = Counter((ko, en, "legacy", "")
+                       for _tid, _field, ko, en in A11_META_TITLE_UI_ROWS)
+    keys = {row[2] for row in A11_META_TITLE_UI_ROWS}
+    selected, historical = [], []
+    for call in calls:
+        selector = (call.path, call.function, call.api,
+                    call.korean, call.english, call.context_id)
+        if call.korean in keys and (call.path, call.function) == META_TITLE_UI_OWNER:
+            selected.append(call)
+        else:
+            historical.append(call)
+            if call.korean in keys and selector != A11_META_TITLE_SHARED:
+                errors.append("source: A11 meta-title unexpected shared owner/pair")
+    observed = Counter((c.korean, c.english, c.api, c.context_id) for c in selected)
+    if observed != expected:
+        errors.append("source: A11 meta-title exact22 pair/API/context/count mismatch")
+    if errors:
+        return calls, source, errors
+    # The shared GameState call survives unchanged, including its distinct EN.
+    predecessor = a11_successor.a11_project_bytes(raw, a11_successor.MP_PATH)
+    return tuple(historical), predecessor.decode("utf-8"), []
+
+
+@contextmanager
+def _a11_meta_title_previous_reads(mp_source: str):
+    """Scoped old245 view, entered only after the current raw gate succeeds."""
+    from unittest.mock import patch
+    current_ja = Path(__file__).read_bytes()
+    errors = a11_successor.a11_source_errors(a11_successor.JA_PATH, current_ja)
+    if errors:
+        raise ValueError("; ".join(errors))
+    previous_ja = a11_successor.a11_project_bytes(current_ja, a11_successor.JA_PATH)
+    paths = {
+        ROOT / a11_successor.MP_PATH: mp_source.encode("utf-8"),
+        Path(__file__): previous_ja,
+    }
+    actual_bytes, actual_text = Path.read_bytes, Path.read_text
+    def previous_bytes(path):
+        if path in paths:
+            return paths[path]
+        return actual_bytes(path)
+    def previous_text(path, *args, **kwargs):
+        if path in paths:
+            return paths[path].decode("utf-8")
+        return actual_text(path, *args, **kwargs)
+    with patch.object(Path, "read_bytes", previous_bytes), \
+            patch.object(Path, "read_text", previous_text):
+        yield
+
+
+def _a11_meta_title_chain_calls(
+    calls: Iterable[UiCall],
+) -> tuple[tuple[UiCall, ...], str, list[str]]:
+    """Expose old244 calls only after A11 raw, then original245 validation."""
+    calls = tuple(calls)
+    previous, source, errors = _a11_meta_title_predecessor_calls(calls)
+    if errors:
+        return calls, source, errors
+    with _a11_meta_title_previous_reads(source):
+        return _next_meta_title_predecessor_calls(previous, source)
+
+
+def _a11_meta_title_current_stats(
+    calls: Iterable[UiCall], historical: Iterable[UiCall],
+    old_source: str, previous: dict[str, Any],
+) -> tuple[dict[str, Any], list[str]]:
+    """Keep old snapshots historical; report the actual current collection."""
+    calls, historical = tuple(calls), tuple(historical)
+    previous_calls, _source, errors = _a11_meta_title_predecessor_calls(calls)
+    if errors:
+        return dict(previous), errors
+    stats, old_errors = _next_meta_title_current_stats(
+        previous_calls, historical, old_source, previous)
+    errors.extend(old_errors)
+    old_keys = {c.korean for c in previous_calls}
+    variants: dict[str, set[str]] = {}
+    for call in calls:
+        variants.setdefault(call.korean, set()).add(call.english)
+    keys = set(variants)
+    added_keys = {row[2] for row in A11_META_TITLE_UI_ROWS} - {A11_META_TITLE_SHARED[3]}
+    if keys - old_keys != added_keys:
+        errors.append("source: A11 meta-title expected twenty-one new unique keys")
+    shared_english = next(row[3] for row in A11_META_TITLE_UI_ROWS
+                          if row[2] == A11_META_TITLE_SHARED[3])
+    if variants.get(A11_META_TITLE_SHARED[3]) != {shared_english, A11_META_TITLE_SHARED[4]}:
+        errors.append("source: A11 meta-title retained GameState English variants changed")
+    retained_count = sum(
+        (c.path, c.function, c.api, c.korean, c.english, c.context_id)
+        == A11_META_TITLE_SHARED for c in previous_calls)
+    if retained_count != 1:
+        errors.append("source: A11 meta-title retained GameState owner count mismatch")
+    stats.update({
+        "source_calls": len(calls),
+        "legacy_calls": sum(c.api in {"legacy", "branch", "format"} for c in calls),
+        "legacy_api_calls": sum(c.api == "legacy" for c in calls),
+        "legacy_keys": len(keys),
+        "collision_keys": sum(len(v) > 1 for v in variants.values()),
+        "shared_translation": stats.get("shared_translation", 0) + 1,
+    })
+    for key, expected in A11_META_TITLE_UI_CURRENT.items():
+        if stats.get(key) != expected:
+            errors.append(f"source: A11 meta-title current {key} != {expected}")
+    stats.update({
+        "parameter_total_ui_call_occurrences": len(calls),
+        "parameter_legacy_pair_call_occurrences": stats["legacy_calls"],
+        "parameter_legacy_korean_source_keys": len(keys),
+        "parameter_legacy_korean_source_keys_sha256": hashlib.sha256(
+            "\n".join(sorted(keys)).encode("utf-8")).hexdigest(),
+        "meta_title_added_calls": 60, "meta_title_added_keys": 56,
+        "meta_title_shared_collisions": 4,
+        "a11_meta_title_added_calls": len(calls) - len(previous_calls),
+        "a11_meta_title_added_keys": len(keys - old_keys),
+    })
+    return stats, errors
+
+
+def _a11_meta_title_historical_checks(
+    inventory: UiInventory,
+) -> tuple[UiInventory, int, list[str]]:
+    """Run the unchanged old245→242 checks on an explicitly historical view."""
+    from dataclasses import replace
+    calls, source, errors = _a11_meta_title_predecessor_calls(inventory.calls)
+    if errors:
+        return replace(inventory, errors=tuple([*inventory.errors, *errors])), 0, errors
+    keys = {c.korean for c in calls}
+    stats = dict(inventory.stats)
+    stats.update(NEXT_META_TITLE_UI_CURRENT)
+    stats.update({
+        "parameter_total_ui_call_occurrences": len(calls),
+        "parameter_legacy_pair_call_occurrences": NEXT_META_TITLE_UI_CURRENT["legacy_calls"],
+        "parameter_legacy_korean_source_keys": len(keys),
+        "parameter_legacy_korean_source_keys_sha256": hashlib.sha256(
+            "\n".join(sorted(keys)).encode("utf-8")).hexdigest(),
+        "meta_title_added_calls": 38, "meta_title_added_keys": 35,
+        "meta_title_shared_collisions": 3,
+        "next_meta_title_added_calls": 20, "next_meta_title_added_keys": 20,
+    })
+    stats.pop("a11_meta_title_added_calls", None)
+    stats.pop("a11_meta_title_added_keys", None)
+    historical = replace(
+        inventory, calls=calls, stats=stats,
+        legacy_entries=tuple(e for e in inventory.legacy_entries if e.source in keys),
+        legacy_blueprint={k: v for k, v in inventory.legacy_blueprint.items() if k in keys},
+    )
+    with _a11_meta_title_previous_reads(source):
+        return _next_meta_title_historical_checks(historical)
+# END_META_TITLE_SUCCESSOR_248
+
+
 # BEGIN_META_TITLE_SUCCESSOR_245
 from pathlib import Path
 import meta_title_locale_successor as title_successor
@@ -3084,7 +3265,7 @@ def collect_ui_inventory(
     errors.extend(dynamic_errors)
     calls.sort(key=lambda call: (call.path, call.line, call.api))
     source_keys = {call.korean for call in calls}
-    predecessor_calls, predecessor_source, next_title_errors = _next_meta_title_predecessor_calls(calls)
+    predecessor_calls, predecessor_source, next_title_errors = _a11_meta_title_chain_calls(calls)
     errors.extend(next_title_errors)
     historical_calls, title_errors = _meta_title_ui_historical_calls(predecessor_calls, predecessor_source)
     errors.extend(title_errors)
@@ -3101,7 +3282,7 @@ def collect_ui_inventory(
         f"parameter_{key}": value for key, value in parameter_stats.items()
     })
     stats.update(dynamic_stats)
-    stats, title_stat_errors = _next_meta_title_current_stats(
+    stats, title_stat_errors = _a11_meta_title_current_stats(
         calls, predecessor_calls, predecessor_source, stats)
     errors.extend(title_stat_errors)
 
@@ -4463,7 +4644,7 @@ def main() -> int:
         ui_inventory = collect_ui_inventory()
         meta_title_current_inventory = ui_inventory
         # Current raw is validated before the explicitly historical old20+4.
-        ui_inventory, meta_title_cases, meta_title_failures = _next_meta_title_historical_checks(ui_inventory)
+        ui_inventory, meta_title_cases, meta_title_failures = _a11_meta_title_historical_checks(ui_inventory)
         cases += meta_title_cases
         failures.extend(meta_title_failures)
         failures.extend(

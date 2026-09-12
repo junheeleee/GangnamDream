@@ -4484,6 +4484,25 @@ def _order245_meta_observed_hash(claim: str, relative: str, raw: bytes) -> str:
         previous_claim, relative, predecessor)
 
 
+def _order248_meta_source_errors(
+        relative: str, raw: bytes, registered_old: str) -> list[str]:
+    errors = title_successor.a11_source_errors(relative, raw)
+    if errors:
+        return errors
+    predecessor = title_successor.a11_project_bytes(raw, relative)
+    return _order245_meta_source_errors(relative, predecessor, registered_old)
+
+
+def _order248_meta_observed_hash(claim: str, relative: str, raw: bytes) -> str:
+    if title_successor.a11_source_errors(relative, raw):
+        return claim
+    predecessor = title_successor.a11_project_bytes(raw, relative)
+    previous_claim = title_successor.a11_project_byte_hash(claim, relative, raw)
+    if previous_claim == claim:
+        return claim
+    return _order245_meta_observed_hash(previous_claim, relative, predecessor)
+
+
 def _audited_source_snapshot_errors(
         source_hashes: dict[str, str]) -> list[str]:
     errors: list[str] = []
@@ -4491,7 +4510,7 @@ def _audited_source_snapshot_errors(
     if meta_title_history.META_TITLE_PATH in source_hashes:
         try:
             meta_title_raw = (ROOT / meta_title_history.META_TITLE_PATH).read_bytes()
-            errors.extend(_order245_meta_source_errors(
+            errors.extend(_order248_meta_source_errors(
                 meta_title_history.META_TITLE_PATH, meta_title_raw,
                 source_hashes[meta_title_history.META_TITLE_PATH]))
         except OSError as exc:
@@ -4578,7 +4597,7 @@ def _audited_source_snapshot_errors(
                     expected_digest = successor[1]
             observed_digest = _file_digest(relative_path)
             if relative_path == meta_title_history.META_TITLE_PATH and meta_title_raw is not None:
-                observed_digest = _order245_meta_observed_hash(
+                observed_digest = _order248_meta_observed_hash(
                     observed_digest, relative_path, meta_title_raw)
             if order215_modal_project_byte_hash(
                     order220_preview_project_byte_hash(

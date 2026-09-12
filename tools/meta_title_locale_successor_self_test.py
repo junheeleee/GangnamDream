@@ -992,5 +992,1099 @@ def main() -> int:
     return 0 if passed else 1
 
 
+# BEGIN_ORDER248_A11_SELF
+# Separate current248 population; all original245 functions and FROZEN stay raw.
+import traceback as _a11_traceback
+A11_SPEC = json.loads(r'''{
+  "provenance": {
+    "plan": ".git/full-game-localization/order248-source-controls-plan.json",
+    "sha256": "25c84ae0b4cf3f7d2dcb3873bfa18e072c466eaafed144b589103344df2c9932",
+    "cases_sha256": "d62c7e28fdf3f65ffe13a428394eb9874547713ea64954e7933a8bddb09b8414",
+    "chronology": "Recipes and expectations frozen before A11 implementation. Private candidate only; no product or test execution authorized by this artifact."
+  },
+  "source_rows22": [
+    [
+      "first_investment",
+      "name",
+      "첫 투자",
+      "First Investment"
+    ],
+    [
+      "first_investment",
+      "desc",
+      "처음으로 주식을 샀다. 그날부터 매일 앱을 열게 됐다.",
+      "Bought your first stock. From that day on, you opened the app every day."
+    ],
+    [
+      "margin_called",
+      "name",
+      "마진콜의 교훈",
+      "Lesson of the Margin Call"
+    ],
+    [
+      "margin_called",
+      "desc",
+      "레버리지 포지션이 강제청산됐다. 비싼 수업료였다.",
+      "A leveraged position was liquidated. An expensive lesson."
+    ],
+    [
+      "invest_master_title",
+      "name",
+      "닫힌 노트북",
+      "The Closed Laptop"
+    ],
+    [
+      "invest_master_title",
+      "desc",
+      "새벽 시장을 지켜보다 스스로 정한 때에 화면을 닫을 수 있게 됐다.",
+      "After watching the market before dawn, you learned to close the screen at the moment you had set for yourself."
+    ],
+    [
+      "survived_broke",
+      "name",
+      "통장 0원 생존자",
+      "Zero-Balance Survivor"
+    ],
+    [
+      "survived_broke",
+      "desc",
+      "잔고가 마이너스까지 내려갔다 돌아왔다.",
+      "Your balance went below zero and came back."
+    ],
+    [
+      "first_10m_title",
+      "name",
+      "첫 1000만원",
+      "First KRW 10M"
+    ],
+    [
+      "first_10m_title",
+      "desc",
+      "현금 1000만원. 서울에서 처음으로 숨이 트이는 느낌이었다.",
+      "KRW 10 million cash. For the first time in Seoul, you could breathe."
+    ],
+    [
+      "first_100m_title",
+      "name",
+      "첫 1억",
+      "First KRW 100M"
+    ],
+    [
+      "first_100m_title",
+      "desc",
+      "총자산 1억. 뭔가 달라지는 것 같기도 하고 아닌 것 같기도 하다.",
+      "KRW 100 million net worth. Something changed. Or maybe nothing did."
+    ],
+    [
+      "five_runs_title",
+      "name",
+      "다섯 번의 인생",
+      "Five Lives"
+    ],
+    [
+      "five_runs_title",
+      "desc",
+      "다섯 번의 삶을 끝까지 살아냈다. 매번 달랐다.",
+      "Lived five lives all the way through. Each one was different."
+    ],
+    [
+      "ten_runs_title",
+      "name",
+      "열 번의 인생",
+      "Ten Lives"
+    ],
+    [
+      "ten_runs_title",
+      "desc",
+      "열 번을 살았다. 이제 이 도시의 반복되는 얼굴이 보이기 시작한다.",
+      "Lived ten lives. The city's recurring patterns are starting to show."
+    ],
+    [
+      "gangnam_dream_title",
+      "name",
+      "강남드림 달성자",
+      "Gangnam Dream Achiever"
+    ],
+    [
+      "gangnam_dream_title",
+      "desc",
+      "총자산 30억. 강남드림을 이뤘다. 다음엔 뭘 꿈꿔야 할까.",
+      "KRW 3 billion net worth. You achieved the Gangnam Dream. What do you dream of next?"
+    ],
+    [
+      "burnout_survivor",
+      "name",
+      "번아웃 생존자",
+      "Burnout Survivor"
+    ],
+    [
+      "burnout_survivor",
+      "desc",
+      "번아웃 엔딩을 경험했다. 열심히 사는 것의 대가를 배웠다.",
+      "Experienced the burnout ending. You learned the price of trying too hard."
+    ],
+    [
+      "ordinary_end_title",
+      "name",
+      "평범한 행복",
+      "Ordinary Happiness"
+    ],
+    [
+      "ordinary_end_title",
+      "desc",
+      "ordinary_life 엔딩. 평범함도 하나의 성취다.",
+      "Ordinary Life ending. Even normalcy can be an achievement."
+    ]
+  ],
+  "cases": [
+    {
+      "id": "mp_current",
+      "kind": "raw",
+      "source": "MP",
+      "base_id": null,
+      "recipe": {
+        "op": "current_bound_raw"
+      },
+      "expected": "pass_project_to_245",
+      "reason": "New A11 current MP must recover exact a343 predecessor and enter the actual Chapter raw gate."
+    },
+    {
+      "id": "ja_current",
+      "kind": "raw",
+      "source": "JA",
+      "base_id": null,
+      "recipe": {
+        "op": "current_bound_raw"
+      },
+      "expected": "pass_project_to_245",
+      "reason": "New A11 JA file must recover exact 1732 predecessor; current-file authority is also consumed by the A11 call observer."
+    },
+    {
+      "id": "mp_245_rollback",
+      "kind": "raw",
+      "source": "MP",
+      "base_id": "mp_current",
+      "recipe": {
+        "op": "predecessor_245"
+      },
+      "expected": "reject_identity",
+      "reason": "The current entry must not treat old245 as present-day approved bytes."
+    },
+    {
+      "id": "ja_245_rollback",
+      "kind": "raw",
+      "source": "JA",
+      "base_id": "ja_current",
+      "recipe": {
+        "op": "predecessor_245"
+      },
+      "expected": "reject_identity",
+      "reason": "The second owned raw path cannot bypass the new stage."
+    },
+    {
+      "id": "mp_244_stage_skip",
+      "kind": "raw",
+      "source": "MP",
+      "base_id": "mp_current",
+      "recipe": {
+        "op": "historical_244",
+        "sha256": "5bc1465e18ae3e36ef5daef1c27dd3923d1566884e5d0545e6b00c2c7893ab58"
+      },
+      "expected": "reject_identity",
+      "reason": "Direct old244 input must not skip either current stage."
+    },
+    {
+      "id": "mp_lf_forged_observation",
+      "kind": "raw",
+      "source": "MP",
+      "base_id": "mp_current",
+      "recipe": {
+        "op": "append",
+        "text": "\n",
+        "claim": "approved_current",
+        "force_outer_hash_to": "registered_historical_a366"
+      },
+      "expected": "reject_identity",
+      "reason": "Same altered raw checks strict bytes and forged observed-hash resistance at the actual Chapter snapshot; the raw gate is never mocked."
+    },
+    {
+      "id": "ja_crlf",
+      "kind": "raw",
+      "source": "JA",
+      "base_id": "ja_current",
+      "recipe": {
+        "op": "replace_all_lf",
+        "before": "\n",
+        "after": "\r\n"
+      },
+      "expected": "reject_identity",
+      "reason": "UTF8 text loading must not normalize unapproved raw line endings into a valid source."
+    },
+    {
+      "id": "mp_nonlocalized_condition",
+      "kind": "raw",
+      "source": "MP",
+      "base_id": "mp_current",
+      "recipe": {
+        "op": "replace_exact",
+        "before": "GameState.investment_skill >= 70",
+        "after": "GameState.investment_skill >= 71",
+        "count": 1
+      },
+      "expected": "reject_identity",
+      "reason": "The one text-only stage cannot authorize gameplay condition drift elsewhere."
+    },
+    {
+      "id": "mp_path_off",
+      "kind": "raw",
+      "source": "MP",
+      "base_id": "mp_current",
+      "recipe": {
+        "op": "current_bound_raw",
+        "path": "autoloads/GameState.gd"
+      },
+      "expected": "reject_identity",
+      "reason": "Off-path projector returns identity and source gate rejects; no claim that the MP-specific live raw gate ran on GameState."
+    },
+    {
+      "id": "registry_wrong_intermediate",
+      "kind": "registry",
+      "source": "MP",
+      "base_id": "mp_current",
+      "recipe": {
+        "op": "replace_new_registry_previous",
+        "value": "5bc1465e18ae3e36ef5daef1c27dd3923d1566884e5d0545e6b00c2c7893ab58",
+        "preserve_registry_digest": true
+      },
+      "expected": "reject_identity",
+      "reason": "The sole new step must target a343, not skip directly to pre245; old20 registry is never mutated."
+    },
+    {
+      "id": "registry_missing_ja_hook",
+      "kind": "registry",
+      "source": "JA",
+      "base_id": "ja_current",
+      "recipe": {
+        "op": "remove_first_new_ja_inverse_hook",
+        "preserve_registry_digest": true
+      },
+      "expected": "reject_identity",
+      "reason": "Dropping a declared inverse hook must fail closed, not silently expose mixed-version JA."
+    },
+    {
+      "id": "mp_wrong_output_field",
+      "kind": "raw",
+      "source": "MP",
+      "base_id": "mp_current",
+      "recipe": {
+        "op": "replace_in_new_branch",
+        "id": "first_investment",
+        "before": "localized[\"name\"]",
+        "after": "localized[\"desc\"]",
+        "count": 1
+      },
+      "expected": "reject_identity",
+      "reason": "ID/field structure is owned in addition to the set of prose pairs."
+    },
+    {
+      "id": "mp_branch_order",
+      "kind": "raw",
+      "source": "MP",
+      "base_id": "mp_current",
+      "recipe": {
+        "op": "swap_adjacent_new_branches",
+        "ids": [
+          "first_investment",
+          "margin_called"
+        ]
+      },
+      "expected": "reject_identity",
+      "reason": "An equal bag of correct pairs is not the approved raw/order source."
+    },
+    {
+      "id": "calls_with_retained_gs",
+      "kind": "calls",
+      "source": "MP+GS",
+      "base_id": null,
+      "recipe": {
+        "op": "parse_current_MP_plus_raw_bound_shared_GS"
+      },
+      "expected": "pass_project_to_245",
+      "reason": "Remove exactly new MP22, preserving old MP43 and the existing GameState shared owner/English."
+    },
+    {
+      "id": "calls_missing",
+      "kind": "calls",
+      "source": "MP+GS",
+      "base_id": "calls_with_retained_gs",
+      "recipe": {
+        "op": "delete_selected_call",
+        "id": "first_investment",
+        "field": "name"
+      },
+      "expected": "reject_identity",
+      "reason": "Missing one owned field fails exact22 cardinality."
+    },
+    {
+      "id": "calls_duplicate",
+      "kind": "calls",
+      "source": "MP+GS",
+      "base_id": "calls_with_retained_gs",
+      "recipe": {
+        "op": "duplicate_selected_call",
+        "id": "first_investment",
+        "field": "name"
+      },
+      "expected": "reject_identity",
+      "reason": "Duplicate one owned field fails exact22 cardinality."
+    },
+    {
+      "id": "calls_shared_english_collision",
+      "kind": "calls",
+      "source": "MP+GS",
+      "base_id": "calls_with_retained_gs",
+      "recipe": {
+        "op": "replace_selected_call",
+        "id": "gangnam_dream_title",
+        "field": "name",
+        "attribute": "english",
+        "before": "Gangnam Dream Achiever",
+        "after": "Gangnam Dreamer"
+      },
+      "expected": "reject_identity",
+      "reason": "MP and retained GS have different legitimate English arguments; a KO-global one-to-one mapping is invalid."
+    },
+    {
+      "id": "calls_wrong_owner",
+      "kind": "calls",
+      "source": "MP+GS",
+      "base_id": "calls_with_retained_gs",
+      "recipe": {
+        "op": "replace_selected_call",
+        "id": "first_investment",
+        "field": "name",
+        "attribute": "function",
+        "before": "_localized_title",
+        "after": "unowned_title_function"
+      },
+      "expected": "reject_identity",
+      "reason": "Correct prose at the wrong owner cannot supply the missing approved MP field."
+    },
+    {
+      "id": "calls_wrong_api_context",
+      "kind": "calls",
+      "source": "MP+GS",
+      "base_id": "calls_with_retained_gs",
+      "recipe": {
+        "op": "replace_selected_call_fields",
+        "id": "first_investment",
+        "field": "name",
+        "values": {
+          "api": "context",
+          "context_id": "ui.meta.unowned_a11"
+        }
+      },
+      "expected": "reject_identity",
+      "reason": "The new stage owns exact rawKO legacy calls, not an unapproved context route."
+    }
+  ],
+  "source_pair_sha256": "7f91d316e709949bb81787db51870309f30383ec7b1c751711a50e4ceb2beb54",
+  "old_self": {
+    "bytes": 38295,
+    "sha256": "78408176dbcc94fe18a81f33e74224d493d913234bb9e20ccfa585b193559ee0"
+  },
+  "GS": {
+    "bytes": 217568,
+    "sha256": "8a40740286ff910b2a16049e2c2794cc0dc22fed5dfc78d2fc6ce458c833018d"
+  },
+  "shared": {
+    "path": "autoloads/GameState.gd",
+    "function": "get_current_title",
+    "line": 3634,
+    "api": "legacy",
+    "context_id": "",
+    "korean": "강남드림 달성자",
+    "english": "Gangnam Dreamer",
+    "MP_english": "Gangnam Dream Achiever",
+    "freeze_basis": "Exact existing getter source was read. Its whole GS raw pin is above. This is a source-fixture literal, not an added runtime/UI call.",
+    "presence_policy": "Do not require a GS row for every possible MP-only API input. The mixed normal proves that when the row is supplied it survives exactly. No invented missing-GS rejection case."
+  }
+}''')
+A11_BINDING = json.loads(r'''{
+  "phase": "APPLIED_SOURCE_BOUND",
+  "current_pins": {
+    "autoloads/MetaProgression.gd": {
+      "bytes": 59337,
+      "sha256": "afe8bda86177950ef82fb8d2eea339ae398d59534897719c9b803bacf292a1b6"
+    },
+    "tools/ja_translation_pipeline.py": {
+      "bytes": 248524,
+      "sha256": "504b5ef8707568b199df35179b1753ab25706b2004fa3d0fc0fa879b18303906"
+    },
+    "tools/meta_title_locale_successor.py": {
+      "bytes": 18347,
+      "sha256": "de4e215e3b6fbc7aa36651446bc0fc42845da580136d293a424a03b366cc88a4"
+    },
+    "tools/chapter1_core_loop_v2_causal_ledger_check.py": {
+      "bytes": 1461039,
+      "sha256": "f0284d2ff4159b0cfffd5e3888e0e736e1b6ee7f38e32f32d1009485f748682e"
+    }
+  },
+  "independent_inverse_rules": {
+    "autoloads/MetaProgression.gd": {
+      "remove_spans": [
+        {
+          "start": "\t\t\"first_investment\":\n",
+          "end": "\treturn localized\n",
+          "include_end": false,
+          "sha256": "d0db7f3704a135af6ed405bfba5aefb87bac41516e495af7483a8f7c4c940035"
+        }
+      ],
+      "hooks": []
+    },
+    "tools/ja_translation_pipeline.py": {
+      "remove_spans": [
+        {
+          "start": "# BEGIN_META_TITLE_SUCCESSOR_248\n",
+          "end": "# END_META_TITLE_SUCCESSOR_248\n\n\n",
+          "include_end": true,
+          "sha256": "c3cf305eff0db369341a9e28ea2d45465295da26003b56eb5d8e3ff7b2280726"
+        }
+      ],
+      "hooks": [
+        [
+          "    predecessor_calls, predecessor_source, next_title_errors = _a11_meta_title_chain_calls(calls)",
+          "    predecessor_calls, predecessor_source, next_title_errors = _next_meta_title_predecessor_calls(calls)"
+        ],
+        [
+          "    stats, title_stat_errors = _a11_meta_title_current_stats(\n        calls, predecessor_calls, predecessor_source, stats)",
+          "    stats, title_stat_errors = _next_meta_title_current_stats(\n        calls, predecessor_calls, predecessor_source, stats)"
+        ],
+        [
+          "        ui_inventory, meta_title_cases, meta_title_failures = _a11_meta_title_historical_checks(ui_inventory)",
+          "        ui_inventory, meta_title_cases, meta_title_failures = _next_meta_title_historical_checks(ui_inventory)"
+        ]
+      ]
+    },
+    "tools/meta_title_locale_successor.py": {
+      "remove_spans": [
+        {
+          "start": "\n\n# BEGIN_A11_META_TITLE_SUCCESSOR_248\n",
+          "end": "# END_A11_META_TITLE_SUCCESSOR_248\n",
+          "include_end": true,
+          "sha256": "50709e33d1409765b90b0d0e16598ca72e073239e24e0c529e60b1a6ed222226"
+        }
+      ],
+      "hooks": []
+    },
+    "tools/chapter1_core_loop_v2_causal_ledger_check.py": {
+      "remove_spans": [
+        {
+          "start": "def _order248_meta_source_errors(\n",
+          "end": "def _audited_source_snapshot_errors(\n",
+          "include_end": false,
+          "sha256": "b10bde21024e31f1fbbaac37bd593a415fc521ee8a71865beb9c3bd62276f9bf"
+        }
+      ],
+      "hooks": [
+        [
+          "            errors.extend(_order248_meta_source_errors(\n",
+          "            errors.extend(_order245_meta_source_errors(\n"
+        ],
+        [
+          "                observed_digest = _order248_meta_observed_hash(\n",
+          "                observed_digest = _order245_meta_observed_hash(\n"
+        ]
+      ]
+    }
+  },
+  "production_registry": {
+    "autoloads/MetaProgression.gd": {
+      "previous_sha256": "a3435ebd18cee005720a98633fa290754b23cf944b241cef25848b3cf114b7bd",
+      "current_sha256": "afe8bda86177950ef82fb8d2eea339ae398d59534897719c9b803bacf292a1b6",
+      "start": "\t\t\"first_investment\":\n",
+      "end": "\treturn localized\n",
+      "include_end": false,
+      "span_sha256": "d0db7f3704a135af6ed405bfba5aefb87bac41516e495af7483a8f7c4c940035",
+      "hooks": []
+    },
+    "tools/ja_translation_pipeline.py": {
+      "previous_sha256": "173228d3c6641b95b8fe5f09f7696a15af2ff44f7871d01f9a0f13947458f376",
+      "current_sha256": "504b5ef8707568b199df35179b1753ab25706b2004fa3d0fc0fa879b18303906",
+      "start": "# BEGIN_META_TITLE_SUCCESSOR_248\n",
+      "end": "# END_META_TITLE_SUCCESSOR_248\n\n\n",
+      "include_end": true,
+      "span_sha256": "c3cf305eff0db369341a9e28ea2d45465295da26003b56eb5d8e3ff7b2280726",
+      "hooks": [
+        [
+          "    predecessor_calls, predecessor_source, next_title_errors = _a11_meta_title_chain_calls(calls)",
+          "    predecessor_calls, predecessor_source, next_title_errors = _next_meta_title_predecessor_calls(calls)"
+        ],
+        [
+          "    stats, title_stat_errors = _a11_meta_title_current_stats(\n        calls, predecessor_calls, predecessor_source, stats)",
+          "    stats, title_stat_errors = _next_meta_title_current_stats(\n        calls, predecessor_calls, predecessor_source, stats)"
+        ],
+        [
+          "        ui_inventory, meta_title_cases, meta_title_failures = _a11_meta_title_historical_checks(ui_inventory)",
+          "        ui_inventory, meta_title_cases, meta_title_failures = _next_meta_title_historical_checks(ui_inventory)"
+        ]
+      ]
+    }
+  },
+  "binding_provenance": {
+    "kind": "observed_applied_source4",
+    "source4_patch": {
+      "path": ".git/full-game-localization/order248-source4-private.patch",
+      "bytes": 24921,
+      "sha256": "6d86175f11d3450b4573271a5168e8c73fab1ab7dae2c2a45b63edb7fbf0f80f"
+    },
+    "source4_binding": {
+      "path": ".git/full-game-localization/order248-source4-private-binding.json",
+      "bytes": 10952,
+      "sha256": "a612dc8f89481bf00b9372c2f852622e9d3c2b8ca2ab661e74f60bb40e887392"
+    },
+    "actual_applied_pins": {
+      "autoloads/MetaProgression.gd": {
+        "bytes": 59337,
+        "sha256": "afe8bda86177950ef82fb8d2eea339ae398d59534897719c9b803bacf292a1b6"
+      },
+      "tools/ja_translation_pipeline.py": {
+        "bytes": 248524,
+        "sha256": "504b5ef8707568b199df35179b1753ab25706b2004fa3d0fc0fa879b18303906"
+      },
+      "tools/meta_title_locale_successor.py": {
+        "bytes": 18347,
+        "sha256": "de4e215e3b6fbc7aa36651446bc0fc42845da580136d293a424a03b366cc88a4"
+      },
+      "tools/chapter1_core_loop_v2_causal_ledger_check.py": {
+        "bytes": 1461039,
+        "sha256": "f0284d2ff4159b0cfffd5e3888e0e736e1b6ee7f38e32f32d1009485f748682e"
+      }
+    },
+    "static_inverse4_exact": true,
+    "source_rows22_sha256": "7f91d316e709949bb81787db51870309f30383ec7b1c751711a50e4ceb2beb54",
+    "registry_sha256": "c2607093a0cc3fe0ab4c44d926d891f519347bc0b6e0134d1a4298a8d8e71ef2",
+    "execution_gate": "ROOT authorized self application after actual source4 readback. APPLIED_SOURCE_BOUND enables the unchanged checks; all first QA/test executions remain ROOT-owned.",
+    "actual_observation": {
+      "declaration_head": "58a00c874acaa0faefed09084767793b70903b50",
+      "declaration_tree": "fd9cdc720a34f16c8211c25fbf844de113352aa3",
+      "source4_bytes_sha256_equal_private_candidate": true,
+      "observer": "Plato",
+      "method": "RO wc and SHA-256 of all four actual applied paths before self application; no repo import or test.",
+      "test_execution": 0
+    }
+  }
+}''')
+_A11_SOURCE_PATHS = (
+    MP, JA, "tools/meta_title_locale_successor.py",
+    "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+)
+_A11_SELF = "tools/meta_title_locale_successor_self_test.py"
+_A11_GS = "autoloads/GameState.gd"
+
+
+def _a11_canonical(value):
+    return json.dumps(value, ensure_ascii=False, sort_keys=True,
+                      separators=(",", ":")).encode("utf-8")
+
+
+def _a11_physical_inputs():
+    paths = set(FROZEN["current_pins"]) | set(_A11_SOURCE_PATHS) | {
+        _A11_SELF, _A11_GS,
+        "content/meta/chapter1_core_loop_v2_causal_ledger.json",
+        "tools/chapter1_core_loop_v2_causal_debt_baseline.json",
+    }
+    return {relative: pin((ROOT / relative).read_bytes()) for relative in sorted(paths)}
+
+
+def _a11_inverse_file(raw, relative):
+    """Independent fixture inverse rules; never obtain expected bytes from SUT."""
+    if relative == _A11_SELF:
+        # No self-referential SHA inside the inserted block. Its full actual
+        # hash belongs to the external code binding; old raw is checked here.
+        start = b"# BEGIN_ORDER248_A11_SELF\n"
+        end = b"# END_ORDER248_A11_SELF\n\n\n"
+        if raw.count(start) != 1 or raw.count(end) != 1:
+            raise AssertionError("nonunique248 self insertion")
+        a, z = raw.index(start), raw.index(end) + len(end)
+        old = raw[:a] + raw[z:]
+        now = b"raise SystemExit(_a11_main())"
+        if old.count(now) != 1:
+            raise AssertionError("nonunique248 CLI hook")
+        old = old.replace(now, b"raise SystemExit(main())", 1)
+        if pin(old) != A11_SPEC["old_self"]:
+            raise AssertionError("old11 functions/FROZEN/whole self raw changed")
+        return old
+    rule = A11_BINDING["independent_inverse_rules"][relative]
+    wanted = FROZEN["current_pins"][relative]
+    current = raw
+    for span in rule["remove_spans"]:
+        start, end = span["start"].encode(), span["end"].encode()
+        if current.count(start) != 1 or current.count(end) != 1:
+            raise AssertionError("nonunique independent248 inverse span: " + relative)
+        begin = current.index(start)
+        finish = current.index(end, begin) + (len(end) if span["include_end"] else 0)
+        deleted = current[begin:finish]
+        if sha256(deleted) != span["sha256"]:
+            raise AssertionError("independent248 span pin differs: " + relative)
+        if relative == MP:
+            if deleted != _a11_mp_span():
+                raise AssertionError("independent248 exact22 ID/field/order differs")
+        current = current[:begin] + current[finish:]
+    for now, old in rule["hooks"]:
+        now, old = now.encode(), old.encode()
+        if current.count(now) != 1:
+            raise AssertionError("nonunique independent248 inverse hook: " + relative)
+        current = current.replace(now, old, 1)
+    if pin(current) != wanted:
+        raise AssertionError("independent248 inverse does not recover245: " + relative)
+    return current
+
+
+def _a11_mp_span():
+    lines, previous = [], None
+    for title_id, field, ko, en in A11_SPEC["source_rows22"]:
+        if title_id != previous:
+            lines.append("\t\t" + json.dumps(title_id) + ":\n")
+            previous = title_id
+        lines.append("\t\t\tlocalized[" + json.dumps(field) + "] = LocaleManager.ui("
+                     + json.dumps(ko, ensure_ascii=False) + ", "
+                     + json.dumps(en, ensure_ascii=False) + ")\n")
+    return "".join(lines).encode("utf-8")
+
+
+def _a11_branch_bounds(raw, title_id):
+    span = _a11_mp_span()
+    if raw.count(span) != 1:
+        raise AssertionError("approved A11 MP span missing/duplicate in fixture")
+    ids = list(dict.fromkeys(r[0] for r in A11_SPEC["source_rows22"]))
+    first = raw.index(span)
+    marker = ("\t\t" + json.dumps(title_id) + ":\n").encode()
+    start = raw.index(marker, first, first + len(span))
+    at = ids.index(title_id)
+    end = (raw.index(("\t\t" + json.dumps(ids[at + 1]) + ":\n").encode(), start)
+           if at + 1 < len(ids) else first + len(span))
+    return start, end
+
+
+def _a11_materialize(case, current, old245):
+    relative = MP if case["source"] == "MP" else JA
+    raw, recipe = current[relative], case["recipe"]
+    op = recipe["op"]
+    if op in ("current_bound_raw", "replace_new_registry_previous",
+              "remove_first_new_ja_inverse_hook"):
+        return raw
+    if op == "predecessor_245":
+        return old245[relative]
+    if op == "historical_244":
+        old = independent_inverse(old245[MP], MP)
+        if sha256(old) != recipe["sha256"]:
+            raise AssertionError("separately frozen historical244 pin differs")
+        return old
+    if op == "append":
+        return raw + recipe["text"].encode()
+    if op == "replace_all_lf":
+        if b"\r" in raw or b"\n" not in raw:
+            raise AssertionError("CRLF mutation base is not original LF-only")
+        return raw.replace(recipe["before"].encode(), recipe["after"].encode())
+    if op == "replace_exact":
+        before, after = recipe["before"].encode(), recipe["after"].encode()
+        if raw.count(before) != recipe["count"] or before == after:
+            raise AssertionError("nonlocal mutation anchor drift")
+        return raw.replace(before, after, recipe["count"])
+    if op == "replace_in_new_branch":
+        start, end = _a11_branch_bounds(raw, recipe["id"])
+        branch = raw[start:end]
+        before, after = recipe["before"].encode(), recipe["after"].encode()
+        if branch.count(before) != recipe["count"] or before == after:
+            raise AssertionError("new-field mutation anchor drift")
+        return raw[:start] + branch.replace(before, after, recipe["count"]) + raw[end:]
+    if op == "swap_adjacent_new_branches":
+        a, b = _a11_branch_bounds(raw, recipe["ids"][0])
+        c, d = _a11_branch_bounds(raw, recipe["ids"][1])
+        if b != c:
+            raise AssertionError("fixed A11 branches are not adjacent")
+        return raw[:a] + raw[c:d] + raw[a:b] + raw[d:]
+    raise AssertionError("unknown frozen248 raw recipe: " + op)
+
+
+def _a11_registry_context(case, successor):
+    if case["kind"] != "registry":
+        return contextlib.nullcontext()
+    registry = copy.deepcopy(successor.A11_TRANSITIONS)
+    if case["recipe"]["op"] == "replace_new_registry_previous":
+        registry[MP]["previous_sha256"] = case["recipe"]["value"]
+    else:
+        if not registry[JA]["hooks"]:
+            raise AssertionError("fixed missing-hook recipe requires a real new JA hook")
+        del registry[JA]["hooks"][0]
+    return patch.object(successor, "A11_TRANSITIONS", registry)
+
+
+def _a11_snapshot(chapter, raw, claim, force_old, counts):
+    real_read, real_digest = Path.read_bytes, chapter._file_digest
+    real_hash = chapter._order248_meta_observed_hash
+    reads, hashes = [], []
+
+    def read_bytes(path):
+        if path == ROOT / MP:
+            reads.append(MP)
+            return raw
+        return real_read(path)
+
+    def digest(relative):
+        if relative == MP:
+            hashes.append(relative)
+            return claim
+        return real_digest(relative)
+
+    with contextlib.ExitStack() as stack:
+        stack.enter_context(patch.object(Path, "read_bytes", read_bytes))
+        stack.enter_context(patch.object(chapter, "_file_digest", digest))
+        if force_old:
+            stack.enter_context(patch.object(
+                chapter, "_order248_meta_observed_hash",
+                return_value=FROZEN["historical_mp"]["sha256"]))
+        counts["Chapter_actual_snapshot"] += 1
+        errors = chapter._audited_source_snapshot_errors({
+            MP: FROZEN["historical_mp"]["sha256"]})
+    return {
+        "errors": errors, "raw_reads": reads, "hash_reads": hashes,
+        "forced_observation": force_old,
+        "restored": (Path.read_bytes is real_read
+                     and chapter._file_digest is real_digest
+                     and chapter._order248_meta_observed_hash is real_hash),
+    }
+
+
+def _a11_current_calls(pipeline, current, counts):
+    counts["parse_one_MP"] += 1
+    parsed, errors = pipeline.parse_ui_calls(MP, current[MP].decode("utf-8"))
+    if errors:
+        raise AssertionError("current MP literal parse errors: " + repr(errors))
+    # Complete MP: prior38 title calls + mastery5 + new22; never pre-filter it.
+    keys = {r[2] for r in A11_SPEC["source_rows22"]}
+    selected = [c for c in parsed if (c.path, c.function) == (MP, "_localized_title")
+                and c.korean in keys]
+    if len(parsed) != 65 or len(selected) != 22:
+        raise AssertionError("current literal count differs from planned65/22; preserve first result")
+    gs = (ROOT / _A11_GS).read_bytes()
+    if pin(gs) != A11_SPEC["GS"]:
+        raise AssertionError("retained GS source raw changed")
+    shared = A11_SPEC["shared"]
+    literal = ('\tif total >= 3_000_000_000: return LocaleManager.ui('
+               '"강남드림 달성자", "Gangnam Dreamer")')
+    lines = gs.decode("utf-8").splitlines()
+    if lines.count(literal) != 1 or lines[shared["line"] - 1] != literal:
+        raise AssertionError("frozen retained GS shared owner literal/line drift")
+    retained = pipeline.UiCall(**{key: shared[key] for key in (
+        "path", "function", "line", "api", "korean", "english", "context_id")})
+    return tuple(parsed) + (retained,)
+
+
+def _a11_raw_case(case, current, old245, calls, successor, pipeline, chapter, counts):
+    relative = MP if case["source"] == "MP" else JA
+    path = case["recipe"].get("path", relative)
+    raw = _a11_materialize(case, current, old245)
+    expected = case["base_id"] is None
+    claim = (sha256(current[relative]) if case["recipe"].get("claim") == "approved_current"
+             else sha256(raw))
+    original_registry = copy.deepcopy(successor.A11_TRANSITIONS)
+    live, ja_view = None, None
+    with _a11_registry_context(case, successor):
+        counts["A11_source_errors"] += 1
+        errors = successor.a11_source_errors(path, raw, FROZEN["current_pins"][relative]["sha256"])
+        counts["A11_raw_projection"] += 1
+        projected = successor.a11_project_bytes(raw, path)
+        counts["A11_hash_projection"] += 1
+        observed_hash = successor.a11_project_byte_hash(claim, path, raw)
+        if relative == MP and path == MP:
+            live = _a11_snapshot(chapter, raw, claim,
+                                 bool(case["recipe"].get("force_outer_hash_to")), counts)
+        if relative == JA:
+            original_read = Path.read_bytes
+
+            def read_bytes(p):
+                return raw if p == ROOT / JA else original_read(p)
+
+            with patch.object(Path, "read_bytes", read_bytes):
+                counts["A11_JA_call_contract"] += 1
+                out_calls, out_source, ja_errors = pipeline._a11_meta_title_predecessor_calls(
+                    calls, source=current[MP].decode("utf-8"))
+            wanted_calls = _a11_without_new_calls(calls) if expected else calls
+            wanted_source = old245[MP].decode("utf-8") if expected else current[MP].decode("utf-8")
+            ja_view = {
+                "errors": ja_errors, "output_calls": len(out_calls),
+                "source": pin(out_source.encode("utf-8")),
+                "passed": (isinstance(ja_errors, list) and (not ja_errors) == expected
+                           and tuple(out_calls) == wanted_calls and out_source == wanted_source
+                           and Path.read_bytes is original_read),
+            }
+    wanted = old245[relative] if expected else raw
+    checks = {
+        "source_errors": isinstance(errors, list) and (not errors) == expected,
+        "raw_projection": projected == wanted,
+        "hash_projection": observed_hash == (sha256(wanted) if expected else claim),
+        "registry_restored": successor.A11_TRANSITIONS == original_registry,
+    }
+    if live is not None:
+        checks["live_raw_gate"] = (isinstance(live["errors"], list)
+                                  and (not live["errors"]) == expected
+                                  and bool(live["raw_reads"]) and live["restored"])
+    if ja_view is not None:
+        checks["JA_current_file_gate"] = ja_view["passed"]
+    return {
+        "id": case["id"], "base_id": case["base_id"], "path": path,
+        "input": pin(raw), "claim": claim, "source_errors": errors,
+        "projection": pin(projected), "projected_hash": observed_hash,
+        "live_snapshot": live, "JA_observation": ja_view,
+        "checks": checks, "passed": all(checks.values()),
+    }
+
+
+def _a11_without_new_calls(calls):
+    keys = {r[2] for r in A11_SPEC["source_rows22"]}
+    return tuple(c for c in calls if not (
+        (c.path, c.function) == (MP, "_localized_title") and c.korean in keys))
+
+
+def _a11_call_case(case, calls, current, old245, pipeline, counts):
+    recipe, mutated = case["recipe"], list(calls)
+    expected = case["base_id"] is None
+    if not expected:
+        ko = next(r[2] for r in A11_SPEC["source_rows22"]
+                  if (r[0], r[1]) == (recipe["id"], recipe["field"]))
+        indices = [i for i, c in enumerate(mutated)
+                   if (c.path, c.function, c.korean) == (MP, "_localized_title", ko)]
+        if len(indices) != 1:
+            raise AssertionError("semantic mutant base selector is not exact1")
+        index = indices[0]
+        if recipe["op"] == "delete_selected_call":
+            del mutated[index]
+        elif recipe["op"] == "duplicate_selected_call":
+            mutated.insert(index, mutated[index])
+        elif recipe["op"] == "replace_selected_call":
+            if getattr(mutated[index], recipe["attribute"]) != recipe["before"]:
+                raise AssertionError("semantic before value drift")
+            mutated[index] = dataclasses.replace(
+                mutated[index], **{recipe["attribute"]: recipe["after"]})
+        elif recipe["op"] == "replace_selected_call_fields":
+            mutated[index] = dataclasses.replace(mutated[index], **recipe["values"])
+        else:
+            raise AssertionError("unknown frozen248 call recipe")
+    mutated = tuple(mutated)
+    source = current[MP].decode("utf-8")
+    counts["A11_JA_call_contract"] += 1
+    out_calls, out_source, errors = pipeline._a11_meta_title_predecessor_calls(mutated, source)
+    wanted_calls = _a11_without_new_calls(calls) if expected else mutated
+    wanted_source = old245[MP].decode("utf-8") if expected else source
+    checks = {
+        "errors": isinstance(errors, list) and (not errors) == expected,
+        "calls_exact": tuple(out_calls) == wanted_calls,
+        "source_exact": out_source == wanted_source,
+        "retained_GS": (calls[-1] in out_calls if expected else True),
+    }
+    return {
+        "id": case["id"], "base_id": case["base_id"],
+        "input_calls": [dataclasses.asdict(c) for c in mutated],
+        "input_source": pin(source.encode()), "errors": errors,
+        "output_calls": [dataclasses.asdict(c) for c in out_calls],
+        "output_source": pin(out_source.encode()),
+        "checks": checks, "passed": all(checks.values()),
+    }
+
+
+def _a11_historical245(old245, chapter, counts):
+    """Original24 then its own18, not another copy or current runtime claim."""
+    original_read, original_text = Path.read_bytes, Path.read_text
+    original_gate = chapter._order248_meta_source_errors
+    original_hash = chapter._order248_meta_observed_hash
+    reads = {path: 0 for path in old245}
+    stdout, stderr = io.StringIO(), io.StringIO()
+    exception, exit_code = None, None
+
+    def read_bytes(path):
+        for relative, raw in old245.items():
+            if path == ROOT / relative:
+                reads[relative] += 1
+                return raw
+        return original_read(path)
+
+    def read_text(path, *args, **kwargs):
+        for relative, raw in old245.items():
+            if path == ROOT / relative:
+                reads[relative] += 1
+                encoding = kwargs.get("encoding") or (args[0] if args else None) or "utf-8"
+                return raw.decode(encoding, errors=kwargs.get("errors") or "strict")
+        return original_text(path, *args, **kwargs)
+
+    def gate(relative, raw, registered):
+        return chapter._order245_meta_source_errors(relative, raw, registered)
+
+    def observed_hash(claim, relative, raw):
+        # Dynamic lookup is essential for the preserved24/18 forged-hash mocks.
+        return chapter._order245_meta_observed_hash(claim, relative, raw)
+
+    with contextlib.ExitStack() as stack:
+        stack.enter_context(patch.object(Path, "read_bytes", read_bytes))
+        stack.enter_context(patch.object(Path, "read_text", read_text))
+        stack.enter_context(patch.object(chapter, "_order248_meta_source_errors", gate))
+        stack.enter_context(patch.object(chapter, "_order248_meta_observed_hash", observed_hash))
+        stack.enter_context(contextlib.redirect_stdout(stdout))
+        stack.enter_context(contextlib.redirect_stderr(stderr))
+        counts["historical245_main"] += 1
+        try:
+            exit_code = main()
+        except Exception as error:
+            exception = type(error).__name__ + ": " + str(error)
+    restored = (Path.read_bytes is original_read and Path.read_text is original_text
+                and chapter._order248_meta_source_errors is original_gate
+                and chapter._order248_meta_observed_hash is original_hash)
+    parsed, marker, parse_error = None, None, None
+    try:
+        parsed, end = json.JSONDecoder().raw_decode(stdout.getvalue())
+        marker = stdout.getvalue()[end:].strip()
+    except (TypeError, ValueError) as error:
+        parse_error = type(error).__name__ + ": " + str(error)
+    expected_marker = (
+        "META_TITLE_LOCALE_SUCCESSOR_SELF_TEST_OK current=24/24 historical=18/18"
+        + f" inputs={len(FROZEN['current_pins']) + 3} unchanged=True")
+    logical = {}
+    if isinstance(parsed, dict):
+        logical = parsed.get("physical_input_before", {})
+    logical_exact = (isinstance(parsed, dict)
+                     and logical == parsed.get("physical_input_after")
+                     and all(logical.get(p) == pin(raw) for p, raw in old245.items()))
+    passed = (
+        exit_code == 0 and exception is None and parse_error is None and restored
+        and stderr.getvalue() == "" and marker == expected_marker
+        and isinstance(parsed, dict) and parsed.get("passed") is True and logical_exact
+        and parsed.get("current", {}).get("cases") == 24
+        and len(parsed.get("current", {}).get("results", [])) == 24
+        and all(r.get("valid_result") for r in parsed["current"]["results"])
+        and parsed.get("historical", {}).get("cases") == 18
+        and parsed.get("historical", {}).get("passed") is True)
+    return {
+        "scope": "logical245 old24, containing its unchanged logical244 old18",
+        "exit": exit_code, "exception": exception, "parse_error": parse_error,
+        "stdout": stdout.getvalue(), "stderr": stderr.getvalue(),
+        "logical_input_before": logical,
+        "logical_input_after": parsed.get("physical_input_after") if parsed else None,
+        "logical_exact": logical_exact, "view_reads": reads, "restored": restored,
+        "current_named_by_old_report": "Its 'current' and 'physical' fields refer to the explicitly projected245 view, not actual248 bytes.",
+        "cases": parsed.get("current", {}).get("cases", 0) if parsed else 0,
+        "nested_historical_cases": parsed.get("historical", {}).get("cases", 0) if parsed else 0,
+        "passed": passed,
+    }
+
+
+def _a11_main():
+    before, after = None, None
+    results = []
+    historical = {"passed": False, "cases": 0, "nested_historical_cases": 0,
+                  "skipped": "new248 current contract has not passed"}
+    fatal, fatal_traceback, counts = None, None, {
+        "A11_source_errors": 0, "A11_raw_projection": 0, "A11_hash_projection": 0,
+        "A11_JA_call_contract": 0,
+        "Chapter_actual_snapshot": 0, "parse_one_MP": 0,
+        "historical245_main": 0, "collector": 0, "engine": 0,
+    }
+    try:
+        before = _a11_physical_inputs()
+        if A11_BINDING["phase"] != "APPLIED_SOURCE_BOUND":
+            raise AssertionError("private248 binding is not an applied/approved source")
+        if sha256(_a11_canonical(A11_SPEC["cases"])) != A11_SPEC["provenance"]["cases_sha256"]:
+            raise AssertionError("pre-code19 recipe/expectation drift")
+        if len(A11_SPEC["cases"]) != 19 or len({r["id"] for r in A11_SPEC["cases"]}) != 19:
+            raise AssertionError("frozen248 population drift")
+        if sum(r["base_id"] is None for r in A11_SPEC["cases"]) != 3:
+            raise AssertionError("frozen248 normal3 drift")
+        for relative in _A11_SOURCE_PATHS:
+            if before.get(relative) != A11_BINDING["current_pins"][relative]:
+                raise AssertionError("actual248 source pin mismatch: " + relative)
+        for relative, expected in FROZEN["current_pins"].items():
+            if relative not in _A11_SOURCE_PATHS and before.get(relative) != expected:
+                raise AssertionError("preserved old source changed: " + relative)
+        if before.get(_A11_GS) != A11_SPEC["GS"]:
+            raise AssertionError("retained shared GameState source changed")
+        current = {p: (ROOT / p).read_bytes() for p in _A11_SOURCE_PATHS}
+        current[_A11_SELF] = (ROOT / _A11_SELF).read_bytes()
+        old245 = {p: _a11_inverse_file(raw, p) for p, raw in current.items()}
+        successor = importlib.import_module("meta_title_locale_successor")
+        pipeline = importlib.import_module("ja_translation_pipeline")
+        chapter = importlib.import_module("chapter1_core_loop_v2_causal_ledger_check")
+        if successor.A11_TRANSITIONS != A11_BINDING["production_registry"]:
+            raise AssertionError("new248 registry differs from independent binding")
+        if [list(r) for r in successor.A11_SOURCE_ROWS] != A11_SPEC["source_rows22"]:
+            raise AssertionError("new22 source contract drift")
+        if successor.SUCCESSOR_TRANSITIONS != FROZEN["transitions"]:
+            raise AssertionError("original245 registry changed")
+        if [list(r) for r in successor.SOURCE_ROWS] != FROZEN["source_rows20"]:
+            raise AssertionError("original20 rows changed")
+        calls = _a11_current_calls(pipeline, current, counts)
+        for case in A11_SPEC["cases"]:
+            stdout, stderr = io.StringIO(), io.StringIO()
+            with contextlib.redirect_stdout(stdout), contextlib.redirect_stderr(stderr):
+                try:
+                    if case["kind"] == "calls":
+                        result = _a11_call_case(case, calls, current, old245, pipeline, counts)
+                    else:
+                        result = _a11_raw_case(case, current, old245, calls,
+                                              successor, pipeline, chapter, counts)
+                except Exception as error:
+                    result = {"id": case["id"], "base_id": case["base_id"],
+                              "passed": False, "exception": type(error).__name__ + ": " + str(error),
+                              "traceback": _a11_traceback.format_exc()}
+            result["stdout"], result["stderr"] = stdout.getvalue(), stderr.getvalue()
+            results.append(result)
+        by_id = {r["id"]: r for r in results}
+        all_normal_passed = all(
+            by_id.get(c["id"], {}).get("passed")
+            for c in A11_SPEC["cases"] if c["base_id"] is None)
+        for row in results:
+            row["normal_base_passed"] = (row["base_id"] is None
+                                        or bool(by_id.get(row["base_id"], {}).get("passed")))
+            row["all_three_normals_passed"] = all_normal_passed
+            row["valid_result"] = (row["passed"] and row["normal_base_passed"]
+                                   and (row["base_id"] is None or all_normal_passed))
+        if len(results) == 19 and all(r["valid_result"] for r in results):
+            if before != _a11_physical_inputs():
+                raise AssertionError("physical input drift before historical view")
+            historical = _a11_historical245(old245, chapter, counts)
+    except Exception as error:
+        fatal = type(error).__name__ + ": " + str(error)
+        fatal_traceback = _a11_traceback.format_exc()
+    finally:
+        try:
+            after = _a11_physical_inputs()
+        except Exception as error:
+            fatal = (fatal or "") + "; post pins: " + type(error).__name__ + ": " + str(error)
+    current_passed = (fatal is None and len(results) == 19
+                      and all(r.get("valid_result") for r in results))
+    unchanged = before is not None and after is not None and before == after
+    passed = current_passed and historical["passed"] and unchanged
+    output = {
+        "scope": "ORDER248 current19 plus separately labelled historical24524/24418",
+        "provenance": A11_SPEC["provenance"], "binding": A11_BINDING["binding_provenance"],
+        "current": {"expected": 19, "normal": 3, "negative": 16, "cases": len(results),
+                    "valid_negative_count": sum(bool(r.get("valid_result"))
+                                                for r in results if r["base_id"] is not None),
+                    "results": results, "passed": current_passed},
+        "historical": historical, "execution_counts": counts, "fatal": fatal,
+        "fatal_traceback": fatal_traceback,
+        "physical_input_before": before, "physical_input_after": after,
+        "physical_inputs_unchanged": unchanged,
+        "limits": "Finite source/raw authority only. Historical outputs are logical views; no engine/collector/native/render/human/full-product approval.",
+        "passed": passed,
+    }
+    print(json.dumps(output, ensure_ascii=False, indent=2))
+    print("META_TITLE_A11_SOURCE_SELF_TEST_" + ("OK" if passed else "FAIL")
+          + f" current={len(results)}/19 historical245={historical.get('cases', 0)}/24"
+          + f" historical244={historical.get('nested_historical_cases', 0)}/18"
+          + f" unchanged={unchanged}")
+    return 0 if passed else 1
+# END_ORDER248_A11_SELF
+
+
 if __name__ == "__main__":
-    raise SystemExit(main())
+    raise SystemExit(_a11_main())
