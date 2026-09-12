@@ -92,7 +92,7 @@ HEAD `8870649`/제품 `33179f8`에서 명시11은9 PASS/2 FAIL, 입력1,197 전�
 Chapter1 일반/self만 MetaProgression 옛 스냅샷1원인으로 실패했다. self는 repository
 fixture에서 멈췄으므로 그 실행에서 옛26 통과를 주장하지 않는다.
 원형372,230B SHA `7854ff0cb7e1b7186a6856c878cad750266a195171208a9e61df4e2ebeca22f4`.
-새 원인은 [244](ORDER-244.md)로 분리한다. 기존 녹색9를 반복하지 않으며243 최종 GO는
+새 원인은 [244](../queue_archive/ORDER-244.md)로 분리한다. 기존 녹색9를 반복하지 않으며243 최종 GO는
 아직 보류, 두 수리 뒤 exact 원격CI를 공동 확인한다.
 
 후속 exact41의 main34691376114·mirror34691376116은 모두 failure로 종료했다.
