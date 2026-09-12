@@ -60,3 +60,14 @@ self SHA `0f00061417669ae026bd3d647156dad9a0e0b4920ee0c4414e49a5c26fdfcdf9`.
 저자 own18 cheap 첫1회는 PASS18/입력8 exact이며 최종 self의 최초 실행과 구분한다.
 새 명시 차선은18·실패 Chapter2·변경 운영5의8검사다. 기존 제품 녹색4를 다시
 실행하지 않고, 운영5는 선언/등록 입력이 바뀌었으므로 현재 범위에서 검사한다.
+
+## 최초 검증과 원격 후보
+
+HEAD `41e06cd5ca0b0ed221ff4498dc3d3a4f656ba008`, 제품 `fb4cf1195a39c2ec231d2a2731dc4cfaf902de4a`.
+최초 명시8은 전부 exit0,683.44초/입력1,200 전후exact·clean이다. 새18 전부 유효,
+Chapter 일반은 기존 gap24/debt8, self는590(635.65초)을 통과했다. 등록145·queue25/
+fence4·agent222·context359·active77이며 기존 원형 gap을 완성했다고 쓰지 않는다.
+원형 `order244-named-first.json` 309,092B SHA
+`6c7fd48f0e08eccda4685d1edfa547e95df22371feabe02eae86a7a4db547d45`.
+동일 exact HEAD를 main/원격 mirror에 FF했고 CI main34691376114·mirror34691376116이
+시작됐다. 최초 관측은 둘 다 in_progress이며 성공·최종 unit GO는 아직 아니다.
