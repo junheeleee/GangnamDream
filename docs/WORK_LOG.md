@@ -4,6 +4,27 @@
 > [9/12 현지화 보존본](history/WORK_LOG_2026-09-12_localization.md)에 손실 없이 보존한다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg`로 필요한 항목을 찾는다.
 
+## 2026-09-13 (Codex — 남은 칭호 실제 소비자 검사 준비)
+
+- 승인66·조건32·격리true11 oracle와 기존415 기대를 보존한 fixture를 적용했다.
+  새26함수/기존4함수12hook 외116함수 원형, whole177576 inverse exact를 ROOT와 비저자가 대조했다.
+- 실제scene65140c50·runner5253ad7d, 새readiness만true다. 실제520 첫실행은 아직0이며
+  새105와 조건160 nested를 자연 플레이나 전체판 GO로 부풀리지 않는다.
+  DESC3의 raw현재값·독립현재기대·별도역사복사본을 분리하고 cache원형을 유지한다.
+
+## 2026-09-13 (Codex — 남은 칭호 source26 첫 통과)
+
+- clean688806d/treedbfabb34의 첫post26 PASS·0.908208125초, 외부1194·내부14 불변이다.
+  정상2가 모두 통과해 raw8/semantic8/forged2/registry3의 유효변조21을 확인했다.
+  registration1·claim1·OFF1은 별도이며 역사18/23/19/24/18 원형 기대를 유지했다.
+- private self 독립1ed55e4e·ROOT 읽기 뒤 phase/provenance만 actual로 결속했다.
+  self268857/6872a159이며 old45함수·whole7127 inverse exact다. 첫baseline26/effective0는 별도다.
+- 신규66 L1 오류0/3.940488542초, source current2974·dynamic합3666·전체17484를 실제 수집했다.
+  clean688806d에서 preflight22×3 export 완료/11.419938583초·1194불변이다.
+  공식수용0·실제520미실행이며 runtime 사적 후보를 독립 검토한다. 본편HOLD 유지.
+- 병렬 운영 개선: 완료 상태 에이전트에 새 검수를 맡길 때는 send_message가 아니라
+  followup_task로 새 턴을 시작한다. 메시지 전송을 실행 재개로 착각하지 않는다.
+
 ## 2026-09-13 (Codex — 남은 칭호66 검토·source 적용)
 
 - KO22면에서 직접 저작한66을 독립 전량 검토했다. 첫CN1필수/JA1권고를 원형 보존하고
