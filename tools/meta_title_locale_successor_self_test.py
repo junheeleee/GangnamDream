@@ -3319,5 +3319,1061 @@ def _mg9_main():
 # END_ORDER250_MG9_SELF
 
 
+# BEGIN_TWO_DESC_SELF_254
+# New physical description authority precedes unchanged logical23/19/24/18.
+DESC_SPEC = json.loads(r'''{
+  "unit_id": "ORDER-254",
+  "phase": "PRECODE_FROZEN_INDEPENDENT_INPUTS_NOT_EXECUTED",
+  "author": "Rawls",
+  "approved_wording": {
+    "path": ".git/full-game-localization/order254-desc-approved.json",
+    "sha256": "91de1e8f9c2d61f54fd2830dec44ccf2401804cbef8954e23d48562aa2c2292a"
+  },
+  "baseline_mp": {
+    "path": ".git/full-game-localization/order254-mp-before.gd",
+    "bytes": 62214,
+    "sha256": "edbcdfdefe7c547edac9a47b71a3892b6fe68c9553c982e914a151ea2e52921b"
+  },
+  "unchanged_ja": {
+    "path": "tools/ja_translation_pipeline.py",
+    "bytes": 255882,
+    "sha256": "e2d666c19637fd20df8750187870e27cc1770c63d73db232e8035b8d072abe9c"
+  },
+  "independent_owner_patches": [
+    {
+      "id": "clean_run_title",
+      "field": "desc",
+      "catalog": "ALL_TITLES",
+      "locale": "ko",
+      "before": "\t{\"id\":\"clean_run_title\",    \"name\":\"청렴한 강남행\",      \"cat\":\"메타\", \"rare\":\"rare\",\n\t \"desc\":\"도박 없이 30억에 도달했다. 이 도시에서 끝까지 원칙을 지켰다.\"},\n",
+      "after": "\t{\"id\":\"clean_run_title\",    \"name\":\"청렴한 강남행\",      \"cat\":\"메타\", \"rare\":\"rare\",\n\t \"desc\":\"도박판에서 손을 떼겠다고 시작한 인생. 마지막에 남은 자산은 30억 이상이었다.\"},\n"
+    },
+    {
+      "id": "clean_run_title",
+      "field": "desc",
+      "catalog": "TITLE_EN",
+      "locale": "en",
+      "before": "\t\"clean_run_title\": {\"name\":\"Clean Road to Gangnam\", \"cat\":\"Meta\", \"desc\":\"Reached 3 billion won without gambling and held to your principles in this city.\"},\n",
+      "after": "\t\"clean_run_title\": {\"name\":\"Clean Road to Gangnam\", \"cat\":\"Meta\", \"desc\":\"You began that life intending to leave gambling behind. It ended with at least 3 billion won in assets.\"},\n"
+    },
+    {
+      "id": "father_peace_title",
+      "field": "desc",
+      "catalog": "ALL_TITLES",
+      "locale": "ko",
+      "before": "\t{\"id\":\"father_peace_title\", \"name\":\"마지막 봄\",          \"cat\":\"이야기\", \"rare\":\"uncommon\",\n\t \"desc\":\"아버지와 화해했다. 벚꽃이 피기 전에, 늦지 않게.\"},\n",
+      "after": "\t{\"id\":\"father_peace_title\", \"name\":\"마지막 봄\",          \"cat\":\"이야기\", \"rare\":\"uncommon\",\n\t \"desc\":\"아버지와 화해했다. 둘 사이의 침묵이 조금 달라졌다.\"},\n"
+    },
+    {
+      "id": "father_peace_title",
+      "field": "desc",
+      "catalog": "TITLE_EN",
+      "locale": "en",
+      "before": "\t\"father_peace_title\": {\"name\":\"Last Spring\", \"cat\":\"Story\", \"desc\":\"Made peace with your father. Before the cherry blossoms. Before it was too late.\"},\n",
+      "after": "\t\"father_peace_title\": {\"name\":\"Last Spring\", \"cat\":\"Story\", \"desc\":\"Made peace with your father. The silence between you felt a little different.\"},\n"
+    }
+  ],
+  "candidate_mp": {
+    "bytes": 62261,
+    "sha256": "b5c73771546c1fdc0d136aed45cdd14ee8e829fcc6aff88dfb607288cecf4f7d",
+    "actual_applied": null,
+    "meaning": "Deterministic private candidate from approved four owner fields; not current runtime observation"
+  },
+  "api": {
+    "one_step": [
+      "desc_source_errors(relative,current,registered_previous=None)",
+      "desc_project_bytes(current,relative)",
+      "desc_project_byte_hash(claim,relative,current)"
+    ],
+    "one_step_registered_previous": "edbcdfdefe7c547edac9a47b71a3892b6fe68c9553c982e914a151ea2e52921b",
+    "public_mg9_registered_previous": "afe8bda86177950ef82fb8d2eea339ae398d59534897719c9b803bacf292a1b6",
+    "registry": "DESC_TRANSITION; edits must not reseal _DESC_REGISTRY_SHA256",
+    "legacy_ja_previous": "504b5ef8707568b199df35179b1753ab25706b2004fa3d0fc0fa879b18303906"
+  },
+  "cases": [
+    {
+      "id": "normal_current_mp",
+      "kind": "normal",
+      "normal_base": null,
+      "recipe": {
+        "base": "approved_candidate_mp"
+      },
+      "expected_reason": "Exact approved owner4 and unchanged whole remainder; one-step inverse restores edbc; public mg9 still projects to afe8.",
+      "expected": {
+        "desc_source": "PASS",
+        "desc_projection": "baseline_mp",
+        "public_source": "PASS",
+        "public_projection": "previous_MG9_MP",
+        "JA_live_calls": "unchanged",
+        "Chapter_live_source": "PASS"
+      },
+      "materialized_input": {
+        "bytes": 62261,
+        "sha256": "b5c73771546c1fdc0d136aed45cdd14ee8e829fcc6aff88dfb607288cecf4f7d",
+        "phase": "PRIVATE_RECIPE_BYTES_NOT_APPLIED"
+      }
+    },
+    {
+      "id": "normal_unchanged_ja",
+      "kind": "normal",
+      "normal_base": null,
+      "recipe": {
+        "base": "unchanged_ja"
+      },
+      "expected_reason": "New layer is MP-only; original public JA registration/source/projection behavior remains exact.",
+      "expected": {
+        "desc_source": "OFF_ERROR",
+        "desc_projection": "identity",
+        "public_source": "PASS",
+        "public_projection": "previous_MG9_JA",
+        "Chapter_live_source": "PASS"
+      },
+      "materialized_input": {
+        "bytes": 255882,
+        "sha256": "e2d666c19637fd20df8750187870e27cc1770c63d73db232e8035b8d072abe9c",
+        "phase": "PRIVATE_RECIPE_BYTES_NOT_APPLIED"
+      }
+    },
+    {
+      "id": "rollback_clean_run_title_ko",
+      "kind": "negative",
+      "normal_base": "normal_current_mp",
+      "recipe": {
+        "base": "approved_candidate_mp",
+        "exact_replacements": [
+          {
+            "before": "\t{\"id\":\"clean_run_title\",    \"name\":\"청렴한 강남행\",      \"cat\":\"메타\", \"rare\":\"rare\",\n\t \"desc\":\"도박판에서 손을 떼겠다고 시작한 인생. 마지막에 남은 자산은 30억 이상이었다.\"},\n",
+            "after": "\t{\"id\":\"clean_run_title\",    \"name\":\"청렴한 강남행\",      \"cat\":\"메타\", \"rare\":\"rare\",\n\t \"desc\":\"도박 없이 30억에 도달했다. 이 도시에서 끝까지 원칙을 지켰다.\"},\n",
+            "count": 1
+          }
+        ]
+      },
+      "expected_reason": "One approved owner field reverted; current whole/raw authority must reject.",
+      "expected": {
+        "desc_source": "REJECT",
+        "desc_projection": "identity",
+        "public_source": "REJECT",
+        "public_projection": "identity",
+        "hash_projection": "identity_claim",
+        "JA_live_raw_gate": "REJECT",
+        "Chapter_live_raw_gate": "REJECT"
+      },
+      "materialized_input": {
+        "bytes": 62239,
+        "sha256": "e3374f42f2e2f26a25f0ebc69aabfd526455819ceafe6d8bd16ee67fd93c6843",
+        "phase": "PRIVATE_RECIPE_BYTES_NOT_APPLIED"
+      }
+    },
+    {
+      "id": "rollback_clean_run_title_en",
+      "kind": "negative",
+      "normal_base": "normal_current_mp",
+      "recipe": {
+        "base": "approved_candidate_mp",
+        "exact_replacements": [
+          {
+            "before": "\t\"clean_run_title\": {\"name\":\"Clean Road to Gangnam\", \"cat\":\"Meta\", \"desc\":\"You began that life intending to leave gambling behind. It ended with at least 3 billion won in assets.\"},\n",
+            "after": "\t\"clean_run_title\": {\"name\":\"Clean Road to Gangnam\", \"cat\":\"Meta\", \"desc\":\"Reached 3 billion won without gambling and held to your principles in this city.\"},\n",
+            "count": 1
+          }
+        ]
+      },
+      "expected_reason": "One approved owner field reverted; current whole/raw authority must reject.",
+      "expected": {
+        "desc_source": "REJECT",
+        "desc_projection": "identity",
+        "public_source": "REJECT",
+        "public_projection": "identity",
+        "hash_projection": "identity_claim",
+        "JA_live_raw_gate": "REJECT",
+        "Chapter_live_raw_gate": "REJECT"
+      },
+      "materialized_input": {
+        "bytes": 62238,
+        "sha256": "04def49ef06b36599dbc682632a6037ea8ca7fa31039e2ec03797d6c546ced0f",
+        "phase": "PRIVATE_RECIPE_BYTES_NOT_APPLIED"
+      }
+    },
+    {
+      "id": "rollback_father_peace_title_ko",
+      "kind": "negative",
+      "normal_base": "normal_current_mp",
+      "recipe": {
+        "base": "approved_candidate_mp",
+        "exact_replacements": [
+          {
+            "before": "\t{\"id\":\"father_peace_title\", \"name\":\"마지막 봄\",          \"cat\":\"이야기\", \"rare\":\"uncommon\",\n\t \"desc\":\"아버지와 화해했다. 둘 사이의 침묵이 조금 달라졌다.\"},\n",
+            "after": "\t{\"id\":\"father_peace_title\", \"name\":\"마지막 봄\",          \"cat\":\"이야기\", \"rare\":\"uncommon\",\n\t \"desc\":\"아버지와 화해했다. 벚꽃이 피기 전에, 늦지 않게.\"},\n",
+            "count": 1
+          }
+        ]
+      },
+      "expected_reason": "One approved owner field reverted; current whole/raw authority must reject.",
+      "expected": {
+        "desc_source": "REJECT",
+        "desc_projection": "identity",
+        "public_source": "REJECT",
+        "public_projection": "identity",
+        "hash_projection": "identity_claim",
+        "JA_live_raw_gate": "REJECT",
+        "Chapter_live_raw_gate": "REJECT"
+      },
+      "materialized_input": {
+        "bytes": 62256,
+        "sha256": "0609fd16aa1ef8a51f2d21eb64a8a7e82c4c3439abcfa7d7bde758e2d80f5694",
+        "phase": "PRIVATE_RECIPE_BYTES_NOT_APPLIED"
+      }
+    },
+    {
+      "id": "rollback_father_peace_title_en",
+      "kind": "negative",
+      "normal_base": "normal_current_mp",
+      "recipe": {
+        "base": "approved_candidate_mp",
+        "exact_replacements": [
+          {
+            "before": "\t\"father_peace_title\": {\"name\":\"Last Spring\", \"cat\":\"Story\", \"desc\":\"Made peace with your father. The silence between you felt a little different.\"},\n",
+            "after": "\t\"father_peace_title\": {\"name\":\"Last Spring\", \"cat\":\"Story\", \"desc\":\"Made peace with your father. Before the cherry blossoms. Before it was too late.\"},\n",
+            "count": 1
+          }
+        ]
+      },
+      "expected_reason": "One approved owner field reverted; current whole/raw authority must reject.",
+      "expected": {
+        "desc_source": "REJECT",
+        "desc_projection": "identity",
+        "public_source": "REJECT",
+        "public_projection": "identity",
+        "hash_projection": "identity_claim",
+        "JA_live_raw_gate": "REJECT",
+        "Chapter_live_raw_gate": "REJECT"
+      },
+      "materialized_input": {
+        "bytes": 62264,
+        "sha256": "b5739a708e6be174d27cadf028933d9912d1d9874059c51f923fcb04a15a7043",
+        "phase": "PRIVATE_RECIPE_BYTES_NOT_APPLIED"
+      }
+    },
+    {
+      "id": "replay_old_whole",
+      "kind": "negative",
+      "normal_base": "normal_current_mp",
+      "recipe": {
+        "base": "baseline_mp"
+      },
+      "expected_reason": "Historical edbc cannot acquire live current authority.",
+      "expected": {
+        "desc_source": "REJECT",
+        "desc_projection": "identity",
+        "public_source": "REJECT",
+        "public_projection": "identity",
+        "hash_projection": "identity_claim",
+        "JA_live_raw_gate": "REJECT",
+        "Chapter_live_raw_gate": "REJECT"
+      },
+      "materialized_input": {
+        "bytes": 62214,
+        "sha256": "edbcdfdefe7c547edac9a47b71a3892b6fe68c9553c982e914a151ea2e52921b",
+        "phase": "PRIVATE_RECIPE_BYTES_NOT_APPLIED"
+      }
+    },
+    {
+      "id": "swap_approved_ko_owners",
+      "kind": "negative",
+      "normal_base": "normal_current_mp",
+      "recipe": {
+        "base": "approved_candidate_mp",
+        "simultaneous_exact_replacements": [
+          {
+            "before": "\t{\"id\":\"clean_run_title\",    \"name\":\"청렴한 강남행\",      \"cat\":\"메타\", \"rare\":\"rare\",\n\t \"desc\":\"도박판에서 손을 떼겠다고 시작한 인생. 마지막에 남은 자산은 30억 이상이었다.\"},\n",
+            "after": "\t{\"id\":\"clean_run_title\",    \"name\":\"청렴한 강남행\",      \"cat\":\"메타\", \"rare\":\"rare\",\n\t \"desc\":\"아버지와 화해했다. 둘 사이의 침묵이 조금 달라졌다.\"},\n",
+            "count": 1
+          },
+          {
+            "before": "\t{\"id\":\"father_peace_title\", \"name\":\"마지막 봄\",          \"cat\":\"이야기\", \"rare\":\"uncommon\",\n\t \"desc\":\"아버지와 화해했다. 둘 사이의 침묵이 조금 달라졌다.\"},\n",
+            "after": "\t{\"id\":\"father_peace_title\", \"name\":\"마지막 봄\",          \"cat\":\"이야기\", \"rare\":\"uncommon\",\n\t \"desc\":\"도박판에서 손을 떼겠다고 시작한 인생. 마지막에 남은 자산은 30억 이상이었다.\"},\n",
+            "count": 1
+          }
+        ]
+      },
+      "expected_reason": "Two correct strings on wrong owner IDs are not approved; EN remains unchanged.",
+      "expected": {
+        "desc_source": "REJECT",
+        "desc_projection": "identity",
+        "public_source": "REJECT",
+        "public_projection": "identity",
+        "hash_projection": "identity_claim",
+        "JA_live_raw_gate": "REJECT",
+        "Chapter_live_raw_gate": "REJECT"
+      },
+      "materialized_input": {
+        "bytes": 62261,
+        "sha256": "cd72d087bda628556876fea05f30ab489a7f90d0a97ef566feef6dccb0aec484",
+        "phase": "PRIVATE_RECIPE_BYTES_NOT_APPLIED"
+      }
+    },
+    {
+      "id": "unselected_name",
+      "kind": "negative",
+      "normal_base": "normal_current_mp",
+      "recipe": {
+        "base": "approved_candidate_mp",
+        "exact_replacements": [
+          {
+            "before": "\"name\":\"엘리트의 길\"",
+            "after": "\"name\":\"엘리트의 날\"",
+            "count": 1
+          }
+        ]
+      },
+      "expected_reason": "Non-owned name change rejected.",
+      "expected": {
+        "desc_source": "REJECT",
+        "desc_projection": "identity",
+        "public_source": "REJECT",
+        "public_projection": "identity",
+        "hash_projection": "identity_claim",
+        "JA_live_raw_gate": "REJECT",
+        "Chapter_live_raw_gate": "REJECT"
+      },
+      "materialized_input": {
+        "bytes": 62261,
+        "sha256": "e9f7e11a7016a79a581f531b792ebb849aab314a960fa594e1b62c58ea6b8287",
+        "phase": "PRIVATE_RECIPE_BYTES_NOT_APPLIED"
+      }
+    },
+    {
+      "id": "condition_threshold",
+      "kind": "negative",
+      "normal_base": "normal_current_mp",
+      "recipe": {
+        "base": "approved_candidate_mp",
+        "exact_replacements": [
+          {
+            "before": "\t\t\t\tif run.get(\"run_theme\",\"\") == \"청렴런\" and float(run.get(\"total_assets\",0)) >= 3_000_000_000: return true\n",
+            "after": "\t\t\t\tif run.get(\"run_theme\",\"\") == \"청렴런\" and float(run.get(\"total_assets\",0)) >= 3_000_000_001: return true\n",
+            "count": 1
+          }
+        ]
+      },
+      "expected_reason": "Condition byte/token is outside four description owners.",
+      "expected": {
+        "desc_source": "REJECT",
+        "desc_projection": "identity",
+        "public_source": "REJECT",
+        "public_projection": "identity",
+        "hash_projection": "identity_claim",
+        "JA_live_raw_gate": "REJECT",
+        "Chapter_live_raw_gate": "REJECT"
+      },
+      "materialized_input": {
+        "bytes": 62261,
+        "sha256": "5aa49b4a76cc0195fbfbee0c1136e2c48a60f6a82056128b8e79f5d82401cb26",
+        "phase": "PRIVATE_RECIPE_BYTES_NOT_APPLIED"
+      }
+    },
+    {
+      "id": "extra_lf",
+      "kind": "negative",
+      "normal_base": "normal_current_mp",
+      "recipe": {
+        "base": "approved_candidate_mp",
+        "append": "\n"
+      },
+      "expected_reason": "Whole raw strict LF boundary.",
+      "expected": {
+        "desc_source": "REJECT",
+        "desc_projection": "identity",
+        "public_source": "REJECT",
+        "public_projection": "identity",
+        "hash_projection": "identity_claim",
+        "JA_live_raw_gate": "REJECT",
+        "Chapter_live_raw_gate": "REJECT"
+      },
+      "materialized_input": {
+        "bytes": 62262,
+        "sha256": "97c2014691c3c2325b7e7db0f25e75d85aa9175e86e73ccc3436bcf69522f949",
+        "phase": "PRIVATE_RECIPE_BYTES_NOT_APPLIED"
+      }
+    },
+    {
+      "id": "crlf",
+      "kind": "negative",
+      "normal_base": "normal_current_mp",
+      "recipe": {
+        "base": "approved_candidate_mp",
+        "newline": "LF_to_CRLF"
+      },
+      "expected_reason": "CRLF cannot be silently normalized into approved raw.",
+      "expected": {
+        "desc_source": "REJECT",
+        "desc_projection": "identity",
+        "public_source": "REJECT",
+        "public_projection": "identity",
+        "hash_projection": "identity_claim",
+        "JA_live_raw_gate": "REJECT",
+        "Chapter_live_raw_gate": "REJECT"
+      },
+      "materialized_input": {
+        "bytes": 63322,
+        "sha256": "100c869cb2121289822b463a24ce5fde85565672b64ada72b4e29c7f5164b827",
+        "phase": "PRIVATE_RECIPE_BYTES_NOT_APPLIED"
+      }
+    },
+    {
+      "id": "forged_observation",
+      "kind": "negative",
+      "normal_base": "normal_current_mp",
+      "recipe": {
+        "base": "approved_candidate_mp",
+        "append": "\n",
+        "claimed_sha256": "b5c73771546c1fdc0d136aed45cdd14ee8e829fcc6aff88dfb607288cecf4f7d",
+        "mock_observed_hash": "b5c73771546c1fdc0d136aed45cdd14ee8e829fcc6aff88dfb607288cecf4f7d"
+      },
+      "expected_reason": "Actual mutated bytes must be rejected by live raw gate even when digest observer and supplied claim report approved current.",
+      "expected": {
+        "desc_source": "REJECT",
+        "desc_projection": "identity",
+        "public_source": "REJECT",
+        "public_projection": "identity",
+        "hash_projection": "identity_claim",
+        "JA_live_raw_gate": "REJECT",
+        "Chapter_live_raw_gate": "REJECT"
+      },
+      "materialized_input": {
+        "bytes": 62262,
+        "sha256": "97c2014691c3c2325b7e7db0f25e75d85aa9175e86e73ccc3436bcf69522f949",
+        "phase": "PRIVATE_RECIPE_BYTES_NOT_APPLIED"
+      }
+    },
+    {
+      "id": "wrong_previous_registry",
+      "kind": "negative",
+      "normal_base": "normal_current_mp",
+      "recipe": {
+        "base": "approved_candidate_mp",
+        "registry_edit": {
+          "path": [
+            "previous_sha256"
+          ],
+          "value": "afe8bda86177950ef82fb8d2eea339ae398d59534897719c9b803bacf292a1b6",
+          "semantic_value": "MG9_CURRENT_PREDECESSOR_AFE8"
+        }
+      },
+      "expected_reason": "Skip to afe8 is not the edbc immediate description predecessor.",
+      "expected": {
+        "desc_source": "REJECT",
+        "desc_projection": "identity",
+        "public_source": "REJECT",
+        "public_projection": "identity",
+        "hash_projection": "identity_claim",
+        "JA_live_raw_gate": "REJECT",
+        "Chapter_live_raw_gate": "REJECT"
+      },
+      "materialized_input": {
+        "bytes": 62261,
+        "sha256": "b5c73771546c1fdc0d136aed45cdd14ee8e829fcc6aff88dfb607288cecf4f7d",
+        "phase": "PRIVATE_RECIPE_BYTES_NOT_APPLIED"
+      }
+    },
+    {
+      "id": "missing_inverse",
+      "kind": "negative",
+      "normal_base": "normal_current_mp",
+      "recipe": {
+        "base": "approved_candidate_mp",
+        "registry_edit": {
+          "operation": "delete",
+          "path": [
+            "patches",
+            0
+          ]
+        }
+      },
+      "expected_reason": "Registered inverse must contain all four distinct owner patches; registry seal unchanged.",
+      "expected": {
+        "desc_source": "REJECT",
+        "desc_projection": "identity",
+        "public_source": "REJECT",
+        "public_projection": "identity",
+        "hash_projection": "identity_claim",
+        "JA_live_raw_gate": "REJECT",
+        "Chapter_live_raw_gate": "REJECT"
+      },
+      "materialized_input": {
+        "bytes": 62261,
+        "sha256": "b5c73771546c1fdc0d136aed45cdd14ee8e829fcc6aff88dfb607288cecf4f7d",
+        "phase": "PRIVATE_RECIPE_BYTES_NOT_APPLIED"
+      }
+    },
+    {
+      "id": "duplicate_inverse",
+      "kind": "negative",
+      "normal_base": "normal_current_mp",
+      "recipe": {
+        "base": "approved_candidate_mp",
+        "registry_edit": {
+          "operation": "append_copy",
+          "path": [
+            "patches"
+          ],
+          "index": 0
+        }
+      },
+      "expected_reason": "Duplicated owner inverse rejected even if literal itself is approved; registry seal unchanged.",
+      "expected": {
+        "desc_source": "REJECT",
+        "desc_projection": "identity",
+        "public_source": "REJECT",
+        "public_projection": "identity",
+        "hash_projection": "identity_claim",
+        "JA_live_raw_gate": "REJECT",
+        "Chapter_live_raw_gate": "REJECT"
+      },
+      "materialized_input": {
+        "bytes": 62261,
+        "sha256": "b5c73771546c1fdc0d136aed45cdd14ee8e829fcc6aff88dfb607288cecf4f7d",
+        "phase": "PRIVATE_RECIPE_BYTES_NOT_APPLIED"
+      }
+    },
+    {
+      "id": "wrong_claim_only",
+      "kind": "claim_probe",
+      "normal_base": "normal_current_mp",
+      "recipe": {
+        "base": "approved_candidate_mp",
+        "claimed_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected_reason": "Valid raw remains authorized, pure inverse valid; hash projector preserves the false claim.",
+      "expected": {
+        "desc_source": "PASS",
+        "desc_projection": "baseline_mp",
+        "public_source": "PASS",
+        "hash_projection": "identity_claim",
+        "Chapter_live_source": "PASS"
+      },
+      "materialized_input": {
+        "bytes": 62261,
+        "sha256": "b5c73771546c1fdc0d136aed45cdd14ee8e829fcc6aff88dfb607288cecf4f7d",
+        "phase": "PRIVATE_RECIPE_BYTES_NOT_APPLIED"
+      }
+    },
+    {
+      "id": "unowned_path",
+      "kind": "OFF",
+      "normal_base": null,
+      "recipe": {
+        "base": "approved_candidate_mp",
+        "relative": "autoloads/NotMetaProgression.gd"
+      },
+      "expected_reason": "New MP-only rejection and identity; public old unsupported-path errors/projection remain exactly baseline, not None.",
+      "expected": {
+        "desc_source": "OFF_ERROR",
+        "desc_projection": "identity",
+        "public_source": "OLD_OFF_EXACT",
+        "hash_projection": "identity_claim"
+      },
+      "materialized_input": {
+        "bytes": 62261,
+        "sha256": "b5c73771546c1fdc0d136aed45cdd14ee8e829fcc6aff88dfb607288cecf4f7d",
+        "phase": "PRIVATE_RECIPE_BYTES_NOT_APPLIED"
+      }
+    }
+  ],
+  "counts": {
+    "normal": 2,
+    "negative": 14,
+    "claim_probe": 1,
+    "OFF": 1,
+    "total": 18
+  },
+  "evaluation_contract": {
+    "precode": "helper_absent is absence, not new OFF semantics. Evaluate original public/live gates once on these frozen bytes; preserve all original errors/stdout/stderr/exit; normal MP expected blocked under edbc guard.",
+    "post": "same raw18 once; capture all results before assertion; both normal cases must pass respective public/live contracts before effective negative count can be14.",
+    "consumer_scope": "same input recipes through original JA owner entry and actual Chapter raw snapshot; hash-only spoof must not bypass raw read. No direct dummy source_errors replacement. Registry mutation is scoped to new registry, leaving seal unchanged.",
+    "normal_failure_effective_negatives": 0,
+    "exception": "record unexpected exceptions separately and restore all temporary patches/capture streams; no exception becomes REJECT",
+    "raw_identity": "every rejected projector returns original exact bytes; wrong claim-only returns its supplied64hex claim"
+  },
+  "execution": {
+    "repository_imports": 0,
+    "tests": 0,
+    "collector": 0,
+    "engine": 0,
+    "product_writes": 0
+  },
+  "cases_sha256": "9a1a3a5295c9ae40ccb09dc87ab59da0898a68e87f9ffffc970b4705f3c04a63"
+}''')
+DESC_BINDING = json.loads(r'''{
+  "phase": "APPLIED_SOURCE_BOUND",
+  "provenance": {
+    "approved_wording_sha256": "91de1e8f9c2d61f54fd2830dec44ccf2401804cbef8954e23d48562aa2c2292a",
+    "fixed18_sha256": "1804a8194bccd71894f4e1baf2aa98ee72e407e5169f2820bfd68bee93f8f6a0",
+    "actual_applied_pins": {
+      "autoloads/MetaProgression.gd": {"bytes": 62261, "sha256": "b5c73771546c1fdc0d136aed45cdd14ee8e829fcc6aff88dfb607288cecf4f7d"},
+      "tools/meta_title_locale_successor.py": {"bytes": 34883, "sha256": "07c6d0d9cbd8fa21dcabcd7472977ca35b480d95218a6de8bf7345d312981779"}
+    },
+    "first_baseline": {"path": ".git/full-game-localization/order254-baseline-first.json", "bytes": 428756, "sha256": "17e5f4d9d697aacb2b31398abcb4b2142e6185e86b28223017220936c6dd053e", "head": "d0ca4d939ea7e3b926296602fc2b79f2302d252d", "capture_complete": true, "effective_negative_count": 0},
+    "independent_helper_controls": "7bab378fc130715658f707317f5d634db7876c6b143c97ed266f167dda70a8a5",
+    "independent_self_v1": "47e3288d75d406d2fb0a7cf8592e70a51fe4fddf5f141c6177ed5447a1e9263c",
+    "chronology": "ROOT read full fixed18/helper/self and two independent reports; v2 self differs only in helper bytes/SHA. First original18 capture precedes application. Actual MP/helper pins above measured after apply; only provenance/OFF changes authorize first post execution, not a PASS.",
+    "post_execution_at_binding": 0
+  },
+  "candidate_pins": {
+    "autoloads/MetaProgression.gd": {
+      "bytes": 62261,
+      "sha256": "b5c73771546c1fdc0d136aed45cdd14ee8e829fcc6aff88dfb607288cecf4f7d"
+    },
+    "tools/meta_title_locale_successor.py": {
+      "bytes": 34883,
+      "sha256": "07c6d0d9cbd8fa21dcabcd7472977ca35b480d95218a6de8bf7345d312981779"
+    }
+  },
+  "previous_pins": {
+    "autoloads/MetaProgression.gd": {
+      "bytes": 62214,
+      "sha256": "edbcdfdefe7c547edac9a47b71a3892b6fe68c9553c982e914a151ea2e52921b"
+    },
+    "tools/meta_title_locale_successor.py": {
+      "bytes": 27372,
+      "sha256": "5cbe5de2669a83d36c5d17c9b3d64293505737c399ce063324f38de8224eac81"
+    },
+    "tools/meta_title_locale_successor_self_test.py": {
+      "bytes": 136612,
+      "sha256": "f09bca5c3b50494e1f66ad0f31d22b77179d8c875deea6811746354ef8364c1f"
+    },
+    "tools/ja_translation_pipeline.py": {
+      "bytes": 255882,
+      "sha256": "e2d666c19637fd20df8750187870e27cc1770c63d73db232e8035b8d072abe9c"
+    },
+    "tools/chapter1_core_loop_v2_causal_ledger_check.py": {
+      "bytes": 1461830,
+      "sha256": "ac874ad1587304b4f1802ce2311cbcba231e1fdfb19086cce3a66aa19ee5fac3"
+    }
+  },
+  "previous_MG9_MP": {
+    "bytes": 59337,
+    "sha256": "afe8bda86177950ef82fb8d2eea339ae398d59534897719c9b803bacf292a1b6"
+  },
+  "previous_MG9_JA": {
+    "bytes": 248524,
+    "sha256": "504b5ef8707568b199df35179b1753ab25706b2004fa3d0fc0fa879b18303906"
+  },
+  "production_registry": {
+    "path": "autoloads/MetaProgression.gd",
+    "previous_sha256": "edbcdfdefe7c547edac9a47b71a3892b6fe68c9553c982e914a151ea2e52921b",
+    "current_sha256": "b5c73771546c1fdc0d136aed45cdd14ee8e829fcc6aff88dfb607288cecf4f7d",
+    "patches": [
+      {
+        "catalog": "ALL_TITLES",
+        "owner": "clean_run_title",
+        "field": "desc",
+        "before": "\t{\"id\":\"clean_run_title\",    \"name\":\"청렴한 강남행\",      \"cat\":\"메타\", \"rare\":\"rare\",\n\t \"desc\":\"도박 없이 30억에 도달했다. 이 도시에서 끝까지 원칙을 지켰다.\"},\n",
+        "after": "\t{\"id\":\"clean_run_title\",    \"name\":\"청렴한 강남행\",      \"cat\":\"메타\", \"rare\":\"rare\",\n\t \"desc\":\"도박판에서 손을 떼겠다고 시작한 인생. 마지막에 남은 자산은 30억 이상이었다.\"},\n"
+      },
+      {
+        "catalog": "TITLE_EN",
+        "owner": "clean_run_title",
+        "field": "desc",
+        "before": "\t\"clean_run_title\": {\"name\":\"Clean Road to Gangnam\", \"cat\":\"Meta\", \"desc\":\"Reached 3 billion won without gambling and held to your principles in this city.\"},\n",
+        "after": "\t\"clean_run_title\": {\"name\":\"Clean Road to Gangnam\", \"cat\":\"Meta\", \"desc\":\"You began that life intending to leave gambling behind. It ended with at least 3 billion won in assets.\"},\n"
+      },
+      {
+        "catalog": "ALL_TITLES",
+        "owner": "father_peace_title",
+        "field": "desc",
+        "before": "\t{\"id\":\"father_peace_title\", \"name\":\"마지막 봄\",          \"cat\":\"이야기\", \"rare\":\"uncommon\",\n\t \"desc\":\"아버지와 화해했다. 벚꽃이 피기 전에, 늦지 않게.\"},\n",
+        "after": "\t{\"id\":\"father_peace_title\", \"name\":\"마지막 봄\",          \"cat\":\"이야기\", \"rare\":\"uncommon\",\n\t \"desc\":\"아버지와 화해했다. 둘 사이의 침묵이 조금 달라졌다.\"},\n"
+      },
+      {
+        "catalog": "TITLE_EN",
+        "owner": "father_peace_title",
+        "field": "desc",
+        "before": "\t\"father_peace_title\": {\"name\":\"Last Spring\", \"cat\":\"Story\", \"desc\":\"Made peace with your father. Before the cherry blossoms. Before it was too late.\"},\n",
+        "after": "\t\"father_peace_title\": {\"name\":\"Last Spring\", \"cat\":\"Story\", \"desc\":\"Made peace with your father. The silence between you felt a little different.\"},\n"
+      }
+    ]
+  },
+  "registry_sha256": "6d7962acd9d554d27ef383e6b3d62f3b7e7512597740c412bbe356bba60eece9"
+}''')
+DESC_BASELINE_OFF = ["ORDER-250: MG9 successor path is not owned"]  # First original18 capture, not new OFF semantics.
+_DESC_HELPER = "tools/meta_title_locale_successor.py"
+_DESC_SELF = "tools/meta_title_locale_successor_self_test.py"
+
+
+def _desc_inverse(raw, relative):
+    """Independent literal inverse; never call the implementation projector."""
+    if relative == MP:
+        out = raw
+        for item in DESC_SPEC["independent_owner_patches"]:
+            after, before = item["after"].encode(), item["before"].encode()
+            if out.count(after) != 1 or out.count(before) != 0:
+                raise AssertionError("description owner inverse is not exact1")
+            out = out.replace(after, before, 1)
+    elif relative == _DESC_HELPER:
+        marker = b"\n# BEGIN_TWO_DESC_HISTORY_254\n"
+        if raw.count(marker) != 1 or not raw.endswith(b"# END_TWO_DESC_HISTORY_254\n"):
+            raise AssertionError("description helper append boundary differs")
+        # Append starts with two LF bytes after the old EOF LF.
+        index = raw.index(marker)
+        out = raw[:index - 1]
+    elif relative == _DESC_SELF:
+        start = b"\n# BEGIN_TWO_DESC_SELF_254\n"
+        end = b"# END_TWO_DESC_SELF_254\n"
+        if raw.count(start) != 1 or raw.count(end) != 1:
+            raise AssertionError("description self boundary differs")
+        a, z = raw.index(start), raw.index(end) + len(end)
+        out = raw[:a - 1] + raw[z:]
+        current = b"    raise SystemExit(_desc_main())"
+        previous = b"    raise SystemExit(_mg9_main())"
+        if out.count(current) != 1:
+            raise AssertionError("description CLI hook differs")
+        out = out.replace(current, previous, 1)
+    else:
+        out = raw
+    expected = DESC_BINDING["previous_pins"].get(relative)
+    if expected is not None and pin(out) != expected:
+        raise AssertionError("description independent whole inverse differs: " + relative)
+    return out
+
+
+def _desc_materialize(case, current, previous):
+    recipe = case["recipe"]
+    raw = {"approved_candidate_mp": current[MP], "baseline_mp": previous[MP],
+           "unchanged_ja": current[JA]}[recipe["base"]]
+    for change in recipe.get("exact_replacements", []):
+        before, after = change["before"].encode(), change["after"].encode()
+        if raw.count(before) != change["count"]:
+            raise AssertionError("frozen description mutation anchor differs")
+        raw = raw.replace(before, after, change["count"])
+    simultaneous = recipe.get("simultaneous_exact_replacements", [])
+    spans = []
+    for change in simultaneous:
+        before, after = change["before"].encode(), change["after"].encode()
+        if raw.count(before) != change["count"] or change["count"] != 1:
+            raise AssertionError("frozen owner swap anchor differs")
+        spans.append((raw.index(before), len(before), after))
+    for index, length, after in sorted(spans, reverse=True):
+        raw = raw[:index] + after + raw[index + length:]
+    if "append" in recipe:
+        raw += recipe["append"].encode()
+    if recipe.get("newline") == "LF_to_CRLF":
+        if b"\r" in raw:
+            raise AssertionError("CRLF mutation requires literal LF base")
+        raw = raw.replace(b"\n", b"\r\n")
+    expected = case["materialized_input"]
+    if pin(raw) != {"bytes": expected["bytes"], "sha256": expected["sha256"]}:
+        raise AssertionError("frozen description input pin differs: " + case["id"])
+    return raw
+
+
+def _desc_registry_context(case, successor):
+    edit = case["recipe"].get("registry_edit")
+    if edit is None:
+        return contextlib.nullcontext()
+    value = copy.deepcopy(successor.DESC_TRANSITION)
+    parent = value
+    for key in edit["path"][:-1]:
+        parent = parent[key]
+    key = edit["path"][-1]
+    if edit.get("operation") == "delete":
+        del parent[key]
+    elif edit.get("operation") == "append_copy":
+        parent[key].append(copy.deepcopy(parent[key][edit["index"]]))
+    else:
+        parent[key] = edit["value"]
+    return patch.object(successor, "DESC_TRANSITION", value)
+
+
+def _desc_live(case, path, raw, claim, current, calls, successor, pipeline, chapter, counts):
+    """Actual unchanged JA owner entry and Chapter raw snapshot; providers only."""
+    if case["kind"] == "OFF":
+        return {"skipped": "unowned path has no real MP/JA consumer"}
+    actual_mp = raw if path == MP else current[MP]
+    actual_ja = raw if path == JA else current[JA]
+    original_read, original_digest = Path.read_bytes, chapter._file_digest
+    original_old_gate = chapter._order248_meta_source_errors
+    reads, hashes, old_gates = [], [], []
+
+    def read_bytes(file):
+        if file == ROOT / MP:
+            reads.append(MP)
+            return actual_mp
+        if file == ROOT / JA:
+            reads.append(JA)
+            return actual_ja
+        return original_read(file)
+
+    def digest(relative):
+        if relative == MP:
+            hashes.append(relative)
+            return case["recipe"].get("mock_observed_hash", claim) if path == MP else sha256(actual_mp)
+        return original_digest(relative)
+
+    def old_gate(relative, source, registered):
+        old_gates.append({"path": relative, "input": pin(source)})
+        return original_old_gate(relative, source, registered)
+
+    with contextlib.ExitStack() as stack:
+        stack.enter_context(patch.object(Path, "read_bytes", read_bytes))
+        stack.enter_context(patch.object(chapter, "_file_digest", digest))
+        stack.enter_context(patch.object(chapter, "_order248_meta_source_errors", old_gate))
+        counts["JA_owner_entry"] += 1
+        out_calls, out_source, ja_errors = pipeline._mg9_meta_title_predecessor_calls(calls)
+        counts["Chapter_source_entry"] += 1
+        source_errors = chapter._order250_meta_source_errors(
+            MP, actual_mp, FROZEN["historical_mp"]["sha256"])
+        counts["Chapter_actual_snapshot"] += 1
+        snapshot_errors = chapter._audited_source_snapshot_errors(
+            {MP: FROZEN["historical_mp"]["sha256"]})
+    restored = (Path.read_bytes is original_read and chapter._file_digest is original_digest
+                and chapter._order248_meta_source_errors is original_old_gate)
+    valid_raw = case["kind"] in ("normal", "claim_probe")
+    expected_source = (DESC_BINDING["previous_MG9_MP"] if valid_raw else pin(actual_mp))
+    checks = {
+        "JA_raw_gate": isinstance(ja_errors, list) and (not ja_errors) == valid_raw,
+        "JA_calls": tuple(out_calls) == (_mg9_without_selected(calls) if valid_raw else tuple(calls)),
+        "JA_source": pin(out_source.encode()) == expected_source,
+        "Chapter_source": isinstance(source_errors, list) and (not source_errors) == valid_raw,
+        "Chapter_snapshot": (isinstance(snapshot_errors, list)
+                             and (not snapshot_errors) == (case["kind"] == "normal")),
+        "actual_raw_read": MP in reads and JA in reads,
+        "reader_restore": restored,
+        "old_chain_only_after_new_raw": valid_raw or not old_gates,
+    }
+    return {"JA_errors": ja_errors, "JA_calls": len(out_calls),
+            "JA_output_source": pin(out_source.encode()), "Chapter_source_errors": source_errors,
+            "Chapter_snapshot_errors": snapshot_errors, "raw_reads": reads,
+            "digest_reads": hashes, "old248_entries": old_gates,
+            "provider_patches": ["Path.read_bytes(MP,JA)", "Chapter._file_digest(MP)",
+                                 "Chapter._order248_meta_source_errors(call-through observer)"],
+            "checks": checks, "passed": all(checks.values())}
+
+
+def _desc_case(case, current, previous, calls, successor, pipeline, chapter, counts):
+    raw = _desc_materialize(case, current, previous)
+    path = case["recipe"].get("relative", JA if case["recipe"]["base"] == "unchanged_ja" else MP)
+    claim = case["recipe"].get("claimed_sha256", sha256(raw))
+    registered = (DESC_SPEC["api"]["legacy_ja_previous"] if path == JA
+                  else DESC_SPEC["api"]["public_mg9_registered_previous"] if path == MP else None)
+    registry = copy.deepcopy(successor.DESC_TRANSITION)
+    with _desc_registry_context(case, successor):
+        counts["one_step_source"] += 1
+        errors = successor.desc_source_errors(path, raw)
+        counts["one_step_bytes"] += 1
+        projected = successor.desc_project_bytes(raw, path)
+        counts["one_step_hash"] += 1
+        projected_hash = successor.desc_project_byte_hash(claim, path, raw)
+        counts["public_source"] += 1
+        public_errors = successor.mg9_source_errors(path, raw, registered)
+        counts["public_bytes"] += 1
+        public_bytes = successor.mg9_project_bytes(raw, path)
+        counts["public_hash"] += 1
+        public_hash = successor.mg9_project_byte_hash(claim, path, raw)
+        live = _desc_live(case, path, raw, claim, current, calls, successor, pipeline, chapter, counts)
+    one_valid = case["expected"]["desc_source"] == "PASS"
+    public_valid = case["expected"]["public_source"] == "PASS"
+    wanted = previous[MP] if one_valid else raw
+    wanted_public_pin = (DESC_BINDING["previous_MG9_JA"] if path == JA
+                         else DESC_BINDING["previous_MG9_MP"]) if public_valid else pin(raw)
+    wrong_claim = claim != sha256(raw)
+    checks = {
+        "one_step_source": isinstance(errors, list) and (not errors) == one_valid,
+        "one_step_bytes": projected == wanted,
+        "one_step_hash": projected_hash == (sha256(wanted) if one_valid and not wrong_claim else claim),
+        "public_source": isinstance(public_errors, list) and (not public_errors) == public_valid,
+        "public_bytes": pin(public_bytes) == wanted_public_pin,
+        "public_hash": public_hash == (wanted_public_pin["sha256"] if public_valid and not wrong_claim else claim),
+        "registry_restore": successor.DESC_TRANSITION == registry,
+        "live": live.get("passed", case["kind"] == "OFF"),
+    }
+    if case["kind"] == "OFF":
+        checks["OFF_original_errors"] = public_errors == DESC_BASELINE_OFF
+        checks["OFF_exact_bytes"] = public_bytes == raw
+    return {"id": case["id"], "kind": case["kind"], "normal_base": case["normal_base"],
+            "input": pin(raw), "path": path, "claim": claim, "registered_previous": registered,
+            "desc_source_errors": errors, "desc_projection": pin(projected),
+            "desc_projected_hash": projected_hash, "public_source_errors": public_errors,
+            "public_projection": pin(public_bytes), "public_projected_hash": public_hash,
+            "live": live, "checks": checks, "passed": all(checks.values())}
+
+
+def _desc_historical(previous, successor, counts):
+    """Restore only file views/public API dispatch; every old method stays whole."""
+    read0, text0 = Path.read_bytes, Path.read_text
+    stdout0, stderr0 = sys.stdout, sys.stderr
+    api0 = (successor.mg9_source_errors, successor.mg9_project_bytes,
+            successor.mg9_project_byte_hash)
+    reads = {p: 0 for p in previous}
+    stdout, stderr = io.StringIO(), io.StringIO()
+
+    def read_bytes(path):
+        for relative, raw in previous.items():
+            if path == ROOT / relative:
+                reads[relative] += 1
+                return raw
+        return read0(path)
+
+    def read_text(path, *args, **kwargs):
+        for relative, raw in previous.items():
+            if path == ROOT / relative:
+                reads[relative] += 1
+                encoding = kwargs.get("encoding") or (args[0] if args else None) or "utf-8"
+                return raw.decode(encoding, errors=kwargs.get("errors") or "strict")
+        return text0(path, *args, **kwargs)
+
+    def source(relative, raw, registered_previous=None):
+        return successor._DESC_OLD_MG9_SOURCE_ERRORS(relative, raw, registered_previous)
+
+    def project(raw, relative):
+        return successor._DESC_OLD_MG9_PROJECT_BYTES(raw, relative)
+
+    def observed(claim, relative, raw):
+        return successor._DESC_OLD_MG9_PROJECT_HASH(claim, relative, raw)
+
+    code, exception, trace = None, None, None
+    with contextlib.ExitStack() as stack:
+        stack.enter_context(patch.object(Path, "read_bytes", read_bytes))
+        stack.enter_context(patch.object(Path, "read_text", read_text))
+        for name, function in (("mg9_source_errors", source), ("mg9_project_bytes", project),
+                               ("mg9_project_byte_hash", observed)):
+            stack.enter_context(patch.object(successor, name, function))
+        stack.enter_context(contextlib.redirect_stdout(stdout))
+        stack.enter_context(contextlib.redirect_stderr(stderr))
+        counts["historical_MG9_main"] += 1
+        try:
+            code = _mg9_main()
+        except Exception as error:
+            exception = type(error).__name__ + ": " + str(error)
+            trace = _a11_traceback.format_exc()
+    restored = (Path.read_bytes is read0 and Path.read_text is text0
+                and sys.stdout is stdout0 and sys.stderr is stderr0
+                and (successor.mg9_source_errors, successor.mg9_project_bytes,
+                     successor.mg9_project_byte_hash) == api0)
+    parsed, marker, parse_error = None, None, None
+    try:
+        parsed, end = json.JSONDecoder().raw_decode(stdout.getvalue())
+        marker = stdout.getvalue()[end:].strip()
+    except (ValueError, TypeError) as error:
+        parse_error = type(error).__name__ + ": " + str(error)
+    before = parsed.get("physical_input_before") if isinstance(parsed, dict) else None
+    after = parsed.get("physical_input_after") if isinstance(parsed, dict) else None
+    logical_exact = (isinstance(before, dict) and before == after
+                     and all(before.get(p) == pin(raw) for p, raw in previous.items()))
+    wanted = ("META_TITLE_MG9_SOURCE_SELF_TEST_OK current=23/23 historical248=19/19"
+              " historical245=24/24 historical244=18/18 unchanged=True")
+    passed = (code == 0 and exception is None and restored and not stderr.getvalue()
+              and parse_error is None and marker == wanted and logical_exact
+              and parsed.get("passed") is True
+              and parsed.get("current", {}).get("cases") == 23
+              and len(parsed.get("current", {}).get("results", [])) == 23
+              and all(r.get("valid_result") for r in parsed["current"]["results"])
+              and parsed.get("historical", {}).get("passed") is True)
+    return {"scope": "logical25023 -> logical24819 -> logical24524 -> logical24418",
+            "exit": code, "exception": exception, "traceback": trace, "parse_error": parse_error,
+            "stdout": stdout.getvalue(), "stderr": stderr.getvalue(), "marker": marker,
+            "logical_input_before": before, "logical_input_after": after,
+            "logical_exact": logical_exact, "view_reads": reads, "restored": restored,
+            "physical_current_fields_below_are_logical": True, "passed": passed}
+
+
+def _desc_main():
+    before, after, fatal, trace = None, None, None, None
+    results, parse_observation = [], None
+    historical = {"passed": False, "skipped": "new physical18 not passed", "exit": None}
+    counts = {name: 0 for name in ("one_step_source", "one_step_bytes", "one_step_hash",
+                                  "public_source", "public_bytes", "public_hash",
+                                  "JA_owner_entry", "Chapter_source_entry", "Chapter_actual_snapshot",
+                                  "parse_one_MP", "historical_MG9_main", "collector", "engine")}
+    try:
+        before = _mg9_input_pins()
+        if DESC_BINDING["phase"] != "APPLIED_SOURCE_BOUND" or not isinstance(DESC_BASELINE_OFF, list):
+            raise AssertionError("private candidate/baseline is not authorized for execution")
+        for relative, expected in DESC_BINDING["candidate_pins"].items():
+            if before.get(relative) != expected:
+                raise AssertionError("description actual source pin differs: " + relative)
+        current = {p: (ROOT / p).read_bytes() for p in (*_MG9_SOURCE_PATHS, _MG9_SELF)}
+        previous = {p: _desc_inverse(raw, p) for p, raw in current.items()}
+        logical = dict(before)
+        logical.update({p: pin(raw) for p, raw in previous.items()})
+        errors = _mg9_binding_errors(logical)
+        if errors:
+            raise AssertionError("; ".join(errors))
+        roster = DESC_SPEC["cases"]
+        if sha256(_a11_canonical(roster)) != DESC_SPEC["cases_sha256"]:
+            raise AssertionError("independent18 literal digest changed")
+        if (len(roster) != 18 or len({c["id"] for c in roster}) != 18
+                or {k: sum(c["kind"] == k for c in roster) for k in
+                    ("normal", "negative", "claim_probe", "OFF")}
+                != {"normal": 2, "negative": 14, "claim_probe": 1, "OFF": 1}):
+            raise AssertionError("independent18 roster drifted")
+        successor = importlib.import_module("meta_title_locale_successor")
+        pipeline = importlib.import_module("ja_translation_pipeline")
+        chapter = importlib.import_module("chapter1_core_loop_v2_causal_ledger_check")
+        if (successor.DESC_TRANSITION != DESC_BINDING["production_registry"]
+                or successor._DESC_REGISTRY_SHA256 != DESC_BINDING["registry_sha256"]):
+            raise AssertionError("new description registry differs from frozen binding")
+        counts["parse_one_MP"] += 1
+        calls, errors = pipeline.parse_ui_calls(MP, current[MP].decode())
+        parse_observation = {"calls": len(calls), "errors": errors,
+                             "selected_MG9": len(calls) - len(_mg9_without_selected(calls))}
+        if errors or parse_observation != {"calls": 83, "errors": [], "selected_MG9": 18}:
+            raise AssertionError("description-only change unexpectedly changed actual UI calls")
+        for case in roster:
+            stdout, stderr = io.StringIO(), io.StringIO()
+            with contextlib.redirect_stdout(stdout), contextlib.redirect_stderr(stderr):
+                try:
+                    row = _desc_case(case, current, previous, calls,
+                                     successor, pipeline, chapter, counts)
+                except Exception as error:
+                    row = {"id": case["id"], "kind": case["kind"],
+                           "normal_base": case["normal_base"], "passed": False,
+                           "exception": type(error).__name__ + ": " + str(error),
+                           "traceback": _a11_traceback.format_exc()}
+            row["stdout"], row["stderr"] = stdout.getvalue(), stderr.getvalue()
+            results.append(row)
+        by_id = {r["id"]: r for r in results}
+        normals_ok = all(by_id.get(c["id"], {}).get("passed")
+                         for c in roster if c["kind"] == "normal")
+        for row in results:
+            base = row["normal_base"]
+            row["normal_base_passed"] = base is None or bool(by_id.get(base, {}).get("passed"))
+            row["all_two_normals_passed"] = normals_ok
+            row["valid_result"] = (row["passed"] and row["normal_base_passed"]
+                                   and (row["kind"] == "normal" or normals_ok))
+        if len(results) == 18 and all(r["valid_result"] for r in results):
+            if before != _mg9_input_pins():
+                raise AssertionError("physical inputs changed before historical dispatch")
+            historical = _desc_historical(previous, successor, counts)
+    except Exception as error:
+        fatal = type(error).__name__ + ": " + str(error)
+        trace = _a11_traceback.format_exc()
+    finally:
+        try:
+            after = _mg9_input_pins()
+        except Exception as error:
+            fatal = (fatal or "") + "; after pins: " + type(error).__name__ + ": " + str(error)
+    unchanged = before is not None and before == after
+    current_ok = fatal is None and len(results) == 18 and all(r.get("valid_result") for r in results)
+    passed = current_ok and historical["passed"] and unchanged
+    print(json.dumps({
+        "scope": "physical description18, separately historical23/19/24/18",
+        "binding": DESC_BINDING["provenance"],
+        "current": {"cases": len(results), "normal": 2, "negative": 14, "claim_probe": 1,
+                    "OFF": 1, "results": results, "passed": current_ok,
+                    "valid_negative_count": sum(r["kind"] == "negative"
+                                               and bool(r.get("valid_result")) for r in results)},
+        "parse_observation": parse_observation, "historical": historical,
+        "execution_counts": counts, "fatal": fatal, "traceback": trace,
+        "physical_input_before": before, "physical_input_after": after,
+        "physical_inputs_unchanged": unchanged, "passed": passed,
+        "limits": "Finite source/consumer authority; no collector, engine, translation acceptance or human observation."
+    }, ensure_ascii=False, indent=2))
+    print("META_TITLE_DESC_SOURCE_SELF_TEST_" + ("OK" if passed else "FAIL")
+          + f" current={len(results)}/18 historical23_19_24_18={historical['passed']} unchanged={unchanged}")
+    return 0 if passed else 1
+# END_TWO_DESC_SELF_254
+
+
 if __name__ == "__main__":
-    raise SystemExit(_mg9_main())
+    raise SystemExit(_desc_main())

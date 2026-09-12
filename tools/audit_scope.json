@@ -204,6 +204,41 @@
       "why": "Existing parent20 UI keys,60 approved targets and isolated actual410=retained405 plus five collection-chrome groups.110 nested core-label comparisons are not new cases. Preserve IDs, source/current-history expectations, gameplay, true-log non-message fields, saves and human evidence. Final unique12 reuses registered checks without local full audit or engine duplication."
     },
     {
+      "id": "title-desc-source-reconciliation",
+      "paths": [],
+      "owned_paths": [
+        "autoloads/MetaProgression.gd",
+        "tools/meta_title_locale_successor.py",
+        "tools/meta_title_locale_successor_self_test.py",
+        "tools/MetaTitleLocaleCheck.tscn",
+        "tools/run_meta_title_locale_qa.sh",
+        "tools/audit_scope.json",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/queue_active/ORDER-254.md",
+        "docs/queue_archive/ORDER-254.md",
+        "docs/WORK_LOG.md",
+        "docs/STATUS.md",
+        "docs/queue_backlog/FULL_GAME_LOCALIZATION.md",
+        "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-254.json"
+      ],
+      "tools": [
+        "tools/zh_dice_title_consumer_self_test.py",
+        "tools/meta_title_locale_successor_self_test.py",
+        "tools/ja_translation_pipeline.py --self-test",
+        "tools/ja_translation_audit.py --scope ui",
+        "tools/full_game_localization_self_test.py",
+        "tools/zh_translation_audit.py --self-test",
+        "tools/en_coverage_check.py",
+        "tools/queue_index_self_test.py",
+        "tools/agent_review_decisions_self_test.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Two description owners, four paired KO/EN literals only; names, conditions, UI and38878 receipts remain exact. Frozen18 current authority precedes preserved historical23/19/24/18. First isolated415 retains410 plus five current-description groups; six conditions and one synthetic KO save/log lifecycle are nested. Shared unique12 once on final exact source; no local full audit, duplicate engine, native/render/human or full-product claim."
+    },
+    {
       "id": "asset-life-meta-title-localization",
       "paths": [],
       "owned_paths": [

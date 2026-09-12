@@ -419,3 +419,147 @@ def mg9_project_byte_hash(claim: str, relative: str, current: bytes) -> str:
         return claim
     return hashlib.sha256(old).hexdigest()
 # END_MG9_META_TITLE_SUCCESSOR_250
+
+
+# BEGIN_TWO_DESC_HISTORY_254
+# Paired description-only successor. Old source/registry/functions above stay raw.
+DESC_TRANSITION = json.loads(r'''{
+  "path": "autoloads/MetaProgression.gd",
+  "previous_sha256": "edbcdfdefe7c547edac9a47b71a3892b6fe68c9553c982e914a151ea2e52921b",
+  "current_sha256": "b5c73771546c1fdc0d136aed45cdd14ee8e829fcc6aff88dfb607288cecf4f7d",
+  "patches": [
+    {
+      "catalog": "ALL_TITLES",
+      "owner": "clean_run_title",
+      "field": "desc",
+      "before": "\t{\"id\":\"clean_run_title\",    \"name\":\"청렴한 강남행\",      \"cat\":\"메타\", \"rare\":\"rare\",\n\t \"desc\":\"도박 없이 30억에 도달했다. 이 도시에서 끝까지 원칙을 지켰다.\"},\n",
+      "after": "\t{\"id\":\"clean_run_title\",    \"name\":\"청렴한 강남행\",      \"cat\":\"메타\", \"rare\":\"rare\",\n\t \"desc\":\"도박판에서 손을 떼겠다고 시작한 인생. 마지막에 남은 자산은 30억 이상이었다.\"},\n"
+    },
+    {
+      "catalog": "TITLE_EN",
+      "owner": "clean_run_title",
+      "field": "desc",
+      "before": "\t\"clean_run_title\": {\"name\":\"Clean Road to Gangnam\", \"cat\":\"Meta\", \"desc\":\"Reached 3 billion won without gambling and held to your principles in this city.\"},\n",
+      "after": "\t\"clean_run_title\": {\"name\":\"Clean Road to Gangnam\", \"cat\":\"Meta\", \"desc\":\"You began that life intending to leave gambling behind. It ended with at least 3 billion won in assets.\"},\n"
+    },
+    {
+      "catalog": "ALL_TITLES",
+      "owner": "father_peace_title",
+      "field": "desc",
+      "before": "\t{\"id\":\"father_peace_title\", \"name\":\"마지막 봄\",          \"cat\":\"이야기\", \"rare\":\"uncommon\",\n\t \"desc\":\"아버지와 화해했다. 벚꽃이 피기 전에, 늦지 않게.\"},\n",
+      "after": "\t{\"id\":\"father_peace_title\", \"name\":\"마지막 봄\",          \"cat\":\"이야기\", \"rare\":\"uncommon\",\n\t \"desc\":\"아버지와 화해했다. 둘 사이의 침묵이 조금 달라졌다.\"},\n"
+    },
+    {
+      "catalog": "TITLE_EN",
+      "owner": "father_peace_title",
+      "field": "desc",
+      "before": "\t\"father_peace_title\": {\"name\":\"Last Spring\", \"cat\":\"Story\", \"desc\":\"Made peace with your father. Before the cherry blossoms. Before it was too late.\"},\n",
+      "after": "\t\"father_peace_title\": {\"name\":\"Last Spring\", \"cat\":\"Story\", \"desc\":\"Made peace with your father. The silence between you felt a little different.\"},\n"
+    }
+  ]
+}''')
+_DESC_REGISTRY_SHA256 = "6d7962acd9d554d27ef383e6b3d62f3b7e7512597740c412bbe356bba60eece9"
+
+
+def _desc_projection(current: bytes, relative: str) -> tuple[bytes, list[str]]:
+    """Recognize only approved MP bytes, then restore the four owner spans."""
+    if relative != "autoloads/MetaProgression.gd":
+        return current, ["ORDER-254: description successor path is not owned"]
+    try:
+        digest = hashlib.sha256(json.dumps(
+            DESC_TRANSITION, ensure_ascii=False, sort_keys=True,
+            separators=(",", ":")).encode("utf-8")).hexdigest()
+        rule = DESC_TRANSITION
+        if (MP_PATH != relative or rule["path"] != relative
+                or digest != _DESC_REGISTRY_SHA256
+                or rule["previous_sha256"] != MG9_TRANSITIONS[relative]["current_sha256"]):
+            return current, ["ORDER-254: exact description registry/predecessor drifted"]
+        if hashlib.sha256(current).hexdigest() != rule["current_sha256"]:
+            return current, ["ORDER-254: unapproved current description source bytes"]
+        owners = [(p["catalog"], p["owner"], p["field"]) for p in rule["patches"]]
+        if owners != [
+            ("ALL_TITLES", "clean_run_title", "desc"),
+            ("TITLE_EN", "clean_run_title", "desc"),
+            ("ALL_TITLES", "father_peace_title", "desc"),
+            ("TITLE_EN", "father_peace_title", "desc"),
+        ]:
+            return current, ["ORDER-254: exact four description owners drifted"]
+        old = current
+        for item in rule["patches"]:
+            before, after = item["before"].encode("utf-8"), item["after"].encode("utf-8")
+            if before == after or old.count(after) != 1 or old.count(before) != 0:
+                return current, ["ORDER-254: description owner span is not exact1"]
+            old = old.replace(after, before, 1)
+        if hashlib.sha256(old).hexdigest() != rule["previous_sha256"]:
+            return current, ["ORDER-254: four-description inverse is not whole MG9"]
+        return old, []
+    except (KeyError, TypeError, ValueError, AttributeError, UnicodeError):
+        return current, ["ORDER-254: malformed description registry/source"]
+
+
+def desc_source_errors(
+    relative: str, current: bytes, registered_previous: str | None = None,
+) -> list[str]:
+    """New step's registration is edbc, not the public MG9 predecessor afe8."""
+    _old, errors = _desc_projection(current, relative)
+    if registered_previous is not None:
+        if (not isinstance(DESC_TRANSITION, dict)
+                or registered_previous != DESC_TRANSITION.get("previous_sha256")):
+            errors.append("ORDER-254: description predecessor registration drifted")
+    return errors
+
+
+def desc_project_bytes(current: bytes, relative: str) -> bytes:
+    """Only the new step: approved current -> edbc; all failures/OFF identity."""
+    return _desc_projection(current, relative)[0]
+
+
+def desc_project_byte_hash(claim: str, relative: str, current: bytes) -> str:
+    old, errors = _desc_projection(current, relative)
+    if errors or hashlib.sha256(current).hexdigest() != claim:
+        return claim
+    return hashlib.sha256(old).hexdigest()
+
+
+# Save original callables, not rewritten historical functions or their registries.
+_DESC_OLD_MG9_SOURCE_ERRORS = mg9_source_errors
+_DESC_OLD_MG9_PROJECT_BYTES = mg9_project_bytes
+_DESC_OLD_MG9_PROJECT_HASH = mg9_project_byte_hash
+
+
+def _desc_mg9_source_errors(
+    relative: str, current: bytes, registered_previous: str | None = None,
+) -> list[str]:
+    if relative != "autoloads/MetaProgression.gd":
+        return _DESC_OLD_MG9_SOURCE_ERRORS(relative, current, registered_previous)
+    old, errors = _desc_projection(current, relative)
+    if errors:
+        return errors
+    # Existing callers still register afe8; do not reinterpret that argument.
+    return _DESC_OLD_MG9_SOURCE_ERRORS(relative, old, registered_previous)
+
+
+def _desc_mg9_project_bytes(current: bytes, relative: str) -> bytes:
+    if relative != "autoloads/MetaProgression.gd":
+        return _DESC_OLD_MG9_PROJECT_BYTES(current, relative)
+    old, errors = _desc_projection(current, relative)
+    if errors or _DESC_OLD_MG9_SOURCE_ERRORS(relative, old):
+        return current
+    return _DESC_OLD_MG9_PROJECT_BYTES(old, relative)
+
+
+def _desc_mg9_project_hash(claim: str, relative: str, current: bytes) -> str:
+    if relative != "autoloads/MetaProgression.gd":
+        return _DESC_OLD_MG9_PROJECT_HASH(claim, relative, current)
+    old, errors = _desc_projection(current, relative)
+    if (errors or hashlib.sha256(current).hexdigest() != claim
+            or _DESC_OLD_MG9_SOURCE_ERRORS(relative, old)):
+        return claim
+    return _DESC_OLD_MG9_PROJECT_HASH(hashlib.sha256(old).hexdigest(), relative, old)
+
+
+# Existing JA/Chapter module-attribute callers enter the new raw gate first.
+mg9_source_errors = _desc_mg9_source_errors
+mg9_project_bytes = _desc_mg9_project_bytes
+mg9_project_byte_hash = _desc_mg9_project_hash
+# END_TWO_DESC_HISTORY_254

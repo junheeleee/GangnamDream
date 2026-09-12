@@ -7,6 +7,10 @@
 새 문구와 유한 대조표를 private에서 독립 승인한 뒤 ROOT가 적용/검증한다.
 실행 중 a88e5c8 원격CI와 이 새 단위의 로컬 증거는 서로 빌리지 않는다.
 
+진행: 승인4 적용MP62261/b5c73771, helper/self 정적 독립 필수0이다. 첫baseline18은
+clean d0ca4d9에서 raw 보존·capture완료/effective0, post 통과가 아니다.
+첫post18·실제415·전체수용L1·영향12·최종 독립판정은 아직 남아 있다.
+
 ## 하나의 계약과 선택 이유
 
 MetaProgression의 `clean_run_title.desc`, `father_peace_title.desc`만 KO/TITLE_EN
