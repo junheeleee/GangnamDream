@@ -14,6 +14,41 @@
   ],
   "fast_lanes": [
     {
+      "id": "meta-title-localization",
+      "paths": [],
+      "owned_paths": [
+        "autoloads/MetaProgression.gd",
+        "tools/ja_translation_pipeline.py",
+        "locale/ui_ja.json",
+        "locale/ui_zh-CN.json",
+        "locale/ui_zh-TW.json",
+        "content/meta/full_game_localization.json",
+        "tools/MetaTitleLocaleCheck.tscn",
+        "tools/run_meta_title_locale_qa.sh",
+        "tools/audit_scope.json",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/queue_active/ORDER-242.md",
+        "docs/queue_archive/ORDER-242.md",
+        "docs/WORK_LOG.md",
+        "docs/STATUS.md",
+        "docs/queue_backlog/FULL_GAME_LOCALIZATION.md",
+        "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-242.json"
+      ],
+      "tools": [
+        "tools/ja_translation_pipeline.py --self-test",
+        "tools/full_game_localization_self_test.py",
+        "tools/zh_translation_audit.py --self-test",
+        "tools/en_coverage_check.py",
+        "tools/queue_index_self_test.py",
+        "tools/agent_review_decisions_self_test.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Nine existing housing/career title names and descriptions: exact eighteen-pair current source delta and seventeen new keys per locale. Preserve all KO/EN, condition/save/raw title data, unselected titles and historical inventories. Isolated actual title consumers run separately; not full-game, rendered or native approval."
+    },
+    {
       "id": "relationship-panel-vip-quantity",
       "paths": [],
       "owned_paths": [

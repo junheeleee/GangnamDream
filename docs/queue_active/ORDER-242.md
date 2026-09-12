@@ -78,7 +78,8 @@ GO만 기록하며 사용자 재판정을 기다리지 않는다. 자동 검사�
 - 첫 collector에서 선택18 중 고시원 이름2는 GameState의 기존 UI에도 있었다.
   실제 신규 KO는15·재사용3이다. 두 고시원 키의 과거 accepted는0이라 신규 수용
   17×3=51 목표는 그대로다. 기존영어 Goshiwon/Gosiwon 표기와 각 owner를 보존한다.
-- 실제 calls3374/legacy3340/keys2864/context34·29, collision103/shared48이다.
+- 실제 calls3374/legacy3340/keys2864/context34·29, collision103이다. 보존된
+  세 의미공유 pair를 모두 등록한 뒤 shared48로 검증한다.
   사전 keys2866/collision101은 실행 전 예측 오류였다. 현재 결과로 역사 계약을
   덮지 않고 기존 GameState2의 exact owner/pair 보존을 새 delta에 추가한다.
 - 최초 고정20은 normal3도 실패해 mutant17을 유효 통과로 세지 않는다. 함수 경계

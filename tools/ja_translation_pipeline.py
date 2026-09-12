@@ -2754,6 +2754,167 @@ def build_ui_context_layers(
     )
 
 
+META_TITLE_UI_OWNER = ("autoloads/MetaProgression.gd", "_localized_title")
+META_TITLE_UI_ROWS = (
+    ("gosiwon_survivor", "name", "고시원 생존자", "Gosiwon Survivor"),
+    ("gosiwon_survivor", "desc", "고시원에서 12개월을 버텼다. 이 경험은 잊지 못할 것이다.", "Survived 12 months in a gosiwon. You will not forget that room."),
+    ("first_move", "name", "첫 이사", "First Move"),
+    ("first_move", "desc", "처음으로 고시원을 벗어나 새 공간으로 이사했다.", "Left the gosiwon for the first time and moved into a new space."),
+    ("apartment_life", "name", "아파트 입성", "Apartment Life"),
+    ("apartment_life", "desc", "드디어 아파트에 살게 됐다. 경비 아저씨가 반겨준다.", "Finally living in an apartment. Even the security guard greets you."),
+    ("gangnam_resident", "name", "강남 입성", "Gangnam Resident"),
+    ("gangnam_resident", "desc", "강남 아파트. 주소만으로도 사람들의 눈빛이 달라진다.", "A Gangnam apartment. The address alone changes how people look at you."),
+    ("long_gosiwon", "name", "고시원 장기거주자", "Long-Term Gosiwon Tenant"),
+    ("long_gosiwon", "desc", "고시원 24개월. 이제 이 냄새도 집냄새처럼 느껴진다.", "24 months in a gosiwon. Even the smell has started to feel like home."),
+    ("first_paycheck", "name", "첫 월급의 무게", "Weight of the First Paycheck"),
+    ("first_paycheck", "desc", "통장에 처음으로 월급이 찍혔다. 기쁘면서도 이상하게 허탈했다.", "Your first salary hit the account. It felt joyful and strangely hollow."),
+    ("one_year_worker", "name", "1년 직장인", "One-Year Worker"),
+    ("one_year_worker", "desc", "같은 회사를 1년 다녔다. 어느새 선배가 돼 있었다.", "Stayed at the same company for a year. Somehow, you became senior to someone."),
+    ("three_year_worker", "name", "베테랑 직장인", "Office Veteran"),
+    ("three_year_worker", "desc", "3년. 회사 서류함에 내 이름이 녹아들었다.", "Three years. Your name has seeped into the company's filing cabinets."),
+    ("long_unemployed", "name", "백수의 자유", "Freedom of Unemployment"),
+    ("long_unemployed", "desc", "12개월을 무직으로 버텼다. 누군가는 백수라 하고 누군가는 자유인이라 한다.", "Stayed unemployed for 12 months. Some call it joblessness. Some call it freedom."),
+)
+META_TITLE_UI_BEFORE = {"source_calls":3356,"legacy_calls":3322,"legacy_keys":2849,"context_calls":34,"planned_context_ids":29,"collision_keys":100,"format_equivalent":28,"shared_translation":45,"context_split":27}
+META_TITLE_UI_CURRENT = {"source_calls":3374,"legacy_calls":3340,"legacy_keys":2864,"context_calls":34,"planned_context_ids":29,"collision_keys":103,"format_equivalent":28,"shared_translation":48,"context_split":27}
+META_TITLE_UI_RETAINED = (
+    ("scenes/MainGame.gd", "_ending_milestones", "legacy", "아파트 입성", "Entered an apartment", ""),
+    ("autoloads/GameState.gd", "get_wealth_tier", "legacy", "고시원 생존자", "Goshiwon Survivor", ""),
+    ("autoloads/GameState.gd", "get_current_title", "legacy", "고시원 장기거주자", "Long-Term Goshiwon Tenant", ""),
+)
+
+
+def _meta_title_ui_historical_calls(
+    calls: Iterable[UiCall], source: Optional[str] = None,
+) -> tuple[tuple[UiCall, ...], list[str]]:
+    """Validate eighteen exact current fields before historical comparison.
+
+    The collector retains all actual calls. This inverse is only for the old
+    manifest/self contracts; it is not a general GDScript reachability proof.
+    """
+    calls = tuple(calls)
+    if source is None:
+        source = (ROOT / META_TITLE_UI_OWNER[0]).read_text(encoding="utf-8")
+    body = _gd_function_source(source, META_TITLE_UI_OWNER[1])
+    errors: list[str] = []
+    expected = {(ko, en, "legacy", ""): 1 for _id, _field, ko, en in META_TITLE_UI_ROWS}
+    observed: dict[tuple[str, str, str, str], int] = {}
+    selected_keys = {row[2] for row in META_TITLE_UI_ROWS}
+    retained_counts = {selector: 0 for selector in META_TITLE_UI_RETAINED}
+    historical: list[UiCall] = []
+    for call in calls:
+        selector = (call.path, call.function, call.api, call.korean,
+                    call.english, call.context_id)
+        if (call.path, call.function) == META_TITLE_UI_OWNER:
+            row = (call.korean, call.english, call.api, call.context_id)
+            observed[row] = observed.get(row, 0) + 1
+        else:
+            historical.append(call)
+            if selector in retained_counts:
+                retained_counts[selector] += 1
+            elif call.korean in selected_keys:
+                errors.append(f"source: meta-title unexpected shared owner {selector!r}")
+    if observed != expected or any(count != 1 for count in retained_counts.values()):
+        errors.append("source: meta-title exact18/retained3 registry mismatch")
+
+    # Bind each literal to its title ID and output field, not just a bag of pairs.
+    marker = "\tmatch title_id:\n"
+    if body.count(marker) != 1:
+        errors.append("source: meta-title selected match block missing/duplicate")
+    else:
+        tail = body.split(marker, 1)[1]
+        if not tail.endswith("\treturn localized\n"):
+            errors.append("source: meta-title selected block return boundary mismatch")
+        region = tail.rsplit("\treturn localized", 1)[0]
+        branches = list(re.finditer(r'(?m)^\t\t"([^"]+)":\n((?:\t\t\t[^\n]*\n)+)', region))
+        if "".join(m.group(0) for m in branches) != region:
+            errors.append("source: meta-title unexpected selected statement")
+        literal = r'("(?:\\.|[^"\\])*")'
+        assignment = re.compile(
+            r'\t\t\tlocalized\["(name|desc)"\] = LocaleManager\.ui\('
+            + literal + r', ' + literal + r'\)\n'
+        )
+        bound = []
+        for branch in branches:
+            fields = list(assignment.finditer(branch.group(2)))
+            if "".join(m.group(0) for m in fields) != branch.group(2):
+                errors.append("source: meta-title unexpected field assignment")
+            for field in fields:
+                bound.append((branch.group(1), field.group(1),
+                              decode_gd_string(field.group(2)),
+                              decode_gd_string(field.group(3))))
+        if tuple(bound) != META_TITLE_UI_ROWS:
+            errors.append("source: meta-title ID/field/KO/EN binding mismatch")
+    return tuple(historical), errors
+
+
+def _meta_title_current_stats(
+    calls: Iterable[UiCall], previous: dict[str, Any],
+) -> tuple[dict[str, Any], list[str]]:
+    """Expose current totals without editing a historical manifest or roster."""
+    calls = tuple(calls)
+    historical, errors = _meta_title_ui_historical_calls(calls)
+    stats = dict(previous)
+    for key, expected in META_TITLE_UI_BEFORE.items():
+        if stats.get(key) != expected:
+            errors.append(f"source: meta-title historical {key} != {expected}")
+    variants: dict[str, set[str]] = {}
+    for call in calls:
+        variants.setdefault(call.korean, set()).add(call.english)
+    old_keys = {c.korean for c in historical}
+    keys = set(variants)
+    if keys - old_keys != {r[2] for r in META_TITLE_UI_ROWS} - {r[3] for r in META_TITLE_UI_RETAINED}:
+        errors.append("source: meta-title expected fifteen new keys")
+    stats.update({
+        "source_calls": len(calls),
+        "legacy_calls": sum(c.api in {"legacy", "branch", "format"} for c in calls),
+        "legacy_keys": len(keys),
+        "collision_keys": sum(len(v) > 1 for v in variants.values()),
+        "shared_translation": previous.get("shared_translation", 0) + 3,
+    })
+    for key, expected in META_TITLE_UI_CURRENT.items():
+        if stats.get(key) != expected:
+            errors.append(f"source: meta-title current {key} != {expected}")
+    for retained in META_TITLE_UI_RETAINED:
+        title_english = next(row[3] for row in META_TITLE_UI_ROWS if row[2] == retained[3])
+        if variants.get(retained[3]) != {title_english, retained[4]}:
+            errors.append(f"source: meta-title retained English variants changed: {retained[3]}")
+    stats.update({
+        "parameter_total_ui_call_occurrences": len(calls),
+        "parameter_legacy_pair_call_occurrences": stats["legacy_calls"],
+        "parameter_legacy_korean_source_keys": len(keys),
+        "parameter_legacy_korean_source_keys_sha256": hashlib.sha256(
+            "\n".join(sorted(keys)).encode("utf-8")).hexdigest(),
+        "meta_title_added_calls": len(calls) - len(historical),
+        "meta_title_added_keys": len(keys - old_keys),
+        "meta_title_shared_collisions": 3,
+    })
+    return stats, errors
+
+
+def _meta_title_historical_inventory(inventory: UiInventory) -> UiInventory:
+    """Supply the unchanged pre-title population to old self checks only."""
+    from dataclasses import replace
+    calls, errors = _meta_title_ui_historical_calls(inventory.calls)
+    keys = {call.korean for call in calls}
+    stats = dict(inventory.stats)
+    stats.update(META_TITLE_UI_BEFORE)
+    stats.update({
+        "parameter_total_ui_call_occurrences": len(calls),
+        "parameter_legacy_pair_call_occurrences": META_TITLE_UI_BEFORE["legacy_calls"],
+        "parameter_legacy_korean_source_keys": len(keys),
+        "parameter_legacy_korean_source_keys_sha256": hashlib.sha256(
+            "\n".join(sorted(keys)).encode("utf-8")).hexdigest(),
+    })
+    return replace(
+        inventory, calls=calls, stats=stats,
+        legacy_entries=tuple(e for e in inventory.legacy_entries if e.source in keys),
+        legacy_blueprint={k: v for k, v in inventory.legacy_blueprint.items() if k in keys},
+        errors=tuple([*inventory.errors, *errors]),
+    )
+
+
+
 def collect_ui_inventory(
     contract: Optional[dict[str, Any]] = None,
 ) -> UiInventory:
@@ -2791,11 +2952,14 @@ def collect_ui_inventory(
     errors.extend(dynamic_errors)
     calls.sort(key=lambda call: (call.path, call.line, call.api))
     source_keys = {call.korean for call in calls}
+    historical_calls, title_errors = _meta_title_ui_historical_calls(calls)
+    errors.extend(title_errors)
+    historical_keys = {call.korean for call in historical_calls}
     parameter_errors, parameter_stats = validate_ui_parameterized_contract(
-        parameter_contract, calls, source_keys
+        parameter_contract, historical_calls, historical_keys
     )
     contract_errors, stats = validate_ui_context_contract(
-        calls, effective_contract, parameter_contract
+        historical_calls, effective_contract, parameter_contract
     )
     errors.extend(parameter_errors)
     errors.extend(contract_errors)
@@ -2803,6 +2967,8 @@ def collect_ui_inventory(
         f"parameter_{key}": value for key, value in parameter_stats.items()
     })
     stats.update(dynamic_stats)
+    stats, title_stat_errors = _meta_title_current_stats(calls, stats)
+    errors.extend(title_stat_errors)
 
     legacy_locations: dict[str, set[str]] = {}
     formatted_templates = {
@@ -3815,6 +3981,128 @@ def _relationship_panel_inventory_self_test(
     return cases, failures
 
 
+def _meta_title_inventory_self_test(
+    inventory: Optional[UiInventory] = None,
+    observations: Optional[list[dict[str, Any]]] = None,
+) -> tuple[int, list[str]]:
+    """Twenty pre-code controls, separate from the preserved historical53."""
+    from dataclasses import replace
+    fixed = json.loads(r'''{"source_rows":[{"id":"gosiwon_survivor","slot":"name","ko":"고시원 생존자","en":"Gosiwon Survivor"},{"id":"gosiwon_survivor","slot":"desc","ko":"고시원에서 12개월을 버텼다. 이 경험은 잊지 못할 것이다.","en":"Survived 12 months in a gosiwon. You will not forget that room."},{"id":"first_move","slot":"name","ko":"첫 이사","en":"First Move"},{"id":"first_move","slot":"desc","ko":"처음으로 고시원을 벗어나 새 공간으로 이사했다.","en":"Left the gosiwon for the first time and moved into a new space."},{"id":"apartment_life","slot":"name","ko":"아파트 입성","en":"Apartment Life"},{"id":"apartment_life","slot":"desc","ko":"드디어 아파트에 살게 됐다. 경비 아저씨가 반겨준다.","en":"Finally living in an apartment. Even the security guard greets you."},{"id":"gangnam_resident","slot":"name","ko":"강남 입성","en":"Gangnam Resident"},{"id":"gangnam_resident","slot":"desc","ko":"강남 아파트. 주소만으로도 사람들의 눈빛이 달라진다.","en":"A Gangnam apartment. The address alone changes how people look at you."},{"id":"long_gosiwon","slot":"name","ko":"고시원 장기거주자","en":"Long-Term Gosiwon Tenant"},{"id":"long_gosiwon","slot":"desc","ko":"고시원 24개월. 이제 이 냄새도 집냄새처럼 느껴진다.","en":"24 months in a gosiwon. Even the smell has started to feel like home."},{"id":"first_paycheck","slot":"name","ko":"첫 월급의 무게","en":"Weight of the First Paycheck"},{"id":"first_paycheck","slot":"desc","ko":"통장에 처음으로 월급이 찍혔다. 기쁘면서도 이상하게 허탈했다.","en":"Your first salary hit the account. It felt joyful and strangely hollow."},{"id":"one_year_worker","slot":"name","ko":"1년 직장인","en":"One-Year Worker"},{"id":"one_year_worker","slot":"desc","ko":"같은 회사를 1년 다녔다. 어느새 선배가 돼 있었다.","en":"Stayed at the same company for a year. Somehow, you became senior to someone."},{"id":"three_year_worker","slot":"name","ko":"베테랑 직장인","en":"Office Veteran"},{"id":"three_year_worker","slot":"desc","ko":"3년. 회사 서류함에 내 이름이 녹아들었다.","en":"Three years. Your name has seeped into the company's filing cabinets."},{"id":"long_unemployed","slot":"name","ko":"백수의 자유","en":"Freedom of Unemployment"},{"id":"long_unemployed","slot":"desc","ko":"12개월을 무직으로 버텼다. 누군가는 백수라 하고 누군가는 자유인이라 한다.","en":"Stayed unemployed for 12 months. Some call it joblessness. Some call it freedom."}],"current_expected":{"source_calls":3374,"legacy_calls":3340,"legacy_keys":2866,"context_calls":34,"planned_context_ids":29,"collision_keys":101,"format_equivalent":28,"shared_translation":46,"context_split":27},"historical_expected":{"source_calls":3356,"legacy_calls":3322,"legacy_keys":2849,"context_calls":34,"planned_context_ids":29,"collision_keys":100,"format_equivalent":28,"shared_translation":45,"context_split":27},"controls":[{"id":"actual","op":"none","pass":true},{"id":"reordered","op":"reverse","pass":true},{"id":"line_only","op":"line","pass":true},{"id":"delete_0","op":"delete","row":0,"pass":false},{"id":"duplicate_0","op":"duplicate","row":0,"pass":false},{"id":"delete_1","op":"delete","row":1,"pass":false},{"id":"duplicate_1","op":"duplicate","row":1,"pass":false},{"id":"wrong_path","op":"replace","row":0,"field":"path","value":"autoloads/Other.gd","pass":false},{"id":"wrong_function","op":"replace","row":0,"field":"function","value":"other","pass":false},{"id":"wrong_api","op":"replace","row":0,"field":"api","value":"context","pass":false},{"id":"wrong_korean","op":"replace","row":0,"field":"korean","value":"변조","pass":false},{"id":"wrong_english","op":"replace","row":0,"field":"english","value":"Changed","pass":false},{"id":"wrong_context_id","op":"replace","row":0,"field":"context_id","value":"ui.unowned","pass":false},{"id":"extra_pair","op":"extra","pass":false},{"id":"old_apartment_missing","op":"old_delete","pass":false},{"id":"old_apartment_EN","op":"old_english","pass":false},{"id":"name_field_swap","op":"source_name_field","pass":false},{"id":"desc_field_swap","op":"source_desc_field","pass":false},{"id":"branch_id_changed","op":"source_id","pass":false},{"id":"extra_branch","op":"source_extra","pass":false}]}''')
+    inventory = inventory if inventory is not None else collect_ui_inventory()
+    failures = list(inventory.errors)
+    source = (ROOT / META_TITLE_UI_OWNER[0]).read_text(encoding="utf-8")
+    if tuple((r["id"], r["slot"], r["ko"], r["en"]) for r in fixed["source_rows"]) != META_TITLE_UI_ROWS:
+        failures.append("meta-title frozen source rows changed")
+    # First20 stays frozen. First execution exposed two already-collected,
+    # unaccepted GameState keys: explicit fact correction, not a new roster.
+    corrected_current = {**fixed["current_expected"], "legacy_keys": 2864,
+                         "collision_keys": 103, "shared_translation": 48}
+    for key, value in corrected_current.items():
+        if inventory.stats.get(key) != value:
+            failures.append(f"meta-title current {key} != {value}")
+    before = inventory.calls
+    registered = [
+        next((c for c in before if
+              (c.path, c.function, c.api, c.korean, c.english, c.context_id) ==
+              (*META_TITLE_UI_OWNER, "legacy", row["ko"], row["en"], "")), None)
+        for row in fixed["source_rows"]
+    ]
+    retained = next((c for c in before if
+                    (c.path, c.function, c.korean, c.english) ==
+                    ("scenes/MainGame.gd", "_ending_milestones",
+                     "아파트 입성", "Entered an apartment")), None)
+    for control in fixed["controls"]:
+        changed = list(before)
+        changed_source = source
+        op = control["op"]
+        row = registered[control.get("row", 0)]
+        if op == "reverse":
+            changed.reverse()
+        elif op == "line":
+            changed = [replace(c, line=c.line + 10) for c in changed]
+        elif op == "delete" and row in changed:
+            changed.remove(row)
+        elif op == "duplicate" and row is not None:
+            changed.append(row)
+        elif op == "replace" and row in changed:
+            changed[changed.index(row)] = replace(row, **{control["field"]: control["value"]})
+        elif op == "extra" and row is not None:
+            changed.append(replace(row, korean="범위 밖 새 칭호", english="Unowned title"))
+        elif op == "old_delete" and retained in changed:
+            changed.remove(retained)
+        elif op == "old_english" and retained in changed:
+            changed[changed.index(retained)] = replace(retained, english="Apartment Life")
+        elif op == "source_name_field":
+            changed_source = source.replace('localized["name"] = LocaleManager.ui',
+                                            'localized["desc"] = LocaleManager.ui', 1)
+        elif op == "source_desc_field":
+            changed_source = source.replace('localized["desc"] = LocaleManager.ui',
+                                            'localized["name"] = LocaleManager.ui', 1)
+        elif op == "source_id":
+            changed_source = source.replace('\t\t"gosiwon_survivor":\n',
+                                            '\t\t"unowned_title":\n', 1)
+        elif op == "source_extra":
+            changed_source = source.replace(
+                '\treturn localized\n',
+                '\t\t"unowned_title":\n\t\t\tpass\n\treturn localized\n', 1)
+        unchanged = tuple(changed)
+        projected, errors = _meta_title_ui_historical_calls(changed, changed_source)
+        passed = not errors
+        if passed != control["pass"]:
+            failures.append(f'meta-title {control["id"]}: expected {control["pass"]}: {errors}')
+        if tuple(changed) != unchanged:
+            failures.append(f'meta-title {control["id"]}: input mutated')
+        if passed:
+            keys = {c.korean for c in projected}
+            if len(projected) != 3356 or len(keys) != 2849:
+                failures.append(f'meta-title {control["id"]}: old counts not preserved')
+        if observations is not None:
+            observations.append({"id": control["id"], "expected_pass": control["pass"],
+                                 "observed_pass": passed, "errors": errors})
+    if before != inventory.calls:
+        failures.append("meta-title collector calls mutated")
+    historical = _meta_title_historical_inventory(inventory)
+    if len(historical.legacy_entries) != 2849 or len(historical.entries) != 2878:
+        failures.append("meta-title historical entry projection differs")
+    return len(fixed["controls"]), failures
+
+
+
+
+def _meta_title_retained_owner_self_test(
+    inventory: Optional[UiInventory] = None,
+    observations: Optional[list[dict[str, Any]]] = None,
+) -> tuple[int, list[str]]:
+    """Four pre-repair supplemental controls; original twenty remain separate."""
+    from dataclasses import replace
+    fixed = json.loads(r'''{"retained":[{"path":"autoloads/GameState.gd","function":"get_wealth_tier","api":"legacy","korean":"고시원 생존자","english":"Goshiwon Survivor","context_id":"","line":4244},{"path":"autoloads/GameState.gd","function":"get_current_title","api":"legacy","korean":"고시원 장기거주자","english":"Long-Term Goshiwon Tenant","context_id":"","line":3672}],"controls":[{"id":"retained_survivor_missing","op":"delete","row":0,"normal_base":"actual","pass":false},{"id":"retained_survivor_english","op":"english","row":0,"normal_base":"actual","value":"Changed Survivor","pass":false},{"id":"retained_long_missing","op":"delete","row":1,"normal_base":"actual","pass":false},{"id":"retained_long_english","op":"english","row":1,"normal_base":"actual","value":"Changed Tenant","pass":false}]}''')
+    inventory = inventory if inventory is not None else collect_ui_inventory()
+    source = (ROOT / META_TITLE_UI_OWNER[0]).read_text(encoding="utf-8")
+    _projected, base_errors = _meta_title_ui_historical_calls(inventory.calls, source)
+    failures = [f"meta-title retained normal base: {e}" for e in base_errors]
+    registered = [next((c for c in inventory.calls if
+        (c.path, c.function, c.api, c.korean, c.english, c.context_id) ==
+        (r["path"], r["function"], r["api"], r["korean"], r["english"], r["context_id"])), None)
+        for r in fixed["retained"]]
+    for control in fixed["controls"]:
+        changed = list(inventory.calls)
+        row = registered[control["row"]]
+        if row not in changed:
+            failures.append(f'meta-title {control["id"]}: retained base absent')
+        elif control["op"] == "delete":
+            changed.remove(row)
+        elif control["op"] == "english":
+            changed[changed.index(row)] = replace(row, english=control["value"])
+        _old, errors = _meta_title_ui_historical_calls(changed, source)
+        if bool(not errors) != control["pass"]:
+            failures.append(f'meta-title {control["id"]}: expected reject: {errors}')
+        if observations is not None:
+            observations.append({"id": control["id"], "expected_pass": control["pass"],
+                                 "observed_pass": not errors, "base_pass": not base_errors,
+                                 "errors": errors})
+    return len(fixed["controls"]), failures
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -4036,6 +4324,15 @@ def main() -> int:
             failures.append("UI printf conversion order drift was accepted")
         cases += 1
         ui_inventory = collect_ui_inventory()
+        meta_title_current_inventory = ui_inventory
+        meta_title_cases, meta_title_failures = _meta_title_inventory_self_test(ui_inventory)
+        cases += meta_title_cases
+        failures.extend(meta_title_failures)
+        retained_cases, retained_failures = _meta_title_retained_owner_self_test(ui_inventory)
+        cases += retained_cases
+        failures.extend(retained_failures)
+        # Old fixtures retain their exact pre-title population and expectations.
+        ui_inventory = _meta_title_historical_inventory(ui_inventory)
         failures.extend(
             f"actual UI contract: {error}" for error in ui_inventory.errors
         )
@@ -4525,6 +4822,7 @@ def main() -> int:
         preview_cases, preview_failures = _relationship_panel_inventory_self_test(ui_inventory)
         cases += preview_cases
         failures.extend(preview_failures)
+        ui_inventory = meta_title_current_inventory
         if failures:
             print(
                 f"JA_TRANSLATE_SELF_TEST_FAIL cases={cases} "

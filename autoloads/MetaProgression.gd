@@ -676,6 +676,36 @@ func _localized_title(title: Dictionary) -> Dictionary:
 	var en_info: Dictionary = TITLE_EN[title_id]
 	for key in en_info:
 		localized[key] = en_info[key]
+	# Only these existing title fields opt into prepared-language UI lookup.
+	# Preserve KO/EN compatibility, raw constants, and every unselected title.
+	match title_id:
+		"gosiwon_survivor":
+			localized["name"] = LocaleManager.ui("고시원 생존자", "Gosiwon Survivor")
+			localized["desc"] = LocaleManager.ui("고시원에서 12개월을 버텼다. 이 경험은 잊지 못할 것이다.", "Survived 12 months in a gosiwon. You will not forget that room.")
+		"first_move":
+			localized["name"] = LocaleManager.ui("첫 이사", "First Move")
+			localized["desc"] = LocaleManager.ui("처음으로 고시원을 벗어나 새 공간으로 이사했다.", "Left the gosiwon for the first time and moved into a new space.")
+		"apartment_life":
+			localized["name"] = LocaleManager.ui("아파트 입성", "Apartment Life")
+			localized["desc"] = LocaleManager.ui("드디어 아파트에 살게 됐다. 경비 아저씨가 반겨준다.", "Finally living in an apartment. Even the security guard greets you.")
+		"gangnam_resident":
+			localized["name"] = LocaleManager.ui("강남 입성", "Gangnam Resident")
+			localized["desc"] = LocaleManager.ui("강남 아파트. 주소만으로도 사람들의 눈빛이 달라진다.", "A Gangnam apartment. The address alone changes how people look at you.")
+		"long_gosiwon":
+			localized["name"] = LocaleManager.ui("고시원 장기거주자", "Long-Term Gosiwon Tenant")
+			localized["desc"] = LocaleManager.ui("고시원 24개월. 이제 이 냄새도 집냄새처럼 느껴진다.", "24 months in a gosiwon. Even the smell has started to feel like home.")
+		"first_paycheck":
+			localized["name"] = LocaleManager.ui("첫 월급의 무게", "Weight of the First Paycheck")
+			localized["desc"] = LocaleManager.ui("통장에 처음으로 월급이 찍혔다. 기쁘면서도 이상하게 허탈했다.", "Your first salary hit the account. It felt joyful and strangely hollow.")
+		"one_year_worker":
+			localized["name"] = LocaleManager.ui("1년 직장인", "One-Year Worker")
+			localized["desc"] = LocaleManager.ui("같은 회사를 1년 다녔다. 어느새 선배가 돼 있었다.", "Stayed at the same company for a year. Somehow, you became senior to someone.")
+		"three_year_worker":
+			localized["name"] = LocaleManager.ui("베테랑 직장인", "Office Veteran")
+			localized["desc"] = LocaleManager.ui("3년. 회사 서류함에 내 이름이 녹아들었다.", "Three years. Your name has seeped into the company's filing cabinets.")
+		"long_unemployed":
+			localized["name"] = LocaleManager.ui("백수의 자유", "Freedom of Unemployment")
+			localized["desc"] = LocaleManager.ui("12개월을 무직으로 버텼다. 누군가는 백수라 하고 누군가는 자유인이라 한다.", "Stayed unemployed for 12 months. Some call it joblessness. Some call it freedom.")
 	return localized
 
 func check_and_unlock_titles() -> Array:
