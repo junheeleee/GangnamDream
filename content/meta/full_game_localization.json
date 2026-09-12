@@ -3783,6 +3783,44 @@
       "machine_validation": "PASS",
       "rendered_review": "OPEN",
       "native_review": "OPEN"
+    },
+    {
+      "order": "ORDER-255",
+      "group": "ui",
+      "roots": [
+        "30억과 강남의 등기를 손에 쥔 뒤, 하지 않았던 일들을 돌아보며 오래된 수첩의 다음 장을 폈다.",
+        "가장 어려울 때 쉬운 돈을 거절했다. 그 선택이 모든 것의 시작이었다.",
+        "갈림길에서 다은을 붙잡았다. 강남보다 먼저 잡은 것.",
+        "그날 밤의 선택",
+        "도박판에서 손을 떼겠다고 시작한 인생. 마지막에 남은 자산은 30억 이상이었다.",
+        "마지막 봄",
+        "맺어 온 인연을 따라 강남에 들어섰다. 결국 사람이 가장 큰 자산이었다.",
+        "사랑을 택한 사람",
+        "서울 인맥왕",
+        "선을 지킨 사람",
+        "수첩의 다음 장",
+        "아버지와 화해했다. 둘 사이의 침묵이 조금 달라졌다.",
+        "엘리트 전문화 선택. 정석의 끝에는 무엇이 있을까.",
+        "엘리트의 길",
+        "의심하는 자",
+        "창업가 정신",
+        "창업형 전문화 선택. 아무것도 없는 곳에서 시작한 사람.",
+        "청렴한 강남행",
+        "친구를 경찰에 넘겼다. 옳은 일은 가끔 가장 아픈 일이다.",
+        "친구의 경고를 흘려듣지 않았다. 의심은 때로 우정의 다른 이름이다.",
+        "퀀트 마인드",
+        "퀀트형 전문화 선택. 시장을 수식으로 본다."
+      ],
+      "source_leaves": 22,
+      "target_leaves_by_locale": {
+        "ja": 22,
+        "zh-CN": 22,
+        "zh-TW": 22
+      },
+      "source_review": "Direct Korean and independent full66 review of the eleven remaining specialization, choice and life title names and descriptions. Corrected starting intention, same-run assets, past reconciliation, limited historical reply, Korean won and existing source debts preserved. Only display lookups change; conditions, saved IDs, prior39 titles and parent chrome remain. Isolated component observations are not rendered/native/human play.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN"
     }
   ],
   "accepted": {
@@ -55618,6 +55656,94 @@
       "ui:희귀:/희귀": {
         "source_sha256": "cb0665fd003fb62516cdf3d82b7bb6336102b393afd8c751f0dc2ea66862f1b5",
         "target_sha256": "aabc31e739ca0c7130817f4c59063d81955d9931cf6041bec5bf2a323b6e6f16"
+      },
+      "ui:30억과 강남의 등기를 손에 쥔 뒤, 하지 않았던 일들을 돌아보며 오래된 수첩의 다음 장을 폈다.:/30억과 강남의 등기를 손에 쥔 뒤, 하지 않았던 일들을 돌아보며 오래된 수첩의 다음 장을 폈다.": {
+        "source_sha256": "f6d7f5d884b0cf9c3f162b82824706f28ab9868407f917cf289d14ad118f4f82",
+        "target_sha256": "58e2a63110e30e9627f6770050d693916090d7a2865179e6eca82e1a32006b91"
+      },
+      "ui:가장 어려울 때 쉬운 돈을 거절했다. 그 선택이 모든 것의 시작이었다.:/가장 어려울 때 쉬운 돈을 거절했다. 그 선택이 모든 것의 시작이었다.": {
+        "source_sha256": "b26177dbbc47057661a162ce48baae8814842aad4fd49027d184ac47b9f0d1ad",
+        "target_sha256": "87ddd4d4797bbeef4b919fab4f2c5c44bbca114e9dc68b06e3b38ab461eacbe7"
+      },
+      "ui:갈림길에서 다은을 붙잡았다. 강남보다 먼저 잡은 것.:/갈림길에서 다은을 붙잡았다. 강남보다 먼저 잡은 것.": {
+        "source_sha256": "adfe69703ea646893046d20a4a14dc95fdffc97df44c10245dd6b0b63a9ed571",
+        "target_sha256": "601a265b48b06f90cb53d5026b3e108f3d0ce452b191916de05a5f41dbcf59e4"
+      },
+      "ui:그날 밤의 선택:/그날 밤의 선택": {
+        "source_sha256": "2ff2d421bdd2a6e1aa166e729d6112c608e2fec9b9e3cdfbc65abc2a7ee67a64",
+        "target_sha256": "5bac9582bb321c0035ba9229a8af2a3606a17a7bb16c9d489fc5c9c91d2c4538"
+      },
+      "ui:도박판에서 손을 떼겠다고 시작한 인생. 마지막에 남은 자산은 30억 이상이었다.:/도박판에서 손을 떼겠다고 시작한 인생. 마지막에 남은 자산은 30억 이상이었다.": {
+        "source_sha256": "60d410961b2231db42bbabd102e723ceca93efc068b1ea8c844f71fd2eb4ed0f",
+        "target_sha256": "d06eb4a13e2408bd79d6747908cfc9dd2ffb6e79139ef909889ec6a709e1f835"
+      },
+      "ui:마지막 봄:/마지막 봄": {
+        "source_sha256": "060b83120319230321a89c08ccf5d9f10c2b4077f07c57239318962681d1ba4c",
+        "target_sha256": "18331c4bd2d74ca2918379f9edda3caf575b06080295bdf20da5a06e64ddaac9"
+      },
+      "ui:맺어 온 인연을 따라 강남에 들어섰다. 결국 사람이 가장 큰 자산이었다.:/맺어 온 인연을 따라 강남에 들어섰다. 결국 사람이 가장 큰 자산이었다.": {
+        "source_sha256": "b14032e9b337797d98e029e5d8c90d71e629a250eb2b7afffe08f32daaf6ca1d",
+        "target_sha256": "e64c7a215f1879393bd250ae15705e7b56b181ce30d86340dfad5ae1c9d679bd"
+      },
+      "ui:사랑을 택한 사람:/사랑을 택한 사람": {
+        "source_sha256": "65410710e17acc9a41a8ee738d1f987c19efc25e597d7ddf2ae220d322f92bea",
+        "target_sha256": "e13a7357a9c19de619f7be28f9917c26b537b90aa4a880f357af3ebc1ff2ae81"
+      },
+      "ui:서울 인맥왕:/서울 인맥왕": {
+        "source_sha256": "05a9b2678303632a7254611c65edb33664661841a030c057f0eb92ad642973ac",
+        "target_sha256": "357dfb6540d8bf2c0122aa2b5f7898b40ebda6e3929af00c59a5c4d2bb6f7623"
+      },
+      "ui:선을 지킨 사람:/선을 지킨 사람": {
+        "source_sha256": "502bb2943516b7f2e8a3ed785728ba316c9fc9b8745de859a060b85a921c1875",
+        "target_sha256": "84f5c0989757d439bdd41c315cb389e06deeef3901eaa9ab8f3133e396a461ac"
+      },
+      "ui:수첩의 다음 장:/수첩의 다음 장": {
+        "source_sha256": "c3ed6cab9f0b362314f0459a59312f74743a2ab8715b12f4372f58a1bf1c739c",
+        "target_sha256": "edccc284d15df6c0c550a58354a96e969d026c95b218ecb96e00d0a7e76bd783"
+      },
+      "ui:아버지와 화해했다. 둘 사이의 침묵이 조금 달라졌다.:/아버지와 화해했다. 둘 사이의 침묵이 조금 달라졌다.": {
+        "source_sha256": "a4dcc883897da44a96be15db5523305ec1cd38cff5dc67eecaf58a12dbd2da7e",
+        "target_sha256": "5e3ffd8260b60518b268669a90f32b7368373bc220d32c9a4eefc1b33d7e094c"
+      },
+      "ui:엘리트 전문화 선택. 정석의 끝에는 무엇이 있을까.:/엘리트 전문화 선택. 정석의 끝에는 무엇이 있을까.": {
+        "source_sha256": "d16f7c3748a7ce068070351b8ab201b2aafe8eb1745972a2d0ad57daa96733e9",
+        "target_sha256": "9f9d9c061d65827bafa841d7b345a984c280e1996d399048c6647d8530b681db"
+      },
+      "ui:엘리트의 길:/엘리트의 길": {
+        "source_sha256": "a1830fd0ba3eeda5f6fa0ec1de1961387e7b84f56ac42926c27701f24f679fa5",
+        "target_sha256": "748e6ec4d09a805f98b593b615d4c932abbee69332d6b14563d731544946e92a"
+      },
+      "ui:의심하는 자:/의심하는 자": {
+        "source_sha256": "6e41b9729b2b949245ca27226d47c6c4a62ec14f2424a397fb35c213e462bc0f",
+        "target_sha256": "4fefc56a7ff0462d0c0e1d3b7d984f97a6671e618cf5c916f9312eaadb832904"
+      },
+      "ui:창업가 정신:/창업가 정신": {
+        "source_sha256": "7ca734e0600ade2aca1e77445d5f6ef6908e01f514895ee87df006903cea05a7",
+        "target_sha256": "6e1055765dc1ba4c131b45190cf3ca9bb0d83de81d1a52a26055baec34275929"
+      },
+      "ui:창업형 전문화 선택. 아무것도 없는 곳에서 시작한 사람.:/창업형 전문화 선택. 아무것도 없는 곳에서 시작한 사람.": {
+        "source_sha256": "3db7970aac94f3cc32b8379a32d31e50ed60a6cc3eaf39785e7222feff4274f7",
+        "target_sha256": "8b6be59abf818c9f009ba602687a55257e77c85764c8ceef9faee3eea313f967"
+      },
+      "ui:청렴한 강남행:/청렴한 강남행": {
+        "source_sha256": "5b00586d3b3d48adf8e5b408cf82973387717117071266a4cf0547510a4cead3",
+        "target_sha256": "38abd5bc905ee3a3a767247cdd921e3e3fcf8769d62beea544222a69703a9b57"
+      },
+      "ui:친구를 경찰에 넘겼다. 옳은 일은 가끔 가장 아픈 일이다.:/친구를 경찰에 넘겼다. 옳은 일은 가끔 가장 아픈 일이다.": {
+        "source_sha256": "4657171d3ab49c4ff1ae5853cde0bd142960fe2ff0e72cd7473d94b32379f8cc",
+        "target_sha256": "52beab03717a47117ef011ee0d05cd6d2f7ff6990003eb054855c2c368878762"
+      },
+      "ui:친구의 경고를 흘려듣지 않았다. 의심은 때로 우정의 다른 이름이다.:/친구의 경고를 흘려듣지 않았다. 의심은 때로 우정의 다른 이름이다.": {
+        "source_sha256": "ee40c014822abd8280aa48309f8feb0fca4b85bd38fd16d1137ea031d1d49755",
+        "target_sha256": "4620ea85ffc89d653167878abd812823a01a3b7997d4a03fed04aa88a44301e8"
+      },
+      "ui:퀀트 마인드:/퀀트 마인드": {
+        "source_sha256": "1ea2f6cc5e2ab59c2db243fffe59ba9a362a460b04c43d645122a92ea11b922e",
+        "target_sha256": "69bd7869a2b60d94d4d552b28312dddddd3b3f8492fc321dde50b0ddb5e8839f"
+      },
+      "ui:퀀트형 전문화 선택. 시장을 수식으로 본다.:/퀀트형 전문화 선택. 시장을 수식으로 본다.": {
+        "source_sha256": "e446fc08681c9ca4fc4b19305ecae809f13cc1ed7e6d83b1a6af1df40a3ea9d2",
+        "target_sha256": "e3350202f89237e00c915641af6dd13a12716aa0df50abdee29c55c8a7ff500e"
       }
     },
     "zh-CN": {
@@ -107460,6 +107586,94 @@
       "ui:희귀:/희귀": {
         "source_sha256": "cb0665fd003fb62516cdf3d82b7bb6336102b393afd8c751f0dc2ea66862f1b5",
         "target_sha256": "7e5177e656e3e6ef67db8af89f8980770521b76a80c3e40058b817f93f30dd5a"
+      },
+      "ui:30억과 강남의 등기를 손에 쥔 뒤, 하지 않았던 일들을 돌아보며 오래된 수첩의 다음 장을 폈다.:/30억과 강남의 등기를 손에 쥔 뒤, 하지 않았던 일들을 돌아보며 오래된 수첩의 다음 장을 폈다.": {
+        "source_sha256": "f6d7f5d884b0cf9c3f162b82824706f28ab9868407f917cf289d14ad118f4f82",
+        "target_sha256": "0b70f8ed2e01a3bcb9833784a45da70e10a1479968c27dc6cb40f7d8cd05f6ab"
+      },
+      "ui:가장 어려울 때 쉬운 돈을 거절했다. 그 선택이 모든 것의 시작이었다.:/가장 어려울 때 쉬운 돈을 거절했다. 그 선택이 모든 것의 시작이었다.": {
+        "source_sha256": "b26177dbbc47057661a162ce48baae8814842aad4fd49027d184ac47b9f0d1ad",
+        "target_sha256": "d9b0eb5ec22d4db36bfcf61c987186afcf83d580d9bb9d97ff37cc91d40f0519"
+      },
+      "ui:갈림길에서 다은을 붙잡았다. 강남보다 먼저 잡은 것.:/갈림길에서 다은을 붙잡았다. 강남보다 먼저 잡은 것.": {
+        "source_sha256": "adfe69703ea646893046d20a4a14dc95fdffc97df44c10245dd6b0b63a9ed571",
+        "target_sha256": "df02de84ce987e84667c54b322ef342b4372fcdf5ba50e5208d636bcb719b7d4"
+      },
+      "ui:그날 밤의 선택:/그날 밤의 선택": {
+        "source_sha256": "2ff2d421bdd2a6e1aa166e729d6112c608e2fec9b9e3cdfbc65abc2a7ee67a64",
+        "target_sha256": "419a0c2b16b18f7d6af396b423501afe1c4e792085a2cf529a81aa4824b70c6e"
+      },
+      "ui:도박판에서 손을 떼겠다고 시작한 인생. 마지막에 남은 자산은 30억 이상이었다.:/도박판에서 손을 떼겠다고 시작한 인생. 마지막에 남은 자산은 30억 이상이었다.": {
+        "source_sha256": "60d410961b2231db42bbabd102e723ceca93efc068b1ea8c844f71fd2eb4ed0f",
+        "target_sha256": "e6a6850e18a8fca109f4218e1b9badc3f01d04f144ddd168c06d3461763e5517"
+      },
+      "ui:마지막 봄:/마지막 봄": {
+        "source_sha256": "060b83120319230321a89c08ccf5d9f10c2b4077f07c57239318962681d1ba4c",
+        "target_sha256": "a0ad1aeab34f56652a6bcf6940df6ffee402704b194bfcf2104e48865b8a3364"
+      },
+      "ui:맺어 온 인연을 따라 강남에 들어섰다. 결국 사람이 가장 큰 자산이었다.:/맺어 온 인연을 따라 강남에 들어섰다. 결국 사람이 가장 큰 자산이었다.": {
+        "source_sha256": "b14032e9b337797d98e029e5d8c90d71e629a250eb2b7afffe08f32daaf6ca1d",
+        "target_sha256": "2640ca6e819fd8e5083ccb85dc0170c5798cb85083850514f816ad923f6bc0d7"
+      },
+      "ui:사랑을 택한 사람:/사랑을 택한 사람": {
+        "source_sha256": "65410710e17acc9a41a8ee738d1f987c19efc25e597d7ddf2ae220d322f92bea",
+        "target_sha256": "bfec41422b29f59b7da18afa931841be06d3e796af549e54c0a56c54a9480074"
+      },
+      "ui:서울 인맥왕:/서울 인맥왕": {
+        "source_sha256": "05a9b2678303632a7254611c65edb33664661841a030c057f0eb92ad642973ac",
+        "target_sha256": "49061d55ede13a154818fa06f97527cce47b7d917e6434b2efd77b7710e4133d"
+      },
+      "ui:선을 지킨 사람:/선을 지킨 사람": {
+        "source_sha256": "502bb2943516b7f2e8a3ed785728ba316c9fc9b8745de859a060b85a921c1875",
+        "target_sha256": "8db0f9504fb46146e86e7cc540d402bcd295722966e1626e60fee41582c728dc"
+      },
+      "ui:수첩의 다음 장:/수첩의 다음 장": {
+        "source_sha256": "c3ed6cab9f0b362314f0459a59312f74743a2ab8715b12f4372f58a1bf1c739c",
+        "target_sha256": "48256c0b128c5bdf6619cf809235534a5182de75e4b23e1625821a0639c252a2"
+      },
+      "ui:아버지와 화해했다. 둘 사이의 침묵이 조금 달라졌다.:/아버지와 화해했다. 둘 사이의 침묵이 조금 달라졌다.": {
+        "source_sha256": "a4dcc883897da44a96be15db5523305ec1cd38cff5dc67eecaf58a12dbd2da7e",
+        "target_sha256": "055f5c020a70ea7832666a34d48e5f231bcecd6aa47ffd472ce54ae9556a9b85"
+      },
+      "ui:엘리트 전문화 선택. 정석의 끝에는 무엇이 있을까.:/엘리트 전문화 선택. 정석의 끝에는 무엇이 있을까.": {
+        "source_sha256": "d16f7c3748a7ce068070351b8ab201b2aafe8eb1745972a2d0ad57daa96733e9",
+        "target_sha256": "12a9dbb3229d8cae59c2f134aaad9572e4b7a31dce1a2e3721694e32d19ed239"
+      },
+      "ui:엘리트의 길:/엘리트의 길": {
+        "source_sha256": "a1830fd0ba3eeda5f6fa0ec1de1961387e7b84f56ac42926c27701f24f679fa5",
+        "target_sha256": "f625148a2a06854dabd6959ea86fecd9c9383d084adc4b0edb94a6fd49137bb0"
+      },
+      "ui:의심하는 자:/의심하는 자": {
+        "source_sha256": "6e41b9729b2b949245ca27226d47c6c4a62ec14f2424a397fb35c213e462bc0f",
+        "target_sha256": "55f34e3426e8375d6648cce8695197e88a5c89a29f5590febdb85a6d220b1764"
+      },
+      "ui:창업가 정신:/창업가 정신": {
+        "source_sha256": "7ca734e0600ade2aca1e77445d5f6ef6908e01f514895ee87df006903cea05a7",
+        "target_sha256": "0c94d62ccf01d1840fbb5b3517642ce7275985059098434851fc930109381fae"
+      },
+      "ui:창업형 전문화 선택. 아무것도 없는 곳에서 시작한 사람.:/창업형 전문화 선택. 아무것도 없는 곳에서 시작한 사람.": {
+        "source_sha256": "3db7970aac94f3cc32b8379a32d31e50ed60a6cc3eaf39785e7222feff4274f7",
+        "target_sha256": "c9a6e8fd41b6cbad6bdba1359a6728e7caa2088c300ec5d3417f57106d1b898f"
+      },
+      "ui:청렴한 강남행:/청렴한 강남행": {
+        "source_sha256": "5b00586d3b3d48adf8e5b408cf82973387717117071266a4cf0547510a4cead3",
+        "target_sha256": "e7c40809f4622bdd8bd56d2b3f4241cda31253731f0ff16b44d947f15b5ab30b"
+      },
+      "ui:친구를 경찰에 넘겼다. 옳은 일은 가끔 가장 아픈 일이다.:/친구를 경찰에 넘겼다. 옳은 일은 가끔 가장 아픈 일이다.": {
+        "source_sha256": "4657171d3ab49c4ff1ae5853cde0bd142960fe2ff0e72cd7473d94b32379f8cc",
+        "target_sha256": "e2344b2d3076138808c298994704c5ad74326e6ece02ff40c038116fce5470f4"
+      },
+      "ui:친구의 경고를 흘려듣지 않았다. 의심은 때로 우정의 다른 이름이다.:/친구의 경고를 흘려듣지 않았다. 의심은 때로 우정의 다른 이름이다.": {
+        "source_sha256": "ee40c014822abd8280aa48309f8feb0fca4b85bd38fd16d1137ea031d1d49755",
+        "target_sha256": "21bf75d17652e180dfa185344a860588a0be2432515625440f35ace7974d5341"
+      },
+      "ui:퀀트 마인드:/퀀트 마인드": {
+        "source_sha256": "1ea2f6cc5e2ab59c2db243fffe59ba9a362a460b04c43d645122a92ea11b922e",
+        "target_sha256": "06bd81b0128054b7b2c0f3683e6869ce344de8b47c0ca2d74ff04f539f5e8f48"
+      },
+      "ui:퀀트형 전문화 선택. 시장을 수식으로 본다.:/퀀트형 전문화 선택. 시장을 수식으로 본다.": {
+        "source_sha256": "e446fc08681c9ca4fc4b19305ecae809f13cc1ed7e6d83b1a6af1df40a3ea9d2",
+        "target_sha256": "fb963fee3a6c66a4edd7f83df4f4ef8271940b5820e21149d6513536ef36aa4d"
       }
     },
     "zh-TW": {
@@ -159302,10 +159516,98 @@
       "ui:희귀:/희귀": {
         "source_sha256": "cb0665fd003fb62516cdf3d82b7bb6336102b393afd8c751f0dc2ea66862f1b5",
         "target_sha256": "068a10514da60257e66d1afe8d904d3a99452fea019026cdcc46dec5d45c8d01"
+      },
+      "ui:30억과 강남의 등기를 손에 쥔 뒤, 하지 않았던 일들을 돌아보며 오래된 수첩의 다음 장을 폈다.:/30억과 강남의 등기를 손에 쥔 뒤, 하지 않았던 일들을 돌아보며 오래된 수첩의 다음 장을 폈다.": {
+        "source_sha256": "f6d7f5d884b0cf9c3f162b82824706f28ab9868407f917cf289d14ad118f4f82",
+        "target_sha256": "6f2d7d663722eb2699a49503f2063d35655588c06aa76ad7359eeb4a02d55892"
+      },
+      "ui:가장 어려울 때 쉬운 돈을 거절했다. 그 선택이 모든 것의 시작이었다.:/가장 어려울 때 쉬운 돈을 거절했다. 그 선택이 모든 것의 시작이었다.": {
+        "source_sha256": "b26177dbbc47057661a162ce48baae8814842aad4fd49027d184ac47b9f0d1ad",
+        "target_sha256": "198f4711d551eddd7c895e368fc79a5e4877d63434a4943a6b12ff77e9c43378"
+      },
+      "ui:갈림길에서 다은을 붙잡았다. 강남보다 먼저 잡은 것.:/갈림길에서 다은을 붙잡았다. 강남보다 먼저 잡은 것.": {
+        "source_sha256": "adfe69703ea646893046d20a4a14dc95fdffc97df44c10245dd6b0b63a9ed571",
+        "target_sha256": "3cef9ae2cfa525960a906e54c9767fdcffb206bd830fe85273a2badb7291b6d9"
+      },
+      "ui:그날 밤의 선택:/그날 밤의 선택": {
+        "source_sha256": "2ff2d421bdd2a6e1aa166e729d6112c608e2fec9b9e3cdfbc65abc2a7ee67a64",
+        "target_sha256": "d9edd455a3924a83eac8ae29cfb7ce265aa7472bc9d2ced61e97e824eb5f6a1d"
+      },
+      "ui:도박판에서 손을 떼겠다고 시작한 인생. 마지막에 남은 자산은 30억 이상이었다.:/도박판에서 손을 떼겠다고 시작한 인생. 마지막에 남은 자산은 30억 이상이었다.": {
+        "source_sha256": "60d410961b2231db42bbabd102e723ceca93efc068b1ea8c844f71fd2eb4ed0f",
+        "target_sha256": "dc621d39b43f86efab7f6c9099ba6d2e4d31b22b6031a7423d935c5568392c64"
+      },
+      "ui:마지막 봄:/마지막 봄": {
+        "source_sha256": "060b83120319230321a89c08ccf5d9f10c2b4077f07c57239318962681d1ba4c",
+        "target_sha256": "785484c16bdd375042e343c4850264c10571f4574438467bf8c0101ec63f87ee"
+      },
+      "ui:맺어 온 인연을 따라 강남에 들어섰다. 결국 사람이 가장 큰 자산이었다.:/맺어 온 인연을 따라 강남에 들어섰다. 결국 사람이 가장 큰 자산이었다.": {
+        "source_sha256": "b14032e9b337797d98e029e5d8c90d71e629a250eb2b7afffe08f32daaf6ca1d",
+        "target_sha256": "0fb316c271eba1459ae96f2d21b7f42d302660a0b9a4ae595d6fb90dec2321b5"
+      },
+      "ui:사랑을 택한 사람:/사랑을 택한 사람": {
+        "source_sha256": "65410710e17acc9a41a8ee738d1f987c19efc25e597d7ddf2ae220d322f92bea",
+        "target_sha256": "ca2be1de9ab0f2e6d13c90d84768f483ab7da47f5904d374e188a7619089be3f"
+      },
+      "ui:서울 인맥왕:/서울 인맥왕": {
+        "source_sha256": "05a9b2678303632a7254611c65edb33664661841a030c057f0eb92ad642973ac",
+        "target_sha256": "70aaeb5116b3979189a3d3399fa26adf0e3af6cf1322b48d776643922430d931"
+      },
+      "ui:선을 지킨 사람:/선을 지킨 사람": {
+        "source_sha256": "502bb2943516b7f2e8a3ed785728ba316c9fc9b8745de859a060b85a921c1875",
+        "target_sha256": "4ece362e1907a81fd4eccc3e57d1733025c922769e2bc6cbcfa0c5f7584b32ff"
+      },
+      "ui:수첩의 다음 장:/수첩의 다음 장": {
+        "source_sha256": "c3ed6cab9f0b362314f0459a59312f74743a2ab8715b12f4372f58a1bf1c739c",
+        "target_sha256": "5c53a20a3bb7c4f731857d2d76db1061fe36d49a5cfb1d39c0439add14962d8c"
+      },
+      "ui:아버지와 화해했다. 둘 사이의 침묵이 조금 달라졌다.:/아버지와 화해했다. 둘 사이의 침묵이 조금 달라졌다.": {
+        "source_sha256": "a4dcc883897da44a96be15db5523305ec1cd38cff5dc67eecaf58a12dbd2da7e",
+        "target_sha256": "a6796f560c357e10922c78e148e9875e79423b9c9dea4ba4c94d773060a49276"
+      },
+      "ui:엘리트 전문화 선택. 정석의 끝에는 무엇이 있을까.:/엘리트 전문화 선택. 정석의 끝에는 무엇이 있을까.": {
+        "source_sha256": "d16f7c3748a7ce068070351b8ab201b2aafe8eb1745972a2d0ad57daa96733e9",
+        "target_sha256": "7bf216a0dc52b1fe41e5cf4964b950440b6b1486de23f4643607cab22b5f5274"
+      },
+      "ui:엘리트의 길:/엘리트의 길": {
+        "source_sha256": "a1830fd0ba3eeda5f6fa0ec1de1961387e7b84f56ac42926c27701f24f679fa5",
+        "target_sha256": "1ba52a2777bcbe4b19e4ce796082018e0b916b994ce6057fcd0d27836b5c5251"
+      },
+      "ui:의심하는 자:/의심하는 자": {
+        "source_sha256": "6e41b9729b2b949245ca27226d47c6c4a62ec14f2424a397fb35c213e462bc0f",
+        "target_sha256": "1fc8a6dbae07bf27e2dfd4c34649a555529a1525e2f09d0c976812e66de0b871"
+      },
+      "ui:창업가 정신:/창업가 정신": {
+        "source_sha256": "7ca734e0600ade2aca1e77445d5f6ef6908e01f514895ee87df006903cea05a7",
+        "target_sha256": "1d7401f631bff051f4af93da71b09dd0de659f36250d718edb02afa6f410f75c"
+      },
+      "ui:창업형 전문화 선택. 아무것도 없는 곳에서 시작한 사람.:/창업형 전문화 선택. 아무것도 없는 곳에서 시작한 사람.": {
+        "source_sha256": "3db7970aac94f3cc32b8379a32d31e50ed60a6cc3eaf39785e7222feff4274f7",
+        "target_sha256": "eafdb6aa435e63deba02148e957aeee6c5953b6947867b59595b2aaa4dfe9d51"
+      },
+      "ui:청렴한 강남행:/청렴한 강남행": {
+        "source_sha256": "5b00586d3b3d48adf8e5b408cf82973387717117071266a4cf0547510a4cead3",
+        "target_sha256": "e7c40809f4622bdd8bd56d2b3f4241cda31253731f0ff16b44d947f15b5ab30b"
+      },
+      "ui:친구를 경찰에 넘겼다. 옳은 일은 가끔 가장 아픈 일이다.:/친구를 경찰에 넘겼다. 옳은 일은 가끔 가장 아픈 일이다.": {
+        "source_sha256": "4657171d3ab49c4ff1ae5853cde0bd142960fe2ff0e72cd7473d94b32379f8cc",
+        "target_sha256": "556e0b204a32fe568838e256534f543a6cef28ee010077ec2fc36fec20600ae7"
+      },
+      "ui:친구의 경고를 흘려듣지 않았다. 의심은 때로 우정의 다른 이름이다.:/친구의 경고를 흘려듣지 않았다. 의심은 때로 우정의 다른 이름이다.": {
+        "source_sha256": "ee40c014822abd8280aa48309f8feb0fca4b85bd38fd16d1137ea031d1d49755",
+        "target_sha256": "e023806d25352a7a193d5664993dfaafb92c3e8a24a1b84b7ea3d98c7d32def9"
+      },
+      "ui:퀀트 마인드:/퀀트 마인드": {
+        "source_sha256": "1ea2f6cc5e2ab59c2db243fffe59ba9a362a460b04c43d645122a92ea11b922e",
+        "target_sha256": "ab4b8c8e4ca96149d4023499cf0f3009f7773a6798044f812ea48de5dfbb64bf"
+      },
+      "ui:퀀트형 전문화 선택. 시장을 수식으로 본다.:/퀀트형 전문화 선택. 시장을 수식으로 본다.": {
+        "source_sha256": "e446fc08681c9ca4fc4b19305ecae809f13cc1ed7e6d83b1a6af1df40a3ea9d2",
+        "target_sha256": "1b3967fe87cedcee015fe9f257ec258f27a4e5d532d23c392e2ffd73e7a93d09"
       }
     }
   },
-  "accepted_sha256": "3baa05aa529b3ba31a4ddf5c3f5b2c8ddfc1f03c9717f09015b41a264591d31a",
+  "accepted_sha256": "bd0eb0704043704c220081e83e1f59182e8163bc1831bb9e73931abef7b2a20b",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {

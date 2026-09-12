@@ -152,8 +152,10 @@ skipped이며 업로드 파일도 없었다. 이 새 원인은 별도 좁은 수
   격리415(기존410+신규5)를 통과했으며 조건6·성공fullstate21은 nested로 구분한다.
   설명 수리254는 독립 내부GO로 닫았다. 이어 남은11칭호 name/desc22면의 JA/CN/TW66을
   직접 번역·독립 전량 검토하고 UI3에 추가했다. 첫66 L1 오류0·현재 수집2974를 확인했지만
-  공식 추가수용0·실제520 미실행이다. bonus/top버튼 미번역·갱신도 별도다. 다음 표시 계약은
-  해당 소비자 검증·수용과
+  이어 clean04087a4의 첫actual520 PASS·공식22×3 export/check/import로66을 더했다.
+  현재38944(JA12980/CN·TW12982)/b104/meta9, 이전38878 raw역복원exact다. source26·기존역사와
+  원형415 기대를 보존하며 신규105·조건160 nested를 별도 셈한다. 전체수용 회귀와 최종독립
+  판정은 후속이다. bonus/top버튼 미번역·갱신도 별도다. 다음 표시 계약은 해당 표시 계층과
   `_localized_route_label/_localized_profile_label/_roll_run_theme`,
   `HoldemClub._fmt`의 non-KO=EN 분기를 개별 표시 계약으로 검사한다.
   `GameState.tendency_name/tendency_desc`는 외부 caller0인 휴면 호환 helper다.
