@@ -8822,6 +8822,12 @@ def validate_text(lang: str, key: str, source: str, target: Any) -> list[str]:
     two_paths_numbers = _ui_two_paths_title_numbers(lang, key, source, target)
     if two_paths_numbers is not None:
         notice_numbers = two_paths_numbers
+    # ORDER-252: reuse the exact-leaf contract only for numeric comparison.
+    # Keep the original key and prose for every independent check below.
+    from full_game_localization import _ui_dice_title_numbers
+    dice_numbers = _ui_dice_title_numbers(lang, key, source, target)
+    if dice_numbers is not None:
+        notice_numbers = dice_numbers
     if notice_numbers is None:
         errors.extend(_numeric_errors(source, target))
     else:

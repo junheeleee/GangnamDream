@@ -44,3 +44,13 @@ source/key OFF는 원래 직접 validator 진단과 같아야 한다. 영수증�
 기존 component 증거를 재사용하며 로컬 full audit·240주·새 Godot 실행0이다.
 독립 작업단위 판정 후 닫는다. 일회성 연결 수리이며 새 일반 숫자 규범은 없다.
 공개GO1·인간OPEN45·본편HOLD 및 원어민/렌더/인간 관찰 미실시는 유지한다.
+
+## 첫 표적 관측
+
+고정 direct16/static4의 첫 baseline은 정상 각각0/2이며 유효변조0이다.
+원형 `order252-baseline-first.json` SHA58a5a5e3, exit0은 capture 성공만 뜻한다.
+그 뒤 numeric hook6줄을 적용했고 제거하면 이전 ZH1684275B/SHA7e57de05로 exact 복원된다.
+첫 post `order252-post-first.json` 401364B/SHA878c2ca90f244414d8af9dcec7d2a67d1b6611976d71155175536332fc74fae1:
+exit0/0.527039458초, direct 정상2·유효변조10·OFF4, static 정상2·유효변조2 PASS.
+외부1194/내부10 입력 불변, 실제 canonical forwarding3·provider/cache 복원, 예외0이다.
+최종 clean source의 전체38818 L1·고유12·독립 단위판정은 아직 실행 전이다.

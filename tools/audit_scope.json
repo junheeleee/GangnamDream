@@ -134,6 +134,40 @@
       "why": "Nine minigame titles,18 source surfaces and54 direct-Korean targets. Current source23 (normal3/negative19/OFF1) precedes frozen historical24819/24524/24418. Isolated actual405=old310 (295 direct/15 validated history)+new95, with180 nested condition/mastery vectors separate. Preserve source debt, producer/counter/gameplay/save semantics; no audit.sh change, local full audit, native/render or full-product claim."
     },
     {
+      "id": "direct-dice-title-consumer",
+      "paths": [],
+      "owned_paths": [
+        "tools/zh_translation_audit.py",
+        "tools/zh_dice_title_consumer_self_test.py",
+        "tools/audit_scope.json",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/queue_active/ORDER-252.md",
+        "docs/queue_archive/ORDER-252.md",
+        "docs/queue_active/ORDER-250.md",
+        "docs/queue_active/ORDER-251.md",
+        "docs/WORK_LOG.md",
+        "docs/STATUS.md",
+        "docs/queue_backlog/FULL_GAME_LOCALIZATION.md",
+        "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-252.json"
+      ],
+      "tools": [
+        "tools/zh_dice_title_consumer_self_test.py",
+        "tools/meta_title_locale_successor_self_test.py",
+        "tools/ja_translation_pipeline.py --self-test",
+        "tools/ja_translation_audit.py --scope ui",
+        "tools/full_game_localization_self_test.py",
+        "tools/zh_translation_audit.py --self-test",
+        "tools/en_coverage_check.py",
+        "tools/queue_index_self_test.py",
+        "tools/agent_review_decisions_self_test.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "One direct Chinese numeric consumer reuses the exact existing dice-title helper. Frozen direct and isolated static-function controls precede the same actual live UI audit. Shared final unique12 includes previous named11 plus one registered regression; preserve first10/11 failure and original source/targets/38818 receipts. Generic numeric grammar, runtime405 inputs and human gates unchanged."
+    },
+    {
       "id": "asset-life-meta-title-localization",
       "paths": [],
       "owned_paths": [
@@ -2497,6 +2531,18 @@
       "tool": "tools/zh_translation_audit.py --self-test-font-route",
       "paths": [],
       "why": "고정 중국어 폰트 경로 정상·반례 및 실제6글자 정적 관측; 전체 번역 collector나 렌더 검수가 아님"
+    },
+    {
+      "tool": "tools/zh_dice_title_consumer_self_test.py",
+      "why": "Exact dice-title direct validator and isolated static UI function regression; does not replace live full UI coverage or native/rendered review",
+      "paths": [
+        "tools/zh_dice_title_consumer_self_test.py",
+        "tools/zh_translation_audit.py",
+        "tools/full_game_localization.py",
+        "tools/ja_translation_pipeline.py",
+        "locale/ui_zh-CN.json",
+        "locale/ui_zh-TW.json"
+      ]
     },
     {
       "tool": "tools/zh_translation_audit.py --self-test",
