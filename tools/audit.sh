@@ -472,7 +472,8 @@ python3 tools/demo_localization_scope.py --self-test
 DEMO_I18N_SELF_TEST_EXIT=$?
 python3 tools/ci_localization_reconciliation_self_test.py
 CI_LOCALIZATION_RECONCILIATION_EXIT=$?
-python3 tools/meta_title_locale_history_self_test.py
+# Current title successor controls plus explicitly historical, unchanged old18.
+python3 tools/meta_title_locale_successor_self_test.py
 META_TITLE_HISTORY_RECONCILIATION_EXIT=$?
 python3 tools/demo_prose_style_audit.py --self-test
 DEMO_PROSE_STYLE_EXIT=$?

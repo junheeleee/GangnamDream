@@ -64,7 +64,23 @@ source 유한군·L1 같은60·actual old100/new100 → 공식 export/check/impo
 이전 CI는 exact243/244 후보에만 묶으며 새source의 성공으로 재사용하지 않는다.
 추가 실패 범위는 별도 작은 선언으로 분리한다. 기존 인간 판정 승격/출시 권한0.
 
-## RO 근거
+## 첫 실행과 잔여 게이트
+
+- 최종 번역표60은 독립 전량 승인(c8b05761), UI3 기존 키 수정0·추가20씩이다.
+- 첫 L1 collector는 Path 미정의로 도달0(44e047e0). 새 span 안 import1행만
+  수리해 JA173228d3/helper5dc0f6dd로 재결속했다. 재실행60은58통과/2수량오탐
+  (c538abdd): 원문 ‘두 길 사이’의 CN/TW 숫자2를 발명으로 오인한다.
+  번역은 정확하므로 별도 작은 수량검사 수리를 선언한 뒤 같은60을 재검증한다.
+- actual200 첫 실행02c6b566·26.43초·exit0: old100(95current+5history), new100,
+  restored1·19입력 전후exact·두 log 오류0. 독립 readback66f2f346 필수0.
+- 첫 source self37a134fe는 raw/registry18통과, semantic6은 호출수38가정에서
+  미도달, 역사18 실행0이다. 전체 MP에는 기존 get_mastery_label5를 포함해43이
+  있다. guard만43/20/23으로 바로잡은 동일24는 전부 통과했고, 별도 역사18도
+  통과했다(03648349, 11입력exact). 실패와 사전24 기대는 유지한다.
+- 공식 export/check/import·portable 추가60·전체수용L1·최종named·단위판정은
+  아직 미실행이다. 수용38638/b99/meta9, 공개GO1/인간OPEN45/본편HOLD 유지.
+
+## 사전 근거
 
 - private `order244-next-title-history-scope.md`: 87572979ec415372692136a714f8e47b96ad16f9f2208700cc02ca82b2a89af1
 - private `order244-next-meta-title-consumer-plan.json`: f615e97c910e3112224a95c24d14ff6fc6e38af429d7b5ed3bfb18c5e1cb476e

@@ -25,6 +25,8 @@ if match is None:
 script = json.loads(match.group(1))
 if not re.search(r"(?m)^const FIXTURE_APPROVED := true$", script):
     parser.error("reviewed fixture not frozen; no engine launched")
+if not re.search(r"(?m)^const NEXT_FIXTURE_APPROVED := true$", script):
+    parser.error("reviewed next20 fixture not frozen; no engine launched")
 # Import only existing platform namespace/process/storage helpers; no self-test.
 sys.dont_write_bytecode = True
 spec = importlib.util.spec_from_file_location(
@@ -99,6 +101,8 @@ engine = engine_file.read_text(encoding="utf-8", errors="replace") if engine_fil
 combined = stdout + "\n" + stderr + "\n" + engine
 marker = "META_TITLE_CHECK_OK cases=100 locales=5 selected=9 unselected=41 conditions=20 shared_readers=2 isolation=preautoload rendered=0"
 markers = re.findall(r"(?m)^META_TITLE_CHECK_OK[^\r\n]*$", stdout)
+next_marker = "META_TITLE_NEXT_CHECK_OK cases=100 locales=5 selected=10 preserved=40 conditions=23 isolation=preautoload rendered=0"
+next_markers = re.findall(r"(?m)^META_TITLE_NEXT_CHECK_OK[^\r\n]*$", stdout)
 failure_pattern = re.compile(
     r"META_TITLE_CHECK_FAIL|STORY_NAMEPLATE_CHECK_FAIL|SCRIPT ERROR|Parse Error|"
     r"Compile Error|Failed to load script|\bERROR:|ObjectDB instances leaked|resources still in use",
@@ -106,13 +110,17 @@ failure_pattern = re.compile(
 storage, storage_error = safe.validated_storage(stdout, qa_user)
 case_lines = re.findall(r"(?m)^META_TITLE_CASE (.+)$", stdout)
 cases = []
+next_cases = []
 try:
     cases = [json.loads(line) for line in case_lines]
+    next_cases = [json.loads(line) for line in re.findall(r"(?m)^META_TITLE_NEXT_CASE (.+)$", stdout)]
 except ValueError as exc:
     result["case_json_error"] = repr(exc)
 locales = ["ko", "en", "ja", "zh-CN", "zh-TW"]
 families = ["selected/gosiwon_survivor","selected/first_move","selected/apartment_life","selected/gangnam_resident","selected/long_gosiwon","selected/first_paycheck","selected/one_year_worker","selected/three_year_worker","selected/long_unemployed","unselected41","unknown_custom","collection_locked","collection_unlocked","condition_boundaries","unlock_return_duplicate","unlock_toast_log","unlock_toast_no_log","ending_cards","language_storage","shared_gosiwon_readers"]
 expected_ids = {locale + "/" + family for locale in locales for family in families}
+next_families = ["next10/selected/steady_youth","next10/selected/elite_course","next10/selected/outsider_title","next10/selected/dangerous_dreamer","next10/selected/my_own_way","next10/selected/free_spirit","next10/selected/seoul_love","next10/selected/social_king_title","next10/selected/loner_title","next10/selected/stress_survivor","next10/preserved_old9_remaining31","next10/unknown_custom","next10/collection_locked","next10/collection_unlocked","next10/condition_boundaries","next10/unlock_split_duplicate","next10/unlock_toast_log","next10/unlock_toast_no_log","next10/ending_cards","next10/language_storage"]
+next_expected_ids = {locale + "/" + family for locale in locales for family in next_families}
 after = pins()
 passed = (result["status"] == "completed" and proc.returncode == 0 and not group_error
           and engine_file.is_file() and not failure_pattern.search(combined)
@@ -120,10 +128,15 @@ passed = (result["status"] == "completed" and proc.returncode == 0 and not group
           and re.findall(r"(?m)^META_TITLE_STATE_RESTORED=(.*)$", stdout) == ["1"]
           and len(cases) == 100 and {c.get("id") for c in cases} == expected_ids
           and all(c.get("pass") is True and c.get("state_ok") is True for c in cases)
+          and next_markers == [next_marker]
+          and len(next_cases) == 100 and {c.get("id") for c in next_cases} == next_expected_ids
+          and all(c.get("pass") is True and c.get("state_ok") is True for c in next_cases)
           and before == after)
 result.update(status="passed" if passed else "failed", engine_exit=proc.returncode,
               group_error=group_error, storage_error=storage_error, cases=cases,
-              markers=markers, source_after=after, source_files_unchanged=before == after,
+              markers=markers, next_markers=next_markers, next_cases=next_cases,
+              population_boundary="old100 (95 direct+5 validated history) and next100 distinct",
+              source_after=after, source_files_unchanged=before == after,
               storage_retained=str(qa_user), whole_self_or_audit=False,
               boundary="Fixed actual-caller regression only; no whole-title/UI/render/native/full-game GO.")
 (evidence / "runner_result.json").write_text(

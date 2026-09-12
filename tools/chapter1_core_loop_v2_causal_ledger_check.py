@@ -33,6 +33,7 @@ from unittest.mock import patch
 
 import main_game_locale_history as locale_history
 import meta_title_locale_history as meta_title_history
+import meta_title_locale_successor as title_successor
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -4462,6 +4463,27 @@ def _order243_main_source_errors(
         registered_order156)
 
 
+def _order245_meta_source_errors(
+        relative: str, raw: bytes, registered_old: str) -> list[str]:
+    errors = title_successor.successor_source_errors(relative, raw)
+    if errors:
+        return errors
+    predecessor = title_successor.successor_project_bytes(raw, relative)
+    return meta_title_history.meta_title_history_source_errors(
+        relative, predecessor, registered_old)
+
+
+def _order245_meta_observed_hash(claim: str, relative: str, raw: bytes) -> str:
+    if title_successor.successor_source_errors(relative, raw):
+        return claim
+    predecessor = title_successor.successor_project_bytes(raw, relative)
+    previous_claim = title_successor.successor_project_byte_hash(claim, relative, raw)
+    if previous_claim == claim:
+        return claim
+    return meta_title_history.meta_title_history_project_byte_hash(
+        previous_claim, relative, predecessor)
+
+
 def _audited_source_snapshot_errors(
         source_hashes: dict[str, str]) -> list[str]:
     errors: list[str] = []
@@ -4469,7 +4491,7 @@ def _audited_source_snapshot_errors(
     if meta_title_history.META_TITLE_PATH in source_hashes:
         try:
             meta_title_raw = (ROOT / meta_title_history.META_TITLE_PATH).read_bytes()
-            errors.extend(meta_title_history.meta_title_history_source_errors(
+            errors.extend(_order245_meta_source_errors(
                 meta_title_history.META_TITLE_PATH, meta_title_raw,
                 source_hashes[meta_title_history.META_TITLE_PATH]))
         except OSError as exc:
@@ -4556,7 +4578,7 @@ def _audited_source_snapshot_errors(
                     expected_digest = successor[1]
             observed_digest = _file_digest(relative_path)
             if relative_path == meta_title_history.META_TITLE_PATH and meta_title_raw is not None:
-                observed_digest = meta_title_history.meta_title_history_project_byte_hash(
+                observed_digest = _order245_meta_observed_hash(
                     observed_digest, relative_path, meta_title_raw)
             if order215_modal_project_byte_hash(
                     order220_preview_project_byte_hash(

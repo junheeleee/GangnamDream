@@ -14,6 +14,48 @@
   ],
   "fast_lanes": [
     {
+      "id": "next-meta-title-localization",
+      "paths": [],
+      "owned_paths": [
+        "autoloads/MetaProgression.gd",
+        "tools/ja_translation_pipeline.py",
+        "tools/meta_title_locale_successor.py",
+        "tools/meta_title_locale_successor_self_test.py",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/MetaTitleLocaleCheck.tscn",
+        "tools/run_meta_title_locale_qa.sh",
+        "locale/ui_ja.json",
+        "locale/ui_zh-CN.json",
+        "locale/ui_zh-TW.json",
+        "content/meta/full_game_localization.json",
+        "tools/audit.sh",
+        "tools/audit_scope.json",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/queue_active/ORDER-245.md",
+        "docs/queue_archive/ORDER-245.md",
+        "docs/WORK_LOG.md",
+        "docs/history/WORK_LOG_2026-09-12_localization.md",
+        "docs/STATUS.md",
+        "docs/queue_backlog/FULL_GAME_LOCALIZATION.md",
+        "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-245.json"
+      ],
+      "tools": [
+        "tools/meta_title_locale_successor_self_test.py",
+        "tools/ja_translation_pipeline.py --self-test",
+        "tools/ja_translation_audit.py --scope ui",
+        "tools/full_game_localization_self_test.py",
+        "tools/zh_translation_audit.py --self-test",
+        "tools/en_coverage_check.py",
+        "tools/queue_index_self_test.py",
+        "tools/agent_review_decisions_self_test.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Twenty name/description surfaces of ten existing personality/relationship/life titles. Current source controls and historical old18 are distinct populations; original runtime100 and new100 run once separately in the isolated title runner. No repeated Chapter590/local full audit, condition/save changes, or native/rendered/full-product claim."
+    },
+    {
       "id": "meta-title-history-reconciliation",
       "paths": [],
       "owned_paths": [
@@ -35,7 +77,7 @@
         "docs/agent_reviews/ORDER-244.json"
       ],
       "tools": [
-        "tools/meta_title_locale_history_self_test.py",
+        "tools/meta_title_locale_successor_self_test.py",
         "tools/chapter1_core_loop_v2_causal_ledger_check.py",
         "tools/chapter1_core_loop_v2_causal_ledger_check.py --self-test",
         "tools/queue_index_self_test.py",
@@ -1104,9 +1146,11 @@
   ],
   "checks": [
     {
-      "tool": "tools/meta_title_locale_history_self_test.py",
-      "why": "Validate the current title lookup before a unique exact inverse for historical source observation; reject rollback, tampered source/registry and forged digest without changing old baseline pins.",
+      "tool": "tools/meta_title_locale_successor_self_test.py",
+      "why": "Current successor controls and unchanged old18 in an explicitly historical fixture wrapper; physical source pins stay separate from predecessor fixture observations. Preserve old raw authority, strict semantic owner checks and forged-digest rejection.",
       "paths": [
+        "tools/meta_title_locale_successor.py",
+        "tools/meta_title_locale_successor_self_test.py",
         "tools/meta_title_locale_history.py",
         "tools/meta_title_locale_history_self_test.py",
         "tools/chapter1_core_loop_v2_causal_ledger_check.py",

@@ -706,6 +706,36 @@ func _localized_title(title: Dictionary) -> Dictionary:
 		"long_unemployed":
 			localized["name"] = LocaleManager.ui("백수의 자유", "Freedom of Unemployment")
 			localized["desc"] = LocaleManager.ui("12개월을 무직으로 버텼다. 누군가는 백수라 하고 누군가는 자유인이라 한다.", "Stayed unemployed for 12 months. Some call it joblessness. Some call it freedom.")
+		"steady_youth":
+			localized["name"] = LocaleManager.ui("놓인 계단", "The Stairs Already There")
+			localized["desc"] = LocaleManager.ui("낯선 지름길보다 이미 놓인 계단을 골라, 한 걸음씩 올라왔다.", "You kept choosing the stairs already there over unfamiliar shortcuts, one step at a time.")
+		"elite_course":
+			localized["name"] = LocaleManager.ui("오래 오른 계단", "The Long Climb")
+			localized["desc"] = LocaleManager.ui("같은 계단을 오래 올랐다. 익숙해진 풍경만큼 지나친 갈림길도 남았다.", "You stayed on the same staircase for a long time. The view grew familiar, and some turnoffs slipped behind you.")
+		"outsider_title":
+			localized["name"] = LocaleManager.ui("다른 출구", "Another Exit")
+			localized["desc"] = LocaleManager.ui("사람들이 몰린 방향에서 벗어나, 다른 출구를 여러 번 골랐다.", "More than once, you stepped away from the crowd and chose another exit.")
+		"dangerous_dreamer":
+			localized["name"] = LocaleManager.ui("지도 밖의 길", "Beyond the Map")
+			localized["desc"] = LocaleManager.ui("지도에 없는 길을 오래 걸었다. 발밑이 흔들린 날에도 방향을 쉽게 바꾸지 않았다.", "You stayed on roads the map did not show, even on days when the ground felt uncertain.")
+		"my_own_way":
+			localized["name"] = LocaleManager.ui("두 길 사이", "Between Two Roads")
+			localized["desc"] = LocaleManager.ui("이미 놓인 길과 지도 밖의 길을 오갔다. 어느 한쪽만으로는 이 5년을 설명할 수 없다.", "You moved between the road already laid out and the road beyond the map. Neither one alone explains these five years.")
+		"free_spirit":
+			localized["name"] = LocaleManager.ui("비어 있던 오후", "An Afternoon of Your Own")
+			localized["desc"] = LocaleManager.ui("한강과 편의점, 오래 걷던 길에서 누구의 일정도 아닌 시간을 보냈다.", "By the Han River, at convenience stores, and on long walks, you spent time that belonged to no one else's schedule.")
+		"seoul_love":
+			localized["name"] = LocaleManager.ui("서울에서 사랑", "Love in Seoul")
+			localized["desc"] = LocaleManager.ui("이 복잡한 도시에서도 사람을 좋아하게 됐다.", "Even in this complicated city, you came to care for someone.")
+		"social_king_title":
+			localized["name"] = LocaleManager.ui("낯익은 자리들", "Familiar Seats")
+			localized["desc"] = LocaleManager.ui("서울 곳곳에 먼저 인사를 건네고 자리를 내어 주는 사람들이 생겼다.", "Around Seoul, people began greeting you first and making room when you arrived.")
+		"loner_title":
+			localized["name"] = LocaleManager.ui("혼자 걷는 저녁", "Evenings Walked Alone")
+			localized["desc"] = LocaleManager.ui("연락할 이름이 떠오르지 않는 저녁에도, 혼자 걷는 길은 어느새 익숙해졌다.", "Even on evenings when no one came to mind to call, walking alone had become familiar.")
+		"stress_survivor":
+			localized["name"] = LocaleManager.ui("다음 아침", "The Next Morning")
+			localized["desc"] = LocaleManager.ui("마음이 버티기 어려웠던 밤이 지나고도, 다음 아침은 왔다.", "A night when it was hard to hold yourself together passed, and the next morning still came.")
 	return localized
 
 func check_and_unlock_titles() -> Array:

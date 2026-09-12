@@ -2754,6 +2754,136 @@ def build_ui_context_layers(
     )
 
 
+# BEGIN_META_TITLE_SUCCESSOR_245
+from pathlib import Path
+import meta_title_locale_successor as title_successor
+
+NEXT_META_TITLE_UI_ROWS = title_successor.SOURCE_ROWS
+NEXT_META_TITLE_UI_CURRENT = {
+    "source_calls": 3394, "legacy_calls": 3360, "legacy_api_calls": 3304,
+    "legacy_keys": 2884, "context_calls": 34, "planned_context_ids": 29,
+    "collision_keys": 103, "format_equivalent": 28, "shared_translation": 48,
+    "context_split": 27,
+}
+
+
+def _next_meta_title_predecessor_calls(
+    calls: Iterable[UiCall], source: Optional[str] = None,
+) -> tuple[tuple[UiCall, ...], str, list[str]]:
+    """Validate live raw and twenty owned fields before an old242 observation."""
+    from collections import Counter
+    calls = tuple(calls)
+    source = source if source is not None else (
+        ROOT / title_successor.MP_PATH).read_bytes().decode("utf-8")
+    raw = source.encode("utf-8")
+    errors = title_successor.successor_source_errors(title_successor.MP_PATH, raw)
+    errors.extend(title_successor.successor_source_errors(
+        title_successor.JA_PATH, Path(__file__).read_bytes()))
+    if errors:
+        return calls, source, errors
+    old_source = title_successor.successor_project_bytes(
+        raw, title_successor.MP_PATH).decode("utf-8")
+    expected = Counter((ko, en, "legacy", "") for _tid, _field, ko, en in NEXT_META_TITLE_UI_ROWS)
+    keys = {row[2] for row in NEXT_META_TITLE_UI_ROWS}
+    selected = []
+    historical = []
+    for call in calls:
+        if call.korean in keys:
+            if (call.path, call.function) != META_TITLE_UI_OWNER:
+                errors.append("source: next meta-title unexpected owner")
+            selected.append(call)
+        else:
+            historical.append(call)
+    observed = Counter((c.korean, c.english, c.api, c.context_id) for c in selected)
+    if observed != expected:
+        errors.append("source: next meta-title exact20 pair/API/context/count mismatch")
+    # Whole source authority also binds branch ID, output field and order.
+    if errors:
+        return calls, source, errors
+    return tuple(historical), old_source, []
+
+
+def _next_meta_title_current_stats(
+    calls: Iterable[UiCall], historical: Iterable[UiCall],
+    old_source: str, previous: dict[str, Any],
+) -> tuple[dict[str, Any], list[str]]:
+    calls, historical = tuple(calls), tuple(historical)
+    stats, errors = _meta_title_current_stats(historical, previous, old_source)
+    old_keys = {c.korean for c in historical}
+    variants: dict[str, set[str]] = {}
+    for call in calls:
+        variants.setdefault(call.korean, set()).add(call.english)
+    keys = set(variants)
+    if keys - old_keys != {r[2] for r in NEXT_META_TITLE_UI_ROWS}:
+        errors.append("source: next meta-title expected twenty new unique keys")
+    stats.update({
+        "source_calls": len(calls),
+        "legacy_calls": sum(c.api in {"legacy", "branch", "format"} for c in calls),
+        "legacy_api_calls": sum(c.api == "legacy" for c in calls),
+        "legacy_keys": len(keys),
+        "collision_keys": sum(len(v) > 1 for v in variants.values()),
+    })
+    for key, expected in NEXT_META_TITLE_UI_CURRENT.items():
+        if stats.get(key) != expected:
+            errors.append(f"source: next meta-title current {key} != {expected}")
+    stats.update({
+        "parameter_total_ui_call_occurrences": len(calls),
+        "parameter_legacy_pair_call_occurrences": stats["legacy_calls"],
+        "parameter_legacy_korean_source_keys": len(keys),
+        "parameter_legacy_korean_source_keys_sha256": hashlib.sha256(
+            "\n".join(sorted(keys)).encode("utf-8")).hexdigest(),
+        "meta_title_added_calls": 38, "meta_title_added_keys": 35,
+        "next_meta_title_added_calls": len(calls) - len(historical),
+        "next_meta_title_added_keys": len(keys - old_keys),
+    })
+    return stats, errors
+
+
+def _next_meta_title_historical_checks(
+    inventory: UiInventory,
+) -> tuple[UiInventory, int, list[str]]:
+    """Old20+4 run on an explicitly labelled old242 view, not current counts."""
+    from dataclasses import replace
+    from unittest.mock import patch
+    calls, source, errors = _next_meta_title_predecessor_calls(inventory.calls)
+    errors.extend(title_successor.successor_source_errors(
+        title_successor.JA_PATH, Path(__file__).read_bytes()))
+    if errors:
+        return replace(inventory, errors=tuple([*inventory.errors, *errors])), 0, errors
+    keys = {c.korean for c in calls}
+    stats = dict(inventory.stats)
+    stats.update(META_TITLE_UI_CURRENT)
+    stats.update({
+        "legacy_api_calls": 3284,
+        "parameter_total_ui_call_occurrences": len(calls),
+        "parameter_legacy_pair_call_occurrences": 3340,
+        "parameter_legacy_korean_source_keys": len(keys),
+        "parameter_legacy_korean_source_keys_sha256": hashlib.sha256(
+            "\n".join(sorted(keys)).encode("utf-8")).hexdigest(),
+        "meta_title_added_calls": 18, "meta_title_added_keys": 15,
+    })
+    stats.pop("next_meta_title_added_calls", None)
+    stats.pop("next_meta_title_added_keys", None)
+    historical = replace(
+        inventory, calls=calls, stats=stats,
+        legacy_entries=tuple(e for e in inventory.legacy_entries if e.source in keys),
+        legacy_blueprint={k: v for k, v in inventory.legacy_blueprint.items() if k in keys},
+    )
+    actual_read = Path.read_text
+    owned_path = ROOT / title_successor.MP_PATH
+    def historical_read(path, *args, **kwargs):
+        if path == owned_path:
+            return source
+        return actual_read(path, *args, **kwargs)
+    # Test-only scoped read; no collector/product reads are globally normalized.
+    with patch.object(Path, "read_text", historical_read):
+        old_cases, old_errors = _meta_title_inventory_self_test(historical)
+        retained_cases, retained_errors = _meta_title_retained_owner_self_test(historical)
+        projected = _meta_title_historical_inventory(historical)
+    return projected, old_cases + retained_cases, [*old_errors, *retained_errors]
+# END_META_TITLE_SUCCESSOR_245
+
+
 META_TITLE_UI_OWNER = ("autoloads/MetaProgression.gd", "_localized_title")
 META_TITLE_UI_ROWS = (
     ("gosiwon_survivor", "name", "고시원 생존자", "Gosiwon Survivor"),
@@ -2849,11 +2979,11 @@ def _meta_title_ui_historical_calls(
 
 
 def _meta_title_current_stats(
-    calls: Iterable[UiCall], previous: dict[str, Any],
+    calls: Iterable[UiCall], previous: dict[str, Any], source: Optional[str] = None,
 ) -> tuple[dict[str, Any], list[str]]:
     """Expose current totals without editing a historical manifest or roster."""
     calls = tuple(calls)
-    historical, errors = _meta_title_ui_historical_calls(calls)
+    historical, errors = _meta_title_ui_historical_calls(calls, source)
     stats = dict(previous)
     for key, expected in META_TITLE_UI_BEFORE.items():
         if stats.get(key) != expected:
@@ -2954,7 +3084,9 @@ def collect_ui_inventory(
     errors.extend(dynamic_errors)
     calls.sort(key=lambda call: (call.path, call.line, call.api))
     source_keys = {call.korean for call in calls}
-    historical_calls, title_errors = _meta_title_ui_historical_calls(calls)
+    predecessor_calls, predecessor_source, next_title_errors = _next_meta_title_predecessor_calls(calls)
+    errors.extend(next_title_errors)
+    historical_calls, title_errors = _meta_title_ui_historical_calls(predecessor_calls, predecessor_source)
     errors.extend(title_errors)
     historical_keys = {call.korean for call in historical_calls}
     parameter_errors, parameter_stats = validate_ui_parameterized_contract(
@@ -2969,7 +3101,8 @@ def collect_ui_inventory(
         f"parameter_{key}": value for key, value in parameter_stats.items()
     })
     stats.update(dynamic_stats)
-    stats, title_stat_errors = _meta_title_current_stats(calls, stats)
+    stats, title_stat_errors = _next_meta_title_current_stats(
+        calls, predecessor_calls, predecessor_source, stats)
     errors.extend(title_stat_errors)
 
     legacy_locations: dict[str, set[str]] = {}
@@ -4329,14 +4462,10 @@ def main() -> int:
         cases += 1
         ui_inventory = collect_ui_inventory()
         meta_title_current_inventory = ui_inventory
-        meta_title_cases, meta_title_failures = _meta_title_inventory_self_test(ui_inventory)
+        # Current raw is validated before the explicitly historical old20+4.
+        ui_inventory, meta_title_cases, meta_title_failures = _next_meta_title_historical_checks(ui_inventory)
         cases += meta_title_cases
         failures.extend(meta_title_failures)
-        retained_cases, retained_failures = _meta_title_retained_owner_self_test(ui_inventory)
-        cases += retained_cases
-        failures.extend(retained_failures)
-        # Old fixtures retain their exact pre-title population and expectations.
-        ui_inventory = _meta_title_historical_inventory(ui_inventory)
         failures.extend(
             f"actual UI contract: {error}" for error in ui_inventory.errors
         )
