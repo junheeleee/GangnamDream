@@ -50,7 +50,7 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-254 · 칭호 두 설명 원문 정밀화 | [254](queue_active/ORDER-254.md) | KO/EN4 · 문구/고정18 private 준비 · 조건·수용 불변 |
+| 1 | [~] | ORDER-254 · 칭호 두 설명 원문 정밀화 | [254](queue_active/ORDER-254.md) | KO/EN4 · 첫source18/실제415 PASS · 전체회귀·독립 마감 |
 | 2 | [~] | ORDER-244 · 칭호 원형 검사 정합 | [244](queue_active/ORDER-244.md) | MetaProgression 1원인 · 고정18 · 실패2 재검증 |
 | 3 | [~] | ORDER-243 · 현지화 CI 정합 | [243](queue_active/ORDER-243.md) | 이전 CI5실패·원인3 표적 수리 · 본편 HOLD |
 

@@ -146,7 +146,11 @@ skipped이며 업로드 파일도 없었다. 이 새 원인은 별도 좁은 수
   핵심 라벨110비교는 두 해금 상태의 nested이며 별도 실행 수가 아니다.
   같은clean3369477에서 공식20×3 export/check/import, changed_files0·1194입력 불변이다.
   전체 수용 회귀·최종 독립 마감은 다음 증거에 결속하며 원어민·렌더·본편GO가 아니다.
-  남은11칭호의 원문 사실 경계와 bonus/top버튼 미번역·갱신은 별도다. 다음 표시 계약은
+  남은11칭호 중 청렴·아버지 두 설명의 KO/EN4리터럴을 실제 producer와 맞췄다.
+  청렴 시작의 의사·종료 자산과 과거 화해를 남기고 무도박 완주·벚꽃 전 시한은 거뒀다.
+  이름·조건·UI·수용38878 원형은 불변이다. 첫source18/보존역사23·19·24·18과
+  격리415(기존410+신규5)를 통과했으며 조건6·성공fullstate21은 nested로 구분한다.
+  새로운JA/ZH 번역은 아직0이고 bonus/top버튼 미번역·갱신도 별도다. 다음 표시 계약은
   같은 함수의 나머지 칭호와
   `_localized_route_label/_localized_profile_label/_roll_run_theme`,
   `HoldemClub._fmt`의 non-KO=EN 분기를 개별 표시 계약으로 검사한다.
