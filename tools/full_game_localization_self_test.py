@@ -14,6 +14,621 @@ import full_game_localization as tool
 
 
 class ExchangeTests(unittest.TestCase):
+    def test_order249_ja_life_count_frozen33(self):
+        """One source-bound regression; 33 frozen rows, not 33 suite tests."""
+        import contextlib
+        import dataclasses
+        import hashlib
+        import io
+        import traceback
+
+        # Plato PRECODE33, SHA 5fb3f8438a58df0e7b43d6f9ecacb3b3bfdebd1c6b178bf53c505e363977b099.
+        # ROOT actual baseline, SHA f45d7b1721967c6da0c8255d63db714aa9a8847b2ffa66a54d5195561f3888ee.
+        # Inputs/expectations are literal copies; private files are not runtime dependencies.
+        cases = json.loads(r'''[
+  {
+    "id": "actual_n5",
+    "kind": "normal",
+    "locale": "ja",
+    "key": "ui:다섯 번의 인생:/다섯 번의 인생",
+    "source": "다섯 번의 인생",
+    "target": "5度の人生",
+    "base": null,
+    "reason": "Frozen actual ORDER248 target; count of lives/runs, not years or people.",
+    "expected_adapter_active": true,
+    "expected_helper": "PASS",
+    "expected_full": "PASS"
+  },
+  {
+    "id": "actual_d5",
+    "kind": "normal",
+    "locale": "ja",
+    "key": "ui:다섯 번의 삶을 끝까지 살아냈다. 매번 달랐다.:/다섯 번의 삶을 끝까지 살아냈다. 매번 달랐다.",
+    "source": "다섯 번의 삶을 끝까지 살아냈다. 매번 달랐다.",
+    "target": "5度の人生を最後まで生き抜いた。そのたびに違っていた。",
+    "base": null,
+    "reason": "Frozen actual ORDER248 target; count of lives/runs, not years or people.",
+    "expected_adapter_active": true,
+    "expected_helper": "PASS",
+    "expected_full": "PASS"
+  },
+  {
+    "id": "actual_n10",
+    "kind": "normal",
+    "locale": "ja",
+    "key": "ui:열 번의 인생:/열 번의 인생",
+    "source": "열 번의 인생",
+    "target": "10度の人生",
+    "base": null,
+    "reason": "Frozen actual ORDER248 target; count of lives/runs, not years or people.",
+    "expected_adapter_active": true,
+    "expected_helper": "PASS",
+    "expected_full": "PASS"
+  },
+  {
+    "id": "actual_d10",
+    "kind": "normal",
+    "locale": "ja",
+    "key": "ui:열 번을 살았다. 이제 이 도시의 반복되는 얼굴이 보이기 시작한다.:/열 번을 살았다. 이제 이 도시의 반복되는 얼굴이 보이기 시작한다.",
+    "source": "열 번을 살았다. 이제 이 도시의 반복되는 얼굴이 보이기 시작한다.",
+    "target": "10度の人生を生きた。今は、この街が繰り返し見せる顔に気づき始めている。",
+    "base": null,
+    "reason": "Frozen actual ORDER248 target; count of lives/runs, not years or people.",
+    "expected_adapter_active": true,
+    "expected_helper": "PASS",
+    "expected_full": "PASS"
+  },
+  {
+    "id": "han_five",
+    "kind": "normal",
+    "locale": "ja",
+    "key": "ui:다섯 번의 인생:/다섯 번의 인생",
+    "source": "다섯 번의 인생",
+    "target": "五回の人生",
+    "base": null,
+    "reason": "Native 五 with event/repetition counter 回 preserves five lives.",
+    "expected_adapter_active": true,
+    "expected_helper": "PASS",
+    "expected_full": "PASS"
+  },
+  {
+    "id": "wide_ten",
+    "kind": "normal",
+    "locale": "ja",
+    "key": "ui:열 번의 인생:/열 번의 인생",
+    "source": "열 번의 인생",
+    "target": "１０回の人生",
+    "base": null,
+    "reason": "Fullwidth ten and 回 preserve ten lives.",
+    "expected_adapter_active": true,
+    "expected_helper": "PASS",
+    "expected_full": "PASS"
+  },
+  {
+    "id": "five_value",
+    "kind": "mutant",
+    "locale": "ja",
+    "key": "ui:다섯 번의 인생:/다섯 번의 인생",
+    "source": "다섯 번의 인생",
+    "target": "4度の人生",
+    "base": "actual_n5",
+    "reason": "Five changed to four.",
+    "expected_adapter_active": true,
+    "expected_helper": "REJECT",
+    "expected_full": "REJECT"
+  },
+  {
+    "id": "ten_han_value",
+    "kind": "mutant",
+    "locale": "ja",
+    "key": "ui:열 번의 인생:/열 번의 인생",
+    "source": "열 번의 인생",
+    "target": "九回の人生",
+    "base": "actual_n10",
+    "reason": "Ten changed to nine in written numerals.",
+    "expected_adapter_active": true,
+    "expected_helper": "REJECT",
+    "expected_full": "REJECT"
+  },
+  {
+    "id": "plus_sign",
+    "kind": "mutant",
+    "locale": "ja",
+    "key": "ui:다섯 번의 인생:/다섯 번의 인생",
+    "source": "다섯 번의 인생",
+    "target": "+5度の人生",
+    "base": "actual_n5",
+    "reason": "Added numeric sign.",
+    "expected_adapter_active": true,
+    "expected_helper": "REJECT",
+    "expected_full": "REJECT"
+  },
+  {
+    "id": "wide_minus",
+    "kind": "mutant",
+    "locale": "ja",
+    "key": "ui:열 번의 인생:/열 번의 인생",
+    "source": "열 번의 인생",
+    "target": "－10度の人生",
+    "base": "actual_n10",
+    "reason": "Fullwidth minus changes sign.",
+    "expected_adapter_active": true,
+    "expected_helper": "REJECT",
+    "expected_full": "REJECT"
+  },
+  {
+    "id": "separated_sign",
+    "kind": "mutant",
+    "locale": "ja",
+    "key": "ui:다섯 번의 인생:/다섯 번의 인생",
+    "source": "다섯 번의 인생",
+    "target": "+ 5度の人生",
+    "base": "actual_n5",
+    "reason": "Whitespace must not hide an added sign.",
+    "expected_adapter_active": true,
+    "expected_helper": "REJECT",
+    "expected_full": "REJECT"
+  },
+  {
+    "id": "fraction_count",
+    "kind": "mutant",
+    "locale": "ja",
+    "key": "ui:다섯 번의 인생:/다섯 번의 인생",
+    "source": "다섯 번의 인생",
+    "target": "5.5度の人生",
+    "base": "actual_n5",
+    "reason": "Fractional life count.",
+    "expected_adapter_active": true,
+    "expected_helper": "REJECT",
+    "expected_full": "REJECT"
+  },
+  {
+    "id": "approximate_count",
+    "kind": "mutant",
+    "locale": "ja",
+    "key": "ui:다섯 번의 인생:/다섯 번의 인생",
+    "source": "다섯 번의 인생",
+    "target": "約5度の人生",
+    "base": "actual_n5",
+    "reason": "Approximation replaces exact five.",
+    "expected_adapter_active": true,
+    "expected_helper": "REJECT",
+    "expected_full": "REJECT"
+  },
+  {
+    "id": "lower_bound",
+    "kind": "mutant",
+    "locale": "ja",
+    "key": "ui:열 번의 인생:/열 번의 인생",
+    "source": "열 번의 인생",
+    "target": "10度以上の人生",
+    "base": "actual_n10",
+    "reason": "Count becomes lower bound.",
+    "expected_adapter_active": true,
+    "expected_helper": "REJECT",
+    "expected_full": "REJECT"
+  },
+  {
+    "id": "upper_bound",
+    "kind": "mutant",
+    "locale": "ja",
+    "key": "ui:다섯 번의 인생:/다섯 번의 인생",
+    "source": "다섯 번의 인생",
+    "target": "5度未満の人生",
+    "base": "actual_n5",
+    "reason": "Count becomes upper limit below five.",
+    "expected_adapter_active": true,
+    "expected_helper": "REJECT",
+    "expected_full": "REJECT"
+  },
+  {
+    "id": "year_unit",
+    "kind": "mutant",
+    "locale": "ja",
+    "key": "ui:다섯 번의 인생:/다섯 번의 인생",
+    "source": "다섯 번의 인생",
+    "target": "5年の人生",
+    "base": "actual_n5",
+    "reason": "Repetitions become years.",
+    "expected_adapter_active": true,
+    "expected_helper": "REJECT",
+    "expected_full": "REJECT"
+  },
+  {
+    "id": "person_unit",
+    "kind": "mutant",
+    "locale": "ja",
+    "key": "ui:열 번의 인생:/열 번의 인생",
+    "source": "열 번의 인생",
+    "target": "10人の人生",
+    "base": "actual_n10",
+    "reason": "Repeated lives become ten people.",
+    "expected_adapter_active": true,
+    "expected_helper": "REJECT",
+    "expected_full": "REJECT"
+  },
+  {
+    "id": "missing_count",
+    "kind": "mutant",
+    "locale": "ja",
+    "key": "ui:다섯 번의 인생:/다섯 번의 인생",
+    "source": "다섯 번의 인생",
+    "target": "人生",
+    "base": "actual_n5",
+    "reason": "Count omitted.",
+    "expected_adapter_active": true,
+    "expected_helper": "REJECT",
+    "expected_full": "REJECT"
+  },
+  {
+    "id": "missing_counter",
+    "kind": "mutant",
+    "locale": "ja",
+    "key": "ui:다섯 번의 인생:/다섯 번의 인생",
+    "source": "다섯 번의 인생",
+    "target": "5の人生",
+    "base": "actual_n5",
+    "reason": "Bare number lacks repetition-counter ownership.",
+    "expected_adapter_active": true,
+    "expected_helper": "REJECT",
+    "expected_full": "REJECT"
+  },
+  {
+    "id": "duplicate_count",
+    "kind": "mutant",
+    "locale": "ja",
+    "key": "ui:다섯 번의 인생:/다섯 번의 인생",
+    "source": "다섯 번의 인생",
+    "target": "5度の人生、5度の人生",
+    "base": "actual_n5",
+    "reason": "Duplicate quantity cannot borrow a valid first occurrence.",
+    "expected_adapter_active": true,
+    "expected_helper": "REJECT",
+    "expected_full": "REJECT"
+  },
+  {
+    "id": "moved_count",
+    "kind": "mutant",
+    "locale": "ja",
+    "key": "ui:다섯 번의 삶을 끝까지 살아냈다. 매번 달랐다.:/다섯 번의 삶을 끝까지 살아냈다. 매번 달랐다.",
+    "source": "다섯 번의 삶을 끝까지 살아냈다. 매번 달랐다.",
+    "target": "人生を最後まで生き抜いた。そのたびに5度違っていた。",
+    "base": "actual_d5",
+    "reason": "Five moved from lives to the later difference clause.",
+    "expected_adapter_active": true,
+    "expected_helper": "REJECT",
+    "expected_full": "REJECT"
+  },
+  {
+    "id": "extra_native_count",
+    "kind": "mutant",
+    "locale": "ja",
+    "key": "ui:열 번을 살았다. 이제 이 도시의 반복되는 얼굴이 보이기 시작한다.:/열 번을 살았다. 이제 이 도시의 반복되는 얼굴이 보이기 시작한다.",
+    "source": "열 번을 살았다. 이제 이 도시의 반복되는 얼굴이 보이기 시작한다.",
+    "target": "10度の人生を生きた。今は、この街が繰り返し見せる顔に気づき始めている。もう十回。",
+    "base": "actual_d10",
+    "reason": "Extra written repetition after the owned ten.",
+    "expected_adapter_active": true,
+    "expected_helper": "REJECT",
+    "expected_full": "REJECT"
+  },
+  {
+    "id": "wrong_count_with_correct_bait",
+    "kind": "mutant",
+    "locale": "ja",
+    "key": "ui:다섯 번의 삶을 끝까지 살아냈다. 매번 달랐다.:/다섯 번의 삶을 끝까지 살아냈다. 매번 달랐다.",
+    "source": "다섯 번의 삶을 끝까지 살아냈다. 매번 달랐다.",
+    "target": "4度の人生を最後まで生き抜いた。そのたびに違っていた。その後は5度。",
+    "base": "actual_d5",
+    "reason": "Later correct five cannot license an earlier wrong four.",
+    "expected_adapter_active": true,
+    "expected_helper": "REJECT",
+    "expected_full": "REJECT"
+  },
+  {
+    "id": "independent_money",
+    "kind": "mutant",
+    "locale": "ja",
+    "key": "ui:다섯 번의 삶을 끝까지 살아냈다. 매번 달랐다.:/다섯 번의 삶을 끝까지 살아냈다. 매번 달랐다.",
+    "source": "다섯 번의 삶을 끝까지 살아냈다. 매번 달랐다.",
+    "target": "5度の人生を最後まで生き抜いた。そのたびに違っていた。100円。",
+    "base": "actual_d5",
+    "reason": "New yen amount must retain the independent currency diagnostic.",
+    "expected_adapter_active": true,
+    "expected_helper": "REJECT",
+    "expected_full": "REJECT",
+    "retained_independent_diagnostic": "Korean won was converted to yen"
+  },
+  {
+    "id": "independent_token",
+    "kind": "mutant",
+    "locale": "ja",
+    "key": "ui:열 번을 살았다. 이제 이 도시의 반복되는 얼굴이 보이기 시작한다.:/열 번을 살았다. 이제 이 도시의 반복되는 얼굴이 보이기 시작한다.",
+    "source": "열 번을 살았다. 이제 이 도시의 반복되는 얼굴이 보이기 시작한다.",
+    "target": "10度の人生を生きた。今は、この街が繰り返し見せる顔に気づき始めている。{name}",
+    "base": "actual_d10",
+    "reason": "Extra placeholder must still be rejected by original token checks, independently of an otherwise correct numerical slot.",
+    "expected_adapter_active": true,
+    "expected_helper": "PASS",
+    "expected_full": "REJECT",
+    "retained_independent_diagnostic": "placeholder mismatch"
+  },
+  {
+    "id": "source_off",
+    "kind": "OFF",
+    "locale": "ja",
+    "key": "ui:다섯 번의 인생:/다섯 번의 인생",
+    "source": "다섯 번의 인생 ",
+    "target": "5度の人生",
+    "base": null,
+    "reason": "One changed source character stays outside all four exact KO contracts.",
+    "expected_adapter_active": false,
+    "expected_helper": "NONE",
+    "expected_full": "PRESERVE_BASELINE",
+    "precode_full_errors": null
+  },
+  {
+    "id": "owner_off",
+    "kind": "OFF",
+    "locale": "ja",
+    "key": "ui:other:/다섯 번의 인생",
+    "source": "다섯 번의 인생",
+    "target": "5度の人生",
+    "base": null,
+    "reason": "Same source under another owner cannot activate.",
+    "expected_adapter_active": false,
+    "expected_helper": "NONE",
+    "expected_full": "PRESERVE_BASELINE",
+    "precode_full_errors": null
+  },
+  {
+    "id": "pointer_off",
+    "kind": "OFF",
+    "locale": "ja",
+    "key": "ui:다섯 번의 인생:/other",
+    "source": "다섯 번의 인생",
+    "target": "5度の人生",
+    "base": null,
+    "reason": "Same source/owner but wrong field pointer cannot activate.",
+    "expected_adapter_active": false,
+    "expected_helper": "NONE",
+    "expected_full": "PRESERVE_BASELINE",
+    "precode_full_errors": null
+  },
+  {
+    "id": "group_off",
+    "kind": "OFF",
+    "locale": "ja",
+    "key": "events:다섯 번의 인생:/다섯 번의 인생",
+    "source": "다섯 번의 인생",
+    "target": "5度の人生",
+    "base": null,
+    "reason": "Event source is not the exact static UI leaf.",
+    "expected_adapter_active": false,
+    "expected_helper": "NONE",
+    "expected_full": "PRESERVE_BASELINE",
+    "precode_full_errors": null
+  },
+  {
+    "id": "locale_cn_off",
+    "kind": "OFF",
+    "locale": "zh-CN",
+    "key": "ui:다섯 번의 인생:/다섯 번의 인생",
+    "source": "다섯 번의 인생",
+    "target": "五次人生",
+    "base": null,
+    "reason": "Chinese path remains original; no new JA-helper authorization.",
+    "expected_adapter_active": false,
+    "expected_helper": "NONE",
+    "expected_full": "PRESERVE_BASELINE",
+    "precode_full_errors": null
+  },
+  {
+    "id": "locale_en_off",
+    "kind": "OFF",
+    "locale": "en",
+    "key": "ui:다섯 번의 인생:/다섯 번의 인생",
+    "source": "다섯 번의 인생",
+    "target": "Five Lives",
+    "base": null,
+    "reason": "Full pipeline unsupported-locale result must remain unchanged; not locale approval.",
+    "expected_adapter_active": false,
+    "expected_helper": "NONE",
+    "expected_full": "PRESERVE_BASELINE",
+    "precode_full_errors": null
+  },
+  {
+    "id": "unrelated_ui_normal",
+    "kind": "OFF",
+    "locale": "ja",
+    "key": "ui:5년, 다섯 장면:/5년, 다섯 장면",
+    "source": "5년, 다섯 장면",
+    "target": "五年、五つの場面",
+    "base": null,
+    "reason": "Existing ending-record UI helper retains its independent valid route.",
+    "expected_adapter_active": false,
+    "expected_helper": "NONE",
+    "expected_full": "PASS_AND_PRESERVE_BASELINE",
+    "precode_full_errors": null
+  },
+  {
+    "id": "unrelated_ui_negative",
+    "kind": "OFF",
+    "locale": "ja",
+    "key": "ui:5년, 다섯 장면:/5년, 다섯 장면",
+    "source": "5년, 다섯 장면",
+    "target": "6年、5つの場面",
+    "base": null,
+    "reason": "Existing unrelated year-count mutation remains rejected.",
+    "expected_adapter_active": false,
+    "expected_helper": "NONE",
+    "expected_full": "REJECT_AND_PRESERVE_BASELINE",
+    "precode_full_errors": null
+  }
+]''')
+        # Baseline OFF arrays are observed pre-code results, not new expectations.
+        # Keep the null precode_full_errors fields in frozen cases unchanged.
+        off_baseline = json.loads(r'''{
+  "source_off": [
+    "explicit numeric value/sign mismatch"
+  ],
+  "owner_off": [
+    "explicit numeric value/sign mismatch"
+  ],
+  "pointer_off": [
+    "explicit numeric value/sign mismatch"
+  ],
+  "group_off": [
+    "explicit numeric value/sign mismatch"
+  ],
+  "locale_cn_off": [],
+  "locale_en_off": [
+    "unsupported locale"
+  ],
+  "unrelated_ui_normal": [],
+  "unrelated_ui_negative": [
+    "source-bound ending-record quantity value/sign mismatch"
+  ]
+}''')
+        retained_independent_diagnostics = json.loads(r'''{
+  "independent_money": [
+    "Korean won was converted to yen"
+  ],
+  "independent_token": [
+    "placeholder mismatch [] != ['{name}']"
+  ]
+}''')
+        paths = (
+            "tools/full_game_localization.py", "tools/full_game_localization_self_test.py",
+            "tools/ja_translation_pipeline.py", "tools/zh_translation_audit.py",
+            "tools/data/opencc_script_variants_1_3_1.json",
+            "tools/data/LICENSE-OpenCC-2.0.txt",
+        )
+
+        def pins():
+            result = {}
+            for relative in paths:
+                raw = (tool.ROOT / relative).read_bytes()
+                result[relative] = {
+                    "bytes": len(raw), "sha256": hashlib.sha256(raw).hexdigest()}
+            return result
+
+        def capture(callback):
+            stdout, stderr = io.StringIO(), io.StringIO()
+            value, exception = None, None
+            with contextlib.redirect_stdout(stdout), contextlib.redirect_stderr(stderr):
+                try:
+                    value = callback()
+                except Exception:
+                    exception = traceback.format_exc()
+            return {"value": value, "exception": exception,
+                    "stdout": stdout.getvalue(), "stderr": stderr.getvalue()}
+
+        before = capture(pins)
+        results = []
+        for case in cases:
+            group, owner, pointer = case["key"].split(":", 2)
+            fields = tuple(part.replace("~1", "/").replace("~0", "~")
+                           for part in pointer[1:].split("/"))
+            # Same manual Leaf as ROOT's first33. The sentinel is never opened.
+            leaf = tool.Leaf(group, owner, "runtime:static_ui", fields,
+                             case["source"], "ui_static_context")
+            helper = capture(lambda: tool._ja_ui_life_count_numbers(
+                case["locale"], case["key"], case["source"], case["target"]))
+            full = capture(lambda: tool.translation_errors(
+                leaf, case["locale"], case["target"]))
+            value = helper["value"]
+            full_errors = full["value"]
+            shape = (isinstance(value, tuple) and len(value) == 3
+                     and isinstance(value[0], str) and isinstance(value[1], str)
+                     and isinstance(value[2], list)
+                     and all(isinstance(error, str) for error in value[2]))
+            full_shape = (isinstance(full_errors, list)
+                          and all(isinstance(error, str) for error in full_errors))
+            checks = {
+                "manual_leaf_id_exact": leaf.id == case["key"],
+                "helper_no_exception": helper["exception"] is None,
+                "full_no_exception": full["exception"] is None,
+                "full_error_list": full_shape,
+            }
+            if case["expected_adapter_active"]:
+                checks["helper_active_tuple"] = shape
+                if case["expected_helper"] == "PASS":
+                    checks["helper_pass"] = shape and value[2] == []
+                else:
+                    checks["helper_reject"] = shape and bool(value[2])
+                    checks["reject_preserves_original_pair"] = (
+                        shape and value[:2] == (case["source"], case["target"]))
+            else:
+                checks["helper_exact_None"] = value is None
+                checks["full_precode_errors_exact"] = (
+                    full_shape and full_errors == off_baseline[case["id"]])
+
+            expected_full = case["expected_full"]
+            if expected_full in ("PASS", "PASS_AND_PRESERVE_BASELINE"):
+                checks["full_pass"] = full_shape and full_errors == []
+            elif expected_full in ("REJECT", "REJECT_AND_PRESERVE_BASELINE"):
+                checks["full_reject"] = full_shape and bool(full_errors)
+            if case["id"] in retained_independent_diagnostics:
+                checks["independent_full_diagnostics_retained_exact"] = (
+                    full_shape and all(error in full_errors
+                        for error in retained_independent_diagnostics[case["id"]]))
+            results.append({
+                "id": case["id"], "kind": case["kind"], "base": case["base"],
+                "locale": case["locale"], "key": case["key"], "source": case["source"],
+                "target": case["target"], "reason": case["reason"],
+                "expected_helper": case["expected_helper"],
+                "expected_full": expected_full, "manual_leaf": dataclasses.asdict(leaf),
+                "helper": helper, "full_manual_Leaf": full,
+                "checks": checks, "passed": all(checks.values()),
+            })
+        after = capture(pins)
+        by_id = {row["id"]: row for row in results}
+        for row in results:
+            base = by_id.get(row["base"])
+            # A mutant is never credited because a broken normal is also rejected.
+            row["normal_base_passed"] = (
+                base is not None and base["kind"] == "normal" and base["passed"]
+                and base["checks"].get("helper_pass") is True
+                and base["checks"].get("full_pass") is True
+                and all(base[key] == row[key] for key in ("locale", "key", "source")))
+            row["valid_negative"] = (
+                row["kind"] == "mutant" and row["normal_base_passed"] and row["passed"])
+            row["valid_result"] = row["passed"] and (
+                row["kind"] != "mutant" or row["normal_base_passed"])
+
+        counts = {kind: sum(row["kind"] == kind for row in results)
+                  for kind in ("normal", "mutant", "OFF")}
+        inputs_unchanged = (
+            before["exception"] is None and after["exception"] is None
+            and before["value"] == after["value"])
+        roster_ok = (
+            len(results) == 33 and len(by_id) == 33
+            and counts == {"normal": 6, "mutant": 19, "OFF": 8}
+            and set(off_baseline) == {row["id"] for row in cases if row["kind"] == "OFF"})
+        passed = roster_ok and inputs_unchanged and all(row["valid_result"] for row in results)
+        print("ORDER249_JA_LIFE_COUNT_FROZEN33 " + json.dumps({
+            "provenance": {
+                "spec_sha256": "5fb3f8438a58df0e7b43d6f9ecacb3b3bfdebd1c6b178bf53c505e363977b099",
+                "baseline_sha256": "f45d7b1721967c6da0c8255d63db714aa9a8847b2ffa66a54d5195561f3888ee"},
+            "cases": len(results), "counts": counts, "roster_ok": roster_ok,
+            "results": results,
+            "valid_negatives": sum(row["valid_negative"] for row in results),
+            "input_before": before, "input_after": after,
+            "inputs_unchanged": inputs_unchanged,
+            "execution_counts": {"helper": len(results), "full_manual_Leaf": len(results),
+                                 "collector": 0, "engine": 0},
+            "limits": "Finite exact-source numeric regression; no native/render/prose/product GO.",
+            "passed": passed,
+        }, ensure_ascii=False), flush=True)
+        # Evaluate and print all33 before assertions, including exceptions and
+        # independent money/token diagnostics. A first failed normal cannot abort the trace.
+        for row in results:
+            with self.subTest(id=row["id"]):
+                self.assertTrue(row["valid_result"], row)
+        self.assertTrue(roster_ok, counts)
+        self.assertTrue(inputs_unchanged, {"before": before, "after": after})
+
     def test_order246_two_paths_title_frozen24(self):
         import contextlib
         import dataclasses

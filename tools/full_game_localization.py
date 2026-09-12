@@ -2945,6 +2945,51 @@ def _ja_core_calendar_week_numbers(source: str, target: str):
     return source, normalized, errors
 
 
+def _ja_ui_life_count_numbers(locale: str, key: str, source: str, target: str):
+    """Bind five/ten repetitions to four exact life-title UI sources.
+
+    Only the owned numeral spans change for the final numeric comparison.
+    Original text still reaches token, script, paragraph, terminology and money
+    checks. This is not a general Japanese numeral or prose validator.
+    """
+    contracts = {
+        "다섯 번의 인생": (5, "다섯 번", True),
+        "다섯 번의 삶을 끝까지 살아냈다. 매번 달랐다.": (5, "다섯 번", False),
+        "열 번의 인생": (10, "열 번", True),
+        "열 번을 살았다. 이제 이 도시의 반복되는 얼굴이 보이기 시작한다.": (10, "열 번", False),
+    }
+    contract = contracts.get(source)
+    if locale != "ja" or contract is None or key != \
+            "ui:" + source + ":/" + source.replace("~", "~0").replace("/", "~1"):
+        return None
+    import unicodedata
+
+    expected, source_counter, title = contract
+    digits = "0-9０-９零〇一二三四五六七八九十百千万萬億兆.,，．"
+    frame = rf"(?P<n>[{digits}]+)(?:度|回)の人生"
+    match = re.fullmatch(frame, target) if title else \
+        re.match(frame + r"(?=を)", target)
+    label = "source-bound life-title repetition"
+    if match is None:
+        return source, target, [label + " count/unit/role/position mismatch"]
+    normalized = unicodedata.normalize("NFKC", match.group("n"))
+    value = {"5": 5, "五": 5, "10": 10, "十": 10}.get(normalized)
+    errors = []
+    if value != expected:
+        errors.append(label + " value/sign mismatch")
+    start, end = match.span("n")
+    remainder = target[:start] + " " * (end - start) + target[end:]
+    # A later correct count cannot license a wrong/missing opening count, and
+    # extra native numerals must not vanish from the Arabic-only final stream.
+    if re.search(r"[0-9０-９零〇一二三四五六七八九十百千万萬億兆]", remainder):
+        errors.append(label + " extra/displaced quantity mismatch")
+    if errors:
+        return source, target, sorted(set(errors))
+    numeric_source = source.replace(source_counter, str(expected), 1)
+    numeric_target = target[:start] + str(expected) + target[end:]
+    return numeric_source, numeric_target, []
+
+
 def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
     import ja_translation_pipeline as ja
     if leaf.group == "endings" and leaf.path == ("condition",):
@@ -3599,6 +3644,10 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
         if record_numbers is not None:
             source_numbers, target_numbers, record_errors = record_numbers
             errors.extend(record_errors)
+        life_count_numbers = _ja_ui_life_count_numbers(locale, leaf.id, leaf.source, text)
+        if life_count_numbers is not None:
+            source_numbers, target_numbers, life_count_errors = life_count_numbers
+            errors.extend(life_count_errors)
         if sorted(numeric.findall(source_numbers)) != sorted(numeric.findall(target_numbers)):
             errors.append("explicit numeric value/sign mismatch")
         if career_specialization is not None and numeric.findall(source_numbers) != numeric.findall(target_numbers):

@@ -38,3 +38,17 @@ KO ‘다섯 번/열 번’의 인생 name/desc4에서 Arabic 숫자 스트림�
 248의 engine 입력19는 이 수리로 바뀌지 않으므로 raw 동일하면 중복 실행하지 않는다.
 JA pipeline/ZH/MP/게임play/UI/조건·저장·인간원장/프로젝트/audit.sh 직접 변경0.
 공개GO1·인간OPEN45·본편HOLD. 일회성 작업 지시이며 새 규범 없음.
+
+## 첫 대조와 수리 관측
+
+사전33(정상6/변조19/OFF8)23549B/5fb3f843을 구현 전 봉인했다. 실제 baseline
+f45d7b17에서 helper는33모두 부재, full 정상은五표기1만PASS/연결된 유효negative0이다.
+원래4오탐·잘못된 한자값/누락이 통과하던 사실과 OFF8·돈/token 진단을 보존했다.
+
+새 helper43줄/hook4줄만 추가(90b2f806), 새 unittest1만 추가(0dc399b9).
+각 역제거→이전 fulltool c294603d/fullself80c5aaf0 전체 raw exact, 기존260 보존이다.
+ROOT가 비저자로 새 코드·33literal 전량을 읽은 뒤 최초 targeted unittest1을 실행했다.
+같은33 전량PASS/정상base를 가진negative19/OFF8exact, inner6/outer1193 전후exact,
+0.483초/exit0이며07d01d29에 원형 보존했다. 전체261 실행이라고 세지 않는다.
+이후248 같은66 L1도 오류0(fbfcef0c), 번역·source manifest·engine19는 그대로다.
+Poincare 최종 독립검수·전체수용 회귀·공통11은 남아 있다.
