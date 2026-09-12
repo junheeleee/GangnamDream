@@ -2868,6 +2868,7 @@ def _meta_title_current_stats(
     stats.update({
         "source_calls": len(calls),
         "legacy_calls": sum(c.api in {"legacy", "branch", "format"} for c in calls),
+        "legacy_api_calls": sum(c.api == "legacy" for c in calls),
         "legacy_keys": len(keys),
         "collision_keys": sum(len(v) > 1 for v in variants.values()),
         "shared_translation": previous.get("shared_translation", 0) + 3,
@@ -2900,6 +2901,7 @@ def _meta_title_historical_inventory(inventory: UiInventory) -> UiInventory:
     stats = dict(inventory.stats)
     stats.update(META_TITLE_UI_BEFORE)
     stats.update({
+        "legacy_api_calls": 3266,
         "parameter_total_ui_call_occurrences": len(calls),
         "parameter_legacy_pair_call_occurrences": META_TITLE_UI_BEFORE["legacy_calls"],
         "parameter_legacy_korean_source_keys": len(keys),
@@ -3995,7 +3997,7 @@ def _meta_title_inventory_self_test(
         failures.append("meta-title frozen source rows changed")
     # First20 stays frozen. First execution exposed two already-collected,
     # unaccepted GameState keys: explicit fact correction, not a new roster.
-    corrected_current = {**fixed["current_expected"], "legacy_keys": 2864,
+    corrected_current = {**fixed["current_expected"], "legacy_api_calls": 3284, "legacy_keys": 2864,
                          "collision_keys": 103, "shared_translation": 48}
     for key, value in corrected_current.items():
         if inventory.stats.get(key) != value:
@@ -4064,6 +4066,8 @@ def _meta_title_inventory_self_test(
     historical = _meta_title_historical_inventory(inventory)
     if len(historical.legacy_entries) != 2849 or len(historical.entries) != 2878:
         failures.append("meta-title historical entry projection differs")
+    if historical.stats.get("legacy_api_calls") != 3266:
+        failures.append("meta-title historical legacy API count differs")
     return len(fixed["controls"]), failures
 
 
