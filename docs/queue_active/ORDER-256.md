@@ -116,3 +116,11 @@ ROOT의 첫 current collector/source post 및 격리 runtime → 공식8×3 expo
 실제로 적용했다. CI old10/meta56 함수·whole4 역복원과 고정20을 보존한다. meta의 frozen
 current_exact 재사용 선행1/all8은 신규20 중복이 아니다. CI codeview52ae와 실제fullraw ddd679를
 구분한다. 첫post20/old28·실제545·공식24·최종독립은 아직 전이며 본편HOLD를 유지한다.
+
+## 첫 current 코드·언어 검사
+
+clean2b94c68에서 첫post20/유효음성17·old28 PASS(5c111590), 독립25d2d47b 필수0이다.
+24 L1(1b2191fd)와 보충 actual owner1호출(dfe325d0), preflight3×8(5a3b7ea0)이 통과했다.
+meta 정상선행/역사chain·실제545·공식24는 아직 전이다. 런타임 cold-cache 의심은
+custom-name의 전 언어 순회로 반증됐으며 B1 실제실패가 아니다. 초기 검토와 정정1f02f4bc를
+보존하고 따뜻한 cache 전제를 관측하는 최소 보강만 한다. 공식38944/b104·본편HOLD 유지.

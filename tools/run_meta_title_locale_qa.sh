@@ -35,6 +35,8 @@ if not re.search(r"(?m)^const PARENT_FIXTURE_APPROVED := true$", script):
     parser.error("reviewed parent20 fixture not frozen; no engine launched")
 if not re.search(r"(?m)^const R11_FIXTURE_APPROVED := true$", script):
     parser.error("reviewed remaining11 fixture not frozen; no engine launched")
+if not re.search(r"(?m)^const BT_FIXTURE_APPROVED := true$", script):
+    parser.error("reviewed bonus/top fixture not frozen; no engine launched")
 if not re.search(r"(?m)^const DESC_FIXTURE_APPROVED := true$", script):
     parser.error("reviewed source-description fixture not frozen; no engine launched")
 # Import only existing platform namespace/process/storage helpers; no self-test.
@@ -123,6 +125,8 @@ desc_marker = "META_TITLE_DESC_CHECK_OK cases=5 locales=5 descriptions=2 conditi
 desc_markers = re.findall(r"(?m)^META_TITLE_DESC_CHECK_OK[^\r\n]*$", stdout)
 r11_marker = "META_TITLE_R11_CHECK_OK cases=105 locales=5 selected=11 preserved=39 conditions=32 isolation=preautoload rendered=0"
 r11_markers = re.findall(r"(?m)^META_TITLE_R11_CHECK_OK[^\r\n]*$", stdout)
+bt_marker = "META_TITLE_BONUS_TOP_CHECK_OK cases=25 locales=5 keys=8 bonus_setups=6 language_transitions=6 isolation=preautoload rendered=0"
+bt_markers = re.findall(r"(?m)^META_TITLE_BONUS_TOP_CHECK_OK[^\r\n]*$", stdout)
 failure_pattern = re.compile(
     r"META_TITLE_CHECK_FAIL|STORY_NAMEPLATE_CHECK_FAIL|SCRIPT ERROR|Parse Error|"
     r"Compile Error|Failed to load script|\bERROR:|ObjectDB instances leaked|resources still in use",
@@ -136,6 +140,7 @@ mg9_cases = []
 parent_cases = []
 desc_cases = []
 r11_cases = []
+bt_cases = []
 try:
     cases = [json.loads(line) for line in case_lines]
     next_cases = [json.loads(line) for line in re.findall(r"(?m)^META_TITLE_NEXT_CASE (.+)$", stdout)]
@@ -144,6 +149,7 @@ try:
     parent_cases = [json.loads(line) for line in re.findall(r"(?m)^META_TITLE_PARENT_CASE (.+)$", stdout)]
     desc_cases = [json.loads(line) for line in re.findall(r"(?m)^META_TITLE_DESC_CASE (.+)$", stdout)]
     r11_cases = [json.loads(line) for line in re.findall(r"(?m)^META_TITLE_R11_CASE (.+)$", stdout)]
+    bt_cases = [json.loads(line) for line in re.findall(r"(?m)^META_TITLE_BONUS_TOP_CASE (.+)$", stdout)]
 except ValueError as exc:
     result["case_json_error"] = repr(exc)
 locales = ["ko", "en", "ja", "zh-CN", "zh-TW"]
@@ -161,6 +167,8 @@ r11_families = ["get/spec_elite_title","get/spec_quant_title","get/spec_founder_
 r11_condition_ids = ["spec_elite_title/absent","spec_elite_title/receipt","spec_quant_title/absent","spec_quant_title/receipt","temptation_resist_title/absent","temptation_resist_title/receipt","high_road_title/absent","high_road_title/receipt","father_peace_title/absent","father_peace_title/receipt","love_chosen_title/absent","love_chosen_title/receipt","investigator_title/absent","investigator_title/receipt","spec_founder_title/neither","spec_founder_title/tech_only","spec_founder_title/social_only","spec_founder_title/both","clean_run_title/empty","clean_run_title/below","clean_run_title/exact","clean_run_title/above","clean_run_title/wrong_theme","clean_run_title/split_rows","network_run_title/empty","network_run_title/same_row","network_run_title/wrong_theme","network_run_title/wrong_ending_white","network_run_title/split_rows","white_gangnam_title/absent","white_gangnam_title/other_only","white_gangnam_title/white_receipt"]
 r11_ordered_ids = [locale + "/remaining11/" + family for locale in locales for family in r11_families]
 r11_expected_ids = set(r11_ordered_ids)
+bt_families = ["bonus_absent", "bonus_mixed", "bonus_capped_catalog", "bonus_order_reversal", "top_same_instance_language"]
+bt_ordered_ids = [locale + "/bonus_top/" + family for locale in locales for family in bt_families]
 old_ordered_ids = [
     [locale + "/" + family for locale in locales for family in families],
     [locale + "/" + family for locale in locales for family in next_families],
@@ -213,6 +221,19 @@ passed = (result["status"] == "completed" and proc.returncode == 0 and not group
                   for c in r11_cases if c.get("id", "").endswith("/condition_boundaries"))
           and all(c.get("details", {}).get("remaining11_current_and_legacy", {}).get("passed") is True
                   and c.get("details", {}).get("remaining11_current_and_legacy", {}).get("raw_actual_was_not_replaced") is True for c in desc_cases)
+          and bt_markers == [bt_marker]
+          and len(bt_cases) == 25 and [c.get("id") for c in bt_cases] == bt_ordered_ids
+          and all(c.get("pass") is True and c.get("state_ok") is True for c in bt_cases)
+          and sum(len(c.get("details", {}).get("states", [])) for c in bt_cases) == 65
+          and all(all(s.get("typed_state_exact") is True and s.get("disk_exact") is True
+                      for s in c.get("details", {}).get("states", [])) for c in bt_cases)
+          and all(len(c.get("details", {}).get("language_states", [])) == 6
+                  and c.get("details", {}).get("language_final", {}).get("typed_exact") is True
+                  and c.get("details", {}).get("observer_restored") is True
+                  and c.get("details", {}).get("initial_cache_warm") is True
+                  and all(s.get("typed_exact") is True and s.get("before_cache_warm") is True
+                          for s in c.get("details", {}).get("language_states", []))
+                  for c in bt_cases if c.get("id", "").endswith("/top_same_instance_language"))
           and before == after)
 result.update(status="passed" if passed else "failed", engine_exit=proc.returncode,
               group_error=group_error, storage_error=storage_error, cases=cases,
@@ -222,6 +243,8 @@ result.update(status="passed" if passed else "failed", engine_exit=proc.returnco
               parent_markers=parent_markers, parent_cases=parent_cases,
               desc_markers=desc_markers, desc_cases=desc_cases,
               r11_markers=r11_markers, r11_cases=r11_cases, old_id_order_exact=old_id_order_exact,
+              bt_markers=bt_markers, bt_cases=bt_cases,
+              bonus_top_boundary="Old520 ordered IDs and expected data unchanged. New25 groups: six ordered bonus setups and six real same-Button language transitions per locale.65 new primary GameState triplets; settings/language raw triplets and setup-only snapshots are separate. No literal-zero-entry runtime coverage or new history projection.",
               remaining11_boundary="Old415 expected literals/IDs retained;20 aggregate history and DESC JA/CN/TW3 compare typed copies only after independent current validation. Raw DESC current and cache states remain separately visible. New105 plus old415 predicts520;32x5 conditions nested, not extra groups.",
               description_boundary="Old410 IDs retained. Every raw50 check is approved current catalogs followed by desc4-only validated historical equality; old aggregate20 verify current getter2 before desc-only projection. Parent5 remains current. New5 distinct, condition6 and one KO lifecycle nested; EN fallback in JA/ZH is not localization completion.",
               parent_boundary="Original405 IDs and non-language expectations retained; approved parent20 changes CN/TW40 and JA uncommon12 groups. New5 chrome groups include110 core-label comparisons nested, not110 additional cases. No historical projection of actual parent text.",

@@ -4,6 +4,19 @@
 > [9/12 현지화 보존본](history/WORK_LOG_2026-09-12_localization.md)에 손실 없이 보존한다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg`로 필요한 항목을 찾는다.
 
+## 2026-09-13 (Codex — 칭호 갱신 첫 코드 검사·24 언어 검사)
+
+- clean2b94c68/tree45beb24f 첫source post20/유효음성17·각8endpoint PASS, 기존28 별도1회 PASS다.
+  5c111590 원문/3.377145209초·외부1194/내부10 불변, 독립25d2d47b 필수0이다.
+  baseline의8제품+2사적과 post의10제품은 별개 모집단이며 meta 정상선행1/역사chain은 아직 전이다.
+- 같은clean에서24 L1 1b2191fd 오류0, 전체소스17484·UI2974·동적합3666을 유지했다.
+  보충 actual parser dfe325d0는 Main::_title_collection_button_text:23874의 칭호1호출을 확인했다.
+  첫L1이 owner 위치를 출력했다고 합치지 않는다. preflight3×8 5a3b7ea0도 통과했으나 공식수용0이다.
+- 사전 런타임 검토에서 cold-cache 가설은 custom-name 동기화의 전 언어 순회로 반증됐다.
+  기존 기대 LM revision +0은 이미 warm된 fixture에서 유효하다. 첫 가설과 정정1f02f4bc를
+  모두 보존하고 실제 전환 전 cache membership 관측을 추가한다. B1 실제실패/게임수리로 세지 않는다.
+- 실제545 첫실행·공식24·최종독립은 아직 전이며 공개GO1·인간OPEN45·본편HOLD를 유지한다.
+
 ## 2026-09-13 (Codex — 보너스24 검토·같은Button 수리 적용)
 
 - KO 직접24 독립 검토90eee54b 필수0. 승인bc0ca399에서 CN/TW각8을 추가하고 JA8은 원형 유지했다.
