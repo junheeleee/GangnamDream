@@ -1,0 +1,586 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-240",
+  "scope": "work_unit",
+  "verdict": "GO",
+  "required": [],
+  "optional": [],
+  "subject": {
+    "kind": "source",
+    "commit": "ad7ff36b2118928ed9bfe007363475d6fcb51e04",
+    "tree": "0f54fa5da0cf18fcd86ab39b3f39bb0f55238c5b",
+    "manifest_sha256": null
+  },
+  "source_commit": "ad7ff36b2118928ed9bfe007363475d6fcb51e04",
+  "source_tree": "0f54fa5da0cf18fcd86ab39b3f39bb0f55238c5b",
+  "observed_review_head": "7b4bcce09b880883ebd392a2d4d22091abd467c0",
+  "observed_review_tree": "1dc8e9d48523c1534b98595b6e4ea10c391dc921",
+  "observed_clean": true,
+  "reviewer": "Poincare / final_regression_review",
+  "independence": "Non-author of the ORDER240 translations, production source2 and runtime harness2. Independently authored the separate ORDER241 controls; reviewed its code without implementing it. ORDER241 receives a separate final judgment from Rawls.",
+  "decision_basis": [
+    "The two displayed KO/EN pairs now describe a neutral romantic category and story-driven connections, without changing stored relationship stages, names, effects or the real partner fallback.",
+    "All 30 KO sources and 90 locale values have independent language review; current UI/source/response/receipts/portable are exact matches to the approved table and repaired L1.",
+    "The frozen actual-node 80 passes after a harness-initialization repair, with original expected texts/effects/43 hint rows preserved; old65 separately passes once.",
+    "Shared final machine checks are successful on the exact current input, and the old accepted corpus is raw-recoverable. Required defects remaining in this declared unit: 0."
+  ],
+  "population": {
+    "source_keys": 30,
+    "locale_values": 90,
+    "functional_groups": [
+      15,
+      15
+    ],
+    "locales": [
+      "ja",
+      "zh-CN",
+      "zh-TW"
+    ],
+    "excluded_prior239_key": "가족",
+    "KO_EN_production_pairs": 2,
+    "actual_component_cases": 80,
+    "component_locales": 5,
+    "frozen_hint_rows": 43,
+    "previous_component_cases": 65,
+    "ja_current_source_regressions": {
+      "fixed": 24,
+      "positive": 3,
+      "negative": 21,
+      "old29_including19_preserved": true
+    },
+    "separate241_numeric_controls": {
+      "fixed": 30,
+      "normal": 10,
+      "valid_base_mutants": 14,
+      "OFF": 6
+    },
+    "denominator_boundary": "The two 80 attempts are the same population, not 160 independent cases. Prior65, source24, quantity30 and machine suite counts are distinct evidence, not additive translation or rendered-coverage counts."
+  },
+  "actual_readscope": [
+    "Previously completed full KO30 versus JA/CN/TW90 language review, including existing JA28; final 87 unchanged values plus 3 adopted optional naturalness refinements, then current90 exact rebind.",
+    "Previously completed whole MainGame two-pair diff, JA current/historical adapter and fixed24 registration; preserved prior29/19 and actual collector. Current source2 pins rechecked.",
+    "Previously completed entire embedded current runtime script and shell, draft/first/repair differences, frozen expectations, first80/final80 raw retained logs and old65 evidence. No engine rerun.",
+    "Final independent read of all initial/final source rows, response rows and accepted receipt records for 30×3; current UI and portable records read directly, including exact prior raw reconstruction.",
+    "Current ORDER240/241 active specs, WORK_UNIT, relevant CLAUDE/backlog/audit-scope result differences, source resolver, Git ownership and protected paths.",
+    "Actual repaired90, all-acceptedL1 summary and its complete helper, named9 wrapper output and complete helper; current input maps independently recomputed to recorded digests without running their checks."
+  ],
+  "method": {
+    "current_source": "Observed tools.human_gates.current_agent_source_subject; no candidate inferred from the ledger. Clean review HEAD resolves to ad7ff36b/tree0f54fa5d; only STATUS differs between source and review HEAD.",
+    "byte_rebinding": "Read-only SHA/JSON/Git comparisons. Source leaf hash recomputed by current contract digest({path,field,ko}); target hash by digest(text); missing previous target by digest(null).",
+    "no_reexecution": {
+      "L1": 0,
+      "collector": 0,
+      "official_export_check_import": 0,
+      "engine": 0,
+      "named_QA": 0,
+      "test_suite": 0
+    },
+    "no_mutation": {
+      "product": 0,
+      "UI": 0,
+      "portable": 0,
+      "shared_docs": 0,
+      "Git": 0
+    },
+    "write": "Only this git-private JSON; ROOT may publish the identical bytes to docs/agent_reviews/ORDER-240.json.",
+    "preparation_limits": "Two read-only metadata assertions were corrected after inspecting the actual conventions: source hash/absent-target encoding, and repeated heading-prefix ambiguity during moved-block recovery. No product/test result was changed; the correct exact contracts pass. Missing pre-closure archive and guessed helper/doc read paths were read failures only, not QA."
+  },
+  "repairs_and_failures": [
+    {
+      "kind": "product",
+      "issue": "romantic type labeled every crush/blind-date/ex as a partner; empty copy advertised a removed action board",
+      "repair": "Only declared source pairs become 연애 관련/Romance and story-progression guidance. Actual partner fallback and relationship state stay unchanged.",
+      "status": "closed"
+    },
+    {
+      "kind": "language",
+      "issue": "No mandatory error in approved90; 3 optional naturalness refinements adopted",
+      "repair": "Final90 retains87 values and changes3. JA total is existing28 directly reviewed with6 refinements,22 unchanged, plus2 new; CN/TW each30 new.",
+      "status": "closed"
+    },
+    {
+      "kind": "harness_first_failure",
+      "issue": "First80 had displayed text80 exact but10 full-state hash failures, leaving70 passing",
+      "repair": "_reset performs actual _refresh_all before the case snapshot; the same10 effect cases now retain full before/expected/after/delta. No effect constants,80 IDs,expected texts or43 hint rows changed.",
+      "status": "same80 pass",
+      "causal_limit": "Source chain supports the initialization explanation, but first80 retained only hashes. The original exact state delta was not observed retroactively."
+    },
+    {
+      "kind": "separate241_machine_false_positive",
+      "issue": "Same90 firstL1 had2 counter errors on valid CN 有个人 / TW 有個人",
+      "repair": "Manuscript unchanged. Separate declared241 exact-key/full-KO/CN-TW numeric-only adapter recognizes the omitted singular 一; all nonnumeric checks retain original text.",
+      "status": "same90 errors0",
+      "limits": "Frozen30 and old-function/raw preservation bind the local repair, not universal Chinese semantic correctness."
+    }
+  ],
+  "production_consumers": [
+    {
+      "path": "scenes/MainGame.gd:9787",
+      "function": "_render_sidebars",
+      "role": "Actual relationship cards and empty guidance"
+    },
+    {
+      "path": "scenes/MainGame.gd:23102",
+      "function": "_relationship_type_label",
+      "role": "Neutral romantic category; established-partner fallback elsewhere preserved"
+    },
+    {
+      "path": "tools/ja_translation_pipeline.py",
+      "role": "Exact source-owner current/historical projection; unchanged actual collection exposes current keys"
+    },
+    {
+      "path": "tools/RelationshipPanelLocaleCheck.tscn",
+      "role": "Headless actual nodes/functions, fixed expected text/state by locale; not physical rendering"
+    }
+  ],
+  "source_and_scope": {
+    "baseline": "af9874d1acb768433087827c84b7b9f43bf03a5e",
+    "changed_paths": [
+      "CLAUDE.md",
+      "content/meta/full_game_localization.json",
+      "docs/CODEX_QUEUE.md",
+      "docs/CODEX_QUEUE_L3_PENDING.md",
+      "docs/STATUS.md",
+      "docs/WORK_LOG.md",
+      "docs/history/WORK_LOG_2026-09-07_localization.md",
+      "docs/queue_active/ORDER-240.md",
+      "docs/queue_active/ORDER-241.md",
+      "docs/queue_backlog/FULL_GAME_LOCALIZATION.md",
+      "locale/ui_ja.json",
+      "locale/ui_zh-CN.json",
+      "locale/ui_zh-TW.json",
+      "scenes/MainGame.gd",
+      "tools/RelationshipPanelLocaleCheck.tscn",
+      "tools/audit_scope.json",
+      "tools/full_game_localization_self_test.py",
+      "tools/ja_translation_pipeline.py",
+      "tools/run_relationship_panel_locale_qa.sh",
+      "tools/zh_translation_audit.py"
+    ],
+    "declared_240_241_union_paths": 25,
+    "outside_union": [],
+    "attribution": "ZH/self2 and the 2080-byte WORK/history move belong to separately declared241. Source2/UI3/test2/portable90 belong to240. Shared operating paths are explicit.",
+    "metadata_wrapper_paths": [
+      "docs/STATUS.md"
+    ],
+    "protection": "No KO/EN story/event, other overlay, assets, shipping selector or runtime system change outside MainGame's declared two-pair surface; verified by the complete changed-path set and direct protected raw comparisons.",
+    "protected_raw_pins": {
+      "docs/human_gates.json": {
+        "bytes": 103390,
+        "sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6"
+      },
+      "docs/agent_review_decisions.json": {
+        "bytes": 41870,
+        "sha256": "6b973aaf724dd4568542f2c1d4876df939b4bef9b4fd3b7b698e136467ebbebd"
+      },
+      "project.godot": {
+        "bytes": 4699,
+        "sha256": "78e98d7bdc1349570df6f2cc7ca6cbb11d4fc5451f5bbfdd338561653c7380c5"
+      },
+      "systems/RelationshipSystem.gd": {
+        "bytes": 6444,
+        "sha256": "498895ada6f51abb8f24b26128aa83418f6721e7f457bf9497b87fa1c3183716"
+      },
+      "autoloads/GameState.gd": {
+        "bytes": 217568,
+        "sha256": "8a40740286ff910b2a16049e2c2794cc0dc22fed5dfc78d2fc6ce458c833018d"
+      },
+      "autoloads/LocaleManager.gd": {
+        "bytes": 20574,
+        "sha256": "9417e6b9e241e1d2b9ec7a7668cf4d19fe337ce6719d87e032020fe421ceec9a"
+      },
+      "autoloads/DataRegistry.gd": {
+        "bytes": 62059,
+        "sha256": "9ee97b7003efb1d9b80673d1fce162b71ab0cb6f929a363e04ead29a98d9a1df"
+      },
+      "autoloads/SaveManager.gd": {
+        "bytes": 30849,
+        "sha256": "4ab9189029fde33df5addf4f9d2569c19d30f4575f1a534ad6a197c2429cd959"
+      },
+      "content/meta/demo_localization_scope.json": {
+        "bytes": 75684,
+        "sha256": "9d50b64e6bc09d8e3e8e670fc48163ed5a0a419263cd0ffc601aac45c7abc7b6"
+      },
+      "content/meta/release_content_inventory.json": {
+        "bytes": 58750,
+        "sha256": "eaa588e0401af69a9079aa2d11f105e4e57c6780e5030c517320a34a5f251764"
+      },
+      "tools/full_game_localization.py": {
+        "bytes": 276088,
+        "sha256": "c294603d7b2f99177ae9734661abb5ee82efae6cf4e47f353e408bd7b79e66b9"
+      },
+      "tools/RelationshipDisplayLocaleCheck.tscn": {
+        "bytes": 23253,
+        "sha256": "d575f50bd56e34f9603f1141b65276e9518fc1b25498db7822c8a2191a7a3342"
+      },
+      "tools/run_relationship_display_locale_qa.sh": {
+        "bytes": 6918,
+        "sha256": "76abf597e59ad39ca9440b0bf3f45cf1c9e7fa3d814fc966c50fc378ec7b69ca"
+      }
+    },
+    "human_ledger_unchanged": true,
+    "agent_decisions_before_closure": 26,
+    "work_history": {
+      "baseline": "af9874d1acb768433087827c84b7b9f43bf03a5e",
+      "work": {
+        "bytes": 36474,
+        "sha256": "4c0affa50a496309769832c3d7443366c4548defbde7798f553e78b3d75f9852",
+        "EOF_LF": 2
+      },
+      "history": {
+        "bytes": 90044,
+        "sha256": "20a8c23121b50db5f4e940748f4c43b6460e44e9a663a5aa9834686a777b752b",
+        "EOF_LF": 1
+      },
+      "removed_block_bytes": 2080,
+      "removed_block_sha256": "623f477f3b57f62819ff357a8d2d21bed5a0adcecc8be361d6f0e9545465852b",
+      "source_removed_history_prepend_inverse_exact": true
+    }
+  },
+  "product_pins": {
+    "scenes/MainGame.gd": {
+      "bytes": 1139530,
+      "sha256": "9029fb680033141ce382fa114fafe9e814197e996f7a98fcf622f9bce4b1118d"
+    },
+    "tools/ja_translation_pipeline.py": {
+      "bytes": 211497,
+      "sha256": "9ef5bd4e72bfc9e38858f86d027393ad342ab1f8ba06dc29f608fbc74ff868d7"
+    },
+    "tools/RelationshipPanelLocaleCheck.tscn": {
+      "bytes": 43157,
+      "sha256": "c4fe463308e1700ad375d39666b420298e7f3ddb6aeb8587af583e246362865c"
+    },
+    "tools/run_relationship_panel_locale_qa.sh": {
+      "bytes": 7029,
+      "sha256": "60f60b63e58683d3b9f9600539f69cefb7940bfa14f6b4fef573dfb8c24093d3"
+    },
+    "tools/zh_translation_audit.py": {
+      "bytes": 1682962,
+      "sha256": "ef58e32b361f48969fe4d749f1d05cee17482a7df287b1b0befb07160817c2a0"
+    },
+    "tools/full_game_localization_self_test.py": {
+      "bytes": 1565121,
+      "sha256": "129091d63e0df275f83fce69ea1ad4b0e64640386a12629429daa51d9d92becb"
+    },
+    "tools/full_game_localization.py": {
+      "bytes": 276088,
+      "sha256": "c294603d7b2f99177ae9734661abb5ee82efae6cf4e47f353e408bd7b79e66b9"
+    },
+    "locale/ui_ja.json": {
+      "bytes": 280849,
+      "sha256": "7135283b05c2b51e3d6b1a897e5e96ed62afb56321c12448d5f4594d98778032"
+    },
+    "locale/ui_zh-CN.json": {
+      "bytes": 24845,
+      "sha256": "eca334c3fd7ec397ca6cb28a70afa143264859928fff2b736bd1102ace90aab9"
+    },
+    "locale/ui_zh-TW.json": {
+      "bytes": 24945,
+      "sha256": "59c6deb9e8b629ea8f389fdb9e2fa003feaea0152138fd206a6bc1faf8adaa48"
+    },
+    "content/meta/full_game_localization.json": {
+      "bytes": 10012786,
+      "sha256": "a42f7f58b0ab2ce56d07158987c6a3051466b1c058d2966ffbe75cc202831f1e"
+    }
+  },
+  "language_and_acceptance": {
+    "locales": {
+      "ja": {
+        "records": 30,
+        "records_sha256": "6cdd76654055de218a61399a3ccf628e7e1f4fa5f253a62f7f411314ed417910",
+        "added": 2,
+        "modified": [
+          "관계",
+          "내 사람들",
+          "다음 투자를 함께 읽고 이유까지 묻는 사람",
+          "작은 일거리를 먼저 묻는 사이",
+          "먼저 연락하고 새로운 자리에 함께 가는 친구",
+          "느슨한 인연"
+        ],
+        "preserved_selected": 22,
+        "raw_reconstruction_exact": true,
+        "family_preserved": true,
+        "receipt": {
+          "path": ".git/full-game-localization/ja/full-ko-direct-2026-09-07.1/cff3fbc236c747cfb529bc54572801e999788ee22d6dfc9b0fb728d0845a70b1.accepted.json",
+          "bytes": 8926,
+          "sha256": "23ce2951a45a83318863655c7939ff3bb3b6cfd85b26398903c58f3bc3d15fb0"
+        }
+      },
+      "zh-CN": {
+        "records": 30,
+        "records_sha256": "598b8b678289caabcaaff2e5498e654d26818fd2354f0e44b16273bb0d23e06e",
+        "added": 30,
+        "modified": [],
+        "preserved_selected": 0,
+        "raw_reconstruction_exact": true,
+        "family_preserved": true,
+        "receipt": {
+          "path": ".git/full-game-localization/zh-CN/full-ko-direct-2026-09-07.1/d00fe7eef877941e01043dad995d652725ab17950c032830ba2a6f4bfcf4aca5.accepted.json",
+          "bytes": 8929,
+          "sha256": "d04addcb14f04e50084e5d853cb7224e3aa640def9c69328d373f9d596864051"
+        }
+      },
+      "zh-TW": {
+        "records": 30,
+        "records_sha256": "7a8f4f66a832228a76ad29e99f13a51ae21a1a55fe3a4df7232980e3798d7848",
+        "added": 30,
+        "modified": [],
+        "preserved_selected": 0,
+        "raw_reconstruction_exact": true,
+        "family_preserved": true,
+        "receipt": {
+          "path": ".git/full-game-localization/zh-TW/full-ko-direct-2026-09-07.1/3ac702b94b5ba495d7e966e10042729cc831d88ed392e17b17ed5b8840e46334.accepted.json",
+          "bytes": 8929,
+          "sha256": "2ad48c46c2e37a42872ff31c5655dd6a0ae50d2b04a3365dcace2b32c87d21ac"
+        }
+      }
+    },
+    "final_table_exact90": true,
+    "first_and_repaired_same90_except_errors": true,
+    "source_initial_final": "31 lines per locale including header; all30 leaf fields preserved except previous_target_sha256, reflecting actual current target. Canonical source paths/IDs and hashes independently checked.",
+    "receipt_binding": "Header=response header=receipt batch; receipt self-digest, exact30 source/target records and currentUI/approved-table/portable all equal. All check/import commands carry explicit locale; each reports changed_files=0.",
+    "official_checkpoint": "0bbf6a1344ab0166b7feb11302843d8fbb526487",
+    "portable": {
+      "old": {
+        "bytes": 9985516,
+        "sha256": "44fd6ae8229c322c61a136c64c85255015e6bf7db05208f867065a39d94a8e71"
+      },
+      "current": {
+        "bytes": 10012786,
+        "sha256": "a42f7f58b0ab2ce56d07158987c6a3051466b1c058d2966ffbe75cc202831f1e"
+      },
+      "old_accepted": 38497,
+      "accepted": 38587,
+      "old_batches": 97,
+      "batches": 98,
+      "retained_metadata": 9,
+      "old_raw_inverse_exact": true,
+      "accepted_sha256": "bdce2dafd4f62770ef47d948fc8f27ecd2de7c98ca91e4b50598ea4767accd90"
+    },
+    "exchange_proof_pins": {
+      "order240-ja-source-initial.jsonl": {
+        "bytes": 22150,
+        "sha256": "9a4f9e60635f76b8f9fc25c23a0d5792f596752fd22ec469aa4109a8656af55e"
+      },
+      "order240-ja-source-final.jsonl": {
+        "bytes": 22150,
+        "sha256": "7893b1c4a8122e91cdb0cc80ec30045e8cd0f51f828111e3348fb9e941a763d8"
+      },
+      "order240-ja-response-final.jsonl": {
+        "bytes": 9151,
+        "sha256": "37e1de80268db20dcb60ca9cfc9eb324df81f121b7bd552440a63625855e442b"
+      },
+      "order240-zh-CN-source-initial.jsonl": {
+        "bytes": 22333,
+        "sha256": "633586e6729a223948339e7527a119a96cc6a53edeb74348b49718f177a3dd5f"
+      },
+      "order240-zh-CN-source-final.jsonl": {
+        "bytes": 22333,
+        "sha256": "06b4a821f63e95a63786abcf33750bc18d72e72612d4071d682d37de5ab9cce0"
+      },
+      "order240-zh-CN-response-final.jsonl": {
+        "bytes": 8947,
+        "sha256": "f04f416613a95d7c9e97f8c18c5446bcbc5735fa95d0132a238c31d2b3548552"
+      },
+      "order240-zh-TW-source-initial.jsonl": {
+        "bytes": 22333,
+        "sha256": "462204001358a1baaf76a61e72a567577a76c67c370810911dff73997fac06aa"
+      },
+      "order240-zh-TW-source-final.jsonl": {
+        "bytes": 22333,
+        "sha256": "40232b3b9874c18aa6aae4df8a52c0895fa11d6d6ca27442e72a51999a8acabe"
+      },
+      "order240-zh-TW-response-final.jsonl": {
+        "bytes": 8971,
+        "sha256": "657d7b4887b7a9306eb1c681b26516352a14511b98f271a81bb3ea81b46412f4"
+      }
+    }
+  },
+  "QA": {
+    "repaired_selected": {
+      "records": 90,
+      "first_errors": 2,
+      "final_errors": 0,
+      "body_changed": false
+    },
+    "component": {
+      "first": {
+        "cases": 80,
+        "text_exact": 80,
+        "state_pass": 70,
+        "state_fail": 10,
+        "engine_exit": 1
+      },
+      "final": {
+        "cases": 80,
+        "text_exact": 80,
+        "state_pass": 80,
+        "state_fail": 0,
+        "engine_exit": 0,
+        "state_restored": 1,
+        "stderr_bytes": 0
+      },
+      "previous65": {
+        "cases": 65,
+        "pass": 65,
+        "engine_exit": 0,
+        "attempts": 1
+      },
+      "independent_engine_runs": 0
+    },
+    "all_accepted": {
+      "accepted": 38587,
+      "errors": 0,
+      "attempts": 1,
+      "elapsed_seconds": 70.778601667,
+      "input_count": 1185,
+      "current_digest_exact": "4c1af439215f00ad3475316305a60d666f3387ca062a21cb1cb8616f97e6a90c",
+      "source_manifest_sha256": "66d89f339127b63a4e7c14ab599fd15b15212454f621ecd7d2347c4a6109c7a0"
+    },
+    "shared_named": {
+      "checks": 9,
+      "attempts": 1,
+      "exit": 0,
+      "elapsed_seconds": 87.844097208,
+      "input_count": 1195,
+      "current_digest_exact": "7854235a8930750d9e50820507fbd3672f4e1c792ea685c04a8620db76a08045",
+      "full_self_tests": 259,
+      "JA_cases": 122,
+      "ZH_cases": 12446,
+      "registered_tools": 143,
+      "queue_fixtures": 25,
+      "agent_cases": 222,
+      "stderr_bytes": 0
+    },
+    "stdout_scope": "The retained named file contains complete audit_select wrapper stdout, which displays child tails. It is not a full transcript of every child test. ZH mode=skeleton and one visible TW font line do not prove full Chinese/rendered product coverage. Two AUDIT_SCOPE EXTRA notices are shown; the named lane still returns0 and registered143.",
+    "source_binding": "All1185 whole-input hashes and all1195 named-input hashes recomputed from current files equal the captured manifests; source products are byte-equal to ad7ff36b. The whole run began at d7733c4; later changes are outside its input paths. Named run is at exact review HEAD7b4bcce.",
+    "old65_limit": "Its VIPempty expectation uses LocaleManager dynamically and is not independent new-language proof; fixed approved80 and language90 own that check."
+  },
+  "evidence_root": ".git/full-game-localization",
+  "evidence": {
+    "order240-translation-final.json": {
+      "bytes": 8856,
+      "sha256": "e15b3ac750de17740d616033ce89ece5c32c57b4062fb778cb86b1954aea1c01"
+    },
+    "order240-language-review.json": {
+      "bytes": 23351,
+      "sha256": "7f458b74c3690965065eabb29c183c25eb5ad03a55dc72650379058dc2106386"
+    },
+    "order240-source-static-review.json": {
+      "bytes": 8975,
+      "sha256": "9999ca64150962c49f501a5b870e34791dc0b3408c44057018690e704c65fc92"
+    },
+    "order240-runtime-review.json": {
+      "bytes": 12490,
+      "sha256": "4b270fb35b120e2e09de000192b61c808aa71c810041f75860db41a27a5d1f7c"
+    },
+    "order240-relationship-panel-final.json": {
+      "bytes": 15469,
+      "sha256": "6bef3fe03d5feed9c494272efb7b6cf825bb6432ab88ccf60308ac0e1f8ec2cd"
+    },
+    "order240-relationship-panel-baseline.json": {
+      "bytes": 46326,
+      "sha256": "752a161a87cc53316f89badfa1731169d6c2eb74c15861dfae04cad3d5058544"
+    },
+    "order240-prior65-replay.json": {
+      "bytes": 1850,
+      "sha256": "99b496509a37670e9ed8141383a2bda26b9b462f7d8134892bf8fa4ba9886b92"
+    },
+    "order240-first-l1.json": {
+      "bytes": 39737,
+      "sha256": "8e789ea5b88bfeba4a2b409ca55a2dbc609074e69a7f6b47fc4193906616cdb0"
+    },
+    "order240-repaired-l1.json": {
+      "bytes": 39549,
+      "sha256": "350bba3e27d5bc3365fd49e913e70d9929ee369c8ce1ca81ac9625c5b56a3e0b"
+    },
+    "order240-official-initial.json": {
+      "bytes": 5905,
+      "sha256": "e89cd145682a006c19f1fe04c9cdbe4e14851bbc6eb983a868b4a981ea85e2e4"
+    },
+    "order240-official-final.json": {
+      "bytes": 5891,
+      "sha256": "99a4cb1e17f335c218b534fac2df28d00ec536bc484f93bfc0a0e368e637ddb4"
+    },
+    "order240-official-check.json": {
+      "bytes": 2612,
+      "sha256": "801065234b5530d84c157439f11d33ce0b365d8c568c5dac1c097ff66025cf58"
+    },
+    "order240-official-import.json": {
+      "bytes": 2679,
+      "sha256": "24b8fdc5cfeed6bea461e0887a019a256e29f877a3eca865e007bbc2517d9c3c"
+    },
+    "order240-portable-proof.json": {
+      "bytes": 497,
+      "sha256": "e3d50972711877737068d5f1e317a58ec44dc9c91320867f4638a705e28a1fb7"
+    },
+    "order240-all-accepted-l1.json": {
+      "bytes": 1449,
+      "sha256": "e97238243218685534afb27e2dc18c68c4f1944f53333855c76a2d2a5fb9d71a"
+    },
+    "order240-241-named-first.json": {
+      "bytes": 3505,
+      "sha256": "cba47a654858b6567e4539c19377abafa587478fceac1e680d19237bfb58a132"
+    },
+    "order241-code-review.json": {
+      "bytes": 11110,
+      "sha256": "5f87d66ce724cff5103a1551ba6a129399bf8f90a798a70be492265cd0c15c31"
+    },
+    "order241-controls.json": {
+      "bytes": 37163,
+      "sha256": "70d64e34df7ea50771b8040c311edbc9de845caf3579e3af278e2410691561e1"
+    },
+    "order241-pre-code-baseline.json": {
+      "bytes": 11031,
+      "sha256": "602b8add56f6d20bbde835b1af6b7c886454caa010cf32f88a4d3e7bd572f976"
+    },
+    "order241-post-code-result.json": {
+      "bytes": 34042,
+      "sha256": "b7955bf2ec6b61c22ad82b7beca4b0e353080f1fd56785a9571e60a75d8217bd"
+    }
+  },
+  "source_document_pins": {
+    "CLAUDE.md": {
+      "bytes": 17761,
+      "sha256": "9e00ddd502a1265c7382c5dfd355b79ffc30188d03ef506daf249dbc38db6d6a"
+    },
+    "docs/WORK_UNIT.md": {
+      "bytes": 9947,
+      "sha256": "dfec87ceab9053218962840e4ca8970e47a257d98af5402dd7fdd664e0c02720"
+    },
+    "docs/queue_active/ORDER-240.md": {
+      "bytes": 7217,
+      "sha256": "b06ef5fc48bb466383f831bfa80de45ad3898d7da15be0a6abc1243b5e15c955"
+    },
+    "docs/queue_active/ORDER-241.md": {
+      "bytes": 4545,
+      "sha256": "5c247a7c1688190a895e483f03c46443925bf5166e53e237bfabf7704f6b052f"
+    },
+    "docs/queue_backlog/FULL_GAME_LOCALIZATION.md": {
+      "bytes": 61696,
+      "sha256": "45233987c87711d645501494dc1522e1be77f3a06c180337a12ba4b08757e56e"
+    },
+    "tools/audit_scope.json": {
+      "bytes": 139523,
+      "sha256": "c62096373efab2a0bddd4d8e7c4b40da3d4eb57814e648662bf9e73f3e20f052"
+    }
+  },
+  "limits": [
+    "GO is solely ORDER-240 at the observed source. It is not ORDER241's final decision, internal_product GO, a whole relationship-panel/UI completion claim, or a release authorization.",
+    "Headless node/function checks do not observe real rendered layout/font appearance, native-reader judgment, human play, physical controller feel or a full240-week run.",
+    "Fresh MainGame instances per locale do not certify every live in-place language-switch lifecycle. Parsed save comparison is not an existing player's on-disk save round trip or general migration certification.",
+    "The finite source recognizer does not prove arbitrary guarded-code reachability. The frozen actual consumer path is covered by component evidence only.",
+    "Nearby VIP completed log/toast and GameState new-connection surfaces were explicitly not selected. Other missing UI and inactive tendency/meta consumers remain separate work.",
+    "General production HOLD, historical public GO1 and human OPEN45 remain. No new remote CI, package, shipping-language or human evidence is claimed.",
+    "Automated gates establish contracts, not fun, depth, prose quality or human approval."
+  ],
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "rendered_layout",
+    "full_product_playthrough",
+    "existing_player_disk_save_roundtrip",
+    "current_remote_CI"
+  ]
+}

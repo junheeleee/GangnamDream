@@ -1109,6 +1109,90 @@
         "path": "docs/agent_reviews/ORDER-239.json",
         "sha256": "e764fd7ce6c6924459a29e2b252af24dc7b57583c7dcad76a454110aae5d9512"
       }
+    },
+    {
+      "id": "order-240-source-ad7ff36-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-12",
+      "decided_by": "Codex Poincare (independent exact-source final); Codex ROOT (integration)",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-240",
+      "subject": {
+        "kind": "source",
+        "commit": "ad7ff36b2118928ed9bfe007363475d6fcb51e04",
+        "tree": "0f54fa5da0cf18fcd86ab39b3f39bb0f55238c5b",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-240.json",
+          "sha256": "a55d48c3e4216c6c77fba5eb7ac3ff389fac549b0ec8c5e2f471a755ef405df5"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/queue_archive/ORDER-240.md",
+          "sha256": "f74330721ed6a7ae1c72948f461eb7cc11c9655052dfc7527a3cac8093381b7e"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_rendered_localization",
+        "full_game_normal_speed_play",
+        "full_product_quality",
+        "remote_full_ci_for_this_candidate",
+        "external_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-240.json",
+        "sha256": "a55d48c3e4216c6c77fba5eb7ac3ff389fac549b0ec8c5e2f471a755ef405df5"
+      }
+    },
+    {
+      "id": "order-241-source-ad7ff36-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-12",
+      "decided_by": "Codex Rawls (independent exact-source final); Codex ROOT (integration)",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-241",
+      "subject": {
+        "kind": "source",
+        "commit": "ad7ff36b2118928ed9bfe007363475d6fcb51e04",
+        "tree": "0f54fa5da0cf18fcd86ab39b3f39bb0f55238c5b",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-241.json",
+          "sha256": "b53c8cc9b1e0d625e14132019b03ace34ccbbaab3ada4692e43f8d5a2d0b51e0"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/queue_archive/ORDER-241.md",
+          "sha256": "1653223ae4f096a469f2e51328fc791e6f1e50ce067978a9c2bae4e5dd33e32c"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_rendered_localization",
+        "full_game_normal_speed_play",
+        "full_product_quality",
+        "remote_full_ci_for_this_candidate",
+        "external_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-241.json",
+        "sha256": "b53c8cc9b1e0d625e14132019b03ace34ccbbaab3ada4692e43f8d5a2d0b51e0"
+      }
     }
   ]
 }

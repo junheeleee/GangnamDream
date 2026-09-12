@@ -1,3 +1,92 @@
+# 관계 패널 표시·세 언어 번역 — 결과
+
+[x] ORDER-240 — 2026-09-12 완료. 독립 Poincare의 work_unit GO 한정이다.
+실제 source `ad7ff36b2118928ed9bfe007363475d6fcb51e04`, tree
+`0f54fa5da0cf18fcd86ab39b3f39bb0f55238c5b`; 정확 검토 HEAD `7b4bcce09b880883ebd392a2d4d22091abd467c0`.
+공개 GO1·인간 OPEN45·본편 HOLD를 유지한다. 자동 검사는 재미·깊이·문체 판정이 아니다.
+
+## 변경·수용
+
+- 소개팅·썸·전 연인의 표시 category만 연애 관련/Romance로 중립화했다.
+  empty는 현재 없는 범용 행동판 대신 실제 이야기 진행으로 안내한다.
+  MainGame KO/EN pair2 역치환으로 전체 원형 exact. 나머지 연인/partner fallback,
+  저장 ID/type/name·관계 단계·힌트13 경계·돈·확률·AP/VIP 효과는 변경0이다.
+- UI30×3=90: JA 기존28 직접 검수 중6정밀화/22보존, 신규2; CN/TW각30 신규.
+  실제 신규 dictionary 값62, 변경 기존값6이며 이전 연인/empty key는 삭제0이다.
+  독립 번역 전량90의 필수0, 권고3을 채택해 초기87값 유지/3정밀화했다.
+- clean `cdc3ae1`에서 UI 저작 전 initial30×3을 export했다. clean
+  `0bbf6a1344ab0166b7feb11302843d8fbb526487`에서 final/export/check/import 모두
+  각30·changed_files0·INCOMPLETE/human OPEN이다. initial/final 원문은 이전
+  target hash 필드 외 exact이며 공식 response는 승인 번역표와 같다.
+- portable 제품 `d7733c4ad46bd02c003a3838b922a3af195ce0a9`, 신규90/b1 외
+  기존38,497/b97/meta9·역사 top-level raw 역복원 exact. 현재38,587/b98:
+  JA12,861, CN/TW각12,863. 언어별 사건11,578·엔딩234·catalog834,
+  UI215/217/217이다. 보호/author-only·나머지 UI·원어민·렌더는 별도다.
+- collector 실제 calls3356/legacy3322/KO2849/static+context2878,
+  context34calls/29IDs. 현재 collision100/format28과 역사101/29를 구분한다.
+  source2 역투영은 역사 대조에만 쓰며 실제 collector·기존29(내부19 포함) 원형을
+  보존한다. 고정24는3정상/21변조다. 전체 포착17388, 지원17059/미확정329;
+  UI 합집합3570·미확정 포함3899는 최종 실플레이 UI 분모가 아니다.
+
+## 검증과 첫 실패
+
+- 첫90 L1은 CN/TW VIP 단수2를 잘못 차단했다. 독립 언어 검수는 `有个人/有個人`의
+  생략된 一를 인정했다. 별도241 exact-source 수량 수리 뒤 같은90 오류0,
+  source/target/hash/ID/순서와 나머지 필드는 모두 exact다. 번역을 검사에 맞춰 바꾸지 않았다.
+- 새 actual-node/함수 검사는16가족×5언어=80, 힌트 입력43·metric 경계12다.
+  첫 실행은 표시80 exact/상태70 PASS였고 passive_missing_name·VIPempty10이 실패했다.
+  원래 before는 MainGame 초기화 이전 상태를 복원한 값이며 stats_changed refresh는
+  director 주차 flags를 초기화할 수 있었다. 각 입력 준비의 마지막 실제 `_refresh_all`
+  뒤 before를 잡는 harness 수리만 했다. 수치 기대/80 ID·순서·표/43 입력 변경0이다.
+- 같은80 재검 모두 PASS, 최종 효과10의 전체 before/expected/after·delta{}를 확인했다.
+  최초에는 전체state hash만 있어 원래의 정확 delta를 소급 관측했다고 쓰지 않는다.
+  최종15입력 전후/current exact, engine exit0·stderr0·양쪽log fatal0·restore1,
+  process/storage 오류0이다. 원형 실패 로그와 임시 격리 storage는 보존했다.
+- 기존239의65는 원형으로1회 PASS, 상태65·표시65 exact/13입력 불변.
+  그 검사의 VIPempty 기대는 기존 lookup을 읽으므로 새 번역 정답 증거로 세지 않는다.
+  새80은 승인된 VIP 번역을 독립 literal 기대값으로 비교했다.
+- 최종 전체수용 hash/L1 38,587/errors0, 1,185입력 전후exact,70.778601667초/1회.
+  240/241 공유 명시 차선 `relationship-panel-vip-quantity` 첫9 PASS,
+  1,195입력 exact/87.844097208초. fullself259, JA122, ZH12446,
+  EN leak0, registry143, queue25/fence4, agent222, context/queue PASS.
+  ZH skeleton marker를 전체 번역/실플레이 완료로 쓰지 않는다. 전체감사·240주·
+  공개 패키지 재빌드·원어민·실제 화면 판정은 실행0이다.
+
+## 범위와 근거
+
+```text
+도달 경로      : RELATIONSHIP_PANEL_CHECK_OK cases=80 locales=5 source_keys=30 hint_rows=43 isolation=preautoload rendered=0
+생산자 ↔ 독자   : MainGame._relationship_type_label/_rel_effect_hint ↔ _render_sidebars Label; VIPempty ↔ GameState.add_log
+바꾸는 상태     : 번역 수용38497→38587; source copy2; 저장/게임플레이 변경0
+포기 시 잃는 것 : 없음 — 선택/효과 신규 저작이 아닌 표시 수리
+서사 위치       : 전체판 공유 관계 패널·기존 로그; 새 사건0
+장면 계층       : 해당 없음 — UI 현지화
+닫는 것         : 이30키·source2 내부 단위; 공개/인간/전체판 게이트 닫기0
+```
+
+실제 렌더·가독성·원어민·정상 속도 전체 플레이·물리 패드 감각은 미관찰이다.
+save-language는 parsed 관계/로그/플레이어명 왕복이며 전체 legacy migration이나
+기존 플레이어 disk save 검사가 아니다. 로그 날짜 metadata는 기존 logger 소유다.
+인접 VIP 완료/toast2·GameState 새 인연1, 다른 UI 및 칭호의 EN 직행은 별도 미완료다.
+판정은 [독립 보고](../agent_reviews/ORDER-240.json)가 소유한다.
+
+아래 SHA는 `.git/full-game-localization/`의 원형 증거이며 다음 세션이 필요할 때만 읽는다.
+- `order240-translation-final.json`: `e15b3ac750de17740d616033ce89ece5c32c57b4062fb778cb86b1954aea1c01`.
+- `order240-language-review.json`: `7f458b74c3690965065eabb29c183c25eb5ad03a55dc72650379058dc2106386`.
+- `order240-source-static-review.json`: `9999ca64150962c49f501a5b870e34791dc0b3408c44057018690e704c65fc92`.
+- `order240-relationship-panel-final.json`: `6bef3fe03d5feed9c494272efb7b6cf825bb6432ab88ccf60308ac0e1f8ec2cd`.
+- `order240-runtime-review.json`: `4b270fb35b120e2e09de000192b61c808aa71c810041f75860db41a27a5d1f7c`.
+- `order240-prior65-replay.json`: `99b496509a37670e9ed8141383a2bda26b9b462f7d8134892bf8fa4ba9886b92`.
+- `order240-repaired-l1.json`: `350bba3e27d5bc3365fd49e913e70d9929ee369c8ce1ca81ac9625c5b56a3e0b`.
+- `order240-official-final.json`: `99a4cb1e17f335c218b534fac2df28d00ec536bc484f93bfc0a0e368e637ddb4`.
+- `order240-official-check.json`: `801065234b5530d84c157439f11d33ce0b365d8c568c5dac1c097ff66025cf58`.
+- `order240-official-import.json`: `24b8fdc5cfeed6bea461e0887a019a256e29f877a3eca865e007bbc2517d9c3c`.
+- `order240-portable-proof.json`: `e3d50972711877737068d5f1e317a58ec44dc9c91320867f4638a705e28a1fb7`.
+- `order240-all-accepted-l1.json`: `e97238243218685534afb27e2dc18c68c4f1944f53333855c76a2d2a5fb9d71a`.
+- `order240-241-named-first.json`: `cba47a654858b6567e4539c19377abafa587478fceac1e680d19237bfb58a132`.
+
+## 선언·진행 원문 보존
+
 # Active Queue Spec: ORDER-240
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.

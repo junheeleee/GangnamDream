@@ -23,6 +23,27 @@
 > [`7/25`](history/WORK_LOG_2026-07-25.md)에 손실 없이 보존한다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
 
+## 2026-09-12 (Codex — 중국어 단수 수량 검사 오탐)
+
+- 실제 VIP2 번역은 유지, exact source/key/CN·TW 수량 helper+hook·새 self1만 수리.
+  독립 고정30(정상10/valid 변조14거부/OFF6) 첫 PASS, 기존258 tests/279 methods raw exact.
+- 같은240 L1 90의 source/target/필드 exact로2오탐→0. 전체수용38,587/0·명시9는240과 공유1회.
+  독립 Rawls work_unit241 GO, source ad7ff36/tree0f54fa5. [결과·원형](queue_archive/ORDER-241.md).
+- 완료231/230 원문2080B만 이력 앞으로 raw 이동, WORK 나머지/EOF2·history 역복원 exact.
+  준비 SyntaxError/동시 portable pin assert 원형 보존. 새 규범 없음·이번 범위는 일회성.
+
+## 2026-09-12 (Codex — 관계 패널 중립화·세 언어90)
+
+- category/empty KO·EN2 수리, UI30×3 수용. 신규62/기존JA6정밀화·22보존,
+  누적38,587/b98/meta9(JA12,861/CN·TW12,863). 이전38,497 원형 역복원 exact.
+- actual80 첫 표시80/상태70 → 초기화 준비만 고쳐 같은80 PASS(43hint·효과 기대불변).
+  이전65 원형1회 PASS. 기존 저장·type·이름·로그·게임플레이 변경0.
+- 전량 hash/L1 38,587 오류0/1185입력 exact·공유 명시9 PASS/1195입력 exact.
+  독립 Poincare work_unit240 GO, source ad7ff36/tree0f54fa5. [결과·실패·원형](queue_archive/ORDER-240.md).
+- 공개GO1/인간OPEN45/본편HOLD·native/render/인간플레이/물리감각 미관찰.
+  자동 검사는 재미·깊이·문체 판정이 아니다. 이번 source/키/검수는 일회성이다.
+  다음은 실제 칭호 도감·해금·엔딩의 영어 직행 경로. 휴면 tendency helper는 표시 수리로 세지 않는다.
+
 ## 2026-09-10 (Codex — 관계 이름·새 로그 세 언어 표시)
 
 - 역할14·부모 로그6의60값 수용, 신규값53(JA13/CN·TW20), 기존 JA7 보존.

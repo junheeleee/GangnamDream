@@ -1,0 +1,372 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-241",
+  "scope": "work_unit",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "ad7ff36b2118928ed9bfe007363475d6fcb51e04",
+    "tree": "0f54fa5da0cf18fcd86ab39b3f39bb0f55238c5b",
+    "manifest_sha256": null
+  },
+  "reviewed_head": "7b4bcce09b880883ebd392a2d4d22091abd467c0",
+  "reviewer": "Rawls / next_life_scope",
+  "role": "Independent final reviewer, not the ORDER241 code or control author. Rawls authored separate ORDER240 component tests; those tests and that unit are not certified anew by this verdict.",
+  "required": [],
+  "optional": [],
+  "decision": "Exact-source VIP Chinese singular-person numeric false-positive repair is complete within ORDER241. The two approved original translations stay unchanged, the numeric-only adapter is bounded, frozen controls and old checks are preserved, and shared final-input QA is bound to the observed source. This is not a whole-product or release GO.",
+  "identity": {
+    "clean_at_review": true,
+    "actual_read_only_resolver": "tools/human_gates.py:306 current_agent_source_subject",
+    "review_wrapper": "ad7ff36b2118928ed9bfe007363475d6fcb51e04 -> 7b4bcce09b880883ebd392a2d4d22091abd467c0",
+    "wrapper_changed_paths": [
+      "docs/STATUS.md"
+    ],
+    "source_selected_from": "Actual Git history and fixed metadata-wrapper allowlist, not an agent decision record.",
+    "code_pins": {
+      "tools/zh_translation_audit.py": {
+        "bytes": 1682962,
+        "sha256": "ef58e32b361f48969fe4d749f1d05cee17482a7df287b1b0befb07160817c2a0"
+      },
+      "tools/full_game_localization_self_test.py": {
+        "bytes": 1565121,
+        "sha256": "129091d63e0df275f83fce69ea1ad4b0e64640386a12629429daa51d9d92becb"
+      },
+      "tools/full_game_localization.py": {
+        "bytes": 276088,
+        "sha256": "c294603d7b2f99177ae9734661abb5ee82efae6cf4e47f353e408bd7b79e66b9"
+      },
+      "tools/ja_translation_pipeline.py": {
+        "bytes": 211497,
+        "sha256": "9ef5bd4e72bfc9e38858f86d027393ad342ab1f8ba06dc29f608fbc74ff868d7"
+      }
+    }
+  },
+  "readscope": [
+    "Current CLAUDE, active ORDER241 specification, CODEX_QUEUE active index and WORK_UNIT authority/evidence boundaries.",
+    "Full new _ui_vip_empty_person_numbers, full validate_text caller and exact e61b-to-source code2 diff; original numeric entry path and source-counter ownership; general functions protected by full raw/AST inverse comparison.",
+    "All 30 frozen control source/target/locale/key/expected/base relationships, retained pre actual2/OFF6, retained first post30 numeric/public error arrays, capture scripts and all new self assertions.",
+    "Actual MainGame:18306–18310 empty-VIP KO/EN log consumer; first/repaired90 KO/current target/hash pairs, official initial source field hashes and current UI dictionaries.",
+    "Shared whole-L1 and named9 runners and retained complete result text; independently rebuilt current 1185/1195 input manifests without executing either runner.",
+    "Git/source/current code4, direct WORK/history2080 inverse, protected human/project/agent/public-source/history pins; current source/resolver and ownership split."
+  ],
+  "attribution": {
+    "control_design": "Poincare: pre-implementation independent30; not designed by implementation output.",
+    "implementation_and_targeted_execution": "Plato: code2, pre actual2/OFF6 capture and one post30 execution.",
+    "supplemental_static_review": "Poincare order241-code-review.json; reviewed directly as supporting evidence, not a substitute for Rawls code/inverse/data comparison.",
+    "shared_execution": "ROOT: same240 90 L1 repair confirmation, one whole38587 pass and one final named9 pass.",
+    "this_review": "Read-only direct source/evidence inspection plus JSON/AST/hash/Git calculations. No validator/test/collector/Godot/QA rerun."
+  },
+  "findings": [
+    {
+      "id": "actual-language",
+      "decision": "PASS",
+      "source": "scenes/MainGame.gd:18308",
+      "detail": "The exact KO has one person asking about a next meeting while departing; actual 有个人/有個人 is ordinary singular 一 omission. Original approved CN/TW text remains exact. No appointment completion or new relation is added by this repair."
+    },
+    {
+      "id": "activation",
+      "decision": "PASS",
+      "source": "tools/zh_translation_audit.py:8577",
+      "detail": "Helper requires exactly CN/TW, full KO including whitespace and the canonical ui:KO:/KO key. Key aliases/events/source edits/JA/EN return None. No global classifier exception or full-target allowlist."
+    },
+    {
+      "id": "count-owner",
+      "decision": "PASS",
+      "detail": "Exactly one punctuation-bounded departure clause must attach one individual to asking about the next meeting. Wrong counts, groups, signs, duplicate/moved/recipient/plural slots do not supply that witness. 一 is inserted only before implicit 个/個 in the derived numeric target; explicit digits are value-checked without changing the original target."
+    },
+    {
+      "id": "remaining-checks",
+      "decision": "PASS",
+      "source": "tools/zh_translation_audit.py:8795",
+      "detail": "The complete derived pair still goes through original _numeric_errors, so quantities outside the one licensed slot remain checked. Original target still supplies script/Hangul/Kana, placeholders/BBCode, LF/paragraph, terminology, money and untranslated-English checks. General numeric parser and all prior source adapters are byte-exact."
+    },
+    {
+      "id": "fixed-regression",
+      "decision": "PASS",
+      "detail": "Embedded30 objects/order/source-target hashes/canonical digest and OFF6 original errors equal the pre-code corpus. All14 mutants have a passing normal of identical locale/key/source. Self asserts helper activation, numeric and public validation, base acceptance and exact OFF arrays. Same corpus is reused, not a second independent discovery population."
+    },
+    {
+      "id": "preservation",
+      "decision": "PASS",
+      "detail": "Removing only the new helper plus 3-line hook restores the entire old ZH file raw/AST. Removing only the new self method restores the entire old self file raw/AST. Previous258 tests remain, new259; full_game_localization.py and ja_translation_pipeline.py are unchanged."
+    },
+    {
+      "id": "final-input",
+      "decision": "PASS",
+      "detail": "Same90 source/target records before and after repair, errors2 to0. Current UI values and initial source field hashes recomputed exact. Whole38587 and named9 successful retained evidence independently matches current input manifests and actual source ad7ff36b/tree0f54fa5d."
+    },
+    {
+      "id": "scope",
+      "decision": "PASS",
+      "detail": "241/shared operation changes10 plus concurrent240-owned changes4 account for e61b-to-source14 paths. Runtime/locale/event/project changes0 in this comparison. Portable acceptance90 and component test2 are ORDER240 work, not new241 translation or runtime work."
+    }
+  ],
+  "static_measurements": {
+    "baseline": "e61b32f0d9e09a7c7015018b658e7f66afa80ab0",
+    "ZH_helper_and_hook_inverse_raw_AST_exact": true,
+    "self_added_method_inverse_raw_AST_exact": true,
+    "old_generic_numeric_raw_exact": true,
+    "unchanged_full_pipeline_and_JA_pipeline": true,
+    "old_self_tests": 258,
+    "new_self_tests": 259,
+    "new_test_method": "ExchangeTests.test_order241_vip_empty_person_frozen_controls",
+    "embedded_cases_exact": true,
+    "embedded_OFF_outputs_exact": true,
+    "case_digest": "499735e5ae88e7c907b21631271d75de9d44181147130580ea9e85d94139519c",
+    "population": {
+      "actual": 2,
+      "normal": 8,
+      "mutant": 14,
+      "off": 6
+    },
+    "valid_normal_base_contrasts": 14
+  },
+  "retained_runs": {
+    "pre": {
+      "actual": 2,
+      "OFF": 6,
+      "normal_actual_errors_each": [
+        "counter quantity missing/changed: expected (entity, 1), target candidates=[]"
+      ],
+      "inputs_before_after_exact": 13,
+      "note": "Only8, not an entire30 pre-code run; helper did not exist."
+    },
+    "first_post": {
+      "normal": 10,
+      "actual_within_normal": 2,
+      "valid_base_mutant_rejections": 14,
+      "OFF_None_and_original_errors_exact": 6,
+      "total": 30,
+      "seconds": 0.145751208,
+      "inputs_before_after_exact": 14,
+      "observation": "Numeric/public results recalculated from retained arrays, not executed by Rawls."
+    },
+    "first90_and_repaired90": {
+      "same_source_target_records": 90,
+      "first_error_leaves": 2,
+      "repaired_error_leaves": 0,
+      "current_target_hashes_and_initial_source_hashes_exact": 90,
+      "same_text_rewritten_for_validator": 0
+    },
+    "whole_L1": {
+      "accepted": 38587,
+      "total": 38587,
+      "errors": 0,
+      "seconds": 70.778601667,
+      "input_count": 1185,
+      "digest": "4c1af439215f00ad3475316305a60d666f3387ca062a21cb1cb8616f97e6a90c",
+      "current_source_tree_files_exact": true
+    },
+    "named9": {
+      "exit": 0,
+      "seconds": 87.844097208,
+      "full_self": 259,
+      "JA_self": 122,
+      "ZH_self": 12446,
+      "EN": "clean",
+      "registry": 143,
+      "queue_fixtures": 25,
+      "agent_fixtures": 222,
+      "stderr": "",
+      "changed_inputs": [],
+      "input_count": 1195,
+      "digest": "7854235a8930750d9e50820507fbd3672f4e1c792ea685c04a8620db76a08045",
+      "source_identity": {
+        "kind": "source",
+        "commit": "ad7ff36b2118928ed9bfe007363475d6fcb51e04",
+        "tree": "0f54fa5da0cf18fcd86ab39b3f39bb0f55238c5b",
+        "manifest_sha256": null
+      }
+    },
+    "denominator": "30 controls,90 shared selected fields,and38587 accepted fields are overlapping purposes; do not add them into a coverage claim. Shared named9/whole are one execution used by240 and241, not separately repeated."
+  },
+  "first_failure_retention": {
+    "first90": "Original2 numeric false positives remain in order240-first-l1.json.",
+    "control_preparation": "Original controls records a Python preparation SyntaxError before fixture write/validator calls; not an extra test failure.",
+    "author_static_capture": "order241-preservation-first-capture.json retains exit1: final cross-file equality saw concurrent ROOT portable acceptance. Earlier inverse assertions passed. Later author binding excluded mutable portable and kept the old post portable pin; no validators were rerun for this administrative capture.",
+    "portable_boundary": "Post30 preacceptance portable SHA44fd6a... is historical, not claimed current. Current a42f7f58... has38587/b98/meta9 from ORDER240; shared whole proof binds it."
+  },
+  "ownership_and_preservation": {
+    "scope241_paths": [
+      "CLAUDE.md",
+      "docs/CODEX_QUEUE.md",
+      "docs/STATUS.md",
+      "docs/WORK_LOG.md",
+      "docs/history/WORK_LOG_2026-09-07_localization.md",
+      "docs/queue_active/ORDER-241.md",
+      "docs/queue_backlog/FULL_GAME_LOCALIZATION.md",
+      "tools/audit_scope.json",
+      "tools/full_game_localization_self_test.py",
+      "tools/zh_translation_audit.py"
+    ],
+    "concurrent240_paths_excluded_from241": [
+      "content/meta/full_game_localization.json",
+      "docs/queue_active/ORDER-240.md",
+      "tools/RelationshipPanelLocaleCheck.tscn",
+      "tools/run_relationship_panel_locale_qa.sh"
+    ],
+    "outside_union": [],
+    "actual_changed_total": 14,
+    "review_wrapper_only": [
+      "docs/STATUS.md"
+    ],
+    "work_history": {
+      "moved_bytes": 2080,
+      "moved_sha256": "623f477f3b57f62819ff357a8d2d21bed5a0adcecc8be361d6f0e9545465852b",
+      "source_offset": 11270,
+      "raw_inverse_exact": true,
+      "WORK": {
+        "bytes": 36474,
+        "sha256": "4c0affa50a496309769832c3d7443366c4548defbde7798f553e78b3d75f9852",
+        "EOF_LF": 2
+      },
+      "history": {
+        "bytes": 90044,
+        "sha256": "20a8c23121b50db5f4e940748f4c43b6460e44e9a663a5aa9834686a777b752b",
+        "EOF_LF": 1
+      },
+      "old_WORK": {
+        "bytes": 38554,
+        "sha256": "0576868964f7498c7af6bde9972057fa93a305207c4cab795a398e026875c5fd"
+      },
+      "old_history": {
+        "bytes": 87964,
+        "sha256": "088819803283c7958b45c65369be6891e8ea37438c3a76450b8a40b49abb0b9e"
+      }
+    },
+    "protected_baseline_source_current_exact": {
+      "docs/human_gates.json": {
+        "bytes": 103390,
+        "sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6"
+      },
+      "docs/agent_review_decisions.json": {
+        "bytes": 41870,
+        "sha256": "6b973aaf724dd4568542f2c1d4876df939b4bef9b4fd3b7b698e136467ebbebd"
+      },
+      "project.godot": {
+        "bytes": 4699,
+        "sha256": "78e98d7bdc1349570df6f2cc7ca6cbb11d4fc5451f5bbfdd338561653c7380c5"
+      },
+      "content/meta/demo_localization_scope.json": {
+        "bytes": 75684,
+        "sha256": "9d50b64e6bc09d8e3e8e670fc48163ed5a0a419263cd0ffc601aac45c7abc7b6"
+      },
+      "content/meta/release_content_inventory.json": {
+        "bytes": 58750,
+        "sha256": "eaa588e0401af69a9079aa2d11f105e4e57c6780e5030c517320a34a5f251764"
+      },
+      "tools/evidence/order124_build_2026.08.24.2/MANIFEST.json": {
+        "bytes": 9238,
+        "sha256": "87f3491f7e526762203a83eb4ed25bbbba79981f7dc3ec812d49cdd955db1194"
+      },
+      "tools/evidence/order124_build_2026.08.24.2/MANIFEST.sha256": {
+        "bytes": 95,
+        "sha256": "38566c8aba5e395ee5e6ca964e4c41ece9770ccefaedc1f04c5670268c39e314"
+      },
+      "tools/evidence/order124_build_2026.08.24.2/LOSS_RECEIPT.json": {
+        "bytes": 2912,
+        "sha256": "c6b46379edf551f3724969415cf1a6809aea15cab029a50eb69a3c3785b71428"
+      }
+    },
+    "agent_decisions": 26,
+    "human_states": {
+      "done": 1,
+      "open": 45
+    },
+    "portable_not241": {
+      "bytes": 10012786,
+      "sha256": "a42f7f58b0ab2ce56d07158987c6a3051466b1c058d2966ffbe75cc202831f1e",
+      "accepted": {
+        "ja": 12861,
+        "zh-CN": 12863,
+        "zh-TW": 12863
+      },
+      "batches": 98,
+      "metadata": 9
+    },
+    "actual_scope_no_runtime_locale_delta_vs_e61": true,
+    "current_clean": true
+  },
+  "evidence_directory": ".git/full-game-localization",
+  "evidence_pins": {
+    "order241-controls.json": {
+      "bytes": 37163,
+      "sha256": "70d64e34df7ea50771b8040c311edbc9de845caf3579e3af278e2410691561e1"
+    },
+    "order241-pre-code-baseline.json": {
+      "bytes": 11031,
+      "sha256": "602b8add56f6d20bbde835b1af6b7c886454caa010cf32f88a4d3e7bd572f976"
+    },
+    "order241-post-code-result.json": {
+      "bytes": 34042,
+      "sha256": "b7955bf2ec6b61c22ad82b7beca4b0e353080f1fd56785a9571e60a75d8217bd"
+    },
+    "order241-author-freeze.json": {
+      "bytes": 3668,
+      "sha256": "729664799b3695d1a7726573d63d5a7bff1ab044482d53746116f260550d9f2b"
+    },
+    "order241-preservation-first-capture.json": {
+      "bytes": 793,
+      "sha256": "c1a4fc1726f757d76b84bb8a577dd389021170a9aadf6184eb3702637f32d4f1"
+    },
+    "order241-code-review.json": {
+      "bytes": 11110,
+      "sha256": "5f87d66ce724cff5103a1551ba6a129399bf8f90a798a70be492265cd0c15c31"
+    },
+    "order241-history-move.json": {
+      "bytes": 563,
+      "sha256": "19cf9160b9e8ecfe916491880ecf4ea1339b32762d56c9bf740112534499e8df"
+    },
+    "order240-first-l1.json": {
+      "bytes": 39737,
+      "sha256": "8e789ea5b88bfeba4a2b409ca55a2dbc609074e69a7f6b47fc4193906616cdb0"
+    },
+    "order240-repaired-l1.json": {
+      "bytes": 39549,
+      "sha256": "350bba3e27d5bc3365fd49e913e70d9929ee369c8ce1ca81ac9625c5b56a3e0b"
+    },
+    "order240-all-accepted-l1.json": {
+      "bytes": 1449,
+      "sha256": "e97238243218685534afb27e2dc18c68c4f1944f53333855c76a2d2a5fb9d71a"
+    },
+    "order240-241-named-first.json": {
+      "bytes": 3505,
+      "sha256": "cba47a654858b6567e4539c19377abafa587478fceac1e680d19237bfb58a132"
+    },
+    "order240-translation-final.json": {
+      "bytes": 8856,
+      "sha256": "e15b3ac750de17740d616033ce89ece5c32c57b4062fb778cb86b1954aea1c01"
+    }
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual rendered appearance",
+    "whole-game fun/depth/quality",
+    "external release/package/remote CI"
+  ],
+  "limits": [
+    "Finite exact-source numerical role recognizer, not universal Chinese grammar or proof of every proposition in surrounding prose.",
+    "Current corpus covers the stated cardinality/role boundaries. Arbitrary natural paraphrases or later new sources need their own evidence rather than wider exceptions.",
+    "Human record remains103390B, public GO1/OPEN45 remain; agent ledger26 records are unchanged. Existing whole-product HOLD is not replaced.",
+    "No actual engine/render/storage or player save test was run for241; preserved runtime and separate240 tests are not counted as new241 execution.",
+    "Source-only work_unit GO does not certify package artifacts, physical screens, native readers, store changes or new language shipping readiness.",
+    "Existing I18N and WORK_UNIT rules apply; this exact source/files/evidence sequence is a one-off unit contract, not a new canonical rule."
+  ],
+  "operations": {
+    "product_writes": 0,
+    "public_report_writes": 0,
+    "Git_writes": 0,
+    "validator_calls": 0,
+    "test_calls": 0,
+    "collector_calls": 0,
+    "engine_calls": 0,
+    "QA_calls": 0,
+    "read_only_source_resolver_calls": 1,
+    "private_written": ".git/full-game-localization/order241-agent-final-review.json"
+  },
+  "publication": "ROOT may publish these unchanged raw bytes at docs/agent_reviews/ORDER-241.json; the current review is not a future metadata-wrapper review.",
+  "quality_boundary": "자동 계약 검사는 도달성·계약의 증거이지 재미·깊이·문체·인간 판정의 증거가 아니다."
+}
