@@ -204,6 +204,46 @@
       "why": "Existing parent20 UI keys,60 approved targets and isolated actual410=retained405 plus five collection-chrome groups.110 nested core-label comparisons are not new cases. Preserve IDs, source/current-history expectations, gameplay, true-log non-message fields, saves and human evidence. Final unique12 reuses registered checks without local full audit or engine duplication."
     },
     {
+      "id": "remaining-title-localization",
+      "paths": [],
+      "owned_paths": [
+        "autoloads/MetaProgression.gd",
+        "tools/ja_translation_pipeline.py",
+        "tools/meta_title_locale_successor.py",
+        "tools/meta_title_locale_successor_self_test.py",
+        "locale/ui_ja.json",
+        "locale/ui_zh-CN.json",
+        "locale/ui_zh-TW.json",
+        "tools/MetaTitleLocaleCheck.tscn",
+        "tools/run_meta_title_locale_qa.sh",
+        "tools/audit_scope.json",
+        "content/meta/full_game_localization.json",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/queue_active/ORDER-255.md",
+        "docs/queue_archive/ORDER-255.md",
+        "docs/WORK_LOG.md",
+        "docs/STATUS.md",
+        "docs/queue_backlog/FULL_GAME_LOCALIZATION.md",
+        "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-255.json"
+      ],
+      "tools": [
+        "tools/zh_dice_title_consumer_self_test.py",
+        "tools/meta_title_locale_successor_self_test.py",
+        "tools/ja_translation_pipeline.py --self-test",
+        "tools/ja_translation_audit.py --scope ui",
+        "tools/full_game_localization_self_test.py",
+        "tools/zh_translation_audit.py --self-test",
+        "tools/en_coverage_check.py",
+        "tools/queue_index_self_test.py",
+        "tools/agent_review_decisions_self_test.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Eleven remaining specialization/choice/life titles,22 source surfaces and66 direct-Korean targets. New whole MP/JA authority precedes exact b5c/e2d predecessor and preserved description18/MG923/A1119/24524/24418. Existing415 and planned105 new consumer groups retain typed current-versus-history observations; nested conditions are separate. Preserve conditions, saved IDs, repaired source facts, prior38878 records and human evidence. Final unique12 once, no Chapter checker rewrite, local full audit or borrowed native/render/full-product GO."
+    },
+    {
       "id": "title-desc-source-reconciliation",
       "paths": [],
       "owned_paths": [

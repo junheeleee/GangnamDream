@@ -4,6 +4,21 @@
 > [9/12 현지화 보존본](history/WORK_LOG_2026-09-12_localization.md)에 손실 없이 보존한다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg`로 필요한 항목을 찾는다.
 
+## 2026-09-13 (Codex — 남은 칭호66 검토·source 적용)
+
+- KO22면에서 직접 저작한66을 독립 전량 검토했다. 첫CN1필수/JA1권고를 원형 보존하고
+  두 값만 수정한 승인313faccb·최종1b168c1d에 결속했다. UI3에22값씩 추가했으며
+  이전UI raw역복원exact·기존값 변경0이다. 공식 수용은 아직0이다.
+- clean b359195의 첫baseline26은 capture완료/0.823811917초/외부1194·내부19불변이다.
+  새API6부재·유효변조0이며, 예전 검사기의 새raw 거부는 수리 후 통과가 아니다.
+- 독립 source3 정적938980ed·ROOT whole inverse 확인 뒤 frozen22 lookup만 적용했다.
+  MP/JA/helper는 새 전단 뒤 b5c/e2d/07c6 원형을 보존하고 Chapter·조건·카탈로그는 불변이다.
+  새26 post와 기존역사·실제 소비자는 다음 검증이며 수용38878·인간원장은 그대로다.
+- main/원격mirror b359195 동기화. 이전a88e5c8 CI 양쪽 success와 cleanup ERROR를 구분했다.
+  새b359 CI는 실행 중이다. closure metadata 첫 STATUS_STALE를 보존하고 재생성 뒤6검사 통과했다.
+- 세션 개선: 큰 로그의 substring 검색은 내장 JSON 전체를 꺼낼 수 있다. CI marker는 타임스탬프를
+  제거한 행 시작 패턴과 길이 상한으로 찾고, 전체 raw는 별도 파일에 보존한다.
+
 ## 2026-09-13 (Codex — 남은 11칭호 번역 착수)
 
 - [선언](queue_active/ORDER-255.md): 전문화·선택·인생 칭호 11개 name/desc 22면의

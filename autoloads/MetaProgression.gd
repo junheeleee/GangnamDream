@@ -796,6 +796,39 @@ func _localized_title(title: Dictionary) -> Dictionary:
 		"daisai_master_title":
 			localized["name"] = LocaleManager.ui("주사위의 밤", "Night of Dice")
 			localized["desc"] = LocaleManager.ui("다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.", "Played 15 or more Dai Sai rounds. You remember the sound of three dice rolling.")
+		"spec_elite_title":
+			localized["name"] = LocaleManager.ui("엘리트의 길", "Path of the Elite")
+			localized["desc"] = LocaleManager.ui("엘리트 전문화 선택. 정석의 끝에는 무엇이 있을까.", "Chose the elite specialization. What waits at the end of the proper path?")
+		"spec_quant_title":
+			localized["name"] = LocaleManager.ui("퀀트 마인드", "Quant Mind")
+			localized["desc"] = LocaleManager.ui("퀀트형 전문화 선택. 시장을 수식으로 본다.", "Chose the quant specialization. You see the market as equations.")
+		"spec_founder_title":
+			localized["name"] = LocaleManager.ui("창업가 정신", "Founder Spirit")
+			localized["desc"] = LocaleManager.ui("창업형 전문화 선택. 아무것도 없는 곳에서 시작한 사람.", "Chose the founder specialization. Someone who began from nothing.")
+		"clean_run_title":
+			localized["name"] = LocaleManager.ui("청렴한 강남행", "Clean Road to Gangnam")
+			localized["desc"] = LocaleManager.ui("도박판에서 손을 떼겠다고 시작한 인생. 마지막에 남은 자산은 30억 이상이었다.", "You began that life intending to leave gambling behind. It ended with at least 3 billion won in assets.")
+		"network_run_title":
+			localized["name"] = LocaleManager.ui("서울 인맥왕", "Seoul Network King")
+			localized["desc"] = LocaleManager.ui("맺어 온 인연을 따라 강남에 들어섰다. 결국 사람이 가장 큰 자산이었다.", "The people you came to know opened the way into Gangnam. In the end, people were the greatest asset.")
+		"temptation_resist_title":
+			localized["name"] = LocaleManager.ui("그날 밤의 선택", "Choice That Night")
+			localized["desc"] = LocaleManager.ui("가장 어려울 때 쉬운 돈을 거절했다. 그 선택이 모든 것의 시작이었다.", "Refused easy money when things were hardest. That choice began everything.")
+		"high_road_title":
+			localized["name"] = LocaleManager.ui("선을 지킨 사람", "One Who Held the Line")
+			localized["desc"] = LocaleManager.ui("친구를 경찰에 넘겼다. 옳은 일은 가끔 가장 아픈 일이다.", "Turned your friend over to the police. The right thing is sometimes the most painful thing.")
+		"father_peace_title":
+			localized["name"] = LocaleManager.ui("마지막 봄", "Last Spring")
+			localized["desc"] = LocaleManager.ui("아버지와 화해했다. 둘 사이의 침묵이 조금 달라졌다.", "Made peace with your father. The silence between you felt a little different.")
+		"love_chosen_title":
+			localized["name"] = LocaleManager.ui("사랑을 택한 사람", "One Who Chose Love")
+			localized["desc"] = LocaleManager.ui("갈림길에서 다은을 붙잡았다. 강남보다 먼저 잡은 것.", "Held onto Daeun at the crossroads. Something you caught before Gangnam.")
+		"investigator_title":
+			localized["name"] = LocaleManager.ui("의심하는 자", "The Suspicious One")
+			localized["desc"] = LocaleManager.ui("친구의 경고를 흘려듣지 않았다. 의심은 때로 우정의 다른 이름이다.", "Did not dismiss your friend's warning. Suspicion is sometimes another name for friendship.")
+		"white_gangnam_title":
+			localized["name"] = LocaleManager.ui("수첩의 다음 장", "The Notebook's Next Page")
+			localized["desc"] = LocaleManager.ui("30억과 강남의 등기를 손에 쥔 뒤, 하지 않았던 일들을 돌아보며 오래된 수첩의 다음 장을 폈다.", "With 3 billion won and a Gangnam deed in hand, you looked back on what you had refused to do and opened the old notebook to its next page.")
 	return localized
 
 func check_and_unlock_titles() -> Array:

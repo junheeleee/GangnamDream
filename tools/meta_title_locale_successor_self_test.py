@@ -4375,5 +4375,1738 @@ def _desc_main():
 # END_TWO_DESC_SELF_254
 
 
+
+
+# BEGIN_LAST11_META_TITLE_SELF_255
+LAST11_SPEC = json.loads(r'''{
+  "source_rows22": [
+    {
+      "id": "spec_elite_title",
+      "field": "name",
+      "ko": "엘리트의 길",
+      "en": "Path of the Elite"
+    },
+    {
+      "id": "spec_elite_title",
+      "field": "desc",
+      "ko": "엘리트 전문화 선택. 정석의 끝에는 무엇이 있을까.",
+      "en": "Chose the elite specialization. What waits at the end of the proper path?"
+    },
+    {
+      "id": "spec_quant_title",
+      "field": "name",
+      "ko": "퀀트 마인드",
+      "en": "Quant Mind"
+    },
+    {
+      "id": "spec_quant_title",
+      "field": "desc",
+      "ko": "퀀트형 전문화 선택. 시장을 수식으로 본다.",
+      "en": "Chose the quant specialization. You see the market as equations."
+    },
+    {
+      "id": "spec_founder_title",
+      "field": "name",
+      "ko": "창업가 정신",
+      "en": "Founder Spirit"
+    },
+    {
+      "id": "spec_founder_title",
+      "field": "desc",
+      "ko": "창업형 전문화 선택. 아무것도 없는 곳에서 시작한 사람.",
+      "en": "Chose the founder specialization. Someone who began from nothing."
+    },
+    {
+      "id": "clean_run_title",
+      "field": "name",
+      "ko": "청렴한 강남행",
+      "en": "Clean Road to Gangnam"
+    },
+    {
+      "id": "clean_run_title",
+      "field": "desc",
+      "ko": "도박판에서 손을 떼겠다고 시작한 인생. 마지막에 남은 자산은 30억 이상이었다.",
+      "en": "You began that life intending to leave gambling behind. It ended with at least 3 billion won in assets."
+    },
+    {
+      "id": "network_run_title",
+      "field": "name",
+      "ko": "서울 인맥왕",
+      "en": "Seoul Network King"
+    },
+    {
+      "id": "network_run_title",
+      "field": "desc",
+      "ko": "맺어 온 인연을 따라 강남에 들어섰다. 결국 사람이 가장 큰 자산이었다.",
+      "en": "The people you came to know opened the way into Gangnam. In the end, people were the greatest asset."
+    },
+    {
+      "id": "temptation_resist_title",
+      "field": "name",
+      "ko": "그날 밤의 선택",
+      "en": "Choice That Night"
+    },
+    {
+      "id": "temptation_resist_title",
+      "field": "desc",
+      "ko": "가장 어려울 때 쉬운 돈을 거절했다. 그 선택이 모든 것의 시작이었다.",
+      "en": "Refused easy money when things were hardest. That choice began everything."
+    },
+    {
+      "id": "high_road_title",
+      "field": "name",
+      "ko": "선을 지킨 사람",
+      "en": "One Who Held the Line"
+    },
+    {
+      "id": "high_road_title",
+      "field": "desc",
+      "ko": "친구를 경찰에 넘겼다. 옳은 일은 가끔 가장 아픈 일이다.",
+      "en": "Turned your friend over to the police. The right thing is sometimes the most painful thing."
+    },
+    {
+      "id": "father_peace_title",
+      "field": "name",
+      "ko": "마지막 봄",
+      "en": "Last Spring"
+    },
+    {
+      "id": "father_peace_title",
+      "field": "desc",
+      "ko": "아버지와 화해했다. 둘 사이의 침묵이 조금 달라졌다.",
+      "en": "Made peace with your father. The silence between you felt a little different."
+    },
+    {
+      "id": "love_chosen_title",
+      "field": "name",
+      "ko": "사랑을 택한 사람",
+      "en": "One Who Chose Love"
+    },
+    {
+      "id": "love_chosen_title",
+      "field": "desc",
+      "ko": "갈림길에서 다은을 붙잡았다. 강남보다 먼저 잡은 것.",
+      "en": "Held onto Daeun at the crossroads. Something you caught before Gangnam."
+    },
+    {
+      "id": "investigator_title",
+      "field": "name",
+      "ko": "의심하는 자",
+      "en": "The Suspicious One"
+    },
+    {
+      "id": "investigator_title",
+      "field": "desc",
+      "ko": "친구의 경고를 흘려듣지 않았다. 의심은 때로 우정의 다른 이름이다.",
+      "en": "Did not dismiss your friend's warning. Suspicion is sometimes another name for friendship."
+    },
+    {
+      "id": "white_gangnam_title",
+      "field": "name",
+      "ko": "수첩의 다음 장",
+      "en": "The Notebook's Next Page"
+    },
+    {
+      "id": "white_gangnam_title",
+      "field": "desc",
+      "ko": "30억과 강남의 등기를 손에 쥔 뒤, 하지 않았던 일들을 돌아보며 오래된 수첩의 다음 장을 폈다.",
+      "en": "With 3 billion won and a Gangnam deed in hand, you looked back on what you had refused to do and opened the old notebook to its next page."
+    }
+  ],
+  "api": {
+    "one_step": [
+      "last11_source_errors(relative,current,registered_previous=None) -> list[str]",
+      "last11_project_bytes(current,relative) -> bytes",
+      "last11_project_byte_hash(claim,relative,current) -> str"
+    ],
+    "ja_entry": "_last11_meta_title_predecessor_calls(calls,source=None) -> (previous_calls,previous_MP_source,errors)",
+    "registry": "LAST11_SOURCE_ROWS tuple22(id,field,ko,en); LAST11_TRANSITIONS {path:{previous_sha256,current_sha256,start,end,include_end,span_sha256,hooks}}; _LAST11_REGISTRY_SHA256",
+    "one_step_previous": {
+      "autoloads/MetaProgression.gd": "b5c73771546c1fdc0d136aed45cdd14ee8e829fcc6aff88dfb607288cecf4f7d",
+      "tools/ja_translation_pipeline.py": "e2d666c19637fd20df8750187870e27cc1770c63d73db232e8035b8d072abe9c"
+    },
+    "public_mg9_previous": {
+      "autoloads/MetaProgression.gd": "afe8bda86177950ef82fb8d2eea339ae398d59534897719c9b803bacf292a1b6",
+      "tools/ja_translation_pipeline.py": "504b5ef8707568b199df35179b1753ab25706b2004fa3d0fc0fa879b18303906"
+    },
+    "chapter_registered_old_mp": "a36617f4979e08a37e89cecc0566a4e64d54bb5373469e2fa1e162d10dde34dc"
+  },
+  "implementation_seam_contract": {
+    "mp_append_only": {
+      "owner": "_localized_title",
+      "before": "\treturn localized\n",
+      "before_count": 1,
+      "exact_new_span": "\t\t\"spec_elite_title\":\n\t\t\tlocalized[\"name\"] = LocaleManager.ui(\"엘리트의 길\", \"Path of the Elite\")\n\t\t\tlocalized[\"desc\"] = LocaleManager.ui(\"엘리트 전문화 선택. 정석의 끝에는 무엇이 있을까.\", \"Chose the elite specialization. What waits at the end of the proper path?\")\n\t\t\"spec_quant_title\":\n\t\t\tlocalized[\"name\"] = LocaleManager.ui(\"퀀트 마인드\", \"Quant Mind\")\n\t\t\tlocalized[\"desc\"] = LocaleManager.ui(\"퀀트형 전문화 선택. 시장을 수식으로 본다.\", \"Chose the quant specialization. You see the market as equations.\")\n\t\t\"spec_founder_title\":\n\t\t\tlocalized[\"name\"] = LocaleManager.ui(\"창업가 정신\", \"Founder Spirit\")\n\t\t\tlocalized[\"desc\"] = LocaleManager.ui(\"창업형 전문화 선택. 아무것도 없는 곳에서 시작한 사람.\", \"Chose the founder specialization. Someone who began from nothing.\")\n\t\t\"clean_run_title\":\n\t\t\tlocalized[\"name\"] = LocaleManager.ui(\"청렴한 강남행\", \"Clean Road to Gangnam\")\n\t\t\tlocalized[\"desc\"] = LocaleManager.ui(\"도박판에서 손을 떼겠다고 시작한 인생. 마지막에 남은 자산은 30억 이상이었다.\", \"You began that life intending to leave gambling behind. It ended with at least 3 billion won in assets.\")\n\t\t\"network_run_title\":\n\t\t\tlocalized[\"name\"] = LocaleManager.ui(\"서울 인맥왕\", \"Seoul Network King\")\n\t\t\tlocalized[\"desc\"] = LocaleManager.ui(\"맺어 온 인연을 따라 강남에 들어섰다. 결국 사람이 가장 큰 자산이었다.\", \"The people you came to know opened the way into Gangnam. In the end, people were the greatest asset.\")\n\t\t\"temptation_resist_title\":\n\t\t\tlocalized[\"name\"] = LocaleManager.ui(\"그날 밤의 선택\", \"Choice That Night\")\n\t\t\tlocalized[\"desc\"] = LocaleManager.ui(\"가장 어려울 때 쉬운 돈을 거절했다. 그 선택이 모든 것의 시작이었다.\", \"Refused easy money when things were hardest. That choice began everything.\")\n\t\t\"high_road_title\":\n\t\t\tlocalized[\"name\"] = LocaleManager.ui(\"선을 지킨 사람\", \"One Who Held the Line\")\n\t\t\tlocalized[\"desc\"] = LocaleManager.ui(\"친구를 경찰에 넘겼다. 옳은 일은 가끔 가장 아픈 일이다.\", \"Turned your friend over to the police. The right thing is sometimes the most painful thing.\")\n\t\t\"father_peace_title\":\n\t\t\tlocalized[\"name\"] = LocaleManager.ui(\"마지막 봄\", \"Last Spring\")\n\t\t\tlocalized[\"desc\"] = LocaleManager.ui(\"아버지와 화해했다. 둘 사이의 침묵이 조금 달라졌다.\", \"Made peace with your father. The silence between you felt a little different.\")\n\t\t\"love_chosen_title\":\n\t\t\tlocalized[\"name\"] = LocaleManager.ui(\"사랑을 택한 사람\", \"One Who Chose Love\")\n\t\t\tlocalized[\"desc\"] = LocaleManager.ui(\"갈림길에서 다은을 붙잡았다. 강남보다 먼저 잡은 것.\", \"Held onto Daeun at the crossroads. Something you caught before Gangnam.\")\n\t\t\"investigator_title\":\n\t\t\tlocalized[\"name\"] = LocaleManager.ui(\"의심하는 자\", \"The Suspicious One\")\n\t\t\tlocalized[\"desc\"] = LocaleManager.ui(\"친구의 경고를 흘려듣지 않았다. 의심은 때로 우정의 다른 이름이다.\", \"Did not dismiss your friend's warning. Suspicion is sometimes another name for friendship.\")\n\t\t\"white_gangnam_title\":\n\t\t\tlocalized[\"name\"] = LocaleManager.ui(\"수첩의 다음 장\", \"The Notebook's Next Page\")\n\t\t\tlocalized[\"desc\"] = LocaleManager.ui(\"30억과 강남의 등기를 손에 쥔 뒤, 하지 않았던 일들을 돌아보며 오래된 수첩의 다음 장을 폈다.\", \"With 3 billion won and a Gangnam deed in hand, you looked back on what you had refused to do and opened the old notebook to its next page.\")\n",
+      "expected_new_legacy_calls": 22,
+      "expected_total_literal_calls": 105,
+      "expected_localized_calls": 100,
+      "expected_branches": 50,
+      "condition_catalog_all_other_bytes": "WHOLE_INVERSE_TO_BASELINE_b5c"
+    },
+    "ja_new_span": {
+      "start": "# BEGIN_LAST11_META_TITLE_SUCCESSOR_255\n",
+      "end": "# END_LAST11_META_TITLE_SUCCESSOR_255\n\n\n",
+      "include_end": true,
+      "content_sha256": null,
+      "meaning": "Names of boundary markers are precode protocol, not candidate observations."
+    },
+    "ja_only_hooks_current_previous": [
+      [
+        "    predecessor_calls, predecessor_source, next_title_errors = _last11_meta_title_chain_calls(calls)",
+        "    predecessor_calls, predecessor_source, next_title_errors = _mg9_meta_title_chain_calls(calls)"
+      ],
+      [
+        "    stats, title_stat_errors = _last11_meta_title_current_stats(\n        calls, predecessor_calls, predecessor_source, stats)",
+        "    stats, title_stat_errors = _mg9_meta_title_current_stats(\n        calls, predecessor_calls, predecessor_source, stats)"
+      ],
+      [
+        "        ui_inventory, meta_title_cases, meta_title_failures = _last11_meta_title_historical_checks(ui_inventory)",
+        "        ui_inventory, meta_title_cases, meta_title_failures = _mg9_meta_title_historical_checks(ui_inventory)"
+      ]
+    ],
+    "old_hook_counts": [
+      1,
+      1,
+      1
+    ],
+    "ja_inverse": "new span removal plus three exact1 inverse hooks yields e2d whole raw",
+    "helper_prefix": "every prior byte and DESC/MG9 registry/function stays unchanged; appended outer delegates saved current desc-bound public callables",
+    "chapter": "No edit; actual dynamic attribute lookup/raw-before-hash path retained",
+    "history_context": "MP/JA previous raw+text and saved public mg9 dispatcher patched only inside narrow context, restore on normal exit and exception; context restoration is a static/final-history review obligation, not a hidden 27th mutation",
+    "old_current_calls": "normal entry removes only selected22; independent parse of baseline MP must equal remaining83 as semantic tuples excluding shifted source line, not author-synthesized fallback calls",
+    "current_vs_history": "current inventory/export retains new22; only guarded history view removes them"
+  },
+  "cases": [
+    {
+      "id": "normal_mp",
+      "kind": "normal",
+      "path": "autoloads/MetaProgression.gd",
+      "normal_bases": [],
+      "recipe": {
+        "input": "ROOT_APPROVED_CURRENT_MP",
+        "claim": "SHA256(input)",
+        "registered_previous": "b5c73771546c1fdc0d136aed45cdd14ee8e829fcc6aff88dfb607288cecf4f7d",
+        "public_registered_previous": "afe8bda86177950ef82fb8d2eea339ae398d59534897719c9b803bacf292a1b6"
+      },
+      "expected": {
+        "last11_source": "PASS_EMPTY",
+        "one_step_bytes_sha256": "b5c73771546c1fdc0d136aed45cdd14ee8e829fcc6aff88dfb607288cecf4f7d",
+        "one_step_claim": "b5c73771546c1fdc0d136aed45cdd14ee8e829fcc6aff88dfb607288cecf4f7d",
+        "public_mg9_source": "PASS_EMPTY",
+        "public_mg9_bytes_sha256": "afe8bda86177950ef82fb8d2eea339ae398d59534897719c9b803bacf292a1b6",
+        "public_mg9_claim": "afe8bda86177950ef82fb8d2eea339ae398d59534897719c9b803bacf292a1b6",
+        "ja_entry": "PASS_EMPTY_REMOVE_EXACT22_KEEP_OTHER83",
+        "ja_previous_mp_sha256": "b5c73771546c1fdc0d136aed45cdd14ee8e829fcc6aff88dfb607288cecf4f7d",
+        "chapter_snapshot": "PASS_EMPTY",
+        "previous_read_context": "MP_b5c_JA_e2d_AND_SAVED_DESC_BOUND_PUBLIC_API",
+        "exception": false
+      },
+      "reason": "Both physical sources must first match independently approved current whole bytes. A path-specific valid projection is not sufficient without the real JA entry and, for MP, unchanged Chapter snapshot gate."
+    },
+    {
+      "id": "normal_ja",
+      "kind": "normal",
+      "path": "tools/ja_translation_pipeline.py",
+      "normal_bases": [],
+      "recipe": {
+        "input": "ROOT_APPROVED_CURRENT_JA",
+        "claim": "SHA256(input)",
+        "registered_previous": "e2d666c19637fd20df8750187870e27cc1770c63d73db232e8035b8d072abe9c",
+        "public_registered_previous": "504b5ef8707568b199df35179b1753ab25706b2004fa3d0fc0fa879b18303906"
+      },
+      "expected": {
+        "last11_source": "PASS_EMPTY",
+        "one_step_bytes_sha256": "e2d666c19637fd20df8750187870e27cc1770c63d73db232e8035b8d072abe9c",
+        "one_step_claim": "e2d666c19637fd20df8750187870e27cc1770c63d73db232e8035b8d072abe9c",
+        "public_mg9_source": "PASS_EMPTY",
+        "public_mg9_bytes_sha256": "504b5ef8707568b199df35179b1753ab25706b2004fa3d0fc0fa879b18303906",
+        "public_mg9_claim": "504b5ef8707568b199df35179b1753ab25706b2004fa3d0fc0fa879b18303906",
+        "ja_entry": "PASS_EMPTY_REMOVE_EXACT22_KEEP_OTHER83",
+        "ja_previous_mp_sha256": "b5c73771546c1fdc0d136aed45cdd14ee8e829fcc6aff88dfb607288cecf4f7d",
+        "chapter_snapshot": "NOT_APPLICABLE_JA_NOT_A_CHAPTER_RAW_TARGET",
+        "previous_read_context": "MP_b5c_JA_e2d_AND_SAVED_DESC_BOUND_PUBLIC_API",
+        "exception": false
+      },
+      "reason": "Both physical sources must first match independently approved current whole bytes. A path-specific valid projection is not sufficient without the real JA entry and, for MP, unchanged Chapter snapshot gate."
+    },
+    {
+      "id": "rollback_mp_whole",
+      "kind": "raw_negative",
+      "path": "autoloads/MetaProgression.gd",
+      "normal_bases": [
+        "normal_mp",
+        "normal_ja"
+      ],
+      "recipe": {
+        "input": "BASELINE_RAW",
+        "sha256": "b5c73771546c1fdc0d136aed45cdd14ee8e829fcc6aff88dfb607288cecf4f7d",
+        "peer": "ROOT_APPROVED_CURRENT_OTHER_PATH",
+        "claim": "SHA256(input)"
+      },
+      "expected": {
+        "last11_source": "REJECT_NONEMPTY",
+        "one_step_bytes": "INPUT_IDENTITY",
+        "one_step_claim": "INPUT_CLAIM_IDENTITY",
+        "public_mg9_source": "REJECT_NONEMPTY",
+        "public_mg9_bytes": "INPUT_IDENTITY",
+        "public_mg9_claim": "INPUT_CLAIM_IDENTITY",
+        "ja_entry": "REJECT_RETURN_ORIGINAL_CALLS_AND_SOURCE",
+        "prior_dispatch_reached": false,
+        "exception": false,
+        "chapter_snapshot": "REJECT_NONEMPTY"
+      },
+      "reason": "A formerly approved predecessor is not the newest approved physical source. No old-output replay may promote whole rollback."
+    },
+    {
+      "id": "rollback_ja_whole",
+      "kind": "raw_negative",
+      "path": "tools/ja_translation_pipeline.py",
+      "normal_bases": [
+        "normal_mp",
+        "normal_ja"
+      ],
+      "recipe": {
+        "input": "BASELINE_RAW",
+        "sha256": "e2d666c19637fd20df8750187870e27cc1770c63d73db232e8035b8d072abe9c",
+        "peer": "ROOT_APPROVED_CURRENT_OTHER_PATH",
+        "claim": "SHA256(input)"
+      },
+      "expected": {
+        "last11_source": "REJECT_NONEMPTY",
+        "one_step_bytes": "INPUT_IDENTITY",
+        "one_step_claim": "INPUT_CLAIM_IDENTITY",
+        "public_mg9_source": "REJECT_NONEMPTY",
+        "public_mg9_bytes": "INPUT_IDENTITY",
+        "public_mg9_claim": "INPUT_CLAIM_IDENTITY",
+        "ja_entry": "REJECT_RETURN_ORIGINAL_CALLS_AND_SOURCE",
+        "prior_dispatch_reached": false,
+        "exception": false,
+        "chapter_snapshot": "NOT_APPLICABLE"
+      },
+      "reason": "A formerly approved predecessor is not the newest approved physical source. No old-output replay may promote whole rollback."
+    },
+    {
+      "id": "selected_branch_id_drift",
+      "kind": "raw_negative",
+      "path": "autoloads/MetaProgression.gd",
+      "normal_bases": [
+        "normal_mp",
+        "normal_ja"
+      ],
+      "recipe": {
+        "input": "ROOT_APPROVED_CURRENT_MP",
+        "operation": "replace_exact1_within_owned_new_mp_span",
+        "before": "\t\t\"spec_elite_title\":\n",
+        "after": "\t\t\"spec_elite_title_wrong\":\n",
+        "before_count": 1,
+        "after_count": 0,
+        "claim": "SHA256(mutated_input)"
+      },
+      "expected": {
+        "last11_source": "REJECT_NONEMPTY",
+        "one_step_bytes": "INPUT_IDENTITY",
+        "one_step_claim": "INPUT_CLAIM_IDENTITY",
+        "public_mg9_source": "REJECT_NONEMPTY",
+        "public_mg9_bytes": "INPUT_IDENTITY",
+        "public_mg9_claim": "INPUT_CLAIM_IDENTITY",
+        "ja_entry": "REJECT_RETURN_ORIGINAL_CALLS_AND_SOURCE",
+        "prior_dispatch_reached": false,
+        "exception": false,
+        "chapter_snapshot": "REJECT_NONEMPTY"
+      },
+      "reason": "Keep catalog and all literal pairs intact while changing the actual newly selected runtime owner ID. Raw authority must reject."
+    },
+    {
+      "id": "nonselected_condition_drift",
+      "kind": "raw_negative",
+      "path": "autoloads/MetaProgression.gd",
+      "normal_bases": [
+        "normal_mp",
+        "normal_ja"
+      ],
+      "recipe": {
+        "input": "ROOT_APPROVED_CURRENT_MP",
+        "operation": "replace_exact1_whole_raw",
+        "before": "\t\t\"gosiwon_survivor\":   return GameState.housing_months.get(\"gosiwon\", 0) >= 12\n",
+        "after": "\t\t\"gosiwon_survivor\":   return GameState.housing_months.get(\"gosiwon\", 0) >= 11\n",
+        "before_count": 1,
+        "after_count": 0,
+        "claim": "SHA256(mutated_input)"
+      },
+      "expected": {
+        "last11_source": "REJECT_NONEMPTY",
+        "one_step_bytes": "INPUT_IDENTITY",
+        "one_step_claim": "INPUT_CLAIM_IDENTITY",
+        "public_mg9_source": "REJECT_NONEMPTY",
+        "public_mg9_bytes": "INPUT_IDENTITY",
+        "public_mg9_claim": "INPUT_CLAIM_IDENTITY",
+        "ja_entry": "REJECT_RETURN_ORIGINAL_CALLS_AND_SOURCE",
+        "prior_dispatch_reached": false,
+        "exception": false,
+        "chapter_snapshot": "REJECT_NONEMPTY"
+      },
+      "reason": "An existing gosiwon condition is outside the 11 new lookups. The newest gate cannot project away an unrelated gameplay change."
+    },
+    {
+      "id": "mp_append_lf",
+      "kind": "raw_negative",
+      "path": "autoloads/MetaProgression.gd",
+      "normal_bases": [
+        "normal_mp",
+        "normal_ja"
+      ],
+      "recipe": {
+        "input": "ROOT_APPROVED_CURRENT_MP",
+        "operation": "append_one_byte_0a",
+        "precondition": "approved raw contains LF and zero CR bytes; no text newline normalization",
+        "claim": "SHA256(mutated_input)"
+      },
+      "expected": {
+        "last11_source": "REJECT_NONEMPTY",
+        "one_step_bytes": "INPUT_IDENTITY",
+        "one_step_claim": "INPUT_CLAIM_IDENTITY",
+        "public_mg9_source": "REJECT_NONEMPTY",
+        "public_mg9_bytes": "INPUT_IDENTITY",
+        "public_mg9_claim": "INPUT_CLAIM_IDENTITY",
+        "ja_entry": "REJECT_RETURN_ORIGINAL_CALLS_AND_SOURCE",
+        "prior_dispatch_reached": false,
+        "exception": false,
+        "chapter_snapshot": "REJECT_NONEMPTY"
+      },
+      "reason": "Exact raw source is the authority. A text reader must not silently normalize line endings."
+    },
+    {
+      "id": "mp_crlf",
+      "kind": "raw_negative",
+      "path": "autoloads/MetaProgression.gd",
+      "normal_bases": [
+        "normal_mp",
+        "normal_ja"
+      ],
+      "recipe": {
+        "input": "ROOT_APPROVED_CURRENT_MP",
+        "operation": "replace_every_0a_with_0d0a",
+        "precondition": "approved raw contains LF and zero CR bytes; no text newline normalization",
+        "claim": "SHA256(mutated_input)"
+      },
+      "expected": {
+        "last11_source": "REJECT_NONEMPTY",
+        "one_step_bytes": "INPUT_IDENTITY",
+        "one_step_claim": "INPUT_CLAIM_IDENTITY",
+        "public_mg9_source": "REJECT_NONEMPTY",
+        "public_mg9_bytes": "INPUT_IDENTITY",
+        "public_mg9_claim": "INPUT_CLAIM_IDENTITY",
+        "ja_entry": "REJECT_RETURN_ORIGINAL_CALLS_AND_SOURCE",
+        "prior_dispatch_reached": false,
+        "exception": false,
+        "chapter_snapshot": "REJECT_NONEMPTY"
+      },
+      "reason": "Exact raw source is the authority. A text reader must not silently normalize line endings."
+    },
+    {
+      "id": "ja_append_lf",
+      "kind": "raw_negative",
+      "path": "tools/ja_translation_pipeline.py",
+      "normal_bases": [
+        "normal_mp",
+        "normal_ja"
+      ],
+      "recipe": {
+        "input": "ROOT_APPROVED_CURRENT_JA",
+        "operation": "append_one_byte_0a",
+        "precondition": "approved raw contains LF and zero CR bytes; no text newline normalization",
+        "claim": "SHA256(mutated_input)"
+      },
+      "expected": {
+        "last11_source": "REJECT_NONEMPTY",
+        "one_step_bytes": "INPUT_IDENTITY",
+        "one_step_claim": "INPUT_CLAIM_IDENTITY",
+        "public_mg9_source": "REJECT_NONEMPTY",
+        "public_mg9_bytes": "INPUT_IDENTITY",
+        "public_mg9_claim": "INPUT_CLAIM_IDENTITY",
+        "ja_entry": "REJECT_RETURN_ORIGINAL_CALLS_AND_SOURCE",
+        "prior_dispatch_reached": false,
+        "exception": false,
+        "chapter_snapshot": "NOT_APPLICABLE"
+      },
+      "reason": "Exact raw source is the authority. A text reader must not silently normalize line endings."
+    },
+    {
+      "id": "ja_crlf",
+      "kind": "raw_negative",
+      "path": "tools/ja_translation_pipeline.py",
+      "normal_bases": [
+        "normal_mp",
+        "normal_ja"
+      ],
+      "recipe": {
+        "input": "ROOT_APPROVED_CURRENT_JA",
+        "operation": "replace_every_0a_with_0d0a",
+        "precondition": "approved raw contains LF and zero CR bytes; no text newline normalization",
+        "claim": "SHA256(mutated_input)"
+      },
+      "expected": {
+        "last11_source": "REJECT_NONEMPTY",
+        "one_step_bytes": "INPUT_IDENTITY",
+        "one_step_claim": "INPUT_CLAIM_IDENTITY",
+        "public_mg9_source": "REJECT_NONEMPTY",
+        "public_mg9_bytes": "INPUT_IDENTITY",
+        "public_mg9_claim": "INPUT_CLAIM_IDENTITY",
+        "ja_entry": "REJECT_RETURN_ORIGINAL_CALLS_AND_SOURCE",
+        "prior_dispatch_reached": false,
+        "exception": false,
+        "chapter_snapshot": "NOT_APPLICABLE"
+      },
+      "reason": "Exact raw source is the authority. A text reader must not silently normalize line endings."
+    },
+    {
+      "id": "selected_wrong_path",
+      "kind": "semantic_call_negative",
+      "path": "autoloads/MetaProgression.gd",
+      "normal_bases": [
+        "normal_mp",
+        "normal_ja"
+      ],
+      "recipe": {
+        "input": "PARSE_ACTUAL_APPROVED_CURRENT_MP_USING_REAL_JA_PARSE_UI_CALLS",
+        "normal_parsed_total": 105,
+        "normal_selected": 22,
+        "normal_other": 83,
+        "selector": {
+          "path": "autoloads/MetaProgression.gd",
+          "function": "_localized_title",
+          "korean": "엘리트의 길",
+          "english": "Path of the Elite",
+          "api": "legacy",
+          "context_id": "",
+          "match_count": 1
+        },
+        "mutation": {
+          "operation": "replace_field",
+          "field": "path",
+          "before": "autoloads/MetaProgression.gd",
+          "after": "autoloads/GameState.gd"
+        },
+        "source_and_ja_bytes": "BOTH_UNCHANGED_APPROVED_CURRENT",
+        "line": "use actual parsed line; no fabricated source line"
+      },
+      "expected": {
+        "raw_last11_source": "PASS_EMPTY",
+        "ja_entry": "REJECT_RETURN_ORIGINAL_MUTATED_CALLS_AND_CURRENT_SOURCE",
+        "historical_calls": "NO_SUCCESSFUL_PROJECTION",
+        "prior_dispatch_reached": false,
+        "exception": false
+      },
+      "reason": "Change only one actual parsed UiCall, leaving approved whole bytes valid; this measures exact owner/pair/API/context/multiplicity validation rather than a shallow raw-hash failure."
+    },
+    {
+      "id": "selected_wrong_function",
+      "kind": "semantic_call_negative",
+      "path": "autoloads/MetaProgression.gd",
+      "normal_bases": [
+        "normal_mp",
+        "normal_ja"
+      ],
+      "recipe": {
+        "input": "PARSE_ACTUAL_APPROVED_CURRENT_MP_USING_REAL_JA_PARSE_UI_CALLS",
+        "normal_parsed_total": 105,
+        "normal_selected": 22,
+        "normal_other": 83,
+        "selector": {
+          "path": "autoloads/MetaProgression.gd",
+          "function": "_localized_title",
+          "korean": "엘리트의 길",
+          "english": "Path of the Elite",
+          "api": "legacy",
+          "context_id": "",
+          "match_count": 1
+        },
+        "mutation": {
+          "operation": "replace_field",
+          "field": "function",
+          "before": "_localized_title",
+          "after": "_get_title_info_raw"
+        },
+        "source_and_ja_bytes": "BOTH_UNCHANGED_APPROVED_CURRENT",
+        "line": "use actual parsed line; no fabricated source line"
+      },
+      "expected": {
+        "raw_last11_source": "PASS_EMPTY",
+        "ja_entry": "REJECT_RETURN_ORIGINAL_MUTATED_CALLS_AND_CURRENT_SOURCE",
+        "historical_calls": "NO_SUCCESSFUL_PROJECTION",
+        "prior_dispatch_reached": false,
+        "exception": false
+      },
+      "reason": "Change only one actual parsed UiCall, leaving approved whole bytes valid; this measures exact owner/pair/API/context/multiplicity validation rather than a shallow raw-hash failure."
+    },
+    {
+      "id": "selected_ko_drift",
+      "kind": "semantic_call_negative",
+      "path": "autoloads/MetaProgression.gd",
+      "normal_bases": [
+        "normal_mp",
+        "normal_ja"
+      ],
+      "recipe": {
+        "input": "PARSE_ACTUAL_APPROVED_CURRENT_MP_USING_REAL_JA_PARSE_UI_CALLS",
+        "normal_parsed_total": 105,
+        "normal_selected": 22,
+        "normal_other": 83,
+        "selector": {
+          "path": "autoloads/MetaProgression.gd",
+          "function": "_localized_title",
+          "korean": "엘리트의 길",
+          "english": "Path of the Elite",
+          "api": "legacy",
+          "context_id": "",
+          "match_count": 1
+        },
+        "mutation": {
+          "operation": "replace_field",
+          "field": "korean",
+          "before": "엘리트의 길",
+          "after": "엘리트의 길이"
+        },
+        "source_and_ja_bytes": "BOTH_UNCHANGED_APPROVED_CURRENT",
+        "line": "use actual parsed line; no fabricated source line"
+      },
+      "expected": {
+        "raw_last11_source": "PASS_EMPTY",
+        "ja_entry": "REJECT_RETURN_ORIGINAL_MUTATED_CALLS_AND_CURRENT_SOURCE",
+        "historical_calls": "NO_SUCCESSFUL_PROJECTION",
+        "prior_dispatch_reached": false,
+        "exception": false
+      },
+      "reason": "Change only one actual parsed UiCall, leaving approved whole bytes valid; this measures exact owner/pair/API/context/multiplicity validation rather than a shallow raw-hash failure."
+    },
+    {
+      "id": "selected_en_drift",
+      "kind": "semantic_call_negative",
+      "path": "autoloads/MetaProgression.gd",
+      "normal_bases": [
+        "normal_mp",
+        "normal_ja"
+      ],
+      "recipe": {
+        "input": "PARSE_ACTUAL_APPROVED_CURRENT_MP_USING_REAL_JA_PARSE_UI_CALLS",
+        "normal_parsed_total": 105,
+        "normal_selected": 22,
+        "normal_other": 83,
+        "selector": {
+          "path": "autoloads/MetaProgression.gd",
+          "function": "_localized_title",
+          "korean": "엘리트의 길",
+          "english": "Path of the Elite",
+          "api": "legacy",
+          "context_id": "",
+          "match_count": 1
+        },
+        "mutation": {
+          "operation": "replace_field",
+          "field": "english",
+          "before": "Path of the Elite",
+          "after": "Path of an Elite"
+        },
+        "source_and_ja_bytes": "BOTH_UNCHANGED_APPROVED_CURRENT",
+        "line": "use actual parsed line; no fabricated source line"
+      },
+      "expected": {
+        "raw_last11_source": "PASS_EMPTY",
+        "ja_entry": "REJECT_RETURN_ORIGINAL_MUTATED_CALLS_AND_CURRENT_SOURCE",
+        "historical_calls": "NO_SUCCESSFUL_PROJECTION",
+        "prior_dispatch_reached": false,
+        "exception": false
+      },
+      "reason": "Change only one actual parsed UiCall, leaving approved whole bytes valid; this measures exact owner/pair/API/context/multiplicity validation rather than a shallow raw-hash failure."
+    },
+    {
+      "id": "selected_wrong_api",
+      "kind": "semantic_call_negative",
+      "path": "autoloads/MetaProgression.gd",
+      "normal_bases": [
+        "normal_mp",
+        "normal_ja"
+      ],
+      "recipe": {
+        "input": "PARSE_ACTUAL_APPROVED_CURRENT_MP_USING_REAL_JA_PARSE_UI_CALLS",
+        "normal_parsed_total": 105,
+        "normal_selected": 22,
+        "normal_other": 83,
+        "selector": {
+          "path": "autoloads/MetaProgression.gd",
+          "function": "_localized_title",
+          "korean": "엘리트의 길",
+          "english": "Path of the Elite",
+          "api": "legacy",
+          "context_id": "",
+          "match_count": 1
+        },
+        "mutation": {
+          "operation": "replace_field",
+          "field": "api",
+          "before": "legacy",
+          "after": "format"
+        },
+        "source_and_ja_bytes": "BOTH_UNCHANGED_APPROVED_CURRENT",
+        "line": "use actual parsed line; no fabricated source line"
+      },
+      "expected": {
+        "raw_last11_source": "PASS_EMPTY",
+        "ja_entry": "REJECT_RETURN_ORIGINAL_MUTATED_CALLS_AND_CURRENT_SOURCE",
+        "historical_calls": "NO_SUCCESSFUL_PROJECTION",
+        "prior_dispatch_reached": false,
+        "exception": false
+      },
+      "reason": "Change only one actual parsed UiCall, leaving approved whole bytes valid; this measures exact owner/pair/API/context/multiplicity validation rather than a shallow raw-hash failure."
+    },
+    {
+      "id": "selected_context_drift",
+      "kind": "semantic_call_negative",
+      "path": "autoloads/MetaProgression.gd",
+      "normal_bases": [
+        "normal_mp",
+        "normal_ja"
+      ],
+      "recipe": {
+        "input": "PARSE_ACTUAL_APPROVED_CURRENT_MP_USING_REAL_JA_PARSE_UI_CALLS",
+        "normal_parsed_total": 105,
+        "normal_selected": 22,
+        "normal_other": 83,
+        "selector": {
+          "path": "autoloads/MetaProgression.gd",
+          "function": "_localized_title",
+          "korean": "엘리트의 길",
+          "english": "Path of the Elite",
+          "api": "legacy",
+          "context_id": "",
+          "match_count": 1
+        },
+        "mutation": {
+          "operation": "replace_field",
+          "field": "context_id",
+          "before": "",
+          "after": "title.spec_elite.name"
+        },
+        "source_and_ja_bytes": "BOTH_UNCHANGED_APPROVED_CURRENT",
+        "line": "use actual parsed line; no fabricated source line"
+      },
+      "expected": {
+        "raw_last11_source": "PASS_EMPTY",
+        "ja_entry": "REJECT_RETURN_ORIGINAL_MUTATED_CALLS_AND_CURRENT_SOURCE",
+        "historical_calls": "NO_SUCCESSFUL_PROJECTION",
+        "prior_dispatch_reached": false,
+        "exception": false
+      },
+      "reason": "Change only one actual parsed UiCall, leaving approved whole bytes valid; this measures exact owner/pair/API/context/multiplicity validation rather than a shallow raw-hash failure."
+    },
+    {
+      "id": "selected_missing_call",
+      "kind": "semantic_call_negative",
+      "path": "autoloads/MetaProgression.gd",
+      "normal_bases": [
+        "normal_mp",
+        "normal_ja"
+      ],
+      "recipe": {
+        "input": "PARSE_ACTUAL_APPROVED_CURRENT_MP_USING_REAL_JA_PARSE_UI_CALLS",
+        "normal_parsed_total": 105,
+        "normal_selected": 22,
+        "normal_other": 83,
+        "selector": {
+          "path": "autoloads/MetaProgression.gd",
+          "function": "_localized_title",
+          "korean": "엘리트의 길",
+          "english": "Path of the Elite",
+          "api": "legacy",
+          "context_id": "",
+          "match_count": 1
+        },
+        "mutation": {
+          "operation": "remove_exact_selected_call",
+          "delta": -1
+        },
+        "source_and_ja_bytes": "BOTH_UNCHANGED_APPROVED_CURRENT",
+        "line": "use actual parsed line; no fabricated source line"
+      },
+      "expected": {
+        "raw_last11_source": "PASS_EMPTY",
+        "ja_entry": "REJECT_RETURN_ORIGINAL_MUTATED_CALLS_AND_CURRENT_SOURCE",
+        "historical_calls": "NO_SUCCESSFUL_PROJECTION",
+        "prior_dispatch_reached": false,
+        "exception": false
+      },
+      "reason": "Change only one actual parsed UiCall, leaving approved whole bytes valid; this measures exact owner/pair/API/context/multiplicity validation rather than a shallow raw-hash failure."
+    },
+    {
+      "id": "selected_duplicate_call",
+      "kind": "semantic_call_negative",
+      "path": "autoloads/MetaProgression.gd",
+      "normal_bases": [
+        "normal_mp",
+        "normal_ja"
+      ],
+      "recipe": {
+        "input": "PARSE_ACTUAL_APPROVED_CURRENT_MP_USING_REAL_JA_PARSE_UI_CALLS",
+        "normal_parsed_total": 105,
+        "normal_selected": 22,
+        "normal_other": 83,
+        "selector": {
+          "path": "autoloads/MetaProgression.gd",
+          "function": "_localized_title",
+          "korean": "엘리트의 길",
+          "english": "Path of the Elite",
+          "api": "legacy",
+          "context_id": "",
+          "match_count": 1
+        },
+        "mutation": {
+          "operation": "append_exact_selected_call_copy",
+          "delta": 1
+        },
+        "source_and_ja_bytes": "BOTH_UNCHANGED_APPROVED_CURRENT",
+        "line": "use actual parsed line; no fabricated source line"
+      },
+      "expected": {
+        "raw_last11_source": "PASS_EMPTY",
+        "ja_entry": "REJECT_RETURN_ORIGINAL_MUTATED_CALLS_AND_CURRENT_SOURCE",
+        "historical_calls": "NO_SUCCESSFUL_PROJECTION",
+        "prior_dispatch_reached": false,
+        "exception": false
+      },
+      "reason": "Change only one actual parsed UiCall, leaving approved whole bytes valid; this measures exact owner/pair/API/context/multiplicity validation rather than a shallow raw-hash failure."
+    },
+    {
+      "id": "forged_mp_observation",
+      "kind": "forged_observation",
+      "path": "autoloads/MetaProgression.gd",
+      "normal_bases": [
+        "normal_mp",
+        "normal_ja"
+      ],
+      "recipe": {
+        "input_from_case": "nonselected_condition_drift",
+        "normal_source_hashes": {
+          "autoloads/MetaProgression.gd": "a36617f4979e08a37e89cecc0566a4e64d54bb5373469e2fa1e162d10dde34dc"
+        },
+        "raw_provider": "only actual MP Path.read_bytes forwards mutated bytes; other files/readers real",
+        "forge": "patch Chapter._order250_meta_observed_hash to return the registered a366 digest regardless of claim/raw; do NOT patch _order250_meta_source_errors or public mg9_source_errors",
+        "claim": "SHA256(mutated_input)"
+      },
+      "expected": {
+        "actual_chapter_audited_source_snapshot_errors": "REJECT_NONEMPTY",
+        "raw_gate_reject_before_projector": true,
+        "forged_output": "NOT_A_SOURCE_APPROVAL",
+        "exception": false
+      },
+      "reason": "Use the unchanged actual snapshot function. Even an injected historical observation cannot erase its raw-source rejection."
+    },
+    {
+      "id": "forged_ja_projection",
+      "kind": "forged_observation",
+      "path": "tools/ja_translation_pipeline.py",
+      "normal_bases": [
+        "normal_mp",
+        "normal_ja"
+      ],
+      "recipe": {
+        "input_from_case": "ja_crlf",
+        "raw_provider": "only actual JA Path.read_bytes forwards mutated bytes",
+        "forge": "patch last11_project_bytes for JA only to return the baseline e2d bytes; other paths forward original callable; do NOT patch last11_source_errors or public mg9_source_errors",
+        "calls": "actual approved MP calls",
+        "source": "actual approved MP text"
+      },
+      "expected": {
+        "actual_ja_entry": "REJECT_RETURN_ORIGINAL_CALLS_AND_CURRENT_MP_SOURCE",
+        "forged_projector_calls": 0,
+        "exception": false
+      },
+      "reason": "Actual JA entry must reject newest JA raw before accepting a supplied predecessor byte view. This is a mocked bad observation, not genuine normalization."
+    },
+    {
+      "id": "registry_wrong_predecessor",
+      "kind": "registry_negative",
+      "path": "autoloads/MetaProgression.gd",
+      "normal_bases": [
+        "normal_mp",
+        "normal_ja"
+      ],
+      "recipe": {
+        "input": "APPROVED_CURRENT_PAIR_UNCHANGED",
+        "registry": "deepcopy LAST11_TRANSITIONS",
+        "seal_override": "set only _LAST11_REGISTRY_SHA256 to SHA256(canonical {'rows':LAST11_SOURCE_ROWS,'transitions':mutated LAST11_TRANSITIONS}); ensure_ascii=False,sort_keys=True,separators=(',',':')",
+        "restore": "all patched module attributes in finally, including original registry object and digest",
+        "mutation": {
+          "path": [
+            "autoloads/MetaProgression.gd",
+            "previous_sha256"
+          ],
+          "before": "b5c73771546c1fdc0d136aed45cdd14ee8e829fcc6aff88dfb607288cecf4f7d",
+          "after": "edbcdfdefe7c547edac9a47b71a3892b6fe68c9553c982e914a151ea2e52921b"
+        }
+      },
+      "expected": {
+        "last11_source": "REJECT_NONEMPTY",
+        "one_step_bytes": "INPUT_IDENTITY",
+        "one_step_claim": "INPUT_CLAIM_IDENTITY",
+        "public_mg9_source": "REJECT_NONEMPTY",
+        "public_mg9_bytes": "INPUT_IDENTITY",
+        "public_mg9_claim": "INPUT_CLAIM_IDENTITY",
+        "ja_entry": "REJECT_RETURN_ORIGINAL_CALLS_AND_SOURCE",
+        "prior_dispatch_reached": false,
+        "exception": false,
+        "chapter_snapshot": "REJECT_NONEMPTY"
+      },
+      "reason": "Skip-254 linkage is invalid even if a mutant recomputes its own registry checksum. The immutable one-step inverse is b5c, not edbc."
+    },
+    {
+      "id": "registry_missing_inverse",
+      "kind": "registry_negative",
+      "path": "tools/ja_translation_pipeline.py",
+      "normal_bases": [
+        "normal_mp",
+        "normal_ja"
+      ],
+      "recipe": {
+        "input": "APPROVED_CURRENT_PAIR_UNCHANGED",
+        "registry": "deepcopy LAST11_TRANSITIONS",
+        "seal_override": "set only _LAST11_REGISTRY_SHA256 to SHA256(canonical {'rows':LAST11_SOURCE_ROWS,'transitions':mutated LAST11_TRANSITIONS}); ensure_ascii=False,sort_keys=True,separators=(',',':')",
+        "restore": "all patched module attributes in finally, including original registry object and digest",
+        "mutation": {
+          "operation": "delete_key",
+          "path": [
+            "tools/ja_translation_pipeline.py",
+            "start"
+          ],
+          "precondition": "key exists and nonempty string"
+        }
+      },
+      "expected": {
+        "last11_source": "REJECT_NONEMPTY",
+        "one_step_bytes": "INPUT_IDENTITY",
+        "one_step_claim": "INPUT_CLAIM_IDENTITY",
+        "public_mg9_source": "REJECT_NONEMPTY",
+        "public_mg9_bytes": "INPUT_IDENTITY",
+        "public_mg9_claim": "INPUT_CLAIM_IDENTITY",
+        "ja_entry": "REJECT_RETURN_ORIGINAL_CALLS_AND_SOURCE",
+        "prior_dispatch_reached": false,
+        "exception": false,
+        "chapter_snapshot": "NOT_APPLICABLE"
+      },
+      "reason": "A missing inverse boundary must reject without exception. Resealing the changed dictionary does not supply an inverse."
+    },
+    {
+      "id": "registry_duplicate_hook",
+      "kind": "registry_negative",
+      "path": "tools/ja_translation_pipeline.py",
+      "normal_bases": [
+        "normal_mp",
+        "normal_ja"
+      ],
+      "recipe": {
+        "input": "APPROVED_CURRENT_PAIR_UNCHANGED",
+        "registry": "deepcopy LAST11_TRANSITIONS",
+        "seal_override": "set only _LAST11_REGISTRY_SHA256 to SHA256(canonical {'rows':LAST11_SOURCE_ROWS,'transitions':mutated LAST11_TRANSITIONS}); ensure_ascii=False,sort_keys=True,separators=(',',':')",
+        "restore": "all patched module attributes in finally, including original registry object and digest",
+        "mutation": {
+          "operation": "append_copy",
+          "path": [
+            "tools/ja_translation_pipeline.py",
+            "hooks"
+          ],
+          "index": 0,
+          "before_count": 3,
+          "after_count": 4,
+          "exact_first_hook": [
+            "    predecessor_calls, predecessor_source, next_title_errors = _last11_meta_title_chain_calls(calls)",
+            "    predecessor_calls, predecessor_source, next_title_errors = _mg9_meta_title_chain_calls(calls)"
+          ]
+        }
+      },
+      "expected": {
+        "last11_source": "REJECT_NONEMPTY",
+        "one_step_bytes": "INPUT_IDENTITY",
+        "one_step_claim": "INPUT_CLAIM_IDENTITY",
+        "public_mg9_source": "REJECT_NONEMPTY",
+        "public_mg9_bytes": "INPUT_IDENTITY",
+        "public_mg9_claim": "INPUT_CLAIM_IDENTITY",
+        "ja_entry": "REJECT_RETURN_ORIGINAL_CALLS_AND_SOURCE",
+        "prior_dispatch_reached": false,
+        "exception": false,
+        "chapter_snapshot": "NOT_APPLICABLE"
+      },
+      "reason": "A repeated inverse hook must not normalize successfully twice. Its first current witness is gone after one inverse, so exact multiplicity or final old raw must reject."
+    },
+    {
+      "id": "wrong_one_step_registration",
+      "kind": "wrong_registration",
+      "path": "autoloads/MetaProgression.gd",
+      "normal_bases": [
+        "normal_mp",
+        "normal_ja"
+      ],
+      "recipe": {
+        "input": "ROOT_APPROVED_CURRENT_MP",
+        "registered_previous": "afe8bda86177950ef82fb8d2eea339ae398d59534897719c9b803bacf292a1b6",
+        "public_registered_previous": "afe8bda86177950ef82fb8d2eea339ae398d59534897719c9b803bacf292a1b6",
+        "claim": "SHA256(input)"
+      },
+      "expected": {
+        "last11_source": "REJECT_NONEMPTY",
+        "one_step_bytes_sha256": "b5c73771546c1fdc0d136aed45cdd14ee8e829fcc6aff88dfb607288cecf4f7d",
+        "one_step_claim": "b5c73771546c1fdc0d136aed45cdd14ee8e829fcc6aff88dfb607288cecf4f7d",
+        "public_mg9_source": "PASS_EMPTY",
+        "public_mg9_bytes_sha256": "afe8bda86177950ef82fb8d2eea339ae398d59534897719c9b803bacf292a1b6",
+        "public_mg9_claim": "afe8bda86177950ef82fb8d2eea339ae398d59534897719c9b803bacf292a1b6",
+        "exception": false
+      },
+      "reason": "The same afe8 registration is wrong for the new single step but remains correct for the unchanged public mg9 contract. Registration rejection must not be confused with invalid raw."
+    },
+    {
+      "id": "wrong_claim_valid_raw",
+      "kind": "wrong_claim",
+      "path": "autoloads/MetaProgression.gd",
+      "normal_bases": [
+        "normal_mp",
+        "normal_ja"
+      ],
+      "recipe": {
+        "input": "ROOT_APPROVED_CURRENT_MP",
+        "claim": "0000000000000000000000000000000000000000000000000000000000000000",
+        "assert_claim_differs_from_actual": true,
+        "chapter_forgery": "patch Chapter._file_digest only for MP to wrong claim; other paths original; source_hashes[MP] remains original a366",
+        "registered_previous": "b5c73771546c1fdc0d136aed45cdd14ee8e829fcc6aff88dfb607288cecf4f7d"
+      },
+      "expected": {
+        "last11_source": "PASS_EMPTY",
+        "one_step_bytes_sha256": "b5c73771546c1fdc0d136aed45cdd14ee8e829fcc6aff88dfb607288cecf4f7d",
+        "one_step_claim": "INPUT_WRONG_CLAIM_IDENTITY",
+        "public_mg9_source": "PASS_EMPTY",
+        "public_mg9_bytes_sha256": "afe8bda86177950ef82fb8d2eea339ae398d59534897719c9b803bacf292a1b6",
+        "public_mg9_claim": "INPUT_WRONG_CLAIM_IDENTITY",
+        "actual_chapter_snapshot": "REJECT_NONEMPTY",
+        "exception": false
+      },
+      "reason": "Raw validity and claim validity differ. Correct bytes may inverse, but a mismatched hash observation cannot be promoted to historical approval."
+    },
+    {
+      "id": "unowned_path_off",
+      "kind": "off",
+      "path": "autoloads/UnownedMetaProgression.gd",
+      "normal_bases": [
+        "normal_mp",
+        "normal_ja"
+      ],
+      "recipe": {
+        "input": "ROOT_APPROVED_CURRENT_MP",
+        "claim": "SHA256(input)",
+        "registered_previous": null
+      },
+      "expected": {
+        "last11_source": "REJECT_NONEMPTY_OWNERSHIP",
+        "one_step_bytes": "INPUT_IDENTITY",
+        "one_step_claim": "INPUT_CLAIM_IDENTITY",
+        "public_mg9_errors_exact": [
+          "ORDER-250: MG9 successor path is not owned"
+        ],
+        "public_mg9_bytes": "INPUT_IDENTITY",
+        "public_mg9_claim": "INPUT_CLAIM_IDENTITY",
+        "exception": false
+      },
+      "reason": "OFF is a compatibility assertion against the original public path error, not a claim that arbitrary source is valid."
+    }
+  ],
+  "counts": {
+    "cases": 26,
+    "normal": 2,
+    "raw_negative": 8,
+    "semantic_call_negative": 8,
+    "forged_observation": 2,
+    "registry_negative": 3,
+    "wrong_registration": 1,
+    "wrong_claim": 1,
+    "off": 1,
+    "reject_mutants_requiring_normal_base": 21
+  },
+  "cases_sha256": "2ee95db1a64be689d7683b958dc7a1855a4a72ae0c8d72959ad618fd9159939e",
+  "provenance": {
+    "path": ".git/full-game-localization/order255-source-controls.json",
+    "sha256": "e227e503d6c0f1083ec69907a95a7f79b2b3790d44fd6d806e15afdfbce5bfd1",
+    "phase": "Independent pre-implementation fixed26; untouched recipes and expected"
+  }
+}''')
+LAST11_BINDING = json.loads(r'''{
+  "phase": "APPLIED_SOURCE_BOUND",
+  "candidate_pins": {
+    "autoloads/MetaProgression.gd": {
+      "bytes": 65836,
+      "sha256": "6f49a1bdd83b3431b4146bbd2a94956c481bb371202606398167cdec8ae9f8b0"
+    },
+    "tools/ja_translation_pipeline.py": {
+      "bytes": 264116,
+      "sha256": "3a2d791038a46dcf3442776f4703cd1398998590843b91904c2668425a7427f4"
+    },
+    "tools/meta_title_locale_successor.py": {
+      "bytes": 46649,
+      "sha256": "1df50f967c6fea8711f8375f0c5db940499066d4a0e73f75652d2fc1b39aaf6c"
+    },
+    "tools/chapter1_core_loop_v2_causal_ledger_check.py": {
+      "bytes": 1461830,
+      "sha256": "ac874ad1587304b4f1802ce2311cbcba231e1fdfb19086cce3a66aa19ee5fac3"
+    }
+  },
+  "previous_pins": {
+    "autoloads/MetaProgression.gd": {
+      "bytes": 62261,
+      "sha256": "b5c73771546c1fdc0d136aed45cdd14ee8e829fcc6aff88dfb607288cecf4f7d"
+    },
+    "tools/ja_translation_pipeline.py": {
+      "bytes": 255882,
+      "sha256": "e2d666c19637fd20df8750187870e27cc1770c63d73db232e8035b8d072abe9c"
+    },
+    "tools/meta_title_locale_successor.py": {
+      "bytes": 34883,
+      "sha256": "07c6d0d9cbd8fa21dcabcd7472977ca35b480d95218a6de8bf7345d312981779"
+    },
+    "tools/meta_title_locale_successor_self_test.py": {
+      "bytes": 187087,
+      "sha256": "7127aba1a1a77aedccc4f10159051a035a1b6736e49ee68bf796bdc71280cf9c"
+    },
+    "tools/chapter1_core_loop_v2_causal_ledger_check.py": {
+      "bytes": 1461830,
+      "sha256": "ac874ad1587304b4f1802ce2311cbcba231e1fdfb19086cce3a66aa19ee5fac3"
+    }
+  },
+  "transitions": {
+    "autoloads/MetaProgression.gd": {
+      "previous_sha256": "b5c73771546c1fdc0d136aed45cdd14ee8e829fcc6aff88dfb607288cecf4f7d",
+      "current_sha256": "6f49a1bdd83b3431b4146bbd2a94956c481bb371202606398167cdec8ae9f8b0",
+      "start": "\t\t\"spec_elite_title\":\n",
+      "end": "\treturn localized\n",
+      "include_end": false,
+      "span_sha256": "c3bdb2a9960108983f3ebce98d355ae302c81e28a6c67dc9b091bba4f256787c",
+      "hooks": []
+    },
+    "tools/ja_translation_pipeline.py": {
+      "previous_sha256": "e2d666c19637fd20df8750187870e27cc1770c63d73db232e8035b8d072abe9c",
+      "current_sha256": "3a2d791038a46dcf3442776f4703cd1398998590843b91904c2668425a7427f4",
+      "start": "# BEGIN_LAST11_META_TITLE_SUCCESSOR_255\n",
+      "end": "# END_LAST11_META_TITLE_SUCCESSOR_255\n\n\n",
+      "include_end": true,
+      "span_sha256": "a9e90571e14e8cbc8a8d293119ce037f2d297a3d5cd510612250a72bbf228718",
+      "hooks": [
+        [
+          "    predecessor_calls, predecessor_source, next_title_errors = _last11_meta_title_chain_calls(calls)",
+          "    predecessor_calls, predecessor_source, next_title_errors = _mg9_meta_title_chain_calls(calls)"
+        ],
+        [
+          "    stats, title_stat_errors = _last11_meta_title_current_stats(\n        calls, predecessor_calls, predecessor_source, stats)",
+          "    stats, title_stat_errors = _mg9_meta_title_current_stats(\n        calls, predecessor_calls, predecessor_source, stats)"
+        ],
+        [
+          "        ui_inventory, meta_title_cases, meta_title_failures = _last11_meta_title_historical_checks(ui_inventory)",
+          "        ui_inventory, meta_title_cases, meta_title_failures = _mg9_meta_title_historical_checks(ui_inventory)"
+        ]
+      ]
+    }
+  },
+  "helper_inverse": {
+    "start": "\n\n# BEGIN_LAST11_META_TITLE_SUCCESSOR_255\n",
+    "end": "# END_LAST11_META_TITLE_SUCCESSOR_255\n",
+    "append_bytes": 11766,
+    "append_sha256": "fb7c8ec7256301c8c9ef64b1c1347011bbdd6458137bae73861f1c5cc6c15d55"
+  },
+  "registry_sha256": "57e9268bf877ae98dcc66af56d8bcec8151bcc7ce4f8dbe283515455a839bc16",
+  "materialized_input_pins": {
+    "normal_mp": {
+      "bytes": 65836,
+      "sha256": "6f49a1bdd83b3431b4146bbd2a94956c481bb371202606398167cdec8ae9f8b0"
+    },
+    "normal_ja": {
+      "bytes": 264116,
+      "sha256": "3a2d791038a46dcf3442776f4703cd1398998590843b91904c2668425a7427f4"
+    },
+    "rollback_mp_whole": {
+      "bytes": 62261,
+      "sha256": "b5c73771546c1fdc0d136aed45cdd14ee8e829fcc6aff88dfb607288cecf4f7d"
+    },
+    "rollback_ja_whole": {
+      "bytes": 255882,
+      "sha256": "e2d666c19637fd20df8750187870e27cc1770c63d73db232e8035b8d072abe9c"
+    },
+    "selected_branch_id_drift": {
+      "bytes": 65842,
+      "sha256": "3d8687aab5f8356f881661a8082b24e8ca13be150a19d836ece26a0e694fe591"
+    },
+    "nonselected_condition_drift": {
+      "bytes": 65836,
+      "sha256": "26b00fb985dce9057842950589695644ca22a2f5b89023b9d1ecf3a801859f45"
+    },
+    "mp_append_lf": {
+      "bytes": 65837,
+      "sha256": "ff4f2419a8f59d88da4aa19a4b6b03565be0d95c777f5690dea9477bc8194ef5"
+    },
+    "mp_crlf": {
+      "bytes": 66930,
+      "sha256": "840946f969fc5eb39604c792488713f51270c863f418a3448913f8fc5d2accf8"
+    },
+    "ja_append_lf": {
+      "bytes": 264117,
+      "sha256": "c95f548149b02bafbfc1aa12dd583d509ad479c1656b4b03011a1c680de24da5"
+    },
+    "ja_crlf": {
+      "bytes": 269822,
+      "sha256": "44ff69b6d15999d52185466b65a4d220280eb062da41a5fef871e20211d237ab"
+    },
+    "selected_wrong_path": {
+      "bytes": 65836,
+      "sha256": "6f49a1bdd83b3431b4146bbd2a94956c481bb371202606398167cdec8ae9f8b0"
+    },
+    "selected_wrong_function": {
+      "bytes": 65836,
+      "sha256": "6f49a1bdd83b3431b4146bbd2a94956c481bb371202606398167cdec8ae9f8b0"
+    },
+    "selected_ko_drift": {
+      "bytes": 65836,
+      "sha256": "6f49a1bdd83b3431b4146bbd2a94956c481bb371202606398167cdec8ae9f8b0"
+    },
+    "selected_en_drift": {
+      "bytes": 65836,
+      "sha256": "6f49a1bdd83b3431b4146bbd2a94956c481bb371202606398167cdec8ae9f8b0"
+    },
+    "selected_wrong_api": {
+      "bytes": 65836,
+      "sha256": "6f49a1bdd83b3431b4146bbd2a94956c481bb371202606398167cdec8ae9f8b0"
+    },
+    "selected_context_drift": {
+      "bytes": 65836,
+      "sha256": "6f49a1bdd83b3431b4146bbd2a94956c481bb371202606398167cdec8ae9f8b0"
+    },
+    "selected_missing_call": {
+      "bytes": 65836,
+      "sha256": "6f49a1bdd83b3431b4146bbd2a94956c481bb371202606398167cdec8ae9f8b0"
+    },
+    "selected_duplicate_call": {
+      "bytes": 65836,
+      "sha256": "6f49a1bdd83b3431b4146bbd2a94956c481bb371202606398167cdec8ae9f8b0"
+    },
+    "forged_mp_observation": {
+      "bytes": 65836,
+      "sha256": "26b00fb985dce9057842950589695644ca22a2f5b89023b9d1ecf3a801859f45"
+    },
+    "forged_ja_projection": {
+      "bytes": 269822,
+      "sha256": "44ff69b6d15999d52185466b65a4d220280eb062da41a5fef871e20211d237ab"
+    },
+    "registry_wrong_predecessor": {
+      "bytes": 65836,
+      "sha256": "6f49a1bdd83b3431b4146bbd2a94956c481bb371202606398167cdec8ae9f8b0"
+    },
+    "registry_missing_inverse": {
+      "bytes": 264116,
+      "sha256": "3a2d791038a46dcf3442776f4703cd1398998590843b91904c2668425a7427f4"
+    },
+    "registry_duplicate_hook": {
+      "bytes": 264116,
+      "sha256": "3a2d791038a46dcf3442776f4703cd1398998590843b91904c2668425a7427f4"
+    },
+    "wrong_one_step_registration": {
+      "bytes": 65836,
+      "sha256": "6f49a1bdd83b3431b4146bbd2a94956c481bb371202606398167cdec8ae9f8b0"
+    },
+    "wrong_claim_valid_raw": {
+      "bytes": 65836,
+      "sha256": "6f49a1bdd83b3431b4146bbd2a94956c481bb371202606398167cdec8ae9f8b0"
+    },
+    "unowned_path_off": {
+      "bytes": 65836,
+      "sha256": "6f49a1bdd83b3431b4146bbd2a94956c481bb371202606398167cdec8ae9f8b0"
+    }
+  },
+  "provenance": {
+    "source_candidate_patch_sha256": "c27389f914eadb96a482da1aaf710882f841d6cb089c9043f27f10304687e586",
+    "source_candidate_binding_sha256": "6477ddb68ac54b49a30f52aea45d0dc9f120002c3444084bc9f54b77f1e12616",
+    "actual_applied_pins": {
+      "autoloads/MetaProgression.gd": {
+        "bytes": 65836,
+        "sha256": "6f49a1bdd83b3431b4146bbd2a94956c481bb371202606398167cdec8ae9f8b0"
+      },
+      "tools/ja_translation_pipeline.py": {
+        "bytes": 264116,
+        "sha256": "3a2d791038a46dcf3442776f4703cd1398998590843b91904c2668425a7427f4"
+      },
+      "tools/meta_title_locale_successor.py": {
+        "bytes": 46649,
+        "sha256": "1df50f967c6fea8711f8375f0c5db940499066d4a0e73f75652d2fc1b39aaf6c"
+      },
+      "tools/chapter1_core_loop_v2_causal_ledger_check.py": {
+        "bytes": 1461830,
+        "sha256": "ac874ad1587304b4f1802ce2311cbcba231e1fdfb19086cce3a66aa19ee5fac3"
+      }
+    },
+    "baseline_capture": {
+      "path": ".git/full-game-localization/order255-baseline-first.json",
+      "bytes": 10081319,
+      "sha256": "90c56bbeca0fb8c9f1099436af6dd54b09bf0dedbc838492be0f7eb6d41f592a",
+      "head": "b359195d8da0c0d3f5117ce49e66eca604c9be85",
+      "cases_captured": 26,
+      "effective_negative_count": 0
+    },
+    "chronology": "Independent controls26 frozen, source3 private nonauthor938980ed and ROOT raw inverse review, old-product baseline26 complete/effective0, reviewed source3+self applied by ROOT. Actual post26 remains unexecuted at this binding. External capture pins self raw without self-hash recursion."
+  }
+}''')
+
+
+_LAST11_HELPER = "tools/meta_title_locale_successor.py"
+_LAST11_SELF = "tools/meta_title_locale_successor_self_test.py"
+
+
+def _last11_inverse(raw, relative):
+    """Literal independent inverse, not any implementation projection."""
+    if relative in (MP, JA):
+        rule = LAST11_BINDING["transitions"][relative]
+        start, end = rule["start"].encode(), rule["end"].encode()
+        if raw.count(start) != 1 or raw.count(end) != 1:
+            raise AssertionError("last11 independent boundary not exact1")
+        a = raw.index(start)
+        z = raw.index(end, a) + (len(end) if rule["include_end"] else 0)
+        if sha256(raw[a:z]) != rule["span_sha256"]:
+            raise AssertionError("last11 independent span mismatch")
+        if relative == MP and raw[a:z] != LAST11_SPEC["implementation_seam_contract"]["mp_append_only"]["exact_new_span"].encode():
+            raise AssertionError("independent frozen22 owner span mismatch")
+        out = raw[:a] + raw[z:]
+        for current, previous in rule["hooks"]:
+            if out.count(current.encode()) != 1:
+                raise AssertionError("last11 independent inverse hook not exact1")
+            out = out.replace(current.encode(), previous.encode(), 1)
+    elif relative == _LAST11_HELPER:
+        rule = LAST11_BINDING["helper_inverse"]
+        start = rule["start"].encode()
+        if raw.count(start) != 1 or not raw.endswith(rule["end"].encode()):
+            raise AssertionError("last11 helper append boundary differs")
+        index = raw.index(start)
+        if sha256(raw[index:]) != rule["append_sha256"]:
+            raise AssertionError("last11 helper append differs")
+        out = raw[:index]
+    elif relative == _LAST11_SELF:
+        start = b"\n\n# BEGIN_LAST11_META_TITLE_SELF_255\n"
+        end = b"# END_LAST11_META_TITLE_SELF_255\n"
+        if raw.count(start) != 1 or raw.count(end) != 1:
+            raise AssertionError("last11 self append boundary differs")
+        a, z = raw.index(start), raw.index(end) + len(end)
+        out = raw[:a] + raw[z:]
+        current, previous = b"    raise SystemExit(_last11_main())", b"    raise SystemExit(_desc_main())"
+        if out.count(current) != 1:
+            raise AssertionError("last11 CLI hook differs")
+        out = out.replace(current, previous, 1)
+    else:
+        out = raw
+    if relative in LAST11_BINDING["previous_pins"] and pin(out) != LAST11_BINDING["previous_pins"][relative]:
+        raise AssertionError("last11 independent whole inverse differs: " + relative)
+    return out
+
+
+def _last11_materialize(case, current, previous):
+    recipe, path = case["recipe"], case["path"]
+    if "input_from_case" in recipe:
+        base = next(c for c in LAST11_SPEC["cases"] if c["id"] == recipe["input_from_case"])
+        return _last11_materialize(base, current, previous)
+    raw = previous[path] if recipe.get("input") == "BASELINE_RAW" else current[JA if path == JA else MP]
+    operation = recipe.get("operation")
+    if operation in ("replace_exact1_within_owned_new_mp_span", "replace_exact1_whole_raw"):
+        before, after = recipe["before"].encode(), recipe["after"].encode()
+        if raw.count(before) != recipe["before_count"] or raw.count(after) != recipe["after_count"]:
+            raise AssertionError("fixed exact1 mutation anchor changed")
+        if operation == "replace_exact1_within_owned_new_mp_span":
+            if before not in LAST11_SPEC["implementation_seam_contract"]["mp_append_only"]["exact_new_span"].encode():
+                raise AssertionError("owned branch mutation outside frozen span")
+        raw = raw.replace(before, after, 1)
+    elif operation == "append_one_byte_0a":
+        raw += b"\n"
+    elif operation == "replace_every_0a_with_0d0a":
+        if b"\r" in raw or b"\n" not in raw:
+            raise AssertionError("LF base required before CRLF mutation")
+        raw = raw.replace(b"\n", b"\r\n")
+    elif operation is not None:
+        raise AssertionError("unknown frozen raw operation")
+    return raw
+
+
+def _last11_registry_context(case, successor):
+    if case["kind"] != "registry_negative":
+        return contextlib.nullcontext()
+    value = copy.deepcopy(successor.LAST11_TRANSITIONS)
+    edit = case["recipe"]["mutation"]
+    parent = value
+    for key in edit["path"][:-1]:
+        parent = parent[key]
+    key = edit["path"][-1]
+    if edit.get("operation") == "delete_key":
+        if not parent[key]:
+            raise AssertionError("missing inverse precondition")
+        del parent[key]
+    elif edit.get("operation") == "append_copy":
+        if len(parent[key]) != edit["before_count"]:
+            raise AssertionError("duplicate hook precondition")
+        parent[key].append(copy.deepcopy(parent[key][edit["index"]]))
+    else:
+        if parent[key] != edit["before"]:
+            raise AssertionError("registry old predecessor precondition")
+        parent[key] = edit["after"]
+    # Reseal ONLY the new mutable registry. Old registries/raw authority stay fixed.
+    digest = sha256(_a11_canonical({"rows": successor.LAST11_SOURCE_ROWS, "transitions": value}))
+    stack = contextlib.ExitStack()
+    stack.enter_context(patch.object(successor, "LAST11_TRANSITIONS", value))
+    stack.enter_context(patch.object(successor, "_LAST11_REGISTRY_SHA256", digest))
+    return stack
+
+
+def _last11_semantics(calls):
+    return [(c.path, c.function, c.korean, c.english, c.api, c.context_id) for c in calls]
+
+
+def _last11_mutated_calls(case, calls):
+    recipe = case["recipe"]
+    selector = recipe["selector"]
+    matches = [i for i,c in enumerate(calls)
+               if all(getattr(c,k) == v for k,v in selector.items() if k != "match_count")]
+    if len(matches) != selector["match_count"]:
+        raise AssertionError("independent semantic selector not exact1")
+    output, edit = list(calls), recipe["mutation"]
+    index = matches[0]
+    if edit["operation"] == "replace_field":
+        if getattr(output[index], edit["field"]) != edit["before"]:
+            raise AssertionError("semantic old field changed")
+        output[index] = dataclasses.replace(output[index], **{edit["field"]: edit["after"]})
+    elif edit["operation"] == "remove_exact_selected_call":
+        output.pop(index)
+    elif edit["operation"] == "append_exact_selected_call_copy":
+        output.append(output[index])
+    else:
+        raise AssertionError("unknown fixed semantic mutation")
+    return tuple(output)
+
+
+@contextlib.contextmanager
+def _last11_providers(mp_raw, ja_raw):
+    original = Path.read_bytes
+    reads = []
+    def read_bytes(path):
+        if path == ROOT / MP:
+            reads.append(MP)
+            return mp_raw
+        if path == ROOT / JA:
+            reads.append(JA)
+            return ja_raw
+        return original(path)
+    with patch.object(Path, "read_bytes", read_bytes):
+        yield reads
+
+
+def _last11_context_probe(pipeline, successor, old_mp, old_ja):
+    """Normal-case observation, not a new case or synthetic collector."""
+    read0, text0 = Path.read_bytes, Path.read_text
+    api0 = (successor.mg9_source_errors, successor.mg9_project_bytes, successor.mg9_project_byte_hash)
+    output = {}
+    with pipeline._last11_meta_title_previous_reads(old_mp.decode()):
+        output["MP"] = pin((ROOT / MP).read_bytes())
+        output["JA"] = pin((ROOT / JA).read_bytes())
+        output["text_exact"] = ((ROOT / MP).read_text() == old_mp.decode()
+                                and (ROOT / JA).read_text() == old_ja.decode())
+        output["saved_current_MP_errors"] = successor.mg9_source_errors(MP, old_mp)
+        output["saved_current_JA_errors"] = successor.mg9_source_errors(JA, old_ja)
+    output["restored"] = (Path.read_bytes is read0 and Path.read_text is text0
+        and (successor.mg9_source_errors, successor.mg9_project_bytes,
+             successor.mg9_project_byte_hash) == api0)
+    output["passed"] = (output["MP"] == pin(old_mp) and output["JA"] == pin(old_ja)
+        and output["text_exact"] and not output["saved_current_MP_errors"]
+        and not output["saved_current_JA_errors"] and output["restored"])
+    return output
+
+
+def _last11_live(case, raw, claim, calls, current, previous, old_calls,
+                 successor, pipeline, chapter, counts):
+    kind, path = case["kind"], case["path"]
+    mp_raw, ja_raw = (raw if path == MP else current[MP]), (raw if path == JA else current[JA])
+    read0, digest0 = Path.read_bytes, chapter._file_digest
+    observed0 = chapter._order250_meta_observed_hash
+    project0 = successor.last11_project_bytes
+    snapshot, context, forged_calls = None, None, []
+    supplied = _last11_mutated_calls(case, calls) if kind == "semantic_call_negative" else tuple(calls)
+    old_digest = LAST11_SPEC["api"]["chapter_registered_old_mp"]
+    with _last11_providers(mp_raw, ja_raw) as reads, contextlib.ExitStack() as stack:
+        if case["id"] == "forged_ja_projection":
+            def forged(raw_input, relative):
+                if relative == JA:
+                    forged_calls.append(relative)
+                    return previous[JA]
+                return project0(raw_input, relative)
+            stack.enter_context(patch.object(successor, "last11_project_bytes", forged))
+        counts["JA_entry"] += 1
+        output_calls, output_source, errors = pipeline._last11_meta_title_predecessor_calls(
+            supplied, mp_raw.decode())
+        ja_valid = kind in ("normal", "wrong_claim")
+        checks = {
+            "JA_errors": isinstance(errors,list) and (not errors) == ja_valid,
+            "JA_calls": (_last11_semantics(output_calls) == _last11_semantics(old_calls)
+                         if ja_valid else tuple(output_calls) == supplied),
+            "JA_source": output_source.encode() == (previous[MP] if ja_valid else mp_raw),
+        }
+        if kind == "normal":
+            context = _last11_context_probe(pipeline, successor, previous[MP], previous[JA])
+            checks["previous_read_context"] = context["passed"]
+        if path == MP and kind in ("normal", "raw_negative", "registry_negative", "forged_observation", "wrong_claim"):
+            if case["id"] == "forged_mp_observation":
+                stack.enter_context(patch.object(chapter, "_order250_meta_observed_hash",
+                                                lambda *args: old_digest))
+            if kind == "wrong_claim":
+                def digest(relative):
+                    return claim if relative == MP else digest0(relative)
+                stack.enter_context(patch.object(chapter, "_file_digest", digest))
+            counts["Chapter_snapshot"] += 1
+            snapshot = chapter._audited_source_snapshot_errors({MP:old_digest})
+            checks["Chapter_snapshot"] = isinstance(snapshot,list) and (not snapshot) == (kind == "normal")
+        if case["id"] == "forged_ja_projection":
+            checks["forged_projector_not_called"] = forged_calls == []
+        checks["actual_raw_reads"] = JA in reads
+    checks["restored"] = (Path.read_bytes is read0 and chapter._file_digest is digest0
+        and chapter._order250_meta_observed_hash is observed0 and successor.last11_project_bytes is project0)
+    return {"JA_errors":errors, "JA_calls":len(output_calls),
+            "JA_semantics":_last11_semantics(output_calls), "JA_source":pin(output_source.encode()),
+            "Chapter_snapshot_errors":snapshot, "previous_read_context":context,
+            "raw_reads":reads, "forged_projector_calls":forged_calls,
+            "checks":checks, "passed":all(checks.values())}
+
+
+def _last11_case(case, current, previous, calls, old_calls, successor, pipeline, chapter, counts):
+    kind, path, exp = case["kind"], case["path"], case["expected"]
+    raw = _last11_materialize(case,current,previous)
+    if pin(raw) != LAST11_BINDING["materialized_input_pins"][case["id"]]:
+        raise AssertionError("independent current input materialization differs: " + case["id"])
+    claim = case["recipe"].get("claim")
+    if claim is None or not isinstance(claim,str) or not len(claim)==64:
+        claim = sha256(raw)
+    registered = case["recipe"].get("registered_previous")
+    public_registered = case["recipe"].get("public_registered_previous")
+    if public_registered is None and path in (MP,JA):
+        public_registered = LAST11_SPEC["api"]["public_mg9_previous"][path]
+    old_api = successor._LAST11_OLD_MG9_SOURCE_ERRORS
+    registry0, digest0 = successor.LAST11_TRANSITIONS, successor._LAST11_REGISTRY_SHA256
+    prior_calls = []
+    def prior(relative, source, registered_previous=None):
+        prior_calls.append({"path":relative,"input":pin(source),"registered":registered_previous})
+        return old_api(relative,source,registered_previous)
+    data = {"id":case["id"], "kind":kind,"normal_bases":case["normal_bases"],
+            "path":path,"input":pin(raw),"claim":claim,"registered":registered,
+            "public_registered":public_registered}
+    checks = {}
+    with _last11_registry_context(case,successor), patch.object(
+            successor,"_LAST11_OLD_MG9_SOURCE_ERRORS",prior):
+        if kind in ("semantic_call_negative","forged_observation"):
+            if kind == "semantic_call_negative":
+                errors = successor.last11_source_errors(MP,current[MP])
+                data["raw_last11_errors"] = errors
+                checks["raw_last11_source"] = isinstance(errors,list) and not errors
+            data["live"] = _last11_live(case,raw,claim,calls,current,previous,old_calls,
+                                       successor,pipeline,chapter,counts)
+            checks["live"] = data["live"]["passed"]
+        else:
+            counts["one_step_source"] += 1
+            errors = successor.last11_source_errors(path,raw,registered)
+            counts["one_step_bytes"] += 1
+            projected = successor.last11_project_bytes(raw,path)
+            counts["one_step_hash"] += 1
+            projected_hash = successor.last11_project_byte_hash(claim,path,raw)
+            counts["public_source"] += 1
+            public_errors = successor.mg9_source_errors(path,raw,public_registered)
+            counts["public_bytes"] += 1
+            public_raw = successor.mg9_project_bytes(raw,path)
+            counts["public_hash"] += 1
+            public_hash = successor.mg9_project_byte_hash(claim,path,raw)
+            one_pass = exp["last11_source"]=="PASS_EMPTY"
+            public_pass = exp.get("public_mg9_source")=="PASS_EMPTY"
+            wanted_sha = exp.get("one_step_bytes_sha256",sha256(raw))
+            wanted_public = exp.get("public_mg9_bytes_sha256",sha256(raw))
+            wanted_claim = (claim if exp["one_step_claim"].startswith("INPUT_")
+                            else exp["one_step_claim"])
+            public_claim = (claim if exp["public_mg9_claim"].startswith("INPUT_")
+                            else exp["public_mg9_claim"])
+            checks.update({
+                "one_step_source":isinstance(errors,list) and (not errors)==one_pass,
+                "one_step_bytes":sha256(projected)==wanted_sha,
+                "one_step_hash":projected_hash==wanted_claim,
+                "public_source":isinstance(public_errors,list) and (not public_errors)==public_pass,
+                "public_bytes":sha256(public_raw)==wanted_public,
+                "public_hash":public_hash==public_claim,
+            })
+            if "one_step_bytes" in exp:
+                checks["one_step_identity"] = projected == raw
+            if "public_mg9_bytes" in exp:
+                checks["public_identity"] = public_raw == raw
+            if kind=="off":
+                checks["OFF_original_array"] = public_errors == exp["public_mg9_errors_exact"]
+            data.update({"one_step_errors":errors,"one_step_projection":pin(projected),
+                         "one_step_claim":projected_hash,"public_errors":public_errors,
+                         "public_projection":pin(public_raw),"public_claim":public_hash})
+            if kind not in ("wrong_registration","off"):
+                data["live"] = _last11_live(case,raw,claim,calls,current,previous,old_calls,
+                                           successor,pipeline,chapter,counts)
+                checks["live"] = data["live"]["passed"]
+        if exp.get("prior_dispatch_reached") is False:
+            checks["prior_dispatch_not_reached"] = not prior_calls
+    checks["registry_and_alias_restored"] = (
+        successor.LAST11_TRANSITIONS is registry0 and successor._LAST11_REGISTRY_SHA256==digest0
+        and successor._LAST11_OLD_MG9_SOURCE_ERRORS is old_api)
+    data.update({"prior_dispatch":prior_calls,"checks":checks,"passed":all(checks.values())})
+    return data
+
+
+def _last11_historical(previous, successor, counts):
+    """One scoped current254 view; all old45 functions and literals stay unchanged."""
+    read0,text0,stdout0,stderr0 = Path.read_bytes,Path.read_text,sys.stdout,sys.stderr
+    api0=(successor.mg9_source_errors,successor.mg9_project_bytes,successor.mg9_project_byte_hash)
+    stdout,stderr=io.StringIO(),io.StringIO()
+    def read_bytes(path):
+        for relative,raw in previous.items():
+            if path==ROOT/relative:
+                return raw
+        return read0(path)
+    def read_text(path,*args,**kwargs):
+        for relative,raw in previous.items():
+            if path==ROOT/relative:
+                encoding=kwargs.get("encoding") or (args[0] if args else None) or "utf-8"
+                return raw.decode(encoding,errors=kwargs.get("errors") or "strict")
+        return text0(path,*args,**kwargs)
+    def source(relative,raw,registered_previous=None):
+        return successor._LAST11_OLD_MG9_SOURCE_ERRORS(relative,raw,registered_previous)
+    def project(raw,relative):
+        return successor._LAST11_OLD_MG9_PROJECT_BYTES(raw,relative)
+    def observed(claim,relative,raw):
+        return successor._LAST11_OLD_MG9_PROJECT_HASH(claim,relative,raw)
+    code,exception,trace=None,None,None
+    with contextlib.ExitStack() as stack:
+        stack.enter_context(patch.object(Path,"read_bytes",read_bytes))
+        stack.enter_context(patch.object(Path,"read_text",read_text))
+        for name,function in (("mg9_source_errors",source),("mg9_project_bytes",project),
+                              ("mg9_project_byte_hash",observed)):
+            stack.enter_context(patch.object(successor,name,function))
+        stack.enter_context(contextlib.redirect_stdout(stdout))
+        stack.enter_context(contextlib.redirect_stderr(stderr))
+        counts["historical254_main"]+=1
+        try:
+            code=_desc_main()
+        except Exception as error:
+            exception=type(error).__name__+": "+str(error)
+            trace=_a11_traceback.format_exc()
+    restored=(Path.read_bytes is read0 and Path.read_text is text0
+              and sys.stdout is stdout0 and sys.stderr is stderr0
+              and (successor.mg9_source_errors,successor.mg9_project_bytes,
+                   successor.mg9_project_byte_hash)==api0)
+    parsed,marker,parse_error=None,None,None
+    try:
+        parsed,end=json.JSONDecoder().raw_decode(stdout.getvalue())
+        marker=stdout.getvalue()[end:].strip()
+    except (ValueError,TypeError) as error:
+        parse_error=type(error).__name__+": "+str(error)
+    before=parsed.get("physical_input_before") if isinstance(parsed,dict) else None
+    after=parsed.get("physical_input_after") if isinstance(parsed,dict) else None
+    logical_exact=(isinstance(before,dict) and before==after
+        and all(before.get(p)==pin(raw) for p,raw in previous.items()))
+    wanted="META_TITLE_DESC_SOURCE_SELF_TEST_OK current=18/18 historical23_19_24_18=True unchanged=True"
+    passed=(code==0 and exception is None and restored and not stderr.getvalue()
+        and parse_error is None and marker==wanted and logical_exact
+        and parsed.get("passed") is True and parsed.get("current",{}).get("cases")==18
+        and len(parsed.get("current",{}).get("results",[]))==18
+        and all(r.get("valid_result") for r in parsed["current"]["results"])
+        and parsed.get("historical",{}).get("passed") is True)
+    return {"scope":"historical25418 ->25023 ->24819 ->24524 ->24418",
+            "exit":code,"exception":exception,"traceback":trace,"parse_error":parse_error,
+            "stdout":stdout.getvalue(),"stderr":stderr.getvalue(),"marker":marker,
+            "logical_input_before":before,"logical_input_after":after,
+            "logical_exact":logical_exact,"restored":restored,"passed":passed}
+
+
+def _last11_main():
+    before,after,fatal,trace=None,None,None,None
+    results,parse_observation=[],None
+    historical={"passed":False,"skipped":"new physical26 not passed","exit":None}
+    counts={k:0 for k in ("one_step_source","one_step_bytes","one_step_hash",
+        "public_source","public_bytes","public_hash","JA_entry","Chapter_snapshot",
+        "parse_current_MP","parse_previous_MP","historical254_main","collector","engine")}
+    try:
+        before=_mg9_input_pins()
+        if LAST11_BINDING["phase"]!="APPLIED_SOURCE_BOUND":
+            raise AssertionError("private candidate is not authorized for execution")
+        for relative,wanted in LAST11_BINDING["candidate_pins"].items():
+            if before.get(relative)!=wanted:
+                raise AssertionError("last11 actual candidate pin differs: "+relative)
+        current={p:(ROOT/p).read_bytes() for p in (*_MG9_SOURCE_PATHS,_MG9_SELF)}
+        previous={p:_last11_inverse(raw,p) for p,raw in current.items()}
+        if sha256(_a11_canonical(LAST11_SPEC["cases"]))!=LAST11_SPEC["cases_sha256"]:
+            raise AssertionError("independent fixed26 changed")
+        roster=LAST11_SPEC["cases"]
+        if len(roster)!=26 or len({c["id"] for c in roster})!=26:
+            raise AssertionError("independent26 roster drifted")
+        successor=importlib.import_module("meta_title_locale_successor")
+        pipeline=importlib.import_module("ja_translation_pipeline")
+        chapter=importlib.import_module("chapter1_core_loop_v2_causal_ledger_check")
+        if (successor.LAST11_TRANSITIONS!=LAST11_BINDING["transitions"]
+                or successor._LAST11_REGISTRY_SHA256!=LAST11_BINDING["registry_sha256"]):
+            raise AssertionError("new registry differs from independently reviewed binding")
+        counts["parse_current_MP"]+=1
+        calls,errors=pipeline.parse_ui_calls(MP,current[MP].decode())
+        counts["parse_previous_MP"]+=1
+        old_calls,old_errors=pipeline.parse_ui_calls(MP,previous[MP].decode())
+        parse_observation={"current_calls":len(calls),"current_errors":errors,
+                           "old_calls":len(old_calls),"old_errors":old_errors}
+        if errors or old_errors or len(calls)!=105 or len(old_calls)!=83:
+            raise AssertionError("fixed current105/old83 real parser population differs")
+        for case in roster:
+            stdout,stderr=io.StringIO(),io.StringIO()
+            with contextlib.redirect_stdout(stdout),contextlib.redirect_stderr(stderr):
+                try:
+                    row=_last11_case(case,current,previous,calls,old_calls,
+                                    successor,pipeline,chapter,counts)
+                except Exception as error:
+                    row={"id":case["id"],"kind":case["kind"],"normal_bases":case["normal_bases"],
+                         "passed":False,"exception":type(error).__name__+": "+str(error),
+                         "traceback":_a11_traceback.format_exc()}
+            row["stdout"],row["stderr"]=stdout.getvalue(),stderr.getvalue()
+            results.append(row)
+        by_id={r["id"]:r for r in results}
+        normal_ok=all(by_id.get(n,{}).get("passed") for n in ("normal_mp","normal_ja"))
+        for row in results:
+            row["normal_bases_passed"]=all(by_id.get(n,{}).get("passed") for n in row["normal_bases"])
+            row["all_two_normals_passed"]=normal_ok
+            row["valid_result"]=bool(row["passed"] and row["normal_bases_passed"]
+                                     and (row["kind"]=="normal" or normal_ok))
+        if len(results)==26 and all(r["valid_result"] for r in results):
+            if before!=_mg9_input_pins():
+                raise AssertionError("physical inputs changed before historical dispatch")
+            historical=_last11_historical(previous,successor,counts)
+    except Exception as error:
+        fatal=type(error).__name__+": "+str(error)
+        trace=_a11_traceback.format_exc()
+    finally:
+        try:
+            after=_mg9_input_pins()
+        except Exception as error:
+            fatal=(fatal or "")+"; after pins: "+type(error).__name__+": "+str(error)
+    unchanged=before is not None and before==after
+    current_ok=fatal is None and len(results)==26 and all(r.get("valid_result") for r in results)
+    passed=current_ok and historical["passed"] and unchanged
+    negative_kinds={"raw_negative","semantic_call_negative","forged_observation","registry_negative"}
+    print(json.dumps({"scope":"physical last11 fixed26; historical25418/25023/24819/24524/24418 separate",
+        "binding":LAST11_BINDING["provenance"],
+        "current":{"cases":len(results),"results":results,"passed":current_ok,
+                   "valid_negative_count":sum(r["kind"] in negative_kinds and bool(r.get("valid_result")) for r in results)},
+        "parse_observation":parse_observation,"historical":historical,"execution_counts":counts,
+        "fatal":fatal,"traceback":trace,"physical_input_before":before,"physical_input_after":after,
+        "physical_inputs_unchanged":unchanged,"passed":passed,
+        "limits":"Finite source/actual-consumer unit, not a collector, engine, translation or human observation."},
+        ensure_ascii=False,indent=2))
+    print("META_TITLE_LAST11_SOURCE_SELF_TEST_"+("OK" if passed else "FAIL")
+          +f" current={len(results)}/26 historical18_23_19_24_18={historical['passed']} unchanged={unchanged}")
+    return 0 if passed else 1
+# END_LAST11_META_TITLE_SELF_255
 if __name__ == "__main__":
-    raise SystemExit(_desc_main())
+    raise SystemExit(_last11_main())

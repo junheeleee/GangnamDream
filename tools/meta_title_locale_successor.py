@@ -563,3 +563,301 @@ mg9_source_errors = _desc_mg9_source_errors
 mg9_project_bytes = _desc_mg9_project_bytes
 mg9_project_byte_hash = _desc_mg9_project_hash
 # END_TWO_DESC_HISTORY_254
+
+
+# BEGIN_LAST11_META_TITLE_SUCCESSOR_255
+# Fixed source22; current254 is the immediate predecessor, not pre-DESC MG9.
+LAST11_SOURCE_ROWS = tuple(tuple(row) for row in json.loads(r'''[
+  [
+    "spec_elite_title",
+    "name",
+    "엘리트의 길",
+    "Path of the Elite"
+  ],
+  [
+    "spec_elite_title",
+    "desc",
+    "엘리트 전문화 선택. 정석의 끝에는 무엇이 있을까.",
+    "Chose the elite specialization. What waits at the end of the proper path?"
+  ],
+  [
+    "spec_quant_title",
+    "name",
+    "퀀트 마인드",
+    "Quant Mind"
+  ],
+  [
+    "spec_quant_title",
+    "desc",
+    "퀀트형 전문화 선택. 시장을 수식으로 본다.",
+    "Chose the quant specialization. You see the market as equations."
+  ],
+  [
+    "spec_founder_title",
+    "name",
+    "창업가 정신",
+    "Founder Spirit"
+  ],
+  [
+    "spec_founder_title",
+    "desc",
+    "창업형 전문화 선택. 아무것도 없는 곳에서 시작한 사람.",
+    "Chose the founder specialization. Someone who began from nothing."
+  ],
+  [
+    "clean_run_title",
+    "name",
+    "청렴한 강남행",
+    "Clean Road to Gangnam"
+  ],
+  [
+    "clean_run_title",
+    "desc",
+    "도박판에서 손을 떼겠다고 시작한 인생. 마지막에 남은 자산은 30억 이상이었다.",
+    "You began that life intending to leave gambling behind. It ended with at least 3 billion won in assets."
+  ],
+  [
+    "network_run_title",
+    "name",
+    "서울 인맥왕",
+    "Seoul Network King"
+  ],
+  [
+    "network_run_title",
+    "desc",
+    "맺어 온 인연을 따라 강남에 들어섰다. 결국 사람이 가장 큰 자산이었다.",
+    "The people you came to know opened the way into Gangnam. In the end, people were the greatest asset."
+  ],
+  [
+    "temptation_resist_title",
+    "name",
+    "그날 밤의 선택",
+    "Choice That Night"
+  ],
+  [
+    "temptation_resist_title",
+    "desc",
+    "가장 어려울 때 쉬운 돈을 거절했다. 그 선택이 모든 것의 시작이었다.",
+    "Refused easy money when things were hardest. That choice began everything."
+  ],
+  [
+    "high_road_title",
+    "name",
+    "선을 지킨 사람",
+    "One Who Held the Line"
+  ],
+  [
+    "high_road_title",
+    "desc",
+    "친구를 경찰에 넘겼다. 옳은 일은 가끔 가장 아픈 일이다.",
+    "Turned your friend over to the police. The right thing is sometimes the most painful thing."
+  ],
+  [
+    "father_peace_title",
+    "name",
+    "마지막 봄",
+    "Last Spring"
+  ],
+  [
+    "father_peace_title",
+    "desc",
+    "아버지와 화해했다. 둘 사이의 침묵이 조금 달라졌다.",
+    "Made peace with your father. The silence between you felt a little different."
+  ],
+  [
+    "love_chosen_title",
+    "name",
+    "사랑을 택한 사람",
+    "One Who Chose Love"
+  ],
+  [
+    "love_chosen_title",
+    "desc",
+    "갈림길에서 다은을 붙잡았다. 강남보다 먼저 잡은 것.",
+    "Held onto Daeun at the crossroads. Something you caught before Gangnam."
+  ],
+  [
+    "investigator_title",
+    "name",
+    "의심하는 자",
+    "The Suspicious One"
+  ],
+  [
+    "investigator_title",
+    "desc",
+    "친구의 경고를 흘려듣지 않았다. 의심은 때로 우정의 다른 이름이다.",
+    "Did not dismiss your friend's warning. Suspicion is sometimes another name for friendship."
+  ],
+  [
+    "white_gangnam_title",
+    "name",
+    "수첩의 다음 장",
+    "The Notebook's Next Page"
+  ],
+  [
+    "white_gangnam_title",
+    "desc",
+    "30억과 강남의 등기를 손에 쥔 뒤, 하지 않았던 일들을 돌아보며 오래된 수첩의 다음 장을 폈다.",
+    "With 3 billion won and a Gangnam deed in hand, you looked back on what you had refused to do and opened the old notebook to its next page."
+  ]
+]'''))
+LAST11_TRANSITIONS = json.loads(r'''{
+  "autoloads/MetaProgression.gd": {
+    "previous_sha256": "b5c73771546c1fdc0d136aed45cdd14ee8e829fcc6aff88dfb607288cecf4f7d",
+    "current_sha256": "6f49a1bdd83b3431b4146bbd2a94956c481bb371202606398167cdec8ae9f8b0",
+    "start": "\t\t\"spec_elite_title\":\n",
+    "end": "\treturn localized\n",
+    "include_end": false,
+    "span_sha256": "c3bdb2a9960108983f3ebce98d355ae302c81e28a6c67dc9b091bba4f256787c",
+    "hooks": []
+  },
+  "tools/ja_translation_pipeline.py": {
+    "previous_sha256": "e2d666c19637fd20df8750187870e27cc1770c63d73db232e8035b8d072abe9c",
+    "current_sha256": "3a2d791038a46dcf3442776f4703cd1398998590843b91904c2668425a7427f4",
+    "start": "# BEGIN_LAST11_META_TITLE_SUCCESSOR_255\n",
+    "end": "# END_LAST11_META_TITLE_SUCCESSOR_255\n\n\n",
+    "include_end": true,
+    "span_sha256": "a9e90571e14e8cbc8a8d293119ce037f2d297a3d5cd510612250a72bbf228718",
+    "hooks": [
+      [
+        "    predecessor_calls, predecessor_source, next_title_errors = _last11_meta_title_chain_calls(calls)",
+        "    predecessor_calls, predecessor_source, next_title_errors = _mg9_meta_title_chain_calls(calls)"
+      ],
+      [
+        "    stats, title_stat_errors = _last11_meta_title_current_stats(\n        calls, predecessor_calls, predecessor_source, stats)",
+        "    stats, title_stat_errors = _mg9_meta_title_current_stats(\n        calls, predecessor_calls, predecessor_source, stats)"
+      ],
+      [
+        "        ui_inventory, meta_title_cases, meta_title_failures = _last11_meta_title_historical_checks(ui_inventory)",
+        "        ui_inventory, meta_title_cases, meta_title_failures = _mg9_meta_title_historical_checks(ui_inventory)"
+      ]
+    ]
+  }
+}''')
+_LAST11_REGISTRY_SHA256 = '57e9268bf877ae98dcc66af56d8bcec8151bcc7ce4f8dbe283515455a839bc16'
+
+
+def _last11_registry_digest() -> str:
+    return hashlib.sha256(json.dumps(
+        {"rows": LAST11_SOURCE_ROWS, "transitions": LAST11_TRANSITIONS},
+        ensure_ascii=False, sort_keys=True, separators=(",", ":")
+    ).encode("utf-8")).hexdigest()
+
+
+def _approved_last11_mp_span() -> bytes:
+    lines, previous_id = [], None
+    for title_id, field, ko, en in LAST11_SOURCE_ROWS:
+        if title_id != previous_id:
+            lines.append("\t\t" + json.dumps(title_id, ensure_ascii=False) + ":\n")
+            previous_id = title_id
+        lines.append("\t\t\tlocalized[" + json.dumps(field) + "] = LocaleManager.ui("
+                     + json.dumps(ko, ensure_ascii=False) + ", "
+                     + json.dumps(en, ensure_ascii=False) + ")\n")
+    return "".join(lines).encode("utf-8")
+
+
+def _last11_projection(current: bytes, relative: str) -> tuple[bytes, list[str]]:
+    if relative not in (MP_PATH, JA_PATH):
+        return current, ["ORDER-255: last11 successor path is not owned"]
+    try:
+        if (MP_PATH, JA_PATH) != (
+                "autoloads/MetaProgression.gd", "tools/ja_translation_pipeline.py"
+        ) or set(LAST11_TRANSITIONS) != {MP_PATH, JA_PATH} \
+                or _last11_registry_digest() != _LAST11_REGISTRY_SHA256:
+            return current, ["ORDER-255: exact last11 registry drifted"]
+        rule = LAST11_TRANSITIONS[relative]
+        prior = (DESC_TRANSITION["current_sha256"] if relative == MP_PATH
+                 else MG9_TRANSITIONS[JA_PATH]["current_sha256"])
+        if rule["previous_sha256"] != prior:
+            return current, ["ORDER-255: last11 predecessor is not current254"]
+        if hashlib.sha256(current).hexdigest() != rule["current_sha256"]:
+            return current, ["ORDER-255: unapproved current last11 source bytes " + relative]
+        start, end = rule["start"].encode("utf-8"), rule["end"].encode("utf-8")
+        if not start or not end or current.count(start) != 1 or current.count(end) != 1:
+            return current, ["ORDER-255: last11 span boundary is not unique"]
+        begin = current.index(start)
+        finish = current.index(end, begin) + (len(end) if rule["include_end"] else 0)
+        span = current[begin:finish]
+        if hashlib.sha256(span).hexdigest() != rule["span_sha256"]:
+            return current, ["ORDER-255: last11 span raw mismatch"]
+        if relative == MP_PATH and span != _approved_last11_mp_span():
+            return current, ["ORDER-255: last11 title ID/field/KO/EN mismatch"]
+        hooks = rule["hooks"]
+        if (len(hooks) != (0 if relative == MP_PATH else 3)
+                or len({tuple(hook) for hook in hooks}) != len(hooks)):
+            return current, ["ORDER-255: last11 exact inverse hook count/uniqueness drifted"]
+        projected = current[:begin] + current[finish:]
+        for current_hook, previous_hook in hooks:
+            current_hook, previous_hook = current_hook.encode("utf-8"), previous_hook.encode("utf-8")
+            if not current_hook or current_hook == previous_hook or projected.count(current_hook) != 1:
+                return current, ["ORDER-255: last11 hook is not exact1"]
+            projected = projected.replace(current_hook, previous_hook, 1)
+        if hashlib.sha256(projected).hexdigest() != prior:
+            return current, ["ORDER-255: last11 inverse does not restore whole current254"]
+        return projected, []
+    except (KeyError, TypeError, ValueError, AttributeError, UnicodeError):
+        return current, ["ORDER-255: malformed last11 registry/source"]
+
+
+def last11_source_errors(
+    relative: str, current: bytes, registered_previous: str | None = None,
+) -> list[str]:
+    _old, errors = _last11_projection(current, relative)
+    if registered_previous is not None:
+        rule = LAST11_TRANSITIONS.get(relative) if isinstance(LAST11_TRANSITIONS, dict) else None
+        if not isinstance(rule, dict) or registered_previous != rule.get("previous_sha256"):
+            errors.append("ORDER-255: last11 predecessor registration drifted")
+    return errors
+
+
+def last11_project_bytes(current: bytes, relative: str) -> bytes:
+    return _last11_projection(current, relative)[0]
+
+
+def last11_project_byte_hash(claim: str, relative: str, current: bytes) -> str:
+    old, errors = _last11_projection(current, relative)
+    if errors or hashlib.sha256(current).hexdigest() != claim:
+        return claim
+    return hashlib.sha256(old).hexdigest()
+
+
+# Capture the current DESC-bound public layer, not the older pre-DESC alias.
+_LAST11_OLD_MG9_SOURCE_ERRORS = mg9_source_errors
+_LAST11_OLD_MG9_PROJECT_BYTES = mg9_project_bytes
+_LAST11_OLD_MG9_PROJECT_HASH = mg9_project_byte_hash
+
+
+def _last11_mg9_source_errors(
+    relative: str, current: bytes, registered_previous: str | None = None,
+) -> list[str]:
+    if relative not in (MP_PATH, JA_PATH):
+        return _LAST11_OLD_MG9_SOURCE_ERRORS(relative, current, registered_previous)
+    old, errors = _last11_projection(current, relative)
+    if errors:
+        return errors
+    return _LAST11_OLD_MG9_SOURCE_ERRORS(relative, old, registered_previous)
+
+
+def _last11_mg9_project_bytes(current: bytes, relative: str) -> bytes:
+    if relative not in (MP_PATH, JA_PATH):
+        return _LAST11_OLD_MG9_PROJECT_BYTES(current, relative)
+    old, errors = _last11_projection(current, relative)
+    if errors or _LAST11_OLD_MG9_SOURCE_ERRORS(relative, old):
+        return current
+    return _LAST11_OLD_MG9_PROJECT_BYTES(old, relative)
+
+
+def _last11_mg9_project_hash(claim: str, relative: str, current: bytes) -> str:
+    if relative not in (MP_PATH, JA_PATH):
+        return _LAST11_OLD_MG9_PROJECT_HASH(claim, relative, current)
+    old, errors = _last11_projection(current, relative)
+    if (errors or hashlib.sha256(current).hexdigest() != claim
+            or _LAST11_OLD_MG9_SOURCE_ERRORS(relative, old)):
+        return claim
+    return _LAST11_OLD_MG9_PROJECT_HASH(hashlib.sha256(old).hexdigest(), relative, old)
+
+
+mg9_source_errors = _last11_mg9_source_errors
+mg9_project_bytes = _last11_mg9_project_bytes
+mg9_project_byte_hash = _last11_mg9_project_hash
+# END_LAST11_META_TITLE_SUCCESSOR_255
