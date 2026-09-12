@@ -1,0 +1,125 @@
+{
+  "unit_id": "ORDER-252",
+  "scope": "work_unit",
+  "subject": {
+    "kind": "source",
+    "commit": "37fdd2ee7e42cf1e39a2d7c73d6f933fd9d19ac6",
+    "tree": "89141836d5021d37eea7b16d7c93b61a8e80d57a",
+    "manifest_sha256": null
+  },
+  "review": {
+    "head": "35ad63a3d11b250bb7dcecaef8e195fa6036ad64",
+    "tree": "de77322a28025a09c0b1bc3796df6d3797bd0605",
+    "clean": true,
+    "source_wrapper": "STATUS only; actual resolver rule and Git checked read-only."
+  },
+  "reviewer": {
+    "name": "Poincare",
+    "role": "independent non-author",
+    "authority": "Delegated internal work-unit quality review; no human/native or full-product authority asserted."
+  },
+  "verdict": "GO",
+  "required": [],
+  "optional": [],
+  "method": "Reuse prior full direct-KO/source/test/raw-evidence reviews at identical pins; independently read new raw QA, compare every captured manifest and Git/raw subject, and inspect scoped deltas. Reviewer ran no repository imports, QA, collector, engine or remote fetch and changed no product/ops/Git files.",
+  "shared_final_checks": {
+    "named_unique12": "PASS; 97.135701417s; all raw child streams and exits read; 1577 before/after/current review Git exact, source1576 plus STATUS wrapper1.",
+    "all_accepted_L1": "38818, errors0; 72.575284875s; 1194 before/after exact and subset of named manifest.",
+    "counts": "Source23 plus historical19/24/18; fullself262; JA146; ZH12446/AUDIT_OK skeleton; direct16/static4; registry146/Godotguard6/EXTRA18; queue25/fence4; agent222; context369; active81.",
+    "execution_boundary": "One later shared final12 and one later shared whole-accepted L1 serve these units. They are not three separate executions and do not relabel the first10/11 failure."
+  },
+  "limits": [
+    "Local work-unit GO only. Whole product remains HOLD; native readers, rendered clipping, human playtest and physical controls unobserved. Human ledger unchanged (OPEN45/publicGO1 boundary retained).",
+    "No new remote CI for this source, no claim about ORDER243/244 or other exact remote candidates, no error-free/full-story/full-UI promotion.",
+    "ZH mode=skeleton and static font readiness are not full translation or rendering evidence. EXTRA18 registration advisories remain; audit.sh is unchanged.",
+    "Separate ORDER253 is declared private-only and not included in these product or acceptance populations."
+  ],
+  "shared_evidence": [
+    {
+      "path": ".git/full-game-localization/order250-252-final-evidence-binding.json",
+      "bytes": 12897,
+      "sha256": "c0a7907218248ee0edd76b6c32101b27b7047c36e8b4ae41282bf6e4da3bb0b7"
+    },
+    {
+      "path": ".git/full-game-localization/order252-named-first.json",
+      "bytes": 3782270,
+      "sha256": "84b863e7e2174017409125637d9d653295b029c9094b066acb11f12ee969c9e6"
+    },
+    {
+      "path": ".git/full-game-localization/order252-named-launch-first.json",
+      "bytes": 375168,
+      "sha256": "1146d5c1020cdf4a390c39650d40f6eb263bb0a008fab8553636c5d9395eeb02"
+    },
+    {
+      "path": ".git/full-game-localization/order252-all-accepted-l1-first.json",
+      "bytes": 375291,
+      "sha256": "946a77788d19f78d97518a2286d74b6f4477f1d54d2b7683dacf259eba0e5aee"
+    }
+  ],
+  "decision": "The missing exact dice-title numeric connection in direct Chinese validation is repaired. Fixed direct/static consumers and the actual live ZH final lane now pass while original script and ownership rejections remain.",
+  "population": {
+    "product_paths": [
+      "tools/zh_translation_audit.py",
+      "tools/zh_dice_title_consumer_self_test.py",
+      "tools/audit_scope.json"
+    ],
+    "direct16": "normal2/mutant10/OFF4; original251 literals14 plus route OFF2",
+    "isolated_static4": "normal2/mutant2; actual canonical validator forwarded3 times, unknown-owner case0",
+    "old_ZH_self_cases": 12446
+  },
+  "readscope": [
+    "First10/11 actual failure and exact canonical static caller, original direct validator and reused full helper.",
+    "Whole frozen16/4, baseline driver/all20 outputs, complete new self and six-line ZH numeric hook, lazy import/CLI initialization and scope12 registration.",
+    "All first-post outputs, exact current/first baseline literal and raw inverses; all later final12 raw child streams and38818 L1/Git input binding."
+  ],
+  "code_pins": {
+    "tools/zh_translation_audit.py": {
+      "bytes": 1684626,
+      "sha256": "269e3174edd1e76fb5040f39322e1e9846633c0e32ba44a61a80ae989f1c6c2c"
+    },
+    "tools/zh_dice_title_consumer_self_test.py": {
+      "bytes": 26144,
+      "sha256": "31fa1b7a9fd9030b83cf7dbc0b8f2309f07d3bd7de6a6c82732f77d132996bfb"
+    },
+    "tools/audit_scope.json": {
+      "bytes": 157330,
+      "sha256": "6d886d2127add813abbeb5c45cd42691a602ad2aac101e0be7de80fa0524635b"
+    }
+  },
+  "findings": [
+    "ui::0924::8f82759e883c was diagnostic-only; static_ui_coverage already passed the canonical full leaf. The repaired cause was absent numeric adapter dispatch, not malformed translation or owner routing.",
+    "Six lines/351B select only the existing numeric tuple. Original source/key/target and script/token/LF/money/terminology/English checks are retained. Removing the insertion recovers oldZH7e57de05a113e33b10fcc6ed1a66da8998ee9f1c13ae8789afe7b5403832b6f0; other391 top-level nodes raw exact.",
+    "Function-local import cannot invoke CLI/collector; existing helper has no ZH callback. Exact source guard avoids double-normalizing the full path. New self observes actual validator returns unchanged, restores fixture/provider/cache identities and prints both populations before assertions.",
+    "Precode normals direct0/2/static0/2 mean validnegative0. First post direct2+10+OFF4 and static2+2 pass, one unittest0.080s/outer1194/inner10 exact. Final named direct/static trace equals first post exactly.",
+    "Actual full ZH --self-test later reports cases12446 and AUDIT_OK mode=skeleton; its prior four diagnostic lines no longer occur. Original25140 full results remain exact. Registry146 with EXTRA18 is advisory, not a new audit.sh or whole-CI claim."
+  ],
+  "failure_history": "Original named order250-named-first.json remains exit1/10of11, immutable SHA f1d70100bd4f2763171637ca6e6523d86ac21527e7cf528efeb847a9f1e913ec. Later final12 is new evidence, not replacement or a fabricated original success.",
+  "evidence": [
+    {
+      "path": ".git/full-game-localization/order252-consumer-controls.json",
+      "bytes": 30693,
+      "sha256": "8b3cdca8644c6b71679cb1cff68a8d92dc3290a918908559118863ca2b243b34"
+    },
+    {
+      "path": ".git/full-game-localization/order252-baseline-first.json",
+      "bytes": 397431,
+      "sha256": "58a5a5e393cc2234306d52cff3fba6e0f790a71a34e3b67b8dba134d13639275"
+    },
+    {
+      "path": ".git/full-game-localization/order252-post-first.json",
+      "bytes": 401364,
+      "sha256": "878c2ca90f244414d8af9dcec7d2a67d1b6611976d71155175536332fc74fae1"
+    },
+    {
+      "path": ".git/full-game-localization/order252-code-post-independent-review.json",
+      "bytes": 9255,
+      "sha256": "2176bfcb8b87633dfeb6789a7af0281bcae12e49c914fed934714069aa4830ad"
+    },
+    {
+      "path": ".git/full-game-localization/order250-251-integration-first-independent-review.json",
+      "bytes": 21681,
+      "sha256": "d2552c8e9a165d8813ae9c626e31949ee20e5bf6371d031b46bc80402c94fa2c"
+    }
+  ],
+  "scope_residuals": "Provider-isolated static4 is not whole inventory coverage and is not four gameplay tests. Runtime405 is reused only because its19 actual inputs are unchanged; no additional engine run."
+}

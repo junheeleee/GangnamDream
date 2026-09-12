@@ -1,3 +1,32 @@
+# ORDER-250 — 표적 작업 결과
+
+[x] ORDER-250 — 2026-09-13. 비저자 Poincare LOCAL work_unit GO.
+
+source `37fdd2ee7e42cf1e39a2d7c73d6f933fd9d19ac6`, tree
+`89141836d5021d37eea7b16d7c93b61a8e80d57a`; clean 검토 HEAD
+`35ad63a3d11b250bb7dcecaef8e195fa6036ad64`에 결속한다.
+
+## 결과와 경계
+
+칭호9/name·desc18/JA·CN·TW54 정식 수용, 총38818/b102/meta9.
+source23와 역사19/24/18, 첫 actual405(구310+신규95) 통과; nested조건180은 별도다.
+생산자/독자: MetaProgression._localized_title → get_title_info → 도감·알림.
+상태: lookup30→39/50; 조건·마스터리·보너스·원문 KO/EN·저장 변경0.
+첫 L1 오탐3·첫 named10/11 실패는 보존했고 후속251/252로 해당 원인만 닫았다.
+
+같은 최종 검사12는97.135701417초/1577입력불변, 전체수용38818 L1은
+오류0/72.575284875초/1194불변이다. 세 단위에 한 실행을 범위별 결속한다.
+actual405는 기존19입력이 그대로인 component 증거만 재사용했고 재실행0이다.
+첫 실패 원형·입력·stdout/stderr·독립 HOLD는 보존하며 후속 PASS와 구분한다.
+서사 위치/계층/선택 포기: 해당 없음 — 번역·검사 소비자, gameplay 변경0.
+일회성 작업 지시이며 새 규범 없음. 공개GO1·인간OPEN45·본편HOLD 유지.
+원어민·렌더·인간플레이·물리패드·새 원격CI·외부출시의 GO가 아니다.
+자동 검사는 계약 증거이지 재미·깊이·문체 또는 인간 관찰 증거가 아니다.
+
+[독립 판정](../agent_reviews/ORDER-250.json) · SHA `3263926de8cead160dcc3b1deafc9fd1fe9317abdb31f263046148366060aee4`
+
+## 선언·진행 원문 보존
+
 # 미니게임 칭호 9종 세 언어 현지화
 
 #### [~] ORDER-250 미니게임 칭호 번역

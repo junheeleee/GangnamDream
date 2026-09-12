@@ -1,0 +1,121 @@
+{
+  "unit_id": "ORDER-251",
+  "scope": "work_unit",
+  "subject": {
+    "kind": "source",
+    "commit": "37fdd2ee7e42cf1e39a2d7c73d6f933fd9d19ac6",
+    "tree": "89141836d5021d37eea7b16d7c93b61a8e80d57a",
+    "manifest_sha256": null
+  },
+  "review": {
+    "head": "35ad63a3d11b250bb7dcecaef8e195fa6036ad64",
+    "tree": "de77322a28025a09c0b1bc3796df6d3797bd0605",
+    "clean": true,
+    "source_wrapper": "STATUS only; actual resolver rule and Git checked read-only."
+  },
+  "reviewer": {
+    "name": "Poincare",
+    "role": "independent non-author",
+    "authority": "Delegated internal work-unit quality review; no human/native or full-product authority asserted."
+  },
+  "verdict": "GO",
+  "required": [],
+  "optional": [],
+  "method": "Reuse prior full direct-KO/source/test/raw-evidence reviews at identical pins; independently read new raw QA, compare every captured manifest and Git/raw subject, and inspect scoped deltas. Reviewer ran no repository imports, QA, collector, engine or remote fetch and changed no product/ops/Git files.",
+  "shared_final_checks": {
+    "named_unique12": "PASS; 97.135701417s; all raw child streams and exits read; 1577 before/after/current review Git exact, source1576 plus STATUS wrapper1.",
+    "all_accepted_L1": "38818, errors0; 72.575284875s; 1194 before/after exact and subset of named manifest.",
+    "counts": "Source23 plus historical19/24/18; fullself262; JA146; ZH12446/AUDIT_OK skeleton; direct16/static4; registry146/Godotguard6/EXTRA18; queue25/fence4; agent222; context369; active81.",
+    "execution_boundary": "One later shared final12 and one later shared whole-accepted L1 serve these units. They are not three separate executions and do not relabel the first10/11 failure."
+  },
+  "limits": [
+    "Local work-unit GO only. Whole product remains HOLD; native readers, rendered clipping, human playtest and physical controls unobserved. Human ledger unchanged (OPEN45/publicGO1 boundary retained).",
+    "No new remote CI for this source, no claim about ORDER243/244 or other exact remote candidates, no error-free/full-story/full-UI promotion.",
+    "ZH mode=skeleton and static font readiness are not full translation or rendering evidence. EXTRA18 registration advisories remain; audit.sh is unchanged.",
+    "Separate ORDER253 is declared private-only and not included in these product or acceptance populations."
+  ],
+  "shared_evidence": [
+    {
+      "path": ".git/full-game-localization/order250-252-final-evidence-binding.json",
+      "bytes": 12897,
+      "sha256": "c0a7907218248ee0edd76b6c32101b27b7047c36e8b4ae41282bf6e4da3bb0b7"
+    },
+    {
+      "path": ".git/full-game-localization/order252-named-first.json",
+      "bytes": 3782270,
+      "sha256": "84b863e7e2174017409125637d9d653295b029c9094b066acb11f12ee969c9e6"
+    },
+    {
+      "path": ".git/full-game-localization/order252-named-launch-first.json",
+      "bytes": 375168,
+      "sha256": "1146d5c1020cdf4a390c39650d40f6eb263bb0a008fab8553636c5d9395eeb02"
+    },
+    {
+      "path": ".git/full-game-localization/order252-all-accepted-l1-first.json",
+      "bytes": 375291,
+      "sha256": "946a77788d19f78d97518a2286d74b6f4477f1d54d2b7683dacf259eba0e5aee"
+    }
+  ],
+  "decision": "The exact dice-title full-exchange numeric adapter is valid for JA/CN/TW, preserves independent diagnostics and rejects the fixed mutations. Whole integration is accepted only after the separate ORDER252 direct-ZH repair also passed.",
+  "population": {
+    "exact_KO": "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "locales": [
+      "ja",
+      "zh-CN",
+      "zh-TW"
+    ],
+    "fixed40": "normal9 + numeric mutants22 + independent diagnostic mutants4 + OFF5",
+    "first_method_count": 1,
+    "old_self_tests_preserved": 261
+  },
+  "readscope": [
+    "Actual original three L1 diagnostics, declaration/design, all precode40 and baseline components, exact source/key/locale owner guards.",
+    "Whole added helper, both full hooks and new self method/literals, normal-base dependencies, original and normalized component separation, whole raw/AST inverses.",
+    "All40 first-post raw outputs; same40 unchanged results inside final fullself262, final all38818 and live-ZH integration evidence."
+  ],
+  "code_pins": {
+    "tools/full_game_localization.py": {
+      "bytes": 282812,
+      "sha256": "9aa3e45cbee1831d421315fc43fdcd9351b1e0394f9995931622592d569110b5"
+    },
+    "tools/full_game_localization_self_test.py": {
+      "bytes": 1689986,
+      "sha256": "7c6619c4991cb773f3b1958b21e7ec340e596caa0744b0d659fc1c25f022ca8d"
+    }
+  },
+  "findings": [
+    "Canonical leaf/fullKO/locale scoped. Exact threshold15 with above qualifier and exactly3 rolling dice are separately owned; only numeric/classifier spans normalize. Wrong value/unit/owner/position/sign/duplicate/extra quantity rejects; OFF leaves original diagnostics.",
+    "Nonnumeric text is not rewritten. Original foreign 顆/颗 script diagnostics survive full validation even where numeric helper passes. Money, token, LF and other original checks remain effective.",
+    "Full helper+hooks and self method removal recover previous whole raw; old251 precursor functions and 261 tests/21 helpers are preserved. MG9 self only rebinds its two dependency fingerprints; current23 and historical populations remain unchanged.",
+    "Baseline normal0/9 and validnegative0 are retained, not advertised as mutant detection. First post one unittest: normal9/validnegative26/OFF5, outer1193/inner10 exact. Final262 contains the identical40 result objects; only the direct-ZH code input changed under ORDER252."
+  ],
+  "failure_history": "251 does not retroactively claim to have repaired the direct ZH consumer. First10/11 failure and HOLD are retained in the shared integration review; its separate252 scoped fix is explicitly required for this final combined local result.",
+  "evidence": [
+    {
+      "path": ".git/full-game-localization/order251-dice-controls.json",
+      "bytes": 64185,
+      "sha256": "c2806e4d2c431f280460603d3ac98081357c50bf2c557cbdf8318b95a02e48ab"
+    },
+    {
+      "path": ".git/full-game-localization/order251-baseline-first.json",
+      "bytes": 452565,
+      "sha256": "d211a3f1be9b3ba592a84a1f1c9d516ac80c6b9a83eff7de58d54a49e80f616e"
+    },
+    {
+      "path": ".git/full-game-localization/order251-post-first.json",
+      "bytes": 501219,
+      "sha256": "daaf5cb2ecb9cd96040b77b0507c0f8b4a31ca85415761faf0d4aec60fe39897"
+    },
+    {
+      "path": ".git/full-game-localization/order251-code-post-independent-review.json",
+      "bytes": 11986,
+      "sha256": "5f176011b217c337765ba3a9211fe176188935a0dfac15916d67a31d0193f8ef"
+    },
+    {
+      "path": ".git/full-game-localization/order250-251-integration-first-independent-review.json",
+      "bytes": 21681,
+      "sha256": "d2552c8e9a165d8813ae9c626e31949ee20e5bf6371d031b46bc80402c94fa2c"
+    }
+  ],
+  "scope_residuals": "Finite one-leaf numeric repair, not general numeral grammar correctness or new translation authorship. No weakening for unrelated source/owner/locale."
+}

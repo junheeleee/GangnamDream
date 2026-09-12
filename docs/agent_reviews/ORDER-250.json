@@ -1,0 +1,117 @@
+{
+  "unit_id": "ORDER-250",
+  "scope": "work_unit",
+  "subject": {
+    "kind": "source",
+    "commit": "37fdd2ee7e42cf1e39a2d7c73d6f933fd9d19ac6",
+    "tree": "89141836d5021d37eea7b16d7c93b61a8e80d57a",
+    "manifest_sha256": null
+  },
+  "review": {
+    "head": "35ad63a3d11b250bb7dcecaef8e195fa6036ad64",
+    "tree": "de77322a28025a09c0b1bc3796df6d3797bd0605",
+    "clean": true,
+    "source_wrapper": "STATUS only; actual resolver rule and Git checked read-only."
+  },
+  "reviewer": {
+    "name": "Poincare",
+    "role": "independent non-author",
+    "authority": "Delegated internal work-unit quality review; no human/native or full-product authority asserted."
+  },
+  "verdict": "GO",
+  "required": [],
+  "optional": [],
+  "method": "Reuse prior full direct-KO/source/test/raw-evidence reviews at identical pins; independently read new raw QA, compare every captured manifest and Git/raw subject, and inspect scoped deltas. Reviewer ran no repository imports, QA, collector, engine or remote fetch and changed no product/ops/Git files.",
+  "shared_final_checks": {
+    "named_unique12": "PASS; 97.135701417s; all raw child streams and exits read; 1577 before/after/current review Git exact, source1576 plus STATUS wrapper1.",
+    "all_accepted_L1": "38818, errors0; 72.575284875s; 1194 before/after exact and subset of named manifest.",
+    "counts": "Source23 plus historical19/24/18; fullself262; JA146; ZH12446/AUDIT_OK skeleton; direct16/static4; registry146/Godotguard6/EXTRA18; queue25/fence4; agent222; context369; active81.",
+    "execution_boundary": "One later shared final12 and one later shared whole-accepted L1 serve these units. They are not three separate executions and do not relabel the first10/11 failure."
+  },
+  "limits": [
+    "Local work-unit GO only. Whole product remains HOLD; native readers, rendered clipping, human playtest and physical controls unobserved. Human ledger unchanged (OPEN45/publicGO1 boundary retained).",
+    "No new remote CI for this source, no claim about ORDER243/244 or other exact remote candidates, no error-free/full-story/full-UI promotion.",
+    "ZH mode=skeleton and static font readiness are not full translation or rendering evidence. EXTRA18 registration advisories remain; audit.sh is unchanged.",
+    "Separate ORDER253 is declared private-only and not included in these product or acceptance populations."
+  ],
+  "shared_evidence": [
+    {
+      "path": ".git/full-game-localization/order250-252-final-evidence-binding.json",
+      "bytes": 12897,
+      "sha256": "c0a7907218248ee0edd76b6c32101b27b7047c36e8b4ae41282bf6e4da3bb0b7"
+    },
+    {
+      "path": ".git/full-game-localization/order252-named-first.json",
+      "bytes": 3782270,
+      "sha256": "84b863e7e2174017409125637d9d653295b029c9094b066acb11f12ee969c9e6"
+    },
+    {
+      "path": ".git/full-game-localization/order252-named-launch-first.json",
+      "bytes": 375168,
+      "sha256": "1146d5c1020cdf4a390c39650d40f6eb263bb0a008fab8553636c5d9395eeb02"
+    },
+    {
+      "path": ".git/full-game-localization/order252-all-accepted-l1-first.json",
+      "bytes": 375291,
+      "sha256": "946a77788d19f78d97518a2286d74b6f4477f1d54d2b7683dacf259eba0e5aee"
+    }
+  ],
+  "decision": "The nine minigame titles' 18 Korean source surfaces, 54 approved regional targets, source/history consumer wiring and bounded actual405 contract are complete at this exact source, after the separately declared 251/252 quantity consumers resolved integration failures.",
+  "population": {
+    "source_surfaces": 18,
+    "title_families": 9,
+    "regional_targets": 54,
+    "locales": [
+      "ja",
+      "zh-CN",
+      "zh-TW"
+    ],
+    "source_controls": "Current23=normal3/negative19/OFF1; historical24819,24524,24418 kept separate.",
+    "runtime": "405=old310 (295 direct+15 validated name/description history projections)+new95; new95=45 getter+50 semantic groups. Nested180 condition/mastery vectors are not additional top-level executions."
+  },
+  "readscope": [
+    "All54 translations directly against KO, actual conditions/source debts and applicable glossaries; final52 unchanged+CN针眼/TW針眼 optional2 exact refinements.",
+    "Whole source4 and successor-self extension, exact current authority versus historical projections, physical/logical pins and two subsequent MG9 dependency-pin updates.",
+    "Full runtime source/runner and all first405 captured expected/actual records; new full-state25 versus digest70, nested180, cache/log/storage/restore boundaries.",
+    "Official18x3 initial/final sources, responses, receipts and current UI/portable; final source and new shared12/whole38818 evidence."
+  ],
+  "findings": [
+    "Language required0; optional2 resolved without changing source/conditions/numeric facts. JA大小（タイサイ） locked; 15/20/777/1min/2.7%/45:1/3 preserved; producer-condition debts are not translation inventions.",
+    "Actual405 first exit0/71.310457042s had outer1193 and inner19 exact. All19 runtime inputs now match source37f and current35ad, so that component is reused without engine rerun. Only18 overlapped the original outer capture; NotificationToast was inner-only.",
+    "Source23 and separated old19/24/18 final stdout is byte-identical to first named source output. Original source constants, KO/EN fallbacks, unselected titles, save IDs and gameplay preserved within reviewed scope.",
+    "Formal export/check/import18x3 at bb47b2a9b50737a1ecea93803ad131e032fd0401 all succeeded; six check/import children changed_files0. Initial/final metadata except previous-target hash, targets/UI/receipt selfhashes and portable54 were directly verified.",
+    "Portable38764/b101/meta9 →38818/b102/meta9; remove new54+b102 and restore accepted digest gives exact old10072866B/13cbcc3d881de7f281b2079c05faf14d67bfd274dcf6efb43b1cd641b3337a63. Current10091936B/d867cf04d1370acaccce381114e00d67b5083e64519bab3e425b8711be0c1eee. Three UI raw append inverses preserve old keys/format, including JA tab rows."
+  ],
+  "failure_history": [
+    "First54 L1 had three numeric false positives (not translation defects), preserved at order250-l1-first.json SHA8720d4046a43e9b30077f04d66f11eb397563d1f425679394bb9be0ac1ac1a0c. ORDER251 repaired the full path; same54 then errors0 without prose edits.",
+    "First common11 was10PASS/1FAIL: exact CN/TW direct ZH errors2 plus repeated story-demo reporting2. Integration HOLD was correct then. Separate ORDER252 connects the already-canonical direct consumer; later final12 passes."
+  ],
+  "evidence": [
+    {
+      "path": ".git/full-game-localization/order250-language-review.json",
+      "bytes": 34222,
+      "sha256": "7097be390970f9837e5fa41d7b3fc340440ca43fcf687caac7f9cd5001b11e5e"
+    },
+    {
+      "path": ".git/full-game-localization/order250-language-final-addendum.json",
+      "bytes": 2925,
+      "sha256": "e598d77e61dc0f6b53084b2ca1b779e85e91c69c12ebfb078fa025d7c9242cd8"
+    },
+    {
+      "path": ".git/full-game-localization/order250-source-independent-review.json",
+      "bytes": 10421,
+      "sha256": "61622b7557a312cbfdf8aedaeab43393421986cd5322e1a5cd6182079b2bfa2a"
+    },
+    {
+      "path": ".git/full-game-localization/order250-runtime-independent-readback.json",
+      "bytes": 12261,
+      "sha256": "f4662f646df8d6a8d5896921178aa00fde53e1e09a40bc44997de4d1329dac2e"
+    },
+    {
+      "path": ".git/full-game-localization/order250-251-integration-first-independent-review.json",
+      "bytes": 21681,
+      "sha256": "d2552c8e9a165d8813ae9c626e31949ee20e5bf6371d031b46bc80402c94fa2c"
+    }
+  ],
+  "scope_residuals": "No inference that every minigame producer reaches its title condition, every remaining title/UI is translated, early five-year-title debt is repaired, or every state was full-snapshot observed."
+}
