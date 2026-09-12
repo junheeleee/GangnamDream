@@ -82,6 +82,12 @@ source 유한군·L1 같은60·actual old100/new100 → 공식 export/check/impo
 
 ## 사전 근거
 
+후속 같은60 L1은94836b22/오류0이며, c399f54 exact HEAD에서 공식
+export/check/import 각3이 exit0다. UI변경0인 검증된 결과를 수용한 뒤 portable에
+신규60만 추가해38698/b100/meta9, 기존38638 raw 역복원 exact를 확인했다.
+위 최초 미실행 기록은 당시 관측으로 보존한다. 전체수용L1·최종named11·
+독립 최종 단위판정은 아직 미실행이며 본편HOLD는 유지한다.
+
 - private `order244-next-title-history-scope.md`: 87572979ec415372692136a714f8e47b96ad16f9f2208700cc02ca82b2a89af1
 - private `order244-next-meta-title-consumer-plan.json`: f615e97c910e3112224a95c24d14ff6fc6e38af429d7b5ed3bfb18c5e1cb476e
 - private `order243-next-meta-title-rebinding.json`: 154800a0a5f1a50367ded05244a44f6517e911e743d68e7004227e0749d39f99

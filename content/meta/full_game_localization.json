@@ -3639,6 +3639,42 @@
       "machine_validation": "PASS",
       "rendered_review": "OPEN",
       "native_review": "OPEN"
+    },
+    {
+      "order": "ORDER-245",
+      "group": "ui",
+      "roots": [
+        "같은 계단을 오래 올랐다. 익숙해진 풍경만큼 지나친 갈림길도 남았다.",
+        "낯선 지름길보다 이미 놓인 계단을 골라, 한 걸음씩 올라왔다.",
+        "낯익은 자리들",
+        "놓인 계단",
+        "다른 출구",
+        "다음 아침",
+        "두 길 사이",
+        "마음이 버티기 어려웠던 밤이 지나고도, 다음 아침은 왔다.",
+        "비어 있던 오후",
+        "사람들이 몰린 방향에서 벗어나, 다른 출구를 여러 번 골랐다.",
+        "서울 곳곳에 먼저 인사를 건네고 자리를 내어 주는 사람들이 생겼다.",
+        "서울에서 사랑",
+        "연락할 이름이 떠오르지 않는 저녁에도, 혼자 걷는 길은 어느새 익숙해졌다.",
+        "오래 오른 계단",
+        "이 복잡한 도시에서도 사람을 좋아하게 됐다.",
+        "이미 놓인 길과 지도 밖의 길을 오갔다. 어느 한쪽만으로는 이 5년을 설명할 수 없다.",
+        "지도 밖의 길",
+        "지도에 없는 길을 오래 걸었다. 발밑이 흔들린 날에도 방향을 쉽게 바꾸지 않았다.",
+        "한강과 편의점, 오래 걷던 길에서 누구의 일정도 아닌 시간을 보냈다.",
+        "혼자 걷는 저녁"
+      ],
+      "source_leaves": 20,
+      "target_leaves_by_locale": {
+        "ja": 20,
+        "zh-CN": 20,
+        "zh-TW": 20
+      },
+      "source_review": "Direct Korean review of ten existing personality, relationship and life title names and descriptions. Conditions, hidden routes, saved IDs, prior nine translated and remaining thirty-one titles unchanged. Isolated actual consumers are not rendered or native play.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN"
     }
   ],
   "accepted": {
@@ -55154,6 +55190,86 @@
       "ui:통장에 처음으로 월급이 찍혔다. 기쁘면서도 이상하게 허탈했다.:/통장에 처음으로 월급이 찍혔다. 기쁘면서도 이상하게 허탈했다.": {
         "source_sha256": "bc2970cfc472111cf553a6f2bbface97a11ad5d518e1acc037b07a2e6be2c784",
         "target_sha256": "640b4023e3984c77caa2c35c8eb6a923b84ed939c09456e87db2ae1a63678498"
+      },
+      "ui:같은 계단을 오래 올랐다. 익숙해진 풍경만큼 지나친 갈림길도 남았다.:/같은 계단을 오래 올랐다. 익숙해진 풍경만큼 지나친 갈림길도 남았다.": {
+        "source_sha256": "719c72e53e97bf7a75b3603ce46df0fad4623cbc55f319a17c3585d59dfa8164",
+        "target_sha256": "ec610031a2b8f74cad64de8e0a0408cdcf44dd79f9b9e014074df2f0a16fe29c"
+      },
+      "ui:낯선 지름길보다 이미 놓인 계단을 골라, 한 걸음씩 올라왔다.:/낯선 지름길보다 이미 놓인 계단을 골라, 한 걸음씩 올라왔다.": {
+        "source_sha256": "2fc915fbb820eccded0a8b2c3495ec0f071210634c21965ef2c47e2a43f943b0",
+        "target_sha256": "4ceb323c43cf492033508a630ea67e6c812aeed3a67d6d36367f0a4782014cc6"
+      },
+      "ui:낯익은 자리들:/낯익은 자리들": {
+        "source_sha256": "c365ca71b338c2788c9d89cfd243452e33211ab3e5ccf92b5e3faf14e842a0e4",
+        "target_sha256": "b926cbaa5bf3f31988767ba4b8e0bf6952c275c90a80743a481e9e47a09de65b"
+      },
+      "ui:놓인 계단:/놓인 계단": {
+        "source_sha256": "04530efc2402e15c6b29c60644c4a195085c0b022bdd0c39452cf0fca201fd6e",
+        "target_sha256": "1686dc992f6df18c33a63c9c9fc1db4205bc037097e1028f765d761c84bbdc9c"
+      },
+      "ui:다른 출구:/다른 출구": {
+        "source_sha256": "b1e3b2fc92155c1bc2a6d6c1a577d84105d8193186ff96847719e63991d6f8ee",
+        "target_sha256": "27d8d57e1aa03069efeabaf79a7bc114ac5420d4b70ad06a42ea4a2656b3fd78"
+      },
+      "ui:다음 아침:/다음 아침": {
+        "source_sha256": "2c17e60b5cf59829cf1e391d6de2deab20e0e8633909b1c5afb8cff36ea290c5",
+        "target_sha256": "d7a78ee75035b483e5773479920f0fb542ea382fb61a4d48a18b2797405a1d6f"
+      },
+      "ui:두 길 사이:/두 길 사이": {
+        "source_sha256": "d580e4c2097a734918de75730d370a5ec7e8b2fb4a09f6a397669a13c115ce68",
+        "target_sha256": "2ddb9aa9926636a1ddbe6f9228502e5d96b9ab9d92fb75a04878cfe913685b57"
+      },
+      "ui:마음이 버티기 어려웠던 밤이 지나고도, 다음 아침은 왔다.:/마음이 버티기 어려웠던 밤이 지나고도, 다음 아침은 왔다.": {
+        "source_sha256": "82af7ea84147d17993900347e3300f33a859bc067cde44a09d63e191c31fa653",
+        "target_sha256": "b0c1d1cad85e88e8450fbe94e59972dbb91566ad619d5376445e64a9ad427d55"
+      },
+      "ui:비어 있던 오후:/비어 있던 오후": {
+        "source_sha256": "ce9b27b18599fd1cfc259f5f2a8353364a5118c0e79fdd117d1b2ff9fc64c07c",
+        "target_sha256": "e35b8148ec4f8ecba7edea8e61ee26adc432ddb5b3229e95c755a1e7b3e7e5fc"
+      },
+      "ui:사람들이 몰린 방향에서 벗어나, 다른 출구를 여러 번 골랐다.:/사람들이 몰린 방향에서 벗어나, 다른 출구를 여러 번 골랐다.": {
+        "source_sha256": "c0ac6a93dc47a3b21236572b691e7787d812c1bdf0a5bf3b4ad0c1ae1008574b",
+        "target_sha256": "223e7c8654e06d1b6bc0eb2628cb84692fe138f31341c302a3f34b5618df1046"
+      },
+      "ui:서울 곳곳에 먼저 인사를 건네고 자리를 내어 주는 사람들이 생겼다.:/서울 곳곳에 먼저 인사를 건네고 자리를 내어 주는 사람들이 생겼다.": {
+        "source_sha256": "52c490be116c5a1220b0bb57baad2e3684ed26d5fe8be9eaf569d4dbbea02569",
+        "target_sha256": "6200febf46730134e4a5461adc031f529ade52f5d01936e9bdb63ba34bf73d0a"
+      },
+      "ui:서울에서 사랑:/서울에서 사랑": {
+        "source_sha256": "6e2933af579b52edefc009a13e2d64211acabd06e9f8b5ae759e4234aab6408d",
+        "target_sha256": "70dda34cca3897abef4686c4f864c0c2ba6a5c86c138950753167028acbcd07c"
+      },
+      "ui:연락할 이름이 떠오르지 않는 저녁에도, 혼자 걷는 길은 어느새 익숙해졌다.:/연락할 이름이 떠오르지 않는 저녁에도, 혼자 걷는 길은 어느새 익숙해졌다.": {
+        "source_sha256": "8522173b976b56a3cb0542d6dff475be74864fb0773cfe8c3b84a2dc3334209b",
+        "target_sha256": "157934173f730cd98334bb14bc77a53f3822a7091afaaa9210d42ad5394a680f"
+      },
+      "ui:오래 오른 계단:/오래 오른 계단": {
+        "source_sha256": "fbed5409fe189b233877f3340fad709abbfb6c9a4218572cfa395834007b8c26",
+        "target_sha256": "7220af6df932a269350b365be434a37b01b6c49107ff37340bb6c18cdf9a8008"
+      },
+      "ui:이 복잡한 도시에서도 사람을 좋아하게 됐다.:/이 복잡한 도시에서도 사람을 좋아하게 됐다.": {
+        "source_sha256": "78798e933ea8e4010946aef91008023e340a7363ec30153f16da241b183a64a6",
+        "target_sha256": "8b25299395aaf83d9162cdc7891b7de7c2a278e7072d94504cf8bff947affa4c"
+      },
+      "ui:이미 놓인 길과 지도 밖의 길을 오갔다. 어느 한쪽만으로는 이 5년을 설명할 수 없다.:/이미 놓인 길과 지도 밖의 길을 오갔다. 어느 한쪽만으로는 이 5년을 설명할 수 없다.": {
+        "source_sha256": "50ec15e77873689ab83069d263485ca9b3a2231a1a394eac7e6e900b07b08555",
+        "target_sha256": "b018ae605803022d90dedc7cdd158be90ba6be6c7c7f6bcefa69039ca5e08d86"
+      },
+      "ui:지도 밖의 길:/지도 밖의 길": {
+        "source_sha256": "c1af8e0bcfbe3e1b06a6cf9ac7854d6357449ffe815047d20a229cf9456047a6",
+        "target_sha256": "26242ef60b05bc1efc3fdcc038b5af9ec76288c5183366bbc078be6c835193b3"
+      },
+      "ui:지도에 없는 길을 오래 걸었다. 발밑이 흔들린 날에도 방향을 쉽게 바꾸지 않았다.:/지도에 없는 길을 오래 걸었다. 발밑이 흔들린 날에도 방향을 쉽게 바꾸지 않았다.": {
+        "source_sha256": "ac4445a904f7b658becb79b2a8acc3f82b66c8fac2a8266b9592afa3cfae1947",
+        "target_sha256": "693c5bd4954ec1fdc53346313faab8580a5b75ac4432332f1d365f8128b69779"
+      },
+      "ui:한강과 편의점, 오래 걷던 길에서 누구의 일정도 아닌 시간을 보냈다.:/한강과 편의점, 오래 걷던 길에서 누구의 일정도 아닌 시간을 보냈다.": {
+        "source_sha256": "08da1cc34bebbae95864609cb440928d0cb82acf6efa704f1101db90d480cad8",
+        "target_sha256": "05ef60502f1f11b1c93c045c5e08540e2c620d1c4b1e91257d981e69a17d0d6b"
+      },
+      "ui:혼자 걷는 저녁:/혼자 걷는 저녁": {
+        "source_sha256": "36ad41364f53900ad7ce6a9951da7aca2e64b4d0e9b3482c9702161a02a2cca2",
+        "target_sha256": "97f174fc3a80feaf3d78abb485f81ec99611794f00ba099bf4132bac0c53b718"
       }
     },
     "zh-CN": {
@@ -106676,6 +106792,86 @@
       "ui:통장에 처음으로 월급이 찍혔다. 기쁘면서도 이상하게 허탈했다.:/통장에 처음으로 월급이 찍혔다. 기쁘면서도 이상하게 허탈했다.": {
         "source_sha256": "bc2970cfc472111cf553a6f2bbface97a11ad5d518e1acc037b07a2e6be2c784",
         "target_sha256": "b2c21560ba9e3a86f9b3a5a31c04dab6b8d3e7338e9e8e2df033097ed8d05b91"
+      },
+      "ui:같은 계단을 오래 올랐다. 익숙해진 풍경만큼 지나친 갈림길도 남았다.:/같은 계단을 오래 올랐다. 익숙해진 풍경만큼 지나친 갈림길도 남았다.": {
+        "source_sha256": "719c72e53e97bf7a75b3603ce46df0fad4623cbc55f319a17c3585d59dfa8164",
+        "target_sha256": "570944b65f8d15b77b7582578f06cbf21ab86d8484d816e09eb7bea7ac9b0ea3"
+      },
+      "ui:낯선 지름길보다 이미 놓인 계단을 골라, 한 걸음씩 올라왔다.:/낯선 지름길보다 이미 놓인 계단을 골라, 한 걸음씩 올라왔다.": {
+        "source_sha256": "2fc915fbb820eccded0a8b2c3495ec0f071210634c21965ef2c47e2a43f943b0",
+        "target_sha256": "b5045d6b5cd5076b9de15fbda80c201d23282823f89a31e9b93354b013fb3d95"
+      },
+      "ui:낯익은 자리들:/낯익은 자리들": {
+        "source_sha256": "c365ca71b338c2788c9d89cfd243452e33211ab3e5ccf92b5e3faf14e842a0e4",
+        "target_sha256": "de586d30cc71c3a517de36a4589b2d97f2acd8649fee836537c5555cd1286c89"
+      },
+      "ui:놓인 계단:/놓인 계단": {
+        "source_sha256": "04530efc2402e15c6b29c60644c4a195085c0b022bdd0c39452cf0fca201fd6e",
+        "target_sha256": "8d647ceec93a35ebbd02de65dd37f1f78bef2314dd602ed5b77a18ae237566bb"
+      },
+      "ui:다른 출구:/다른 출구": {
+        "source_sha256": "b1e3b2fc92155c1bc2a6d6c1a577d84105d8193186ff96847719e63991d6f8ee",
+        "target_sha256": "81270df626c9f27c5cad60993863964cf76a80be08ca3955f642fa4268e7699e"
+      },
+      "ui:다음 아침:/다음 아침": {
+        "source_sha256": "2c17e60b5cf59829cf1e391d6de2deab20e0e8633909b1c5afb8cff36ea290c5",
+        "target_sha256": "12d96fdae2d648149bcbe1276d90e467cfa7a1e6e5ab6ce324b2439897144467"
+      },
+      "ui:두 길 사이:/두 길 사이": {
+        "source_sha256": "d580e4c2097a734918de75730d370a5ec7e8b2fb4a09f6a397669a13c115ce68",
+        "target_sha256": "ee78ab3cbeb48f5365edc834b887d762c8d2a35f03774ab8e1525af786cec63f"
+      },
+      "ui:마음이 버티기 어려웠던 밤이 지나고도, 다음 아침은 왔다.:/마음이 버티기 어려웠던 밤이 지나고도, 다음 아침은 왔다.": {
+        "source_sha256": "82af7ea84147d17993900347e3300f33a859bc067cde44a09d63e191c31fa653",
+        "target_sha256": "1c9e6026ba4f6d3cea7384ce0c4851d34b0f4d7aabc684533a836f67e0e7b6d6"
+      },
+      "ui:비어 있던 오후:/비어 있던 오후": {
+        "source_sha256": "ce9b27b18599fd1cfc259f5f2a8353364a5118c0e79fdd117d1b2ff9fc64c07c",
+        "target_sha256": "9d19423d22c9e2df4f29c233565c6dd70fea947d86708773674147333bd3b386"
+      },
+      "ui:사람들이 몰린 방향에서 벗어나, 다른 출구를 여러 번 골랐다.:/사람들이 몰린 방향에서 벗어나, 다른 출구를 여러 번 골랐다.": {
+        "source_sha256": "c0ac6a93dc47a3b21236572b691e7787d812c1bdf0a5bf3b4ad0c1ae1008574b",
+        "target_sha256": "d8f6321c2cdac2dd9ad8af22232e8c2aa5939acf14168b20bb53f0ac27641aee"
+      },
+      "ui:서울 곳곳에 먼저 인사를 건네고 자리를 내어 주는 사람들이 생겼다.:/서울 곳곳에 먼저 인사를 건네고 자리를 내어 주는 사람들이 생겼다.": {
+        "source_sha256": "52c490be116c5a1220b0bb57baad2e3684ed26d5fe8be9eaf569d4dbbea02569",
+        "target_sha256": "20d9563b4356b4292d9c16d0f2451186639684bd7592f4cdbd881eb44fdda96c"
+      },
+      "ui:서울에서 사랑:/서울에서 사랑": {
+        "source_sha256": "6e2933af579b52edefc009a13e2d64211acabd06e9f8b5ae759e4234aab6408d",
+        "target_sha256": "e2bd819210a2fdde113678d502fe1da1c5c47b84a8c6ba108518d7d04851e2f6"
+      },
+      "ui:연락할 이름이 떠오르지 않는 저녁에도, 혼자 걷는 길은 어느새 익숙해졌다.:/연락할 이름이 떠오르지 않는 저녁에도, 혼자 걷는 길은 어느새 익숙해졌다.": {
+        "source_sha256": "8522173b976b56a3cb0542d6dff475be74864fb0773cfe8c3b84a2dc3334209b",
+        "target_sha256": "b8874c9890306be10cf1c8da42af924d53f4bbd420943ec141aea3f0af0f3ea8"
+      },
+      "ui:오래 오른 계단:/오래 오른 계단": {
+        "source_sha256": "fbed5409fe189b233877f3340fad709abbfb6c9a4218572cfa395834007b8c26",
+        "target_sha256": "34bafb820abd6fcee50e885776e142b808eb86fdb6e8783a32303254aadfa953"
+      },
+      "ui:이 복잡한 도시에서도 사람을 좋아하게 됐다.:/이 복잡한 도시에서도 사람을 좋아하게 됐다.": {
+        "source_sha256": "78798e933ea8e4010946aef91008023e340a7363ec30153f16da241b183a64a6",
+        "target_sha256": "59281773e1f94c233c95885676276f0548bb078121e5e762c729821da38ee8a9"
+      },
+      "ui:이미 놓인 길과 지도 밖의 길을 오갔다. 어느 한쪽만으로는 이 5년을 설명할 수 없다.:/이미 놓인 길과 지도 밖의 길을 오갔다. 어느 한쪽만으로는 이 5년을 설명할 수 없다.": {
+        "source_sha256": "50ec15e77873689ab83069d263485ca9b3a2231a1a394eac7e6e900b07b08555",
+        "target_sha256": "3d71bd0d26dea5540dadb2ab2b6f364cc40f10faa1f998823db67ae6549ff6dc"
+      },
+      "ui:지도 밖의 길:/지도 밖의 길": {
+        "source_sha256": "c1af8e0bcfbe3e1b06a6cf9ac7854d6357449ffe815047d20a229cf9456047a6",
+        "target_sha256": "cde40d8f4799d1c2cc018d29f9b40e4313505a258215bf900a6e966acc6f99d5"
+      },
+      "ui:지도에 없는 길을 오래 걸었다. 발밑이 흔들린 날에도 방향을 쉽게 바꾸지 않았다.:/지도에 없는 길을 오래 걸었다. 발밑이 흔들린 날에도 방향을 쉽게 바꾸지 않았다.": {
+        "source_sha256": "ac4445a904f7b658becb79b2a8acc3f82b66c8fac2a8266b9592afa3cfae1947",
+        "target_sha256": "9a72be8c3b79c3319f55dd8adbdf57ded13de4c0cf321d9763d1327397f203fc"
+      },
+      "ui:한강과 편의점, 오래 걷던 길에서 누구의 일정도 아닌 시간을 보냈다.:/한강과 편의점, 오래 걷던 길에서 누구의 일정도 아닌 시간을 보냈다.": {
+        "source_sha256": "08da1cc34bebbae95864609cb440928d0cb82acf6efa704f1101db90d480cad8",
+        "target_sha256": "d6a4e4e4700913612012d3bc6c37ad1c241d85e4fdd34d62629d455d5c3dc425"
+      },
+      "ui:혼자 걷는 저녁:/혼자 걷는 저녁": {
+        "source_sha256": "36ad41364f53900ad7ce6a9951da7aca2e64b4d0e9b3482c9702161a02a2cca2",
+        "target_sha256": "c53b9806d7117d862ca5d28fe3e6edbf2d3123722e7e0dd23d2a1c5dc1f379ec"
       }
     },
     "zh-TW": {
@@ -158198,10 +158394,90 @@
       "ui:통장에 처음으로 월급이 찍혔다. 기쁘면서도 이상하게 허탈했다.:/통장에 처음으로 월급이 찍혔다. 기쁘면서도 이상하게 허탈했다.": {
         "source_sha256": "bc2970cfc472111cf553a6f2bbface97a11ad5d518e1acc037b07a2e6be2c784",
         "target_sha256": "924a85d619fec98d0222829a320004b488e7560118c6cd079eee3f2f0b1f16c6"
+      },
+      "ui:같은 계단을 오래 올랐다. 익숙해진 풍경만큼 지나친 갈림길도 남았다.:/같은 계단을 오래 올랐다. 익숙해진 풍경만큼 지나친 갈림길도 남았다.": {
+        "source_sha256": "719c72e53e97bf7a75b3603ce46df0fad4623cbc55f319a17c3585d59dfa8164",
+        "target_sha256": "113298b0965dafccb8c618a450cccbb751b7ca3d8ad288887763740e0b628918"
+      },
+      "ui:낯선 지름길보다 이미 놓인 계단을 골라, 한 걸음씩 올라왔다.:/낯선 지름길보다 이미 놓인 계단을 골라, 한 걸음씩 올라왔다.": {
+        "source_sha256": "2fc915fbb820eccded0a8b2c3495ec0f071210634c21965ef2c47e2a43f943b0",
+        "target_sha256": "8d41b4e7a5b6596568a8e20aafda4a7db91c1e40437aeff5432b6e3c0df40fe0"
+      },
+      "ui:낯익은 자리들:/낯익은 자리들": {
+        "source_sha256": "c365ca71b338c2788c9d89cfd243452e33211ab3e5ccf92b5e3faf14e842a0e4",
+        "target_sha256": "de586d30cc71c3a517de36a4589b2d97f2acd8649fee836537c5555cd1286c89"
+      },
+      "ui:놓인 계단:/놓인 계단": {
+        "source_sha256": "04530efc2402e15c6b29c60644c4a195085c0b022bdd0c39452cf0fca201fd6e",
+        "target_sha256": "d3cb1d2b4fb28ad06d6fc1eb45c1713038fa4ed0cdf3e8b9be449d01f2a0f247"
+      },
+      "ui:다른 출구:/다른 출구": {
+        "source_sha256": "b1e3b2fc92155c1bc2a6d6c1a577d84105d8193186ff96847719e63991d6f8ee",
+        "target_sha256": "ab6bd0ccfbe74a89185d8f8b42d0f22032eaf4e4ac6df5fb9a13c1b61ed5e842"
+      },
+      "ui:다음 아침:/다음 아침": {
+        "source_sha256": "2c17e60b5cf59829cf1e391d6de2deab20e0e8633909b1c5afb8cff36ea290c5",
+        "target_sha256": "4eddacf3f5ffaae45ef092527c11024e603552a0ce26c95d5549a1b3faed95f3"
+      },
+      "ui:두 길 사이:/두 길 사이": {
+        "source_sha256": "d580e4c2097a734918de75730d370a5ec7e8b2fb4a09f6a397669a13c115ce68",
+        "target_sha256": "f878096a250f486ba82d8f74c074f46c6566cdfcf19aa6dd6b83581f963512af"
+      },
+      "ui:마음이 버티기 어려웠던 밤이 지나고도, 다음 아침은 왔다.:/마음이 버티기 어려웠던 밤이 지나고도, 다음 아침은 왔다.": {
+        "source_sha256": "82af7ea84147d17993900347e3300f33a859bc067cde44a09d63e191c31fa653",
+        "target_sha256": "55ac6268b285edf98f0643f0c2c362d4a74e69e9e19d6fa7edab60eb623a9d89"
+      },
+      "ui:비어 있던 오후:/비어 있던 오후": {
+        "source_sha256": "ce9b27b18599fd1cfc259f5f2a8353364a5118c0e79fdd117d1b2ff9fc64c07c",
+        "target_sha256": "24fc3432135d9c7fe21ccbc4f82708db77dfbd301608d218cec3ee7d290f3e8a"
+      },
+      "ui:사람들이 몰린 방향에서 벗어나, 다른 출구를 여러 번 골랐다.:/사람들이 몰린 방향에서 벗어나, 다른 출구를 여러 번 골랐다.": {
+        "source_sha256": "c0ac6a93dc47a3b21236572b691e7787d812c1bdf0a5bf3b4ad0c1ae1008574b",
+        "target_sha256": "f1d8f9629717b3b974ddaebfd2d9a1d2f0566d2a3ba0c52a99ca6e04c6eeb3c0"
+      },
+      "ui:서울 곳곳에 먼저 인사를 건네고 자리를 내어 주는 사람들이 생겼다.:/서울 곳곳에 먼저 인사를 건네고 자리를 내어 주는 사람들이 생겼다.": {
+        "source_sha256": "52c490be116c5a1220b0bb57baad2e3684ed26d5fe8be9eaf569d4dbbea02569",
+        "target_sha256": "f3175b53b2f3c8f5a1fe5936c3a21da6adc9d3a3e50256902b1c08ae11eaedf2"
+      },
+      "ui:서울에서 사랑:/서울에서 사랑": {
+        "source_sha256": "6e2933af579b52edefc009a13e2d64211acabd06e9f8b5ae759e4234aab6408d",
+        "target_sha256": "043c6decd6189d995f47c45d76efca1634179111d7669d386fb54efd0f92d579"
+      },
+      "ui:연락할 이름이 떠오르지 않는 저녁에도, 혼자 걷는 길은 어느새 익숙해졌다.:/연락할 이름이 떠오르지 않는 저녁에도, 혼자 걷는 길은 어느새 익숙해졌다.": {
+        "source_sha256": "8522173b976b56a3cb0542d6dff475be74864fb0773cfe8c3b84a2dc3334209b",
+        "target_sha256": "7513012ccbe67c38a97a4e1c07766e1e373e10ba4018c149ead3e3ce7d13c8f2"
+      },
+      "ui:오래 오른 계단:/오래 오른 계단": {
+        "source_sha256": "fbed5409fe189b233877f3340fad709abbfb6c9a4218572cfa395834007b8c26",
+        "target_sha256": "0f817d14420386bd6946b1fe2223d02dc9a63fba2ff40df14d8c163c2d895e53"
+      },
+      "ui:이 복잡한 도시에서도 사람을 좋아하게 됐다.:/이 복잡한 도시에서도 사람을 좋아하게 됐다.": {
+        "source_sha256": "78798e933ea8e4010946aef91008023e340a7363ec30153f16da241b183a64a6",
+        "target_sha256": "11e3c307039d648462ee97ecb6bd77cdb821f4a8e4176ca8cee7ac2b2364917f"
+      },
+      "ui:이미 놓인 길과 지도 밖의 길을 오갔다. 어느 한쪽만으로는 이 5년을 설명할 수 없다.:/이미 놓인 길과 지도 밖의 길을 오갔다. 어느 한쪽만으로는 이 5년을 설명할 수 없다.": {
+        "source_sha256": "50ec15e77873689ab83069d263485ca9b3a2231a1a394eac7e6e900b07b08555",
+        "target_sha256": "c9d75453e17ab4ef72beff3b391b4110206ed66b8267fb65cfb95b75db942f8b"
+      },
+      "ui:지도 밖의 길:/지도 밖의 길": {
+        "source_sha256": "c1af8e0bcfbe3e1b06a6cf9ac7854d6357449ffe815047d20a229cf9456047a6",
+        "target_sha256": "ee63fa34f7f553a5d50b9dcd1c4144d85c45a7cbf8b1f891499a58e598db81bc"
+      },
+      "ui:지도에 없는 길을 오래 걸었다. 발밑이 흔들린 날에도 방향을 쉽게 바꾸지 않았다.:/지도에 없는 길을 오래 걸었다. 발밑이 흔들린 날에도 방향을 쉽게 바꾸지 않았다.": {
+        "source_sha256": "ac4445a904f7b658becb79b2a8acc3f82b66c8fac2a8266b9592afa3cfae1947",
+        "target_sha256": "812c43164579216d2570f0ce1082a7e5225ce08a95381a36150002b4c75cfc91"
+      },
+      "ui:한강과 편의점, 오래 걷던 길에서 누구의 일정도 아닌 시간을 보냈다.:/한강과 편의점, 오래 걷던 길에서 누구의 일정도 아닌 시간을 보냈다.": {
+        "source_sha256": "08da1cc34bebbae95864609cb440928d0cb82acf6efa704f1101db90d480cad8",
+        "target_sha256": "956c22f10e5d17ba676b5ec345874ce64035677db50b3243ace5cd797a8c6130"
+      },
+      "ui:혼자 걷는 저녁:/혼자 걷는 저녁": {
+        "source_sha256": "36ad41364f53900ad7ce6a9951da7aca2e64b4d0e9b3482c9702161a02a2cca2",
+        "target_sha256": "106a3e15f60ddd95fb50b95f7f3c33c070c0f4da76e095c7f6ef1f0e2b23456d"
       }
     }
   },
-  "accepted_sha256": "cbd78c8015b1c85ffd8e992ce81a3ecb740049559c5b6fbbc4565657f3c89623",
+  "accepted_sha256": "ee002f676be1ebea448338e7a2b9449839a2e5cd3c73fee14d91bf020ac8c0a9",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {

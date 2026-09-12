@@ -94,3 +94,10 @@ fixture에서 멈췄으므로 그 실행에서 옛26 통과를 주장하지 않�
 원형372,230B SHA `7854ff0cb7e1b7186a6856c878cad750266a195171208a9e61df4e2ebeca22f4`.
 새 원인은 [244](ORDER-244.md)로 분리한다. 기존 녹색9를 반복하지 않으며243 최종 GO는
 아직 보류, 두 수리 뒤 exact 원격CI를 공동 확인한다.
+
+후속 exact41의 main34691376114·mirror34691376116은 모두 failure로 종료했다.
+기존 원인5는 최종 실패 목록에 없고, 신규 audit.sh 전체 지문 불일치 때문에
+runtime-trace self/contract 두 정적 호출이 선행 gate에서 멈췄다. compile68은
+각각 PASS, 후속 KO/EN 실제입력·SimRun·SmokeRace는 skipped다. 업로드 step의
+success와 별개로 두 로그 모두 대상 파일이 없어 실제 산출물0이다.
+이 새 원인은 별도 소범위 수리로 분리하며 본 오더·본편 GO로 기록하지 않는다.

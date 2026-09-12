@@ -71,3 +71,11 @@ fence4·agent222·context359·active77이며 기존 원형 gap을 완성했다�
 `6c7fd48f0e08eccda4685d1edfa547e95df22371feabe02eae86a7a4db547d45`.
 동일 exact HEAD를 main/원격 mirror에 FF했고 CI main34691376114·mirror34691376116이
 시작됐다. 최초 관측은 둘 다 in_progress이며 성공·최종 unit GO는 아직 아니다.
+
+최종 관측: mirror는12:18:10Z, main은12:29:59Z에 failure로 종료했다.
+두 job의 실패는 audit runtime runner seal expected af026c51/got784d936d의
+self/contract2뿐이다. 앞선8의 로컬 통과를 원격 전체 PASS로 합치지 않는다.
+main log421123B/b04213d4, mirror420975B/9e3f7209, metadata39460B/673b098e를
+private 원형으로 보존했다. compile68 각각PASS·후속실제입력/시뮬 skipped·업로드0.
+별도 RO 원인 보고 e6d3d399는 기존정책 보존과 최종 audit raw 재봉인을 제안한다.
+새 원인은 다음 좁은 선언으로 분리하며 최종 단위판정과 본편HOLD를 유지한다.
