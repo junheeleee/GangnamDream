@@ -1,0 +1,156 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-256",
+  "scope": "work_unit",
+  "reviewer": "Poincare",
+  "authority": "user_delegated_agent_final",
+  "role": "Independent source/helper/self and final reviewer; authored preimplementation frozen20 and baseline capture, not products. Plato independently reviewed Rawls's language24 and full runtime fixture/actual545; Poincare read those reports whole and directly rebound approved targets, final source and runtime inputs. ROOT applied products and ran all QA.",
+  "verdict": "GO",
+  "required": [],
+  "optional": [],
+  "subject": {
+    "kind": "source",
+    "commit": "88b3f767beaca51dc2b38a102adfe2b3d9bae333",
+    "tree": "196815cdc7dc07f34d91bdd1d91dec73e7a28fcc",
+    "manifest_sha256": null
+  },
+  "review": {
+    "commit": "1a3379294112e35c57914e8417c30b098f4746c9",
+    "tree": "c73ac1eac45ba2f3ce55e6c9cea0922af970ecab",
+    "clean": true,
+    "source_resolver": "First-parent wrapper is STATUS only; preceding source includes portable and nonmetadata CLAUDE/backlog. Rules read from current human_gates.py, no module execution."
+  },
+  "decision": "The declared eight bonus/title surfaces, same-instance title-button language refresh, exact-source safeguards and official24 acceptance are complete on this local source. ORDER-256 work_unit GO only; public release, native/rendered/human observation and full-product GO are not granted.",
+  "population": {
+    "language": "Eight Korean/English surfaces × JA/CN/TW =24. JA8 existing values preserved; CN/TW8 each appended. All24 officially machine accepted.",
+    "source": "Frozen20: normal1, raw12, resealed registry3, forged2, wrong-claim1, OFF1. Effective negatives17 depend on normal all8 endpoints. First baseline20 is capture/effective0, not post PASS. First post20 and final CI repeat the same20; old28 separate.",
+    "meta_history": "Reuses frozen current_exact once through all8 endpoints before original26/18/23/19/24/18 chain. No duplicate new20 population.",
+    "runtime": "One isolated first545 = unchanged old520 + five semantic families × five locales25. Bonus setups30 and language transitions30 are nested observations, not extra primary cases.",
+    "acceptance": "38944→38968; batches104→105; internal metadata9 unchanged. JA12988/CN12990/TW12990."
+  },
+  "readscope_and_method": [
+    "Directly reviewed source4 B1/B2, fixed20/baseline/post, applied phase-only binding and owner1 supplement. Final CI stdout is byte-exact to the first source post; meta historical stdout is byte-exact to original ORDER255 source26.",
+    "Read full approved24 and independent language report, L1/UI/preflight, then all official source/response/receipt records and raw phase streams. Recomputed source/target/selection/batch/receipt digests and full portable inverse against Git.",
+    "Plato owns the independent full runtime semantic readback. I read its B1 correction, B2 review, actual report and disk-classification addendum whole; directly verified runtime capture identity and actual source19 against runtime/final Git blobs and current bytes.",
+    "Decoded/hash-checked all13 child streams and observed finite diagnostic payloads. Bound named1586 to current raw and review Git blobs; outer1194 and all-accepted1194 remain distinct captured sets.",
+    "Read-only Git plus standard-library raw/JSON/base64/hash calculations. No new repository import, collector, QA, engine, player-save or remote call; only private review artifacts written."
+  ],
+  "findings": {
+    "source": "Main3 is the pure label extraction plus creation/refresh reuse; same Button policy, callback and calculation preserved. New whole-current raw authority precedes exact9029 inverse and original240/239/220 API chain; wrong claim/OFF/forged/resealed guards retained. B1 required2 (normal prerequisite and unmatched byte-output preservation) were repaired in B2 before execution; old CI10/meta56 functions and original raw inverses remain bound.",
+    "language_and_owner": "Required0 language review, approved24 and actual UI/L1 exact. Plus sign, %s, two trailing ASCII spaces, next-start timing and won formatting preserved. First table L1 is not an owner observation; subsequent actual parser independently located one legacy 칭호/Title in Main::_title_collection_button_text:23874. JA whole and prior CN/TW keys unchanged.",
+    "runtime_independent_result": "Plato confirms all old520 ordered IDs/expected/actual payloads exact and new25 independent bonus/button oracles PASS. Same Button survives30 actual signal-driven transitions, including origin return/no-op and visible/hidden modes; no reconstruction/manual refresh masks the defect. New65 state and35 settings observations are separate.",
+    "runtime_state_limits": "822 serialized full triplets =811 primary +11 old aliases;2466 raw meta-disk strings. Typed flags655=old590+new65; legacy state hash-only875 remains weaker evidence. Meta-disk hash-bearing200=170 strict hash-only+30 raw-and-hash, whose90 strings already overlap2466. Old snapshots differ across runs only in initial shuffled run-theme category; old disk strings remain exact. These are Plato's independently reconstructed measurements, not repeated full runtime calculations here.",
+    "cache_and_restore": "The pre-execution cold+2 concern was withdrawn after the custom-name path showed existing cache warming; it was not a B1 engine failure. B2 adds before-membership observations without changing the expected revision oracle. Actual warm6/discovered[]; LM revision6/Δ0, DR changed20×+1/no-op10×0/final5×+4. Isolated settings cleanup and restore marker1 do not establish launch-disk/player-save rollback.",
+    "acceptance": "Official export/check/import3×3 exit0 at cleanf10a92a; check/import changed_files0 because UI was already applied. Three private receipts match current approved24. Removing only new24+b105 and restoring accepted digest yields old10130307B/7941c144… whole raw exact; all other portable fields unchanged. No saved portable-emitter first transcript was supplied: this inverse was independently computed from committed raw.",
+    "final_QA": "All38968 accepted records have zero L1 errors. First actual named13 passes, including current20/old28, meta normal1/history, fullself262, JA146, JA UI2974/errors0, ZH12446, registry146, queue25/agent222/context372/active78. Nonempty stderr is normal unittest progress/OK in two children;18 EXTRA advisories and ZH skeleton424/2945/context5/29/glyph1388/1416 are not full-language/rendered coverage.",
+    "first_launcher": "ROOT supplied wrong expected HEAD9ee0…; launcher1 refused before selector or tests (selector exitnull/children0/input count0/driver_before null). Outer1194 stayed exact; original report and driver_after raw preserved. Launcher2 used observed1a337…; only artifact output path/explanatory limits changed. This is first actual13, not a skipped failing suite.",
+    "preservation": "Declarationecc7→source88b3 changes15 paths: owned products10+operating5/outside0. STATUS-only review wrapper. Source-affecting CLAUDE/backlog are included, not relabeled metadata. Protected20 raw, old40 decisions, human103390B/OPEN45, project, gameplay/conditions/IDs and public GO1 history remain unchanged."
+  },
+  "measurements": {
+    "runtime_commit": "f10a92a1b348a8df620eb2bd7039b6ef02c71d90",
+    "runtime_seconds": 200.083535583,
+    "runtime_outer_inputs": 1194,
+    "runtime_reused_inputs": 19,
+    "runtime_inner_outer_intersection": 18,
+    "source_reused_inputs": 10,
+    "named_actual_attempt": 2,
+    "named_actual_children": 13,
+    "named_seconds": 99.500312333,
+    "named_outer_seconds": 99.82121225,
+    "named_inputs": 1586,
+    "named_outer_inputs": 1194,
+    "all_accepted_outer_seconds": 71.2332325,
+    "all_accepted_inner_seconds": 70.886045,
+    "all_accepted_inputs": 1194,
+    "all_accepted_errors": 0,
+    "source_manifest_sha256": "89c131c71345c3f27df36c0bacfa1a0791fca680b7eca4ed1d3a3ef30ee7170e",
+    "collected_total": 17484,
+    "unsupported": {
+      "unresolved_json_pair": 138,
+      "legacy_language_branch": 22,
+      "unverified_dynamic_pair": 329
+    },
+    "portable": {
+      "bytes": 10136810,
+      "sha256": "3b9966bb14208e2f1f77a959f570be3ff524b73a8538e4b8c992c533deac54d2",
+      "accepted": 38968,
+      "batches": 105,
+      "retained_metadata": 9
+    }
+  },
+  "evidence": {
+    "final_binding": {
+      "path": ".git/full-game-localization/order256-final-independent-binding.json",
+      "bytes": 19134,
+      "sha256": "08da03b4457e805b8fb01fa667ddf957adcf3cfe10b0a3b8a2717e9eba8c3085"
+    },
+    "source_static": {
+      "path": ".git/full-game-localization/order256-source4-private-final-review.json",
+      "sha256": "f0f4c9eb93aa917fa6d41a87f33435aac40ac77f0fd2053c8ffb0322b6c684db"
+    },
+    "source_post": {
+      "path": ".git/full-game-localization/order256-source-post-independent-review.json",
+      "sha256": "25d2d47ba99777b2896f71996f21f9809faa50d48bdc904a1fc014db901594f7"
+    },
+    "language": {
+      "path": ".git/full-game-localization/order256-language-independent-review.json",
+      "sha256": "90eee54b9d59792dcc9294f5a7c905ba0bb53983763b6b1fe805fd8567751984"
+    },
+    "L1_UI_owner_preflight": {
+      "path": ".git/full-game-localization/order256-language-l1-ui-independent-review.json",
+      "sha256": "256fcbef9e301c34695efe93dfe3fbd24880aadc1e4af88bc9dcef653f1f7fdd"
+    },
+    "runtime_B2_static": {
+      "path": ".git/full-game-localization/order256-runtime-b2-independent-review.json",
+      "sha256": "49164e8098743b4f7f2e62c5ed841f93c1e5e67526cb4eb2bd6087e09aea3c18"
+    },
+    "runtime_independent": {
+      "path": ".git/full-game-localization/order256-runtime-actual-independent-review.json",
+      "sha256": "de5f12c71c6ae6220d1115c6d2e7859612fe49768428e0c36c36d5a197fdcfa8"
+    },
+    "runtime_disk_classification": {
+      "path": ".git/full-game-localization/order256-runtime-disk-classification-addendum.json",
+      "sha256": "9ead91b769e64b41586a345ebf2d5564f2dca65365db5c2a70efd60295601e3e"
+    },
+    "runtime_first": {
+      "path": ".git/full-game-localization/order256-actual-first.json",
+      "sha256": "bf5e57c11dc398acb945cd786ef7872146651387f45463b44128d9e989ecf1ec"
+    },
+    "official_acceptance": {
+      "path": ".git/full-game-localization/order256-official-acceptance-independent-review.json",
+      "sha256": "97679bcaf1ad37dfa7697fb10c6e8e4ce38594caf11d150dc07d7851b4dd6558"
+    },
+    "refused_launcher": {
+      "path": ".git/full-game-localization/order256-named-first.json",
+      "sha256": "2de6103f3a3ee49fe86ff2f833e43eb56f87fcf2990f684990513616d57bfb04"
+    },
+    "refused_outer": {
+      "path": ".git/full-game-localization/order256-named-outer-first.json",
+      "sha256": "266d10e21ca91ffed292ec092721711d27da45f523cf6adeb6505c0b17da57c5"
+    },
+    "first_actual_named13": {
+      "path": ".git/full-game-localization/order256-named-second.json",
+      "sha256": "e4401ce147aa8a75f3b46e0043255054317d24c3912011e6e052ea56b697ef65"
+    },
+    "named_outer": {
+      "path": ".git/full-game-localization/order256-named-outer-second.json",
+      "sha256": "885c0516565af39943559f944742c3a8a230f379d4c2356de9c8f99224ae6852"
+    },
+    "all_accepted": {
+      "path": ".git/full-game-localization/order256-all-accepted-l1-first.json",
+      "sha256": "d9675218e932d3fa47db406e79751d5255acaf08714ef4712ffc4cbcedaa9337"
+    }
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "rendered_UI",
+    "natural_240_week_progression",
+    "actual_new_run_bonus_application",
+    "explicit_zero_bonus_entry_execution",
+    "new_source_remote_CI",
+    "full_product_GO"
+  ],
+  "limits": "The local displayed bonus/button contract only. Source owner1, table L1, machine acceptance and isolated runtime have distinct evidence. Existing remote results are not borrowed; public GO1 and human OPEN45 are preserved, and the full product remains HOLD."
+}

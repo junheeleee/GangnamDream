@@ -1,3 +1,26 @@
+# ORDER-256 — 칭호 보너스·언어 갱신 결과
+
+[x] ORDER-256 — 2026-09-13. Poincare LOCAL work_unit GO.
+
+제품 source 88b3f767beaca51dc2b38a102adfe2b3d9bae333 / tree 196815cdc7dc07f34d91bdd1d91dec73e7a28fcc
+clean 검토 1a3379294112e35c57914e8417c30b098f4746c9 / tree c73ac1eac45ba2f3ce55e6c9cea0922af970ecab
+
+## 결과와 관측 경계
+
+The declared eight bonus/title surfaces, same-instance title-button language refresh, exact-source safeguards and official24 acceptance are complete on this local source. ORDER-256 work_unit GO only; public release, native/rendered/human observation and full-product GO are not granted.
+
+- language: Eight Korean/English surfaces × JA/CN/TW =24. JA8 existing values preserved; CN/TW8 each appended. All24 officially machine accepted.
+- source: Frozen20: normal1, raw12, resealed registry3, forged2, wrong-claim1, OFF1. Effective negatives17 depend on normal all8 endpoints. First baseline20 is capture/effective0, not post PASS. First post20 and final CI repeat the same20; old28 separate.
+- meta_history: Reuses frozen current_exact once through all8 endpoints before original26/18/23/19/24/18 chain. No duplicate new20 population.
+- runtime: One isolated first545 = unchanged old520 + five semantic families × five locales25. Bonus setups30 and language transitions30 are nested observations, not extra primary cases.
+- acceptance: 38944→38968; batches104→105; internal metadata9 unchanged. JA12988/CN12990/TW12990.
+
+공개 GO1·인간 OPEN45·본편 HOLD 유지. 원어민·렌더·인간 플레이·물리 패드·새 원격 후보·외부 출시 GO가 아니다. 세부 첫 결과와 한계는 독립 보고 원문을 따른다.
+
+[독립 최종 보고](../agent_reviews/ORDER-256.json) · SHA ce937beb7ac8595faf3aabbfed98c008213dc6ede35a827c95a06b5a6a9d49b1
+
+## 선언·진행 원문 보존
+
 # 칭호 보너스 안내·언어 전환 버튼 현지화
 
 #### [~] ORDER-256 다음 시작 보너스·상단 칭호 버튼
