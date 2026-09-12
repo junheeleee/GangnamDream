@@ -1,0 +1,414 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-244",
+  "scope": "work_unit",
+  "subject": {
+    "kind": "source",
+    "commit": "fb4cf1195a39c2ec231d2a2731dc4cfaf902de4a",
+    "tree": "3607aeab8ac92daa784d6cdfb0c7becd939e57be",
+    "manifest_sha256": null
+  },
+  "source_commit": "fb4cf1195a39c2ec231d2a2731dc4cfaf902de4a",
+  "source_tree": "3607aeab8ac92daa784d6cdfb0c7becd939e57be",
+  "verdict": "GO",
+  "required": [],
+  "optional": [],
+  "reviewer": "Plato / source_seal_reconciliation",
+  "independence": {
+    "nonauthor_of": "ORDER244 raw-history helper and Chapter integration (Rawls), audit registration and execution (ROOT), ORDER247 seal repair (ROOT).",
+    "declared_conflict": "Plato authored the original fixed18 self. This report does not present Plato as a nonauthor of that file.",
+    "independent_self_quality_basis": "Poincare's complete pre-run static review b9f48d24 and first-run review d746e154 were read directly and rebound to the unchanged exact self0f000614. Poincare was nonauthor of all five original products. Their pending item was remote CI, not a self-code defect.",
+    "decision_method": "Combine that retained nonauthor self quality decision with this fresh independent helper/Chapter, original execution and separate dependency review. Rawls's triage is only a discovery map, never substituted for raw evidence.",
+    "nonauthor_reconfirmation": "Poincare directly reread the pre-run/post-run/reuse reports and current helper/self raw (read-only chunk a27e02), reconfirmed the original required-zero self18 quality judgment, and explicitly accepted this role binding. The original reports were pre-final-CI, so this report's separate raw41-failure/07ef-resolution analysis remains necessary. No new QA was run."
+  },
+  "closes": "One exact ORDER242 MetaProgression insertion versus Chapter historical-source mismatch, at the historical ORDER244 product subject only.",
+  "not_closed": [
+    "ORDER243 final disposition",
+    "present-day whole-source or full-audit acceptance",
+    "successor units' source/translation/runtime quality",
+    "resource/ObjectDB teardown defects",
+    "Chapter gap24/debt8/blocked3",
+    "full-product, release, native-language, rendered or human-observation gates"
+  ],
+  "subject_boundaries": {
+    "tested_wrapper": {
+      "commit": "41e06cd5ca0b0ed221ff4498dc3d3a4f656ba008",
+      "tree": "0e3bbe88a140a7dd7febc46aaa8c4e4c75c495a0",
+      "from_subject_changed_paths": [
+        "docs/STATUS.md"
+      ],
+      "product_raw_unchanged": true
+    },
+    "separate_dependency": {
+      "unit_id": "ORDER-247",
+      "source_commit": "a486c2473ed8bce8e5e43ba847b599fffd4c4297",
+      "source_tree": "488018a551b24e26fac45333a8bd322b9134d721",
+      "remote_commit": "07ef0f750abe97d6c671d27a6f638938b15658a7",
+      "remote_tree": "8cdc0a90948195ab0cc76a80a86e7c87f6f9b315"
+    },
+    "publication_checkout_observed": {
+      "commit": "6351c2dec6f6169db00e563d685025b9984c3c71",
+      "tree": "276dd211bade4f8e2fe574201a4b2022eea54847",
+      "porcelain": "",
+      "is_review_subject": false
+    },
+    "interpretation": "Historical unit closure is warranted by its own exact-source results plus the separately resolved infrastructure blocker. Neither failed41 run is relabeled success. The later07ef pass is not an exact41 whole-product pass. This historical GO does not automatically apply to today's different source."
+  },
+  "source_contract": {
+    "producer": "autoloads/MetaProgression.gd at5bc1465, reviewed ORDER242 lookup block30 lines/2823B",
+    "reader": "tools/meta_title_locale_history.py:_history_projection -> meta_title_history_source_errors / project_bytes / project_byte_hash -> Chapter:_audited_source_snapshot_errors",
+    "state_change": "Approved live raw is admitted to historical observation; previous raw, mutation, wrong path or caller registration remain rejected. Gameplay state change0.",
+    "forgoing_scope": "The legitimate title lookup otherwise blocks Chapter normal and self before their historical snapshot obligations can complete.",
+    "narrative_position": "Not scene content; historical-source audit repair.",
+    "scene_tier": "Not applicable.",
+    "required_conjunction": "Owned path + sealed exact registry + whole current SHA + unique exact insertion + whole predecessor SHA; independent live raw errors remain even if observed digest is forged.",
+    "claim_boundary": "wrong_registered_old rejects source/live authority while pure projection from otherwise valid raw remains valid, as frozen. Projected hashes alone have no admission authority."
+  },
+  "direct_code_review": {
+    "helper_entire_read": true,
+    "self_entire_read": true,
+    "chapter_original_integration_diff_and_current_snapshot_entry_entire_read": true,
+    "current_unchanged_at_fb4_41_07ef": [
+      {
+        "path": "tools/meta_title_locale_history.py",
+        "bytes": 6891,
+        "sha256": "0c1d6d950379548c09d9f1a5faaa3749ced06465f34cd06457e9544c598a52f6"
+      },
+      {
+        "path": "tools/meta_title_locale_history_self_test.py",
+        "bytes": 25211,
+        "sha256": "0f00061417669ae026bd3d647156dad9a0e0b4920ee0c4414e49a5c26fdfcdf9"
+      }
+    ],
+    "independently_reconstructed_inverses": {
+      "MP": {
+        "current_bytes": 52819,
+        "current_sha256": "5bc1465e18ae3e36ef5daef1c27dd3923d1566884e5d0545e6b00c2c7893ab58",
+        "removed_bytes": 2823,
+        "insertion_sha256": "d41086a12e72eeaf72c5f17666ecc45a5bc863dad8e75c7f53bc2493df1bf694",
+        "unique": 1,
+        "previous_bytes": 49996,
+        "previous_sha256": "a36617f4979e08a37e89cecc0566a4e64d54bb5373469e2fa1e162d10dde34dc",
+        "exact": true
+      },
+      "Chapter_current_to_07ef": {
+        "current_bytes": 1461830,
+        "current_sha256": "ac874ad1587304b4f1802ce2311cbcba231e1fdfb19086cce3a66aa19ee5fac3",
+        "remove_forwarders_bytes": 1582,
+        "restore_snapshot_calls": 2,
+        "result_bytes": 1460248,
+        "result_sha256": "0c8d5db6f0ad4d9d34518eaf531cc543c153b48c64efd71f05f5d33c64cc1f79",
+        "exact": true
+      },
+      "Chapter_07ef_to_fb4": {
+        "remove": "successor import and _order245 outer2; restore source/hash hook calls to original244 helper",
+        "result_bytes": 1459355,
+        "result_sha256": "a20e52504bfa2b764e0a5ed4522dcdb19b3165ee3915d9d7fadd79cfeaaebdf9",
+        "exact": true
+      },
+      "Chapter_fb4_to_declaration": {
+        "remove": "244 import/raw gate/observer; restore original digest expression",
+        "result_bytes": 1458464,
+        "result_sha256": "f7519f9872bdc1e344b51d16b3e7669b05d5792fb511ae5204dba804a3382028",
+        "exact": true,
+        "old_top_level_definitions": 160,
+        "old_unchanged": 159,
+        "changed_only": "_audited_source_snapshot_errors",
+        "all_top_level_assignment_AST_exact": true
+      }
+    },
+    "current_reuse_boundary": "The retained helper/self18 are an exact historical regression contract. Today's audit.sh and meta-title-history-reconciliation lane invoke successor_self_test, not direct physical-current old18. Read Git07ef historical_old18/main: current24 must pass before logical MP/JA predecessor view; only outer hooks are scoped/dynamically forwarded and restored. Today's full successor chain was not executed or re-certified here."
+  },
+  "original_local": {
+    "capture": ".git/full-game-localization/order244-named-first.json",
+    "children": 8,
+    "exit": 0,
+    "elapsed_seconds": 683.4416271250001,
+    "clean_before_after": true,
+    "outer_pin_maps_equal": 1200,
+    "direct_nested_input_to_parent_and_Git41_SHA_and_bytes_exact": 9,
+    "old_full1200_Git_binding": "Retained Poincare d746e154 independently bound all1200; this review verifies unchanged artifact SHA, before/after map equality and directly rebinds the declared nested9, not a newly invented current population.",
+    "all_child_stdout_stderr_exit_read": true,
+    "all_children_exit0": true,
+    "all_child_stderr_empty": true,
+    "fixed18": {
+      "normal": 1,
+      "linked_negatives": 17,
+      "results_read": 18,
+      "IDs_paths_raw_SHA_expectations_match_unchanged_FROZEN": true,
+      "all_checks_true": true,
+      "all_normal_base_links_true": true,
+      "source_errors_calls": 18,
+      "bytes_projection_calls": 18,
+      "hash_projection_calls": 18,
+      "actual_Chapter_entry_calls": 18,
+      "old243_28": 0,
+      "old220_26": 0,
+      "collector": 0,
+      "engine": 0
+    },
+    "Chapter_normal_stdout": "COVERAGE_GAP weeks=25..48 missing_slots=24 authoritative=24/48\nCHAPTER1_CAUSAL_LEDGER_SNAPSHOT_VALID debt_codes=8 blocked=3\n",
+    "Chapter_self_stdout": "CHAPTER1_CAUSAL_LEDGER_SELF_TEST_CENSUS full=2 skip=21 fallback=1\nCHAPTER1_CAUSAL_LEDGER_SELF_TEST_OK cases=590 runtime=635.65s probes=409 probe_seconds=282.18 full_validations=27 full_seconds=272.05 full_fallbacks=19\n",
+    "operational": "registry145 with EXTRA17 retained; queue25/fence4; agent222/HOLD/human unchanged; context359; active77.",
+    "limit": "Consolidated590 stdout, not590 newly captured per-case traces or completion of content gap/debt."
+  },
+  "original_failed_remote": {
+    "head": "41e06cd5ca0b0ed221ff4498dc3d3a4f656ba008",
+    "both_conclusion": "failure",
+    "main": {
+      "run": 34691376114,
+      "job": 103547111635,
+      "first_error_line": 332,
+      "self18_line": 3184,
+      "Chapter590_line": 3302,
+      "normal_snapshot_line": 3304,
+      "compile68_line": 3540,
+      "final_failed_flag_lines": [
+        3544,
+        3545
+      ],
+      "audit_exit_line": 3546,
+      "audit_exit": 1,
+      "no_upload_line": 3564
+    },
+    "mirror": {
+      "run": 34691376116,
+      "job": 103547111571,
+      "first_error_line": 323,
+      "self18_line": 3174,
+      "Chapter590_line": 3292,
+      "normal_snapshot_line": 3294,
+      "compile68_line": 3533,
+      "final_failed_flag_lines": [
+        3537,
+        3538
+      ],
+      "audit_exit_line": 3539,
+      "audit_exit": 1,
+      "no_upload_line": 3557
+    },
+    "exact_error": "FULL_GAME_RUNTIME_TRACE_AUDIT_FAIL: audit runtime runner exact-source seal drifted: expected af026c518fddc2b4928965d30a11124d80a5a5c3f988dbd44d3dc59727fc1f1e, got 784d936dcd34cc7ffe833ddaed9dbd6690ec1760c5c75b446e5e68fde34a7695",
+    "failed_flags": [
+      "FULL_GAME_RUNTIME_TRACE_SELF_TEST_EXIT",
+      "FULL_GAME_RUNTIME_TRACE_CONTRACT_EXIT"
+    ],
+    "interpretation": "The original244 exact-source checks succeeded inside these failed whole-audit runs. Both original run failures remain failures; later actual-input/simulation steps were skipped and upload success was a no-files warning."
+  },
+  "dependency_resolution": {
+    "report": "docs/agent_reviews/ORDER-247.json",
+    "verdict": "GO",
+    "target": "Separate single runner-SHA reseal with no audit.sh policy weakening.",
+    "raw_now_equals_07ef": [
+      {
+        "path": "tools/audit.sh",
+        "bytes": 79946,
+        "sha256": "c906ff8b56a33a2861833997f3c244e9c3581b641c2c97f5c9d93863bd6127f7"
+      },
+      {
+        "path": "tools/full_game_runtime_trace_audit.py",
+        "bytes": 171119,
+        "sha256": "b49b282ddc7f4f133d7fb2c5ebe6d2dc4f8ba947a77dc512849f5cb981e6b009"
+      }
+    ],
+    "main": {
+      "run": 34696178566,
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "jobs": 2,
+      "listed_steps_success": 22,
+      "checkout_lines": [
+        130,
+        216
+      ],
+      "trace187_line": 327,
+      "profiles3_line": 328,
+      "historical18_wrapper_line": 5783,
+      "Chapter590_line": 5901,
+      "normal_snapshot_line": 5903,
+      "audit_pass_line": 6143,
+      "resource_ERROR_lines": [
+        6060,
+        6092,
+        6591,
+        6611
+      ],
+      "ObjectDB_warning_lines": [
+        6589,
+        6609
+      ],
+      "artifact_id": 10299528614,
+      "artifact_bytes": 4711883
+    },
+    "mirror": {
+      "run": 34696178468,
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "jobs": 2,
+      "listed_steps_success": 22,
+      "checkout_lines": [
+        130,
+        212
+      ],
+      "trace187_line": 323,
+      "profiles3_line": 324,
+      "historical18_wrapper_line": 5779,
+      "Chapter590_line": 5897,
+      "normal_snapshot_line": 5899,
+      "audit_pass_line": 6139,
+      "resource_ERROR_lines": [
+        6056,
+        6088,
+        6332,
+        6527,
+        6595,
+        6615
+      ],
+      "ObjectDB_warning_lines": [
+        6330,
+        6525,
+        6593,
+        6613
+      ],
+      "artifact_id": 10299249931,
+      "artifact_bytes": 4712136
+    },
+    "exact_markers": [
+      "FULL_GAME_RUNTIME_TRACE_SELF_TEST_OK cases=187",
+      "FULL_GAME_RUNTIME_TRACE_CONTRACT_OK profiles=3 trace_runtime=PENDING product_go=HOLD human_density_gate=OPEN",
+      "META_TITLE_LOCALE_SUCCESSOR_SELF_TEST_OK current=24/24 historical=18/18 inputs=11 unchanged=True",
+      "CHAPTER1_CAUSAL_LEDGER_SNAPSHOT_VALID debt_codes=8 blocked=3"
+    ],
+    "limits": "Successful07ef runs satisfy the separately repaired blocker, not error-free engine or a retest of the exact41 whole source. No inferred numerical child exits. Artifact metadata and upload identities read; ZIP bodies and PNGs unobserved."
+  },
+  "norm_disposition": {
+    "reusable_adopted_contract": [
+      {
+        "owner": "tools/meta_title_locale_history.py module contract and _history_projection",
+        "decision": "Continue as the canonical implementation of the exact historical242 insertion transition: validate live raw before projecting historical observation, with no rollback admission."
+      },
+      {
+        "owner": "tools/meta_title_locale_history_self_test.py FROZEN/run_case/main and successor wrapper ingress",
+        "decision": "Retain exact18 as a reusable historical regression population; future wrappers must validate physical current before giving it a logical predecessor view. It is not a universal18-case quota."
+      },
+      {
+        "owner": "docs/WORK_UNIT.md exact-candidate decision boundary",
+        "decision": "Existing canonical rule already separates source identity and historical evidence; no duplicate normative document is needed."
+      }
+    ],
+    "one_shot": [
+      "ORDER244 file ownership/ordered execution instructions and private preflight materialization",
+      "First named8, original18/590 and failed remote41 captures; immutable one-time evidence, not current PASS",
+      "This final historical closure review and its dependency join; no new standing game, language, quantity, release or testing quota"
+    ]
+  },
+  "decision_basis": [
+    "The original declared one-cause repair preserves the previous whole source and historical registrations while enforcing actual current raw before historical observation.",
+    "All18 fixed results and both Chapter invocations passed on exact41; their original source bytes and clean wrapper are independently bound.",
+    "Original whole CI failed only at separately documented runner seal flags, while244 target commands also passed there; those failures are kept intact.",
+    "Completed separate247 closes that blocker at07ef and re-observes preserved historical18/Chapter590. This supports closure of244 without claiming two different whole subjects are identical.",
+    "Current raw preservation and exact Chapter inverses establish retained component identity only. No current-source full-audit or newer unit PASS is borrowed."
+  ],
+  "evidence_pins": {
+    ".git/full-game-localization/order244-residual-gate-triage.json": {
+      "bytes": 12108,
+      "sha256": "fb11d3b30fc4b152a506175d4bd842a34bbc4b56a540d4ac90c14d05dfe7311e"
+    },
+    ".git/full-game-localization/order244-named-first.json": {
+      "bytes": 309092,
+      "sha256": "6c7fd48f0e08eccda4685d1edfa547e95df22371feabe02eae86a7a4db547d45"
+    },
+    ".git/full-game-localization/order244-final-pre-run-code-review.json": {
+      "bytes": 11214,
+      "sha256": "b9f48d242954e537bce5d11af1c56ad2195e5006082ca823902d739d06d2712a"
+    },
+    ".git/full-game-localization/order244-first-named-independent-review.json": {
+      "bytes": 15292,
+      "sha256": "d746e154707f113be38282b4d5a02fd489956e10ebd412ffbfc5499bf040003a"
+    },
+    ".git/full-game-localization/order244-ci-final-123020.json": {
+      "bytes": 39460,
+      "sha256": "673b098e0c33f48900f5adbf1e11bb45026d98153eb3694c915a6b130ad45483"
+    },
+    ".git/full-game-localization/order244-main-103547111635.log": {
+      "bytes": 421123,
+      "sha256": "b04213d4f75453622b1b5d9face78f5d465fef8ccb57dc9d484cc2bd93d68c10"
+    },
+    ".git/full-game-localization/order244-mirror-103547111571.log": {
+      "bytes": 420975,
+      "sha256": "9e3f72097462d8d7d37cd73343d16987b68757a8ac2667ee29fcb1c8d3f8d818"
+    },
+    "docs/agent_reviews/ORDER-247.json": {
+      "bytes": 19998,
+      "sha256": "fc1e4beb16d81d9f32937ff2eb2dcd00c8dc09860a430a8d9f11d79649eba215"
+    },
+    "docs/queue_archive/ORDER-247.md": {
+      "bytes": 9009,
+      "sha256": "cb9d836e43006efa646113f8528f5a49e41a7ab02b20af5db57f27876a91f093"
+    },
+    ".git/full-game-localization/order247-ci-main-terminal-jobs.json": {
+      "bytes": 4566,
+      "sha256": "839e3754be803689876dcc30f81c4f04a85db9c7268f6a01c8e7bdc79f9f4f0d"
+    },
+    ".git/full-game-localization/order247-ci-main-terminal-log.json": {
+      "bytes": 1191083,
+      "sha256": "84cade32fee55b220b4e8ee39a3d0292fc88171d075ac186e6d8143b09133130"
+    },
+    ".git/full-game-localization/order247-ci-main-terminal-artifacts.json": {
+      "bytes": 2222,
+      "sha256": "4bacc5ffe9398473521ea442ae5fc9915c2586419695cc5b01ce2d4dbd281c0e"
+    },
+    ".git/full-game-localization/order247-ci-mirror-terminal-jobs.json": {
+      "bytes": 4566,
+      "sha256": "f64e85cc3c42bfbdad6539bbbe476a8a9f3dd35096084f11978dd0c4345e1bbc"
+    },
+    ".git/full-game-localization/order247-ci-mirror-terminal-log.json": {
+      "bytes": 1191754,
+      "sha256": "0aafa3fea00861aa1fb7f7da3ebedb5f582c94ffe28f86387ec46296184e5b01"
+    },
+    ".git/full-game-localization/order247-ci-mirror-terminal-artifacts.json": {
+      "bytes": 2270,
+      "sha256": "a9529d4cbd99490ef2a455cb1638213f8d9255dcfd622bfa4bd7451b60707e57"
+    },
+    ".git/full-game-localization/order247-ci-main-status-seventh.json": {
+      "bytes": 27286,
+      "sha256": "e16cf39a7e1b18b5101f1622db803d76428ae59b5365fa6d10fb5c3655673781"
+    },
+    ".git/full-game-localization/order247-ci-status-sixth.json": {
+      "bytes": 54193,
+      "sha256": "199c8cda87b0286651f0a802683a49b8686d6b78c65a418d0dd9e8e3acefa635"
+    }
+  },
+  "review_actions": {
+    "project_module_import": 0,
+    "tests": 0,
+    "collector": 0,
+    "Godot": 0,
+    "remote": 0,
+    "Git_writes": 0,
+    "product_or_operations_writes": 0,
+    "private_write": "This JSON only via apply_patch",
+    "read_only_calculation_chunks": [
+      "513515",
+      "53984a",
+      "4bf4ab",
+      "53e53c",
+      "ec7298"
+    ]
+  },
+  "preparation_notes": [
+    "An initial concatenated general QA/reference display was overbroad and truncated. No release/packaging claim relies on that partial display; controlling WORK_UNIT, selected244, helper/self, relevant raw diff and execution evidence were read directly.",
+    "Initial parent/child pin comparison compared the parent's SHA string to the child's bytes/SHA object and displayed false. Correct schema comparison, plus Git41 bytes/SHA, gives all9 exact; no product test failed."
+  ],
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "rendered_visual_quality",
+    "artifact_ZIP_and_PNG_content",
+    "present_day_full_audit"
+  ],
+  "skill_effect": "gangnamdream-dev preserved the single-cause historical scope, immutable failures, original raw guards and explicit separation of source-specific agent decisions from human/release evidence.",
+  "publication": "ROOT alone may publish report/ledger/archive/queue metadata. Do not alter subject to current HEAD or describe this as ORDER256 GO."
+}

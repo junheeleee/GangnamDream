@@ -4,6 +4,13 @@
 > [9/12 현지화 보존본](history/WORK_LOG_2026-09-12_localization.md)에 손실 없이 보존한다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg`로 필요한 항목을 찾는다.
 
+## 2026-09-13 (Codex — 칭호 역사 수리의 남은 판정 마감)
+
+- [역사 단위244](queue_archive/ORDER-244.md)는 fb4cf119/tree3607 한정 Plato GO다. 원래41 실패2와 별도247/07ef 해소를 분리하고 기존41판정에1만 더했다.
+- 공개 보고2b67aa70·원문 archive·규범/일회성 판정을 보존했다. 새590/전체감사/엔진0, 현재제품 GO·243 완료·기존 teardown 오류 해소가 아니다.
+- 직전256 마감6은 clean6351c2d에서 최종PASS(38.612928167초/1194불변), 독립 closure39480c9d다. main/원격mirror atomic FF와 ls-remote exact6351c2d를 확인했고 로컬af987은 그대로다.
+- 새CI34718238760/34718238768은 attempt1 in_progress 관측만 있으며 성공을 선취하지 않는다. 공개GO1·인간OPEN45·본편HOLD 유지.
+
 ## 2026-09-13 (Codex — 칭호 보너스·언어 갱신 내부 마감)
 
 - Poincare LOCAL work_unit GO. source 88b3f76 / 검토 1a33792 한정이다.

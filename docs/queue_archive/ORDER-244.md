@@ -1,3 +1,23 @@
+# ORDER-244 — 칭호 원형 검사 역사 단위 마감
+
+[x] ORDER-244 — 2026-09-13. Plato 역사 work_unit GO, 필수0.
+
+판정 대상은 제품 fb4cf1195a39c2ec231d2a2731dc4cfaf902de4a / tree3607aeab8ac92daa784d6cdfb0c7becd939e57be이며, 실제 검토 wrapper는 41e06cd5ca0b0ed221ff4498dc3d3a4f656ba008이다. 현재 전체 소스의 GO가 아니다.
+
+원래 local8·18·Chapter590 통과와 실패한41 두 CI 안의 해당 검사 통과를 보존한다. 별도247이07ef에서 seal2를 해소한 사실만 연결하며 원 실패를 PASS로 고쳐 쓰지 않는다. 현재 helper/self 원형과 Chapter 역복원은 코드 보존 증거이지 현재590 재실행이 아니다.
+
+## 규범 판정
+
+- 계속 유효한 구현 계약: tools/meta_title_locale_history.py의 module/_history_projection과 tools/meta_title_locale_history_self_test.py의 FROZEN/run_case/main 및 successor 진입점. 실제 current raw 검증 후 정확한 역사 관측만 제공하며 old18은 보존 회귀 모집단이지 새 수량 할당이 아니다.
+- 기존 정본: docs/WORK_UNIT.md §3의 exact 후보·역사 증거 분리. 중복 규범을 새 문서에 만들지 않는다.
+- 일회성: 이 오더의 파일 소유·실행 순서·preflight·최초 local/CI capture·역사 최종판정. 새 게임·언어·출시·검사 수량 규칙은0이다.
+
+자가 저작 self18은 Poincare 비저자 검토에 결속했고 Plato 역할을 공개 보고에 명시했다. 243·종료resource/ObjectDB·gap24/debt8/blocked3는 미종결이다. 공개GO1·인간OPEN45·본편HOLD를 그대로 보존한다.
+
+[독립 보고 원형](../agent_reviews/ORDER-244.json) · SHA 2b67aa709135bb5acb48dbb4dc9ed965f0e8de8bd8b1da5a06f28b15c627e7e4
+
+## 선언·진행 원문 보존
+
 # 칭호 현지화의 Chapter 1 역사 스냅샷 정합
 
 #### [~] ORDER-244 칭호 원형 검사 정합
