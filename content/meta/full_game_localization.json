@@ -3606,6 +3606,39 @@
       "machine_validation": "PASS",
       "rendered_review": "OPEN",
       "native_review": "OPEN"
+    },
+    {
+      "order": "ORDER-242",
+      "group": "ui",
+      "roots": [
+        "12개월을 무직으로 버텼다. 누군가는 백수라 하고 누군가는 자유인이라 한다.",
+        "1년 직장인",
+        "3년. 회사 서류함에 내 이름이 녹아들었다.",
+        "강남 아파트. 주소만으로도 사람들의 눈빛이 달라진다.",
+        "강남 입성",
+        "같은 회사를 1년 다녔다. 어느새 선배가 돼 있었다.",
+        "고시원 24개월. 이제 이 냄새도 집냄새처럼 느껴진다.",
+        "고시원 생존자",
+        "고시원 장기거주자",
+        "고시원에서 12개월을 버텼다. 이 경험은 잊지 못할 것이다.",
+        "드디어 아파트에 살게 됐다. 경비 아저씨가 반겨준다.",
+        "백수의 자유",
+        "베테랑 직장인",
+        "처음으로 고시원을 벗어나 새 공간으로 이사했다.",
+        "첫 월급의 무게",
+        "첫 이사",
+        "통장에 처음으로 월급이 찍혔다. 기쁘면서도 이상하게 허탈했다."
+      ],
+      "source_leaves": 17,
+      "target_leaves_by_locale": {
+        "ja": 17,
+        "zh-CN": 17,
+        "zh-TW": 17
+      },
+      "source_review": "Direct Korean review of nine housing and career title names and descriptions. Eighteen surfaces reuse the existing apartment key and accept seventeen new keys per locale. Conditions, IDs, unselected titles and KO/EN remain unchanged. Actual isolated consumers do not certify rendered or native play.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN"
     }
   ],
   "accepted": {
@@ -55053,6 +55086,74 @@
       "ui:힘든 밤과 생활비를 함께 상의하는 사이:/힘든 밤과 생활비를 함께 상의하는 사이": {
         "source_sha256": "0221a45b53595ab6fbad9a7171370560be86771c67c3923470486aae98cd2424",
         "target_sha256": "3bcc4c59bb6870cd5c363866a1ba7ea6e53add60e42158914c99e9c0721412ca"
+      },
+      "ui:12개월을 무직으로 버텼다. 누군가는 백수라 하고 누군가는 자유인이라 한다.:/12개월을 무직으로 버텼다. 누군가는 백수라 하고 누군가는 자유인이라 한다.": {
+        "source_sha256": "e8d0414837066952bbd57a95d9d197efd3b14adfb47190b38265f4c74eb5bfb9",
+        "target_sha256": "f7511823dee971937af266bd336fafebf1e325afc6064e6c8cdfe24d033c5bbe"
+      },
+      "ui:1년 직장인:/1년 직장인": {
+        "source_sha256": "963eaa70200372a1d01dcf41bafc25b7bb2942b7a322efb356daefc5c7a179a8",
+        "target_sha256": "a03359c2981c7d760ed009e0e707ed573c9ecf3f85de3cd06c3d4bd2c99b31ce"
+      },
+      "ui:3년. 회사 서류함에 내 이름이 녹아들었다.:/3년. 회사 서류함에 내 이름이 녹아들었다.": {
+        "source_sha256": "c7fb255b1f03384734b8add5866a9a8a31c196687a7a55accc1c91043e347782",
+        "target_sha256": "c3c3df708ac20941d430e69fd70e6a752a4c8e17635fed8e11312b38579157ea"
+      },
+      "ui:강남 아파트. 주소만으로도 사람들의 눈빛이 달라진다.:/강남 아파트. 주소만으로도 사람들의 눈빛이 달라진다.": {
+        "source_sha256": "6889a82f79e8dd39e8cbc56af61c1870188f181640da6ef9be742f2515e45598",
+        "target_sha256": "c0fc93dc8f88fb2fece3a7f50edc182b3369b5316a3642cf5a0b7e33d3cffbac"
+      },
+      "ui:강남 입성:/강남 입성": {
+        "source_sha256": "f87ed92bbaf25df84c41b5f526b33ee4b18439091d01c250d3c0afa0846afd6c",
+        "target_sha256": "38741fd8ad98fc66a823742eba1a9c61fa86ab09acdac7e191da8b2f2777ba28"
+      },
+      "ui:같은 회사를 1년 다녔다. 어느새 선배가 돼 있었다.:/같은 회사를 1년 다녔다. 어느새 선배가 돼 있었다.": {
+        "source_sha256": "560c1dc1c4f21186c478c3e6e7f0618de9eb689896b3d65fd43339e687b90740",
+        "target_sha256": "d2db7676c68b165a68c30eb051c66582ce9717326b7285eacd74f15dfda7f320"
+      },
+      "ui:고시원 24개월. 이제 이 냄새도 집냄새처럼 느껴진다.:/고시원 24개월. 이제 이 냄새도 집냄새처럼 느껴진다.": {
+        "source_sha256": "34bf97415470e7a7de0ff431ac7786b52f860c09a6e521fbc3757d9123eeca4b",
+        "target_sha256": "59dad7bdffe5838b86afbc9b3b31c83c5da0e3e46d726eb6bda17096d6720d94"
+      },
+      "ui:고시원 생존자:/고시원 생존자": {
+        "source_sha256": "f0e6e046c64280cd01e38c10e0307a5a18f6fd29ee106d797c327595b77a16c8",
+        "target_sha256": "7d6a0fa3664dddfca63d92fcdcbd8394e9e0049bf54af0f0859f3c474b0e1fe0"
+      },
+      "ui:고시원 장기거주자:/고시원 장기거주자": {
+        "source_sha256": "83be56b597ee892dc2b156b546d23143969d7b1cee13826aacdfbde7e5342196",
+        "target_sha256": "c275830c099636827e0727151360beb44d9aebc9ac3ab9d80123ad29112546da"
+      },
+      "ui:고시원에서 12개월을 버텼다. 이 경험은 잊지 못할 것이다.:/고시원에서 12개월을 버텼다. 이 경험은 잊지 못할 것이다.": {
+        "source_sha256": "edc4056d6dd93411bae1251aa421e492bd0c354afd6cafb4a93909e1e27b5fb2",
+        "target_sha256": "187829b695ee71967346d6a85ff2400c142a17193005a0b858ba1e3d8c2065dc"
+      },
+      "ui:드디어 아파트에 살게 됐다. 경비 아저씨가 반겨준다.:/드디어 아파트에 살게 됐다. 경비 아저씨가 반겨준다.": {
+        "source_sha256": "9337b0d45f167eee6c1f8ffb84b733e0bfc9f826db5ee55170419079823430c3",
+        "target_sha256": "f2238e0b66e213bf56bc21b59213b12381d27309fb21f744b8fc86e3a609573e"
+      },
+      "ui:백수의 자유:/백수의 자유": {
+        "source_sha256": "a88deb64c7252ec2ab16814c729f99062c9b21a8051953f494a7eacda31e060d",
+        "target_sha256": "bc91d80cb12aa9d094e398052915568b983beb34647c5d581eb0ba60b488dd2e"
+      },
+      "ui:베테랑 직장인:/베테랑 직장인": {
+        "source_sha256": "0fe49b90c3c954ec47291ff7cb2e9b5312f902d98181ae95a9d246a6030e1605",
+        "target_sha256": "e9cff6fa215bc686521e53ccd4bb0656f5fe9a228198f0d00b501b4538451372"
+      },
+      "ui:처음으로 고시원을 벗어나 새 공간으로 이사했다.:/처음으로 고시원을 벗어나 새 공간으로 이사했다.": {
+        "source_sha256": "93c2cfcf69c8200d073a68e30b25cbba34ada8ceb844ee80ddf1edb681e411a0",
+        "target_sha256": "876fc1f770839da0303b6aa9456e57c82362a705d5141eab044a42ed64b1f377"
+      },
+      "ui:첫 월급의 무게:/첫 월급의 무게": {
+        "source_sha256": "20387b2e01abf99aceeaec73686c9cf48baabcfa71219facce23878653ff0d52",
+        "target_sha256": "02353d89eab3184874c88be6fee3aab3e04a2daa74005f5e85b9caa4a3bbf2e9"
+      },
+      "ui:첫 이사:/첫 이사": {
+        "source_sha256": "a5fb4177bbce48ee5f5dd982c0ebf312cd6b66f32fd83bf6d1fd79dab946bf73",
+        "target_sha256": "c0c33b3510b497288003c80ce36ce04906e3425ab0e6233de621b657e38535b5"
+      },
+      "ui:통장에 처음으로 월급이 찍혔다. 기쁘면서도 이상하게 허탈했다.:/통장에 처음으로 월급이 찍혔다. 기쁘면서도 이상하게 허탈했다.": {
+        "source_sha256": "bc2970cfc472111cf553a6f2bbface97a11ad5d518e1acc037b07a2e6be2c784",
+        "target_sha256": "640b4023e3984c77caa2c35c8eb6a923b84ed939c09456e87db2ae1a63678498"
       }
     },
     "zh-CN": {
@@ -106507,6 +106608,74 @@
       "ui:힘든 밤과 생활비를 함께 상의하는 사이:/힘든 밤과 생활비를 함께 상의하는 사이": {
         "source_sha256": "0221a45b53595ab6fbad9a7171370560be86771c67c3923470486aae98cd2424",
         "target_sha256": "1588e29ad318225070abc20c56c7c66e89101d9e4ce75c742b8a3e76f1665901"
+      },
+      "ui:12개월을 무직으로 버텼다. 누군가는 백수라 하고 누군가는 자유인이라 한다.:/12개월을 무직으로 버텼다. 누군가는 백수라 하고 누군가는 자유인이라 한다.": {
+        "source_sha256": "e8d0414837066952bbd57a95d9d197efd3b14adfb47190b38265f4c74eb5bfb9",
+        "target_sha256": "54e42d887000337c63f37d375ce70fed71192582de73c777c1a978038dc05516"
+      },
+      "ui:1년 직장인:/1년 직장인": {
+        "source_sha256": "963eaa70200372a1d01dcf41bafc25b7bb2942b7a322efb356daefc5c7a179a8",
+        "target_sha256": "d358f18c86537afc969cbb4aba5edfc937f6c122d66cc6ffbee3587599d02444"
+      },
+      "ui:3년. 회사 서류함에 내 이름이 녹아들었다.:/3년. 회사 서류함에 내 이름이 녹아들었다.": {
+        "source_sha256": "c7fb255b1f03384734b8add5866a9a8a31c196687a7a55accc1c91043e347782",
+        "target_sha256": "eb2e9165c07242352a2e2179134cc02123064e40a42fa22ea75d408edaacff7d"
+      },
+      "ui:강남 아파트. 주소만으로도 사람들의 눈빛이 달라진다.:/강남 아파트. 주소만으로도 사람들의 눈빛이 달라진다.": {
+        "source_sha256": "6889a82f79e8dd39e8cbc56af61c1870188f181640da6ef9be742f2515e45598",
+        "target_sha256": "cf4e6ef5de2af7e201a107ba299341fd3569c4fab50df34c0df9bcb26aadb510"
+      },
+      "ui:강남 입성:/강남 입성": {
+        "source_sha256": "f87ed92bbaf25df84c41b5f526b33ee4b18439091d01c250d3c0afa0846afd6c",
+        "target_sha256": "36698a1d4591c5b303e9e799f0e7c0a0dbf959a68b10da5474a81bc7513f858b"
+      },
+      "ui:같은 회사를 1년 다녔다. 어느새 선배가 돼 있었다.:/같은 회사를 1년 다녔다. 어느새 선배가 돼 있었다.": {
+        "source_sha256": "560c1dc1c4f21186c478c3e6e7f0618de9eb689896b3d65fd43339e687b90740",
+        "target_sha256": "29dabd51fce7bc882bd5e8b78f6a278bc3ba692648b01c27ddc4b2d79c933c4f"
+      },
+      "ui:고시원 24개월. 이제 이 냄새도 집냄새처럼 느껴진다.:/고시원 24개월. 이제 이 냄새도 집냄새처럼 느껴진다.": {
+        "source_sha256": "34bf97415470e7a7de0ff431ac7786b52f860c09a6e521fbc3757d9123eeca4b",
+        "target_sha256": "d296b3f5699a53436449c5bf0d8a6815c278da2ab980cdf95771fbe5a2af12b1"
+      },
+      "ui:고시원 생존자:/고시원 생존자": {
+        "source_sha256": "f0e6e046c64280cd01e38c10e0307a5a18f6fd29ee106d797c327595b77a16c8",
+        "target_sha256": "7335ac36bbc049ed35c890456cdc4262a85230f0cc903840e88aa4b652c91890"
+      },
+      "ui:고시원 장기거주자:/고시원 장기거주자": {
+        "source_sha256": "83be56b597ee892dc2b156b546d23143969d7b1cee13826aacdfbde7e5342196",
+        "target_sha256": "d859898fbea3bc7e81a8075abe7aa219fa19a4e3ef6988b75b491953d7fd993e"
+      },
+      "ui:고시원에서 12개월을 버텼다. 이 경험은 잊지 못할 것이다.:/고시원에서 12개월을 버텼다. 이 경험은 잊지 못할 것이다.": {
+        "source_sha256": "edc4056d6dd93411bae1251aa421e492bd0c354afd6cafb4a93909e1e27b5fb2",
+        "target_sha256": "c6fee7c112246fd89fc3c45c91ab7681fcdba47327eeaabce29934445a749f5b"
+      },
+      "ui:드디어 아파트에 살게 됐다. 경비 아저씨가 반겨준다.:/드디어 아파트에 살게 됐다. 경비 아저씨가 반겨준다.": {
+        "source_sha256": "9337b0d45f167eee6c1f8ffb84b733e0bfc9f826db5ee55170419079823430c3",
+        "target_sha256": "d83efcbe75bd41efae96a76b329d0d89843adffdf39d8f04bbadbcd52247254e"
+      },
+      "ui:백수의 자유:/백수의 자유": {
+        "source_sha256": "a88deb64c7252ec2ab16814c729f99062c9b21a8051953f494a7eacda31e060d",
+        "target_sha256": "505dc509d7dad5e394be3b403776513930e474586e47af7df838740365d1493e"
+      },
+      "ui:베테랑 직장인:/베테랑 직장인": {
+        "source_sha256": "0fe49b90c3c954ec47291ff7cb2e9b5312f902d98181ae95a9d246a6030e1605",
+        "target_sha256": "314b3b8a98a0de60aba945579f5e13ccddf9dec615fb6e61d4add3ebc0cdddcb"
+      },
+      "ui:처음으로 고시원을 벗어나 새 공간으로 이사했다.:/처음으로 고시원을 벗어나 새 공간으로 이사했다.": {
+        "source_sha256": "93c2cfcf69c8200d073a68e30b25cbba34ada8ceb844ee80ddf1edb681e411a0",
+        "target_sha256": "3b6dd8ab97f959a32c27ba8a0515b61f39164c42525ccf5ed4ab4b22e309f3ad"
+      },
+      "ui:첫 월급의 무게:/첫 월급의 무게": {
+        "source_sha256": "20387b2e01abf99aceeaec73686c9cf48baabcfa71219facce23878653ff0d52",
+        "target_sha256": "bb15a2892e831752393624c3ab53a8cd6a6c9d1d98ade81b62f26bc5a85c942c"
+      },
+      "ui:첫 이사:/첫 이사": {
+        "source_sha256": "a5fb4177bbce48ee5f5dd982c0ebf312cd6b66f32fd83bf6d1fd79dab946bf73",
+        "target_sha256": "09407fb1a757a76f1e405c4474f711928ffc51611b67ae71c7276e696b19a075"
+      },
+      "ui:통장에 처음으로 월급이 찍혔다. 기쁘면서도 이상하게 허탈했다.:/통장에 처음으로 월급이 찍혔다. 기쁘면서도 이상하게 허탈했다.": {
+        "source_sha256": "bc2970cfc472111cf553a6f2bbface97a11ad5d518e1acc037b07a2e6be2c784",
+        "target_sha256": "b2c21560ba9e3a86f9b3a5a31c04dab6b8d3e7338e9e8e2df033097ed8d05b91"
       }
     },
     "zh-TW": {
@@ -157961,10 +158130,78 @@
       "ui:힘든 밤과 생활비를 함께 상의하는 사이:/힘든 밤과 생활비를 함께 상의하는 사이": {
         "source_sha256": "0221a45b53595ab6fbad9a7171370560be86771c67c3923470486aae98cd2424",
         "target_sha256": "b9e6975179e9380be82678c88813d9da56bb21349e8e5aeafa8b8dad4e922826"
+      },
+      "ui:12개월을 무직으로 버텼다. 누군가는 백수라 하고 누군가는 자유인이라 한다.:/12개월을 무직으로 버텼다. 누군가는 백수라 하고 누군가는 자유인이라 한다.": {
+        "source_sha256": "e8d0414837066952bbd57a95d9d197efd3b14adfb47190b38265f4c74eb5bfb9",
+        "target_sha256": "71272072bc003a5a28af6b95fca68d1d14fcd19906f3cfd17cec86b143e9ba34"
+      },
+      "ui:1년 직장인:/1년 직장인": {
+        "source_sha256": "963eaa70200372a1d01dcf41bafc25b7bb2942b7a322efb356daefc5c7a179a8",
+        "target_sha256": "e3b8bd8eb0f1b7121f7a75211b67c426ce5fc1fed775b6e6dc4f8bb39194c942"
+      },
+      "ui:3년. 회사 서류함에 내 이름이 녹아들었다.:/3년. 회사 서류함에 내 이름이 녹아들었다.": {
+        "source_sha256": "c7fb255b1f03384734b8add5866a9a8a31c196687a7a55accc1c91043e347782",
+        "target_sha256": "cb929336f4f7892372a34ebd6ca3af43532714853dc957b4bb634f0db510d90e"
+      },
+      "ui:강남 아파트. 주소만으로도 사람들의 눈빛이 달라진다.:/강남 아파트. 주소만으로도 사람들의 눈빛이 달라진다.": {
+        "source_sha256": "6889a82f79e8dd39e8cbc56af61c1870188f181640da6ef9be742f2515e45598",
+        "target_sha256": "fc3a64100c74d906bcb7618c049611a687582308aa150595df489e89fe59576a"
+      },
+      "ui:강남 입성:/강남 입성": {
+        "source_sha256": "f87ed92bbaf25df84c41b5f526b33ee4b18439091d01c250d3c0afa0846afd6c",
+        "target_sha256": "6f17a5f9fe8b42a96bcf44eb6ccfa55991a989d19bf72a8b483029306d007758"
+      },
+      "ui:같은 회사를 1년 다녔다. 어느새 선배가 돼 있었다.:/같은 회사를 1년 다녔다. 어느새 선배가 돼 있었다.": {
+        "source_sha256": "560c1dc1c4f21186c478c3e6e7f0618de9eb689896b3d65fd43339e687b90740",
+        "target_sha256": "1001fd4849dea4696923bdb5ff5af524fb554a669467dfdf381573350856b986"
+      },
+      "ui:고시원 24개월. 이제 이 냄새도 집냄새처럼 느껴진다.:/고시원 24개월. 이제 이 냄새도 집냄새처럼 느껴진다.": {
+        "source_sha256": "34bf97415470e7a7de0ff431ac7786b52f860c09a6e521fbc3757d9123eeca4b",
+        "target_sha256": "026d37d790d3e889648c01108a3335b74733e9782c50a59b2f83e867dcf82667"
+      },
+      "ui:고시원 생존자:/고시원 생존자": {
+        "source_sha256": "f0e6e046c64280cd01e38c10e0307a5a18f6fd29ee106d797c327595b77a16c8",
+        "target_sha256": "d4a92d5839a3ca1772bc399f1d926f9463cf166df5cd014723a680c88a1b4f7d"
+      },
+      "ui:고시원 장기거주자:/고시원 장기거주자": {
+        "source_sha256": "83be56b597ee892dc2b156b546d23143969d7b1cee13826aacdfbde7e5342196",
+        "target_sha256": "99170c562522892da8bd23d8c70b6b9419e6c4e6bbd5d9161f94958efe01c3c8"
+      },
+      "ui:고시원에서 12개월을 버텼다. 이 경험은 잊지 못할 것이다.:/고시원에서 12개월을 버텼다. 이 경험은 잊지 못할 것이다.": {
+        "source_sha256": "edc4056d6dd93411bae1251aa421e492bd0c354afd6cafb4a93909e1e27b5fb2",
+        "target_sha256": "5b5698147598191c129861c9a211bee9c442e94a76cb23e1c6d58d3170533d9f"
+      },
+      "ui:드디어 아파트에 살게 됐다. 경비 아저씨가 반겨준다.:/드디어 아파트에 살게 됐다. 경비 아저씨가 반겨준다.": {
+        "source_sha256": "9337b0d45f167eee6c1f8ffb84b733e0bfc9f826db5ee55170419079823430c3",
+        "target_sha256": "e6dd62bebc342dcfdad075307f89ee10c0ae2fd9970e26052be70d5523d731d8"
+      },
+      "ui:백수의 자유:/백수의 자유": {
+        "source_sha256": "a88deb64c7252ec2ab16814c729f99062c9b21a8051953f494a7eacda31e060d",
+        "target_sha256": "0bca49c2fa63f53910deb3f5e3bbf3ebcb39c266cef124e4497aee6ca0590367"
+      },
+      "ui:베테랑 직장인:/베테랑 직장인": {
+        "source_sha256": "0fe49b90c3c954ec47291ff7cb2e9b5312f902d98181ae95a9d246a6030e1605",
+        "target_sha256": "99d5aa904711e700b2faec9e11ec5cd691c8ab27a3292801bb0ddc2cf4609d47"
+      },
+      "ui:처음으로 고시원을 벗어나 새 공간으로 이사했다.:/처음으로 고시원을 벗어나 새 공간으로 이사했다.": {
+        "source_sha256": "93c2cfcf69c8200d073a68e30b25cbba34ada8ceb844ee80ddf1edb681e411a0",
+        "target_sha256": "2e342ece74578d14ec23b3230c6f81b01d7cb458e6050199972e9b1fb9cfadc9"
+      },
+      "ui:첫 월급의 무게:/첫 월급의 무게": {
+        "source_sha256": "20387b2e01abf99aceeaec73686c9cf48baabcfa71219facce23878653ff0d52",
+        "target_sha256": "ec2c401263a8ec130a2abc8c081b1962af0f30e95fde4464e3dd96796fe5e6b2"
+      },
+      "ui:첫 이사:/첫 이사": {
+        "source_sha256": "a5fb4177bbce48ee5f5dd982c0ebf312cd6b66f32fd83bf6d1fd79dab946bf73",
+        "target_sha256": "09407fb1a757a76f1e405c4474f711928ffc51611b67ae71c7276e696b19a075"
+      },
+      "ui:통장에 처음으로 월급이 찍혔다. 기쁘면서도 이상하게 허탈했다.:/통장에 처음으로 월급이 찍혔다. 기쁘면서도 이상하게 허탈했다.": {
+        "source_sha256": "bc2970cfc472111cf553a6f2bbface97a11ad5d518e1acc037b07a2e6be2c784",
+        "target_sha256": "924a85d619fec98d0222829a320004b488e7560118c6cd079eee3f2f0b1f16c6"
       }
     }
   },
-  "accepted_sha256": "bdce2dafd4f62770ef47d948fc8f27ecd2de7c98ca91e4b50598ea4767accd90",
+  "accepted_sha256": "cbd78c8015b1c85ffd8e992ce81a3ecb740049559c5b6fbbc4565657f3c89623",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
