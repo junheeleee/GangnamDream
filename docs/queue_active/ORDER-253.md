@@ -77,3 +77,19 @@ JA18유지·희귀/요약2정밀화, CN/TW각20을 적용했고 세UI 모두 이
 필수0이다. 원형405 ID/26상수/99함수와 새5/110중첩·상태/저장 경계를 확인했다.
 ROOT가 승인 비트와 승인표/언어/런타임 검토SHA만 결속해 runtime2를 적용했다.
 실행 성공을 미리 기록하지 않으며 첫410은 이 적용본을 clean commit한 뒤 수행한다.
+
+## 실제 소비자·공식 수용
+
+clean3369477aee714c0a6a609f661bf325433eb6a3e3/tree312e35c6f973d006f62c8e94dd84a6a46b17c2e0.
+첫 actual410은73.277609125초, 외부1194/내부19불변으로 통과했다. full raw capture
+7283750B/SHAf62ec434b0c70b0605d471a2479ef091f484cb83e94fc1ade62a783dff4235a3.
+기존405+신규5 모두 pass/state_ok, 고유ID410이며 라벨110은 nested다.
+상태복구1·프로세스60408 exit0·group/storage 오류0, stdout/Godot log ERROR·leak0.
+격리 component이며 렌더/인간 독해/자연 플레이 증거로 승격하지 않는다.
+
+같은exactHEAD의 공식20×3 export/check/import 모두 통과했다. check/import6child의
+changed_files0, 각외부1194불변이다. 승인60만 portable에 더해38878/b103/meta9,
+JA12958·CN/TW12960이다. 이전38818 raw역복원exact·과거102배치/meta9불변이다.
+새portable SHA441405364190916c0865fac713794db5466c6d7446a73d6d13fa36bcb2224d63.
+정본 현황을 이 실제 값으로 먼저 갱신한 뒤 clean source의 전체38878 L1·고유12와
+독립 최종판정을 수행한다. 새 원인 발견 시 첫 결과를 보존한다. 현재 단위GO는 아직0이다.

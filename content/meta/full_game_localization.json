@@ -3747,6 +3747,42 @@
       "machine_validation": "PASS",
       "rendered_review": "OPEN",
       "native_review": "OPEN"
+    },
+    {
+      "order": "ORDER-253",
+      "group": "ui",
+      "roots": [
+        "ui.meta.career_category",
+        "ui.meta.lifestyle_category",
+        "레어",
+        "메타",
+        "미니게임",
+        "미발견",
+        "미발견 칭호",
+        "성향",
+        "이야기",
+        "일반",
+        "자산",
+        "전설",
+        "주거",
+        "칭호 도감",
+        "칭호 해금: %s",
+        "칭호 해금: 「%s」",
+        "투자",
+        "해금 %d / %d  —  플레이를 거듭할수록 칭호가 늘어납니다.",
+        "획득",
+        "희귀"
+      ],
+      "source_leaves": 20,
+      "target_leaves_by_locale": {
+        "ja": 20,
+        "zh-CN": 20,
+        "zh-TW": 20
+      },
+      "source_review": "Direct Korean and independent full60 review of existing title collection headings, categories, rarity and unlock toast/log. Existing context IDs, ordered printf tokens, shared source uses and all gameplay values preserved. Isolated component observations are not rendered/native/human play.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN"
     }
   ],
   "accepted": {
@@ -55502,6 +55538,86 @@
       "ui:홀덤 무법자:/홀덤 무법자": {
         "source_sha256": "62fec7419a1997bd852328e85a3d55e0e4ae07dc0b41faf8ad74732296646326",
         "target_sha256": "7bdebecf71e4de8713651a70d69b3f4a6cf8cb4d81f81e5de6fe2a6f3dc23010"
+      },
+      "ui:ui.meta.career_category:/ui.meta.career_category": {
+        "source_sha256": "f5f77d30836e3113eb5b35673ac0c147bddbe67d852f368ad6253179911b891b",
+        "target_sha256": "cfc53922be5e81692403c196cd85b6f9bcad13face392b3319989f7ad6d87b4e"
+      },
+      "ui:ui.meta.lifestyle_category:/ui.meta.lifestyle_category": {
+        "source_sha256": "1a4b3eeca1e974dc00e8a5f24ca2773875695bb3b288a420191aa3e259c49037",
+        "target_sha256": "863691fab8bfc6bae9f37a9a38e57ba844434074367ab7df8d9cc17a96cc76c2"
+      },
+      "ui:레어:/레어": {
+        "source_sha256": "320a5143e809406a9426b741e0f2b5ae0c2cd453c1db23599fc98ba6aaa3fb7d",
+        "target_sha256": "1397cac71d424ee9d2d023e975ce3f5b4b281130aafe8bfdc958e98f07e3349b"
+      },
+      "ui:메타:/메타": {
+        "source_sha256": "79b56dd6b2decee8f96bd2b1bd3e731ec4340b0415409aeab5374aec23b3f956",
+        "target_sha256": "07510e31ec75d3bce909461224d34b12cb670b439825e2ed17aeb05706d56e81"
+      },
+      "ui:미니게임:/미니게임": {
+        "source_sha256": "feba7a0381a7213c93ca13bafdfd913f6db61982467ea540063eaa213e05d96c",
+        "target_sha256": "d95970f8916619968d66692045023e22cd249cba554c5f14e657513dc70b85f3"
+      },
+      "ui:미발견 칭호:/미발견 칭호": {
+        "source_sha256": "40486961832722c1fec4e5298637daa263f44d904990144d1c2172a954ce785a",
+        "target_sha256": "e1c2249fc6e7c04c562d46e488d4db1a65f9c903114185e5c8b3c3295ca1e30f"
+      },
+      "ui:미발견:/미발견": {
+        "source_sha256": "37e579217368f26e247e6419c722e893c0cfaf856b88c518e809169096915f79",
+        "target_sha256": "1c8cbfb552c451ab3cf552fa7dd01fd286dcd01ccf36a0ce9b30e017da1838f1"
+      },
+      "ui:성향:/성향": {
+        "source_sha256": "e2d84042c488075a19603123587efd034c889118780c0c7d6b6a9b3aecc8ad2b",
+        "target_sha256": "a8c494ac2a2157b5fa630c41798b9ae1caa769fb8f456e829a256e632726b89f"
+      },
+      "ui:이야기:/이야기": {
+        "source_sha256": "541f50965ccc95d37f6f4f032df606f7885e5e2c470aac836240906e2b27fd66",
+        "target_sha256": "2f0f246174362c52f9e7c7b8854e9b76bf117a298eab8d89f524155aa6b04a19"
+      },
+      "ui:일반:/일반": {
+        "source_sha256": "e74310ae673c4a01178086c9d027fae4ee722c97eb77ccaa249e1551ad0c76bc",
+        "target_sha256": "413e82982765d8c7fd3b4f55b40253ba12bd00485501f3cc873b2ca752b455d5"
+      },
+      "ui:자산:/자산": {
+        "source_sha256": "c3e806db4f3b4a229db985150ed4b3161a2562a61eb8808f837241db36547977",
+        "target_sha256": "0100a4d64eb80b2779302a24efd8d5b9ffe727f1677b9e2ec1c82c79cd43b513"
+      },
+      "ui:전설:/전설": {
+        "source_sha256": "88028880f957df96994214c9d255bc486c0289545f702197e85579be135328ed",
+        "target_sha256": "6cc7a5ffd51b5f634c83e558501f1fe5d23d9d75187353f47b7a9cb7d63e91bd"
+      },
+      "ui:주거:/주거": {
+        "source_sha256": "dd697b64a254b321a55400d3d28e69c789fd9bb99989b1a88636282fc1c5bb33",
+        "target_sha256": "7c812761b5a0619bc07baf8a69bedb14410b20edf8b336a26fa9be82cc6d2749"
+      },
+      "ui:칭호 도감:/칭호 도감": {
+        "source_sha256": "3dba7b0ef4c4646074573ac1e9f77ea92749483bc7ad3fde6f48208ddecade48",
+        "target_sha256": "f8225aee5da50615d87ead2af4310163eee437dbc89edbe8b1405f8ebbe0556e"
+      },
+      "ui:칭호 해금: %s:/칭호 해금: %s": {
+        "source_sha256": "c3514fbdbce56c29025957160c906a405ccdb034b01a37b403f03f819e6d96d5",
+        "target_sha256": "122488d9107e2bf2010e4239b7ac58a076696fa2fa60070d5aac8a024b2e45c6"
+      },
+      "ui:칭호 해금: 「%s」:/칭호 해금: 「%s」": {
+        "source_sha256": "269c6d83f00f8d457b55c2f25657ba78fea27fd6b554ccdaaac1c0aa62e45f2a",
+        "target_sha256": "dfcf2c08bf4951f41111fc8c7605a3fe70ed872247b7ee70b1bc627109fff353"
+      },
+      "ui:투자:/투자": {
+        "source_sha256": "fb5770a56a48cd0365625aba2c621cbc563e533219f93221b0964af69ef938bc",
+        "target_sha256": "3e94ddbbe1389709f8cbaa346c71aa3eedc90558b321a5b7a5fa38bf4745c55c"
+      },
+      "ui:해금 %d / %d  —  플레이를 거듭할수록 칭호가 늘어납니다.:/해금 %d ~1 %d  —  플레이를 거듭할수록 칭호가 늘어납니다.": {
+        "source_sha256": "55e5483439d57fdd162a348c6a851b170930c0f4357ef01c635758b9a0986f91",
+        "target_sha256": "c72c52af594290e984111f918344119a7f71749de5d079e578cf0732b6010ef3"
+      },
+      "ui:획득:/획득": {
+        "source_sha256": "896342e2889db7f7d9c82bde011bdd9f90780965d5f19e18133849790d3ffe48",
+        "target_sha256": "2d6835e4e62029da40fecfa6bebb378303183d9c4a4fa4644bcd1862269756cc"
+      },
+      "ui:희귀:/희귀": {
+        "source_sha256": "cb0665fd003fb62516cdf3d82b7bb6336102b393afd8c751f0dc2ea66862f1b5",
+        "target_sha256": "aabc31e739ca0c7130817f4c59063d81955d9931cf6041bec5bf2a323b6e6f16"
       }
     },
     "zh-CN": {
@@ -107264,6 +107380,86 @@
       "ui:홀덤 무법자:/홀덤 무법자": {
         "source_sha256": "62fec7419a1997bd852328e85a3d55e0e4ae07dc0b41faf8ad74732296646326",
         "target_sha256": "2e40c3eed38cd7ba2d81c61b0b2fafa8a3a6637b7878381564f1af6baa7014d0"
+      },
+      "ui:ui.meta.career_category:/ui.meta.career_category": {
+        "source_sha256": "f5f77d30836e3113eb5b35673ac0c147bddbe67d852f368ad6253179911b891b",
+        "target_sha256": "8cedb0e95d3067c71168012d80271543b57aa83c5ea67de10ab76a033892fce8"
+      },
+      "ui:ui.meta.lifestyle_category:/ui.meta.lifestyle_category": {
+        "source_sha256": "1a4b3eeca1e974dc00e8a5f24ca2773875695bb3b288a420191aa3e259c49037",
+        "target_sha256": "67048f7824555b10bbb785d92ca5c9c459e5b729d60b5171ff17a7cf591cc627"
+      },
+      "ui:레어:/레어": {
+        "source_sha256": "320a5143e809406a9426b741e0f2b5ae0c2cd453c1db23599fc98ba6aaa3fb7d",
+        "target_sha256": "d38bb9a37f2639cb2688690843284571b7994b58817231e13787674e37c6d5b7"
+      },
+      "ui:메타:/메타": {
+        "source_sha256": "79b56dd6b2decee8f96bd2b1bd3e731ec4340b0415409aeab5374aec23b3f956",
+        "target_sha256": "9bd311b4fe9d4af3967d35f09b55db437c95861244c3dd74ba922f9b65442002"
+      },
+      "ui:미니게임:/미니게임": {
+        "source_sha256": "feba7a0381a7213c93ca13bafdfd913f6db61982467ea540063eaa213e05d96c",
+        "target_sha256": "0e00d1d4d3154f412a49be7098f6d524ea2ca0a493148060ad7643e1ff914de9"
+      },
+      "ui:미발견 칭호:/미발견 칭호": {
+        "source_sha256": "40486961832722c1fec4e5298637daa263f44d904990144d1c2172a954ce785a",
+        "target_sha256": "3c89723fcbc675455c4e4b3f09d7dcccd41cb8c67dfc4875272d98b06ed2a400"
+      },
+      "ui:미발견:/미발견": {
+        "source_sha256": "37e579217368f26e247e6419c722e893c0cfaf856b88c518e809169096915f79",
+        "target_sha256": "254ab2d0de309be4a05929db024be4a52533c6f4ce20c5764979b59dda86a4c7"
+      },
+      "ui:성향:/성향": {
+        "source_sha256": "e2d84042c488075a19603123587efd034c889118780c0c7d6b6a9b3aecc8ad2b",
+        "target_sha256": "65fb5262b8dfae4a9a8524ce1a066e41b730ef61e53eb4a9cac5900f9c3b9fe9"
+      },
+      "ui:이야기:/이야기": {
+        "source_sha256": "541f50965ccc95d37f6f4f032df606f7885e5e2c470aac836240906e2b27fd66",
+        "target_sha256": "414888ebba50dd7a617b479be9b7c5a942a99e1351411849100654bd8c55ed17"
+      },
+      "ui:일반:/일반": {
+        "source_sha256": "e74310ae673c4a01178086c9d027fae4ee722c97eb77ccaa249e1551ad0c76bc",
+        "target_sha256": "56cff2524a871f12f991a566efa134de34d4cd4708e644022d008c05dd2354b0"
+      },
+      "ui:자산:/자산": {
+        "source_sha256": "c3e806db4f3b4a229db985150ed4b3161a2562a61eb8808f837241db36547977",
+        "target_sha256": "0c27b1e319840bd488bbf4f8734eccaaa999fb1ffbd791891370bd83005f4f68"
+      },
+      "ui:전설:/전설": {
+        "source_sha256": "88028880f957df96994214c9d255bc486c0289545f702197e85579be135328ed",
+        "target_sha256": "6f25c5d94a05c518b853b9c513de1eb31e29f3b001f86b78c555a5b041cf9568"
+      },
+      "ui:주거:/주거": {
+        "source_sha256": "dd697b64a254b321a55400d3d28e69c789fd9bb99989b1a88636282fc1c5bb33",
+        "target_sha256": "7bbfaf7bc318e836b54130e946b883303433d58ea135bb2dd17d28df003d4a84"
+      },
+      "ui:칭호 도감:/칭호 도감": {
+        "source_sha256": "3dba7b0ef4c4646074573ac1e9f77ea92749483bc7ad3fde6f48208ddecade48",
+        "target_sha256": "b24b5a8f06af166b84e5b32c222ce7045b062a942403c1a958d5a3d8aaa34118"
+      },
+      "ui:칭호 해금: %s:/칭호 해금: %s": {
+        "source_sha256": "c3514fbdbce56c29025957160c906a405ccdb034b01a37b403f03f819e6d96d5",
+        "target_sha256": "42c9228aed92b71550f2bf3ca935b1dcb15f34e4d021cc2e5e51e869bb7b446a"
+      },
+      "ui:칭호 해금: 「%s」:/칭호 해금: 「%s」": {
+        "source_sha256": "269c6d83f00f8d457b55c2f25657ba78fea27fd6b554ccdaaac1c0aa62e45f2a",
+        "target_sha256": "2807d9665655d28e37deaa3b2956f8010db59e48a17c119201251a63d6785f9a"
+      },
+      "ui:투자:/투자": {
+        "source_sha256": "fb5770a56a48cd0365625aba2c621cbc563e533219f93221b0964af69ef938bc",
+        "target_sha256": "0dae27abd9be139e189c7cc37cc89bf00cabf86a27dfb81d46711c4bcc6fb064"
+      },
+      "ui:해금 %d / %d  —  플레이를 거듭할수록 칭호가 늘어납니다.:/해금 %d ~1 %d  —  플레이를 거듭할수록 칭호가 늘어납니다.": {
+        "source_sha256": "55e5483439d57fdd162a348c6a851b170930c0f4357ef01c635758b9a0986f91",
+        "target_sha256": "ee43bfe12bde63b31d81c82974072e52381c1f51d9fb917c8d76b3fd2ad02819"
+      },
+      "ui:획득:/획득": {
+        "source_sha256": "896342e2889db7f7d9c82bde011bdd9f90780965d5f19e18133849790d3ffe48",
+        "target_sha256": "630a2ff51ba51efe6ea8a22332c799aebdd36b3f4ba69a365a5a6ff1a6d1dc63"
+      },
+      "ui:희귀:/희귀": {
+        "source_sha256": "cb0665fd003fb62516cdf3d82b7bb6336102b393afd8c751f0dc2ea66862f1b5",
+        "target_sha256": "7e5177e656e3e6ef67db8af89f8980770521b76a80c3e40058b817f93f30dd5a"
       }
     },
     "zh-TW": {
@@ -159026,10 +159222,90 @@
       "ui:홀덤 무법자:/홀덤 무법자": {
         "source_sha256": "62fec7419a1997bd852328e85a3d55e0e4ae07dc0b41faf8ad74732296646326",
         "target_sha256": "57ae9ff1a05e85a87c3d5d4d8b3b12f4ee5f0d0b69ab452f4a551839dafb35f0"
+      },
+      "ui:ui.meta.career_category:/ui.meta.career_category": {
+        "source_sha256": "f5f77d30836e3113eb5b35673ac0c147bddbe67d852f368ad6253179911b891b",
+        "target_sha256": "31f7bd3106afc8cf35ed0645441b8e8126da9ab6d101217ed3748902427ee88a"
+      },
+      "ui:ui.meta.lifestyle_category:/ui.meta.lifestyle_category": {
+        "source_sha256": "1a4b3eeca1e974dc00e8a5f24ca2773875695bb3b288a420191aa3e259c49037",
+        "target_sha256": "03e91965e7a41c38204a934dfb9b264a202bfaa0743db7a18689fb60c4435c1b"
+      },
+      "ui:레어:/레어": {
+        "source_sha256": "320a5143e809406a9426b741e0f2b5ae0c2cd453c1db23599fc98ba6aaa3fb7d",
+        "target_sha256": "d38bb9a37f2639cb2688690843284571b7994b58817231e13787674e37c6d5b7"
+      },
+      "ui:메타:/메타": {
+        "source_sha256": "79b56dd6b2decee8f96bd2b1bd3e731ec4340b0415409aeab5374aec23b3f956",
+        "target_sha256": "228355e3d61ab7db03e471f23ae07592dba08a26a5201034c1421385394e97cc"
+      },
+      "ui:미니게임:/미니게임": {
+        "source_sha256": "feba7a0381a7213c93ca13bafdfd913f6db61982467ea540063eaa213e05d96c",
+        "target_sha256": "24fe8e8a731e42638475c820aa9a2786b0fdb8d93c90570a02fa3655ecc56d2e"
+      },
+      "ui:미발견 칭호:/미발견 칭호": {
+        "source_sha256": "40486961832722c1fec4e5298637daa263f44d904990144d1c2172a954ce785a",
+        "target_sha256": "67a25c54688f52d0cae423e6097d2f12e475289689a4ec19c6d2de95e3e7ef0a"
+      },
+      "ui:미발견:/미발견": {
+        "source_sha256": "37e579217368f26e247e6419c722e893c0cfaf856b88c518e809169096915f79",
+        "target_sha256": "6b06a32f1920a0dd28abcf5a5b71122df69aee916650eb2e498019fd268b14e6"
+      },
+      "ui:성향:/성향": {
+        "source_sha256": "e2d84042c488075a19603123587efd034c889118780c0c7d6b6a9b3aecc8ad2b",
+        "target_sha256": "a8c494ac2a2157b5fa630c41798b9ae1caa769fb8f456e829a256e632726b89f"
+      },
+      "ui:이야기:/이야기": {
+        "source_sha256": "541f50965ccc95d37f6f4f032df606f7885e5e2c470aac836240906e2b27fd66",
+        "target_sha256": "414888ebba50dd7a617b479be9b7c5a942a99e1351411849100654bd8c55ed17"
+      },
+      "ui:일반:/일반": {
+        "source_sha256": "e74310ae673c4a01178086c9d027fae4ee722c97eb77ccaa249e1551ad0c76bc",
+        "target_sha256": "413e82982765d8c7fd3b4f55b40253ba12bd00485501f3cc873b2ca752b455d5"
+      },
+      "ui:자산:/자산": {
+        "source_sha256": "c3e806db4f3b4a229db985150ed4b3161a2562a61eb8808f837241db36547977",
+        "target_sha256": "0f60b0a53a0bffaa8b12ea5ec47bf487da754bb1ccd4331768c5d9a21c21bc7e"
+      },
+      "ui:전설:/전설": {
+        "source_sha256": "88028880f957df96994214c9d255bc486c0289545f702197e85579be135328ed",
+        "target_sha256": "fdb08faa33ed8167cb15afcf7209bb9089aa15f0ad09a681def800cc9882134f"
+      },
+      "ui:주거:/주거": {
+        "source_sha256": "dd697b64a254b321a55400d3d28e69c789fd9bb99989b1a88636282fc1c5bb33",
+        "target_sha256": "7bbfaf7bc318e836b54130e946b883303433d58ea135bb2dd17d28df003d4a84"
+      },
+      "ui:칭호 도감:/칭호 도감": {
+        "source_sha256": "3dba7b0ef4c4646074573ac1e9f77ea92749483bc7ad3fde6f48208ddecade48",
+        "target_sha256": "9ad8af96f9c92af533d4ce046a0c55d5bb39aed1e0d11ee13e90a30e1b43e956"
+      },
+      "ui:칭호 해금: %s:/칭호 해금: %s": {
+        "source_sha256": "c3514fbdbce56c29025957160c906a405ccdb034b01a37b403f03f819e6d96d5",
+        "target_sha256": "ae85f6c0543bb70ae5997680b78aed650ac5e13cb576ccdeff4d18cae3c85c92"
+      },
+      "ui:칭호 해금: 「%s」:/칭호 해금: 「%s」": {
+        "source_sha256": "269c6d83f00f8d457b55c2f25657ba78fea27fd6b554ccdaaac1c0aa62e45f2a",
+        "target_sha256": "7a557503d6ff4d29988f68f71cad1f85d91e87a1393be220aa0059b650983f5c"
+      },
+      "ui:투자:/투자": {
+        "source_sha256": "fb5770a56a48cd0365625aba2c621cbc563e533219f93221b0964af69ef938bc",
+        "target_sha256": "3e94ddbbe1389709f8cbaa346c71aa3eedc90558b321a5b7a5fa38bf4745c55c"
+      },
+      "ui:해금 %d / %d  —  플레이를 거듭할수록 칭호가 늘어납니다.:/해금 %d ~1 %d  —  플레이를 거듭할수록 칭호가 늘어납니다.": {
+        "source_sha256": "55e5483439d57fdd162a348c6a851b170930c0f4357ef01c635758b9a0986f91",
+        "target_sha256": "3b436334a93d8f72a40938e3b3a53ac3007a45932231e83484ea34cdf30910c0"
+      },
+      "ui:획득:/획득": {
+        "source_sha256": "896342e2889db7f7d9c82bde011bdd9f90780965d5f19e18133849790d3ffe48",
+        "target_sha256": "a7a9331bd98f95240646f6b90a6d83d164fcae28cec15fe769742bfcb14c446d"
+      },
+      "ui:희귀:/희귀": {
+        "source_sha256": "cb0665fd003fb62516cdf3d82b7bb6336102b393afd8c751f0dc2ea66862f1b5",
+        "target_sha256": "068a10514da60257e66d1afe8d904d3a99452fea019026cdcc46dec5d45c8d01"
       }
     }
   },
-  "accepted_sha256": "8e0f3cab49e80a93a8bdaf1e887c619e7a2c66a700304ba8f61794eddd37e83d",
+  "accepted_sha256": "3baa05aa529b3ba31a4ddf5c3f5b2c8ddfc1f03c9717f09015b41a264591d31a",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
