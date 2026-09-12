@@ -14,6 +14,40 @@
   ],
   "fast_lanes": [
     {
+      "id": "info-panel-locale-only",
+      "paths": [],
+      "owned_paths": [
+        "locale/ui_ja.json",
+        "locale/ui_zh-CN.json",
+        "locale/ui_zh-TW.json",
+        "content/meta/full_game_localization.json",
+        "tools/audit_scope.json",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/queue_active/ORDER-258.md",
+        "docs/queue_archive/ORDER-258.md",
+        "docs/WORK_LOG.md",
+        "docs/STATUS.md",
+        "docs/queue_backlog/FULL_GAME_LOCALIZATION.md",
+        "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-258.json"
+      ],
+      "tools": [
+        "tools/full_game_localization_self_test.py",
+        "tools/zh_translation_audit.py --self-test",
+        "tools/ja_translation_pipeline.py --self-test",
+        "tools/ja_translation_audit.py --scope ui",
+        "tools/story_demo_localization_audit.py --self-test",
+        "tools/story_demo_localization_audit.py",
+        "tools/en_coverage_check.py",
+        "tools/audit_select.py --verify",
+        "tools/queue_index_self_test.py",
+        "tools/agent_review_decisions_self_test.py"
+      ],
+      "why": "Existing17 Info legacy keys plus1 BODY context: JA born-wealthy repair1, other17 preserved, CN/TW18 appends each and54 official acceptances. Explicit-only existing ten checks plus always2, no new checker/runtime/save/source change or engine. Preserve old39022/b106/meta9 and human evidence. Translation acceptance is not actual panel, live-refresh, rendering, native or full-product GO."
+    },
+    {
       "id": "system-modal-locale-only",
       "paths": [],
       "owned_paths": [
