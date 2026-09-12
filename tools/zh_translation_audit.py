@@ -8617,6 +8617,30 @@ def _ui_vip_empty_person_numbers(lang: str, key: str, source: str, target: str):
     return source, numeric_target, errors
 
 
+def _ui_two_paths_title_numbers(lang: str, key: str, source: str, target: str):
+    """Bind two roads/between in one exact title, not generic entity counts.
+
+    Only matching numeral spans are masked for numeric validation. The full
+    original text still reaches script, token, terminology and money checks.
+    Other sources, keys and locales retain their existing validation path.
+    """
+    if lang not in LANGUAGES or source != "두 길 사이" or \
+            key != "ui:두 길 사이:/두 길 사이":
+        return None
+    match = re.fullmatch(
+        r"(?:在)?(?P<n>[0-9０-９零〇一二两兩三四五六七八九十百千万萬亿億]+)"
+        r"[条條]路之[间間]", target,
+    )
+    if match is None:
+        return source, target, ["source-bound two-paths title quantity/role mismatch"]
+    raw = unicodedata.normalize("NFKC", match.group("n"))
+    if _chinese_cardinal_value(raw) != 2:
+        return source, target, ["source-bound two-paths title cardinality mismatch"]
+    start, end = match.span("n")
+    numeric_target = target[:start] + " " * (end - start) + target[end:]
+    return source[1:], numeric_target, []
+
+
 def _ui_ending_record_numbers(lang: str, key: str, source: str, target: str):
     """Compare typed quantities in three exact ending-record UI sources.
 
@@ -8795,6 +8819,9 @@ def validate_text(lang: str, key: str, source: str, target: Any) -> list[str]:
     vip_numbers = _ui_vip_empty_person_numbers(lang, key, source, target)
     if vip_numbers is not None:
         notice_numbers = vip_numbers
+    two_paths_numbers = _ui_two_paths_title_numbers(lang, key, source, target)
+    if two_paths_numbers is not None:
+        notice_numbers = two_paths_numbers
     if notice_numbers is None:
         errors.extend(_numeric_errors(source, target))
     else:

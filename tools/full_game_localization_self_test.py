@@ -14,6 +14,461 @@ import full_game_localization as tool
 
 
 class ExchangeTests(unittest.TestCase):
+    def test_order246_two_paths_title_frozen24(self):
+        import contextlib
+        import dataclasses
+        import hashlib
+        import io
+        import traceback
+        import zh_translation_audit as zh
+        # Rawls pre-code24, SHA70440892: six normal, fourteen linked mutants,
+        # four OFF. Baseline15e6f6de retains direct/full error lists separately.
+        cases = json.loads(r'''[
+  {
+    "id": "cn_actual",
+    "kind": "normal",
+    "lang": "zh-CN",
+    "key": "ui:두 길 사이:/두 길 사이",
+    "source": "두 길 사이",
+    "target": "两条路之间",
+    "expect": "PASS",
+    "base": null,
+    "reason": "두 갈래 길 사이; 원문의 관형 수사 두=2."
+  },
+  {
+    "id": "tw_actual",
+    "kind": "normal",
+    "lang": "zh-TW",
+    "key": "ui:두 길 사이:/두 길 사이",
+    "source": "두 길 사이",
+    "target": "兩條路之間",
+    "expect": "PASS",
+    "base": null,
+    "reason": "같은 수량·명사·사이 관계, 번체 실제본문."
+  },
+  {
+    "id": "cn_preposition",
+    "kind": "normal",
+    "lang": "zh-CN",
+    "key": "ui:두 길 사이:/두 길 사이",
+    "source": "두 길 사이",
+    "target": "在两条路之间",
+    "expect": "PASS",
+    "base": null,
+    "reason": "在는 사이 위치를 문법적으로 드러낼 뿐 새 사건이나 수량을 보태지 않는다."
+  },
+  {
+    "id": "tw_preposition",
+    "kind": "normal",
+    "lang": "zh-TW",
+    "key": "ui:두 길 사이:/두 길 사이",
+    "source": "두 길 사이",
+    "target": "在兩條路之間",
+    "expect": "PASS",
+    "base": null,
+    "reason": "위치 전치사만 추가한 자연 표현."
+  },
+  {
+    "id": "cn_digit",
+    "kind": "normal",
+    "lang": "zh-CN",
+    "key": "ui:두 길 사이:/두 길 사이",
+    "source": "두 길 사이",
+    "target": "2条路之间",
+    "expect": "PASS",
+    "base": null,
+    "reason": "같은 숫자2의 아라비아 표기."
+  },
+  {
+    "id": "tw_fullwidth",
+    "kind": "normal",
+    "lang": "zh-TW",
+    "key": "ui:두 길 사이:/두 길 사이",
+    "source": "두 길 사이",
+    "target": "２條路之間",
+    "expect": "PASS",
+    "base": null,
+    "reason": "같은 숫자2의 전각 표기; 값만 NFKC 비교."
+  },
+  {
+    "id": "cn_one",
+    "kind": "mutant",
+    "lang": "zh-CN",
+    "key": "ui:두 길 사이:/두 길 사이",
+    "source": "두 길 사이",
+    "target": "一条路之间",
+    "expect": "REJECT",
+    "base": "cn_actual",
+    "reason": "원문의 두 길을 하나로 축소."
+  },
+  {
+    "id": "tw_one",
+    "kind": "mutant",
+    "lang": "zh-TW",
+    "key": "ui:두 길 사이:/두 길 사이",
+    "source": "두 길 사이",
+    "target": "一條路之間",
+    "expect": "REJECT",
+    "base": "tw_actual",
+    "reason": "두→하나."
+  },
+  {
+    "id": "cn_three",
+    "kind": "mutant",
+    "lang": "zh-CN",
+    "key": "ui:두 길 사이:/두 길 사이",
+    "source": "두 길 사이",
+    "target": "三条路之间",
+    "expect": "REJECT",
+    "base": "cn_actual",
+    "reason": "두→셋."
+  },
+  {
+    "id": "tw_three",
+    "kind": "mutant",
+    "lang": "zh-TW",
+    "key": "ui:두 길 사이:/두 길 사이",
+    "source": "두 길 사이",
+    "target": "三條路之間",
+    "expect": "REJECT",
+    "base": "tw_actual",
+    "reason": "두→셋."
+  },
+  {
+    "id": "cn_duplicated",
+    "kind": "mutant",
+    "lang": "zh-CN",
+    "key": "ui:두 길 사이:/두 길 사이",
+    "source": "두 길 사이",
+    "target": "两条路之间两条路之间",
+    "expect": "REJECT",
+    "base": "cn_actual",
+    "reason": "정상 표제를 뒤에 붙여도 중복 수량/표제는 허용하지 않는다."
+  },
+  {
+    "id": "tw_added_number",
+    "kind": "mutant",
+    "lang": "zh-TW",
+    "key": "ui:두 길 사이:/두 길 사이",
+    "source": "두 길 사이",
+    "target": "兩條路之間2",
+    "expect": "REJECT",
+    "base": "tw_actual",
+    "reason": "원문에 없는 추가숫자."
+  },
+  {
+    "id": "cn_wrong_owner",
+    "kind": "mutant",
+    "lang": "zh-CN",
+    "key": "ui:두 길 사이:/두 길 사이",
+    "source": "두 길 사이",
+    "target": "两个人之间",
+    "expect": "REJECT",
+    "base": "cn_actual",
+    "reason": "같은 2라도 길이 아니라 사람으로 소유 명사가 바뀜."
+  },
+  {
+    "id": "tw_not_between",
+    "kind": "mutant",
+    "lang": "zh-TW",
+    "key": "ui:두 길 사이:/두 길 사이",
+    "source": "두 길 사이",
+    "target": "兩條路之外",
+    "expect": "REJECT",
+    "base": "tw_actual",
+    "reason": "사이를 밖으로 바꿈."
+  },
+  {
+    "id": "cn_signed",
+    "kind": "mutant",
+    "lang": "zh-CN",
+    "key": "ui:두 길 사이:/두 길 사이",
+    "source": "두 길 사이",
+    "target": "+2条路之间",
+    "expect": "REJECT",
+    "base": "cn_digit",
+    "reason": "부호를 붙인 수량은 원문에 없음."
+  },
+  {
+    "id": "tw_zero",
+    "kind": "mutant",
+    "lang": "zh-TW",
+    "key": "ui:두 길 사이:/두 길 사이",
+    "source": "두 길 사이",
+    "target": "零條路之間",
+    "expect": "REJECT",
+    "base": "tw_actual",
+    "reason": "두→0."
+  },
+  {
+    "id": "cn_unrelated_prefix",
+    "kind": "mutant",
+    "lang": "zh-CN",
+    "key": "ui:두 길 사이:/두 길 사이",
+    "source": "두 길 사이",
+    "target": "公园两条路之间",
+    "expect": "REJECT",
+    "base": "cn_actual",
+    "reason": "원문에 없는 공원 수식어 추가."
+  },
+  {
+    "id": "tw_unrelated_suffix",
+    "kind": "mutant",
+    "lang": "zh-TW",
+    "key": "ui:두 길 사이:/두 길 사이",
+    "source": "두 길 사이",
+    "target": "兩條路之間咖啡",
+    "expect": "REJECT",
+    "base": "tw_actual",
+    "reason": "원문과 무관한 커피 명사 추가."
+  },
+  {
+    "id": "cn_money",
+    "kind": "mutant",
+    "lang": "zh-CN",
+    "key": "ui:두 길 사이:/두 길 사이",
+    "source": "두 길 사이",
+    "target": "两条路之间2韩元",
+    "expect": "REJECT",
+    "base": "cn_actual",
+    "reason": "추가 금액/원화 표기. 숫자 어댑터가 원화 검사를 면제하면 안 됨."
+  },
+  {
+    "id": "tw_token",
+    "kind": "mutant",
+    "lang": "zh-TW",
+    "key": "ui:두 길 사이:/두 길 사이",
+    "source": "두 길 사이",
+    "target": "兩條路之間{name}",
+    "expect": "REJECT",
+    "base": "tw_actual",
+    "reason": "원문에 없는 동적 토큰. 원본 token 검사는 유지."
+  },
+  {
+    "id": "off_source_one",
+    "kind": "source_off",
+    "lang": "zh-CN",
+    "key": "ui:두 길 사이:/두 길 사이",
+    "source": "한 길 사이",
+    "target": "两条路之间",
+    "expect": "OLD_PATH_EXACT_HELPER_NONE",
+    "base": null,
+    "reason": "다른 원문 수량은 새 어댑터 미적용; 원형 전체 오류목록은 사전 실제 실행으로 고정해야 한다."
+  },
+  {
+    "id": "off_source_space",
+    "kind": "source_off",
+    "lang": "zh-TW",
+    "key": "ui:두 길 사이:/두 길 사이",
+    "source": "두 길 사이 ",
+    "target": "兩條路之間",
+    "expect": "OLD_PATH_EXACT_HELPER_NONE",
+    "base": null,
+    "reason": "원문 끝 공백도 exact source 권한 밖."
+  },
+  {
+    "id": "off_key",
+    "kind": "key_off",
+    "lang": "zh-CN",
+    "key": "events:my_own_way:/name",
+    "source": "두 길 사이",
+    "target": "两条路之间",
+    "expect": "OLD_PATH_EXACT_HELPER_NONE",
+    "base": null,
+    "reason": "같은 텍스트라도 이벤트/다른 키에 예외를 확대하지 않는다."
+  },
+  {
+    "id": "off_locale",
+    "kind": "locale_off",
+    "lang": "ja",
+    "key": "ui:두 길 사이:/두 길 사이",
+    "source": "두 길 사이",
+    "target": "二つの道のあいだ",
+    "expect": "OLD_PATH_EXACT_HELPER_NONE",
+    "base": null,
+    "reason": "일본어는 기존full JA 경로이며 새ZH helper는 None. direct ZH의 기존 unsupported와 full JA 결과를 서로 혼동하지 않는다."
+  }
+]''')
+        off_baseline = json.loads(r'''{
+  "off_source_one": {
+    "direct_ZH": [
+      "unmatched target entity quantity invented: 2"
+    ],
+    "full_manual_Leaf": [
+      "unmatched target entity quantity invented: 2"
+    ]
+  },
+  "off_source_space": {
+    "direct_ZH": [
+      "unmatched target entity quantity invented: 2"
+    ],
+    "full_manual_Leaf": [
+      "unmatched target entity quantity invented: 2"
+    ]
+  },
+  "off_key": {
+    "direct_ZH": [
+      "unmatched target entity quantity invented: 2"
+    ],
+    "full_manual_Leaf": [
+      "unmatched target entity quantity invented: 2"
+    ]
+  },
+  "off_locale": {
+    "direct_ZH": [
+      "unsupported Chinese locale 'ja'"
+    ],
+    "full_manual_Leaf": []
+  }
+}''')
+        independent_diagnostics = json.loads(r'''{
+  "cn_money": {
+    "direct_ZH": [
+      "Korean-won values changed: [] != [Decimal('2')]",
+      "translation invented a Korean-won label absent from source"
+    ],
+    "full_manual_Leaf": [
+      "Korean-won values changed: [] != [Decimal('2')]",
+      "translation invented a Korean-won label absent from source"
+    ]
+  },
+  "tw_token": {
+    "direct_ZH": [
+      "placeholder/BBCode mismatch"
+    ],
+    "full_manual_Leaf": [
+      "placeholder/BBCode mismatch"
+    ]
+  }
+}''')
+
+        self.assertEqual(len(cases), 24)
+        self.assertEqual(len({row["id"] for row in cases}), 24)
+        self.assertEqual(sum(row["kind"] == "normal" for row in cases), 6)
+        self.assertEqual(sum(row["kind"] == "mutant" for row in cases), 14)
+        self.assertEqual(sum(row["kind"].endswith("_off") for row in cases), 4)
+        paths = (
+            "tools/full_game_localization.py", "tools/full_game_localization_self_test.py",
+            "tools/zh_translation_audit.py", "tools/ja_translation_pipeline.py",
+            "tools/meta_title_locale_successor.py", "autoloads/MetaProgression.gd",
+            "locale/ui_ja.json", "locale/ui_zh-CN.json", "locale/ui_zh-TW.json",
+            "tools/data/opencc_script_variants_1_3_1.json",
+            "tools/data/LICENSE-OpenCC-2.0.txt",
+        )
+
+        def pins():
+            result = {}
+            for relative in paths:
+                raw = (tool.ROOT / relative).read_bytes()
+                result[relative] = {
+                    "bytes": len(raw), "sha256": hashlib.sha256(raw).hexdigest()}
+            return result
+
+        def capture(callback):
+            stdout, stderr = io.StringIO(), io.StringIO()
+            value, exception = None, None
+            with contextlib.redirect_stdout(stdout), contextlib.redirect_stderr(stderr):
+                try:
+                    value = callback()
+                except Exception:
+                    exception = traceback.format_exc()
+            return {"value": value, "exception": exception,
+                    "stdout": stdout.getvalue(), "stderr": stderr.getvalue()}
+
+        before = pins()
+        results = []
+        for case in cases:
+            group, owner, pointer = case["key"].split(":", 2)
+            path = tuple(p.replace("~1", "/").replace("~0", "~")
+                         for p in pointer[1:].split("/"))
+            leaf = tool.Leaf(group, owner, "runtime:static_ui", path,
+                             case["source"], "ui" if group == "ui" else "event")
+            # No source collector or file at this sentinel is ever opened.
+            self.assertEqual(leaf.id, case["key"])
+            helper = capture(lambda: zh._ui_two_paths_title_numbers(
+                case["lang"], case["key"], case["source"], case["target"]))
+            direct = capture(lambda: zh.validate_text(
+                case["lang"], case["key"], case["source"], case["target"]))
+            full = capture(lambda: tool.translation_errors(
+                leaf, case["lang"], case["target"]))
+            value = helper["value"]
+            checks = {
+                "helper_no_exception": helper["exception"] is None,
+                "direct_no_exception": direct["exception"] is None,
+                "full_no_exception": full["exception"] is None,
+                "direct_error_list": isinstance(direct["value"], list),
+                "full_error_list": isinstance(full["value"], list),
+            }
+            is_off = case["kind"].endswith("_off")
+            if is_off:
+                checks["helper_exact_None"] = value is None
+                checks["direct_original_errors"] = (
+                    direct["value"] == off_baseline[case["id"]]["direct_ZH"])
+                checks["full_original_errors"] = (
+                    full["value"] == off_baseline[case["id"]]["full_manual_Leaf"])
+            else:
+                shape = (isinstance(value, tuple) and len(value) == 3
+                         and isinstance(value[0], str) and isinstance(value[1], str)
+                         and isinstance(value[2], list))
+                checks["active_tuple"] = shape
+                if case["expect"] == "PASS":
+                    checks["helper_pass"] = shape and value[2] == []
+                    checks["direct_pass"] = direct["value"] == []
+                    checks["full_pass"] = full["value"] == []
+                else:
+                    checks["helper_reject"] = shape and bool(value[2])
+                    checks["reject_preserves_original_pair"] = (
+                        shape and value[:2] == (case["source"], case["target"]))
+                    checks["direct_reject"] = (
+                        isinstance(direct["value"], list) and bool(direct["value"]))
+                    checks["full_reject"] = (
+                        isinstance(full["value"], list) and bool(full["value"]))
+            if case["id"] in independent_diagnostics:
+                retained = independent_diagnostics[case["id"]]
+                checks["independent_direct_diagnostics_retained"] = (
+                    isinstance(direct["value"], list) and all(
+                        error in direct["value"] for error in retained["direct_ZH"]))
+                checks["independent_full_diagnostics_retained"] = (
+                    isinstance(full["value"], list) and all(
+                        error in full["value"] for error in retained["full_manual_Leaf"]))
+            results.append({
+                "id": case["id"], "kind": case["kind"], "base": case["base"],
+                "lang": case["lang"], "key": case["key"], "source": case["source"],
+                "target": case["target"], "expect": case["expect"],
+                "manual_leaf": dataclasses.asdict(leaf),
+                "helper": helper, "direct_ZH": direct, "full_manual_Leaf": full,
+                "checks": checks, "passed": all(checks.values()),
+            })
+        after = pins()
+        by_id = {row["id"]: row for row in results}
+        for row in results:
+            base_id = row["base"]
+            base = by_id.get(base_id)
+            row["normal_base_passed"] = (
+                row["kind"] != "mutant"
+                or (base is not None and base["kind"] == "normal" and base["passed"]
+                    and all(base[key] == row[key] for key in ("lang", "key", "source"))))
+            row["valid_result"] = row["passed"] and row["normal_base_passed"]
+        passed = before == after and all(row["valid_result"] for row in results)
+        print("ORDER246_TWO_PATHS_FROZEN24 " + json.dumps({
+            "provenance": {
+                "spec_sha256": "704408926322a8c61f13c6d170e3621260905414954878823c08c868bbb98aae",
+                "baseline_sha256": "15e6f6de0bbdac75ee286502b1961ccbdbbc86e58882ff1b98e1e314e63a4b0e"},
+            "cases": len(results), "normal": 6, "mutant": 14, "off": 4,
+            "results": results, "input_before": before, "input_after": after,
+            "inputs_unchanged": before == after,
+            "execution_counts": {"helper": 24, "direct_ZH": 24, "full_manual_Leaf": 24,
+                                 "collector": 0, "engine": 0},
+            "limits": "Finite source-bound numeric contract; no prose/native/render/product GO.",
+            "passed": passed,
+        }, ensure_ascii=False))
+        # Report every frozen input before assertions; preserve all diagnostics
+        # even if the first normal base or a later OFF comparison fails.
+        for row in results:
+            with self.subTest(id=row["id"]):
+                self.assertTrue(row["valid_result"], row)
+        self.assertEqual(before, after, "ORDER246 validation modified an input")
+
     def test_order241_vip_empty_person_frozen_controls(self):
         import hashlib
         import zh_translation_audit as zh
