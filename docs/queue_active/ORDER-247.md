@@ -1,0 +1,60 @@
+# CI 감사 실행 스크립트 지문 정합
+
+#### [~] ORDER-247 감사 실행 지문 수리
+
+[~] 착수 — 2026-09-12, Codex. 기준 clean HEAD
+`a687a3645a5de8d81bbe54565ecc193d54ba70e6`. 기존243/244의 원인에 합치지 않는
+일회성1원인·고정25대조·1배치다. 제품 런타임·번역문은 바꾸지 않는다.
+
+## 관측과 깊이3문
+
+exact41 원격 main34691376114·mirror34691376116은 둘 다 failure다.
+실패 flag는 `FULL_GAME_RUNTIME_TRACE_SELF_TEST_EXIT`와
+`FULL_GAME_RUNTIME_TRACE_CONTRACT_EXIT`이며, 두 원인은 모두 전체 `tools/audit.sh`의
+expected af026c51/got784d936d 지문 불일치다. compile68 각PASS와 skipped 후속 입력,
+업로드 파일0을 원형대로 보존한다. 기존243/244의 로컬 통과는 원격 전체 통과가 아니다.
+
+현재 audit raw79946B/c906ff8b은 옛 sealed79593B/af026c51에 검사 등록과 실패 전파만
+더한 것이다. 당시41의79864B/784d936d에서245의 주석·successor 명령82B가 더해졌다.
+정책·teardown4블록과 runtime5파일은 원형이며, 검증 뒤 단일 현행 지문만 갱신한다.
+옛 후보 허용목록·역사 어댑터·실패 필터·항상 성공하는 우회는 만들지 않는다.
+
+없으면 정당한 검사 등록이 원격 전체 CI를 계속 막는다. 선택·24주 상태·1년/5년
+게임플레이는 변경0이다. 남은 칭호 번역과 경쟁하지만 현재 검증 기반 결함부터 닫는다.
+
+## 소유 파일
+
+- ROOT: `tools/full_game_runtime_trace_audit.py`의 `AUDIT_RUNNER_SHA256` 단일 상수와
+  근거 주석만. 기존 guard6976B/97d8060e·self50689B/a4048afd 원형 보존.
+- ROOT: `tools/audit_scope.json`에 두 trace 검사 의존 `tools/audit.sh` 등록과
+  명시 전용 `audit-runner-seal` 차선. 기존 자동 차선·실행 코드·기대값은 변경0.
+- ROOT 운영: `CLAUDE.md`, `docs/CODEX_QUEUE.md`, `docs/CODEX_QUEUE_L3_PENDING.md`,
+  본 사양·`docs/queue_archive/ORDER-247.md`, `docs/WORK_LOG.md`, `docs/STATUS.md`,
+  `docs/queue_backlog/FULL_GAME_LOCALIZATION.md`, `docs/agent_review_decisions.json`,
+  `docs/agent_reviews/ORDER-247.json`. 245/246 완료 상태만 현재 문서에 반영한다.
+- Rawls의 private 고정25는 선언 전 준비한 입력 그대로 사용한다. Poincare는
+  저작 없이 코드·원형·실행 결과를 전량 읽고 별도 최종 단위를 판정한다.
+
+`tools/audit.sh` 자체·추적 runtime/profile·게임플레이·KO/EN·UI3·수용38698/b100/meta9·
+인간 원장·`project.godot`·손상 로컬 mirror는 변경0이다. 새 실패는 별도 범위다.
+
+## 구현 전 고정과 검증
+
+private `order244-runtime-trace-seal-controls.json` 32042B,
+SHA `ab3e1a82d8e370915eff2105105aad26849351f86cff72e1602b5c51493eeb14`와
+driver12546B/`51bb111851ee0518ff5013cccd19a576c60977b19f96e04b86b738367ab088a1`를
+그대로 쓴다. 파일명의244는 준비 시점일 뿐 이 수리를 기존244 범위에 넣지 않는다.
+현재 정상1·기존 변조20·옛 raw/실패41 raw/exit 초기화/집계 제거4의25다.
+선언 commit 뒤 baseline25를 먼저 관측하고 stdout·stderr·exit·입력 전후 지문을
+전량 저장한다. 정상 실패 상태에서 변조 거부를 유효 PASS로 세지 않는다.
+상수 수리 뒤 같은 입력25를 실제 guard로 검사한다. 대부분 whole hash에서 거부되므로
+이를 깊은 의미 guard25개를 독립 실행한 것처럼 표현하지 않는다.
+
+최종 영향 검사는 명시 차선 self·normal·등록과 상시 context·queue의 고유5개다.
+기존 runtime/locale 입력은 raw로 비교하며 old245 언어 전량·Godot·로컬 full audit는
+재실행하지 않는다. 독립 검수와 새 clean source/review 신원을 발급한 뒤 사용자 요청
+동기화 범위 main/원격 mirror를 FF해 새 exact CI를 각1회 요청한다. 원격이 아직
+미완료이거나 실패면 이를 성공으로 닫지 않고 상태와 다음 실제 범위를 남긴다.
+
+자동 PASS는 계약·회귀 증거이며 재미·문체·화면·원어민·인간 실플레이·본편 GO가 아니다.
+공개 GO1·인간 OPEN45·본편 HOLD를 유지한다. 작업 제한은 일회성이며 새 규범은 없다.
