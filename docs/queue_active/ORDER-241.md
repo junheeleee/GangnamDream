@@ -50,3 +50,15 @@ Rawls 소유이며 그대로 보존한다. 완료·검증 뒤 main/mirror를 동
   해당하며 공개GO1/인간OPEN45/본편HOLD와 native/render 미관찰은 보존한다.
 
 규범 승격 없음: 기존 I18N·WORK_UNIT 적용. 정확 원문·소유·검수는 일회성이다.
+
+## 2026-09-12 중간 결과 — 최종 판정 전
+
+- 독립 고정30은 정상10·유효 정상에 연결된 변조14·OFF6이다. 같은 원형코드에서
+  실제2/OFF6을 먼저 기록하고 helper+hook·새 self1만 구현했다.
+- 첫 post30 PASS/14입력 전후exact. 기존 일반 parser·258 self·원 target 검사는 보존했다.
+  ROOT 같은240 L1의90개는 산문 수정 없이2오탐→0이다.
+- 로컬 코드 checkpoint `0bbf6a1`; git-private `order241-controls.json`,
+  `order241-pre-code-baseline.json`, `order241-post-code-result.json`에 원형을 보존했다.
+  완료231/230 원문2080B만 이력 앞에 이동했고 다른 WORK bytes/EOF2는 역복원 exact다.
+- 240과 명시9/전체수용 L1을 공유하며 비저자 exact-source 최종 검수는 별도다.
+  공개GO1·인간OPEN45·본편HOLD. 검사 통과는 재미·깊이·문체·인간 판정이 아니다.

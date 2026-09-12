@@ -14,8 +14,8 @@
   원문 도달·화면·자연스러움은 별도 검사한다. 실제 결말 판정 로직은 변경0이다.
 - catalog: assets/jobs/items/achievements/clues/thoughts/news 7섹션/834 leaf.
 - UI: 정적·문맥 key와 동적 pair를 합집합으로 계측한다. 기존 demo 동적 701키만
-  본편 전체 동적 분모인 것처럼 사용하지 않는다. 현재 정적/문맥 2,877와 demo
-  동적의 합집합은 3,569키, 전역 미확정 후보 329를 더한 포착 분모는 3,898키다.
+  본편 전체 동적 분모인 것처럼 사용하지 않는다. 현재 정적/문맥 2,878와 demo
+  동적의 합집합은 3,570키, 전역 미확정 후보 329를 더한 포착 분모는 3,899키다.
   JSON 계약·관계 표시 이름·독립 이름표·분기 조립문까지 확인 전에는 이 수를
   최종 전체 UI 분모라고 부르지 않는다.
 - runtime: 대상 언어 overlay가 모든 수집 필드를 실제로 읽는지, 조건별 reader,
@@ -26,8 +26,8 @@
   기본 내장 overlay는 Chapter5 reader를 지원하지만 커뮤니티 sanitizer는 별도다.
   기존 i18n skeleton 검사에서 JA/ZH reader 누락을 허용하는 경로는 full strict
   완료 근거로 쓰지 않는다. 중국어 CJK AUTO 속도 분기는 이미 정상이다.
-- 현재 수집된 번역 leaf는 17,387다(최초17,408에서 비표시 엔딩 메타34 분리 뒤
-  관계 표시용 고유 UI키13 추가). 정적 계약 지원17,058, 소비자 미확정329를 분리한다. foreshadow6의
+- 현재 수집된 번역 leaf는 17,388다(최초17,408에서 비표시 엔딩 메타34 분리 뒤
+  관계 표시용 고유 UI키13·중립 유형1 추가). 정적 계약 지원17,059, 소비자 미확정329를 분리한다. foreshadow6의
   builtin-overlay validator를 보강했으며 표시 완료나 외부팩 지원은 아니다. 관계 표시명
   21위치는 별도 occurrence 증거에서14개 UI키로 연결되며 event leaf로 더하지 않는다.
   portable 원장 상단의 source_revision/분모는 역사 스냅샷으로 보존하며 현재 수집기와 혼동하지 않는다.
@@ -45,7 +45,9 @@
   주거·건강25종176 leaf/locale와 직장·구직25종194 leaf/locale와 생활비25종186 leaf/locale와 가족25종172 leaf/locale와 생활 전환25종178 leaf/locale와 생활·숨은 사건25종198 leaf/locale와 회상·첫 생활25종158 leaf/locale와 후반 이정표·갈림길25종189 leaf/locale와 창업·크리에이터·회복20종146 leaf/locale와 가족·일상15종104 leaf/locale와 소비·독립 생활15종104 leaf/locale와 관계·투자 후속33종200 leaf/locale와 마지막 질주·선택의 대가36종214 leaf/locale와 투자·인연 후속32종194 leaf/locale와 판단의 비용·작은 회신25종148 leaf/locale와 관계의 다음 말·책임20종120 leaf/locale와 투자·사람 후속32종192 leaf/locale와 가족·회복·관계40종238 leaf/locale와 절제·신뢰·생활43종254 leaf/locale와 거절·재기·연락45종268 leaf/locale와 일·신뢰·되돌림43종258 leaf/locale와 생활 인연·마지막 전략19종114 leaf/locale와 어머니·일·살림20종116 leaf/locale와 친구·직장·살림17종92 leaf/locale와 아버지·관계·목표15종90 leaf/locale와 현수·가족·건강·목표41종246 leaf/locale와 직장·투자·이별40종240 leaf/locale와 소비·습관·도박·인연42종252 leaf/locale와 비교·돌봄·관계·재기40종240 leaf/locale와 도움·경계·가족·인맥16종96 leaf/locale와 투자·직장·불안·자기기준40종274 leaf/locale와 투자 연쇄·한국 생활38종276 leaf/locale와 계절·동네·취미39종242 leaf/locale와 도시 휴식·도박·우정39종238 leaf/locale와 카페·만남·SNS37종220 leaf/locale와 나비효과·친절의 연쇄24종144 leaf/locale와 생활 선택·부채·직장24종169 leaf/locale와 선택 후속·미응답 약속18종114 leaf/locale와 직장·전문화19종126 leaf/locale와 선택 회수·목표 재고23종177 leaf/locale와 인물의 다음 삶19종124 leaf/locale와 초기 인연·투자·카지노19종135 leaf/locale와 첫 생활·인연24종197 leaf/locale와 연말·부모·회복20종154 leaf/locale와 중반 생활20종169 leaf/locale와 후반 이정표·NG+22종197 leaf/locale와 이스터에그·초기 코어20종116 leaf/locale와 초기 코어22종140 leaf/locale까지 총37,938번역이다
   (언어별 엔딩234+사건11,578+catalog834). 별도 중국어 UI4와 기록 불러오기 UI24키×3,
   엔딩 통계·재시작23단위·UI42키×3까지38,437을 수용했고, 관계 이름14+새로그6의
-  세 언어60을 더해 총38,497(JA12,831·CN/TW각12,833)이다. 전체 UI 완료가 아니다.
+  세 언어60으로38,497을 수용했다. 관계패널30키×3의90을 더해 총38,587
+  (JA12,861·CN/TW각12,863)이다. 전체 UI 완료가 아니다. 이번90은 JA기존28 직접
+  검수·6정밀화/2신규와 CN/TW각30신규이며, 이전 연인·empty key는 삭제하지 않았다.
   관계 배치는 JA기존7 보존·13신규와 CN/TW각20신규이며 이름 저장·ID·과거로그는 바꾸지 않는다.
   이전126은 기존JA42 검수·5정밀화와 CN/TW신규84였고 엔딩 기록156·설정60과 별도 검수다.
   저장 UI72는 기존JA24 검수·2정밀화와 CN/TW 신규48, 갤러리 UI81은 기존JA27 검수·3정밀화와
@@ -84,12 +86,17 @@
   RelationshipSystem 종료/passive의 이름 읽기4곳을 연결했다. 현재21위치/14종과
   resolved/unresolved를 별도 관측하며 event leaf 추가0이다. 별도 저장 공간의 실제 component65는
   5언어 이름Label·새로그·상태/이름 보존을 통과했고 렌더/인간 플레이 증거는 아니다.
-  다음 관계패널31키 중 가족1은 기수용이며 중국어 각30키가 남는다. 소개팅·썸·전 연인도
-  romantic→연인/Partner로 분류하는 기존 태그는 별도 중립화 대상이다. 저장type·효과는 유지한다.
+  관계패널31키 중 기수용 가족1을 보존하고 나머지30을 세 언어로 수용했다.
+  romantic 표시는 연애 관련/Romance로 중립화하고 empty는 실제 이야기 진행으로 안내한다.
+  actual-node80·기존65 회귀와 수량 오탐 고정30은 렌더·원어민 검수가 아니다.
+  소개팅·썸·전 연인 저장type/이름·효과는 유지한다. 인접 VIP 완료/toast2와
+  GameState 새 인연1은 미선택이며 전체 패널·게임 UI 완료로 세지 않는다.
   그 뒤는
-  `MetaProgression._localized_title`, `GameState.tendency_name/tendency_desc`,
+  `MetaProgression._localized_title`,
   `_localized_route_label/_localized_profile_label/_roll_run_theme`,
   `HoldemClub._fmt`의 non-KO=EN 분기를 개별 표시 계약으로 검사한다.
+  `GameState.tendency_name/tendency_desc`는 외부 caller0인 휴면 호환 helper다.
+  현재 자각 모달은 별도 `_tr` 산문3을 읽으므로 휴면6문구만 번역해 표시 수리로 세지 않는다.
   `MainGame._choice_effects_preview`의 건강/정신은 기존 `_tr` 소비자로 연결했다.
   CN/TW 사전의 해당 키 부재·다른 소비자까지 완료한 것은 아니다. 번역 파일만
   채워도 남은 소비자는 저절로 바뀌지 않는다.

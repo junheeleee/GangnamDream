@@ -50,8 +50,8 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-241 · 중국어 단수 생략 검사 오탐 | [241](queue_active/ORDER-241.md) | VIP 한 사람 수량만 수리 · 본편 HOLD |
-| 2 | [~] | ORDER-240 · 관계 패널 현지화·표시 수리 | [240](queue_active/ORDER-240.md) | source2·UI30·격리 검수 착수 · 본편 HOLD |
+| 1 | [~] | ORDER-241 · 중국어 단수 생략 검사 오탐 | [241](queue_active/ORDER-241.md) | 고정30·오탐2 수리 · 최종 검수 진행 · 본편 HOLD |
+| 2 | [~] | ORDER-240 · 관계 패널 현지화·표시 수리 | [240](queue_active/ORDER-240.md) | 90수용·actual80/회귀65 · 최종 검수 진행 · 본편 HOLD |
 
 [활성 L3 검수 대기 행 이어보기](CODEX_QUEUE_L3_PENDING.md) <!-- queue-index-include -->
 

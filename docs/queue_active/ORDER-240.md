@@ -73,3 +73,20 @@ JA 용어집의 관계→人間関係와 현재 関係 불일치도 선택키 �
    공개 GO1·인간 OPEN45·본편 HOLD 유지. 전체감사/240주/패키지·공개 출시0.
 
 규범 승격 없음: 기존 I18N·ROMANCE·WORK_UNIT 적용. 이번 두 source·30키·소유·검수는 일회성이다.
+
+## 2026-09-12 중간 결과 — 최종 판정 전
+
+- source2·collector 현재-view 구현, JA/CN/TW90 전량 대조 뒤 공식 수용했다.
+  final export/check/import clean `0bbf6a1344ab0166b7feb11302843d8fbb526487`,
+  portable `d7733c4`에서38,587/b98. 기존38,497/b97/meta9 역복원 exact.
+- 첫 L1은90 중 Chinese2 수량 오탐. 별도241 수리 뒤 같은90 오류0이며 원문·target·
+  나머지 필드 exact다. 실제 단수 번역과 첫 실패 원형을 유지했다.
+- actual-node80 첫 실행70/80(표시80일치·상태10실패)을 보존했다. 초기화 후의
+  상태를 before로 잡는 harness 수리만으로 같은80 PASS, 수치 기대·43hint 그대로다.
+  첫 hash만으로 원래 상태 delta를 관측했다고 쓰지 않는다. 기존65는 원형으로1회 PASS.
+- 원형·최종 증거는 git-private `order240-relationship-panel-final.json`,
+  `order240-prior65-replay.json`, `order240-repaired-l1.json`, `order240-official-*.json`.
+  실제 렌더·원어민·인간 플레이·기존 플레이어 disk save 왕복은 미관찰이다.
+- 241과 합친 `relationship-panel-vip-quantity` 차선은 기존8과 ZH self1의9개다.
+  두 오더의 공유 검사를 최종 입력에서 한 번 실행한다. 전량 수용 L1과
+  비저자 exact-source 최종 판정 뒤에만 닫는다. 현재 공개·인간 원형/본편 HOLD다.
