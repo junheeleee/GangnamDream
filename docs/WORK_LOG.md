@@ -4,6 +4,15 @@
 > [9/12 현지화 보존본](history/WORK_LOG_2026-09-12_localization.md)에 손실 없이 보존한다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg`로 필요한 항목을 찾는다.
 
+## 2026-09-13 (Codex — 두 칭호 설명 선행 수리 선언)
+
+- 독립 원문 판정98030d93와 최소영향 RO b91bcd68에 근거해254를 별도 선언했다.
+  clean_run/father_peace KO·EN 설명4리터럴만 정밀화, 조건·이름·UI·수용38878은 불변이다.
+- 문구4·source/test18·기존410+새5 fixture를 독립 승인한 뒤 적용한다. 새 번역66은 다음 단위다.
+  원형 helper/self·JA/Chapter·실제 상태/저장을 유지하며 현재는 private 준비만 착수한다.
+- Network/White/Daeun은 비선택. 과거 엔딩 산문의 등기와 실제 소유 정합 채무는 남긴다.
+  공개GO1·인간OPEN45·본편HOLD 유지. a88e5c8 원격CI는 이 새 source의 증거가 아니다.
+
 ## 2026-09-13 (Codex — 도감 안내 번역 내부 마감)
 
 - 비저자 Poincare253 LOCAL work_unit GO, source225300a·검토fcc8bfd 한정이다.
