@@ -1,0 +1,173 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-257",
+  "scope": "work_unit",
+  "reviewer": "Poincare",
+  "authority": "user_delegated_agent_final",
+  "role": "Independent Korean-source/language54, driver and final acceptance reviewer; no product or QA authorship. Rawls authored the language and independently reviewed Plato's scope emitter. Plato independently reviewed ROOT's named driver. ROOT applied products and executed every recorded check.",
+  "subject": {
+    "kind": "source",
+    "commit": "1b17753156b9e5ef9f9590b7a7ef872f148ac0da",
+    "tree": "9bf3f010153ac8ed4a2b6bb3c38c481d26538c51",
+    "manifest_sha256": null
+  },
+  "review": {
+    "commit": "61cac6d18e7b41c8faac49c75a3ab8e875488d4d",
+    "tree": "b36f2a4257dc1e8021c83e34a0abaccc827ec395",
+    "clean": true,
+    "source_resolver": "Read current resolver and observed exact parent/diff: STATUS-only wrapper over source containing the CLAUDE size repair; CLAUDE/backlog are not metadata exemptions."
+  },
+  "verdict": "GO",
+  "required": [],
+  "optional": [],
+  "decision": "ORDER-257 work_unit GO for the declared existing18 system-modal source keys, Chinese26 additions, protected existing28 values and official54 machine acceptance. This does not approve actual modal/save-load behavior, rendering, native fluency, human play, a remote release or the full product.",
+  "population": {
+    "language": "18 Korean/English surfaces × JA/CN/TW =54. All54 reviewed directly from Korean; new CN13/TW13, preserved JA18 plus CN5/TW5=28. Public shared5×3=15 unchanged.",
+    "source": "Actual preflight18 unique leaves/owners across5 MainGame functions:17 legacy lookups and1 format template. Source collection denominator17484 unchanged. This is static parser/collector evidence, not18 actual modal executions.",
+    "acceptance": "38968→39022; batches105→106; internal metadata9 unchanged. Official18 per locale includes identical protected values, without rewriting them.",
+    "QA": "First all39022 L1 passed on86482. First actual fixed12 had11PASS/context-onlyFAIL. After a same-meaning CLAUDE size repair, the same12 passed on61cac. No new test or count was added; no engine/545/ManualSave/Chapter replay."
+  },
+  "readscope_and_method": [
+    "Read all approved54, actual owner/L1/application evidence, all three full source/response/receipt records and raw official-phase streams; independently recomputed selection/batch/source/target/receipt digests.",
+    "Verified captured response and portable patches in memory, actual UI54, Chinese13-only whole inverses and old38968 portable whole raw inverse against the actual baseline Git blobs.",
+    "Read the scope/named independent reports and final driver deltas; verified actual selected12 and all child raw pipe bytes, diagnostics, exit codes and unchanged-input records.",
+    "Bound second named1589 to current raw and exact review Git blobs. Bound old all-L1's1194 to the final source/current bytes without relabeling it a new-source execution.",
+    "Read-only Git and standard-library calculations only. No repository module, collector, QA, engine, player-save or remote call; wrote only private reviews."
+  ],
+  "findings": {
+    "language_and_context": "Required0. Settings/save/load polarity, range1–5/6–10, exact placeholder order %d,%d,%s (chapter/turn/total-assets won), Japanese range glyphs and public15 retained. Saved metadata.label still takes precedence over fallback; existing user labels are not translated by this unit.",
+    "application": "Whole JA unchanged. Removing only approved13 suffix entries per Chinese UI restores each baseline whole raw exactly. MainGame, StoryMode, LocaleManager, SaveManager, source collectors, checker code, audit.sh, project and human evidence remain unchanged.",
+    "official_acceptance": "Export/check/import at clean22481ebe each ran3 locale children with exit0 and captured1194 unchanged. Check/import changed_files0 because target UI was already applied. All receipt18×3 records match approved/current values; receipt digests and response headers exact. Removing only new54+b106 and recomputing accepted digest restores old10136810B/3b9966bb… whole raw. Other portable fields and metadata9 exact.",
+    "scope_and_drivers": "One explicit-only lane paths=[] added; removing1666 raw bytes restores previous scope entirely. Ten registered tools plus two existing always checks select actual12. Exchange B3→applied is gate/approved-SHA only; all-L1 is gate only. Named B2→first is gate only; first→second changes output path and explanatory limits only. No validation/expectation weakening.",
+    "preparation_history": "Exchange B1 static REWORK2 (owner provenance versus bare function and missing explicit JA import), intermediate B2 and final B3 preserved. Named B1 static rename-source omission repaired by --no-renames before execution. These were not executed QA failures. Optional unavailable-before behavior remains in the driver, but both actual attempts have real before/after maps, so it was not triggered.",
+    "first_actual_failure": "First12 at86482 had only context failure: CLAUDE18013 bytes exceeded the unchanged18000 cap. All12 raw children and outer capture are preserved. ROOT compressed one same-meaning sentence by14 bytes to17999 and recorded the failure; no checker cap or selected population changed.",
+    "final_QA": "Second12 all exit0: fullself262, EN clean, JA pipeline146, JA UI2974/errors0 beta, ZH12446 skeleton, story-demo self4 mutations/4 fixtures and normal5 locales, registry146, queue25/fence4, agent222/HOLD, context373 and active77/in_progress75. One child stderr contains unittest progress/OK;18 EXTRA advisories persist. ZH437/2945/context5/29 and glyph1388/1416 are limited static coverage, not actual rendered fluency.",
+    "evidence_reuse": "All39022 L1 zero errors was executed on86482, not on final61cac. Its1194 product/human inputs are exact across final source/current/Git. First checked86482→newsource1b177 changes only CLAUDE/WORK; newsource→review61cac only STATUS. Comparing oldsource81dd directly also includes the inherited STATUS wrapper. Same12 was actually rerun after repair; eleven non-context stdout streams are byte-exact across attempts.",
+    "preservation": "Baselinec36→finalsource has9 changed paths (owned products4 plus operating5), all within14 declared paths. No game/collector/checker/runtime code changed. Old42 agent decisions are whole-raw unchanged; human done1/open45 and publicGO1 history remain unchanged. Existing97/98 and full-product HOLD are not closed."
+  },
+  "measurements": {
+    "official_source_commit": "22481ebe2d69953a896072657301825ca09d2dba",
+    "final_named_attempt": 2,
+    "final_named_children": 12,
+    "final_named_seconds": 97.62930783399999,
+    "final_named_outer_seconds": 97.920070208,
+    "final_named_inputs": 1589,
+    "outer_product_inputs": 1194,
+    "first_all_L1_seconds": 71.054177708,
+    "inner_all_L1_seconds": 70.71208370800001,
+    "accepted": 39022,
+    "accepted_by_locale": {
+      "ja": 13006,
+      "zh-CN": 13008,
+      "zh-TW": 13008
+    },
+    "batches": 106,
+    "retained_internal_metadata": 9,
+    "portable": {
+      "bytes": 10151441,
+      "sha256": "3b3bac464c2c4439a290197ac7945bee50b6d6925dfd03f1c8d78e62421a3c72"
+    },
+    "accepted_sha256": "defc946a5b331408d163e655b40ecd4a13a86c41be67970431515da4dc9696c6",
+    "source_manifest_sha256": "89c131c71345c3f27df36c0bacfa1a0791fca680b7eca4ed1d3a3ef30ee7170e",
+    "unsupported": {
+      "unresolved_json_pair": 138,
+      "legacy_language_branch": 22,
+      "unverified_dynamic_pair": 329
+    }
+  },
+  "evidence": {
+    "final_binding": {
+      "path": ".git/full-game-localization/order257-final-independent-binding.json",
+      "bytes": 33852,
+      "sha256": "d66cb78c94aaa76a0b5cb35aea72d4870146540fc6857ef91316d04cdb2e51ae"
+    },
+    "language": {
+      "path": ".git/full-game-localization/order257-language-independent-review.json",
+      "bytes": 8170,
+      "sha256": "f7d86e19a6f735e78177bdd4536386ace60d79bbeb53fa72c4d24f6eaf0e8886"
+    },
+    "actual_UI_owner_L1": {
+      "path": ".git/full-game-localization/order257-applied-ui-independent-review.json",
+      "bytes": 8705,
+      "sha256": "dd6d99d90128b21b5c25c589f1f1b9098486e6b006164e41f7d397ee45936238"
+    },
+    "ROOT_drivers": {
+      "path": ".git/full-game-localization/order257-root-drivers-independent-review.json",
+      "bytes": 6913,
+      "sha256": "e705ec1439bb4a27e370d27b218dc80a465244ddcb1e1ff34666cb908c8a6a04"
+    },
+    "scope_independent": {
+      "path": ".git/full-game-localization/order257-scope-independent-review.json",
+      "bytes": 5770,
+      "sha256": "d582e86c12afc56fdfc2a4c639b33392790ce9d5c4f828f8919f45387b1016c2"
+    },
+    "named_independent": {
+      "path": ".git/full-game-localization/order257-named-independent-review.json",
+      "bytes": 9417,
+      "sha256": "719b84467c1e875f3fb7fae2339ccf0c1f32e9c12424771831256d31ed280d67"
+    },
+    "export": {
+      "path": ".git/full-game-localization/order257-export-first.json",
+      "bytes": 386131,
+      "sha256": "c87fe71afdc1f636650b926478ba1e80b5bc68e58ad7009d3202f58250ed4731"
+    },
+    "check": {
+      "path": ".git/full-game-localization/order257-check-first.json",
+      "bytes": 384756,
+      "sha256": "19f34ce296c045cd3091df257800c9062f2eb53491f561e9f8750184c7f7020c"
+    },
+    "import": {
+      "path": ".git/full-game-localization/order257-import-first.json",
+      "bytes": 384967,
+      "sha256": "f50f3b927ded59ff7e7cb013be1a4ca87317741b2020c92d92f5ff0d8b720a85"
+    },
+    "responses_emitter": {
+      "path": ".git/full-game-localization/order257-responses-emitter-first.json",
+      "bytes": 414475,
+      "sha256": "1b1fc11d3467f0b386f5c348f2ff00772dd5cc2551f3c76b3c9ffb5724325af1"
+    },
+    "portable_emitter": {
+      "path": ".git/full-game-localization/order257-portable-emitter-first.json",
+      "bytes": 417275,
+      "sha256": "7cbd10a98f49d506ad425894240c5d567d55b089c669e1c16af6c7aeb21d82b3"
+    },
+    "first_named_FAIL": {
+      "path": ".git/full-game-localization/order257-named-first.json",
+      "bytes": 1129283,
+      "sha256": "54e97225abc9bd33aba00108bfeda7dc68a99bd8675841557ba1f4f506d4b4f6"
+    },
+    "first_named_outer_FAIL": {
+      "path": ".git/full-game-localization/order257-named-first-launch.json",
+      "bytes": 377117,
+      "sha256": "4ac187180c0546a04a030e215795b6d865030c633e230a854c83962ddff39d47"
+    },
+    "allaccepted_first": {
+      "path": ".git/full-game-localization/order257-all-accepted-l1-first.json",
+      "bytes": 377330,
+      "sha256": "c83198dd2227febca946c0ead8415127f0273510d6d75054f1757f9f4a137ef8"
+    },
+    "second_named_PASS": {
+      "path": ".git/full-game-localization/order257-named-second.json",
+      "bytes": 1129517,
+      "sha256": "4eeab97228ab20d04635b915347c2e1881a948b047919d45c887536f553d6abb"
+    },
+    "second_named_outer_PASS": {
+      "path": ".git/full-game-localization/order257-named-second-launch.json",
+      "bytes": 377117,
+      "sha256": "e97906d39b89ad260b62e68ea9cb6755c4b3ced58255c0be14d9c1a40960acc1"
+    }
+  },
+  "unobserved": [
+    "actual_system_modal",
+    "same_open_modal_language_refresh",
+    "actual_save_load",
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_rendered_localization",
+    "new_engine_545",
+    "new_full_remote_CI",
+    "full_product_quality",
+    "external_release"
+  ]
+}

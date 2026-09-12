@@ -1,3 +1,25 @@
+# ORDER-257 — 시스템 모달 번역·공식 수용 결과
+
+[x] ORDER-257 — 2026-09-13. Poincare LOCAL work_unit GO.
+
+제품 source 1b17753156b9e5ef9f9590b7a7ef872f148ac0da / tree 9bf3f010153ac8ed4a2b6bb3c38c481d26538c51
+clean 검토 61cac6d18e7b41c8faac49c75a3ab8e875488d4d / tree b36f2a4257dc1e8021c83e34a0abaccc827ec395
+
+## 결과와 관측 경계
+
+ORDER-257 work_unit GO for the declared existing18 system-modal source keys, Chinese26 additions, protected existing28 values and official54 machine acceptance. This does not approve actual modal/save-load behavior, rendering, native fluency, human play, a remote release or the full product.
+
+- language: 18 Korean/English surfaces × JA/CN/TW =54. All54 reviewed directly from Korean; new CN13/TW13, preserved JA18 plus CN5/TW5=28. Public shared5×3=15 unchanged.
+- source: Actual preflight18 unique leaves/owners across5 MainGame functions:17 legacy lookups and1 format template. Source collection denominator17484 unchanged. This is static parser/collector evidence, not18 actual modal executions.
+- acceptance: 38968→39022; batches105→106; internal metadata9 unchanged. Official18 per locale includes identical protected values, without rewriting them.
+- QA: First all39022 L1 passed on86482. First actual fixed12 had11PASS/context-onlyFAIL. After a same-meaning CLAUDE size repair, the same12 passed on61cac. No new test or count was added; no engine/545/ManualSave/Chapter replay.
+
+공개 GO1·인간 OPEN45·본편 HOLD 유지. 실제 모달·열린 모달 갱신·저장/불러오기·렌더·원어민·인간 플레이·물리 패드·새 원격 후보·외부 출시 GO가 아니다. 세부 첫 결과와 한계는 독립 보고 원문을 따른다.
+
+[독립 최종 보고](../agent_reviews/ORDER-257.json) · SHA 9a66da037f0549b1e03b78dd794f9e5263db7ce149cf2d87d1f4439a6a50e851
+
+## 선언·진행 원문 보존
+
 # 시스템 모달의 남은 일본어·중국어 번역 수용
 
 #### [~] ORDER-257 시스템 설정·저장 번역

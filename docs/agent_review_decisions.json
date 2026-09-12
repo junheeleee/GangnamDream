@@ -1787,6 +1787,52 @@
         "path": "docs/agent_reviews/ORDER-244.json",
         "sha256": "2b67aa709135bb5acb48dbb4dc9ed965f0e8de8bd8b1da5a06f28b15c627e7e4"
       }
+    },
+    {
+      "id": "order-257-source-1b17753-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-13",
+      "decided_by": "Poincare",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-257",
+      "subject": {
+        "kind": "source",
+        "commit": "1b17753156b9e5ef9f9590b7a7ef872f148ac0da",
+        "tree": "9bf3f010153ac8ed4a2b6bb3c38c481d26538c51",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-257.json",
+          "sha256": "9a66da037f0549b1e03b78dd794f9e5263db7ce149cf2d87d1f4439a6a50e851"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/queue_archive/ORDER-257.md",
+          "sha256": "3048825349c0734a166d8d9acb6f6bd1178178a9898e3b318b8ea7c24639a50b"
+        }
+      ],
+      "unobserved": [
+        "actual_system_modal",
+        "same_open_modal_language_refresh",
+        "actual_save_load",
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_rendered_localization",
+        "new_engine_545",
+        "new_full_remote_CI",
+        "full_product_quality",
+        "external_release",
+        "actual_system_modal_interaction"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-257.json",
+        "sha256": "9a66da037f0549b1e03b78dd794f9e5263db7ce149cf2d87d1f4439a6a50e851"
+      }
     }
   ]
 }
