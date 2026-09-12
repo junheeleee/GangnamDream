@@ -158,10 +158,12 @@ skipped이며 업로드 파일도 없었다. 이 새 원인은 별도 좁은 수
   판정은 후속 증거에 결속했다. bonus/top8키의 세 언어24를 더해38968
   (JA12988/CN·TW12990)/b105/meta9이며 이전38944 raw역복원exact다. 같은Button 언어갱신을
   수리하고 cleanf10a92a에서 기존520+새25의 actual545를 첫 통과했다. 새state65와
-  settings35는 별도 관측이며 렌더·원어민·사람플레이가 아니다. 전체수용 회귀·고유13·최종독립은
-  해당 큐/원장이 소유한다. 다음 표시 계약은
-  `_localized_route_label/_localized_profile_label/_roll_run_theme`,
-  `HoldemClub._fmt`의 non-KO=EN 분기를 개별 표시 계약으로 검사한다.
+  settings35는 별도 관측이며 렌더·원어민·사람플레이가 아니다. 전체수용 회귀·고유13과
+  독립 단위GO로 마감했다. 다음은 기존 시스템 모달18키/54기록의 번역·수용이다.
+  JA18·공개공유15 원형을 보존하고 CN/TW각13만 추가하며 새수용은 아직0이다.
+  이후 `_localized_profile_label/_roll_run_theme`와 `HoldemClub._fmt`의 non-KO=EN 분기를
+  실제 표시 계약으로 검사한다. `_localized_route_label`의4매핑은 현재 caller0이므로
+  이를 번역하거나 노출해 플레이어 표면 수리·진척으로 세지 않는다.
   `GameState.tendency_name/tendency_desc`는 외부 caller0인 휴면 호환 helper다.
   현재 자각 모달은 별도 `_tr` 산문3을 읽으므로 휴면6문구만 번역해 표시 수리로 세지 않는다.
   `MainGame._choice_effects_preview`의 건강/정신은 기존 `_tr` 소비자로 연결했다.
