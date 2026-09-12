@@ -4,6 +4,23 @@
 > [9/12 현지화 보존본](history/WORK_LOG_2026-09-12_localization.md)에 손실 없이 보존한다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg`로 필요한 항목을 찾는다.
 
+## 2026-09-13 (Codex — 보너스24 검토·같은Button 수리 적용)
+
+- KO 직접24 독립 검토90eee54b 필수0. 승인bc0ca399에서 CN/TW각8을 추가하고 JA8은 원형 유지했다.
+  이전 UI 전체 raw 역복원exact이며 공식수용은 아직38944/b104 그대로다.
+- clean e330e95/tree258e6f14 첫baseline20 capture완료/0.815520083초, 외부1194·내부10 불변이다.
+  새API3/registry2 부재·유효변조0이며 실제 OFF 원진단2개를 별도 결속했다. 새post PASS가 아니다.
+- 비저자 frozen20 뒤 source4 B1의 정상선행·실패bytes보존2 지적을 B2에서 수리했다.
+  f0f4c9eb 필수0·ROOT 전량독해 뒤 Main3/helper/CI/meta를 적용했고 oldwhole4 inverse exact다.
+  oldCI10/meta56 함수와 모든 기존 기대는 원형이며 최초 계획의 CI11 집계오차만 명시 정정했다.
+  CI embedded codeview52ae7c24와 APPLIED fullraw ddd6797b는 다른 핀이다. phase/provenance만
+  바꿔 외부7a59e88b에 실제4원형을 결속했다. meta 정상선행1은 새20 중복/추가모집단이 아니다.
+- source20+old28 첫post와 실제545는 다음 실행이다. 신규25 계획·old520·공식24·원어민/렌더/인간을 구분한다.
+  새 고유13 차선만 등록했으며 MP/GS/LM/조건/저장ID/개인저장·인간원장은 바꾸지 않았다.
+- 이전b359 CI34710035339/34710035341 양쪽 completed/success 확인. raw 로그의 종료resource
+  ERROR는 main1행(수량2)/mirror4행(1,1,3,2), ObjectDB1/4행이며 script/parse0다.
+  새e330 정적2job성공·engine2job진행 중 관측과 구분하며 이후 제품의 성공으로 빌리지 않는다.
+
 ## 2026-09-13 (Codex — 칭호 보너스·언어 갱신 착수)
 
 - [별도 선언](queue_active/ORDER-256.md): visible8×JA/CN/TW24와 같은Button 언어 갱신만 맡는다.

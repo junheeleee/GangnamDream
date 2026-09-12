@@ -6108,5 +6108,100 @@ def _last11_main():
           +f" current={len(results)}/26 historical18_23_19_24_18={historical['passed']} unchanged={unchanged}")
     return 0 if passed else 1
 # END_LAST11_META_TITLE_SELF_255
+
+# BEGIN_TITLE_BUTTON_META_SELF_256
+def _title_button_meta_main():
+    """Validate new physical files, then run original26/18/23/19/24/18 once."""
+    current_ci = None
+    before, after, fatal, trace = None, None, None, None
+    stdout, stderr, view = io.StringIO(), io.StringIO(), {}
+    code, parsed, marker, parse_error = None, None, None, None
+    logical_exact, old_ok = False, False
+    prerequisite = {"passed": False, "skipped": "physical preparation incomplete"}
+    counts = {"normal_prerequisite": 0, "new20": 0, "historical255_main": 0, "engine": 0, "collector": 0}
+    try:
+        current_ci = importlib.import_module("ci_localization_reconciliation_self_test")
+        before = current_ci._title_button_physical_pins()
+        current, previous, old220 = current_ci._title_button_prepare()
+        # A standalone/meta-first invocation must observe the same frozen normal
+        # through all eight actual endpoints before opening the historical view.
+        # This is one prerequisite, not a new population or another current20.
+        normal = current_ci.TITLE_BUTTON_SPEC["cases"][0]
+        if normal["id"] != "current_exact" or normal["kind"] != "normal":
+            raise AssertionError("frozen normal prerequisite identity differs")
+        normal_counts = {k: 0 for k in (
+            "source_errors", "one_step_project_bytes_sha256", "one_step_hash",
+            "public_source_errors", "public_project_bytes_sha256", "public_hash",
+            "chapter_source_errors", "year5_source_errors")}
+        normal_stdout, normal_stderr = io.StringIO(), io.StringIO()
+        counts["normal_prerequisite"] += 1
+        with contextlib.redirect_stdout(normal_stdout), contextlib.redirect_stderr(normal_stderr):
+            try:
+                prerequisite = current_ci._title_button_case(
+                    normal, current[current_ci.MAIN_PATH], previous[current_ci.MAIN_PATH],
+                    old220, normal_counts)
+            except Exception as error:
+                prerequisite = {"id": normal["id"], "passed": False,
+                                "exception": type(error).__name__ + ": " + str(error),
+                                "traceback": _a11_traceback.format_exc()}
+        prerequisite.update(stdout=normal_stdout.getvalue(), stderr=normal_stderr.getvalue(),
+                            endpoint_counts=normal_counts)
+        if not prerequisite.get("passed") or any(v != 1 for v in normal_counts.values()):
+            raise AssertionError("actual current normal prerequisite failed; history not opened")
+        # Reuse the read/API compatibility context only. Never call
+        # _title_button_main(), materialize a new population or rerun20 here.
+        with current_ci._title_button_logical_view(previous, view):
+            with contextlib.redirect_stdout(stdout), contextlib.redirect_stderr(stderr):
+                counts["historical255_main"] += 1
+                try:
+                    code = _last11_main()
+                except Exception as error:
+                    fatal = type(error).__name__ + ": " + str(error)
+                    trace = _a11_traceback.format_exc()
+        try:
+            parsed, end = json.JSONDecoder().raw_decode(stdout.getvalue())
+            marker = stdout.getvalue()[end:].strip()
+        except (ValueError, TypeError) as error:
+            parse_error = type(error).__name__ + ": " + str(error)
+        old_paths = ("tools/main_game_locale_history.py",
+                     "tools/ci_localization_reconciliation_self_test.py", _MG9_SELF)
+        logical_exact = (isinstance(parsed, dict)
+            and parsed.get("physical_input_before") == parsed.get("physical_input_after")
+            and all(parsed.get("physical_input_before", {}).get(p) == pin(previous[p])
+                    for p in old_paths))
+        wanted = ("META_TITLE_LAST11_SOURCE_SELF_TEST_OK current=26/26 "
+                  "historical18_23_19_24_18=True unchanged=True")
+        old_ok = (code == 0 and fatal is None and parse_error is None and not stderr.getvalue()
+            and view.get("restored") is True and logical_exact and marker == wanted
+            and parsed.get("passed") is True and parsed.get("current", {}).get("cases") == 26
+            and len(parsed.get("current", {}).get("results", [])) == 26
+            and all(r.get("valid_result") for r in parsed["current"]["results"])
+            and parsed.get("historical", {}).get("passed") is True)
+    except Exception as error:
+        fatal = type(error).__name__ + ": " + str(error)
+        trace = _a11_traceback.format_exc()
+    finally:
+        try:
+            after = current_ci._title_button_physical_pins() if current_ci is not None else None
+        except Exception as error:
+            fatal = (fatal or "") + "; after pins: " + type(error).__name__ + ": " + str(error)
+    unchanged = before is not None and before == after
+    passed = prerequisite.get("passed") is True and old_ok and unchanged and fatal is None
+    print(json.dumps({"scope": "ORDER256 physical binding; original meta chain in validated logical view",
+        "binding": current_ci.TITLE_BUTTON_BINDING["provenance"] if current_ci is not None else None,
+        "normal_prerequisite": prerequisite,
+        "historical": {"scope": "25526/25418/25023/24819/24524/24418", "exit": code,
+                       "stdout": stdout.getvalue(), "stderr": stderr.getvalue(), "marker": marker,
+                       "parse_error": parse_error, "logical_exact": logical_exact,
+                       "view": view, "passed": old_ok},
+        "fatal": fatal, "traceback": trace, "execution_counts": counts,
+        "physical_input_before": before, "physical_input_after": after,
+        "physical_inputs_unchanged": unchanged, "passed": passed,
+        "limits": "No duplicate current20, collector, engine, or product-wide approval."},
+        ensure_ascii=False, indent=2))
+    print("TITLE_BUTTON_META_HISTORY_SELF_TEST_" + ("OK" if passed else "FAIL")
+          + f" historical26_18_23_19_24_18={old_ok} unchanged={unchanged}")
+    return 0 if passed else 1
+# END_TITLE_BUTTON_META_SELF_256
 if __name__ == "__main__":
-    raise SystemExit(_last11_main())
+    raise SystemExit(_title_button_meta_main())

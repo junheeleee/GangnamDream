@@ -773,5 +773,1154 @@ def main() -> int:
     return 0 if passed else 1
 
 
+
+# BEGIN_TITLE_BUTTON_CI_SELF_256
+# Independent recipes were frozen by Poincare before this implementation.
+# This block is inserted BEFORE the sole __main__ guard.
+import sys as _title_button_sys
+import base64 as _title_button_base64
+import traceback as _title_button_traceback
+
+TITLE_BUTTON_SPEC = json.loads(r'''{
+  "provenance": {
+    "path": ".git/full-game-localization/order256-source-controls.json",
+    "bytes": 40279,
+    "sha256": "208a4d0595b595751dd1f85ea0660d510019b0110c2ee257069bf14078672bc9",
+    "chronology": "Independent recipes/expectations frozen before helper/self implementation; actual future source4 and ROOT baseline binding are separate."
+  },
+  "cases_sha256": "0ae98a5ae0fb692c75eaf8f0ffebb69e827ac5283608d53a365801e32220bd21",
+  "counts": {
+    "normal": 1,
+    "raw_mutant": 12,
+    "registry_mutant": 3,
+    "forged_observation": 2,
+    "claim_boundary": 1,
+    "off_boundary": 1
+  },
+  "main_edits": [
+    {
+      "id": "creation",
+      "owner": "_build_top_bar",
+      "kind": "replace_once",
+      "before": "\t_title_collection_button = _small_button(_tr(\"칭호\", \"Title\"), \"#1a2a1a\")\n",
+      "after": "\t_title_collection_button = _small_button(_title_collection_button_text(), \"#1a2a1a\")\n"
+    },
+    {
+      "id": "refresh",
+      "owner": "_refresh_all",
+      "kind": "replace_once",
+      "before": "\tif is_instance_valid(_title_collection_button):\n\t\t_title_collection_button.visible = not DEMO_CORE_LOOP_V2.requested()\n",
+      "after": "\tif is_instance_valid(_title_collection_button):\n\t\t_title_collection_button.text = _title_collection_button_text()\n\t\t_title_collection_button.visible = not DEMO_CORE_LOOP_V2.requested()\n"
+    },
+    {
+      "id": "label_helper",
+      "owner": "_title_collection_button_text",
+      "kind": "append_eof",
+      "before": "",
+      "after": "\nfunc _title_collection_button_text() -> String:\n\treturn _tr(\"칭호\", \"Title\")\n"
+    }
+  ],
+  "cases": [
+    {
+      "id": "current_exact",
+      "kind": "normal",
+      "base": null,
+      "relative": "scenes/MainGame.gd",
+      "recipe": {
+        "op": "approved_current_main",
+        "source": "separate ROOT-approved future raw input; must equal frozen three-edit derivation"
+      },
+      "input_bytes": 1139685,
+      "input_sha256": "ca0dd88c1aabd95f621f66a4213b23084de67b937ed9b9236483040d303b0e81",
+      "reason": "All new/public APIs and both unchanged live raw gates must accept before any negative is effective.",
+      "claim": "ca0dd88c1aabd95f621f66a4213b23084de67b937ed9b9236483040d303b0e81",
+      "expected": {
+        "exceptions": 0,
+        "source_errors": "EMPTY",
+        "public_source_errors": "EMPTY",
+        "one_step_project_bytes_sha256": "9029fb680033141ce382fa114fafe9e814197e996f7a98fcf622f9bce4b1118d",
+        "public_project_bytes_sha256": "5b891505892d3306197cb20b70e4e0d8074941aeb7ec40030857bd32bb912f88",
+        "one_step_hash": "9029fb680033141ce382fa114fafe9e814197e996f7a98fcf622f9bce4b1118d",
+        "public_hash": "5b891505892d3306197cb20b70e4e0d8074941aeb7ec40030857bd32bb912f88",
+        "chapter_source_errors": "EMPTY",
+        "year5_source_errors": "EMPTY",
+        "effective_negative": false
+      }
+    },
+    {
+      "id": "rollback_previous_whole",
+      "kind": "raw_mutant",
+      "base": "current_exact",
+      "relative": "scenes/MainGame.gd",
+      "recipe": {
+        "op": "baseline_whole",
+        "path": "scenes/MainGame.gd",
+        "sha256": "9029fb680033141ce382fa114fafe9e814197e996f7a98fcf622f9bce4b1118d"
+      },
+      "input_bytes": 1139530,
+      "input_sha256": "9029fb680033141ce382fa114fafe9e814197e996f7a98fcf622f9bce4b1118d",
+      "reason": "9029 is only predecessor output, never a second live normal.",
+      "claim": "9029fb680033141ce382fa114fafe9e814197e996f7a98fcf622f9bce4b1118d",
+      "expected": {
+        "exceptions": 0,
+        "source_errors": "NONEMPTY",
+        "public_source_errors": "NONEMPTY",
+        "one_step_project_bytes_sha256": "9029fb680033141ce382fa114fafe9e814197e996f7a98fcf622f9bce4b1118d",
+        "public_project_bytes_sha256": "9029fb680033141ce382fa114fafe9e814197e996f7a98fcf622f9bce4b1118d",
+        "one_step_hash": "9029fb680033141ce382fa114fafe9e814197e996f7a98fcf622f9bce4b1118d",
+        "public_hash": "9029fb680033141ce382fa114fafe9e814197e996f7a98fcf622f9bce4b1118d",
+        "chapter_source_errors": "NONEMPTY",
+        "year5_source_errors": "NONEMPTY",
+        "effective_negative": "ONLY_IF_CURRENT_EXACT_ALL_ENDPOINTS_PASS"
+      }
+    },
+    {
+      "id": "creation_removed",
+      "kind": "raw_mutant",
+      "base": "current_exact",
+      "relative": "scenes/MainGame.gd",
+      "recipe": {
+        "op": "replace_exact",
+        "before": "\t_title_collection_button = _small_button(_title_collection_button_text(), \"#1a2a1a\")\n",
+        "after": "\t_title_collection_button = _small_button(_tr(\"칭호\", \"Title\"), \"#1a2a1a\")\n",
+        "count": 1
+      },
+      "input_bytes": 1139676,
+      "input_sha256": "7414422016d898cfd7e46b86559d399a4ecbf968357bc9f64b59818312ef331a",
+      "reason": "The existing single lookup or refresh obligation cannot be omitted.",
+      "claim": "7414422016d898cfd7e46b86559d399a4ecbf968357bc9f64b59818312ef331a",
+      "expected": {
+        "exceptions": 0,
+        "source_errors": "NONEMPTY",
+        "public_source_errors": "NONEMPTY",
+        "one_step_project_bytes_sha256": "7414422016d898cfd7e46b86559d399a4ecbf968357bc9f64b59818312ef331a",
+        "public_project_bytes_sha256": "7414422016d898cfd7e46b86559d399a4ecbf968357bc9f64b59818312ef331a",
+        "one_step_hash": "7414422016d898cfd7e46b86559d399a4ecbf968357bc9f64b59818312ef331a",
+        "public_hash": "7414422016d898cfd7e46b86559d399a4ecbf968357bc9f64b59818312ef331a",
+        "chapter_source_errors": "NONEMPTY",
+        "year5_source_errors": "NONEMPTY",
+        "effective_negative": "ONLY_IF_CURRENT_EXACT_ALL_ENDPOINTS_PASS"
+      }
+    },
+    {
+      "id": "refresh_removed",
+      "kind": "raw_mutant",
+      "base": "current_exact",
+      "relative": "scenes/MainGame.gd",
+      "recipe": {
+        "op": "replace_exact",
+        "before": "\tif is_instance_valid(_title_collection_button):\n\t\t_title_collection_button.text = _title_collection_button_text()\n\t\t_title_collection_button.visible = not DEMO_CORE_LOOP_V2.requested()\n",
+        "after": "\tif is_instance_valid(_title_collection_button):\n\t\t_title_collection_button.visible = not DEMO_CORE_LOOP_V2.requested()\n",
+        "count": 1
+      },
+      "input_bytes": 1139619,
+      "input_sha256": "954e309c6c9c13f058021f6e968c4bd07a480e8e1c45d8fbd7d19e76cc798551",
+      "reason": "The existing single lookup or refresh obligation cannot be omitted.",
+      "claim": "954e309c6c9c13f058021f6e968c4bd07a480e8e1c45d8fbd7d19e76cc798551",
+      "expected": {
+        "exceptions": 0,
+        "source_errors": "NONEMPTY",
+        "public_source_errors": "NONEMPTY",
+        "one_step_project_bytes_sha256": "954e309c6c9c13f058021f6e968c4bd07a480e8e1c45d8fbd7d19e76cc798551",
+        "public_project_bytes_sha256": "954e309c6c9c13f058021f6e968c4bd07a480e8e1c45d8fbd7d19e76cc798551",
+        "one_step_hash": "954e309c6c9c13f058021f6e968c4bd07a480e8e1c45d8fbd7d19e76cc798551",
+        "public_hash": "954e309c6c9c13f058021f6e968c4bd07a480e8e1c45d8fbd7d19e76cc798551",
+        "chapter_source_errors": "NONEMPTY",
+        "year5_source_errors": "NONEMPTY",
+        "effective_negative": "ONLY_IF_CURRENT_EXACT_ALL_ENDPOINTS_PASS"
+      }
+    },
+    {
+      "id": "label_helper_removed",
+      "kind": "raw_mutant",
+      "base": "current_exact",
+      "relative": "scenes/MainGame.gd",
+      "recipe": {
+        "op": "remove_exact_suffix",
+        "text": "\nfunc _title_collection_button_text() -> String:\n\treturn _tr(\"칭호\", \"Title\")\n",
+        "count": 1
+      },
+      "input_bytes": 1139605,
+      "input_sha256": "9e7c66ae9456aa378acfc4273e6077bfc66ed51118f57027bc82b6af10df3175",
+      "reason": "Calls without the approved pure label function are not valid current source.",
+      "claim": "9e7c66ae9456aa378acfc4273e6077bfc66ed51118f57027bc82b6af10df3175",
+      "expected": {
+        "exceptions": 0,
+        "source_errors": "NONEMPTY",
+        "public_source_errors": "NONEMPTY",
+        "one_step_project_bytes_sha256": "9e7c66ae9456aa378acfc4273e6077bfc66ed51118f57027bc82b6af10df3175",
+        "public_project_bytes_sha256": "9e7c66ae9456aa378acfc4273e6077bfc66ed51118f57027bc82b6af10df3175",
+        "one_step_hash": "9e7c66ae9456aa378acfc4273e6077bfc66ed51118f57027bc82b6af10df3175",
+        "public_hash": "9e7c66ae9456aa378acfc4273e6077bfc66ed51118f57027bc82b6af10df3175",
+        "chapter_source_errors": "NONEMPTY",
+        "year5_source_errors": "NONEMPTY",
+        "effective_negative": "ONLY_IF_CURRENT_EXACT_ALL_ENDPOINTS_PASS"
+      }
+    },
+    {
+      "id": "ko_literal_changed",
+      "kind": "raw_mutant",
+      "base": "current_exact",
+      "relative": "scenes/MainGame.gd",
+      "recipe": {
+        "op": "replace_exact",
+        "before": "\treturn _tr(\"칭호\", \"Title\")\n",
+        "after": "\treturn _tr(\"업적\", \"Title\")\n",
+        "count": 1
+      },
+      "input_bytes": 1139685,
+      "input_sha256": "2d21b5672b48830b70f17a012c6a6bae33953e01f492b03f1f409250b4c537db",
+      "reason": "Same owner but wrong Korean lookup key.",
+      "claim": "2d21b5672b48830b70f17a012c6a6bae33953e01f492b03f1f409250b4c537db",
+      "expected": {
+        "exceptions": 0,
+        "source_errors": "NONEMPTY",
+        "public_source_errors": "NONEMPTY",
+        "one_step_project_bytes_sha256": "2d21b5672b48830b70f17a012c6a6bae33953e01f492b03f1f409250b4c537db",
+        "public_project_bytes_sha256": "2d21b5672b48830b70f17a012c6a6bae33953e01f492b03f1f409250b4c537db",
+        "one_step_hash": "2d21b5672b48830b70f17a012c6a6bae33953e01f492b03f1f409250b4c537db",
+        "public_hash": "2d21b5672b48830b70f17a012c6a6bae33953e01f492b03f1f409250b4c537db",
+        "chapter_source_errors": "NONEMPTY",
+        "year5_source_errors": "NONEMPTY",
+        "effective_negative": "ONLY_IF_CURRENT_EXACT_ALL_ENDPOINTS_PASS"
+      }
+    },
+    {
+      "id": "en_literal_changed",
+      "kind": "raw_mutant",
+      "base": "current_exact",
+      "relative": "scenes/MainGame.gd",
+      "recipe": {
+        "op": "replace_exact",
+        "before": "\treturn _tr(\"칭호\", \"Title\")\n",
+        "after": "\treturn _tr(\"칭호\", \"Achievement\")\n",
+        "count": 1
+      },
+      "input_bytes": 1139691,
+      "input_sha256": "1feecf741ae2d87ba497ef0b52fc0d6be01f0c1d991f4cad163dd012d1ec545c",
+      "reason": "English compatibility fallback may not change.",
+      "claim": "1feecf741ae2d87ba497ef0b52fc0d6be01f0c1d991f4cad163dd012d1ec545c",
+      "expected": {
+        "exceptions": 0,
+        "source_errors": "NONEMPTY",
+        "public_source_errors": "NONEMPTY",
+        "one_step_project_bytes_sha256": "1feecf741ae2d87ba497ef0b52fc0d6be01f0c1d991f4cad163dd012d1ec545c",
+        "public_project_bytes_sha256": "1feecf741ae2d87ba497ef0b52fc0d6be01f0c1d991f4cad163dd012d1ec545c",
+        "one_step_hash": "1feecf741ae2d87ba497ef0b52fc0d6be01f0c1d991f4cad163dd012d1ec545c",
+        "public_hash": "1feecf741ae2d87ba497ef0b52fc0d6be01f0c1d991f4cad163dd012d1ec545c",
+        "chapter_source_errors": "NONEMPTY",
+        "year5_source_errors": "NONEMPTY",
+        "effective_negative": "ONLY_IF_CURRENT_EXACT_ALL_ENDPOINTS_PASS"
+      }
+    },
+    {
+      "id": "owner_renamed",
+      "kind": "raw_mutant",
+      "base": "current_exact",
+      "relative": "scenes/MainGame.gd",
+      "recipe": {
+        "op": "replace_exact",
+        "before": "_title_collection_button_text",
+        "after": "_qa_other_title_button_text",
+        "count": 3
+      },
+      "input_bytes": 1139679,
+      "input_sha256": "cd1d3a187a979353e4943355e7706aaab8ffd8ce817c32269dd8ac6729cc820e",
+      "reason": "Exact helper owner moves even though all three references follow it.",
+      "claim": "cd1d3a187a979353e4943355e7706aaab8ffd8ce817c32269dd8ac6729cc820e",
+      "expected": {
+        "exceptions": 0,
+        "source_errors": "NONEMPTY",
+        "public_source_errors": "NONEMPTY",
+        "one_step_project_bytes_sha256": "cd1d3a187a979353e4943355e7706aaab8ffd8ce817c32269dd8ac6729cc820e",
+        "public_project_bytes_sha256": "cd1d3a187a979353e4943355e7706aaab8ffd8ce817c32269dd8ac6729cc820e",
+        "one_step_hash": "cd1d3a187a979353e4943355e7706aaab8ffd8ce817c32269dd8ac6729cc820e",
+        "public_hash": "cd1d3a187a979353e4943355e7706aaab8ffd8ce817c32269dd8ac6729cc820e",
+        "chapter_source_errors": "NONEMPTY",
+        "year5_source_errors": "NONEMPTY",
+        "effective_negative": "ONLY_IF_CURRENT_EXACT_ALL_ENDPOINTS_PASS"
+      }
+    },
+    {
+      "id": "nonlocalized_return",
+      "kind": "raw_mutant",
+      "base": "current_exact",
+      "relative": "scenes/MainGame.gd",
+      "recipe": {
+        "op": "replace_exact",
+        "before": "\treturn _tr(\"칭호\", \"Title\")\n",
+        "after": "\treturn \"칭호\"\n",
+        "count": 1
+      },
+      "input_bytes": 1139671,
+      "input_sha256": "cb272c2aa730b45fc30b66248848f4b9a57f3775b18a382984fed29073d47b23",
+      "reason": "Direct Korean return is not the shared localized pair.",
+      "claim": "cb272c2aa730b45fc30b66248848f4b9a57f3775b18a382984fed29073d47b23",
+      "expected": {
+        "exceptions": 0,
+        "source_errors": "NONEMPTY",
+        "public_source_errors": "NONEMPTY",
+        "one_step_project_bytes_sha256": "cb272c2aa730b45fc30b66248848f4b9a57f3775b18a382984fed29073d47b23",
+        "public_project_bytes_sha256": "cb272c2aa730b45fc30b66248848f4b9a57f3775b18a382984fed29073d47b23",
+        "one_step_hash": "cb272c2aa730b45fc30b66248848f4b9a57f3775b18a382984fed29073d47b23",
+        "public_hash": "cb272c2aa730b45fc30b66248848f4b9a57f3775b18a382984fed29073d47b23",
+        "chapter_source_errors": "NONEMPTY",
+        "year5_source_errors": "NONEMPTY",
+        "effective_negative": "ONLY_IF_CURRENT_EXACT_ALL_ENDPOINTS_PASS"
+      }
+    },
+    {
+      "id": "duplicate_helper",
+      "kind": "raw_mutant",
+      "base": "current_exact",
+      "relative": "scenes/MainGame.gd",
+      "recipe": {
+        "op": "append_exact",
+        "text": "\nfunc _title_collection_button_text() -> String:\n\treturn _tr(\"칭호\", \"Title\")\n",
+        "expected_original_count": 1
+      },
+      "input_bytes": 1139765,
+      "input_sha256": "4debc94393a349ce19e212087d7810f0476f5cbd177ea772b8d6a664cd1b3416",
+      "reason": "Duplicate complete function must not satisfy inverse uniqueness.",
+      "claim": "4debc94393a349ce19e212087d7810f0476f5cbd177ea772b8d6a664cd1b3416",
+      "expected": {
+        "exceptions": 0,
+        "source_errors": "NONEMPTY",
+        "public_source_errors": "NONEMPTY",
+        "one_step_project_bytes_sha256": "4debc94393a349ce19e212087d7810f0476f5cbd177ea772b8d6a664cd1b3416",
+        "public_project_bytes_sha256": "4debc94393a349ce19e212087d7810f0476f5cbd177ea772b8d6a664cd1b3416",
+        "one_step_hash": "4debc94393a349ce19e212087d7810f0476f5cbd177ea772b8d6a664cd1b3416",
+        "public_hash": "4debc94393a349ce19e212087d7810f0476f5cbd177ea772b8d6a664cd1b3416",
+        "chapter_source_errors": "NONEMPTY",
+        "year5_source_errors": "NONEMPTY",
+        "effective_negative": "ONLY_IF_CURRENT_EXACT_ALL_ENDPOINTS_PASS"
+      }
+    },
+    {
+      "id": "extra_lf",
+      "kind": "raw_mutant",
+      "base": "current_exact",
+      "relative": "scenes/MainGame.gd",
+      "recipe": {
+        "op": "append_exact",
+        "text": "\n",
+        "expected_original_eof_lf_count": 1
+      },
+      "input_bytes": 1139686,
+      "input_sha256": "5df13e30d2dfc4f2b6a03ab4c9e96627ffe83ba856a310d51b406216397a47a7",
+      "reason": "Whole raw byte authority includes final LF; do not normalize it.",
+      "claim": "5df13e30d2dfc4f2b6a03ab4c9e96627ffe83ba856a310d51b406216397a47a7",
+      "expected": {
+        "exceptions": 0,
+        "source_errors": "NONEMPTY",
+        "public_source_errors": "NONEMPTY",
+        "one_step_project_bytes_sha256": "5df13e30d2dfc4f2b6a03ab4c9e96627ffe83ba856a310d51b406216397a47a7",
+        "public_project_bytes_sha256": "5df13e30d2dfc4f2b6a03ab4c9e96627ffe83ba856a310d51b406216397a47a7",
+        "one_step_hash": "5df13e30d2dfc4f2b6a03ab4c9e96627ffe83ba856a310d51b406216397a47a7",
+        "public_hash": "5df13e30d2dfc4f2b6a03ab4c9e96627ffe83ba856a310d51b406216397a47a7",
+        "chapter_source_errors": "NONEMPTY",
+        "year5_source_errors": "NONEMPTY",
+        "effective_negative": "ONLY_IF_CURRENT_EXACT_ALL_ENDPOINTS_PASS"
+      }
+    },
+    {
+      "id": "all_crlf",
+      "kind": "raw_mutant",
+      "base": "current_exact",
+      "relative": "scenes/MainGame.gd",
+      "recipe": {
+        "op": "replace_all_lf_with_crlf",
+        "lf_count": 23874,
+        "expected_original_cr_count": 0
+      },
+      "input_bytes": 1163559,
+      "input_sha256": "4679bc9eed3c0938e130567010ec27d8e84f7dad6f2f05700cf21264360a9be8",
+      "reason": "read_text newline normalization must not admit CRLF raw.",
+      "claim": "4679bc9eed3c0938e130567010ec27d8e84f7dad6f2f05700cf21264360a9be8",
+      "expected": {
+        "exceptions": 0,
+        "source_errors": "NONEMPTY",
+        "public_source_errors": "NONEMPTY",
+        "one_step_project_bytes_sha256": "4679bc9eed3c0938e130567010ec27d8e84f7dad6f2f05700cf21264360a9be8",
+        "public_project_bytes_sha256": "4679bc9eed3c0938e130567010ec27d8e84f7dad6f2f05700cf21264360a9be8",
+        "one_step_hash": "4679bc9eed3c0938e130567010ec27d8e84f7dad6f2f05700cf21264360a9be8",
+        "public_hash": "4679bc9eed3c0938e130567010ec27d8e84f7dad6f2f05700cf21264360a9be8",
+        "chapter_source_errors": "NONEMPTY",
+        "year5_source_errors": "NONEMPTY",
+        "effective_negative": "ONLY_IF_CURRENT_EXACT_ALL_ENDPOINTS_PASS"
+      }
+    },
+    {
+      "id": "visibility_policy_changed",
+      "kind": "raw_mutant",
+      "base": "current_exact",
+      "relative": "scenes/MainGame.gd",
+      "recipe": {
+        "op": "replace_exact",
+        "before": "\t\t_title_collection_button.visible = not DEMO_CORE_LOOP_V2.requested()\n",
+        "after": "\t\t_title_collection_button.visible = true\n",
+        "count": 1
+      },
+      "input_bytes": 1139656,
+      "input_sha256": "4b2a2d61202d01062f24161b18e98c7fe5e5edbb37a9cec76bf9380df3774920",
+      "reason": "Nonlanguage access/visibility policy is outside the three edits.",
+      "claim": "4b2a2d61202d01062f24161b18e98c7fe5e5edbb37a9cec76bf9380df3774920",
+      "expected": {
+        "exceptions": 0,
+        "source_errors": "NONEMPTY",
+        "public_source_errors": "NONEMPTY",
+        "one_step_project_bytes_sha256": "4b2a2d61202d01062f24161b18e98c7fe5e5edbb37a9cec76bf9380df3774920",
+        "public_project_bytes_sha256": "4b2a2d61202d01062f24161b18e98c7fe5e5edbb37a9cec76bf9380df3774920",
+        "one_step_hash": "4b2a2d61202d01062f24161b18e98c7fe5e5edbb37a9cec76bf9380df3774920",
+        "public_hash": "4b2a2d61202d01062f24161b18e98c7fe5e5edbb37a9cec76bf9380df3774920",
+        "chapter_source_errors": "NONEMPTY",
+        "year5_source_errors": "NONEMPTY",
+        "effective_negative": "ONLY_IF_CURRENT_EXACT_ALL_ENDPOINTS_PASS"
+      }
+    },
+    {
+      "id": "registry_wrong_previous",
+      "kind": "registry_mutant",
+      "base": "current_exact",
+      "relative": "scenes/MainGame.gd",
+      "recipe": {
+        "op": "current_raw_registry_mutation",
+        "mutation": {
+          "op": "set",
+          "path": [
+            "previous_sha256"
+          ],
+          "value": "014bdae5a87cb3a873f61c5f83d8337f6d686068366641eb92c94e515bebad86"
+        },
+        "reseal": "_TITLE_BUTTON_REGISTRY_SHA256",
+        "raw_unchanged": true
+      },
+      "input_bytes": 1139685,
+      "input_sha256": "ca0dd88c1aabd95f621f66a4213b23084de67b937ed9b9236483040d303b0e81",
+      "reason": "Checksum resealing cannot jump over the fixed9029 predecessor.",
+      "claim": "ca0dd88c1aabd95f621f66a4213b23084de67b937ed9b9236483040d303b0e81",
+      "expected": {
+        "exceptions": 0,
+        "source_errors": "NONEMPTY",
+        "public_source_errors": "NONEMPTY",
+        "one_step_project_bytes_sha256": "ca0dd88c1aabd95f621f66a4213b23084de67b937ed9b9236483040d303b0e81",
+        "public_project_bytes_sha256": "ca0dd88c1aabd95f621f66a4213b23084de67b937ed9b9236483040d303b0e81",
+        "one_step_hash": "ca0dd88c1aabd95f621f66a4213b23084de67b937ed9b9236483040d303b0e81",
+        "public_hash": "ca0dd88c1aabd95f621f66a4213b23084de67b937ed9b9236483040d303b0e81",
+        "chapter_source_errors": "NONEMPTY",
+        "year5_source_errors": "NONEMPTY",
+        "effective_negative": "ONLY_IF_CURRENT_EXACT_ALL_ENDPOINTS_PASS"
+      }
+    },
+    {
+      "id": "registry_missing_creation",
+      "kind": "registry_mutant",
+      "base": "current_exact",
+      "relative": "scenes/MainGame.gd",
+      "recipe": {
+        "op": "current_raw_registry_mutation",
+        "mutation": {
+          "op": "remove_inverse_by_id",
+          "id": "creation"
+        },
+        "reseal": "_TITLE_BUTTON_REGISTRY_SHA256",
+        "raw_unchanged": true
+      },
+      "input_bytes": 1139685,
+      "input_sha256": "ca0dd88c1aabd95f621f66a4213b23084de67b937ed9b9236483040d303b0e81",
+      "reason": "Valid current raw with missing one inverse is still invalid after checksum reseal.",
+      "claim": "ca0dd88c1aabd95f621f66a4213b23084de67b937ed9b9236483040d303b0e81",
+      "expected": {
+        "exceptions": 0,
+        "source_errors": "NONEMPTY",
+        "public_source_errors": "NONEMPTY",
+        "one_step_project_bytes_sha256": "ca0dd88c1aabd95f621f66a4213b23084de67b937ed9b9236483040d303b0e81",
+        "public_project_bytes_sha256": "ca0dd88c1aabd95f621f66a4213b23084de67b937ed9b9236483040d303b0e81",
+        "one_step_hash": "ca0dd88c1aabd95f621f66a4213b23084de67b937ed9b9236483040d303b0e81",
+        "public_hash": "ca0dd88c1aabd95f621f66a4213b23084de67b937ed9b9236483040d303b0e81",
+        "chapter_source_errors": "NONEMPTY",
+        "year5_source_errors": "NONEMPTY",
+        "effective_negative": "ONLY_IF_CURRENT_EXACT_ALL_ENDPOINTS_PASS"
+      }
+    },
+    {
+      "id": "registry_duplicate_refresh",
+      "kind": "registry_mutant",
+      "base": "current_exact",
+      "relative": "scenes/MainGame.gd",
+      "recipe": {
+        "op": "current_raw_registry_mutation",
+        "mutation": {
+          "op": "append_inverse_copy_by_id",
+          "id": "refresh"
+        },
+        "reseal": "_TITLE_BUTTON_REGISTRY_SHA256",
+        "raw_unchanged": true
+      },
+      "input_bytes": 1139685,
+      "input_sha256": "ca0dd88c1aabd95f621f66a4213b23084de67b937ed9b9236483040d303b0e81",
+      "reason": "Duplicate inverse/cardinality is rejected even with recomputed registry checksum.",
+      "claim": "ca0dd88c1aabd95f621f66a4213b23084de67b937ed9b9236483040d303b0e81",
+      "expected": {
+        "exceptions": 0,
+        "source_errors": "NONEMPTY",
+        "public_source_errors": "NONEMPTY",
+        "one_step_project_bytes_sha256": "ca0dd88c1aabd95f621f66a4213b23084de67b937ed9b9236483040d303b0e81",
+        "public_project_bytes_sha256": "ca0dd88c1aabd95f621f66a4213b23084de67b937ed9b9236483040d303b0e81",
+        "one_step_hash": "ca0dd88c1aabd95f621f66a4213b23084de67b937ed9b9236483040d303b0e81",
+        "public_hash": "ca0dd88c1aabd95f621f66a4213b23084de67b937ed9b9236483040d303b0e81",
+        "chapter_source_errors": "NONEMPTY",
+        "year5_source_errors": "NONEMPTY",
+        "effective_negative": "ONLY_IF_CURRENT_EXACT_ALL_ENDPOINTS_PASS"
+      }
+    },
+    {
+      "id": "forged_visibility",
+      "kind": "forged_observation",
+      "base": "current_exact",
+      "relative": "scenes/MainGame.gd",
+      "recipe": {
+        "op": "raw_from_case",
+        "id": "visibility_policy_changed",
+        "live_only_projector_override": true
+      },
+      "input_bytes": 1139656,
+      "input_sha256": "4b2a2d61202d01062f24161b18e98c7fe5e5edbb37a9cec76bf9380df3774920",
+      "reason": "Forged old220 projector bytes/hash observations must not bypass either real raw source gate.",
+      "claim": "4b2a2d61202d01062f24161b18e98c7fe5e5edbb37a9cec76bf9380df3774920",
+      "expected": {
+        "exceptions": 0,
+        "source_errors": "NONEMPTY",
+        "public_source_errors": "NONEMPTY",
+        "one_step_project_bytes_sha256": "4b2a2d61202d01062f24161b18e98c7fe5e5edbb37a9cec76bf9380df3774920",
+        "public_project_bytes_sha256": "4b2a2d61202d01062f24161b18e98c7fe5e5edbb37a9cec76bf9380df3774920",
+        "one_step_hash": "4b2a2d61202d01062f24161b18e98c7fe5e5edbb37a9cec76bf9380df3774920",
+        "public_hash": "4b2a2d61202d01062f24161b18e98c7fe5e5edbb37a9cec76bf9380df3774920",
+        "chapter_source_errors": "NONEMPTY",
+        "year5_source_errors": "NONEMPTY",
+        "effective_negative": "ONLY_IF_CURRENT_EXACT_ALL_ENDPOINTS_PASS"
+      }
+    },
+    {
+      "id": "forged_crlf",
+      "kind": "forged_observation",
+      "base": "current_exact",
+      "relative": "scenes/MainGame.gd",
+      "recipe": {
+        "op": "raw_from_case",
+        "id": "all_crlf",
+        "live_only_projector_override": true
+      },
+      "input_bytes": 1163559,
+      "input_sha256": "4679bc9eed3c0938e130567010ec27d8e84f7dad6f2f05700cf21264360a9be8",
+      "reason": "Forged old220 projector bytes/hash observations must not bypass either real raw source gate.",
+      "claim": "4679bc9eed3c0938e130567010ec27d8e84f7dad6f2f05700cf21264360a9be8",
+      "expected": {
+        "exceptions": 0,
+        "source_errors": "NONEMPTY",
+        "public_source_errors": "NONEMPTY",
+        "one_step_project_bytes_sha256": "4679bc9eed3c0938e130567010ec27d8e84f7dad6f2f05700cf21264360a9be8",
+        "public_project_bytes_sha256": "4679bc9eed3c0938e130567010ec27d8e84f7dad6f2f05700cf21264360a9be8",
+        "one_step_hash": "4679bc9eed3c0938e130567010ec27d8e84f7dad6f2f05700cf21264360a9be8",
+        "public_hash": "4679bc9eed3c0938e130567010ec27d8e84f7dad6f2f05700cf21264360a9be8",
+        "chapter_source_errors": "NONEMPTY",
+        "year5_source_errors": "NONEMPTY",
+        "effective_negative": "ONLY_IF_CURRENT_EXACT_ALL_ENDPOINTS_PASS"
+      }
+    },
+    {
+      "id": "wrong_claim",
+      "kind": "claim_boundary",
+      "base": "current_exact",
+      "relative": "scenes/MainGame.gd",
+      "recipe": {
+        "op": "current_raw_with_claim",
+        "claim": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "input_bytes": 1139685,
+      "input_sha256": "ca0dd88c1aabd95f621f66a4213b23084de67b937ed9b9236483040d303b0e81",
+      "reason": "Valid source plus wrong claim: source gates pass, both hash APIs preserve the original bad claim.",
+      "claim": "0000000000000000000000000000000000000000000000000000000000000000",
+      "expected": {
+        "exceptions": 0,
+        "source_errors": "EMPTY",
+        "public_source_errors": "EMPTY",
+        "one_step_project_bytes_sha256": "9029fb680033141ce382fa114fafe9e814197e996f7a98fcf622f9bce4b1118d",
+        "public_project_bytes_sha256": "5b891505892d3306197cb20b70e4e0d8074941aeb7ec40030857bd32bb912f88",
+        "one_step_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "public_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "chapter_source_errors": "EMPTY",
+        "year5_source_errors": "EMPTY",
+        "effective_negative": false
+      }
+    },
+    {
+      "id": "off_path",
+      "kind": "off_boundary",
+      "base": "current_exact",
+      "relative": "scenes/MainGame.gd.unowned",
+      "recipe": {
+        "op": "current_raw_with_relative",
+        "relative": "scenes/MainGame.gd.unowned"
+      },
+      "input_bytes": 1139685,
+      "input_sha256": "ca0dd88c1aabd95f621f66a4213b23084de67b937ed9b9236483040d303b0e81",
+      "reason": "New one-step rejects OFF; public calls preserve exact old APIs/errors and identity.",
+      "claim": "ca0dd88c1aabd95f621f66a4213b23084de67b937ed9b9236483040d303b0e81",
+      "expected": {
+        "exceptions": 0,
+        "source_errors": "NONEMPTY",
+        "public_source_errors": "BASELINE_OFF_EXACT",
+        "one_step_project_bytes_sha256": "ca0dd88c1aabd95f621f66a4213b23084de67b937ed9b9236483040d303b0e81",
+        "public_project_bytes_sha256": "ca0dd88c1aabd95f621f66a4213b23084de67b937ed9b9236483040d303b0e81",
+        "one_step_hash": "ca0dd88c1aabd95f621f66a4213b23084de67b937ed9b9236483040d303b0e81",
+        "public_hash": "ca0dd88c1aabd95f621f66a4213b23084de67b937ed9b9236483040d303b0e81",
+        "chapter_source_errors": "BASELINE_OFF_EXACT",
+        "year5_source_errors": "BASELINE_OFF_EXACT",
+        "effective_negative": false
+      }
+    }
+  ]
+}''')
+# BEGIN_TITLE_BUTTON_BINDING_256
+TITLE_BUTTON_BINDING = json.loads(r'''{
+  "phase": "APPLIED_SOURCE_BOUND",
+  "current_pins": {
+    "scenes/MainGame.gd": {
+      "bytes": 1139685,
+      "sha256": "ca0dd88c1aabd95f621f66a4213b23084de67b937ed9b9236483040d303b0e81"
+    },
+    "tools/main_game_locale_history.py": {
+      "bytes": 12116,
+      "sha256": "dbba098883a7407f039381f366ce87dd0e265ddbed88beabd5ee687793b9db68"
+    },
+    "tools/ci_localization_reconciliation_self_test.py": {
+      "bytes": 84017,
+      "sha256": "52ae7c24618689fe00b369418a05035060ac64f3d66878ee22657e7d27698a1a"
+    },
+    "tools/meta_title_locale_successor_self_test.py": {
+      "bytes": 274977,
+      "sha256": "5af619d0afda083934221201a5a704bf8bb4679442cb38eba9901beb35d259b0"
+    }
+  },
+  "code_pin_note": "CI current_pins entry is exact whole bytes with only the clearly delimited TITLE_BUTTON_BINDING block replaced by its canonical empty-object form; all other current entries are full raw. Physical before/after still hash full unmasked CI bytes. This avoids self-referential hashes and permits ROOT phase/provenance binding without changing methods/expected.",
+  "previous_pins": {
+    "scenes/MainGame.gd": {
+      "bytes": 1139530,
+      "sha256": "9029fb680033141ce382fa114fafe9e814197e996f7a98fcf622f9bce4b1118d"
+    },
+    "tools/main_game_locale_history.py": {
+      "bytes": 5261,
+      "sha256": "268be5cdd6de2bdd36e862951d87710899889c2c53acd327408c2675f7463490"
+    },
+    "tools/ci_localization_reconciliation_self_test.py": {
+      "bytes": 31464,
+      "sha256": "12ff8ba402154da0318565dc1b985676e6d2f679f9213c0ca8ff4f17a019ea38"
+    },
+    "tools/meta_title_locale_successor_self_test.py": {
+      "bytes": 268857,
+      "sha256": "6872a159ffd4fb4ba2203b92408ce58f6149001403f50efc33fc0354d4faeaf9"
+    }
+  },
+  "preserved_pins": {
+    "tools/year5_reference_route_audit.py": {
+      "bytes": 620325,
+      "sha256": "b4c34f559a458b4ad53ff19a0855d76176ec84083ba7b725f21a4f7aa6f50f82"
+    },
+    "tools/chapter1_core_loop_v2_causal_ledger_check.py": {
+      "bytes": 1461830,
+      "sha256": "ac874ad1587304b4f1802ce2311cbcba231e1fdfb19086cce3a66aa19ee5fac3"
+    },
+    "autoloads/MetaProgression.gd": {
+      "bytes": 65836,
+      "sha256": "6f49a1bdd83b3431b4146bbd2a94956c481bb371202606398167cdec8ae9f8b0"
+    },
+    "autoloads/LocaleManager.gd": {
+      "bytes": 20574,
+      "sha256": "9417e6b9e241e1d2b9ec7a7668cf4d19fe337ce6719d87e032020fe421ceec9a"
+    },
+    "tools/ja_translation_pipeline.py": {
+      "bytes": 264116,
+      "sha256": "3a2d791038a46dcf3442776f4703cd1398998590843b91904c2668425a7427f4"
+    },
+    "tools/meta_title_locale_successor.py": {
+      "bytes": 46649,
+      "sha256": "1df50f967c6fea8711f8375f0c5db940499066d4a0e73f75652d2fc1b39aaf6c"
+    }
+  },
+  "inverse_spans": {
+    "tools/main_game_locale_history.py": {
+      "start": "\n# BEGIN_TITLE_BUTTON_MAIN_SUCCESSOR_256\n",
+      "end": "# END_TITLE_BUTTON_MAIN_SUCCESSOR_256\n",
+      "hooks": []
+    },
+    "tools/ci_localization_reconciliation_self_test.py": {
+      "start": "\n# BEGIN_TITLE_BUTTON_CI_SELF_256\n",
+      "end": "# END_TITLE_BUTTON_CI_SELF_256\n",
+      "hooks": [
+        [
+          "    raise SystemExit(_title_button_main())\n",
+          "    raise SystemExit(main())\n"
+        ]
+      ]
+    },
+    "tools/meta_title_locale_successor_self_test.py": {
+      "start": "\n# BEGIN_TITLE_BUTTON_META_SELF_256\n",
+      "end": "# END_TITLE_BUTTON_META_SELF_256\n",
+      "hooks": [
+        [
+          "    raise SystemExit(_title_button_meta_main())\n",
+          "    raise SystemExit(_last11_main())\n"
+        ]
+      ]
+    }
+  },
+  "baseline_off_errors": {
+    "public_source_errors": [
+      "ORDER-243: locale history path is not the owned path",
+      "ORDER-243: unapproved current MainGame source bytes"
+    ],
+    "chapter_source_errors": [
+      "ORDER-243: locale history path is not the owned path",
+      "ORDER-243: unapproved current MainGame source bytes"
+    ],
+    "year5_source_errors": [
+      "ORDER-243: locale history path is not the owned path",
+      "ORDER-243: unapproved current MainGame source bytes"
+    ]
+  },
+  "provenance": {
+    "controls": {
+      "path": ".git/full-game-localization/order256-source-controls.json",
+      "sha256": "208a4d0595b595751dd1f85ea0660d510019b0110c2ee257069bf14078672bc9"
+    },
+    "baseline": {
+      "path": ".git/full-game-localization/order256-source-baseline-first.json",
+      "bytes": 42830483,
+      "sha256": "e714fd3222937810ce5e931fe17d54c5bd51eab4571fc67d2183c4c794807293",
+      "meaning": "ROOT old-product first capture complete; new APIs absent; effective negatives0; not post PASS. Original OFF arrays read from off_original_observation."
+    },
+    "candidate": "B2 private candidate: meta adds frozen current_exact prerequisite1/new20=0 before history; CI preserves unexpected byte return via base64 only when no exact known raw reference. B1 artifacts preserved; no candidate imported, applied or executed.",
+    "actual_applied_source4": {
+      "external_raw_binding": ".git/full-game-localization/order256-source4-applied-binding.json",
+      "meaning": "ROOT serially applied the independently reviewed B2 source4. Exact full CI raw is bound externally after this phase/provenance-only patch; embedded CI codeview remains distinct."
+    },
+    "independent_review": {
+      "path": ".git/full-game-localization/order256-source4-private-final-review.json",
+      "bytes": 5709,
+      "sha256": "f0f4c9eb93aa917fa6d41a87f33435aac40ac77f0fd2053c8ffb0322b6c684db"
+    },
+    "chronology": "Frozen20 preceded source authorship; first baseline e330 captured old-product20/effective0. B1 static REWORK2 was repaired in B2 and reviewed required0. ROOT applied B2, then changed only this binding phase/provenance. First current20 and old28 execution are still unobserved."
+  }
+}''')
+# END_TITLE_BUTTON_BINDING_256
+
+
+def _title_button_code_view(raw):
+    start = b"# BEGIN_TITLE_BUTTON_BINDING_256\n"
+    end = b"# END_TITLE_BUTTON_BINDING_256\n"
+    if raw.count(start) != 1 or raw.count(end) != 1:
+        raise AssertionError("title-button binding block is not unique")
+    a, z = raw.index(start), raw.index(end) + len(end)
+    if a >= z:
+        raise AssertionError("title-button binding order differs")
+    return raw[:a] + start + b"TITLE_BUTTON_BINDING = {}\n" + end + raw[z:]
+
+
+def _title_button_physical_pins():
+    paths = set(TITLE_BUTTON_BINDING["previous_pins"]) | set(
+        TITLE_BUTTON_BINDING["preserved_pins"])
+    return {p: {"bytes": len(raw), "sha256": digest(raw)}
+            for p in sorted(paths) for raw in [(ROOT / p).read_bytes()]}
+
+
+def _title_button_inverse(raw, relative):
+    """Independent byte edits, not the production projector under test."""
+    previous = TITLE_BUTTON_BINDING["previous_pins"][relative]
+    if relative == MAIN_PATH:
+        old = raw
+        for row in reversed(TITLE_BUTTON_SPEC["main_edits"]):
+            before, after = row["before"].encode("utf-8"), row["after"].encode("utf-8")
+            if old.count(after) != 1:
+                raise AssertionError("independent Main inverse is not unique")
+            if row["kind"] == "append_eof":
+                if not old.endswith(after):
+                    raise AssertionError("independent Main EOF differs")
+                old = old[:-len(after)]
+            else:
+                old = old.replace(after, before, 1)
+    else:
+        rule = TITLE_BUTTON_BINDING["inverse_spans"][relative]
+        start, end = rule["start"].encode("utf-8"), rule["end"].encode("utf-8")
+        if raw.count(start) != 1 or raw.count(end) != 1:
+            raise AssertionError("independent inverse span is not unique: " + relative)
+        a, z = raw.index(start), raw.index(end) + len(end)
+        if a >= z:
+            raise AssertionError("independent inverse span order differs")
+        old = raw[:a] + raw[z:]
+        for current, prior in rule["hooks"]:
+            current, prior = current.encode("utf-8"), prior.encode("utf-8")
+            if old.count(current) != 1:
+                raise AssertionError("independent entry hook is not unique")
+            old = old.replace(current, prior, 1)
+    if {"bytes": len(old), "sha256": digest(old)} != previous:
+        raise AssertionError("independent whole predecessor differs: " + relative)
+    return old
+
+
+def _title_button_prepare():
+    """Validate physical four and every inverse before opening any logical view."""
+    if TITLE_BUTTON_BINDING["phase"] != "APPLIED_SOURCE_BOUND":
+        raise AssertionError("private title-button candidate is not authorized")
+    current = {p: (ROOT / p).read_bytes() for p in TITLE_BUTTON_BINDING["previous_pins"]}
+    ci_path = "tools/ci_localization_reconciliation_self_test.py"
+    for relative, raw in current.items():
+        checked = _title_button_code_view(raw) if relative == ci_path else raw
+        if {"bytes": len(checked), "sha256": digest(checked)} != TITLE_BUTTON_BINDING["current_pins"][relative]:
+            raise AssertionError("physical title-button source differs: " + relative)
+    for relative, wanted in TITLE_BUTTON_BINDING["preserved_pins"].items():
+        raw = (ROOT / relative).read_bytes()
+        if {"bytes": len(raw), "sha256": digest(raw)} != wanted:
+            raise AssertionError("preserved physical dependency differs: " + relative)
+    cases = TITLE_BUTTON_SPEC["cases"]
+    if (len(cases) != 20 or len({r["id"] for r in cases}) != 20
+            or digest(json.dumps(cases, ensure_ascii=False, sort_keys=True,
+                                 separators=(",", ":")).encode("utf-8"))
+            != TITLE_BUTTON_SPEC["cases_sha256"]):
+        raise AssertionError("independent fixed20 changed")
+    off = TITLE_BUTTON_BINDING["baseline_off_errors"]
+    if (not isinstance(off, dict)
+            or set(off) != {"public_source_errors", "chapter_source_errors", "year5_source_errors"}
+            or not all(isinstance(v, list) and all(isinstance(s, str) for s in v)
+                       for v in off.values())):
+        raise AssertionError("ROOT first baseline OFF arrays are not bound")
+    previous = {p: _title_button_inverse(raw, p) for p, raw in current.items()}
+    # Reconstruct old220 without asking a projector for its own expected value.
+    old220 = previous[MAIN_PATH]
+    for stage in ("ORDER240", "ORDER239"):
+        for row in FROZEN["patches"]:
+            if row["order"] == stage:
+                old220 = _replace_once(old220, row["after"], row["before"])
+    if digest(old220) != ORDER220_SHA:
+        raise AssertionError("independent old220 whole raw differs")
+    return current, previous, old220
+
+
+def _title_button_materialize(case, current, previous, inputs):
+    raw, recipe = current[MAIN_PATH], case["recipe"]
+    op = recipe["op"]
+    if op == "baseline_whole":
+        raw = previous[MAIN_PATH]
+    elif op == "replace_exact":
+        before, after = recipe["before"].encode("utf-8"), recipe["after"].encode("utf-8")
+        if raw.count(before) != recipe["count"]:
+            raise AssertionError("fixed replacement count differs")
+        raw = raw.replace(before, after, recipe["count"])
+    elif op == "remove_exact_suffix":
+        suffix = recipe["text"].encode("utf-8")
+        if raw.count(suffix) != recipe["count"] or not raw.endswith(suffix):
+            raise AssertionError("fixed suffix differs")
+        raw = raw[:-len(suffix)]
+    elif op == "append_exact":
+        text = recipe["text"].encode("utf-8")
+        if ("expected_original_count" in recipe
+                and raw.count(text) != recipe["expected_original_count"]):
+            raise AssertionError("fixed append original count differs")
+        if ("expected_original_eof_lf_count" in recipe
+                and len(raw) - len(raw.rstrip(b"\n")) != recipe["expected_original_eof_lf_count"]):
+            raise AssertionError("fixed original EOF differs")
+        raw += text
+    elif op == "replace_all_lf_with_crlf":
+        if raw.count(b"\n") != recipe["lf_count"] or raw.count(b"\r") != recipe["expected_original_cr_count"]:
+            raise AssertionError("fixed newline population differs")
+        raw = raw.replace(b"\n", b"\r\n")
+    elif op == "raw_from_case":
+        raw = inputs[recipe["id"]]
+    elif op not in {"approved_current_main", "current_raw_registry_mutation",
+                    "current_raw_with_claim", "current_raw_with_relative"}:
+        raise AssertionError("unknown frozen recipe")
+    if len(raw) != case["input_bytes"] or digest(raw) != case["input_sha256"]:
+        raise AssertionError("fixed materialized input differs")
+    inputs[case["id"]] = raw
+    return raw
+
+
+@contextlib.contextmanager
+def _title_button_registry(case, observation):
+    registry0, seal0 = history.TITLE_BUTTON_TRANSITION, history._TITLE_BUTTON_REGISTRY_SHA256
+    try:
+        if case["kind"] != "registry_mutant":
+            yield
+        else:
+            changed = copy.deepcopy(registry0)
+            mutation = case["recipe"]["mutation"]
+            if mutation["op"] == "set" and mutation["path"] == ["previous_sha256"]:
+                changed["previous_sha256"] = mutation["value"]
+            elif mutation["op"] == "remove_inverse_by_id":
+                matches = [r for r in changed["inverses"] if r["id"] == mutation["id"]]
+                if len(matches) != 1:
+                    raise AssertionError("fixed inverse removal selector differs")
+                changed["inverses"].remove(matches[0])
+            elif mutation["op"] == "append_inverse_copy_by_id":
+                matches = [r for r in changed["inverses"] if r["id"] == mutation["id"]]
+                if len(matches) != 1:
+                    raise AssertionError("fixed inverse copy selector differs")
+                changed["inverses"].append(copy.deepcopy(matches[0]))
+            else:
+                raise AssertionError("unknown fixed registry mutation")
+            resealed = digest(json.dumps(changed, ensure_ascii=False, sort_keys=True,
+                                         separators=(",", ":")).encode("utf-8"))
+            observation.update(original=copy.deepcopy(registry0), mutated=copy.deepcopy(changed),
+                               original_checksum=seal0, recomputed_checksum=resealed,
+                               checksum_recomputed=True)
+            with patch.object(history, "TITLE_BUTTON_TRANSITION", changed), \
+                    patch.object(history, "_TITLE_BUTTON_REGISTRY_SHA256", resealed):
+                observation["installed_checksum_exact"] = history._TITLE_BUTTON_REGISTRY_SHA256 == resealed
+                yield
+    finally:
+        observation["restored"] = (history.TITLE_BUTTON_TRANSITION is registry0
+                                   and history._TITLE_BUTTON_REGISTRY_SHA256 == seal0)
+
+
+def _title_button_live(case, raw, old220, observation, counts):
+    project0 = history.main_game_history_project_bytes
+    hash0 = history.main_game_history_project_byte_hash
+    source0 = history.main_game_history_source_errors
+    originals = (chapter1.order220_main_source_errors, year5.order220_main_source_errors)
+    result = {}
+    try:
+        with contextlib.ExitStack() as stack:
+            spies = (
+                stack.enter_context(patch.object(chapter1, "order220_main_source_errors", wraps=originals[0])),
+                stack.enter_context(patch.object(year5, "order220_main_source_errors", wraps=originals[1])),
+            )
+            if case["kind"] == "forged_observation":
+                stack.enter_context(patch.object(history, "main_game_history_project_bytes", return_value=old220))
+                stack.enter_context(patch.object(history, "main_game_history_project_byte_hash", return_value=ORDER220_SHA))
+                observation["spoofed_hash"] = history.main_game_history_project_byte_hash(
+                    case["claim"], case["relative"], raw)
+                observation["spoofed_bytes_sha256"] = digest(
+                    history.main_game_history_project_bytes(raw, case["relative"]))
+            endpoints = (
+                ("chapter_source_errors", chapter1._order243_main_source_errors,
+                 chapter1.ORDER156_AUDITED_SOURCE_FILE_TRANSITIONS[MAIN_PATH][1]),
+                ("year5_source_errors", year5._order243_main_source_errors,
+                 year5.ORDER156_SOURCE_FILE_TRANSITIONS[MAIN_PATH][1]),
+            )
+            for name, function, registered in endpoints:
+                counts[name] += 1
+                try:
+                    result[name] = function(case["relative"], raw, registered)
+                except Exception as error:
+                    result[name] = {"exception": type(error).__name__ + ": " + str(error),
+                                    "traceback": _title_button_traceback.format_exc()}
+            observation["downstream_call_counts"] = {"chapter": spies[0].call_count, "year5": spies[1].call_count}
+    finally:
+        observation["restored"] = (
+            history.main_game_history_project_bytes is project0
+            and history.main_game_history_project_byte_hash is hash0
+            and history.main_game_history_source_errors is source0
+            and chapter1.order220_main_source_errors is originals[0]
+            and year5.order220_main_source_errors is originals[1])
+    return result
+
+
+def _title_button_case(case, raw, old9029, old220, counts):
+    values, endpoint_exceptions, registry, live = {}, {}, {}, {}
+    # Byte-valued returns are losslessly bound to input/old9029/old220 raw,
+    # instead of repeating two megabyte-sized sources in every JSON row.
+    references = {"input": raw, "old9029": old9029, "old220": old220}
+    with _title_button_registry(case, registry):
+        endpoints = (
+            ("source_errors", lambda: history.title_button_source_errors(case["relative"], raw)),
+            ("one_step_project_bytes_sha256", lambda: history.title_button_project_bytes(raw, case["relative"])),
+            ("one_step_hash", lambda: history.title_button_project_byte_hash(case["claim"], case["relative"], raw)),
+            ("public_source_errors", lambda: history.main_game_history_source_errors(case["relative"], raw)),
+            ("public_project_bytes_sha256", lambda: history.main_game_history_project_bytes(raw, case["relative"])),
+            ("public_hash", lambda: history.main_game_history_project_byte_hash(case["claim"], case["relative"], raw)),
+        )
+        byte_returns = {}
+        for name, function in endpoints:
+            counts[name] += 1
+            try:
+                value = function()
+                if name.endswith("project_bytes_sha256"):
+                    byte_returns[name] = {"bytes": len(value), "sha256": digest(value),
+                                         "exact_raw_references": [p for p, v in references.items() if value == v]}
+                    if not byte_returns[name]["exact_raw_references"]:
+                        byte_returns[name]["unexpected_raw_base64"] = (
+                            _title_button_base64.b64encode(value).decode("ascii"))
+                    values[name] = digest(value)
+                else:
+                    values[name] = value
+            except Exception as error:
+                endpoint_exceptions[name] = {
+                    "exception": type(error).__name__ + ": " + str(error),
+                    "traceback": _title_button_traceback.format_exc()}
+        values.update(_title_button_live(case, raw, old220, live, counts))
+    checks = {}
+    for name, wanted in case["expected"].items():
+        if name in {"exceptions", "effective_negative"}:
+            continue
+        actual = values.get(name)
+        if wanted in ("EMPTY", "NONEMPTY"):
+            checks[name] = isinstance(actual, list) and all(isinstance(v, str) for v in actual) and (
+                (not actual) if wanted == "EMPTY" else bool(actual))
+        elif wanted == "BASELINE_OFF_EXACT":
+            checks[name] = actual == TITLE_BUTTON_BINDING["baseline_off_errors"][name]
+        else:
+            checks[name] = actual == wanted
+    checks["exceptions"] = not endpoint_exceptions and all(
+        not isinstance(v, dict) or "exception" not in v for v in values.values())
+    checks["raw_byte_returns"] = all(row["exact_raw_references"] for row in byte_returns.values()) and len(byte_returns) == 2
+    checks["restored"] = registry.get("restored") is True and live.get("restored") is True
+    if case["kind"] == "registry_mutant":
+        checks["registry_resealed"] = registry.get("checksum_recomputed") is True and registry.get("installed_checksum_exact") is True
+    if case["kind"] == "forged_observation":
+        checks["forged_raw_authority"] = (
+            live.get("spoofed_hash") == ORDER220_SHA
+            and live.get("spoofed_bytes_sha256") == ORDER220_SHA
+            and live.get("downstream_call_counts") == {"chapter": 0, "year5": 0})
+    return {"id": case["id"], "kind": case["kind"], "base": case["base"],
+            "recipe": case["recipe"], "path": case["relative"], "claim": case["claim"],
+            "input": {"bytes": len(raw), "sha256": digest(raw)},
+            "returns": values, "byte_return_bindings": byte_returns,
+            "endpoint_exceptions": endpoint_exceptions, "checks": checks,
+            "registry": registry, "live": live, "passed": all(checks.values())}
+
+
+@contextlib.contextmanager
+def _title_button_logical_view(previous, observation):
+    """Only independently recovered bytes; real consumers and old expectations stay live."""
+    read0, text0 = Path.read_bytes, Path.read_text
+    api0 = (history.main_game_history_source_errors, history.main_game_history_project_bytes,
+            history.main_game_history_project_byte_hash)
+    stdout0, stderr0 = _title_button_sys.stdout, _title_button_sys.stderr
+    reads = {p: 0 for p in previous}
+    def read_bytes(path):
+        for relative, raw in previous.items():
+            if path == ROOT / relative:
+                reads[relative] += 1
+                return raw
+        return read0(path)
+    def read_text(path, *args, **kwargs):
+        for relative, raw in previous.items():
+            if path == ROOT / relative:
+                reads[relative] += 1
+                encoding = kwargs.get("encoding") or (args[0] if args else None) or "utf-8"
+                return raw.decode(encoding, errors=kwargs.get("errors") or "strict")
+        return text0(path, *args, **kwargs)
+    def source(relative, raw):
+        return history._TITLE_BUTTON_OLD_SOURCE_ERRORS(relative, raw)
+    def project(raw, relative):
+        return history._TITLE_BUTTON_OLD_PROJECT_BYTES(raw, relative)
+    def observed(claim, relative, raw):
+        return history._TITLE_BUTTON_OLD_PROJECT_HASH(claim, relative, raw)
+    try:
+        with contextlib.ExitStack() as stack:
+            stack.enter_context(patch.object(Path, "read_bytes", read_bytes))
+            stack.enter_context(patch.object(Path, "read_text", read_text))
+            for name, function in (("main_game_history_source_errors", source),
+                                   ("main_game_history_project_bytes", project),
+                                   ("main_game_history_project_byte_hash", observed)):
+                stack.enter_context(patch.object(history, name, function))
+            yield
+    finally:
+        observation.update(reads=reads, restored=(
+            Path.read_bytes is read0 and Path.read_text is text0
+            and _title_button_sys.stdout is stdout0 and _title_button_sys.stderr is stderr0
+            and (history.main_game_history_source_errors, history.main_game_history_project_bytes,
+                 history.main_game_history_project_byte_hash) == api0))
+
+
+def _title_button_main():
+    before, after, fatal, trace = None, None, None, None
+    results, inputs = [], {}
+    counts = {k: 0 for k in (
+        "source_errors", "one_step_project_bytes_sha256", "one_step_hash",
+        "public_source_errors", "public_project_bytes_sha256", "public_hash",
+        "chapter_source_errors", "year5_source_errors", "old28", "engine")}
+    historical = {"passed": False, "skipped": "new fixed20 not passed", "cases": 0}
+    try:
+        before = _title_button_physical_pins()
+        current, previous, old220 = _title_button_prepare()
+        for case in TITLE_BUTTON_SPEC["cases"]:
+            stdout, stderr = io.StringIO(), io.StringIO()
+            with contextlib.redirect_stdout(stdout), contextlib.redirect_stderr(stderr):
+                try:
+                    raw = _title_button_materialize(case, current, previous, inputs)
+                    row = _title_button_case(case, raw, previous[MAIN_PATH], old220, counts)
+                except Exception as error:
+                    row = {"id": case["id"], "kind": case["kind"], "base": case["base"],
+                           "passed": False, "exception": type(error).__name__ + ": " + str(error),
+                           "traceback": _title_button_traceback.format_exc()}
+            row.update(stdout=stdout.getvalue(), stderr=stderr.getvalue())
+            results.append(row)
+        by_id = {r["id"]: r for r in results}
+        normal_ok = by_id.get("current_exact", {}).get("passed") is True
+        for row in results:
+            row["normal_base_passed"] = row["base"] is None or by_id.get(row["base"], {}).get("passed") is True
+            row["valid_result"] = bool(row["passed"] and row["normal_base_passed"]
+                                       and (row["kind"] == "normal" or normal_ok))
+        if len(results) == 20 and all(r["valid_result"] for r in results):
+            if before != _title_button_physical_pins():
+                raise AssertionError("physical inputs changed before old28")
+            stdout, stderr, view = io.StringIO(), io.StringIO(), {}
+            code, error, oldtrace = None, None, None
+            # redirect is inside the view, so its finally can attest restoration.
+            with _title_button_logical_view(previous, view):
+                with contextlib.redirect_stdout(stdout), contextlib.redirect_stderr(stderr):
+                    counts["old28"] += 1
+                    try:
+                        code = main()
+                    except Exception as exc:
+                        error = type(exc).__name__ + ": " + str(exc)
+                        oldtrace = _title_button_traceback.format_exc()
+            parsed, marker, parse_error = None, None, None
+            try:
+                parsed, end = json.JSONDecoder().raw_decode(stdout.getvalue())
+                marker = stdout.getvalue()[end:].strip()
+            except (ValueError, TypeError) as exc:
+                parse_error = type(exc).__name__ + ": " + str(exc)
+            logical_exact = (isinstance(parsed, dict)
+                and parsed.get("input_before") == parsed.get("input_after")
+                and all(parsed.get("input_before", {}).get(p) == digest(previous[p])
+                        for p in (MAIN_PATH, "tools/main_game_locale_history.py",
+                                  "tools/ci_localization_reconciliation_self_test.py")))
+            old_ok = (code == 0 and error is None and parse_error is None
+                and not stderr.getvalue() and view.get("restored") is True
+                and logical_exact and parsed.get("passed") is True
+                and parsed.get("cases") == 28 and len(parsed.get("results", [])) == 28
+                and all(r.get("valid_result") for r in parsed["results"])
+                and marker == ("CI_LOCALIZATION_RECONCILIATION_SELF_TEST_OK cases=28 expected=28 inputs="
+                               + str(len(parsed["input_before"])) + " unchanged=True"))
+            historical = {"scope": "old243 logical28, not current physical28", "cases": parsed.get("cases", 0) if parsed else 0,
+                          "exit": code, "exception": error, "traceback": oldtrace, "parse_error": parse_error,
+                          "stdout": stdout.getvalue(), "stderr": stderr.getvalue(), "marker": marker,
+                          "logical_exact": logical_exact, "view": view, "passed": old_ok}
+    except Exception as error:
+        fatal, trace = type(error).__name__ + ": " + str(error), _title_button_traceback.format_exc()
+    finally:
+        try:
+            after = _title_button_physical_pins()
+        except Exception as error:
+            fatal = (fatal or "") + "; after pins: " + type(error).__name__ + ": " + str(error)
+    unchanged = before is not None and before == after
+    current_ok = fatal is None and len(results) == 20 and all(r.get("valid_result") for r in results)
+    passed = current_ok and historical["passed"] and unchanged
+    negative_kinds = {"raw_mutant", "registry_mutant", "forged_observation"}
+    print(json.dumps({"scope": "ORDER256 physical source20; old243 logical28 separate",
+        "binding": TITLE_BUTTON_BINDING["provenance"], "current": {
+            "cases": len(results), "results": results, "passed": current_ok,
+            "valid_negative_count": sum(r["kind"] in negative_kinds and bool(r.get("valid_result")) for r in results)},
+        "historical": historical, "execution_counts": counts, "fatal": fatal, "traceback": trace,
+        "physical_input_before": before, "physical_input_after": after,
+        "physical_inputs_unchanged": unchanged, "passed": passed,
+        "limits": "Finite source contract only; not runtime, translation, native or full-product GO."},
+        ensure_ascii=False, indent=2))
+    print("TITLE_BUTTON_MAIN_SOURCE_SELF_TEST_" + ("OK" if passed else "FAIL")
+          + f" current={len(results)}/20 historical28={historical['passed']} unchanged={unchanged}")
+    return 0 if passed else 1
+# END_TITLE_BUTTON_CI_SELF_256
 if __name__ == "__main__":
-    raise SystemExit(main())
+    raise SystemExit(_title_button_main())

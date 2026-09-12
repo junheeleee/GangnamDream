@@ -5261,7 +5261,7 @@ func _build_top_bar(parent):
 	next_button.pressed.connect(_on_next_month)
 	row.add_child(next_button)
 
-	_title_collection_button = _small_button(_tr("칭호", "Title"), "#1a2a1a")
+	_title_collection_button = _small_button(_title_collection_button_text(), "#1a2a1a")
 	_title_collection_button.custom_minimum_size = Vector2(56, 40)
 	_title_collection_button.add_theme_font_size_override("font_size", 14)
 	_title_collection_button.size_flags_horizontal = Control.SIZE_SHRINK_END
@@ -9250,6 +9250,7 @@ func _refresh_all():
 		) % ControllerHints.north()
 		_phone_button.visible = _core_loop_v2_can_open_phone()
 	if is_instance_valid(_title_collection_button):
+		_title_collection_button.text = _title_collection_button_text()
 		_title_collection_button.visible = not DEMO_CORE_LOOP_V2.requested()
 	# 초상화 하단 플레이어 정보 (이벤트 중 인물 표시 시에는 건드리지 않음)
 	var showing_character = not current_event.is_empty() and str(current_event.get("portrait", "")) != ""
@@ -23868,3 +23869,6 @@ func _open_glossary(title: String, category: String):
 	var back_btn := _button(_tr("← 돌아가기", "← Back"), "#1a1a28")
 	back_btn.pressed.connect(_close_modal)
 	modal_body.add_child(back_btn)
+
+func _title_collection_button_text() -> String:
+	return _tr("칭호", "Title")

@@ -108,3 +108,11 @@ ROOT의 첫 current collector/source post 및 격리 runtime → 공식8×3 expo
 
 원어민·렌더·물리패드·정상 속도 실플레이는 미관찰이다. 공개 GO1·인간 OPEN45·본편 HOLD와
 기존 역사 판정을 보존한다. 이 작업은 기존 현지화·저장·사실 계약의 일회성 적용이며 새 규범0이다.
+
+## 적용 진행 — 첫 current 실행 전
+
+독립24 필수0 뒤 CN/TW각8을 적용하고 JA8 원형을 유지했다. clean e330의 첫baseline20은
+새API 부재/effective0 관측이다. source4 B1 정적 지적2를 B2에서 고쳐 비저자 f0f4 필수0 뒤
+실제로 적용했다. CI old10/meta56 함수·whole4 역복원과 고정20을 보존한다. meta의 frozen
+current_exact 재사용 선행1/all8은 신규20 중복이 아니다. CI codeview52ae와 실제fullraw ddd679를
+구분한다. 첫post20/old28·실제545·공식24·최종독립은 아직 전이며 본편HOLD를 유지한다.

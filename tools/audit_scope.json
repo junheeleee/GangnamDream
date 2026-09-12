@@ -204,6 +204,47 @@
       "why": "Existing parent20 UI keys,60 approved targets and isolated actual410=retained405 plus five collection-chrome groups.110 nested core-label comparisons are not new cases. Preserve IDs, source/current-history expectations, gameplay, true-log non-message fields, saves and human evidence. Final unique12 reuses registered checks without local full audit or engine duplication."
     },
     {
+      "id": "title-bonus-localization",
+      "paths": [],
+      "owned_paths": [
+        "scenes/MainGame.gd",
+        "tools/main_game_locale_history.py",
+        "tools/ci_localization_reconciliation_self_test.py",
+        "tools/meta_title_locale_successor_self_test.py",
+        "tools/MetaTitleLocaleCheck.tscn",
+        "tools/run_meta_title_locale_qa.sh",
+        "locale/ui_ja.json",
+        "locale/ui_zh-CN.json",
+        "locale/ui_zh-TW.json",
+        "tools/audit_scope.json",
+        "content/meta/full_game_localization.json",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/queue_active/ORDER-256.md",
+        "docs/queue_archive/ORDER-256.md",
+        "docs/WORK_LOG.md",
+        "docs/STATUS.md",
+        "docs/queue_backlog/FULL_GAME_LOCALIZATION.md",
+        "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-256.json"
+      ],
+      "tools": [
+        "tools/ci_localization_reconciliation_self_test.py",
+        "tools/zh_dice_title_consumer_self_test.py",
+        "tools/meta_title_locale_successor_self_test.py",
+        "tools/ja_translation_pipeline.py --self-test",
+        "tools/ja_translation_audit.py --scope ui",
+        "tools/full_game_localization_self_test.py",
+        "tools/zh_translation_audit.py --self-test",
+        "tools/en_coverage_check.py",
+        "tools/queue_index_self_test.py",
+        "tools/agent_review_decisions_self_test.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Seven next-start bonus labels plus the same-instance title button, eight direct-Korean surfaces and24 reviewed targets. Exact Main successor precedes9029 and original live source authority; frozen20 and old CI28 stay separate from preserved meta26/18/23/19/24/18. Existing520 observations remain distinct from planned25 bonus/button groups. Final unique13 includes both registered source owners once, without new20 duplication in the meta wrapper, engine duplication or local full audit. Preserve arithmetic, saved IDs, conditions, old38944 records and human evidence; component checks are not native/rendered/full-product GO."
+    },
+    {
       "id": "remaining-title-localization",
       "paths": [],
       "owned_paths": [
