@@ -1,0 +1,145 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-255",
+  "scope": "work_unit",
+  "reviewer": "Poincare",
+  "authority": "user_delegated_agent_final",
+  "role": "Independent nonauthor translation, source/helper/self and final reviewer; authored the preimplementation finite controls and disabled baseline capture, not the product or runtime fixture. ROOT applied products and ran all QA; Rawls authored translations/runtime and Plato source/self.",
+  "verdict": "GO",
+  "required": [],
+  "optional": [],
+  "subject": {
+    "kind": "source",
+    "commit": "adc49902fe35cea9561abf60ab178623b7442b18",
+    "tree": "98fb1ae32217ec22c1f22dda9ef1042002230d4c",
+    "manifest_sha256": null
+  },
+  "review": {
+    "commit": "478c44c65a1186aabb5ac868f3a641d1ea64d9c3",
+    "tree": "0f9d23ce484474f0da36b2a984d406106f70a2b6",
+    "clean": true,
+    "source_resolver": "Actual first-parent changes and current resolver rules independently read. Only STATUS wraps adc49902; source-affecting CLAUDE/backlog are included in the subject, not excluded as metadata."
+  },
+  "decision": "The declared remaining eleven title name/description lookups, 66 direct-Korean translations, source/history safeguards and finite consumer contract are complete on this exact local source. This grants work_unit255 GO only, not whole-product, public-release, native-reader or rendered approval.",
+  "population": {
+    "language": "11 titles × name/description22 × JA/CN/TW =66 new values; KO/EN44 and existing39 titles preserved.",
+    "source": "Frozen26: normal2, raw8, semantic8, forged2, registry3, wrong-registration1, wrong-claim1, OFF1. Effective raw/semantic/forged/registry negatives21 require successful normal bases. Historical18→23→19→24→18 remain separately identified.",
+    "runtime": "One isolated first520 = original100 + next100 + A11110 + MG995 + parent5 + DESC5 + remaining11105. Nested condition32×5=160 is not160 natural playthroughs.",
+    "acceptance": "New66 only:38878→38944, batches103→104, retained internal metadata9 unchanged. Each locale adds22."
+  },
+  "readscope_and_method": [
+    "Reused exact pinned full66 language and source/helper/self reviews; directly rebound applied source4, UI3 and preserved condition/Chapter boundaries. Read original baseline and first source26 output, then verified final named source stdout byte-exact to that first post.",
+    "Independently read actual runtime envelope, all520 runner/log rows,26 new GDScript functions and runner contract; reconstructed55 getter dictionaries,160 condition expectations and585 new state effects from approved tables, frozen metadata and each before state. Runtime author's report was not the sole evidence.",
+    "Read official export/check/import raw streams, source/response22 per locale and all three receipts. Independently recomputed official leaf/header/selection/target/receipt digests and UI/portable raw inverses against original Git bytes.",
+    "Decoded and hash-verified all12 final child stdout/stderr streams and embedded diagnostic results. All1584 named input pins equal review Git blobs and current bytes; outer1194/all-L1 input maps exact. Runtime19 and source14 remain exact at final source.",
+    "Read-only Git and standard-library JSON/raw/hash/AST calculations only. No new repository module, collector, QA, engine, player-save or remote access; only private review files written."
+  ],
+  "findings": {
+    "language": "Original CN Love wording weakened the past appeal/reply into contact maintenance: required repair1. Revised CN 挽留住了 Daeun and optional JA clean-title modifier refinement accepted; other64 targets and KO/EN44 exact. Original REWORK review preserved. Starting intention/same-ended-run≥3B assets, past reconciliation without deadline, limited past response and source-owned network/deed themes remain; no lifetime abstinence, new conviction or permanent romance invented.",
+    "source": "Whole-current MP/JA authority precedes exact b5c/e2d inverse and saved254 DESC-bound chain; public old MG9 registration meaning and unchanged Chapter dynamic caller remain intact. First baseline26 is capture/effective0 with six new APIs absent, not a post success. Actual26 normal2/valid21 plus registration/claim/OFF pass, with old history retained.",
+    "runtime": "Old415 ordered IDs and expected payloads exact. Actual412 exact; declared JA/CN/TW DESC3 keep raw current actual with independently reconstructed current expectation and separate historical copy. Old aggregate historical projection is explicit, not substituted current evidence. Parent5 stays current. New105 actual values and allowed state/disk effects are exact.",
+    "state": "746 primary full-state observations =161 old+585 new.757 serialized records include11 duplicate DESC substates;875 legacy hash-only observations remain weaker evidence. Typed flags590 cover585 new+DESC cache5, not all746 original Godot types. JSON-visible before/expected/after hashes and2271 disk strings independently checked.",
+    "state_limits": "Cross-run free-run categories differ only in initial values and remain unchanged within run. Four later-locale old disk-before values exactly inherit preceding new storage after898B; old disk expected/after stay exact. Memory restore marker1 is not an independently captured final full snapshot or launch-disk rollback; isolated sandbox meta is retained.",
+    "applied_runtime_pin": "Serialized scene236056B SHA65140c50… is distinct from decoded215016B SHAfa3efaf1…. Actual decoded equals reviewed private candidate with only readiness false→true; wrapper exact. Earlier static report's decoded label is corrected here without overwriting its historical bytes.",
+    "acceptance": "Official3×3 children exit0, check/import changed_files0, source04087 headers and raw receipt hashes exact. Each UI22 append inverse restores old bytes including preexisting JA indentation. Removing only66 accepted records+b104 and restoring accepted digest recovers old10107460B/44140536… raw exact; all other portable metadata unchanged.",
+    "preservation": "Declaration db16726→subject has15 changed paths: owned products11+operating4, outside0. Source→review STATUS only. Old39 decisions and human103390B/public GO1/OPEN45, project, MainGame, GameState, LocaleManager, Chapter, audit.sh and254 report remain raw exact. WORK's ambiguous old415 wording is identified for explicit metadata closure clarification; source documents do not claim all415 raw actual unchanged.",
+    "qa": "All38944 accepted records have errors0; final12 children exit0, including262 fullself, JA146, source26/history, direct16/static4, ZH12446 and JA2974/errors0. Registry146 retains EXTRA18 advisories. ZH skeleton416/2945/context5/29 and glyph1386/1414 are bounded preparation metrics, not full-language/rendered coverage."
+  },
+  "measurements": {
+    "runtime_checkpoint": "04087a47d161c7ed22d806d7653ce61adbcb7c9c",
+    "runtime_seconds": 143.651679791,
+    "runtime_outer_inputs": 1194,
+    "runtime_inner_inputs": 19,
+    "runtime_inner_outer_intersection": 18,
+    "named_seconds": 96.780986291,
+    "named_children": 12,
+    "named_inputs": 1584,
+    "named_outer_inputs": 1194,
+    "all_accepted_outer_seconds": 70.912545958,
+    "all_accepted_inner_seconds": 70.550195583,
+    "all_accepted_inputs": 1194,
+    "all_accepted_errors": 0,
+    "source_manifest_sha256": "cc1718420630cdf71ac05c8e9f3e092cd589e2d246c11e657dcb6b7701eaa6b4",
+    "collected": {
+      "total": 17484,
+      "supported": 17155,
+      "unverified": 329
+    },
+    "portable": {
+      "bytes": 10130307,
+      "sha256": "7941c144b8874c64b647d27e82a1e44a43ffe64a352e16533fbd463e0cc2b558",
+      "accepted": 38944,
+      "batches": 104,
+      "retained_metadata": 9
+    }
+  },
+  "evidence": {
+    "final_binding": {
+      "path": ".git/full-game-localization/order255-final-independent-binding.json",
+      "bytes": 14018,
+      "sha256": "7a2fb8220db768d42d6f5ca3f01f4a5380b70f00adc93a506f716db60ab435e6"
+    },
+    "language_first": {
+      "path": ".git/full-game-localization/order255-language-independent-review.json",
+      "sha256": "67319fb927689407f2aca277494ec911a7e57af5046c89b8e60ac943de2774e6"
+    },
+    "language_final": {
+      "path": ".git/full-game-localization/order255-language-final-addendum.json",
+      "sha256": "1b168c1d84cd0781084caa2187496b7c08563e9b2a91bacd2a0c4a6f0c06421c"
+    },
+    "approved66": {
+      "path": ".git/full-game-localization/order255-language-approved.json",
+      "sha256": "313faccb2318d6f53978588bf2a7082f3d99201ce711140a9d5064419d2c5e6c"
+    },
+    "source_static": {
+      "path": ".git/full-game-localization/order255-source3-independent-review.json",
+      "sha256": "938980ed286a141a191d0b3e66f8934a41cbea5d529fe46dae6c2fa58c112e9c"
+    },
+    "self_static": {
+      "path": ".git/full-game-localization/order255-self-independent-review.json",
+      "sha256": "1ed55e4ed3d2eedf3f83a7fad664c0936adceaf94218a207bc767534494484ec"
+    },
+    "first_baseline": {
+      "path": ".git/full-game-localization/order255-baseline-first.json",
+      "sha256": "90c56bbeca0fb8c9f1099436af6dd54b09bf0dedbc838492be0f7eb6d41f592a"
+    },
+    "source_post_review": {
+      "path": ".git/full-game-localization/order255-source-post-independent-review.json",
+      "sha256": "ba91799ef9d090d15f8b6be850d03d92f2bf3b58a6706810287c09f1517c33c5"
+    },
+    "ui_preflight_review": {
+      "path": ".git/full-game-localization/order255-ui-preflight-independent-addendum.json",
+      "sha256": "b34a9892176828b35e83e2ac49a514a68cef8307679a0a7dd85c0ea5f5a86b66"
+    },
+    "actual_review": {
+      "path": ".git/full-game-localization/order255-runtime-actual-independent-review.json",
+      "sha256": "1ef7b44f8851a80903cb553f6e4a1d7d74b4cd9d7be32cbe8d94eb59f0c7528b"
+    },
+    "actual_first": {
+      "path": ".git/full-game-localization/order255-actual-first.json",
+      "sha256": "2d904b4138ed7baf68297bb4f9fe858ad570614303059ec1f6740ef5ead7ebac"
+    },
+    "named_first": {
+      "path": ".git/full-game-localization/order255-named-first.json",
+      "sha256": "b4c00b05f0d06dff8b4f3de2e2839def48b952e04c18766739b92a82420e3612"
+    },
+    "named_outer": {
+      "path": ".git/full-game-localization/order255-named-outer-first.json",
+      "sha256": "44a31779ac3a3b8f32692c12591e29941602778e3e72f0288c44da5ffa5e39f6"
+    },
+    "all_accepted": {
+      "path": ".git/full-game-localization/order255-all-accepted-l1-first.json",
+      "sha256": "bddb53aca8635854ac4f18f9d712da33df3373ffbb44e5b8c34d4e0d30759065"
+    }
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "rendered_UI",
+    "natural_240_week_progression",
+    "new_source_remote_CI",
+    "full_product_GO"
+  ],
+  "limits": "50/50 means this prepared title-name/description lookup function only. Bonus/top, route/profile/run-theme and remaining UI/source debts are outside255. Existing remote CI results are not borrowed. Public GO1 and human OPEN45 are unchanged; full product remains HOLD."
+}

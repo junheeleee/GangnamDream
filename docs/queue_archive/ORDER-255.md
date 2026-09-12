@@ -1,3 +1,25 @@
+# ORDER-255 — 마지막 11칭호 세 언어 현지화 결과
+
+[x] ORDER-255 — 2026-09-13. Poincare LOCAL work_unit GO.
+
+제품 source adc49902fe35cea9561abf60ab178623b7442b18 / tree 98fb1ae32217ec22c1f22dda9ef1042002230d4c
+clean 검토 478c44c65a1186aabb5ac868f3a641d1ea64d9c3 / tree 0f9d23ce484474f0da36b2a984d406106f70a2b6
+
+## 결과와 관측 경계
+
+The declared remaining eleven title name/description lookups, 66 direct-Korean translations, source/history safeguards and finite consumer contract are complete on this exact local source. This grants work_unit255 GO only, not whole-product, public-release, native-reader or rendered approval.
+
+- language: 11 titles × name/description22 × JA/CN/TW =66 new values; KO/EN44 and existing39 titles preserved.
+- source: Frozen26: normal2, raw8, semantic8, forged2, registry3, wrong-registration1, wrong-claim1, OFF1. Effective raw/semantic/forged/registry negatives21 require successful normal bases. Historical18→23→19→24→18 remain separately identified.
+- runtime: One isolated first520 = original100 + next100 + A11110 + MG995 + parent5 + DESC5 + remaining11105. Nested condition32×5=160 is not160 natural playthroughs.
+- acceptance: New66 only:38878→38944, batches103→104, retained internal metadata9 unchanged. Each locale adds22.
+
+공개 GO1·인간 OPEN45·본편 HOLD 유지. 원어민·렌더·인간 플레이·물리 패드·새 원격 후보·외부 출시 GO가 아니다. 세부 첫 결과와 한계는 독립 보고 원문을 따른다.
+
+[독립 최종 보고](../agent_reviews/ORDER-255.json) · SHA fc0ce0f3dcafe551bc76b2b9c330f844d339c8a1d47bbadcd5c397ba64ecdb45
+
+## 선언·진행 원문 보존
+
 # 남은 전문화·선택·인생 칭호 현지화
 
 #### [~] ORDER-255 마지막 11칭호 세 언어 현지화

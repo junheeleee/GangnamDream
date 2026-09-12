@@ -4,11 +4,17 @@
 > [9/12 현지화 보존본](history/WORK_LOG_2026-09-12_localization.md)에 손실 없이 보존한다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg`로 필요한 항목을 찾는다.
 
+## 2026-09-13 (Codex — 마지막 11칭호 내부 마감)
+
+- Poincare LOCAL work_unit GO. source adc4990 / 검토 478c44c 한정이다.
+- [원문·관측·한계](queue_archive/ORDER-255.md)와 독립 보고 원형을 보존하고 기존39판정에 단위1만 더했다.
+- 공개 GO1·인간 OPEN45·본편 HOLD 유지. bonus/top과 별도 발견은 다음 미착수 범위다.
+
 ## 2026-09-13 (Codex — 남은 칭호520 첫 통과·66 공식 수용)
 
 - clean04087a4/tree86355b26에서 첫actual520 PASS/143.651679791초, 외부1194·내부19불변이다.
   기존415+신규105·조건160 nested를 구분하며 두 로그 오류검사·exit0·상태복구1을 확인했다.
-  전체415 actual불변이나 사용자 디스크복구 주장이 아니며 상세 readback은 독립 검토 중이다.
+  old415 ID/expected 보존, actual412 exact·DESC3 현재/역사 분리. 사용자 디스크복구 주장이 아니며 상세 readback은 독립 검토 중이다.
 - 같은clean HEAD에서 공식22×3 export/check/import 각첫PASS·changed_files0·1194불변이다.
   신규66→38944/b104/meta9, JA12980/CN·TW각12982이며 이전38878 raw역복원exact다.
   portable7941c144·accepted digest bd0eb070이며 원어민·렌더·인간플레이와 별도다.
@@ -53,7 +59,7 @@
 
 ## 2026-09-13 (Codex — 남은 11칭호 번역 착수)
 
-- [선언](queue_active/ORDER-255.md): 전문화·선택·인생 칭호 11개 name/desc 22면의
+- [선언](queue_archive/ORDER-255.md): 전문화·선택·인생 칭호 11개 name/desc 22면의
   JA·간체·번체 66값과 실제 소비자 연결만 맡는다. 제품·검사·수용 11경로를 고정했다.
 - 254 원문 수리 뒤 KO에서 직접 번역하고, 조건·저장·사실을 보존한다. 사적 병렬 저작과
   독립 사전 고정 뒤 ROOT가 적용·실행한다. 520은 미래 설계이며 현재 통과 관측이 아니다.
