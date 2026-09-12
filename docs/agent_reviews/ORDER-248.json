@@ -1,0 +1,423 @@
+{
+  "schema_version": 1,
+  "scope": "work_unit",
+  "subject": {
+    "kind": "source",
+    "commit": "72169bdec241c7574c939b32b097b71694562915",
+    "tree": "cebe503ba69f1f1b3d5e1f055090e040099e7abc",
+    "manifest_sha256": null
+  },
+  "source_commit": "72169bdec241c7574c939b32b097b71694562915",
+  "source_tree": "cebe503ba69f1f1b3d5e1f055090e040099e7abc",
+  "verdict": "GO",
+  "required": [],
+  "optional": [],
+  "reviewer": "Poincare / final_regression_review",
+  "verdict_boundary": "LOCAL work-unit acceptance only. No remote CI, native-language, rendered-screen, human-play or full-product GO; separate ORDER-247 and subsequent remote acceptance remain outside this verdict.",
+  "observed_head": "03c26aaac20262987d4f2871e6c9cdf718e15a4a",
+  "observed_tree": "ce228020cbb7f6cd00d60f992d809de1aaed54ee",
+  "observed_clean_before_public_reports": true,
+  "identity_and_QA_reuse": {
+    "method": "Read the current human_gates source-subject rule and independently reproduce its Git traversal without importing or executing a repository module; resolved source72169, not a guessed metadata exemption.",
+    "original_QA_head": "f16d2d2396a8c9ff0b01824671d56b212a4d6926",
+    "original_QA_tree": "498473384765949136cf13fc4ce7696262adb216",
+    "QA_to_final_changed_paths": [
+      "CLAUDE.md",
+      "docs/STATUS.md",
+      "docs/queue_backlog/FULL_GAME_LOCALIZATION.md"
+    ],
+    "source_affecting_docs": [
+      "CLAUDE.md",
+      "docs/queue_backlog/FULL_GAME_LOCALIZATION.md"
+    ],
+    "rationale": "The two source-affecting documents only record the already captured completed counts/status, so they were committed as a new source72169. STATUS is the later wrapper. All1193 code/content inputs remain raw-exact; named1569 inputs have1566 raw-exact and only these3 directly reviewed result/status-document deltas.",
+    "final_docs_check": {
+      "path": ".git/full-game-localization/order248-final-status-docs.json",
+      "bytes": 374761,
+      "sha256": "511cd78f9f873d81d8d78832e7a556fb67b47ee3219fab97d2694228128ded6a",
+      "selected_children": 3,
+      "exit": 0,
+      "outer1193_exact": true,
+      "boundary": "Retained selector stdout contains child summaries/tails, not lossless full child stdout. No claim of a new product/engine check."
+    }
+  },
+  "shared_final_QA": {
+    "executions": "One shared final all-accepted run and one shared final named11 run, referenced by both units, not two independent runs.",
+    "all_accepted": {
+      "path": ".git/full-game-localization/order248-all-accepted-l1-first.json",
+      "bytes": 374963,
+      "sha256": "440af2983e345e41c70140e57dd32f77008e7eb354ef7a91bba3977ab4de9fa9",
+      "exit": 0,
+      "accepted": 38764,
+      "errors": 0,
+      "input_count": 1193,
+      "input_before_after_and_final_exact": true,
+      "input_map_sha256": "95bf259ea3335786fd155d4f6220b4fc3dfa59ff8a78fc8384b88e30918d68d0",
+      "elapsed_seconds": 72.080676917
+    },
+    "named": {
+      "path": ".git/full-game-localization/order248-named-first.json",
+      "bytes": 2028549,
+      "sha256": "c1f4b887de1f921c9b9d71b942c8c28e3a378a8115bf10076a6704324c9b67d9",
+      "exit": 0,
+      "unique_children": 11,
+      "all_children_exit0": true,
+      "lossless_raw_child_stdout_stderr_verified": true,
+      "input_count": 1569,
+      "input_before_after_exact": true,
+      "input_map_sha256": "f709f2ae5c719328471a1a54332da9960699ce620410e48b9ba926fd502d4079",
+      "elapsed_seconds": 94.31127729200001,
+      "observations": {
+        "fullself": 261,
+        "JA_self": 146,
+        "ZH_self": 12446,
+        "EN_errors": 0,
+        "registry_tools": 145,
+        "EXTRA_advisories": 17,
+        "queue_fixtures": 25,
+        "registry_fence": 4,
+        "agent_cases": 222,
+        "context_docs": 365,
+        "active_queue": 80
+      },
+      "boundary": "ZH mode=skeleton and advisory EXTRA17 are preserved, not full-language/full-product coverage."
+    },
+    "named_launch": {
+      "path": ".git/full-game-localization/order248-named-launch-first.json",
+      "bytes": 374769,
+      "sha256": "12f8ce70f5a461dd0f59a624f7b1c4247add90534b435325f722bff574ca0c9e",
+      "exit": 0,
+      "input_count": 1193,
+      "input_before_after_exact": true
+    }
+  },
+  "preservation": {
+    "baseline": "07ef0f750abe97d6c671d27a6f638938b15658a7",
+    "method": "Read both active ownership declarations and compare full Git path/mode/blob inventories baseline-to-review. Changed23 paths are declared248/249 or separately owned247 status; other2656 entries exact. Current protected bytes also compared with baseline and review Git blobs.",
+    "changed_paths_outside_declared_units": 0,
+    "unchanged_git_mode_blob_entries": 2656,
+    "history_files_unchanged": 28,
+    "human": {
+      "bytes": 103390,
+      "sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6",
+      "unchanged": true
+    },
+    "old_agent_decisions": {
+      "count": 31,
+      "bytes": 49302,
+      "sha256": "26674ca64b11bd2b0c4bf84af0d084647f08165ac425b7fcbcbd28b6e9bea3a9",
+      "unchanged": true
+    },
+    "WORK": {
+      "bytes": 7660,
+      "sha256": "8daaf8aac975e1b4d7fedf755e058cdd5fec1fcc5649cd50e2ed7b4ee1e4a943",
+      "added_lines": 36,
+      "remove_added_lines_restores_entire_baseline_raw": true,
+      "baseline_bytes": 4492,
+      "baseline_sha256": "be3c6811426450b38a7bac9132c9735b02e8cbaf3b14e994a2cb1a4a5b6260d4",
+      "baseline_and_current_EOF_LF": 1,
+      "boundary": "Historical progress notes are not final-status evidence. No new history move in this comparison."
+    },
+    "unchanged": [
+      "GameState",
+      "LocaleManager",
+      "MainGame",
+      "project.godot",
+      "audit.sh c906ff8b",
+      "ORDER247 runtime-trace validator b49b282d",
+      "public demo scope",
+      "release content inventory",
+      "historical order124 manifest/hash/loss receipt",
+      "other events/assets/KO-EN source constants"
+    ],
+    "audit_sh_sha256": "c906ff8b56a33a2861833997f3c244e9c3581b641c2c97f5c9d93863bd6127f7",
+    "prior_CI_validator_sha256": "b49b282ddc7f4f133d7fb2c5ebe6d2dc4f8ba947a77dc512849f5cb981e6b009"
+  },
+  "reviewer_actions": {
+    "repository_module_imports": 0,
+    "collector_calls": 0,
+    "L1_runs": 0,
+    "test_runs": 0,
+    "Godot_runs": 0,
+    "remote_queries": 0,
+    "player_save_reads": 0,
+    "product_or_operating_or_Git_writes": 0,
+    "authorized_public_writes": [
+      "docs/agent_reviews/ORDER-248.json",
+      "docs/agent_reviews/ORDER-249.json"
+    ],
+    "method": "Read actual source/diffs and retained evidence; standard-library JSON/AST/hash and read-only Git calculations. Private review proofs use apply_patch. Existing author results are not treated as independent review without direct binding."
+  },
+  "limits": [
+    "Public GO1/human OPEN45/full-product HOLD are unchanged; these reports do not write decision ledgers.",
+    "No rendered/native-speaker/human-play/full-game/remote-CI success observed by this review. ORDER247 exact07ef evidence is not evidence for this source.",
+    "Historical/raw projections are named as such, not current runtime/gameplay outcomes. Remaining title/UI wrappers, source debts and unverified dynamic material remain outside this unit.",
+    "Local development/QA may be complete while remote acceptance remains pending; this GO must not be reused as a whole-project release approval."
+  ],
+  "unit_id": "ORDER-248",
+  "independent_of": "Rawls translation/source author; Plato source-fixture author; ROOT runtime/UI/acceptance author.",
+  "population": {
+    "title_ids": 11,
+    "KO_EN_source_pairs": 22,
+    "JA_CN_TW_values": 66,
+    "new_UI_values": 65,
+    "existing_JA_values_preserved": 1,
+    "new_machine_accepted_records": 66,
+    "remaining_title_ids_excluded": 20
+  },
+  "verdict_basis": [
+    "All66 KO-direct targets were independently read for semantics, Taiwan/Mainland script, glossary, won-denominated money, cash/net-worth, runs-versus-years and stated-source debts. Required0; optionalTW1 adopted with other65 and source/condition/JA-existing1 exact.",
+    "Applied source4/current guards/newself/wiring and decoded runtime/runner were fully read. Final raw pins equal those reviewed; exact source/raw inverse guards retain old245/244 views and the shared GameState owner without treating old source as current.",
+    "Current19 and separate old24/18 retained source results pass. First runtime old100/NEXT100/new110 passes on unchanged approved19 inputs, with its unrelated outer-capture failure explicitly retained.",
+    "Same66 L1 closes the4 original JA numeric false positives through separate ORDER249, without changing source or targets. Official22x3 source/response/receipt/currentUI and portable acceptance were directly rechecked; old38698 full raw inverse exact.",
+    "All accepted38764 and the explicit shared11 final children pass; exact final source binding and declared/protected path preservation leave no required local defect."
+  ],
+  "read_scope_and_method": [
+    "Fully read original66 reviews/approved revision, actual22 KO/EN source pairs,11 conditions, six source/condition debts, sharedGS owner, applicable I18N EN/JA/ZH/infra and gangnamdream-dev work-unit rules.",
+    "Read source4 final diff and all new/changed successor/JA/Chapter functions; independently checked complete predecessor raw inverses and existing function/fixture preservation.",
+    "Read all current19 results and base relationships, logical-versus-physical pins, old24/18 result groups; compare final named result objects exactly with first retained results.",
+    "Read decoded runtime changes and complete runner, bind authorizedTW1/approval-bit changes only, then parse all310 retained expected/actual results, state/disk evidence, raw logs and19 input pins without rerunning.",
+    "Directly verify official export/check/import9 child outputs, all66 initial/final/response/UI/receipt rows, receipt selfhashes and portable full inverse. Inspect all named11 lossless child outputs and final document-only deltas."
+  ],
+  "source_to_consumer": {
+    "producer": "MetaProgression._localized_title -> get_title_info",
+    "consumers": "Collection cards, toast/log/monthly/ending wrappers, cache/language reload and persisted title-ID readers in the frozen runtime roster.",
+    "shared_owner": "GameState's Gangnam Dreamer and MP's Gangnam Dream Achiever retain distinct KO/EN call ownership; neither sharedGS call nor its current state precedence is erased.",
+    "state_boundary": "Localized name/description display only; IDs, source constants, conditions, bonuses, saves and gameplay remain unchanged.",
+    "skill_effect": "The development skill kept QA targeted and required source-to-consumer, protected-player-state, independent work-unit and historical/current evidence boundaries."
+  },
+  "language": {
+    "first_required": 0,
+    "first_optional": 1,
+    "optional_remaining": 0,
+    "refinement": "TW ten_runs_title.desc: 反覆出現的面貌 -> 反覆展現的面貌; optional naturalness, not correction of a proven semantic defect.",
+    "other65_exact": true,
+    "source_pair_sha256": "7f91d316e709949bb81787db51870309f30383ec7b1c751711a50e4ceb2beb54",
+    "JA_existing": "강남드림 달성자 = カンナム・ドリーム達成者",
+    "source_debts_preserved": [
+      "first-stock prose versus any-investment flag",
+      "balance recovered prose versus was_broke_once flag",
+      "closed-laptop prose versus skill70",
+      "completed-life prose versus total_runs count",
+      "burnout prose versus mental_break-included achievement",
+      "ordinary_life ID versus actual ending label"
+    ]
+  },
+  "source_controls": {
+    "first_current": 19,
+    "normal": 3,
+    "valid_negative": 16,
+    "historical245": 24,
+    "historical244": 18,
+    "combined_new_population_claim": false,
+    "first_capture": "Declared source/self/scope files were dirty at first control invocation; current raw pins, not HEAD blobs, establish that first input.",
+    "first_outer1193_exact": true,
+    "physical_pins": 12,
+    "nested_logical_views": "11 and9 separately recorded; no projected hash substituted for physical current source.",
+    "named_current_results_equal_first": true
+  },
+  "runtime": {
+    "first_invocations": 1,
+    "elapsed_seconds": 46.199811333,
+    "child_exit": 0,
+    "total_groups": 310,
+    "groups": {
+      "old100": {
+        "direct_current": 95,
+        "validated_history": 5
+      },
+      "NEXT100": {
+        "direct_current": 95,
+        "validated_history": 5
+      },
+      "new_current": 110
+    },
+    "nested_condition_assertions": 175,
+    "nested_not_extra_groups": true,
+    "raw_state_boundary": "Old100 has30 full-state groups; NEXT100 has digest/delta evidence, not full raw state for every group. New110 has25 effect groups with full before/independent expected/after/disk; other85 are digest/delta observations.",
+    "expected_actual_all310_exact": true,
+    "new_effect_disk_text_hashes_verified": 165,
+    "runtime_input_count": 19,
+    "runtime_before_after_reviewed_and_final_exact": true,
+    "runtime_input_map_sha256": "d5ce9112e3b35dc08451f0965d76c829304c7b135e97f145e34c46a55716ee10",
+    "outer_capture": {
+      "input_count": 1193,
+      "passed": false,
+      "changed_paths": [
+        "tools/full_game_localization.py"
+      ],
+      "reported_capture_process_exit": 1,
+      "JSON_child_exit_field": 0,
+      "cause": "Separate ORDER249 validator edit occurred while the hold notification was in flight. The Python validator is not an engine consumer or one of runtime19.",
+      "reuse": "Only the unchanged engine19 component results are reused; no claim that outer1193 were unchanged. NotificationToast is in inner19 but not outer1193;18 common paths were independently reconciled."
+    },
+    "storage_and_logs": "Isolated meta/settings namespace was checked from retained artifacts, restored marker1 and no storage/process/log error observed. No reviewer access to actual player saves.",
+    "retained_dir": "/var/folders/yr/mf2mg8vn7yld9rk4rf3qh2y80000gn/T/gangnam-meta-title-q1jhe94g"
+  },
+  "numeric_diagnostic_history": {
+    "first_same66": {
+      "pass": 62,
+      "errors": 4,
+      "locale": "ja"
+    },
+    "after_ORDER249": {
+      "pass": 66,
+      "errors": 0
+    },
+    "source_target_records_unchanged": true,
+    "not_a_translation_rewrite": true
+  },
+  "exchange": {
+    "source_commit": "0cff6d5c05ec0e02c5410775e0fec8b043a53d6c",
+    "export_check_import_children": 9,
+    "exit0_all": true,
+    "check_import_changed_files0_all": true,
+    "rows_per_locale": 22,
+    "source_manifest_sha256": "a64a375f95b041f3a0bd82c43fcea5280bbbac8af3b7761e2e396abb39f32708",
+    "initial_final_source_rows_except_previous_target_exact": true,
+    "approved_source_response_receipt_UI_portable_records66_exact": true,
+    "receipt_selfhashes_verified": true,
+    "receipt_pins": {
+      "ja": {
+        "path": ".git/full-game-localization/ja/full-ko-direct-2026-09-07.1/45ec577656df76eae1c03703f47f37871de189dd3939737c9f4cd14f0a0fe692.accepted.json",
+        "bytes": 7202,
+        "sha256": "8792cb46a430252bfde5201c66183280bd197980f6ff8f47012104e508c62e1e",
+        "records_sha256": "f2f27e5c89aed1461e103b5d0cb728c2f8e2e50ba2e1054d2e0b66d8d2e7c5d1"
+      },
+      "zh-CN": {
+        "path": ".git/full-game-localization/zh-CN/full-ko-direct-2026-09-07.1/6226e6602fac31a9c4751a8bc931a47f3fb3e5f3946d95b3862303826210c876.accepted.json",
+        "bytes": 7205,
+        "sha256": "1e85d9a61dda30fbf8413104a7fe75c5f09e3e7f9d81fdbf67834c8fa61f8acc",
+        "records_sha256": "e5755da9386495895550584da29d19e9491805dcbc5ca2737c5d8da9c1c6f204"
+      },
+      "zh-TW": {
+        "path": ".git/full-game-localization/zh-TW/full-ko-direct-2026-09-07.1/868aeaa83273feae1d1cad740d96dda37fca74279662cbe581f4ecaaae980ca5.accepted.json",
+        "bytes": 7205,
+        "sha256": "2d0f21f46303e2cc3cb2af24f19584d11071d07f807800f42908b506bc087da1",
+        "records_sha256": "977278ee599b4e7c1cbce2521bd824c422ad716f34602971ddf7515b4bdabe57"
+      }
+    }
+  },
+  "portable": {
+    "before_accepted": 38698,
+    "after_accepted": 38764,
+    "before_batches": 100,
+    "after_batches": 101,
+    "metadata_count": 9,
+    "by_locale": {
+      "ja": 12920,
+      "zh-CN": 12922,
+      "zh-TW": 12922
+    },
+    "old_raw": {
+      "bytes": 10051010,
+      "sha256": "c8f174234aa07dbed3a1764cf8d28801cc0329c4d336b4e14540377177185980"
+    },
+    "current_raw": {
+      "bytes": 10072866,
+      "sha256": "13cbcc3d881de7f281b2079c05faf14d67bfd274dcf6efb43b1cd641b3337a63"
+    },
+    "new66_digest": "6fde921e42472db3335a5e724ee3ecbb66f700c7b6f2d6e681ad1b6647e3df1a",
+    "remove_new66_and_batch101_restore_old_accepted_digest_then_full_raw_exact": true
+  },
+  "evidence_pins": {
+    ".git/full-game-localization/order248-language-review.json": {
+      "bytes": 23060,
+      "sha256": "9d43b8a84a0ff60ef828ebd6ab0438b0970aac611896ec4933441885672e635f"
+    },
+    ".git/full-game-localization/order248-language-final-addendum.json": {
+      "bytes": 3613,
+      "sha256": "6684473d8f0049cebfdc9c56f236b579a8603772dbc01fe567df658fc295cb88"
+    },
+    ".git/full-game-localization/order248-title-translations-revised.json": {
+      "bytes": 33765,
+      "sha256": "e93317cfce1948cc61a071efb8f5123799d53b1cdba69300138325603b98ecbf"
+    },
+    ".git/full-game-localization/order248-source-controls-independent-review.json": {
+      "bytes": 11495,
+      "sha256": "01f294a173227636f1f90535cefc3266c14c78068cb14b08d4b2cf4463315fd8"
+    },
+    ".git/full-game-localization/order248-runtime-private-review.json": {
+      "bytes": 9401,
+      "sha256": "9594e6836d917e7012532dc9df2566a4bbb77e7d2cdbec71709ce87105bae149"
+    },
+    ".git/full-game-localization/order248-runtime-applied-independent-review.json": {
+      "bytes": 9500,
+      "sha256": "c76ed057ccd3ebd142ddb1158a0c313c54c09b16bc2021bb72d40f22b9137e0e"
+    },
+    ".git/full-game-localization/order248-actual-independent-review.json": {
+      "bytes": 11985,
+      "sha256": "1da122294889ab5c1f1ca4657898673dbff7fb92bbe51e8222c58e1edd5c34cc"
+    },
+    ".git/full-game-localization/order248-l1-first.json": {
+      "bytes": 404731,
+      "sha256": "36432153916007976bc152a87228c9c1175b62f91427cac2d88ffecdebeb17c0"
+    },
+    ".git/full-game-localization/order248-l1-after-order249.json": {
+      "bytes": 404751,
+      "sha256": "fbfcef0c98285d177aea3f897a2f7dc0bf00c7fbfea3452df35b34691d98b020"
+    },
+    ".git/full-game-localization/order248-export-first.json": {
+      "bytes": 376734,
+      "sha256": "8817a81910b712c1e415c2212e823998ba39c13db0ad9917a9c786163bf39a87"
+    },
+    ".git/full-game-localization/order248-check-first.json": {
+      "bytes": 376428,
+      "sha256": "2dbb1771fef3352eebf76776d9740d71c073157ec6ae2a2d7b26140f8b2ccf8f"
+    },
+    ".git/full-game-localization/order248-import-first.json": {
+      "bytes": 376479,
+      "sha256": "82c963c65e94006254ec23810d4f22af6367e69d33c3e78a64f41851840fbe7c"
+    },
+    ".git/full-game-localization/order248-portable-prepare-first.json": {
+      "bytes": 400803,
+      "sha256": "699f0febec7fb403e1fdd236993465c489a91fc9ba594bb5d923dc686a71ad0c"
+    }
+  },
+  "product_pins": {
+    "autoloads/MetaProgression.gd": {
+      "bytes": 59337,
+      "sha256": "afe8bda86177950ef82fb8d2eea339ae398d59534897719c9b803bacf292a1b6"
+    },
+    "tools/ja_translation_pipeline.py": {
+      "bytes": 248524,
+      "sha256": "504b5ef8707568b199df35179b1753ab25706b2004fa3d0fc0fa879b18303906"
+    },
+    "tools/meta_title_locale_successor.py": {
+      "bytes": 18347,
+      "sha256": "de4e215e3b6fbc7aa36651446bc0fc42845da580136d293a424a03b366cc88a4"
+    },
+    "tools/chapter1_core_loop_v2_causal_ledger_check.py": {
+      "bytes": 1461039,
+      "sha256": "f0284d2ff4159b0cfffd5e3888e0e736e1b6ee7f38e32f32d1009485f748682e"
+    },
+    "tools/meta_title_locale_successor_self_test.py": {
+      "bytes": 84339,
+      "sha256": "3985d7f062682a4290602caac3f37a9427075a358307ff6f8ce5b1c862c63c64"
+    },
+    "tools/MetaTitleLocaleCheck.tscn": {
+      "bytes": 130473,
+      "sha256": "a983ac8c5c42751361cde949308447ebbdb05b9bee4ac9112651d0699c8f0a64"
+    },
+    "tools/run_meta_title_locale_qa.sh": {
+      "bytes": 10408,
+      "sha256": "4a683a6cd4e1c3bf80e5896af9882df6c08bd27de76870ca9f29d56a6d733360"
+    },
+    "locale/ui_ja.json": {
+      "bytes": 287583,
+      "sha256": "0556e01e6f443135ad4d712c2b9e6724f609ec54a24b90d3b302179e109b260d"
+    },
+    "locale/ui_zh-CN.json": {
+      "bytes": 31026,
+      "sha256": "1ab29bfb9940853e2bfef87f74c88675adf70caa9fc4709871735520635e5a52"
+    },
+    "locale/ui_zh-TW.json": {
+      "bytes": 31114,
+      "sha256": "7a9c2ab24de095eae209ad7caa4faee4f64512de0669f2bc7508c74d63db8590"
+    },
+    "tools/audit_scope.json": {
+      "bytes": 151851,
+      "sha256": "44eada552010a712fed8fee83481f168c46d40913579f114738232e0ead4e002"
+    }
+  }
+}

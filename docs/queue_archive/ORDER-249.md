@@ -1,3 +1,38 @@
+# ORDER-249 — 표적 작업 결과
+
+[x] ORDER-249 — 2026-09-12. 비저자 Poincare work_unit GO 한정.
+
+source `72169bdec241c7574c939b32b097b71694562915`, tree
+`cebe503ba69f1f1b3d5e1f055090e040099e7abc`; clean 검토 HEAD
+`03c26aaac20262987d4f2871e6c9cdf718e15a4a`에 결속한다.
+공개GO1·인간OPEN45·본편HOLD, 원어민/렌더/실플레이·외부출시 GO가 아니다.
+
+공통 최종 검사11은 f16d2d2에서 실제 selector 1회/94.311초/1569입력exact다.
+새 source에는 검증 완료 상태를 적은 CLAUDE/backlog와 STATUS만 다르며, 코드·데이터
+1193과 runtime19는 그대로다. 이 두 문서는 metadata 예외가 아닌 새source로 취급했다.
+이후 표적docs3을 다시 통과했다. 전체 수용38764 L1은 별도72.081초/1193exact/오류0.
+검사를 두 단위에 같은 실행으로 결속하며 중복 실행했다고 세지 않는다.
+원격247 exact07ef와 새 후보 CI는 별도다. 일회성 작업 지시이며 새 규범 없음.
+
+## 결과와 경계
+
+정확한JA4 UI원문의 다섯/열 번을5/10회와 연결하는 numeric-only helper를 수리했다.
+새helper43줄/hook4줄과 새 unittest1만 추가, 기존 두 파일 전체 raw역복원exact.
+사전33=정상6/변조19/OFF8; baseline helper부재33/정상full1/유효negative0를 보존했다.
+첫 targeted unittest1의 같은33 전량PASS/정상base19/OFF8 원진단exact. 돈·token의
+독립 오류는 유지하고 전체 validate 조기 성공/일반파서 확대/오류삭제는 하지 않았다.
+후속 공통11의 전체self는261이며 최초target1과 구분한다. 번역 추가량은248소유다.
+
+도달: ORDER249_JA_LIFE_COUNT_FROZEN33 passed=true, normal6/mutant19/OFF8.
+생산자/독자: _ja_ui_life_count_numbers → translation_errors → 공식수용/L1.
+바꾸는 상태: 정확한회차 오탐4→0, 다른값/단위/누락·부호·위치 변조는 거부.
+포기/서사/계층: 해당 없음 — 수량 검사, gameplay/번역 원문 변경0.
+닫는 것: exact4 수량검사1원인, 자연어 전반/원어민/게임전체 닫기0.
+
+[독립 판정](../agent_reviews/ORDER-249.json) · SHA `43bb6f107dff17d4bf5065e4ebf4afb9f8205295ec32ab3d208f9d4e2472b275`
+
+## 선언·진행 원문 보존
+
 # 누적 인생 칭호 일본어 회차 수량 오탐
 
 #### [~] ORDER-249 인생 회차 수량 검사 정합

@@ -1,0 +1,282 @@
+{
+  "schema_version": 1,
+  "scope": "work_unit",
+  "subject": {
+    "kind": "source",
+    "commit": "72169bdec241c7574c939b32b097b71694562915",
+    "tree": "cebe503ba69f1f1b3d5e1f055090e040099e7abc",
+    "manifest_sha256": null
+  },
+  "source_commit": "72169bdec241c7574c939b32b097b71694562915",
+  "source_tree": "cebe503ba69f1f1b3d5e1f055090e040099e7abc",
+  "verdict": "GO",
+  "required": [],
+  "optional": [],
+  "reviewer": "Poincare / final_regression_review",
+  "verdict_boundary": "LOCAL work-unit acceptance only. No remote CI, native-language, rendered-screen, human-play or full-product GO; separate ORDER-247 and subsequent remote acceptance remain outside this verdict.",
+  "observed_head": "03c26aaac20262987d4f2871e6c9cdf718e15a4a",
+  "observed_tree": "ce228020cbb7f6cd00d60f992d809de1aaed54ee",
+  "observed_clean_before_public_reports": true,
+  "identity_and_QA_reuse": {
+    "method": "Read the current human_gates source-subject rule and independently reproduce its Git traversal without importing or executing a repository module; resolved source72169, not a guessed metadata exemption.",
+    "original_QA_head": "f16d2d2396a8c9ff0b01824671d56b212a4d6926",
+    "original_QA_tree": "498473384765949136cf13fc4ce7696262adb216",
+    "QA_to_final_changed_paths": [
+      "CLAUDE.md",
+      "docs/STATUS.md",
+      "docs/queue_backlog/FULL_GAME_LOCALIZATION.md"
+    ],
+    "source_affecting_docs": [
+      "CLAUDE.md",
+      "docs/queue_backlog/FULL_GAME_LOCALIZATION.md"
+    ],
+    "rationale": "The two source-affecting documents only record the already captured completed counts/status, so they were committed as a new source72169. STATUS is the later wrapper. All1193 code/content inputs remain raw-exact; named1569 inputs have1566 raw-exact and only these3 directly reviewed result/status-document deltas.",
+    "final_docs_check": {
+      "path": ".git/full-game-localization/order248-final-status-docs.json",
+      "bytes": 374761,
+      "sha256": "511cd78f9f873d81d8d78832e7a556fb67b47ee3219fab97d2694228128ded6a",
+      "selected_children": 3,
+      "exit": 0,
+      "outer1193_exact": true,
+      "boundary": "Retained selector stdout contains child summaries/tails, not lossless full child stdout. No claim of a new product/engine check."
+    }
+  },
+  "shared_final_QA": {
+    "executions": "One shared final all-accepted run and one shared final named11 run, referenced by both units, not two independent runs.",
+    "all_accepted": {
+      "path": ".git/full-game-localization/order248-all-accepted-l1-first.json",
+      "bytes": 374963,
+      "sha256": "440af2983e345e41c70140e57dd32f77008e7eb354ef7a91bba3977ab4de9fa9",
+      "exit": 0,
+      "accepted": 38764,
+      "errors": 0,
+      "input_count": 1193,
+      "input_before_after_and_final_exact": true,
+      "input_map_sha256": "95bf259ea3335786fd155d4f6220b4fc3dfa59ff8a78fc8384b88e30918d68d0",
+      "elapsed_seconds": 72.080676917
+    },
+    "named": {
+      "path": ".git/full-game-localization/order248-named-first.json",
+      "bytes": 2028549,
+      "sha256": "c1f4b887de1f921c9b9d71b942c8c28e3a378a8115bf10076a6704324c9b67d9",
+      "exit": 0,
+      "unique_children": 11,
+      "all_children_exit0": true,
+      "lossless_raw_child_stdout_stderr_verified": true,
+      "input_count": 1569,
+      "input_before_after_exact": true,
+      "input_map_sha256": "f709f2ae5c719328471a1a54332da9960699ce620410e48b9ba926fd502d4079",
+      "elapsed_seconds": 94.31127729200001,
+      "observations": {
+        "fullself": 261,
+        "JA_self": 146,
+        "ZH_self": 12446,
+        "EN_errors": 0,
+        "registry_tools": 145,
+        "EXTRA_advisories": 17,
+        "queue_fixtures": 25,
+        "registry_fence": 4,
+        "agent_cases": 222,
+        "context_docs": 365,
+        "active_queue": 80
+      },
+      "boundary": "ZH mode=skeleton and advisory EXTRA17 are preserved, not full-language/full-product coverage."
+    },
+    "named_launch": {
+      "path": ".git/full-game-localization/order248-named-launch-first.json",
+      "bytes": 374769,
+      "sha256": "12f8ce70f5a461dd0f59a624f7b1c4247add90534b435325f722bff574ca0c9e",
+      "exit": 0,
+      "input_count": 1193,
+      "input_before_after_exact": true
+    }
+  },
+  "preservation": {
+    "baseline": "07ef0f750abe97d6c671d27a6f638938b15658a7",
+    "method": "Read both active ownership declarations and compare full Git path/mode/blob inventories baseline-to-review. Changed23 paths are declared248/249 or separately owned247 status; other2656 entries exact. Current protected bytes also compared with baseline and review Git blobs.",
+    "changed_paths_outside_declared_units": 0,
+    "unchanged_git_mode_blob_entries": 2656,
+    "history_files_unchanged": 28,
+    "human": {
+      "bytes": 103390,
+      "sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6",
+      "unchanged": true
+    },
+    "old_agent_decisions": {
+      "count": 31,
+      "bytes": 49302,
+      "sha256": "26674ca64b11bd2b0c4bf84af0d084647f08165ac425b7fcbcbd28b6e9bea3a9",
+      "unchanged": true
+    },
+    "WORK": {
+      "bytes": 7660,
+      "sha256": "8daaf8aac975e1b4d7fedf755e058cdd5fec1fcc5649cd50e2ed7b4ee1e4a943",
+      "added_lines": 36,
+      "remove_added_lines_restores_entire_baseline_raw": true,
+      "baseline_bytes": 4492,
+      "baseline_sha256": "be3c6811426450b38a7bac9132c9735b02e8cbaf3b14e994a2cb1a4a5b6260d4",
+      "baseline_and_current_EOF_LF": 1,
+      "boundary": "Historical progress notes are not final-status evidence. No new history move in this comparison."
+    },
+    "unchanged": [
+      "GameState",
+      "LocaleManager",
+      "MainGame",
+      "project.godot",
+      "audit.sh c906ff8b",
+      "ORDER247 runtime-trace validator b49b282d",
+      "public demo scope",
+      "release content inventory",
+      "historical order124 manifest/hash/loss receipt",
+      "other events/assets/KO-EN source constants"
+    ],
+    "audit_sh_sha256": "c906ff8b56a33a2861833997f3c244e9c3581b641c2c97f5c9d93863bd6127f7",
+    "prior_CI_validator_sha256": "b49b282ddc7f4f133d7fb2c5ebe6d2dc4f8ba947a77dc512849f5cb981e6b009"
+  },
+  "reviewer_actions": {
+    "repository_module_imports": 0,
+    "collector_calls": 0,
+    "L1_runs": 0,
+    "test_runs": 0,
+    "Godot_runs": 0,
+    "remote_queries": 0,
+    "player_save_reads": 0,
+    "product_or_operating_or_Git_writes": 0,
+    "authorized_public_writes": [
+      "docs/agent_reviews/ORDER-248.json",
+      "docs/agent_reviews/ORDER-249.json"
+    ],
+    "method": "Read actual source/diffs and retained evidence; standard-library JSON/AST/hash and read-only Git calculations. Private review proofs use apply_patch. Existing author results are not treated as independent review without direct binding."
+  },
+  "limits": [
+    "Public GO1/human OPEN45/full-product HOLD are unchanged; these reports do not write decision ledgers.",
+    "No rendered/native-speaker/human-play/full-game/remote-CI success observed by this review. ORDER247 exact07ef evidence is not evidence for this source.",
+    "Historical/raw projections are named as such, not current runtime/gameplay outcomes. Remaining title/UI wrappers, source debts and unverified dynamic material remain outside this unit.",
+    "Local development/QA may be complete while remote acceptance remains pending; this GO must not be reused as a whole-project release approval."
+  ],
+  "unit_id": "ORDER-249",
+  "independent_of": "Plato helper author; Rawls frozen33/self author; ROOT baseline/post and acceptance runner.",
+  "population": {
+    "exact_KO_sources": 4,
+    "locale": "ja",
+    "frozen_cases": 33,
+    "normal": 6,
+    "valid_negative": 19,
+    "OFF": 8,
+    "new_unittest_methods": 1,
+    "old_tests_preserved": 260,
+    "new_accepted_records_attributed_to_this_validator_unit": 0
+  },
+  "verdict_basis": [
+    "Actual4 correct JA5/10 life-count values were rejected by the generic numeric stream; full-source/canonical-key/locale-gated numeric-copy normalization repairs that cause without rewriting approved prose.",
+    "Fully read helper43+hook4 and all615 lines of the new method. Exact removal restores both complete prior raw files; unchanged260 tests and other source functions are preserved.",
+    "The pre-code33 population is literal-exact in the applied self method. Captured baseline has helper absent33, only1 normal full-validator success and0 valid negatives; no rejected mutant is credited without a passing base.",
+    "First targeted one-unittest invocation captures all33 before assertions:6 normal,19 valid negative and OFF8 old errors exact, with money/token diagnostics separately preserved. Final shared fullself261 includes the same33 result object.",
+    "Same66 selected records become error0 and all38764 accepted records plus shared11 final checks pass. Final source rebinding and original-text nonnumeric checks leave no required local defect."
+  ],
+  "read_scope_and_method": [
+    "Read active249, all4 KO/JA actual false-positive rows, full33 pre-code table and baseline helper/full outputs, complete helper/hook and complete frozen method control flow.",
+    "Use standard-library AST/raw extraction to compare all33 literals/expectations and OFF8 baseline arrays exactly; independently remove new helper/hook/method to restore complete predecessor raw bytes.",
+    "Read targeted post entire helper/full trace and all negative base links before accepting any mutant result; verify6 inner and1193 outer input maps.",
+    "Read final named fullself raw output:261 tests PASS and embedded33 result object equals first post; this is later shared regression, not the first targeted invocation.",
+    "Rebind source72169 and review03c, official same66 closure and final docs-only delta; reuse unchanged runtime19 without claiming ownership of ORDER248 engine/language/acceptance."
+  ],
+  "implementation": {
+    "helper": "_ja_ui_life_count_numbers",
+    "changed_lines": {
+      "helper": 43,
+      "translation_errors_hook": 4
+    },
+    "activation": "Exact four KO full sources, their canonical UI leaf IDs and ja only; source/key/locale OFF returns None.",
+    "numeral_scope": "Only the life-count opening numeral for N度/回の人生, with description continuation を. NFKC applies to the numeral span only; allowed5/五 and10/十 equivalents are checked against the exact source count.",
+    "rejection": "Wrong/missing count, sign, year/person or wrong role/unit, wrong placement and extra count are rejected; error path preserves the original numeric source/target pair.",
+    "original_text_preserved": "Token, money, script, terminology, newline and other text checks still inspect original target text. No early full-validator success, error removal, generic parser expansion or shared-constant relaxation.",
+    "source_sha256": "90b2f806580ab1d342b17646a605f4513d3123b1e8ef29ea32c5d9a689c5a383",
+    "predecessor_fulltool": {
+      "bytes": 276088,
+      "sha256": "c294603d7b2f99177ae9734661abb5ee82efae6cf4e47f353e408bd7b79e66b9"
+    },
+    "predecessor_self": {
+      "bytes": 1581446,
+      "sha256": "80c5aaf07fd4d30195d5041dcab8aab707580f38c5e536341b190c666952407f"
+    },
+    "complete_raw_inverse_both": true
+  },
+  "baseline": {
+    "helper_absent": 33,
+    "full_normal_pass": 1,
+    "valid_negative_count": 0,
+    "actual_false_positives": 4,
+    "OFF8_original_errors_retained": true,
+    "boundary": "Wrong written9/missing-count cases that previously passed are also retained; pre-code rejection is not counted as valid mutation coverage while its base fails."
+  },
+  "first_post": {
+    "command": [
+      "env",
+      "PYTHONPATH=tools",
+      "python3",
+      "-m",
+      "unittest",
+      "full_game_localization_self_test.ExchangeTests.test_order249_ja_life_count_frozen33"
+    ],
+    "unittest_count": 1,
+    "nested_cases": 33,
+    "whole261_executed": false,
+    "exit": 0,
+    "unittest_seconds": 0.121,
+    "envelope_seconds": 0.483295292,
+    "normal_pass": 6,
+    "valid_negative_rejected": 19,
+    "OFF_exact": 8,
+    "inner_inputs": 6,
+    "outer_inputs": 1193,
+    "before_after_exact": true,
+    "case_digest": "6f42df3d803023c24238746c44141e30dfc1451966ebba011bd88850ee0bd252",
+    "results_digest": "1dc9e8d521d200b24ebf3cc3b8f4b061562fbc8062e7c17edd8f4117829114a0",
+    "money_token_boundary": "Money diagnostics are preserved independently. Added token case intentionally passes the narrow quantity helper but is rejected by original placeholder validation.",
+    "input_subject": "First post is bound to captured changed fulltool/self raw bytes at dirty16cc, not represented as clean16cc Git source.",
+    "review_chronology": "ROOT executed after ROOT's own complete read. Poincare independently reviewed code and retained post afterwards; this is not retrospective pre-execution authorization."
+  },
+  "source_to_consumer": {
+    "producer": "Full-game Leaf for exact runtime:static_ui KO owner",
+    "reader": "translation_errors -> narrow JA numeric-copy adapter -> generic number comparison plus unchanged original-target checks",
+    "state_change": "Validation only; no story, display, condition, title ID, save, asset or gameplay change",
+    "closes": "One false-positive cause on four exact life-count UI sources, not a general Japanese numeral grammar."
+  },
+  "evidence_pins": {
+    ".git/full-game-localization/order249-code-independent-review.json": {
+      "bytes": 9807,
+      "sha256": "c242f0f45b9a5837d423ba6f9101f09c246b555f4d78d435cc83f9a7b0a2dbe9"
+    },
+    ".git/full-game-localization/order249-ja-life-counter-controls.json": {
+      "bytes": 23549,
+      "sha256": "5fb3f8438a58df0e7b43d6f9ecacb3b3bfdebd1c6b178bf53c505e363977b099"
+    },
+    ".git/full-game-localization/order248-order249-baseline-first.json": {
+      "bytes": 381847,
+      "sha256": "f45d7b1721967c6da0c8255d63db714aa9a8847b2ffa66a54d5195561f3888ee"
+    },
+    ".git/full-game-localization/order248-order249-post-first.json": {
+      "bytes": 425892,
+      "sha256": "07d01d29814b616bd69fb9abc966bb7658d2c8f291b58e655a0457d0df69c46f"
+    },
+    ".git/full-game-localization/order248-l1-first.json": {
+      "bytes": 404731,
+      "sha256": "36432153916007976bc152a87228c9c1175b62f91427cac2d88ffecdebeb17c0"
+    },
+    ".git/full-game-localization/order248-l1-after-order249.json": {
+      "bytes": 404751,
+      "sha256": "fbfcef0c98285d177aea3f897a2f7dc0bf00c7fbfea3452df35b34691d98b020"
+    }
+  },
+  "product_pins": {
+    "tools/full_game_localization.py": {
+      "bytes": 278655,
+      "sha256": "90b2f806580ab1d342b17646a605f4513d3123b1e8ef29ea32c5d9a689c5a383"
+    },
+    "tools/full_game_localization_self_test.py": {
+      "bytes": 1605401,
+      "sha256": "0dc399b90f4f5d11a0bd20ef3ae8a06a64634797770f952813899f9ba0ecf74f"
+    }
+  }
+}
