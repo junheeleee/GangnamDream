@@ -128,7 +128,8 @@ skipped이며 업로드 파일도 없었다. 이 새 원인은 별도 좁은 수
   현재38764(JA12920/CN·TW12922)/b101/meta9이며 기존38698 raw역복원exact다.
   첫JA회차 수량4오탐은 별도249에서 exact4 source만 수리했고 같은66 L1 오류0이다.
   첫actual310/입력19exact와 외부1193capture의 무관Python1변경 실패는 분리 보존한다.
-  전체회귀·최종독립 검수는 진행 중이며 native/render·본편GO는 아니다.
+  전체회귀 오류0·영향11 PASS이며 최종독립 판정은 큐·원장이 소유한다.
+  native/render·본편GO는 아니다.
   남은20칭호·미발견/알림 wrapper·category의 미번역은 별도다. 다음 표시 계약은
   같은 함수의 나머지 칭호와
   `_localized_route_label/_localized_profile_label/_roll_run_theme`,
