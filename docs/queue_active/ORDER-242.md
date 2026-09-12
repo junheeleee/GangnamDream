@@ -100,3 +100,15 @@ GO만 기록하며 사용자 재판정을 기다리지 않는다. 자동 검사�
   5언어를 실행 전에 고정해 총100그룹이다. 기대 조건/영어 표기를 서로 옮기지
   않는다. 기존 collection 그룹에서 category 기반 다음 회차 보너스까지 비교한다.
   실행 전 ROOT·비저자 전체 구조 검토의 필수0이며 최초 엔진 실행은 아직 전이다.
+
+## 진행 — 실제 실행·수용
+
+- clean `65261f514345bd25c5da8aa04f3d1e922e1fa853`에서 첫 actual100 전부 PASS,
+  restore1/exit0/stderr0, preautoload 별도 저장 공간·원형 로그를 보존했다.
+  source19 전후 exact이며 실제 렌더/정상 속도 플레이 증거는 아니다.
+- 같은 clean checkpoint의 final/export/check/import는 신규17×3·changed_files0.
+  portable `dd078a90c92b18a7d550f964f63dec3c02f4309a`에51/b1만 추가해
+  38,638/b99/meta9다. 이전38,587/b98 raw 역복원 exact와 apartment3을 보존했다.
+- 전체 수용38,638 hash/L1은 첫1회 오류0/69.970191584초/입력1,187 전후exact.
+  현재 수집17,403 중 지원17,074/미확정329, UI합집합3,585이며 최종 UI 분모가 아니다.
+  최종 명시9·비저자 exact-source 판정은 이 뒤 별도이며 본편 HOLD를 유지한다.
