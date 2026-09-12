@@ -2086,5 +2086,1238 @@ def _a11_main():
 # END_ORDER248_A11_SELF
 
 
+# BEGIN_ORDER250_MG9_SELF
+# Separate newest MG9 source population. All original25 functions and literals stay raw.
+MG9_SPEC = json.loads(r'''{
+  "provenance": {
+    "plan": ".git/full-game-localization/order250-source-controls-plan.json",
+    "sha256": "d7c8cfaf41e42c62e5445acbca70f859947d12dc0517323d35ed167fb1857d26",
+    "cases_sha256": "91e1f6187dce9a674648bd34e57627ef2ba879eeb25c9a31fec165860fd5205c",
+    "chronology": "Recipes frozen before MG9 implementation. Private source only; no execution or applied-source claim."
+  },
+  "source_rows18": [
+    [
+      "holdem_master_title",
+      "name",
+      "홀덤 무법자",
+      "Hold'em Outlaw"
+    ],
+    [
+      "holdem_master_title",
+      "desc",
+      "지하 홀덤 클럽 15판 이상. 이제 패를 읽는다기보다, 상대를 읽는다.",
+      "Played 15 or more underground hold'em games. You read people now, not cards."
+    ],
+    [
+      "racetrack_master_title",
+      "name",
+      "경마 귀신",
+      "Racetrack Ghost"
+    ],
+    [
+      "racetrack_master_title",
+      "desc",
+      "경마장 15판 이상. 폼지는 가끔 거짓말을 한다. 나는 이제 그것도 안다.",
+      "Bet on 15 or more races. Form lies sometimes. Now you know that too."
+    ],
+    [
+      "scalping_master_title",
+      "name",
+      "스캘퍼",
+      "Scalper"
+    ],
+    [
+      "scalping_master_title",
+      "desc",
+      "스캘핑 트레이딩 15회 이상. 1분 안에 사고 팔고. 손이 기억한다.",
+      "Scalped 15 or more times. Buy and sell within a minute. Your hands remember."
+    ],
+    [
+      "baccarat_master_title",
+      "name",
+      "정선 카지노 상주자",
+      "Jeongseon Casino Regular"
+    ],
+    [
+      "baccarat_master_title",
+      "desc",
+      "바카라 15라운드 이상. 로드맵을 외웠지만 그게 아무 의미도 없다는 것도 안다.",
+      "Played 15 or more baccarat rounds. You memorized the roadmap and learned it means nothing."
+    ],
+    [
+      "blackjack_master_title",
+      "name",
+      "기본전략의 달인",
+      "Basic Strategy Master"
+    ],
+    [
+      "blackjack_master_title",
+      "desc",
+      "블랙잭 15핸드 이상. 패를 보고 멈출지 받을지를 안다. 이게 이 게임의 전부다.",
+      "Played 15 or more blackjack hands. Hit or stand. That is the whole game."
+    ],
+    [
+      "slot_master_title",
+      "name",
+      "잭팟 사냥꾼",
+      "Jackpot Hunter"
+    ],
+    [
+      "slot_master_title",
+      "desc",
+      "슬롯머신 20스핀 이상. 777이 나왔을 때 그 소리가 아직도 귓가에 맴돈다.",
+      "Spun slots 20 or more times. The sound of 777 still echoes."
+    ],
+    [
+      "roulette_master_title",
+      "name",
+      "제로의 지배자",
+      "Master of Zero"
+    ],
+    [
+      "roulette_master_title",
+      "desc",
+      "룰렛 15스핀 이상. 하우스엣지 2.7%는 알지만 멈출 수 없다.",
+      "Spun roulette 15 or more times. You know the 2.7% house edge and still cannot stop."
+    ],
+    [
+      "bigwheel_master_title",
+      "name",
+      "바늘의 눈",
+      "Eye of the Needle"
+    ],
+    [
+      "bigwheel_master_title",
+      "desc",
+      "빅휠 15스핀 이상. 가장 단순한 게임이지만 45:1을 노린다.",
+      "Spun the big wheel 15 or more times. The simplest game, still chasing 45:1."
+    ],
+    [
+      "daisai_master_title",
+      "name",
+      "주사위의 밤",
+      "Night of Dice"
+    ],
+    [
+      "daisai_master_title",
+      "desc",
+      "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+      "Played 15 or more Dai Sai rounds. You remember the sound of three dice rolling."
+    ]
+  ],
+  "baseline_pins": {
+    "autoloads/MetaProgression.gd": {
+      "bytes": 59337,
+      "sha256": "afe8bda86177950ef82fb8d2eea339ae398d59534897719c9b803bacf292a1b6"
+    },
+    "tools/ja_translation_pipeline.py": {
+      "bytes": 248524,
+      "sha256": "504b5ef8707568b199df35179b1753ab25706b2004fa3d0fc0fa879b18303906"
+    },
+    "tools/meta_title_locale_successor.py": {
+      "bytes": 18347,
+      "sha256": "de4e215e3b6fbc7aa36651446bc0fc42845da580136d293a424a03b366cc88a4"
+    },
+    "tools/chapter1_core_loop_v2_causal_ledger_check.py": {
+      "bytes": 1461039,
+      "sha256": "f0284d2ff4159b0cfffd5e3888e0e736e1b6ee7f38e32f32d1009485f748682e"
+    },
+    "tools/meta_title_locale_successor_self_test.py": {
+      "bytes": 84339,
+      "sha256": "3985d7f062682a4290602caac3f37a9427075a358307ff6f8ce5b1c862c63c64"
+    },
+    "tools/meta_title_locale_history.py": {
+      "bytes": 6891,
+      "sha256": "0c1d6d950379548c09d9f1a5faaa3749ced06465f34cd06457e9544c598a52f6"
+    },
+    "tools/meta_title_locale_history_self_test.py": {
+      "bytes": 25211,
+      "sha256": "0f00061417669ae026bd3d647156dad9a0e0b4920ee0c4414e49a5c26fdfcdf9"
+    },
+    "tools/full_game_localization.py": {
+      "bytes": 278655,
+      "sha256": "90b2f806580ab1d342b17646a605f4513d3123b1e8ef29ea32c5d9a689c5a383"
+    },
+    "tools/full_game_localization_self_test.py": {
+      "bytes": 1605401,
+      "sha256": "0dc399b90f4f5d11a0bd20ef3ae8a06a64634797770f952813899f9ba0ecf74f"
+    },
+    "autoloads/GameState.gd": {
+      "bytes": 217568,
+      "sha256": "8a40740286ff910b2a16049e2c2794cc0dc22fed5dfc78d2fc6ce458c833018d"
+    }
+  },
+  "old_self": {
+    "bytes": 84339,
+    "sha256": "3985d7f062682a4290602caac3f37a9427075a358307ff6f8ce5b1c862c63c64"
+  },
+  "old_function_count": 25,
+  "cases": [
+    {
+      "id": "mg9_normal_mp",
+      "kind": "normal",
+      "base_id": null,
+      "source": "autoloads/MetaProgression.gd",
+      "recipe": {
+        "op": "bound_future_raw"
+      },
+      "expected_profile": "normal_raw"
+    },
+    {
+      "id": "mg9_normal_ja",
+      "kind": "normal",
+      "base_id": null,
+      "source": "tools/ja_translation_pipeline.py",
+      "recipe": {
+        "op": "bound_future_raw"
+      },
+      "expected_profile": "normal_raw"
+    },
+    {
+      "id": "mg9_normal_calls",
+      "kind": "normal",
+      "base_id": null,
+      "source": "autoloads/MetaProgression.gd",
+      "recipe": {
+        "op": "parse_complete_current_MP"
+      },
+      "expected_profile": "normal_calls"
+    },
+    {
+      "id": "mg9_mp_rollback248",
+      "kind": "negative",
+      "base_id": "mg9_normal_mp",
+      "source": "autoloads/MetaProgression.gd",
+      "recipe": {
+        "op": "use_pinned_predecessor248"
+      },
+      "expected_profile": "reject_raw"
+    },
+    {
+      "id": "mg9_ja_rollback248",
+      "kind": "negative",
+      "base_id": "mg9_normal_ja",
+      "source": "tools/ja_translation_pipeline.py",
+      "recipe": {
+        "op": "use_pinned_predecessor248"
+      },
+      "expected_profile": "reject_raw"
+    },
+    {
+      "id": "mg9_mp_skip_to245",
+      "kind": "negative",
+      "base_id": "mg9_normal_mp",
+      "source": "autoloads/MetaProgression.gd",
+      "recipe": {
+        "op": "use_independently_restored245",
+        "sha256": "a3435ebd18cee005720a98633fa290754b23cf944b241cef25848b3cf114b7bd"
+      },
+      "expected_profile": "reject_raw"
+    },
+    {
+      "id": "mg9_mp_LF_forged_live_hash",
+      "kind": "negative",
+      "base_id": "mg9_normal_mp",
+      "source": "autoloads/MetaProgression.gd",
+      "recipe": {
+        "op": "append",
+        "text": "\n",
+        "claim": "approved_future_current_sha",
+        "force_live_observed_hash": "historical244_sha",
+        "must_read_actual_raw": true
+      },
+      "expected_profile": "reject_raw"
+    },
+    {
+      "id": "mg9_ja_CRLF",
+      "kind": "negative",
+      "base_id": "mg9_normal_ja",
+      "source": "tools/ja_translation_pipeline.py",
+      "recipe": {
+        "op": "replace_all_LF_with_CRLF",
+        "observe": "real JA adapter default Path.read_bytes path; no read_text normalization"
+      },
+      "expected_profile": "reject_raw"
+    },
+    {
+      "id": "mg9_mp_unowned_condition_change",
+      "kind": "negative",
+      "base_id": "mg9_normal_mp",
+      "source": "autoloads/MetaProgression.gd",
+      "recipe": {
+        "op": "replace_exact",
+        "before": "\t\t\"slot_master_title\":       return int(data.get(\"mg_plays_slot\", 0)) >= 20",
+        "after": "\t\t\"slot_master_title\":       return int(data.get(\"mg_plays_slot\", 0)) >= 19",
+        "count": 1
+      },
+      "expected_profile": "reject_raw"
+    },
+    {
+      "id": "mg9_helper_outside_new_span_change",
+      "kind": "negative",
+      "base_id": "mg9_normal_mp",
+      "source": "tools/meta_title_locale_successor.py",
+      "recipe": {
+        "op": "append",
+        "text": "\n",
+        "guard": "source4 whole-raw binding before module/corpus/history entry"
+      },
+      "expected_profile": "reject_physical_binding"
+    },
+    {
+      "id": "mg9_chapter_outer_hook_missing",
+      "kind": "negative",
+      "base_id": "mg9_normal_mp",
+      "source": "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+      "recipe": {
+        "op": "restore_exact_new_live_hook_to248",
+        "hook": "future actual _audited_source_snapshot_errors MG9 outer call -> current _order248_meta_source_errors; exact strings separately bound"
+      },
+      "expected_profile": "reject_physical_binding"
+    },
+    {
+      "id": "mg9_registry_stage_skip",
+      "kind": "negative",
+      "base_id": "mg9_normal_mp",
+      "source": "autoloads/MetaProgression.gd",
+      "recipe": {
+        "op": "replace_registry_previous",
+        "registry": "MG9_TRANSITIONS",
+        "value": "a3435ebd18cee005720a98633fa290754b23cf944b241cef25848b3cf114b7bd",
+        "leave_frozen_registry_digest": true
+      },
+      "expected_profile": "reject_raw"
+    },
+    {
+      "id": "mg9_registry_missing_JA_inverse_hook",
+      "kind": "negative",
+      "base_id": "mg9_normal_ja",
+      "source": "tools/ja_translation_pipeline.py",
+      "recipe": {
+        "op": "delete_registry_hook",
+        "registry": "MG9_TRANSITIONS",
+        "index": 0,
+        "leave_frozen_registry_digest": true
+      },
+      "expected_profile": "reject_raw"
+    },
+    {
+      "id": "mg9_false_hash_claim_valid_raw",
+      "kind": "negative",
+      "base_id": "mg9_normal_mp",
+      "source": "autoloads/MetaProgression.gd",
+      "recipe": {
+        "op": "replace_claim_only",
+        "claim": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected_profile": "reject_claim_only"
+    },
+    {
+      "id": "mg9_wrong_predecessor_registration",
+      "kind": "negative",
+      "base_id": "mg9_normal_mp",
+      "source": "autoloads/MetaProgression.gd",
+      "recipe": {
+        "op": "replace_registered_previous_only",
+        "registered_previous": "a3435ebd18cee005720a98633fa290754b23cf944b241cef25848b3cf114b7bd"
+      },
+      "expected_profile": "reject_registration_only"
+    },
+    {
+      "id": "mg9_call_missing",
+      "kind": "negative",
+      "base_id": "mg9_normal_calls",
+      "source": "autoloads/MetaProgression.gd",
+      "recipe": {
+        "op": "delete_selected_call",
+        "selector": {
+          "id": "holdem_master_title",
+          "field": "name",
+          "path": "autoloads/MetaProgression.gd",
+          "function": "_localized_title",
+          "korean": "홀덤 무법자",
+          "english": "Hold'em Outlaw",
+          "api": "legacy",
+          "context_id": ""
+        },
+        "count": 1
+      },
+      "expected_profile": "reject_calls"
+    },
+    {
+      "id": "mg9_call_duplicate",
+      "kind": "negative",
+      "base_id": "mg9_normal_calls",
+      "source": "autoloads/MetaProgression.gd",
+      "recipe": {
+        "op": "duplicate_selected_call",
+        "selector": {
+          "id": "holdem_master_title",
+          "field": "name",
+          "path": "autoloads/MetaProgression.gd",
+          "function": "_localized_title",
+          "korean": "홀덤 무법자",
+          "english": "Hold'em Outlaw",
+          "api": "legacy",
+          "context_id": ""
+        },
+        "count": 1
+      },
+      "expected_profile": "reject_calls"
+    },
+    {
+      "id": "mg9_call_EN_change",
+      "kind": "negative",
+      "base_id": "mg9_normal_calls",
+      "source": "autoloads/MetaProgression.gd",
+      "recipe": {
+        "op": "replace_selected_call_field",
+        "selector": {
+          "id": "holdem_master_title",
+          "field": "name",
+          "path": "autoloads/MetaProgression.gd",
+          "function": "_localized_title",
+          "korean": "홀덤 무법자",
+          "english": "Hold'em Outlaw",
+          "api": "legacy",
+          "context_id": ""
+        },
+        "attribute": "english",
+        "before": "Hold'em Outlaw",
+        "after": "Hold'em Winner"
+      },
+      "expected_profile": "reject_calls"
+    },
+    {
+      "id": "mg9_call_owner_change",
+      "kind": "negative",
+      "base_id": "mg9_normal_calls",
+      "source": "autoloads/MetaProgression.gd",
+      "recipe": {
+        "op": "replace_selected_call_field",
+        "selector": {
+          "id": "holdem_master_title",
+          "field": "name",
+          "path": "autoloads/MetaProgression.gd",
+          "function": "_localized_title",
+          "korean": "홀덤 무법자",
+          "english": "Hold'em Outlaw",
+          "api": "legacy",
+          "context_id": ""
+        },
+        "attribute": "function",
+        "before": "_localized_title",
+        "after": "_get_title_info_raw"
+      },
+      "expected_profile": "reject_calls"
+    },
+    {
+      "id": "mg9_call_API_change",
+      "kind": "negative",
+      "base_id": "mg9_normal_calls",
+      "source": "autoloads/MetaProgression.gd",
+      "recipe": {
+        "op": "replace_selected_call_field",
+        "selector": {
+          "id": "holdem_master_title",
+          "field": "name",
+          "path": "autoloads/MetaProgression.gd",
+          "function": "_localized_title",
+          "korean": "홀덤 무법자",
+          "english": "Hold'em Outlaw",
+          "api": "legacy",
+          "context_id": ""
+        },
+        "attribute": "api",
+        "before": "legacy",
+        "after": "context"
+      },
+      "expected_profile": "reject_calls"
+    },
+    {
+      "id": "mg9_call_context_change",
+      "kind": "negative",
+      "base_id": "mg9_normal_calls",
+      "source": "autoloads/MetaProgression.gd",
+      "recipe": {
+        "op": "replace_selected_call_field",
+        "selector": {
+          "id": "holdem_master_title",
+          "field": "name",
+          "path": "autoloads/MetaProgression.gd",
+          "function": "_localized_title",
+          "korean": "홀덤 무법자",
+          "english": "Hold'em Outlaw",
+          "api": "legacy",
+          "context_id": ""
+        },
+        "attribute": "context_id",
+        "before": "",
+        "after": "ui.mg9.unapproved"
+      },
+      "expected_profile": "reject_calls"
+    },
+    {
+      "id": "mg9_call_foreign_extra_owner",
+      "kind": "negative",
+      "base_id": "mg9_normal_calls",
+      "source": "autoloads/MetaProgression.gd",
+      "recipe": {
+        "op": "append_foreign_duplicate_call",
+        "selector": {
+          "id": "holdem_master_title",
+          "field": "name",
+          "path": "autoloads/MetaProgression.gd",
+          "function": "_localized_title",
+          "korean": "홀덤 무법자",
+          "english": "Hold'em Outlaw",
+          "api": "legacy",
+          "context_id": ""
+        },
+        "retain_original": true,
+        "values": {
+          "path": "autoloads/GameState.gd",
+          "function": "get_current_title"
+        }
+      },
+      "expected_profile": "reject_calls"
+    },
+    {
+      "id": "mg9_path_OFF",
+      "kind": "OFF",
+      "base_id": "mg9_normal_mp",
+      "source": "autoloads/MetaProgression.gd",
+      "recipe": {
+        "op": "change_relative_path_only",
+        "relative": "autoloads/GameState.gd",
+        "raw": "unchanged approved future MP",
+        "claim": "its actual SHA256"
+      },
+      "expected_profile": "path_OFF"
+    }
+  ],
+  "expected_profiles": {
+    "normal_raw": {
+      "physical_binding": true,
+      "source_errors_empty": true,
+      "raw_projection": "exact immediate248 predecessor",
+      "hash_projection": "immediate248 SHA for correct actual claim",
+      "live": "MP: actual Chapter snapshot passes with original registered historical244 pin; JA: actual JA adapter observes valid current MP and physical JA then strips only18"
+    },
+    "normal_calls": {
+      "errors_empty": true,
+      "output": "input tuple minus exact MG9 eighteen only; remaining tuple order/values preserved",
+      "source": "exact MP248 raw",
+      "observation": "Complete MP parse once; projected source and call list compared with independent expected, not SUT-produced expected"
+    },
+    "reject_raw": {
+      "source_errors_empty": false,
+      "raw_projection": "input identity",
+      "hash_projection": "claim identity",
+      "live": "owned MP raw reaches actual Chapter reader and is rejected before old _order248 gate; JA physical raw reaches adapter and returns original calls/source plus errors"
+    },
+    "reject_physical_binding": {
+      "binding_errors_empty": false,
+      "new_helper_calls": 0,
+      "historical_entries": 0,
+      "output": "captured failure, not skipped/PASS; no filesystem write or importing mutated code"
+    },
+    "reject_claim_only": {
+      "source_errors_empty": true,
+      "raw_projection": "exact248",
+      "hash_projection": "false claim identity",
+      "live": "Chapter with same false _file_digest claim must reject; raw validation alone cannot authorize a wrong observation"
+    },
+    "reject_registration_only": {
+      "source_errors_empty": false,
+      "raw_projection": "exact248 because pure projector has no registered_previous argument",
+      "hash_projection": "exact248 for truthful current hash",
+      "live": "new registration API rejects; Chapter tested with wrong registered old pin also rejects. Do not conflate the new-stage immediate248 pin with Chapter historical244 registration"
+    },
+    "reject_calls": {
+      "errors_empty": false,
+      "output": "mutated input tuple identity",
+      "source": "current source identity",
+      "physical_sources": "all normal/raw-bound; one semantic mutation only"
+    },
+    "path_OFF": {
+      "source_errors_empty": false,
+      "reason": "new layer owns only MP/JA, not GameState",
+      "raw_projection": "input identity",
+      "hash_projection": "claim identity",
+      "live_or_JA_calls": 0,
+      "classification": "not an authorized normal and not counted as a negative efficacy success"
+    }
+  }
+}''')
+MG9_BINDING = json.loads(r'''{
+  "phase": "APPLIED_SOURCE_BOUND",
+  "current_pins": {
+    "autoloads/MetaProgression.gd": {
+      "bytes": 62214,
+      "sha256": "edbcdfdefe7c547edac9a47b71a3892b6fe68c9553c982e914a151ea2e52921b"
+    },
+    "tools/ja_translation_pipeline.py": {
+      "bytes": 255882,
+      "sha256": "e2d666c19637fd20df8750187870e27cc1770c63d73db232e8035b8d072abe9c"
+    },
+    "tools/meta_title_locale_successor.py": {
+      "bytes": 27372,
+      "sha256": "5cbe5de2669a83d36c5d17c9b3d64293505737c399ce063324f38de8224eac81"
+    },
+    "tools/chapter1_core_loop_v2_causal_ledger_check.py": {
+      "bytes": 1461830,
+      "sha256": "ac874ad1587304b4f1802ce2311cbcba231e1fdfb19086cce3a66aa19ee5fac3"
+    }
+  },
+  "production_registry": {
+    "autoloads/MetaProgression.gd": {
+      "previous_sha256": "afe8bda86177950ef82fb8d2eea339ae398d59534897719c9b803bacf292a1b6",
+      "current_sha256": "edbcdfdefe7c547edac9a47b71a3892b6fe68c9553c982e914a151ea2e52921b",
+      "start": "\t\t\"holdem_master_title\":\n",
+      "end": "\treturn localized\n",
+      "include_end": false,
+      "span_sha256": "207baf12cad3682d3073da41646183431faca9cc78e09962cde127c0277621d0",
+      "hooks": []
+    },
+    "tools/ja_translation_pipeline.py": {
+      "previous_sha256": "504b5ef8707568b199df35179b1753ab25706b2004fa3d0fc0fa879b18303906",
+      "current_sha256": "e2d666c19637fd20df8750187870e27cc1770c63d73db232e8035b8d072abe9c",
+      "start": "# BEGIN_META_TITLE_SUCCESSOR_250\n",
+      "end": "# END_META_TITLE_SUCCESSOR_250\n\n\n",
+      "include_end": true,
+      "span_sha256": "9c231ba059708f9f5ac1be745fc667941de333b1451af0eb2594ca6aa3aa60d0",
+      "hooks": [
+        [
+          "    predecessor_calls, predecessor_source, next_title_errors = _mg9_meta_title_chain_calls(calls)",
+          "    predecessor_calls, predecessor_source, next_title_errors = _a11_meta_title_chain_calls(calls)"
+        ],
+        [
+          "    stats, title_stat_errors = _mg9_meta_title_current_stats(\n        calls, predecessor_calls, predecessor_source, stats)",
+          "    stats, title_stat_errors = _a11_meta_title_current_stats(\n        calls, predecessor_calls, predecessor_source, stats)"
+        ],
+        [
+          "        ui_inventory, meta_title_cases, meta_title_failures = _mg9_meta_title_historical_checks(ui_inventory)",
+          "        ui_inventory, meta_title_cases, meta_title_failures = _a11_meta_title_historical_checks(ui_inventory)"
+        ]
+      ]
+    }
+  },
+  "registry_sha256": "78ad53320530e54e2347313e505cf28c4f8991f011e6a91d8e0078831b577515",
+  "independent_inverse_rules": {
+    "autoloads/MetaProgression.gd": {
+      "remove_spans": [
+        {
+          "start": "\t\t\"holdem_master_title\":\n",
+          "end": "\treturn localized\n",
+          "include_end": false,
+          "sha256": "207baf12cad3682d3073da41646183431faca9cc78e09962cde127c0277621d0"
+        }
+      ],
+      "hooks": []
+    },
+    "tools/ja_translation_pipeline.py": {
+      "remove_spans": [
+        {
+          "start": "# BEGIN_META_TITLE_SUCCESSOR_250\n",
+          "end": "# END_META_TITLE_SUCCESSOR_250\n\n\n",
+          "include_end": true,
+          "sha256": "9c231ba059708f9f5ac1be745fc667941de333b1451af0eb2594ca6aa3aa60d0"
+        }
+      ],
+      "hooks": [
+        [
+          "    predecessor_calls, predecessor_source, next_title_errors = _mg9_meta_title_chain_calls(calls)",
+          "    predecessor_calls, predecessor_source, next_title_errors = _a11_meta_title_chain_calls(calls)"
+        ],
+        [
+          "    stats, title_stat_errors = _mg9_meta_title_current_stats(\n        calls, predecessor_calls, predecessor_source, stats)",
+          "    stats, title_stat_errors = _a11_meta_title_current_stats(\n        calls, predecessor_calls, predecessor_source, stats)"
+        ],
+        [
+          "        ui_inventory, meta_title_cases, meta_title_failures = _mg9_meta_title_historical_checks(ui_inventory)",
+          "        ui_inventory, meta_title_cases, meta_title_failures = _a11_meta_title_historical_checks(ui_inventory)"
+        ]
+      ]
+    },
+    "tools/meta_title_locale_successor.py": {
+      "remove_spans": [
+        {
+          "start": "\n\n# BEGIN_MG9_META_TITLE_SUCCESSOR_250\n",
+          "end": "# END_MG9_META_TITLE_SUCCESSOR_250\n",
+          "include_end": true,
+          "sha256": "baf8b074f7f8c364c1e4750c173410823707379a05082bc26a20d84503ce6515"
+        }
+      ],
+      "hooks": []
+    },
+    "tools/chapter1_core_loop_v2_causal_ledger_check.py": {
+      "remove_spans": [
+        {
+          "start": "def _order250_meta_source_errors(\n",
+          "end": "def _audited_source_snapshot_errors(\n",
+          "include_end": false,
+          "sha256": "c98f86241a066056e18bd657806f027ceb431ce6d120cb9af2a8f1ce46c76fa6"
+        }
+      ],
+      "hooks": [
+        [
+          "            errors.extend(_order250_meta_source_errors(\n",
+          "            errors.extend(_order248_meta_source_errors(\n"
+        ],
+        [
+          "                observed_digest = _order250_meta_observed_hash(\n",
+          "                observed_digest = _order248_meta_observed_hash(\n"
+        ]
+      ]
+    }
+  },
+  "binding_provenance": {
+    "kind": "ROOT directly reviewed and applied exact source4; authorization for bounded first source controls only",
+    "private_candidate": {
+      "path": ".git/full-game-localization/order250-source4-private-binding.json",
+      "bytes": 16109,
+      "sha256": "4c098e5a43a2af1d8f8c9de6c319d709db9f465a74fcc601c5e9d9eca6a86aa7"
+    },
+    "actual_source": {
+      "autoloads/MetaProgression.gd": {
+        "bytes": 62214,
+        "sha256": "edbcdfdefe7c547edac9a47b71a3892b6fe68c9553c982e914a151ea2e52921b"
+      },
+      "tools/ja_translation_pipeline.py": {
+        "bytes": 255882,
+        "sha256": "e2d666c19637fd20df8750187870e27cc1770c63d73db232e8035b8d072abe9c"
+      },
+      "tools/meta_title_locale_successor.py": {
+        "bytes": 27372,
+        "sha256": "5cbe5de2669a83d36c5d17c9b3d64293505737c399ce063324f38de8224eac81"
+      },
+      "tools/chapter1_core_loop_v2_causal_ledger_check.py": {
+        "bytes": 1461830,
+        "sha256": "ac874ad1587304b4f1802ce2311cbcba231e1fdfb19086cce3a66aa19ee5fac3"
+      }
+    },
+    "chronology": "Fixed23 and private source4/self reviewed before execution. ROOT independently read the whole extension and binding, measured actual source4, and authorizes this constant-only APPLIED delta; no pass yet."
+  }
+}''')
+
+_MG9_SOURCE_PATHS = (
+    MP, JA, "tools/meta_title_locale_successor.py",
+    "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+)
+_MG9_SELF = "tools/meta_title_locale_successor_self_test.py"
+
+
+def _mg9_input_pins():
+    paths = set(FROZEN["current_pins"]) | set(MG9_SPEC["baseline_pins"]) | {
+        _MG9_SELF, "content/meta/chapter1_core_loop_v2_causal_ledger.json",
+        "tools/chapter1_core_loop_v2_causal_debt_baseline.json",
+    }
+    return {p: pin((ROOT / p).read_bytes()) for p in sorted(paths)}
+
+
+def _mg9_binding_errors(observed):
+    errors = []
+    if MG9_BINDING["phase"] != "APPLIED_SOURCE_BOUND":
+        errors.append("MG9 source binding is not applied/approved")
+    wanted = MG9_BINDING.get("current_pins")
+    if not isinstance(wanted, dict) or set(wanted) != set(_MG9_SOURCE_PATHS):
+        errors.append("MG9 exact four current pins are unavailable")
+        return errors
+    for relative in _MG9_SOURCE_PATHS:
+        if observed.get(relative) != wanted[relative]:
+            errors.append("MG9 current raw changed: " + relative)
+    preserved = dict(FROZEN["current_pins"])
+    preserved.update(MG9_SPEC["baseline_pins"])
+    for relative, expected in preserved.items():
+        if relative not in (*_MG9_SOURCE_PATHS, _MG9_SELF):
+            if observed.get(relative) != expected:
+                errors.append("MG9 preserved dependency changed: " + relative)
+    return errors
+
+
+def _mg9_approved_span():
+    lines, previous = [], None
+    for title_id, field, ko, en in MG9_SPEC["source_rows18"]:
+        if previous != title_id:
+            lines.append("\t\t" + json.dumps(title_id) + ":\n")
+            previous = title_id
+        lines.append("\t\t\tlocalized[" + json.dumps(field)
+                     + "] = LocaleManager.ui(" + json.dumps(ko, ensure_ascii=False)
+                     + ", " + json.dumps(en, ensure_ascii=False) + ")\n")
+    return "".join(lines).encode("utf-8")
+
+
+def _mg9_independent_inverse(raw, relative):
+    """Independent frozen rules only; never ask the production projector."""
+    if relative == _MG9_SELF:
+        start, end = b"# BEGIN_ORDER250_MG9_SELF\n", b"# END_ORDER250_MG9_SELF\n\n\n"
+        if raw.count(start) != 1 or raw.count(end) != 1:
+            raise AssertionError("MG9 self insertion is not exact1")
+        a, z = raw.index(start), raw.index(end) + len(end)
+        old = raw[:a] + raw[z:]
+        now = b"raise SystemExit(_mg9_main())"
+        if old.count(now) != 1:
+            raise AssertionError("MG9 self CLI hook is not exact1")
+        old = old.replace(now, b"raise SystemExit(_a11_main())", 1)
+        if pin(old) != MG9_SPEC["old_self"]:
+            raise AssertionError("original25 functions/19/24/18 self raw changed")
+        return old
+    rules = MG9_BINDING.get("independent_inverse_rules")
+    if not isinstance(rules, dict) or relative not in rules:
+        raise AssertionError("MG9 independent source inverse is unbound")
+    rule, out = rules[relative], raw
+    for span in rule["remove_spans"]:
+        start, end = span["start"].encode(), span["end"].encode()
+        if out.count(start) != 1 or out.count(end) != 1:
+            raise AssertionError("MG9 independent span boundary is not unique")
+        a = out.index(start)
+        z = out.index(end, a) + (len(end) if span["include_end"] else 0)
+        removed = out[a:z]
+        if sha256(removed) != span["sha256"]:
+            raise AssertionError("MG9 independent span digest differs")
+        if relative == MP and removed != _mg9_approved_span():
+            raise AssertionError("MG9 exact9 ID/18 field/KO/EN/order changed")
+        out = out[:a] + out[z:]
+    for current, previous in rule["hooks"]:
+        current = current.encode("utf-8")
+        if out.count(current) != 1:
+            raise AssertionError("MG9 independent hook is not unique")
+        out = out.replace(current, previous.encode("utf-8"), 1)
+    if pin(out) != MG9_SPEC["baseline_pins"][relative]:
+        raise AssertionError("MG9 inverse failed to recover whole248: " + relative)
+    return out
+
+
+def _mg9_without_selected(calls):
+    keys = {row[2] for row in MG9_SPEC["source_rows18"]}
+    return tuple(c for c in calls if not (
+        (c.path, c.function) == (MP, "_localized_title") and c.korean in keys))
+
+
+def _mg9_materialize(case, current, old248):
+    relative, recipe = case["source"], case["recipe"]
+    raw, op = current[relative], recipe["op"]
+    if op in ("bound_future_raw", "replace_registry_previous",
+              "delete_registry_hook", "replace_claim_only",
+              "replace_registered_previous_only", "change_relative_path_only"):
+        return raw
+    if op == "use_pinned_predecessor248":
+        return old248[relative]
+    if op == "use_independently_restored245":
+        old = _a11_inverse_file(old248[relative], relative)
+        if sha256(old) != recipe["sha256"]:
+            raise AssertionError("fixed245 predecessor pin differs")
+        return old
+    if op == "append":
+        return raw + recipe["text"].encode()
+    if op == "replace_all_LF_with_CRLF":
+        if b"\r" in raw or b"\n" not in raw:
+            raise AssertionError("CRLF base must be unchanged LF-only")
+        return raw.replace(b"\n", b"\r\n")
+    if op == "replace_exact":
+        before, after = recipe["before"].encode(), recipe["after"].encode()
+        if before == after or raw.count(before) != recipe["count"]:
+            raise AssertionError("frozen nonlocalized mutation anchor differs")
+        return raw.replace(before, after, recipe["count"])
+    if op == "restore_exact_new_live_hook_to248":
+        hooks = MG9_BINDING["independent_inverse_rules"][relative]["hooks"]
+        matches = [(now, old) for now, old in hooks
+                   if "_order250_meta_source_errors(" in now
+                   and "_order248_meta_source_errors(" in old]
+        if len(matches) != 1:
+            raise AssertionError("independent Chapter live source hook is not exact1")
+        now, old = (v.encode() for v in matches[0])
+        if raw.count(now) != 1 or now == old:
+            raise AssertionError("fixed Chapter live hook base differs")
+        return raw.replace(now, old, 1)
+    raise AssertionError("unknown frozen MG9 raw recipe: " + op)
+
+
+def _mg9_registry_context(case, successor):
+    op = case["recipe"]["op"]
+    if op not in ("replace_registry_previous", "delete_registry_hook"):
+        return contextlib.nullcontext()
+    changed = copy.deepcopy(successor.MG9_TRANSITIONS)
+    if op == "replace_registry_previous":
+        changed[MP]["previous_sha256"] = case["recipe"]["value"]
+    else:
+        index = case["recipe"]["index"]
+        if len(changed[JA]["hooks"]) <= index:
+            raise AssertionError("frozen missing-hook recipe has no real hook")
+        del changed[JA]["hooks"][index]
+    return patch.object(successor, "MG9_TRANSITIONS", changed)
+
+
+def _mg9_snapshot(chapter, raw, claim, registered, force_old, counts):
+    original_read, original_digest = Path.read_bytes, chapter._file_digest
+    original_outer = chapter._order250_meta_observed_hash
+    original_old_gate = chapter._order248_meta_source_errors
+    raw_reads, hash_reads, old_gate_calls = [], [], []
+
+    def read_bytes(path):
+        if path == ROOT / MP:
+            raw_reads.append(MP)
+            return raw
+        return original_read(path)
+
+    def digest(relative):
+        if relative == MP:
+            hash_reads.append(relative)
+            return claim
+        return original_digest(relative)
+
+    def previous_gate(relative, source, old):
+        old_gate_calls.append(relative)
+        return original_old_gate(relative, source, old)
+
+    with contextlib.ExitStack() as stack:
+        stack.enter_context(patch.object(Path, "read_bytes", read_bytes))
+        stack.enter_context(patch.object(chapter, "_file_digest", digest))
+        stack.enter_context(patch.object(chapter, "_order248_meta_source_errors",
+                                        previous_gate))
+        if force_old:
+            stack.enter_context(patch.object(
+                chapter, "_order250_meta_observed_hash",
+                return_value=FROZEN["historical_mp"]["sha256"]))
+        counts["Chapter_actual_snapshot"] += 1
+        errors = chapter._audited_source_snapshot_errors({MP: registered})
+    return {
+        "errors": errors, "raw_reads": raw_reads, "hash_reads": hash_reads,
+        "old248_gate_calls": old_gate_calls, "forced_observation": force_old,
+        "registered": registered,
+        "restored": (Path.read_bytes is original_read
+                     and chapter._file_digest is original_digest
+                     and chapter._order250_meta_observed_hash is original_outer
+                     and chapter._order248_meta_source_errors is original_old_gate),
+    }
+
+
+def _mg9_ja_observation(pipeline, calls, current, old248, ja_raw, normal, counts):
+    original_read = Path.read_bytes
+
+    def read_bytes(path):
+        return ja_raw if path == ROOT / JA else original_read(path)
+
+    with patch.object(Path, "read_bytes", read_bytes):
+        counts["MG9_JA_call_contract"] += 1
+        # Exercise the default physical MP read, including its byte/CRLF policy.
+        out_calls, source, errors = pipeline._mg9_meta_title_predecessor_calls(calls)
+    wanted_calls = _mg9_without_selected(calls) if normal else tuple(calls)
+    wanted_source = old248[MP] if normal else current[MP]
+    checks = {
+        "errors": isinstance(errors, list) and (not errors) == normal,
+        "calls_exact": tuple(out_calls) == wanted_calls,
+        "source_exact": source.encode("utf-8") == wanted_source,
+        "restored": Path.read_bytes is original_read,
+    }
+    return {"errors": errors, "output_calls": len(out_calls),
+            "source": pin(source.encode("utf-8")), "checks": checks,
+            "passed": all(checks.values())}
+
+
+def _mg9_raw_case(case, current, old248, calls, successor, pipeline, chapter, counts):
+    relative, recipe = case["source"], case["recipe"]
+    raw = _mg9_materialize(case, current, old248)
+    profile = case["expected_profile"]
+    path = recipe.get("relative", relative)
+    claim = (sha256(current[relative]) if recipe.get("claim") == "approved_future_current_sha"
+             else recipe["claim"] if recipe["op"] == "replace_claim_only"
+             else sha256(raw))
+    if profile == "reject_physical_binding":
+        observed = _mg9_input_pins()
+        observed[relative] = pin(raw)
+        counts["physical_binding_probe"] += 1
+        errors = _mg9_binding_errors(observed)
+        checks = {"binding_rejected": bool(errors),
+                  "owned_path_named": any(relative in e for e in errors)}
+        return {"id": case["id"], "kind": case["kind"], "base_id": case["base_id"],
+                "input": pin(raw), "binding_errors": errors,
+                "helper_calls": 0, "historical_entries": 0,
+                "checks": checks, "passed": all(checks.values())}
+    normal = case["kind"] == "normal"
+    valid_raw = normal or profile in ("reject_claim_only", "reject_registration_only")
+    registered = (recipe["registered_previous"] if profile == "reject_registration_only"
+                  else MG9_SPEC["baseline_pins"][relative]["sha256"])
+    original_registry = copy.deepcopy(successor.MG9_TRANSITIONS)
+    live, ja_view = None, None
+    with _mg9_registry_context(case, successor):
+        counts["MG9_source_errors"] += 1
+        errors = successor.mg9_source_errors(path, raw, registered)
+        counts["MG9_raw_projection"] += 1
+        projected = successor.mg9_project_bytes(raw, path)
+        counts["MG9_hash_projection"] += 1
+        projected_hash = successor.mg9_project_byte_hash(claim, path, raw)
+        if relative == MP and path == MP:
+            live_registered = (recipe["registered_previous"]
+                               if profile == "reject_registration_only"
+                               else FROZEN["historical_mp"]["sha256"])
+            live = _mg9_snapshot(chapter, raw, claim, live_registered,
+                                 bool(recipe.get("force_live_observed_hash")), counts)
+        if relative == JA:
+            ja_view = _mg9_ja_observation(
+                pipeline, calls, current, old248, raw, normal, counts)
+    wanted = old248[relative] if valid_raw else raw
+    wanted_hash = (sha256(wanted) if valid_raw and profile != "reject_claim_only"
+                   else claim)
+    checks = {
+        "source_errors": isinstance(errors, list) and (not errors) == (
+            normal or profile == "reject_claim_only"),
+        "raw_projection": projected == wanted,
+        "hash_projection": projected_hash == wanted_hash,
+        "registry_restored": successor.MG9_TRANSITIONS == original_registry,
+    }
+    if live is not None:
+        checks["live_raw_gate"] = (isinstance(live["errors"], list)
+                                  and (not live["errors"]) == normal
+                                  and bool(live["raw_reads"]) and live["restored"])
+        if not valid_raw:
+            checks["old_gate_not_reached"] = not live["old248_gate_calls"]
+    if ja_view is not None:
+        checks["JA_current_file_gate"] = ja_view["passed"]
+    return {
+        "id": case["id"], "kind": case["kind"], "base_id": case["base_id"],
+        "path": path, "input": pin(raw), "claim": claim, "registered": registered,
+        "source_errors": errors, "projection": pin(projected),
+        "projected_hash": projected_hash, "live_snapshot": live,
+        "JA_observation": ja_view, "checks": checks, "passed": all(checks.values()),
+    }
+
+
+def _mg9_call_case(case, calls, current, old248, pipeline, counts):
+    recipe, changed = case["recipe"], list(calls)
+    normal = case["kind"] == "normal"
+    if not normal:
+        selector = recipe["selector"]
+        indices = [i for i, c in enumerate(changed) if all(
+            getattr(c, k) == selector[k] for k in (
+                "path", "function", "korean", "english", "api", "context_id"))]
+        if len(indices) != 1:
+            raise AssertionError("frozen MG9 semantic selector is not exact1")
+        index, op = indices[0], recipe["op"]
+        if op == "delete_selected_call":
+            del changed[index]
+        elif op == "duplicate_selected_call":
+            changed.insert(index, changed[index])
+        elif op == "replace_selected_call_field":
+            if getattr(changed[index], recipe["attribute"]) != recipe["before"]:
+                raise AssertionError("frozen MG9 call before differs")
+            changed[index] = dataclasses.replace(
+                changed[index], **{recipe["attribute"]: recipe["after"]})
+        elif op == "append_foreign_duplicate_call":
+            changed.append(dataclasses.replace(changed[index], **recipe["values"]))
+        else:
+            raise AssertionError("unknown frozen MG9 call recipe")
+    changed = tuple(changed)
+    source = current[MP].decode("utf-8")
+    counts["MG9_JA_call_contract"] += 1
+    out_calls, out_source, errors = pipeline._mg9_meta_title_predecessor_calls(
+        changed, source)
+    checks = {
+        "errors": isinstance(errors, list) and (not errors) == normal,
+        "calls_exact": tuple(out_calls) == (
+            _mg9_without_selected(calls) if normal else changed),
+        "source_exact": out_source.encode("utf-8") == (
+            old248[MP] if normal else current[MP]),
+    }
+    return {"id": case["id"], "kind": case["kind"], "base_id": case["base_id"],
+            "input_calls": [dataclasses.asdict(c) for c in changed],
+            "output_calls": [dataclasses.asdict(c) for c in out_calls],
+            "source": pin(out_source.encode("utf-8")), "errors": errors,
+            "checks": checks, "passed": all(checks.values())}
+
+
+def _mg9_historical248(old248, chapter, counts):
+    """Unchanged A11 nineteen, whose own wrappers retain old24 and old18."""
+    original_read, original_text = Path.read_bytes, Path.read_text
+    original_gate = chapter._order250_meta_source_errors
+    original_hash = chapter._order250_meta_observed_hash
+    stdout, stderr = io.StringIO(), io.StringIO()
+    reads = {p: 0 for p in old248}
+
+    def read_bytes(path):
+        for relative, raw in old248.items():
+            if path == ROOT / relative:
+                reads[relative] += 1
+                return raw
+        return original_read(path)
+
+    def read_text(path, *args, **kwargs):
+        for relative, raw in old248.items():
+            if path == ROOT / relative:
+                reads[relative] += 1
+                encoding = kwargs.get("encoding") or (args[0] if args else None) or "utf-8"
+                return raw.decode(encoding, errors=kwargs.get("errors") or "strict")
+        return original_text(path, *args, **kwargs)
+
+    def gate(relative, raw, registered):
+        return chapter._order248_meta_source_errors(relative, raw, registered)
+
+    def observed_hash(claim, relative, raw):
+        # Dynamic lookup preserves the unchanged old19/24/18 forged-hash mocks.
+        return chapter._order248_meta_observed_hash(claim, relative, raw)
+
+    code, exception, trace = None, None, None
+    with contextlib.ExitStack() as stack:
+        stack.enter_context(patch.object(Path, "read_bytes", read_bytes))
+        stack.enter_context(patch.object(Path, "read_text", read_text))
+        stack.enter_context(patch.object(chapter, "_order250_meta_source_errors", gate))
+        stack.enter_context(patch.object(chapter, "_order250_meta_observed_hash", observed_hash))
+        stack.enter_context(contextlib.redirect_stdout(stdout))
+        stack.enter_context(contextlib.redirect_stderr(stderr))
+        counts["historical248_main"] += 1
+        try:
+            code = _a11_main()
+        except Exception as error:
+            exception = type(error).__name__ + ": " + str(error)
+            trace = _a11_traceback.format_exc()
+    restored = (Path.read_bytes is original_read and Path.read_text is original_text
+                and chapter._order250_meta_source_errors is original_gate
+                and chapter._order250_meta_observed_hash is original_hash)
+    parsed, marker, parse_error = None, None, None
+    try:
+        parsed, end = json.JSONDecoder().raw_decode(stdout.getvalue())
+        marker = stdout.getvalue()[end:].strip()
+    except (TypeError, ValueError) as error:
+        parse_error = type(error).__name__ + ": " + str(error)
+    logical_before = parsed.get("physical_input_before") if isinstance(parsed, dict) else None
+    logical_after = parsed.get("physical_input_after") if isinstance(parsed, dict) else None
+    logical_exact = (isinstance(logical_before, dict) and logical_before == logical_after
+                     and all(logical_before.get(p) == pin(raw) for p, raw in old248.items()))
+    wanted_marker = ("META_TITLE_A11_SOURCE_SELF_TEST_OK current=19/19"
+                     " historical245=24/24 historical244=18/18 unchanged=True")
+    passed = (code == 0 and exception is None and parse_error is None and restored
+              and not stderr.getvalue() and marker == wanted_marker and logical_exact
+              and isinstance(parsed, dict) and parsed.get("passed") is True
+              and parsed.get("current", {}).get("cases") == 19
+              and len(parsed.get("current", {}).get("results", [])) == 19
+              and all(r.get("valid_result") for r in parsed["current"]["results"])
+              and parsed.get("historical", {}).get("passed") is True
+              and parsed["historical"].get("cases") == 24
+              and parsed["historical"].get("nested_historical_cases") == 18)
+    return {
+        "scope": "logical248 old19, containing logical24524/logical24418",
+        "exit": code, "exception": exception, "traceback": trace, "parse_error": parse_error,
+        "stdout": stdout.getvalue(), "stderr": stderr.getvalue(), "marker": marker,
+        "logical_input_before": logical_before, "logical_input_after": logical_after,
+        "logical_exact": logical_exact, "view_reads": reads, "restored": restored,
+        "historical_current_fields_are_logical_not_actual": True,
+        "cases": parsed.get("current", {}).get("cases", 0) if parsed else 0,
+        "nested245": parsed.get("historical", {}).get("cases", 0) if parsed else 0,
+        "nested244": parsed.get("historical", {}).get("nested_historical_cases", 0) if parsed else 0,
+        "passed": passed,
+    }
+
+
+def _mg9_main():
+    before, after, fatal, trace = None, None, None, None
+    results, parse_observation = [], None
+    historical = {"passed": False, "cases": 0, "nested245": 0, "nested244": 0,
+                  "skipped": "newest MG9 source controls have not passed"}
+    counts = {"physical_binding_probe": 0, "MG9_source_errors": 0,
+              "MG9_raw_projection": 0, "MG9_hash_projection": 0,
+              "MG9_JA_call_contract": 0, "Chapter_actual_snapshot": 0,
+              "parse_one_MP": 0, "historical248_main": 0,
+              "collector": 0, "engine": 0, "numeric_validation": 0}
+    try:
+        before = _mg9_input_pins()
+        binding_errors = _mg9_binding_errors(before)
+        if binding_errors:
+            raise AssertionError("; ".join(binding_errors))
+        roster = MG9_SPEC["cases"]
+        if sha256(_a11_canonical(roster)) != MG9_SPEC["provenance"]["cases_sha256"]:
+            raise AssertionError("pre-code MG9 recipe/expectation digest drift")
+        if (len(roster) != 23 or len({r["id"] for r in roster}) != 23
+                or sum(r["kind"] == "normal" for r in roster) != 3
+                or sum(r["kind"] == "negative" for r in roster) != 19
+                or sum(r["kind"] == "OFF" for r in roster) != 1):
+            raise AssertionError("pre-code MG9 roster shape drift")
+        current = {p: (ROOT / p).read_bytes() for p in (*_MG9_SOURCE_PATHS, _MG9_SELF)}
+        old248 = {p: _mg9_independent_inverse(raw, p) for p, raw in current.items()}
+        successor = importlib.import_module("meta_title_locale_successor")
+        pipeline = importlib.import_module("ja_translation_pipeline")
+        chapter = importlib.import_module("chapter1_core_loop_v2_causal_ledger_check")
+        if (successor.MG9_TRANSITIONS != MG9_BINDING["production_registry"]
+                or successor._MG9_REGISTRY_SHA256 != MG9_BINDING["registry_sha256"]
+                or [list(r) for r in successor.MG9_SOURCE_ROWS] != MG9_SPEC["source_rows18"]
+                or successor.A11_TRANSITIONS != A11_BINDING["production_registry"]
+                or [list(r) for r in successor.A11_SOURCE_ROWS] != A11_SPEC["source_rows22"]
+                or successor.SUCCESSOR_TRANSITIONS != FROZEN["transitions"]
+                or [list(r) for r in successor.SOURCE_ROWS] != FROZEN["source_rows20"]):
+            raise AssertionError("MG9 or original source rows/registry drift")
+        counts["parse_one_MP"] += 1
+        calls, errors = pipeline.parse_ui_calls(MP, current[MP].decode("utf-8"))
+        selected = len(calls) - len(_mg9_without_selected(calls))
+        parse_observation = {"actual_calls": len(calls), "actual_selected": selected,
+                             "actual_preserved": len(calls) - selected,
+                             "predicted_calls": 83, "predicted_selected": 18,
+                             "predicted_preserved": 65, "errors": errors}
+        if errors or (len(calls), selected) != (83, 18):
+            raise AssertionError("first complete MP parse differs; do not clip or reclassify")
+        for case in roster:
+            stdout, stderr = io.StringIO(), io.StringIO()
+            with contextlib.redirect_stdout(stdout), contextlib.redirect_stderr(stderr):
+                try:
+                    if (case["recipe"]["op"] == "parse_complete_current_MP"
+                            or case["expected_profile"] == "reject_calls"):
+                        row = _mg9_call_case(case, calls, current, old248, pipeline, counts)
+                    else:
+                        row = _mg9_raw_case(case, current, old248, calls,
+                                            successor, pipeline, chapter, counts)
+                except Exception as error:
+                    row = {"id": case["id"], "kind": case["kind"],
+                           "base_id": case["base_id"], "passed": False,
+                           "exception": type(error).__name__ + ": " + str(error),
+                           "traceback": _a11_traceback.format_exc()}
+            row["stdout"], row["stderr"] = stdout.getvalue(), stderr.getvalue()
+            results.append(row)
+        by_id = {r["id"]: r for r in results}
+        normals_ok = all(by_id.get(c["id"], {}).get("passed")
+                         for c in roster if c["kind"] == "normal")
+        for row in results:
+            base = row["base_id"]
+            row["normal_base_passed"] = base is None or bool(by_id.get(base, {}).get("passed"))
+            row["all_three_normals_passed"] = normals_ok
+            row["valid_result"] = (row["passed"] and row["normal_base_passed"]
+                                   and (row["kind"] == "normal" or normals_ok))
+        if len(results) == 23 and all(r["valid_result"] for r in results):
+            if before != _mg9_input_pins():
+                raise AssertionError("actual inputs changed before historical248 view")
+            historical = _mg9_historical248(old248, chapter, counts)
+    except Exception as error:
+        fatal = type(error).__name__ + ": " + str(error)
+        trace = _a11_traceback.format_exc()
+    finally:
+        try:
+            after = _mg9_input_pins()
+        except Exception as error:
+            fatal = (fatal or "") + "; after pins: " + type(error).__name__ + ": " + str(error)
+    unchanged = before is not None and after is not None and before == after
+    current_passed = (fatal is None and len(results) == 23
+                      and all(r.get("valid_result") for r in results))
+    passed = current_passed and historical["passed"] and unchanged
+    output = {
+        "scope": "MG9 newest23, separately labelled historical24819/24524/24418",
+        "provenance": MG9_SPEC["provenance"], "binding": MG9_BINDING["binding_provenance"],
+        "current": {"expected": 23, "normal": 3, "negative": 19, "OFF": 1,
+                    "cases": len(results), "results": results, "passed": current_passed,
+                    "valid_negative_count": sum(r["kind"] == "negative"
+                                               and bool(r.get("valid_result")) for r in results)},
+        "parse_observation": parse_observation, "historical": historical,
+        "execution_counts": counts, "fatal": fatal, "traceback": trace,
+        "physical_input_before": before, "physical_input_after": after,
+        "physical_inputs_unchanged": unchanged,
+        "limits": "Finite raw/consumer authority only; nested physical/current fields are logical. No collector/engine/native/render/human/full-product approval.",
+        "passed": passed,
+    }
+    print(json.dumps(output, ensure_ascii=False, indent=2))
+    print("META_TITLE_MG9_SOURCE_SELF_TEST_" + ("OK" if passed else "FAIL")
+          + f" current={len(results)}/23 historical248={historical.get('cases', 0)}/19"
+          + f" historical245={historical.get('nested245', 0)}/24"
+          + f" historical244={historical.get('nested244', 0)}/18 unchanged={unchanged}")
+    return 0 if passed else 1
+# END_ORDER250_MG9_SELF
+
+
 if __name__ == "__main__":
-    raise SystemExit(_a11_main())
+    raise SystemExit(_mg9_main())

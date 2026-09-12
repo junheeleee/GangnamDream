@@ -186,3 +186,236 @@ def a11_project_byte_hash(claim: str, relative: str, current: bytes) -> str:
         return claim
     return hashlib.sha256(old).hexdigest()
 # END_A11_META_TITLE_SUCCESSOR_248
+
+
+# BEGIN_MG9_META_TITLE_SUCCESSOR_250
+MG9_SOURCE_ROWS = tuple(tuple(row) for row in json.loads(r'''[
+  [
+    "holdem_master_title",
+    "name",
+    "홀덤 무법자",
+    "Hold'em Outlaw"
+  ],
+  [
+    "holdem_master_title",
+    "desc",
+    "지하 홀덤 클럽 15판 이상. 이제 패를 읽는다기보다, 상대를 읽는다.",
+    "Played 15 or more underground hold'em games. You read people now, not cards."
+  ],
+  [
+    "racetrack_master_title",
+    "name",
+    "경마 귀신",
+    "Racetrack Ghost"
+  ],
+  [
+    "racetrack_master_title",
+    "desc",
+    "경마장 15판 이상. 폼지는 가끔 거짓말을 한다. 나는 이제 그것도 안다.",
+    "Bet on 15 or more races. Form lies sometimes. Now you know that too."
+  ],
+  [
+    "scalping_master_title",
+    "name",
+    "스캘퍼",
+    "Scalper"
+  ],
+  [
+    "scalping_master_title",
+    "desc",
+    "스캘핑 트레이딩 15회 이상. 1분 안에 사고 팔고. 손이 기억한다.",
+    "Scalped 15 or more times. Buy and sell within a minute. Your hands remember."
+  ],
+  [
+    "baccarat_master_title",
+    "name",
+    "정선 카지노 상주자",
+    "Jeongseon Casino Regular"
+  ],
+  [
+    "baccarat_master_title",
+    "desc",
+    "바카라 15라운드 이상. 로드맵을 외웠지만 그게 아무 의미도 없다는 것도 안다.",
+    "Played 15 or more baccarat rounds. You memorized the roadmap and learned it means nothing."
+  ],
+  [
+    "blackjack_master_title",
+    "name",
+    "기본전략의 달인",
+    "Basic Strategy Master"
+  ],
+  [
+    "blackjack_master_title",
+    "desc",
+    "블랙잭 15핸드 이상. 패를 보고 멈출지 받을지를 안다. 이게 이 게임의 전부다.",
+    "Played 15 or more blackjack hands. Hit or stand. That is the whole game."
+  ],
+  [
+    "slot_master_title",
+    "name",
+    "잭팟 사냥꾼",
+    "Jackpot Hunter"
+  ],
+  [
+    "slot_master_title",
+    "desc",
+    "슬롯머신 20스핀 이상. 777이 나왔을 때 그 소리가 아직도 귓가에 맴돈다.",
+    "Spun slots 20 or more times. The sound of 777 still echoes."
+  ],
+  [
+    "roulette_master_title",
+    "name",
+    "제로의 지배자",
+    "Master of Zero"
+  ],
+  [
+    "roulette_master_title",
+    "desc",
+    "룰렛 15스핀 이상. 하우스엣지 2.7%는 알지만 멈출 수 없다.",
+    "Spun roulette 15 or more times. You know the 2.7% house edge and still cannot stop."
+  ],
+  [
+    "bigwheel_master_title",
+    "name",
+    "바늘의 눈",
+    "Eye of the Needle"
+  ],
+  [
+    "bigwheel_master_title",
+    "desc",
+    "빅휠 15스핀 이상. 가장 단순한 게임이지만 45:1을 노린다.",
+    "Spun the big wheel 15 or more times. The simplest game, still chasing 45:1."
+  ],
+  [
+    "daisai_master_title",
+    "name",
+    "주사위의 밤",
+    "Night of Dice"
+  ],
+  [
+    "daisai_master_title",
+    "desc",
+    "다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.",
+    "Played 15 or more Dai Sai rounds. You remember the sound of three dice rolling."
+  ]
+]'''))
+MG9_TRANSITIONS = json.loads(r'''{
+  "autoloads/MetaProgression.gd": {
+    "previous_sha256": "afe8bda86177950ef82fb8d2eea339ae398d59534897719c9b803bacf292a1b6",
+    "current_sha256": "edbcdfdefe7c547edac9a47b71a3892b6fe68c9553c982e914a151ea2e52921b",
+    "start": "\t\t\"holdem_master_title\":\n",
+    "end": "\treturn localized\n",
+    "include_end": false,
+    "span_sha256": "207baf12cad3682d3073da41646183431faca9cc78e09962cde127c0277621d0",
+    "hooks": []
+  },
+  "tools/ja_translation_pipeline.py": {
+    "previous_sha256": "504b5ef8707568b199df35179b1753ab25706b2004fa3d0fc0fa879b18303906",
+    "current_sha256": "e2d666c19637fd20df8750187870e27cc1770c63d73db232e8035b8d072abe9c",
+    "start": "# BEGIN_META_TITLE_SUCCESSOR_250\n",
+    "end": "# END_META_TITLE_SUCCESSOR_250\n\n\n",
+    "include_end": true,
+    "span_sha256": "9c231ba059708f9f5ac1be745fc667941de333b1451af0eb2594ca6aa3aa60d0",
+    "hooks": [
+      [
+        "    predecessor_calls, predecessor_source, next_title_errors = _mg9_meta_title_chain_calls(calls)",
+        "    predecessor_calls, predecessor_source, next_title_errors = _a11_meta_title_chain_calls(calls)"
+      ],
+      [
+        "    stats, title_stat_errors = _mg9_meta_title_current_stats(\n        calls, predecessor_calls, predecessor_source, stats)",
+        "    stats, title_stat_errors = _a11_meta_title_current_stats(\n        calls, predecessor_calls, predecessor_source, stats)"
+      ],
+      [
+        "        ui_inventory, meta_title_cases, meta_title_failures = _mg9_meta_title_historical_checks(ui_inventory)",
+        "        ui_inventory, meta_title_cases, meta_title_failures = _a11_meta_title_historical_checks(ui_inventory)"
+      ]
+    ]
+  }
+}''')
+_MG9_REGISTRY_SHA256 = '78ad53320530e54e2347313e505cf28c4f8991f011e6a91d8e0078831b577515'
+
+
+def _mg9_registry_digest() -> str:
+    return hashlib.sha256(json.dumps(
+        {"rows": MG9_SOURCE_ROWS, "transitions": MG9_TRANSITIONS},
+        ensure_ascii=False, sort_keys=True, separators=(",", ":")
+    ).encode("utf-8")).hexdigest()
+
+
+def _approved_mg9_mp_span() -> bytes:
+    lines = []
+    previous_id = None
+    for title_id, field, ko, en in MG9_SOURCE_ROWS:
+        if title_id != previous_id:
+            lines.append("\t\t" + json.dumps(title_id, ensure_ascii=False) + ":\n")
+            previous_id = title_id
+        lines.append("\t\t\tlocalized[" + json.dumps(field) + "] = LocaleManager.ui("
+                     + json.dumps(ko, ensure_ascii=False) + ", "
+                     + json.dumps(en, ensure_ascii=False) + ")\n")
+    return "".join(lines).encode("utf-8")
+
+
+def _mg9_projection(current: bytes, relative: str) -> tuple[bytes, list[str]]:
+    if relative not in (MP_PATH, JA_PATH):
+        return current, ["ORDER-250: MG9 successor path is not owned"]
+    try:
+        if (MP_PATH, JA_PATH) != (
+                "autoloads/MetaProgression.gd", "tools/ja_translation_pipeline.py"
+        ) or _mg9_registry_digest() != _MG9_REGISTRY_SHA256 \
+                or _a11_registry_digest() != _A11_REGISTRY_SHA256 \
+                or _registry_digest() != _REGISTRY_SHA256:
+            return current, ["ORDER-250: exact MG9/predecessor registry drifted"]
+        rule = MG9_TRANSITIONS[relative]
+        if rule["previous_sha256"] != A11_TRANSITIONS[relative]["current_sha256"]:
+            return current, ["ORDER-250: MG9 predecessor step is not old248"]
+        if hashlib.sha256(current).hexdigest() != rule["current_sha256"]:
+            return current, ["ORDER-250: unapproved current MG9 source bytes " + relative]
+        start, end = rule["start"].encode("utf-8"), rule["end"].encode("utf-8")
+        if current.count(start) != 1 or current.count(end) != 1:
+            return current, ["ORDER-250: MG9 span boundary is not unique"]
+        begin = current.index(start)
+        finish = current.index(end, begin)
+        if rule["include_end"]:
+            finish += len(end)
+        span = current[begin:finish]
+        if hashlib.sha256(span).hexdigest() != rule["span_sha256"]:
+            return current, ["ORDER-250: MG9 span raw mismatch"]
+        if relative == MP_PATH and span != _approved_mg9_mp_span():
+            return current, ["ORDER-250: MG9 title ID/field/KO/EN mismatch"]
+        projected = current[:begin] + current[finish:]
+        for current_hook, previous_hook in rule["hooks"]:
+            current_hook = current_hook.encode("utf-8")
+            if projected.count(current_hook) != 1:
+                return current, ["ORDER-250: MG9 hook is not unique"]
+            projected = projected.replace(current_hook, previous_hook.encode("utf-8"), 1)
+        if hashlib.sha256(projected).hexdigest() != rule["previous_sha256"]:
+            return current, ["ORDER-250: MG9 inverse does not restore old248"]
+        return projected, []
+    except (KeyError, TypeError, ValueError, AttributeError, UnicodeError):
+        return current, ["ORDER-250: malformed MG9 registry/source"]
+
+
+def mg9_source_errors(
+    relative: str, current: bytes, registered_previous: str | None = None,
+) -> list[str]:
+    """Newest raw authority before the unchanged248 predecessor."""
+    _old, errors = _mg9_projection(current, relative)
+    if registered_previous is not None:
+        rule = MG9_TRANSITIONS.get(relative, {})
+        if registered_previous != rule.get("previous_sha256"):
+            errors.append("ORDER-250: MG9 predecessor registration drifted")
+    return errors
+
+
+def mg9_project_bytes(current: bytes, relative: str) -> bytes:
+    """Reject and OFF inputs remain identical; success exposes only old248."""
+    return _mg9_projection(current, relative)[0]
+
+
+def mg9_project_byte_hash(claim: str, relative: str, current: bytes) -> str:
+    """A claim never substitutes for the actual current raw authority."""
+    old, errors = _mg9_projection(current, relative)
+    if errors or hashlib.sha256(current).hexdigest() != claim:
+        return claim
+    return hashlib.sha256(old).hexdigest()
+# END_MG9_META_TITLE_SUCCESSOR_250

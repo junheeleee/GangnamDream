@@ -97,3 +97,14 @@ source-only clean checkpoint에서 공식 collector/export18×3·hash·보호집
 이미 종료된 실행을 새 대기 상태로 기록하지 않는다. 동기화와 새 원격 결과 판정은 ROOT가 맡는다.
 최종 exact source·공식 수용·독립 단위판정 후 마감한다. native/render/인간플레이·본편GO는 별도다.
 공개GO1·인간OPEN45·본편HOLD를 유지한다. 이 제한은 이번 작업의 일회성 사양이며 새 규범이 아니다.
+
+## 2026-09-13 첫 소스 적용 관측
+
+ROOT 전량 독해 뒤 source4와 self를 적용했다. self는 private bound 후보의
+MG9_BINDING 승인·실제 핀만 정렬했다. 첫 source 대조23(정상3/변조19/OFF1)은
+전부 유효했고, 실제 MP83 calls 중 신규18·기존65를 관측했다. 기존19/24/18은
+명시된 역사 관측으로만 통과했다. private `order250-source-controls-first.json`
+1580766B/SHA264b0129707eea24541ae885c28131720709213142c33b9d20fa20ee1cc8d727,
+exit0/0.632초/입력1193 불변. collector·엔진·수량 검사0이다.
+승인54 언어 독립 필수0, private runtime 필수0이며 실제405와 정식 수용은 아직이다.
+이 source-only checkpoint 이후 공식18 source export와 UI/런타임 적용을 계속한다.

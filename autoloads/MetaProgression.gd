@@ -769,6 +769,33 @@ func _localized_title(title: Dictionary) -> Dictionary:
 		"ordinary_end_title":
 			localized["name"] = LocaleManager.ui("평범한 행복", "Ordinary Happiness")
 			localized["desc"] = LocaleManager.ui("ordinary_life 엔딩. 평범함도 하나의 성취다.", "Ordinary Life ending. Even normalcy can be an achievement.")
+		"holdem_master_title":
+			localized["name"] = LocaleManager.ui("홀덤 무법자", "Hold'em Outlaw")
+			localized["desc"] = LocaleManager.ui("지하 홀덤 클럽 15판 이상. 이제 패를 읽는다기보다, 상대를 읽는다.", "Played 15 or more underground hold'em games. You read people now, not cards.")
+		"racetrack_master_title":
+			localized["name"] = LocaleManager.ui("경마 귀신", "Racetrack Ghost")
+			localized["desc"] = LocaleManager.ui("경마장 15판 이상. 폼지는 가끔 거짓말을 한다. 나는 이제 그것도 안다.", "Bet on 15 or more races. Form lies sometimes. Now you know that too.")
+		"scalping_master_title":
+			localized["name"] = LocaleManager.ui("스캘퍼", "Scalper")
+			localized["desc"] = LocaleManager.ui("스캘핑 트레이딩 15회 이상. 1분 안에 사고 팔고. 손이 기억한다.", "Scalped 15 or more times. Buy and sell within a minute. Your hands remember.")
+		"baccarat_master_title":
+			localized["name"] = LocaleManager.ui("정선 카지노 상주자", "Jeongseon Casino Regular")
+			localized["desc"] = LocaleManager.ui("바카라 15라운드 이상. 로드맵을 외웠지만 그게 아무 의미도 없다는 것도 안다.", "Played 15 or more baccarat rounds. You memorized the roadmap and learned it means nothing.")
+		"blackjack_master_title":
+			localized["name"] = LocaleManager.ui("기본전략의 달인", "Basic Strategy Master")
+			localized["desc"] = LocaleManager.ui("블랙잭 15핸드 이상. 패를 보고 멈출지 받을지를 안다. 이게 이 게임의 전부다.", "Played 15 or more blackjack hands. Hit or stand. That is the whole game.")
+		"slot_master_title":
+			localized["name"] = LocaleManager.ui("잭팟 사냥꾼", "Jackpot Hunter")
+			localized["desc"] = LocaleManager.ui("슬롯머신 20스핀 이상. 777이 나왔을 때 그 소리가 아직도 귓가에 맴돈다.", "Spun slots 20 or more times. The sound of 777 still echoes.")
+		"roulette_master_title":
+			localized["name"] = LocaleManager.ui("제로의 지배자", "Master of Zero")
+			localized["desc"] = LocaleManager.ui("룰렛 15스핀 이상. 하우스엣지 2.7%는 알지만 멈출 수 없다.", "Spun roulette 15 or more times. You know the 2.7% house edge and still cannot stop.")
+		"bigwheel_master_title":
+			localized["name"] = LocaleManager.ui("바늘의 눈", "Eye of the Needle")
+			localized["desc"] = LocaleManager.ui("빅휠 15스핀 이상. 가장 단순한 게임이지만 45:1을 노린다.", "Spun the big wheel 15 or more times. The simplest game, still chasing 45:1.")
+		"daisai_master_title":
+			localized["name"] = LocaleManager.ui("주사위의 밤", "Night of Dice")
+			localized["desc"] = LocaleManager.ui("다이사이 15라운드 이상. 세 개의 주사위가 구르는 소리를 기억한다.", "Played 15 or more Dai Sai rounds. You remember the sound of three dice rolling.")
 	return localized
 
 func check_and_unlock_titles() -> Array:

@@ -65,6 +65,46 @@
       "why": "Exact two-path UI title quantity repair: fixed24 (6 normal,14 linked negatives,4 OFF) inside one new exchange test. Generic numeral parser and previous expectations unchanged. The final title-localization lane is a strict superset; execute its unique11 once at the same exact candidate and bind both scopes, not two duplicate runs."
     },
     {
+      "id": "minigame-meta-title-localization",
+      "paths": [],
+      "owned_paths": [
+        "autoloads/MetaProgression.gd",
+        "tools/ja_translation_pipeline.py",
+        "tools/meta_title_locale_successor.py",
+        "tools/meta_title_locale_successor_self_test.py",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/MetaTitleLocaleCheck.tscn",
+        "tools/run_meta_title_locale_qa.sh",
+        "locale/ui_ja.json",
+        "locale/ui_zh-CN.json",
+        "locale/ui_zh-TW.json",
+        "content/meta/full_game_localization.json",
+        "tools/audit_scope.json",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/queue_active/ORDER-250.md",
+        "docs/queue_archive/ORDER-250.md",
+        "docs/WORK_LOG.md",
+        "docs/STATUS.md",
+        "docs/queue_backlog/FULL_GAME_LOCALIZATION.md",
+        "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-250.json"
+      ],
+      "tools": [
+        "tools/meta_title_locale_successor_self_test.py",
+        "tools/ja_translation_pipeline.py --self-test",
+        "tools/ja_translation_audit.py --scope ui",
+        "tools/full_game_localization_self_test.py",
+        "tools/zh_translation_audit.py --self-test",
+        "tools/en_coverage_check.py",
+        "tools/queue_index_self_test.py",
+        "tools/agent_review_decisions_self_test.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Nine minigame titles,18 source surfaces and54 direct-Korean targets. Current source23 (normal3/negative19/OFF1) precedes frozen historical24819/24524/24418. Isolated actual405=old310 (295 direct/15 validated history)+new95, with180 nested condition/mastery vectors separate. Preserve source debt, producer/counter/gameplay/save semantics; no audit.sh change, local full audit, native/render or full-product claim."
+    },
+    {
       "id": "asset-life-meta-title-localization",
       "paths": [],
       "owned_paths": [
