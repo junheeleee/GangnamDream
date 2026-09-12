@@ -1,3 +1,25 @@
+# ORDER-258 — 정보 패널 번역·공식 수용 결과
+
+[x] ORDER-258 — 2026-09-13. Poincare LOCAL work_unit GO.
+
+제품 source d4e7bf59197294002e4ae111828722c9ee90cc61 / tree 9cc2e6dd8ae0ab499354f7aeea718f159267cf70
+clean 검토 2f1a7ba8461b12c36ecde77276ec9b5e0e208381 / tree 78868b20d78b7c35e6e804f6e2739130c44dced4
+
+## 결과와 관측 경계
+
+ORDER-258 work_unit GO for the declared information-panel17 legacy keys plus existing BODY context, Japanese born-wealthy meaning repair1, Chinese36 additions and official54 machine acceptances. This is not actual panel/live-language-refresh, rendered/native/human/controller, remote-release or full-product GO.
+
+- language: 18 Korean/English source surfaces × JA/CN/TW =54 independently reviewed targets. JA 金ずる→裕福な家の生まれ fixes one wrong meaning; other17 Japanese values preserved. CN/TW each18 added.
+- source: Actual parser/collector18 unique owner/KO/EN pairs:17 legacy and1existing BODY context; protected set0. Hint API5812/literal5813 and BODY API11525/literal11526 separated. These are static owner observations, not18 runtime actions.
+- acceptance: 39022→39076, batches106→107; internal metadata9 unchanged. JA13024, CN/TW13026 accepted records. New54 source/target hashes and3 receipts match approval and current UI.
+- QA: First complete39076 L1 and first actual fixed12 each PASS on the same clean review2f1a7ba. No test rerun, new checker, engine, ManualSave/Chapter/545/full-audit invocation in this unit.
+
+공개 GO1·인간 OPEN45·본편 HOLD 유지. 실제 정보 패널·열린 패널 갱신·배경 세이브 표시·렌더·원어민·인간 플레이·물리 패드·새 원격 후보·외부 출시 GO가 아니다. 세부 첫 결과와 한계는 독립 보고 원문을 따른다.
+
+[독립 최종 보고](../agent_reviews/ORDER-258.json) · SHA 5181928e493b1e5469e52fcf23063ae74c5abcc7d4ac89806aa2609274effe33
+
+## 선언·진행 원문 보존
+
 # 정보 패널 번역과 출신 배경 오역 수리
 
 #### [~] ORDER-258 정보 패널 번역

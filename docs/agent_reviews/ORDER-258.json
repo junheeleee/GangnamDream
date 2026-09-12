@@ -1,0 +1,115 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-258",
+  "scope": "work_unit",
+  "reviewer": "Poincare",
+  "authority": "user_delegated_agent_final",
+  "role": "Independent Korean-source/language54, ROOT driver and actual acceptance/final-check reviewer. Rawls authored translation; ROOT authored the private drivers, applied products and executed every recorded check. Reviewer authored no product or QA.",
+  "subject": {
+    "kind": "source",
+    "commit": "d4e7bf59197294002e4ae111828722c9ee90cc61",
+    "tree": "9cc2e6dd8ae0ab499354f7aeea718f159267cf70",
+    "manifest_sha256": null
+  },
+  "review": {
+    "commit": "2f1a7ba8461b12c36ecde77276ec9b5e0e208381",
+    "tree": "78868b20d78b7c35e6e804f6e2739130c44dced4",
+    "clean": true,
+    "source_resolver": "Current resolver read directly; exact parent/diff confirms STATUS-only wrapper. Source includes the portable and truthful CLAUDE/backlog updates, which are not metadata exemptions."
+  },
+  "verdict": "GO",
+  "required": [],
+  "optional": [],
+  "decision": "ORDER-258 work_unit GO for the declared information-panel17 legacy keys plus existing BODY context, Japanese born-wealthy meaning repair1, Chinese36 additions and official54 machine acceptances. This is not actual panel/live-language-refresh, rendered/native/human/controller, remote-release or full-product GO.",
+  "population": {
+    "language": "18 Korean/English source surfaces × JA/CN/TW =54 independently reviewed targets. JA 金ずる→裕福な家の生まれ fixes one wrong meaning; other17 Japanese values preserved. CN/TW each18 added.",
+    "source": "Actual parser/collector18 unique owner/KO/EN pairs:17 legacy and1existing BODY context; protected set0. Hint API5812/literal5813 and BODY API11525/literal11526 separated. These are static owner observations, not18 runtime actions.",
+    "acceptance": "39022→39076, batches106→107; internal metadata9 unchanged. JA13024, CN/TW13026 accepted records. New54 source/target hashes and3 receipts match approval and current UI.",
+    "QA": "First complete39076 L1 and first actual fixed12 each PASS on the same clean review2f1a7ba. No test rerun, new checker, engine, ManualSave/Chapter/545/full-audit invocation in this unit."
+  },
+  "findings": {
+    "language": "Required0/optional0 after all54 read directly. Born-wealthy is family origin, not a cash source/current wealth/nobility. Seoul and university-dropout meanings retained. Health 健康 vs BODY 身体/身體, current Job vs Career, progress Log vs Archive/Record remain distinct. Hint preserves three ordered %s and separators. Five tab names per locale are nonempty, distinct and introduce no name/path-special characters.",
+    "applied": "JA only one literal replacement and Chinese18-only suffix additions restore each previous whole dictionary exactly. All other values, including excluded Career/Archive/Record/관계/주거15, remain preserved. Existing BODY context key is not merged with Korean 건강. Game code, save/RNG logic and static-label refresh behavior are unchanged.",
+    "formal": "Pre-edit export4141142 and applied export/check/importea4c4b8 remain separate. Source IDs/KO/source hashes exact; only previous target hashes change JA1/CN18/TW18. Actual3×18 response/header/receipt records and all digests verified. Check/import changed_files0 because UI was already applied. Receipt states machine-validated/native OPEN. Removing only new54 and batch107 restores old39022 whole raw.",
+    "drivers_scope": "Reviewed all five disabled driver sources directly. Their preserved originals match reviewed pins; enabling changes only gate/comment plus exchange approved SHA. One explicit-only lane insertion has whole raw inverse, exact owned15 and actual registered10+always2=12. No check expectation or threshold was weakened.",
+    "final_checks": "Twelve raw child exits0: fullself262, EN clean, JA pipeline146, JA UI2974/errors0 beta, ZH12446 skeleton, story-demo self4/4 and normal5 locales, registry146, queue25/fence4, agent222/HOLD, context374 and active77/in_progress75. Fullself's196958-byte stdout was decoded/parsed, including all97 preserved finite trace result flags; this is not a new review of every historical test design.",
+    "limitations_preserved": "Fullself stderr contains unittest progress/OK, not failure; other11 stderr empty. Registry18 EXTRA advisories remain. ZH static454/2945 legacy,6/29context, direct English bypass13 and shipping0 remain limited coverage; glyph1394/1420 is not rendered review. Unsupported138/22/329 unchanged.",
+    "identity_preservation": "Baseline d56→final review12 committed paths are within declared15: product5 plus operating7. Named1591 and both outer1194 inputs independently matched before/after, exact review Git and current raw. Applied ea4→final reuses1193 identical component inputs, excluding legitimately added portable receipts. Old43 decisions entire raw, human done1/open45/public history, game/project/collector/checker/audit.sh raw remain unchanged."
+  },
+  "measurements": {
+    "source_manifest_sha256": "89c131c71345c3f27df36c0bacfa1a0791fca680b7eca4ed1d3a3ef30ee7170e",
+    "collector_total": 17484,
+    "all_L1_errors": 0,
+    "all_L1_seconds": 71.089799792,
+    "all_L1_inner_seconds": 70.745542833,
+    "named_children": 12,
+    "named_seconds": 98.696702458,
+    "named_outer_seconds": 98.989662375,
+    "named_inputs": 1591,
+    "outer_inputs": 1194,
+    "portable": {
+      "bytes": 10164985,
+      "sha256": "5586f739776af46b751a3b0401f81baf95d8950f6925150af8e2459a0e95a0fb",
+      "accepted_sha256": "27f30fe234ef234c6c27a559d730c80c1ae96f8c0f752adef94c7648462dbaed"
+    }
+  },
+  "evidence": {
+    "final_binding": {
+      "path": ".git/full-game-localization/order258-final-independent-binding.json",
+      "bytes": 13419,
+      "sha256": "7fdab7c0713c5f3ff656d960b2c841325ec7d2955d70a19f9926bb971dffb1e3"
+    },
+    "language": {
+      "path": ".git/full-game-localization/order258-language-independent-review.json",
+      "bytes": 7324,
+      "sha256": "69b320aedd6414b6706d49c9cc53335cbcc1d305a79cc079f890c43869109f81"
+    },
+    "drivers": {
+      "path": ".git/full-game-localization/order258-drivers-independent-review.json",
+      "bytes": 5055,
+      "sha256": "60845265e9b7edb564f488b2e15d99d81da5a342da82ab72b27d7f2e8ab10570"
+    },
+    "actual_acceptance": {
+      "path": ".git/full-game-localization/order258-acceptance-independent-review.json",
+      "bytes": 12854,
+      "sha256": "3077f5a487fc4b73573f4b7fe69d738f7e5b9be859a6066b44763822825bd133"
+    },
+    "all_L1": {
+      "path": ".git/full-game-localization/order258-all-accepted-first.json",
+      "bytes": 377323,
+      "sha256": "4a7e62d469e18c0c07f8bff632a9b0d7364602c83ecdbd5ca8d3324e5eb846cb"
+    },
+    "named": {
+      "path": ".git/full-game-localization/order258-named-first.json",
+      "bytes": 1130241,
+      "sha256": "83f636eebc02e212af7d6d48fa9002cba50c44e8c1f42554718f7a4b2f9afafc"
+    },
+    "named_outer": {
+      "path": ".git/full-game-localization/order258-named-outer-first.json",
+      "bytes": 377114,
+      "sha256": "2d0e7298de26cd0622a3bb90a3a04f7527bd1b16d556c507b81f9f27c2d03d91"
+    }
+  },
+  "unobserved": [
+    "actual_information_panel_interaction",
+    "same_open_panel_language_refresh",
+    "modern_BODY_path_reachability",
+    "actual_rendered_fit",
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "new_remote_CI_or_release_approval",
+    "full_product_GO"
+  ],
+  "review_operations": {
+    "repo_module_import": 0,
+    "QA": 0,
+    "collector": 0,
+    "engine": 0,
+    "remote": 0,
+    "product_or_ops_writes": 0,
+    "git_mutation": 0,
+    "private_review_writes_only": true
+  },
+  "skill_influence": "gangnamdream-dev preserved direct KO meaning, existing context ownership and player state. The declared dictionary/acceptance scope was not expanded to live-refresh or new runtime testing."
+}
