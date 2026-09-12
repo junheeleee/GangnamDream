@@ -14,6 +14,39 @@
   ],
   "fast_lanes": [
     {
+      "id": "system-modal-locale-only",
+      "paths": [],
+      "owned_paths": [
+        "locale/ui_zh-CN.json",
+        "locale/ui_zh-TW.json",
+        "content/meta/full_game_localization.json",
+        "tools/audit_scope.json",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/queue_active/ORDER-257.md",
+        "docs/queue_archive/ORDER-257.md",
+        "docs/WORK_LOG.md",
+        "docs/STATUS.md",
+        "docs/queue_backlog/FULL_GAME_LOCALIZATION.md",
+        "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-257.json"
+      ],
+      "tools": [
+        "tools/full_game_localization_self_test.py",
+        "tools/zh_translation_audit.py --self-test",
+        "tools/ja_translation_pipeline.py --self-test",
+        "tools/ja_translation_audit.py --scope ui",
+        "tools/story_demo_localization_audit.py --self-test",
+        "tools/story_demo_localization_audit.py",
+        "tools/en_coverage_check.py",
+        "tools/audit_select.py --verify",
+        "tools/queue_index_self_test.py",
+        "tools/agent_review_decisions_self_test.py"
+      ],
+      "why": "Existing system-modal18 source keys only: planned54 official acceptances, with13 Chinese UI appends per locale and existing28/shared15 values preserved. Explicit-only ten registered checks plus the two existing always checks; no new checker, collector contract, source/runtime/save logic, engine fixture or local full audit. Preserve whole JA, old38968/b105/meta9 and human evidence. Translation/acceptance contracts are not actual modal, save/load, rendering, native or full-product approval."
+    },
+    {
       "id": "audit-runner-seal",
       "paths": [],
       "owned_paths": [
