@@ -73,3 +73,20 @@ exit1/0.745초/실제25call·입력4 전후exact를 보존한다.
 `order247-post-first.json` 47853B/e6f72b36c869513524a7a8543d6c9713d090c93a707c5f5e8a2f4102e23a0afe.
 고유 입력은25이며 baseline+post를 새50개 검사로 세지 않는다. 최종 명시5·독립
 단위판정·새 exact 원격 CI는 아직 남는다.
+
+## 표적 검사 후보
+
+제품 `a486c2473ed8bce8e5e43ba847b599fffd4c4297`/tree488018a551b24e26fac45333a8bd322b9134d721,
+검토 `543940993a8e15b7734861b1537d0741bbad9f23`/tree5ab265f3172bfe68643bf1a8b3dda67a978ec644.
+Poincare의 code/post 전량 검토는 필수0이며 private `order247-code-review.json`
+9737B/5d3bee7762a53027d22a3751d701f7c662cd711b41da899af29d7cf081019d72다.
+
+첫 명시 capture는 기존 context 중복 등록을 누락으로 오인해 child0에서 준비 실패했다.
+원형 `order247-named-first.json` 59421B/ee6ca9206053990595a464932e9c85eec1144f5201f16961960ca62b4ce74964를
+보존했다. 입력 before 미획득에 따른 changed 목록은 실제 파일 변경 증거가 아니다.
+별도 수리 driver는 표준 selector의 first등록 선택과 고유5 가드를 그대로 썼다.
+같은 clean 검토 후보의 최초 실제5는 전부 exit0,1.887초/입력246 전후exact다.
+`order247-named-after-selection-fix.json` 95548B/1cdd40d02e9d97c3ab45ab8a98b9337bc082c515e44d3d12fa936f28a112755c.
+trace self187·일반profiles3(PENDING)·등록145/guard6/EXTRA17·context363·active78이다.
+선언52 대비 소유 밖2667개 Git blob은 exact다. 로컬 전체 감사·Godot·번역전량 재실행0.
+원격 CI와 최종 단위판정은 여전히 별도이며 기존41 failure를 GREEN으로 바꾸지 않는다.
