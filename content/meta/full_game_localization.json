@@ -3821,6 +3821,30 @@
       "machine_validation": "PASS",
       "rendered_review": "OPEN",
       "native_review": "OPEN"
+    },
+    {
+      "order": "ORDER-256",
+      "group": "ui",
+      "roots": [
+        "다음 시작 보너스:  ",
+        "사교력",
+        "운",
+        "자금 +%s",
+        "정신력",
+        "지력",
+        "칭호",
+        "투자감각"
+      ],
+      "source_leaves": 8,
+      "target_leaves_by_locale": {
+        "ja": 8,
+        "zh-CN": 8,
+        "zh-TW": 8
+      },
+      "source_review": "Direct Korean and independent full24 review of seven visible next-start bonus labels and the title button. Existing JA8 retained and CN/TW16 authored; next-run timing, Korean won, placeholders, ordered category contributions and per-category caps preserved. Same-button locale refresh repaired without changing bonus calculation, saved title IDs or old520 expectations. Isolated component observations are not rendered/native/human play.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN"
     }
   ],
   "accepted": {
@@ -55744,6 +55768,38 @@
       "ui:퀀트형 전문화 선택. 시장을 수식으로 본다.:/퀀트형 전문화 선택. 시장을 수식으로 본다.": {
         "source_sha256": "e446fc08681c9ca4fc4b19305ecae809f13cc1ed7e6d83b1a6af1df40a3ea9d2",
         "target_sha256": "e3350202f89237e00c915641af6dd13a12716aa0df50abdee29c55c8a7ff500e"
+      },
+      "ui:다음 시작 보너스:  :/다음 시작 보너스:  ": {
+        "source_sha256": "9238b3990720e808fd5aca1fc1b1c173246cea89eaa8625d87312a134c57d62f",
+        "target_sha256": "df47e2a1525717e54a299b25c9997a677f0e339d319065b979d091d53a883f15"
+      },
+      "ui:사교력:/사교력": {
+        "source_sha256": "66bad41cfd0a43ea2004e3e05b2878b69f850fc10c492e0563e3d671173e8ed3",
+        "target_sha256": "2c8f97eaa1c1cabf535eb30eab3b9f32fa3fb2d909b00f99a73e3e3473dbae2b"
+      },
+      "ui:운:/운": {
+        "source_sha256": "8e0d1a2956fd641c26eee22b2dae2598b5919bf792670a282b7d6b50c154903b",
+        "target_sha256": "494cbb13293389277e99201260d1418df768c3cb50f8b6355de12132829019d2"
+      },
+      "ui:자금 +%s:/자금 +%s": {
+        "source_sha256": "ce300ffb06bede88545f3750584167e8c3f957ad539c2c7504809ac349fb5682",
+        "target_sha256": "485baf8e1f4654af72aed904020746fba5187de71f2cdd0d37b260b1dd9d17ae"
+      },
+      "ui:정신력:/정신력": {
+        "source_sha256": "bba080fabc8a30aefe3de0f14ecc5ec0446820b30ca2e3698e0e764e620b0a98",
+        "target_sha256": "124733fbfdecb0460ac2f89c0d4b55fc646f0cdf22e0cb380064d77f3abac5c5"
+      },
+      "ui:지력:/지력": {
+        "source_sha256": "ecc8111882970aea6ed37f31cfbdedef0576c3f149644b7f3ce1a8465dc2223c",
+        "target_sha256": "8c5af094dae4a538465a3cce38219b2a7c687c018ecd14049f380f8f1dc55d65"
+      },
+      "ui:칭호:/칭호": {
+        "source_sha256": "d204d9798735d92b9ad145e942b42a7f61c29ee5ef364aafc016c06cb9e92116",
+        "target_sha256": "807f0146d3998f422a96af8a5b15aee10c3b0e247abc8e20f8e72a043ddbed61"
+      },
+      "ui:투자감각:/투자감각": {
+        "source_sha256": "86b9b1779c44e0df6c2db4dc282d9d02d95851a383a701d53e358284b9cc5877",
+        "target_sha256": "a432baaca294bfd35999fdfd805dbc9086ac789abf082f69c599abbfb0f320ef"
       }
     },
     "zh-CN": {
@@ -107674,6 +107730,38 @@
       "ui:퀀트형 전문화 선택. 시장을 수식으로 본다.:/퀀트형 전문화 선택. 시장을 수식으로 본다.": {
         "source_sha256": "e446fc08681c9ca4fc4b19305ecae809f13cc1ed7e6d83b1a6af1df40a3ea9d2",
         "target_sha256": "fb963fee3a6c66a4edd7f83df4f4ef8271940b5820e21149d6513536ef36aa4d"
+      },
+      "ui:다음 시작 보너스:  :/다음 시작 보너스:  ": {
+        "source_sha256": "9238b3990720e808fd5aca1fc1b1c173246cea89eaa8625d87312a134c57d62f",
+        "target_sha256": "1afc20a46a68c9ca204419f99315e36c1fff661842b39afdce9faf3bac9e560f"
+      },
+      "ui:사교력:/사교력": {
+        "source_sha256": "66bad41cfd0a43ea2004e3e05b2878b69f850fc10c492e0563e3d671173e8ed3",
+        "target_sha256": "09842350d0976f3f8521b43fabe1c9c489959a61c8a933dd10d8d7a108001ae1"
+      },
+      "ui:운:/운": {
+        "source_sha256": "8e0d1a2956fd641c26eee22b2dae2598b5919bf792670a282b7d6b50c154903b",
+        "target_sha256": "915de312b3b0d29d2a74f80e32cee01b6478c37e74b9b9d870839cd3f3a94336"
+      },
+      "ui:자금 +%s:/자금 +%s": {
+        "source_sha256": "ce300ffb06bede88545f3750584167e8c3f957ad539c2c7504809ac349fb5682",
+        "target_sha256": "c75039084899e846764aa10ba8b5faaa7dabbe00a8ecb4709351b13d4f6dbfad"
+      },
+      "ui:정신력:/정신력": {
+        "source_sha256": "bba080fabc8a30aefe3de0f14ecc5ec0446820b30ca2e3698e0e764e620b0a98",
+        "target_sha256": "124733fbfdecb0460ac2f89c0d4b55fc646f0cdf22e0cb380064d77f3abac5c5"
+      },
+      "ui:지력:/지력": {
+        "source_sha256": "ecc8111882970aea6ed37f31cfbdedef0576c3f149644b7f3ce1a8465dc2223c",
+        "target_sha256": "62fb764c94ff710739326a8c0d262e618c6b6dce55461fce864855895fe0a1e2"
+      },
+      "ui:칭호:/칭호": {
+        "source_sha256": "d204d9798735d92b9ad145e942b42a7f61c29ee5ef364aafc016c06cb9e92116",
+        "target_sha256": "807f0146d3998f422a96af8a5b15aee10c3b0e247abc8e20f8e72a043ddbed61"
+      },
+      "ui:투자감각:/투자감각": {
+        "source_sha256": "86b9b1779c44e0df6c2db4dc282d9d02d95851a383a701d53e358284b9cc5877",
+        "target_sha256": "894db011099b15a9650bab463933905c30c4ec8eea497fa57094c7cb5da37741"
       }
     },
     "zh-TW": {
@@ -159604,10 +159692,42 @@
       "ui:퀀트형 전문화 선택. 시장을 수식으로 본다.:/퀀트형 전문화 선택. 시장을 수식으로 본다.": {
         "source_sha256": "e446fc08681c9ca4fc4b19305ecae809f13cc1ed7e6d83b1a6af1df40a3ea9d2",
         "target_sha256": "1b3967fe87cedcee015fe9f257ec258f27a4e5d532d23c392e2ffd73e7a93d09"
+      },
+      "ui:다음 시작 보너스:  :/다음 시작 보너스:  ": {
+        "source_sha256": "9238b3990720e808fd5aca1fc1b1c173246cea89eaa8625d87312a134c57d62f",
+        "target_sha256": "f0058bf421367e88f120d9f070d91c7cf085221644460247e3e62443d7a7e1de"
+      },
+      "ui:사교력:/사교력": {
+        "source_sha256": "66bad41cfd0a43ea2004e3e05b2878b69f850fc10c492e0563e3d671173e8ed3",
+        "target_sha256": "09842350d0976f3f8521b43fabe1c9c489959a61c8a933dd10d8d7a108001ae1"
+      },
+      "ui:운:/운": {
+        "source_sha256": "8e0d1a2956fd641c26eee22b2dae2598b5919bf792670a282b7d6b50c154903b",
+        "target_sha256": "40fd9ed7d7987a08f0d232674d367e254f4714c2147a173636b758be38d4e3ea"
+      },
+      "ui:자금 +%s:/자금 +%s": {
+        "source_sha256": "ce300ffb06bede88545f3750584167e8c3f957ad539c2c7504809ac349fb5682",
+        "target_sha256": "485baf8e1f4654af72aed904020746fba5187de71f2cdd0d37b260b1dd9d17ae"
+      },
+      "ui:정신력:/정신력": {
+        "source_sha256": "bba080fabc8a30aefe3de0f14ecc5ec0446820b30ca2e3698e0e764e620b0a98",
+        "target_sha256": "124733fbfdecb0460ac2f89c0d4b55fc646f0cdf22e0cb380064d77f3abac5c5"
+      },
+      "ui:지력:/지력": {
+        "source_sha256": "ecc8111882970aea6ed37f31cfbdedef0576c3f149644b7f3ce1a8465dc2223c",
+        "target_sha256": "62fb764c94ff710739326a8c0d262e618c6b6dce55461fce864855895fe0a1e2"
+      },
+      "ui:칭호:/칭호": {
+        "source_sha256": "d204d9798735d92b9ad145e942b42a7f61c29ee5ef364aafc016c06cb9e92116",
+        "target_sha256": "1dba93f0e0754b2f90479391e2ec657aa6e1e9a9cc3b9bd66b2811b85723aaca"
+      },
+      "ui:투자감각:/투자감각": {
+        "source_sha256": "86b9b1779c44e0df6c2db4dc282d9d02d95851a383a701d53e358284b9cc5877",
+        "target_sha256": "438fa654e7cc3250e098468a7a2ad8b0f775ad700615d3507f795b0af71b31f8"
       }
     }
   },
-  "accepted_sha256": "bd0eb0704043704c220081e83e1f59182e8163bc1831bb9e73931abef7b2a20b",
+  "accepted_sha256": "36e46fc2f710652fb67a2002c59882123fc3bbcb3d7e784750db86ce5ac8b9bc",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {

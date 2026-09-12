@@ -124,3 +124,12 @@ clean2b94c68에서 첫post20/유효음성17·old28 PASS(5c111590), 독립25d2d47
 meta 정상선행/역사chain·실제545·공식24는 아직 전이다. 런타임 cold-cache 의심은
 custom-name의 전 언어 순회로 반증됐으며 B1 실제실패가 아니다. 초기 검토와 정정1f02f4bc를
 보존하고 따뜻한 cache 전제를 관측하는 최소 보강만 한다. 공식38944/b104·본편HOLD 유지.
+
+## 첫 실제 소비자·공식 수용
+
+clean f10a92a/tree5764fe34의 actual545 PASS(기존520+새25), 200.083535583초다.
+capture bf5e57c1/runner3c82ce27, 외부1194·내부19 불변이며 새primary65/settings35와
+초기/각전환전 cache warm을 확인했다. B2는49164e80 독립검토 뒤 readiness만true로 적용했다.
+같은clean에서 공식8×3 export/check/import 첫PASS·changed_files0 뒤24를 portable에 더했다.
+현재38968/b105/meta9, 이전38944 whole raw inverse exact다. 전체L1·고유13·최종독립은
+아직 전이다. 원어민·렌더·정상속도플레이·물리패드·개인디스크복구·본편GO는 주장하지 않는다.

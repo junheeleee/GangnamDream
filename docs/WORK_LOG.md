@@ -4,6 +4,20 @@
 > [9/12 현지화 보존본](history/WORK_LOG_2026-09-12_localization.md)에 손실 없이 보존한다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg`로 필요한 항목을 찾는다.
 
+## 2026-09-13 (Codex — 보너스·같은 버튼545 첫 통과·24 공식 수용)
+
+- cleanf10a92a/tree5764fe34 첫actual545 PASS/200.083535583초, 외부1194·내부19 전후 불변이다.
+  원문bf5e57c1·runner3c82ce27에 기존520/신규25를 분리했다. 새primary65·별도settings35와
+  초기/전환전 cache warm을 관찰했다. 종료 오류0·복구marker1은 개인저장 복구나 사람플레이 증거가 아니다.
+- 사적 B2의 새membership 관측만 독립49164e80 필수0 뒤 적용했고 readiness만true다.
+  실제scene b6b919dc/decoded f8d93446/runner adc406a5이며 B1/정정·wholeold inverse를 보존했다.
+  기존143초보다 실제 언어설정30회가 추가되어 첫실행부터 기존 허용범위의 timeout300을 썼다.
+  첫timeout 실패 뒤 재실행하거나 기대를 낮춘 것이 아니다. 실제 readback의 독립 판정은 후속이다.
+- 같은clean에서 공식8×3 export(d83b31be)/check(ccf8ec3b)/import(0742696c) 각첫PASS,
+  changed_files0·1194불변이다. portable에24를 더해38968/b105/meta9, JA12988/CN·TW12990이다.
+  이전38944 전체raw inverse exact, 새portable3b9966bb·accepted digest36e46fc2다.
+- 소스문서를 먼저 현재 사실로 갱신했다. 전체38968 L1·고유13·최종독립은 다음이며 본편HOLD다.
+
 ## 2026-09-13 (Codex — 칭호 갱신 첫 코드 검사·24 언어 검사)
 
 - clean2b94c68/tree45beb24f 첫source post20/유효음성17·각8endpoint PASS, 기존28 별도1회 PASS다.
