@@ -23,7 +23,7 @@
 - 기존 영어 `Apartment Life`와 MainGame milestone의 `Entered an apartment`는
   둘 다 보존한다. 새 shared-translation 충돌1은 현재 delta로 분리 검증하며
   옛 collision/hash/문맥 registry를 덮어쓰거나 영어를 맞춰 바꾸지 않는다.
-- cat/rare, 잠긴 카드의 ???/빈 설명, 나머지41칭호, unknown/empty/custom 입력의
+- cat/rare, 잠긴 카드의 미발견 칭호/빈 설명, 나머지41칭호, unknown/empty/custom 입력의
   기존 동작, ALL_TITLES/TITLE_EN·해금 조건·저장ID·보너스·게임 상태는 보호한다.
   연속 거주·연속 무직·주택 소유·새 만남 등 원문에 없는 사실을 번역에 넣지 않는다.
 
