@@ -84,3 +84,21 @@ KR에서 직접 세 언어를 저작하고 독립66 전량 검토를 받는다. 
 로컬 full audit·240주·예전 Chapter590 재실행은 하지 않는다. 원어민/렌더/인간플레이와
 게임 전체 완성은 이 검증의 결론이 아니다. 공개GO1·인간OPEN45·본편HOLD 유지.
 작업 제한은 일회성이며 새 규범은 없다.
+
+## 비공개 저작·적용 준비
+
+현재 제품 적용0·collector/L1/Godot0·수용0이다. Rawls의 KR직접66 초안
+`order248-title-translations-draft.json`32920B/92d0ee0e는 원형 보존했다.
+Poincare 전량66 검토는 필수0/선택1(`order248-language-review.json`
+23060B/9d43b8a8)이다. TW 도시 묘사의 동사 결합1을 채택한 별도 수정본
+33765B/e93317cf를 재결속했다. 나머지65·KO/EN22·기존JA1 exact이며
+`order248-language-final-addendum.json`3613B/6684473d는 언어 범위PASS다.
+이는 L1·소비자·단위 최종GO가 아니다. 합계38698/b100/meta9를 유지한다.
+
+actual 소비자 계획76742B/a63c81ea는 새22그룹×5의110과 조건35×5의
+nested175를 구분한다. 새 source 대조 계획22893B/25c84ae0은 정상3/변조16이다.
+두 계획은 구현 전 봉인했고 미래 source핀·실측 collector 수를 비워 두었다.
+기존 ending empty 표제가 계획17parent에 빠진 점은 별도1781B/4547b92d에
+기존18번째 기대만 결속했다. 코드 초안과 wrapper는 private·승인잠금 상태이며
+독립 RO검토 중이다. 첫 private 조립의 함수구간 비교 가정 오류는 검사/제품실행0에서
+발생했고 별도 최초 기록을 보존했다. 구원형 함수·기대값을 통과에 맞춰 바꾸지 않았다.
