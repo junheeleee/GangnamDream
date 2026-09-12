@@ -4,6 +4,18 @@
 > [9/12 현지화 보존본](history/WORK_LOG_2026-09-12_localization.md)에 손실 없이 보존한다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg`로 필요한 항목을 찾는다.
 
+## 2026-09-13 (Codex — 시스템 모달54 공식 수용)
+
+- clean22481ebe/treec077be84에서18×3 export(c87fe71a,11.509935708초), check(19f34ce2,
+  11.609834875초), import(f50f3b92,12.43032475초)를 각 첫 통과했다. 각1194입력 불변,
+  changed_files0이다. 최초 response·portable patch 출력도1b1fc11d/7cbd10a9로 보존했다.
+- receipt54/source·target·실제사전 결속 뒤 portable54만 추가했다. 현재39022/b106/meta9,
+  JA13006/CN·TW13008, portable3b3bac46·accepted digestdefc946a다. 이전38968 전체 raw는
+  exact 역복원된다. 적용 UI 독립dd6d99d9 필수0이며 scope d582e86c/named719b8446은
+  정적검토 한정이다. named의 준비실패 before=None은 실제입력변화로 해석하지 않는다.
+- source 문서를 먼저 실제 수용 사실로 갱신했다. 전체39022 L1·고유12·최종독립은 다음이며
+  이후 이 소스의 마감만을 위해 CLAUDE/backlog를 다시 바꾸지 않는다. 본편HOLD 유지.
+
 ## 2026-09-13 (Codex — 시스템 모달54 언어 검수·중국어26 적용)
 
 - 사적 언어표65a93636을 Poincare가54 전량 PASS/필수0으로 검토했다(f7d86e19).

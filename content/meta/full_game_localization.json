@@ -3845,6 +3845,40 @@
       "machine_validation": "PASS",
       "rendered_review": "OPEN",
       "native_review": "OPEN"
+    },
+    {
+      "order": "ORDER-257",
+      "group": "ui",
+      "roots": [
+        "1–5",
+        "6–10",
+        "게임 종료",
+        "동작 감소",
+        "메인 메뉴로",
+        "불러오기",
+        "빈 슬롯",
+        "설정 / 저장",
+        "슬롯 %d–%d",
+        "슬롯 %d에 저장했습니다",
+        "슬롯 1–5",
+        "시스템",
+        "오디오, 화면, 세이브 슬롯을 관리합니다.",
+        "저장",
+        "저장 / 불러오기",
+        "저장에 실패했습니다. 다시 시도해 주세요.",
+        "진동 강도",
+        "챕터 %d · %d주차 · %s"
+      ],
+      "source_leaves": 18,
+      "target_leaves_by_locale": {
+        "ja": 18,
+        "zh-CN": 18,
+        "zh-TW": 18
+      },
+      "source_review": "Direct Korean and independent full54 review of18 existing MainGame system-modal keys. JA18 and public shared15 values retained; CN/TW13 each appended. Settings, slot ranges, chapter/week/total-assets argument order and save success/failure meaning preserved. No game code, actual modal, rendered, native or human-play judgment.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN"
     }
   ],
   "accepted": {
@@ -55800,6 +55834,78 @@
       "ui:투자감각:/투자감각": {
         "source_sha256": "86b9b1779c44e0df6c2db4dc282d9d02d95851a383a701d53e358284b9cc5877",
         "target_sha256": "a432baaca294bfd35999fdfd805dbc9086ac789abf082f69c599abbfb0f320ef"
+      },
+      "ui:1–5:/1–5": {
+        "source_sha256": "8e87fb30ea2e3c3099d58b53e43793c329e723f590ad5431a7b52a0feb5d7f14",
+        "target_sha256": "9577937bbcc4e645050dfb5658e5134f52aff50de4e470fd1a76a141864f1aed"
+      },
+      "ui:6–10:/6–10": {
+        "source_sha256": "8864a51c519b584af7ce39ef4e809e80e86e9a1113317d316b0b65b787e39de7",
+        "target_sha256": "70f22d00daa3cdc87d45d40947b4ecbcd85a8fe948995d4eef184101037c049e"
+      },
+      "ui:게임 종료:/게임 종료": {
+        "source_sha256": "0fe3e1a19eeb3fa158816f7118bb0b4ca4c771ea77f54fd9e22bd333cc71aeb5",
+        "target_sha256": "041cb5cb2a51eca74db98c4e9468e2a64f83a577a32f81e60260a9ac27a842bf"
+      },
+      "ui:동작 감소:/동작 감소": {
+        "source_sha256": "389939eb3403654633f7c8bce0a9d03eb2d85253d22c70b827c5e7b0ef9d0437",
+        "target_sha256": "9025a2b9c84294deeda50342d751877b14c81e342cb5f55eb1ea816281b4c0c1"
+      },
+      "ui:메인 메뉴로:/메인 메뉴로": {
+        "source_sha256": "e990fc79dbdec1bf9a6319ec5d97ab50a1f3c2f7369fecbaf342854ab6fbdad7",
+        "target_sha256": "0b8fdf7df27fed752125935253cb0e7f63bedbab5bbeb24a20cb8a7d3ea59cda"
+      },
+      "ui:불러오기:/불러오기": {
+        "source_sha256": "50a286451b73183d39da019c66e14373d619760277f0238ee7f60459fe752e8a",
+        "target_sha256": "f358dd36234317b097135932bc871ab000023e7f76d5a7640e128cbd32ff15a8"
+      },
+      "ui:빈 슬롯:/빈 슬롯": {
+        "source_sha256": "04676dce204f83a31d4bcd07a0b749fa5c72230b103c210ba545c454a107e86b",
+        "target_sha256": "16e4e69cd58296af40db278acf83cd0e9f45e33d293be0122e420b5bcf2fe666"
+      },
+      "ui:설정 / 저장:/설정 ~1 저장": {
+        "source_sha256": "1411e23ae2482f08af10eb09a918eea9cc55e0f825f5eb3cdee0c1ba6a632a5f",
+        "target_sha256": "580f74d0682b4446b6e61faff37fca0ee6036001fa8b4ce53b102e5f8b39d0ba"
+      },
+      "ui:슬롯 %d–%d:/슬롯 %d–%d": {
+        "source_sha256": "681d8e8023504cd750ce815fcfd7edbb3afa283c5c33887ae1c59098536e3af3",
+        "target_sha256": "eb0381a745f4b988d6a8736a1976b4194bf1a76c30e4cf6b835410e11c82a12c"
+      },
+      "ui:슬롯 %d에 저장했습니다:/슬롯 %d에 저장했습니다": {
+        "source_sha256": "57383c468bd4d374b079d5f1ad77e0f07860bdd92c5f41ad44541fc52cb88174",
+        "target_sha256": "645f298de862a1d73866388a3addbde6846c7873e7ad68b452fdfd39ea86f4ec"
+      },
+      "ui:슬롯 1–5:/슬롯 1–5": {
+        "source_sha256": "f84cf84e3f2c6da8726da7a0fd97fde1c3231a9d1346979b3a8fbdd0f5b4c952",
+        "target_sha256": "3afe5638c37aad60e31a0f5ba389d5965d51f06da9a350574b5d58ab53b39102"
+      },
+      "ui:시스템:/시스템": {
+        "source_sha256": "d9aa2dbee9f13dd8564dec7aab28eca81388a20a18f94d3f8432a7b751d10259",
+        "target_sha256": "ae6f2d8ea150d15d4bf0b022d630e0f1e9ee6072b68bbf2085353a640d16c0a1"
+      },
+      "ui:오디오, 화면, 세이브 슬롯을 관리합니다.:/오디오, 화면, 세이브 슬롯을 관리합니다.": {
+        "source_sha256": "dd400631eae65cfa4da16c07e532c33c5fb67b260a7bff9422dd2d3e1368876b",
+        "target_sha256": "0dc6c600b08d1829494c3be3384d87c0b86a4a8e587fe3db897c85334b9eb2c3"
+      },
+      "ui:저장 / 불러오기:/저장 ~1 불러오기": {
+        "source_sha256": "674fce72e8bdb3b54e5294d1d94c8ef9e91426196a1a9bec64ff507e78eca33a",
+        "target_sha256": "ba47a58b6398196fc688fc74cb12c21f6f283366c4c022c054238249ca1c950d"
+      },
+      "ui:저장:/저장": {
+        "source_sha256": "a5c725ac2f73e760b6db23ae2056437b2279cdcfe17ec976b4283e1b9d6038b1",
+        "target_sha256": "a5a0facfcc91f7cf1d7858799f6947005e1065386ccbae193d12043333687553"
+      },
+      "ui:저장에 실패했습니다. 다시 시도해 주세요.:/저장에 실패했습니다. 다시 시도해 주세요.": {
+        "source_sha256": "4627aa38a93c546bdcee614089686d3691335fb8b9db0af98cdbf6cfa2158301",
+        "target_sha256": "4ed532f55a458f524df46ccb1c0638ccadee96bb33fcac378157f2d482d241fa"
+      },
+      "ui:진동 강도:/진동 강도": {
+        "source_sha256": "139520e7f23a26db91f83af552465e82c16b3aad6568d2b6d3a261e520e2a47d",
+        "target_sha256": "efce184aa1a25957b5e4ae5bed7c43392c7500273f11a628f861b966002817f5"
+      },
+      "ui:챕터 %d · %d주차 · %s:/챕터 %d · %d주차 · %s": {
+        "source_sha256": "cfb0616e9c2f550c4d0680672986951d2d43354c340416e4d3026e54b55e78ed",
+        "target_sha256": "eea124b7d1599f9df552351a6404d28d23121579d8ff0063bb0472f7e4f0b439"
       }
     },
     "zh-CN": {
@@ -107762,6 +107868,78 @@
       "ui:투자감각:/투자감각": {
         "source_sha256": "86b9b1779c44e0df6c2db4dc282d9d02d95851a383a701d53e358284b9cc5877",
         "target_sha256": "894db011099b15a9650bab463933905c30c4ec8eea497fa57094c7cb5da37741"
+      },
+      "ui:1–5:/1–5": {
+        "source_sha256": "8e87fb30ea2e3c3099d58b53e43793c329e723f590ad5431a7b52a0feb5d7f14",
+        "target_sha256": "48066e3a45aa9a8e59d0c8a402b4ff97a2ebadc0833e30ed5f4ab9208d6ef8ea"
+      },
+      "ui:6–10:/6–10": {
+        "source_sha256": "8864a51c519b584af7ce39ef4e809e80e86e9a1113317d316b0b65b787e39de7",
+        "target_sha256": "b37142ffe06da772f2a6d6d9110ca36b98ee01441eac002054dafc8c261a0430"
+      },
+      "ui:게임 종료:/게임 종료": {
+        "source_sha256": "0fe3e1a19eeb3fa158816f7118bb0b4ca4c771ea77f54fd9e22bd333cc71aeb5",
+        "target_sha256": "c7a65f6edc6c28aa79c049011fbaa755d27763124e4469532c68679e990afd2f"
+      },
+      "ui:동작 감소:/동작 감소": {
+        "source_sha256": "389939eb3403654633f7c8bce0a9d03eb2d85253d22c70b827c5e7b0ef9d0437",
+        "target_sha256": "8ab681d18901882a93511e986ebde58ca8d86031694acab0404cfd639a566505"
+      },
+      "ui:메인 메뉴로:/메인 메뉴로": {
+        "source_sha256": "e990fc79dbdec1bf9a6319ec5d97ab50a1f3c2f7369fecbaf342854ab6fbdad7",
+        "target_sha256": "354cc5bebe5a166c80eecfd93912518493cb8ea874c7ce6672e457bf6a2c62f7"
+      },
+      "ui:불러오기:/불러오기": {
+        "source_sha256": "50a286451b73183d39da019c66e14373d619760277f0238ee7f60459fe752e8a",
+        "target_sha256": "623f425f5fdbd54c0aa67c5a04e6278a1db47b811972d3f095c809b6a16d6908"
+      },
+      "ui:빈 슬롯:/빈 슬롯": {
+        "source_sha256": "04676dce204f83a31d4bcd07a0b749fa5c72230b103c210ba545c454a107e86b",
+        "target_sha256": "39543ab32b9d1d5cdaab5ee25c0b9717cf2d399831d45fce85a5541102a84af2"
+      },
+      "ui:설정 / 저장:/설정 ~1 저장": {
+        "source_sha256": "1411e23ae2482f08af10eb09a918eea9cc55e0f825f5eb3cdee0c1ba6a632a5f",
+        "target_sha256": "6b3e05d078a7c4b1cea7f95e859b91db8c1914eac0f2f34de11ea30f55f9150e"
+      },
+      "ui:슬롯 %d–%d:/슬롯 %d–%d": {
+        "source_sha256": "681d8e8023504cd750ce815fcfd7edbb3afa283c5c33887ae1c59098536e3af3",
+        "target_sha256": "5f487254110cbed12cd1bddaa0175984eb39dac22eb6654af678152030a44cf2"
+      },
+      "ui:슬롯 %d에 저장했습니다:/슬롯 %d에 저장했습니다": {
+        "source_sha256": "57383c468bd4d374b079d5f1ad77e0f07860bdd92c5f41ad44541fc52cb88174",
+        "target_sha256": "5442a1bc437a84cbf18e528801ec58649134114fce2722a7797fad8a942e9fcb"
+      },
+      "ui:슬롯 1–5:/슬롯 1–5": {
+        "source_sha256": "f84cf84e3f2c6da8726da7a0fd97fde1c3231a9d1346979b3a8fbdd0f5b4c952",
+        "target_sha256": "41a9f9804336bb29787e5ef580da16e1597f0414c6d7cf44cf7d35083616526e"
+      },
+      "ui:시스템:/시스템": {
+        "source_sha256": "d9aa2dbee9f13dd8564dec7aab28eca81388a20a18f94d3f8432a7b751d10259",
+        "target_sha256": "ea8cc7ff3f0bfe20c3c919871404d83c3be4d948f06481b68c1657d4921ad7f1"
+      },
+      "ui:오디오, 화면, 세이브 슬롯을 관리합니다.:/오디오, 화면, 세이브 슬롯을 관리합니다.": {
+        "source_sha256": "dd400631eae65cfa4da16c07e532c33c5fb67b260a7bff9422dd2d3e1368876b",
+        "target_sha256": "b52662700afd3d16f0cd8fc6487669dc265279ec51d0358bcc791142474b593e"
+      },
+      "ui:저장 / 불러오기:/저장 ~1 불러오기": {
+        "source_sha256": "674fce72e8bdb3b54e5294d1d94c8ef9e91426196a1a9bec64ff507e78eca33a",
+        "target_sha256": "5375a1cf49d48b0a9091370a0a8ea94f6fa4e25edf092d30003051f39d50accc"
+      },
+      "ui:저장:/저장": {
+        "source_sha256": "a5c725ac2f73e760b6db23ae2056437b2279cdcfe17ec976b4283e1b9d6038b1",
+        "target_sha256": "e55d2d5fac4f4029955d2abcf0311a14346f8001fee3d06a86df4584d4548d9a"
+      },
+      "ui:저장에 실패했습니다. 다시 시도해 주세요.:/저장에 실패했습니다. 다시 시도해 주세요.": {
+        "source_sha256": "4627aa38a93c546bdcee614089686d3691335fb8b9db0af98cdbf6cfa2158301",
+        "target_sha256": "1394ebbd185c458cb6d8ed5a62ff771c8f85c0b3de3ac0752d56c9ead5281059"
+      },
+      "ui:진동 강도:/진동 강도": {
+        "source_sha256": "139520e7f23a26db91f83af552465e82c16b3aad6568d2b6d3a261e520e2a47d",
+        "target_sha256": "bc2feded624f89de446a74546f9b7fe2b409f1c66016adb53784f49adf6fdd0c"
+      },
+      "ui:챕터 %d · %d주차 · %s:/챕터 %d · %d주차 · %s": {
+        "source_sha256": "cfb0616e9c2f550c4d0680672986951d2d43354c340416e4d3026e54b55e78ed",
+        "target_sha256": "9330c83f93b1daac71e83872bdea8265bd12893738796d6c6e15b5d57acd9c66"
       }
     },
     "zh-TW": {
@@ -159724,10 +159902,82 @@
       "ui:투자감각:/투자감각": {
         "source_sha256": "86b9b1779c44e0df6c2db4dc282d9d02d95851a383a701d53e358284b9cc5877",
         "target_sha256": "438fa654e7cc3250e098468a7a2ad8b0f775ad700615d3507f795b0af71b31f8"
+      },
+      "ui:1–5:/1–5": {
+        "source_sha256": "8e87fb30ea2e3c3099d58b53e43793c329e723f590ad5431a7b52a0feb5d7f14",
+        "target_sha256": "48066e3a45aa9a8e59d0c8a402b4ff97a2ebadc0833e30ed5f4ab9208d6ef8ea"
+      },
+      "ui:6–10:/6–10": {
+        "source_sha256": "8864a51c519b584af7ce39ef4e809e80e86e9a1113317d316b0b65b787e39de7",
+        "target_sha256": "b37142ffe06da772f2a6d6d9110ca36b98ee01441eac002054dafc8c261a0430"
+      },
+      "ui:게임 종료:/게임 종료": {
+        "source_sha256": "0fe3e1a19eeb3fa158816f7118bb0b4ca4c771ea77f54fd9e22bd333cc71aeb5",
+        "target_sha256": "8777b5e8e8bcb7042a915470d1d00ad73655676f58f16bbc05342a7487e913c6"
+      },
+      "ui:동작 감소:/동작 감소": {
+        "source_sha256": "389939eb3403654633f7c8bce0a9d03eb2d85253d22c70b827c5e7b0ef9d0437",
+        "target_sha256": "15c2968b518aed178171cf67b8b1ebfd8bb49c29714464945ad4bfabe60476b5"
+      },
+      "ui:메인 메뉴로:/메인 메뉴로": {
+        "source_sha256": "e990fc79dbdec1bf9a6319ec5d97ab50a1f3c2f7369fecbaf342854ab6fbdad7",
+        "target_sha256": "0142dbc69a0ded37407e5e44a469a2a7547111c059c91ff9576b3bfbfb45155b"
+      },
+      "ui:불러오기:/불러오기": {
+        "source_sha256": "50a286451b73183d39da019c66e14373d619760277f0238ee7f60459fe752e8a",
+        "target_sha256": "eae7b9e42a31cb76080bbf3c4d34e3b2c5d3f202eaa74777b5dae2737c94891f"
+      },
+      "ui:빈 슬롯:/빈 슬롯": {
+        "source_sha256": "04676dce204f83a31d4bcd07a0b749fa5c72230b103c210ba545c454a107e86b",
+        "target_sha256": "0d3250838568e37c4a1085d3b3b166bddf98222cb9001c2084ad39abde5ca84b"
+      },
+      "ui:설정 / 저장:/설정 ~1 저장": {
+        "source_sha256": "1411e23ae2482f08af10eb09a918eea9cc55e0f825f5eb3cdee0c1ba6a632a5f",
+        "target_sha256": "0a6b3a9a531a6aedd065f293b805afafb483122be6172bc32e5628b3b7f46a8f"
+      },
+      "ui:슬롯 %d–%d:/슬롯 %d–%d": {
+        "source_sha256": "681d8e8023504cd750ce815fcfd7edbb3afa283c5c33887ae1c59098536e3af3",
+        "target_sha256": "719c4868b27622aa25cae18ccecb6abdc1bffcf26e888277a6c5df41eb24b0d2"
+      },
+      "ui:슬롯 %d에 저장했습니다:/슬롯 %d에 저장했습니다": {
+        "source_sha256": "57383c468bd4d374b079d5f1ad77e0f07860bdd92c5f41ad44541fc52cb88174",
+        "target_sha256": "252b58d20fe9c6c76598f34591625a7dd236e91f7daf9bbcae9bf303ec0716eb"
+      },
+      "ui:슬롯 1–5:/슬롯 1–5": {
+        "source_sha256": "f84cf84e3f2c6da8726da7a0fd97fde1c3231a9d1346979b3a8fbdd0f5b4c952",
+        "target_sha256": "b4ecc2d9152809be932559426d880952447863e3df80aa584451420684b027a6"
+      },
+      "ui:시스템:/시스템": {
+        "source_sha256": "d9aa2dbee9f13dd8564dec7aab28eca81388a20a18f94d3f8432a7b751d10259",
+        "target_sha256": "e3e6caa8fa82b2216bbc797b1b003869e99a9e4fc50ee781d5eb6317794f53ed"
+      },
+      "ui:오디오, 화면, 세이브 슬롯을 관리합니다.:/오디오, 화면, 세이브 슬롯을 관리합니다.": {
+        "source_sha256": "dd400631eae65cfa4da16c07e532c33c5fb67b260a7bff9422dd2d3e1368876b",
+        "target_sha256": "a184fda25b72ef2a6fe8dad7cc7b124c303a55083522f87db8d0486931fdbbb2"
+      },
+      "ui:저장 / 불러오기:/저장 ~1 불러오기": {
+        "source_sha256": "674fce72e8bdb3b54e5294d1d94c8ef9e91426196a1a9bec64ff507e78eca33a",
+        "target_sha256": "00128ba5194a74a168f591af1308fe2afbc9573da4370970b94a2612bbce29a7"
+      },
+      "ui:저장:/저장": {
+        "source_sha256": "a5c725ac2f73e760b6db23ae2056437b2279cdcfe17ec976b4283e1b9d6038b1",
+        "target_sha256": "7a6ed88085606ee62b1ae1769696b4ca128869e6f1d2fd7f5ca738d5d9a69eee"
+      },
+      "ui:저장에 실패했습니다. 다시 시도해 주세요.:/저장에 실패했습니다. 다시 시도해 주세요.": {
+        "source_sha256": "4627aa38a93c546bdcee614089686d3691335fb8b9db0af98cdbf6cfa2158301",
+        "target_sha256": "062e418917f3fbb1a8f9c58ebb71121bb56c0bad32901ff1b5f202e287eed31c"
+      },
+      "ui:진동 강도:/진동 강도": {
+        "source_sha256": "139520e7f23a26db91f83af552465e82c16b3aad6568d2b6d3a261e520e2a47d",
+        "target_sha256": "85089280ee3b802fa2e316779646bf9d0ed74782c89fee04f2ad3619d2145ace"
+      },
+      "ui:챕터 %d · %d주차 · %s:/챕터 %d · %d주차 · %s": {
+        "source_sha256": "cfb0616e9c2f550c4d0680672986951d2d43354c340416e4d3026e54b55e78ed",
+        "target_sha256": "4d5b73b57105cba6edb296afebda83106dbffc80cbeb1b62b81c228c43a9ccbb"
       }
     }
   },
-  "accepted_sha256": "36e46fc2f710652fb67a2002c59882123fc3bbcb3d7e784750db86ce5ac8b9bc",
+  "accepted_sha256": "defc946a5b331408d163e655b40ecd4a13a86c41be67970431515da4dc9696c6",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {

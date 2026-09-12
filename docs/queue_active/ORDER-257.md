@@ -13,7 +13,10 @@
 clean c36b5e7에서 실제collector18·보호5·17legacy+1format 첫PASS(c6d556c0)와
 승인54 첫L1 오류0(bdefd045)을 확인했다. 두 실행의1194 입력은 전후 같았다.
 중국어각13 append patch의 최초출력bc8fcc87을 보존하고 적용했으며 JA 전체·기존28·
-공개공유15는 그대로다. 공식export/check/import와 전체회귀·최종독립은 아직 미실행이다.
+공개공유15는 그대로다. 그 뒤 clean22481ebe에서 locale별18 공식export/check/import를
+첫 통과했다(c87fe71a/19f34ce2/f50f3b92). changed_files0·각1194불변이다.
+receipt54와 실제사전을 결속한 portable emitter7cbd10a9를 보존·적용해39022/b106/meta9다.
+old38968 whole raw 역복원exact이며 전체회귀·최종독립은 다음이다.
 사전 driver 결함2와 named의 rename 경계1을 실행 전에 좁게 수리하고 원형을 남겼다.
 
 ## 한 단위와 사전 근거
@@ -90,7 +93,8 @@ JA 사전 전체, 기존 중국어 사전 전체의 역복원, old38,968 portabl
    JA 전체와 중국어 기존키 원형을 보존하며 각13만 append한다.
 3. clean 소스에서 locale별18 공식 export/check/import를 수행한다. 보호값 동일 응답은
    변경 없이 수용 가능하나 보호값 변경은 계속 거부한다. private receipt54와 actual UI,
-   source/target hash를 결속한 뒤에만 portable54를 추가한다. 목표39,022/b106은 계획값이다.
+   source/target hash를 결속한 뒤에만 portable54를 추가한다. 선언의 목표39,022/b106은
+   위 중간증거에서 실제 수용했고 전체회귀·최종판정과는 분리한다.
 4. 전체수용 L1·old38,968 raw 역복원과 선언된 영향 검사를 실행한다. 명시검사10은
    full_game_localization self, ZH self, JA pipeline self, JA UI, story_demo self/normal,
    EN coverage, 등록verify, queue_index self, agent_review self다. 기존always2와 합친

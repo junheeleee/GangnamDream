@@ -159,8 +159,12 @@ skipped이며 업로드 파일도 없었다. 이 새 원인은 별도 좁은 수
   (JA12988/CN·TW12990)/b105/meta9이며 이전38944 raw역복원exact다. 같은Button 언어갱신을
   수리하고 cleanf10a92a에서 기존520+새25의 actual545를 첫 통과했다. 새state65와
   settings35는 별도 관측이며 렌더·원어민·사람플레이가 아니다. 전체수용 회귀·고유13과
-  독립 단위GO로 마감했다. 다음은 기존 시스템 모달18키/54기록의 번역·수용이다.
-  JA18·공개공유15 원형을 보존하고 CN/TW각13만 추가하며 새수용은 아직0이다.
+  독립 단위GO로 마감했다. 기존 시스템 모달18키/54기록도 직접KO·독립 언어 전량검토,
+  실제 source-owner18·L1 및 clean22481eb 공식export/check/import로 수용했다.
+  현재39022(JA13006/CN·TW13008)/b106/meta9이며 old38968 whole raw 역복원exact다.
+  JA 전체·기존28·공개공유15를 보존하고 CN/TW각13만 추가했다. 게임코드·저장로직·
+  수집 분모17484는 바뀌지 않았다. 전체L1·고유12 및 단위판정은 별도 exact 실행·
+  독립보고에 결속하며 실제 모달·저장/불러오기·렌더·원어민·본편GO가 아니다.
   이후 `_localized_profile_label/_roll_run_theme`와 `HoldemClub._fmt`의 non-KO=EN 분기를
   실제 표시 계약으로 검사한다. `_localized_route_label`의4매핑은 현재 caller0이므로
   이를 번역하거나 노출해 플레이어 표면 수리·진척으로 세지 않는다.
