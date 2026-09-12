@@ -1,3 +1,86 @@
+# 주거·직업 칭호의 실제 세 언어 표시 — 결과
+
+[x] ORDER-242 — 2026-09-12. 독립 Poincare의 work_unit GO 한정이다.
+source `e2147ec392a0031765dad024da204238f6cbc1b3`, tree
+`0954b7c47188b5daf9e048e68ec1d9223fdbfd4f`, exact 검토 HEAD
+`48c28bc9315bcdfbc7556532f3acd06aeea1eeaa`다. 공개 GO1·인간 OPEN45·본편 HOLD.
+자동 검사는 재미·깊이·문체나 인간 판정이 아니다.
+
+## 제품·번역
+
+- 주거5·직업4의 name/desc18만 raw KO locale 조회로 연결했다. 기존 ALL_TITLES50/
+  TITLE_EN50·KO/EN·해금/저장ID·조건·보너스·cat/rare·unknown/custom·비선택41은 보존했다.
+  MP 삽입30행/2823B 역제거로 전체 원형 exact다. 저장·게임플레이·새 사건 변경0.
+- 직접 KO54 독립 검수에서 필수0·선택 정밀화5를 채택했다. 첫 L1은52통과,
+  급여 CN/TW 통장 명시성 탐지2였다. 到账/入帳는 자연스러운 계좌 입금으로 의미
+  오류가 아니며, 독립 승인 후 银行账户/銀行帳戶를 명시한2문구로 정밀화했다.
+  처음 표/진단을 보존했고 나머지52와 source/ID/hash는 그대로, 같은54 재검 오류0.
+- 신규 사전49(JA15/CN17/TW17)·기존5 보존이며 apartment3 기수용은 raw 유지했다.
+  실제 신규 KO는15/공유3이다. 고시원 이름2의 기존 GameState 조건과 Goshiwon EN,
+  apartment milestone의 Entered an apartment와 칭호 Apartment Life는 그대로다.
+- clean `65261f514345bd25c5da8aa04f3d1e922e1fa853` final/export/check/import에서
+  신규17×3·changed_files0. 초기/최종 export는 previous_target_hash 외 원형exact.
+  portable 제품 `dd078a90c92b18a7d550f964f63dec3c02f4309a`의51/b1 역제거로
+  이전38,587/b98/meta9 raw exact. 누적38,638/b99, JA12,878·CN/TW각12,880이다.
+  언어별 사건11,578·엔딩234·catalog834, UI232/234/234이며 전체 UI 완료가 아니다.
+
+## 회귀·원형 실패
+
+- 최초 source 고정20은 공유 GameState2 누락 예측과 함수 마지막LF 가정 때문에
+  normal3도 실패해 mutant17을 유효 통과로 세지 않았다. 명시적 정정 후 같은20의
+  정상3/유효 변조17거부와 별도 retained4를 통과했다. 최초 예측/실패는 보존했다.
+  기존 JA69함수·5클래스 raw 보존, collect/main hook 외 기존원형 변경0이다.
+  실제 collector는 현재 calls3374/keys2864/entries2893/context34·29,
+  collision103(format28/shared48/context27)을 그대로 노출한다. 역사 투영만 따로다.
+  마지막 auxiliary legacy_api_calls 현재3284/역사3266 수리는 최종 JA146에 결속했다.
+- 최초 headless actual100(원95+사전 공유5) 전부 PASS: 선택9·비선택41·도감50
+  잠금/해금·조건20·중복·알림/로그·엔딩카드·언어저장·공유GameState2.
+  full state30과 무변경 digest70, disk100·입력19 exact, restore1/exit0/stderr0,
+  fatal/leak/잔류 process0. 사전 namespace의 meta/settings와 원형 로그는 보존했다.
+  실제 full-month/autosave/엔딩 진행·렌더 관측이 아니라 기존 소비자 경계 검사다.
+- 전체 수용38,638 hash/L1 첫1회 오류0,69.970191584초/입력1,187 전후exact.
+  명시 `meta-title-localization` 첫9 PASS,88.890041167초/입력1,196 exact.
+  fullself259·JA146·ZH12446·EN0·registry143·queue25/fence4·agent222,
+  context357/active76. 전체 감사·240주·원어민·실제 화면은 실행0이다.
+- 포착17,403/지원17,074/미확정329, UI합집합3,585다. 정적 수집 수를 전체
+  플레이 화면의 최종 분모로 쓰지 않는다. 비보호 shipping 텍스트 결손0은 유지한다.
+- 이전 c2cc7fd main CI run34686915442는 failure이며 이 source의 로컬9와 별개다.
+  원격 전체 CI 성공·공개 출시·전체판 GO를 주장하지 않는다.
+
+```text
+도달 경로      : META_TITLE_CHECK_OK cases=100 locales=5 selected=9 unselected=41 conditions=20 shared_readers=2 isolation=preautoload rendered=0
+생산자 ↔ 독자   : MetaProgression._localized_title ↔ MainGame 도감/해금 알림/엔딩 카드
+바꾸는 상태     : 번역 수용38587→38638; 기존 해금/조건/저장/게임플레이 변경0
+포기 시 잃는 것 : 없음 — 선택/효과 신규 저작이 아닌 표시 수리
+서사 위치       : 전체판 기존 주거·직업 칭호; 새 사건0
+장면 계층       : 해당 없음 — UI 현지화
+닫는 것         : 선택18표면의 내부 단위; 공개/인간/원어민/전체판 닫기0
+```
+
+이미 생성된 엔딩 title cache는 언어 전환으로 재번역되지 않는다. 새 getter/도감
+재열기·새 wrapper의 언어 변경과 구분한다. 남은41칭호·wrapper·cat/rare·다른 UI,
+실제 가독성·원어민·정상 속도 플레이·물리 감각은 별도다. 이번 scope/fixture는
+일회성이고 새 규범 없음. [독립 판정](../agent_reviews/ORDER-242.json)이 결과를 소유한다.
+
+## 원형 증거
+
+다음은 `.git/full-game-localization/`의 원형 SHA다.
+- `order242-translation-revised.json`: `2d3fd135e0ebb911d6498a381e1aae89cdf8aa6538bdb5db2da29701662e8116`.
+- `order242-language-review.json`: `7828fd02e5c3d9f7ca24d8a9814f50088462d38aa35d97b1b65f05672e0c2f9b`.
+- `order242-source-static-review.json`: `91fa9e2241732fc46a708a6178b57ff7d01f63efeca0ab338951b8ebd401736e`.
+- `order242-test-static-review.json`: `e4a4131637de0b7da83185fb8888f32ce38b7690543121860f41a1a2c16004e7`.
+- `order242-meta-title-author-run-proof.json`: `8e58c820ca7870ca90e166beb7ad10fc0e6d5a270e1d4fd06784e1a2deaee457`.
+- `order242-runtime-review.json`: `4ca50242e129b7a35ceaeba57050db30eb5068854c9cd38b11d33cfde3f49049`.
+- `order242-revised-l1.json`: `390df2bec089156a8a2f9b64397fcf7e173e7614d2cf8e64817bb71d2961a121`.
+- `order242-official-final.json`: `fd6d6564086834b21429a7999300eeb14bc5454b502e0b894b6c4119bea690ea`.
+- `order242-official-check.json`: `d0ebf2e5d332cff138e959039f41b25555650629df220c6500fada405c239457`.
+- `order242-official-import.json`: `74a1b9451b7c5efc3194a6dd824b6676ab549bed8a56b29f8a2347d7133f90c1`.
+- `order242-portable-proof.json`: `eb2c22e865e2ee3ed339a697a18397e3e64f7dc54b08610db244d099e03424d8`.
+- `order242-all-accepted-l1.json`: `af045bb8880d7dab045129da7619971d59d1c051059f057f57f3fd5e2e1718a6`.
+- `order242-named-first.json`: `d721aee55ee8a85e2d60204368809f4f94ebae8beea7dbed7f24f36f2c038a8d`.
+
+## 선언·진행 원문 보존
+
 # 주거·직업 칭호의 실제 세 언어 표시
 
 #### [~] ORDER-242 주거·직업 칭호 세 언어

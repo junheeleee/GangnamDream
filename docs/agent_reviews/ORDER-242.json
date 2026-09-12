@@ -1,0 +1,439 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-242",
+  "scope": "work_unit",
+  "verdict": "GO",
+  "required": [],
+  "optional": [],
+  "subject": {
+    "kind": "source",
+    "commit": "e2147ec392a0031765dad024da204238f6cbc1b3",
+    "tree": "0954b7c47188b5daf9e048e68ec1d9223fdbfd4f",
+    "manifest_sha256": null
+  },
+  "source_commit": "e2147ec392a0031765dad024da204238f6cbc1b3",
+  "source_tree": "0954b7c47188b5daf9e048e68ec1d9223fdbfd4f",
+  "observed_review_head": "48c28bc9315bcdfbc7556532f3acd06aeea1eeaa",
+  "observed_review_tree": "aa3cbeb7415c04c4c298253cd395271428c71187",
+  "observed_clean": true,
+  "reviewer": "Poincare",
+  "independence": "ROOT authored locale values/acceptance/operations; Plato authored source2; Rawls authored test2. Poincare independently reviewed all54 translations, source/test code, actual100 evidence and final source/QA bindings; no product authorship or test reruns by this reviewer. Plato's additional official receipt/raw-inverse verification is used only for ROOT-authored acceptance, not self-approval of Plato's source2; Poincare's source2 review is separate and independent.",
+  "decision_basis": "Required remaining0. Exact-source ORDER242 is approved for the declared9 housing/career title name/description surfaces: nonauthor language/source/test/runtime review,51 official acceptances and old38587 preservation, first whole-accepted L1 and named9 evidence agree. This does not approve the remaining title/UI system, public release or full product.",
+  "population": {
+    "selected_titles": 9,
+    "selected_name_desc_surfaces": 18,
+    "locale_values_reviewed": 54,
+    "existing_accepted_apartment_values_preserved": 3,
+    "new_accepted_values": 51,
+    "new_dictionary_keys_by_locale": {
+      "ja": 15,
+      "zh-CN": 17,
+      "zh-TW": 17
+    },
+    "existing_selected_dictionary_values_preserved": 5,
+    "unselected_titles_preserved": 41,
+    "new_source_KO_keys": 15,
+    "retained_shared_KO_keys": 3,
+    "runtime_original95_plus_shared5": 100,
+    "source_original_controls": 20,
+    "source_supplement_controls": 4,
+    "whole_accepted_values": 38638,
+    "whole_accepted_by_locale": {
+      "ja": 12878,
+      "zh-CN": 12880,
+      "zh-TW": 12880
+    },
+    "portable_batches": 99,
+    "retained_internal_metadata": 9
+  },
+  "actual_readscope": [
+    "Applicable project/I18N instructions and complete active ORDER242; all18 KO source/title conditions, all54 draft/final/revised locale values, shared GameState/MainGame consumers.",
+    "Full source2 diff, whole raw/AST inverse and old69 functions+5 classes; fixed20/first failure/correction/supplement4/recheck; final auxiliary statistic change.",
+    "All35 test methods and137 wrapper lines, baseline95/shared5/bonus expectations, exact embedded constants and final revised table/gate.",
+    "Original actual100 runner/stdout/stderr/Godot evidence, actual text independently reconstructed from fixed expectations, full30 states and remaining70 digest/delta observations.",
+    "Official exchange records and original51/portable evidence, delegated additional readback explicitly attributed below.",
+    "Whole accepted L1 and named9 output/helpers; QA input digests reconstructed from exact source Git blobs, actual source resolver/clean HEAD, declared paths and protected raw history."
+  ],
+  "method": "Read-only Git/raw/AST/JSON comparison and saved evidence inspection. No validator, collector, L1, suite, engine, official exchange, product/Git or human-ledger writes. Final report is private metadata for identical publication by ROOT.",
+  "repairs_and_failures": [
+    {
+      "phase": "pre-L1 language",
+      "required_before": 0,
+      "optional_adopted_values": 5,
+      "other_values_preserved": 49,
+      "detail": "KO strength/idiom refinements; original draft remains, not validator-derived errors."
+    },
+    {
+      "phase": "source first20",
+      "normal3_passed": 0,
+      "negative17_rejected_but_invalid_base": true,
+      "valid_negative_rejections": 0,
+      "detail": "Two pre-existing GameState owners and one-final-LF extractor contract were omitted from initial assumptions. Original20/forecast/failure remain immutable; explicit corrected15-new/3-shared metadata and separate pre-repair4 added."
+    },
+    {
+      "phase": "source recheck",
+      "same20_expected_met": true,
+      "separate4_valid_base_expected_met": true,
+      "detail": "Actual recheck0404… still carried historical legacy_api_calls3266 in current stats. Later minimal f761… repair computes actual3284 and restores historical3266; original recheck not overwritten. Final JA146 executes the added same-roster assertions."
+    },
+    {
+      "phase": "first selected54 L1",
+      "pass": 52,
+      "terminology_diagnostics": 2,
+      "mandatory_semantic_defects": 0,
+      "detail": "到账/入帳 is natural credited-salary wording; independent approval made source account meaning explicit in CN/TW without checker change. Original54/table preserved; revised same54 has0 errors, changed2/other52 exact."
+    },
+    {
+      "phase": "runtime first100",
+      "pass": 100,
+      "reruns": 0,
+      "detail": "No runtime failure claimed before the first actual run. Full30 snapshots from first run; no retroactive state reconstruction from absent data."
+    }
+  ],
+  "production_consumers": {
+    "runtime_change": "MetaProgression._localized_title adds only nine exact ID branches/name+desc lookup; KO/EN constants, unselected41, IDs, category/rarity, conditions, bonuses and unknown/custom behavior preserved.",
+    "consumers": "Fresh get_title_info; actual MainGame collection, _check_title_unlocks(true/false), _ending_add_unlocks using real newly-unlocked title cache; existing GameState shared-name getters.",
+    "limits": "Actual function/Control text, not physical button/controller/rendered observation. False monthly argument is not a whole month/autosave run; ending consumer is not full ending. Existing cached title data is not automatically retranslated on locale switch."
+  },
+  "source_and_scope": {
+    "baseline": "c2cc7fd5fe8658f59301b3a1bce7f5966dc1e3c6",
+    "source_changed_paths": [
+      "CLAUDE.md",
+      "autoloads/MetaProgression.gd",
+      "content/meta/full_game_localization.json",
+      "docs/CODEX_QUEUE.md",
+      "docs/CODEX_QUEUE_L3_PENDING.md",
+      "docs/STATUS.md",
+      "docs/queue_active/ORDER-242.md",
+      "docs/queue_backlog/FULL_GAME_LOCALIZATION.md",
+      "locale/ui_ja.json",
+      "locale/ui_zh-CN.json",
+      "locale/ui_zh-TW.json",
+      "tools/MetaTitleLocaleCheck.tscn",
+      "tools/audit_scope.json",
+      "tools/ja_translation_pipeline.py",
+      "tools/run_meta_title_locale_qa.sh"
+    ],
+    "declared_ownership_paths": 19,
+    "outside_declared_paths": 0,
+    "review_wrapper_paths": [
+      "docs/STATUS.md",
+      "docs/queue_active/ORDER-242.md"
+    ],
+    "source_resolver_observed_exact": true,
+    "product_after_source_changed": false,
+    "WORK_history_moves_this_unit": 0,
+    "historical_adapter": "Current collector preserves actual3374 calls/2864 keys and current2893 entries; old self/contracts use separate3356 calls/2849 keys/2878-entry projection. Source finite recognizer is not general GDScript reachability proof.",
+    "current_source_counts": {
+      "calls": 3374,
+      "legacy_calls": 3340,
+      "legacy_api_calls": 3284,
+      "keys": 2864,
+      "context_calls": 34,
+      "context_ids": 29,
+      "collision_keys": 103,
+      "shared_translation": 48
+    },
+    "historical_source_counts": {
+      "calls": 3356,
+      "legacy_calls": 3322,
+      "legacy_api_calls": 3266,
+      "keys": 2849,
+      "collision_keys": 100,
+      "shared_translation": 45
+    },
+    "protected_raw": {
+      "docs/human_gates.json": {
+        "bytes": 103390,
+        "sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6"
+      },
+      "docs/agent_review_decisions.json": {
+        "bytes": 44841,
+        "sha256": "2082df773b8db700a3d1a93c07fc93fae7367452408f916ca57493d575e3ef87"
+      },
+      "docs/WORK_LOG.md": {
+        "bytes": 38153,
+        "sha256": "21ddc7dc7641e1fa9edcc483a6bf191690427c08c7a68ce8b8bc320cb9c8cd5b"
+      },
+      "docs/history/WORK_LOG_2026-09-07_localization.md": {
+        "bytes": 90044,
+        "sha256": "20a8c23121b50db5f4e940748f4c43b6460e44e9a663a5aa9834686a777b752b"
+      },
+      "project.godot": {
+        "bytes": 4699,
+        "sha256": "78e98d7bdc1349570df6f2cc7ca6cbb11d4fc5451f5bbfdd338561653c7380c5"
+      },
+      "content/meta/demo_localization_scope.json": {
+        "bytes": 75684,
+        "sha256": "9d50b64e6bc09d8e3e8e670fc48163ed5a0a419263cd0ffc601aac45c7abc7b6"
+      },
+      "content/meta/release_content_inventory.json": {
+        "bytes": 58750,
+        "sha256": "eaa588e0401af69a9079aa2d11f105e4e57c6780e5030c517320a34a5f251764"
+      }
+    },
+    "agent_decisions_before_closure": 28,
+    "WORK_EOF_LF": 2,
+    "history_EOF_LF": 1,
+    "archive_state": "Standard docs/queue_archive/ORDER-242.md and published final JSON are closure outputs, not yet present during this review. Current active contains chronological evidence; absence before closure is not an incomplete product gate."
+  },
+  "QA": {
+    "selected_L1": "Original54:52 clean/2 terminology errors; revised same54:0 errors. No reviewer rerun.",
+    "runtime": {
+      "source": "65261f514345bd25c5da8aa04f3d1e922e1fa853",
+      "groups": 100,
+      "first_pass": 100,
+      "locales": 5,
+      "full_snapshots": 30,
+      "digest_only_unchanged_groups": 70,
+      "source_inputs": 19,
+      "source_before_after_runtime_commit_current_exact": true,
+      "exit": 0,
+      "stderr_bytes": 0,
+      "combined_errors": 0,
+      "restored": 1,
+      "note": "Permitted meta/qa_custom JSON number-type normalization equals precomputed parse expectation; not a no-change claim. Sandbox meta/settings retained; final marker restores in-memory baseline only."
+    },
+    "whole_accepted": {
+      "head": "dd078a90c92b18a7d550f964f63dec3c02f4309a",
+      "runs": 1,
+      "accepted": 38638,
+      "errors": 0,
+      "seconds": 69.970191584,
+      "inputs": 1187,
+      "input_manifest_sha256": "95bc386ba67fe0a18378c9517e50fe39d25a86ae84bb2a945acd7af609df4415",
+      "input_digest_reconstructed_from_source": true,
+      "current_raw_exact": 1187
+    },
+    "named": {
+      "head": "e2147ec392a0031765dad024da204238f6cbc1b3",
+      "runs": 1,
+      "lane": "meta-title-localization",
+      "checks": 9,
+      "exit": 0,
+      "seconds": 88.890041167,
+      "inputs": 1196,
+      "input_manifest_sha256": "6ad7aaac52dfcad9d650bdd481d393270e25d1d2d78d2316184dcb5cc4adb0fc",
+      "source_digest_reconstructed": true,
+      "current_raw_exact": 1194,
+      "current_metadata_deltas": [
+        "docs/STATUS.md",
+        "docs/queue_active/ORDER-242.md"
+      ],
+      "results": {
+        "fullself": 259,
+        "JA": 146,
+        "ZH": 12446,
+        "EN_leaks": 0,
+        "audit_registered": 143,
+        "queue_fixtures": 25,
+        "fence_subcases": 4,
+        "agent_cases": 222,
+        "context_docs": 357,
+        "active_queue": 76
+      },
+      "capture_limit": "Saved complete audit_select wrapper stdout; child stdout is the tool's compact tail, not full standalone child stdout. ZH skeleton marker/font line is not full translated-UI or renderer coverage."
+    }
+  },
+  "evidence_root": ".git/full-game-localization",
+  "evidence": {
+    ".git/full-game-localization/order242-all-accepted-l1.json": {
+      "bytes": 1449,
+      "sha256": "af045bb8880d7dab045129da7619971d59d1c051059f057f57f3fd5e2e1718a6"
+    },
+    ".git/full-game-localization/order242-named-first.json": {
+      "bytes": 3477,
+      "sha256": "d721aee55ee8a85e2d60204368809f4f94ebae8beea7dbed7f24f36f2c038a8d"
+    },
+    ".git/full-game-localization/order242-all-accepted-l1.py": {
+      "bytes": 2751,
+      "sha256": "2450b70beb0a3d465bd840a7bfdc30120dfae0f7ce9cb98b7a979bc85c734375"
+    },
+    ".git/full-game-localization/order242-named.py": {
+      "bytes": 1867,
+      "sha256": "5ee5f86e37beba3b4e8eab597c32334498b0ebfeba6f8d913b2e77ef9e60e26d"
+    },
+    ".git/full-game-localization/order242-official-initial.json": {
+      "bytes": 5161,
+      "sha256": "669bc2751345a71fc453797931cf0014e41a0c5b83bac2e0c9251ceec9899f27"
+    },
+    ".git/full-game-localization/order242-official-final.json": {
+      "bytes": 5147,
+      "sha256": "fd6d6564086834b21429a7999300eeb14bc5454b502e0b894b6c4119bea690ea"
+    },
+    ".git/full-game-localization/order242-official-check.json": {
+      "bytes": 2612,
+      "sha256": "d0ebf2e5d332cff138e959039f41b25555650629df220c6500fada405c239457"
+    },
+    ".git/full-game-localization/order242-official-import.json": {
+      "bytes": 2679,
+      "sha256": "74a1b9451b7c5efc3194a6dd824b6676ab549bed8a56b29f8a2347d7133f90c1"
+    },
+    ".git/full-game-localization/order242-portable-proof.json": {
+      "bytes": 497,
+      "sha256": "eb2c22e865e2ee3ed339a697a18397e3e64f7dc54b08610db244d099e03424d8"
+    },
+    ".git/full-game-localization/order242-language-review.json": {
+      "bytes": 15315,
+      "sha256": "7828fd02e5c3d9f7ca24d8a9814f50088462d38aa35d97b1b65f05672e0c2f9b"
+    },
+    ".git/full-game-localization/order242-source-static-review.json": {
+      "bytes": 10238,
+      "sha256": "91fa9e2241732fc46a708a6178b57ff7d01f63efeca0ab338951b8ebd401736e"
+    },
+    ".git/full-game-localization/order242-test-static-review.json": {
+      "bytes": 8361,
+      "sha256": "e4a4131637de0b7da83185fb8888f32ce38b7690543121860f41a1a2c16004e7"
+    },
+    ".git/full-game-localization/order242-runtime-review.json": {
+      "bytes": 8579,
+      "sha256": "4ca50242e129b7a35ceaeba57050db30eb5068854c9cd38b11d33cfde3f49049"
+    },
+    ".git/full-game-localization/order242-first-l1.json": {
+      "bytes": 26461,
+      "sha256": "c0aaa45b8ee2898b239ac79b7b702521d354bd8829f92e71f91492f0ccf31085"
+    },
+    ".git/full-game-localization/order242-revised-l1.json": {
+      "bytes": 26301,
+      "sha256": "390df2bec089156a8a2f9b64397fcf7e173e7614d2cf8e64817bb71d2961a121"
+    },
+    ".git/full-game-localization/order242-translation-final.json": {
+      "bytes": 5955,
+      "sha256": "3999d5c5f7ee233aea19f3ac3d151f82706a60c27811354d18d18aaa11879f0b"
+    },
+    ".git/full-game-localization/order242-translation-revised.json": {
+      "bytes": 5979,
+      "sha256": "2d3fd135e0ebb911d6498a381e1aae89cdf8aa6538bdb5db2da29701662e8116"
+    },
+    "/var/folders/yr/mf2mg8vn7yld9rk4rf3qh2y80000gn/T/gangnam-meta-title-6z4fxvst/runner_result.json": {
+      "bytes": 1900898,
+      "sha256": "85b2b15a755ce2e3fa449759ecbe3e5b4536226b3b9b0a5747ddcde099bf74ac"
+    },
+    "/var/folders/yr/mf2mg8vn7yld9rk4rf3qh2y80000gn/T/gangnam-meta-title-6z4fxvst/stdout.log": {
+      "bytes": 1141984,
+      "sha256": "b291b963a8752246d3365af3b7f7c2fbaab989123c90d71de5bea14be8d9b932"
+    },
+    "/var/folders/yr/mf2mg8vn7yld9rk4rf3qh2y80000gn/T/gangnam-meta-title-6z4fxvst/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "/var/folders/yr/mf2mg8vn7yld9rk4rf3qh2y80000gn/T/gangnam-meta-title-6z4fxvst/godot.log": {
+      "bytes": 1141984,
+      "sha256": "b291b963a8752246d3365af3b7f7c2fbaab989123c90d71de5bea14be8d9b932"
+    }
+  },
+  "limits": [
+    "GO, if issued, is only ORDER242 internal work_unit; main game HOLD and public M01–M06 GO1/human OPEN45 remain unchanged.",
+    "Other41 titles and untranslated wrapper/category surfaces remain separate future scope; measured UI source union3585 and unresolved329 are not final total UI coverage.",
+    "No current-source remote CI success observed. ROOT/current active separately reports previous c2cc7fd run34686915442 failure; do not merge that old result with local242 tests.",
+    "No full audit/240-week run/public package/native/human/physical input/raster/rendered/full-product playthrough.",
+    "Existing player disk saves were not used; fresh isolated namespace exercised meta/settings only."
+  ],
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "rendered_layout",
+    "full_product_playthrough",
+    "existing_player_disk_save_roundtrip",
+    "current_remote_CI"
+  ],
+  "product_pins": {
+    "autoloads/MetaProgression.gd": {
+      "bytes": 52819,
+      "sha256": "5bc1465e18ae3e36ef5daef1c27dd3923d1566884e5d0545e6b00c2c7893ab58"
+    },
+    "tools/ja_translation_pipeline.py": {
+      "bytes": 234100,
+      "sha256": "f761bceb5c4ad7f34816aba75cc46866b037bdbfa2ca4141becb5c17e11d1987"
+    },
+    "tools/MetaTitleLocaleCheck.tscn": {
+      "bytes": 56208,
+      "sha256": "8e8bfeac8d1e77ab76f06c271e5589925a6ade6700717dbd05978d964d2027c8"
+    },
+    "tools/run_meta_title_locale_qa.sh": {
+      "bytes": 7311,
+      "sha256": "84e2d13942a16975397af778792854111c5d34875d6e78611a511f975f9c186c"
+    },
+    "locale/ui_ja.json": {
+      "bytes": 282680,
+      "sha256": "8258114c9cff6f523f4d25aa1d77f67e72ffc89e4a69560d7e5883135a73b333"
+    },
+    "locale/ui_zh-CN.json": {
+      "bytes": 26608,
+      "sha256": "5d17990dd60363a1ce7485c2b0c1d3652c475fa1ea277aa65f38cc99eb01ff7b"
+    },
+    "locale/ui_zh-TW.json": {
+      "bytes": 26681,
+      "sha256": "69e1b2941f269f4356159bedc23f63fc0c0726c4d24ee5a7c933478bf62e6b10"
+    },
+    "content/meta/full_game_localization.json": {
+      "bytes": 10030021,
+      "sha256": "3fc92d608aaf27a8e6a4ee3207ce3895bb1290f9ed6084c18961aed7c1d718ab"
+    }
+  },
+  "source_document_pins": {
+    "docs/queue_active/ORDER-242.md": {
+      "bytes": 9480,
+      "sha256": "14a2e23d5ed4a261cc76403ad34e960b15b074d75882f2d58b3466428db4d057"
+    },
+    "CLAUDE.md": {
+      "bytes": 17724,
+      "sha256": "be218ec07f57e8b3559671f32e5de6aff743ec53737b97d47ddf79a2d59f98a0"
+    },
+    "docs/queue_backlog/FULL_GAME_LOCALIZATION.md": {
+      "bytes": 62715,
+      "sha256": "0aa146408bcb27ae438c04dfa6820dcc13d60c94c87e28c8dd7d2ff874755ddf"
+    },
+    "docs/STATUS.md": {
+      "bytes": 94374,
+      "sha256": "a40a6a85f787d4f22488539b4265740d2932fba7f4429a20ba8cf97edf80a908"
+    }
+  },
+  "language_and_acceptance": {
+    "original54_nonauthor_review": "Initial required0; optional5 adopted,49 original values retained. Separate post-L1 account-explicitation refinement2 preserves52 and allKO/EN/apartment3.",
+    "final_revised_table_sha256": "2d3fd135e0ebb911d6498a381e1aae89cdf8aa6538bdb5db2da29701662e8116",
+    "current_UI_all54_and_runtime_values_equal_revised_table": true,
+    "official": {
+      "source_commit": "65261f514345bd25c5da8aa04f3d1e922e1fa853",
+      "locales": [
+        "ja",
+        "zh-CN",
+        "zh-TW"
+      ],
+      "selected_source_per_locale": 17,
+      "new_acceptance_total": 51,
+      "final_export3_exit0": true,
+      "check3_import3_exit0_changed_files0": true,
+      "final_source_vs_initial_only_previous_target_changed": true,
+      "source_response_UI_receipt_portable_records_exact": true,
+      "receipt_canonical_selfhash_valid": true,
+      "receipt_state": "accepted_machine_validated",
+      "native_review": "OPEN",
+      "receipt_raw_sha256": {
+        "ja": "32502eba7cc8da2058cf788b5a29dbc75d6eeda3a1f92e60bd324c551a3083c8",
+        "zh-CN": "f8a19f886fe2a5de7fddf8060f149abc34379def3a6587c6177ebea8631d1d72",
+        "zh-TW": "6bc99108fa4d944b7f9915cef547abff5622b48f2307d10c429eb7cfbb2bd69a"
+      }
+    },
+    "portable": {
+      "prior": {
+        "accepted": 38587,
+        "batches": 98,
+        "bytes": 10012786,
+        "sha256": "a42f7f58b0ab2ce56d07158987c6a3051466b1c058d2966ffbe75cc202831f1e"
+      },
+      "current": {
+        "accepted": 38638,
+        "batches": 99,
+        "bytes": 10030021,
+        "sha256": "3fc92d608aaf27a8e6a4ee3207ce3895bb1290f9ed6084c18961aed7c1d718ab"
+      },
+      "remove_new51_and_one_batch_restore_old_accepted_digest_whole_raw_exact": true,
+      "retained_internal_metadata": 9,
+      "other_top_level_fields_exact": true
+    },
+    "verification_attribution": "Poincare directly read official final/check/import/portable proofs and exchange helper, checked current UI/table/L1/runtime bindings and current portable raw pin. Plato additionally recomputed all initial/final source, response, accepted receipt selfhash/records/current UI and exact old portable inverse read-only; returned PASS/required0 at HEAD48c28bc, no new tests/files. Plato's first read-only formula assumption for source hash was corrected without product or fixture change."
+  },
+  "read_preparation_notes": "An attempted read of the not-yet-created standard closure archive and an initially guessed whole-L1 result filename returned absence; actual active spec and order242-all-accepted-l1.json were then read. This was not a product or QA failure. Static fixture comparison's one schema-key lookup error is preserved in its component proof."
+}

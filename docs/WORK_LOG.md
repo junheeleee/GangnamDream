@@ -23,6 +23,17 @@
 > [`7/25`](history/WORK_LOG_2026-07-25.md)에 손실 없이 보존한다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg -n "<키워드>" docs/history/`로 찾는다.
 
+## 2026-09-12 (Codex — 주거·직업 칭호 세 언어)
+
+- 기존9칭호18표면을 실제 locale 조회로 연결, 신규51 수용으로38,638/b99/meta9.
+  기존38,587 raw 역복원 exact. KO/EN·조건·저장·비선택41·게임플레이 변경0.
+- 첫 source 예측/LF 실패와 급여 용어 탐지2를 보존하고 정정, 같은54 L1 오류0.
+  actual100 첫PASS(상태30 full/70 digest)·전체38638/오류0·명시9 PASS.
+- 독립 Poincare work_unit242 GO, source e2147ec/tree0954b7c.
+  [결과·원형·한계](queue_archive/ORDER-242.md). 공개GO1/인간OPEN45/본편HOLD.
+  이전 c2cc7fd 원격CI failure는 별도 추적. 렌더/원어민/실플레이 미관찰.
+  이번 scope는 일회성·새규범 없음. 다음은 남은 칭호/실제 UI 소비자다.
+
 ## 2026-09-12 (Codex — 중국어 단수 수량 검사 오탐)
 
 - 실제 VIP2 번역은 유지, exact source/key/CN·TW 수량 helper+hook·새 self1만 수리.
@@ -467,4 +478,3 @@
   M06 실제 영수증→M07~M12를 잇고 runtime occurrence와 story-map 월 소유권을
   대조한다. 진단 trace에서 세 경로 모두 비었던 M11 W41~W44와 M08·M10의
   상태별 장면, M11 receipt를 읽는 M12 보스를 먼저 수리한다.
-
