@@ -124,7 +124,12 @@ skipped이며 업로드 파일도 없었다. 이 새 원인은 별도 좁은 수
   새 source self의 전체 MP 호출38 가정도 실제 기존 숙련도5를 포함한43과 달라
   첫18 통과/semantic6 미도달·역사18 미실행을 보존했다. guard를 바로잡은 동일
   고정24와 별도 역사18이 통과했으며 기존 숙련도5도 검사 입력에서 제거하지 않았다.
-  나머지31칭호·미발견/알림 wrapper·category의 미번역은 별도다. 다음 표시 계약은
+  이후 투자·자산·누적 인생11칭호22표면의 세 언어66을248에서 추가 수용했다.
+  현재38764(JA12920/CN·TW12922)/b101/meta9이며 기존38698 raw역복원exact다.
+  첫JA회차 수량4오탐은 별도249에서 exact4 source만 수리했고 같은66 L1 오류0이다.
+  첫actual310/입력19exact와 외부1193capture의 무관Python1변경 실패는 분리 보존한다.
+  전체회귀·최종독립 검수는 진행 중이며 native/render·본편GO는 아니다.
+  남은20칭호·미발견/알림 wrapper·category의 미번역은 별도다. 다음 표시 계약은
   같은 함수의 나머지 칭호와
   `_localized_route_label/_localized_profile_label/_roll_run_theme`,
   `HoldemClub._fmt`의 non-KO=EN 분기를 개별 표시 계약으로 검사한다.

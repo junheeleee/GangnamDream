@@ -103,6 +103,12 @@ source를 그 증거로 바꾸지 않는다. 248은 별도 최종 source·L1·ac
 
 ## 소스 적용·첫 대조 (2026-09-12 14:14Z)
 
+후속 clean `0cff6d5c05ec0e02c5410775e0fec8b043a53d6c`에서 공식22×3
+export/check/import를 수행했다. check/import는 세 언어 모두 changed_files0이다.
+portable 신규66→38764/b101/meta9(JA12920/CN·TW12922), 원38698 raw역복원exact,
+원장13cbcc3d이다. 수용은 기계검증 상태이며 native/render OPEN이다. 실제310은
+Poincare RO 재결속 필수0이나 전체회귀·최종11·단위 최종판정은 아직 남는다.
+
 첫 격리actual은 old100/NEXT100/new110 전부PASS이며 실제입력19 전후exact다.
 71737e9b의 childexit0/46.200초 결과와 원본 로그를 보존했다. 다만 별도249 Python
 검사기1파일이 hold 메시지 도착 전에 적용되어 외부1193고정 검사는 exit1이다.

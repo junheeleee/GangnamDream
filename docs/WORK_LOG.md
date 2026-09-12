@@ -6,6 +6,9 @@
 
 ## 2026-09-12 (Codex — 인생 회차 수량 검사 수리 착수)
 
+- clean0cff6d5에서 공식22×3 export/check/import(각check/import changed_files0).
+  신규66→38764/b101/meta9, 기존38698 raw역복원exact다. 실제310 독립 재사용
+  범위 필수0이며 외부capture 실패는 유지한다. 전체수용L1·최종11/단위판정 진행 중.
 - 새 helper47줄/새self1만 적용, 원형각각 역복원exact. 최초 targeted1/고정33 전부PASS,
   정상base19변조·OFF8 원진단 보존/1193입력exact. 이후 같은66L1 오류0이다.
   actual310도 첫PASS/19exact이나 외부1193고정은 별도249검사기 적용1로 실패했다.

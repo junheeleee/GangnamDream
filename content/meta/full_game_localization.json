@@ -3675,6 +3675,44 @@
       "machine_validation": "PASS",
       "rendered_review": "OPEN",
       "native_review": "OPEN"
+    },
+    {
+      "order": "ORDER-248",
+      "group": "ui",
+      "roots": [
+        "ordinary_life 엔딩. 평범함도 하나의 성취다.",
+        "강남드림 달성자",
+        "다섯 번의 삶을 끝까지 살아냈다. 매번 달랐다.",
+        "다섯 번의 인생",
+        "닫힌 노트북",
+        "레버리지 포지션이 강제청산됐다. 비싼 수업료였다.",
+        "마진콜의 교훈",
+        "번아웃 생존자",
+        "번아웃 엔딩을 경험했다. 열심히 사는 것의 대가를 배웠다.",
+        "새벽 시장을 지켜보다 스스로 정한 때에 화면을 닫을 수 있게 됐다.",
+        "열 번을 살았다. 이제 이 도시의 반복되는 얼굴이 보이기 시작한다.",
+        "열 번의 인생",
+        "잔고가 마이너스까지 내려갔다 돌아왔다.",
+        "처음으로 주식을 샀다. 그날부터 매일 앱을 열게 됐다.",
+        "첫 1000만원",
+        "첫 1억",
+        "첫 투자",
+        "총자산 1억. 뭔가 달라지는 것 같기도 하고 아닌 것 같기도 하다.",
+        "총자산 30억. 강남드림을 이뤘다. 다음엔 뭘 꿈꿔야 할까.",
+        "통장 0원 생존자",
+        "평범한 행복",
+        "현금 1000만원. 서울에서 처음으로 숨이 트이는 느낌이었다."
+      ],
+      "source_leaves": 22,
+      "target_leaves_by_locale": {
+        "ja": 22,
+        "zh-CN": 22,
+        "zh-TW": 22
+      },
+      "source_review": "Direct Korean and independent full66 review of eleven investment, asset and accumulated-life title names and descriptions. Korean won cash and net worth, life-run counts, shared GameState English owner and existing Japanese title preserved. Conditions, source-debts, saved IDs, prior nineteen localized and remaining twenty titles unchanged. Isolated actual consumers are not native or rendered play.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN"
     }
   ],
   "accepted": {
@@ -55270,6 +55308,94 @@
       "ui:혼자 걷는 저녁:/혼자 걷는 저녁": {
         "source_sha256": "36ad41364f53900ad7ce6a9951da7aca2e64b4d0e9b3482c9702161a02a2cca2",
         "target_sha256": "97f174fc3a80feaf3d78abb485f81ec99611794f00ba099bf4132bac0c53b718"
+      },
+      "ui:ordinary_life 엔딩. 평범함도 하나의 성취다.:/ordinary_life 엔딩. 평범함도 하나의 성취다.": {
+        "source_sha256": "dc5695cb58841adc1c4639fde1bf0802dd35751c986ed1f86b40737c978539fd",
+        "target_sha256": "c1461a7028c750caed6f55b9a9d34a4a40cfbe99949c4b19e5b8ab8c553ebbb8"
+      },
+      "ui:강남드림 달성자:/강남드림 달성자": {
+        "source_sha256": "f53eaee9eb697ddebe9a3f670c0009d41e3178481b8223ad91f19619af2c1fb4",
+        "target_sha256": "39272b2704d181efe1b9e62671d44cc5b7586b06bf06bffdfc4de1c7ba846f8a"
+      },
+      "ui:다섯 번의 삶을 끝까지 살아냈다. 매번 달랐다.:/다섯 번의 삶을 끝까지 살아냈다. 매번 달랐다.": {
+        "source_sha256": "f84104f1941f869335c43f917f40218cfe6281ad360a47f247e07a74d1427f22",
+        "target_sha256": "33e4d4aca7d43f34aa0e2a80eec225a516ca17a2ca77f7b738b4d8400502e33f"
+      },
+      "ui:다섯 번의 인생:/다섯 번의 인생": {
+        "source_sha256": "fb4ac659482af0467a8a151f7c82bea4702cf75866b0a8eae7cf374c99fdc942",
+        "target_sha256": "a995605d3ba5208d5a0bf9c8a586d9a2110a7edad58e9879344244e9ac002617"
+      },
+      "ui:닫힌 노트북:/닫힌 노트북": {
+        "source_sha256": "2807b40756c0266c1dd79e33b2d0ab63930c7300e9c7ccc74fdfa4a215b7dce7",
+        "target_sha256": "f6fd5e4dbe73d83190811d990a06b4b6b1835bdd87b06de622c2c95134390623"
+      },
+      "ui:레버리지 포지션이 강제청산됐다. 비싼 수업료였다.:/레버리지 포지션이 강제청산됐다. 비싼 수업료였다.": {
+        "source_sha256": "fd3b9187045499e3c06d3ebda9cd3c750ed0b45c1a26d376ede0da13579e90af",
+        "target_sha256": "4e0e2434520e2a715111a2805ae0a52743d630d39d4bb73c181abcd7a3829d17"
+      },
+      "ui:마진콜의 교훈:/마진콜의 교훈": {
+        "source_sha256": "d48c246c544fa393e49eb297e3ef0b843622451d06d72829c2f11dbafa1446c1",
+        "target_sha256": "c8fe06d548e6a51969ffeb5b220e497ce4668b76fed54df2996a44e3cd5c82bd"
+      },
+      "ui:번아웃 생존자:/번아웃 생존자": {
+        "source_sha256": "33beb7621e0a1564825e2b8c753ef0cac5eb9e25bf059a3991690c592e02c1d6",
+        "target_sha256": "d1d90801ff246088747c510e4da854d07089fded04712b7a71685c28b091ad65"
+      },
+      "ui:번아웃 엔딩을 경험했다. 열심히 사는 것의 대가를 배웠다.:/번아웃 엔딩을 경험했다. 열심히 사는 것의 대가를 배웠다.": {
+        "source_sha256": "5c03c0f8034de61d46cb3bc4e69c7963430837b29cf50411e8362291d6d68aee",
+        "target_sha256": "1d18d1c34301f52c833b5b63b0e633140a04068b8b4de4444f3046539fad319e"
+      },
+      "ui:새벽 시장을 지켜보다 스스로 정한 때에 화면을 닫을 수 있게 됐다.:/새벽 시장을 지켜보다 스스로 정한 때에 화면을 닫을 수 있게 됐다.": {
+        "source_sha256": "cf96a20314a84e97b8566f0c20d3aba994b97b26bd5d20e186819b1c6f1742e2",
+        "target_sha256": "9b989becbc1c1a14bd91bf8375f1f1ec879cc3cfc701ed26094f125021b32f8c"
+      },
+      "ui:열 번을 살았다. 이제 이 도시의 반복되는 얼굴이 보이기 시작한다.:/열 번을 살았다. 이제 이 도시의 반복되는 얼굴이 보이기 시작한다.": {
+        "source_sha256": "d9e90f24b2fef608fbd14958cbd617ceac2cbc00e93d7a660f965d0282690391",
+        "target_sha256": "5dc37ead423f0fc831cc6b3387ea97fa9c0ba4e4065b3ef28c5857abcd745d60"
+      },
+      "ui:열 번의 인생:/열 번의 인생": {
+        "source_sha256": "e893adeaaa98963f96a47b8b5b8e778ab7b4d6581d67946de7d70a212fe3af81",
+        "target_sha256": "e39ac0c5b085de078bcb75bb5fba07b5ef44fbb199ff89fd0da7d39051bf4009"
+      },
+      "ui:잔고가 마이너스까지 내려갔다 돌아왔다.:/잔고가 마이너스까지 내려갔다 돌아왔다.": {
+        "source_sha256": "003cdc059e0120ae62b2e4d6a97d4d8e113a6ac92bcab74eb59641fc85eeb14e",
+        "target_sha256": "1ea800d90e3838ea87199f38bc8ad71cf436531ccd81e8d3877608dbe1801ef9"
+      },
+      "ui:처음으로 주식을 샀다. 그날부터 매일 앱을 열게 됐다.:/처음으로 주식을 샀다. 그날부터 매일 앱을 열게 됐다.": {
+        "source_sha256": "abf17ef9b3289938c94ea1e7b3123236f380504279e745b8365b8c3471ff1513",
+        "target_sha256": "4f69fcccce45953b51b593ee237ba9a153265b4bcb06c47050b74e67a51f01e0"
+      },
+      "ui:첫 1000만원:/첫 1000만원": {
+        "source_sha256": "846a1bdd3c25b880df371adfa94f47476c799059c6151fc6fca9b7278d685417",
+        "target_sha256": "139b7392c5916001ef26d4c8c582a31bd2ef533965a2fcb8fe09d441ae343ce9"
+      },
+      "ui:첫 1억:/첫 1억": {
+        "source_sha256": "d0b8ae9ebb78e0fe023ddfa2a083a669dede8418326963086ac4e8dc189f62ac",
+        "target_sha256": "1003a9e6a7f3bbadbb22b2d79d31457bff5780994eae833e0ef702faf0cf3571"
+      },
+      "ui:첫 투자:/첫 투자": {
+        "source_sha256": "a641b476e9e6531cd3d215b953641c01ef1ab8fe3e416b051250859eefd87926",
+        "target_sha256": "e2320e207c62d01bb4a73a99f1c2514f1c8014efa39686d1fbaf0bdb6cf86b05"
+      },
+      "ui:총자산 1억. 뭔가 달라지는 것 같기도 하고 아닌 것 같기도 하다.:/총자산 1억. 뭔가 달라지는 것 같기도 하고 아닌 것 같기도 하다.": {
+        "source_sha256": "6bb19498f470c80270856f5813df664dcbddaf5822d79317cdb6643db4ef6ed5",
+        "target_sha256": "2a91ffb739f2a90d1349298cc22201161b48b057c033a3aedb47b7fda0fde188"
+      },
+      "ui:총자산 30억. 강남드림을 이뤘다. 다음엔 뭘 꿈꿔야 할까.:/총자산 30억. 강남드림을 이뤘다. 다음엔 뭘 꿈꿔야 할까.": {
+        "source_sha256": "59d3dc9e2adf3c98726964c755eea7116a2dea2cdda72a40a1f82acb5bc663ba",
+        "target_sha256": "2210086514a161472497cb1fd356e1573b5cc8e4d2ba993a04fa351b686f8161"
+      },
+      "ui:통장 0원 생존자:/통장 0원 생존자": {
+        "source_sha256": "06ade1e9ef74ed84c442b9cfffb77e5163b7dd63cf2a9fd3bf97dc69633061a2",
+        "target_sha256": "2eae4f2fd609ca3d718f8b0dec6766034a48acd2fbb13a287c7907f787dbb09b"
+      },
+      "ui:평범한 행복:/평범한 행복": {
+        "source_sha256": "8259cf9e803b29c77870c1b375c3164a32c2028bdaf915d128c2b6ad76b5dddc",
+        "target_sha256": "b63faf2111488dad51cb5ef99b16ce04cbd5e862aa8f23ac7d8bc2556e511573"
+      },
+      "ui:현금 1000만원. 서울에서 처음으로 숨이 트이는 느낌이었다.:/현금 1000만원. 서울에서 처음으로 숨이 트이는 느낌이었다.": {
+        "source_sha256": "7446729ea98f2bdb6cd51b7d5e33159138608274b17018678c68175c72cfc6fe",
+        "target_sha256": "2f12d9ef03933f35dfe2f993fd1799a499c956199f2cabf23dd99a845147a658"
       }
     },
     "zh-CN": {
@@ -106872,6 +106998,94 @@
       "ui:혼자 걷는 저녁:/혼자 걷는 저녁": {
         "source_sha256": "36ad41364f53900ad7ce6a9951da7aca2e64b4d0e9b3482c9702161a02a2cca2",
         "target_sha256": "c53b9806d7117d862ca5d28fe3e6edbf2d3123722e7e0dd23d2a1c5dc1f379ec"
+      },
+      "ui:ordinary_life 엔딩. 평범함도 하나의 성취다.:/ordinary_life 엔딩. 평범함도 하나의 성취다.": {
+        "source_sha256": "dc5695cb58841adc1c4639fde1bf0802dd35751c986ed1f86b40737c978539fd",
+        "target_sha256": "7ed9eff31768a4ff2663495b1e94ffb600e02d0fdcfea4cc84b8ad2fa92f0488"
+      },
+      "ui:강남드림 달성자:/강남드림 달성자": {
+        "source_sha256": "f53eaee9eb697ddebe9a3f670c0009d41e3178481b8223ad91f19619af2c1fb4",
+        "target_sha256": "205cf4c97d357608aac3b27f2ec72fadb6d2d5be94e64d391565c9a7d4641774"
+      },
+      "ui:다섯 번의 삶을 끝까지 살아냈다. 매번 달랐다.:/다섯 번의 삶을 끝까지 살아냈다. 매번 달랐다.": {
+        "source_sha256": "f84104f1941f869335c43f917f40218cfe6281ad360a47f247e07a74d1427f22",
+        "target_sha256": "0238395e6863030c77996712e87eb7b7a54587146b1695aaf2472f1f6f94ab11"
+      },
+      "ui:다섯 번의 인생:/다섯 번의 인생": {
+        "source_sha256": "fb4ac659482af0467a8a151f7c82bea4702cf75866b0a8eae7cf374c99fdc942",
+        "target_sha256": "d026e969351ce1ce399140f9df493da51d14a87819a9ae76afad481a14c3fa8a"
+      },
+      "ui:닫힌 노트북:/닫힌 노트북": {
+        "source_sha256": "2807b40756c0266c1dd79e33b2d0ab63930c7300e9c7ccc74fdfa4a215b7dce7",
+        "target_sha256": "941948071874b9f4019db6be40da3a7ef191aefae5d688a9a09b081428d686a0"
+      },
+      "ui:레버리지 포지션이 강제청산됐다. 비싼 수업료였다.:/레버리지 포지션이 강제청산됐다. 비싼 수업료였다.": {
+        "source_sha256": "fd3b9187045499e3c06d3ebda9cd3c750ed0b45c1a26d376ede0da13579e90af",
+        "target_sha256": "24bf68f39c391651b4dcdd5c23da84376f4cb7b0a2bc7b0711de2519f367b2e6"
+      },
+      "ui:마진콜의 교훈:/마진콜의 교훈": {
+        "source_sha256": "d48c246c544fa393e49eb297e3ef0b843622451d06d72829c2f11dbafa1446c1",
+        "target_sha256": "98f3a461eb15f7a5733ee3fdf9c201782f7a85dcd750d6645cd0f86bc45f9694"
+      },
+      "ui:번아웃 생존자:/번아웃 생존자": {
+        "source_sha256": "33beb7621e0a1564825e2b8c753ef0cac5eb9e25bf059a3991690c592e02c1d6",
+        "target_sha256": "04482648dca289e670eb95d1459132ab5363a99bcfa43947be642814a8cc3dc8"
+      },
+      "ui:번아웃 엔딩을 경험했다. 열심히 사는 것의 대가를 배웠다.:/번아웃 엔딩을 경험했다. 열심히 사는 것의 대가를 배웠다.": {
+        "source_sha256": "5c03c0f8034de61d46cb3bc4e69c7963430837b29cf50411e8362291d6d68aee",
+        "target_sha256": "c2caabc7cf34c0a19ff98a3bfe8c4cd8c70c7c063ad2743b918270cf08f9d37f"
+      },
+      "ui:새벽 시장을 지켜보다 스스로 정한 때에 화면을 닫을 수 있게 됐다.:/새벽 시장을 지켜보다 스스로 정한 때에 화면을 닫을 수 있게 됐다.": {
+        "source_sha256": "cf96a20314a84e97b8566f0c20d3aba994b97b26bd5d20e186819b1c6f1742e2",
+        "target_sha256": "8265eee02219b98af9e9554ab05be089ed933d80d4bdb1242fcd5b4920b78423"
+      },
+      "ui:열 번을 살았다. 이제 이 도시의 반복되는 얼굴이 보이기 시작한다.:/열 번을 살았다. 이제 이 도시의 반복되는 얼굴이 보이기 시작한다.": {
+        "source_sha256": "d9e90f24b2fef608fbd14958cbd617ceac2cbc00e93d7a660f965d0282690391",
+        "target_sha256": "5a75b63f5941201d99abd68c7ccac64a7c01f9242915f6b806ed81be1e03337b"
+      },
+      "ui:열 번의 인생:/열 번의 인생": {
+        "source_sha256": "e893adeaaa98963f96a47b8b5b8e778ab7b4d6581d67946de7d70a212fe3af81",
+        "target_sha256": "5aca42a792c40e6a395c987eadbaa66a87f9b7898ff6d4e226279fc3e32c02e8"
+      },
+      "ui:잔고가 마이너스까지 내려갔다 돌아왔다.:/잔고가 마이너스까지 내려갔다 돌아왔다.": {
+        "source_sha256": "003cdc059e0120ae62b2e4d6a97d4d8e113a6ac92bcab74eb59641fc85eeb14e",
+        "target_sha256": "88b5f4b9025e5ada90d7b0476116928b77e1fedd81c173bce0c99f898697f48d"
+      },
+      "ui:처음으로 주식을 샀다. 그날부터 매일 앱을 열게 됐다.:/처음으로 주식을 샀다. 그날부터 매일 앱을 열게 됐다.": {
+        "source_sha256": "abf17ef9b3289938c94ea1e7b3123236f380504279e745b8365b8c3471ff1513",
+        "target_sha256": "ba47c7cb70ce035a39bcbb1cd7f970b5831cd003d49f339b36c6c990fd8cefc9"
+      },
+      "ui:첫 1000만원:/첫 1000만원": {
+        "source_sha256": "846a1bdd3c25b880df371adfa94f47476c799059c6151fc6fca9b7278d685417",
+        "target_sha256": "1f6ddca0d3a7abffd91741cf76190a7aa62ee8ab67241efed1c35e983cbdae75"
+      },
+      "ui:첫 1억:/첫 1억": {
+        "source_sha256": "d0b8ae9ebb78e0fe023ddfa2a083a669dede8418326963086ac4e8dc189f62ac",
+        "target_sha256": "9b183e9a506bb433220e817822cf404854addb6602347c7257af566157690760"
+      },
+      "ui:첫 투자:/첫 투자": {
+        "source_sha256": "a641b476e9e6531cd3d215b953641c01ef1ab8fe3e416b051250859eefd87926",
+        "target_sha256": "1528417fb05c5b500685d231521ea98b5a4884f3605a19a89b5892e5f103be94"
+      },
+      "ui:총자산 1억. 뭔가 달라지는 것 같기도 하고 아닌 것 같기도 하다.:/총자산 1억. 뭔가 달라지는 것 같기도 하고 아닌 것 같기도 하다.": {
+        "source_sha256": "6bb19498f470c80270856f5813df664dcbddaf5822d79317cdb6643db4ef6ed5",
+        "target_sha256": "37db831046081933d90c8a9dcc85110e765b0c5d4b0fada5d7b6b770ee890fb9"
+      },
+      "ui:총자산 30억. 강남드림을 이뤘다. 다음엔 뭘 꿈꿔야 할까.:/총자산 30억. 강남드림을 이뤘다. 다음엔 뭘 꿈꿔야 할까.": {
+        "source_sha256": "59d3dc9e2adf3c98726964c755eea7116a2dea2cdda72a40a1f82acb5bc663ba",
+        "target_sha256": "2bd1e4ae413a816ad7a139a15f2442cd7fcbb7ac406e6ff6d37b513a8878d4ee"
+      },
+      "ui:통장 0원 생존자:/통장 0원 생존자": {
+        "source_sha256": "06ade1e9ef74ed84c442b9cfffb77e5163b7dd63cf2a9fd3bf97dc69633061a2",
+        "target_sha256": "beb220bd77ec0b6718846818622d720f9234c7ec7be71ee31c005351a42417f4"
+      },
+      "ui:평범한 행복:/평범한 행복": {
+        "source_sha256": "8259cf9e803b29c77870c1b375c3164a32c2028bdaf915d128c2b6ad76b5dddc",
+        "target_sha256": "77c625b912121888db51e631ca830a61f260e58535c32dad77a1099a9a4e0adb"
+      },
+      "ui:현금 1000만원. 서울에서 처음으로 숨이 트이는 느낌이었다.:/현금 1000만원. 서울에서 처음으로 숨이 트이는 느낌이었다.": {
+        "source_sha256": "7446729ea98f2bdb6cd51b7d5e33159138608274b17018678c68175c72cfc6fe",
+        "target_sha256": "8b3411b0f9f3e4cf07a8e3b97f2e6bbe0f0b9fba9441e93c50c98f1857dc0373"
       }
     },
     "zh-TW": {
@@ -158474,10 +158688,98 @@
       "ui:혼자 걷는 저녁:/혼자 걷는 저녁": {
         "source_sha256": "36ad41364f53900ad7ce6a9951da7aca2e64b4d0e9b3482c9702161a02a2cca2",
         "target_sha256": "106a3e15f60ddd95fb50b95f7f3c33c070c0f4da76e095c7f6ef1f0e2b23456d"
+      },
+      "ui:ordinary_life 엔딩. 평범함도 하나의 성취다.:/ordinary_life 엔딩. 평범함도 하나의 성취다.": {
+        "source_sha256": "dc5695cb58841adc1c4639fde1bf0802dd35751c986ed1f86b40737c978539fd",
+        "target_sha256": "171c7e61ce9fde8297ff18f32b9072f0c28ea9ab3755465523a3742d382f424d"
+      },
+      "ui:강남드림 달성자:/강남드림 달성자": {
+        "source_sha256": "f53eaee9eb697ddebe9a3f670c0009d41e3178481b8223ad91f19619af2c1fb4",
+        "target_sha256": "91d05c26ac5d63e41a6c49698d6fab4c1e686f241730a71e79bac42c65ec2fb9"
+      },
+      "ui:다섯 번의 삶을 끝까지 살아냈다. 매번 달랐다.:/다섯 번의 삶을 끝까지 살아냈다. 매번 달랐다.": {
+        "source_sha256": "f84104f1941f869335c43f917f40218cfe6281ad360a47f247e07a74d1427f22",
+        "target_sha256": "ee23444ba2e9f8df5662a6e811174b0dbd5f565865977aa1e7ef7f4995c49369"
+      },
+      "ui:다섯 번의 인생:/다섯 번의 인생": {
+        "source_sha256": "fb4ac659482af0467a8a151f7c82bea4702cf75866b0a8eae7cf374c99fdc942",
+        "target_sha256": "d026e969351ce1ce399140f9df493da51d14a87819a9ae76afad481a14c3fa8a"
+      },
+      "ui:닫힌 노트북:/닫힌 노트북": {
+        "source_sha256": "2807b40756c0266c1dd79e33b2d0ab63930c7300e9c7ccc74fdfa4a215b7dce7",
+        "target_sha256": "65d2fa10e65be50989ee90da1b69b5409a69e6aada57c4e61a965897025c2192"
+      },
+      "ui:레버리지 포지션이 강제청산됐다. 비싼 수업료였다.:/레버리지 포지션이 강제청산됐다. 비싼 수업료였다.": {
+        "source_sha256": "fd3b9187045499e3c06d3ebda9cd3c750ed0b45c1a26d376ede0da13579e90af",
+        "target_sha256": "6a1a5bb9e6e5e6ce046a52de33efc6628e623999eb443f91a832fc9426ff6040"
+      },
+      "ui:마진콜의 교훈:/마진콜의 교훈": {
+        "source_sha256": "d48c246c544fa393e49eb297e3ef0b843622451d06d72829c2f11dbafa1446c1",
+        "target_sha256": "49735cfad7519c0a13648522e57946fc2692d480114e848edc039ebff1a1015e"
+      },
+      "ui:번아웃 생존자:/번아웃 생존자": {
+        "source_sha256": "33beb7621e0a1564825e2b8c753ef0cac5eb9e25bf059a3991690c592e02c1d6",
+        "target_sha256": "ecb4e994445e08bf521af046324381cb201dada844178341d14acb31e3f23b08"
+      },
+      "ui:번아웃 엔딩을 경험했다. 열심히 사는 것의 대가를 배웠다.:/번아웃 엔딩을 경험했다. 열심히 사는 것의 대가를 배웠다.": {
+        "source_sha256": "5c03c0f8034de61d46cb3bc4e69c7963430837b29cf50411e8362291d6d68aee",
+        "target_sha256": "6936998aded46118e5034f072e4990699d83b5820d3f30a30a8a21bc9cf792ff"
+      },
+      "ui:새벽 시장을 지켜보다 스스로 정한 때에 화면을 닫을 수 있게 됐다.:/새벽 시장을 지켜보다 스스로 정한 때에 화면을 닫을 수 있게 됐다.": {
+        "source_sha256": "cf96a20314a84e97b8566f0c20d3aba994b97b26bd5d20e186819b1c6f1742e2",
+        "target_sha256": "2f4ba0403caa3e6253c7844a6c8d3b642f248299ff4e283244a0095e11967d32"
+      },
+      "ui:열 번을 살았다. 이제 이 도시의 반복되는 얼굴이 보이기 시작한다.:/열 번을 살았다. 이제 이 도시의 반복되는 얼굴이 보이기 시작한다.": {
+        "source_sha256": "d9e90f24b2fef608fbd14958cbd617ceac2cbc00e93d7a660f965d0282690391",
+        "target_sha256": "a2468a203ca2f35bbc8f519145d120126319a5bfe936ff5dd3ee232fd6910640"
+      },
+      "ui:열 번의 인생:/열 번의 인생": {
+        "source_sha256": "e893adeaaa98963f96a47b8b5b8e778ab7b4d6581d67946de7d70a212fe3af81",
+        "target_sha256": "5aca42a792c40e6a395c987eadbaa66a87f9b7898ff6d4e226279fc3e32c02e8"
+      },
+      "ui:잔고가 마이너스까지 내려갔다 돌아왔다.:/잔고가 마이너스까지 내려갔다 돌아왔다.": {
+        "source_sha256": "003cdc059e0120ae62b2e4d6a97d4d8e113a6ac92bcab74eb59641fc85eeb14e",
+        "target_sha256": "9bd843b1b90ba9cd3824ab250d5ec270b5b778722689eb0be01ba09b5bdb2e11"
+      },
+      "ui:처음으로 주식을 샀다. 그날부터 매일 앱을 열게 됐다.:/처음으로 주식을 샀다. 그날부터 매일 앱을 열게 됐다.": {
+        "source_sha256": "abf17ef9b3289938c94ea1e7b3123236f380504279e745b8365b8c3471ff1513",
+        "target_sha256": "3a322c3fe0e71e13a69141e6b4c46aef88813dad9fdd38f3d7a0e24e6223e06f"
+      },
+      "ui:첫 1000만원:/첫 1000만원": {
+        "source_sha256": "846a1bdd3c25b880df371adfa94f47476c799059c6151fc6fca9b7278d685417",
+        "target_sha256": "3dee00ff69652aed0fd40bac86894a6d87aae748446e8e5e715dc1b30cf88eac"
+      },
+      "ui:첫 1억:/첫 1억": {
+        "source_sha256": "d0b8ae9ebb78e0fe023ddfa2a083a669dede8418326963086ac4e8dc189f62ac",
+        "target_sha256": "3f64943de30d2d9ec81f0df153f1f42c58558025f1841108274c13107aaf5b8d"
+      },
+      "ui:첫 투자:/첫 투자": {
+        "source_sha256": "a641b476e9e6531cd3d215b953641c01ef1ab8fe3e416b051250859eefd87926",
+        "target_sha256": "34bfa7eaaa77226b8626267e10027efcbcfea302ba7b3368ed01ff929af4acfe"
+      },
+      "ui:총자산 1억. 뭔가 달라지는 것 같기도 하고 아닌 것 같기도 하다.:/총자산 1억. 뭔가 달라지는 것 같기도 하고 아닌 것 같기도 하다.": {
+        "source_sha256": "6bb19498f470c80270856f5813df664dcbddaf5822d79317cdb6643db4ef6ed5",
+        "target_sha256": "ebd928bf8f17229e72a0ce410e422ba2ed636763ce8fec9c12f3f2efcea53f75"
+      },
+      "ui:총자산 30억. 강남드림을 이뤘다. 다음엔 뭘 꿈꿔야 할까.:/총자산 30억. 강남드림을 이뤘다. 다음엔 뭘 꿈꿔야 할까.": {
+        "source_sha256": "59d3dc9e2adf3c98726964c755eea7116a2dea2cdda72a40a1f82acb5bc663ba",
+        "target_sha256": "e56a8123a67dd0741dcaae47ee53eb9b6301c4e2ee62de6b71c6d243a1f19e9f"
+      },
+      "ui:통장 0원 생존자:/통장 0원 생존자": {
+        "source_sha256": "06ade1e9ef74ed84c442b9cfffb77e5163b7dd63cf2a9fd3bf97dc69633061a2",
+        "target_sha256": "3ca564f3691b1023b968f93f8aefbd4f5e629e68da2a3e81b74af3518a371d93"
+      },
+      "ui:평범한 행복:/평범한 행복": {
+        "source_sha256": "8259cf9e803b29c77870c1b375c3164a32c2028bdaf915d128c2b6ad76b5dddc",
+        "target_sha256": "77c625b912121888db51e631ca830a61f260e58535c32dad77a1099a9a4e0adb"
+      },
+      "ui:현금 1000만원. 서울에서 처음으로 숨이 트이는 느낌이었다.:/현금 1000만원. 서울에서 처음으로 숨이 트이는 느낌이었다.": {
+        "source_sha256": "7446729ea98f2bdb6cd51b7d5e33159138608274b17018678c68175c72cfc6fe",
+        "target_sha256": "cefc0366de973509aa060fcde6a0e850361e9b9f7b0f153a83d092b4b0d11483"
       }
     }
   },
-  "accepted_sha256": "ee002f676be1ebea448338e7a2b9449839a2e5cd3c73fee14d91bf020ac8c0a9",
+  "accepted_sha256": "cef4117089e9d70d3199d4e66498677a54ceaa2562129fdffcf2b0cc3f5d2b26",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
