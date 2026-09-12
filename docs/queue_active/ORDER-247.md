@@ -90,3 +90,10 @@ Poincare의 code/post 전량 검토는 필수0이며 private `order247-code-revi
 trace self187·일반profiles3(PENDING)·등록145/guard6/EXTRA17·context363·active78이다.
 선언52 대비 소유 밖2667개 Git blob은 exact다. 로컬 전체 감사·Godot·번역전량 재실행0.
 원격 CI와 최종 단위판정은 여전히 별도이며 기존41 failure를 GREEN으로 바꾸지 않는다.
+
+원격 후보 `07ef0f750abe97d6c671d27a6f638938b15658a7`/tree8cdc0a90948195ab0cc76a80a86e7c87f6f9b315는
+Poincare local pre-CI 검토 필수0(`order247-local-pre-ci-review.json` 12296B/7cc3d620)을
+받았고 sourcea486에 결속됐다. main/원격 mirror를41→07ef로 atomic FF했다.
+새 run은 main34696178566·mirror34696178468, 시작13:20:53Z이며 첫 관측 둘 다
+in_progress다. `order247-ci-first.json` 26918B/6d159998 원형을 보존했다.
+실제 원격 완료·최종 단위GO는 아직 아니다. 다음248은 private 준비만 병렬 진행한다.
