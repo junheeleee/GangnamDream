@@ -31,6 +31,8 @@ from pathlib import Path
 from typing import Any
 from unittest.mock import patch
 
+import main_game_locale_history as locale_history
+
 
 ROOT = Path(__file__).resolve().parents[1]
 LEDGER_PATH = ROOT / "content/meta/chapter1_core_loop_v2_causal_ledger.json"
@@ -4254,6 +4256,7 @@ def order220_preview_transition_self_test() -> tuple[list[str], int]:
     failures: list[str] = []
     relative = ORDER220_PREVIEW_PATH
     current = (ROOT / relative).read_bytes()
+    current = locale_history.main_game_history_project_bytes(current, relative)
     previous = order220_preview_project_bytes(current, relative)
     historical = order215_modal_project_bytes(previous, relative)
     cases = [
@@ -4354,6 +4357,7 @@ def order215_modal_transition_self_test() -> tuple[list[str], int]:
 
     failures: list[str] = []
     current = (ROOT / ORDER215_MODAL_PATH).read_bytes()
+    current = locale_history.main_game_history_project_bytes(current, ORDER215_MODAL_PATH)
     current = order220_preview_project_bytes(current, ORDER215_MODAL_PATH)
     previous = order215_modal_project_bytes(current, ORDER215_MODAL_PATH)
     cases = [
@@ -4436,12 +4440,33 @@ def _file_digest(relative_path: str) -> str:
     return hashlib.sha256(payload).hexdigest()
 
 
+def _order243_history_byte_hash(current_hash: str, relative: str) -> str:
+    """Bind a live hash observation to raw; historical claims remain unchanged."""
+    if relative != locale_history.MAIN_GAME_PATH:
+        return current_hash
+    try:
+        current = (ROOT / relative).read_bytes()
+    except OSError:
+        return current_hash
+    return locale_history.main_game_history_project_byte_hash(current_hash, relative, current)
+
+
+def _order243_main_source_errors(
+        relative: str, current: bytes, registered_order156: str) -> list[str]:
+    errors = locale_history.main_game_history_source_errors(relative, current)
+    if errors:
+        return errors
+    return order220_main_source_errors(
+        relative, locale_history.main_game_history_project_bytes(current, relative),
+        registered_order156)
+
+
 def _audited_source_snapshot_errors(
         source_hashes: dict[str, str]) -> list[str]:
     errors: list[str] = []
     if ORDER215_MODAL_PATH in source_hashes:
         try:
-            errors.extend(order220_main_source_errors(
+            errors.extend(_order243_main_source_errors(
                 ORDER215_MODAL_PATH, (ROOT / ORDER215_MODAL_PATH).read_bytes(),
                 ORDER156_AUDITED_SOURCE_FILE_TRANSITIONS.get(
                     ORDER215_MODAL_PATH, ("", ""))[1]))
@@ -4521,7 +4546,8 @@ def _audited_source_snapshot_errors(
                     expected_digest = successor[1]
             if order215_modal_project_byte_hash(
                     order220_preview_project_byte_hash(
-                        _file_digest(relative_path), relative_path), relative_path) == expected_digest:
+                        _order243_history_byte_hash(_file_digest(relative_path), relative_path),
+                        relative_path), relative_path) == expected_digest:
                 continue
             errors.append(
                 f"source: audited file snapshot mismatch {relative_path}")
@@ -21171,7 +21197,8 @@ def self_test(ledger: dict[str, Any], baseline: dict[str, Any]) -> int:
         if historical_digest != order156_transition[0] \
                 or order215_modal_project_byte_hash(
                     order220_preview_project_byte_hash(
-                        _file_digest(order156_path), order156_path), order156_path) != order156_transition[1]:
+                        _order243_history_byte_hash(_file_digest(order156_path), order156_path),
+                        order156_path), order156_path) != order156_transition[1]:
             raise AssertionError(
                 f"ORDER-156 exact source successor drifted {order156_path}")
         cases += 1

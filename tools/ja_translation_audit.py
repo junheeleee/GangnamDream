@@ -14,6 +14,9 @@ from typing import Any
 from ja_translation_pipeline import (
     ROOT,
     Entry,
+    RELATIONSHIP_PANEL_SOURCE_REPLACEMENTS,
+    UiInventory,
+    _relationship_panel_historical_calls,
     collect_catalog,
     collect_endings,
     collect_events,
@@ -158,6 +161,32 @@ def _demo_runtime(errors: list[str]) -> tuple[dict[str, Any], dict[str, Any]]:
     return observed, runtime
 
 
+def retired_relationship_ui_entries(
+    inventory: UiInventory,
+) -> tuple[dict[str, Entry], list[str]]:
+    """Recognize only source-verified retained keys, never arbitrary extras.
+
+    The replacement registry owns the old/new pairs; its collector guard binds
+    each current pair to the exact function, API and cardinality. A failed source
+    guard grants no exemption. Still-live old keys use the regular blueprint.
+    """
+    _history, errors = _relationship_panel_historical_calls(inventory.calls)
+    if errors:
+        return {}, errors
+    retired = {}
+    for function, old_ko, _old_en, current_ko, _current_en in \
+            RELATIONSHIP_PANEL_SOURCE_REPLACEMENTS:
+        if current_ko not in inventory.blueprint:
+            errors.append(f"retired UI: missing current source {current_ko!r}")
+        if old_ko not in inventory.blueprint:
+            retired[old_ko] = Entry(
+                f"retained-ui::{hashlib.sha1(old_ko.encode()).hexdigest()[:12]}",
+                old_ko,
+                f"scenes/MainGame.gd::{function} (retained source replacement)",
+            )
+    return ({}, errors) if errors else (retired, [])
+
+
 def check_ui_scope(actual: Any, errors: list[str]) -> int:
     """Keep retail UI exact while recognizing separately owned demo surfaces."""
     inventory = collect_ui_inventory()
@@ -195,9 +224,16 @@ def check_ui_scope(actual: Any, errors: list[str]) -> int:
             "ui: planned context rows appeared before implementation "
             f"{sorted(premature_context)[:8]}"
         )
+    retired_entries, retired_errors = retired_relationship_ui_entries(inventory)
+    errors.extend(f"ui source: {error}" for error in retired_errors)
+    for key, entry in retired_entries.items():
+        if key not in actual:
+            errors.append(f"ui: missing retained source key {key!r}")
+        else:
+            check_text(entry, actual[key], errors)
     unknown_extra = (
         extra_keys - dynamic_keys - story_demo_exclusive_keys
-        - premature_context
+        - premature_context - set(retired_entries)
     )
     if unknown_extra:
         errors.append(

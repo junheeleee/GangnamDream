@@ -14,6 +14,42 @@
   ],
   "fast_lanes": [
     {
+      "id": "ci-localization-reconciliation",
+      "paths": [],
+      "owned_paths": [
+        "tools/main_game_locale_history.py",
+        "tools/year5_reference_route_audit.py",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/ja_translation_audit.py",
+        "tools/demo_localization_scope.py",
+        "tools/ci_localization_reconciliation_self_test.py",
+        "tools/audit.sh",
+        "tools/audit_scope.json",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/queue_active/ORDER-243.md",
+        "docs/queue_archive/ORDER-243.md",
+        "docs/WORK_LOG.md",
+        "docs/STATUS.md",
+        "docs/queue_backlog/FULL_GAME_LOCALIZATION.md",
+        "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-243.json"
+      ],
+      "tools": [
+        "tools/year5_reference_route_audit.py --self-test",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py --self-test",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/ja_translation_audit.py --scope ui",
+        "tools/demo_localization_scope.py --self-test",
+        "tools/ci_localization_reconciliation_self_test.py",
+        "tools/queue_index_self_test.py",
+        "tools/agent_review_decisions_self_test.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Repair the five observed CI failures from three localization-history/fixture causes. Preserve exact historical source guards, unknown-key rejection and strict coverage. Runtime, translations, public demo and human evidence unchanged."
+    },
+    {
       "id": "meta-title-localization",
       "paths": [],
       "owned_paths": [
@@ -1036,6 +1072,23 @@
     }
   ],
   "checks": [
+    {
+      "tool": "tools/ci_localization_reconciliation_self_test.py",
+      "why": "Finite live-byte/inverse-history, retained Japanese key and genuinely empty Chinese overlay regressions; old source pins and strict rejection remain intact.",
+      "paths": [
+        "tools/main_game_locale_history.py",
+        "tools/year5_reference_route_audit.py",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/ja_translation_audit.py",
+        "tools/demo_localization_scope.py",
+        "tools/ci_localization_reconciliation_self_test.py",
+        "tools/ja_translation_pipeline.py",
+        "scenes/MainGame.gd",
+        "locale/ui_ja.json",
+        "content/events_zh-CN/**",
+        "tools/audit.sh"
+      ]
+    },
     {
       "tool": "tools/event_lifecycle.py",
       "why": "packaged 1809와 shipping 1702의 author-only 생명주기·제품 진입 분리",

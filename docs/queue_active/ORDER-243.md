@@ -71,3 +71,16 @@ main 동기화에 딸린 원격 mirror run은 별도 결과로 기록한다. 새
 구현 완료 제품과 검토 HEAD를 구분하고 기존5실행/유한 normal·mutant의 원형 결과,
 보호 파일 전후 hash, 비저자 판정, 정확한 원격 commit/run 결과를 남긴다.
 자동 CI는 정상 속도 플레이·렌더·원어민·재미·전체판 GO의 대체물이 아니다.
+
+## 구현 고정 전 관측
+
+- 저자 history19 첫19/19, 두 live consumer와 입력6 raw 동일이다. 기존220
+  self26는 각 consumer에서 직접1회 PASS26/오류0·입력5b exact를 확인했다.
+- Root JA/demo 진단은 clean2893/오류0 및 self16 marker다. 두 명령을 묶어
+  개별 exit를 캡처하지 않았으므로 최종 명시 차선의 개별 결과로 다시 묶는다.
+- 비저자 신규28(history19·JA7·CN2)은 실행 전 고정했다. Root JA 구현 시작
+  뒤 명세 파일이 작성됐으므로 전부 blind pre-code라고 부르지 않는다. 출력에
+  기대값을 맞춘 경우는0이다. 읽기 쉬운 JSON 형식 변경은 parsed data exact다.
+- 원형 private28 SHA `1cc159530b713e307f3d364942a1fb099451ff4b6657a5c9917710fc08d83534`,
+  self 코드 SHA `12ff8ba402154da0318565dc1b985676e6d2f679f9213c0ca8ff4f17a019ea38`.
+  새28은 최종 명시11의 일부로 처음 실행한다. 기존26과 합쳐 새 표본이라 세지 않는다.

@@ -25,6 +25,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Callable, Iterable, Iterator
 
+import main_game_locale_history as locale_history
+
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST_PATH = ROOT / "content" / "meta" / "year5_reference_routes.json"
@@ -5581,6 +5583,7 @@ def order220_preview_transition_self_test() -> tuple[list[str], int]:
     failures: list[str] = []
     relative = ORDER220_PREVIEW_PATH
     current = (ROOT / relative).read_bytes()
+    current = locale_history.main_game_history_project_bytes(current, relative)
     previous = order220_preview_project_bytes(current, relative)
     historical = order215_modal_project_bytes(previous, relative)
     cases = [
@@ -5681,6 +5684,7 @@ def order215_modal_transition_self_test() -> tuple[list[str], int]:
 
     failures: list[str] = []
     current = (ROOT / ORDER215_MODAL_PATH).read_bytes()
+    current = locale_history.main_game_history_project_bytes(current, ORDER215_MODAL_PATH)
     current = order220_preview_project_bytes(current, ORDER215_MODAL_PATH)
     previous = order215_modal_project_bytes(current, ORDER215_MODAL_PATH)
     cases = [
@@ -5754,6 +5758,7 @@ def order215_modal_transition_self_test() -> tuple[list[str], int]:
 
 def order156_project_bytes(current: bytes, relative: str) -> bytes:
     """Expose an older byte only from the complete exact ORDER-156 leaf."""
+    current = locale_history.main_game_history_project_bytes(current, relative)
     current = order220_preview_project_bytes(current, relative)
     current = order215_modal_project_bytes(current, relative)
     transition = ORDER156_SOURCE_FILE_TRANSITIONS.get(relative)
@@ -5787,6 +5792,7 @@ def order156_project_payload(payload: Any, relative: str) -> Any:
 
 def order156_project_byte_hash(current_hash: str, relative: str) -> str:
     """Map only an exact ORDER-156 successor hash to its predecessor."""
+    current_hash = _order243_history_byte_hash(current_hash, relative)
     current_hash = order220_preview_project_byte_hash(current_hash, relative)
     current_hash = order215_modal_project_byte_hash(current_hash, relative)
     transition = ORDER156_SOURCE_FILE_TRANSITIONS.get(relative)
@@ -8451,10 +8457,31 @@ def validate_order138_registration(
     }
 
 
+def _order243_history_byte_hash(current_hash: str, relative: str) -> str:
+    """Bind a live hash observation to raw; historical claims remain unchanged."""
+    if relative != locale_history.MAIN_GAME_PATH:
+        return current_hash
+    try:
+        current = (ROOT / relative).read_bytes()
+    except OSError:
+        return current_hash
+    return locale_history.main_game_history_project_byte_hash(current_hash, relative, current)
+
+
+def _order243_main_source_errors(
+        relative: str, current: bytes, registered_order156: str) -> list[str]:
+    errors = locale_history.main_game_history_source_errors(relative, current)
+    if errors:
+        return errors
+    return order220_main_source_errors(
+        relative, locale_history.main_game_history_project_bytes(current, relative),
+        registered_order156)
+
+
 def validate_order156_registration(errors: list[str]) -> dict[str, int]:
     """Pin the exact routine-background leaf before every older receipt."""
     try:
-        errors.extend(order220_main_source_errors(
+        errors.extend(_order243_main_source_errors(
             ORDER215_MODAL_PATH, (ROOT / ORDER215_MODAL_PATH).read_bytes(),
             ORDER156_SOURCE_FILE_TRANSITIONS.get(ORDER215_MODAL_PATH, ("", ""))[1]))
     except OSError as exc:
@@ -8509,6 +8536,7 @@ def validate_order156_registration(errors: list[str]) -> dict[str, int]:
         try:
             baseline_bytes = order156_baseline_bytes(relative)
             current_bytes = (ROOT / relative).read_bytes()
+            current_bytes = locale_history.main_game_history_project_bytes(current_bytes, relative)
             current_bytes = order220_preview_project_bytes(current_bytes, relative)
             current_bytes = order215_modal_project_bytes(current_bytes, relative)
         except (OSError, ValueError) as exc:
@@ -11099,7 +11127,8 @@ def run_invalidated_self_test(
             ORDER156_SOURCE_FILE_TRANSITIONS.items()):
         baseline_order156 = order156_baseline_bytes(relative)
         current_order156 = order215_modal_project_bytes(
-            order220_preview_project_bytes((ROOT / relative).read_bytes(), relative), relative)
+            order220_preview_project_bytes(locale_history.main_game_history_project_bytes(
+                (ROOT / relative).read_bytes(), relative), relative), relative)
         case_count += 1
         if byte_sha256(baseline_order156) != transition[0] \
                 or byte_sha256(current_order156) != transition[1] \

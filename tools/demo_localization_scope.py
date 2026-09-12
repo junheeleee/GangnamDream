@@ -1059,6 +1059,16 @@ def language_coverage(
     return {**covered, **{f"total_{key}": value for key, value in totals.items()}}, errors
 
 
+def empty_chinese_event_coverage_fixture(
+    runtime: dict[str, Any],
+) -> tuple[dict[str, int], list[str]]:
+    """Exercise strict empty coverage independently of installed translations."""
+    from unittest.mock import patch
+
+    with patch(f"{__name__}.load_overlay_events", return_value=({}, [])):
+        return language_coverage("zh-CN", runtime, True)
+
+
 def shipping_languages() -> list[str]:
     source = LOCALE_MANAGER_PATH.read_text(encoding="utf-8")
     match = re.search(
@@ -1283,7 +1293,7 @@ def run_self_test(
     if not activity_contract_errors(mutated_contract):
         failures.append("demo activity-owner mutation was not rejected")
 
-    _zh_result, zh_errors = language_coverage("zh-CN", runtime, True)
+    _zh_result, zh_errors = empty_chinese_event_coverage_fixture(runtime)
     cases += 1
     if any("strict is unavailable" in error for error in zh_errors):
         failures.append("Chinese strict mode still uses the pre-ORDER-82 refusal")
