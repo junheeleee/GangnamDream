@@ -1,0 +1,433 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-247",
+  "scope": "work_unit",
+  "subject": {
+    "kind": "source",
+    "commit": "a486c2473ed8bce8e5e43ba847b599fffd4c4297",
+    "tree": "488018a551b24e26fac45333a8bd322b9134d721",
+    "manifest_sha256": null
+  },
+  "source_commit": "a486c2473ed8bce8e5e43ba847b599fffd4c4297",
+  "source_tree": "488018a551b24e26fac45333a8bd322b9134d721",
+  "verdict": "GO",
+  "required": [],
+  "optional": [],
+  "reviewer": "Poincare / final_regression_review",
+  "independent_of": "ROOT authored the seal/registry repair; Rawls authored fixed25; ROOT executed local and remote checks. Poincare did not author or execute those changes.",
+  "closes": "The single stale tools/audit.sh full-source seal cause and its two declared dependency/explicit-lane registrations, at exact sourcea486 / remote wrapper07ef.",
+  "not_closed": [
+    "ORDER-243 or ORDER-244 normative completion",
+    "ORDER-248/249/250 or current-source remote acceptance",
+    "resource/ObjectDB teardown defects",
+    "actual W1-W240 runtime-trace completion",
+    "full-product/release/human/native/render readiness"
+  ],
+  "subject_boundary": {
+    "exact_remote_commit": "07ef0f750abe97d6c671d27a6f638938b15658a7",
+    "exact_remote_tree": "8cdc0a90948195ab0cc76a80a86e7c87f6f9b315",
+    "local_named_commit": "543940993a8e15b7734861b1537d0741bbad9f23",
+    "local_named_tree": "5ab265f3172bfe68643bf1a8b3dda67a978ec644",
+    "source_to_remote_wrapper_paths": [
+      "docs/STATUS.md",
+      "docs/WORK_LOG.md",
+      "docs/queue_active/ORDER-247.md"
+    ],
+    "method": "Re-read the immutable local source-subject review, exact Git commit/tree and complete source-to-wrapper path diff. Product pins and preserved source inverses were checked against Git07ef/a486, not against future source72169 or in-progress250.",
+    "immutable_candidate_was_clean": true,
+    "publication_checkout_observed": "9485f5da2710e2f44d10ced4328e0649b76d94a6",
+    "publication_checkout_is_NOT_review_subject": true
+  },
+  "verdict_basis": [
+    "Whole-validator raw inverse and executable AST except one SHA constant are exact; original guard/self and20 mutation recipes are unchanged. audit.sh itself, teardown/error policies and runtime inputs were not repaired or weakened by this unit.",
+    "The same frozen25 records demonstrate stale-seal baseline failure and post-repair current normal acceptance/24 negative rejection with a passing normal base. No broader semantic parser or allowlist bypass was added.",
+    "First actual named5 all exit0 with246 input pins exact. The earlier private driver preparation failed before any child executed and remains preserved separately.",
+    "Both requested attempt1 CI runs check out exact07ef, report completed/success, and contain the formerly blocked SELF_TEST_OK187/CONTRACT_OK3 markers. Saved run, jobs, log and artifact identities agree.",
+    "Remaining resource exit ERRORs are real and retained. They do not contradict resolution of the declared stale-seal cause because audit.sh policy was unchanged; they do prevent an error-free-runtime/full-product conclusion."
+  ],
+  "read_scope_and_method": [
+    "Read gangnamdream-dev, current CLAUDE/queue/selected247/WORK_UNIT and applicable QA authority boundaries; re-read complete retained independent code and local pre-CI reports.",
+    "Reused prior complete validator guard/self, fixed specification/driver25, repaired named driver and full child-output review only after actual retained SHA checks and Git product rebinding.",
+    "Read the entire two-product implementation diff again; independently reconstruct original validator bytes and normalize only the seal AST value to prove other executable AST equality.",
+    "Read saved terminal run statuses, complete two-job/22-step metadata for each branch, artifact metadata and both original main-job logs' checkout, target markers, final audit, input/simulation/upload and every error/warning boundary.",
+    "Use standard-library JSON/hash/AST parsing and read-only Git. Broad first log display included unrelated human-gate text and was truncated; bounded exact marker/error extraction then supplied the observations. No source evidence was modified.",
+    "Read auxiliary Rawls mirror terminal/teardown diagnosis and Plato main terminal report; independently compare their raw source pins and relevant observed counts with retained originals."
+  ],
+  "population": {
+    "product_files": 2,
+    "seal_constants_changed": 1,
+    "frozen_unique_inputs": 25,
+    "baseline_observations": 25,
+    "post_observations": 25,
+    "local_named_children": 5,
+    "remote_runs": 2,
+    "remote_attempts_per_run": 1
+  },
+  "implementation": {
+    "validator_delta": "One AUDIT_RUNNER_SHA256 from af026c51 to current c906ff8b plus provenance comment;4 additions/3 deletions.",
+    "scope_delta": "Explicit-only audit-runner-seal lane24 lines plus tools/audit.sh source dependencies on both existing trace entries;26 additions. No automatic lane widening.",
+    "validator_whole_raw_inverse_exact": true,
+    "executable_AST_otherwise_exact": true,
+    "guard": {
+      "bytes": 6976,
+      "sha256": "97d8060e868b80df845ef8aa684edd392e0be18224db2448cfff37a3d52c91d2"
+    },
+    "self": {
+      "bytes": 50689,
+      "sha256": "a4048afd6162021841897a5b2186c4e4142ef7627164a3356f057ea201fe9b34"
+    },
+    "original_definitions_raw_exact": 38,
+    "original_self_mutation_recipes": 20,
+    "scope_raw_inverse_exact_from_prior_verified_review": true,
+    "policy_boundary": "Whole current raw SHA is required. Historical audit bytes, failed41 bytes, forged mutations and failure-accounting removal are not accepted. Existing UTF8/raw, failure collection, isolation and teardown policy checks are unchanged."
+  },
+  "local_observations": {
+    "baseline": {
+      "exit": 1,
+      "seconds": 0.7451925,
+      "guard_calls": 25,
+      "normal_current": "REJECT",
+      "old_sealed": "PASS",
+      "valid_negative": 0,
+      "input4_exact": true
+    },
+    "post": {
+      "exit": 0,
+      "seconds": 0.773386583,
+      "guard_calls": 25,
+      "normal_current": "PASS",
+      "negative_rejected": 24,
+      "input4_exact": true
+    },
+    "interpretation": "25 distinct inputs observed before/after, not50 independent controls. All24 post rejections occurred at whole-file hash; this does not prove every deeper semantic guard independently executed.",
+    "first_named_preparation": {
+      "exit": 1,
+      "children_executed": 0,
+      "cause": "Private driver wrongly required exactly one always-tool registration; context exists at indices13 and170. Missing before-state is not evidence of244 modified files."
+    },
+    "repaired_named": {
+      "exit": 0,
+      "seconds": 1.887283541,
+      "children": 5,
+      "input_count": 246,
+      "input_before_after_exact": true,
+      "input_map_sha256": "3800498d96a075fbd465c16d29881ec7f3ff26a6973f5e67a3a5657696ab2883",
+      "method": "Direct five commands selected with the product selector's next(first) semantics; not falsely described as an instrumented full lane invocation.",
+      "observations": "self187; normal profiles3/trace_runtimePENDING; registry145/guard6/EXTRA17 retained; context363/queue78."
+    },
+    "named_to_remote_binding": "243 tracked plus3 private inputs at the execution snapshot. Only WORK and active247 result text changed before07ef; STATUS wrapper separately verified. No source, runtime, expectation or translation change."
+  },
+  "remote_observations": [
+    {
+      "id": 34696178566,
+      "head_branch": "main",
+      "head_sha": "07ef0f750abe97d6c671d27a6f638938b15658a7",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "run_started_at": "2026-09-12T13:20:53Z",
+      "updated_at": "2026-09-12T14:50:30Z",
+      "html_url": "https://github.com/junheeleee/GangnamDream/actions/runs/34696178566",
+      "repository": "junheeleee/GangnamDream",
+      "role": "main",
+      "complete_jobs": 2,
+      "complete_successful_listed_steps": 22,
+      "jobs": [
+        {
+          "id": 103559940201,
+          "name": "Godot 헤드리스 컴파일 + 경제 시뮬",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 103559940284,
+          "name": "정적 감사 + 밸런스 회귀",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ],
+      "numeric_subprocess_exit_codes": null,
+      "trace_self_cases": 187,
+      "trace_contract_profiles": 3,
+      "trace_runtime": "PENDING",
+      "product_go": "HOLD",
+      "human_density_gate": "OPEN",
+      "decoded_main_job_log": {
+        "lines": 6629,
+        "sha256": "64b914961fc289edbead516044caa94874101b8e9fc4c95113cf3039de0648dc"
+      },
+      "marker_lines": {
+        "checkout": [
+          130,
+          216
+        ],
+        "trace_self": 327,
+        "trace_contract": 328,
+        "compile68": 6140,
+        "audit_pass": 6143
+      },
+      "target_failure_flags_observed": 0,
+      "log_scope": "Read the Godot/audit/input/simulation job's saved full log; other static-job success is saved job/step metadata, not a claim to have read its absent separate full log.",
+      "resource_exit_ERROR_lines": [
+        6060,
+        6092,
+        6591,
+        6611
+      ],
+      "visible_ObjectDB_warning_lines": [
+        6589,
+        6609
+      ],
+      "artifact": {
+        "id": 10299528614,
+        "name": "core-loop-v2-input-1",
+        "bytes": 4711883,
+        "reported_digest": "sha256:688883132d005c30cf6a5b85016227825ff58de687c97326c405f9e79aef0cf7",
+        "branch": "main",
+        "head_sha": "07ef0f750abe97d6c671d27a6f638938b15658a7",
+        "log_and_metadata_exact": true,
+        "downloaded_or_zip_bytes_rehashed": false,
+        "PNG_viewed": false
+      }
+    },
+    {
+      "id": 34696178468,
+      "head_branch": "codex/full-game-localization",
+      "head_sha": "07ef0f750abe97d6c671d27a6f638938b15658a7",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "run_started_at": "2026-09-12T13:20:53Z",
+      "updated_at": "2026-09-12T14:27:33Z",
+      "html_url": "https://github.com/junheeleee/GangnamDream/actions/runs/34696178468",
+      "repository": "junheeleee/GangnamDream",
+      "role": "mirror",
+      "complete_jobs": 2,
+      "complete_successful_listed_steps": 22,
+      "jobs": [
+        {
+          "id": 103559940239,
+          "name": "Godot 헤드리스 컴파일 + 경제 시뮬",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 103559940348,
+          "name": "정적 감사 + 밸런스 회귀",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ],
+      "numeric_subprocess_exit_codes": null,
+      "trace_self_cases": 187,
+      "trace_contract_profiles": 3,
+      "trace_runtime": "PENDING",
+      "product_go": "HOLD",
+      "human_density_gate": "OPEN",
+      "decoded_main_job_log": {
+        "lines": 6633,
+        "sha256": "fe60125fddc7e36819b24ee23d604cd75b159154ba460363e44baf5b69247425"
+      },
+      "marker_lines": {
+        "checkout": [
+          130,
+          212
+        ],
+        "trace_self": 323,
+        "trace_contract": 324
+      },
+      "target_failure_flags_observed": 0,
+      "log_scope": "Read the Godot/audit/input/simulation job's saved full log; other static-job success is saved job/step metadata, not a claim to have read its absent separate full log.",
+      "resource_exit_ERROR_lines": [
+        6056,
+        6088,
+        6332,
+        6527,
+        6595,
+        6615
+      ],
+      "visible_ObjectDB_warning_lines": [
+        6330,
+        6525,
+        6593,
+        6613
+      ],
+      "artifact": {
+        "id": 10299249931,
+        "name": "core-loop-v2-input-1",
+        "bytes": 4712136,
+        "reported_digest": "sha256:b84574e3bd045e411c0eea10999c029ae992f8e0c4a397d50fa90455f1b40785",
+        "branch": "codex/full-game-localization",
+        "head_sha": "07ef0f750abe97d6c671d27a6f638938b15658a7",
+        "log_and_metadata_exact": true,
+        "downloaded_or_zip_bytes_rehashed": false,
+        "PNG_viewed": false
+      }
+    }
+  ],
+  "residual_defects": {
+    "required_for_this_single_seal_unit": [],
+    "main": {
+      "resource_ERROR_lines": 4,
+      "visible_ObjectDB_warning_lines": 2,
+      "resource_counts_by_process": {
+        "StoryDialogueHistory": 2,
+        "StoryAudioSettings": 3,
+        "CoreKO": 0,
+        "CoreEN": 0,
+        "SimRun": 3,
+        "SmokeRace": 1
+      }
+    },
+    "mirror": {
+      "resource_ERROR_lines": 6,
+      "visible_ObjectDB_warning_lines": 4,
+      "resource_counts_by_process": {
+        "StoryDialogueHistory": 2,
+        "StoryAudioSettings": 3,
+        "CoreKO": 1,
+        "CoreEN": 1,
+        "SimRun": 3,
+        "SmokeRace": 2
+      }
+    },
+    "interpretation": "Do not merge run-specific counts. Zero visible Core resource lines on main is not a general no-leak guarantee. Story log filtering can omit ObjectDB warnings; no exact leaking allocation or common resource owner was observed.",
+    "current_policy": "Existing audit.sh/compiler-mode and input wrapper filters can tolerate resource-exit ERROR lines; SimRun/SmokeRace use their existing workflow contracts. This unit preserved those policies rather than claiming to repair them.",
+    "followup_owner": "Separate declared teardown/error-observation work, using preserved order247-ci-teardown-next-scope evidence. No universal cleanup fix or product readiness is inferred here."
+  },
+  "preservation": {
+    "declaration": "52b3af4b445233831cb3a39e6a46ddb03ee0fa43",
+    "declaration_to_exact_remote_paths": [
+      "docs/STATUS.md",
+      "docs/WORK_LOG.md",
+      "docs/queue_active/ORDER-247.md",
+      "tools/audit_scope.json",
+      "tools/full_game_runtime_trace_audit.py"
+    ],
+    "outside_owned_paths": [],
+    "retained_independent_Git_inventory": {
+      "nonowned_tracked_paths": 2667,
+      "path_mode_type_blob_set_sha256": "bf1cdfb27f1c1dea12c47e58ee142a7ad28f0064cf59c65aa162457c1b4e63c2"
+    },
+    "unchanged_in_unit": [
+      "tools/audit.sh",
+      "runtime/profile files",
+      "KO/EN and UI3",
+      "accepted38698/b100/meta9",
+      "human ledger",
+      "project.godot"
+    ],
+    "historical_failures": "Git41e06cd runs34691376114 and34691376116 remain failed observations. Their af026-versus784d936d mismatch is not rewritten as success.",
+    "later_source": "The report approves exacta486/07ef only. It does not transfer CI results to source72169,249/250 or the current working tree."
+  },
+  "code_pins": {
+    "tools/full_game_runtime_trace_audit.py": {
+      "bytes": 171119,
+      "sha256": "b49b282ddc7f4f133d7fb2c5ebe6d2dc4f8ba947a77dc512849f5cb981e6b009"
+    },
+    "tools/audit_scope.json": {
+      "bytes": 149915,
+      "sha256": "f5b216255a0c8bdec90060807de2b1df9212f6f444c99e3f8c23b4ecf258d75f"
+    },
+    "tools/audit.sh": {
+      "bytes": 79946,
+      "sha256": "c906ff8b56a33a2861833997f3c244e9c3581b641c2c97f5c9d93863bd6127f7"
+    }
+  },
+  "evidence_pins": {
+    ".git/full-game-localization/order247-code-review.json": {
+      "bytes": 9737,
+      "sha256": "5d3bee7762a53027d22a3751d701f7c662cd711b41da899af29d7cf081019d72"
+    },
+    ".git/full-game-localization/order247-local-pre-ci-review.json": {
+      "bytes": 12296,
+      "sha256": "7cc3d620117dc165b1ecf8aeb8c95b52826949d12de4e80d2055d40cf0b39b44"
+    },
+    ".git/full-game-localization/order247-baseline-first.json": {
+      "bytes": 47751,
+      "sha256": "80d57c938c95795d1b48ba0349d4cf2966d51f56b8365f8a8d435261697ad562"
+    },
+    ".git/full-game-localization/order247-post-first.json": {
+      "bytes": 47853,
+      "sha256": "e6f72b36c869513524a7a8543d6c9713d090c93a707c5f5e8a2f4102e23a0afe"
+    },
+    ".git/full-game-localization/order247-named-first.json": {
+      "bytes": 59421,
+      "sha256": "ee6ca9206053990595a464932e9c85eec1144f5201f16961960ca62b4ce74964"
+    },
+    ".git/full-game-localization/order247-named-after-selection-fix.json": {
+      "bytes": 95548,
+      "sha256": "1cdd40d02e9d97c3ab45ab8a98b9337bc082c515e44d3d12fa936f28a112755c"
+    },
+    ".git/full-game-localization/order247-ci-main-status-seventh.json": {
+      "bytes": 27286,
+      "sha256": "e16cf39a7e1b18b5101f1622db803d76428ae59b5365fa6d10fb5c3655673781"
+    },
+    ".git/full-game-localization/order247-ci-status-sixth.json": {
+      "bytes": 54193,
+      "sha256": "199c8cda87b0286651f0a802683a49b8686d6b78c65a418d0dd9e8e3acefa635"
+    },
+    ".git/full-game-localization/order247-ci-main-terminal-jobs.json": {
+      "bytes": 4566,
+      "sha256": "839e3754be803689876dcc30f81c4f04a85db9c7268f6a01c8e7bdc79f9f4f0d"
+    },
+    ".git/full-game-localization/order247-ci-main-terminal-log.json": {
+      "bytes": 1191083,
+      "sha256": "84cade32fee55b220b4e8ee39a3d0292fc88171d075ac186e6d8143b09133130"
+    },
+    ".git/full-game-localization/order247-ci-main-terminal-artifacts.json": {
+      "bytes": 2222,
+      "sha256": "4bacc5ffe9398473521ea442ae5fc9915c2586419695cc5b01ce2d4dbd281c0e"
+    },
+    ".git/full-game-localization/order247-ci-mirror-terminal-jobs.json": {
+      "bytes": 4566,
+      "sha256": "f64e85cc3c42bfbdad6539bbbe476a8a9f3dd35096084f11978dd0c4345e1bbc"
+    },
+    ".git/full-game-localization/order247-ci-mirror-terminal-log.json": {
+      "bytes": 1191754,
+      "sha256": "0aafa3fea00861aa1fb7f7da3ebedb5f582c94ffe28f86387ec46296184e5b01"
+    },
+    ".git/full-game-localization/order247-ci-mirror-terminal-artifacts.json": {
+      "bytes": 2270,
+      "sha256": "a9529d4cbd99490ef2a455cb1638213f8d9255dcfd622bfa4bd7451b60707e57"
+    },
+    ".git/full-game-localization/order247-ci-mirror-independent-terminal.json": {
+      "bytes": 13911,
+      "sha256": "be2921c034579c5ae2caf06e35bf77720e2c9a90929471b88de37f5151ad1ee4"
+    },
+    ".git/full-game-localization/order247-ci-teardown-next-scope.json": {
+      "bytes": 14528,
+      "sha256": "21763bb37f32e078ebe42049a39f4dc459578cb331f0c6ca3b1b02ec4874b9a0"
+    },
+    ".git/full-game-localization/order247-ci-main-independent-terminal.json": {
+      "bytes": 13806,
+      "sha256": "38237442a372e8ffc4f55bdc51d9872efa31f0b4a8efe162ef3c21eb2af1d275"
+    }
+  },
+  "source_to_consumer": {
+    "producer": "tools/audit.sh current complete bytes",
+    "reader": "tools/full_game_runtime_trace_audit.py AUDIT_RUNNER_SHA256 -> _validate_audit_runtime_guard -> self_test/validate_tool_sources CLI",
+    "changed_state": "stale current-source rejection -> exact current-source acceptance; no gameplay state change",
+    "forgoing_scope": "Both trace checks block the complete CI at this source without resealing.",
+    "narrative_position": "Not story content",
+    "scene_tier": "Not scene authoring",
+    "closes": "One declared CI runner fingerprint mismatch"
+  },
+  "limits": [
+    "Automatic pass establishes checked contracts/regressions, not fun, prose, native quality, physical-controller feel or human observation.",
+    "Both requested exact-source remote executions completed successfully, satisfying247's remote completion gate. They are not error-free engine executions.",
+    "Resources ERROR/ObjectDB observations, artifact ZIP contents and screenshots remain unclosed/unobserved as stated. No public-release or full-product GO.",
+    "No inference of243/244 normative completion. Public GO1/human OPEN45/full-product HOLD and historical gates are preserved."
+  ],
+  "reviewer_actions": {
+    "remote_fetches": 0,
+    "CI_polls": 0,
+    "repository_module_imports": 0,
+    "validator_or_test_runs": 0,
+    "collector_or_Godot_runs": 0,
+    "player_save_reads": 0,
+    "product_or_queue_or_ledger_or_Git_writes": 0,
+    "public_report_write": "docs/agent_reviews/ORDER-247.json via apply_patch only"
+  },
+  "skill_effect": "gangnamdream-dev preserved the single-cause declaration, exact-candidate identity, targeted evidence reuse, retained failure history and separation between agent work-unit decisions and actual human/full-product evidence."
+}

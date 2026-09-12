@@ -1,3 +1,34 @@
+# ORDER-247 — CI 단일 지문 원인 결과
+
+[x] ORDER-247 — 2026-09-12, 비저자 Poincare work_unit GO.
+
+제품source `a486c2473ed8bce8e5e43ba847b599fffd4c4297`, tree
+`488018a551b24e26fac45333a8bd322b9134d721`; 원격 검토wrapper
+`07ef0f750abe97d6c671d27a6f638938b15658a7`/tree8cdc0a90.
+audit.sh 자체는 그대로 두고 검사기의 낡은 단일 SHA와 의존 등록만 수리했다.
+구현 전/후 같은25와 명시5 통과, 전체 raw역복원·원 규범/보호 원형을 확인했다.
+
+main run34696178566와 mirror34696178468 attempt1이 각각 completed/success다.
+각 trace self187/contract3, compile68, KO/EN24주 입력, SimRun/Smoke·업로드를
+같은exact07ef 로그/메타데이터에 결속했다. 새721/248/249/250 CI로 쓰지 않는다.
+자세한 증거·별도 원본 실패는 아래 독립 보고서에 있다.
+
+main은 resources ERROR4/ObjectDB2, mirror는6/4가 남았다. 성공배지와 별개이며
+오류 없는 engine/full product GO가 아니다. StoryAudio/History, Core 두 입력,
+SimRun/Smoke의 종료 정리는 별도 원인으로 후속 수리한다. verbose 객체 신원 없이
+공통 오디오 누수로 합치지 않는다. ZIP/PNG내용·원어민/인간/물리감각 미관찰이다.
+공개GO1·인간OPEN45·본편HOLD,243/244 규범완료 미판정. 일회성·새 규범 없음.
+
+도달: SELF_TEST_OK187 / CONTRACT_OK3 / 원격2 completed-success.
+생산자/독자: audit.sh 전체 raw → AUDIT_RUNNER_SHA256 → trace source guard.
+상태: 현 지문 REJECT→PASS, 같은 변조24 REJECT; gameplay 변경0.
+포기/서사/계층: 해당 없음 — CI 검사1원인, 장면·선택·조건 변경0.
+닫는 것: 실행 지문 불일치 하나; 종료오류/전체제품/다른오더 닫기0.
+
+[독립 판정](../agent_reviews/ORDER-247.json) · SHA `fc1e4beb16d81d9f32937ff2eb2dcd00c8dc09860a430a8d9f11d79649eba215`
+
+## 선언·진행 원문 보존
+
 # CI 감사 실행 스크립트 지문 정합
 
 #### [~] ORDER-247 감사 실행 지문 수리

@@ -1403,6 +1403,48 @@
         "path": "docs/agent_reviews/ORDER-249.json",
         "sha256": "43bb6f107dff17d4bf5065e4ebf4afb9f8205295ec32ab3d208f9d4e2472b275"
       }
+    },
+    {
+      "id": "order-247-source-a486c24-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-12",
+      "decided_by": "Codex Poincare (independent exact-source final); Codex ROOT (integration)",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-247",
+      "subject": {
+        "kind": "source",
+        "commit": "a486c2473ed8bce8e5e43ba847b599fffd4c4297",
+        "tree": "488018a551b24e26fac45333a8bd322b9134d721",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-247.json",
+          "sha256": "fc1e4beb16d81d9f32937ff2eb2dcd00c8dc09860a430a8d9f11d79649eba215"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/queue_archive/ORDER-247.md",
+          "sha256": "cb9d836e43006efa646113f8528f5a49e41a7ab02b20af5db57f27876a91f093"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_rendered_localization",
+        "full_game_normal_speed_play",
+        "full_product_quality",
+        "external_release",
+        "artifact_zip_contents_and_screenshots"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-247.json",
+        "sha256": "fc1e4beb16d81d9f32937ff2eb2dcd00c8dc09860a430a8d9f11d79649eba215"
+      }
     }
   ]
 }

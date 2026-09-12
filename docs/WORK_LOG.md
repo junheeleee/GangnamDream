@@ -4,6 +4,15 @@
 > [9/12 현지화 보존본](history/WORK_LOG_2026-09-12_localization.md)에 손실 없이 보존한다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg`로 필요한 항목을 찾는다.
 
+## 2026-09-12 (Codex — CI 지문 원인 마감)
+
+- exact07ef/a486의 원격 main·mirror 두 실행 completed/success. 독립247 단위GO다.
+  self187/contract3·compile68·KO/EN24주 입력·Sim/Smoke/업로드를 실제 로그로 결속했다.
+- main의 종료resourceERROR4/ObjectDB2와mirror6/4는 별도 잔여다. 성공배지를
+  오류 없는 게임 실행이나 본편 GO로 해석하지 않는다. 후속은 fixture별 종료 정리다.
+- [단일 원인 결과](queue_archive/ORDER-247.md). 새 번역 후보의 CI는 따로 필요하며
+  243/244 규범완료까지 추론하지 않았다. 인간 원장·프로젝트·실제 사용자 저장 불변.
+
 ## 2026-09-12 (Codex — 칭호66·회차 수량 검사 내부 마감)
 
 - 독립 Poincare의248/249 LOCAL work_unit GO, source72169/treecebe503 한정이다.
