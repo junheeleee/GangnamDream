@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-265",
+  "scope": "work_unit",
+  "authority": "user_delegated_agent_final",
+  "reviewer": "Poincare",
+  "reviewed_on": "2026-09-20",
+  "verdict": "GO",
+  "required": [],
+  "subject": {"kind": "source", "commit": "17273e6293c6e98bf4f97e235b98f152b315ae22", "tree": "75916aae242a682a0bbc41dfafe1175c25392b0b", "manifest_sha256": null},
+  "review": {"commit": "ccfa03a84be157f3fcbc43d9f5a484ab1e59d8fe", "tree": "69829df40a464591ed04c4205d243bd557b47b4f", "clean": true},
+  "population": {
+    "language": "18 Korean Story-card/habit/clue/thought UI keys,54 targets. JA5 corrections/13 retained; CN/TW18 appended each. Actual24 existing calls across three files include the seven shared 완료 readers. Four existing legacy templates retain two %s and two weekly %d slots.",
+    "acceptance": "Three official batches and receipts of18, source_revision5d53ece11a37335f6a7a65ccfd89c205a0f4e7d0. Approved/source/response/receipt/currentUI54 exact. Check/import each changed_files0. Portable39265(JA13087,CN13089,TW13089)/b111; previous39211/b110 whole raw inverse exact.",
+    "validation": "Resumed L1 first54/0; final preservation checks new54 L1 and all39211 current source/target receipt hashes, not old full-L1 replay. First resumed named unique12 all exit0,108.673078583s. Outer1199 and named1614 before/after pins all match current files.",
+    "ownership": "Resumed baseline e0f60dca720f2690e67fdc772e18c6fff0e04c57. Source9 changed paths and STATUS-only wrapper1 fit owned14. Products are UI3+portable only. Old52 decisions/human/project/scope and266 validator/test code, Main/shared readers/LocaleManager remain raw-exact."
+  },
+  "review_findings": [
+    "Nonauthor directly read applicable instructions/glossaries, all54 targets and actual source contexts, four preparation helpers and resume configuration deltas; then all official source/response/receipt rows, raw captures, final12 child outputs and exact Git subject/diff. No repository QA/import/collector/engine or remote action by reviewer.",
+    "Independently recomputed batch/selection/receipt digests, source and target hashes. Preflight/formal leaves preserve source fields while previous-target hashes change with approved UI. JA selected replacements and CN/TW suffix removal restore all three baseline dictionaries byte-for-byte. Removing only54 receipts plus the last batch and recalculating the accepted digest restores the previous10,200,853B portable exactly.",
+    "Shared 완료 translations remain completion status, not victory/profit; names and relationship themes remain canonical. Weekly thought durations no longer read as shares. Providers, conditions, 대기 context ambiguity and event-coffee title3 remain outside this unit.",
+    "Final12 includes fullself264, JA146, ZH12446+skeleton, JAUI2973 beta, public-demo checks, registry149, queue25/fence4, agent222/HOLD, context383 and active76/74. All child raw streams verify; only fullself stderr is nonempty unittest progress/OK. EXTRA21 is retained advisory, not an error or new approval.",
+    "Named fullself's new26664 observations match its prior targeted64. Its whole stdout is not byte-identical to266: the246/251 traces correctly record the changed UI3 before/after sizes and hashes, with other parsed results unchanged. A reviewer-only overbroad equality assertion was corrected by this readback; no product/test rerun or evidence replacement occurred."
+  ],
+  "history": "Original265 L1 remains50 PASS/4 FAIL, not erased or merged into resumed54/0. Separate266 corrected two exact relation-role alias probes and was closed before the new265 baseline. No translation was rewritten to satisfy that checker. Overlapping ROOT push/ref-lock rejection is separately recorded in active265 as an operational event; reviewer made no remote claim or request.",
+  "evidence": [
+    {"path": ".git/full-game-localization/order265-language-independent-review.json", "sha256": "6af7e47c66309eee158349b2e4fd660b19c458cf9f66df63b43de886095a6e5e"},
+    {"path": ".git/full-game-localization/order265-language-approved.json", "bytes": 6532, "sha256": "325790899126510b14ce7afd97d780f8aac047ce8e4b77875db41838a36cf1a4"},
+    {"path": ".git/full-game-localization/order265-l1-first.json", "sha256": "1c6b2079443636b4daa4cccb7fda3c674cb302434107e36d5301c2a75a75aef7", "result": "Original50/4 FAIL"},
+    {"path": ".git/full-game-localization/order266-final-report-private.json", "sha256": "1b863b6dfd63109c96fe6e9545c8e7fd6441970604301854d5e3417166f17a65", "result": "Separate bounded checker repair"},
+    {"path": ".git/full-game-localization/order265-resume-l1-first.json", "sha256": "815884fcc7e96aa5447cb5412aeb266801e7f82d0637df3e39a8a1f93c879879", "result": "Resumed54 PASS"},
+    {"path": ".git/full-game-localization/order265-resume-export-first.json", "sha256": "d3593198d4915af28ef7e53fd397d4b49060e92eda93d809908481da62cd7c81"},
+    {"path": ".git/full-game-localization/order265-resume-check-first.json", "sha256": "0d74ff4a6dcb3f708aa2b69d493728613499ab17e1999a65d574739117182a6b"},
+    {"path": ".git/full-game-localization/order265-resume-import-first.json", "sha256": "f3261b0b0ffa07b7d8f5d7c42f2a61ed8f3351636ff6121ea54977b213ba0973"},
+    {"path": ".git/full-game-localization/order265-resume-portable-first.json", "sha256": "04ddb828f18f5517d7612ff5721704d1c7985c308703665686ec32f3fce7ef49"},
+    {"path": ".git/full-game-localization/order265-resume-preservation-first.json", "bytes": 377572, "sha256": "2efdb7c48917c282d764c18aa1e96cce630f2441c8e869b9202e1787ea6b506f", "result": "Exit0;7.547753375s"},
+    {"path": ".git/full-game-localization/order265-resume-named-first.json", "bytes": 1684831, "sha256": "85a23c5e12c73be82dce5a2e876cb77b02473fb9dd7ed298b14a5bfcf74ae474", "result": "Unique12 PASS;1614 input pins unchanged"},
+    {"path": ".git/full-game-localization/order265-resume-named-outer-first.json", "bytes": 378703, "sha256": "876aa74f0ce87c919f52ec57c500a8b6bdaf6aaeebee65b6ad78b5af8d6b2a01", "result": "Exit0;108.980501167s;1199 input pins unchanged"}
+  ],
+  "accepted_binding": {
+    "portable_path": "content/meta/full_game_localization.json",
+    "bytes": 10218003,
+    "sha256": "f2189df78d37b4d8dd4147afdf1c58d52bd4837afbc8da6ab98534fe82296c89",
+    "accepted_sha256": "cfd99d69107d1611a193206fc526dcc94024a645e67699a842b6cfc8feee7748",
+    "receipt_directory": ".git/full-game-localization/{locale}/full-ko-direct-2026-09-07.1/",
+    "receipts": {
+      "ja": {"file": "a9f18f64df66d920c6604264bd54438f4a23a4525d834f62caec2d63a2d1bef6.accepted.json", "sha256": "44e35691b7b576a2f903e1ce5f397c892853b9aa7e5ce2fa3aedfdf46f750c81"},
+      "zh-CN": {"file": "60660d3b8ec4d350f11a9ed3590436962ce354ffcfd7a4287885ecc738b27170.accepted.json", "sha256": "c73df3e9462f1e0ee01477f8d37093fce0cb78f3e9f0408dd1a20c14a6179286"},
+      "zh-TW": {"file": "29d11eb5e4e2add2d989f17b72079ca0cd24c02bc3ef4c0589630485eb95ec53.accepted.json", "sha256": "c0e6fded39d1d092aa811f86e7da353007208f4f63ae730f143133f9263cb062"}
+    }
+  },
+  "decision": "GO for this exact work-unit source: the54 reviewed translations are correctly applied and formally accepted, previous content is preserved, and the declared final checks pass. This is not whole-Story UI or full-product approval. One-time unit instructions introduce no new permanent rule.",
+  "limits": "Source denominator17483 is unchanged. ZH remains skeleton, legacy517/2944, context6/29, dynamic6/701, direct-English bypass13 and shipping0. JA beta, unverified329 and other declared debts remain. No new old full-L1, engine, rendered panel, native-reader or human observation. PublicGO1/humanOPEN45/full-productHOLD are preserved.",
+  "unobserved": ["native_reader", "human_playtest", "physical_controller_feel", "rendered_ui", "actual_story_panel", "full_product_GO"]
+}
