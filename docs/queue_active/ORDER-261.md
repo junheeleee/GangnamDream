@@ -88,3 +88,19 @@ UI source와 EN 보존을 검사한다. 새 격리 runtime은 별도 실행한�
 기존 Chapter590/240주/번역전량/old545 engine을 다시 돌리지 않는다. 새 실제 실패의
 원인이 범위 밖이면 별도 단위로 분리한다. 완료는 exact source/검토 HEAD·독립 최종에
 결속하며 공개GO1·인간OPEN45·본편HOLD를 바꾸지 않는다.
+
+## 실제 첫 검사와 fixture 수리
+
+- clean b750c0d의 고유13은 첫PASS(65.54초, named1600/outer1196 입력불변).
+  실제 source25의 유효음성20과 역사20/28·meta chain은 별도 모집단이다.
+- 같은 후보의 첫 runtime는 fixture `_get`가 Godot 기본 함수와 충돌해 groups0이다.
+  raw50185dbf와 엔진 parse 오류를 보존했고, 해당 격리 프로세스만 종료했다(exit−15).
+  정의1·호출4를 `_display_name`으로 바꾼 clean40b883a의 두 번째 실행은48/51이다.
+  raw602011db와 empty-state 카드 해석 오류·save/load 숫자형식·cache 복구 실패3을 보존한다.
+- JSON 숫자는 저장 경계에서만 parse/stringify로 값 비교하며 일반 표시·inventory의
+  typed 보존은 유지한다. 빈 inventory는 이름 카드0개로 읽고 빈 caption 검수로 세지 않는다.
+  LM cache는 baseline key집합에서 새로 읽을 JA/CN/TW의 두 table 수로 revision 증가를
+  계산한다. 현재 revision을 무조건 정답으로 삼거나 사전 warming으로 초기 상태를 숨기지 않는다.
+- 기존51·이름 기대·실제 게임 코드·runner는 바꾸지 않았다. 같은51의 다음 실행·최종
+  독립 검토 전에는 완료가 아니다. 재발방지: fixture helper는 엔진 내장 함수명을 피하고,
+  JSON 저장 비교에서는 값 보존과 런타임 숫자 타입 보존을 분리한다.
