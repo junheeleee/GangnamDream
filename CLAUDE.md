@@ -15,7 +15,7 @@
 | 최근 완료 | Chapter 5 저작 장면 7개의 장소·시간대를 실제 이동 결과와 맞췄다. 낮 진료실·역 계단/역무실·낮 한정식집·콘서트 홀·빌라 보수 현장 6배경과 오픈하우스의 기존 아파트 연결을 실제 StoryMode 한영 32경우에서 확인했다. 제품 `bf1ca50`, 최종 소스 `0655d4d`, 전체 감사와 독립 리뷰 blocker 0이며 사람 GO는 아니다. |
 | 바로 다음 | 공식39,151(JA13,049·CN/TW13,051)/b109/meta9 유지. 저장 물건명은 현재 언어를 읽고 custom·preset 저장명은 보존하도록 표시 consumer를 수리했다. 같은 패널의 실제 언어전환·저장 보존·유한 회귀와 단위판정은 큐의 exact 증거가 소유한다. 신규 번역수용0, 실제사용·렌더·원어민 미관측, 공개GO1·인간OPEN45·본편HOLD 유지. |
 | 열려 있는 사람 게이트 | 실제 인간 관찰은 [`docs/human_gates.json`](docs/human_gates.json), 위임된 내부 판정은 [`docs/agent_review_decisions.json`](docs/agent_review_decisions.json)이 각각 소유한다. 역사 판정·공개 GO1·인간 OPEN45를 보존하며 현 본편은 HOLD다. 사용자 재판정을 기다리는 대신 남은 검수·수리를 Codex가 계속한다. |
-| 그다음 | 비도달 선물안내·profile/theme·HoldemClub non-KO·정보패널 정적라벨을 계속한다. 휴면route4를 새노출하지 않는다. 243은 역사 source33179 한정 마감이며 현재판 GO가 아니다. 최신5f6 CI35438636962/35438636785는 attempt1 in_progress만 관측했다. Chapter5·종막·프롤로그·실제관찰·종료resource/ObjectDB 잔여는 보존한다. |
+| 그다음 | 선물안내는 비도달 메뉴 지시를 기존 품목명으로 교체한다. exact 검증·판정은 큐가 소유한다. profile/theme·HoldemClub non-KO·정적라벨 잔여, 휴면route4 비노출 유지. 243은 역사 source33179 한정 GO다. 최신5f6 CI35438636962/35438636785는 in_progress만 관측했다. Chapter5·종막·프롤로그·실제관찰·종료resource/ObjectDB 잔여는 보존한다. |
 | 자산 조달 | **외주 0원.** 인물 디자인·작곡·UI 아트·유료 서체를 사지 않고 Codex와 무료 라이선스(임베딩이 허용된 OFL·CC0 등)로만 만든다. 인력·구매를 전제한 계획을 세우지 않는다. 생성 자산의 결함은 품질이 아니라 평균성이므로 동일 후처리·고정 서명·채택률로 이긴다. 정본은 `docs/DECISIONS.md` 2026-07-30 항목이 소유한다. |
 | 마지막 갱신 | 2026-09-19 (개발·최종 내부 검수 위임 / 전체판 세 언어 번역·입력 수리 / 인간 증거 원형 보존·본편 HOLD) |
 

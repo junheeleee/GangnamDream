@@ -6245,5 +6245,10 @@ def _inventory_meta_main():
           + f" normal={len(prerequisites)} historical={historical['passed']} unchanged={unchanged}")
     return 0 if passed else 1
 # END_INVENTORY_META_SELF_261
+# BEGIN_GIFT_CAPTION_META_ENTRY_262
+def _gift_caption_meta_main():
+    from gift_caption_locale_self_test import historical_main
+    return historical_main(_inventory_meta_main, "meta")
+# END_GIFT_CAPTION_META_ENTRY_262
 if __name__ == "__main__":
-    raise SystemExit(_inventory_meta_main())
+    raise SystemExit(_gift_caption_meta_main())

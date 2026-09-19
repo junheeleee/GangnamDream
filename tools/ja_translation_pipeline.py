@@ -5702,5 +5702,121 @@ def main() -> int:
     return 0
 
 
+# BEGIN_GIFT_CAPTION_COLLECTOR_262
+# Only historical comparisons see the retired source. The public inventory
+# continues to describe the actual current calls and dictionary denominator.
+import main_game_locale_history as _gift_history
+from dataclasses import replace as _gift_replace
+
+_GIFT_OLD_COLLECT = collect_ui_inventory
+_GIFT_OLD_CHECKS = _last11_meta_title_historical_checks
+_GIFT_OLD_KO = "선물 — 사람 메뉴에서 전달"
+_GIFT_OLD_EN = "Gift — deliver from the People menu"
+_GIFT_CAPTION_SELECTOR = ("scenes/MainGame.gd", "_render_sidebars", "legacy", "선물", "Gift", "")
+_GIFT_FALLBACK_SELECTOR = ("scenes/MainGame.gd", "_gift_display_name", "legacy", "선물", "Gift", "")
+
+
+def _gift_caption_raw_view():
+    current = {p: (ROOT / p).read_bytes() for p in
+               ("scenes/MainGame.gd", "tools/ja_translation_pipeline.py")}
+    errors = [e for p, raw in current.items()
+              for e in _gift_history.gift_caption_source_errors(p, raw)]
+    return current, errors
+
+
+def _gift_caption_predecessor_calls(calls):
+    """Exact current owner/API/pair/context and shared fallback, or identity."""
+    calls = tuple(calls)
+    _current, errors = _gift_caption_raw_view()
+    selectors = [(c.path, c.function, c.api, c.korean, c.english, c.context_id) for c in calls]
+    if selectors.count(_GIFT_CAPTION_SELECTOR) != 1 or selectors.count(_GIFT_FALLBACK_SELECTOR) != 1:
+        errors.append("ORDER-262: exact caption/shared fallback cardinality differs")
+    if any(c.korean == _GIFT_OLD_KO or (c.korean == "선물" and s not in
+            (_GIFT_CAPTION_SELECTOR, _GIFT_FALLBACK_SELECTOR)) for c, s in zip(calls, selectors)):
+        errors.append("ORDER-262: retired key or unexpected Gift selector")
+    if errors:
+        return calls, errors
+    return tuple(_gift_replace(c, korean=_GIFT_OLD_KO, english=_GIFT_OLD_EN)
+                 if s == _GIFT_CAPTION_SELECTOR else c for c, s in zip(calls, selectors)), []
+
+
+@contextmanager
+def _gift_caption_previous_reads():
+    """Validate physical bytes first; temporary reads never escape this scope."""
+    from unittest.mock import patch
+    current, errors = _gift_caption_raw_view()
+    if errors:
+        raise ValueError("; ".join(errors))
+    views = {ROOT / p: _gift_history.gift_caption_project_bytes(raw, p) for p, raw in current.items()}
+    read0, text0 = Path.read_bytes, Path.read_text
+
+    def read_bytes(path):
+        return views[path] if path in views else read0(path)
+
+    def read_text(path, *args, **kwargs):
+        if path in views:
+            return views[path].decode(kwargs.get("encoding") or (args[0] if args else None) or "utf-8",
+                                      errors=kwargs.get("errors") or "strict")
+        return text0(path, *args, **kwargs)
+
+    with patch.object(Path, "read_bytes", read_bytes), patch.object(Path, "read_text", read_text):
+        yield
+
+
+def _gift_caption_inventory_view(inventory, calls):
+    """Rebuild legacy IDs/locations from this view; context layers are unchanged."""
+    locations = {}
+    formatted = {c.korean for c in calls if c.api == "format"}
+    for c in calls:
+        locations.setdefault(c.korean, set()).add(f"{c.path}:{c.line}")
+    entries, blueprint = [], {}
+    for index, ko in enumerate(sorted(locations)):
+        key = f"ui::{index:04d}::{hashlib.sha1(ko.encode()).hexdigest()[:12]}"
+        entries.append(Entry(key, ko, "UI / " + ", ".join(sorted(locations[ko])[:4]),
+                             format_template=ko in formatted))
+        blueprint[ko] = {"$entry": key}
+    stats = dict(inventory.stats)
+    stats.update(legacy_keys=len(locations), parameter_legacy_korean_source_keys=len(locations),
+                 parameter_legacy_korean_source_keys_sha256=hashlib.sha256(
+                     "\n".join(sorted(locations)).encode()).hexdigest())
+    return _gift_replace(inventory, calls=tuple(calls), legacy_entries=tuple(entries),
+                         legacy_blueprint=blueprint, stats=stats)
+
+
+def _gift_caption_collect_ui_inventory(contract=None):
+    current, errors = _gift_caption_raw_view()
+    if errors:
+        return UiInventory((), (), {}, (), {}, (), {}, tuple(errors), {})
+    main_calls, parse_errors = parse_ui_calls("scenes/MainGame.gd", current["scenes/MainGame.gd"].decode("utf-8"))
+    _previous, pair_errors = _gift_caption_predecessor_calls(main_calls)
+    if parse_errors or pair_errors:
+        return UiInventory((), (), {}, (), {}, (), {}, tuple([*parse_errors, *pair_errors]), {})
+    with _gift_caption_previous_reads():
+        previous = _GIFT_OLD_COLLECT(contract)
+    old_selector = (*_GIFT_CAPTION_SELECTOR[:3], _GIFT_OLD_KO, _GIFT_OLD_EN, "")
+    hits = [c for c in previous.calls if
+            (c.path, c.function, c.api, c.korean, c.english, c.context_id) == old_selector]
+    if len(hits) != 1:
+        raise ValueError("ORDER-262: predecessor caption is not exact1")
+    calls = tuple(_gift_replace(c, korean="선물", english="Gift") if c == hits[0] else c
+                  for c in previous.calls)
+    _old, errors = _gift_caption_predecessor_calls(calls)
+    result = _gift_caption_inventory_view(previous, calls)
+    return _gift_replace(result, errors=tuple([*result.errors, *errors]))
+
+
+def _gift_caption_historical_checks(inventory):
+    calls, errors = _gift_caption_predecessor_calls(inventory.calls)
+    if errors:
+        return _gift_replace(inventory, errors=tuple([*inventory.errors, *errors])), 0, errors
+    previous = _gift_caption_inventory_view(inventory, calls)
+    with _gift_caption_previous_reads():
+        return _GIFT_OLD_CHECKS(previous)
+
+
+collect_ui_inventory = _gift_caption_collect_ui_inventory
+_last11_meta_title_historical_checks = _gift_caption_historical_checks
+# END_GIFT_CAPTION_COLLECTOR_262
+
 if __name__ == "__main__":
     sys.exit(main())

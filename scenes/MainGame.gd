@@ -9921,7 +9921,7 @@ func _render_sidebars():
 			use_btn.pressed.connect(Callable(self, "_on_use_item").bind(item_id))
 			item_content.add_child(use_btn)
 		elif str(item.get("category", "")) == "gift":
-			item_content.add_child(_wrap_label(_tr("선물 — 사람 메뉴에서 전달", "Gift — deliver from the People menu"), 13, "#c8a0d8"))
+			item_content.add_child(_wrap_label(_tr("선물", "Gift"), 13, "#c8a0d8"))
 		elif not item_art_path.is_empty():
 			item_content.add_child(_wrap_label(_tr("간직한 물건", "Keepsake"), 13, _info_signal_hex("#fbbf24", 0.02)))
 		else:

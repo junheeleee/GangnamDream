@@ -389,3 +389,115 @@ def main_game_history_project_byte_hash(current_hash: str, relative: str, curren
         return current_hash
     return _INVENTORY_OLD_PROJECT_HASH(hashlib.sha256(old).hexdigest(), relative, old)
 # END_INVENTORY_DISPLAY_HISTORY_261
+
+# BEGIN_GIFT_CAPTION_HISTORY_262
+# One caption inverse and one bounded collector span; old registries are intact.
+_GIFT_CAPTION_PINS = {
+    "scenes/MainGame.gd": ("da046f2bdec4e652b98498c49db67b262ce13f5be5475cc719aa5f938e117445",
+                           "3f42b49c99c94310436661e44c3029d0335b0998d467a7582c8d3524acf55532"),
+    "tools/ja_translation_pipeline.py": ("3a2d791038a46dcf3442776f4703cd1398998590843b91904c2668425a7427f4",
+                                          "8bb536853809fa273587734215bfcb3d6a78b9bd4d4b941b595e2136e8ebec6c"),
+}
+GIFT_CAPTION_TRANSITIONS = {
+    "scenes/MainGame.gd": {
+        "previous_sha256": "da046f2bdec4e652b98498c49db67b262ce13f5be5475cc719aa5f938e117445",
+        "current_sha256": "3f42b49c99c94310436661e44c3029d0335b0998d467a7582c8d3524acf55532",
+        "inverses": [{"id": "caption", "kind": "replace_once",
+            "before": "\t\t\titem_content.add_child(_wrap_label(_tr(\"선물 — 사람 메뉴에서 전달\", \"Gift — deliver from the People menu\"), 13, \"#c8a0d8\"))\n",
+            "after": "\t\t\titem_content.add_child(_wrap_label(_tr(\"선물\", \"Gift\"), 13, \"#c8a0d8\"))\n"}],
+    },
+    "tools/ja_translation_pipeline.py": {
+        "previous_sha256": "3a2d791038a46dcf3442776f4703cd1398998590843b91904c2668425a7427f4",
+        "current_sha256": "8bb536853809fa273587734215bfcb3d6a78b9bd4d4b941b595e2136e8ebec6c",
+        "inverses": [{"id": "collector", "kind": "remove_span",
+            "start": "# BEGIN_GIFT_CAPTION_COLLECTOR_262\n",
+            "end": "# END_GIFT_CAPTION_COLLECTOR_262\n\n",
+            "sha256": "3ee604d4e7670d72714bdcef7f10dfe84e880c5bd70b7a3d194e653db2b4536d"}],
+    },
+}
+_GIFT_CAPTION_REGISTRY_SHA256 = "e4b14eb146d4f90a8816c2db0724d41e07f05a8234038b0133ff47f4de87ded8"
+_GIFT_OLD_SOURCE_ERRORS = main_game_history_source_errors
+_GIFT_OLD_PROJECT_BYTES = main_game_history_project_bytes
+_GIFT_OLD_PROJECT_HASH = main_game_history_project_byte_hash
+
+
+def _gift_caption_projection(current, relative):
+    if relative not in _GIFT_CAPTION_PINS:
+        return current, ["ORDER-262: gift caption path is not owned"]
+    try:
+        digest = hashlib.sha256(json.dumps(GIFT_CAPTION_TRANSITIONS, ensure_ascii=False,
+                    sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+        if set(GIFT_CAPTION_TRANSITIONS) != set(_GIFT_CAPTION_PINS) or digest != _GIFT_CAPTION_REGISTRY_SHA256:
+            raise ValueError("registry seal")
+        rule = GIFT_CAPTION_TRANSITIONS[relative]
+        prior, actual = _GIFT_CAPTION_PINS[relative]
+        if (rule["previous_sha256"], rule["current_sha256"]) != (prior, actual):
+            raise ValueError("independent source pins")
+        if hashlib.sha256(current).hexdigest() != actual:
+            raise ValueError("unapproved current source")
+        rows = rule["inverses"]
+        expected = ("caption", "replace_once") if relative == MAIN_GAME_PATH else ("collector", "remove_span")
+        if len(rows) != 1 or (rows[0]["id"], rows[0]["kind"]) != expected:
+            raise ValueError("inverse identity/cardinality")
+        row = rows[0]
+        if relative == MAIN_GAME_PATH:
+            before, after = row["before"].encode(), row["after"].encode()
+            if not after or after == before or current.count(after) != 1:
+                raise ValueError("caption inverse is not unique")
+            old = current.replace(after, before, 1)
+        else:
+            start, end = row["start"].encode(), row["end"].encode()
+            if not start or not end or current.count(start) != 1 or current.count(end) != 1:
+                raise ValueError("collector boundaries")
+            a = current.index(start)
+            z = current.index(end, a) + len(end)
+            if hashlib.sha256(current[a:z]).hexdigest() != row["sha256"]:
+                raise ValueError("collector span")
+            old = current[:a] + current[z:]
+        if hashlib.sha256(old).hexdigest() != prior:
+            raise ValueError("whole predecessor inverse")
+        return old, []
+    except (KeyError, TypeError, ValueError, AttributeError, IndexError, UnicodeError) as error:
+        return current, ["ORDER-262: gift caption raw/registry rejected: " + str(error)]
+
+
+def gift_caption_source_errors(relative, current):
+    return _gift_caption_projection(current, relative)[1]
+
+
+def gift_caption_project_bytes(current, relative):
+    return _gift_caption_projection(current, relative)[0]
+
+
+def gift_caption_project_byte_hash(claim, relative, current):
+    old, errors = _gift_caption_projection(current, relative)
+    return claim if errors or hashlib.sha256(current).hexdigest() != claim else hashlib.sha256(old).hexdigest()
+
+
+def _gift_caption_main_source_errors(relative, current):
+    if relative != MAIN_GAME_PATH:
+        return _GIFT_OLD_SOURCE_ERRORS(relative, current)
+    old, errors = _gift_caption_projection(current, relative)
+    return errors + _GIFT_OLD_SOURCE_ERRORS(relative, current) if errors else _GIFT_OLD_SOURCE_ERRORS(relative, old)
+
+
+def _gift_caption_main_project_bytes(current, relative):
+    if relative != MAIN_GAME_PATH:
+        return _GIFT_OLD_PROJECT_BYTES(current, relative)
+    old, errors = _gift_caption_projection(current, relative)
+    return current if errors else _GIFT_OLD_PROJECT_BYTES(old, relative)
+
+
+def _gift_caption_main_project_hash(claim, relative, current):
+    if relative != MAIN_GAME_PATH:
+        return _GIFT_OLD_PROJECT_HASH(claim, relative, current)
+    old, errors = _gift_caption_projection(current, relative)
+    if errors or hashlib.sha256(current).hexdigest() != claim:
+        return claim
+    return _GIFT_OLD_PROJECT_HASH(hashlib.sha256(old).hexdigest(), relative, old)
+
+
+main_game_history_source_errors = _gift_caption_main_source_errors
+main_game_history_project_bytes = _gift_caption_main_project_bytes
+main_game_history_project_byte_hash = _gift_caption_main_project_hash
+# END_GIFT_CAPTION_HISTORY_262

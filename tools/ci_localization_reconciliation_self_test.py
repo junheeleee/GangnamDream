@@ -3189,5 +3189,10 @@ def _inventory_main():
           + f" current={len(results)}/25 historical20_28={historical['passed']} unchanged={unchanged}")
     return 0 if passed else 1
 # END_INVENTORY_CI_SELF_261
+# BEGIN_GIFT_CAPTION_CI_ENTRY_262
+def _gift_caption_ci_main():
+    from gift_caption_locale_self_test import historical_main
+    return historical_main(_inventory_main, "ci")
+# END_GIFT_CAPTION_CI_ENTRY_262
 if __name__ == "__main__":
-    raise SystemExit(_inventory_main())
+    raise SystemExit(_gift_caption_ci_main())
