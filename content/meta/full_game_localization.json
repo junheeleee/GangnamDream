@@ -4006,6 +4006,40 @@
       "machine_validation": "PASS",
       "rendered_review": "OPEN",
       "native_review": "OPEN"
+    },
+    {
+      "order": "ORDER-265",
+      "group": "ui",
+      "roots": [
+        "%d주 남음 — 생각이 무르익는 중",
+        "가격보다 위험이 걸리는 지점을 먼저 봄",
+        "강현수 (친구)",
+        "같은 일을 거듭해 순서를 익히는 중",
+        "결론: %s",
+        "단서 / 생각 정리",
+        "반복한 일과 다음 제안",
+        "빈칸을 보면 먼저 움직일 사람을 정함",
+        "생각 정리 시작 (%d주)",
+        "아직 모은 단서가 없습니다. 대화와 선택 속에서 조각이 쌓입니다.",
+        "아직 발동된 아크가 없습니다. 이야기가 흘러가면 여기에 기록됩니다.",
+        "완료",
+        "익숙해진 방식에 맞는 제안을 고름",
+        "일이 겹치면 먼저 끝낼 것을 정함",
+        "임상철 (인맥·투자)",
+        "정리 중: %s",
+        "최재혁 (군대 동기)",
+        "한지연 (투자·로맨스)"
+      ],
+      "source_leaves": 18,
+      "target_leaves_by_locale": {
+        "ja": 18,
+        "zh-CN": 18,
+        "zh-TW": 18
+      },
+      "source_review": "Direct Korean, independent full54 review of18 existing Story cards, habits, completion status and clue/thought parent UI. JA approved selected corrections only; CN/TW18 each appended. Existing24 literal calls; four token templates preserve weekly duration and names. No newly completed relationship, promise, diagnosis or action. Old39211 preserved raw and current hashes, not all-old L1 replay. Game code, providers and conditions unchanged; no rendered/native/human/full-product judgment.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN"
     }
   ],
   "accepted": {
@@ -56285,6 +56319,78 @@
       "ui:화해 / 여운:/화해 ~1 여운": {
         "source_sha256": "83c1f4e24851d71908a9718100011800dce8d28f3621ef167b74ac977629f6b1",
         "target_sha256": "3150bf5de76ae7ef60b165c6cb280160bea48a9b204d0630353f8fca917779dd"
+      },
+      "ui:%d주 남음 — 생각이 무르익는 중:/%d주 남음 — 생각이 무르익는 중": {
+        "source_sha256": "8c9b5db3d164e6534905cc57825f1bce0bf386ff13633c3c1528dce9ae25c43f",
+        "target_sha256": "1c89d5a97ede8fae2b71922e4e7604b64ecb2e6c8d0e6f4676d8b1c200477ac3"
+      },
+      "ui:가격보다 위험이 걸리는 지점을 먼저 봄:/가격보다 위험이 걸리는 지점을 먼저 봄": {
+        "source_sha256": "b48a54208788f415314e071172c1e7746daa0af306c9f736807078d35ef6de89",
+        "target_sha256": "59ecfe3f0e199f359e30ba51e9d45d5819ab964a4d144bb783650bd48afbaaa1"
+      },
+      "ui:강현수 (친구):/강현수 (친구)": {
+        "source_sha256": "6b54b47db5454865fdbff168d2996f0ef1c2a60e5f24540172d8b0caca8f12b4",
+        "target_sha256": "c2149db391616687b2777c659dc09cc41af1888ae44b187d8a49d34aa7d187c0"
+      },
+      "ui:같은 일을 거듭해 순서를 익히는 중:/같은 일을 거듭해 순서를 익히는 중": {
+        "source_sha256": "bd7067169cf4e3c67b644c0c815420db63d77c5a9ed6698b8e57527ba8ce4ad2",
+        "target_sha256": "d6cb29713a3d02e8a48bf13eedf772fcca6272b160428d2b8020a90be664c5e8"
+      },
+      "ui:결론: %s:/결론: %s": {
+        "source_sha256": "212f924732879fa1233683d09e3309e1620cfc699c1818f73ee132a313e6bf67",
+        "target_sha256": "92650504ba3cf1bf9914c2861cb8184ec8a42a1c7c906c009420dbd893cf5beb"
+      },
+      "ui:단서 / 생각 정리:/단서 ~1 생각 정리": {
+        "source_sha256": "e4a67aee598d8f3ea20a30bb02ef92e1d9ab7e31f858dc9f6d9fc5e4d3d80bc7",
+        "target_sha256": "8a073dfbb0632c9de2cc4de39fe7ef96a8ea6a7b19c35d93d158f0f9f5d688eb"
+      },
+      "ui:반복한 일과 다음 제안:/반복한 일과 다음 제안": {
+        "source_sha256": "0d864b7f602ef24b26481995ac7bcbcf12fcdd96adb057aad56b36796d38f798",
+        "target_sha256": "e114ba35ef5f01c6fae619d3c32a309c10f05f5793eff1194e0a05eb82cedb29"
+      },
+      "ui:빈칸을 보면 먼저 움직일 사람을 정함:/빈칸을 보면 먼저 움직일 사람을 정함": {
+        "source_sha256": "8cc9ebe738aa46f13b3207e7ffef2e9a76c2d33334967a3dab5671854989687f",
+        "target_sha256": "cae1d1bf95e0c93e148d1bd20cbb79360cbe4bfd6d7183e249a4d81955465621"
+      },
+      "ui:생각 정리 시작 (%d주):/생각 정리 시작 (%d주)": {
+        "source_sha256": "ea36f3e4995da4263c9a02c9f0a34de02b88b7285e70cdbb2ad56a9619bf7dbb",
+        "target_sha256": "e9c056ad36b42424f78297bcbeb3aad2cc10f51399b8b71604488cb30a6c8f07"
+      },
+      "ui:아직 모은 단서가 없습니다. 대화와 선택 속에서 조각이 쌓입니다.:/아직 모은 단서가 없습니다. 대화와 선택 속에서 조각이 쌓입니다.": {
+        "source_sha256": "34a51eb0646d05d2e26bb7f816b610fd59ca8fdef7c0d61bc305c3c647f3d1a9",
+        "target_sha256": "acae71baf7b101c4f80263a1309817773bb599ea931bf6e9d75c54ac22b788ed"
+      },
+      "ui:아직 발동된 아크가 없습니다. 이야기가 흘러가면 여기에 기록됩니다.:/아직 발동된 아크가 없습니다. 이야기가 흘러가면 여기에 기록됩니다.": {
+        "source_sha256": "d36c63be2742637db7ebd1402ca5a401945263f91f090e174b02fd54b113f670",
+        "target_sha256": "891b6f4f83935e443f1c71ccf94decb9841215fbdc00cf5259ae149f06d1591a"
+      },
+      "ui:완료:/완료": {
+        "source_sha256": "3d0c031a14adbb4eb40125fdf2e4ab78c76a66f10ee0bd86b090ae984b47aa1e",
+        "target_sha256": "9d0518dbe7e7b83ca69bc6da121d2b649e0af25ade05c84f7f444162af1cb9cd"
+      },
+      "ui:익숙해진 방식에 맞는 제안을 고름:/익숙해진 방식에 맞는 제안을 고름": {
+        "source_sha256": "f76326a0daf348bb3867005abfc97893c11e5a8b5037b72818a6d532fd598258",
+        "target_sha256": "ffad3ff650c690f1af80997447c2945f0d5547770d83ecc28dcba8597ad5aa28"
+      },
+      "ui:일이 겹치면 먼저 끝낼 것을 정함:/일이 겹치면 먼저 끝낼 것을 정함": {
+        "source_sha256": "8a44e2f390809ee52cb7f21023991984e9d105ed8f278f05f63ea4da41d5dbcc",
+        "target_sha256": "8a9093577ab1a5742a74c572d4ddc9ec8f501a336f0b219ed230fc2b12c7e9c0"
+      },
+      "ui:임상철 (인맥·투자):/임상철 (인맥·투자)": {
+        "source_sha256": "40f59e23fc599bd0b94061c1f3b5afee8732c38db80027ff56757fb7b91ec403",
+        "target_sha256": "fe8505d36879650cec203ddc16ad88d4843cddf066063ce855567ce6be550d5e"
+      },
+      "ui:정리 중: %s:/정리 중: %s": {
+        "source_sha256": "4bfab8168dc2ef1105505d2dc7ed6383bc9778b7e27a808488d802c91d9601a1",
+        "target_sha256": "4c8b2507ecabd700c0ecdb53d63c6ff386c81a713ef5fb0cb1a42f2096beec9f"
+      },
+      "ui:최재혁 (군대 동기):/최재혁 (군대 동기)": {
+        "source_sha256": "f49a608448144d68a4ba2a507c2e6f1f397ec00b38b8ad65639fccc687bae930",
+        "target_sha256": "64abe4b8f44bc05df927ddc6729556f978dc7b5bafed5133e97016d5fe874730"
+      },
+      "ui:한지연 (투자·로맨스):/한지연 (투자·로맨스)": {
+        "source_sha256": "87034d345934ad475e4643cafb8ff167c3c61e707695d9f6f3b0a79358c647a0",
+        "target_sha256": "603964c0a9d3728dc9f388ae2d0d22c5d777cf801276bf002826a36c0885b197"
       }
     },
     "zh-CN": {
@@ -108571,6 +108677,78 @@
       "ui:화해 / 여운:/화해 ~1 여운": {
         "source_sha256": "83c1f4e24851d71908a9718100011800dce8d28f3621ef167b74ac977629f6b1",
         "target_sha256": "bdb67daa06aeffbfb2093377934e6b141321133b75de897e5256138c4b25e95c"
+      },
+      "ui:%d주 남음 — 생각이 무르익는 중:/%d주 남음 — 생각이 무르익는 중": {
+        "source_sha256": "8c9b5db3d164e6534905cc57825f1bce0bf386ff13633c3c1528dce9ae25c43f",
+        "target_sha256": "973ad8b6395e90e255b4264b0cb34d7b92f4cba1475289649f3b8965002a22d4"
+      },
+      "ui:가격보다 위험이 걸리는 지점을 먼저 봄:/가격보다 위험이 걸리는 지점을 먼저 봄": {
+        "source_sha256": "b48a54208788f415314e071172c1e7746daa0af306c9f736807078d35ef6de89",
+        "target_sha256": "85f26059aff389483bcfcea446388214c481b318efed176d1a87e1aaaf12852a"
+      },
+      "ui:강현수 (친구):/강현수 (친구)": {
+        "source_sha256": "6b54b47db5454865fdbff168d2996f0ef1c2a60e5f24540172d8b0caca8f12b4",
+        "target_sha256": "18bb11bdd56e009407b1322a6d78c991c0d62fc9f8af765907e5519d2d3412f1"
+      },
+      "ui:같은 일을 거듭해 순서를 익히는 중:/같은 일을 거듭해 순서를 익히는 중": {
+        "source_sha256": "bd7067169cf4e3c67b644c0c815420db63d77c5a9ed6698b8e57527ba8ce4ad2",
+        "target_sha256": "6de781c1a76ebfc74ff5910fc65d0f8d2fe5f13dec96e5d2a25ecb6e7e3a52d9"
+      },
+      "ui:결론: %s:/결론: %s": {
+        "source_sha256": "212f924732879fa1233683d09e3309e1620cfc699c1818f73ee132a313e6bf67",
+        "target_sha256": "c4bcb52a22d5236d1f11059ac82f4cfb0de883b855abe394c1df78692bb5cd83"
+      },
+      "ui:단서 / 생각 정리:/단서 ~1 생각 정리": {
+        "source_sha256": "e4a67aee598d8f3ea20a30bb02ef92e1d9ab7e31f858dc9f6d9fc5e4d3d80bc7",
+        "target_sha256": "057cf953c0adad257ec62d707b9efcb44003c3709eb42d70c624dae3e9ac657d"
+      },
+      "ui:반복한 일과 다음 제안:/반복한 일과 다음 제안": {
+        "source_sha256": "0d864b7f602ef24b26481995ac7bcbcf12fcdd96adb057aad56b36796d38f798",
+        "target_sha256": "b25aa85c9c1deace8dc51281a8f27040dd064f71d1755ddcdd108ea62ceea9ab"
+      },
+      "ui:빈칸을 보면 먼저 움직일 사람을 정함:/빈칸을 보면 먼저 움직일 사람을 정함": {
+        "source_sha256": "8cc9ebe738aa46f13b3207e7ffef2e9a76c2d33334967a3dab5671854989687f",
+        "target_sha256": "08ecb30810e142ee7d3dd2a78148c46f41cfa2e6fd153ef036e876865101cb87"
+      },
+      "ui:생각 정리 시작 (%d주):/생각 정리 시작 (%d주)": {
+        "source_sha256": "ea36f3e4995da4263c9a02c9f0a34de02b88b7285e70cdbb2ad56a9619bf7dbb",
+        "target_sha256": "47195ff7a5c2c3e02d558a62b22f345ef703099f6dcdc9a0dd4b728f4a43156a"
+      },
+      "ui:아직 모은 단서가 없습니다. 대화와 선택 속에서 조각이 쌓입니다.:/아직 모은 단서가 없습니다. 대화와 선택 속에서 조각이 쌓입니다.": {
+        "source_sha256": "34a51eb0646d05d2e26bb7f816b610fd59ca8fdef7c0d61bc305c3c647f3d1a9",
+        "target_sha256": "cfebee5896769ad5ac85cc45b0f74c19f22c804825f68d961edc6fb82d91ffc5"
+      },
+      "ui:아직 발동된 아크가 없습니다. 이야기가 흘러가면 여기에 기록됩니다.:/아직 발동된 아크가 없습니다. 이야기가 흘러가면 여기에 기록됩니다.": {
+        "source_sha256": "d36c63be2742637db7ebd1402ca5a401945263f91f090e174b02fd54b113f670",
+        "target_sha256": "5cec7d80786293106d0c31348e5796497de8b0b64cc90f09e94ae3327f1fd94f"
+      },
+      "ui:완료:/완료": {
+        "source_sha256": "3d0c031a14adbb4eb40125fdf2e4ab78c76a66f10ee0bd86b090ae984b47aa1e",
+        "target_sha256": "cd008a306777a18ac49cc818c785d42e8a0f6a38c67b92ee20f3ea02331baf0f"
+      },
+      "ui:익숙해진 방식에 맞는 제안을 고름:/익숙해진 방식에 맞는 제안을 고름": {
+        "source_sha256": "f76326a0daf348bb3867005abfc97893c11e5a8b5037b72818a6d532fd598258",
+        "target_sha256": "bcf8889f11dc00d9ffde77e70ba368dcb1e6ff58d3483cbe0913b60c88b520e1"
+      },
+      "ui:일이 겹치면 먼저 끝낼 것을 정함:/일이 겹치면 먼저 끝낼 것을 정함": {
+        "source_sha256": "8a44e2f390809ee52cb7f21023991984e9d105ed8f278f05f63ea4da41d5dbcc",
+        "target_sha256": "513810beb6c96622a10bc026411dc7ab62341c2833f0fe8d69b01edabf7fd5e6"
+      },
+      "ui:임상철 (인맥·투자):/임상철 (인맥·투자)": {
+        "source_sha256": "40f59e23fc599bd0b94061c1f3b5afee8732c38db80027ff56757fb7b91ec403",
+        "target_sha256": "148b34465eb04503d2564254b48e31536f0352471a0d52bc8ae4abb9de80c12e"
+      },
+      "ui:정리 중: %s:/정리 중: %s": {
+        "source_sha256": "4bfab8168dc2ef1105505d2dc7ed6383bc9778b7e27a808488d802c91d9601a1",
+        "target_sha256": "a1eab8e19c4b087fa488d56672bea90d033553894bf0cefcf53ca40cb74aeea8"
+      },
+      "ui:최재혁 (군대 동기):/최재혁 (군대 동기)": {
+        "source_sha256": "f49a608448144d68a4ba2a507c2e6f1f397ec00b38b8ad65639fccc687bae930",
+        "target_sha256": "9074ef9023b1ddf63b5d922dd9ca08364363f231658d5b39811c1365f3fc0c51"
+      },
+      "ui:한지연 (투자·로맨스):/한지연 (투자·로맨스)": {
+        "source_sha256": "87034d345934ad475e4643cafb8ff167c3c61e707695d9f6f3b0a79358c647a0",
+        "target_sha256": "511f57963135c9b942ae2e09c6e63228eadcab9d45b6e37bff31cb6f0b813619"
       }
     },
     "zh-TW": {
@@ -160857,10 +161035,82 @@
       "ui:화해 / 여운:/화해 ~1 여운": {
         "source_sha256": "83c1f4e24851d71908a9718100011800dce8d28f3621ef167b74ac977629f6b1",
         "target_sha256": "f8dd0e869794649560b989634fe8a176d66361e07fe72583bedef3f3ac86ecd7"
+      },
+      "ui:%d주 남음 — 생각이 무르익는 중:/%d주 남음 — 생각이 무르익는 중": {
+        "source_sha256": "8c9b5db3d164e6534905cc57825f1bce0bf386ff13633c3c1528dce9ae25c43f",
+        "target_sha256": "cc39fb15d14e4546402044c420a7c7be159a9e0c7b31665195c01a8b8d5ba390"
+      },
+      "ui:가격보다 위험이 걸리는 지점을 먼저 봄:/가격보다 위험이 걸리는 지점을 먼저 봄": {
+        "source_sha256": "b48a54208788f415314e071172c1e7746daa0af306c9f736807078d35ef6de89",
+        "target_sha256": "11ae7fbaa32579e222c6d7a44b06676a73c09a2392d99b5eb513d6c713f2ca16"
+      },
+      "ui:강현수 (친구):/강현수 (친구)": {
+        "source_sha256": "6b54b47db5454865fdbff168d2996f0ef1c2a60e5f24540172d8b0caca8f12b4",
+        "target_sha256": "18bb11bdd56e009407b1322a6d78c991c0d62fc9f8af765907e5519d2d3412f1"
+      },
+      "ui:같은 일을 거듭해 순서를 익히는 중:/같은 일을 거듭해 순서를 익히는 중": {
+        "source_sha256": "bd7067169cf4e3c67b644c0c815420db63d77c5a9ed6698b8e57527ba8ce4ad2",
+        "target_sha256": "fdb7d7409c7260acc10d0e3020a0cc625cc94a6e05d82dffcf61ae4c57f9680f"
+      },
+      "ui:결론: %s:/결론: %s": {
+        "source_sha256": "212f924732879fa1233683d09e3309e1620cfc699c1818f73ee132a313e6bf67",
+        "target_sha256": "92650504ba3cf1bf9914c2861cb8184ec8a42a1c7c906c009420dbd893cf5beb"
+      },
+      "ui:단서 / 생각 정리:/단서 ~1 생각 정리": {
+        "source_sha256": "e4a67aee598d8f3ea20a30bb02ef92e1d9ab7e31f858dc9f6d9fc5e4d3d80bc7",
+        "target_sha256": "8e6b48aec735dcef4222054867a06a492e889e635b44992763223ce8571a5f15"
+      },
+      "ui:반복한 일과 다음 제안:/반복한 일과 다음 제안": {
+        "source_sha256": "0d864b7f602ef24b26481995ac7bcbcf12fcdd96adb057aad56b36796d38f798",
+        "target_sha256": "3035245ec1c80c2d0a25771a439ea9000b8ae8da2321b9dc1839b5fdd74d108e"
+      },
+      "ui:빈칸을 보면 먼저 움직일 사람을 정함:/빈칸을 보면 먼저 움직일 사람을 정함": {
+        "source_sha256": "8cc9ebe738aa46f13b3207e7ffef2e9a76c2d33334967a3dab5671854989687f",
+        "target_sha256": "f190f37fd45ae3c0923b49d874862f1006548a795c814080fccf911e53c3cab3"
+      },
+      "ui:생각 정리 시작 (%d주):/생각 정리 시작 (%d주)": {
+        "source_sha256": "ea36f3e4995da4263c9a02c9f0a34de02b88b7285e70cdbb2ad56a9619bf7dbb",
+        "target_sha256": "01e35be2008bc2fab20fae001a78d01525340af254c0b8756b0089a12838bde7"
+      },
+      "ui:아직 모은 단서가 없습니다. 대화와 선택 속에서 조각이 쌓입니다.:/아직 모은 단서가 없습니다. 대화와 선택 속에서 조각이 쌓입니다.": {
+        "source_sha256": "34a51eb0646d05d2e26bb7f816b610fd59ca8fdef7c0d61bc305c3c647f3d1a9",
+        "target_sha256": "ee09a4d8fce9566b309ffa6290e49525334ac1521af15f4e06512aa6c5ac6e2d"
+      },
+      "ui:아직 발동된 아크가 없습니다. 이야기가 흘러가면 여기에 기록됩니다.:/아직 발동된 아크가 없습니다. 이야기가 흘러가면 여기에 기록됩니다.": {
+        "source_sha256": "d36c63be2742637db7ebd1402ca5a401945263f91f090e174b02fd54b113f670",
+        "target_sha256": "b87f0f94de391e01f65cfe0786f7b20bd376bd5de96ffdd77e03edff93a9cf1e"
+      },
+      "ui:완료:/완료": {
+        "source_sha256": "3d0c031a14adbb4eb40125fdf2e4ab78c76a66f10ee0bd86b090ae984b47aa1e",
+        "target_sha256": "5a73ae60f30b97285ed8b3669e7a75af4d9a5e89414c801598af24f18b828c49"
+      },
+      "ui:익숙해진 방식에 맞는 제안을 고름:/익숙해진 방식에 맞는 제안을 고름": {
+        "source_sha256": "f76326a0daf348bb3867005abfc97893c11e5a8b5037b72818a6d532fd598258",
+        "target_sha256": "70883f8eafebefefc8a0adce1843df2f9be15e4e721eeb9557e2be315ae87ceb"
+      },
+      "ui:일이 겹치면 먼저 끝낼 것을 정함:/일이 겹치면 먼저 끝낼 것을 정함": {
+        "source_sha256": "8a44e2f390809ee52cb7f21023991984e9d105ed8f278f05f63ea4da41d5dbcc",
+        "target_sha256": "f6d6f80a5929f9aab1172b23b2730df3c54d9a9279dcfbede656e04efb35c8df"
+      },
+      "ui:임상철 (인맥·투자):/임상철 (인맥·투자)": {
+        "source_sha256": "40f59e23fc599bd0b94061c1f3b5afee8732c38db80027ff56757fb7b91ec403",
+        "target_sha256": "88488745b30cf73bdad4eace1534140c8f1af6fd1e0ccaf5599fdfcc3491c1b3"
+      },
+      "ui:정리 중: %s:/정리 중: %s": {
+        "source_sha256": "4bfab8168dc2ef1105505d2dc7ed6383bc9778b7e27a808488d802c91d9601a1",
+        "target_sha256": "4c8b2507ecabd700c0ecdb53d63c6ff386c81a713ef5fb0cb1a42f2096beec9f"
+      },
+      "ui:최재혁 (군대 동기):/최재혁 (군대 동기)": {
+        "source_sha256": "f49a608448144d68a4ba2a507c2e6f1f397ec00b38b8ad65639fccc687bae930",
+        "target_sha256": "b72256397bc2a107a09608e8326a96807500445683ce6721e097768554914ed2"
+      },
+      "ui:한지연 (투자·로맨스):/한지연 (투자·로맨스)": {
+        "source_sha256": "87034d345934ad475e4643cafb8ff167c3c61e707695d9f6f3b0a79358c647a0",
+        "target_sha256": "3213c5f598388adac5bf9ec34053d963f74881f869992f5ee72f1c0973a8d11f"
       }
     }
   },
-  "accepted_sha256": "41d78717e2fa19b587c62d8726096999335a928b824a7d6ad99d07212fba2d31",
+  "accepted_sha256": "cfd99d69107d1611a193206fc526dcc94024a645e67699a842b6cfc8feee7748",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
