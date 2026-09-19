@@ -7,6 +7,9 @@
 - [273](queue_active/ORDER-273.md): 두 완성 KO템플릿만 수리한다. 정상4/변이14/OFF2와 원고20값의 모집단을 분리한다.
 - ROOT가 원메모23815B/SHA67bb7c8a5688e11dab6ab6f255e9a3b8a18edd7d3d94247a45984809723dafa9를 전량 읽었다. 실제복구0, 기존39872·보류110 보존.
 - 파일소유: Plato checker1, ROOT locale2/portable/운영문서, Poincare 비저자 검수. 기존원고 재저작0.
+- 수리 전 정상4가 m오탐으로 direct/full 거부됐고 단위누락변이는 통과했다. dirty선언HEAD8e7908에서 checker2a4242 고정 후 같은20 입력을 실행: 정상4·유효음성14·OFF2원형 확인. 그 뒤 수리를 clean18c8로 commit했다.
+- 기존20원고 전수 언어GO/필수0. 최초check2는 ROOT의 CLI --locale 누락으로 실패했고 원형을 보존했다. 정확 locale를 명시한 같은batch retry각10PASS, 설치후 cleaned83dd5 formal import각10PASS/changed_files0. check/import에도 --locale를 항상 명시한다.
+- 실제39892/b118/meta9, 기존39872·JA·원형보류증거 보존. 이전110중20복구·나머지90미수용. 명명12·보존·cleanexact 최종검토는 다음 별도 증거다.
 
 ## 2026-09-20 (Codex — 월초 돌발상황·시장 안내 중국어 30 반영)
 

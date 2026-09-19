@@ -4435,6 +4435,32 @@
       "machine_validation": "PASS",
       "rendered_review": "OPEN",
       "native_review": "OPEN"
+    },
+    {
+      "order": "ORDER-273",
+      "group": "ui",
+      "roots": [
+        "[b]경마장[/b]   ·   제%d경주   ·   %dm   ·   마장 %s",
+        "현금 [b]%s[/b]      중독도 [color=%s]%s[/color] %d/100      안목(지력) %d",
+        "   말 〔최근전적·선호〕  ·  클래스 거리 마장 기수  ·  단승배당   (★높은데 배당도 높으면 = 저평가)",
+        "  [color=#6cc5ff]정보상 지목[/color]",
+        "  [color=#f0c45d]저평가[/color]",
+        "[color=#ffe14d]선택[/color] ",
+        "[color=#5a6478]    최근 %s · %s · 선호 %dm/%s/%s[/color]",
+        "신마",
+        "%s[color=%s]●[/color] [b]%s[/b]   [color=#c8a050]%s[/color] [color=#5d9ce8]%s[/color] [color=#5de89c]%s[/color] [color=#aaaaaa]%s[/color]   배당 [b]%.1f[/b]%s\n%s",
+        "%d전 %d승"
+      ],
+      "source_leaves": 10,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 10,
+        "zh-TW": 10
+      },
+      "source_review": "Recover original ORDER269 held race-header and horse-form10 keys per Chinese region, independently compared with Korean and actual consumers again. No reauthoring. Source-owned metre-slot validator repair only; all existing39872 preserved. Other90 held targets and dynamic values/native/render/human remain separate.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN"
     }
   ],
   "accepted": {
@@ -110376,6 +110402,46 @@
       "ui:시장 국면 전환: %s:/시장 국면 전환: %s": {
         "source_sha256": "db206875d7d5251f3e6b3eb755be1df6f5e0d4ec89c6c8beab5207128914e30a",
         "target_sha256": "5382045a4fbea56b72157c639e32fbd42b1a57e92bd162573d310622ed84594d"
+      },
+      "ui:[b]경마장[/b]   ·   제%d경주   ·   %dm   ·   마장 %s:/[b]경마장[~1b]   ·   제%d경주   ·   %dm   ·   마장 %s": {
+        "source_sha256": "00ae786e519f64906ac8090f861efd666341f28f07dd59aa3bd712950a68e47a",
+        "target_sha256": "e9e66588497419695d05d3c7df56bc46a215df5b5d70b7744cc77064e7939ab1"
+      },
+      "ui:현금 [b]%s[/b]      중독도 [color=%s]%s[/color] %d/100      안목(지력) %d:/현금 [b]%s[~1b]      중독도 [color=%s]%s[~1color] %d~1100      안목(지력) %d": {
+        "source_sha256": "6fbe19cd0c318e87dc12089decd9c15e8ee739ee77583026324fe8c9654c326f",
+        "target_sha256": "5971969432880e67553ca80548c9e6d997b71c945e65490f00b425f710f9ba54"
+      },
+      "ui:   말 〔최근전적·선호〕  ·  클래스 거리 마장 기수  ·  단승배당   (★높은데 배당도 높으면 = 저평가):/   말 〔최근전적·선호〕  ·  클래스 거리 마장 기수  ·  단승배당   (★높은데 배당도 높으면 = 저평가)": {
+        "source_sha256": "8519e78f4897ec16854b5ea4acda932528dc7152633f66d55e879240e9884517",
+        "target_sha256": "3b74be6121bae8e9577357d5cca95417968c0f9760804712d18e0068950ce1c0"
+      },
+      "ui:  [color=#6cc5ff]정보상 지목[/color]:/  [color=#6cc5ff]정보상 지목[~1color]": {
+        "source_sha256": "50ba00d53a33b6f63e9d1a0bd32e3d44ecd5199c8108f4dc6575e6c483855b9d",
+        "target_sha256": "c5f607a46a8bfcc9e72149da3fc394ade8c06ee10472ea27312af4ddd11fc05a"
+      },
+      "ui:  [color=#f0c45d]저평가[/color]:/  [color=#f0c45d]저평가[~1color]": {
+        "source_sha256": "81ca86001e5f116b6665cbc0c0fb5d7b7e4be084d9ddc3e643d37bfed75fc20d",
+        "target_sha256": "f07555fc82839676b1bb5affdd8b3e0be87e1aa6b69fdf748b56b2e070227418"
+      },
+      "ui:[color=#ffe14d]선택[/color] :/[color=#ffe14d]선택[~1color] ": {
+        "source_sha256": "76a76a0f66a939aae3a5358ff1a8468b99825c64557976304855a154b04508ad",
+        "target_sha256": "f9937a48e2cefd5a83bb44b63405a11c99044bed071ecabe6812bc9f01cff103"
+      },
+      "ui:[color=#5a6478]    최근 %s · %s · 선호 %dm/%s/%s[/color]:/[color=#5a6478]    최근 %s · %s · 선호 %dm~1%s~1%s[~1color]": {
+        "source_sha256": "c4b08932a5d970fb2ccc015b2f09b6029b9a54853688c78a91a6c1b65dc8fa9c",
+        "target_sha256": "be93b00533771dbbbbcf272bb2da42aecd2a0b2816a7a52d32cce43c06966fbd"
+      },
+      "ui:신마:/신마": {
+        "source_sha256": "c1dc1975302410eef5e782db63b9455d11b4eff6519baca087327da9df49e96e",
+        "target_sha256": "bb3a019f97021c02fd5b8a8da9454d2d101c704cbde1ea373f35a9dae555159c"
+      },
+      "ui:%s[color=%s]●[/color] [b]%s[/b]   [color=#c8a050]%s[/color] [color=#5d9ce8]%s[/color] [color=#5de89c]%s[/color] [color=#aaaaaa]%s[/color]   배당 [b]%.1f[/b]%s\n%s:/%s[color=%s]●[~1color] [b]%s[~1b]   [color=#c8a050]%s[~1color] [color=#5d9ce8]%s[~1color] [color=#5de89c]%s[~1color] [color=#aaaaaa]%s[~1color]   배당 [b]%.1f[~1b]%s\n%s": {
+        "source_sha256": "e9dd8efd70af6d325aa68486e924b3de1b063d52e7ab5ddff980ea2b2c012385",
+        "target_sha256": "4f97076e575201c6065fb513badce92fa9370c51be0c7eb992683dcc0a0f6050"
+      },
+      "ui:%d전 %d승:/%d전 %d승": {
+        "source_sha256": "f8d872499759dc5d76884d8c38db3835d9a9ac2cbae6b7faaf7ae0b831429f37",
+        "target_sha256": "febfd4ef2ce44f05bc846c100e7c8378b5d2776c4f436c00839d964607b3e65a"
       }
     },
     "zh-TW": {
@@ -163930,10 +163996,50 @@
       "ui:시장 국면 전환: %s:/시장 국면 전환: %s": {
         "source_sha256": "db206875d7d5251f3e6b3eb755be1df6f5e0d4ec89c6c8beab5207128914e30a",
         "target_sha256": "a64bae981ff4af00a54404fb86396f3ac4c0429d30a91532f0f4ee172ebd0083"
+      },
+      "ui:[b]경마장[/b]   ·   제%d경주   ·   %dm   ·   마장 %s:/[b]경마장[~1b]   ·   제%d경주   ·   %dm   ·   마장 %s": {
+        "source_sha256": "00ae786e519f64906ac8090f861efd666341f28f07dd59aa3bd712950a68e47a",
+        "target_sha256": "486827f6645c7bfa45a29eed1662b8233b290d8efaed6e63a46f0a3a20900be9"
+      },
+      "ui:현금 [b]%s[/b]      중독도 [color=%s]%s[/color] %d/100      안목(지력) %d:/현금 [b]%s[~1b]      중독도 [color=%s]%s[~1color] %d~1100      안목(지력) %d": {
+        "source_sha256": "6fbe19cd0c318e87dc12089decd9c15e8ee739ee77583026324fe8c9654c326f",
+        "target_sha256": "45f1fb7e734a84da05fe28d6a62673b138bbd5e947bb0e5e616a3f9305744ce4"
+      },
+      "ui:   말 〔최근전적·선호〕  ·  클래스 거리 마장 기수  ·  단승배당   (★높은데 배당도 높으면 = 저평가):/   말 〔최근전적·선호〕  ·  클래스 거리 마장 기수  ·  단승배당   (★높은데 배당도 높으면 = 저평가)": {
+        "source_sha256": "8519e78f4897ec16854b5ea4acda932528dc7152633f66d55e879240e9884517",
+        "target_sha256": "1cd76e056c253fc21e2e7d43f70589cb2dc92c97b7148a4f7e0d0925d4572c3f"
+      },
+      "ui:  [color=#6cc5ff]정보상 지목[/color]:/  [color=#6cc5ff]정보상 지목[~1color]": {
+        "source_sha256": "50ba00d53a33b6f63e9d1a0bd32e3d44ecd5199c8108f4dc6575e6c483855b9d",
+        "target_sha256": "d89083f6db427778ed670509da83ff1fa6311fb2dab311952ea74ef6be2bb8e7"
+      },
+      "ui:  [color=#f0c45d]저평가[/color]:/  [color=#f0c45d]저평가[~1color]": {
+        "source_sha256": "81ca86001e5f116b6665cbc0c0fb5d7b7e4be084d9ddc3e643d37bfed75fc20d",
+        "target_sha256": "f07555fc82839676b1bb5affdd8b3e0be87e1aa6b69fdf748b56b2e070227418"
+      },
+      "ui:[color=#ffe14d]선택[/color] :/[color=#ffe14d]선택[~1color] ": {
+        "source_sha256": "76a76a0f66a939aae3a5358ff1a8468b99825c64557976304855a154b04508ad",
+        "target_sha256": "61548b9b3388adbfa8b71a2301d4edb32930c9bf7ba05bc35ec6001be3e53a13"
+      },
+      "ui:[color=#5a6478]    최근 %s · %s · 선호 %dm/%s/%s[/color]:/[color=#5a6478]    최근 %s · %s · 선호 %dm~1%s~1%s[~1color]": {
+        "source_sha256": "c4b08932a5d970fb2ccc015b2f09b6029b9a54853688c78a91a6c1b65dc8fa9c",
+        "target_sha256": "1fe4c618344ce511a2fa0855741bd3422f00a74fe1730995ff7dadc59cd8277a"
+      },
+      "ui:신마:/신마": {
+        "source_sha256": "c1dc1975302410eef5e782db63b9455d11b4eff6519baca087327da9df49e96e",
+        "target_sha256": "bb133c21e09a597ef88d06fa15cc0c9d8caf60dd0505104751c0a4ab66cba322"
+      },
+      "ui:%s[color=%s]●[/color] [b]%s[/b]   [color=#c8a050]%s[/color] [color=#5d9ce8]%s[/color] [color=#5de89c]%s[/color] [color=#aaaaaa]%s[/color]   배당 [b]%.1f[/b]%s\n%s:/%s[color=%s]●[~1color] [b]%s[~1b]   [color=#c8a050]%s[~1color] [color=#5d9ce8]%s[~1color] [color=#5de89c]%s[~1color] [color=#aaaaaa]%s[~1color]   배당 [b]%.1f[~1b]%s\n%s": {
+        "source_sha256": "e9dd8efd70af6d325aa68486e924b3de1b063d52e7ab5ddff980ea2b2c012385",
+        "target_sha256": "abfcf7d99feeb867e4c64d67264a2a926cf83bb422e97387d0a23ad4b7d71f6f"
+      },
+      "ui:%d전 %d승:/%d전 %d승": {
+        "source_sha256": "f8d872499759dc5d76884d8c38db3835d9a9ac2cbae6b7faaf7ae0b831429f37",
+        "target_sha256": "279faca75198ba2ddd7a56b46200c4b61d8e8223e97af7b7dc82320b5aa33d7a"
       }
     }
   },
-  "accepted_sha256": "315e22fd540042fdb5cb9cf3dec11697679cd66edaae730b97ff2b03b20b9c0c",
+  "accepted_sha256": "19ff3e45ae35fc479189c7383e59e36d1f30a3d5c41db7ff38e8e2998b31f889",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
