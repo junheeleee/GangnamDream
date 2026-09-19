@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-276",
+  "scope": "work_unit",
+  "authority": "user_delegated_agent_final",
+  "reviewer": "Poincare",
+  "reviewer_role": "Independent nonauthor of translations, product changes and execution helpers",
+  "date": "2026-09-20",
+  "subject": {
+    "kind": "source",
+    "commit": "d6fedd30ef5f4e5e37a02742255efb29a47b32fd",
+    "tree": "0789bab22ade42b3592e2b4d3563e69d848e3f25",
+    "manifest_sha256": null
+  },
+  "review": {
+    "commit": "9267a9e569e013a4b927e9db14afa3e0356dbc94",
+    "tree": "6e1db4c035a74e03add06c39cdc4807b1ea78f00",
+    "clean": true,
+    "wrapper": "Direct parent is the subject; only docs/STATUS.md differs."
+  },
+  "verdict": "GO",
+  "required": [],
+  "decision": "취소 힌트·자산 증가·라이선스 전문 불러오기 오류의 CN/TW 3키씩6값 적용 및 공식 수용을 ORDER-276 한정 GO로 판정한다. 필수 결함0. 전체 번역·본편·법률 인증·원어민·화면·인간·물리 조작의 GO가 아니다.",
+  "population": {
+    "language": "KO3/3기능, CN3+TW3 전량 언어 GO 원형과 실제 UI/response 일치. 대괄호·East 글리프 %s 및 원화 자산 증가 %s의 역할 보존. 기존 JA3는 보존만 한다.",
+    "acceptance": "39905→39911, b120→b121, metadata9 불변. JA13097 불변, CN/TW 각13404→13407. receipt2/신규6의 source 및 target digest exact. 신규 HOLD0·기존 보류90 유지.",
+    "preservation": "CN/TW 각3행 추가만이며 이전 UI whole raw 역복원 exact. 신규6·마지막 batch 제거 및 old accepted digest 복원으로 old39905 portable whole exact. 실제 preservation은 기존39905 현재 source/target 해시 전량 보존도 확인했다.",
+    "regression": "최종 clean9267a9e의 최초 고유12 전부 exit0/PASS, inner1638/outer1203 전후 불변 및 현재 파일과 전량 exact. inner123.187647166초/outer123.490167542초.",
+    "ownership": "baseline e99a3ed 이후 실제8경로⊂선언12. 제품변경3은 CN/TW UI·portable뿐. KO/EN·runtime·collector/checker·project·JA·공개판·human·이전62판정 원형 보존.",
+    "excluded": "흑자1·첫 월급2는 선정 전 제외; 기존 보류90 비변경. 이전274 화면 증거 승계0. 실제 파일 결손·자산 증가 분기·컨트롤러 조작을 새로 실행해 관찰하지 않았다."
+  },
+  "method": "gangnamdream-dev/CLAUDE/WORK_UNIT/I18N 기준과 직접 읽은 consumer·언어 보고를 결속했다. RO Git의 exact 신원/전체 diff, helper3의 이전 검토본 대비 모든 delta, 공식 JSONL/receipt6·현재 UI·raw 역원형을 직접 검토했다. 캡처 stdout/stderr/base64/bytes/SHA와 child12의 exit/marker, 현재 입력 핀을 표준 데이터 처리로 검산했다. 검수자 QA/collector/repository import/engine/제품·운영·Git·원격 변경0이다.",
+  "findings": [
+    "helper3은 prefix/기준 commit/선정3키·6값·누계/관련 서술의 bounded 변경이며 기존 검사·수용·독점 출력/오류 보존·clean named 정책은 동일하다.",
+    "source/response 각4행(헤더1+본문3)의 KO/id/locale/prompt/source hash/승인 text가 exact이다. 모두 비보호/static 지원이며 batch/selection/receipt 내부 digest를 재계산했다. 원 preflight receipt는 양언어 모두 존재하지 않고 applied receipt2만 공식 수용 증거다.",
+    "preflight export/check 각2는 clean3269bfe 최초 PASS, changed_files1은 제안이다. TW check argv의 불필요한 --accept는 원형 보존했다. tools/full_game_localization.py:4206 이후 제품·receipt 쓰기는 command=='import' 내부이므로 해당 check는 수용/설치가 아니다. 재실행하지 않았다. 실제 applied export/import 각2는 clean7ea16f58b018425a48f5562c999a05485bfd7699에서 최초 PASS, import --accept changed_files0이다.",
+    "preservation077678eb는 7ea16f5 HEAD의 CLAUDE/portable dirty 상태에서 실행됐다. 최종 clean에서 실행한 것으로 쓰지 않는다. 그1203 원형은 최종/current와 전량 동일하다. CLAUDE는 outer 모집단 밖이며 최종 named1638에 포함되어 별도로 보존 확인했다.",
+    "named 실제 raw는 fullself264·JA146·JA UI2978 beta·ZH12466 skeleton·EN clean·공개3언어 각14사건/100문구/121UI·registry152·queue25·agent222/HOLD·context393 및 queue 통과다. fullself stderr만 정상 unittest 진행/OK이고 다른11은 빈값이다. EXTRA24는 advisory로 남는다. ZH legacy835/2949·dynamic6/701·direct English bypass11·shipping0을 전체 언어 완료로 바꾸지 않는다.",
+    "이번 관측된 언어/기계 실패나 retry는0이다. 공개GO1·인간OPEN45·본편HOLD를 유지한다. 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다."
+  ],
+  "artifact_state": {
+    "source_manifest_sha256": "2af00468b62e7f0cc61541770c57900424135e5c9e7de12e8dc087fd74f3f15a",
+    "portable": "10439933 bytes / 8052d8fd112080536b3bd6592a514854f7f56b961f9adac863b31abe8d01144a",
+    "accepted_digest": "53575fd72b37d9f710211c111731f1c76a1288ff367ff26c185988761981f323",
+    "old62_decisions": "94717 bytes / 34d501fcb9b2ee959ad5c48b00fc4387f1cfc58f057497f00d64394197e136d5"
+  },
+  "evidence": {
+    ".git/full-game-localization/order276-review-plan.json": "0dcc2836f5be322852090d705723fb8cd2eaf86240d77b30fd521380574ad5e8",
+    ".git/full-game-localization/order276-language-review-first.json": "f60f968323a7a5939a1e04473c9a83a365c46e0515783d4c96d0d6d2debbdbd0",
+    ".git/full-game-localization/order276-exchange.py": "6f571b1e252b967dd7fce717a2baafb1b413b1fbfab0bd02beda45b1a48a7108",
+    ".git/full-game-localization/order276-capture.py": "2de780cd9da8f33efa8fe0f0f8db20c6be2b251bc89d11b1c26279423d4c7878",
+    ".git/full-game-localization/order276-named.py": "e7a8fa59938e84eca372e0f8f737e356a6dbd1ca407968b8cb14b29bb388b405",
+    ".git/full-game-localization/order276-export-cn-first.json": "f64f02306d73e062267dc6032350858a474250e86992cd32ac465fc8a2331152",
+    ".git/full-game-localization/order276-export-tw-first.json": "5b6ebadbfe15cc08b38cb6475c554eff098790df2b47f9988c123ace71c6b871",
+    ".git/full-game-localization/order276-preflight-cn-first.json": "8c8fc7cf35c719a3f72bcd12b1d890d5f3bf9b0110aaf7eb83a5a805c1453286",
+    ".git/full-game-localization/order276-preflight-tw-first.json": "e62a06e0f24570a979592db1e67403a32ee7d6cbe7007781304e5c6c79c3f764",
+    ".git/full-game-localization/order276-applied-export-cn-first.json": "bab018cbc06491f21e024fe7d4158f8b92b040874daf2b47061f1e30c717b449",
+    ".git/full-game-localization/order276-applied-export-tw-first.json": "d6b2a57fa1ec41db5dd17aec843c96fecb18b0a4ac4faf7bbbbf60eef6a86873",
+    ".git/full-game-localization/order276-accept-cn-first.json": "bbb62ff10717b956f666d7bdc29bab49113ebd2cc68a0b797766e44ab3d84fdb",
+    ".git/full-game-localization/order276-accept-tw-first.json": "2f5d91fae5d7ad6444122c75ed46a95f1eb4fb31a73bcf9c36f4f4befceb0278",
+    ".git/full-game-localization/zh-CN/full-ko-direct-2026-09-07.1/35d1ee9eec551d62ed7f14c251d69505593c1ab85435830ffe7851475ccbfe2f.accepted.json": "a9c1dd2412569b2d1dbebf725682b2a4b1970f711f500ade43d47ea400823941",
+    ".git/full-game-localization/zh-TW/full-ko-direct-2026-09-07.1/0204ed4e2f425baf0ab60c51ab8c0e89dfdbe445849e056de9774b13ecabddbe.accepted.json": "6ff4d6a1f73ef2fdb0c6e9b32db26d742e524ba81bddf6aad1a14ddb04903492",
+    ".git/full-game-localization/order276-preservation-first.json": "077678eb58ab08c556fc6451db8921b1193764011ddd776c36b07589dbe3439d",
+    ".git/full-game-localization/order276-named-first.json": "b0ed6438d848d1f3cb73d7a383b4307ca608a9bc16e70f593d995653557902d1",
+    ".git/full-game-localization/order276-named-envelope-first.json": "2ac12ceddaf2a54ecb8564ed45c8e4df9f1c7204ffd4494c42b0c94f2ae40f9c"
+  },
+  "unobserved": ["native_reader", "rendered_layout_for_ORDER276", "human_playtest", "physical_controller_feel", "new_engine_runtime_observation", "full_game_and_release_GO"]
+}
