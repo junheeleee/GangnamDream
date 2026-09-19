@@ -1,3 +1,61 @@
+# ORDER-262 — 소지품 선물 안내 정정 결과
+
+[x] ORDER-262 — 2026-09-19. Poincare LOCAL work_unit GO / required 0.
+
+제품 source `d4c08dbd9cd8f5962810b2adb3b8cbbb8a60ccf1`
+tree `10cd179cba42dc9ac3df3f517294955e40f402c6`
+clean 검토 `a04a20ac5992acd30a7a0baf9f66b6dae9409d84`
+tree `4ea7c113659bb46b31b4e9a5a82b9111807a0a7a`
+
+## 완료 범위와 증거
+
+- 소비자: `scenes/MainGame.gd:9924`의 비도달 메뉴 지시 → 기존 `선물 / Gift`.
+  JA/CN/TW 기존 수용3을 재사용했다. AP·전달 기능·메뉴·서사 변경0.
+- JA 미수용 옛 안내1행만 제거했다. 정확 역치환·이전 Git 원형을 보존한다.
+- 최초 고유15/15 통과: 90.363948709초, 1606입력 불변.
+  원본 `order262-named-first.json` SHA `6fbfac2f32263d29bb4aa23f172a65ed2b1b05df404a3c2c7b4412e122e9cb6f`.
+- 현재 source22/22(정상1·유효거부19·claim1·OFF1), 별도 UI메모리 관측3 통과.
+  기존 CI25/20/28 및 meta 역사 모집단은 현재 검증 수에 합산하지 않는다.
+- 최초 실제 엔진10/10: 5언어×AP1/0, 같은 panel1, 카드100 안의 caption90/button10.
+  10 typed 상태 triplet·설정 포함 raw 파일이 각 수동 render 전후 동일했다.
+  engine0·stderr0·error/leak0, runtime27·outer1199입력 불변.
+  원본 `order262-runtime-first.json` SHA `dd0070f46cae547a408ad0158243867092de3209dd08322a4c34a2b7eda893a1`.
+- 실제 현행 source/target39151 해시 보존, portable39151/b109/meta9 원형 동일.
+  신규번역수용0. UI키1 퇴역으로 총분모17483/UI3665가 되었으며 번역진척으로 세지 않는다.
+- 원어민·실제화면·버튼누름·선물전달·즉시언어신호·전체세션 복원은 미관측이다.
+  locale/setup은 측정 render 밖이며 사용자 저장소를 테스트하지 않았다.
+- 구현 전 UI전체고정/보조probe 조건/검사 의존성은 독립 검수에서 수정했다.
+  최초 실제 검사 실패0. Root의 결과보기 JSON decoder 오류는 RO열람 오류이지 QA실패가 아니다.
+- Chapter gap24/debt8/blocked3·JA beta·scope EXTRA21·공개GO1·인간OPEN45·본편HOLD 유지.
+
+규범 분류: 기존 표시·현지화·보존 계약의 일회성 적용. 새 영구 규칙0.
+
+[독립 최종 보고](../agent_reviews/ORDER-262.json)
+SHA `2a8f551c14ddcb8860c316e14eae9df1eefd4a7251e60dc7d3e3d8a85cb56d16`.
+위 private 원증거의 전체 경로·바이트·SHA와 미관측 경계는 이 보고에 결속한다.
+이번 GO는 이 단위와 정확 제품에만 적용하며 전체판/출시 GO가 아니다.
+
+## 착수 WORK 원문 보존
+
+# Gangnam Dream Work Log
+
+> 이전 WORK 전체 39,897바이트는 [9/19 보존본](history/WORK_LOG_2026-09-19_pre_gift.md)에
+> 원형 그대로 이동했다. 보존본의 상대 링크도 당시 원문이며 과거 기록을 축약하지 않았다.
+
+## 2026-09-19 (Codex — 잘못된 소지품 메뉴 안내 수리)
+
+- [262](queue_active/ORDER-262.md): effects 없는 선물의 비도달 People 안내를 기존5언어 품목명으로 교체한다.
+- 미수용 JA 옛 안내1행만 내려 실제 collector와 맞춘다. 이전Git·정확 inverse는 보존한다.
+- Main/사전2개는 반영, 역사 연결·실제10상태·독립 검수는 진행 중이다.
+- 신규번역0·공식39151/b109/meta9·공개GO1·인간OPEN45·본편HOLD 유지.
+
+## 이어보기
+
+- 저장 물건명 즉시 갱신 마감: [261](queue_archive/ORDER-261.md), source7bbe8de/검토648167a.
+- 이전 CI 수리의 역사 한정 마감: [243](queue_archive/ORDER-243.md), 현재판GO 아님.
+
+## 선언 원문 보존
+
 # 소지품 선물의 잘못된 메뉴 안내 정정
 
 #### [~] ORDER-262 선물 안내 정정

@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-262",
+  "scope": "work_unit",
+  "authority": "user_delegated_agent_final",
+  "reviewer": "Poincare",
+  "verdict": "GO",
+  "required": [],
+  "subject": {
+    "kind": "source",
+    "commit": "d4c08dbd9cd8f5962810b2adb3b8cbbb8a60ccf1",
+    "tree": "10cd179cba42dc9ac3df3f517294955e40f402c6",
+    "manifest_sha256": null
+  },
+  "review": {
+    "commit": "a04a20ac5992acd30a7a0baf9f66b6dae9409d84",
+    "tree": "4ea7c113659bb46b31b4e9a5a82b9111807a0a7a",
+    "clean": true
+  },
+  "decision": "GO only for the local held-gift caption repair and its exact source/history/preservation contracts. The misleading unavailable-menu instruction now uses the existing five-language Gift key; the single unaccepted obsolete Japanese row is retired without changing gift/AP/menu mechanics or accepted translations. Independent source/fixture review and the first actual finite controls, named15, runtime10 and preservation evidence have no required defect. This is not native, rendered, human, release or full-product GO.",
+  "population": {
+    "product": "Product10, with Main caption1 and JA retired row1 as player-text changes; old DR/Chapter/fixtures untouched. Source-to-review delta is STATUS only; declaration-to-review changed15 paths all within owned21.",
+    "source": "Current22/22: normal1, effective rejections19, wrong claim1 and OFF1. Three separate prepare-only synthetic UI probes pass; they add no source cases, translations or collector runs.",
+    "history": "Current normal prerequisite succeeds before each actual historical wrapper. Existing CI25/20/28 and meta26/18/23/19/24/18 remain separately labelled logical histories, not current physical source or old engine replays.",
+    "named": "First actual unique15/15 exit0; 90.363948709 seconds, named1606 physical inputs unchanged and independently rehashed. Outer1199 unchanged. Successful unittest stderr is retained, not called empty.",
+    "runtime": "First actual ten states: five languages x AP1/0, 100 nested cards (90 caption Labels +10 effectful Use Buttons), one actual panel/Main. Independent expected text/wiring reconstruction matches all records; ten typed state triplets and raw files preserved within each measured render; 27 runtime inputs unchanged, all also in outer1199.",
+    "acceptance": "Portable whole39151/b109/meta9 preserved, JA13049/CN13051/TW13051. Existing Gift receipts3 reused; new accepted translations0. Current source-target preservation39151 passes; old translation L1 was not rerun.",
+    "current_source": "Actual discovery17483: catalog834/endings234/events12421/UI3665/unverified329. One obsolete UI key retirement lowers the denominator; it is not additional translation coverage.",
+    "retained": "Old48 ledger decisions and human evidence remain byte-exact; public GO1/human OPEN45/full HOLD preserved. Chapter gap24/debt8/blocked3, JA beta and registry EXTRA21 advisories remain outside this closure."
+  },
+  "findings": [
+    "Directly reviewed new guard/self/fixture code and phase-only or approval-only applied inverses. Whole historical code inverses and exact owner/KO/EN/API/context contracts are preserved; forged projections do not bypass live raw rejection.",
+    "The initially introduced permanent whole-UI coupling was removed before execution. Final self preserves code pins and Gift/retirement semantics while three separate injected-UI observations prove the bounded unrelated-translation tolerance. This unit's whole dictionary preservation remains externally bound.",
+    "All three first actual commands passed. Static preparation corrections and ROOT's read-only stdout decoder mistake are preserved as preparation/readback history, not product test failures.",
+    "Runtime observations are headless manual renders after locale/setup completes. Language/setup can change settings and registry state outside the measured boundary. No button press, gift delivery, immediate language-signal refresh, screen-fit or whole-session/user-storage rollback was tested."
+  ],
+  "evidence": [
+    {"path": ".git/full-game-localization/order262-final-independent-binding.json", "bytes": 7271, "sha256": "5cd4290b38edda5d922122fa8cae40112eb9530e9ab27ed29a0954a29b3ece83", "role": "Direct raw readback, identity, independent reconstruction and preservation details"},
+    {"path": ".git/full-game-localization/order262-source-independent-static-review.json", "bytes": 7405, "sha256": "c18e6d289ee2103ca98d1ae7909f661e17c8d464169309f7f004462534efc156"},
+    {"path": ".git/full-game-localization/order262-runtime-preservation-independent-review.json", "bytes": 5283, "sha256": "9ab45ac63b9b8870a880e22dd894810e1ac455769a5b165f19d0d5781a82f9d4"},
+    {"path": ".git/full-game-localization/order262-named-first.json", "bytes": 31578267, "sha256": "6fbfac2f32263d29bb4aa23f172a65ed2b1b05df404a3c2c7b4412e122e9cb6f", "role": "All15 complete child raw stdout/stderr, including current22 and full historical outputs"},
+    {"path": ".git/full-game-localization/order262-named-outer-first.json", "bytes": 379244, "sha256": "c87dfc1dbc121d5b6e7c6303aa7301a03653db016e7b619715175af3a7acc8b7"},
+    {"path": ".git/full-game-localization/order262-runtime-first.json", "bytes": 377249, "sha256": "dd0070f46cae547a408ad0158243867092de3209dd08322a4c34a2b7eda893a1"},
+    {"path": "/var/folders/yr/mf2mg8vn7yld9rk4rf3qh2y80000gn/T/gangnam-gift-caption-pjy38980/runner_result.json", "bytes": 10383, "sha256": "9b0bbeaf0acd5302bce6f5f7cc52918fbab22b465301cb4670a26f04dc0077b7", "role": "10/10, engine0, no error/leak lines; original logs separately pinned in binding"},
+    {"path": ".git/full-game-localization/order262-preservation-first.json", "bytes": 377751, "sha256": "6d8c80cd315b55942dc3bcd645932dff8b1eee9b9a3cb69a7ae5dad022f106c3", "role": "Current39151 hash freshness and exact raw preservation, not old L1 replay"}
+  ],
+  "unobserved": [
+    "rendered_fit_or_actual_screen_capture",
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_item_use_and_gift_delivery",
+    "immediate_language_signal_refresh",
+    "whole_session_memory_or_user_storage_rollback",
+    "old_translation_L1_reexecution",
+    "new_remote_CI_or_release_approval",
+    "full_product_GO"
+  ],
+  "operations": "Reviewer wrote only private review artifacts and performed read-only source/Git/stdlib evidence checks. ROOT owns public raw-copy, ledger/archive/queue closure and metadata validation; no additional source edits or reviewer QA execution were performed."
+}
