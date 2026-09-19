@@ -54,7 +54,7 @@
 
 
 
-| 1 | [~] | ORDER-267 · 새 게임 기록 언어 전달 | [267](queue_active/ORDER-267.md) | 표시·번역·역사 보존 계약 착수 |
+| 1 | [~] | ORDER-267 · 새 게임 기록 언어 전달 | [267](queue_active/ORDER-267.md) | 격리104 PASS · 수집기 회귀 수리 후 번역 초안 우선 |
 
 [활성 L3 검수 대기 행 이어보기](CODEX_QUEUE_L3_PENDING.md) <!-- queue-index-include -->
 

@@ -200,7 +200,9 @@ skipped이며 업로드 파일도 없었다. 이 새 원인은 별도 좁은 수
   현재39292(JA13096·CN/TW13098)/b112/meta9, JA4누락·직장1수리·CN/TW각9 추가다.
   GS3span과 실제9호출·부모2 format을 연결했다. source17484/manifest2346e6c4이며
   이는 전체 번역·원어민·화면 완료가 아니다. 표적 코드·격리 실행 최종판정은267이 소유한다.
-  이후 `HoldemClub._fmt`의 non-KO=EN 분기를 실제 표시 계약으로 검사한다.
+  2026-09-20 번역 지연 지적 후 현재 기록 수리만 마감하고 남은 사건843문구/언어와
+  UI 초안을 우선한다. 초안9월23일은 연속 작업 전제의 추정 목표이며 최종 검수와 다르다.
+  `HoldemClub._fmt`의 non-KO=EN 분기·커피제목 후속은 이 초안 우선 뒤로 둔다.
   `_localized_route_label`의4매핑은 현재 caller0이므로
   이를 번역하거나 노출해 플레이어 표면 수리·진척으로 세지 않는다.
   `GameState.tendency_name/tendency_desc`는 외부 caller0인 휴면 호환 helper다.
