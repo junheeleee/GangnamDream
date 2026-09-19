@@ -1,6 +1,6 @@
 # 월말 결산·현금 표시·경마 복귀 경고 중국어 UI
 
-#### [~] ORDER-271 중국어 UI17기능·47키
+#### [~] ORDER-271 중국어 UI17기능·45키
 
 [~] 착수 — 2026-09-20 Codex. clean main `d997f302a09d2ffc5460d714fed78d3020c63232`.
 공식39752/b115/meta9·기존57판정. 남은 실제 중국어 문구 저작을 우선한다.
@@ -13,15 +13,15 @@
 
 고정 계획 `.git/full-game-localization/post270-ui-next-plan.json` 41021B,
 SHA `30953c7c60e7107c2c41200193d1159ccfc76d23c64ae3e218b555a11061e423`의
-48키18기능 중 `first_start_warning` 한 키를 뺀 47키17기능만 이번 번역 모집단이다.
+48키18기능 중 `first_start_warning` 한 키와 아래 현금2를 뺀 45키17기능만 이번 번역 모집단이다.
 ROOT가 계획 전량·KO/EN48·조건·제외를 읽고13현재핀을 확인했다.
-현금3·수첩2·결산입금기록3·결산틀2·수입/비용카드7·지원금1·판정/잔여4·몸1·마음1·
+제목1·수첩2·결산입금기록3·결산틀2·수입/비용카드7·지원금1·판정/잔여4·몸1·마음1·
 주간시간배분3·선택기록1·급증3·성장3·생존/일반4·적자3·위기2·경마의존경고4.
-JA47은 기존값을 보존한다. first_start_warning은 세언어누락·수집지원 미관측으로 별도 RO 조사만 한다.
+JA45은 기존값을 보존한다. first_start_warning은 세언어누락·수집지원 미관측으로 별도 RO 조사만 한다.
 
 ## 파일 소유
 
-- ROOT 제품3: `locale/ui_zh-CN.json`, `locale/ui_zh-TW.json`의 선택47 추가,
+- ROOT 제품3: `locale/ui_zh-CN.json`, `locale/ui_zh-TW.json`의 선택45 추가,
   `content/meta/full_game_localization.json`의 실제 신규 수용만.
 - ROOT 운영10: `CLAUDE.md`, `docs/CODEX_QUEUE.md`, `docs/CODEX_QUEUE_L3_PENDING.md`,
   본 사양, `docs/queue_archive/ORDER-271.md`, `docs/WORK_LOG.md`, `docs/STATUS.md`,
@@ -42,9 +42,9 @@ JA47은 기존값을 보존한다. first_start_warning은 세언어누락·수�
 
 ## 유한 검증과 마감
 
-1. clean 선언에서 기존 collector로 각47 export, 실제ID/KO/지원/보호 확인. KO직접94초안→비저자전수.
+1. clean 선언에서 기존 collector로 각45 export, 실제ID/KO/지원/보호 확인. KO직접90초안→비저자전수.
 2. 기존 check 첫 실패는 보존. 언어 결함이면 원모집단 전체 재검토; 기계경계면 해당 기능 양언어를 HOLD로
-   분리하고 원94전체통과로 부르지 않는다. 보류원고는 최종보고에 보존. 새검사 확장/왜곡번역0.
+   분리하고 원90전체통과로 부르지 않는다. 보류원고는 최종보고에 보존. 새검사 확장/왜곡번역0.
 3. 승인값만 apply_patch 설치→clean 재export→기존 import --accept 실제receipt와 변경0확인.
    실제 수용만 portable추가, old39752 현재해시·UI/portable 역복원·JA 보존을 clean 후보에서 검사한다.
 4. `news-panel-locale-only` 고정명명12를 이번 전체diff와 owned13에 결속해 한 번 실행한다.
@@ -54,3 +54,12 @@ JA47은 기존값을 보존한다. first_start_warning은 세언어누락·수�
 이번 저작·선정·검증·파일소유 지시는 일회성. 영속 언어·권한규칙은 기존 WORK_UNIT/I18N이 소유한다.
 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
 공개GO1·인간OPEN45·본편HOLD. 원어민/실제화면/인간플레이/물리패드·외부출시 권한0.
+
+## 수집·저작 전 소비자 정정
+
+선언7cc70ac의 원47을 실제코드로 확인하던 중 계획오류를 찾았다. LocaleManager.is_english:139는
+language != ko이므로 CN/TW에서 true다. Main9287~9296의 `현금 %s  |  자산 %s`와 `현금 %s`는
+중국어 HUD가 읽지 않는다. 다른 공유호출도 이번 활성경로 근거가 아니다. 두키를 저작/공식export/검수 전에 제외한다.
+두 저자 모두 초안파일 작성 전 수신을 확인했다. 제목 `강남드림` 한 키는 현재 Main 상단에서 읽으므로 남긴다.
+원계획48·첫선언47과 그 오류는 보존하며, 번역 또는 기계 FAIL 뒤 통과를 위해 축소한 것이 아니다.
+최종90초안 모집단과 old39752·기보류110은 분리한다. 두키는 HOLD번역원고나 새수용이 아니다.
