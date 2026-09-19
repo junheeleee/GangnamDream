@@ -3,6 +3,11 @@
 > 이전 WORK 전체 39,897바이트는 [9/19 보존본](history/WORK_LOG_2026-09-19_pre_gift.md)에
 > 원형 그대로 이동했다. 당시 상대 링크도 원문이며 기록을 축약하지 않았다.
 
+## 2026-09-19 (Codex — 이야기 진행표 번역 착수)
+
+- [263](queue_active/ORDER-263.md): 기존20키/60검수·수용을 선언했다.
+- ROOT JA/Plato CN/Rawls TW 저작, Poincare 비저자 검수. 공식39151·본편HOLD 유지.
+
 ## 2026-09-19 (Codex — 잘못된 소지품 메뉴 안내 마감)
 
 - [262](queue_archive/ORDER-262.md): 비도달 People 안내를 기존5언어 선물 분류명으로 교체했다.
