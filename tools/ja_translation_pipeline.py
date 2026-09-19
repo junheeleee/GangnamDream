@@ -6018,5 +6018,141 @@ collect_ui_inventory = _new_run_log_collect_ui_inventory
 _last11_meta_title_historical_checks = _new_run_log_historical_checks
 # END_NEW_RUN_LOG_COLLECTOR_267
 
+# BEGIN_FIRST_START_NOTICE_274
+# One newly visible literal pair; only saved historical readers see the old form.
+NOTICE_PATH = "scenes/StartMenu.gd"
+NOTICE_CURRENT_SHA = "e2873c5cdd9d2ba09a5c712c760ee08966295f8787349796c3a3fc4456103219"
+NOTICE_PREVIOUS_SHA = "3b9628b0a5fedacf683826eb2bdf250c3e710dbb571ce5e7cd6c4e289a5ef7fd"
+NOTICE_PIPELINE_PREVIOUS_SHA = "90ad8caf9efc07d217cb8960715434ae09ae227de4ce0dee36e5ad74278ea270"
+NOTICE_APPEND_SHA = "c68c89aec657756198964703b4bdb84eb34ef71fc06f465da41000431fb47989"
+NOTICE_KO_PARTS = (
+    "이 게임에는 다음과 같은 내용이 포함됩니다:\n\n",
+    "• 재정적 어려움과 부채\n", "• 가족·사회적 압박과 비교\n",
+    "• 직장 스트레스와 번아웃\n", "• 정신건강 관련 묘사\n\n",
+    "강남드림은 현실적인 삶을 다룹니다. ",
+    "어려운 상황들은 이야기의 일부이며, 권장하는 내용이 아닙니다.",
+)
+NOTICE_EN_PARTS = (
+    "This game contains depictions of:\n\n", "• Financial hardship and debt\n",
+    "• Family pressure and social comparison\n", "• Workplace stress and burnout\n",
+    "• Mental health struggles\n\n", "Gangnam Dream is a realistic portrayal of life. ",
+    "Difficult situations are part of the story — not endorsements.",
+)
+NOTICE_KO, NOTICE_EN = "".join(NOTICE_KO_PARTS), "".join(NOTICE_EN_PARTS)
+NOTICE_SELECTOR = (NOTICE_PATH, "_show_content_warning", "legacy", NOTICE_KO, NOTICE_EN, "")
+_NOTICE_OLD_COLLECT = collect_ui_inventory
+_NOTICE_OLD_CHECKS = _last11_meta_title_historical_checks
+
+
+def _notice_call(flat):
+    pairs = ((NOTICE_KO,), (NOTICE_EN,)) if flat else (NOTICE_KO_PARTS, NOTICE_EN_PARTS)
+    return "\tbody_lbl.text = _tr(\n" + ",\n".join(
+        "\t\t\t" + "\n\t\t\t+ ".join(json.dumps(p, ensure_ascii=False) for p in parts)
+        for parts in pairs) + ")"
+
+
+def _notice_raw_view(source=None):
+    current = {p: (ROOT / p).read_bytes() for p in (NOTICE_PATH, _NEW_RUN_JA)}
+    if source is not None:
+        current[NOTICE_PATH] = source.encode("utf-8")
+    try:
+        raw = current[NOTICE_PATH]
+        before, after = _notice_call(False).encode(), _notice_call(True).encode()
+        if hashlib.sha256(raw).hexdigest() != NOTICE_CURRENT_SHA or raw.count(after) != 1:
+            raise ValueError("current StartMenu source differs")
+        old_start = raw.replace(after, before, 1)
+        if hashlib.sha256(old_start).hexdigest() != NOTICE_PREVIOUS_SHA:
+            raise ValueError("whole StartMenu inverse differs")
+        code = current[_NEW_RUN_JA]
+        start, end = b"# BEGIN_FIRST_START_NOTICE_274\n", b"# END_FIRST_START_NOTICE_274\n\n"
+        if code.count(start) != 1 or code.count(end) != 1:
+            raise ValueError("collector appendix boundaries")
+        a, z = code.index(start), code.index(end) + len(end)
+        span = code[a:z]
+        binding = ('NOTICE_APPEND_SHA = "' + NOTICE_APPEND_SHA + '"').encode()
+        if span.count(binding) != 1 or hashlib.sha256(span.replace(
+                binding, b'NOTICE_APPEND_SHA = "UNBOUND"', 1)).hexdigest() != NOTICE_APPEND_SHA:
+            raise ValueError("collector appendix seal")
+        old_code = code[:a] + code[z:]
+        if hashlib.sha256(old_code).hexdigest() != NOTICE_PIPELINE_PREVIOUS_SHA:
+            raise ValueError("whole collector inverse differs")
+        return current, {NOTICE_PATH: old_start, _NEW_RUN_JA: old_code}, []
+    except (ValueError, TypeError, UnicodeError) as exc:
+        return current, {}, ["first-start notice: " + str(exc)]
+
+
+@contextmanager
+def _notice_previous_reads(previous):
+    from unittest.mock import patch
+    values = {ROOT / p: raw for p, raw in previous.items()}
+    read0, text0 = Path.read_bytes, Path.read_text
+
+    def read_bytes(path):
+        return values[path] if path in values else read0(path)
+
+    def read_text(path, *args, **kwargs):
+        if path in values:
+            return values[path].decode(kwargs.get("encoding") or (args[0] if args else None) or "utf-8",
+                                      errors=kwargs.get("errors") or "strict")
+        return text0(path, *args, **kwargs)
+
+    with patch.object(Path, "read_bytes", read_bytes), patch.object(Path, "read_text", read_text):
+        yield
+
+
+def _notice_predecessor_calls(calls, source=None):
+    calls = tuple(calls)
+    current, previous, errors = _notice_raw_view(source)
+    if errors:
+        return calls, errors
+    actual, parse_errors = parse_ui_calls(NOTICE_PATH, current[NOTICE_PATH].decode("utf-8"))
+    supplied = [c for c in calls if c.path == NOTICE_PATH]
+    selector = _new_run_log_selector
+    if _new_run_counter(map(selector, supplied)) != _new_run_counter(map(selector, actual)):
+        errors.append("first-start notice: complete StartMenu call multiset differs")
+    selected = [selector(c) for c in calls if c.korean == NOTICE_KO]
+    if selected != [NOTICE_SELECTOR]:
+        errors.append("first-start notice: exact owner/API/pair/context/cardinality differs")
+    old_calls, old_errors = parse_ui_calls(NOTICE_PATH, previous[NOTICE_PATH].decode("utf-8"))
+    errors.extend([*parse_errors, *old_errors])
+    if errors:
+        return calls, errors
+    return tuple(c for c in calls if c.path != NOTICE_PATH) + tuple(old_calls), []
+
+
+def _notice_collect_ui_inventory(contract=None):
+    current, previous, errors = _notice_raw_view()
+    if errors:
+        return UiInventory((), (), {}, (), {}, (), {}, tuple(errors), {})
+    actual, parse_errors = parse_ui_calls(NOTICE_PATH, current[NOTICE_PATH].decode("utf-8"))
+    _old, semantic_errors = _notice_predecessor_calls(actual)
+    if parse_errors or semantic_errors:
+        return UiInventory((), (), {}, (), {}, (), {}, tuple([*parse_errors, *semantic_errors]), {})
+    with _notice_previous_reads(previous):
+        old_inventory = _NOTICE_OLD_COLLECT(contract)
+    calls = tuple(c for c in old_inventory.calls if c.path != NOTICE_PATH) + tuple(actual)
+    _old, errors = _notice_predecessor_calls(calls)
+    result = _new_run_log_inventory(old_inventory, calls, contract)
+    result.stats["first_start_notice_added_calls"] = len(calls) - len(old_inventory.calls)
+    return _gift_replace(result, errors=tuple([*result.errors, *errors]))
+
+
+def _notice_historical_checks(inventory):
+    _current, previous, errors = _notice_raw_view()
+    calls, semantic_errors = _notice_predecessor_calls(inventory.calls)
+    errors.extend(semantic_errors)
+    if errors:
+        return _gift_replace(inventory, errors=tuple([*inventory.errors, *errors])), 0, errors
+    with _notice_previous_reads(previous):
+        baseline = _NOTICE_OLD_COLLECT()
+        old_inventory = _new_run_log_inventory(baseline, calls)
+        old_inventory = _gift_replace(old_inventory, stats=dict(baseline.stats))
+        return _NOTICE_OLD_CHECKS(old_inventory)
+
+
+collect_ui_inventory = _notice_collect_ui_inventory
+_last11_meta_title_historical_checks = _notice_historical_checks
+# END_FIRST_START_NOTICE_274
+
 if __name__ == "__main__":
     sys.exit(main())

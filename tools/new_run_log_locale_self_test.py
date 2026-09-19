@@ -1504,5 +1504,20 @@ def main():
     return 0 if passed else 1
 
 
+# BEGIN_FIRST_START_NOTICE_ENTRY_274
+_NOTICE_SAVED_MAIN = main
+_NOTICE_SAVED_HISTORICAL_ENTRY = historical_entry
+
+
+def main():
+    from first_start_notice_self_test import previous_entry
+    return previous_entry(_NOTICE_SAVED_MAIN, "source")
+
+
+def historical_entry(function, kind):
+    from first_start_notice_self_test import previous_entry
+    return previous_entry(lambda: _NOTICE_SAVED_HISTORICAL_ENTRY(function, kind), kind)
+# END_FIRST_START_NOTICE_ENTRY_274
+
 if __name__ == "__main__":
     raise SystemExit(main())

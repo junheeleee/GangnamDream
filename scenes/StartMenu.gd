@@ -2029,20 +2029,8 @@ func _show_content_warning():
 	body_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	body_lbl.custom_minimum_size = Vector2(400, 0)
 	body_lbl.text = _tr(
-			"이 게임에는 다음과 같은 내용이 포함됩니다:\n\n"
-			+ "• 재정적 어려움과 부채\n"
-			+ "• 가족·사회적 압박과 비교\n"
-			+ "• 직장 스트레스와 번아웃\n"
-			+ "• 정신건강 관련 묘사\n\n"
-			+ "강남드림은 현실적인 삶을 다룹니다. "
-			+ "어려운 상황들은 이야기의 일부이며, 권장하는 내용이 아닙니다.",
-			"This game contains depictions of:\n\n"
-			+ "• Financial hardship and debt\n"
-			+ "• Family pressure and social comparison\n"
-			+ "• Workplace stress and burnout\n"
-			+ "• Mental health struggles\n\n"
-			+ "Gangnam Dream is a realistic portrayal of life. "
-			+ "Difficult situations are part of the story — not endorsements.")
+			"이 게임에는 다음과 같은 내용이 포함됩니다:\n\n• 재정적 어려움과 부채\n• 가족·사회적 압박과 비교\n• 직장 스트레스와 번아웃\n• 정신건강 관련 묘사\n\n강남드림은 현실적인 삶을 다룹니다. 어려운 상황들은 이야기의 일부이며, 권장하는 내용이 아닙니다.",
+			"This game contains depictions of:\n\n• Financial hardship and debt\n• Family pressure and social comparison\n• Workplace stress and burnout\n• Mental health struggles\n\nGangnam Dream is a realistic portrayal of life. Difficult situations are part of the story — not endorsements.")
 	body_lbl.add_theme_font_size_override("font_size", 15)
 	body_lbl.add_theme_color_override("font_color", Color("#aeb6c0"))
 	vbox.add_child(body_lbl)
