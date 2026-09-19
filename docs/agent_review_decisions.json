@@ -2555,6 +2555,49 @@
         "path": "docs/agent_reviews/ORDER-273.json",
         "sha256": "4bfcf981f3945b52f72daaab07df612444f95dce346df2d8d7d93a0fd0363290"
       }
+    },
+    {
+      "id": "order-274-source-dffae25-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-20",
+      "decided_by": "Poincare",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-274",
+      "subject": {
+        "kind": "source",
+        "commit": "dffae2524215ac63f9321b213e3f07e56e0dc45b",
+        "tree": "08ad7a25c46184281726e149a9c72fcad93e3659",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-274.json",
+          "sha256": "c9ab3ea1f7b8aa837d6c63e8fed43eb2b9e77b033fefb3a5023a7e0ac760ba92"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/queue_archive/ORDER-274.md",
+          "sha256": "b72213afa44ae529c05b30373944d5d54157d6020dfc7395b1b2cf578ea00b1b"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "Understood_activation_new_run_and_seen_persistence",
+        "Escape_or_controller_East_modal_close",
+        "other_resolutions_platforms_or_full_UI_layout",
+        "full39895_new_L1_or_language_review",
+        "remaining90_held_acceptance",
+        "retail_shipping_or_full_game_GO"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-274.json",
+        "sha256": "c9ab3ea1f7b8aa837d6c63e8fed43eb2b9e77b033fefb3a5023a7e0ac760ba92"
+      }
     }
   ]
 }

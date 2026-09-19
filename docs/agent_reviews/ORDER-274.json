@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-274",
+  "scope": "work_unit",
+  "authority": "user_delegated_agent_final",
+  "reviewer": "Poincare",
+  "reviewer_role": "Independent nonauthor of the three translations, product changes and ROOT execution drivers",
+  "date": "2026-09-20",
+  "subject": {
+    "kind": "source",
+    "commit": "dffae2524215ac63f9321b213e3f07e56e0dc45b",
+    "tree": "08ad7a25c46184281726e149a9c72fcad93e3659",
+    "manifest_sha256": null
+  },
+  "review": {
+    "commit": "a44cf78c8c728aa07badc388ca8fbeba8a7d4f17",
+    "tree": "a49f890e66588dab3ed66cfafbe5512792497ea8",
+    "clean": true,
+    "wrapper": "Direct parent is the subject; only docs/STATUS.md differs."
+  },
+  "verdict": "GO",
+  "required": [],
+  "decision": "첫 시작 안내문 한 본문의 KO/EN decoded 원형을 유지한 단일 literal 전환, JA/CN/TW 각1값의 실제 수용, 현재·역사 수집 경계 및 다섯 언어의 제한된 실제 표시를 ORDER-274 한정 GO로 판정한다. 필수 결함 0이다. 본편·원어민·인간·실물 컨트롤러 승인이나 기존 전체 번역의 신규 품질 승인이 아니다.",
+  "population": {
+    "source": "StartMenu _show_content_warning의 KO/EN 각7 fragment를 같은 decoded 한 literal로 전환. nonbody 원형; 실제 현행 collector3466 calls/2949 keys, 이전3465/2948과 +1; context34/format52/branch6 그대로.",
+    "language": "직접 KO 대조 JA/CN/TW 본문3 전수, 기존 title/Back/Understood9 값 보존. 4개 경고 항목·7LF·묘사와 권장 구별 유지.",
+    "accepted": "실제39895=기존39892+JA1/CN1/TW1; locale별13097/13399/13399, batches118→119, retained metadata9 불변. 공식 receipt3와 UI/portable 원형 역복원 확인.",
+    "source_controls": "고정14=정상1+원인별 유효음성12+예외복구1. 개발 단계 first14와 final named 안의14를 별도 실행으로 보존하며 합산하지 않음.",
+    "regression": "clean a44cf78의 고유17 최초 실제 실행 전부 exit0. inner1634/outer1203 before-after 불변이며 현재 실물도 exact. 네 역사 entry는 새 정상 선행 뒤 이전 entry 각1과 복구를 기록.",
+    "render": "동일 clean a44cf78, Godot4.6.2/OpenGL compatibility, 실제1280×800 KO/EN/JA/CN/TW5 PNG를 검수자가 모두 열어 직접 관찰. synthetic LEFT→ENTER로 visible Back5; 게임/메타 전후값 및 실제 사용자 파일43개 보존.",
+    "ownership": "baseline dc4a435 이후 실제14 변경경로가 선언18 안에 있다. 기존60 판정·human 원장·project·공개 보류 원문·비소유 게임/검사 원형 보존. 남은90 HOLD의 신규 수용은 없다."
+  },
+  "method": "gangnamdream-dev 및 현지화/UI 정본을 직접 읽고 KO 의미, 실제 consumer, source4/driver 전체 변경과 역원형을 독립 검토했다. ROOT가 보존한 공식 JSONL/receipt, raw stdout/stderr/base64/SHA, nested JSON와 현재 파일 핀을 표준 데이터 처리·읽기 전용 Git으로 대조하고 PNG5를 직접 보았다. 검수자가 실행한 QA/collector/repository import/engine/원격/Git 변경은 0이다.",
+  "findings": [
+    "StartMenu 전체 inverse는 old3b9628 원형, pipeline append 제거는 old90ad8c 전체, new_run entry hook 제거는 old37555 전체와 exact다. 새 raw seal·owner/API/KOEN/context/cardinality gate가 선행하고 현재 StartMenu 행을 실제로 재파싱해 provenance를 복구한다. 이전 핀/기대/본문을 넓히지 않는다. scoped Path/read 및 이미 가져온 callable aliases의 finally 복구를 코드와 actual 결과 양쪽에서 확인했다.",
+    "final first_start_notice14 모두 true/effective12다. source normal9 checks는 decoded/current/nonStart/historical/all-key/API 분할을 확인한다. nested new-run 원36+repair12+delegation4 모두 true; gift/meta/CI 정상 선행1→oldentry1, 예외 시 oldsuite0, 복구 true다.",
+    "formal applied source/response는 locale별 1행의 KO/id/source hash/prompt/target과 exact, protected=false/static 지원이다. 내부 receipt digest와 target digest를 재계산했다. UI3는 승인본문 한 행 추가만이며 제거하면 기존 raw 전체(JA tab 들여쓰기 포함)가 복원된다. portable 신규3+마지막 batch 제거 및 old digest 복원으로 old39892 raw 전체가 exact다.",
+    "기존39892의 현재 source/target hash 전량 보존은 실제 preservation 출력과 읽은 helper 계약에 결속했다. 이 캡처는 d48ca4d HEAD에서 CLAUDE/portable dirty 상태로 실행된 것이며 clean a44에서 재실행했다고 쓰지 않는다. 캡처1203핀은 현재 clean 후보와 전량 동일하다.",
+    "named17의 모든 child raw bytes/base64/SHA/exit/marker를 확인했다. fullself264 stderr만 정상 unittest 진행/OK이며 나머지16 stderr는 빈값이다. JA146/UI2978 beta, ZH12466 skeleton, EN clean, 공개14사건/100문구/121UI, registry152, queue25, agent222/HOLD와 문서/큐 통과를 확인했다. EXTRA advisory는 오류0과 혼동하지 않는다.",
+    "PNG5에서 제목·본문4항목·마지막 비권장 문장·두 버튼이 모두 표시되고 잘림/겹침/대체글자 미관찰이다. 각 body9줄=visible9줄, actual text=독립 oracle, viewport exact, lookup miss0, Understood 초기 초점 후 Back 이동/닫힘5를 실제 로그와 대조했다. Understood 활성화·새 게임 시작·seen 저장은 실행하지 않았다.",
+    "portable batch의 rendered_review OPEN은 수용 시점 상태로 남아 있다. 이후 실제 화면 관찰은 이 보고서의 별도 한정 증거이며 portable/native/human 판정을 소급 변경하지 않는다."
+  ],
+  "execution_history": [
+    "첫 설치 helper가 JA의 기존 tab 들여쓰기5행을 정규 재직렬화로 동일시해 assertion 실패했다. product patch 출력 전 실패로 UI/receipt 변경0이었다. fail-fast 없는 외부 파이프로 이어진 unused formal exports는 성공 수용 근거로 쓰지 않는다. 원 note와 exports 보존; raw append 수정 뒤 clean d48ca4d의 distinct applied exports/imports3이 실제 수용 근거다.",
+    "preflight checks3은 clean54b212d에서 changed_files1 제안, 실제 applied imports3은 clean d48ca4d에서 changed_files0/no-op acceptance였다. 언어 첫 검수는 GO/required0였고 helper 실패를 언어 실패로 바꾸지 않는다.",
+    "첫 실제 graphical probe는 private 변수 namespace의 예약어 parse 오류로 image0/markerfalse/FAIL이었다. ROOT가 자기 wrapper에 TERM을 보내 engine group 정리 후 exit-9를 보존했다. failed probe→retry는 namespace→qa_namespace rename만이며 제품 변경0; retry exit0/images5/errors0/markertrue다.",
+    "검수 중 큰 nested stats 출력 일부가 도구 UI에서 잘려 동일 보존 JSON을 필드별로 다시 대조했다. 두 RO 보조의 잘못 가정한 JSON key를 정정해 읽었으며 새 QA나 증거/제품 변경은 없었다."
+  ],
+  "artifact_state": {
+    "source_manifest_sha256": "2af00468b62e7f0cc61541770c57900424135e5c9e7de12e8dc087fd74f3f15a",
+    "portable": "10433740 bytes / 4c399ed8cacd65529a0fd299c2a13b4081cb01f676b17f2c52accdb1ae94e64c",
+    "accepted_digest": "8c5250e342ad3e4122709266cf18839529e0e34961d86070f86c316c406d851c",
+    "old60_decisions": "91826 bytes / c689b1ecadbe0e318a3875b74237b6a3d30c60748c8750b5850db2e49c5594ab"
+  },
+  "evidence": {
+    ".git/full-game-localization/order274-language-review-first.json": "e42f7df30de131e2f6738b65c198e744e03adb7512a1ae0c671187d0d1877c9e",
+    ".git/full-game-localization/order274-source-author-binding.json": "fd414672f8d85007fac1b2cf4121539433c9e9f5a7ff13e5a2ea95f3e1fea2f7",
+    ".git/full-game-localization/order274-source-cases-precode.json": "0f0fbbaeef249d42b5fe2c21ff704fee2e6c3058c92071c491c6c49880310187",
+    ".git/full-game-localization/order274-source-inventory-baseline-first.json": "25dfe1a98ecaded4668063b875e5f2d4767763892ba638f1ef883754cd87b4ed",
+    ".git/full-game-localization/order274-source14-first.json": "a8fe4cbb92aa00126a4179bceff575df2f98e07a7e91d2eebd7952ca87acbd8d",
+    ".git/full-game-localization/order274-install-attempt-note.json": "95baaff74eb99c04fb64d1f90fe9e1acc19234aa4de69875a96a33a9fcfd0031",
+    ".git/full-game-localization/order274-preflight-ja-first.json": "ec19ae814fa8ab74f33f083b4aebc57dd1d160d980d05d78b735762461a54f25",
+    ".git/full-game-localization/order274-preflight-zh-cn-first.json": "1934a0017c70b953e0d61f08e12f6a4ef5312e0d90e8c04cc3489c01d73727fb",
+    ".git/full-game-localization/order274-preflight-zh-tw-first.json": "1c0d19ad4148c47acccff3d5e6b1ddd976cf641ef1327742cc3d8888b4ff5ee1",
+    ".git/full-game-localization/order274-applied-export-ja-first.json": "2e5e216fa3a6ac3f8f6b8e1b96d386c7b701f5f22bda547d50ce8f848a71ae60",
+    ".git/full-game-localization/order274-applied-export-zh-cn-first.json": "cbcdc333d06d261c3240780209745cc7b852e5c85042dbba595f59c24ec25f5f",
+    ".git/full-game-localization/order274-applied-export-zh-tw-first.json": "f1ab2cc2055729d1a6bf1249998783d58ab7a6e935947b42f76210a1328a2c5a",
+    ".git/full-game-localization/order274-accept-ja-first.json": "2a6b766d49aeed392a934b7e75bac106daaa974a863cbbf469777c0d704a866c",
+    ".git/full-game-localization/order274-accept-zh-cn-first.json": "9592d7c1724118c4b998f2ba1755b8bb7af5a1cd4b284d35e595f556ec28a42f",
+    ".git/full-game-localization/order274-accept-zh-tw-first.json": "7b11dc0702b4109d5dce92bdbb620fd6a3c608bd4b5a635fa98f5a742668d809",
+    ".git/full-game-localization/ja/full-ko-direct-2026-09-07.1/b283e5f15ad082925fc9a04383e5934360b6276583bfacaed8e6c19861c2664d.accepted.json": "dc59ad1bd67dc72d213fececf2029f28cc3faa966b3b658d86b8da4149e9751b",
+    ".git/full-game-localization/zh-CN/full-ko-direct-2026-09-07.1/562bdc01e5a726d16d5fca58448d295c54cabf1a241ffeaeef30e08d8d22b569.accepted.json": "eeed3073792e101064b4a22a267e0aae957ce52da9416ae6008c07da767a67fb",
+    ".git/full-game-localization/zh-TW/full-ko-direct-2026-09-07.1/b55485f22a4a50fc8b57f5f8d7c9f2db65ac93627e31960b35bfa98cdf151d7d.accepted.json": "ad20ebe93da3a622827dd9e432a2e7d3a43d6fa27513983b4518542281e57874",
+    ".git/full-game-localization/order274-preservation-first.json": "43f5e018b886183d7bbde623b6a9142657e4dc0e0c0ba93a2cabd25f4966c166",
+    ".git/full-game-localization/order274-named-first.json": "a972d4c2c366ce9e42d6432cd4446518e6daa0b739fc8f6658171e49373e3399",
+    ".git/full-game-localization/order274-named-envelope-first.json": "95e652fbaaef60cbd53e6dbd18b204e5d5e3165627e38a338c2050a7e0001fd8",
+    ".git/full-game-localization/order274-render-envelope-first.json": "18699086425a5e537fe861dd74b726467f7056915230dbbe5eeb313420e11d72",
+    ".git/full-game-localization/order274-render-envelope-retry-first.json": "d8592618466285739c19d90901948dab736a42f78db352521972be75fb966613",
+    ".git/full-game-localization/order274-render-retry-first/result.json": "60ef457860070deaf2904e872c599812795b1c5820d3f44cf61e73e141fb50dd",
+    ".git/full-game-localization/order274-render-retry-first/ko.png": "f3af826eed5845f57b885f1e6523108bb7dcac87fa75dad6bde4e5ef5c92bccd",
+    ".git/full-game-localization/order274-render-retry-first/en.png": "68384e6685668b4d08237b381e5f977bc6dd88caf75523c18a792f31fe17d00e",
+    ".git/full-game-localization/order274-render-retry-first/ja.png": "e7510243942e30eae8ded04c09a0cd92826bee3d9b818adcafc94b516ff532a2",
+    ".git/full-game-localization/order274-render-retry-first/zh-CN.png": "0d5a60ddd9e4fcdfdafc1e0d81e4ce0a24e72e4a74fbd9eb4158d161baa9f121",
+    ".git/full-game-localization/order274-render-retry-first/zh-TW.png": "33d0c4d5cf34915e7d183d99b4c8273f0571b3c7ec4d0d6e14ad6ab1d4194827"
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "Understood_activation_new_run_and_seen_persistence",
+    "Escape_or_controller_East_modal_close",
+    "other_resolutions_platforms_or_full_UI_layout",
+    "full39895_new_L1_or_language_review",
+    "remaining90_held_acceptance",
+    "retail_shipping_or_full_game_GO"
+  ],
+  "limits": "실제 화면 관찰은 위 다섯 PNG와 합성 키 입력 한정이다. ZH skeleton/shipping0/dynamic6/701 및 JA beta를 보존하며 공개GO1·인간OPEN45·본편HOLD를 변경하지 않는다. 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다."
+}
