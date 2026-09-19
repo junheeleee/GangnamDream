@@ -4065,6 +4065,101 @@
       "machine_validation": "PASS",
       "rendered_review": "OPEN",
       "native_review": "OPEN"
+    },
+    {
+      "order": "ORDER-268",
+      "group": "ui",
+      "roots": [
+        "{label} · {remaining} 남음",
+        "수첩 · {sentence}",
+        "현재 단계: {label}\n{current} / {target}\n최종 목표: 자산 30억\n수첩: {motive}",
+        "\n월 고정비 {bills} · 주거 {housing} · 대출이자 {interest}",
+        "남은 %d주",
+        "%d개월",
+        "접촉 (5개월차+)",
+        "재회 (7개월차+)",
+        "연결 (9개월차+)",
+        "그녀의 세계 (10개월차+)",
+        "Y4 부산 전화",
+        "Y4 서울 방문",
+        "Y5 마지막",
+        "재회 (19개월차+)",
+        "한 직장에서 12개월을 채우거나 같은 투자·창업 일을 거듭하면 다음 제안이 옵니다.",
+        "대기",
+        "시작 조건",
+        "홀덤",
+        "경마",
+        "스캘핑",
+        "미니게임: ",
+        "강남 야경보다 병실 천장을 먼저 봤다. 서울은 그런 도시다.",
+        "가장 강해야 할 때 마음이 제일 먼저 떠났다",
+        "순자산 마이너스 1억. 몇 번을 다시 눌러도 답은 같았다.",
+        "강남은 아니었지만 흔들리지 않는 삶을 쌓았다",
+        "다은을 밀어내고도 강남에 닿지 못했다. 남은 것은 그 선택의 기록이었다.",
+        "창업의 꿈을 꿨지만 결국 평범한 오늘을 선택했다",
+        "특별하지 않아도 괜찮다 — 그것도 하나의 삶이다",
+        "차트가 현실이 되고, 현실이 배경이 됐다. 결국 전부를 가져갔다.",
+        "계산기를 뒤집었다. 빚은 그대로였다.",
+        "30억은 모였다. 네 자리 식탁에는 혼자였다.",
+        "강남보다 건강을 택한 선택, 후회 없는 삶",
+        "30억을 쥐었다. 입성한 강남 아파트에 아무도 없었다.",
+        "최재혁의 방식으로 강남에 입성했다. 거울을 자주 피하게 됐다.",
+        "충분히 벌었다. 더 이상 돈을 위해 아침을 팔지 않기로 했다.",
+        "돈만 세지도, 사람만 세지도 않은 생활을 끝까지 만들었다.",
+        "성공했다. 그런데 누가 왜 성공했냐고 물으면 대답이 없다.",
+        "도박의 바닥에서 올라왔다. 달력에 동그라미 30개. 강남보다 어려운 승리.",
+        "강남에 닿지 못한 이야기가 가장 많은 사람에게 닿았다.",
+        "한자리에 머물지 않았다. 더 나은 사다리로 계속 갈아탔다.",
+        "이직하고, 버텼다. 통장보다 무거운 것들을 들고 5년을 걸었다.",
+        "어머니는 「니 아버지가 봤으면 좋아했을 텐데」라고 하셨다. 이제는 그 말이 아프지 않다.",
+        "어머니와는 이제 길게 통화한다. 별 내용은 없다. 근데 그게 필요한 통화라는 걸 안다.",
+        "다은은 「강남 가도 커피는 우리 집 와서 마셔」라고 했다. 그러기로 했다.",
+        "통장이 비어도 다은의 카페 구석 자리는 비어 있지 않았다.",
+        "다은의 카페는 이제 단골집이 아니라 돌아가는 곳이 됐다.",
+        "다은의 카페에는 지금도 가끔 간다. 주문하지 않아도 나오는 메뉴가 있다.",
+        "그 카페 앞을 지날 때면 걸음이 조금 빨라진다.",
+        "임상철과는 아직도 연락한다. 필요하면 또 쓸 것이다. 그는 그걸 알면서도 전화를 받는다.",
+        "임상철의 죄책감은 좋은 지렛대였다. 그 사실이 가끔, 아주 가끔 마음에 걸린다.",
+        "임상철은 「내가 사람 하나는 잘 본다」며 자기 일처럼 웃었다.",
+        "임상철은 「강남이 뭐라고. 살아 있으면 된 거야」라고 했다. 처음 듣는 부드러운 목소리였다.",
+        "임상철 사장과는 지금도 가끔 국밥을 먹는다. 계산은 번갈아 한다.",
+        "임상철은 조사를 받고 업계에서 사라졌다. 그 카페 자리가 가끔 생각난다.",
+        "임상철 사장과는 그 일 이후 연락이 끊겼다.",
+        "부동산 앞을 지나면 임상철 사장이 보인다. 목례만 하는 사이로 남았다.",
+        "최재혁에게 배신당했다. 통장이 비었고, 바닥이었다. 그 뒤 그가 했던 말들을 노트에 받아 적었다 — 배신한 사람에게서 남은 유일한 것이었다. 거기서 다시 시작했다.",
+        "최재혁의 번호는 없는 번호가 됐다. 그 돈도, 그 사람도. 하지만 그날 밤 찍은 사진은 지우지 않았다. 진짜였다고 믿기로 했다.",
+        "최재혁의 번호는 없는 번호가 됐다. 그 돈도, 그 사람도.",
+        "최재혁이 결국 구속됐다는 기사를 봤다. 통쾌하지도, 슬프지도 않았다.",
+        "최재혁과의 일은 아무에게도 말하지 않았다. 앞으로도 그럴 것이다.",
+        "최재혁이 조건 없이 명함을 내밀던 날이 있었다. 그게 진심이었는지는 모른다. 그래도 그날의 그 마음만은 — 진짜였다고 생각한다.",
+        "최재혁과는 그 뒤로 멀어졌다. 그가 아무 조건 없이 도와줬던 날이 가끔 생각난다.",
+        "최재혁이 자기 이야기를 했던 날이 있었다. 아무한테도 못 했던 말이라고. 그 무게를 기억한다.",
+        "최재혁과는 적당한 거리를 유지했다. 그게 맞았던 것 같다.",
+        "최재혁에게서 가끔 연락이 온다. 받을지 말지는 그때그때 다르다.",
+        "바닥이었을 때 현수에게 전화했다. 그는 그냥 들어줬다. 말 없이 들어주는 사람이 그때 필요했다.",
+        "현수는 공무원이 됐다. 서로 잘 살고 있다. 그 이상도, 이하도 아니다.",
+        "현수는 회계법인에 자리를 잡았다. 서로 잘 살고 있다. 그 이상도, 이하도 아니다.",
+        "5년 끝의 흔적",
+        "통장 50만원. 남은 시간 5년.",
+        "시작",
+        "아무 키나 누르세요",
+        "김민준, 33세. 통장 50만원. 남은 시간 5년.",
+        "어떤 사람이 되어 도착할지는, 아직 모른다.",
+        "최근 기록  ·  %d년 %d월  ·  %s",
+        "계속하기",
+        "새 이야기",
+        "방향키 이동  ·  Enter 선택  ·  Esc 뒤로"
+      ],
+      "source_leaves": 79,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 79,
+        "zh-TW": 79
+      },
+      "source_review": "Direct Korean independent Chinese110 each, 20 lifecycle UI groups reviewed; 16 groups/79 keys each accepted. Four groups/31 keys each held after original machine failures; no text distortion or validator change. Japanese/source/runtime/public bytes preserved. Existing39292 receipts retained; no native/render/human approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN"
     }
   ],
   "accepted": {
@@ -108846,6 +108941,322 @@
       "ui:직장:/직장": {
         "source_sha256": "8b10cafa98c31e4e0983827cbbe05e246df0256b51b56269dce420a091824ebe",
         "target_sha256": "d2d1b4a3d60f6e9471d1b01f3360cd332d06c21d0425532f07aef496ea0021c9"
+      },
+      "ui:{label} · {remaining} 남음:/{label} · {remaining} 남음": {
+        "source_sha256": "941a83b5a21cb4ff6475452fd058d56b0d064a81a5ce2422f16ff881d76327cf",
+        "target_sha256": "55e90551d2804cdc7108f959048489b4883977258dfbc2df1376020140848f04"
+      },
+      "ui:수첩 · {sentence}:/수첩 · {sentence}": {
+        "source_sha256": "e4a0a2836c505bb4780c98c9a5ca46c6c903a68aa5467cd57e5c0e148312f951",
+        "target_sha256": "47280a4f827d73aa4a928a5367a6611bf10825e2d25bcd7bc044c69e362c012d"
+      },
+      "ui:현재 단계: {label}\n{current} / {target}\n최종 목표: 자산 30억\n수첩: {motive}:/현재 단계: {label}\n{current} ~1 {target}\n최종 목표: 자산 30억\n수첩: {motive}": {
+        "source_sha256": "57185ae1f58849c0ef6561d9cd8b25224dd34532cccdad2147c675f3dd33ca02",
+        "target_sha256": "9eed6cc25709f0db23a380e7c4c877106b798bd0ffb253f8ebef38159e29995d"
+      },
+      "ui:\n월 고정비 {bills} · 주거 {housing} · 대출이자 {interest}:/\n월 고정비 {bills} · 주거 {housing} · 대출이자 {interest}": {
+        "source_sha256": "de69c58cbab1cea2dc4d442d1ae306411cf9816be334efd1c979077945caacfe",
+        "target_sha256": "0b848ed511fe0d6e73e9e1ccac0861b5332402662153b404b2ee40fbe4dc1098"
+      },
+      "ui:남은 %d주:/남은 %d주": {
+        "source_sha256": "9d325bc9e44a80197e895976801e5822196dd08fd1996aee3016a9e408b30e31",
+        "target_sha256": "2d260c24ff27adc5ad216f56acb7f0e619b2a690861dbf9b1342dc36b244fa6a"
+      },
+      "ui:%d개월:/%d개월": {
+        "source_sha256": "2fb36b2e22b1e2b2eee6e7d5ca126360451570f9c52a21ed440b7251a6e32f5a",
+        "target_sha256": "5c67f656bde05069a255e28d45fbfbcd4bf7f96bbe23c7437de09ade744939a8"
+      },
+      "ui:접촉 (5개월차+):/접촉 (5개월차+)": {
+        "source_sha256": "9c16c54b7e7e5b575c0a3a6195a86bcaaebf57e3039558cf12e0676d7fa58642",
+        "target_sha256": "460c8ce16974f0a3c43b3033787be6308e40a31aee7debfcdad004c20f9c5517"
+      },
+      "ui:재회 (7개월차+):/재회 (7개월차+)": {
+        "source_sha256": "e99186f88b1c6a1ef8860e9b819c508613746b56d0fa837291ce94258282ba4f",
+        "target_sha256": "ace8a5c6972eef8dc111b85418ef3ab6f05ae30b26dfdfe1240bbff5a2688188"
+      },
+      "ui:연결 (9개월차+):/연결 (9개월차+)": {
+        "source_sha256": "ddab191148d9bc436b1c8bd61032892915e932e38f38ecd9f9ad1b99f03a7365",
+        "target_sha256": "e529dad2d7b6444d7a41bdd6f4ed41f4cc0cbfb9b3ff053fc1df7f301d8dc2d5"
+      },
+      "ui:그녀의 세계 (10개월차+):/그녀의 세계 (10개월차+)": {
+        "source_sha256": "159d7b56a34adbeae6dd1d990d7cdb1c42d43cc4ae033e3f07525846bcc3ac3d",
+        "target_sha256": "745b9f781cd1655555e3f003cdba74cee0007ea92a6d592d89d9ee0ed7b63c5e"
+      },
+      "ui:Y4 부산 전화:/Y4 부산 전화": {
+        "source_sha256": "f87be5c3884442c3f0de120892fc815d337ed0e0346da91374355ec299cfcbad",
+        "target_sha256": "5727d80d52edb791885fb70b1fbb992acd571b30fb333f057572593a62293fc0"
+      },
+      "ui:Y4 서울 방문:/Y4 서울 방문": {
+        "source_sha256": "e95a601e9b10c3280387cedc75f76e02fc3131ac6a86b3760e62923218aeddb4",
+        "target_sha256": "2a4fc055df54fe380f763a2c76eaac537d1920e87027e419348922ff9375b4bb"
+      },
+      "ui:Y5 마지막:/Y5 마지막": {
+        "source_sha256": "f772c0576499c975aa2a8bff9338dd98dae5db87a1fbd4b1261d26422b45da5b",
+        "target_sha256": "e1a450498390bc4891c6730304f144eb71d7aad4433e8d93f03899b55a3c7a60"
+      },
+      "ui:재회 (19개월차+):/재회 (19개월차+)": {
+        "source_sha256": "def0c4bef2a9a64752258fe333ca1f84ea99ea34e43e843571e4020c6e5f7054",
+        "target_sha256": "ee1a0fa065ace3e4e7bb47dafceb064d1f2036f160d343fdb9e9e9dff1a4110f"
+      },
+      "ui:한 직장에서 12개월을 채우거나 같은 투자·창업 일을 거듭하면 다음 제안이 옵니다.:/한 직장에서 12개월을 채우거나 같은 투자·창업 일을 거듭하면 다음 제안이 옵니다.": {
+        "source_sha256": "c63101b0dd80d4ee571773bbe1a72beec552ebc8fc24d72983bde8685569d465",
+        "target_sha256": "1f282f528695e8ae222ad3aae8bcb3aad98cfd8cbb32160fa808a71bd654cc27"
+      },
+      "ui:대기:/대기": {
+        "source_sha256": "311b463cdea58ad5cdc80573467bf5e92f5fa83129e6c6c67cf03e6c9a60f135",
+        "target_sha256": "da4612aad75fa21a34b4ee70a467125f92dbe01488cfad23d6ff59a9866eea94"
+      },
+      "ui:시작 조건:/시작 조건": {
+        "source_sha256": "6818427675deed067969f0dc9ddbd76c7bba4a9425ae2f5cdee0c08bec0b6418",
+        "target_sha256": "8403a60a87e66a7fa3f2b4c4ee067205cc4ff8f1955605bb60cb7482c0d6a6d1"
+      },
+      "ui:홀덤:/홀덤": {
+        "source_sha256": "b108e7cb75e968aa6226055d39a0b61c4132262a98b19228d0daeb63e122d22b",
+        "target_sha256": "561c2b5e051b9bf2bb54318b2ae622a2fddb744b0190ad26d37eacf0ce0bc04a"
+      },
+      "ui:경마:/경마": {
+        "source_sha256": "79abe27cc3016f592a912fa047b9020439d9aaf97662c139bb9f80f24f98426a",
+        "target_sha256": "00a8136ab654813d8ae763e462b77c3a6e2f48b33dbcb48f447bf6adc9b4f9af"
+      },
+      "ui:스캘핑:/스캘핑": {
+        "source_sha256": "fb14ab309f4ff160dc83432cc00184ff2365d7906f039e39df2834f807281930",
+        "target_sha256": "3f90052022a520ddc3307bb3e6700c4ac7a788c593ced1bdb0db26cfa8423984"
+      },
+      "ui:미니게임: :/미니게임: ": {
+        "source_sha256": "a12cc0b59a18a663e637fc85721d68469b519c965c4f622a1b5e669e6974165f",
+        "target_sha256": "c35854d92e5d2439c734ed9c9226dabd5b50a48d9714034edaac1f070d5f2349"
+      },
+      "ui:강남 야경보다 병실 천장을 먼저 봤다. 서울은 그런 도시다.:/강남 야경보다 병실 천장을 먼저 봤다. 서울은 그런 도시다.": {
+        "source_sha256": "1d3c0e31d7fcb503c9c80043ef0d6e6528171285a3c6a2e69a20fbd185d1aba5",
+        "target_sha256": "acbd63c7f5bcdc3cc62e8fe0b0ccfa3f9ba0cbc7def647a83992df733cdddcc6"
+      },
+      "ui:가장 강해야 할 때 마음이 제일 먼저 떠났다:/가장 강해야 할 때 마음이 제일 먼저 떠났다": {
+        "source_sha256": "c033007f9d83f9ae70a240108509d8d1fff79850300696bacaa83fd2d6629f35",
+        "target_sha256": "ea4be693307d67244d4c30c3d2e9834d4b99a84b5df8fca0ccf57923a017ad53"
+      },
+      "ui:순자산 마이너스 1억. 몇 번을 다시 눌러도 답은 같았다.:/순자산 마이너스 1억. 몇 번을 다시 눌러도 답은 같았다.": {
+        "source_sha256": "47c01c7b38cc543342987439dbbfc7b70af06e25397b2d84d0ec6499ed447ff9",
+        "target_sha256": "1b7ac2e51892d60028e4fd4290abdf223daae4eb8e4f1ae2a1079257f9f7bce1"
+      },
+      "ui:강남은 아니었지만 흔들리지 않는 삶을 쌓았다:/강남은 아니었지만 흔들리지 않는 삶을 쌓았다": {
+        "source_sha256": "524f4cb43d4ee90be102442b71fb784dbdd4a9f1d53155790008546f823e9364",
+        "target_sha256": "f1b2baa49f192d804804fc53647faead343052cbed310ab0bfdf7481b92c7151"
+      },
+      "ui:다은을 밀어내고도 강남에 닿지 못했다. 남은 것은 그 선택의 기록이었다.:/다은을 밀어내고도 강남에 닿지 못했다. 남은 것은 그 선택의 기록이었다.": {
+        "source_sha256": "5e44f38b8ba7820f61d32764ce978e2a977f0c89a6abb7bd0d36c907c5d04db1",
+        "target_sha256": "10b51b7c30c164bdc00a9e629c613cc54a34f29f2f27d89b21020111b6c68638"
+      },
+      "ui:창업의 꿈을 꿨지만 결국 평범한 오늘을 선택했다:/창업의 꿈을 꿨지만 결국 평범한 오늘을 선택했다": {
+        "source_sha256": "369cf45fc6c4d5a0b186b504bba8b52f25e856f95bfbfc437988bdbdec0da522",
+        "target_sha256": "3ba7f7d03f9b41b53eb6a2b8c2675912210bda2f8dbd43b6ffb2008620b09c68"
+      },
+      "ui:특별하지 않아도 괜찮다 — 그것도 하나의 삶이다:/특별하지 않아도 괜찮다 — 그것도 하나의 삶이다": {
+        "source_sha256": "e3ab8e1f360f89103b00a6109d32d94b1c9d528b9d640c4ef60fd8a62e73fd4f",
+        "target_sha256": "b7d143a0b9397adcf28118c8ff118852a86c204c937c622fa433de83521d957f"
+      },
+      "ui:차트가 현실이 되고, 현실이 배경이 됐다. 결국 전부를 가져갔다.:/차트가 현실이 되고, 현실이 배경이 됐다. 결국 전부를 가져갔다.": {
+        "source_sha256": "42b2406bacba6a21cf883ec7cc27493ec9de382e39bc948c275b4692a327d244",
+        "target_sha256": "728e10420195f446820f23d4c169f64f830f2b0af9cb870ab30b9f0d4c6094d3"
+      },
+      "ui:계산기를 뒤집었다. 빚은 그대로였다.:/계산기를 뒤집었다. 빚은 그대로였다.": {
+        "source_sha256": "2d58ff7530973632eb5be13890477dc6da705d0ca91c9aec4007f1274433d878",
+        "target_sha256": "1a79539aa82635f7a67f09640617a26f7f05ed92e89428a47b9f9af285a35adf"
+      },
+      "ui:30억은 모였다. 네 자리 식탁에는 혼자였다.:/30억은 모였다. 네 자리 식탁에는 혼자였다.": {
+        "source_sha256": "ee4b820e964e805fdb5acbb3c858f4c3be4d856157eed5b114d5c0ae2651a1f1",
+        "target_sha256": "b62372f4d5cba994bdb750f5de82eb4e8a95496e9a520a7c9f1c6f428f327289"
+      },
+      "ui:강남보다 건강을 택한 선택, 후회 없는 삶:/강남보다 건강을 택한 선택, 후회 없는 삶": {
+        "source_sha256": "72d0b3b19b6de8c463c3e5a931ce57b8572f126d624598a84e545792a2543799",
+        "target_sha256": "d8d0f67534d96f360e02aeb94e47f8fdd4cdf22772785e0eeab92abde8b6fcfd"
+      },
+      "ui:30억을 쥐었다. 입성한 강남 아파트에 아무도 없었다.:/30억을 쥐었다. 입성한 강남 아파트에 아무도 없었다.": {
+        "source_sha256": "112ea11531d1d961528f4a4c1adb8d2347b9a9c9fb5f1bda5588a09196b67c04",
+        "target_sha256": "c0b58d2c233f2ab5f236737d5b50cef982ffdda5cad6eb254f2cca8eda4f6cde"
+      },
+      "ui:최재혁의 방식으로 강남에 입성했다. 거울을 자주 피하게 됐다.:/최재혁의 방식으로 강남에 입성했다. 거울을 자주 피하게 됐다.": {
+        "source_sha256": "c7cae2a16b35bb49ecdeb35b2002f08855081bac9f0e367d80364b0d1477f4ad",
+        "target_sha256": "c390560d6903c9ebb29487da84d6f904ea634d6a3fe440fa658888b1da823ced"
+      },
+      "ui:충분히 벌었다. 더 이상 돈을 위해 아침을 팔지 않기로 했다.:/충분히 벌었다. 더 이상 돈을 위해 아침을 팔지 않기로 했다.": {
+        "source_sha256": "1cef9b03b60c8edd0da42b928bfd91e9c06c4559cd52a0d86225041d819f5850",
+        "target_sha256": "375f26e027aa15d46d08b39f5d9014b204093a4d40a395f25dd265a0e7e6f223"
+      },
+      "ui:돈만 세지도, 사람만 세지도 않은 생활을 끝까지 만들었다.:/돈만 세지도, 사람만 세지도 않은 생활을 끝까지 만들었다.": {
+        "source_sha256": "5246571b1c3f8b484d6a7a983a899c3f0c8e6c14b8375bb236030e99f3bf5fa5",
+        "target_sha256": "8f3fa467298b529da74603c4e525116610e8ce5ac71166dff8fea9e87976a928"
+      },
+      "ui:성공했다. 그런데 누가 왜 성공했냐고 물으면 대답이 없다.:/성공했다. 그런데 누가 왜 성공했냐고 물으면 대답이 없다.": {
+        "source_sha256": "fc802a02a348dfa430549f2eed59576e26752f2eab476ac56b9189382aea69cc",
+        "target_sha256": "fc8889e16e0b2358e9ae9c697084585a22a6f3ed25f5613736933b56c456431b"
+      },
+      "ui:도박의 바닥에서 올라왔다. 달력에 동그라미 30개. 강남보다 어려운 승리.:/도박의 바닥에서 올라왔다. 달력에 동그라미 30개. 강남보다 어려운 승리.": {
+        "source_sha256": "0b238f0cb1572c29c805ea39fc36c250aacf5c3ca0bc0e62abb9b95100e54745",
+        "target_sha256": "4cc4729ca0859f73c90e99ac79eb22e55aef470078a15bac88ce21966334dfab"
+      },
+      "ui:강남에 닿지 못한 이야기가 가장 많은 사람에게 닿았다.:/강남에 닿지 못한 이야기가 가장 많은 사람에게 닿았다.": {
+        "source_sha256": "1c20ae514d27312e6def2cb24b139e8ea14fec4315aab2fbf383ecc7ab72e985",
+        "target_sha256": "a3f8b070081942d32aaef9e0394ff3ebb59b89475a2ac9b77cdc3f6986c40242"
+      },
+      "ui:한자리에 머물지 않았다. 더 나은 사다리로 계속 갈아탔다.:/한자리에 머물지 않았다. 더 나은 사다리로 계속 갈아탔다.": {
+        "source_sha256": "ad6619e2945d38aa30a6782c994873bfc8065c64674a6000dfe9ae6679da92c7",
+        "target_sha256": "3eeb389080bff5956754163fcdd65a7a1533dcf4d576df5956af049d2c8875b3"
+      },
+      "ui:이직하고, 버텼다. 통장보다 무거운 것들을 들고 5년을 걸었다.:/이직하고, 버텼다. 통장보다 무거운 것들을 들고 5년을 걸었다.": {
+        "source_sha256": "40229b717155cbf75f4c0c1d15d6fc734b0b5839b91df2bb345f82ebeff9c5a5",
+        "target_sha256": "35cc1822f1e0c0848854f194aa83bbdc6a80ce278921319c4cb6e82862add4cb"
+      },
+      "ui:어머니는 「니 아버지가 봤으면 좋아했을 텐데」라고 하셨다. 이제는 그 말이 아프지 않다.:/어머니는 「니 아버지가 봤으면 좋아했을 텐데」라고 하셨다. 이제는 그 말이 아프지 않다.": {
+        "source_sha256": "2034db41573a3490085bebbf9832e4bd17310dd1f60736dd9dce6b5f09d86a99",
+        "target_sha256": "73fbf0860e1578502e1e5326beb90d5c38b7295c3de1155e73a527f63685dd26"
+      },
+      "ui:어머니와는 이제 길게 통화한다. 별 내용은 없다. 근데 그게 필요한 통화라는 걸 안다.:/어머니와는 이제 길게 통화한다. 별 내용은 없다. 근데 그게 필요한 통화라는 걸 안다.": {
+        "source_sha256": "4c4dedb3c6ff39c2cd23fca73a916509e71a76e8426aea318f2db43625e35c10",
+        "target_sha256": "cffe2a5629ddd89868a9299c6d2176d1b21687c883ce60532582d6e5493e3e4f"
+      },
+      "ui:다은은 「강남 가도 커피는 우리 집 와서 마셔」라고 했다. 그러기로 했다.:/다은은 「강남 가도 커피는 우리 집 와서 마셔」라고 했다. 그러기로 했다.": {
+        "source_sha256": "76717dd1b5b744e492f352a89b3ce4fb29b060ad08fc030df70e60c97cd27943",
+        "target_sha256": "45b712dfb9979048b7811428bbf2ba276c5bd67a8aae4bf0de01994773b2a05b"
+      },
+      "ui:통장이 비어도 다은의 카페 구석 자리는 비어 있지 않았다.:/통장이 비어도 다은의 카페 구석 자리는 비어 있지 않았다.": {
+        "source_sha256": "801401c2c90f0564d9879d55d6e18c0a75264f7e6bf304df613b4b36a6d48760",
+        "target_sha256": "36db4e25d9483652a105cdf98e0863708a3339f2a71c90f79506b4bbe1b1a8fc"
+      },
+      "ui:다은의 카페는 이제 단골집이 아니라 돌아가는 곳이 됐다.:/다은의 카페는 이제 단골집이 아니라 돌아가는 곳이 됐다.": {
+        "source_sha256": "7717ec38085bad4e7501a7ffaecc5764a352a668127d0722fb33a7f4fa86f364",
+        "target_sha256": "b2e52715e6bf692a1a92e187e272d7f5ebb96b441108d0756b33a61317f1b1ad"
+      },
+      "ui:다은의 카페에는 지금도 가끔 간다. 주문하지 않아도 나오는 메뉴가 있다.:/다은의 카페에는 지금도 가끔 간다. 주문하지 않아도 나오는 메뉴가 있다.": {
+        "source_sha256": "5a5266e6c3a75bf3a7f4671f3050e9700aa95c2db958ad62648f9258a4428dfa",
+        "target_sha256": "93372d0d39f3da71b5308dcb5e452faca1418b3b047bb4f8aa2e4fa0eeaa17ad"
+      },
+      "ui:그 카페 앞을 지날 때면 걸음이 조금 빨라진다.:/그 카페 앞을 지날 때면 걸음이 조금 빨라진다.": {
+        "source_sha256": "1ac4b80c3fb5a2d93ac50191b02ce71ce5b7f5a4290bf108f242f5c124045a5b",
+        "target_sha256": "61dc6d400f59726b779ee71a299e26680c95b3fc4cab075120811f73d4ff7ed0"
+      },
+      "ui:임상철과는 아직도 연락한다. 필요하면 또 쓸 것이다. 그는 그걸 알면서도 전화를 받는다.:/임상철과는 아직도 연락한다. 필요하면 또 쓸 것이다. 그는 그걸 알면서도 전화를 받는다.": {
+        "source_sha256": "9fdec91e3cecdebbc7e2a6fab5e4a650f1ec64107179a21ade4d10b6424134ff",
+        "target_sha256": "72ac5af57b9dc9ea9e0b7ea527035f641ac35ca312954ca4b0fa55104aca5c11"
+      },
+      "ui:임상철의 죄책감은 좋은 지렛대였다. 그 사실이 가끔, 아주 가끔 마음에 걸린다.:/임상철의 죄책감은 좋은 지렛대였다. 그 사실이 가끔, 아주 가끔 마음에 걸린다.": {
+        "source_sha256": "4a90ea0bf66963c04271e9dc48224c96a398f17f8d2dbfb9bba92d3346891140",
+        "target_sha256": "04a70b13c86550179b06f6fa6588f0b6ea13f84905cc29e3236f06abb4c2d605"
+      },
+      "ui:임상철은 「내가 사람 하나는 잘 본다」며 자기 일처럼 웃었다.:/임상철은 「내가 사람 하나는 잘 본다」며 자기 일처럼 웃었다.": {
+        "source_sha256": "796117175fec81f6bae5513b495494824a8b3d0ccdae779eb272d115a31b60a7",
+        "target_sha256": "647202f9801263eff7e76db48c50541b84b31d8410c64797be473be987d80cf4"
+      },
+      "ui:임상철은 「강남이 뭐라고. 살아 있으면 된 거야」라고 했다. 처음 듣는 부드러운 목소리였다.:/임상철은 「강남이 뭐라고. 살아 있으면 된 거야」라고 했다. 처음 듣는 부드러운 목소리였다.": {
+        "source_sha256": "3d5b5c325920de4c89cda9a83b2516275ca62c05c06199f68850ef443b0a6a79",
+        "target_sha256": "10480657aedd914debaef49a8c3350bd2d137fdd18a7baa07218bdd0e6fbfe18"
+      },
+      "ui:임상철 사장과는 지금도 가끔 국밥을 먹는다. 계산은 번갈아 한다.:/임상철 사장과는 지금도 가끔 국밥을 먹는다. 계산은 번갈아 한다.": {
+        "source_sha256": "1d48e76558e2307e10f8f2efa8750fa5f6cf1af3b007ce3d3595fbf6ee13bd9f",
+        "target_sha256": "9e08554767a3b2bb3efab8796785207462c6b6cf4ceb5d4f1444f25c264676fb"
+      },
+      "ui:임상철은 조사를 받고 업계에서 사라졌다. 그 카페 자리가 가끔 생각난다.:/임상철은 조사를 받고 업계에서 사라졌다. 그 카페 자리가 가끔 생각난다.": {
+        "source_sha256": "5c0625644117efdd634ca3663294c7defdc3d868ec71c6fe9d6689e25eb301a4",
+        "target_sha256": "ac4823c8c2605bd8ae0c9152e841f987daf151b85e6fab8445fe1cc5ec71a3cd"
+      },
+      "ui:임상철 사장과는 그 일 이후 연락이 끊겼다.:/임상철 사장과는 그 일 이후 연락이 끊겼다.": {
+        "source_sha256": "b59cf8c428f039c7fa9033370cc9eda140871c1da4560e6fd6c981a9be83bf74",
+        "target_sha256": "fe590fa1b0a9dc382389544d6f29e711c6f2b7c9039d035347228bd3a2a7ee46"
+      },
+      "ui:부동산 앞을 지나면 임상철 사장이 보인다. 목례만 하는 사이로 남았다.:/부동산 앞을 지나면 임상철 사장이 보인다. 목례만 하는 사이로 남았다.": {
+        "source_sha256": "63b44a8457e820d7777bc2781c1befff5a023441b6bf09d33a8900a1acbec15f",
+        "target_sha256": "34f1a5dbed5941269fe0839cf01973cb60583dcc4b1fc8356ef845479edf8c61"
+      },
+      "ui:최재혁에게 배신당했다. 통장이 비었고, 바닥이었다. 그 뒤 그가 했던 말들을 노트에 받아 적었다 — 배신한 사람에게서 남은 유일한 것이었다. 거기서 다시 시작했다.:/최재혁에게 배신당했다. 통장이 비었고, 바닥이었다. 그 뒤 그가 했던 말들을 노트에 받아 적었다 — 배신한 사람에게서 남은 유일한 것이었다. 거기서 다시 시작했다.": {
+        "source_sha256": "797bbd0026b8ea48818a1f6d5fb93048420178b19ec1b5bff2071e36593ffbbf",
+        "target_sha256": "7380641c2ff31ee56f511b39cb246f553c8b25f7322d967eed7d6652bc103d52"
+      },
+      "ui:최재혁의 번호는 없는 번호가 됐다. 그 돈도, 그 사람도. 하지만 그날 밤 찍은 사진은 지우지 않았다. 진짜였다고 믿기로 했다.:/최재혁의 번호는 없는 번호가 됐다. 그 돈도, 그 사람도. 하지만 그날 밤 찍은 사진은 지우지 않았다. 진짜였다고 믿기로 했다.": {
+        "source_sha256": "3355f6f770891383b387daf85d59d12100eedeca85eedf37a77dcdc7a50d9f13",
+        "target_sha256": "16d342589def66e2afa4db9453cd8c5e8c2f7e6cd1ea0af9a2d138c16d4f3fbc"
+      },
+      "ui:최재혁의 번호는 없는 번호가 됐다. 그 돈도, 그 사람도.:/최재혁의 번호는 없는 번호가 됐다. 그 돈도, 그 사람도.": {
+        "source_sha256": "6ab300353232f021d49a57e11c8853065150fad846368dee1d28581cb65cecc7",
+        "target_sha256": "f2384383cee6a590a0a0c519e0be34a8f3791e8b43b2bd58fdfc6847606f037d"
+      },
+      "ui:최재혁이 결국 구속됐다는 기사를 봤다. 통쾌하지도, 슬프지도 않았다.:/최재혁이 결국 구속됐다는 기사를 봤다. 통쾌하지도, 슬프지도 않았다.": {
+        "source_sha256": "6e5173ff7ec19358295609c20be1c8cc2ab0a496159bf2008e4db1c08f73f24d",
+        "target_sha256": "2027c45525b483e87ea92ef661ba378d85010d23b2f51e884e17b0611211e04b"
+      },
+      "ui:최재혁과의 일은 아무에게도 말하지 않았다. 앞으로도 그럴 것이다.:/최재혁과의 일은 아무에게도 말하지 않았다. 앞으로도 그럴 것이다.": {
+        "source_sha256": "d46e9975ea84a3061efe59d4357e121eec25ac63751e047b168336fcc64d94ac",
+        "target_sha256": "4df0edda0cb8474d36ff65e187d71692abc6eba360c8acc164bc277690344fbb"
+      },
+      "ui:최재혁이 조건 없이 명함을 내밀던 날이 있었다. 그게 진심이었는지는 모른다. 그래도 그날의 그 마음만은 — 진짜였다고 생각한다.:/최재혁이 조건 없이 명함을 내밀던 날이 있었다. 그게 진심이었는지는 모른다. 그래도 그날의 그 마음만은 — 진짜였다고 생각한다.": {
+        "source_sha256": "495e97b40d241a067a23938e2017bb2fb2c56cfab923b9c54efa139d5dd93442",
+        "target_sha256": "9546775a5cdd9765f898f4dbbd74852927d995794ad0180f65e350dfdeadab35"
+      },
+      "ui:최재혁과는 그 뒤로 멀어졌다. 그가 아무 조건 없이 도와줬던 날이 가끔 생각난다.:/최재혁과는 그 뒤로 멀어졌다. 그가 아무 조건 없이 도와줬던 날이 가끔 생각난다.": {
+        "source_sha256": "bf2e417881a55074714cc49e77ac6dd58304f4fc4487ca770b3bfe4dd56cef49",
+        "target_sha256": "4ac2c015b5a3c23b7762d52f1a72292232463e7f31575f6192c55b47190eb044"
+      },
+      "ui:최재혁이 자기 이야기를 했던 날이 있었다. 아무한테도 못 했던 말이라고. 그 무게를 기억한다.:/최재혁이 자기 이야기를 했던 날이 있었다. 아무한테도 못 했던 말이라고. 그 무게를 기억한다.": {
+        "source_sha256": "d50e99a0c9dce211b91d688efe4d7842a6601afa80b8a1c033798daef732cc72",
+        "target_sha256": "524466780ccd432428924650153a2602ce01cc1fe9e97a39c4a953cd35cf9830"
+      },
+      "ui:최재혁과는 적당한 거리를 유지했다. 그게 맞았던 것 같다.:/최재혁과는 적당한 거리를 유지했다. 그게 맞았던 것 같다.": {
+        "source_sha256": "eff8cda460993670f481893162818164c564aadd752b1b04384e5a3696a7b660",
+        "target_sha256": "00571b0ad3095f81bbdf18b7a1a574f35026fc6d3bb3918e64319a910a603674"
+      },
+      "ui:최재혁에게서 가끔 연락이 온다. 받을지 말지는 그때그때 다르다.:/최재혁에게서 가끔 연락이 온다. 받을지 말지는 그때그때 다르다.": {
+        "source_sha256": "30387217df00efcfa659e91d2f6e77c6d20a73d5aa6ba036f38bcb641494b190",
+        "target_sha256": "b308456704ede4b5ca5aa96640ca32dad667c9f13b635960bf583d1b9ef68dc6"
+      },
+      "ui:바닥이었을 때 현수에게 전화했다. 그는 그냥 들어줬다. 말 없이 들어주는 사람이 그때 필요했다.:/바닥이었을 때 현수에게 전화했다. 그는 그냥 들어줬다. 말 없이 들어주는 사람이 그때 필요했다.": {
+        "source_sha256": "9818c72efb1235d5a3ce27756a7441c41258a1ebb4a26a58125ccd0706627bc5",
+        "target_sha256": "c5eea5161f7278f77a6888c382fe480413eb19ffdd6ab34b8472292e6558e756"
+      },
+      "ui:현수는 공무원이 됐다. 서로 잘 살고 있다. 그 이상도, 이하도 아니다.:/현수는 공무원이 됐다. 서로 잘 살고 있다. 그 이상도, 이하도 아니다.": {
+        "source_sha256": "6d27f2eebd9954f9d6d7447756b3522652fb9c855a5e211cea77af442a50f0b2",
+        "target_sha256": "c01077f2528c6b8f9ffd89b56b2146c50aa97f6957da7a62bfc25f3b6f92016d"
+      },
+      "ui:현수는 회계법인에 자리를 잡았다. 서로 잘 살고 있다. 그 이상도, 이하도 아니다.:/현수는 회계법인에 자리를 잡았다. 서로 잘 살고 있다. 그 이상도, 이하도 아니다.": {
+        "source_sha256": "8842c466f77f827d4ca9af9c6834cb57f6ffe472decc34c928e4afe8b87f3029",
+        "target_sha256": "cae851f253558236265b6ac6e09939a26438245344b210e6d72d78199644f5ca"
+      },
+      "ui:5년 끝의 흔적:/5년 끝의 흔적": {
+        "source_sha256": "e99c144c6aedec0fb2d9d91d74f9da9b546427004ac3ef672ceabdb1e6293baf",
+        "target_sha256": "d308c0d194fc73ea79b618a5c9fe7804c7352ce272c3962821673082a58bb5dc"
+      },
+      "ui:통장 50만원. 남은 시간 5년.:/통장 50만원. 남은 시간 5년.": {
+        "source_sha256": "d3a96bb328302dc007cb5da854c1e61dca1c0ef02e02953c7cdb01709623919b",
+        "target_sha256": "2ba90c670648aaf405114d0fb853467433a1f961840f7f85517008532af7cd63"
+      },
+      "ui:시작:/시작": {
+        "source_sha256": "15500f61928005dabe1ef50aff869bc45558182bd85b1b6108da2252b1d324f3",
+        "target_sha256": "681e46d6d4999b5f31712d66ebece496e2f300fd0cf8351fc088965fd5550625"
+      },
+      "ui:아무 키나 누르세요:/아무 키나 누르세요": {
+        "source_sha256": "5578b43a10dfec829709d67543175ad441700b5fbcb8b638380da6094a00a1b7",
+        "target_sha256": "0ef43121ac9b1286c3f5f361e68668bb475a4d0e5a56283a480c48bf89fd41c2"
+      },
+      "ui:김민준, 33세. 통장 50만원. 남은 시간 5년.:/김민준, 33세. 통장 50만원. 남은 시간 5년.": {
+        "source_sha256": "2d954abbdb5c715cfbd01554e2c6ec9b1dda5461cbb9d015e7dee733e4378094",
+        "target_sha256": "6528349f12e72a37af93ce27e0b3d8ecec5b52c23d2d1533aa7aaf1efb682056"
+      },
+      "ui:어떤 사람이 되어 도착할지는, 아직 모른다.:/어떤 사람이 되어 도착할지는, 아직 모른다.": {
+        "source_sha256": "3204a384f9f6b1e9780c47b9e71f6fd7a81d60d190796a9e70ec8b19fba4e76d",
+        "target_sha256": "b23735a08962e29b9982332ff2a4f4f98e20a776137c71845d82f221fcd51032"
+      },
+      "ui:최근 기록  ·  %d년 %d월  ·  %s:/최근 기록  ·  %d년 %d월  ·  %s": {
+        "source_sha256": "ab5190c5a6de26a82c3851fb2a65d769b0b6c354049bf1a41bd701e07ac2042c",
+        "target_sha256": "b65a9bd0b20ee25f6bb39585d66001b44e6e8a9c990f3b01f96e5dc140188e8c"
+      },
+      "ui:계속하기:/계속하기": {
+        "source_sha256": "a078ba5f4a11b737343f98ca7f52b6459f8998a78c322b57cec49466118c167b",
+        "target_sha256": "e33c2fdcf83dc658296c26dd6fbe41c419a5faa7d210d92ae195906353f41977"
+      },
+      "ui:새 이야기:/새 이야기": {
+        "source_sha256": "fe90bbf84f7411f9c1f1a694b810e3a7d8de1a302617db603814291d276c8583",
+        "target_sha256": "a8706c444d79d586ebc96e274b214c21c311640201c111471d8afcd5b93d447a"
+      },
+      "ui:방향키 이동  ·  Enter 선택  ·  Esc 뒤로:/방향키 이동  ·  Enter 선택  ·  Esc 뒤로": {
+        "source_sha256": "193d551e29b9c7d2985104ab22b7442ea2ad708562007170826a0baaef826f44",
+        "target_sha256": "e6d2e78026b55ed8f01de52fdf561ec61d966d65ca7ee474d6bea24641a5474a"
       }
     },
     "zh-TW": {
@@ -161240,10 +161651,326 @@
       "ui:직장:/직장": {
         "source_sha256": "8b10cafa98c31e4e0983827cbbe05e246df0256b51b56269dce420a091824ebe",
         "target_sha256": "d2d1b4a3d60f6e9471d1b01f3360cd332d06c21d0425532f07aef496ea0021c9"
+      },
+      "ui:{label} · {remaining} 남음:/{label} · {remaining} 남음": {
+        "source_sha256": "941a83b5a21cb4ff6475452fd058d56b0d064a81a5ce2422f16ff881d76327cf",
+        "target_sha256": "1af2b52b4668a8cff356ca07922b71924eace87dcaac5b2ebce00c477286bd02"
+      },
+      "ui:수첩 · {sentence}:/수첩 · {sentence}": {
+        "source_sha256": "e4a0a2836c505bb4780c98c9a5ca46c6c903a68aa5467cd57e5c0e148312f951",
+        "target_sha256": "8227df4a8bfb2cdf127e12ad5db7cf7cadf3988b218e43478fb650a048729d18"
+      },
+      "ui:현재 단계: {label}\n{current} / {target}\n최종 목표: 자산 30억\n수첩: {motive}:/현재 단계: {label}\n{current} ~1 {target}\n최종 목표: 자산 30억\n수첩: {motive}": {
+        "source_sha256": "57185ae1f58849c0ef6561d9cd8b25224dd34532cccdad2147c675f3dd33ca02",
+        "target_sha256": "9b77784d9896f403bcd2faa42b1b7b8ad1f2d34593ac36c4f4dd72bd39ce863a"
+      },
+      "ui:\n월 고정비 {bills} · 주거 {housing} · 대출이자 {interest}:/\n월 고정비 {bills} · 주거 {housing} · 대출이자 {interest}": {
+        "source_sha256": "de69c58cbab1cea2dc4d442d1ae306411cf9816be334efd1c979077945caacfe",
+        "target_sha256": "5927b831587bfa9d6d9ac3fa3e3901bec36e5c2f5fc98c6f1f069f33e6bce026"
+      },
+      "ui:남은 %d주:/남은 %d주": {
+        "source_sha256": "9d325bc9e44a80197e895976801e5822196dd08fd1996aee3016a9e408b30e31",
+        "target_sha256": "6cf292aca15874be19c0d00062bd0e30ce6aea7e0d2f2eb8e0160a6a2258217b"
+      },
+      "ui:%d개월:/%d개월": {
+        "source_sha256": "2fb36b2e22b1e2b2eee6e7d5ca126360451570f9c52a21ed440b7251a6e32f5a",
+        "target_sha256": "779ec8dc87849f45f188ec0a7d0c31100d5377d2e0eb41cf6953bb32972a077a"
+      },
+      "ui:접촉 (5개월차+):/접촉 (5개월차+)": {
+        "source_sha256": "9c16c54b7e7e5b575c0a3a6195a86bcaaebf57e3039558cf12e0676d7fa58642",
+        "target_sha256": "def85de9595f2ce609bbf164abf4abe2bec406a0961a235582d5760758cef46e"
+      },
+      "ui:재회 (7개월차+):/재회 (7개월차+)": {
+        "source_sha256": "e99186f88b1c6a1ef8860e9b819c508613746b56d0fa837291ce94258282ba4f",
+        "target_sha256": "1aade1f0c031e0719a65743240730707ab61ec6eb6a21636614558ab6cd8ae4c"
+      },
+      "ui:연결 (9개월차+):/연결 (9개월차+)": {
+        "source_sha256": "ddab191148d9bc436b1c8bd61032892915e932e38f38ecd9f9ad1b99f03a7365",
+        "target_sha256": "f319d55b1b95cd0aa33739f0dcf981c4ad10697d8ebc860d766a8dbe3b18d2b5"
+      },
+      "ui:그녀의 세계 (10개월차+):/그녀의 세계 (10개월차+)": {
+        "source_sha256": "159d7b56a34adbeae6dd1d990d7cdb1c42d43cc4ae033e3f07525846bcc3ac3d",
+        "target_sha256": "de37230ad02ed3ec51c7375002bb9a49005c1819e64378b30c26eedb8e064274"
+      },
+      "ui:Y4 부산 전화:/Y4 부산 전화": {
+        "source_sha256": "f87be5c3884442c3f0de120892fc815d337ed0e0346da91374355ec299cfcbad",
+        "target_sha256": "a5bc93f6cdc8e53c22587b6a8f2d7e6977d34be459c9240806f08e782c679412"
+      },
+      "ui:Y4 서울 방문:/Y4 서울 방문": {
+        "source_sha256": "e95a601e9b10c3280387cedc75f76e02fc3131ac6a86b3760e62923218aeddb4",
+        "target_sha256": "90edd8e19779cfd3115ec9f09dbf8aaadd8be1798533ccebbbc1407c1a6fb021"
+      },
+      "ui:Y5 마지막:/Y5 마지막": {
+        "source_sha256": "f772c0576499c975aa2a8bff9338dd98dae5db87a1fbd4b1261d26422b45da5b",
+        "target_sha256": "e7e76d93edb99af14759570203f080f5d1ff2020952a43106a1260a1b0630cf7"
+      },
+      "ui:재회 (19개월차+):/재회 (19개월차+)": {
+        "source_sha256": "def0c4bef2a9a64752258fe333ca1f84ea99ea34e43e843571e4020c6e5f7054",
+        "target_sha256": "d2001cf33f397bd4be6a3228ca1fbba236531e6f43d93f08f3ef40025d1c21f3"
+      },
+      "ui:한 직장에서 12개월을 채우거나 같은 투자·창업 일을 거듭하면 다음 제안이 옵니다.:/한 직장에서 12개월을 채우거나 같은 투자·창업 일을 거듭하면 다음 제안이 옵니다.": {
+        "source_sha256": "c63101b0dd80d4ee571773bbe1a72beec552ebc8fc24d72983bde8685569d465",
+        "target_sha256": "8505fec03e6a8c69439fe6d3c14cecad8a937ee4d5efc463cf357d15031b576d"
+      },
+      "ui:대기:/대기": {
+        "source_sha256": "311b463cdea58ad5cdc80573467bf5e92f5fa83129e6c6c67cf03e6c9a60f135",
+        "target_sha256": "ce01388b4291a20558d6eff455366ffd0f349b5593293012db7c070a98cf4ed9"
+      },
+      "ui:시작 조건:/시작 조건": {
+        "source_sha256": "6818427675deed067969f0dc9ddbd76c7bba4a9425ae2f5cdee0c08bec0b6418",
+        "target_sha256": "b6dd8d78ed5b8a2b654490091c1b175c1158bc04a206c79a4a45f38daa0452b4"
+      },
+      "ui:홀덤:/홀덤": {
+        "source_sha256": "b108e7cb75e968aa6226055d39a0b61c4132262a98b19228d0daeb63e122d22b",
+        "target_sha256": "18fbb0b3539dbc82ff89fa11eda80da1d67fef8c0a1fd3b0425376fe814efd48"
+      },
+      "ui:경마:/경마": {
+        "source_sha256": "79abe27cc3016f592a912fa047b9020439d9aaf97662c139bb9f80f24f98426a",
+        "target_sha256": "78141dad430fceb64dcb37c17915195fadef0bf29c025dc5e06d7f6428a2e804"
+      },
+      "ui:스캘핑:/스캘핑": {
+        "source_sha256": "fb14ab309f4ff160dc83432cc00184ff2365d7906f039e39df2834f807281930",
+        "target_sha256": "d9cbde42a89028e5d13f86f7f6ffce0136aa068cb8aa0d1b92993f7a53a2eeec"
+      },
+      "ui:미니게임: :/미니게임: ": {
+        "source_sha256": "a12cc0b59a18a663e637fc85721d68469b519c965c4f622a1b5e669e6974165f",
+        "target_sha256": "c2e9b3c7204edc919ef380d3a7e98c1c45cd88fbe5c7716d0cb94bdc5d041035"
+      },
+      "ui:강남 야경보다 병실 천장을 먼저 봤다. 서울은 그런 도시다.:/강남 야경보다 병실 천장을 먼저 봤다. 서울은 그런 도시다.": {
+        "source_sha256": "1d3c0e31d7fcb503c9c80043ef0d6e6528171285a3c6a2e69a20fbd185d1aba5",
+        "target_sha256": "21ca44ae06d58f4919e4b0ae9ce5525be8fb32e73cfa26f586c791f8a80503c7"
+      },
+      "ui:가장 강해야 할 때 마음이 제일 먼저 떠났다:/가장 강해야 할 때 마음이 제일 먼저 떠났다": {
+        "source_sha256": "c033007f9d83f9ae70a240108509d8d1fff79850300696bacaa83fd2d6629f35",
+        "target_sha256": "929eab6b9b6e16df91474c713486b41c86fdbf94c8f900354819ac1a4c87af0a"
+      },
+      "ui:순자산 마이너스 1억. 몇 번을 다시 눌러도 답은 같았다.:/순자산 마이너스 1억. 몇 번을 다시 눌러도 답은 같았다.": {
+        "source_sha256": "47c01c7b38cc543342987439dbbfc7b70af06e25397b2d84d0ec6499ed447ff9",
+        "target_sha256": "10365621d9db906868e60c8b62529ce60d23657e9e12054b5150c88725a7cc2d"
+      },
+      "ui:강남은 아니었지만 흔들리지 않는 삶을 쌓았다:/강남은 아니었지만 흔들리지 않는 삶을 쌓았다": {
+        "source_sha256": "524f4cb43d4ee90be102442b71fb784dbdd4a9f1d53155790008546f823e9364",
+        "target_sha256": "99a5c83df55cdb52f5e3e55e279eaafa1023946255e5e06704a8225046d5b4cc"
+      },
+      "ui:다은을 밀어내고도 강남에 닿지 못했다. 남은 것은 그 선택의 기록이었다.:/다은을 밀어내고도 강남에 닿지 못했다. 남은 것은 그 선택의 기록이었다.": {
+        "source_sha256": "5e44f38b8ba7820f61d32764ce978e2a977f0c89a6abb7bd0d36c907c5d04db1",
+        "target_sha256": "427a6b97f45236b9a488319db938230ba57a063dde741d53fa682e20a28b5458"
+      },
+      "ui:창업의 꿈을 꿨지만 결국 평범한 오늘을 선택했다:/창업의 꿈을 꿨지만 결국 평범한 오늘을 선택했다": {
+        "source_sha256": "369cf45fc6c4d5a0b186b504bba8b52f25e856f95bfbfc437988bdbdec0da522",
+        "target_sha256": "95ac6adbb98df305015082ecf1aa2af4fa090cd6a3c1b3f37a6f178b1303b774"
+      },
+      "ui:특별하지 않아도 괜찮다 — 그것도 하나의 삶이다:/특별하지 않아도 괜찮다 — 그것도 하나의 삶이다": {
+        "source_sha256": "e3ab8e1f360f89103b00a6109d32d94b1c9d528b9d640c4ef60fd8a62e73fd4f",
+        "target_sha256": "20f1a78d4bc09da816076aa84a46467175fb617993a5b2b165af5b9f10a1840b"
+      },
+      "ui:차트가 현실이 되고, 현실이 배경이 됐다. 결국 전부를 가져갔다.:/차트가 현실이 되고, 현실이 배경이 됐다. 결국 전부를 가져갔다.": {
+        "source_sha256": "42b2406bacba6a21cf883ec7cc27493ec9de382e39bc948c275b4692a327d244",
+        "target_sha256": "3088efd2f2f8e7f27b2e1f635a143357adff2684b972ad2d1eac4da27600bd7e"
+      },
+      "ui:계산기를 뒤집었다. 빚은 그대로였다.:/계산기를 뒤집었다. 빚은 그대로였다.": {
+        "source_sha256": "2d58ff7530973632eb5be13890477dc6da705d0ca91c9aec4007f1274433d878",
+        "target_sha256": "0b7c99872899461a530ca0cad321a6ae4276b6a8b0f7a3484ea8dca028af69e7"
+      },
+      "ui:30억은 모였다. 네 자리 식탁에는 혼자였다.:/30억은 모였다. 네 자리 식탁에는 혼자였다.": {
+        "source_sha256": "ee4b820e964e805fdb5acbb3c858f4c3be4d856157eed5b114d5c0ae2651a1f1",
+        "target_sha256": "928f249b9d5b239ecf9618ef62ac05b19163133695ce1e9d45b31dd940a2e76e"
+      },
+      "ui:강남보다 건강을 택한 선택, 후회 없는 삶:/강남보다 건강을 택한 선택, 후회 없는 삶": {
+        "source_sha256": "72d0b3b19b6de8c463c3e5a931ce57b8572f126d624598a84e545792a2543799",
+        "target_sha256": "4eb2fff01cb6b4af1f0aa128f0c204805407a82c619a036ab253fa32c9bc712c"
+      },
+      "ui:30억을 쥐었다. 입성한 강남 아파트에 아무도 없었다.:/30억을 쥐었다. 입성한 강남 아파트에 아무도 없었다.": {
+        "source_sha256": "112ea11531d1d961528f4a4c1adb8d2347b9a9c9fb5f1bda5588a09196b67c04",
+        "target_sha256": "91fc8d1978dafe2be75ccf685a63a9db780658a8feb8a31e94e3e965c95db57d"
+      },
+      "ui:최재혁의 방식으로 강남에 입성했다. 거울을 자주 피하게 됐다.:/최재혁의 방식으로 강남에 입성했다. 거울을 자주 피하게 됐다.": {
+        "source_sha256": "c7cae2a16b35bb49ecdeb35b2002f08855081bac9f0e367d80364b0d1477f4ad",
+        "target_sha256": "bedc297e9fb75ba71befd8e33708dc81404823434efd5945945f74eb3a422da4"
+      },
+      "ui:충분히 벌었다. 더 이상 돈을 위해 아침을 팔지 않기로 했다.:/충분히 벌었다. 더 이상 돈을 위해 아침을 팔지 않기로 했다.": {
+        "source_sha256": "1cef9b03b60c8edd0da42b928bfd91e9c06c4559cd52a0d86225041d819f5850",
+        "target_sha256": "1878ed5c0d1f53af9b0f7d804b11408b2b7cdc57d9260b73dab66a0b8b97e0ad"
+      },
+      "ui:돈만 세지도, 사람만 세지도 않은 생활을 끝까지 만들었다.:/돈만 세지도, 사람만 세지도 않은 생활을 끝까지 만들었다.": {
+        "source_sha256": "5246571b1c3f8b484d6a7a983a899c3f0c8e6c14b8375bb236030e99f3bf5fa5",
+        "target_sha256": "bb869bb02324347ab71797d947059db2ad85cd2e0c13051642152e27187d3f6f"
+      },
+      "ui:성공했다. 그런데 누가 왜 성공했냐고 물으면 대답이 없다.:/성공했다. 그런데 누가 왜 성공했냐고 물으면 대답이 없다.": {
+        "source_sha256": "fc802a02a348dfa430549f2eed59576e26752f2eab476ac56b9189382aea69cc",
+        "target_sha256": "cc1b10ad1f6164c56e9b67f19972d5c4c1129e02af81c224e467bbbfaecaa3d1"
+      },
+      "ui:도박의 바닥에서 올라왔다. 달력에 동그라미 30개. 강남보다 어려운 승리.:/도박의 바닥에서 올라왔다. 달력에 동그라미 30개. 강남보다 어려운 승리.": {
+        "source_sha256": "0b238f0cb1572c29c805ea39fc36c250aacf5c3ca0bc0e62abb9b95100e54745",
+        "target_sha256": "be02d1d93e72500ba686e96a4f3191c68dc10cf1d9fc5eeacc0b492b20e471de"
+      },
+      "ui:강남에 닿지 못한 이야기가 가장 많은 사람에게 닿았다.:/강남에 닿지 못한 이야기가 가장 많은 사람에게 닿았다.": {
+        "source_sha256": "1c20ae514d27312e6def2cb24b139e8ea14fec4315aab2fbf383ecc7ab72e985",
+        "target_sha256": "80c8240e68940ae5654b22f01cf847fbf0a66f3465bf82470161467bcc5410d2"
+      },
+      "ui:한자리에 머물지 않았다. 더 나은 사다리로 계속 갈아탔다.:/한자리에 머물지 않았다. 더 나은 사다리로 계속 갈아탔다.": {
+        "source_sha256": "ad6619e2945d38aa30a6782c994873bfc8065c64674a6000dfe9ae6679da92c7",
+        "target_sha256": "3b741224f3fcd3e2535d66827408f13951961ad977b3121c8d408fc43d20ba22"
+      },
+      "ui:이직하고, 버텼다. 통장보다 무거운 것들을 들고 5년을 걸었다.:/이직하고, 버텼다. 통장보다 무거운 것들을 들고 5년을 걸었다.": {
+        "source_sha256": "40229b717155cbf75f4c0c1d15d6fc734b0b5839b91df2bb345f82ebeff9c5a5",
+        "target_sha256": "788a290638778f0a88dc45b9ab5010cad23dd814749765e6c24d26eb9cd5edf7"
+      },
+      "ui:어머니는 「니 아버지가 봤으면 좋아했을 텐데」라고 하셨다. 이제는 그 말이 아프지 않다.:/어머니는 「니 아버지가 봤으면 좋아했을 텐데」라고 하셨다. 이제는 그 말이 아프지 않다.": {
+        "source_sha256": "2034db41573a3490085bebbf9832e4bd17310dd1f60736dd9dce6b5f09d86a99",
+        "target_sha256": "0b944e98bab1a3cc99314c68d3317c74f3dd30303aa21ef5f942f3f0d929161a"
+      },
+      "ui:어머니와는 이제 길게 통화한다. 별 내용은 없다. 근데 그게 필요한 통화라는 걸 안다.:/어머니와는 이제 길게 통화한다. 별 내용은 없다. 근데 그게 필요한 통화라는 걸 안다.": {
+        "source_sha256": "4c4dedb3c6ff39c2cd23fca73a916509e71a76e8426aea318f2db43625e35c10",
+        "target_sha256": "c34179843f2fc1542f8411906615e654251205ffc4f0324d72c4a1b6edcbf271"
+      },
+      "ui:다은은 「강남 가도 커피는 우리 집 와서 마셔」라고 했다. 그러기로 했다.:/다은은 「강남 가도 커피는 우리 집 와서 마셔」라고 했다. 그러기로 했다.": {
+        "source_sha256": "76717dd1b5b744e492f352a89b3ce4fb29b060ad08fc030df70e60c97cd27943",
+        "target_sha256": "5291bab6d63c34d2e626d5355e65079bffe8317836a93e8fa9f50bab09cf9199"
+      },
+      "ui:통장이 비어도 다은의 카페 구석 자리는 비어 있지 않았다.:/통장이 비어도 다은의 카페 구석 자리는 비어 있지 않았다.": {
+        "source_sha256": "801401c2c90f0564d9879d55d6e18c0a75264f7e6bf304df613b4b36a6d48760",
+        "target_sha256": "7474f3c854adf7db467eda538b33c94bd1dd2747a5612be7a5a93fa9b368590d"
+      },
+      "ui:다은의 카페는 이제 단골집이 아니라 돌아가는 곳이 됐다.:/다은의 카페는 이제 단골집이 아니라 돌아가는 곳이 됐다.": {
+        "source_sha256": "7717ec38085bad4e7501a7ffaecc5764a352a668127d0722fb33a7f4fa86f364",
+        "target_sha256": "8a2de0206aecbbfa896b1e85377b151207af34a6a73dd5687b6ac1b33289a4ec"
+      },
+      "ui:다은의 카페에는 지금도 가끔 간다. 주문하지 않아도 나오는 메뉴가 있다.:/다은의 카페에는 지금도 가끔 간다. 주문하지 않아도 나오는 메뉴가 있다.": {
+        "source_sha256": "5a5266e6c3a75bf3a7f4671f3050e9700aa95c2db958ad62648f9258a4428dfa",
+        "target_sha256": "eb81045a4d79667cefeb628c323703f10dcb61b6d953fd5b6f95ba06a4b88c10"
+      },
+      "ui:그 카페 앞을 지날 때면 걸음이 조금 빨라진다.:/그 카페 앞을 지날 때면 걸음이 조금 빨라진다.": {
+        "source_sha256": "1ac4b80c3fb5a2d93ac50191b02ce71ce5b7f5a4290bf108f242f5c124045a5b",
+        "target_sha256": "7d4c5ead09ea415a3a0f7b5157b0a9bda4af3de23de1262668638b5a0fbe587b"
+      },
+      "ui:임상철과는 아직도 연락한다. 필요하면 또 쓸 것이다. 그는 그걸 알면서도 전화를 받는다.:/임상철과는 아직도 연락한다. 필요하면 또 쓸 것이다. 그는 그걸 알면서도 전화를 받는다.": {
+        "source_sha256": "9fdec91e3cecdebbc7e2a6fab5e4a650f1ec64107179a21ade4d10b6424134ff",
+        "target_sha256": "bf6dae4b8098d99058b97eb01b7ac0bd9e6c999399c399e7d99a9cfcd9da6592"
+      },
+      "ui:임상철의 죄책감은 좋은 지렛대였다. 그 사실이 가끔, 아주 가끔 마음에 걸린다.:/임상철의 죄책감은 좋은 지렛대였다. 그 사실이 가끔, 아주 가끔 마음에 걸린다.": {
+        "source_sha256": "4a90ea0bf66963c04271e9dc48224c96a398f17f8d2dbfb9bba92d3346891140",
+        "target_sha256": "3a9f32623d15dbde796ca7e9738fff87e2caf126279ac068ebf2aa9221e543fd"
+      },
+      "ui:임상철은 「내가 사람 하나는 잘 본다」며 자기 일처럼 웃었다.:/임상철은 「내가 사람 하나는 잘 본다」며 자기 일처럼 웃었다.": {
+        "source_sha256": "796117175fec81f6bae5513b495494824a8b3d0ccdae779eb272d115a31b60a7",
+        "target_sha256": "7b645b591622b44475e1b1272737048a605225ba35003b5ef1fbbba00d2aa9fb"
+      },
+      "ui:임상철은 「강남이 뭐라고. 살아 있으면 된 거야」라고 했다. 처음 듣는 부드러운 목소리였다.:/임상철은 「강남이 뭐라고. 살아 있으면 된 거야」라고 했다. 처음 듣는 부드러운 목소리였다.": {
+        "source_sha256": "3d5b5c325920de4c89cda9a83b2516275ca62c05c06199f68850ef443b0a6a79",
+        "target_sha256": "ac68a42a90a0ccafeee845f319d15c4db2795b7f06cebdc4948f96a6c79fa2ab"
+      },
+      "ui:임상철 사장과는 지금도 가끔 국밥을 먹는다. 계산은 번갈아 한다.:/임상철 사장과는 지금도 가끔 국밥을 먹는다. 계산은 번갈아 한다.": {
+        "source_sha256": "1d48e76558e2307e10f8f2efa8750fa5f6cf1af3b007ce3d3595fbf6ee13bd9f",
+        "target_sha256": "0bb2b5a6f3560516f42a2e380c25ba362bcf382a6d0545627cf2c5b04098cff6"
+      },
+      "ui:임상철은 조사를 받고 업계에서 사라졌다. 그 카페 자리가 가끔 생각난다.:/임상철은 조사를 받고 업계에서 사라졌다. 그 카페 자리가 가끔 생각난다.": {
+        "source_sha256": "5c0625644117efdd634ca3663294c7defdc3d868ec71c6fe9d6689e25eb301a4",
+        "target_sha256": "639a6fde5012cf08c16f15a7888182b54d4599370787dfa1828b9b1693d898c1"
+      },
+      "ui:임상철 사장과는 그 일 이후 연락이 끊겼다.:/임상철 사장과는 그 일 이후 연락이 끊겼다.": {
+        "source_sha256": "b59cf8c428f039c7fa9033370cc9eda140871c1da4560e6fd6c981a9be83bf74",
+        "target_sha256": "f31e2bf825147c0ded25758e6339580957abd1ab57162767d67c0525b18a2201"
+      },
+      "ui:부동산 앞을 지나면 임상철 사장이 보인다. 목례만 하는 사이로 남았다.:/부동산 앞을 지나면 임상철 사장이 보인다. 목례만 하는 사이로 남았다.": {
+        "source_sha256": "63b44a8457e820d7777bc2781c1befff5a023441b6bf09d33a8900a1acbec15f",
+        "target_sha256": "4c81141cf70f78560626781a7869f2583105c8ce28e573eb4b42eebfcd51b408"
+      },
+      "ui:최재혁에게 배신당했다. 통장이 비었고, 바닥이었다. 그 뒤 그가 했던 말들을 노트에 받아 적었다 — 배신한 사람에게서 남은 유일한 것이었다. 거기서 다시 시작했다.:/최재혁에게 배신당했다. 통장이 비었고, 바닥이었다. 그 뒤 그가 했던 말들을 노트에 받아 적었다 — 배신한 사람에게서 남은 유일한 것이었다. 거기서 다시 시작했다.": {
+        "source_sha256": "797bbd0026b8ea48818a1f6d5fb93048420178b19ec1b5bff2071e36593ffbbf",
+        "target_sha256": "297618414487901437442fca54d9378e8914dee0d6787de0d0f08640e9bf2c2f"
+      },
+      "ui:최재혁의 번호는 없는 번호가 됐다. 그 돈도, 그 사람도. 하지만 그날 밤 찍은 사진은 지우지 않았다. 진짜였다고 믿기로 했다.:/최재혁의 번호는 없는 번호가 됐다. 그 돈도, 그 사람도. 하지만 그날 밤 찍은 사진은 지우지 않았다. 진짜였다고 믿기로 했다.": {
+        "source_sha256": "3355f6f770891383b387daf85d59d12100eedeca85eedf37a77dcdc7a50d9f13",
+        "target_sha256": "a60f2771c2bc285bd00e139ded03c80264f6f443553c12e028e950a8c9b5c1a2"
+      },
+      "ui:최재혁의 번호는 없는 번호가 됐다. 그 돈도, 그 사람도.:/최재혁의 번호는 없는 번호가 됐다. 그 돈도, 그 사람도.": {
+        "source_sha256": "6ab300353232f021d49a57e11c8853065150fad846368dee1d28581cb65cecc7",
+        "target_sha256": "40aa09e90f0ac8dd11659ff9259de34f468659344cb2b70ef8072e1e763e6e56"
+      },
+      "ui:최재혁이 결국 구속됐다는 기사를 봤다. 통쾌하지도, 슬프지도 않았다.:/최재혁이 결국 구속됐다는 기사를 봤다. 통쾌하지도, 슬프지도 않았다.": {
+        "source_sha256": "6e5173ff7ec19358295609c20be1c8cc2ab0a496159bf2008e4db1c08f73f24d",
+        "target_sha256": "aad8c17970a8d6e74eb034b71041e8a174937079fbd021b07c9b8500d431b0af"
+      },
+      "ui:최재혁과의 일은 아무에게도 말하지 않았다. 앞으로도 그럴 것이다.:/최재혁과의 일은 아무에게도 말하지 않았다. 앞으로도 그럴 것이다.": {
+        "source_sha256": "d46e9975ea84a3061efe59d4357e121eec25ac63751e047b168336fcc64d94ac",
+        "target_sha256": "20eda5ad37185938f1a3e1c3b0bd9e120dc7d92a148ddd07e7cc593f63cd8b21"
+      },
+      "ui:최재혁이 조건 없이 명함을 내밀던 날이 있었다. 그게 진심이었는지는 모른다. 그래도 그날의 그 마음만은 — 진짜였다고 생각한다.:/최재혁이 조건 없이 명함을 내밀던 날이 있었다. 그게 진심이었는지는 모른다. 그래도 그날의 그 마음만은 — 진짜였다고 생각한다.": {
+        "source_sha256": "495e97b40d241a067a23938e2017bb2fb2c56cfab923b9c54efa139d5dd93442",
+        "target_sha256": "1f41eab8a102afc14af58bdb65801affa42b3aa266149612604ac7e278529d96"
+      },
+      "ui:최재혁과는 그 뒤로 멀어졌다. 그가 아무 조건 없이 도와줬던 날이 가끔 생각난다.:/최재혁과는 그 뒤로 멀어졌다. 그가 아무 조건 없이 도와줬던 날이 가끔 생각난다.": {
+        "source_sha256": "bf2e417881a55074714cc49e77ac6dd58304f4fc4487ca770b3bfe4dd56cef49",
+        "target_sha256": "3e2ce6c91deadbe8a2521be818478b8e73ca5db009e2f483355a698dcda6e6ae"
+      },
+      "ui:최재혁이 자기 이야기를 했던 날이 있었다. 아무한테도 못 했던 말이라고. 그 무게를 기억한다.:/최재혁이 자기 이야기를 했던 날이 있었다. 아무한테도 못 했던 말이라고. 그 무게를 기억한다.": {
+        "source_sha256": "d50e99a0c9dce211b91d688efe4d7842a6601afa80b8a1c033798daef732cc72",
+        "target_sha256": "117ff20ddada3c9e36064d5a51175b9d770e5ce3c6ab2b1e4560bafef14e6943"
+      },
+      "ui:최재혁과는 적당한 거리를 유지했다. 그게 맞았던 것 같다.:/최재혁과는 적당한 거리를 유지했다. 그게 맞았던 것 같다.": {
+        "source_sha256": "eff8cda460993670f481893162818164c564aadd752b1b04384e5a3696a7b660",
+        "target_sha256": "0c3697948df314a265a092dfc951be05dc683b990416bffa1dff219071463a37"
+      },
+      "ui:최재혁에게서 가끔 연락이 온다. 받을지 말지는 그때그때 다르다.:/최재혁에게서 가끔 연락이 온다. 받을지 말지는 그때그때 다르다.": {
+        "source_sha256": "30387217df00efcfa659e91d2f6e77c6d20a73d5aa6ba036f38bcb641494b190",
+        "target_sha256": "18a40e6d105f15c3a3807ed244b45e17b93bf5a51a8f8e9984cd221343e68371"
+      },
+      "ui:바닥이었을 때 현수에게 전화했다. 그는 그냥 들어줬다. 말 없이 들어주는 사람이 그때 필요했다.:/바닥이었을 때 현수에게 전화했다. 그는 그냥 들어줬다. 말 없이 들어주는 사람이 그때 필요했다.": {
+        "source_sha256": "9818c72efb1235d5a3ce27756a7441c41258a1ebb4a26a58125ccd0706627bc5",
+        "target_sha256": "c23f1c83910feb82dfa8fd50e4c16d2109a2b0a2416def8f0a5da88a49758a08"
+      },
+      "ui:현수는 공무원이 됐다. 서로 잘 살고 있다. 그 이상도, 이하도 아니다.:/현수는 공무원이 됐다. 서로 잘 살고 있다. 그 이상도, 이하도 아니다.": {
+        "source_sha256": "6d27f2eebd9954f9d6d7447756b3522652fb9c855a5e211cea77af442a50f0b2",
+        "target_sha256": "9d8b9a030b5e9a66a61215dca30025e636ab08b9696a26934360bf2c94f7ab87"
+      },
+      "ui:현수는 회계법인에 자리를 잡았다. 서로 잘 살고 있다. 그 이상도, 이하도 아니다.:/현수는 회계법인에 자리를 잡았다. 서로 잘 살고 있다. 그 이상도, 이하도 아니다.": {
+        "source_sha256": "8842c466f77f827d4ca9af9c6834cb57f6ffe472decc34c928e4afe8b87f3029",
+        "target_sha256": "3e4635a6a1a85c059176393e32900d376aa1bb30c2529e76c184f3429b9b6c6f"
+      },
+      "ui:5년 끝의 흔적:/5년 끝의 흔적": {
+        "source_sha256": "e99c144c6aedec0fb2d9d91d74f9da9b546427004ac3ef672ceabdb1e6293baf",
+        "target_sha256": "49e7b54c46368789307f308c75f3e6cb0a674dcb14d0c209c3769fb864a7f869"
+      },
+      "ui:통장 50만원. 남은 시간 5년.:/통장 50만원. 남은 시간 5년.": {
+        "source_sha256": "d3a96bb328302dc007cb5da854c1e61dca1c0ef02e02953c7cdb01709623919b",
+        "target_sha256": "387f0ac8d43d287bef63b3068137fb4dd7a58186fa53ec16a8aaf38f1d05930a"
+      },
+      "ui:시작:/시작": {
+        "source_sha256": "15500f61928005dabe1ef50aff869bc45558182bd85b1b6108da2252b1d324f3",
+        "target_sha256": "3661bd1117c6a8f7fdb3d16fac181e647a442b68f8e46f17972d92bf4444a8df"
+      },
+      "ui:아무 키나 누르세요:/아무 키나 누르세요": {
+        "source_sha256": "5578b43a10dfec829709d67543175ad441700b5fbcb8b638380da6094a00a1b7",
+        "target_sha256": "f1cfbd72c7049deec2e8c8476506d6bc173641071626ccf2063132a09c83c9f4"
+      },
+      "ui:김민준, 33세. 통장 50만원. 남은 시간 5년.:/김민준, 33세. 통장 50만원. 남은 시간 5년.": {
+        "source_sha256": "2d954abbdb5c715cfbd01554e2c6ec9b1dda5461cbb9d015e7dee733e4378094",
+        "target_sha256": "bdfe6dd896ac8a89de44127b67d0f9e89fdf1786548226fede3bcf6dc14b96b9"
+      },
+      "ui:어떤 사람이 되어 도착할지는, 아직 모른다.:/어떤 사람이 되어 도착할지는, 아직 모른다.": {
+        "source_sha256": "3204a384f9f6b1e9780c47b9e71f6fd7a81d60d190796a9e70ec8b19fba4e76d",
+        "target_sha256": "80cdd36fe3722680b4f4028670672d19b0eecd83890ea9a8a54f61e6c0f02ca5"
+      },
+      "ui:최근 기록  ·  %d년 %d월  ·  %s:/최근 기록  ·  %d년 %d월  ·  %s": {
+        "source_sha256": "ab5190c5a6de26a82c3851fb2a65d769b0b6c354049bf1a41bd701e07ac2042c",
+        "target_sha256": "904c7ce1d3022329d9bbbcc6bf3571148cf7df05c225905c377d4d03442bf6b7"
+      },
+      "ui:계속하기:/계속하기": {
+        "source_sha256": "a078ba5f4a11b737343f98ca7f52b6459f8998a78c322b57cec49466118c167b",
+        "target_sha256": "2da2d46366e15bf0d1210b9e8602b3c4ef5f5b4f617fe032ec2bac40a6dcb1cc"
+      },
+      "ui:새 이야기:/새 이야기": {
+        "source_sha256": "fe90bbf84f7411f9c1f1a694b810e3a7d8de1a302617db603814291d276c8583",
+        "target_sha256": "d1b9f2a6c79215fa4aa3abc50a47912ef224a6144aebae3daecd1c2c7d64d830"
+      },
+      "ui:방향키 이동  ·  Enter 선택  ·  Esc 뒤로:/방향키 이동  ·  Enter 선택  ·  Esc 뒤로": {
+        "source_sha256": "193d551e29b9c7d2985104ab22b7442ea2ad708562007170826a0baaef826f44",
+        "target_sha256": "503404131b8fc3d466a1f56383089069f0e0d580c830409b18c86ae03b73a1d4"
       }
     }
   },
-  "accepted_sha256": "a75ca786ee7a204cfd5ed1fe5da01f2d57beb5bb0138e3a1245c675d5ce7e40d",
+  "accepted_sha256": "3f148151db906ec4d515a4f26ca1337e48743ae431d69935a7dc5e5c22ff81a4",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
