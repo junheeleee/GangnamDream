@@ -101,3 +101,19 @@ MainGame/LocaleManager/StartMenu/EventManager/DataRegistry·project·사람 원�
 - 소유 fixture의 CASE 출력에서만 U+001F를 JSON escape로 보존한다. 값/기대104·원36·
   runner strict parser·warning/일반ERROR 규칙·게임 코드는 변경하지 않는다. Rawls 저작과
   Poincare 독립 사전대조 뒤 새 clean source에서 component만 재실행한다. 신규 수용0이다.
+
+## 첫 명명 차선 실패와 수집기 보존 수리
+
+- clean7ed4acf의 최초18차선은15통과/3실패다. named 원문46,812,996B(21d1d7ff),
+  outer380,697B(44507040)를 원형 보존한다. 새source36 통과는 주거 호출 보존 증거가 아니다.
+- 새 GS 수집과 역사 역투영에서 generic parser 결과만 사용하여 기존 동적 주거5키의
+  두 소비자 호출10개가 누락됐다. JA self14오류와 UI extra3은 이 누락을 드러낸다.
+  meta self의 내부 역사 실패도 원문으로 추적한다. 기존 사전/주거 코드/원장은 바꾸지 않는다.
+- Plato 소유 pipeline의 새267부록, helper의 현재 결속, newself의 현재 oracle·결속만
+  수리한다. 옛 함수/fixture/expected/원장 raw는 보존하며 새 현재 hash만 검토 후 결속한다.
+  Poincare가 원형36과 별개로 누락·중복·소비자 위변조의 최소 회귀 사례를 먼저 정한다.
+- 새 수집에서 원문 총량·manifest와 기존39292 receipt의 현재 source/target을 다시
+  대조하되 L1 전량·수용 재발급은 하지 않는다. 새 번역 수용0, 실패를 지우지 않는다.
+- 실제 표시104는 별도 수리 후보306efca에서 통과(98405891)했다. 게임·fixture·실행
+  입력34가 보존되면 엔진 반복0이다. 공유 수집기 수리의 영향 검사만 새 원문으로 받고,
+  변하지 않은 통과 항목은 기존 증거와 정확 바이트 비교로 이어간다. 최종 GO는 아직 없다.
