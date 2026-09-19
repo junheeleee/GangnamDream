@@ -117,3 +117,11 @@ MainGame/LocaleManager/StartMenu/EventManager/DataRegistry·project·사람 원�
 - 실제 표시104는 별도 수리 후보306efca에서 통과(98405891)했다. 게임·fixture·실행
   입력34가 보존되면 엔진 반복0이다. 공유 수집기 수리의 영향 검사만 새 원문으로 받고,
   변하지 않은 통과 항목은 기존 증거와 정확 바이트 비교로 이어간다. 최종 GO는 아직 없다.
+- 사전 보충12는 `order267-repair-independent-case-plan.json`이 봉인한다: 주거7과
+  역사 fullself5를 원36과 구분한다. meta 내부 실패는 승인264/266 method2의 역사
+  읽기 누락이다. 현재 whole332446ba와 두 span을 확인한 메모리 역복원7c6619c4만 허용한다.
+  기존 fullself 파일/옛MG9 pin은 수정하지 않는다. generic/complete 호출 모드는 명시하며
+  주거10 누락 입력을 보고 자동으로 generic 모드로 바꾸지 않는다.
+- 수리 후 새source(36+12+기존4), meta/CI/gift 역사3, JA self/UI, ZH self의 영향7개만
+  다시 실행한다. 공유 수집기가 바뀌므로 신규27 L1과39292 현재해시도 한 번 다시 검증한다.
+  공식 receipt 헤더는 과거 원문 그대로 두며 재발급하지 않는다. 원어민·화면 증거는 아니다.
