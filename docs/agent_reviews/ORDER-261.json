@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-261",
+  "scope": "work_unit",
+  "authority": "user_delegated_agent_final",
+  "reviewer": "Poincare",
+  "verdict": "GO",
+  "required": [],
+  "subject": {
+    "kind": "source",
+    "commit": "7bbe8de6ce0190db1451aa623957deb0c99b72ab",
+    "tree": "9abfb07fee1b82875a6e650329aa4c591217fc9a",
+    "manifest_sha256": null
+  },
+  "review": {
+    "commit": "648167ace7b3300cb4ca099d3b93928dc5d7fcc8",
+    "tree": "c1dcf38c10aa612a1654e2640b9d487dec3bcdbc",
+    "clean": true
+  },
+  "decision": "ORDER-261 LOCAL work_unit GO for the declared stored nongift inventory-name display repair and its bounded source/history compatibility. Required0 after direct final51 runtime and13 named-child readback. Earlier two runtime failures remain failures. This is not rendered/native/human/controller, item-use/gift-delivery, remote-release or full-product GO.",
+  "population": {
+    "product": "9 products: DataRegistry/Main display2, source/history guards4, new isolated fixture/runner2 and scope1. Exact13 changed paths are within owned19. CLAUDE/backlog are source changes; review648167a differs from source7bbe8de only by STATUS.",
+    "policy": "Default same-ID canonical aliases/missing name relocalize; custom, explicit blank/whitespace, typed name, unknown or malformed ID preserve legacy fallback. Same-language live override is retained; changed-language callback previews the next existing loader/preset result before DR reload. Existing gift branch and inventory/save names are not rewritten.",
+    "source": "Current finite25: normal2 and effective negative20, with claim2/OFF1 separately counted. Main core8 plus optional registration1; current DR revision semantics remain tested. Old CI20/28 and meta normal1→26/18/23/19/24/18 are distinct historical populations with restored providers/callables.",
+    "runtime": "Third actual run51/51:20 locale groups,6 designated same-panel language switches,10 live,7 preset,3 loader,4 storage,1 teardown.145 alias/95 edge/45 gift/30 acquisition nested comparisons are not additional groups.51 raw state triplets/153 snapshots/128 raw-file observations read.",
+    "qa": "First named13 passed onb750 despite runtime failure. Final second same13 all exit0 on648167a; every child stdout byte-exact to first and stderr empty. Final1600 named and1196 outer inputs unchanged/current; runtime21 pins unchanged and included in outer1196.",
+    "preservation": "Old47 decision ledger whole raw unchanged. UI/catalog/portable39151/b109/meta9, game-state/locale/save managers, prior fixtures, audit.sh/project and human evidence unchanged. No new translation acceptance or old whole-language audit/runtime545 rerun."
+  },
+  "findings": [
+    "Direct source2 policy review, fixed25/guard4 whole inverse and phase-only applied binding are joined to actual source tests. CI whole raw7ec161f1 is distinguished from masked code-view23a979a7.",
+    "First runtime groups0 failed from fixture _get/native signature conflict; exact isolated process terminated. Rename definition1/calls4 only. Second run48/51 failed with empty-card traversal error, save63/load14 equal-valued numeric type differences and teardown cache6 versus expected0. All originals remain linked.",
+    "Final6-hunk fixture repair is confined to empty-name-card read, save/load JSON numeric boundary and read-only cache-key/source-derived revision expectation. FIXED values/51 IDs/_run/runner/game code unchanged. Normal displays and loaded inventory retain typed checks.",
+    "Final raw51 confirms one actual inventory panel across15 signal-capture records (12 changes/3 noops; designated switch6 included), source-frozen names, raw stored inventory preservation and only-new-slot1 save behavior. Final engine0 and no ERROR/parse/script/leak lines; stderr1140B contains2 intentional unknown-preset/type-mismatch warnings.",
+    "Save/load whole-game equality is JSON-value equality, not original numeric-type equality. Loaded inventory is type-exact to Godot-parsed payload and subsequent display immutable. QA save/preset files remain in isolated namespace; measured memory/settings/roots restore does not imply user-disk rollback or whole-process restoration.",
+    "Original independent static review missed native _get collision and inferred premature LM warming incorrectly. It remains immutable; actual failures and final repair supersede those claims. Final setup baseline is not separately printed; raw51 shows cache keys3+3/revision6, while original0 was observed in the prior failure. Null spelling is actual str(null), not pre-execution Godot evidence.",
+    "Registry EXTRA19 advisories, Chapter gap24/debt8 blocked3, JA beta and full-product HOLD remain. Source clean/pins are verified; no remote outcome inferred."
+  ],
+  "evidence": [
+    {
+      "path": ".git/full-game-localization/order261-final-independent-binding.json",
+      "bytes": 18955,
+      "sha256": "50f1ebb02bb324174a868078fce5ae8d965d2e0b78dc9fc7c293f6d262c6297f",
+      "meaning": "Direct raw51/state/save/log,13 child pipes,current pins,source identity,repair deltas,first failures and prior independent reports."
+    },
+    {
+      "path": ".git/full-game-localization/order261-runtime-first.json",
+      "bytes": 376910,
+      "sha256": "50185dbf70c385ddd78a531291de1901c25209b94d523f77041f89ee56b965b0",
+      "meaning": "First retained runtime FAIL;groups0;engine-15 after exact isolated process termination."
+    },
+    {
+      "path": ".git/full-game-localization/order261-runtime-second.json",
+      "bytes": 378177,
+      "sha256": "602011db06d62d373b5f269b9344a19ba604f5b974ada494308235e3eb15b805",
+      "meaning": "Second retained runtime FAIL48/51,15.015642042s,1196unchanged;raw script error plus3 failed records."
+    },
+    {
+      "path": ".git/full-game-localization/order261-runtime-third.json",
+      "bytes": 376168,
+      "sha256": "b235bbfa30ce8c7ad6d0762c443cfc9a62054a680a6d73da0220f2a7832a35cf",
+      "meaning": "Third51/51,15.472052042s,1196unchanged;runner/log hashes and full raw state in linked isolated evidence."
+    },
+    {
+      "path": ".git/full-game-localization/order261-named-second.json",
+      "bytes": 14584075,
+      "sha256": "091d027d7b879faab6cccb08389eedeebaab80dbc0a54ab171fbfee2229f8366",
+      "meaning": "Actual second13/13,65.357770334s,1600unchanged;full individual raw stdout/stderr, not aggregate tails."
+    },
+    {
+      "path": ".git/full-game-localization/order261-named-outer-second.json",
+      "bytes": 377965,
+      "sha256": "f2ff03e4afab4a12b125dfb11a7a1e1494795d175a88bb72460ee429ba032ebc",
+      "meaning": "Outer65.683088291s,exit0/1196unchanged/clean648167a."
+    }
+  ],
+  "unobserved": [
+    "rendered_fit_or_actual_screen_capture",
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_item_use_and_gift_delivery",
+    "arbitrary_mods_and_custom_alias_provenance",
+    "whole_process_memory_or_user_storage_rollback",
+    "new_remote_CI_or_release_approval",
+    "full_product_GO"
+  ],
+  "operations": "Reviewer executed only read-only Git/files/standard-library evidence calculations and wrote own private reports. No repository module imports, QA/collector/engine reruns, product/ops changes, Git writes or remote calls. PublicGO1/humanOPEN45/full-product HOLD unchanged."
+}

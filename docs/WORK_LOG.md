@@ -4,9 +4,10 @@
 > [9/12 현지화 보존본](history/WORK_LOG_2026-09-12_localization.md)에 손실 없이 보존한다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg`로 필요한 항목을 찾는다.
 
-## 2026-09-19 (Codex — 저장 물건명 갱신 착수)
+## 2026-09-19 (Codex — 저장 물건명 갱신 마감)
 
-- [261](queue_active/ORDER-261.md): 표시 consumer·저장 보존을 맡는다. 제품9경로·정책 독립0결손, 본편HOLD.
+- 독립261 단위GO: source7bbe8de/검토648167a. [원문·실패·한계](queue_archive/ORDER-261.md).
+- 실제51·고유13 PASS, 저장명·공개GO1·인간OPEN45 보존. 본편HOLD.
 
 ## 2026-09-19 (Codex — 이전 CI 수리 마감)
 

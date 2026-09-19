@@ -1,3 +1,42 @@
+# ORDER-261 — 저장 소지품 이름 언어 갱신 결과
+
+[x] ORDER-261 — 2026-09-19. Poincare LOCAL work_unit GO.
+
+제품 source `7bbe8de6ce0190db1451aa623957deb0c99b72ab` / tree `9abfb07fee1b82875a6e650329aa4c591217fc9a`
+clean 검토 `648167ace7b3300cb4ca099d3b93928dc5d7fcc8` / tree `c1dcf38c10aa612a1654e2640b9d487dec3bcdbc`
+
+## 결과와 증거 경계
+
+ORDER-261 LOCAL work_unit GO for the declared stored nongift inventory-name display repair and its bounded source/history compatibility. Required0 after direct final51 runtime and13 named-child readback. Earlier two runtime failures remain failures. This is not rendered/native/human/controller, item-use/gift-delivery, remote-release or full-product GO.
+
+- 기본 소지품 이름은 현재 언어로 표시하고 custom·빈값·비문자열·unknown 저장값은 유지한다.
+  같은 ID의 기본 별칭과 정확히 같은 custom은 저장 포맷상 구분하지 못한다.
+- 실제 격리 component51은 세 번째 실행에서 통과했다(outer b235bbfa·15.472초·1196불변).
+  같은 패널 전환6, 언어별 표본20, live10, preset7, loader3, storage4, teardown1이다.
+- 첫 runtime50185dbf의 parse/groups0/종료−15와 두 번째602011db의48/51·오류는 보존한다.
+  수리는 fixture 이름 충돌·빈 카드 판독·JSON 숫자 경계·lazy cache 기대에 한정했다.
+  최초 static의 baseline 이전 cache warm 추론은 실제0→6 관측으로 정정했다.
+- 고유13은 첫894f3fb4와 최종091d027d 모두 통과, 최종65.358초·1600입력 불변이다.
+  새source25/유효음성20, 보존된 역사20/28와 meta chain은 중복 모집단으로 합산하지 않는다.
+- 저장 경계만 JSON 수치값으로 비교하고 일반 표시·loaded inventory의 typed 검사는 유지한다.
+  raw stream·세이브 bytes·캐시 key 근거는 독립 보고에 결속한다.
+- 새 번역수용0·공식39151/b109/meta9 유지. 렌더·원어민·인간 플레이·실제사용/선물전달은 미관측이다.
+  공개GO1·인간OPEN45·본편HOLD 유지, 별도 CI의 종료 resource/ObjectDB 잔여를 닫지 않는다.
+
+규범 분류: 기존 현지화·저장 호환·검수 계약의 일회성 적용. 새 영구 규칙0.
+
+[독립 최종 보고](../agent_reviews/ORDER-261.json) · SHA cfb120f3b60facdee37d6a3fb99d1a5e5239d6841c8edf66b0c3e5e67bb6f331
+
+## WORK 착수 원문 보존
+
+아래 링크는 당시 WORK 원형이며 활성 사양 원문은 마지막 절에 보존한다.
+
+## 2026-09-19 (Codex — 저장 물건명 갱신 착수)
+
+- [261](queue_active/ORDER-261.md): 표시 consumer·저장 보존을 맡는다. 제품9경로·정책 독립0결손, 본편HOLD.
+
+## 선언·진행 원문 보존
+
 # 저장한 소지품 이름의 현재 언어 표시
 
 #### [~] ORDER-261 저장 물건명 언어 갱신
