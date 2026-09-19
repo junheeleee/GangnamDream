@@ -4478,6 +4478,26 @@
       "machine_validation": "PASS",
       "rendered_review": "OPEN",
       "native_review": "OPEN"
+    },
+    {
+      "order": "ORDER-275",
+      "group": "ui",
+      "roots": [
+        "무직",
+        "다은과 사는 작은 서울 신혼집",
+        "다은과 사는 신혼집",
+        "💥 마진콜! %s 강제청산 — 손실 %s",
+        "외 %d개 기록"
+      ],
+      "source_leaves": 5,
+      "target_leaves_by_locale": {
+        "zh-CN": 5,
+        "zh-TW": 5
+      },
+      "source_review": "Five exact live-consumer keys: unemployed, two shared newlywed home names, existing leveraged-holding margin-call log and additional month-summary record count. CN and TW authored independently from Korean, full nonauthor review. First-paycheck promises excluded. Existing Japanese and39895 receipts preserved. No ownership/acquisition/AP ingress or historical-log retranslating claim.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN"
     }
   ],
   "accepted": {
@@ -110467,6 +110487,26 @@
       "ui:이 게임에는 다음과 같은 내용이 포함됩니다:\n\n• 재정적 어려움과 부채\n• 가족·사회적 압박과 비교\n• 직장 스트레스와 번아웃\n• 정신건강 관련 묘사\n\n강남드림은 현실적인 삶을 다룹니다. 어려운 상황들은 이야기의 일부이며, 권장하는 내용이 아닙니다.:/이 게임에는 다음과 같은 내용이 포함됩니다:\n\n• 재정적 어려움과 부채\n• 가족·사회적 압박과 비교\n• 직장 스트레스와 번아웃\n• 정신건강 관련 묘사\n\n강남드림은 현실적인 삶을 다룹니다. 어려운 상황들은 이야기의 일부이며, 권장하는 내용이 아닙니다.": {
         "source_sha256": "644bdab252fab1c992288ac1bd881f1caeff4c8c44c9632d6124d29cdbc05ae6",
         "target_sha256": "9855ea87a458857fc3a60909b064608c75006c20f372f1b221292c52596bd307"
+      },
+      "ui:다은과 사는 신혼집:/다은과 사는 신혼집": {
+        "source_sha256": "904d931b58f9562e11a04804f8914c76f698c6a2551621690c51c84015dfbf97",
+        "target_sha256": "d9912cd299526e1032e5223183400f3d791cbc1ff7b7e93a12ff81d0184cb539"
+      },
+      "ui:다은과 사는 작은 서울 신혼집:/다은과 사는 작은 서울 신혼집": {
+        "source_sha256": "0eaab459253dbb622df0c85239fcdf79da5cb9a7d2473256de15d721be9b7c2f",
+        "target_sha256": "6c4a795a46d753ceac374516c84d432e35245f2129e0df95b5c70580720775e9"
+      },
+      "ui:무직:/무직": {
+        "source_sha256": "be1ed2da6d6d8f473b3ddb875597912724c7e3f5852bee4dd55a3bbf7f749ab5",
+        "target_sha256": "31759bcc4bfeb05368574ecf99fc3752a47374d6ce40fc5bbfd5d38b5701d39c"
+      },
+      "ui:외 %d개 기록:/외 %d개 기록": {
+        "source_sha256": "b520ab0ffb8e5e7c130d9c9e0e9d170eef25800b700b7ee44647ad675483bad3",
+        "target_sha256": "75c56733d29edd7b8095d1061e583c02a1c326a66740820a92dc542b5d7d2043"
+      },
+      "ui:💥 마진콜! %s 강제청산 — 손실 %s:/💥 마진콜! %s 강제청산 — 손실 %s": {
+        "source_sha256": "6f18d235b560481bc5a1914ed4c99171f4584a45ef70e7ff734aca0ce3095773",
+        "target_sha256": "26007881864f1f6512cb770e024ff46d65a12bda54ea3a84ce5ff8e721587b6b"
       }
     },
     "zh-TW": {
@@ -164065,10 +164105,30 @@
       "ui:이 게임에는 다음과 같은 내용이 포함됩니다:\n\n• 재정적 어려움과 부채\n• 가족·사회적 압박과 비교\n• 직장 스트레스와 번아웃\n• 정신건강 관련 묘사\n\n강남드림은 현실적인 삶을 다룹니다. 어려운 상황들은 이야기의 일부이며, 권장하는 내용이 아닙니다.:/이 게임에는 다음과 같은 내용이 포함됩니다:\n\n• 재정적 어려움과 부채\n• 가족·사회적 압박과 비교\n• 직장 스트레스와 번아웃\n• 정신건강 관련 묘사\n\n강남드림은 현실적인 삶을 다룹니다. 어려운 상황들은 이야기의 일부이며, 권장하는 내용이 아닙니다.": {
         "source_sha256": "644bdab252fab1c992288ac1bd881f1caeff4c8c44c9632d6124d29cdbc05ae6",
         "target_sha256": "6165c5a88f9d094b20d5a76c5cd7bd5f83bb24bb81f043f1304f5ef614959166"
+      },
+      "ui:다은과 사는 신혼집:/다은과 사는 신혼집": {
+        "source_sha256": "904d931b58f9562e11a04804f8914c76f698c6a2551621690c51c84015dfbf97",
+        "target_sha256": "27442c3aaa0eb7edcb2bfe106438d623a81d3ee88fb1b35ed059994625cef52c"
+      },
+      "ui:다은과 사는 작은 서울 신혼집:/다은과 사는 작은 서울 신혼집": {
+        "source_sha256": "0eaab459253dbb622df0c85239fcdf79da5cb9a7d2473256de15d721be9b7c2f",
+        "target_sha256": "44f649f8a3c7b9ce48bdbe7b8d4dc0e01b747d9fc795a8aab659a7ab45d0e283"
+      },
+      "ui:무직:/무직": {
+        "source_sha256": "be1ed2da6d6d8f473b3ddb875597912724c7e3f5852bee4dd55a3bbf7f749ab5",
+        "target_sha256": "53d994d391169be50f921bff3711ac05b2408bd4b7321e5cb9096275ff7bc60a"
+      },
+      "ui:외 %d개 기록:/외 %d개 기록": {
+        "source_sha256": "b520ab0ffb8e5e7c130d9c9e0e9d170eef25800b700b7ee44647ad675483bad3",
+        "target_sha256": "18071a62cd0ac4d2a3d6943c7207703c42d0e9db25aeddb8c6f932047d84e34e"
+      },
+      "ui:💥 마진콜! %s 강제청산 — 손실 %s:/💥 마진콜! %s 강제청산 — 손실 %s": {
+        "source_sha256": "6f18d235b560481bc5a1914ed4c99171f4584a45ef70e7ff734aca0ce3095773",
+        "target_sha256": "697ba22fac298c8b20ecc61ed0ec0d5029268cbff20f90b2acfa2a63a20be1c4"
       }
     }
   },
-  "accepted_sha256": "8c5250e342ad3e4122709266cf18839529e0e34961d86070f86c316c406d851c",
+  "accepted_sha256": "7d3fcc785b558310d1f99c3be47c3538b794421d2f4317a50008ccadeb5e32c2",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
