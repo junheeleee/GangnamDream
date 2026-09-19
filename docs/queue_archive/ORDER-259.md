@@ -1,3 +1,27 @@
+# ORDER-259 — 시장 뉴스 번역·공식 수용 결과
+
+[x] ORDER-259 — 2026-09-19. Poincare LOCAL work_unit GO.
+
+제품 source de7c46733951e81f876c322f166d233a16acf000 / tree ce852f520c8c2cb97fb4aca1db815c54a6b14a6f
+clean 검토 34094f4ed634e72963fb23b0ff3e5bc38ddac9ee / tree 73c6fddb68c112bc547c8ecae639beff5e7c9454
+
+## 결과와 관측 경계
+
+ORDER-259 local work_unit GO for nine existing market-news keys, Japanese9 preservation, Chinese18 additions and official27 machine acceptances. Not actual news-panel/relocalization, rendered/native/human/controller, remote-release or full-product GO.
+
+- language: 9 Korean source keys ×3 locales=27 independently reviewed values; JA9 unchanged, CN/TW each9 appended. Required0/optional0.
+- source: Actual collector9 unique legacy leaves/protected0; parser11 literals in _render_news8, _random_topic2 and _invest_pages1. Static source ownership, not11 runtime actions.
+- acceptance: 39076→39103, batches107→108; JA13033/CN13035/TW13035. Metadata9 and all old39076 receipts preserved; new27 source/target hashes and3 actual receipts match approved table/current UI.
+- QA: On clean review34094f4, new27 L1 plus old39076 current-hash preservation PASS; first actual fixed12 PASS. Prior whole39076 L1 is reused with unchanged old source/target/checkers, not rerun. No new engine, Chapter, save or full-audit run.
+
+최초 portable 순서 오류와 두 번째 성공은 별도 보존했다. 자동 검사·에이전트 검수는 실제 뉴스·렌더·원어민·인간 플레이를 대체하지 않는다. 공개 GO1·인간 OPEN45·본편 HOLD 유지.
+
+규범 분류: 기존 현지화·검수 계약의 일회성 적용이며 새 영구 규칙0이다.
+
+[독립 최종 보고](../agent_reviews/ORDER-259.json) · SHA 7177d4fd3f022cf1715a04580e009618bc3d57569eafc0e1ac075259280ea4d4
+
+## 선언·진행 원문 보존
+
 # 시장 뉴스 표면의 일본어·중국어 번역 수용
 
 #### [~] ORDER-259 시장 뉴스 번역

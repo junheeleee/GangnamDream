@@ -1882,6 +1882,49 @@
         "path": "docs/agent_reviews/ORDER-258.json",
         "sha256": "5181928e493b1e5469e52fcf23063ae74c5abcc7d4ac89806aa2609274effe33"
       }
+    },
+    {
+      "id": "order-259-source-de7c467-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-19",
+      "decided_by": "Poincare",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-259",
+      "subject": {
+        "kind": "source",
+        "commit": "de7c46733951e81f876c322f166d233a16acf000",
+        "tree": "ce852f520c8c2cb97fb4aca1db815c54a6b14a6f",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-259.json",
+          "sha256": "7177d4fd3f022cf1715a04580e009618bc3d57569eafc0e1ac075259280ea4d4"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/queue_archive/ORDER-259.md",
+          "sha256": "83b952cf1c042bc61e3b6fcf4d13d68c962d453e1044cc49af0b3dab6907614c"
+        }
+      ],
+      "unobserved": [
+        "actual_news_panel_interaction",
+        "all_mode_news_generation",
+        "saved_headline_topics_relocalization",
+        "actual_rendered_fit",
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "new_remote_CI_or_release_approval",
+        "full_product_GO"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-259.json",
+        "sha256": "7177d4fd3f022cf1715a04580e009618bc3d57569eafc0e1ac075259280ea4d4"
+      }
     }
   ]
 }

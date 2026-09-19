@@ -1,0 +1,140 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-259",
+  "scope": "work_unit",
+  "authority": "user_delegated_agent_final",
+  "reviewer": "Poincare",
+  "role": "Independent Korean-source/language27, driver and actual acceptance/final evidence reviewer. Rawls authored targets; ROOT applied products and ran every captured command. Reviewer authored no product or QA.",
+  "subject": {
+    "kind": "source",
+    "commit": "de7c46733951e81f876c322f166d233a16acf000",
+    "tree": "ce852f520c8c2cb97fb4aca1db815c54a6b14a6f",
+    "manifest_sha256": null
+  },
+  "review": {
+    "commit": "34094f4ed634e72963fb23b0ff3e5bc38ddac9ee",
+    "tree": "73c6fddb68c112bc547c8ecae639beff5e7c9454",
+    "clean": true,
+    "source_resolver": "Read resolver contract directly: exact review parent is source, wrapper changes STATUS only. Source includes portable and truthful CLAUDE/backlog changes; neither is treated as exempt metadata."
+  },
+  "verdict": "GO",
+  "required": [],
+  "optional": [],
+  "decision": "ORDER-259 local work_unit GO for nine existing market-news keys, Japanese9 preservation, Chinese18 additions and official27 machine acceptances. Not actual news-panel/relocalization, rendered/native/human/controller, remote-release or full-product GO.",
+  "population": {
+    "language": "9 Korean source keys ×3 locales=27 independently reviewed values; JA9 unchanged, CN/TW each9 appended. Required0/optional0.",
+    "source": "Actual collector9 unique legacy leaves/protected0; parser11 literals in _render_news8, _random_topic2 and _invest_pages1. Static source ownership, not11 runtime actions.",
+    "acceptance": "39076→39103, batches107→108; JA13033/CN13035/TW13035. Metadata9 and all old39076 receipts preserved; new27 source/target hashes and3 actual receipts match approved table/current UI.",
+    "QA": "On clean review34094f4, new27 L1 plus old39076 current-hash preservation PASS; first actual fixed12 PASS. Prior whole39076 L1 is reused with unchanged old source/target/checkers, not rerun. No new engine, Chapter, save or full-audit run."
+  },
+  "findings": {
+    "meaning": "Direct KO review preserves rumor uncertainty/precedence and favorable/adverse strength; no guaranteed returns or buy/sell advice. Shared market/Market calls retain one meaning. Thresholds/signs/percent/RNG/body cache are untouched.",
+    "formal": "Pre-edit source-export873f3e4 stays separate from applied export/check/import83110c9. All27 source/response/receipt fields and digests directly checked; check/import changed_files0. Removing new27+batch1 restores previous portable whole raw; JA whole and old CN/TW dictionaries restore exactly.",
+    "preservation": "Four products only: CN/TW dictionaries, portable, one explicit-only lane. Full committed11 paths⊂owned14. Outer1194 and named1593 before/after pins independently match their exact Git blobs and current raw. Old44 decisions/human1done45open/public source/game/project/collectors/checkers/audit.sh remain raw-exact.",
+    "actual_checks": "All12 raw child exits0: fullself262, EN clean, JA pipeline146, JA UI2974/errors0 beta, ZH12446 skeleton, story-demo self4 and normal5 locales, registry146, queue25/fence4, agent222/HOLD, context375, queue77/in_progress75. Fullself196958B decoded, all97 preserved finite trace result flags parsed PASS; historical test designs were not newly re-reviewed.",
+    "limits": "Fullself stderr is unittest progress/OK (363B), not empty; other11 stderr empty. Registry18 EXTRA advisories retained. ZH463/2945 legacy,6/29 context,direct bypass13,shipping0 and glyph1395/1421 are limited static evidence, not native/rendered approval. Current collector17484 and unsupported138/22/329 remain."
+  },
+  "failure_history": [
+    {
+      "stage": "portable-first",
+      "kind": "ROOT prerequisite-order error",
+      "exit": 1,
+      "seconds": 0.796647416,
+      "detail": "TW receipt absent because import completion was not yet confirmed. Original FileNotFoundError retained; stdout/patch0 and1194 inputs unchanged. This is not first-portable PASS or translation failure.",
+      "evidence": {
+        "path": ".git/full-game-localization/order259-portable-first.json",
+        "bytes": 377421,
+        "sha256": "1c01c8c210ceb17e213e36f1f8f58477016442d8bdd2c37fc4e40bbaf5f406b7"
+      },
+      "resolution": "Import-first completed successfully; same helper/expectations then produced distinct portable-second PASS, 1.506961667s.",
+      "resolved_evidence": {
+        "path": ".git/full-game-localization/order259-portable-second.json",
+        "bytes": 401975,
+        "sha256": "ca0f56927fbf3a73c96ad53d938469382a6d2a3dbd124c8b4fc9730e9cb45127"
+      }
+    }
+  ],
+  "measurements": {
+    "source_manifest_sha256": "89c131c71345c3f27df36c0bacfa1a0791fca680b7eca4ed1d3a3ef30ee7170e",
+    "preservation_seconds": 6.090245417,
+    "named_seconds": 98.963923375,
+    "named_outer_seconds": 99.262404875,
+    "named_inputs": 1593,
+    "outer_inputs": 1194,
+    "portable": {
+      "bytes": 10172359,
+      "sha256": "f790610de6ae5fafe63169003ba3ac1c4265dff1c6302b8d9a7e9261d56d56f9",
+      "accepted_sha256": "371f770371d819a28c490eeeebd04b06226c472070e43b2f5a2da38cee6b9566"
+    }
+  },
+  "evidence": {
+    "binding": {
+      "path": ".git/full-game-localization/order259-final-independent-binding.json",
+      "bytes": 15269,
+      "sha256": "07560fb06e95210404d8105b446321643b007291aeb91351c3d9c25904b9d839"
+    },
+    "language": {
+      "path": ".git/full-game-localization/order259-language-independent-review.json",
+      "bytes": 8297,
+      "sha256": "d1004b79e8c61b2a6311fb5f7387f8f38118fa519e77079871b4023a6586a1c5"
+    },
+    "formal_export": {
+      "path": ".git/full-game-localization/order259-export-first.json",
+      "bytes": 389688,
+      "sha256": "949d05fc8f64c8a2364362d3d68b085b73d1b7f2c59e57e8a95db1a62f498537"
+    },
+    "formal_check": {
+      "path": ".git/full-game-localization/order259-check-first.json",
+      "bytes": 388317,
+      "sha256": "f833ffa90d2747628948966005922de193410bf95bb85158903df50f81a7c168"
+    },
+    "formal_import": {
+      "path": ".git/full-game-localization/order259-import-first.json",
+      "bytes": 388533,
+      "sha256": "ffaeca823cd2d522c87019e04a211f6b3f02cce804d85ea9821c0a3a3022d7c1"
+    },
+    "final_preservation": {
+      "path": ".git/full-game-localization/order259-preservation-first.json",
+      "bytes": 375991,
+      "sha256": "26ccaadb1e49009da76def331f432032a7ec5b28189ca8db1f7d75751f700160"
+    },
+    "named": {
+      "path": ".git/full-game-localization/order259-named-first.json",
+      "bytes": 1130956,
+      "sha256": "7a9efd73a98b48e9b9e4d67326478aa0234ccb39379ebe9e7facc3155458c1db"
+    },
+    "named_outer": {
+      "path": ".git/full-game-localization/order259-named-outer-first.json",
+      "bytes": 377119,
+      "sha256": "77e8c3b716159d364bca217620882433aa385d14df9a3b54074bbe5cb396b61b"
+    },
+    "prior_whole_L1": {
+      "path": ".git/full-game-localization/order258-all-accepted-first.json",
+      "bytes": 377323,
+      "sha256": "4a7e62d469e18c0c07f8bff632a9b0d7364602c83ecdbd5ca8d3324e5eb846cb",
+      "reexecuted": false
+    }
+  },
+  "unobserved": [
+    "actual_news_panel_interaction",
+    "all_mode_news_generation",
+    "saved_headline_topics_relocalization",
+    "actual_rendered_fit",
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "new_remote_CI_or_release_approval",
+    "full_product_GO"
+  ],
+  "review_operations": {
+    "repo_module_import": 0,
+    "QA": 0,
+    "collector": 0,
+    "engine": 0,
+    "remote": 0,
+    "product_or_ops_writes": 0,
+    "git_mutation": 0,
+    "private_review_writes_only": true
+  },
+  "skill_influence": "gangnamdream-dev kept direct Korean meaning, public/player-state preservation and independent bounded acceptance separate from runtime/native/full-product claims."
+}
