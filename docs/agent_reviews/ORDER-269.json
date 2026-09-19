@@ -1,0 +1,353 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-269",
+  "scope": "work_unit",
+  "authority": "user_delegated_agent_final",
+  "reviewer": "Poincare",
+  "decision_date": "2026-09-20",
+  "subject": {
+    "kind": "source",
+    "commit": "b48cbc7099c1eb5b487a264fe04a230e00ff00ea",
+    "tree": "4783c9c646cb75e83baf57e17ee5a8650adf6c30",
+    "manifest_sha256": null
+  },
+  "review": {
+    "commit": "e4b63b6bba1048d23017dbcd8e1661ff29513f22",
+    "tree": "b113569d59bfde913de14bb01e940b1eeec28ca5",
+    "clean": true
+  },
+  "verdict": "GO",
+  "required": [],
+  "decision": "ORDER-269의 16개 기능 164개 번역 반영·공식 수용 및 4개 기능 38개 원고의 명시적 machine-HOLD 처리를 한정 승인한다. 원래 202개 전체의 기계 통과나 전체 39,614개 번역·게임의 품질 완료를 뜻하지 않는다. 아래 보류 원고는 검토된 r1 원문 보존용이며 실제 UI 또는 공식 수용값이 아니다.",
+  "population": {
+    "language_review": "20개 기능, KO 101개 × zh-CN/zh-TW = 202개 전수. 최초 필수 의미수정 2개 후 각 locale row42만 수정한 r1은 언어 GO, 다른 200개 보존.",
+    "accepted": "16개 기능, locale별 82개 = 164개 신규 UI 및 공식 accepted 레코드.",
+    "machine_hold": "4개 기능, locale별 19개 = 38개. 전수진단의 실제 거부 6개/locale를 포함한 기능 전체를 보류했으므로 기계 거부가 없는 나머지 26개도 함께 보류.",
+    "preservation": "기존 accepted 39,450개와 batch 113의 원형을 보존하여 최종 39,614개 / batch 114 / 기존 metadata 9개. JA 13,096개, CN·TW 각각 13,259개.",
+    "selected_checks": "최종 clean review에서 고유 12개 모두 exit 0. 내부 1,623개 입력과 외부 1,202개 입력은 실행 전후 및 최종 현재 실물과 동일.",
+    "UI": "JA 변경 0. CN·TW 각각 기존 648개에 신규 82개만 추가하여 730개. 현재 UI 합집합 3,015개에 대해 각각 2,285개 부재; 이는 전체 실행 화면 번역률이 아니다.",
+    "retained_boundaries": "기존 판정 55개, ORDER-268 보류 31행/62개 원고, public/human 정본과 45 OPEN / 1 done, full-product HOLD 보존."
+  },
+  "independent_readback": {
+    "performed": "승인 r1 원고, 고정 source/기능 membership, 실제 UI, formal source/response/accepted receipt, portable, 현재 Git 범위와 실제 캡처 원출력을 직접 대조했다. 이전 언어·machine-boundary 보고를 재사용하되 실제 수용과 최종 결과는 별도로 읽었다. 검사·모듈·엔진·원격 실행 및 제품 수정은 하지 않았다.",
+    "identity": "baseline a09fb3c2eb7c3edda7b899dd12159a81595b0787 대비 변경 10경로는 소유 13경로 이내. 제품 변경은 CN UI, TW UI, portable 3개뿐이며 source→review는 STATUS만 다르다.",
+    "acceptance": "두 locale의 formal source/response 각각 header 82 + record 82, 고유 ID와 승인 r1 target 전량 일치. source hash, target hash, receipt digest를 독립 재계산했고 실제 accepted receipt 2개와 portable 신규 164개가 일치한다. 미반영 held ID는 live UI·accepted에 없다.",
+    "inverse": "CN·TW 신규 82행씩 제거하면 각 이전 UI whole raw와 일치한다. portable 신규 164개와 마지막 batch를 제거하고 이전 accepted digest를 복원하면 이전 10,287,349 B / 7ffcd628886229566188765a068fe55394dcb99e2d12537f5059f117d2cf1af9 원형과 일치한다. 기존 모든 source/target hash가 보존됐다.",
+    "formal_execution": "pre-edit admissible check 82개씩 통과 후 설치·재export·import 검증이 수행됐다. formal export/import의 실제 clean subject는 6521545ae7d830604c474b0cdd46782ece7e2cfb이며 import changed_files는 각각 0이다. 별도 post-edit formal check 실행을 주장하지 않는다.",
+    "preservation_execution": "preservation-first는 HEAD 6521545ae7d830604c474b0cdd46782ece7e2cfb에서 portable 수정이 미커밋인 상태로 수행됐다. 이를 최종 clean 후보 실행으로 바꾸어 기술하지 않는다. 그 캡처의 1,202개 입력이 최종 현재 실물과 동일함을 직접 재결속했다.",
+    "named_execution": "최종 review e4b63b6bba1048d23017dbcd8e1661ff29513f22에서 12개 실제 child의 stdout/stderr raw bytes·SHA와 exit/marker를 확인했다. fullself의 prefixed JSON도 분리 파싱하여 결과를 확인했으며 과거 전체 사례의 저작을 새로 재감사한 것으로 세지 않는다.",
+    "preparation_helpers": "exchange의 전체 r1 101개 검증 후 4기능 제외·82개 수용 분기와 whole inverse, named의 고정 12개/소유 13경로/clean 신원/raw child 보존, capture의 원출력·입력 보존을 정적으로 읽었다. 현재 closure의 실행 승인 또는 완료 판정은 이 보고 범위가 아니다."
+  },
+  "results": {
+    "preservation": {
+      "exit_code": 0,
+      "seconds": 6.108453041,
+      "input_count": 1202,
+      "unchanged": true,
+      "old_full_L1_rerun": false
+    },
+    "named": {
+      "children": 12,
+      "passed": 12,
+      "seconds": 115.55736675,
+      "input_count": 1623,
+      "unchanged": true,
+      "outer_seconds": 115.860684917
+    },
+    "regression": "fullself 264 unittest OK (stderr는 정상 진행 및 OK 365 B). 새로 추가한 현재 검사가 아니라 기존 선택 회귀이며 ORDER-264의 60/46, ORDER-266의 64/48 요약도 실제 출력에 보존됐다.",
+    "other_selected": "JA self 146, ZH self 12,446 및 skeleton AUDIT_OK, JA UI 2,977/errors 0, storydemo self·5locale actual, EN coverage, registry, queue index, agent gate, context와 active queue 모두 실제 선택 출력 PASS.",
+    "current_portable": {
+      "bytes": 10332590,
+      "sha256": "33622b6837c1092e0cc0a878ad7f8498024add6a518a5e1151ae49ed5012e5e1",
+      "accepted_digest": "920f2bf8c312385eb8b126ebb692b0ce7e46d272b80eb6ad4f010ee6bebd2fef"
+    },
+    "collector_source_manifest_sha256": "2346e6c48c09e9795147c01b5c44580f788eeb1b611f02b3c65d0b29f13b9ead"
+  },
+  "failure_history": [
+    "최초 언어 REWORK 2개: CN/TW row42가 정보상의 진위 상태를 발언 전체의 사실 보장으로 넓히는 문제. r1에서 각각 '消息贩子确有真料' / '情報商確實有料'로 수정, 다른 100행/locale 원형 보존. 최초 보고·초안 불변.",
+    "최초 check는 CN/TW 각각 '1·2·3착을 순서까지 정확히 — 대박, 초고배당'에서 첫 오류 1개로 중단했다. 이를 전수 6개 오류를 관찰한 check로 기술하지 않는다.",
+    "뒤이은 기존 translation_errors 전수 진단에서 CN 6개/TW 6개 거부를 확인했다. 진단 수집 exit 0은 202개 machine PASS가 아니다. 착순 숫자의 개체 수 오인, 상속된 %dm 단위 판정, 원화 지출의 source-bound 수량 판정 경계로 분리했다. 자연문을 비틀거나 validator를 수리하지 않고 4기능 전체 38개를 HOLD했다."
+  ],
+  "held_drafts_status": "reviewed_but_machine_HOLD_not_live_UI_or_accepted; sealed revision1 원문 그대로 보존하며 후속 재저작 방지용이다.",
+  "held_units": [
+    {
+      "unit": "bet_type_explanations",
+      "keys_per_locale": 4
+    },
+    {
+      "unit": "horse_form_rows",
+      "keys_per_locale": 8
+    },
+    {
+      "unit": "race_header_cash",
+      "keys_per_locale": 2
+    },
+    {
+      "unit": "tipster_and_cash_checks",
+      "keys_per_locale": 5
+    }
+  ],
+  "held_drafts": [
+    {
+      "id": "ui:고른 말이 1·2착 안에 들면 적중 — 안전, 낮은 배당:/고른 말이 1·2착 안에 들면 적중 — 안전, 낮은 배당",
+      "unit": "bet_type_explanations",
+      "ko": "고른 말이 1·2착 안에 들면 적중 — 안전, 낮은 배당",
+      "zh-CN": "所选赛马跑进第1或第2名即押中 — 较稳妥，低赔率",
+      "zh-TW": "所選的馬跑進第1·2名即可命中 — 較安全，賠率低"
+    },
+    {
+      "id": "ui:고른 말이 1착이면 배당만큼 — 기본:/고른 말이 1착이면 배당만큼 — 기본",
+      "unit": "bet_type_explanations",
+      "ko": "고른 말이 1착이면 배당만큼 — 기본",
+      "zh-CN": "所选赛马获第1名，按赔率派彩 — 基础玩法",
+      "zh-TW": "所選的馬拿下第1名即按賠率派彩 — 基本玩法"
+    },
+    {
+      "id": "ui:고른 2마리가 1·2착 (순서 무관) — 중간 배당:/고른 2마리가 1·2착 (순서 무관) — 중간 배당",
+      "unit": "bet_type_explanations",
+      "ko": "고른 2마리가 1·2착 (순서 무관) — 중간 배당",
+      "zh-CN": "选中的2匹马包揽第1、2名（不分顺序）— 中等赔率",
+      "zh-TW": "所選的2匹馬分別跑進第1·2名 (順序不限) — 中等賠率"
+    },
+    {
+      "id": "ui:1·2·3착을 순서까지 정확히 — 대박, 초고배당:/1·2·3착을 순서까지 정확히 — 대박, 초고배당",
+      "unit": "bet_type_explanations",
+      "ko": "1·2·3착을 순서까지 정확히 — 대박, 초고배당",
+      "zh-CN": "准确押中第1、2、3名及其顺序 — 大奖，超高赔率",
+      "zh-TW": "準確猜中第1·2·3名及順序 — 大獎，超高賠率"
+    },
+    {
+      "id": "ui:[b]경마장[/b]   ·   제%d경주   ·   %dm   ·   마장 %s:/[b]경마장[~1b]   ·   제%d경주   ·   %dm   ·   마장 %s",
+      "unit": "race_header_cash",
+      "ko": "[b]경마장[/b]   ·   제%d경주   ·   %dm   ·   마장 %s",
+      "zh-CN": "[b]赛马场[/b]   ·   第%d场   ·   %dm   ·   场地%s",
+      "zh-TW": "[b]賽馬場[/b]   ·   第%d場   ·   %dm   ·   場地 %s"
+    },
+    {
+      "id": "ui:현금 [b]%s[/b]      중독도 [color=%s]%s[/color] %d/100      안목(지력) %d:/현금 [b]%s[~1b]      중독도 [color=%s]%s[~1color] %d~1100      안목(지력) %d",
+      "unit": "race_header_cash",
+      "ko": "현금 [b]%s[/b]      중독도 [color=%s]%s[/color] %d/100      안목(지력) %d",
+      "zh-CN": "现金 [b]%s[/b]      成瘾度 [color=%s]%s[/color] %d/100      眼力（智力）%d",
+      "zh-TW": "現金 [b]%s[/b]      成癮程度 [color=%s]%s[/color] %d/100      眼光(智力) %d"
+    },
+    {
+      "id": "ui:   말 〔최근전적·선호〕  ·  클래스 거리 마장 기수  ·  단승배당   (★높은데 배당도 높으면 = 저평가):/   말 〔최근전적·선호〕  ·  클래스 거리 마장 기수  ·  단승배당   (★높은데 배당도 높으면 = 저평가)",
+      "unit": "horse_form_rows",
+      "ko": "   말 〔최근전적·선호〕  ·  클래스 거리 마장 기수  ·  단승배당   (★높은데 배당도 높으면 = 저평가)",
+      "zh-CN": "   赛马〔近期战绩·偏好〕  ·  级别 距离 场地 骑师  ·  独赢赔率   (★高且赔率也高 = 被低估)",
+      "zh-TW": "   馬匹 〔近期戰績·偏好〕  ·  級別 距離 場地 騎師  ·  獨贏賠率   (★高且賠率也高 = 被低估)"
+    },
+    {
+      "id": "ui:  [color=#6cc5ff]정보상 지목[/color]:/  [color=#6cc5ff]정보상 지목[~1color]",
+      "unit": "horse_form_rows",
+      "ko": "  [color=#6cc5ff]정보상 지목[/color]",
+      "zh-CN": "  [color=#6cc5ff]消息贩子推荐[/color]",
+      "zh-TW": "  [color=#6cc5ff]情報商推薦[/color]"
+    },
+    {
+      "id": "ui:  [color=#f0c45d]저평가[/color]:/  [color=#f0c45d]저평가[~1color]",
+      "unit": "horse_form_rows",
+      "ko": "  [color=#f0c45d]저평가[/color]",
+      "zh-CN": "  [color=#f0c45d]被低估[/color]",
+      "zh-TW": "  [color=#f0c45d]被低估[/color]"
+    },
+    {
+      "id": "ui:[color=#ffe14d]선택[/color] :/[color=#ffe14d]선택[~1color] ",
+      "unit": "horse_form_rows",
+      "ko": "[color=#ffe14d]선택[/color] ",
+      "zh-CN": "[color=#ffe14d]已选[/color] ",
+      "zh-TW": "[color=#ffe14d]已選[/color] "
+    },
+    {
+      "id": "ui:[color=#5a6478]    최근 %s · %s · 선호 %dm/%s/%s[/color]:/[color=#5a6478]    최근 %s · %s · 선호 %dm~1%s~1%s[~1color]",
+      "unit": "horse_form_rows",
+      "ko": "[color=#5a6478]    최근 %s · %s · 선호 %dm/%s/%s[/color]",
+      "zh-CN": "[color=#5a6478]    近期%s · %s · 偏好%dm/%s/%s[/color]",
+      "zh-TW": "[color=#5a6478]    近期 %s · %s · 偏好 %dm/%s/%s[/color]"
+    },
+    {
+      "id": "ui:신마:/신마",
+      "unit": "horse_form_rows",
+      "ko": "신마",
+      "zh-CN": "新马",
+      "zh-TW": "新馬"
+    },
+    {
+      "id": "ui:%s[color=%s]●[/color] [b]%s[/b]   [color=#c8a050]%s[/color] [color=#5d9ce8]%s[/color] [color=#5de89c]%s[/color] [color=#aaaaaa]%s[/color]   배당 [b]%.1f[/b]%s\n%s:/%s[color=%s]●[~1color] [b]%s[~1b]   [color=#c8a050]%s[~1color] [color=#5d9ce8]%s[~1color] [color=#5de89c]%s[~1color] [color=#aaaaaa]%s[~1color]   배당 [b]%.1f[~1b]%s\n%s",
+      "unit": "horse_form_rows",
+      "ko": "%s[color=%s]●[/color] [b]%s[/b]   [color=#c8a050]%s[/color] [color=#5d9ce8]%s[/color] [color=#5de89c]%s[/color] [color=#aaaaaa]%s[/color]   배당 [b]%.1f[/b]%s\n%s",
+      "zh-CN": "%s[color=%s]●[/color] [b]%s[/b]   [color=#c8a050]%s[/color] [color=#5d9ce8]%s[/color] [color=#5de89c]%s[/color] [color=#aaaaaa]%s[/color]   赔率 [b]%.1f[/b]%s\n%s",
+      "zh-TW": "%s[color=%s]●[/color] [b]%s[/b]   [color=#c8a050]%s[/color] [color=#5d9ce8]%s[/color] [color=#5de89c]%s[/color] [color=#aaaaaa]%s[/color]   賠率 [b]%.1f[/b]%s\n%s"
+    },
+    {
+      "id": "ui:정보상에게 듣기  (현금 부족):/정보상에게 듣기  (현금 부족)",
+      "unit": "tipster_and_cash_checks",
+      "ko": "정보상에게 듣기  (현금 부족)",
+      "zh-CN": "向消息贩子打听  （现金不足）",
+      "zh-TW": "向情報商打聽  (現金不足)"
+    },
+    {
+      "id": "ui:정보상에게 듣기   -3,000   (오늘의 한 마리...):/정보상에게 듣기   -3,000   (오늘의 한 마리...)",
+      "unit": "tipster_and_cash_checks",
+      "ko": "정보상에게 듣기   -3,000   (오늘의 한 마리...)",
+      "zh-CN": "向消息贩子打听   -3,000韩元   （今天看好的一匹……）",
+      "zh-TW": "向情報商打聽   -3,000韓元   (今天看好的那匹馬...)"
+    },
+    {
+      "id": "ui:  [color=#6a7080](안목이 낮아 진위를 가늠하기 어렵다)[/color]:/  [color=#6a7080](안목이 낮아 진위를 가늠하기 어렵다)[~1color]",
+      "unit": "tipster_and_cash_checks",
+      "ko": "  [color=#6a7080](안목이 낮아 진위를 가늠하기 어렵다)[/color]",
+      "zh-CN": "  [color=#6a7080]（眼力不足，难辨真假）[/color]",
+      "zh-TW": "  [color=#6a7080](眼光不足，難以判斷真偽)[/color]"
+    },
+    {
+      "id": "ui:[color=#6cc5ff]\"%s\"[/color]   신뢰도 %s [color=#9aa4b8]%d%%[/color]%s:/[color=#6cc5ff]\"%s\"[~1color]   신뢰도 %s [color=#9aa4b8]%d%%[~1color]%s",
+      "unit": "tipster_and_cash_checks",
+      "ko": "[color=#6cc5ff]\"%s\"[/color]   신뢰도 %s [color=#9aa4b8]%d%%[/color]%s",
+      "zh-CN": "[color=#6cc5ff]\"%s\"[/color]   可信度%s [color=#9aa4b8]%d%%[/color]%s",
+      "zh-TW": "[color=#6cc5ff]\"%s\"[/color]   可信度 %s [color=#9aa4b8]%d%%[/color]%s"
+    },
+    {
+      "id": "ui:현금이 부족하다:/현금이 부족하다",
+      "unit": "tipster_and_cash_checks",
+      "ko": "현금이 부족하다",
+      "zh-CN": "现金不足",
+      "zh-TW": "現金不足"
+    },
+    {
+      "id": "ui:%d전 %d승:/%d전 %d승",
+      "unit": "horse_form_rows",
+      "ko": "%d전 %d승",
+      "zh-CN": "%d场%d胜",
+      "zh-TW": "%d戰%d勝"
+    }
+  ],
+  "limitations": [
+    "기존 accepted 39,450개의 전체 L1 또는 전체 언어 품질을 다시 실행·검토한 것이 아니라 현재 source/target hash와 원형 보존을 검증했다.",
+    "JA beta, ZH skeleton shipping 0 및 dynamic 6/701, direct-English bypass 11은 실제 출력의 잔여 한계다. registry EXTRA 23개는 advisory이며 오류 0과 합치지 않는다.",
+    "기존 ORDER-268 보류 62개는 그대로 남아 있다. 이번 38개 HOLD도 미수용이며 전체 UI 완성이나 도달 가능 화면의 실제 표시를 증명하지 않는다.",
+    "원 소스의 정보상 mastery/is_true 등 비소유 게임 동작은 수정하거나 새로 승인하지 않았다. 원화·수량·날짜·경마 착순/배당·팁·정산 의미는 이번 source-bound 번역 범위로만 판정했다.",
+    "자동 게이트 통과는 원어민 문체·렌더·인간 플레이 또는 physical feel 증거가 아니다. full-product HOLD를 유지한다."
+  ],
+  "unobserved": {
+    "native_reader": true,
+    "rendered_ui": true,
+    "human_playtest": true,
+    "physical_controller_feel": true,
+    "actual_race_UI_interaction": true,
+    "new_engine_or_remote_CI_validation": true,
+    "full_product_GO": true
+  },
+  "evidence": [
+    {
+      "path": ".git/full-game-localization/order269-language-review-first.json",
+      "bytes": 6611,
+      "sha256": "33aee4c0a320e23887ba39ecad383abe2162e74535d883036cc6e23f553e5e87"
+    },
+    {
+      "path": ".git/full-game-localization/order269-language-review-revision1.json",
+      "bytes": 4011,
+      "sha256": "ce10139320bae4d95b08dc2c9d6789f2d8e3295a5b74a08c1d35375603ddd32f"
+    },
+    {
+      "path": ".git/full-game-localization/order269-machine-boundary-review.json",
+      "bytes": 8750,
+      "sha256": "5b041be160e06e4c9ff70a05897b1904f14ac8a60e4abfd096fa3f887dd2eb2b"
+    },
+    {
+      "path": ".git/full-game-localization/order269-zh-CN-draft-r1.json",
+      "bytes": 18646,
+      "sha256": "0b78efa2c54f5b6eec1dcd5c22b5fa03639a4e6e006d9cb9bc09138331baa1a6"
+    },
+    {
+      "path": ".git/full-game-localization/order269-zh-TW-draft-r1.json",
+      "bytes": 18635,
+      "sha256": "f80c6cbaa77f3792f426f65d25964def60c4a75142b84b765fa7a750c11a2888"
+    },
+    {
+      "path": ".git/full-game-localization/order269-preflight-check-cn-first.json",
+      "bytes": 377668,
+      "sha256": "7842fde4dc2bef54e0dd062ec233985b77a9d0d65f53e994434c076d47c23c36"
+    },
+    {
+      "path": ".git/full-game-localization/order269-preflight-check-tw-first.json",
+      "bytes": 377668,
+      "sha256": "64e2e150ba190c50677182c8614b9f9b751d52d079a6b4b049e7882810ceae4b"
+    },
+    {
+      "path": ".git/full-game-localization/order269-source-bound-diagnostics-first.json",
+      "bytes": 384071,
+      "sha256": "0d4305da88bfc7b5dd139f901cf7edd52a66b7fc16cf6f6f015aa66e9350809e"
+    },
+    {
+      "path": ".git/full-game-localization/order269-admissible-check-cn-first.json",
+      "bytes": 377511,
+      "sha256": "d326ed1760af1abe17811ea8f955be6530a004977ac2fa38add78f817c5192f3"
+    },
+    {
+      "path": ".git/full-game-localization/order269-admissible-check-tw-first.json",
+      "bytes": 377500,
+      "sha256": "da2c293c1461c7d8c989f0d32b4b34b41438697ac5423aea07cafedadcb77b85"
+    },
+    {
+      "path": ".git/full-game-localization/order269-formal-export-cn-first.json",
+      "bytes": 377607,
+      "sha256": "1d0e5182398486a001a43cf99b6d25f04cc871a9050b80ce914a81ca7fbfa304"
+    },
+    {
+      "path": ".git/full-game-localization/order269-formal-export-tw-first.json",
+      "bytes": 377600,
+      "sha256": "73690ea739e78fde071bad372739a87138f6ca1b138f5e84ca1401060d59dce9"
+    },
+    {
+      "path": ".git/full-game-localization/order269-formal-import-cn-first.json",
+      "bytes": 377511,
+      "sha256": "c23b2df60dedcaf06cc475f34d95730ecf90d5862ba5d0e9ccfed4d7302e52f6"
+    },
+    {
+      "path": ".git/full-game-localization/order269-formal-import-tw-first.json",
+      "bytes": 377518,
+      "sha256": "688004b21e4ff4bb1fb395d11071ed530bff731b92163e6b782363739c673333"
+    },
+    {
+      "path": ".git/full-game-localization/order269-preservation-first.json",
+      "bytes": 377828,
+      "sha256": "5500c8c1c2d78136df040cef7bb3d7b966dd19f0f098079a082189db0af1f8c3"
+    },
+    {
+      "path": ".git/full-game-localization/order269-named-first.json",
+      "bytes": 1688778,
+      "sha256": "0dd78a73a1a5bd6084f53a00110c474206bf994cb3e87027b9a6d4d52dc4911d"
+    },
+    {
+      "path": ".git/full-game-localization/order269-named-outer-first.json",
+      "bytes": 379612,
+      "sha256": "52c9b283a59d8af411bf441fd369968d62dcd9b8b620dd681e31ee67b0b12e5e"
+    },
+    {
+      "path": ".git/full-game-localization/order269-exchange.py",
+      "bytes": 7975,
+      "sha256": "d504a92f1a87bf15676047308f3f63bfc71dbd8dc211af605bdce019719855f3"
+    },
+    {
+      "path": ".git/full-game-localization/order269-named.py",
+      "bytes": 13331,
+      "sha256": "543a6b3a7670a5d45b30bb2150286b5055baa869c038ba574ef3ae7b5086bb7a"
+    },
+    {
+      "path": ".git/full-game-localization/order269-capture.py",
+      "bytes": 5033,
+      "sha256": "29def6110fbe97610a9313492687989bf5809232b434726cb23521ee0129943f"
+    },
+    {
+      "path": ".git/full-game-localization/zh-CN/full-ko-direct-2026-09-07.1/fd8591f284a6e1d408525d995e170ce44d9db8879a254832d746ff83295baac7.accepted.json",
+      "bytes": 21018,
+      "sha256": "e9d87416ef19701da0bed0a7250f9838e7d1d0390258dcab78ea4072dc2fd5d5"
+    },
+    {
+      "path": ".git/full-game-localization/zh-TW/full-ko-direct-2026-09-07.1/b747c91f7dfd9ef75510f1fb38196a35a14d4e483cf2ea92b5a8790f4a0d75c4.accepted.json",
+      "bytes": 21018,
+      "sha256": "b611f391a2c496d0ae370323a1a10ad2984b64969281d3fd0da63141d8ca4502"
+    }
+  ]
+}
