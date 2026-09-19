@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-266",
+  "scope": "work_unit",
+  "authority": "user_delegated_agent_final",
+  "reviewer": "Poincare",
+  "verdict": "GO",
+  "required": [],
+  "subject": {
+    "kind": "source",
+    "commit": "455b4e7261ef85bf2dc12caa1a98d04269d7e09e",
+    "tree": "6cbd6eb54d64dda6d0975a51932066c87b6c6926",
+    "manifest_sha256": null
+  },
+  "review": {
+    "commit": "455b4e7261ef85bf2dc12caa1a98d04269d7e09e",
+    "tree": "6cbd6eb54d64dda6d0975a51932066c87b6c6926",
+    "clean": true
+  },
+  "population": {
+    "repair": "Two exact Korean Story-card sources and their canonical UI IDs in zh-CN/zh-TW. Only recognized friend/army-cohort role spans in full matched Latin-name plus balanced-parentheses grammar are masked for alias probing.",
+    "new_control": "24 families / 64 rows: actual four first, 16 normal and 48 base-linked negative/OFF cases. Independent literal mask expectations; direct and full consumers retain original diagnostics. Every result is captured before assertions.",
+    "execution": "First targeted invocation ran one unittest. First full suite ran 264 tests, including the same new64 again and the unchanged old263. First ZH self-test ran12446 and skeleton audit. No retries or engine runs.",
+    "preservation": "39211 accepted / b110 portable and UI3 raw unchanged; current source/target receipt hashes checked, not old full-L1 replay. All four captures'1199 input pins are unchanged and match current files. Old51 decisions, human evidence, project and audit scope are byte-exact to baseline a2417fe."
+  },
+  "review_findings": [
+    "Directly read applicable development instructions, declaration, complete helper/hook diff, new191-line method, preservation driver, first64 raw result rows and all four capture stdout/stderr. Reviewer authored neither implementation nor fixture and ran no repository QA/import/collector.",
+    "Original target still owns canonical name presence, script, tokens, numeric and terminology checks. Unmatched source/key/locale/role or extra alias stays on the original path. Existing static UI consumer forwards the same canonical ID. There is no error deletion filter or global alias relaxation.",
+    "All16 normal bases actually pass before48 negatives are credited. Identity-adapter comparison preserves each unmatched direct/full diagnostic array; number, money, placeholder, newline and regional-script diagnostics remain present. Full-suite new64 observations exactly match targeted observations.",
+    "Removing only the new method restores old fullself1,703,818B/e113cbf2c6194e434e653f0e4d8a02bee548ea469ddbc2347b4316c7b1125a16. Reversing helper and three narrow connections restores old ZH whole ddefcfd8e41ac281d7e1d70f137b9062bce715d3267855d9c0b6f4b2d815ac8b. Eight committed paths are within declared ownership; only these two product files change. CLAUDE truthfully records the separate265 first failure and acceptance0.",
+    "The original26554-language approval is not replaced by machine success. Its first L1 remains50 PASS/4 FAIL with exit1 and1199 unchanged; no265 UI translation or new acceptance occurred in266."
+  ],
+  "product_pins": {
+    "tools/zh_translation_audit.py": "26f583b6ae15aef59bb9924bd1772c517a04343b5037ffcf1126035e6460a854",
+    "tools/full_game_localization_self_test.py": "332446ba4b1120e265f96430773c0c3e15f35b6075b43335c82c518589619fb9"
+  },
+  "evidence": [
+    {"path": ".git/full-game-localization/order265-l1-first.json", "bytes": 454523, "sha256": "1c6b2079443636b4daa4cccb7fda3c674cb302434107e36d5301c2a75a75aef7", "result": "Preserved original50/4 failure; four relationship labels misread as full/short Romanized-name Han aliases."},
+    {"path": ".git/full-game-localization/order266-targeted-first.json", "bytes": 681260, "sha256": "373fe4732ce73c69ba7db685cfcb43a283e633745e4f254caa40b94dda4e4b35", "result": "Exit0; one unittest;64/64 and48 effective negatives;1.092163708s."},
+    {"path": ".git/full-game-localization/order266-fullself-first.json", "bytes": 1400771, "sha256": "4cc7651bfc5bc44d34f92ccc731f4fe3d2d336a38fc23c8a396d09c0c7f044b1", "result": "Exit0;264 tests;19.685387334s. Nonempty stderr is unittest progress/OK, not an error."},
+    {"path": ".git/full-game-localization/order266-zh-first.json", "bytes": 377784, "sha256": "5b9f0285c0046b693f69c05432c2e01ac24a6cf6a48d8f7381b6ffca6f4264da", "result": "Exit0;12446 plus skeleton AUDIT_OK;49.725389791s;stderr empty."},
+    {"path": ".git/full-game-localization/order266-preservation-first.json", "bytes": 378380, "sha256": "0de741c75dca9cc465a9132c588c3f8fea96da2a273c9ed90b270a00810c2f78", "result": "Exit0;39211 current receipt hashes and raw preservation;6.775909042s;stderr empty."}
+  ],
+  "decision": "GO only for this exact source and bounded relationship-role alias-probe repair. Required defects0. Existing localization protections and original265 failure are retained. Resume265 translation acceptance on its separately declared candidate; this report does not approve that future application.",
+  "limits": "Finite recognized role grammar only, not a universal relationship parser. ZH skeleton remains ui499/2944, context6/29, dynamic6/701, direct-English bypass13 and shipping0. No new full old-L1, actual Story UI, engine, remote CI, rendered or native observation. PublicGO1/humanOPEN45/full-productHOLD remain unchanged.",
+  "unobserved": ["native_reader", "human_playtest", "physical_controller_feel", "rendered_ui", "actual_story_panel", "full_product_GO"]
+}
