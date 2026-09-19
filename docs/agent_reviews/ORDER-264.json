@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-264",
+  "scope": "work_unit",
+  "authority": "user_delegated_agent_final",
+  "reviewer": "Poincare",
+  "verdict": "GO",
+  "required": [],
+  "subject": {
+    "kind": "source",
+    "commit": "3bcc93f1feff99c0c9c69b4e3bcdb651e3d086b5",
+    "tree": "2b4f2a57818500cedc0d78c11b3fccdcf937b0cf",
+    "manifest_sha256": null
+  },
+  "review": {
+    "commit": "3bcc93f1feff99c0c9c69b4e3bcdb651e3d086b5",
+    "tree": "2b4f2a57818500cedc0d78c11b3fccdcf937b0cf",
+    "clean": true
+  },
+  "decision": "GO only for the local exact-UI Chinese coffee-occasion numeric-contract repair. Complete new code and finite regression review, first targeted/fullself/ZHself evidence and preservation evidence reveal no required defect. This does not accept ORDER-263 translations, repair the separate same-Korean event title, or grant native, rendered, human, release or full-product GO.",
+  "population": {
+    "source": "Baseline9b091a2 to reviewed3bcc93f changes7 declared paths, including exactly2 product files. Added ZH helper22 lines plus numeric hook3 lines; one new self method226 lines. Removal restores both old whole files exactly. Generic numeric logic and original nonnumeric diagnostic inputs are unchanged.",
+    "targeted": "First selected unittest1 PASS:24 semantic families,60 distinct locale rows,actual normal2 and46 effective base-linked negative rows. Helper NORMALIZE alone is not PASS; wrong1/3 are rejected by the existing numeric comparator. Exceptions are absent and every recorded check succeeds.",
+    "fullself": "First whole suite263 PASS. Its new method naturally repeats the same60 internal rows once; complete parsed row observations equal targeted output. These are not120 distinct controls. Successful unittest stderr is preserved, not reported empty.",
+    "zhself": "First ZH self12446 PASS and skeleton audit OK. Existing direct-English bypass13,shipping0 and incomplete skeleton coverage remain limitations, not full Chinese completion.",
+    "preservation": "First preservation PASS: portable whole39151/b109 unchanged, old accepted IDs outside this exact UI contract,UI3/project/human/old49 ledger byte-exact to baseline. No old-all-L1 replay and no new accepted translation. All4 commands ran on the same clean source with1199 inputs unchanged; reviewer independently rehashed those current inputs.",
+    "history": "ORDER-263 original first L1 remains58 PASS/2 false-positive FAIL with1199 unchanged. Its separate language60 approval is not machine acceptance. This unit's four first actual commands passed; pre-QA malformed-comma repair is static preparation history, not a hidden test retry. Same-Korean event-title cup wording3 remains separate debt."
+  },
+  "independent_readback": [
+    "Read complete added helper/hook, new self method, original numeric and independent diagnostic paths, and private preservation/capture helpers. Exact Chinese locale/source/UI-ID gating limits normalization to a finite coffee-occasion grammar; no error filtering, target whitelist or global cup relaxation.",
+    "Read all60 actual rows and their helper/direct/full/adapter-disabled-original/component observations. Wrong quantities, classifier substitutions, malformed commas and independent money/token/script failures remain effective; OFF original arrays are preserved. Normal prerequisites precede valid-negative claims.",
+    "Read all four complete capture JSONs and decoded raw stdout/stderr, verifying raw byte lengths and stream hashes against stored text. Exit0,clean before/after,unchanged1199 and exact head/tree were checked individually. RO Git independently confirms identity and ownership. No test/module/collector/engine/remote execution by reviewer.",
+    "Malformed comma-bearing cardinal tokens were identified during static review and rejected inside the exact-source helper before any QA. Original generic cardinal parser and old tests remain intact. Reviewer data-reading AST preparation error was not a product or QA failure."
+  ],
+  "product_pins": {
+    "tools/zh_translation_audit.py": "ddefcfd8e41ac281d7e1d70f137b9062bce715d3267855d9c0b6f4b2d815ac8b",
+    "tools/full_game_localization_self_test.py": "e113cbf2c6194e434e653f0e4d8a02bee548ea469ddbc2347b4316c7b1125a16",
+    "content/meta/full_game_localization.json": "151990c89d77ffa7c5c7177b963a7b05526372264bc3a79d5418d90b09bc89c8",
+    "docs/agent_review_decisions.json_before_closure": "29faa47727da557f8e4db0ccd1891713a1e3ba43ee36725267c7e22c9abec97c"
+  },
+  "evidence": [
+    {"path": ".git/full-game-localization/order264-code-independent-review.json", "bytes": 4868, "sha256": "1f451b8389d1411bc3431af434b9311b0bd023360f707c5874028aee8f75aa29", "role": "Complete non-author static review and whole-file inverse bindings"},
+    {"path": ".git/full-game-localization/order264-targeted-first.json", "bytes": 616494, "sha256": "2d961d509f8177b1dbc97254a9c90c117836cf35769fed578df99e05f53ad0f7", "role": "Actual one unittest,24/60/46; elapsed0.944632833 seconds"},
+    {"path": ".git/full-game-localization/order264-full-self-first.json", "bytes": 1095890, "sha256": "f2ec5bd39e46ad2385ca0cf2576d4403ab9659e27497bfe72e453eb293125e74", "role": "Actual263 suite,elapsed18.986172208 seconds; full raw streams"},
+    {"path": ".git/full-game-localization/order264-zh-self-first.json", "bytes": 377789, "sha256": "6257b0850a6e75fcfaff694f9a3997218e314d3fcbf16bccbeae5db9e1573735", "role": "Actual12446 and skeleton audit,elapsed49.449781458 seconds"},
+    {"path": ".git/full-game-localization/order264-preservation-first.json", "bytes": 378236, "sha256": "a3a5c7c25e13b9e6c9d98986412a0cfb0d81cd3af90ee939ec3fa54c1f3148b1", "role": "Actual clean ownership and old39151/b109 raw preservation,elapsed0.442008584 seconds"},
+    {"path": ".git/full-game-localization/order263-l1-first.json", "bytes": 437344, "sha256": "67b40fb3882f5b9a35afa6f0b5a386061d158ea0aaba6033683a469e7e61cfbf", "role": "Preserved original58/2 failure,not replaced by264 evidence"},
+    {"path": ".git/full-game-localization/order263-language-independent-review.json", "bytes": 5401, "sha256": "74d389e30405967cdc57a6d54e354dbc440c687711371a12e497dd6e949dfe86", "role": "Separate proposed60 language review,not acceptance"},
+    {"path": ".git/full-game-localization/post264-coffee-event-title-followup.json", "bytes": 2680, "sha256": "a922201eea60d2fe98e61ac1e180073c5a510847a7f2389ec881db3242ae9e0b", "role": "Explicitly excluded same-Korean event-title semantic debt3"}
+  ],
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_modal_or_rendered_fit",
+    "engine_or_gameplay_reexecution",
+    "old_translation_L1_reexecution",
+    "ORDER-263_translation_acceptance",
+    "separate_event_title_semantic_repair",
+    "new_remote_CI_or_release_approval",
+    "full_product_GO"
+  ],
+  "operations": "Reviewer wrote only private review artifacts. ROOT owns exact public-copy,ledger/archive/queue closure and metadata checks. Existing publicGO1,humanOPEN45 and fullHOLD remain unchanged."
+}

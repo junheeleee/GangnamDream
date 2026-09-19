@@ -2097,6 +2097,50 @@
         "path": "docs/agent_reviews/ORDER-262.json",
         "sha256": "2a8f551c14ddcb8860c316e14eae9df1eefd4a7251e60dc7d3e3d8a85cb56d16"
       }
+    },
+    {
+      "id": "order-264-source-3bcc93f-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-19",
+      "decided_by": "Poincare",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-264",
+      "subject": {
+        "kind": "source",
+        "commit": "3bcc93f1feff99c0c9c69b4e3bcdb651e3d086b5",
+        "tree": "2b4f2a57818500cedc0d78c11b3fccdcf937b0cf",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-264.json",
+          "sha256": "188d2b03ef0ff97f4fb55013b15fa4d534d98aac408c917d7e58d877ad5fda93"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/queue_archive/ORDER-264.md",
+          "sha256": "1d7622229379e5eccbfa6f83e081e59774d010ec6298c064f867f419f4111a7a"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "actual_modal_or_rendered_fit",
+        "engine_or_gameplay_reexecution",
+        "old_translation_L1_reexecution",
+        "ORDER-263_translation_acceptance",
+        "separate_event_title_semantic_repair",
+        "new_remote_CI_or_release_approval",
+        "full_product_GO"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-264.json",
+        "sha256": "188d2b03ef0ff97f4fb55013b15fa4d534d98aac408c917d7e58d877ad5fda93"
+      }
     }
   ]
 }

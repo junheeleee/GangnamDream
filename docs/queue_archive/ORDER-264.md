@@ -1,3 +1,32 @@
+# ORDER-264 — 커피 회차 검사 오탐 수리 결과
+
+[x] 2026-09-19. Poincare LOCAL work_unit GO / required0.
+
+- source/review `3bcc93f1feff99c0c9c69b4e3bcdb651e3d086b5`, tree `2b4f2a57818500cedc0d78c11b3fccdcf937b0cf`, clean.
+- exact UI+source+CN/TW 숫자 비교만 회차2로 해석한다. 실제 컵/사건제목/다른 key는 기존 경로다.
+- 최초 표적1(24유형60행/46유효음성), fullself263, ZH12446 및 보존 모두 PASS.
+- 원래263의58PASS/2FAIL은67b40fb3로 보존한다. 이번 신규번역수용0·공식39151/b109 유지.
+- 제품2만 변경, 나머지 제품·UI3·원장39151·old49판정·human·project 보존.
+- 실제 화면·원어민·인간플레이·전체L1 미실행. 공개GO1·인간OPEN45·본편HOLD.
+- 규범 분류: 기존 계약의 일회성 적용, 새 영구 규칙0.
+
+[독립 최종 보고](../agent_reviews/ORDER-264.json) · SHA 188d2b03ef0ff97f4fb55013b15fa4d534d98aac408c917d7e58d877ad5fda93
+
+## 후속
+
+263은 새 clean 기준선으로 재개한다. 사건 제목3의 잔 수 표현은 별도 부채이며
+post264-coffee-event-title-followup.json a922201e에 보존했다.
+
+## WORK 착수 원문
+
+## 2026-09-19 (Codex — 커피 차수 검사 수리 착수)
+
+- [264](queue_active/ORDER-264.md):263의 실제58PASS/2FAIL을 수리한다.
+- 커피를 잔 수로 단정하는 검사 오탐이며 번역·원장 적용0, 공식39151 유지.
+
+
+## 선언 원문
+
 # 커피 진행표의 중국어 차수 검사 오탐
 
 #### [~] ORDER-264 커피 차수 계약
