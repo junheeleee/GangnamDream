@@ -4461,6 +4461,23 @@
       "machine_validation": "PASS",
       "rendered_review": "OPEN",
       "native_review": "OPEN"
+    },
+    {
+      "order": "ORDER-274",
+      "group": "ui",
+      "roots": [
+        "이 게임에는 다음과 같은 내용이 포함됩니다:\n\n• 재정적 어려움과 부채\n• 가족·사회적 압박과 비교\n• 직장 스트레스와 번아웃\n• 정신건강 관련 묘사\n\n강남드림은 현실적인 삶을 다룹니다. 어려운 상황들은 이야기의 일부이며, 권장하는 내용이 아닙니다."
+      ],
+      "source_leaves": 1,
+      "target_leaves_by_locale": {
+        "ja": 1,
+        "zh-CN": 1,
+        "zh-TW": 1
+      },
+      "source_review": "First-start notice only. Korean and English decoded values preserved, one previously undiscovered legacy call admitted after exact current/source and historical checks. JA, CN and TW directly authored from Korean and independently reviewed. Existing39892 and all public-demo rows preserved.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN"
     }
   ],
   "accepted": {
@@ -56848,6 +56865,10 @@
       "ui:직장:/직장": {
         "source_sha256": "8b10cafa98c31e4e0983827cbbe05e246df0256b51b56269dce420a091824ebe",
         "target_sha256": "3d46c1837e42f130fb48cbaf22c791e758e7eeab43c940b2ea06f3f6a65ce411"
+      },
+      "ui:이 게임에는 다음과 같은 내용이 포함됩니다:\n\n• 재정적 어려움과 부채\n• 가족·사회적 압박과 비교\n• 직장 스트레스와 번아웃\n• 정신건강 관련 묘사\n\n강남드림은 현실적인 삶을 다룹니다. 어려운 상황들은 이야기의 일부이며, 권장하는 내용이 아닙니다.:/이 게임에는 다음과 같은 내용이 포함됩니다:\n\n• 재정적 어려움과 부채\n• 가족·사회적 압박과 비교\n• 직장 스트레스와 번아웃\n• 정신건강 관련 묘사\n\n강남드림은 현실적인 삶을 다룹니다. 어려운 상황들은 이야기의 일부이며, 권장하는 내용이 아닙니다.": {
+        "source_sha256": "644bdab252fab1c992288ac1bd881f1caeff4c8c44c9632d6124d29cdbc05ae6",
+        "target_sha256": "a774827cc0f580982dbe148aa53752e50d8e53755fb7c2fcb845d8fde8265b3b"
       }
     },
     "zh-CN": {
@@ -110442,6 +110463,10 @@
       "ui:%d전 %d승:/%d전 %d승": {
         "source_sha256": "f8d872499759dc5d76884d8c38db3835d9a9ac2cbae6b7faaf7ae0b831429f37",
         "target_sha256": "febfd4ef2ce44f05bc846c100e7c8378b5d2776c4f436c00839d964607b3e65a"
+      },
+      "ui:이 게임에는 다음과 같은 내용이 포함됩니다:\n\n• 재정적 어려움과 부채\n• 가족·사회적 압박과 비교\n• 직장 스트레스와 번아웃\n• 정신건강 관련 묘사\n\n강남드림은 현실적인 삶을 다룹니다. 어려운 상황들은 이야기의 일부이며, 권장하는 내용이 아닙니다.:/이 게임에는 다음과 같은 내용이 포함됩니다:\n\n• 재정적 어려움과 부채\n• 가족·사회적 압박과 비교\n• 직장 스트레스와 번아웃\n• 정신건강 관련 묘사\n\n강남드림은 현실적인 삶을 다룹니다. 어려운 상황들은 이야기의 일부이며, 권장하는 내용이 아닙니다.": {
+        "source_sha256": "644bdab252fab1c992288ac1bd881f1caeff4c8c44c9632d6124d29cdbc05ae6",
+        "target_sha256": "9855ea87a458857fc3a60909b064608c75006c20f372f1b221292c52596bd307"
       }
     },
     "zh-TW": {
@@ -164036,10 +164061,14 @@
       "ui:%d전 %d승:/%d전 %d승": {
         "source_sha256": "f8d872499759dc5d76884d8c38db3835d9a9ac2cbae6b7faaf7ae0b831429f37",
         "target_sha256": "279faca75198ba2ddd7a56b46200c4b61d8e8223e97af7b7dc82320b5aa33d7a"
+      },
+      "ui:이 게임에는 다음과 같은 내용이 포함됩니다:\n\n• 재정적 어려움과 부채\n• 가족·사회적 압박과 비교\n• 직장 스트레스와 번아웃\n• 정신건강 관련 묘사\n\n강남드림은 현실적인 삶을 다룹니다. 어려운 상황들은 이야기의 일부이며, 권장하는 내용이 아닙니다.:/이 게임에는 다음과 같은 내용이 포함됩니다:\n\n• 재정적 어려움과 부채\n• 가족·사회적 압박과 비교\n• 직장 스트레스와 번아웃\n• 정신건강 관련 묘사\n\n강남드림은 현실적인 삶을 다룹니다. 어려운 상황들은 이야기의 일부이며, 권장하는 내용이 아닙니다.": {
+        "source_sha256": "644bdab252fab1c992288ac1bd881f1caeff4c8c44c9632d6124d29cdbc05ae6",
+        "target_sha256": "6165c5a88f9d094b20d5a76c5cd7bd5f83bb24bb81f043f1304f5ef614959166"
       }
     }
   },
-  "accepted_sha256": "19ff3e45ae35fc479189c7383e59e36d1f30a3d5c41db7ff38e8e2998b31f889",
+  "accepted_sha256": "8c5250e342ad3e4122709266cf18839529e0e34961d86070f86c316c406d851c",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
