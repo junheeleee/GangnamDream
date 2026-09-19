@@ -4,6 +4,11 @@
 > 원형 그대로 이동했다. 당시 상대 링크도 원문이며 기록을 축약하지 않았다.
 > 이번 마감 전 WORK와263 선언·실패·재개 원문은 [263 보존본](queue_archive/ORDER-263.md)에 있다.
 
+## 2026-09-19 (Codex — 이야기 카드·생각 정리 번역 착수)
+
+- [265](queue_active/ORDER-265.md): 기존18키/54를 선언했다. 주차→주식 오독과 중국어36누락 수리.
+- ROOT JA/Plato CN/Rawls TW 독립저작, Poincare 비저자 검수. 공식39211·본편HOLD 유지.
+
 ## 2026-09-19 (Codex — 이야기 진행표 번역 마감)
 
 - [263](queue_archive/ORDER-263.md): 제품2acb748·clean검토5e56f68, 비저자 Poincare 단위GO/필수0.
