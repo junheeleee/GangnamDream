@@ -6251,4 +6251,5 @@ def _gift_caption_meta_main():
     return historical_main(_inventory_meta_main, "meta")
 # END_GIFT_CAPTION_META_ENTRY_262
 if __name__ == "__main__":
-    raise SystemExit(_gift_caption_meta_main())
+    from new_run_log_locale_self_test import historical_entry
+    raise SystemExit(historical_entry(_gift_caption_meta_main, "meta"))

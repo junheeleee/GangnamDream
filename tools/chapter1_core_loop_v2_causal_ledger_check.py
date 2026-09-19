@@ -26416,5 +26416,38 @@ def main() -> int:
     return 0
 
 
+# BEGIN_NEW_RUN_LOG_CHAPTER_267
+_NEW_RUN_OLD_SNAPSHOT_ERRORS = _audited_source_snapshot_errors
+_NEW_RUN_OLD_OBSERVED_HASH = _order243_history_byte_hash
+
+
+def _new_run_chapter_snapshot_errors(source_hashes):
+    relative = "autoloads/GameState.gd"
+    if relative in source_hashes:
+        try:
+            current = (ROOT / relative).read_bytes()
+            errors = locale_history.new_run_log_source_errors(
+                relative, current, ORDER156_AUDITED_SOURCE_FILE_TRANSITIONS.get(relative, ("", ""))[1])
+        except OSError as exc:
+            errors = ["ORDER-267: cannot read physical GameState: " + str(exc)]
+        if errors:
+            return errors
+    return _NEW_RUN_OLD_SNAPSHOT_ERRORS(source_hashes)
+
+
+def _new_run_chapter_observed_hash(claim, relative):
+    if relative != "autoloads/GameState.gd":
+        return _NEW_RUN_OLD_OBSERVED_HASH(claim, relative)
+    try:
+        current = (ROOT / relative).read_bytes()
+    except OSError:
+        return claim
+    return locale_history.new_run_log_project_byte_hash(claim, relative, current)
+
+
+_audited_source_snapshot_errors = _new_run_chapter_snapshot_errors
+_order243_history_byte_hash = _new_run_chapter_observed_hash
+# END_NEW_RUN_LOG_CHAPTER_267
+
 if __name__ == "__main__":
     sys.exit(main())

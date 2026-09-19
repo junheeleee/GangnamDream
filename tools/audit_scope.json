@@ -14,6 +14,43 @@
   ],
   "fast_lanes": [
     {
+      "id": "new-run-log-locale",
+      "paths": [],
+      "owned_paths": [
+        "autoloads/GameState.gd",
+        "locale/ui_ja.json", "locale/ui_zh-CN.json", "locale/ui_zh-TW.json",
+        "content/meta/full_game_localization.json", "tools/audit_scope.json",
+        "tools/main_game_locale_history.py", "tools/year5_reference_route_audit.py",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py", "tools/ja_translation_pipeline.py",
+        "tools/ci_localization_reconciliation_self_test.py", "tools/meta_title_locale_successor_self_test.py",
+        "tools/gift_caption_locale_self_test.py", "tools/new_run_log_locale_self_test.py",
+        "tools/NewRunLogLocaleCheck.tscn", "tools/run_new_run_log_locale_qa.sh",
+        "CLAUDE.md", "docs/CODEX_QUEUE.md", "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/queue_active/ORDER-267.md", "docs/queue_archive/ORDER-267.md",
+        "docs/WORK_LOG.md", "docs/STATUS.md", "docs/queue_backlog/FULL_GAME_LOCALIZATION.md",
+        "docs/agent_review_decisions.json", "docs/agent_reviews/ORDER-267.json"
+      ],
+      "tools": [
+        "tools/new_run_log_locale_self_test.py",
+        "tools/ci_localization_reconciliation_self_test.py",
+        "tools/meta_title_locale_successor_self_test.py",
+        "tools/gift_caption_locale_self_test.py",
+        "tools/year5_reference_route_audit.py",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/full_game_localization_self_test.py",
+        "tools/ja_translation_pipeline.py --self-test",
+        "tools/ja_translation_audit.py --scope ui",
+        "tools/zh_translation_audit.py --self-test",
+        "tools/en_coverage_check.py",
+        "tools/story_demo_localization_audit.py --self-test",
+        "tools/story_demo_localization_audit.py",
+        "tools/audit_select.py --verify",
+        "tools/queue_index_self_test.py",
+        "tools/agent_review_decisions_self_test.py"
+      ],
+      "why": "ORDER267 new-run profile/theme record only: GameState three spans, direct Korean language33 review with existing six accepted targets reused. Physical current source precedes exact bounded historical views; independent finite source cases and isolated five-locale component run separately. No profile/theme menu, gameplay/RNG/save migration, old whole-ledger L1 replay, full audit, rendered/native/human/full-product approval."
+    },
+    {
       "id": "gift-caption-locale",
       "paths": [],
       "owned_paths": [
@@ -1673,6 +1710,28 @@
     }
   ],
   "checks": [
+    {
+      "tool": "tools/new_run_log_locale_self_test.py",
+      "why": "New-run physical source, exact predecessor inverse, actual collector selector/argument provenance and real Year5/Chapter prerequisite rejection; retained old suites delegate once separately.",
+      "paths": [
+        "autoloads/GameState.gd", "tools/new_run_log_locale_self_test.py",
+        "tools/main_game_locale_history.py", "tools/ja_translation_pipeline.py",
+        "tools/year5_reference_route_audit.py", "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/ci_localization_reconciliation_self_test.py", "tools/meta_title_locale_successor_self_test.py",
+        "tools/gift_caption_locale_self_test.py"
+      ]
+    },
+    {
+      "tool": "tools/run_new_run_log_locale_qa.sh",
+      "godot": true,
+      "why": "Pre-autoload isolated actual new-run record and existing Main reader: independent locale literals, RNG/state/storage, parent/argument fallback and exact invalid-format warning; no screen or physical input claim.",
+      "paths": [
+        "tools/NewRunLogLocaleCheck.tscn", "tools/run_new_run_log_locale_qa.sh",
+        "tools/StoryNameplateBootstrap.gd", "tools/run_routine_background_context_check.py",
+        "autoloads/*.gd", "scenes/MainGame.gd", "scenes/MainGame.tscn",
+        "systems/BuildFlavor.gd", "locale/ui_*.json", "project.godot"
+      ]
+    },
     {
       "tool": "tools/gift_caption_locale_self_test.py",
       "why": "Current caption pair/owner/current-keyset and finite source/inverse rejection; old receipts and predecessor raw preserved.",

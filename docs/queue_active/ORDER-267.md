@@ -78,3 +78,13 @@ MainGame/LocaleManager/StartMenu/EventManager/DataRegistry·project·사람 원�
 
 자동 계약증거는 재미·깊이·문체·원어민·실제 화면·인간 플레이·물리패드 관찰이 아니다.
 공개GO1·인간OPEN45·본편HOLD와 외부 출시 권한0을 보존한다.
+
+## 구현 중 관측 — 실행·수용 전
+
+- 언어33 초검수의 JA 재정 `家計` 범위 축소를 `お金`으로 수리했다. 원 REWORK와
+  개정 전수GO(93a09c22)를 각각 보존한다. 새 수용은 아직0이다.
+- GS3span은5076adf7로 적용했다. old8a407 exact 역복원을 사전 코드 검수했다.
+- 도구7 초검수(ce36f98f)의 current format_calls 누락1을 수리했다. 원 기록을 유지한다.
+- 도구8 사전 PASS/필수0(ee004c83) 뒤 self binding만 실행 승인했다. 아직 실행 성공 증거는 아니다.
+- runtime2 사전 PASS/필수0(08664542) 뒤 승인 bit만 바꿨다(scene7d314a97).
+  엔진·QA 성공이나 화면/인간 판정이 아니다. 공식 export는 대상 사전 편집 전에 시행한다.

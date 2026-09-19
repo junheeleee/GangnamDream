@@ -13336,5 +13336,38 @@ def main() -> int:
     return 0
 
 
+# BEGIN_NEW_RUN_LOG_YEAR5_267
+_NEW_RUN_OLD_REGISTRATION = validate_order156_registration
+_NEW_RUN_OLD_OBSERVED_HASH = _order243_history_byte_hash
+
+
+def _new_run_year5_registration(errors):
+    relative = "autoloads/GameState.gd"
+    try:
+        current = (ROOT / relative).read_bytes()
+        problems = locale_history.new_run_log_source_errors(
+            relative, current, ORDER156_SOURCE_FILE_TRANSITIONS.get(relative, ("", ""))[1])
+    except OSError as exc:
+        problems = ["ORDER-267: cannot read physical GameState: " + str(exc)]
+    if problems:
+        errors.extend(problems)
+        return {}
+    return _NEW_RUN_OLD_REGISTRATION(errors)
+
+
+def _new_run_year5_observed_hash(claim, relative):
+    if relative != "autoloads/GameState.gd":
+        return _NEW_RUN_OLD_OBSERVED_HASH(claim, relative)
+    try:
+        current = (ROOT / relative).read_bytes()
+    except OSError:
+        return claim
+    return locale_history.new_run_log_project_byte_hash(claim, relative, current)
+
+
+validate_order156_registration = _new_run_year5_registration
+_order243_history_byte_hash = _new_run_year5_observed_hash
+# END_NEW_RUN_LOG_YEAR5_267
+
 if __name__ == "__main__":
     sys.exit(main())

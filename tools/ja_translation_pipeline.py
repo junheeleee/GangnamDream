@@ -5818,5 +5818,188 @@ collect_ui_inventory = _gift_caption_collect_ui_inventory
 _last11_meta_title_historical_checks = _gift_caption_historical_checks
 # END_GIFT_CAPTION_COLLECTOR_262
 
+# BEGIN_NEW_RUN_LOG_COLLECTOR_267
+# Current records stay current; only the saved contract readers see the inverse.
+from collections import Counter as _new_run_counter
+
+_NEW_RUN_GS = "autoloads/GameState.gd"
+_NEW_RUN_JA = "tools/ja_translation_pipeline.py"
+_NEW_RUN_OLD_COLLECT = collect_ui_inventory
+_NEW_RUN_OLD_CHECKS = _last11_meta_title_historical_checks
+NEW_RUN_LOG_CALLS = (
+    ("_localized_profile_label", "legacy", "백수", "unemployed"),
+    ("_localized_profile_label", "legacy", "알바", "working part-time"),
+    ("_roll_run_theme", "legacy", "투자", "Investing"),
+    ("_roll_run_theme", "legacy", "직장", "Jobs"),
+    ("_roll_run_theme", "legacy", "인간관계", "Social"),
+    ("_roll_run_theme", "legacy", "건강", "Health"),
+    ("_roll_run_theme", "legacy", "연애", "Relationships"),
+    ("_roll_run_theme", "legacy", "도박", "Gambling"),
+    ("_roll_run_theme", "legacy", "재정", "Finance"),
+    ("start_new_game", "format", "다시 시작한 아침. 출발점은 %s였다.",
+     "Another beginning. He started out %s."),
+    ("_roll_run_theme", "format", "이번에는 %s와 %s에 얽힌 소식이 유난히 먼저 눈에 들어왔다.",
+     "This time, news tied to %s and %s caught his eye first."),
+)
+NEW_RUN_LOG_ARGUMENTS = {
+    "start_new_game": ("[_localized_profile_label(starting_profile)]",
+                       "[_localized_profile_label(starting_profile, true)]"),
+    "_roll_run_theme": ("[a, b]",
+        "[english_labels.get(pool[0], pool[0]), english_labels.get(pool[1], pool[1])]"),
+}
+
+
+def _new_run_log_selector(call):
+    return (call.path, call.function, call.api, call.korean, call.english, call.context_id)
+
+
+def _new_run_log_raw_view(source=None):
+    current = {p: (ROOT / p).read_bytes() for p in (_NEW_RUN_GS, _NEW_RUN_JA)}
+    if source is not None:
+        current[_NEW_RUN_GS] = source.encode("utf-8")
+    errors = [e for p, raw in current.items()
+              for e in _gift_history.new_run_log_source_errors(p, raw)]
+    return current, errors
+
+
+def _new_run_log_argument_shapes(source):
+    shapes, errors = [], []
+    functions = [(m.start(), m.group(1)) for m in GD_FUNCTION.finditer(source)]
+    for match in UI_FORMAT_CALL_START.finditer(source):
+        line = source.count("\n", 0, match.start()) + 1
+        try:
+            body, _end = _balanced_call_body(source, match.start())
+            args = _split_gd_arguments(body)
+            if len(args) != 4:
+                raise ValueError("ui_format arity")
+            shapes.append(UiFormatArgumentShape(
+                _NEW_RUN_GS, _function_owner(functions, match.start()), line,
+                decode_gd_string(args[0]), decode_gd_string(args[1]),
+                _normalize_gd_expression(args[2]), _normalize_gd_expression(args[3])))
+        except (ValueError, json.JSONDecodeError) as exc:
+            errors.append(f"ORDER-267: format argument parse at {line}: {exc}")
+    return shapes, errors
+
+
+def _new_run_log_predecessor_calls(calls, source=None, argument_shapes=None):
+    calls = tuple(calls)
+    current, errors = _new_run_log_raw_view(source)
+    source = current[_NEW_RUN_GS].decode("utf-8")
+    if errors:
+        return calls, source, errors
+    actual, parse_errors = parse_ui_calls(_NEW_RUN_GS, source)
+    shapes, shape_errors = _new_run_log_argument_shapes(source)
+    errors.extend([*parse_errors, *shape_errors])
+    supplied = [c for c in calls if c.path == _NEW_RUN_GS]
+    if _new_run_counter(map(_new_run_log_selector, supplied)) != _new_run_counter(map(_new_run_log_selector, actual)):
+        errors.append("ORDER-267: supplied current GameState call multiset differs")
+    expected = _new_run_counter((_NEW_RUN_GS, fn, api, ko, en, "")
+                                for fn, api, ko, en in NEW_RUN_LOG_CALLS)
+    owned = {"_localized_profile_label", "_roll_run_theme"}
+    observed = [c for c in actual if c.function in owned or
+                (c.function == "start_new_game" and c.korean == NEW_RUN_LOG_CALLS[-2][2])]
+    if _new_run_counter(map(_new_run_log_selector, observed)) != expected:
+        errors.append("ORDER-267: exact new9/parent2 selectors differ")
+
+    def shape_key(row):
+        return (row.path, row.function, row.korean, row.english,
+                _normalize_gd_expression(row.ko_args), _normalize_gd_expression(row.en_args))
+
+    supplied_shapes = shapes if argument_shapes is None else list(argument_shapes)
+    if _new_run_counter(shape_key(r) for r in supplied_shapes if r.path == _NEW_RUN_GS) != _new_run_counter(map(shape_key, shapes)):
+        errors.append("ORDER-267: supplied format provenance differs")
+    for function, arguments in NEW_RUN_LOG_ARGUMENTS.items():
+        found = [r for r in shapes if r.function == function and r.korean in
+                 {row[2] for row in NEW_RUN_LOG_CALLS[-2:]}]
+        if len(found) != 1 or (found[0].ko_args, found[0].en_args) != tuple(map(_normalize_gd_expression, arguments)):
+            errors.append("ORDER-267: exact parent argument ownership differs: " + function)
+    if errors:
+        return calls, source, errors
+    old_source = _gift_history.new_run_log_project_bytes(current[_NEW_RUN_GS], _NEW_RUN_GS).decode("utf-8")
+    old_calls, old_errors = parse_ui_calls(_NEW_RUN_GS, old_source)
+    if old_errors:
+        return calls, source, old_errors
+    # Full GS replacement also restores nonselected locations, not just the nine additions.
+    return tuple(c for c in calls if c.path != _NEW_RUN_GS) + tuple(old_calls), old_source, []
+
+
+@contextmanager
+def _new_run_log_previous_reads(current):
+    from unittest.mock import patch
+    errors = [e for p, raw in current.items() for e in _gift_history.new_run_log_source_errors(p, raw)]
+    if errors:
+        raise ValueError("; ".join(errors))
+    views = {ROOT / p: _gift_history.new_run_log_project_bytes(raw, p) for p, raw in current.items()}
+    read0, text0 = Path.read_bytes, Path.read_text
+
+    def read_bytes(path):
+        return views[path] if path in views else read0(path)
+
+    def read_text(path, *args, **kwargs):
+        if path in views:
+            return views[path].decode(kwargs.get("encoding") or (args[0] if args else None) or "utf-8",
+                                      errors=kwargs.get("errors") or "strict")
+        return text0(path, *args, **kwargs)
+
+    with patch.object(Path, "read_bytes", read_bytes), patch.object(Path, "read_text", read_text):
+        yield
+
+
+def _new_run_log_inventory(inventory, calls, contract=None):
+    calls = tuple(sorted(calls, key=lambda c: (c.path, c.line, c.api)))
+    result = _gift_caption_inventory_view(inventory, calls)
+    layers = build_ui_context_layers(calls, contract if contract is not None else read_ui_context_contract())
+    variants = {}
+    for call in calls:
+        variants.setdefault(call.korean, set()).add(call.english)
+    stats = dict(result.stats)
+    stats.update(source_calls=len(calls), legacy_calls=sum(c.api in {"legacy", "branch", "format"} for c in calls),
+                 legacy_api_calls=sum(c.api == "legacy" for c in calls), context_calls=sum(c.api == "context" for c in calls),
+                 format_calls=sum(c.api == "format" for c in calls),
+                 branch_variant_calls=sum(c.api == "branch" for c in calls),
+                 collision_keys=sum(len(v) > 1 for v in variants.values()),
+                 parameter_total_ui_call_occurrences=len(calls),
+                 parameter_legacy_pair_call_occurrences=sum(c.api in {"legacy", "branch", "format"} for c in calls))
+    return _gift_replace(result, stats=stats, planned_context_entries=tuple(layers[0]),
+                         planned_context_blueprint=layers[1], observed_context_entries=tuple(layers[2]),
+                         observed_context_blueprint=layers[3])
+
+
+def _new_run_log_collect_ui_inventory(contract=None):
+    current, errors = _new_run_log_raw_view()
+    if errors:
+        return UiInventory((), (), {}, (), {}, (), {}, tuple(errors), {})
+    actual, parse_errors = parse_ui_calls(_NEW_RUN_GS, current[_NEW_RUN_GS].decode("utf-8"))
+    _old, _source, semantic_errors = _new_run_log_predecessor_calls(actual)
+    if parse_errors or semantic_errors:
+        return UiInventory((), (), {}, (), {}, (), {}, tuple([*parse_errors, *semantic_errors]), {})
+    with _new_run_log_previous_reads(current):
+        previous = _NEW_RUN_OLD_COLLECT(contract)
+    calls = tuple(c for c in previous.calls if c.path != _NEW_RUN_GS) + tuple(actual)
+    result = _new_run_log_inventory(previous, calls, contract)
+    result.stats["new_run_log_added_legacy_calls"] = 9
+    result.stats["new_run_log_parent_format_migrations"] = 2
+    result.stats["new_run_log_previous_stats"] = dict(previous.stats)
+    return result
+
+
+def _new_run_log_historical_checks(inventory):
+    current, errors = _new_run_log_raw_view()
+    calls, _source, semantic_errors = _new_run_log_predecessor_calls(inventory.calls)
+    errors.extend(semantic_errors)
+    if errors:
+        return _gift_replace(inventory, errors=tuple([*inventory.errors, *errors])), 0, errors
+    previous = _new_run_log_inventory(inventory, calls)
+    # Recompute old metadata through the saved collector; no historical literal counts are overwritten.
+    with _new_run_log_previous_reads(current):
+        baseline = _NEW_RUN_OLD_COLLECT()
+        previous = _gift_replace(previous, stats=dict(baseline.stats))
+        return _NEW_RUN_OLD_CHECKS(previous)
+
+
+collect_ui_inventory = _new_run_log_collect_ui_inventory
+_last11_meta_title_historical_checks = _new_run_log_historical_checks
+# END_NEW_RUN_LOG_COLLECTOR_267
+
 if __name__ == "__main__":
     sys.exit(main())

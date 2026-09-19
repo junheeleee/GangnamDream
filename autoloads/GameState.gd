@@ -1163,10 +1163,11 @@ func start_new_game(chosen_name: String = "김민준", chosen_background: String
 		flags["is_repeat_run"] = true
 	if _prev_runs >= 4:
 		flags["is_veteran_run"] = true
-	add_log(LocaleManager.ui(
+	add_log(LocaleManager.ui_format(
 		"다시 시작한 아침. 출발점은 %s였다.",
-		"Another beginning. He started out %s.") %
-		_localized_profile_label(starting_profile), "system")
+		"Another beginning. He started out %s.",
+		[_localized_profile_label(starting_profile)],
+		[_localized_profile_label(starting_profile, true)]), "system")
 	stats_changed.emit()
 	run_started.emit()
 	moral_tint_changed.emit(moral_tint_norm(), moral_stage())  # Codex 초기 시각 상태 설정
@@ -1234,14 +1235,19 @@ func _localized_route_label(route: String) -> String:
 	}
 	return str(labels.get(route, route))
 
-func _localized_profile_label(profile: String) -> String:
-	if not LocaleManager.is_english():
-		return profile
+func _localized_profile_label(profile: String, english_only: bool = false) -> String:
 	var labels := {
 		"백수": "unemployed",
 		"알바": "working part-time",
 	}
-	return str(labels.get(profile, profile))
+	if english_only:
+		return str(labels.get(profile, profile))
+	match profile:
+		"백수":
+			return LocaleManager.ui("백수", "unemployed")
+		"알바":
+			return LocaleManager.ui("알바", "working part-time")
+	return profile
 
 func tendency_desc(kind: String) -> String:
 	if LocaleManager.is_english():
@@ -1362,20 +1368,25 @@ func _roll_run_theme():
 	pool.shuffle()
 	run_theme_categories = [pool[0], pool[1]]
 	var label_map = {
-		"investment": "투자", "jobs": "직장", "social": "인간관계",
-		"health": "건강", "relationship": "연애", "gambling": "도박", "finance": "재정"
+		"investment": LocaleManager.ui("투자", "Investing"),
+		"jobs": LocaleManager.ui("직장", "Jobs"),
+		"social": LocaleManager.ui("인간관계", "Social"),
+		"health": LocaleManager.ui("건강", "Health"),
+		"relationship": LocaleManager.ui("연애", "Relationships"),
+		"gambling": LocaleManager.ui("도박", "Gambling"),
+		"finance": LocaleManager.ui("재정", "Finance"),
 	}
-	if LocaleManager.is_english():
-		label_map = {
-			"investment": "Investing", "jobs": "Jobs", "social": "Social",
-			"health": "Health", "relationship": "Relationships", "gambling": "Gambling", "finance": "Finance"
-		}
+	var english_labels = {
+		"investment": "Investing", "jobs": "Jobs", "social": "Social",
+		"health": "Health", "relationship": "Relationships", "gambling": "Gambling", "finance": "Finance"
+	}
 	var a = label_map.get(pool[0], pool[0])
 	var b = label_map.get(pool[1], pool[1])
-	add_log(LocaleManager.ui(
+	add_log(LocaleManager.ui_format(
 		"이번에는 %s와 %s에 얽힌 소식이 유난히 먼저 눈에 들어왔다.",
-		"This time, news tied to %s and %s caught his eye first."
-	) % [a, b], "system")
+		"This time, news tied to %s and %s caught his eye first.",
+		[a, b], [english_labels.get(pool[0], pool[0]), english_labels.get(pool[1], pool[1])]
+	), "system")
 
 func _apply_run_theme(theme: String) -> void:
 	run_theme = theme

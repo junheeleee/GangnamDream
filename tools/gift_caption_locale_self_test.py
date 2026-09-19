@@ -486,4 +486,5 @@ def main():
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    from new_run_log_locale_self_test import historical_entry
+    raise SystemExit(historical_entry(main, "gift"))

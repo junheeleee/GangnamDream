@@ -501,3 +501,145 @@ main_game_history_source_errors = _gift_caption_main_source_errors
 main_game_history_project_bytes = _gift_caption_main_project_bytes
 main_game_history_project_byte_hash = _gift_caption_main_project_hash
 # END_GIFT_CAPTION_HISTORY_262
+
+# BEGIN_NEW_RUN_LOG_HISTORY_267
+# A finite GS/collector observation layer; previous registries/functions remain raw.
+NEW_RUN_LOG_GS = "autoloads/GameState.gd"
+NEW_RUN_LOG_JA = "tools/ja_translation_pipeline.py"
+_NEW_RUN_LOG_PINS = {
+  "autoloads/GameState.gd": [
+    "8a40740286ff910b2a16049e2c2794cc0dc22fed5dfc78d2fc6ce458c833018d",
+    "5076adf75b13920ae97ff9174945acf9c43fc80dec73cb356da44f314b7741d8"
+  ],
+  "tools/ja_translation_pipeline.py": [
+    "8bb536853809fa273587734215bfcb3d6a78b9bd4d4b941b595e2136e8ebec6c",
+    "fdbcc5701bc78e6dac5023d6b2e295cfdf2f96f40e039f07f0f02f6985e0779b"
+  ]
+}
+NEW_RUN_LOG_TRANSITIONS = json.loads(r'''{
+  "autoloads/GameState.gd": {
+    "previous_sha256": "8a40740286ff910b2a16049e2c2794cc0dc22fed5dfc78d2fc6ce458c833018d",
+    "current_sha256": "5076adf75b13920ae97ff9174945acf9c43fc80dec73cb356da44f314b7741d8",
+    "inverses": [
+      {
+        "id": "profile_parent",
+        "before": "\tadd_log(LocaleManager.ui(\n\t\t\"다시 시작한 아침. 출발점은 %s였다.\",\n\t\t\"Another beginning. He started out %s.\") %\n\t\t_localized_profile_label(starting_profile), \"system\")\n",
+        "after": "\tadd_log(LocaleManager.ui_format(\n\t\t\"다시 시작한 아침. 출발점은 %s였다.\",\n\t\t\"Another beginning. He started out %s.\",\n\t\t[_localized_profile_label(starting_profile)],\n\t\t[_localized_profile_label(starting_profile, true)]), \"system\")\n",
+        "kind": "replace_once"
+      },
+      {
+        "id": "profile_label",
+        "before": "func _localized_profile_label(profile: String) -> String:\n\tif not LocaleManager.is_english():\n\t\treturn profile\n\tvar labels := {\n\t\t\"백수\": \"unemployed\",\n\t\t\"알바\": \"working part-time\",\n\t}\n\treturn str(labels.get(profile, profile))\n",
+        "after": "func _localized_profile_label(profile: String, english_only: bool = false) -> String:\n\tvar labels := {\n\t\t\"백수\": \"unemployed\",\n\t\t\"알바\": \"working part-time\",\n\t}\n\tif english_only:\n\t\treturn str(labels.get(profile, profile))\n\tmatch profile:\n\t\t\"백수\":\n\t\t\treturn LocaleManager.ui(\"백수\", \"unemployed\")\n\t\t\"알바\":\n\t\t\treturn LocaleManager.ui(\"알바\", \"working part-time\")\n\treturn profile\n",
+        "kind": "replace_once"
+      },
+      {
+        "id": "theme_log",
+        "before": "func _roll_run_theme():\n\tvar pool = [\"investment\", \"jobs\", \"social\", \"health\", \"relationship\", \"gambling\", \"finance\"]\n\tpool.shuffle()\n\trun_theme_categories = [pool[0], pool[1]]\n\tvar label_map = {\n\t\t\"investment\": \"투자\", \"jobs\": \"직장\", \"social\": \"인간관계\",\n\t\t\"health\": \"건강\", \"relationship\": \"연애\", \"gambling\": \"도박\", \"finance\": \"재정\"\n\t}\n\tif LocaleManager.is_english():\n\t\tlabel_map = {\n\t\t\t\"investment\": \"Investing\", \"jobs\": \"Jobs\", \"social\": \"Social\",\n\t\t\t\"health\": \"Health\", \"relationship\": \"Relationships\", \"gambling\": \"Gambling\", \"finance\": \"Finance\"\n\t\t}\n\tvar a = label_map.get(pool[0], pool[0])\n\tvar b = label_map.get(pool[1], pool[1])\n\tadd_log(LocaleManager.ui(\n\t\t\"이번에는 %s와 %s에 얽힌 소식이 유난히 먼저 눈에 들어왔다.\",\n\t\t\"This time, news tied to %s and %s caught his eye first.\"\n\t) % [a, b], \"system\")\n",
+        "after": "func _roll_run_theme():\n\tvar pool = [\"investment\", \"jobs\", \"social\", \"health\", \"relationship\", \"gambling\", \"finance\"]\n\tpool.shuffle()\n\trun_theme_categories = [pool[0], pool[1]]\n\tvar label_map = {\n\t\t\"investment\": LocaleManager.ui(\"투자\", \"Investing\"),\n\t\t\"jobs\": LocaleManager.ui(\"직장\", \"Jobs\"),\n\t\t\"social\": LocaleManager.ui(\"인간관계\", \"Social\"),\n\t\t\"health\": LocaleManager.ui(\"건강\", \"Health\"),\n\t\t\"relationship\": LocaleManager.ui(\"연애\", \"Relationships\"),\n\t\t\"gambling\": LocaleManager.ui(\"도박\", \"Gambling\"),\n\t\t\"finance\": LocaleManager.ui(\"재정\", \"Finance\"),\n\t}\n\tvar english_labels = {\n\t\t\"investment\": \"Investing\", \"jobs\": \"Jobs\", \"social\": \"Social\",\n\t\t\"health\": \"Health\", \"relationship\": \"Relationships\", \"gambling\": \"Gambling\", \"finance\": \"Finance\"\n\t}\n\tvar a = label_map.get(pool[0], pool[0])\n\tvar b = label_map.get(pool[1], pool[1])\n\tadd_log(LocaleManager.ui_format(\n\t\t\"이번에는 %s와 %s에 얽힌 소식이 유난히 먼저 눈에 들어왔다.\",\n\t\t\"This time, news tied to %s and %s caught his eye first.\",\n\t\t[a, b], [english_labels.get(pool[0], pool[0]), english_labels.get(pool[1], pool[1])]\n\t), \"system\")\n",
+        "kind": "replace_once"
+      }
+    ]
+  },
+  "tools/ja_translation_pipeline.py": {
+    "previous_sha256": "8bb536853809fa273587734215bfcb3d6a78b9bd4d4b941b595e2136e8ebec6c",
+    "current_sha256": "fdbcc5701bc78e6dac5023d6b2e295cfdf2f96f40e039f07f0f02f6985e0779b",
+    "inverses": [
+      {
+        "id": "collector",
+        "kind": "remove_span",
+        "start": "# BEGIN_NEW_RUN_LOG_COLLECTOR_267\n",
+        "end": "# END_NEW_RUN_LOG_COLLECTOR_267\n\n",
+        "sha256": "6cd6cf8e6e0c5060de710adf5f94f488f1cf90d9bd1100431eb6be81a8580bee"
+      }
+    ]
+  }
+}''')
+_NEW_RUN_LOG_REGISTRY_SHA256 = "2fc12c857507019e4a33e6f2c2b89632ca234ebfc8520ecc2d4e0e11386a31f1"
+_NEW_RUN_OLD_SOURCE_ERRORS = main_game_history_source_errors
+_NEW_RUN_OLD_PROJECT_BYTES = main_game_history_project_bytes
+_NEW_RUN_OLD_PROJECT_HASH = main_game_history_project_byte_hash
+
+
+def _new_run_log_projection(current, relative):
+    if relative not in _NEW_RUN_LOG_PINS:
+        return current, []
+    try:
+        encoded = json.dumps(NEW_RUN_LOG_TRANSITIONS, ensure_ascii=False,
+                             sort_keys=True, separators=(",", ":")).encode()
+        if set(NEW_RUN_LOG_TRANSITIONS) != set(_NEW_RUN_LOG_PINS) or hashlib.sha256(encoded).hexdigest() != _NEW_RUN_LOG_REGISTRY_SHA256:
+            raise ValueError("registry seal")
+        for path, fixed in _NEW_RUN_LOG_PINS.items():
+            row = NEW_RUN_LOG_TRANSITIONS[path]
+            if set(row) != {"previous_sha256", "current_sha256", "inverses"} or (row["previous_sha256"], row["current_sha256"]) != tuple(fixed):
+                raise ValueError("independent transition pins")
+            wanted = (("profile_parent", "replace_once"), ("profile_label", "replace_once"),
+                      ("theme_log", "replace_once")) if path == NEW_RUN_LOG_GS else (("collector", "remove_span"),)
+            if len(row["inverses"]) != len(wanted) or tuple((i["id"], i["kind"]) for i in row["inverses"]) != wanted:
+                raise ValueError("inverse cardinality/order")
+        prior, actual = _NEW_RUN_LOG_PINS[relative]
+        if hashlib.sha256(current).hexdigest() != actual:
+            raise ValueError("unapproved physical source")
+        old = current
+        for row in reversed(NEW_RUN_LOG_TRANSITIONS[relative]["inverses"]):
+            if row["kind"] == "replace_once":
+                before, after = row["before"].encode(), row["after"].encode()
+                if not before or not after or before == after or old.count(after) != 1:
+                    raise ValueError("inverse is not exact1")
+                old = old.replace(after, before, 1)
+            else:
+                start, end = row["start"].encode(), row["end"].encode()
+                if not start or not end or old.count(start) != 1 or old.count(end) != 1:
+                    raise ValueError("collector boundaries")
+                a = old.index(start)
+                z = old.index(end, a) + len(end)
+                if hashlib.sha256(old[a:z]).hexdigest() != row["sha256"]:
+                    raise ValueError("collector span hash")
+                old = old[:a] + old[z:]
+        if hashlib.sha256(old).hexdigest() != prior:
+            raise ValueError("whole predecessor inverse")
+        return old, []
+    except (KeyError, TypeError, ValueError, AttributeError, IndexError, UnicodeError) as exc:
+        return current, ["ORDER-267: new-run source/registry rejected: " + str(exc)]
+
+
+def new_run_log_source_errors(relative, current, registered_previous=None):
+    errors = _new_run_log_projection(current, relative)[1]
+    if registered_previous is not None:
+        pins = _NEW_RUN_LOG_PINS.get(relative)
+        if pins is None or registered_previous != pins[0]:
+            errors.append("ORDER-267: new-run predecessor registration differs")
+    return errors
+
+
+def new_run_log_project_bytes(current, relative):
+    return _new_run_log_projection(current, relative)[0]
+
+
+def new_run_log_project_byte_hash(claim, relative, current):
+    old, errors = _new_run_log_projection(current, relative)
+    return claim if errors or hashlib.sha256(current).hexdigest() != claim else hashlib.sha256(old).hexdigest()
+
+
+def _new_run_public_source_errors(relative, current):
+    if relative == NEW_RUN_LOG_GS:
+        return new_run_log_source_errors(relative, current)
+    return _NEW_RUN_OLD_SOURCE_ERRORS(relative, current)
+
+
+def _new_run_public_project_bytes(current, relative):
+    if relative == NEW_RUN_LOG_GS:
+        return new_run_log_project_bytes(current, relative)
+    return _NEW_RUN_OLD_PROJECT_BYTES(current, relative)
+
+
+def _new_run_public_project_hash(claim, relative, current):
+    if relative == NEW_RUN_LOG_GS:
+        return new_run_log_project_byte_hash(claim, relative, current)
+    return _NEW_RUN_OLD_PROJECT_HASH(claim, relative, current)
+
+
+main_game_history_source_errors = _new_run_public_source_errors
+main_game_history_project_bytes = _new_run_public_project_bytes
+main_game_history_project_byte_hash = _new_run_public_project_hash
+# END_NEW_RUN_LOG_HISTORY_267
