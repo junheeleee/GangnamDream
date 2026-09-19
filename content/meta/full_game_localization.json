@@ -4404,6 +4404,37 @@
       "machine_validation": "PASS",
       "rendered_review": "OPEN",
       "native_review": "OPEN"
+    },
+    {
+      "order": "ORDER-272",
+      "group": "ui",
+      "roots": [
+        "탄력 받은 한 주",
+        "아침부터 몸이 가벼웠다. 이번 주에는 한 가지 일을 더 끝낼 수 있다.",
+        "뜻밖의 수입",
+        "예상치 못한 %s이 들어왔다.",
+        "시장 급등 신호",
+        "이번 달 시장 전반에 강세 신호가 감지됐다. 투자 기회!",
+        "긴급 지출",
+        "갑작스럽게 %s이 빠져나갔다.",
+        "여유 없는 달",
+        "갑작스러운 일이 하루를 가져갔다. 이번 달에는 하려던 일 하나를 내려놓아야 한다.",
+        "시장 충격",
+        "외부 충격으로 시장이 흔들렸다. 이번 달 투자 위험 대폭 상승.",
+        "몸의 경고",
+        "몸이 갑자기 말을 듣지 않았다. 잠을 자도 손끝의 떨림과 무거운 숨이 남았다.",
+        "시장 국면 전환: %s"
+      ],
+      "source_leaves": 15,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 15,
+        "zh-TW": 15
+      },
+      "source_review": "Direct Korean independent Chinese15 each, 8 automatic month-start notification/market-cycle parent groups. Same30 independently read; source/runtime/public/JA and existing39842 preserved. AP narrative does not reopen actions; raw cycle arguments remain unlocalized. No native/render/human approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN"
     }
   ],
   "accepted": {
@@ -110285,6 +110316,66 @@
       "ui:이번 달에는 잠과 식사가 눈에 띄게 무너졌다. 도박을 즉시 중단하세요.:/이번 달에는 잠과 식사가 눈에 띄게 무너졌다. 도박을 즉시 중단하세요.": {
         "source_sha256": "270942d573743b051a68e79153ce3ca5f82249eccc206da04d8f49c35d0b76eb",
         "target_sha256": "d2e9c3054fb29f9094220d05482ac4dab88a566fdcbeed0c02dc1e51a1ecca52"
+      },
+      "ui:탄력 받은 한 주:/탄력 받은 한 주": {
+        "source_sha256": "020286dd2e29a474d28018f08c74c15f87160cd556756dcfc51197fcd5a98b92",
+        "target_sha256": "8ad8326e1efbd4dd91f78cd57787c91a93e828febad781f58f60a62b670d4a3b"
+      },
+      "ui:아침부터 몸이 가벼웠다. 이번 주에는 한 가지 일을 더 끝낼 수 있다.:/아침부터 몸이 가벼웠다. 이번 주에는 한 가지 일을 더 끝낼 수 있다.": {
+        "source_sha256": "d03bd672e20452c60556037cee857725102f6af5dcdb1c4c047d53bf6c99f86c",
+        "target_sha256": "5e9e066582a9c4d0927945d4d334ba8854fab86b005150e2680c586838b03238"
+      },
+      "ui:뜻밖의 수입:/뜻밖의 수입": {
+        "source_sha256": "044dd460a5c701a37f578398cf0f560ae6ac4db5318ae876d4fba3dcbb13b36a",
+        "target_sha256": "d33676ee05d81968f2407fbd271c72ff38440ef86125dbcb0e80f4c9f2da74d7"
+      },
+      "ui:예상치 못한 %s이 들어왔다.:/예상치 못한 %s이 들어왔다.": {
+        "source_sha256": "c0856ea1b23a3f01d3b8710a917c0a16da0830a72e2d128e90e9a52c4703113d",
+        "target_sha256": "cc5c3feb36f7e5f8810125deb92fc7a9b80c75eab0b96612afb3624590c103a4"
+      },
+      "ui:시장 급등 신호:/시장 급등 신호": {
+        "source_sha256": "0c269bc4474581ecbe84040e670abc820cfc4e65a60b32a95949cbc00143c0d7",
+        "target_sha256": "2fff2be5d0e03530006ba1be889ea322cc5e5de0349b3437f8e1eaaa688972af"
+      },
+      "ui:이번 달 시장 전반에 강세 신호가 감지됐다. 투자 기회!:/이번 달 시장 전반에 강세 신호가 감지됐다. 투자 기회!": {
+        "source_sha256": "108ebf28ab212fd8b7305263aee85788c6a80d27fd5e2fff21a091ef472c08c0",
+        "target_sha256": "37a478f3b470b8f5491052893dc91223da177cb0daeaf0af40d84f1c31e0461b"
+      },
+      "ui:긴급 지출:/긴급 지출": {
+        "source_sha256": "dc84e935c62ab41f18dc185cc2daf8a836def8b5481abc2c1e25660bf0257158",
+        "target_sha256": "c40f57cbc144c3983bf5d746ec1453855437fc95a46752cbca3244638388943a"
+      },
+      "ui:갑작스럽게 %s이 빠져나갔다.:/갑작스럽게 %s이 빠져나갔다.": {
+        "source_sha256": "35ba3fc1d3d1d56fb62d4b66138153eff18472e6dd7c3177fe8301372f4f60a3",
+        "target_sha256": "0d1a00c9311b05077b59cb8c2dded1f7dcbbbac83358775d7fbbd3edeb027acf"
+      },
+      "ui:여유 없는 달:/여유 없는 달": {
+        "source_sha256": "e6fad287efd2b040d819fb50efbcd4aff6e616039e6db83f36089766d23ffe90",
+        "target_sha256": "bdde30f7e9592b94611b5c00390f3c49e09c1cb7d2e770cb6870d66017e4b8cf"
+      },
+      "ui:갑작스러운 일이 하루를 가져갔다. 이번 달에는 하려던 일 하나를 내려놓아야 한다.:/갑작스러운 일이 하루를 가져갔다. 이번 달에는 하려던 일 하나를 내려놓아야 한다.": {
+        "source_sha256": "e3f5c358fa68781ca046314f9ede95613b383444154223865faa07f14cd59aa9",
+        "target_sha256": "33c7cbd523f9e3adb400b97ba8a782a1189a94418f6ec303bdce0db86a9f250e"
+      },
+      "ui:시장 충격:/시장 충격": {
+        "source_sha256": "7f05029f52b32fc529a80660fc6887488b2294ddadc7c8ac617c184d5f831777",
+        "target_sha256": "81bee7935e9f8dd0d8271b420c87f282fe693164b9d1396b84a888778952b75a"
+      },
+      "ui:외부 충격으로 시장이 흔들렸다. 이번 달 투자 위험 대폭 상승.:/외부 충격으로 시장이 흔들렸다. 이번 달 투자 위험 대폭 상승.": {
+        "source_sha256": "a2f05bc409442d850586de643ed316d43e376424d0da4e8088ab88540f12c8b3",
+        "target_sha256": "1a72059a60fb2bedde732694b3066f927dde36fce963b42a0caffa8784a816a2"
+      },
+      "ui:몸의 경고:/몸의 경고": {
+        "source_sha256": "bec763cc8f363758b8251e8993db089ebcd2dae9b8b699681321d9587122abad",
+        "target_sha256": "d6feec1f1bba5c126fddde08869a5ac568903e05a21f431a101275ee4fb16534"
+      },
+      "ui:몸이 갑자기 말을 듣지 않았다. 잠을 자도 손끝의 떨림과 무거운 숨이 남았다.:/몸이 갑자기 말을 듣지 않았다. 잠을 자도 손끝의 떨림과 무거운 숨이 남았다.": {
+        "source_sha256": "73908a1cf57b7565083e772a315a1e098a7e934e5f805e6bc5ea4c7c8138865b",
+        "target_sha256": "69e43a6c79f3826ba15dc915522cfc89d6bd7445ee611f6dfea13ae5e019cccb"
+      },
+      "ui:시장 국면 전환: %s:/시장 국면 전환: %s": {
+        "source_sha256": "db206875d7d5251f3e6b3eb755be1df6f5e0d4ec89c6c8beab5207128914e30a",
+        "target_sha256": "5382045a4fbea56b72157c639e32fbd42b1a57e92bd162573d310622ed84594d"
       }
     },
     "zh-TW": {
@@ -163779,10 +163870,70 @@
       "ui:이번 달에는 잠과 식사가 눈에 띄게 무너졌다. 도박을 즉시 중단하세요.:/이번 달에는 잠과 식사가 눈에 띄게 무너졌다. 도박을 즉시 중단하세요.": {
         "source_sha256": "270942d573743b051a68e79153ce3ca5f82249eccc206da04d8f49c35d0b76eb",
         "target_sha256": "3f46f35673803db43a51be27c0c84d2544d3eb4b7d42d02eda03a399c48e470c"
+      },
+      "ui:탄력 받은 한 주:/탄력 받은 한 주": {
+        "source_sha256": "020286dd2e29a474d28018f08c74c15f87160cd556756dcfc51197fcd5a98b92",
+        "target_sha256": "77fb8ebbe9fda238c6c1ae681f532e73f709a95b1c0e38c5f9ea268fe102abdd"
+      },
+      "ui:아침부터 몸이 가벼웠다. 이번 주에는 한 가지 일을 더 끝낼 수 있다.:/아침부터 몸이 가벼웠다. 이번 주에는 한 가지 일을 더 끝낼 수 있다.": {
+        "source_sha256": "d03bd672e20452c60556037cee857725102f6af5dcdb1c4c047d53bf6c99f86c",
+        "target_sha256": "d9d76f68d5b76081c2595db6e1a4e9e5bd28b38e4169b079ba70e19bb176203e"
+      },
+      "ui:뜻밖의 수입:/뜻밖의 수입": {
+        "source_sha256": "044dd460a5c701a37f578398cf0f560ae6ac4db5318ae876d4fba3dcbb13b36a",
+        "target_sha256": "d33676ee05d81968f2407fbd271c72ff38440ef86125dbcb0e80f4c9f2da74d7"
+      },
+      "ui:예상치 못한 %s이 들어왔다.:/예상치 못한 %s이 들어왔다.": {
+        "source_sha256": "c0856ea1b23a3f01d3b8710a917c0a16da0830a72e2d128e90e9a52c4703113d",
+        "target_sha256": "f629369dfc4c64577ee2585b025ffcf876e6d8798a5eb7cb0bd0c8cbf86425e7"
+      },
+      "ui:시장 급등 신호:/시장 급등 신호": {
+        "source_sha256": "0c269bc4474581ecbe84040e670abc820cfc4e65a60b32a95949cbc00143c0d7",
+        "target_sha256": "94fe0255c9b14ee445a6edf8a322cb021de13156549eba076e3da453be38a085"
+      },
+      "ui:이번 달 시장 전반에 강세 신호가 감지됐다. 투자 기회!:/이번 달 시장 전반에 강세 신호가 감지됐다. 투자 기회!": {
+        "source_sha256": "108ebf28ab212fd8b7305263aee85788c6a80d27fd5e2fff21a091ef472c08c0",
+        "target_sha256": "880d5cd0343441a0d028b0bf3848768ac5ac46d7636976cf9d8df6c14d126ac8"
+      },
+      "ui:긴급 지출:/긴급 지출": {
+        "source_sha256": "dc84e935c62ab41f18dc185cc2daf8a836def8b5481abc2c1e25660bf0257158",
+        "target_sha256": "6ddf6eb181cfb37b5e5eb839ca19c04899fdd7fa9feab28c0be7f71b13493483"
+      },
+      "ui:갑작스럽게 %s이 빠져나갔다.:/갑작스럽게 %s이 빠져나갔다.": {
+        "source_sha256": "35ba3fc1d3d1d56fb62d4b66138153eff18472e6dd7c3177fe8301372f4f60a3",
+        "target_sha256": "1c58de824807fb0ab1aff783a40b31be38233258468bfe72e82e29b77bda37b3"
+      },
+      "ui:여유 없는 달:/여유 없는 달": {
+        "source_sha256": "e6fad287efd2b040d819fb50efbcd4aff6e616039e6db83f36089766d23ffe90",
+        "target_sha256": "bb079f113c3dc161db2bc374a3c81ff14d42d44773e3f2b9a3abeb81e5f9fec9"
+      },
+      "ui:갑작스러운 일이 하루를 가져갔다. 이번 달에는 하려던 일 하나를 내려놓아야 한다.:/갑작스러운 일이 하루를 가져갔다. 이번 달에는 하려던 일 하나를 내려놓아야 한다.": {
+        "source_sha256": "e3f5c358fa68781ca046314f9ede95613b383444154223865faa07f14cd59aa9",
+        "target_sha256": "997c8a578226aa70329bd1b9b8fad94810b88b470919598fc5ee28037b7866a6"
+      },
+      "ui:시장 충격:/시장 충격": {
+        "source_sha256": "7f05029f52b32fc529a80660fc6887488b2294ddadc7c8ac617c184d5f831777",
+        "target_sha256": "8144ba440751e076eeeadc61eccc942ec90d6c47a02d5cc2e0a954f421c59855"
+      },
+      "ui:외부 충격으로 시장이 흔들렸다. 이번 달 투자 위험 대폭 상승.:/외부 충격으로 시장이 흔들렸다. 이번 달 투자 위험 대폭 상승.": {
+        "source_sha256": "a2f05bc409442d850586de643ed316d43e376424d0da4e8088ab88540f12c8b3",
+        "target_sha256": "ffc9384f7d852f0509683578fedfcb9f9eacec70f00675dac8d51870f54a6083"
+      },
+      "ui:몸의 경고:/몸의 경고": {
+        "source_sha256": "bec763cc8f363758b8251e8993db089ebcd2dae9b8b699681321d9587122abad",
+        "target_sha256": "aaf0b0e699e0ce92c565acacfe09ac004e5114c285fe94b444d3a7372ef761a5"
+      },
+      "ui:몸이 갑자기 말을 듣지 않았다. 잠을 자도 손끝의 떨림과 무거운 숨이 남았다.:/몸이 갑자기 말을 듣지 않았다. 잠을 자도 손끝의 떨림과 무거운 숨이 남았다.": {
+        "source_sha256": "73908a1cf57b7565083e772a315a1e098a7e934e5f805e6bc5ea4c7c8138865b",
+        "target_sha256": "8c0bcdd5a5ac868dacfecd98449565a6e78fa2f15e4949e4f46b22e0db744dfa"
+      },
+      "ui:시장 국면 전환: %s:/시장 국면 전환: %s": {
+        "source_sha256": "db206875d7d5251f3e6b3eb755be1df6f5e0d4ec89c6c8beab5207128914e30a",
+        "target_sha256": "a64bae981ff4af00a54404fb86396f3ac4c0429d30a91532f0f4ee172ebd0083"
       }
     }
   },
-  "accepted_sha256": "fd646d135e3654edc54772316d7f4a57a192bbea6243cf983e397e521b76e7ad",
+  "accepted_sha256": "315e22fd540042fdb5cb9cf3dec11697679cd66edaae730b97ff2b03b20b9c0c",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
