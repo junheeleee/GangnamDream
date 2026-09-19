@@ -3,6 +3,12 @@
 > 이전 WORK·이번 선언과 검수 원문은 [267 보존본](queue_archive/ORDER-267.md)에 있다.
 > 기존 보존본 링크와 첫 검수의 지적은 원형 그대로 이어진다.
 
+## 2026-09-20 (Codex — 중국어 UI 220문구 착수)
+
+- [268](queue_active/ORDER-268.md): 시작·진행·회고20기능의 기존110키를 CN/TW 각각 직접 번역한다.
+- Plato 간체·Rawls 번체·Poincare 비저자 전수검수·ROOT 실행/수용. JA·코드·기존수용은 보존한다.
+- 새로운 검사/fixture 없이 기존 도구로 초안과 신규 선택만 검증한다. 예상220은 완료 수가 아니다.
+
 ## 2026-09-20 (Codex — 새 게임 기록 다국어 전달 마감)
 
 - [267](queue_archive/ORDER-267.md): 제품3ece4b3·clean검토4bfa395, Poincare 단위GO/필수0.
