@@ -52,7 +52,7 @@
 |---:|:---:|---|---|---|
 
 
-| 1 | [~] | ORDER-263 · 이야기 진행표 번역 | [263](queue_active/ORDER-263.md) | 언어60 승인 · 264 수리GO · 새 기준선 재개 · 적용0 |
+| 1 | [~] | ORDER-263 · 이야기 진행표 번역 | [263](queue_active/ORDER-263.md) | 언어60 승인 · 2ec2e47 재개 · 검증/수용 중 |
 
 [활성 L3 검수 대기 행 이어보기](CODEX_QUEUE_L3_PENDING.md) <!-- queue-index-include -->
 
