@@ -14,6 +14,198 @@ import full_game_localization as tool
 
 
 class ExchangeTests(unittest.TestCase):
+    def test_order266_ui_story_relationship_name_scope(self):
+        """Fixed 24 families / 64 rows; actual four first, both real consumers."""
+        import contextlib
+        import io
+        import traceback
+        import zh_translation_audit as zh
+
+        # The four ORDER-265 failures are source-frozen, not helper outputs.
+        originals = (
+            ("hyunsu", "zh-CN", "강현수 (친구)", "Kang Hyunsu", "朋友", "友人"),
+            ("hyunsu", "zh-TW", "강현수 (친구)", "Kang Hyunsu", "朋友", "友人"),
+            ("jaehyuk", "zh-CN", "최재혁 (군대 동기)", "Choi Jaehyuk", "同期战友", "军中同期"),
+            ("jaehyuk", "zh-TW", "최재혁 (군대 동기)", "Choi Jaehyuk", "軍中同梯", "同期戰友"),
+        )
+        cases = []
+
+        def add(family, original, target, *, mask_role=None, suffix="",
+                source=None, owner=None, path=None, group="ui", locale=None,
+                component=None):
+            subject, language, korean, name, role, alternative = original
+            korean = korean if source is None else source
+            owner = korean if owner is None else owner
+            expected = target
+            if mask_role is not None:
+                # Independent literal role span: never invoke the adapter to
+                # manufacture its expected output or remove the Latin name.
+                start = target.index(mask_role)
+                expected = target[:start] + " " * len(mask_role) + target[start + len(mask_role):]
+            cases.append({
+                "id": family + suffix + "/" + subject + "/" + (locale or language),
+                "family": family, "locale": locale or language, "source": korean,
+                "target": target, "name": name, "owner": owner, "group": group,
+                "path": [owner] if path is None else path,
+                "probe_expected": expected, "pass": mask_role is not None,
+                "base": None if mask_role is not None else "actual/" + subject + "/" + language,
+                "component": component,
+            })
+
+        for row in originals:
+            add("actual", row, row[3] + " (" + row[4] + ")", mask_role=row[4])
+        for row in originals:
+            add("fullwidth", row, row[3] + "（" + row[4] + "）", mask_role=row[4])
+            add("role_variant", row, row[3] + " (" + row[5] + ")", mask_role=row[5])
+            add("horizontal_space", row, "\t" + row[3] + "\t( \t" + row[4] + " \t)\t",
+                mask_role=row[4])
+        for row in originals[:2]:
+            language, name, role = row[1], row[3], row[4]
+            target = name + " (" + role + ")"
+            alias = "姜贤秀" if language == "zh-CN" else "姜賢秀"
+            add("han_only", row, alias + " (朋友)")
+            add("added_alias", row, name + " (" + alias + ")")
+            add("surname_missing", row, "Hyunsu (朋友)")
+            add("wrong_person", row, "Choi Jaehyuk (朋友)")
+            add("square_brackets", row, name + " [朋友]")
+            add("duplicate_role", row, target + " (朋友)")
+            add("prefix_alias", row, "(" + alias + ") " + target)
+            add("key_off", row, target, suffix="_owner", owner="qa_relationship")
+            add("key_off", row, target, suffix="_path", path=["qa_other_field"])
+            add("key_off", row, target, suffix="_event", group="events",
+                owner="qa_relationship_event", path=["title"])
+            add("source_off", row, target, suffix="_space", source=row[2] + " ")
+            add("source_off", row, target, suffix="_role", source="강현수 (동료)")
+            add("token", row, target + " %s", component="token")
+            add("number", row, target + " 2", component="number")
+            add("money", row, target + " ¥1", component="money")
+            add("newline", row, target + "\n", component="newline")
+            add("english_role", row, name + " (Friend)")
+            add("empty", row, "")
+            add("other_cast_off", row, "Kim Minjun (朋友)", source="김민준 (친구)")
+            add("wrong_name_case", row, "kang Hyunsu (朋友)")
+        for row in originals:
+            wrong_role = ("同期战友" if row[1] == "zh-CN" else "軍中同梯") \
+                if row[0] == "hyunsu" else "朋友"
+            add("wrong_role", row, row[3] + " (" + wrong_role + ")")
+        for row, wrong_script in zip(originals[2:], ("同期戰友", "同期战友")):
+            add("script", row, row[3] + " (" + wrong_script + ")", component="script")
+        for language in ("ko", "en"):
+            add("locale_off", originals[0], "Kang Hyunsu (朋友)", locale=language)
+
+        def capture(call):
+            stdout, stderr = io.StringIO(), io.StringIO()
+            value, exception = None, None
+            with contextlib.redirect_stdout(stdout), contextlib.redirect_stderr(stderr):
+                try:
+                    value = call()
+                except Exception:
+                    exception = traceback.format_exc()
+            return {"value": value, "exception": exception,
+                    "stdout": stdout.getvalue(), "stderr": stderr.getvalue()}
+
+        def error_list(observed):
+            return (observed["exception"] is None and isinstance(observed["value"], list)
+                    and all(isinstance(error, str) for error in observed["value"]))
+
+        def independent_errors(case):
+            if case["component"] == "script":
+                return zh._script_errors(case["locale"], case["target"])
+            if case["component"] == "number":
+                return zh._numeric_errors(case["source"], case["target"])
+            if case["component"] == "money":
+                return ["Korean won was relabeled as yen/yuan/Taiwan dollar"]
+            if case["component"] == "token":
+                return ["placeholder/BBCode mismatch"]
+            if case["component"] == "newline":
+                return ["newline mismatch 0 != 1"]
+            return []
+
+        results = []
+        for case in cases:
+            leaf = tool.Leaf(case["group"], case["owner"], "runtime:static_ui",
+                             tuple(case["path"]), case["source"],
+                             "event_standard" if case["group"] == "events" else "ui_static_context")
+            args = (case["locale"], leaf.id, case["source"], case["target"])
+            probe = capture(lambda: zh._ui_story_relationship_name_probe(*args))
+            direct = capture(lambda: zh.validate_text(*args))
+            full = capture(lambda: tool.translation_errors(leaf, case["locale"], case["target"]))
+            # Identity disables only the new adapter; real validators still
+            # inspect the original source, complete target and original key.
+            with patch.object(zh, "_ui_story_relationship_name_probe",
+                              side_effect=lambda lang, key, source, target: target):
+                legacy_direct = capture(lambda: zh.validate_text(*args))
+                legacy_full = capture(lambda: tool.translation_errors(
+                    leaf, case["locale"], case["target"]))
+            component = capture(lambda: independent_errors(case))
+            observations = {"probe": probe, "direct": direct, "full": full,
+                            "legacy_direct": legacy_direct, "legacy_full": legacy_full,
+                            "component": component}
+            checks = {name + "_no_exception": item["exception"] is None
+                      for name, item in observations.items()}
+            checks["probe_literal_exact"] = probe["value"] == case["probe_expected"]
+            for name in ("direct", "full", "legacy_direct", "legacy_full", "component"):
+                checks[name + "_error_list"] = error_list(observations[name])
+            for name in ("direct", "full"):
+                observed = observations[name]
+                checks[name + "_expected_verdict"] = error_list(observed) and (
+                    not observed["value"] if case["pass"] else bool(observed["value"]))
+            if not case["pass"]:
+                checks["unmatched_direct_errors_raw_exact"] = direct["value"] == legacy_direct["value"]
+                checks["unmatched_full_errors_raw_exact"] = full["value"] == legacy_full["value"]
+            else:
+                old_alias = f"cast name {case['name']!r} has an unapproved Han-character alias"
+                checks["legacy_direct_alias_observed"] = (
+                    error_list(legacy_direct) and old_alias in legacy_direct["value"])
+                checks["legacy_full_alias_observed"] = (
+                    error_list(legacy_full) and old_alias in legacy_full["value"])
+            if case["component"] is not None:
+                required = component["value"] or []
+                checks["independent_diagnostic_nonempty"] = bool(required)
+                for name in ("direct", "full", "legacy_direct", "legacy_full"):
+                    observed = observations[name]
+                    checks[name + "_original_component_retained"] = (
+                        error_list(observed) and all(error in observed["value"] for error in required))
+            results.append({"case": case, "leaf_id": leaf.id,
+                            **observations, "checks": checks})
+
+        by_id = {result["case"]["id"]: result for result in results}
+        normal_bases_ok = all(all(result["checks"].values()) for result in results
+                              if result["case"]["pass"])
+        effective_negatives = 0
+        for result in results:
+            case = result["case"]
+            if case["base"] is None:
+                continue
+            base = by_id.get(case["base"])
+            base_ok = (normal_bases_ok and base is not None and base["case"]["pass"]
+                       and all(base["checks"].values()))
+            result["checks"]["normal_base_valid"] = base_ok
+            if base_ok and all(result["checks"].values()):
+                effective_negatives += 1
+        summary = {
+            "families": len({case["family"] for case in cases}), "cases": len(cases),
+            "unique_ids": len(by_id), "normal_count": sum(case["pass"] for case in cases),
+            "normal_bases_pass": normal_bases_ok, "effective_negatives": effective_negatives,
+            "expected_negative_count": sum(not case["pass"] for case in cases),
+            "all_checks_pass": all(all(result["checks"].values()) for result in results),
+        }
+        # Complete raw observations (including errors and exceptions) precede
+        # every assertion, so a first failure never hides later cases.
+        print("ORDER266_RELATIONSHIP_CASES " + json.dumps(results, ensure_ascii=False, sort_keys=True))
+        print("ORDER266_RELATIONSHIP_SUMMARY " + json.dumps(summary, sort_keys=True))
+        self.assertEqual(summary["families"], 24)
+        self.assertEqual(summary["cases"], 64)
+        self.assertEqual(summary["unique_ids"], 64)
+        self.assertEqual(summary["normal_count"], 16)
+        self.assertEqual([case["id"] for case in cases[:4]], [
+            "actual/hyunsu/zh-CN", "actual/hyunsu/zh-TW",
+            "actual/jaehyuk/zh-CN", "actual/jaehyuk/zh-TW"])
+        self.assertTrue(summary["normal_bases_pass"], summary)
+        self.assertEqual(summary["expected_negative_count"], 48)
+        self.assertEqual(summary["effective_negatives"], 48, summary)
+        self.assertTrue(summary["all_checks_pass"], summary)
+
     def test_order264_ui_story_coffee_ordinal_scope(self):
         """Fixed 24 semantic families / 60 rows; capture both real consumers."""
         import contextlib

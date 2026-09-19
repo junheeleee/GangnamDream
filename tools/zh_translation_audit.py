@@ -1077,6 +1077,38 @@ def _name_is_used(source: str, korean: str) -> bool:
     return korean in source
 
 
+def _ui_story_relationship_name_probe(
+    lang: str, key: str, source: str, target: str,
+) -> str:
+    """Distinguish two source-owned card roles from invented Han names.
+
+    Only the alias probe receives this mask. The complete original target
+    still owns canonical names, script, tokens, quantities and terminology.
+    Other sources, keys, locales and unmatched labels take the old path.
+    """
+    if lang not in LANGUAGES or key != f"ui:{source}:/{source}":
+        return target
+    roles = {
+        "강현수 (친구)": ("Kang Hyunsu", r"(?:朋友|友人)"),
+        "최재혁 (군대 동기)": (
+            "Choi Jaehyuk",
+            r"(?:同期战友|军中同期)" if lang == "zh-CN" else r"(?:軍中同梯|同期戰友)",
+        ),
+    }
+    if source not in roles:
+        return target
+    name, role = roles[source]
+    for opening, closing in (("(", ")"), ("（", "）")):
+        match = re.fullmatch(
+            rf"[ \t]*{re.escape(name)}[ \t]*{re.escape(opening)}[ \t]*"
+            rf"(?P<role>{role})[ \t]*{re.escape(closing)}[ \t]*", target,
+        )
+        if match:
+            start, end = match.span("role")
+            return target[:start] + " " * (end - start) + target[end:]
+    return target
+
+
 def _has_unapproved_han_alias(
     target: str, romanized: str, *, single_character_surname: bool = False,
 ) -> bool:
@@ -1223,12 +1255,13 @@ def _source_scoped_term_present(source: str, korean: str) -> bool:
     return korean in source
 
 
-def _terminology_errors(lang: str, source: str, target: str) -> list[str]:
+def _terminology_errors(lang: str, source: str, target: str, *, key: str = "") -> list[str]:
     errors: list[str] = []
     name_probe, butterfly_name_errors = _butterfly_chain_name(source, target)
     errors.extend(butterfly_name_errors)
     name_probe, midgame_name_errors = _midgame_sleep_name(source, name_probe)
     errors.extend(midgame_name_errors)
+    name_probe = _ui_story_relationship_name_probe(lang, key, source, name_probe)
     for pattern, romanized in RELATIONSHIP_SOURCE_NAMES:
         if pattern.search(source):
             if not _bounded_latin_matches(target, romanized):
@@ -8864,7 +8897,7 @@ def validate_text(lang: str, key: str, source: str, target: Any) -> list[str]:
             and not (restart is not None and restart["latin_only"]):
         errors.append("no Chinese Han glyphs in translated Korean source")
     errors.extend(_script_errors(lang, target))
-    errors.extend(_terminology_errors(lang, source if restart is None else restart["terminology_source"], target))
+    errors.extend(_terminology_errors(lang, source if restart is None else restart["terminology_source"], target, key=key))
     errors.extend(_money_errors(lang, *((source, target) if restart is None else restart["money_pair"])))
     errors.extend(_untranslated_english_errors(source, target, catalog=catalog_context))
     return list(dict.fromkeys(errors))
