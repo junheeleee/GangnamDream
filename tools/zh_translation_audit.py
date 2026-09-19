@@ -8407,7 +8407,40 @@ def _money_errors(lang: str, source: str, target: str) -> list[str]:
     return errors
 
 
+RACE_METRE_SLOTS = {
+    "[b]경마장[/b]   ·   제%d경주   ·   %dm   ·   마장 %s": 1,
+    "[color=#5a6478]    최근 %s · %s · 선호 %dm/%s/%s[/color]": 2,
+}
+
+
+def _race_metre_latin(source: str, target: str) -> tuple[str, list[str]]:
+    """Mask only the metre suffix owned by an exact race distance argument."""
+    slot = RACE_METRE_SLOTS.get(source)
+    if slot is None:
+        return target, []
+    from ja_translation_pipeline import parse_ui_printf_contract
+    source_contract, source_errors = parse_ui_printf_contract(source)
+    target_contract, target_errors = parse_ui_printf_contract(target)
+    printf = [m for m in PLACEHOLDER.finditer(target) if m.group().startswith("%")]
+    if source_errors or target_errors or source_contract != target_contract \
+            or len(printf) != len(target_contract):
+        return target, ["race distance printf type/order/sign changed"]
+    distance = printf[slot]
+    # A normal horizontal gap is allowed; a field separator or another slot
+    # cannot lend its unit to the distance. km, cm and mm are not metres.
+    suffix = re.match(r"[ \t]*m(?=$|[\s/·，。,:;!?…\]\)])", target[distance.end():])
+    if suffix is None:
+        return target, ["race distance metre suffix missing/changed/misplaced"]
+    position = distance.end() + suffix.end() - 1
+    return target[:position] + " " + target[position + 1:], []
+
+
 def _untranslated_english_errors(source: str, target: str, *, catalog: bool = False) -> list[str]:
+    # This copy is used only for English-residue detection. validate_text keeps
+    # the original target for numeric, script, token, BBCode and newline checks.
+    target, metre_errors = _race_metre_latin(source, target)
+    if metre_errors:
+        return metre_errors
     target, core_work_errors = _core_work_latin(source, target)
     if core_work_errors:
         return core_work_errors
@@ -8538,9 +8571,14 @@ def _untranslated_english_errors(source: str, target: str, *, catalog: bool = Fa
         for match in reversed(_han_surname_matches(scrubbed)):
             scrubbed = scrubbed[:match.start()] + " " + scrubbed[match.end():]
     scrubbed = re.sub(r"https?://\S+|www\.\S+", " ", scrubbed)
+    latin_source = source
+    if source in RACE_METRE_SLOTS:
+        # Neither the printf's d nor its owned metre m is a reusable English
+        # token. An extra bare m/dm must still face the ordinary residue check.
+        latin_source = PLACEHOLDER.sub(" ", source.replace("%dm", "%d", 1))
     source_tokens = set(re.findall(
         r"(?<![A-Za-z0-9])[A-Za-z][A-Za-z0-9'+./:_-]*(?![A-Za-z0-9])",
-        source,
+        latin_source,
     ))
     for token in sorted(source_tokens, key=len, reverse=True):
         scrubbed = re.sub(
@@ -20242,11 +20280,84 @@ def _early_connections_channel_self_test() -> tuple[int, list[str]]:
     return len(controls), failures
 
 
+def _race_metre_self_test() -> tuple[int, list[str]]:
+    """The pre-code20: original4, negative14 and unchanged-diagnostic OFF2."""
+    header = "[b]경마장[/b]   ·   제%d경주   ·   %dm   ·   마장 %s"
+    horse = "[color=#5a6478]    최근 %s · %s · 선호 %dm/%s/%s[/color]"
+    # id, kind, normal base, locale, source, literal target. These are the
+    # frozen post272-metre-repair-cases inputs, not rewritten translations.
+    controls = (
+        ("cn_header_normal", "normal", None, "zh-CN", header,
+         "[b]赛马场[/b]   ·   第%d场   ·   %dm   ·   场地%s"),
+        ("tw_header_normal", "normal", None, "zh-TW", header,
+         "[b]賽馬場[/b]   ·   第%d場   ·   %dm   ·   場地 %s"),
+        ("cn_horse_normal", "normal", None, "zh-CN", horse,
+         "[color=#5a6478]    近期%s · %s · 偏好%dm/%s/%s[/color]"),
+        ("tw_horse_normal", "normal", None, "zh-TW", horse,
+         "[color=#5a6478]    近期 %s · %s · 偏好 %dm/%s/%s[/color]"),
+        ("cn_header_kilometres", "mutant", "cn_header_normal", "zh-CN", header,
+         "[b]赛马场[/b]   ·   第%d场   ·   %dkm   ·   场地%s"),
+        ("tw_horse_centimetres", "mutant", "tw_horse_normal", "zh-TW", horse,
+         "[color=#5a6478]    近期 %s · %s · 偏好 %dcm/%s/%s[/color]"),
+        ("cn_header_missing_m", "mutant", "cn_header_normal", "zh-CN", header,
+         "[b]赛马场[/b]   ·   第%d场   ·   %d   ·   场地%s"),
+        ("tw_header_detached_m", "mutant", "tw_header_normal", "zh-TW", header,
+         "[b]賽馬場[/b]   ·   第%d場   ·   %d · m   ·   場地 %s"),
+        ("cn_header_m_on_race_number", "mutant", "cn_header_normal", "zh-CN", header,
+         "[b]赛马场[/b]   ·   第%dm场   ·   %d   ·   场地%s"),
+        ("tw_horse_m_on_string_slot", "mutant", "tw_horse_normal", "zh-TW", horse,
+         "[color=#5a6478]    近期 %sm · %s · 偏好 %d/%s/%s[/color]"),
+        ("cn_header_duplicate_m", "mutant", "cn_header_normal", "zh-CN", header,
+         "[b]赛马场[/b]   ·   第%d场   ·   %dmm   ·   场地%s"),
+        ("tw_horse_extra_bare_m", "mutant", "tw_horse_normal", "zh-TW", horse,
+         "[color=#5a6478]    近期 %s · %s · 偏好 %dm/%s/%s m[/color]"),
+        ("cn_header_extra_english", "mutant", "cn_header_normal", "zh-CN", header,
+         "[b]赛马场[/b]   ·   第%d场   ·   %dm   ·   场地%s Bonus"),
+        ("tw_header_printf_type", "mutant", "tw_header_normal", "zh-TW", header,
+         "[b]賽馬場[/b]   ·   第%d場   ·   %fm   ·   場地 %s"),
+        ("cn_horse_printf_order", "mutant", "cn_horse_normal", "zh-CN", horse,
+         "[color=#5a6478]    近期%d · %s · 偏好%sm/%s/%s[/color]"),
+        ("tw_header_bbcode", "mutant", "tw_header_normal", "zh-TW", header,
+         "[b]賽馬場[/i]   ·   第%d場   ·   %dm   ·   場地 %s"),
+        ("cn_header_printf_sign", "mutant", "cn_header_normal", "zh-CN", header,
+         "[b]赛马场[/b]   ·   第%d场   ·   %+dm   ·   场地%s"),
+        ("tw_horse_newline", "mutant", "tw_horse_normal", "zh-TW", horse,
+         "[color=#5a6478]    近期 %s · %s · 偏好 %dm/%s/%s\n[/color]"),
+        ("cn_nonowned_metre_source_OFF", "OFF", None, "zh-CN", "주행 거리 %dm",
+         "行驶距离%dm"),
+        ("tw_nonowned_without_m_source_OFF", "OFF", None, "zh-TW", "거리 %d",
+         "距離%dm"),
+    )
+    observed = {}
+    for case_id, _kind, _base, locale, source, target in controls:
+        pointer = source.replace("~", "~0").replace("/", "~1")
+        observed[case_id] = validate_text(locale, f"ui:{source}:/{pointer}", source, target)
+    normals_ok = all(not observed[c[0]] for c in controls if c[1] == "normal")
+    failures: list[str] = []
+    if not normals_ok:
+        failures.append("race metre normal4 failed; valid-negative count is zero")
+    for case_id, kind, base, _locale, source, target in controls:
+        errors = observed[case_id]
+        if kind == "normal" and errors:
+            failures.append(f"race metre {case_id}: {errors}")
+        elif kind == "mutant" and normals_ok and not observed[base] and not errors:
+            failures.append(f"race metre {case_id}: mutation accepted")
+        elif kind == "OFF" and (
+            errors != ["untranslated English token remains: 'm'"]
+            or _race_metre_latin(source, target) != (target, [])
+        ):
+            failures.append(f"race metre {case_id}: OFF changed: {errors}")
+    return len(controls), failures
+
+
 def run_self_test(
     manifest: dict[str, Any], runtime: dict[str, Any],
 ) -> list[str]:
     failures: list[str] = []
     cases, life_failures = _life_scene_parser_self_test()
+    metre_cases, metre_failures = _race_metre_self_test()
+    cases += metre_cases
+    failures.extend(metre_failures)
     font_cases, font_failures = _font_route_focused_self_test()
     cases += font_cases
     failures.extend(font_failures)
