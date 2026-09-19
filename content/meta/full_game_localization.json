@@ -3938,6 +3938,38 @@
       "machine_validation": "PASS",
       "rendered_review": "OPEN",
       "native_review": "OPEN"
+    },
+    {
+      "order": "ORDER-260",
+      "group": "ui",
+      "roots": [
+        "%s · %d개",
+        "간직한 물건",
+        "목걸이",
+        "목도리",
+        "브랜드 지갑",
+        "사용 AP 1",
+        "선물",
+        "소지품 · 유물",
+        "아이템",
+        "아직 아무것도 없다.\n이야기 속에서 받거나 남긴 것들이 여기 남는다.",
+        "양말 세트",
+        "에세이집",
+        "자동 활성",
+        "전시 도록",
+        "캔커피 세트",
+        "향수"
+      ],
+      "source_leaves": 16,
+      "target_leaves_by_locale": {
+        "ja": 16,
+        "zh-CN": 16,
+        "zh-TW": 16
+      },
+      "source_review": "Direct Korean and independent full48 language review: sixteen existing inventory/gift-name UI keys and sixteen MainGame calls. JA changes restricted to approved selected-key differences; CN/TW16 each appended. Held People-delivery caption excluded. Existing item IDs, quantities, AP1, effects, state and ingress unchanged. Old39103 source/target evidence inherited by raw preservation, not a repeated all-accepted L1. No game code, live item use/gift delivery, rendered, native or human-play judgment.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN"
     }
   ],
   "accepted": {
@@ -56073,6 +56105,70 @@
       "ui:호재:/호재": {
         "source_sha256": "30985685d81b1d456bdb8629d9df3a22501db86eebe71c6a84e11eb645a10d1f",
         "target_sha256": "751bc35e6f9522b06e5866d8ae19ed460c1a39c1591440d0d037a1ca2df3a573"
+      },
+      "ui:%s · %d개:/%s · %d개": {
+        "source_sha256": "712e3dd55c233a6644becf841fd11096e666aad3440bf8e4fc384827aaa2ac3c",
+        "target_sha256": "e6b09be2188a9e6a63ab9f9e5590cd69323ee737a6ca10ca06e5489fb2577508"
+      },
+      "ui:간직한 물건:/간직한 물건": {
+        "source_sha256": "52dcaa8e9f4c90199c144cec9270a1353c9be2375ea3d2ac621279182088bebd",
+        "target_sha256": "892ce5ac50f25246757a77f277975353aadf7c83a9b0c0b05ed7d113f07954f8"
+      },
+      "ui:목걸이:/목걸이": {
+        "source_sha256": "8376717f0a3d75c0c06713c14449b3dc26a61a1e06d27bf77f6659f579c27d09",
+        "target_sha256": "c7924ed11571138d2b4be23c69779689d23ae82b20c6a7c743197e0c82a92b02"
+      },
+      "ui:목도리:/목도리": {
+        "source_sha256": "4f0c7210c764951394045904c46d6d7624ba96b8b827a08da90ef0beac1f67b0",
+        "target_sha256": "2b66ec767805a721c2c6d2f200ca2606d6c721dbaa039dd1ca478d50be34155b"
+      },
+      "ui:브랜드 지갑:/브랜드 지갑": {
+        "source_sha256": "f4b1c94d484aa360ced86c6da49c0c9f7e7f8243d0f21a63838313bded0b4cef",
+        "target_sha256": "9cdeffce324c4b6d256bf8865bbb6d9d6bd3d9be9def6bd4b13af4bbe25a4e42"
+      },
+      "ui:사용 AP 1:/사용 AP 1": {
+        "source_sha256": "85395ba2d72f2d809b1fb50eb00b61eb31e3f78497bad869a22ec3bc7b0890e5",
+        "target_sha256": "5e755a2036781ba41b879e242ecc76ca6f48aba7f928ef2150c63698142364a0"
+      },
+      "ui:선물:/선물": {
+        "source_sha256": "5ded40328919555db31fd6afcb686aa5653ada95693c2a290c2512d99d0dc7d0",
+        "target_sha256": "42299d6555245acf4d942384b466d24c7df90d555cdb0f867a0bd66c912516ab"
+      },
+      "ui:소지품 · 유물:/소지품 · 유물": {
+        "source_sha256": "0f62bf9fa56de8d3f62a468ff6336befd0d105bde42a75e9b386b391c31848bb",
+        "target_sha256": "bdcd35147f013cf05cfbd2923d394ccf2c83069cfe8f2cf115c20ed6ecb188e5"
+      },
+      "ui:아이템:/아이템": {
+        "source_sha256": "4581c642b8f04d4057c96511a17b231288ef2b309e8c9597de88647a507110aa",
+        "target_sha256": "c66c1a639a0f49d0d2654a04f10642211025519dcce23dcdb44a48ad09d22cb4"
+      },
+      "ui:아직 아무것도 없다.\n이야기 속에서 받거나 남긴 것들이 여기 남는다.:/아직 아무것도 없다.\n이야기 속에서 받거나 남긴 것들이 여기 남는다.": {
+        "source_sha256": "efd234c8847353f94e3f74932a35ad5ddd9ebcf4b4f507d6c52210a99983afd5",
+        "target_sha256": "e3db8a896d06bd245aca740bf24f7b2aff9c3b893652176dd26772d2955bb633"
+      },
+      "ui:양말 세트:/양말 세트": {
+        "source_sha256": "73f86bbfeb51d0603d240fdb1b6cdf3c0857dd93b9b6d402623d5bee585d5a87",
+        "target_sha256": "8a7f9a4dd865a52a12690ab24068bc85c51e0be8a00038e0d144c96297ed04c0"
+      },
+      "ui:에세이집:/에세이집": {
+        "source_sha256": "9e8a88f2d16bc725c853e973c4f37b43a37e40a1d0a33e32b708de16504a55ac",
+        "target_sha256": "381327f59556245862c7f5f22313d8ddfe52e5a8c5713ea5c47324848a5d62bb"
+      },
+      "ui:자동 활성:/자동 활성": {
+        "source_sha256": "f437e1534ebf2a7cd432652c9dd5598c0e10b4d1a2a4f91ab53e25ea0a5ed748",
+        "target_sha256": "c26d5ef73ccb371603aa7e6c2577b1f17d7cd549783dff9d33bd1bb88c6efac4"
+      },
+      "ui:전시 도록:/전시 도록": {
+        "source_sha256": "2d73dc749156ffb1a5c2bdb746d903b5eafa1f2144f3c5ac6571a38203507f78",
+        "target_sha256": "45c57321493859a3ac20c9fc9d61ca04a03975e35570837594db73c05668b2ae"
+      },
+      "ui:캔커피 세트:/캔커피 세트": {
+        "source_sha256": "27ce8431091c413219b1daa63ba9bf05808ca22a8669e1553416a47851058ac9",
+        "target_sha256": "073c5b2af34f2332fde19358ae322c51e34efc101726e7f374a1d3eacde6022b"
+      },
+      "ui:향수:/향수": {
+        "source_sha256": "5571ae94577bcc73bbe09e88e89520e9dd232f6fb9254e68669794f669bac772",
+        "target_sha256": "5a28a3724311b331c753315b03d8fe4f554f4a12be3677cb2773954df13e7303"
       }
     },
     "zh-CN": {
@@ -108215,6 +108311,70 @@
       "ui:호재:/호재": {
         "source_sha256": "30985685d81b1d456bdb8629d9df3a22501db86eebe71c6a84e11eb645a10d1f",
         "target_sha256": "6554963fd76e7d19b69f6666725e57412f503ab2d87e021aa7efac56673f297b"
+      },
+      "ui:%s · %d개:/%s · %d개": {
+        "source_sha256": "712e3dd55c233a6644becf841fd11096e666aad3440bf8e4fc384827aaa2ac3c",
+        "target_sha256": "d06fea3f6ee6782ed3c396a5e235f59e1973b900c599fdf3dbf1953d5e270b5a"
+      },
+      "ui:간직한 물건:/간직한 물건": {
+        "source_sha256": "52dcaa8e9f4c90199c144cec9270a1353c9be2375ea3d2ac621279182088bebd",
+        "target_sha256": "649d0909de840983489cd95f1660561209255d5ec6b5e0674b13d28d0727f1bd"
+      },
+      "ui:목걸이:/목걸이": {
+        "source_sha256": "8376717f0a3d75c0c06713c14449b3dc26a61a1e06d27bf77f6659f579c27d09",
+        "target_sha256": "24aaacdd8e290fe6eeaa549a8a5202ea192623598e1fd56852308a82a91d0879"
+      },
+      "ui:목도리:/목도리": {
+        "source_sha256": "4f0c7210c764951394045904c46d6d7624ba96b8b827a08da90ef0beac1f67b0",
+        "target_sha256": "3c80981ae266eef15290c9f6588e55e65ca225d7d69d0bf2fe549c4405c0640c"
+      },
+      "ui:브랜드 지갑:/브랜드 지갑": {
+        "source_sha256": "f4b1c94d484aa360ced86c6da49c0c9f7e7f8243d0f21a63838313bded0b4cef",
+        "target_sha256": "ca199d85ce99951c3b7770263c388ee6559972fdc3e13e7806acade2b36fe67d"
+      },
+      "ui:사용 AP 1:/사용 AP 1": {
+        "source_sha256": "85395ba2d72f2d809b1fb50eb00b61eb31e3f78497bad869a22ec3bc7b0890e5",
+        "target_sha256": "70775a4a69c1751892ed54531926331caaa42e6e6cdf592dd84a391f38cd5320"
+      },
+      "ui:선물:/선물": {
+        "source_sha256": "5ded40328919555db31fd6afcb686aa5653ada95693c2a290c2512d99d0dc7d0",
+        "target_sha256": "8b3c01c14317d22bc0f326485f5005ef7f7cbcbe655a9936c380497ab0571ec3"
+      },
+      "ui:소지품 · 유물:/소지품 · 유물": {
+        "source_sha256": "0f62bf9fa56de8d3f62a468ff6336befd0d105bde42a75e9b386b391c31848bb",
+        "target_sha256": "f1d817cdb768cc8e10a0d3603c48d107425a1538c126ad9109bb5f3067fa643e"
+      },
+      "ui:아이템:/아이템": {
+        "source_sha256": "4581c642b8f04d4057c96511a17b231288ef2b309e8c9597de88647a507110aa",
+        "target_sha256": "b6b43fc2e91a027e4e8d853efe2a180688030885b8f5ff8cbf68efc28d46670c"
+      },
+      "ui:아직 아무것도 없다.\n이야기 속에서 받거나 남긴 것들이 여기 남는다.:/아직 아무것도 없다.\n이야기 속에서 받거나 남긴 것들이 여기 남는다.": {
+        "source_sha256": "efd234c8847353f94e3f74932a35ad5ddd9ebcf4b4f507d6c52210a99983afd5",
+        "target_sha256": "1596549b7fc63d9f9eedb983f5b1af89012b8a2b1fbf4a0e207b9a892165aa97"
+      },
+      "ui:양말 세트:/양말 세트": {
+        "source_sha256": "73f86bbfeb51d0603d240fdb1b6cdf3c0857dd93b9b6d402623d5bee585d5a87",
+        "target_sha256": "e02acf025f9be8106b4d1c66ed68554dc81c80f18378cf16a82ad4be0b1e5ea6"
+      },
+      "ui:에세이집:/에세이집": {
+        "source_sha256": "9e8a88f2d16bc725c853e973c4f37b43a37e40a1d0a33e32b708de16504a55ac",
+        "target_sha256": "af69a718d55650069700f82a490083d777e2375a96e7d11df98c828870955858"
+      },
+      "ui:자동 활성:/자동 활성": {
+        "source_sha256": "f437e1534ebf2a7cd432652c9dd5598c0e10b4d1a2a4f91ab53e25ea0a5ed748",
+        "target_sha256": "32f8f2abddd327561ed24a4ca0e7fffbd68f14f9d6d419a8aaadf8b3c50cf93e"
+      },
+      "ui:전시 도록:/전시 도록": {
+        "source_sha256": "2d73dc749156ffb1a5c2bdb746d903b5eafa1f2144f3c5ac6571a38203507f78",
+        "target_sha256": "0b4a4bd24c5b6321bcb8d368c83b340a431b8c7680e5827976d35c36443c8646"
+      },
+      "ui:캔커피 세트:/캔커피 세트": {
+        "source_sha256": "27ce8431091c413219b1daa63ba9bf05808ca22a8669e1553416a47851058ac9",
+        "target_sha256": "cd3be9b8802af107dfd6df476eaa96e96d574eb2c5e93388be9892a9eda9e8e3"
+      },
+      "ui:향수:/향수": {
+        "source_sha256": "5571ae94577bcc73bbe09e88e89520e9dd232f6fb9254e68669794f669bac772",
+        "target_sha256": "5a28a3724311b331c753315b03d8fe4f554f4a12be3677cb2773954df13e7303"
       }
     },
     "zh-TW": {
@@ -160357,10 +160517,74 @@
       "ui:호재:/호재": {
         "source_sha256": "30985685d81b1d456bdb8629d9df3a22501db86eebe71c6a84e11eb645a10d1f",
         "target_sha256": "f8ab96c2b5725fb93b6533e67ae51f22367c676389840446bb49eb52745c1608"
+      },
+      "ui:%s · %d개:/%s · %d개": {
+        "source_sha256": "712e3dd55c233a6644becf841fd11096e666aad3440bf8e4fc384827aaa2ac3c",
+        "target_sha256": "d85ed0ab7416fa6b06d5e5f16d89ac4bf3ef1a9f6c84dbbe82936b0352eaa4c4"
+      },
+      "ui:간직한 물건:/간직한 물건": {
+        "source_sha256": "52dcaa8e9f4c90199c144cec9270a1353c9be2375ea3d2ac621279182088bebd",
+        "target_sha256": "9ad3a03ef0e1cd3f173e7fd4bd48141d699dea0e8b3f1bf04219e36545222a95"
+      },
+      "ui:목걸이:/목걸이": {
+        "source_sha256": "8376717f0a3d75c0c06713c14449b3dc26a61a1e06d27bf77f6659f579c27d09",
+        "target_sha256": "a51f501f12fda279d2fa551ee5e647349629a1e9260f6888c73ffac45cbf1616"
+      },
+      "ui:목도리:/목도리": {
+        "source_sha256": "4f0c7210c764951394045904c46d6d7624ba96b8b827a08da90ef0beac1f67b0",
+        "target_sha256": "c0ee7623838c61e4c888276f9fa1b39a06a77fb8aa1b46f05607d13dfe394cd7"
+      },
+      "ui:브랜드 지갑:/브랜드 지갑": {
+        "source_sha256": "f4b1c94d484aa360ced86c6da49c0c9f7e7f8243d0f21a63838313bded0b4cef",
+        "target_sha256": "87c0e1b24981a84b5b30193d5281f3b9402e96ada7d3f54a56adffe77b2e112f"
+      },
+      "ui:사용 AP 1:/사용 AP 1": {
+        "source_sha256": "85395ba2d72f2d809b1fb50eb00b61eb31e3f78497bad869a22ec3bc7b0890e5",
+        "target_sha256": "70775a4a69c1751892ed54531926331caaa42e6e6cdf592dd84a391f38cd5320"
+      },
+      "ui:선물:/선물": {
+        "source_sha256": "5ded40328919555db31fd6afcb686aa5653ada95693c2a290c2512d99d0dc7d0",
+        "target_sha256": "fa82139f6e9ef142f5df282225dc3e83e4f704ceef5083a0f53fc641e3b67c0c"
+      },
+      "ui:소지품 · 유물:/소지품 · 유물": {
+        "source_sha256": "0f62bf9fa56de8d3f62a468ff6336befd0d105bde42a75e9b386b391c31848bb",
+        "target_sha256": "29168fd075419bb9261909899c3f07bf782e8c2a510e0ff27d4a2aa2b14d8aaf"
+      },
+      "ui:아이템:/아이템": {
+        "source_sha256": "4581c642b8f04d4057c96511a17b231288ef2b309e8c9597de88647a507110aa",
+        "target_sha256": "b6b43fc2e91a027e4e8d853efe2a180688030885b8f5ff8cbf68efc28d46670c"
+      },
+      "ui:아직 아무것도 없다.\n이야기 속에서 받거나 남긴 것들이 여기 남는다.:/아직 아무것도 없다.\n이야기 속에서 받거나 남긴 것들이 여기 남는다.": {
+        "source_sha256": "efd234c8847353f94e3f74932a35ad5ddd9ebcf4b4f507d6c52210a99983afd5",
+        "target_sha256": "dee59a2b9a0c7619bea9c9868cff6b5f0eef0576947d88abf9c7a979473124f0"
+      },
+      "ui:양말 세트:/양말 세트": {
+        "source_sha256": "73f86bbfeb51d0603d240fdb1b6cdf3c0857dd93b9b6d402623d5bee585d5a87",
+        "target_sha256": "755ba2fc5aa9ca5f008ef8bd1cffbf62aef32bc8ea23bd8fe11692829e598dae"
+      },
+      "ui:에세이집:/에세이집": {
+        "source_sha256": "9e8a88f2d16bc725c853e973c4f37b43a37e40a1d0a33e32b708de16504a55ac",
+        "target_sha256": "612025a7c480898b8732b7c97d1449c150e9baf6dec05c0478f8794d4c1bff6e"
+      },
+      "ui:자동 활성:/자동 활성": {
+        "source_sha256": "f437e1534ebf2a7cd432652c9dd5598c0e10b4d1a2a4f91ab53e25ea0a5ed748",
+        "target_sha256": "b13eccf5f5ff4058a234c4fafabc21ef5aa77cc7ebdc4945a2d82f3a0d93eb02"
+      },
+      "ui:전시 도록:/전시 도록": {
+        "source_sha256": "2d73dc749156ffb1a5c2bdb746d903b5eafa1f2144f3c5ac6571a38203507f78",
+        "target_sha256": "98d04192db68b0be66cef11ebff44e5776ecad842184a3c11532ee9aaa17f93f"
+      },
+      "ui:캔커피 세트:/캔커피 세트": {
+        "source_sha256": "27ce8431091c413219b1daa63ba9bf05808ca22a8669e1553416a47851058ac9",
+        "target_sha256": "becfeaee2fbeaf69696a4cc38235a93c2ed7d7725f7173e095939548e2f1ee1c"
+      },
+      "ui:향수:/향수": {
+        "source_sha256": "5571ae94577bcc73bbe09e88e89520e9dd232f6fb9254e68669794f669bac772",
+        "target_sha256": "5a28a3724311b331c753315b03d8fe4f554f4a12be3677cb2773954df13e7303"
       }
     }
   },
-  "accepted_sha256": "371f770371d819a28c490eeeebd04b06226c472070e43b2f5a2da38cee6b9566",
+  "accepted_sha256": "5ae5804f969a813a532029c38537ad2eaf5d10b7f584704058e9900fc7dd1b9c",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {

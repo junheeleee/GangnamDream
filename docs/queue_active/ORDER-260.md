@@ -67,3 +67,18 @@ human ledger·손상 mirror는 변경0이다. old39103 원장과 선택 외 UI r
 
 기계 PASS는 계약 증거이지 재미·렌더·원어민·인간 플레이·물리패드 증거가 아니다.
 공개 GO1·인간 OPEN45·본편 HOLD와 새 외부출시 권한0을 유지한다.
+
+## 실제 수용 관측
+
+- clean c6c5c9c actual16/보호0/호출16 첫05769278, 신규48 L1 첫e26da442 오류0,
+  편집전source-export641a4e73을 각각1194입력 불변으로 보존했다.
+- JA2·CN/TW각16만 적용(8ab76d7c), clean9f44c40의 공식exportfc7d1daf,
+  check3c61ec9f, import49c96800은 각첫PASS·3×16·changed_files0·1194불변이다.
+- 실제receipt JA80f2cbc4/CNbcb07dbe/TW6766eba2와 portable첫83fd5c7c를 결속했다.
+  portable151990c8/accepted digest5ae5804f, 공식39151/b109/meta9이며 old39103
+  전체raw 역복원exact다. source 분모17484×3과 코드·저장·공개 보호값은 같다.
+- 사전 미실행 named B1의 이전259 ownership 비교는 독립검토에서 지적됐다.
+  B1을 보존하고 B2는 기존차선 목록/새단위14 ownership을 분리했다(f325c338).
+  실제 실패0·검사목록/기대 변경0이며 registry도 그대로다.
+- 신규48/old39103 해시보존·고유12·최종독립은 최종 source·검토HEAD에 결속한다.
+  이전 전체L1 재실행이나 현 소지품 화면·원어민·본편GO를 뜻하지 않는다.

@@ -175,6 +175,10 @@ skipped이며 업로드 파일도 없었다. 이 새 원인은 별도 좁은 수
   export/check/import로 수용했다. 현재39103(JA13033·CN/TW13035)/b108/meta9다.
   JA9 전체와 old39076 raw를 보존하고 CN/TW각9만 추가했다. 신규27 L1과 기존
   source/target 보존은 별개 증거이며 이전 전체L1 재실행·실제뉴스·렌더 관측이 아니다.
+  소지품16키의48도 독립전수검토·clean9f44c40 공식export/check/import로 수용했다.
+  39151(JA13049·CN/TW13051)/b109/meta9이며 JA 선물·간직함2 수리, 기존14 보존,
+  CN/TW각16 추가와 old39103 raw역복원exact다. 저장 물건명 갱신·비도달 전달안내는
+  별도 소비자 결함으로 남기며 실제사용·렌더·원어민 완료가 아니다.
   이후 `_localized_profile_label/_roll_run_theme`와 `HoldemClub._fmt`의 non-KO=EN 분기를
   실제 표시 계약으로 검사한다. `_localized_route_label`의4매핑은 현재 caller0이므로
   이를 번역하거나 노출해 플레이어 표면 수리·진척으로 세지 않는다.

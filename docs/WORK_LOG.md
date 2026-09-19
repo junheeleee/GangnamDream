@@ -9,6 +9,12 @@
 - [260](queue_active/ORDER-260.md): JA2 의미수리·CN/TW각16, 고유16/48만 맡는다.
 - 공식39103 유지. 비도달 전달안내·저장 물건명 갱신은 별도이며 본편HOLD다.
 
+## 2026-09-19 (Codex — 소지품48 공식 수용)
+
+- clean9f44c40 exportfc7d1daf/check3c61ec9f/import49c96800 첫PASS·1194불변.
+- receipt48·portable83fd5c7c 결속으로39151/b109/meta9, old39103 raw역복원exact.
+  신규48/기존해시 보존·고유12·최종독립은 후속 exact 증거가 소유한다. 본편HOLD 유지.
+
 ## 2026-09-19 (Codex — 시장 뉴스 번역·공식 수용 내부 마감)
 
 - Poincare LOCAL work_unit GO. source de7c467 / 검토34094f4 한정이다.
