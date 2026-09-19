@@ -56,3 +56,12 @@ old39211 원장과 선택 외 UI raw·기존51 에이전트 판정을 보존한�
 첫L1 1c6b2079은50PASS/4FAIL: CN/TW 현수·재혁의 관계 괄호를 한자별칭으로 오인.
 제품적용/신규수용0이다. 별도266 exact계약 수리 뒤 새 clean기준선에서 같은승인54로
 재개한다. 원래 capture·driver를 덮지 않고 다음 증거는 구별된 이름으로 만든다.
+
+## 재개 선언 — 2026-09-19
+
+266 source455b4e7 독립GO·최초4검사·metadata4를 마감한 clean
+`e0f60dca720f2690e67fdc772e18c6fff0e04c57`를 새 보존/소유권 기준선으로 삼는다.
+초기7895 기준·첫50/4실패·source exports는 원형보존하며 새로운
+`order265-resume-*`에서 actual selection/L1/export/check/import/보존/고유12를 실행한다.
+승인54 32579089·원문·manifest·Main은 변경0.266 코드2는 이 기준선의 비소유다.
+old52판정·39211/b110과 기존 제품4/운영10을 보존한다. validator·원문 확장0.

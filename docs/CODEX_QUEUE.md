@@ -53,7 +53,7 @@
 
 
 
-| 1 | [~] | ORDER-265 · 이야기 카드·생각 정리 번역 | [265](queue_active/ORDER-265.md) | 언어54 승인 · 첫50/4 보존 · 266 GO 뒤 재개 |
+| 1 | [~] | ORDER-265 · 이야기 카드·생각 정리 번역 | [265](queue_active/ORDER-265.md) | 언어54 승인 · e0f60dc 재개 · 검증/수용 중 |
 
 [활성 L3 검수 대기 행 이어보기](CODEX_QUEUE_L3_PENDING.md) <!-- queue-index-include -->
 
