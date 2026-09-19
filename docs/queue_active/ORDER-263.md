@@ -79,3 +79,12 @@ old39151 원장 전체와 선택 외 UI raw를 보존한다.
 변경0, Main/원문/manifest도 그대로다. 수리된264 코드2는 이 기준선에 포함되어
 263 비소유 파일로 동결한다. 기존50판정·39151/b109와 제품4/운영10 소유는 유지한다.
 코드/validator 재수리와 사건 제목3의 번역은 이번 재개 범위가 아니다.
+
+## 실제 재개 수용
+
+db78ce6에서 selectionfb7372af·신규60 L1ec76b4af·편집전export3e8453fc가 통과했다.
+승인60 그대로 JA3수리/CN·TW각20을40066a4에 적용했다. 같은clean에서 공식export
+528afd15/checkdae393cf/importd4057d9e는3×20·changed_files0·1199불변이다.
+실제receipt3과 portableeffa1190를 결속해39211/b110/meta9를 수용했다.
+old39151 whole raw역복원exact이며 최초58/2실패와264의 코드수리GO는 별도 보존한다.
+최종 신규60/현재해시 보존·고유12·독립 단위판정은 다음 exact 증거가 소유한다.

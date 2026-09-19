@@ -3970,6 +3970,42 @@
       "machine_validation": "PASS",
       "rendered_review": "OPEN",
       "native_review": "OPEN"
+    },
+    {
+      "order": "ORDER-263",
+      "group": "ui",
+      "roots": [
+        "거리 둠 / 가까워짐",
+        "결말",
+        "그의 경고",
+        "기로",
+        "도주 / 반격",
+        "두 번째 커피",
+        "방문",
+        "별세 / 여운",
+        "병원 소식",
+        "사후처리",
+        "스토리 아크",
+        "옆방 라면",
+        "유대",
+        "이상 신호",
+        "전화",
+        "진실",
+        "첫 만남",
+        "투자 제안",
+        "투자 조언",
+        "화해 / 여운"
+      ],
+      "source_leaves": 20,
+      "target_leaves_by_locale": {
+        "ja": 20,
+        "zh-CN": 20,
+        "zh-TW": 20
+      },
+      "source_review": "Direct Korean, independent full60 review of20 existing Story progress labels. JA approved selected corrections only; CN/TW20 each appended. Main22 existing calls, all legacy static lookups, unchanged stage conditions and done/pending prefixes. No second-cup, confirmed diagnosis, hospital-as-sender, new visit or acceptance claim. Old39151 evidence inherited through raw and current-hash preservation, not repeated all-accepted L1. No game code, rendered/native/human-play or full-product judgment.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN"
     }
   ],
   "accepted": {
@@ -56169,6 +56205,86 @@
       "ui:향수:/향수": {
         "source_sha256": "5571ae94577bcc73bbe09e88e89520e9dd232f6fb9254e68669794f669bac772",
         "target_sha256": "5a28a3724311b331c753315b03d8fe4f554f4a12be3677cb2773954df13e7303"
+      },
+      "ui:거리 둠 / 가까워짐:/거리 둠 ~1 가까워짐": {
+        "source_sha256": "a6c8a78d801c7e31d8e8f0123bf0938db57908088065bee98e8f63d118cac7df",
+        "target_sha256": "16e3691e25596d7f90fa70220295f3982831704101c94732d948b3b4d38417ea"
+      },
+      "ui:결말:/결말": {
+        "source_sha256": "6e4ac9f10c403b6df8b6b3ee37334238c7a5d58a539044fa4f22df0648d450e3",
+        "target_sha256": "73d0cc157f05e45a589b91663f134698fb75b2c67f3fddfdaf7f9e4a1dd578b7"
+      },
+      "ui:그의 경고:/그의 경고": {
+        "source_sha256": "2e053e085443e027c77172b17c25e7d8359c5943aec28edbfab38a65d2e6ff88",
+        "target_sha256": "944309c2cbe0e649241a688ec1daa52768fbb6e8d0b5d0d3787753cf5b0e8e8c"
+      },
+      "ui:기로:/기로": {
+        "source_sha256": "807981b4efc737a9d50288c68b811d24802e32f73e8088a883341785486c2da3",
+        "target_sha256": "325e04b5f10186c0e80eb83b81bcc56dc3efddcf3e92b0094978084455816488"
+      },
+      "ui:도주 / 반격:/도주 ~1 반격": {
+        "source_sha256": "94e237e11780a94fca0521e22ce3b3f3ebeb7e8d875db969eea7ef4c4f1b839e",
+        "target_sha256": "a861146aad6f06154c46e96fd7adb1c773f0506c97d0ee0c5b0631c0f2040d4a"
+      },
+      "ui:두 번째 커피:/두 번째 커피": {
+        "source_sha256": "81ea229857533f5ff408c81a797c8e761b7ce733a7555ad34b1aaa3c26823b12",
+        "target_sha256": "6e1277934c5004fa18026400a2d6388585a1dd4b42d7b2eddcaddad3fcfedb59"
+      },
+      "ui:방문:/방문": {
+        "source_sha256": "fc4f69e08a6028f1d98f53446f731789a699bf19e6c51a2fcc15a72cd1cc0255",
+        "target_sha256": "2e775172122b3f1be442b6e4736b6b3b047208009ed3ff8491012d69deda2f34"
+      },
+      "ui:별세 / 여운:/별세 ~1 여운": {
+        "source_sha256": "feb65a35565433e419779c1284f6bacae10d0298028ee01aa61106b78f6179d4",
+        "target_sha256": "c8fb3f74328c08205ca89ea44a6c59a43f0813ed6470871c458f24191c08e26a"
+      },
+      "ui:병원 소식:/병원 소식": {
+        "source_sha256": "af298eb74123e0c559d295bb9477327f81c3e46e8259315214a04e694fd910d4",
+        "target_sha256": "1f0b4520ca7a369098b227c6c97b351c4e5085af73eec7a35dd4f56b6e3062c2"
+      },
+      "ui:사후처리:/사후처리": {
+        "source_sha256": "2babe3e5bbd013a8f94b9a14e81ab4e0cb21aa2d866aa204385adbe8916f4d81",
+        "target_sha256": "2c4b227abff15c0f4eaf0953e4f7ef465a2570a53b2d69acc7e3c1a438694a0c"
+      },
+      "ui:스토리 아크:/스토리 아크": {
+        "source_sha256": "2315348dab1653db3ccf44548ff55e705f47301d0f472f2024964526fff7d91a",
+        "target_sha256": "f257d19672ed39b0cf7ff8f84acb1cf2f08f2227ac591a80b10c0900ada6258a"
+      },
+      "ui:옆방 라면:/옆방 라면": {
+        "source_sha256": "efda33f16bc9f4f9e70b32452e679316989174b0d1541cd6b181e22d53191db2",
+        "target_sha256": "285288bf3987301abcdc6eb817fb13961a6d701ca697ab04e87c9b07f207d8c8"
+      },
+      "ui:유대:/유대": {
+        "source_sha256": "2b3619257f7445ac0468cf1cc2796000ed8be2811c94b6fbbdd24f2e11f39263",
+        "target_sha256": "b30fb8f8c6bfa2b71b079b91c464d8aa99d942936d7d0a0e35f263fa61427f6c"
+      },
+      "ui:이상 신호:/이상 신호": {
+        "source_sha256": "0ab4d130b53357f5fd5056edb9ec00dc96c0bac08bea615da34494ed1f5329ee",
+        "target_sha256": "bde6772e0415bf0855215072314acdf987b20b30d08c692caf7b5b0ba912d406"
+      },
+      "ui:전화:/전화": {
+        "source_sha256": "adf96565359aea4626edd77e184777b37d0c388c87661166d89f904ce8ed88aa",
+        "target_sha256": "036ee7fb85305475d7c05859dcf786ae88f71688dff3c1bfd6be557063b958fd"
+      },
+      "ui:진실:/진실": {
+        "source_sha256": "39e0e653daab0d929b6f5e2a8b395c38856e702890239a17a83cb062444d4940",
+        "target_sha256": "70e6f5d2ab688c7abf61245873458617722498e16882206276fd34df6b1bb593"
+      },
+      "ui:첫 만남:/첫 만남": {
+        "source_sha256": "07d9234e4a213e725d6ba8b5500ece13c78a1e21d15672865926f22a5fdffab2",
+        "target_sha256": "93085fbd3c3c0ab77a4c6bb7d381e9213c033bee2ce07b351e64e3939e8ff8fc"
+      },
+      "ui:투자 제안:/투자 제안": {
+        "source_sha256": "b0d5ef65f28748f4782f1e98e9c7fc275f98466ad10fb2928f70d1259cc9a4b3",
+        "target_sha256": "e9ee71f499d0eac0f612b701c1c61096dc3a88e74c0a4c27b03f16bdcc28ebde"
+      },
+      "ui:투자 조언:/투자 조언": {
+        "source_sha256": "5b252bfbf4469f87d1b916b3f1d4475a7c35048991125660b4b7479b9a504097",
+        "target_sha256": "3f06425add7ab2c73d3f95f986248038e5870296d2710ec242f6e0434630aa92"
+      },
+      "ui:화해 / 여운:/화해 ~1 여운": {
+        "source_sha256": "83c1f4e24851d71908a9718100011800dce8d28f3621ef167b74ac977629f6b1",
+        "target_sha256": "3150bf5de76ae7ef60b165c6cb280160bea48a9b204d0630353f8fca917779dd"
       }
     },
     "zh-CN": {
@@ -108375,6 +108491,86 @@
       "ui:향수:/향수": {
         "source_sha256": "5571ae94577bcc73bbe09e88e89520e9dd232f6fb9254e68669794f669bac772",
         "target_sha256": "5a28a3724311b331c753315b03d8fe4f554f4a12be3677cb2773954df13e7303"
+      },
+      "ui:거리 둠 / 가까워짐:/거리 둠 ~1 가까워짐": {
+        "source_sha256": "a6c8a78d801c7e31d8e8f0123bf0938db57908088065bee98e8f63d118cac7df",
+        "target_sha256": "d2c354f24180d8aa6b3c3a24097959bba93e443b6ee6ddad68881ff9c3e5acb0"
+      },
+      "ui:결말:/결말": {
+        "source_sha256": "6e4ac9f10c403b6df8b6b3ee37334238c7a5d58a539044fa4f22df0648d450e3",
+        "target_sha256": "a659c3d682022cfb7e3fab82670d54594c31b3cea6c051cf40c0a59f6095ca9b"
+      },
+      "ui:그의 경고:/그의 경고": {
+        "source_sha256": "2e053e085443e027c77172b17c25e7d8359c5943aec28edbfab38a65d2e6ff88",
+        "target_sha256": "5b30733e66b6b3d8b04d1d23397b0b39e15ed4e62b06ef4c80edab0c79a1ed62"
+      },
+      "ui:기로:/기로": {
+        "source_sha256": "807981b4efc737a9d50288c68b811d24802e32f73e8088a883341785486c2da3",
+        "target_sha256": "80d587ea3cbd238176419d45bec4075247fb1c17c0ab50b472cf4c3bc82e764f"
+      },
+      "ui:도주 / 반격:/도주 ~1 반격": {
+        "source_sha256": "94e237e11780a94fca0521e22ce3b3f3ebeb7e8d875db969eea7ef4c4f1b839e",
+        "target_sha256": "64f82e7055cfaed7d2f486ee9f56950176225286361163ce5dc6fb7ac2a6923c"
+      },
+      "ui:두 번째 커피:/두 번째 커피": {
+        "source_sha256": "81ea229857533f5ff408c81a797c8e761b7ce733a7555ad34b1aaa3c26823b12",
+        "target_sha256": "cda98861a0bd40bfc7daeeca62331a5f3f56416367170e33253b4ffc45d86d0e"
+      },
+      "ui:방문:/방문": {
+        "source_sha256": "fc4f69e08a6028f1d98f53446f731789a699bf19e6c51a2fcc15a72cd1cc0255",
+        "target_sha256": "ce0d6371912e04f213966e5bab43dcba61d9aeb47b20cafd85fe4ad6851ed2e0"
+      },
+      "ui:별세 / 여운:/별세 ~1 여운": {
+        "source_sha256": "feb65a35565433e419779c1284f6bacae10d0298028ee01aa61106b78f6179d4",
+        "target_sha256": "eaf9739d30e312ab01d7226add3dadabda986b499f7b6a5410117a88e81fe372"
+      },
+      "ui:병원 소식:/병원 소식": {
+        "source_sha256": "af298eb74123e0c559d295bb9477327f81c3e46e8259315214a04e694fd910d4",
+        "target_sha256": "936789ce3172ab035ddeedc3cae635e0a7c6cd1c9032b07af1dea757516168c5"
+      },
+      "ui:사후처리:/사후처리": {
+        "source_sha256": "2babe3e5bbd013a8f94b9a14e81ab4e0cb21aa2d866aa204385adbe8916f4d81",
+        "target_sha256": "04708ec64e2b0c0d6ae67736ec1e896b71124cd4c2dc240d31eb57275e7f8b45"
+      },
+      "ui:스토리 아크:/스토리 아크": {
+        "source_sha256": "2315348dab1653db3ccf44548ff55e705f47301d0f472f2024964526fff7d91a",
+        "target_sha256": "34392246624beed9fbf94103e1580da8ddc6df1305ae180888f3c04e23fc7024"
+      },
+      "ui:옆방 라면:/옆방 라면": {
+        "source_sha256": "efda33f16bc9f4f9e70b32452e679316989174b0d1541cd6b181e22d53191db2",
+        "target_sha256": "7c5dea14d6462ac1efe7e92f6bf8e083e10420dddcd629cbce31bf01156f3f59"
+      },
+      "ui:유대:/유대": {
+        "source_sha256": "2b3619257f7445ac0468cf1cc2796000ed8be2811c94b6fbbdd24f2e11f39263",
+        "target_sha256": "61c87dda8233f089a87decf30a59e3fc8f147c57e313852d7e4d77632ceec60a"
+      },
+      "ui:이상 신호:/이상 신호": {
+        "source_sha256": "0ab4d130b53357f5fd5056edb9ec00dc96c0bac08bea615da34494ed1f5329ee",
+        "target_sha256": "c330d276de3686fc4ad360dc9dd4e9602581e5a5e1e5b47d4434c6cb927243ca"
+      },
+      "ui:전화:/전화": {
+        "source_sha256": "adf96565359aea4626edd77e184777b37d0c388c87661166d89f904ce8ed88aa",
+        "target_sha256": "f44a6aecb49b926c61c10ab10f84471794bc2de42e078e8547ac55676b1c47f5"
+      },
+      "ui:진실:/진실": {
+        "source_sha256": "39e0e653daab0d929b6f5e2a8b395c38856e702890239a17a83cb062444d4940",
+        "target_sha256": "e0916a97f3501ec22c63551a3ba33f199d89252944c2dc33bb218bd663ad17b6"
+      },
+      "ui:첫 만남:/첫 만남": {
+        "source_sha256": "07d9234e4a213e725d6ba8b5500ece13c78a1e21d15672865926f22a5fdffab2",
+        "target_sha256": "9f7f56f3172988134bfbc7d870c080f54debcc94b57cc5bc4b26c3e0f64f112a"
+      },
+      "ui:투자 제안:/투자 제안": {
+        "source_sha256": "b0d5ef65f28748f4782f1e98e9c7fc275f98466ad10fb2928f70d1259cc9a4b3",
+        "target_sha256": "c108990bf7cc60a441b3293cd061f29b0f0dbfbaab9adda8f65404095ba154d4"
+      },
+      "ui:투자 조언:/투자 조언": {
+        "source_sha256": "5b252bfbf4469f87d1b916b3f1d4475a7c35048991125660b4b7479b9a504097",
+        "target_sha256": "d911cfe32b9085c9d1b213e349ab8172e4571560c1e06711502d90f3f343ea96"
+      },
+      "ui:화해 / 여운:/화해 ~1 여운": {
+        "source_sha256": "83c1f4e24851d71908a9718100011800dce8d28f3621ef167b74ac977629f6b1",
+        "target_sha256": "bdb67daa06aeffbfb2093377934e6b141321133b75de897e5256138c4b25e95c"
       }
     },
     "zh-TW": {
@@ -160581,10 +160777,90 @@
       "ui:향수:/향수": {
         "source_sha256": "5571ae94577bcc73bbe09e88e89520e9dd232f6fb9254e68669794f669bac772",
         "target_sha256": "5a28a3724311b331c753315b03d8fe4f554f4a12be3677cb2773954df13e7303"
+      },
+      "ui:거리 둠 / 가까워짐:/거리 둠 ~1 가까워짐": {
+        "source_sha256": "a6c8a78d801c7e31d8e8f0123bf0938db57908088065bee98e8f63d118cac7df",
+        "target_sha256": "28917502ccd31895c47e63b3d680993eabd826b29c14098a9656fe83a0317a10"
+      },
+      "ui:결말:/결말": {
+        "source_sha256": "6e4ac9f10c403b6df8b6b3ee37334238c7a5d58a539044fa4f22df0648d450e3",
+        "target_sha256": "805cdb26b2c5670b7f157f74eb4cc32f8765f68cc553341a0cd55c1d2e8d8545"
+      },
+      "ui:그의 경고:/그의 경고": {
+        "source_sha256": "2e053e085443e027c77172b17c25e7d8359c5943aec28edbfab38a65d2e6ff88",
+        "target_sha256": "5b30733e66b6b3d8b04d1d23397b0b39e15ed4e62b06ef4c80edab0c79a1ed62"
+      },
+      "ui:기로:/기로": {
+        "source_sha256": "807981b4efc737a9d50288c68b811d24802e32f73e8088a883341785486c2da3",
+        "target_sha256": "06bb729da191e1415bf72a560a9bb6b59f14abe82b10daf7806878c457c8747f"
+      },
+      "ui:도주 / 반격:/도주 ~1 반격": {
+        "source_sha256": "94e237e11780a94fca0521e22ce3b3f3ebeb7e8d875db969eea7ef4c4f1b839e",
+        "target_sha256": "f55db94ccbad0860334af68d8048f547aabe9e6ba1de76abcb6b8a9eeeb7066c"
+      },
+      "ui:두 번째 커피:/두 번째 커피": {
+        "source_sha256": "81ea229857533f5ff408c81a797c8e761b7ce733a7555ad34b1aaa3c26823b12",
+        "target_sha256": "5e1417c5241fd51be894a0b80dfacf4da0f65d86775ced270ff4bcea327d908f"
+      },
+      "ui:방문:/방문": {
+        "source_sha256": "fc4f69e08a6028f1d98f53446f731789a699bf19e6c51a2fcc15a72cd1cc0255",
+        "target_sha256": "ce0d6371912e04f213966e5bab43dcba61d9aeb47b20cafd85fe4ad6851ed2e0"
+      },
+      "ui:별세 / 여운:/별세 ~1 여운": {
+        "source_sha256": "feb65a35565433e419779c1284f6bacae10d0298028ee01aa61106b78f6179d4",
+        "target_sha256": "2a3643e5c20c9391f7a1008b800181910d2483b53474c6f46b3e33c785a35acb"
+      },
+      "ui:병원 소식:/병원 소식": {
+        "source_sha256": "af298eb74123e0c559d295bb9477327f81c3e46e8259315214a04e694fd910d4",
+        "target_sha256": "95121df9078a27690d7e20a497c73bd7d7bdc11df58de652f4fb220711a51754"
+      },
+      "ui:사후처리:/사후처리": {
+        "source_sha256": "2babe3e5bbd013a8f94b9a14e81ab4e0cb21aa2d866aa204385adbe8916f4d81",
+        "target_sha256": "1857fdca7a939f9c57f540485380b64322893a080404f921b8960b3069ed0faa"
+      },
+      "ui:스토리 아크:/스토리 아크": {
+        "source_sha256": "2315348dab1653db3ccf44548ff55e705f47301d0f472f2024964526fff7d91a",
+        "target_sha256": "7e4c8545d316fe6472d2a4abe6c46782f793ae42d7ff356da6683a2b1b4e2daa"
+      },
+      "ui:옆방 라면:/옆방 라면": {
+        "source_sha256": "efda33f16bc9f4f9e70b32452e679316989174b0d1541cd6b181e22d53191db2",
+        "target_sha256": "3682c4b2b492227dafae34ef9ea8faf87bfd6819fd1b3dce9cbf57fc311abeba"
+      },
+      "ui:유대:/유대": {
+        "source_sha256": "2b3619257f7445ac0468cf1cc2796000ed8be2811c94b6fbbdd24f2e11f39263",
+        "target_sha256": "b86fa15edbced781022138a198dfdfd1bda8fdf413a00e15f2248f4cb65a001b"
+      },
+      "ui:이상 신호:/이상 신호": {
+        "source_sha256": "0ab4d130b53357f5fd5056edb9ec00dc96c0bac08bea615da34494ed1f5329ee",
+        "target_sha256": "9a6704fabef069972858cb35dcf7167c9d7b4ae565503cbd40903875fe9e0de7"
+      },
+      "ui:전화:/전화": {
+        "source_sha256": "adf96565359aea4626edd77e184777b37d0c388c87661166d89f904ce8ed88aa",
+        "target_sha256": "7b99e9c3401083cf5aac6890580086265fac396e058595f6a2b168c88563db80"
+      },
+      "ui:진실:/진실": {
+        "source_sha256": "39e0e653daab0d929b6f5e2a8b395c38856e702890239a17a83cb062444d4940",
+        "target_sha256": "e0916a97f3501ec22c63551a3ba33f199d89252944c2dc33bb218bd663ad17b6"
+      },
+      "ui:첫 만남:/첫 만남": {
+        "source_sha256": "07d9234e4a213e725d6ba8b5500ece13c78a1e21d15672865926f22a5fdffab2",
+        "target_sha256": "dc1735869c456c9546b1dd1fe5b92ed1100eb405a9532bea150fe586c349e173"
+      },
+      "ui:투자 제안:/투자 제안": {
+        "source_sha256": "b0d5ef65f28748f4782f1e98e9c7fc275f98466ad10fb2928f70d1259cc9a4b3",
+        "target_sha256": "e9ee71f499d0eac0f612b701c1c61096dc3a88e74c0a4c27b03f16bdcc28ebde"
+      },
+      "ui:투자 조언:/투자 조언": {
+        "source_sha256": "5b252bfbf4469f87d1b916b3f1d4475a7c35048991125660b4b7479b9a504097",
+        "target_sha256": "63f898e9a17cb24c797112f130a5bd1cb286d513cddc487e9c710e4c0034e216"
+      },
+      "ui:화해 / 여운:/화해 ~1 여운": {
+        "source_sha256": "83c1f4e24851d71908a9718100011800dce8d28f3621ef167b74ac977629f6b1",
+        "target_sha256": "f8dd0e869794649560b989634fe8a176d66361e07fe72583bedef3f3ac86ecd7"
       }
     }
   },
-  "accepted_sha256": "5ae5804f969a813a532029c38537ad2eaf5d10b7f584704058e9900fc7dd1b9c",
+  "accepted_sha256": "41d78717e2fa19b587c62d8726096999335a928b824a7d6ad99d07212fba2d31",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
