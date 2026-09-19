@@ -122,6 +122,7 @@ MainGame/LocaleManager/StartMenu/EventManager/DataRegistry·project·사람 원�
   읽기 누락이다. 현재 whole332446ba와 두 span을 확인한 메모리 역복원7c6619c4만 허용한다.
   기존 fullself 파일/옛MG9 pin은 수정하지 않는다. generic/complete 호출 모드는 명시하며
   주거10 누락 입력을 보고 자동으로 generic 모드로 바꾸지 않는다.
-- 수리 후 새source(36+12+기존4), meta/CI/gift 역사3, JA self/UI, ZH self의 영향7개만
+- 수리 후 새source(36+12+기존4), meta/CI/gift 역사3, JA self/UI, ZH self와 현재fullself의 영향8개만
   다시 실행한다. 공유 수집기가 바뀌므로 신규27 L1과39292 현재해시도 한 번 다시 검증한다.
   공식 receipt 헤더는 과거 원문 그대로 두며 재발급하지 않는다. 원어민·화면 증거는 아니다.
+  현재fullself는264/266가 역사 보기 밖 실제 실행에서 여전히 검사됨을 확인한다.
