@@ -4498,6 +4498,24 @@
       "machine_validation": "PASS",
       "rendered_review": "OPEN",
       "native_review": "OPEN"
+    },
+    {
+      "order": "ORDER-276",
+      "group": "ui",
+      "roots": [
+        "[%s] 뒤로",
+        "자산이 %s 늘었습니다. 이 흐름을 유지하세요.",
+        "라이선스 전문을 불러오지 못했습니다."
+      ],
+      "source_leaves": 3,
+      "target_leaves_by_locale": {
+        "zh-CN": 3,
+        "zh-TW": 3
+      },
+      "source_review": "Three exact live-consumer keys: cancelable modal controller Back hint, actual asset-increase month-summary message, and conditional missing license-text notice. CN and TW authored independently from Korean, full nonauthor review. Zero-boundary positive-cashflow and first-paycheck promises excluded. Existing Japanese and39905 receipts preserved. No input, financial predicate, legal document or AP entry change.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN"
     }
   ],
   "accepted": {
@@ -110507,6 +110525,18 @@
       "ui:💥 마진콜! %s 강제청산 — 손실 %s:/💥 마진콜! %s 강제청산 — 손실 %s": {
         "source_sha256": "6f18d235b560481bc5a1914ed4c99171f4584a45ef70e7ff734aca0ce3095773",
         "target_sha256": "26007881864f1f6512cb770e024ff46d65a12bda54ea3a84ce5ff8e721587b6b"
+      },
+      "ui:[%s] 뒤로:/[%s] 뒤로": {
+        "source_sha256": "37659f80705884c4c5d9bcc1bdc8d7963237f42dd9723bdf7b394b3d5adb407e",
+        "target_sha256": "5643fc006c5f601b788f3891f279749f92520735a4d100281915a2e407a73fa9"
+      },
+      "ui:라이선스 전문을 불러오지 못했습니다.:/라이선스 전문을 불러오지 못했습니다.": {
+        "source_sha256": "fecb4fe7244716d10b135a65f0b3a45440964afb08f737a0e918c974eaae70d7",
+        "target_sha256": "096717fb08530a2d98d8618853871530f937ac81cd9e5c45fc2fa86135aed962"
+      },
+      "ui:자산이 %s 늘었습니다. 이 흐름을 유지하세요.:/자산이 %s 늘었습니다. 이 흐름을 유지하세요.": {
+        "source_sha256": "470b29bac90c6926ff9b6d5cf660c4aadbdfb9a406d1afe55d762ed2923ebd13",
+        "target_sha256": "b9dcbb1762c9bd8f5d44718f44c918a763f4ded82629965c34e91c0b170181b5"
       }
     },
     "zh-TW": {
@@ -164125,10 +164155,22 @@
       "ui:💥 마진콜! %s 강제청산 — 손실 %s:/💥 마진콜! %s 강제청산 — 손실 %s": {
         "source_sha256": "6f18d235b560481bc5a1914ed4c99171f4584a45ef70e7ff734aca0ce3095773",
         "target_sha256": "697ba22fac298c8b20ecc61ed0ec0d5029268cbff20f90b2acfa2a63a20be1c4"
+      },
+      "ui:[%s] 뒤로:/[%s] 뒤로": {
+        "source_sha256": "37659f80705884c4c5d9bcc1bdc8d7963237f42dd9723bdf7b394b3d5adb407e",
+        "target_sha256": "5643fc006c5f601b788f3891f279749f92520735a4d100281915a2e407a73fa9"
+      },
+      "ui:라이선스 전문을 불러오지 못했습니다.:/라이선스 전문을 불러오지 못했습니다.": {
+        "source_sha256": "fecb4fe7244716d10b135a65f0b3a45440964afb08f737a0e918c974eaae70d7",
+        "target_sha256": "1909d6061a6c978c43f10288f35d74b2b8b33ad675c00dc0f2dec1fa2f2b17a9"
+      },
+      "ui:자산이 %s 늘었습니다. 이 흐름을 유지하세요.:/자산이 %s 늘었습니다. 이 흐름을 유지하세요.": {
+        "source_sha256": "470b29bac90c6926ff9b6d5cf660c4aadbdfb9a406d1afe55d762ed2923ebd13",
+        "target_sha256": "dc023331f20630ef65bfc7f6deba75dcfbf5451234c8f42dd5ce0c6666358fcc"
       }
     }
   },
-  "accepted_sha256": "7d3fcc785b558310d1f99c3be47c3538b794421d2f4317a50008ccadeb5e32c2",
+  "accepted_sha256": "53575fd72b37d9f710211c111731f1c76a1288ff367ff26c185988761981f323",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
