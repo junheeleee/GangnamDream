@@ -1,3 +1,41 @@
+# ORDER-243 — 현지화 CI 수리의 역사 한정 마감
+
+[x] ORDER-243 — 2026-09-19. Poincare work_unit GO / required 0.
+
+역사 제품 `33179f88ef1222a14cf585e13fe427b8e3482a6b` / tree
+`f121554ce3f822e90267aaf0a3ab3849ea12a29a`, 당시 검토
+`887064972a9748475a9577efd1d607fd2199e316` / tree
+`7c02b0e821f20682f939650ebe7a65999bd40f96`에만 결속한다.
+현재 제품이나 전체판의 GO가 아니다.
+
+- 최초 명시11의 9 PASS/2 FAIL·입력1197 원형을 보존한다. 원인3의 신규28은
+  정상4/음성24이며 helper/두 reader의 반복을 별도 새 표본으로 세지 않는다.
+- 후속244의 실제8 PASS·입력1200·Chapter590은 별도 원인 수리 증거다.
+  gap24/debt8/blocked3는 남아 있다.
+- exact41 main34691376114/mirror34691376116은 모두 whole FAIL이다.
+  별도247의 exact07ef main34696178566/mirror34696178468만 attempt1 success다.
+  resource/ObjectDB main4/2·mirror6/4를 그대로 남긴다.
+- 원28과 네 원격28 결과·각285 입력을 독립 검수자가 직접 역사 Git에 결속했다.
+  현재 소스의 신규 QA·렌더·원어민·인간 플레이는 이 판정에 포함하지 않는다.
+
+[독립 최종 원문](../agent_reviews/ORDER-243.json) SHA
+`56a6a2cfb2b150cfa8f6b3b92c36770cbef756019d01db9622b71500a77a307c`.
+private binding28777B SHA `22121ef3420c2d7ae2a5c965c9e33bb967cb88363f3766ac895f246f74419df4`.
+공식39151·공개GO1·인간OPEN45·본편HOLD를 바꾸지 않는다.
+
+## 규범 분류
+
+승격: 기존 구현 정본인 `tools/main_game_locale_history.py`와 두 live adapter의
+raw 선검증, `tools/ja_translation_audit.py`의 source-authorized 보존키 품질,
+`tools/demo_localization_scope.py`의 격리 empty fixture, CI self의 유한 대조와
+`tools/audit.sh`/`tools/audit_scope.json`의 실패 전파·등록이 계속 소유한다.
+기존 WORK_UNIT §3의 독립·exact-source·인간 증거 분리를 중복 문서화하지 않는다.
+소유권·동결·실행순서·표본28·이 역사 판정은 일회성이며 새 영구 규칙0이다.
+
+## 선언·진행 원문 보존
+
+아래의 보류·실패 문장은 당시 사실이며 위 마감이 이를 PASS로 고쳐 쓰지 않는다.
+
 # 본편 현지화 누적 변경과 전체 CI의 정합 수리
 
 #### [~] ORDER-243 현지화 CI 정합

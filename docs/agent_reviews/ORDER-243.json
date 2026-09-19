@@ -1,0 +1,114 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-243",
+  "scope": "work_unit",
+  "authority": "user_delegated_agent_final",
+  "reviewer": "Poincare",
+  "verdict": "GO",
+  "required": [],
+  "optional": [],
+  "subject": {
+    "kind": "source",
+    "commit": "33179f88ef1222a14cf585e13fe427b8e3482a6b",
+    "tree": "f121554ce3f822e90267aaf0a3ab3849ea12a29a",
+    "manifest_sha256": null
+  },
+  "review": {
+    "commit": "887064972a9748475a9577efd1d607fd2199e316",
+    "tree": "7c02b0e821f20682f939650ebe7a65999bd40f96",
+    "clean": true
+  },
+  "decision": "GO only for ORDER243's three historical CI reconciliation causes at source33179, using its retained exact-source results and explicit separate ORDER244/247 dependency resolutions. Original11 remains9 PASS/2 FAIL and both41 whole-CI runs remain failures. This is not current5f6 source GO, an exact33179/41 whole-audit PASS, or full-product approval.",
+  "independence": {
+    "product_authors": "Rawls: history helper/two consumer adapters; ROOT: JA/demo/wiring; Plato: frozen28 self implementation. ROOT owned the named and remote executions.",
+    "reviewer_role": "Poincare authored neither the implementation nor self28, and ran no QA. Original Poincare static/first-result reviews were reread, exact-pinned and supplemented by fresh original code/raw-result/Git review.",
+    "supporting_review": "Plato's completed triage was a discovery map, not a verdict. Its self28 authorship is not treated as independent self approval; this reviewer directly reread the complete original self and original28 actual records."
+  },
+  "population": {
+    "causes": "3: exact MainGame239/240 historical admission; source-authorized retained JA key with quality checking; truly empty Chinese event-overlay fixture with unchanged strict coverage.",
+    "implementation": "8 owned product/tool files; declaration→source12 total changed paths all owned. No gameplay, story, save, translation dictionary, portable, project or human-ledger changes in243.",
+    "first_local": "Exact8870649:11 named children,9 exit0/2 exit1,1197 before/after inputs independently matched to Git; source33179→8870649 changes STATUS only.",
+    "finite_controls": "28 distinct inputs = history19 + JA7 + CN2;4 normal and24 linked negatives all valid. Same19 through helper/two consumers is not57 controls. Inner285 exact before/after and parent/Git subset.",
+    "historical_replays": "Author-own19 and each consumer's existing26 are separate, not new populations. First Chapter self failed before its historical26 replay. Year5 self513 and demo self16 are consolidated existing suites.",
+    "dependency244": "Separate fb4/41:8 named exit0,1200 inputs independently matched to Git; Chapter normal snapshot valid and self590 PASS, while gap24/debt8/blocked3 remain.",
+    "remote": "41 main34691376114/mirror34691376116 both failure; separately repaired07ef main34696178566/mirror34696178468 attempt1 both completed/success,2 jobs/22 successful listed steps each. These are different full candidates.",
+    "preserved_regression": "Each of the four saved41/07ef remote logs contains all28 records exact to original first28; each recorded285-input map matches that run's Git tree. Stable original helper/year5/self28/JAaudit/demo whole bytes match33179→41→07ef."
+  },
+  "direct_review": [
+    "Read active243, WORK_UNIT authority, original eight-file implementation diff, complete94-line helper and complete self28, the actual JA source-owner guard, and retained original nonauthor static/result reviews.",
+    "Independently materialized19 frozen input bytes and checked their SHA; four unique inverse literals restore Main9029→014b→5b. Frozen cases/expected fields in original self match the pre-first-execution specification.",
+    "Read all original11 child stdout/stderr/exits and actual28 errors/projectors/live-consumer errors/base links; read separate244 local8 child results and newly hash-bound1197/1200 historical inputs using Git blobs.",
+    "Read the original244 helper/Chapter integration and247 one-seal/two-dependency diff, accepted public244/247 independent decisions, original41 run/jobs/failure logs and07ef terminal run/jobs/target-log/error boundaries.",
+    "Used read-only file, JSON/hash/AST and Git analysis only; no current tests, collector, imports, engine, remote fetch or product/operations/Git mutation."
+  ],
+  "cause_findings": [
+    {
+      "cause": "MainGame historical admission",
+      "result": "Approved live raw is checked before ordered historical inverse/old220→215→156 observation. Raw rollback, wrong path, unrelated change, forged hash and sealed-registry faults remain rejected by both live consumers. A historical digest alone is not admission authority."
+    },
+    {
+      "cause": "Retained JA key",
+      "result": "Only the unchanged source replacement registry with exact owner/API/KO/EN/cardinality authorizes retention. Missing retained target, empty/non-Japanese target, source rollback and unrelated extras reject. A legitimate alternate Japanese translation passes; no fixed-target canon or arbitrary extra-key waiver."
+    },
+    {
+      "cause": "Chinese empty fixture",
+      "result": "The production strict coverage function receives only a scoped empty event loader, then restores loader identity/runtime. Actual populated normal72/467 retains strict dynamic6/701 debt; actual empty0/0 adds strict event/string errors. This is event-coverage correctness, not whole-demo strict coverage."
+    }
+  ],
+  "failure_and_dependency_boundary": {
+    "original_first11": "Both failures name only MetaProgression's old audited snapshot, a separate fourth cause assigned244; original failure evidence remains immutable.",
+    "resolved244": "The new raw-first MetaProgression predecessor gate fixes that snapshot cause without weakening243's MainGame gate. Separate actual Chapter normal/self success establishes the formerly missing CLI observations.",
+    "failed41": "Both complete audits still failed only at runtime-trace self/contract runner seal flags; later actual-input/SimRun/SmokeRace steps were skipped. Upload success reported no files, not a produced artifact.",
+    "resolved247": "Separate sourcea486/remote07ef reseals only the current audit.sh fingerprint and registers dependencies. Target187/3 and original243/Chapter markers reappear on both successful runs; audit.sh failure/teardown policy was not weakened by247.",
+    "remaining_resources": "07ef main has4 resource ERROR lines and2 ObjectDB warnings; mirror6 and4. Preserve these run-specific defects. Remote success does not mean error-free runtime or current whole-source success.",
+    "provenance": "Formal28 was serialized after ROOT's JA implementation began but before self implementation/execution; not fully blind pre-code. Prior combined JA/demo diagnostic lacked separate exits, so this judgment uses the retained named children instead."
+  },
+  "norm_disposition": {
+    "retained_implementation_contracts": [
+      "main_game_locale_history.py and both live adapters own exact raw-before-history admission; historical projections remain observations.",
+      "ja_translation_audit.py owns source-authorized retained-key classification and continuing target quality; demo_localization_scope.py owns isolated empty-event self-fixture with unchanged strict comparator.",
+      "ci_localization_reconciliation_self_test.py owns the exact finite28 regression; audit.sh owns immediate exit capture/final propagation, audit_scope.json its registered bounded routing.28 is not a universal quota."
+    ],
+    "one_shot": "ORDER243 ownership, freeze chronology, execution order, captures and this historical decision are one-time evidence/procedure. They are not new standing language, gameplay, release or testing requirements.",
+    "canonical_rule": "Existing WORK_UNIT §3 already owns independent exact-source decisions and human-evidence separation; adopt no duplicate normative document or new approval rule."
+  },
+  "evidence": {
+    "binding": {
+      "path": ".git/full-game-localization/order243-final-history-binding.json",
+      "bytes": 28777,
+      "sha256": "22121ef3420c2d7ae2a5c965c9e33bb967cb88363f3766ac895f246f74419df4"
+    },
+    "original_first11": {
+      "path": ".git/full-game-localization/order243-named-first.json",
+      "bytes": 372230,
+      "sha256": "7854ff0cb7e1b7186a6856c878cad750266a195171208a9e61df4e2ebeca22f4"
+    },
+    "dependency244": {
+      "path": "docs/agent_reviews/ORDER-244.json",
+      "bytes": 19923,
+      "sha256": "2b67aa709135bb5acb48dbb4dc9ed965f0e8de8bd8b1da5a06f28b15c627e7e4"
+    },
+    "dependency247": {
+      "path": "docs/agent_reviews/ORDER-247.json",
+      "bytes": 19998,
+      "sha256": "fc1e4beb16d81d9f32937ff2eb2dcd00c8dc09860a430a8d9f11d79649eba215"
+    }
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "rendered_visual_quality",
+    "artifact_ZIP_and_PNG_contents",
+    "present_day_full_audit",
+    "full_product_readiness"
+  ],
+  "limits": [
+    "Observed publication checkout5f6ca09/tree99735c39 was clean, but is not this historical subject. Its later wrappers/content are not re-certified or substituted for33179.",
+    "Remote log markers do not supply numeric per-Python-child exit codes. Other job success is job/step metadata, not its separately absent full log. Artifact bodies/screenshots were not inspected.",
+    "Known coverage gaps, skeleton/dynamic deficits, EXTRA advisories, resource teardown defects, public GO1/human OPEN45 and full-product HOLD remain unchanged.",
+    "Automatic checks establish the inspected contracts/regressions, not fun, depth, native prose or human observation."
+  ],
+  "publication": "ROOT alone may copy this report and perform ledger/archive/queue closure metadata. Keep the historical subject and original failures; do not relabel this current-source/internal-product GO.",
+  "skill_effect": "gangnamdream-dev preserved bounded historical scope, exact-candidate identity, unchanged failure evidence and separate human/full-product limits."
+}

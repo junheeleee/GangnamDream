@@ -4,6 +4,11 @@
 > [9/12 현지화 보존본](history/WORK_LOG_2026-09-12_localization.md)에 손실 없이 보존한다.
 > 과거 근거는 기본 컨텍스트에 넣지 말고 먼저 `rg`로 필요한 항목을 찾는다.
 
+## 2026-09-19 (Codex — 이전 CI 수리 마감)
+
+- Poincare243 역사 GO: source33179/검토8870649. [원형·한계](queue_archive/ORDER-243.md).
+- 최초9/2와41 FAIL·07ef 별도 success 보존. 현재 GO 아님·본편HOLD.
+
 ## 2026-09-19 (Codex — 소지품 번역 내부 마감)
 
 - Poincare 단위 GO: source9c2abe8/검토9baa826, [원문·한계](queue_archive/ORDER-260.md).
