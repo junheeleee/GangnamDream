@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-263",
+  "scope": "work_unit",
+  "authority": "user_delegated_agent_final",
+  "reviewer": "Poincare",
+  "verdict": "GO",
+  "required": [],
+  "subject": {"kind": "source", "commit": "2acb7480579bc92cd8c3a74da4a58bd999357160", "tree": "b7bc64b8135cac101fcd944089f83c0aa1387622", "manifest_sha256": null},
+  "review": {"commit": "5e56f68c59f08bb8671c584cc6ba2fd44b84f253", "tree": "ceb1c65cf79cd28caa274e4f544d7395cebfdef9", "clean": true},
+  "decision": "GO only for the local20-key Story progress translation and formal60 acceptance unit. Approved language values,actual UI,source/response/receipts,raw inverses and final bounded QA match with no required defect. Original263 first58/2 failure remains preserved; separately completed264 repair enabled the unchanged approved translations. This is not actual-panel,rendered,native,human,release or full-product GO.",
+  "population": {
+    "source": "20 unique source keys,22 actual Main calls:21 _refresh_arc_box plus1 _ap_act_info. All legacy API/context-empty and protection0. Direct owner/KO/EN/line readback matches the immutable approved table. Conditions and game code are unchanged.",
+    "language_application": "Original independent60 review reused; approved4746B/d290d4df remains exact. ActualJA3 selected changes with17 retained,CN/TW20 each appended. All60 actual values match; reversing only those changes restores each whole baseline dictionary.",
+    "formal_acceptance": "Resumed first export/check/import onclean40066a4:3 locales x20; each raw child exit0,check/import changed_files0. All sources,responses,private receipts and hashes independently recomputed. Portable39211/b110 (JA13069,CN/TW13071); removing only60 records and last batch restores whole old39151/b109 bytes.",
+    "preservation": "Final first capture verifies new60 L1 and all39151 current source/target hashes; no old-all-L1 rerun. Current source17483 and manifestb4e98f39 unchanged. Reviewer independently verified current1199 inputs and whole raw inverses.",
+    "named": "First resumed actual unique12 all exit0/exception0,106.992744916 seconds; named1610 and outer1199 inputs unchanged and independently rehashed current. Fullself263,JAself146,ZHself12446,JAUI2973,story-demo static5-locale audit and remaining named checks PASS. Normal unittest stderr retained; other11 child stderr empty.",
+    "ownership": "New baseline2ec2e47 includes closed264. Full changed10 paths are within declared14; product4 only. Source-to-review delta STATUS only. Main,project,registry,264 code2,human evidence and old50 decisions remain byte-exact. Existing publicGO1/humanOPEN45/fullHOLD remain unchanged."
+  },
+  "readback": "Direct raw capture/base64 lengths and SHA checks,actual receipt canonical digests,pre-edit/final source equivalence,approved target bindings and Git identity/inverses were reviewed without repository imports or QA. A reviewer stdout-summary decoder initially assumed every structured line was a dictionary; the actual list was then read correctly. This was readback preparation only,not a test failure or retry.",
+  "portable": {"path": "content/meta/full_game_localization.json", "bytes": 10200853, "sha256": "5c3d922982d1f03de2e955ef202dd03f801d81d389c764db2de005b16d550a8b", "accepted_sha256": "41d78717e2fa19b587c62d8726096999335a928b824a7d6ad99d07212fba2d31", "old_whole_inverse_sha256": "151990c89d77ffa7c5c7177b963a7b05526372264bc3a79d5418d90b09bc89c8"},
+  "receipt_sha256": {
+    "ja/e31410fb4019b051901caf30e4dd90d71ffc1ff6396d86636f0fb0ee437ac65c": "3e869b652a26e2c55c65b5420a2f7cc588d98299e92ef495f32ec070610e86ef",
+    "zh-CN/77a58ff1dd0039cd15406e60d79d09e6caade756c292382b69e4b676c3f0f3f7": "03899f6e61fbfe4730f77a20196a4475fff1f27965c5ebca5042670a974d6bcc",
+    "zh-TW/b492b7e5c9ef9002f1d8acdea98c94b8dacd76aff9d6c3dd4d9674f4aa10ec11": "5965f49570b18f2a133fb629257562a022f71c9be1dfbaf37329f4c71bae4b63"
+  },
+  "evidence": [
+    {"path": ".git/full-game-localization/order263-language-independent-review.json", "sha256": "74d389e30405967cdc57a6d54e354dbc440c687711371a12e497dd6e949dfe86"},
+    {"path": ".git/full-game-localization/order263-resume-config-independent-review.json", "sha256": "537f571456bc81de96ef4e3c877778ce8dccad1753065450f05ae8f1bcb8c6ff"},
+    {"path": ".git/full-game-localization/order263-l1-first.json", "sha256": "67b40fb3882f5b9a35afa6f0b5a386061d158ea0aaba6033683a469e7e61cfbf", "role": "Original58PASS/2FAIL,not overwritten"},
+    {"path": ".git/full-game-localization/order264-final-report-private.json", "sha256": "188d2b03ef0ff97f4fb55013b15fa4d534d98aac408c917d7e58d877ad5fda93", "role": "Separate exact-UI numeric repair dependency;code unchanged during resumed263"},
+    {"path": ".git/full-game-localization/order263-resume-selection-first.json", "sha256": "fb7372af5b552e4653580ee11f2a96bd1256ce2659e3c39632e65fd75a3d90fc"},
+    {"path": ".git/full-game-localization/order263-resume-l1-first.json", "sha256": "ec76b4af0aa3d0db4e82e6815edfbc2b9fb7d94b27e5801d09be016be8d237ce"},
+    {"path": ".git/full-game-localization/order263-resume-export-first.json", "sha256": "528afd15761f05044c2e994e113e3c11ec7d9ab048cc4b3c2cefe0448f1ab073"},
+    {"path": ".git/full-game-localization/order263-resume-check-first.json", "sha256": "dae393cfb4263b0a709ceefedf5380a345aeb6c94a15d3162594bb586307f6b3"},
+    {"path": ".git/full-game-localization/order263-resume-import-first.json", "sha256": "d4057d9e7dd44576985c5e6c8ee4bfd0d659f48774486ce62c5e2a8416edf2e0"},
+    {"path": ".git/full-game-localization/order263-resume-portable-first.json", "sha256": "effa1190ff896b52ef37f1651cf82fed7a615031a7849a455d6b27931e66be1f"},
+    {"path": ".git/full-game-localization/order263-resume-preservation-first.json", "bytes": 377572, "sha256": "438ee62b05fb48e698a871adc76b143e1ea8314ddbb1e72f7ced7df665b44637"},
+    {"path": ".git/full-game-localization/order263-resume-named-first.json", "bytes": 1378398, "sha256": "b61c6995b731fcc137564c20afe929b79c7f71b31cee6828a3adf193e9b21ac8"},
+    {"path": ".git/full-game-localization/order263-resume-named-outer-first.json", "bytes": 378717, "sha256": "fd4b9cd3ab2781cf230ada0b7ca358e982f39f11c66b63b9113faad80a64243b"}
+  ],
+  "unobserved": ["native_reader", "human_playtest", "physical_controller_feel", "actual_Story_panel_or_rendered_fit", "new_engine_or_gameplay_run", "old_translation_L1_reexecution", "separate_same_Korean_event_title3_repair", "new_remote_CI_or_release_approval", "full_product_GO"],
+  "remaining_limits": "JA remains beta; ZH remains skeleton with direct-English bypass13 and shipping0. Registry EXTRA21 advisories are retained,not counted as zero warnings. Same-Korean event-title cup wording3 remains outside this UI unit. Reviewer wrote only private reports;ROOT owns public copy and metadata closure."
+}
