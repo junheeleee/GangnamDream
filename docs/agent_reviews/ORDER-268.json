@@ -1,0 +1,416 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-268",
+  "scope": "work_unit",
+  "authority": "user_delegated_agent_final",
+  "reviewer": "Poincare",
+  "decision_date": "2026-09-20",
+  "subject": {
+    "kind": "source",
+    "commit": "290f64300ab63f08a881d4913b745cdf6629c242",
+    "tree": "b3c9fee907d47d79657be63588456bd226e201d7",
+    "manifest_sha256": null
+  },
+  "review": {
+    "commit": "bb138b020610413250c15faed966a7093be399e8",
+    "tree": "b8e9091173e4333caa6289da59f360774a9e9c99",
+    "clean": true
+  },
+  "verdict": "GO",
+  "required": [],
+  "decision": "GO only for the bounded application and machine acceptance of 158 Chinese UI values across 16 functional units, with 62 reviewed draft values across four other units explicitly held and not applied or accepted. This is not completion of all 220 machine checks, native-language certification, rendered UI approval, or full-product GO.",
+  "population": {
+    "language_review": "All 110 KO-source rows and all 220 proposed targets were independently reviewed: CN 110 and TW 110. The sealed first language GO remains separate from machine admissibility; no language text was altered to satisfy a validator.",
+    "applied_and_accepted": "79 keys per Chinese locale, 158 new values total, in 16 of 20 functional units. Actual UI, 79-row formal sources/responses and both 79-record receipts match sealed drafts exactly. JA changes and new JA acceptance: 0.",
+    "held": "31 keys per locale, 62 values total, in ending_arrival (11 keys), ending_relationships (7), epilogue_father (8), epilogue_jiyeon (5). All remain absent from live Chinese dictionaries and portable acceptance; their reviewed drafts are preserved below.",
+    "portable": "39,292 previous accepted records preserved; +158 = 39,450, batch count 112→113, metadata records 9 unchanged. Exact old portable whole-file inverse and all old source/target hash preservation verified; no fresh whole-corpus L1 or engine run is claimed.",
+    "final_checks": "First actual selected unique12: all exit 0, full raw child stdout/stderr retained and checked; inner 1,621 input pins and outer 1,202 pins unchanged and equal current files. Full localization self 264, JA self 146, ZH self 12,446; public demo 5 locales, source events 14, leaves 100 and target UI 121 remain separate populations.",
+    "preservation": "Baseline e5ab39a69c46b01f2c148f4f69690240120395e2→review changed 10 paths, all within 13 owned paths; product changes only CN UI, TW UI, portable acceptance. Source→review changes STATUS only. JA, game/source/router/runtime, audit tools/scope, public content, human evidence, project configuration and previous 54-decision ledger remain byte-identical."
+  },
+  "independent_work": {
+    "role": "Nonauthor final reviewer; no repository modules, collector, QA, engine or remote calls were executed during this review; no product, operational, Git or public-report writes.",
+    "directly_checked": [
+      "Reused immutable full220 language and machine-boundary reviews; checked subset selection, formal capture raw streams, source/response/receipt records, actual live UI and portable byte inverses.",
+      "Recomputed both private receipt digests and all 158 source/target bindings against actual source exports, approved drafts, current UI and portable records; checked the 62 held targets are not live or accepted.",
+      "Read actual final12 child outputs; decoded and verified byte lengths/SHA256 for every stdout/stderr stream. Parsed retained fullself structured rows/summaries, rather than treating truncated display output as complete evidence.",
+      "Compared preserved product pins to final captures and current files; observed exact source/review Git identities, clean state and owned-path delta."
+    ],
+    "formal_boundary": "Admissible preflight check79 per locale ran before UI installation and reported changed_files=1 as a check result. Formal export/import were bound to be484f51ee0e78d02c8e387c81f5eb9e8f1a5af2; imports reported changed_files=0. Preservation capture ran after portable application with pending status-document changes, not on the final clean review; its 1,202 product pins are nevertheless exactly the final outer capture/current pins.",
+    "timings_seconds": {
+      "preservation": 6.152186542,
+      "named_inner": 114.36165875,
+      "named_outer": 114.662507125
+    },
+    "diagnostics": "Final fullself stderr is ordinary unittest progress and OK (264 tests), not empty; the remaining 11 child stderr streams and outer stderr are empty. Actual registry output retains 23 EXTRA advisories with registered=151. JA status remains beta; Chinese audit remains skeleton/shipping=0, dynamic=6/701, direct_english_bypass=11. Agent self-test reports full product HOLD."
+  },
+  "failure_history": {
+    "first_checks": "The first CN formal preflight check stopped at one title-lock failing leaf; the first TW check stopped at one subscriber-million leaf (with multiple numeric/currency diagnostics). These are not the later exhaustive CN7/TW4 counts; both original exit1 captures remain preserved.",
+    "exhaustive_diagnostics": "Subsequent direct and source-bound exhaustive observations each examined 110 targets per locale: CN 7 failing leaf IDs / 9 diagnostics, TW 4 failing leaf IDs / 6 diagnostics; union 7 KO IDs. Observation capture success is not a 220-target validation PASS.",
+    "disposition": "Four entire functional units were held in both locales: 11 directly failing target values plus 51 associated values, 62 total. No validator relaxation, whitelist, natural-language distortion, new title policy or new currency claim was introduced. Required linguistic defects: 0; existing optional TW startup-exit phrasing note remains in the first language review and is within held drafts.",
+    "historical_wording": "The old active/WORK shorthand 'first check CN7/TW4' is imprecise. This report separates first short-circuit failures from later full diagnostics; the original documents/captures remain historical records, not altered evidence."
+  },
+  "portable_binding": {
+    "path": "content/meta/full_game_localization.json",
+    "bytes": 10287349,
+    "sha256": "7ffcd628886229566188765a068fe55394dcb99e2d12537f5059f117d2cf1af9",
+    "accepted_sha256": "3f148151db906ec4d515a4f26ca1337e48743ae431d69935a7dc5e5c22ff81a4",
+    "old_whole_bytes": 10225859,
+    "old_whole_sha256": "8f56f32a362d170654ff810f99fcbbdf99f6600e1742bcac9706bcd19bb4f6a4",
+    "old_whole_inverse_exact": true,
+    "source_manifest_sha256": "2346e6c48c09e9795147c01b5c44580f788eeb1b611f02b3c65d0b29f13b9ead"
+  },
+  "evidence": [
+    {
+      "path": ".git/full-game-localization/post267-ui-throughput-batch-plan.json",
+      "bytes": 140378,
+      "sha256": "eff2f3a3742fdc6a06c8b487682123cf782d3daac9ec0c4a025db5de6720bdd0"
+    },
+    {
+      "path": ".git/full-game-localization/order268-zh-CN-draft.json",
+      "bytes": 38865,
+      "sha256": "8a53145b44ff1f30aa761c0a1424a56816833db45eba814f382e6e8651449b43"
+    },
+    {
+      "path": ".git/full-game-localization/order268-zh-TW-draft.json",
+      "bytes": 38804,
+      "sha256": "c1ef4379f033418926b3f52c5b764149f3ca2c67047b1bd565cde1e88dffc3d4"
+    },
+    {
+      "path": ".git/full-game-localization/order268-language-review-first.json",
+      "bytes": 5754,
+      "sha256": "273a9f4874c3f8e4a12c64e3e5fa45d00abc8d7e9ae1cb0f1d012ab6c3880ff1"
+    },
+    {
+      "path": ".git/full-game-localization/order268-machine-boundary-review.json",
+      "bytes": 7819,
+      "sha256": "e1d3a6cb24a5d785aaef8c9ff56849daa183e07bbfaf7221209a5ed9dcc52582"
+    },
+    {
+      "path": ".git/full-game-localization/order268-preflight-check-cn-first.json",
+      "bytes": 377653,
+      "sha256": "ad37018d6c831f9a7d45d58e68e98db6906f0dcd7273772d9f1fcf5ae2c3d430"
+    },
+    {
+      "path": ".git/full-game-localization/order268-preflight-check-tw-first.json",
+      "bytes": 377970,
+      "sha256": "728acb79070130b6b84f347cc8ee65d46a9fa416a3a789f54945324b0e4091e7"
+    },
+    {
+      "path": ".git/full-game-localization/order268-all-selected-diagnostics-first.json",
+      "bytes": 387423,
+      "sha256": "0a0b5657414cfb7c2ff5481b29dc5b4f37b386bbe63920da26ecc13949cbfdb1"
+    },
+    {
+      "path": ".git/full-game-localization/order268-source-bound-diagnostics-first.json",
+      "bytes": 385096,
+      "sha256": "52811be052e4173fc8d7ac031775c71576013371b654cf217133820c785c34a7"
+    },
+    {
+      "path": ".git/full-game-localization/order268-admissible-check-cn-first.json",
+      "bytes": 377511,
+      "sha256": "80835d2ca8aaa36b8d41dcb54ed5ab640be7745bfa1c60bf9b1607fd63e8e740"
+    },
+    {
+      "path": ".git/full-game-localization/order268-admissible-check-tw-first.json",
+      "bytes": 377510,
+      "sha256": "67a7cfb75a5cff189bc42d467e89bf34d6b45ed14de5c44ef24b6cbb9a6c3be3"
+    },
+    {
+      "path": ".git/full-game-localization/order268-formal-export-cn-first.json",
+      "bytes": 377600,
+      "sha256": "ebdd4c98760f4cb7c8e56abb94b80fb5bbd132cb635e3e613e5cb6bf71e7389d"
+    },
+    {
+      "path": ".git/full-game-localization/order268-formal-export-tw-first.json",
+      "bytes": 377607,
+      "sha256": "8b690f8094858e0e5e3e44c1b19bd4ab6d155c6fb1cb3b6a03fa07dad7235d9a"
+    },
+    {
+      "path": ".git/full-game-localization/order268-formal-import-cn-first.json",
+      "bytes": 377510,
+      "sha256": "63e56054da0b72384896917117cdcc09a02be7236c6a00a92c7cf912b2dbeb50"
+    },
+    {
+      "path": ".git/full-game-localization/order268-formal-import-tw-first.json",
+      "bytes": 377511,
+      "sha256": "3e43a389e764539206a60db648f4204075c6e63a8fadfd59e67233eceed1910d"
+    },
+    {
+      "path": ".git/full-game-localization/order268-preservation-first.json",
+      "bytes": 377992,
+      "sha256": "d87b3cafa413d78e719e1ddd05ae016fd6ab73b71d8e3ff5a2d3cf3ea9087e93"
+    },
+    {
+      "path": ".git/full-game-localization/order268-named-first.json",
+      "bytes": 1688004,
+      "sha256": "e49b8813228f93429241bfe18bf91dce22575b0a48c4d277609cbf055658d959"
+    },
+    {
+      "path": ".git/full-game-localization/order268-named-outer-first.json",
+      "bytes": 379612,
+      "sha256": "31a7541282f49b185fc2f52a10902cb398ee4671b91bbfa4d190b601b9bf7ef4"
+    },
+    {
+      "path": ".git/full-game-localization/zh-CN/full-ko-direct-2026-09-07.1/72218dab5a6c8d25853711742aff0a3064a783a120e4afb4f0f590aa54543f1f.accepted.json",
+      "bytes": 27413,
+      "sha256": "43e517e6f7af8cdf8e62adb50f32f6884220ecc6746390b5771cbc48a82ecc5e"
+    },
+    {
+      "path": ".git/full-game-localization/zh-TW/full-ko-direct-2026-09-07.1/04962a12679c18fa89c6659489cefa1b379301fc28c458f5024dea6325310694.accepted.json",
+      "bytes": 27413,
+      "sha256": "7d44d08b400d721118ea6de69e30107e95d2e37f239d72d8fcae0abbbe36f8e8"
+    }
+  ],
+  "held_drafts_status": "Reviewed-but-machine-HOLD archival material copied byte-for-text from the two sealed author drafts; not active product values, official acceptance, or permission to bypass current validation. Stored inside this report to retain all 62 targets in its public copy and prevent duplicate authoring.",
+  "held_functional_units": [
+    {
+      "id": "ending_arrival",
+      "source_keys": 11,
+      "target_values": 22
+    },
+    {
+      "id": "ending_relationships",
+      "source_keys": 7,
+      "target_values": 14
+    },
+    {
+      "id": "epilogue_father",
+      "source_keys": 8,
+      "target_values": 16
+    },
+    {
+      "id": "epilogue_jiyeon",
+      "source_keys": 5,
+      "target_values": 10
+    }
+  ],
+  "held_drafts": [
+    {
+      "id": "ui:30억에 도착한 뒤에도 자기 손을 돌아봤다. 사람으로 남으려 한 강남입성.:/30억에 도착한 뒤에도 자기 손을 돌아봤다. 사람으로 남으려 한 강남입성.",
+      "ko": "30억에 도착한 뒤에도 자기 손을 돌아봤다. 사람으로 남으려 한 강남입성.",
+      "functional_unit": "ending_arrival",
+      "zh-CN": "即使攒到30亿韩元，也仍回头审视这双手做过什么。走进江南，仍努力做个有良知的人。",
+      "zh-TW": "到了30億韓元，依然回頭看看自己的雙手。踏進江南時，仍想保住自己身為人的那一面。"
+    },
+    {
+      "id": "ui:작은 아이디어 하나가 강남드림으로 이어졌다:/작은 아이디어 하나가 강남드림으로 이어졌다",
+      "ko": "작은 아이디어 하나가 강남드림으로 이어졌다",
+      "functional_unit": "ending_arrival",
+      "zh-CN": "一个小小的点子，让在江南立足的梦想成了现实",
+      "zh-TW": "一個小點子，通往了 GANGNAM DREAM"
+    },
+    {
+      "id": "ui:5년의 고군분투 끝에 강남드림을 이뤘다:/5년의 고군분투 끝에 강남드림을 이뤘다",
+      "ko": "5년의 고군분투 끝에 강남드림을 이뤘다",
+      "functional_unit": "ending_arrival",
+      "zh-CN": "独自苦撑了5年，终于实现了在江南立足的梦想",
+      "zh-TW": "孤軍奮戰5年後，實現了 GANGNAM DREAM"
+    },
+    {
+      "id": "ui:고시원 백수가 첫해에 30억을 만들었다 — 아무도 믿지 않을 것이다:/고시원 백수가 첫해에 30억을 만들었다 — 아무도 믿지 않을 것이다",
+      "ko": "고시원 백수가 첫해에 30억을 만들었다 — 아무도 믿지 않을 것이다",
+      "functional_unit": "ending_arrival",
+      "zh-CN": "住在考试院的无业游民，第一年就赚到了30亿韩元 — 谁也不会相信",
+      "zh-TW": "住在考試院的失業者，第一年就累積了30億韓元——恐怕沒人會相信"
+    },
+    {
+      "id": "ui:작은 아이디어 하나가 첫 엑싯으로 이어졌다:/작은 아이디어 하나가 첫 엑싯으로 이어졌다",
+      "ko": "작은 아이디어 하나가 첫 엑싯으로 이어졌다",
+      "functional_unit": "ending_arrival",
+      "zh-CN": "一个小小的点子，换来了创业后的第一次套现",
+      "zh-TW": "一個小點子，成就了第一次創業出場"
+    },
+    {
+      "id": "ui:강남이 아닌 더 높은 곳으로 — 정계에 발을 들였다:/강남이 아닌 더 높은 곳으로 — 정계에 발을 들였다",
+      "ko": "강남이 아닌 더 높은 곳으로 — 정계에 발을 들였다",
+      "functional_unit": "ending_arrival",
+      "zh-CN": "不是江南，而是更高处 — 踏进了政界",
+      "zh-TW": "不是江南，而是更高的地方——踏入了政界"
+    },
+    {
+      "id": "ui:돈이 돈을 버는 법을 깨달았다 — 투자의 달인:/돈이 돈을 버는 법을 깨달았다 — 투자의 달인",
+      "ko": "돈이 돈을 버는 법을 깨달았다 — 투자의 달인",
+      "functional_unit": "ending_arrival",
+      "zh-CN": "悟出了钱生钱的门道 — 投资高手",
+      "zh-TW": "領悟了錢如何生錢——投資高手"
+    },
+    {
+      "id": "ui:자산보다 이름이 먼저 강남에 닿았다:/자산보다 이름이 먼저 강남에 닿았다",
+      "ko": "자산보다 이름이 먼저 강남에 닿았다",
+      "functional_unit": "ending_arrival",
+      "zh-CN": "名声比资产先一步到了江南",
+      "zh-TW": "比起資產，名字先一步傳到了江南"
+    },
+    {
+      "id": "ui:30억보다 소중한 것을 알게 됐다. 그게 다은이었다.:/30억보다 소중한 것을 알게 됐다. 그게 다은이었다.",
+      "ko": "30억보다 소중한 것을 알게 됐다. 그게 다은이었다.",
+      "functional_unit": "ending_relationships",
+      "zh-CN": "找到了比30亿韩元更珍贵的东西。那就是 Daeun。",
+      "zh-TW": "明白了什麼比30億韓元更珍貴。那就是 Daeun。"
+    },
+    {
+      "id": "ui:다른 세계의 사람이 그를 선택했다. 강남은 그렇게 왔다.:/다른 세계의 사람이 그를 선택했다. 강남은 그렇게 왔다.",
+      "ko": "다른 세계의 사람이 그를 선택했다. 강남은 그렇게 왔다.",
+      "functional_unit": "ending_relationships",
+      "zh-CN": "另一个世界的人选择了他。江南就这样来到了面前。",
+      "zh-TW": "來自另一個世界的人選擇了他。江南，就這樣來了。"
+    },
+    {
+      "id": "ui:가장 정직한 길이 결국 가장 높은 곳으로 이어졌다:/가장 정직한 길이 결국 가장 높은 곳으로 이어졌다",
+      "ko": "가장 정직한 길이 결국 가장 높은 곳으로 이어졌다",
+      "functional_unit": "ending_arrival",
+      "zh-CN": "最诚实的路，最终通向了最高处",
+      "zh-TW": "最誠實的路，終究通往了最高處"
+    },
+    {
+      "id": "ui:모두가 실패라 했던 방식으로 서울을 뒤집었다:/모두가 실패라 했던 방식으로 서울을 뒤집었다",
+      "ko": "모두가 실패라 했던 방식으로 서울을 뒤집었다",
+      "functional_unit": "ending_arrival",
+      "zh-CN": "用所有人都说注定失败的方式，撼动了首尔",
+      "zh-TW": "用人人都說行不通的方法，翻轉了首爾"
+    },
+    {
+      "id": "ui:화해는 늦었지만, 늦었다는 것을 알았기에 의미가 있었다:/화해는 늦었지만, 늦었다는 것을 알았기에 의미가 있었다",
+      "ko": "화해는 늦었지만, 늦었다는 것을 알았기에 의미가 있었다",
+      "functional_unit": "ending_relationships",
+      "zh-CN": "和解来得太迟，却也正因为知道迟了，才有了意义",
+      "zh-TW": "和解來得晚了。但正因明白這點，才有了意義"
+    },
+    {
+      "id": "ui:강남은 포기했다. 대신 아버지를 빚에서 해방시켰다.:/강남은 포기했다. 대신 아버지를 빚에서 해방시켰다.",
+      "ko": "강남은 포기했다. 대신 아버지를 빚에서 해방시켰다.",
+      "functional_unit": "ending_relationships",
+      "zh-CN": "放弃了江南，却让父亲摆脱了债务。",
+      "zh-TW": "放棄了江南，卻讓父親擺脫了債務。"
+    },
+    {
+      "id": "ui:구독자가 100만을 넘은 날, 강남보다 더 넓은 세계가 열렸다:/구독자가 100만을 넘은 날, 강남보다 더 넓은 세계가 열렸다",
+      "ko": "구독자가 100만을 넘은 날, 강남보다 더 넓은 세계가 열렸다",
+      "functional_unit": "ending_arrival",
+      "zh-CN": "订阅者超过100万的那天，比江南更广阔的世界打开了",
+      "zh-TW": "訂閱人數突破100萬的那天，比江南更寬廣的世界打開了"
+    },
+    {
+      "id": "ui:임상철에게서 아버지 빚을 되찾았다. 강남과 가족, 둘 다 지켰다.:/임상철에게서 아버지 빚을 되찾았다. 강남과 가족, 둘 다 지켰다.",
+      "ko": "임상철에게서 아버지 빚을 되찾았다. 강남과 가족, 둘 다 지켰다.",
+      "functional_unit": "ending_relationships",
+      "zh-CN": "从 Im Sangchul 那里讨回了父亲那笔债。江南和家人，两边都守住了。",
+      "zh-TW": "從 Im Sangchul 那裡討回了父親那筆債。江南和家人，兩邊都守住了。"
+    },
+    {
+      "id": "ui:다은과 함께 강 너머 강남의 불빛을 본다. 이번엔 혼자가 아니다.:/다은과 함께 강 너머 강남의 불빛을 본다. 이번엔 혼자가 아니다.",
+      "ko": "다은과 함께 강 너머 강남의 불빛을 본다. 이번엔 혼자가 아니다.",
+      "functional_unit": "ending_relationships",
+      "zh-CN": "和 Daeun 一起看着河对岸江南的灯火。这次不再是独自一人。",
+      "zh-TW": "和 Daeun 一起望著河對岸江南的燈光。這次，不再獨自一人。"
+    },
+    {
+      "id": "ui:강남은 아직 없었다. 하지만 아버지가 살아있었다.:/강남은 아직 없었다. 하지만 아버지가 살아있었다.",
+      "ko": "강남은 아직 없었다. 하지만 아버지가 살아있었다.",
+      "functional_unit": "ending_relationships",
+      "zh-CN": "江南还没到手。但父亲还活着。",
+      "zh-TW": "還未抵達江南。但父親還活著。"
+    },
+    {
+      "id": "ui:아버지는 새 집 거실에 어색하게 앉아 「방이 너무 크다」고 하셨다. 그게 칭찬이라는 걸 안다.:/아버지는 새 집 거실에 어색하게 앉아 「방이 너무 크다」고 하셨다. 그게 칭찬이라는 걸 안다.",
+      "ko": "아버지는 새 집 거실에 어색하게 앉아 「방이 너무 크다」고 하셨다. 그게 칭찬이라는 걸 안다.",
+      "functional_unit": "epilogue_father",
+      "zh-CN": "父亲拘谨地坐在新家的客厅里，说「这屋子太大了」。我知道，这是夸奖。",
+      "zh-TW": "父親不自在地坐在新家的客廳，說：「房間太大了。」我知道，那是稱讚。"
+    },
+    {
+      "id": "ui:다 잃었다고 말했을 때, 아버지는 「내려와서 밥이나 먹자」고만 하셨다.:/다 잃었다고 말했을 때, 아버지는 「내려와서 밥이나 먹자」고만 하셨다.",
+      "ko": "다 잃었다고 말했을 때, 아버지는 「내려와서 밥이나 먹자」고만 하셨다.",
+      "functional_unit": "epilogue_father",
+      "zh-CN": "我说自己失去了一切时，父亲只说了句「回来吃顿饭吧」。",
+      "zh-TW": "當我說失去了一切時，父親只說：「回來吃頓飯吧。」"
+    },
+    {
+      "id": "ui:아버지와는 이제 한 달에 두 번 통화한다. 길지 않지만, 끊기지 않는다.:/아버지와는 이제 한 달에 두 번 통화한다. 길지 않지만, 끊기지 않는다.",
+      "ko": "아버지와는 이제 한 달에 두 번 통화한다. 길지 않지만, 끊기지 않는다.",
+      "functional_unit": "epilogue_father",
+      "zh-CN": "如今，我每个月和父亲通两次电话。不长，却一直没有断。",
+      "zh-TW": "現在每個月都和父親通兩次電話。不長，卻一直沒有中斷。"
+    },
+    {
+      "id": "ui:아버지가 떠나던 밤, 나는 딜을 했다. 통장 숫자는 올라갔고 — 그 숫자를 볼 때마다, 창원행 기차를 타지 않은 내가 보인다.:/아버지가 떠나던 밤, 나는 딜을 했다. 통장 숫자는 올라갔고 — 그 숫자를 볼 때마다, 창원행 기차를 타지 않은 내가 보인다.",
+      "ko": "아버지가 떠나던 밤, 나는 딜을 했다. 통장 숫자는 올라갔고 — 그 숫자를 볼 때마다, 창원행 기차를 타지 않은 내가 보인다.",
+      "functional_unit": "epilogue_father",
+      "zh-CN": "父亲走的那晚，我在做交易。账户里的数字涨了 — 每次看到那个数字，都像看到了没有坐上那班去昌原的火车的自己。",
+      "zh-TW": "父親離世的那晚，我做了一筆交易。銀行帳戶裡的數字往上爬——而每次看到那些數字，就會看見那個沒搭上往昌原的火車的自己。"
+    },
+    {
+      "id": "ui:마지막 기차를 탔지만 한 시간 늦었다. 그래도 그 빈 병실에 앉아 있던 시간을, 가지 않은 것보다는 낫다고 믿기로 했다.:/마지막 기차를 탔지만 한 시간 늦었다. 그래도 그 빈 병실에 앉아 있던 시간을, 가지 않은 것보다는 낫다고 믿기로 했다.",
+      "ko": "마지막 기차를 탔지만 한 시간 늦었다. 그래도 그 빈 병실에 앉아 있던 시간을, 가지 않은 것보다는 낫다고 믿기로 했다.",
+      "functional_unit": "epilogue_father",
+      "zh-CN": "赶上了末班火车，却还是晚了一个小时。可在那间空病房里坐着的那段时间，我决定相信，总比没有去好。",
+      "zh-TW": "搭上了末班火車，卻遲了一個小時。即使如此，我還是決定相信：坐在那間空病房裡的那段時間，總比沒有去好。"
+    },
+    {
+      "id": "ui:아버지가 떠난 후 창원에 한 번 내려갔다. 아무것도 없는 방에 한참 앉아 있었다.:/아버지가 떠난 후 창원에 한 번 내려갔다. 아무것도 없는 방에 한참 앉아 있었다.",
+      "ko": "아버지가 떠난 후 창원에 한 번 내려갔다. 아무것도 없는 방에 한참 앉아 있었다.",
+      "functional_unit": "epilogue_father",
+      "zh-CN": "父亲走后，我回过一次昌原。在空荡荡的房间里，坐了很久。",
+      "zh-TW": "父親離世後，曾回過昌原一次。在空無一物的房間裡，坐了好久。"
+    },
+    {
+      "id": "ui:아버지의 번호를 누르다 만 밤이 많았다. 다음에, 다음에 하다가 5년이 갔다.:/아버지의 번호를 누르다 만 밤이 많았다. 다음에, 다음에 하다가 5년이 갔다.",
+      "ko": "아버지의 번호를 누르다 만 밤이 많았다. 다음에, 다음에 하다가 5년이 갔다.",
+      "functional_unit": "epilogue_father",
+      "zh-CN": "好多夜里，父亲的号码拨到一半就停了下来。总说下次、下次，5年就这么过去了。",
+      "zh-TW": "有很多個夜裡，撥父親的號碼撥到一半又停下。說著下次、下次，5年就過去了。"
+    },
+    {
+      "id": "ui:창원에는 끝내 한 번도 내려가지 못했다.:/창원에는 끝내 한 번도 내려가지 못했다.",
+      "ko": "창원에는 끝내 한 번도 내려가지 못했다.",
+      "functional_unit": "epilogue_father",
+      "zh-CN": "到最后，我也没能回昌原一趟。",
+      "zh-TW": "到最後，一次也沒能回昌原。"
+    },
+    {
+      "id": "ui:다 무너진 날에도 한지연은 떠나지 않았다. 「처음부터 돈 보고 만난 거 아니잖아.」:/다 무너진 날에도 한지연은 떠나지 않았다. 「처음부터 돈 보고 만난 거 아니잖아.」",
+      "ko": "다 무너진 날에도 한지연은 떠나지 않았다. 「처음부터 돈 보고 만난 거 아니잖아.」",
+      "functional_unit": "epilogue_jiyeon",
+      "zh-CN": "一切崩塌的那天，Han Jiyeon 也没有离开。「我从一开始就不是为了钱才跟你在一起的啊。」",
+      "zh-TW": "就連一切崩塌的那天，Han Jiyeon 也沒有離開。「我一開始又不是為了錢才和你在一起。」"
+    },
+    {
+      "id": "ui:한지연은 「그러게, 내 눈이 맞았지」라며 웃었다. 그 옆자리가 강남보다 좋다.:/한지연은 「그러게, 내 눈이 맞았지」라며 웃었다. 그 옆자리가 강남보다 좋다.",
+      "ko": "한지연은 「그러게, 내 눈이 맞았지」라며 웃었다. 그 옆자리가 강남보다 좋다.",
+      "functional_unit": "epilogue_jiyeon",
+      "zh-CN": "Han Jiyeon 笑着说「你看，我没看错人吧」。比起江南，我更喜欢她身边的位置。",
+      "zh-TW": "Han Jiyeon 笑著說：「你看，我沒看錯吧。」她身旁的位置，比江南更好。"
+    },
+    {
+      "id": "ui:한지연과는 가끔 만나 커피를 마신다. 서로의 세계를 인정한 사이로 남았다.:/한지연과는 가끔 만나 커피를 마신다. 서로의 세계를 인정한 사이로 남았다.",
+      "ko": "한지연과는 가끔 만나 커피를 마신다. 서로의 세계를 인정한 사이로 남았다.",
+      "functional_unit": "epilogue_jiyeon",
+      "zh-CN": "偶尔会和 Han Jiyeon 见面喝咖啡。彼此认可对方的世界，也就保持着这样的关系。",
+      "zh-TW": "偶爾和 Han Jiyeon 見面喝咖啡。我們就這樣，維持著認可彼此世界的關係。"
+    },
+    {
+      "id": "ui:한지연의 SNS를 가끔 본다. 연락은 하지 않는다. 그날의 말을 둘 다 기억하니까.:/한지연의 SNS를 가끔 본다. 연락은 하지 않는다. 그날의 말을 둘 다 기억하니까.",
+      "ko": "한지연의 SNS를 가끔 본다. 연락은 하지 않는다. 그날의 말을 둘 다 기억하니까.",
+      "functional_unit": "epilogue_jiyeon",
+      "zh-CN": "偶尔会看看 Han Jiyeon 的社交动态，却不联系她。那天说过的话，我们都还记得。",
+      "zh-TW": "偶爾看看 Han Jiyeon 的社群動態，卻不聯絡。因為那天說過的話，我們都還記得。"
+    },
+    {
+      "id": "ui:한지연과는 그 이상 가까워지지 못했다. 인연은 거기까지였다.:/한지연과는 그 이상 가까워지지 못했다. 인연은 거기까지였다.",
+      "ko": "한지연과는 그 이상 가까워지지 못했다. 인연은 거기까지였다.",
+      "functional_unit": "epilogue_jiyeon",
+      "zh-CN": "我和 Han Jiyeon 没能再走近一些。缘分就到了这里。",
+      "zh-TW": "沒能和 Han Jiyeon 再靠近一些。我們的緣分，就到那裡。"
+    }
+  ],
+  "unobserved": [
+    "native_reader",
+    "rendered_ui",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_ending_or_epilogue_playthrough",
+    "new_runtime_or_full_CI",
+    "full_product_GO"
+  ],
+  "limits": "Automatic checks establish only their stated finite contracts; they are not native-reader or literary-quality evidence. Language review, 158-value machine acceptance, 62-value HOLD, and overall product/human HOLD remain distinct. This report does not remove or silently accept any held draft."
+}
