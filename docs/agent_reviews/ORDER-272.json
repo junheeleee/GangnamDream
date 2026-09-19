@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-272",
+  "scope": "work_unit",
+  "authority": "user_delegated_agent_final",
+  "reviewer": "Poincare",
+  "reviewer_role": "Independent non-author final reviewer; neither locale draft, exchange helper nor QA was authored or executed by this reviewer.",
+  "decision_date": "2026-09-20",
+  "verdict": "GO",
+  "required": [],
+  "subject": {
+    "kind": "source",
+    "commit": "b61eeb59db9bd49281701507f4e1f627869ba000",
+    "tree": "b8ef26ee69d90d8c0ec6e6338d2e2fd9d66681f8",
+    "manifest_sha256": null
+  },
+  "review": {
+    "commit": "49428e8e5d1a2e325ee8d4e3edeac2cfecc82378",
+    "tree": "84fbd350635edfe866fc5e72b1e06228f4ef2357",
+    "clean": true,
+    "metadata_wrapper_paths": [
+      "docs/STATUS.md",
+      "docs/WORK_LOG.md",
+      "docs/queue_active/ORDER-272.md"
+    ]
+  },
+  "decision": "GO only for the declared 15 Korean keys / 8 functional units and their 30 accepted Chinese translations, with the original named-run document failure retained and its narrow queue repair verified. This is not a fresh full-game, public-demo, native-language or rendered-quality approval.",
+  "population": {
+    "language": "All 15 CN and 15 TW targets independently read directly against Korean and actual consumer conditions; sealed language GO required0 reused without changing either draft.",
+    "application": "CN15 + TW15 appended; JA0. Seven automatic monthly event title/description pairs plus one market-cycle parent. Newly held0; earlier held110 remain unchanged and outside this acceptance.",
+    "acceptance": "Actual formal export/response/import receipts contain 15 records per locale. Total39872 = previous39842 + new30; batches117 = previous116 + one ORDER-272 batch; retained internal metadata9 unchanged. JA13096, CN13388, TW13388.",
+    "verification": "Original fixed unique12 executed once on ef350cc: 11 PASS and queue1 FAIL. Only the failed queue check was rerun on 49428e8 and passed. Neither a first12 PASS nor a second full12 run is claimed.",
+    "preservation": "Original preservation capture checked all previous39842 current source/target hashes. Reviewer independently matched actual30 receipts and UI values and reconstructed exact old UI/portable raw bytes. First named1629 inputs were unchanged during execution; current1626 are identical and only the three declared metadata paths differ. All1202 product-bound outer inputs remain identical across preservation, first named, queue repair and current files."
+  },
+  "method_and_findings": [
+    "Applied gangnamdream-dev and WORK_UNIT/I18N boundaries. Fixed plan, active spec, drafts and actual consumers were read; language evidence is separately sealed below.",
+    "Exchange/named/capture helpers read directly: exact draft pins,15 IDs, no HOLD filter, receipt-derived additions, fixed12/owned13 and lossless pipes. Named enforces clean identity; outer capture merely records it. Actual captures were clean.",
+    "All eight exchange captures: raw base64/length/SHA/text exact, exit0, stderr empty,1202 unchanged. Preflight changed_files1 is a proposal; formal import --accept changed_files0 at clean69daffadc097b401a6e704174618f638da1cf671.",
+    "All source/response/receipt records agree on IDs/KO, unprotected supported static consumers, source/target digests, approved/current values and accepted state. Receipt digests independently verified; preflight and later formal source identities remain distinct.",
+    "Independent raw reconstruction removes exactly15 keys per Chinese dictionary and the30 accepted records plus final batch, restoring baseline02010c7e7aa951e3855758709b2efda4ddfad3df bytes. Portable accepted digest verified. Current portable is10421850 bytes/SHA30b10446b729415335327c53187b7191d5c865ecd8c194c468aae77372e5fbab; old raw10411340 bytes/SHA1aaf0e4e11cbc61cbe11d6b29c170f5a07778c2a4aa8f727b0c67cd01630bdbf.",
+    "Full baseline-to-review diff has10 paths, all inside the declared13; only3 are product paths. Game/runtime/source/checker/registry/project/JA/public files are unchanged. Previous58-decision ledger and human ledger are whole-byte unchanged. Existing held110 public artifacts in ORDER268/269/270 remain whole-byte identical.",
+    "Git clean identity and metadata-only wrapper independently observed. Existing resolver source admits active/WORK/STATUS; CLAUDE/backlog stay source-owned and unchanged by repair. No repository import."
+  ],
+  "first_failure_and_repair": {
+    "first_review_commit": "ef350cc3d5c78e3d66a42e2fd01ce20b84dd0387",
+    "first_review_tree": "ea12b17650919c532c268df8ed4bfa0af5fdfe18",
+    "first_named": "exit1/passed=false, 118.227396542 seconds, 12 distinct children; all11 non-queue children exit0. queue_consistency printed ORDER-272: 상태 머리말이 없다. No translation/checker/product failure is inferred from this document-format error.",
+    "repair": "Active title changed from a plain heading to #### [~] ORDER-272; active spec explicitly records the revised metadata-wrapper verification boundary; WORK retains the first failure; STATUS regenerated. No product or checker changed.",
+    "queue_recheck": "Actual exit0 on clean49428e8, 0.299047625 seconds, empty stderr, QUEUE_CONSISTENCY_OK active=76 in_progress=74 max_batches=2. Original failed named artifacts remain intact. Previously passing11 were not rerun.",
+    "evidence_reuse_limit": "The first context check passed at ef350cc. It is retained as that historical observation, not claimed freshly rerun after metadata repair. ROOT's subsequent closure metadata checks are outside this final report."
+  },
+  "actual_named_results": {
+    "raw_capture": "All12 raw pipes verified; fullself arrays/summaries parsed. Reviewer display truncation/JSON-shape read error was corrected on the same immutable file, not by rerunning QA.",
+    "fullself": "264 unittest tests OK; its365-byte stderr is normal progress/OK, not empty. ORDER264 summary60/46 and ORDER266 summary64/48 remain present and passing.",
+    "other_checks": "EN clean; JA pipeline146; JA audit2977 strings/errors0/status beta; ZH12446/skeleton; story-demo self and existing5-locale public audit; registry151; queue-index25/fence4; agent222/full HOLD; context389/links143. Their11 actual exit0 results are retained.",
+    "advisories": "Registry EXTRA23 retained. ZH legacy816/2948, context6/29, dynamic6/701, direct-English bypass11 and shipping0 are reported skeleton limitations, not completed translation coverage. Public14 events/100 leaves/121 UI keys and catalog1 remain their existing bounded checks."
+  },
+  "evidence": [
+    {"path": ".git/full-game-localization/order272-language-review-first.json", "bytes": 5479, "sha256": "48aca9c6270fe512b336f8059d362ab10c9501a206b9c3e61a2315add4932713"},
+    {"path": ".git/full-game-localization/order272-export-cn-first.json", "bytes": 377535, "sha256": "8523e6167d765d0c1adaf62b7e9dc71cf2ac55c399aed2a536ea447f62c95a6c"},
+    {"path": ".git/full-game-localization/order272-export-tw-first.json", "bytes": 377535, "sha256": "74a4649de888641e4d6bfe37d303130e983c445a96fc057d03e2927aaab2e4f5"},
+    {"path": ".git/full-game-localization/order272-preflight-check-cn-first.json", "bytes": 377491, "sha256": "31a2ec2051e1805f3a6d40e60d6a2d92372a7c6a2ab28003c799564dd32e0521"},
+    {"path": ".git/full-game-localization/order272-preflight-check-tw-first.json", "bytes": 377489, "sha256": "2c5774753dffe0a51deda843cc68f33889b0b4790e41f492f6f7af810271aa9a"},
+    {"path": ".git/full-game-localization/order272-formal-export-cn-first.json", "bytes": 377564, "sha256": "e060bf5e4280529638e41bcc12d8b53e58fe2831689913c43d39eb1c659f7334"},
+    {"path": ".git/full-game-localization/order272-formal-export-tw-first.json", "bytes": 377564, "sha256": "4a4ecd58b391d32900e40c9cf0c8f693514c7c53a444b94a6f822d7fe2495e65"},
+    {"path": ".git/full-game-localization/order272-formal-import-cn-first.json", "bytes": 377517, "sha256": "73b0a6bd66393cadec959ffb6b023a066de0e587d021c1633f76bf062de07004"},
+    {"path": ".git/full-game-localization/order272-formal-import-tw-first.json", "bytes": 377509, "sha256": "3d16c1db1caff1cc36c78f8fa9470f276cde0f7eed5309c70fee80be463ea9f8"},
+    {"path": ".git/full-game-localization/zh-CN/full-ko-direct-2026-09-07.1/b9054ab6715af77890870e41a5d900d94e2ea7650cd097bc40cdf3cfb6cb6a4f.accepted.json", "bytes": 5150, "sha256": "f00f8116840c2ae9fd20994db1933c7b8332a6b9410c818ab8649e3aefd4c025"},
+    {"path": ".git/full-game-localization/zh-TW/full-ko-direct-2026-09-07.1/8e2a0fb3e8f8d2cc17f165497c46b3124c87d8682a08f3883c02bc31fb7b93ce.accepted.json", "bytes": 5150, "sha256": "993360026e156350bb3ebc7b0719ccad770f90b3c0483ca82159187829406016"},
+    {"path": ".git/full-game-localization/order272-preservation-first.json", "bytes": 377737, "sha256": "91a07e2fad9651ec331ae73c705a620175b50e96d7de0e9d15b0151d6417d086"},
+    {"path": ".git/full-game-localization/order272-named-first.json", "bytes": 1691153, "sha256": "10a78d5de567f5d7a69c59e37a085c2b6e647adf010be46e311d45a12242a8dd", "result": "Original11PASS/1FAIL retained"},
+    {"path": ".git/full-game-localization/order272-named-outer-first.json", "bytes": 379624, "sha256": "188e9e8c5dd1d50da26ee94f9c82758218a6666d0c30a45e8fd6fe1665639d4c", "result": "Original exit1 retained"},
+    {"path": ".git/full-game-localization/order272-queue-recheck-first.json", "bytes": 377136, "sha256": "b47b7a82dd94e7654b2fcecb1818747ff0177e6a4451e9fa3f4f75686eb79c88", "result": "Only failed queue check rerun: PASS"}
+  ],
+  "unobserved": [
+    "native_reader",
+    "rendered_or_live_random_branch_observation",
+    "human_playtest",
+    "physical_controller_feel",
+    "retroactive_translation_of_stored_logs",
+    "translation_of_raw_neutral_bear_bull_arguments",
+    "restored_or_newly_approved_AP_action_menu",
+    "fresh_full_game_audit_or_all39872_L1_rerun",
+    "new_public_demo_GO_or_internal_product_GO"
+  ],
+  "limits": "Public GO1, human OPEN45 and full-product HOLD remain unchanged. Dictionary counts are not a complete live UI denominator. Automatic gates establish contracts, not native style, rendering or player experience. No new QA, collector, repository import, engine or remote operation was performed by this reviewer; only read-only Git/files and this private report."
+}
