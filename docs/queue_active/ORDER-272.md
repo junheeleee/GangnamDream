@@ -1,4 +1,4 @@
-# ORDER-272 — 월초 돌발상황·시장 안내 중국어 UI
+#### [~] ORDER-272 — 월초 돌발상황·시장 안내 중국어 UI
 
 [~] 2026-09-20 착수. 부모 ORDER-157, 기준 main `02010c7e7aa951e3855758709b2efda4ddfad3df`.
 현재 한국어 15키를 간체·번체에서 독립 저작·원문 대조하고 실제 수용분만 반영한다.
@@ -39,7 +39,9 @@ ROOT는 제품·검사·Git, Plato는 private CN초안, Rawls는 private TW초�
   기계 실패가 남으면 해당 원형과 기능 전체 보류를 명시하고 수용과 구분한다.
 - 표적 QA: 기존 `news-panel-locale-only`의 고정 고유12, 기존39842 해시/중국어 사전 raw 역복원,
   JA·원문·공개·인간·이전58 agent 판정 보존. 추가 전체 감사/240주/engine 실행0.
-  clean 제품·STATUS-only 정확 검토 HEAD에서 비저자 work_unit 판정 후 메타데이터 마감6만 실행한다.
+  clean 제품·정확 검토 HEAD에서 비저자 work_unit 판정 후 메타데이터 마감6만 실행한다.
+  최초 named12의11PASS/상태머리말1FAIL은 보존한다. 이 사양 머리말·WORK·STATUS만 고친
+  metadata wrapper에서 실패 queue검사만 재실행하고 이전11의 동일 제품 입력을 결속한다.
 - 완료 증거는 실제 source/target·생산자/독자 위치·수용/보류수·검사 원출력·commit/tree를 기록한다.
   화면/원어민/인간/물리 패드 OPEN, 공개GO1·인간OPEN45·본편HOLD는 그대로다.
 
