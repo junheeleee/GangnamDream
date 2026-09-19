@@ -3,6 +3,14 @@
 > 이전 WORK와 이번 선언·첫 실패·재개·수용 원문은 [265 보존본](queue_archive/ORDER-265.md)에 있다.
 > 과거 보존본 링크도 원문대로 유지했으며 완료 기록을 축약해 대체하지 않았다.
 
+## 2026-09-20 (Codex — 새 게임 기록 언어 전달 착수)
+
+- [267](queue_active/ORDER-267.md): 출발 상태2·소식 범주7·부모2의 영어 직행을 고친다.
+- 실제 표시 생성자와 번역을 함께 다루며, 원래 KO/EN·게임 상태·기존 기록·공개 데모는 보존한다.
+- source history 도구7 연결은 옛 whole/fixture를 복제하거나 완화하지 않기 위한 범위다.
+- ROOT 표시/JA/CN, Plato 검사 연결, Rawls TW/격리 component, Poincare 독립 검수.
+  아직 제품 수정·신규 수용0, 공식39265/b111/meta9·본편HOLD다.
+
 ## 2026-09-20 (Codex — 이야기 카드·생각 정리 번역 마감)
 
 - [265](queue_archive/ORDER-265.md): 제품17273e6·clean검토ccfa03a, Poincare 단위GO/필수0.
