@@ -1,41 +1,32 @@
 # Gangnam Dream Work Log
 
-> 이전 WORK와 이번 선언·첫 실패·재개·수용 원문은 [265 보존본](queue_archive/ORDER-265.md)에 있다.
-> 과거 보존본 링크도 원문대로 유지했으며 완료 기록을 축약해 대체하지 않았다.
+> 이전 WORK·이번 선언과 검수 원문은 [267 보존본](queue_archive/ORDER-267.md)에 있다.
+> 기존 보존본 링크와 첫 검수의 지적은 원형 그대로 이어진다.
 
-## 2026-09-20 (Codex — 새 게임 기록 언어 전달 착수)
+## 2026-09-20 (Codex — 새 게임 기록 다국어 전달 마감)
 
-- [267](queue_active/ORDER-267.md): 출발 상태2·소식 범주7·부모2의 영어 직행을 고친다.
-- 실제 표시 생성자와 번역을 함께 다루며, 원래 KO/EN·게임 상태·기존 기록·공개 데모는 보존한다.
-- source history 도구7 연결은 옛 whole/fixture를 복제하거나 완화하지 않기 위한 범위다.
-- ROOT 표시/JA/CN, Plato 검사 연결, Rawls TW/격리 component, Poincare 독립 검수.
-  표시 코드·검증 초안을 준비했고 언어33/격리 fixture는 사전 독립 검수했다.
-  실제 원문 수집·언어33 L1·수용27을 마쳤다. 코드/격리 실행의 최종검증은 남아 있다.
-  공식39292/b112/meta9·본편HOLD다. 기존 투자/건강6은 중복 수용하지 않았다.
-
-## 2026-09-20 (Codex — 이야기 카드·생각 정리 번역 마감)
-
-- [265](queue_archive/ORDER-265.md): 제품17273e6·clean검토ccfa03a, Poincare 단위GO/필수0.
-- 중국어36누락과JA5표현을 수리했다. 실제18키/24호출·독립54·정식receipt3·고유12 PASS.
-- 공식39265/b111/meta9(JA13087/CN13089/TW13089). 기존39211 원장·선택 외 UI 보존.
-- 원래50/4실패와 [266 검사 수리](queue_archive/ORDER-266.md)를 보존했다.
-- 실제화면·원어민·인간플레이·물리패드는 이번 증거가 아니다. 공개GO1·인간OPEN45·본편HOLD 유지.
-- 이전 push 중복 ref-lock 거절은 두 원격e007 exact 확인으로 정리됐다. 유실·강제push0, 상세는 보존본.
+- [267](queue_archive/ORDER-267.md): 제품3ece4b3·clean검토4bfa395, Poincare 단위GO/필수0.
+- JA·간체·번체 새게임 출발/소식 기록 생성자와 번역을 연결했다. 독립33, 신규27·기존6재사용.
+- 공식39292/b112/meta9. 기존39265 현재해시·원장/UI 원문 보존, 전체L1 반복0.
+- 첫18은15통과/3실패를 보존하고 원인2개를 수리했다. 원36+보충12+위임4 포함 영향8검사가 통과했다.
+- 격리component104는현재34입력바이트동일로재사용했다. 기존 기록·게임 상태·KO/EN 유지 범위이며 화면/인간 관찰은 아니다.
+- 공개GO1·인간OPEN45·본편HOLD와 출시 권한0 유지.
 
 ## 다음 안전한 범위
 
-- Story 카드·습관·생각 라벨18/54는265에서 수용했다. 공유 `대기`는 여전히 제외한다.
-- 같은 커피 사건제목3의 잔 수 오독은 `post264-coffee-event-title-followup.json`(a922201e).
-  기존 수용3 수리이며 신규 번역건수로 더하지 않는다. 별도 숫자계약도 선언 후 다룬다.
-- 새 게임 기록의 profile/theme 영어 직행은 `post265-profile-theme-scope.json`(ebb25b37).
-  실제 소스 호출경로만 확인했다. 인수9+부모2 검토와 GameState 표시소비자·기존 해시계약
-  수리가 필요하며 사전만 추가해 완료로 세지 않는다. 기존 기록 언어변환·휴면route4는 제외다.
-- 계획은 `.git/full-game-localization/`에 있다. 먼저 전체 문맥을 읽고 새 큐/소유권 선언 뒤 구현한다.
-  현재 구현·수용0이며 원어민·실제 화면 판정을 대신하지 않는다.
+- 2026-09-20 번역 지연 지적을 우선한다. 비보호 shipping 사건의 미수용은0이다.
+  앞서 잔여로 센843은 비활성 참고741·보호 데모102이며 자동 저작 대상이 아니다.
+  실제 중국어 UI 누락 초안을 먼저 채운다. 초안9월23일은 연속 작업 전제의 추정이며
+  최종 검수·출시 완료 약속이 아니다.
+- 커피제목3 후속은 `post267-coffee-event-title-scope.json`(821fdbe4)에 준비했지만 보류한다.
+  weight0와 별개로 scripted StoryMode 유입 코드가 있어 비도달로 단정하지 않는다.
+- Story 카드18/54는[265](queue_archive/ORDER-265.md)에서 수용했다. 공유 `대기`는 여전히 제외한다.
+- 생성 시점의 기록만 이번에 고쳤다. 기존 기록의 소급 언어 변환·휴면route4 메뉴 복원은 범위 밖이다.
+- 격리 실행에서 기존 KO `직장와` 조사 오류를 실제로 읽었다. KO 원형을 바꾸지 않는 이번
+  범위 밖이며 별도 조사 연결 수리 후보다. 원문은 repaired runtime의 ko/default_new_run이다.
 
 ## 이어보기
 
-- 커피 차수 검사: [264](queue_archive/ORDER-264.md), source3bcc93f, 독립GO/필수0. 최초60/46·fullself263·ZH12446·보존 PASS.
-- 소지품 메뉴 안내: [262](queue_archive/ORDER-262.md), sourced4c08db/검토a04a20a, 기존5언어 선물 분류명으로 교체.
-- 저장 물건명 갱신: [261](queue_archive/ORDER-261.md), source7bbe8de/검토648167a.
-- 이전 CI 수리: [243](queue_archive/ORDER-243.md), 역사 source33179 한정.
+- [265](queue_archive/ORDER-265.md) 이야기 카드·습관·생각 라벨, [266](queue_archive/ORDER-266.md) 관계 괄호 검사.
+- [264](queue_archive/ORDER-264.md) 커피 차수 검사, [262](queue_archive/ORDER-262.md) 선물 메뉴 안내,
+  [261](queue_archive/ORDER-261.md) 저장 물건명 갱신, [243](queue_archive/ORDER-243.md) 역사 CI 수리.

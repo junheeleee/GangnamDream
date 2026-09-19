@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-267",
+  "scope": "work_unit",
+  "authority": "user_delegated_agent_final",
+  "reviewer": "Poincare",
+  "decided_at": "2026-09-20",
+  "subject": {"kind": "source", "commit": "3ece4b3547be28efa021f6bfe318f219df4e1bd1", "tree": "b95da1bbbeec57fd49508cdd5ccc85d1ca00b86e", "manifest_sha256": null},
+  "review": {"commit": "4bfa395f3497a0933df9197a92d7e7dee2386ceb", "tree": "72521ce4af3e90ca80d73c5900cbb4d472ae0ee1", "clean": true},
+  "verdict": "GO",
+  "required": [],
+  "decision": "LOCAL work_unit267 GO on this exact document-only successor. The independently reviewed product/evidence of original298e is reused unchanged; CLAUDE is source-affecting, not metadata-exempt. Its bounded status-paragraph compression and actual context retry resolve the newly observed document-budget failure.",
+  "population": {
+    "successor_delta": "RO Git verifies that original reviewb8ff to current4bfa changes only CLAUDE.md and docs/STATUS.md. CLAUDE changes only the latest status paragraph,18118 to17948 bytes, preserving priority, denominator boundaries, estimate versus commitment and fullHOLD. Detailed facts remain in unchanged backlog. Current source3ece to review4bfa differs only in STATUS.",
+    "reused_product": "Original independent language33, official new27/reuse6 and portable39292, source36+repair12+delegation4, affected8 and repaired runtime104 remain as reviewed in original298e and bindingf589. No new product, runtime or translation test is claimed. Original named8 actually ran atb8ff; runtime104 at306efca; preservation second at3adb. Product input equality follows the exact two-document Git delta, not a purported rerun.",
+    "new_actual": "Context-first66028d failed on CLAUDE18118 >18000, exit1,0.314225708s,1202 inputs unchanged. It remains preserved. Context-second28d95e ran at clean4bfa,exit0,0.305886958s,1202 unchanged,empty stderr; docs384/classified384/links143/boot29707. Existing closure metadata was restored to the original review before this successor: no ledger/public/archive/queue delta remains in the observed comparison."
+  },
+  "reused_review": {
+    "path": ".git/full-game-localization/order267-final-report-private.json",
+    "sha256": "298e7cc94f715f033ff385bbfa9afd7aeb70022c45bc7682c477cc30fc7a06fd",
+    "subject_commit": "f2a121921bb04005268b24f7780a2428b09a608a",
+    "review_commit": "b8ff803d66399a4a9cd086706d6dde1e97440eb9",
+    "successor_changed_paths": ["CLAUDE.md", "docs/STATUS.md"],
+    "boundary": "One explicitly inspected source-document successor only; not a general documentation exemption or automatic GO inheritance. Original final report and binding remain byte-exact."
+  },
+  "evidence": {
+    ".git/full-game-localization/order267-final-report-private.json": {"bytes": 6956, "sha256": "298e7cc94f715f033ff385bbfa9afd7aeb70022c45bc7682c477cc30fc7a06fd"},
+    ".git/full-game-localization/order267-final-binding.json": {"bytes": 3613, "sha256": "f5898a4380f258d2e950818478d3c4eda12d054ee253080dde82b0243e99421e"},
+    ".git/full-game-localization/order267-close-context-first.json": {"bytes": 377704, "sha256": "66028d8202cc46c146958891c3b6338f7ba545dcb41ce6881e8e197717fe301e"},
+    ".git/full-game-localization/order267-close-context-second.json": {"bytes": 377290, "sha256": "28d95edc56a8f3ded0b22e289411e95f8a0f811260826623c51c25c0b0ab4dc8"}
+  },
+  "closure_helper_review": {"path": ".git/full-game-localization/order267-repair-close.py", "sha256": "1ca627644c0534270534c54c1b3f062131506d8e1d172ab23227b87044d657e6", "required": [], "boundary": "Read the limited successor delta: current report/head still mandatory, old named head fixed to b8ff, diff permits only the independently reviewed CLAUDE/STATUS pair and all other named inputs are rehashed. First context failure is SHA-bound; second PASS and original execution identity are reported separately. No helper execution by reviewer."},
+  "limits": "All original report failures and limitations remain: first runtime strict-JSON failure, first named15/3, preservation assumption failure, expected warning6, partial JA/ZH coverage, historical-view versus current execution and no blanket all18 rerun. This review did not repeat product analysis, modules, QA, collector or engine execution, and made no product/ops/Git changes. Subsequent closure checks remain separate.",
+  "unobserved": ["native_reader", "human_playtest", "physical_controller_feel", "rendered_ui", "full_product_GO", "release_approval"],
+  "norm": "One-time declared unit judgment only. 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다. 공개GO1·인간OPEN45·본편HOLD remain unchanged."
+}
