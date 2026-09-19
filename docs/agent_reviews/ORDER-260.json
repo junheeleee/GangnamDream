@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-260",
+  "scope": "work_unit",
+  "authority": "user_delegated_agent_final",
+  "reviewer": "Poincare",
+  "verdict": "GO",
+  "required": [],
+  "subject": {
+    "kind": "source",
+    "commit": "9c2abe89e740cb2501ddcf2aad8c12db8b3b6713",
+    "tree": "8b64087f7a9b332f2e4065daf1771627f3e1b513",
+    "manifest_sha256": null
+  },
+  "review": {
+    "commit": "9baa826999bd4dbc54b1fd4b7140b6844c010962",
+    "tree": "58426766b508c822cc42b08929bfc83a96342583",
+    "clean": true
+  },
+  "decision": "ORDER-260 LOCAL work_unit GO for the declared16 inventory/gift-name UI keys and48 machine acceptances. Required0. Japanese2 semantic changes, Japanese14 retained and Chinese32 additions are bound to approved values, actual receipt48, old39103 preservation and the first actual fixed12 PASS. This is not live inventory/item-use/gift-delivery, rendered/native/human/controller, remote-release or full-product GO.",
+  "population": {
+    "language": "16 direct Korean sources ×3 locales=48. Rawls author, Plato independent language reviewer; Poincare reread all48 approved values and actual Main literals. JA 선물:先物→贈り物 and 간직한 물건:所持品→大切にしている物; other14 retained. CN/TW16 each appended.",
+    "source": "Actual collector16 unique unprotected legacy leaves; parser16 calls: sidebar7/gift-name9. %s before %d, LF1 and AP1 retained. Gift catalog8 names are supporting context, not additional acceptances.",
+    "acceptance": "39103→39151, batches108→109; JA13049/CN13051/TW13051, retained metadata9. All source/response48 and actual3 receipt hashes match approved/current UI. Old39103 portable whole raw restores exactly; UI3 inverse leaves unselected bytes intact.",
+    "qa": "First new48 L1 and final new48/old39103 current-hash preservation PASS. First actual fixed12 all exit0: fullself262, JA146/UI2974, ZH12446 skeleton, EN/story/registry/queue/agent/context. Raw streams and final1595 pins checked; every outer1194 set unchanged.",
+    "inherited": "No old39103 whole translation L1 rerun. Prior whole39076 plus ORDER259 new27/old39076 preservation is inherited through unchanged old receipt values, current source/target hashes and unchanged code/checkers. This unit does not reapprove every historical test design.",
+    "ownership": "11 changed paths ⊂ declared14; products only UI3 and portable. Existing scope/checkers/gameplay/project/human evidence and old45 decisions unchanged. CLAUDE/backlog truthful source updates are included in source9c2abe8; review9baa826 is STATUS-only."
+  },
+  "findings": [
+    "Source resolver and exact Git/current-file observations agree. All1194 product pins from each execution epoch match its historical commit; final named1595 match before/after/current files and review Git blobs.",
+    "All official export/check/import first runs used clean9f44c40, three locales each16, check/import changed_files0. Pre-edit c6c5c9c exports are distinct; only previous-target hashes change for JA2/CN16/TW16. UI/portable emitted patches independently replay to final raw bytes.",
+    "Named B1 ownership conflation was corrected during static preparation, without execution. B1 is preserved; reviewed B2 separates the unchanged news lane's unique12 list from this unit's14 owned paths. Gate/baseline reversal reproduces B2; no actual260 failed run.",
+    "Fullself stderr363 bytes is unittest progress and OK, not empty; other11 stderr empty. Registry18 EXTRA advisories and ZH direct-English-bypass13/shipping0 remain. Collector17484 and unsupported138/22/329 are unchanged.",
+    "Held 선물 — 사람 메뉴에서 전달, nongift stored-name relocalization and existing item-use/auto-active behavior remain outside the repair. No new gameplay fact or runtime observation is inferred."
+  ],
+  "evidence": [
+    {
+      "path": ".git/full-game-localization/order260-final-independent-binding.json",
+      "bytes": 15037,
+      "sha256": "6ca5816132b4e4bea462b6c8af8f23d5a576a73c401e6481f2cb7c404385e60f",
+      "meaning": "Direct formal receipt/UI/portable inverse, execution streams, source/ownership/current pin calculations and all phase references."
+    },
+    {
+      "path": ".git/full-game-localization/post259-inventory16-language-independent-review.json",
+      "sha256": "daaa7e1cdbb82384bd5c285e6138fe1491e26c8d7885409dcddb276be67ef84e",
+      "meaning": "Non-author full48 language review of approved2084497f; roles kept separate from helper authorship."
+    },
+    {
+      "path": ".git/full-game-localization/order260-preservation-first.json",
+      "bytes": 375991,
+      "sha256": "4df779c26ed7c1e6b75a4dec44e00d679f9c7d988a27a2a2f0a678f7aad292ba",
+      "meaning": "6.143445208s; actual new48 L1 plus old39103 current hash preservation;1194 unchanged, errors0."
+    },
+    {
+      "path": ".git/full-game-localization/order260-named-first.json",
+      "bytes": 1131720,
+      "sha256": "ca9206ae0e9a324e1818a481d66d9cef932495f413c0aa38b2fac2bbc5453da7",
+      "meaning": "99.174603416s; actual unique12 all PASS,1595 unchanged; complete individual child stdout/stderr pipe bytes."
+    },
+    {
+      "path": ".git/full-game-localization/order260-named-outer-first.json",
+      "bytes": 377101,
+      "sha256": "ce1fda3d702ca394960e0c71be1319d2bdc19c1737bbce2b84100ee8363ef5d1",
+      "meaning": "99.470085541s; outer exit0 and1194 unchanged."
+    },
+    {
+      "path": "content/meta/full_game_localization.json",
+      "bytes": 10185427,
+      "sha256": "151990c89d77ffa7c5c7177b963a7b05526372264bc3a79d5418d90b09bc89c8",
+      "meaning": "Final39151/b109; accepted digest5ae5804f969a813a532029c38537ad2eaf5d10b7f584704058e9900fc7dd1b9c; full old39103 inverse exact."
+    }
+  ],
+  "unobserved": [
+    "actual_inventory_panel_interaction",
+    "live_inventory_name_relocalization",
+    "actual_item_use",
+    "gift_purchase_and_delivery",
+    "actual_rendered_fit",
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "new_remote_CI_or_release_approval",
+    "full_product_GO"
+  ],
+  "operations": "Independent read-only Git/files/standard-library calculations only; own private reports written. No product/ops changes, repository imports, QA/collector/engine runs or remote calls by reviewer. Existing publicGO1/humanOPEN45/full-product HOLD preserved."
+}

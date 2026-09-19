@@ -1,3 +1,49 @@
+# ORDER-260 — 소지품·선물 이름 번역·공식 수용 결과
+
+[x] ORDER-260 — 2026-09-19. Poincare LOCAL work_unit GO.
+
+제품 source 9c2abe89e740cb2501ddcf2aad8c12db8b3b6713 / tree 8b64087f7a9b332f2e4065daf1771627f3e1b513
+clean 검토 9baa826999bd4dbc54b1fd4b7140b6844c010962 / tree 58426766b508c822cc42b08929bfc83a96342583
+
+## 결과와 관측 경계
+
+ORDER-260 LOCAL work_unit GO for the declared16 inventory/gift-name UI keys and48 machine acceptances. Required0. Japanese2 semantic changes, Japanese14 retained and Chinese32 additions are bound to approved values, actual receipt48, old39103 preservation and the first actual fixed12 PASS. This is not live inventory/item-use/gift-delivery, rendered/native/human/controller, remote-release or full-product GO.
+
+- language: 16 direct Korean sources ×3 locales=48. Rawls author, Plato independent language reviewer; Poincare reread all48 approved values and actual Main literals. JA 선물:先物→贈り物 and 간직한 물건:所持品→大切にしている物; other14 retained. CN/TW16 each appended.
+- source: Actual collector16 unique unprotected legacy leaves; parser16 calls: sidebar7/gift-name9. %s before %d, LF1 and AP1 retained. Gift catalog8 names are supporting context, not additional acceptances.
+- acceptance: 39103→39151, batches108→109; JA13049/CN13051/TW13051, retained metadata9. All source/response48 and actual3 receipt hashes match approved/current UI. Old39103 portable whole raw restores exactly; UI3 inverse leaves unselected bytes intact.
+- qa: First new48 L1 and final new48/old39103 current-hash preservation PASS. First actual fixed12 all exit0: fullself262, JA146/UI2974, ZH12446 skeleton, EN/story/registry/queue/agent/context. Raw streams and final1595 pins checked; every outer1194 set unchanged.
+- inherited: No old39103 whole translation L1 rerun. Prior whole39076 plus ORDER259 new27/old39076 preservation is inherited through unchanged old receipt values, current source/target hashes and unchanged code/checkers. This unit does not reapprove every historical test design.
+
+신규48 L1 및 old39103 현재해시 보존 첫4df779c2(6.143445208초·1194불변),
+고유12 첫ca9206ae(99.174603416초·1595불변), 외부ce1fda3d(1194불변)를
+독립6ca58161에 결속했다. 사전 named B1의 ownership 혼동은 실행 전에 수리했다.
+실제260 실패0이며 이전259의 순서·문서크기 실패는259 증거로 별도 보존한다.
+
+실제 물건 사용·선물 전달·언어전환 표시·렌더·원어민·인간 플레이는 미관측이다.
+공개 GO1·인간 OPEN45·본편 HOLD를 유지하며 외부 출시 판정은 만들지 않는다.
+
+규범 분류: 기존 현지화·검수 계약의 일회성 적용이며 새 영구 규칙0이다.
+
+[독립 최종 보고](../agent_reviews/ORDER-260.json) · SHA c05cf0d5612644e303d161553e1571a124669bc0a6a030eaad74215bd8f34485
+
+## WORK 착수·수용 원문 보존
+
+아래 링크 표기는 당시 WORK의 원형이다. 현재 사양 원문은 이 문서의 마지막 절에 보존한다.
+
+## 2026-09-19 (Codex — 소지품 번역 착수)
+
+- [260](queue_active/ORDER-260.md): JA2 의미수리·CN/TW각16, 고유16/48만 맡는다.
+- 공식39103 유지. 비도달 전달안내·저장 물건명 갱신은 별도이며 본편HOLD다.
+
+## 2026-09-19 (Codex — 소지품48 공식 수용)
+
+- clean9f44c40 exportfc7d1daf/check3c61ec9f/import49c96800 첫PASS·1194불변.
+- receipt48·portable83fd5c7c 결속으로39151/b109/meta9, old39103 raw역복원exact.
+  신규48/기존해시 보존·고유12·최종독립은 후속 exact 증거가 소유한다. 본편HOLD 유지.
+
+## 선언·진행 원문 보존
+
 # 소지품·선물 이름의 일본어·중국어 번역
 
 #### [~] ORDER-260 소지품 번역

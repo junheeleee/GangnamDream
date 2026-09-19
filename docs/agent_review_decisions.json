@@ -1925,6 +1925,50 @@
         "path": "docs/agent_reviews/ORDER-259.json",
         "sha256": "7177d4fd3f022cf1715a04580e009618bc3d57569eafc0e1ac075259280ea4d4"
       }
+    },
+    {
+      "id": "order-260-source-9c2abe8-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-19",
+      "decided_by": "Poincare",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-260",
+      "subject": {
+        "kind": "source",
+        "commit": "9c2abe89e740cb2501ddcf2aad8c12db8b3b6713",
+        "tree": "8b64087f7a9b332f2e4065daf1771627f3e1b513",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-260.json",
+          "sha256": "c05cf0d5612644e303d161553e1571a124669bc0a6a030eaad74215bd8f34485"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/queue_archive/ORDER-260.md",
+          "sha256": "9500c95ef7ebd557ea0ada08c339055dfc553f6afbfb64db87f9c82b2a42f91b"
+        }
+      ],
+      "unobserved": [
+        "actual_inventory_panel_interaction",
+        "live_inventory_name_relocalization",
+        "actual_item_use",
+        "gift_purchase_and_delivery",
+        "actual_rendered_fit",
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "new_remote_CI_or_release_approval",
+        "full_product_GO"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-260.json",
+        "sha256": "c05cf0d5612644e303d161553e1571a124669bc0a6a030eaad74215bd8f34485"
+      }
     }
   ]
 }
