@@ -857,5 +857,15 @@
   "외부 충격으로 시장이 흔들렸다. 이번 달 투자 위험 대폭 상승.": "外部衝擊使市場動盪。這個月的投資風險大幅上升。",
   "몸의 경고": "身體的警訊",
   "몸이 갑자기 말을 듣지 않았다. 잠을 자도 손끝의 떨림과 무거운 숨이 남았다.": "身體突然不聽使喚。睡過之後，指尖仍在顫抖，呼吸依然沉重。",
-  "시장 국면 전환: %s": "市場局勢轉變: %s"
+  "시장 국면 전환: %s": "市場局勢轉變: %s",
+  "[b]경마장[/b]   ·   제%d경주   ·   %dm   ·   마장 %s": "[b]賽馬場[/b]   ·   第%d場   ·   %dm   ·   場地 %s",
+  "현금 [b]%s[/b]      중독도 [color=%s]%s[/color] %d/100      안목(지력) %d": "現金 [b]%s[/b]      成癮程度 [color=%s]%s[/color] %d/100      眼光(智力) %d",
+  "   말 〔최근전적·선호〕  ·  클래스 거리 마장 기수  ·  단승배당   (★높은데 배당도 높으면 = 저평가)": "   馬匹 〔近期戰績·偏好〕  ·  級別 距離 場地 騎師  ·  獨贏賠率   (★高且賠率也高 = 被低估)",
+  "  [color=#6cc5ff]정보상 지목[/color]": "  [color=#6cc5ff]情報商推薦[/color]",
+  "  [color=#f0c45d]저평가[/color]": "  [color=#f0c45d]被低估[/color]",
+  "[color=#ffe14d]선택[/color] ": "[color=#ffe14d]已選[/color] ",
+  "[color=#5a6478]    최근 %s · %s · 선호 %dm/%s/%s[/color]": "[color=#5a6478]    近期 %s · %s · 偏好 %dm/%s/%s[/color]",
+  "신마": "新馬",
+  "%s[color=%s]●[/color] [b]%s[/b]   [color=#c8a050]%s[/color] [color=#5d9ce8]%s[/color] [color=#5de89c]%s[/color] [color=#aaaaaa]%s[/color]   배당 [b]%.1f[/b]%s\n%s": "%s[color=%s]●[/color] [b]%s[/b]   [color=#c8a050]%s[/color] [color=#5d9ce8]%s[/color] [color=#5de89c]%s[/color] [color=#aaaaaa]%s[/color]   賠率 [b]%.1f[/b]%s\n%s",
+  "%d전 %d승": "%d戰%d勝"
 }
