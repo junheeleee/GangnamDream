@@ -4258,6 +4258,91 @@
       "machine_validation": "PASS",
       "rendered_review": "OPEN",
       "native_review": "OPEN"
+    },
+    {
+      "order": "ORDER-270",
+      "group": "ui",
+      "roots": [
+        "콘텐츠 안내",
+        "이해했습니다 ›",
+        "엔진 %d · 서체 %d패밀리/%d파일 · 오디오 출처 %d개/%d파일",
+        "방향키로 이동·스크롤  ·  Esc 닫기",
+        "라이선스·저작권 전문",
+        "버전",
+        "라이선스 원문",
+        "엔진 내장 구성요소 고지 동봉",
+        "이 출처를 사용한 게임 파일 · %d개",
+        "이전 삶에서 남긴 자금이 통장에 보태졌다.",
+        "예전 시장에서 익힌 감각이 손끝에 먼저 돌아왔다.",
+        "전에 익힌 생각의 순서가 이번에도 낯설지 않았다.",
+        "처음 보는 얼굴 사이에서도 말문이 조금 빨리 트였다.",
+        "첫날의 숨이 전보다 가볍게 이어졌다.",
+        "낯선 우연 하나가 먼저 자리를 내주는 기분이었다.",
+        "다시 시작하는 아침에도 숨이 고르게 이어졌다.",
+        "🏆 이전 삶에서 익힌 것이 따라왔다. %s",
+        "가정을 이룬 사람",
+        "누군가의 사람",
+        "신흥 자산가",
+        "중산층 진입",
+        "취업 준비생",
+        "서울 상경 초보",
+        "서울 생존자",
+        "🏦 대출 이자 %s 납부 (원금 %s, 신용 %d등급).",
+        "💸 수입이 없다. 통장 잔고가 줄어가는 게 느껴진다.",
+        "🏚 고시원 생활: 옆방 소음, 공용 화장실... 정신이 갉아먹힌다.",
+        "📞 아버지와 짧은 통화. 별 말은 없었지만 바닥이 생긴 기분이다.",
+        "💬 잠들기 전 주고받은 메시지 몇 줄이 하루를 닫아준다.",
+        "🏢 임상철의 지나가는 말들이 어느새 감각이 되고 있다.",
+        "🎰 '딱 한 번만 더.' 그 생각이 오늘도 머릿속을 맴돌았다.",
+        "🎰 다음 판이 자꾸 눈에 밟힌다.",
+        "🆘 잔고가 마이너스다. 이러다 진짜 쫓겨난다.",
+        "😰 잔고가 다음 달 고정비 %s보다 적다.",
+        "비상금이 아직 고정비 3개월치에 닿지 않았다.",
+        "고정비 3개월치가 현금으로 남았다. 이제야 한 달을 잃어도 즉시 무너지지 않는다.",
+        "💼 취업: %s",
+        "💼 이직: %s → %s",
+        "⬆ 승진! %s  월급 +%s",
+        "⬆ 승진 (%d/%d): 월급 +%s",
+        "주문창을 다시 보니, 수익보다 먼저 투입 현금으로 열리는 두 배 포지션의 크기가 눈에 들어왔다.",
+        "같은 차트에서 어제 지나친 거래량과 오늘의 빈 구간이 함께 보였다.",
+        "상승 주문을 보기 전에 반대쪽 주문창에서 빠져나올 자리를 먼저 찾았다.",
+        "두 번째로 읽자 문장 사이에서 빠진 근거가 먼저 걸렸다.",
+        "숫자표를 펼치자 이익보다 현금이 어디서 들어와 어디로 나갔는지가 먼저 보였다.",
+        "예측을 적기 전에, 그 예측이 틀릴 자리를 빈칸으로 남겨 두었다.",
+        "먼저 안부를 묻는 사람이 하나씩 늘기 시작했다.",
+        "낯선 모임에서 누군가 가방을 치우고 옆 의자를 내주었다.",
+        "소개가 끊기기 전에, 맞은편 사람이 다음에 만날 이름을 먼저 적어 주었다.",
+        "💰 자산 1천만원 돌파!",
+        "💰 자산 5천만원 돌파!",
+        "🏆 자산 1억 돌파! 진짜 시작이다.",
+        "🔥 자산 5억! 강남이 보인다.",
+        "💎 자산 20억! 강남드림이 보인다.",
+        "🔎 단서 발견: %s",
+        "💭 생각 정리 시작: %s (%d주)",
+        "💡 결론에 도달: %s",
+        "강남은 왔지만, 화면은 닫힌다.",
+        "돈보다 먼저 지킨 것들이 남았다.",
+        "목적지가 아니라 함께 있는 장면으로 끝난다.",
+        "아름다운 승리와 위험한 공허가 같은 거울에 비친다.",
+        "마지막 사다리를 치우고, 빚보다 무거운 것을 내려놓았다.",
+        "오늘도 동그라미 하나. 작지만 가장 어려운 승리.",
+        "강남은 끝이 아니라, 무엇을 남겼는지 묻는 장면이 되었다.",
+        "성공은 도착했다. 이제 남은 것은 그 성공의 모양이다.",
+        "강남드림은 모양을 바꾸었다. 그래도 삶은 여기까지 왔다.",
+        "전설은 아니었다. 하지만 이 결말도 한 사람의 생활이다.",
+        "이 삶은 여기서 멈춘다. 남은 것은 대가의 기록이다.",
+        "서랍 깊은 곳. 오래된 등기부등본 한 장.\n\n지연이 그것을 접어, 다시 넣었다.\n\n— 그녀는 처음부터 알고 있었다."
+      ],
+      "source_leaves": 69,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 69,
+        "zh-TW": 69
+      },
+      "source_review": "Direct Korean independent Chinese74 each, 21 current status/month-end record/ending UI groups. Accepted69 each/20 groups only; five each/one group machine-boundary HOLD for source fraction parsing. Original148 not machine PASS. Existing39614 and Japanese/source/runtime/public bytes preserved. No native/render/human approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN"
     }
   ],
   "accepted": {
@@ -109683,6 +109768,282 @@
       "ui:이해했어요:/이해했어요": {
         "source_sha256": "2c3f3d246d1fa769b9089f72c50c7b7f2396721f804f7f4414fed4725207e10b",
         "target_sha256": "6684eba84298c6c82228979a75c2d82e788b9fd738f1258c9a05947203d3d561"
+      },
+      "ui:콘텐츠 안내:/콘텐츠 안내": {
+        "source_sha256": "11b7ee48b8acfcb9a1fb693d738b9c140597f719bbfffba9686bae7c8ca9ef86",
+        "target_sha256": "4f0e4d4c9d1cbedf83a6a683999e3ed117871223bc8b7f4d64249d7ee3d6e85f"
+      },
+      "ui:이해했습니다 ›:/이해했습니다 ›": {
+        "source_sha256": "f7881846166425219bc185cd4dea8332d7812f5d60cf39bb355570a6b58b1f74",
+        "target_sha256": "3e036fecf069053d7eed96444782ef7ba7d081ba4b0819869bf803c5855c3d08"
+      },
+      "ui:엔진 %d · 서체 %d패밀리/%d파일 · 오디오 출처 %d개/%d파일:/엔진 %d · 서체 %d패밀리~1%d파일 · 오디오 출처 %d개~1%d파일": {
+        "source_sha256": "c617cda4dfeccba4ca26d7809bf463816bec9916b667ca26f462ff9aacd6f208",
+        "target_sha256": "08b7e63a3d109a9de4198864cbbf4ad0c970c68dfdc4824e6c4c9c1fdcbe4b0f"
+      },
+      "ui:방향키로 이동·스크롤  ·  Esc 닫기:/방향키로 이동·스크롤  ·  Esc 닫기": {
+        "source_sha256": "0fe73fe9a5012a1865b41fc9aa0ae9122b7c6ae957c3a7474e31210cf50b9c3c",
+        "target_sha256": "84bb06e36fc175fdc9706a69ce59eedd1555a1e2ae30af8ca844223edfdf2dc5"
+      },
+      "ui:라이선스·저작권 전문:/라이선스·저작권 전문": {
+        "source_sha256": "5ce85f27cc33a1b96e8539da8c44934fe539f9de7cf98f7a27d27234fef6437a",
+        "target_sha256": "1d38f440eb1813b61573d99b9d3cbea26623fbc4a8e8e90d57d4062996693fa7"
+      },
+      "ui:버전:/버전": {
+        "source_sha256": "ec21103c70a8d450c8713f7b901dc246b4018058cd513936e9f54b33072f7dc9",
+        "target_sha256": "d5a6508a6c82353874d1388ca8f9acd85377b690cd115003028bd95504f8d18a"
+      },
+      "ui:라이선스 원문:/라이선스 원문": {
+        "source_sha256": "be5a1e715d45d262e5d81e0cf722d5971fdd4cab85a1b2c64d342f8e3a5561de",
+        "target_sha256": "b0d31c82b79c1f91f41b92a61150fbd384237175a3ca3628170ce35afb8816ad"
+      },
+      "ui:엔진 내장 구성요소 고지 동봉:/엔진 내장 구성요소 고지 동봉": {
+        "source_sha256": "6d265cbbd2a09eba75ede84308abbc6918271d8060afd336285a82dd6e9ae478",
+        "target_sha256": "62eeeb5a1142156b3b25c68d282fd6a09c8ca771c864614a30fbd44a68163e1e"
+      },
+      "ui:이 출처를 사용한 게임 파일 · %d개:/이 출처를 사용한 게임 파일 · %d개": {
+        "source_sha256": "36fcffa7ace40edce388975f8003c35218ab145b8b21402eab29f9967ccd4a3b",
+        "target_sha256": "a2461cc6653669aca12db42ea57591a7d4fb18921fc920a8e2a49b57e7fb6e65"
+      },
+      "ui:이전 삶에서 남긴 자금이 통장에 보태졌다.:/이전 삶에서 남긴 자금이 통장에 보태졌다.": {
+        "source_sha256": "37a15506ba7065869d142bd65ee5663c959f3ec3bafd5da9edde7845aebc1a7b",
+        "target_sha256": "ba21ecc3534dbd5fabe37d33162da9e73d22e197bd11e1f18245dfd42fe66e47"
+      },
+      "ui:예전 시장에서 익힌 감각이 손끝에 먼저 돌아왔다.:/예전 시장에서 익힌 감각이 손끝에 먼저 돌아왔다.": {
+        "source_sha256": "b293fd15cf1c91af455764d799dbee81894717b9bd60ba172991ba9ea23961a4",
+        "target_sha256": "8cdd7cc1b1c52a51eaae041144d221d1385909dcdc5c7ea5db23224c486c3e37"
+      },
+      "ui:전에 익힌 생각의 순서가 이번에도 낯설지 않았다.:/전에 익힌 생각의 순서가 이번에도 낯설지 않았다.": {
+        "source_sha256": "a330120caec955d1c1e514364566749b8cd0b57236109801a56d12255294c8b3",
+        "target_sha256": "c215c2d34358670c671c71705b5fbe44f27f8416f38401de45799f73e6e15aee"
+      },
+      "ui:처음 보는 얼굴 사이에서도 말문이 조금 빨리 트였다.:/처음 보는 얼굴 사이에서도 말문이 조금 빨리 트였다.": {
+        "source_sha256": "94aee4f0e4a304999caa3c0f7590f30fca538214275bda64248217dc008d5966",
+        "target_sha256": "8675beed16c69a1c5eae346ac1996a36611114de10e74b54f5b0de0ff2a4f9ad"
+      },
+      "ui:첫날의 숨이 전보다 가볍게 이어졌다.:/첫날의 숨이 전보다 가볍게 이어졌다.": {
+        "source_sha256": "9043f0870b94fdd0857a56a268eb4c8205e561ed82db20911bc24cfc53ff15f5",
+        "target_sha256": "75590d12af6e7895ccee5ab3cc735a9c3d54259bbaa87a61c43300f1612cf665"
+      },
+      "ui:낯선 우연 하나가 먼저 자리를 내주는 기분이었다.:/낯선 우연 하나가 먼저 자리를 내주는 기분이었다.": {
+        "source_sha256": "5e7823b9fd1d58f2b9873d6a59d20bc9c3e39b88525cf2413c776dc7d114d9e1",
+        "target_sha256": "ca2c9d5564a7855854cb14337e114f9818779bea41b3c876279b7dfa7c33f813"
+      },
+      "ui:다시 시작하는 아침에도 숨이 고르게 이어졌다.:/다시 시작하는 아침에도 숨이 고르게 이어졌다.": {
+        "source_sha256": "d6135908be25dad657d0034becdfbd5de903e0a500b705ecd2cc264b3800c297",
+        "target_sha256": "8289c229575d041570063a7aea6170ce33424317b8aa1d6559b3ca0c50720e8d"
+      },
+      "ui:🏆 이전 삶에서 익힌 것이 따라왔다. %s:/🏆 이전 삶에서 익힌 것이 따라왔다. %s": {
+        "source_sha256": "a969c2d30854170fec807b043223541ff47c75cdce41df99d1eeea9e72e39a03",
+        "target_sha256": "734f470685d3b3865aa122b27d5fae52868195c64ee47839d7b3ae85a4174a94"
+      },
+      "ui:가정을 이룬 사람:/가정을 이룬 사람": {
+        "source_sha256": "025d79db35a64022cad10942b1885505aa074c8b1216c7e35431bfb121773564",
+        "target_sha256": "fbda9c160d53b7f9816b8f8b8ddb63cf2f1629f13537d6054efb10cf95c1f26c"
+      },
+      "ui:누군가의 사람:/누군가의 사람": {
+        "source_sha256": "fb875ebd93670d5b4863619cb0e96765f405d608bef07b6def18cc296a8f5811",
+        "target_sha256": "14ad56b2d19a1ef905a03fc75af2feb559f2e440e40dbf4fa922bd1950ce7531"
+      },
+      "ui:신흥 자산가:/신흥 자산가": {
+        "source_sha256": "46c32cde87b2ed77ad6b13456c17785e29f65e16411d1b6384e502a0294cdf9a",
+        "target_sha256": "1d41c43c3c4b72220193a4679e049b2ca5a26f96dc88b7020ac03001a390ac95"
+      },
+      "ui:중산층 진입:/중산층 진입": {
+        "source_sha256": "909140a3d880bdfa821039471a9199b6731a2aad408d3b65cf44c50db4fe636a",
+        "target_sha256": "a1597674d5d950ce97565a56b37c7fcd320eabfaaeceedb03497d1124c4855bd"
+      },
+      "ui:취업 준비생:/취업 준비생": {
+        "source_sha256": "02207ad2c05ce062bee82a4140185051f955a9cafedd05c159a634c370c5d486",
+        "target_sha256": "8a1e9fc31a967c08cb1135b92e42686e5959b24bf11ee566ae785ad085bb1b61"
+      },
+      "ui:서울 상경 초보:/서울 상경 초보": {
+        "source_sha256": "a144920350b27d72297c0c332b8273e0c3247592bf87ec667c6f8fe848638e25",
+        "target_sha256": "c84d564847fbc0dd2657995bca16d486b240c308b4a2f79f529492ed600a1497"
+      },
+      "ui:서울 생존자:/서울 생존자": {
+        "source_sha256": "ce6c65c0a8c04c6c7c80ccdcc4237a82868d30befd5da86eec840d0af288681e",
+        "target_sha256": "06a079c1989a01cb05109eba0c8a377a5c5fc157b29d8981001c0f73a864c870"
+      },
+      "ui:🏦 대출 이자 %s 납부 (원금 %s, 신용 %d등급).:/🏦 대출 이자 %s 납부 (원금 %s, 신용 %d등급).": {
+        "source_sha256": "309d1cbac39255dad11b12f6248c3683c33037c4976ad84fdc7ba326c280849e",
+        "target_sha256": "153fa499687dd516a37ac2de570fabc3087ac38f1e5a1bd71cd8f12eeccaddd2"
+      },
+      "ui:💸 수입이 없다. 통장 잔고가 줄어가는 게 느껴진다.:/💸 수입이 없다. 통장 잔고가 줄어가는 게 느껴진다.": {
+        "source_sha256": "b55ae84b40035e92429baf4d0fe32219364feac0f49cade29c33bdbc9ef9caef",
+        "target_sha256": "46a27c059d551b40aba59d090f56828b75ad4dbeaf99170979446124a85f88d6"
+      },
+      "ui:🏚 고시원 생활: 옆방 소음, 공용 화장실... 정신이 갉아먹힌다.:/🏚 고시원 생활: 옆방 소음, 공용 화장실... 정신이 갉아먹힌다.": {
+        "source_sha256": "63b6201d3770c849f36d5fc64d109792a474d450a9e709c89cab739e46e06d64",
+        "target_sha256": "fe60ebd15f6983a71aadaa105dcf9cea75bfe19bf3860da67ebd93ef5818173b"
+      },
+      "ui:📞 아버지와 짧은 통화. 별 말은 없었지만 바닥이 생긴 기분이다.:/📞 아버지와 짧은 통화. 별 말은 없었지만 바닥이 생긴 기분이다.": {
+        "source_sha256": "8f65ae30898499cf2184549b391f8053bf6c7dd1810873a22591bc620d34d164",
+        "target_sha256": "d7374345a2460fa2fb6e48d304ef6986afacf92577e86f5c5103965c17823efb"
+      },
+      "ui:💬 잠들기 전 주고받은 메시지 몇 줄이 하루를 닫아준다.:/💬 잠들기 전 주고받은 메시지 몇 줄이 하루를 닫아준다.": {
+        "source_sha256": "70de8f4b595edb4bef996842bb15fd456b587b6e4f1aa93394bb7dcc76ce0e8d",
+        "target_sha256": "11f06cfd18b7dce70b8e93e4bfcc1c85081e87601deed8e3c4c7b8adbe560c3d"
+      },
+      "ui:🏢 임상철의 지나가는 말들이 어느새 감각이 되고 있다.:/🏢 임상철의 지나가는 말들이 어느새 감각이 되고 있다.": {
+        "source_sha256": "d52ea2a69220ed8d77a0c2e0e66a70cd3d1d96e8fee597838d9e11284e12423e",
+        "target_sha256": "3f3337c996ecb906340f333dff96f46be69f987280e2494cfc8b244ba20bde9d"
+      },
+      "ui:🎰 '딱 한 번만 더.' 그 생각이 오늘도 머릿속을 맴돌았다.:/🎰 '딱 한 번만 더.' 그 생각이 오늘도 머릿속을 맴돌았다.": {
+        "source_sha256": "05526bb0eb7598c55dfc331d39220aa52a02d136105388e6b1af4381389ac331",
+        "target_sha256": "175d1c7df9a83c392e5664b3d65d14245c7622d03864090e819edd01ce29f287"
+      },
+      "ui:🎰 다음 판이 자꾸 눈에 밟힌다.:/🎰 다음 판이 자꾸 눈에 밟힌다.": {
+        "source_sha256": "8e97c1dc0cbc6c1cc578bb260daaac241c0597c5c4adeadf753fc39737b63e3e",
+        "target_sha256": "cd16a0a41cacf6c6b02b03cccb7cdf6a51fe0e9b0697c8e8658c0e614b4465fb"
+      },
+      "ui:🆘 잔고가 마이너스다. 이러다 진짜 쫓겨난다.:/🆘 잔고가 마이너스다. 이러다 진짜 쫓겨난다.": {
+        "source_sha256": "21d8f7490472577c513270daae5b915b47a4ab49f14566de8e1c755ac551196a",
+        "target_sha256": "e5f7999e05f52775d1c385199a9fbd97b4e5aa1c05544dc59b99337b7a1780b9"
+      },
+      "ui:😰 잔고가 다음 달 고정비 %s보다 적다.:/😰 잔고가 다음 달 고정비 %s보다 적다.": {
+        "source_sha256": "63b7e1f485f9ee7df48fa24e3fd489f64b738a726d114fc4a608b5a746dc234d",
+        "target_sha256": "0d02ff029f773ebce0a46c65f748875aab44b15daf9058a5076c37a351d0586d"
+      },
+      "ui:비상금이 아직 고정비 3개월치에 닿지 않았다.:/비상금이 아직 고정비 3개월치에 닿지 않았다.": {
+        "source_sha256": "548af196a62222ce73620d2e5e2ac982224f76582c85406cc7dd6330c175128b",
+        "target_sha256": "9140e47ecad69fc6443c2fd42d7d27610e2625783d49bd52f781cf06055fdc3b"
+      },
+      "ui:고정비 3개월치가 현금으로 남았다. 이제야 한 달을 잃어도 즉시 무너지지 않는다.:/고정비 3개월치가 현금으로 남았다. 이제야 한 달을 잃어도 즉시 무너지지 않는다.": {
+        "source_sha256": "44325eeb1bea04af67ce63c4ec06efcd3aee79c98c3b5f7ff2c398ac63c17cf1",
+        "target_sha256": "c9f6a69fb7653a5f3d3624290f9a979355fc8f8ebfeff0c1ef6ee1448eba4eb3"
+      },
+      "ui:💼 취업: %s:/💼 취업: %s": {
+        "source_sha256": "708ed65a0b9dd469579361baf4a9eb0adfa4483a5f8806039459a416f0738af3",
+        "target_sha256": "e214aeb50c910c820bf5b466f3aceb5d55ccaa6975854acd407f313073b654ea"
+      },
+      "ui:💼 이직: %s → %s:/💼 이직: %s → %s": {
+        "source_sha256": "ff9f3bd774c2a03c23bbd599ebf0d463e03a7c2457e8c64a6aecb1e7ed64ade7",
+        "target_sha256": "5e43c8d2cb2b254406289f49efeacf1247509b201f316fa340ab4f0cbbcefa77"
+      },
+      "ui:⬆ 승진! %s  월급 +%s:/⬆ 승진! %s  월급 +%s": {
+        "source_sha256": "51e1983d54259ca76362a38316ac0be109ef8bdedf4f577b4ab8000515daa1b1",
+        "target_sha256": "3d55cf798960b15290b992a694a5add91a3f9a295c1d33f7099f8e42f9c9633e"
+      },
+      "ui:⬆ 승진 (%d/%d): 월급 +%s:/⬆ 승진 (%d~1%d): 월급 +%s": {
+        "source_sha256": "2c5a5fd373ce9a8d1ee369ca3978b8011a43209dca919d565eab87905202dda5",
+        "target_sha256": "c682e7df93d84f67f735cfd26039749a81d11ef280c8d4ec093677d4a5513441"
+      },
+      "ui:주문창을 다시 보니, 수익보다 먼저 투입 현금으로 열리는 두 배 포지션의 크기가 눈에 들어왔다.:/주문창을 다시 보니, 수익보다 먼저 투입 현금으로 열리는 두 배 포지션의 크기가 눈에 들어왔다.": {
+        "source_sha256": "05525163f5ede41d92323a78e30f5b02f23af2632cd44d9766bc377a91ab5c4b",
+        "target_sha256": "07df16da2731d758ffec901953c65529b9e30108c8385aa7492d314e3f01ddb9"
+      },
+      "ui:같은 차트에서 어제 지나친 거래량과 오늘의 빈 구간이 함께 보였다.:/같은 차트에서 어제 지나친 거래량과 오늘의 빈 구간이 함께 보였다.": {
+        "source_sha256": "e954f2c59ad99c7bda61437939a7eb691f657dec44bb5a73a016e7923d758342",
+        "target_sha256": "364f0b07b77b4877360bf8bdd4bb88e3eb7f522f95f121a6ecf3096be81b6758"
+      },
+      "ui:상승 주문을 보기 전에 반대쪽 주문창에서 빠져나올 자리를 먼저 찾았다.:/상승 주문을 보기 전에 반대쪽 주문창에서 빠져나올 자리를 먼저 찾았다.": {
+        "source_sha256": "714b37ab3c705fe0c644646498332274bccda066d41ccd120e7a501a2cc6c57a",
+        "target_sha256": "0635e29005bd4eb5d772a06f5176663dcb5a32f020823ac3a0ad09d106dbbab8"
+      },
+      "ui:두 번째로 읽자 문장 사이에서 빠진 근거가 먼저 걸렸다.:/두 번째로 읽자 문장 사이에서 빠진 근거가 먼저 걸렸다.": {
+        "source_sha256": "ef8bf206d8a42772ec8bd9d511d808cd857a5751a80c6cc432697e3206bdff87",
+        "target_sha256": "dd5b48ce22873b2cc75b15d28523c461a0a3d9e8ec1302b5b9a6556028ca909a"
+      },
+      "ui:숫자표를 펼치자 이익보다 현금이 어디서 들어와 어디로 나갔는지가 먼저 보였다.:/숫자표를 펼치자 이익보다 현금이 어디서 들어와 어디로 나갔는지가 먼저 보였다.": {
+        "source_sha256": "bf01d2ae4ca729022e60f2253aac0d25fab90b17d405696e16d52cad73ed2e32",
+        "target_sha256": "cbcb7e1ced14165267e16645e8d1e038890d7a47b93a1a0034981229ee1e77cd"
+      },
+      "ui:예측을 적기 전에, 그 예측이 틀릴 자리를 빈칸으로 남겨 두었다.:/예측을 적기 전에, 그 예측이 틀릴 자리를 빈칸으로 남겨 두었다.": {
+        "source_sha256": "98e5912dc0da0182cc9a026236c3b5b834382a7c5b2ba487ad275fff51a7cdcb",
+        "target_sha256": "2b5cb4b386cff62be7200baa883cbc3a2f357c3d45994788a95aaef157db154f"
+      },
+      "ui:먼저 안부를 묻는 사람이 하나씩 늘기 시작했다.:/먼저 안부를 묻는 사람이 하나씩 늘기 시작했다.": {
+        "source_sha256": "8fddc543d1986a351aeb2e0e3917e01ce154b0657d1244dd9543eac1e09fdf72",
+        "target_sha256": "cdc1c45fd4913a2f4c1f74ffc625feb516fcbf6ff89950bece0e48652f2715c5"
+      },
+      "ui:낯선 모임에서 누군가 가방을 치우고 옆 의자를 내주었다.:/낯선 모임에서 누군가 가방을 치우고 옆 의자를 내주었다.": {
+        "source_sha256": "290c68ebf5f531dcf256beb37769cfac86fd2eee297f27c7030e2ef2f61b6f44",
+        "target_sha256": "640f6403ab1294e2d1e94001b675887739fb55bee057dc8cf1a679f879ec6c9b"
+      },
+      "ui:소개가 끊기기 전에, 맞은편 사람이 다음에 만날 이름을 먼저 적어 주었다.:/소개가 끊기기 전에, 맞은편 사람이 다음에 만날 이름을 먼저 적어 주었다.": {
+        "source_sha256": "c926981e33bb0f7452ef6edbbe9c52e4a0656ab4a548e8c564d8df9a32b3a76c",
+        "target_sha256": "32f633e60272893e12a0f563a3d040563288e35210fd08a9a36629d92097f87c"
+      },
+      "ui:💰 자산 1천만원 돌파!:/💰 자산 1천만원 돌파!": {
+        "source_sha256": "f36c399b543418ddfcf7b22804b8c248037143b1e57ee7872182177a70956edf",
+        "target_sha256": "43f37994734b23217a74c21df18de2262e0e79f624bc5f4b58b2eaf33375b487"
+      },
+      "ui:💰 자산 5천만원 돌파!:/💰 자산 5천만원 돌파!": {
+        "source_sha256": "3fe20fa2fbec67b48d51b7af0e15ddb211bd2f88dc537cfb2daa9b2a24b3947d",
+        "target_sha256": "6d941e59cc05afa22fe7736d666b05514d506d903f7efba30293cf6fbcdbf07e"
+      },
+      "ui:🏆 자산 1억 돌파! 진짜 시작이다.:/🏆 자산 1억 돌파! 진짜 시작이다.": {
+        "source_sha256": "56420744915517dd549ca05bd0ca5d9ba323ccd86faa0b52de03ce2a6b20b419",
+        "target_sha256": "ea33169ecfd51e844ae4e8efe883c1244a77ab35dc2a34941501f6ef556824cb"
+      },
+      "ui:🔥 자산 5억! 강남이 보인다.:/🔥 자산 5억! 강남이 보인다.": {
+        "source_sha256": "0ae7acec8e439edd35d0fbf6a84d987c0ff7047c5481a7f67690b08db8f7da6b",
+        "target_sha256": "da197af5f41b2985d2a2be1eb3782dd32ea4eaba95729a88ab41073ff762ca87"
+      },
+      "ui:💎 자산 20억! 강남드림이 보인다.:/💎 자산 20억! 강남드림이 보인다.": {
+        "source_sha256": "94249a2bce10a2fbeef570f43b54b750817023bdccf713afedaa360166534836",
+        "target_sha256": "19a4a2f9d6123c9feaf12e27f86d3b6fe07be08a42dffcefd398fbe070d5e766"
+      },
+      "ui:🔎 단서 발견: %s:/🔎 단서 발견: %s": {
+        "source_sha256": "0b1d2f253a690e31baa6e7d81c829f537f514e289668fe7f0caaac49146f4a95",
+        "target_sha256": "590087261603aa9c9b6cc512f04d67e79c35f57d20110c99523f320b77d44765"
+      },
+      "ui:💭 생각 정리 시작: %s (%d주):/💭 생각 정리 시작: %s (%d주)": {
+        "source_sha256": "4644afa98379bb69872adb281f9bb8c6c16d2841d56ce2e6f8d4a008c7ee5eef",
+        "target_sha256": "173e0de4536ae32d163f4d86b9142d7b89135b9d5cdd57aa7f8ebcdaf1336ecc"
+      },
+      "ui:💡 결론에 도달: %s:/💡 결론에 도달: %s": {
+        "source_sha256": "af50bf321b3ebe7b551ce5de2c8dbea0c15f22985eb194009bdd43018d4186cf",
+        "target_sha256": "233c9f90f7457e746b4ffaf951bb33fc5cc23c045395bdd3812fe29b928cb37b"
+      },
+      "ui:강남은 왔지만, 화면은 닫힌다.:/강남은 왔지만, 화면은 닫힌다.": {
+        "source_sha256": "899ddd7a4514c928d2cffe2623b7b50fb53b79ac1959aa27f8a1b480a3e79cbd",
+        "target_sha256": "429f800e0d48eb228b67593245e5a6a1a5d2ec1cd2631bdd96d25cbc0611f0e2"
+      },
+      "ui:돈보다 먼저 지킨 것들이 남았다.:/돈보다 먼저 지킨 것들이 남았다.": {
+        "source_sha256": "ee6d6b922025cf1f3f30c687669432d92ff1afdcbace5b65e8deab4acc056d70",
+        "target_sha256": "31865f6fd04d2f67552f662a75b3ed3fbb81e56c4e78753e9084124b03f93200"
+      },
+      "ui:목적지가 아니라 함께 있는 장면으로 끝난다.:/목적지가 아니라 함께 있는 장면으로 끝난다.": {
+        "source_sha256": "6c9b584161f00d8127f5d1d4847359d74e38c52c32ac1f2185d417c5e550935a",
+        "target_sha256": "60dc2926d0e953d9795206aaf6a6b19bd195c88247f10c575086823b1007019c"
+      },
+      "ui:아름다운 승리와 위험한 공허가 같은 거울에 비친다.:/아름다운 승리와 위험한 공허가 같은 거울에 비친다.": {
+        "source_sha256": "91049af0d58ad42ed0b6a8605f4b57a3773b5bbabeb311890fe624226ebd3da9",
+        "target_sha256": "7508e898f06350afdf797607e9712a8ba21715d3969f0a06790a3b29aab40632"
+      },
+      "ui:마지막 사다리를 치우고, 빚보다 무거운 것을 내려놓았다.:/마지막 사다리를 치우고, 빚보다 무거운 것을 내려놓았다.": {
+        "source_sha256": "0aad656a617f04b7896433f37eea1f5b1096ae41ca233decb94aea12d5fa8fda",
+        "target_sha256": "55e199a8d911cc13285dc440638c7c08b5530f3d910cca03f3be20faffffaf67"
+      },
+      "ui:오늘도 동그라미 하나. 작지만 가장 어려운 승리.:/오늘도 동그라미 하나. 작지만 가장 어려운 승리.": {
+        "source_sha256": "7b24fb656bd16bb87e197f7814e93ba7a99d4ecfa704125f57c33d12b5058860",
+        "target_sha256": "cdc72ec1560af1294e93ceac2346a7557d2d9611d89034441d744c170e3bcbe0"
+      },
+      "ui:강남은 끝이 아니라, 무엇을 남겼는지 묻는 장면이 되었다.:/강남은 끝이 아니라, 무엇을 남겼는지 묻는 장면이 되었다.": {
+        "source_sha256": "af45f52f8e6ce732ee6267dd4c077bc69bca4a563330c326f569e64ea6e8353c",
+        "target_sha256": "26799d5cfcbf633e06dd580f20e3272e5924fe97d5e8afdeebebdb92ec330ddf"
+      },
+      "ui:성공은 도착했다. 이제 남은 것은 그 성공의 모양이다.:/성공은 도착했다. 이제 남은 것은 그 성공의 모양이다.": {
+        "source_sha256": "e5537627570157eef77633b6fe26b712226a3e2586b8af1e9f47837e20d12075",
+        "target_sha256": "9b00a900f7a17be40e1c43cdd0a32ee04e2b40a098d7d7e8b13a7c3c7afa4cba"
+      },
+      "ui:강남드림은 모양을 바꾸었다. 그래도 삶은 여기까지 왔다.:/강남드림은 모양을 바꾸었다. 그래도 삶은 여기까지 왔다.": {
+        "source_sha256": "8736a7b595f7b5ebf6769366d2fdd10dbb0281b63348c1d7bd201193053d82ea",
+        "target_sha256": "0363506646e7378d2a83bf4053e836936652f7d70c29a14bb48163dc5fd2ac83"
+      },
+      "ui:전설은 아니었다. 하지만 이 결말도 한 사람의 생활이다.:/전설은 아니었다. 하지만 이 결말도 한 사람의 생활이다.": {
+        "source_sha256": "dcb03b62592444a5a3b4d6d3a9d124cd60a9de62223ab842eda97571494dbf3a",
+        "target_sha256": "4d222734004cc59228d72602406eff6c6e76ac943226901536c165fe22287498"
+      },
+      "ui:이 삶은 여기서 멈춘다. 남은 것은 대가의 기록이다.:/이 삶은 여기서 멈춘다. 남은 것은 대가의 기록이다.": {
+        "source_sha256": "eb8c472af18fe8a7c2111f07f18324d7a64766f3bc77421d3a319c42ddc1d16e",
+        "target_sha256": "ecdbf692434ac312095cb49610f2fe4bac7ad226d6f193498ed98962ffbe4f79"
+      },
+      "ui:서랍 깊은 곳. 오래된 등기부등본 한 장.\n\n지연이 그것을 접어, 다시 넣었다.\n\n— 그녀는 처음부터 알고 있었다.:/서랍 깊은 곳. 오래된 등기부등본 한 장.\n\n지연이 그것을 접어, 다시 넣었다.\n\n— 그녀는 처음부터 알고 있었다.": {
+        "source_sha256": "12bedd6956bb641a840e953a83389690c0fb2e398bffc34f5ea230539bf82be8",
+        "target_sha256": "12aabceae17671d41d4b6c8636abb8c0aaa8b0ceb536bc046b1dd213da722b52"
       }
     },
     "zh-TW": {
@@ -162721,10 +163082,286 @@
       "ui:이해했어요:/이해했어요": {
         "source_sha256": "2c3f3d246d1fa769b9089f72c50c7b7f2396721f804f7f4414fed4725207e10b",
         "target_sha256": "8b38351fdc17070c2dc2a00180d75a2df5101a361f1a9c7aa13ef989addb7201"
+      },
+      "ui:콘텐츠 안내:/콘텐츠 안내": {
+        "source_sha256": "11b7ee48b8acfcb9a1fb693d738b9c140597f719bbfffba9686bae7c8ca9ef86",
+        "target_sha256": "b4e7acf8cf7c601eadc5fa672b1218ddc49c37466edeb7c3eb5b6d3596492162"
+      },
+      "ui:이해했습니다 ›:/이해했습니다 ›": {
+        "source_sha256": "f7881846166425219bc185cd4dea8332d7812f5d60cf39bb355570a6b58b1f74",
+        "target_sha256": "84327191b4018326c297eddb5882855a980aeca406145c778c02149fcaa4cd11"
+      },
+      "ui:엔진 %d · 서체 %d패밀리/%d파일 · 오디오 출처 %d개/%d파일:/엔진 %d · 서체 %d패밀리~1%d파일 · 오디오 출처 %d개~1%d파일": {
+        "source_sha256": "c617cda4dfeccba4ca26d7809bf463816bec9916b667ca26f462ff9aacd6f208",
+        "target_sha256": "64c020572e2c41f6369dc7745bba8018ed1a82b31f9409c489e4482ea3b896ea"
+      },
+      "ui:방향키로 이동·스크롤  ·  Esc 닫기:/방향키로 이동·스크롤  ·  Esc 닫기": {
+        "source_sha256": "0fe73fe9a5012a1865b41fc9aa0ae9122b7c6ae957c3a7474e31210cf50b9c3c",
+        "target_sha256": "3699ba1f8c8c86c563fd98c3505983779f1c45ba576c22ee97fcf8d1a9ecd4b4"
+      },
+      "ui:라이선스·저작권 전문:/라이선스·저작권 전문": {
+        "source_sha256": "5ce85f27cc33a1b96e8539da8c44934fe539f9de7cf98f7a27d27234fef6437a",
+        "target_sha256": "7938e707e60beb401b899ec0e04742243f45d1b10dd00ba22fe2c45df5bc66fb"
+      },
+      "ui:버전:/버전": {
+        "source_sha256": "ec21103c70a8d450c8713f7b901dc246b4018058cd513936e9f54b33072f7dc9",
+        "target_sha256": "d5a6508a6c82353874d1388ca8f9acd85377b690cd115003028bd95504f8d18a"
+      },
+      "ui:라이선스 원문:/라이선스 원문": {
+        "source_sha256": "be5a1e715d45d262e5d81e0cf722d5971fdd4cab85a1b2c64d342f8e3a5561de",
+        "target_sha256": "8d7ae8ae801586e64ee571cfbc9fc1336b1921fd81e3bd048435ffa25a321d88"
+      },
+      "ui:엔진 내장 구성요소 고지 동봉:/엔진 내장 구성요소 고지 동봉": {
+        "source_sha256": "6d265cbbd2a09eba75ede84308abbc6918271d8060afd336285a82dd6e9ae478",
+        "target_sha256": "4d5834c1a1dbe1302f9a727bcf2ecf02fd163bb12fa32a57843c23bc913a07d6"
+      },
+      "ui:이 출처를 사용한 게임 파일 · %d개:/이 출처를 사용한 게임 파일 · %d개": {
+        "source_sha256": "36fcffa7ace40edce388975f8003c35218ab145b8b21402eab29f9967ccd4a3b",
+        "target_sha256": "fd91a18dfa3d6a142b6c805fba73c13a9ed2943cb9201d00257dfa9f5493fed8"
+      },
+      "ui:이전 삶에서 남긴 자금이 통장에 보태졌다.:/이전 삶에서 남긴 자금이 통장에 보태졌다.": {
+        "source_sha256": "37a15506ba7065869d142bd65ee5663c959f3ec3bafd5da9edde7845aebc1a7b",
+        "target_sha256": "504bc4b7c2e4b1a2a5daf1727f257c50d0652cb5cc5868998ec55bf187644433"
+      },
+      "ui:예전 시장에서 익힌 감각이 손끝에 먼저 돌아왔다.:/예전 시장에서 익힌 감각이 손끝에 먼저 돌아왔다.": {
+        "source_sha256": "b293fd15cf1c91af455764d799dbee81894717b9bd60ba172991ba9ea23961a4",
+        "target_sha256": "102f4599ef24c76e7b2f3605c64046600b675418fd0be287b41168b50d46597f"
+      },
+      "ui:전에 익힌 생각의 순서가 이번에도 낯설지 않았다.:/전에 익힌 생각의 순서가 이번에도 낯설지 않았다.": {
+        "source_sha256": "a330120caec955d1c1e514364566749b8cd0b57236109801a56d12255294c8b3",
+        "target_sha256": "260241851bcebe6bd438f9cdb7bd413006ab47fa8f6ee2a1119c2bbd3e1768ac"
+      },
+      "ui:처음 보는 얼굴 사이에서도 말문이 조금 빨리 트였다.:/처음 보는 얼굴 사이에서도 말문이 조금 빨리 트였다.": {
+        "source_sha256": "94aee4f0e4a304999caa3c0f7590f30fca538214275bda64248217dc008d5966",
+        "target_sha256": "37f3422f802d76a4a3afa7e320aeb164aa6b52812f6338fb1a094f5510eb6c64"
+      },
+      "ui:첫날의 숨이 전보다 가볍게 이어졌다.:/첫날의 숨이 전보다 가볍게 이어졌다.": {
+        "source_sha256": "9043f0870b94fdd0857a56a268eb4c8205e561ed82db20911bc24cfc53ff15f5",
+        "target_sha256": "6ed6f8bc0c4ffe52d99a1e0e73762eb536639866a6894ddf99a2589a008fd2b2"
+      },
+      "ui:낯선 우연 하나가 먼저 자리를 내주는 기분이었다.:/낯선 우연 하나가 먼저 자리를 내주는 기분이었다.": {
+        "source_sha256": "5e7823b9fd1d58f2b9873d6a59d20bc9c3e39b88525cf2413c776dc7d114d9e1",
+        "target_sha256": "ef390e1d89063ae749bd42984d4fddeba9a35a5e592cc1a36a3e33fedaccad12"
+      },
+      "ui:다시 시작하는 아침에도 숨이 고르게 이어졌다.:/다시 시작하는 아침에도 숨이 고르게 이어졌다.": {
+        "source_sha256": "d6135908be25dad657d0034becdfbd5de903e0a500b705ecd2cc264b3800c297",
+        "target_sha256": "289a4ca066b4feea6a1207e2a33ad2bf67094dcd550bf8f4a75e6857c69ee010"
+      },
+      "ui:🏆 이전 삶에서 익힌 것이 따라왔다. %s:/🏆 이전 삶에서 익힌 것이 따라왔다. %s": {
+        "source_sha256": "a969c2d30854170fec807b043223541ff47c75cdce41df99d1eeea9e72e39a03",
+        "target_sha256": "c1e8d92cacce7ce8d2ac343d12de558bbaaf27d87071ca1d3869482434c335a0"
+      },
+      "ui:가정을 이룬 사람:/가정을 이룬 사람": {
+        "source_sha256": "025d79db35a64022cad10942b1885505aa074c8b1216c7e35431bfb121773564",
+        "target_sha256": "fbda9c160d53b7f9816b8f8b8ddb63cf2f1629f13537d6054efb10cf95c1f26c"
+      },
+      "ui:누군가의 사람:/누군가의 사람": {
+        "source_sha256": "fb875ebd93670d5b4863619cb0e96765f405d608bef07b6def18cc296a8f5811",
+        "target_sha256": "7286f06572ec60e4360cd40d266162f463ff2036f001112cc30ee07d581a0a3d"
+      },
+      "ui:신흥 자산가:/신흥 자산가": {
+        "source_sha256": "46c32cde87b2ed77ad6b13456c17785e29f65e16411d1b6384e502a0294cdf9a",
+        "target_sha256": "204cd9a24c3a7f55463627afb108364af8b749375ec2a49577856b4aed07f2d6"
+      },
+      "ui:중산층 진입:/중산층 진입": {
+        "source_sha256": "909140a3d880bdfa821039471a9199b6731a2aad408d3b65cf44c50db4fe636a",
+        "target_sha256": "3e03a174d341be2800c2750f0ebecf9d9de6196a4a91b614594b8e52f77c4bae"
+      },
+      "ui:취업 준비생:/취업 준비생": {
+        "source_sha256": "02207ad2c05ce062bee82a4140185051f955a9cafedd05c159a634c370c5d486",
+        "target_sha256": "0a61a537b781c7765e8267e48ef4cd26a29c01d40ed6268a9e2c9e48f60cfaff"
+      },
+      "ui:서울 상경 초보:/서울 상경 초보": {
+        "source_sha256": "a144920350b27d72297c0c332b8273e0c3247592bf87ec667c6f8fe848638e25",
+        "target_sha256": "37509ceb9d3a741dc3e8dd75b64f72f8e2cd72789bcab63521c459eb2b005973"
+      },
+      "ui:서울 생존자:/서울 생존자": {
+        "source_sha256": "ce6c65c0a8c04c6c7c80ccdcc4237a82868d30befd5da86eec840d0af288681e",
+        "target_sha256": "ffd01d3f84bd9d1edc9feecc9626d889f6af73c3eb0e44adaf87bc9b0adfee11"
+      },
+      "ui:🏦 대출 이자 %s 납부 (원금 %s, 신용 %d등급).:/🏦 대출 이자 %s 납부 (원금 %s, 신용 %d등급).": {
+        "source_sha256": "309d1cbac39255dad11b12f6248c3683c33037c4976ad84fdc7ba326c280849e",
+        "target_sha256": "a2800cfa102439e0b46854bba43f92cbf01e2f868b09f3c2c395dbfa9ff8ad4c"
+      },
+      "ui:💸 수입이 없다. 통장 잔고가 줄어가는 게 느껴진다.:/💸 수입이 없다. 통장 잔고가 줄어가는 게 느껴진다.": {
+        "source_sha256": "b55ae84b40035e92429baf4d0fe32219364feac0f49cade29c33bdbc9ef9caef",
+        "target_sha256": "1ad6468a7e4bb5a75be5ec2d1d862fac723d8683fb5c71a9f98e7e0d61d36f1d"
+      },
+      "ui:🏚 고시원 생활: 옆방 소음, 공용 화장실... 정신이 갉아먹힌다.:/🏚 고시원 생활: 옆방 소음, 공용 화장실... 정신이 갉아먹힌다.": {
+        "source_sha256": "63b6201d3770c849f36d5fc64d109792a474d450a9e709c89cab739e46e06d64",
+        "target_sha256": "2b7dc2073d7372b9103aa9819aee1566c7f005d9425458a6cb7a48741df0c26a"
+      },
+      "ui:📞 아버지와 짧은 통화. 별 말은 없었지만 바닥이 생긴 기분이다.:/📞 아버지와 짧은 통화. 별 말은 없었지만 바닥이 생긴 기분이다.": {
+        "source_sha256": "8f65ae30898499cf2184549b391f8053bf6c7dd1810873a22591bc620d34d164",
+        "target_sha256": "a834951b25aa4e5d2b4add23ac3236cb7ad723c2778c1f942d0430fb5bb7ee59"
+      },
+      "ui:💬 잠들기 전 주고받은 메시지 몇 줄이 하루를 닫아준다.:/💬 잠들기 전 주고받은 메시지 몇 줄이 하루를 닫아준다.": {
+        "source_sha256": "70de8f4b595edb4bef996842bb15fd456b587b6e4f1aa93394bb7dcc76ce0e8d",
+        "target_sha256": "2d46ae914c370d774e2816fdf39d7ec7da73d6a16b398da1a2a43a93a18ffa46"
+      },
+      "ui:🏢 임상철의 지나가는 말들이 어느새 감각이 되고 있다.:/🏢 임상철의 지나가는 말들이 어느새 감각이 되고 있다.": {
+        "source_sha256": "d52ea2a69220ed8d77a0c2e0e66a70cd3d1d96e8fee597838d9e11284e12423e",
+        "target_sha256": "867188d3be6979805bf224afbb724cc0bef6a2434adafdbc7ff7b1b40bb001d2"
+      },
+      "ui:🎰 '딱 한 번만 더.' 그 생각이 오늘도 머릿속을 맴돌았다.:/🎰 '딱 한 번만 더.' 그 생각이 오늘도 머릿속을 맴돌았다.": {
+        "source_sha256": "05526bb0eb7598c55dfc331d39220aa52a02d136105388e6b1af4381389ac331",
+        "target_sha256": "ce863b7421de53049985624b66346fb88a667a841131930882984737d50aa1c7"
+      },
+      "ui:🎰 다음 판이 자꾸 눈에 밟힌다.:/🎰 다음 판이 자꾸 눈에 밟힌다.": {
+        "source_sha256": "8e97c1dc0cbc6c1cc578bb260daaac241c0597c5c4adeadf753fc39737b63e3e",
+        "target_sha256": "ba25b1a786d268492ff2df6647e0429aa97878b6f408b0d86147ebd77c64fcd7"
+      },
+      "ui:🆘 잔고가 마이너스다. 이러다 진짜 쫓겨난다.:/🆘 잔고가 마이너스다. 이러다 진짜 쫓겨난다.": {
+        "source_sha256": "21d8f7490472577c513270daae5b915b47a4ab49f14566de8e1c755ac551196a",
+        "target_sha256": "db752667ebdf84998e58aef0f20b9c0dc2783be3484d21a6fc02fe7bc0243077"
+      },
+      "ui:😰 잔고가 다음 달 고정비 %s보다 적다.:/😰 잔고가 다음 달 고정비 %s보다 적다.": {
+        "source_sha256": "63b7e1f485f9ee7df48fa24e3fd489f64b738a726d114fc4a608b5a746dc234d",
+        "target_sha256": "41476b99416c2e9ef597405b9a1a6130f6a2f9ca95c9357b8534b443be08f4db"
+      },
+      "ui:비상금이 아직 고정비 3개월치에 닿지 않았다.:/비상금이 아직 고정비 3개월치에 닿지 않았다.": {
+        "source_sha256": "548af196a62222ce73620d2e5e2ac982224f76582c85406cc7dd6330c175128b",
+        "target_sha256": "0e7fe2eecc13538fb10ff48e5b4ab16571a9efac9c905ceccdca7ae0f04e040f"
+      },
+      "ui:고정비 3개월치가 현금으로 남았다. 이제야 한 달을 잃어도 즉시 무너지지 않는다.:/고정비 3개월치가 현금으로 남았다. 이제야 한 달을 잃어도 즉시 무너지지 않는다.": {
+        "source_sha256": "44325eeb1bea04af67ce63c4ec06efcd3aee79c98c3b5f7ff2c398ac63c17cf1",
+        "target_sha256": "aa8225e9d87f20c2ef4a38b4f1ca480be3a3703609506aad2e20f8f5d668b816"
+      },
+      "ui:💼 취업: %s:/💼 취업: %s": {
+        "source_sha256": "708ed65a0b9dd469579361baf4a9eb0adfa4483a5f8806039459a416f0738af3",
+        "target_sha256": "a2fcacd0447c11d50a7df3d44b8dc1510c85f62154c0d2d84bfc44ec09b09113"
+      },
+      "ui:💼 이직: %s → %s:/💼 이직: %s → %s": {
+        "source_sha256": "ff9f3bd774c2a03c23bbd599ebf0d463e03a7c2457e8c64a6aecb1e7ed64ade7",
+        "target_sha256": "051d192b5d8e7acd6fe0ac56072016b29036c8e97e97e9e4fd21f2f0e725028d"
+      },
+      "ui:⬆ 승진! %s  월급 +%s:/⬆ 승진! %s  월급 +%s": {
+        "source_sha256": "51e1983d54259ca76362a38316ac0be109ef8bdedf4f577b4ab8000515daa1b1",
+        "target_sha256": "70b6a96dfc8c59665324f390c69677635c24570c05ac818c3dd08eca8fe68b0e"
+      },
+      "ui:⬆ 승진 (%d/%d): 월급 +%s:/⬆ 승진 (%d~1%d): 월급 +%s": {
+        "source_sha256": "2c5a5fd373ce9a8d1ee369ca3978b8011a43209dca919d565eab87905202dda5",
+        "target_sha256": "c0cd7756cccec2178fc7106a7f199a526c2a0a5d2bd110a2266f0660171368f7"
+      },
+      "ui:주문창을 다시 보니, 수익보다 먼저 투입 현금으로 열리는 두 배 포지션의 크기가 눈에 들어왔다.:/주문창을 다시 보니, 수익보다 먼저 투입 현금으로 열리는 두 배 포지션의 크기가 눈에 들어왔다.": {
+        "source_sha256": "05525163f5ede41d92323a78e30f5b02f23af2632cd44d9766bc377a91ab5c4b",
+        "target_sha256": "436850ac3939a3d38f612e7ffc4e1bf97a1ecf3792a8e202bbd1e13c6c8af061"
+      },
+      "ui:같은 차트에서 어제 지나친 거래량과 오늘의 빈 구간이 함께 보였다.:/같은 차트에서 어제 지나친 거래량과 오늘의 빈 구간이 함께 보였다.": {
+        "source_sha256": "e954f2c59ad99c7bda61437939a7eb691f657dec44bb5a73a016e7923d758342",
+        "target_sha256": "0c96d68f0997dfaed1555e5b5ae986d08c63d6aa9cb189393d53295fa9634ece"
+      },
+      "ui:상승 주문을 보기 전에 반대쪽 주문창에서 빠져나올 자리를 먼저 찾았다.:/상승 주문을 보기 전에 반대쪽 주문창에서 빠져나올 자리를 먼저 찾았다.": {
+        "source_sha256": "714b37ab3c705fe0c644646498332274bccda066d41ccd120e7a501a2cc6c57a",
+        "target_sha256": "2d544b312054a24b6df8655da2573fef4b59a592feadd84fc5114c4ca4796eb0"
+      },
+      "ui:두 번째로 읽자 문장 사이에서 빠진 근거가 먼저 걸렸다.:/두 번째로 읽자 문장 사이에서 빠진 근거가 먼저 걸렸다.": {
+        "source_sha256": "ef8bf206d8a42772ec8bd9d511d808cd857a5751a80c6cc432697e3206bdff87",
+        "target_sha256": "634d8319c29efd8c391451e6a4adf57da85cc9e1443e0da749defdd27cc9235a"
+      },
+      "ui:숫자표를 펼치자 이익보다 현금이 어디서 들어와 어디로 나갔는지가 먼저 보였다.:/숫자표를 펼치자 이익보다 현금이 어디서 들어와 어디로 나갔는지가 먼저 보였다.": {
+        "source_sha256": "bf01d2ae4ca729022e60f2253aac0d25fab90b17d405696e16d52cad73ed2e32",
+        "target_sha256": "f91ee987e7cb064f5e538a62cb0795a8f165952e527023b58fc81574c689652c"
+      },
+      "ui:예측을 적기 전에, 그 예측이 틀릴 자리를 빈칸으로 남겨 두었다.:/예측을 적기 전에, 그 예측이 틀릴 자리를 빈칸으로 남겨 두었다.": {
+        "source_sha256": "98e5912dc0da0182cc9a026236c3b5b834382a7c5b2ba487ad275fff51a7cdcb",
+        "target_sha256": "227b639a4c3d4664fafe7720e1b8741f54a538291dd23c54e0aa36e144cce065"
+      },
+      "ui:먼저 안부를 묻는 사람이 하나씩 늘기 시작했다.:/먼저 안부를 묻는 사람이 하나씩 늘기 시작했다.": {
+        "source_sha256": "8fddc543d1986a351aeb2e0e3917e01ce154b0657d1244dd9543eac1e09fdf72",
+        "target_sha256": "9c00fa9b89ed6f294eb8ad73e00de9eb604546bc34895d3b9caa6985df789097"
+      },
+      "ui:낯선 모임에서 누군가 가방을 치우고 옆 의자를 내주었다.:/낯선 모임에서 누군가 가방을 치우고 옆 의자를 내주었다.": {
+        "source_sha256": "290c68ebf5f531dcf256beb37769cfac86fd2eee297f27c7030e2ef2f61b6f44",
+        "target_sha256": "8e91dd1eb26a301d00062466a7f74bef6b106cbbdb30ca4e18a4338ec6ae302b"
+      },
+      "ui:소개가 끊기기 전에, 맞은편 사람이 다음에 만날 이름을 먼저 적어 주었다.:/소개가 끊기기 전에, 맞은편 사람이 다음에 만날 이름을 먼저 적어 주었다.": {
+        "source_sha256": "c926981e33bb0f7452ef6edbbe9c52e4a0656ab4a548e8c564d8df9a32b3a76c",
+        "target_sha256": "ab87827eb5eeaf543bfdd4116779c6385309cec0c7a37d97e139eb16b07fadb8"
+      },
+      "ui:💰 자산 1천만원 돌파!:/💰 자산 1천만원 돌파!": {
+        "source_sha256": "f36c399b543418ddfcf7b22804b8c248037143b1e57ee7872182177a70956edf",
+        "target_sha256": "1b1c42077181e37288c4a2e41227801324bfc38cf8dc4f59837e68241cb0aef6"
+      },
+      "ui:💰 자산 5천만원 돌파!:/💰 자산 5천만원 돌파!": {
+        "source_sha256": "3fe20fa2fbec67b48d51b7af0e15ddb211bd2f88dc537cfb2daa9b2a24b3947d",
+        "target_sha256": "abe2b68ad58bb6d7b3bee1392032929312caa02ebdfbf7d7a3d1a5a26f15ea01"
+      },
+      "ui:🏆 자산 1억 돌파! 진짜 시작이다.:/🏆 자산 1억 돌파! 진짜 시작이다.": {
+        "source_sha256": "56420744915517dd549ca05bd0ca5d9ba323ccd86faa0b52de03ce2a6b20b419",
+        "target_sha256": "2cec2ac5a17eea721b49ef1ba95af2016daacc1118e3650051c54c2c16633f4e"
+      },
+      "ui:🔥 자산 5억! 강남이 보인다.:/🔥 자산 5억! 강남이 보인다.": {
+        "source_sha256": "0ae7acec8e439edd35d0fbf6a84d987c0ff7047c5481a7f67690b08db8f7da6b",
+        "target_sha256": "34982c10d753d4edb1004d06e621d7bda98bedbb1d6964f3d98453a45529a96e"
+      },
+      "ui:💎 자산 20억! 강남드림이 보인다.:/💎 자산 20억! 강남드림이 보인다.": {
+        "source_sha256": "94249a2bce10a2fbeef570f43b54b750817023bdccf713afedaa360166534836",
+        "target_sha256": "65f35f6afb3a2cb6827fe9bcc62228befcbac8076561e341c4964349950c2ded"
+      },
+      "ui:🔎 단서 발견: %s:/🔎 단서 발견: %s": {
+        "source_sha256": "0b1d2f253a690e31baa6e7d81c829f537f514e289668fe7f0caaac49146f4a95",
+        "target_sha256": "4dc3e97d3674c79bec6f43a9aa7f0b79ebc3a9f762f4471efc1e2496c5828560"
+      },
+      "ui:💭 생각 정리 시작: %s (%d주):/💭 생각 정리 시작: %s (%d주)": {
+        "source_sha256": "4644afa98379bb69872adb281f9bb8c6c16d2841d56ce2e6f8d4a008c7ee5eef",
+        "target_sha256": "cc0f9a6ad1b5fc8b82826fa3cfbaa3803e90023be991b2356b689fdc714492a3"
+      },
+      "ui:💡 결론에 도달: %s:/💡 결론에 도달: %s": {
+        "source_sha256": "af50bf321b3ebe7b551ce5de2c8dbea0c15f22985eb194009bdd43018d4186cf",
+        "target_sha256": "b250facce0d28f2f66c407649d3f7e667b82e0fd9e924dd8dc91392cee44e75b"
+      },
+      "ui:강남은 왔지만, 화면은 닫힌다.:/강남은 왔지만, 화면은 닫힌다.": {
+        "source_sha256": "899ddd7a4514c928d2cffe2623b7b50fb53b79ac1959aa27f8a1b480a3e79cbd",
+        "target_sha256": "6cc271835d63eb5e1c782859c5949a8c4832c93b4903efbef3573c7acee424ee"
+      },
+      "ui:돈보다 먼저 지킨 것들이 남았다.:/돈보다 먼저 지킨 것들이 남았다.": {
+        "source_sha256": "ee6d6b922025cf1f3f30c687669432d92ff1afdcbace5b65e8deab4acc056d70",
+        "target_sha256": "6072b03521a719a258b6af235a552a537c3eed262bfb4c9b45e4e792a8b82844"
+      },
+      "ui:목적지가 아니라 함께 있는 장면으로 끝난다.:/목적지가 아니라 함께 있는 장면으로 끝난다.": {
+        "source_sha256": "6c9b584161f00d8127f5d1d4847359d74e38c52c32ac1f2185d417c5e550935a",
+        "target_sha256": "95ec41efd57951410360a90e9e0d148867a379f0fa157b9fa9d66d1e2a3266f9"
+      },
+      "ui:아름다운 승리와 위험한 공허가 같은 거울에 비친다.:/아름다운 승리와 위험한 공허가 같은 거울에 비친다.": {
+        "source_sha256": "91049af0d58ad42ed0b6a8605f4b57a3773b5bbabeb311890fe624226ebd3da9",
+        "target_sha256": "7a1105816093c2b5530d096d3a54a72d7b72addd84fdbcf804dd65b071ae328b"
+      },
+      "ui:마지막 사다리를 치우고, 빚보다 무거운 것을 내려놓았다.:/마지막 사다리를 치우고, 빚보다 무거운 것을 내려놓았다.": {
+        "source_sha256": "0aad656a617f04b7896433f37eea1f5b1096ae41ca233decb94aea12d5fa8fda",
+        "target_sha256": "d5087d5923ec92a946f5e770fd6e984c5c03209ba5d3d571ae2a3e4db862b425"
+      },
+      "ui:오늘도 동그라미 하나. 작지만 가장 어려운 승리.:/오늘도 동그라미 하나. 작지만 가장 어려운 승리.": {
+        "source_sha256": "7b24fb656bd16bb87e197f7814e93ba7a99d4ecfa704125f57c33d12b5058860",
+        "target_sha256": "80d1b3420a205a61e808c99faa2781e0ca6e64ddecf9a8e1fda4f74652b6c936"
+      },
+      "ui:강남은 끝이 아니라, 무엇을 남겼는지 묻는 장면이 되었다.:/강남은 끝이 아니라, 무엇을 남겼는지 묻는 장면이 되었다.": {
+        "source_sha256": "af45f52f8e6ce732ee6267dd4c077bc69bca4a563330c326f569e64ea6e8353c",
+        "target_sha256": "7e79c42226808471c6e110507e9e0f477aa19edce35f4901a9dd2380a656faa9"
+      },
+      "ui:성공은 도착했다. 이제 남은 것은 그 성공의 모양이다.:/성공은 도착했다. 이제 남은 것은 그 성공의 모양이다.": {
+        "source_sha256": "e5537627570157eef77633b6fe26b712226a3e2586b8af1e9f47837e20d12075",
+        "target_sha256": "99085a231941da4b403cd4b8417673ddb2b54597f0356cfb4e809f7d15877822"
+      },
+      "ui:강남드림은 모양을 바꾸었다. 그래도 삶은 여기까지 왔다.:/강남드림은 모양을 바꾸었다. 그래도 삶은 여기까지 왔다.": {
+        "source_sha256": "8736a7b595f7b5ebf6769366d2fdd10dbb0281b63348c1d7bd201193053d82ea",
+        "target_sha256": "4146ff3415376832fbf417acea5eced8b8d52e5a70fc00133e17ff7aad666107"
+      },
+      "ui:전설은 아니었다. 하지만 이 결말도 한 사람의 생활이다.:/전설은 아니었다. 하지만 이 결말도 한 사람의 생활이다.": {
+        "source_sha256": "dcb03b62592444a5a3b4d6d3a9d124cd60a9de62223ab842eda97571494dbf3a",
+        "target_sha256": "d701262b563aac2022f634ae715f3a073e1c65c9dbd1d1634a32f5a98b1716d8"
+      },
+      "ui:이 삶은 여기서 멈춘다. 남은 것은 대가의 기록이다.:/이 삶은 여기서 멈춘다. 남은 것은 대가의 기록이다.": {
+        "source_sha256": "eb8c472af18fe8a7c2111f07f18324d7a64766f3bc77421d3a319c42ddc1d16e",
+        "target_sha256": "b1ff0954fba6213d39a519e698934b5a47107d96510b6edb06eaa663d6ae1d78"
+      },
+      "ui:서랍 깊은 곳. 오래된 등기부등본 한 장.\n\n지연이 그것을 접어, 다시 넣었다.\n\n— 그녀는 처음부터 알고 있었다.:/서랍 깊은 곳. 오래된 등기부등본 한 장.\n\n지연이 그것을 접어, 다시 넣었다.\n\n— 그녀는 처음부터 알고 있었다.": {
+        "source_sha256": "12bedd6956bb641a840e953a83389690c0fb2e398bffc34f5ea230539bf82be8",
+        "target_sha256": "14fce4dc5d75290b744ec8cb870095fe30bbdea40f604d90365d4abe9e347802"
       }
     }
   },
-  "accepted_sha256": "920f2bf8c312385eb8b126ebb692b0ce7e46d272b80eb6ad4f010ee6bebd2fef",
+  "accepted_sha256": "e30ec7984a22f03a660cd9d2f9e1e621acbf8dd4c60d5a169935d73b9d26c335",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
