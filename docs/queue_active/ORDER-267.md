@@ -88,3 +88,6 @@ MainGame/LocaleManager/StartMenu/EventManager/DataRegistry·project·사람 원�
 - 도구8 사전 PASS/필수0(ee004c83) 뒤 self binding만 실행 승인했다. 아직 실행 성공 증거는 아니다.
 - runtime2 사전 PASS/필수0(08664542) 뒤 승인 bit만 바꿨다(scene7d314a97).
   엔진·QA 성공이나 화면/인간 판정이 아니다. 공식 export는 대상 사전 편집 전에 시행한다.
+- 실제 원문17484, UI3666/미확인329, manifest2346e6c4. 독립33과 표적L1 33/0 뒤
+  clean4d712e3 공식9×3 export/check/import(사전 추가편집0)와 신규27 portable를 결속했다.
+  현재39292/b112/meta9이며 기존6재사용·원래39265 보존은 별도 검증한다.

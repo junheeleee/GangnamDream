@@ -191,12 +191,17 @@ skipped이며 업로드 파일도 없었다. 이 새 원인은 별도 좁은 수
   부채다. 선택 외 UI/old39151 원장raw 역복원과 신규60 검증은 별개 증거이며
   이야기 탭 전체·렌더·원어민·인간플레이 완료를 뜻하지 않는다.
   카드·습관·단서/생각18키의54를 독립 전량검수·clean5d53ece의 공식export/check/import로
-  수용했다. 현재39265(JA13087·CN/TW13089)/b111/meta9, CN/TW각18 추가·JA5수리와
+  수용했다. 당시39265(JA13087·CN/TW13089)/b111/meta9, CN/TW각18 추가·JA5수리와
   기존JA13 유지다. 주간 기간→주식 수 오독도 고쳤다. 첫50/4는 관계괄호 오탐이며
   별도266 검사 수리 뒤 같은 승인54로 재개했다. 원래 실패·기존39211과 선택 외 UI를
   보존한다. 신규54 검증은 전체L1 재실행·이야기 탭 전체·렌더·원어민 판정이 아니다.
-  이후 `_localized_profile_label/_roll_run_theme`와 `HoldemClub._fmt`의 non-KO=EN 분기를
-  실제 표시 계약으로 검사한다. `_localized_route_label`의4매핑은 현재 caller0이므로
+  출발 상태·소식 범주·부모11키는267에서 독립33 전수 검수하고 clean4d712e3의
+  공식 export/check/import로 신규27을 수용했다. 기존 투자/건강6은 재수용하지 않았다.
+  현재39292(JA13096·CN/TW13098)/b112/meta9, JA4누락·직장1수리·CN/TW각9 추가다.
+  GS3span과 실제9호출·부모2 format을 연결했다. source17484/manifest2346e6c4이며
+  이는 전체 번역·원어민·화면 완료가 아니다. 표적 코드·격리 실행 최종판정은267이 소유한다.
+  이후 `HoldemClub._fmt`의 non-KO=EN 분기를 실제 표시 계약으로 검사한다.
+  `_localized_route_label`의4매핑은 현재 caller0이므로
   이를 번역하거나 노출해 플레이어 표면 수리·진척으로 세지 않는다.
   `GameState.tendency_name/tendency_desc`는 외부 caller0인 휴면 호환 helper다.
   현재 자각 모달은 별도 `_tr` 산문3을 읽으므로 휴면6문구만 번역해 표시 수리로 세지 않는다.

@@ -4040,6 +4040,31 @@
       "machine_validation": "PASS",
       "rendered_review": "OPEN",
       "native_review": "OPEN"
+    },
+    {
+      "order": "ORDER-267",
+      "group": "ui",
+      "roots": [
+        "다시 시작한 아침. 출발점은 %s였다.",
+        "도박",
+        "백수",
+        "알바",
+        "연애",
+        "이번에는 %s와 %s에 얽힌 소식이 유난히 먼저 눈에 들어왔다.",
+        "인간관계",
+        "재정",
+        "직장"
+      ],
+      "source_leaves": 9,
+      "target_leaves_by_locale": {
+        "ja": 9,
+        "zh-CN": 9,
+        "zh-TW": 9
+      },
+      "source_review": "Direct Korean, independent full33 language review for11 new-run profile/category/parent keys; existing Investment/Health six receipts reused, not accepted again. Japanese finance narrowing corrected before application. Nine new literal UI calls and two explicit target/English format parents. Existing KO/EN, unknown passthrough and gameplay preserved; generation-time localization only. Old39265 hashes/raw preserved, not whole-ledger L1 replay. No rendered/native/human/full-product approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN"
     }
   ],
   "accepted": {
@@ -56391,6 +56416,42 @@
       "ui:한지연 (투자·로맨스):/한지연 (투자·로맨스)": {
         "source_sha256": "87034d345934ad475e4643cafb8ff167c3c61e707695d9f6f3b0a79358c647a0",
         "target_sha256": "603964c0a9d3728dc9f388ae2d0d22c5d777cf801276bf002826a36c0885b197"
+      },
+      "ui:다시 시작한 아침. 출발점은 %s였다.:/다시 시작한 아침. 출발점은 %s였다.": {
+        "source_sha256": "ca862bf429bb680fd3790a2cf7884070838c8032cc5f96cc763da0f25e652115",
+        "target_sha256": "135b02a6dfb55b2999d6beb65c6f1d11fe95423e34877ebcb0286279cee7a4ee"
+      },
+      "ui:도박:/도박": {
+        "source_sha256": "bc341a7b0087b906e2ea34a63d2b6c2340016f859e3b06c153a4e7b9560e7d44",
+        "target_sha256": "cca8bc12b6b3c07c973c904768be85f37801bdaae10bcc1d7a294f57be0b7a14"
+      },
+      "ui:백수:/백수": {
+        "source_sha256": "aa6ae6fb93f9351a9e8f8a0040aab8e6fa8e78d7d32c6c22430616c17c662df2",
+        "target_sha256": "46e16804327730099f9e6d58757e19f48171d122001fcc3db499bd82dd64f44f"
+      },
+      "ui:알바:/알바": {
+        "source_sha256": "15bd1ba7dba490615d97bbdcb4665f49a538431ce47aa33e26cb4cd60406accb",
+        "target_sha256": "6170fe80a07922cc62f60930a3354fb7a7fc282122bca7f716a4ad53a04b0fab"
+      },
+      "ui:연애:/연애": {
+        "source_sha256": "2d177cbe0f2c1b8517537553c6a83f2cda4f473844c6c915d1eea92ca624e519",
+        "target_sha256": "7f2230db235db843933b177bec48af1e97a30fb1ed733d8f050659619b467630"
+      },
+      "ui:이번에는 %s와 %s에 얽힌 소식이 유난히 먼저 눈에 들어왔다.:/이번에는 %s와 %s에 얽힌 소식이 유난히 먼저 눈에 들어왔다.": {
+        "source_sha256": "44f5347b72c296127e244c0f703e57941ee6bd8467b0ea0eb3ae7ad4416b1a4b",
+        "target_sha256": "3f803534d57b85865c0670101deeda9620d8d0c5c69d3be84a6565f077a61ef2"
+      },
+      "ui:인간관계:/인간관계": {
+        "source_sha256": "fa1053b2743d1084f7591d109c7cd9802129f418ad38e5f98bd15e1d57fd4d11",
+        "target_sha256": "e3ce7ebd7bc058f8f333fa8edf53cc9b7e9d62a3c1882a81fc33e65e86488c36"
+      },
+      "ui:재정:/재정": {
+        "source_sha256": "c3839b31d2fd5e4da5cc07b64b77a5ecfcb60af7db42d6628cd3be7578298b58",
+        "target_sha256": "a7d0cc939fb84814e21626c1f1deec70df72dec002f5678efbf6f849134f8262"
+      },
+      "ui:직장:/직장": {
+        "source_sha256": "8b10cafa98c31e4e0983827cbbe05e246df0256b51b56269dce420a091824ebe",
+        "target_sha256": "3d46c1837e42f130fb48cbaf22c791e758e7eeab43c940b2ea06f3f6a65ce411"
       }
     },
     "zh-CN": {
@@ -108749,6 +108810,42 @@
       "ui:한지연 (투자·로맨스):/한지연 (투자·로맨스)": {
         "source_sha256": "87034d345934ad475e4643cafb8ff167c3c61e707695d9f6f3b0a79358c647a0",
         "target_sha256": "511f57963135c9b942ae2e09c6e63228eadcab9d45b6e37bff31cb6f0b813619"
+      },
+      "ui:다시 시작한 아침. 출발점은 %s였다.:/다시 시작한 아침. 출발점은 %s였다.": {
+        "source_sha256": "ca862bf429bb680fd3790a2cf7884070838c8032cc5f96cc763da0f25e652115",
+        "target_sha256": "6a15cb506541bf3af04c8809c1e5b60188f6d85cecea3a2b1fdebeb7271d0502"
+      },
+      "ui:도박:/도박": {
+        "source_sha256": "bc341a7b0087b906e2ea34a63d2b6c2340016f859e3b06c153a4e7b9560e7d44",
+        "target_sha256": "d097ca2f28ddd58f762a323390dbd793b7c6e05829a366d7b6b69c3448304276"
+      },
+      "ui:백수:/백수": {
+        "source_sha256": "aa6ae6fb93f9351a9e8f8a0040aab8e6fa8e78d7d32c6c22430616c17c662df2",
+        "target_sha256": "31759bcc4bfeb05368574ecf99fc3752a47374d6ce40fc5bbfd5d38b5701d39c"
+      },
+      "ui:알바:/알바": {
+        "source_sha256": "15bd1ba7dba490615d97bbdcb4665f49a538431ce47aa33e26cb4cd60406accb",
+        "target_sha256": "0b182fbf0fc86e0171b80366f57ca29a8041caaa8a755f070fbec3a617c5c7df"
+      },
+      "ui:연애:/연애": {
+        "source_sha256": "2d177cbe0f2c1b8517537553c6a83f2cda4f473844c6c915d1eea92ca624e519",
+        "target_sha256": "74501dcb198fdcc6a965308b641a99d184b62bf5b95611afcb428139736b9bc1"
+      },
+      "ui:이번에는 %s와 %s에 얽힌 소식이 유난히 먼저 눈에 들어왔다.:/이번에는 %s와 %s에 얽힌 소식이 유난히 먼저 눈에 들어왔다.": {
+        "source_sha256": "44f5347b72c296127e244c0f703e57941ee6bd8467b0ea0eb3ae7ad4416b1a4b",
+        "target_sha256": "0c65eb56802b3b8cf1acaa7a6326c72df6518dc35be3dede83471ce106cdd9f5"
+      },
+      "ui:인간관계:/인간관계": {
+        "source_sha256": "fa1053b2743d1084f7591d109c7cd9802129f418ad38e5f98bd15e1d57fd4d11",
+        "target_sha256": "62e82148acfe5e9bd8067b756f916655a75ad84a50e2e6119832b4e46fe9d6bf"
+      },
+      "ui:재정:/재정": {
+        "source_sha256": "c3839b31d2fd5e4da5cc07b64b77a5ecfcb60af7db42d6628cd3be7578298b58",
+        "target_sha256": "431fc0c94abb249d91eedb9d540c86eaab9d9386c35d93d823020ca6aba10a8b"
+      },
+      "ui:직장:/직장": {
+        "source_sha256": "8b10cafa98c31e4e0983827cbbe05e246df0256b51b56269dce420a091824ebe",
+        "target_sha256": "d2d1b4a3d60f6e9471d1b01f3360cd332d06c21d0425532f07aef496ea0021c9"
       }
     },
     "zh-TW": {
@@ -161107,10 +161204,46 @@
       "ui:한지연 (투자·로맨스):/한지연 (투자·로맨스)": {
         "source_sha256": "87034d345934ad475e4643cafb8ff167c3c61e707695d9f6f3b0a79358c647a0",
         "target_sha256": "3213c5f598388adac5bf9ec34053d963f74881f869992f5ee72f1c0973a8d11f"
+      },
+      "ui:다시 시작한 아침. 출발점은 %s였다.:/다시 시작한 아침. 출발점은 %s였다.": {
+        "source_sha256": "ca862bf429bb680fd3790a2cf7884070838c8032cc5f96cc763da0f25e652115",
+        "target_sha256": "55de4f02a7b3ec4e90ebf6b4d504cfaecfafb7d347b4264c6a45a3d1b12f813a"
+      },
+      "ui:도박:/도박": {
+        "source_sha256": "bc341a7b0087b906e2ea34a63d2b6c2340016f859e3b06c153a4e7b9560e7d44",
+        "target_sha256": "3e6e0d17f17baca07d8318e7ec7837c36305b43b91ef0afa5f07262287d89c47"
+      },
+      "ui:백수:/백수": {
+        "source_sha256": "aa6ae6fb93f9351a9e8f8a0040aab8e6fa8e78d7d32c6c22430616c17c662df2",
+        "target_sha256": "53d994d391169be50f921bff3711ac05b2408bd4b7321e5cb9096275ff7bc60a"
+      },
+      "ui:알바:/알바": {
+        "source_sha256": "15bd1ba7dba490615d97bbdcb4665f49a538431ce47aa33e26cb4cd60406accb",
+        "target_sha256": "0b182fbf0fc86e0171b80366f57ca29a8041caaa8a755f070fbec3a617c5c7df"
+      },
+      "ui:연애:/연애": {
+        "source_sha256": "2d177cbe0f2c1b8517537553c6a83f2cda4f473844c6c915d1eea92ca624e519",
+        "target_sha256": "d5a5b6102715daa426db031c4ae93603a5956460e1a93841d7d2039660275620"
+      },
+      "ui:이번에는 %s와 %s에 얽힌 소식이 유난히 먼저 눈에 들어왔다.:/이번에는 %s와 %s에 얽힌 소식이 유난히 먼저 눈에 들어왔다.": {
+        "source_sha256": "44f5347b72c296127e244c0f703e57941ee6bd8467b0ea0eb3ae7ad4416b1a4b",
+        "target_sha256": "0019e027adf60a6f9b6e046fcd9b6a665013b8ca69ddbd13c4053a45050d865e"
+      },
+      "ui:인간관계:/인간관계": {
+        "source_sha256": "fa1053b2743d1084f7591d109c7cd9802129f418ad38e5f98bd15e1d57fd4d11",
+        "target_sha256": "fae6e853da562cae1e6452361d8f4b7e9d7d4798f17acf207b3fc4e17e8bc679"
+      },
+      "ui:재정:/재정": {
+        "source_sha256": "c3839b31d2fd5e4da5cc07b64b77a5ecfcb60af7db42d6628cd3be7578298b58",
+        "target_sha256": "0ae4bd25d11abfd6ac13f5279215f2251f7401427aa1d92cd699538fa2863d8f"
+      },
+      "ui:직장:/직장": {
+        "source_sha256": "8b10cafa98c31e4e0983827cbbe05e246df0256b51b56269dce420a091824ebe",
+        "target_sha256": "d2d1b4a3d60f6e9471d1b01f3360cd332d06c21d0425532f07aef496ea0021c9"
       }
     }
   },
-  "accepted_sha256": "cfd99d69107d1611a193206fc526dcc94024a645e67699a842b6cfc8feee7748",
+  "accepted_sha256": "a75ca786ee7a204cfd5ed1fe5da01f2d57beb5bb0138e3a1245c675d5ce7e40d",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
