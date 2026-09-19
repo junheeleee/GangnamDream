@@ -1,3 +1,68 @@
+# ORDER-271 — 월말결산·경고 중국어 UI
+
+[x] 2026-09-20. 독립 Poincare work_unit GO는 이번 90수용·0보류 처리에만 적용한다.
+
+- 제품 `1fadb15778246c8ae2f000f938e01854a594cb80`, tree `5971c76bb1586189730542c8b96cc25215206acd`. clean 검토 `efcdcfa166ef89fbc2c21c837320d3b0dd572518`. source 이후 STATUS-only.
+- 수집·저작전 현금2키의 노출조건을 정정한17기능45키×2=90초안이다. 공개/인간/본편 GO가 아니다.
+- 실제 수용 39842/b116/meta9. 기존39752 보존; UI/portable 역복원과 JA/원문/runtime 보존.
+- 원어민·렌더·인간플레이·물리패드 OPEN. 공개GO1·인간OPEN45·본편HOLD·기존보류110 유지.
+- 원형 QA·실패·수리·남은 위험은 [독립 보고](../agent_reviews/ORDER-271.json), SHA 23641ae8308c481f3401e320130282cc0f64c36937aba673663133f8f614807c.
+- 일회성: 본 배치 번역·선정·검증·수용·파일소유 지시. 영속 권한/언어규칙은 기존 WORK_UNIT/I18N 소유, 신규 규범 승격0.
+
+자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
+## 실제 캡처
+
+원문은 git-private에 stdout/stderr/exit·입력핀과 보존한다. 진단 수집 exit0와 전체 통과는 다르다.
+
+| 파일 | 바이트 | SHA256 | exit | 결과 |
+|---|---:|---|---:|---|
+| order271-export-cn-first.json | 377560 | 7fc7bcbad56837e0e29adc2f66528da4fcab9b195d06f5aa7521d0a3c460f982 | 0 | PASS |
+| order271-export-tw-first.json | 377560 | a8c77f4332cd728d6f0d39f3b50983fda57692b1424f319284bc8183e10f2ec9 | 0 | PASS |
+| order271-formal-export-cn-first.json | 377589 | a76d9aef72476f7a6c14e169bb40a6e8716093dcc3fabfe33b21f1fa3809591d | 0 | PASS |
+| order271-formal-export-tw-first.json | 377589 | debf8911f2e6035237293124c74d975d3b8e0b703f9ffcb87b1cc9101480d7fb | 0 | PASS |
+| order271-formal-import-cn-first.json | 377511 | bdb21306ff98b425028af608f591a5206762c3a86db8209146ad2e4ea17c0b57 | 0 | PASS |
+| order271-formal-import-tw-first.json | 377511 | f6917a0b2a861d0d108ff59a0c2425de3a6acd10d003d2aaedb5c0698e588599 | 0 | PASS |
+| order271-named-first.json | 1690343 | 158792bfe027064bf92dde08369a330285a35358c8eefbdb007eec7cc7fa6689 | 0 | PASS |
+| order271-named-outer-first.json | 379613 | 69bcc8cc946547a2b4495563d31f68164de441a54d552e63d2b932e1769aee76 | 0 | PASS |
+| order271-preflight-check-cn-first.json | 377491 | 58b0ec6c99ec5f5dee24310a94a961e2768ca139c91f21b0db1f1428aaba8bf6 | 0 | PASS |
+| order271-preflight-check-tw-first.json | 377498 | 1b6ccc57764d01e66134c0cb803a0bb67b521cf77829860d28267d5c9f370a37 | 0 | PASS |
+| order271-preservation-first.json | 377738 | 837ce0def5a170a0b7d228378791c96b44b4a64b037421aed29bf2b5a2127d02 | 0 | PASS |
+
+## WORK 마감 전 원문
+
+# Gangnam Dream Work Log
+
+> 이전 WORK·현재 선언·실패 원문은 [270 보존본](queue_archive/ORDER-270.md)에 있다.
+
+## 2026-09-20 (Codex — 월말결산 중국어90 착수)
+
+- [271](queue_active/ORDER-271.md):17기능45키씩 독립KO직접 저작·비저자전수.90는 예상초안 수다. 현금2키는 수집·저작전 실제소비자 정정으로 제외.
+- 기존39752·기보류110·JA·원문·공개판·인간원장 보존. 첫고지본문1은 별도 RO 조사만.
+- 독립최초 REWORK2(CNstat명/TW중첩句點), 원90전수r1GO/필수0. 기존check/import각45실제수용, 신규HOLD0.
+- 공식39842/b116/meta9, JA13096·CN/TW각13373. 사전각844존재/2171부재는전체실제UI분모가아니다.
+- 현재cleanexact·보존·명명12·독립최종은별도마감한다.
+
+## 2026-09-20 (Codex — 상태·기록·엔딩 중국어 138 반영)
+
+- [270](queue_archive/ORDER-270.md): 제품ef83b96·검토4583aa4, 독립 Poincare 한정GO/필수0.
+- 원148초안 전수 언어검토 뒤 실제138수용·10보류. 상세 실패·의미·원고는 독립보고에 보존.
+- 공식39752/b115/meta9. 기존39614·KO/EN/JA·runtime·공개판·인간원장/과거56판정 보존.
+- 명명12 통과는 회귀증거이며 원어민·화면 완료가 아니다. 공개GO1·인간OPEN45·본편HOLD.
+- 마감 검사는 미커밋 변경 기준 selector6개다. `--base ref`는 커밋된 diff만 보므로 dirty 마감에는 쓰지 않는다.
+
+## 다음 안전한 범위
+
+- 실제 남은 중국어 UI 초안 우선. 이전268보류62+269보류38은 보고에 보존하여 재저작하지 않는다.
+- 다음 RO 계획 `.git/full-game-localization/post270-ui-next-plan.json` 41021B/SHA30953c7c60e7107c2c41200193d1159ccfc76d23c64ae3e218b555a11061e423:
+  48키18기능 후보 중 현재 literal47·17기능은 CN/TW미번역, 첫고지본문1은 세언어누락/collector지원미관측으로 별도다.
+  ROOT는 계획 전량/원문48/조건/13소스핀을 읽고 현재일치를 확인했다. 새 큐 선언·직접소비자확인·저작은 아직이다.
+- 현재 소스 `자산10억! 절반` 오독은 번역에서 제외한 별도 원문 수리 후보.
+- 첫시작 콘텐츠 안내본문·동적 직업/단서/생각명·직행EN은 이번 라벨 번역만으로 완료가 아니다.
+- 비보호 shipping 사건11578 세 언어 수용 완료.843은 참고741·보호102로 신규 활성 사건 공백 아님.
+
+## 활성 사양 원문
+
 # 월말 결산·현금 표시·경마 복귀 경고 중국어 UI
 
 #### [~] ORDER-271 중국어 UI17기능·45키

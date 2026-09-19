@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-271",
+  "scope": "work_unit",
+  "reviewer": "Poincare",
+  "authority": "user_delegated_agent_final",
+  "subject": {
+    "kind": "source",
+    "commit": "1fadb15778246c8ae2f000f938e01854a594cb80",
+    "tree": "5971c76bb1586189730542c8b96cc25215206acd",
+    "manifest_sha256": null
+  },
+  "review": {
+    "commit": "efcdcfa166ef89fbc2c21c837320d3b0dd572518",
+    "tree": "2536112dd54e3f9cc8fe292fa30414082235f873",
+    "clean": true
+  },
+  "date": "2026-09-20",
+  "verdict": "GO",
+  "required": [],
+  "decision": "GO only for ORDER-271's 45 Korean keys across 17 current functional units, 45 CN plus 45 TW revised translations installed and formally accepted, and preservation of the previous accepted/held populations. This is not approval of all 39,842 records, full-game completion, new public/human GO, or native/render evidence.",
+  "population": {
+    "language": "Original 90 targets independently read: first REWORK2 (CN stat terminology and TW composed punctuation), followed by same-90 r1 language GO. Exactly two single-character repairs; other 88 targets and all Korean keys/tokens/LF preserved.",
+    "accepted": "CN45 + TW45 =90 new accepted targets; JA0. Official total39,842/b116 with separate retained internal metadata9: JA13,096, CN13,373, TW13,373.",
+    "held": "No new machine failure or HOLD. Existing 110 held targets remain in unchanged public ORDER-268/269/270 reports (31+19+5 Korean rows, two locales each); none silently installed or accepted by this unit.",
+    "eligibility": "Original planning47 was corrected to45 before drafting/export: CN/TW is_english branches do not read the two HUD money templates. These two are not failed/HOLD translations. Concatenated first-start warning body remains a separate excluded surface; its preparatory memo is not unit evidence of completion.",
+    "preservation": "Old39,752 current source/target hashes pass ROOT's actual preservation. Reviewer independently reconstructed byte-exact old portable and old Chinese dictionaries; JA whole unchanged. Old57 agent decisions, human ledger45OPEN/1done, public receipts, runtime/source/checker/registry/project files preserved.",
+    "qa": "First fixed unique12 actual children all exit0 with required markers, plus actual clean preservation. Named1,627 inputs and outer/preservation1,202 inputs unchanged; current named input bytes independently matched. Reviewer reran no QA, collector, module import or engine."
+  },
+  "direct_review": {
+    "source_boundary": "Read-only Git confirms review's direct parent is the subject and the only subject-to-review change is docs/STATUS.md. Baseline d997f302a09d2ffc5460d714fed78d3020c63232 to review changes ten paths within declared13; product changes are only Chinese UI2 and portable1. No source/checker/engine/history guard mutation.",
+    "language_and_consumers": "The two sealed language reports contain direct Korean-source and actual consumer review, including nested notebook composition, monthly income minus fixed costs versus asset delta, subsidy/paycheck receipts, week counts and warning conditions. r1 values were re-read and bound to current UI, not inferred from machine PASS.",
+    "formal_exchange": "Read all eight export/check/formal-export/import captures and their original stdout/stderr/Base64 bindings. Preflight checks each45 report changed_files=1 as proposed edits with inputs unchanged. Formal export/import run at clean d3f165d9a18bb605b32e763fee4b1a78967e9737; imports each45 report changed_files=0. Both full source/response sets and real receipts match approved r1/current UI; receipt digest and target digest independently recalculated.",
+    "portable": "Current portable 10,411,340 bytes / 1aaf0e4e11cbc61cbe11d6b29c170f5a07778c2a4aa8f727b0c67cd01630bdbf; accepted digest fd646d135e3654edc54772316d7f4a57a192bbea6243cf983e397e521b76e7ad. Removing only new90 and batch116, then restoring the accepted digest, reproduces all old10,382,430 bytes / 9ed1001a6ee676b656e64378010c0aefcaf8cb106cf4d9a9f9c72acd751593bc. Other metadata is unchanged, not newly certified.",
+    "ui": "CN68,494 bytes / 04f6585ec7544125f4c0e8b75265537f7719cb5d57def4856b4d5f88c171346d; TW68,560 / 55ed9988576e8b8702759b53545511bd33f61f44f289574829fb865a4e69729e. Each is exactly old dictionary plus approved45; removing those entries reconstructs old raw bytes. JA292,790 / 7bc10c4a602080dbf86408b93e623f36bd2dd351725b77093c3a4ab53b93f772 is unchanged.",
+    "drivers": "Directly read exchange142 lines, named capture and outer envelope. Approved SHA, exact45 selection, no HOLD filter, old39,752 hashes/raw inverse and fixed12/owned13/clean-head boundaries are present. Outer capture records clean/source facts; it is not itself a general clean-source authorization gate. ROOT's actual captures and named guard supply this execution boundary. No helper was executed by reviewer.",
+    "actual12": "Read complete raw outputs of eleven non-fullself children and fullself stderr/marker plus parsed retained JSON result arrays and summaries. Raw child bytes, hashes and text match all12. Fullself264, JA pipeline146, ZH12446, story-demo mutation4, queue25 and agent222 pass. Historical internal fixtures were not re-authored or given a new broader verdict.",
+    "diagnostics": "Fullself's365-byte stderr is normal unittest progress and OK, not empty stderr or a failure. Other11 child stderr and named/outer stderr are empty. Registry has23 retained EXTRA advisories and registered151; these are not hidden failures. JA remains beta, ZH remains skeleton/shipping0 (legacy801/2948, context6/29, dynamic6/701, direct English bypass11). Public story-demo actual outputs preserve14 events/100 leaves/121 UI per translated locale; this is no new public GO.",
+    "timing": "Preservation6.215183292s; named118.391002041s; outer118.690716916s. Each retained first run completed on the exact review candidate with inputs unchanged."
+  },
+  "preserved_source_limits": [
+    "Notebook hidden-motive branches remain excluded. Current default localized composition is correct; no rendered notebook inspection occurred.",
+    "Investment praise is still based on aggregate asset change; 'still early' is still selected by assets, not elapsed time; sleep/food warning still follows addiction level rather than direct measurement. Translation preserves these source claims without certifying them or broadening this unit into source repair.",
+    "Original first language REWORK2 is retained rather than relabeled PASS. No first machine failure occurred in this unit. The pre-author47→45 source correction is not post-failure cohort filtering.",
+    "Old accepted records were hash-bound and preserved, not all retranslated or rerun through a fresh full L1. Existing held110 remain unresolved; no automatic native or whole-product approval follows these gates."
+  ],
+  "evidence": [
+    {"path": ".git/full-game-localization/order271-language-review-first.json", "bytes": 8036, "sha256": "ffec635af11320abac72c1de82013e8f2d1d5a58c764cf33fb82d2d716e6326f", "status": "original REWORK2"},
+    {"path": ".git/full-game-localization/order271-language-review-r1.json", "bytes": 4050, "sha256": "cd6e266ffb2264ad060f0a61b5422d2f47460446e2694376238f6f9262d7003d", "status": "same90 language GO"},
+    {"path": ".git/full-game-localization/order271-zh-CN-draft-r1.json", "bytes": 9981, "sha256": "a563cf102cad700a68df5fc0149513db6756666800418a64d3c0dc8c4064cbdd"},
+    {"path": ".git/full-game-localization/order271-zh-TW-draft-r1.json", "bytes": 10005, "sha256": "1685ac64b83edee0dc99364658804c42cf606d8ce1853e900d6c83d43b80672e"},
+    {"path": ".git/full-game-localization/order271-export-cn-first.json", "bytes": 377560, "sha256": "7fc7bcbad56837e0e29adc2f66528da4fcab9b195d06f5aa7521d0a3c460f982"},
+    {"path": ".git/full-game-localization/order271-export-tw-first.json", "bytes": 377560, "sha256": "a8c77f4332cd728d6f0d39f3b50983fda57692b1424f319284bc8183e10f2ec9"},
+    {"path": ".git/full-game-localization/order271-preflight-check-cn-first.json", "bytes": 377491, "sha256": "58b0ec6c99ec5f5dee24310a94a961e2768ca139c91f21b0db1f1428aaba8bf6"},
+    {"path": ".git/full-game-localization/order271-preflight-check-tw-first.json", "bytes": 377498, "sha256": "1b6ccc57764d01e66134c0cb803a0bb67b521cf77829860d28267d5c9f370a37"},
+    {"path": ".git/full-game-localization/order271-formal-export-cn-first.json", "bytes": 377589, "sha256": "a76d9aef72476f7a6c14e169bb40a6e8716093dcc3fabfe33b21f1fa3809591d"},
+    {"path": ".git/full-game-localization/order271-formal-export-tw-first.json", "bytes": 377589, "sha256": "debf8911f2e6035237293124c74d975d3b8e0b703f9ffcb87b1cc9101480d7fb"},
+    {"path": ".git/full-game-localization/order271-formal-import-cn-first.json", "bytes": 377511, "sha256": "bdb21306ff98b425028af608f591a5206762c3a86db8209146ad2e4ea17c0b57"},
+    {"path": ".git/full-game-localization/order271-formal-import-tw-first.json", "bytes": 377511, "sha256": "f6917a0b2a861d0d108ff59a0c2425de3a6acd10d003d2aaedb5c0698e588599"},
+    {"path": ".git/full-game-localization/zh-CN/full-ko-direct-2026-09-07.1/e09505d86ace56a93e11ccba8d17d643bb8f508e93fbdfd82d4bb106443fd86e.accepted.json", "bytes": 13380, "sha256": "536e3efd68cf5282e2d152de469a1d3c93b1f64f98735044c5d9a8274b7a3822"},
+    {"path": ".git/full-game-localization/zh-TW/full-ko-direct-2026-09-07.1/69a05dbafe59dc6e75402fe0bfb4df0249f7aacdcc9a56ca639f8b8f699ebb1e.accepted.json", "bytes": 13380, "sha256": "9e10b1e4cb1deacde2ba724426ec0be2c1aaeb5ce833c244dad01c1983d2011d"},
+    {"path": ".git/full-game-localization/order271-preservation-first.json", "bytes": 377738, "sha256": "837ce0def5a170a0b7d228378791c96b44b4a64b037421aed29bf2b5a2127d02"},
+    {"path": ".git/full-game-localization/order271-named-first.json", "bytes": 1690343, "sha256": "158792bfe027064bf92dde08369a330285a35358c8eefbdb007eec7cc7fa6689"},
+    {"path": ".git/full-game-localization/order271-named-outer-first.json", "bytes": 379613, "sha256": "69bcc8cc946547a2b4495563d31f68164de441a54d552e63d2b932e1769aee76"},
+    {"path": ".git/full-game-localization/order271-exchange.py", "sha256": "db91483a7abf815696ef4a35b5f19a0ee72dc03471dea25d3fc9711b9a3f01f2"},
+    {"path": ".git/full-game-localization/order271-named.py", "bytes": 13331, "sha256": "989c305610f92885c176cd3741320f507999fb8af2d34d45268b6962bc4ed1ce"},
+    {"path": ".git/full-game-localization/order271-capture.py", "sha256": "997394d7e1320ce2c0e094fdfaafd24e4fd285ef181e63007c9ea7b10d3c3876"}
+  ],
+  "unobserved": [
+    "native_reader",
+    "rendered_UI",
+    "human_playtest",
+    "physical_controller_feel",
+    "full_game_GO",
+    "first_start_warning_completion",
+    "excluded_hidden_motive_surfaces",
+    "retroactive_saved_log_translation"
+  ]
+}
