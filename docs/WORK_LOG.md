@@ -2,6 +2,12 @@
 
 > 이전 WORK·현재 선언·실패 원문은 [272 보존본](queue_archive/ORDER-272.md)에 있다.
 
+## 2026-09-20 (Codex — 경마 거리 단위 오탐·기존20값 복구 착수)
+
+- [273](queue_active/ORDER-273.md): 두 완성 KO템플릿만 수리한다. 정상4/변이14/OFF2와 원고20값의 모집단을 분리한다.
+- ROOT가 원메모23815B/SHA67bb7c8a5688e11dab6ab6f255e9a3b8a18edd7d3d94247a45984809723dafa9를 전량 읽었다. 실제복구0, 기존39872·보류110 보존.
+- 파일소유: Plato checker1, ROOT locale2/portable/운영문서, Poincare 비저자 검수. 기존원고 재저작0.
+
 ## 2026-09-20 (Codex — 월초 돌발상황·시장 안내 중국어 30 반영)
 
 - [272](queue_archive/ORDER-272.md): 제품b61eeb5·검토49428e8, 독립 Poincare 한정GO/필수0.
