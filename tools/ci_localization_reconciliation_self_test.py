@@ -1922,5 +1922,1272 @@ def _title_button_main():
           + f" current={len(results)}/20 historical28={historical['passed']} unchanged={unchanged}")
     return 0 if passed else 1
 # END_TITLE_BUTTON_CI_SELF_256
+
+# BEGIN_INVENTORY_CI_SELF_261
+INVENTORY_DR_PATH = "autoloads/DataRegistry.gd"
+INVENTORY_HISTORY_PATH = "tools/main_game_locale_history.py"
+INVENTORY_CHAPTER_PATH = "tools/chapter1_core_loop_v2_causal_ledger_check.py"
+INVENTORY_CI_PATH = "tools/ci_localization_reconciliation_self_test.py"
+INVENTORY_META_PATH = "tools/meta_title_locale_successor_self_test.py"
+INVENTORY_SPEC = json.loads(r'''{
+  "unit_id": "ORDER-261",
+  "scope": "Pre-code finite source/history controls; no runtime inventory policy test",
+  "chronology": "Frozen after Rawls source2 implementation was read, before Plato history/helper/Chapter/CI/meta implementation or any new source-control execution. This is independent expectation design, not blind source-author assessment.",
+  "provenance": {
+    "source2": {
+      "path": ".git/full-game-localization/order261-source2-author-binding.json",
+      "bytes": 11577,
+      "sha256": "efca55470fe59f4bd77c76978a0919903bef2a9906843813d71be05be9a4b3b8"
+    },
+    "actual_source_pins": {
+      "autoloads/DataRegistry.gd": {
+        "bytes": 66359,
+        "sha256": "8887fd8a1c8becaef27e2638efea78218281786699546fda26695753d9978f7e"
+      },
+      "scenes/MainGame.gd": {
+        "bytes": 1139732,
+        "sha256": "da046f2bdec4e652b98498c49db67b262ce13f5be5475cc719aa5f938e117445"
+      }
+    },
+    "predecessor_pins": {
+      "autoloads/DataRegistry.gd": {
+        "bytes": 62059,
+        "sha256": "9ee97b7003efb1d9b80673d1fce162b71ab0cb6f929a363e04ead29a98d9a1df"
+      },
+      "scenes/MainGame.gd": {
+        "bytes": 1139685,
+        "sha256": "ca0dd88c1aabd95f621f66a4213b23084de67b937ed9b9236483040d303b0e81"
+      }
+    },
+    "new_checker_pins": null
+  },
+  "api": {
+    "one_step": [
+      "inventory_display_source_errors(relative,current,registered_previous=None)",
+      "inventory_display_project_bytes(current,relative)",
+      "inventory_display_project_byte_hash(claim,relative,current)"
+    ],
+    "registry": "INVENTORY_DISPLAY_TRANSITIONS dict[path] -> {previous_sha256,current_sha256,inverses:[{id,kind,before,after}]}; canonical JSON ensure_ascii=False,sort_keys=True,separators=(',',':'); _INVENTORY_DISPLAY_REGISTRY_SHA256; separately fixed current and predecessor pins and inverse id/kind order",
+    "chapter": [
+      "unchanged _order243_main_source_errors for Main",
+      "_audited_source_snapshot_errors({DataRegistry: registered9ee}) for actual DR raw gate; new _order261_registry_source_errors/_order261_registry_observed_hash hooks",
+      "unchanged _terminal_historical_cache_contract_valid({}) with actual current DR raw on dr_current and dr_revision_mutation only"
+    ]
+  },
+  "counts": {
+    "normal": 2,
+    "raw_negative": 9,
+    "registry_negative": 7,
+    "forged_negative": 3,
+    "registration_negative": 1,
+    "claim": 2,
+    "OFF": 1,
+    "total": 25
+  },
+  "cases": [
+    {
+      "id": "main_current",
+      "kind": "normal",
+      "path": "scenes/MainGame.gd",
+      "base": null,
+      "recipe": {
+        "type": "current"
+      },
+      "expected": {
+        "one_step_source": "EMPTY",
+        "one_step_bytes": "PREDECESSOR",
+        "one_step_hash": "PREDECESSOR_SHA",
+        "registered_source": "EMPTY",
+        "live": "EMPTY",
+        "exception": false,
+        "public_source": "EMPTY",
+        "public_bytes": "ORDER220",
+        "public_hash": "ORDER220_SHA"
+      }
+    },
+    {
+      "id": "dr_current",
+      "kind": "normal",
+      "path": "autoloads/DataRegistry.gd",
+      "base": null,
+      "recipe": {
+        "type": "current"
+      },
+      "expected": {
+        "one_step_source": "EMPTY",
+        "one_step_bytes": "PREDECESSOR",
+        "one_step_hash": "PREDECESSOR_SHA",
+        "registered_source": "EMPTY",
+        "live": "EMPTY",
+        "exception": false,
+        "current_revision_semantic": true
+      }
+    },
+    {
+      "id": "main_whole_rollback",
+      "kind": "raw",
+      "path": "scenes/MainGame.gd",
+      "base": "main_current",
+      "recipe": {
+        "type": "predecessor"
+      },
+      "expected": {
+        "one_step_source": "NONEMPTY",
+        "one_step_bytes": "INPUT",
+        "one_step_hash": "CLAIM",
+        "registered_source": "NONEMPTY",
+        "live": "NONEMPTY",
+        "exception": false,
+        "public_source": "NONEMPTY",
+        "public_bytes": "INPUT",
+        "public_hash": "CLAIM"
+      }
+    },
+    {
+      "id": "dr_whole_rollback",
+      "kind": "raw",
+      "path": "autoloads/DataRegistry.gd",
+      "base": "dr_current",
+      "recipe": {
+        "type": "predecessor"
+      },
+      "expected": {
+        "one_step_source": "NONEMPTY",
+        "one_step_bytes": "INPUT",
+        "one_step_hash": "CLAIM",
+        "registered_source": "NONEMPTY",
+        "live": "NONEMPTY",
+        "exception": false
+      }
+    },
+    {
+      "id": "dr_capture_rollback",
+      "kind": "raw",
+      "path": "autoloads/DataRegistry.gd",
+      "base": "dr_current",
+      "recipe": {
+        "type": "inverse_one",
+        "inverse_id": "capture_after_actual_item_pipeline"
+      },
+      "expected": {
+        "one_step_source": "NONEMPTY",
+        "one_step_bytes": "INPUT",
+        "one_step_hash": "CLAIM",
+        "registered_source": "NONEMPTY",
+        "live": "NONEMPTY",
+        "exception": false
+      }
+    },
+    {
+      "id": "main_gift_mutation",
+      "kind": "raw",
+      "path": "scenes/MainGame.gd",
+      "base": "main_current",
+      "recipe": {
+        "type": "replace_once",
+        "before": "_gift_display_name(item_id) if str(item.get(\"category\", \"\")) == \"gift\" else DataRegistry.get_inventory_display_name",
+        "after": "_gift_display_name(\"gift_book\") if str(item.get(\"category\", \"\")) == \"gift\" else DataRegistry.get_inventory_display_name"
+      },
+      "expected": {
+        "one_step_source": "NONEMPTY",
+        "one_step_bytes": "INPUT",
+        "one_step_hash": "CLAIM",
+        "registered_source": "NONEMPTY",
+        "live": "NONEMPTY",
+        "exception": false,
+        "public_source": "NONEMPTY",
+        "public_bytes": "INPUT",
+        "public_hash": "CLAIM"
+      }
+    },
+    {
+      "id": "dr_revision_mutation",
+      "kind": "raw",
+      "path": "autoloads/DataRegistry.gd",
+      "base": "dr_current",
+      "recipe": {
+        "type": "replace_once",
+        "before": "func notify_content_override() -> void:\n\tcontent_revision += 1\n",
+        "after": "func notify_content_override() -> void:\n\tcontent_revision += 2\n"
+      },
+      "expected": {
+        "one_step_source": "NONEMPTY",
+        "one_step_bytes": "INPUT",
+        "one_step_hash": "CLAIM",
+        "registered_source": "NONEMPTY",
+        "live": "NONEMPTY",
+        "exception": false,
+        "current_revision_semantic": false
+      }
+    },
+    {
+      "id": "main_extra_lf",
+      "kind": "raw",
+      "path": "scenes/MainGame.gd",
+      "base": "main_current",
+      "recipe": {
+        "type": "append_lf"
+      },
+      "expected": {
+        "one_step_source": "NONEMPTY",
+        "one_step_bytes": "INPUT",
+        "one_step_hash": "CLAIM",
+        "registered_source": "NONEMPTY",
+        "live": "NONEMPTY",
+        "exception": false,
+        "public_source": "NONEMPTY",
+        "public_bytes": "INPUT",
+        "public_hash": "CLAIM"
+      }
+    },
+    {
+      "id": "dr_extra_lf",
+      "kind": "raw",
+      "path": "autoloads/DataRegistry.gd",
+      "base": "dr_current",
+      "recipe": {
+        "type": "append_lf"
+      },
+      "expected": {
+        "one_step_source": "NONEMPTY",
+        "one_step_bytes": "INPUT",
+        "one_step_hash": "CLAIM",
+        "registered_source": "NONEMPTY",
+        "live": "NONEMPTY",
+        "exception": false
+      }
+    },
+    {
+      "id": "main_crlf",
+      "kind": "raw",
+      "path": "scenes/MainGame.gd",
+      "base": "main_current",
+      "recipe": {
+        "type": "crlf"
+      },
+      "expected": {
+        "one_step_source": "NONEMPTY",
+        "one_step_bytes": "INPUT",
+        "one_step_hash": "CLAIM",
+        "registered_source": "NONEMPTY",
+        "live": "NONEMPTY",
+        "exception": false,
+        "public_source": "NONEMPTY",
+        "public_bytes": "INPUT",
+        "public_hash": "CLAIM"
+      }
+    },
+    {
+      "id": "dr_crlf",
+      "kind": "raw",
+      "path": "autoloads/DataRegistry.gd",
+      "base": "dr_current",
+      "recipe": {
+        "type": "crlf"
+      },
+      "expected": {
+        "one_step_source": "NONEMPTY",
+        "one_step_bytes": "INPUT",
+        "one_step_hash": "CLAIM",
+        "registered_source": "NONEMPTY",
+        "live": "NONEMPTY",
+        "exception": false
+      }
+    },
+    {
+      "id": "main_registry_prior",
+      "kind": "registry",
+      "path": "scenes/MainGame.gd",
+      "base": "main_current",
+      "recipe": {
+        "type": "registry",
+        "operation": "wrong_prior",
+        "reseal": true
+      },
+      "expected": {
+        "one_step_source": "NONEMPTY",
+        "one_step_bytes": "INPUT",
+        "one_step_hash": "CLAIM",
+        "registered_source": "NONEMPTY",
+        "live": "NONEMPTY",
+        "exception": false,
+        "public_source": "NONEMPTY",
+        "public_bytes": "INPUT",
+        "public_hash": "CLAIM"
+      }
+    },
+    {
+      "id": "dr_registry_prior",
+      "kind": "registry",
+      "path": "autoloads/DataRegistry.gd",
+      "base": "dr_current",
+      "recipe": {
+        "type": "registry",
+        "operation": "wrong_prior",
+        "reseal": true
+      },
+      "expected": {
+        "one_step_source": "NONEMPTY",
+        "one_step_bytes": "INPUT",
+        "one_step_hash": "CLAIM",
+        "registered_source": "NONEMPTY",
+        "live": "NONEMPTY",
+        "exception": false
+      }
+    },
+    {
+      "id": "dr_registry_missing_capture",
+      "kind": "registry",
+      "path": "autoloads/DataRegistry.gd",
+      "base": "dr_current",
+      "recipe": {
+        "type": "registry",
+        "operation": "remove_inverse",
+        "reseal": true,
+        "inverse_id": "capture_after_actual_item_pipeline"
+      },
+      "expected": {
+        "one_step_source": "NONEMPTY",
+        "one_step_bytes": "INPUT",
+        "one_step_hash": "CLAIM",
+        "registered_source": "NONEMPTY",
+        "live": "NONEMPTY",
+        "exception": false
+      }
+    },
+    {
+      "id": "dr_registry_duplicate_capture",
+      "kind": "registry",
+      "path": "autoloads/DataRegistry.gd",
+      "base": "dr_current",
+      "recipe": {
+        "type": "registry",
+        "operation": "duplicate_inverse",
+        "reseal": true,
+        "inverse_id": "capture_after_actual_item_pipeline"
+      },
+      "expected": {
+        "one_step_source": "NONEMPTY",
+        "one_step_bytes": "INPUT",
+        "one_step_hash": "CLAIM",
+        "registered_source": "NONEMPTY",
+        "live": "NONEMPTY",
+        "exception": false
+      }
+    },
+    {
+      "id": "main_registry_wrong_inverse",
+      "kind": "registry",
+      "path": "scenes/MainGame.gd",
+      "base": "main_current",
+      "recipe": {
+        "type": "registry",
+        "operation": "wrong_inverse",
+        "reseal": true,
+        "inverse_id": "nongift_display_call"
+      },
+      "expected": {
+        "one_step_source": "NONEMPTY",
+        "one_step_bytes": "INPUT",
+        "one_step_hash": "CLAIM",
+        "registered_source": "NONEMPTY",
+        "live": "NONEMPTY",
+        "exception": false,
+        "public_source": "NONEMPTY",
+        "public_bytes": "INPUT",
+        "public_hash": "CLAIM"
+      }
+    },
+    {
+      "id": "dr_registry_wrong_inverse",
+      "kind": "registry",
+      "path": "autoloads/DataRegistry.gd",
+      "base": "dr_current",
+      "recipe": {
+        "type": "registry",
+        "operation": "wrong_inverse",
+        "reseal": true,
+        "inverse_id": "loaded_name_metadata"
+      },
+      "expected": {
+        "one_step_source": "NONEMPTY",
+        "one_step_bytes": "INPUT",
+        "one_step_hash": "CLAIM",
+        "registered_source": "NONEMPTY",
+        "live": "NONEMPTY",
+        "exception": false
+      }
+    },
+    {
+      "id": "registry_malformed",
+      "kind": "registry",
+      "path": "autoloads/DataRegistry.gd",
+      "base": "dr_current",
+      "recipe": {
+        "type": "registry",
+        "operation": "malformed",
+        "reseal": true
+      },
+      "expected": {
+        "one_step_source": "NONEMPTY",
+        "one_step_bytes": "INPUT",
+        "one_step_hash": "CLAIM",
+        "registered_source": "NONEMPTY",
+        "live": "NONEMPTY",
+        "exception": false
+      }
+    },
+    {
+      "id": "forged_main_year5",
+      "kind": "forged",
+      "path": "scenes/MainGame.gd",
+      "base": "main_current",
+      "recipe": {
+        "type": "append_lf",
+        "forged_consumer": "year5",
+        "spoof": "public bytes/hash to ORDER220; original source guard unchanged"
+      },
+      "expected": {
+        "one_step_source": "NONEMPTY",
+        "one_step_bytes": "INPUT",
+        "one_step_hash": "CLAIM",
+        "registered_source": "NONEMPTY",
+        "live": "NONEMPTY",
+        "exception": false,
+        "public_source": "NONEMPTY",
+        "public_bytes": "INPUT",
+        "public_hash": "CLAIM"
+      }
+    },
+    {
+      "id": "forged_main_chapter",
+      "kind": "forged",
+      "path": "scenes/MainGame.gd",
+      "base": "main_current",
+      "recipe": {
+        "type": "append_lf",
+        "forged_consumer": "chapter_main",
+        "spoof": "public bytes/hash to ORDER220; original source guard unchanged"
+      },
+      "expected": {
+        "one_step_source": "NONEMPTY",
+        "one_step_bytes": "INPUT",
+        "one_step_hash": "CLAIM",
+        "registered_source": "NONEMPTY",
+        "live": "NONEMPTY",
+        "exception": false,
+        "public_source": "NONEMPTY",
+        "public_bytes": "INPUT",
+        "public_hash": "CLAIM"
+      }
+    },
+    {
+      "id": "forged_dr_chapter",
+      "kind": "forged",
+      "path": "autoloads/DataRegistry.gd",
+      "base": "dr_current",
+      "recipe": {
+        "type": "append_lf",
+        "forged_consumer": "chapter_dr",
+        "spoof": "DR observation hook and _file_digest to registered old SHA; original source guard unchanged"
+      },
+      "expected": {
+        "one_step_source": "NONEMPTY",
+        "one_step_bytes": "INPUT",
+        "one_step_hash": "CLAIM",
+        "registered_source": "NONEMPTY",
+        "live": "NONEMPTY",
+        "exception": false
+      }
+    },
+    {
+      "id": "main_wrong_claim",
+      "kind": "claim",
+      "path": "scenes/MainGame.gd",
+      "base": "main_current",
+      "recipe": {
+        "type": "current",
+        "claim": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": {
+        "one_step_source": "EMPTY",
+        "one_step_bytes": "PREDECESSOR",
+        "one_step_hash": "CLAIM",
+        "registered_source": "EMPTY",
+        "live": "EMPTY",
+        "exception": false,
+        "public_source": "EMPTY",
+        "public_bytes": "ORDER220",
+        "public_hash": "CLAIM"
+      }
+    },
+    {
+      "id": "dr_wrong_claim",
+      "kind": "claim",
+      "path": "autoloads/DataRegistry.gd",
+      "base": "dr_current",
+      "recipe": {
+        "type": "current",
+        "claim": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": {
+        "one_step_source": "EMPTY",
+        "one_step_bytes": "PREDECESSOR",
+        "one_step_hash": "CLAIM",
+        "registered_source": "EMPTY",
+        "live": "EMPTY",
+        "exception": false
+      }
+    },
+    {
+      "id": "dr_wrong_registration",
+      "kind": "registration",
+      "path": "autoloads/DataRegistry.gd",
+      "base": "dr_current",
+      "recipe": {
+        "type": "current",
+        "registered_previous": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": {
+        "one_step_source": "EMPTY",
+        "one_step_bytes": "PREDECESSOR",
+        "one_step_hash": "PREDECESSOR_SHA",
+        "registered_source": "NONEMPTY",
+        "live": "NONEMPTY",
+        "exception": false
+      }
+    },
+    {
+      "id": "off_path",
+      "kind": "OFF",
+      "path": "scenes/MainGame.gd",
+      "base": "main_current",
+      "recipe": {
+        "type": "current",
+        "relative": "autoloads/LocaleManager.gd"
+      },
+      "expected": {
+        "one_step_source": "NONEMPTY",
+        "one_step_bytes": "INPUT",
+        "one_step_hash": "CLAIM",
+        "registered_source": "NONEMPTY",
+        "live": "BASELINE_OFF_EXACT",
+        "exception": false,
+        "public_source": "BASELINE_OFF_EXACT",
+        "public_bytes": "INPUT",
+        "public_hash": "CLAIM"
+      }
+    }
+  ],
+  "protocol": {
+    "normal_prerequisite": "Both exact current normal rows must succeed through their actual endpoints before any of20 negatives counts effective. All25 evaluate and raw returns/stdout/stderr/exceptions are captured before aggregate assertion.",
+    "normal_endpoints": "Main: one-step3+public3+unchanged year5/Chapter raw entry2. DR: one-step3+optional registration gate+actual Chapter snapshot; unchanged current revision semantic. Direct APIs and actual consumers are distinct.",
+    "wrong_claim": "Raw source/live gates remain successful; one-step/public hash returns original wrong claim. A direct DR observation probe also returns wrong claim. Never label valid-source wrong claim a raw rejection.",
+    "registered": "Only optional one-step source gate and actual Chapter snapshot reject wrong9ee registration; pure projection valid current remains permitted.",
+    "registry": "Recompute canonical checksum after each mutation, including malformed [] registry. Fixed pins/id/kind/cardinality/unique inverse/raw predecessor must reject independently of checksum.",
+    "forged": "Mutate actual raw with LF. Patch only bytes/hash observation APIs named in recipe, not source_errors. Original raw guard rejects. Every patched callable and Path read function must restore exact identity in finally.",
+    "OFF": "Only one-step3, publicMain3 and both unchanged Main raw entries; use current Main bytes with LocaleManager path. PublicMain/raw entries must equal immutable ORDER256 baseline OFF arrays [ORDER-243 path not owned, ORDER-243 unapproved current MainGame]. New one-step returns nonempty path error, bytes identity, claim identity. No wrong-path DR snapshot invented.",
+    "raw_evidence": "Inputs reconstruct losslessly from pinned current/predecessor raw and frozen recipe. Byte return includes exact raw reference; otherwise full base64. Arrays/stdout/stderr/exceptions preserved, no error string filters.",
+    "physical_vs_logical": "Current physical six files first; independently exact invert Main/DR/helper/Chapter/CI/meta to pre261 whole. Old25620/24328 and meta26/18/23/19/24/18 remain original bodies/FROZEN, in validated logical Path AND captured-callable view. New25 run only CI; meta runs the two existing normal rows as separate prerequisite, not new25.",
+    "revision": "Current DR semantic source remains physical for first normal/mutant checks. Only historical suite scoped view sees old DR. No normal production semantic reader is projected.",
+    "restoration": "Before/after whole physical pin maps and all patched imported callables/Path/stdout/stderr identities must match; exceptions suppress history and effective negatives, never suppress raw capture.",
+    "execution_owner": "ROOT only; no author test/import/collector/Godot/remote/Git execution."
+  }
+}''')
+INVENTORY_SOURCE_TRANSITIONS = json.loads(r'''{
+  "autoloads/DataRegistry.gd": {
+    "previous_sha256": "9ee97b7003efb1d9b80673d1fce162b71ab0cb6f929a363e04ead29a98d9a1df",
+    "current_sha256": "8887fd8a1c8becaef27e2638efea78218281786699546fda26695753d9978f7e",
+    "inverses": [
+      {
+        "id": "loaded_name_metadata",
+        "before": "var content_revision: int = 0\n",
+        "after": "var content_revision: int = 0\n# Display provenance is separate from saved inventory and live registry overrides.\nvar _inventory_display_loaded_language: String = \"\"\nvar _inventory_display_aliases: Dictionary = {}\nvar _inventory_display_loaded_names: Dictionary = {}\nvar _inventory_display_pending_language: String = \"\"\nvar _inventory_display_pending_revision: int = -1\nvar _inventory_display_pending_names: Dictionary = {}\n",
+        "kind": "replace_once"
+      },
+      {
+        "id": "capture_after_actual_item_pipeline",
+        "before": "\titems_by_id = _index_by_id(items)\n",
+        "after": "\titems_by_id = _index_by_id(items)\n\t_capture_inventory_display_snapshot(lang)\n",
+        "kind": "replace_once"
+      },
+      {
+        "id": "display_helpers_eof",
+        "before": "\t\tpush_warning(\"Invalid JSON file: %s\" % path)\n\treturn parsed\n",
+        "after": "\t\tpush_warning(\"Invalid JSON file: %s\" % path)\n\treturn parsed\n\n# Capture builtin aliases without presets; a preset/custom saved name is not an alias.\nfunc _capture_inventory_display_snapshot(lang: String) -> void:\n\tvar source_rows: Array = _load_array(ITEMS_PATH)\n\t_inventory_display_aliases.clear()\n\tfor raw_row in source_rows:\n\t\tif not raw_row is Dictionary:\n\t\t\tcontinue\n\t\tvar source_id: Variant = (raw_row as Dictionary).get(\"id\")\n\t\tif source_id is String and not source_id.is_empty():\n\t\t\t_inventory_display_aliases[source_id] = {}\n\tfor alias_language in [\"ko\", \"en\", \"ja\", \"zh-CN\", \"zh-TW\"]:\n\t\tvar defaults: Array = source_rows.duplicate(true)\n\t\tif alias_language != \"ko\":\n\t\t\t_apply_catalog_en_overlay(defaults, ITEM_TEXT_EN)\n\t\t\t_apply_catalog_locale_overlay(defaults, _load_locale_catalog(alias_language), \"items\")\n\t\tfor raw_row in defaults:\n\t\t\tif not raw_row is Dictionary:\n\t\t\t\tcontinue\n\t\t\tvar row: Dictionary = raw_row\n\t\t\tvar row_id: Variant = row.get(\"id\")\n\t\t\tvar name_value: Variant = row.get(\"name\")\n\t\t\tif not row_id is String or not _inventory_display_aliases.has(row_id):\n\t\t\t\tcontinue\n\t\t\tif name_value is String and not name_value.strip_edges().is_empty():\n\t\t\t\t_inventory_display_aliases[row_id][name_value] = true\n\t_inventory_display_loaded_names = _inventory_display_name_snapshot(items)\n\t_inventory_display_loaded_language = lang\n\t_inventory_display_pending_language = \"\"\n\t_inventory_display_pending_revision = -1\n\t_inventory_display_pending_names.clear()\n\nfunc _inventory_display_name_snapshot(rows: Array) -> Dictionary:\n\tvar result: Dictionary = {}\n\tfor raw_row in rows:\n\t\tif not raw_row is Dictionary:\n\t\t\tcontinue\n\t\tvar row: Dictionary = raw_row\n\t\tvar row_id: Variant = row.get(\"id\")\n\t\tif not row_id is String or row_id.is_empty():\n\t\t\tcontinue\n\t\t# Preserve field presence and raw type, including explicit empty/nonstring names.\n\t\tresult[row_id] = {\"name\": row[\"name\"]}.duplicate(true) if row.has(\"name\") else {}\n\treturn result\n\nfunc get_inventory_display_name(item: Dictionary, legacy_fallback: String) -> String:\n\tvar raw_id: Variant = item.get(\"id\")\n\tif _inventory_display_loaded_language.is_empty() or not raw_id is String:\n\t\treturn legacy_fallback\n\tvar item_id: String = raw_id\n\tif not _inventory_display_aliases.has(item_id):\n\t\treturn legacy_fallback\n\tif item.has(\"name\"):\n\t\tvar stored_name: Variant = item[\"name\"]\n\t\tif not stored_name is String or not _inventory_display_aliases[item_id].has(stored_name):\n\t\t\treturn legacy_fallback\n\n\tvar lang: String = LocaleManager.language\n\tif lang != _inventory_display_loaded_language:\n\t\t# set_language emits before reload. Preview that reload, not its old memory\n\t\t# overrides; settings-only changes never enter this branch.\n\t\tif _inventory_display_pending_language != lang or _inventory_display_pending_revision != content_revision:\n\t\t\tvar pending_rows: Array = _load_array(ITEMS_PATH)\n\t\t\tif lang != \"ko\":\n\t\t\t\t_apply_catalog_en_overlay(pending_rows, ITEM_TEXT_EN)\n\t\t\t\t_apply_catalog_locale_overlay(pending_rows, _load_locale_catalog(lang), \"items\")\n\t\t\t_apply_catalog_presets(pending_rows, \"items\")\n\t\t\t_inventory_display_pending_names = _inventory_display_name_snapshot(pending_rows)\n\t\t\t_inventory_display_pending_language = lang\n\t\t\t_inventory_display_pending_revision = content_revision\n\t\tvar pending_name: Dictionary = _inventory_display_pending_names.get(item_id, {})\n\t\treturn str(pending_name[\"name\"]) if pending_name.has(\"name\") else legacy_fallback\n\n\t# Same loaded language: honor live in-memory changes without rereading presets.\n\tvar live_row: Variant = get_item(item_id)\n\tif not live_row is Dictionary or not live_row.has(\"name\"):\n\t\treturn legacy_fallback\n\tvar baseline: Dictionary = _inventory_display_loaded_names.get(item_id, {})\n\tif not baseline.has(\"name\"):\n\t\treturn str(live_row[\"name\"])\n\tif typeof(live_row[\"name\"]) != typeof(baseline[\"name\"]) or live_row[\"name\"] != baseline[\"name\"]:\n\t\treturn str(live_row[\"name\"])\n\treturn str(baseline[\"name\"])\n",
+        "kind": "replace_eof"
+      }
+    ]
+  },
+  "scenes/MainGame.gd": {
+    "previous_sha256": "ca0dd88c1aabd95f621f66a4213b23084de67b937ed9b9236483040d303b0e81",
+    "current_sha256": "da046f2bdec4e652b98498c49db67b262ce13f5be5475cc719aa5f938e117445",
+    "inverses": [
+      {
+        "id": "nongift_display_call",
+        "before": "\t\tvar inv_name: String = _gift_display_name(item_id) if str(item.get(\"category\", \"\")) == \"gift\" else str(item.get(\"name\", _tr(\"아이템\", \"Item\")))\n",
+        "after": "\t\tvar inv_name: String = _gift_display_name(item_id) if str(item.get(\"category\", \"\")) == \"gift\" else DataRegistry.get_inventory_display_name(item, str(item.get(\"name\", _tr(\"아이템\", \"Item\"))))\n",
+        "kind": "replace_once"
+      }
+    ]
+  }
+}''')
+# BEGIN_INVENTORY_BINDING_261
+INVENTORY_BINDING = json.loads(r'''{
+  "phase": "APPLIED_SOURCE_BOUND",
+  "current_pins": {
+    "autoloads/DataRegistry.gd": {
+      "bytes": 66359,
+      "sha256": "8887fd8a1c8becaef27e2638efea78218281786699546fda26695753d9978f7e"
+    },
+    "scenes/MainGame.gd": {
+      "bytes": 1139732,
+      "sha256": "da046f2bdec4e652b98498c49db67b262ce13f5be5475cc719aa5f938e117445"
+    },
+    "tools/main_game_locale_history.py": {
+      "bytes": 24645,
+      "sha256": "b37fe2bdb738bd163d132ffa3acf418829ad49888e7cb934a244389609407ad6"
+    },
+    "tools/chapter1_core_loop_v2_causal_ledger_check.py": {
+      "bytes": 1463054,
+      "sha256": "9e7522cd34f98bd9e54e3148e9f7825731b5b6081e31e33c5a0d8b8c273f959e"
+    },
+    "tools/ci_localization_reconciliation_self_test.py": {
+      "bytes": 139656,
+      "sha256": "23a979a75e9bfcc1b7c531979de19143a4a3b6e8a9b8f2c584b56798e9d28134"
+    },
+    "tools/meta_title_locale_successor_self_test.py": {
+      "bytes": 277740,
+      "sha256": "ca124901202f3464e3b69a684faa475894f561d390f38f710e4761b9bb39b4d1"
+    }
+  },
+  "previous_pins": {
+    "autoloads/DataRegistry.gd": {
+      "bytes": 62059,
+      "sha256": "9ee97b7003efb1d9b80673d1fce162b71ab0cb6f929a363e04ead29a98d9a1df"
+    },
+    "scenes/MainGame.gd": {
+      "bytes": 1139685,
+      "sha256": "ca0dd88c1aabd95f621f66a4213b23084de67b937ed9b9236483040d303b0e81"
+    },
+    "tools/main_game_locale_history.py": {
+      "bytes": 12116,
+      "sha256": "dbba098883a7407f039381f366ce87dd0e265ddbed88beabd5ee687793b9db68"
+    },
+    "tools/chapter1_core_loop_v2_causal_ledger_check.py": {
+      "bytes": 1461830,
+      "sha256": "ac874ad1587304b4f1802ce2311cbcba231e1fdfb19086cce3a66aa19ee5fac3"
+    },
+    "tools/ci_localization_reconciliation_self_test.py": {
+      "bytes": 89823,
+      "sha256": "ddd6797beb9821c10a0390e4a1b7b27aa89f1e4a0fa36c0747f4377a5dd72899"
+    },
+    "tools/meta_title_locale_successor_self_test.py": {
+      "bytes": 274977,
+      "sha256": "5af619d0afda083934221201a5a704bf8bb4679442cb38eba9901beb35d259b0"
+    }
+  },
+  "preserved_pins": {
+    "tools/ja_translation_pipeline.py": {
+      "bytes": 264116,
+      "sha256": "3a2d791038a46dcf3442776f4703cd1398998590843b91904c2668425a7427f4"
+    },
+    "systems/DemoCoreLoopV2.gd": {
+      "bytes": 872637,
+      "sha256": "c9d06377f9bbd88bf2137806a4d6a460a432f78d936cac65f78930aaafa70eed"
+    },
+    "tools/meta_title_locale_successor.py": {
+      "bytes": 46649,
+      "sha256": "1df50f967c6fea8711f8375f0c5db940499066d4a0e73f75652d2fc1b39aaf6c"
+    },
+    "autoloads/LocaleManager.gd": {
+      "bytes": 20574,
+      "sha256": "9417e6b9e241e1d2b9ec7a7668cf4d19fe337ce6719d87e032020fe421ceec9a"
+    },
+    "autoloads/MetaProgression.gd": {
+      "bytes": 65836,
+      "sha256": "6f49a1bdd83b3431b4146bbd2a94956c481bb371202606398167cdec8ae9f8b0"
+    },
+    "tools/year5_reference_route_audit.py": {
+      "bytes": 620325,
+      "sha256": "b4c34f559a458b4ad53ff19a0855d76176ec84083ba7b725f21a4f7aa6f50f82"
+    }
+  },
+  "inverse_spans": {
+    "tools/main_game_locale_history.py": {
+      "start": "\n# BEGIN_INVENTORY_DISPLAY_HISTORY_261\n",
+      "end": "# END_INVENTORY_DISPLAY_HISTORY_261\n",
+      "hooks": []
+    },
+    "tools/chapter1_core_loop_v2_causal_ledger_check.py": {
+      "start": "# BEGIN_INVENTORY_REGISTRY_OBSERVATION_261\n",
+      "end": "# END_INVENTORY_REGISTRY_OBSERVATION_261\n\n\n",
+      "hooks": [
+        [
+          "    inventory_registry_raw: bytes | None = None\n    if \"autoloads/DataRegistry.gd\" in source_hashes:\n        try:\n            inventory_registry_raw = (ROOT / \"autoloads/DataRegistry.gd\").read_bytes()\n            errors.extend(_order261_registry_source_errors(\n                \"autoloads/DataRegistry.gd\", inventory_registry_raw,\n                source_hashes[\"autoloads/DataRegistry.gd\"]))\n        except OSError as exc:\n            errors.append(f\"ORDER-261: cannot read current inventory registry source ({exc})\")\n",
+          ""
+        ],
+        [
+          "            if relative_path == \"autoloads/DataRegistry.gd\" and inventory_registry_raw is not None:\n                observed_digest = _order261_registry_observed_hash(\n                    observed_digest, relative_path, inventory_registry_raw)\n",
+          ""
+        ]
+      ]
+    },
+    "tools/ci_localization_reconciliation_self_test.py": {
+      "start": "\n# BEGIN_INVENTORY_CI_SELF_261\n",
+      "end": "# END_INVENTORY_CI_SELF_261\n",
+      "hooks": [
+        [
+          "    raise SystemExit(_inventory_main())\n",
+          "    raise SystemExit(_title_button_main())\n"
+        ]
+      ]
+    },
+    "tools/meta_title_locale_successor_self_test.py": {
+      "start": "\n# BEGIN_INVENTORY_META_SELF_261\n",
+      "end": "# END_INVENTORY_META_SELF_261\n",
+      "hooks": [
+        [
+          "    raise SystemExit(_inventory_meta_main())\n",
+          "    raise SystemExit(_title_button_meta_main())\n"
+        ]
+      ]
+    }
+  },
+  "cases_sha256": "0fcbcde08bd89c2e4317a6fb485a9e27785eba2edad0d6a0dfbb7e954b5e6d43",
+  "input_pins": {
+    "main_current": {
+      "bytes": 1139732,
+      "sha256": "da046f2bdec4e652b98498c49db67b262ce13f5be5475cc719aa5f938e117445"
+    },
+    "dr_current": {
+      "bytes": 66359,
+      "sha256": "8887fd8a1c8becaef27e2638efea78218281786699546fda26695753d9978f7e"
+    },
+    "main_whole_rollback": {
+      "bytes": 1139685,
+      "sha256": "ca0dd88c1aabd95f621f66a4213b23084de67b937ed9b9236483040d303b0e81"
+    },
+    "dr_whole_rollback": {
+      "bytes": 62059,
+      "sha256": "9ee97b7003efb1d9b80673d1fce162b71ab0cb6f929a363e04ead29a98d9a1df"
+    },
+    "dr_capture_rollback": {
+      "bytes": 66316,
+      "sha256": "09331e299b5963e8fae0e4eeefd1ac8c3f2595e6100d29552b0764fa77fe8d14"
+    },
+    "main_gift_mutation": {
+      "bytes": 1139736,
+      "sha256": "3fc5affca8e2febc47447024843b1c5ebc3bcf34176bce56935c6d79db7f7eda"
+    },
+    "dr_revision_mutation": {
+      "bytes": 66359,
+      "sha256": "3a808ab62b5e0d267861bdaaa806dbe3fedfb02d3e2d56d931c89788147e03fb"
+    },
+    "main_extra_lf": {
+      "bytes": 1139733,
+      "sha256": "9feae1d8e35cdc0bd8fb50065ab3bd596aa88641859435b244f6c35e3b0d8e0b"
+    },
+    "dr_extra_lf": {
+      "bytes": 66360,
+      "sha256": "1557df3f6b40b92ef297933509015960b3e68e15b5fc37f244fbf1b057e57a0b"
+    },
+    "main_crlf": {
+      "bytes": 1163606,
+      "sha256": "cdcd97657b34358fa716f8754bd70b44fb7ac6ffc6d9a3ea189f2dce2e680cfe"
+    },
+    "dr_crlf": {
+      "bytes": 67767,
+      "sha256": "f462038cf24cc26fb6f5d7640abce9a1fbdad261dd8fd34bae9cbcd0b7c5e42a"
+    },
+    "main_registry_prior": {
+      "bytes": 1139732,
+      "sha256": "da046f2bdec4e652b98498c49db67b262ce13f5be5475cc719aa5f938e117445"
+    },
+    "dr_registry_prior": {
+      "bytes": 66359,
+      "sha256": "8887fd8a1c8becaef27e2638efea78218281786699546fda26695753d9978f7e"
+    },
+    "dr_registry_missing_capture": {
+      "bytes": 66359,
+      "sha256": "8887fd8a1c8becaef27e2638efea78218281786699546fda26695753d9978f7e"
+    },
+    "dr_registry_duplicate_capture": {
+      "bytes": 66359,
+      "sha256": "8887fd8a1c8becaef27e2638efea78218281786699546fda26695753d9978f7e"
+    },
+    "main_registry_wrong_inverse": {
+      "bytes": 1139732,
+      "sha256": "da046f2bdec4e652b98498c49db67b262ce13f5be5475cc719aa5f938e117445"
+    },
+    "dr_registry_wrong_inverse": {
+      "bytes": 66359,
+      "sha256": "8887fd8a1c8becaef27e2638efea78218281786699546fda26695753d9978f7e"
+    },
+    "registry_malformed": {
+      "bytes": 66359,
+      "sha256": "8887fd8a1c8becaef27e2638efea78218281786699546fda26695753d9978f7e"
+    },
+    "forged_main_year5": {
+      "bytes": 1139733,
+      "sha256": "9feae1d8e35cdc0bd8fb50065ab3bd596aa88641859435b244f6c35e3b0d8e0b"
+    },
+    "forged_main_chapter": {
+      "bytes": 1139733,
+      "sha256": "9feae1d8e35cdc0bd8fb50065ab3bd596aa88641859435b244f6c35e3b0d8e0b"
+    },
+    "forged_dr_chapter": {
+      "bytes": 66360,
+      "sha256": "1557df3f6b40b92ef297933509015960b3e68e15b5fc37f244fbf1b057e57a0b"
+    },
+    "main_wrong_claim": {
+      "bytes": 1139732,
+      "sha256": "da046f2bdec4e652b98498c49db67b262ce13f5be5475cc719aa5f938e117445"
+    },
+    "dr_wrong_claim": {
+      "bytes": 66359,
+      "sha256": "8887fd8a1c8becaef27e2638efea78218281786699546fda26695753d9978f7e"
+    },
+    "dr_wrong_registration": {
+      "bytes": 66359,
+      "sha256": "8887fd8a1c8becaef27e2638efea78218281786699546fda26695753d9978f7e"
+    },
+    "off_path": {
+      "bytes": 1139732,
+      "sha256": "da046f2bdec4e652b98498c49db67b262ce13f5be5475cc719aa5f938e117445"
+    }
+  },
+  "baseline_off_errors": [
+    "ORDER-243: locale history path is not the owned path",
+    "ORDER-243: unapproved current MainGame source bytes"
+  ],
+  "provenance": {
+    "controls": {
+      "path": ".git/full-game-localization/order261-source-controls.json",
+      "bytes": 19012,
+      "sha256": "310306e8d7662549cfc35827a907e1b2857254cbdc43dbcda27dd400326edbdd"
+    },
+    "source2": {
+      "path": ".git/full-game-localization/order261-source2-author-binding.json",
+      "bytes": 11577,
+      "sha256": "efca55470fe59f4bd77c76978a0919903bef2a9906843813d71be05be9a4b3b8"
+    },
+    "chronology": "Source2 was read before independent fixed25 expectation design. Controls were frozen before guard/self code; Poincare reviewed required0. This candidate has no test/import/engine execution. ROOT owns phase/actual binding and first QA.",
+    "ci_pin_boundary": "Embedded CI code-view excludes only this marked binding. External full CI raw must be separately approved/reported; this is not a whole-CI embedded self hash.",
+    "baseline_off": "Original ORDER256 first baseline OFF arrays preserved; no new original-suite rerun.",
+    "endpoint_counts": "Main core8 plus optional registered-source cross-check1; DR direct/actual snapshot/current semantic separate; same frozen normals2 prerequisite in meta, new25=0 there."
+  }
+}''')
+# END_INVENTORY_BINDING_261
+
+def _inventory_pin(raw):
+    return {"bytes": len(raw), "sha256": digest(raw)}
+
+
+def _inventory_code_view(raw):
+    start, end = b"# BEGIN_INVENTORY_BINDING_261\n", b"# END_INVENTORY_BINDING_261\n"
+    if raw.count(start) != 1 or raw.count(end) != 1:
+        raise AssertionError("inventory binding is not unique")
+    a, z = raw.index(start), raw.index(end) + len(end)
+    if a >= z:
+        raise AssertionError("inventory binding order")
+    return raw[:a] + start + b"INVENTORY_BINDING = {}\n" + end + raw[z:]
+
+
+def _inventory_physical_pins():
+    paths = set(INVENTORY_BINDING["previous_pins"]) | set(INVENTORY_BINDING["preserved_pins"])
+    return {p: _inventory_pin((ROOT / p).read_bytes()) for p in sorted(paths)}
+
+
+def _inventory_inverse(raw, relative):
+    old = raw
+    if relative in INVENTORY_SOURCE_TRANSITIONS:
+        for row in reversed(INVENTORY_SOURCE_TRANSITIONS[relative]["inverses"]):
+            before, after = row["before"].encode(), row["after"].encode()
+            if old.count(after) != 1 or (row["kind"] == "replace_eof" and not old.endswith(after)):
+                raise AssertionError("independent inventory inverse shape: " + relative)
+            old = old.replace(after, before, 1)
+    else:
+        rule = INVENTORY_BINDING["inverse_spans"][relative]
+        start, end = rule["start"].encode(), rule["end"].encode()
+        if old.count(start) != 1 or old.count(end) != 1:
+            raise AssertionError("independent inventory inverse span: " + relative)
+        a, z = old.index(start), old.index(end) + len(end)
+        if a >= z:
+            raise AssertionError("independent inventory inverse order")
+        old = old[:a] + old[z:]
+        for now, prior in rule["hooks"]:
+            if old.count(now.encode()) != 1:
+                raise AssertionError("independent inventory hook: " + relative)
+            old = old.replace(now.encode(), prior.encode(), 1)
+    if _inventory_pin(old) != INVENTORY_BINDING["previous_pins"][relative]:
+        raise AssertionError("independent inventory whole predecessor: " + relative)
+    return old
+
+
+def _inventory_prepare():
+    if INVENTORY_BINDING["phase"] != "APPLIED_SOURCE_BOUND":
+        raise AssertionError("inventory candidate is not authorized")
+    current = {p: (ROOT / p).read_bytes() for p in INVENTORY_BINDING["previous_pins"]}
+    for p, raw in current.items():
+        checked = _inventory_code_view(raw) if p == INVENTORY_CI_PATH else raw
+        if _inventory_pin(checked) != INVENTORY_BINDING["current_pins"][p]:
+            raise AssertionError("inventory current physical pin: " + p)
+    for p, wanted in INVENTORY_BINDING["preserved_pins"].items():
+        if _inventory_pin((ROOT / p).read_bytes()) != wanted:
+            raise AssertionError("inventory preserved physical input: " + p)
+    cases = INVENTORY_SPEC["cases"]
+    if len(cases) != 25 or len({r["id"] for r in cases}) != 25 or digest(
+            json.dumps(cases, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode()
+            ) != INVENTORY_BINDING["cases_sha256"]:
+        raise AssertionError("pre-code inventory cases differ")
+    previous = {p: _inventory_inverse(raw, p) for p, raw in current.items()}
+    old9029 = previous[MAIN_PATH]
+    for row in reversed(TITLE_BUTTON_SPEC["main_edits"]):
+        old9029 = _replace_once(old9029, row["after"], row["before"])
+    if digest(old9029) != CURRENT_SHA:
+        raise AssertionError("independent inventory 9029 predecessor")
+    old220 = old9029
+    for stage in ("ORDER240", "ORDER239"):
+        for row in FROZEN["patches"]:
+            if row["order"] == stage:
+                old220 = _replace_once(old220, row["after"], row["before"])
+    if digest(old220) != ORDER220_SHA:
+        raise AssertionError("independent inventory 220 predecessor")
+    return current, previous, old220
+
+
+def _inventory_materialize(case, current, previous):
+    raw, recipe = current[case["path"]], case["recipe"]
+    op = recipe["type"]
+    if op == "predecessor":
+        raw = previous[case["path"]]
+    elif op == "inverse_one":
+        rows = [r for r in INVENTORY_SOURCE_TRANSITIONS[case["path"]]["inverses"]
+                if r["id"] == recipe["inverse_id"]]
+        if len(rows) != 1:
+            raise AssertionError("inventory partial inverse selector")
+        raw = _replace_once(raw, rows[0]["after"], rows[0]["before"])
+    elif op == "replace_once":
+        raw = _replace_once(raw, recipe["before"], recipe["after"])
+    elif op == "append_lf":
+        raw += b"\n"
+    elif op == "crlf":
+        if b"\r" in raw:
+            raise AssertionError("inventory source already contains CR")
+        raw = raw.replace(b"\n", b"\r\n")
+    elif op not in {"current", "registry"}:
+        raise AssertionError("unknown inventory recipe")
+    if _inventory_pin(raw) != INVENTORY_BINDING["input_pins"][case["id"]]:
+        raise AssertionError("inventory frozen input differs")
+    return raw
+
+
+@contextlib.contextmanager
+def _inventory_registry(case, observation):
+    registry0, seal0 = history.INVENTORY_DISPLAY_TRANSITIONS, history._INVENTORY_DISPLAY_REGISTRY_SHA256
+    try:
+        if case["kind"] != "registry":
+            yield
+        else:
+            changed = copy.deepcopy(registry0)
+            recipe, path = case["recipe"], case["path"]
+            op = recipe["operation"]
+            if op == "malformed":
+                changed = []
+            elif op == "wrong_prior":
+                changed[path]["previous_sha256"] = "0" * 64
+            else:
+                rows = changed[path]["inverses"]
+                selected = [r for r in rows if r["id"] == recipe["inverse_id"]]
+                if len(selected) != 1:
+                    raise AssertionError("registry inverse selector differs")
+                if op == "remove_inverse":
+                    rows.remove(selected[0])
+                elif op == "duplicate_inverse":
+                    rows.append(copy.deepcopy(selected[0]))
+                elif op == "wrong_inverse":
+                    selected[0]["before"] = "# order261 wrong predecessor\n"
+                else:
+                    raise AssertionError("unknown inventory registry recipe")
+            resealed = digest(json.dumps(changed, ensure_ascii=False, sort_keys=True,
+                                         separators=(",", ":")).encode())
+            observation.update(original=copy.deepcopy(registry0), mutated=copy.deepcopy(changed),
+                               original_checksum=seal0, recomputed_checksum=resealed)
+            with patch.object(history, "INVENTORY_DISPLAY_TRANSITIONS", changed), \
+                    patch.object(history, "_INVENTORY_DISPLAY_REGISTRY_SHA256", resealed):
+                observation["resealed"] = history._INVENTORY_DISPLAY_REGISTRY_SHA256 == resealed
+                yield
+    finally:
+        observation["restored"] = (history.INVENTORY_DISPLAY_TRANSITIONS is registry0
+                                  and history._INVENTORY_DISPLAY_REGISTRY_SHA256 == seal0)
+
+
+@contextlib.contextmanager
+def _inventory_path_view(raws, observation):
+    read0, text0 = Path.read_bytes, Path.read_text
+    reads = {p: {"bytes": 0, "text": 0} for p in raws}
+    def read_bytes(path):
+        for relative, raw in raws.items():
+            if path == ROOT / relative:
+                reads[relative]["bytes"] += 1
+                return raw
+        return read0(path)
+    def read_text(path, *args, **kwargs):
+        for relative, raw in raws.items():
+            if path == ROOT / relative:
+                reads[relative]["text"] += 1
+                encoding = kwargs.get("encoding") or (args[0] if args else None) or "utf-8"
+                return raw.decode(encoding, errors=kwargs.get("errors") or "strict")
+        return text0(path, *args, **kwargs)
+    try:
+        with patch.object(Path, "read_bytes", read_bytes), patch.object(Path, "read_text", read_text):
+            yield
+    finally:
+        observation.update(reads=reads, restored=Path.read_bytes is read0 and Path.read_text is text0)
+
+
+def _inventory_case(case, raw, previous, old220):
+    path = case["recipe"].get("relative", case["path"])
+    claim = case["recipe"].get("claim", digest(raw))
+    prior = previous[case["path"]]
+    registered = case["recipe"].get("registered_previous", digest(prior))
+    values, exceptions, byte_returns, counts, registry, path_view, live_view = {}, {}, {}, {}, {}, {}, {}
+    refs = {"INPUT": raw, "PREDECESSOR": prior, "ORDER220": old220}
+    def observe(name, function):
+        counts[name] = counts.get(name, 0) + 1
+        try:
+            value = function()
+            if isinstance(value, bytes):
+                matches = [p for p, v in refs.items() if value == v]
+                byte_returns[name] = {**_inventory_pin(value), "exact_raw_references": matches}
+                if not matches:
+                    byte_returns[name]["unexpected_raw_base64"] = _title_button_base64.b64encode(value).decode("ascii")
+                values[name] = digest(value)
+            else:
+                values[name] = value
+        except Exception as error:
+            exceptions[name] = {"exception": type(error).__name__ + ": " + str(error),
+                                "traceback": _title_button_traceback.format_exc()}
+    api0 = (history.main_game_history_source_errors, history.main_game_history_project_bytes,
+            history.main_game_history_project_byte_hash, chapter1._file_digest,
+            chapter1._order261_registry_source_errors, chapter1._order261_registry_observed_hash)
+    try:
+        with _inventory_registry(case, registry), _inventory_path_view({case["path"]: raw}, path_view):
+            observe("one_step_source", lambda: history.inventory_display_source_errors(path, raw))
+            observe("registered_source", lambda: history.inventory_display_source_errors(path, raw, registered))
+            observe("one_step_bytes", lambda: history.inventory_display_project_bytes(raw, path))
+            observe("one_step_hash", lambda: history.inventory_display_project_byte_hash(claim, path, raw))
+            if case["path"] == MAIN_PATH:
+                observe("public_source", lambda: history.main_game_history_source_errors(path, raw))
+                observe("public_bytes", lambda: history.main_game_history_project_bytes(raw, path))
+                observe("public_hash", lambda: history.main_game_history_project_byte_hash(claim, path, raw))
+                consumers = (
+                    ("year5", year5._order243_main_source_errors,
+                     year5.ORDER156_SOURCE_FILE_TRANSITIONS[MAIN_PATH][1]),
+                    ("chapter_main", chapter1._order243_main_source_errors,
+                     chapter1.ORDER156_AUDITED_SOURCE_FILE_TRANSITIONS[MAIN_PATH][1]))
+                for name, function, old_registered in consumers:
+                    with contextlib.ExitStack() as stack:
+                        if case["kind"] == "forged" and case["recipe"]["forged_consumer"] == name:
+                            stack.enter_context(patch.object(history, "main_game_history_project_bytes", return_value=old220))
+                            stack.enter_context(patch.object(history, "main_game_history_project_byte_hash", return_value=ORDER220_SHA))
+                            live_view["forged_hash"] = history.main_game_history_project_byte_hash(claim, path, raw)
+                            live_view["forged_bytes_sha256"] = digest(history.main_game_history_project_bytes(raw, path))
+                        observe("live_" + name, lambda f=function, r=old_registered: f(path, raw, r))
+                values["live"] = {name: values.get("live_" + name) for name, _, _ in consumers}
+            else:
+                observe("registry_observed_hash", lambda: chapter1._order261_registry_observed_hash(claim, path, raw))
+                with contextlib.ExitStack() as stack:
+                    if case["kind"] == "forged":
+                        stack.enter_context(patch.object(chapter1, "_file_digest", return_value=digest(prior)))
+                        stack.enter_context(patch.object(chapter1, "_order261_registry_observed_hash", return_value=digest(prior)))
+                        live_view["forged_hash"] = chapter1._order261_registry_observed_hash(claim, path, raw)
+                    observe("live", lambda: chapter1._audited_source_snapshot_errors({path: registered}))
+                if "current_revision_semantic" in case["expected"]:
+                    observe("current_revision_semantic",
+                            lambda: chapter1._terminal_historical_cache_contract_valid({}))
+    finally:
+        live_view["restored"] = api0 == (
+            history.main_game_history_source_errors, history.main_game_history_project_bytes,
+            history.main_game_history_project_byte_hash, chapter1._file_digest,
+            chapter1._order261_registry_source_errors, chapter1._order261_registry_observed_hash)
+    def matches(actual, wanted):
+        if wanted in ("EMPTY", "NONEMPTY", "BASELINE_OFF_EXACT"):
+            if isinstance(actual, dict):
+                return bool(actual) and all(matches(v, wanted) for v in actual.values())
+            if not isinstance(actual, list) or not all(isinstance(v, str) for v in actual):
+                return False
+            return (not actual if wanted == "EMPTY" else bool(actual) if wanted == "NONEMPTY"
+                    else actual == INVENTORY_BINDING["baseline_off_errors"])
+        return actual == wanted
+    symbols = {"INPUT": digest(raw), "PREDECESSOR": digest(prior), "ORDER220": ORDER220_SHA,
+               "PREDECESSOR_SHA": digest(prior), "ORDER220_SHA": ORDER220_SHA, "CLAIM": claim}
+    checks = {}
+    for name, wanted in case["expected"].items():
+        if name == "exception":
+            continue
+        wanted = symbols.get(wanted, wanted) if isinstance(wanted, str) else wanted
+        checks[name] = matches(values.get(name), wanted)
+    checks["exceptions"] = not exceptions
+    checks["raw_returns"] = bool(byte_returns) and all(r["exact_raw_references"] for r in byte_returns.values())
+    checks["restoration"] = all(v.get("restored") is True for v in (registry, path_view, live_view))
+    if case["path"] == INVENTORY_DR_PATH:
+        checks["actual_registry_bytes_read"] = path_view["reads"][INVENTORY_DR_PATH]["bytes"] >= 1
+        checks["registry_observed_hash"] = values.get("registry_observed_hash") == symbols.get(
+            case["expected"]["one_step_hash"], case["expected"]["one_step_hash"])
+    if "current_revision_semantic" in case["expected"]:
+        checks["actual_registry_semantic_text_read"] = path_view["reads"][INVENTORY_DR_PATH]["text"] >= 1
+    if case["kind"] == "registry":
+        checks["registry_resealed"] = registry.get("resealed") is True
+    if case["kind"] == "forged":
+        checks["forged_observation_installed"] = live_view.get("forged_hash") == (
+            ORDER220_SHA if case["path"] == MAIN_PATH else digest(prior))
+    return {"id": case["id"], "kind": case["kind"], "base": case["base"], "recipe": case["recipe"],
+            "input": _inventory_pin(raw), "path": path, "claim": claim, "registered_previous": registered,
+            "returns": values, "byte_returns": byte_returns, "endpoint_counts": counts,
+            "exceptions": exceptions, "registry": registry, "path_view": path_view,
+            "live_view": live_view, "checks": checks, "passed": all(checks.values())}
+
+
+@contextlib.contextmanager
+def _inventory_logical_view(previous, observation):
+    api0 = (history.main_game_history_source_errors, history.main_game_history_project_bytes,
+            history.main_game_history_project_byte_hash,
+            chapter1._order261_registry_source_errors, chapter1._order261_registry_observed_hash)
+    stdout0, stderr0 = _title_button_sys.stdout, _title_button_sys.stderr
+    def source(relative, raw):
+        return history._INVENTORY_OLD_SOURCE_ERRORS(relative, raw)
+    def project(raw, relative):
+        return history._INVENTORY_OLD_PROJECT_BYTES(raw, relative)
+    def observed(claim, relative, raw):
+        return history._INVENTORY_OLD_PROJECT_HASH(claim, relative, raw)
+    def old_registry_source(relative, raw, registered_previous):
+        # The old snapshot had no DR pre-gate. Its original raw digest comparison
+        # remains active below; this is confined to the validated historical view.
+        return []
+    def old_registry_observed(claim, relative, raw):
+        return claim
+    path_view = {}
+    try:
+        with _inventory_path_view(previous, path_view), contextlib.ExitStack() as stack:
+            for name, function in (("main_game_history_source_errors", source),
+                                   ("main_game_history_project_bytes", project),
+                                   ("main_game_history_project_byte_hash", observed)):
+                stack.enter_context(patch.object(history, name, function))
+            stack.enter_context(patch.object(chapter1, "_order261_registry_source_errors", old_registry_source))
+            stack.enter_context(patch.object(chapter1, "_order261_registry_observed_hash", old_registry_observed))
+            yield
+    finally:
+        observation.update(path_view=path_view, restored=(
+            path_view.get("restored") is True and api0 == (
+                history.main_game_history_source_errors, history.main_game_history_project_bytes,
+                history.main_game_history_project_byte_hash,
+                chapter1._order261_registry_source_errors, chapter1._order261_registry_observed_hash)
+            and _title_button_sys.stdout is stdout0 and _title_button_sys.stderr is stderr0))
+
+
+def _inventory_run_cases(cases, current, previous, old220):
+    results = []
+    for case in cases:
+        stdout, stderr = io.StringIO(), io.StringIO()
+        with contextlib.redirect_stdout(stdout), contextlib.redirect_stderr(stderr):
+            try:
+                raw = _inventory_materialize(case, current, previous)
+                row = _inventory_case(case, raw, previous, old220)
+            except Exception as error:
+                row = {"id": case["id"], "kind": case["kind"], "base": case["base"], "passed": False,
+                       "exception": type(error).__name__ + ": " + str(error),
+                       "traceback": _title_button_traceback.format_exc()}
+        row.update(stdout=stdout.getvalue(), stderr=stderr.getvalue())
+        results.append(row)
+    by_id = {r["id"]: r for r in results}
+    normals_ok = all(by_id.get(k, {}).get("passed") is True for k in ("main_current", "dr_current"))
+    for row in results:
+        row["normal_base_passed"] = row["base"] is None or by_id.get(row["base"], {}).get("passed") is True
+        row["valid_result"] = bool(row["passed"] and row["normal_base_passed"]
+                                   and (row["kind"] == "normal" or normals_ok))
+    return results, normals_ok
+
+
+def _inventory_historical(previous, function, marker_wanted, wanted_kind):
+    stdout, stderr, view = io.StringIO(), io.StringIO(), {}
+    code, fatal, trace, parsed, marker, parse_error = None, None, None, None, None, None
+    with _inventory_logical_view(previous, view):
+        with contextlib.redirect_stdout(stdout), contextlib.redirect_stderr(stderr):
+            try:
+                code = function()
+            except Exception as error:
+                fatal = type(error).__name__ + ": " + str(error)
+                trace = _title_button_traceback.format_exc()
+    try:
+        parsed, end = json.JSONDecoder().raw_decode(stdout.getvalue())
+        marker = stdout.getvalue()[end:].strip()
+    except (TypeError, ValueError) as error:
+        parse_error = type(error).__name__ + ": " + str(error)
+    logical_exact = (isinstance(parsed, dict)
+        and parsed.get("physical_input_before") == parsed.get("physical_input_after")
+        and all(parsed.get("physical_input_before", {}).get(p) == _inventory_pin(previous[p])
+                for p in (MAIN_PATH, INVENTORY_HISTORY_PATH, INVENTORY_CI_PATH, INVENTORY_META_PATH,
+                          INVENTORY_CHAPTER_PATH)))
+    current_ok = isinstance(parsed, dict) and parsed.get("passed") is True
+    if current_ok and wanted_kind == "ci":
+        current_ok = (parsed.get("current", {}).get("cases") == 20
+            and len(parsed["current"].get("results", [])) == 20
+            and all(r.get("valid_result") for r in parsed["current"]["results"])
+            and parsed.get("historical", {}).get("cases") == 28
+            and parsed["historical"].get("passed") is True)
+    if current_ok and wanted_kind == "meta":
+        current_ok = (parsed.get("normal_prerequisite", {}).get("passed") is True
+            and parsed.get("historical", {}).get("passed") is True
+            and parsed.get("execution_counts", {}).get("normal_prerequisite") == 1
+            and parsed["execution_counts"].get("new20") == 0)
+    passed = (code == 0 and fatal is None and parse_error is None and not stderr.getvalue()
+              and view.get("restored") is True and logical_exact and current_ok and marker == marker_wanted)
+    return {"scope": wanted_kind + " pre261 logical history, not current physical replay",
+            "exit": code, "stdout": stdout.getvalue(), "stderr": stderr.getvalue(),
+            "fatal": fatal, "traceback": trace, "parse_error": parse_error, "marker": marker,
+            "view": view, "logical_exact": logical_exact, "passed": passed}
+
+
+def _inventory_main():
+    before, after, fatal, trace = None, None, None, None
+    results, normals_ok = [], False
+    historical = {"passed": False, "skipped": "new25 not passed"}
+    try:
+        before = _inventory_physical_pins()
+        current, previous, old220 = _inventory_prepare()
+        results, normals_ok = _inventory_run_cases(INVENTORY_SPEC["cases"], current, previous, old220)
+        if len(results) == 25 and normals_ok and all(r.get("valid_result") for r in results):
+            if before != _inventory_physical_pins():
+                raise AssertionError("inventory inputs changed before history")
+            historical = _inventory_historical(previous, _title_button_main,
+                "TITLE_BUTTON_MAIN_SOURCE_SELF_TEST_OK current=20/20 historical28=True unchanged=True", "ci")
+    except Exception as error:
+        fatal, trace = type(error).__name__ + ": " + str(error), _title_button_traceback.format_exc()
+    finally:
+        try:
+            after = _inventory_physical_pins()
+        except Exception as error:
+            fatal = (fatal or "") + "; after pins: " + type(error).__name__ + ": " + str(error)
+    unchanged = before is not None and before == after
+    current_ok = normals_ok and len(results) == 25 and all(r.get("valid_result") for r in results)
+    passed = current_ok and historical["passed"] and unchanged and fatal is None
+    print(json.dumps({"scope": "ORDER261 physical source25; old25620/24328 logical history separate",
+        "binding": INVENTORY_BINDING["provenance"], "current": {"cases": len(results), "results": results,
+            "passed": current_ok, "normal_prerequisites_passed": normals_ok,
+            "valid_negative_count": sum(r["kind"] in {"raw", "registry", "forged", "registration"}
+                                       and bool(r.get("valid_result")) for r in results)},
+        "historical": historical, "fatal": fatal, "traceback": trace,
+        "physical_input_before": before, "physical_input_after": after,
+        "physical_inputs_unchanged": unchanged, "passed": passed,
+        "execution_counts": {"new25": len(results), "old20_28": int("exit" in historical),
+                             "old26_per_consumer": 0, "engine": 0, "collector": 0},
+        "limits": "Exact source/history controls, not inventory runtime or full-product approval."},
+        ensure_ascii=False, indent=2))
+    print("INVENTORY_DISPLAY_SOURCE_SELF_TEST_" + ("OK" if passed else "FAIL")
+          + f" current={len(results)}/25 historical20_28={historical['passed']} unchanged={unchanged}")
+    return 0 if passed else 1
+# END_INVENTORY_CI_SELF_261
 if __name__ == "__main__":
-    raise SystemExit(_title_button_main())
+    raise SystemExit(_inventory_main())

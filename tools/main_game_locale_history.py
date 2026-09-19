@@ -229,3 +229,163 @@ def main_game_history_project_byte_hash(
         return current_hash
     return _TITLE_BUTTON_OLD_PROJECT_HASH(hashlib.sha256(old).hexdigest(), relative, old)
 # END_TITLE_BUTTON_MAIN_SUCCESSOR_256
+
+# BEGIN_INVENTORY_DISPLAY_HISTORY_261
+# Physical Main/DR authority precedes the preserved 256/243 observation chain.
+_INVENTORY_DISPLAY_PINS = {
+    "autoloads/DataRegistry.gd": [
+        "9ee97b7003efb1d9b80673d1fce162b71ab0cb6f929a363e04ead29a98d9a1df",
+        "8887fd8a1c8becaef27e2638efea78218281786699546fda26695753d9978f7e"
+    ],
+    "scenes/MainGame.gd": [
+        "ca0dd88c1aabd95f621f66a4213b23084de67b937ed9b9236483040d303b0e81",
+        "da046f2bdec4e652b98498c49db67b262ce13f5be5475cc719aa5f938e117445"
+    ]
+}
+INVENTORY_DISPLAY_TRANSITIONS = json.loads(r'''{
+  "autoloads/DataRegistry.gd": {
+    "previous_sha256": "9ee97b7003efb1d9b80673d1fce162b71ab0cb6f929a363e04ead29a98d9a1df",
+    "current_sha256": "8887fd8a1c8becaef27e2638efea78218281786699546fda26695753d9978f7e",
+    "inverses": [
+      {
+        "id": "loaded_name_metadata",
+        "before": "var content_revision: int = 0\n",
+        "after": "var content_revision: int = 0\n# Display provenance is separate from saved inventory and live registry overrides.\nvar _inventory_display_loaded_language: String = \"\"\nvar _inventory_display_aliases: Dictionary = {}\nvar _inventory_display_loaded_names: Dictionary = {}\nvar _inventory_display_pending_language: String = \"\"\nvar _inventory_display_pending_revision: int = -1\nvar _inventory_display_pending_names: Dictionary = {}\n",
+        "kind": "replace_once"
+      },
+      {
+        "id": "capture_after_actual_item_pipeline",
+        "before": "\titems_by_id = _index_by_id(items)\n",
+        "after": "\titems_by_id = _index_by_id(items)\n\t_capture_inventory_display_snapshot(lang)\n",
+        "kind": "replace_once"
+      },
+      {
+        "id": "display_helpers_eof",
+        "before": "\t\tpush_warning(\"Invalid JSON file: %s\" % path)\n\treturn parsed\n",
+        "after": "\t\tpush_warning(\"Invalid JSON file: %s\" % path)\n\treturn parsed\n\n# Capture builtin aliases without presets; a preset/custom saved name is not an alias.\nfunc _capture_inventory_display_snapshot(lang: String) -> void:\n\tvar source_rows: Array = _load_array(ITEMS_PATH)\n\t_inventory_display_aliases.clear()\n\tfor raw_row in source_rows:\n\t\tif not raw_row is Dictionary:\n\t\t\tcontinue\n\t\tvar source_id: Variant = (raw_row as Dictionary).get(\"id\")\n\t\tif source_id is String and not source_id.is_empty():\n\t\t\t_inventory_display_aliases[source_id] = {}\n\tfor alias_language in [\"ko\", \"en\", \"ja\", \"zh-CN\", \"zh-TW\"]:\n\t\tvar defaults: Array = source_rows.duplicate(true)\n\t\tif alias_language != \"ko\":\n\t\t\t_apply_catalog_en_overlay(defaults, ITEM_TEXT_EN)\n\t\t\t_apply_catalog_locale_overlay(defaults, _load_locale_catalog(alias_language), \"items\")\n\t\tfor raw_row in defaults:\n\t\t\tif not raw_row is Dictionary:\n\t\t\t\tcontinue\n\t\t\tvar row: Dictionary = raw_row\n\t\t\tvar row_id: Variant = row.get(\"id\")\n\t\t\tvar name_value: Variant = row.get(\"name\")\n\t\t\tif not row_id is String or not _inventory_display_aliases.has(row_id):\n\t\t\t\tcontinue\n\t\t\tif name_value is String and not name_value.strip_edges().is_empty():\n\t\t\t\t_inventory_display_aliases[row_id][name_value] = true\n\t_inventory_display_loaded_names = _inventory_display_name_snapshot(items)\n\t_inventory_display_loaded_language = lang\n\t_inventory_display_pending_language = \"\"\n\t_inventory_display_pending_revision = -1\n\t_inventory_display_pending_names.clear()\n\nfunc _inventory_display_name_snapshot(rows: Array) -> Dictionary:\n\tvar result: Dictionary = {}\n\tfor raw_row in rows:\n\t\tif not raw_row is Dictionary:\n\t\t\tcontinue\n\t\tvar row: Dictionary = raw_row\n\t\tvar row_id: Variant = row.get(\"id\")\n\t\tif not row_id is String or row_id.is_empty():\n\t\t\tcontinue\n\t\t# Preserve field presence and raw type, including explicit empty/nonstring names.\n\t\tresult[row_id] = {\"name\": row[\"name\"]}.duplicate(true) if row.has(\"name\") else {}\n\treturn result\n\nfunc get_inventory_display_name(item: Dictionary, legacy_fallback: String) -> String:\n\tvar raw_id: Variant = item.get(\"id\")\n\tif _inventory_display_loaded_language.is_empty() or not raw_id is String:\n\t\treturn legacy_fallback\n\tvar item_id: String = raw_id\n\tif not _inventory_display_aliases.has(item_id):\n\t\treturn legacy_fallback\n\tif item.has(\"name\"):\n\t\tvar stored_name: Variant = item[\"name\"]\n\t\tif not stored_name is String or not _inventory_display_aliases[item_id].has(stored_name):\n\t\t\treturn legacy_fallback\n\n\tvar lang: String = LocaleManager.language\n\tif lang != _inventory_display_loaded_language:\n\t\t# set_language emits before reload. Preview that reload, not its old memory\n\t\t# overrides; settings-only changes never enter this branch.\n\t\tif _inventory_display_pending_language != lang or _inventory_display_pending_revision != content_revision:\n\t\t\tvar pending_rows: Array = _load_array(ITEMS_PATH)\n\t\t\tif lang != \"ko\":\n\t\t\t\t_apply_catalog_en_overlay(pending_rows, ITEM_TEXT_EN)\n\t\t\t\t_apply_catalog_locale_overlay(pending_rows, _load_locale_catalog(lang), \"items\")\n\t\t\t_apply_catalog_presets(pending_rows, \"items\")\n\t\t\t_inventory_display_pending_names = _inventory_display_name_snapshot(pending_rows)\n\t\t\t_inventory_display_pending_language = lang\n\t\t\t_inventory_display_pending_revision = content_revision\n\t\tvar pending_name: Dictionary = _inventory_display_pending_names.get(item_id, {})\n\t\treturn str(pending_name[\"name\"]) if pending_name.has(\"name\") else legacy_fallback\n\n\t# Same loaded language: honor live in-memory changes without rereading presets.\n\tvar live_row: Variant = get_item(item_id)\n\tif not live_row is Dictionary or not live_row.has(\"name\"):\n\t\treturn legacy_fallback\n\tvar baseline: Dictionary = _inventory_display_loaded_names.get(item_id, {})\n\tif not baseline.has(\"name\"):\n\t\treturn str(live_row[\"name\"])\n\tif typeof(live_row[\"name\"]) != typeof(baseline[\"name\"]) or live_row[\"name\"] != baseline[\"name\"]:\n\t\treturn str(live_row[\"name\"])\n\treturn str(baseline[\"name\"])\n",
+        "kind": "replace_eof"
+      }
+    ]
+  },
+  "scenes/MainGame.gd": {
+    "previous_sha256": "ca0dd88c1aabd95f621f66a4213b23084de67b937ed9b9236483040d303b0e81",
+    "current_sha256": "da046f2bdec4e652b98498c49db67b262ce13f5be5475cc719aa5f938e117445",
+    "inverses": [
+      {
+        "id": "nongift_display_call",
+        "before": "\t\tvar inv_name: String = _gift_display_name(item_id) if str(item.get(\"category\", \"\")) == \"gift\" else str(item.get(\"name\", _tr(\"아이템\", \"Item\")))\n",
+        "after": "\t\tvar inv_name: String = _gift_display_name(item_id) if str(item.get(\"category\", \"\")) == \"gift\" else DataRegistry.get_inventory_display_name(item, str(item.get(\"name\", _tr(\"아이템\", \"Item\"))))\n",
+        "kind": "replace_once"
+      }
+    ]
+  }
+}''')
+_INVENTORY_DISPLAY_REGISTRY_SHA256 = "82d9e52117666e7bb9b53e03dae47ebb1cadd2fad3a8b4a76873ff2d27fb244c"
+_INVENTORY_OLD_SOURCE_ERRORS = main_game_history_source_errors
+_INVENTORY_OLD_PROJECT_BYTES = main_game_history_project_bytes
+_INVENTORY_OLD_PROJECT_HASH = main_game_history_project_byte_hash
+
+
+def _inventory_display_projection(current: bytes, relative: str) -> tuple[bytes, list[str]]:
+    errors: list[str] = []
+    pins = _INVENTORY_DISPLAY_PINS.get(relative)
+    if pins is None:
+        return current, ["ORDER-261: inventory display path is not owned"]
+    if hashlib.sha256(current).hexdigest() != pins[1]:
+        errors.append("ORDER-261: unapproved current inventory display source bytes")
+    try:
+        registry = INVENTORY_DISPLAY_TRANSITIONS
+        if not isinstance(registry, dict) or set(registry) != set(_INVENTORY_DISPLAY_PINS):
+            raise ValueError("transition paths")
+        encoded = json.dumps(registry, ensure_ascii=False, sort_keys=True,
+                             separators=(",", ":")).encode("utf-8")
+        if hashlib.sha256(encoded).hexdigest() != _INVENTORY_DISPLAY_REGISTRY_SHA256:
+            errors.append("ORDER-261: inventory display registry seal differs")
+        shapes = {
+            "scenes/MainGame.gd": (("nongift_display_call", "replace_once"),),
+            "autoloads/DataRegistry.gd": (
+                ("loaded_name_metadata", "replace_once"),
+                ("capture_after_actual_item_pipeline", "replace_once"),
+                ("display_helpers_eof", "replace_eof")),
+        }
+        for path, fixed in _INVENTORY_DISPLAY_PINS.items():
+            row = registry[path]
+            if not isinstance(row, dict) or set(row) != {
+                    "previous_sha256", "current_sha256", "inverses"}:
+                raise ValueError("transition fields")
+            if (row["previous_sha256"], row["current_sha256"]) != tuple(fixed):
+                errors.append("ORDER-261: fixed inventory display transition differs")
+            inverses = row["inverses"]
+            if not isinstance(inverses, list) or len(inverses) != len(shapes[path]):
+                raise ValueError("inverse cardinality")
+            for inverse, wanted in zip(inverses, shapes[path]):
+                if (not isinstance(inverse, dict) or set(inverse) != {
+                        "id", "kind", "before", "after"}
+                        or (inverse["id"], inverse["kind"]) != wanted
+                        or not isinstance(inverse["before"], str)
+                        or not isinstance(inverse["after"], str)
+                        or not inverse["before"] or not inverse["after"]):
+                    raise ValueError("inverse shape/order")
+        inverses = registry[relative]["inverses"]
+    except (TypeError, ValueError, KeyError, AttributeError, UnicodeError):
+        errors.append("ORDER-261: malformed inventory display inverse registry")
+    if errors:
+        return current, errors
+    old = current
+    for inverse in reversed(inverses):
+        before = inverse["before"].encode("utf-8")
+        after = inverse["after"].encode("utf-8")
+        if old.count(after) != 1:
+            return current, ["ORDER-261: inventory display inverse is not unique"]
+        if inverse["kind"] == "replace_eof" and not old.endswith(after):
+            return current, ["ORDER-261: inventory display EOF differs"]
+        old = old.replace(after, before, 1)
+    if hashlib.sha256(old).hexdigest() != pins[0]:
+        return current, ["ORDER-261: inventory display inverse does not recover fixed source"]
+    return old, []
+
+
+def inventory_display_source_errors(
+        relative: str, current: bytes, registered_previous: str | None = None) -> list[str]:
+    errors = _inventory_display_projection(current, relative)[1]
+    pins = _INVENTORY_DISPLAY_PINS.get(relative)
+    if registered_previous is not None and (pins is None or registered_previous != pins[0]):
+        errors.append("ORDER-261: inventory display predecessor registration differs")
+    return errors
+
+
+def inventory_display_project_bytes(current: bytes, relative: str) -> bytes:
+    return _inventory_display_projection(current, relative)[0]
+
+
+def inventory_display_project_byte_hash(claim: str, relative: str, current: bytes) -> str:
+    old, errors = _inventory_display_projection(current, relative)
+    if errors or hashlib.sha256(current).hexdigest() != claim:
+        return claim
+    return hashlib.sha256(old).hexdigest()
+
+
+def main_game_history_source_errors(relative: str, current: bytes) -> list[str]:
+    if relative != "scenes/MainGame.gd":
+        return _INVENTORY_OLD_SOURCE_ERRORS(relative, current)
+    old, errors = _inventory_display_projection(current, relative)
+    if errors:
+        return errors + _INVENTORY_OLD_SOURCE_ERRORS(relative, current)
+    return _INVENTORY_OLD_SOURCE_ERRORS(relative, old)
+
+
+def main_game_history_project_bytes(current: bytes, relative: str) -> bytes:
+    if relative != "scenes/MainGame.gd":
+        return _INVENTORY_OLD_PROJECT_BYTES(current, relative)
+    old, errors = _inventory_display_projection(current, relative)
+    return current if errors else _INVENTORY_OLD_PROJECT_BYTES(old, relative)
+
+
+def main_game_history_project_byte_hash(current_hash: str, relative: str, current: bytes) -> str:
+    if relative != "scenes/MainGame.gd":
+        return _INVENTORY_OLD_PROJECT_HASH(current_hash, relative, current)
+    old, errors = _inventory_display_projection(current, relative)
+    if errors or hashlib.sha256(current).hexdigest() != current_hash:
+        return current_hash
+    return _INVENTORY_OLD_PROJECT_HASH(hashlib.sha256(old).hexdigest(), relative, old)
+# END_INVENTORY_DISPLAY_HISTORY_261

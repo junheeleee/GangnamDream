@@ -9897,7 +9897,7 @@ func _render_sidebars():
 		item_content.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		item_content.add_theme_constant_override("separation", 6)
 		item_row.add_child(item_content)
-		var inv_name: String = _gift_display_name(item_id) if str(item.get("category", "")) == "gift" else str(item.get("name", _tr("아이템", "Item")))
+		var inv_name: String = _gift_display_name(item_id) if str(item.get("category", "")) == "gift" else DataRegistry.get_inventory_display_name(item, str(item.get("name", _tr("아이템", "Item"))))
 		var item_label: Label = _label(_tr("%s · %d개", "%s · %d held") % [
 			inv_name, item.get("quantity", 1)], 15, "#e8eaf0")
 		if _font_bold:

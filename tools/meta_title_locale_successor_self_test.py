@@ -6203,5 +6203,47 @@ def _title_button_meta_main():
           + f" historical26_18_23_19_24_18={old_ok} unchanged={unchanged}")
     return 0 if passed else 1
 # END_TITLE_BUTTON_META_SELF_256
+
+# BEGIN_INVENTORY_META_SELF_261
+def _inventory_meta_main():
+    current_ci = None
+    before, after, fatal, trace = None, None, None, None
+    prerequisites, normal_ok = [], False
+    historical = {"passed": False, "skipped": "physical/current normal prerequisites incomplete"}
+    try:
+        current_ci = importlib.import_module("ci_localization_reconciliation_self_test")
+        before = current_ci._inventory_physical_pins()
+        current, previous, old220 = current_ci._inventory_prepare()
+        cases = current_ci.INVENTORY_SPEC["cases"][:2]
+        if [r["id"] for r in cases] != ["main_current", "dr_current"] or any(
+                r["kind"] != "normal" for r in cases):
+            raise AssertionError("frozen current normal prerequisite identities differ")
+        prerequisites, normal_ok = current_ci._inventory_run_cases(cases, current, previous, old220)
+        if normal_ok and all(r.get("valid_result") for r in prerequisites):
+            if before != current_ci._inventory_physical_pins():
+                raise AssertionError("inventory inputs changed before meta history")
+            historical = current_ci._inventory_historical(previous, _title_button_meta_main,
+                "TITLE_BUTTON_META_HISTORY_SELF_TEST_OK historical26_18_23_19_24_18=True unchanged=True", "meta")
+    except Exception as error:
+        fatal, trace = type(error).__name__ + ": " + str(error), _a11_traceback.format_exc()
+    finally:
+        try:
+            after = current_ci._inventory_physical_pins() if current_ci is not None else None
+        except Exception as error:
+            fatal = (fatal or "") + "; after pins: " + type(error).__name__ + ": " + str(error)
+    unchanged = before is not None and before == after
+    passed = normal_ok and len(prerequisites) == 2 and historical["passed"] and unchanged and fatal is None
+    print(json.dumps({"scope": "ORDER261 current normals2 prerequisite; old meta history separately",
+        "normal_prerequisites": prerequisites, "historical": historical,
+        "fatal": fatal, "traceback": trace, "physical_input_before": before, "physical_input_after": after,
+        "physical_inputs_unchanged": unchanged, "passed": passed,
+        "execution_counts": {"normal_prerequisites": len(prerequisites), "new25": 0,
+            "logical256_normal1_then_26_18_23_19_24_18": int("exit" in historical),
+            "engine": 0, "collector": 0},
+        "limits": "No duplicate new25, old20, collector or engine population."}, ensure_ascii=False, indent=2))
+    print("INVENTORY_DISPLAY_META_HISTORY_SELF_TEST_" + ("OK" if passed else "FAIL")
+          + f" normal={len(prerequisites)} historical={historical['passed']} unchanged={unchanged}")
+    return 0 if passed else 1
+# END_INVENTORY_META_SELF_261
 if __name__ == "__main__":
-    raise SystemExit(_title_button_meta_main())
+    raise SystemExit(_inventory_meta_main())

@@ -4522,10 +4522,30 @@ def _order250_meta_observed_hash(claim: str, relative: str, raw: bytes) -> str:
     return _order248_meta_observed_hash(previous_claim, relative, predecessor)
 
 
+# BEGIN_INVENTORY_REGISTRY_OBSERVATION_261
+def _order261_registry_source_errors(
+        relative: str, raw: bytes, registered_previous: str) -> list[str]:
+    return locale_history.inventory_display_source_errors(relative, raw, registered_previous)
+
+
+def _order261_registry_observed_hash(claim: str, relative: str, raw: bytes) -> str:
+    return locale_history.inventory_display_project_byte_hash(claim, relative, raw)
+# END_INVENTORY_REGISTRY_OBSERVATION_261
+
+
 def _audited_source_snapshot_errors(
         source_hashes: dict[str, str]) -> list[str]:
     errors: list[str] = []
     meta_title_raw: bytes | None = None
+    inventory_registry_raw: bytes | None = None
+    if "autoloads/DataRegistry.gd" in source_hashes:
+        try:
+            inventory_registry_raw = (ROOT / "autoloads/DataRegistry.gd").read_bytes()
+            errors.extend(_order261_registry_source_errors(
+                "autoloads/DataRegistry.gd", inventory_registry_raw,
+                source_hashes["autoloads/DataRegistry.gd"]))
+        except OSError as exc:
+            errors.append(f"ORDER-261: cannot read current inventory registry source ({exc})")
     if meta_title_history.META_TITLE_PATH in source_hashes:
         try:
             meta_title_raw = (ROOT / meta_title_history.META_TITLE_PATH).read_bytes()
@@ -4615,6 +4635,9 @@ def _audited_source_snapshot_errors(
                 else:
                     expected_digest = successor[1]
             observed_digest = _file_digest(relative_path)
+            if relative_path == "autoloads/DataRegistry.gd" and inventory_registry_raw is not None:
+                observed_digest = _order261_registry_observed_hash(
+                    observed_digest, relative_path, inventory_registry_raw)
             if relative_path == meta_title_history.META_TITLE_PATH and meta_title_raw is not None:
                 observed_digest = _order250_meta_observed_hash(
                     observed_digest, relative_path, meta_title_raw)

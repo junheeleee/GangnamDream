@@ -358,6 +358,13 @@ var scene_direction_event_intents_by_id: Dictionary = {}
 ## Monotonic generation for consumers that memoize authored-data validation.
 ## Runtime content replacement must go through reload() or notify_content_override().
 var content_revision: int = 0
+# Display provenance is separate from saved inventory and live registry overrides.
+var _inventory_display_loaded_language: String = ""
+var _inventory_display_aliases: Dictionary = {}
+var _inventory_display_loaded_names: Dictionary = {}
+var _inventory_display_pending_language: String = ""
+var _inventory_display_pending_revision: int = -1
+var _inventory_display_pending_names: Dictionary = {}
 
 func notify_content_override() -> void:
 	content_revision += 1
@@ -445,6 +452,7 @@ func reload():
 		_apply_catalog_locale_overlay(items, target_catalog, "items")
 	_apply_catalog_presets(items, "items")
 	items_by_id = _index_by_id(items)
+	_capture_inventory_display_snapshot(lang)
 	endings = _load_array(ENDINGS_PATH)
 	endings_by_id = _index_by_id(endings)
 	if lang != "ko":
@@ -1315,3 +1323,86 @@ func _parse_json(path):
 	if parsed == null:
 		push_warning("Invalid JSON file: %s" % path)
 	return parsed
+
+# Capture builtin aliases without presets; a preset/custom saved name is not an alias.
+func _capture_inventory_display_snapshot(lang: String) -> void:
+	var source_rows: Array = _load_array(ITEMS_PATH)
+	_inventory_display_aliases.clear()
+	for raw_row in source_rows:
+		if not raw_row is Dictionary:
+			continue
+		var source_id: Variant = (raw_row as Dictionary).get("id")
+		if source_id is String and not source_id.is_empty():
+			_inventory_display_aliases[source_id] = {}
+	for alias_language in ["ko", "en", "ja", "zh-CN", "zh-TW"]:
+		var defaults: Array = source_rows.duplicate(true)
+		if alias_language != "ko":
+			_apply_catalog_en_overlay(defaults, ITEM_TEXT_EN)
+			_apply_catalog_locale_overlay(defaults, _load_locale_catalog(alias_language), "items")
+		for raw_row in defaults:
+			if not raw_row is Dictionary:
+				continue
+			var row: Dictionary = raw_row
+			var row_id: Variant = row.get("id")
+			var name_value: Variant = row.get("name")
+			if not row_id is String or not _inventory_display_aliases.has(row_id):
+				continue
+			if name_value is String and not name_value.strip_edges().is_empty():
+				_inventory_display_aliases[row_id][name_value] = true
+	_inventory_display_loaded_names = _inventory_display_name_snapshot(items)
+	_inventory_display_loaded_language = lang
+	_inventory_display_pending_language = ""
+	_inventory_display_pending_revision = -1
+	_inventory_display_pending_names.clear()
+
+func _inventory_display_name_snapshot(rows: Array) -> Dictionary:
+	var result: Dictionary = {}
+	for raw_row in rows:
+		if not raw_row is Dictionary:
+			continue
+		var row: Dictionary = raw_row
+		var row_id: Variant = row.get("id")
+		if not row_id is String or row_id.is_empty():
+			continue
+		# Preserve field presence and raw type, including explicit empty/nonstring names.
+		result[row_id] = {"name": row["name"]}.duplicate(true) if row.has("name") else {}
+	return result
+
+func get_inventory_display_name(item: Dictionary, legacy_fallback: String) -> String:
+	var raw_id: Variant = item.get("id")
+	if _inventory_display_loaded_language.is_empty() or not raw_id is String:
+		return legacy_fallback
+	var item_id: String = raw_id
+	if not _inventory_display_aliases.has(item_id):
+		return legacy_fallback
+	if item.has("name"):
+		var stored_name: Variant = item["name"]
+		if not stored_name is String or not _inventory_display_aliases[item_id].has(stored_name):
+			return legacy_fallback
+
+	var lang: String = LocaleManager.language
+	if lang != _inventory_display_loaded_language:
+		# set_language emits before reload. Preview that reload, not its old memory
+		# overrides; settings-only changes never enter this branch.
+		if _inventory_display_pending_language != lang or _inventory_display_pending_revision != content_revision:
+			var pending_rows: Array = _load_array(ITEMS_PATH)
+			if lang != "ko":
+				_apply_catalog_en_overlay(pending_rows, ITEM_TEXT_EN)
+				_apply_catalog_locale_overlay(pending_rows, _load_locale_catalog(lang), "items")
+			_apply_catalog_presets(pending_rows, "items")
+			_inventory_display_pending_names = _inventory_display_name_snapshot(pending_rows)
+			_inventory_display_pending_language = lang
+			_inventory_display_pending_revision = content_revision
+		var pending_name: Dictionary = _inventory_display_pending_names.get(item_id, {})
+		return str(pending_name["name"]) if pending_name.has("name") else legacy_fallback
+
+	# Same loaded language: honor live in-memory changes without rereading presets.
+	var live_row: Variant = get_item(item_id)
+	if not live_row is Dictionary or not live_row.has("name"):
+		return legacy_fallback
+	var baseline: Dictionary = _inventory_display_loaded_names.get(item_id, {})
+	if not baseline.has("name"):
+		return str(live_row["name"])
+	if typeof(live_row["name"]) != typeof(baseline["name"]) or live_row["name"] != baseline["name"]:
+		return str(live_row["name"])
+	return str(baseline["name"])
