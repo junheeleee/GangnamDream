@@ -14,6 +14,232 @@ import full_game_localization as tool
 
 
 class ExchangeTests(unittest.TestCase):
+    def test_order264_ui_story_coffee_ordinal_scope(self):
+        """Fixed 24 semantic families / 60 rows; capture both real consumers."""
+        import contextlib
+        import io
+        import traceback
+        import zh_translation_audit as zh
+
+        source = "두 번째 커피"
+        actual = {"zh-CN": "第二次咖啡闲谈", "zh-TW": "第二次喝咖啡"}
+        cases = []
+
+        def add_pair(family, targets, helper, outcome, *, suffix="", base=None,
+                     korean=source, owner=source, group="ui", component=None):
+            for locale, target in zip(("zh-CN", "zh-TW"), targets):
+                cases.append({
+                    "id": family + suffix + "/" + locale,
+                    "family": family, "locale": locale, "source": korean,
+                    "target": target, "group": group, "owner": owner,
+                    "path": ["title"] if group == "events" else [owner],
+                    "helper": helper, "direct": outcome, "full": outcome,
+                    "base": None if base is None else base + "/" + locale,
+                    "component": component,
+                })
+
+        # The two rejected ORDER-263 targets are evaluated FIRST, unchanged.
+        add_pair("actual", tuple(actual.values()), "NORMALIZE", "PASS")
+        # Independent grammar positives: not a whole-target allowlist.
+        add_pair("grammar_variant", ("第 ２ 回 喝 咖啡", "第\t二\t回\t咖啡\t閒談"),
+                 "NORMALIZE", "PASS")
+        add_pair("wrong_one", ("第一次咖啡闲谈", "第一次喝咖啡"),
+                 "NORMALIZE", "REJECT", base="actual")
+        add_pair("wrong_three", ("第三次咖啡闲谈", "第三次喝咖啡"),
+                 "NORMALIZE", "REJECT", base="actual")
+        add_pair("missing_ordinal", ("咖啡闲谈", "喝咖啡"),
+                 "REJECT", "REJECT", base="actual")
+        add_pair("cup_role", ("第二杯咖啡", "第二杯咖啡"),
+                 "REJECT", "REJECT", base="actual")
+        add_pair("missing_coffee", ("第二次闲谈", "第二次閒談"),
+                 "REJECT", "REJECT", base="actual")
+        add_pair("duplicate", ("第二次咖啡闲谈 / 第二次咖啡闲谈",
+                               "第二次喝咖啡 / 第二次喝咖啡"),
+                 "REJECT", "REJECT", base="actual")
+        add_pair("extra_count", ("第二次咖啡闲谈，3次", "第二次喝咖啡，3次"),
+                 "REJECT", "REJECT", base="actual")
+        add_pair("year_role", ("第二年咖啡", "第二年咖啡"),
+                 "REJECT", "REJECT", base="actual")
+        add_pair("positive_sign", ("第+2次咖啡", "第+2次咖啡"),
+                 "REJECT", "REJECT", base="actual")
+        add_pair("key_off", tuple(actual.values()), "OFF", "REJECT",
+                 suffix="_other_ui", owner="qa_other_coffee", base="actual")
+        # Same Korean EVENT title is not the owned UI leaf. Existing title
+        # strings remain legacy observations, not a new semantic endorsement.
+        add_pair("key_off", ("第二杯咖啡", "第二杯咖啡"), "OFF", "PASS",
+                 suffix="_event_cup", owner="arc_sangchul_02_coffee", group="events")
+        add_pair("key_off", tuple(actual.values()), "OFF", "REJECT",
+                 suffix="_event_occasion", owner="arc_sangchul_02_coffee",
+                 group="events", base="key_off_event_cup")
+        add_pair("source_off", tuple(actual.values()), "OFF", "REJECT",
+                 korean="두 번째 커피 ", base="actual")
+        # JA's actual accepted event title and a non-target locale both stay
+        # outside this Chinese-only adapter. Direct/full have different APIs.
+        cases.extend([
+            {"id": "locale_off/ja", "family": "locale_off", "locale": "ja",
+             "source": source, "target": "二杯目のコーヒー", "group": "events",
+             "owner": "arc_sangchul_02_coffee", "path": ["title"],
+             "helper": "OFF", "direct": "REJECT", "full": "PASS",
+             "base": None, "component": None},
+            {"id": "locale_off/en", "family": "locale_off", "locale": "en",
+             "source": source, "target": "Second Coffee", "group": "ui",
+             "owner": source, "path": [source], "helper": "OFF",
+             "direct": "REJECT", "full": "REJECT", "base": None,
+             "component": None},
+        ])
+        add_pair("actual_cups", ("两杯咖啡", "兩杯咖啡"), "OFF", "PASS",
+                 suffix="_normal", korean="커피 두 잔", owner="커피 두 잔")
+        add_pair("actual_cups", ("两次咖啡", "兩次咖啡"), "OFF", "REJECT",
+                 suffix="_wrong_role", korean="커피 두 잔", owner="커피 두 잔",
+                 base="actual_cups_normal")
+        add_pair("mix_coffee", ("第二杯混合咖啡", "第二杯混合咖啡"), "OFF", "PASS",
+                 suffix="_normal", korean="두 번째 믹스커피", owner="두 번째 믹스커피")
+        add_pair("mix_coffee", ("第二次混合咖啡", "第二次混合咖啡"), "OFF", "REJECT",
+                 suffix="_wrong_role", korean="두 번째 믹스커피", owner="두 번째 믹스커피",
+                 base="mix_coffee_normal")
+        add_pair("visit", ("第二次到访", "第二次到訪"), "OFF", "PASS",
+                 suffix="_normal", korean="두 번째 방문", owner="두 번째 방문")
+        add_pair("visit", ("第二杯到访", "第二杯到訪"), "OFF", "REJECT",
+                 suffix="_wrong_role", korean="두 번째 방문", owner="두 번째 방문",
+                 base="visit_normal")
+        add_pair("money", ("第二次咖啡闲谈 ¥2", "第二次喝咖啡 ¥2"),
+                 "REJECT", "REJECT", base="actual", component="money")
+        add_pair("token", ("第二次咖啡闲谈 {name}", "第二次喝咖啡 %s"),
+                 "REJECT", "REJECT", base="actual", component="token")
+        add_pair("script", ("第二次咖啡閒談", "第二次咖啡闲谈"),
+                 "NORMALIZE", "REJECT", base="actual", component="script")
+        add_pair("malformed_comma", ("第2,次咖啡", "第2,次咖啡"),
+                 "REJECT", "REJECT", suffix="_single", base="actual")
+        add_pair("malformed_comma", ("第2,,次咖啡", "第2,,次咖啡"),
+                 "REJECT", "REJECT", suffix="_double", base="actual")
+        add_pair("decimal", ("第2.0次咖啡", "第2.0次咖啡"),
+                 "REJECT", "REJECT", base="actual")
+        add_pair("negative_sign", ("第-2次咖啡", "第-2次咖啡"),
+                 "REJECT", "REJECT", base="actual")
+        add_pair("newline", ("第二次咖啡闲谈\n", "第二次喝咖啡\n"),
+                 "REJECT", "REJECT", base="actual", component="newline")
+
+        def capture(call):
+            stdout, stderr = io.StringIO(), io.StringIO()
+            value, exception = None, None
+            with contextlib.redirect_stdout(stdout), contextlib.redirect_stderr(stderr):
+                try:
+                    value = call()
+                except Exception:
+                    exception = traceback.format_exc()
+            return {"value": value, "exception": exception,
+                    "stdout": stdout.getvalue(), "stderr": stderr.getvalue()}
+
+        def error_list(observation):
+            return (observation["exception"] is None
+                    and isinstance(observation["value"], list)
+                    and all(isinstance(error, str) for error in observation["value"]))
+
+        def independent_errors(case):
+            if case["component"] == "script":
+                return zh._script_errors(case["locale"], case["target"])
+            if case["component"] == "money":
+                return ["Korean won was relabeled as yen/yuan/Taiwan dollar"]
+            if case["component"] == "token":
+                return ["placeholder/BBCode mismatch"]
+            if case["component"] == "newline":
+                return ["newline mismatch 0 != 1"]
+            return []
+
+        results = []
+        for case in cases:
+            leaf = tool.Leaf(
+                case["group"], case["owner"], "runtime:static_ui",
+                tuple(case["path"]), case["source"],
+                "event_standard" if case["group"] == "events" else "ui_static_context")
+            args = (case["locale"], leaf.id, case["source"], case["target"])
+            helper = capture(lambda: zh._ui_story_coffee_numbers(*args))
+            direct = capture(lambda: zh.validate_text(*args))
+            full = capture(lambda: tool.translation_errors(leaf, case["locale"], case["target"]))
+            # A bypassed-adapter observation is the unchanged original path,
+            # not an expected value copied from the enabled result.
+            with patch.object(zh, "_ui_story_coffee_numbers", return_value=None):
+                legacy_direct = capture(lambda: zh.validate_text(*args))
+                legacy_full = capture(lambda: tool.translation_errors(
+                    leaf, case["locale"], case["target"]))
+            independent = capture(lambda: independent_errors(case))
+            value = helper["value"]
+            shape = (isinstance(value, tuple) and len(value) == 3
+                     and isinstance(value[0], str) and isinstance(value[1], str)
+                     and isinstance(value[2], list)
+                     and all(isinstance(error, str) for error in value[2]))
+            checks = {
+                "helper_no_exception": helper["exception"] is None,
+                "direct_error_list": error_list(direct),
+                "full_error_list": error_list(full),
+                "legacy_direct_error_list": error_list(legacy_direct),
+                "legacy_full_error_list": error_list(legacy_full),
+                "independent_error_list": error_list(independent),
+            }
+            if case["helper"] == "OFF":
+                checks["helper_off"] = value is None
+                checks["OFF_direct_raw_errors_exact"] = direct["value"] == legacy_direct["value"]
+                checks["OFF_full_raw_errors_exact"] = full["value"] == legacy_full["value"]
+            elif case["helper"] == "NORMALIZE":
+                # Only this numeric source is allowed to differ. In particular
+                # a wrong ordinal can match the grammar but must fail below.
+                checks["numeric_pair_exact"] = shape and value == (
+                    "두 번째 대화", case["target"], [])
+            else:
+                checks["helper_reject_original_pair"] = (
+                    shape and bool(value[2])
+                    and value[:2] == (case["source"], case["target"]))
+            for name, observed in (("direct", direct), ("full", full)):
+                checks[name + "_expected_verdict"] = error_list(observed) and (
+                    not observed["value"] if case[name] == "PASS" else bool(observed["value"]))
+            if case["component"] is not None:
+                required = independent["value"] or []
+                checks["independent_diagnostic_nonempty"] = bool(required)
+                for name, observed in (("direct", direct), ("full", full),
+                                       ("legacy_direct", legacy_direct), ("legacy_full", legacy_full)):
+                    checks[name + "_retains_original_diagnostic"] = (
+                        error_list(observed) and all(error in observed["value"] for error in required))
+            results.append({"case": case, "leaf_id": leaf.id, "helper": helper,
+                            "direct": direct, "full": full,
+                            "legacy_direct": legacy_direct, "legacy_full": legacy_full,
+                            "independent": independent, "checks": checks})
+
+        # Compute effectiveness only after all original inputs have been read.
+        by_id = {result["case"]["id"]: result for result in results}
+        actual_base_ok = all(all(by_id["actual/" + locale]["checks"].values())
+                             for locale in ("zh-CN", "zh-TW"))
+        effective_negatives = 0
+        for result in results:
+            case = result["case"]
+            if case["base"] is None:
+                continue
+            base = by_id.get(case["base"])
+            base_ok = (actual_base_ok and base is not None
+                       and base["case"]["direct"] == base["case"]["full"] == "PASS"
+                       and all(base["checks"].values()))
+            result["checks"]["normal_base_valid"] = base_ok
+            if base_ok and case["direct"] == case["full"] == "REJECT" \
+                    and all(result["checks"].values()):
+                effective_negatives += 1
+        expected_negative_count = sum(case["base"] is not None for case in cases)
+        summary = {
+            "families": len({case["family"] for case in cases}), "cases": len(cases),
+            "unique_ids": len(by_id), "actual_normal_bases_pass": actual_base_ok,
+            "effective_negatives": effective_negatives,
+            "expected_negative_count": expected_negative_count,
+            "all_checks_pass": all(all(result["checks"].values()) for result in results),
+        }
+        # Preserve every diagnostic/exception before the first assertion.
+        print("ORDER264_COFFEE_CASES " + json.dumps(results, ensure_ascii=False, sort_keys=True))
+        print("ORDER264_COFFEE_SUMMARY " + json.dumps(summary, sort_keys=True))
+        self.assertEqual(summary["families"], 24)
+        self.assertEqual(summary["cases"], 60)
+        self.assertEqual(summary["unique_ids"], 60)
+        self.assertEqual([case["id"] for case in cases[:2]], ["actual/zh-CN", "actual/zh-TW"])
+        self.assertTrue(summary["actual_normal_bases_pass"], summary)
+        self.assertEqual(summary["effective_negatives"], expected_negative_count, summary)
+        self.assertTrue(summary["all_checks_pass"], summary)
+
     def test_order251_ui_dice_title_frozen(self):
         """Evaluate the fixed40 before asserting; no collector or engine."""
         import contextlib

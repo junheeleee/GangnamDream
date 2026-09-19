@@ -8617,6 +8617,28 @@ def _ui_vip_empty_person_numbers(lang: str, key: str, source: str, target: str):
     return source, numeric_target, errors
 
 
+def _ui_story_coffee_numbers(lang: str, key: str, source: str, target: str):
+    """The exact Story stage counts a coffee conversation, not coffee cups.
+
+    The referenced encounter is another conversation in Sangchul's office;
+    Korean does not supply a cup classifier. Keep generic coffee/cup parsing
+    unchanged elsewhere. Only numeric comparison receives the occurrence
+    meaning; all other validation still reads the complete original pair.
+    """
+    if lang not in LANGUAGES or source != "두 번째 커피" or \
+            key != "ui:두 번째 커피:/두 번째 커피":
+        return None
+    match = re.fullmatch(
+        rf"第[ \t]*(?P<number>{CHINESE_CARDINAL})[ \t]*(?:次|回)[ \t]*"
+        r"(?:喝[ \t]*)?咖啡(?:[ \t]*(?:闲谈|閒談))?", target,
+    )
+    # This second occasion has no thousands grouping. Do not let the generic
+    # cardinal parser's comma removal reinterpret malformed 第2,,次 as two.
+    if match is None or "," in match.group("number"):
+        return source, target, ["source-bound coffee occasion ordinal/role mismatch"]
+    return "두 번째 대화", target, []
+
+
 def _ui_two_paths_title_numbers(lang: str, key: str, source: str, target: str):
     """Bind two roads/between in one exact title, not generic entity counts.
 
@@ -8822,6 +8844,9 @@ def validate_text(lang: str, key: str, source: str, target: Any) -> list[str]:
     two_paths_numbers = _ui_two_paths_title_numbers(lang, key, source, target)
     if two_paths_numbers is not None:
         notice_numbers = two_paths_numbers
+    coffee_numbers = _ui_story_coffee_numbers(lang, key, source, target)
+    if coffee_numbers is not None:
+        notice_numbers = coffee_numbers
     # ORDER-252: reuse the exact-leaf contract only for numeric comparison.
     # Keep the original key and prose for every independent check below.
     from full_game_localization import _ui_dice_title_numbers
