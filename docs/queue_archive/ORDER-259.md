@@ -20,6 +20,28 @@ ORDER-259 local work_unit GO for nine existing market-news keys, Japanese9 prese
 
 [독립 최종 보고](../agent_reviews/ORDER-259.json) · SHA 7177d4fd3f022cf1715a04580e009618bc3d57569eafc0e1ac075259280ea4d4
 
+## WORK 착수·수용 원문 보존
+
+## 2026-09-19 (Codex — 시장 뉴스27 공식 수용)
+
+- 독립 언어 d1004b79 뒤 실제9키/11호출/보호0과 신규27 L1을 통과했다.
+  편집전873f3e4의3언어 source-export를 보존하고 JA9 원형·CN/TW각9를 적용했다.
+- clean83110c9의 공식 export949d05fc/checkf833ffa9/importffaeca82는 각 첫PASS,
+  3×9·changed_files0·1194입력 불변이다. receipt27과 portableca0f5692를 결속해
+  39103/b108/meta9(JA13033·CN/TW13035)를 수용했다. old39076 전체raw 역복원exact다.
+- 첫portable1c01c8c2는 import 완료 확인 전 실행하여 아직 없는 TW receipt에서 실패했다.
+  제품변경0·실패원문을 보존하고 import 완료 후 동일 보조·기대로 두 번째PASS했다.
+  재발방지: 의존 산출물을 읽는 단계는 선행 세션의 실제 종료·성공을 확인한 뒤 실행한다.
+- 신규27 L1·기존39076 현재해시 보존·고유12·최종독립은 최종 exact 증거에 결속한다.
+  기존 전체L1을 재실행했다고 세지 않는다. 실제뉴스·렌더·원어민과 본편GO가 아니다.
+
+## 2026-09-19 (Codex — 시장 뉴스 번역 착수)
+
+- [259](queue_archive/ORDER-259.md): 뉴스8키와 공유 시장1키, 27대상만 검수·수용한다.
+- JA9 보존·CN/TW각9 추가 예정이며 현재 공식39076 그대로다. 뉴스 분류의 강약과
+  루머 우선 의미를 보존한다. headline 캐시·실제 갱신·렌더는 이번 완료 범위가 아니다.
+- 공개GO1·인간OPEN45·본편HOLD 유지. 기존243 역사 정합은 별도 미완료로 남긴다.
+
 ## 선언·진행 원문 보존
 
 # 시장 뉴스 표면의 일본어·중국어 번역 수용

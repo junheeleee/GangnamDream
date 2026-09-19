@@ -1907,7 +1907,7 @@
         {
           "kind": "automated_contract",
           "path": "docs/queue_archive/ORDER-259.md",
-          "sha256": "83b952cf1c042bc61e3b6fcf4d13d68c962d453e1044cc49af0b3dab6907614c"
+          "sha256": "8c038cdeab559176db6b7c2784c24d0606f1d92ba18c2a0ec35a79f02ca34436"
         }
       ],
       "unobserved": [
