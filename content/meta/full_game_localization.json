@@ -4160,6 +4160,104 @@
       "machine_validation": "PASS",
       "rendered_review": "OPEN",
       "native_review": "OPEN"
+    },
+    {
+      "order": "ORDER-269",
+      "group": "ui",
+      "roots": [
+        "연승",
+        "단승",
+        "복승",
+        "삼쌍승",
+        "규칙",
+        "나가기",
+        "[b]패드[/b]  ↑↓ 말 · ←→/%s/%s 종류 · %s/%s 금액 −/+ · %s 금액 + · %s 선택/베팅 · %s 취소 · %s 규칙",
+        "이 경주 패스 ▷",
+        "%s은 %d마리까지",
+        "착순대로 ",
+        "[color=#9aa4b8][b]%s[/b] · %s  →  %s%d마리 더 고르세요[/color]",
+        "[color=#cfe0ff][b]%s[/b]  %s   →   배당 [color=#ffe14d][b]×%.1f[/b][/color]  (베팅액을 고르세요)[/color]",
+        "출발!",
+        "마지막 직선!  %s 버틴다!",
+        "선두 교체 — %s!",
+        "경주 결과",
+        "PHOTO FINISH VERIFIED  ·  %s  ·  베팅 %s",
+        "적중",
+        "미적중",
+        "착순 보드",
+        "내 베팅 정산표",
+        "베팅금  %s   ·   배당금  %s",
+        "손익  %s",
+        "정보상은 진짜였다 — '%s' (지목마 %s)",
+        "1착 적중",
+        "이번엔 안 풀림",
+        "정보상은 함정이었다 — '%s'는 작전이었다",
+        "위험 신호: '딱 한 번만 더'가 가장 위험하다. (중독도 %d)",
+        "[b]패드[/b]  %s 다음 경주 · %s 나가기 · %s 규칙",
+        "다음 경주",
+        "오늘은 그만, 나간다",
+        "%d순위 ",
+        "%d위  %s",
+        "번개",
+        "질풍",
+        "흑운",
+        "천리마",
+        "불꽃",
+        "새벽별",
+        "강철",
+        "행운아",
+        "폭풍",
+        "은하수",
+        "대박이",
+        "무쇠",
+        "칼바람",
+        "승리호",
+        "바람돌이",
+        "검은별",
+        "적토마",
+        "청룡",
+        "건조",
+        "양호",
+        "다습",
+        "선행",
+        "추입",
+        "%s, 새벽 조교에서 시계가 미쳤다더라. 오늘 터진다.",
+        "%s 마방에 돈 좀 만지는 사람들이 붙었어. 조용히 사 둬.",
+        "%s 컨디션 정점이래. 배당 좋을 때 잡아.",
+        "%s 무조건이야. 내 말 믿어, 전 재산 걸어도 돼.",
+        "%s에 큰손이 들어왔대. 따라가면 대박.",
+        "%s 오늘 작정했다더라. 한 방에 인생 역전.",
+        "이번 달 고정비",
+        "3개월 비상금",
+        "첫 저축 300만",
+        "원룸 이사 구간",
+        "종잣돈 2천만",
+        "빌라 전세 구간",
+        "자산 1억",
+        "아파트 전세 구간",
+        "자산 5억",
+        "자산 10억",
+        "자산 20억",
+        "자산 30억 = 강남드림!",
+        "번아웃 직전",
+        "벼랑 끝의 청년",
+        "파산 위기자",
+        "%d년 %d월 %d주차",
+        "숙련",
+        "고급",
+        "마스터",
+        "이해했어요"
+      ],
+      "source_leaves": 82,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 82,
+        "zh-TW": 82
+      },
+      "source_review": "Direct Korean independent Chinese101 each, 20 date/goal/racetrack UI groups; r1 repairs2. Accepted82 each/16 groups only; 19 each/4 groups machine-boundary HOLD. Original202 not machine PASS. Existing39450 and Japanese/source/runtime/public bytes preserved. No native/render/human approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN"
     }
   ],
   "accepted": {
@@ -109257,6 +109355,334 @@
       "ui:방향키 이동  ·  Enter 선택  ·  Esc 뒤로:/방향키 이동  ·  Enter 선택  ·  Esc 뒤로": {
         "source_sha256": "193d551e29b9c7d2985104ab22b7442ea2ad708562007170826a0baaef826f44",
         "target_sha256": "e6d2e78026b55ed8f01de52fdf561ec61d966d65ca7ee474d6bea24641a5474a"
+      },
+      "ui:연승:/연승": {
+        "source_sha256": "8ddc768324141025e6960f124ef8a5280ef33b54a8f728712959db1d390dfa8c",
+        "target_sha256": "2172296ffc05ae2a15efd8735cdf19c2b1fcc78e63eeea7c12d7ae74f9f7f245"
+      },
+      "ui:단승:/단승": {
+        "source_sha256": "081e8b1660189516598ea3a7f29fbb8e96a3740a72d7657af1d38012b8fa990d",
+        "target_sha256": "c168c5ff4803a77eff6a723d2243820b43358202f87283dcc7011e83137cb034"
+      },
+      "ui:복승:/복승": {
+        "source_sha256": "36eb4d8cbd0e507d5461426d467d6ad6ec04ec7d14f6b9d5ef80f8240af11b8d",
+        "target_sha256": "b62c2990b188715675b7c98312fad391f6b1373dc1f47d28ff62ccfc5e0b2d6b"
+      },
+      "ui:삼쌍승:/삼쌍승": {
+        "source_sha256": "9cb7f0fb4f37c84e8c98fd0910dc1ef8556ffbdb6e1a50e9a379178852ba5af5",
+        "target_sha256": "614fefe8e880d2030c67ecdbe9e5327f8939d82dab2a73e78f497ff12e5c842a"
+      },
+      "ui:규칙:/규칙": {
+        "source_sha256": "543356d44e3f33261543b6f464a74b25746505168df47e02b5cc81a4997b5086",
+        "target_sha256": "f552faa457bc518713065f080ed817e3f0f675129a61e1035787f1503a97eb3c"
+      },
+      "ui:나가기:/나가기": {
+        "source_sha256": "82f1cc1a482188c4d570282e3f007ecad8bacb286f749d616c06f2ab49ce763d",
+        "target_sha256": "19ff5dc5c689c92aa6655ec15596d8ec3406abfa640d105e1cee33efd522513e"
+      },
+      "ui:[b]패드[/b]  ↑↓ 말 · ←→/%s/%s 종류 · %s/%s 금액 −/+ · %s 금액 + · %s 선택/베팅 · %s 취소 · %s 규칙:/[b]패드[~1b]  ↑↓ 말 · ←→~1%s~1%s 종류 · %s~1%s 금액 −~1+ · %s 금액 + · %s 선택~1베팅 · %s 취소 · %s 규칙": {
+        "source_sha256": "54ebef28aef98762f1dda723f53b11b16f28fa23945d84592f22299b1c326bf2",
+        "target_sha256": "61b0fe5714571def60538f08a5888f0bfde4281ec84a0ffd10cebc22fae5a2be"
+      },
+      "ui:이 경주 패스 ▷:/이 경주 패스 ▷": {
+        "source_sha256": "fc0d08be249072f176306cddc89e8f867ac44b7e1029f0ada5d5e61c1c793f81",
+        "target_sha256": "fca8f701b016977579eaa230316147f6e6e3532cc5b23a6ef4f79eac17cf14fb"
+      },
+      "ui:%s은 %d마리까지:/%s은 %d마리까지": {
+        "source_sha256": "254911785052516b00da22570455316aafde46173236bd86ba2f70abf690c5d6",
+        "target_sha256": "15977b8c93ef8b469ac9a3414821c0c74a53134dbcdb0f1dbd8e076ed483f4db"
+      },
+      "ui:착순대로 :/착순대로 ": {
+        "source_sha256": "dc395f7762781a51cc1b0a3c2d74508936f894eb0d1be217a0e52e89a3a972c8",
+        "target_sha256": "008f370c9d0466f01884196f428c80f9a9637406ea1ae61f175ee125ee52b2e6"
+      },
+      "ui:[color=#9aa4b8][b]%s[/b] · %s  →  %s%d마리 더 고르세요[/color]:/[color=#9aa4b8][b]%s[~1b] · %s  →  %s%d마리 더 고르세요[~1color]": {
+        "source_sha256": "0207837c905c7222779cb4f69a7fe1c7c7fff96b182149c78faac6cecb4da964",
+        "target_sha256": "b1a1455a0c381530cb51b0821af942308eff84e42ae85f32df2a94baec85708c"
+      },
+      "ui:[color=#cfe0ff][b]%s[/b]  %s   →   배당 [color=#ffe14d][b]×%.1f[/b][/color]  (베팅액을 고르세요)[/color]:/[color=#cfe0ff][b]%s[~1b]  %s   →   배당 [color=#ffe14d][b]×%.1f[~1b][~1color]  (베팅액을 고르세요)[~1color]": {
+        "source_sha256": "c0b1ac0f699233d92e865ecf2361fe309d7d537da87bb7690bd89adcc8c6452d",
+        "target_sha256": "b07d09f8c0af6be6253ccd3eb873a077e11a4f35c5f2d764fe62b1e6a2afe7d2"
+      },
+      "ui:출발!:/출발!": {
+        "source_sha256": "e6b8ee40de25ceffeac0e8344b1987652754a04661c9d892b855e19326962b0f",
+        "target_sha256": "4cd39897e03b58feb861796396ddbc039b776c695cafb562c91a7e0e6183c2cd"
+      },
+      "ui:마지막 직선!  %s 버틴다!:/마지막 직선!  %s 버틴다!": {
+        "source_sha256": "6a5ea1c71d1318c3a92774eb707666f842bc6e014558f3156fb856666844e164",
+        "target_sha256": "d8a9f583998fc779e9a0eaa2a789e43a2108315b32837fccbd4fc1365019aebc"
+      },
+      "ui:선두 교체 — %s!:/선두 교체 — %s!": {
+        "source_sha256": "e68f7afea1f0a75fcc125eb59bb9577ae42ff1dff69ee1b1cfaaa659614ddf0d",
+        "target_sha256": "f75c89fef0566240a9b96ba642fd6a4a66946a5a25b7fafe8d37b7877142cd60"
+      },
+      "ui:경주 결과:/경주 결과": {
+        "source_sha256": "f729cdf676b65930d304a9204025a4ffe76f420685a66a4b160190506e7cad95",
+        "target_sha256": "94d10f6f53f582b609d894351cf578d582ca03ce5efd1b194c844b1bf585fac5"
+      },
+      "ui:PHOTO FINISH VERIFIED  ·  %s  ·  베팅 %s:/PHOTO FINISH VERIFIED  ·  %s  ·  베팅 %s": {
+        "source_sha256": "9c56334906d72dbb73fd1221aa58c24d5142b875806e8234b597c406307a24ea",
+        "target_sha256": "eef1cde021e97bf276d8b7c191de968c69b64e436f4467e25b354ecf30dcc630"
+      },
+      "ui:적중:/적중": {
+        "source_sha256": "b5b014c2b50482f5b276cfdcb4ea26a4371b0e457ab4f666581db9912f0afd14",
+        "target_sha256": "c547198b56fa305330946d111cc8e7eedc8f923e16fbb917ea600a4a0ebffbb8"
+      },
+      "ui:미적중:/미적중": {
+        "source_sha256": "554ff47cd2272a1995586b8f83267d78a1d60169c0c0259e06a48621aa9d2a22",
+        "target_sha256": "58902697b80626d541315cfb83e54c40477d726707bc665ecb08a633a9b7ac45"
+      },
+      "ui:착순 보드:/착순 보드": {
+        "source_sha256": "5496224fd7da8041c1feea0726592e7f5ec028cfe3db0b8cb3aea141cb579292",
+        "target_sha256": "9a0ce8b8a7a23468052eaaffa661b66e6f5292384940695c92888ca22f6438b6"
+      },
+      "ui:내 베팅 정산표:/내 베팅 정산표": {
+        "source_sha256": "e1df5141facc8c241840f74f1fc4654d9c5b515a9031681ae235c2d4a16aa65e",
+        "target_sha256": "2117dfdd5804656aff8a791e5648695bfa10761b56e00303fb144eb6f806eef4"
+      },
+      "ui:베팅금  %s   ·   배당금  %s:/베팅금  %s   ·   배당금  %s": {
+        "source_sha256": "13eaa664fdb1b2668f482b9b0f4cf64dbe19f946d6c302025c59c5bea0a9ee3f",
+        "target_sha256": "ec04ea4fc4802affc6803ec096b71e8436aed2b45166f9f3600aca11f5e0abaf"
+      },
+      "ui:손익  %s:/손익  %s": {
+        "source_sha256": "5de17dfe0b8ef3c18620b488adacb94bfee71946f5596dc958445e40d490d95d",
+        "target_sha256": "06be22b479225ff7164712356676202497d803f07799e450b0814e6c12b1062e"
+      },
+      "ui:정보상은 진짜였다 — '%s' (지목마 %s):/정보상은 진짜였다 — '%s' (지목마 %s)": {
+        "source_sha256": "cfb5564489f9b1a5780c2dd530c083d354ee8918ee89fa18542118a59f19f3b1",
+        "target_sha256": "bf31738c85dc92bdceab208c0905b93af21d1bf2b6fb0e74305a084f8f95e87c"
+      },
+      "ui:1착 적중:/1착 적중": {
+        "source_sha256": "e52241a9154a2d5b84554d33ed3a58bd11e64ca98e691c9697c1f8772688e81d",
+        "target_sha256": "738bd29cb069275949ed248d982f0f174384c6a517bf57302ed4fe3e12f920fb"
+      },
+      "ui:이번엔 안 풀림:/이번엔 안 풀림": {
+        "source_sha256": "96a4d040024354a226885753fc4d6938bd8ac4c625bac77d3050615d00d0ed40",
+        "target_sha256": "f6b7fde1fbf19e82d335a469f98b10ccbe2f1e5c8ae7060aa46d2f6820c5e76a"
+      },
+      "ui:정보상은 함정이었다 — '%s'는 작전이었다:/정보상은 함정이었다 — '%s'는 작전이었다": {
+        "source_sha256": "11076e2a3bb8dcc6391f618cd7f768791534319b4401305b562a3320faa471aa",
+        "target_sha256": "afa0fb46877facbb2ffce4cc761fc4b7cf360174b2122fc027aa3d117ef2495a"
+      },
+      "ui:위험 신호: '딱 한 번만 더'가 가장 위험하다. (중독도 %d):/위험 신호: '딱 한 번만 더'가 가장 위험하다. (중독도 %d)": {
+        "source_sha256": "294e816c67e9fc5bd7cbeefff62fe96c330a574e95f3da1f011225d33d7261a2",
+        "target_sha256": "c67671f29ffdfbef288b281cf1ce56a5db5345658eb7d6b974abfcebed98550b"
+      },
+      "ui:[b]패드[/b]  %s 다음 경주 · %s 나가기 · %s 규칙:/[b]패드[~1b]  %s 다음 경주 · %s 나가기 · %s 규칙": {
+        "source_sha256": "01d644575b77b31a50da2d439957cb1ea4f5589a8675f251739bd065061ed562",
+        "target_sha256": "c87f0e3018dc38cf6ac5ce7a4a87424ee56d4975aebf2a42f3d737b49e0daa6a"
+      },
+      "ui:다음 경주:/다음 경주": {
+        "source_sha256": "0db7da202f1aaf1341aa54ebd07771b0686ece9a2810bb54d9362640df7880a1",
+        "target_sha256": "5c701d12d34f5d5fde08fce70d3c78f514452d185a4bf5ff9d38be3892f8d0aa"
+      },
+      "ui:오늘은 그만, 나간다:/오늘은 그만, 나간다": {
+        "source_sha256": "b72071983671119f58d099a898ba953cb7b00a6ce752e5591da9c8be2545ae93",
+        "target_sha256": "7b5aea64328c58f58f54efb5d20c15bf7e11b71c886a3b2f6e0481d59e73c187"
+      },
+      "ui:%d순위 :/%d순위 ": {
+        "source_sha256": "ae83af1e45a5dbf46ddfef4d4d7bc84d4feb5f5bf200ea988e4c68f87d3c4d87",
+        "target_sha256": "b0aa322183768f3123695afc93b63e389458ed757822c4f10a6694492652dfe1"
+      },
+      "ui:%d위  %s:/%d위  %s": {
+        "source_sha256": "a167c0d52fe1a0b9a3eb4c20948fed839cac36fe2b559facf7640845b8c38183",
+        "target_sha256": "c18271168f8e83d8a4126e05c814ae5ec55958b4dc05182cb0257213460c6518"
+      },
+      "ui:번개:/번개": {
+        "source_sha256": "9bc2dc51771f9c03899ede8456cb99ad3ff3d60407b8b9d803cec330edecccf9",
+        "target_sha256": "f90ad3ec7d7aec552ba8396cd7c9de99e9d7c8ecd16582c2f0ef73a1c000fdb1"
+      },
+      "ui:질풍:/질풍": {
+        "source_sha256": "a3a7f19e8beb9b034cfa5a039f6dd60b61b1aac4807c65d3bf29aadf0f4b372f",
+        "target_sha256": "eddb69f64e8a1656f69f46dc0ee9271ee65304bf844e214e7af70742bb91f2f3"
+      },
+      "ui:흑운:/흑운": {
+        "source_sha256": "f49b7fa1e6278e2fcaca2129f58bc32eacbaeab6cc03d5fbca362cd6d5186dc5",
+        "target_sha256": "9be631b35e93d3ee9ccc3ef5de0b0ed6238b34422d30a366e4a58441271b1a1a"
+      },
+      "ui:천리마:/천리마": {
+        "source_sha256": "126be9cb12349d06f1c604792de96d2ae4bc08adc27d73da6548700dfa4eb357",
+        "target_sha256": "ec2b6d629b86d58b306caff7f3f87b6c0a270997079de8958382900acb457841"
+      },
+      "ui:불꽃:/불꽃": {
+        "source_sha256": "6a13ca8aa48f8839aaae385da8b627e3861f535776dd43010ded34a6673ae74b",
+        "target_sha256": "5bb262cd8712b71314536a84986791ac1c05fa12eb29e822c8cf84fda0f74b29"
+      },
+      "ui:새벽별:/새벽별": {
+        "source_sha256": "8dc3936f6d042c55a90ab4f419237600ba1d90cdd57572b34f5bfecd4f050b64",
+        "target_sha256": "addd66cbfaed919db44aa7ad01a26d5c6071179a743066bc7d759d2e531678e3"
+      },
+      "ui:강철:/강철": {
+        "source_sha256": "bf01ee3a99a2044680b30912e0280a49c08818a84c8b997a0f929b0fdab2e2f4",
+        "target_sha256": "9a793fa30f20b6792ea2c923185dd140aaa5cd2019225d3b009d7094714d8630"
+      },
+      "ui:행운아:/행운아": {
+        "source_sha256": "0d623bd7959a6bfb07a857954ab9081bc1f4a38dff7ade63f8bb27fb0fb0c2a2",
+        "target_sha256": "7f4496791f2f9f679bbfb7fe0ec2638cbf94bd0f51322df9ad088e7eef95f90d"
+      },
+      "ui:폭풍:/폭풍": {
+        "source_sha256": "1d72aa76ca8c63365a760894b081239bf8fb822b27a04c9b9611ebf875af5e1e",
+        "target_sha256": "b73c6942107d056f33352506562999721c0bdc933ca8600f1a75c4feecc7602b"
+      },
+      "ui:은하수:/은하수": {
+        "source_sha256": "fe1dcf4041fbc23c43f192b6b80ec8177fbf22e5b1340b150ec6ab218ceaadc9",
+        "target_sha256": "cf8f7b7db003f73310e356c476817b62c723ebb36dfc079658139fab4ca5720e"
+      },
+      "ui:대박이:/대박이": {
+        "source_sha256": "603b09a58c7dd996d71529a225d51914526c24384d402cb2d971bb91524199f2",
+        "target_sha256": "a3d6c9ce1546c8baaf7a5fcbf7385e16fba2771d8f2d2826134d1c2779941d85"
+      },
+      "ui:무쇠:/무쇠": {
+        "source_sha256": "78c5b034296e1dbf8338ae178ce41408ca1ede6e06be6086afe2ae292e472b22",
+        "target_sha256": "5632b74ab4fa286c9767c5ea3a4399c8009c03abb075b442d88ae41f8ae198f3"
+      },
+      "ui:칼바람:/칼바람": {
+        "source_sha256": "59c1c9073690ef0c65b5d5f3b44d49fd299ac5446109f545de34accf4db48e8c",
+        "target_sha256": "4c5523ecdc5c288868434d65af07a7567a7f5d6b1b277f617c0a2c438b3a0838"
+      },
+      "ui:승리호:/승리호": {
+        "source_sha256": "53450cd2975c78217797d4c4a18735451c79c7b08730fe8563ccd68133c29de5",
+        "target_sha256": "727ec015cc40ca7f76e62254530d60c97bbe7a765bfe358db3c9f375677fabaa"
+      },
+      "ui:바람돌이:/바람돌이": {
+        "source_sha256": "c503e66c4de416ec93541be2b4dff4bdcb29d6e969d0d1bed6df173bcf4e4b5f",
+        "target_sha256": "bb9df03aeebff4282e857e46ab227169cfe61524d2269739985029825e4dea11"
+      },
+      "ui:검은별:/검은별": {
+        "source_sha256": "df9ccc776e6fec3e8aa991a3527eaceeb1b74194845792971b18b48ad3f4d952",
+        "target_sha256": "687be5282d32a8e0479ebe677185a09c8f83f291ffddd4ae2c695a4b6bc99607"
+      },
+      "ui:적토마:/적토마": {
+        "source_sha256": "6c27b5813bbb008056b10a40848c78d96c1ae1080c959f72c1b7ef3788840a38",
+        "target_sha256": "5fdffdb935f4fc915d75672478afb21086ff0ad13797c6c6684d78fdd565d118"
+      },
+      "ui:청룡:/청룡": {
+        "source_sha256": "470e230f61cfb5ec7213081ae1d8e197ee8973f7cec49bc13b38c3e2a66c42ed",
+        "target_sha256": "78643d0a6dc98044bd334cd8e03d59b59e984bdd1bbd139dee721d0ba2d8f37b"
+      },
+      "ui:건조:/건조": {
+        "source_sha256": "cff80a191f4977cb51a770598a46cd9cf2d06734a4af1b145b01ecebf91f814d",
+        "target_sha256": "f435e0be0a5cd519be89f715bd67beb7d48edeb465b1e1aa08772aae2ef652c9"
+      },
+      "ui:양호:/양호": {
+        "source_sha256": "849dbb2b5fc2e8929467ad8b4c4923e4c30d69aa6702271192f6acc5ee444013",
+        "target_sha256": "9833e04b09f36bd4e01fbc8b421af7e5b7dad95d6900dcf8e2cda1331972ab1b"
+      },
+      "ui:다습:/다습": {
+        "source_sha256": "03fb52910d8da48b4418848a463b29f3514e113d36a9f4192452ce861ea98940",
+        "target_sha256": "58f811378ee46abfda83ef9e88ef2367b690e98be57e0f7c44ef0ab0a0ff6165"
+      },
+      "ui:선행:/선행": {
+        "source_sha256": "a73a2ce86a52c03e229ccbf890c1226b3d8e679ad33868c0af768277d65e986f",
+        "target_sha256": "ec747848fddba3320187c2710f9cbe7161286fb67ff02c7dcb64f9eaa84cd6ff"
+      },
+      "ui:추입:/추입": {
+        "source_sha256": "8f4de5fdbd4313994eb1274e67f714f321dd4316abb21b5619ceb6395d962c52",
+        "target_sha256": "f79f6a29f9f6c4f74d2a38778b008b72f46a9f517c16d63fea8d5bc905b9ea42"
+      },
+      "ui:%s, 새벽 조교에서 시계가 미쳤다더라. 오늘 터진다.:/%s, 새벽 조교에서 시계가 미쳤다더라. 오늘 터진다.": {
+        "source_sha256": "391feb9a8da8bf946bb234f31ea638b85e1352dc8f64c20a71ce79dcfec82575",
+        "target_sha256": "1e393756a87ce5bc6b73d55f60c2ff742f3bf253d57c4d250fd796238c86cd60"
+      },
+      "ui:%s 마방에 돈 좀 만지는 사람들이 붙었어. 조용히 사 둬.:/%s 마방에 돈 좀 만지는 사람들이 붙었어. 조용히 사 둬.": {
+        "source_sha256": "fcd91f06640641098437015b3ce48f6e1eb0db3619859e862058c58a3ecebbc1",
+        "target_sha256": "699850e9e76478de4cea9afbefaa83516da6e7135d9475dd049e9e6e024ae118"
+      },
+      "ui:%s 컨디션 정점이래. 배당 좋을 때 잡아.:/%s 컨디션 정점이래. 배당 좋을 때 잡아.": {
+        "source_sha256": "4093a118633741b3f8011c56bedc439d3d9fa60391aaa18c57893e1186845a0a",
+        "target_sha256": "3032d8dbd8b4f64156367c5cc3cd14519b803ed8fd3cef436efd5231ca35dc3f"
+      },
+      "ui:%s 무조건이야. 내 말 믿어, 전 재산 걸어도 돼.:/%s 무조건이야. 내 말 믿어, 전 재산 걸어도 돼.": {
+        "source_sha256": "d03647221c5ab2ec55f967e312263b251b4548b88b352db4940b98251fd7af99",
+        "target_sha256": "7dbed660a4c236a358ad285e8f51c7ff2b6ff75e0678753283f53b47fef5eddc"
+      },
+      "ui:%s에 큰손이 들어왔대. 따라가면 대박.:/%s에 큰손이 들어왔대. 따라가면 대박.": {
+        "source_sha256": "b05eaf07b63b662eec186256a025a648a8820d264cf06961908b8cafbaa9c809",
+        "target_sha256": "09e10455918516773d3bb6a96ffa673b46384ac068e51bd3108a376eaced4f77"
+      },
+      "ui:%s 오늘 작정했다더라. 한 방에 인생 역전.:/%s 오늘 작정했다더라. 한 방에 인생 역전.": {
+        "source_sha256": "a3e9f5c509eda7a0f32546e1b5d6daf5959e4f3133ab3a784fea773300023cc7",
+        "target_sha256": "d89fa53666d01752bdb6640aa6459d8332250990f179fec139c1fadb3c701ac7"
+      },
+      "ui:이번 달 고정비:/이번 달 고정비": {
+        "source_sha256": "5ed3a91c4e125a0e5ad74dc4551b5198d8d060124782d0489ae84be460988a90",
+        "target_sha256": "55b26e919cbedba449d3f85df33a0efbaae8b16fb8a9eefc3c4efd05fae590d9"
+      },
+      "ui:3개월 비상금:/3개월 비상금": {
+        "source_sha256": "f86f563adf7749d39511b2af295d92963e459d443708ff83f1e258ecd76d5ce9",
+        "target_sha256": "bac5e996ed5e2aa2f510321ec2a73b748bf793fa05a39c659d6e74bbfd259bb7"
+      },
+      "ui:첫 저축 300만:/첫 저축 300만": {
+        "source_sha256": "b7df9e26fdf7122f9aceee66c01bc1faab9d8bc93caa3df48e310cd963126c26",
+        "target_sha256": "ca405cd25f31036b88e74850970f82152c269a8d23d484c863d5d162bb3b66e1"
+      },
+      "ui:원룸 이사 구간:/원룸 이사 구간": {
+        "source_sha256": "97b0a49613d9dc3f7e2f3eb731a4bcb8fc7c1f743d1fd4a85ad63d38a34535e5",
+        "target_sha256": "203d359c69bd82ff8b1cab72e2ba1a2043bf9d86c16ad74b4846b4a4483507b6"
+      },
+      "ui:종잣돈 2천만:/종잣돈 2천만": {
+        "source_sha256": "68ffd7f0e59b23817de50789b73295b06e4bf42903a1c3940dd9732bdd69d5ce",
+        "target_sha256": "a60de2ecd1ebd29fb75a402bead0315f37ac79375fca96596863a970dbb05fbb"
+      },
+      "ui:빌라 전세 구간:/빌라 전세 구간": {
+        "source_sha256": "99cbfef114beb220ac932e08de2510498a899135bf6b74a170aac6705ea1ab28",
+        "target_sha256": "48bffa950112cc0bc222aabf23a07e6a69067cf7e201d36fd3c25249d6b3048f"
+      },
+      "ui:자산 1억:/자산 1억": {
+        "source_sha256": "ae3db6dcdbee337c0b9b8411d6fade18a0da7782991f527671eedb3ac2d7de20",
+        "target_sha256": "2f15c0a04f94555391d3a0fed3c1e6f7558bbcc77e1edd571bebf37cefbdf3a8"
+      },
+      "ui:아파트 전세 구간:/아파트 전세 구간": {
+        "source_sha256": "543932958aa6f39f9f48080a5b708dcf06be6dab8a680a25a2d979baa7c34332",
+        "target_sha256": "4a1d0c3c2a60f55b273ebd69dd00c29a766c117b59a04970a70bb689aa3e6c43"
+      },
+      "ui:자산 5억:/자산 5억": {
+        "source_sha256": "2a3494ba08f6637238a8d5eb7524f04e1d5d641e8185a19e921c0ec45c7c7732",
+        "target_sha256": "00fc5e8205ef6795d9fbf29365cf568d5e78ff5e6b47b55bba633f663be10d4f"
+      },
+      "ui:자산 10억:/자산 10억": {
+        "source_sha256": "1fa39740534ed9e7808d4163d32611be7fb1504e093f2ae3cc3504b24766d65b",
+        "target_sha256": "9ac92062c0ef06e6de0f6a3c504ba9c20d260f69f68f03fb003a4a693c34cf95"
+      },
+      "ui:자산 20억:/자산 20억": {
+        "source_sha256": "00839b19f6147eb29bf3e21b8340f08c5c06d5c456e0a14634ce2b54d0f00150",
+        "target_sha256": "86fd9d2081fa3ed18154ca06e8141d586bb78ec2bedc760350287c7fe7e502da"
+      },
+      "ui:자산 30억 = 강남드림!:/자산 30억 = 강남드림!": {
+        "source_sha256": "7b1297d7bb49d990922ffeaba3ef5a09100de4036d5ff3d7ababc06715594589",
+        "target_sha256": "be0f3f77310120db2bb4ffa0697b11a16ee625ee0f5b78ad85972f0bdb3f74b3"
+      },
+      "ui:번아웃 직전:/번아웃 직전": {
+        "source_sha256": "7b0c2177f6c6c910e6afe74c15ec2cc24268ae54942d6b33b5d4a174e9cc59ad",
+        "target_sha256": "71749a161c7f2449404f3442d420dee7185685773230ee7ea5ccbe73177d7735"
+      },
+      "ui:벼랑 끝의 청년:/벼랑 끝의 청년": {
+        "source_sha256": "fb72d4e043eee12841820acb1586af7d49128d5ebf8b65eb1015c208c60d8695",
+        "target_sha256": "14c81fc790b38044d8777d320716eaa7dad035e19aeab641d1a946c5eb611383"
+      },
+      "ui:파산 위기자:/파산 위기자": {
+        "source_sha256": "d97a8ef2ce3337623e3ba043aea36937d2b1bb8bb26f65776938533d67aea54c",
+        "target_sha256": "31fe537b13c74d479488da3be1910b9b833fa42e5b33214e31c8475c5845b18c"
+      },
+      "ui:%d년 %d월 %d주차:/%d년 %d월 %d주차": {
+        "source_sha256": "b9e50758fcf27d055b3fa9594cc6a21b14a60a6263ba15273e1e471649212aca",
+        "target_sha256": "c095811a24419b3cb7464604a0331ffcf3ec87df8b7c966573ba7d88a491f03e"
+      },
+      "ui:숙련:/숙련": {
+        "source_sha256": "19d9a7ac43a4dca11eca4376ac08478f8171bd5ed25d6c9e9eca8e2c7538bc0e",
+        "target_sha256": "dacf1732810d9d6abfb1bad46f619fdde3f53223c24c6623777fe24200a5d324"
+      },
+      "ui:고급:/고급": {
+        "source_sha256": "4be467c7615c4c6a1de5eebbaffb762b7a4c7de6842b4e00a382144fdd650bfa",
+        "target_sha256": "26a4e0246b30ff3781b98bf1772b207b0506134ce7f927293bda18a544501a16"
+      },
+      "ui:마스터:/마스터": {
+        "source_sha256": "e8698c5dfbfe516c106c743b8a43297cd9f5e31efd5103c8fa88047315d1657f",
+        "target_sha256": "1316bc9054a94ced017d1ffb0c2ceecf6e828f419fba801da59477cdee2c5baf"
+      },
+      "ui:이해했어요:/이해했어요": {
+        "source_sha256": "2c3f3d246d1fa769b9089f72c50c7b7f2396721f804f7f4414fed4725207e10b",
+        "target_sha256": "6684eba84298c6c82228979a75c2d82e788b9fd738f1258c9a05947203d3d561"
       }
     },
     "zh-TW": {
@@ -161967,10 +162393,338 @@
       "ui:방향키 이동  ·  Enter 선택  ·  Esc 뒤로:/방향키 이동  ·  Enter 선택  ·  Esc 뒤로": {
         "source_sha256": "193d551e29b9c7d2985104ab22b7442ea2ad708562007170826a0baaef826f44",
         "target_sha256": "503404131b8fc3d466a1f56383089069f0e0d580c830409b18c86ae03b73a1d4"
+      },
+      "ui:연승:/연승": {
+        "source_sha256": "8ddc768324141025e6960f124ef8a5280ef33b54a8f728712959db1d390dfa8c",
+        "target_sha256": "2172296ffc05ae2a15efd8735cdf19c2b1fcc78e63eeea7c12d7ae74f9f7f245"
+      },
+      "ui:단승:/단승": {
+        "source_sha256": "081e8b1660189516598ea3a7f29fbb8e96a3740a72d7657af1d38012b8fa990d",
+        "target_sha256": "ea619d49bce62e589d67a4d736552c72dc1cb2daf1cf71046229f4e82333f1eb"
+      },
+      "ui:복승:/복승": {
+        "source_sha256": "36eb4d8cbd0e507d5461426d467d6ad6ec04ec7d14f6b9d5ef80f8240af11b8d",
+        "target_sha256": "5d78241558851fdf458335bcb60b347396c9584f4e447c127e072edfee4c1e7c"
+      },
+      "ui:삼쌍승:/삼쌍승": {
+        "source_sha256": "9cb7f0fb4f37c84e8c98fd0910dc1ef8556ffbdb6e1a50e9a379178852ba5af5",
+        "target_sha256": "614fefe8e880d2030c67ecdbe9e5327f8939d82dab2a73e78f497ff12e5c842a"
+      },
+      "ui:규칙:/규칙": {
+        "source_sha256": "543356d44e3f33261543b6f464a74b25746505168df47e02b5cc81a4997b5086",
+        "target_sha256": "6f3e5521f7ac751fe78ed3b4d933ebefd40a51040082be0dc7cf9c8ccdb396cf"
+      },
+      "ui:나가기:/나가기": {
+        "source_sha256": "82f1cc1a482188c4d570282e3f007ecad8bacb286f749d616c06f2ab49ce763d",
+        "target_sha256": "51a714a9cd737a607315d8b111adcd21adc160711a1e81d9064cc60e8f1dde22"
+      },
+      "ui:[b]패드[/b]  ↑↓ 말 · ←→/%s/%s 종류 · %s/%s 금액 −/+ · %s 금액 + · %s 선택/베팅 · %s 취소 · %s 규칙:/[b]패드[~1b]  ↑↓ 말 · ←→~1%s~1%s 종류 · %s~1%s 금액 −~1+ · %s 금액 + · %s 선택~1베팅 · %s 취소 · %s 규칙": {
+        "source_sha256": "54ebef28aef98762f1dda723f53b11b16f28fa23945d84592f22299b1c326bf2",
+        "target_sha256": "32e64bdaaa488ce48fa735f60a40a06d871b0752339b9088aa3ead420a7673c6"
+      },
+      "ui:이 경주 패스 ▷:/이 경주 패스 ▷": {
+        "source_sha256": "fc0d08be249072f176306cddc89e8f867ac44b7e1029f0ada5d5e61c1c793f81",
+        "target_sha256": "b3bb4e069957eed0de89d3998ea1b7b2abe67791209fdecde131883bdb3a8b57"
+      },
+      "ui:%s은 %d마리까지:/%s은 %d마리까지": {
+        "source_sha256": "254911785052516b00da22570455316aafde46173236bd86ba2f70abf690c5d6",
+        "target_sha256": "ccbd6dc7daa4270a04a2f753508a02bf3e5fc0723a85434e86f09c6aee4b757f"
+      },
+      "ui:착순대로 :/착순대로 ": {
+        "source_sha256": "dc395f7762781a51cc1b0a3c2d74508936f894eb0d1be217a0e52e89a3a972c8",
+        "target_sha256": "6d37f0e17c77bed97d655f1e613fcd44a96997a8bc10cb4a331eaa052df8876b"
+      },
+      "ui:[color=#9aa4b8][b]%s[/b] · %s  →  %s%d마리 더 고르세요[/color]:/[color=#9aa4b8][b]%s[~1b] · %s  →  %s%d마리 더 고르세요[~1color]": {
+        "source_sha256": "0207837c905c7222779cb4f69a7fe1c7c7fff96b182149c78faac6cecb4da964",
+        "target_sha256": "7fefba207ce4dfd8c477cdbbf032ff59960e80013c6165c60ad9b68e611c6d29"
+      },
+      "ui:[color=#cfe0ff][b]%s[/b]  %s   →   배당 [color=#ffe14d][b]×%.1f[/b][/color]  (베팅액을 고르세요)[/color]:/[color=#cfe0ff][b]%s[~1b]  %s   →   배당 [color=#ffe14d][b]×%.1f[~1b][~1color]  (베팅액을 고르세요)[~1color]": {
+        "source_sha256": "c0b1ac0f699233d92e865ecf2361fe309d7d537da87bb7690bd89adcc8c6452d",
+        "target_sha256": "6ff8391ab162b214129971bc29b1b30f0973a23982d1c0fb952800eb45d936d0"
+      },
+      "ui:출발!:/출발!": {
+        "source_sha256": "e6b8ee40de25ceffeac0e8344b1987652754a04661c9d892b855e19326962b0f",
+        "target_sha256": "c07477e8b0e84193a35bec897f98e796c59526d3b0fc6809122e2e79b11a5958"
+      },
+      "ui:마지막 직선!  %s 버틴다!:/마지막 직선!  %s 버틴다!": {
+        "source_sha256": "6a5ea1c71d1318c3a92774eb707666f842bc6e014558f3156fb856666844e164",
+        "target_sha256": "86d7e59f6088e824f31607fab1bdcf3ce8c4c618e64ca2053c5618a14def597a"
+      },
+      "ui:선두 교체 — %s!:/선두 교체 — %s!": {
+        "source_sha256": "e68f7afea1f0a75fcc125eb59bb9577ae42ff1dff69ee1b1cfaaa659614ddf0d",
+        "target_sha256": "b2d7226515429aab2c9750c699957805403c63f877ca7ef2940fbce72ba24257"
+      },
+      "ui:경주 결과:/경주 결과": {
+        "source_sha256": "f729cdf676b65930d304a9204025a4ffe76f420685a66a4b160190506e7cad95",
+        "target_sha256": "3bb033dd13a23e888129aa6bed3b3bd72b8a93faa318e600720a3aba5f8e6f77"
+      },
+      "ui:PHOTO FINISH VERIFIED  ·  %s  ·  베팅 %s:/PHOTO FINISH VERIFIED  ·  %s  ·  베팅 %s": {
+        "source_sha256": "9c56334906d72dbb73fd1221aa58c24d5142b875806e8234b597c406307a24ea",
+        "target_sha256": "32991ff2e22d9e641cddaacba5d04eab67cdc827fa53842f3873bbcf2f21d26a"
+      },
+      "ui:적중:/적중": {
+        "source_sha256": "b5b014c2b50482f5b276cfdcb4ea26a4371b0e457ab4f666581db9912f0afd14",
+        "target_sha256": "68fe6834014fe4cf20c55c19370e82ef06fa2a40af73f55f7333fd507e37e85c"
+      },
+      "ui:미적중:/미적중": {
+        "source_sha256": "554ff47cd2272a1995586b8f83267d78a1d60169c0c0259e06a48621aa9d2a22",
+        "target_sha256": "7a77716fcb822a88ecf3b7dd5bb64c79cf960b664f4267575103e51c46301e5d"
+      },
+      "ui:착순 보드:/착순 보드": {
+        "source_sha256": "5496224fd7da8041c1feea0726592e7f5ec028cfe3db0b8cb3aea141cb579292",
+        "target_sha256": "bc8d8ae7c78a2ce7170bc0bcbe395548b320dfd7de12d72113ba0b4870fcc677"
+      },
+      "ui:내 베팅 정산표:/내 베팅 정산표": {
+        "source_sha256": "e1df5141facc8c241840f74f1fc4654d9c5b515a9031681ae235c2d4a16aa65e",
+        "target_sha256": "e30493c5ee7ce71e7035d7c4fe4f9041c80916977f2b541eaf74661508d3092b"
+      },
+      "ui:베팅금  %s   ·   배당금  %s:/베팅금  %s   ·   배당금  %s": {
+        "source_sha256": "13eaa664fdb1b2668f482b9b0f4cf64dbe19f946d6c302025c59c5bea0a9ee3f",
+        "target_sha256": "046436d53e2c92daad412cefe6fe376a93b620fa1ff73884a5d051b4c9fd6b7b"
+      },
+      "ui:손익  %s:/손익  %s": {
+        "source_sha256": "5de17dfe0b8ef3c18620b488adacb94bfee71946f5596dc958445e40d490d95d",
+        "target_sha256": "408784deb876e94e02c3abaa71895a7094256d8c2465edd4f6f883a96a41d1b3"
+      },
+      "ui:정보상은 진짜였다 — '%s' (지목마 %s):/정보상은 진짜였다 — '%s' (지목마 %s)": {
+        "source_sha256": "cfb5564489f9b1a5780c2dd530c083d354ee8918ee89fa18542118a59f19f3b1",
+        "target_sha256": "c9dffc4435365ba2239fe4bfdc769008d93895964cb2eca6e3bee354a00071d9"
+      },
+      "ui:1착 적중:/1착 적중": {
+        "source_sha256": "e52241a9154a2d5b84554d33ed3a58bd11e64ca98e691c9697c1f8772688e81d",
+        "target_sha256": "af62ff551e9a7f82af47bfa14691afe43cb80c4408b94b841874636a7b32c9e8"
+      },
+      "ui:이번엔 안 풀림:/이번엔 안 풀림": {
+        "source_sha256": "96a4d040024354a226885753fc4d6938bd8ac4c625bac77d3050615d00d0ed40",
+        "target_sha256": "fb3dbc06683f28cac0cce0103c48df47d6c81174813121c5f6ea58580803eea0"
+      },
+      "ui:정보상은 함정이었다 — '%s'는 작전이었다:/정보상은 함정이었다 — '%s'는 작전이었다": {
+        "source_sha256": "11076e2a3bb8dcc6391f618cd7f768791534319b4401305b562a3320faa471aa",
+        "target_sha256": "a2b0cd62fc7f9c22cb8e0f5794fc9565db1a20956a7f639a62ae8dadc653cf9a"
+      },
+      "ui:위험 신호: '딱 한 번만 더'가 가장 위험하다. (중독도 %d):/위험 신호: '딱 한 번만 더'가 가장 위험하다. (중독도 %d)": {
+        "source_sha256": "294e816c67e9fc5bd7cbeefff62fe96c330a574e95f3da1f011225d33d7261a2",
+        "target_sha256": "7a2f1b07ba64f5bf31ceabd5ae4bf099cc5dee78fc9acea7caa6574c643698c3"
+      },
+      "ui:[b]패드[/b]  %s 다음 경주 · %s 나가기 · %s 규칙:/[b]패드[~1b]  %s 다음 경주 · %s 나가기 · %s 규칙": {
+        "source_sha256": "01d644575b77b31a50da2d439957cb1ea4f5589a8675f251739bd065061ed562",
+        "target_sha256": "ddf95f56734ea8a0f0d55a3cb708b4e0c686757bbe10cc3eb437b9ad4f5c8142"
+      },
+      "ui:다음 경주:/다음 경주": {
+        "source_sha256": "0db7da202f1aaf1341aa54ebd07771b0686ece9a2810bb54d9362640df7880a1",
+        "target_sha256": "667b867e47cdd9ff9f02acc472b5a7ce568f2a3b2a66d9e662892b94824deb02"
+      },
+      "ui:오늘은 그만, 나간다:/오늘은 그만, 나간다": {
+        "source_sha256": "b72071983671119f58d099a898ba953cb7b00a6ce752e5591da9c8be2545ae93",
+        "target_sha256": "7b4810453acf12d16e4fc1cf66537b46e58d2c11cef9189a8e5c6a124dd3fcea"
+      },
+      "ui:%d순위 :/%d순위 ": {
+        "source_sha256": "ae83af1e45a5dbf46ddfef4d4d7bc84d4feb5f5bf200ea988e4c68f87d3c4d87",
+        "target_sha256": "b0aa322183768f3123695afc93b63e389458ed757822c4f10a6694492652dfe1"
+      },
+      "ui:%d위  %s:/%d위  %s": {
+        "source_sha256": "a167c0d52fe1a0b9a3eb4c20948fed839cac36fe2b559facf7640845b8c38183",
+        "target_sha256": "c18271168f8e83d8a4126e05c814ae5ec55958b4dc05182cb0257213460c6518"
+      },
+      "ui:번개:/번개": {
+        "source_sha256": "9bc2dc51771f9c03899ede8456cb99ad3ff3d60407b8b9d803cec330edecccf9",
+        "target_sha256": "ba488bf693881025d841057a26a1ea0e8efdeac759f639070eb943bba9dfc32f"
+      },
+      "ui:질풍:/질풍": {
+        "source_sha256": "a3a7f19e8beb9b034cfa5a039f6dd60b61b1aac4807c65d3bf29aadf0f4b372f",
+        "target_sha256": "3b343e2731cb1e6e46444839fe83c865869d91213aabb6a676797b58f66fb054"
+      },
+      "ui:흑운:/흑운": {
+        "source_sha256": "f49b7fa1e6278e2fcaca2129f58bc32eacbaeab6cc03d5fbca362cd6d5186dc5",
+        "target_sha256": "93775560b506e8f4e7297f395df30200b1295e3dfee6257e6c89dac10eb87115"
+      },
+      "ui:천리마:/천리마": {
+        "source_sha256": "126be9cb12349d06f1c604792de96d2ae4bc08adc27d73da6548700dfa4eb357",
+        "target_sha256": "cfd4288339d76e88e2f5990794af2c7ad296d62bdfa00351073eef9f7b21875e"
+      },
+      "ui:불꽃:/불꽃": {
+        "source_sha256": "6a13ca8aa48f8839aaae385da8b627e3861f535776dd43010ded34a6673ae74b",
+        "target_sha256": "81fa988ecc1265e6197d907de74c78c2624b2504359372bc6bdaab24f4d3926f"
+      },
+      "ui:새벽별:/새벽별": {
+        "source_sha256": "8dc3936f6d042c55a90ab4f419237600ba1d90cdd57572b34f5bfecd4f050b64",
+        "target_sha256": "addd66cbfaed919db44aa7ad01a26d5c6071179a743066bc7d759d2e531678e3"
+      },
+      "ui:강철:/강철": {
+        "source_sha256": "bf01ee3a99a2044680b30912e0280a49c08818a84c8b997a0f929b0fdab2e2f4",
+        "target_sha256": "7d523d7fb95a86ec4a16b0d55323c656d2574a2d86f9961713cbe83d654d73cd"
+      },
+      "ui:행운아:/행운아": {
+        "source_sha256": "0d623bd7959a6bfb07a857954ab9081bc1f4a38dff7ade63f8bb27fb0fb0c2a2",
+        "target_sha256": "f9f41d0f27ecad012f60ce78f85b58eb7f479161c4eb27ffb1a47d9134054e5b"
+      },
+      "ui:폭풍:/폭풍": {
+        "source_sha256": "1d72aa76ca8c63365a760894b081239bf8fb822b27a04c9b9611ebf875af5e1e",
+        "target_sha256": "12d935b3c02098b8dd34e03df08be50df14048e87cc439bbebc5a0bfdf83dc1e"
+      },
+      "ui:은하수:/은하수": {
+        "source_sha256": "fe1dcf4041fbc23c43f192b6b80ec8177fbf22e5b1340b150ec6ab218ceaadc9",
+        "target_sha256": "5b4765ce6381b1a50c9b3617c5c4ee9e3e72072e6689f1476730479bad60b402"
+      },
+      "ui:대박이:/대박이": {
+        "source_sha256": "603b09a58c7dd996d71529a225d51914526c24384d402cb2d971bb91524199f2",
+        "target_sha256": "3e17f07da9790fd4a14f27c499ac7d578c1bc3c43ab6a8807e81309a84eec2c2"
+      },
+      "ui:무쇠:/무쇠": {
+        "source_sha256": "78c5b034296e1dbf8338ae178ce41408ca1ede6e06be6086afe2ae292e472b22",
+        "target_sha256": "a768f2ece0cc7055e6be36dc385ff7251a3b1a8540d836366080dd165296096f"
+      },
+      "ui:칼바람:/칼바람": {
+        "source_sha256": "59c1c9073690ef0c65b5d5f3b44d49fd299ac5446109f545de34accf4db48e8c",
+        "target_sha256": "d148c3ad2b710776a783bbdfb30906ac2df5249b830b5d6080c799028cbd862e"
+      },
+      "ui:승리호:/승리호": {
+        "source_sha256": "53450cd2975c78217797d4c4a18735451c79c7b08730fe8563ccd68133c29de5",
+        "target_sha256": "b9e2af149345039072d375025ed40b6ed379a25c52e36e68773edd7a2f1aa748"
+      },
+      "ui:바람돌이:/바람돌이": {
+        "source_sha256": "c503e66c4de416ec93541be2b4dff4bdcb29d6e969d0d1bed6df173bcf4e4b5f",
+        "target_sha256": "aba1019eb8f582c15fd37af70107b80e44c8eb27a3a36fa18291c9926d5239f6"
+      },
+      "ui:검은별:/검은별": {
+        "source_sha256": "df9ccc776e6fec3e8aa991a3527eaceeb1b74194845792971b18b48ad3f4d952",
+        "target_sha256": "687be5282d32a8e0479ebe677185a09c8f83f291ffddd4ae2c695a4b6bc99607"
+      },
+      "ui:적토마:/적토마": {
+        "source_sha256": "6c27b5813bbb008056b10a40848c78d96c1ae1080c959f72c1b7ef3788840a38",
+        "target_sha256": "7a5a28728bd78f3f611c63abdcf193a42dce540b74f86e6d55fd02cb9f0c6b7b"
+      },
+      "ui:청룡:/청룡": {
+        "source_sha256": "470e230f61cfb5ec7213081ae1d8e197ee8973f7cec49bc13b38c3e2a66c42ed",
+        "target_sha256": "0f34e0be563eee366845d4f7cb1722f506afbead60a22bec68b6e14765058596"
+      },
+      "ui:건조:/건조": {
+        "source_sha256": "cff80a191f4977cb51a770598a46cd9cf2d06734a4af1b145b01ecebf91f814d",
+        "target_sha256": "8cff66e552a49ad9b94f4cc320b58fdc276c6200ba26d6f107a5358e7e3da45f"
+      },
+      "ui:양호:/양호": {
+        "source_sha256": "849dbb2b5fc2e8929467ad8b4c4923e4c30d69aa6702271192f6acc5ee444013",
+        "target_sha256": "9833e04b09f36bd4e01fbc8b421af7e5b7dad95d6900dcf8e2cda1331972ab1b"
+      },
+      "ui:다습:/다습": {
+        "source_sha256": "03fb52910d8da48b4418848a463b29f3514e113d36a9f4192452ce861ea98940",
+        "target_sha256": "e728fd5c4e2e366fa582955fba6297849def3dcd6557f7ffa771bafbd628547b"
+      },
+      "ui:선행:/선행": {
+        "source_sha256": "a73a2ce86a52c03e229ccbf890c1226b3d8e679ad33868c0af768277d65e986f",
+        "target_sha256": "88b6a3696a83d9e293727faa67c752a7f689da0dc37db2389bfb92fce3e40154"
+      },
+      "ui:추입:/추입": {
+        "source_sha256": "8f4de5fdbd4313994eb1274e67f714f321dd4316abb21b5619ceb6395d962c52",
+        "target_sha256": "20660f47d2bd8008b6d087dd06ede19d063443a4ecd1137cd011595ac2475d6d"
+      },
+      "ui:%s, 새벽 조교에서 시계가 미쳤다더라. 오늘 터진다.:/%s, 새벽 조교에서 시계가 미쳤다더라. 오늘 터진다.": {
+        "source_sha256": "391feb9a8da8bf946bb234f31ea638b85e1352dc8f64c20a71ce79dcfec82575",
+        "target_sha256": "8aaf6c120b1fffa58a6750a1e909e99ab3662744e9051c10623486a576fd9f35"
+      },
+      "ui:%s 마방에 돈 좀 만지는 사람들이 붙었어. 조용히 사 둬.:/%s 마방에 돈 좀 만지는 사람들이 붙었어. 조용히 사 둬.": {
+        "source_sha256": "fcd91f06640641098437015b3ce48f6e1eb0db3619859e862058c58a3ecebbc1",
+        "target_sha256": "4cdb0cfb28fca2d0634c0475bc842f795330b33242bfc5516e968a9f48474717"
+      },
+      "ui:%s 컨디션 정점이래. 배당 좋을 때 잡아.:/%s 컨디션 정점이래. 배당 좋을 때 잡아.": {
+        "source_sha256": "4093a118633741b3f8011c56bedc439d3d9fa60391aaa18c57893e1186845a0a",
+        "target_sha256": "3f45b4031d7735db7a4fd43c5c33227719e785f3ff46785db8f4626ce1b385c0"
+      },
+      "ui:%s 무조건이야. 내 말 믿어, 전 재산 걸어도 돼.:/%s 무조건이야. 내 말 믿어, 전 재산 걸어도 돼.": {
+        "source_sha256": "d03647221c5ab2ec55f967e312263b251b4548b88b352db4940b98251fd7af99",
+        "target_sha256": "b609ae2223dc4e503c5b2be019c076f0d978f83a8df138df3b2b6434195122c3"
+      },
+      "ui:%s에 큰손이 들어왔대. 따라가면 대박.:/%s에 큰손이 들어왔대. 따라가면 대박.": {
+        "source_sha256": "b05eaf07b63b662eec186256a025a648a8820d264cf06961908b8cafbaa9c809",
+        "target_sha256": "5f983f91d1cc4a81ed59f418b89d7086a2ce1f0be0d3dbf203e33678dff30eed"
+      },
+      "ui:%s 오늘 작정했다더라. 한 방에 인생 역전.:/%s 오늘 작정했다더라. 한 방에 인생 역전.": {
+        "source_sha256": "a3e9f5c509eda7a0f32546e1b5d6daf5959e4f3133ab3a784fea773300023cc7",
+        "target_sha256": "10407a1e3e5b8b8a7d36a94a5a433865659d7152939cbb634aed269cc0662482"
+      },
+      "ui:이번 달 고정비:/이번 달 고정비": {
+        "source_sha256": "5ed3a91c4e125a0e5ad74dc4551b5198d8d060124782d0489ae84be460988a90",
+        "target_sha256": "55b26e919cbedba449d3f85df33a0efbaae8b16fb8a9eefc3c4efd05fae590d9"
+      },
+      "ui:3개월 비상금:/3개월 비상금": {
+        "source_sha256": "f86f563adf7749d39511b2af295d92963e459d443708ff83f1e258ecd76d5ce9",
+        "target_sha256": "8257c6c3cd1e37948b175ed2b57f872057dbb56c6de9368db06878deb1e4383f"
+      },
+      "ui:첫 저축 300만:/첫 저축 300만": {
+        "source_sha256": "b7df9e26fdf7122f9aceee66c01bc1faab9d8bc93caa3df48e310cd963126c26",
+        "target_sha256": "0fe8d76793d55d154ebcae365e2772889a4c6ff8c2501d00092ab774f922d4d1"
+      },
+      "ui:원룸 이사 구간:/원룸 이사 구간": {
+        "source_sha256": "97b0a49613d9dc3f7e2f3eb731a4bcb8fc7c1f743d1fd4a85ad63d38a34535e5",
+        "target_sha256": "4dcd1b7f2c0d5a6f592b53236105f510748e5ac48dffe107856d167b62e9421b"
+      },
+      "ui:종잣돈 2천만:/종잣돈 2천만": {
+        "source_sha256": "68ffd7f0e59b23817de50789b73295b06e4bf42903a1c3940dd9732bdd69d5ce",
+        "target_sha256": "c4b3e25cf345fb5c9b0ba0d61039cb569ee3f66a6cda500c5f8d02f79ca72cff"
+      },
+      "ui:빌라 전세 구간:/빌라 전세 구간": {
+        "source_sha256": "99cbfef114beb220ac932e08de2510498a899135bf6b74a170aac6705ea1ab28",
+        "target_sha256": "389b2cd88d36cfeba95dc9ae0cc8b98e52599b934d96a43fc00b99c409057939"
+      },
+      "ui:자산 1억:/자산 1억": {
+        "source_sha256": "ae3db6dcdbee337c0b9b8411d6fade18a0da7782991f527671eedb3ac2d7de20",
+        "target_sha256": "c2ae99966c5fe489eabc2517dd5d6ded4297d43fa1a315db5b69aa42457f9de2"
+      },
+      "ui:아파트 전세 구간:/아파트 전세 구간": {
+        "source_sha256": "543932958aa6f39f9f48080a5b708dcf06be6dab8a680a25a2d979baa7c34332",
+        "target_sha256": "79826c95dbe599b4e005d5d7d4372fe45b036cd778b203d7c7a6da3924681054"
+      },
+      "ui:자산 5억:/자산 5억": {
+        "source_sha256": "2a3494ba08f6637238a8d5eb7524f04e1d5d641e8185a19e921c0ec45c7c7732",
+        "target_sha256": "514f3751b10d12e390bb86ecf17f1d4d533d33adb01536282339f18e7f4be451"
+      },
+      "ui:자산 10억:/자산 10억": {
+        "source_sha256": "1fa39740534ed9e7808d4163d32611be7fb1504e093f2ae3cc3504b24766d65b",
+        "target_sha256": "4358a2968e6b8b2cf4ab8784cbefbf3df6b0345a0942522b09cc52fafebc71e7"
+      },
+      "ui:자산 20억:/자산 20억": {
+        "source_sha256": "00839b19f6147eb29bf3e21b8340f08c5c06d5c456e0a14634ce2b54d0f00150",
+        "target_sha256": "b01971e396e0cebfa31637db39db22e892c6d4fc423c333d2e1d95b6df99f991"
+      },
+      "ui:자산 30억 = 강남드림!:/자산 30억 = 강남드림!": {
+        "source_sha256": "7b1297d7bb49d990922ffeaba3ef5a09100de4036d5ff3d7ababc06715594589",
+        "target_sha256": "90e5c6ff37bd4ff0bffb7e1203b9878c21e5acd2c3b3bece6270ddff0e0d4903"
+      },
+      "ui:번아웃 직전:/번아웃 직전": {
+        "source_sha256": "7b0c2177f6c6c910e6afe74c15ec2cc24268ae54942d6b33b5d4a174e9cc59ad",
+        "target_sha256": "43a785bae2e89e0499a2ad93512eb454e58f336717f28e3ad11cdc52b90e61c6"
+      },
+      "ui:벼랑 끝의 청년:/벼랑 끝의 청년": {
+        "source_sha256": "fb72d4e043eee12841820acb1586af7d49128d5ebf8b65eb1015c208c60d8695",
+        "target_sha256": "b883cc6f99229124adbf9e81a301871773ac763e8c159c06d7b47b0d3758eef1"
+      },
+      "ui:파산 위기자:/파산 위기자": {
+        "source_sha256": "d97a8ef2ce3337623e3ba043aea36937d2b1bb8bb26f65776938533d67aea54c",
+        "target_sha256": "085a0d37af77f475d99e3b43c84c33ddf4a467508a0b54a17ce0dcbe90991f60"
+      },
+      "ui:%d년 %d월 %d주차:/%d년 %d월 %d주차": {
+        "source_sha256": "b9e50758fcf27d055b3fa9594cc6a21b14a60a6263ba15273e1e471649212aca",
+        "target_sha256": "0f56c6fb484a3a860abb9fc0268fff5c4491d6baf7ef9efb9dcaff346030160f"
+      },
+      "ui:숙련:/숙련": {
+        "source_sha256": "19d9a7ac43a4dca11eca4376ac08478f8171bd5ed25d6c9e9eca8e2c7538bc0e",
+        "target_sha256": "db211018f278fe244139b51239354c984bd2559aaecddb72e9253541c7062948"
+      },
+      "ui:고급:/고급": {
+        "source_sha256": "4be467c7615c4c6a1de5eebbaffb762b7a4c7de6842b4e00a382144fdd650bfa",
+        "target_sha256": "f5a8c55cd0ddeb856ba78ea1c791e35be5476d9da04c10a4fdd8b048b0963b64"
+      },
+      "ui:마스터:/마스터": {
+        "source_sha256": "e8698c5dfbfe516c106c743b8a43297cd9f5e31efd5103c8fa88047315d1657f",
+        "target_sha256": "844f4dff653899f797603db9d3a5a087a35599e3f750dff3315091ba3aef2d1f"
+      },
+      "ui:이해했어요:/이해했어요": {
+        "source_sha256": "2c3f3d246d1fa769b9089f72c50c7b7f2396721f804f7f4414fed4725207e10b",
+        "target_sha256": "8b38351fdc17070c2dc2a00180d75a2df5101a361f1a9c7aa13ef989addb7201"
       }
     }
   },
-  "accepted_sha256": "3f148151db906ec4d515a4f26ca1337e48743ae431d69935a7dc5e5c22ff81a4",
+  "accepted_sha256": "920f2bf8c312385eb8b126ebb692b0ce7e46d272b80eb6ad4f010ee6bebd2fef",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
