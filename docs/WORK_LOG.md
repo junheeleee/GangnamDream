@@ -2,6 +2,12 @@
 
 > 이전 WORK·현재 선언·실패 원문은 [271 보존본](queue_archive/ORDER-271.md)에 있다.
 
+## 2026-09-20 (Codex — 월초 돌발상황 중국어 30초안 착수)
+
+- [272](queue_active/ORDER-272.md): 확정15키·8기능, 지역별 독립KO직접저작과 비저자 전수 대조.
+- 계획 post271-next-ui-scope.json의 전체/13핀을 확인했다. 실제 수용 전이며 기존39842와 보류110 보존.
+- 첫고지본문 collector 수리와 보류110은 별도. 코드변경 없는 확정 UI 누락을 먼저 닫는다.
+
 ## 2026-09-20 (Codex — 월말결산·경고 중국어 90 반영)
 
 - [271](queue_archive/ORDER-271.md): 제품1fadb15·검토efcdcfa, 독립 Poincare 한정GO/필수0.
