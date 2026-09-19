@@ -91,3 +91,13 @@ MainGame/LocaleManager/StartMenu/EventManager/DataRegistry·project·사람 원�
 - 실제 원문17484, UI3666/미확인329, manifest2346e6c4. 독립33과 표적L1 33/0 뒤
   clean4d712e3 공식9×3 export/check/import(사전 추가편집0)와 신규27 portable를 결속했다.
   현재39292/b112/meta9이며 기존6재사용·원래39265 보존은 별도 검증한다.
+
+## 첫 격리 실행과 좁은 증거 직렬화 수리
+
+- clean4fbbda1 첫 runner는 FAIL(02dfcf06)이다. engine exit0/오류0이며 raw104군을
+  출력했으나 invalid-format6군의 U+001F가 JSON에 그대로 실려 strict parser는98군만 읽었다.
+  `gangnam-new-run-log-ytn40gv4`의 stdout4,447,133B(fbfa1713)·stderr4,377B(ca697756)·
+  Godot log4,451,414B(ab383d51)·runner결과(f8e2c368)를 그대로 보존한다. PASS로 바꾸지 않는다.
+- 소유 fixture의 CASE 출력에서만 U+001F를 JSON escape로 보존한다. 값/기대104·원36·
+  runner strict parser·warning/일반ERROR 규칙·게임 코드는 변경하지 않는다. Rawls 저작과
+  Poincare 독립 사전대조 뒤 새 clean source에서 component만 재실행한다. 신규 수용0이다.
