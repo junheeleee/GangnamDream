@@ -58,3 +58,19 @@ project.godot·개인 세이브·human ledger·공개 후보·손상 mirror는 �
 
 기계 PASS는 도달성·계약 증거이지 재미·문체·렌더·원어민·인간 플레이·물리 패드
 증거가 아니다. 공개 GO1·인간 OPEN45·본편 HOLD를 유지하며 외부 출시 판정0이다.
+
+## 실제 수용 관측 (2026-09-19)
+
+- 독립27 언어 d1004b79 필수0, 실행 보조와 보존검사도 별도 정적 검토했다.
+- 편집전 clean873f3e4의 JA/CN/TW source-export 각첫PASS, 실제9키·보호0·호출11,
+  신규27 L1 오류0. JA 전체 원형·CN/TW각9 append 외 기존사전 변경0이다.
+- clean83110c9 공식export949d05fc/checkf833ffa9/importffaeca82 각첫PASS,
+  각1194입력 불변·3×9·changed_files0이다. 실제receipt SHA는
+  JA425a3759/CNd7309fa3/TWd3016e30이며 portablef790610d와 결속했다.
+- 공식39103/b108/meta9, JA13033·CN/TW13035, accepted digest371f7703이다.
+  이전39076 전체raw 역복원exact. source 분모17484×3은 그대로다.
+- 최초portable1c01c8c2는 import가 끝나기 전에 시작한 순서 오류로 TW receipt 부재에서
+  실패했다(0.796647416초·1194불변·patch0). 원형을 보존하고 선행 완료 확인 후 같은
+  helper·기대로 두 번째ca0f5692 PASS(1.506961667초)했다. 실제검사 실패를 숨기지 않는다.
+- 최종 source·검토HEAD의 신규27/old39076 보존·고유12 및 비저자 단위판정은 후속
+  exact 보고에 결속한다. 아직 이 기록으로 단위GO나 본편GO를 선언하지 않는다.

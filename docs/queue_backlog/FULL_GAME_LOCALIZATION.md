@@ -171,6 +171,10 @@ skipped이며 업로드 파일도 없었다. 이 새 원인은 별도 좁은 수
   JA 금수저의 돈줄 오역1만 고치고 기존17과 인접 context/관계/주거는 보존했다.
   CN/TW각18을 추가했으며 코드·저장·분모는 같다. 전체L1·고유12·단위판정은
   exact 증거가 소유한다. 실제패널·정적라벨 언어갱신·렌더·원어민 완료는 아니다.
+  시장 뉴스9키/11호출의27도 직접KO·독립 전량검토 뒤 clean83110c9의 공식
+  export/check/import로 수용했다. 현재39103(JA13033·CN/TW13035)/b108/meta9다.
+  JA9 전체와 old39076 raw를 보존하고 CN/TW각9만 추가했다. 신규27 L1과 기존
+  source/target 보존은 별개 증거이며 이전 전체L1 재실행·실제뉴스·렌더 관측이 아니다.
   이후 `_localized_profile_label/_roll_run_theme`와 `HoldemClub._fmt`의 non-KO=EN 분기를
   실제 표시 계약으로 검사한다. `_localized_route_label`의4매핑은 현재 caller0이므로
   이를 번역하거나 노출해 플레이어 표면 수리·진척으로 세지 않는다.

@@ -3913,6 +3913,31 @@
       "machine_validation": "PASS",
       "rendered_review": "OPEN",
       "native_review": "OPEN"
+    },
+    {
+      "order": "ORDER-259",
+      "group": "ui",
+      "roots": [
+        "강한 악재",
+        "강한 호재",
+        "루머",
+        "시장",
+        "시장 뉴스",
+        "아직 들어온 뉴스가 없습니다.",
+        "악재",
+        "중립",
+        "호재"
+      ],
+      "source_leaves": 9,
+      "target_leaves_by_locale": {
+        "ja": 9,
+        "zh-CN": 9,
+        "zh-TW": 9
+      },
+      "source_review": "Direct Korean and independent full27 language review: nine existing news labels/topic keys, eleven MainGame calls including the shared market page label. JA9 preserved; CN/TW9 each appended. Rumor precedence, strength, thresholds, signs, percentages, colors and RNG unchanged. Old39076 source/target evidence inherited by raw preservation, not a repeated all-accepted L1. No game code, live news generation/body retranslating, rendered, native or human-play judgment.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN"
     }
   ],
   "accepted": {
@@ -56012,6 +56037,42 @@
       "ui:총자산:/총자산": {
         "source_sha256": "7af19af19403433b351eb70891b8f77e3dcb07dc23017b34461a6be6bd9b1555",
         "target_sha256": "1a350dd6e94159a25364fc739418d8041281229915232621352a71266a5efe7a"
+      },
+      "ui:강한 악재:/강한 악재": {
+        "source_sha256": "63b0ddcadfab71e369494fbb1535e12442fd1af6683c4f1dbc235d923055e19d",
+        "target_sha256": "46081e7a2a154b4156631cca6e480b8b5ff48a3cb3d32c88f25a21f52e39d9e8"
+      },
+      "ui:강한 호재:/강한 호재": {
+        "source_sha256": "e51bf44fc618315690648ced3a222eb04ed39356e540c04d7e47e19f524d6991",
+        "target_sha256": "78e17cadc7902d5ab49c8bd81f293704ee89e75be43478d07bfbe77e336393ce"
+      },
+      "ui:루머:/루머": {
+        "source_sha256": "ce3a6e84e7bc59de477a9a3c8f9262a13ab705fbc2270679c92c78b3ee9df4b4",
+        "target_sha256": "74871472be46d43380d1686f26ff1cddcde4d73101b9ee9785a023a6f4f6cea2"
+      },
+      "ui:시장 뉴스:/시장 뉴스": {
+        "source_sha256": "b6cc8d4b2cb0c431927efcb9c9897161f0ab6faa4281affc2913f94801cab638",
+        "target_sha256": "6a93c64b17e72044cceb54665e596ad5e4e786ccd471298a3afbc4c77a9344cc"
+      },
+      "ui:시장:/시장": {
+        "source_sha256": "ca5111936705e49cd0361fbb60d7009ead8a52775a3efceda8359720270f9a1a",
+        "target_sha256": "6705c4ef8d9d41fc82a0f116cc53c51fdc1ea3af6128a9592796e16d76907b67"
+      },
+      "ui:아직 들어온 뉴스가 없습니다.:/아직 들어온 뉴스가 없습니다.": {
+        "source_sha256": "21ae8cb9cec4218a29f9aa2ae23977e8026c3709d11bbd57c856b4bfbd8e95f5",
+        "target_sha256": "538102937a9a67fa929a48d971c1a8daa09c2aade6cde2d8ed2f04ce0214c015"
+      },
+      "ui:악재:/악재": {
+        "source_sha256": "406f4cc4de17cb5d5076709b36ffcab4d345f3a8fefa928c40bd88bad5f658d5",
+        "target_sha256": "0a92da77e91c797e07a306bd4f5199aa94fec8ba36d034fbc7ad885db16b775e"
+      },
+      "ui:중립:/중립": {
+        "source_sha256": "d54c463a98ca8ec97fe53df633adda25f802515af9fce47e43b016782cefd002",
+        "target_sha256": "8478e73e7f702cf091267f6ddfd1ec0a852e75aad77d5afc6305ab65a848b184"
+      },
+      "ui:호재:/호재": {
+        "source_sha256": "30985685d81b1d456bdb8629d9df3a22501db86eebe71c6a84e11eb645a10d1f",
+        "target_sha256": "751bc35e6f9522b06e5866d8ae19ed460c1a39c1591440d0d037a1ca2df3a573"
       }
     },
     "zh-CN": {
@@ -108118,6 +108179,42 @@
       "ui:총자산:/총자산": {
         "source_sha256": "7af19af19403433b351eb70891b8f77e3dcb07dc23017b34461a6be6bd9b1555",
         "target_sha256": "c65662c8496dc759143723eeea58ba76ac57dc4e14a9cf8931a86f49075f583d"
+      },
+      "ui:강한 악재:/강한 악재": {
+        "source_sha256": "63b0ddcadfab71e369494fbb1535e12442fd1af6683c4f1dbc235d923055e19d",
+        "target_sha256": "195b55d5bcad0f867a7ccc8ac16567a11bcd1a43620321176729d84eef24462c"
+      },
+      "ui:강한 호재:/강한 호재": {
+        "source_sha256": "e51bf44fc618315690648ced3a222eb04ed39356e540c04d7e47e19f524d6991",
+        "target_sha256": "1da3a721392309e9b06d09884b64ad3b6b4fd812e9bb9be9d4d2c9d2a131032b"
+      },
+      "ui:루머:/루머": {
+        "source_sha256": "ce3a6e84e7bc59de477a9a3c8f9262a13ab705fbc2270679c92c78b3ee9df4b4",
+        "target_sha256": "06f32319ec3e45648016dcafb98a97dfeca0f5a0f54ee6e6188dc42708d9280d"
+      },
+      "ui:시장 뉴스:/시장 뉴스": {
+        "source_sha256": "b6cc8d4b2cb0c431927efcb9c9897161f0ab6faa4281affc2913f94801cab638",
+        "target_sha256": "8eb1cdfd2b8e49d9c7c4c51ede2adde58487d739f09726f061d1756625100fde"
+      },
+      "ui:시장:/시장": {
+        "source_sha256": "ca5111936705e49cd0361fbb60d7009ead8a52775a3efceda8359720270f9a1a",
+        "target_sha256": "950a90268d8db849a0a5c269bafc8d4ac9e30d2e435f25be61ff69baf0e4fb54"
+      },
+      "ui:아직 들어온 뉴스가 없습니다.:/아직 들어온 뉴스가 없습니다.": {
+        "source_sha256": "21ae8cb9cec4218a29f9aa2ae23977e8026c3709d11bbd57c856b4bfbd8e95f5",
+        "target_sha256": "71065cc4b48a70d464e4c6dc906fc78635470895000fca04036356fe94f1558d"
+      },
+      "ui:악재:/악재": {
+        "source_sha256": "406f4cc4de17cb5d5076709b36ffcab4d345f3a8fefa928c40bd88bad5f658d5",
+        "target_sha256": "5b5923b6872ca89792299eda00d5ce0e450364aaf9d89ae16b9e0ae4267a23ee"
+      },
+      "ui:중립:/중립": {
+        "source_sha256": "d54c463a98ca8ec97fe53df633adda25f802515af9fce47e43b016782cefd002",
+        "target_sha256": "5f261ccb23215ca75a11ebbd4ad71d26674c4af6aaeaa5c53cb892e568bc8a7c"
+      },
+      "ui:호재:/호재": {
+        "source_sha256": "30985685d81b1d456bdb8629d9df3a22501db86eebe71c6a84e11eb645a10d1f",
+        "target_sha256": "6554963fd76e7d19b69f6666725e57412f503ab2d87e021aa7efac56673f297b"
       }
     },
     "zh-TW": {
@@ -160224,10 +160321,46 @@
       "ui:총자산:/총자산": {
         "source_sha256": "7af19af19403433b351eb70891b8f77e3dcb07dc23017b34461a6be6bd9b1555",
         "target_sha256": "cad030cd4ed84f636daaef19557c11e1f9bd44741504fd347eed6c2c5801308f"
+      },
+      "ui:강한 악재:/강한 악재": {
+        "source_sha256": "63b0ddcadfab71e369494fbb1535e12442fd1af6683c4f1dbc235d923055e19d",
+        "target_sha256": "195b55d5bcad0f867a7ccc8ac16567a11bcd1a43620321176729d84eef24462c"
+      },
+      "ui:강한 호재:/강한 호재": {
+        "source_sha256": "e51bf44fc618315690648ced3a222eb04ed39356e540c04d7e47e19f524d6991",
+        "target_sha256": "12e61bfca0c441dd7bc8b666120361c0c9bca5c54940d2a62d2d3adf8b0c8737"
+      },
+      "ui:루머:/루머": {
+        "source_sha256": "ce3a6e84e7bc59de477a9a3c8f9262a13ab705fbc2270679c92c78b3ee9df4b4",
+        "target_sha256": "a7692ac4d74d5750cc03ab88f604ef753e8f8d3878fa794fb3adc03dc39f490b"
+      },
+      "ui:시장 뉴스:/시장 뉴스": {
+        "source_sha256": "b6cc8d4b2cb0c431927efcb9c9897161f0ab6faa4281affc2913f94801cab638",
+        "target_sha256": "b1ad61da321e2ed8239930187534862263237a8583689e210a89dffdb6449666"
+      },
+      "ui:시장:/시장": {
+        "source_sha256": "ca5111936705e49cd0361fbb60d7009ead8a52775a3efceda8359720270f9a1a",
+        "target_sha256": "6705c4ef8d9d41fc82a0f116cc53c51fdc1ea3af6128a9592796e16d76907b67"
+      },
+      "ui:아직 들어온 뉴스가 없습니다.:/아직 들어온 뉴스가 없습니다.": {
+        "source_sha256": "21ae8cb9cec4218a29f9aa2ae23977e8026c3709d11bbd57c856b4bfbd8e95f5",
+        "target_sha256": "52fe49001304a5a8633768a259691b9e2f19308ceebe08469bf81bbd649cea62"
+      },
+      "ui:악재:/악재": {
+        "source_sha256": "406f4cc4de17cb5d5076709b36ffcab4d345f3a8fefa928c40bd88bad5f658d5",
+        "target_sha256": "5b5923b6872ca89792299eda00d5ce0e450364aaf9d89ae16b9e0ae4267a23ee"
+      },
+      "ui:중립:/중립": {
+        "source_sha256": "d54c463a98ca8ec97fe53df633adda25f802515af9fce47e43b016782cefd002",
+        "target_sha256": "5f261ccb23215ca75a11ebbd4ad71d26674c4af6aaeaa5c53cb892e568bc8a7c"
+      },
+      "ui:호재:/호재": {
+        "source_sha256": "30985685d81b1d456bdb8629d9df3a22501db86eebe71c6a84e11eb645a10d1f",
+        "target_sha256": "f8ab96c2b5725fb93b6533e67ae51f22367c676389840446bb49eb52745c1608"
       }
     }
   },
-  "accepted_sha256": "27f30fe234ef234c6c27a559d730c80c1ae96f8c0f752adef94c7648462dbaed",
+  "accepted_sha256": "371f770371d819a28c490eeeebd04b06226c472070e43b2f5a2da38cee6b9566",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
