@@ -25,6 +25,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SELF = "tools/new_run_log_locale_self_test.py"
 GS = "autoloads/GameState.gd"
 JA = "tools/ja_translation_pipeline.py"
+FULLSELF = "tools/full_game_localization_self_test.py"
 UI = ("locale/ui_ja.json", "locale/ui_zh-CN.json", "locale/ui_zh-TW.json")
 # BEGIN_NEW_RUN_BINDING_267
 BINDING = json.loads(r'''{
@@ -32,24 +33,24 @@ BINDING = json.loads(r'''{
   "code": {
     "tools/main_game_locale_history.py": {
       "bytes": 40220,
-      "current_sha256": "0b23de3212a1f86dd6216bb93640dc5e263aed3609372e7860c0a4505bb4a951",
+      "current_sha256": "734fab4d28ee5907b5ecb0441f5c37cd0e0fefc3b922784a3b8882959d90d6d5",
       "previous_sha256": "f1ef7d55c029982f85f28681898c152344709dbbd63b87e6dabb5d350ed2a55e",
       "inverse": {
         "kind": "span",
         "start": "\n# BEGIN_NEW_RUN_LOG_HISTORY_267\n",
         "end": null,
-        "span_sha256": "2c75a982f8d117ccc9e3021217ada9941a15fa2485a0d47cee76694d4fb1d181"
+        "span_sha256": "10cf40dd79292fd2a2b1632b606280e10e764039eeea19b92421850d6096600e"
       }
     },
     "tools/ja_translation_pipeline.py": {
-      "bytes": 279420,
-      "current_sha256": "fdbcc5701bc78e6dac5023d6b2e295cfdf2f96f40e039f07f0f02f6985e0779b",
+      "bytes": 280548,
+      "current_sha256": "90ad8caf9efc07d217cb8960715434ae09ae227de4ce0dee36e5ad74278ea270",
       "previous_sha256": "8bb536853809fa273587734215bfcb3d6a78b9bd4d4b941b595e2136e8ebec6c",
       "inverse": {
         "kind": "span",
         "start": "# BEGIN_NEW_RUN_LOG_COLLECTOR_267\n",
         "end": "# END_NEW_RUN_LOG_COLLECTOR_267\n\n",
-        "span_sha256": "6cd6cf8e6e0c5060de710adf5f94f488f1cf90d9bd1100431eb6be81a8580bee"
+        "span_sha256": "991227b74314628c16bfe403046787b9620f10b942d5ab6c2fd94df8156fce2a"
       }
     },
     "tools/year5_reference_route_audit.py": {
@@ -132,13 +133,22 @@ BINDING = json.loads(r'''{
   },
   "source_case_plan_sha256": "1d364fa88985a2d13ca9c4c73df488fbac7d5253b101c1913bee911b4bfea960",
   "source_cases_sha256": "d51ad6d47bd32ab0684c62a8299bc30225606554de4737cbddd7942ca35c9bf5",
-  "self_code_view_sha256": "0d26391083032e5f23a78b498726dbc963446b6245b3c8cec29219fc5d41af6d",
+  "self_code_view_sha256": "15c8ceba38130c61d35ea84794dbeb26e11f2f0dfa801a8eb2bf3cc1376a577a",
   "provenance": {
     "root_execution_approval": "2026-09-20 ROOT: tools8 independent pre-execution PASS ee004c83324fa283f8e46d32963718bbc9bf0a4ccdd29e141afa477d40b63ac0; only binding phase/provenance changed, full raw externally pinned before execution. Original GS proposal remains quoted below its original phase.",
     "chronology": "Post-independent36 freeze, pre-this-self first execution; first tools7 review found copied format_calls stale. Revised only current-derived format/branch counts and connected pins; prior binding preserved. All repository imports and QA executions remain ROOT-owned.",
     "actual_gs_sha256": "5076adf75b13920ae97ff9174945acf9c43fc80dec73cb356da44f314b7741d8",
     "first_binding": "order267-tools7-first-binding.json",
     "self_full_raw_sha256": "EXTERNAL approval; deliberately outside recursive code-view binding"
+  },
+  "repair_plan_sha256": "40fa274bc28a7280534703e64540ac4cb0436e8e3df78d65c570b8fb3eae1218",
+  "repair_plan_canonical_sha256": "0c08051eef4cfe6204c002c25696835c1ab6e998128609ba62f3e6db69cc2afc",
+  "repair_provenance": {
+    "phase": "APPLIED_SOURCE_BOUND",
+    "root_execution_approval": "2026-09-20 ROOT: independent repair3 static PASS ff8732f36546ca768fb2e8254f94def87d1fa4f552d322f22a1216bc6bfd4570; binding-only approval, original failures preserved. Declared affected8 and current-source preservation must execute; no actual PASS or final GO inferred.",
+    "declaration": "7e55a1bbfd72cf92b9c6bb7cf5c18227c397b864",
+    "first_named_sha256": "21d1d7ff7ec5926883877019d8deee120d34a5a231790c68ff3f973040c111f3",
+    "meaning": "First36 passed but missed synthetic housing10; first meta/pipeline/JA UI failed. Repair12 frozen before this change. Source36 semantics preserved, current collector oracle strengthened to complete GS. Existing fullself methods/pins untouched; scoped raw inverse of approved264/266 additions only. ROOT owns execution after independent repair review."
   }
 }''')
 FROZEN = json.loads(r'''[
@@ -611,6 +621,202 @@ FROZEN = json.loads(r'''[
     "endpoint": "helper/public"
   }
 ]''')
+REPAIR = json.loads(r'''{
+  "schema_version": 1,
+  "unit_id": "ORDER-267",
+  "reviewer": "Poincare",
+  "phase": "FROZEN_BEFORE_REPAIR_IMPLEMENTATION",
+  "scope": "Two independently identified first-named defects: lost existing synthesized housing calls and approved264/266 methods missing from the historical fullself view. Supplement12 is separate from unchanged original source36.",
+  "first_evidence": {
+    "path": ".git/full-game-localization/order267-named-first.json",
+    "sha256": "21d1d7ff7ec5926883877019d8deee120d34a5a231790c68ff3f973040c111f3",
+    "result": "15 PASS / meta historical entry, JA pipeline self and JA UI audit FAIL. Original source36 PASS did not cover lost synthesized calls."
+  },
+  "housing_contract": {
+    "path": "autoloads/GameState.gd",
+    "current_sha256": "5076adf75b13920ae97ff9174945acf9c43fc80dec73cb356da44f314b7741d8",
+    "previous_sha256": "8a40740286ff910b2a16049e2c2794cc0dc22fed5dfc78d2fc6ce458c833018d",
+    "existing_provider": "collect_dynamic_housing_ui_calls(contract, game_state_source)",
+    "registry_sha256": "df45ab1e2954d29eed5b44f086fffa23c4162d2787245fc6bdc4bb5313ff005d",
+    "api": "legacy",
+    "context_id": "",
+    "owners": {
+      "get_housing_name": {
+        "english_field": "narrative_en",
+        "current_line": 1531,
+        "previous_line": 1520
+      },
+      "get_housing_display_name": {
+        "english_field": "display_en",
+        "current_line": 1551,
+        "previous_line": 1540
+      }
+    },
+    "rows": [
+      {
+        "id": "gosiwon",
+        "ko": "고시원",
+        "narrative_en": "goshiwon",
+        "display_en": "Goshiwon Room"
+      },
+      {
+        "id": "oneroom",
+        "ko": "원룸",
+        "narrative_en": "one-room studio",
+        "display_en": "One-room Studio"
+      },
+      {
+        "id": "villa",
+        "ko": "빌라 전세",
+        "narrative_en": "villa jeonse",
+        "display_en": "Villa Jeonse"
+      },
+      {
+        "id": "apartment",
+        "ko": "아파트 전세",
+        "narrative_en": "apartment jeonse",
+        "display_en": "Apartment Jeonse"
+      },
+      {
+        "id": "gangnam",
+        "ko": "강남 아파트",
+        "narrative_en": "Gangnam apartment",
+        "display_en": "Gangnam Apartment"
+      }
+    ],
+    "normal_oracle": [
+      "Use the unchanged validated dynamic provider with explicit current GS text, and separately with exact inverse previous GS text. Combine each with generic literal parse results exactly once. Full current GS152=generic142+housing10; previous GS143=generic133+housing10.",
+      "Derive the expected10 from the frozen rows/owner/API/context above independently of the implementation's assembled list. Check all seven UiCall fields, including current and historical physical line positions separately. Both data maps remain source-bound by the existing provider.",
+      "Current actual collector must contain this complete GS multiset once. Predecessor output must equal the complete previous GS multiset and restore previous physical line positions; all non-GS supplied records retain identity. Input permutation/line annotations are not semantic authority; returned physical locations are reparsed from the appropriate approved raw source.",
+      "Compare complete current and saved pre267 collector populations, source-key sets, keyset hashes and API partitions. Fixed arithmetic: previous source3456/legacy3422/legacyAPI3366/format50/branch6/context34; current source3465/legacy3431/legacyAPI3373/format52/branch6/context34. Current semantic source keys equal previous keys union nine new literal keys, 2948 versus previous2944. No copied dynamic_stats5/10 may stand in for actual10 occurrence observations.",
+      "The failed first collector observed3455/3421/3363 and2945 keys. These failed-subject observations stay preserved, not relabelled corrected. Any downstream collected-leaf/manifest counts must be freshly observed after repair; expected prior17484 is not a success oracle for the repaired collector."
+    ]
+  },
+  "housing_cases": [
+    {
+      "id": "housing_complete_normal",
+      "kind": "normal",
+      "recipe": "Execute the complete current+previous normal_oracle, independent10 literal reconstruction and actual collector comparison.",
+      "expected": "PASS all source, selector, physical provenance, multiset, partition and keyset assertions; no repository file mutations."
+    },
+    {
+      "id": "housing_reordered_line_normal",
+      "kind": "normal",
+      "base": "housing_complete_normal",
+      "recipe": "Reverse the complete current supplied call list and add31 to every supplied line only; shapes follow the existing permitted line-only contract.",
+      "expected": "Accept unchanged selectors. Project complete previous calls with old physical lines1520/1540, not supplied lines or current1531/1551; preserve non-GS records."
+    },
+    {
+      "id": "housing_drop_all10",
+      "kind": "negative",
+      "base": "housing_complete_normal",
+      "recipe": "Remove exactly the frozen10 synthesized housing records from the complete current supplied calls; raw source, shapes, provider and all other calls stay unchanged.",
+      "expected": "Nonempty predecessor semantic errors; identity returned supplied calls/current source; no successful historical projection. This directly reproduces the original defect."
+    },
+    {
+      "id": "housing_drop_one",
+      "kind": "negative",
+      "base": "housing_complete_normal",
+      "recipe": "Remove exactly1 current record pathGS/function get_housing_name/api legacy/KO 강남 아파트/EN Gangnam apartment/context empty.",
+      "expected": "Same rejection/identity contract; source raw gate itself remains valid."
+    },
+    {
+      "id": "housing_duplicate_one",
+      "kind": "negative",
+      "base": "housing_complete_normal",
+      "recipe": "Append an exact duplicate of the same unique narrative 강남 아파트 record.",
+      "expected": "Same rejection/identity contract; multiplicity must not be set-collapsed."
+    },
+    {
+      "id": "housing_wrong_owner",
+      "kind": "negative",
+      "base": "housing_complete_normal",
+      "recipe": "On that unique narrative 강남 아파트 record replace function with get_housing_display_name only; all other fields unchanged.",
+      "expected": "Same rejection/identity contract; both owner-specific English fallbacks remain bound."
+    },
+    {
+      "id": "housing_wrong_english",
+      "kind": "negative",
+      "base": "housing_complete_normal",
+      "recipe": "On that unique narrative 강남 아파트 record replace EN Gangnam apartment with Gangnam Apartment only.",
+      "expected": "Same rejection/identity contract; capitalization difference is meaningful source provenance, not a translation rewrite."
+    }
+  ],
+  "fullself_inverse_contract": {
+    "path": "tools/full_game_localization_self_test.py",
+    "current": {
+      "bytes": 1715268,
+      "sha256": "332446ba4b1120e265f96430773c0c3e15f35b6075b43335c82c518589619fb9"
+    },
+    "previous": {
+      "bytes": 1689986,
+      "sha256": "7c6619c4991cb773f3b1958b21e7ec340e596caa0744b0d659fc1c25f022ca8d"
+    },
+    "spans": [
+      {
+        "method": "test_order266_ui_story_relationship_name_scope",
+        "start_line": 17,
+        "next_method_line": 209,
+        "bytes_including_blank_separator": 11450,
+        "sha256": "c024a6d0890d796cb4927643e59c7272e3addede3e81fe191bbaaf8538fff60c"
+      },
+      {
+        "method": "test_order264_ui_story_coffee_ordinal_scope",
+        "start_line": 209,
+        "next_method_line": 435,
+        "bytes_including_blank_separator": 13832,
+        "sha256": "1a0ccaaf1e575adc96141b8832faa13b9b1a891fcc5ca79dc3f868d3416297d5"
+      }
+    ],
+    "following_method": "test_order251_ui_dice_title_frozen",
+    "boundary": "Only scoped historical read view removes these two approved raw spans after exact current/span checks and verifies whole previous bytes. Existing MG9 pins and old methods do not change; actual current fullself264 execution retains both methods. No permanent global monkeypatch or file edit."
+  },
+  "fullself_cases": [
+    {
+      "id": "fullself_inverse_normal",
+      "kind": "normal",
+      "recipe": "Prepare exact current fullself above; remove both exact spans including their following blank separator only; validate whole previous digest. Observe byte and text reads inside the existing scoped historical view and actual current bytes outside.",
+      "expected": "Exact previous1689986/7c6619 inside; current1715268/332446 outside. Current source normal prerequisites remain mandatory before the old meta entry."
+    },
+    {
+      "id": "fullself_order264_changed",
+      "kind": "negative",
+      "base": "fullself_inverse_normal",
+      "recipe": "In-memory raw only, replace the unique method identifier test_order264_ui_story_coffee_ordinal_scope with that identifier plus _forged.",
+      "expected": "Reject before old entry; do not return an approved previous view or count a historical suite PASS. Provider restored."
+    },
+    {
+      "id": "fullself_order266_changed",
+      "kind": "negative",
+      "base": "fullself_inverse_normal",
+      "recipe": "In-memory raw only, replace the unique method identifier test_order266_ui_story_relationship_name_scope with that identifier plus _forged.",
+      "expected": "Reject before old entry with the same restoration boundary."
+    },
+    {
+      "id": "fullself_unrelated_byte",
+      "kind": "negative",
+      "base": "fullself_inverse_normal",
+      "recipe": "Append exactly one LF to current whole raw outside both approved spans.",
+      "expected": "Whole-current/inverse mismatch rejects before old entry; two correct spans do not authorize unrelated drift."
+    },
+    {
+      "id": "fullself_view_exception_restore",
+      "kind": "restoration",
+      "base": "fullself_inverse_normal",
+      "recipe": "Inside a valid scoped historical view, confirm previous byte/text reads then raise a deliberate private exception before invoking an old suite. Catch outside and compare all patched read providers/function bindings and actual fullself file bytes.",
+      "expected": "Exception visibly captured, original providers/callables and physical current file exact; no old-suite call for this probe."
+    }
+  ],
+  "execution_accounting": "Supplement12 = housing7 (2normal/5negative) + fullself5 (1normal/3negative/1restoration). Effectiveness only after the relevant normal succeeds. Capture every actual input/result/error/restoration before final assertions. No source36 IDs removed or semantic requirements relaxed; adapt its generic GS oracle to the complete existing canonical inventory as the defect correction, without calling the supplement original36.",
+  "affected_verification": [
+    "One repaired newsource self pass covers unchanged36 plus separately reported12 and existing delegation4; it must independently validate complete collector populations.",
+    "Run the three failed consumers (meta historical, JA pipeline self, JA UI audit) on the repaired clean subject. Their original failures remain recorded.",
+    "Because the shared collector actually changes, refresh preservation/current source-manifest and new27 L1 once; retained official27 source/response/receipt digests may be reused only after exact selected-leaf/current-target verification. Do not rewrite historical receipt headers as new exports.",
+    "ZH self/skeleton directly consumes current collector; run that affected consumer once. CI and gift historical adapters share the changed raw/helper view; rerun these two small affected historical entries once, rather than the entire passed15 by inertia.",
+    "Keep runtime104/34input component unchanged and reuse after exact input rebinding; no new engine run. Other passed checks may be reused with exact inputs or explicit narrowly explained dependency deltas. A final selector/ownership verification may be needed if dependency rows change, not a reason to run every selected check."
+  ],
+  "limits": "Read-only source/AST/raw arithmetic only. No repair implementation, modules, collector, test or engine execution by this reviewer. This is a finite precode expectation supplement, not actual PASS or final work-unit GO."
+}''')
 # END_NEW_RUN_BINDING_267
 
 
@@ -631,7 +837,7 @@ def code_view(raw):
 
 
 def pins():
-    paths = set(BINDING["code"]) | set(UI) | {GS, SELF, "scenes/MainGame.gd",
+    paths = set(BINDING["code"]) | set(UI) | {GS, SELF, FULLSELF, "scenes/MainGame.gd",
         "autoloads/DataRegistry.gd", "autoloads/LocaleManager.gd", "autoloads/MetaProgression.gd"}
     return {p: {"bytes": len(raw), "sha256": sha(raw)} for p in sorted(paths)
             for raw in [(ROOT / p).read_bytes()]}
@@ -658,6 +864,30 @@ def inverse(raw, rule):
     return raw[:a] + raw[z:]
 
 
+def fullself_previous(raw):
+    """Exact approved264/266 additions only; original MG9 pin stays untouched."""
+    spec = REPAIR["fullself_inverse_contract"]
+    if {"bytes": len(raw), "sha256": sha(raw)} != spec["current"]:
+        raise AssertionError("fullself physical current differs")
+    spans = []
+    for index, row in enumerate(spec["spans"]):
+        following = spec["spans"][index + 1]["method"] if index + 1 < len(spec["spans"]) else spec["following_method"]
+        start = ("    def " + row["method"] + "(self):\n").encode()
+        end = ("    def " + following + "(self):\n").encode()
+        if raw.count(start) != 1 or raw.count(end) != 1:
+            raise AssertionError("fullself exact method boundaries differ")
+        a, z = raw.index(start), raw.index(end)
+        if a >= z or len(raw[a:z]) != row["bytes_including_blank_separator"] or sha(raw[a:z]) != row["sha256"]:
+            raise AssertionError("fullself approved method span differs")
+        spans.append((a, z))
+    previous = raw
+    for a, z in sorted(spans, reverse=True):
+        previous = previous[:a] + previous[z:]
+    if {"bytes": len(previous), "sha256": sha(previous)} != spec["previous"]:
+        raise AssertionError("fullself whole historical inverse differs")
+    return previous
+
+
 def prepare():
     if BINDING["phase"] != "APPLIED_SOURCE_BOUND":
         raise AssertionError("ORDER267 candidate is not authorized for execution")
@@ -665,6 +895,8 @@ def prepare():
         raise AssertionError("self code view changed; full raw pin is external")
     if len(FROZEN) != 36 or canonical(FROZEN) != BINDING["source_cases_sha256"]:
         raise AssertionError("independent36 changed")
+    if canonical(REPAIR) != BINDING["repair_plan_canonical_sha256"]:
+        raise AssertionError("independent repair12 changed")
     current, previous = {}, {}
     for p, row in BINDING["code"].items():
         raw = (ROOT / p).read_bytes()
@@ -682,6 +914,8 @@ def prepare():
         previous[GS] = once(previous[GS], row["after"], row["before"])
     if sha(previous[GS]) != plan["previous_sha256"]:
         raise AssertionError("whole GameState inverse")
+    current[FULLSELF] = (ROOT / FULLSELF).read_bytes()
+    previous[FULLSELF] = fullself_previous(current[FULLSELF])
     return current, previous
 
 
@@ -776,6 +1010,17 @@ def selector(call):
     return (call.path, call.function, call.api, call.korean, call.english, call.context_id)
 
 
+def physical_calls(calls):
+    return Counter((c.path, c.function, c.line, c.api, c.korean, c.english, c.context_id) for c in calls)
+
+
+def frozen_housing(line_field):
+    spec = REPAIR["housing_contract"]
+    return [pipeline.UiCall(GS, owner, row_owner[line_field], spec["api"], row["ko"],
+                row[row_owner["english_field"]], spec["context_id"])
+            for row in spec["rows"] for owner, row_owner in spec["owners"].items()]
+
+
 def current_normal(current, previous):
     values = {"gs": api_values(GS, current[GS]), "pipeline": api_values(JA, current[JA]),
         "registered_errors": history.new_run_log_source_errors(GS, current[GS], sha(previous[GS]))}
@@ -783,6 +1028,9 @@ def current_normal(current, previous):
     shapes, shape_errors = pipeline._new_run_log_argument_shapes(current[GS].decode())
     old_calls, old_parse = pipeline.parse_ui_calls(GS, previous[GS].decode())
     projected, old_source, semantic_errors = pipeline._new_run_log_predecessor_calls(calls, current[GS].decode(), shapes)
+    contract = pipeline.read_ui_context_contract()
+    dynamic, dynamic_errors, dynamic_stats = pipeline.collect_dynamic_housing_ui_calls(contract, current[GS].decode())
+    complete = [*calls, *dynamic]
     inventory = pipeline.collect_ui_inventory()
     actual_gs = [c for c in inventory.calls if c.path == GS]
     values["semantic"] = {"errors": semantic_errors, "parse_errors": parse_errors + shape_errors + old_parse,
@@ -794,10 +1042,13 @@ def current_normal(current, previous):
         "current_api_partition_exact": inventory.stats.get("legacy_calls") == sum(inventory.stats.get(key, -1)
             for key in ("legacy_api_calls", "branch_variant_calls", "format_calls"))
             and inventory.stats.get("source_calls") == inventory.stats.get("legacy_calls", -1) + inventory.stats.get("context_calls", -1),
-        "physical_gs_calls_exact": sorted(map(asdict, actual_gs), key=lambda c: (c["line"], c["api"])) == sorted(map(asdict, calls), key=lambda c: (c["line"], c["api"])),
+        "physical_gs_calls_exact": physical_calls(actual_gs) == physical_calls(complete),
+        "literal_probe_calls": len(calls), "complete_inventory_calls": len(complete),
+        "housing_provider_errors": dynamic_errors, "housing_provider_stats": dynamic_stats,
+        "housing_frozen10_exact": physical_calls(dynamic) == physical_calls(frozen_housing("current_line")),
         "gs_call_delta": len(calls) - len(old_calls),
         "gs_format_delta": sum(c.api == "format" for c in calls) - sum(c.api == "format" for c in old_calls),
-        "current_gs_calls": calls, "argument_shapes": shapes}
+        "current_gs_calls": complete, "literal_gs_calls": calls, "argument_shapes": shapes}
     values["live"] = live_values(current[GS])
     gs, ja, semantic, collector = values["gs"], values["pipeline"], values["semantic"], values["collector"]
     passed = (not gs["new_errors"] and not gs["public_errors"] and gs["new_bytes"] == gs["public_bytes"] == previous[GS]
@@ -805,6 +1056,7 @@ def current_normal(current, previous):
         and ja["new_bytes"] == previous[JA] and ja["new_hash"] == sha(previous[JA]) and not values["registered_errors"]
         and not semantic["errors"] and not semantic["parse_errors"] and semantic["previous_source_exact"] and semantic["previous_calls_exact"]
         and not collector["errors"] and collector["physical_gs_calls_exact"] and collector["current_api_counts_exact"] and collector["current_api_partition_exact"]
+        and not dynamic_errors and collector["housing_frozen10_exact"]
         and collector["gs_call_delta"] == 9 and collector["gs_format_delta"] == 2
         and all(not values["live"][name]["errors"] for name in ("year5", "chapter")) and all(values["live"]["restoration"].values()))
     return passed, values
@@ -1017,6 +1269,158 @@ def delegation_supplement():
     return results
 
 
+def housing_repair_case(case, current, previous, base):
+    cid = case["id"]
+    if cid == "housing_complete_normal":
+        contract = pipeline.read_ui_context_contract()
+        if canonical(contract["dynamic_housing_registry"]) != REPAIR["housing_contract"]["registry_sha256"]:
+            raise AssertionError("housing registry differs from independent frozen rows")
+        provider = {}
+        for name, raw, line in (("current", current[GS], "current_line"), ("previous", previous[GS], "previous_line")):
+            literal, parse_errors = pipeline.parse_ui_calls(GS, raw.decode())
+            dynamic, errors, stats = pipeline.collect_dynamic_housing_ui_calls(contract, raw.decode())
+            provider[name] = {"literal": literal, "dynamic": dynamic, "complete": [*literal, *dynamic],
+                "errors": [*parse_errors, *errors], "stats": stats,
+                "independent10_exact": physical_calls(dynamic) == physical_calls(frozen_housing(line))}
+        actual = pipeline.collect_ui_inventory(contract)
+        with pipeline._new_run_log_previous_reads({GS: current[GS], JA: current[JA]}):
+            saved = pipeline._NEW_RUN_OLD_COLLECT(contract)
+        shapes, shape_errors = pipeline._new_run_log_argument_shapes(current[GS].decode())
+        base = {"contract": contract, "provider": provider, "actual": actual, "saved": saved,
+                "shapes": shapes, "shape_errors": shape_errors}
+    if base is None:
+        raise AssertionError("complete housing normal input unavailable")
+    supplied = list(base["actual"].calls)
+    shapes = base["shapes"]
+    target = (GS, "get_housing_name", "legacy", "강남 아파트", "Gangnam apartment", "")
+    matches = [i for i, call in enumerate(supplied) if selector(call) == target]
+    if len(matches) != 1:
+        raise AssertionError("housing narrative target is not exact1")
+    i = matches[0]
+    if cid == "housing_reordered_line_normal":
+        supplied = [replace(c, line=c.line + 31) for c in reversed(supplied)]
+        shapes = [replace(s, line=s.line + 31) for s in reversed(shapes)]
+    elif cid == "housing_drop_all10":
+        wanted = Counter(map(selector, frozen_housing("current_line")))
+        kept = []
+        for call in supplied:
+            key = selector(call)
+            if wanted[key]:
+                wanted[key] -= 1
+            else:
+                kept.append(call)
+        if any(wanted.values()) or len(supplied) - len(kept) != 10:
+            raise AssertionError("drop-all10 recipe did not remove the exact10")
+        supplied = kept
+    elif cid == "housing_drop_one":
+        supplied.pop(i)
+    elif cid == "housing_duplicate_one":
+        supplied.append(supplied[i])
+    elif cid == "housing_wrong_owner":
+        supplied[i] = replace(supplied[i], function="get_housing_display_name")
+    elif cid == "housing_wrong_english":
+        supplied[i] = replace(supplied[i], english="Gangnam Apartment")
+    raw_errors = history.new_run_log_source_errors(GS, current[GS]) + history.new_run_log_source_errors(JA, current[JA])
+    output, source, errors = pipeline._new_run_log_predecessor_calls(supplied, current[GS].decode(), shapes,
+        call_mode="complete", contract=base["contract"])
+    observation = {"call_mode": "complete", "raw_errors": raw_errors, "errors": errors,
+        "supplied_GS": [c for c in supplied if c.path == GS], "returned_GS": [c for c in output if c.path == GS],
+        "returned_source": source.encode(), "non_GS_identity": tuple(c for c in output if c.path != GS)
+            == tuple(c for c in supplied if c.path != GS)}
+    if case["kind"] == "negative":
+        passed = not raw_errors and bool(errors) and tuple(output) == tuple(supplied) and source.encode() == current[GS]
+        return passed, observation, base
+    provider, actual, saved = base["provider"], base["actual"], base["saved"]
+    expected_current = [c for c in saved.calls if c.path != GS] + provider["current"]["complete"]
+    previous_GS = [c for c in output if c.path == GS]
+    fields = ("source_calls", "legacy_calls", "legacy_api_calls", "format_calls", "branch_variant_calls", "context_calls")
+    previous_counts = dict(zip(fields, (3456, 3422, 3366, 50, 6, 34)))
+    current_counts = dict(zip(fields, (3465, 3431, 3373, 52, 6, 34)))
+    current_keys, saved_keys = {c.korean for c in actual.calls}, {c.korean for c in saved.calls}
+    added = {"백수", "알바", "투자", "직장", "인간관계", "건강", "연애", "도박", "재정"}
+    checks = {
+        "source_and_provider_valid": not raw_errors and not base["shape_errors"] and all(not p["errors"] for p in provider.values()),
+        "independent_current_old10": all(p["independent10_exact"] and len(p["dynamic"]) == 10 for p in provider.values()),
+        "GS_populations": len(provider["current"]["literal"]) == 142 and len(provider["previous"]["literal"]) == 133
+            and len(provider["current"]["complete"]) == 152 and len(provider["previous"]["complete"]) == 143,
+        "current_collector_exact": not actual.errors and physical_calls(actual.calls) == physical_calls(expected_current),
+        "saved_collector_exact": not saved.errors and physical_calls(c for c in saved.calls if c.path == GS)
+            == physical_calls(provider["previous"]["complete"]),
+        "old_projection_exact": not errors and source.encode() == previous[GS]
+            and physical_calls(previous_GS) == physical_calls(provider["previous"]["complete"]),
+        "non_GS_identity": observation["non_GS_identity"],
+        "current_counts": all(actual.stats.get(k) == v for k, v in current_counts.items()),
+        "previous_counts": all(saved.stats.get(k) == v for k, v in previous_counts.items()),
+        "key_union": current_keys == saved_keys | added and len(current_keys) == 2948 and len(saved_keys) == 2944,
+        "key_hashes": all(inv.stats.get("parameter_legacy_korean_source_keys_sha256")
+            == sha("\n".join(sorted(keys)).encode()) for inv, keys in ((actual, current_keys), (saved, saved_keys))),
+    }
+    observation.update(checks=checks, provider=provider, current_stats=actual.stats, saved_stats=saved.stats,
+        current_keys=sorted(current_keys), saved_keys=sorted(saved_keys))
+    return all(checks.values()), observation, base
+
+
+def fullself_repair_case(case, current, previous):
+    cid, raw = case["id"], current[FULLSELF]
+    observed, returned, caught = {}, None, None
+    if case["kind"] == "negative":
+        if cid == "fullself_unrelated_byte":
+            raw += b"\n"
+        else:
+            method = ("test_order264_ui_story_coffee_ordinal_scope" if cid == "fullself_order264_changed"
+                      else "test_order266_ui_story_relationship_name_scope")
+            raw = once(raw, method, method + "_forged")
+        with path_view({FULLSELF: raw}, observed):
+            try:
+                returned = fullself_previous((ROOT / FULLSELF).read_bytes())
+            except AssertionError as exc:
+                caught = str(exc)
+        passed = caught is not None and returned is None and observed.get("path_restored") is True
+    else:
+        returned = fullself_previous(raw)
+        with_text = None
+        try:
+            with historical_view(previous, observed):
+                inside = (ROOT / FULLSELF).read_bytes()
+                with_text = (ROOT / FULLSELF).read_text(encoding="utf-8")
+                observed["inside_bytes_exact"] = inside == returned == previous[FULLSELF]
+                observed["inside_text_exact"] = with_text == returned.decode()
+                if cid == "fullself_view_exception_restore":
+                    raise RuntimeError("ORDER267 fullself history deliberate exception")
+        except RuntimeError as exc:
+            caught = str(exc)
+        passed = (all(observed.get(k) is True for k in ("inside_bytes_exact", "inside_text_exact", "path_restored",
+            "callables_restored", "imported_aliases_restored")) and (caught == "ORDER267 fullself history deliberate exception"
+                if cid == "fullself_view_exception_restore" else caught is None))
+    outside = (ROOT / FULLSELF).read_bytes()
+    return passed and outside == current[FULLSELF], {"input": raw, "returned": returned, "caught": caught,
+        "restoration": observed, "physical_current_exact": outside == current[FULLSELF], "old_suite_calls": 0}
+
+
+def repair_supplement(current, previous):
+    rows, housing = [], None
+    references = {"current:" + p: raw for p, raw in current.items()} | {"previous:" + p: raw for p, raw in previous.items()}
+    for case in [*REPAIR["housing_cases"], *REPAIR["fullself_cases"]]:
+        before, out, err, fatal, passed, values = identity(), io.StringIO(), io.StringIO(), None, False, {}
+        try:
+            with contextlib.redirect_stdout(out), contextlib.redirect_stderr(err):
+                if case["id"].startswith("housing_"):
+                    passed, values, housing = housing_repair_case(case, current, previous, housing)
+                else:
+                    passed, values = fullself_repair_case(case, current, previous)
+        except Exception as exc:
+            fatal = {"error": type(exc).__name__ + ": " + str(exc), "traceback": traceback.format_exc()}
+        restored = identity() == before
+        rows.append({"id": case["id"], "kind": case["kind"], "passed": bool(passed and restored and fatal is None and not err.getvalue()),
+            "values": json_value(values, references), "stdout": out.getvalue(), "stderr": err.getvalue(),
+            "exception": fatal, "callables_restored": restored})
+    bases = {row["id"]: row["passed"] for row in rows}
+    for row in rows:
+        row["normal_base_passed"] = bases["housing_complete_normal" if row["id"].startswith("housing_") else "fullself_inverse_normal"]
+        row["effective_negative"] = row["normal_base_passed"] and row["passed"] and row["kind"] == "negative"
+    return rows
+
+
 def historical_entry(function, kind):
     before, after, fatal, prerequisite, old_result, exception_probe, restored = None, None, None, {}, {}, {}, {}
     out, err, passed, old_invoked, after_error = io.StringIO(), io.StringIO(), False, False, None
@@ -1062,12 +1466,13 @@ def historical_entry(function, kind):
 
 
 def main():
-    before, after, fatal, after_error, results, supplement = None, None, None, None, [], []
+    before, after, fatal, after_error, results, supplement, repair = None, None, None, None, [], [], []
     try:
         before = pins()
         current, previous = prepare()
         for case in FROZEN:
             results.append(capture_case(case, current, previous))
+        repair = repair_supplement(current, previous)
         supplement = delegation_supplement()
     except Exception as exc:
         fatal = {"error": type(exc).__name__ + ": " + str(exc), "traceback": traceback.format_exc()}
@@ -1081,13 +1486,19 @@ def main():
         result["normal_base_passed"] = normal
         result["effective_negative"] = normal and result["passed"] and result["kind"] == "negative"
     passed = bool(len(results) == 36 and all(r["passed"] for r in results) and normal and len(supplement) == 4
+        and len(repair) == 12 and all(r["passed"] and r["normal_base_passed"] for r in repair)
         and all(r["passed"] for r in supplement) and fatal is None and after_error is None and before is not None and before == after)
-    print(json.dumps({"scope": "ORDER267 source36 only; historical suites are separate entries", "passed": passed,
+    print(json.dumps({"scope": "ORDER267 original36 plus separate repair12/delegation4; historical suites separate", "passed": passed,
         "precode_sha256": BINDING["source_case_plan_sha256"], "results": results, "delegation_supplement": supplement,
+        "repair_plan_sha256": BINDING["repair_plan_sha256"], "repair_supplement": repair,
         "fatal": fatal, "after_error": after_error, "physical_before": before, "physical_after": after, "unchanged": before is not None and before == after,
         "execution_counts": {"source_cases": len(results), "normal": sum(r["passed"] for r in results if r["kind"] == "normal"),
             "effective_negative": sum(r["effective_negative"] for r in results), "claim": 1 if len(results) == 36 else 0,
-            "OFF": 1 if len(results) == 36 else 0, "delegation_supplement": len(supplement), "historical_suites": 0, "engine": 0}},
+            "OFF": 1 if len(results) == 36 else 0, "repair_supplement": len(repair),
+            "repair_normal": sum(r["passed"] for r in repair if r["kind"] == "normal"),
+            "repair_effective_negative": sum(r["effective_negative"] for r in repair),
+            "repair_restoration": sum(r["passed"] for r in repair if r["kind"] == "restoration"),
+            "delegation_supplement": len(supplement), "historical_suites": 0, "engine": 0}},
         ensure_ascii=False, indent=2))
     print("NEW_RUN_LOG_SOURCE_SELF_TEST_" + ("OK" if passed else "FAIL") + f" cases={len(results)} unchanged={before == after}")
     return 0 if passed else 1

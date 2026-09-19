@@ -513,7 +513,7 @@ _NEW_RUN_LOG_PINS = {
   ],
   "tools/ja_translation_pipeline.py": [
     "8bb536853809fa273587734215bfcb3d6a78b9bd4d4b941b595e2136e8ebec6c",
-    "fdbcc5701bc78e6dac5023d6b2e295cfdf2f96f40e039f07f0f02f6985e0779b"
+    "90ad8caf9efc07d217cb8960715434ae09ae227de4ce0dee36e5ad74278ea270"
   ]
 }
 NEW_RUN_LOG_TRANSITIONS = json.loads(r'''{
@@ -543,19 +543,19 @@ NEW_RUN_LOG_TRANSITIONS = json.loads(r'''{
   },
   "tools/ja_translation_pipeline.py": {
     "previous_sha256": "8bb536853809fa273587734215bfcb3d6a78b9bd4d4b941b595e2136e8ebec6c",
-    "current_sha256": "fdbcc5701bc78e6dac5023d6b2e295cfdf2f96f40e039f07f0f02f6985e0779b",
+    "current_sha256": "90ad8caf9efc07d217cb8960715434ae09ae227de4ce0dee36e5ad74278ea270",
     "inverses": [
       {
         "id": "collector",
         "kind": "remove_span",
         "start": "# BEGIN_NEW_RUN_LOG_COLLECTOR_267\n",
         "end": "# END_NEW_RUN_LOG_COLLECTOR_267\n\n",
-        "sha256": "6cd6cf8e6e0c5060de710adf5f94f488f1cf90d9bd1100431eb6be81a8580bee"
+        "sha256": "991227b74314628c16bfe403046787b9620f10b942d5ab6c2fd94df8156fce2a"
       }
     ]
   }
 }''')
-_NEW_RUN_LOG_REGISTRY_SHA256 = "2fc12c857507019e4a33e6f2c2b89632ca234ebfc8520ecc2d4e0e11386a31f1"
+_NEW_RUN_LOG_REGISTRY_SHA256 = "35dfa70440208eeacb3d3f68f86a447ea6676aad449d45c344cc416511940d48"
 _NEW_RUN_OLD_SOURCE_ERRORS = main_game_history_source_errors
 _NEW_RUN_OLD_PROJECT_BYTES = main_game_history_project_bytes
 _NEW_RUN_OLD_PROJECT_HASH = main_game_history_project_byte_hash

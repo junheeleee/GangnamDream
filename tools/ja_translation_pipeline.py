@@ -5881,13 +5881,20 @@ def _new_run_log_argument_shapes(source):
     return shapes, errors
 
 
-def _new_run_log_predecessor_calls(calls, source=None, argument_shapes=None):
+def _new_run_log_predecessor_calls(calls, source=None, argument_shapes=None, *, call_mode="literal", contract=None):
     calls = tuple(calls)
     current, errors = _new_run_log_raw_view(source)
     source = current[_NEW_RUN_GS].decode("utf-8")
+    if call_mode not in {"literal", "complete"}:
+        errors.append("ORDER-267: explicit call mode must be literal or complete")
     if errors:
         return calls, source, errors
     actual, parse_errors = parse_ui_calls(_NEW_RUN_GS, source)
+    effective_contract = contract if contract is not None else read_ui_context_contract()
+    if call_mode == "complete":
+        dynamic, dynamic_errors, _stats = collect_dynamic_housing_ui_calls(effective_contract, source)
+        actual.extend(dynamic)
+        errors.extend(dynamic_errors)
     shapes, shape_errors = _new_run_log_argument_shapes(source)
     errors.extend([*parse_errors, *shape_errors])
     supplied = [c for c in calls if c.path == _NEW_RUN_GS]
@@ -5917,6 +5924,10 @@ def _new_run_log_predecessor_calls(calls, source=None, argument_shapes=None):
         return calls, source, errors
     old_source = _gift_history.new_run_log_project_bytes(current[_NEW_RUN_GS], _NEW_RUN_GS).decode("utf-8")
     old_calls, old_errors = parse_ui_calls(_NEW_RUN_GS, old_source)
+    if call_mode == "complete":
+        old_dynamic, dynamic_errors, _stats = collect_dynamic_housing_ui_calls(effective_contract, old_source)
+        old_calls.extend(old_dynamic)
+        old_errors.extend(dynamic_errors)
     if old_errors:
         return calls, source, old_errors
     # Full GS replacement also restores nonselected locations, not just the nine additions.
@@ -5969,14 +5980,20 @@ def _new_run_log_collect_ui_inventory(contract=None):
     current, errors = _new_run_log_raw_view()
     if errors:
         return UiInventory((), (), {}, (), {}, (), {}, tuple(errors), {})
-    actual, parse_errors = parse_ui_calls(_NEW_RUN_GS, current[_NEW_RUN_GS].decode("utf-8"))
-    _old, _source, semantic_errors = _new_run_log_predecessor_calls(actual)
+    source = current[_NEW_RUN_GS].decode("utf-8")
+    effective_contract = contract if contract is not None else read_ui_context_contract()
+    actual, parse_errors = parse_ui_calls(_NEW_RUN_GS, source)
+    dynamic, dynamic_errors, dynamic_stats = collect_dynamic_housing_ui_calls(effective_contract, source)
+    actual.extend(dynamic)
+    parse_errors.extend(dynamic_errors)
+    _old, _source, semantic_errors = _new_run_log_predecessor_calls(actual, source, call_mode="complete", contract=effective_contract)
     if parse_errors or semantic_errors:
         return UiInventory((), (), {}, (), {}, (), {}, tuple([*parse_errors, *semantic_errors]), {})
     with _new_run_log_previous_reads(current):
         previous = _NEW_RUN_OLD_COLLECT(contract)
     calls = tuple(c for c in previous.calls if c.path != _NEW_RUN_GS) + tuple(actual)
     result = _new_run_log_inventory(previous, calls, contract)
+    result.stats.update(dynamic_stats)
     result.stats["new_run_log_added_legacy_calls"] = 9
     result.stats["new_run_log_parent_format_migrations"] = 2
     result.stats["new_run_log_previous_stats"] = dict(previous.stats)
@@ -5985,7 +6002,7 @@ def _new_run_log_collect_ui_inventory(contract=None):
 
 def _new_run_log_historical_checks(inventory):
     current, errors = _new_run_log_raw_view()
-    calls, _source, semantic_errors = _new_run_log_predecessor_calls(inventory.calls)
+    calls, _source, semantic_errors = _new_run_log_predecessor_calls(inventory.calls, call_mode="complete", contract=read_ui_context_contract())
     errors.extend(semantic_errors)
     if errors:
         return _gift_replace(inventory, errors=tuple([*inventory.errors, *errors])), 0, errors
