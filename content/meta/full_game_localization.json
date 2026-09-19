@@ -4343,6 +4343,67 @@
       "machine_validation": "PASS",
       "rendered_review": "OPEN",
       "native_review": "OPEN"
+    },
+    {
+      "order": "ORDER-271",
+      "group": "ui",
+      "roots": [
+        "강남드림",
+        "수첩을 폈다. {sentence}. {months}개월째.",
+        "30억. 5년 안에.",
+        "초기 정착 지원금 30만원 수령",
+        "첫 월급 수령! 현금 흐름이 시작됩니다",
+        "%s 결산 기록 — 현금흐름 %s",
+        "%s 결산",
+        "다음 달 시작  ▶",
+        "수입",
+        "이번 달 들어온 돈",
+        "지출",
+        "주거비와 대출이자",
+        "자산 변화",
+        "투자 포함",
+        "현재 위치",
+        "정착 지원금 +30만원이 이번 달 생존을 잠시 밀어줬다.",
+        "%s 남음",
+        "이번 달 판정",
+        "순이익",
+        "다음 · %s",
+        "계단을 오를 때 숨이 지난달보다 먼저 찼다.",
+        "불을 끈 뒤에도 잠이 바로 오지 않는 밤이 늘었다.",
+        "이 달의 시간 — 돈에 %d주, 사람에게는 한 주도 없었다.",
+        "이 달의 시간 — 사람에게 %d주, 돈은 잠시 밀어뒀다.",
+        "이 달의 시간 — 돈에 %d주, 사람에게 %d주.",
+        "이번 달 선택",
+        "투자가 빛을 발하고 있습니다. 포지션을 점검하세요.",
+        "이런 달이 쌓이면 강남드림이 가까워집니다.",
+        "대박 달!",
+        "수입과 투자 모두 순조롭습니다.",
+        "꾸준히 이 방향으로 가면 됩니다.",
+        "잘 했습니다",
+        "버티는 달",
+        "아직 초반입니다. 취업과 저축이 최우선입니다.",
+        "평범한 달",
+        "흑자 유지 중. 투자로 자산을 늘릴 타이밍을 찾아보세요.",
+        "어려운 달이었지만 쓰러지지 않았습니다.",
+        "이 경험이 더 단단하게 만들어줄 겁니다.",
+        "힘든 달",
+        "지금 방향을 바꾸지 않으면 무너집니다.",
+        "위기 상황",
+        "경고",
+        "당신은 지금 문제가 생기고 있습니다.\n\n도박 의존도가 위험 수위에 달했습니다. 매달 정신력이 추가로 감소하고, 상태가 악화되면 되돌리기 어렵습니다.\n\n지금 멈출 수 있습니다.",
+        "확인했습니다",
+        "이번 달에는 잠과 식사가 눈에 띄게 무너졌다. 도박을 즉시 중단하세요."
+      ],
+      "source_leaves": 45,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 45,
+        "zh-TW": 45
+      },
+      "source_review": "Direct Korean independent Chinese45 each, 17 current month-end summary/notebook/dependence warning UI groups. Original planning47 corrected before authoring/export: two HUD money strings are not read for CN/TW. Actual90 accepted; Japanese/source/runtime/public bytes and existing39752 preserved. No native/render/human approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN"
     }
   ],
   "accepted": {
@@ -110044,6 +110105,186 @@
       "ui:서랍 깊은 곳. 오래된 등기부등본 한 장.\n\n지연이 그것을 접어, 다시 넣었다.\n\n— 그녀는 처음부터 알고 있었다.:/서랍 깊은 곳. 오래된 등기부등본 한 장.\n\n지연이 그것을 접어, 다시 넣었다.\n\n— 그녀는 처음부터 알고 있었다.": {
         "source_sha256": "12bedd6956bb641a840e953a83389690c0fb2e398bffc34f5ea230539bf82be8",
         "target_sha256": "12aabceae17671d41d4b6c8636abb8c0aaa8b0ceb536bc046b1dd213da722b52"
+      },
+      "ui:강남드림:/강남드림": {
+        "source_sha256": "070e237736796ca987a7443150719daed86d0a0fa4511cb46a1d2f5929eca566",
+        "target_sha256": "f6c8cd0a38da445721925b6cf1c7f325330312f75257490481fd9fe32ca70d6e"
+      },
+      "ui:수첩을 폈다. {sentence}. {months}개월째.:/수첩을 폈다. {sentence}. {months}개월째.": {
+        "source_sha256": "1b9ef49aeb11dc3129090521ad5b688bfadc7b0b260e40dee729b2262dfa5ff1",
+        "target_sha256": "3d7cfd0d8444df9e6507839343100702a156bb4065182d3c0c63cd5a4a67cdee"
+      },
+      "ui:30억. 5년 안에.:/30억. 5년 안에.": {
+        "source_sha256": "e87848acf0ec9ca11af3cd6aba6b817e29956478c0131c1eba6bafe3e73870c4",
+        "target_sha256": "46374a2d48b4bc834eab36e3702b637153b46da34ef1969f07abb61dfcb81be4"
+      },
+      "ui:초기 정착 지원금 30만원 수령:/초기 정착 지원금 30만원 수령": {
+        "source_sha256": "289ac5f598edb52cabc49fc263b2199c7bfd599ca017268d1a8e95b09db16b5b",
+        "target_sha256": "c2e6a330f87a1a144258ad497ec101ea525fef9aa0df20b3510533ee4a6841a5"
+      },
+      "ui:첫 월급 수령! 현금 흐름이 시작됩니다:/첫 월급 수령! 현금 흐름이 시작됩니다": {
+        "source_sha256": "f47f8a1d66b5d632f11841ff07cc0bd93741b30874b77a88a5b646873180dfd6",
+        "target_sha256": "c4635221261fadb9fe920a4c8e8b079cffbf4814e3f486391a9fa71ea0a6e760"
+      },
+      "ui:%s 결산 기록 — 현금흐름 %s:/%s 결산 기록 — 현금흐름 %s": {
+        "source_sha256": "e054695c5cdabb7b9f38570f08011fbba81c4164ad15734c187d94448994c1a5",
+        "target_sha256": "452a8af84c8720e18426c27b40d47600af5de2ced43f0733a06320b2452b981b"
+      },
+      "ui:%s 결산:/%s 결산": {
+        "source_sha256": "ff126a097515ed973dd73f15c50da909c82d5b70be7d99612fc2a0da421364b0",
+        "target_sha256": "d5eb08622d665a475169c497cecd00ba91ca77e19be5966e78ae91e641537ab4"
+      },
+      "ui:다음 달 시작  ▶:/다음 달 시작  ▶": {
+        "source_sha256": "fc382ba6d5a979564bca1efcc4137b35fa06659036ee7201985b7f39d8a3435b",
+        "target_sha256": "3e928dc28a7015e637b1b5afd911fd6494a8aa89bbba41101b4c78ebc6407256"
+      },
+      "ui:수입:/수입": {
+        "source_sha256": "501817b0b258035f259c0c8eb7b3f1d04609f88b99e26ffa905e2f3534ef40ad",
+        "target_sha256": "695791fcd8e979b073b0c6a8876443579a74b48e0024a74c3768405c880de727"
+      },
+      "ui:이번 달 들어온 돈:/이번 달 들어온 돈": {
+        "source_sha256": "a4787a14bf1deee74565b2c95e1207fccee85befade73da2482f1164af3d2106",
+        "target_sha256": "22194a1b2130745a2022f15119a892a762e264897d98b9a4eb8c7f7d03bd33eb"
+      },
+      "ui:지출:/지출": {
+        "source_sha256": "66b64ea87848aeb3dd1d2b59473f6a2f32e982aed6b7269658f7f962940d2ba6",
+        "target_sha256": "e1de98a987805220b65a3d6b2980e4935108f97487cb54c8fdf4ef515b3fafdc"
+      },
+      "ui:주거비와 대출이자:/주거비와 대출이자": {
+        "source_sha256": "58114abf1115decd52ff0a73f35239f0c8bf925e7a29e6ef82ca249da9786225",
+        "target_sha256": "6724eef718f54e14db6e81eb387d02f925b7b27358cfeb672539a176715e8f9a"
+      },
+      "ui:자산 변화:/자산 변화": {
+        "source_sha256": "b47ee3aebdffde7ef1e0ac36da3770a5cdefc1b69bafcac75078344a17c82cb2",
+        "target_sha256": "2d47c7246abbc94b29a91645a8fd8290e68bbde8e89cb1534c192a0f7f0b465b"
+      },
+      "ui:투자 포함:/투자 포함": {
+        "source_sha256": "d08a2c9df25f0d72f7714574c1dd93f45790fa67f08496a957ead1dcdbd13878",
+        "target_sha256": "554a05c28924924574fd98e6d431d84742af0e8edc960146d01b7fa0b4faa32f"
+      },
+      "ui:현재 위치:/현재 위치": {
+        "source_sha256": "308c3bf9e28311c8d08024feda37387b849284968d8acb308c573c3f69a065b4",
+        "target_sha256": "3c5b7f7b14c5239b411d043fd39e939c1d040811c6112a8dd3998631ba966fd6"
+      },
+      "ui:정착 지원금 +30만원이 이번 달 생존을 잠시 밀어줬다.:/정착 지원금 +30만원이 이번 달 생존을 잠시 밀어줬다.": {
+        "source_sha256": "8cc22350a7c27b3fd7ad9c2c29e3bee26db7df3e70958a4bc1fcb8b1139df222",
+        "target_sha256": "aa0424028b8a7de5e03f14339945b641f19ff96526a1b9920e02c6f842c4dbd9"
+      },
+      "ui:%s 남음:/%s 남음": {
+        "source_sha256": "b55e5aeb1fa4e460a0842dbc7a52750c064575a416f38cfb9d1bc313ef37f1ab",
+        "target_sha256": "e4006faf73650d3ad86b3138c49089586deb7fbdba4ad89daee665d6644ec12e"
+      },
+      "ui:이번 달 판정:/이번 달 판정": {
+        "source_sha256": "b953dadc954d0be77fce2a30cea4d38bb48f6e14cb78bc91b8e9b6fbfc9b66a7",
+        "target_sha256": "0a99e44a47a7e93bb31f2a95dafe54e2f751b0fa155bc7494e0d7563c0bd5db9"
+      },
+      "ui:순이익:/순이익": {
+        "source_sha256": "481b99d21ace35f4c7bcb10b44ee8d1fe94a795fe6b7f20a8bc10ac42a983561",
+        "target_sha256": "8a007f73079e7dbf226dd3cb8c2a52fa73c0136d8d65ab0c470ff5c7355c7aa7"
+      },
+      "ui:다음 · %s:/다음 · %s": {
+        "source_sha256": "b524edc675c7253f10fe963831529923737b712ab775a2cf0002c722e7095474",
+        "target_sha256": "b08d57fc14dc88ab6225f9a5ab4f27b3f64a48d18a466d9ab7a7039728f1f882"
+      },
+      "ui:계단을 오를 때 숨이 지난달보다 먼저 찼다.:/계단을 오를 때 숨이 지난달보다 먼저 찼다.": {
+        "source_sha256": "a28bf90b449b0c1448268b33aaa6f68f8bba7335e37b8e7b9987802ab7c28b6a",
+        "target_sha256": "1ecdda940b1f88fd2cf80f6e57aacc4e3ca7cab5da1386efbf27aa9675259089"
+      },
+      "ui:불을 끈 뒤에도 잠이 바로 오지 않는 밤이 늘었다.:/불을 끈 뒤에도 잠이 바로 오지 않는 밤이 늘었다.": {
+        "source_sha256": "5ef0296b04c471338d195eedd3d92317efe5ee5be94bd8d146537e24d3b512e0",
+        "target_sha256": "77ff136fab6400fdc1d2c4881d575c9c3905be33db8c23f0c643b0ac154f51e8"
+      },
+      "ui:이 달의 시간 — 돈에 %d주, 사람에게는 한 주도 없었다.:/이 달의 시간 — 돈에 %d주, 사람에게는 한 주도 없었다.": {
+        "source_sha256": "a6b39f393aafbcdc74ffb0bce9fa305ed5c0175ea7c9497e9b5064ec3a1c680b",
+        "target_sha256": "2e36e96189214e6154261a2f9fee4bf5deb7b1aff31da21a8fcc9863dc8df303"
+      },
+      "ui:이 달의 시간 — 사람에게 %d주, 돈은 잠시 밀어뒀다.:/이 달의 시간 — 사람에게 %d주, 돈은 잠시 밀어뒀다.": {
+        "source_sha256": "13bf6c5ae1f286b2594322b6a48a5c8f12fd95456fad198cd9aeb98e1e0e18a2",
+        "target_sha256": "d39f5c0ebb805372a7a0d62f4362a56ca5a3f8e4bc47bbb9e3b9a8d57d047531"
+      },
+      "ui:이 달의 시간 — 돈에 %d주, 사람에게 %d주.:/이 달의 시간 — 돈에 %d주, 사람에게 %d주.": {
+        "source_sha256": "6c9415de2f35e4f74a639e7d38a3a6b606767c06ea1e6ae79f2b12546d3ee0c6",
+        "target_sha256": "d8dbf2ed50e7ecc40ae514e27cc930679a5fc93d78aabe0749a6b2ab880e2e10"
+      },
+      "ui:이번 달 선택:/이번 달 선택": {
+        "source_sha256": "7eee5019c61c9f5ce03a8596c9c03e65263da5470d54a93e23e48d7996453c59",
+        "target_sha256": "1aaa3ec7d09a803f899d25a0a49c3fea768f0e2a883d62d65c80609aab6eeb2a"
+      },
+      "ui:투자가 빛을 발하고 있습니다. 포지션을 점검하세요.:/투자가 빛을 발하고 있습니다. 포지션을 점검하세요.": {
+        "source_sha256": "b5ba297bc55624d0218e0c81a647867d69e6d23f2e9197d621bf6f165ed68f98",
+        "target_sha256": "2a86dd1187fbadf2c5b637bd7de10d4ec6cdd4bbdf61aeb205b680137a96f797"
+      },
+      "ui:이런 달이 쌓이면 강남드림이 가까워집니다.:/이런 달이 쌓이면 강남드림이 가까워집니다.": {
+        "source_sha256": "f1083b9ba4037aaca048b175b0630a7b9624cdc59b4ac3391d40549411c0dbf8",
+        "target_sha256": "ae19177939b98790baca947f8622acc768cf46b29af41c053af5712c38ab71fd"
+      },
+      "ui:대박 달!:/대박 달!": {
+        "source_sha256": "87b4a5899e7cf4113c83423c056ad73bed73138afb74152cfb4499ba89a2a107",
+        "target_sha256": "df9d169e5163b069949766aa64cce87304ab2bfa48dc27c6f626dc170a407734"
+      },
+      "ui:수입과 투자 모두 순조롭습니다.:/수입과 투자 모두 순조롭습니다.": {
+        "source_sha256": "b76f37ff8171694d0e520207f662a443a13879ebc3a3906c8950d5fb0f4b2709",
+        "target_sha256": "4628b17889005d8af29411bd81f4dae7e7ca1aab5f16a71c0359fc3cbdb7eea4"
+      },
+      "ui:꾸준히 이 방향으로 가면 됩니다.:/꾸준히 이 방향으로 가면 됩니다.": {
+        "source_sha256": "e2a5efd59ee4c2256e03f8364b87f026c023970c3f4a740561a63454ab8dd043",
+        "target_sha256": "f4528f2300c382719ea86d690982ebe2230e79f6c2fc0f1e76f6321de41d853d"
+      },
+      "ui:잘 했습니다:/잘 했습니다": {
+        "source_sha256": "431bedca3b5df413f5c5a5a146a45d297bc0b3b4a0d311be7f6a07bc15ca8691",
+        "target_sha256": "003d3627f1e9a391e7049e042ad305d8fbc58dfe858f08e62c808a6fbf77a6b9"
+      },
+      "ui:버티는 달:/버티는 달": {
+        "source_sha256": "0513ccb21db4f9adcdf07cd68a4cfd2212b803a7b075040c8598a8a6aa620169",
+        "target_sha256": "e39a88f0ee50974dfd516b4f5bc930a215b42c4fc32ccdf5a82f14810ccd9d4a"
+      },
+      "ui:아직 초반입니다. 취업과 저축이 최우선입니다.:/아직 초반입니다. 취업과 저축이 최우선입니다.": {
+        "source_sha256": "2aa6ecbf07314ae2610f96bd7dbc6eb2172866fd88e4db35533029271fb38114",
+        "target_sha256": "a1908be553dca0a6d06e9649235481dfbec864a717786047644654bb1b0f9eda"
+      },
+      "ui:평범한 달:/평범한 달": {
+        "source_sha256": "41ab57e9f06aa98393a13d1bb6560ad7c0c4741c3987a707a13965f2e4d73d78",
+        "target_sha256": "db7fa758b009fd00c13856c44b3d4c5c2c0e165451c5d26c19eeb32e8f8eb938"
+      },
+      "ui:흑자 유지 중. 투자로 자산을 늘릴 타이밍을 찾아보세요.:/흑자 유지 중. 투자로 자산을 늘릴 타이밍을 찾아보세요.": {
+        "source_sha256": "f5559c953ef1d6b4250979ab85fef92d6388b91a32f0e8f8381fd1f27c9f769d",
+        "target_sha256": "a7c85e08889dcf67c2f04c138fba59d186cc9e33c7fa95ce8a59c5ae39d827da"
+      },
+      "ui:어려운 달이었지만 쓰러지지 않았습니다.:/어려운 달이었지만 쓰러지지 않았습니다.": {
+        "source_sha256": "d88a64c5234fdf6a0e7417b6e8c84839b3b352eac5e462515e3b977031d10d92",
+        "target_sha256": "8b3743be6964e1916739d2145145e84931ec699d99634ecd78f516f6fbd7bcdf"
+      },
+      "ui:이 경험이 더 단단하게 만들어줄 겁니다.:/이 경험이 더 단단하게 만들어줄 겁니다.": {
+        "source_sha256": "16917f9e28a82bb581536bad590906121918217f6523208bb5e5c35dec25d3a7",
+        "target_sha256": "f72d203c183951818a345477f0b880b1441dd42eb5c930ac7ec9c0d4ac8237fc"
+      },
+      "ui:힘든 달:/힘든 달": {
+        "source_sha256": "b2da16709dd5934ac963f4d3f31b04899d6457f59e3f449ed3bcac55d832f8e2",
+        "target_sha256": "17ff883170e68c995e1d458780ec84b0f6174e86d80d57b4d38daee78051c8ea"
+      },
+      "ui:지금 방향을 바꾸지 않으면 무너집니다.:/지금 방향을 바꾸지 않으면 무너집니다.": {
+        "source_sha256": "9e546e02e41d1b4e0e97f907e7c9e084e33a36884ed25bb016a939eec2dd44b7",
+        "target_sha256": "00e4f7ce1a89b46ef94c33a720a09f0270a8b0dbfa22995a3e0f95bc03832a66"
+      },
+      "ui:위기 상황:/위기 상황": {
+        "source_sha256": "9189128e42b4a90bee156ba58b9bcd47bfa51f3c126a267231e4a57e75dea6d9",
+        "target_sha256": "37776d921fa13299e2d4db2c0e46a51ef6e5ed825dc5cc874bd1e246a757937f"
+      },
+      "ui:경고:/경고": {
+        "source_sha256": "ad0742e4a56b9d56bb3b15d0c2e03f3a529d50cb01fde5244fc275ce9630d05b",
+        "target_sha256": "f06dbc633bcf8addb650b0f6bee22a34210421ccef29e9f767987641c4e44ffe"
+      },
+      "ui:당신은 지금 문제가 생기고 있습니다.\n\n도박 의존도가 위험 수위에 달했습니다. 매달 정신력이 추가로 감소하고, 상태가 악화되면 되돌리기 어렵습니다.\n\n지금 멈출 수 있습니다.:/당신은 지금 문제가 생기고 있습니다.\n\n도박 의존도가 위험 수위에 달했습니다. 매달 정신력이 추가로 감소하고, 상태가 악화되면 되돌리기 어렵습니다.\n\n지금 멈출 수 있습니다.": {
+        "source_sha256": "30307820fe4d3bc75f7499b6295609830186820f8465bec2dfb696f18d043b03",
+        "target_sha256": "8ec162be18b341ba7a27492c165a8725be6085a90469fb314ae03ac49a96af50"
+      },
+      "ui:확인했습니다:/확인했습니다": {
+        "source_sha256": "5ae7214e00dc9c14a25bc55a004f3fc1b29b8e2849b0786eb79879300ca5598c",
+        "target_sha256": "afd095103a3fe87a4d10cc49a1acf989f3da3438a33ffbbb77749f58ac7ca06d"
+      },
+      "ui:이번 달에는 잠과 식사가 눈에 띄게 무너졌다. 도박을 즉시 중단하세요.:/이번 달에는 잠과 식사가 눈에 띄게 무너졌다. 도박을 즉시 중단하세요.": {
+        "source_sha256": "270942d573743b051a68e79153ce3ca5f82249eccc206da04d8f49c35d0b76eb",
+        "target_sha256": "d2e9c3054fb29f9094220d05482ac4dab88a566fdcbeed0c02dc1e51a1ecca52"
       }
     },
     "zh-TW": {
@@ -163358,10 +163599,190 @@
       "ui:서랍 깊은 곳. 오래된 등기부등본 한 장.\n\n지연이 그것을 접어, 다시 넣었다.\n\n— 그녀는 처음부터 알고 있었다.:/서랍 깊은 곳. 오래된 등기부등본 한 장.\n\n지연이 그것을 접어, 다시 넣었다.\n\n— 그녀는 처음부터 알고 있었다.": {
         "source_sha256": "12bedd6956bb641a840e953a83389690c0fb2e398bffc34f5ea230539bf82be8",
         "target_sha256": "14fce4dc5d75290b744ec8cb870095fe30bbdea40f604d90365d4abe9e347802"
+      },
+      "ui:강남드림:/강남드림": {
+        "source_sha256": "070e237736796ca987a7443150719daed86d0a0fa4511cb46a1d2f5929eca566",
+        "target_sha256": "f6c8cd0a38da445721925b6cf1c7f325330312f75257490481fd9fe32ca70d6e"
+      },
+      "ui:수첩을 폈다. {sentence}. {months}개월째.:/수첩을 폈다. {sentence}. {months}개월째.": {
+        "source_sha256": "1b9ef49aeb11dc3129090521ad5b688bfadc7b0b260e40dee729b2262dfa5ff1",
+        "target_sha256": "166e9c8634cd63f8b3c0793afde882341ab1ca71019c05fce7f28478c1e0b2a4"
+      },
+      "ui:30억. 5년 안에.:/30억. 5년 안에.": {
+        "source_sha256": "e87848acf0ec9ca11af3cd6aba6b817e29956478c0131c1eba6bafe3e73870c4",
+        "target_sha256": "a010cde7fa0cfbe18a2d66e500774f42906082e89f310c9fa8ab26c3eba4c0ca"
+      },
+      "ui:초기 정착 지원금 30만원 수령:/초기 정착 지원금 30만원 수령": {
+        "source_sha256": "289ac5f598edb52cabc49fc263b2199c7bfd599ca017268d1a8e95b09db16b5b",
+        "target_sha256": "6c6432163069965de9d536d7dd6f0f3ed37ccc6e2a1a5e2bc4bde896f0ebcf1d"
+      },
+      "ui:첫 월급 수령! 현금 흐름이 시작됩니다:/첫 월급 수령! 현금 흐름이 시작됩니다": {
+        "source_sha256": "f47f8a1d66b5d632f11841ff07cc0bd93741b30874b77a88a5b646873180dfd6",
+        "target_sha256": "fee9d6cf677996260e8758f63a5f82ebe17bb1cc2231a6029b29e023cf76cc88"
+      },
+      "ui:%s 결산 기록 — 현금흐름 %s:/%s 결산 기록 — 현금흐름 %s": {
+        "source_sha256": "e054695c5cdabb7b9f38570f08011fbba81c4164ad15734c187d94448994c1a5",
+        "target_sha256": "968f049d54e201f67f1f70003d01535c22dd7eaf218ad833782dfc5f49b06963"
+      },
+      "ui:%s 결산:/%s 결산": {
+        "source_sha256": "ff126a097515ed973dd73f15c50da909c82d5b70be7d99612fc2a0da421364b0",
+        "target_sha256": "3e8c0f534d50e5c6347ff5d69c503f2aa435736d2d697257b7f7fa99445eb085"
+      },
+      "ui:다음 달 시작  ▶:/다음 달 시작  ▶": {
+        "source_sha256": "fc382ba6d5a979564bca1efcc4137b35fa06659036ee7201985b7f39d8a3435b",
+        "target_sha256": "98d25ca2c4fe4d2da2b585b613cfa25f375b6b534cd34abd10ddbecb4be4fe07"
+      },
+      "ui:수입:/수입": {
+        "source_sha256": "501817b0b258035f259c0c8eb7b3f1d04609f88b99e26ffa905e2f3534ef40ad",
+        "target_sha256": "695791fcd8e979b073b0c6a8876443579a74b48e0024a74c3768405c880de727"
+      },
+      "ui:이번 달 들어온 돈:/이번 달 들어온 돈": {
+        "source_sha256": "a4787a14bf1deee74565b2c95e1207fccee85befade73da2482f1164af3d2106",
+        "target_sha256": "e07eb67ac973bdfe98748605c23deb818a288732ff163e304963204fc9752c42"
+      },
+      "ui:지출:/지출": {
+        "source_sha256": "66b64ea87848aeb3dd1d2b59473f6a2f32e982aed6b7269658f7f962940d2ba6",
+        "target_sha256": "e1de98a987805220b65a3d6b2980e4935108f97487cb54c8fdf4ef515b3fafdc"
+      },
+      "ui:주거비와 대출이자:/주거비와 대출이자": {
+        "source_sha256": "58114abf1115decd52ff0a73f35239f0c8bf925e7a29e6ef82ca249da9786225",
+        "target_sha256": "1283a976dbb6208fbbc30b325032ee0e0991131c0e43e9e63d052fae7957b4a0"
+      },
+      "ui:자산 변화:/자산 변화": {
+        "source_sha256": "b47ee3aebdffde7ef1e0ac36da3770a5cdefc1b69bafcac75078344a17c82cb2",
+        "target_sha256": "575335334c243b39a0924e7250fca59176d75086060436d1b1694900444d0428"
+      },
+      "ui:투자 포함:/투자 포함": {
+        "source_sha256": "d08a2c9df25f0d72f7714574c1dd93f45790fa67f08496a957ead1dcdbd13878",
+        "target_sha256": "1c9c18658e0083bfbf129e3fa05001dad5a2a370ed131b4a884bae6bfa6b4feb"
+      },
+      "ui:현재 위치:/현재 위치": {
+        "source_sha256": "308c3bf9e28311c8d08024feda37387b849284968d8acb308c573c3f69a065b4",
+        "target_sha256": "2510c204e2d5d810bac4d03a4ce2828ad8a5dec94344404c4cda4465cf6c187b"
+      },
+      "ui:정착 지원금 +30만원이 이번 달 생존을 잠시 밀어줬다.:/정착 지원금 +30만원이 이번 달 생존을 잠시 밀어줬다.": {
+        "source_sha256": "8cc22350a7c27b3fd7ad9c2c29e3bee26db7df3e70958a4bc1fcb8b1139df222",
+        "target_sha256": "94cfcc5dde905d3dcce907fdc7c9febfce24d816bb5d5b6bd9f421d9b548b395"
+      },
+      "ui:%s 남음:/%s 남음": {
+        "source_sha256": "b55e5aeb1fa4e460a0842dbc7a52750c064575a416f38cfb9d1bc313ef37f1ab",
+        "target_sha256": "798cce6fde95b6864c1e5743beda20dd3e4ea17c1da4b2a5a4840bf690339832"
+      },
+      "ui:이번 달 판정:/이번 달 판정": {
+        "source_sha256": "b953dadc954d0be77fce2a30cea4d38bb48f6e14cb78bc91b8e9b6fbfc9b66a7",
+        "target_sha256": "6d91a91350dfb8d5a9966b612b8c360ab346277a1943ae56eba6c5c91d09a8aa"
+      },
+      "ui:순이익:/순이익": {
+        "source_sha256": "481b99d21ace35f4c7bcb10b44ee8d1fe94a795fe6b7f20a8bc10ac42a983561",
+        "target_sha256": "7676da0c02c25fe388028f29a3a3792c8328431f13d96e83614f63b7bd9b18ac"
+      },
+      "ui:다음 · %s:/다음 · %s": {
+        "source_sha256": "b524edc675c7253f10fe963831529923737b712ab775a2cf0002c722e7095474",
+        "target_sha256": "7915cda64c015525511407c9ff40c8b2fe3cfac4372aa05bb9de8a7775e96899"
+      },
+      "ui:계단을 오를 때 숨이 지난달보다 먼저 찼다.:/계단을 오를 때 숨이 지난달보다 먼저 찼다.": {
+        "source_sha256": "a28bf90b449b0c1448268b33aaa6f68f8bba7335e37b8e7b9987802ab7c28b6a",
+        "target_sha256": "7b5d84287193b8461dfbf46fdfeb3fde058bdb9e53c5ba39af824da34f0c17c2"
+      },
+      "ui:불을 끈 뒤에도 잠이 바로 오지 않는 밤이 늘었다.:/불을 끈 뒤에도 잠이 바로 오지 않는 밤이 늘었다.": {
+        "source_sha256": "5ef0296b04c471338d195eedd3d92317efe5ee5be94bd8d146537e24d3b512e0",
+        "target_sha256": "fe356b2220e27ba88e42fae74a1439a684c2163cc229dd7b8e86e31e1513ff1a"
+      },
+      "ui:이 달의 시간 — 돈에 %d주, 사람에게는 한 주도 없었다.:/이 달의 시간 — 돈에 %d주, 사람에게는 한 주도 없었다.": {
+        "source_sha256": "a6b39f393aafbcdc74ffb0bce9fa305ed5c0175ea7c9497e9b5064ec3a1c680b",
+        "target_sha256": "1ddaca8ecbc9ab69a70c6ddba52074065591a3f68cc6ace2819e8bc827111a46"
+      },
+      "ui:이 달의 시간 — 사람에게 %d주, 돈은 잠시 밀어뒀다.:/이 달의 시간 — 사람에게 %d주, 돈은 잠시 밀어뒀다.": {
+        "source_sha256": "13bf6c5ae1f286b2594322b6a48a5c8f12fd95456fad198cd9aeb98e1e0e18a2",
+        "target_sha256": "2dff8cb7a7e308b6edc54892dc67a5e91f26d0f90fb29191a6a46ea8a8da1054"
+      },
+      "ui:이 달의 시간 — 돈에 %d주, 사람에게 %d주.:/이 달의 시간 — 돈에 %d주, 사람에게 %d주.": {
+        "source_sha256": "6c9415de2f35e4f74a639e7d38a3a6b606767c06ea1e6ae79f2b12546d3ee0c6",
+        "target_sha256": "991d441df123ec9811dcb50bc9c0883048ae27f337bc00fd36e1f9efbcecd0db"
+      },
+      "ui:이번 달 선택:/이번 달 선택": {
+        "source_sha256": "7eee5019c61c9f5ce03a8596c9c03e65263da5470d54a93e23e48d7996453c59",
+        "target_sha256": "c45d473572f413d02a387fcc337a2d56a9deb24cc8f8425176d355d2bd664682"
+      },
+      "ui:투자가 빛을 발하고 있습니다. 포지션을 점검하세요.:/투자가 빛을 발하고 있습니다. 포지션을 점검하세요.": {
+        "source_sha256": "b5ba297bc55624d0218e0c81a647867d69e6d23f2e9197d621bf6f165ed68f98",
+        "target_sha256": "944f97920fd2fc5fdb00c0583d4e928a4975581ac14b42445cba5fb59b5026a7"
+      },
+      "ui:이런 달이 쌓이면 강남드림이 가까워집니다.:/이런 달이 쌓이면 강남드림이 가까워집니다.": {
+        "source_sha256": "f1083b9ba4037aaca048b175b0630a7b9624cdc59b4ac3391d40549411c0dbf8",
+        "target_sha256": "4066af121bfb1acd0529ab17e84593119c9cdf5a220b31c86fcd0838fdd35bb0"
+      },
+      "ui:대박 달!:/대박 달!": {
+        "source_sha256": "87b4a5899e7cf4113c83423c056ad73bed73138afb74152cfb4499ba89a2a107",
+        "target_sha256": "c54fbc2522e6cc435a10962d9d11c9b12ab12d625753bd83cd909a54bd187d41"
+      },
+      "ui:수입과 투자 모두 순조롭습니다.:/수입과 투자 모두 순조롭습니다.": {
+        "source_sha256": "b76f37ff8171694d0e520207f662a443a13879ebc3a3906c8950d5fb0f4b2709",
+        "target_sha256": "2ee359c04f4d605e174d9e8e81286d3c92fc6984cf4a534704855ed1adc7cb51"
+      },
+      "ui:꾸준히 이 방향으로 가면 됩니다.:/꾸준히 이 방향으로 가면 됩니다.": {
+        "source_sha256": "e2a5efd59ee4c2256e03f8364b87f026c023970c3f4a740561a63454ab8dd043",
+        "target_sha256": "31787288de5509f8e24bf2252f86202b55ec1ccb91967b63fc74f27bb134c7d1"
+      },
+      "ui:잘 했습니다:/잘 했습니다": {
+        "source_sha256": "431bedca3b5df413f5c5a5a146a45d297bc0b3b4a0d311be7f6a07bc15ca8691",
+        "target_sha256": "8c6995e3ae1141d5b00a82ba5576cb35ef2ec46b095685d73ac5dbafe2534f61"
+      },
+      "ui:버티는 달:/버티는 달": {
+        "source_sha256": "0513ccb21db4f9adcdf07cd68a4cfd2212b803a7b075040c8598a8a6aa620169",
+        "target_sha256": "1e5f37af97858ce67daa013f506cf7562d13af3e20335f73e4b693e48f9c1551"
+      },
+      "ui:아직 초반입니다. 취업과 저축이 최우선입니다.:/아직 초반입니다. 취업과 저축이 최우선입니다.": {
+        "source_sha256": "2aa6ecbf07314ae2610f96bd7dbc6eb2172866fd88e4db35533029271fb38114",
+        "target_sha256": "8eef3ecc9d3f09d7968800c06c5bd4c8d94e543de4e64c0fa73d58c7e515bac5"
+      },
+      "ui:평범한 달:/평범한 달": {
+        "source_sha256": "41ab57e9f06aa98393a13d1bb6560ad7c0c4741c3987a707a13965f2e4d73d78",
+        "target_sha256": "b39f8e39e0578e6de89dfb3c089e26db6bc06d1b4ad051f3b3efa333d1f45ff3"
+      },
+      "ui:흑자 유지 중. 투자로 자산을 늘릴 타이밍을 찾아보세요.:/흑자 유지 중. 투자로 자산을 늘릴 타이밍을 찾아보세요.": {
+        "source_sha256": "f5559c953ef1d6b4250979ab85fef92d6388b91a32f0e8f8381fd1f27c9f769d",
+        "target_sha256": "33cea674c155ff6aad9aba8cd169bf21e221b368cf1674597af9aaaf762d8a70"
+      },
+      "ui:어려운 달이었지만 쓰러지지 않았습니다.:/어려운 달이었지만 쓰러지지 않았습니다.": {
+        "source_sha256": "d88a64c5234fdf6a0e7417b6e8c84839b3b352eac5e462515e3b977031d10d92",
+        "target_sha256": "a3abe42810a417536a344e97a87571369139790a95596485e19a64138c2575b9"
+      },
+      "ui:이 경험이 더 단단하게 만들어줄 겁니다.:/이 경험이 더 단단하게 만들어줄 겁니다.": {
+        "source_sha256": "16917f9e28a82bb581536bad590906121918217f6523208bb5e5c35dec25d3a7",
+        "target_sha256": "bf830b09474f2d538a62aaaffa140b905de8f298950217c4008b3bdc57e9f871"
+      },
+      "ui:힘든 달:/힘든 달": {
+        "source_sha256": "b2da16709dd5934ac963f4d3f31b04899d6457f59e3f449ed3bcac55d832f8e2",
+        "target_sha256": "fe47dc89393834e2e22d09d34073fb125f6a1f632cb894b79707a16115ab62cc"
+      },
+      "ui:지금 방향을 바꾸지 않으면 무너집니다.:/지금 방향을 바꾸지 않으면 무너집니다.": {
+        "source_sha256": "9e546e02e41d1b4e0e97f907e7c9e084e33a36884ed25bb016a939eec2dd44b7",
+        "target_sha256": "294fe245513e37c7a8595ef40a1f48ce385bbc7b3350fc4e4daf8a2260550e79"
+      },
+      "ui:위기 상황:/위기 상황": {
+        "source_sha256": "9189128e42b4a90bee156ba58b9bcd47bfa51f3c126a267231e4a57e75dea6d9",
+        "target_sha256": "df6b6b2c22f1ee83c08a38ea9340110d74721fedacbbec72216df8fb31203489"
+      },
+      "ui:경고:/경고": {
+        "source_sha256": "ad0742e4a56b9d56bb3b15d0c2e03f3a529d50cb01fde5244fc275ce9630d05b",
+        "target_sha256": "f06dbc633bcf8addb650b0f6bee22a34210421ccef29e9f767987641c4e44ffe"
+      },
+      "ui:당신은 지금 문제가 생기고 있습니다.\n\n도박 의존도가 위험 수위에 달했습니다. 매달 정신력이 추가로 감소하고, 상태가 악화되면 되돌리기 어렵습니다.\n\n지금 멈출 수 있습니다.:/당신은 지금 문제가 생기고 있습니다.\n\n도박 의존도가 위험 수위에 달했습니다. 매달 정신력이 추가로 감소하고, 상태가 악화되면 되돌리기 어렵습니다.\n\n지금 멈출 수 있습니다.": {
+        "source_sha256": "30307820fe4d3bc75f7499b6295609830186820f8465bec2dfb696f18d043b03",
+        "target_sha256": "4d6bf440954bdd5c11501bcaf7a842d9bf70a17061c47c7d784cf22a3cb4b08b"
+      },
+      "ui:확인했습니다:/확인했습니다": {
+        "source_sha256": "5ae7214e00dc9c14a25bc55a004f3fc1b29b8e2849b0786eb79879300ca5598c",
+        "target_sha256": "fd018026abf9f0e73c5d4753c44c8d2954ecab756f48fe7c993b57a9e3a47d53"
+      },
+      "ui:이번 달에는 잠과 식사가 눈에 띄게 무너졌다. 도박을 즉시 중단하세요.:/이번 달에는 잠과 식사가 눈에 띄게 무너졌다. 도박을 즉시 중단하세요.": {
+        "source_sha256": "270942d573743b051a68e79153ce3ca5f82249eccc206da04d8f49c35d0b76eb",
+        "target_sha256": "3f46f35673803db43a51be27c0c84d2544d3eb4b7d42d02eda03a399c48e470c"
       }
     }
   },
-  "accepted_sha256": "e30ec7984a22f03a660cd9d2f9e1e621acbf8dd4c60d5a169935d73b9d26c335",
+  "accepted_sha256": "fd646d135e3654edc54772316d7f4a57a192bbea6243cf983e397e521b76e7ad",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
