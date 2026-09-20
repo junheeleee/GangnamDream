@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-279",
+  "scope": "work_unit",
+  "authority": "user_delegated_agent_final",
+  "reviewer": "Poincare",
+  "verdict": "GO",
+  "required": [],
+  "subject": {
+    "kind": "source",
+    "commit": "9860e2b3290dbff1837d8f2e96f0ca7c4944c5b4",
+    "tree": "bd3e7bb16d2aeb46e68c7253e81afe35515e65e1",
+    "manifest_sha256": null
+  },
+  "review": {
+    "commit": "fb6127faee104f242fbd5cd4d328380b87949bc9",
+    "tree": "50ae1eda4b41732dada2cee99acdd9b17d9e6d9f",
+    "clean": true,
+    "relationship": "Direct child of subject; only docs/STATUS.md differs. Independently observed with read-only Git."
+  },
+  "decision": "GO only for ORDER-279: CN21/TW21 slot UI translations and the one Japanese loss-label correction, with exact formal acceptance and preservation evidence. Required defects found: zero. This is not approval of all accepted translations, actual slot gameplay, fresh-story reachability, rendered UI, native prose or the full game.",
+  "population": {
+    "language": "Twenty-one Korean-source keys, CN21/TW21 and JA loss1, total43 targets independently reviewed. Preserved placeholders, BBCode, line breaks, payout amounts and net-versus-gross meaning. Japanese loss changes the erroneous jackpot wording to ハズレ. Sealed language review is reused within its original scope, not as a substitute for this candidate review.",
+    "consumers": "Static SlotMachineGame22 selected calls plus seven other calls sharing three selected keys were read with their conditions. SlotMachine payout/source logic and Main/Casino entry conditions were cross-checked. The legacy/AP panel's actual rendering or fresh-story availability was not exercised.",
+    "acceptance": "Applied exports and import --accept contain CN21, TW21 and JA1; each import reports changed_files0. Applied source/response, private receipts, current UI targets and portable hashes match all43 sealed draft values. Existing Japanese replacement uses explicit --replace-existing. Native review remains OPEN.",
+    "preservation": "Old39929 current source/target hashes remain exact. Current39972/b124/meta9 comprises JA13098 and CN/TW13437 each. Removing new43 plus the last batch and restoring the old digest reconstructs the whole previous portable bytes. CN/TW append21 inverses and the single Japanese value inverse reconstruct all previous UI bytes. Remaining held72 is unchanged.",
+    "named": "One fixed12 invocation on clean reviewfb6127fa; twelve distinct children exit0 with expected markers. Raw stdout/stderr base64, byte lengths, SHA and decoded text were checked for every child. Inner1644 and outer1203 input maps remain unchanged and match current physical files.",
+    "ownership": "Nine changed paths from baseline9cad0783 are within declared13. Product changes are UI3 and portable only. Source, runtime, collector, checker, project, public evidence and human evidence are unchanged. The existing65 decision records remain whole-byte identical.",
+    "limits": "Full-product HOLD, human gates and public evidence remain. JA beta, Chinese skeleton/shipping0, dynamic6/701, direct-English bypass11 and registry EXTRA advisories are not removed or promoted to completion. No ORDER274 screen-evidence inheritance."
+  },
+  "method": [
+    "Applied gangnamdream-dev, CLAUDE, WORK_UNIT and localization references. Independently read actual consumers, source/product differences, private exchange/capture/named drivers, formal rows, receipts and retained captures without repository imports or QA reruns.",
+    "Read-only standard-library byte/hash/JSON calculations bound all43 application values, receipt hashes, predecessor raw inverses and retained streams. Complete fullself tagged JSON was parsed separately from its terminal marker; expected negative diagnostics were not mistaken for failures.",
+    "Capture reuse differs from ORDER278 only by output prefix. Named reuse changes unit labels, baseline and owned paths, replacing checker ownership with Japanese UI while retaining fixed12 and capture logic. Exchange requires sealed language approval, exact source selection, single-value Japanese replacement, receipts and current-target preservation.",
+    "No product, tracked document, Git, remote or human-evidence mutation by this reviewer. Only private independent reports were written."
+  ],
+  "execution_boundaries": {
+    "preflight": "Exports and checks used clean declaration3a8ddc40. CN21/TW21 first checks passed with changed_files1 proposals, not installation. Japanese first check failed because ROOT omitted --replace-existing; empty stdout and the exact option error are retained. The separate corrected check used the same source/response with that option and passed. This was an invocation failure, not a manuscript or checker failure.",
+    "formal": "Applied exports and imports used clean bc0df117e6d9feff5050ee5d5fd0ecac4236ba4a. Counts21/21/1 and changed_files0 were observed; all three private receipts independently match applied source/target hashes and their canonical digests.",
+    "preservation": "The first preservation ran at bc0df117 HEAD with only portable dirty, before CLAUDE changed, in6.195652875 seconds. It is not represented as a clean-final run. All1203 captured product/source pins independently match this final candidate.",
+    "named": "Clean fb6127fa start/end; inner124.216868333 seconds and outer124.549877291 seconds. Fullself264, JAself146, ZHself12530, JAUI2978/errors0, EN clean, public five-locale checks, registry152, queue25, agent222/HOLD, context396 and queue consistency passed. Fullself stderr365 bytes is normal unittest progress/264 tests/OK; the other eleven child stderr and outer stderr are empty. Current fullself includes the unchanged ORDER264/266 case summaries."
+  },
+  "current_seals": {
+    "source_manifest_sha256": "2af00468b62e7f0cc61541770c57900424135e5c9e7de12e8dc087fd74f3f15a",
+    "portable_bytes": 10459942,
+    "portable_sha256": "6284319468e1e7e8e4e4966c8a90e4345f7808d39b4423c2e73c67168ac7144c",
+    "accepted_digest": "f39f73838f1adb12d9b6d1a53e6b7d7d7d00d5730695fe1c95bc36677452c3a4",
+    "prior65_ledger_sha256": "991abd2d58cc7d7d002c3105c60ce70256d5b70ff2f72980c791b6a1578132d8",
+    "human_gates_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6"
+  },
+  "evidence": {
+    ".git/full-game-localization/order279-language-review-first.json": "7ab08c5e0fa6135236ea82d3d68a652bec1db2725cd0ceb8eb369dcb6613afa4",
+    ".git/full-game-localization/order279-export-cn-first.json": "1b8bf23b9352edf46c9fd404aab373aaecc58d972005adeed42104b5937f1b35",
+    ".git/full-game-localization/order279-export-tw-first.json": "ec9d502feabf492cbb13d78d9db418c441143141bc9f6f74720ec9f02ca75b2f",
+    ".git/full-game-localization/order279-export-ja-first.json": "62c2f1cc20471aa93a632793f69fd394acb75c3903caee96f2dfd4229556cf84",
+    ".git/full-game-localization/order279-preflight-cn-first.json": "bb5d18567921f16326bfb616c493a9390590eb2f90815d16d7445300309d971b",
+    ".git/full-game-localization/order279-preflight-tw-first.json": "a34c88d89635f29c84fc87ba1a2b447225806ada94b5741ba4949e188a5ebbc9",
+    ".git/full-game-localization/order279-preflight-ja-first.json": "5113db19b2051c610ec20343f23cf552e9e2af71b5152bc2eabe53857c9d999f",
+    ".git/full-game-localization/order279-preflight-ja-replace-first.json": "79f0b7d579d3597cce1b296b29a2da536478fab1c6cc404bcc19b8c2415077da",
+    ".git/full-game-localization/order279-applied-export-cn-first.json": "21b74f040f602b6a782bac92db4ac30def27a5a766f22e4947fad64738771a7c",
+    ".git/full-game-localization/order279-applied-export-tw-first.json": "428cc028191ebd5b6776108cdef00dbff0c7e604c5932c65f380d1d50ab74bf5",
+    ".git/full-game-localization/order279-applied-export-ja-first.json": "205a4cb5b3fd5a659443def7c278bd460684238f33512ed7a7e8dc12bf780923",
+    ".git/full-game-localization/order279-accept-cn-first.json": "8f4849424a87cd54876171311d440b055eb5cb674d445e0bdcb2a9f7dcdaf862",
+    ".git/full-game-localization/order279-accept-tw-first.json": "04abe67ca6256d5dc3e8b794f31c77ddc3aab62905fda445a55580656c53fff9",
+    ".git/full-game-localization/order279-accept-ja-first.json": "3ba4bd0ca80e7c04293784a05d3611816c967200044f4b4473ec99996f5052d7",
+    ".git/full-game-localization/zh-CN/full-ko-direct-2026-09-07.1/00182f6d6ab41a0ccf884555a2fcbe179af571abfdc2cb069ad120334508d7e9.accepted.json": "b13c536516d759002166da7f6bcb64fb9bd2292cab10400bfae7ab40feeece17",
+    ".git/full-game-localization/zh-TW/full-ko-direct-2026-09-07.1/46c42fd282efda2fb8bf192d7dd566a6bced2dc288d3ee62620f8ea479c07352.accepted.json": "4f51b3dfc2aee361f00e04f91b02d697b1be2684fb9942420acfab639b73d51d",
+    ".git/full-game-localization/ja/full-ko-direct-2026-09-07.1/ef5aba64c1119036bb3c5d67a1adb1ef015851c92f032ea3c442e14471c993af.accepted.json": "afab21178ec3b611c2a8fdb546d49ffd321131ebcce9b527893bc0228f872b7f",
+    ".git/full-game-localization/order279-preservation-first.json": "334dd431668df6e29410ffe426c06291fb9efdd7f2524dcf4ad7ac295c45df12",
+    ".git/full-game-localization/order279-named-first.json": "3c92978fdc78023fc8cd7e898b1aa2bbf65acf7cae3b2597a5e8e855a8a81139",
+    ".git/full-game-localization/order279-named-envelope-first.json": "02c615e8a41989df0a4387a87f369a7901e04a291b72bd564af8b3cbd9f188cb"
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "ORDER-279 actual slot gameplay, rendered panel and fresh-story reachability",
+    "full-product completion or approval; existing full-game HOLD remains"
+  ]
+}
