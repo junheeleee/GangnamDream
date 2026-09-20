@@ -184,6 +184,23 @@ The narrow story demo does not claim the full retail UI denominator. Its
 exactly 121 required UI keys. A story-demo translation can pass this narrow
 surface while the same locale remains incomplete and hidden in retail.
 
+### Third-party notice chrome
+
+The live title/settings notice reader uses `LocaleManager.ui` for the 14
+Korean/English UI pairs in `content/meta/third_party_notices.json`: three surface
+items, eight metadata/status labels and three section titles. The shared
+`tools/third_party_notice_ui.py` provider validates those exact roles against
+the actual reader. The two existing literal fallbacks retain their static source
+identities; the other 12 are `ui_notice_chrome`, with the same provider used by
+full-game collection and both regional audits. Missing or malformed roles,
+duplicates, unexpected static overlap and unverified extra keys are errors.
+
+This scope is only navigation and explanatory UI. Asset names, provider and
+copyright values, URLs, filenames, provenance ledgers and full legal/license
+texts are not translation sources admitted by this provider. Localizing an
+existing distribution statement does not certify its legal accuracy or package
+compliance. Rendered layout and native-language approval remain separate.
+
 ## Content Contract
 
 Localized content is an ID overlay, never a second gameplay database.

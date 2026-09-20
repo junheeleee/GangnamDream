@@ -9964,6 +9964,15 @@ def static_ui_coverage(
     if actual is None:
         actual = read_json(ui_path) if ui_path.is_file() else {}
     errors: list[str] = list(source_errors)
+    from third_party_notice_ui import (
+        NoticeSourceError, collect_third_party_notice_ui_entries, notice_ui_additions,
+    )
+    notice_entries = {}
+    try:
+        notice_entries = notice_ui_additions(
+            collect_third_party_notice_ui_entries(ROOT), expected_legacy | expected_context)
+    except NoticeSourceError as exc:
+        errors.append(f"{lang}:notice-ui source: {exc}")
     if not isinstance(actual, dict):
         return (
             0, len(expected_legacy), 0, len(expected_context),
@@ -9973,7 +9982,7 @@ def static_ui_coverage(
 
     allowed = (
         expected_legacy | expected_context | dynamic_keys
-        | story_demo_exclusive_keys
+        | story_demo_exclusive_keys | set(notice_entries)
     )
     unknown = sorted(set(actual) - allowed)
     if unknown:
@@ -9981,6 +9990,17 @@ def static_ui_coverage(
             f"{lang}:ui: unknown source keys count={len(unknown)} "
             f"preview={unknown[:8]}"
         )
+    for source, pair in notice_entries.items():
+        if source not in actual:
+            if strict:
+                errors.append(f"{lang}: strict notice UI missing {source!r}")
+            continue
+        target = actual[source]
+        if not isinstance(target, str) or not target.strip():
+            errors.append(f"{lang}:notice-ui:{source!r}: empty/non-string translation")
+            continue
+        for error in validate_text(lang, pair.key, source, target):
+            errors.append(f"{lang}:{pair.key}: {error}")
     legacy_covered = 0
     for source in sorted(expected_legacy):
         if source not in actual:

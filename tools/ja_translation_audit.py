@@ -231,9 +231,23 @@ def check_ui_scope(actual: Any, errors: list[str]) -> int:
             errors.append(f"ui: missing retained source key {key!r}")
         else:
             check_text(entry, actual[key], errors)
+    from third_party_notice_ui import (
+        NoticeSourceError, collect_third_party_notice_ui_entries, notice_ui_additions,
+    )
+    notice_entries = {}
+    try:
+        notice_entries = notice_ui_additions(
+            collect_third_party_notice_ui_entries(ROOT), static_keys)
+    except NoticeSourceError as exc:
+        errors.append(f"ui notice source: {exc}")
+    for key, pair in notice_entries.items():
+        if key not in actual:
+            errors.append(f"ui: missing notice source key {key!r}")
+        else:
+            check_text(Entry(pair.key, pair.source, pair.owner), actual[key], errors)
     unknown_extra = (
         extra_keys - dynamic_keys - story_demo_exclusive_keys
-        - premature_context - set(retired_entries)
+        - premature_context - set(retired_entries) - set(notice_entries)
     )
     if unknown_extra:
         errors.append(
@@ -272,6 +286,7 @@ def check_ui_scope(actual: Any, errors: list[str]) -> int:
         f"demo_dynamic={dynamic_present}/{len(dynamic_keys)} "
         f"story_demo_extra={story_demo_exclusive_present}/"
         f"{len(story_demo_exclusive_keys)} "
+        f"notice_chrome={len(set(notice_entries) & set(actual))}/{len(notice_entries)} "
         f"errors={len(errors)-before}"
     )
     return len(rows)

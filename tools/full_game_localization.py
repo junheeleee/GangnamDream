@@ -363,6 +363,20 @@ def private_dir(root: Path, locale: str) -> Path:
     return Path(result.stdout.strip()) / "full-game-localization" / locale / PROMPT_VERSION
 
 
+def notice_ui_leaves(static_keys: set[str], protected_ui: set[str], root: Path = ROOT) -> list[Leaf]:
+    """Add only proven JSON chrome; old static fallback identities stay owned."""
+    from third_party_notice_ui import (
+        NOTICE_PATH, NoticeSourceError, collect_third_party_notice_ui_entries,
+        notice_ui_additions,
+    )
+    try:
+        additions = notice_ui_additions(collect_third_party_notice_ui_entries(root), static_keys)
+    except NoticeSourceError as exc:
+        raise ContractError(f"notice UI source: {exc}") from exc
+    return [Leaf("ui", key, NOTICE_PATH, (key,), key, "ui_notice_chrome",
+                 protected=key in protected_ui) for key in additions]
+
+
 def collect(root: Path = ROOT) -> dict[str, Any]:
     """Collect source independently of targets; never infer coverage from a cache."""
     import ja_translation_pipeline as ja
@@ -471,6 +485,11 @@ def collect(root: Path = ROOT) -> dict[str, Any]:
         add("ui", key, "runtime:static_ui", (key,), entry.source, "ui_static_context",
             protected=key in protected_ui, format_template=entry.format_template)
         ui_seen.add(key)
+    notice_leaves = notice_ui_leaves(ui_seen, protected_ui, root)
+    leaves.extend(notice_leaves)
+    ui_seen.update(leaf.owner for leaf in notice_leaves)
+    from third_party_notice_ui import SOURCE_PATHS as NOTICE_SOURCE_PATHS
+    source_files.update(NOTICE_SOURCE_PATHS)
     relationship_evidence = relationship_display_evidence(
         [row for row in unsupported if row["kind"] == "unsupported_relationship_display_name"],
         {path: (root / path).read_text(encoding="utf-8") for path in
@@ -537,7 +556,8 @@ def collect(root: Path = ROOT) -> dict[str, Any]:
             "events": source_events, "endings": source_endings, "catalog": source_catalog,
             "source_counts": {"packaged_events": len(source_events), "shipping_events": len(source_events) - len(author_only),
                               "author_only_events": len(author_only), "endings": len(source_endings),
-                              "ui_static_context": len(ui.entries), "demo_dynamic_unique": len(demo_keys),
+                              "ui_static_context": len(ui.entries), "ui_notice_chrome": len(notice_leaves),
+                              "demo_dynamic_unique": len(demo_keys),
                               "demo_dynamic_overlap_static": len(demo_keys & {e.source for e in ui.entries})}}
 
 

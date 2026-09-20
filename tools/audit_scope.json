@@ -1979,6 +1979,20 @@
       ]
     },
     {
+      "tool": "tools/third_party_notice_ui_self_test.py",
+      "why": "제3자 고지 JSON의 실제 UI 14쌍과 신규12 leaf만 검증하고 기존 static2·법률본문·역사 수집기는 보존한다",
+      "paths": [
+        "content/meta/third_party_notices.json",
+        "scenes/StartMenu.gd",
+        "autoloads/LocaleManager.gd",
+        "tools/third_party_notice_ui.py",
+        "tools/third_party_notice_ui_self_test.py",
+        "tools/full_game_localization.py",
+        "tools/ja_translation_audit.py",
+        "tools/zh_translation_audit.py"
+      ]
+    },
+    {
       "tool": "tools/audit.py",
       "why": "사건·플래그·직렬화 정합 7종. 콘텐츠와 런타임 상태의 공통 기반",
       "paths": [
