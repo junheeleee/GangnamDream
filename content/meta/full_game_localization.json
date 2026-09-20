@@ -4592,6 +4592,25 @@
       "machine_validation": "PASS",
       "rendered_review": "OPEN",
       "native_review": "OPEN"
+    },
+    {
+      "order": "ORDER-280",
+      "group": "ui",
+      "roots": [
+        "777 잭팟!",
+        "체리 3개",
+        "체리 2개",
+        "체리 1개"
+      ],
+      "source_leaves": 4,
+      "target_leaves_by_locale": {
+        "zh-CN": 4,
+        "zh-TW": 4
+      },
+      "source_review": "Independent KO-direct CN4 and TW4; all8 and shared TutorialOverlay caller reviewed by nonauthor. Preserve leading 777 for the actual jackpot presentation branch and exact cherry counts3/2/1. Existing39972, JA, source, runtime, checker and public/human evidence preserved. Conditional static consumers only; prior cached logs and direct cabinet/symbol English remain outside scope.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN"
     }
   ],
   "accepted": {
@@ -110737,6 +110756,22 @@
       "ui:현재 잔액  %s:/현재 잔액  %s": {
         "source_sha256": "8f7c1ac7b21cc8d7bc926308c1cd018f16f08c97b0f5087d275f3dd513521f63",
         "target_sha256": "cf08c347272d053404d5a458e603e1fc2c33c88d18e1e95892b5f79cb85a3d43"
+      },
+      "ui:777 잭팟!:/777 잭팟!": {
+        "source_sha256": "76a869e7fde84c1507ede63b196685627190c972b57266883b38bb5c9a875e61",
+        "target_sha256": "16ae9aabd0463dfb26305d4e5efb4d1c370be4be0fbbaab27bb4ce62cc8cd757"
+      },
+      "ui:체리 1개:/체리 1개": {
+        "source_sha256": "522b4b85796f1f00353bcb73e45eb72395c43df00a7a7c1f21fcff7ec61fea23",
+        "target_sha256": "7b21ff4f08975def106b9ab7e60c612cd428de7a1feb5b53b7d8a088d0e450b0"
+      },
+      "ui:체리 2개:/체리 2개": {
+        "source_sha256": "d45ce5fe9e7aade4bf788dd28f2ec066854add81781f3eef6774acf60de71ea1",
+        "target_sha256": "9985dd610195274e654b73b27659860cb2fe6e36a38c03e0850dd88d6eda9a06"
+      },
+      "ui:체리 3개:/체리 3개": {
+        "source_sha256": "fa7ad0793ce35bb9d534e556820edfdab34918dd24ac2630822973ce963d7808",
+        "target_sha256": "88596ec716822c08297eab5b92dcf5b2b3ff5a93502015dfd2415d5e7d4ddb31"
       }
     },
     "zh-TW": {
@@ -164487,10 +164522,26 @@
       "ui:현재 잔액  %s:/현재 잔액  %s": {
         "source_sha256": "8f7c1ac7b21cc8d7bc926308c1cd018f16f08c97b0f5087d275f3dd513521f63",
         "target_sha256": "e79bb307e32a4ae42497572605e37aaefa9b9071614285d774195fe26aab9ec4"
+      },
+      "ui:777 잭팟!:/777 잭팟!": {
+        "source_sha256": "76a869e7fde84c1507ede63b196685627190c972b57266883b38bb5c9a875e61",
+        "target_sha256": "396cbfd9210e34f0561a9c301397e62bfb5069fd399206a7eb2aff96ab96ee84"
+      },
+      "ui:체리 1개:/체리 1개": {
+        "source_sha256": "522b4b85796f1f00353bcb73e45eb72395c43df00a7a7c1f21fcff7ec61fea23",
+        "target_sha256": "0b313afca10e203d067d18d888c0a153379bb11048e8e6c808949527835baee2"
+      },
+      "ui:체리 2개:/체리 2개": {
+        "source_sha256": "d45ce5fe9e7aade4bf788dd28f2ec066854add81781f3eef6774acf60de71ea1",
+        "target_sha256": "604caf50cdd12486c3f4f4213052c8bffff8bfcfd978d6638cf230ce0031d617"
+      },
+      "ui:체리 3개:/체리 3개": {
+        "source_sha256": "fa7ad0793ce35bb9d534e556820edfdab34918dd24ac2630822973ce963d7808",
+        "target_sha256": "9b5415179c190aa4c3a4a4ae95333732528caf5c50687ccd915c2aaf95f14fa7"
       }
     }
   },
-  "accepted_sha256": "f39f73838f1adb12d9b6d1a53e6b7d7d7d00d5730695fe1c95bc36677452c3a4",
+  "accepted_sha256": "c437d3c8d7438ed8de099a75f5692f5feb4f3fa0fbd406176dca6b948d85df79",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
