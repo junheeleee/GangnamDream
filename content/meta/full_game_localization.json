@@ -4641,6 +4641,40 @@
       "machine_validation": "PASS",
       "rendered_review": "OPEN",
       "native_review": "OPEN"
+    },
+    {
+      "order": "ORDER-282",
+      "group": "ui",
+      "roots": [
+        "베팅 단위: %s",
+        "플레이어",
+        "뱅커",
+        "타이",
+        "플레이어 페어",
+        "뱅커 페어",
+        "딜 시작",
+        "현금 부족",
+        "베팅을 먼저 해주세요",
+        "바카라",
+        "사이드 베팅 (선택)",
+        "플레이어 페어  (11배)",
+        "PP베팅",
+        "뱅커 페어  (11배)",
+        "BP베팅",
+        "베팅 단위 (클릭당)",
+        "베팅 초기화",
+        "베팅 없음",
+        "[b]%s[/b]  [%s/%s] 존  [%s] 칩/딜  [%s/%s] 단위 −/+  [%s] 단위 +  [%s] 규칙  [%s] 취소"
+      ],
+      "source_leaves": 19,
+      "target_leaves_by_locale": {
+        "zh-CN": 19,
+        "zh-TW": 19
+      },
+      "source_review": "Independent KO-direct CN/TW Baccarat betting19 each. All38 and six shared calls reviewed by nonauthor. Preserve bet-side meanings, deal action, per-click stake versus total, optional pair11 net payout, selection clearing and nine input arguments. Existing40009 and Japanese raw bytes preserved. Commission and tie payout source defects, direct English, dynamic result IDs and actual panel observation excluded; conditional legacy/AP only. No source/runtime/checker/public/human change.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN"
     }
   ],
   "accepted": {
@@ -110862,6 +110896,82 @@
       "ui:현금이 부족합니다:/현금이 부족합니다": {
         "source_sha256": "9ddff29bf5a479e13884efc2b4ee2eec8c2dd9c9938cb5113f37a84ff4e01a52",
         "target_sha256": "4fef5966efec3c02ce855504b59f36f66685f1514d8722f7f8ad0634b275c576"
+      },
+      "ui:BP베팅:/BP베팅": {
+        "source_sha256": "3101acf2e42d8f9662afd3b4816995abf943fe2603ceecfadc4dec0b475240bf",
+        "target_sha256": "a51d9da819178852999b79fc3130748a4774977613a86f18303621b20dc8fa59"
+      },
+      "ui:PP베팅:/PP베팅": {
+        "source_sha256": "90a334c89f0b410ca9f33883717eb16b4d17c5da8893e51dafb34acddc296c36",
+        "target_sha256": "56f8b2f13966ce0c498d572cb8e72e92eca78c1b781114f11a88968fad2a6b76"
+      },
+      "ui:[b]%s[/b]  [%s/%s] 존  [%s] 칩/딜  [%s/%s] 단위 −/+  [%s] 단위 +  [%s] 규칙  [%s] 취소:/[b]%s[~1b]  [%s~1%s] 존  [%s] 칩~1딜  [%s~1%s] 단위 −~1+  [%s] 단위 +  [%s] 규칙  [%s] 취소": {
+        "source_sha256": "6069b63d4b1e60d4065cc796bb655373536100cb5462428b2a11569425098011",
+        "target_sha256": "5ca6015b4be42e2584ba62ef9b09481363a543dd674cda83106177fc59ad5b88"
+      },
+      "ui:딜 시작:/딜 시작": {
+        "source_sha256": "c7e50847ef21993da09519cff0712e49ad15626e8086ea138cc6ff51ab4ed91c",
+        "target_sha256": "3121c9fd665bfcc11554cf6e41033fc12bf5acdc4f6620dc11fd73fd3f0fc00b"
+      },
+      "ui:바카라:/바카라": {
+        "source_sha256": "7132b6acd115b1d6bb78f5eaf8c411b1fa9e24e6b9bfa4c4f85ab829bc854fd9",
+        "target_sha256": "e9a5eac3e0c98de4ec62d1fd7d1fb63c645df3f782fd2d5b4d14497b7d02c875"
+      },
+      "ui:뱅커 페어  (11배):/뱅커 페어  (11배)": {
+        "source_sha256": "42fc6ea101a648c53a75efed35c1bda9c6bc8c7d336af5e597273aa3ae2b3db0",
+        "target_sha256": "6cb3f307fa0c0773a81684d67355159a751d0aa568d38cffa57975007d4ce62f"
+      },
+      "ui:뱅커 페어:/뱅커 페어": {
+        "source_sha256": "234658f666606888bad32f0c97efa6d65ae1f59a2159cc458d41b08e4ea35e81",
+        "target_sha256": "25651d52a7bbbff87d4c115eb0c64f7b9021f5a2b6b38f0017d8be23f3b69a48"
+      },
+      "ui:뱅커:/뱅커": {
+        "source_sha256": "71361dc046c3abb837936eb610d350072dd26f57969338213059c3661158151a",
+        "target_sha256": "2ff4faa85b9a68d8337987c65ce6c216d3a312aca370dc58447f06dfa3e3398e"
+      },
+      "ui:베팅 단위 (클릭당):/베팅 단위 (클릭당)": {
+        "source_sha256": "7cd78b3142827797399a048282a4fb67f20b9fd371519c9a90b9d372b4a01fbe",
+        "target_sha256": "048d932ba2bc5788fb528c5b840dd0238cdd29b36e124811e0654ed4a7f49148"
+      },
+      "ui:베팅 단위: %s:/베팅 단위: %s": {
+        "source_sha256": "cd07c8be31fca562d5e11aaa344ee618d3e31bb1dbb3368053cef94a04673d0e",
+        "target_sha256": "f0e970160619272beb336a78a26d90f6f0bf43d9bb6a3b26466bafd856576753"
+      },
+      "ui:베팅 없음:/베팅 없음": {
+        "source_sha256": "5b6e92aac0afaf2f1fae091a8df8e7eccef4d6a60ad00bbc32794762fabe54fc",
+        "target_sha256": "63ef9426d24e7636883bd9f2af62df038d790425dc1fa279c5849720972f8bd3"
+      },
+      "ui:베팅 초기화:/베팅 초기화": {
+        "source_sha256": "6f0097a3c0bf4b27b07cdb76a4dfd8fae619e352712bfe768966dd10bfba8327",
+        "target_sha256": "54799c36972fcb19fb07725451cdf4d815f9ffe2f2f2b2226505a44adbd840d7"
+      },
+      "ui:베팅을 먼저 해주세요:/베팅을 먼저 해주세요": {
+        "source_sha256": "df713fab459635345ecd7c786569d040dd2e96cb77ef1a04be7ea41c82698474",
+        "target_sha256": "2eb4f8680b0986ad3ba98fb7cd57c06c0343234c774e9b6807735ccf4f2852c1"
+      },
+      "ui:사이드 베팅 (선택):/사이드 베팅 (선택)": {
+        "source_sha256": "43f334bc02873a884c184886c3975313c0d9c2d04d87600f6852940c829ee905",
+        "target_sha256": "afd6b5a5917b8e88194ca7476d97b4c45a95ed6c6642cc0cf1cdd75331db1329"
+      },
+      "ui:타이:/타이": {
+        "source_sha256": "70322543eba570a3a5bfcbdc4b9ec0af5bfd9cffaa3b2acc9a318a5e5ca13fb0",
+        "target_sha256": "091ab3482e156442b35fa8b94e40f009546743f42f58e66f01e2e1e1f2958b7d"
+      },
+      "ui:플레이어 페어  (11배):/플레이어 페어  (11배)": {
+        "source_sha256": "f3d1f0566386e2a109051ec75d940c5a497b946f008b540094e1ffe2ce2ca9b0",
+        "target_sha256": "25b35e05d844ca3183052548a6bff92448cbd4d2af85c8b3a52eede77768a2ed"
+      },
+      "ui:플레이어 페어:/플레이어 페어": {
+        "source_sha256": "2890126d625856e429a63083a12f30f82cad7c28a51325833251edc0c994edad",
+        "target_sha256": "8bb216e7f04d4629e49192582042bdf2cf3cfc1146ea532d73e79f203dcae164"
+      },
+      "ui:플레이어:/플레이어": {
+        "source_sha256": "950c206002189cb99cf9990e59517c834a923bfab39dd836497513415127e940",
+        "target_sha256": "58bb61ef460dbf299a6a00690777b59d0c327abe2e603b50f64f6f86badb70de"
+      },
+      "ui:현금 부족:/현금 부족": {
+        "source_sha256": "ac6cded2906d051229ed19ef499cb5042f2653e94f6b23a1c21053bff6221c4b",
+        "target_sha256": "4fef5966efec3c02ce855504b59f36f66685f1514d8722f7f8ad0634b275c576"
       }
     },
     "zh-TW": {
@@ -164684,10 +164794,86 @@
       "ui:현금이 부족합니다:/현금이 부족합니다": {
         "source_sha256": "9ddff29bf5a479e13884efc2b4ee2eec8c2dd9c9938cb5113f37a84ff4e01a52",
         "target_sha256": "361fb24aa5efcedd480d1bc1be71a080af94c9643b9036b34d3072402cd0ddfb"
+      },
+      "ui:BP베팅:/BP베팅": {
+        "source_sha256": "3101acf2e42d8f9662afd3b4816995abf943fe2603ceecfadc4dec0b475240bf",
+        "target_sha256": "a51d9da819178852999b79fc3130748a4774977613a86f18303621b20dc8fa59"
+      },
+      "ui:PP베팅:/PP베팅": {
+        "source_sha256": "90a334c89f0b410ca9f33883717eb16b4d17c5da8893e51dafb34acddc296c36",
+        "target_sha256": "56f8b2f13966ce0c498d572cb8e72e92eca78c1b781114f11a88968fad2a6b76"
+      },
+      "ui:[b]%s[/b]  [%s/%s] 존  [%s] 칩/딜  [%s/%s] 단위 −/+  [%s] 단위 +  [%s] 규칙  [%s] 취소:/[b]%s[~1b]  [%s~1%s] 존  [%s] 칩~1딜  [%s~1%s] 단위 −~1+  [%s] 단위 +  [%s] 규칙  [%s] 취소": {
+        "source_sha256": "6069b63d4b1e60d4065cc796bb655373536100cb5462428b2a11569425098011",
+        "target_sha256": "64810b9cb9aba09e6a246c4aec53feb71ea5b428be2a6a91e68a844a30cb2236"
+      },
+      "ui:딜 시작:/딜 시작": {
+        "source_sha256": "c7e50847ef21993da09519cff0712e49ad15626e8086ea138cc6ff51ab4ed91c",
+        "target_sha256": "d69fd54a39f973ac1f19013719fb43dc13872e1fa8c1d27044508ae5db938b12"
+      },
+      "ui:바카라:/바카라": {
+        "source_sha256": "7132b6acd115b1d6bb78f5eaf8c411b1fa9e24e6b9bfa4c4f85ab829bc854fd9",
+        "target_sha256": "81d6fcc50f5f3f3ee624edbaf53ce8fc1224fccca19cc9c1453e5ce1d4fbeed7"
+      },
+      "ui:뱅커 페어  (11배):/뱅커 페어  (11배)": {
+        "source_sha256": "42fc6ea101a648c53a75efed35c1bda9c6bc8c7d336af5e597273aa3ae2b3db0",
+        "target_sha256": "078908ad92fd0119f79238f095eba21eac265edef62905e9e669b9c600e8e408"
+      },
+      "ui:뱅커 페어:/뱅커 페어": {
+        "source_sha256": "234658f666606888bad32f0c97efa6d65ae1f59a2159cc458d41b08e4ea35e81",
+        "target_sha256": "172093d8246a6b39cd349a2209ec3cf46aedd273cc1b3cf5105be749fa7779cf"
+      },
+      "ui:뱅커:/뱅커": {
+        "source_sha256": "71361dc046c3abb837936eb610d350072dd26f57969338213059c3661158151a",
+        "target_sha256": "e8171350975400296e2770d2df32a36805e7fab2eac640db74e1b4a0fd0083ee"
+      },
+      "ui:베팅 단위 (클릭당):/베팅 단위 (클릭당)": {
+        "source_sha256": "7cd78b3142827797399a048282a4fb67f20b9fd371519c9a90b9d372b4a01fbe",
+        "target_sha256": "4920cef6438b645e3a12b82a74e2604da59f67ce2ae4b0668cbe9fb1221d560e"
+      },
+      "ui:베팅 단위: %s:/베팅 단위: %s": {
+        "source_sha256": "cd07c8be31fca562d5e11aaa344ee618d3e31bb1dbb3368053cef94a04673d0e",
+        "target_sha256": "1d6587750b72c3a38ab6986d0b4653c5bcf94317d6109153313ec541f941129b"
+      },
+      "ui:베팅 없음:/베팅 없음": {
+        "source_sha256": "5b6e92aac0afaf2f1fae091a8df8e7eccef4d6a60ad00bbc32794762fabe54fc",
+        "target_sha256": "63ef9426d24e7636883bd9f2af62df038d790425dc1fa279c5849720972f8bd3"
+      },
+      "ui:베팅 초기화:/베팅 초기화": {
+        "source_sha256": "6f0097a3c0bf4b27b07cdb76a4dfd8fae619e352712bfe768966dd10bfba8327",
+        "target_sha256": "6314294ad2b9157438eb88ed6eb6db11d395be6af4d686819716d160c3eaf9cb"
+      },
+      "ui:베팅을 먼저 해주세요:/베팅을 먼저 해주세요": {
+        "source_sha256": "df713fab459635345ecd7c786569d040dd2e96cb77ef1a04be7ea41c82698474",
+        "target_sha256": "a1b26b880bf30236c4c8a4abdb6eaa5ac613bc0674f4f99065481d3481fa6afd"
+      },
+      "ui:사이드 베팅 (선택):/사이드 베팅 (선택)": {
+        "source_sha256": "43f334bc02873a884c184886c3975313c0d9c2d04d87600f6852940c829ee905",
+        "target_sha256": "08e8570681ee257f1e8c42aa60cd9b0f95e675e25f380ec841057c04347be07f"
+      },
+      "ui:타이:/타이": {
+        "source_sha256": "70322543eba570a3a5bfcbdc4b9ec0af5bfd9cffaa3b2acc9a318a5e5ca13fb0",
+        "target_sha256": "091ab3482e156442b35fa8b94e40f009546743f42f58e66f01e2e1e1f2958b7d"
+      },
+      "ui:플레이어 페어  (11배):/플레이어 페어  (11배)": {
+        "source_sha256": "f3d1f0566386e2a109051ec75d940c5a497b946f008b540094e1ffe2ce2ca9b0",
+        "target_sha256": "72500c5ac16819f34af75cd6432c6639877ee2d1d1a424d6c28aab5b7dc77ffd"
+      },
+      "ui:플레이어 페어:/플레이어 페어": {
+        "source_sha256": "2890126d625856e429a63083a12f30f82cad7c28a51325833251edc0c994edad",
+        "target_sha256": "9bf897909993ef82b1574010122f1bfe4cfb8c7675649f685f427ec7a5121958"
+      },
+      "ui:플레이어:/플레이어": {
+        "source_sha256": "950c206002189cb99cf9990e59517c834a923bfab39dd836497513415127e940",
+        "target_sha256": "a9c01a1c1a3dc7369241292ce48c3d4a89f26fbf46ca8b114c386c65fa01b234"
+      },
+      "ui:현금 부족:/현금 부족": {
+        "source_sha256": "ac6cded2906d051229ed19ef499cb5042f2653e94f6b23a1c21053bff6221c4b",
+        "target_sha256": "361fb24aa5efcedd480d1bc1be71a080af94c9643b9036b34d3072402cd0ddfb"
       }
     }
   },
-  "accepted_sha256": "4472b2c3b7eeff86c5c6cd9c2ea8219d1aa4cab259141c4681b6a067486fe66e",
+  "accepted_sha256": "3c1a3022f03cb1bea053c15c819abe41739d81f98cc092499b8142e67df1dbd3",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
