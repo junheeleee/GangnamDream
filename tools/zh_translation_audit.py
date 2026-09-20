@@ -8879,6 +8879,32 @@ def _ui_ending_restart_contract(lang: str, key: str, source: str, target: str):
     return result
 
 
+def _ui_tipster_cost_source(
+    lang: str, key: str, source: str, target: str,
+) -> tuple[str, list[str]] | None:
+    """Name the one source-owned won cost, without changing target prose."""
+    owned = "정보상에게 듣기   -3,000   (오늘의 한 마리...)"
+    if lang not in LANGUAGES or source != owned or key != f"ui:{owned}:/{owned}":
+        return None
+    if not re.search(r"[韩韓]元", target):
+        return None  # Unlabelled costs retain their existing raw comparison.
+    amounts = _target_money_amounts(target)
+    if len(amounts) != 1:
+        return source, ["source-bound tipster cost slot missing/duplicated"]
+    amount = amounts[0]
+    prefix, suffix = target[:amount.start], target[amount.end:]
+    # The independent cost precedes the parenthesized horse note. A won
+    # amount inside that note cannot stand in for the purchase cost. Only
+    # locate this role; existing numeric/money checks own value and sign.
+    if not prefix.strip() or re.search(r"[()（）\n]", prefix) or not re.match(
+        r"[ \t]*(?:\([^()（）\n]*\)|（[^()（）\n]*）)", suffix,
+    ):
+        return source, ["source-bound tipster cost moved outside purchase slot"]
+    # RaceTrack._consult_dealer deducts exactly 3000 won. This source view
+    # belongs only to numeric/money validation; no target span is removed.
+    return source.replace("-3,000", "-3,000원", 1), []
+
+
 def validate_text(lang: str, key: str, source: str, target: Any) -> list[str]:
     """Validate one Korean-source Chinese target without generating content."""
     if lang not in LANGUAGES:
@@ -8924,6 +8950,12 @@ def validate_text(lang: str, key: str, source: str, target: Any) -> list[str]:
     dice_numbers = _ui_dice_title_numbers(lang, key, source, target)
     if dice_numbers is not None:
         notice_numbers = dice_numbers
+    tipster_cost = _ui_tipster_cost_source(lang, key, source, target)
+    money_pair = (source, target) if restart is None else restart["money_pair"]
+    if tipster_cost is not None:
+        cost_source, cost_errors = tipster_cost
+        notice_numbers = (cost_source, target, cost_errors)
+        money_pair = (cost_source, target)
     if notice_numbers is None:
         errors.extend(_numeric_errors(source, target))
     else:
@@ -8936,7 +8968,7 @@ def validate_text(lang: str, key: str, source: str, target: Any) -> list[str]:
         errors.append("no Chinese Han glyphs in translated Korean source")
     errors.extend(_script_errors(lang, target))
     errors.extend(_terminology_errors(lang, source if restart is None else restart["terminology_source"], target, key=key))
-    errors.extend(_money_errors(lang, *((source, target) if restart is None else restart["money_pair"])))
+    errors.extend(_money_errors(lang, *money_pair))
     errors.extend(_untranslated_english_errors(source, target, catalog=catalog_context))
     return list(dict.fromkeys(errors))
 
@@ -20350,6 +20382,78 @@ def _race_metre_self_test() -> tuple[int, list[str]]:
     return len(controls), failures
 
 
+def _tipster_cost_self_test() -> tuple[int, list[str]]:
+    """Core2/mutant12/OFF7 from the independently frozen ORDER-277 cases."""
+    source = "정보상에게 듣기   -3,000   (오늘의 한 마리...)"
+    key = f"ui:{source}:/{source}"
+    cn = "向消息贩子打听   -3,000韩元   （今天看好的一匹……）"
+    tw = "向情報商打聽   -3,000韓元   (今天看好的那匹馬...)"
+    normals = (("zh-CN", cn), ("zh-TW", tw))
+    mutants = (
+        ("cost_value", "zh-CN", cn.replace("-3,000韩元", "-3,001韩元")),
+        ("cost_positive", "zh-TW", tw.replace("-3,000韓元", "+3,000韓元")),
+        ("cost_unsigned", "zh-CN", cn.replace("-3,000韩元", "3,000韩元")),
+        ("cost_missing", "zh-TW", tw.replace("-3,000韓元", "")),
+        ("wrong_currency", "zh-CN", cn.replace("韩元", "日元")),
+        ("bare_yuan", "zh-TW", tw.replace("韓元", "元")),
+        ("wrong_region", "zh-CN", cn.replace("韩元", "韓元")),
+        ("duplicate_money", "zh-TW", tw.replace("-3,000韓元", "-3,000韓元 -3,000韓元")),
+        ("borrowed_cost_position", "zh-CN", "向消息贩子打听   （今天看好的一匹…… -3,000韩元）"),
+        ("extra_quantity", "zh-CN", cn + " 2人"),
+        ("extra_printf", "zh-TW", tw + "%s"),
+        ("extra_LF", "zh-CN", cn + "\n"),
+    )
+    original_errors = [
+        "Korean-won values changed: [] != [Decimal('-3000')]",
+        "non-money number sequence changed: ['-3000'] != []",
+        "translation invented a Korean-won label absent from source",
+    ]
+    other_source_errors = [
+        original_errors[0], "non-money number sequence changed: ['-4000'] != []",
+        original_errors[2],
+    ]
+    off = []
+    for locale, target in normals:
+        off.extend((
+            (f"wrong_key_{locale}", locale,
+             "ui:ORDER277_NONPRODUCT_OFF:/ORDER277_NONPRODUCT_OFF",
+             source, target, original_errors),
+            (f"wrong_source_{locale}", locale, key,
+             source.replace("-3,000", "-4,000"), target, other_source_errors),
+            (f"no_won_label_{locale}", locale, key, source,
+             target.replace("韩元" if locale == "zh-CN" else "韓元", ""), []),
+        ))
+    off.append(("unsupported_fr", "fr", key, source, cn,
+                ["unsupported Chinese locale 'fr'"]))
+    # Read every result before judging efficacy. OFF arrays are the original
+    # direct-path baseline, not reconstructed from the implementation result.
+    observed_normal = {locale: validate_text(locale, key, source, target)
+                       for locale, target in normals}
+    observed_mutants = [(case_id, validate_text(locale, key, source, target))
+                        for case_id, locale, target in mutants]
+    observed_off = [
+        (case_id, expected, validate_text(locale, other_key, other_source, target),
+         _ui_tipster_cost_source(locale, other_key, other_source, target))
+        for case_id, locale, other_key, other_source, target, expected in off
+    ]
+    failures: list[str] = []
+    normals_ok = all(not errors for errors in observed_normal.values())
+    if not normals_ok:
+        failures.append(f"tipster cost normal2 failed; valid-negative count is zero: {observed_normal}")
+    for locale, target in normals:
+        if _ui_tipster_cost_source(locale, key, source, target) != (
+            "정보상에게 듣기   -3,000원   (오늘의 한 마리...)", [],
+        ):
+            failures.append(f"tipster cost {locale}: source-only normalization changed")
+    for case_id, errors in observed_mutants:
+        if normals_ok and not errors:
+            failures.append(f"tipster cost {case_id}: mutation accepted")
+    for case_id, expected, errors, helper in observed_off:
+        if errors != expected or helper is not None:
+            failures.append(f"tipster cost {case_id}: OFF changed: {errors}, helper={helper}")
+    return len(normals) + len(mutants) + len(off), failures
+
+
 def run_self_test(
     manifest: dict[str, Any], runtime: dict[str, Any],
 ) -> list[str]:
@@ -20358,6 +20462,9 @@ def run_self_test(
     metre_cases, metre_failures = _race_metre_self_test()
     cases += metre_cases
     failures.extend(metre_failures)
+    tipster_cases, tipster_failures = _tipster_cost_self_test()
+    cases += tipster_cases
+    failures.extend(tipster_failures)
     font_cases, font_failures = _font_route_focused_self_test()
     cases += font_cases
     failures.extend(font_failures)
