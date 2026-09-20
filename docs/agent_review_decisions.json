@@ -2820,7 +2820,7 @@
         {
           "kind": "automated_contract",
           "path": "docs/queue_archive/ORDER-280.md",
-          "sha256": "91674b36dba305d7b0c7b542a8645955594012ad0f153c880fbec7d775792ec6"
+          "sha256": "8cc49ed29b183f85c288133b67ed61f6887fa394320ac988cde2fef4351ef510"
         }
       ],
       "unobserved": [

@@ -118,3 +118,4 @@ news-panel-locale-only의 고유12검사를 1회 실행한다. 실패면 원형�
 선정/소유/배치/검사는 일회성. 기존 WORK_UNIT·I18N 규범을 재사용하며 신규 승격0.
 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
 
+<!-- End of byte-preserved ORDER-280 specification. -->
