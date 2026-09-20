@@ -263,7 +263,7 @@
   "[b]현금[/b] %s   |   [b]라운드[/b] %d   승%d 패%d   |   [color=%s][b]손익[/b] %s%s[/color]": "[b]現金[/b] %s    |    [b]ラウンド[/b] %d   勝%d 敗%d    |    [color=%s][b]損益[/b] %s%s[/color]",
   "[b]💰 현금 %s[/b]    📊 총자산 [b]%s[/b] / %s [color=#aaa](%d%%)[/color]    %s  공포·탐욕 %d    [color=%s]⚡%d[/color]": "[b]💰現金 %s[/b]     📊総資産 [b]%s[/b] / %s [color=#aaa](%d%%)[/color]     %s 恐怖・貪欲 %d     [color=%s]⚡%d[/color]",
   "[color=#3a4a5a]베팅 없음[/color]": "[color=#3a4a5a]ベットなし[/color]",
-  "[color=#4a4a6a]— 꽝 —[/color]": "[color=#4a4a6a]— 大当たり —[/color]",
+  "[color=#4a4a6a]— 꽝 —[/color]": "[color=#4a4a6a]―― ハズレ ――[/color]",
   "[color=#5a6478]    최근 %s · %s · 선호 %dm/%s/%s[/color]": "[color=#5a6478]    最近 %s · %s · 好み %dm/%s/%s[/color]",
   "[color=#6cc5ff]\"%s\"[/color]   신뢰도 %s [color=#9aa4b8]%d%%[/color]%s": "[color=#6cc5ff]\"%s\"[/color]   信頼度 %s [color=#9aa4b8]%d%%[/color]%s",
   "[color=#7a8496]현재 수입만으로  약 %d개월 후 달성 가능 (투자 수익 제외)[/color]": "[color=#7a8496]現在の収入のみで 約 %dヶ月後なら達成可能 (投資収益を除く)[/color]",
