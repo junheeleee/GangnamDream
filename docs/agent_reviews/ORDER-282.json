@@ -1,0 +1,113 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-282",
+  "scope": "work_unit",
+  "authority": "user_delegated_agent_final",
+  "reviewer": "Poincare",
+  "reviewed_at": "2026-09-20",
+  "verdict": "GO",
+  "required": [],
+  "subject": {
+    "kind": "source",
+    "commit": "ff4ab4437a9a7d3e482f6fecefe65e0052343c49",
+    "tree": "ba08274321583be7a9e027a7247fbb1ca1d0de05",
+    "manifest_sha256": null
+  },
+  "review": {
+    "commit": "3ed91c1d93e2c24514b0275dcc02b1754e151e3c",
+    "tree": "4a56359bbbf388b439e874f416269df6f23f969b",
+    "clean": true,
+    "relationship": "Direct child of the subject; docs/STATUS.md is the only source-to-review difference. Independently observed with read-only Git."
+  },
+  "baseline": "151cb2d1b2bda5d20b8bf41a7490d98892136c35",
+  "population": {
+    "language": "19 Korean keys, all 19 zh-CN and 19 zh-TW values independently reviewed and installed exactly; 23 Baccarat calls plus six shared calls statically bound. No Japanese edits.",
+    "acceptance": "38 new records, official total 40,047: ja 13,099, zh-CN 13,474, zh-TW 13,474; batches 126 to 127; retained internal metadata remains nine.",
+    "preservation": "Previous 40,009 accepted records, all old UI bytes, Japanese, held72, 68 earlier decisions and historical human/public evidence preserved. No new HOLD targets.",
+    "product": "Eight committed paths changed within the declared twelve; only product changes are CN/TW UI append19 each and portable acceptance append38 plus one batch.",
+    "validation": "First preflight export/check19 per locale, fresh applied export/import19 per locale, one preservation run and one clean fixed12 named run. No reviewer QA rerun or engine execution."
+  },
+  "method": "Nonauthor read-only review of exact Git identities and changed paths, complete helper code and its mechanical delta from ORDER281, actual installed values against the sealed language review, both stages of JSONL identities and complete receipt mappings. Independently decoded and checked base64/byte lengths/SHA/text of all named24 child streams and outer streams; read all child outcomes/markers and retained structured fullself summaries/check predicates without treating expected negative diagnostics as failures. Independently reconstructed old UI and portable whole bytes and rebound all captured final inputs to the current candidate. Existing skill/WORK_UNIT/I18N boundaries govern the review; no product, operational or Git mutation was performed by this reviewer.",
+  "findings": [
+    "All38 installed values equal the independently approved drafts. The betting-side names, optional pairs, 11 net pair payout, per-click stake, deal guards, clearing uncommitted selections and nine formatted input arguments retain the reviewed meanings. CN explicit net payout and TW plain pair11 label remain valid in their respective contexts.",
+    "Preflight export/check ran on clean declaration 01eae296ff8aad11f848cf34b05383a04baa1b45. Both check results propose changed_files=1 without changing inputs. Fresh applied export/import ran on clean UI commit cb91b3608e328de94d50e2dc8b29e151ad4afa36. Both import commands explicitly specify locale and --accept, return changed_files=0 and bind exact19 source/target hashes to accepted_machine_validated receipts; native_review remains OPEN.",
+    "Receipt headers equal fresh source/response headers; all38 source identities, target digests and receipt checksums match current UI and portable records. Removing only the38 additions and last batch and restoring the previous accepted digest reproduces the entire old portable raw bytes. Reversing only the19-row append in each Chinese file reproduces the entire old UI raw bytes. Japanese is byte-identical.",
+    "The preservation run actually occurred at cb91b3608e328de94d50e2dc8b29e151ad4afa36 with only portable dirty, before the later CLAUDE update. It is not described as a clean final-HEAD run. Its1203 inputs were unchanged across execution and independently match the final candidate; output confirms old40009 current source/target hashes, whole inverses and unchanged source manifest.",
+    "The fixed12 named run actually used clean review3ed91c1 and retained the same HEAD/tree and all1650 inputs at start/end; outer1203 inputs also remained identical and independently match current files. All12 unique children returned exit0 with their success markers, selector exit0/fatal null. Fullself stderr365 bytes is normal unittest progress/264 tests/OK; the other11 stderr streams and outer stderr are empty.",
+    "Capture changes are prefix-only. Named changes are order/output/baseline and removal of Japanese ownership, with the same twelve tools and raw-capture/restoration/clean-source checks. Exchange validates the sealed language evidence before install, emits scoped raw-preserving patches, checks fresh receipts and all previous accepted hashes; it does not rewrite gameplay or introduce validator policy.",
+    "The baseline-to-review diff contains no runtime, source, checker, collector, project, public content, historical report or human-ledger edit. The two queue indexes reverse exactly after removing ORDER282 and decrementing existing ranks. All68 previous decisions and human history remain raw-exact. Closure metadata is subsequent work and is not presumed completed here."
+  ],
+  "actual_results": {
+    "preservation": {
+      "exit": 0,
+      "seconds": 6.197654833,
+      "input_count": 1203,
+      "unchanged": true,
+      "errors": []
+    },
+    "named": {
+      "children": 12,
+      "all_exit_zero": true,
+      "inner_seconds": 125.257127625,
+      "outer_seconds": 125.569868417,
+      "inner_input_count": 1650,
+      "outer_input_count": 1203,
+      "all_inputs_unchanged_and_current": true,
+      "full_localization_self": 264,
+      "ja_pipeline_self": 146,
+      "zh_self": 12530,
+      "ja_ui_strings": 2978,
+      "registry_registered": 152,
+      "queue_self": 25,
+      "agent_self": 222,
+      "limits": "JA status beta; ZH skeleton, legacy902/2949, context6/29, dynamic6/701, direct-English bypass11 and shipping0. Registry EXTRA24 advisories retained. Public existing five-locale contract passes, with JA/CN/TW each14 events/100 leaves/121 UI; no new public or human GO. Agent full-product verdict remains HOLD."
+    },
+    "first_failure_count_in_reviewed_execution_population": 0
+  },
+  "product_binding": {
+    "source_manifest_sha256": "2af00468b62e7f0cc61541770c57900424135e5c9e7de12e8dc087fd74f3f15a",
+    "portable_raw_sha256": "4130154925b57a66c4a37e2c49f168a8bdec52c2c36859f533cf675f7412a9fb",
+    "accepted_sha256": "3c1a3022f03cb1bea053c15c819abe41739d81f98cc092499b8142e67df1dbd3",
+    "ui_zh_CN_sha256": "00cf1893763ac8ee76737b5df2905d779fd440cab80d11ec2d553821e140e7e9",
+    "ui_zh_TW_sha256": "cb74872e463a919bb79ce2c43fe6d8849827fdd88dbd9589766b5c8bf147a8bb"
+  },
+  "limitations": [
+    "Conditional legacy/AP Main-to-Casino-to-Baccarat consumers only; no fresh-story ingress, rendered panel or physical-input observation. ORDER274 screenshots are not inherited as Baccarat evidence.",
+    "Banker double-commission and tie-principal arithmetic debts are excluded, not repaired or approved. Tie8 parent, commission/HUD/rules prose, direct-English mat/banner and dynamic result IDs remain outside this batch.",
+    "Acceptance totals and automated contracts do not establish all40,047 values as freshly language-reviewed, fully rendered or native-approved. Prior held72 remains unchanged; this is not whole-panel/full-translation completion.",
+    "The batch, exact file ownership and selected checks are one-time work instructions under existing WORK_UNIT/I18N rules; no new enduring normative policy. PublicGO1, humanOPEN45 and full-gameHOLD remain unchanged."
+  ],
+  "unobserved": [
+    "native_reader",
+    "rendered_baccarat_layout_and_font_coverage",
+    "human_playtest",
+    "physical_controller_feel",
+    "fresh_story_baccarat_ingress",
+    "full_game_release_quality"
+  ],
+  "decision": "GO only for ORDER-282 at the exact subject: independently reviewed38 translations, their unchanged installation and formal acceptance, bounded preservation and actual fixed12 regression evidence. No required defect remains in this declared work unit. This does not close human/native/render/physical gates or grant full-game/public release GO.",
+  "evidence": {
+    ".git/full-game-localization/post281-next-baccarat-scope.json": "27d4ecd0577fa6af330ff4882c4a0b63d6b972bccf40d0b78b9f8474ecef7f93",
+    ".git/full-game-localization/order282-language-review-first.json": "72fe75e8a7812c8be3b5d7732d677f86389f371ad2c0ed7cbfb584dc6d467cb4",
+    ".git/full-game-localization/order282-capture.py": "ee66eeda7adc89e131eeba150abf78e3e51b6fc0a032c61bc9e750aa691fee0d",
+    ".git/full-game-localization/order282-named.py": "2e6f6bb2646477878ab1167d6bd51cf9359e2aa005035b4186e89ed85d301bd4",
+    ".git/full-game-localization/order282-exchange.py": "733d38308bb9a481bf89fc9e7b64e6f0a78528bfeea586d2fd1ee29b7adfe344",
+    ".git/full-game-localization/order282-export-cn-first.json": "ac4784551e0f2267394a94d1bc2ffce452fb7e1e9af2a050f80ef9211a28440d",
+    ".git/full-game-localization/order282-export-tw-first.json": "4228ed5d9829ea5ecfae03c84352740bd2ef80b7afe8e4b3c23f1eacdb74485d",
+    ".git/full-game-localization/order282-preflight-cn-first.json": "a490dc44473dd4ef9166e227b8fd63c0d7d3532d6c84c066970f1d8c5a582218",
+    ".git/full-game-localization/order282-preflight-tw-first.json": "c11212a486d0f2c738c4d2a796f8ab3750c39a4fa59be3dd44e9bae437ece30e",
+    ".git/full-game-localization/order282-applied-export-cn-first.json": "a8ad0260ab39d43a900452902575932ef3f484fce4fe15a3237cf7aa2cbf2ca1",
+    ".git/full-game-localization/order282-applied-export-tw-first.json": "02bbeaa2e497b22521c51fcfacf1a1ea1feb40d6c597cc2a65ed0b9c3ce02cd5",
+    ".git/full-game-localization/order282-accept-cn-first.json": "b5d565edf36851b7ba5bed3b155dd7a9ef62ab0e6c1e345794e491b463a5acf6",
+    ".git/full-game-localization/order282-accept-tw-first.json": "695e92f2dcc3857422b0db43e95a6b8c2d3b80a63420ae69651b3b4e6f6ef63a",
+    ".git/full-game-localization/order282-zh-CN-applied-source.jsonl": "ef35621a03106432b8622b717c911e342d0b2f0f0abdf48f0685c43a94b99fe2",
+    ".git/full-game-localization/order282-zh-TW-applied-source.jsonl": "c4460a2d614725e7a9ed982b76f3d62283213db2f1e01d794a83c946fa1b920a",
+    ".git/full-game-localization/order282-zh-CN-applied-response.jsonl": "cbf0476f4e02aa4b09a341bef58484ea855ca9a3ee6058f5987b1862bd149baa",
+    ".git/full-game-localization/order282-zh-TW-applied-response.jsonl": "c407e11b12fbb4a5a1c5db5aa51581c739f1633d6c6b151b4e939c7138ae1fe2",
+    ".git/full-game-localization/zh-CN/full-ko-direct-2026-09-07.1/7be879a399ac39ad316f3f2accfb062862a2b876c7ec2b008c3d748cc128dd59.accepted.json": "793d5fa28e5f6185d83412236de97f0c12d5f43ac39983686637f96775c8a2e9",
+    ".git/full-game-localization/zh-TW/full-ko-direct-2026-09-07.1/59eefe54d00c8af60371cbb0a54f9f3f9779a085090817250357be8325e69492.accepted.json": "505214d52b9cdf03708ea5c227b8d62564c8ef0968a1203f7f518aea6286d65d",
+    ".git/full-game-localization/order282-preservation-first.json": "c84dd496767ac9b3c6280b491f18850a1f3dd0a9ffd0cce691b85dab94ebee82",
+    ".git/full-game-localization/order282-named-first.json": "35467e1c1ec0be1983bc022f28521761397171edfc727ec919b77bf2ae0e978c",
+    ".git/full-game-localization/order282-named-envelope-first.json": "86d609c18799320a4f7b0c67d4e2bbcb554f372eb9f278c6b26b28c85538176d"
+  }
+}

@@ -2875,6 +2875,46 @@
         "path": "docs/agent_reviews/ORDER-281.json",
         "sha256": "be2c85b084f94ae8f9adbddf17bf0225b9193cde7692a6d307dd3d3a074ae5ef"
       }
+    },
+    {
+      "id": "order-282-source-ff4ab44-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-20",
+      "decided_by": "Poincare",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-282",
+      "subject": {
+        "kind": "source",
+        "commit": "ff4ab4437a9a7d3e482f6fecefe65e0052343c49",
+        "tree": "ba08274321583be7a9e027a7247fbb1ca1d0de05",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-282.json",
+          "sha256": "a5ce88cacf07c1f83966e86c91908850f3b4524c05dce1d6290113c752cf2940"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/queue_archive/ORDER-282.md",
+          "sha256": "d918d062c7abb3c23c3413ba4d7e3fea54833171150e9ea9f5c791bfb7242efc"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "rendered_baccarat_layout_and_font_coverage",
+        "human_playtest",
+        "physical_controller_feel",
+        "fresh_story_baccarat_ingress",
+        "full_game_release_quality"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-282.json",
+        "sha256": "a5ce88cacf07c1f83966e86c91908850f3b4524c05dce1d6290113c752cf2940"
+      }
     }
   ]
 }
