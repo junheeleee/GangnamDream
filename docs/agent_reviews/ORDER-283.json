@@ -1,0 +1,152 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-283",
+  "scope": "work_unit",
+  "authority": "user_delegated_agent_final",
+  "reviewer": "Poincare",
+  "verdict": "GO",
+  "required": [],
+  "subject": {
+    "kind": "source",
+    "commit": "0e657ada24762ffd26f2d55a636ccdfe54f2dfbc",
+    "tree": "b78e5e7c33e709364c8e1df8209859ce04f8b67d",
+    "manifest_sha256": null
+  },
+  "review": {
+    "commit": "8048a8ff98c44b1edc47f1959202ee385a5e7299",
+    "tree": "aa0cbf33e98495572f00509329dd563809980a06",
+    "clean": true,
+    "relationship": "Direct child of subject; docs/STATUS.md only."
+  },
+  "baseline": "64bd57a763431365a0daae4d03bbc122084fa1bd",
+  "population": {
+    "language": "10 Korean keys × zh-CN/zh-TW = 20 independently reviewed, installed and accepted targets; 0 new HOLD.",
+    "consumers": "Baccarat status/result/road/next-round 10 calls plus the shared Blackjack reshuffle call; conditional existing ingress, not fresh-story reachability.",
+    "preservation": "40,047 previously accepted records preserved; current 40,067 = JA 13,099 + CN 13,484 + TW 13,484; 128 batches and 9 retained metadata records.",
+    "named": "First fixed12 completed on the exact clean review; 1,652 inner inputs and 1,203 outer inputs unchanged.",
+    "ownership": "8 committed changed paths within 12 declared paths; product changes only CN UI, TW UI and portable acceptance metadata."
+  },
+  "method": [
+    "Read-only independent review of Korean source/actual consumers and all 20 targets, followed by exact approved-draft/application binding; prior sealed language verdict is referenced, not promoted into the final verdict by itself.",
+    "Read helper deltas, Git identities/diff, formal JSONL source/response/receipt pairs and completed raw captures. Independently checked raw base64 bytes, SHA256, text, statuses and current input pins without executing repository modules, QA, collectors, engine or remote calls.",
+    "Reconstructed whole prior UI and portable bytes independently; checked preserved JA, historical decisions, public/human evidence and held manuscripts against baseline."
+  ],
+  "findings": [
+    "Installed CN10/TW10 exactly equal the sealed drafts. Reshuffle is completed, dealing remains in progress, Player/Banker wins concern hands rather than human profit, pair announcements concern occurrence rather than a successful bet, and road labels refer to past results.",
+    "The next-round callback resets BETTING state without advancing week/AP; selected labels introduce no payout, refund or prediction promise. BBCode is preserved.",
+    "Both preflight checks used explicit locales and passed 10 leaves each. changed_files=1 describes a proposal, not an applied write. Fresh applied exports and import --accept passed 10 each with changed_files=0.",
+    "Both receipt checksums and complete 20 source/target hash pairs match the fresh source, responses, approved values, actual UI and portable records.",
+    "CN/TW old raw bytes are exactly recoverable by removing these ten appended entries each. Old 40,047 portable records and whole prior portable serialization are exactly recoverable; JA remains byte-identical.",
+    "Prior 69 decisions, public approval and human evidence remain unchanged. Existing held72 manuscripts remain preserved, not accepted by this unit.",
+    "Capture/named/exchange reuse is bounded to unit identifiers, baseline, declared paths, exact key cohort and counters; no checker, collector, runtime, project or public-demo source changes."
+  ],
+  "actual_results": {
+    "formal": {
+      "preflight_source_commit": "5ba1d0e8f840571d2b9fad7729388b459c9427d9",
+      "applied_source_commit": "2a13e7b75af2961d6cfb2984bd683c72875af995",
+      "exports": 4,
+      "checks": 2,
+      "accepted_imports": 2,
+      "leaves_per_locale": 10,
+      "import_changed_files_each": 0,
+      "all_exit_zero": true,
+      "all_inputs_unchanged": 1203
+    },
+    "preservation": {
+      "execution_head": "2a13e7b75af2961d6cfb2984bd683c72875af995",
+      "boundary": "Executed with portable metadata only dirty, before CLAUDE update; not represented as a clean final-candidate execution. Its 1,203 product pins were independently rebound to the final candidate.",
+      "elapsed_seconds": 6.223093666,
+      "exit": 0,
+      "old_accepted": 40047,
+      "current_accepted": 40067,
+      "raw_ui_and_portable_inverse": true,
+      "ja_unchanged": true,
+      "errors": []
+    },
+    "named": {
+      "head": "8048a8ff98c44b1edc47f1959202ee385a5e7299",
+      "unique": 12,
+      "passed": 12,
+      "exit": 0,
+      "clean_start_and_end": true,
+      "inner_seconds": 127.273301917,
+      "outer_seconds": 127.584293,
+      "inner_inputs": 1652,
+      "outer_inputs": 1203,
+      "current_pin_match": true,
+      "raw_child_streams_verified": 24,
+      "observations": [
+        "full localization self: 264 unittest tests OK; stderr 365 bytes of normal progress/OK, not an empty-stderr claim.",
+        "EN clean; JA pipeline146; JA UI2978/errors0 with beta limitation.",
+        "ZH self12530 and skeleton audit PASS; CN/TW legacy912/2949, context6/29, dynamic6/701, direct-English bypass11 and shipping0 remain.",
+        "Public story demo: 5 locales, original14 events/100 leaves/121 target UI; no expanded public approval.",
+        "Registry152 with 24 retained EXTRA advisories; queue fixtures25/fence4; agent review222 with product HOLD and unchanged human evidence.",
+        "Context docs400/links143 and queue active76/in_progress74 passed."
+      ]
+    }
+  },
+  "product_binding": {
+    "source_manifest_sha256": "2af00468b62e7f0cc61541770c57900424135e5c9e7de12e8dc087fd74f3f15a",
+    "accepted_digest": "29acf19632f59f0dd4eb513937d6d204fb9afafe40741107fb891ddd1599df60",
+    "portable_sha256": "9d5a3c5ff0873bb653127c51c40354e86ff484037e3629162d3c58958284a871",
+    "old_portable_reconstructed_sha256": "4130154925b57a66c4a37e2c49f168a8bdec52c2c36859f533cf675f7412a9fb",
+    "ui_cn_sha256": "503a200351c751468de869d1e484427b3e2a37a02290a9d765f459d18bb99156",
+    "ui_tw_sha256": "0fe01c86c3013d9df23fe7f35f9188cd3c26dfa87e379258a40a0e174c783b53",
+    "ui_ja_unchanged_sha256": "9d4d3baf80553b3a400ca12f746c8e409467e9f2500654a01d41645029f6f0b2",
+    "ui_cn_tw_keys_each": 955,
+    "ui_union": 3016,
+    "ui_absent_each": 2061,
+    "prior_decisions": 69,
+    "existing_held_values": 72,
+    "public_go": 1,
+    "human_open": 45,
+    "full_product_verdict": "HOLD"
+  },
+  "observation_errors": [
+    "ROOT's read-only observer parsed the reserved-but-empty named output while the real run was still active and raised JSONDecodeError. Its retained note is bound below. No product, gate or process mutation and no QA rerun resulted; only the subsequently completed named run is used for this verdict.",
+    "Reviewer read-only inspection corrected an assumed preflight capture filename to the actual check filename and parsed fullself CASE arrays as arrays after an initial object-only parse failed. These are inspection errors, not product/test failures; original evidence remained unchanged."
+  ],
+  "limits": [
+    "This is acceptance of the specified 20-value translation/preservation unit, not a judgment that all 40,067 translations or all UI are linguistically complete.",
+    "Existing conditional legacy/AP route and static callbacks were inspected; no new runtime, rendering, physical input, or fresh-story ingress was exercised.",
+    "Baccarat banker commission and tie-return accounting debts and excluded direct-English labels remain outside this unit. No financial correctness or payout repair is approved.",
+    "Earlier ORDER274 images and other units' runtime results are not inherited as visual or gameplay evidence here.",
+    "Automated gates provide bounded structural/regression evidence, not native-reader or prose-style certification."
+  ],
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "rendered_baccarat_and_shared_blackjack_ui",
+    "fresh_story_or_ap_entry_runtime",
+    "full_game_translation_or_gameplay_approval"
+  ],
+  "decision": "GO only for ORDER-283 at the exact source/review above: 20 approved values applied and officially accepted, prior data preserved and first fixed12 passed. Required defects: 0. Full product HOLD, existing held72 and human/native/render/physical boundaries remain unchanged.",
+  "evidence": {
+    ".git/full-game-localization/order283-language-review-first.json": "a7e4296d22244902259332c1051f603eda134a6e9369513db0ec4e221be16a45",
+    ".git/full-game-localization/post282-next-baccarat-status-scope.json": "8a2e25a9d2d468b58fd15178418ead02307921f5ad7ed97ae7e0c447f7791037",
+    ".git/full-game-localization/order283-zh-CN-draft.json": "6ca4d05084efcfe242804d7e89e8c1c00d2514b8c58b01a959bb4045374f7d2c",
+    ".git/full-game-localization/order283-zh-TW-draft.json": "2977f6103994a8c149d99802d5ebd5d6539c9f6334c81401d4fcb5d7a87e4b47",
+    ".git/full-game-localization/order283-export-cn-first.json": "0d120af277b101ad1ff4fbc1bfb5fc28987ff0387cc197f37a4e5bb9c24afe84",
+    ".git/full-game-localization/order283-export-tw-first.json": "4b967146ed4c1b40fa156b31aa9017092bfabc62a696217a2a98bf10798fc021",
+    ".git/full-game-localization/order283-check-cn-first.json": "3499dfd68f0f4e25a0a996d9805f7d643159f653446194fd77ca85f49316e559",
+    ".git/full-game-localization/order283-check-tw-first.json": "95e142c1618f85ea08f19cb04d930340d6b1f578e7850d1c21b857b824bac8e8",
+    ".git/full-game-localization/order283-applied-export-cn-first.json": "4af0232466d5cd45e9f5fbf109d5eaa13368b1a4e39a2b7773982cfb7b93dbab",
+    ".git/full-game-localization/order283-applied-export-tw-first.json": "97e20f7ef63566dd6f95787d9abd2122f0cfaf0e8a7496c6ae26eada8d59fc4f",
+    ".git/full-game-localization/order283-accept-cn-first.json": "d816b810ef7ab26eadc310f8300f28a64e5ab57f3175f12e849ce05687287a71",
+    ".git/full-game-localization/order283-accept-tw-first.json": "15ec2d4ee5b3495c115149a38ca39ef5cbdee9aed96904f0bc389717b21b2a94",
+    ".git/full-game-localization/order283-zh-CN-applied-source.jsonl": "196c85e489c1681e3e21a602d6d644d08df5a477dfc4c899e68151d10d7dbf8b",
+    ".git/full-game-localization/order283-zh-TW-applied-source.jsonl": "da039b1c23fd14f53d42d4256ac82d48983c800e3180d7c0ef44f6973cd7b17b",
+    ".git/full-game-localization/order283-zh-CN-applied-response.jsonl": "17b1823912bbd0b5334f726abf61e3bd691ee1fd528b3692274a79971eed7dfa",
+    ".git/full-game-localization/order283-zh-TW-applied-response.jsonl": "f935b0d83b90f738088a52e27cc3400f095d64fdb8d54e20099d4cdd74eb33d9",
+    ".git/full-game-localization/zh-CN/full-ko-direct-2026-09-07.1/f436aca96561caa769a2063e15140b067a50c3a5cd6af8f8bd6a7791a83f2176.accepted.json": "d08a54e53cb2ac800cec23c436da246fc5df0ee2bc4b18ef82280dce809e6878",
+    ".git/full-game-localization/zh-TW/full-ko-direct-2026-09-07.1/f4cc2a9790b2e8d9cb7d488c902ab8fbda8ea1eed362de552a120a0851934da4.accepted.json": "b579d6f73a818e608963ee51b5a287830a0fb1783cf1213aab8fae20c5617bb0",
+    ".git/full-game-localization/order283-preservation-first.json": "7d88c8e6b293aa6475c4a9edc2498ded5e7254c879ef2c4f3d8c5b0a75977ba1",
+    ".git/full-game-localization/order283-named-first.json": "e7c2623ca7d6918bd6fcdf894e7ca108b78a59ecf8dab509ba9b66851cb8673b",
+    ".git/full-game-localization/order283-named-envelope-first.json": "cb90f170501deb4a6d7d90cf6b24c90745d34446baac76efd417dbdb52a1d0ee",
+    ".git/full-game-localization/order283-observer-inflight-read-note.json": "9799e97ca0f666281299d8c111ea18c655a6bd4432f46f3f81b4356d82820ec2",
+    ".git/full-game-localization/order283-exchange.py": "2cc8fa9d07540b028d68c37ffd2da4692249d1a81d2dc03fe83508023c0cabb5",
+    ".git/full-game-localization/order283-capture.py": "f4a00fcb3e6f657b3f0f487802bea20b8dbef9407c0b0ab0fc890fe613e033e0",
+    ".git/full-game-localization/order283-named.py": "42426ad2f666d2b121b9b78d0713b3d940cfff28c73980ba867fbcec5815ba24"
+  }
+}
