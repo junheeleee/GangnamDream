@@ -2678,6 +2678,45 @@
         "path": "docs/agent_reviews/ORDER-276.json",
         "sha256": "3aa0bb8c3ee6caf18792b52d7bfb1f38527a54dcb429710438b42dd362b33144"
       }
+    },
+    {
+      "id": "order-277-source-9f16504-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-20",
+      "decided_by": "Poincare",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-277",
+      "subject": {
+        "kind": "source",
+        "commit": "9f1650475093c439b54a0339aba5f2d2d877cb7d",
+        "tree": "4acdcfa29ba9213af5d45added034e381f7102be",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-277.json",
+          "sha256": "5f17241a837123d2b1d1e3595af9a0a8655c6df8dd0d7e9f8393ec54052e06dc"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/queue_archive/ORDER-277.md",
+          "sha256": "9a203323b157ee081730c682c39e8be28686943304da81a04e51026933d0497a"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "ORDER-277 actual gameplay or rendered panel; no previous screen-evidence inheritance",
+        "full-product completion or approval; existing full-game HOLD remains"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-277.json",
+        "sha256": "5f17241a837123d2b1d1e3595af9a0a8655c6df8dd0d7e9f8393ec54052e06dc"
+      }
     }
   ]
 }
