@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-281",
+  "scope": "work_unit",
+  "authority": "user_delegated_agent_final",
+  "reviewer": "Poincare",
+  "verdict": "GO",
+  "required": [],
+  "subject": {
+    "kind": "source",
+    "commit": "ddb7481a41748e0dc7917d5c5ffb6a985648f34e",
+    "tree": "ee7a5175768951736ed6eb5d72b1fab03bb159a3",
+    "manifest_sha256": null
+  },
+  "review": {
+    "commit": "c68dd423b66244d423decb3c54d0f1c27121e1c2",
+    "tree": "55874bdc6c86a4d5c1fcccea7526d66f81992f8c",
+    "clean": true,
+    "relationship": "Direct child of the product subject; complete diff is docs/STATUS.md only. Independently observed with read-only Git."
+  },
+  "baseline": "e2ead9848898e1f1437811df5ac5af727070fa42",
+  "population": {
+    "language": "All 29 sealed values: CN14, TW14 and JA cursor1; direct Korean review covers 14 BigWheel producers plus seven shared calls, including five cursor calls total.",
+    "application": "CN/TW each append exactly14 keys; JA replaces only 大: %s with カーソル: %s. All29 current values equal the independently reviewed drafts.",
+    "acceptance": "Fresh applied exports/responses and three actual accepted receipts cover14/14/1. Portable39980→40009, batches125→126, retained metadata9; JA13099/CN13455/TW13455 accepted records.",
+    "regression": "One completed clean fixed12 invocation, with all12 exit0 and required success markers. Inner1648 and outer1203 inputs unchanged and independently equal current files.",
+    "preservation": "Old39980 accepted records unchanged; three UI raw inverses and complete portable raw inverse exact. Earlier67 decisions, human ledger/public facts and historical held manuscripts unchanged; held72 remains outside this unit."
+  },
+  "method": [
+    "Reused sealed independent language report without reauthoring. Read actual product/operational diff and independently resolved source/review identities. Nine changed paths are within the declared13; four product paths are UI3 plus portable. Runtime, source producers, validators, collector, project and public content are unchanged.",
+    "Directly matched all applied JSONL source/response rows to approved targets and to each private accepted receipt. Verified receipt digests, source/target pins and equality with current portable additions. Reconstructed baseline UI bytes and the entire prior portable document by removing only this unit's changes.",
+    "Read the complete small exchange helper and compared capture/named against reviewed280. Capture changes output prefix and removes a terminal blank; named changes unit/output/baseline/owned JA path, retaining the fixed12 list and enforcement. Exchange narrowly handles14/14/1, language evidence pins, exact JA replacement, raw CN/TW append and receipt/old-record preservation.",
+    "Read all13 export/check/import/preservation captures and their retained raw streams. Decoded and checked all24 named child streams against bytes/SHA/text, all12 outcomes and markers, complete short outputs, fullself summary/unittest output and retained nested historical payload integrity. No old historical fixture was newly re-approved or rerun.",
+    "Read-only Git/files and independent stdlib byte/JSON calculations only; no repository imports, QA, collector, engine, remote or product edits by the reviewer."
+  ],
+  "actual_execution_boundaries": {
+    "preflight": "At clean declaration de47f42a5653a46c55dcf5ffdc4f83e4fc97de52: three exports and three checks firstPASS,14/14/1. Each check changed_files1 is a proposal, not an installed change. Locale explicitly supplied; JA uses --replace-existing.",
+    "formal": "At clean applied UI ec2b83852d3f65b5f2f7968859e39049c6bb54af: fresh exports3 then import --accept3 firstPASS,14/14/1 and changed_files0. JA replacement option is explicit. Every capture retains unchanged1203 inputs.",
+    "preservation": "6.282607875s firstPASS at ec2b838 with only portable dirty, before CLAUDE update. It is not represented as a clean final-HEAD run. Its1203 before/after pins match the final current files; old39980 current source/target checks and UI/portable whole inverses passed.",
+    "named": "At clean review c68dd423, fixed12 firstPASS126.966310375s; outer127.273338333s. Same source/head/tree at completion, fatal=null. Fullself has normal365-byte unittest stderr; the other11 child stderr streams and outer stderr are empty.",
+    "failures": "No failed281 language/check/import/preservation/named attempt is present in the reviewed first-capture chain. Earlier280 failures and closure repair are historical, not relabelled as281 executions."
+  },
+  "observed_results": {
+    "full_localization_self": "264 tests OK; retained264 coffee60/46 and266 relationship64/48 summaries pass.",
+    "JA": "Pipeline146, legacy2949/context34; UI2978/errors0, status beta.",
+    "ZH": "Self12530 and skeleton mode PASS. Each locale legacy883/2949, context6/29, dynamic6/701, direct English bypass11, shipping0 remain explicit limits.",
+    "public_EN": "EN coverage clean; unchanged public localized14events/100leaves/121UI/catalog1, five-locale parity.",
+    "operations": "Registry152 with24 EXTRA advisories retained; queue25/fence4; agent222/product HOLD/human unchanged; context398/links143; queue76/in_progress74."
+  },
+  "artifact_identity": {
+    "source_manifest_sha256": "2af00468b62e7f0cc61541770c57900424135e5c9e7de12e8dc087fd74f3f15a",
+    "portable_sha256": "98f987971eec212bf85d422dff0f37ba2e0a17942ea4303da75d62707b6a1432",
+    "accepted_sha256": "4472b2c3b7eeff86c5c6cd9c2ea8219d1aa4cab259141c4681b6a067486fe66e",
+    "UI_ja_sha256": "9d4d3baf80553b3a400ca12f746c8e409467e9f2500654a01d41645029f6f0b2",
+    "UI_zh_CN_sha256": "28ace6a8079e43ae4c772bbb51f404ce02b10461c81468aa34885bcb8d167bc9",
+    "UI_zh_TW_sha256": "a234c2f2bf53b793e1fe7706d2d7930e289529c27c9970ccc71164bb24ce7428"
+  },
+  "decision": "GO only for this exact ORDER-281 translation/JA-cursor-correction unit and its bounded acceptance/preservation evidence. No required defect remains in the reviewed scope. The JOKER win-parent source defect, direct English cabinet/result labels and conditional legacy/AP ingress remain excluded. This does not approve the entire BigWheel panel, all40009 records as newly re-reviewed prose, fresh-story reachability, shipping or full-game quality. Existing public GO1/human OPEN45/full-product HOLD remain unchanged. 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.",
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "rendered_layout_and_glyphs_for_this_candidate",
+    "actual_BigWheel_panel_or_fresh_story_ingress",
+    "full_game_quality"
+  ],
+  "evidence": {
+    ".git/full-game-localization/order281-language-review-first.json": "4ab6edcc3ec85c8042679b415aba023f81c4474779eb78608180ff73c20e0eda",
+    ".git/full-game-localization/order281-export-cn-first.json": "555d6a65780c3bc26af8a63bcd716a7c65a440625584ae107100602af5461262",
+    ".git/full-game-localization/order281-export-tw-first.json": "a9600c22aa1f4c138e2b2a98742954e8229daee8cadcdd717f07f8c3c305e484",
+    ".git/full-game-localization/order281-export-ja-first.json": "0fb7f6ec0ce94bf84474ef54fc25d5bd8c94e97cabb84f437d64783b04e2aef7",
+    ".git/full-game-localization/order281-preflight-cn-first.json": "30e8a06cac8b2cf8fba42c3988d4767d01349e726d20c6ed57dd6cb46b2ab966",
+    ".git/full-game-localization/order281-preflight-tw-first.json": "a0167e72f8fa9b5a178bffd2234b4a20a9ed7c4f24a0d2cd2e24de1fa147c75a",
+    ".git/full-game-localization/order281-preflight-ja-first.json": "cc2e798f5b72b9661134c6ed44a136de3aad0068fe5303b124cf2fed718b02f7",
+    ".git/full-game-localization/order281-applied-export-cn-first.json": "7baeb05b5e3a56dd31bf83a49f6dcafe71fca06cec0a7d327d2d047eb7e23a69",
+    ".git/full-game-localization/order281-applied-export-tw-first.json": "4d428d241cf721c02b54ce91aa259aee59c80beac6f085366212494e18620591",
+    ".git/full-game-localization/order281-applied-export-ja-first.json": "939b659e2debeb90197f9b65ea39f2b74240ef9804cd30916570303b9d1bd3c0",
+    ".git/full-game-localization/order281-accept-cn-first.json": "7bf23d914943cf7aa9230233a120336d1cc3a7691c88a9dcb552d75a3c791566",
+    ".git/full-game-localization/order281-accept-tw-first.json": "a94aff0344137054b85fd4fb561f600ef167c02684aadbf3146c6dd084fe319c",
+    ".git/full-game-localization/order281-accept-ja-first.json": "c44a0bc16bd03e22b9125d000039fa7ef52cb02a3d52de4b62dee508e47b8f94",
+    ".git/full-game-localization/zh-CN/full-ko-direct-2026-09-07.1/972ff883e321611d984c146b69c277a9b362d036bdb3a20c1c208ac0495a7acd.accepted.json": "5d6400ae74c07d6af1f4f02d36d742531796ec527b2028243527e4385b91ad45",
+    ".git/full-game-localization/zh-TW/full-ko-direct-2026-09-07.1/a290d5160961046219b8bd8046d3b97b7b9637d9559d7fd4689fd248ad6c498c.accepted.json": "c39a522b143aa2d0cd5996ae2a5d11242519fbc10527c1b89b9cba0793842b7b",
+    ".git/full-game-localization/ja/full-ko-direct-2026-09-07.1/a377eeecb3b94f5e459609b44263d4e260c4666115ff19868f4922775181e817.accepted.json": "03266ded32d526d099808e70f128969a53ee1e2a89055df1683daf2105c1e3c4",
+    ".git/full-game-localization/order281-preservation-first.json": "4dd18afd35aac1ce71768bf481208d74abc486a9442a0622a1138a18e193878e",
+    ".git/full-game-localization/order281-named-first.json": "cac4a11b0ac3f7a6a61f22154ca4cda5a28c94ea41fbd3f487e287478ca3e8f4",
+    ".git/full-game-localization/order281-named-envelope-first.json": "06ef9cf73185b687c5f659ade3f2e1cb788ddd5975d56704845c077afb1b7762",
+    ".git/full-game-localization/order281-capture.py": "77c40029b6168d42131bc5c87214670d77b46dc0d9699f43af4c93d4c97bfecc",
+    ".git/full-game-localization/order281-named.py": "1d6e89fe4f9d222417c571de94e859eb3c84baa2e2412bea2c959b42a39fcc26",
+    ".git/full-game-localization/order281-exchange.py": "f065d33b35e0a23c7908ed65b24cd03f8021761c22662a379b3322c45ee19276"
+  }
+}
