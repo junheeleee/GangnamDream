@@ -2955,6 +2955,46 @@
         "path": "docs/agent_reviews/ORDER-283.json",
         "sha256": "2a10ee0b5a58dd81f79fef5a229ade40192e4bd294cc4dab90d5c8db5369f1d3"
       }
+    },
+    {
+      "id": "order-284-source-ca8dfe0-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-20",
+      "decided_by": "Poincare",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-284",
+      "subject": {
+        "kind": "source",
+        "commit": "ca8dfe0ad00c36866ed03949c54336a1369cb780",
+        "tree": "9a48c74f7bca32f6ade7ab4be819bd7f0b33dc6e",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-284.json",
+          "sha256": "0847d570605aa476aaa3f72be9d82893e91f352b7012c7335086311e80123440"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/queue_archive/ORDER-284.md",
+          "sha256": "cce90b7941284b49eda3445ec31c34277bb0790914416d1ef35dc2f4f0a2a02e"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "rendered_notice_panel",
+        "human_playtest",
+        "physical_controller_feel",
+        "full_game_completion",
+        "legal_compliance_certification"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-284.json",
+        "sha256": "0847d570605aa476aaa3f72be9d82893e91f352b7012c7335086311e80123440"
+      }
     }
   ]
 }

@@ -1,0 +1,143 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-284",
+  "scope": "work_unit",
+  "authority": "user_delegated_agent_final",
+  "reviewer": "Poincare",
+  "verdict": "GO",
+  "required": [],
+  "subject": {
+    "kind": "source",
+    "commit": "ca8dfe0ad00c36866ed03949c54336a1369cb780",
+    "tree": "9a48c74f7bca32f6ade7ab4be819bd7f0b33dc6e",
+    "manifest_sha256": null
+  },
+  "review": {
+    "commit": "0ee137b8db536dc7cddb6eced8643e6ff320a9c1",
+    "tree": "a2f3d858a55e8f945779055eb963c90fedbd5b18",
+    "clean": true
+  },
+  "baseline": "818eedf516cb33e92ba7b44006c2fe4c40066c44",
+  "population": {
+    "language": "12 new notice-chrome keys × JA/zh-CN/zh-TW = 36 KO-direct targets, all independently reviewed and applied exactly; no new manuscript or language correction during code repair.",
+    "source": "14 distinct JSON UI pairs = surface3 + labels8 + section-title3; existing title/license_terms static2 retain IDs/source hashes; new12 become ui_notice_chrome. Pair count is not rendered-occurrence count.",
+    "acceptance": "Old40067 retained, new36 accepted, current40103/batches129/metadata9. Three fresh applied receipts contain12 each and native_review OPEN.",
+    "verification": "Fixed12 command roster and the separate notice-self command with5 unittest methods. First attempts failed; both repaired executions pass on the exact final clean review.",
+    "preserved": "70 prior agent decisions, held72, public-demo UI121, human ledger, notice JSON/legal contents, actual readers/runtime/project, existing JA pipeline and full-game self-test source remain baseline-exact."
+  },
+  "method": [
+    "Read applicable repository/skill/I18N/work-unit instructions, active declaration, frozen source scope, actual StartMenu/LocaleManager consumer, all36 targets, initial code6 review, the new implementation and bounded repair diff. Reviewer authored no production, targets or test cases.",
+    "Observed Git source/tree/review/direct-parent/clean identities independently;16 baseline-to-review changed paths are within declared20. Source-to-review is STATUS-only.",
+    "Read completed formal and execution captures; checked raw stream base64/byte-count/SHA/text integrity, actual outcomes, first-failure traces and repaired summaries. Verified all24 repaired named child streams and all1656 inner/1205 outer input pins against current files. Did not re-audit every historical fixture or run any checker/module/collector/engine.",
+    "Independently compared all36 applied source/response/receipt/UI values and target digests; verified receipt hashes and headers, old3UI raw prefix/inverse and old40067 whole portable inverse using read-only JSON/byte operations."
+  ],
+  "findings": [
+    "Provider reads the exact14 named roles through fingerprinted existing readers; malformed roles/schema/sections/statuses, duplicate keys and unexpected static overlap fail closed. Legal text, asset attribution values, URLs and filenames are not emitted as this unit's UI leaves.",
+    "Full collector and JA require exact static2 overlap. ZH's existing partial source-inventory API now explicitly permits incomplete fallback coverage but returns no notice additions/exemptions in that mode; unexpected collisions still reject. The choice is source-based, never inferred from missing targets. Complete inventories validate all12 additions.",
+    "JA notice checks use the existing ui:: validation marker so single-newline drift is rejected without altering exchange leaf identity, validator code or expected target text.",
+    "The repaired reader mutant changes the unique _notice_localized function's unique LocaleManager.ui call, not an earlier unrelated function. Original5 methods remain; diagnostic subTests and partial-source normal/negative assertions are added. Existing pipeline/fullself bodies and historical pins are unchanged.",
+    "Rawls's sealed six-code static review is nonauthor for code but predates first execution failures; Rawls authored only TW language separately. Its scope is not substituted for this final actual-evidence review."
+  ],
+  "actual_results": {
+    "formal": {
+      "preflight_source_commit": "f2316580d5fcac07acb3adadf690daab1b67764c",
+      "applied_source_commit": "1da38174d545dfd7f9bcae3774ba6fca16f4750f",
+      "result": "12 completed capture files: export/check/applied-export/accept ×3 locales, all exit0 and1205 input pins unchanged; preflight changed_files1 is a proposal, each applied import --accept changed_files0.",
+      "receipts": "Fresh source/response headers and three accepted receipts match applied source revision, selected12, locale, source hashes and installed draft values. Acceptance persists36, not legal/native/render approval."
+    },
+    "preservation": {
+      "capture": "order284-preservation-first.json",
+      "actual_head": "1da38174d545dfd7f9bcae3774ba6fca16f4750f",
+      "actual_status": "CLAUDE.md and content/meta/full_game_localization.json dirty; not a clean-final execution.",
+      "elapsed_seconds": 6.218814333,
+      "result": "exit0, errors[],1205 inputs unchanged. Old40067 source/target hashes and full portable/UI raw inverse PASS. Direct final readback reconfirms receipt/UI/portable exact; preservation-to-final input delta is only the four inspected repaired tool files.",
+      "source_manifest_sha256": "2af00468b62e7f0cc61541770c57900424135e5c9e7de12e8dc087fd74f3f15a"
+    },
+    "first_failures": {
+      "review": "d5e244f4144215b26d562c8138f7e9e67ce850f3",
+      "notice": "5 methods executed,2 failures: JA newline mutant accepted under a non-ui:: marker; reader mutant hit an earlier unrelated function. exit1 is retained, not promoted to PASS.",
+      "named": "12 commands executed:11 PASS/full-game self-test FAIL. Its264 tests reported3 failed assertions caused by applying the full static2 overlap requirement to existing source-scoped partial UI inventories. Whole named exit1 and raw streams are preserved.",
+      "repair": "Five-file bounded change: JA consumer, provider, ZH consumer, dedicated self and I18N contract. No translated values, formal receipts, existing pipeline/fullself or runtime changed. No tests/expectations removed."
+    },
+    "repaired_notice": {
+      "review": "0ee137b8db536dc7cddb6eced8643e6ff320a9c1",
+      "methods": 5,
+      "exit": 0,
+      "elapsed_seconds": 5.069183667,
+      "input_count": 1205,
+      "result": "All5 PASS; source_roles14/additions12 and before/after11 direct source/consumer/UI pins identical. Stderr contains normal unittest success output, not empty."
+    },
+    "repaired_named": {
+      "review": "0ee137b8db536dc7cddb6eced8643e6ff320a9c1",
+      "unique_commands": 12,
+      "exit": 0,
+      "inner_seconds": 127.39874170799999,
+      "outer_seconds": 127.703291625,
+      "inner_inputs": 1656,
+      "outer_inputs": 1205,
+      "result": "All12 exit0, fatal null, success markers present, clean start/end and all input bytes unchanged. Fullself264; JA pipeline146; JA UI notice12/12/errors0/beta; ZH12530/skeleton; EN clean; public5locale/14events/100leaves/UI121; registry153; queue self25; agent222/full HOLD; context401; activequeue76.",
+      "stderr": "Only fullself has normal unittest dots/Ran264/OK; other11 child stderr empty. Outer stderr empty.",
+      "advisory": "Registry EXTRA includes the new dedicated self not called by audit.sh. Registration is verified and its separate actual5-method invocation is retained; this is not a claim it belongs to fixed12 or that full audit ran."
+    }
+  },
+  "product_binding": {
+    "portable_file_sha256": "0a8c64cff5e368fde012cc64d7a59c77ddfd8c9b4f6e38a1cb15aa3f9c49a014",
+    "ui_sha256": {
+      "ja": "3b6832edb1fe32f7c59df1b95bb7a50b9af01780b4e2d6d4c82fc5ac4c84c209",
+      "zh-CN": "f4871fee056c6008e729ef1c99a261c2ee3bb64ea4687eac26ccc826090d4830",
+      "zh-TW": "d0c5b02ce181a3ca0472b45144cb010908728f235476b7a904ad6510d577caa9"
+    },
+    "repair_pins": {
+      "tools/third_party_notice_ui.py": "bf56deef3afe9bbb72ea5ccdea3835ba89ec50752c223772ca3bd380ef201fa0",
+      "tools/ja_translation_audit.py": "422ff561d453d89b9c97f2376d720301228673545255439baa53d4a96f7236c2",
+      "tools/zh_translation_audit.py": "0b370c6bb6e4da0ae556179a06fc77a25a46cbbdbc1bda839bef14384aa4c33c",
+      "tools/third_party_notice_ui_self_test.py": "c9690a6b403c594252cc34598eb16651d771f7ba738416680786f04d6b37c8f9"
+    }
+  },
+  "limits": [
+    "GO is limited to ORDER-284's exact source: notice-source registration,36 translations/formal acceptance and repaired finite automated contracts. It is not a blanket judgment on all40103 accepted values or the full game.",
+    "ZH skeleton incompleteness/shipping0, JA beta, held72 and human/full-product HOLD remain. Automatic source reachability and contract evidence is not proof of literary style, depth or enjoyable play.",
+    "No runtime or UI layout was changed or observed here. Prior ORDER-274 screens and other units' runtime results are not transferred to this unit.",
+    "No legal source-content fact checking, license interpretation, compliance certification or new attribution/obligation judgment was performed. Translation review preserves existing UI assertions."
+  ],
+  "unobserved": [
+    "native_reader",
+    "rendered_notice_panel",
+    "human_playtest",
+    "physical_controller_feel",
+    "full_game_completion",
+    "legal_compliance_certification"
+  ],
+  "decision": "GO / required0 for this declared work_unit only. First actual failures remain first failures; repaired5-method and12-command successes are separately bound to the exact final clean review. Closure metadata and any future scope are not included.",
+  "evidence": {
+    ".git/full-game-localization/order284-language-review-first.json": "e068087f71f26a1f6d170ba0132245556eb6f3d89aaf02e442e6d7bef72ee3f5",
+    ".git/full-game-localization/order284-code-review-first.json": "bbd21ab82e9bf7ce49d75859fc4200c025dca62b88e8e624982de5dac6da8e84",
+    ".git/full-game-localization/post283-live-ui-scope.json": "9fc6ae2a114487a5a13582d43ebae90a677e7d803b2310a9157ced5f02e2ed0b",
+    ".git/full-game-localization/order284-export-ja-first.json": "03a60f19ed43a718d0e42f51d7401242923a067a66bce61346dcfc65d49bd0f0",
+    ".git/full-game-localization/order284-export-cn-first.json": "355c10307b518158682a2779722806dedffebe383020740bd77c4726ac34158b",
+    ".git/full-game-localization/order284-export-tw-first.json": "a60f207e62a013794a4c23e896eff0a61fbb1a7672f6d1215d0f3fdc89fec585",
+    ".git/full-game-localization/order284-check-ja-first.json": "645a29cd67eeaf6f3fb1e2d8154e1091b27772a4bb88e0cda7ac352fd94940c7",
+    ".git/full-game-localization/order284-check-cn-first.json": "8db59045086a041f264a04eac90768721c91c7a8b4715152e90b72aebca6204a",
+    ".git/full-game-localization/order284-check-tw-first.json": "53524f9fa67987f95aa021f5ec0f4b02a90b5197711e8f5826b61fbd7ce011dc",
+    ".git/full-game-localization/order284-applied-export-ja-first.json": "b1c4113dffdd8067a25a54acd215cdcccfaf368dd0cecc440a4fb17799128311",
+    ".git/full-game-localization/order284-applied-export-cn-first.json": "c7cca7982a76687380fe14a9e0597a0b82fe49469ff317f9f6df2e16de83d80a",
+    ".git/full-game-localization/order284-applied-export-tw-first.json": "b5c7980b2569e0ed962a75b23066cb67d0bcc76bdf99d9f6713e8e54f0aa5383",
+    ".git/full-game-localization/order284-accept-ja-first.json": "f7b930ea83baa0492f72ea5891301f8f4a9206f8750c142eac975a2518542b31",
+    ".git/full-game-localization/order284-accept-cn-first.json": "8511e3320ef2929b213436332606242ec578f8beeb4588141d4a5d23f9c81f50",
+    ".git/full-game-localization/order284-accept-tw-first.json": "543239d927df1cc541e145ee81f67c4973047b4d316eae6df709717de36566a3",
+    ".git/full-game-localization/ja/full-ko-direct-2026-09-07.1/3174fb4e6905ebf439c9a9f69be8b59756648c24ff92cf37e1d6fe0ec7096e5a.accepted.json": "a123dffe11486dc602da1d0af2af2dbddea7689e6f816fbe028a58811af0f1b8",
+    ".git/full-game-localization/zh-CN/full-ko-direct-2026-09-07.1/899f4dea25d2813de6ab48e265340f15f1f0136437a772fe3a2af4bdb02403b0.accepted.json": "9f4056486636337bcbb8ff32fe362445aff01fe08c5844af0ba6861c622e81b6",
+    ".git/full-game-localization/zh-TW/full-ko-direct-2026-09-07.1/b4ff3db9a6d8a60d103f97ad69b0f0fa5869ee4a6963434cdbf9823401405a72.accepted.json": "6c4cc0bd148cbef1624b91a6be3be9c08e4b390f1dd882cca81353468c4e7922",
+    ".git/full-game-localization/order284-preservation-first.json": "410707e8738533ca6b7ea0cae249c65e08efebc02dab5654e12b98559b2571bf",
+    ".git/full-game-localization/order284-notice-self-first.json": "30953675f0c2c1d70a23469adf2df232d9915f98c9c946181fe2a822736a4b8a",
+    ".git/full-game-localization/order284-named-first.json": "8a4f76b7470e6dc0785a3e526f8babeb65e33e2a34be621980229362eeebe91b",
+    ".git/full-game-localization/order284-named-envelope-first.json": "4e5ad2589fdeeecd4c328d5a7bd32076b4d5fefbe7700a1664243630063a7a9e",
+    ".git/full-game-localization/order284-notice-self-repair-first.json": "93aedc8eadd4f8cd42c237f296f7a138071db1101a693ffdf5fcd3aa2fd1bed0",
+    ".git/full-game-localization/order284-named-repair-first.json": "2f30ceeb50ef17854a8c70c25268183ef25e11ee1f2b65c1ea8690e57939b8b8",
+    ".git/full-game-localization/order284-named-envelope-repair-first.json": "fbcf47269a56a1d3caa06954b6a56bed35a1b5b07fe2714f2f2c0c10dff255cf",
+    ".git/full-game-localization/order284-capture.py": "6f852b8cfb89b2e2acad543750f79f6e5f6fc0198d7834bfdd11d6eb6604cd72",
+    ".git/full-game-localization/order284-named.py": "b12ce373797a1532d5d5b69cc52f473c72454f85b330a057a54fff1d81b39f15",
+    ".git/full-game-localization/order284-named-repair.py": "2b7a7e52fe3da10d7b2ba04c9b414c3856963ee8ce56ea82f27393bf17c85b8c",
+    ".git/full-game-localization/order284-exchange.py": "b4a64cf2c6d4868c7b0cca10c735694b5205a0cf4d7784795380b4cc1cce2d2f"
+  }
+}
