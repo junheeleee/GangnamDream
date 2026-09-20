@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-280",
+  "scope": "work_unit",
+  "authority": "user_delegated_agent_final",
+  "reviewer": "Poincare",
+  "verdict": "GO",
+  "required": [],
+  "subject": {
+    "kind": "source",
+    "commit": "3eb1474d0d19c66c31e1b977e97b5a0957c25768",
+    "tree": "4e010dfabc0413063032d62fa1dc848f99b44f42",
+    "manifest_sha256": null
+  },
+  "review": {
+    "commit": "e72574ab050bc634b3da31d91ed49f4b91f477dd",
+    "tree": "388c9d233edf3c2848f950a7c8e2d644340359ba",
+    "clean": true,
+    "relationship": "Independently observed direct child of subject; only docs/STATUS.md differs."
+  },
+  "decision": "GO only for ORDER-280: four existing slot-result Korean keys translated into CN4/TW4 and formally accepted, with old source, targets and runtime preserved. Required defects found: zero. This does not approve all accepted translations, actual slot/tutorial rendering, fresh-story reachability, native prose or the full game.",
+  "population": {
+    "language": "All eight targets were independently read from Korean twice: original CN4/TW4 and unchanged CN4 plus authored TW v2 four. The original 顆 language GO remains valid within its scope. V2's three 個 classifiers are independently natural for counting reel symbols, not approved merely because a checker accepts them.",
+    "consumers": "Four SlotMachine literal producer calls plus TutorialOverlay's shared two-cherry lookup. Both jackpot targets retain literal leading777 for the actual begins_with branch. Cherry labels preserve exact3/2/1 symbols and the source20/3/1.5 payout branches. Gross gain, net, log/history caching and legacy/AP entry conditions were read without executing them.",
+    "acceptance": "Applied source exports, responses and two private receipts contain CN4/TW4 equal to the approved CN and TW v2 manuscripts. Import --accept changed_files0 for both locales. Native review remains OPEN; no Japanese row or acceptance was added.",
+    "preservation": "Old39972 current source/target hash evidence retained; new39980/b125/meta9, JA13098 and CN/TW13441 each. Removing new8 and the last batch, then restoring the old digest, reconstructs the whole old portable bytes. Each Chinese UI append4 reconstructs the whole old raw file. Japanese, held72, public/human evidence and prior66 decisions are unchanged.",
+    "named": "One fixed12 invocation on clean e72574ab; all twelve distinct children exit0 with expected markers. Raw24 streams/base64/bytes/SHA/text checked. Inner1646 and outer1203 input maps are unchanged and independently match current physical files.",
+    "ownership": "Eight changed paths from baselinee60aa1c2 are within declared12. Product changes are CN UI, TW UI and portable only. KO/EN/JA, source, runtime, checker, collector, project and prior public reports remain unchanged.",
+    "limits": "Full-product HOLD, human/public evidence, JA beta, Chinese skeleton/shipping0, dynamic6/701, direct-English bypass11 and registry EXTRA advisories remain. Static lookup counts do not establish actual exposure, previous-log retranslation or whole-slot completion."
+  },
+  "method": [
+    "Applied gangnamdream-dev, CLAUDE, WORK_UNIT and localization references. Read source branches, all eight translations, exact product differences, private helper delta, formal source/response rows, receipts and retained actual output without repository imports or QA reruns.",
+    "Read-only standard-library calculations checked receipt canonical digests, UI/portable whole inverses, original evidence preservation and every retained stream. Complete tagged fullself JSON was parsed independently of its terminal marker; finite negative diagnostics were not mistaken for failures.",
+    "Capture changes from ORDER279 are prefix and trailing blank line only. Named changes are unit/baseline/artifact paths, removal of Japanese ownership and trailing blank line; fixed12 and capture behavior remain. Exchange requires sealed v2 language evidence, exact four keys/777 prefix, source support, receipts and existing-target preservation.",
+    "No reviewer product, tracked document, Git, remote or human-evidence mutation; only private independent reports were written."
+  ],
+  "execution_boundaries": {
+    "original_invocations": "On clean declaration7ab10c1, ROOT's first CN/TW checks omitted --locale and both stopped with CLI locale differs from batch, empty stdout. These two operator-invocation failures remain preserved, not language failures.",
+    "classifier_boundary": "With explicit locale, CN4 passed. Original TW then failed at the first one-cherry row because the existing validator did not recognize 顆 as entity1; it reported missing quantity and number-sequence mismatch. This is not evidence that all four original TW rows were evaluated. Original TW manuscript and language GO remain unchanged. The author supplied v2 changing only three classifiers to 個, independently reviewed all8; the separate v2 check passed. Checker code was not changed.",
+    "formal": "Fresh applied exports/imports used clean73e581e5fb68ad6944d123c75f5c9496389d51f3, CN4/TW4 and changed_files0. Applied previous-target hashes, response text and receipt hashes match installed values.",
+    "preservation": "First preservation ran at73e581e5 HEAD with only portable dirty, before CLAUDE changed, in6.210884458 seconds. It is not described as a clean-final run. Its1203 input pins match this final candidate exactly.",
+    "named": "Clean e72574ab start/end; inner125.450048333 seconds, outer125.760541709 seconds. Fullself264, JAself146, ZHself12530, JAUI2978/errors0, EN clean, public five-locale audit, registry152, queue25, agent222/HOLD, context397 and queue consistency passed. Fullself stderr contains normal264-test unittest progress/OK; other11 child stderr and outer stderr are empty."
+  },
+  "current_seals": {
+    "source_manifest_sha256": "2af00468b62e7f0cc61541770c57900424135e5c9e7de12e8dc087fd74f3f15a",
+    "portable_bytes": 10462600,
+    "portable_sha256": "fff589791a85ea34239488b14c2d7cca60af87176e8ba8d310dc2e939a509f61",
+    "accepted_digest": "c437d3c8d7438ed8de099a75f5692f5feb4f3fa0fbd406176dca6b948d85df79",
+    "prior66_ledger_sha256": "cedd47e6a757715b0b97ce32f881825754e68cf247f6387025aa18154ad8f8fa",
+    "human_gates_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6"
+  },
+  "evidence": {
+    ".git/full-game-localization/order280-language-review-first.json": "80d7eead226d4e660596de6a455a2b33eeb43f9fa02239b1a653737a18d850e7",
+    ".git/full-game-localization/order280-language-review-v2.json": "ff362e2a6d57008140c613b1783d3b2e7f8f993fb36eb5735a07be0a28c7df61",
+    ".git/full-game-localization/order280-export-cn-first.json": "ef8e8d986c427541b3d9938062731a21fb7d6575aa43d9e1aa3f54344d0fcae5",
+    ".git/full-game-localization/order280-export-tw-first.json": "ac601db748d2aa9c831567e5ef095a2466d3aa89a974aa10f5c2f497d6634aac",
+    ".git/full-game-localization/order280-preflight-cn-first.json": "d2949b56a6d953d6ecc83556cb1733a51b582d36126611fcb36ec124b0a0c6e7",
+    ".git/full-game-localization/order280-preflight-tw-first.json": "4ce73f1ee37e3502b3c90511b5e8871fd737b96121863f0a14c0f5cc62566ffe",
+    ".git/full-game-localization/order280-preflight-cn-locale-first.json": "2d66129d1f091970c1d1fb516f0260ce87e0ec47b514ddd59f3db78a4563da68",
+    ".git/full-game-localization/order280-preflight-tw-locale-first.json": "548a050b9307010f9e4a7a5447c13f28ede2a96ed0a7f0e8d778f9758ad49357",
+    ".git/full-game-localization/order280-preflight-tw-v2-first.json": "e8ef67495ed07ca72c980d64214435a235e1292c813527b4ebf6855c202a17c6",
+    ".git/full-game-localization/order280-applied-export-cn-first.json": "9904bd405a766fc6e1b83c6081a065820ab2987b767f3b6ac69ff99e61d52eff",
+    ".git/full-game-localization/order280-applied-export-tw-first.json": "bc5d16d8296548f29453128af61c10734bf0ff9dfce4ce18ad5a3af12d0996a4",
+    ".git/full-game-localization/order280-accept-cn-first.json": "daa1c2bc67f0d7f1452572ce59e5ac4f62c23767e91cccc89780b5060eaba138",
+    ".git/full-game-localization/order280-accept-tw-first.json": "9be1eb93d3ce0bd0d199c09fe8e4d0a679fea726ca320735378ec3ada2cd6fee",
+    ".git/full-game-localization/zh-CN/full-ko-direct-2026-09-07.1/5adf48708d890e0db5e25e78b9cb410dfdba0ae8694f804a0a103706a94aa222.accepted.json": "1197d2ec00b41f0cfbd30c9bee09a3f1461c5dfebecc4e4f6794cbbc8451b4c8",
+    ".git/full-game-localization/zh-TW/full-ko-direct-2026-09-07.1/08da76ceead85e21e7ad07597aeddf6881b77f1db2f6e3f1da37d2bdab829f2f.accepted.json": "d98375679614c0ddd3d1fc2051f42b4936a42fae767163328c813213b87e7a49",
+    ".git/full-game-localization/order280-preservation-first.json": "b8fb11d382b3a4a92223574f3061434373a7689c86b5f1891d06c9900cd0e29b",
+    ".git/full-game-localization/order280-named-first.json": "bb98d96dcedfe39dbfe95ef173ad2089279b0ce038b931381edcddfc191013f0",
+    ".git/full-game-localization/order280-named-envelope-first.json": "3673d944acc224bfc0e50ac32e23c8f7bad60516175f9cd3a62e5225bf276b2e"
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "ORDER-280 actual slot/tutorial rendering, RNG outcomes and fresh-story reachability",
+    "Past cached-string retranslation or community-override behavior",
+    "Full-slot or full-product completion; existing full-game HOLD remains"
+  ]
+}

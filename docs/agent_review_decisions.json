@@ -2795,6 +2795,46 @@
         "path": "docs/agent_reviews/ORDER-279.json",
         "sha256": "8594d8dcf542bc1341087fb8975d7ffba83ac79505d02f717a2f96595926d21c"
       }
+    },
+    {
+      "id": "order-280-source-3eb1474-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-20",
+      "decided_by": "Poincare",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-280",
+      "subject": {
+        "kind": "source",
+        "commit": "3eb1474d0d19c66c31e1b977e97b5a0957c25768",
+        "tree": "4e010dfabc0413063032d62fa1dc848f99b44f42",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-280.json",
+          "sha256": "374eb08c2af6b568b2d6dd8fc046ca614d9eb63d51924ddf9c1ee7223ea1a5f6"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/queue_archive/ORDER-280.md",
+          "sha256": "91674b36dba305d7b0c7b542a8645955594012ad0f153c880fbec7d775792ec6"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "ORDER-280 actual slot/tutorial rendering, RNG outcomes and fresh-story reachability",
+        "Past cached-string retranslation or community-override behavior",
+        "Full-slot or full-product completion; existing full-game HOLD remains"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-280.json",
+        "sha256": "374eb08c2af6b568b2d6dd8fc046ca614d9eb63d51924ddf9c1ee7223ea1a5f6"
+      }
     }
   ]
 }
