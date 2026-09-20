@@ -4611,6 +4611,36 @@
       "machine_validation": "PASS",
       "rendered_review": "OPEN",
       "native_review": "OPEN"
+    },
+    {
+      "order": "ORDER-281",
+      "group": "ui",
+      "roots": [
+        "커서: %s",
+        "베팅 구역을 비웠습니다.",
+        "세그먼트를 먼저 선택해 주세요",
+        "현금이 부족합니다",
+        "0원",
+        "꽝   결과: %s",
+        "베팅 구역 선택",
+        "JOKER\n(%.0f:1)\n%d칸",
+        "%s배당\n(%.0f:1)\n%d칸",
+        "%.0f:1  /  %d칸",
+        "   [color=#f0b429]스핀 중...[/color]",
+        "[b]빅휠[/b]   |   현금 [b]%s[/b]   |   %d라운드   W[color=#3de87a]%d[/color] L[color=#e85d5d]%d[/color]   손익 [b]%s[/b]%s",
+        "[b]%s[/b]  [%s/%s] 구역  [%s] 선택/스핀  [%s/%s] 금액 −/+  [%s] 금액 +  [%s] 규칙  [%s] 취소",
+        "잔액: %s   |   베팅: %s"
+      ],
+      "source_leaves": 14,
+      "target_leaves_by_locale": {
+        "zh-CN": 14,
+        "zh-TW": 14,
+        "ja": 1
+      },
+      "source_review": "Independent KO-direct CN/TW BigWheel14 each and Japanese cursor correction from erroneous big label. All29 and seven shared calls reviewed by nonauthor. Preserve net payout ratios versus total returned stake, zero-won count-up start, net, token order and input meaning. Existing39980 preserved. Joker win-parent source defect, direct English labels and actual panel observation are excluded; conditional legacy/AP consumer only. No source/runtime/checker/public/human change.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN"
     }
   ],
   "accepted": {
@@ -57006,6 +57036,10 @@
       "ui:[color=#4a4a6a]— 꽝 —[/color]:/[color=#4a4a6a]— 꽝 —[~1color]": {
         "source_sha256": "63617f0519fdd1923a7d0fc3ab0e206deaa3ac9618879e92a96034b81ceb3b7b",
         "target_sha256": "e059fa89c50049f9163c72a7dd5ef2e2e1018bb411f20e34810e9b0f38dadec3"
+      },
+      "ui:커서: %s:/커서: %s": {
+        "source_sha256": "b047464ba08aa9eb812ae868c1eb433c9423a253d037219ed93d7c29b8a6887f",
+        "target_sha256": "1d60026a9292ea65b6cd9696475fc5d9bf8030cf1d39614e6a6e71172544a244"
       }
     },
     "zh-CN": {
@@ -110772,6 +110806,62 @@
       "ui:체리 3개:/체리 3개": {
         "source_sha256": "fa7ad0793ce35bb9d534e556820edfdab34918dd24ac2630822973ce963d7808",
         "target_sha256": "88596ec716822c08297eab5b92dcf5b2b3ff5a93502015dfd2415d5e7d4ddb31"
+      },
+      "ui:   [color=#f0b429]스핀 중...[/color]:/   [color=#f0b429]스핀 중...[~1color]": {
+        "source_sha256": "acab4757901013df0823fdc408e763c35934a9baff76411051a5d80f828ca38d",
+        "target_sha256": "d0450ea4cc29111e12dbd37a2abd7be5984a42d320a0919a8d65024ca32c2cf7"
+      },
+      "ui:%.0f:1  /  %d칸:/%.0f:1  ~1  %d칸": {
+        "source_sha256": "68e3c16c8e1a3e6f937f81e7be9dd7c16e7d66f407bf03b98422950273d471fe",
+        "target_sha256": "93f7808ce0b52cea2b6c5800d088694e7e150fc7300374c212e65e597d97c861"
+      },
+      "ui:%s배당\n(%.0f:1)\n%d칸:/%s배당\n(%.0f:1)\n%d칸": {
+        "source_sha256": "b1d0a1feabe62d79b33bab8a95bed56dbf096bb5f81c95971f1bdea1653e51f1",
+        "target_sha256": "d67d981712002d68db896ba98cfbe8d40678d96aa56c2b8266076a516861655c"
+      },
+      "ui:0원:/0원": {
+        "source_sha256": "e59acbf7b7c787486307ee63b9a3ec671acd3958897656b71a1bb896e860046e",
+        "target_sha256": "df1d275f9dbc3cdc646c25630839f9bb0a2fbebcd3af48bae66be8a8e232738b"
+      },
+      "ui:JOKER\n(%.0f:1)\n%d칸:/JOKER\n(%.0f:1)\n%d칸": {
+        "source_sha256": "7e186ceec2ec7c55aa7cf1ebc5b024d4cd0a49b16718ef4f90e109f556618f07",
+        "target_sha256": "1d4464e414b73ebccafb584a8e5e513facfa705845071b0f6ede65dd81a00c56"
+      },
+      "ui:[b]%s[/b]  [%s/%s] 구역  [%s] 선택/스핀  [%s/%s] 금액 −/+  [%s] 금액 +  [%s] 규칙  [%s] 취소:/[b]%s[~1b]  [%s~1%s] 구역  [%s] 선택~1스핀  [%s~1%s] 금액 −~1+  [%s] 금액 +  [%s] 규칙  [%s] 취소": {
+        "source_sha256": "6ff8791a8a6602cccb3bd07340cec034bcb86728c132ebe03b3d51823744e1ce",
+        "target_sha256": "c806bf150d7f423f8f2183e99fc6e42eb2766cf58a73e09eae5f8b8da0d2157d"
+      },
+      "ui:[b]빅휠[/b]   |   현금 [b]%s[/b]   |   %d라운드   W[color=#3de87a]%d[/color] L[color=#e85d5d]%d[/color]   손익 [b]%s[/b]%s:/[b]빅휠[~1b]   |   현금 [b]%s[~1b]   |   %d라운드   W[color=#3de87a]%d[~1color] L[color=#e85d5d]%d[~1color]   손익 [b]%s[~1b]%s": {
+        "source_sha256": "90c1ad2370b719a0ce9e46909251482e765bc3e67d6c09d5d686bf8425ee5a5c",
+        "target_sha256": "c0381f969d08a53a33d1571498b51548a3b847a238970b827c19f4cd02a62bc7"
+      },
+      "ui:꽝   결과: %s:/꽝   결과: %s": {
+        "source_sha256": "3bfa26a84ff02581cbb0cb3e83267cc5c40a508c12c63c9b6467e3f5c24195f5",
+        "target_sha256": "37d05a9b7a4e8f25839905fffed22d9d3c69eb5db4691df10d79317845ec2c6f"
+      },
+      "ui:베팅 구역 선택:/베팅 구역 선택": {
+        "source_sha256": "4b5ba9761cb8c32dcc134ab28fbbf3da1b85c9f5cc5a276c40b887fce26d91fb",
+        "target_sha256": "6116894937adc8042cb78640982b5aef6893236eea3faa6872c967ad9a85ebc8"
+      },
+      "ui:베팅 구역을 비웠습니다.:/베팅 구역을 비웠습니다.": {
+        "source_sha256": "0322e190b37c18c8b02793c63f0c03583a49fa11d79ea9d8db5a1cd70824d2ed",
+        "target_sha256": "dfc2cc18bdeea63f8e7f7e5f0a6637cf45febf3937707853a0b43e9cd704e225"
+      },
+      "ui:세그먼트를 먼저 선택해 주세요:/세그먼트를 먼저 선택해 주세요": {
+        "source_sha256": "b07b02ae15ced80b4d6cf914703339f4f7037499f30943caa8789d6a73252d11",
+        "target_sha256": "fd451b9e60424a2249e8a24c713396ac92751337fc56fb5cd06648b9ace8e610"
+      },
+      "ui:잔액: %s   |   베팅: %s:/잔액: %s   |   베팅: %s": {
+        "source_sha256": "a7209c96140a475e038058aa7a3999c8bd3a1160377a81a9b8bf8491ba302a30",
+        "target_sha256": "5107396cd7f624dcae8644e21038a76639df64cc3c5ca40bcfbd116d3855703c"
+      },
+      "ui:커서: %s:/커서: %s": {
+        "source_sha256": "b047464ba08aa9eb812ae868c1eb433c9423a253d037219ed93d7c29b8a6887f",
+        "target_sha256": "d76e30508943c4c53459ef6a3fd5517729d114d78c0ec443571bc2d988243db1"
+      },
+      "ui:현금이 부족합니다:/현금이 부족합니다": {
+        "source_sha256": "9ddff29bf5a479e13884efc2b4ee2eec8c2dd9c9938cb5113f37a84ff4e01a52",
+        "target_sha256": "4fef5966efec3c02ce855504b59f36f66685f1514d8722f7f8ad0634b275c576"
       }
     },
     "zh-TW": {
@@ -164538,10 +164628,66 @@
       "ui:체리 3개:/체리 3개": {
         "source_sha256": "fa7ad0793ce35bb9d534e556820edfdab34918dd24ac2630822973ce963d7808",
         "target_sha256": "9b5415179c190aa4c3a4a4ae95333732528caf5c50687ccd915c2aaf95f14fa7"
+      },
+      "ui:   [color=#f0b429]스핀 중...[/color]:/   [color=#f0b429]스핀 중...[~1color]": {
+        "source_sha256": "acab4757901013df0823fdc408e763c35934a9baff76411051a5d80f828ca38d",
+        "target_sha256": "e991c45ac99e40e8c1ce4334d6b565674114f6d170967e4a074b6c5a351f4963"
+      },
+      "ui:%.0f:1  /  %d칸:/%.0f:1  ~1  %d칸": {
+        "source_sha256": "68e3c16c8e1a3e6f937f81e7be9dd7c16e7d66f407bf03b98422950273d471fe",
+        "target_sha256": "93f7808ce0b52cea2b6c5800d088694e7e150fc7300374c212e65e597d97c861"
+      },
+      "ui:%s배당\n(%.0f:1)\n%d칸:/%s배당\n(%.0f:1)\n%d칸": {
+        "source_sha256": "b1d0a1feabe62d79b33bab8a95bed56dbf096bb5f81c95971f1bdea1653e51f1",
+        "target_sha256": "2bb191f8aae092fb122a79a8c917d8a0579ae0a228bd42d8e72c9ffb780ac3eb"
+      },
+      "ui:0원:/0원": {
+        "source_sha256": "e59acbf7b7c787486307ee63b9a3ec671acd3958897656b71a1bb896e860046e",
+        "target_sha256": "2e1669126792825dd74b1132ddc56efbbc738e6f65786ebf3d15a2f8f1881560"
+      },
+      "ui:JOKER\n(%.0f:1)\n%d칸:/JOKER\n(%.0f:1)\n%d칸": {
+        "source_sha256": "7e186ceec2ec7c55aa7cf1ebc5b024d4cd0a49b16718ef4f90e109f556618f07",
+        "target_sha256": "1d4464e414b73ebccafb584a8e5e513facfa705845071b0f6ede65dd81a00c56"
+      },
+      "ui:[b]%s[/b]  [%s/%s] 구역  [%s] 선택/스핀  [%s/%s] 금액 −/+  [%s] 금액 +  [%s] 규칙  [%s] 취소:/[b]%s[~1b]  [%s~1%s] 구역  [%s] 선택~1스핀  [%s~1%s] 금액 −~1+  [%s] 금액 +  [%s] 규칙  [%s] 취소": {
+        "source_sha256": "6ff8791a8a6602cccb3bd07340cec034bcb86728c132ebe03b3d51823744e1ce",
+        "target_sha256": "051f582133848559caccb7f369d05478189db71ae87eb2833d8bca51137499d6"
+      },
+      "ui:[b]빅휠[/b]   |   현금 [b]%s[/b]   |   %d라운드   W[color=#3de87a]%d[/color] L[color=#e85d5d]%d[/color]   손익 [b]%s[/b]%s:/[b]빅휠[~1b]   |   현금 [b]%s[~1b]   |   %d라운드   W[color=#3de87a]%d[~1color] L[color=#e85d5d]%d[~1color]   손익 [b]%s[~1b]%s": {
+        "source_sha256": "90c1ad2370b719a0ce9e46909251482e765bc3e67d6c09d5d686bf8425ee5a5c",
+        "target_sha256": "690795503bdfeac352b492fed2bdbb82a10f93d24018c96b4df85e0abe09691d"
+      },
+      "ui:꽝   결과: %s:/꽝   결과: %s": {
+        "source_sha256": "3bfa26a84ff02581cbb0cb3e83267cc5c40a508c12c63c9b6467e3f5c24195f5",
+        "target_sha256": "ef49ec6fccb3f791a323e59f34a38c3fd4c178100edeb01c595ef694a7457e2b"
+      },
+      "ui:베팅 구역 선택:/베팅 구역 선택": {
+        "source_sha256": "4b5ba9761cb8c32dcc134ab28fbbf3da1b85c9f5cc5a276c40b887fce26d91fb",
+        "target_sha256": "25b2b41ad02395058a690ca9ebcad1c0e193eaf2f5fbcc319f4145029fd340c2"
+      },
+      "ui:베팅 구역을 비웠습니다.:/베팅 구역을 비웠습니다.": {
+        "source_sha256": "0322e190b37c18c8b02793c63f0c03583a49fa11d79ea9d8db5a1cd70824d2ed",
+        "target_sha256": "34e92f510368f8585a924e98fdbcd0ca64ec312f1ee5aad50b1fd0863c952843"
+      },
+      "ui:세그먼트를 먼저 선택해 주세요:/세그먼트를 먼저 선택해 주세요": {
+        "source_sha256": "b07b02ae15ced80b4d6cf914703339f4f7037499f30943caa8789d6a73252d11",
+        "target_sha256": "ad3daed7d2bb0e791fd435c6c5f8fe3b6acd91aabc0e53ae0c64befe30defb4b"
+      },
+      "ui:잔액: %s   |   베팅: %s:/잔액: %s   |   베팅: %s": {
+        "source_sha256": "a7209c96140a475e038058aa7a3999c8bd3a1160377a81a9b8bf8491ba302a30",
+        "target_sha256": "1105fb06f14d39ed2522ec5b66e77e994bb5ac914f9bffc9fa71224e9cbc482a"
+      },
+      "ui:커서: %s:/커서: %s": {
+        "source_sha256": "b047464ba08aa9eb812ae868c1eb433c9423a253d037219ed93d7c29b8a6887f",
+        "target_sha256": "b2870c6599d69f4194e8519f52197e4f051edb51955fc6ddef4955f0a7e76be6"
+      },
+      "ui:현금이 부족합니다:/현금이 부족합니다": {
+        "source_sha256": "9ddff29bf5a479e13884efc2b4ee2eec8c2dd9c9938cb5113f37a84ff4e01a52",
+        "target_sha256": "361fb24aa5efcedd480d1bc1be71a080af94c9643b9036b34d3072402cd0ddfb"
       }
     }
   },
-  "accepted_sha256": "c437d3c8d7438ed8de099a75f5692f5feb4f3fa0fbd406176dca6b948d85df79",
+  "accepted_sha256": "4472b2c3b7eeff86c5c6cd9c2ea8219d1aa4cab259141c4681b6a067486fe66e",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
