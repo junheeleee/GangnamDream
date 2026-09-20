@@ -2717,6 +2717,45 @@
         "path": "docs/agent_reviews/ORDER-277.json",
         "sha256": "5f17241a837123d2b1d1e3595af9a0a8655c6df8dd0d7e9f8393ec54052e06dc"
       }
+    },
+    {
+      "id": "order-278-source-fc4e68e-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-20",
+      "decided_by": "Poincare",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-278",
+      "subject": {
+        "kind": "source",
+        "commit": "fc4e68e9e2c94afcb444b485b9f20751a7c5071a",
+        "tree": "281a89a29dba6ec2797cde88b1b557177edf9b50",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-278.json",
+          "sha256": "aca84a8d5aa19a4bf51b2f444768b4e8896b5d3d37964b1503dd8355a4a4f4c5"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/queue_archive/ORDER-278.md",
+          "sha256": "cb2ea92c04224a6b7b6e6984d795bd7d8b99cd645e51fcccf2cfe0f8b946348f"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "ORDER-278 actual gameplay or rendered panel; no prior screen-evidence inheritance",
+        "full-product completion or approval; existing full-game HOLD remains"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-278.json",
+        "sha256": "aca84a8d5aa19a4bf51b2f444768b4e8896b5d3d37964b1503dd8355a4a4f4c5"
+      }
     }
   ]
 }

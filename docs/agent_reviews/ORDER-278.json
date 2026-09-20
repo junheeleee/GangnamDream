@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-278",
+  "scope": "work_unit",
+  "authority": "user_delegated_agent_final",
+  "reviewer": "Poincare",
+  "verdict": "GO",
+  "required": [],
+  "subject": {
+    "kind": "source",
+    "commit": "fc4e68e9e2c94afcb444b485b9f20751a7c5071a",
+    "tree": "281a89a29dba6ec2797cde88b1b557177edf9b50",
+    "manifest_sha256": null
+  },
+  "review": {
+    "commit": "eca37efd7d67f1e0fde0670807543c68fd7981ae",
+    "tree": "01d6d7e2acf34fbd6521b96e6d6f67aea70073c5",
+    "clean": true,
+    "relationship": "Direct child of subject; only docs/STATUS.md differs. Independently observed with read-only Git."
+  },
+  "decision": "GO only for ORDER-278: the exact-source Chinese finish-rank numeric-view repair and recovery of four unchanged ORDER-269 held bet-type descriptions in each Chinese locale. Required defects found: zero. This is not approval of every accepted translation, the full game, native prose, rendered UI or human play.",
+  "population": {
+    "language": "Four Korean-source keys and eight unchanged CN/TW targets, independently reviewed against current RaceTrack consumers and HorseRace payout semantics. No translation rewriting or previous screen-evidence inheritance.",
+    "checker": "One file. Exact Chinese locale, Korean source and UI ID gate; validates rank tuple, horse quantity and local unordered/ordered cue before masking only rank-counter 名 for numeric comparison. Original targets and other checks remain. Removing new functions/hooks reconstructs the previous whole checker; ORDER277 functions remain byte-exact.",
+    "finite_controls": "43 direct observations: eight normals, 24 mutants, 11 OFF. Full API has 41 observations because absent-ID2 are direct-only. Normal8 success precedes effective24. OFF arrays match each API's own baseline. Embedded self43 repeats this direct roster, not 43 additional independent controls; broader qualitative plan boundaries are not all executed cases.",
+    "acceptance": "Applied exports/import --accept each contain four targets, changed_files0. Current UI8, applied responses, receipt target hashes and portable additions equal the original held manuscripts. Native review remains OPEN.",
+    "preservation": "Old39921 current source/target hash evidence retained; new39929/b123/meta9. Independent removal of new8 and last batch reconstructs the whole old portable bytes. CN/TW append4 raw inverses and JA whole bytes are exact. Historical held80 becomes remaining72; historical manuscripts remain preserved.",
+    "named": "One fixed12 invocation on clean revieweca37ef; twelve distinct children exit0 with expected markers. All raw child streams/base64/size/SHA and decoded text checked. Inner1642 and outer1203 input maps are unchanged and match current physical files.",
+    "ownership": "Nine changed paths from baseline1447e4e are within the declared thirteen. Product changes are checker, CN UI, TW UI and portable only. Source/runtime/collector/project, public evidence, Japanese and human evidence remain unchanged. Existing64 decision records are whole-byte identical.",
+    "limitations": "Full-product HOLD, humanOPEN45 and publicGO1 remain. JA beta, Chinese skeleton/shipping0, dynamic6/701 and registry EXTRA advisories are retained. No new engine or actual panel observation."
+  },
+  "method": [
+    "Applied gangnamdream-dev, CLAUDE, WORK_UNIT and localization references. Read actual source/checker diff, frozen cases, private drivers, formal records and captures without repository imports or QA reruns.",
+    "Used read-only standard-library byte/hash/JSON/AST calculations for predecessor reconstruction, exact original8/application/receipt equality, portable inverse and raw stream verification. Read all twelve child outcomes; parsed complete retained fullself tagged JSON without treating expected negative diagnostics as failures.",
+    "Capture reuse differs from ORDER277 only by output prefix; named reuse changes unit labels, baseline and owned unit paths while preserving fixed12 and capture logic. Exchange enforces held-report hash, language approval, exact source selection, receipts and current-target preservation. Closure helper was read but not executed by this reviewer.",
+    "No product, tracked document, Git, remote or human-evidence mutation by this reviewer. Only private independent reports were written."
+  ],
+  "execution_boundaries": {
+    "baseline": "Clean a2126da diagnostic collection: normal2 PASS/6 FAIL, effective negatives0, direct43/full41, exceptions0. Exit0 means collection completed, not baseline functional PASS.",
+    "post": "First post ran at a2126da HEAD with the checker dirty, before checker commit80ee3d3. Normal8 PASS, effective mutants24 and OFF11 preserved per API. Both rank-to-horse mutations that passed baseline are rejected post. No exceptions counted as rejection.",
+    "formal": "Preflight exports used clean declarationa2126da. Checks used clean80ee3d3, changed_files1 proposals without installation. Applied exports/imports used clean0546dbb, four targets per locale and changed_files0.",
+    "preservation": "First preservation ran at 0546dbb HEAD with only portable dirty, before CLAUDE changed. It is not represented as a clean-final run. All1203 captured product/source pins independently match the final candidate.",
+    "named": "Clean eca37ef start/end; inner123.902601916 seconds, outer124.215601792 seconds. Fullself264, JAself146, ZHself12530=previous12487+same43, JA UI2978/errors0, EN clean, public five-locale audit, registry152, queue25, agent222/HOLD, context395 and queue consistency passed. Fullself stderr is normal unittest progress/264 tests/OK; other eleven child stderr and outer stderr are empty."
+  },
+  "current_seals": {
+    "checker_sha256": "220631c1eb9d9bfcfa2eda7742499b63178ee2f3cf5f0586863e0940dcaf50f8",
+    "source_manifest_sha256": "2af00468b62e7f0cc61541770c57900424135e5c9e7de12e8dc087fd74f3f15a",
+    "portable_bytes": 10447726,
+    "portable_sha256": "7796067faf96e8385799acb0aaa55acf60499e551255dad113aef7b222dc1be1",
+    "accepted_digest": "fbd34a71d89cd84650f56e3c3847a27585b29f8b18ff0ae2fb1fa8669ede3737",
+    "prior64_ledger_sha256": "d9eb580b8bd631710d4e1fc270d70c42da389c5cb1a4d8de1553238960aa50e7",
+    "human_gates_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6"
+  },
+  "evidence": {
+    ".git/full-game-localization/order278-language-review-first.json": "84799a643a4384c453f4f3ad280e096ecde790f95f9a6ae1fc2c87689d54cece",
+    ".git/full-game-localization/order278-checker-review-first.json": "4e68ce4543ce9e6097e7b91a0822f3f9b8d594924f75c99046be338f14624816",
+    ".git/full-game-localization/order278-cases.json": "8b2c5875ef67f4f78c4de5882edc2e5fb9e462bedb3b943235e2bf0b4e0bbb28",
+    ".git/full-game-localization/order278-cases-baseline-first.json": "76d6c628de14fbd5939adcfe32819bf4391af002f6949e4173b44a0fb8b5e637",
+    ".git/full-game-localization/order278-cases-post-first.json": "dfabc850006afd59117c199b544516419c2d7b5911cbcd4459b3c2638829e608",
+    ".git/full-game-localization/order278-export-cn-first.json": "3543726773e9f870b248395ca6c748f9d8017fbd35ca55539dac4930c83a6365",
+    ".git/full-game-localization/order278-export-tw-first.json": "aebf3d8bb20817c27dcb846d4fd9d9ccec835aab37b5cfef15002ecef4b17e08",
+    ".git/full-game-localization/order278-preflight-cn-first.json": "99ca46269e421baf8bc3e187d1f200a9b0a4a4e0b85be803187c4547843b1968",
+    ".git/full-game-localization/order278-preflight-tw-first.json": "4641e36da16728b46c860671eb867cede6f539b634857a0de67752c10037b3a8",
+    ".git/full-game-localization/order278-applied-export-cn-first.json": "d0a6805e1d966979e48737cb712983f727753f714762868b2d3b0199898079a8",
+    ".git/full-game-localization/order278-applied-export-tw-first.json": "28aaf7fad0f3cc9a2cb4829593ed20ba3c1531009b1d2e9451480aef682b85ae",
+    ".git/full-game-localization/order278-accept-cn-first.json": "fd4e356e6fd1623d49b73b3997ec6a0ad9870588fd49f891e096ab4dc2d7833a",
+    ".git/full-game-localization/order278-accept-tw-first.json": "62c09bfbdda59a7a82cfbdc51dd87cd78931c494a377d5b919071312b7792e9c",
+    ".git/full-game-localization/zh-CN/full-ko-direct-2026-09-07.1/2bcb9e9dcdb5d7c6b9a3f25d89187639302652246397902327d3990771a41983.accepted.json": "55c0a350a47e9ad74505a32a4e44e48b0aecfc94810b8ceb6d4f9692e9eaee0b",
+    ".git/full-game-localization/zh-TW/full-ko-direct-2026-09-07.1/46c7b1c290f4397f07f331b0539830444455a1b66544a41b4aa6186a0ac408b8.accepted.json": "e2ea57d9e372061bee6eaa0a830c0f1c62a5dd934655874518844d98debaca18",
+    ".git/full-game-localization/order278-preservation-first.json": "c214d68d9e4614df4c5b93daa3614ece305b763dc30860317258bc6baf8cb3c2",
+    ".git/full-game-localization/order278-named-first.json": "041837bf91c8d5a46984a343ce444bce4458b7453ce758c7926539ff7c8a1446",
+    ".git/full-game-localization/order278-named-envelope-first.json": "ca56a1b0d65d59fad6d70058e65cd3227c8489408997c3fc23833dd58e9e0ef6",
+    "docs/agent_reviews/ORDER-269.json": "8c5a13d53aa29d6fb45adf1d2c563f908a7e58860536ebf8ae128b35b04b77aa"
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "ORDER-278 actual gameplay or rendered panel; no prior screen-evidence inheritance",
+    "full-product completion or approval; existing full-game HOLD remains"
+  ]
+}
