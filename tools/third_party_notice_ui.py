@@ -153,9 +153,18 @@ def collect_third_party_notice_ui_entries(root: Path = ROOT) -> list[NoticeUiEnt
     return rows
 
 
-def notice_ui_additions(rows: list[NoticeUiEntry], static_keys: set[str]) -> dict[str, NoticeUiEntry]:
-    """Keep the two old static identities; never hide an unexpected collision."""
+def notice_ui_additions(
+    rows: list[NoticeUiEntry], static_keys: set[str], *, allow_partial_static: bool = False,
+) -> dict[str, NoticeUiEntry]:
+    """Keep old identities; a partial static source view owns no notice extras."""
     overlap = {row.source for row in rows} & static_keys
-    if overlap != {row.source for row in rows if row.static_fallback}:
+    fallbacks = {row.source for row in rows if row.static_fallback}
+    if overlap - fallbacks:
+        raise NoticeSourceError("notice/static UI unexpected source collision")
+    if overlap != fallbacks:
+        if allow_partial_static:
+            # The caller explicitly supports a partial *source* inventory.
+            # Never infer this from missing targets or exempt any notice extra.
+            return {}
         raise NoticeSourceError("notice/static UI overlap is not the two reader fallbacks")
     return {row.source: row for row in rows if not row.static_fallback}

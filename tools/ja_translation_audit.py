@@ -244,7 +244,9 @@ def check_ui_scope(actual: Any, errors: list[str]) -> int:
         if key not in actual:
             errors.append(f"ui: missing notice source key {key!r}")
         else:
-            check_text(Entry(pair.key, pair.source, pair.owner), actual[key], errors)
+            # The JA validator uses its existing UI marker for newline parity;
+            # full exchange IDs remain owned by the source provider.
+            check_text(Entry("ui::" + pair.source, pair.source, pair.owner), actual[key], errors)
     unknown_extra = (
         extra_keys - dynamic_keys - story_demo_exclusive_keys
         - premature_context - set(retired_entries) - set(notice_entries)

@@ -194,6 +194,10 @@ the actual reader. The two existing literal fallbacks retain their static source
 identities; the other 12 are `ui_notice_chrome`, with the same provider used by
 full-game collection and both regional audits. Missing or malformed roles,
 duplicates, unexpected static overlap and unverified extra keys are errors.
+The ZH audit's existing partial static-source views own no notice additions
+unless both notice fallbacks are present. Reader validation still runs, and such
+a partial view grants no notice extra-key exemption. Full collection and JA
+require both fallbacks; complete ZH source inventories validate all 12 additions.
 
 This scope is only navigation and explanatory UI. Asset names, provider and
 copyright values, URLs, filenames, provenance ledgers and full legal/license

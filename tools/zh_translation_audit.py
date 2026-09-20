@@ -9970,7 +9970,8 @@ def static_ui_coverage(
     notice_entries = {}
     try:
         notice_entries = notice_ui_additions(
-            collect_third_party_notice_ui_entries(ROOT), expected_legacy | expected_context)
+            collect_third_party_notice_ui_entries(ROOT), expected_legacy | expected_context,
+            allow_partial_static=True)
     except NoticeSourceError as exc:
         errors.append(f"{lang}:notice-ui source: {exc}")
     if not isinstance(actual, dict):

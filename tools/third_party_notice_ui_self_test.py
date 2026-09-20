@@ -8,6 +8,7 @@ import hashlib
 import io
 import json
 import unittest
+from dataclasses import replace
 from pathlib import Path
 from unittest.mock import patch
 
@@ -86,9 +87,12 @@ class NoticeUiTests(unittest.TestCase):
 
     def test_reader_path_and_lookup_fail_closed(self):
         original = (ROOT / notice.READER_PATH).read_bytes()
+        localized = notice._function(original.decode("utf-8"), "_notice_localized").encode("utf-8")
+        self.assertEqual(original.count(localized), 1)
+        self.assertEqual(localized.count(b'return LocaleManager.ui(\n'), 1)
         for before, after in (
             (b'res://content/meta/third_party_notices.json', b'res://content/meta/other.json'),
-            (b'return LocaleManager.ui(\n', b'return str(\n'),
+            (localized, localized.replace(b'return LocaleManager.ui(\n', b'return str(\n', 1)),
             (b'_notice_localized(surface.get("intro", {}))', b'str(surface.get("intro", {}))'),
         ):
             raw = original.replace(before, after, 1)
@@ -99,6 +103,14 @@ class NoticeUiTests(unittest.TestCase):
         for keys in (set(), self.static | {self.rows[1].source}):
             with self.assertRaises(notice.NoticeSourceError):
                 notice.notice_ui_additions(self.rows, keys)
+        for keys in (set(), {next(iter(self.static))}):
+            self.assertEqual(notice.notice_ui_additions(
+                self.rows, keys, allow_partial_static=True), {})
+        for keys in ({self.rows[1].source}, self.static | {self.rows[1].source}):
+            with self.assertRaises(notice.NoticeSourceError):
+                notice.notice_ui_additions(self.rows, keys, allow_partial_static=True)
+        self.assertEqual(len(notice.notice_ui_additions(
+            self.rows, self.static, allow_partial_static=True)), 12)
 
     def test_actual_collection_keeps_old_static_identities(self):
         inventory = full.collect()
@@ -156,13 +168,22 @@ class NoticeUiTests(unittest.TestCase):
                     self.assertEqual(audit(actual), [])
                     self.assertEqual(full.translation_errors(leaf, locale, target), [])
                     for bad in ("", 7, pair.source, target + " %s", target + "\n"):
-                        self.assertTrue(audit({**actual, pair.source: bad}))
-                        self.assertTrue(full.translation_errors(leaf, locale, bad))
+                        with self.subTest(locale=locale, bad=repr(bad)):
+                            self.assertTrue(audit({**actual, pair.source: bad}))
+                            self.assertTrue(full.translation_errors(leaf, locale, bad))
                     self.assertTrue(audit({**actual, "검사용 법률 본문": target}))
                     missing = {k: v for k, v in actual.items() if k != pair.source}
                     self.assertTrue(audit(missing, strict=True))
                     if locale != "ja":
                         self.assertEqual(audit(missing), [])  # Existing skeleton contract.
+                        # A source-scoped partial view owns only its old static
+                        # entry; the new notice key must not become an exemption.
+                        partial = replace(inv, legacy_entries=entries[:1],
+                            legacy_blueprint={entries[0].source: blueprint[entries[0].source]})
+                        with patch.object(zh, "_static_ui_inventory", return_value=partial):
+                            scoped = {entries[0].source: actual[entries[0].source]}
+                            self.assertEqual(audit(scoped, strict=True), [])
+                            self.assertTrue(audit({**scoped, pair.source: target}, strict=True))
                     inventory = {"leaves": [leaf], "source_manifest_sha256": "notice-fixture"}
                     documents = {f"locale/ui_{locale}.json": {"unowned": "retained"}}
                     before = copy.deepcopy(documents)
