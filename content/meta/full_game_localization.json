@@ -4516,6 +4516,26 @@
       "machine_validation": "PASS",
       "rendered_review": "OPEN",
       "native_review": "OPEN"
+    },
+    {
+      "order": "ORDER-277",
+      "group": "ui",
+      "roots": [
+        "정보상에게 듣기  (현금 부족)",
+        "정보상에게 듣기   -3,000   (오늘의 한 마리...)",
+        "  [color=#6a7080](안목이 낮아 진위를 가늠하기 어렵다)[/color]",
+        "[color=#6cc5ff]\"%s\"[/color]   신뢰도 %s [color=#9aa4b8]%d%%[/color]%s",
+        "현금이 부족하다"
+      ],
+      "source_leaves": 5,
+      "target_leaves_by_locale": {
+        "zh-CN": 5,
+        "zh-TW": 5
+      },
+      "source_review": "Recover unchanged ORDER269 held tipster5 keys per Chinese region. Nonauthor full Korean and consumer review. Exact ID/source cost-slot numeric and currency validator repair; direct/full positive and mutant controls retained. Existing39911 preserved, other80 held values separate. No runtime, source, collector, Japanese, public demo or human gate change.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN"
     }
   ],
   "accepted": {
@@ -110537,6 +110557,26 @@
       "ui:자산이 %s 늘었습니다. 이 흐름을 유지하세요.:/자산이 %s 늘었습니다. 이 흐름을 유지하세요.": {
         "source_sha256": "470b29bac90c6926ff9b6d5cf660c4aadbdfb9a406d1afe55d762ed2923ebd13",
         "target_sha256": "b9dcbb1762c9bd8f5d44718f44c918a763f4ded82629965c34e91c0b170181b5"
+      },
+      "ui:  [color=#6a7080](안목이 낮아 진위를 가늠하기 어렵다)[/color]:/  [color=#6a7080](안목이 낮아 진위를 가늠하기 어렵다)[~1color]": {
+        "source_sha256": "619ce65c0ad0108b1e826779a2696ed98e73994f19d89ef821a0125cce79bf2a",
+        "target_sha256": "05145775ffe23ebb481b22324f24e7e333bdf277bdf87011ac35f3370aa922b2"
+      },
+      "ui:[color=#6cc5ff]\"%s\"[/color]   신뢰도 %s [color=#9aa4b8]%d%%[/color]%s:/[color=#6cc5ff]\"%s\"[~1color]   신뢰도 %s [color=#9aa4b8]%d%%[~1color]%s": {
+        "source_sha256": "3342b72f7b7e14c0e8eb4edbeaf5e418f9c9a4c2b91d33769bad9ff30f64bbbe",
+        "target_sha256": "f5e2447aaa0b07b9b4c945f4e59ea277ec71e0ccf7a0a66aacc579f091fdd72d"
+      },
+      "ui:정보상에게 듣기   -3,000   (오늘의 한 마리...):/정보상에게 듣기   -3,000   (오늘의 한 마리...)": {
+        "source_sha256": "cf6f4d7d4f6ede3118111b4f8080663b92c99f71b8128656bc3adb2ef74427be",
+        "target_sha256": "da92dfb0e87139cab3d2e12f909f84ec5bd5c2167f72c86f71e7a40f38fcfaff"
+      },
+      "ui:정보상에게 듣기  (현금 부족):/정보상에게 듣기  (현금 부족)": {
+        "source_sha256": "1928a00e7fe91d6467312749370d2d2359b717b59a3615f2791676405d14272b",
+        "target_sha256": "b099c14a94afbfe68d6a7526cd882b1a69877b05f1354ed27347d061dc366e92"
+      },
+      "ui:현금이 부족하다:/현금이 부족하다": {
+        "source_sha256": "65d843e51b5dd4a125c6179b76a7d7e4fe49e856eed24943b7de1538ad72070a",
+        "target_sha256": "4fef5966efec3c02ce855504b59f36f66685f1514d8722f7f8ad0634b275c576"
       }
     },
     "zh-TW": {
@@ -164167,10 +164207,30 @@
       "ui:자산이 %s 늘었습니다. 이 흐름을 유지하세요.:/자산이 %s 늘었습니다. 이 흐름을 유지하세요.": {
         "source_sha256": "470b29bac90c6926ff9b6d5cf660c4aadbdfb9a406d1afe55d762ed2923ebd13",
         "target_sha256": "dc023331f20630ef65bfc7f6deba75dcfbf5451234c8f42dd5ce0c6666358fcc"
+      },
+      "ui:  [color=#6a7080](안목이 낮아 진위를 가늠하기 어렵다)[/color]:/  [color=#6a7080](안목이 낮아 진위를 가늠하기 어렵다)[~1color]": {
+        "source_sha256": "619ce65c0ad0108b1e826779a2696ed98e73994f19d89ef821a0125cce79bf2a",
+        "target_sha256": "153fd900c8a0ccc56e1a500067ea97462411f532c2c22185a917e5236736c97d"
+      },
+      "ui:[color=#6cc5ff]\"%s\"[/color]   신뢰도 %s [color=#9aa4b8]%d%%[/color]%s:/[color=#6cc5ff]\"%s\"[~1color]   신뢰도 %s [color=#9aa4b8]%d%%[~1color]%s": {
+        "source_sha256": "3342b72f7b7e14c0e8eb4edbeaf5e418f9c9a4c2b91d33769bad9ff30f64bbbe",
+        "target_sha256": "de71ca9d9d40521891340821509c3495064659c34afc823ed4096c5d07b2b079"
+      },
+      "ui:정보상에게 듣기   -3,000   (오늘의 한 마리...):/정보상에게 듣기   -3,000   (오늘의 한 마리...)": {
+        "source_sha256": "cf6f4d7d4f6ede3118111b4f8080663b92c99f71b8128656bc3adb2ef74427be",
+        "target_sha256": "53771223aa2d17c19806b952562542ef2c3eff38b50c47c0d7aea771ca2acf3f"
+      },
+      "ui:정보상에게 듣기  (현금 부족):/정보상에게 듣기  (현금 부족)": {
+        "source_sha256": "1928a00e7fe91d6467312749370d2d2359b717b59a3615f2791676405d14272b",
+        "target_sha256": "4ed6b5a637be4587fd79dc12a920702bfbbe7191032e8ba308eade1f86139aeb"
+      },
+      "ui:현금이 부족하다:/현금이 부족하다": {
+        "source_sha256": "65d843e51b5dd4a125c6179b76a7d7e4fe49e856eed24943b7de1538ad72070a",
+        "target_sha256": "361fb24aa5efcedd480d1bc1be71a080af94c9643b9036b34d3072402cd0ddfb"
       }
     }
   },
-  "accepted_sha256": "53575fd72b37d9f710211c111731f1c76a1288ff367ff26c185988761981f323",
+  "accepted_sha256": "bdd8130a2566c550f3b298ced029564dec06a1f3a6db47491ced083878551cd4",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
