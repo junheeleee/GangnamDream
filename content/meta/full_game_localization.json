@@ -4700,6 +4700,34 @@
       "machine_validation": "PASS",
       "rendered_review": "OPEN",
       "native_review": "OPEN"
+    },
+    {
+      "order": "ORDER-284",
+      "group": "ui",
+      "roots": [
+        "이 게임은 아래의 게임 엔진, 서체, 오디오 출처를 사용합니다. 각 항목의 출처와 라이선스를 확인할 수 있습니다.",
+        "라이선스 전문이 필요한 항목은 사본을 배포 파일에 함께 넣었습니다. 오디오 파일별 상세 출처는 별도 원장에 기록되어 있습니다.",
+        "제공자",
+        "저작권",
+        "라이선스",
+        "출처",
+        "라이선스 전문 동봉",
+        "저작자 표시 필요",
+        "표시 의무 없음 · 제작진 표기",
+        "게임 엔진",
+        "서체",
+        "오디오"
+      ],
+      "source_leaves": 12,
+      "target_leaves_by_locale": {
+        "ja": 12,
+        "zh-CN": 12,
+        "zh-TW": 12
+      },
+      "source_review": "Independent KO-direct JA/CN/TW notice chrome12 each; all36 reviewed by nonauthor against actual StartMenu JSON consumer. Preserve introduction, package note, metadata labels and distinct required/voluntary statuses. Existing40067 source/target and all prior UI raw bytes preserved; existing static2 untouched. Exactly14 data pairs registered with new12 ui_notice_chrome; legal bodies, asset values, licenses, URLs, runtime and public/human evidence excluded. No rendering/native/legal certification.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN"
     }
   ],
   "accepted": {
@@ -57099,6 +57127,54 @@
       "ui:커서: %s:/커서: %s": {
         "source_sha256": "b047464ba08aa9eb812ae868c1eb433c9423a253d037219ed93d7c29b8a6887f",
         "target_sha256": "1d60026a9292ea65b6cd9696475fc5d9bf8030cf1d39614e6a6e71172544a244"
+      },
+      "ui:게임 엔진:/게임 엔진": {
+        "source_sha256": "259515af08eb31ad9b0b8be510a56fd2962afc6db07850c718ba287ec66804e3",
+        "target_sha256": "4b61b073fb8251caeca22d5f17f30d86a72db77a7d0e18c3e866a024665260fa"
+      },
+      "ui:라이선스 전문 동봉:/라이선스 전문 동봉": {
+        "source_sha256": "24a99735502e8f102cba23bd13c0417476d60dbdada55e568b50d6247dabb1fe",
+        "target_sha256": "a99a2115d3c366e6b181f5fdee474fa359a224271332836598b5f22f66b42e86"
+      },
+      "ui:라이선스 전문이 필요한 항목은 사본을 배포 파일에 함께 넣었습니다. 오디오 파일별 상세 출처는 별도 원장에 기록되어 있습니다.:/라이선스 전문이 필요한 항목은 사본을 배포 파일에 함께 넣었습니다. 오디오 파일별 상세 출처는 별도 원장에 기록되어 있습니다.": {
+        "source_sha256": "b366983e5b5951532cdf4d56a1f76dd55988141380023110162ab90d3acf1f8d",
+        "target_sha256": "c26f23240336b3823cda650389bd53b63b57e3b10018773041d1efd0fcc303ec"
+      },
+      "ui:라이선스:/라이선스": {
+        "source_sha256": "55cc581a801fdd2ff463cc5826f50a188ec7d8115dc8faef76a80d4ccae927f8",
+        "target_sha256": "3456615529afb33b91412cca5343ad72349f40efb0ae48a5ec53ef1c8679a27c"
+      },
+      "ui:서체:/서체": {
+        "source_sha256": "02a23f026923ad8e2f702d3c34062b261f43342d79d6f5655367bcf8852a3e99",
+        "target_sha256": "c3fde4db4667a3f83b70be20afa1913439d4f2ad54b2bb6b0531e33377e787bf"
+      },
+      "ui:오디오:/오디오": {
+        "source_sha256": "76043979f01d4a3dfbaff5b0ba02c643619ab6848fb9d073dbb41fd1bd41ab65",
+        "target_sha256": "027991d5939486bf7f3359fc09762abdf1e522b626f9aa10d9fcbf79c1974941"
+      },
+      "ui:이 게임은 아래의 게임 엔진, 서체, 오디오 출처를 사용합니다. 각 항목의 출처와 라이선스를 확인할 수 있습니다.:/이 게임은 아래의 게임 엔진, 서체, 오디오 출처를 사용합니다. 각 항목의 출처와 라이선스를 확인할 수 있습니다.": {
+        "source_sha256": "cf1e9ae8d425e0c8ada4e5372892ff36ff8fb88d9d1013c662c46785c551a2ab",
+        "target_sha256": "717f11108c9482e056f9e623922a620beca8904731e518168fe96028c91b506e"
+      },
+      "ui:저작권:/저작권": {
+        "source_sha256": "3dc858610f5405db5277771195703c8b44336aea80ca452ecbdfddae62932504",
+        "target_sha256": "b8acb7b1abb856ce157ca0e0a2af8da67c129a344d6f04fc51edc967df90d30a"
+      },
+      "ui:저작자 표시 필요:/저작자 표시 필요": {
+        "source_sha256": "53c48e4727eed4719555f9a2f666cadb83a5e69385aabf36526d199629a5dd72",
+        "target_sha256": "e6e96ea652a5088cf061941708e310e130d4e41aa3a2e10a4e5f0649b20178f1"
+      },
+      "ui:제공자:/제공자": {
+        "source_sha256": "be77ad371dd886c69527cfe8cdb645177a679605445ba2e86d52c7d499ab8eca",
+        "target_sha256": "b521e61a2352889124472594de612cf7c6e6fcceb8f8807899a67911ca47fba2"
+      },
+      "ui:출처:/출처": {
+        "source_sha256": "4c9cbb3d38e9901b3a97ebb054f12def0c2492936d02ddb5ac6c6cd914c7c58f",
+        "target_sha256": "e754e74038eb73a35c3eb3b2b39ec0272bf3ddf50dbf5081817cf83f185c9c5d"
+      },
+      "ui:표시 의무 없음 · 제작진 표기:/표시 의무 없음 · 제작진 표기": {
+        "source_sha256": "aa258c47b5e744c63a2847ad426252afc8c84cd8dca8c61d0d332d4347470d86",
+        "target_sha256": "0ab3588e8c449c12d4b7e3c07d28edc6c12fb83cc47336f93ce35f999d02efd2"
       }
     },
     "zh-CN": {
@@ -111037,6 +111113,54 @@
       "ui:🔀 슈 리셔플:/🔀 슈 리셔플": {
         "source_sha256": "062e74059da4f7f7900be081ff63ae4a4ff29af8bffacd6e8234cbe61623558f",
         "target_sha256": "8cddc470a369761bf5097b90deee3401528e0d8429b76c0e7a23abc5a8383c3f"
+      },
+      "ui:게임 엔진:/게임 엔진": {
+        "source_sha256": "259515af08eb31ad9b0b8be510a56fd2962afc6db07850c718ba287ec66804e3",
+        "target_sha256": "92be27661bfd991737914a59a85040fb1495f036701769b0152c2af1af3aea8f"
+      },
+      "ui:라이선스 전문 동봉:/라이선스 전문 동봉": {
+        "source_sha256": "24a99735502e8f102cba23bd13c0417476d60dbdada55e568b50d6247dabb1fe",
+        "target_sha256": "69521fff7d99840510f24ca6c8c4bbbcb1beda08a3bfe2c89d1faa729c755fef"
+      },
+      "ui:라이선스 전문이 필요한 항목은 사본을 배포 파일에 함께 넣었습니다. 오디오 파일별 상세 출처는 별도 원장에 기록되어 있습니다.:/라이선스 전문이 필요한 항목은 사본을 배포 파일에 함께 넣었습니다. 오디오 파일별 상세 출처는 별도 원장에 기록되어 있습니다.": {
+        "source_sha256": "b366983e5b5951532cdf4d56a1f76dd55988141380023110162ab90d3acf1f8d",
+        "target_sha256": "a9833921c1d43f451e2c1bf2d25d9b63559d5059dfa85a185940b4badcc161a5"
+      },
+      "ui:라이선스:/라이선스": {
+        "source_sha256": "55cc581a801fdd2ff463cc5826f50a188ec7d8115dc8faef76a80d4ccae927f8",
+        "target_sha256": "bbb430e608408cbc1e8211eb0cde341a73eb7c79f3dfe7475ac852baf82198a9"
+      },
+      "ui:서체:/서체": {
+        "source_sha256": "02a23f026923ad8e2f702d3c34062b261f43342d79d6f5655367bcf8852a3e99",
+        "target_sha256": "3df5b6c6300d7aca563a318f5379ab9c05f277b369c49497ef55ec9038ab927a"
+      },
+      "ui:오디오:/오디오": {
+        "source_sha256": "76043979f01d4a3dfbaff5b0ba02c643619ab6848fb9d073dbb41fd1bd41ab65",
+        "target_sha256": "f9b0234860a0de4753be687606175b86d3cf6145157376412f3304f41835e000"
+      },
+      "ui:이 게임은 아래의 게임 엔진, 서체, 오디오 출처를 사용합니다. 각 항목의 출처와 라이선스를 확인할 수 있습니다.:/이 게임은 아래의 게임 엔진, 서체, 오디오 출처를 사용합니다. 각 항목의 출처와 라이선스를 확인할 수 있습니다.": {
+        "source_sha256": "cf1e9ae8d425e0c8ada4e5372892ff36ff8fb88d9d1013c662c46785c551a2ab",
+        "target_sha256": "24ddf0639be580d99cf7e1fd3319f031bc91f1cfdc2c0069920f133178ceb44f"
+      },
+      "ui:저작권:/저작권": {
+        "source_sha256": "3dc858610f5405db5277771195703c8b44336aea80ca452ecbdfddae62932504",
+        "target_sha256": "6cc3f751212c88997f3ebb956d0dd665e933185164d99bfc56326f60593fd29b"
+      },
+      "ui:저작자 표시 필요:/저작자 표시 필요": {
+        "source_sha256": "53c48e4727eed4719555f9a2f666cadb83a5e69385aabf36526d199629a5dd72",
+        "target_sha256": "c4072bd8edc7f99fd8d91775fcdab9f83e2aa39f3d60d1e7be7bb836567cade8"
+      },
+      "ui:제공자:/제공자": {
+        "source_sha256": "be77ad371dd886c69527cfe8cdb645177a679605445ba2e86d52c7d499ab8eca",
+        "target_sha256": "5439e92681f1ad633cc2f59e05b090025cc618462f3b25f4b82a27e1f4a45eb4"
+      },
+      "ui:출처:/출처": {
+        "source_sha256": "4c9cbb3d38e9901b3a97ebb054f12def0c2492936d02ddb5ac6c6cd914c7c58f",
+        "target_sha256": "b1d7fae7b2f6c357fe48e5701ad4ee972260ecc3194fd3b8065f5204b4dd435e"
+      },
+      "ui:표시 의무 없음 · 제작진 표기:/표시 의무 없음 · 제작진 표기": {
+        "source_sha256": "aa258c47b5e744c63a2847ad426252afc8c84cd8dca8c61d0d332d4347470d86",
+        "target_sha256": "7c92ade8c55826336202be886004d2f4a0feed6638d53cc1f2774d62b2755144"
       }
     },
     "zh-TW": {
@@ -164975,10 +165099,58 @@
       "ui:🔀 슈 리셔플:/🔀 슈 리셔플": {
         "source_sha256": "062e74059da4f7f7900be081ff63ae4a4ff29af8bffacd6e8234cbe61623558f",
         "target_sha256": "0a4fcc09cf0754b46a9d28fc422ac56d6908eda0fd6ccf803b6c32f9d7414544"
+      },
+      "ui:게임 엔진:/게임 엔진": {
+        "source_sha256": "259515af08eb31ad9b0b8be510a56fd2962afc6db07850c718ba287ec66804e3",
+        "target_sha256": "3a24caad8a2364ab1b10c10161be9ad7daa6667f3e1660edc90daad1ff66cb5d"
+      },
+      "ui:라이선스 전문 동봉:/라이선스 전문 동봉": {
+        "source_sha256": "24a99735502e8f102cba23bd13c0417476d60dbdada55e568b50d6247dabb1fe",
+        "target_sha256": "90664e540b09569bd70368810f20447eba63ec2cff0ee0379a469d5a5b9e8662"
+      },
+      "ui:라이선스 전문이 필요한 항목은 사본을 배포 파일에 함께 넣었습니다. 오디오 파일별 상세 출처는 별도 원장에 기록되어 있습니다.:/라이선스 전문이 필요한 항목은 사본을 배포 파일에 함께 넣었습니다. 오디오 파일별 상세 출처는 별도 원장에 기록되어 있습니다.": {
+        "source_sha256": "b366983e5b5951532cdf4d56a1f76dd55988141380023110162ab90d3acf1f8d",
+        "target_sha256": "409334df2ec3eb086ea31d5acae5c3afba8e783a7826fd28fa5d88938b56500d"
+      },
+      "ui:라이선스:/라이선스": {
+        "source_sha256": "55cc581a801fdd2ff463cc5826f50a188ec7d8115dc8faef76a80d4ccae927f8",
+        "target_sha256": "cd2aab9c67ead11b7dca3b564e7cd9d09d73ca14d71bd7adbd94dd22745844dc"
+      },
+      "ui:서체:/서체": {
+        "source_sha256": "02a23f026923ad8e2f702d3c34062b261f43342d79d6f5655367bcf8852a3e99",
+        "target_sha256": "ee5191b6602009d3dd86f6400b96098785f27d67ffde5b9a64092c86675219c7"
+      },
+      "ui:오디오:/오디오": {
+        "source_sha256": "76043979f01d4a3dfbaff5b0ba02c643619ab6848fb9d073dbb41fd1bd41ab65",
+        "target_sha256": "05f69d0fcb2a27d5aafa018159ac11037429d081bd4eaf5951e25eafa1f183c8"
+      },
+      "ui:이 게임은 아래의 게임 엔진, 서체, 오디오 출처를 사용합니다. 각 항목의 출처와 라이선스를 확인할 수 있습니다.:/이 게임은 아래의 게임 엔진, 서체, 오디오 출처를 사용합니다. 각 항목의 출처와 라이선스를 확인할 수 있습니다.": {
+        "source_sha256": "cf1e9ae8d425e0c8ada4e5372892ff36ff8fb88d9d1013c662c46785c551a2ab",
+        "target_sha256": "2046d6d84bd91277f85cd7b171d93597df7ce69584d29282203d8a053ce24474"
+      },
+      "ui:저작권:/저작권": {
+        "source_sha256": "3dc858610f5405db5277771195703c8b44336aea80ca452ecbdfddae62932504",
+        "target_sha256": "8b25a8940d7193cc3f7bf25d7d2b7c0de24ad7058526c1a775267b0138cffaaa"
+      },
+      "ui:저작자 표시 필요:/저작자 표시 필요": {
+        "source_sha256": "53c48e4727eed4719555f9a2f666cadb83a5e69385aabf36526d199629a5dd72",
+        "target_sha256": "c933c87a50c3b3bf0fc8d5d43034f5e9a6f12dbc0be2b3207c856ab71e68303c"
+      },
+      "ui:제공자:/제공자": {
+        "source_sha256": "be77ad371dd886c69527cfe8cdb645177a679605445ba2e86d52c7d499ab8eca",
+        "target_sha256": "5439e92681f1ad633cc2f59e05b090025cc618462f3b25f4b82a27e1f4a45eb4"
+      },
+      "ui:출처:/출처": {
+        "source_sha256": "4c9cbb3d38e9901b3a97ebb054f12def0c2492936d02ddb5ac6c6cd914c7c58f",
+        "target_sha256": "72f3bb620722e264d4f3a1530d9a70c063b64ee511ab28e740452a95f71884e0"
+      },
+      "ui:표시 의무 없음 · 제작진 표기:/표시 의무 없음 · 제작진 표기": {
+        "source_sha256": "aa258c47b5e744c63a2847ad426252afc8c84cd8dca8c61d0d332d4347470d86",
+        "target_sha256": "c7bfb62b329213047be902841dee6c6df673595d83e216234cb61b7426af6a59"
       }
     }
   },
-  "accepted_sha256": "29acf19632f59f0dd4eb513937d6d204fb9afafe40741107fb891ddd1599df60",
+  "accepted_sha256": "9802e690f80d9d185e688b3b791307732eea2c527af7f11443709e4970b1c1d0",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
