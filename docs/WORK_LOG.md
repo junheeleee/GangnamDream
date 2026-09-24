@@ -2,6 +2,13 @@
 
 > 이전 WORK·선언·검증 원문은 [284 보존본](queue_archive/ORDER-284.md)에 있다.
 
+## 2026-09-24 (Claude — 체험판 외부 테스트·Steam 제출 점검 보강)
+
+- 사용자 요청으로 체험판 출시 준비 상태를 점검했다. 새 문서를 만들지 않고 기존 정본 두 곳만 보강했다.
+- `PLAYTEST_KIT.md` 현행 M01~M06 절: 진행자 안내 문구(KO/EN), 관찰 표시, 48시간 뒤 기억 확인, Gate A·B·C·F 결과 집계표, 읽는 법 `[첫 실행 재조정]`.
+- `NEXTFEST_CHECKLIST.md`: 2026-09-24 점검 절. 공개 체험판 Windows/Linux builder 부재, 캡슐 규격 재확인 필요(Steamworks 문서 접근 차단으로 미확인), 퍼블리셔 표기 불일치, 외부 플레이테스트 0건, 10월 회차 일정 판단.
+- `store_shot_check.py` 재실행 PASS(8장). 게임 실행·빌드·실제 화면은 이 환경에 Godot이 없어 미관찰이다. 공개GO1·인간OPEN45·본편HOLD 불변.
+
 ## 2026-09-20 (Codex — 실제 타이틀 고지 안내 세 언어36값)
 
 - [284](queue_archive/ORDER-284.md): 제품ca8dfe0·검토0ee137b, 독립 Poincare 한정GO/필수0.
