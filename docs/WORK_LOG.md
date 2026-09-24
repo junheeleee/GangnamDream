@@ -2,6 +2,13 @@
 
 > 이전 WORK·선언·검증 원문은 [284 보존본](queue_archive/ORDER-284.md)에 있다.
 
+## 2026-09-24 (Claude — main CI 실패 5건 중 2건 수리)
+
+- `main` 685e10f의 CI 실패 5건을 재현하고 bisect로 원인을 찾았다. STATUS_DOC는 9b091a2 이후 현황 문서 미갱신, EN_HANGUL는 29d46d7(ORDER-267)이 새 게임 로그 `ui_format` 2건을 `ja_translation_pipeline.py`의 `NEW_RUN_LOG_CALLS`에만 등록해 영어 한글 감사가 모른 결과다.
+- 수리: `english_hangul_audit.py`가 `NEW_RUN_LOG_CALLS`의 format 행을 AST로 읽어 기대 집합에 더한다(등록 정본 하나 유지, manifest 해시·개수 불변). self-test 12건. `STATUS.md` 재생성.
+- 대안 기각: manifest `candidate_registry`에 2행 추가는 JA/ZH 감사 32건 연쇄 실패(개수·해시·provenance)를 만들어 되돌렸다.
+- 미수리 3건: CHAPTER1_CAUSAL_LEDGER self-test(CI 범위상 29d46d7 추정), CI_LOCALIZATION·META_TITLE history(f231658이 해시 고정 대상 `ja/zh_translation_audit.py`·`full_game_localization.py`를 successor 등록 없이 수정). 처리 방식은 사용자 판단 대기.
+
 ## 2026-09-24 (Claude — 체험판 외부 테스트·Steam 제출 점검 보강)
 
 - 사용자 요청으로 체험판 출시 준비 상태를 점검했다. 새 문서를 만들지 않고 기존 정본 두 곳만 보강했다.
