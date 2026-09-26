@@ -3208,6 +3208,47 @@
         "path": "docs/agent_reviews/ORDER-289.json",
         "sha256": "af3227033e8671f4602514ce81f7063ac4bae291f8302b343dbe9108fee72216"
       }
+    },
+    {
+      "id": "order-290-source-ab376c5-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-27",
+      "decided_by": "/root/blackjack_accounting_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-290",
+      "subject": {
+        "kind": "source",
+        "commit": "ab376c576dfaaad25fd0d117d72d5a04981a7fb8",
+        "tree": "81cd79ffec03b4ba1fedb03df8be9c46ceba3ae5",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-290.json",
+          "sha256": "98fc661c0dcaec666ad0a73370df99fd87eaae449706c9fe074cef550639ce1e"
+        },
+        {
+          "kind": "agent_render_observation",
+          "path": "docs/queue_archive/ORDER-290.md",
+          "sha256": "f09bbb1c16bd6a4a24d603fdda124fe268b0e0bb9e516c4c8af6e3563c3ebac0"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "Actual casino ingress, dealt or settled hands, real keyboard/mouse/controller input, probability/EV and audio listening. These are prepared HUD states; Table._ready seeds RNG before measured snapshots.",
+        "Whole-screen Chinese completion: the visible English rule sentence and table-face labels remain outside this unit. Dynamic results, split-AA behavior and prior accounting repairs are not re-approved here.",
+        "Other cash magnitudes, formatter precision, large counter widths, other resolutions/platforms, packaged build and production exit behavior. The unchanged money formatter rounds large amounts; this is not exact-won precision certification.",
+        "Subsequent queue/archive/decision/dashboard closure and later source changes. Native/human gates remain OPEN; public GO1, human OPEN45 and full-game HOLD are not changed by this limited agent GO."
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-290.json",
+        "sha256": "98fc661c0dcaec666ad0a73370df99fd87eaae449706c9fe074cef550639ce1e"
+      }
     }
   ]
 }

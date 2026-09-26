@@ -1,3 +1,18 @@
+# ORDER-290 — 블랙잭 중국어 현금·손익·승률 HUD
+
+[x] 2026-09-27. 비저자 작업 한정 GO, 필수 결함0.
+
+- source `ab376c576dfaaad25fd0d117d72d5a04981a7fb8`, tree `81cd79ffec03b4ba1fedb03df8be9c46ceba3ae5`. [독립 보고](../agent_reviews/ORDER-290.json) SHA `98fc661c0dcaec666ad0a73370df99fd87eaae449706c9fe074cef550639ce1e`.
+- KO 부모·승률 fragment2키를 CN/TW 독립 직접 번역해4값 수용. W/L/P는 승/패/푸시 의미의 胜/负/平·勝/負/平로 표기했다. 숫자·공백·BBCode·인자순서와 누적 해결 hand 분모는 유지한다.
+- 첫 공식 check2는 영문 W 잔존으로 FAIL, 원형 보존. 검사 완화 없이 같은4값을 다시 작성했으며 수정 check와 적용후 export/check/import 각2키×2 PASS.
+- 공식40133/b131/meta9. 기존40129 source/target·사전/portable raw 역복원, JA·KO/EN·runtime·공개·인간 원형 유지. 보류72 불변.
+- 기존 명명12 표적 검사와 실제1280×800 준비 HUD4상태×2언어=8PNG의 정확 문자열·행/viewport 경계·시각 읽기를 확인했다. 빈통계/양수/음수/통계 있는0손익이다. 딜·정산·입력0, 다음 판 승률 보장이나 실제 입력 재검증이 아니다.
+- 격리 bootstrap namespace에서 실행했고 원본 사용자43파일과 source 입력이 보존됐다. raw stdout/stderr/Godot log·result·PNG 해시는 독립 보고에 결속한다.
+- 영문 규칙/EV·직행EN/동적 결과·AA·다른 해상도·패키지·원어민/인간/물리패드는 미관찰 또는 별도 범위다. 공개GO1·인간OPEN45·본편HOLD 유지.
+- 규범 승격 없음: 기존 I18N/WORK_UNIT 적용, 이번2키·준비상태·도구는 일회성.
+
+## 최초 선언 원문
+
 # Active Queue Spec: ORDER-290
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
