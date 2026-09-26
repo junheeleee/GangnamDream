@@ -4847,6 +4847,35 @@
       "machine_validation": "PASS",
       "rendered_review": "OPEN",
       "native_review": "OPEN"
+    },
+    {
+      "order": "ORDER-296",
+      "group": "ui",
+      "roots": [
+        "단일 숫자",
+        "홀수",
+        "짝수",
+        "단일숫자\n(35:1)",
+        "빨강\n(1:1)",
+        "검정\n(1:1)",
+        "홀수\n(1:1)",
+        "짝수\n(1:1)",
+        "낮음 1-18\n(1:1)",
+        "높음 19-36\n(1:1)",
+        "1묶음 1-12\n(2:1)",
+        "2묶음 13-24\n(2:1)",
+        "3묶음 25-36\n(2:1)"
+      ],
+      "source_leaves": 13,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 13,
+        "zh-TW": 13
+      },
+      "source_review": "Independent Korean-direct CN/TW13 Roulette bet types and shared DaiSai parity keys; nonauthor full26 and17 literal readers. Exact ranges/ratios/newlines, chosen number vs parity and existing group/color/range consistency checked. JA/KO/EN/runtime/public/human and existing40213 unchanged. Actual render/input/native/full-product review remain OPEN.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN"
     }
   ],
   "accepted": {
@@ -111500,6 +111529,58 @@
       "ui:플레이어 1:1  ·  뱅커 0.95:1(커미션5%)  ·  타이 8:1  ·  페어 11:1  ·  6덱 슈  ·  내추럴(8·9) 시 추가 드로우 없음:/플레이어 1:1  ·  뱅커 0.95:1(커미션5%)  ·  타이 8:1  ·  페어 11:1  ·  6덱 슈  ·  내추럴(8·9) 시 추가 드로우 없음": {
         "source_sha256": "4133e3bc1854b44eb0df7f03f959dc4ac8630ce3507793eed2d82f90fd835ecb",
         "target_sha256": "4f88022b6aa651110d21d5fee49919e094d4b97f5ee1bdda099d5e5d1266c6fb"
+      },
+      "ui:1묶음 1-12\n(2:1):/1묶음 1-12\n(2:1)": {
+        "source_sha256": "1995360b2288cb1778bb61be28ee6429b32ab6cb83c9eca47ea31e8499cb5c87",
+        "target_sha256": "2a3f421fe018241e4f22a6ad084de55e6dedd020ab2f8818884614bf1a14ee49"
+      },
+      "ui:2묶음 13-24\n(2:1):/2묶음 13-24\n(2:1)": {
+        "source_sha256": "dd04171910605e824aefe4b2ebf4471ef8c4a9c8f21f36ef266bf0ed27901028",
+        "target_sha256": "f8c45e470ab1560eeaf8aa1470e45fffbbefd8172f32e77bf53a55bba888d9a9"
+      },
+      "ui:3묶음 25-36\n(2:1):/3묶음 25-36\n(2:1)": {
+        "source_sha256": "0265143e9e6ae9b7a9bef6d3514e176231ef9b0d07988143a613aef146e92acb",
+        "target_sha256": "380f04a3fb56d5577dcddadd299042a0e65f6ef4bfd8a8303138b9d2768d49c9"
+      },
+      "ui:검정\n(1:1):/검정\n(1:1)": {
+        "source_sha256": "124c00099127732eb886ce3358631158045f1dac2be9d621835e03c7116b732f",
+        "target_sha256": "d9fafb13dc2ad3b76895c52cb8e257cf3bbeb1d86b97913b21cc46fab8276c3c"
+      },
+      "ui:낮음 1-18\n(1:1):/낮음 1-18\n(1:1)": {
+        "source_sha256": "354741e163361d484199ea43ca341c78cd523c7779c2fbbe64d6528b37576f26",
+        "target_sha256": "0e13a1333a6cb2cc98f2162ca6d7db9a9b146945eb06db29359416b9227e6486"
+      },
+      "ui:높음 19-36\n(1:1):/높음 19-36\n(1:1)": {
+        "source_sha256": "93c2bcc2175926a0ba4bae16588d470aca39b2bc2e25d3af6c9a00a295864f29",
+        "target_sha256": "a6bcac675fff73ee4789ac7606083842fd3894a483015f14900a2734c2e7dc23"
+      },
+      "ui:단일 숫자:/단일 숫자": {
+        "source_sha256": "551f3e9de1d71656e75d1f0f6fdbb8b22fed9618aad0b0a6afbb6d43f06d42f6",
+        "target_sha256": "a64b30d396e227be84d2c144058fc9923d6bc3a00feeb80ff8e413f87f83fbfc"
+      },
+      "ui:단일숫자\n(35:1):/단일숫자\n(35:1)": {
+        "source_sha256": "9dc6877b4a0db89e6e4463b9dc3f43d04fc359cd1578658ef9ffc48f214f8cb6",
+        "target_sha256": "eaa1c4bf7983557e0565ac08165dbfbba7c555a308803241d2f61f7bf86b8359"
+      },
+      "ui:빨강\n(1:1):/빨강\n(1:1)": {
+        "source_sha256": "e50d2561fa233687d2336bd86ceee011c9fb220d16ab75974b31d033adea45c5",
+        "target_sha256": "9092e1f4219dd39fd11581edf0c4c7d7476eaf71db585ac32d1502d5a8db2895"
+      },
+      "ui:짝수\n(1:1):/짝수\n(1:1)": {
+        "source_sha256": "d7e304303191c958bfcde42cf6509243c4d7ae2481ef615ccf18d4b9e330976c",
+        "target_sha256": "73cd57e80fa4b07027e0bdd2c47e7eec83e4c159a182950599ce24a57c933b0a"
+      },
+      "ui:짝수:/짝수": {
+        "source_sha256": "3ecfbf8aa8093658f04f20e88f8bae2761bdad0a7f2b2bd13559748fc5f32552",
+        "target_sha256": "d28bd2f45947fbd6caf5eb888d413de27c777cb6acb91468e26656bed0ee3396"
+      },
+      "ui:홀수\n(1:1):/홀수\n(1:1)": {
+        "source_sha256": "6909448c82240c635c53b256efaa088e309ff762e4aca07dc5a028cb95c11865",
+        "target_sha256": "2e29f73a3acdf31bfe6d5300456dd0ce180ab271cc866efe73911d5c98bae7eb"
+      },
+      "ui:홀수:/홀수": {
+        "source_sha256": "b1af15d8b8196e162c2d77433f1b97465753a743882f51fea7fca7a4abf31643",
+        "target_sha256": "0ec4d4e12a930010108d14341bb8860bced8adf696d9c03c23270838d2e24abd"
       }
     },
     "zh-TW": {
@@ -165706,10 +165787,62 @@
       "ui:플레이어 1:1  ·  뱅커 0.95:1(커미션5%)  ·  타이 8:1  ·  페어 11:1  ·  6덱 슈  ·  내추럴(8·9) 시 추가 드로우 없음:/플레이어 1:1  ·  뱅커 0.95:1(커미션5%)  ·  타이 8:1  ·  페어 11:1  ·  6덱 슈  ·  내추럴(8·9) 시 추가 드로우 없음": {
         "source_sha256": "4133e3bc1854b44eb0df7f03f959dc4ac8630ce3507793eed2d82f90fd835ecb",
         "target_sha256": "caa7a91b832e984f2945b2646f430da43afecd2cc1ec9898ce3506b9f698b65e"
+      },
+      "ui:1묶음 1-12\n(2:1):/1묶음 1-12\n(2:1)": {
+        "source_sha256": "1995360b2288cb1778bb61be28ee6429b32ab6cb83c9eca47ea31e8499cb5c87",
+        "target_sha256": "e2da5341092948a95d303d3484d5955455b268fbf8a85405b0c3bb1087b92686"
+      },
+      "ui:2묶음 13-24\n(2:1):/2묶음 13-24\n(2:1)": {
+        "source_sha256": "dd04171910605e824aefe4b2ebf4471ef8c4a9c8f21f36ef266bf0ed27901028",
+        "target_sha256": "7e5016d7bd77403c18c677a41d398e25095661bbf0243390f35652426ebb7f7b"
+      },
+      "ui:3묶음 25-36\n(2:1):/3묶음 25-36\n(2:1)": {
+        "source_sha256": "0265143e9e6ae9b7a9bef6d3514e176231ef9b0d07988143a613aef146e92acb",
+        "target_sha256": "66d7d882a4cb6fa9dbd5529434faa4e716934e5ddf026c485fc8f547734d39b4"
+      },
+      "ui:검정\n(1:1):/검정\n(1:1)": {
+        "source_sha256": "124c00099127732eb886ce3358631158045f1dac2be9d621835e03c7116b732f",
+        "target_sha256": "d9fafb13dc2ad3b76895c52cb8e257cf3bbeb1d86b97913b21cc46fab8276c3c"
+      },
+      "ui:낮음 1-18\n(1:1):/낮음 1-18\n(1:1)": {
+        "source_sha256": "354741e163361d484199ea43ca341c78cd523c7779c2fbbe64d6528b37576f26",
+        "target_sha256": "0e13a1333a6cb2cc98f2162ca6d7db9a9b146945eb06db29359416b9227e6486"
+      },
+      "ui:높음 19-36\n(1:1):/높음 19-36\n(1:1)": {
+        "source_sha256": "93c2bcc2175926a0ba4bae16588d470aca39b2bc2e25d3af6c9a00a295864f29",
+        "target_sha256": "a6bcac675fff73ee4789ac7606083842fd3894a483015f14900a2734c2e7dc23"
+      },
+      "ui:단일 숫자:/단일 숫자": {
+        "source_sha256": "551f3e9de1d71656e75d1f0f6fdbb8b22fed9618aad0b0a6afbb6d43f06d42f6",
+        "target_sha256": "1d036437b545d24cd4d3cb5e86d771ec5af0d7cc722179b911ac7e1248035a4d"
+      },
+      "ui:단일숫자\n(35:1):/단일숫자\n(35:1)": {
+        "source_sha256": "9dc6877b4a0db89e6e4463b9dc3f43d04fc359cd1578658ef9ffc48f214f8cb6",
+        "target_sha256": "27c3a62a353971cb07b9a272c219fcf293115af6c13ae80d9727c9ba86b4c157"
+      },
+      "ui:빨강\n(1:1):/빨강\n(1:1)": {
+        "source_sha256": "e50d2561fa233687d2336bd86ceee011c9fb220d16ab75974b31d033adea45c5",
+        "target_sha256": "c4ee9bedf31e45d4cf2ba4ed36f1f015fcb0412794c2a853a0c0868efa4e385a"
+      },
+      "ui:짝수\n(1:1):/짝수\n(1:1)": {
+        "source_sha256": "d7e304303191c958bfcde42cf6509243c4d7ae2481ef615ccf18d4b9e330976c",
+        "target_sha256": "495edf17e598613bb3c53b5c3bd9867050485ea93694e6975d191e7f20d5ce0c"
+      },
+      "ui:짝수:/짝수": {
+        "source_sha256": "3ecfbf8aa8093658f04f20e88f8bae2761bdad0a7f2b2bd13559748fc5f32552",
+        "target_sha256": "48724807f225a3b475cb6830f0fdea5569b5d3a72a29a3e88e71075efc56a98f"
+      },
+      "ui:홀수\n(1:1):/홀수\n(1:1)": {
+        "source_sha256": "6909448c82240c635c53b256efaa088e309ff762e4aca07dc5a028cb95c11865",
+        "target_sha256": "1985a86a719def96c20d3bd1ab737d173cd61b2adabe7da25a21f85e33858586"
+      },
+      "ui:홀수:/홀수": {
+        "source_sha256": "b1af15d8b8196e162c2d77433f1b97465753a743882f51fea7fca7a4abf31643",
+        "target_sha256": "0cbd6d8ebde684bfe2a6aef7751aa237954041404a9eb31c7d267af32ca8a290"
       }
     }
   },
-  "accepted_sha256": "3baf97a5b5ec621d252f3db794532f45b21d986fe46f31059aaf9b59b435bcfa",
+  "accepted_sha256": "39d221f561d0fb59fbaf4a44ddfb3f1756f852a747737e37376b1d543ba22047",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
