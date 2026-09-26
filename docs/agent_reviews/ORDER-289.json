@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-289",
+  "scope": "work_unit",
+  "authority": "user_delegated_agent_final",
+  "reviewer": "/root/blackjack_accounting_review",
+  "reviewed_on": "2026-09-26",
+  "verdict": "GO",
+  "required": [],
+  "subject": {
+    "kind": "source",
+    "commit": "2050eff82fb1ec3c3f29a14ecbf191f04baac03f",
+    "tree": "d0e67c86630f211130acec3081d43bd41e19bffb",
+    "manifest_sha256": null
+  },
+  "review": {
+    "commit": "2050eff82fb1ec3c3f29a14ecbf191f04baac03f",
+    "tree": "d0e67c86630f211130acec3081d43bd41e19bffb",
+    "clean": true
+  },
+  "baseline": "f7998175e40b265ff48c4970b7afa8a9e447cc8d",
+  "population": {
+    "cases": 36,
+    "locales": ["ko", "en"],
+    "per_locale": "All18 predeclared IDs: P/B/T wins and losses, P/B tie refunds and mixed tie refunds, each pair win/loss and both pairs, pair-winning negative total, P+B negative total, two banker wins followed by one loss, then empty reopening. No sampling or population reduction.",
+    "observations": "19 settled rounds per locale,38 total;450 step records and38 HUD/log/fee/banner/hidden-stat/result records per execution. Each of36 cases calls exit twice. Base chip100000 won, independent case start10000000 won; empty reopening retains preceding actual cash.",
+    "scope": "Actual Table bet/deal/process-reveal/result/exit methods. Fixed shoes and deterministic _process(1.0) delivery are setup, not real-time or physical input. Repeated-exit approval covers cash and commission logs only."
+  },
+  "method": [
+    "Read repository/skill/WORK_UNIT instructions, declared scope, complete fixture and runner, actual Table/model/formatter/feedback/exit consumers and source changes. Reviewer authored neither product nor test/runner. Clean HEAD/tree were directly observed before writing this report; no engine or repository audit was launched by the reviewer.",
+    "Verified all14 input pins for both attempts against their respective Git blobs, final14 against current files, all6 raw-log pins and exact stdout rows against result.json. Expected36 rows are identical before/after;13 of14 inputs, including fixture and runner, are unchanged, with only BaccaratTable differing. All43 monitored real-user files are identical before/after and across both attempts.",
+    "Independently reconstructed all eight fixed card layouts from raw IDs and draw rules, then each predeclared bet sequence, gross return, fee, economic net, cash signals, reveal counts, road/counters, summaries, exits and reopening. Separate old/new arithmetic models reproduce every field of all36 actual rows in each run, including450 steps and38 text/state records; every final expected field also matches. No production payout calculation was imported.",
+    "Read all11 targeted static outputs and verified22 stdout/stderr hashes against their aggregate report. Runner inventory/schema/marker/error/isolation checks were read directly, including the new direct ASSERT_FAIL rejection. Existing full-audit and feature-liveness failure history was not rerun, weakened or relabeled."
+  ],
+  "findings": [
+    "No required defect remains within the declared repair. Banker gross return is now2B with5% accrued once; round net subtracts only that round's fee. Tie returns9T plus P/B refunds. Pair returns remain12 times its independent stake. Summary exposes the already fee-adjusted _net; exit snapshots due, clears pending debt before synchronous cash signals, then debits and logs the snapshot.",
+    "Banker100000 yields cash+100000 and pending5000 before exit, economic net95000 throughout, and final cash+95000 after one payment. Repeated exit changes neither cash nor commission log. Tie100000 returns900000 and net800000. Two banker wins then one loss retain10000 pending, net90000 and final cash10090000; empty reopening resets counters/net/debt without changing that cash.",
+    "Both negative boundaries are present: P100000+B100000 on banker win, and P1200000+B100000+PP100000 with player pair on banker win. Both have gross equal to total paid but economic net-5000. Observed logs/HUD/result banner use negative net and hidden-stat delta[0,2]. The unchanged source only enables tie/pair jackpot feedback inside net>0; sound and physical haptics were not observed.",
+    "The synchronous exit money signal observes commission0 before the debit is published, and the later sequential exit produces no cash transaction. Actual recursive _on_exit from a signal callback was not executed. Existing closed emits twice and mastery may re-record; neither is claimed to be fully idempotent or fixed.",
+    "Text readback is not exact-won formatting certification. Fixture _money uses the unchanged production formatter; this review separately reconstructed the recorded strings. KO's existing whole-manwon rounding displays95000 net as +10만원, while EN shows +95 thousand won. Approval covers fee-adjusted values reaching those existing consumers, not precision, typography, clipping, translation quality or screenshots.",
+    "Baseline36 rows contain22 PASS/14 FAIL and144 assertions. The seven failing IDs per locale are banker_win, tie_win, mixed_tie_refunds, banker_pair_mixed, player_banker_negative, multi_round_commission and reopen_empty. The last failure carries prior repeated-payment cash forward; this is not14 independent bugs. All baseline actual fields are explained by the old fee/tie/repeated-exit behavior.",
+    "Both attempts use Godot4.6.2 with fresh pre-autoload namespaces and retained evidence. Stdout and Godot log are byte-identical in each attempt; stderr empty, no parse/script/engine failure, no process-group error and source/user pins unchanged. Final run has exactly one success marker,36 valid passing rows, exit0 and errors[]. Baseline error_lines duplicates its144 assertions and final failure across stdout/Godot log; these are expected test failures, not engine errors."
+  ],
+  "actual_results": {
+    "before_fix": {"head": "f7998175e40b265ff48c4970b7afa8a9e447cc8d", "exit": 1, "cases": 36, "rounds": 38, "passed_rows": 22, "failed_rows": 14, "assertion_failures": 144, "seconds": 3.480226125, "pass": false, "reopened_cash_per_locale": 10070000},
+    "after_fix": {"head": "2050eff82fb1ec3c3f29a14ecbf191f04baac03f", "exit": 0, "cases": 36, "rounds": 38, "passed_rows": 36, "failed_rows": 0, "assertion_failures": 0, "seconds": 3.4936176249999997, "pass": true, "reopened_cash_per_locale": 10090000},
+    "targeted_static": {"checks": 11, "passed": 11, "failed": 0, "boundary": "Core, EN surface/coverage, audio-input static contract, surface language/coherence, JA UI, ZH, context, queue and registration only. Not a full audit or fresh runtime-input/audio/translation certification. Subsequent closure metadata remains ROOT's work."}
+  },
+  "evidence": {
+    ".git/full-game-localization/order289-before-fix/result.json": "174ad43d1b76b34fa2bf2a6b71a2574026a6f39095f6027d82f539f07cadff59",
+    ".git/full-game-localization/order289-before-fix/stdout.log": "c850bfa796ac042bbd2e95ed88e7336290470837382ebfff82116da345fbda07",
+    ".git/full-game-localization/order289-after-fix/result.json": "7c44725f694d16a1cc629ade42b56a882ab8886b421e3786108bcd9149e2f886",
+    ".git/full-game-localization/order289-after-fix/stdout.log": "1197826e6ea8e54c31e2c9c9ea819cd18f37e71927045709d1fa5deeff89b7f4",
+    ".git/full-game-localization/order289-targeted-first/result.json": "7527a6fd74afedfda9b7d25580b2c83e1d16599db584345c0e88fa871fedaf12",
+    "scenes/BaccaratTable.gd": "edd0673cdaf96efe867be0c3f35878241a56b889b33f36239984a04951f316e9",
+    "tools/BaccaratAccountingCheck.gd": "07028505328a10848991f61aaf0c52864a1da0cb646257c27cb0b98ce31cb7a1",
+    "tools/run_baccarat_accounting_check.py": "a450e91d85e8517431feb72146fc8b4dd951dbef282c64f78cf3fc64a8eaf51b"
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "fresh StoryMode/casino ingress, actual keyboard/mouse/controller delivery, screenshots, audible output and physical haptics",
+    "recursive exit callback execution, full closed-signal/mastery idempotence, mid-deal exit or forced reopen",
+    "pending-fee reservation, insufficient/negative cash boundaries, arbitrary wager values, probability or EV",
+    "exact-won display precision, other locales/resolutions/platforms, packaged build and production shutdown",
+    "card-order comment repair, full240-week audit, full UI translation, full-game quality or external release",
+    "subsequent queue/archive/ledger/dashboard closure; feature-liveness scanner repair"
+  ],
+  "decision": "GO only for ORDER-289's deferred-fee/tie-principal/settled-summary repair on source2050eff and its36 deterministic KO/EN cases. Required fixes0. Existing 0.95/8/11 profit rates and paid-on-exit copy are preserved. This report does not issue human, package, full-product or external-release approval; publicGO1/humanOPEN45/full-gameHOLD remain unchanged."
+}

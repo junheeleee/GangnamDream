@@ -3165,6 +3165,49 @@
         "path": "docs/agent_reviews/ORDER-288.json",
         "sha256": "7e09c7f547b8b4e6aca1ac00a7040563de66fded08bbfb35f055c27e835e85eb"
       }
+    },
+    {
+      "id": "order-289-source-2050eff-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-26",
+      "decided_by": "/root/blackjack_accounting_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-289",
+      "subject": {
+        "kind": "source",
+        "commit": "2050eff82fb1ec3c3f29a14ecbf191f04baac03f",
+        "tree": "d0e67c86630f211130acec3081d43bd41e19bffb",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-289.json",
+          "sha256": "af3227033e8671f4602514ce81f7063ac4bae291f8302b343dbe9108fee72216"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/queue_archive/ORDER-289.md",
+          "sha256": "973e9aa2f93119f2affbba319749fed44e4b81dd8d73fb6f1fd4435f6778c504"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "fresh StoryMode/casino ingress, actual keyboard/mouse/controller delivery, screenshots, audible output and physical haptics",
+        "recursive exit callback execution, full closed-signal/mastery idempotence, mid-deal exit or forced reopen",
+        "pending-fee reservation, insufficient/negative cash boundaries, arbitrary wager values, probability or EV",
+        "exact-won display precision, other locales/resolutions/platforms, packaged build and production shutdown",
+        "card-order comment repair, full240-week audit, full UI translation, full-game quality or external release",
+        "subsequent queue/archive/ledger/dashboard closure; feature-liveness scanner repair"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-289.json",
+        "sha256": "af3227033e8671f4602514ce81f7063ac4bae291f8302b343dbe9108fee72216"
+      }
     }
   ]
 }
