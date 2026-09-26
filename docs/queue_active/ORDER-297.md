@@ -70,6 +70,7 @@
 ## 파일 소유권·분업
 
 - root: 이 사양→`docs/queue_archive/ORDER-297.md`, `docs/CODEX_QUEUE.md`,
+  `docs/CODEX_QUEUE_L3_PENDING.md` 순번만(문구/상태/순서 불변),
   `docs/WORK_LOG.md`, `docs/STATUS.md`, `CLAUDE.md` 현재 상태 한 행,
   `docs/agent_review_decisions.json` 새 work_unit 판정 1행,
   `docs/agent_reviews/ORDER-297.json` 독립 보고서 복사. 과거 원장/보고서 byte 보존.
