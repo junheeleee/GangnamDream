@@ -4728,6 +4728,35 @@
       "machine_validation": "PASS",
       "rendered_review": "OPEN",
       "native_review": "OPEN"
+    },
+    {
+      "order": "ORDER-286",
+      "group": "ui",
+      "roots": [
+        "블랙잭",
+        "히스토리: ",
+        "베팅 금액 선택",
+        "딜 시작  |  베팅 %s",
+        "[%s] 딜  [%s/%s] 금액 −/+  [%s] 금액 +  [%s] 규칙  [%s] 나가기",
+        "히트",
+        "스탠드",
+        "더블다운",
+        "스플릿",
+        "더블 x2",
+        "[%s/%s/%s/%s] 액션  [%s] 확정  [%s] 규칙  [%s] 나가기",
+        "다음 핸드",
+        "[%s] 다음 핸드  [%s] 규칙  [%s] 나가기"
+      ],
+      "source_leaves": 13,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 13,
+        "zh-TW": 13
+      },
+      "source_review": "Independent Korean-direct CN/TW thirteen Blackjack control/history keys, nonauthor full26 review. Existing JA unchanged and not newly accepted. Table16 plus shared6 literal consumers, placeholders/action meanings preserved. Existing40103 source/target and whole dictionary inverse preserved. Financial/refund/rules/EV11, direct-English/dynamic results and split/AA math debt excluded. Runtime/public/human unchanged; no render/native/physical/full-game approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN"
     }
   ],
   "accepted": {
@@ -111161,6 +111190,58 @@
       "ui:표시 의무 없음 · 제작진 표기:/표시 의무 없음 · 제작진 표기": {
         "source_sha256": "aa258c47b5e744c63a2847ad426252afc8c84cd8dca8c61d0d332d4347470d86",
         "target_sha256": "7c92ade8c55826336202be886004d2f4a0feed6638d53cc1f2774d62b2755144"
+      },
+      "ui:[%s/%s/%s/%s] 액션  [%s] 확정  [%s] 규칙  [%s] 나가기:/[%s~1%s~1%s~1%s] 액션  [%s] 확정  [%s] 규칙  [%s] 나가기": {
+        "source_sha256": "089f2ed1c82e5eae7907989331bc704f840346140ebda0854ac8b368681778f6",
+        "target_sha256": "d7b725aad916b259ef5d4bad8b6a8c8c72ad16e8886310a14295db1aa0a62689"
+      },
+      "ui:[%s] 다음 핸드  [%s] 규칙  [%s] 나가기:/[%s] 다음 핸드  [%s] 규칙  [%s] 나가기": {
+        "source_sha256": "37813f2b1305bb4f9c9ac06ce713e655d0a1e663aa16098524b9df35aa2181e4",
+        "target_sha256": "4a8d83f9640e9c851c3345e3e7087dda1639b2ca7cf3ab7a97a207c355b45778"
+      },
+      "ui:[%s] 딜  [%s/%s] 금액 −/+  [%s] 금액 +  [%s] 규칙  [%s] 나가기:/[%s] 딜  [%s~1%s] 금액 −~1+  [%s] 금액 +  [%s] 규칙  [%s] 나가기": {
+        "source_sha256": "2fa241824672a4ea9eddce0e9cfd2d8dff12404829a8c5e3913c36606918fa50",
+        "target_sha256": "847156866a8ba4c8ecf4d674c0bcbbd88e7e7c8465aae43541c2c911f318f934"
+      },
+      "ui:다음 핸드:/다음 핸드": {
+        "source_sha256": "65982ac57d8a740287f16063455d47aeddf33955212876b47991fb15b1e7decf",
+        "target_sha256": "7a58fc25a87877afb86bd1ab2d9714e721caba390bbc79dc3f6165aa604e37bb"
+      },
+      "ui:더블 x2:/더블 x2": {
+        "source_sha256": "a67cd06119959165071f83164331330eaa4d121455e315f11558ce75a58ba3eb",
+        "target_sha256": "0e11a941d18a67e6690c4ce5a99c79670973dcac15e02787db19ee3ce7751830"
+      },
+      "ui:더블다운:/더블다운": {
+        "source_sha256": "3ffb192c760c292935b017b87c8cbc160d8bbcf9022e96c94514f62ac1b5f6f4",
+        "target_sha256": "976472521e4d8a759c0484632e127f9d94c8415d6ff47e2571f32aab03e7bc57"
+      },
+      "ui:딜 시작  |  베팅 %s:/딜 시작  |  베팅 %s": {
+        "source_sha256": "88b482316b775053a1c5c34063fe94f3c31c677e76fc4f427a0fb365def3fefd",
+        "target_sha256": "b38bc449caa85ddb658baf321432b222b4b28dda5828fabca4cbf5ea637a99c8"
+      },
+      "ui:베팅 금액 선택:/베팅 금액 선택": {
+        "source_sha256": "9dcc7491cdc1b1ea303bcc4ff9e5ffe3311114af144a10b2ffeb03d4a15a473a",
+        "target_sha256": "425859688b399b9c93627d06379a3d0751385889a04d3abc5d8d585a654de18c"
+      },
+      "ui:블랙잭:/블랙잭": {
+        "source_sha256": "d7da80c15b84a77690547ec338143a3d13f1aec77dafd15d88e1ea6286e801b9",
+        "target_sha256": "6efcd7663949cc62429a8172e1150e184833fbcfe3b0f4ee41a9ac2b5a783903"
+      },
+      "ui:스탠드:/스탠드": {
+        "source_sha256": "e305e802ce4c4fb9402e0be45ba68aafaad927979b29b7e572f14adde1a9799d",
+        "target_sha256": "a521e1d260968e64d73710cc620de9634f01d96182a1bc45f9b6195ea8583be7"
+      },
+      "ui:스플릿:/스플릿": {
+        "source_sha256": "c0c578668a76a56662f15afcf9823c494c51fa759aa881fb69eacef13dde9b38",
+        "target_sha256": "f7bd2cd63a122886fed57d0ab6f90cfa2ead1360d19d8d45ccd376e6d6695d66"
+      },
+      "ui:히스토리: :/히스토리: ": {
+        "source_sha256": "4022cb4ebbae8f97f896a68e67312f96169f45043416a099791462ef939f8526",
+        "target_sha256": "4df3dbfe0d7f82e4d4019c687551a134503001cf9d112de092a4f3552fa2c062"
+      },
+      "ui:히트:/히트": {
+        "source_sha256": "49f377b2d03a65ec63da4c9852d6c058765d320743a2812a9a5f8d96d7e1ce24",
+        "target_sha256": "379367111286d4a8c09496dfcb9f111451728a7ab3c596fb3827ee338e61fb67"
       }
     },
     "zh-TW": {
@@ -165147,10 +165228,62 @@
       "ui:표시 의무 없음 · 제작진 표기:/표시 의무 없음 · 제작진 표기": {
         "source_sha256": "aa258c47b5e744c63a2847ad426252afc8c84cd8dca8c61d0d332d4347470d86",
         "target_sha256": "c7bfb62b329213047be902841dee6c6df673595d83e216234cb61b7426af6a59"
+      },
+      "ui:[%s/%s/%s/%s] 액션  [%s] 확정  [%s] 규칙  [%s] 나가기:/[%s~1%s~1%s~1%s] 액션  [%s] 확정  [%s] 규칙  [%s] 나가기": {
+        "source_sha256": "089f2ed1c82e5eae7907989331bc704f840346140ebda0854ac8b368681778f6",
+        "target_sha256": "f7d1f0afd99aa8388c93e1233e0c55ad90737e3531dd941e7602c3098c73eabf"
+      },
+      "ui:[%s] 다음 핸드  [%s] 규칙  [%s] 나가기:/[%s] 다음 핸드  [%s] 규칙  [%s] 나가기": {
+        "source_sha256": "37813f2b1305bb4f9c9ac06ce713e655d0a1e663aa16098524b9df35aa2181e4",
+        "target_sha256": "33038e1a7182fdc29c259bf325eb95572c4cf1388a3d2234333967a7ad2be0eb"
+      },
+      "ui:[%s] 딜  [%s/%s] 금액 −/+  [%s] 금액 +  [%s] 규칙  [%s] 나가기:/[%s] 딜  [%s~1%s] 금액 −~1+  [%s] 금액 +  [%s] 규칙  [%s] 나가기": {
+        "source_sha256": "2fa241824672a4ea9eddce0e9cfd2d8dff12404829a8c5e3913c36606918fa50",
+        "target_sha256": "4dd1e9e961a40d52623e9c8c1e677bb09c8020b7a591768b5386024694e8c452"
+      },
+      "ui:다음 핸드:/다음 핸드": {
+        "source_sha256": "65982ac57d8a740287f16063455d47aeddf33955212876b47991fb15b1e7decf",
+        "target_sha256": "7a58fc25a87877afb86bd1ab2d9714e721caba390bbc79dc3f6165aa604e37bb"
+      },
+      "ui:더블 x2:/더블 x2": {
+        "source_sha256": "a67cd06119959165071f83164331330eaa4d121455e315f11558ce75a58ba3eb",
+        "target_sha256": "0e11a941d18a67e6690c4ce5a99c79670973dcac15e02787db19ee3ce7751830"
+      },
+      "ui:더블다운:/더블다운": {
+        "source_sha256": "3ffb192c760c292935b017b87c8cbc160d8bbcf9022e96c94514f62ac1b5f6f4",
+        "target_sha256": "976472521e4d8a759c0484632e127f9d94c8415d6ff47e2571f32aab03e7bc57"
+      },
+      "ui:딜 시작  |  베팅 %s:/딜 시작  |  베팅 %s": {
+        "source_sha256": "88b482316b775053a1c5c34063fe94f3c31c677e76fc4f427a0fb365def3fefd",
+        "target_sha256": "99c56f03efb217fd9f20c8657ad56072a4ce395edfc5930a117ac84284f91058"
+      },
+      "ui:베팅 금액 선택:/베팅 금액 선택": {
+        "source_sha256": "9dcc7491cdc1b1ea303bcc4ff9e5ffe3311114af144a10b2ffeb03d4a15a473a",
+        "target_sha256": "227c28bd698d8267d909b2c51635723c6b31715a6a73f06da6f6b171ad802c63"
+      },
+      "ui:블랙잭:/블랙잭": {
+        "source_sha256": "d7da80c15b84a77690547ec338143a3d13f1aec77dafd15d88e1ea6286e801b9",
+        "target_sha256": "43e0f51f18026b1a984b617eef38a96b1c8c3b7bd02884f027f45449137c5b36"
+      },
+      "ui:스탠드:/스탠드": {
+        "source_sha256": "e305e802ce4c4fb9402e0be45ba68aafaad927979b29b7e572f14adde1a9799d",
+        "target_sha256": "a521e1d260968e64d73710cc620de9634f01d96182a1bc45f9b6195ea8583be7"
+      },
+      "ui:스플릿:/스플릿": {
+        "source_sha256": "c0c578668a76a56662f15afcf9823c494c51fa759aa881fb69eacef13dde9b38",
+        "target_sha256": "f7bd2cd63a122886fed57d0ab6f90cfa2ead1360d19d8d45ccd376e6d6695d66"
+      },
+      "ui:히스토리: :/히스토리: ": {
+        "source_sha256": "4022cb4ebbae8f97f896a68e67312f96169f45043416a099791462ef939f8526",
+        "target_sha256": "0ede5336113f147ed5ad085aab396f725fc784b7c6d188faa7b7d0b467363127"
+      },
+      "ui:히트:/히트": {
+        "source_sha256": "49f377b2d03a65ec63da4c9852d6c058765d320743a2812a9a5f8d96d7e1ce24",
+        "target_sha256": "379367111286d4a8c09496dfcb9f111451728a7ab3c596fb3827ee338e61fb67"
       }
     }
   },
-  "accepted_sha256": "9802e690f80d9d185e688b3b791307732eea2c527af7f11443709e4970b1c1d0",
+  "accepted_sha256": "47819d6a8e081a3478a9ba75a4144b31d77cb221fc2bf3fa8ae3f9d8882ada64",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
