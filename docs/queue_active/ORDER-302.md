@@ -2,82 +2,47 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-302 [표시·입력] 다이사이 중국어 현금·결과·복귀의 실제 소비자를 검수한다
+#### [ ] ORDER-302 [P0·출시 데모] 체험판 M01~M06 대본의 사실 충돌과 영어 오역을 고친다
 
-**[~] 2026-09-27 Codex 착수 — 아래 파일만 소유한다.** 부모 ORDER-157.
-ORDER-301 source `9911c36f973149036f1b909e75ac8686f04a9543`의 11키/22값을
-clean main `4da937b7edb09018cb27b5d36a7e7248968b5feb`의 동일 제품에서 검수한다.
-설계 입력은 private `order301-root-next-scope.json`
-SHA `37246060b7e6dad488827481ce8310e9a3d6481974a512332d7ccafe7eccea08`다.
-기존 선택19키/금융 다른 게임 검사는 반복하지 않는다.
+**2026-09-26 Claude 발행 · 사용자 승인.** Claude가 공개 데모 `story_demo_rc`의
+실제 노출 장면 11개(KO/EN)와 셸 문구를 읽고 찾은 결함이다. 외부 플레이테스트
+전에 닫는다. 산문을 새로 쓰는 작업이 아니라 사실·용어·문법 정합 수리다.
 
 ## 깊이 3문
 
-1. 제거 손실: 현금·승패·순손익 번역의 전체 인수와 복귀 경로를 실제로 읽은 증거가 없다.
-2. 장기 상태: 표시 검사는 원본 저장을 바꾸지 않는다. 실제 굴림/결과 콜백의 판돈·로그·숨은 수치·meta 변화는 격리 상태에 정확히 남겨야 한다.
-3. 경쟁: 결과·현금·전적·주사위·재선택 행동과 허브 용어집이 같은 첫 화면 안에서 함께 읽혀야 한다.
+1. **왜 지금인가?** 외부 테스터가 가장 먼저 읽는 구간이다. 직업·월세·장소가
+   화면마다 다르면 "무슨 게임인가"보다 "설정이 틀렸다"가 먼저 기억된다.
+2. **무엇을 바꾸지 않는가?** gameplay key, 선택 수, 효과, 이벤트 ID, 장면 순서,
+   경제 수치는 바꾸지 않는다. 아래 2번도 텍스트만으로 닫는다.
+3. **GO는 어떻게 되는가?** 공개 데모 GO는 exact identity(BUILD `2026.08.31.1`)에
+   묶여 있다. 이 수리는 새 데모 후보를 만들며 GO를 물려받지 않는다
+   (`MASTER_RELEASE_AUDIT.md` Gate C). 수리 뒤 새 후보로 재판정한다.
 
-## 한 배치와 관측 계약
+## 수리 목록
 
-- 11 KO 키 각각의 CN/TW 소비자, source의 15 literal callsite 전수 대조.
-  실제1280×800 각7PNG: DaiSai 초기/굴림/준비승리/다음선택/준비패배,
-  연결된 카지노 허브 DaiSai 선택/용어집. 총14PNG를 root와 비저자가 전수 읽는다.
-- locale당6 raw keyboard press/release쌍(12행): 초기 기본베팅의 Esc로 zero-round
-  table→실제 연결 hub callback; 준비 hub index3에서 Right→DaiSai; X 용어집;
-  Esc 닫기; 별도 초기 table Enter→실제 `_do_roll`; 승리 RESULT Enter→다음 선택.
-  직접 handler/pressed emit은 입력 증거가 아니다. 준비 진입은 정상 title ingress가 아니다.
-- 준비 단계에만 money10000000/stake50000, typed table/RNG 상태를 명시한다.
-  실제 굴림은 선차감50000과 pending dice/RNG 소비를 별도 검증한다. 애니메이션을
-  검사 전용 일시정지/processing 동결로 잡으면 before/after와 이유를 별도 기록하고
-  정상 속도 굴림/자연 결과 전환을 주장하지 않는다. 동결로 결과나 RNG를 덮지 않는다.
-- 승리와 패배는 별도 수명·이미 지불한 stake fixture: money9950000/dice[1,2,3].
-  single1 승리 `_finish_roll`은 gross100000/net+50000/money10050000,
-  BIG 패배는 net-50000/money9950000. 실제 콜백당 round1/history1/log1/meta1,
-  hidden gambling+1 또는 addiction+2, 패배 shake RNG 소비를 정확히 대조한다.
-  승리 pulse0.28초/패배 shake0.225초 뒤, RESULT 자동종료2.2초 전에 결과를 캡처한다.
-  RESULT Enter는 재베팅 없이 IDLE/다음 베팅 안내만 바꾼다.
-- 새로운 원문 title/hub readers는 실제 control로 확인한다. 실제 결과 money log와
-  history 저장값은 비시각 증거로 분리한다. MainGame
-  `_weekly_commitment_settlement_label`의 `details.game_id=daisai`와
-  `game_id=casino, games=[daisai]`, 각각 rounds>0인 완전 반환2개/지역은
-  비시각 호출만 검사한다. 실제 MainGame/logviewer 화면을 보았다고 쓰지 않는다.
-- 전체 부모문장·HUD7인수·signed log·순이익과 총반환을 독립 고정 oracle로 대조한다.
-  기존 영어 부모/직접 영어 chrome은 번역 완료가 아니다. 신규 UI/번역 수리는 별도 오더다.
-- 전체 visible control census·TextLine/TextParagraph·실효 style/icon·서체/글리프·
-  wrap·ancestor clip·canvas를 기록한다. 구조와 PNG를 모두 확인하며 잘림을 숨기지 않는다.
-- 매 raw/capture/callback/disposal/최종 shutdown에서 전체 typed GameState/Meta/settings/
-  namespace files/table/RNG와 경계 연결을 검사한다. 허용된 효과·일시정지·준비만
-  명시하고 release no-op을 검증한다. baseline 뒤 상태 복원으로 변화를 감추지 않는다.
-- 새 UUID pre-autoload 격리, 두 user-dir marker, exact 성공 marker, exit0,
-  stdout/stderr/engine log 오류0, 새 실제 사용자 두 루트 전후 전수 hash census 필수.
-  root만 엔진을 순차 실행하고 매 시도의 exclusive 경로/실패 원본을 보존한다.
+| # | 위치 | 결함 | 수리 방향 |
+|---:|---|---|---|
+| 1 | `playtests/order124/StoryChoiceM1M6Playtest.gd` 시작 화면 `baseline_text`(공개 분기) | "편의점 야간 수입"이 자동이라고 적혀 있으나 M01은 야간 상하차, M03은 민준이 편의점 손님으로 다은(야간 직원)을 처음 만난다. | "야간 단기 일 수입"처럼 직업을 특정하지 않는 문구로 KO/EN을 함께 바꾼다. |
+| 2 | `arc_temptation_01`(월세 65만원) ↔ `arc_sangchul_01_meet`(원룸 보증금 1000·월 55) | 고시원 월세가 원룸 월세보다 비싸 "왜 고시원에 사는가"가 생긴다. | 경제 수치는 두고 상철 대사의 원룸 조건만 월세 65만원 이상(예: "보증금 천에 월 칠십")으로 바꾼다. KO/EN/JA/zh 동일 수치. |
+| 3 | 같은 파일 M06 `intro_template` | "3월, 버스 정류장에서 — %s"인데 실제 지연 장면은 신촌 이면도로 자전거 사고다. | "3월, 빗길에서"처럼 실제 장소로 KO/EN을 맞춘다. |
+| 4 | `content/events_en/arc_events.json` `arc_jaehyuk_01_reunion` | "You'll be in touch"(원문 "내가 연락할게"), "Why now, why you"(원문 "나한테"), 3인칭 서술 속 "our whole service". | "I'll be in touch.", "Why now—why me?", "through their whole service". |
+| 5 | EN 데모 장면 전체 | 장면마다 과거/현재 시제가 바뀐다. 특히 M04 상철 4연속 장면이 첫 장면만 과거형이다. 인용부호가 `'`·`"`·`“”`로 섞인다. | M04 연쇄 4장면을 한 시제로 통일한다. 데모 11장면의 대사 인용부호를 한 규칙으로 맞춘다. |
+| 6 | `content/events/arc_events.json` `arc_sangchul_01_answer` 선택 1·2·3 | KO 결과문에 과거형 사이 현재형("피식 웃는다"), `{name}` 대신 "김민준" 직접 표기가 섞인다. | 과거형·`{name}`으로 맞춘다. |
+| 7 | `arc_temptation_clean` KO | "받지 않은 200만원은 없었고"가 이중 부정으로 읽힌다. | 뜻("200만원은 들어오지 않았다")이 바로 읽히게 고친다. |
 
-## 파일 소유권
+## 판단만 남기는 항목 (이 오더에서 고치지 않음)
 
-- root: 이 사양→`docs/queue_archive/ORDER-302.md`, `docs/CODEX_QUEUE.md`,
-  `docs/CODEX_QUEUE_L3_PENDING.md` 순번, `docs/WORK_LOG.md`, `docs/STATUS.md`,
-  `CLAUDE.md` 현재 상태 한 행, `docs/agent_review_decisions.json` 새302행,
-  독립보고 정확복사 `docs/agent_reviews/ORDER-302.json`.
-- root: 새 private `.git/full-game-localization/order302-render.py`,
-  `order302-render-*` 실제 산출물/`order302-root-*`·`order302-check*` 기록.
-- observer 저자 `/root/blackjack_accounting_tests`: 새 private
-  `order302-status-observer.gd/.tscn`만.
-- 기대값/validator 저자 `/root/release_status_crosscheck`: 새 private
-  `order302-oracle.json`, `order302-validate.py`, `order302-oracle-*` 기록만.
-- 비저자 `/root/blackjack_accounting_review`: 새 private `order302-*review*.json`만.
-  observer/oracle/runner 비저자로 사전 및 최종 source-bound 품질 판정.
-- 제품 code/locale/receipt/assets/project/human/공개/서사/금전 계약 변경은 비소유.
+- M04 `arc_sangchul_01_measure`·`arc_sangchul_01_coffee`는 선택지가 1개씩이라
+  연속으로 "선택이 아닌 선택"이 된다. 외부 플레이테스트의 `스킵` 표시가 이
+  구간에 몰리는지 본 뒤 결정한다(`PLAYTEST_KIT.md`).
+- M06 선택지 "한빛유통 월말 오류표 … 입사 뒤 처음"은 M01~M05 장면에 입사가
+  나오지 않는다. 어떤 조건에서 노출되는지 확인하고, 설명 없이 노출되면 별도
+  수리 오더로 올린다.
 
-## 검증·완료·한계
+## 검증
 
-helper 사전 독립 검수 후 위14PNG/24raw 및 비시각 결과를 실행한다. strict validator와
-메모리 변조 음성검사를 별도로 하고 원본 이미지와 전체 문장을 전수 판정한다.
-후속 CLAUDE 한 행으로 source가 달라지면 runtime pins 불변으로 명시 결속하며
-그 최종source에서 재실행했다고 쓰지 않는다. context/queue/ledger/dashboard/diff만 마감.
-이전300/295/297/301 named12와 전체감사는 새 변경 이유 없이는 재실행하지 않는다.
-
-정상 진입·자연 무작위 결과·MainGame/logviewer 실제화면·마우스/gamepad·다른해상도·
-오디오/패키지·원어민/인간/물리패드는 미관측. 공식40299/b136/meta9·보류72·
-공개GO1·인간OPEN45·본편HOLD 유지. 자동 PASS는 재미/인간/출시 판정이 아니다.
-
-**규범 판정:** 이번11키·경로·증거구성은 일회성. 기존 UI/I18N/WORK_UNIT 적용, 새 승격 없음.
+- 바뀐 문자열의 JA/zh-CN/zh-TW 오버레이도 같은 사실로 갱신한다.
+- `python3 tools/en_coverage_check.py`, `python3 tools/english_hangul_audit.py`,
+  `python3 tools/story_demo_localization_audit.py`, 번역 파이프라인·감사의 표적 차선.
+- 데모 전용 `StoryDemoFourLanguageCheck`와 KO/EN 실제 화면 확인.
+- 새 데모 후보 identity를 기록하고 사람 판정은 OPEN으로 둔다.
