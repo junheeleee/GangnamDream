@@ -2,7 +2,7 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [ ] ORDER-302 [P0·출시 데모] 체험판 M01~M06 대본의 사실 충돌과 영어 오역을 고친다
+#### [~] ORDER-302 [P0·출시 데모] 체험판 M01~M06 대본의 사실 충돌과 영어 오역을 고친다
 
 **2026-09-26 Claude 발행 · 사용자 승인.** Claude가 공개 데모 `story_demo_rc`의
 실제 노출 장면 11개(KO/EN)와 셸 문구를 읽고 찾은 결함이다. 외부 플레이테스트
@@ -46,3 +46,27 @@
   `python3 tools/story_demo_localization_audit.py`, 번역 파이프라인·감사의 표적 차선.
 - 데모 전용 `StoryDemoFourLanguageCheck`와 KO/EN 실제 화면 확인.
 - 새 데모 후보 identity를 기록하고 사람 판정은 OPEN으로 둔다.
+
+## 2026-09-27 Codex 실행 선언 — 첫 배치 A
+
+사용자 승인 원문은 위와 같이 보존한다. 첫 배치는 수리4의 EN 재혁 재회
+`description`, `choices[0].result_text`, `choices[1].result_text` 세 leaf만 고친다.
+`our whole service`→`their whole service`, `You'll be in touch`→`I'll be in touch`,
+`Why now, why you.`→`Why now—why me?`를 원문 화자와 대조한다. 인용부호·시제
+전수는 수리5의 다음 배치로 남기고 세 leaf의 나머지 바이트는 보존한다.
+
+- root 소유: `content/events_en/arc_events.json` 위 세 substring; 이 사양·큐·
+  `docs/WORK_LOG.md`·생성 `docs/STATUS.md`·`CLAUDE.md` 현재 행;
+  새 private `.git/full-game-localization/order302-demo-*` 검사·실행 증거.
+- 비저자 `/root/blackjack_accounting_review`: 새 private `order302-demo-english-review*.json`
+  및 정확복사 `docs/agent_reviews/ORDER-302-A.json`만. 저작/검사기 작성과 분리한다.
+- 독립 영향 분석은 읽기 전용이다. KO/JA/CN/TW·게임효과·기존 원장/승인·패키지·
+  build identity/공개 데모 파일은 변경하지 않는다. KO가 그대로인 영어 오역 수리이므로
+  다른 세 언어는 같은 뜻인지 읽고 이미 일치하면 덮어쓰지 않는다.
+- 표적: exact3leaf/inverse-byte·토큰/개행/다른 파일 보존 검사,
+  `en_coverage_check.py`, `english_hangul_audit.py`, `story_demo_localization_audit.py`.
+  전체11장면 전수/5locale runtime·KO/EN 실제화면·새패키지·새후보 판정은 후속이다.
+- 배치 A만 끝나도 오더는 `[~]`다. 기존 공개 GO는 보존된 옛 exact package에만
+  유효하며 수정 source/미발급 새 package는 이를 상속하지 않는다.
+- 선언 기준 clean `6a89850`; 동시 번호 충돌의 미구현 DaiSai 계획은303으로 보존했다.
+  위 파일/세 substring/증거 계획은 일회성이고 새 정본 규칙을 만들지 않는다.
