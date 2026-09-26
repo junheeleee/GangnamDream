@@ -1,3 +1,22 @@
+# ORDER-300 — 다이사이 중국어 선택·안내 실제 표시와 입력
+
+[x] 2026-09-27. 신규19키·CN/TW38값 실제 표시/합성키 범위 비저자 전수 GO, 필수 결함0.
+
+- 최종 source `b669fc7e67fd3552b851c130f6d6e4e72b0cd920`, tree `e5b2d610ed7e869832f918134a4d4ba40f5263b0`. [독립 보고](../agent_reviews/ORDER-300.json) SHA `a78edce92713b58d3c44e2ff114864e9e7e5bba3f08a0531f08914dbe20cebb1`.
+- 실제 실행 source `1ac6715b432d8cece5fc50a6f379b761b5321cf8`, 두 지역 각1회·5PNG·16raw, 총2회/10PNG/32raw. 최종 source는 CLAUDE 현재 상태 한 행만 다르며 전체 runtime/사전/자산 핀 불변으로 결속했다. 최종 source에서 재실행했다고 쓰지 않는다.
+- FACE→single1→pair1→total10/100000→BIG/50000 복원. 두 지역 각28번역 버튼·37실제 bet style·55 visible control×5상태, 총550 control 관측과10canvas. 원본10PNG를 root/비저자가 각각 전수 직접 읽었고 전체문장·10힌트 인수·개행/배당·지역서체/글리프·wrap·ancestor/canvas 경계·선택/커서를 검증했다. 관측 범위 새 잘림/겹침/누락0, footer761/panel787<800.
+- 실제 합성 E,Enter,Down,Enter,PageDown,E,Enter,Esc press/release 각16행. PageDown50000→100000은1회, release no-op. cash10000000·AP·전체 typed GameState/Meta/settings/files·table/RNG·round0/history[]·teardown/shutdown 불변. 입력행·capture 연속성과 delta를 독립 재계산했다.
+- 최초 CN 엔진 exit0/errors[]/5PNG지만 검사기가 정상 음수 signed64 RefCounted ID를 양수로 제한해 runnerFAIL했다. 원본 결과/validator/PNG를 보존하고 ID 조건만 signed64 비영 값으로 수리했다. 같은 원본 전체 재검증PASS, 엔진 재실행0. TW 최초 runnerPASS. 음성변조22×2 거절은 메모리 검사이며 실제 추가 입력/화면이 아니다.
+- 양 실행 전후1239 source핀 및 실제 사용자 두 루트43파일 불변, 두 실행 사이 사용자 집합도 동일. 지역별 새 UUID pre-autoload 격리·두 marker·성공 marker·3raw로그/지역·exit0·오류0 보존. 제품·사전·공식수용 원장 수정0.
+- 도달 경로: `ORDER300_SELECTION_OK lang=zh-CN/zh-TW states=5 keys=19 visual_keys=19 raw_events=16 nonvisual=0`.
+- 생산자↔독자: `locale/ui_zh-CN.json`/`locale/ui_zh-TW.json` ↔ `scenes/DaiSaiTable.gd:214`·`:260`·`:277`·`:627`·`:794`·`:906`·`:1052` / `systems/DaiSai.gd:98`·`:100`·`:106`.
+- 상태: TABLE50000/BIG→single1→pair1→total10/100000→BIG50000; 제거손실: 위19키 실제표시/합성키 증거10PNG/32raw; 서사위치/장면계층: 기존 카지노 UI(새 scene0); 닫음: ORDER-299 새19키의 선언된 표시/선택 경로만.
+- 공식40277/b135/meta9·CN/TW각1054·보류72·공개GO1·인간OPEN45·본편HOLD 불변. portable rendered/native OPEN도 비소유로 보존했다. 기존 금융26PNG/188raw·297검사·번역named12·전체감사는 반복하지 않았다.
+- 기존 작은11px hint·영어 HUD/현금/결과/허브/직접영어 chrome은 전체 UI 완료가 아니다. 다음 미실행 후보11키/22값/15literal은 private `order300-root-next-scope.json`; 공유 다이사이 제목·허브, 순이익/총반환·signed log·HUD7인수를 구분해 별도 선언 뒤 직접 번역한다.
+- 정상진입/종료·second-confirm roll·정산/금전로그/history생성·모든 total전이·다른해상도·mouse/gamepad·청취·원어민·인간·물리패드·패키지 미관측. 자동 PASS는 계약 증거이지 재미/깊이/문체/인간 판정이 아니다. 규범: 일회성, 기존 UI/I18N/WORK_UNIT 적용, 새 승격 없음.
+
+## 최초 선언 원문
+
 # Active Queue Spec: ORDER-300
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.

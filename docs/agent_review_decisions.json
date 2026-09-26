@@ -3624,6 +3624,45 @@
         "path": "docs/agent_reviews/ORDER-299.json",
         "sha256": "cbd45cbea05ff7542c43a989edc0029baa47128d124b9137acf73c5b2ea29005"
       }
+    },
+    {
+      "id": "order-300-source-b669fc7-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-27",
+      "decided_by": "/root/blackjack_accounting_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-300",
+      "subject": {
+        "kind": "source",
+        "commit": "b669fc7e67fd3552b851c130f6d6e4e72b0cd920",
+        "tree": "e5b2d610ed7e869832f918134a4d4ba40f5263b0",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-300.json",
+          "sha256": "a78edce92713b58d3c44e2ff114864e9e7e5bba3f08a0531f08914dbe20cebb1"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/queue_archive/ORDER-300.md",
+          "sha256": "68620e7df6fe90fba4e2f97686e35ba4920c18652f9b4f0e12082c38cdc43c3a"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "Normal casino ingress/open/tutorial/exit, repeated selected confirmation, rolling/RNG consumption/payout/debit/log/history creation, every total-cursor edge, mouse/gamepad and physical keyboard feel.",
+        "Audio listening/quality, other resolutions/platforms, packages, full audit/240-week play, casino-wide localization/release approval, future translation proposal and closure metadata checks."
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-300.json",
+        "sha256": "a78edce92713b58d3c44e2ff114864e9e7e5bba3f08a0531f08914dbe20cebb1"
+      }
     }
   ]
 }
