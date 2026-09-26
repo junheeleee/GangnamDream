@@ -3768,6 +3768,19 @@
       ]
     },
     {
+      "tool": "tools/run_baccarat_accounting_check.py",
+      "godot": true,
+      "why": "바카라 실제 deal/reveal/exit의 원금·미납 수수료·현금·손익 일치 (격리 저장)",
+      "paths": [
+        "scenes/BaccaratTable.gd",
+        "systems/Baccarat.gd",
+        "tools/BaccaratAccountingCheck.gd",
+        "tools/BaccaratAccountingCheck.gd.uid",
+        "tools/BaccaratAccountingCheck.tscn",
+        "tools/run_baccarat_accounting_check.py"
+      ]
+    },
+    {
       "tool": "tools/InputMatrixCheck.tscn",
       "godot": true,
       "why": "입력·해상도·글리프·Steam Input",

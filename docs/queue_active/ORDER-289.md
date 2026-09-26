@@ -47,6 +47,16 @@ project.godot·원본 사용자 저장·보호 데모·기존 번역·인간 원
 보존한다. 새 pre-autoload 저장 공간·사용자 파일 해시·입력 해시·raw log·exit·
 정확 marker·사례 검증은 기존288 패턴을 사용하되288 자체는 수정하지 않는다.
 
+실행 전 봉인 모집단: 18사례×KO/EN=36. `player_win`, `player_loss`,
+`banker_win`, `banker_loss`, `tie_win`, `tie_loss`, `player_tie_refund`,
+`banker_tie_refund`, `mixed_tie_refunds`, `player_pair_win`, `player_pair_loss`,
+`banker_pair_win`, `banker_pair_loss`, `both_pairs_win`, `banker_pair_mixed`,
+`player_banker_negative`, `multi_round_commission`, `reopen_empty`.
+기본칩10만원·시작현금1천만원. 반복 종료는 각 사례 안에서 확인하며 금전·
+수수료 로그의 중복 방지만 판정한다. 닫기 신호·메타 플레이 횟수의 완전 멱등은
+이번 수리 주장이 아니다. `banker_pair_mixed`는 P12회/B1회/PP1회 베팅으로
+페어 당첨이 있어도 fee 반영 net−5천원인 경계를 확인한다.
+
 정적 영향 검사: core·EN 표면/coverage·오디오 입력 계약·표면 언어/coherence·
 JA UI/ZH·등록·queue/context. net의 부호에 연결된 기존 피드백은 한정 확인한다.
 전체240주·다른 게임 반복 실행은 없다.288에서 확인한 `.git` private gd33개
