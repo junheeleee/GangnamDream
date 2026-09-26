@@ -8,7 +8,8 @@
 - 실제 엔진은 동일 제품 `1ac6715`에서2회만 실행했다. 28번역버튼/37bet style/55visible-control×10화면, 독립 완전문장·geometry·typed상태·각press/release/teardown 검증. 실제 사용자43파일·cash/AP/저장/RNG 보존, 금융정산/새roll0.
 - CN 최초 runnerFAIL은 정상 음수 ObjectID를 거부한 검사기 한 조건 때문이었다. 원본 전부 보존 후 비영 signed64로 고쳐 같은 기록 전수 재검증PASS, CN 재실행0. TW 최초PASS. 22×2 메모리 음성검사를 실제 입력으로 세지 않는다.
 - 제품·번역 추가0·공식40277/b135/meta9·보류72·공개GO1·인간OPEN45·본편HOLD 유지. portable rendered/native OPEN도 그대로다. 정상진입/정산/전체영어chrome/다른해상도/원어민/인간/물리패드 승인이 아니다. 기존 금융26화면·188raw·named12·전체감사는 반복하지 않았다.
-- 스킬의 실제 UI 소비자·원본 화면 확인과 저작/독립 검수 분리를 적용했다. 검사기 실패를 제품 결함이나 최초PASS로 바꾸지 않았다. 규범은 일회성/기존 정본 적용이다. 마감 metadata 검증은 별도 실행 기록에 남긴다.
+- 스킬의 실제 UI 소비자·원본 화면 확인과 저작/독립 검수 분리를 적용했다. 검사기 실패를 제품 결함이나 최초PASS로 바꾸지 않았다. 규범은 일회성/기존 정본 적용이다.
+- 마감 context·queue·queue-self·human-ledger·agent-ledger-self·dashboard6종 PASS(`order300-check-closure-*-first`). 큐75/진행73·인간OPEN45/DONE1·회귀222 유지. 새87행의 이전86판정 바이트·최초선언·보고 정확복사와 보호2800파일 원형 보존 PASS(`order300-check-preserve-first`).
 
 ## 2026-09-27 (Codex — 다이사이 선택·안내 중국어)
 
