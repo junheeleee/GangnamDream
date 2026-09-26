@@ -38,7 +38,7 @@ var _split: Array   = []   # 스플릿 핸드 (비어있으면 스플릿 없음)
 var _split_active: bool = false  # 현재 스플릿 핸드를 플레이 중
 var _stake: int     = 100_000
 var _dbl_down: bool = false
-var _split_stake: int = 0
+var _split_stake: int = 0  # 분할 패에 실제로 낸 총 원금 (더블 추가분 포함)
 
 var _rounds: int    = 0
 var _net: float     = 0.0
@@ -315,7 +315,7 @@ func _double_down() -> void:
 	_screen_flash(Color("#f0b429"), 0.13, 0.24)
 	_shake_node(_content_root, 4.0, 3)
 	if _split_active:
-		_split_stake = _stake
+		_split_stake += _stake
 	else:
 		_dbl_down = true
 	hand.append(_shoe.pop_front())
@@ -417,9 +417,7 @@ func _resolve_hand() -> void:
 	for hi in range(2):
 		var hand: Array = _player if hi == 0 else _split
 		if hand.is_empty(): continue
-		var stake_for: int = _split_stake if hi == 1 else _stake
-		var is_dbl: bool = (_dbl_down and hi == 0) or (hi == 1 and _split_stake > 0 and _split.size() >= 2)
-		var actual_stake: int = stake_for * 2 if (is_dbl and hi == 0 and _dbl_down) else stake_for
+		var actual_stake: int = _split_stake if hi == 1 else _stake * (2 if _dbl_down else 1)
 
 		var pv := BJ.hand_value(hand)
 		var pj  := BJ.is_blackjack(hand) and hi == 0
