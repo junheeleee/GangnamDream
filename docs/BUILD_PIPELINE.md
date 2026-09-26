@@ -19,6 +19,7 @@
 | legacy/internal V2 테스트 macOS | `macOS V2 Playtest` | `gangnam_demo,core_loop_v2_playtest` | `build/playtest/macos/GangnamDreamV2Playtest.zip` |
 | legacy/internal V2 테스트 Linux/Deck | `Linux / Steam Deck V2 Playtest` | `gangnam_demo,core_loop_v2_playtest` | `build/playtest/linux/GangnamDreamV2Playtest.x86_64` |
 | **현재 공개 M01~M06 스토리 데모 macOS** | `Story Demo macOS` (staging 전용) | `story_demo_rc` profile | `build/story_demo/macos/GangnamDream-StoryDemo.app`·`.zip` |
+| 공개 M01~M06 스토리 데모 Windows·Linux `[미실행]` | `Story Demo Windows`·`Story Demo Linux` (staging 전용) | `story_demo_rc` profile | `build/story_demo/GangnamDream-StoryDemo-<platform>.zip` |
 
 공개 산출물은 아래 `공개 M01~M06 다섯 언어 스토리 데모` 절에서 만든다.
 위 legacy demo/V2 행과 그 뒤의 24주 명령은 저장 호환, 회귀, 과거 산출물
@@ -462,6 +463,37 @@ L1/L2는 같은 clean source에서 순서대로 다음을 요구한다.
 M01~M06 구조·범위에만 속하고, 자동 PASS는 패키징·계약을 증명한다. 일본어·
 간체·번체 원어민 출고 게이트는 각각 OPEN이며 Steam 지원 언어 claim으로
 승격하지 않는다. 본편 M01~M60과 Chapter 5는 HOLD다.
+
+### Windows·Linux(Steam Deck) 스토리 데모 `[미실행 · 새 후보]`
+
+Steam 제출에는 macOS 외 패키지가 필요하다. 같은 fixed-source staging과
+project 재작성으로 제품 `Windows`·`Linux / Steam Deck` preset에서 파생한다.
+legacy `Windows Demo`·`Linux / Steam Deck Demo` preset은 쓰지 않는다.
+
+```bash
+GODOT=/path/to/Godot_v4.6.2 ./tools/build_story_demo_desktop.sh \
+  --platform windows --build-id 2026.08.31.1 \
+  --source 362578d8f4c0781fe35f643a74cc3037e7a80b21
+GODOT=/path/to/Godot_v4.6.2 ./tools/build_story_demo_desktop.sh \
+  --platform linux --build-id 2026.08.31.1 \
+  --source 362578d8f4c0781fe35f643a74cc3037e7a80b21
+```
+
+- 빌드 ID·제품 revision·runtime scope·gate marker는
+  `build_story_demo_macos.sh`에서 읽는다. 값을 복사하지 않는다.
+- 필요: Godot 4.6.2 stable과 Windows·Linux export 템플릿. macOS에서도
+  두 플랫폼을 export할 수 있다.
+- gate: fixed-source import, `StoryDemoFourLanguageCheck`, `FontRoutingCheck`,
+  `I18nInfrastructureCheck`. 호스트와 대상 OS가 같을 때만 다섯 locale native
+  smoke를 추가로 돈다. Linux에서 디스플레이가 없으면 `xvfb-run`을 쓴다.
+- 산출: `build/story_demo/GangnamDream-StoryDemo-<platform>.zip`과
+  `MANIFEST-<platform>.json`. manifest의 `native_smoke`가 `not_run_host_*`이면
+  해당 OS 실기 확인이 남은 것이다.
+- macOS 차선의 real-flow·cold resume·codesign·package audit은 이 차선에 없다.
+  manifest는 `user_go=not_inherited`이며, 새 플랫폼 패키지는 macOS GO를
+  물려받지 않는다(`MASTER_RELEASE_AUDIT.md` Gate C).
+- 2026-09-26 현재 가짜 Godot으로 흐름(소스 검증·preset 파생·gate 순서·
+  manifest)만 확인했다. 실제 Godot 실행 기록은 없다.
 
 ## 4. legacy/internal V2 자동 스모크
 
