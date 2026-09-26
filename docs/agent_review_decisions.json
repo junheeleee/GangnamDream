@@ -3502,6 +3502,88 @@
         "path": "docs/agent_reviews/ORDER-296.json",
         "sha256": "71081f49d4fed9a53a5f85dfdc06a900b65678f1835cb13ea4ef260f0d32e089"
       }
+    },
+    {
+      "id": "order-297-source-9222f37-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-27",
+      "decided_by": "/root/blackjack_accounting_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-297",
+      "subject": {
+        "kind": "source",
+        "commit": "9222f371faf668b90008e9f25a293155f5a5fe2f",
+        "tree": "37955ee4561d080eade7d7cfb7d06644310c3a0e",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-297.json",
+          "sha256": "499c9179b6e9184a75256cbce3b4fc172def96c863242db1ac680c8214969dfb"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/queue_archive/ORDER-297.md",
+          "sha256": "3be05182ba32c098888d790043bdb281d9bf34cf7954bada4580751b1ea279df"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "New runtime observation at9222f37: not performed or needed for an identical runtime product; no additional screenshot/input count.",
+        "Captured corrected-context PASS and next closure metadata/checks are not yet observed. The direct root-reported context PASS is not treated as immutable gate evidence.",
+        "Normal ingress, other resolutions/platforms, physical play, spins/rolls/settlements/accounting, audio and broader casino/translation/package/full-release quality. Plain helper0 is nonvisual and lacks a normal current caller.",
+        "Excluded English parent/chrome/quick-button debt and all first-report human/physical/release limitations remain. Historical public GO1 and human OPEN45 are unchanged; full product remains HOLD."
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-297.json",
+        "sha256": "499c9179b6e9184a75256cbce3b4fc172def96c863242db1ac680c8214969dfb"
+      }
+    },
+    {
+      "id": "order-298-source-9222f37-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-27",
+      "decided_by": "/root/blackjack_accounting_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-298",
+      "subject": {
+        "kind": "source",
+        "commit": "9222f371faf668b90008e9f25a293155f5a5fe2f",
+        "tree": "37955ee4561d080eade7d7cfb7d06644310c3a0e",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-298.json",
+          "sha256": "70bec33cf19abcd0697cf1560441df1ae3170f76ab3c10a154f92aab9df3065e"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/queue_archive/ORDER-298.md",
+          "sha256": "d42d4e2e875b2b59576c411c47ce173284d0ac0419e9b3af31350c7f45792e99"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "New runtime observation at9222f37: not performed or needed for an identical runtime product; no additional screenshot/input count.",
+        "Captured corrected-context PASS and next closure metadata/checks are not yet observed. The direct root-reported context PASS is not treated as immutable gate evidence.",
+        "Normal ingress, other resolutions/platforms, physical play, spins/rolls/settlements/accounting, audio and broader casino/translation/package/full-release quality. Plain helper0 is nonvisual and lacks a normal current caller.",
+        "Excluded English parent/chrome/quick-button debt and all first-report human/physical/release limitations remain. Historical public GO1 and human OPEN45 are unchanged; full product remains HOLD."
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-298.json",
+        "sha256": "70bec33cf19abcd0697cf1560441df1ae3170f76ab3c10a154f92aab9df3065e"
+      }
     }
   ]
 }

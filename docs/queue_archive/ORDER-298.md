@@ -1,3 +1,21 @@
+# ORDER-298 — 다이사이 하단 행동 버튼 잘림 수리
+
+[x] 2026-09-27. 비저자 전수 작업 한정 GO, 필수 결함0.
+
+- [독립 보고](../agent_reviews/ORDER-298.json) SHA `70bec33cf19abcd0697cf1560441df1ae3170f76ab3c10a154f92aab9df3065e`.
+- 첫 두 지역·홀짝4화면의 ROLL/Default Bet/Casino Hub 하단807>800을 확인했다. 실제 VBox 최소 높이851이며 helper 오탐이 아니었다. `_build_ui`의 body top/bottom18→12, table separation9→4 세 상수만 변경했다. 원래 간격8개40px+바깥 여백12px=52px 절약, 계산상 최소799·실제 root800. 버튼 하단807→761·패널 하단833→787. 글꼴·버튼54px·아이콘·본문·배당·visibility·scroll 불변.
+- 제품 파일3상수 inverse가 원본 전체 바이트와 같으며 나머지2793 tracked 파일(선언된 기록 제외) 동일. 도달: 같은297 actual8PNG/40raw 전체 PASS. 생산자↔독자: DaiSaiTable.gd:504,505,524→실제 bottom action row와 최초 viewport. 상태: y753..807→707..761. 제거손실:1280×800 하단7px 다시 잘림. 서사/계층: 기존 카지노UI/새 장면 없음. 닫음: 표적 여백 결함1건.
+- 판정 source `9222f371faf668b90008e9f25a293155f5a5fe2f`, tree `37955ee4561d080eade7d7cfb7d06644310c3a0e`. 실제 실행은 `77d6db620d17a53bda1ea54292bc0e1285972f00`; 이후 유일 변경은 CLAUDE 현재 상태 한 행이며 비저자가 전체 diff·1241 source pin으로 결속했다. 새 후보에서 다시 실행했다고 쓰지 않는다.
+- 같은 CN/TW1280×800 8PNG·합성 raw keyboard40행·helper0 direct return2건. 모든 visible control 484개 관측(66×4+55×4)과 canvas8개, typed 전체 상태/전역/파일/RNG, 실제 Roulette flash 종료와 footer 복구 PASS. 비시각 helper0은 정상 caller/화면 도달로 세지 않는다.
+- 각 실행 exit0·exact marker·pre-autoload UUID 격리 두 marker·stdout/stderr/Godot error0. 실제 사용자43파일 및 source/helper/font/oracle 전후 동일. 최초 두 실행의 실제 제품 잘림 FAIL8PNG·40raw도 원본 보존; 전체 실제 실행4회/16PNG·80raw다.
+- root·비저자 후속8PNG 전수 직접 시각 검수, 필수 결함0. strict validator의 원본 결과 재검증과 in-memory 음성10종×2지역 모두 거부. 음성은 새 실제 입력이 아니다.
+- 공식40239/b134/meta9·보류72·CN/TW UI각1035·JA기준3028 대비각1993부재 불변(전체 live UI 분모 아님). locale/receipt/KO/EN/JA/공개/human/project 원형 보존. 신규 번역0·확률/배당/금전/입력 로직 변경0.
+- 다이사이 별도 홀짝 quick-button 키와 영어 부모·직접영어 chrome은 남은 번역이다. 원어민·인간·물리 패드·정상 진입·무작위 라운드·정산·다른 해상도·오디오·패키지·전체판은 미관측. 공개GO1·인간OPEN45·본편HOLD 유지.
+- 완료된 금융26화면·기존188raw·번역 named12·전체 감사는 반복하지 않았다. 변경된 표시의 실제 엔진 검사와 소스 표적 core-static/surface-coherence2종 PASS; 큐·원장·생성현황 마감은 별도 기록한다.
+- 자동 게이트는 계약 증거이지 재미·깊이·문체 또는 인간 판단의 대체가 아니다. 규범 승격 없음: 기존 UI/I18N/WORK_UNIT 적용; 모집단·수리 상수·증거 구성은 일회성이다.
+
+## 최초 선언 원문
+
 # Active Queue Spec: ORDER-298
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.

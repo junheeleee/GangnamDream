@@ -2,6 +2,16 @@
 
 > 이전 WORK·선언·검증 원문은 [287 보존본](queue_archive/ORDER-287.md)에 있다.
 
+## 2026-09-27 (Codex — 중국어 선택 표시·다이사이 하단 잘림 수리)
+
+- [297](queue_archive/ORDER-297.md)·[298](queue_archive/ORDER-298.md): CN/TW 선택 표시8PNG·합성 keyboard40행 검수 중 하단 행동 버튼7px 잘림을 발견했다. 별도 선언 후 여백3상수만 고쳐 버튼 하단807→761, 패널833→787로 복구했다. 글자·버튼·아이콘 크기와 게임 규칙은 유지했다.
+- 실제 수리 후보 `77d6db6`에서 같은8PNG/40raw 전체 PASS·exit0·engine오류0. 비저자 전수 작업 한정 GO, 최종 source `9222f37`는 CLAUDE 상태 한 행만 다른 후보임을 명시적으로 결속했다. 원본 두 지역 FAIL8PNG/40raw를 보존했고 실제 실행 총4회/16PNG/80raw다.
+- 12visible키/16reader와 단일 숫자 helper0 비시각 return2건을 구분했다. 독립 전체 부모문장·지역서체·글리프·줄바꿈/ratio·484 visible-control 관측/canvas8·typed 상태/전역/RNG 불변을 검사했다. 원본 사용자43파일 전4실행 보존. in-memory 음성검사10종×2지역 거부는 실제 추가 입력으로 세지 않는다.
+- 제품변경은 DaiSai 여백3상수뿐이고 역치환 전체 바이트 보존 확인. core-static/surface-coherence2종 PASS. 큐 최초0행 선언 오류는 구현 전 순번 정정 커밋084bd68로 수정했으며 queue PASS 뒤 엔진 실행했다. 기존 금융26화면·188raw·번역named12·전체감사는 반복하지 않았다.
+- 새 번역0·공식40239/b134/meta9·보류72·공개GO1·인간OPEN45·본편HOLD 유지. 남은 다이사이 영어 선택·안내 UI를 다음 새 번역 범위로 삼으며 정상진입·무작위play·정산·다른해상도·원어민·인간·물리패드 GO는 아니다. 규범은 일회성/기존 정본 적용이다.
+- 첫 마감은5종PASS/context만 CLAUDE18041>18000bytes로 실패했다. 같은 상태행을17948bytes로 줄여context를 복구했고 실패/시도metadata/최초 독립보고는private에 보존했다. 후속 보고는 새 후보에 별도 결속한다. 다음19키 후보는 private `order298-next-daisai-scope.json`; 저작 전 전체 저장소 공유 reader를 재확인한다.
+- 후속 마감 `order298-closure-second`에서 context·queue·queue-self·human-ledger·agent-ledger-self·dashboard 6종 모두PASS. 활성75/진행73, queue fixture25·agent case222, 인간OPEN45/DONE1 유지. 별도 closure 보존 검사로 이전83판정 바이트·두 최초선언·독립보고 정확 복사와 새85행 결속을 확인했고, 제품 외 보호2793파일·사용자 project도 보존했다.
+
 ## 2026-09-27 (Codex — 룰렛 선택 유형·공유 홀짝 중국어)
 
 - [296](queue_archive/ORDER-296.md): 룰렛 선택 유형13키를 CN/TW26값으로 직접 번역했다. 번호 하나·홀짝·색·구간·묶음과 배당을 읽을 수 있도록 사전에 연결했으며 비저자 전수 한정 GO, source `0328647`.
@@ -93,8 +103,8 @@
 
 ## 다음 안전한 범위
 
-- 룰렛 선택 유형13키·CN/TW26값은296에서 수용했다. 다음은 새 버튼·공유 홀짝의 실제 화면/입력 검수이며 새 범위를 선언한다. 단일 숫자 helper0은 정상 caller 없음으로 분리한다. 완료된295 금융26화면·292/293 입력은 반복하지 않는다. 바카라 raw로그·직접영어·정선 확률설명 원문채무는 별도다.
-- 미실행 초안은 private `order296-next-render-scope.json`(SHA `52d93c9073e630e3537c9c84c927a5bf0ba85837b5c36ee82082f4f393d964a0`): CN/TW 각4화면·총8PNG/합성키40이벤트, 룰렛10버튼과 두 게임 홀짝. 화면12키와 비화면 반환1키를 분리하며 별도 선언·현재 source 재결속 뒤 실행한다.
+- 룰렛 선택 유형13키·CN/TW26값은296 수용,297/298에서 실제8PNG/40raw와 다이사이 하단 잘림 수리를 검수했다. 단일 숫자 helper0은 비시각으로 분리한다. 다음은 미번역 다이사이 선택·안내 부모문장/버튼키의 새 선언·저작이다. 완료된 금융26화면·기존188raw를 반복하지 않는다. 직접영어·바카라 raw로그·정선 원문채무는 별도다.
+- 다음 미선언 번역 후보는 private `order298-next-daisai-scope.json`의19키다. 과거 `order296-next-render-scope.json`은297/298로 실행한 화면 검수의 입력 자료이며 다시 실행할 다음 작업이 아니다.
 - 공유6소비자·JA/KO/EN 화면, AA 추가 카드·net0 타이 설명·EV 주장은 별도 범위다. 분할 double 원금만288에서 실제 재현·수리했다. 다른 정적 결손을 실행 재현이나 수리 완료로 부르지 않는다.
 - UI사전3028 중 CN/TW각1993키 부재는 전체 live UI 분모가 아니다. 새 producer/consumer와 파일 소유를 큐에 선언한 뒤 진행한다.
 - BigWheel JOKER배 부모는 별도 원문/산식 채무다. 바카라 수수료·타이 원금·재종료 출금은289에서 실제 재현·수리했으며 post283 계획만으로 GO라고 한 것은 아니다. 남은 KO 금액 반올림·전체 바카라 UI 번역·미납 예약·중도 종료는 새 범위 선언 뒤 다룬다.
