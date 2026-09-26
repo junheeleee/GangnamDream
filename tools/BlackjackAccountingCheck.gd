@@ -74,16 +74,16 @@ func _ready() -> void:
 
 func _check_isolation() -> bool:
 	var bootstrap := get_tree().get_script() as Script
-	var namespace := OS.get_environment("STORY_NAMEPLATE_QA_NAMESPACE")
+	var qa_namespace := OS.get_environment("STORY_NAMEPLATE_QA_NAMESPACE")
 	var pattern := RegEx.new()
 	var valid := pattern.compile("^GangnamDream_StoryNameplateQA_[0-9a-f]{32}$") == OK
-	valid = valid and pattern.search(namespace) != null
+	valid = valid and pattern.search(qa_namespace) != null
 	valid = valid and bootstrap != null
 	if bootstrap != null:
 		valid = valid and bootstrap.resource_path == "res://tools/StoryNameplateBootstrap.gd"
 	valid = valid and bool(ProjectSettings.get_setting("application/config/use_custom_user_dir", false))
-	valid = valid and str(ProjectSettings.get_setting("application/config/custom_user_dir_name", "")) == namespace
-	valid = valid and OS.get_user_data_dir().get_file() == namespace
+	valid = valid and str(ProjectSettings.get_setting("application/config/custom_user_dir_name", "")) == qa_namespace
+	valid = valid and OS.get_user_data_dir().get_file() == qa_namespace
 	if not valid:
 		push_error("BLACKJACK_ACCOUNTING_CHECK_FAIL exact pre-autoload isolation required")
 	return valid
@@ -303,8 +303,11 @@ func _release_audio() -> void:
 
 
 func _detach_audio(node: Node) -> void:
-	if node is AudioStreamPlayer or node is AudioStreamPlayer2D:
-		node.stop()
-		node.stream = null
+	if node is AudioStreamPlayer:
+		(node as AudioStreamPlayer).stop()
+		(node as AudioStreamPlayer).stream = null
+	elif node is AudioStreamPlayer2D:
+		(node as AudioStreamPlayer2D).stop()
+		(node as AudioStreamPlayer2D).stream = null
 	for child in node.get_children():
 		_detach_audio(child)
