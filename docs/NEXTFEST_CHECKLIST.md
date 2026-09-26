@@ -64,7 +64,9 @@ Windows/macOS/Linux 해시는 계속 회귀·저장 호환 증거로 보존한�
   builder는 `tools/build_story_demo_macos.sh` 하나다. `Windows Demo`·
   `Linux / Steam Deck Demo` preset은 legacy W1~W24 앱이므로 대신 올리지 않는다.
   같은 staging·manifest 절차의 Windows/Linux builder가 위 "각 OS의 exact 패키지"
-  항목의 선행 작업이다. 새 플랫폼 패키지가 다른 identity를 만들면 GO가 자동
+  항목의 선행 작업이다. 2026-09-26 `tools/build_story_demo_desktop.sh`를 추가했다
+  (`BUILD_PIPELINE.md` 해당 절). 실제 Godot으로 한 번 돌려 zip과 manifest를
+  만들고, Windows PC와 Steam Deck에서 직접 실행해 봐야 닫힌다. 새 플랫폼 패키지가 다른 identity를 만들면 GO가 자동
   이전되지 않는다(`MASTER_RELEASE_AUDIT.md` Gate C).
 - **상점 그래픽 규격 재확인 필요.** 현재 캡슐은 616x353 / 231x87 / 460x215이고
   세로 캡슐·라이브러리 자산(캡슐·히어로·로고)이 없다. Steam이 캡슐 규격을

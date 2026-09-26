@@ -2,6 +2,13 @@
 
 > 이전 WORK·선언·검증 원문은 [284 보존본](queue_archive/ORDER-284.md)에 있다.
 
+## 2026-09-26 (Claude — Windows·Linux 스토리 데모 빌더)
+
+- 사용자 지시("너가 일을해")로 출시 막힘 1순위를 골랐다. 공개 체험판 빌더가 macOS뿐이라 Steam 제출용 Windows·Linux 패키지를 만들 수 없었다.
+- `tools/build_story_demo_desktop.sh --platform windows|linux`: macOS 차선과 같은 fixed-source staging·project 재작성, 제품 `Windows`/`Linux / Steam Deck` preset에서 파생, import·네 언어 target·font·i18n gate, export, 호스트 OS가 같으면 다섯 locale native smoke, zip·manifest(`user_go=not_inherited`). 정본 값은 macOS 빌더에서 읽는다.
+- 검증: `bash -n`, 가짜 Godot dry-run으로 linux(native smoke 경로 포함)·windows 통과, 음성 5건(HEAD source의 runtime scope 변경·build id·platform·SCRIPT ERROR·디스플레이 없음→xvfb) 확인. 가짜 산출물은 삭제했다. 실제 Godot export·실기 실행은 미관찰이다.
+- `audit_scope.json`의 build identity 검사 경로에 등록, `BUILD_PIPELINE.md` 표·절, `NEXTFEST_CHECKLIST.md` 막힘 항목 갱신.
+
 ## 2026-09-24 (Claude — main CI 실패 5건 중 2건 수리)
 
 - `main` 685e10f의 CI 실패 5건을 재현하고 bisect로 원인을 찾았다. STATUS_DOC는 9b091a2 이후 현황 문서 미갱신, EN_HANGUL는 29d46d7(ORDER-267)이 새 게임 로그 `ui_format` 2건을 `ja_translation_pipeline.py`의 `NEW_RUN_LOG_CALLS`에만 등록해 영어 한글 감사가 모른 결과다.
