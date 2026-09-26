@@ -869,7 +869,7 @@ func _build_ui() -> void:
 
 	_content_root = VBoxContainer.new()
 	_content_root.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_content_root.add_theme_constant_override("separation", 6)
+	_content_root.add_theme_constant_override("separation", 4)
 	var margin := MarginContainer.new()
 	margin.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	margin.add_theme_constant_override("margin_left", 22)
