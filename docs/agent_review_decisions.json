@@ -3123,6 +3123,48 @@
         "path": "docs/agent_reviews/ORDER-287.json",
         "sha256": "3f7f92f2cf3b8d98c0eb0011b60038b83a76c611dad5a104c3fd79b39760e467"
       }
+    },
+    {
+      "id": "order-288-source-3f3c502-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-26",
+      "decided_by": "/root/blackjack_accounting_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-288",
+      "subject": {
+        "kind": "source",
+        "commit": "3f3c50273c19c2668bdc997e0c85b48134fb64f4",
+        "tree": "3c84ff7a6a3a233071777e24cbeaba6557c8e9d8",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-288.json",
+          "sha256": "7e09c7f547b8b4e6aca1ac00a7040563de66fded08bbfb35f055c27e835e85eb"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/queue_archive/ORDER-288.md",
+          "sha256": "24030dc36e929cb6e0ae557e85dc7aa27bb9808a531b3b0303dc8952125543d1"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "fresh StoryMode/casino ingress, physical input and rendered text",
+        "AA splitting, split-natural asymmetry, dealer peek, mixed-result prose and mid-round exit",
+        "other stakes/platforms, packages, random-shoe probabilities and EV",
+        "full-game quality, complete translation and release approval",
+        "feature-liveness scanner repair; original targeted static result is10PASS/2FAIL"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-288.json",
+        "sha256": "7e09c7f547b8b4e6aca1ac00a7040563de66fded08bbfb35f055c27e835e85eb"
+      }
     }
   ]
 }

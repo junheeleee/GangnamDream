@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-288",
+  "scope": "work_unit",
+  "authority": "user_delegated_agent_final",
+  "reviewer": "/root/blackjack_accounting_review",
+  "reviewed_on": "2026-09-26",
+  "verdict": "GO",
+  "required": [],
+  "subject": {
+    "kind": "source",
+    "commit": "3f3c50273c19c2668bdc997e0c85b48134fb64f4",
+    "tree": "3c84ff7a6a3a233071777e24cbeaba6557c8e9d8",
+    "manifest_sha256": null
+  },
+  "review": {
+    "commit": "3f3c50273c19c2668bdc997e0c85b48134fb64f4",
+    "tree": "3c84ff7a6a3a233071777e24cbeaba6557c8e9d8",
+    "clean": true
+  },
+  "baseline": "d77a7f534fce0d3dbe67753f91aba2892fcd11ca",
+  "population": {
+    "cases": 48,
+    "locales": ["ko", "en"],
+    "per_locale": "24 fixed-card cases: split hands with no/main-only/split-only/both doubles crossed with win/push/loss/bust (16); ordinary win/push/loss/double-win, natural win/push, split-double win or push with main loss (8). All 48 reviewed, not a sample.",
+    "sessions": "Two 12-round sessions per locale, four total. Base wager100000 won, locale start10000000 won. Consecutive wallets, session reopening, per-hand counters and rolling last10 history are observed.",
+    "scope": "Actual Table deal/split/double/hit/stand calls and settled-round accounting only. ON TABLE evidence is its numeric draw operand, not a screenshot. Mid-round exit is excluded from cash-versus-net equivalence."
+  },
+  "method": [
+    "Read CLAUDE, development skill, WORK_UNIT, declared scope, full Table/model accounting paths, full fixture/runner/bootstrap/process-isolation code, source diff and all three execution reports. Reviewer authored neither the product patch nor the fixture/runner and launched no engine or repository audit.",
+    "Observed clean HEAD/tree directly before creating this report. Verified all12 input pins for each attempt against that attempt's Git blobs, all12 final pins against current files, all9 raw-log pins and exact raw stdout case rows against result.json. Repaired baseline and passing run share11 of12 pinned inputs, including identical test and runner; only Table differs.",
+    "Independently reconstructed action sequences from case IDs, consumed fixed rank prefixes, calculated hand totals, paid principal, gross return, per-action cash deltas, wallet, counters, session net and last10 history. Every field of all48 before-fix actual rows matches the old missing-principal model; every field of all48 after-fix actual/expected rows matches correct principal accounting. No production calculation was imported into this arithmetic review.",
+    "Read the12 targeted static outputs and verified their24 raw stdout/stderr hashes. Reviewed scanner source and baseline for the two explicit failures; no baseline enlargement, evidence deletion or silent conversion to PASS."
+  ],
+  "findings": [
+    "No remaining blocker in the declared accounting repair. Split double now adds its actual second debit to _split_stake; settlement uses that total once. Main double, payout multipliers, card order, legal actions and dealer behavior are unchanged. Existing net and ON TABLE expressions consequently include every committed stake.",
+    "At100000 won base, split-double win with main loss correctly returns400000 on300000 paid: cash/net +100000. Split-double push with main loss returns200000: cash/net -100000. Both doubles winning return800000 on400000 paid. Natural ordinary payout remains250000 on100000 paid.",
+    "Independent preliminary findings were repaired: runner now requires48 ordered unique KO/EN case IDs, all passed=true, exact expected/actual field agreement, nonempty steps, one exact success-marker set and valid pre/post isolation markers; JSON row parse errors fail closed. --locale en is explicit, and process-spawn failures receive a retained report.",
+    "The fixture failure from reserved namespace was repaired to qa_namespace, with explicit audio-node casts added for teardown. Those harness-only changes precede both financial baseline and passing execution, so financial comparison uses the same harness. Teardown does not certify or modify production shutdown behavior.",
+    "The original accounting run has296 assertions and32 failing rows, not32 independent defects. Ten split-double cases per locale directly exercise the missing principal; subsequent control rows also fail cumulative wallet/history checks after earlier underpayments. Independent old-model replay explains all48 observed baseline rows.",
+    "All three runs preserve their12 recorded source inputs and43 monitored real-user files. Fresh pre-autoload namespaces are distinct and retained. Successful final stdout and Godot log are byte-identical, stderr empty, error scan empty, exact success marker once, exit0 and no remaining process-group error.",
+    "Static results are10 PASS /2 FAIL, not a green full audit. Queue failure is the temporary execution row0 and needs ROOT's closure renumber/removal and recheck. Feature-liveness failure lists33 pre-existing private .git/full-game-localization order239..267 scripts because its recursive scanner excludes .godot but not .git; its only production orphans are the two existing baseline paths. The new accounting test is referenced by its scene and is not in that failure list."
+  ],
+  "actual_results": {
+    "initial_harness_failure": {"head": "cfc3789a38f3c6cecf6f5d7ce7a13ca6c51776e1", "exit": -9, "cases": 0, "seconds": 60.02506975, "pass": false, "reason": "Reserved namespace parse error before component readiness; timeout killed/reaped the owned process. Failure and all logs retained."},
+    "financial_baseline": {"head": "d77a7f534fce0d3dbe67753f91aba2892fcd11ca", "exit": 1, "cases": 48, "passed_rows": 16, "failed_rows": 32, "assertion_failures": 296, "seconds": 3.366483917, "pass": false, "final_cash_per_locale": 8250000},
+    "after_fix": {"head": "3f3c50273c19c2668bdc997e0c85b48134fb64f4", "exit": 0, "cases": 48, "passed_rows": 48, "failed_rows": 0, "seconds": 3.383681625, "pass": true, "final_cash_per_locale": 9150000, "last_12_round_session_net": -50000},
+    "static": {"checks": 12, "passed": 10, "failed": ["feature-liveness", "queue"], "boundary": "Recorded at the reviewed source. Subsequent queue/ledger/dashboard/archive closure and its verification are ROOT's remaining metadata work, not observed or pre-approved here."}
+  },
+  "evidence": {
+    ".git/full-game-localization/order288-before-fix/result.json": "f1131d708630f59add6a1a19e5bbbcf00b5deb9b116d73c8c93be4b5eeb82592",
+    ".git/full-game-localization/order288-before-fix-parser-repair/result.json": "9e301253e2bd0766e1973c8c8b6375b3443b57eba8b32c1a25f627d9c16799e6",
+    ".git/full-game-localization/order288-after-fix/result.json": "e246b610ce9c7f28cc5d5f9dd20aaf0c810afebc595d534651598d1ca2c4da5b",
+    ".git/full-game-localization/order288-after-fix/stdout.log": "07f9c6559fafe4bc4636d0df676faa0a56efecb99e4cbd7caad7854f74e3cb1c",
+    ".git/full-game-localization/order288-targeted-first/result.json": "9b93f8aaa38199460a1fc421414a241c6df592b35d79ff32e8c8a32865c4396e",
+    "scenes/BlackjackTable.gd": "8ca7ef4f8461de786162107f849c3df4f7736bad519b29e1e2c5b5e2b8dcb686",
+    "tools/BlackjackAccountingCheck.gd": "324c4a1433208d94385ccaa969a05bb9c383e32ff014f19c782049481caeee35",
+    "tools/run_blackjack_accounting_check.py": "ce831930a98eef2f947ec75590026841c57a2ba2b0bf58c794c576f7d0b3e5b5"
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "fresh StoryMode/casino ingress, mouse/keyboard/controller delivery, screenshots and rendered text",
+    "insufficient-funds boundaries, repeated/invalid calls, mid-round exit/reentry, random-shoe probabilities or EV",
+    "AA splitting, split-natural asymmetry, dealer peek and mixed-result/net-zero prose",
+    "other stakes/resolutions/platforms, packaged build, audible output and production shutdown",
+    "full240-week audit, complete translation, full-game quality, external release approval",
+    "ROOT's subsequent metadata closure and queue repair; feature-liveness scanner repair"
+  ],
+  "decision": "GO only for ORDER-288's split-double principal preservation on source3f3c502 and its48 deterministic settled-round KO/EN cases. Required accounting changes0. Initial parse failure, financial baseline failure and static10PASS/2FAIL remain explicit. This is not a full-audit, package, human or release GO; existing publicGO1/humanOPEN45/full-gameHOLD remain unchanged."
+}
