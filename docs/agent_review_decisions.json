@@ -3079,6 +3079,49 @@
         "path": "docs/agent_reviews/ORDER-286.json",
         "sha256": "12408f98f6f3d0ea877b35cc267bab9ac8b9a17862a47e02f419ed30ec1272ce"
       }
+    },
+    {
+      "id": "order-287-source-faca57d-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-26",
+      "decided_by": "Poincare",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-287",
+      "subject": {
+        "kind": "source",
+        "commit": "faca57dc3d779c1f3ed64f78721fbf7cfbb90a1b",
+        "tree": "aea53fa45077261042c7cb288769685802b2ce57",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-287.json",
+          "sha256": "41130437a7ee7890b750d1701b3d10f3d61d82c499b8b5039657a5780c4a09f6"
+        },
+        {
+          "kind": "agent_render_observation",
+          "path": "docs/queue_archive/ORDER-287.md",
+          "sha256": "c152a239021307d318d26625d74448c80c90fb37b41cedabb8fe84af339cf3e5"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "shared six callsites and JA/KO/EN rendering",
+        "fresh StoryMode/casino ingress; Table entry and displayed phases were direct setup",
+        "supplemental automatic scrolling: executed0 times",
+        "actual deal, hit, stand, double, split, played history, settlement, rules/EV/financial correctness",
+        "other resolutions/platforms, packaged build, audible output, product shutdown leak fix",
+        "complete Blackjack UI translation, full-game quality or release approval"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-287.json",
+        "sha256": "41130437a7ee7890b750d1701b3d10f3d61d82c499b8b5039657a5780c4a09f6"
+      }
     }
   ]
 }
