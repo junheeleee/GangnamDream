@@ -4911,6 +4911,33 @@
       "machine_validation": "PASS",
       "rendered_review": "OPEN",
       "native_review": "OPEN"
+    },
+    {
+      "order": "ORDER-301",
+      "group": "ui",
+      "roots": [
+        "다음 베팅을 선택하세요.",
+        "주사위가 굴러갑니다...",
+        "당첨! %s  +%s",
+        "패배  %s",
+        "다이사이 %s %s (%s)",
+        "다이사이",
+        "BIG, SMALL 또는 원하는 조합에 베팅하세요.",
+        "카지노 허브로",
+        "[b]현금[/b] %s   |   [b]라운드[/b] %d   승%d 패%d   |   [color=%s][b]손익[/b] %s%s[/color]",
+        "현재 현금 %s",
+        "최근 결과 없음"
+      ],
+      "source_leaves": 11,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 11,
+        "zh-TW": 11
+      },
+      "source_review": "Independent Korean-direct CN/TW11 DaiSai cash, result, shared title and hub keys; nonauthor full22 values and15 literal readers. Win net excluding stake, signed result log, seven HUD arguments, BBCode, BIG/SMALL names and hub-return meaning preserved. JA/KO/EN/runtime/public/human and existing40277 unchanged. Actual render/input/native/full-product review remain OPEN.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN"
     }
   ],
   "accepted": {
@@ -111692,6 +111719,50 @@
       "ui:홀수\n1:1:/홀수\n1:1": {
         "source_sha256": "e7bdf3d93e7d7103437e463ea54e1fad5261af8c8e0d98fb3970e22d00630bdf",
         "target_sha256": "c85439de046f9a8d76d88c4ab0da8aad765d155b138bf7d9e048c36753ad7b9e"
+      },
+      "ui:BIG, SMALL 또는 원하는 조합에 베팅하세요.:/BIG, SMALL 또는 원하는 조합에 베팅하세요.": {
+        "source_sha256": "8ec7e59e1822ac29a5714ea974c342f0e564b0100cca385c2aa30dee79313515",
+        "target_sha256": "0ce955158428c806b0d39b04db38a179d673e28be055df94652a1d4f9b7ea8d2"
+      },
+      "ui:[b]현금[/b] %s   |   [b]라운드[/b] %d   승%d 패%d   |   [color=%s][b]손익[/b] %s%s[/color]:/[b]현금[~1b] %s   |   [b]라운드[~1b] %d   승%d 패%d   |   [color=%s][b]손익[~1b] %s%s[~1color]": {
+        "source_sha256": "de2c88afb6dcac506e3e9a51502ae54872ccf63945e5bfdaa5ee3336f026eb37",
+        "target_sha256": "2122321111ec54c911cf37fa7f669965534ac52efab33febff3f41ed4548e6d0"
+      },
+      "ui:다음 베팅을 선택하세요.:/다음 베팅을 선택하세요.": {
+        "source_sha256": "c2d40e43777599f253ef713b68fbd453b7e13ba1505f6ceb74bc10520ba2595e",
+        "target_sha256": "4a6984590bf9c5a7db57764c0a9752066e8c4a8f187272a0acb7b4b823e9fa89"
+      },
+      "ui:다이사이 %s %s (%s):/다이사이 %s %s (%s)": {
+        "source_sha256": "9edd00aad4c2b6362e27b01a22dc614d68522df0c81d881bb94e1910749e369e",
+        "target_sha256": "24b96a269c49561ac4f412237e7f180e23a64c3d2cb4357c586f660eb1083e2c"
+      },
+      "ui:다이사이:/다이사이": {
+        "source_sha256": "9c285bf74aa999073e2ae8585e3aab5017b5cd36edf7f94f329c7a050662db65",
+        "target_sha256": "e83779619d89cd419133d5f2ba1b95056f3c234c22c75d6c3a60451a940426d0"
+      },
+      "ui:당첨! %s  +%s:/당첨! %s  +%s": {
+        "source_sha256": "fa2f66775efe685bb9eaba8bd7e52b948c9e04b7dd7cf2e0fb97395de757eb8f",
+        "target_sha256": "43d9b3ad3df61f9d22750206869bde1ae0ed9acee019e716cfbb1848a3829271"
+      },
+      "ui:주사위가 굴러갑니다...:/주사위가 굴러갑니다...": {
+        "source_sha256": "1af4d0860df594340f0f8b57e7b586eb17034b24761616270f6e0b82802164e9",
+        "target_sha256": "c1bfc3e0d12e74950d77043c823299d9a0aa62fab3b4d98c02ba37f6e4218725"
+      },
+      "ui:최근 결과 없음:/최근 결과 없음": {
+        "source_sha256": "67374d1b5ca4258272a98742b496f3fd1754574f8011acaa4ae483bec83b47ca",
+        "target_sha256": "182a3a49f17bd7d6066b900e9e0e2d9bc5a42158fe954d288d03a1592a5dd286"
+      },
+      "ui:카지노 허브로:/카지노 허브로": {
+        "source_sha256": "c028073d1c8d81ba09d8c769326c4d6be75539efb583579d3c16311d97fc3c4a",
+        "target_sha256": "3741e12902f5b50c5e2aece4f6b139eee29ddb0985c445b8d1d5621ea930a9df"
+      },
+      "ui:패배  %s:/패배  %s": {
+        "source_sha256": "03bd774c7bdcdf178655e2d9ac6c43a0b1e7b3dd0bcb25342f1ed21896820640",
+        "target_sha256": "8c1149f37ff0d26f4055a8e0bace39ca180524d15f1c5888e30b9af6d85bb5f1"
+      },
+      "ui:현재 현금 %s:/현재 현금 %s": {
+        "source_sha256": "5a02123f9f394d42c024af114c1475ab9abd746ca53d2e8ea8f5323fc6fba22d",
+        "target_sha256": "6af283dfadebd4ea3ce5a299d8b41cddb213d2b478f9d89880aebeca30fab423"
       }
     },
     "zh-TW": {
@@ -166026,10 +166097,54 @@
       "ui:홀수\n1:1:/홀수\n1:1": {
         "source_sha256": "e7bdf3d93e7d7103437e463ea54e1fad5261af8c8e0d98fb3970e22d00630bdf",
         "target_sha256": "51477ef936e45c79bbd633c7741d02889a70bfdf1755a6e934529dcd2adbbc48"
+      },
+      "ui:BIG, SMALL 또는 원하는 조합에 베팅하세요.:/BIG, SMALL 또는 원하는 조합에 베팅하세요.": {
+        "source_sha256": "8ec7e59e1822ac29a5714ea974c342f0e564b0100cca385c2aa30dee79313515",
+        "target_sha256": "8464b8688c37a42ce3f5d4c625909f9eecac3b3a8c5f9a3ba5db7480adadf8ef"
+      },
+      "ui:[b]현금[/b] %s   |   [b]라운드[/b] %d   승%d 패%d   |   [color=%s][b]손익[/b] %s%s[/color]:/[b]현금[~1b] %s   |   [b]라운드[~1b] %d   승%d 패%d   |   [color=%s][b]손익[~1b] %s%s[~1color]": {
+        "source_sha256": "de2c88afb6dcac506e3e9a51502ae54872ccf63945e5bfdaa5ee3336f026eb37",
+        "target_sha256": "0c19a29136279a1527363a576fbf000a1db560ad4fa8eafeb91891d3aae042a6"
+      },
+      "ui:다음 베팅을 선택하세요.:/다음 베팅을 선택하세요.": {
+        "source_sha256": "c2d40e43777599f253ef713b68fbd453b7e13ba1505f6ceb74bc10520ba2595e",
+        "target_sha256": "f57a2a653fd64f1ee5f18c0bcb870a87d9a2a022218f4f9d4ef7f1744ce4e3af"
+      },
+      "ui:다이사이 %s %s (%s):/다이사이 %s %s (%s)": {
+        "source_sha256": "9edd00aad4c2b6362e27b01a22dc614d68522df0c81d881bb94e1910749e369e",
+        "target_sha256": "1fe004d94fd7ddebbf47636e3b39de11f7e28c74fcd4550be5ea7747b8eb940b"
+      },
+      "ui:다이사이:/다이사이": {
+        "source_sha256": "9c285bf74aa999073e2ae8585e3aab5017b5cd36edf7f94f329c7a050662db65",
+        "target_sha256": "2075aee3ef859135545c89db694c65ae490d8656b2c1191ae2621e16f18cbd58"
+      },
+      "ui:당첨! %s  +%s:/당첨! %s  +%s": {
+        "source_sha256": "fa2f66775efe685bb9eaba8bd7e52b948c9e04b7dd7cf2e0fb97395de757eb8f",
+        "target_sha256": "dadaabc12899853a4ad971a9fc5db74548429ebd998dc791d7ab02137d1a3267"
+      },
+      "ui:주사위가 굴러갑니다...:/주사위가 굴러갑니다...": {
+        "source_sha256": "1af4d0860df594340f0f8b57e7b586eb17034b24761616270f6e0b82802164e9",
+        "target_sha256": "2118563eea6d99925e91c3edffaed6901c0015593d7f55046e2d9ced57606c72"
+      },
+      "ui:최근 결과 없음:/최근 결과 없음": {
+        "source_sha256": "67374d1b5ca4258272a98742b496f3fd1754574f8011acaa4ae483bec83b47ca",
+        "target_sha256": "1f8261d3300d63f053c1a6a83cc8c14b023033d3f9c232c23c4cf093061782a9"
+      },
+      "ui:카지노 허브로:/카지노 허브로": {
+        "source_sha256": "c028073d1c8d81ba09d8c769326c4d6be75539efb583579d3c16311d97fc3c4a",
+        "target_sha256": "59223149685011a83e3b6dcc09189c37830ef0d13d5f7fb4ca367736dc3c161d"
+      },
+      "ui:패배  %s:/패배  %s": {
+        "source_sha256": "03bd774c7bdcdf178655e2d9ac6c43a0b1e7b3dd0bcb25342f1ed21896820640",
+        "target_sha256": "a9ac8cc8598309760c8d32d6dc938a7b4c2b62a3eb946726a19305772e758fe4"
+      },
+      "ui:현재 현금 %s:/현재 현금 %s": {
+        "source_sha256": "5a02123f9f394d42c024af114c1475ab9abd746ca53d2e8ea8f5323fc6fba22d",
+        "target_sha256": "9ef3cd850b7e329f55885b53711c4577c953694ae94bc35a6fc5ad2c697ebd16"
       }
     }
   },
-  "accepted_sha256": "b8524ea031813528cdcb50b565363b1d6430be78a0a0b31bf85fff3c4cad9700",
+  "accepted_sha256": "cbc8e8566aedd21cb9b405a38347fa99c6899378e0013629975509d43b16c91a",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
