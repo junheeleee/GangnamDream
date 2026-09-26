@@ -1,3 +1,18 @@
+# ORDER-299 — 다이사이 선택·안내 중국어
+
+[x] 2026-09-27. 한국어19키·CN/TW38값 전수 독립 작업 한정 GO, 필수 결함0.
+
+- source `96125930d9097a967c6c6bf3fa83d1f6c192b51a`, tree `309dadbcad69204e949b68bbd4d3fca1d099f84a`. [독립 보고](../agent_reviews/ORDER-299.json) SHA `cbd45cbea05ff7542c43a989edc0029baa47128d124b9137acf73c5b2ea29005`.
+- 두 지역에서 한국어를 직접 번역했다. 숫자/페어·합계·간편 모드, 싱글/페어/합계 버튼, 베팅 단위·기본 복귀, 선택 후 다시 눌러 굴리기, 정보·주사위 합계·패드 안내19키다. 특정 눈은单点/單點, 합계는总点数/總點數로 구별하며 placeholder순서·개행·BBCode·순배당1~3:1/8:1을 유지했다.
+- 정적19 literal reader(Table16/Model3)·추가 공유0. 모델값은 feedback/cursor/info/canvas/log에 이어진다. history의 label 저장은 실제 표시로 세지 않는다. BIG/SMALL 등 영어 인자·직접영어·다른 부모문장은 이 수용 밖이다.
+- 공식 사전 export/check·적용후 target-hash export/check/import 각19 PASS, fixed named12 전부PASS. 공식40277/b135/meta9(신규38), 각1054키. 기존40239핀/134batch·사전1035값/지역·JA·원문·runtime·project·공개·인간은 원형 보존했다. 역치환 바이트·전체 기존 수용 SHA 검증을 포함한다.
+- 도달: FULL_LOCALIZATION_BATCH_VALID locale=zh-CN/zh-TW leaves=19. 생산자↔독자: locale/ui_zh-*.json ↔ DaiSaiTable16/DaiSai3. 상태:19키씩 부재→수용. 제거손실: 선택·안내 영어 폴백. 서사/계층: 기존 카지노 UI, 장면·게임규칙 추가0. 닫음: 정확38값의 사전/소스/영수증 범위만.
+- 다음은 새 문구의 실제 화면·표적 입력 검수이며 별도 선언한다. 기존297/298 화면과 금융26화면·188raw·전체감사를 반복하지 않았다. 새 엔진실행·화면·입력0이며 이전화면으로 새 번역을 인증하지 않는다.
+- UI3028 reference 대비각1974부재는 전체 live UI 분모가 아니다. 보류72·공개GO1·인간OPEN45·본편HOLD 유지. 원어민·인간·물리패드·정상진입·무작위play·정산·오디오·다른해상도·패키지 미관측이다.
+- 규범 승격 없음: I18N/WORK_UNIT 기존 정본을 적용하며19키·파일·배치·검증은 일회성이다. 자동 PASS는 계약 증거이지 재미·깊이·문체·인간 판단이 아니다.
+
+## 최초 선언 원문
+
 # Active Queue Spec: ORDER-299
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
