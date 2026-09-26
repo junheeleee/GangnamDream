@@ -3290,6 +3290,92 @@
         "path": "docs/agent_reviews/ORDER-291.json",
         "sha256": "79a37c567b5df18642ab991e8ce9106e9b3602e8ec6fd4d8bd90b10cdffef8bd"
       }
+    },
+    {
+      "id": "order-292-source-f288200-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-27",
+      "decided_by": "/root/blackjack_accounting_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-292",
+      "subject": {
+        "kind": "source",
+        "commit": "f2882004463f33779a260dbbf6b7e8420ab3678d",
+        "tree": "ea55442b56d550613489b1a90a25655349f1eb1d",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-292.json",
+          "sha256": "ae85709a3d53b217ae9dd7d5c0d12e498a43173a0f053908f1634eb36f688025"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/queue_archive/ORDER-292.md",
+          "sha256": "cb7dd0c953210f876042064ed2cab6545ce04290f1e758778026c45ceee0775a"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "Normal player ingress/tutorial/save progression, real mouse/gamepad hardware, other controller brands, other resolutions and normal-speed usability.",
+        "Any dealt/spun/completed round, settlement, outcome/RNG/history correctness, completed-session closed/meta idempotence, or exact trigger equality boundaries.",
+        "Arbitrary money precision or changes to existing localized money formatting.",
+        "Excluded English parent/table-face/bet-button families; this is not a whole-casino or full-localization GO.",
+        "Audio (runs use Dummy audio), packaging, full-game/release approval and future closure metadata/gates.",
+        "The interrupted audit dispatch itself was not independently observed; only its preserved limitation note was read."
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-292.json",
+        "sha256": "ae85709a3d53b217ae9dd7d5c0d12e498a43173a0f053908f1634eb36f688025"
+      }
+    },
+    {
+      "id": "order-293-source-f288200-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-27",
+      "decided_by": "/root/blackjack_accounting_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-293",
+      "subject": {
+        "kind": "source",
+        "commit": "f2882004463f33779a260dbbf6b7e8420ab3678d",
+        "tree": "ea55442b56d550613489b1a90a25655349f1eb1d",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-293.json",
+          "sha256": "72cd7463b468f32fc32dff99c0611f5fd7e811422faa90f73ae722c16165bb6f"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/queue_archive/ORDER-293.md",
+          "sha256": "ab6a1ec95cc9b1aa4abf07566e66df7ba774a1e6c79538d742ef5e8ced9a1c4c"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "Normal player ingress/tutorial/save progression, real mouse/gamepad hardware, other controller brands, other resolutions and normal-speed usability.",
+        "Any dealt/spun/completed round, settlement, outcome/RNG/history correctness, completed-session closed/meta idempotence, or exact trigger equality boundaries.",
+        "Arbitrary money precision or changes to existing localized money formatting.",
+        "Excluded English parent/table-face/bet-button families; this is not a whole-casino or full-localization GO.",
+        "Audio (runs use Dummy audio), packaging, full-game/release approval and future closure metadata/gates.",
+        "The interrupted audit dispatch itself was not independently observed; only its preserved limitation note was read."
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-293.json",
+        "sha256": "72cd7463b468f32fc32dff99c0611f5fd7e811422faa90f73ae722c16165bb6f"
+      }
     }
   ]
 }
