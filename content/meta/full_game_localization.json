@@ -4813,6 +4813,40 @@
       "machine_validation": "PASS",
       "rendered_review": "OPEN",
       "native_review": "OPEN"
+    },
+    {
+      "order": "ORDER-294",
+      "group": "ui",
+      "roots": [
+        "바카라 커미션 정산 -%s",
+        "   커미션 [color=%s]%s[/color]",
+        "[b]현금 %s[/b]   |   %d라운드   W%d B%d T%d   손익 [b]%s[/b]   슈 %d%%%s",
+        "타이  (8배)",
+        "플레이어 1:1  ·  뱅커 0.95:1(커미션5%)  ·  타이 8:1  ·  페어 11:1  ·  6덱 슈  ·  내추럴(8·9) 시 추가 드로우 없음",
+        "누적 커미션: %s (나갈 때 정산)",
+        "먼저 BET 버튼을 눌러주세요",
+        "당첨!  +%s",
+        "꽝  결과: %d",
+        "숫자 베팅 매트  |  단일 숫자는 바로 선택",
+        "베팅 유형 선택",
+        "  [color=#f0b429][b]스핀 중[/b][/color]",
+        "[b]유럽식 룰렛[/b]   |   현금 [b]%s[/b]   |   %d라운드   W[color=#3de87a]%d[/color] L[color=#e85d5d]%d[/color]   손익 [b]%s[/b]%s",
+        "베팅: %s   |   배당: %.0f:1   |   당첨 시 수령: %s",
+        "→   BET 버튼 클릭",
+        "→   [%s] 칩 놓기",
+        "배당률: %.0f:1   |   베팅 금액: %s   %s",
+        "잔액: %s"
+      ],
+      "source_leaves": 18,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 18,
+        "zh-TW": 18
+      },
+      "source_review": "Independent Korean-direct CN/TW18 casino cash, commission, odds and status keys; nonauthor full36 and19 literal readers incl Jeongseon balance. Baccarat P/B/T are side outcomes, unpaid commission differs from exit charge; Roulette total return includes principal while win banner is profit. Tokens/tags/odds/denomination preserved. JA/KO/EN/runtime/public/human and existing40177 unchanged. Raw result children, direct English and other parents excluded. Render/input/native/full-product review remain OPEN.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN"
     }
   ],
   "accepted": {
@@ -111394,6 +111428,78 @@
       "ui:외부 베팅:/외부 베팅": {
         "source_sha256": "41ef847231ad0512d45e2502c98652c9779a9367534bb404169f2ed04b1f10d9",
         "target_sha256": "0f3a082bdf42edbcf0fb80e55d8c3aebed66e020d160a111df831377149d6140"
+      },
+      "ui:   커미션 [color=%s]%s[/color]:/   커미션 [color=%s]%s[~1color]": {
+        "source_sha256": "df77b6c062ced8b28019b91f99ef8741e62824132c0fa82b24c97e74138f9a53",
+        "target_sha256": "7a95ab2a28d87d70f063a7c109d42a956dd3d1d573a56fdb847b0901585d8e05"
+      },
+      "ui:  [color=#f0b429][b]스핀 중[/b][/color]:/  [color=#f0b429][b]스핀 중[~1b][~1color]": {
+        "source_sha256": "fa653215cdcb07c6bbe96cca97c42d3d85b7674c731954c4c2520d8cb194c60e",
+        "target_sha256": "bc0df30660937c53e8ce0b9755b8053ba41f8e2aeee5e95aafae570035816188"
+      },
+      "ui:[b]유럽식 룰렛[/b]   |   현금 [b]%s[/b]   |   %d라운드   W[color=#3de87a]%d[/color] L[color=#e85d5d]%d[/color]   손익 [b]%s[/b]%s:/[b]유럽식 룰렛[~1b]   |   현금 [b]%s[~1b]   |   %d라운드   W[color=#3de87a]%d[~1color] L[color=#e85d5d]%d[~1color]   손익 [b]%s[~1b]%s": {
+        "source_sha256": "e4c4477eb51d2279dd9bcf92aa12d2b6d88024cda74e8067859eb929f5cb829f",
+        "target_sha256": "b6152c1fa48c299f1dc41903a573c2752b076e422f37419ce99e976e28e35c07"
+      },
+      "ui:[b]현금 %s[/b]   |   %d라운드   W%d B%d T%d   손익 [b]%s[/b]   슈 %d%%%s:/[b]현금 %s[~1b]   |   %d라운드   W%d B%d T%d   손익 [b]%s[~1b]   슈 %d%%%s": {
+        "source_sha256": "8ef02275c1c2d146fdcf5352018d47ecfc763cfcd5ad60af1164a0c0e2b2fef5",
+        "target_sha256": "52d7ed3203859be1d64ea4e72dc2aa905500cb7ad893f2469d8a54b79ab27d55"
+      },
+      "ui:→   BET 버튼 클릭:/→   BET 버튼 클릭": {
+        "source_sha256": "386bb60badd2a680918a32c3d5a4e3f8649cb7a93d0a18ab123677008744b350",
+        "target_sha256": "be5d6e05ab3c558738a491e35c2dc183fb6679be503e9e06ae9dd9ee8d148644"
+      },
+      "ui:→   [%s] 칩 놓기:/→   [%s] 칩 놓기": {
+        "source_sha256": "2a528ea06cd58df3f20ab1bba44adf890f34a903881609c1acd75a9b001491e8",
+        "target_sha256": "e75132f9145e50001d9b230063ec5b447f7fe8ff148477429814b28f3ff4b30a"
+      },
+      "ui:꽝  결과: %d:/꽝  결과: %d": {
+        "source_sha256": "a5e68632ef81a1cd022fe22e84870f9a5ddba82f643c227e08ad75d3d4d35934",
+        "target_sha256": "2e26f45bfb9b26a32ea73d0d436bf28fe887fac3b9256bccc7b578decf591ae4"
+      },
+      "ui:누적 커미션: %s (나갈 때 정산):/누적 커미션: %s (나갈 때 정산)": {
+        "source_sha256": "adb3417176d9ee46cf4a7fbb0583a5dc548a91de1f4f2bf4d4f8248064905849",
+        "target_sha256": "d2076d87ee8fbb9c3e253e4a42d2d3259141aed5ea161acb18e891723bc45439"
+      },
+      "ui:당첨!  +%s:/당첨!  +%s": {
+        "source_sha256": "88438c9cdd448ba24a111ce9fcb815ab91a570e3ad7523b2abc2c7f2232837e4",
+        "target_sha256": "7416dbee3818ece68f24a4a240e96dd3c5658114bb27d8184520147be269c4a3"
+      },
+      "ui:먼저 BET 버튼을 눌러주세요:/먼저 BET 버튼을 눌러주세요": {
+        "source_sha256": "6302202a185f980db24cb0e1bebcb7a0e540358c63f6edec30ecf7f015627cda",
+        "target_sha256": "382a61b34966471c581f52da5c823a119e967bdaf30d071ba0e04edf77e69ed2"
+      },
+      "ui:바카라 커미션 정산 -%s:/바카라 커미션 정산 -%s": {
+        "source_sha256": "9061c47d82cf101b05169de697b61dd15d6e059784e8a7b30bf2e368d3db8bb0",
+        "target_sha256": "a921e9e0132789ce4816fcea08844e68ae0a0189b6f33403e5967cc1837c1dfa"
+      },
+      "ui:배당률: %.0f:1   |   베팅 금액: %s   %s:/배당률: %.0f:1   |   베팅 금액: %s   %s": {
+        "source_sha256": "19a88cf08d72f2b4d35e5741d2c1c3d1fd47cf954369ee90f3822a523b61f799",
+        "target_sha256": "763a3b2158cc459c013b51b453e6e81e337a3e01476f49115a68cdddc133983a"
+      },
+      "ui:베팅 유형 선택:/베팅 유형 선택": {
+        "source_sha256": "cddfcac7278066fc27ae13c75a3e74450ba9df3e3f4a823bec8a8d704d01c907",
+        "target_sha256": "92d8614ad6237c5a51cebe58e2a10d5c33b97ab47d97afc0e4c7c716160c1139"
+      },
+      "ui:베팅: %s   |   배당: %.0f:1   |   당첨 시 수령: %s:/베팅: %s   |   배당: %.0f:1   |   당첨 시 수령: %s": {
+        "source_sha256": "cda436ccb376b4dde579fcb9a70a6d01735cb3083864f359f0d57819aacf8b80",
+        "target_sha256": "3be9a228774dad862f7a08b7126779ef1ddaafba2244f38b42ee55c7a57d1fd3"
+      },
+      "ui:숫자 베팅 매트  |  단일 숫자는 바로 선택:/숫자 베팅 매트  |  단일 숫자는 바로 선택": {
+        "source_sha256": "5e188345bcbde89a0f0b649c92b34f4c3cac04abc8a127f54bcae425a8477645",
+        "target_sha256": "de8ebcf85c9ba5dbbe163dc612022216f47b9aa634a4c048c1ed8858a14c85ee"
+      },
+      "ui:잔액: %s:/잔액: %s": {
+        "source_sha256": "376b39d1dc9c5bb0a5f12e5f49c82b2ece2124d0252dfaf1a9a8fd1d3afb1edb",
+        "target_sha256": "61831dd0ea5eb9371420b2c6781f65349081eaf22fceb6ae02b970a2eb292c3e"
+      },
+      "ui:타이  (8배):/타이  (8배)": {
+        "source_sha256": "a12d8b6efcbc23923fa34d9b0ac6f3668d676fa3c66d892c6153dcbb177ccf7a",
+        "target_sha256": "d18f87b670b4615466819153c73f8565307092857fbf4e713aacb129403b41f8"
+      },
+      "ui:플레이어 1:1  ·  뱅커 0.95:1(커미션5%)  ·  타이 8:1  ·  페어 11:1  ·  6덱 슈  ·  내추럴(8·9) 시 추가 드로우 없음:/플레이어 1:1  ·  뱅커 0.95:1(커미션5%)  ·  타이 8:1  ·  페어 11:1  ·  6덱 슈  ·  내추럴(8·9) 시 추가 드로우 없음": {
+        "source_sha256": "4133e3bc1854b44eb0df7f03f959dc4ac8630ce3507793eed2d82f90fd835ecb",
+        "target_sha256": "4f88022b6aa651110d21d5fee49919e094d4b97f5ee1bdda099d5e5d1266c6fb"
       }
     },
     "zh-TW": {
@@ -165528,10 +165634,82 @@
       "ui:외부 베팅:/외부 베팅": {
         "source_sha256": "41ef847231ad0512d45e2502c98652c9779a9367534bb404169f2ed04b1f10d9",
         "target_sha256": "9b177a4f8bacfdf3ea8612fc138ee766925554619ca89981df6292b08ee51751"
+      },
+      "ui:   커미션 [color=%s]%s[/color]:/   커미션 [color=%s]%s[~1color]": {
+        "source_sha256": "df77b6c062ced8b28019b91f99ef8741e62824132c0fa82b24c97e74138f9a53",
+        "target_sha256": "a6f37f1975a9b69f8b74b7eddd7c6c5b9a40266dcd9c6519aea5414736ff071d"
+      },
+      "ui:  [color=#f0b429][b]스핀 중[/b][/color]:/  [color=#f0b429][b]스핀 중[~1b][~1color]": {
+        "source_sha256": "fa653215cdcb07c6bbe96cca97c42d3d85b7674c731954c4c2520d8cb194c60e",
+        "target_sha256": "b4c64e15289ad73a2220ddb1fad1b912b653cac08415b5d08e82b8c9c75c4a73"
+      },
+      "ui:[b]유럽식 룰렛[/b]   |   현금 [b]%s[/b]   |   %d라운드   W[color=#3de87a]%d[/color] L[color=#e85d5d]%d[/color]   손익 [b]%s[/b]%s:/[b]유럽식 룰렛[~1b]   |   현금 [b]%s[~1b]   |   %d라운드   W[color=#3de87a]%d[~1color] L[color=#e85d5d]%d[~1color]   손익 [b]%s[~1b]%s": {
+        "source_sha256": "e4c4477eb51d2279dd9bcf92aa12d2b6d88024cda74e8067859eb929f5cb829f",
+        "target_sha256": "b35ed269f904e2d78453f812c5cc25a32773118c9ba98d730be2a138971db435"
+      },
+      "ui:[b]현금 %s[/b]   |   %d라운드   W%d B%d T%d   손익 [b]%s[/b]   슈 %d%%%s:/[b]현금 %s[~1b]   |   %d라운드   W%d B%d T%d   손익 [b]%s[~1b]   슈 %d%%%s": {
+        "source_sha256": "8ef02275c1c2d146fdcf5352018d47ecfc763cfcd5ad60af1164a0c0e2b2fef5",
+        "target_sha256": "8eb600f587f46c7dc1c34adb059ba7db589de35dad97b57a2e1857b725f2d437"
+      },
+      "ui:→   BET 버튼 클릭:/→   BET 버튼 클릭": {
+        "source_sha256": "386bb60badd2a680918a32c3d5a4e3f8649cb7a93d0a18ab123677008744b350",
+        "target_sha256": "0b6cf816773d41b9a659e8411ac27fc3fb5df8ab024be6ca87a9e807983ed8b3"
+      },
+      "ui:→   [%s] 칩 놓기:/→   [%s] 칩 놓기": {
+        "source_sha256": "2a528ea06cd58df3f20ab1bba44adf890f34a903881609c1acd75a9b001491e8",
+        "target_sha256": "1916c1e7f5aebf7c3ede952848eee5fe7bc8259ca0b9f77a479cb9d9d22251bf"
+      },
+      "ui:꽝  결과: %d:/꽝  결과: %d": {
+        "source_sha256": "a5e68632ef81a1cd022fe22e84870f9a5ddba82f643c227e08ad75d3d4d35934",
+        "target_sha256": "41808286b735eee5dbc7a9762677130ebe1a16a2a0329b07ca4de3c9ae595b88"
+      },
+      "ui:누적 커미션: %s (나갈 때 정산):/누적 커미션: %s (나갈 때 정산)": {
+        "source_sha256": "adb3417176d9ee46cf4a7fbb0583a5dc548a91de1f4f2bf4d4f8248064905849",
+        "target_sha256": "994de070897ddfacf31f8e98403b2b49659104231b5bb00d886d946ab99c002d"
+      },
+      "ui:당첨!  +%s:/당첨!  +%s": {
+        "source_sha256": "88438c9cdd448ba24a111ce9fcb815ab91a570e3ad7523b2abc2c7f2232837e4",
+        "target_sha256": "22df83b5090ff5b8034fef8edb4382136b8c789ddf3fa4fb01363c545d63f9fa"
+      },
+      "ui:먼저 BET 버튼을 눌러주세요:/먼저 BET 버튼을 눌러주세요": {
+        "source_sha256": "6302202a185f980db24cb0e1bebcb7a0e540358c63f6edec30ecf7f015627cda",
+        "target_sha256": "b603e092f207e0aa49a11e642358c44aa1dcb27272580da2c4c6a212125a3935"
+      },
+      "ui:바카라 커미션 정산 -%s:/바카라 커미션 정산 -%s": {
+        "source_sha256": "9061c47d82cf101b05169de697b61dd15d6e059784e8a7b30bf2e368d3db8bb0",
+        "target_sha256": "becb72b1d0919da52910b5393f5eb8f22353a6830f8231e0ae3042d51a231b98"
+      },
+      "ui:배당률: %.0f:1   |   베팅 금액: %s   %s:/배당률: %.0f:1   |   베팅 금액: %s   %s": {
+        "source_sha256": "19a88cf08d72f2b4d35e5741d2c1c3d1fd47cf954369ee90f3822a523b61f799",
+        "target_sha256": "afa510a31a7051c3980d54f43d67e752ecc0dff40bde3082187d49169003150a"
+      },
+      "ui:베팅 유형 선택:/베팅 유형 선택": {
+        "source_sha256": "cddfcac7278066fc27ae13c75a3e74450ba9df3e3f4a823bec8a8d704d01c907",
+        "target_sha256": "c338c4e1bde4378078d9a43e84db00e4f226ff2f57b75175182c9169fc0c85d5"
+      },
+      "ui:베팅: %s   |   배당: %.0f:1   |   당첨 시 수령: %s:/베팅: %s   |   배당: %.0f:1   |   당첨 시 수령: %s": {
+        "source_sha256": "cda436ccb376b4dde579fcb9a70a6d01735cb3083864f359f0d57819aacf8b80",
+        "target_sha256": "af903664a455c2cdbd298120700d9ccfbf92f5e4ea4ae32b167c35ba302e7555"
+      },
+      "ui:숫자 베팅 매트  |  단일 숫자는 바로 선택:/숫자 베팅 매트  |  단일 숫자는 바로 선택": {
+        "source_sha256": "5e188345bcbde89a0f0b649c92b34f4c3cac04abc8a127f54bcae425a8477645",
+        "target_sha256": "f6e819592502156f67aa30b4ec9f7504f5f3a5661f3a60d8425cccb8935dc3df"
+      },
+      "ui:잔액: %s:/잔액: %s": {
+        "source_sha256": "376b39d1dc9c5bb0a5f12e5f49c82b2ece2124d0252dfaf1a9a8fd1d3afb1edb",
+        "target_sha256": "adcec8f5f38217b481e9e8685792bf42825522431fc4bcb571527d344b4690fb"
+      },
+      "ui:타이  (8배):/타이  (8배)": {
+        "source_sha256": "a12d8b6efcbc23923fa34d9b0ac6f3668d676fa3c66d892c6153dcbb177ccf7a",
+        "target_sha256": "c2ebb618923f41d0ed669076f6888df4ced15fcb2a8c1bd2505fa131b94f0856"
+      },
+      "ui:플레이어 1:1  ·  뱅커 0.95:1(커미션5%)  ·  타이 8:1  ·  페어 11:1  ·  6덱 슈  ·  내추럴(8·9) 시 추가 드로우 없음:/플레이어 1:1  ·  뱅커 0.95:1(커미션5%)  ·  타이 8:1  ·  페어 11:1  ·  6덱 슈  ·  내추럴(8·9) 시 추가 드로우 없음": {
+        "source_sha256": "4133e3bc1854b44eb0df7f03f959dc4ac8630ce3507793eed2d82f90fd835ecb",
+        "target_sha256": "caa7a91b832e984f2945b2646f430da43afecd2cc1ec9898ce3506b9f698b65e"
       }
     }
   },
-  "accepted_sha256": "a8544a8933da71faa634c8a5879279e14aba214a911685050720c8226e9a8727",
+  "accepted_sha256": "3baf97a5b5ec621d252f3db794532f45b21d986fe46f31059aaf9b59b435bcfa",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
