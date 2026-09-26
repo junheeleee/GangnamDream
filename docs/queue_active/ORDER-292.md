@@ -27,3 +27,8 @@
 - 비저자가 exact clean source/tree와 helper/oracle/output hash에 결속한 내부 GO 또는 재현 가능한 결함을 남긴다. 중간 실패는 보존한다. 이 단위에서 44개의 번역을 재수용하거나 수용 개수를 늘리지 않는다.
 - 전수 30프레임이 성공해도 다른 영문 UI, 전체판 현지화 INCOMPLETE, 원어민·물리 패드·정상 속도 이야기 관찰 OPEN, 본편/외부 출시 HOLD를 유지한다.
 - 위 실행·소유 규범은 이 단위의 일회성이다. 지속 규칙은 WORK_UNIT·UI_ART_DIRECTION·CONTROLLER_UX_STRATEGY·INPUT_MATRIX·QA_CHECKLIST에 이미 있다.
+
+**첫 실행 발견 — 2026-09-27**
+
+- clean `9c3c01d`에서 CN/TW 첫 각15화면·94 raw를 실행했다. 두 지역 모두 정착 Xbox 숫자36 화면의 기존 잔액 라벨 하단8px 잘림으로 FAIL, 나머지14상태는 통과. 원본3로그·JSON·PNG와 사용자43파일 무변경 증거를 보존한다. 화면 GO로 승격하지 않는다.
+- 비저자 두 명이 원본 PNG/코드로 실제 가독성 결함을 확인했다. 번역·회계 결함이 아니며 상단 현금·핵심 조작은 가시다. 별도 ORDER-293 한 줄 간격 수리를 먼저 수행하고 새 source에서 동일 엄격 모집단으로 292를 재판정한다. 원래292 관찰기·oracle·driver는 동결하고 새 실행 driver는293이 소유한다.
