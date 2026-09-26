@@ -501,8 +501,8 @@ func _build_ui() -> void:
 	body_margin.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	for side in ["margin_left", "margin_right"]:
 		body_margin.add_theme_constant_override(side, 28)
-	body_margin.add_theme_constant_override("margin_top", 18)
-	body_margin.add_theme_constant_override("margin_bottom", 18)
+	body_margin.add_theme_constant_override("margin_top", 12)
+	body_margin.add_theme_constant_override("margin_bottom", 12)
 	root.add_child(body_margin)
 
 	var center := CenterContainer.new()
@@ -521,7 +521,7 @@ func _build_ui() -> void:
 	table_panel.add_child(table_margin)
 
 	var table := VBoxContainer.new()
-	table.add_theme_constant_override("separation", 9)
+	table.add_theme_constant_override("separation", 4)
 	table_margin.add_child(table)
 
 	var title := Label.new()
