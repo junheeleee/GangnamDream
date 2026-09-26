@@ -4757,6 +4757,24 @@
       "machine_validation": "PASS",
       "rendered_review": "OPEN",
       "native_review": "OPEN"
+    },
+    {
+      "order": "ORDER-290",
+      "group": "ui",
+      "roots": [
+        "  승률 %d%% (%dW/%dL/%dP)",
+        "[b]현금 %s[/b]   |   블랙잭%s   손익 [b]%s[/b]"
+      ],
+      "source_leaves": 2,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 2,
+        "zh-TW": 2
+      },
+      "source_review": "Independent Korean-direct CN/TW Blackjack HUD parent and historical hand-rate fragment; nonauthor full4 review. Leading spaces, tokens and BBCode preserved; W/L/P meanings localized, actual hand denominator unchanged. JA/KO/EN/runtime/public/human unchanged; existing40129 preserved. Display-fixture rendering is separate, not accounting, native or full-product approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN"
     }
   ],
   "accepted": {
@@ -111242,6 +111260,14 @@
       "ui:히트:/히트": {
         "source_sha256": "49f377b2d03a65ec63da4c9852d6c058765d320743a2812a9a5f8d96d7e1ce24",
         "target_sha256": "379367111286d4a8c09496dfcb9f111451728a7ab3c596fb3827ee338e61fb67"
+      },
+      "ui:  승률 %d%% (%dW/%dL/%dP):/  승률 %d%% (%dW~1%dL~1%dP)": {
+        "source_sha256": "b473f3f634bcfab81fe806ec948af2654c5ab88f7803dd8cdfa4ad930308f3e3",
+        "target_sha256": "8da884da45f89ea057af4a109f30f42aa3ad9b932390b790c821a64d25cda1ed"
+      },
+      "ui:[b]현금 %s[/b]   |   블랙잭%s   손익 [b]%s[/b]:/[b]현금 %s[~1b]   |   블랙잭%s   손익 [b]%s[~1b]": {
+        "source_sha256": "2a7ba5a98cf51cc34dc9804ff3056b3d77c76bee2bb85c5e581a3d784be76fe5",
+        "target_sha256": "bc6142c19448cabea1e8dd051fa168e27cc0454c953475c552b506f85c67b60b"
       }
     },
     "zh-TW": {
@@ -165280,10 +165306,18 @@
       "ui:히트:/히트": {
         "source_sha256": "49f377b2d03a65ec63da4c9852d6c058765d320743a2812a9a5f8d96d7e1ce24",
         "target_sha256": "379367111286d4a8c09496dfcb9f111451728a7ab3c596fb3827ee338e61fb67"
+      },
+      "ui:  승률 %d%% (%dW/%dL/%dP):/  승률 %d%% (%dW~1%dL~1%dP)": {
+        "source_sha256": "b473f3f634bcfab81fe806ec948af2654c5ab88f7803dd8cdfa4ad930308f3e3",
+        "target_sha256": "3b519414f2fcece5d97de9fdfde67c3006b17470379dcfe3c45ef221b4ae8d72"
+      },
+      "ui:[b]현금 %s[/b]   |   블랙잭%s   손익 [b]%s[/b]:/[b]현금 %s[~1b]   |   블랙잭%s   손익 [b]%s[~1b]": {
+        "source_sha256": "2a7ba5a98cf51cc34dc9804ff3056b3d77c76bee2bb85c5e581a3d784be76fe5",
+        "target_sha256": "70b0c45b31ba6e911a66d1c0e31d01bcb8f27289df4f6aa2642e9e31beaa7055"
       }
     }
   },
-  "accepted_sha256": "47819d6a8e081a3478a9ba75a4144b31d77cb221fc2bf3fa8ae3f9d8882ada64",
+  "accepted_sha256": "5a8d91addb7e624d7aa18b1ff7c5a0c3fbd1d469a524a5fcdc33944ce4204339",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
