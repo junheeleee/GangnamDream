@@ -2,7 +2,7 @@
 
 [x] 2026-09-26. 비저자 독립 검수 work_unit 한정 GO, 필수 결함0.
 
-- source `faca57dc3d779c1f3ed64f78721fbf7cfbb90a1b`, tree `aea53fa45077261042c7cb288769685802b2ce57`; clean review `25a5d3e6982e8007558fbe5831360e41a56f5ed0`. source 뒤 차이는 STATUS 하나다.
+- 최종 source `11946a3fd07e1dcd95a7e21948b723a5734650fe`, tree `5da89326ec7d9232e947a76fedbc823d2a09cb5b`; clean review `a99fecc86691b8a043b016f85b1739149fb071b9`. source 뒤 차이는 STATUS 하나다. 실제 엔진은 원래 clean `25a5d3e6982e8007558fbe5831360e41a56f5ed0`에서 실행했으며, 후속은 CLAUDE 현재 상태 한 줄과 종료 metadata만 바뀌었다. 제품·원문·번역·자산·실행 helper는 같아 엔진을 재실행하지 않았다.
 - 간체·번체 각각 betting/history·H/S/D/P·result 6상태, 합계12 준비 표시를 실제1280×800 Godot 그래픽으로 관찰했다. 언어별13키·Table16 literal site를 선택 표기31건씩(합계62) 정확히 관측했다. 새 번역 수용0이다.
 - 고정13값은 기존286의 독립 승인 원고에서 가져왔다. 실제 H/S/D/P 전략 반환·사용 가능/불가 버튼을 확인했고 모든 선택 표기는 최초 화면 안에 들어왔다. 보조 scroll0회이므로 그 분기 통과를 주장하지 않는다. 직접 본 PNG는12장이다.
 - 별도 합성 입력27×2=54사례: X·PageUp/Down, trigger press/hold/release와 양끝 클램프, Q/E 합법 행동 순환·불법 건너뜀, 결과 confirm→betting, cancel→closed, echo/hidden/PLAYER_TURN major 비적용. 키 사례는 press/release를 함께 보내므로 raw event54개라는 뜻은 아니다. 실제 입력 경로에 보냈지만 물리 기기를 조작한 것은 아니다.
@@ -11,9 +11,15 @@
 - private observer의 최초 정적 지적2(scroll-이미지 시점, 복구 readback)를 수리했다. 최초 보고의 SHA는 동시 수정 후 원문을 잡았으므로 수리 전 snapshot 핀으로 쓰지 않는다. 이 한계와 최초 보고 원형을 남겼다.
 - 최초 CN은 private `TABLE.resource_path` 문법 오류로0이미지 FAIL. own runner에 SIGTERM을 보내 격리 engine group을 회수(exit-9)했고 raw3로그·result를 보존했다. 실행 원문을 별도 보존한 뒤 실제 instance Script 경로 조회 한 줄만 수리했다. 동일 모집단의 CN 후속/TW 최초는 모두 exit0·오류0·stderr0B·6PNG PASS다.
 - 화면의 HUD·규칙·EV 부모 영어 누락3/언어와 직접 EN 도형·동적 결과는 제외 범위로 남는다. 선택13키의 검수로 블랙잭 전체 번역·원금/정산·~0.5% EV·가독성 전반을 인증하지 않는다. private audio teardown은 제품 종료 수리가 아니다.
-- [독립 보고](../agent_reviews/ORDER-287.json) SHA `41130437a7ee7890b750d1701b3d10f3d61d82c499b8b5039657a5780c4a09f6`가 실제 로그·관찰 JSON·PNG 해시 및 방법을 결속한다.
+- [독립 보고](../agent_reviews/ORDER-287.json) SHA `3f7f92f2cf3b8d98c0eb0011b60038b83a76c611dad5a104c3fd79b39760e467`가 실제 로그·관찰 JSON·PNG 해시 및 방법을 결속한다.
 - 공식40129/b130/meta9·보류72, 공개GO1·인간OPEN45·본편HOLD와 과거73 agent 판정 원형 보존. 제품/runtime/번역/portable/기존 검사 변경0. 원어민·인간·물리 패드·다른 해상도·패키지 미관찰.
 - 규범 승격 없음. 기존 WORK_UNIT/UI/input 계약 적용이며 이번12표시·54합성 입력 사례·private 실행기는 일회성이다.
+
+## 종료 metadata 실패·한정 수리
+
+- 최초 metadata6은5 PASS/1 FAIL. CLAUDE 현재 상태 문장이18036B로18000B 부팅 예산을36B 넘었다. `.git/full-game-localization/order287-closure-metadata-first.json`(382583B/SHA4632cde9e1aa5950f3e0c010f8fca885d1e940360174553d91968b775e11eb78)에 첫 출력/오류/입력 보존을 남겼다.
+- 같은 현재 상태 한 줄만17976B로 줄이고 새 source에 재결속했다. 해당 context 검사만 후속 PASS: `order287-context-repair-first.json`(378234B/SHA09025393fef2a1a57c52b799416c840529195e65df366a5f7e85c207f1da9123). 기존 엔진/번역/큐 self-test는 재실행하지 않았다.
+- 최초 비저자 보고41130437은 private 원형으로 보존하고 새 독립 보고가 과거 실행과 현재 문서 수리의 차이를 명시했다. 이번287 판정만 최신 후보로 바꾸며 이전73 판정·인간 원장은 그대로다. 최초6 전량 최종 재실행 또는 전량 최초 PASS로 쓰지 않는다.
 
 ## 실제 실행 원형
 

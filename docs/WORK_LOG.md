@@ -4,11 +4,13 @@
 
 ## 2026-09-26 (Codex — 블랙잭 중국어 실제 화면·표적 입력)
 
-- [287](queue_archive/ORDER-287.md): source faca57d / exact review 25a5d3e, 비저자 한정 GO/필수0.
+- [287](queue_archive/ORDER-287.md): 최종 source 11946a3 / exact review a99fecc, 비저자 한정 GO/필수0. 실제 엔진은 제품이 같은25a5d3e에서 실행했다.
 - 간체·번체13키의 Table16site를 각6상태·31선택 표기에서 확인했다. 총12 PNG·62표기가1280×800 최초 화면 안에 들어온다. 합성 키/trigger54사례에서 금액 미리보기·클램프·행동 하이라이트·다음 핸드/닫기를 확인했다.
 - private 최초 parse FAIL은 원형 보존하고 경로 조회 한 줄만 수리했다. 같은 모집단의 후속CN/최초TW PASS, 제품 변경0·실제 사용자 파일43·직렬화 게임/meta 변수/명시 설정 복구 확인. locale cache/revision 복구는 주장하지 않는다.
 - 준비 hand/result·강제 글리프·합성 입력이며 실제 정산·fresh-story·원어민·인간·물리 패드·다른 해상도는 미관찰. HUD/규칙/EV 부모 영어와 직접EN·동적 결과는 남아 있다.
 - 공식40129/b130/meta9·보류72·공개GO1·인간OPEN45·본편HOLD 불변. [286](queue_archive/ORDER-286.md)의 중국어26수용과 이번 실제 관찰을 구분한다.
+
+- 종료 metadata6 최초5 PASS/CLAUDE 부팅 예산1 FAIL을 보존했다. 현재 상태 한 줄을17976B로 줄여 context만 후속 PASS, 변경 없는 실제 화면/입력은 반복하지 않았다.
 
 ## 다음 안전한 범위
 

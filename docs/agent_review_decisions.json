@@ -3081,7 +3081,7 @@
       }
     },
     {
-      "id": "order-287-source-faca57d-agent-final",
+      "id": "order-287-source-11946a3-agent-final",
       "delegation_id": "user-2026-09-09-codex-game-quality",
       "decided_at": "2026-09-26",
       "decided_by": "Poincare",
@@ -3090,8 +3090,8 @@
       "unit_id": "ORDER-287",
       "subject": {
         "kind": "source",
-        "commit": "faca57dc3d779c1f3ed64f78721fbf7cfbb90a1b",
-        "tree": "aea53fa45077261042c7cb288769685802b2ce57",
+        "commit": "11946a3fd07e1dcd95a7e21948b723a5734650fe",
+        "tree": "5da89326ec7d9232e947a76fedbc823d2a09cb5b",
         "manifest_sha256": null
       },
       "verdict": "GO",
@@ -3099,12 +3099,12 @@
         {
           "kind": "source_review",
           "path": "docs/agent_reviews/ORDER-287.json",
-          "sha256": "41130437a7ee7890b750d1701b3d10f3d61d82c499b8b5039657a5780c4a09f6"
+          "sha256": "3f7f92f2cf3b8d98c0eb0011b60038b83a76c611dad5a104c3fd79b39760e467"
         },
         {
           "kind": "agent_render_observation",
           "path": "docs/queue_archive/ORDER-287.md",
-          "sha256": "c152a239021307d318d26625d74448c80c90fb37b41cedabb8fe84af339cf3e5"
+          "sha256": "00f09308c13d9bfaeaa34878611d3b7dedf7cc8de4326c172d478b507dea9f68"
         }
       ],
       "unobserved": [
@@ -3116,11 +3116,12 @@
         "supplemental automatic scrolling: executed0 times",
         "actual deal, hit, stand, double, split, played history, settlement, rules/EV/financial correctness",
         "other resolutions/platforms, packaged build, audible output, product shutdown leak fix",
-        "complete Blackjack UI translation, full-game quality or release approval"
+        "complete Blackjack UI translation, full-game quality or release approval",
+        "new engine execution at documentation successor11946a3/a99fecc; historical25a5d3e engine evidence is reused by exact runtime preservation"
       ],
       "record": {
         "path": "docs/agent_reviews/ORDER-287.json",
-        "sha256": "41130437a7ee7890b750d1701b3d10f3d61d82c499b8b5039657a5780c4a09f6"
+        "sha256": "3f7f92f2cf3b8d98c0eb0011b60038b83a76c611dad5a104c3fd79b39760e467"
       }
     }
   ]

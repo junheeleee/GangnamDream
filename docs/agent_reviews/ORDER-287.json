@@ -9,13 +9,13 @@
   "required": [],
   "subject": {
     "kind": "source",
-    "commit": "faca57dc3d779c1f3ed64f78721fbf7cfbb90a1b",
-    "tree": "aea53fa45077261042c7cb288769685802b2ce57",
+    "commit": "11946a3fd07e1dcd95a7e21948b723a5734650fe",
+    "tree": "5da89326ec7d9232e947a76fedbc823d2a09cb5b",
     "manifest_sha256": null
   },
   "review": {
-    "commit": "25a5d3e6982e8007558fbe5831360e41a56f5ed0",
-    "tree": "617441bb83ad0b57dd21314774c24d27deb39268",
+    "commit": "a99fecc86691b8a043b016f85b1739149fb071b9",
+    "tree": "6ef25f597e58cdb4df2f179261978ca833bc8a46",
     "clean": true
   },
   "baseline": "8bbce129617d1fe692e0250dea6057246ddc0dd0",
@@ -23,12 +23,12 @@
     "display": "CN/TW each BETTING/history, actual strategy H/S/D/P and RESULT: six prepared component states per locale, twelve total. Thirteen lookup keys and sixteen Table sites yield31 selected control observations per locale,62 total, not62 unique translations.",
     "input": "Twenty-seven fixed synthetic raw-input records per locale,54 total, separate from twelve display states. Stake previews/clamps/trigger latch; Q/E legal-action selection and disabled alternatives; non-BETTING stake-trigger rejection; RESULT confirm to BETTING; echo, cancel and hidden input.",
     "images": "All twelve final PNGs directly viewed, six per locale, actual1280x800 Godot4.6.2/OpenGL compatibility on Apple M1 Max. No supplemental scroll capture was needed.",
-    "preserved": "Production sources, runtime, tools, assets, project, translations and portable records are baseline-exact. Official40129/b130/meta9,held72,73 prior decisions, publicGO1/humanOPEN45/full-gameHOLD remain unchanged; no new translation acceptance."
+    "preserved": "Production sources, runtime, tools, assets, project, translations and portable records remain baseline-exact. Official40129/b130/meta9,held72, the73 pre-287 decisions, publicGO1/humanOPEN45/full-gameHOLD are preserved. The current74th entry is ORDER287 only and still points to the historical first report until ROOT applies this rebind; no additional unit or human decision is authorized."
   },
   "method": [
     "Read the repository/skill/work-unit/UI/input instructions, active scope and selected actual Table/model/controller consumers. Independently reviewed the private observer, runner, bootstrap and process/storage utility without authoring them or executing QA.",
-    "Read-only Git confirms exact clean review and direct STATUS-only relation to source. Baseline-to-review changes are five declared documentation paths only. Queue insertion/rank-only inverse, portable/human/prior-decision raw equality and production non-change were directly verified.",
-    "Parsed both complete final observation/result documents and the first failure. Read raw stdout and complete differences in stderr/Godot logs; independently verified all nine retained stream hashes and twelve final image hashes. Each final run's1226 source/helper/oracle pins and43 real-user file pins match before/after and current files.",
+    "Read-only Git confirms new source11946a3 and direct STATUS-only clean review a99fecc. Compared with actual engine review25a5d3e, changes are CLAUDE plus eight closure-document paths; CLAUDE's current-status line alone is shortened from18036 to17976 bytes. Baseline-to-new-review differences are six documentation paths after the temporary active/queue insertion is closed. No runtime/product change. Original active3947B and previous WORK2633B are each contained byte-exact once in the archive; the previous73 ledger entries and their raw prefix are preserved.",
+    "The original immutable final review read both full render result/observation documents and first failure, all raw log differences and all twelve PNGs. This successor reuses those actual observations at25a5d3e, not a new engine run. Both original1226 input maps were compared with current files:1224 remain exact; only CLAUDE differs and docs/queue_active/ORDER-287.md is removed into its archive. No claim that all1226 match this successor. Both raw metadata captures were separately read and their stdout/stderr byte/base64/SHA bindings verified.",
     "Rebuilt all31 expected display strings per locale from frozen13-key drafts, fixed glyph arguments, one-wan denomination, history marker and unchanged strategy parent. Compared all62 actual full strings, typed state/local triplets and restoration readback, and directly opened every final PNG. No checker, repository import, collector, engine or product write was performed by this reviewer."
   ],
   "findings": [
@@ -61,9 +61,33 @@
       "exit": 0,
       "pass": true
     },
-    "common": "Same final observer and runner, exact clean review before/after, fresh validated pre-autoload namespace, exact-once markers, observation_valid=true, errors[], empty stderr, no process-group error, unchanged1226 inputs and43 real-user files. Result JSON binds its full observation JSON, three logs and six PNGs by bytes/SHA.",
+    "common": "Both successful engine runs occurred at historical clean review25a5d3e/tree617441bb, sourcefaca57dc/treeaea53fa4; neither ran at11946a3/a99fecc. Same final observer/runner, fresh validated namespaces, exact-once markers, observation_valid=true, errors[], empty stderr, no process-group error, unchanged1226 inputs and43 real-user files at execution. Their results bind observation JSON, three logs and six PNGs by bytes/SHA. Current rebind retains1224 of those pins exactly; CLAUDE and archived active-spec differences are explicit.",
     "first_failure": "cn-first remains FAIL: TABLE.resource_path caused a private observer parse error before any image or observation. Result/three logs are retained; ROOT's signal interrupted its own runner and the owned engine was killed/reaped (exit-9), with43 real files and source inputs unchanged. The preserved executed observer differs from the final observer at exactly one TABLE.resource_path occurrence, replaced by (_table.get_script() as Script).resource_path. No product bytes changed.",
-    "static_history": "Pre-execution REWORK2 concerned scroll/PNG pairing and missing controller/settings/mouse restoration readback; both were corrected before engine execution. The first static report's hash query raced with author revisions: its observer SHA identifies the repaired590-line file, not the earlier572-line reading. No earlier raw copy exists and no byte-exact initial-source seal is claimed. The immutable first report and explicit correction are retained. The later executed first copy is exact and inverse false-to-true activation restores reviewed22d9bca4 bytes."
+    "static_history": "Pre-execution REWORK2 concerned scroll/PNG pairing and missing controller/settings/mouse restoration readback; both were corrected before engine execution. The first static report's hash query raced with author revisions: its observer SHA identifies the repaired590-line file, not the earlier572-line reading. No earlier raw copy exists and no byte-exact initial-source seal is claimed. The immutable first report and explicit correction are retained. The later executed first copy is exact and inverse false-to-true activation restores reviewed22d9bca4 bytes.",
+    "metadata_repair": {
+      "first": {
+        "path": ".git/full-game-localization/order287-closure-metadata-first.json",
+        "head": "25a5d3e6982e8007558fbe5831360e41a56f5ed0",
+        "boundary": "Actual closure8 document paths staged; not a clean engine run.",
+        "exit": 1,
+        "seconds": 52.75288525,
+        "input_count": 1205,
+        "inputs_unchanged": true,
+        "outcome": "Five selected checks PASS: dashboard freshness, human ledger, queue consistency, queue self25, agent self222/HOLD. Only context failed: CLAUDE18036 >18000. Aggregate stdout retains child tails, not separate full raw child pipes."
+      },
+      "repair": {
+        "path": ".git/full-game-localization/order287-context-repair-first.json",
+        "head": "a99fecc86691b8a043b016f85b1739149fb071b9",
+        "tree": "6ef25f597e58cdb4df2f179261978ca833bc8a46",
+        "clean": true,
+        "exit": 0,
+        "seconds": 0.332314042,
+        "input_count": 1205,
+        "inputs_unchanged": true,
+        "outcome": "Context only PASS: boot29571/docs404/classified404/links142/invariants15. Empty stderr; CLAUDE now17976 bytes."
+      },
+      "limit": "No engine, translation or unaffected regression rerun. This does not claim all six closure checks reran at the new review. Any later public-report/ledger/archive replacement and final STATUS/metadata checks belong to ROOT's subsequent closure."
+    }
   },
   "evidence": {
     ".git/full-game-localization/order286-next-render-scope.json": "cc831f82ef0ff88a3b2b6989a3f7392a76779ecc0c983f1c88b5ee10c88d0ea2",
@@ -81,7 +105,10 @@
     ".git/full-game-localization/order287-render-cn-repair-first/result.json": "337164c67ec885ba0af72ec05e1b86ea8caacc1b6e5ea2e4fdd4275f0a74c22c",
     ".git/full-game-localization/order287-render-cn-repair-first/order287-observations.json": "e523f744b665d5830e793ecd500914a8338f0626615408eedd83b52e4b2c522e",
     ".git/full-game-localization/order287-render-tw-first/result.json": "054d961bddf1759cf295dd0596f1d0d60f73358c13021101dbc1e22c4e3ef7c6",
-    ".git/full-game-localization/order287-render-tw-first/order287-observations.json": "811e9ddfe2be79a9e159d079df96b592c4a9da182e24d570c900c4b3321317d8"
+    ".git/full-game-localization/order287-render-tw-first/order287-observations.json": "811e9ddfe2be79a9e159d079df96b592c4a9da182e24d570c900c4b3321317d8",
+    ".git/full-game-localization/order287-final-report-private.json": "41130437a7ee7890b750d1701b3d10f3d61d82c499b8b5039657a5780c4a09f6",
+    ".git/full-game-localization/order287-closure-metadata-first.json": "4632cde9e1aa5950f3e0c010f8fca885d1e940360174553d91968b775e11eb78",
+    ".git/full-game-localization/order287-context-repair-first.json": "09025393fef2a1a57c52b799416c840529195e65df366a5f7e85c207f1da9123"
   },
   "unobserved": [
     "native_reader",
@@ -92,7 +119,22 @@
     "supplemental automatic scrolling: executed0 times",
     "actual deal, hit, stand, double, split, played history, settlement, rules/EV/financial correctness",
     "other resolutions/platforms, packaged build, audible output, product shutdown leak fix",
-    "complete Blackjack UI translation, full-game quality or release approval"
+    "complete Blackjack UI translation, full-game quality or release approval",
+    "new engine execution at documentation successor11946a3/a99fecc; historical25a5d3e engine evidence is reused by exact runtime preservation"
   ],
-  "decision": "GO only for ORDER-287's declared CN/TW13-key Table visibility in twelve prepared1280x800 states and the fixed54 synthetic-input records with preservation on this exact source/review. No production changes or broader language, gameplay, financial, native, human, physical-controller or full-game approval are granted."
+  "decision": "GO only for ORDER-287 on source11946a3/reviewa99fecc: documentation-only rebind of the already observed CN/TW13-key Table visibility in twelve prepared1280x800 states and54 synthetic-input records. Historical engine identity, original parse/static-provenance failures and first closure5PASS/1FAIL remain explicit; only context was retried. No new production or translation change, engine rerun, extra unit, native/human/physical-controller, settlement or full-game approval.",
+  "rebind": {
+    "original_report": ".git/full-game-localization/order287-final-report-private.json",
+    "original_report_sha256": "41130437a7ee7890b750d1701b3d10f3d61d82c499b8b5039657a5780c4a09f6",
+    "original_subject": {
+      "commit": "faca57dc3d779c1f3ed64f78721fbf7cfbb90a1b",
+      "tree": "aea53fa45077261042c7cb288769685802b2ce57"
+    },
+    "original_review": {
+      "commit": "25a5d3e6982e8007558fbe5831360e41a56f5ed0",
+      "tree": "617441bb83ad0b57dd21314774c24d27deb39268"
+    },
+    "reason": "CLAUDE is not a metadata exception; shortening its one status line creates a new source. Original GO remains immutable historical evidence. The reviewed documentation-only successor has identical rendered/runtime inputs, so its scoped decision reuses the same bounded engine evidence without inventing a rerun.",
+    "scope": "Replace only current ORDER287's74th decision/report binding after ROOT adoption; preserve the previous73 and human/public records. No extra work unit."
+  }
 }
