@@ -3376,6 +3376,48 @@
         "path": "docs/agent_reviews/ORDER-293.json",
         "sha256": "72cd7463b468f32fc32dff99c0611f5fd7e811422faa90f73ae722c16165bb6f"
       }
+    },
+    {
+      "id": "order-294-source-3b105cb-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-27",
+      "decided_by": "/root/blackjack_accounting_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-294",
+      "subject": {
+        "kind": "source",
+        "commit": "3b105cbbcb4f39559a8d3ade1df923725c8e12e8",
+        "tree": "d5ade43e6be9af48c46a39c4e446622aa8775de7",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-294.json",
+          "sha256": "f56161e710b0d8024d29f79378ccff90718abbc1fa0ada71ae44684880805dab"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/queue_archive/ORDER-294.md",
+          "sha256": "29809c6db7e87720974ab1f0b9f385ffcc446ddb1bac8fe5353a8647b4ea9771"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "Actual rendering/font glyphs/layout and real or synthetic input for these new 36 values; longer CN tie/return labels, full HUDs and rules/footer still require the separately declared next render scope.",
+        "Baccarat rounds, Roulette spin/settlement, fee-exit gameplay or new accounting regression; source semantics were inspected, not newly executed.",
+        "Original user-save file behavior during gameplay, historical-log relocalization, actual MainGame log display and normal casino ingress.",
+        "The proposed 26 screenshots and two nonvisual exit-log records, audio, other resolutions/platforms, packages, full audit/240-week play and whole-game/release approval.",
+        "Closure metadata, generated dashboard and later final record gates after this report; they are not yet observed."
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-294.json",
+        "sha256": "f56161e710b0d8024d29f79378ccff90718abbc1fa0ada71ae44684880805dab"
+      }
     }
   ]
 }
