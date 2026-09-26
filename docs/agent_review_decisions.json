@@ -3249,6 +3249,47 @@
         "path": "docs/agent_reviews/ORDER-290.json",
         "sha256": "98fc661c0dcaec666ad0a73370df99fd87eaae449706c9fe074cef550639ce1e"
       }
+    },
+    {
+      "id": "order-291-source-fefabfa-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-27",
+      "decided_by": "/root/release_status_crosscheck",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-291",
+      "subject": {
+        "kind": "source",
+        "commit": "fefabfa0c505296128dc23092b6b1723e3da1b89",
+        "tree": "a57719f375d1a8825aa1c29c280aad2187aeee8b",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-291.json",
+          "sha256": "79a37c567b5df18642ab991e8ce9106e9b3602e8ec6fd4d8bd90b10cdffef8bd"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/queue_archive/ORDER-291.md",
+          "sha256": "233ce9acc0db05d75928aca6113d3f63163cc49e6cd98ff62589c74cccad8101"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "Actual rendered casino UI, clipping/font/layout/glyph observation, normal keyboard/mouse/controller interaction, and defensive-state fixture behavior: no engine/render/input run in ORDER-291.",
+        "Casino settlement, payouts, commission, Tie-result handling, probability/EV, formatter precision, dynamic-result parents, direct-English labels and whole-screen Chinese completion.",
+        "Whole-game completion, held72 repair, Chapter5 continuous replay, packaged builds, other platforms/resolutions and public-store release.",
+        "Later queue/archive/agent-ledger/dashboard closure and subsequent source changes; this report binds only the clean source candidate above."
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-291.json",
+        "sha256": "79a37c567b5df18642ab991e8ce9106e9b3602e8ec6fd4d8bd90b10cdffef8bd"
+      }
     }
   ]
 }
