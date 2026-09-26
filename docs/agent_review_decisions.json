@@ -3663,6 +3663,46 @@
         "path": "docs/agent_reviews/ORDER-300.json",
         "sha256": "a78edce92713b58d3c44e2ff114864e9e7e5bba3f08a0531f08914dbe20cebb1"
       }
+    },
+    {
+      "id": "order-301-source-9911c36-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-27",
+      "decided_by": "/root/blackjack_accounting_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-301",
+      "subject": {
+        "kind": "source",
+        "commit": "9911c36f973149036f1b909e75ac8686f04a9543",
+        "tree": "052aaca6849dc0d4159d3991eece87254812e6a0",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-301.json",
+          "sha256": "bdf37301efdac47c612b98f3a3f774eee3efae7991b7eead265025e668c677b7"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/queue_archive/ORDER-301.md",
+          "sha256": "2e88b83c43d1040eb4e11a9c4b617cfe2ee09e4965182ebe8841124ed1ff40b2"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "Actual rendering, glyphs, clipping/wrapping/contrast, geometry, synthetic/physical input, normal ingress and other resolutions/platforms for the new 22 values.",
+        "New dice rounds, financial settlement execution and original user-save behavior; no engine or new 43-user-file gameplay inventory.",
+        "Next-render execution, audio, packages, full audit/240-week play, casino-wide/release approval and future closure metadata/checks."
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-301.json",
+        "sha256": "bdf37301efdac47c612b98f3a3f774eee3efae7991b7eead265025e668c677b7"
+      }
     }
   ]
 }

@@ -1,3 +1,19 @@
+# ORDER-301 — 다이사이 현금·결과·허브 중국어
+
+[x] 2026-09-27. 한국어11키·간체/번체22값 전수 독립 작업 한정 GO, 필수 결함0.
+
+- source `9911c36f973149036f1b909e75ac8686f04a9543`, tree `052aaca6849dc0d4159d3991eece87254812e6a0`. [독립 보고](../agent_reviews/ORDER-301.json) SHA `bdf37301efdac47c612b98f3a3f774eee3efae7991b7eead265025e668c677b7`.
+- 지역별 한국어 직접 저작으로 현금·전적·누적 손익, 굴리는 중·승리·패배·다음 선택, 결과 로그·제목·카지노 복귀·빈 이력을 연결했다. 승리 금액은 원금 제외 순이익, 로그 인수는 이미 부호 포함, HUD는 cash/rounds/wins/losses/color/sign/abs(net)7인수다. BIG/SMALL 현 버튼명·치환순서·BBCode·공백을 유지했다.
+- 11키의 literal15(Table11/Casino3/MainGame1)를 전수 추적했다. 제목4호출·허브2호출의 전체 부모문장과 실제 도착 의미를 확인했고 역사 저장 로그를 새 언어로 덮어쓰지 않는다. 정적 호출수는 실제 관측 화면수가 아니다.
+- 공식 사전 export/check 및 적용후 target-hash export/check/import 양 지역11씩 PASS. 적용후 changed_files=0으로 수용했고 기존 news-panel-locale-only 고정12 Python검사도 새 소스에서 한 번 통과했다. 전체감사·엔진·실제 화면·입력 실행0.
+- 공식40277→40299, batch135→136, metadata9 불변. 사전 각1054→1065. 기존40277 source/target핀·135batch·사전1054값/지역은 역치환 바이트 및 현재 원문·대상 SHA로 보존을 확인했다. JA·KO/EN·게임코드·배당·저장·project·공개판·인간 원형 변경0.
+- 도달: FULL_LOCALIZATION_BATCH_VALID locale=zh-CN/zh-TW leaves=11. 생산자↔독자: locale/ui_zh-*.json ↔ DaiSaiTable11/JeongseonCasino3/MainGame1 literal. 상태:11키씩 부재→수용. 제거손실: 현금·결과·복귀 안내 영어 폴백. 서사/계층: 기존 카지노 UI, 새 scene/규칙0. 닫음: 정확22값의 사전/소스/영수증만.
+- 다음은 새 문구의 실제 표시·합성 입력 검수이며 별도 선언한다. 이전300의10PNG/32raw·금융26PNG/188raw는 이번 새 번역을 인증하지 않으며 재실행하지 않았다. 직접영어 ROLL/ROLLING/SELECTED BET/PAYS/SHAKER/BIG/SMALL/ANY TRIPLE은 별도 추출 채무다.
+- JA UI3028 참고 대비각1963부재는 전체 live UI 분모가 아니다. 보류72·공개GO1·인간OPEN45·본편HOLD 유지. 새 batch rendered/native OPEN. 실제 글꼴/잘림/입력·원어민·인간·물리패드·정상진입·다른해상도·정산/무작위play·오디오·패키지 미관측이다.
+- 규범은 기존 I18N/WORK_UNIT 적용이며 이번11키/파일/절차는 일회성이다. 새 승격 없음. 자동 PASS는 계약 증거이지 재미·깊이·문체·인간 또는 출시 판정이 아니다.
+
+## 최초 선언 원문
+
 # Active Queue Spec: ORDER-301
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
