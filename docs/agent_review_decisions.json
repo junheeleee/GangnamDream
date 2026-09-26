@@ -3038,6 +3038,47 @@
         "path": "docs/agent_reviews/ORDER-285.json",
         "sha256": "6a18b7de19341117238d4ce222019eff46c705fa0c27ca36629782f849b658f5"
       }
+    },
+    {
+      "id": "order-286-source-f0231d4-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-26",
+      "decided_by": "Poincare",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-286",
+      "subject": {
+        "kind": "source",
+        "commit": "f0231d46b7def4c2b3f50279970f470071b84e87",
+        "tree": "6c79ab5a7d35697ed3c69e4f5099f97cd3d0edf1",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-286.json",
+          "sha256": "12408f98f6f3d0ea877b35cc267bab9ac8b9a17862a47e02f419ed30ec1272ce"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/queue_archive/ORDER-286.md",
+          "sha256": "a6d1f430201e4394248b62cd782eb80ba27b23041708163e320e955410d810c0"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "rendered_blackjack_or_holdem_layout",
+        "fresh_story_reachability",
+        "runtime_settlement_and_strategy_correctness",
+        "full_game_completion"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-286.json",
+        "sha256": "12408f98f6f3d0ea877b35cc267bab9ac8b9a17862a47e02f419ed30ec1272ce"
+      }
     }
   ]
 }

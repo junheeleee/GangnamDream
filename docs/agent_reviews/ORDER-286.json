@@ -1,0 +1,117 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-286",
+  "scope": "work_unit",
+  "authority": "user_delegated_agent_final",
+  "reviewer": "Poincare",
+  "verdict": "GO",
+  "required": [],
+  "subject": {
+    "kind": "source",
+    "commit": "f0231d46b7def4c2b3f50279970f470071b84e87",
+    "tree": "6c79ab5a7d35697ed3c69e4f5099f97cd3d0edf1",
+    "manifest_sha256": null
+  },
+  "review": {
+    "commit": "9b8fec87429d5f0a915bbded9481f5e7c1f8ec3f",
+    "tree": "24ef94bc77c731bf3089bd46f3d7ee33fad82fcf",
+    "clean": true
+  },
+  "baseline": "6672d2d1b1bbc797e90e45c061733b1f59233a11",
+  "population": {
+    "language": "13 Korean Blackjack control/history keys × zh-CN/zh-TW =26 values, all independently reviewed and installed exactly. Existing Japanese13 unchanged, not newly accepted.",
+    "consumer": "16 BlackjackTable literal calls plus6 shared calls in HoldemClub, JeongseonCasino and MainGame. Conditional existing panel/input paths, not fresh-story reachability or whole-game coverage.",
+    "acceptance": "Old40103 retained plus26 =40129 accepted values,130 batches and9 retained metadata records. Two fresh accepted receipts own13 targets each; native_review OPEN.",
+    "verification": "First fixed12 invocation:11 PASS and queue-consistency FAIL. After metadata-only repair, queue-consistency and context-manifest PASS separately. The other10 commands were not rerun.",
+    "preserved": "Old72 agent decisions, held72 regional drafts, human ledger, public-demo files, Japanese whole dictionary, source/runtime/project and existing checkers remain baseline-exact. PublicGO1/humanOPEN45/fullHOLD are not changed."
+  },
+  "method": [
+    "Read applicable repository/skill/work-unit/I18N instructions, declaration, frozen source plan, actual selected Korean consumers and arguments, both complete regional drafts and the retained language report. Authored no translations, product code or tests.",
+    "Read all three private exchange/capture/named helpers. Independently observed Git commit/tree/clean identities and the complete baseline diff:8 changed paths within declared12; only3 product files changed, with one owned CLAUDE status-line update and declaration/status metadata.",
+    "Read10 formal capture outputs and independently verified their20 raw streams by base64, byte count, SHA and decoded text. Compared all26 applied source/response/receipt/UI values, receipt headers/checksums and portable source/target pins. Both dictionaries are exact13-key appends; removing the26 new portable entries and one batch restores the entire old portable raw bytes.",
+    "Verified first named24 child streams and outer streams, outcomes, failure text and input pins; read both repair captures and checked their raw bytes and outputs. Compared current files with first1660 input pins: only STATUS and active286 differ. All1205 product/human pins remain identical across preservation, first named, repairs and current readback. No checker, collector, module or engine was executed by the reviewer."
+  ],
+  "source_relationship": {
+    "first_review": "1bb3f3c05c8f5f6b683f386294819d368c23cbb9",
+    "first_review_tree": "0fce2e36ea458c14f150b624ae1573bc87bd2d08",
+    "first_relation": "Direct STATUS-only child of the product source; first named12 executed here while clean.",
+    "final_relation": "Final review is a metadata descendant, not a direct STATUS-only child. Source-to-final diff is exactly docs/STATUS.md and docs/queue_active/ORDER-286.md. Repair adds the required #### [~] ORDER-286 heading and an explicit first-failure/retry record, without changing the original scope, target values, CLAUDE, portable data or tools."
+  },
+  "actual_results": {
+    "formal": {
+      "preflight_source_commit": "b4ce85e629fdf6e4d697fd2aa32a062b0e27b7a6",
+      "applied_source_commit": "fddb2aeaa88f5ddf181d51c4e4dbfe560044ce8c",
+      "result": "Export/check/applied-export/applied-check/import --accept ×2 locales:10 first captures, all exit0, errors[], empty stderr and1205 inputs unchanged. Preflight changed_files1 is a proposal; applied checks and imports each changed_files0. First formal failures0.",
+      "binding": "Each locale has13 exact nonprotected builtin_overlay_static_only leaves. Fresh applied previous-target hashes equal the installed draft-value digests; both response headers and receipt translations match their applied batches, current UI and portable entries. Full status remains INCOMPLETE."
+    },
+    "preservation": {
+      "actual_head": "fddb2aeaa88f5ddf181d51c4e4dbfe560044ce8c",
+      "actual_status": "CLAUDE.md and content/meta/full_game_localization.json dirty; this was not a clean-final execution.",
+      "elapsed_seconds": 6.192448958,
+      "result": "First PASS/exit0/errors[],1205 before/after pins unchanged and equal current files. Existing40103 source/target hashes checked, old portable and Chinese dictionary raw inverses exact, Japanese whole bytes unchanged. Final readback independently confirms the same product bytes.",
+      "source_manifest_sha256": "2af00468b62e7f0cc61541770c57900424135e5c9e7de12e8dc087fd74f3f15a",
+      "portable_sha256": "038cce4f18fe631e21d773209e30f6a62a78614af03614b0b668774934839aef"
+    },
+    "first_named": {
+      "review": "1bb3f3c05c8f5f6b683f386294819d368c23cbb9",
+      "inner_seconds": 127.444204208,
+      "outer_seconds": 127.745781041,
+      "inner_inputs": 1660,
+      "outer_inputs": 1205,
+      "exit": 1,
+      "result": "Exactly12 unique commands executed while clean with all input bytes unchanged:11 exit0, queue_consistency_check.py exit1; fatal null. The precise error is ORDER-286: 상태 머리말이 없다. Whole first invocation remains FAILED, not retrospectively promoted to PASS.",
+      "passed_scope": "Fullself264; EN clean; JA pipeline146; ZH12530/skeleton; JA UI2978/notice12 errors0/beta; public self4 and five-locale public14events/100leaves/UI121; registry153; queue self25; agent222/fullHOLD; context403. Only fullself stderr contains normal unittest Ran264/OK; other11 stderr empty.",
+      "advisory": "Registry EXTRA warnings remain. ZH legacy925/2949, context6/29, dynamic6/701, direct-English bypass11 and shipping0 are incomplete-scope observations, not full-language completion."
+    },
+    "metadata_repair": {
+      "review": "9b8fec87429d5f0a915bbded9481f5e7c1f8ec3f",
+      "commands": ["tools/queue_consistency_check.py", "tools/context_manifest_check.py"],
+      "result": "Two separately retained first repair captures both exit0/PASS/errors[]/empty stderr, clean identical start/end and1205 unchanged inputs. Queue active76/in_progress74/max_batches2; context docs403/classified403/links143/invariants15.",
+      "reuse_boundary": "Previously passed10 language/regression commands reused only through exact unchanged inputs and the two inspected metadata-path deltas. Context was deliberately rechecked with queue; this is not12 tests rerun on the final HEAD."
+    }
+  },
+  "decision": "GO for ORDER-286's exact product source with the explicitly bound repaired metadata review:26 reviewed control/history translations, source-bound acceptance and preservation. The only observed first gate failure was the declaration's missing status heading and is resolved by actual targeted metadata checks. No required defect remains within this unit.",
+  "limits": [
+    "Action names do not certify blackjack/split accounting, AA dealing, refunds, strategy accuracy or the excluded11 financial/rules/EV keys. Direct-English banners and dynamic results remain outside scope.",
+    "No actual Blackjack/Holdem screen, input operation, native reader or human play was observed. ORDER-285 notice screenshots and other units' runtime results do not transfer to this unit.",
+    "GO does not re-review all40129 accepted translations or close held72, shipping languages, human gates, public release scope or the full-game HOLD. Automatic contracts do not establish style, enjoyment or physical controller quality."
+  ],
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "rendered_blackjack_or_holdem_layout",
+    "fresh_story_reachability",
+    "runtime_settlement_and_strategy_correctness",
+    "full_game_completion"
+  ],
+  "evidence": {
+    ".git/full-game-localization/order286-language-review-first.json": "5fa2fde1f48d89a8c0645cd00f2051758342ca7590f1ccdc800984b9e9fef9ae",
+    ".git/full-game-localization/order286-zh-CN-draft.json": "08e106a4a58a8dcc04aae2ab2811f6e321fe665fcb0baf0577116de2d33c4db8",
+    ".git/full-game-localization/order286-zh-TW-draft.json": "6c6412eff8ad6b8c8e20d3ffff14d1a51740875641660ee3c8fac04a44096985",
+    ".git/full-game-localization/order286-exchange.py": "d9ece1a0ceaaf710d8165b78354b57c534d9c4888b9ce152da496113ead145a8",
+    ".git/full-game-localization/order286-capture.py": "c210530e62377199c7d5d16fe304ebb5f9c31c33c388f4bf9eaec441df0b2b65",
+    ".git/full-game-localization/order286-named.py": "6707d1bcb3f3ec76da6a87fa38e74199b8a7983baec2b4ee4219697228214fc9",
+    ".git/full-game-localization/order286-export-cn-first.json": "1cb131ebbc9aa6c8dd454917612bb56983991df1af80986a2acb1914bd32b44d",
+    ".git/full-game-localization/order286-export-tw-first.json": "c2ba0dd8994b3b66d07eed8735a839d9c28b73e9d164dc609fbeb0416736148a",
+    ".git/full-game-localization/order286-check-cn-first.json": "759fa0aad12675b78b73a24548d84ce8aa744c9c2e6f4ffe05d32a984427c28b",
+    ".git/full-game-localization/order286-check-tw-first.json": "94cae0a80ef13a2377f92bc91add9b480c9f3086f6e27e9afc1f5419b28313ff",
+    ".git/full-game-localization/order286-applied-export-cn-first.json": "39d8b2124726e6304508b4fd34915e5ee2afd7879fd252a42ea43b2fc9006b53",
+    ".git/full-game-localization/order286-applied-export-tw-first.json": "2e633b8c589ea74acf38e6b3c941274249708ee3ff28a9fa1a811a2856fc9cc9",
+    ".git/full-game-localization/order286-applied-check-cn-first.json": "9fcbd3c2d531adb54715aa38827d107974953d8178414ae597a1522712e950dc",
+    ".git/full-game-localization/order286-applied-check-tw-first.json": "3cba7a9211972c344c95058f04d7fbbe0963415619845fda67c2a6c3353f80e0",
+    ".git/full-game-localization/order286-accept-cn-first.json": "200441ca552d381ce2065dbfbac97ebc9dfeca58c084529fc7cbf4c8f9b3a673",
+    ".git/full-game-localization/order286-accept-tw-first.json": "5fceb39c15cdcb5582221b921f1abc65791cd5aebe742e33f1f4f1355e6b14d7",
+    ".git/full-game-localization/order286-zh-CN-applied-source.jsonl": "9457c63d1d6f22ec0223cbfd456d562565a0dfd805507998c8dcd54195d85638",
+    ".git/full-game-localization/order286-zh-TW-applied-source.jsonl": "0a47eea1ebdad1218cb9bc3c185118e02a7a27d4c63cceb9ac24a128980ce7d9",
+    ".git/full-game-localization/order286-zh-CN-applied-response.jsonl": "535920241108c301f59645a951ab7f209a923eb9f697958d9f86e9a5b6feb1a9",
+    ".git/full-game-localization/order286-zh-TW-applied-response.jsonl": "ff7ed78bf6bfde6a34553a988d79cba540a25fa6ba6e27a653baa68c1629d69a",
+    ".git/full-game-localization/zh-CN/full-ko-direct-2026-09-07.1/7d586fc676b7bad199cadefc430174069778ab348088494ffe112a42e5ab1036.accepted.json": "fa321372ab474fa80a5ce4a55feb0b617d52ace3e14428a768b3a6b2a4bfa968",
+    ".git/full-game-localization/zh-TW/full-ko-direct-2026-09-07.1/0df00beaa2e9f64af86ed30f55404b88533f261fa518deb875f22d6504a18074.accepted.json": "2382757a91906f986af598d2672c5fee0dcaa9f40b00cfd054e54f36ccf6d377",
+    ".git/full-game-localization/order286-preservation-first.json": "d72f7b88473a01e1e3063d5cff0da4bad02a128a1d964941ad3c8a4887ad0d57",
+    ".git/full-game-localization/order286-named-first.json": "3be0aa7240fa55348ed72a5a42f6413a83152bf93111aa4fb76e7412f9276aea",
+    ".git/full-game-localization/order286-named-envelope-first.json": "9cbcdd1e85b4bfc7898f0d77664fc350d51b4f5c67de5d6ade59f65c71a9cc70",
+    ".git/full-game-localization/order286-queue-repair-first.json": "9631f99a67b7b8e2522b228870211efdddbf9908ac11e413aaf73183947895e2",
+    ".git/full-game-localization/order286-context-repair-first.json": "ef029012cb81532620ff0f060113c04ea7b0f5f2074d40d7fdf83a5dbfbc52dd"
+  }
+}
