@@ -4,6 +4,8 @@
 
 [~] 착수 — 2026-09-26. 블랙잭 조작·기록13키 중국어26값.
 
+#### [~] ORDER-286 [P0·전체 현지화] 블랙잭 조작·기록 중국어26값
+
 ## 목적·분모
 
 읽기전용 `order285-next-ui-scope.json`(SHA c28d76b13c8fd3434a5b9f363bb3f41822a8ed7627c9313ade8736a7dfb7e769)의
@@ -45,3 +47,10 @@ selected_rows13을 고정한다. BlackjackTable 직접16호출과 공유6호출�
 
 자동 계약은 재미·원어민·실화면·물리 패드의 증거가 아니다. 공개GO1·인간OPEN45·
 본편HOLD 유지. 규범 승격 없음: 기존 I18N/WORK_UNIT 적용, 이번13키·도구 지시는 일회성.
+
+## 실제 최초 검사와 표적 수리
+
+명명12 최초 실행은 언어/회귀10·context1 PASS, queue-consistency1 FAIL이었다.
+사양의 표준 상태 머리말 누락만 위처럼 수리했다. 기존 검사나 제품/26값은 변경0.
+같은 source의 새 clean metadata 후보에서 영향받은 queue-consistency/context2만
+재확인하며 최초 실패·원래11 PASS를 따로 보존한다. 무관한10을 재실행하지 않는다.
