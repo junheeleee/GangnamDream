@@ -69,4 +69,3 @@ context/queue/원장/dashboard·diff·clean source identity. 전체 감사/240�
 공개GO1·인간OPEN45·본편HOLD·보류72 보존. 자동 PASS는 품질/인간 GO가 아니다.
 
 규범 승격 없음: I18N/WORK_UNIT 정본을 적용하며 이18키·소유권·검사 구성은 일회성이다.
-
