@@ -14,6 +14,7 @@ hand-built UI surfaces.
 from __future__ import annotations
 
 import argparse
+import ast
 import bisect
 import json
 import re
@@ -31,6 +32,10 @@ GD_FUNCTION_RE = re.compile(
 GD_LITERAL_RE = re.compile(r'^"(?:\\.|[^"\\])*"$', re.DOTALL)
 UI_FORMAT_SOURCE_DIRS = ("autoloads", "scenes", "systems", "ui_components")
 UI_FORMAT_MANIFEST = ROOT / "content" / "meta" / "demo_localization_scope.json"
+# ORDER-267 registered its new-run ui_format calls in the JA pipeline instead of
+# the manifest registry; read that tuple so both audits share one owner.
+NEW_RUN_LOG_OWNER = ROOT / "tools" / "ja_translation_pipeline.py"
+NEW_RUN_LOG_PATH = "autoloads/GameState.gd"
 
 CONTENT_TARGETS = [ROOT / "content" / "endings_en.json"]
 CONTENT_TARGETS += sorted((ROOT / "content" / "events_en").glob("*.json"))
@@ -333,6 +338,29 @@ def suppress_spans(source: str, spans: list[tuple[int, int]]) -> str:
     return "".join(characters)
 
 
+def load_new_run_log_format_calls(
+    owner: Path = NEW_RUN_LOG_OWNER,
+) -> tuple[Counter[tuple[str, str, str, str]], list[str]]:
+    calls: Counter[tuple[str, str, str, str]] = Counter()
+    try:
+        tree = ast.parse(owner.read_text(encoding="utf-8"))
+    except (OSError, SyntaxError) as exc:
+        return calls, [f"new-run log registry: cannot read {rel(owner)} ({exc})"]
+    for node in tree.body:
+        if isinstance(node, ast.Assign) and any(
+                isinstance(target, ast.Name) and target.id == "NEW_RUN_LOG_CALLS"
+                for target in node.targets):
+            try:
+                rows = ast.literal_eval(node.value)
+            except ValueError as exc:
+                return calls, [f"new-run log registry: malformed NEW_RUN_LOG_CALLS ({exc})"]
+            for function, api, korean, english in rows:
+                if api == "format":
+                    calls[(NEW_RUN_LOG_PATH, function, korean, english)] += 1
+            return calls, []
+    return calls, [f"new-run log registry: NEW_RUN_LOG_CALLS missing from {rel(owner)}"]
+
+
 def ui_format_contract() -> tuple[dict[str, list[tuple[int, int]]], list[str], int]:
     safe_spans: dict[str, list[tuple[int, int]]] = {}
     observed: Counter[tuple[str, str, str, str]] = Counter()
@@ -387,6 +415,9 @@ def ui_format_contract() -> tuple[dict[str, list[tuple[int, int]]], list[str], i
             "manifest: existing lookup-before-format count mismatch "
             f"declared={supplemental_calls} rows={supplemental_observed}"
         )
+    new_run_calls, new_run_issues = load_new_run_log_format_calls()
+    issues.extend(new_run_issues)
+    expected.update(new_run_calls)
     if observed != expected:
         for key, count in sorted((expected - observed).items()):
             issues.append(
@@ -622,12 +653,21 @@ func valid() -> String:
                 f"{label} internal-ID line expected safe={expected}, "
                 f"observed safe={observed_safe}"
             )
+
+    new_run_calls, new_run_issues = load_new_run_log_format_calls()
+    if new_run_issues or sum(new_run_calls.values()) != 2:
+        failures.append("current new-run log format registry was not read")
+    missing_calls, missing_issues = load_new_run_log_format_calls(
+        UI_FORMAT_MANIFEST
+    )
+    if missing_calls or not missing_issues:
+        failures.append("missing new-run log registry was incorrectly accepted")
     if failures:
         print("ENGLISH_HANGUL_SELF_TEST_FAILED")
         for failure in failures:
             print(f"  {failure}")
         return 1
-    print("ENGLISH_HANGUL_SELF_TEST_OK cases=10")
+    print("ENGLISH_HANGUL_SELF_TEST_OK cases=12")
     return 0
 
 

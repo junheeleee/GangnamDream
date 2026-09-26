@@ -2067,6 +2067,7 @@
         "systems/BuildFlavor.gd",
         "autoloads/SaveManager.gd",
         "tools/build.sh",
+        "tools/build_story_demo_desktop.sh",
         "tools/build_identity_audit.py"
       ]
     },

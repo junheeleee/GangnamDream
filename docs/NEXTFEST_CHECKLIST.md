@@ -58,6 +58,29 @@ Legacy W1~W24의 `gangnam_demo`, `--demo-build`, V2 서울 보드, W24 CTA,
 Windows/macOS/Linux 해시는 계속 회귀·저장 호환 증거로 보존한다. 위 체크박스를
 닫거나 Next Fest depot에 올리는 근거로는 쓰지 않는다.
 
+## 2026-09-24 점검 — 저장소에서 확인한 막힘
+
+- **공개 체험판 Windows·Linux(Steam Deck) 빌더가 없다.** `story_demo_rc` 전용
+  builder는 `tools/build_story_demo_macos.sh` 하나다. `Windows Demo`·
+  `Linux / Steam Deck Demo` preset은 legacy W1~W24 앱이므로 대신 올리지 않는다.
+  같은 staging·manifest 절차의 Windows/Linux builder가 위 "각 OS의 exact 패키지"
+  항목의 선행 작업이다. 2026-09-26 `tools/build_story_demo_desktop.sh`를 추가했다
+  (`BUILD_PIPELINE.md` 해당 절). 실제 Godot으로 한 번 돌려 zip과 manifest를
+  만들고, Windows PC와 Steam Deck에서 직접 실행해 봐야 닫힌다. 새 플랫폼 패키지가 다른 identity를 만들면 GO가 자동
+  이전되지 않는다(`MASTER_RELEASE_AUDIT.md` Gate C).
+- **상점 그래픽 규격 재확인 필요.** 현재 캡슐은 616x353 / 231x87 / 460x215이고
+  세로 캡슐·라이브러리 자산(캡슐·히어로·로고)이 없다. Steam이 캡슐 규격을
+  상향하고 세로 캡슐을 추가했다는 기억에 근거한 의심이며, 이 점검 환경에서는
+  Steamworks 문서 접근이 막혀 확인하지 못했다. 파트너 화면에서 확인한다.
+- **퍼블리셔 표기 불일치.** Demo·V2 preset은 `Junpac Games`, 정식 `Windows`
+  preset의 `company_name`은 비어 있다.
+- **외부 플레이테스트 0건.** 아래 참가 결정 게이트의 첫 조건이 미착수다.
+  절차는 `PLAYTEST_KIT.md` 현행 절.
+- **10월 회차 일정.** 등록 마감(9/1 KST)과 Press Preview 권장 제출(9/22 전후)은
+  지났다. 필수 심사 제출 마감(10/6 전후)까지 위 막힘과 외부 플레이테스트를 모두
+  닫기는 어렵다. 등록 여부를 파트너 화면에서 확인하고, 미등록이면 2027년 2월
+  회차를 기본안으로 둔다.
+
 ## 참가 결정 게이트
 
 10월 참가 여부는 자동으로 확정하지 않는다. 한 번뿐인 기회이므로 등록 전에 아래 증거를 모으고 유저가 결정한다.

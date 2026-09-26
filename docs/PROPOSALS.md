@@ -79,6 +79,30 @@
 
 ## 열린 제안
 
+### P-19 · 해시 고정 역사 self-test 3개를 CI 필수 게이트에서 내리고 기록으로 보관한다 [열림 2026-09-24]
+
+- **부딪힌 자리** — `main` CI가 2026-09-19부터 연속 실패했다. 5건 중 2건(STATUS_DOC,
+  EN_HANGUL)은 PR #23에서 수리했다. 남은 3건은 `tools/audit.sh`의
+  `CI_LOCALIZATION_RECONCILIATION_EXIT`·`META_TITLE_HISTORY_RECONCILIATION_EXIT`
+  (bisect 결과 f231658이 해시 고정 대상 `ja/zh_translation_audit.py`·
+  `full_game_localization.py`를 successor 등록 없이 수정)와
+  `CHAPTER1_CAUSAL_LEDGER_SELF_TEST_EXIT`(CI 범위상 29d46d7 추정)다. 게임 코드 결함이
+  아니라, 과거 오더의 파일 바이트를 고정해 옛 검사를 복원 view에서 다시 돌리는
+  replay 체인이 정상 수정을 거부한 것이다. 관련 self-test만 1만 줄이 넘는다.
+- **제안** — 세 self-test를 `audit.sh`의 실패 집계에서 빼고 수동 실행용 역사 기록으로
+  보관한다. 현재 계약(번역 커버리지·영어 한글·Chapter 1 원장 본검사)은 계속 CI가
+  강제한다.
+- **대가** — 과거 오더의 바이트 단위 재현 보증을 잃는다. 과거 판정 기록 자체는
+  git과 `queue_archive/`에 남는다. **안 하면** 소스 파일을 고칠 때마다 replay 층을
+  하나씩 더 쌓아야 하고, 그걸 빠뜨릴 때마다 `main`이 며칠씩 빨간 채로 남아 CI가
+  실제 회귀를 알리지 못한다.
+- **권고** — 한다. 대안인 successor 등록은 이번 3건을 닫지만 다음 수정에서 같은
+  실패를 되풀이한다.
+- **위임 경계** — 사용자가 2026-09-24 판단을 에이전트에 위임했다. 다만 Claude 작업
+  규칙상 CI를 초록으로 만들려고 테스트를 끄는 것은 사용자의 명시적 지시가 있어야
+  하므로 착수하지 않는다. 그 전까지 PR #23은 이 3건을 base 실패로 기록한 채 둔다.
+- **결정** — (대기)
+
 ## 닫힌 제안
 
 ### P-18 · 프롤로그에 리듬이 없다 — 기술은 다 있는데 모든 비트가 같은 속도다 [1층 승인 2026-09-02 · 2~4층 보류]
