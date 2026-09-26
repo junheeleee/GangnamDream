@@ -1,3 +1,19 @@
+# ORDER-296 — 룰렛 선택 유형·홀짝 공유 소비자 중국어
+
+[x] 2026-09-27. 비저자26값 전수 작업 한정 GO, 필수 결함0. 실제 화면/입력은 별도 후속이다.
+
+- source `0328647cd17995d06f0d0d49861959982e6f82d1`, tree `dd3dd372c8c1051a4e64e5c0ec38a7eb80a3abc3`. [독립 보고](../agent_reviews/ORDER-296.json) SHA `71081f49d4fed9a53a5f85dfdc06a900b65678f1835cb13ea4ef260f0d32e089`.
+- KO13키를 CN/TW에서 독립 직접 저작했다. 단일 번호와 홀짝을 구별하고 기존 색/구간/묶음 용어, 줄바꿈10개/지역, 번호범위·순번·35:1/1:1/2:1을 보존했다. CN 单个数字/奇数/偶数, TW 單一號碼/單數/雙數.
+- 17 literal reader(룰렛15/DaiSai2)는 정적 소스 범위다. `_bet_type_label(0)`의 단일 숫자는 현재 유일 caller가1~9를 넘겨 정상 노출이 확인되지 않는다. 나머지도 이번에 실제 렌더/입력으로 관찰한 것은 아니다. 홀짝은 룰렛 결과와 DaiSai 합계의 성질이며0/트리플 제외는 각 모델의 규칙으로 남겼다.
+- 공식 사전 export/check와 적용후 새 target-hash export/check/import 각13 PASS. named12 표적검사 PASS. 원문·게임규칙·계산·입력 코드 수정0.
+- 공식40239/b134/meta9(신규26). 기존40213 pin·사전1022값/지역·portable raw inverse 보존, 각1035키. JA3028 reference 대비 CN/TW각1993 부재(전체 live UI 분모 아님). JA/KO/EN/runtime/project/공개/human 원형 불변·보류72 유지.
+- 도달: FULL_LOCALIZATION_BATCH_VALID locale=zh-CN/zh-TW leaves=13. 생산자↔독자: locale/ui_zh-*.json ↔ RouletteTable.gd:404,410,412,762,764,1020~1033 / DaiSai.gd:94,96. 상태: 각13키 부재→수용. 제거손실: 해당13키 영어 폴백. 서사/계층: 기존 카지노 UI, 신규 장면 없음. 닫음: exact26 번역·source-bound 수용만.
+- 다음은 새 선택버튼·공유 홀짝 표시의 실제 화면/입력 검수다. 금융26화면·기존188raw를 이유 없이 반복하지 않는다. dead0 branch는 정상 노출로 만들지 않는다. 직접영어·다른DaiSai 버튼·바카라 raw로그·정선 원문채무는 별도 범위다.
+- 원어민·인간·물리패드·일반진입·패키지 미관측. 공개GO1·인간OPEN45·본편HOLD 유지. 규범 승격 없음: 기존I18N/WORK_UNIT 적용, 이13키와 증거 구성은 일회성이다.
+- 자동 게이트는 계약 증거이지 재미·깊이·문체 또는 인간 판단의 대체가 아니다.
+
+## 최초 선언 원문
+
 # Active Queue Spec: ORDER-296
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.

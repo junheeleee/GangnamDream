@@ -3462,6 +3462,46 @@
         "path": "docs/agent_reviews/ORDER-295.json",
         "sha256": "6cf5e43d9d680d0ad4f1564d612e1c3865f28c6eca1d5e2b4a3d55fb78547c2c"
       }
+    },
+    {
+      "id": "order-296-source-0328647-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-27",
+      "decided_by": "/root/blackjack_accounting_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-296",
+      "subject": {
+        "kind": "source",
+        "commit": "0328647cd17995d06f0d0d49861959982e6f82d1",
+        "tree": "dd3dd372c8c1051a4e64e5c0ec38a7eb80a3abc3",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-296.json",
+          "sha256": "71081f49d4fed9a53a5f85dfdc06a900b65678f1835cb13ea4ef260f0d32e089"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/queue_archive/ORDER-296.md",
+          "sha256": "f493b64c5b64f08e74f3f6288fcb0e5842625e227812d6dffca5a44dca32900e"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "Actual rendering, font glyphs, clipping, contrast and real or synthetic input for the new 26 values; normal casino ingress and all other resolutions/platforms.",
+        "New rounds/spins/settlements, accounting regression, historical-log relocalization and original user-save behavior; no new 43-user-file gameplay inventory or engine execution in this unit.",
+        "Next-render proposal, audio, packages, full audit/240-week play, whole-casino or release approval, and future closure metadata/checks."
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-296.json",
+        "sha256": "71081f49d4fed9a53a5f85dfdc06a900b65678f1835cb13ea4ef260f0d32e089"
+      }
     }
   ]
 }
