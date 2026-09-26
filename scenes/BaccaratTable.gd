@@ -114,10 +114,12 @@ func open() -> void:
 	AudioManager.play("card_shuffle")
 
 func _on_exit() -> void:
-	# 커미션 정산
-	if _commission > 0.0:
-		GameState.add_money(-_commission)
-		GameState.add_log(_tr("바카라 커미션 정산 -%s", "Baccarat commission paid -%s") % GameState.format_money(_commission), "money")
+	# 현금 변경 신호 전에 미납을 소진해 재호출에서도 한 번만 정산한다.
+	var commission_due := _commission
+	_commission = 0.0
+	if commission_due > 0.0:
+		GameState.add_money(-commission_due)
+		GameState.add_log(_tr("바카라 커미션 정산 -%s", "Baccarat commission paid -%s") % GameState.format_money(commission_due), "money")
 	if _rounds > 0:
 		MetaProgression.record_minigame_play("baccarat")
 	set_process(false)
@@ -128,7 +130,7 @@ func get_session_summary() -> Dictionary:
 	return {
 		"game_id": "baccarat",
 		"rounds": _rounds,
-		"net": _net - _commission,
+		"net": _net,
 	}
 
 func _reset_bets() -> void:
@@ -390,6 +392,7 @@ func _finish_result() -> void:
 	_phase = Phase.RESULT
 	var res: String = str(_result.get("result", ""))
 	var gain: float = 0.0
+	var round_commission: float = 0.0
 
 	match res:
 		"player":
@@ -399,9 +402,10 @@ func _finish_result() -> void:
 			_p_wins += 1
 		"banker":
 			var bwin := float(_bet_b) * PAYOUT_BANKER
-			gain += bwin
-			var comm := float(_bet_b) * 0.05
-			_commission += comm
+			round_commission = float(_bet_b) * 0.05
+			# 수수료는 나갈 때 출금하므로 현금 회수에는 아직 포함한다.
+			gain += bwin + round_commission
+			_commission += round_commission
 			if _bet_p > 0: gain -= 0.0
 			if _bet_t > 0: gain -= 0.0
 			_b_wins += 1
@@ -415,6 +419,7 @@ func _finish_result() -> void:
 	match res:
 		"player": gain += float(_bet_p)
 		"banker": gain += float(_bet_b)
+		"tie": gain += float(_bet_t)
 
 	# 페어 정산 (독립)
 	if _result.get("p_pair", false) and _bet_pp > 0:
@@ -424,7 +429,8 @@ func _finish_result() -> void:
 
 	if gain > 0:
 		GameState.add_money(gain)
-	var net_round := gain - float(_total_bet())
+	# 표시·기록할 순손익에는 이번 수수료를 이미 반영한다.
+	var net_round := gain - float(_total_bet()) - round_commission
 	_net += net_round
 	_rounds += 1
 
