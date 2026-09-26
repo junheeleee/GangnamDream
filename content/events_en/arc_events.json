@@ -274,15 +274,15 @@
   {
     "id": "arc_jaehyuk_01_reunion",
     "title": "Ten Years",
-    "description": "One KakaoTalk message.\n\"Hey {name}! It's Jaehyuk. Choi Jaehyuk from the army. Remember? I'm in Seoul — let's grab a drink.\"\n\nProfile picture: him in front of a foreign car.\n22 years old. Same barracks. Inseparable through our whole service, then nothing after discharge.\n\nThe Jaehyuk at the pojangmacha was different.\nGood clothes. Expensive watch. Confidence in every word.\n\"You haven't changed at all! Let's drink.\"",
+    "description": "One KakaoTalk message.\n\"Hey {name}! It's Jaehyuk. Choi Jaehyuk from the army. Remember? I'm in Seoul — let's grab a drink.\"\n\nProfile picture: him in front of a foreign car.\n22 years old. Same barracks. Inseparable through their whole service, then nothing after discharge.\n\nThe Jaehyuk at the pojangmacha was different.\nGood clothes. Expensive watch. Confidence in every word.\n\"You haven't changed at all! Let's drink.\"",
     "choices": [
       {
         "text": "Glad to see him — an old friend after a long time.",
-        "result_text": "Old army stories stretched into the night.\nFirst time laughing out loud in a while. A welcome face in a hard stretch.\n'Let's meet up often, {name}. You'll be in touch.'\nJaehyuk seemed genuine. At least that night."
+        "result_text": "Old army stories stretched into the night.\nFirst time laughing out loud in a while. A welcome face in a hard stretch.\n'Let's meet up often, {name}. I'll be in touch.'\nJaehyuk seemed genuine. At least that night."
       },
       {
         "text": "Glad, but keeping some distance.",
-        "result_text": "Clinked glasses and smiled — but something sat uneasily.\nSomeone who contacts you after ten years is doing this well.\nWhy now, why you.\n{name} pushed that thought away. It's an old friend."
+        "result_text": "Clinked glasses and smiled — but something sat uneasily.\nSomeone who contacts you after ten years is doing this well.\nWhy now—why me?\n{name} pushed that thought away. It's an old friend."
       }
     ],
     "description_orthodox": "KakaoTalk. Choi Jaehyuk. Army.\n\nTen years.\n\nThe Jaehyuk at the pojangmacha used a foreign car as his profile photo.\nGood clothes. Expensive watch. The kind of confidence that fills a room.\n\n{name} smiled warmly and quietly calculated.\nWhat had this person been doing for ten years since discharge.\nWhy this call, why now.",
