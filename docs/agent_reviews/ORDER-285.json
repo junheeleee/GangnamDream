@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-285",
+  "scope": "work_unit",
+  "authority": "user_delegated_agent_final",
+  "reviewer": "Poincare",
+  "reviewed_on": "2026-09-26",
+  "verdict": "GO",
+  "required": [],
+  "subject": {
+    "kind": "source",
+    "commit": "180f7ed253bca12ac3a6a446bbb34764a385a421",
+    "tree": "31b79de4532b0c21033b00937c278a882039a992",
+    "manifest_sha256": null
+  },
+  "review": {
+    "commit": "73fb10ca6f9cc442caf1931f8359d40789988b6a",
+    "tree": "64be9e84c52537448f84bd46a892f2a344e4993a",
+    "clean": true
+  },
+  "baseline": "685e10f4e9195ee362b1b442b9ddcab333c6989a",
+  "population": {
+    "roles": "14 notice-chrome roles × JA/zh-CN/zh-TW = 42 role-language bindings: surface3, section3, metadata5 and status3. This observes ORDER284 new12×3 plus existing2×3; it accepts no new translations.",
+    "representatives": "Godot Engine provider/license/source/license-terms/license-copy status; Noto Color Emoji copyright; Salamander Piano attribution status; Freesound queue chime voluntary-credit status.",
+    "render": "Three final isolated graphical runs, four directly inspected PNGs each: engine, fonts, audio and scroll-focus. Godot4.6.2/OpenGL compatibility on Apple M1 Max, only1280×800.",
+    "preserved": "All tracked product/runtime/tools/locales/notice JSON/legal data remain baseline-exact. Official40103/batches129/metadata9, held72,71 prior agent decisions, public GO1/human OPEN45/full-game HOLD are unchanged."
+  },
+  "method": [
+    "Read repository/skill/work-unit/UI/input instructions, declaration, actual StartMenu/LocaleManager notice consumers and inherited ScreenshotQA flow. Reviewed the independent dictionary/JSON oracle, runner, bootstrap/safe process handling, observer and exact helper repair deltas without authoring them.",
+    "Observed exact source/tree/clean review/direct parent through read-only Git. Baseline-to-review changes are only five declared documentation paths; source-to-review changes only docs/STATUS.md. Product, portable, human and prior-decision bytes were independently compared with baseline.",
+    "Read final result/observation/oracle JSON and raw logs, verified all nine stream hashes and twelve image hashes against retained bytes, and compared each run's20 source/helper/oracle pins and43 real-user file pins before/after and with current files. Reviewed the full first verbose stdout and complete differing lines in the other streams.",
+    "Independently rebuilt expected14 captions from notice KO keys and accepted dictionaries, checked all42 actual full strings including untouched entry values/URLs, and directly opened all12 final PNGs. No checker, collector, repository module or engine was executed by this reviewer."
+  ],
+  "findings": [
+    "All42 bindings match the independent oracle, including exact metadata caption + two spaces/middle-dot/two spaces + raw value. All observed label text fits and lies inside its effective clip; targeted title, intro, tabs, representative fields/statuses and package note are readable in the actual PNGs without observed overlap, replacement glyphs or fixed-chrome clipping.",
+    "All14 roles were already visible at their tab tops. Supplemental ensure_control_visible ran0 times and is NOT credited as an exercised passing path. Bottom content clipping in scroll views is expected scrolling, not evidence that every legal paragraph or entry was visually reviewed.",
+    "Opening Settings/notices and switching tabs use direct methods. Actual synthetic actions are Down, Down, Cancel: focus enters the scroll region, content scrolls64px with its focus frame, then Back restores Settings focus. This is not keyboard/pad hardware or input-driven menu/tab opening evidence.",
+    "Each final run retains equal typed notice-only GameState/meta snapshots (93/12 top-level keys), three successful scroll/focus restoration records, and a separate equal game/meta snapshot across private teardown. Real full/demo user files remain43 exact files.",
+    "Private teardown occurs after original notice evidence: BGMPlayer.stop, direct AudioStreamPlayer stop/stream=null, then8 process frames. Five player nodes remain; attached streams and playing players go1→0. Recorded resource fields are scalar values, not retained Resource references. This is private harness cleanup, not a product BGM-exit fix or global ObjectDB count.",
+    "Final raw logs retain the engine's misc2 controller-mapping diagnostic and CN/TW startup I18N_UI_MISS for GANGNAM DREAM and two Core Loop V2 strings outside the14 roles. These are not hidden or promoted to whole-UI/physical-controller approval. Final stderr is empty and there are no captured script/error/resource-leak lines."
+  ],
+  "actual_results": {
+    "same_final_helper": "observer2c094115f25765e60ed4477369d0d00ebbe7c85664bdd48c079423f9050fe721; runnerb684716225de5c527871b20d6d23fde5e60293387cebbc1efb97f27c2299f8d3; scene28e19c6090642a3f642f03abe97f22a854852c093646e76cbbdb0feb268d1987",
+    "ja": {"label": "ja-final-first", "seconds": 10.060024333, "roles": 14, "pngs": 4, "exit": 0, "pass": true},
+    "zh-CN": {"label": "cn-final-first", "seconds": 10.147150542, "roles": 14, "pngs": 4, "exit": 0, "pass": true},
+    "zh-TW": {"label": "tw-final-first", "seconds": 10.15346, "roles": 14, "pngs": 4, "exit": 0, "pass": true},
+    "common": "All3 ran at the exact clean review before/after; fresh pre-autoload namespaces and exclusive folders; exact-once isolation/notice-success/completion markers; observation_valid=true, errors[], no process-group cleanup error, source pins and real-user files unchanged. Results contain byte/SHA bindings for their three raw streams and four PNGs.",
+    "first_history": [
+      "ja-first FAIL: private observer reserved variable namespace caused parse failure before images/role evidence. Runner received SIGTERM and killed/reaped its own engine group (exit-9); result/three logs and43 real files unchanged are retained. Renaming exactly three identifiers to qa_namespace restores the original bytes on inverse.",
+      "ja-repair-first PASS14/four images after rename. cn-first and tw-first reached14 exact visible roles/state/input evidence and engine exit0, but runner correctly FAILed on ObjectDB/resource-at-exit diagnostics. Those failures remain failures.",
+      "cn-verbose-first diagnostic also FAILed and identified bgm_menu.ogg Ogg playback/resource leftovers. Adding --verbose is the only runner delta from its retained initial execution version; no error filtering was relaxed.",
+      "Observer teardown addition preserves the earlier observer by exact inverse and leaves the original14-role/state/input code unchanged. All3 locales were then rerun with this same final helper; these three final executions, not the earlier failed runs, support the bounded GO."
+    ]
+  },
+  "evidence": {
+    ".git/full-game-localization/post284-notice-render-scope.json": "8667d258a9774dfce81c90f417eefaabf81b749689ab91c9a260c3e783d14a28",
+    ".git/full-game-localization/order285-render.py": "b684716225de5c527871b20d6d23fde5e60293387cebbc1efb97f27c2299f8d3",
+    ".git/full-game-localization/order285-render-initial.py.txt": "6eb5dbbcbae861686bfe32ca4ee430b201d17ac6c834d4b7097e155e16649e3d",
+    ".git/full-game-localization/order285-notice-observer.gd": "2c094115f25765e60ed4477369d0d00ebbe7c85664bdd48c079423f9050fe721",
+    ".git/full-game-localization/order285-notice-observer.tscn": "28e19c6090642a3f642f03abe97f22a854852c093646e76cbbdb0feb268d1987",
+    ".git/full-game-localization/order285-notice-observer-initial.gd.txt": "f0fee2e4d04d94be8bfaa240cf46475b48fb9faedc874bf1cd57539d0a5a4b1e",
+    ".git/full-game-localization/order285-notice-observer-pre-teardown.gd.txt": "cbd61634fd5c3a2d917dfbcd1f3360707ef08db87f680671fc90405edd560904",
+    ".git/full-game-localization/order285-render-ja-first/result.json": "575bf7fb1454603330e3fcd29a24898accb53d404f52a8410c19fa9ad6dce07f",
+    ".git/full-game-localization/order285-render-ja-repair-first/result.json": "fce27ef1e30d54a31648931ae11dcff0a658de95662ef50c32eacfe47e7d500d",
+    ".git/full-game-localization/order285-render-cn-first/result.json": "e0a8a5d7b6b5eefe9d29b48cbf1d34b69aa6869cb32aa732bc26bc23630b594f",
+    ".git/full-game-localization/order285-render-tw-first/result.json": "97612564f31fd3cd04b307463de546f4d7217bc290c7eef6bf9bba9c75945d77",
+    ".git/full-game-localization/order285-render-cn-verbose-first/result.json": "363c275a56c21a68c4b291dc3f89dae678cf909ac1b7ce44c2831ea224f68421",
+    ".git/full-game-localization/order285-render-ja-final-first/result.json": "6332e061a15c5c23dbc21210863a45fc5aff76329655846c6fa67f3f9891b082",
+    ".git/full-game-localization/order285-render-ja-final-first/order285-observations.json": "f782c1866f6c896baa1557d1c4533c0bcc58a20d2dab04ad4fae40c9fdc43066",
+    ".git/full-game-localization/order285-render-ja-final-first/oracle.json": "ad67bf0a1098dad47b85fda091d35cb5509094345cf5f1ff7975d17f204da822",
+    ".git/full-game-localization/order285-render-cn-final-first/result.json": "b4fad2fac6622f26e0d7e4ae76971cc8239dc54766b17dba28ad73ff60a77d0b",
+    ".git/full-game-localization/order285-render-cn-final-first/order285-observations.json": "be8e892ffd79f1c63d41ab2eb766dac222172c7426d0194c974b7ed822173a4c",
+    ".git/full-game-localization/order285-render-cn-final-first/oracle.json": "219c4dcb72a5c9e698749ec9de87faecb8230c312988f6fc813bbb0f7deade08",
+    ".git/full-game-localization/order285-render-tw-final-first/result.json": "43164265a02016bb33dda387b039248b2d05ce649d8560335fdd4d280921a4d1",
+    ".git/full-game-localization/order285-render-tw-final-first/order285-observations.json": "ab825ce6cebb3adeb47a767137ea5c0dd336a7bc577bf8274efc40555fd33b68",
+    ".git/full-game-localization/order285-render-tw-final-first/oracle.json": "043c3cf60f70249eb231c5c43c1a5c81651c0b401748588de5272333e0089015"
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "input-driven opening of Settings/notices or tab switching; these were direct calls",
+    "supplemental automatic ensure_control_visible branch: executed0 times",
+    "960x600, other resolutions/platforms, packaged build, every notice entry/legal paragraph",
+    "legal/licensing compliance certification or accuracy of third-party legal obligations",
+    "product shutdown leak fix, global ObjectDB leak count, audible BGM quality",
+    "full-game translation, accessibility or release approval"
+  ],
+  "decision": "GO only for ORDER-285's independently reviewed42 notice-role bindings and actual three-locale1280×800 graphical readback, direct entry/tabs, stock synthetic Down/Down/Cancel and preservation on the exact source/review. Private helper repairs and all earlier failures remain explicit. No production bytes changed and no human/native/physical/full-game approval is granted."
+}

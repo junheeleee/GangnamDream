@@ -2995,6 +2995,49 @@
         "path": "docs/agent_reviews/ORDER-284.json",
         "sha256": "0847d570605aa476aaa3f72be9d82893e91f352b7012c7335086311e80123440"
       }
+    },
+    {
+      "id": "order-285-source-180f7ed-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-26",
+      "decided_by": "Poincare",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-285",
+      "subject": {
+        "kind": "source",
+        "commit": "180f7ed253bca12ac3a6a446bbb34764a385a421",
+        "tree": "31b79de4532b0c21033b00937c278a882039a992",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-285.json",
+          "sha256": "6a18b7de19341117238d4ce222019eff46c705fa0c27ca36629782f849b658f5"
+        },
+        {
+          "kind": "agent_render_observation",
+          "path": "docs/queue_archive/ORDER-285.md",
+          "sha256": "f4e1e72437a35c65cbf2a5d8b5449284f94c081a4ca35813b5eee5e8d8cb2063"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "input-driven opening of Settings/notices or tab switching; these were direct calls",
+        "supplemental automatic ensure_control_visible branch: executed0 times",
+        "960x600, other resolutions/platforms, packaged build, every notice entry/legal paragraph",
+        "legal/licensing compliance certification or accuracy of third-party legal obligations",
+        "product shutdown leak fix, global ObjectDB leak count, audible BGM quality",
+        "full-game translation, accessibility or release approval"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-285.json",
+        "sha256": "6a18b7de19341117238d4ce222019eff46c705fa0c27ca36629782f849b658f5"
+      }
     }
   ]
 }
