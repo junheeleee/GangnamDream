@@ -3418,6 +3418,50 @@
         "path": "docs/agent_reviews/ORDER-294.json",
         "sha256": "f56161e710b0d8024d29f79378ccff90718abbc1fa0ada71ae44684880805dab"
       }
+    },
+    {
+      "id": "order-295-source-987b64d-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-27",
+      "decided_by": "/root/blackjack_accounting_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-295",
+      "subject": {
+        "kind": "source",
+        "commit": "987b64d8912130e93f899187967c9da6a02632d8",
+        "tree": "554c14432b864f1f8f564cd37f498be802930b6b",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-295.json",
+          "sha256": "6cf5e43d9d680d0ad4f1564d612e1c3865f28c6eca1d5e2b4a3d55fb78547c2c"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/queue_archive/ORDER-295.md",
+          "sha256": "8ea05669f4d98ba5e56e8fcace5e2bfe53e9aad6b14db06f1f5df57885bd2fa3"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "ordinary_ingress",
+        "random_deal_or_spin",
+        "normal_bet_debit_animation",
+        "full_log_ui",
+        "audio_quality",
+        "other_resolutions_platforms",
+        "packaged_build"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-295.json",
+        "sha256": "6cf5e43d9d680d0ad4f1564d612e1c3865f28c6eca1d5e2b4a3d55fb78547c2c"
+      }
     }
   ]
 }
