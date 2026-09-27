@@ -4159,6 +4159,40 @@
         "path": "docs/agent_reviews/ORDER-314-followup.json",
         "sha256": "ba0a7c9dae893519735ddf1cbd2f43c295d0e89a7c7f2be9e9f57286af80fc44"
       }
+    },
+    {
+      "id": "order-353-source-534bd718-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-27",
+      "decided_by": "/root/screen_independent_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-353",
+      "subject": {
+        "kind": "source",
+        "commit": "534bd7189b5a15c81e327969decc26d9a20bce24",
+        "tree": "1ed99ef5cfb9accce6b467185de8e6acaf28c953",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-353.json",
+          "sha256": "8eea01477b9f3cf44b1a5f989cb99fa3992905991747bc6d652ab70faddd9831"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "All Sangchul dialogue/chapters; this is only the declared canon paragraph.",
+        "New translation, rendered screens, runtime/input, audio, packages, parent302 and whole-product/release approval."
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-353.json",
+        "sha256": "8eea01477b9f3cf44b1a5f989cb99fa3992905991747bc6d652ab70faddd9831"
+      }
     }
   ]
 }

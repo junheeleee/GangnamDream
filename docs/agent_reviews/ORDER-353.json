@@ -1,0 +1,75 @@
+{
+  "unit_id": "ORDER-353",
+  "scope": "work_unit",
+  "reviewer": "/root/screen_independent_review",
+  "authority": "user_delegated_agent_final",
+  "independent": true,
+  "reviewed_at": "2026-09-27T15:07:23.223116+09:00",
+  "timezone": "Asia/Seoul",
+  "subject": {
+    "kind": "source",
+    "commit": "534bd7189b5a15c81e327969decc26d9a20bce24",
+    "tree": "1ed99ef5cfb9accce6b467185de8e6acaf28c953",
+    "manifest_sha256": null
+  },
+  "verdict": "GO",
+  "required": [],
+  "reviewed_scope": "One Sangchul speech-canon paragraph at docs/STORY_BIBLE.md:189, corrected to describe existing dialogue without changing prose, relationships, events or gameplay.",
+  "review": {
+    "observed_head": "534bd7189b5a15c81e327969decc26d9a20bce24",
+    "observed_worktree_clean": true,
+    "canonical_subject": "Direct independent current_agent_source_subject observation immediately before this report returned534bd718/tree1ed99ef. STORY_BIBLE is not metadata-exempt; this is a newly observed source, not an inherited prior GO.",
+    "independence": "Reviewer authored no canon, product or checker. Read the complete old/new paragraph and bounded corpus directly; authored only private evidence and this report. No engine or screenshot activity."
+  },
+  "population": {
+    "canon_paragraphs_targeted": 1,
+    "canon_paragraphs_reviewed": 1,
+    "requested_source_events": 7,
+    "additional_version_disambiguation_events": 2,
+    "total_source_events_read": 9,
+    "description_variants_read": 14,
+    "choice_texts_read": 19,
+    "choice_results_read": 19,
+    "product_blobs_unchanged": 1906,
+    "current_real_user_files_unchanged": 43,
+    "new_engine_runs": 0,
+    "new_screens": 0
+  },
+  "verified": [
+    "M04 meet/measure/coffee/answer already mix polite, formal and informal speech, including answer2's 너는 잃지 마. The revision accurately removes the blanket early-month 해요체 claim.",
+    "V2 second coffee explicitly combines 아니에요 and 뜻이지; early open_door uses 자네/-네 and informal endings. The separate legacy coffee was read to avoid conflating scene versions.",
+    "M24 mirror base/black/white variants and speaking results support the 민준 씨/polite example. The revision no longer claims that politeness returns only under one condition or that every address must be 민준 씨.",
+    "Existing typed speech-register descriptions agree with professional politeness softening and mixed mentor directness. The revised paragraph describes observed examples instead of introducing a month/relationship-stage switch or normalizing original speech.",
+    "Independent full diff from declaration fcdabe83 contains only STORY_BIBLE and generated STATUS. Canon change is exactly line189; all other canon lines and1,906 product blobs are identical. Dialogue files, typed rules, human ledger, existing agent ledger and project configuration are byte-identical.",
+    "Independent raw-envelope/hash checks confirm context and queue PASS and the root preservation result:100 old ledger rows/171 historical evidence files retained. Independently scanned43 real-user paths/lengths/hashes match the original census."
+  ],
+  "findings": [
+    {
+      "id": "ORDER-353-CANON-01",
+      "status": "resolved_in_reviewed_scope",
+      "reference": "ORDER-314-FOLLOWUP-CANON-01",
+      "basis": "Unsupported categorical speech/address rules are replaced by source-grounded mixed-register examples; no prose is rewritten and no new character fact is introduced."
+    }
+  ],
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "All Sangchul dialogue or all chapters; this is the declared one-paragraph clarification, not full canon/prose approval.",
+    "Fresh translation, rendered screens, runtime/input behavior, audible performance, package export or product/release quality."
+  ],
+  "authority_boundary": "GO applies only to ORDER353 at this exact source. Parent302/source-wide repairs, internal product, full game and new packages are not approved. Historical publicGO1/humanOPEN45 and prior decisions remain intact. AUTO PASS is contract evidence, not human approval.",
+  "evidence": {
+    ".git/full-game-localization/order353-independent-evidence.json": "d3a128247c30ec2a18e9645407d2722848c1eebe3260ac7d9df1d46f906e4d51",
+    ".git/full-game-localization/order310-check-order353-preservation.json": "8e89a20395a6752b535b3ec4edb5378d72805d26ef706bc1b2a3da439653f0a0",
+    ".git/full-game-localization/order310-check-order353-context.json": "8c4944470665d08a791d7cb4dd0ce6afc25c7c19a5c8706fb86b046e152bb636",
+    ".git/full-game-localization/order310-check-order353-queue.json": "fd38640eeaab36705a6f47f531880ef648db3afc083dd2b3fbaa58e9d6c867b2",
+    "content/events/arc_events.json": "ccd902447b46e10e02128d46ef273e65a30e3df9753b7f257f7fd9accb848f62",
+    "content/events/core_loop_v2_events.json": "30ce137faf06437e131d297efa7ab3fc82806534e77c53bea33af0b01a750b87",
+    "content/events/arc_drama.json": "8d3a514d2ab5da4190ec4d82a3eaaf1fbc2c224ad32c9da0c500ebe535cca3b2",
+    "docs/STORY_BIBLE.md": "dff2de15f9d7f922c03348a6aba659ba81b80cff41e0547b9fbb6bcfd16d606a",
+    "content/meta/story_rules.json": "9d9f63f24e516e2fb339d9c5c11e821074135d2dbd63848a7f8b6902b7a6b7cb",
+    "docs/human_gates.json": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6",
+    "project.godot": "78e98d7bdc1349570df6f2cc7ca6cbb11d4fc5451f5bbfdd338561653c7380c5"
+  }
+}

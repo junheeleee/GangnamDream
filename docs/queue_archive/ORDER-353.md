@@ -1,8 +1,8 @@
-# Active Queue Spec: ORDER-353
+# Completed Queue Spec: ORDER-353
 
-> Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
+> 2026-09-27 완료. 현재 실행 순서는 `docs/CODEX_QUEUE.md`가 소유한다.
 
-#### [~] ORDER-353 상철 첫 만남 말투 정본 설명을 실제 원고와 맞춘다
+#### [x] ORDER-353 상철 첫 만남 말투 정본 설명을 실제 원고와 맞춘다
 
 2026-09-27 확인된 문서 결함. 원격 `cb42f44`가 추가한 STORY_BIBLE 말투 절은
 M04~M05를 해요체라고 단정하지만, 같은 절은 기존 대사를 통일하지 않도록 한다.
@@ -42,3 +42,18 @@ answer1의 “진짜 가는 사람 못 봤어”와 단정이 맞지 않는다. 
 
 이 사양은 일회성 수리 지시다. 유효한 말투 설명의 정본 소유자는 STORY_BIBLE 임상철 절이다.
 게임 실행·새 화면·720/24주/240주 검사·export는 이 문서 한 문단 수리의 검증이 아니다.
+
+## 완료 증거
+
+- source `534bd7189b5a15c81e327969decc26d9a20bce24`, tree
+  `1ed99ef5cfb9accce6b467185de8e6acaf28c953`; 깨끗한 상태에서 독립 관측.
+- `STORY_BIBLE.md:189` 한 문단만 수리. 원고9사건·본문변주14·선택/결과 각19를
+  대조하여 첫 만남부터 섞이는 존대/반말과 실제 호칭을 설명했다.
+- 제품1906경로·사용자43파일 동일, 기존100판정·171증거 및 인간 원장 원형 보존.
+  context/queue PASS, 새 엔진 실행·화면·원고·번역·게임효과 변경0.
+- 비저자 `screen_independent_review`, [작업한정 GO 보고](../agent_reviews/ORDER-353.json)
+  SHA `8eea01477b9f3cf44b1a5f989cb99fa3992905991747bc6d652ab70faddd9831`.
+- 승격: `docs/STORY_BIBLE.md:임상철/말투 정본`. 나머지 소유권·검사·후속 지시는 일회성.
+  자동 통과는 계약 증거일 뿐 재미·문체·원어민·인간 판정이 아니다.
+- 다음은302 수리7항목의 같은 source 결속과 독립 판정이다. 부모302·본편·새package
+  HOLD, 인간OPEN45·옛 공개GO1을 유지한다. 새 공개 권한을 만들지 않았다.
