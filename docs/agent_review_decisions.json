@@ -4015,6 +4015,42 @@
         "path": "docs/agent_reviews/ORDER-312.json",
         "sha256": "04b021b08318356dc5b034e325862860102c6f92c04e9a903dd89e668ec2c421"
       }
+    },
+    {
+      "id": "order-314-source-eb285b3c-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-27",
+      "decided_by": "/root/screen_independent_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-314",
+      "subject": {
+        "kind": "source",
+        "commit": "eb285b3cecdad43fd5eb0dd518da29775d113fab",
+        "tree": "138108b2216257d611e2230660b7d6409f5b8c42",
+        "manifest_sha256": null
+      },
+      "verdict": "REWORK",
+      "evidence": [
+        {
+          "kind": "agent_render_observation",
+          "path": "docs/agent_reviews/ORDER-314.json",
+          "sha256": "3e5294c07f73cbd6f5ea661aeda63bab061f1866aadcace7133979ac156c4403"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "OS-delivered physical keyboard/controller input, normal-speed human reading and audio judgment (Dummy driver).",
+        "Coffee and unselected branches, JA/zh-CN/zh-TW, other resolutions and overscan hardware.",
+        "All 21 earlier repaired strings or all source paragraphs as independently visible text; hidden prose in telemetry is not visual-readability evidence.",
+        "Full/legacy 24-week or 240-week suites, package export/release/public approval, future ORDER-315 repair and later metadata closure checks."
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-314.json",
+        "sha256": "3e5294c07f73cbd6f5ea661aeda63bab061f1866aadcace7133979ac156c4403"
+      }
     }
   ]
 }

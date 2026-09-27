@@ -27,6 +27,7 @@
 - 제품 저자: `scenes/StoryMode.gd`, `playtests/order124/StoryChoiceM1M6Playtest.gd`
   중 상단 생성/배치/resize 경로만. 게임 규칙·선택·원고·언어 사전은 무수정.
 - 검사 저자: 새 `tools/story_header_safe_area_check.gd` 및 Godot 생성 `.uid`,
+  `tools/audit_scope.json`의 해당 검사 등록 항목,
   private `.git/full-game-localization/order315-*`의 bootstrap/launcher/실행 증거만.
   저자와 독립 검수자의 파일 소유를 분리하고 최종 검수자는 제품·검사 비저자로 둔다.
 - root: 이 사양·큐2개·부모302/314 진행 꼬리·WORK_LOG·생성STATUS·별도 판정 원장.

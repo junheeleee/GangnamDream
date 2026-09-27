@@ -1,0 +1,193 @@
+{
+  "unit_id": "ORDER-314",
+  "scope": "work_unit",
+  "reviewer": "/root/screen_independent_review",
+  "authority": "user_delegated_agent_final",
+  "independent": true,
+  "reviewed_at": "2026-09-27T12:15:16.623085+09:00",
+  "timezone": "Asia/Seoul",
+  "subject": {
+    "kind": "source",
+    "commit": "eb285b3cecdad43fd5eb0dd518da29775d113fab",
+    "tree": "138108b2216257d611e2230660b7d6409f5b8c42",
+    "manifest_sha256": null
+  },
+  "verdict": "REWORK",
+  "required": [
+    "Repair the StoryMode HUD/dialogue-history/settings header and controller home/recap title/subtitle/language-control margins to the canonical 2.5% TV-safe rectangle, then independently verify the affected KO/EN 1280x800 surfaces. Preserve this evidence; ORDER-314 remains open until the follow-up repair is validated."
+  ],
+  "reviewed_scope": "Targeted KO/EN actual-render and engine-dispatched synthetic-key inspection: home, M04 rent/choices/result, M06 recollection/choices/unknown-clerk result, recap. Evidence collection and sampled text/input observations succeeded; screen-quality approval is withheld for the safe-area defect. No product/package/full-game GO.",
+  "review": {
+    "observed_head": "b2b1116afdeacc381c0436492febed908c8aeff6",
+    "observed_worktree_clean": true,
+    "canonical_subject": "Direct independent human_gates.current_agent_source_subject invocation immediately before report writing returned eb285b3/tree138108b. b2b1116 adds exactly six queue/work-log/active-order metadata paths; runtime evidence executed at clean eb285b3. Subject is not inferred from a prior decision.",
+    "independence": "Reviewer authored no product, launcher or runtime helper and launched no engine. Read complete helper/launcher source and relevant consumers, individually viewed every final PNG, audited original raw streams/telemetry/byte hashes and live user preservation. Only private review files and this report authored."
+  },
+  "population": {
+    "target_languages": 2,
+    "target_logical_surfaces": 16,
+    "observed_logical_surfaces": 16,
+    "final_pngs": 95,
+    "final_ko_pngs": 47,
+    "final_en_pngs": 48,
+    "individually_viewed_final_pngs": 95,
+    "original_pngs_retained": 95,
+    "total_engine_runs": 4,
+    "final_settled_engine_runs": 2,
+    "reviewer_engine_runs": 0,
+    "raw_streams_audited": 12,
+    "artifact_hashes_recomputed": 219,
+    "source_pins_per_run": 1223,
+    "tracked_source_pins_per_run": 1219,
+    "private_helper_pins_per_run": 4,
+    "real_user_roots": 2,
+    "real_user_files": 43,
+    "final_synthetic_edges_ko": 180,
+    "final_synthetic_edges_en": 184,
+    "final_paired_key_actions_ko": 90,
+    "final_paired_key_actions_en": 92,
+    "fixture_choice_operations_per_run": 5,
+    "fixture_closed_months_per_run": 4,
+    "recap_choices_per_locale": 9,
+    "recap_receipts_per_locale": 9,
+    "settlements_per_locale": 6
+  },
+  "method": [
+    "Read CLAUDE, gangnamdream-dev, WORK_UNIT, ORDER-314, INPUT_MATRIX, CONTROLLER_UX_STRATEGY and art-direction/context guidance; canonical safe-area requirement is INPUT_MATRIX.md:74.",
+    "Read all launcher/bootstrap/scene/screen helpers and inspected pre-autoload isolation, exact controller identity, source/user census, timeout and process cleanup; no fatal fixture/setup defect found.",
+    "Viewed all final 001-047 KO and 001-048 EN PNGs individually, including pagination, focus change, unknown-clerk result and ledger; screenshots are actual native OpenGL renders at1280x800.",
+    "Independently read/validated four entry/result/telemetry envelopes and twelve raw streams, recomputed219 artifact hashes, each1223 selected source/helper pin and current43-file real-user census; all matched.",
+    "Matched source text, visible choices, Down focus0→1, dispatched Enter transitions and final9-choice receipts. Immediate press snapshots may precede the next frame; release/focus captures and subsequent results substantiate activation."
+  ],
+  "verified": {
+    "actual_route": "Both locales: fixture M1/M2, M3 Daeun1/Jiyeon0; dispatched M4 meet0→measure0→answer1; fixture M5 Jaehyuk0; dispatched M6 unknown-clerk0→ledger→recap. Five fixture choices/four fixture month closes are not end-to-end user input.",
+    "sampled_text": "Visible KO 월 칠십 and 임상철이 피식 웃었다, EN 700,000 a month and present-tense/quoted M04 narration agree with source. Home night-shift-income guidance, M06 rain-street history and five selected-history labels, unnamed night-shift-clerk choice/result and one-selected/four-missed ledger labels are legible. No observed target text/choice/result clipping at the full window.",
+    "input_and_state": "KO180/EN184 strictly paired synthetic press/release edges. Down pair107/108 changes answer focus0→1; screenshot029 confirms it, followed by answer1 result030. Final month7/recap, turn25, elapsed24weeks,6settlements,9choices/receipts, cash6320000, health70, mental68 agree in both locales.",
+    "raw_runtime": "All four runs exit0, exactly one success and pre-autoload marker each, three exact controller ENTRY lines each, stdout equals Godot log, stderr empty, fatal/parse/compile/leak scan0, remaining process-group false. Final runtimes63.557088333/64.517392583seconds.",
+    "isolation_and_preservation": "Four distinct fresh RuntimeQA32hex paths, HOME retained and pre-autoload user directory bound exactly to expected path; story_demo_rc/build2026.08.31.1 controller entry paths all isolated. Two real-user roots/43files unchanged before/after every run and at independent review;1219 tracked plus4 private selected pins unchanged per run.",
+    "capture_correction": "First runs remain preserved. First KO031/033 show a portrait transition/dim fifth option; the private helper alone changed10→40 settling frames and added effective-alpha telemetry. Final KO033/EN034 show all five options at alpha1.0 and settled portraits. This fixes capture timing, not product animation.",
+    "source_protection": "No product code, authored text, effects, translation, historical human/public evidence or package changed by ORDER-314 execution/review. Original screen helper is preserved and separately hashed for first-run pin verification."
+  },
+  "findings": [
+    {
+      "id": "ORDER-314-SAFE-01",
+      "priority": "P2",
+      "status": "required",
+      "verdict": "REWORK",
+      "title": "Stable top-level UI violates the canonical TV-safe margin",
+      "contract": "docs/INPUT_MATRIX.md:74 requires story text, portraits and controls inside2.5% TV-safe bounds; at1280x800 this is x32..1248,y20..780.",
+      "observed_geometry": [
+        {
+          "consumer": "StoryMode HUD label",
+          "rect": [
+            24,
+            0,
+            964,
+            48
+          ],
+          "source": "scenes/StoryMode.gd:974",
+          "failure": "label/glyph start left24<32; label starts above y20"
+        },
+        {
+          "consumer": "StoryMode DialogueLogButton",
+          "rect": [
+            1002,
+            4,
+            162,
+            40
+          ],
+          "source": "scenes/StoryMode.gd:995",
+          "failure": "top4<20"
+        },
+        {
+          "consumer": "StoryMode settings",
+          "rect": [
+            1172,
+            4,
+            94,
+            40
+          ],
+          "source": "scenes/StoryMode.gd:1021",
+          "failure": "top4<20 and right1266>1248"
+        },
+        {
+          "consumer": "Controller home/recap title and subtitle",
+          "left": 20,
+          "source": "playtests/order124/StoryChoiceM1M6Playtest.gd:2491",
+          "failure": "left20<32 in both locales"
+        },
+        {
+          "consumer": "Controller home/recap language control",
+          "rect": [
+            1025,
+            20,
+            235,
+            57
+          ],
+          "source": "playtests/order124/StoryChoiceM1M6Playtest.gd:2491",
+          "failure": "right1260>1248 in both locales"
+        }
+      ],
+      "affected_population": "All16 declared logical surfaces inherit either the StoryMode header or controller home/recap header. Stable screenshots plus exact telemetry/source offsets independently confirm it. Other resolutions/overscan devices remain unobserved.",
+      "evidence": [
+        "order314-ko-settled/001_ko_home.png",
+        "order314-ko-settled/003_ko_m04_arc_sangchul_01_meet_body_p01.png",
+        "order314-ko-settled/033_ko_m06_order124_m6_first_bill_choices_p02.png",
+        "order314-ko-settled/047_ko_recap.png",
+        "order314-en-settled/001_en_home.png",
+        "order314-en-settled/034_en_m06_order124_m6_first_bill_choices_p03.png",
+        "order314-en-settled/048_en_recap.png"
+      ],
+      "triage": "Not a fade-timing artifact and not evidence of full-window clipping. It is a reproducible product-layout contract violation, so readable target text cannot justify whole-surface GO. Repair/review is separately declared as ORDER-315; no repair has yet been observed."
+    }
+  ],
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "OS-delivered physical keyboard/controller input, normal-speed human reading, audio judgment (Dummy driver), live play feel.",
+    "Coffee branch, other Daeun/name branches, other M04 answers/M06 results, JA/zh-CN/zh-TW, other resolutions and overscan hardware.",
+    "All21 earlier repaired strings or all source paragraphs as independently visible text; some final prose is hidden once the choice rail is shown, so telemetry body alone is not a visual-readability pass.",
+    "Not every first-run PNG was independently viewed; first95 remain raw runtime/capture-history evidence, final95 are the complete visual population for this verdict.",
+    "Full/legacy24-week or240-week suites, package export/release/public approval, future ORDER-315 repair or later root metadata/ledger checks."
+  ],
+  "authority_boundary": "This is only ORDER-314 work_unit REWORK. It does not close ORDER-302 or grant internal-product/new-package/full-product GO. Historical publicGO1/humanOPEN45 are preserved, not promoted.",
+  "evidence": {
+    ".git/full-game-localization/order314-review-evidence.json": "4cf8fcb35f1eab28f5ac815e3fe29d33f12dfd6f268d5a6c57a41b0e6634ac10",
+    ".git/full-game-localization/order314-review-audit.py": "662491cb7e9c4eaf0507301a9c0a855d49ef46cde5e2d62eeee3c24d2bf11e74",
+    "scenes/StoryMode.gd": "e6d5c9f0612138d6a82b7b69bdab0cbcc1c657ad3b4461284f6c3236b36e6343",
+    "playtests/order124/StoryChoiceM1M6Playtest.gd": "156bdda2571bc4b95f44b3a0e9d71a42193d0386919496f15be0d624753200ea",
+    "docs/INPUT_MATRIX.md": "22675296d3f56068cf47840d5968254858ed82aa040040ed01d59034f22764c7",
+    "content/events/arc_events.json": "ccd902447b46e10e02128d46ef273e65a30e3df9753b7f257f7fd9accb848f62",
+    "content/events_en/arc_events.json": "1ecd0007956e0c880827d442bceb3d0459b971d46497db3545eca91e2f80d735",
+    ".git/full-game-localization/order314-ko-first/entry.json": "f4ceefca4d8c77a3709d0905f1d42d465ccd1819b2cc9bcc103edafbf586988d",
+    ".git/full-game-localization/order314-ko-first/godot.log": "07ae617b13b9e73a811f2f5fbf1556d4d8ebc2c3b78c07b8846f5a6526192a05",
+    ".git/full-game-localization/order314-ko-first/result.json": "6c7a1e77b9bfa90f655ea3ab4de6bb437b9cf0ec2ebd3080df7aed33dca39798",
+    ".git/full-game-localization/order314-ko-first/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    ".git/full-game-localization/order314-ko-first/stdout.log": "07ae617b13b9e73a811f2f5fbf1556d4d8ebc2c3b78c07b8846f5a6526192a05",
+    ".git/full-game-localization/order314-ko-first/telemetry.json": "0be19d318eb98bf4c558e8dcd1d42f4ae1b44ca2d4ec0e1745a976e6608e1588",
+    ".git/full-game-localization/order314-en-first/entry.json": "25d2e522f76b7ee8ad389225d92b8ed8ee9715c01c741fdcb5a916d46cb8bc6e",
+    ".git/full-game-localization/order314-en-first/godot.log": "fd93a73ef45b72de4898e5088321ab8e34270952838a8f68b1aaa06292ccdbca",
+    ".git/full-game-localization/order314-en-first/result.json": "cee8155f638cbaabb6350249145428eb92379faca42709973581133443dd91c4",
+    ".git/full-game-localization/order314-en-first/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    ".git/full-game-localization/order314-en-first/stdout.log": "fd93a73ef45b72de4898e5088321ab8e34270952838a8f68b1aaa06292ccdbca",
+    ".git/full-game-localization/order314-en-first/telemetry.json": "7ee1b50b310bc9775105b645476b77fecc1d893d9b41bc7b307ba522d0dea223",
+    ".git/full-game-localization/order314-ko-settled/entry.json": "6163153b49fce32ff098cb0e69c818d9599cd1c0b9c1edc63604d12cfbe30b5e",
+    ".git/full-game-localization/order314-ko-settled/godot.log": "817d9230ce2d95477d0ec3f4565785599e2807cc258310950dc0197d95a08b2c",
+    ".git/full-game-localization/order314-ko-settled/result.json": "f00e2a254c93195ef26b0649d62935e89120324479cf525569b95ce21988c762",
+    ".git/full-game-localization/order314-ko-settled/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    ".git/full-game-localization/order314-ko-settled/stdout.log": "817d9230ce2d95477d0ec3f4565785599e2807cc258310950dc0197d95a08b2c",
+    ".git/full-game-localization/order314-ko-settled/telemetry.json": "e1211bd218e039bd8ff68bd3b809bd9f5d5bf0ce0c2503ca0a10d446cdeea64a",
+    ".git/full-game-localization/order314-en-settled/entry.json": "f326ff086b48eb27bb5ce451323e9f85bde36c858dbb125d8bc344ce2ca76d51",
+    ".git/full-game-localization/order314-en-settled/godot.log": "d69b8d8d2e3f48ada422a25a2437749a5e747cddf7ef9491f1400d3364b4b128",
+    ".git/full-game-localization/order314-en-settled/result.json": "a4120836412242fe841bcd3d9b79841d7924c93f68dcdfdd6ae6567eab0fa33d",
+    ".git/full-game-localization/order314-en-settled/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    ".git/full-game-localization/order314-en-settled/stdout.log": "d69b8d8d2e3f48ada422a25a2437749a5e747cddf7ef9491f1400d3364b4b128",
+    ".git/full-game-localization/order314-en-settled/telemetry.json": "0da8b31f8eba3d81f5794cc0be003c45221ca708b45a5dac994ce82d432f1f34",
+    ".git/full-game-localization/order314-run.py": "6753783c975a55b87d85ff62ed51582da89ca9c9bf93ad776df17d5ee3a829d8",
+    ".git/full-game-localization/order314-bootstrap.gd": "4331c9cd9fdcc194b9238f92a586b06aebe4ed3979edb10251f7094a588a91e3",
+    ".git/full-game-localization/order314-screen.gd": "1fa9d7d833603ad60286564a6196410fcb8c4af272f36c581925004296894111",
+    ".git/full-game-localization/order314-screen-first.gd": "ff8a7540b3f8cce625689667cd0eef8b74170e5cdeaeab673ff8e5cb9efe5bae",
+    ".git/full-game-localization/order314-screen.tscn": "1d17847d10579001fc1489b133ae410ad124e3b512fb462a7716b85d37c54f64"
+  }
+}
