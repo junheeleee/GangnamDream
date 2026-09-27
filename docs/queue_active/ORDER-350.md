@@ -80,13 +80,11 @@ KO/EN으로 읽었다. 경로에 따라 사실이 갈리는 곳은 `MainGame.gd`
   `ORDER350_STORY_OK descriptions=32 flows=12 pages=84 languages=ko,en ghost=both prior_flags=5`.
   최종 증거 `.git/full-game-localization/order350-screen-gmnzz9u9/`의 exit0·3로그 오류0,
   실행 전후 소스15 SHA 동일. KO/EN × ghost 선택화면4 PNG를 root/비저자가 모두 읽었다.
-- 준비된 상태·직접 handler 호출/빠른 타이핑·tween 진행의 자동 관찰이다. 자연 입력·정상
-  속도 통독·본문 전체 스크린샷 증명은 아니다. PNG는 선택 화면만이며 본문 증거는
-  live resolver 대조와 실제 label 비공백이다. 사용자34파일 불변은 runner assertion이며
-  전후 원시 hash 목록이 결과에 없어 독립 재계산은 불가하다. runner 자체 hash도 실행
-  결과에 없으며 현 runner 검토를 과거 실행 신원 증명으로 올리지 않는다.
-- 초기 helper 오류3회(타입 추론/존재하지 않는 메서드/메서드를 속성으로 접근), 실행파일
-  없음1회, 선택 fade 전 캡처1회를 보존한다. 최종 캡처 대기를 수리했으며 제품 엔진 수정0.
+- 준비 상태·직접 handler/빠른 진행의 자동 관찰이며 자연 입력·정상 통독이 아니다.
+  PNG는 선택 화면만, 본문은 resolver/label 비공백 확인이다. 사용자34파일 불변은
+  원시 전후 목록 없는 runner assertion이며 독립 재계산 불가, runner의 실행시 SHA도
+  없다. [독립 보고](../agent_reviews/ORDER-350.json)에 한계를 보존했다.
+- 초기 helper 오류3·실행파일 없음1·fade 전 캡처1을 보존한다. 제품 엔진 수정0.
   성공 실행의 임시 namespace만 정확히 제거했고 실제 저장을 정리하지 않았다.
 - 수용 후6명령 **5 PASS/1 FAIL**: 일반감사 ERROR0/WARNING0·이야기 정합·i18n coverage·
   영어 한글0·localization264 PASS. full-body는 기존313 exact guard의 EN2파일/ledger
@@ -99,8 +97,11 @@ KO/EN으로 읽었다. 경로에 따라 사실이 갈리는 곳은 `MainGame.gd`
   제품 바이트다. 제품 commit에서 새로 실행했다고 세지 않는다.
 - 직접 후속 4장 결산4변형의 “두 서류”는 [359](ORDER-359.md)에 별도 선언했다.
   원형 pin/모듈을 덮지 않고 [358](ORDER-358.md)에서350/359 현재·역사 검증을 연결한다.
-  본 작업은 `[~]`/HOLD이며 다음 두 범위는 아직 미실행이다. 독립 최종 source 판정은
-  마감 commit 뒤 별도로 결속한다. 공개GO1·인간OPEN45·본편/새package HOLD 보존.
+  본 작업은 `[~]`/HOLD이며 다음 두 범위는 아직 미실행이다. 비저자 최종 source
+  `ec9ddae56926bb37e98564a312af59947b551e34`/tree `c9049042b981df3914d171d6221355955ea514b1`의
+  [독립 보고](../agent_reviews/ORDER-350.json)는 원고/표적 기능 적합·통합 HOLD다.
+  SHA `842f2c5e27b6841aee04b9265d9038fa8340ced0fb9d118e4b46f3c9ed2b1743`를 정확복사하고
+  옛113판정/91보고는 보존해114판정/92보고로 추가한다. 공개GO1·인간OPEN45·본편/새package HOLD 보존.
 - 개발 스킬의 선언·파일 소유 분리·직접 한국어 번역·표적 검증을 적용했다.
   상시 정본 규칙 추가0, 일회성/기존 WORK_UNIT·I18N·P-9 적용이다. 자동 게이트는
   도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.

@@ -1,0 +1,190 @@
+{
+  "schema": "gangnamdream-independent-work-unit-review/v1",
+  "unit_id": "ORDER-350",
+  "scope": "work_unit",
+  "review_stage": "independent_source_bound_final",
+  "decided_by": "/root/r3_route_probe",
+  "decision": "HOLD",
+  "verdict": "HOLD",
+  "subject": {
+    "kind": "source",
+    "commit": "ec9ddae56926bb37e98564a312af59947b551e34",
+    "tree": "c9049042b981df3914d171d6221355955ea514b1",
+    "manifest_sha256": null
+  },
+  "outcome": "The 11 declared repairs are suitable within their bounded prose scope, and the recorded targeted KO/EN StoryMode observation supports the year-three route repair. The work unit remains HOLD: the current source still fails the historical-source admission gate at three paths. The directly related year-four document-count debt is separately declared as ORDER-359; ORDER-358 integration follows it. Neither successor is implemented or approved here.",
+  "independence": "This reviewer did not author or edit the product prose, translations, runtime helper, execution runner, ledger, tracked metadata or compatibility tools. I independently read the complete product diffs, all 41 KO/EN and 45 translated changed/additional leaves, the Korean-direct source/response pairs, relevant runtime consumers and test helpers, saved execution results and all four final original PNGs. I reported residual pronoun/document-count issues during review; authors made the changes. I am not a native JA/CN/TW reviewer. No engine, importer or audit suite was rerun by this reviewer. The only file written is this private report.",
+  "population": {
+    "declared_repairs": 11,
+    "product_event_json_files": 21,
+    "ko_en_files": 9,
+    "ko_en_text_leaves": 41,
+    "ko_en_existing_changed": 39,
+    "ko_en_new_ghost_leaves": 2,
+    "ja_zh_files": 12,
+    "ja_zh_text_leaves": 45,
+    "ja_zh_existing_changed": 42,
+    "ja_zh_new_ghost_leaves": 3,
+    "reviewed_text_leaves": 86,
+    "additional_product_file": "content/meta/full_game_localization.json",
+    "locales": ["ko", "en", "ja", "zh-CN", "zh-TW"]
+  },
+  "source_binding": {
+    "observed_at_utc": "2026-09-27T14:09:16.332396+00:00",
+    "observed_head": "ec9ddae56926bb37e98564a312af59947b551e34",
+    "observed_tree": "c9049042b981df3914d171d6221355955ea514b1",
+    "observed_clean": true,
+    "resolver": {
+      "kind": "source",
+      "commit": "ec9ddae56926bb37e98564a312af59947b551e34",
+      "tree": "c9049042b981df3914d171d6221355955ea514b1",
+      "manifest_sha256": null
+    },
+    "product_commit": "ef896982207de456042e4288cba651553feb38b1",
+    "product_parent": "d8fbf31cf3171bef1824bec87bdb88d026d77abc",
+    "product_boundary": "Independently verified the product commit's direct parent and exact 22 paths: 21 event JSON files and the localization ledger. All 22 current raw SHA-256 values equal that product commit and the post-run before/after pins; all six per-command pins agree. The product-to-HEAD content diff is empty.",
+    "subsequent_changed_paths": [
+      "CLAUDE.md",
+      "docs/CODEX_QUEUE.md",
+      "docs/CODEX_QUEUE_L3_PENDING.md",
+      "docs/STATUS.md",
+      "docs/WORK_LOG.md",
+      "docs/queue_active/ORDER-350.md",
+      "docs/queue_active/ORDER-358.md",
+      "docs/queue_active/ORDER-359.md"
+    ],
+    "source_identity_note": "CLAUDE is source-bearing, so the exact candidate is ec9ddae, not the earlier product commit. The existing source resolver independently returned that commit/tree.",
+    "execution_boundary": "The saved post executions ran against declaration HEAD d8fbf31 with dirty implementation bytes, not against clean ec9ddae. Product-byte equality binds those results to the final source only over their actual 22 pinned paths. Runtime evidence has 15 pins: 9 KO/EN JSON, StoryMode.gd/tscn, bootstrap, project.godot and the private helper gd/tscn; all still match. Neither pin set is a whole-source census or a clean-final-source rerun. The runtime runner's own SHA was not captured at execution; its current inspected SHA is recorded below without retroactive provenance claims. The post runner does record its own matching SHA."
+  },
+  "prose_decisions": [
+    "1: EN father exchange now attributes the player's concern to the player and the father's reply to the father.",
+    "2: The calendar scene is Lunar New Year rather than another birthday; IDs, flags and schedule are unchanged.",
+    "3: EN target value is 3 billion won.",
+    "4: The pitch's deferred choice is not an outright refusal; default/moral variants and scoped results use coherent present narration and double quotation marks.",
+    "5: Waiting-scene description restores present narration and the subject while preserving actual remembered past events.",
+    "6: Midpoint recollection no longer fabricates a days-earlier event chronology.",
+    "7: Survival wording no longer falsely implies no money was lost.",
+    "8: Sangchul's elapsed time and subject are repaired without inventing a quotation.",
+    "9: Hyunsu is politely speaking as an employed friend with Sunday off, not as a student; the availability question remains compatible with the later plan.",
+    "10: Both the initial call motive and the subsequent always-receiving premise are repaired.",
+    "11: No-ghost default describes the father's guarantee only; old default is copied exactly to the last ghost-known selector in all five languages. Prior five selectors and their ordering are unchanged. Common choices/results are document-count neutral; choice 0's guarantee preview is valid on both routes. EN default name-token count 4 to 3 deliberately removes the nonexistent player-signature premise; the ghost original retains all four."
+  ],
+  "route_contract": {
+    "actual_schema": "description_if_known, not description_variants",
+    "consumers": [
+      "scenes/StoryMode.gd:4225 positive known-flag matcher with conjunction",
+      "scenes/StoryMode.gd:4354 first matching known-description selector",
+      "scenes/StoryMode.gd:5146 live description-to-paragraph construction",
+      "scenes/MainGame.gd:7185 year-three close scheduled at total week 144",
+      "content/events/arc_events.json:1486,1508,1530 ghost decision flag production"
+    ],
+    "assessment": "Appending arc_jaehyuk_ghost_seen after the existing five selectors preserves known-condition priority. Direct comparisons in all five locales confirm exact old-default copying, exact existing-selector values and insertion order. No unsupported negation selector or new runtime logic was introduced.",
+    "repair_history": "Review identified EN residual plural antecedents in the no-ghost description and common labels/results; final text neutralizes them. The initial CN response still used the explicitly plural pronoun in the envelope result. The reviewer flagged it while the translation author independently corrected it to 把纸. The stale pre-correction response was actually rejected for target-changed-since-export; its original source/response remains preserved and the final CN v2 pair is accepted."
+  },
+  "preservation": {
+    "gameplay": "Independent complete diffs and recursive comparisons found 86 string-leaf additions/changes and no nontext scalar, effect, condition, event ID, array-length or schedule changes. Existing choices and known-selector priority remain intact. The only new leaves are five locale versions of the ghost selector.",
+    "ledger": "Independent baseline-to-current comparison: accepted 40299 to 40302; batches 139 to 140; exactly 42 existing receipts refreshed and three ghost receipts added; deleted receipts 0. The original 139 batches and every other ledger field except accepted/derived checksum/batches are unchanged. All 45 final captured KO source and locale response strings match current files and independently recomputed path-aware source/target receipt hashes. The earlier held-72 and retained-internal-metadata boundaries are not promoted.",
+    "ledger_sha256": "8eda03f5bdd9bb05863e93e5d04090eb6246e43b826edc5f30dff3befb402b8f",
+    "history": "The prior 113 agent decisions and 91 JSON review reports are byte-unchanged from d8fbf31. Human ledger, project.godot, MainGame, StoryMode and original 305/310/316/309/313 compatibility modules are unchanged. Human OPEN45 and old exact-package public GO1 retain their prior meaning.",
+    "agent_ledger_sha256": "48961d881b4b2c1f3f54fa2a8690061e8c1dd25168fb5e9d3c881691abd87f90",
+    "human_ledger_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6"
+  },
+  "verification": {
+    "post_execution_population": 6,
+    "post_passed": 5,
+    "post_failed": 1,
+    "post_timeouts": 0,
+    "post_passes": [
+      "audit.py: errors 0 / warnings 0",
+      "english_hangul_audit.py: content issues 0 / UI contract issues 0",
+      "i18n_coverage_check.py: structural coverage pass, not native completeness",
+      "full_game_localization_self_test.py: exit 0, final 264-case marker and unittest Ran 264 / OK",
+      "story_consistency_audit.py: pass"
+    ],
+    "post_failure": "full_body_translation_scope.py exits 1 with exactly three ORDER-313 current-source exceeds exact-approved-successor errors: content/events_en/arc_events.json, content/events_en/arc_midgame.json, content/meta/full_game_localization.json. No locale stale-receipt error remains. This is not relabeled as PASS.",
+    "raw_binding": "All six post stdout/stderr hashes match the saved summary; all before/after and per-command 22-path hashes match current product bytes. Saved self-check facts were independently recalculated for leaf counts, immutable gameplay, variant copying/priority, exact receipt changes and protected-path preservation.",
+    "runtime": {
+      "accepted_run": "order350-screen-gmnzz9u9",
+      "exit": 0,
+      "timeout": false,
+      "description_cases": 32,
+      "choice_result_flows": 12,
+      "page_advances": 84,
+      "formula": "KO/EN times ghost false/true times three choice-flow preparations plus five separately prepared prior-known-flag cases. Each of the five prior flags wins over ghost when both are present. The 12 full flows are two languages times two ghost states times three choices.",
+      "method": "Prepared live event/state and direct real StoryMode handler calls, not replay-only string inspection. The helper checks resolver inclusion, paragraph phase/index progression, nonempty displayed text and the selected year3 result flag. It completes typing and advances tweens; the final harness waits one second for fade stability before four screenshots. Nonempty text checks are not exact equality checks of every rendered paragraph.",
+      "visual_review": "All four final original 1280x800 KO/EN by ghost-state PNGs were directly viewed. The three choices are legible without observed overlap or clipping; EN wraps the first two choices to two lines. These PNGs show choices, not body prose, and cannot prove full-body visual correctness.",
+      "isolation": "Matching pre-autoload and QA user-directory markers bind the run to StoryNameplateQA_50ec70ad08564761f8b6c81230623dd8. Bootstrap sets the isolated directory before autoload; result reports exact-namespace cleanup and the directory is absent. project.godot is unchanged. The runner reports 34 real-player files unchanged, but does not save the before/after hash maps; that assertion cannot be independently recomputed from the evidence and is not claimed as an independently verified user-data census.",
+      "failure_history": "Original cdbi_bcw parse failure, o7ok4pon wrong replay-method failure and y2h37j_p visible-array method failure remain preserved. fe73c24c first passes the functional counts but its screenshots were captured before fade completion. Only gmnzz9u9 is used for final visual approval; retries are not five independent successful tests."
+    },
+    "counting_limit": "The impact-selection list of 78 checks was not executed as a full suite. Runtime 32/12/84 are distinct kinds of observations, not additive coverage. No new engine or test execution occurred during independent review."
+  },
+  "required_findings": [
+    {
+      "priority": "P1",
+      "status": "OPEN",
+      "owner_order": "ORDER-358",
+      "finding": "Current repaired source is not admitted by the existing exact ORDER-313 guard at the three recorded paths. This prevents whole-work-unit completion despite suitable bounded prose and passing targeted behavior.",
+      "consumer_paths": [
+        "tools/order313_source_compat.py:459",
+        "tools/full_body_translation_scope.py:948",
+        "tools/story_graph_contract_audit.py:408",
+        "tools/chapter5_human_reject_audit.py:2080",
+        "tools/year5_reference_route_audit.py:11013",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py:4580"
+      ],
+      "required_action": "After separately reviewing ORDER-359, implement and independently validate a narrowly scoped successor/current-history bridge. Preserve the original compatibility modules and historical evidence; do not simply overwrite old pins or exempt the current source."
+    },
+    {
+      "priority": "P1",
+      "status": "DECLARED_NOT_IMPLEMENTED",
+      "owner_order": "ORDER-359",
+      "finding": "Year-four close and father-passed close still recall two documents in the year3_weighted and year3_eyes_open variants. The four existing leaves per language are a direct follow-up count-presupposition debt, not silently included in ORDER-350's repaired 86-leaf population.",
+      "required_action": "Repair and test the declared 20-leaf five-language successor scope while preserving envelope/open-folder distinctions and gameplay; then proceed to ORDER-358."
+    }
+  ],
+  "known_out_of_scope": [
+    "The pre-existing remaining-100-weeks and generic truth-listener presuppositions are unchanged; this review does not approve or secretly repair them.",
+    "Broader scene expansion, all prose-tense normalization, full-game native localization, full playthrough, packaging and release quality are not inferred from this bounded repair."
+  ],
+  "evidence": [
+    {"path": "docs/queue_active/ORDER-350.md", "sha256": "d0bdd4ec61e76faf1fb33c4ed543e8758340b50a38cadbc9fc24bae95fea7ca4", "git_commit": "ec9ddae56926bb37e98564a312af59947b551e34"},
+    {"path": ".git/full-game-localization/order350-self-check.json", "sha256": "9d5591fc6caf0c963ebd69dd57401530b198c002de533e1e1b5297de5bd6ee86"},
+    {"path": ".git/full-game-localization/order350-post-summary.json", "sha256": "9edf3db751997c6e9be52c47d7f89b40e4e72066cba55c0a4408ef4470aef48b", "role": "Six executions with per-command logs and 22-path before/after pins"},
+    {"path": ".git/full-game-localization/order350-post-runner.py", "sha256": "f27512f5530ad95132b2124b614e7e247e61a71c25c50d1245a4621b631b9ba0"},
+    {"path": ".git/full-game-localization/order350-static-summary.json", "sha256": "86a28cfd2d80a3adf0ab0e5069c6b070ba682a48c23c7abc281631d2a4e4efc6", "role": "Preserved earlier checks; not substituted for post results"},
+    {"path": ".git/full-game-localization/order350-static-sourceguard.log", "sha256": "6b040e2c2f81de28c63f8bbc8cc2b4162a974e27d552d5a7f4570f5d7148a0a6"},
+    {"path": ".git/full-game-localization/order350-screen-gmnzz9u9/result.json", "sha256": "f3c2f8ca8026f515c7bd9cef29f2d359e1c02443a6b299b3cddfb105120075c9", "role": "Final runtime envelope with 15 source pins"},
+    {"path": ".git/full-game-localization/order350-screen-gmnzz9u9/stdout.log", "sha256": "ff98c98a61305579f9820a9e9ee887d12f8f93a13da99e7b0b04616c6de5bd45"},
+    {"path": ".git/full-game-localization/order350-check.gd", "sha256": "03613278952e1ebd8987d147c94e0d7415dfff267ba6d91591f5db3d2912a514"},
+    {"path": ".git/full-game-localization/order350-check.tscn", "sha256": "09ef0820d99b2053cc5b8adedee76945921329919c2c1f44f0d4c0d9b1c88174"},
+    {"path": ".git/full-game-localization/order350-run.py", "sha256": "74cac26f2d29e4aea2ca074a085d4fbf0544becdaee894e301bffd88e1cf1e95", "role": "Current inspected runner; no execution-time runner SHA in runtime envelope"},
+    {"path": ".git/full-game-localization/order350-screen-gmnzz9u9/en-ghostfalse-choices.png", "sha256": "3dbeaa62577ae6a753a60101443b3a4009a5b94ecc9f0e7e22a543bf4e4c57b9"},
+    {"path": ".git/full-game-localization/order350-screen-gmnzz9u9/en-ghosttrue-choices.png", "sha256": "e46f308d95edbc2660de48493da5caee81ac7bfa768260e3bd650500b6a5d7bf"},
+    {"path": ".git/full-game-localization/order350-screen-gmnzz9u9/ko-ghostfalse-choices.png", "sha256": "db933bce547c6cefc8b77cc8a229b935f3d26b702ed4e0855d6d976f39cede90"},
+    {"path": ".git/full-game-localization/order350-screen-gmnzz9u9/ko-ghosttrue-choices.png", "sha256": "8dc2d0517978fb4bd55dde16bea36ef374a8719a2c7fa3616fe1b4006993dc8a"},
+    {"path": ".git/full-game-localization/order350-screen-cdbi_bcw/result.json", "sha256": "a0540e5091a363582b81f310fa4841109e08754b962e71ba4c3478772f65fb98"},
+    {"path": ".git/full-game-localization/order350-screen-o7ok4pon/result.json", "sha256": "9e8286b928faf00a17bf2da6b185717b58ad9ca5e3bd8d080f2449d5dc7e699d"},
+    {"path": ".git/full-game-localization/order350-screen-y2h37j_p/result.json", "sha256": "0b0d8fb58a56e76a2546f6425625bad41a2a9b260b390513ee56e30b8f305769"},
+    {"path": ".git/full-game-localization/order350-screen-fe73c24c/result.json", "sha256": "6c9dcbbb2bf8c6f9bcec96b4fbe40999f17484dc96e46749b73816da4e658e16"},
+    {"path": ".git/full-game-localization/order350-ja-after.source.jsonl", "sha256": "7b009d802997e66659f2aa0c2df80cfae4ad6e9511cacad67d95c4009841f56f"},
+    {"path": ".git/full-game-localization/order350-ja-after.response.jsonl", "sha256": "324a79dc5413535f7eabe3737554aff260a30a0fa0eefa5ad5407709bf25d28a"},
+    {"path": ".git/full-game-localization/order350-zh-CN-after-v2.source.jsonl", "sha256": "ee45a66c27540c243efbab3b80adead97f7a53795d2186c1be4834f1e4c689ef"},
+    {"path": ".git/full-game-localization/order350-zh-CN-after-v2.response.jsonl", "sha256": "aafd36d910698baac6e8a0f8178f2a837e085bc827306bbdc359aacf494256a1"},
+    {"path": ".git/full-game-localization/order350-zh-TW-after.source.jsonl", "sha256": "81d86616eb74fdc3e32e59ba87dfe43fe406dcefe6f91f4ee69bc6b6f80cd665"},
+    {"path": ".git/full-game-localization/order350-zh-TW-after.response.jsonl", "sha256": "1fd76df384720b768f00a1d458b7397bf84c713a9640f240991e4a72811c56ee"},
+    {"path": "docs/queue_active/ORDER-358.md", "sha256": "523f74524781e2e3f5c2af480dd887bee90876cdffa9026abcaba55798d69077", "git_commit": "ec9ddae56926bb37e98564a312af59947b551e34", "role": "Unimplemented successor plan, not implementation approval"},
+    {"path": "docs/queue_active/ORDER-359.md", "sha256": "e259347204b3fd758821dc104c57c9b8db2f8a7480e7840d823589ddd3b3cb88", "git_commit": "ec9ddae56926bb37e98564a312af59947b551e34", "role": "Unimplemented successor plan, not implementation approval"}
+  ],
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "Natural user input, physical mouse/keyboard/controller interaction and normal-speed timing were not observed; direct automated handlers and prepared state are disclosed.",
+    "No full-body visual pass, JA/ZH runtime screenshots, full playthrough or 240-week route is claimed.",
+    "No whole-source runtime census, clean-final-source rerun or independently reproducible real-user 34-file before/after census is available.",
+    "The runtime runner SHA is current inspection evidence, not a recorded execution-time hash. The saved helper and bootstrap pins do not cure that provenance limitation.",
+    "No internal-product GO, successor-package build/review, release, storefront, expenditure or external publication authority is granted. Native/human/physical gates remain OPEN and the full game/package remains HOLD."
+  ],
+  "next_step": "Keep ORDER-350 at HOLD. Complete the separately declared ORDER-359 count-neutral year-four callback repair, then implement and validate ORDER-358's bounded current/historical-source integration and obtain fresh source-bound independent follow-up decisions. Preserve the original failure and review records.",
+  "completion_statement": "Bounded prose and recorded targeted function are suitable; whole-work-unit completion is not granted."
+}

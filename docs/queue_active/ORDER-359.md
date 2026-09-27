@@ -30,6 +30,22 @@
 - 착수 시 파일 소유를 나누고 선언 커밋을 먼저 만든다. 350의 이미 수정한 leaf는
   다시 쓰지 않으며 350에서 남겨 둔 “100주”/일반적 진실 회상·문체 채무로 확장하지 않는다.
 
+## 읽기 전용 사전 확인 (2026-09-27, 구현 아님)
+
+- 20leaf 모두 `{name}`2개/개행4개이며350의86leaf와 교집합0이다. JA/ZH는 생사 root
+  사이에 기존 문장 차이가 있으므로 서로 복사하지 않는다. EN은 `two documents`만
+  지우지 말고 복수대명사/`kept together`도 확인한다. CN 생존형 `它们旁边`도 대상이다.
+- 실제 resolver는 known key의 첫 true를 고른다. 16상태 준비 시 앞선
+  `arc_y4_year_close_protected_relationship`, `arc_y4_year_close_protected_body`,
+  `arc_y4_year_close_protected_family`, `arc_y4_midpoint_receipt_seen`을 비우고
+  `year3_weighted`/`year3_eyes_open` 중 하나만 켠다. ghost는 이 두 root의
+  known key가 아니므로 결과 본문이 변하지 않아야 한다.
+- 생사는 `father_passed` 또는 `arc_father_passing_seen` 또는 cast father `stage=passed`다.
+  생존 준비는 세 신호 모두 부재, 사망 준비는 terminal 뒤의 실제 상태를 맞춘다.
+  MainGame의 turn192 진입과 EventManager의 생사 치환을 훼손하지 않는다. 코드 기준
+  StoryMode:4354, DataRegistry:1107, EventManager:807/819, MainGame:7187을 시작점으로 삼는다.
+- 위 확인은 비저자 읽기뿐이며 작성/엔진/검사 재실행0이다. 착수 선언과 검증을 대신하지 않는다.
+
 ## 완료 조건
 
 - 4개 source leaf와 16개 대응 leaf의 exact 원시 차이, 개수 중립, 봉투/폴더 차이,

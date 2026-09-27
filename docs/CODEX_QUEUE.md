@@ -51,7 +51,7 @@
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
 | 1 | [~] | ORDER-302 · 체험판 대본 사실·영어 정합 수리 | [302](queue_active/ORDER-302.md) | 수리7항목 source GO · successor package 별도 선언/검수 HOLD |
-| 2 | [~] | ORDER-350 · 본편 3장 대본 경로·회수·영어 정합 | [350](queue_active/ORDER-350.md) | 원고86·receipt45·결산32상태 확인 · guard3 잔여 HOLD(358) |
+| 2 | [~] | ORDER-350 · 본편 3장 대본 경로·회수·영어 정합 | [350](queue_active/ORDER-350.md) | 원고86·receipt45·결산32상태 확인 · 독립 HOLD(guard3/358) |
 | 3 | [ ] | ORDER-359 · 다음 해 결산 서류 개수 회수 | [359](queue_active/ORDER-359.md) | 350 표적 원고 뒤 · 4개 후속 조건부 본문 미실행 |
 | 4 | [ ] | ORDER-358 · 3장 수리 현재·역사 검증 연결 | [358](queue_active/ORDER-358.md) | 350/359 뒤 · 고정 source guard 실패 수리 대기 |
 | 5 | [ ] | ORDER-351 · 본편 4장 대본 아버지 행방·영어 표기 정합 | [351](queue_active/ORDER-351.md) | 350 뒤 착수 · 미실행 |
