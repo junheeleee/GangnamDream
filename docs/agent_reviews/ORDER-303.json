@@ -1,0 +1,331 @@
+{
+  "schema": 1,
+  "unit_id": "ORDER-303",
+  "scope": "work_unit",
+  "review_stage": "independent_source_bound_final",
+  "verdict": "REWORK",
+  "decision": "REWORK",
+  "decided_by": "/root/screen_independent_review",
+  "independence": "Nonauthor of product consumers and all execution helpers. Reviewer performed read-only source/artifact checks, individually viewed original PNGs, and wrote only private review JSON. No engine, package, product, queue, or ledger changes by reviewer.",
+  "subject": {
+    "kind": "source",
+    "commit": "7a69b426ba88161d0752c17add598ac8479d4491",
+    "tree": "45be31b19ed0f7964d460b46d7627038506c4d3d",
+    "manifest_sha256": null
+  },
+  "outcome": "The selected Chinese text/input/accounting observation contract passes. Required exposed-control safe-area defects and a cropped next-state panel remain, so the original work unit is not complete. Preserve this REWORK and add any later repair verdict separately.",
+  "source_binding": {
+    "observed_at": "2026-09-27T17:39:12.331330+09:00",
+    "head": "7a69b426ba88161d0752c17add598ac8479d4491",
+    "status": "",
+    "subject": {
+      "kind": "source",
+      "commit": "7a69b426ba88161d0752c17add598ac8479d4491",
+      "tree": "45be31b19ed0f7964d460b46d7627038506c4d3d",
+      "manifest_sha256": null
+    },
+    "changed_paths_since_rendered_source": [
+      "CLAUDE.md",
+      "docs/CODEX_QUEUE.md",
+      "docs/CODEX_QUEUE_L3_PENDING.md",
+      "docs/STATUS.md",
+      "docs/queue_active/ORDER-303.md",
+      "docs/queue_active/ORDER-354.md"
+    ],
+    "runtime_content_asset_config_delta": [],
+    "accepted_bindings": {
+      "bytes": 421380,
+      "sha256": "171ca6b224af52d2095a87fff6bd0aad6ee3312b96fb71c8cbdc447ffb2e1a11"
+    },
+    "bound_run_artifacts": 57,
+    "all_accepted_current_pins_unchanged_except_two_declared_docs": true,
+    "current_real_user_census_unchanged": true,
+    "current_user_files": 43,
+    "runs": {
+      "cn-first": {
+        "result": {
+          "bytes": 448024,
+          "sha256": "d395dc761e3fe5b04f8f0fd87186b863a2b1eb11e106594af93a17918f5f9481"
+        },
+        "observation": {
+          "bytes": 8421284,
+          "sha256": "6e91d1e15378085bcd5a2bcda77dba8da6645357e9d3f6bdfac29cab116e268a"
+        },
+        "png_count": 7,
+        "raw_edges": 12,
+        "source_pin_count": 1245,
+        "current_pin_drift": [
+          ".git/full-game-localization/order303-status-observer.gd",
+          ".git/full-game-localization/order303-validate.py",
+          "CLAUDE.md",
+          "docs/queue_active/ORDER-303.md"
+        ],
+        "namespace_files": 2,
+        "user_files": 43,
+        "entry_sha256": "ea3ee85a408dbbbe8490b4c535b9ba47708d1924c950d6668d01d67010fa672a"
+      },
+      "cn-second": {
+        "result": {
+          "bytes": 446061,
+          "sha256": "fc9a2bac74f9307af0a60f40050b4dc22f69133c9fa6f77545a1a29d76b69496"
+        },
+        "observation": {
+          "bytes": 8776106,
+          "sha256": "577a761cc08026252b052ab422b1f90d23fc4af83d0a930e2c5396d711f1ef9d"
+        },
+        "png_count": 7,
+        "raw_edges": 12,
+        "source_pin_count": 1245,
+        "current_pin_drift": [
+          "CLAUDE.md",
+          "docs/queue_active/ORDER-303.md"
+        ],
+        "namespace_files": 2,
+        "user_files": 43
+      },
+      "tw-first": {
+        "result": {
+          "bytes": 446054,
+          "sha256": "2df0b9465c5ce3cec8fe37bdba5b37075ed9b1068babc56f8d333a6e346ee136"
+        },
+        "observation": {
+          "bytes": 8775767,
+          "sha256": "db5d900e6e60acf1e1bda8f8d32b4893d20633752617464c8586b20ecf14a999"
+        },
+        "png_count": 7,
+        "raw_edges": 12,
+        "source_pin_count": 1245,
+        "current_pin_drift": [
+          "CLAUDE.md",
+          "docs/queue_active/ORDER-303.md"
+        ],
+        "namespace_files": 2,
+        "user_files": 43
+      }
+    }
+  },
+  "rendered_source": {
+    "kind": "source",
+    "commit": "2dc1e9f7941d5c19bf0a1c1f7055e6c02ec5ffdb",
+    "tree": "2547f53ed6d1445cde7e264037b5a23f0d2d3cfe",
+    "manifest_sha256": null,
+    "claim": "All actual engine observations occurred here. Final 7a69b426 source was reviewed through exact unchanged product/helper bytes and the explicit six-document delta; it was not rerun."
+  },
+  "applied_contracts": [
+    "docs/queue_active/ORDER-303.md",
+    "docs/WORK_UNIT.md",
+    "docs/UI_ART_DIRECTION.md",
+    "docs/CONTROLLER_UX_STRATEGY.md",
+    "docs/INPUT_MATRIX.md:74",
+    "docs/QA_CHECKLIST.md:361"
+  ],
+  "population": {
+    "keys": 11,
+    "locale_values": 22,
+    "current_literal_callsites": 15,
+    "accepted_locales": [
+      "zh-CN",
+      "zh-TW"
+    ],
+    "viewport": [
+      1280,
+      800
+    ],
+    "accepted_original_pngs": 14,
+    "individually_viewed_accepted_pngs": 14,
+    "accepted_raw_keyboard_edges": 24,
+    "gesture_pairs_per_locale": 6,
+    "fixture_lifetimes_per_locale": 4,
+    "prepared_result_callbacks": 4,
+    "nonvisual_MainGame_formatter_returns": 4,
+    "in_memory_negative_controls": 60,
+    "cases_per_locale": [
+      "daisai_initial",
+      "hub_daisai_selected",
+      "hub_glossary",
+      "daisai_rolling",
+      "daisai_win",
+      "daisai_next",
+      "daisai_loss"
+    ],
+    "accepted_directories": [
+      ".git/full-game-localization/order303-render-cn-second",
+      ".git/full-game-localization/order303-render-tw-first"
+    ],
+    "total_attempts": 3,
+    "total_preserved_pngs": 21,
+    "failed_population": "CN-first's seven PNGs and 12 raw rows remain failed diagnostic evidence, not extra accepted coverage. Reviewer viewed its initial, selected-hub, and glossary originals only; all 14 accepted originals were individually viewed."
+  },
+  "component_decisions": [
+    {
+      "component": "Full selected sentences, amounts, result meaning and consumer identity",
+      "verdict": "PASS",
+      "evidence": "All 11 selected keys/22 values and 15 source callsites reconciled. Initial 1000万/萬, paid stake 995万/萬, win 1005万/萬, net ±5万/萬, dice 1-2-3 / total6, localized empty history, next prompt and exposed glossary terms/close are readable without observed target truncation."
+    },
+    {
+      "component": "Raw input, exact effects, RNG and timing",
+      "verdict": "PASS",
+      "evidence": "All 24 synthetic keyboard edges have exact logical/physical codes, unique signed IDs per run, real input-buffer dispatch in the same process frame, unconsumed major latch and no GUI focus theft. Every release and subsequent bounded settle is protected-state no-op. Zero-round table closed invokes the actual connected hub callback; Right3→4, glossary open/close and RESULT→next are exact."
+    },
+    {
+      "component": "Roll/result accounting",
+      "verdict": "PASS",
+      "evidence": "Actual raw roll debits50000 from10000000 to9950000 and consumes pending dice[3,1,4] with RNG1541306317539106773→-299913542216602078 before a separately recorded processing freeze. Prepared paid-stake SINGLE1 win returns gross100000, net+50000, cash10050000; BIG loss leaves cash9950000, net-50000. Each callback appends one actual localized log/history and one meta play; win gambling+1, loss addiction+2 remain cumulative. Loss shake consumes10 random-float primitives to RNG3546036597814034985. No reset hides these effects."
+    },
+    {
+      "component": "Feedback and lifecycle",
+      "verdict": "PASS",
+      "evidence": "Accepted win/next/loss captures span0.364–0.671s after callbacks, after settling and before2.2s timeout; dice scale[1,1] and resting position[0,0] match. Four lifetimes per run are disposed without product exit/meta replay; the later loss timer changes only RESULT→IDLE; shutdown only disconnects observers. Two full nonvisual MainGame formatter returns per locale preserve typed state."
+    },
+    {
+      "component": "Visual evidence and exposure",
+      "verdict": "PASS within selected text contract; layout REWORK below",
+      "evidence": "Reviewed all 14 original1280x800 images and the complete control/canvas/font/glyph/style/wrap/clip evidence. Five DaiSai and13 hub draw strings are structurally recorded. Actual opaque full-rect glossary overlay classification separates covered hub underlay from exposed glossary term/close, without reducing census or visual population."
+    },
+    {
+      "component": "Isolation and preservation",
+      "verdict": "PASS",
+      "evidence": "Both accepted runs exit0 in11.53/11.59s, exact storage/success markers, zero fatal diagnostics in all six streams, unchanged1245 runtime-input pins within each run, exact two-file final namespaces, and all43 real-user files across two roots unchanged. Fresh reviewer census and artifact hashes remain equal. Each attempt retains entry checkpoint, executed helper snapshots and original failure/success outputs."
+    },
+    {
+      "component": "Validator discrimination",
+      "verdict": "PASS as non-runtime checks",
+      "evidence": "The preserved binding capture rejects30 in-memory tamper cases per locale, including missing releases, extra debit/round, RNG/hidden-state restoration, omitted timeline/census, wrong parent text, late capture, unsettled feedback, false glossary exposure, changed buffering, delayed freeze, float32 geometry drift and missing final namespace. These60 cases are not additional game runs."
+    }
+  ],
+  "findings": [
+    {
+      "id": "ORDER-303-SAFE-01",
+      "severity": "required",
+      "status": "OPEN",
+      "category": "product_layout",
+      "title": "Exposed casino HUD and controls violate the canonical 2.5% safe rectangle",
+      "requirement": "At1280x800 the safe rectangle is x32..1248,y20..780; INPUT_MATRIX74 and QA_CHECKLIST361 apply to casino controls/result actions.",
+      "affected_product_paths": [
+        "scenes/DaiSaiTable.gd:452",
+        "scenes/DaiSaiTable.gd:768",
+        "scenes/JeongseonCasino.gd:243",
+        "scenes/JeongseonCasino.gd:363",
+        "scenes/JeongseonCasino.gd:794"
+      ],
+      "evidence": "Confirmed independently in CN-second and TW-first originals and measured exposed control rectangles. The five DaiSai states per locale retain the same unsafe header; selected-hub captures expose the hub defects. The opaque glossary hides its underlay and is not counted as a visible failure of those underlying roles.",
+      "safe_rect_xywh": [
+        32,
+        20,
+        1216,
+        760
+      ],
+      "measured_rectangles": {
+        "daisai_hud": [
+          12,
+          8,
+          1048,
+          42
+        ],
+        "daisai_rules": [
+          1074,
+          8,
+          82,
+          42
+        ],
+        "daisai_exit": [
+          1170,
+          8,
+          98,
+          42
+        ],
+        "hub_title_cn": [
+          24,
+          18,
+          943,
+          35
+        ],
+        "hub_title_tw": [
+          24,
+          18,
+          936,
+          35
+        ],
+        "hub_exit": [
+          1166,
+          0,
+          90,
+          72
+        ],
+        "hub_warning": [
+          24,
+          585,
+          1120,
+          17
+        ],
+        "hub_glossary_button": [
+          1156,
+          578,
+          100,
+          32
+        ]
+      },
+      "interpretation": "This is a required safe-layout defect, not evidence of wrong cash/result translation. Full-width centered hub message/hint control bounds also exceed the safe rectangle, but their centered glyphs appeared inside; do not call those glyphs clipped merely from control width.",
+      "required_action": "Repair layout in the separately declared ORDER-354 while preserving strings, font/button size, input behavior, financial/RNG state and all original evidence. Reobserve the same14-screen/24-edge contract with independently calculated safe bounds. Do not close303 or promote this report to GO."
+    },
+    {
+      "id": "ORDER-303-FIT-02",
+      "severity": "required",
+      "status": "OPEN",
+      "category": "product_layout",
+      "title": "Next-selection panel extends four pixels below the viewport",
+      "affected_product_paths": [
+        "scenes/DaiSaiTable.gd:502"
+      ],
+      "evidence": "Both accepted daisai_next originals show the bottom panel border cropped; control census gives panel[78,70,1124,734], bottom804 on800-high viewport.",
+      "panel_rect_xywh": [
+        78,
+        70,
+        1124,
+        734
+      ],
+      "action_button_yh": [
+        724,
+        54
+      ],
+      "interpretation": "Primary bottom actions end at778 and their text is visible inside safe bottom780. This is panel/frame fit, not target-text truncation. Increasing the top inset alone risks pushing those actions out.",
+      "required_action": "ORDER-354 must budget vertical padding/separation for all five DaiSai states and retain the complete panel within the viewport while keeping actual controls inside the safe rectangle; do not shrink fonts/buttons to mask the issue."
+    }
+  ],
+  "preserved_failure": {
+    "directory": ".git/full-game-localization/order303-render-cn-first",
+    "verdict": "FAIL",
+    "exit": 1,
+    "distinct_observer_failures": 14,
+    "explanation": "The first observer assumed parse_input_event was synchronous; actual effects appeared in later frame waits, and attempted roll freeze preceded delivery. This was a harness scheduling defect. The explicit real input-buffer flush and bounded float32 validator correction were independently preflighted before new attempts; old bytes/results remain unchanged.",
+    "preflight01": {
+      "path": ".git/full-game-localization/order303-preflight-review-01.json",
+      "sha256": "cd5066f66d696542d492f3bef9195b36dd1f5ad91af63d83ddee14dc4ca2f0cb"
+    },
+    "preflight02": {
+      "path": ".git/full-game-localization/order303-preflight-review-02.json",
+      "sha256": "98644fde73f2915b84c7104df0c12adca1e6844fff846670d36f838a38e43eb5"
+    }
+  },
+  "known_nonpromotion_notes": [
+    "Each accepted locale logs37 out-of-scope I18N_UI_MISS notices and an SDL misc2 controller-mapping notice. Independent fatal scan found zero errors and zero selected11-key misses. No claim of warning-free logs, complete Chinese UI, or working physical controller mapping.",
+    "Existing English parent/chrome remains: selected-hub label, glossary definitions, game card descriptions, ROLL/ROLLING/SELECTED BET/PAYS/SHAKER and MainGame rounds/NET parent returns. This selected-key review does not translate or approve the entire surface.",
+    "Stored history bet values and localized action-log payloads were inspected nonvisually; only dice history labels were rendered. MainGame was instantiated unattached for two real formatter calls per locale, not a MainGame/log-viewer screen.",
+    "Prepared components and already-paid result fixtures are not normal title ingress, natural full-roll play, or complete casino gameplay. Same-frame explicit buffer flushing and roll processing freeze remain declared test mechanics.",
+    "Observed product findings are not repaired in303. ORDER-354 is a declaration, not completed evidence; original303 stays open/REWORK until a separate scoped follow-up after repair."
+  ],
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "ordinary_title_ingress",
+    "natural_completed_random_roll",
+    "MainGame_or_logviewer_screen",
+    "mouse_or_gamepad_input",
+    "other_resolutions",
+    "audio",
+    "package_or_release",
+    "full_product"
+  ],
+  "retained_boundaries": "ORDER-302 source-only GO does not become successor-package GO. Parent/product/package HOLD, historical public exact-package GO1, human OPEN45 and prior source-specific decisions remain unchanged. No human gate, physical/native approval, or release authority is asserted."
+}

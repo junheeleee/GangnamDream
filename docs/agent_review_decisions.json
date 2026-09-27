@@ -4229,5 +4229,46 @@
         "sha256": "a5b342d3c4311111210300ae4da6dfbd24e78f77698a8773be1de870b8244473"
       }
     }
+    ,
+    {
+      "id": "order-303-source-7a69b426-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-27",
+      "decided_by": "/root/screen_independent_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-303",
+      "subject": {
+        "kind": "source",
+        "commit": "7a69b426ba88161d0752c17add598ac8479d4491",
+        "tree": "45be31b19ed0f7964d460b46d7627038506c4d3d",
+        "manifest_sha256": null
+      },
+      "verdict": "REWORK",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-303.json",
+          "sha256": "f8be3f61db78601ebd68d8c34617270bd1e488a58cd9d1b8f56a7dc4f657a87d"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "ordinary_title_ingress",
+        "natural_completed_random_roll",
+        "MainGame_or_logviewer_screen",
+        "mouse_or_gamepad_input",
+        "other_resolutions",
+        "audio",
+        "package_or_release",
+        "full_product"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-303.json",
+        "sha256": "f8be3f61db78601ebd68d8c34617270bd1e488a58cd9d1b8f56a7dc4f657a87d"
+      }
+    }
   ]
 }
