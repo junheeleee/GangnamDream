@@ -161,3 +161,6 @@ bootstrap에서 fresh32hex RuntimeQA 경로를 먼저 설정·검증한다. 전�
 이미 뜻이 명확하다. 이7 source leaf의 지역21 accepted 슬롯0·overlay 소유중복0.
 EN 월세는304의 exact 파일핀 밖이므로 새 successor 역투영을 별도 선언하고 과거
 핀을 덮어쓰지 않는다. 원고5파일(arc KO/EN + 지역 story_demo3), 기계효과는 불변이다.
+
+2026-09-27: 잔여2/6/7은 [305](ORDER-305.md), 그 exact 역사 검사 호환은
+[306](ORDER-306.md)으로 분리 선언했다. 이 부모는 EN 문체5·실제화면·새후보 OPEN/HOLD다.
