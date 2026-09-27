@@ -60,6 +60,61 @@ KO/EN으로 읽었다. 경로에 따라 사실이 갈리는 곳은 `MainGame.gd`
 | 10 | 같은 장면 본문, 같은 EN | “지난 3년 가까이, 먼저 연락해본 적이 거의 없었다.” M13 선택 3, M15 선택 1, M19, M25 등에서 먼저 연락한 경로가 있다. | “이유 없이 먼저 걸어 본 전화는 거의 없었다”처럼 모든 경로에서 참인 문장으로. |
 | 11 | `content/events/arc_year_close.json` `arc_year3_close` | t=144에 **모든 런**에서 뜨는데 본문과 세 선택이 “재혁의 이름이 들어간 신청서(자기 서명)”와 “아버지의 오래된 보증서”를 올해 다시 연 서류로 전제한다. 신청서는 재혁에게 돈을 넣고 잠수 장면(`arc_jaehyuk_ghost_seen`)을 본 런에만 있다. `jaehyuk_refused` 런과 제안 전 런에서는 없는 서류를 꺼낸다. | 기존 `description_variants` 구조로 `arc_jaehyuk_ghost_seen`이 없는 런의 본문 변형을 추가한다(아버지 보증서만 다시 연 해). 선택지 문구가 변형을 지원하지 않으면 “두 서류”를 “올해 다시 연 서류”로 일반화한다. gameplay key와 플래그는 추가하지 않는다. |
 
+## 2026-09-27 표적 수리 결과 — 통합 HOLD
+
+- 제품 전용 `ef896982207de456042e4288cba651553feb38b1`(직접 부모 `d8fbf31`):
+  KO/EN9파일41leaf + JA/CN/TW12파일45leaf, 총21JSON86leaf(기존81/새조건5).
+  신규 조건은 각 언어 `arc_year3_close.description_if_known.arc_jaehyuk_ghost_seen`
+  마지막 키 하나이며 옛 기본 본문을 그대로 보존했다. 기존5변형·순서·효과·ID·일정 불변.
+- 1~10의 설 인사·통화 화자·영어 보류/시제·시간 회상·상철의 실제 대답·현수의
+  호칭/일요일 휴무를 맞췄다. 11은 ghost 없는 기본 본문에서 없는 신청서/서명을
+  빼고 공통 선택/결과를 개수 중립으로 수리했다. EN 기본 본문의 `{name}`4→3만
+  부재한 자기 서명 삭제에 따른 의도적 예외이며 나머지 기존 token/newline 불변이다.
+- 기존42receipt 갱신/새 ghost3 수용, 공식40299→40302·b139→140.
+  이전139batch·meta9·보류72·native OPEN·전체 INCOMPLETE 보존.
+  각15leaf fresh check/import PASS. CN 최초 export 뒤 저자의 후속 수정은 실제
+  `target changed since export`로 거부됐고 CN v2 export/check/import로 재결속했다.
+  옛3batch stale 거부도 유지한다. pre-export는 locale 저작 전이지만 KO1~10 수정 후다.
+- 실제 StoryMode/KO·EN/ghost 양경로/선택3의12흐름, 기존5변형 우선순위를 포함한
+ 32본문 상태·84페이지 비어 있지 않음·선택별 기존 flag를 확인했다.
+  `ORDER350_STORY_OK descriptions=32 flows=12 pages=84 languages=ko,en ghost=both prior_flags=5`.
+  최종 증거 `.git/full-game-localization/order350-screen-gmnzz9u9/`의 exit0·3로그 오류0,
+  실행 전후 소스15 SHA 동일. KO/EN × ghost 선택화면4 PNG를 root/비저자가 모두 읽었다.
+- 준비된 상태·직접 handler 호출/빠른 타이핑·tween 진행의 자동 관찰이다. 자연 입력·정상
+  속도 통독·본문 전체 스크린샷 증명은 아니다. PNG는 선택 화면만이며 본문 증거는
+  live resolver 대조와 실제 label 비공백이다. 사용자34파일 불변은 runner assertion이며
+  전후 원시 hash 목록이 결과에 없어 독립 재계산은 불가하다. runner 자체 hash도 실행
+  결과에 없으며 현 runner 검토를 과거 실행 신원 증명으로 올리지 않는다.
+- 초기 helper 오류3회(타입 추론/존재하지 않는 메서드/메서드를 속성으로 접근), 실행파일
+  없음1회, 선택 fade 전 캡처1회를 보존한다. 최종 캡처 대기를 수리했으며 제품 엔진 수정0.
+  성공 실행의 임시 namespace만 정확히 제거했고 실제 저장을 정리하지 않았다.
+- 수용 후6명령 **5 PASS/1 FAIL**: 일반감사 ERROR0/WARNING0·이야기 정합·i18n coverage·
+  영어 한글0·localization264 PASS. full-body는 기존313 exact guard의 EN2파일/ledger
+  **3실패**만 남고 receipt 오류는0이다. 앞선 수용 전47실패도 보존한다. EN coverage
+  별도PASS·영향78선택은 전체78실행이 아니다. 전체 audit.sh/240주 재실행0.
+- 주요 증거: `order350-self-check.json`(86leaf/45receipt/3신규/보호13),
+  `order350-static-summary.json`(초기3정적), `order350-post-summary.json`(후속6정적,
+  SHA `9edf3db751997c6e9be52c47d7f89b40e4e72066cba55c0a4408ef4470aef48b`).
+  모두 `.git/full-game-localization/` 아래이며 실행 당시 HEAD는 선언 d8fbf31의 dirty
+  제품 바이트다. 제품 commit에서 새로 실행했다고 세지 않는다.
+- 직접 후속 4장 결산4변형의 “두 서류”는 [359](ORDER-359.md)에 별도 선언했다.
+  원형 pin/모듈을 덮지 않고 [358](ORDER-358.md)에서350/359 현재·역사 검증을 연결한다.
+  본 작업은 `[~]`/HOLD이며 다음 두 범위는 아직 미실행이다. 독립 최종 source 판정은
+  마감 commit 뒤 별도로 결속한다. 공개GO1·인간OPEN45·본편/새package HOLD 보존.
+- 개발 스킬의 선언·파일 소유 분리·직접 한국어 번역·표적 검증을 적용했다.
+  상시 정본 규칙 추가0, 일회성/기존 WORK_UNIT·I18N·P-9 적용이다. 자동 게이트는
+  도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+
+```text
+도달 경로      : ORDER350_STORY_OK descriptions=32 flows=12 pages=84 languages=ko,en ghost=both prior_flags=5
+생산자 ↔ 독자   : content/events/arc_year_close.json:225 ↔ content/events/arc_year_close.json:279
+바꾸는 상태     : 기존 year3_eyes_open/year3_weighted/year3_avoidant 각 false → true (12흐름)
+포기 시 잃는 것 : 기존 선택3 중 택1 / 후속 arc_year4_close·father_passed의 year3 변형
+서사 위치       : chapter3.M36 / m36_year_three_boss / arc_year3_close
+장면 계층       : 기존 결산 사실 수리, 신규 tier·확장 저작 없음
+닫는 것         : 없음 — 원고 표적 수리, 통합358 및 후속359 미완료
+```
+
 ## 판단만 남기는 항목 (이 오더에서 고치지 않는다)
 
 - **M27 `arc_jaehyuk_03_pitch`가 읽는 `memory.m11_first_open_door`는 도달하지 않는

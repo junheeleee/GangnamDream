@@ -2,6 +2,15 @@
 
 > 상단 안전 여백 수리 전 전체 원문은 [2026-09-27 보존본](history/WORK_LOG_2026-09-27_pre_header.md)에 있다. 보존본의 상대 링크는 당시 docs/WORK_LOG.md 위치 기준이다.
 
+## 2026-09-27 (Codex — 3장 선택·회상·호칭 수리, 검증 연결은 HOLD)
+
+- [350](queue_active/ORDER-350.md): 설 인사·통화 화자·재혁 제안의 보류/현재형·상철의 실제 대답·현수 호칭/일요일 휴무를 맞췄다. 결산은 재혁 잠수를 보지 않은 경로에 없는 신청서/서명을 꺼내지 않고, 본 경로의 옛 본문은 마지막 조건부 키로 보존한다. 기존5변형/효과/ID/일정/선택 수는 불변이다.
+- 제품 `ef896982207de456042e4288cba651553feb38b1`의21JSON86leaf(기존81/새조건5), ledger 기존42갱신/새3 외 변경0. KO/EN41 + JA/CN/TW45를 비저자가 전수 읽었다. EN 기본 `{name}`4→3은 없는 자기 서명 삭제이며 다른 기존 token/newline은 보존했다. 한국어 직접 번역의 각15leaf check/import PASS, 이전139batch 유지·40302/b140/meta9·보류72다. CN target stale 거부 뒤 v2 재수용과 옛3batch source stale 거부를 기록했다.
+- 실제 격리 StoryMode에서 KO/EN·ghost양쪽·선택3의12흐름, 기존5변형을 포함한32본문 상태와84페이지 비공백·선택flag를 확인했다. 최종 `order350-screen-gmnzz9u9` exit0/3로그 오류0/소스15 SHA 동일이며 선택화면4PNG를 root/비저자가 읽었다. 준비 상태/직접 handler/빠른 진행이지 자연 입력·정상 통독·전체 본문 시각 검수는 아니다. 사용자34파일 불변은 runner assertion만 저장돼 독립 재계산 불가하고 runner 자체 실행 SHA도 없다. 초기 helper3오류·실행파일없음·fade전 캡처를 남겼고 성공 namespace만 정확히 정리했다.
+- 수용 후 정적6명령 **5 PASS/1 FAIL**, localization264 포함. full-body의 EN2파일+ledger source guard3 실패는 그대로이며 locale receipt 오류0다. 이전47실패·원형305/310/316/309/313 pin·과거 판정 보존. EN coverage 별도PASS, 영향78선택은78실행/전체 shell 통과가 아니다. `.git/full-game-localization/order350-post-summary.json` SHA `9edf3db751997c6e9be52c47d7f89b40e4e72066cba55c0a4408ef4470aef48b`, 모든22제품 SHA 전후 동일. 검사는 선언HEAD dirty 바이트에서 수행했고 새 commit 재실행으로 세지 않는다.
+- [359](queue_active/ORDER-359.md)에 실제 발견한 다음 해 결산4변형/5언어의 “두 서류” 수리를, [358](queue_active/ORDER-358.md)에 현재·역사 검증 연결8도구를 각각 분리했다. 아직 둘 다 미실행이며350은 `[~]`/HOLD다. 깨끗한 최종 source에 독립 판정을 추가할 예정이고 기존113판정/91보고·인간/공개/사용자 변경은 보존한다.
+- 개발 스킬의 선행 선언·소유 분리·한국어 직접 번역·표적 검증·독립 전수 검토를 적용했다. 규범은 일회성/기존 WORK_UNIT·I18N·P-9, 새 상시 규칙0이다. 자동 검사는 계약 증거이지 재미·깊이·문체나 사람 GO가 아니다. 원어민/인간/물리패드·JA/ZH 화면·패키지 검수 미관측, 공개GO1·인간OPEN45·본편/302 새package HOLD. 외부출시·스토어·지출0이다.
+
 ## 2026-09-27 (Codex — 2장 원고·번역 기록의 통합 검증)
 
 - [357](queue_archive/ORDER-357.md)의 도구8개를 수리해 앞서 고친 시간·영어20문구와 기존번역receipt9를 실제 검사 소비자에 연결했다. 실제 원고/번역/게임플레이 수정0이다. 현재19경로 입구와 KO/EN4파일11leaf 역사 비교를 분리하고 post305 본문 비교·EN midgame 양세대·Daeun indexed/raw·year5 역사합집합7을 보존한다.
