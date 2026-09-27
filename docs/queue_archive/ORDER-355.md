@@ -1,8 +1,32 @@
-# Active Queue Spec: ORDER-355
+# Archived Queue Spec: ORDER-355
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-355 [P1·검증] 1장 원고 수리의 현재 소스와 역사 비교를 분리한다
+#### [x] ORDER-355 [P1·검증] 1장 원고 수리의 현재 소스와 역사 비교를 분리한다
+
+## 2026-09-27 완료 — 검증 수리 작업 한정 GO
+
+- 최종 source `03059e52a20bdbaefcb194422a3d71ef53ea9833`, tree
+  `88eadbea821bbe26ebf6dd288095fe66062e4cc1`에 비저자 독립 GO다.
+  [보고](../agent_reviews/ORDER-355.json) SHA
+  `87e64e49ddce663caa8baf446d1333b86e436777ec261723e1081a2722f8b84e`.
+- 현재7파일/17leaf·ledger/receipt9 guard와 역사4파일/8leaf 분리를 다섯 소비자에 적용했다.
+  새 module286·원형301(132+106+63), 본문63·graph139·chapter5146·year5798·chapter1604를
+  포함한 명시23명령이 PASS다. 원래305/310/316 module·핀·corpus는 불변이다.
+- 검사 실행은 선언HEAD의 dirty 후보에서 했고 최종clean source와 코드/입력 SHA 및
+  실제 차이를 독립 결속했다. clean commit 재실행이 아니다. 초반 검사의 module proof-scope
+  변경과 chapter1 시작snapshot의 year5 e6a5→1884 한 관측 연결 차이는 보고에서 구분한다.
+  실제 실행/실패49증거 묶음 SHA
+  `6467c49ae6d24d664576918e3a08e064b54bb3446162e0eff973aeaea29616ae`.
+- 300/600초 timeout·실제 실패5·옛310/316 직접 CLI FAIL을 보존했다. 원형301 함수 통과를
+  그 옛CLI 통과로 바꾸지 않는다.1장665.260초,5년차467.445초로 전체 자체 검사를 완료했다.
+- 이번 게임/원고/locale/receipt 수정0, 원래309의8제품파일은 정확히 보존했다. 원래309의
+  5 PASS/4 FAIL과354의15 PASS/7 FAIL도 그대로다.309에는 별도 후속 독립 GO를 적용했다.
+- 전체75검사/14엔진·240주·실제 화면/입력·원어민/인간/물리/새package 관측0.
+  인간OPEN45·옛 공개GO1·공식40299/b137/meta9·보류72 유지, 본편/새package HOLD다.
+  자동 검사는 계약 증거이지 재미·깊이·문체나 사람 판정이 아니다.
+
+## 아래는 선언 및 실행 중 기록 (원형 보존)
 
 2026-09-27 Codex 발행. [309](ORDER-309.md)의 원고17/기존receipt9 수리는 적합하지만
 실제 정적 검사4개가 새 원문을 거절했다. 원고를 되돌리거나 옛 승인 핀을 덮는 대신

@@ -4396,6 +4396,88 @@
         "path": "docs/agent_reviews/ORDER-309.json",
         "sha256": "49f7b2b32976992286384b6220cff99c93c04305b1fca4d07bd86be0841f38b3"
       }
+    },
+    {
+      "id": "order-355-source-03059e5-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-27",
+      "decided_by": "/root/screen_independent_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-355",
+      "subject": {
+        "kind": "source",
+        "commit": "03059e52a20bdbaefcb194422a3d71ef53ea9833",
+        "tree": "88eadbea821bbe26ebf6dd288095fe66062e4cc1",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-355.json",
+          "sha256": "87e64e49ddce663caa8baf446d1333b86e436777ec261723e1081a2722f8b84e"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "fresh_rendered_screens",
+        "engine_execution",
+        "natural_input",
+        "full_240_week_playthrough",
+        "package_or_export_validation",
+        "complete_75_check_eight_file_selection",
+        "full_chapter_or_all_English_tense_quality",
+        "internal_product_GO",
+        "Original354 seven broader failures and all old human/public judgments remain unchanged."
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-355.json",
+        "sha256": "87e64e49ddce663caa8baf446d1333b86e436777ec261723e1081a2722f8b84e"
+      }
+    },
+    {
+      "id": "order-309-source-03059e5-agent-followup",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-27",
+      "decided_by": "/root/screen_independent_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-309",
+      "subject": {
+        "kind": "source",
+        "commit": "03059e52a20bdbaefcb194422a3d71ef53ea9833",
+        "tree": "88eadbea821bbe26ebf6dd288095fe66062e4cc1",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-309-followup.json",
+          "sha256": "aaaf02826f38412e818cc3ed7ce0aa3189574129f97a1127b9f386fbad3e4d49"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "fresh_rendered_screens",
+        "engine_execution",
+        "natural_input",
+        "full_240_week_playthrough",
+        "package_or_export_validation",
+        "complete_75_check_eight_file_selection",
+        "full_chapter_or_all_English_tense_quality",
+        "internal_product_GO",
+        "Original354 seven broader failures and all old human/public judgments remain unchanged."
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-309-followup.json",
+        "sha256": "aaaf02826f38412e818cc3ed7ce0aa3189574129f97a1127b9f386fbad3e4d49"
+      }
     }
   ]
 }

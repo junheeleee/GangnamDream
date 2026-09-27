@@ -1,8 +1,29 @@
-# Active Queue Spec: ORDER-309
+# Archived Queue Spec: ORDER-309
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-309 [P1·본편] 1장 후반 M07~M12 대본의 장소·영어 정합을 고친다
+#### [x] ORDER-309 [P1·본편] 1장 후반 M07~M12 대본의 장소·영어 정합을 고친다
+
+## 2026-09-27 후속 완료 — 원고와 해당 통합 검증 작업 한정 GO
+
+- 최종 source `03059e52a20bdbaefcb194422a3d71ef53ea9833`, tree
+  `88eadbea821bbe26ebf6dd288095fe66062e4cc1`에서 [별도 독립 후속](../agent_reviews/ORDER-309-followup.json)
+  GO. 보고 SHA `aaaf02826f38412e818cc3ed7ce0aa3189574129f97a1127b9f386fbad3e4d49`.
+  355 GO를 상속하지 않고 원래 `309-INTEGRATION-01/02`를 각각 해소한 판정이다.
+- 원고17/receipt9·8제품파일은 앞선 `506e4c8` 및 `2d68cc2`와 byte-identical이다.
+  현수의 별도 건물 오독·작별 영어 직역·원문 없는 ‘처음’을 고친 독립 전수 판독을 보존한다.
+  현재도 같은 고시원 거주라는 단정, 조건/효과/스케줄 변경, 원문 없는 관계 진전은 없다.
+- [355](ORDER-355.md)에 사전 선언한 원래7원고/ledger1 적용23명령을 모두 통과하고,
+  현재값 검증·역사 비교 분리와 다섯 실제 소비자/변조 음성을 검수했다. 각 실행은 기록된
+  dirty 바이트에 결속되며 새 clean source에서 재실행했다는 주장은 없다.
+- 원래9개5 PASS/4 FAIL·두 HOLD 보고 및354의15 PASS/7 FAIL은 원형 그대로다.
+  자동선택75명령/14엔진 전체 실행, 전체1장 승인·M11 재혁 구조 수리·영어 시제 전역 정렬을
+  대신 주장하지 않는다. 이 작업을 닫고 다음313의 착수 선행만 충족한다.
+- 새 원어민/인간/물리/화면/입력/엔진/package 관측0, 인간OPEN45·옛 공개GO1 유지,
+  공식40299/meta9·보류72 불변. 본편/새package HOLD이며 외부 출시 권한을 추가하지 않는다.
+  자동 검사는 계약 증거이지 재미·깊이·문체나 사람 판정이 아니다.
+
+## 아래는 선언 및 최초 HOLD 기록 (원형 보존)
 
 **2026-09-27 Claude 발행.** 본편 대본 정합 검토 계획
 ([FULL_GAME_SCRIPT_REVIEW](../queue_backlog/FULL_GAME_SCRIPT_REVIEW.md))의 배치

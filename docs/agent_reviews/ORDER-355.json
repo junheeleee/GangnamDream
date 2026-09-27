@@ -1,0 +1,122 @@
+{
+  "schema": "gangnamdream-independent-work-unit-review/v1",
+  "unit_id": "ORDER-355",
+  "scope": "work_unit",
+  "review_stage": "independent_source_bound_final",
+  "decided_by": "/root/screen_independent_review",
+  "decision": "GO",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "03059e52a20bdbaefcb194422a3d71ef53ea9833",
+    "tree": "88eadbea821bbe26ebf6dd288095fe66062e4cc1",
+    "manifest_sha256": null
+  },
+  "independence": "Nonauthor of all eight verification-tool changes and original309 prose/receipts. Read source/diffs/raw evidence independently and ran only bounded in-memory Python boundary probes. Authored only private reviewer evidence and these two new review reports; no product, engine, ledger or prior-report mutation.",
+  "outcome": "GO for the declared current-source admission and exact historical-consumer integration repair only. The23-command bounded lane is complete; required in-scope findings are resolved without refreshing historical pins or suppressing failures.",
+  "source_binding": {
+    "observed_at_utc": "2026-09-27T11:15:15.297752+00:00",
+    "observed_head": "03059e52a20bdbaefcb194422a3d71ef53ea9833",
+    "observed_tree": "88eadbea821bbe26ebf6dd288095fe66062e4cc1",
+    "observed_clean": true,
+    "resolver": {
+      "kind": "source",
+      "commit": "03059e52a20bdbaefcb194422a3d71ef53ea9833",
+      "tree": "88eadbea821bbe26ebf6dd288095fe66062e4cc1",
+      "manifest_sha256": null
+    },
+    "execution_identity": "The selected executions were made against implementation bytes while HEAD was declaration890d798, not against the later clean03059e52 commit. The module-author records omit execution HEAD; their recorded file hashes and corpus outputs bind those observations. No clean-commit rerun is claimed.",
+    "reviewed_bridges": [
+      "Early full-body, graph and chapter5 executions retain unchanged consumer source bytes. The later module delta only adds one-validation fresh Git-proof sharing, context cleanup and16 regression cases; outer admission still freshly validates the same raw15 files. The new286-case module run and final301 original-corpus run cover this change.",
+      "Chapter1's final604-case execution began with year5 e6a5e378 in its source map. Chapter1 itself ff1a9933 and current module d1775db6 match final. Direct source inspection found year5's path only in an audit-selector expected-path set, not a loaded validator or ORDER316 self_test call. The subsequent year5 change is exactly one positive raw-observation connection, independently checked; final year5 normal/798 and original301-03 run with year5 1884af8f.",
+      "CLAUDE's current row and ORDER355 execution notes are documentation changes explicitly reviewed in the new source identity. They do not imply a new execution. All original repair8 file bytes remain identical to506e4c8 and2d68cc2."
+    ],
+    "final_delta": "Exactly eight declared verification-tool files plus CLAUDE.md and docs/queue_active/ORDER-355.md; no runtime, story, locale, receipt, human, project or package edit."
+  },
+  "scope_review": {
+    "current_admission": "Seven JSON/17 text leaves plus one ledger/nine revalidated receipts are bound to exact immutable parent/population/blob hashes. Current15-path admission rejects rollback, wrong path/hash, raw/payload mismatch and extra changes.",
+    "historical_view": "Only four KO/EN files/eight leaves project, then compose316/310/305. Three prepared-language files/nine leaves and current nine receipts never project. Accepted40299 and old136 batches remain unchanged; batch137 revalidation does not add translations.",
+    "live_consumers": "Full-body keeps current inventory while binding target ID/path/vector before historical hash comparison, including recomputed-hash rollback negatives. Graph binds target indexes to the same admitted raw snapshots. Chapter5 and chapter1 use actual current guards. Year5 census exemption requires fresh immutable155 proof and full composed bytes equal that exact baseline, not a filename exclusion.",
+    "additional_repairs": "Chapter1 proof comparison first binds the complete current cache to raw JSON, then projects only a copied cache; its156 positive observation uses the same raw-bound316 view as production. The267 wrapper accumulates current and historical-registry errors. Year5 has seven unchanged old corpus functions and one exact positive-observation connection change; original pins/negative cases and all262 top-level constants (including3 annotated) are preserved.",
+    "freshness": "Fresh proof is shared within one validate_manifest invocation only, reset on normal/exceptional exit, and re-read on the next invocation/fixture. The new155 census reads its immutable baseline uncached.",
+    "registry": "21 explicitly declared commands plus2 always checks select23 unique exact command/argument pairs, zero engine commands. Duplicate audit/context rules merge without losing any prior path pattern. The lane is explicit-only; unrelated general routing is not narrowed to hide failures."
+  },
+  "verification": {
+    "selected_commands": 23,
+    "selected_passes": 23,
+    "hashed_evidence_artifacts": 49,
+    "current_source_pins_checked": 24,
+    "case_observations": {
+      "new_module": 286,
+      "original305": 132,
+      "original310": 106,
+      "original316": 63,
+      "original_corpus_total": 301,
+      "full_body": 63,
+      "story_graph": 139,
+      "chapter5": 146,
+      "year5": 798,
+      "chapter1": 604,
+      "full_localization": 264,
+      "agent_decision": 222
+    },
+    "case_note": "Counts belong to their respective commands and overlap; they are not summed into a distinct total population.",
+    "long_runs": "Year5798 completed467.445s with rc0 and empty stderr. Chapter1 whole604 completed665.260s with rc0/empty stderr; raw reports probes409, full_validations27, full_fallbacks19, plus its existing internal census full2/skip21/fallback1. No original assertion was removed to obtain completion.",
+    "independent_actual_boundaries": "18 chapter5/chapter1 cases (2 current baselines and16 raw rollback/drift rejections),14 proof-binding cases,3 composed-diagnostic cases, and the year5 exact single-callsite/raw/pin/neighbor review passed. Their immutable records retain the source hashes actually tested.",
+    "failures_preserved": "Five earlier completed355 failures and two timeouts remain in the artifact manifest. Chapter1's600s timeout has only a saved launcher failure excerpt; child stdout/stderr were not retained, and no completion is inferred. The year5 timeout and798/1-failure record remain unchanged. Old310 and316 direct CLIs still return1 under their original latest-source contracts; they are not relabeled PASS. The new current gate plus unchanged301 original regression functions is reported separately.",
+    "stderr_note": "Localization's264-test stderr is its normal unittest progress/Ran264/OK stream, not an ignored failing error. Embedded actual-check dictionaries were inspected and contain no false checks."
+  },
+  "required_findings": [],
+  "required_in_scope_findings_remaining": 0,
+  "preservation": {
+    "original309_product_and_receipt_files": 8,
+    "product_bytes_equal_to": [
+      "506e4c8ff6e4bf9265706845b4994b6203a05533",
+      "2d68cc28e4e129694ba561809536528cc4a3d913"
+    ],
+    "prior_agent_decisions": 106,
+    "prior_report_files": 84,
+    "protected_paths": 22,
+    "prior309_evidence_artifacts": 15,
+    "details": "Independently rehashed the two original309 private reports and exact tracked copies, complete106-decision ledger, all84 prior reports, protected human/project/public-source paths and original305/310/316 modules. All remained byte-identical before these two new reports. Original309 saved9 commands retain5 PASS/4 FAIL; original354 retains15 PASS/7 FAIL.",
+    "authority": "Human OPEN45 and public GO1 remain unchanged; that GO belongs only to its old exact package. Internal product and successor package remain HOLD. No fresh user-save census was performed or claimed."
+  },
+  "evidence": [
+    {
+      "path": ".git/full-game-localization/order355-evidence-manifest.json",
+      "sha256": "6467c49ae6d24d664576918e3a08e064b54bb3446162e0eff973aeaea29616ae"
+    },
+    {
+      "path": ".git/full-game-localization/order355-review-final-binding.json",
+      "sha256": "c7eef0fce28aa720b99799d4de210d276c838d61c1a9eb8ec4cc49fae486e815"
+    },
+    {
+      "path": ".git/full-game-localization/order355-review-preservation-preparation.json",
+      "sha256": "e8f2be7e512a8c51428a3cd0ae17e24c32551f11b9ea3a0245ecae1106b42e0b"
+    },
+    {
+      "path": ".git/full-game-localization/order355-review-live-boundaries.json",
+      "sha256": "a2a9934679b8c537e58aba6535de73966f092d399f25554e2475190ea7dcc1e2"
+    },
+    {
+      "path": ".git/full-game-localization/order355-review-proof-binding.json",
+      "sha256": "08bab9760b2ffa704694bf691cab4006eab504cd32e925b42c22fa361348de3e"
+    },
+    {
+      "path": ".git/full-game-localization/order355-review-composed-diagnostics.json",
+      "sha256": "591b4fd1f15f4adb0bc08a6f011981a329ba3eb56d88494a5a69aed024b96983"
+    },
+    {
+      "path": ".git/full-game-localization/order355-review-year5-observation.json",
+      "sha256": "7b36a2ac30e974578639d5b104f0d13021ef0de4804867182f887492cfe4fcd5"
+    }
+  ],
+  "unobserved": [
+    "Work-unit source/verification decision only; not internal-product, public, native-reader, human-playtest, physical-controller or package/release GO.",
+    "Original seven-prose-file74 and eight-file75 automatic selections, including14 engine checks, were not executed as a whole. The explicitly declared23-command lane is the applicable bounded evidence, not a replacement claim of75 PASS.",
+    "No game/engine run, graphical screenshot, natural input, full240-week playthrough or new translation/native-quality observation.",
+    "Year5 remains reference_only/topology invalidated/r1b_allowed=false. Chapter1 normal remains a valid snapshot with weeks25..48 gap24, authoritative24/48, debt_codes8 and blocked3; these are not closed by this review.",
+    "Full EN-tense normalization, M05/M11 Jaehyuk scheduling/structural choice, M11 EXPAND authorship, full localization and all prior broader release debts remain outside these units."
+  ],
+  "completion_statement": "ORDER355's declared verification repair is complete at the observed source. ORDER309 receives a separate independent follow-up, not an inherited355 GO."
+}

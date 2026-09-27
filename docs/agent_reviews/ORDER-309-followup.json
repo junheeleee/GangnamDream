@@ -1,0 +1,125 @@
+{
+  "schema": "gangnamdream-independent-work-unit-review/v1",
+  "unit_id": "ORDER-309",
+  "scope": "work_unit",
+  "review_stage": "independent_source_bound_followup",
+  "decided_by": "/root/screen_independent_review",
+  "decision": "GO",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "03059e52a20bdbaefcb194422a3d71ef53ea9833",
+    "tree": "88eadbea821bbe26ebf6dd288095fe66062e4cc1",
+    "manifest_sha256": null
+  },
+  "independence": "The original nonauthor reviewer independently combined the prior complete17-leaf/9-receipt judgment with fresh exact-file preservation, current consumer source review, actual bounded evidence and a clean-source resolver observation. This decision does not borrow ORDER355's verdict.",
+  "outcome": "GO for ORDER309's specified location/English corrections and their current-source integration. Both original blocking findings are resolved at this source; original HOLD reports and failed executions remain historical evidence, not rewritten approvals.",
+  "source_binding": {
+    "observed_at_utc": "2026-09-27T11:15:15.297752+00:00",
+    "observed_head": "03059e52a20bdbaefcb194422a3d71ef53ea9833",
+    "observed_tree": "88eadbea821bbe26ebf6dd288095fe66062e4cc1",
+    "observed_clean": true,
+    "resolver": {
+      "kind": "source",
+      "commit": "03059e52a20bdbaefcb194422a3d71ef53ea9833",
+      "tree": "88eadbea821bbe26ebf6dd288095fe66062e4cc1",
+      "manifest_sha256": null
+    },
+    "execution_identity": "The selected executions were made against implementation bytes while HEAD was declaration890d798, not against the later clean03059e52 commit. The module-author records omit execution HEAD; their recorded file hashes and corpus outputs bind those observations. No clean-commit rerun is claimed.",
+    "reviewed_bridges": [
+      "Early full-body, graph and chapter5 executions retain unchanged consumer source bytes. The later module delta only adds one-validation fresh Git-proof sharing, context cleanup and16 regression cases; outer admission still freshly validates the same raw15 files. The new286-case module run and final301 original-corpus run cover this change.",
+      "Chapter1's final604-case execution began with year5 e6a5e378 in its source map. Chapter1 itself ff1a9933 and current module d1775db6 match final. Direct source inspection found year5's path only in an audit-selector expected-path set, not a loaded validator or ORDER316 self_test call. The subsequent year5 change is exactly one positive raw-observation connection, independently checked; final year5 normal/798 and original301-03 run with year5 1884af8f.",
+      "CLAUDE's current row and ORDER355 execution notes are documentation changes explicitly reviewed in the new source identity. They do not imply a new execution. All original repair8 file bytes remain identical to506e4c8 and2d68cc2."
+    ],
+    "final_delta": "Exactly eight declared verification-tool files plus CLAUDE.md and docs/queue_active/ORDER-355.md; no runtime, story, locale, receipt, human, project or package edit."
+  },
+  "prior_reviews": [
+    {
+      "path": "docs/agent_reviews/ORDER-309-initial.json",
+      "sha256": "f56dc9426b458d29e0c522c41d8e8d8f91296dc27cccc9a4a4761cb28631cae7",
+      "verdict": "HOLD",
+      "status": "Unchanged; incorporated original prose/receipt review."
+    },
+    {
+      "path": "docs/agent_reviews/ORDER-309.json",
+      "sha256": "49f7b2b32976992286384b6220cff99c93c04305b1fca4d07bd86be0841f38b3",
+      "verdict": "HOLD",
+      "status": "Unchanged; incorporated identity/75-selection correction and original blockers."
+    }
+  ],
+  "prose_and_receipt_judgment": {
+    "text_leaves": 17,
+    "files": 7,
+    "current_receipts": 9,
+    "accepted": 40299,
+    "historical_batches_preserved": 136,
+    "total_batches": 137,
+    "location": "KO/EN/JA/CN/TW Hyunsu pass/fail descriptions and fail choice2 result remove the separate-building reading without asserting the player still lives next door after moving. The fourth-day encounter details and after-move branches remain as reviewed.",
+    "english": "The goodbye choice3 preserves the Korean meaning naturally ('Yet those were not the only things he remembered.'). The reunion choice1 removes only unsupported 'For the first time' and retains canon-present tense.",
+    "unchanged": "All eight whole product/receipt bytes equal the originally reviewed506e4c8 and2d68cc2 versions. Gameplay, IDs, choice/effect/condition/order, token/newline structure and out-of-scope prose remain unchanged. Current JA/CN/TW source/target receipts retain the new values, not historical projections.",
+    "review_reuse": "No redundant new prose reading or rendered observation is claimed; exact current byte identity preserves the original complete nonauthor quality review."
+  },
+  "required_findings": [
+    {
+      "id": "309-INTEGRATION-01",
+      "status": "RESOLVED",
+      "finding": "Current admission and frozen comparison were incompatible with the approved repair.",
+      "resolution": "Exact7/17+receipt9 live admission and4/8 comparison-only inverse now feed the actual five consumers. Full-body63, graph139, chapter5 normal/146, year5 normal/798 and chapter1 normal/604 pass with tamper/rollback/neighbor/proof negatives. Original305/310/316 modules/pins and301 cases remain intact. Old316/310 standalone CLI failures are retained as older-contract limitations, not falsely reported as passed original commands."
+    },
+    {
+      "id": "309-INTEGRATION-02",
+      "status": "RESOLVED",
+      "finding": "The original9-command subset did not establish the whole unit's applicable gate.",
+      "resolution": "The separately declared355 specification explicitly owns the original seven prose files plus receipt ledger and defines the applicable23-command engine-free lane. The reviewer checked the exact command/argument population, actual23 PASS records, current eight-file identity, EN coverage and receipt regression, the consumer boundaries, and the fresh source subject. This is a new independent work-unit judgment using that declared bounded gate—not prose acceptance alone, another unit's GO, or a claim that the automatic75/14-engine selection ran."
+    }
+  ],
+  "required_in_scope_findings_remaining": 0,
+  "verification_boundary": "23 distinct selected commands passed across the documented dirty implementation candidates and are explicitly bound to the final source by unchanged data/consumer bytes and reviewed proof-scope/observation connections. No command is claimed rerun at clean03059e52. Chapter1's year5 e6a5→1884 snapshot difference is reviewed above; final year5 and original301 run on1884.",
+  "preservation": {
+    "original309_product_and_receipt_files": 8,
+    "product_bytes_equal_to": [
+      "506e4c8ff6e4bf9265706845b4994b6203a05533",
+      "2d68cc28e4e129694ba561809536528cc4a3d913"
+    ],
+    "prior_agent_decisions": 106,
+    "prior_report_files": 84,
+    "protected_paths": 22,
+    "prior309_evidence_artifacts": 15,
+    "details": "Independently rehashed the two original309 private reports and exact tracked copies, complete106-decision ledger, all84 prior reports, protected human/project/public-source paths and original305/310/316 modules. All remained byte-identical before these two new reports. Original309 saved9 commands retain5 PASS/4 FAIL; original354 retains15 PASS/7 FAIL.",
+    "authority": "Human OPEN45 and public GO1 remain unchanged; that GO belongs only to its old exact package. Internal product and successor package remain HOLD. No fresh user-save census was performed or claimed."
+  },
+  "evidence": [
+    {
+      "path": ".git/full-game-localization/order355-evidence-manifest.json",
+      "sha256": "6467c49ae6d24d664576918e3a08e064b54bb3446162e0eff973aeaea29616ae"
+    },
+    {
+      "path": ".git/full-game-localization/order355-review-final-binding.json",
+      "sha256": "c7eef0fce28aa720b99799d4de210d276c838d61c1a9eb8ec4cc49fae486e815"
+    },
+    {
+      "path": ".git/full-game-localization/order355-review-preservation-preparation.json",
+      "sha256": "e8f2be7e512a8c51428a3cd0ae17e24c32551f11b9ea3a0245ecae1106b42e0b"
+    },
+    {
+      "path": ".git/full-game-localization/order355-final-long-11.json",
+      "sha256": "5e04f83cb9c5c5eac95851438f59f1ba8999927051aa86ad5385926acc881cbb"
+    },
+    {
+      "path": ".git/full-game-localization/order355-year5-self-test-composed.json",
+      "sha256": "8d4738815756fc30a47cbf44d3dea96fbb4105d044b8c3fb6e93080cd62b2dab"
+    },
+    {
+      "path": ".git/full-game-localization/order355-module-historical-self-test-03.json",
+      "sha256": "219224c6b9703209cee47c90ed534d998eebefb28e59e6c2d4b6d1388a8da99b"
+    }
+  ],
+  "unobserved": [
+    "Work-unit source/verification decision only; not internal-product, public, native-reader, human-playtest, physical-controller or package/release GO.",
+    "Original seven-prose-file74 and eight-file75 automatic selections, including14 engine checks, were not executed as a whole. The explicitly declared23-command lane is the applicable bounded evidence, not a replacement claim of75 PASS.",
+    "No game/engine run, graphical screenshot, natural input, full240-week playthrough or new translation/native-quality observation.",
+    "Year5 remains reference_only/topology invalidated/r1b_allowed=false. Chapter1 normal remains a valid snapshot with weeks25..48 gap24, authoritative24/48, debt_codes8 and blocked3; these are not closed by this review.",
+    "Full EN-tense normalization, M05/M11 Jaehyuk scheduling/structural choice, M11 EXPAND authorship, full localization and all prior broader release debts remain outside these units."
+  ],
+  "completion_statement": "The original309 repair and required integration follow-up are complete at work_unit scope. R2 may proceed under its own declaration. Full-product/new-package HOLD, human/native gates and prior354's seven failed broader checks remain unclosed."
+}
