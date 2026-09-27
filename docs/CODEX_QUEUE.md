@@ -52,7 +52,7 @@
 |---:|:---:|---|---|---|
 | 1 | [~] | ORDER-302 · 체험판 대본 사실·영어 정합 수리 | [302](queue_active/ORDER-302.md) | 수리7항목 source GO · successor package 별도 선언/검수 HOLD |
 | 2 | [~] | ORDER-351 · 본편 4장 대본 아버지 행방·영어 표기 정합 | [351](queue_active/ORDER-351.md) | 문구87·5언어 화면64상태 확인 · 통합2종 FAIL → 361·362 · HOLD |
-| 3 | [ ] | ORDER-361 · 4장 수리 현재·역사 검증 연결 | [361](queue_active/ORDER-361.md) | 351 입구6경로 실패 후속 · 8도구 · 미실행 |
+| 3 | [~] | ORDER-361 · 4장 수리 현재·역사 검증 연결 | [361](queue_active/ORDER-361.md) | 착수 — 만지는 파일: 새351검증·소비자5·audit 등록2 · 기존 실패 보존 |
 | 4 | [ ] | ORDER-362 · 4장 수리 콘텐츠 지문 재검토 | [362](queue_active/ORDER-362.md) | crime/alcohol 두 축+생성표 · 361 뒤 · 미실행 |
 | 5 | [ ] | ORDER-352 · 본편 5장 대본 이름·시간·회수 정합 | [352](queue_active/ORDER-352.md) | 5장 HOLD 수리 닫힌 뒤 착수 · 미실행 |
 

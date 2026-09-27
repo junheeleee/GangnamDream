@@ -2,10 +2,29 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [ ] ORDER-361 [P1·검증] 4장 문구 수리의 현재 소스와 역사 비교를 연결한다
+#### [~] ORDER-361 [P1·검증] 4장 문구 수리의 현재 소스와 역사 비교를 연결한다
 
 2026-09-28 Codex 발행. 351에서 실제 관측한 full-body current admission
-6경로 실패의 별도 후속이다. 구현·새 도구 실행은 아직 하지 않았다.
+6경로 실패의 별도 후속이다. 아래 착수 선언 후 구현한다.
+
+## 2026-09-28 착수 — 파일 소유와 검증
+
+- 기준 `c580791ec534d82632a230bd77d14f5b99a6f041`, clean main. 현재 작업 프로필은
+  현지화의 원문/수용 기록 검증이며 새 번역·빌드·출시 검수로 확대하지 않는다.
+- `/root/compat357`: 새 `tools/order351_source_compat.py` 한 파일.
+- `/root/screen_path_probe`: 아래 기존 소비자5 파일만. 옛350 별칭·corpus는
+  그대로 두고 현재351 입구와 추가 반례를 분리한다.
+- root: `tools/audit_scope.json`, `tools/audit.sh`와 아래 마감 문서/원장.
+  `/root/r3_route_probe`: 비저자 독립 검수, 제품/검사 저작 없이 전수 경계 검토.
+- private 실행 증거는 `.git/full-game-localization/order361-*`에 보존한다.
+  소스 동결 후 normal/self/historical 및 명시 차선의 실제 결과를 기록하며
+  선행351 화면64상태/70PNG를 재실행하지 않는다. 새 Git 검증·코드 변경이므로
+  그 표적 회귀는 새로 실행한다. 실패/재실행은 별개로 보존한다.
+- 마감은 이 사양·351 후속 상태·큐2·WORK_LOG·CLAUDE 현재행·생성 STATUS,
+  새 `docs/agent_reviews/ORDER-361.json`와 판정 원장 append만 소유한다.
+  현재351 HOLD와362 미착수, 인간 원장·공개 후보·제품12파일은 보존한다.
+- 이 선언은 일회성이고 기존 WORK_UNIT/I18N 규칙을 적용한다. 독립 최종 검수는
+  실제 clean 소스 신원에 결속하며 자동 PASS를 원어민/인간/물리 관찰로 바꾸지 않는다.
 
 ## 깊이 3문
 
