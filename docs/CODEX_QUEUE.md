@@ -52,7 +52,7 @@
 |---:|:---:|---|---|---|
 | 1 | [~] | ORDER-302 · 체험판 대본 사실·영어 정합 수리 | [302](queue_active/ORDER-302.md) | 수리7항목 source GO · successor package 별도 선언/검수 HOLD |
 | 2 | [~] | ORDER-309 · 본편 1장 후반 대본 장소·영어 정합 | [309](queue_active/ORDER-309.md) | 원고17/receipt9 적합 · 통합HOLD · 후속355 |
-| 3 | [ ] | ORDER-355 · 1장 원고 후속 소스·역사 검증 연결 | [355](queue_active/ORDER-355.md) | 309 원고 수리 뒤 검증 경계 · 미착수 |
+| 3 | [~] | ORDER-355 · 1장 원고 후속 소스·역사 검증 연결 | [355](queue_active/ORDER-355.md) | 착수 · 현재7/17·receipt9 보호와 역사4/8 분리 |
 | 4 | [ ] | ORDER-313 · 본편 2장 대본 시간·영어 정합 | [313](queue_active/ORDER-313.md) | 309 뒤 착수 · 원격 R2 보존 · 미실행 |
 | 5 | [ ] | ORDER-350 · 본편 3장 대본 경로·회수·영어 정합 | [350](queue_active/ORDER-350.md) | 313 뒤 착수 · 미실행 |
 | 6 | [ ] | ORDER-351 · 본편 4장 대본 아버지 행방·영어 표기 정합 | [351](queue_active/ORDER-351.md) | 350 뒤 착수 · 미실행 |

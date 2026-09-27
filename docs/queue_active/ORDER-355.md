@@ -2,12 +2,12 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [ ] ORDER-355 [P1·검증] 1장 원고 수리의 현재 소스와 역사 비교를 분리한다
+#### [~] ORDER-355 [P1·검증] 1장 원고 수리의 현재 소스와 역사 비교를 분리한다
 
 2026-09-27 Codex 발행. [309](ORDER-309.md)의 원고17/기존receipt9 수리는 적합하지만
 실제 정적 검사4개가 새 원문을 거절했다. 원고를 되돌리거나 옛 승인 핀을 덮는 대신
-확정된 후속 변경만 검증하는 한 배치다. **미착수**이며 아래는 소유 예정 범위다.
-구현 전에 `[~]` 선언 커밋과 소유 분할을 먼저 한다. 사용자 재서명 대기는 아니다.
+확정된 후속 변경만 검증하는 한 배치다. **2026-09-27 착수**하며 아래 범위만 소유한다.
+선언 커밋 뒤 구현한다. 사용자 재서명 대기는 아니다.
 
 ## 깊이 3문
 
@@ -31,7 +31,7 @@
 - year5의155 파일 목록 비교는 단순 파일명 제외가 아니다. admitted 후속 파일의 전체
   역합성 바이트가 해당 immutable155 baseline과 같을 때만 설명된 차이로 처리한다.
 
-## 예정 파일 소유 (구현 전 재확인)
+## 선언 파일 소유
 
 - 새 `tools/order309_source_compat.py` — 위 경계·Git proof·raw/payload/hash view·음성 회귀.
 - `tools/full_body_translation_scope.py`, `tools/story_graph_contract_audit.py`,
@@ -44,6 +44,18 @@
   agent ledger 새355 및309 후속 판정, `docs/agent_reviews/ORDER-355.json`·`ORDER-309-followup.json`.
   private 증거는 `.git/full-game-localization/order355-*`로 분리한다.
 - 원고/locale/receipt/런타임/인간/project/기존305·310·316 module은 비소유다.
+
+### 실행 분할과 적용 차선 (일회성)
+
+- `header_layout`: 새 `tools/order309_source_compat.py`와 자체 음성/역사 회귀.
+- `screen_path_probe`: `tools/year5_reference_route_audit.py` 한 파일의 연결과 표적 검증.
+- root: 나머지 소비자4·registry·필요 시 audit.sh·위에 선언한 마감 문서/증거.
+- `screen_independent_review`: 비저자 독립 검수, 제품/도구 편집 없음.
+- 적용 차선은 원고309의7 JSON·ledger1과 이번 검증 도구8파일에만 한정한다.
+  current admission/self-test, 원래305/310/316 역사 corpus, 다섯 소비자 normal/self-test,
+  localization receipt self-test·KO/EN 구조/누출·audit.py·선택기·문서/큐 검사를 실행한다.
+  이번 변경은 게임/엔진/입력 바이트0이므로 엔진·240주·75개 전체 검사를 대신 주장하지 않는다.
+  기존 선택기 일반 차선은 완화하지 않고 새 호환 검사만 명시 등록한다.
 
 ## 완료 게이트
 
