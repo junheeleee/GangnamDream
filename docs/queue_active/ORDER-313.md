@@ -86,3 +86,19 @@ R2다. story_map M13~M24 root 15장면(첫해 장부, 상철 인맥, 아버지 �
   PASS. 해시 고정 검사가 걸리면 기존 소유 오더의 갱신 규칙을 따른다.
 - `WORK_LOG`와 이 사양 머리말·큐 행 상태를 함께 갱신한다.
 - 원어민·외부 플레이테스트 게이트는 OPEN으로 남는다.
+
+## 2026-09-27 구현·표적 검증 — 통합 HOLD
+
+- 제품 `ac02dbc6a18126dda25e8fea8562faff18c1a365`에서 정확15문구와 기존receipt6을
+  고쳤다. 별도356의5문구/receipt3과 함께 7JSON20leaf 외 raw·구조·효과·순서·토큰·개행
+  불변을 확인했다. source export 전후6+6·fresh check/import6쌍·stale batch6 거부,
+  기존 accepted40299·137이력 보존, 새 이력2만 추가해b139이며 새번역0이다.
+- 저장한 정적9명령 **6 PASS/3 FAIL**. PASS: localization264·audit·story consistency·
+  i18n coverage·English Hangul·EN coverage. FAIL: full-body63중6실패, graph4오류,
+  309guard286 corpus의 current admission. 실패와 stdout은 private `order313-static-*`에
+  보존한다. 선택79개는 목록만 보았고 전량/엔진/240주 실행0이다.
+- 문구 전수 독립 사전 검토는 적합이다. 최종 source-bound 판정 전이며 위 통합 실패는
+  [357](ORDER-357.md)로 분리했다. 기존 핀을 덮거나 검사 통과로 바꾸지 않았다.
+- 증거: `.git/full-game-localization/order313-self-check.json`, `order313-self-review.md`.
+  root의 첫 raw 대조가 잡은 EN 들여쓰기2칸 변화는 원형으로 복원한 뒤 같은 검사를 통과했다.
+  규범은 일회성/기존 P-9·I18N·WORK_UNIT 적용. 새 화면/인간/원어민/물리/package 관측0.
