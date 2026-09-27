@@ -2,7 +2,7 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [ ] ORDER-350 [P1·본편] 3장 M25~M36 대본의 경로·회수·영어 정합을 고친다
+#### [~] ORDER-350 [P1·본편] 3장 M25~M36 대본의 경로·회수·영어 정합을 고친다
 
 **2026-09-27 Claude 발행.** 본편 대본 정합 검토 계획
 ([FULL_GAME_SCRIPT_REVIEW](../queue_backlog/FULL_GAME_SCRIPT_REVIEW.md))의 배치
@@ -16,10 +16,35 @@ KO/EN으로 읽었다. 경로에 따라 사실이 갈리는 곳은 `MainGame.gd`
 1. **왜 지금인가?** 3장은 재혁 투자 여부와 상철 진실이 갈리는 장이다. 뒤 장면이
    앞 선택을 잘못 인용하면 플레이어가 "내 선택이 무시됐다"고 느낀다.
 2. **무엇을 바꾸지 않는가?** gameplay key, 선택 수, 효과, 이벤트 ID, 스케줄 조건,
-   경제 수치는 바꾸지 않는다. 8번만 기존 `description_variants` 구조를 쓴다.
+   경제 수치는 바꾸지 않는다. 11번만 실제 소비되는 기존 조건부 본문 구조를 쓴다.
 3. **순서는?** 2장 오더(ORDER-313) 뒤. 본편 HOLD와 사람 게이트는 바꾸지 않는다.
 
 ## 수리 목록
+
+### 2026-09-27 착수 — 만지는 파일과 검수 경계
+
+- 313·356·357의 독립 작업 GO 뒤 시작한다. 기준 `20dbcfa`의 사용자 변경0.
+- 원고 저자: `content/events/arc_midgame.json`, `content/events/arc_drama.json`,
+  `content/events/arc_year3_drama.json` 및 `content/events_en/arc_events.json`,
+  `content/events_en/arc_midgame.json`, `content/events_en/arc_drama.json`,
+  `content/events_en/arc_year3_drama.json`의 1~10번 표적 text leaf만.
+- root: `content/events/arc_year_close.json`, `content/events_en/arc_year_close.json`의
+  11번 본문/선택/결과와 기존 조건부 본문 구조, `content/meta/full_game_localization.json`의
+  해당 leaf 수용 기록만. 명시한 새 조건부 본문 외 gameplay/효과/ID/순서/스케줄 불변.
+- 번역 저자: `content/events_ja/`, `content/events_zh-CN/`, `content/events_zh-TW/`의
+  `arc_midgame.json`, `arc_drama.json`, `arc_year3_drama.json`, `arc_year_close.json`
+  12파일 중 바뀐 한국어 대응 leaf만. 각 지역은 한국어에서 직접 번역하며
+  이전 export와 새 source/target hash를 따로 보존하고 check/import로 수용한다.
+- 비저자: 실제 분기 소비·원고 전체 차이·증거 읽기 전용 검수. 파일 저작과 분리한다.
+- 마감 소유: 이 사양·CODEX_QUEUE·WORK_LOG·생성 STATUS·CLAUDE 현재 한 행,
+  새 `docs/agent_reviews/ORDER-350.json`과 agent 판정 추가만. 실행/화면 증거와
+  임시 harness는 `.git/full-game-localization/order350-*`에 둔다.
+- #11 사양의 `description_variants`는 실제 엔진 소비 필드가 아니다.
+  `StoryMode._resolved_story_description`의 `description_if_known`/기본 본문을 사용하며
+  기존5변형 우선순위와 ghost/no-ghost·KO/EN 실제 소비를 검증한다. 새 엔진 기능은 만들지 않는다.
+- 고정 해시 검사가 수리 원문을 거절하면 실패를 남기고 검증 연결만 별도 후속 범위로
+  선언한다. 옛 source pin/역사 판정/공개 데모/인간 원장은 덮지 않는다.
+- 위 지시는 일회성이다. 본편·새package HOLD, 원어민/인간/물리 관찰과 자동 검증은 별도다.
 
 | # | 위치 | 결함 | 수리 방향 |
 |---:|---|---|---|
