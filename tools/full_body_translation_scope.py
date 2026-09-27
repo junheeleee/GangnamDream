@@ -40,6 +40,7 @@ from event_lifecycle import (  # noqa: E402
     event_id_digest,
 )
 from event_schedule import DeferredFollowUpError, deferred_follow_ups  # noqa: E402
+import order305_demo_source_compat as demo_source  # noqa: E402
 
 
 SCHEMA_VERSION = 1
@@ -99,6 +100,12 @@ EXPECTED = {
     "target_shipping_leaves": {"ja": 108, "zh-CN": 100, "zh-TW": 100},
     "target_m07_m60_leaves": {"ja": 8, "zh-CN": 8, "zh-TW": 8},
 }
+
+# Current raw-source observation, separate from the predecessor ratchet above.
+# The exact five-file guard and copied historical leaf proof bind this change.
+ORDER305_SHIPPING_SOURCE_SHA256 = (
+    "cb3dc8bdbbe3edbe1255d19ee3d68a6c55a04a9e2ebfc73e74f0aeff0ac1918e"
+)
 
 # Preserve the original target baseline independently of later accepted batches.
 # These are the public-demo 14 roots (100 leaves), plus the existing JA-only
@@ -803,6 +810,12 @@ def _baseline_target_errors(
     return errors
 
 
+def _order305_historical_events(events: Mapping[str, SourceEvent]) -> dict[str, SourceEvent]:
+    """Copy only exact successor objects; current inventory/receipts stay raw."""
+    return {eid: replace(event, row=demo_source.project_payload(
+        [event.row], event.source_file)[0]) for eid, event in events.items()}
+
+
 def current_target_acceptance(
     root: Path, events: Mapping[str, SourceEvent],
     leaf_index: Mapping[str, tuple[TextLeaf, ...]],
@@ -828,7 +841,11 @@ def current_target_acceptance(
                                  for leaf in leaf_index.get("story_prologue_goal", ()))
         texts = {(eid, leaf.path): leaf.source for eid, leaves in target_leaves[language].items()
                  for leaf in leaves}
-        errors.extend(_baseline_target_errors(language, baseline_keys, texts,
+        historical_leaves = collect_leaf_index(
+            _order305_historical_events(target_events[language]), errors)
+        historical_texts = {(eid, leaf.path): leaf.source
+                            for eid, leaves in historical_leaves.items() for leaf in leaves}
+        errors.extend(_baseline_target_errors(language, baseline_keys, historical_texts,
                                              FROZEN_TARGET_BASELINE_SHA256[language]))
         for eid in target_events[language]:
             if eid not in {key[0] for key in baseline_keys} and not target_leaves[language].get(eid):
@@ -925,7 +942,7 @@ def _source_file_digest(root: Path, errors: list[str]) -> str:
 
 def build_scope(root: Path | str = ROOT) -> tuple[dict[str, Any], list[str]]:
     repo = Path(root).resolve()
-    errors: list[str] = []
+    errors: list[str] = demo_source.current_source_errors(repo)
 
     lifecycle_inputs = collect_lifecycle_inputs(repo)
     lifecycle = evaluate_author_only(lifecycle_inputs)
@@ -1183,7 +1200,8 @@ def _expected_observation_errors(report: Mapping[str, Any]) -> list[str]:
         "public_demo_events": protected.get("public_demo_event_count"),
     }
     for key, actual in observed.items():
-        expected = EXPECTED[key]
+        expected = (ORDER305_SHIPPING_SOURCE_SHA256
+                    if key == "shipping_source_leaves_sha256" else EXPECTED[key])
         if actual != expected:
             errors.append(
                 f"current source observation {key} drifted: "
@@ -1496,7 +1514,7 @@ def run_self_test(root: Path | str = ROOT) -> tuple[list[str], int]:
         "source observations expose exact hashes",
         shipping.get("event_ids_sha256") == EXPECTED["shipping_event_ids_sha256"]
         and shipping.get("source_leaves_sha256")
-        == EXPECTED["shipping_source_leaves_sha256"]
+        == ORDER305_SHIPPING_SOURCE_SHA256
         and static.get("event_ids_sha256")
         == EXPECTED["m07_m60_event_ids_sha256"]
         and static.get("source_leaves_sha256")
@@ -1504,6 +1522,15 @@ def run_self_test(root: Path | str = ROOT) -> tuple[list[str], int]:
     )
 
     from full_game_localization import PROMPT_VERSION, Leaf
+
+    history_errors: list[str] = []
+    historical_index = collect_leaf_index(_order305_historical_events(
+        load_source_events(Path(root), history_errors)), history_errors)
+    historical_shipping = [leaf for event in shipping.get("events", [])
+                           for leaf in historical_index.get(event["id"], ())]
+    require("ORDER-305 preserves the exact preceding Korean leaf fingerprint",
+            not history_errors and leaves_sha(historical_shipping)
+            == EXPECTED["shipping_source_leaves_sha256"])
 
     # The source-denominator increase is exactly the six previously omitted
     # foreshadows. Removing only those leaves must reproduce both old source
@@ -1513,10 +1540,9 @@ def run_self_test(root: Path | str = ROOT) -> tuple[list[str], int]:
         (static, "682b871a66662b36f7f18e97c9c41623c558bd06d2b403b47c40e8ecadcc37a8"),
     ):
         scope_ids = set(scope.get("event_ids", [event["id"] for event in shipping.get("events", [])]))
-        legacy = [TextLeaf(event["id"], leaf["path"], leaf["source"], leaf["chapter5_reader"])
-                  for event in shipping.get("events", []) if event["id"] in scope_ids
-                  for leaf in event["leaves"]
-                  if not leaf["path"].endswith(".foreshadow")]
+        legacy = [leaf for event_id in scope_ids
+                  for leaf in historical_index.get(event_id, ())
+                  if not leaf.path.endswith(".foreshadow")]
         require("foreshadow addition preserves every legacy Korean leaf", leaves_sha(legacy) == old_hash)
     hints = {(event["id"], leaf["path"]) for event in shipping.get("events", [])
              for leaf in event["leaves"] if leaf["path"].endswith(".foreshadow")}

@@ -26,6 +26,7 @@ from pathlib import Path
 from typing import Any, Callable, Iterable, Iterator
 
 import main_game_locale_history as locale_history
+import order305_demo_source_compat as demo_source
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -6003,6 +6004,7 @@ def order304_reunion_transition_self_test() -> tuple[list[str], int]:
 
 def order156_project_bytes(current: bytes, relative: str) -> bytes:
     """Expose an older byte only from the complete exact ORDER-156 leaf."""
+    current = demo_source.project_bytes(current, relative)
     current = order304_reunion_project_bytes(current, relative)
     current = locale_history.main_game_history_project_bytes(current, relative)
     current = order220_preview_project_bytes(current, relative)
@@ -6021,7 +6023,8 @@ def order156_project_bytes(current: bytes, relative: str) -> bytes:
 
 def order156_project_payload(payload: Any, relative: str) -> Any:
     """Inverse only an exact ORDER-156 JSON manifest successor."""
-    projected = order304_reunion_project_payload(payload, relative)
+    projected = order304_reunion_project_payload(
+        demo_source.project_payload(payload, relative), relative)
     if relative not in {ORDER156_AUDIO_PATH, ORDER156_DIRECTION_PATH}:
         return projected
     try:
@@ -6038,7 +6041,8 @@ def order156_project_payload(payload: Any, relative: str) -> Any:
 
 def order156_project_byte_hash(current_hash: str, relative: str) -> str:
     """Map only an exact ORDER-156 successor hash to its predecessor."""
-    current_hash = order304_reunion_project_byte_hash(current_hash, relative)
+    current_hash = order304_reunion_project_byte_hash(
+        demo_source.project_byte_hash(current_hash, relative), relative)
     current_hash = _order243_history_byte_hash(current_hash, relative)
     current_hash = order220_preview_project_byte_hash(current_hash, relative)
     current_hash = order215_modal_project_byte_hash(current_hash, relative)
@@ -6275,7 +6279,13 @@ def order155_project_byte_hash(current_hash: str, relative: str) -> str:
 
 def order155_project_context(context: AuditContext) -> AuditContext:
     """Restore exactly seven current KO event objects for older receipts."""
-    projected = order304_reunion_project_context(context)
+    projected = copy.deepcopy(context)
+    for language in ("ko", "en"):
+        for records in projected.event_indexes.get(language, {}).values():
+            if len(records) == 1:
+                record = records[0]
+                record.row = demo_source.project_payload([record.row], record.path)[0]
+    projected = order304_reunion_project_context(projected)
     for relative, transitions in \
             ORDER155_EVENT_OBJECT_TRANSITIONS_BY_FILE.items():
         for event_id, transition in transitions.items():
@@ -6328,21 +6338,68 @@ def order155_git_registration_snapshot(
          ORDER155_DIRECTION_PATH, ORDER155_IMAGE_REGISTRY_PATH],
         cwd=ROOT, check=False, capture_output=True, text=True)
     product_paths = {path for path in product.stdout.splitlines() if path}
-    if ORDER304_REUNION_PATH in product_paths:
+    for relative in (demo_source.KO_PATH, demo_source.EN_PATH):
+        if relative not in product_paths:
+            continue
         try:
-            current = (ROOT / ORDER304_REUNION_PATH).read_bytes()
-            baseline = git_blob(ORDER155_PRODUCT_BASELINE, ORDER304_REUNION_PATH)
+            current = (ROOT / relative).read_bytes()
+            baseline = git_blob(ORDER155_PRODUCT_BASELINE, relative)
         except (OSError, ValueError):
             pass  # Retain the unexplained path so the existing census fails closed.
         else:
-            if order304_reunion_census_exempt(ORDER304_REUNION_PATH, current, baseline):
-                product_paths.remove(ORDER304_REUNION_PATH)
+            if order305_census_exempt(relative, current, baseline):
+                product_paths.remove(relative)
     return (
         parent.returncode, parent.stdout.strip(),
         wrapper.returncode, wrapper.stdout.strip(),
         product.returncode,
         frozenset(product_paths),
     )
+
+
+def order305_census_exempt(relative: str, current: bytes, baseline: bytes) -> bool:
+    if relative not in (demo_source.KO_PATH, demo_source.EN_PATH):
+        return False
+    projected = order156_project_bytes(current, relative)
+    return projected != current and projected == baseline
+
+
+def order305_transition_self_test() -> tuple[list[str], int]:
+    failures, cases = demo_source.self_test()
+
+    def check(ok: bool, label: str) -> None:
+        nonlocal cases
+        cases += 1
+        if not ok:
+            failures.append("ORDER-306: " + label)
+
+    for language, path in (("ko", demo_source.KO_PATH), ("en", demo_source.EN_PATH)):
+        previous, current = demo_source.verified_blobs(path)
+        baseline = git_blob(ORDER155_PRODUCT_BASELINE, path)
+        old = strict_loads(previous.decode("utf-8"), path)
+        new = strict_loads(current.decode("utf-8"), path)
+        expected = order304_reunion_project_payload(old, path)
+        check(order156_project_payload(new, path) == expected, path + " payload composition")
+        check(order156_project_bytes(current, path) == baseline, path + " byte composition")
+        check(order156_project_byte_hash(byte_sha256(current), path) == byte_sha256(baseline),
+              path + " hash composition")
+        records = {row["id"]: [EventRecord(path, row)] for row in new}
+        context = AuditContext({"ko": {}, "en": {}, language: records}, [(path, "raw sentinel")])
+        saved = copy.deepcopy(context)
+        projected = order155_project_context(context)
+        check([projected.event_indexes[language][row["id"]][0].row for row in new] == expected
+              and context == saved and projected.runtime_sources == context.runtime_sources,
+              path + " copied context composition")
+        check(order305_census_exempt(path, current, baseline), path + " census positive")
+        for label, candidate_path, candidate, old_bytes in (
+            ("other path", path + ".other", current, baseline),
+            ("no-op", path, baseline, baseline),
+            ("mutation", path, current + b" ", baseline),
+            ("wrong baseline", path, current, baseline + b" "),
+        ):
+            check(not order305_census_exempt(candidate_path, candidate, old_bytes),
+                  path + " census rejects " + label)
+    return failures, cases
 
 
 @functools.lru_cache(maxsize=None)
@@ -10726,9 +10783,11 @@ def validate_manifest(
     extra_runtime_sources: Iterable[tuple[str, str]] = (),
 ) -> tuple[list[str], dict[str, int]]:
     errors: list[str] = []
+    errors.extend(demo_source.current_source_errors())
     try:
         errors.extend(order304_reunion_source_errors(
-            (ROOT / ORDER304_REUNION_PATH).read_bytes(), ORDER304_REUNION_PATH))
+            demo_source.project_bytes((ROOT / ORDER304_REUNION_PATH).read_bytes(),
+                                      ORDER304_REUNION_PATH), ORDER304_REUNION_PATH))
     except OSError as exc:
         errors.append(f"ORDER-304: current EN source unavailable ({exc})")
     routes = validate_surface(manifest, errors)
@@ -13515,6 +13574,9 @@ def main() -> int:
         reunion_failures, reunion_cases = order304_reunion_transition_self_test()
         failures.extend(reunion_failures)
         cases += reunion_cases
+        demo_failures, demo_cases = order305_transition_self_test()
+        failures.extend(demo_failures)
+        cases += demo_cases
         if failures:
             for failure in failures:
                 print(f"YEAR5_REFERENCE_ROUTE_SELF_TEST_ERROR {failure}")

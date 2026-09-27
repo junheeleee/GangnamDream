@@ -18,6 +18,8 @@ import sys
 from dataclasses import dataclass
 from typing import Any, Callable
 
+import order305_demo_source_compat as order305_compat
+
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CONTRACT_PATH = os.path.join(ROOT, "content", "meta", "story_graph_contract.json")
@@ -319,10 +321,14 @@ def sha256(value: bytes) -> str:
     return hashlib.sha256(value).hexdigest()
 
 
-def event_index(folder: str) -> dict[str, dict[str, Any]]:
+def event_index(
+    folder: str, source_bytes: dict[str, bytes]
+) -> dict[str, dict[str, Any]]:
     events: dict[str, dict[str, Any]] = {}
     for path in sorted(glob.glob(os.path.join(ROOT, folder, "*.json"))):
-        data = load_json(path)
+        relative = os.path.relpath(path, ROOT)
+        data = json.loads(source_bytes[relative]) \
+            if relative in source_bytes else load_json(path)
         if not isinstance(data, list):
             continue
         for event in data:
@@ -389,9 +395,16 @@ class Inputs:
     fixture: dict[str, Any]
     fixture_bytes: bytes
     main_source: str
+    source_bytes: dict[str, bytes]
 
 
 def load_inputs() -> Inputs:
+    # Admission uses the live bytes, never a historical projection. The KO/EN
+    # indexes below consume these same snapshots rather than reopening them.
+    source_bytes: dict[str, bytes] = {}
+    for relative in order305_compat.PATHS:
+        with open(os.path.join(ROOT, relative), "rb") as handle:
+            source_bytes[relative] = handle.read()
     contract = load_json(CONTRACT_PATH)
     fixture_path = os.path.join(ROOT, str(contract["demo_protection"]["fixture"]))
     fixture_bytes = open(fixture_path, "rb").read()
@@ -400,16 +413,45 @@ def load_inputs() -> Inputs:
         story_map=load_json(MAP_PATH),
         rules=load_json(RULES_PATH),
         lifecycle=load_json(LIFECYCLE_PATH),
-        events_ko=event_index("content/events"),
-        events_en=event_index("content/events_en"),
+        events_ko=event_index("content/events", source_bytes),
+        events_en=event_index("content/events_en", source_bytes),
         fixture=json.loads(fixture_bytes),
         fixture_bytes=fixture_bytes,
         main_source=open(MAIN_PATH, encoding="utf-8").read(),
+        source_bytes=source_bytes,
     )
 
 
 def validate(data: Inputs) -> list[str]:
     errors: list[str] = []
+    if set(data.source_bytes) != set(order305_compat.PATHS):
+        errors.append("ORDER-305 current source snapshot paths drifted")
+    for relative in order305_compat.PATHS:
+        raw = data.source_bytes.get(relative)
+        if not isinstance(raw, bytes):
+            errors.append(f"ORDER-305 current source snapshot missing: {relative}")
+            continue
+        source_errors = order305_compat.source_errors(raw, relative)
+        errors.extend(source_errors)
+        if source_errors:
+            continue
+        indexed = {
+            "content/events/arc_events.json": data.events_ko,
+            "content/events_en/arc_events.json": data.events_en,
+        }.get(relative)
+        if indexed is not None:
+            # In-memory mutation fixtures must not substitute a historical
+            # changed event while presenting the approved live bytes as proof.
+            # Leave unrelated graph mutation cases to their original checks.
+            changed_ids = {patch[0] for patch in order305_compat.PATCHES[relative]}
+            for event in json.loads(raw):
+                event_id = event["id"]
+                if event_id not in changed_ids:
+                    continue
+                if canonical_bytes(indexed.get(event_id)) != canonical_bytes(event):
+                    errors.append(
+                        f"ORDER-305 indexed event differs from live snapshot: {relative}#{event_id}"
+                    )
     contract = data.contract
     if contract.get("schema_version") != 1:
         errors.append("story_graph_contract.schema_version must be 1")
@@ -501,8 +543,9 @@ def validate(data: Inputs) -> list[str]:
             or mirror_legacy.get("produces_any") != mirror_branch_flags:
         errors.append("Sangchul mirror receipt rule contract drifted")
 
-    # Public M01-M06 protection uses semantic event slices rather than whole
-    # source-file hashes, so legitimate M08+ edits in a shared file are allowed.
+    # The immutable M01-M06 semantic pin remains unchanged. ORDER-305's exact
+    # admitted successor is viewed through a copied inverse only here; all
+    # graph checks continue to inspect the real, unprojected event indexes.
     demo = contract.get("demo_protection", {})
     if sha256(data.fixture_bytes) != demo.get("fixture_sha256"):
         errors.append("story_demo_rc fixture bytes drifted")
@@ -529,7 +572,10 @@ def validate(data: Inputs) -> list[str]:
         if event is None:
             errors.append(f"demo source event missing: {path}#{event_id}")
             continue
-        semantic_rows.append({"path": path, "event_id": event_id, "event": event})
+        historical_event = order305_compat.project_payload([event], path)[0]
+        semantic_rows.append({
+            "path": path, "event_id": event_id, "event": historical_event,
+        })
     if sha256(canonical_bytes(semantic_rows)) != demo.get(
         "source_event_semantics_sha256"
     ):
@@ -1052,6 +1098,66 @@ def run_self_test(base: Inputs) -> tuple[list[str], int]:
     def _(data: Inputs) -> None:
         month(data.story_map, 1)["beats"][0]["root"] = "arc_self_test"
 
+    # Each approved prose leaf still fails closed if it changes again. The
+    # projection may recognize a complete successor object, not a text pattern.
+    order305_leaves = (
+        ("arc_sangchul_01_meet", ("description",)),
+        ("arc_sangchul_01_meet", ("description_orthodox",)),
+        ("arc_sangchul_01_meet", ("description_unorthodox",)),
+        ("arc_sangchul_01_answer", ("choices", 0, "result_text")),
+        ("arc_sangchul_01_answer", ("choices", 1, "result_text")),
+        ("arc_temptation_clean", ("description",)),
+    )
+    for event_id, leaf_path in order305_leaves:
+        def mutate_prose(
+            data: Inputs, event_id: str = event_id,
+            leaf_path: tuple[str | int, ...] = leaf_path,
+        ) -> None:
+            parent: Any = data.events_ko[event_id]
+            for part in leaf_path[:-1]:
+                parent = parent[part]
+            parent[leaf_path[-1]] += " self-test unapproved prose"
+        cases.append((f"order305_prose_drift:{event_id}:{leaf_path}", mutate_prose))
+
+    @case("order305_effect_drift")
+    def _(data: Inputs) -> None:
+        data.events_ko["arc_sangchul_01_meet"]["choices"][0].setdefault("effects", {})[
+            "mental"
+        ] = 999
+
+    @case("order305_other_demo_file_drift")
+    def _(data: Inputs) -> None:
+        data.events_ko["arc_daeun_01_meet"]["description"] += " self-test drift"
+
+    @case("order305_fixture_source_path_drift")
+    def _(data: Inputs) -> None:
+        data.fixture["nodes"][0]["source"]["path"] = "content/events/other.json"
+
+    @case("order305_fixture_bytes_drift")
+    def _(data: Inputs) -> None:
+        data.fixture_bytes += b"\n"
+
+    for relative in order305_compat.PATHS:
+        def mutate_raw(data: Inputs, relative: str = relative) -> None:
+            data.source_bytes[relative] += b"\n"
+        cases.append((f"order305_raw_drift:{relative}", mutate_raw))
+
+    @case("order305_missing_raw_snapshot")
+    def _(data: Inputs) -> None:
+        data.source_bytes.pop("content/events_zh-TW/story_demo_events.json")
+
+    @case("order305_historical_raw_is_not_live_admission")
+    def _(data: Inputs) -> None:
+        relative = "content/events/arc_events.json"
+        data.source_bytes[relative] = order305_compat.verified_blobs(relative)[0]
+
+    @case("order305_historical_event_cannot_mask_mutation")
+    def _(data: Inputs) -> None:
+        previous, _current = order305_compat.verified_blobs("content/events/arc_events.json")
+        event = next(row for row in json.loads(previous)
+                     if row["id"] == "arc_sangchul_01_meet")
+        data.events_ko[event["id"]] = event
+
     @case("network_w52_prelaunch")
     def _(data: Inputs) -> None:
         data.main_source = data.main_source.replace(
@@ -1302,18 +1408,26 @@ def run_self_test(base: Inputs) -> tuple[list[str], int]:
         beats = month(data.story_map, 24)["beats"]
         beats[0], beats[2] = beats[2], beats[0]
 
+    baseline_before = copy.deepcopy(base)
     baseline_errors = validate(base)
+    if base != baseline_before:
+        failures.append("semantic projection mutated its current input")
     if baseline_errors:
         failures.append(
             "baseline must pass before self-test: " + "; ".join(baseline_errors[:3])
         )
-        return failures, len(cases)
+        return failures, len(cases) + 1
     for name, mutate in cases:
         candidate = copy.deepcopy(base)
         mutate(candidate)
-        if not validate(candidate):
+        errors = validate(candidate)
+        if not errors:
             failures.append(f"self-test mutation escaped: {name}")
-    return failures, len(cases)
+        if not name.startswith("order305_") and any(
+            error.startswith("ORDER-305") for error in errors
+        ):
+            failures.append(f"ORDER-305 guard masked an original graph self-test: {name}")
+    return failures, len(cases) + 1
 
 
 def main() -> int:

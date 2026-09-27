@@ -18,6 +18,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Iterable
 
+import order305_demo_source_compat as demo_source
+
 
 ROOT = Path(__file__).resolve().parents[1]
 KO_DIR = ROOT / "content" / "events"
@@ -2152,10 +2154,13 @@ def validate_preserved_product_boundaries(model: AuditModel, errors: list[str]) 
     for relative, expected_hash in PUBLIC_DEMO_FROZEN_FILES.items():
         path = ROOT / relative
         try:
-            actual_hash = _sha256_bytes(path.read_bytes())
+            raw = path.read_bytes()
         except OSError as exc:
             errors.append(f"public demo frozen file unavailable: {relative}: {exc}")
             continue
+        if relative in demo_source.PATHS:
+            errors.extend(demo_source.source_errors(raw, relative))
+        actual_hash = _sha256_bytes(demo_source.project_bytes(raw, relative))
         errors.extend(_public_demo_working_source_hash_errors(
             relative, expected_hash, actual_hash))
 
@@ -2627,7 +2632,9 @@ def _reviewed_public_source_self_tests() -> int:
           "reviewed working-source transition widened")
     check(PUBLIC_DEMO_FROZEN_FILES[relative] == prior,
           "historical demo source pin was refreshed")
-    raw = (ROOT / relative).read_bytes()
+    # Keep ORDER-165's old fixture and all its rejection cases unchanged after
+    # the later exact ORDER-305 inverse; live admission above still reads raw.
+    raw = demo_source.project_bytes((ROOT / relative).read_bytes(), relative)
     check(_sha256_bytes(raw) == current, "reviewed CN source baseline drifted")
     check(not _public_demo_working_source_hash_errors(relative, prior, current),
           "exact approved CN working source rejected")

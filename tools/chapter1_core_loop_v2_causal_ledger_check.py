@@ -34,6 +34,7 @@ from unittest.mock import patch
 import main_game_locale_history as locale_history
 import meta_title_locale_history as meta_title_history
 import meta_title_locale_successor as title_successor
+import order305_demo_source_compat as demo_source
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -4533,6 +4534,40 @@ def _order261_registry_observed_hash(claim: str, relative: str, raw: bytes) -> s
 # END_INVENTORY_REGISTRY_OBSERVATION_261
 
 
+def _order305_audited_source_observation(
+        relative: str, observed: str, raw: bytes) -> tuple[str, list[str]]:
+    """A later prose-only successor does not refresh the legacy source pin."""
+    if relative != demo_source.KO_PATH:
+        return observed, []
+    errors = demo_source.source_errors(raw, relative)
+    if hashlib.sha256(raw).hexdigest() != observed:
+        errors.append("ORDER-305: legacy observed hash is not bound to raw current bytes")
+    return (observed if errors else demo_source.project_byte_hash(observed, relative), errors)
+
+
+def order305_source_boundary_self_test() -> tuple[list[str], int]:
+    """Bounded static unit only; does not invoke the legacy 24/240-week suite."""
+    previous, current = demo_source.verified_blobs(demo_source.KO_PATH)
+    old_hash, new_hash = demo_source.FILE_HASHES[demo_source.KO_PATH]
+    failures: list[str] = []
+    cases = 0
+    for label, relative, raw, observed, expected, rejected in (
+        ("approved", demo_source.KO_PATH, current, new_hash, old_hash, False),
+        ("rollback", demo_source.KO_PATH, previous, old_hash, old_hash, True),
+        ("mutation", demo_source.KO_PATH, current + b" ", new_hash, new_hash, True),
+        ("unbound hash", demo_source.KO_PATH, current, old_hash, old_hash, True),
+        ("other path", demo_source.KO_PATH + ".other", current, new_hash, new_hash, False),
+    ):
+        actual, errors = _order305_audited_source_observation(relative, observed, raw)
+        cases += 1
+        if actual != expected or bool(errors) != rejected:
+            failures.append("ORDER-306 legacy source boundary: " + label)
+    cases += 1
+    if EXPECTED_AUDITED_SOURCE_FILE_SHA256[demo_source.KO_PATH] != old_hash:
+        failures.append("ORDER-306 legacy historical pin was changed")
+    return failures, cases
+
+
 def _audited_source_snapshot_errors(
         source_hashes: dict[str, str]) -> list[str]:
     errors: list[str] = []
@@ -4635,6 +4670,13 @@ def _audited_source_snapshot_errors(
                 else:
                     expected_digest = successor[1]
             observed_digest = _file_digest(relative_path)
+            if relative_path == demo_source.KO_PATH:
+                try:
+                    observed_digest, source_errors = _order305_audited_source_observation(
+                        relative_path, observed_digest, (ROOT / relative_path).read_bytes())
+                    errors.extend(source_errors)
+                except OSError as exc:
+                    errors.append(f"ORDER-305: legacy current source unavailable: {exc}")
             if relative_path == "autoloads/DataRegistry.gd" and inventory_registry_raw is not None:
                 observed_digest = _order261_registry_observed_hash(
                     observed_digest, relative_path, inventory_registry_raw)
