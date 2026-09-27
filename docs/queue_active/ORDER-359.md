@@ -61,6 +61,40 @@
   StoryMode:4354, DataRegistry:1107, EventManager:807/819, MainGame:7187을 시작점으로 삼는다.
 - 위 확인은 비저자 읽기뿐이며 작성/엔진/검사 재실행0이다. 착수 선언과 검증을 대신하지 않는다.
 
+## 2026-09-27 수리·표적 검증 (통합 HOLD)
+
+- 제품 `acab8ea29d2ec392d1224513e005e8b8000a4535`, 직접 부모 선언
+  `e3a6e09d5a6e3398a4db764177352dc7755d0892`. 5JSON 기존20leaf와 ledger뿐이다.
+  원시 역재구성으로 대상 외 형식/키/순서/게임플레이·350의86leaf 불변을 확인했다.
+- KO4·EN4·한국어 직접 JA/CN/TW 각4. 봉투와 열린 폴더, 생사별 기존 문장,
+  진료 안내/마지막 연락, 각 `{name}`2·개행4 유지. EN의 together/them과 CN의
+  생존형 它们旁边도 중립화했다. 다른 문체/시제·100주 채무로 넓히지 않았다.
+- 사전3export는 원문/번역 수정 전에 확보했다. 사후3 source/response check/import
+  `changed_files=0` PASS, 옛3batch `stale source manifest` 거절. 기존12receipt만 재결속,
+  새0·40302 유지·b140→141·meta9/보류72/옛140batch와 나머지 ledger 원형 유지.
+  첫 negative fixture의 manifest 혼용 오류와 CN/TW CLI locale 생략 실패는 private
+  `order359-exchange-preflight-failure.txt`, `order359-cli-locale-failure.txt`에 보존했다.
+  이번 교환 명령에는 각 batch의 `--locale`을 명시한다(일회성 실행 메모).
+- 실제 격리 StoryMode1회: `order359-screen-l84hv0pu`, exact success marker·exit0·
+  stdout/stderr/Godot log 오류0. KO/EN×생사×year3두선택×ghost =16상태에서
+  base queue→실제 생사 치환·본문·48표시페이지 일치, ghost쌍8 불변. root/비저자
+  모두 생존/ghost없음의 KO/EN×두선택 첫화면4PNG를 직접 읽었고 잘림/겹침0이다.
+  result SHA `89b943c8adfdde81de4e7219528815dd26628995878d3aa3e34dcce119676d8e`.
+- 실행 runner 자체 포함16경로 전후 SHA와 실제 사용자34파일 전후 map을 저장해
+  불변을 대조했다. 정확한 성공 QA namespace만 정리했고 사용자 파일 삭제0이다.
+  전체 소스 census·자연192주 도달·물리 입력·정상 속도·선택 결과·JA/ZH 화면을
+  관찰했다고 세지 않는다. 48label은 실제 text 일치이며 독립 조판 알고리즘 검증은 아니다.
+- 정적7명령 **6 PASS/1 FAIL**(full-body의 기존 EN2/ledger guard3), timeout0.
+  localization264 포함. 영향선택71개는 실행한 수가 아니다. 제품6핀 매 명령 전후
+  동일. summary SHA `5803bc6018a1337123e5215b4edaff340f38b940407b415c0aecbd7e263181af`,
+  invariants SHA `fd8c6c62cf0bd4d145827fba1d8f372aed2c760ded310d448086b27bd78c4fa9`.
+  dirty 선언HEAD의 바이트에서 수행했고 후속 clean commit 재실행을 주장하지 않는다.
+- 독립 비저자 `/root/r3_route_probe`가20원고·12receipt·16상태48label·4PNG를
+  전수 대조했다. 최종 source 판정은 별도 보고에 결속한다. 358 연결 전 `[~]`/HOLD,
+  인간OPEN45·옛공개GO1·기존114판정/92보고·프로젝트·P-20 보존. 새판정만 추가한다.
+- 규범은 일회성/기존 WORK_UNIT·I18N 적용, 새 상시 규칙0. 원어민/인간/물리
+  관찰과 본편/새package GO·외부출시 권한은 발급하지 않는다. 다음은358이다.
+
 ## 완료 조건
 
 - 4개 source leaf와 16개 대응 leaf의 exact 원시 차이, 개수 중립, 봉투/폴더 차이,
