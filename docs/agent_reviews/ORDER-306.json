@@ -1,0 +1,107 @@
+{
+  "unit_id": "ORDER-306",
+  "scope": "work_unit",
+  "reviewer": "/root/blackjack_accounting_review",
+  "authority": "user_delegated_agent_final",
+  "independent": true,
+  "reviewed_at": "2026-09-27T10:38:39+09:00",
+  "timezone": "Asia/Seoul",
+  "subject": {
+    "kind": "source",
+    "commit": "59d4f790ecfd84f023c5796039264e4bfe72cdcf",
+    "tree": "0d6807438c512e5b3873c0a310d24e211612f0c1",
+    "manifest_sha256": null
+  },
+  "verdict": "GO",
+  "required": [],
+  "approved_scope": "Finite exact ORDER-305 historical-source compatibility and honest current volume observation refresh only. No historical approval, source-pin/debt waiver, legacy gameplay or full-product GO.",
+  "review": {
+    "observed_commit": "59d4f790ecfd84f023c5796039264e4bfe72cdcf",
+    "observed_tree": "0d6807438c512e5b3873c0a310d24e211612f0c1",
+    "observed_worktree_clean": true,
+    "canonical_subject": "Independently invoked human_gates.current_agent_source_subject before report writes; equals clean HEAD.",
+    "independence": "No product, checker, baseline or helper authorship. Read-only source/raw-evidence verification; no official suite or engine rerun by reviewer."
+  },
+  "source_bridge": {
+    "executed_commit": "354c2703e45fc01753c3a45dc24e10ec4e38f185",
+    "executed_tree": "6d2e1258d9e11c9ed63654c49fd0976bceb56159",
+    "final_commit": "59d4f790ecfd84f023c5796039264e4bfe72cdcf",
+    "delta": "Only tools/story_demo_localization_audit.py plus ORDER-308 declaration and two queue files changed. All five event files, game/runtime code, 306/307 checkers and original runtime helpers are identical.",
+    "verification": "Independently compared all old capture input pins and 1220 runtime pins with final files: only the unrelated localization checker differs. Four final captures have all 1215 input pins equal to current files. Reused results are not final-head reruns."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "Actual rendered screenshots, manual input, audio quality, new package, full-product/release approval.",
+    "Remaining ORDER-302 English style/quotation and visual work; full/legacy 240-week audit; subsequent metadata closure/checks."
+  ],
+  "evidence": {
+    ".git/full-game-localization/order302-demo-check-308-bridge-first.json": "2b2cee59b8424c50e48879bd4bf0fc33bcca9d226d6dae878e1f86cd9106e086",
+    ".git/full-game-localization/order308-evidence-bridge.py": "eccf74776c1170b8e1e984b77af4e69264937bb7ca2acec98fa55df41c88e093",
+    ".git/full-game-localization/order302-demo-check-capture.py": "fa8ae245089389ec945554b965abb88bf8b069e6043ade9096df6dc0aec657ae",
+    "tools/human_gates.py": "59b62b8b8ee0ab3cb33a6c99f7802f8118d85472a0a2942e80ed0781ee7b47a1",
+    ".git/full-game-localization/order302-demo-check-306-body-first.json": "8ad196710c6bead0548613b3995d09f53098294ccc57e731d281651d69bb2026",
+    ".git/full-game-localization/order302-demo-check-306-body-self-first.json": "7ea3109402716e1f22ec1672e808148068e147bcea79dbcef0dffc65a6fc8ca9",
+    ".git/full-game-localization/order302-demo-check-306-chapter5-first.json": "90b47bfe597de6e482cf798c2af0da72b33a2ab7772e59f7d528b4a6f7eb0912",
+    ".git/full-game-localization/order302-demo-check-306-chapter5-self-first.json": "2eb999bc7838ae279d72597922f6541713af48ae77167d455f15a46be9fcd69c",
+    ".git/full-game-localization/order302-demo-check-306-helper-first.json": "9da634beafc75b6c6f0e40e6c10703c14a12a50b5a8f2fbe9a3a93773b36348b",
+    ".git/full-game-localization/order302-demo-check-306-legacy-first.json": "6fa4dbeef326733c6b79447c0796afd9f26c5f6515737f6c070202e57d8f1988",
+    ".git/full-game-localization/order302-demo-check-306-volume-diff-first.json": "dd44d34d228a7628a0720ede7467da25943c9bfdace36cc350359d6fea5bc4f0",
+    ".git/full-game-localization/order302-demo-check-306-volume-first.json": "ff9439a1a0ca365a1baf5baf629f78c6d5c75b7e233a761f8768aa149793ac71",
+    ".git/full-game-localization/order302-demo-check-306-volume-self-first.json": "309a7e60cd1a7dca25d8a311e0dd8477fac82e579deac1cf6f31c714737f20c8",
+    ".git/full-game-localization/order302-demo-check-306-year5-first.json": "ef69f966048e293491988a59d6a66805f218cbf1259a50df1feb2ffa524fae81",
+    ".git/full-game-localization/order302-demo-check-306-year5-self-first.json": "f85170953158b32873fbcb2bb98aa33205d41c0fa21bcf97da18a0d7bc09802f",
+    ".git/full-game-localization/order306-helper-dev-first.log": "a0ec333c8d5bfc7164db852be256b6c9a796121d2b26bc6e2b77d8c6bcdbc2d0",
+    ".git/full-game-localization/order306-helper-dev-second.log": "9ee2fc0d485120082655ee03373589844783ee5dea8cfdd1587c43a563d725af",
+    ".git/full-game-localization/order306-volume-diff.py": "15e44e015d07ddc6bc8e05fd2524c137d1c4fea4d87f3ee8c2112a9d4ccf648c",
+    ".git/full-game-localization/order306-legacy-boundary.py": "e461956c3537277442677ecbcd1ff5d7631c211d6467ddcb6ea1f0748cec291f",
+    ".git/full-game-localization/order302-demo-check-305-preserve-final.json": "6643edc687623b94e7d092f3fc958535709fc5d6ae4e0c59db8d237a92e2b80b",
+    "tools/order305_demo_source_compat.py": "a6ba3bab8340df736eaf059abc7bb837ccf0474ea22ff66bda7c130619e09cad",
+    "tools/year5_reference_route_audit.py": "5e413064eb3d6bd53b43611b78ce275ee067fd9b6512e6589bb4be26c68f02e5",
+    "tools/chapter5_human_reject_audit.py": "d2ab94fefc8d045d300d554cfafd966a153c14e391c9f4e41248c80a0ca0f55d",
+    "tools/full_body_translation_scope.py": "b858ac76d1aad28a5fb418956db38cc2a4adf56bbb53b1d30ffd3a10a19a8f6d",
+    "tools/chapter1_core_loop_v2_causal_ledger_check.py": "ef89666f781334109f0b74e5ee4b16e1a70d299ece9dde8cd935f91bca9752fa",
+    "tools/full_game_volume_baseline.json": "5d8cf1cccd2ccab7725cde3d9b2292a0f454ed1509993fa72b175dd038b486f2",
+    "tools/full_game_volume_audit.py": "d8b4f7ca391adf55a91e6eeb03a5013d2f155b1532fa1c10cb4379db881f9687",
+    "tools/audit_scope.json": "6a9fb5364c13ea60ca1e2049b81ac7fca5bd2a84f79c101c7a138d9283e906cc"
+  },
+  "population": {
+    "registered_files": 5,
+    "registered_string_leaves": 23,
+    "reader_files": 4,
+    "new_common_helper_files": 1,
+    "helper_self_cases": 132,
+    "year5_self_cases": 702,
+    "chapter5_self_cases": 127,
+    "full_body_self_cases": 53,
+    "volume_self_cases": 14,
+    "legacy_static_boundary_cases": 6,
+    "volume_changed_fields": 24,
+    "numeric_observation_changes": 22,
+    "graph_hash_changes": 2,
+    "official_static_invocations": 11,
+    "engine_runs_owned": 0
+  },
+  "method": [
+    "Read the complete new common helper, four reader diffs and surrounding raw/payload/hash/context/census entry points; compare historical registries with the predecessor.",
+    "Read positive/negative self-test bodies and actual completed normal/self raw outputs. Independently verified raw-stream hashes, clean unchanged execution identity and all 1215 input pins per capture.",
+    "Independently enumerated the baseline's 24 changed fields and matched all 24 to the observed diff capture; policy, 30 debt entries and 12-outlier population remain."
+  ],
+  "verified": {
+    "exact_admission": "Fixed f537c1a and 031f5e5 Git blobs, both full-file SHA values, unique complete old JSON strings and a canonical object proof establish precisely 23 edits. Current raw bytes must equal the registered successor; predecessors, wrong paths, byte drift, duplicate/type/order/ID and neighbor changes are not new admissions.",
+    "projection": "Payload projection copies the input and changes only complete exact successor event objects. Byte/hash projection is exact-path/hash-bound. Live entry guards remain separate. The new inverse precedes existing ORDER-304/165 and older history paths; old registries and original 304 39 tests are unchanged.",
+    "census": "Only KO/EN registered paths can be removed from the ORDER-155 Git census, and only when a non-no-op composed inverse equals the actual historical baseline blob. Read failure, unexpected path, changed current or wrong baseline retains failure.",
+    "readers": "Full-body current inventory and accepted additions remain raw; only frozen historical target comparisons use copied projections, while current Korean source fingerprint is explicitly recorded. Chapter5 compares inverse bytes through its old transition. Legacy source observation requires raw hash binding and exact current admission; only six static boundary tests ran, not the legacy simulation suite.",
+    "volume": "24 exact fields: 22 numeric observation changes and two mapped-immediate graph hashes. Source prose visible-character arithmetic is meet -1 plus answer +3; clean's visible-character count is unchanged. Actual aggregate +2 and derived +/-2 deltas are recorded, not hidden. Policy/debt remain identical; full_game_volume_status HOLD, runtime_trace PENDING and human density OPEN.",
+    "evidence": "Eleven completed 306 invocations at 354c270 are PASS: helper132, year5 normal/self702, chapter5 normal/self127, full-body normal/self53, volume normal/self14/diff24, legacy6. Final source bridge proves these unchanged checker/product inputs were reused, not rerun."
+  },
+  "retained_failures": [
+    "First developer helper import failed on Python3.9 evaluating a union type alias. Its raw traceback remains; narrow typing.Union correction and later132-case success are retained. This was not a product or engine failure.",
+    "Interrupted selector observations are not accepted official results and are not promoted to a broad PASS."
+  ],
+  "findings_and_limits": [
+    "No mandatory unresolved compatibility defect.",
+    "Shared 305 headless run is not a second runtime run or evidence of a legacy/full simulation. Historical public/human gates and prior decisions remain unchanged."
+  ]
+}

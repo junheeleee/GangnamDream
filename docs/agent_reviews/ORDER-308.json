@@ -1,0 +1,84 @@
+{
+  "unit_id": "ORDER-308",
+  "scope": "work_unit",
+  "reviewer": "/root/blackjack_accounting_review",
+  "authority": "user_delegated_agent_final",
+  "independent": true,
+  "reviewed_at": "2026-09-27T10:38:39+09:00",
+  "timezone": "Asia/Seoul",
+  "subject": {
+    "kind": "source",
+    "commit": "59d4f790ecfd84f023c5796039264e4bfe72cdcf",
+    "tree": "0d6807438c512e5b3873c0a310d24e211612f0c1",
+    "manifest_sha256": null
+  },
+  "verdict": "GO",
+  "required": [],
+  "approved_scope": "One exact demo-validator source normalization for the Korean comma-delimited seventy-manwon rent, retaining strict target money/token checks. No authored source, shared parser, economy or runtime behavior change.",
+  "review": {
+    "observed_commit": "59d4f790ecfd84f023c5796039264e4bfe72cdcf",
+    "observed_tree": "0d6807438c512e5b3873c0a310d24e211612f0c1",
+    "observed_worktree_clean": true,
+    "canonical_subject": "Independently invoked human_gates.current_agent_source_subject before report writes; equals clean HEAD.",
+    "independence": "No product, checker, baseline or helper authorship. Read-only source/raw-evidence verification; no official suite or engine rerun by reviewer."
+  },
+  "source_bridge": {
+    "executed_commit": "354c2703e45fc01753c3a45dc24e10ec4e38f185",
+    "executed_tree": "6d2e1258d9e11c9ed63654c49fd0976bceb56159",
+    "final_commit": "59d4f790ecfd84f023c5796039264e4bfe72cdcf",
+    "delta": "Only tools/story_demo_localization_audit.py plus ORDER-308 declaration and two queue files changed. All five event files, game/runtime code, 306/307 checkers and original runtime helpers are identical.",
+    "verification": "Independently compared all old capture input pins and 1220 runtime pins with final files: only the unrelated localization checker differs. Four final captures have all 1215 input pins equal to current files. Reused results are not final-head reruns."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "Actual rendered screenshots, manual input, audio quality, new package, full-product/release approval.",
+    "Remaining ORDER-302 English style/quotation and visual work; full/legacy 240-week audit; subsequent metadata closure/checks."
+  ],
+  "evidence": {
+    ".git/full-game-localization/order302-demo-check-308-bridge-first.json": "2b2cee59b8424c50e48879bd4bf0fc33bcca9d226d6dae878e1f86cd9106e086",
+    ".git/full-game-localization/order308-evidence-bridge.py": "eccf74776c1170b8e1e984b77af4e69264937bb7ca2acec98fa55df41c88e093",
+    ".git/full-game-localization/order302-demo-check-capture.py": "fa8ae245089389ec945554b965abb88bf8b069e6043ade9096df6dc0aec657ae",
+    "tools/human_gates.py": "59b62b8b8ee0ab3cb33a6c99f7802f8118d85472a0a2942e80ed0781ee7b47a1",
+    ".git/full-game-localization/order302-demo-check-305-localization-first.json": "bd57b8c22527e06223bb56d812f5e883ae51328552b569496b305f349f5028fa",
+    ".git/full-game-localization/order302-demo-check-308-localization-first.json": "a83aa594719e62547c984b354e137ecbc548a306fe3f7100d1b03f4fbae4cb25",
+    ".git/full-game-localization/order302-demo-check-308-localization-self-first.json": "6135138a8984ca8b90da9ac6dfb2559d06bf64764b579917906c414322b886f2",
+    ".git/full-game-localization/order302-demo-check-305-preserve-final.json": "6643edc687623b94e7d092f3fc958535709fc5d6ae4e0c59db8d237a92e2b80b",
+    ".git/full-game-localization/order305-preservation.py": "5d211605b77f3b90defb342e3f6522d42336e37cf0b1a8590bbf71158d37d945",
+    ".git/full-game-localization/order305-runtime-first/result.json": "d90a9ea1dd31ec56bd22e7b8298487c5d1bc43915d7cc5bdad85a5dd6ee52ff1",
+    "tools/story_demo_localization_audit.py": "7c635535bb5a6f4361904d0334711e5bc8f0587681dcdf4f49d84adca7b3f320",
+    "tools/zh_translation_audit.py": "0b370c6bb6e4da0ae556179a06fc77a25a46cbbdbc1bda839bef14384aa4c33c",
+    "content/events/arc_events.json": "ccd902447b46e10e02128d46ef273e65a30e3df9753b7f257f7fd9accb848f62",
+    "content/events_zh-CN/story_demo_events.json": "b8ff12758d29a02fd07fdad5f8d3931b805afcbe8e18f1d02db5dfa575c0f05e",
+    "content/events_zh-TW/story_demo_events.json": "57929914f0b8c73e8865dd1dde9c45e240fcf0463d327fd32d2225ccf3dc9dca"
+  },
+  "population": {
+    "changed_checker_files": 1,
+    "exact_normalized_keys": 1,
+    "actual_parent_fixtures": 6,
+    "new_target_mutations": 24,
+    "boundary_cases": 17,
+    "preserved_old_cases": 8,
+    "final_self_cases": 55,
+    "final_official_captures": 4,
+    "engine_reruns": 0
+  },
+  "method": [
+    "Read the original failure's complete raw error text, current Korean and CN/TW source leaves, full checker diff and all added positive/negative/boundary cases.",
+    "Verified the final normal/self55, final preservation and evidence-bridge raw captures at clean 59d4f790; all four have exit0, empty stderr/errors, unchanged 1215 input pins.",
+    "Independently repeated only read-only byte/hash comparisons across all22 captures/44 raw streams and the one runtime result. No official test or engine was executed by reviewer."
+  ],
+  "verified": {
+    "cause": "Original localization FAIL at 354c270 reports expected 70000 versus translated 700000 for CN/TW orthodox only. The Korean colloquial parser backtracked at 칠십,; source rent and target70万/70萬 are correctly 700000.",
+    "repair": "Only exact event::arc_sangchul_01_meet::description_orthodox with exactly one 월 칠십, 별도 관리비. and no adjacent word/digit/sign prefix is spelled as 월 70만원, 별도 관리비. for validation. The shared parser, real source/target files and money comparison are unchanged.",
+    "strictness": "Actual three rent parents in CN/TW pass. Wrong7/55/700-manwon rent, deposit, currency, missing/extra money, numeric prefix, counter substitution and name-token mutations are rejected by the expected error class; other keys/amounts/partial prefixes or duplicated phrase are not rewritten.",
+    "results": "Normal localized inventory is PASS with five locales, source14 events/100 leaves, each JA/CN/TW14/100 and121UI/1catalog. Self PASS: fixtures10, mutations28, boundaries17 =55, including all prior8 cases.",
+    "preservation": "Original 305-localization-first result remains false/exit1 with its two raw errors; it is superseded only by new final localization evidence. Seventeen earlier successful captures and the single 305 headless run are reused with explicit SHA bridge, not relabeled as final-head reruns."
+  },
+  "findings_and_limits": [
+    "No mandatory unresolved defect in the declared narrow validator repair.",
+    "Shared colloquial parser correctness outside this exact source/key is not expanded or certified. Whole ORDER-302, full product and new package remain HOLD.",
+    "Final metadata closure, selector/context/queue/ledger/dashboard verification will occur after these reports and is unobserved here."
+  ]
+}

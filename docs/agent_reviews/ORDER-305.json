@@ -1,0 +1,105 @@
+{
+  "unit_id": "ORDER-305",
+  "scope": "work_unit",
+  "reviewer": "/root/blackjack_accounting_review",
+  "authority": "user_delegated_agent_final",
+  "independent": true,
+  "reviewed_at": "2026-09-27T10:38:39+09:00",
+  "timezone": "Asia/Seoul",
+  "subject": {
+    "kind": "source",
+    "commit": "59d4f790ecfd84f023c5796039264e4bfe72cdcf",
+    "tree": "0d6807438c512e5b3873c0a310d24e211612f0c1",
+    "manifest_sha256": null
+  },
+  "verdict": "GO",
+  "required": [],
+  "approved_scope": "Only the approved 23 story leaves: monthly studio quote, player-name token, one Korean past-tense verb and clear non-receipt of the rejected two-million-won offer. Parent ORDER-302, full product and new package remain HOLD.",
+  "review": {
+    "observed_commit": "59d4f790ecfd84f023c5796039264e4bfe72cdcf",
+    "observed_tree": "0d6807438c512e5b3873c0a310d24e211612f0c1",
+    "observed_worktree_clean": true,
+    "canonical_subject": "Independently invoked human_gates.current_agent_source_subject before report writes; equals clean HEAD.",
+    "independence": "No product, checker, baseline or helper authorship. Read-only source/raw-evidence verification; no official suite or engine rerun by reviewer."
+  },
+  "source_bridge": {
+    "executed_commit": "354c2703e45fc01753c3a45dc24e10ec4e38f185",
+    "executed_tree": "6d2e1258d9e11c9ed63654c49fd0976bceb56159",
+    "final_commit": "59d4f790ecfd84f023c5796039264e4bfe72cdcf",
+    "delta": "Only tools/story_demo_localization_audit.py plus ORDER-308 declaration and two queue files changed. All five event files, game/runtime code, 306/307 checkers and original runtime helpers are identical.",
+    "verification": "Independently compared all old capture input pins and 1220 runtime pins with final files: only the unrelated localization checker differs. Four final captures have all 1215 input pins equal to current files. Reused results are not final-head reruns."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "Actual rendered screenshots, manual input, audio quality, new package, full-product/release approval.",
+    "Remaining ORDER-302 English style/quotation and visual work; full/legacy 240-week audit; subsequent metadata closure/checks."
+  ],
+  "evidence": {
+    ".git/full-game-localization/order302-demo-check-308-bridge-first.json": "2b2cee59b8424c50e48879bd4bf0fc33bcca9d226d6dae878e1f86cd9106e086",
+    ".git/full-game-localization/order308-evidence-bridge.py": "eccf74776c1170b8e1e984b77af4e69264937bb7ca2acec98fa55df41c88e093",
+    ".git/full-game-localization/order302-demo-check-capture.py": "fa8ae245089389ec945554b965abb88bf8b069e6043ade9096df6dc0aec657ae",
+    "tools/human_gates.py": "59b62b8b8ee0ab3cb33a6c99f7802f8118d85472a0a2942e80ed0781ee7b47a1",
+    ".git/full-game-localization/order302-demo-check-305-preserve-first.json": "3bac36c8e3f9051f3b22b8273b916832e4e507f9e9b70b59039a7eef1baf2d04",
+    ".git/full-game-localization/order302-demo-check-305-preserve-final.json": "6643edc687623b94e7d092f3fc958535709fc5d6ae4e0c59db8d237a92e2b80b",
+    ".git/full-game-localization/order302-demo-check-305-accepted-first.json": "44203b1353ee743035cca68cfa80dbb579b39ecb361c468ffdb0b3fc1344fd50",
+    ".git/full-game-localization/order302-demo-check-305-en-first.json": "474d0dbe276c3fb730b0b32a946d3a4815c0e09239ebe4625803d3862cbe94ab",
+    ".git/full-game-localization/order302-demo-check-305-hangul-first.json": "4749ddd43d650cfe856825235690e083d680e3a6743380a91b22b345e41af798",
+    ".git/full-game-localization/order302-demo-check-305-density-first.json": "d9697d34d4fbb099877ae4f094d0beedba10d3d5eca339338ee4c8e7441547d6",
+    ".git/full-game-localization/order302-demo-check-305-localization-first.json": "bd57b8c22527e06223bb56d812f5e883ae51328552b569496b305f349f5028fa",
+    ".git/full-game-localization/order302-demo-check-308-localization-first.json": "a83aa594719e62547c984b354e137ecbc548a306fe3f7100d1b03f4fbae4cb25",
+    ".git/full-game-localization/order302-demo-check-308-localization-self-first.json": "6135138a8984ca8b90da9ac6dfb2559d06bf64764b579917906c414322b886f2",
+    ".git/full-game-localization/order305-preservation.py": "5d211605b77f3b90defb342e3f6522d42336e37cf0b1a8590bbf71158d37d945",
+    ".git/full-game-localization/order305-runtime.py": "9b0a6de033dbbcd584f3f430c03d40eafffa1748114fa53b2349bda2b2b4c6fc",
+    ".git/full-game-localization/order305-bootstrap.gd": "5f5fdbe113b478a61300df6915f871d36372839350ba0a3a210efbf5c21c6b74",
+    ".git/full-game-localization/order305-runtime-first/result.json": "d90a9ea1dd31ec56bd22e7b8298487c5d1bc43915d7cc5bdad85a5dd6ee52ff1",
+    ".git/full-game-localization/order305-runtime-first/stdout.log": "a60c83689777bb2c708e03963b456bb18b12261c92fa23b5120c1a25881c0c9f",
+    ".git/full-game-localization/order305-runtime-first/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    ".git/full-game-localization/order305-runtime-first/godot.log": "a60c83689777bb2c708e03963b456bb18b12261c92fa23b5120c1a25881c0c9f",
+    "content/events/arc_events.json": "ccd902447b46e10e02128d46ef273e65a30e3df9753b7f257f7fd9accb848f62",
+    "content/events_en/arc_events.json": "5c67fde3bae33bb9bc9edabc1ef8d9efde09f4fee2d19fd83ebbdf6c4e69c1ac",
+    "content/events_ja/story_demo_events.json": "3ba992ecafbd5b31d00cb9c3630f4f6a9b37fefb41fbe6aba191d3d77076a10b",
+    "content/events_zh-CN/story_demo_events.json": "b8ff12758d29a02fd07fdad5f8d3931b805afcbe8e18f1d02db5dfa575c0f05e",
+    "content/events_zh-TW/story_demo_events.json": "57929914f0b8c73e8865dd1dde9c45e240fcf0463d327fd32d2225ccf3dc9dca",
+    "autoloads/GameState.gd": "5076adf75b13920ae97ff9174945acf9c43fc80dec73cb356da44f314b7741d8",
+    "systems/DemoCoreLoopV2.gd": "c9d06377f9bbd88bf2137806a4d6a460a432f78d936cac65f78930aaafa70eed",
+    "tools/StoryDemoFourLanguageCheck.gd": "df12e1dd57eb768c40ac5beec563b845a03bac9639a4b9506050e14278f1d7eb"
+  },
+  "population": {
+    "files": 5,
+    "changed_string_leaves": 23,
+    "by_locale": {
+      "ko": 6,
+      "en": 3,
+      "ja": 5,
+      "zh-CN": 5,
+      "zh-TW": 4
+    },
+    "rent_variants": 15,
+    "new_name_tokens": 4,
+    "korean_tense_edits": 1,
+    "nonreceipt_edits": 3,
+    "headless_runs": 1,
+    "headless_locales": 5,
+    "rendered_pngs": 0
+  },
+  "method": [
+    "Read complete Korean originals and all five-language meet/answer/clean events, including adjacent choices and unchanged EN/TW non-receipt text; compare directly to Korean, not by region conversion.",
+    "Independently reconstructed every final raw file from f537c1ae44a5cc159a46e1c594f168186fc91670 using only approved substrings; exact byte equality, 23-leaf paths, newline/BBCode preservation and four added {name} tokens verified.",
+    "Read live formatter paths and runtime/bootstrap/capture helpers. Verified existing raw logs, completion, precise success markers, source/user hashes and static evidence rather than running tests again."
+  ],
+  "verified": {
+    "meaning": "All 15 rent variants now quote 700,000 won; ten-million-won deposit and separate management fee remain. Four fixed protagonist names now use {name}. Korean 웃었다 agrees with adjacent past narration. KO/JA/CN expressly say two million won did not arrive; surrounding rent pressure, two shifts and unchanged EN/TW wording remain consistent.",
+    "state_preservation": "Every other file byte in the five event files is preserved by inverse; non-text mechanics, money/effects, conditions, flags, choices, route keys and adjacency are unchanged. GameState, runtime controller, project, story map/rules and dictionaries remain baseline-identical.",
+    "checks": "At executed 354c270: EN coverage, zero-Hangul, density, accepted pins and preservation pass. At final 59d4f790: repaired localization normal/self55 and preservation pass. Localization first failure is retained, not relabeled.",
+    "runtime": "One existing headless five-locale contract at 354c270: exit0, 8.311060958s, 5 routes/30 months/120 aggregate weeks/30 settlements/save5/story10, exact marker, 12 controller entries, three hash-matched logs and no error lines. A fresh pre-autoload 32-hex namespace is confirmed; 1220 source pins and 43 original user files are unchanged. No new capture at final HEAD.",
+    "historical_boundary": "Accepted40299 (JA13111/CN13594/TW13594), batch136/meta9 and existing public/human artifacts remain unchanged; no acceptance receipts added. Existing 89 decision rows and the entire prior ledger bytes were preserved at review.",
+    "quality_limit": "Token expansion is established by source and the existing contract, not a custom-name screenshot census. Korean {name}을 retains the pre-existing fixed-particle convention; vowel-ending user-name particle quality is not claimed."
+  },
+  "findings_and_limits": [
+    "No mandatory defect in this 23-leaf scope.",
+    "Headless routes do not prove all 23 changed leaves and all personality variants were visually displayed. Density's historical fixture identity is not new human or rendered evidence.",
+    "Root's interrupted, unintended broad selector execution is excluded from accepted evidence. Old public-package drift is not a new package PASS."
+  ]
+}

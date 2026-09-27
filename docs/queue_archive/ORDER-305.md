@@ -1,8 +1,8 @@
-# Active Queue Spec: ORDER-305
+# Archived Queue Spec: ORDER-305
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-305 [P0·출시 데모] 원룸 월세·선택 이름·거절 결과의 사실 정합
+#### [x] ORDER-305 [P0·출시 데모] 원룸 월세·선택 이름·거절 결과의 사실 정합
 
 2026-09-27 착수. 기준 clean `f537c1ae44a5cc159a46e1c594f168186fc91670`.
 사용자 승인302의 잔여2/6/7을 작은 별도 배치로 분리한다. A/B를 재저작하지 않는다.
@@ -44,3 +44,14 @@ story-demo localization·density 및 accepted핀 현재성, 306의 historical co
 전체/240주/legacy 엔진 감사는 실행하지 않는다. 실제 렌더/입력 관측으로 과장하지 않는다.
 독립 전수 GO 뒤 이 작은 작업만 닫고302 잔여5/실제화면·새후보를 잇는다.
 규범은 기존 WORK_UNIT/현지화 정본 적용 및 일회성이다. 자동 통과는 재미·문체·출시 GO가 아니다.
+
+## 2026-09-27 완료 증거
+
+- source: `59d4f790ecfd84f023c5796039264e4bfe72cdcf` / tree `0d6807438c512e5b3873c0a310d24e211612f0c1`.
+- 도달 경로: `STORY_DEMO_FOUR_LANGUAGE_CHECK_OK locales=5 routes=5 months=30 weeks=120 settlements=30 ap_surface=0 save=5 story=10 build=2026.08.31.1`.
+- 생산자↔독자: `content/events/arc_events.json`의 meet/answer/clean 및 지역4overlay ↔ `scenes/StoryMode.gd`; 원고23leaf/5파일, 나머지 full-byte inverse 동일.
+- 바꾸는 상태: 월세55→70만(15leaf), 이름토큰+4, KO시제1, KO/JA/CN 거절표현3. gameplay/경제·선택/경로 변화0. 포기 시 잃는 것/장면 계층: 해당 없음(기존 M02/M04 사실 수리).
+- 언어·보존·accepted40299·density PASS. localization 최초 CN/TW2오탐 FAIL은 그대로 보존하고308 후 정상/55self PASS. 신규 receipt0.
+- 실제 엔진은 `354c270`에서1회/8.311초만 실행. exact marker·3로그 오류/누수0·ENTRY12 격리경로 일치·사용자43파일/1220실행핀 전후 불변. 최종 후보와는308 검사기/선언metadata만 다르며 `308-bridge-first`가 연결한다. 화면/입력 관찰0.
+- [비저자 보고](../agent_reviews/ORDER-305.json): 전23leaf/보존범위·raw evidence 작업 한정 GO. 과거 공개/인간판정 불변,302전체·본편·새package HOLD.
+- 닫는 것: 승인302의2/6/7만. 다음 EN문체5·실제화면·새후보는 부모302. 규범 승격: 없음(일회성/기존 정본 적용).

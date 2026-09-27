@@ -162,5 +162,15 @@ bootstrap에서 fresh32hex RuntimeQA 경로를 먼저 설정·검증한다. 전�
 EN 월세는304의 exact 파일핀 밖이므로 새 successor 역투영을 별도 선언하고 과거
 핀을 덮어쓰지 않는다. 원고5파일(arc KO/EN + 지역 story_demo3), 기계효과는 불변이다.
 
-2026-09-27: 잔여2/6/7은 [305](ORDER-305.md), 그 exact 역사 검사 호환은
-[306](ORDER-306.md)으로 분리 선언했다. 이 부모는 EN 문체5·실제화면·새후보 OPEN/HOLD다.
+2026-09-27: 잔여2/6/7은 [305](../queue_archive/ORDER-305.md), 그 exact 역사 검사 호환은
+[306](../queue_archive/ORDER-306.md)·[307](../queue_archive/ORDER-307.md), 금액 오탐은
+[308](../queue_archive/ORDER-308.md)에서 완료했다. 원고23leaf/5언어와 격리 진행·저장
+PASS, 독립 작업한정 GO source `59d4f790ecfd84f023c5796039264e4bfe72cdcf`.
+실제화면/입력 관측0, 옛 공개 package GO 미상속. 이 부모는 여전히 EN문체5·실제화면·새후보 OPEN/HOLD다.
+
+다음 읽기 전용 조사: 공개11장면은 월별 분기 합집합이고 M04는 meet→measure 또는
+coffee→answer다. 감사14 authored-node와 같은 모집단이 아니다. 정적76leaf 외 M06
+템플릿·무명직원 choice대체3문자열과 이전선택5개 recap 소비자를 함께 검토한다.
+M04 과거형8leaf와 대사인용15leaf는2leaf가 겹친다. 최소 ENarc/ENcore/controller3파일의
+다음 작은 사양을 먼저 선언한다. 다른 M03/M06 현재형까지 전체 통일했다고 주장하지
+않으며, contraction/대사시제/내면질문은 기계치환하지 않는다. 구현·추가엔진은 미실행이다.

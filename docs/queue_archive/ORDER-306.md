@@ -1,8 +1,8 @@
-# Active Queue Spec: ORDER-306
+# Archived Queue Spec: ORDER-306
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-306 [QA] 승인된 데모23leaf 후계와 역사 검사 원형의 분리
+#### [x] ORDER-306 [QA] 승인된 데모23leaf 후계와 역사 검사 원형의 분리
 
 2026-09-27 착수. 부모305 원고 변경을 과거 공개 승인으로 오인하거나 역사 핀을
 덮지 않고 현재 소스 검사가 비교할 수 있게 한다. 검사 실패를 숨기는 예외가 아니다.
@@ -41,3 +41,13 @@ legacy V2는 새 연결 경계의 단위 검사/정적 비교만 하며24주/240
 새 검사 등록 시 selector verify, context/queue/human-ledger/diff 검증. 원고305 engine와
 증거를 공유하되 기계 PASS를 인간·원어민·물리/화면 관찰로 승격하지 않는다.
 독립 비저자 전범위 검수 GO 후 작업 한정 종료. 규범은 일회성/기존 정본 적용이다.
+
+## 2026-09-27 완료 증거
+
+- 최종 source `59d4f790ecfd84f023c5796039264e4bfe72cdcf`; [비저자 보고](../agent_reviews/ORDER-306.json) 작업 한정 GO.
+- 생산자↔독자: `order305_demo_source_compat.py`의 exact5file/23leaf inverse ↔ year5/chapter5/full-body/legacy reader4. 게임상태·포기비용·장면 계층: 해당 없음, 검사 호환만.
+- helper132·year5 normal/self702·chapter5 normal/self127·full-body normal/self53·volume normal/self14·legacy 신규경계6 PASS. legacy 전체/24주/240주 실행0.
+- 기존핀/registry/self-case 보존. volume은 실제24필드(관측22/graph SHA2)만 갱신: KO총글자+2, clean 글자 delta0. 부채30/outlier12·runtime PENDING·human OPEN·본편 HOLD 유지.
+- 공식 정적 증거는 `354c270`의 `order302-demo-check-306-*-first.json`; 최종까지 이 검사들과 제품 입력은 동일,308 검사기만 차이. `308-bridge-first`에서 raw/입력SHA로 결속하고 느린702self를 반복하지 않았다.
+- 초기 Python3.9 type-alias 개발 실패는 보존 후 Union으로 수리. 최초 공식 검사 PASS와 구분한다. 셀렉터 등록156 PASS.
+- 닫는 것:305 exact후계 역사 비교만. 새로운 원고·공개package/인간판정 승격0. 규범 승격: 없음(일회성/기존 정본 적용).

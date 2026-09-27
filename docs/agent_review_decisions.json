@@ -3742,6 +3742,162 @@
         "path": "docs/agent_reviews/ORDER-304.json",
         "sha256": "0202c23adebbc748d055c9720f400b16c4e786b185da89a4bb1687ba8cd2f76e"
       }
+    },
+    {
+      "id": "order-305-source-59d4f790-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-27",
+      "decided_by": "/root/blackjack_accounting_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-305",
+      "subject": {
+        "kind": "source",
+        "commit": "59d4f790ecfd84f023c5796039264e4bfe72cdcf",
+        "tree": "0d6807438c512e5b3873c0a310d24e211612f0c1",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-305.json",
+          "sha256": "fb49f854c60f31bb7390540ecea66b32d98f2230c1fd4787aa299b34ace406c7"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/queue_archive/ORDER-305.md",
+          "sha256": "01ac25057fb784ef8797c2ae21b06312cb832c771e3c01e0df59a3e1b2221848"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "Actual rendered screenshots, manual input, audio quality, new package, full-product/release approval.",
+        "Remaining ORDER-302 English style/quotation and visual work; full/legacy 240-week audit; subsequent metadata closure/checks."
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-305.json",
+        "sha256": "fb49f854c60f31bb7390540ecea66b32d98f2230c1fd4787aa299b34ace406c7"
+      }
+    },
+    {
+      "id": "order-306-source-59d4f790-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-27",
+      "decided_by": "/root/blackjack_accounting_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-306",
+      "subject": {
+        "kind": "source",
+        "commit": "59d4f790ecfd84f023c5796039264e4bfe72cdcf",
+        "tree": "0d6807438c512e5b3873c0a310d24e211612f0c1",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-306.json",
+          "sha256": "c7fc0e89e7ab221b9d69c6fb66647f0e9f77ad2e08d31c5db8191d9a61ae2a85"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/queue_archive/ORDER-306.md",
+          "sha256": "8070e90fa10175f599b8417afa68c62b28b6d8fe2a60aa5902f826641cc9a1e4"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "Actual rendered screenshots, manual input, audio quality, new package, full-product/release approval.",
+        "Remaining ORDER-302 English style/quotation and visual work; full/legacy 240-week audit; subsequent metadata closure/checks."
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-306.json",
+        "sha256": "c7fc0e89e7ab221b9d69c6fb66647f0e9f77ad2e08d31c5db8191d9a61ae2a85"
+      }
+    },
+    {
+      "id": "order-307-source-59d4f790-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-27",
+      "decided_by": "/root/blackjack_accounting_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-307",
+      "subject": {
+        "kind": "source",
+        "commit": "59d4f790ecfd84f023c5796039264e4bfe72cdcf",
+        "tree": "0d6807438c512e5b3873c0a310d24e211612f0c1",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-307.json",
+          "sha256": "751d46302553f1cbab1a040abe821132408f625918ac3c9d292fc99ce55b85dd"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/queue_archive/ORDER-307.md",
+          "sha256": "ee30c537670b2cbc14acbe6b0e525d23baabd69e390fea23b665706a788bc3e9"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "Actual rendered screenshots, manual input, audio quality, new package, full-product/release approval.",
+        "Remaining ORDER-302 English style/quotation and visual work; full/legacy 240-week audit; subsequent metadata closure/checks."
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-307.json",
+        "sha256": "751d46302553f1cbab1a040abe821132408f625918ac3c9d292fc99ce55b85dd"
+      }
+    },
+    {
+      "id": "order-308-source-59d4f790-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-27",
+      "decided_by": "/root/blackjack_accounting_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-308",
+      "subject": {
+        "kind": "source",
+        "commit": "59d4f790ecfd84f023c5796039264e4bfe72cdcf",
+        "tree": "0d6807438c512e5b3873c0a310d24e211612f0c1",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-308.json",
+          "sha256": "424cda684c5985a450074bf23752f9a22eab436ea48164e4fe6cc3f126f5a82d"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/queue_archive/ORDER-308.md",
+          "sha256": "428f7a5487dee4526fded7e135aba6d2d1b0ff49d7c76449a5c8182673382700"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "Actual rendered screenshots, manual input, audio quality, new package, full-product/release approval.",
+        "Remaining ORDER-302 English style/quotation and visual work; full/legacy 240-week audit; subsequent metadata closure/checks."
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-308.json",
+        "sha256": "424cda684c5985a450074bf23752f9a22eab436ea48164e4fe6cc3f126f5a82d"
+      }
     }
   ]
 }

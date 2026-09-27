@@ -1,0 +1,79 @@
+{
+  "unit_id": "ORDER-307",
+  "scope": "work_unit",
+  "reviewer": "/root/blackjack_accounting_review",
+  "authority": "user_delegated_agent_final",
+  "independent": true,
+  "reviewed_at": "2026-09-27T10:38:39+09:00",
+  "timezone": "Asia/Seoul",
+  "subject": {
+    "kind": "source",
+    "commit": "59d4f790ecfd84f023c5796039264e4bfe72cdcf",
+    "tree": "0d6807438c512e5b3873c0a310d24e211612f0c1",
+    "manifest_sha256": null
+  },
+  "verdict": "GO",
+  "required": [],
+  "approved_scope": "Story-graph historical semantic comparison of the exact ORDER-305 successor only. Existing demo fixture, topology and historical semantic hashes remain authoritative; no new public or human approval.",
+  "review": {
+    "observed_commit": "59d4f790ecfd84f023c5796039264e4bfe72cdcf",
+    "observed_tree": "0d6807438c512e5b3873c0a310d24e211612f0c1",
+    "observed_worktree_clean": true,
+    "canonical_subject": "Independently invoked human_gates.current_agent_source_subject before report writes; equals clean HEAD.",
+    "independence": "No product, checker, baseline or helper authorship. Read-only source/raw-evidence verification; no official suite or engine rerun by reviewer."
+  },
+  "source_bridge": {
+    "executed_commit": "354c2703e45fc01753c3a45dc24e10ec4e38f185",
+    "executed_tree": "6d2e1258d9e11c9ed63654c49fd0976bceb56159",
+    "final_commit": "59d4f790ecfd84f023c5796039264e4bfe72cdcf",
+    "delta": "Only tools/story_demo_localization_audit.py plus ORDER-308 declaration and two queue files changed. All five event files, game/runtime code, 306/307 checkers and original runtime helpers are identical.",
+    "verification": "Independently compared all old capture input pins and 1220 runtime pins with final files: only the unrelated localization checker differs. Four final captures have all 1215 input pins equal to current files. Reused results are not final-head reruns."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "Actual rendered screenshots, manual input, audio quality, new package, full-product/release approval.",
+    "Remaining ORDER-302 English style/quotation and visual work; full/legacy 240-week audit; subsequent metadata closure/checks."
+  ],
+  "evidence": {
+    ".git/full-game-localization/order302-demo-check-308-bridge-first.json": "2b2cee59b8424c50e48879bd4bf0fc33bcca9d226d6dae878e1f86cd9106e086",
+    ".git/full-game-localization/order308-evidence-bridge.py": "eccf74776c1170b8e1e984b77af4e69264937bb7ca2acec98fa55df41c88e093",
+    ".git/full-game-localization/order302-demo-check-capture.py": "fa8ae245089389ec945554b965abb88bf8b069e6043ade9096df6dc0aec657ae",
+    "tools/human_gates.py": "59b62b8b8ee0ab3cb33a6c99f7802f8118d85472a0a2942e80ed0781ee7b47a1",
+    ".git/full-game-localization/order302-demo-check-307-graph-self-first.json": "973fbb9a542e40b07d026837cfbaf594907ad245090379010cd18fa327b4af49",
+    ".git/full-game-localization/order302-demo-check-306-helper-first.json": "9da634beafc75b6c6f0e40e6c10703c14a12a50b5a8f2fbe9a3a93773b36348b",
+    ".git/full-game-localization/order302-demo-check-305-preserve-final.json": "6643edc687623b94e7d092f3fc958535709fc5d6ae4e0c59db8d237a92e2b80b",
+    "tools/story_graph_contract_audit.py": "5fa4eb0db3e1144ed26174030490eed0facff8badc5d349df1347237d980a92f",
+    "tools/order305_demo_source_compat.py": "a6ba3bab8340df736eaf059abc7bb837ccf0474ea22ff66bda7c130619e09cad",
+    "tools/audit_scope.json": "6a9fb5364c13ea60ca1e2049b81ac7fca5bd2a84f79c101c7a138d9283e906cc"
+  },
+  "population": {
+    "changed_checker_files": 1,
+    "admitted_raw_files": 5,
+    "changed_ko_events_bound_to_raw": 3,
+    "changed_en_events_bound_to_raw": 1,
+    "original_self_cases": 47,
+    "new_negative_cases": 18,
+    "input_immutability_checks": 1,
+    "total_self_cases": 66,
+    "official_invocations": 1,
+    "engine_runs_owned": 0
+  },
+  "method": [
+    "Read the complete checker diff, load_inputs/event_index flow, current-source guard, copied demo semantic projection and all added tests.",
+    "Checked actual graph self invocation raw stdout/stderr and source pins. Its baseline validation runs before the 66-case self test; no separate normal invocation or extra engine is claimed.",
+    "Compared final source bridge and common helper pins; fixture and contract files are unchanged from original product baseline."
+  ],
+  "verified": {
+    "raw_guard": "All five source byte snapshots must exactly match the approved successor. KO/EN indexes are built from the same snapshots, not reopened files.",
+    "anti_masking": "The registered KO3/EN1 event objects are canonically bound to their corresponding raw snapshot. Replacing an in-memory current event with an old object cannot hide a source mutation behind historical semantic equality.",
+    "semantic_projection": "Only the copied demo semantic_rows hash receives the exact common-helper inverse. Graph topology/edges/choices continue to read actual current indexes; source fixtures, topology hash, subject and historical semantic pin are not rewritten.",
+    "tests": "PASS at 354c270, exit0, stderr empty: baseline validation then 47 preserved old cases +18 new rejection cases +1 input immutability check =66. An original case rejected merely by a generic ORDER-305 guard explicitly fails the self test. New negatives cover six prose leaves, effect, other demo event, fixture path/bytes, raw5, missing snapshot, historical raw and historical-object masking.",
+    "status": "Prior public package and human records remain unchanged. The graph result is a checker compatibility result, not whole-demo, 302, runtime, native, physical or release GO."
+  },
+  "findings_and_limits": [
+    "No mandatory unresolved defect within ORDER-307.",
+    "The interrupted broad selector's original graph failure was a reported discovery, not a second preserved formal graph run; only the bound final graph self capture is accepted here."
+  ]
+}

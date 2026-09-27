@@ -2,6 +2,20 @@
 
 > 이전 WORK·선언·검증 원문은 [287 보존본](queue_archive/ORDER-287.md)에 있다.
 
+## 2026-09-27 (Codex — 데모 월세·선택 이름·거절 결과)
+
+- [305](queue_archive/ORDER-305.md): 원룸 조건을 다섯 언어에서 월70만원으로 맞췄다. KO/JA/CN/TW 고정이름4개를 플레이어 이름으로, KO시제1·KO/JA/CN 거절표현3개를 바로잡았다. 원고23leaf/5파일이며 실제경제·선택효과·그 외 바이트는 그대로다.
+- 원고 `031f5e5`, 호환 포함 실제실행 `354c270`, 최종 source `59d4f790ecfd84f023c5796039264e4bfe72cdcf` / tree `0d6807438c512e5b3873c0a310d24e211612f0c1`. 독립 비저자305/306/307/308 각 작업한정 GO, 전체302·본편·새package는 HOLD다.
+- [306](queue_archive/ORDER-306.md)·[307](queue_archive/ORDER-307.md): 과거 검사핀을 덮지 않고 정확5파일/23leaf 후계만 역투영했다. helper132, year5 normal/self702, chapter5 normal/self127, full-body normal/self53, graph66, volume normal/self14, legacy 새경계6 PASS. legacy전체/24주/240주 엔진을 돌린 것이 아니다.
+- volume 실제24필드(관측22/graphhash2)만 갱신: KO총글자+2, 거절문 글자수 delta0. 부채30/outlier12·runtime PENDING·human OPEN 유지. 공식accepted40299/b136/meta9·보류72·UI사전·인간OPEN45/DONE1·옛공개원형 불변, 새receipt0.
+- [308](queue_archive/ORDER-308.md): 최초 지역검사에서 KO `월 칠십,`을7만원으로 오독한 CN/TW2FAIL을 보존했다. 정확 orthodox key/문구만 검사입력70만원으로 정규화, 원고·공유parser 무수정. 최종 지역14사건/100leaf/121UI 및55self PASS, 잘못된 월세·보증금·통화·토큰은 계속 거부한다.
+- 격리 pre-autoload 엔진1회/8.311초: 5언어 M01~M06 합계30개월/120주/30정산·저장5·StoryMode10 PASS. exact marker·3로그 오류/누수0·ENTRY12 격리경로 일치, 사용자43파일·실행1220핀 불변. HOME/project.godot 무변경, PNG/실제입력 관측0.
+- 이전후보의17정적PASS/지역FAIL1과 실제엔진 증거는 최종까지 제품·관련검사 입력 불변을 `308-bridge-first`로 결속했다. 다른 것은308검사기와 선언metadata뿐이며 느린702self/엔진을 불필요하게 반복하지 않았다. 최종 원고보존/지역정상·self/bridge4capture PASS.
+- 초기 helper Python3.9 alias 개발FAIL과 selector `--list` 누락의부분정적실행/INT130도 보존했다. 후자는 공식PASS로 재사용하지 않았고 Godot미발견으로 엔진0. 옛공개inventory drift는 새package승인으로 덮지 않았다. 큐 공통검증에 목록전용 호출을 명시했다.
+- 강남드림 개발 스킬의 원문·게임효과 보존, 분리된 지역 저작/독립검수, 실패기록 보존·표적검증을 적용했다. 규범은 일회성/기존 정본 적용이며 자동PASS는 재미·문체·원어민·인간·물리패드 승인 증거가 아니다.
+- 다음은302의 EN 시제·인용 후속 선언과 실제화면·새후보다. 읽기전용 census에서 공개11장면은 분기합집합(정적76leaf+controller대체3)이며 M04는3장면경로, 감사14node와 다름을 확인했다. 영어 문체는 미수정이고 재서명을 대기조건으로 두지 않는다.
+- 마감 context·queue·queue-self25·human·agent-self222 5종 PASS(`305-closure-*-first`). 활성77/진행74·인간OPEN45/DONE1 유지. 이전89판정 byte prefix 보존, 새4작업 한정93행과 독립보고/보관사양 SHA 일치. STATUS는 이 문서 묶음 커밋 뒤 clean 후보에서 생성한다.
+
 ## 2026-09-27 (Codex — 데모 직업 안내·지연 회상 장소)
 
 - 승인302 B: 공개 시작 안내의 편의점 야간 수입을 야간 단기 일로, M06 지연 회상의 버스 정류장을 빗길로 고쳤다. controller3substring과 JA/CN/TW 각2키·2값만 변경. EN 시작 안내는 이미 중립이라 보존했다. 후보 `6c4cd0d`, tree `32831908d9a95a0028a8bcc6248a497f6cc6e287`.
