@@ -261,6 +261,10 @@ func _build_ui() -> void:
 
 	var root := VBoxContainer.new()
 	root.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	root.set_anchor_and_offset(SIDE_LEFT, 0.025, 0.0)
+	root.set_anchor_and_offset(SIDE_TOP, 0.025, 0.0)
+	root.set_anchor_and_offset(SIDE_RIGHT, 0.975, 0.0)
+	root.set_anchor_and_offset(SIDE_BOTTOM, 0.975, 0.0)
 	root.add_theme_constant_override("separation", 0)
 	add_child(root)
 

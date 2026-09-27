@@ -467,6 +467,10 @@ func _build_ui() -> void:
 
 	var root := VBoxContainer.new()
 	root.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	root.set_anchor_and_offset(SIDE_LEFT, 0.025, 0.0)
+	root.set_anchor_and_offset(SIDE_TOP, 0.025, 0.0)
+	root.set_anchor_and_offset(SIDE_RIGHT, 0.975, 0.0)
+	root.set_anchor_and_offset(SIDE_BOTTOM, 0.975, 0.0)
 	root.add_theme_constant_override("separation", 0)
 	add_child(root)
 
@@ -501,8 +505,8 @@ func _build_ui() -> void:
 	body_margin.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	for side in ["margin_left", "margin_right"]:
 		body_margin.add_theme_constant_override(side, 28)
-	body_margin.add_theme_constant_override("margin_top", 12)
-	body_margin.add_theme_constant_override("margin_bottom", 12)
+	body_margin.add_theme_constant_override("margin_top", 6)
+	body_margin.add_theme_constant_override("margin_bottom", 6)
 	root.add_child(body_margin)
 
 	var center := CenterContainer.new()
@@ -516,12 +520,14 @@ func _build_ui() -> void:
 	center.add_child(table_panel)
 
 	var table_margin := MarginContainer.new()
-	for side in ["margin_left", "margin_right", "margin_top", "margin_bottom"]:
+	for side in ["margin_left", "margin_right"]:
 		table_margin.add_theme_constant_override(side, 18)
+	for side in ["margin_top", "margin_bottom"]:
+		table_margin.add_theme_constant_override(side, 4)
 	table_panel.add_child(table_margin)
 
 	var table := VBoxContainer.new()
-	table.add_theme_constant_override("separation", 4)
+	table.add_theme_constant_override("separation", 2)
 	table_margin.add_child(table)
 
 	var title := Label.new()
