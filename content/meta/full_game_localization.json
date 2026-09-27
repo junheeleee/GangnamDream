@@ -4938,6 +4938,31 @@
       "machine_validation": "PASS",
       "rendered_review": "OPEN",
       "native_review": "OPEN"
+    },
+    {
+      "order": "ORDER-309",
+      "group": "events",
+      "roots": [
+        "hyunsu_result_fail",
+        "hyunsu_result_pass"
+      ],
+      "source_leaves": 3,
+      "target_leaves_by_locale": {
+        "ja": 3,
+        "zh-CN": 3,
+        "zh-TW": 3
+      },
+      "revalidated_existing_leaves": true,
+      "added_accepted_leaves": 0,
+      "source_review": "Korean-direct corridor/door and fourth-day shared-sink wording repair; nonauthor reviewed all 15 Hyunsu text leaves. Existing acceptance records for exactly three leaves per locale re-bound; all other accepted records and historical batches preserved. No new residence, gameplay, tense or after-move event changes.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "ja": "474eda1f677ad99b7fc8d66d3b16d21ee6e77147ac8eef1fc888fea1ac226d8b",
+        "zh-CN": "7379deea56d6e539a01bb83a58c107516854f0e1dc29c15b94175ebe119b71e6",
+        "zh-TW": "9aa59c06f154bcf159005ff32dee6740dad719161ac7efa4898ffc046fa6a56c"
+      }
     }
   ],
   "accepted": {
@@ -5379,16 +5404,16 @@
         "target_sha256": "745e0afa5dea7d71f4a2a33c1f61fe4fcfae7c4e8a175753679e384f08c6fde3"
       },
       "events:hyunsu_result_fail:/choices/1/result_text": {
-        "source_sha256": "9bd7022643f65be1795898159bb36d8ce6466a3cc430b3f19339a709fc5f32c6",
-        "target_sha256": "90821ce0a4fa47153738f9c4c7de2bac53e035f25bedf07b78be260f7fc4797d"
+        "source_sha256": "aaefdbf54c9b97f85bf650176716c68916994c95a77820d29b98bf99297c6d92",
+        "target_sha256": "cdb8c2ca35d7929b9f317d94286ae58b7278c0d837df6e9d5c30aa7b760042f3"
       },
       "events:hyunsu_result_fail:/choices/1/text": {
         "source_sha256": "cb0e848a8273f063dcbe005a6f5dbf310b1bcd8ec57115187997267ae939d237",
         "target_sha256": "4c7ba8384564aea97b9eeccf9d31b57f24c3bbc948491bbddd2da2e60a1d3f42"
       },
       "events:hyunsu_result_fail:/description": {
-        "source_sha256": "42a6814b39c73a39089d50c79d96abd02b7138f6e4d579130538a1a824ee9e60",
-        "target_sha256": "f90a3e99f9279061728b69efa418f773121951f5e933784df480364cf2cdc61c"
+        "source_sha256": "15be84dccbd56ff86b21d3f73d373f8f4c7d7abc8956a348ccc55f7c422a070f",
+        "target_sha256": "7b76c39a13a85d2912f4373afd69cc9feaf8f565005fc7477c07ac22aa20fd21"
       },
       "events:hyunsu_result_fail:/description_memory_if_known/future_story_source:hyunsu_exam_2026:hyunsu_exam_eve_unanswered": {
         "source_sha256": "c97e559d6260f0fcab6c4ad5035d8c11d39b0653822dce76480edd0cb32e4cff",
@@ -50971,8 +50996,8 @@
         "target_sha256": "941b4284cdc740edeb02e59ea4000a0f4c9444fd60ba26fcd996fb421c245b49"
       },
       "events:hyunsu_result_pass:/description": {
-        "source_sha256": "1c5d2ca72a43ef47bb5972ab76ac71b290a4ab4c61c4a70a492d6734b6e5548a",
-        "target_sha256": "4adf7dc5ef72bdac0558c4a01f5b8ff078ae1ab092818ece73072c9c9848e45e"
+        "source_sha256": "c62d4cbaf8fc4f4ee00398d2c284ff24f25d5155c44376b6a2e832a47ac3cfe6",
+        "target_sha256": "d95fa5d12defee9f50b1cd51018765a76dd0e7b78ffbe5aa19ad07ecafdd0a02"
       },
       "events:hyunsu_result_pass:/title": {
         "source_sha256": "faca1e8f5859566a1dbac3a652a3f828a65896907a89b639c2cab624eb9d6f00",
@@ -57825,16 +57850,16 @@
         "target_sha256": "7d8b0e419338038e69438f29b93f9838c49cc8e7b75f4a6c1ff81800ee439c20"
       },
       "events:hyunsu_result_fail:/choices/1/result_text": {
-        "source_sha256": "9bd7022643f65be1795898159bb36d8ce6466a3cc430b3f19339a709fc5f32c6",
-        "target_sha256": "0aebb68bf4be4d6730c74b7ddbcc5c8ac943c919ef0f9d84c01b02281553a648"
+        "source_sha256": "aaefdbf54c9b97f85bf650176716c68916994c95a77820d29b98bf99297c6d92",
+        "target_sha256": "48609cdad5187ff8be1610dec03087f314cda76ba57e756f89583e9368318c47"
       },
       "events:hyunsu_result_fail:/choices/1/text": {
         "source_sha256": "cb0e848a8273f063dcbe005a6f5dbf310b1bcd8ec57115187997267ae939d237",
         "target_sha256": "61f22fdc8194c40625f396152305b1bbb0e0f47d4ad5a15a1c556560418f4c61"
       },
       "events:hyunsu_result_fail:/description": {
-        "source_sha256": "42a6814b39c73a39089d50c79d96abd02b7138f6e4d579130538a1a824ee9e60",
-        "target_sha256": "e71601184a7a3e706e827e72c124c9d2db15436f53a96544b09a088fe5243420"
+        "source_sha256": "15be84dccbd56ff86b21d3f73d373f8f4c7d7abc8956a348ccc55f7c422a070f",
+        "target_sha256": "f457395c7a33a00531ea3f1788ddae610cf40cdc3403389bc87eccadf0bff58f"
       },
       "events:hyunsu_result_fail:/description_memory_if_known/future_story_source:hyunsu_exam_2026:hyunsu_exam_eve_unanswered": {
         "source_sha256": "c97e559d6260f0fcab6c4ad5035d8c11d39b0653822dce76480edd0cb32e4cff",
@@ -103417,8 +103442,8 @@
         "target_sha256": "681e5ff1b979ef6f323a766ff38e8a804755b612de7451da2a94b622ffb5ad57"
       },
       "events:hyunsu_result_pass:/description": {
-        "source_sha256": "1c5d2ca72a43ef47bb5972ab76ac71b290a4ab4c61c4a70a492d6734b6e5548a",
-        "target_sha256": "c2cbfad02937948e26112c269f843f92e542f1719a5e770d9afae58c9bb3dc5e"
+        "source_sha256": "c62d4cbaf8fc4f4ee00398d2c284ff24f25d5155c44376b6a2e832a47ac3cfe6",
+        "target_sha256": "e9949bd7ac6f878c8b7f277b367a3fdf141318124baf7e7a34c41ec2432812de"
       },
       "events:hyunsu_result_pass:/title": {
         "source_sha256": "faca1e8f5859566a1dbac3a652a3f828a65896907a89b639c2cab624eb9d6f00",
@@ -112203,16 +112228,16 @@
         "target_sha256": "2b43279e01a44772d533ad7eae247d1812e96fc7a64fa922460ec2a8de8fb124"
       },
       "events:hyunsu_result_fail:/choices/1/result_text": {
-        "source_sha256": "9bd7022643f65be1795898159bb36d8ce6466a3cc430b3f19339a709fc5f32c6",
-        "target_sha256": "034282438d22d49927606e1d549d0e2078fadf466aaf9781a9379f5655c754b6"
+        "source_sha256": "aaefdbf54c9b97f85bf650176716c68916994c95a77820d29b98bf99297c6d92",
+        "target_sha256": "0babd82fd0242169d13ed62886fca96cb100486d2ccd7fa76d2c388e3c49bd63"
       },
       "events:hyunsu_result_fail:/choices/1/text": {
         "source_sha256": "cb0e848a8273f063dcbe005a6f5dbf310b1bcd8ec57115187997267ae939d237",
         "target_sha256": "c895bd51244342387884660c7ed3da8318882e757ca84eb9f8facc15df067305"
       },
       "events:hyunsu_result_fail:/description": {
-        "source_sha256": "42a6814b39c73a39089d50c79d96abd02b7138f6e4d579130538a1a824ee9e60",
-        "target_sha256": "a8a8807a2ccf67c9bd5a8a784dbc58b99f13a4328a05aa022406840705dccfef"
+        "source_sha256": "15be84dccbd56ff86b21d3f73d373f8f4c7d7abc8956a348ccc55f7c422a070f",
+        "target_sha256": "b70ec70ef246927dbeae5d1175282a3eda5620d1ea6de8927d7413de854fd965"
       },
       "events:hyunsu_result_fail:/description_memory_if_known/future_story_source:hyunsu_exam_2026:hyunsu_exam_eve_unanswered": {
         "source_sha256": "c97e559d6260f0fcab6c4ad5035d8c11d39b0653822dce76480edd0cb32e4cff",
@@ -157795,8 +157820,8 @@
         "target_sha256": "1f1a8e81583c6dd374ca289c0fcd480385c3d7264819db7444b40acf4a5d1956"
       },
       "events:hyunsu_result_pass:/description": {
-        "source_sha256": "1c5d2ca72a43ef47bb5972ab76ac71b290a4ab4c61c4a70a492d6734b6e5548a",
-        "target_sha256": "db4a6fc76d5fd78401fb6b1ede8dee780e152fc009eb61a9e05c279822881da9"
+        "source_sha256": "c62d4cbaf8fc4f4ee00398d2c284ff24f25d5155c44376b6a2e832a47ac3cfe6",
+        "target_sha256": "75013aaee87669e3a2297a6f92d3b97610d4b32b5cf0b48b58451803892787ec"
       },
       "events:hyunsu_result_pass:/title": {
         "source_sha256": "faca1e8f5859566a1dbac3a652a3f828a65896907a89b639c2cab624eb9d6f00",
@@ -166144,7 +166169,7 @@
       }
     }
   },
-  "accepted_sha256": "cbc8e8566aedd21cb9b405a38347fa99c6899378e0013629975509d43b16c91a",
+  "accepted_sha256": "7eb2e14ce72249d862038535767aeabcb115e0794c0cec49e67a59724ba25b7a",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {

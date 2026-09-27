@@ -32,7 +32,7 @@
   {
     "id": "hyunsu_result_pass",
     "title": "Hyunsu Passed",
-    "description": "Hyunsu sent a message: \"Hyung, could you come by my room for a minute?\" {name} walked down the corridor of Hyunsu's goshiwon and stopped at his door. When it opened, Hyunsu spoke.\n\n\"Hyung, I passed.\"\n\nHe said it quietly. No shouting, no smile. His phone was still in his hand, the acceptance screen glowing, his fingertips pressed white against the glass.\n\nFour years. Every year he failed, he had turned one year older and opened the same workbook again — and all of that time was pressed into that one low voice.\n\n\"I wanted to tell you first, hyung.\"",
+    "description": "Hyunsu sent a message: \"Hyung, could you come by my room for a minute?\" {name} walked down the hall and stopped at Hyunsu's door. When it opened, Hyunsu spoke.\n\n\"Hyung, I passed.\"\n\nHe said it quietly. No shouting, no smile. His phone was still in his hand, the acceptance screen glowing, his fingertips pressed white against the glass.\n\nFour years. Every year he failed, he had turned one year older and opened the same workbook again — and all of that time was pressed into that one low voice.\n\n\"I wanted to tell you first, hyung.\"",
     "choices": [
       {
         "text": "Congratulate him",
@@ -43,7 +43,7 @@
   {
     "id": "hyunsu_result_fail",
     "title": "Hyunsu Didn't Pass",
-    "description": "On Monday, when the result was posted, one Kakao message arrived from Hyunsu.\n\n“Hyung, I didn't pass.”\n\nFor the next three days, Hyunsu did not leave his room. The sound of ramyeon water boiling disappeared from the shared kitchen. {name} went to Hyunsu's goshiwon with a convenience-store bag. Only light leaked from under the door.\n\nShould he knock? He raised his hand, lowered it, then raised it again.",
+    "description": "On Monday, when the result was posted, one Kakao message arrived from Hyunsu.\n\n“Hyung, I didn't pass.”\n\nFor the next three days, Hyunsu did not leave his room. The sound of ramyeon water boiling disappeared from the shared kitchen. Carrying a convenience-store bag, {name} went down the hall to Hyunsu's door. Only light leaked from under the door.\n\nShould he knock? He raised his hand, lowered it, then raised it again.",
     "description_memory_if_known": {
       "relationship_memory:hyunsu:hyunsu_exam_eve_one_problem": "Standing at the door, {name} remembers the problem photo they reviewed over Kakao on the final Sunday before the exam. Hyunsu had said he would finish that one problem and sleep.",
       "relationship_memory:hyunsu:hyunsu_exam_eve_rest_protected": "Standing at the door, {name} remembers Hyunsu's reply from the final Sunday before the exam: “Okay. I'll set my alarm and lie down. You sleep too, hyung.”",
@@ -56,7 +56,7 @@
       },
       {
         "text": "Leave him be — he probably wants to be alone",
-        "result_text": "{name} left without knocking, still carrying the convenience-store bag.\n\nOn the fourth day, he visited the goshiwon again and found Hyunsu washing his face for a long time at the shared sink. When the water stopped, their eyes met in the hallway. Hyunsu gave a small nod.\n\n{name} nodded back. He asked nothing that day."
+        "result_text": "{name} left without knocking, still carrying the convenience-store bag.\n\nOn the fourth day, Hyunsu spent a long time washing his face at the shared sink. When the water stopped, their eyes met in the hallway. Hyunsu gave a small nod.\n\n{name} nodded back. He asked nothing that day."
       }
     ]
   },

@@ -257,7 +257,7 @@
     "choices": [
       {
         "text": "\"Let's take a photo so we don't lose track of each other again.\"",
-        "result_text": "Jaehyuk props up his phone and starts the timer. Under the tent lights, they lean shoulder to shoulder and smile.\n\nA moment later, the photo arrives on {name}'s phone. For the first time, the two of them are in the same frame without their uniforms.\n\n\"Next time, let's not wait so long.\"\n\nNeither of them laughs the words away."
+        "result_text": "Jaehyuk props up his phone and starts the timer. Under the tent lights, they lean shoulder to shoulder and smile.\n\nA moment later, the photo arrives on {name}'s phone. The two of them are in the same frame without their uniforms.\n\n\"Next time, let's not wait so long.\"\n\nNeither of them laughs the words away."
       },
       {
         "text": "Keep the night to old stories and leave first",
