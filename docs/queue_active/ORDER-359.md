@@ -90,7 +90,12 @@
   invariants SHA `fd8c6c62cf0bd4d145827fba1d8f372aed2c760ded310d448086b27bd78c4fa9`.
   dirty 선언HEAD의 바이트에서 수행했고 후속 clean commit 재실행을 주장하지 않는다.
 - 독립 비저자 `/root/r3_route_probe`가20원고·12receipt·16상태48label·4PNG를
-  전수 대조했다. 최종 source 판정은 별도 보고에 결속한다. 358 연결 전 `[~]`/HOLD,
+  전수 대조했다. P-20 승인 병합 후 source `636ed302`/tree `0d293bdf`에
+  [최종 보고](../agent_reviews/ORDER-359.json)를 결속했다. SHA
+  `cda242e4a8d6a4e6b814b540b4f0059cf23b488f416ba39f2559d4b3d6a67122`.
+  병합 전2a4 보고는 private 원형 보존, 제품6·runtime16핀은 현재도 동일하다.
+  이전 보호20 중 PROPOSALS만 승인으로 변경됐으므로 현재도20전부 불변이라 하지 않는다.
+  기존114판정/92보고를 유지한 채 새1건만 추가해115/93이다. 358 연결 전 `[~]`/HOLD,
   인간OPEN45·옛공개GO1·기존114판정/92보고·프로젝트·P-20 보존. 새판정만 추가한다.
 - 규범은 일회성/기존 WORK_UNIT·I18N 적용, 새 상시 규칙0. 원어민/인간/물리
   관찰과 본편/새package GO·외부출시 권한은 발급하지 않는다. 다음은358이다.

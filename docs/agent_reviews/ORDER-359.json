@@ -1,0 +1,94 @@
+{
+  "schema": "gangnamdream-independent-work-unit-review/v1",
+  "unit_id": "ORDER-359",
+  "scope": "work_unit",
+  "review_stage": "independent_source_bound_final_after_remote_merge",
+  "decided_by": "/root/r3_route_probe",
+  "decision": "HOLD",
+  "verdict": "HOLD",
+  "subject": {
+    "kind": "source",
+    "commit": "636ed302ee7143c6e4ae62439e928a9bca40d5ca",
+    "tree": "0d293bdf0b6ca687f5641ca1630b85aa8570f5ba",
+    "manifest_sha256": null
+  },
+  "outcome": "The bounded 20-leaf count-presupposition repair, 12 refreshed receipts and recorded targeted StoryMode behavior remain suitable on this exact merged source. Whole ORDER-359 integration remains HOLD because the three current/historical source-guard failures still require ORDER-358. No previous source's GO is borrowed.",
+  "independence": "Product non-author review by /root/r3_route_probe. The original review directly read all 20 before/after bodies and receipt pairs, helper/runner/consumer code, saved runtime/static evidence and all four original PNGs. This continuation independently read the complete six-file merge delta, observed the new resolver identity and rebound unchanged product evidence. No product, engine, importer or seven-command audit rerun occurred; only this new private report was written. JA/CN/TW native-reader approval is not claimed.",
+  "population": {
+    "event_json_files": 5,
+    "existing_text_leaves_changed_and_reviewed": 20,
+    "new_leaves": 0,
+    "existing_locale_receipts_refreshed": 12,
+    "new_receipts": 0,
+    "accepted_total": 40302,
+    "batches": 141,
+    "roots": ["arc_year4_close", "arc_year4_close_father_passed"],
+    "known_fields": ["year3_weighted", "year3_eyes_open"],
+    "locales": ["ko", "en", "ja", "zh-CN", "zh-TW"]
+  },
+  "source_binding": {
+    "observed_at_utc": "2026-09-27T14:49:28.383690+00:00",
+    "observed_clean": true,
+    "resolver": "current_agent_source_subject independently returned exactly the subject above.",
+    "merge_parents": ["2a4e326882085d372b5f38b694c3fe30a68747c0", "98e431a308d629eba41b29fdf4318728b7c96620"],
+    "product_commit": "acab8ea29d2ec392d1224513e005e8b8000a4535",
+    "direct_product_parent": "e3a6e09d5a6e3398a4db764177352dc7755d0892",
+    "merge_delta_paths": ["CLAUDE.md", "docs/DECISIONS.md", "docs/PROPOSALS.md", "docs/STATUS.md", "docs/WORK_LOG.md", "docs/queue_active/ORDER-148.md"],
+    "product_binding": "The complete content diff between acab8ea and merged HEAD is empty. All six static product pins and all sixteen runtime pins still match current bytes. The original review report is unchanged. Existing 114 agent decisions, 92 reports and the human ledger are unchanged from the previously reviewed source.",
+    "new_candidate_reason": "CLAUDE, DECISIONS and PROPOSALS are source-bearing. This is a new candidate, not a metadata-wrapper claim for 2a4e326.",
+    "execution_boundary": "Existing executions are reused only through their verified six product pins and sixteen runtime pins, including the runtime runner. They are not clean-merged-source reruns or whole-source censuses. The saved 34-entry user before/after maps were independently compared equal during the original review; no new user-data census is claimed."
+  },
+  "merge_scope_review": {
+    "approval_documents": "DECISIONS, PROPOSALS and ORDER-148 are byte-identical to remote parent 98e431a. They record the user's P-20 approval, chapter-five prose criteria and preserved ORDER-148/150 prerequisites. The newly recorded chapter-five authoring work does not expand this chapter-four 20-leaf repair or authorize a new scene/runtime change here.",
+    "log_and_status": "The complete WORK_LOG delta retains the local 359 evidence and adds Claude's approval/failure note. CLAUDE records approval and separate inventory follow-up; generated STATUS removes the now-closed proposal. No historical human or agent decision is promoted.",
+    "protected_file_exception": "The earlier static invariant's protected set has 20 paths. Nineteen remain identical; docs/PROPOSALS.md now intentionally differs because the remote user-approved P-20 change was preserved. The original invariant remains valid evidence for its pre-merge source, but its all-20-unchanged statement is not claimed for this merged source.",
+    "separate_inventory_report": "Claude's added log reports six release-content-inventory category mismatches and a possible earlier-source origin. This reviewer did not rerun or independently diagnose that separate check. It is not included in ORDER-359's seven-command results, not dismissed as a PASS and not repaired under this prose scope; separate triage/follow-up is required."
+  },
+  "prose_and_receipt_assessment": "All 20 owned bodies are count-neutral while retaining the physical envelope versus unlocked digital folder, clinic notice, last-contact references, life/death-root translation differences and token/paragraph shape. EN paperwork/same folder/it and removal of CN's plural pronoun close the residual count premise. Exactly 12 existing Korean/target receipts were independently matched to captured pairs and private accepted checksums; no new acceptance. Original 140 batches, retained metadata 9, held boundary 72 and ORDER-350's 86 repaired leaves are preserved. The initial exchange manifest-fixture failure and three later genuine stale-source rejections remain recorded.",
+  "verification": {
+    "normal_commands": 7,
+    "passed": 6,
+    "failed": 1,
+    "timeouts": 0,
+    "passed_commands": ["en_coverage_check.py", "audit.py", "story_consistency_audit.py", "i18n_coverage_check.py", "english_hangul_audit.py", "full_game_localization_self_test.py:264 cases"],
+    "failed_command": "full_body_translation_scope.py",
+    "exact_remaining_errors": [
+      "ORDER-313: current source exceeds exact approved successor content/events_en/arc_events.json",
+      "ORDER-313: current source exceeds exact approved successor content/events_en/arc_midgame.json",
+      "ORDER-313: current source exceeds exact approved successor content/meta/full_game_localization.json"
+    ],
+    "impact_list": "71 selected checks were listed, not executed.",
+    "runtime": "One saved isolated live StoryMode run: KO/EN x father alive/passed x weighted/eyes_open x ghost absent/present = 16 distinct prepared states, 48 exact page labels and eight invariant ghost pairs. Every saved body/label matched current formatted source; four original first-page PNGs were directly viewed without clipping/overlap. Exit 0, timeout false, error lines zero, matching pre-autoload namespace markers and exact isolated-directory cleanup.",
+    "runtime_limits": "The four PNGs cover only alive/ghost-absent first pages, not all 16 states visually. The helper uses prepared state, direct handlers, typing completion and tween stepping. It does not observe natural input, normal-speed play, year-four choice/result flows, MainGame scheduler execution or each death signal independently. Pagination expectations use the runtime page function. HUD 13 months reflects prepared week 192, not natural calendar progression."
+  },
+  "required_findings": [
+    {
+      "priority": "P1",
+      "status": "OPEN",
+      "owner_order": "ORDER-358",
+      "finding": "Current repaired source is still outside the historical admission boundary at the three recorded paths.",
+      "required_action": "Complete the separately declared bounded current/historical-source bridge, preserving original guards, pins and failures, then obtain a fresh source-bound independent follow-up decision for 350/359."
+    }
+  ],
+  "evidence": [
+    {"path": ".git/full-game-localization/order359-final-review.json", "sha256": "d3997e3d62751c65dc81b2b58c5a46e29ec39799bad976fc59974e0d5ff9511a", "role": "Immutable detailed independent review of source 2a4e326; its evidence hashes and limits are incorporated subject to the explicit merge exception above"},
+    {"path": ".git/full-game-localization/order359-static-summary.json", "sha256": "5803bc6018a1337123e5215b4edaff340f38b940407b415c0aecbd7e263181af"},
+    {"path": ".git/full-game-localization/order359-static-invariants.json", "sha256": "fd8c6c62cf0bd4d145827fba1d8f372aed2c760ded310d448086b27bd78c4fa9"},
+    {"path": ".git/full-game-localization/order359-screen-l84hv0pu/result.json", "sha256": "89b943c8adfdde81de4e7219528815dd26628995878d3aa3e34dcce119676d8e"},
+    {"path": ".git/full-game-localization/order359-screen-l84hv0pu/cases.json", "sha256": "67a7b10a9be54ebff69b56527491cbd75d0e7a6dac1b1e1f2ec56abd5bd1675c"},
+    {"path": "docs/DECISIONS.md", "sha256": "3e970bda986bebc8ad5d264662c49b1e977f7ed71cd1e0fc99484bc20a9864e5", "git_commit": "636ed302ee7143c6e4ae62439e928a9bca40d5ca"},
+    {"path": "docs/PROPOSALS.md", "sha256": "b58c394f0d074418b00102541cb04dbf1869eb1b96d16851ce92c59a43f7015c", "git_commit": "636ed302ee7143c6e4ae62439e928a9bca40d5ca"},
+    {"path": "docs/queue_active/ORDER-148.md", "sha256": "146dc480c7fdecc81090f640012e49e34564f2c5cc8c678bd662347230f32348", "git_commit": "636ed302ee7143c6e4ae62439e928a9bca40d5ca"}
+  ],
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "Natural input, normal-speed play, all-state/full-body visual review, JA/ZH screens and full playthrough.",
+    "Clean-merged-source rerun, whole-source census, every user-data location and execution of all 71 impact checks.",
+    "Independent diagnosis of the separately reported six-category release-content-inventory mismatch.",
+    "Internal-product, successor-package or release GO. Human OPEN45 and old exact-package public GO1 retain their prior meaning; no publication, storefront or expenditure authority."
+  ],
+  "supersedes_for_recording": "Use this merged-source HOLD when recording the current ORDER-359 decision. Preserve the original 2a4e326 report and all raw evidence unchanged; this is not a retroactive rerun or withdrawal of its bounded assessment.",
+  "next_step": "Keep ORDER-359 HOLD for ORDER-358 integration. Track the newly reported inventory issue separately without expanding the reviewed prose population or rewriting historical evidence."
+}

@@ -1,0 +1,57 @@
+# Active Queue Spec: ORDER-360
+
+> Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
+
+#### [ ] ORDER-360 [P1·검증] 대본 수리 뒤 현재 콘텐츠 검토 지문을 다시 결속한다
+
+2026-09-27 Codex 발행. Claude의 P-20 승인 반영 커밋 `78d6fea`가 남긴
+검사 실패를 실제 현재 소스 `636ed302`에서 읽기 전용으로 확인한 후속이다.
+359 제품 수리나358 역사 비교에 범위를 붙이지 않는다. 358 뒤·351 전에 실행한다.
+
+## 깊이 3문
+
+1. 왜 필요한가: 현재 본문과 내용 검토 기록이 다르면 출시 준비 검사가
+   실제 변경과 단순 원문 갱신을 구별하지 못한다.
+2. 무엇을 보존하는가: 기존 사실·강도·후보 ID와 동결 공개 패키지·인간 증거를
+   유지하며, 검토한 현재 KO/EN 사건에 대한 지문만 다시 결속한다.
+3. 무엇과 경쟁하는가: 다음4장 집필 전에 기존 대본 수리의 검토 누락을 닫는다.
+   최종 등급·법률 인증·외부 제출·스토어·내용 삭제는 이 작업이 아니다.
+
+## 확인된 실패 (구현 아님)
+
+- `python3 -B tools/release_content_inventory.py` normal1회, exit1·6.26초·stderr0.
+- `gambling`, `sexuality`, `violence`, `fear`, `crime`,
+  `alcohol_tobacco_drugs`의 `candidate_scan.expected_content_sha256`6개와
+  생성 보고 stale1개만 실패한다. 후보 사건/파일 수·ID SHA와 language 축은 일치한다.
+- 지문은 KO/EN 후보 사건의 전체 JSON을 읽는다. 관련 없는 문장 수리도 같은 사건의
+  지문을 바꿀 수 있으므로 실패만으로 표현 강화·후보 증가·등급 변경을 단정하지 않는다.
+  309/313/350별 원인은 아직 분해하지 않았으며 관측에는359도 포함된다.
+- private `order359-claude-inventory-result.json` SHA
+  `82b1e38b3d3038962e748857409c7450844d787375efcab1736867d29a442c34`,
+  stdout SHA `e257a8f270879d603699e394a7eacd6477f3839bb2d3f1aad16f8760dd9ee92e`.
+  전후18파일 SHA 불변. 이1회는359의 정적7명령에 합산하지 않는다.
+
+## 착수·소유 경계
+
+- 착수 전 최신 CLAUDE·WORK_UNIT·심의 콘텐츠 프로필 정본을 읽고 기준 commit을
+  고정한다. 아래 두 파일의 소유를 선언·커밋한 뒤 작업한다.
+- `content/meta/release_content_inventory.json`: 위6축의 본문 지문만.
+  각 축 지문이 마지막으로 검토된 원문과 현재 원문의 실제 변경 사건·문구를
+  Git에서 추적하고 전량 직접 읽는다. 확인 없이 현재 해시로 덮어쓰지 않는다.
+- `docs/CONTENT_RATING_INVENTORY.md`: 기존 생성기로 재생성한다. 수동 편집 금지.
+- 마감: 이 사양·큐·WORK_LOG·생성STATUS·CLAUDE 현재행과 별도 독립 판정 보고.
+- 제품 원고/번역·도구·후보 ID/count·언어축·기존 사실/강도·공개 source/tree/PCK/ZIP
+  핀·인간 원장·export 필터·스토어는 비소유다. 사실 내용이 실제로 달라졌으면
+  별도 범위를 선언하고 검토하며, 지문 갱신으로 그 차이를 숨기지 않는다.
+
+## 완료 조건
+
+- 6축별 실제 변경 원문과 지문 변화의 근거를 비저자가 전수 확인한다.
+- `release_content_inventory.py` normal과 관련 self-test, 생성 보고 최신성,
+  영향선택에 따른 표적 검증을 실행하고 원래7실패를 보존한다. 전체 엔진/플레이를
+  이유 없이 반복하지 않는다. 변경 허용6필드/생성 보고 외 불변을 증명한다.
+- 새 clean source·검토 근거를 별도 독립 작업 판정에 결속한다. 인간·원어민·물리
+  관찰·최종 등급·법률 인증·새 패키지 GO로 바꾸지 않는다.
+- 일회성 지시, 상시 규칙은 기존 WORK_UNIT·콘텐츠 인벤토리 정본을 따른다.
+
+현재 상태: 미착수. 원장/보고 변경0·엔진 실행0·외부 제출0.

@@ -4720,6 +4720,47 @@
         "path": "docs/agent_reviews/ORDER-350.json",
         "sha256": "842f2c5e27b6841aee04b9265d9038fa8340ced0fb9d118e4b46f3c9ed2b1743"
       }
+    },
+    {
+      "id": "order-359-source-636ed30-agent-review",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-27",
+      "decided_by": "/root/r3_route_probe",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-359",
+      "subject": {
+        "kind": "source",
+        "commit": "636ed302ee7143c6e4ae62439e928a9bca40d5ca",
+        "tree": "0d293bdf0b6ca687f5641ca1630b85aa8570f5ba",
+        "manifest_sha256": null
+      },
+      "verdict": "HOLD",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-359.json",
+          "sha256": "cda242e4a8d6a4e6b814b540b4f0059cf23b488f416ba39f2559d4b3d6a67122"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "natural_input",
+        "normal_speed_story_readthrough",
+        "full_body_visual_comparison",
+        "ja_zh_rendered_screens",
+        "full_240_week_playthrough",
+        "package_or_export_validation",
+        "full_shell_audit",
+        "source_guard_integration_completion",
+        "internal_product_GO"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-359.json",
+        "sha256": "cda242e4a8d6a4e6b814b540b4f0059cf23b488f416ba39f2559d4b3d6a67122"
+      }
     }
   ]
 }
