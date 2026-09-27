@@ -102,19 +102,19 @@
   {
     "id": "arc_sangchul_01_meet",
     "title": "Why Gangnam?",
-    "description": "Late March, just after the rain. A real estate office in a Sinchon alley displayed rows of studio floor plans behind its glass door.\n\n{name} had come to see whether leaving the goshiwon was even possible.\n\"Ten million won down. 700,000 a month. Utilities extra.\"\nThe numbers on the calculator were far ahead of the money in the bank.\n\nThe man across the desk looked from {name}'s empty hands to the worn sneakers. Early fifties, with a restrained Chungcheong cadence.\n\"With your situation right now, this will be difficult.\"\n\n{name} pushed back the chair. Without looking up from the paperwork, the man spoke again.\n\"Wait. No reason to throw the person out just because the room is out of reach.\"\n\nHe took out two paper cups.\n\"I can offer you hot coffee. The rain just stopped.\"\n\nOnly the wall clock and tires pushing through wet pavement filled the office.",
+    "description": "Late March, just after the rain. A real estate office in a Sinchon alley displays rows of studio floor plans behind its glass door.\n\n{name} has come to see whether leaving the goshiwon is even possible.\n\"Ten million won down. 700,000 a month. Utilities extra.\"\nThe numbers on the calculator are far ahead of the money in the bank.\n\nThe man across the desk looks from {name}'s empty hands to the worn sneakers. Early fifties, with a restrained Chungcheong cadence.\n\"With your situation right now, this will be difficult.\"\n\n{name} pushes back the chair. Without looking up from the paperwork, the man speaks again.\n\"Wait. No reason to throw the person out just because the room is out of reach.\"\n\nHe takes out two paper cups.\n\"I can offer you hot coffee. The rain just stopped.\"\n\nOnly the wall clock and tires pushing through wet pavement fill the office.",
     "choices": [
       {
         "text": "\"How did you know my situation?\"",
-        "result_text": "The man finally looked up from the papers.\n\n\"Was I wrong?\"\n\n{name} said nothing. The man nodded toward the empty chair. His gaze felt less like kindness now and more like confirmation."
+        "result_text": "The man finally looks up from the papers.\n\n\"Was I wrong?\"\n\n{name} says nothing. The man nods toward the empty chair. His gaze feels less like kindness now and more like confirmation."
       },
       {
         "text": "\"I'll just have the coffee, then.\"",
-        "result_text": "The paper cup was hot enough to sting, and the instant coffee was far too sweet.\n\nWhen {name} sat again, the man pulled out the opposite chair. Why he would spend time on someone who could not afford a room remained unclear."
+        "result_text": "The paper cup is hot enough to sting, and the instant coffee is far too sweet.\n\nWhen {name} sits again, the man pulls out the opposite chair. Why he would spend time on someone who cannot afford a room remains unclear."
       }
     ],
-    "description_orthodox": "Late March, just after the rain. A real estate office in a Sinchon alley displayed rows of studio floor plans behind its glass door.\n\nTen million won down, 700,000 a month, plus utilities. The numbers still refused to work with the current income.\n\nThe man across the desk watched the order of {name}'s calculations.\n\"With your situation right now, this will be difficult.\"\n\nWhat had given it away? Or did everyone who came looking for a room wear the same face?\n\nWhen {name} stood, the man took out two paper cups.\n\"I can offer you hot coffee. The rain just stopped.\"\n\nFirst, determine whether this was someone to learn from or someone to guard against.",
-    "description_unorthodox": "Late March, just after the rain. Rows of studio floor plans hung behind wet glass in a Sinchon alley.\n\nTen million won down. 700,000 a month. Still too far.\n\n\"With your situation right now, this will be difficult.\" The man across the desk had read {name} before reading the calculator.\n\nEyes that priced people. In front of eyes like that, it was hard to tell whether standing first meant losing or staying seated did.\n\nThe man took out two paper cups.\n\"I can offer you hot coffee. The rain just stopped.\"\n\n{name} looked once more at the eyes, not the cup."
+    "description_orthodox": "Late March, just after the rain. A real estate office in a Sinchon alley displays rows of studio floor plans behind its glass door.\n\nTen million won down, 700,000 a month, plus utilities. The numbers still refuse to work with the current income.\n\nThe man across the desk watches the order of {name}'s calculations.\n\"With your situation right now, this will be difficult.\"\n\nWhat gave it away? Or does everyone who comes looking for a room wear the same face?\n\nWhen {name} stands, the man takes out two paper cups.\n\"I can offer you hot coffee. The rain just stopped.\"\n\nFirst, determine whether this is someone to learn from or someone to guard against.",
+    "description_unorthodox": "Late March, just after the rain. Rows of studio floor plans hang behind wet glass in a Sinchon alley.\n\nTen million won down. 700,000 a month. Still too far.\n\n\"With your situation right now, this will be difficult.\" The man across the desk has read {name} before reading the calculator.\n\nEyes that price people. In front of eyes like that, it is hard to tell whether standing first means losing or staying seated does.\n\nThe man takes out two paper cups.\n\"I can offer you hot coffee. The rain just stopped.\"\n\n{name} looks once more at the eyes, not the cup."
   },
   {
     "id": "arc_sangchul_01_measure",
@@ -144,16 +144,16 @@
     "description": "Sangchul balances a pen on the blank memo sheet.\n\n\"Where do you want to live?\"\n\n\"...Gangnam.\"\n\nNo laugh. No admiration. Only the long hiss of tires over wet pavement beyond the glass.\n\n\"Gangnam isn't one neighborhood. An apartment? An address? Something to show people?\"\n\n{name} opens his mouth, then closes it. Every answer that comes to mind sounds borrowed from someone else.\n\nSangchul sets down the pen.\n\"That's why I'm asking. Why?\"",
     "choices": [
       {
-        "text": "'I... want to show my father. Just once.'",
+        "text": "\"I... want to show my father. Just once.\"",
         "result_text": "For the first time, that reason is spoken out loud.\n\"Where are you from?\" Sangchul asks.\n\"Changwon.\"\nThe hand stirring his coffee stops — just for half a beat.\nThen he looks at {name} for a long moment and nods.\n\"That 'why' is solid. Then that's enough.\"\n\"When you're shaken, it'll hold you.\" Sangchul sets his business card on the memo sheet."
       },
       {
-        "text": "'Doesn't everyone want Gangnam if they have the money?'",
-        "result_text": "Im Sangchul chuckles.\n'I've never seen anyone who answers like that actually make it.'\n'If Gangnam is the goal, you won't make it. The ones who do see it as a means to an end.'\n{name} does not know yet what that means. He leaves with just the business card."
+        "text": "\"Doesn't everyone want Gangnam if they have the money?\"",
+        "result_text": "Im Sangchul chuckles.\n\"I've never seen anyone who answers like that actually make it.\"\n\"If Gangnam is the goal, you won't make it. The ones who do see it as a means to an end.\"\n{name} does not know yet what that means. He leaves with just the business card."
       },
       {
-        "text": "Honest — 'Because I refuse to lose. To this city.'",
-        "result_text": "Im Sangchul sets down his coffee.\n'...I said the same thing thirty years ago, when I came up from Chungcheong.'\n'That stubbornness got me this far. Two buildings. But I also lost a lot.'\n'Don't lose what matters on the way. If you're going, get there whole.'"
+        "text": "Honest — \"Because I refuse to lose. To this city.\"",
+        "result_text": "Im Sangchul sets down his coffee.\n\"...I said the same thing thirty years ago, when I came up from Chungcheong.\"\n\"That stubbornness got me this far. Two buildings. But I also lost a lot.\"\n\"Don't lose what matters on the way. If you're going, get there whole.\""
       }
     ]
   },
@@ -163,16 +163,16 @@
     "description": "At dusk in spring rain, on a back road in Sinchon. {name} is riding a secondhand bicycle to save on transit fares.\n\nA black sedan swings around the corner and clips the front wheel. {name} falls onto the rain-slick road.\n\nA woman who looks to be in her early thirties steps out. Her long black hair and tailored suit are getting soaked.\n\n\"Oh no—are you okay? I'm so sorry. You should see a doctor—\"\n\n{name} checks the bicycle. The front wheel is bent, and his knee is bleeding a little.\nThere are still things to finish before the day is over. He cannot afford to spend much longer in the road.",
     "choices": [
       {
-        "text": "'I'm fine.' — Just leave.",
+        "text": "\"I'm fine.\" — Just leave.",
         "result_text": "Without compensation or contact information, {name} wheels the bent bicycle away.\nHe does not look back.\n\nThe woman remains where she is and watches him disappear down the road."
       },
       {
-        "text": "Show the bent wheel — 'Just the repair cost, please.'",
-        "result_text": "She takes one 50,000 won note and three 10,000 won notes from her wallet without hesitation.\n'Is that enough? If not—'\n'It's fine.'\n\n{name} pockets the 80,000 won and wheels the bent bicycle away. The crumpled bills and bent wheel are what remain."
+        "text": "Show the bent wheel — \"Just the repair cost, please.\"",
+        "result_text": "She takes one 50,000 won note and three 10,000 won notes from her wallet without hesitation.\n\"Is that enough? If not—\"\n\"It's fine.\"\n\n{name} pockets the 80,000 won and wheels the bent bicycle away. The crumpled bills and bent wheel are what remain."
       },
       {
-        "text": "Get angry — 'You need to watch where you're driving.'",
-        "result_text": "The words he has been holding back come out. She bows her head.\n'...I'm really sorry.'\n\nIt seems genuine. That makes it impossible to keep shouting.\n{name} sighs and wheels the bent bicycle away.\nThe weight of her gaze lingers."
+        "text": "Get angry — \"You need to watch where you're driving.\"",
+        "result_text": "The words he has been holding back come out. She bows her head.\n\"...I'm really sorry.\"\n\nIt seems genuine. That makes it impossible to keep shouting.\n{name} sighs and wheels the bent bicycle away.\nThe weight of her gaze lingers."
       }
     ],
     "description_orthodox": "At dusk in spring rain, on a back road in Sinchon. {name} is riding a secondhand bicycle to save on transit fares.\n\nA black sedan comes around the corner and clips the front wheel. {name} falls onto the rain-slick road. His knee bleeds, and the front wheel bends.\n\nThe car door opens. A woman who looks to be in her early thirties steps out into the rain, visibly shaken.\n\"You should really see a doctor—\"\n\n{name} tallies the wheel repair, the time a hospital visit would take, and the work still left today. He cannot afford to spend much longer in the road.",
@@ -274,11 +274,11 @@
   {
     "id": "arc_jaehyuk_01_reunion",
     "title": "Ten Years",
-    "description": "One KakaoTalk message.\n\"Hey {name}! It's Jaehyuk. Choi Jaehyuk from the army. Remember? I'm in Seoul — let's grab a drink.\"\n\nProfile picture: him in front of a foreign car.\n22 years old. Same barracks. Inseparable through their whole service, then nothing after discharge.\n\nThe Jaehyuk at the pojangmacha was different.\nGood clothes. Expensive watch. Confidence in every word.\n\"You haven't changed at all! Let's drink.\"",
+    "description": "One KakaoTalk message.\n\"Hey {name}! It's Jaehyuk. Choi Jaehyuk from the army. Remember? I'm in Seoul — let's grab a drink.\"\n\nProfile picture: him in front of a foreign car.\n22 years old. Same barracks. Inseparable through their whole service, then nothing after discharge.\n\nThe Jaehyuk at the pojangmacha was different.\nGood clothes. Expensive watch. Confidence in every word.\n\n\"You haven't changed at all! Let's drink.\"",
     "choices": [
       {
         "text": "Glad to see him — an old friend after a long time.",
-        "result_text": "Old army stories stretched into the night.\nFirst time laughing out loud in a while. A welcome face in a hard stretch.\n'Let's meet up often, {name}. I'll be in touch.'\nJaehyuk seemed genuine. At least that night."
+        "result_text": "Old army stories stretched into the night.\nFirst time laughing out loud in a while. A welcome face in a hard stretch.\n\"Let's meet up often, {name}. I'll be in touch.\"\nJaehyuk seemed genuine. At least that night."
       },
       {
         "text": "Glad, but keeping some distance.",
@@ -565,7 +565,7 @@
         "result_text": "{name} changed his password and lowered the daily transfer limit. The device list showed only the phone in his hand, and the recruiter's number was still sitting at the bottom of the block list.\n\nWhen he called the foreman, only the Thursday and Saturday predawn slots remained that week. {name} took both. After the call, he wrote the new shift times beside the rent reminder. The two million won he had refused had become two more mornings of labor and a balance that was still short."
       }
     ],
-  "description": "Several weeks after refusing the first offer, {name} came back to his room from a 4:20 a.m. loading shift. When he took off his gloves, the blister in his palm had split. His banking app showed the rent transfer due in three days and, first of all, the balance it could not cover. He opened the security alert and checked the signed-in devices. His own phone was the only one listed.\n\nA news chyron reported the arrest of a mule-account recruitment ring. {name} scrolled all the way down his block list to make sure that number was still there. Keeping his account had not paid the rent for him. The two million won had never arrived. What remained were two open night shifts that week and a transfer limit he needed to reset. Then the foreman texted: 'Another spot opened tonight.'"
+  "description": "Several weeks after refusing the first offer, {name} came back to his room from a 4:20 a.m. loading shift. When he took off his gloves, the blister in his palm had split. His banking app showed the rent transfer due in three days and, first of all, the balance it could not cover. He opened the security alert and checked the signed-in devices. His own phone was the only one listed.\n\nA news chyron reported the arrest of a mule-account recruitment ring. {name} scrolled all the way down his block list to make sure that number was still there. Keeping his account had not paid the rent for him. The two million won had never arrived. What remained were two open night shifts that week and a transfer limit he needed to reset. Then the foreman texted: \"Another spot opened tonight.\""
   },
   {
     "id": "arc_temptation_fallout",
