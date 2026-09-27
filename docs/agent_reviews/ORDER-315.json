@@ -1,0 +1,188 @@
+{
+  "unit_id": "ORDER-315",
+  "scope": "work_unit",
+  "reviewer": "/root/screen_independent_review",
+  "authority": "user_delegated_agent_final",
+  "independent": true,
+  "reviewed_at": "2026-09-27T13:22:44.930025+09:00",
+  "timezone": "Asia/Seoul",
+  "subject": {
+    "kind": "source",
+    "commit": "d99f2037ecbcb959004b97d380efb3b33314a512",
+    "tree": "2373139d718d4a6db54a91cc9ce08d9e08aa1bb9",
+    "manifest_sha256": null
+  },
+  "verdict": "GO",
+  "required": [],
+  "reviewed_scope": "Repair of the shared StoryMode HUD/history/settings header and public-demo home/recap/language header. Fresh KO/EN graphical evidence at1280x800,1280x720,960x600, with same-compact width resize, M06 prose/five-choice display, settings/history focus restoration and synthetic input. This is not whole-game layout or product/package approval.",
+  "review": {
+    "observed_head": "d99f2037ecbcb959004b97d380efb3b33314a512",
+    "observed_worktree_clean": true,
+    "canonical_subject": "Independent direct human_gates.current_agent_source_subject invocation immediately before report creation returned the exact clean runtime candidate d99f2037/tree2373139. No inherited decision selected this identity.",
+    "independence": "Reviewer authored no product, compatibility implementation, launcher or runtime checker and launched no engine. Read the complete relevant sources and diffs, individually viewed all60 final PNGs, and independently audited envelopes, raw logs, hashes, geometry, input/state and user-file restoration. Authored only private review artifacts and public review reports."
+  },
+  "population": {
+    "target_languages": 2,
+    "observed_languages": 2,
+    "target_output_sizes": 3,
+    "observed_output_sizes": 3,
+    "target_surfaces_per_run": 10,
+    "observed_surfaces_per_run": 10,
+    "target_final_pngs": 60,
+    "individually_viewed_final_pngs": 60,
+    "final_engine_runs": 6,
+    "prior_failed_graphical_attempts": 3,
+    "prior_unisolated_parse_attempts": 1,
+    "reviewer_engine_runs": 0,
+    "final_raw_streams_audited": 18,
+    "failed_graphical_raw_streams_audited": 9,
+    "artifact_hashes_recomputed": 142,
+    "tracked_source_pins_per_run": 1223,
+    "private_helper_pins_per_run": 2,
+    "total_source_pins_per_run": 1225,
+    "final_source_pin_comparisons": 7350,
+    "header_rectangles_independently_checked": 204,
+    "boundary_cases": 60,
+    "modal_roundtrips": 12,
+    "width_resize_roundtrips": 6,
+    "synthetic_edges_per_run": 102,
+    "paired_key_actions_per_run": 51,
+    "total_final_synthetic_edges": 612,
+    "total_final_paired_key_actions": 306,
+    "fixture_choice_operations_per_run": 8,
+    "fixture_month_closes_per_run": 5,
+    "real_user_roots": 2,
+    "real_user_files": 43
+  },
+  "surfaces": [
+    "home",
+    "language",
+    "home_resized",
+    "story_body",
+    "five_choices",
+    "settings",
+    "settings_return",
+    "history",
+    "history_return",
+    "recap"
+  ],
+  "verified": {
+    "product_boundary": "Exact product commit1e141ea modifies only two files: StoryMode changes three existing header construction functions/adds two layout callbacks; controller changes only margin and resize functions. Other function bodies, font sizes, strings, input handlers, effects, scene content, economy and save rules remain byte-identical. ORDER316 independently verifies this exact successor rather than widening old pins.",
+    "geometry": "Canonical INPUT_MATRIX2.5% bounds are applied in logical coordinates and independently matched to physical PNG IHDR sizes. At1280x800, Story HUD rect[32,20,938,40], history[984,20,162,40], settings[1154,20,94,40]; shell title/subtitle left32 and language control right1248. All204 recorded visible header rectangles are inside safe bounds, non-overlapping, and large enough for measured text.",
+    "visual": "Every one of the60 PNGs was individually inspected. Target headers, M06 introductory body, five options, focus outlines, modal contents and recap are visible without observed clipping/overlap. All five choices are fully revealed. Default-size text is not shrunk by the repair. The smaller outputs retain existing viewport scaling; this is not a human reading-comfort judgment.",
+    "input": "Each run has102 strictly paired synthetic press/release edges, with keycode and physical_keycode bound together. Language selector opens/returns unchanged; horizontal resize retains the exact title/focus nodes. Down selects choice2; F10 settings and X history open, Enter does not commit the underlying choice, Escape restores the exact choice2 node and unchanged story/gameplay state. Returning to choice0 applies exactly one M06 receipt.",
+    "state": "All six runs end at month7/recap, turn25,24 elapsed weeks,6 settlements,9 choices/receipts, cash6320000, health70, mental76. Earlier months are fixtures: Daeun1, M04meet0→measure0→answer0, all other earlier choices0; M06choice0 is dispatched. The mental76 outcome differs from ORDER314’s answer1/mental68 route and is not a regression claim.",
+    "runtime": "Six fresh isolated runs at the same clean d99f2037 exit0 with exactly one success and pre-autoload marker, two exact isolated controller-entry lines, three preserved raw streams, no parse/script/engine/leak errors, no remaining process group, unchanged1225 source/helper pins and unchanged43-file real-user before/after census. Runtimes28.09–28.65seconds.",
+    "failed_history": "First and second graphical attempts produced0 PNGs and exited-15 after checker parse errors (reserved namespace name, then uninferred boolean). Third produced7 PNGs and exited1: checker keycode-only F10 missed the physical-key mapping; its later Enter selected the underlying choice. Only the checker changed: explicit boolean, both key codes and fail-fast missing-modal handling. These are preserved failed checks, not product-input findings.",
+    "preservation_incident": "A separate unisolated --check-only shortcut exited0 with autoload-context errors and removed a pre-existing zero-byte retail .recovery_mode_lock, reducing the census43→42. The reviewer independently confirmed that sole missing file with no changed/added files. Root restored its exact empty bytes; the reviewer subsequently verified all43 original file paths/lengths/hashes and every final-run census. Inode/timestamps were not preserved. The incident remains recorded; preservation is not claimed uninterrupted throughout the session. The development skill now explicitly prohibits this shortcut."
+  },
+  "coordinate_observations": [
+    {
+      "output": [
+        1280,
+        800
+      ],
+      "logical": [
+        1280,
+        800
+      ],
+      "resized_output": [
+        1440,
+        800
+      ],
+      "resized_logical": [
+        1440,
+        800
+      ]
+    },
+    {
+      "output": [
+        1280,
+        720
+      ],
+      "logical": [
+        1422,
+        800
+      ],
+      "resized_output": [
+        1440,
+        720
+      ],
+      "resized_logical": [
+        1600,
+        800
+      ]
+    },
+    {
+      "output": [
+        960,
+        600
+      ],
+      "logical": [
+        1280,
+        800
+      ],
+      "resized_output": [
+        1120,
+        600
+      ],
+      "resized_logical": [
+        1493,
+        800
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "id": "ORDER-315-SAFE-01",
+      "status": "resolved_in_reviewed_candidate_scope",
+      "reference": "ORDER-314-SAFE-01",
+      "title": "Shared header controls now satisfy the canonical safe margins",
+      "basis": "Fresh60-image population,204 exact header rectangles,6 width-resizes and12 focus-preserving modal roundtrips support the scoped repair. This does not erase or replace ORDER314’s historical REWORK."
+    }
+  ],
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "OS-delivered physical keyboard/controller behavior, overscan hardware, normal-speed human reading and audible quality; audio driver was Dummy.",
+    "JA/zh-CN/zh-TW playthroughs, other resolutions/aspect ratios, all scenes/branches, nondefault text sizes and legacy HUD mode. All requested sizes retain noncompact logical mode; an actual compact-mode transition was not tested.",
+    "Fresh M04 pixels/input at this candidate, every M06 prose/result page as its own screenshot, and all95 earlier ORDER314 captures repeated at this source. This report does not close ORDER314.",
+    "Full/legacy24-week or240-week suites, full720 self-test, exports, new packages, release/public or internal-product GO."
+  ],
+  "authority_boundary": "GO applies only to ORDER315’s declared header repair and targeted evidence at this exact source. ORDER314 REWORK remains intact pending its separately declared follow-up; parent302/full game/new package remain HOLD. Historical publicGO1 and humanOPEN45 are not promoted. AUTO PASS is contract evidence, not human approval.",
+  "evidence": {
+    ".git/full-game-localization/order315-review-evidence.json": "55b66621f7471da93e68f52b8244c1ae7a65fb46cdb1db5c979417877543da16",
+    ".git/full-game-localization/order316-review-evidence.json": "c5c383195203a7ce58277c4e759d7075e8bcc80f8b75e653d93fcf3db4c20431",
+    "scenes/StoryMode.gd": "114fdd47d09cb4e3b92b26d094981b8e9b1843639f64cb3914bcce000a76bec7",
+    "playtests/order124/StoryChoiceM1M6Playtest.gd": "feb2f8a20bd8db91579062b1c7449f28f4d0146674c043d262107f1ea53913c2",
+    "tools/order316_header_source_compat.py": "cb058c913bd3b0001e704c99a21a968ee9e8115bd64bcc41311bd4a84604a3c6",
+    "tools/run_story_header_safe_area_check.py": "6c1d325b15c323fcd4770748390527fc7ec5b15170445721b0569c9de6de8a42",
+    "tools/story_header_safe_area_check.gd": "fb71d9e2677f9ac142ad9a2201a806b0c3d4b7f1e3ff4f77e10ed4e3ad68d213",
+    "tools/story_header_safe_area_check.gd.uid": "99a78989f4e4dd239d44e5eae45339390ffa96cb8cb4b3b2e79d62d6a15f2873",
+    "tools/audit_scope.json": "7a11cc877ec994e839d9e9d09db6d5c9181137c7085c253cf917ebc2675280e2",
+    "docs/INPUT_MATRIX.md": "22675296d3f56068cf47840d5968254858ed82aa040040ed01d59034f22764c7",
+    "docs/human_gates.json": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6",
+    "docs/agent_reviews/ORDER-314.json": "3e5294c07f73cbd6f5ea661aeda63bab061f1866aadcace7133979ac156c4403",
+    ".codex/skills/gangnamdream-dev/SKILL.md": "5ef05a53a112e344fe32c6de134488da45268a040d1cf0fc25303cf790fbf518",
+    ".git/full-game-localization/order315-review-audit.py": "c8653eaba8143ca9b794d0433149010584d98375c5c21dede322075e8c1fe143",
+    ".git/full-game-localization/order315-ko-1280x800-final/result.json": "6e29fafeb2383dd6fd3f2b0971744bbb63a928003667560ea73f76770173f921",
+    ".git/full-game-localization/order315-ko-1280x800-final/telemetry.json": "05fe0dfa32d4db75d956a57b7a1c1c2699a581238cae21712e705394270c44b2",
+    ".git/full-game-localization/order315-ko-1280x720-final/result.json": "07c12c9765c1e33fc0d56d0d192684ae7e494e84ea58e7d1beaabe5d3c5a6387",
+    ".git/full-game-localization/order315-ko-1280x720-final/telemetry.json": "2397c197dcbdbf63d97f9541677f21a0cb2b84460f60a6e8d6a57212af66b778",
+    ".git/full-game-localization/order315-ko-960x600-final/result.json": "d0888a31947637701f2a98202d76bc2e129c0e1d696cf15e9a79912c94ff71ce",
+    ".git/full-game-localization/order315-ko-960x600-final/telemetry.json": "55b8b5a2877e003778527ca1931527f8fb0020e17073c045837f7ab35f439681",
+    ".git/full-game-localization/order315-en-1280x800-final/result.json": "c1c87fed431090298342699ac04eb99adaa9347d4f9fd0cb46b68c8c6a257839",
+    ".git/full-game-localization/order315-en-1280x800-final/telemetry.json": "608a9d48313f429192e8ef3b02044827229d08dab0f9c332c878610ebd7ba8d1",
+    ".git/full-game-localization/order315-en-1280x720-final/result.json": "d591e29f8e4993208c89d9a1aebaa053e269de58de8ffc3bb645cd3789b91fa9",
+    ".git/full-game-localization/order315-en-1280x720-final/telemetry.json": "98451cbe021b91248c999b7c2913cd0dc244814dcd22d7c65ee1976e62f0962b",
+    ".git/full-game-localization/order315-en-960x600-final/result.json": "afa13ac815ef288be08354bd87c6f92a733a1927e72685108e43217934449c34",
+    ".git/full-game-localization/order315-en-960x600-final/telemetry.json": "9f1d9b753ff703cf1569ee0b65bf74b27fd64a4021b4d86459893638104f91a9",
+    ".git/full-game-localization/order315-ko-1280x800-first/result.json": "cbb58380f1a349c2bbcc903488ff0387976bb0e0759b916f69a3eeffdaa19ef9",
+    ".git/full-game-localization/order315-ko-1280x800-second/result.json": "f656b2c50fe4e755afe8e383e48544773adfe7e48cafca6385ee154e16c9ba33",
+    ".git/full-game-localization/order315-ko-1280x800-third/result.json": "9af0c73d67280749128797f872587763cbb3d59d92e37eee9d8fe8e8de439744",
+    ".git/full-game-localization/order315-ko-1280x800-third/telemetry.json": "87708afe93e877d560ac043284ed04a463220e427eddcf5f581d778917888f2b",
+    ".git/full-game-localization/order315-parse-fixed-report.json": "e466e31459f1fdb20a3c6e5e914a30eb529d764d4befd6eeff938e15c147862e",
+    ".git/full-game-localization/order315-lock-restored.json": "cc685837fe1d6d63b69b7e308a06436d4ac533c22147e59dc06f097ee17b6042"
+  }
+}

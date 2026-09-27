@@ -1,0 +1,65 @@
+{
+  "unit_id": "ORDER-316",
+  "scope": "work_unit",
+  "reviewer": "/root/screen_independent_review",
+  "authority": "user_delegated_agent_final",
+  "independent": true,
+  "reviewed_at": "2026-09-27T13:22:44.930025+09:00",
+  "timezone": "Asia/Seoul",
+  "subject": {
+    "kind": "source",
+    "commit": "d99f2037ecbcb959004b97d380efb3b33314a512",
+    "tree": "2373139d718d4a6db54a91cc9ce08d9e08aa1bb9",
+    "manifest_sha256": null
+  },
+  "verdict": "GO",
+  "required": [],
+  "reviewed_scope": "Exact two-file ORDER315 source-successor admission and historical inverse integration in three live audit consumers. Static compatibility work_unit only.",
+  "review": {
+    "observed_head": "d99f2037ecbcb959004b97d380efb3b33314a512",
+    "observed_worktree_clean": true,
+    "canonical_subject": "The same fresh independent direct resolver observation immediately before both reports binds clean d99f2037/tree2373139.",
+    "independence": "Reviewer authored no product, compatibility module or live consumer changes, and executed no engine. Reviewed all new compatibility source and all caller diffs; independently ran bounded focused checks and two additional raw/hash-binding negative probes."
+  },
+  "population": {
+    "product_successor_files": 2,
+    "current_live_source_paths": 8,
+    "modified_live_consumers": 3,
+    "module_self_test_cases": 63,
+    "additional_independent_negative_cases": 2,
+    "total_independent_focused_cases": 65,
+    "reviewer_engine_runs": 0
+  },
+  "verified": {
+    "exact_proof": "The immutable product transition is direct-parent7f9160a0327d66ffb37a6369f135cec350c69735→1e141ea3bc117de8be31632a083c37ffc7ba152a, with exactly two modified paths and exact before/after SHA256s. Existing-function changes are precisely5, new functions2; function order, unrelated prefixes and pre-header StoryMode construction are preserved.",
+    "admission": "Latest raw source is mandatory. Rollbacks, extra/missing bytes, neighboring gameplay/header changes, wrong/swapped paths, unbound observed hashes and missing/altered immutable proof are rejected. Failure does not fabricate a historical inverse.",
+    "composition": "The verified header inverse runs before unchanged ORDER310/305 historical projection and existing ORDER156 transitions. Old hashes/fixtures and historical Git-blob-only audits are not rewritten.",
+    "consumers": "chapter5 binds both global current source and relevant per-file projections. year5 binds current source at root and direct ORDER156 registration before its historical comparisons. chapter1 binds raw current bytes to the observed digest before mapping to the old Story successor pin.",
+    "independent_execution": "The focused module self-test returned ORDER316_HEADER_SOURCE_OK files=2 live_files=8 cases=63. Two additional chapter1 probes supplied all-zero and stale predecessor digests while retaining current raw Story bytes; both were rejected with observed-hash-not-bound errors. Module/consumer bytes executed during these checks were independently proved identical to the final candidate.",
+    "preservation": "305/310 modules, immutable transition pins, historical density fixtures, project.godot, authored content and human evidence remain unchanged. Existing ORDER314 report SHA remains3e5294c0… and its REWORK is not overwritten. Registry’s explicit compatibility lane selects only the bounded self-test; no broad suite was run by this reviewer."
+  },
+  "findings": [],
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "This static exact-source compatibility verdict is not a visual/runtime quality verdict; those observations belong only to ORDER315’s separately scoped report.",
+    "Full720/self-test,24-week or240-week suites, all audit paths, packages/exports/releases and whole-product approval.",
+    "Any future product bytes or missing immutable repository history. A later source change requires new exact admission/review."
+  ],
+  "authority_boundary": "GO applies only to ORDER316 compatibility at the exact reviewed source. It does not supply product/package/public/human/native/physical GO or close ORDER314/parent302.",
+  "evidence": {
+    ".git/full-game-localization/order316-review-evidence.json": "c5c383195203a7ce58277c4e759d7075e8bcc80f8b75e653d93fcf3db4c20431",
+    "scenes/StoryMode.gd": "114fdd47d09cb4e3b92b26d094981b8e9b1843639f64cb3914bcce000a76bec7",
+    "playtests/order124/StoryChoiceM1M6Playtest.gd": "feb2f8a20bd8db91579062b1c7449f28f4d0146674c043d262107f1ea53913c2",
+    "tools/order316_header_source_compat.py": "cb058c913bd3b0001e704c99a21a968ee9e8115bd64bcc41311bd4a84604a3c6",
+    "tools/chapter5_human_reject_audit.py": "ee2c229269f1d500f40c396139b10c3b5474627cb5b6f70927c42dafbf469d7b",
+    "tools/year5_reference_route_audit.py": "220b69c0d6a27adaad36a445ec4f90f044552cdc1d1b5bbeab77a9e06e475c72",
+    "tools/chapter1_core_loop_v2_causal_ledger_check.py": "70e0508402bad00c36f78732966cfb9235b4fe4b2d4fea6d1de290b8eebe4358",
+    "tools/order305_demo_source_compat.py": "a6ba3bab8340df736eaf059abc7bb837ccf0474ea22ff66bda7c130619e09cad",
+    "tools/order310_demo_source_compat.py": "c2a3208d5515fc70025c536b8069dd1e530ea047ed0fcfc77dc2ea0cad2572cd",
+    "tools/audit_scope.json": "7a11cc877ec994e839d9e9d09db6d5c9181137c7085c253cf917ebc2675280e2",
+    "docs/human_gates.json": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6",
+    "docs/agent_reviews/ORDER-314.json": "3e5294c07f73cbd6f5ea661aeda63bab061f1866aadcace7133979ac156c4403"
+  }
+}

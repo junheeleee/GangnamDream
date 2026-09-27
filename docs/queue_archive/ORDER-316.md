@@ -1,8 +1,8 @@
-# Active Queue Spec: ORDER-316
+# Archived Queue Spec: ORDER-316
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-316 상단 수리 exact 소스 후속 호환
+#### [x] ORDER-316 상단 수리 exact 소스 후속 호환
 
 2026-09-27 착수. ORDER-315의 두 표시 파일 변경이 기존 live exact 소스
 검사에서 거부되는 영향이 확인됐다. 옛 증거나 핀을 고치지 않고 새 후속을 분리한다.
@@ -31,3 +31,17 @@
   인간 OPEN45·옛 공개 GO1을 유지한다. 인간·원어민·물리 패드 판정이 아니다.
 
 이 사양은 일회성 exact 호환 수리이며 기존 증거 보존 규칙을 재정의하지 않는다.
+
+## 2026-09-27 완료 — 작업 한정 GO
+
+- 새 helper와 live 소비자3개에서 두 파일의 parent/commit·경로 모집단·SHA·함수 경계를
+  확인한 뒤에만 옛 소스로 역투영한다. 이전310/305/156 핀·모듈·역사 fixture는 보존했다.
+- 모듈/실제 live 경계 표적63검사 PASS, 독립 raw/hash 잘못된 결속2건도 거부했다.
+  저자의 chapter5/year5 정적 검사와 역사310 106/305 132/기존경계6도 PASS이며 전체720이나
+  24/240주 재실행은 하지 않았다. 미래 바이트나 불완전한 Git 증명을 허용하지 않는다.
+- 최종 source `d99f2037ecbcb959004b97d380efb3b33314a512`,
+  tree `2373139d718d4a6db54a91cc9ce08d9e08aa1bb9`의 정적 호환 한정 GO.
+  [독립 보고](../agent_reviews/ORDER-316.json) SHA
+  `7083ae080f942e9cb62b9fa809c5465a68a2a3ba4f2b9beb7e132548fc4191dc`.
+- 315 화면 GO와 서로 대신하지 않는다. 314/302·본편·패키지 HOLD 및 실제 인간 증거는
+  바꾸지 않았다. 규범은 위에 명시한 일회성 전이 검증이다.

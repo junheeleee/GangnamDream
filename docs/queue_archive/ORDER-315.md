@@ -1,8 +1,8 @@
-# Active Queue Spec: ORDER-315
+# Archived Queue Spec: ORDER-315
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-315 데모·StoryMode 상단 안전 여백 수리
+#### [x] ORDER-315 데모·StoryMode 상단 안전 여백 수리
 
 2026-09-27 등록. ORDER-314의 실제 KO/EN 1280×800 화면에서 발견한 결함이다.
 착수 선언을 먼저 커밋한 뒤 아래 소유 범위에서 구현한다.
@@ -60,3 +60,25 @@ Verify 절에 승격한다. 제품 규범 변경이 아니라 실제 검사 격�
 
 이 사양은 일회성 수리 지시이며 영구 안전영역·입력 규범은 기존 정본이 소유한다.
 승격: `.codex/skills/gangnamdream-dev/SKILL.md`:Verify의 Godot 검사 격리 교훈 한 줄.
+
+## 2026-09-27 완료 — 작업 한정 GO
+
+- 제품 `1e141ea`, 최종 실행/독립 판정 source `d99f2037ecbcb959004b97d380efb3b33314a512`,
+  tree `2373139d718d4a6db54a91cc9ce08d9e08aa1bb9`. StoryMode/controller 두 파일의
+  상단 함수만 수리했다. 폰트·문자열·선택·경제·저장 규칙은 무수정이다.
+- KO/EN ×1280×800·1280×720·960×600의6실행 모두 PASS. 각10PNG/102합성 edge,
+  총60PNG 전수 독립 관찰·204상단 사각형·6가로resize·12모달 exact포커스 복귀를 확인했다.
+  기본 글자 크기이며 모든 논리 화면은 noncompact다. Large/실제 compact 전환 관측은 아니다.
+- 각 실행 exit0·exact marker1·ENTRY2·3로그 오류/누수0·종료 프로세스0,
+  선택 source/helper1225핀과 사용자43파일 전후 동일. 28.09~28.65초이며 이전월은 fixture다.
+  각9선택/영수증9·6정산·24주·turn25·cash632만원·health70·mental76이다.
+  이전314의 answer1/mental68과 달리 이번 fixture는 answer0이므로 동일 경로라 부르지 않는다.
+- 초기 그래픽 실패3회(구문2/합성키 매핑1)와7실패PNG를 모두 보존했다. 별도 비격리
+  `--check-only`는 autoload 오류와 빈 복구 lock 삭제43→42를 일으켰다. 원래0byte를
+  복원해 전체43경로·크기·SHA 일치를 독립 확인했다. inode/시각 보존이나 작업 내내
+  무변경을 주장하지 않는다. 세부 원형과 복구 증거는 독립 보고에 결속했다.
+- [독립 보고](../agent_reviews/ORDER-315.json) SHA
+  `05d1feba9dbf3e776dd066589e5b872941cf710ed2de50f9a29bd0d24b481b88`.
+  검사 정합16·데모 언어 정합·EN누출0·기존97판정/168증거/39629byte WORK_LOG 보존 PASS.
+- 이 GO는 위 상단 수리에 한정한다. 314의 과거 REWORK는 보존하며 같은 원래 범위의
+  새source 후속 판정은 별도다. 본편/302/새패키지 HOLD·공개옛GO1·인간OPEN45 유지.

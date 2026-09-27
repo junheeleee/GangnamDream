@@ -4051,6 +4051,77 @@
         "path": "docs/agent_reviews/ORDER-314.json",
         "sha256": "3e5294c07f73cbd6f5ea661aeda63bab061f1866aadcace7133979ac156c4403"
       }
+    },
+    {
+      "id": "order-315-source-d99f2037-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-27",
+      "decided_by": "/root/screen_independent_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-315",
+      "subject": {
+        "kind": "source",
+        "commit": "d99f2037ecbcb959004b97d380efb3b33314a512",
+        "tree": "2373139d718d4a6db54a91cc9ce08d9e08aa1bb9",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "agent_render_observation",
+          "path": "docs/agent_reviews/ORDER-315.json",
+          "sha256": "05d1feba9dbf3e776dd066589e5b872941cf710ed2de50f9a29bd0d24b481b88"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "OS-delivered physical keyboard/controller behavior, overscan hardware, normal-speed human reading and audible quality; audio driver was Dummy.",
+        "JA/zh-CN/zh-TW playthroughs, other resolutions/aspect ratios, all scenes/branches, nondefault text sizes and legacy HUD mode. All requested sizes retain noncompact logical mode; an actual compact-mode transition was not tested.",
+        "Fresh M04 pixels/input at this candidate, every M06 prose/result page as its own screenshot, and all95 earlier ORDER314 captures repeated at this source. This report does not close ORDER314.",
+        "Full/legacy24-week or240-week suites, full720 self-test, exports, new packages, release/public or internal-product GO."
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-315.json",
+        "sha256": "05d1feba9dbf3e776dd066589e5b872941cf710ed2de50f9a29bd0d24b481b88"
+      }
+    },
+    {
+      "id": "order-316-source-d99f2037-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-27",
+      "decided_by": "/root/screen_independent_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-316",
+      "subject": {
+        "kind": "source",
+        "commit": "d99f2037ecbcb959004b97d380efb3b33314a512",
+        "tree": "2373139d718d4a6db54a91cc9ce08d9e08aa1bb9",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "automated_contract",
+          "path": "docs/agent_reviews/ORDER-316.json",
+          "sha256": "7083ae080f942e9cb62b9fa809c5465a68a2a3ba4f2b9beb7e132548fc4191dc"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "This static exact-source compatibility verdict is not a visual/runtime quality verdict; those observations belong only to ORDER315’s separately scoped report.",
+        "Full720/self-test,24-week or240-week suites, all audit paths, packages/exports/releases and whole-product approval.",
+        "Any future product bytes or missing immutable repository history. A later source change requires new exact admission/review."
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-316.json",
+        "sha256": "7083ae080f942e9cb62b9fa809c5465a68a2a3ba4f2b9beb7e132548fc4191dc"
+      }
     }
   ]
 }
