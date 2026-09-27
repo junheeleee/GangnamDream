@@ -1,0 +1,135 @@
+{
+  "unit_id": "ORDER-314",
+  "scope": "work_unit",
+  "reviewer": "/root/screen_independent_review",
+  "authority": "user_delegated_agent_final",
+  "independent": true,
+  "reviewed_at": "2026-09-27T14:09:31.647904+09:00",
+  "timezone": "Asia/Seoul",
+  "subject": {
+    "kind": "source",
+    "commit": "aaa2a4ba85c606c6f31543f9aef075d9385727cf",
+    "tree": "99ff177a45760352759c5051500313ffd67ed8e5",
+    "manifest_sha256": null
+  },
+  "verdict": "GO",
+  "required": [],
+  "reviewed_scope": "Same-unit follow-up of ORDER314's original KO/EN16 logical surfaces: targeted text/choice/result/synthetic-input evidence and closure of mandatory shared-header SAFE-01. Historical95 PNGs at eb285b3 are bridged by exact unchanged body/content/input source and60 repaired shared-header PNGs at d99. No current-source M04 render or full canon/product/package approval.",
+  "review": {
+    "observed_head": "1055d91f0c0bb6a9bfc9274cda1151f787475ede",
+    "observed_worktree_clean": true,
+    "canonical_subject": "Direct independent human_gates.current_agent_source_subject invocation immediately before report writing returned aaa2a4b/tree99ff177 from clean metadata-wrapper1055d91. Its entire six-path delta (five changes including one rename) is queue/order/work-log metadata; runtime, CLAUDE, canon and prior reports/ledgers are unchanged. The earlier CLAUDE/STORY_BIBLE changes are not exempt: aaa2 is the independently observed new source, not inherited315/316 GO.",
+    "independence": "Same nonauthor reviewer previously read all95 settled314 and all60 repaired315 PNGs individually, plus original telemetry/logs/source. This follow-up authored only private review files and this report; no product, launcher, checker, compatibility, queue or ledger edits and no engine execution.",
+    "basis": "Independently inspected changed source/consumer mapping and complete post-render delta; rehashed361 original artifacts and preserved reports; checked raw bridge envelopes, exact function/blob equality and current43-file user census. Prior verdict labels are not the basis of this new decision.",
+    "metadata_wrapper_delta": [
+      "docs/CODEX_QUEUE.md",
+      "docs/WORK_LOG.md",
+      "docs/queue_active/ORDER-302.md",
+      "docs/queue_active/ORDER-314.md",
+      "docs/queue_active/ORDER-353.md",
+      "docs/queue_archive/ORDER-314.md"
+    ]
+  },
+  "population": {
+    "original_target_logical_surfaces": 16,
+    "historical_observed_logical_surfaces": 16,
+    "historical_314_final_pngs": 95,
+    "historical_314_ko_pngs": 47,
+    "historical_314_en_pngs": 48,
+    "repaired_header_315_pngs": 60,
+    "previously_individually_viewed_final_pngs": 155,
+    "new_engine_runs_this_followup": 0,
+    "new_pngs_this_followup": 0,
+    "new_png_visual_inspections_this_followup": 0,
+    "languages": 2,
+    "original_output_size": [
+      1280,
+      800
+    ],
+    "header_output_sizes": [
+      [
+        1280,
+        800
+      ],
+      [
+        1280,
+        720
+      ],
+      [
+        960,
+        600
+      ]
+    ],
+    "independently_rehashed_artifacts": 361,
+    "post_render_identical_product_paths": 1906,
+    "old_tracked_pins_unchanged": 1213,
+    "old_tracked_pins_changed_exactly": 6,
+    "story_functions_byte_identical": 254,
+    "controller_functions_byte_identical": 145,
+    "header_changed_existing_functions": 5,
+    "header_added_functions": 2,
+    "prior_header_rectangles_verified": 204,
+    "prior_header_modal_roundtrips": 12,
+    "prior_header_resize_roundtrips": 6,
+    "real_user_roots": 2,
+    "real_user_files": 43
+  },
+  "verified": {
+    "source_bridge": "Old eb285b3→current runtime/content/assets/config delta contains only StoryMode.gd and StoryChoiceM1M6Playtest.gd. Story changes _build_ui/header-button construction and adds layout/resize callbacks; shell changes _apply_margins/_on_resized. Function order/prefix and254+145 other bodies are byte-identical. Story _build_ui before header marker is byte-identical. d99→aaa2 entire delta is documentation-only;1,906 tracked product blobs are identical. Four other changed old selected pins are audit registry/live compatibility callers, not runtime.",
+    "consumer_mapping": "StoryMode._ready→_build_ui/_refresh_hud applies the same event-independent header to M04 and M06 bodies, choices and results. Controller._build_shell→_apply_margins owns both home/recap. New layout contains no M04 branch. Body/choice/portrait/input/effects/economy source is unchanged; old route receipts therefore remain historical evidence for the original sampled route.",
+    "required_repair": "Canonical2.5% safe margins are now satisfied by the observed shared header. At1280x800, HUD[32,20,938,40], history[984,20,162,40], settings[1154,20,94,40]; home/recap title/subtitle left32 and language right1248. The same implementation is current byte-for-byte. All60 repaired images were previously individually viewed and all204 header rectangles independently checked, with input/focus restoration observed.",
+    "dependent_layout": "Header panel height and toast top change too: toast top58→74 avoids the moved header. No upper-story transient label was visible in the original95 target captures; the bottom-anchored body/choice construction is unchanged. This supports the sampled target bridge, not blanket approval of every toast/legacy/large-text state.",
+    "route_boundary": "Old314 dispatched M04meet0→measure0→answer1 and M06unknown-clerk0 with KO180/EN184 synthetic edges; final mental68. Header315 fixtures use M04answer0 and dispatch M06choice0, mental76. Both end month7/recap,turn25,24weeks,6settlements,9choices/receipts,cash6320000,health70. This is not a same-route replay; old receipts/input and new shared-header evidence remain distinct.",
+    "preservation": "All361 artifacts are unchanged, including failures and prior evidence. Current43 real-user paths/lengths/hashes equal old314 baseline. At the independent14:04:43 clean audit, historical314REWORK and315/316 reports, human ledger, existing99-row agent ledger and project.godot remain byte-identical to fdb5538. Prior unisolated parse incident/zero-byte recovery-lock restoration remains recorded in315 evidence; uninterrupted whole-session preservation is not claimed.",
+    "minimal_rerender_decision": "No confirmed in-scope gap remains that a new M04 capture must resolve. Exact unchanged body/input source plus independently observed common-header behavior is sufficient for the declared follow-up. Fresh M04/current-source rendering would be necessary only for that stronger visual claim, which is explicitly not made."
+  },
+  "findings": [
+    {
+      "id": "ORDER-314-SAFE-01",
+      "status": "resolved_in_this_followup_scope",
+      "reference": "docs/agent_reviews/ORDER-314.json",
+      "basis": "Original mandatory header repair is validated for every original consumer by the exact source bridge and independently viewed repaired shared-header evidence. The old eb285b3 REWORK record is preserved, not rewritten."
+    },
+    {
+      "id": "ORDER-314-FOLLOWUP-CANON-01",
+      "priority": "P2",
+      "status": "known_out_of_scope_followup_required",
+      "title": "New Sangchul speech-canon wording overstates the existing early-scene register",
+      "references": [
+        "docs/STORY_BIBLE.md:189",
+        "content/events/arc_events.json:352",
+        "content/events/arc_events.json:356",
+        "content/events/arc_events.json:456"
+      ],
+      "evidence": "New canonical note says M04–M05 are 해요체, but sampled unchanged dialogue includes 아니. 그래서 커피를 권한 거지.; 그건 내가 정하는 게 아니지.; 그렇게 답하는 사람치고 진짜 가는 사람 못 봤어. The same note also says not to homogenize existing prose.",
+      "disposition": "Separate bounded canon-owner clarification is required; preserve dialogue unless explicitly reassigned. Root acknowledged the follow-up. This new documentation/content-description mismatch is not a rendering/input regression or residual SAFE-01 defect, and no screenshot can resolve it. This report does not approve full canon consistency."
+    }
+  ],
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "Fresh M04/M06 full-route pixels/input at aaa2 or d99, or all95 historical captures repeated at current source; this is explicitly an exact-source evidence bridge.",
+    "All21 earlier repaired strings and all source paragraphs as visually readable; hidden prose behind choices remains unobserved, and telemetry text is not a visual pass.",
+    "Coffee branch, other Daeun/name choices, other M04 answers/M06 outcomes, JA/zh-CN/zh-TW, nondefault text size, legacy HUD, unobserved transient toast states and actual compact-mode transition.",
+    "OS-delivered physical input, overscan hardware, normal-speed human reading, audible quality with Dummy driver and native-language judgment.",
+    "Full Sangchul speech-canon consistency; the newly merged canon-description mismatch is known and separately requires follow-up.",
+    "Full/legacy24-week or240-week suites, full720 tests, current package export, parent302 closure, internal-product/full-game/public release approval."
+  ],
+  "authority_boundary": "Only the declared ORDER314 work_unit receives GO at aaa2a4b. Historical314REWORK at eb285b3 remains intact; no315/316 GO is borrowed. Parent302, internal product, full game and new packages remain HOLD. Historical publicGO1/humanOPEN45 are preserved. AUTO PASS is contract evidence, not human approval.",
+  "evidence": {
+    ".git/full-game-localization/order314-followup-review-audit.py": "aed0a436d231546451c5b71910cf2c8c51c9d7b281f556235970f8fe30236380",
+    ".git/full-game-localization/order310-check-order314-followup-bridge.json": "bc532877f5eaf717ed2cc9c47669a488f30b73cf2786eee1de0287a8d3bba560",
+    ".git/full-game-localization/order310-check-order314-followup-current.json": "0aae686253045af4a2967a30e8fc8915b3f0b28869607b63f89dfbd3ed9b2c16",
+    ".git/full-game-localization/order314-review-evidence.json": "4cf8fcb35f1eab28f5ac815e3fe29d33f12dfd6f268d5a6c57a41b0e6634ac10",
+    ".git/full-game-localization/order315-review-evidence.json": "55b66621f7471da93e68f52b8244c1ae7a65fb46cdb1db5c979417877543da16",
+    "docs/agent_reviews/ORDER-314.json": "3e5294c07f73cbd6f5ea661aeda63bab061f1866aadcace7133979ac156c4403",
+    "scenes/StoryMode.gd": "114fdd47d09cb4e3b92b26d094981b8e9b1843639f64cb3914bcce000a76bec7",
+    "playtests/order124/StoryChoiceM1M6Playtest.gd": "feb2f8a20bd8db91579062b1c7449f28f4d0146674c043d262107f1ea53913c2",
+    "docs/STORY_BIBLE.md": "e3703f625103602f23b8d80385cb2f4780e32c7f969f99f5a1a11bd0e72b88d7",
+    "docs/INPUT_MATRIX.md": "22675296d3f56068cf47840d5968254858ed82aa040040ed01d59034f22764c7",
+    "content/events/arc_events.json": "ccd902447b46e10e02128d46ef273e65a30e3df9753b7f257f7fd9accb848f62",
+    "content/events_en/arc_events.json": "1ecd0007956e0c880827d442bceb3d0459b971d46497db3545eca91e2f80d735",
+    ".git/full-game-localization/order314-followup-review-evidence.json": "d4dc54caff9a861a905b60308f40e40076a1407676c999e44f7e1703dc553a2b"
+  }
+}

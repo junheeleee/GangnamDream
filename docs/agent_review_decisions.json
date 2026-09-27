@@ -4122,6 +4122,43 @@
         "path": "docs/agent_reviews/ORDER-316.json",
         "sha256": "7083ae080f942e9cb62b9fa809c5465a68a2a3ba4f2b9beb7e132548fc4191dc"
       }
+    },
+    {
+      "id": "order-314-source-aaa2a4b-followup-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-27",
+      "decided_by": "/root/screen_independent_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-314",
+      "subject": {
+        "kind": "source",
+        "commit": "aaa2a4ba85c606c6f31543f9aef075d9385727cf",
+        "tree": "99ff177a45760352759c5051500313ffd67ed8e5",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-314-followup.json",
+          "sha256": "ba0a7c9dae893519735ddf1cbd2f43c295d0e89a7c7f2be9e9f57286af80fc44"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "New engine runs, new M04/M06 screenshots or same-route replay at the current source; old eb285b3 body/input and d99 shared-header evidence are explicitly bridged.",
+        "Every repaired string or source paragraph as visually readable, coffee/unselected branches, JA/zh-CN/zh-TW, nondefault text sizes, legacy HUD and unobserved toast/compact states.",
+        "OS-delivered input, overscan hardware, normal-speed reading and audible quality.",
+        "Full canon consistency; the newly merged Sangchul register-description mismatch has separate ORDER-353 follow-up.",
+        "Parent ORDER-302 final approval, full/legacy24-week or240-week suites, full720 tests, current package export, internal-product/full-game/public release approval."
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-314-followup.json",
+        "sha256": "ba0a7c9dae893519735ddf1cbd2f43c295d0e89a7c7f2be9e9f57286af80fc44"
+      }
     }
   ]
 }
