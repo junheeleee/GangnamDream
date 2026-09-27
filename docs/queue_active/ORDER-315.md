@@ -5,11 +5,11 @@
 #### [~] ORDER-315 데모·StoryMode 상단 안전 여백 수리
 
 2026-09-27 등록. ORDER-314의 실제 KO/EN 1280×800 화면에서 발견한 결함이다.
-아직 구현하지 않았다. 착수 시 정확 파일 소유와 `[~]` 선언 커밋을 먼저 만든다.
+착수 선언을 먼저 커밋한 뒤 아래 소유 범위에서 구현한다.
 
 2026-09-27 착수, 기준 clean main `15fc0fd`. 아래 소유로 선언 후 구현한다.
 제품 두 파일은 `/root/header_layout`, 새 검사/등록은 `/root/screen_path_probe`,
-private315 bootstrap/launcher·실행·문서·판정 원장은 root,
+검사 실행기 `tools/run_story_header_safe_area_check.py`와 private315 bootstrap/launcher·실행·문서·판정 원장은 root,
 독립 비저자 검수/보고는 `/root/screen_independent_review`가 소유한다.
 root 문서 범위에 `CLAUDE.md` 현재행과 WORK_LOG 예산 롤링용
 `docs/history/WORK_LOG_2026-09-27_pre_header.md` 원문 보존본을 포함한다.
@@ -36,6 +36,7 @@ root 문서 범위에 `CLAUDE.md` 현재행과 WORK_LOG 예산 롤링용
   중 상단 생성/배치/resize 경로만. 게임 규칙·선택·원고·언어 사전은 무수정.
 - 검사 저자: 새 `tools/story_header_safe_area_check.gd` 및 Godot 생성 `.uid`,
   `tools/audit_scope.json`의 해당 검사 등록 항목,
+  root 소유 `tools/run_story_header_safe_area_check.py`의 명시 실행·자체 검사,
   private `.git/full-game-localization/order315-*`의 bootstrap/launcher/실행 증거만.
   저자와 독립 검수자의 파일 소유를 분리하고 최종 검수자는 제품·검사 비저자로 둔다.
 - root: 이 사양·큐2개·부모302/314 진행 꼬리·WORK_LOG·생성STATUS·별도 판정 원장.
@@ -43,6 +44,7 @@ root 문서 범위에 `CLAUDE.md` 현재행과 WORK_LOG 예산 롤링용
 - 먼저 기존 exact controller/StoryMode 핀 검사 영향을 `audit_select.py --list`로
   확인한다. 옛 핀을 덮거나 검사기를 느슨하게 하지 않는다. 호환 수리가 필요하면
   제품 수리와 다른 새 범위를 선언한다. 공개 데모 package 바이트는 변경하지 않는다.
+  확인된 exact 핀 호환 영향은 별도 ORDER-316에서 수리한다.
 - KO/EN 1280×800·1280×720·960×600의 home/recap/StoryMode 본문·5선택지를 표적 검수.
   논리 canvas 좌표와 실제 PNG 크기를 구별해 2.5% 경계·겹침·본문/선택 잘림을 판정한다.
   같은 compact 상태의 가로 resize도 확인한다. 설정/기록 열기·닫기·원래 선택 포커스
