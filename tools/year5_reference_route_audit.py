@@ -5881,6 +5881,14 @@ def order304_reunion_source_errors(current: bytes, relative: str) -> list[str]:
     return []
 
 
+def order304_reunion_census_exempt(relative: str, current: bytes, baseline: bytes) -> bool:
+    """Exclude only this later edit when its exact inverse is the older baseline."""
+    if relative != ORDER304_REUNION_PATH:
+        return False
+    projected = order304_reunion_project_bytes(current, relative)
+    return projected != current and projected == baseline
+
+
 def order304_reunion_transition_self_test() -> tuple[list[str], int]:
     failures: list[str] = []
     cases = 0
@@ -5978,6 +5986,18 @@ def order304_reunion_transition_self_test() -> tuple[list[str], int]:
           "latest context chain or raw preservation")
     context.event_indexes["en"][ORDER304_REUNION_ID].append(EventRecord(path, new_row))
     check(order304_reunion_project_context(context) == context, "duplicate context ID was hidden")
+    census_baseline = git_blob(ORDER155_PRODUCT_BASELINE, path)
+    check(order304_reunion_census_exempt(path, current, census_baseline),
+          "exact later edit was not excluded from ORDER-155 file census")
+    for label, candidate_path, candidate, baseline in (
+        ("other path", path + ".other", current, census_baseline),
+        ("KO path", "content/events/arc_events.json", current, census_baseline),
+        ("no-op predecessor", path, previous, census_baseline),
+        ("unapproved bytes", path, current + b" ", census_baseline),
+        ("other baseline", path, current, census_baseline + b" "),
+    ):
+        check(not order304_reunion_census_exempt(candidate_path, candidate, baseline),
+              "file census hid " + label)
     return failures, cases
 
 
@@ -6307,11 +6327,21 @@ def order155_git_registration_snapshot(
          ORDER155_VISUAL_CONTRACTS_PATH, ORDER155_AUDIO_PATH,
          ORDER155_DIRECTION_PATH, ORDER155_IMAGE_REGISTRY_PATH],
         cwd=ROOT, check=False, capture_output=True, text=True)
+    product_paths = {path for path in product.stdout.splitlines() if path}
+    if ORDER304_REUNION_PATH in product_paths:
+        try:
+            current = (ROOT / ORDER304_REUNION_PATH).read_bytes()
+            baseline = git_blob(ORDER155_PRODUCT_BASELINE, ORDER304_REUNION_PATH)
+        except (OSError, ValueError):
+            pass  # Retain the unexplained path so the existing census fails closed.
+        else:
+            if order304_reunion_census_exempt(ORDER304_REUNION_PATH, current, baseline):
+                product_paths.remove(ORDER304_REUNION_PATH)
     return (
         parent.returncode, parent.stdout.strip(),
         wrapper.returncode, wrapper.stdout.strip(),
         product.returncode,
-        frozenset(path for path in product.stdout.splitlines() if path),
+        frozenset(product_paths),
     )
 
 
