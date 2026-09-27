@@ -13,11 +13,11 @@
 
 - `compat357`: 새 `tools/order313_source_compat.py` 한 파일. 현재 admission·역사 역합성·
   원형 모듈 보존·회귀와 격리된 원형309 corpus 실행을 소유한다.
-- `consumers357`: 아래 기존 소비자5개만. 기존 API에 호환되는 새 모듈을 소비하고
+- `screen_path_probe` (소비자 저자): 아래 기존 소비자5개만. 기존 API에 호환되는 새 모듈을 소비하고
   필요한 index/raw binding·합집합·실제 양성 관측을 수리한다.
 - root: `tools/audit_scope.json`·`tools/audit.sh` 두 파일, private `order357-*` 실행
   기록과 이미 명시한 마감 문서·새 판정만. 제품·옛 모듈은 바꾸지 않는다.
-- `review357`: 원고/원형 모듈/새 도구·소비자·실제 증거의 비저자 읽기 전용 검수.
+- `screen_independent_review`: 원고/원형 모듈/새 도구·소비자·실제 증거의 비저자 읽기 전용 검수.
   구현 전 API·위험 검토와 구현 후 source-bound 독립 판정을 분리한다.
 - 313의6 PASS/3 FAIL·독립HOLD와356 HOLD를 보존한다. 새 표적 차선 검증 뒤에도
   각각의 후속 독립 판정 전에는 완료로 올리지 않는다. 작업 지시는 일회성이다.
@@ -86,3 +86,27 @@
   예상 역사587은 아직 미실행이며 함수/핀/양성assertion 수정·실패 필터·mock 우회 금지다.
 - 기존 audit.sh/옛 차선의 old309 현재 입구가 최신 바이트를 거절하는 의미는 보존한다.
   새 명시 차선의 좁은 결과를 옛 직접CLI나 전체 shell PASS로 바꾸지 않는다.
+
+## 2026-09-27 구현·표적 검증 — 최종 독립 판정 전
+
+- 선언 `24d0cef` 뒤 도구8개만 구현했다. 현재19경로/7JSON20leaf/ledger9receipt를
+  먼저 검증하고, 비교에만 KO/EN4파일11leaf →309/316/310/305를 합성한다.
+  full-body 비교는 post305에서 멈추며 실제 보고는 현재 원문이다. 역사 합집합7경로와
+  EN midgame 양세대, graph EN Daeun raw/index binding을 함께 보존한다.
+- 명시 차선23명령 **23 PASS**, timeout0, 전후 동일1374 소스·문서 지문이다.
+  새 경계370, 역사587(현재소비자 원형305/310/316의301 + 격리pre313 원형309의286),
+  본문73·graph178·chapter5146·year5879·chapter1604·localization264다.
+  사례는 서로 겹치므로 합산하지 않는다. year5 525.066초·chapter1 719.467초다.
+- 실행은 dirty 선언HEAD에서 고정된 구현 바이트로 했으며 clean final commit 재실행이
+  아니다. `.git/full-game-localization/order357-final1-aggregate.json` SHA
+  `702607bffd534ce5eebe0990a78781ef6b21da6aed2c607a77782fe8ef92c9e8`에
+  정확 명령·raw stdout/stderr·각 SHA·전후1374 지문을 결속했다. 바이너리 자산 전량이나
+  실제 사용자 저장 census는 아니다. 기존313 정적6 PASS/3 FAIL은 불변이다.
+- L2: 도달/소비자=위23명령과5도구, 상태=현재원고 거절→명시 차선 수용,
+  미수리 손실=본문/graph 통합 차단, 서사=M13~M24 기작성 수리,
+  계층=검증 전용(새 장면0), 닫는것=독립357 및313/356 각각 후속 판정 전 미완료.
+  `.git/full-game-localization/order357-self-review.md`가 읽기 검토/한계를 소유한다.
+- 제품8·원형4모듈·인간/공개/프로젝트·기존110판정/88보고는 보존한다. 소비자 양성
+  관측을 최신 raw로 연결한 수정과 원형 역사 corpus 불변은 구분한다.
+  자동 검사는 계약 증거이지 재미·깊이·문체나 사람 판정이 아니다. 새 엔진/화면/입력/
+  원어민/인간/물리/package 관측0, 본편·302 새package HOLD. 규범은 일회성이다.

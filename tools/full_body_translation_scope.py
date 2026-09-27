@@ -42,7 +42,8 @@ from event_lifecycle import (  # noqa: E402
 from event_schedule import DeferredFollowUpError, deferred_follow_ups  # noqa: E402
 import order305_demo_source_compat as demo_source  # noqa: E402
 import order310_demo_source_compat as latest_demo_source  # noqa: E402
-import order309_source_compat as current_source  # noqa: E402
+import order309_source_compat as prior_source  # noqa: E402
+import order313_source_compat as current_source  # noqa: E402
 
 
 SCHEMA_VERSION = 1
@@ -1165,13 +1166,24 @@ def _source_history_observations(report: Mapping[str, Any]) -> tuple[dict[str, s
 
     A historical leaf vector is substituted only for the exact current event
     vector from verified Git blobs; neighbors, wrong paths and edited report
-    hashes remain visible. This view undoes 309 only, retaining the 305 source.
+    hashes remain visible. Undo 313/356 and 309 only, retaining the 305 source.
     """
     errors: list[str] = []
     live: list[TextLeaf] = []
     historical: list[TextLeaf] = []
-    expected_paths = {eid: relative for relative, changes in current_source.JSON_LEAVES.items()
+    expected_paths = {eid: relative for relative, changes in current_source.HISTORICAL_JSON_LEAVES.items()
                       if relative.startswith("content/events/") for eid, _path in changes}
+    # Reuse proof only within this observation, not across calls or mutations.
+    proof_rows: dict[str, tuple[dict[str, Any], dict[str, Any]]] = {}
+    for relative in sorted(set(expected_paths.values())):
+        try:
+            before, after = current_source.historical_blobs(relative)
+            proof_rows[relative] = (
+                {row["id"]: row for row in json.loads(before)},
+                {row["id"]: row for row in json.loads(after)},
+            )
+        except (OSError, ValueError) as exc:
+            errors.append(str(exc))
     seen: set[str] = set()
     for event in report.get(SCOPE_LIFECYCLE_SHIPPING, {}).get("events", []):
         eid, relative = event["id"], event["source_file"]
@@ -1185,19 +1197,16 @@ def _source_history_observations(report: Mapping[str, Any]) -> tuple[dict[str, s
         if leaves_sha(leaves) != event["source_leaves_sha256"]:
             errors.append(f"current event observation is unbound: {eid}")
         replacement = leaves
-        if relative in current_source.PATHS:
-            try:
-                before, after = current_source.verified_blobs(relative)
-                old = next((row for row in json.loads(before) if row["id"] == eid), None)
-                new = next((row for row in json.loads(after) if row["id"] == eid), None)
+        if relative in current_source.HISTORICAL_PATHS:
+            if relative in proof_rows:
+                old = proof_rows[relative][0].get(eid)
+                new = proof_rows[relative][1].get(eid)
                 if old is not None and new is not None:
                     approved = collect_event_leaves(eid, new, errors)
                     if leaves == approved:
                         replacement = collect_event_leaves(eid, old, errors)
                     elif eid in current_source.LIVE_EVENT_IDS.get(relative, ()):
                         errors.append(f"ORDER-309 current report event is not the admitted successor: {relative}#{eid}")
-            except (OSError, ValueError) as exc:
-                errors.append(str(exc))
         historical.extend(replacement)
     if seen != set(expected_paths):
         errors.append("ORDER-309 current report is missing an admitted source event")
@@ -1264,7 +1273,7 @@ def _expected_observation_errors(report: Mapping[str, Any]) -> list[str]:
                     if key == "shipping_source_leaves_sha256" else EXPECTED[key])
         if actual != expected:
             errors.append(
-                f"source observation (309 historical view for text hashes) {key} drifted: "
+                f"source observation (313/356→309 historical text view; post305) {key} drifted: "
                 f"expected={expected} actual={actual}"
             )
     for language in TARGET_LANGUAGES:
@@ -1596,10 +1605,11 @@ def run_self_test(root: Path | str = ROOT) -> tuple[list[str], int]:
         forged[SCOPE_M07_M60_STATIC]["source_leaves_sha256"] = leaves_sha(
             leaf for leaf in all_leaves if leaf.event_id in static_ids)
 
-    for relative, changes in current_source.JSON_LEAVES.items():
+    # Preserve every preceding 309 mutation and add the separate 313/356 set.
+    for relative, changes in current_source.HISTORICAL_JSON_LEAVES.items():
         if not relative.startswith("content/events/"):
             continue
-        before, _after = current_source.verified_blobs(relative)
+        before, _after = current_source.historical_blobs(relative)
         old_events = {event["id"]: event for event in json.loads(before)}
         for event_id in sorted({eid for eid, _path in changes}):
             for kind in ("rollback", "wrong-path-rollback", "neighbor", "wrong-hash", "missing"):
@@ -1619,7 +1629,8 @@ def run_self_test(root: Path | str = ROOT) -> tuple[list[str], int]:
                 rehash_observation(forged)
                 if kind == "wrong-hash":
                     event["source_leaves_sha256"] = "0" * 64
-                require(f"ORDER-309 report rejects {kind}: {event_id}",
+                owner = "ORDER-309" if relative in prior_source.PATHS else "ORDER-313"
+                require(f"{owner} report rejects {kind}: {event_id}",
                         bool(_expected_observation_errors(forged)))
 
     from full_game_localization import PROMPT_VERSION, Leaf

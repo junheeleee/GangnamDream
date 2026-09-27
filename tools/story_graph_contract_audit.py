@@ -20,7 +20,8 @@ from typing import Any, Callable
 
 import order305_demo_source_compat as order305_compat
 import order310_demo_source_compat as latest_demo_compat
-import order309_source_compat as current_source
+import order309_source_compat as prior_source
+import order313_source_compat as current_source
 
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -444,6 +445,7 @@ def validate(data: Inputs) -> list[str]:
             "content/events/arc_hyunsu.json": data.events_ko,
             "content/events_en/arc_hyunsu.json": data.events_en,
             "content/events_en/arc_midgame.json": data.events_en,
+            "content/events_en/arc_daeun.json": data.events_en,
         }.get(relative)
         if indexed is not None:
             # In-memory mutation fixtures must not substitute a historical
@@ -1196,7 +1198,7 @@ def run_self_test(base: Inputs) -> tuple[list[str], int]:
         cases.append((f"order310_indexed_rollback:{relative}", rollback_latest_event))
 
     # Additional cases, without replacing any original 305/310 corpus.
-    for relative in current_source.LIVE_PATHS:
+    for relative in prior_source.LIVE_PATHS:
         def corrupt_current_raw(data: Inputs, relative: str = relative) -> None:
             data.source_bytes[relative] += b"\n"
         cases.append((f"order309_raw_drift:{relative}", corrupt_current_raw))
@@ -1204,7 +1206,7 @@ def run_self_test(base: Inputs) -> tuple[list[str], int]:
         def missing_current_raw(data: Inputs, relative: str = relative) -> None:
             data.source_bytes.pop(relative)
         cases.append((f"order309_raw_missing:{relative}", missing_current_raw))
-    for relative, leaves in current_source.JSON_LEAVES.items():
+    for relative, leaves in prior_source.JSON_LEAVES.items():
         for event_id, leaf_path in leaves:
             def corrupt_current_leaf(data: Inputs, relative: str = relative,
                                      event_id: str = event_id, leaf_path: tuple = leaf_path) -> None:
@@ -1216,10 +1218,41 @@ def run_self_test(base: Inputs) -> tuple[list[str], int]:
             cases.append((f"order309_indexed_leaf:{relative}:{event_id}:{leaf_path}", corrupt_current_leaf))
         def rollback_current_event(data: Inputs, relative: str = relative) -> None:
             index = data.events_ko if relative.startswith("content/events/") else data.events_en
+            event_id = prior_source.JSON_LEAVES[relative][0][0]
+            before, _after = prior_source.verified_blobs(relative)
+            index[event_id] = next(row for row in json.loads(before) if row["id"] == event_id)
+        cases.append((f"order309_indexed_rollback:{relative}", rollback_current_event))
+
+    # New cases are additive; the old 305/310/309 fixture populations stay intact.
+    for relative in current_source.CURRENT_PATHS:
+        def corrupt_new_raw(data: Inputs, relative: str = relative) -> None:
+            data.source_bytes[relative] += b"\n"
+        cases.append((f"order313_raw_drift:{relative}", corrupt_new_raw))
+
+        def missing_new_raw(data: Inputs, relative: str = relative) -> None:
+            data.source_bytes.pop(relative)
+        cases.append((f"order313_raw_missing:{relative}", missing_new_raw))
+
+        def rollback_new_raw(data: Inputs, relative: str = relative) -> None:
+            data.source_bytes[relative] = current_source.verified_blobs(relative)[0]
+        cases.append((f"order313_raw_rollback:{relative}", rollback_new_raw))
+    for relative, leaves in current_source.JSON_LEAVES.items():
+        for event_id, leaf_path in leaves:
+            def corrupt_new_leaf(data: Inputs, relative: str = relative,
+                                 event_id: str = event_id, leaf_path: tuple = leaf_path) -> None:
+                index = data.events_ko if relative.startswith("content/events/") else data.events_en
+                parent = index[event_id]
+                for key in leaf_path[:-1]:
+                    parent = parent[key]
+                parent[leaf_path[-1]] += " unapproved"
+            cases.append((f"order313_indexed_leaf:{relative}:{event_id}:{leaf_path}", corrupt_new_leaf))
+
+        def rollback_new_event(data: Inputs, relative: str = relative) -> None:
+            index = data.events_ko if relative.startswith("content/events/") else data.events_en
             event_id = current_source.JSON_LEAVES[relative][0][0]
             before, _after = current_source.verified_blobs(relative)
             index[event_id] = next(row for row in json.loads(before) if row["id"] == event_id)
-        cases.append((f"order309_indexed_rollback:{relative}", rollback_current_event))
+        cases.append((f"order313_indexed_rollback:{relative}", rollback_new_event))
 
     @case("network_w52_prelaunch")
     def _(data: Inputs) -> None:
@@ -1486,8 +1519,8 @@ def run_self_test(base: Inputs) -> tuple[list[str], int]:
         errors = validate(candidate)
         if not errors:
             failures.append(f"self-test mutation escaped: {name}")
-        if not name.startswith(("order305_", "order310_", "order309_")) and any(
-            error.startswith(("ORDER-305", "ORDER-310", "ORDER-309", "ORDER-316")) for error in errors
+        if not name.startswith(("order305_", "order310_", "order309_", "order313_")) and any(
+            error.startswith(("ORDER-305", "ORDER-310", "ORDER-309", "ORDER-313", "ORDER-316")) for error in errors
         ):
             failures.append(f"successor guard masked an original graph self-test: {name}")
     return failures, len(cases) + 1

@@ -14,6 +14,40 @@
   ],
   "fast_lanes": [
     {
+      "id": "chapter2-prose-source-compat",
+      "paths": [],
+      "owned_paths": [
+        "tools/order313_source_compat.py", "tools/full_body_translation_scope.py",
+        "tools/story_graph_contract_audit.py", "tools/chapter5_human_reject_audit.py",
+        "tools/year5_reference_route_audit.py", "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/audit_scope.json", "tools/audit.sh",
+        "content/events/arc_events.json", "content/events_en/arc_events.json",
+        "content/events_ja/arc_events.json", "content/events_zh-CN/arc_events.json",
+        "content/events_zh-TW/arc_events.json", "content/events_en/arc_midgame.json",
+        "content/events_en/arc_daeun.json", "content/meta/full_game_localization.json",
+        "CLAUDE.md", "docs/CODEX_QUEUE.md", "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/queue_active/ORDER-357.md", "docs/queue_archive/ORDER-357.md",
+        "docs/queue_active/ORDER-313.md", "docs/queue_archive/ORDER-313.md",
+        "docs/queue_active/ORDER-356.md", "docs/queue_archive/ORDER-356.md",
+        "docs/WORK_LOG.md", "docs/STATUS.md", "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-357.json", "docs/agent_reviews/ORDER-313-followup.json",
+        "docs/agent_reviews/ORDER-356-followup.json"
+      ],
+      "tools": [
+        "tools/order313_source_compat.py --self-test",
+        "tools/order313_source_compat.py --historical-self-test",
+        "tools/full_body_translation_scope.py", "tools/full_body_translation_scope.py --self-test",
+        "tools/story_graph_contract_audit.py", "tools/story_graph_contract_audit.py --self-test",
+        "tools/chapter5_human_reject_audit.py", "tools/chapter5_human_reject_audit.py --self-test",
+        "tools/year5_reference_route_audit.py", "tools/year5_reference_route_audit.py --self-test",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py", "tools/chapter1_core_loop_v2_causal_ledger_check.py --self-test",
+        "tools/full_game_localization_self_test.py", "tools/audit.py", "tools/story_consistency_audit.py",
+        "tools/i18n_coverage_check.py", "tools/english_hangul_audit.py", "tools/en_coverage_check.py",
+        "tools/audit_select.py --verify", "tools/queue_index_self_test.py", "tools/agent_review_decisions_self_test.py"
+      ],
+      "why": "Explicit-only ORDER357: exact current 7JSON/20 leaves plus receipt9 and two distinct unit batches, historical KO/EN4/11 inverse before309/316/310/305. Current live union19; year5 historical union7. Original305/310/316 corpus and isolated immutable pre313 original309 corpus remain separate evidence. Current inventory stays current; old CLI failures and313/356 HOLD are not waived. No engine, full shell, 240-week, native/human/physical or release claim."
+    },
+    {
       "id": "chapter1-prose-source-compat",
       "paths": [],
       "owned_paths": [
@@ -1813,6 +1847,48 @@
     }
   ],
   "checks": [
+    {
+      "tool": "tools/order313_source_compat.py --self-test",
+      "paths": [
+        "content/events/arc_hyunsu.json", "content/events_en/arc_hyunsu.json",
+        "content/events_ja/arc_hyunsu.json", "content/events_zh-CN/arc_hyunsu.json",
+        "content/events_zh-TW/arc_hyunsu.json", "content/events_en/core_loop_v2_events.json",
+        "content/events_ja/story_demo_events.json", "content/events_zh-CN/story_demo_events.json",
+        "content/events_zh-TW/story_demo_events.json", "playtests/order124/StoryChoiceM1M6Playtest.gd",
+        "scenes/StoryMode.gd",
+        "tools/order313_source_compat.py", "tools/order309_source_compat.py",
+        "tools/order316_header_source_compat.py", "tools/order310_demo_source_compat.py",
+        "tools/order305_demo_source_compat.py", "tools/full_body_translation_scope.py",
+        "tools/story_graph_contract_audit.py", "tools/chapter5_human_reject_audit.py",
+        "tools/year5_reference_route_audit.py", "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "content/events/arc_events.json", "content/events_en/arc_events.json",
+        "content/events_ja/arc_events.json", "content/events_zh-CN/arc_events.json",
+        "content/events_zh-TW/arc_events.json", "content/events_en/arc_midgame.json",
+        "content/events_en/arc_daeun.json", "content/meta/full_game_localization.json"
+      ],
+      "why": "Exact current313/356 admission and historical inverse; rollback, mixed, neighbor, receipt and immutable-proof rejection. Existing four source modules and pins stay unchanged."
+    },
+    {
+      "tool": "tools/order313_source_compat.py --historical-self-test",
+      "paths": [
+        "content/events/arc_hyunsu.json", "content/events_en/arc_hyunsu.json",
+        "content/events_ja/arc_hyunsu.json", "content/events_zh-CN/arc_hyunsu.json",
+        "content/events_zh-TW/arc_hyunsu.json", "content/events_en/core_loop_v2_events.json",
+        "content/events_ja/story_demo_events.json", "content/events_zh-CN/story_demo_events.json",
+        "content/events_zh-TW/story_demo_events.json", "playtests/order124/StoryChoiceM1M6Playtest.gd",
+        "scenes/StoryMode.gd",
+        "tools/order313_source_compat.py", "tools/order309_source_compat.py",
+        "tools/order316_header_source_compat.py", "tools/order310_demo_source_compat.py",
+        "tools/order305_demo_source_compat.py", "tools/full_body_translation_scope.py",
+        "tools/story_graph_contract_audit.py", "tools/chapter5_human_reject_audit.py",
+        "tools/year5_reference_route_audit.py", "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "content/events/arc_events.json", "content/events_en/arc_events.json",
+        "content/events_ja/arc_events.json", "content/events_zh-CN/arc_events.json",
+        "content/events_zh-TW/arc_events.json", "content/events_en/arc_midgame.json",
+        "content/events_en/arc_daeun.json", "content/meta/full_game_localization.json"
+      ],
+      "why": "Latest admission then original305/310/316 corpus plus separately isolated pre313 original309 corpus; no old CLI/current admission PASS claim or fixture/assertion/pin weakening."
+    },
     {
       "tool": "tools/order316_header_source_compat.py --self-test",
       "paths": ["tools/order316_header_source_compat.py"],

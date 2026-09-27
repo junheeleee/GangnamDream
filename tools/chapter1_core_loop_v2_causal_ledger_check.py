@@ -37,7 +37,7 @@ import meta_title_locale_successor as title_successor
 import order305_demo_source_compat as demo_source
 import order310_demo_source_compat as latest_demo_source
 import order316_header_source_compat as header_source
-import order309_source_compat as current_source
+import order313_source_compat as current_source
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -4542,16 +4542,20 @@ def _order305_audited_source_observation(
     """A later prose-only successor does not refresh the legacy source pin."""
     if relative != demo_source.KO_PATH:
         return observed, []
-    errors = latest_demo_source.source_errors(raw, relative)
+    errors = current_source.source_errors(raw, relative)
     if hashlib.sha256(raw).hexdigest() != observed:
         errors.append("ORDER-305: legacy observed hash is not bound to raw current bytes")
-    return (observed if errors else latest_demo_source.project_byte_hash(observed, relative), errors)
+    return (observed if errors else current_source.project_byte_hash(observed, relative), errors)
 
 
 def order305_source_boundary_self_test() -> tuple[list[str], int]:
     """Bounded static unit only; does not invoke the legacy 24/240-week suite."""
     previous, current = demo_source.verified_blobs(demo_source.KO_PATH)
     old_hash, new_hash = demo_source.FILE_HASHES[demo_source.KO_PATH]
+    # The positive fixture is the live successor, while the immutable old pin
+    # and every original rollback/mutation assertion remain the comparison.
+    _pre313, current = current_source.verified_blobs(demo_source.KO_PATH)
+    new_hash = hashlib.sha256(current).hexdigest()
     failures: list[str] = []
     cases = 0
     for label, relative, raw, observed, expected, rejected in (
@@ -4751,7 +4755,8 @@ def order309_proof_binding_self_test(ledger: dict[str, Any]) -> tuple[list[str],
     cases = 0
     relative = demo_source.KO_PATH
     path = ROOT / relative
-    before, after = demo_source.verified_blobs(relative)
+    before, _old_after = demo_source.verified_blobs(relative)
+    _pre313, after = current_source.verified_blobs(relative)
     live, old = json.loads(after), json.loads(before)
     real_read_bytes = Path.read_bytes
     for event_id in ("arc_sangchul_01_answer", "arc_temptation_clean"):

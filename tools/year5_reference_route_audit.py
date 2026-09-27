@@ -29,7 +29,8 @@ import main_game_locale_history as locale_history
 import order305_demo_source_compat as demo_source
 import order310_demo_source_compat as latest_demo_source
 import order316_header_source_compat as header_source
-import order309_source_compat as current_source
+import order309_source_compat as prior_source
+import order313_source_compat as current_source
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -6343,7 +6344,7 @@ def order155_git_registration_snapshot(
     product_paths = {path for path in product.stdout.splitlines() if path}
     census_paths = tuple(dict.fromkeys((
         demo_source.KO_PATH, demo_source.EN_PATH, latest_demo_source.CORE_PATH,
-        *current_source.PATHS,
+        *current_source.HISTORICAL_PATHS,
     )))
     for relative in census_paths:
         if relative not in product_paths:
@@ -6357,7 +6358,7 @@ def order155_git_registration_snapshot(
             # A registered path alone is never an exemption: the entire
             # admitted successor must restore this exact immutable baseline.
             explained = (order309_census_exempt(relative, current, baseline)
-                         if relative in current_source.PATHS
+                         if relative in current_source.HISTORICAL_PATHS
                          else order305_census_exempt(relative, current, baseline))
             if explained:
                 product_paths.remove(relative)
@@ -6378,7 +6379,7 @@ def order305_census_exempt(relative: str, current: bytes, baseline: bytes) -> bo
 
 def order309_census_exempt(relative: str, current: bytes, baseline: bytes) -> bool:
     """Explain a later file only after raw admission and complete history."""
-    if relative not in current_source.PATHS \
+    if relative not in current_source.HISTORICAL_PATHS \
             or current_source.source_errors(current, relative):
         return False
     try:
@@ -6396,7 +6397,7 @@ def order309_census_exempt(relative: str, current: bytes, baseline: bytes) -> bo
 def order309_context_source_errors(context: AuditContext) -> list[str]:
     """Bind declared in-memory event objects to the actual admitted raw files."""
     errors: list[str] = []
-    for relative in current_source.PATHS:
+    for relative in current_source.HISTORICAL_PATHS:
         try:
             raw = (ROOT / relative).read_bytes()
             admission = current_source.source_errors(raw, relative)
@@ -6408,7 +6409,7 @@ def order309_context_source_errors(context: AuditContext) -> list[str]:
             errors.append(f"ORDER-309: current year5 snapshot unavailable {relative}: {exc}")
             continue
         language = "en" if relative.startswith("content/events_en/") else "ko"
-        event_ids = {event_id for event_id, _path in current_source.JSON_LEAVES[relative]}
+        event_ids = {event_id for event_id, _path in current_source.HISTORICAL_JSON_LEAVES[relative]}
         for event_id in event_ids:
             expected = object_from_payload(rows, event_id)
             records = context.event_indexes.get(language, {}).get(event_id, [])
@@ -6422,23 +6423,29 @@ def order309_context_source_errors(context: AuditContext) -> list[str]:
     return errors
 
 
-def order309_transition_self_test() -> tuple[list[str], int]:
-    """Keep the new source/census boundary separate from all older corpora."""
+def order309_transition_self_test(corpus_source=prior_source) -> tuple[list[str], int]:
+    """Retain 309 cases; call separately with 313 for its additive boundary set.
+
+    Historical negative values still come from the owning immutable transition.
+    Positive observations bind the actual latest source, not an old live input.
+    """
     from unittest import mock
 
     failures: list[str] = []
     cases = 0
+    owner = "ORDER-355" if corpus_source is prior_source else "ORDER-357"
 
     def check(ok: bool, label: str) -> None:
         nonlocal cases
         cases += 1
         if not ok:
-            failures.append("ORDER-355: " + label)
+            failures.append(owner + ": " + label)
 
     snapshots: dict[str, tuple[bytes, bytes]] = {}
     indexes: dict[str, dict[str, list[EventRecord]]] = {"ko": {}, "en": {}}
-    for path in current_source.PATHS:
-        previous, current = current_source.verified_blobs(path)
+    for path in corpus_source.PATHS:
+        previous, _historical_current = corpus_source.verified_blobs(path)
+        _predecessor, current = current_source.verified_blobs(path)
         snapshots[path] = (previous, current)
         baseline = git_blob(ORDER155_PRODUCT_BASELINE, path)
         new = strict_loads(current.decode("utf-8"), path)
@@ -6471,17 +6478,26 @@ def order309_transition_self_test() -> tuple[list[str], int]:
             with mock.patch.object(git_blob, "__wrapped__", proof):
                 check(not order309_census_exempt(path, current, baseline),
                       path + " census rejects " + label)
-        with mock.patch.object(current_source, "verified_blobs",
+        with mock.patch.object(corpus_source, "verified_blobs",
                                side_effect=ValueError("missing309 proof")):
             check(not order309_census_exempt(path, current, baseline),
                   path + " census rejects missing309 proof")
-        with mock.patch.object(current_source, "verified_blobs",
+        with mock.patch.object(corpus_source, "verified_blobs",
                                return_value=(previous, current + b"\n")):
             check(not order309_census_exempt(path, current, baseline),
                   path + " census rejects altered309 proof")
         language = "en" if path.startswith("content/events_en/") else "ko"
-        for event_id, _leaf in current_source.JSON_LEAVES[path]:
+        for event_id, _leaf in corpus_source.JSON_LEAVES[path]:
             indexes[language][event_id] = [EventRecord(path, object_from_payload(new, event_id)[0])]
+
+    # The live boundary covers both generations even when testing only one
+    # immutable mutation corpus. Never drop old Hyunsu/core or new Daeun IDs.
+    for path, leaves in current_source.HISTORICAL_JSON_LEAVES.items():
+        _before, raw = current_source.verified_blobs(path)
+        rows = strict_loads(raw.decode("utf-8"), path)
+        language = "en" if path.startswith("content/events_en/") else "ko"
+        for event_id, _leaf in leaves:
+            indexes[language][event_id] = [EventRecord(path, object_from_payload(rows, event_id)[0])]
 
     context = AuditContext(indexes, [("sentinel", "raw runtime untouched")])
     saved = copy.deepcopy(context)
@@ -6492,7 +6508,7 @@ def order309_transition_self_test() -> tuple[list[str], int]:
     for path, (previous, _current) in snapshots.items():
         language = "en" if path.startswith("content/events_en/") else "ko"
         old = strict_loads(previous.decode("utf-8"), path)
-        for event_id, leaf in current_source.JSON_LEAVES[path]:
+        for event_id, leaf in corpus_source.JSON_LEAVES[path]:
             candidate = copy.deepcopy(context)
             row = candidate.event_indexes[language][event_id][0].row
             old_value: Any = object_from_payload(old, event_id)[0]
@@ -6503,7 +6519,7 @@ def order309_transition_self_test() -> tuple[list[str], int]:
             parent[leaf[-1]] = old_value[leaf[-1]]
             check(bool(order309_context_source_errors(candidate)),
                   f"indexed rollback rejected {path}:{event_id}:{leaf}")
-        event_id = current_source.JSON_LEAVES[path][0][0]
+        event_id = corpus_source.JSON_LEAVES[path][0][0]
         candidate = copy.deepcopy(context)
         candidate.event_indexes[language][event_id][0].row["title"] += " neighbor"
         check(bool(order309_context_source_errors(candidate)), path + " indexed neighbor rejected")
@@ -13796,6 +13812,9 @@ def main() -> int:
         successor_failures, successor_cases = order309_transition_self_test()
         failures.extend(successor_failures)
         cases += successor_cases
+        chapter2_failures, chapter2_cases = order309_transition_self_test(current_source)
+        failures.extend(chapter2_failures)
+        cases += chapter2_cases
         if failures:
             for failure in failures:
                 print(f"YEAR5_REFERENCE_ROUTE_SELF_TEST_ERROR {failure}")
