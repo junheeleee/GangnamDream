@@ -162,7 +162,7 @@
   {
     "id": "arc_minjun_first_call",
     "title": "Making the Call First",
-    "description": "Sunday morning.\n\nNo reason. Nothing to do.\n{name} picked up the phone. Put it down. Picked it up again.\n\nThinking back — in almost three years, had almost never reached out first.\nThere was always a contact coming in. {name} was always the one receiving.\n\nToday, decided to call first. No reason at all.",
+    "description": "Sunday morning.\n\nNo reason. Nothing he needs to do.\n{name} picks up the phone. Puts it down. Picks it up again.\n\nThinking back — he has almost never called first for no particular reason.\nWithout anything particular to say, {name} would often put the call off.\n\nToday, he decides to call first. No reason at all.",
     "choices": [
       {
         "text": "Called his father. No reason.",
@@ -170,7 +170,7 @@
       },
       {
         "text": "Called Hyunsu. Haven't heard from him in a while.",
-        "result_text": "Hyunsu picked up. \"Hey? {name}? Been a while.\"\n\n\"Yeah. What are you up to?\" — \"Just studying.\" — \"Same.\" — \"...Want to eat?\" — \"When?\" — \"This week?\"\n\nThat was that. One call made first became a plan a month out."
+        "result_text": "Hyunsu picks up {name}'s call. \"Oh, hyung? It's been a while.\"\n\n\"Yeah. What are you up to?\" — \"Just taking it easy. I'm off work today.\" — \"Not much going on here, either.\" — \"...Maybe we could get something to eat?\" — \"When?\" — \"When are you free?\"\n\nThat settles it. One call made first turns into a plan to meet a month later."
       },
       {
         "text": "Pressed the call button. Then hung up. Not yet.",

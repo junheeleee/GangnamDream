@@ -21,11 +21,11 @@
   {
     "id": "arc_midpoint_reckoning",
     "title": "The Halfway Mark",
-    "description": "Two and a half years since arriving in Seoul. Half of the 240 weeks had passed.\n\nA few days ago, beneath Gangnam's lights, {name} had asked why this road mattered. Tonight, the actual balance and the remaining 120 weeks went beside that answer.\n\nThe target and current assets went into the phone calculator. It returned the amount that had to be earned and grown each week.\n\nAt the beginning, three billion won had been too abstract to feel heavy. After half the run, it contained people left behind, calls answered, and nights without sleep.\n\nIt was not mathematically impossible. But at the present speed, the second half would demand a different price than the first.",
+    "description": "Two and a half years since arriving in Seoul. Half of the 240 weeks had passed.\n\nAt some point, {name} had asked himself why he had come this far. Tonight, the actual balance and the remaining 120 weeks went beside that answer.\n\nThe target and current assets went into the phone calculator. It returned the amount that had to be earned and grown each week.\n\nAt the beginning, three billion won had been too abstract to feel heavy. After half the run, it contained people left behind, calls answered, and nights without sleep.\n\nIt was not mathematically impossible. But at the present speed, the second half would demand a different price than the first.",
     "choices": [
       {
         "text": "Closed the calculator, opened another tab.",
-        "result_text": "Excitement overtook the fear. Playing it safe now would mean regret later.\n\nLucky to not have lost anything so far — but now the real game begins."
+        "result_text": "Excitement overtook the fear. Playing it safe now would mean regret later.\n\nLucky to have made it this far — but now the real game begins."
       },
       {
         "text": "Set the phone down. Just today, nothing more.",
@@ -288,7 +288,7 @@
   {
     "id": "arc_jaehyuk_wait",
     "title": "Settlement Day",
-    "description": "The profit settlement Jaehyuk had promised is next week.\n\nNo word from him yesterday. Or today. It had always been like this for the past month — maybe that wasn't strange.\n\nAnd yet. Why does he keep checking his phone.\n\nOpened KakaoTalk. Last message was Jaehyuk's \"How are you\" from three weeks ago.\n{name}'s reply, \"Fine, you?\" had gotten back just an emoji.\n\nThe money put in keeps cycling as a number in his head.",
+    "description": "The profit settlement Jaehyuk promised is next week.\n\nNo word from him yesterday. Or today. It's been like this for the past month — maybe that isn't strange.\n\nAnd yet. Why does he keep checking his phone?\n\nHe opens KakaoTalk. The last message is Jaehyuk's \"How are you\" from three weeks ago.\n{name}'s reply, \"Fine, you?\" got back just an emoji.\n\nThe money put in keeps cycling as a number in his head.",
     "choices": [
       {
         "text": "\"Hey Jaehyuk, how's everything?\" — reach out first",
@@ -989,16 +989,16 @@
   },
   {
     "id": "arc_35_birthday",
-    "title": "Thirty-Five",
-    "description": "Thirty-five.\n\nStarted at thirty-three. That means two years have passed.\n\nIn Korea, thirty-five carries weight — an age by which things are supposed to have settled. Employment, marriage, a home. A thirty-five-year-old without those three things gets a certain label.\n\nA text from dad: \"Happy birthday. You eating okay?\"\n\n{name} held the phone for a moment.",
+    "title": "Lunar New Year at Thirty-Five",
+    "description": "Thirty-five.\n\nHe started at thirty-three. That means two years have passed.\n\nIn Korea, thirty-five carries weight — an age by which things are supposed to have settled. Employment, marriage, a home. A thirty-five-year-old without those three things gets a certain label.\n\nA text from Dad: \"It's Lunar New Year, but don't push yourself to come down. Have you had your rice-cake soup?\"\n\n{name} holds the phone for a moment.",
     "choices": [
       {
         "text": "Replied \"Thank you\" and opened the planner",
         "result_text": "Thirty-five is just a number. Three years to thirty-eight. The plan exists. {name} rewrote tomorrow's task list."
       },
       {
-        "text": "Decided today would just be a birthday",
-        "result_text": "Closed the planner. Needed one day as {name}, not as the person chasing 3 billion. For once, that felt allowed."
+        "text": "Let today be a holiday",
+        "result_text": "Closed the planner. Needed one day as {name}, not as the person chasing 3 billion won. For once, that felt allowed."
       },
       {
         "text": "Called dad",
