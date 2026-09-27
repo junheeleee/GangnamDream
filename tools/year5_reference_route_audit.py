@@ -5851,12 +5851,10 @@ def order304_reunion_project_bytes(current: bytes, relative: str) -> bytes:
         return current
     if current != registered:
         return current
-    projected = current
-    for before, after in ORDER304_REUNION_PATCHES:
-        if projected.count(after.encode("utf-8")) != 1:
-            return current
-        projected = projected.replace(after.encode("utf-8"), before.encode("utf-8"), 1)
-    return projected if projected == previous else current
+    # The loader proved old unique anchors -> exact registered successor bytes.
+    # New short phrases need not be unique elsewhere in the file. Never run a
+    # global reverse replacement on them; both complete byte identities are fixed.
+    return previous
 
 
 def order304_reunion_project_byte_hash(current_hash: str, relative: str) -> str:
@@ -5955,6 +5953,18 @@ def order304_reunion_transition_self_test() -> tuple[list[str], int]:
           "neighbor mutation was hidden")
     check(order304_reunion_project_payload(list(reversed(new)), path) == list(reversed(old)),
           "event order was rewritten")
+    shared_phrase_rows = [row for row in new if row.get("id") != ORDER304_REUNION_ID
+                          and any("I'll be in touch." in text for text in scalar_strings(row))]
+    old_by_id = {row["id"]: row for row in old}
+    projected_by_id = {row["id"]: row for row in order304_reunion_project_payload(new, path)}
+    check(len(shared_phrase_rows) == 1 and all(
+        row == old_by_id[row["id"]] == projected_by_id[row["id"]]
+        for row in shared_phrase_rows), "unrelated identical short phrase was rewritten")
+    shared_phrase_mutant = current.replace(b"When you're ready", b"When you are ready", 1)
+    check(shared_phrase_mutant != current
+          and order304_reunion_project_bytes(shared_phrase_mutant, path) == shared_phrase_mutant
+          and bool(order304_reunion_source_errors(shared_phrase_mutant, path)),
+          "mutation beside unrelated identical short phrase was hidden")
     for mutated_bytes in (current + b" ", current.replace(b"Ten Years", b"Ten Years!", 1)):
         check(order304_reunion_project_bytes(mutated_bytes, path) == mutated_bytes
               and order304_reunion_project_byte_hash(byte_sha256(mutated_bytes), path) == byte_sha256(mutated_bytes)
