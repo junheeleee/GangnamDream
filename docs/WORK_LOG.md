@@ -10,6 +10,7 @@
 - 격리 pre-autoload 엔진1회에서 5언어 각M01~M06·합계30개월/120주/30정산·저장5/StoryMode10 PASS. stdout/stderr/Godot로그 오류·누수0, ENTRY12경로 일치, 실제사용자43파일·실행1219핀 불변. 전역HOME 변경·제품 project.godot 변경0. 원본 `order302-b-runtime-first/` 보존.
 - [독립302-B](agent_reviews/ORDER-302-B.json)는 해당2키/6값·기능계약만 부분GO, 전체302/본편HOLD. PNG0·원어민/인간/물리입력 관측0. 자동게이트는 도달·계약 증거이지 재미·깊이·문체 증거가 아니다. 옛 공개 GO는 새source/package에 상속되지 않는다.
 - 다음 잔여2/6/7·EN문체5는 작은 후속 사양을 먼저 선언한다. 월세 변경은 meet의 세 description 변형을 함께 다루고 EN exact 역사호환 영향도 별도 선언해야 한다. 실제 화면·새패키지 후보 판정은 미완료이며 사용자 재서명을 대기조건으로 두지 않는다.
+- 마감 context·queue·human·보존 검사 PASS(큐77/진행74·인간OPEN45/DONE1). 보고 exact복사/32증거SHA·clean metadata wrapper의 원후보6c4cd0d 결속 확인. 첫 dashboard 검사만 STALE: 미커밋 문서 상태에서 생성한 후보 표시가 clean wrapper와 달랐다. 실패 원문을 보존하고 문서 커밋 뒤 STATUS만 재생성해 검증한다. 제품/엔진 재실행 사유는 아니다.
 
 ## 2026-09-27 (Codex — 재혁 영어 화자·시점과 역사 검사)
 
