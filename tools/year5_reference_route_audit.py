@@ -5756,8 +5756,224 @@ def order215_modal_transition_self_test() -> tuple[list[str], int]:
     return failures, count
 
 
+# ORDER-304 observes ORDER-302's three approved EN perspective repairs before
+# exposing the predecessor to historical checks. No historical registry moves.
+ORDER304_REUNION_PATH = "content/events_en/arc_events.json"
+ORDER304_REUNION_ID = "arc_jaehyuk_01_reunion"
+ORDER304_REUNION_COMMITS = (
+    "9e418ee68fcdf5e338c45bf9fc5712c04d898754",
+    "3fb98909c0bb47ef1fff17964e6c227916791ffc",
+)
+ORDER304_REUNION_FILE_SHA256 = (
+    "81cb8adde25a00b166b24dc7bcfaa05411126254d33d8cd9a8bbb382ddddbfaa",
+    "af12b86b48709bb2af0c52baf4036fc4ed902edb6e3cb5b1dc48dafb7de3a982",
+)
+ORDER304_REUNION_OBJECT_SHA256 = (
+    "f5708ebd5345a8b2c5c4145041f87e3ab48e3573bff89254f9b724cea41ad3c5",
+    "803de8e02a2afdfb4f81f2ce1bf9f766efc82a1e9b14e7b90329d386e3cfcc39",
+)
+ORDER304_REUNION_PATCHES = (
+    ("our whole service", "their whole service"),
+    ("You'll be in touch.", "I'll be in touch."),
+    ("Why now, why you.", "Why now—why me?"),
+)
+
+
+def _order304_reunion_row(payload: Any) -> dict[str, Any] | None:
+    if not isinstance(payload, list):
+        return None
+    rows = [row for row in payload if isinstance(row, dict)
+            and row.get("id") == ORDER304_REUNION_ID]
+    return rows[0] if len(rows) == 1 else None
+
+
+@functools.lru_cache(maxsize=1)
+def order304_reunion_git_blobs() -> tuple[bytes, bytes, dict[str, Any]]:
+    """Verify both immutable Git sources and the complete exact three-edit delta."""
+    blobs = tuple(git_blob(revision, ORDER304_REUNION_PATH)
+                  for revision in ORDER304_REUNION_COMMITS)
+    predecessors: list[dict[str, Any]] = []
+    for index, raw in enumerate(blobs):
+        if byte_sha256(raw) != ORDER304_REUNION_FILE_SHA256[index]:
+            raise ValueError("ORDER-304: immutable EN source byte hash drifted")
+        row = _order304_reunion_row(strict_loads(
+            raw.decode("utf-8"), ORDER304_REUNION_COMMITS[index]))
+        if row is None or canonical_json_sha256(row) \
+                != ORDER304_REUNION_OBJECT_SHA256[index]:
+            raise ValueError("ORDER-304: immutable reunion object hash drifted")
+        predecessors.append(row)
+    expected = blobs[0]
+    for before, after in ORDER304_REUNION_PATCHES:
+        if expected.count(before.encode("utf-8")) != 1:
+            raise ValueError("ORDER-304: predecessor repair anchor is not unique")
+        expected = expected.replace(before.encode("utf-8"), after.encode("utf-8"), 1)
+    if expected != blobs[1]:
+        raise ValueError("ORDER-304: successor exceeds the three approved edits")
+    return blobs[0], blobs[1], predecessors[0]
+
+
+def order304_reunion_project_payload(payload: Any, relative: str) -> Any:
+    """Change only three leaves of one exact successor; preserve all neighbors."""
+    projected = copy.deepcopy(payload)
+    if relative != ORDER304_REUNION_PATH:
+        return projected
+    row = _order304_reunion_row(projected)
+    if row is None or canonical_json_sha256(row) \
+            != ORDER304_REUNION_OBJECT_SHA256[1]:
+        return projected
+    try:
+        _previous, _current, predecessor = order304_reunion_git_blobs()
+    except (UnicodeDecodeError, ValueError):
+        return projected
+    row["description"] = predecessor["description"]
+    for index in (0, 1):
+        row["choices"][index]["result_text"] = predecessor["choices"][index]["result_text"]
+    return projected
+
+
+def order304_reunion_project_context(context: AuditContext) -> AuditContext:
+    """Historical copy only; raw current indexes and runtime sources stay intact."""
+    projected = copy.deepcopy(context)
+    records = projected.event_indexes.get("en", {}).get(ORDER304_REUNION_ID, [])
+    if len(records) == 1 and records[0].path == ORDER304_REUNION_PATH:
+        records[0].row = order304_reunion_project_payload(
+            [records[0].row], records[0].path)[0]
+    return projected
+
+
+def order304_reunion_project_bytes(current: bytes, relative: str) -> bytes:
+    if relative != ORDER304_REUNION_PATH or byte_sha256(current) \
+            != ORDER304_REUNION_FILE_SHA256[1]:
+        return current
+    try:
+        previous, registered, _row = order304_reunion_git_blobs()
+    except (UnicodeDecodeError, ValueError):
+        return current
+    if current != registered:
+        return current
+    projected = current
+    for before, after in ORDER304_REUNION_PATCHES:
+        if projected.count(after.encode("utf-8")) != 1:
+            return current
+        projected = projected.replace(after.encode("utf-8"), before.encode("utf-8"), 1)
+    return projected if projected == previous else current
+
+
+def order304_reunion_project_byte_hash(current_hash: str, relative: str) -> str:
+    if relative == ORDER304_REUNION_PATH and current_hash == ORDER304_REUNION_FILE_SHA256[1]:
+        try:
+            previous, current, _row = order304_reunion_git_blobs()
+        except (UnicodeDecodeError, ValueError):
+            return current_hash
+        if order304_reunion_project_bytes(current, relative) == previous:
+            return ORDER304_REUNION_FILE_SHA256[0]
+    return current_hash
+
+
+def order304_reunion_source_errors(current: bytes, relative: str) -> list[str]:
+    """Validate live raw source before any historical inverse is considered."""
+    try:
+        previous, registered, _row = order304_reunion_git_blobs()
+    except (UnicodeDecodeError, ValueError) as exc:
+        return [str(exc)]
+    if relative != ORDER304_REUNION_PATH or current != registered:
+        return ["ORDER-304: current EN source exceeds the exact approved three-leaf repair"]
+    if order304_reunion_project_bytes(current, relative) != previous:
+        return ["ORDER-304: exact EN inverse does not restore predecessor bytes"]
+    return []
+
+
+def order304_reunion_transition_self_test() -> tuple[list[str], int]:
+    failures: list[str] = []
+    cases = 0
+
+    def check(condition: bool, label: str) -> None:
+        nonlocal cases
+        cases += 1
+        if not condition:
+            failures.append("ORDER-304: " + label)
+
+    try:
+        previous, current, old_row = order304_reunion_git_blobs()
+    except (UnicodeDecodeError, ValueError) as exc:
+        return [str(exc)], 1
+    path = ORDER304_REUNION_PATH
+    old = strict_loads(previous.decode("utf-8"), "ORDER-304 previous")
+    new = strict_loads(current.decode("utf-8"), "ORDER-304 current")
+    original = copy.deepcopy(new)
+    new_row = _order304_reunion_row(new)
+    check(not order304_reunion_source_errors(current, path), "approved raw successor rejected")
+    check(order304_reunion_project_payload(new, path) == old, "exact three-leaf inverse")
+    check(new == original, "payload inverse mutated its input")
+    check(order304_reunion_project_payload(old, path) == old, "predecessor idempotence")
+    check(order304_reunion_project_payload(order304_reunion_project_payload(new, path), path) == old,
+          "double inverse idempotence")
+    check(order156_project_payload(new, path) == old, "latest payload chain binding")
+    check(order304_reunion_project_bytes(current, path) == previous, "exact byte inverse")
+    check(order156_project_bytes(current, path) == previous, "latest byte chain binding")
+    check(order156_project_byte_hash(byte_sha256(current), path) == byte_sha256(previous),
+          "latest hash chain binding")
+    check(order304_reunion_project_bytes(previous, path) == previous, "byte idempotence")
+    check(bool(order304_reunion_source_errors(previous, path)), "live source rollback accepted")
+
+    mutations: list[tuple[str, Any]] = []
+    for field in ("description", "title", "description_orthodox"):
+        row = copy.deepcopy(new_row)
+        row[field] += "!"
+        mutations.append(("same-object " + field, [row]))
+    for index in (0, 1):
+        row = copy.deepcopy(new_row)
+        row["choices"][index]["result_text"] += "!"
+        mutations.append(("result leaf " + str(index), [row]))
+    for label, value in (("wrong ID", "other"), ("ID type", 302)):
+        row = copy.deepcopy(new_row)
+        row["id"] = value
+        mutations.append((label, [row]))
+    row = copy.deepcopy(new_row)
+    row["description"] = [row["description"]]
+    mutations.append(("leaf type", [row]))
+    row = copy.deepcopy(new_row)
+    row["choices"].reverse()
+    mutations.append(("choice order", [row]))
+    row = copy.deepcopy(new_row)
+    row["choices"][0]["result_text"] = old_row["choices"][0]["result_text"]
+    mutations.append(("partial rollback", [row]))
+    mutations.extend((("duplicate ID", [new_row, copy.deepcopy(new_row)]),
+                      ("root type", {"items": new})))
+    for label, mutated in mutations:
+        check(order304_reunion_project_payload(mutated, path) == mutated,
+              label + " was hidden")
+    for wrong_path in ("content/events/arc_events.json", path + ".other"):
+        check(order304_reunion_project_payload(new, wrong_path) == new
+              and order304_reunion_project_bytes(current, wrong_path) == current
+              and order304_reunion_project_byte_hash(byte_sha256(current), wrong_path) == byte_sha256(current)
+              and bool(order304_reunion_source_errors(current, wrong_path)), "wrong path was accepted")
+    neighbor = copy.deepcopy(new)
+    neighbor[0]["title"] += "!"
+    projected_neighbor = order304_reunion_project_payload(neighbor, path)
+    check(projected_neighbor[0] == neighbor[0] and projected_neighbor != old,
+          "neighbor mutation was hidden")
+    check(order304_reunion_project_payload(list(reversed(new)), path) == list(reversed(old)),
+          "event order was rewritten")
+    for mutated_bytes in (current + b" ", current.replace(b"Ten Years", b"Ten Years!", 1)):
+        check(order304_reunion_project_bytes(mutated_bytes, path) == mutated_bytes
+              and order304_reunion_project_byte_hash(byte_sha256(mutated_bytes), path) == byte_sha256(mutated_bytes)
+              and bool(order304_reunion_source_errors(mutated_bytes, path)), "raw mutation was hidden")
+    context = AuditContext({"ko": {}, "en": {ORDER304_REUNION_ID: [EventRecord(path, new_row)]}},
+                           [(path + "#non_target_objects", "unchanged raw census")])
+    saved = copy.deepcopy(context)
+    projected_context = order155_project_context(context)
+    check(projected_context.event_indexes["en"][ORDER304_REUNION_ID][0].row == old_row
+          and context == saved and projected_context.runtime_sources == context.runtime_sources,
+          "latest context chain or raw preservation")
+    context.event_indexes["en"][ORDER304_REUNION_ID].append(EventRecord(path, new_row))
+    check(order304_reunion_project_context(context) == context, "duplicate context ID was hidden")
+    return failures, cases
+
+
 def order156_project_bytes(current: bytes, relative: str) -> bytes:
     """Expose an older byte only from the complete exact ORDER-156 leaf."""
+    current = order304_reunion_project_bytes(current, relative)
     current = locale_history.main_game_history_project_bytes(current, relative)
     current = order220_preview_project_bytes(current, relative)
     current = order215_modal_project_bytes(current, relative)
@@ -5775,7 +5991,7 @@ def order156_project_bytes(current: bytes, relative: str) -> bytes:
 
 def order156_project_payload(payload: Any, relative: str) -> Any:
     """Inverse only an exact ORDER-156 JSON manifest successor."""
-    projected = copy.deepcopy(payload)
+    projected = order304_reunion_project_payload(payload, relative)
     if relative not in {ORDER156_AUDIO_PATH, ORDER156_DIRECTION_PATH}:
         return projected
     try:
@@ -5792,6 +6008,7 @@ def order156_project_payload(payload: Any, relative: str) -> Any:
 
 def order156_project_byte_hash(current_hash: str, relative: str) -> str:
     """Map only an exact ORDER-156 successor hash to its predecessor."""
+    current_hash = order304_reunion_project_byte_hash(current_hash, relative)
     current_hash = _order243_history_byte_hash(current_hash, relative)
     current_hash = order220_preview_project_byte_hash(current_hash, relative)
     current_hash = order215_modal_project_byte_hash(current_hash, relative)
@@ -6028,7 +6245,7 @@ def order155_project_byte_hash(current_hash: str, relative: str) -> str:
 
 def order155_project_context(context: AuditContext) -> AuditContext:
     """Restore exactly seven current KO event objects for older receipts."""
-    projected = copy.deepcopy(context)
+    projected = order304_reunion_project_context(context)
     for relative, transitions in \
             ORDER155_EVENT_OBJECT_TRANSITIONS_BY_FILE.items():
         for event_id, transition in transitions.items():
@@ -10469,6 +10686,11 @@ def validate_manifest(
     extra_runtime_sources: Iterable[tuple[str, str]] = (),
 ) -> tuple[list[str], dict[str, int]]:
     errors: list[str] = []
+    try:
+        errors.extend(order304_reunion_source_errors(
+            (ROOT / ORDER304_REUNION_PATH).read_bytes(), ORDER304_REUNION_PATH))
+    except OSError as exc:
+        errors.append(f"ORDER-304: current EN source unavailable ({exc})")
     routes = validate_surface(manifest, errors)
     if not isinstance(manifest, dict):
         return errors, {"routes": 0, "roots": 0, "choices": 0, "consumers": 0}
@@ -13250,6 +13472,9 @@ def main() -> int:
         preview_failures, preview_cases = order220_preview_transition_self_test()
         failures.extend(preview_failures)
         cases += preview_cases
+        reunion_failures, reunion_cases = order304_reunion_transition_self_test()
+        failures.extend(reunion_failures)
+        cases += reunion_cases
         if failures:
             for failure in failures:
                 print(f"YEAR5_REFERENCE_ROUTE_SELF_TEST_ERROR {failure}")
