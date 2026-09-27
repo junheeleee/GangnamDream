@@ -5040,6 +5040,31 @@
         "zh-CN": "9721408af4be1d1f3f0df345b5de968fa59db011a42f9ba136bfb6547b551102",
         "zh-TW": "f5375f71eb9770830f4b50ca4afc5dc5ea5d85b2a16d842b5a91b54b534c288e"
       }
+    },
+    {
+      "order": "ORDER-359",
+      "group": "events",
+      "roots": [
+        "arc_year4_close",
+        "arc_year4_close_father_passed"
+      ],
+      "source_leaves": 4,
+      "target_leaves_by_locale": {
+        "ja": 4,
+        "zh-CN": 4,
+        "zh-TW": 4
+      },
+      "revalidated_existing_leaves": true,
+      "added_accepted_leaves": 0,
+      "source_review": "Korean-direct count-neutral year-four recollection repair. Four existing leaves per locale retain the envelope versus unlocked folder, clinic notice, last contact, life/death differences, tokens and paragraph breaks. No gameplay changes.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "ja": "d8d572859ef65d77071c4c1a105b08d580f1bf611e0ffe42b54f2ea794accb7e",
+        "zh-CN": "79f5eabdcb6e6fdb066209ddc0283c5f364aafac63d0401042632e842dde8c52",
+        "zh-TW": "530dd90dc41a1b4977d0b20808d53daff1df9982fe9a2ac1ae3c3bb3cf46d1a1"
+      }
     }
   ],
   "accepted": {
@@ -14065,12 +14090,12 @@
         "target_sha256": "208750affd3f64672b15ac64f3f26e79e8ed6b12cee99065e4075804198de1dd"
       },
       "events:arc_year4_close:/description_if_known/year3_eyes_open": {
-        "source_sha256": "2c0218fb13e0c52899beea3f9500dea228379a4ef1bcf228605a7634094d81be",
-        "target_sha256": "ec88dfc0ddc48d810c6792e53208783488550540464ef8363abb90744aa3c1e6"
+        "source_sha256": "519ff1c405d44ca487cf3d07b7bcf1bc748e06b77ee066cda304a2a8a9283067",
+        "target_sha256": "92242e4862d887431c084fd4cb9816d0ee8ae14d785bbe352e60a96ab3d2eec1"
       },
       "events:arc_year4_close:/description_if_known/year3_weighted": {
-        "source_sha256": "3428c6776aa9a4008b5c71985c15c767dc21db6fa7eb434064bd0a1dfcb046f7",
-        "target_sha256": "a629ea099d41abd4884f4fd356e5ae41fad89020eb197beb9a1e65ab9893d1c1"
+        "source_sha256": "4853d5b923b69921cecb8e7096a8513e7525b51b3725151906791f97fa98b329",
+        "target_sha256": "1d6c1c573e4bef10b5de7fca36e767a93bca4b8840139b964b058c0c7f51c5eb"
       },
       "events:arc_year4_close:/title": {
         "source_sha256": "f48a3b9fbacec5a8d7cf069bcfe0f4036bff4b16a531fbd02122424d84e14b36",
@@ -52869,12 +52894,12 @@
         "target_sha256": "cd3f5ba5408c7b840c0d93c03a6192764c8591ce285f12b1f38c58a8b60c3127"
       },
       "events:arc_year4_close_father_passed:/description_if_known/year3_eyes_open": {
-        "source_sha256": "2c0218fb13e0c52899beea3f9500dea228379a4ef1bcf228605a7634094d81be",
-        "target_sha256": "d05306fb0121bb2b52c239f15b52cc2b23706abdafaa026167e73c6609276827"
+        "source_sha256": "519ff1c405d44ca487cf3d07b7bcf1bc748e06b77ee066cda304a2a8a9283067",
+        "target_sha256": "f0b356d49b4ac3c4147450d1d8a2aff927520f44074e0a53522967f2aa15b00e"
       },
       "events:arc_year4_close_father_passed:/description_if_known/year3_weighted": {
-        "source_sha256": "3428c6776aa9a4008b5c71985c15c767dc21db6fa7eb434064bd0a1dfcb046f7",
-        "target_sha256": "53e5f5c6072fecc0dc76ffff4dd1050ab810a0211acd453c646595077d34373a"
+        "source_sha256": "4853d5b923b69921cecb8e7096a8513e7525b51b3725151906791f97fa98b329",
+        "target_sha256": "a2518765ea5039997e964a87c1850120bdc8c223b4fb561a6b47d8363caa045e"
       },
       "events:arc_year4_close_father_passed:/title": {
         "source_sha256": "f48a3b9fbacec5a8d7cf069bcfe0f4036bff4b16a531fbd02122424d84e14b36",
@@ -66515,12 +66540,12 @@
         "target_sha256": "2dcd110a973f52ead16ff0a285a04859c8611b042170fa2ab1e85161ff42701f"
       },
       "events:arc_year4_close:/description_if_known/year3_eyes_open": {
-        "source_sha256": "2c0218fb13e0c52899beea3f9500dea228379a4ef1bcf228605a7634094d81be",
-        "target_sha256": "4b27a18135742c4571afe2392303b0bfd509ba67b18926aa4f532b19c492451c"
+        "source_sha256": "519ff1c405d44ca487cf3d07b7bcf1bc748e06b77ee066cda304a2a8a9283067",
+        "target_sha256": "6dcdbebe7ea44a7599d85bef193b182ce02b6d6d5773c145f4f54f3869c1bb9d"
       },
       "events:arc_year4_close:/description_if_known/year3_weighted": {
-        "source_sha256": "3428c6776aa9a4008b5c71985c15c767dc21db6fa7eb434064bd0a1dfcb046f7",
-        "target_sha256": "82620cc303183154fc436f1fabadc93074c601fec591588bd1ab145ebd35fcba"
+        "source_sha256": "4853d5b923b69921cecb8e7096a8513e7525b51b3725151906791f97fa98b329",
+        "target_sha256": "43c848b519e79f344a2735be269c4b47bb9fed210fe61163743d8ccdb44d6e09"
       },
       "events:arc_year4_close:/title": {
         "source_sha256": "f48a3b9fbacec5a8d7cf069bcfe0f4036bff4b16a531fbd02122424d84e14b36",
@@ -105319,12 +105344,12 @@
         "target_sha256": "4be094b2b663ed104e8471abbd349806e7edeb29dcfb8236cf976a6c9b62cb94"
       },
       "events:arc_year4_close_father_passed:/description_if_known/year3_eyes_open": {
-        "source_sha256": "2c0218fb13e0c52899beea3f9500dea228379a4ef1bcf228605a7634094d81be",
-        "target_sha256": "15c7956b9b12c00091ede55cbbdca28d41624db0611f41c02c96a7de82f95471"
+        "source_sha256": "519ff1c405d44ca487cf3d07b7bcf1bc748e06b77ee066cda304a2a8a9283067",
+        "target_sha256": "0d36d753268b5c9192f4538ac8e17b3599b480bc8d8442e54f5a103e9014f47a"
       },
       "events:arc_year4_close_father_passed:/description_if_known/year3_weighted": {
-        "source_sha256": "3428c6776aa9a4008b5c71985c15c767dc21db6fa7eb434064bd0a1dfcb046f7",
-        "target_sha256": "a30baf57cd026b7de0890ab7a2491058eebebe836d08139b3d2572d1fc3f6b90"
+        "source_sha256": "4853d5b923b69921cecb8e7096a8513e7525b51b3725151906791f97fa98b329",
+        "target_sha256": "1daf48906e3490f6d66f5154691f752d0538d5df3385842d4a1d3d79f0b5ffee"
       },
       "events:arc_year4_close_father_passed:/title": {
         "source_sha256": "f48a3b9fbacec5a8d7cf069bcfe0f4036bff4b16a531fbd02122424d84e14b36",
@@ -120897,12 +120922,12 @@
         "target_sha256": "aba59e4860d8768eb04b4e5004f332bc3edf87196d81f6512811e0f60344fdf8"
       },
       "events:arc_year4_close:/description_if_known/year3_eyes_open": {
-        "source_sha256": "2c0218fb13e0c52899beea3f9500dea228379a4ef1bcf228605a7634094d81be",
-        "target_sha256": "d4c68159a13235ac0953a26ce400e8e059004b9ef274891461a8c2a2c4b18baf"
+        "source_sha256": "519ff1c405d44ca487cf3d07b7bcf1bc748e06b77ee066cda304a2a8a9283067",
+        "target_sha256": "cb57b490062616f143b58a80593d8314eb4d84bc12eecb4743fbbbf58d89de0a"
       },
       "events:arc_year4_close:/description_if_known/year3_weighted": {
-        "source_sha256": "3428c6776aa9a4008b5c71985c15c767dc21db6fa7eb434064bd0a1dfcb046f7",
-        "target_sha256": "c05a055fcd8d4297c265eab3f0b7e9bd26687e2e5331bce8dc766f0cc975d120"
+        "source_sha256": "4853d5b923b69921cecb8e7096a8513e7525b51b3725151906791f97fa98b329",
+        "target_sha256": "c2dc39b4cf971fb17cdc2d4848a9d20459e27156a5939ce6dd22aa4f6e80c5b6"
       },
       "events:arc_year4_close:/title": {
         "source_sha256": "f48a3b9fbacec5a8d7cf069bcfe0f4036bff4b16a531fbd02122424d84e14b36",
@@ -159701,12 +159726,12 @@
         "target_sha256": "b84ff464ca08801023c1263f2c24682e1b78e776156ced50ee1f6faacfc5db62"
       },
       "events:arc_year4_close_father_passed:/description_if_known/year3_eyes_open": {
-        "source_sha256": "2c0218fb13e0c52899beea3f9500dea228379a4ef1bcf228605a7634094d81be",
-        "target_sha256": "4bff0fa019486d2116316d03ba640b04a1254ae1b5545b9bb4a7f9990a1a618f"
+        "source_sha256": "519ff1c405d44ca487cf3d07b7bcf1bc748e06b77ee066cda304a2a8a9283067",
+        "target_sha256": "d1514ba7a395472e373144a8730b2ace32ce92cfe2f490d50870897d9e6da895"
       },
       "events:arc_year4_close_father_passed:/description_if_known/year3_weighted": {
-        "source_sha256": "3428c6776aa9a4008b5c71985c15c767dc21db6fa7eb434064bd0a1dfcb046f7",
-        "target_sha256": "14424513d99d9bc2ffe8bf95a7b645cd691c87878022b264b4ee44c442f92624"
+        "source_sha256": "4853d5b923b69921cecb8e7096a8513e7525b51b3725151906791f97fa98b329",
+        "target_sha256": "05f31e53bfa4db00494ed6894a9aaaadba81a2e70337d80282c0e75f2981199e"
       },
       "events:arc_year4_close_father_passed:/title": {
         "source_sha256": "f48a3b9fbacec5a8d7cf069bcfe0f4036bff4b16a531fbd02122424d84e14b36",
@@ -166258,7 +166283,7 @@
       }
     }
   },
-  "accepted_sha256": "088198f536ad4817ceb859abab15b7f922045f66c3e81fd39ecd9adce0b8fa75",
+  "accepted_sha256": "24694f7ddac111b7fcc18cb46a6dee598970c6cf976e6061de9e95b9b6fe70a8",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
