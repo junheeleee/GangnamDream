@@ -2,7 +2,7 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [ ] ORDER-309 [P1·본편] 1장 후반 M07~M12 대본의 장소·영어 정합을 고친다
+#### [~] ORDER-309 [P1·본편] 1장 후반 M07~M12 대본의 장소·영어 정합을 고친다
 
 **2026-09-27 Claude 발행.** 본편 대본 정합 검토 계획
 ([FULL_GAME_SCRIPT_REVIEW](../queue_backlog/FULL_GAME_SCRIPT_REVIEW.md))의 배치
@@ -10,6 +10,38 @@ R1이다. Claude가 story_map M07~M12 root 장면(현수 결과, 고시원 작�
 첫 원룸, 재혁 재회, 1년 결산)과 M05 재혁 선행 장면을 KO/EN으로 읽고, 재혁
 재회 스케줄을 `MainGame.gd`에서 확인했다. 산문을 새로 쓰는 작업이 아니라
 사실·영어 정합 수리다.
+
+**[~] 2026-09-27 Codex 착수 — 만지는 파일: 아래 원고7파일·현수9 receipt와 마감 문서만.**
+clean main `912b2d766b11b59f96a98415bc054e1a3a864aab` / tree
+`e25c655ee4877c37a6e843ea2bd2d7b833cd26e7`에서 시작한다. 302 source GO/303 후속
+작업한정 GO가 선행을 충족하며302 새package와 본편은 HOLD다.
+
+### 이번 실행의 추가 확인·파일 소유
+
+- 같은 fail `choices[1].result_text`의 “나흘째 다시 고시원에 갔다”도 같은 장소 오독이다.
+  KO/EN/JA/CN/TW 각각 공용 세면대에서 마주치는 문장으로만 수리한다. 나흘째·노크하지
+  않음·음료 봉지·물소리·눈인사·질문하지 않음은 보존한다. 총17 text leaf만 변경한다.
+- 실제 결과 분기에는 현재 주거 가드가 없다. 같은 고시원에서 시작한 정본은 유지하되
+  새 문장에 “우리 고시원/아직 옆방에 산다/자기 방에서 나왔다”를 덧붙이지 않는다.
+  복도 끝 현수 방 앞이라는 구체 장소만 써 이사 후 방문 경로에도 모순을 만들지 않는다.
+- 저자 `/root/header_layout`: `content/events/arc_hyunsu.json`,
+  `content/events_en/arc_hyunsu.json`, `content/events_ja/arc_hyunsu.json`,
+  `content/events_zh-CN/arc_hyunsu.json`, `content/events_zh-TW/arc_hyunsu.json`의
+  pass/fail description·fail 선택2 result_text만. 한국어에서 지역별 직접 수리한다.
+- root: EN `arc_midgame.json` goodbye 선택3·`core_loop_v2_events.json` echo 선택1,
+  `content/meta/full_game_localization.json`의 해당 JA/CN/TW9 accepted행·파생hash·새 batch
+  이력만. 기존 batches·다른 accepted행·source_revision·public 보호행은 덮지 않는다.
+- root: 이 사양→archive, 두 큐 순번, WORK_LOG/STATUS, CLAUDE 현재 한 행,
+  agent ledger 새309행 및 `docs/agent_reviews/ORDER-309.json` 정확복사. private
+  `.git/full-game-localization/order309-*` source export/response/검사/자가 증거만.
+- `/root/screen_path_probe`: 읽기 전용 검사 영향 분석. `/root/screen_independent_review`:
+  비저자 전수 판독·최종 source-bound 보고, private `order309-*review*.json`만.
+- 제품 실행코드/조건/효과/스케줄/맵/공개manifest/인간 원장/project/기존 exact 핀은 비소유.
+  본문 표적 검사와 gameplay/다른leaf/문단·토큰 불변을 검증한다. 원문 변경 전 export를
+  보존하고 수정 뒤 새 source/target export→check/import→portable receipt를 결속한다.
+  기존354의15 PASS/7 FAIL은 재실행 통과로 만들지 않고309 영향과 분리한다.
+  새 화면·입력·엔진·인간·원어민·패키지 관측은 이 텍스트 수리에서 주장하지 않는다.
+  규범은 일회성/기존 I18N·WORK_UNIT·P-9 적용이며 새 승격0이다.
 
 ## 깊이 3문
 
