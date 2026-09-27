@@ -960,7 +960,6 @@ func _build_ui():
 	_hud_panel = hud_panel
 	hud_panel.set_anchors_preset(Control.PRESET_TOP_WIDE)
 	hud_panel.offset_top = 0
-	hud_panel.offset_bottom = 48
 	hud_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var hud_style = StyleBoxFlat.new()
 	hud_style.bg_color = Color("#0b0c10", 0.86)
@@ -970,10 +969,6 @@ func _build_ui():
 	add_child(hud_panel)
 	_hud_label = Label.new()
 	_hud_label.set_anchors_preset(Control.PRESET_FULL_RECT)
-	# The playtest-only badge docks at x18..118. Retail keeps the full HUD width.
-	_hud_label.offset_left = 128 \
-		if BUILD_FLAVOR.is_core_loop_v2_playtest_build() else 24
-	_hud_label.offset_right = -292
 	_hud_label.clip_text = true
 	_hud_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	_hud_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
@@ -984,17 +979,50 @@ func _build_ui():
 	hud_panel.add_child(_hud_label)
 	_build_dialogue_log_button()
 	_build_story_audio_settings_button()
+	resized.connect(_on_story_header_resized)
+	_dialogue_log_button.minimum_size_changed.connect(_layout_story_header)
+	_audio_settings_button.minimum_size_changed.connect(_layout_story_header)
+	_layout_story_header()
 	_apply_story_surface_palette(false, true)
 	_build_story_ink_transition_layer()
+
+func _on_story_header_resized() -> void:
+	_layout_story_header()
+	_refresh_hud()
+
+func _layout_story_header() -> void:
+	if not is_inside_tree() or not is_instance_valid(_audio_settings_button):
+		return
+	# Use the logical canvas, not window pixels: canvas_items stretch can scale
+	# the 800px-high composition and expand its width independently of output.
+	var viewport_size := get_viewport_rect().size
+	var safe_x := ceilf(viewport_size.x * 0.025)
+	var safe_y := ceilf(viewport_size.y * 0.025)
+	var settings_width := maxf(94.0, _audio_settings_button.get_combined_minimum_size().x)
+	var log_width := maxf(162.0, _dialogue_log_button.get_combined_minimum_size().x)
+	var header_height := maxf(40.0, maxf(
+		_audio_settings_button.get_combined_minimum_size().y,
+		_dialogue_log_button.get_combined_minimum_size().y))
+	_audio_settings_button.offset_left = -safe_x - settings_width
+	_audio_settings_button.offset_right = -safe_x
+	_dialogue_log_button.offset_right = -safe_x - settings_width - 8.0
+	_dialogue_log_button.offset_left = _dialogue_log_button.offset_right - log_width
+	for button in [_dialogue_log_button, _audio_settings_button]:
+		button.offset_top = safe_y
+		button.offset_bottom = safe_y + header_height
+	# The legacy-only badge still docks at x18..118; keep its HUD reservation.
+	_hud_label.offset_left = maxf(safe_x, 128.0) \
+		if BUILD_FLAVOR.is_core_loop_v2_playtest_build() else safe_x
+	_hud_label.offset_right = _dialogue_log_button.offset_left - 14.0
+	_hud_label.offset_top = safe_y
+	_hud_label.offset_bottom = -4.0
+	_hud_panel.offset_bottom = safe_y + header_height + 4.0
+	_toast_layer.offset_top = _hud_panel.offset_bottom + 10.0
 
 func _build_dialogue_log_button() -> void:
 	_dialogue_log_button = Button.new()
 	_dialogue_log_button.name = "DialogueLogButton"
 	_dialogue_log_button.set_anchors_preset(Control.PRESET_TOP_RIGHT)
-	_dialogue_log_button.offset_left = -278
-	_dialogue_log_button.offset_top = 4
-	_dialogue_log_button.offset_right = -116
-	_dialogue_log_button.offset_bottom = 44
 	_dialogue_log_button.focus_mode = Control.FOCUS_NONE
 	_dialogue_log_button.z_index = 74
 	_register_story_font(_dialogue_log_button, "font_size", 14)
@@ -1017,10 +1045,6 @@ func _build_dialogue_log_button() -> void:
 func _build_story_audio_settings_button() -> void:
 	_audio_settings_button = Button.new()
 	_audio_settings_button.set_anchors_preset(Control.PRESET_TOP_RIGHT)
-	_audio_settings_button.offset_left = -108
-	_audio_settings_button.offset_top = 4
-	_audio_settings_button.offset_right = -14
-	_audio_settings_button.offset_bottom = 44
 	_audio_settings_button.text = _tr("설정", "Settings")
 	_audio_settings_button.tooltip_text = LocaleManager.ui_format(
 		"장면 설정 (%s)", "Scene settings (%s)",

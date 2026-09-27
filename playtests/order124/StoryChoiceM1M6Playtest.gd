@@ -2489,12 +2489,21 @@ func _apply_margins() -> void:
 	if not is_instance_valid(_page):
 		return
 	var margin := 12 if _compact else 20
-	for side in ["left", "right", "top", "bottom"]:
-		_page.add_theme_constant_override("margin_%s" % side, margin)
+	# Viewport coordinates already include canvas stretch; window pixels do not.
+	var viewport_size := get_viewport_rect().size
+	var horizontal_margin := maxi(margin, ceili(viewport_size.x * 0.025))
+	var vertical_margin := maxi(margin, ceili(viewport_size.y * 0.025))
+	for side in ["left", "right"]:
+		_page.add_theme_constant_override("margin_%s" % side, horizontal_margin)
+	for side in ["top", "bottom"]:
+		_page.add_theme_constant_override("margin_%s" % side, vertical_margin)
 
 
 func _on_resized() -> void:
 	var next_compact := get_viewport_rect().size.y <= 650.0
+	# A width-only resize still changes TV-safe margins. Update the existing
+	# shell in place so its focused control and confirmation state survive.
+	_apply_margins()
 	if next_compact == _compact:
 		return
 	_compact = next_compact
