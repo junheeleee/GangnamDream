@@ -53,7 +53,7 @@
 | 1 | [~] | ORDER-302 · 체험판 대본 사실·영어 정합 수리 | [302](queue_active/ORDER-302.md) | 수리7항목 source GO · successor package 별도 선언/검수 HOLD |
 | 2 | [~] | ORDER-313 · 본편 2장 대본 시간·영어 정합 | [313](queue_active/ORDER-313.md) | 15문구/receipt6 수리 · 정적6 PASS/3 FAIL · 독립 HOLD · 357 선행 |
 | 3 | [~] | ORDER-356 · 병실 조건부 본문의 시간 정합 | [356](queue_active/ORDER-356.md) | 5문구/receipt3 수리 · 공유 검사6/3 · 독립 HOLD · 357 선행 |
-| 4 | [ ] | ORDER-357 · 2장 원고 수리의 현재 소스·역사 비교 연결 | [357](queue_active/ORDER-357.md) | 다음 실행 · 7 JSON/20문구·receipt9 경계 · 구현 미착수 |
+| 4 | [~] | ORDER-357 · 2장 원고 수리의 현재 소스·역사 비교 연결 | [357](queue_active/ORDER-357.md) | 착수 · 도구8개 소유 분리 · 현재20문구/receipt9·역사11문구 검증 |
 | 5 | [ ] | ORDER-350 · 본편 3장 대본 경로·회수·영어 정합 | [350](queue_active/ORDER-350.md) | 313 뒤 착수 · 미실행 |
 | 6 | [ ] | ORDER-351 · 본편 4장 대본 아버지 행방·영어 표기 정합 | [351](queue_active/ORDER-351.md) | 350 뒤 착수 · 미실행 |
 | 7 | [ ] | ORDER-352 · 본편 5장 대본 이름·시간·회수 정합 | [352](queue_active/ORDER-352.md) | 5장 HOLD 수리 닫힌 뒤 착수 · 미실행 |
