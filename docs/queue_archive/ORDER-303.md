@@ -1,8 +1,8 @@
-# Active Queue Spec: ORDER-303
+# Completed Queue Spec: ORDER-303
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-303 [표시·입력] 다이사이 중국어 현금·결과·복귀의 실제 소비자를 검수한다
+#### [x] ORDER-303 [표시·입력] 다이사이 중국어 현금·결과·복귀의 실제 소비자를 검수한다
 
 **[~] 2026-09-27 Codex 착수 — 만지는 파일: 아래 파일 소유권의 private helper·신규 증거와 마감 문서만.** 부모 ORDER-157.
 ORDER-302 수리7항목 source GO가 선행을 충족했다. clean main
@@ -111,3 +111,26 @@ helper 작성·엔진 실행0. 최초 선언은 `codex/daisai-status-declaration
   `f8be3f61db78601ebd68d8c34617270bd1e488a58cd9d1b8f56a7dc4f657a87d`.
   SAFE-01·FIT-02 필수 수리2건. 최종 source는 문서6개만 달라 실제 실행 source와
   무변경 제품 바이트로 결속했으며 재실행을 주장하지 않는다.
+
+## 2026-09-27 후속 완료 — 원래 모집단 작업한정 GO
+
+- 위 REWORK와 최초 실패·21원본PNG·기존 판정은 그대로 보존했다. [354](ORDER-354.md)의
+  별도 표시 수리 뒤, 원래11키/22값·15소비자·CN/TW 14원본PNG·24합성 키보드 edge·
+  정산/복귀/비시각4반환 모집단 전체를 새로 확인했다. root와 비저자 전수 판독,
+  각 지역7화면·12edge·exit0·정확 marker·3로그 오류0, 실제 사용자43파일 불변이다.
+- 실제 실행 `85c5295a5ecc0d66caa357996c3141f3379270fd` / tree
+  `d413dd760926048583a971973f73a3663619c13a`. 최종 독립 검수는
+  `2d3fb7a8360c5f9308748c02928f33a61186fdb3` / tree
+  `c6f9dc54cb0efe42c04a4325b3b4590d3b31c0b1`이며 CLAUDE 현재 행만 달라졌다.
+  제품 불변 핀으로 연결했으며 최종source에서 새 엔진 실행은0이다.
+- [별도303 후속 보고](../agent_reviews/ORDER-303-followup.json) SHA
+  `ffb1ae91dee7fb071ddd46239c4dfaa043087d777f913984beeeacf53c9b89a2`:
+  SAFE-01/FIT-02 해소·필수 범위 결함0·작업한정 GO. 354 GO를 대신 가져온 판정이 아니다.
+  새 validator 음성72개 거부와 typed 상태 결속은 별도 기계 증거다.
+- 새 판정2개만 추가해 이전103개와 원문 prefix를 보존했다. 더 넓은 표적 검사는
+  15 PASS/7 FAIL이며 상세 잔여는354 완료 절에 있다. 이 GO는 전체 검사 통과나 전체 중국어
+  UI 완료가 아니다. 정상 진입·자연 완료 굴림·실제 MainGame 로그 화면·다른 해상도·
+  원어민·인간·물리패드·오디오·패키지는 미관측. 기존 영문 chrome/용어집 설명은 이11키 밖이다.
+- 규범은 일회성/기존 UI·I18N·WORK_UNIT 적용, 새 승격0. 자동 게이트는 계약 증거이지
+  재미·깊이·문체 판정이 아니다. 본편·302 successor package HOLD와 인간OPEN45·공개GO1 유지.
+  다음 안전 작업은 큐의309이며, 이 마감에서 후반 대본을 새로 쓰거나 수리하지 않았다.

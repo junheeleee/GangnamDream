@@ -4270,5 +4270,89 @@
         "sha256": "f8be3f61db78601ebd68d8c34617270bd1e488a58cd9d1b8f56a7dc4f657a87d"
       }
     }
+    ,
+    {
+      "id": "order-354-source-2d3fb7a-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-27",
+      "decided_by": "/root/screen_independent_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-354",
+      "subject": {
+        "kind": "source",
+        "commit": "2d3fb7a8360c5f9308748c02928f33a61186fdb3",
+        "tree": "c6f9dc54cb0efe42c04a4325b3b4590d3b31c0b1",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-354.json",
+          "sha256": "8ddcdb7cdb8d4cd27f8939d56b1a7c8a15de2b60f6844e5c331ba06b9188b71b"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "ordinary_title_ingress",
+        "natural_completed_random_roll",
+        "MainGame_or_logviewer_screen",
+        "other_resolutions_or_text_sizes",
+        "KO_EN_JA_screens",
+        "audio",
+        "package_or_release",
+        "full_product",
+        "Seven broader selected-check failures remain OPEN; ControllerSemantic shutdown warning is unattributed."
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-354.json",
+        "sha256": "8ddcdb7cdb8d4cd27f8939d56b1a7c8a15de2b60f6844e5c331ba06b9188b71b"
+      }
+    }
+    ,
+    {
+      "id": "order-303-source-2d3fb7a-agent-followup",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-27",
+      "decided_by": "/root/screen_independent_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-303",
+      "subject": {
+        "kind": "source",
+        "commit": "2d3fb7a8360c5f9308748c02928f33a61186fdb3",
+        "tree": "c6f9dc54cb0efe42c04a4325b3b4590d3b31c0b1",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-303-followup.json",
+          "sha256": "ffb1ae91dee7fb071ddd46239c4dfaa043087d777f913984beeeacf53c9b89a2"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "ordinary_title_ingress",
+        "natural_completed_random_roll",
+        "MainGame_or_logviewer_screen",
+        "other_resolutions_or_text_sizes",
+        "KO_EN_JA_screens",
+        "audio",
+        "package_or_release",
+        "full_product",
+        "Seven broader selected-check failures remain OPEN; ControllerSemantic shutdown warning is unattributed."
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-303-followup.json",
+        "sha256": "ffb1ae91dee7fb071ddd46239c4dfaa043087d777f913984beeeacf53c9b89a2"
+      }
+    }
   ]
 }

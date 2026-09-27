@@ -1,0 +1,179 @@
+{
+  "schema": 1,
+  "unit_id": "ORDER-354",
+  "scope": "work_unit",
+  "review_stage": "independent_source_bound_final",
+  "verdict": "GO",
+  "decision": "GO",
+  "decided_by": "/root/screen_independent_review",
+  "independence": "Nonauthor of both product files and every execution helper. Read-only source/raw/image review; only owned private review JSON authored. No engine run, tracked edit, package or ledger mutation by reviewer.",
+  "subject": {
+    "kind": "source",
+    "commit": "2d3fb7a8360c5f9308748c02928f33a61186fdb3",
+    "tree": "c6f9dc54cb0efe42c04a4325b3b4590d3b31c0b1",
+    "manifest_sha256": null
+  },
+  "outcome": "GO only for the declared two-file safe-layout repair. Both required303 layout findings are resolved in fourteen fresh original images and strict actual geometry, with original text/input/accounting preserved. This is not an all-green audit or broader product approval.",
+  "source_binding": {
+    "observed_at": "2026-09-27T09:07:36.064006+00:00",
+    "head": "2d3fb7a8360c5f9308748c02928f33a61186fdb3",
+    "status": "",
+    "subject": {
+      "kind": "source",
+      "commit": "2d3fb7a8360c5f9308748c02928f33a61186fdb3",
+      "tree": "c6f9dc54cb0efe42c04a4325b3b4590d3b31c0b1",
+      "manifest_sha256": null
+    },
+    "actual_rendered_source": {
+      "commit": "85c5295a5ecc0d66caa357996c3141f3379270fd",
+      "tree": "d413dd760926048583a971973f73a3663619c13a"
+    },
+    "bridge": {
+      "changed_paths": [
+        "CLAUDE.md"
+      ],
+      "runtime_content_assets_config_changed": 0,
+      "each_run_pins": 1245,
+      "each_run_unchanged": 1244,
+      "sole_changed_pin": "CLAUDE.md",
+      "note": "Current-state wording only. CLAUDE is not a metadata identity exemption: subject is the new2d3fb7a source; no engine or image is claimed at that commit."
+    }
+  },
+  "population": {
+    "planned_and_observed": {
+      "locales": 2,
+      "cases_per_locale": 7,
+      "original_pngs": 14,
+      "individually_viewed_pngs": 14,
+      "raw_keyboard_edges": 24,
+      "keys": 11,
+      "locale_values": 22,
+      "literal_consumers": 15,
+      "nonvisual_formatter_returns": 4
+    },
+    "cases": [
+      "daisai_initial",
+      "hub_daisai_selected",
+      "hub_glossary",
+      "daisai_rolling",
+      "daisai_win",
+      "daisai_next",
+      "daisai_loss"
+    ],
+    "actual_runs": [
+      ".git/full-game-localization/order354-render-cn-first",
+      ".git/full-game-localization/order354-render-tw-first"
+    ]
+  },
+  "source_review": "Only each _build_ui body changed. DaiSai52 and Jeongseon40 other function/preamble sections byte-identical; no new nodes/resources/signals/timers/disposal, text/font/button minimum-size/input/probability/save/settlement change. Background/glossary code unchanged.",
+  "required_findings": [
+    {
+      "id": "ORDER-303-SAFE-01",
+      "status": "RESOLVED_WITHIN_SCOPE",
+      "proof": "Independently recalculated [32,20,1216,760] safe bounds and checked every exposed text/canvas/action footprint. DaiSai HUD[44,28,984,42], rules[1042,28,82,42], exit[1138,28,98,42]; hub titlex56, exit[1134,20,90,72], warningx56, glossary right1224. Actual foreground exactly safe rectangle. Opaque glossary underlay excluded from visual exposure, not deleted from census."
+    },
+    {
+      "id": "ORDER-303-FIT-02",
+      "status": "RESOLVED_WITHIN_SCOPE",
+      "proof": "Tallest next-selection panel[78,84,1124,690], bottom774 rather than804; full decorative border and all unchanged-size bottom actions visible. Other table panels initial/win/loss[78,104,1124,650], rolling[78,92,1124,673]. Background stays full-bleed cover."
+    }
+  ],
+  "required_in_scope_findings_remaining": 0,
+  "contract_review": "Whole typed state/timing replay passed; all24 edges have paired keycode/physical_keycode, same-frame enqueue/flush and release no-op. Real roll debits50000 to9950000 with pending[3,1,4] and RNG-299913542216602078 before separate freeze. Paid SINGLE1 win returns100000 gross/net+50000 to10050000; BIG loss stays9950000/net-50000. Actual history/log/meta and hidden-stat effects retained; loss RNG3546036597814034985. RESULT Enter changes phase/prompt without new debit. Captures after settled feedback and before2.2s expiry (result windows0.367–0.710s); full strings/signs match original fixed oracle.",
+  "checks": {
+    "graphical": "2/2 PASS,exit0,three logs each,fatal errors0,exact markers,1245 unchanged input pins during each run,43 real-user files unchanged,exact namespace post-exit maps.",
+    "negative_controls": "36 per locale,72/72 rejected; source-bound pure-Python self-test also independently exercised.",
+    "selected": {
+      "population": 22,
+      "static": 16,
+      "engine": 6,
+      "pass": 15,
+      "fail": 7,
+      "all_pass": false,
+      "note": "Static11PASS/5FAIL; engine4PASS/2FAIL. Every original selected index0–21 executed once. Failed results preserved; none waived."
+    },
+    "provenance_limit": "First four static envelopes were captured before commit with only the two candidate layout files dirty and1220-input preservation, not an early full-user/all-tracked batch claim. Their1220 pins independently match current candidate. Subsequent batches and all engines bind complete2860-input/user43 preservation."
+  },
+  "residual_out_of_scope_obligations": [
+    {
+      "id": "INVENTORY-CONTENT-PINS",
+      "status": "OPEN",
+      "failed_indices": [
+        3
+      ],
+      "finding": "Three inherited event-content fingerprints and generated rating report are stale. Independent in-memory Git reconstruction reproduced the baseline/current hashes; event IDs/counts unchanged.",
+      "next": "Separately declare factual inventory synchronization; no legal/rating or package determination."
+    },
+    {
+      "id": "LOCALIZATION-SOURCE-CONTRACT",
+      "status": "OPEN",
+      "failed_indices": [
+        5,
+        6,
+        8
+      ],
+      "finding": "Both ZH commands and JA UI audit fail on40769 versus40767 KO chars and43ec49… versusf6b2fc… digest. Independent72-event/467-leaf reconstruction attributes this to the exact305 three-leaf successor.12530 ZH self-tests PASS does not change command FAIL.",
+      "next": "Separate exact source-contract compatibility work; preserve live text, manifest and historical305/310/316 pins."
+    },
+    {
+      "id": "PRIVATE-EVIDENCE-LIVENESS",
+      "status": "OPEN",
+      "failed_indices": [
+        19
+      ],
+      "finding": "Scanner includes.git in candidate/reference population;42 private evidence files are flagged. The only two tracked orphans equal the existing baseline; no354 product/helper is newly flagged.",
+      "next": "Separate scanner-boundary repair; do not delete evidence or refresh orphan baseline."
+    },
+    {
+      "id": "INPUTMATRIX-SHUTDOWN",
+      "status": "OPEN",
+      "failed_indices": [
+        10
+      ],
+      "finding": "Exact contract marker/exit0 coexist with ObjectDB warning and3-resource shutdown ERROR. Same three-resource signature is documented historically and checker blob is unchanged; original raw unavailable and exact resource identities unproven.",
+      "next": "Preserve strict FAIL; separately investigate lifetime/teardown if promoting broader quality."
+    },
+    {
+      "id": "CONTROLLER-SHUTDOWN",
+      "status": "OPEN_UNATTRIBUTED",
+      "failed_indices": [
+        11
+      ],
+      "finding": "Exact contract marker/exit0 coexist with ObjectDB warning. Historical equivalence and causal ownership are NOT proven. No resource-still-in-use ERROR in this run.",
+      "next": "Separate isolated lifetime investigation; never infer inheritance from InputMatrix or prior filtered CI markers."
+    }
+  ],
+  "preservation": {
+    "prior_decisions": 103,
+    "prior_ledger_unchanged": true,
+    "original303_REWORK_unchanged": true,
+    "old303_run_artifacts_independently_rehashed": 57,
+    "human_ledger_and_project_unchanged": true,
+    "current_real_user_files": 43
+  },
+  "evidence": {
+    "independent": {
+      "path": ".git/full-game-localization/order354-independent-review-evidence.json",
+      "sha256": "66481c3916c81dc00eb9196b618f7ac24f4f7766117d13e7de8627b9100ea327"
+    },
+    "accepted_binding": {
+      "path": ".git/full-game-localization/order354-check-accepted-bindings.json",
+      "bytes": 427987,
+      "sha256": "592b7c0967dbc4e58acddc004b69539dcbd9814544f4eb448152ddaa03f3ee28"
+    },
+    "selected_population": {
+      "path": ".git/full-game-localization/order354-check-selected-summary.json",
+      "bytes": 428487,
+      "sha256": "9f713543e9690ce4811f6933a17f3588c2a6535b0a34368a4ff9d0f4ace6f84a"
+    }
+  },
+  "limitations": [
+    "1280×800 logical canvas, default text, CN/TW prepared components only; no other resolution or KO/EN/JA screen approval.",
+    "Synthetic keyboard edges and prepared result callbacks; not normal title ingress, physical controller experience or natural completed roll. Rolling was separately process-frozen after real debit and pending dice/RNG.",
+    "Two MainGame formatter returns per locale and actual stored history/action logs are nonvisual; no MainGame/log-viewer screenshot.",
+    "Mixed English chrome/descriptions/glossary remain outside selected translation completion.37 out-of-scope I18N notices and2 misc2 mapping notices per locale are preserved; not warning-free or native-reader approval.",
+    "No human/audio/native/package/export/release/full-product approval. Parent302 successor-package and full-product HOLD, public old exact-package GO1 and human OPEN45 remain unchanged.",
+    "All seven broader selected-check failures remain open; this work-unit GO cannot be reused as all-checks-PASS or broad product GO."
+  ],
+  "completion_statement": "자동 검증 완료. 해당 작업 범위의 독립 에이전트 GO이며 사람 GO·출시 GO·본편 전체 GO가 아니다."
+}

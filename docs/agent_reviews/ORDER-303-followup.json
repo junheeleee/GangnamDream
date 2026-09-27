@@ -1,0 +1,197 @@
+{
+  "schema": 1,
+  "unit_id": "ORDER-303",
+  "scope": "work_unit",
+  "review_stage": "independent_same_unit_followup",
+  "verdict": "GO",
+  "decision": "GO",
+  "decided_by": "/root/screen_independent_review",
+  "independence": "Nonauthor of both product files and every execution helper. Read-only source/raw/image review; only owned private review JSON authored. No engine run, tracked edit, package or ledger mutation by reviewer.",
+  "subject": {
+    "kind": "source",
+    "commit": "2d3fb7a8360c5f9308748c02928f33a61186fdb3",
+    "tree": "c6f9dc54cb0efe42c04a4325b3b4590d3b31c0b1",
+    "manifest_sha256": null
+  },
+  "outcome": "GO for ORDER-303's original eleven-key/Chinese selected-consumer and prepared input/accounting scope, after independent review of fresh repaired-source evidence. This is a new judgment, not inherited ORDER-354 GO or a replacement of the original REWORK.",
+  "source_binding": {
+    "observed_at": "2026-09-27T09:07:36.064006+00:00",
+    "head": "2d3fb7a8360c5f9308748c02928f33a61186fdb3",
+    "status": "",
+    "subject": {
+      "kind": "source",
+      "commit": "2d3fb7a8360c5f9308748c02928f33a61186fdb3",
+      "tree": "c6f9dc54cb0efe42c04a4325b3b4590d3b31c0b1",
+      "manifest_sha256": null
+    },
+    "actual_rendered_source": {
+      "commit": "85c5295a5ecc0d66caa357996c3141f3379270fd",
+      "tree": "d413dd760926048583a971973f73a3663619c13a"
+    },
+    "bridge": {
+      "changed_paths": [
+        "CLAUDE.md"
+      ],
+      "runtime_content_assets_config_changed": 0,
+      "each_run_pins": 1245,
+      "each_run_unchanged": 1244,
+      "sole_changed_pin": "CLAUDE.md",
+      "note": "Current-state wording only. CLAUDE is not a metadata identity exemption: subject is the new2d3fb7a source; no engine or image is claimed at that commit."
+    }
+  },
+  "historical_verdict": {
+    "path": "docs/agent_reviews/ORDER-303.json",
+    "sha256": "f8be3f61db78601ebd68d8c34617270bd1e488a58cd9d1b8f56a7dc4f657a87d",
+    "subject": "7a69b426ba88161d0752c17add598ac8479d4491",
+    "verdict": "REWORK",
+    "preserved": true,
+    "prior_failed_attempt": "Original CN-first buffered-dispatch harness failure and all its artifacts remain unchanged; it is not relabeled product failure or accepted evidence."
+  },
+  "population": {
+    "planned_and_observed": {
+      "locales": 2,
+      "cases_per_locale": 7,
+      "original_pngs": 14,
+      "individually_viewed_pngs": 14,
+      "raw_keyboard_edges": 24,
+      "keys": 11,
+      "locale_values": 22,
+      "literal_consumers": 15,
+      "nonvisual_formatter_returns": 4
+    },
+    "cases": [
+      "daisai_initial",
+      "hub_daisai_selected",
+      "hub_glossary",
+      "daisai_rolling",
+      "daisai_win",
+      "daisai_next",
+      "daisai_loss"
+    ],
+    "actual_runs": [
+      ".git/full-game-localization/order354-render-cn-first",
+      ".git/full-game-localization/order354-render-tw-first"
+    ]
+  },
+  "joint_quality_decisions": [
+    {
+      "area": "Selected language and literal consumers",
+      "verdict": "PASS",
+      "evidence": "All11 KO keys/22 CN-TW values and15 source literal callsites independently bound to new product hashes/current lines. Nine original oracle contract sections exactly unchanged; current locale files and all full-string monetary expectations preserved. Every new14PNG individually read, not merely validator flags."
+    },
+    {
+      "area": "Actual raw input and fixture effects",
+      "verdict": "PASS",
+      "evidence": "All24 raw press/release rows reviewed. Esc zero-round table→connected hub, Right index3→4, X glossary, Esc close, real Enter roll debit/pending dice/RNG, and RESULT Enter next-selection all match declared boundaries. Same-frame flush, release no-ops, separate guarded process freeze and whole typed lifecycle checks retained. No natural completed roll or ordinary title ingress claimed."
+    },
+    {
+      "area": "Money, results, logs, hidden stats and timers",
+      "verdict": "PASS",
+      "evidence": "Fresh prepared paid-fixture win/loss callbacks produce exact gross/net/cash/history/log/meta and gambling+1/addiction+2 effects, with win and loss RNG differences explicitly accounted for. Capture windows0.367–0.710s are after feedback settling and before2.2s result expiry. No blanket effect-free assumption or reset masking. Four actual MainGame formatter returns total remain nonvisual."
+    },
+    {
+      "area": "Original mandatory screen findings",
+      "verdict": "RESOLVED",
+      "evidence": "Fresh exposed text/canvas/action geometry inside logical[32,20,1216,760] plus individual original PNG review resolves SAFE-01. Full tallest panel[78,84,1124,690], bottom774 and uncropped actions resolves FIT-02. Original report is unchanged."
+    },
+    {
+      "area": "Isolation and preservation",
+      "verdict": "PASS",
+      "evidence": "Both graphical runs exit0 with exact markers and no fatal/resource-error lines;1245 source pins unchanged during runs, full43-file real-user census unchanged and namespace post-exit exact. Independent fresh current census still matches. All57 original303 run artifacts and original report rehashed unchanged."
+    }
+  ],
+  "required_in_scope_findings_remaining": 0,
+  "broader_failed_checks": {
+    "selected_population": 22,
+    "passed": 15,
+    "failed": 7,
+    "status": "All seven remain failed and unclosed; original303 scopedGO is not an all-green audit.",
+    "obligations": [
+      {
+        "id": "INVENTORY-CONTENT-PINS",
+        "status": "OPEN",
+        "failed_indices": [
+          3
+        ],
+        "finding": "Three inherited event-content fingerprints and generated rating report are stale. Independent in-memory Git reconstruction reproduced the baseline/current hashes; event IDs/counts unchanged.",
+        "next": "Separately declare factual inventory synchronization; no legal/rating or package determination."
+      },
+      {
+        "id": "LOCALIZATION-SOURCE-CONTRACT",
+        "status": "OPEN",
+        "failed_indices": [
+          5,
+          6,
+          8
+        ],
+        "finding": "Both ZH commands and JA UI audit fail on40769 versus40767 KO chars and43ec49… versusf6b2fc… digest. Independent72-event/467-leaf reconstruction attributes this to the exact305 three-leaf successor.12530 ZH self-tests PASS does not change command FAIL.",
+        "next": "Separate exact source-contract compatibility work; preserve live text, manifest and historical305/310/316 pins."
+      },
+      {
+        "id": "PRIVATE-EVIDENCE-LIVENESS",
+        "status": "OPEN",
+        "failed_indices": [
+          19
+        ],
+        "finding": "Scanner includes.git in candidate/reference population;42 private evidence files are flagged. The only two tracked orphans equal the existing baseline; no354 product/helper is newly flagged.",
+        "next": "Separate scanner-boundary repair; do not delete evidence or refresh orphan baseline."
+      },
+      {
+        "id": "INPUTMATRIX-SHUTDOWN",
+        "status": "OPEN",
+        "failed_indices": [
+          10
+        ],
+        "finding": "Exact contract marker/exit0 coexist with ObjectDB warning and3-resource shutdown ERROR. Same three-resource signature is documented historically and checker blob is unchanged; original raw unavailable and exact resource identities unproven.",
+        "next": "Preserve strict FAIL; separately investigate lifetime/teardown if promoting broader quality."
+      },
+      {
+        "id": "CONTROLLER-SHUTDOWN",
+        "status": "OPEN_UNATTRIBUTED",
+        "failed_indices": [
+          11
+        ],
+        "finding": "Exact contract marker/exit0 coexist with ObjectDB warning. Historical equivalence and causal ownership are NOT proven. No resource-still-in-use ERROR in this run.",
+        "next": "Separate isolated lifetime investigation; never infer inheritance from InputMatrix or prior filtered CI markers."
+      }
+    ]
+  },
+  "evidence": {
+    "independent": {
+      "path": ".git/full-game-localization/order354-independent-review-evidence.json",
+      "sha256": "66481c3916c81dc00eb9196b618f7ac24f4f7766117d13e7de8627b9100ea327"
+    },
+    "fresh_runtime_binding": {
+      "path": ".git/full-game-localization/order354-check-accepted-bindings.json",
+      "bytes": 427987,
+      "sha256": "592b7c0967dbc4e58acddc004b69539dcbd9814544f4eb448152ddaa03f3ee28"
+    },
+    "selected_population": {
+      "path": ".git/full-game-localization/order354-check-selected-summary.json",
+      "bytes": 428487,
+      "sha256": "9f713543e9690ce4811f6933a17f3588c2a6535b0a34368a4ff9d0f4ace6f84a"
+    },
+    "separate_layout_review": {
+      "path": ".git/full-game-localization/order354-final-review.json",
+      "sha256": "8ddcdb7cdb8d4cd27f8939d56b1a7c8a15de2b60f6844e5c331ba06b9188b71b",
+      "use": "Referenced for exact repair findings only; this303 verdict independently judges the original combined text/input/geometry contract."
+    }
+  },
+  "preservation": {
+    "prior_decisions": 103,
+    "prior_ledger_unchanged": true,
+    "original303_REWORK_unchanged": true,
+    "old303_run_artifacts_independently_rehashed": 57,
+    "human_ledger_and_project_unchanged": true,
+    "current_real_user_files": 43
+  },
+  "limitations": [
+    "1280×800 logical canvas, default text, CN/TW prepared components only; no other resolution or KO/EN/JA screen approval.",
+    "Synthetic keyboard edges and prepared result callbacks; not normal title ingress, physical controller experience or natural completed roll. Rolling was separately process-frozen after real debit and pending dice/RNG.",
+    "Two MainGame formatter returns per locale and actual stored history/action logs are nonvisual; no MainGame/log-viewer screenshot.",
+    "Mixed English chrome/descriptions/glossary remain outside selected translation completion.37 out-of-scope I18N notices and2 misc2 mapping notices per locale are preserved; not warning-free or native-reader approval.",
+    "No human/audio/native/package/export/release/full-product approval. Parent302 successor-package and full-product HOLD, public old exact-package GO1 and human OPEN45 remain unchanged.",
+    "All seven broader selected-check failures remain open; this work-unit GO cannot be reused as all-checks-PASS or broad product GO."
+  ],
+  "completion_statement": "자동 검증 완료. ORDER-303 원래 작업 범위의 독립 후속 GO이며 원어민·인간·물리패드·패키지·본편 전체 GO가 아니다. 옛 REWORK는 보존한다."
+}
