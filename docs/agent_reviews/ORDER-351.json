@@ -1,0 +1,110 @@
+{
+  "schema": "gangnamdream-independent-work-unit-review/v1",
+  "unit_id": "ORDER-351",
+  "scope": "work_unit",
+  "review_stage": "independent_source_bound_final",
+  "decided_by": "/root/r3_route_probe",
+  "decision": "HOLD",
+  "verdict": "HOLD",
+  "subject": {
+    "kind": "source",
+    "commit": "50e0d412fa6b35097319ca7a3c0e35b32c745f07",
+    "tree": "1ee7ddd995276504375d176282834804579375df",
+    "manifest_sha256": null
+  },
+  "outcome": "The declared prose repairs, Korean-direct translations and observed prepared StoryMode display are suitable within their tested scope. No additional required prose or screenshot defect remains from this review. ORDER-351 integration is HOLD: the existing current-source admission rejects six changed paths, and the release-content inventory rejects two content fingerprints plus its stale generated table. Neither failure is waived. ORDER-361 and ORDER-362 are declared but unimplemented follow-ups; their completion and a new source-bound review are required before closing this work unit. This is not an internal-product, full-localization, public-release or new-package GO.",
+  "independence": "Non-author agent review. I read CLAUDE, gangnamdream-dev, the selected order, WORK_UNIT and the required localization/canon sources; directly compared all 39 KO/EN and 48 JA/CN/TW before/after leaves; reviewed actual routing and description resolution; read all five private harness files and the pre-autoload isolation/cleanup implementation; read result envelopes and failure logs; directly viewed all 70 original PNGs; and independently checked evidence hashes, current receipts, protected history and final Git identity. I did not edit product/tracked files, author translations, import receipts, launch Godot or rerun the existing acceptance CLIs. Only this private report was written. This is neither native-reader nor human-play observation.",
+  "source_binding": {
+    "clean": true,
+    "resolver": "current_agent_source_subject independently returned the exact subject above; HEAD/tree and clean porcelain were also read directly.",
+    "declaration": "6297e8cbcd4e77278055b5e332f545ea32de90f9",
+    "product_commit": "3f0aa92dc9c3bdefd6a333fa84481a318baad907",
+    "direct_parent_verified": true,
+    "product_boundary": "Exactly 11 event JSON files with 87 existing string-leaf replacements, plus the localization ledger. KO16, EN23, JA16, zh-CN16, zh-TW16. No new key, removed key, reordered mapping/list, changed gameplay value, choice count, effect, condition, schedule, medical 2-of-3 rule or unrelated raw formatting change. Final content is byte-identical to the product commit and the twelve product pins in product-verification evidence.",
+    "execution_bridge": "The thirteen static commands and five engine runs executed against declaration HEAD 6297e8c with the twelve approved dirty product paths, not at the later clean source. Each recorded 1375-path tracked-text census was unchanged during execution. Independently comparing those recorded hashes to this candidate found only CLAUDE.md different. Its reviewed current-status row is now 17959 bytes for the whole file, SHA f91352a2645a9d413f0dc9fd62bdffde4c593cef414f9aa15d8bb34b27e3b229. The nine post-product documentation paths do not change product bytes; queue/log/history/status paths are outside that execution census. This is not a binary-asset, package or entire-filesystem census.",
+    "documentation": "Reviewed the final current-status row, ORDER-351 evidence section, new ORDER-361/362 scope and ordering, current work log and generated-status delta. The L3 pending table changes only numeric positions. The prior WORK_LOG is preserved byte-for-byte from declaration Git in docs/history/WORK_LOG_2026-09-28_pre_order351.md: 39825 bytes, SHA 18722b5a89b413dc912b35941d765cc0e2a3199042da7034fd08d7da6d272572. CLAUDE is source-bearing, so the product commit is not substituted for this final subject. Root-owned dashboard regeneration after the review/ledger wrapper is not a product-test execution."
+  },
+  "prose_assessment": [
+    "Father's three W153 descriptions now explicitly establish readmission; the two W167 family-table variants explicitly place his Seoul visit after discharge; both live W174 KTX ingresses establish readmission again. The separate past-at-home KTX memory remains unchanged. Actual routing supports living-Father boundaries. M25's old text explicitly supplies a Wednesday call, not discharge: the order's discharge interpretation is distinguished from that actual sentence. These are wording repairs, not observed end-to-end calendar progression or changed illness/death outcomes.",
+    "The W157 shared and person/deal wording now refers to the missed place or other appointment and a concrete new arrival time. It does not invent a lover or waiting partner on W153's unattached route, where the missed appointment is Minjun's own night clinic. Base and known-condition wording, the neutral choice label and both relevant outcomes were checked. Two Korean case-particle errors, two English readmission-purpose ambiguities and the place-as-recipient phrasing found during independent review were corrected within the same 39-leaf scope and reread.",
+    "EN Changwon Sungsim Hospital is consistent in the five targeted billing references. Daeun addresses Minjun's father as 'sir' without asserting a completed family/marriage relationship. Existing conditional family-meeting scheduling and JA/ZH respectful forms were preserved.",
+    "Minseo's two intrusive English bracketed explanations were removed. The earlier full jeonse explanation belongs to an optional event, so it cannot justify assuming every player already saw it. A short explanation now sits outside her quotation in the same paragraph, keeping four source-aligned paragraphs. This is the sole approved newline exception, EN description 8 to 6 newline characters; no general English-tense rewrite was introduced.",
+    "The path-cost choice result now performs one actual postponed phone call rather than presenting a phone call or clinic booking as an unresolved alternative. Existing effects and result routing remain intact.",
+    "All 48 Japanese, simplified-Chinese and traditional-Chinese replacements were directly compared against the Korean source, not merely against the English overlay. The reviewed meaning, chronology, missed-appointment neutrality, paragraph breaks and name tokens are consistent. This is agent language review, not native acceptance, and does not reopen unrelated prose or localization debt."
+  ],
+  "receipt_review": {
+    "existing_receipts_refreshed": 48,
+    "new_receipts": 0,
+    "accepted_total": 40302,
+    "batches": 142,
+    "finding": "Fresh after2 source/response pairs contain sixteen existing leaves per locale. I checked their official source/target digests and pre-import text comparisons, then independently bound all 48 current target values and accepted receipts to the frozen authored packet after import. The first 141 batches, other receipts, retained metadata9 and deferred72 remain unchanged. The raw verification helper checks exact permitted string replacement reconstruction and ledger boundaries; its PASS is consistent with the inspected product diff.",
+    "cli_evidence": "Three fresh check/import pairs each exit0 with leaves16, changed_files2 and human_gate=OPEN. Three original batches each exit1 with 'stale source manifest'; those expected negative rejections remain separate from positive acceptance. Importer reserialization was restored to original formatting without changing accepted values."
+  },
+  "runtime_review": {
+    "executions": 5,
+    "prepared_states": 64,
+    "actual_page_labels": 254,
+    "choice_results": 28,
+    "generated_pngs": 70,
+    "independently_viewed_original_pngs": {"ko": 18, "en": 25, "ja": 9, "zh-CN": 9, "zh-TW": 9},
+    "observation": "All five first attempts exit0, exact success marker once, no timeout, launch/report/isolation error or logged engine/script/resource failure. All recorded page visible ratios are 1. Each run's actual before/after source map and real-player 34-file map match; the validated fresh pre-autoload namespace alone was cleaned on success. I rehashed all 139 referenced runtime/static raw artifacts with no mismatch. On all 70 directly viewed 1280x800 PNGs the targeted text/buttons are readable, with no newly observed clipping, overlap or missing glyph. This does not certify every UI string, paragraph's full visual layout or all language typography.",
+    "method_limits": "The harness queues prepared events into actual StoryMode, directly calls typing-completion/advance/choice handlers and accelerates transitions, then compares actual labels to frozen locale prose via the product pagination helper. It is not independent validation of the pagination algorithm, raw/OS/physical input, natural-speed reading, MainGame ingress replay or continuous calendar progression. W157 default is explicitly direct-only; valid prepared missed-father/person flags separately exercise known-description priority. The path-cost fixture uses arc_35_goal_vertigo_seen instead of the router's arc_goal_vertigo_seen, so it proves the queued result display only, not scheduled ingress. KTX artifact/number cases likewise do not prove acquisition-driven routing. Only representative changed paragraphs/choices are PNG-captured, although all 254 target page-label values were checked. HUD months are prepared-state values."
+  },
+  "static_review": {
+    "distinct_commands": 13,
+    "pass": 11,
+    "fail": 2,
+    "passed": [
+      "audit.py",
+      "en_coverage_check.py",
+      "i18n_coverage_check.py",
+      "english_hangul_audit.py",
+      "story_consistency_audit.py",
+      "speech_register_audit.py",
+      "chapter4_causal_route_audit.py",
+      "full_game_localization_self_test.py: 264 tests",
+      "context_manifest_check.py",
+      "queue_consistency_check.py",
+      "git diff --check"
+    ],
+    "scope": "Read all thirteen result envelopes and the raw success/failure outputs relevant to the verdict; result/entry/stdout/stderr hashes match. No timeout occurred. The selector's 77 checks were selections, not executions. These thirteen commands are not the full audit shell, historical compatibility corpus, full-game playthrough or a clean-source rerun.",
+    "other_attempts": "The separately preserved metadata-first context command failed because CLAUDE was 18036 bytes, 36 over budget; its queue/diff checks passed. The final row was shortened and I directly measured 17959 bytes. Root reports the later context/queue PASS; these closure checks are not added to thirteen product commands. A reviewer optional Node invocation was unavailable and performed no work; read-only Python data/hash comparisons then completed. These are not hidden product failures or new engine runs."
+  },
+  "required_findings": [
+    {
+      "id": "current-source-admission",
+      "status": "OPEN",
+      "result": "full_body_translation_scope.py exit1 rejects the exact-approved-successor boundary for content/meta/full_game_localization.json and arc_drama.json in KO, EN, JA, zh-CN and zh-TW: six paths. Current text/counts are not an authorization to overwrite historical pins or waive those guards.",
+      "follow_up": "ORDER-361: declared eight-tool current/historical compatibility work; not implemented or certified here."
+    },
+    {
+      "id": "content-inventory-binding",
+      "status": "OPEN",
+      "result": "release_content_inventory.py exit1 reports crime.expected_content_sha256, alcohol_tobacco_drugs.expected_content_sha256 and stale docs/CONTENT_RATING_INVENTORY.md. These are two fingerprint mismatches plus one generated-table diagnostic, not evidence by themselves of a changed rating/intensity/candidate population.",
+      "follow_up": "ORDER-362: declared two-file, actual-prose-first inventory re-review; no blind hash refresh or rating/legal approval is supplied here."
+    }
+  ],
+  "preservation": "Independently compared the complete existing 119-decision file and all 97 prior review files to declaration Git: byte-identical. Human evidence, project.godot, DECISIONS, PROPOSALS, ORDER-148, release inventory and generated rating inventory also remain byte-identical. Human OPEN45, old exact-package public GO1, P-20/148 prerequisites and full-game/new-package HOLD are preserved. No PCK/ZIP was opened, rebuilt or approved; preservation of their recorded contract is not package observation. Root owns the future exact public report copy and one decision append.",
+  "evidence": [
+    {"path": ".git/full-game-localization/order351-product-verification.json", "sha256": "9500b6828a847c72a64cb38ef7b86ad684d2a7b5f344905e94d478ca24db9258"},
+    {"path": ".git/full-game-localization/order351-authored-translations.json", "sha256": "8eee1b1afa2106df9bf4d364216b83c4ec2f4436ce5b7742764e510acde4a8dd"},
+    {"path": ".git/full-game-localization/order351-cli-checks.json", "sha256": "9531b8511e8699e43f4fb64feacb6c2c7b49c1303f58ac4e27b40ec1fa8acbc6"},
+    {"path": ".git/full-game-localization/order351-cli-imports.json", "sha256": "33965c8bda74775a0a0c1f5cc559b33af47fde00954093b6e878528b2bc984d7"},
+    {"path": ".git/full-game-localization/order351-stale-check-result.json", "sha256": "b548bb05a2d1fa3ed1b94255d4ec04ce3331dbcd7c2b7ef370d9e519daad62f0"},
+    {"path": ".git/full-game-localization/order351-results-index.json", "sha256": "e4f983f6fc234e9272e40677344fdb24db52c990e61ab097d4906b9bb6ead081"},
+    {"path": ".git/full-game-localization/order351-static-first-summary.json", "sha256": "1086ab3eaf68f8c2d94968c2b6747eaae0da805686ccc8f172518d25dfcc22e3"},
+    {"path": ".git/full-game-localization/order351-static-first-10.json", "sha256": "a3c236566b021bd54e6cca8e3abc1fc1335ba53cdc4a8b565a54a94fd0f3e3f3"},
+    {"path": ".git/full-game-localization/order351-static-first-11.json", "sha256": "56be8291e5565429ab23a7606d2e6e140d8e48ef09a2e1eebb52863204ca7df2"},
+    {"path": ".git/full-game-localization/order351-run.py", "sha256": "cf1242f68f0eabb8ad51560144564044e5619dd315484a3f83100246cc83b7d6"},
+    {"path": ".git/full-game-localization/order351-check.gd", "sha256": "4cb32f09b2a0a23c3744998b7c5328672b1933eaba39ccb8cce711365d1ed14a"},
+    {"path": ".git/full-game-localization/order351-metadata-first.json", "sha256": "7055a4151fbbc3bf16b4e06fce34fdf0547bfaddffdc71768b672e95759c1cb3"}
+  ],
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "Raw/OS input, natural-speed reading, uninterrupted calendar progression, end-to-end MainGame route or acquisition replay, and full-game playthrough.",
+    "Visual inspection of every one of the 254 page-label states, full UI localization, whole-game typography, physical Steam Deck/controller feel and continuous audio listening.",
+    "Clean-final-source rerun of product checks, full audit/historical corpus execution, package build/inspection, public release, rating/legal certification, or new human evidence."
+  ]
+}
