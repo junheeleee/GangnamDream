@@ -2,7 +2,28 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [ ] ORDER-313 [P1·본편] 2장 M13~M24 대본의 시간·영어 정합을 고친다
+#### [~] ORDER-313 [P1·본편] 2장 M13~M24 대본의 시간·영어 정합을 고친다
+
+## 2026-09-27 착수 — 파일 소유와 증거 경계
+
+- 기준 clean main `035cc1f`. 원래 수리1~8의 **7 JSON/15 text leaf**만 변경한다.
+  `header_layout`은 `content/events{,_en,_ja,_zh-CN,_zh-TW}/arc_events.json`의
+  network/visit 기본 description 10개와 EN 선택1 text 두 개를 소유한다.
+  root는 EN `arc_midgame.json` medication description/선택1 result_text와
+  EN `arc_daeun.json` fork 선택2 result_text, portable ledger의 해당 receipt6을 소유한다.
+- 발견된 visit `description_if_known.arc_sangchul_03_seen` 5문구는 별도
+  [356](ORDER-356.md)이다. 여기의15문구에 몰래 더하지 않는다.
+- root 문서는 이 사양/큐/WORK_LOG/생성 STATUS/CLAUDE 현재 한 행, 새 agent판정·
+  `docs/agent_reviews/ORDER-313*.json`이다. `.git/full-game-localization/order313-*`
+  export/응답/표적 검사/자가 증거만 만들며 `screen_independent_review`는 읽기 전용
+  전수 검수와 private 보고를 맡는다. `screen_path_probe`는 읽기 전용 영향 분석이다.
+- 선언 커밋 뒤 원문 export를 보존하고 구현한다. 수리 뒤 fresh export→check/import와
+  기존 accepted6만 재검증하며 다른 accepted행/기존 batches/공개 보호행을 보존한다.
+  EN coverage·구조·한글누출·story consistency·수용 회귀와 선택기 영향 목록을 확인한다.
+  원래 whole-file 핀은 갱신하지 않는다. 새 원고를 거절하는 경계는 별도 후속으로 선언한다.
+- 조건/효과/ID/선택 순서/스케줄/맵/엔진/인간 원장/project/공개manifest 변경0.
+  실제 화면·입력·원어민·인간·물리·새package 관측을 주장하지 않는다.
+  이 소유와 검증 지시는 일회성이며 기존 I18N·P-9·WORK_UNIT을 적용한다.
 
 **2026-09-27 Claude 발행.** 본편 대본 정합 검토 계획
 ([FULL_GAME_SCRIPT_REVIEW](../queue_backlog/FULL_GAME_SCRIPT_REVIEW.md))의 배치

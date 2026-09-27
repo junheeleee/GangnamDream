@@ -51,10 +51,11 @@
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
 | 1 | [~] | ORDER-302 · 체험판 대본 사실·영어 정합 수리 | [302](queue_active/ORDER-302.md) | 수리7항목 source GO · successor package 별도 선언/검수 HOLD |
-| 2 | [ ] | ORDER-313 · 본편 2장 대본 시간·영어 정합 | [313](queue_active/ORDER-313.md) | 309 후속 GO · 착수 가능 · 원격 R2 보존 · 미실행 |
-| 3 | [ ] | ORDER-350 · 본편 3장 대본 경로·회수·영어 정합 | [350](queue_active/ORDER-350.md) | 313 뒤 착수 · 미실행 |
-| 4 | [ ] | ORDER-351 · 본편 4장 대본 아버지 행방·영어 표기 정합 | [351](queue_active/ORDER-351.md) | 350 뒤 착수 · 미실행 |
-| 5 | [ ] | ORDER-352 · 본편 5장 대본 이름·시간·회수 정합 | [352](queue_active/ORDER-352.md) | 5장 HOLD 수리 닫힌 뒤 착수 · 미실행 |
+| 2 | [~] | ORDER-313 · 본편 2장 대본 시간·영어 정합 | [313](queue_active/ORDER-313.md) | 착수 · 7 JSON/15문구·receipt6 · 파일 소유는 사양 |
+| 3 | [~] | ORDER-356 · 병실 조건부 본문의 시간 정합 | [356](queue_active/ORDER-356.md) | 착수 · 5 JSON/5문구·receipt3 · 313 기본 본문과 분리 |
+| 4 | [ ] | ORDER-350 · 본편 3장 대본 경로·회수·영어 정합 | [350](queue_active/ORDER-350.md) | 313 뒤 착수 · 미실행 |
+| 5 | [ ] | ORDER-351 · 본편 4장 대본 아버지 행방·영어 표기 정합 | [351](queue_active/ORDER-351.md) | 350 뒤 착수 · 미실행 |
+| 6 | [ ] | ORDER-352 · 본편 5장 대본 이름·시간·회수 정합 | [352](queue_active/ORDER-352.md) | 5장 HOLD 수리 닫힌 뒤 착수 · 미실행 |
 
 
 
