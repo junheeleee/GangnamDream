@@ -2,7 +2,7 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [ ] ORDER-360 [P1·검증] 대본 수리 뒤 현재 콘텐츠 검토 지문을 다시 결속한다
+#### [~] ORDER-360 [P1·검증] 대본 수리 뒤 현재 콘텐츠 검토 지문을 다시 결속한다
 
 2026-09-27 Codex 발행. Claude의 P-20 승인 반영 커밋 `78d6fea`가 남긴
 검사 실패를 실제 현재 소스 `636ed302`에서 읽기 전용으로 확인한 후속이다.
@@ -54,4 +54,21 @@
   관찰·최종 등급·법률 인증·새 패키지 GO로 바꾸지 않는다.
 - 일회성 지시, 상시 규칙은 기존 WORK_UNIT·콘텐츠 인벤토리 정본을 따른다.
 
-현재 상태: 미착수. 원장/보고 변경0·엔진 실행0·외부 제출0.
+## 착수 선언 (2026-09-28)
+
+- 기준 clean main: `199da42747d1559f3ac15f2159a116ed177e7cbb`.
+- root 소유: 위 inventory의 `content_axes` 중 명시6축
+  `candidate_scan.expected_content_sha256`만, 기존 생성기의 Markdown 결과만.
+  마감 소유는 이 사양(archive 이동 포함)·CODEX_QUEUE·WORK_LOG·생성STATUS·
+  CLAUDE 현재행·`docs/agent_reviews/ORDER-360.json`와
+  `docs/agent_review_decisions.json`의 새 작업판정1개 append다.
+- `/root/compat357`: Git 기준/변경 leaf 추출 증거만
+  `.git/full-game-localization/order360-*`에 작성한다. 추적 파일 비소유.
+- `/root/r3_route_probe`: 원문·수정 차이·검증 증거의 독립 판정과 private 보고만.
+  inventory/도구/원고 저작에 참여하지 않는다.
+- 기존118판정/96보고·인간/공개핀·원문/번역/자산/도구/게임플레이 불변을 확인한다.
+  기존 실패1회를 다시 기준 실행으로 반복하지 않고 보존한다. 선언 이후 수정본에
+  normal/self-test·생성 최신성·영향선택의 관련 표적 검사만 실행한다.
+- 규범: 일회성 작업 지시이며 상시 규칙 승격0. 원어민/인간/물리 관측·출시 승인 아님.
+
+현재 상태: 선언. 제품2파일 수정 전·엔진 실행0·외부 제출0.
