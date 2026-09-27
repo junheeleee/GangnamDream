@@ -21,7 +21,7 @@ from typing import Any, Callable, Iterable
 import order305_demo_source_compat as demo_source
 import order310_demo_source_compat as latest_demo_source
 import order316_header_source_compat as header_source
-import order313_source_compat as current_source
+import order350_source_compat as current_source
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -2077,7 +2077,8 @@ def validate_story_rules(model: AuditModel, errors: list[str]) -> None:
 
 
 def validate_preserved_product_boundaries(model: AuditModel, errors: list[str]) -> None:
-    errors.extend(current_source.current_source_errors())
+    admission_errors = current_source.current_source_errors()
+    errors.extend(admission_errors)
     instant_block = _instant_legend_block(model.game_state)
     instant_hash = _sha256_text(instant_block) if instant_block else "missing"
     if instant_hash != EXPECTED_INSTANT_LEGEND_SHA256:
@@ -2195,11 +2196,14 @@ def validate_preserved_product_boundaries(model: AuditModel, errors: list[str]) 
         except OSError as exc:
             errors.append(f"public demo frozen file unavailable: {relative}: {exc}")
             continue
-        if relative in current_source.LIVE_PATHS:
-            errors.extend(current_source.source_errors(raw, relative))
+        source_errors = (current_source.source_errors(raw, relative)
+                         if relative in current_source.LIVE_PATHS else [])
+        errors.extend(source_errors)
         raw, parser_errors = _order308_parser_history_view(relative, expected_hash, raw)
         errors.extend(parser_errors)
-        actual_hash = _sha256_bytes(current_source.project_bytes(raw, relative))
+        comparison = (current_source.project_bytes(raw, relative)
+                      if not admission_errors and not source_errors else raw)
+        actual_hash = _sha256_bytes(comparison)
         errors.extend(_public_demo_working_source_hash_errors(
             relative, expected_hash, actual_hash))
 

@@ -43,7 +43,8 @@ from event_schedule import DeferredFollowUpError, deferred_follow_ups  # noqa: E
 import order305_demo_source_compat as demo_source  # noqa: E402
 import order310_demo_source_compat as latest_demo_source  # noqa: E402
 import order309_source_compat as prior_source  # noqa: E402
-import order313_source_compat as current_source  # noqa: E402
+import order313_source_compat as chapter2_source  # noqa: E402
+import order350_source_compat as current_source  # noqa: E402
 
 
 SCHEMA_VERSION = 1
@@ -1059,7 +1060,7 @@ def build_scope(root: Path | str = ROOT) -> tuple[dict[str, Any], list[str]]:
         },
         "hash_semantics": {
             "historical_comparison_only": (
-                "ORDER-309 exact admitted Korean event vectors are inverted only when "
+                "ORDER-350/359 and preceding exact admitted Korean event vectors are inverted only when "
                 "comparing preceding source pins; inventory text, hashes and receipts stay current"
             ),
             "event_ids": (
@@ -1161,12 +1162,27 @@ def build_scope(root: Path | str = ROOT) -> tuple[dict[str, Any], list[str]]:
     return report, list(dict.fromkeys(errors))
 
 
-def _source_history_observations(report: Mapping[str, Any]) -> tuple[dict[str, str], list[str]]:
+def _source_history_observations(report: Mapping[str, Any]) -> tuple[dict[str, Any], list[str]]:
+    """Open one fresh, whole-live-source proof before deriving historical data."""
+    empty = {SCOPE_LIFECYCLE_SHIPPING: "", SCOPE_M07_M60_STATIC: "", "denominators": {}}
+    try:
+        with current_source.fresh_validation_proof():
+            errors = current_source.current_source_errors()
+            if errors:
+                return empty, errors
+            return _admitted_source_history_observations(report)
+    except (OSError, ValueError) as exc:
+        return empty, [f"ORDER-350 current source proof unavailable: {exc}"]
+
+
+def _admitted_source_history_observations(report: Mapping[str, Any]) -> tuple[dict[str, Any], list[str]]:
     """Compare old pins without relabeling the current inventory or receipts.
 
     A historical leaf vector is substituted only for the exact current event
     vector from verified Git blobs; neighbors, wrong paths and edited report
-    hashes remain visible. Undo 313/356 and 309 only, retaining the 305 source.
+    hashes remain visible. Undo 359/350, 313/356 and 309 only, retaining 305.
+    Counts are derived from those same verified vectors, never rewritten in
+    the current report. The new ghost leaf exists only in the current vector.
     """
     errors: list[str] = []
     live: list[TextLeaf] = []
@@ -1211,13 +1227,28 @@ def _source_history_observations(report: Mapping[str, Any]) -> tuple[dict[str, s
     if seen != set(expected_paths):
         errors.append("ORDER-309 current report is missing an admitted source event")
     static_ids = set(report.get(SCOPE_M07_M60_STATIC, {}).get("event_ids", []))
-    result: dict[str, str] = {}
+    result: dict[str, Any] = {"denominators": {}}
     for scope, ids in ((SCOPE_LIFECYCLE_SHIPPING, None), (SCOPE_M07_M60_STATIC, static_ids)):
         selected_live = [leaf for leaf in live if ids is None or leaf.event_id in ids]
         selected_history = [leaf for leaf in historical if ids is None or leaf.event_id in ids]
         if leaves_sha(selected_live) != report.get(scope, {}).get("source_leaves_sha256"):
             errors.append(f"current source observation hash is unbound: {scope}")
         result[scope] = leaves_sha(selected_history)
+        historical_counts = {"leaf_count": len(selected_history)}
+        live_counts = {"leaf_count": len(selected_live)}
+        if scope == SCOPE_LIFECYCLE_SHIPPING:
+            for name, reader in (("standard_leaf_count", False), ("chapter5_reader_leaf_count", True)):
+                historical_counts[name] = sum(leaf.chapter5_reader == reader for leaf in selected_history)
+                live_counts[name] = sum(leaf.chapter5_reader == reader for leaf in selected_live)
+        else:
+            deferred_ids = set(report.get(scope, {}).get("deferred_added_event_ids", []))
+            for name, deferred in (("deferred_added_leaf_count", True), ("immediate_closure_leaf_count", False)):
+                historical_counts[name] = sum((leaf.event_id in deferred_ids) == deferred for leaf in selected_history)
+                live_counts[name] = sum((leaf.event_id in deferred_ids) == deferred for leaf in selected_live)
+        for name, count in live_counts.items():
+            if report.get(scope, {}).get(name) != count:
+                errors.append(f"current source observation count is unbound: {scope}.{name}")
+        result["denominators"][scope] = historical_counts
     return result, errors
 
 
@@ -1229,16 +1260,18 @@ def _expected_observation_errors(report: Mapping[str, Any]) -> list[str]:
     targets = report.get("target_structure_inventory", {})
     historical, binding_errors = _source_history_observations(report)
     errors.extend(binding_errors)
+    historical_shipping = historical["denominators"].get(SCOPE_LIFECYCLE_SHIPPING, {})
+    historical_static = historical["denominators"].get(SCOPE_M07_M60_STATIC, {})
 
     observed = {
         "packaged_events": shipping.get("packaged_event_count"),
         "author_only_events": shipping.get("author_only_excluded_event_count"),
         "shipping_events": shipping.get("event_count"),
-        "shipping_standard_leaves": shipping.get("standard_leaf_count"),
-        "shipping_chapter5_reader_leaves": shipping.get(
+        "shipping_standard_leaves": historical_shipping.get("standard_leaf_count"),
+        "shipping_chapter5_reader_leaves": historical_shipping.get(
             "chapter5_reader_leaf_count"
         ),
-        "shipping_leaves": shipping.get("leaf_count"),
+        "shipping_leaves": historical_shipping.get("leaf_count"),
         "shipping_event_ids_sha256": shipping.get("event_ids_sha256"),
         "shipping_source_leaves_sha256": historical[SCOPE_LIFECYCLE_SHIPPING],
         "m07_m60_root_refs": static.get("map_root_ref_count"),
@@ -1255,13 +1288,13 @@ def _expected_observation_errors(report: Mapping[str, Any]) -> list[str]:
             "planned_missing_root_ref_count"
         ),
         "m07_m60_immediate_events": static.get("immediate_closure_event_count"),
-        "m07_m60_immediate_leaves": static.get("immediate_closure_leaf_count"),
+        "m07_m60_immediate_leaves": historical_static.get("immediate_closure_leaf_count"),
         "m07_m60_events": static.get("event_count"),
-        "m07_m60_leaves": static.get("leaf_count"),
+        "m07_m60_leaves": historical_static.get("leaf_count"),
         "m07_m60_event_ids_sha256": static.get("event_ids_sha256"),
         "m07_m60_source_leaves_sha256": historical[SCOPE_M07_M60_STATIC],
         "deferred_added_events": static.get("deferred_added_event_count"),
-        "deferred_added_leaves": static.get("deferred_added_leaf_count"),
+        "deferred_added_leaves": historical_static.get("deferred_added_leaf_count"),
         "protected_overlap_events": len(
             protected.get("public_demo_static_overlap_event_ids", [])
         ),
@@ -1273,7 +1306,7 @@ def _expected_observation_errors(report: Mapping[str, Any]) -> list[str]:
                     if key == "shipping_source_leaves_sha256" else EXPECTED[key])
         if actual != expected:
             errors.append(
-                f"source observation (313/356→309 historical text view; post305) {key} drifted: "
+                f"source observation (359→350→313/356→309 historical text view; post305) {key} drifted: "
                 f"expected={expected} actual={actual}"
             )
     for language in TARGET_LANGUAGES:
@@ -1324,19 +1357,28 @@ def run_self_test(root: Path | str = ROOT) -> tuple[list[str], int]:
 
     shipping = report.get(SCOPE_LIFECYCLE_SHIPPING, {})
     static = report.get(SCOPE_M07_M60_STATIC, {})
+    source_history, source_binding_errors = _source_history_observations(report)
+    historical_shipping = source_history["denominators"].get(SCOPE_LIFECYCLE_SHIPPING, {})
+    historical_static = source_history["denominators"].get(SCOPE_M07_M60_STATIC, {})
     require(
         "shipping exact event and leaf denominator",
-        (shipping.get("event_count"), shipping.get("leaf_count"))
+        (shipping.get("event_count"), historical_shipping.get("leaf_count"))
         == (1708, 11680),
     )
     require(
         "Chapter 5 nested reader leaves included",
-        shipping.get("chapter5_reader_leaf_count") == 133
-        and shipping.get("standard_leaf_count") == 11547,
+        historical_shipping.get("chapter5_reader_leaf_count") == 133
+        and historical_shipping.get("standard_leaf_count") == 11547,
     )
     require(
         "M07-M60 static exact event and leaf denominator",
-        (static.get("event_count"), static.get("leaf_count")) == (192, 1751),
+        (static.get("event_count"), historical_static.get("leaf_count")) == (192, 1751),
+    )
+    require(
+        "ORDER-350 current inventory retains the added ghost leaf",
+        not source_binding_errors
+        and (shipping.get("leaf_count"), shipping.get("standard_leaf_count"), static.get("leaf_count"))
+        == (11681, 11548, 1752),
     )
     require(
         "deferred follow-up expands static closure",
@@ -1592,7 +1634,7 @@ def run_self_test(root: Path | str = ROOT) -> tuple[list[str], int]:
         == EXPECTED["m07_m60_source_leaves_sha256"],
     )
 
-    # Recompute even the forged hashes: self-consistency is not source identity.
+    # Recompute forged hashes and counts: self-consistency is not source identity.
     def rehash_observation(forged: dict[str, Any]) -> None:
         all_leaves = []
         for event in forged[SCOPE_LIFECYCLE_SHIPPING]["events"]:
@@ -1601,11 +1643,18 @@ def run_self_test(root: Path | str = ROOT) -> tuple[list[str], int]:
             event["source_leaves_sha256"] = leaves_sha(leaves)
             all_leaves.extend(leaves)
         forged[SCOPE_LIFECYCLE_SHIPPING]["source_leaves_sha256"] = leaves_sha(all_leaves)
+        forged[SCOPE_LIFECYCLE_SHIPPING]["leaf_count"] = len(all_leaves)
+        forged[SCOPE_LIFECYCLE_SHIPPING]["standard_leaf_count"] = sum(not leaf.chapter5_reader for leaf in all_leaves)
+        forged[SCOPE_LIFECYCLE_SHIPPING]["chapter5_reader_leaf_count"] = sum(leaf.chapter5_reader for leaf in all_leaves)
         static_ids = set(forged[SCOPE_M07_M60_STATIC]["event_ids"])
-        forged[SCOPE_M07_M60_STATIC]["source_leaves_sha256"] = leaves_sha(
-            leaf for leaf in all_leaves if leaf.event_id in static_ids)
+        static_leaves = [leaf for leaf in all_leaves if leaf.event_id in static_ids]
+        forged[SCOPE_M07_M60_STATIC]["source_leaves_sha256"] = leaves_sha(static_leaves)
+        forged[SCOPE_M07_M60_STATIC]["leaf_count"] = len(static_leaves)
+        deferred_ids = set(forged[SCOPE_M07_M60_STATIC]["deferred_added_event_ids"])
+        forged[SCOPE_M07_M60_STATIC]["deferred_added_leaf_count"] = sum(leaf.event_id in deferred_ids for leaf in static_leaves)
+        forged[SCOPE_M07_M60_STATIC]["immediate_closure_leaf_count"] = sum(leaf.event_id not in deferred_ids for leaf in static_leaves)
 
-    # Preserve every preceding 309 mutation and add the separate 313/356 set.
+    # Preserve preceding mutations and add 350/359, including leaf removal.
     for relative, changes in current_source.HISTORICAL_JSON_LEAVES.items():
         if not relative.startswith("content/events/"):
             continue
@@ -1622,6 +1671,7 @@ def run_self_test(root: Path | str = ROOT) -> tuple[list[str], int]:
                     event["leaves"][0]["source"] += "!"
                 elif kind != "wrong-hash":
                     old_leaves = {leaf.path: leaf.source for leaf in collect_event_leaves(event_id, old_events[event_id], [])}
+                    event["leaves"] = [leaf for leaf in event["leaves"] if leaf["path"] in old_leaves]
                     for leaf in event["leaves"]:
                         leaf["source"] = old_leaves[leaf["path"]]
                     if kind == "wrong-path-rollback":
@@ -1629,9 +1679,18 @@ def run_self_test(root: Path | str = ROOT) -> tuple[list[str], int]:
                 rehash_observation(forged)
                 if kind == "wrong-hash":
                     event["source_leaves_sha256"] = "0" * 64
-                owner = "ORDER-309" if relative in prior_source.PATHS else "ORDER-313"
+                owner = ("ORDER-309" if relative in prior_source.PATHS else
+                         "ORDER-313" if relative in chapter2_source.PATHS else "ORDER-350")
                 require(f"{owner} report rejects {kind}: {event_id}",
                         bool(_expected_observation_errors(forged)))
+
+    for scope, field in ((SCOPE_LIFECYCLE_SHIPPING, "leaf_count"),
+                         (SCOPE_LIFECYCLE_SHIPPING, "standard_leaf_count"),
+                         (SCOPE_M07_M60_STATIC, "leaf_count")):
+        forged = copy.deepcopy(report)
+        forged[scope][field] -= 1
+        require(f"ORDER-350 rejects historical count presented as current: {scope}.{field}",
+                bool(_expected_observation_errors(forged)))
 
     from full_game_localization import PROMPT_VERSION, Leaf
 

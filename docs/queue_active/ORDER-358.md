@@ -77,3 +77,24 @@ EN `arc_events`·`arc_midgame`을 실제로 거절했다. 번역 수용 전 실�
 - clean source와 실제 실행/화면 증거를 결속한 독립 작업 판정 뒤에만 350·359를 닫는다.
   전체 본편/package HOLD와 원어민·인간·물리 관찰 OPEN은 유지한다.
 - 일회성 작업 지시이며 상시 규칙은 기존 WORK_UNIT·I18N 정본을 적용한다.
+
+## 2026-09-28 표적 실행 결과 — 독립 마감 대기
+
+- 도구8개 외 제품/원형5모듈 수정0. 현재 합집합38경로를 먼저 검증하고
+ 350/359의 KO/EN9파일49leaf(역사합집합14/68)만 비교 view에 되돌린다.
+ ledger57receipt와106전체leaf·부모/커밋·비소유 원시 바이트·조건 순서를 결속한다.
+- 최초19명령16 PASS/3 FAIL을 보존했다. KO midgame의 옛 snapshot 연결을
+ 수리하고 year5 proof를 한 호출 안에서만 공유한 뒤 영향5개 재검사4 PASS/1 FAIL.
+ year5 KO year3_drama의350/155 역사단계 혼동4assertion을 찾아 원래155 census를
+ 보존하며 새350 교집합의기준·155 양성fixture만 수리했다. 새module은비소유행의
+ 반복파싱만피하고 fresh proof는유지한다. 최종종속13명령재실행이모두PASS다.
+ 최종19종 PASS/총37실행이며 재사용6개를 새 실행으로 세지 않는다.
+- 사례: 새998/역사957/본문112/graph308/chapter5146/chapter1622/localization264.
+ year5 결과 `YEAR5_REFERENCE_ROUTE_SELF_TEST_OK cases=1085` (947.195초), chapter1 846.907초.
+ 매 명령 전후1375핀과 세 시도 사이 수정집합(첫2·다음2, 합집합3파일)을 결속했다.
+ aggregate `.git/full-game-localization/order358-final-aggregate.json`
+ SHA `27b6987d8695d6878fb6d90aa3bf1aaedf8875218ec95e4bbe18be5ce658bc84`. 최초 timeout1800초·실패2와 재시도4assertion 실패를 원형으로 남긴다.
+- 원형corpus/CLI·기존115판정93보고·보호39파일 불변. 새clean source 실행,
+ 전체shell/엔진/화면/입력/자산·사용자저장 전량검증으로 확대하지 않는다.
+ 350/359의 기존 HOLD와 인간OPEN45·옛공개GO1·본편/새package HOLD는 유지하며,
+ clean source의358/350/359 각각의 독립 후속 판정 전에는 큐를 닫지 않는다.

@@ -30,7 +30,8 @@ import order305_demo_source_compat as demo_source
 import order310_demo_source_compat as latest_demo_source
 import order316_header_source_compat as header_source
 import order309_source_compat as prior_source
-import order313_source_compat as current_source
+import order313_source_compat as chapter2_source
+import order350_source_compat as current_source
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -6395,6 +6396,15 @@ def order309_census_exempt(relative: str, current: bytes, baseline: bytes) -> bo
 
 
 def order309_context_source_errors(context: AuditContext) -> list[str]:
+    """Share immutable proof for this call only, including direct unit callers."""
+    try:
+        with current_source.fresh_validation_proof():
+            return _order309_context_source_errors_with_proof(context)
+    except (OSError, ValueError) as exc:
+        return [f"ORDER-350: year5 indexed source proof unavailable: {exc}"]
+
+
+def _order309_context_source_errors_with_proof(context: AuditContext) -> list[str]:
     """Bind declared in-memory event objects to the actual admitted raw files."""
     errors: list[str] = []
     for relative in current_source.HISTORICAL_PATHS:
@@ -6416,7 +6426,9 @@ def order309_context_source_errors(context: AuditContext) -> list[str]:
             if len(expected) != 1 or len(records) != 1 \
                     or records[0].path != relative \
                     or canonical_json_sha256(records[0].row) \
-                    != canonical_json_sha256(expected[0]):
+                    != canonical_json_sha256(expected[0]) \
+                    or json.dumps(records[0].row, ensure_ascii=False) \
+                    != json.dumps(expected[0], ensure_ascii=False):
                 errors.append(
                     f"ORDER-309: year5 indexed event differs from admitted raw source "
                     f"{relative}:{event_id}")
@@ -6424,7 +6436,7 @@ def order309_context_source_errors(context: AuditContext) -> list[str]:
 
 
 def order309_transition_self_test(corpus_source=prior_source) -> tuple[list[str], int]:
-    """Retain 309 cases; call separately with 313 for its additive boundary set.
+    """Retain 309/313 cases; call separately with 350 for its additive set.
 
     Historical negative values still come from the owning immutable transition.
     Positive observations bind the actual latest source, not an old live input.
@@ -6433,7 +6445,8 @@ def order309_transition_self_test(corpus_source=prior_source) -> tuple[list[str]
 
     failures: list[str] = []
     cases = 0
-    owner = "ORDER-355" if corpus_source is prior_source else "ORDER-357"
+    owner = ("ORDER-355" if corpus_source is prior_source else
+             "ORDER-357" if corpus_source is chapter2_source else "ORDER-358")
 
     def check(ok: bool, label: str) -> None:
         nonlocal cases
@@ -6451,12 +6464,36 @@ def order309_transition_self_test(corpus_source=prior_source) -> tuple[list[str]
         new = strict_loads(current.decode("utf-8"), path)
         old = strict_loads(previous.decode("utf-8"), path)
         check(not current_source.source_errors(current, path), path + " raw admission")
-        check(order156_project_bytes(current, path) == baseline, path + " full byte inverse")
-        check(order156_project_byte_hash(byte_sha256(current), path) == byte_sha256(baseline),
-              path + " full hash inverse")
+        registered155 = (corpus_source is current_source
+                         and path in ORDER155_SOURCE_FILE_TRANSITIONS)
+        if registered155:
+            # This new 350 overlap is still an authored ORDER-155 product.
+            # Undo later prose to its immutable post155 stage, not pre155.
+            stage_errors: list[str] = []
+            validate_order155_exact_payload(
+                strict_loads(_predecessor.decode("utf-8"), path),
+                strict_loads(baseline.decode("utf-8"), path), path, stage_errors)
+            stage_bound = (not stage_errors and
+                           (byte_sha256(baseline), byte_sha256(_predecessor))
+                           == ORDER155_SOURCE_FILE_TRANSITIONS[path])
+            check(stage_bound and order156_project_bytes(current, path) == _predecessor,
+                  path + " full byte inverse to exact post155 stage")
+            check(stage_bound and order156_project_byte_hash(byte_sha256(current), path)
+                  == byte_sha256(_predecessor), path + " full hash inverse to exact post155 stage")
+        else:
+            check(order156_project_bytes(current, path) == baseline, path + " full byte inverse")
+            check(order156_project_byte_hash(byte_sha256(current), path) == byte_sha256(baseline),
+                  path + " full hash inverse")
         check(order156_project_payload(new, path) == order156_project_payload(old, path),
               path + " composed payload inverse")
-        check(order309_census_exempt(path, current, baseline), path + " exact census")
+        if registered155:
+            registration = order155_git_registration_snapshot()
+            check(stage_bound and not order309_census_exempt(path, current, baseline)
+                  and registration == (0, ORDER155_PRODUCT_BASELINE, 0, "", 0,
+                                       frozenset(ORDER155_SOURCE_FILE_TRANSITIONS)),
+                  path + " exact census retains authored155 registration, never exempt")
+        else:
+            check(order309_census_exempt(path, current, baseline), path + " exact census")
         reordered = json.dumps(new, ensure_ascii=False, sort_keys=True).encode("utf-8")
         check(reordered != current and json.loads(reordered) == new,
               path + " same-payload raw mutation is real")
@@ -6516,7 +6553,11 @@ def order309_transition_self_test(corpus_source=prior_source) -> tuple[list[str]
             for component in leaf[:-1]:
                 parent = parent[component]
                 old_value = old_value[component]
-            parent[leaf[-1]] = old_value[leaf[-1]]
+            if leaf[-1] in old_value:
+                parent[leaf[-1]] = old_value[leaf[-1]]
+            else:
+                # The admitted ghost variant is new; its rollback removes it.
+                parent.pop(leaf[-1])
             check(bool(order309_context_source_errors(candidate)),
                   f"indexed rollback rejected {path}:{event_id}:{leaf}")
         event_id = corpus_source.JSON_LEAVES[path][0][0]
@@ -6527,6 +6568,11 @@ def order309_transition_self_test(corpus_source=prior_source) -> tuple[list[str]
         candidate.event_indexes[language][event_id].append(
             copy.deepcopy(candidate.event_indexes[language][event_id][0]))
         check(bool(order309_context_source_errors(candidate)), path + " indexed duplicate rejected")
+        if corpus_source is current_source and path.endswith("/arc_year_close.json"):
+            candidate = copy.deepcopy(context)
+            row = candidate.event_indexes[language]["arc_year3_close"][0].row
+            row["description_if_known"] = dict(reversed(list(row["description_if_known"].items())))
+            check(bool(order309_context_source_errors(candidate)), path + " indexed condition order rejected")
     return failures, cases
 
 
@@ -11811,7 +11857,8 @@ def run_invalidated_self_test(
     # authored-location layer and its own narrow inverse.
     for relative, patches in sorted(ORDER155_EVENT_PATCHES_BY_FILE.items()):
         baseline_order155 = order155_baseline_payload(relative)
-        current_order155 = load_json(ROOT / relative)
+        current_order155 = order156_project_payload(
+            load_json(ROOT / relative), relative)
         candidate_errors: list[str] = []
         validate_order155_exact_payload(
             current_order155, baseline_order155, relative, candidate_errors)
@@ -13812,9 +13859,12 @@ def main() -> int:
         successor_failures, successor_cases = order309_transition_self_test()
         failures.extend(successor_failures)
         cases += successor_cases
-        chapter2_failures, chapter2_cases = order309_transition_self_test(current_source)
+        chapter2_failures, chapter2_cases = order309_transition_self_test(chapter2_source)
         failures.extend(chapter2_failures)
         cases += chapter2_cases
+        chapter3_failures, chapter3_cases = order309_transition_self_test(current_source)
+        failures.extend(chapter3_failures)
+        cases += chapter3_cases
         if failures:
             for failure in failures:
                 print(f"YEAR5_REFERENCE_ROUTE_SELF_TEST_ERROR {failure}")

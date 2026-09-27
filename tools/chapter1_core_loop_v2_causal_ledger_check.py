@@ -37,7 +37,7 @@ import meta_title_locale_successor as title_successor
 import order305_demo_source_compat as demo_source
 import order310_demo_source_compat as latest_demo_source
 import order316_header_source_compat as header_source
-import order313_source_compat as current_source
+import order350_source_compat as current_source
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -4575,9 +4575,109 @@ def order305_source_boundary_self_test() -> tuple[list[str], int]:
     return failures, cases
 
 
+def _order350_audited_source_observation(
+        relative: str, observed: str, raw: bytes, *,
+        current_admitted: bool) -> tuple[str, list[str]]:
+    """Compare a newly admitted audited file without replacing its old pin.
+
+    The original 305 branch owns the demo source. This additional boundary is
+    only the intersection of historical paths and actual immutable audit keys.
+    A failed whole-live admission must not invoke this additional projection.
+    """
+    if (relative == demo_source.KO_PATH
+            or relative not in current_source.HISTORICAL_PATHS
+            or relative not in EXPECTED_AUDITED_SOURCE_FILE_SHA256):
+        return observed, []
+    if not current_admitted:
+        return observed, ["ORDER-350: whole current admission failed before audited comparison"]
+    return current_source.observed_byte_hash(relative, observed, raw)
+
+
+def order350_source_boundary_self_test() -> tuple[list[str], int]:
+    """Add current350 boundary cases; never replace the original305 corpus."""
+    from unittest import mock
+
+    failures: list[str] = []
+    cases = 0
+
+    def check(ok: bool, label: str) -> None:
+        nonlocal cases
+        cases += 1
+        if not ok:
+            failures.append("ORDER-350 audited source boundary: " + label)
+
+    targets = (set(current_source.HISTORICAL_PATHS)
+               & set(EXPECTED_AUDITED_SOURCE_FILE_SHA256)) - {demo_source.KO_PATH}
+    check(targets == {"content/events/arc_midgame.json"}, "exact additional audited intersection")
+    admission_errors = current_source.current_source_errors()
+    check(not admission_errors, "whole current source admission")
+    relative = "content/events/arc_midgame.json"
+    before, after = current_source.verified_blobs(relative)
+    old_hash, new_hash = hashlib.sha256(before).hexdigest(), hashlib.sha256(after).hexdigest()
+    pin = EXPECTED_AUDITED_SOURCE_FILE_SHA256[relative]
+    check(old_hash == pin and old_hash != new_hash, "immutable predecessor equals unchanged audit pin")
+    neighbor = json.loads(after)
+    neighbor[0]["title"] += " unapproved neighbor"
+    neighbor_raw = json.dumps(neighbor, ensure_ascii=False).encode("utf-8")
+    for label, raw, claim, rejected in (
+        ("approved", after, new_hash, False),
+        ("rollback with recalculated hash", before, old_hash, True),
+        ("neighbor with recalculated hash", neighbor_raw, hashlib.sha256(neighbor_raw).hexdigest(), True),
+        ("raw formatting with recalculated hash", after + b"\n", hashlib.sha256(after + b"\n").hexdigest(), True),
+        ("unbound predecessor claim", after, old_hash, True),
+        ("mutated raw borrows approved claim", after + b"\n", new_hash, True),
+    ):
+        actual, errors = _order350_audited_source_observation(
+            relative, claim, raw, current_admitted=not admission_errors)
+        check(bool(errors) == rejected and actual == (claim if rejected else pin), label)
+
+    for label, candidate in (
+        ("same basename other path", "elsewhere/arc_midgame.json"),
+        ("historical but not audited", "content/events_en/arc_midgame.json"),
+        ("original305 owner excluded", demo_source.KO_PATH),
+    ):
+        with mock.patch.object(current_source, "observed_byte_hash") as project:
+            actual, errors = _order350_audited_source_observation(
+                candidate, new_hash, after, current_admitted=True)
+            check(actual == new_hash and not errors and not project.called, label)
+
+    with mock.patch.object(current_source, "observed_byte_hash") as project:
+        actual, errors = _order350_audited_source_observation(
+            relative, new_hash, after, current_admitted=False)
+        check(actual == new_hash and bool(errors) and not project.called,
+              "failed whole admission cannot invoke additional projection")
+    for label, kwargs in (
+        ("missing immutable proof", {"side_effect": ValueError("missing proof")}),
+        ("altered immutable proof", {"return_value": (before, after + b"\n")}),
+    ):
+        with mock.patch.object(current_source, "verified_blobs", **kwargs):
+            actual, errors = _order350_audited_source_observation(
+                relative, new_hash, after, current_admitted=True)
+            check(actual == new_hash and bool(errors), label)
+
+    check(not _audited_source_snapshot_errors({relative: pin}),
+          "actual audit entry preserves historical pin")
+    changed_claim_errors = _audited_source_snapshot_errors({relative: new_hash})
+    check(any("audited file snapshot mismatch " + relative in error
+              for error in changed_claim_errors), "current claim cannot rewrite historical pin")
+    protected = ROOT / "content/events_ja/arc_year_close.json"
+    read_bytes = Path.read_bytes
+    def altered_read(path: Path) -> bytes:
+        raw = read_bytes(path)
+        return raw + b"\n" if path == protected else raw
+    with mock.patch.object(Path, "read_bytes", altered_read), \
+            mock.patch.object(current_source, "observed_byte_hash") as project:
+        errors = _audited_source_snapshot_errors({relative: pin})
+        check(any("content/events_ja/arc_year_close.json" in error for error in errors)
+              and not project.called,
+              "actual audit rejects unrelated live-locale drift before additional projection")
+    return failures, cases
+
+
 def _audited_source_snapshot_errors(
         source_hashes: dict[str, str]) -> list[str]:
-    errors: list[str] = current_source.current_source_errors()
+    admission_errors = current_source.current_source_errors()
+    errors: list[str] = list(admission_errors)
     meta_title_raw: bytes | None = None
     inventory_registry_raw: bytes | None = None
     if "autoloads/DataRegistry.gd" in source_hashes:
@@ -4691,6 +4791,15 @@ def _audited_source_snapshot_errors(
                     errors.extend(source_errors)
                 except OSError as exc:
                     errors.append(f"ORDER-305: legacy current source unavailable: {exc}")
+            elif relative_path in current_source.HISTORICAL_PATHS \
+                    and relative_path in EXPECTED_AUDITED_SOURCE_FILE_SHA256:
+                try:
+                    observed_digest, source_errors = _order350_audited_source_observation(
+                        relative_path, observed_digest, (ROOT / relative_path).read_bytes(),
+                        current_admitted=not admission_errors)
+                    errors.extend(source_errors)
+                except OSError as exc:
+                    errors.append(f"ORDER-350: legacy current source unavailable: {exc}")
             if relative_path == "autoloads/DataRegistry.gd" and inventory_registry_raw is not None:
                 observed_digest = _order261_registry_observed_hash(
                     observed_digest, relative_path, inventory_registry_raw)
@@ -26502,6 +26611,10 @@ def main() -> int:
             if proof_failures:
                 raise AssertionError("; ".join(proof_failures))
             cases += proof_cases
+            source_failures, source_cases = order350_source_boundary_self_test()
+            if source_failures:
+                raise AssertionError("; ".join(source_failures))
+            cases += source_cases
             print(
                 "CHAPTER1_CAUSAL_LEDGER_SELF_TEST_OK "
                 f"cases={cases} runtime={time.monotonic() - self_test_started:.2f}s "

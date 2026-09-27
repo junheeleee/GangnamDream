@@ -53,7 +53,7 @@
 | 1 | [~] | ORDER-302 · 체험판 대본 사실·영어 정합 수리 | [302](queue_active/ORDER-302.md) | 수리7항목 source GO · successor package 별도 선언/검수 HOLD |
 | 2 | [~] | ORDER-350 · 본편 3장 대본 경로·회수·영어 정합 | [350](queue_active/ORDER-350.md) | 원고86·receipt45·결산32상태 확인 · 독립 HOLD(guard3/358) |
 | 3 | [~] | ORDER-359 · 다음 해 결산 서류 개수 회수 | [359](queue_active/ORDER-359.md) | 원고20·기존12receipt·16상태48페이지 확인 · guard3/358 HOLD |
-| 4 | [~] | ORDER-358 · 3장 수리 현재·역사 검증 연결 | [358](queue_active/ORDER-358.md) | 착수 · 현 원문 admission·역사 view 분리 검증 |
+| 4 | [~] | ORDER-358 · 3장 수리 현재·역사 검증 연결 | [358](queue_active/ORDER-358.md) | 19종 최종PASS/37실행 · 초기·재검사 실패 보존 · 독립 마감 대기 |
 | 5 | [ ] | ORDER-360 · 대본 수리 뒤 콘텐츠 검토 지문 결속 | [360](queue_active/ORDER-360.md) | Claude 실패 전달 · 6축 본문 지문·생성 보고 재검토 대기 |
 | 6 | [ ] | ORDER-351 · 본편 4장 대본 아버지 행방·영어 표기 정합 | [351](queue_active/ORDER-351.md) | 350 뒤 착수 · 미실행 |
 | 7 | [ ] | ORDER-352 · 본편 5장 대본 이름·시간·회수 정합 | [352](queue_active/ORDER-352.md) | 5장 HOLD 수리 닫힌 뒤 착수 · 미실행 |
