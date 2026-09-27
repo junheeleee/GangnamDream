@@ -1,0 +1,159 @@
+{
+  "unit_id": "ORDER-302",
+  "scope": "work_unit",
+  "reviewer": "/root/screen_independent_review",
+  "authority": "user_delegated_agent_final",
+  "independent": true,
+  "reviewed_at": "2026-09-27T16:09:34.726193+09:00",
+  "timezone": "Asia/Seoul",
+  "subject": {
+    "kind": "source",
+    "commit": "ca2670ded596bf111f668c59535c3d3603bddda5",
+    "tree": "12403c916dca2284c138610727be2f4b42702220",
+    "manifest_sha256": null
+  },
+  "verdict": "GO",
+  "required": [],
+  "reviewed_scope": "Declared source-only joint review of ORDER302's seven targeted repairs and their existing compatibility/consumer evidence. This is not final parent closure, a new package verdict or whole-product approval.",
+  "review": {
+    "observed_head": "ca2670ded596bf111f668c59535c3d3603bddda5",
+    "observed_worktree_clean": true,
+    "canonical_subject": "Independent current_agent_source_subject before and after bounded verification returned ca2670ded596bf111f668c59535c3d3603bddda5/tree12403c916dca2284c138610727be2f4b42702220 at16:09:34 KST, before report writes.",
+    "independence": "Reviewer authored no repaired prose, translations, runtime or compatibility implementation. Directly reviewed seven current repairs, public English corpus and selected five-language facts/consumer mapping; authored only independent evidence and this report. No engine, screen, input, export or self-test run."
+  },
+  "repairs": [
+    {
+      "repair": 1,
+      "status": "PASS",
+      "basis": "Public KO baseline names generic night short-term work; EN already says Night-shift income. Selected JA/CN/TW UI values preserve that fact. M01 loading and M03 customer/clerk roles agree; legacy nonpublic guidance is intentionally not rewritten."
+    },
+    {
+      "repair": 2,
+      "status": "PASS",
+      "basis": "All three meet description variants in KO/EN/JA/CN/TW say deposit10 million won and monthly700,000. M01 rent650,000 is unchanged. These are authored text-only changes, not economy mutations; unchanged extra-fee wording is retained where originally present."
+    },
+    {
+      "repair": 3,
+      "status": "PASS",
+      "basis": "M06 KO/EN and three regional UI templates say rainy street rather than bus stop. The second of five history substitutions comes from arc_jiyeon_01_crash, whose source is the rainy Sinchon bicycle accident; five placeholder positions are preserved."
+    },
+    {
+      "repair": 4,
+      "status": "PASS",
+      "basis": "The current English reunion uses their whole service, I'll be in touch, and inward Why now—why me? Source perspective and agency match Korean; selected regional description/result equivalents remain correct. Reunion blank-line repair belongs to310, not retroactive A authorship."
+    },
+    {
+      "repair": 5,
+      "status": "PASS",
+      "basis": "Current M04 meet five narrative leaves align to present-scene narration with measure/coffee/answer. Public11 static76-leaf corpus and dynamic3 strings were read; direct spoken English uses ASCII double quotes while contractions, quoted concept 'why', thought questions and recollected speech tenses are not flattened. This is the declared21-string repair, not global English tense harmonization."
+    },
+    {
+      "repair": 6,
+      "status": "PASS",
+      "basis": "Answer result0 uses {name} in all five languages (EN already did); Korean result1 reads 웃었다. Result2 never needed the cited repair and remains unchanged. Existing fixed Korean particle behavior is not a new name-grammar approval."
+    },
+    {
+      "repair": 7,
+      "status": "PASS",
+      "basis": "Korean clean explicitly says200만원은 들어오지 않았고; JA/CN clearly state nonreceipt and EN/TW retain their already-clear equivalent. The refusal route, two night-shift openings and transfer-limit consequences remain intact."
+    }
+  ],
+  "population": {
+    "public_authored_branch_union": 11,
+    "public_static_english_leaves_reviewed": 76,
+    "controller_dynamic_strings_reviewed": 3,
+    "selected_history_consumers": 5,
+    "history_mapping": [
+      "arc_daeun_01_meet",
+      "arc_jiyeon_01_crash",
+      "arc_sangchul_01_meet",
+      "arc_sangchul_01_answer",
+      "arc_jaehyuk_01_reunion"
+    ],
+    "public_m4_route": "meet → (measure | coffee) → answer",
+    "public_m6_source_choices": [
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "separate_localization_audit": "14 authored nodes/100 leaves/121 UI/1 catalog per JA/CN/TW; not the public11 branch-union population.",
+    "historical_visual_evidence": "314:95 settled PNGs/16 logical KOEN surfaces at eb285b3.315:60 shared-header PNGs at d99 across KOEN/three sizes. Previously individually viewed; no new pictures in this unit.",
+    "new_engine_runs": 0,
+    "new_screens": 0
+  },
+  "verified": [
+    "All six fresh captures are exit0/PASS with empty stderr, exact ca2670d source/tree and1,224 identical before/after inputs. Independently decoded and hashed all12 raw streams and checked the shared1,224 pins against current bytes. EN coverage/Hangul, story-demo localization and316 admission are the four fresh source checks; context/queue are metadata checks.",
+    "Independent verification binds1,906 product blobs exactly to d99f2037, nine repaired text/locale files to a0d4446,631 immutable evidence artifacts,1,435 references and120 historical tracked pins at their original report commits. The read-only bridge also records150 embedded historical raw streams and exact two-header inverses; original reports/failures are preserved.",
+    "Original302-A/B HOLD records provide only their partial repairs;305 and310 establish the other text changes, with304/306/307/308/311/312/316 exact compatibility boundaries. Their old verdicts are not rewritten or automatically inherited. This GO is the independent joint judgment at the newly observed source.",
+    "314's mandatory SAFE-01 is resolved only through its existing follow-up's exact unchanged consumer/body/input bridge and315's observed common-header repair. Historical314 REWORK remains intact.353's current source-grounded canon paragraph resolves the later documentation mismatch without changing dialogue.",
+    "Public M06 selects source choices3–7, excluding the unintroduced Hanbit employment choices. Its five history slots read Daeun/Jiyeon/meet/answer/Jaehyuk in order. Daeun choice1 retains the unknown-clerk substitution; no name knowledge is invented.",
+    "Current43 real-user paths/lengths/hashes equal original314 census, and human/project/old101 decision bytes remain preserved. The315 unisolated parse incident and restored0-byte recovery lock remain in the evidence; uninterrupted whole-session storage preservation is not claimed."
+  ],
+  "findings": [
+    {
+      "id": "ORDER-302-SOURCE-01",
+      "status": "resolved_in_source_scope",
+      "basis": "All seven declared repairs are supported by direct current-source reading and exact historical preservation/consumer evidence; no required source repair remains."
+    },
+    {
+      "id": "ORDER-302-PACKAGE-01",
+      "status": "open_parent_gate_outside_this_source_unit",
+      "basis": "Parent302 must remain open/packageHOLD. Separately declare a successor build, exact package manifest/identity and actual boot/save/return review. Old4e80a63/BUILD2026.08.31.1 builder pins and prior public package GO cannot be overwritten or inherited."
+    }
+  ],
+  "next_step": "The targeted P0 script/source prerequisite for303 is satisfied.303 may proceed only under its own updated clean-source declaration and ownership; this does not discharge302's successor-package obligation.",
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "Fresh runtime, screens or raw input at ca2670d. Historical314 sampled meet0→measure0→answer1 and M06 unknown-clerk0;315's fixture answer0/shared-header route is different, not a same-route replay.",
+    "Coffee-branch rendering, other M04/M06 outcomes, every repaired string/paragraph on screen, regional-language screens, nondefault text size, legacy HUD and compact-mode transition.",
+    "Global English tense consistency, full regional prose/naturalness, every token/name-particle combination or all story/canon quality.76 static leaves are not76 visual observations, and valid public M06 replaces the authored base description.",
+    "OS-delivered/physical input, human reading pace/comfort, audible performance, whole720/24-week/240-week suites, successor package/export/release and full-product approval."
+  ],
+  "authority_boundary": "GO applies only to the declared seven-repair source integration for work_unit ORDER302 at this exact source. Parent final/package, internal product and full game remain HOLD; historical publicGO1/humanOPEN45 remain unchanged. AUTO PASS is contract evidence, not human or public-release authority.",
+  "evidence": {
+    ".git/full-game-localization/order302-source-candidate-independent-evidence.json": "3faa008c8d718bc39a89b57de116736241c21e44d5648956176198c1037aed73",
+    ".git/full-game-localization/order302-source-candidate-bridge.json": "a228a6a8fbb20ea5543cd8f0acefa318e5e22f80c70ba181fcfc233cb711604a",
+    ".git/full-game-localization/order310-check-order302-source-candidate-admission.json": "9f54ceb18de9ea1503ac13bef973666f3e9b918dd8ab6514f31f64bdaeb2386e",
+    ".git/full-game-localization/order310-check-order302-source-candidate-context-manifest-check.json": "24d82fd0712ebb9720de599bb34eabf6d0454f5bc3610c39bb739357264a7523",
+    ".git/full-game-localization/order310-check-order302-source-candidate-en.json": "79345c5b5cea94cc83e5b7b31a3f2f4da3758ab4b6929180af94063e54772747",
+    ".git/full-game-localization/order310-check-order302-source-candidate-hangul.json": "45d8b79fd13871b93e1ab69835dadfc5fc92d9e4835cfd5175ac84a82d4b38a1",
+    ".git/full-game-localization/order310-check-order302-source-candidate-localization.json": "d202abbb3119a0bf357a229c73c0cfa617543a39166aee254fd032875a254bff",
+    ".git/full-game-localization/order310-check-order302-source-candidate-queue-consistency-check.json": "cfad9c9afea18ebec6c782099a2dc9c45778a927fe1c218b3dacb30a587c4503",
+    "docs/agent_reviews/ORDER-302-A.json": "538315b80cb77f6576caaf628b92e2a09b31494cc543b077a77e15ae07045c9c",
+    "docs/agent_reviews/ORDER-302-B.json": "65721aa3fa812f1132fd0dc74a7bfad383b9cba10ef8f993621796efbdc12b3b",
+    "docs/agent_reviews/ORDER-304.json": "0202c23adebbc748d055c9720f400b16c4e786b185da89a4bb1687ba8cd2f76e",
+    "docs/agent_reviews/ORDER-305.json": "fb49f854c60f31bb7390540ecea66b32d98f2230c1fd4787aa299b34ace406c7",
+    "docs/agent_reviews/ORDER-306.json": "c7fc0e89e7ab221b9d69c6fb66647f0e9f77ad2e08d31c5db8191d9a61ae2a85",
+    "docs/agent_reviews/ORDER-307.json": "751d46302553f1cbab1a040abe821132408f625918ac3c9d292fc99ce55b85dd",
+    "docs/agent_reviews/ORDER-308.json": "424cda684c5985a450074bf23752f9a22eab436ea48164e4fe6cc3f126f5a82d",
+    "docs/agent_reviews/ORDER-310.json": "80657e38d8dc0d47ccb46ef4416d0de7efc546c21e6f7ec2dab5080b6fbf9369",
+    "docs/agent_reviews/ORDER-311.json": "4d00e6581812005b977855072c372205cc85208dc7b95110f230ba6dda0e0201",
+    "docs/agent_reviews/ORDER-312.json": "04b021b08318356dc5b034e325862860102c6f92c04e9a903dd89e668ec2c421",
+    "docs/agent_reviews/ORDER-314.json": "3e5294c07f73cbd6f5ea661aeda63bab061f1866aadcace7133979ac156c4403",
+    "docs/agent_reviews/ORDER-314-followup.json": "ba0a7c9dae893519735ddf1cbd2f43c295d0e89a7c7f2be9e9f57286af80fc44",
+    "docs/agent_reviews/ORDER-315.json": "05d1feba9dbf3e776dd066589e5b872941cf710ed2de50f9a29bd0d24b481b88",
+    "docs/agent_reviews/ORDER-316.json": "7083ae080f942e9cb62b9fa809c5465a68a2a3ba4f2b9beb7e132548fc4191dc",
+    "docs/agent_reviews/ORDER-353.json": "8eea01477b9f3cf44b1a5f989cb99fa3992905991747bc6d652ab70faddd9831",
+    "content/events/arc_events.json": "ccd902447b46e10e02128d46ef273e65a30e3df9753b7f257f7fd9accb848f62",
+    "content/events_en/arc_events.json": "1ecd0007956e0c880827d442bceb3d0459b971d46497db3545eca91e2f80d735",
+    "content/events_en/core_loop_v2_events.json": "fc24d9810a65b7cfe824dddc6fe6413820d24fb974442f090f8c0593d9e8c601",
+    "content/events_ja/story_demo_events.json": "3ba992ecafbd5b31d00cb9c3630f4f6a9b37fefb41fbe6aba191d3d77076a10b",
+    "content/events_zh-CN/story_demo_events.json": "b8ff12758d29a02fd07fdad5f8d3931b805afcbe8e18f1d02db5dfa575c0f05e",
+    "content/events_zh-TW/story_demo_events.json": "57929914f0b8c73e8865dd1dde9c45e240fcf0463d327fd32d2225ccf3dc9dca",
+    "locale/ui_ja.json": "9881e43fc34ac67241dc4819068f0dcda8ee714119778d059ddd7088fce75f1d",
+    "locale/ui_zh-CN.json": "efcbfb55b62ad640a744f332fd69d05c65b2cdbf782e0cfb7885920d1013561c",
+    "locale/ui_zh-TW.json": "7f2aaac865ed2e89920ccffaa8a258ca984e1d01f9307bd0012653276796af68",
+    "content/events/arc_daeun.json": "fd08c6df4566a3d8e5b1b40b9181addcfc7296d8f990bb4f54a2e1b419c01773",
+    "content/events_en/arc_daeun.json": "0a8be2becbe5a9c33b0a1ec5aed33dfa83f5c55d9bb3f94a5d5f79fe7cd652e2",
+    "content/events/core_loop_v2_events.json": "30ce137faf06437e131d297efa7ab3fc82806534e77c53bea33af0b01a750b87",
+    "playtests/order124/StoryChoiceM1M6Playtest.gd": "feb2f8a20bd8db91579062b1c7449f28f4d0146674c043d262107f1ea53913c2",
+    "scenes/StoryMode.gd": "114fdd47d09cb4e3b92b26d094981b8e9b1843639f64cb3914bcce000a76bec7",
+    "docs/STORY_BIBLE.md": "dff2de15f9d7f922c03348a6aba659ba81b80cff41e0547b9fbb6bcfd16d606a",
+    "docs/human_gates.json": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6",
+    "project.godot": "78e98d7bdc1349570df6f2cc7ca6cbb11d4fc5451f5bbfdd338561653c7380c5"
+  }
+}

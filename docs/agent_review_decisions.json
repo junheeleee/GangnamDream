@@ -4193,6 +4193,41 @@
         "path": "docs/agent_reviews/ORDER-353.json",
         "sha256": "8eea01477b9f3cf44b1a5f989cb99fa3992905991747bc6d652ab70faddd9831"
       }
+    },
+    {
+      "id": "order-302-source-ca2670d-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-27",
+      "decided_by": "/root/screen_independent_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-302",
+      "subject": {
+        "kind": "source",
+        "commit": "ca2670ded596bf111f668c59535c3d3603bddda5",
+        "tree": "12403c916dca2284c138610727be2f4b42702220",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-302.json",
+          "sha256": "a5b342d3c4311111210300ae4da6dfbd24e78f77698a8773be1de870b8244473"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "Fresh runtime/screens/input at ca2670d; coffee and other outcomes, all repaired paragraphs, regional screens, nondefault size and compact transition.",
+        "Full English tense/regional prose quality, OS-delivered input, audible performance and whole720/24-week/240-week suites.",
+        "Parent302 final/package, successor build/manifest/boot-save-return, internal product, full game and external release remain unapproved."
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-302.json",
+        "sha256": "a5b342d3c4311111210300ae4da6dfbd24e78f77698a8773be1de870b8244473"
+      }
     }
   ]
 }

@@ -135,3 +135,31 @@ fresh resolver로 `docs/agent_reviews/ORDER-302.json`과 private 독립 근거�
 저작/검수 소유를 분리하며 source 검수 도중 제품·원고·번역을 추가 수정하지 않는다.
 새 결함은 범위를 분리한다. 새 엔진·이미지·720경로·검사기 self-test는 변경된 입력이나
 구체적 실패 없이는 반복하지 않는다. 이 단위는 일회성 결속이며 새package는 계속 별도다.
+
+### 2026-09-27 source 통합검수 완료 / 부모 package HOLD
+
+- source `ca2670ded596bf111f668c59535c3d3603bddda5`, tree
+  `12403c916dca2284c138610727be2f4b42702220`의 수리7항목 통합은 비저자 GO다.
+  [독립 보고](../agent_reviews/ORDER-302.json) SHA
+  `a5b342d3c4311111210300ae4da6dfbd24e78f77698a8773be1de870b8244473`.
+  필수 source 수리0. 원고/제품 추가 변경0이며 A/B HOLD·314 REWORK 원본은 유지했다.
+- 공개11장면/EN76leaf·동적3·이력5를 읽었고, 별도 감사 모집단은 지역별14사건/
+  100leaf/121UI/1catalog다. M04 meet→(measure|coffee)→answer와 M06 source choice
+  3~7/무명직원 분기 확인. Hanbit 취업 선택은 공개 M06 projection에서 제외된다.
+- fresh EN coverage/한글누출/story-demo localization/316 admission 및 context/queue
+  6결과 PASS, 각1224입력 불변. private bridge SHA
+  `a228a6a8fbb20ea5543cd8f0acefa318e5e22f80c70ba181fcfc233cb711604a`:
+  제품1906경로=d99, 원고/지역9파일=a0d, 원래15보고/120source핀·631불변증거/
+  150raw stream 결속. 새 엔진·PNG·입력·export0; 기존 화면을 재관측했다고 세지 않는다.
+- 사용자43파일은 원래314 census와 현재 동일하고 기존101 agent판정·인간원장·
+  project 보존. 과거315 복구lock 제거/복원 이력도 그대로이며 전 기간 무변경 주장은 없다.
+- **이 부모는 [~]로 남는다.** 새 successor build/manifest/실제 부팅·저장·복귀의
+  별도 작은 사양과 독립 package 판정이 필요하다. 옛 공개4e80a63/BUILD2026.08.31.1
+  핀·package GO는 덮거나 상속하지 않는다. 본편·내부제품·새package HOLD, 인간OPEN45.
+- 303의 P0 source 선행은 충족되어 다음 착수가 가능하다. 읽기 전용 준비에서
+  대상11키/22값·15callsite 및 runtime6핀은 그대로이고 CN/TW 전체파일 핀만 달라짐을
+  확인했다. 새 선언에서 현재 source로 provenance를 갱신하고 observer/oracle/runner를
+  나눠 사전 검수한다. 기존300의19키/무효과 기대값을 다시 실행하거나 effectful 굴림에
+  복사하지 않는다. 최신 signed-int64 ObjectID 수리와 pre-autoload 격리 선례를 보존한다.
+- 규범 판정: source 결속·표본·소유·실행 지시는 일회성. 기존 WORK_UNIT/I18N/P-9를
+  적용하며 새 정본 승격0. 변하지 않은720·전체 회귀·검사기 self-test를 반복하지 않는다.
