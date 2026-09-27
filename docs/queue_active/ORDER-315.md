@@ -2,10 +2,18 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [ ] ORDER-315 데모·StoryMode 상단 안전 여백 수리
+#### [~] ORDER-315 데모·StoryMode 상단 안전 여백 수리
 
 2026-09-27 등록. ORDER-314의 실제 KO/EN 1280×800 화면에서 발견한 결함이다.
 아직 구현하지 않았다. 착수 시 정확 파일 소유와 `[~]` 선언 커밋을 먼저 만든다.
+
+2026-09-27 착수, 기준 clean main `15fc0fd`. 아래 소유로 선언 후 구현한다.
+제품 두 파일은 `/root/header_layout`, 새 검사/등록은 `/root/screen_path_probe`,
+private315 bootstrap/launcher·실행·문서·판정 원장은 root,
+독립 비저자 검수/보고는 `/root/screen_independent_review`가 소유한다.
+root 문서 범위에 `CLAUDE.md` 현재행과 WORK_LOG 예산 롤링용
+`docs/history/WORK_LOG_2026-09-27_pre_header.md` 원문 보존본을 포함한다.
+검사 helper·등록과 제품 저자를 분리하고 old314 증거·기존97판정은 무수정이다.
 
 ## 깊이 3문과 한 배치
 
