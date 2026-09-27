@@ -128,3 +128,36 @@
 bootstrap에서 fresh32hex RuntimeQA 경로를 먼저 설정·검증한다. 전역 HOME을 재지정하지
 않고 실제 OS 경로와 모든 controller ENTRY를 결속하며 상속 probe 출력경로를 제거한다.
 사용자 두 저장 root 전후 census/hash를 대조한다. 이 실행 보완은 제품 변경이 아니다.
+
+### 배치 B 검증과 다음 시작점
+
+- 후보: `6c4cd0d1302e2d8a7452a2a12a557757898fe8d3`, tree
+  `32831908d9a95a0028a8bcc6248a497f6cc6e287`; 제품 controller3substring·사전6행만.
+- 도달 경로: `STORY_DEMO_FOUR_LANGUAGE_CHECK_OK locales=5 routes=5 months=30 weeks=120 settlements=30 ap_surface=0 save=5 story=10 build=2026.08.31.1`.
+- 생산자↔독자: `StoryChoiceM1M6Playtest.gd:2178`↔`:2183` 공개 안내;
+  `:1220` 선택이력↔`:1126` 템플릿↔`:1129` M06 description.
+- 바꾸는 상태: 직업 오기→야간 단기 일, 버스 정류장→빗길. 게임 상태 변화0.
+  포기 시 잃는 것/장면 계층: 해당 없음(기존 공개 안내·M06 회상 사실 수리).
+  서사 위치: home / M06.recollection. 닫는 것: 수리1/3의 문구·lookup 정합만.
+- 정확 byte 역치환·중복0·토큰5/개행7, EN/Hangul/story-demo·JA UI·ZH skeleton·
+  density 감사 PASS. 전체 inventory는 INCOMPLETE와 기존 invalid를 그대로 보고한다.
+  기존 portable40299핀 현재성 PASS(ja13111/CN13594/TW13594), 새 수용0.
+- 실제 엔진1회/8.66초, exact marker·오류/누수0·controller ENTRY12의 격리경로 일치.
+  사용자43파일·1219실행 source/helper핀 전후 불변. PNG0·물리/인간/원어민 관측0.
+  증거는 private `order302-b-runtime-first/`와 `order302-demo-check-b-*-first.json`.
+- 비저자 [302-B 보고](../agent_reviews/ORDER-302-B.json)는 두 키/지역6값 전수와
+  실제 raw 증거에 한정한다. 전체302/본편은 HOLD, 옛 공개 package GO 미상속.
+  보고 SHA `65721aa3fa812f1132fd0dc74a7bfad383b9cba10ef8f993621796efbdc12b3b`.
+- 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
+  headless PASS는 실제 화면·잘림·정상 속도 독해·패키지 승인이 아니다.
+- 다음은 원룸 월세와 KO 결과문/이름/이중부정(2/6/7), 별도의 EN 시제·인용(5),
+  KO/EN 실제화면·새후보 판정이다. 두 배치를 마쳤으므로 잔여 저작은 후속 작은
+  사양으로 분리 선언한 뒤 구현한다. 기존 두 배치나 엔진 검사를 이유 없이 반복하지 않는다.
+
+읽기 전용 후속 조사(구현 선언 아님): 월세는 meet의 description/orthodox/unorthodox
+3종×5언어=15leaf다. answer 결과0의 KO/JA/CN/TW 고정 이름은 `{name}`으로 맞춰야
+하고 EN은 이미 토큰이다. 결과1의 KO `웃는다`만 과거형 수리, 결과2는 지목한
+결함이 없다. clean description의 이중부정은 KO/JA/CN을 함께 검토하고 EN/TW는
+이미 뜻이 명확하다. 이7 source leaf의 지역21 accepted 슬롯0·overlay 소유중복0.
+EN 월세는304의 exact 파일핀 밖이므로 새 successor 역투영을 별도 선언하고 과거
+핀을 덮어쓰지 않는다. 원고5파일(arc KO/EN + 지역 story_demo3), 기계효과는 불변이다.

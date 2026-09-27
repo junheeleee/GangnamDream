@@ -2,6 +2,15 @@
 
 > 이전 WORK·선언·검증 원문은 [287 보존본](queue_archive/ORDER-287.md)에 있다.
 
+## 2026-09-27 (Codex — 데모 직업 안내·지연 회상 장소)
+
+- 승인302 B: 공개 시작 안내의 편의점 야간 수입을 야간 단기 일로, M06 지연 회상의 버스 정류장을 빗길로 고쳤다. controller3substring과 JA/CN/TW 각2키·2값만 변경. EN 시작 안내는 이미 중립이라 보존했다. 후보 `6c4cd0d`, tree `32831908d9a95a0028a8bcc6248a497f6cc6e287`.
+- 개발 스킬에 따라 한국어 lookup키도 세 사전과 함께 이동하고, 지역 저작/비저자 전수 검수를 분리했다. 전체 파일 역치환·중복0·M06 %s5/개행7 PASS, legacy 안내·게임효과·원고·기존 판정·공개 package 보존. 공식40299핀 현재성 PASS, 새 receipt0.
+- story-demo·EN coverage/Hangul·JA UI·ZH skeleton·density와 보존/현재핀 표적검사 PASS. 전체 inventory의 INCOMPLETE/기존 invalid는 남아 있으며 skeleton PASS를 중국어 전체 완료로 세지 않는다. selector36개 중 두 키에 관련된 검사만 실행했고 다른 UI·전체/240주 검사는 반복하지 않았다.
+- 격리 pre-autoload 엔진1회에서 5언어 각M01~M06·합계30개월/120주/30정산·저장5/StoryMode10 PASS. stdout/stderr/Godot로그 오류·누수0, ENTRY12경로 일치, 실제사용자43파일·실행1219핀 불변. 전역HOME 변경·제품 project.godot 변경0. 원본 `order302-b-runtime-first/` 보존.
+- [독립302-B](agent_reviews/ORDER-302-B.json)는 해당2키/6값·기능계약만 부분GO, 전체302/본편HOLD. PNG0·원어민/인간/물리입력 관측0. 자동게이트는 도달·계약 증거이지 재미·깊이·문체 증거가 아니다. 옛 공개 GO는 새source/package에 상속되지 않는다.
+- 다음 잔여2/6/7·EN문체5는 작은 후속 사양을 먼저 선언한다. 월세 변경은 meet의 세 description 변형을 함께 다루고 EN exact 역사호환 영향도 별도 선언해야 한다. 실제 화면·새패키지 후보 판정은 미완료이며 사용자 재서명을 대기조건으로 두지 않는다.
+
 ## 2026-09-27 (Codex — 재혁 영어 화자·시점과 역사 검사)
 
 - 사용자 승인302 중 재혁의 군복무 서술·“내가 연락할게”·“왜 지금 나한테” EN3곳을 수리했다. 원고3fb9890, 최종 source ae0a302. 독립302-A는3leaf 부분만 통과/전체302 HOLD. JA/CN/TW9leaf는 이미 같은 뜻으로 무수정이다.
