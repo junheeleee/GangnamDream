@@ -28,6 +28,7 @@ from typing import Any, Callable, Iterable, Iterator
 import main_game_locale_history as locale_history
 import order305_demo_source_compat as demo_source
 import order310_demo_source_compat as latest_demo_source
+import order316_header_source_compat as header_source
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -6005,7 +6006,7 @@ def order304_reunion_transition_self_test() -> tuple[list[str], int]:
 
 def order156_project_bytes(current: bytes, relative: str) -> bytes:
     """Expose an older byte only from the complete exact ORDER-156 leaf."""
-    current = latest_demo_source.project_bytes(current, relative)
+    current = header_source.project_bytes(current, relative)
     current = order304_reunion_project_bytes(current, relative)
     current = locale_history.main_game_history_project_bytes(current, relative)
     current = order220_preview_project_bytes(current, relative)
@@ -6043,7 +6044,7 @@ def order156_project_payload(payload: Any, relative: str) -> Any:
 def order156_project_byte_hash(current_hash: str, relative: str) -> str:
     """Map only an exact ORDER-156 successor hash to its predecessor."""
     current_hash = order304_reunion_project_byte_hash(
-        latest_demo_source.project_byte_hash(current_hash, relative), relative)
+        header_source.project_byte_hash(current_hash, relative), relative)
     current_hash = _order243_history_byte_hash(current_hash, relative)
     current_hash = order220_preview_project_byte_hash(current_hash, relative)
     current_hash = order215_modal_project_byte_hash(current_hash, relative)
@@ -8891,6 +8892,9 @@ def validate_order156_registration(errors: list[str]) -> dict[str, int]:
         try:
             baseline_bytes = order156_baseline_bytes(relative)
             current_bytes = (ROOT / relative).read_bytes()
+            if relative in header_source.PATHS:
+                errors.extend(header_source.source_errors(current_bytes, relative))
+                current_bytes = header_source.inverse_316_bytes(current_bytes, relative)
             current_bytes = locale_history.main_game_history_project_bytes(current_bytes, relative)
             current_bytes = order220_preview_project_bytes(current_bytes, relative)
             current_bytes = order215_modal_project_bytes(current_bytes, relative)
@@ -10824,7 +10828,7 @@ def validate_manifest(
     extra_runtime_sources: Iterable[tuple[str, str]] = (),
 ) -> tuple[list[str], dict[str, int]]:
     errors: list[str] = []
-    errors.extend(latest_demo_source.current_source_errors())
+    errors.extend(header_source.current_source_errors())
     try:
         errors.extend(order304_reunion_source_errors(
             latest_demo_source.project_bytes((ROOT / ORDER304_REUNION_PATH).read_bytes(),

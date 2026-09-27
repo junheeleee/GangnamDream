@@ -1,0 +1,217 @@
+# Gangnam Dream Work Log
+
+> 이전 WORK·선언·검증 원문은 [287 보존본](queue_archive/ORDER-287.md)에 있다.
+
+## 2026-09-27 (Codex — KO/EN 실제 화면 검수)
+
+- [314](queue_active/ORDER-314.md): source `eb285b3`에서16표면·최종PNG95·합성키 KO180/EN184 edge를 확인했다. 월세·빗길 회상·무명직원 결과와 각9선택/6정산 일치. 사용자43파일·1223핀 불변, 제품 변경0.
+- 초기 애니메이션 중간 캡처는 보존하고 안정된 화면으로 재관측했다. 독립 검수는 상단2.5% 안전여백 위반으로 REWORK, [315](queue_active/ORDER-315.md) 수리를 다음으로 등록했다. 314/302·본편 HOLD, 옛 공개GO1·인간OPEN45 유지.
+- 개발 스킬의 격리·표적 관측·비저자 판정을 적용했다. 인간·원어민·물리 입력/출시 승인 증거가 아니며 규범은 일회성/기존 정본 적용이다. 상세 증거·미관측은314와 독립 보고에 남긴다.
+
+## 2026-09-27 (Codex — 데모 영어 시제·대사 표기와 정확 후계 검수)
+
+- [310](queue_archive/ORDER-310.md): 상철 M04 첫 만남의 현재 행동5문구·데모 대사인용15·재혁 문단1, EN21문자열/3파일을 정렬했다. 기존 P-9 현재형 정본을 적용했고 지난 과거형8 제안은 철회했다. 선택/경제/토큰/다른 언어·과거 기록은 보존한다.
+- 제품4de3bbb, 실행731c60a, 최종 source `a0d4446f1290c22d6ef53b23e94e340439a5bf52` / tree `a4be8663f369da0048bc3031cab8070bcfdb1c86`. 비저자310/311/312 각 작업 한정 판정이며 전체302·본편·새package는 HOLD다.
+- 정적 모집단은11장면 분기합집합의76leaf+controller대체3, 수정21 전수 검수. 5언어 전용 엔진1회8.4006초·30개월/120주/30정산·저장5·StoryMode10 PASS, ENTRY12·3로그 오류/누수0. 사용자43파일·1221핀 불변. EN 무명직원 결과 소비/선택 확인, PNG/실제입력0.
+- [311](queue_archive/ORDER-311.md): 새helper106/역사132, year5정상+self720, graph97, body53, volume14, legacy경계6·등록156 PASS. EN graphhash1필드만 갱신, 부채30/outlier12·runtimePENDING 유지. 옛305핀을 덮지 않는다.
+- [312](queue_archive/ORDER-312.md): 기존308검사 후계를 구버전으로 오인한 chapter5 FAIL1은 보존하고 exact Git증명으로 수리했다. 최종normal/self146(127+19) PASS. bridge로 이전18캡처 중16성공과 엔진의 입력동일성을 최종에 결속, 재실행0. oldchapter5 normalFAIL/self127은 최종 결과로 대체하되 원형을 남긴다.
+- 원격108c41b/PR26의 본편R2계획은 로컬310과 번호가 겹쳐 [313](queue_active/ORDER-313.md)으로 원문 보존 병합했다. 수리7·판단5 및309의 현재형 정정 보존, 원격 제품/검사 변경0.
+- 공식40299/b136/meta9·private153·보류72·공개옛GO1·인간OPEN45 불변. 기존93판정은 byte prefix 보존, 새3작업만 별도 결속한다. 스킬의 원문·사용자 상태 보존과 표적 검수/독립 판정을 적용했다. 규범 일회성/기존정본 적용, 자동PASS는 재미·원어민·인간·물리·출시 승인 증거가 아니다.
+- 다음은302 잔여 KO/EN 실제화면·입력과 새후보 검수, 그 뒤303→309→313이다. 다른 장면의 전역 영어 시제와 실제 화면 관측은 완료로 부르지 않는다.
+- 마감 `order310-check-closure-*-first` 6종 PASS: context·queue79/진행74·queue-self25·humanOPEN45/DONE1·agent-self222·보존. 기존93판정 byte prefix/153private/10보호파일 불변과 새3작업의 보고·사양SHA를 확인했다. 생성STATUS는 이 기록 커밋 뒤 갱신한다.
+
+## 2026-09-27 (Claude — 본편 대본 판독 R2: 2장 M13~M24)
+
+- R2 판독 완료. story_map M13~M24 root 15장면 KO/EN을 `STORY_BIBLE` 인물 정본과 `DECISIONS` 2026-08-04 문체 규칙에 대조했다. 파일 수정 없이 [313](queue_active/ORDER-313.md)로 발행.
+- 수리 7: 아버지 약 장면 EN 한 장면 안 시제 전환과 “그걸 알면 되나” 오역, 상철 인맥 장면의 “다음 날”(M13→M14 한 달 차), 명함/greet 선택 문구 불일치, 다은 갈림길 EN의 원문에 없는 bus, 서울–창원 “두 시간”, 병실 선택 EN tonight.
+- 판단 5: 입원→병실 방문 사이 3주 지연의 산문 부재, 상철 해요체/하게체/반말 혼재, M21이 M18 감각 반복, 선택 문구 명령형/과거형 혼재, EN 과거형 장면 전역 정리.
+- **정정:** R1 오더(309) 3번이 재혁 포장마차 EN을 과거형으로 바꾸라고 했으나 영어 기본 시제는 현재형이 정본이다. 3번을 시제 유지로 고쳤고, 장면 단위 EN 시제는 R 배치 뒤 전역 정리로 계획에 적었다.
+- 결함 아님: 거울의 “민준 씨”(시작 메뉴가 이름 고정), “지난 여섯 해”, “34세의 마지막 밤”.
+
+## 2026-09-27 (Codex — 원격 R1 계획 병합·번호 충돌 정리)
+
+- 첫 push는 원격 선행 `4f7bdff`로 거부됐다. 원격 `0fe2119`/PR25의 변경은 문서6개이며 게임/검사 수정0이다. 두 계보를 merge로 보존한다.
+- 원격 미착수 본편R1의305는 이미 완료한 로컬 데모305와 번호가 겹쳐 [309](queue_active/ORDER-309.md)로 이동한다. 헤더/번호/참조 외 수리3·판단1 본문을 보존하고302→303→309의 원격 우선순위를 유지한다. 완료305~308의 보고/93판정은 무수정이다.
+- merge에 포함된 backlog는 source resolver의 metadata 예외가 아니므로 새source다. 이전59d4f790의 한정GO를 재발급하지 않는다. 제품/검사 동일성만 별도 대조하며 전체302·본편·새package HOLD를 유지한다. 제품·엔진 검사는 반복하지 않는다.
+
+## 2026-09-27 (Codex — 데모 월세·선택 이름·거절 결과)
+
+- [305](queue_archive/ORDER-305.md): 원룸 조건을 다섯 언어에서 월70만원으로 맞췄다. KO/JA/CN/TW 고정이름4개를 플레이어 이름으로, KO시제1·KO/JA/CN 거절표현3개를 바로잡았다. 원고23leaf/5파일이며 실제경제·선택효과·그 외 바이트는 그대로다.
+- 원고 `031f5e5`, 호환 포함 실제실행 `354c270`, 최종 source `59d4f790ecfd84f023c5796039264e4bfe72cdcf` / tree `0d6807438c512e5b3873c0a310d24e211612f0c1`. 독립 비저자305/306/307/308 각 작업한정 GO, 전체302·본편·새package는 HOLD다.
+- [306](queue_archive/ORDER-306.md)·[307](queue_archive/ORDER-307.md): 과거 검사핀을 덮지 않고 정확5파일/23leaf 후계만 역투영했다. helper132, year5 normal/self702, chapter5 normal/self127, full-body normal/self53, graph66, volume normal/self14, legacy 새경계6 PASS. legacy전체/24주/240주 엔진을 돌린 것이 아니다.
+- volume 실제24필드(관측22/graphhash2)만 갱신: KO총글자+2, 거절문 글자수 delta0. 부채30/outlier12·runtime PENDING·human OPEN 유지. 공식accepted40299/b136/meta9·보류72·UI사전·인간OPEN45/DONE1·옛공개원형 불변, 새receipt0.
+- [308](queue_archive/ORDER-308.md): 최초 지역검사에서 KO `월 칠십,`을7만원으로 오독한 CN/TW2FAIL을 보존했다. 정확 orthodox key/문구만 검사입력70만원으로 정규화, 원고·공유parser 무수정. 최종 지역14사건/100leaf/121UI 및55self PASS, 잘못된 월세·보증금·통화·토큰은 계속 거부한다.
+- 격리 pre-autoload 엔진1회/8.311초: 5언어 M01~M06 합계30개월/120주/30정산·저장5·StoryMode10 PASS. exact marker·3로그 오류/누수0·ENTRY12 격리경로 일치, 사용자43파일·실행1220핀 불변. HOME/project.godot 무변경, PNG/실제입력 관측0.
+- 이전후보의17정적PASS/지역FAIL1과 실제엔진 증거는 최종까지 제품·관련검사 입력 불변을 `308-bridge-first`로 결속했다. 다른 것은308검사기와 선언metadata뿐이며 느린702self/엔진을 불필요하게 반복하지 않았다. 최종 원고보존/지역정상·self/bridge4capture PASS.
+- 초기 helper Python3.9 alias 개발FAIL과 selector `--list` 누락의부분정적실행/INT130도 보존했다. 후자는 공식PASS로 재사용하지 않았고 Godot미발견으로 엔진0. 옛공개inventory drift는 새package승인으로 덮지 않았다. 큐 공통검증에 목록전용 호출을 명시했다.
+- 강남드림 개발 스킬의 원문·게임효과 보존, 분리된 지역 저작/독립검수, 실패기록 보존·표적검증을 적용했다. 규범은 일회성/기존 정본 적용이며 자동PASS는 재미·문체·원어민·인간·물리패드 승인 증거가 아니다.
+- 다음은302의 EN 시제·인용 후속 선언과 실제화면·새후보다. 읽기전용 census에서 공개11장면은 분기합집합(정적76leaf+controller대체3)이며 M04는3장면경로, 감사14node와 다름을 확인했다. 영어 문체는 미수정이고 재서명을 대기조건으로 두지 않는다.
+- 마감 context·queue·queue-self25·human·agent-self222 5종 PASS(`305-closure-*-first`). 활성77/진행74·인간OPEN45/DONE1 유지. 이전89판정 byte prefix 보존, 새4작업 한정93행과 독립보고/보관사양 SHA 일치. STATUS는 이 문서 묶음 커밋 뒤 clean 후보에서 생성한다.
+
+## 2026-09-27 (Claude — 본편 대본 판독 R1: 1장 후반 M07~M12)
+
+- 본편 대본 정합 계획 배치 R1 판독 완료. story_map M07~M12 root 6장면과 M05 재혁 선행 장면 KO/EN, `MainGame.gd` 재혁 스케줄을 읽었다. 파일 수정 없이 305로 발행(동시 번호 충돌 정리 뒤 현재 [309](queue_active/ORDER-309.md)).
+- 수리 3: 현수 결과(pass/fail)가 같은 고시원 옆방인데 "현수의 고시원으로 갔다"로 다른 건물처럼 읽힘, 고시원 작별 C3 EN 직역, 재혁 포장마차 EN만 현재형.
+- 판단 1: story_map M11 root `arc_jaehyuk_01_reunion`은 첫 연락 원문인데 M05 두 번째 만남 뒤에 배치돼 있다. 런타임은 두 이벤트가 같은 `arc_jaehyuk_reunion_seen`을 쓰고 `t>=19`에 한 번만 띄우므로 현재 화면의 이중 소개는 없다. M11 EXPAND 착수 전 원문 재작성 또는 beat 병합을 판정해야 한다.
+- 큐 3번에 삽입하고 뒤 행을 +1 재번호. queue_consistency·context_manifest PASS.
+
+## 2026-09-27 (Codex — 데모 직업 안내·지연 회상 장소)
+
+- 승인302 B: 공개 시작 안내의 편의점 야간 수입을 야간 단기 일로, M06 지연 회상의 버스 정류장을 빗길로 고쳤다. controller3substring과 JA/CN/TW 각2키·2값만 변경. EN 시작 안내는 이미 중립이라 보존했다. 후보 `6c4cd0d`, tree `32831908d9a95a0028a8bcc6248a497f6cc6e287`.
+- 개발 스킬에 따라 한국어 lookup키도 세 사전과 함께 이동하고, 지역 저작/비저자 전수 검수를 분리했다. 전체 파일 역치환·중복0·M06 %s5/개행7 PASS, legacy 안내·게임효과·원고·기존 판정·공개 package 보존. 공식40299핀 현재성 PASS, 새 receipt0.
+- story-demo·EN coverage/Hangul·JA UI·ZH skeleton·density와 보존/현재핀 표적검사 PASS. 전체 inventory의 INCOMPLETE/기존 invalid는 남아 있으며 skeleton PASS를 중국어 전체 완료로 세지 않는다. selector36개 중 두 키에 관련된 검사만 실행했고 다른 UI·전체/240주 검사는 반복하지 않았다.
+- 격리 pre-autoload 엔진1회에서 5언어 각M01~M06·합계30개월/120주/30정산·저장5/StoryMode10 PASS. stdout/stderr/Godot로그 오류·누수0, ENTRY12경로 일치, 실제사용자43파일·실행1219핀 불변. 전역HOME 변경·제품 project.godot 변경0. 원본 `order302-b-runtime-first/` 보존.
+- [독립302-B](agent_reviews/ORDER-302-B.json)는 해당2키/6값·기능계약만 부분GO, 전체302/본편HOLD. PNG0·원어민/인간/물리입력 관측0. 자동게이트는 도달·계약 증거이지 재미·깊이·문체 증거가 아니다. 옛 공개 GO는 새source/package에 상속되지 않는다.
+- 다음 잔여2/6/7·EN문체5는 작은 후속 사양을 먼저 선언한다. 월세 변경은 meet의 세 description 변형을 함께 다루고 EN exact 역사호환 영향도 별도 선언해야 한다. 실제 화면·새패키지 후보 판정은 미완료이며 사용자 재서명을 대기조건으로 두지 않는다.
+- 마감 context·queue·human·보존 검사 PASS(큐77/진행74·인간OPEN45/DONE1). 보고 exact복사/32증거SHA·clean metadata wrapper의 원후보6c4cd0d 결속 확인. 첫 dashboard 검사만 STALE: 미커밋 문서 상태에서 생성한 후보 표시가 clean wrapper와 달랐다. 실패 원문을 보존하고 문서 커밋 뒤 STATUS만 재생성해 검증한다. 제품/엔진 재실행 사유는 아니다.
+
+## 2026-09-27 (Codex — 재혁 영어 화자·시점과 역사 검사)
+
+- 사용자 승인302 중 재혁의 군복무 서술·“내가 연락할게”·“왜 지금 나한테” EN3곳을 수리했다. 원고3fb9890, 최종 source ae0a302. 독립302-A는3leaf 부분만 통과/전체302 HOLD. JA/CN/TW9leaf는 이미 같은 뜻으로 무수정이다.
+- [304](queue_archive/ORDER-304.md)는 정확한 새 파일/객체/3leaf만 역사 검사의 이전 값으로 대조한다. raw 현재 source와 과거registry를 유지했다. volume은 실제 graph hash1개만 갱신, 저장 관측/기존부채30·outlier12·본편HOLD 그대로다.
+- 언어3종·year5 normal/self552(신규39)·volume normal/self14·역치환/토큰/개행/원형 보존 PASS. 중복된 짧은 대사와155 직접 file census 문제의 중간 실패 원문도 보존했다. 비저자 source ae0a302 작업304 한정 GO, 기존88판정은 보존한다.
+- 전체3leaf외 원고/게임효과/세언어/공개package/인간 ledger 변경0. 새엔진·화면·입력0이며 자동검사는 원어민·인간·물리패드 관찰이 아니다. 공개GO1은 옛 exact package만; 공식40299/b136/meta9·인간OPEN45·본편HOLD 불변.
+- 다음302는 공개 시작 안내 직업과 M06 회상 장소의 controller1+사전3파일/KO2키·지역6값을 선언한 뒤 수리한다. EN 시작안내는 이미 직업 중립이고 legacy 안내는 별도 범위다. 나머지 월세·시제·인용·KO표기·5locale runtime·실제화면은 미완료. 기존 EN문단 개행차는 형식 검수에 남겼다.
+- 프로젝트 개발 스킬의 작은 범위 선언·역사 보존·독립 전수·표적 검증을 적용했다. 규범은 일회성/기존 정본 적용이며 외부 출시·스토어 변경은 하지 않았다.
+- 마감 context·queue·queue-self25·human ledger·agent-self222·dashboard6종 PASS(`order302-demo-check-closure-*-first`); 별도 closure 보존 검사도 이전88판정 raw bytes·보고2개 정확복사·새304만 GO/302전체·본편HOLD를 확인했다. 큐77/진행74, 인간OPEN45/DONE1 유지. selector는 파일단위48개 목록만 확인했으며 M01~M06의3substring에 영향 없는 엔진·전체/240주 차선은 실행하지 않았다. 완료304 사양은 원문을 보존해 archive로 이동했다.
+
+## 2026-09-26 (Claude — 체험판 대본 판독·본편 판독 계획)
+
+- 사용자 지시로 공개 데모 M01~M06 실제 노출 11장면(KO/EN)과 셸 문구를 플레이 순서대로 읽었다. 사실 충돌 3(직업·월세·6월 요약 장소), 영어 오역·시점 1장면, 시제·인용부호·이름 표기 혼용, 1택 연속·설명 없는 직장 선택지를 찾았다.
+- `ORDER-302`로 발행해 큐 맨 앞에 두었다(기존 순서 +1). 텍스트만 고치며, 새 데모 후보는 GO를 물려받지 않는다.
+- 본편 전체 판독 계획을 `queue_backlog/FULL_GAME_SCRIPT_REVIEW.md`에 두었다: 판독 기준 A~H, 배치 R1~R8(1~4장 순차, 5장은 HOLD 수리와 조율, 엔딩·셸·랜덤 표본).
+
+## 2026-09-27 (Codex — 다이사이 현금·결과·허브 중국어)
+
+- [301](queue_archive/ORDER-301.md): 현금·전적·손익·굴림·승패·다음 선택·로그·제목·카지노 복귀11키를 간체/번체22값으로 추가했다. 순이익/이미 붙은 부호/HUD7인수/실제 복귀 의미를 보존했고 비저자22값·15literal 전수 작업 한정 GO, source `9911c36`.
+- 공식40299/b136/meta9(신규22), 사전 각1065. 기존40277핀/135batch·1054값/지역·JA·원문·게임코드·공개·인간 원형 보존. 공식 사전/적용후 교환·수용, 고정 named12, 역치환 바이트/현재 기존핀 검사 PASS.
+- 새 엔진·화면·입력0. 다음은 이번 새11키의 실제 표시·합성 입력을 별도 선언한다. 완료된300의10PNG/32raw·금융26화면/188raw·전체감사는 반복하지 않았다. 직접영어와 아직 번역되지 않은 부모는 별도다.
+- 보류72·공개GO1·인간OPEN45·본편HOLD 유지. native/rendered receipt OPEN, 실제 렌더·원어민·인간·물리패드·정상진입·정산·다른해상도·패키지 승인이 아니다. 스킬의 KO 직접 저작·지역 용어 일치·독립 전수 대조·표적 검증을 적용했다. 규범은 일회성/기존 정본 적용이다.
+- 마감 context·queue·queue-self·human-ledger·agent-ledger-self·dashboard6종 PASS(`order301-check-closure-*-first`). 큐75/진행73, 인간OPEN45/DONE1·회귀222 유지. 새88행의 이전87판정 바이트·최초선언·독립보고 정확복사·현재소스 한정GO/본편HOLD·보호2799파일 보존도 별도 PASS다.
+
+## 2026-09-27 (Codex — 다이사이 새 중국어 실제 화면·선택 입력)
+
+- [300](queue_archive/ORDER-300.md): 299의19키/38값을 간체·번체 각5상태, 총10원본PNG·합성키32raw에서 확인했다. single/pair/total과 기본복원·칩금액 표시를 구분하며 새 잘림/글리프/문장 결함0. root와 비저자가 전10장을 직접 읽어 작업 한정 GO, 최종 source `b669fc7`.
+- 실제 엔진은 동일 제품 `1ac6715`에서2회만 실행했다. 28번역버튼/37bet style/55visible-control×10화면, 독립 완전문장·geometry·typed상태·각press/release/teardown 검증. 실제 사용자43파일·cash/AP/저장/RNG 보존, 금융정산/새roll0.
+- CN 최초 runnerFAIL은 정상 음수 ObjectID를 거부한 검사기 한 조건 때문이었다. 원본 전부 보존 후 비영 signed64로 고쳐 같은 기록 전수 재검증PASS, CN 재실행0. TW 최초PASS. 22×2 메모리 음성검사를 실제 입력으로 세지 않는다.
+- 제품·번역 추가0·공식40277/b135/meta9·보류72·공개GO1·인간OPEN45·본편HOLD 유지. portable rendered/native OPEN도 그대로다. 정상진입/정산/전체영어chrome/다른해상도/원어민/인간/물리패드 승인이 아니다. 기존 금융26화면·188raw·named12·전체감사는 반복하지 않았다.
+- 스킬의 실제 UI 소비자·원본 화면 확인과 저작/독립 검수 분리를 적용했다. 검사기 실패를 제품 결함이나 최초PASS로 바꾸지 않았다. 규범은 일회성/기존 정본 적용이다.
+- 마감 context·queue·queue-self·human-ledger·agent-ledger-self·dashboard6종 PASS(`order300-check-closure-*-first`). 큐75/진행73·인간OPEN45/DONE1·회귀222 유지. 새87행의 이전86판정 바이트·최초선언·보고 정확복사와 보호2800파일 원형 보존 PASS(`order300-check-preserve-first`).
+
+## 2026-09-27 (Codex — 다이사이 선택·안내 중국어)
+
+- [299](queue_archive/ORDER-299.md): 다이사이 선택·안내19키를 간체/번체에서 한국어로부터 독립 번역했다. 모드·특정 눈/합계·배당·기본 베팅 복귀·선택 후 다시 눌러 굴리기를 구별한다. 비저자38값/19literal 전수 작업 한정 GO, source `9612593`.
+- 공식40277/b135/meta9(신규38), 사전각1054키. 기존40239핀/134batch·1035값/지역·JA·원문·게임코드·공개·인간 원형 보존. 양 지역 공식 교환·수용, fixed named12, 역치환 바이트/기존핀 검증 PASS.
+- 새 엔진/화면/입력0. 다음은19키의 실제 표시·합성 입력을 별도 선언한다. history label은 저장만 되고 현재표시가 아니며 직접영어·남은부모·정산은 별도다. 기존 금융26화면·188raw·전체감사는 반복하지 않았다.
+- 공개GO1·인간OPEN45·본편HOLD·보류72 유지. 원어민·인간·물리패드·정상진입·다른해상도·패키지 GO가 아니다. 스킬의 지역별 KO 직접저작·독립 전수검수·표적검증 원칙을 적용했다. 규범은 일회성/기존 정본 적용이다.
+- 마감 context·queue·queue-self·human-ledger·agent-ledger-self·dashboard 6종 PASS(`order299-closure-*`). 큐75/진행73, 원장86행의 이전85판정·최초선언·독립보고 정확 복사 보존. 인간open45/done1 불변, 작업 한정GO와 본편HOLD를 구분했다. 보호2795파일도 마감 후 불변이다.
+
+## 2026-09-27 (Codex — 중국어 선택 표시·다이사이 하단 잘림 수리)
+
+- [297](queue_archive/ORDER-297.md)·[298](queue_archive/ORDER-298.md): CN/TW 선택 표시8PNG·합성 keyboard40행 검수 중 하단 행동 버튼7px 잘림을 발견했다. 별도 선언 후 여백3상수만 고쳐 버튼 하단807→761, 패널833→787로 복구했다. 글자·버튼·아이콘 크기와 게임 규칙은 유지했다.
+- 실제 수리 후보 `77d6db6`에서 같은8PNG/40raw 전체 PASS·exit0·engine오류0. 비저자 전수 작업 한정 GO, 최종 source `9222f37`는 CLAUDE 상태 한 행만 다른 후보임을 명시적으로 결속했다. 원본 두 지역 FAIL8PNG/40raw를 보존했고 실제 실행 총4회/16PNG/80raw다.
+- 12visible키/16reader와 단일 숫자 helper0 비시각 return2건을 구분했다. 독립 전체 부모문장·지역서체·글리프·줄바꿈/ratio·484 visible-control 관측/canvas8·typed 상태/전역/RNG 불변을 검사했다. 원본 사용자43파일 전4실행 보존. in-memory 음성검사10종×2지역 거부는 실제 추가 입력으로 세지 않는다.
+- 제품변경은 DaiSai 여백3상수뿐이고 역치환 전체 바이트 보존 확인. core-static/surface-coherence2종 PASS. 큐 최초0행 선언 오류는 구현 전 순번 정정 커밋084bd68로 수정했으며 queue PASS 뒤 엔진 실행했다. 기존 금융26화면·188raw·번역named12·전체감사는 반복하지 않았다.
+- 새 번역0·공식40239/b134/meta9·보류72·공개GO1·인간OPEN45·본편HOLD 유지. 남은 다이사이 영어 선택·안내 UI를 다음 새 번역 범위로 삼으며 정상진입·무작위play·정산·다른해상도·원어민·인간·물리패드 GO는 아니다. 규범은 일회성/기존 정본 적용이다.
+- 첫 마감은5종PASS/context만 CLAUDE18041>18000bytes로 실패했다. 같은 상태행을17948bytes로 줄여context를 복구했고 실패/시도metadata/최초 독립보고는private에 보존했다. 후속 보고는 새 후보에 별도 결속한다. 다음19키 후보는 private `order298-next-daisai-scope.json`; 저작 전 전체 저장소 공유 reader를 재확인한다.
+- 후속 마감 `order298-closure-second`에서 context·queue·queue-self·human-ledger·agent-ledger-self·dashboard 6종 모두PASS. 활성75/진행73, queue fixture25·agent case222, 인간OPEN45/DONE1 유지. 별도 closure 보존 검사로 이전83판정 바이트·두 최초선언·독립보고 정확 복사와 새85행 결속을 확인했고, 제품 외 보호2793파일·사용자 project도 보존했다.
+
+## 2026-09-27 (Codex — 룰렛 선택 유형·공유 홀짝 중국어)
+
+- [296](queue_archive/ORDER-296.md): 룰렛 선택 유형13키를 CN/TW26값으로 직접 번역했다. 번호 하나·홀짝·색·구간·묶음과 배당을 읽을 수 있도록 사전에 연결했으며 비저자 전수 한정 GO, source `0328647`.
+- 공식40239/b134/meta9(신규26), 사전 각1035키. 기존40213핀·1022값/지역·JA·원문·runtime·공개·인간 원형 보존. 양 지역 사전/적용후 교환 및 named12 PASS.
+- 17 literal reader 중 단일 숫자 helper의0 branch는 현재 정상 호출 없음으로 분리했다. 공유 홀짝은 DaiSai 합계에도 맞추되 각 게임의0/트리플 제외 규칙을 라벨에 넣지 않았다. 실제 화면·입력·원어민·물리패드는 이번에 관측하지 않았으며 다음 별도 검수다.
+- 신규 장면·금융/입력/확률 변경0. 공개GO1·인간OPEN45·본편HOLD·보류72 유지. 금융26화면·188raw·전체감사는 반복하지 않았다.
+- 마감 표적6종 PASS(`order296-closure-first`): context·queue75/진행73·queue-self25·human open45/done1·agent-ledger-self222·dashboard. 기존82판정·최초 선언·독립보고 원형도 보존했다.
+
+## 2026-09-27 (Codex — 카지노 금융 중국어 실제 표시)
+
+- [295](queue_archive/ORDER-295.md): CN/TW 금융18키·36값을 실제26화면과 수수료 지급로그2건에서 확인했다. 미납·순이익·원금포함총수령·준비금액을 구분했고 비저자 전수 한정 GO, source `987b64d`.
+- 수용된 두 실행의 합성 raw키8이벤트와 준비된 실제 finish callback4건에서 승리 현금995→1175만원/net+175만원, 패배 net−5만원, 종료수수료5000원 출금·로그1/지역을 확인했다. 1.8초 피드백 종료 후2.2초 전 RESULT 화면도 원금포함180만원과 갱신잔액을 읽을 수 있다. helper 결함의 선행 CN실패2회도 원본 보존했다(실제 실행 총4회).
+- 원본 사용자43파일·제품입력 SHA 보존. 화면별 전체 typed 상태를 비교하고 실제작동의 지정된 cash/meta/로그/경향 변화만 허용했다. 정상진입/무작위spin/물리패드/원어민/인간·다른해상도·전체판 승인은 아니다. 공식40213/b133/meta9·보류72·공개GO1·인간OPEN45·본편HOLD 유지.
+- 제품·번역 수정0. 이전188 raw/named12/전체감사는 반복하지 않았다. 다음은 미번역 룰렛 선택버튼과 Odd/Even의 공유 소비자를 새 범위로 선언한다. raw 바카라 결과로그와 직접영어는 별도다.
+- 마감 표적6종(context·queue·queue-self·human-ledger·agent-ledger-self·dashboard) PASS. 큐75/진행73, 원장 회귀222경우, 인간open45/done1 불변. 원본81판정·최초선언·독립보고 바이트 보존도 확인했다. 실행 기록은 private `order295-closure-first`에 보존했다.
+
+## 2026-09-27 (Codex — 카지노 현금·배당·수수료 중국어)
+
+- [294](queue_archive/ORDER-294.md): 바카라/룰렛 금융·상태18키를 CN/TW36값으로 직접 번역했다. 잔액 공유 JeongseonCasino까지19 reader·36값 비저자 전수 GO, source `3b105cb`. 순이익/총수령과 미납/지급 수수료를 구분한다.
+- 공식40213/b133/meta9(신규36), 사전 각1022. 기존40177핀·1004값/지역·JA·원문·runtime·공개·인간 원형 보존. 사전/적용후 교환 및 named12 PASS. 현금·정산·입력 코드 변경0.
+- 실제 화면·새 상태/금액 조합은 다음 별도 검수다. private `order294-next-render-scope.json`의26화면·지급로그2건은 미실행 계획이다. 앞선30화면은 이번 새 문자열을 인증하지 않는다. 원어민/물리패드·남은 UI·보류72·공개GO1·인간OPEN45·본편HOLD 유지.
+
+## 2026-09-27 (Codex — 중국어 카지노 조작 확인·룰렛 잔액 잘림 수리)
+
+- [292](queue_archive/ORDER-292.md)·[293](queue_archive/ORDER-293.md): 바카라/룰렛 CN·TW 안내44값을 실제1280×800 30화면과 합성 raw입력188회로 확인했다. 비저자 각각 한정 GO, source `f288200`. 새 번역 수용은 없다.
+- 첫 두 지역에서 정착 패드 화면의 잔액8px 잘림을 발견했다. 별도 선언 후 세로간격6→4 한 줄로 수리했고, 엄격한 원래 모집단을 재검수해 후속30화면 PASS·exit0·오류0. 잔액 하단798→776, scroller 끝790 안에 가시. 첫 실패 원본 보존.
+- 0↔36 선택, trigger단일 edge·금액, 베팅교체·clear→exit, 준비금 합계166만원과 실제 label/RichText/canvas를 검수했다. 원래 사용자43파일과 cash/AP/저장/메타/로컬회계/RNG는 전4실행에서 보존. 관찰은 컴포넌트 준비·합성 입력이며 정산/진입/물리 패드/원어민/인간/전체판 GO가 아니다.
+- 공식40177/b132/meta9·보류72·공개GO1·인간OPEN45·본편HOLD 유지. 다음은 카지노 금융/상태 부모18키 후보의 별도 선언·CN/TW 저작과 독립 검수다.
+- 마감 context/queue/queue-self/원장/생성현황5종 PASS(`order293-closure-first`). 검사 선택기를 잘못 실행한 부분 정적검사는 중단(exit130)·한계 기록을 남겼으며 26종 전체 PASS로 쓰지 않는다. 이후 `--list` 선택만 수행했다.
+
+## 2026-09-27 (Codex — 카지노 베팅 준비·룰렛 안내 중국어)
+
+- [291](queue_archive/ORDER-291.md): 바카라 준비금액과 룰렛 모드·선택·취소 안내22키를 CN/TW에서 읽을 수 있게 했다.44값 독립 KO 직접 저작·비저자 전수 대조, 실제33 literal reader 확인. source `fefabfa`, 작업 한정 GO.
+- 공식40177/b132/meta9(신규44), 사전 각1004키. 기존40133와 UI982값/지역·JA·원문·공개·인간 원형 보존. 사전/적용후 교환 검사·수용 및 기존 named12 PASS. 입력·현금·정산 코드 변경0.
+- 실제 화면/입력은 다음 별도 배치다. Odd/Even 공유 소비자·직접영어·금융/결과 부모·원어민/물리패드·전체판은 미완료. 보류72·공개GO1·인간OPEN45·본편HOLD 유지.
+
+## 2026-09-27 (Codex — 블랙잭 중국어 현금·손익·승률)
+
+- [290](queue_archive/ORDER-290.md): 상단 HUD2키를 두 중국어로 직접 번역했다. 승/패/무승부 기록을 중국어로 읽을 수 있으며 빈통계·양수·음수·0손익 8실화면에서 문자열/1280×800 경계/시각 검수 통과. source `ab376c5`, 비저자 한정 GO.
+- 공식40133/b131/meta9(신규4), 기존40129·사전·JA·원문·공개·인간 원형 보존. 최초 영문 W 거부2건은 같은4값을 중국어로 재작성해 수리했고 첫 실패를 보존했다. 기존 명명12 PASS.
+- 준비된 표시 상태이며 새 딜/정산/입력 검사0. 원본 사용자43파일 불변. 원어민·인간·물리패드·다른 해상도·패키지·전체판 GO가 아니다. 보류72·공개GO1·인간OPEN45·본편HOLD 유지.
+
+## 2026-09-26 (Codex — 바카라 수수료·타이 원금 정산 수리)
+
+- [289](queue_archive/ORDER-289.md): 뱅커 수수료 중복 차감·타이 당첨 원금 누락·재종료 출금을 고쳤다. 기존 수익 배율과 나갈 때 수수료 정산 안내는 그대로다. source `2050eff`, 비저자 작업 한정 GO/필수0.
+- 실제 Table 베팅·카드 공개·정산·종료를 동일18사례×KO/EN=36에서 전후 비교했다(38라운드·450단계). 전22PASS/14FAIL·144assert, 후36PASS·exit0·engine 오류0. 14FAIL에는 후속 현금 오차가 포함되며 독립 결함14건이 아니다. 입력14 중 Table만 달랐고 실제 사용자 파일43개는 두 실행 전체에서 불변이다.
+- 뱅커10만원 승리 순이익9만5천원, 타이10만원 당첨 회수90만원, 혼합 베팅 net−5천원과 수수료 누적·재종료를 확인했다. HUD/로그/배너/summary가 수수료 반영값을 사용한다. 기존 KO 만원 단위 반올림은 보존했으므로 원 단위 정확 표시·실제 화면 인증은 아니다.
+- 표적 정적11/11 PASS. 종료 queue/context·큐 자체검사·원장·생성현황은 별도 증거로 남긴다. 전체 감사·물리 입력·청취·원어민·패키지·외부 출시 승인은 수행하지 않았다. 반복 종료의 현금만 멱등이며 닫기 신호/메타 기록·딜 도중 종료·미납 현금 예약은 별도 범위다.
+- 공개GO1·인간OPEN45·본편HOLD·공식40129/b130/meta9·보류72 불변. 다음 안전한 UI 번역/표시 범위는 아래에 남기며 이번 정산 GO를 본편 출시 GO로 확대하지 않는다.
+
+## 2026-09-26 (Codex — 블랙잭 분할 더블의 돈·손익 수리)
+
+- [288](queue_archive/ORDER-288.md): 분할 패에 추가로 건 돈이 정산에서 빠지던 결함을 수리했다. 기존 배율을 유지하면서 승리·무승부 환급과 손익 기록에 실제 원금이 반영된다. source `3f3c502`, 비저자 작업 한정 GO.
+- 실제 Table 행동으로 동일24사례×KO/EN=48을 수정 전후 비교했다. 전48실행/296assert 실패(누적 오차 포함), 후48PASS·exit0·engine errors0. 첫 검사 문법 FAIL도 보존했다. 사용자 파일43·입력12 전후 불변, 새 격리 저장 공간만 사용했다.
+- 정적12 중10PASS. 기존 `.git` 과거 증거33개를 제품으로 세는 feature-liveness FAIL은 숨기거나 baseline을 넓히지 않았다. 새 큐0행의 순번 FAIL은 완료행을 제거해 복원했고 종료 context·queue·큐 자체검사·판정원장·현황5종 PASS. 전체 감사·실제 화면·물리 입력 재검증 주장은 없다.
+- 원격에 먼저 들어온 Claude의 데모 Windows/Linux 빌더·영어 감사 수리를 보존해 병합했다. 그 빌더의 실제 export·실기 실행이나 기존 CI 잔여3건을 이번 작업이 인증/수리한 것은 아니다.
+- 공개GO1·인간OPEN45·본편HOLD·번역 수용/보류 원장은 불변. 다음 정산 후보는 바카라 수수료 중복 차감·타이 원금·반복 종료이며, 읽기전용 코드 대조만 마쳤다. 새 범위를 선언한 뒤 별도 재현·수리한다.
+
+## 2026-09-26 (Claude — Windows·Linux 스토리 데모 빌더)
+
+- 사용자 지시("너가 일을해")로 출시 막힘 1순위를 골랐다. 공개 체험판 빌더가 macOS뿐이라 Steam 제출용 Windows·Linux 패키지를 만들 수 없었다.
+- `tools/build_story_demo_desktop.sh --platform windows|linux`: macOS 차선과 같은 fixed-source staging·project 재작성, 제품 `Windows`/`Linux / Steam Deck` preset에서 파생, import·네 언어 target·font·i18n gate, export, 호스트 OS가 같으면 다섯 locale native smoke, zip·manifest(`user_go=not_inherited`). 정본 값은 macOS 빌더에서 읽는다.
+- 검증: `bash -n`, 가짜 Godot dry-run으로 linux(native smoke 경로 포함)·windows 통과, 음성 5건(HEAD source의 runtime scope 변경·build id·platform·SCRIPT ERROR·디스플레이 없음→xvfb) 확인. 가짜 산출물은 삭제했다. 실제 Godot export·실기 실행은 미관찰이다.
+- `audit_scope.json`의 build identity 검사 경로에 등록, `BUILD_PIPELINE.md` 표·절, `NEXTFEST_CHECKLIST.md` 막힘 항목 갱신.
+
+## 2026-09-24 (Claude — main CI 실패 5건 중 2건 수리)
+
+- `main` 685e10f의 CI 실패 5건을 재현하고 bisect로 원인을 찾았다. STATUS_DOC는 9b091a2 이후 현황 문서 미갱신, EN_HANGUL는 29d46d7(ORDER-267)이 새 게임 로그 `ui_format` 2건을 `ja_translation_pipeline.py`의 `NEW_RUN_LOG_CALLS`에만 등록해 영어 한글 감사가 모른 결과다.
+- 수리: `english_hangul_audit.py`가 `NEW_RUN_LOG_CALLS`의 format 행을 AST로 읽어 기대 집합에 더한다(등록 정본 하나 유지, manifest 해시·개수 불변). self-test 12건. `STATUS.md` 재생성.
+- 대안 기각: manifest `candidate_registry`에 2행 추가는 JA/ZH 감사 32건 연쇄 실패(개수·해시·provenance)를 만들어 되돌렸다.
+- 미수리 3건: CHAPTER1_CAUSAL_LEDGER self-test(CI 범위상 29d46d7 추정), CI_LOCALIZATION·META_TITLE history(f231658이 해시 고정 대상 `ja/zh_translation_audit.py`·`full_game_localization.py`를 successor 등록 없이 수정). 처리 방식은 사용자 판단 대기.
+
+## 2026-09-24 (Claude — 체험판 외부 테스트·Steam 제출 점검 보강)
+
+- 사용자 요청으로 체험판 출시 준비 상태를 점검했다. 새 문서를 만들지 않고 기존 정본 두 곳만 보강했다.
+- `PLAYTEST_KIT.md` 현행 M01~M06 절: 진행자 안내 문구(KO/EN), 관찰 표시, 48시간 뒤 기억 확인, Gate A·B·C·F 결과 집계표, 읽는 법 `[첫 실행 재조정]`.
+- `NEXTFEST_CHECKLIST.md`: 2026-09-24 점검 절. 공개 체험판 Windows/Linux builder 부재, 캡슐 규격 재확인 필요(Steamworks 문서 접근 차단으로 미확인), 퍼블리셔 표기 불일치, 외부 플레이테스트 0건, 10월 회차 일정 판단.
+- `store_shot_check.py` 재실행 PASS(8장). 게임 실행·빌드·실제 화면은 이 환경에 Godot이 없어 미관찰이다. 공개GO1·인간OPEN45·본편HOLD 불변.
+
+## 2026-09-26 (Codex — 블랙잭 중국어 실제 화면·표적 입력)
+
+- [287](queue_archive/ORDER-287.md): 최종 source 11946a3 / exact review a99fecc, 비저자 한정 GO/필수0. 실제 엔진은 제품이 같은25a5d3e에서 실행했다.
+- 간체·번체13키의 Table16site를 각6상태·31선택 표기에서 확인했다. 총12 PNG·62표기가1280×800 최초 화면 안에 들어온다. 합성 키/trigger54사례에서 금액 미리보기·클램프·행동 하이라이트·다음 핸드/닫기를 확인했다.
+- private 최초 parse FAIL은 원형 보존하고 경로 조회 한 줄만 수리했다. 같은 모집단의 후속CN/최초TW PASS, 제품 변경0·실제 사용자 파일43·직렬화 게임/meta 변수/명시 설정 복구 확인. locale cache/revision 복구는 주장하지 않는다.
+- 준비 hand/result·강제 글리프·합성 입력이며 실제 정산·fresh-story·원어민·인간·물리 패드·다른 해상도는 미관찰. HUD/규칙/EV 부모 영어와 직접EN·동적 결과는 남아 있다.
+- 공식40129/b130/meta9·보류72·공개GO1·인간OPEN45·본편HOLD 불변. [286](queue_archive/ORDER-286.md)의 중국어26수용과 이번 실제 관찰을 구분한다.
+
+- 종료 metadata6 최초5 PASS/CLAUDE 부팅 예산1 FAIL을 보존했다. 현재 상태 한 줄을17976B로 줄여 context만 후속 PASS, 변경 없는 실제 화면/입력은 반복하지 않았다.
+
+## 다음 안전한 범위
+
+- 다이사이 현금·결과·허브11키/22값은301 사전 수용 완료. 다음은 새 문구의 실제 화면·합성 입력 검수를 별도 선언한다. 공유 제목4곳·허브2곳을 포함한15literal의 완전 부모를 확인하며 승리 순이익·signed log·HUD7인수의 실제 소비를 구분한다.
+- private `order301-root-next-scope.json`은 다음 실제 소비자 검수의 미실행 준비안이다. `order300-root-next-scope.json`의11키 저작은301로 완료했다. 이전19키 실제10PNG/32raw·금융26화면/188raw·297/298·named12를 새 이유 없이 반복하지 않는다. 직접영어 추출·바카라 raw로그·정선 원문채무는 별도다.
+- 공유6소비자·JA/KO/EN 화면, AA 추가 카드·net0 타이 설명·EV 주장은 별도 범위다. 분할 double 원금만288에서 실제 재현·수리했다. 다른 정적 결손을 실행 재현이나 수리 완료로 부르지 않는다.
+- UI사전3028 중 CN/TW각1963키 부재는 전체 live UI 분모가 아니다. 새 producer/consumer와 파일 소유를 큐에 선언한 뒤 진행한다.
+- BigWheel JOKER배 부모는 별도 원문/산식 채무다. 바카라 수수료·타이 원금·재종료 출금은289에서 실제 재현·수리했으며 post283 계획만으로 GO라고 한 것은 아니다. 남은 KO 금액 반올림·전체 바카라 UI 번역·미납 예약·중도 종료는 새 범위 선언 뒤 다룬다.
+- 보류72(268의62·270의10)는 월말 net==0·첫월급 투자접근·시장/AP효과·자산10억 절반·저자산 초기판정·잠/식사 고지 등 원문 정합 수리가 필요하다.
+- 비보호 shipping 사건11578 세 언어 수용, 잔여843은 참고741·보호102. 공개판·역사 인간 판정을 보존한다.
+- 재개 시 check/import에도 --locale 명시, 새파일 포함 staged diff-check 성공 뒤 commit. 실패 원형을 남기고 같은 모집단을 수리한다.

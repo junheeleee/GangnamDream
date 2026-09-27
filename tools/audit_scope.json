@@ -14,6 +14,35 @@
   ],
   "fast_lanes": [
     {
+      "id": "header-source-compat",
+      "paths": [],
+      "owned_paths": [
+        "tools/order316_header_source_compat.py",
+        "tools/chapter5_human_reject_audit.py",
+        "tools/year5_reference_route_audit.py",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/audit_scope.json"
+      ],
+      "tools": ["tools/order316_header_source_compat.py --self-test"],
+      "why": "Explicit exact header successor admission and historical inverse; old pins and human evidence remain unchanged."
+    },
+    {
+      "id": "story-header-safe-area",
+      "paths": [],
+      "owned_paths": [
+        "scenes/StoryMode.gd",
+        "playtests/order124/StoryChoiceM1M6Playtest.gd",
+        "tools/story_header_safe_area_check.gd",
+        "tools/story_header_safe_area_check.gd.uid",
+        "tools/run_story_header_safe_area_check.py",
+        "tools/audit_scope.json"
+      ],
+      "tools": [
+        "tools/run_story_header_safe_area_check.py --self-test"
+      ],
+      "why": "Explicit-only header safe-area runner self-test. The six KO/EN graphical runs require explicit language/size/output, a fresh pre-autoload namespace, and independent PNG review; this lane never auto-launches graphics or substitutes for their evidence. No story, gameplay, physical-controller, human or package approval."
+    },
+    {
       "id": "first-start-notice",
       "paths": [],
       "owned_paths": [
@@ -1752,6 +1781,16 @@
     }
   ],
   "checks": [
+    {
+      "tool": "tools/order316_header_source_compat.py --self-test",
+      "paths": ["tools/order316_header_source_compat.py"],
+      "why": "Exact two-file header successor and targeted live consumer/mutation checks, not full 240-week or human approval."
+    },
+    {
+      "tool": "tools/run_story_header_safe_area_check.py --self-test",
+      "paths": [],
+      "why": "Graphical safe-header runner contract and argument/isolation self-test only; actual scoped renders are explicitly launched separately with fresh pre-autoload storage."
+    },
     {
       "tool": "tools/order310_demo_source_compat.py --self-test",
       "why": "Exact English21-string successor: raw current admission plus composed historical view, never an inherited public GO.",

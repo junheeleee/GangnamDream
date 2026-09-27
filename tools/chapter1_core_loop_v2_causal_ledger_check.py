@@ -36,6 +36,7 @@ import meta_title_locale_history as meta_title_history
 import meta_title_locale_successor as title_successor
 import order305_demo_source_compat as demo_source
 import order310_demo_source_compat as latest_demo_source
+import order316_header_source_compat as header_source
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -4571,7 +4572,7 @@ def order305_source_boundary_self_test() -> tuple[list[str], int]:
 
 def _audited_source_snapshot_errors(
         source_hashes: dict[str, str]) -> list[str]:
-    errors: list[str] = latest_demo_source.current_source_errors()
+    errors: list[str] = header_source.current_source_errors()
     meta_title_raw: bytes | None = None
     inventory_registry_raw: bytes | None = None
     if "autoloads/DataRegistry.gd" in source_hashes:
@@ -4671,6 +4672,13 @@ def _audited_source_snapshot_errors(
                 else:
                     expected_digest = successor[1]
             observed_digest = _file_digest(relative_path)
+            if relative_path in header_source.PATHS:
+                try:
+                    observed_digest, source_errors = header_source.observed_byte_hash(
+                        relative_path, observed_digest, (ROOT / relative_path).read_bytes())
+                    errors.extend(source_errors)
+                except OSError as exc:
+                    errors.append(f"ORDER-316: legacy current source unavailable: {exc}")
             if relative_path == demo_source.KO_PATH:
                 try:
                     observed_digest, source_errors = _order305_audited_source_observation(
