@@ -1,0 +1,88 @@
+{
+  "unit_id": "ORDER-311",
+  "scope": "work_unit",
+  "reviewer": "/root/blackjack_accounting_review",
+  "authority": "user_delegated_agent_final",
+  "independent": true,
+  "reviewed_at": "2026-09-27T11:27:04.219457+09:00",
+  "timezone": "Asia/Seoul",
+  "subject": {"kind":"source","commit":"a0d4446f1290c22d6ef53b23e94e340439a5bf52","tree":"a4be8663f369da0048bc3031cab8070bcfdb1c86","manifest_sha256":null},
+  "verdict": "GO",
+  "required": [
+
+  ],
+  "approved_scope": "Exact ORDER-310 source admission and composed historical checker views only: one new adapter, five caller boundaries, audit registration and one actual EN graph hash. No old source/package/human decision is refreshed; whole ORDER-302 and full-product/new-package approval remain HOLD.",
+  "review": {
+    "observed_at": "2026-09-27T11:27:04.219457+09:00",
+    "observed_commit": "a0d4446f1290c22d6ef53b23e94e340439a5bf52",
+    "observed_tree": "a4be8663f369da0048bc3031cab8070bcfdb1c86",
+    "observed_worktree_clean": true,
+    "canonical_subject": "Directly invoked human_gates.current_agent_source_subject before report writes; it equaled clean HEAD/tree. Later root metadata closure is outside this observation.",
+    "independence": "No product/checker/helper authorship, official-suite execution, engine rerun or commit by reviewer; direct source, raw-stream, byte/hash and immutable Git-object review."
+  },
+  "population": {"successor_files":3,"declared_strings":21,"latest_raw_files":7,"new_helper_files":1,"caller_files":5,"volume_hash_fields_changed":1,"helper_cases":106,"immutable305_cases":132,"year5_total_cases":720,"year5_added_cases":18,"graph_total_cases":97,"full_body_cases":53,"volume_cases":14,"legacy_boundary_cases":6,"final_chapter5_cases_via_ORDER312":146},
+  "method": [
+    "Read the complete292-line adapter, all five caller diffs and registration/volume changes. Independently checked immutable before/after product objects and the seven-file raw-admission composition.",
+    "Read the formal normal/self/boundary capture outputs and all raw envelopes. Year5 CLI source confirms normal validation precedes its720 self cases; no extra normal run is invented.",
+    "Examined exact historical/index bindings, deep-copy projections, fail-closed mutations and preservation of old pin/fixture semantics; no checker or engine executed by reviewer."
+  ],
+  "verified": {
+    "admission": "The three current raw successor files must exactly match4de3bbb Git blobs and registered SHA pairs, whose21-leaf/byte delta from0f0b5e8 is proven. Rollbacks, altered bytes, duplicate/missing/type/neighbor changes are not admitted as live source; seven live files include the unchanged305 regional/KO boundaries.",
+    "projection": "Only complete exact successor event objects or exact bytes/hashes receive copied310→305→304/older projection. Originals and neighbor mutations remain visible. Controller projection is restricted to its single English quotation literal.",
+    "readers": "Year5 byte/payload/hash/context and exact-baseline census use the composed adapter with live guard. Graph indexes consume the same raw snapshots, including EN core, and bind registered event objects against rollback masking; unrelated historical mutation cases must not be masked by generic successor errors. KO-only full-body/legacy observations retain their correct305 projection.",
+    "tests": "Official helper106, historical305132, graph97, year5 normal+self720, body normal+self53, volume normal+self14 and legacy-only6 PASS. No legacy full suite ran. Original chapter5 normal FAIL1/self127 are preserved and superseded by ORDER-312 final normal/self146, not counted as successful unchanged311 acceptance.",
+    "baseline": "Only graph:en_mapped_immediate changes in the volume baseline; exact raw inverse/actual current report agree, numeric observations and existing30 debt findings/12 outliers stay unchanged. Existing305 helper, historical pins, public inventory, human evidence and93 decision bytes remain intact.",
+    "registration": "Registered156 check commands are verified. EXTRA notices are registration diagnostics, not failures or evidence that those commands were executed."
+  },
+  "source_bridge": {
+    "executed_commit": "731c60a073353c4e03cc0a09a35a4587acaba3a0",
+    "executed_tree": "cefa887a51f14f93554ea6a29b05eead8225b9bf",
+    "final_commit": "a0d4446f1290c22d6ef53b23e94e340439a5bf52",
+    "delta": "Exactly nine paths: the single chapter5 checker, ORDER-312 declaration, two queue files, STATUS, WORK_LOG, active309, active313 and the full-script-review backlog. Runtime/product/other tools are byte-identical; backlog changes make the merged candidate a new source, not merely a metadata wrapper.",
+    "reuse": "Original18 captures remain17 PASS/1 FAIL. Sixteen successful static claims and the one headless run are reused with explicit input/dependency proof, not rerun at final HEAD. Original chapter5 FAIL and old self127 remain immutable; final normal and self146 replace those two claims.",
+    "verification": "Read all375 bridge lines and official raw envelope; independently verified all184 referenced evidence hashes, all21 official capture envelopes/42 raw streams and three engine streams. All recorded before/after pins match; final tracked-source census1219 differs only at chapter5."
+  },
+  "findings_and_limits": [
+    "No mandatory unresolved defect in the exact historical compatibility scope.",
+    "This is checker compatibility, not broader source quality, runtime completeness, historical package renewal or full-product GO. Final chapter5 repair is independently owned by ORDER-312."
+  ],
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "Actual rendered screenshots, manual input, audio judgment, all21 changed strings on screen, new package or release approval.",
+    "Full/legacy 24-week or 240-week suites, future ORDER-313 implementation and subsequent metadata closure checks."
+  ],
+  "evidence": {
+    ".git/full-game-localization/order310-check-312-bridge-first.json": "addc10ddd1ee6894be520c3f54f6e775a127627e58223a862e121092ee23562f",
+    ".git/full-game-localization/order312-evidence-bridge.py": "2f3d4355775898d39dc7b63b95a7f64a25a417eb36543636248568c68a11443b",
+    ".git/full-game-localization/order310-capture.py": "4172c81d1817e37f5cdc3ff4764f63b8dce0129bf52c0ab634f25575f34a06bb",
+    "tools/human_gates.py": "59b62b8b8ee0ab3cb33a6c99f7802f8118d85472a0a2942e80ed0781ee7b47a1",
+    ".git/full-game-localization/order310-check-helper-first.json": "25d647e43a1d792931a1738fab781c8374401cc15510ea9384ebf3144b01e125",
+    ".git/full-game-localization/order310-check-historical-first.json": "cc253315bf8d0b7c009a3dfa92d7024acefade6246eaeba2c45bc7accf2afbc2",
+    ".git/full-game-localization/order310-check-year5-self-first.json": "064ed6fb7b11e290c561014eca52ecf4dbe01d3ba53f350b81af330b53b12222",
+    ".git/full-game-localization/order310-check-graph-first.json": "898c1a85abe090999a141f8a705e5fb6f15579b5b18aaf09ea954bf1bf4b60af",
+    ".git/full-game-localization/order310-check-body-first.json": "d6376e1fe4ae79fb83ffc9a7f23e4275bb424f7138124bba3a800c7702b687f1",
+    ".git/full-game-localization/order310-check-body-self-first.json": "de0b08e30aadcc3dd4b6c39884621068418cec7609a01d0350460f62c07b414c",
+    ".git/full-game-localization/order310-check-legacy-first.json": "679e63abb7f43cebf1abbd22a91026514b96b149fadd4230829846fc4e9a7ded",
+    ".git/full-game-localization/order310-check-volume-first.json": "88a466ff3f0f19f0eec0343e081cb9473b3b44776b1c9f0bb853720e15b79432",
+    ".git/full-game-localization/order310-check-volume-self-first.json": "86c63f38037f500981f7b0964e67b62b59823678c5e8f987cbb1f94a50d18d90",
+    ".git/full-game-localization/order310-check-volume-boundary-first.json": "92749a309ba26691334b16bf12989dd14d5a9f409aee7d2ea97f09f8b807a013",
+    ".git/full-game-localization/order310-check-registration-first.json": "0d76f5af00a1603ca1bceeb2b410f8962ee3d36f3a8cd85a79a1c4ffae18500a",
+    ".git/full-game-localization/order310-check-chapter5-first.json": "098689fc5ae36c34689040fedd7809d318a7785af91b79918e145783a01ec76c",
+    ".git/full-game-localization/order310-check-chapter5-self-first.json": "4144d9eec0d9b4c7dc4bbe9be6ac6974fe816682586839e6ebb59870ed1a63f4",
+    ".git/full-game-localization/order310-check-312-chapter5-first.json": "259face24f90f7d2c6ca3a2b0bd0a7c8072544ce72c2f072f3f7cbcaedc76be2",
+    ".git/full-game-localization/order310-check-312-chapter5-self-first.json": "ee2702eff61af8b51ff096338e9fcda1e23533d7484fe89b0e32aa5e32dad990",
+    "tools/order310_demo_source_compat.py": "c2a3208d5515fc70025c536b8069dd1e530ea047ed0fcfc77dc2ea0cad2572cd",
+    "tools/order305_demo_source_compat.py": "a6ba3bab8340df736eaf059abc7bb837ccf0474ea22ff66bda7c130619e09cad",
+    "tools/year5_reference_route_audit.py": "abee0f7c795c0b0b6d753e92f4887e3cd37df40ae4c0251c68f55783d357fb0f",
+    "tools/chapter5_human_reject_audit.py": "5f293f577329a3c5a26364e150fb5378159a7dad904f46a6e864456e5245c47c",
+    "tools/full_body_translation_scope.py": "0311777378606777552c0d881fcb889518b9a9961e78d8ab35060cef1dcadd94",
+    "tools/chapter1_core_loop_v2_causal_ledger_check.py": "ef87ba5d6a9a06fc00e9e6c629535bff32c513e81adc6e2af95f4541c012142b",
+    "tools/story_graph_contract_audit.py": "e09e103578ba1e921f8c62de0d8027713e06dd5cb24a5cda4c8882cff30eaf35",
+    "tools/audit_scope.json": "e55a9cc0fd2a94f1fa82a45ae30159c051e778ab1a3ded159872199200d71e5a",
+    "tools/full_game_volume_baseline.json": "3bdfe94163663332d598aecf0e57783e3cde36854a963392f6cafe0f0071a7ef",
+    ".git/full-game-localization/order311-legacy-boundary.py": "5a8de3fa8eb480f7e71d0f33a64db84666ecd27c2f6bb735408c66ddf8dedad6",
+    ".git/full-game-localization/order311-volume-boundary.py": "131f631ef9e346cde08343828ff8fa0bf3648d3510b5f65fda0862537b47e478"
+  }
+}

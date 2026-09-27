@@ -1,8 +1,8 @@
-# Active Queue Spec: ORDER-310
+# Archived Queue Spec: ORDER-310
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-310 [P0·EN] 상철 현재 장면과 데모 대사 인용을 정렬한다
+#### [x] ORDER-310 [P0·EN] 상철 현재 장면과 데모 대사 인용을 정렬한다
 
 2026-09-27 Codex 선언. 승인302의 잔여5를 실행한다. 기준 clean
 `0f0b5e85cd9262f8efb4ccf2d20b7b9deaed7efa`. 새 공개 출고 권한이 아니다.
@@ -51,3 +51,15 @@
   310/311의 독립 작업한정 판정은 전체302/본편 GO로 승격하지 않는다.
 
 규범은 기존 P-9와 WORK_UNIT 적용이며 파일/표본/단계 지시는 일회성이다.
+
+## 2026-09-27 완료 증거
+
+- source `a0d4446f1290c22d6ef53b23e94e340439a5bf52`, tree `a4be8663f369da0048bc3031cab8070bcfdb1c86`; [독립 보고](../agent_reviews/ORDER-310.json) 작업 한정 판정.
+- 도달 경로: `STORY_DEMO_FOUR_LANGUAGE_CHECK_OK locales=5 routes=5 months=30 weeks=120 settlements=30 ap_surface=0 save=5 story=10 build=2026.08.31.1`.
+- 생산자↔독자: ENarc18/ENcore2/controller1 ↔ controller `_install_story_demo_m6_event:1113`, `_selected_history_texts_from_session:1220`, `_show_recap:2267`. 정적76leaf·대체3문자열 전수 확인, 공개11은 분기 합집합이다.
+- 바꾸는 상태: 현재 장면 시제5·대사인용15·누락문단1. 선택/효과/돈/토큰/게임상태0. 그 외 바이트 역치환 보존·음성8 PASS. 대사 속 회상과 contraction/`'why'` 보존.
+- 서사 위치 M01~M06, M04 meet→measure 또는 coffee→answer. 포기 시 잃는 것/장면 계층: 해당 없음(기존 문체 수리). 닫는 것:302의 수리5 한정; 전11장면 시제 전역수리0.
+- 실제 엔진1회8.40057575초·5언어5경로·ENTRY12·3로그 오류/누수0. 실행 source731c60a, 사용자43파일·1221핀 불변. EN Daeun=1/M6=0의 무명직원 결과를 읽고 선택했다. PNG/실제입력0, 모든21문구 렌더 증거 아님.
+- `order310-check-preserve-first.json`은21문구/숫자·토큰/76+3 소비자·기존93판정·40299/b136/meta9·private153을 보존한다. 언어/밀도/311 표적 검사 통과. 밀도의28/28은 과거 증거이지 이번 렌더 관측이 아니다.
+- 최종 `order310-check-312-bridge-first.json`은731c60a의16정적 성공과 엔진을 관련 입력 동일성으로 재사용한다. 공개 옛GO1·인간OPEN45·전체HOLD 유지. 자동 게이트는 계약 증거이지 재미·깊이·문체의 증거가 아니다.
+- 규범 승격: 없음(기존 P-9 적용/작업 지시 일회성). 실제화면·입력·새후보는302 후속이다.

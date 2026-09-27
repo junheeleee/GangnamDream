@@ -3898,6 +3898,123 @@
         "path": "docs/agent_reviews/ORDER-308.json",
         "sha256": "424cda684c5985a450074bf23752f9a22eab436ea48164e4fe6cc3f126f5a82d"
       }
+    },
+    {
+      "id": "order-310-source-a0d4446f-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-27",
+      "decided_by": "/root/blackjack_accounting_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-310",
+      "subject": {
+        "kind": "source",
+        "commit": "a0d4446f1290c22d6ef53b23e94e340439a5bf52",
+        "tree": "a4be8663f369da0048bc3031cab8070bcfdb1c86",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-310.json",
+          "sha256": "80657e38d8dc0d47ccb46ef4416d0de7efc546c21e6f7ec2dab5080b6fbf9369"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/queue_archive/ORDER-310.md",
+          "sha256": "87b57cc87420bcc7a231c8ef4ba591ff40e3c8cd53c7801ef6d955f46794d521"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "Actual rendered screenshots, manual input, audio judgment, all21 changed strings on screen, new package or release approval.",
+        "Full/legacy 24-week or 240-week suites, future ORDER-313 implementation and subsequent metadata closure checks."
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-310.json",
+        "sha256": "80657e38d8dc0d47ccb46ef4416d0de7efc546c21e6f7ec2dab5080b6fbf9369"
+      }
+    },
+    {
+      "id": "order-311-source-a0d4446f-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-27",
+      "decided_by": "/root/blackjack_accounting_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-311",
+      "subject": {
+        "kind": "source",
+        "commit": "a0d4446f1290c22d6ef53b23e94e340439a5bf52",
+        "tree": "a4be8663f369da0048bc3031cab8070bcfdb1c86",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-311.json",
+          "sha256": "4d00e6581812005b977855072c372205cc85208dc7b95110f230ba6dda0e0201"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/queue_archive/ORDER-311.md",
+          "sha256": "2c39a207873bc736b360b749ea7e1c9f3927f4d4ad30e20cc61e21e5a013f3ee"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "Actual rendered screenshots, manual input, audio judgment, all21 changed strings on screen, new package or release approval.",
+        "Full/legacy 24-week or 240-week suites, future ORDER-313 implementation and subsequent metadata closure checks."
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-311.json",
+        "sha256": "4d00e6581812005b977855072c372205cc85208dc7b95110f230ba6dda0e0201"
+      }
+    },
+    {
+      "id": "order-312-source-a0d4446f-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-27",
+      "decided_by": "/root/blackjack_accounting_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-312",
+      "subject": {
+        "kind": "source",
+        "commit": "a0d4446f1290c22d6ef53b23e94e340439a5bf52",
+        "tree": "a4be8663f369da0048bc3031cab8070bcfdb1c86",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-312.json",
+          "sha256": "04b021b08318356dc5b034e325862860102c6f92c04e9a903dd89e668ec2c421"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/queue_archive/ORDER-312.md",
+          "sha256": "061a346c6026de1cb5f45d784383a2ce20744b5b668d22ec92b92bebef60af5e"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "Actual rendered screenshots, manual input, audio judgment, all21 changed strings on screen, new package or release approval.",
+        "Full/legacy 24-week or 240-week suites, future ORDER-313 implementation and subsequent metadata closure checks."
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-312.json",
+        "sha256": "04b021b08318356dc5b034e325862860102c6f92c04e9a903dd89e668ec2c421"
+      }
     }
   ]
 }

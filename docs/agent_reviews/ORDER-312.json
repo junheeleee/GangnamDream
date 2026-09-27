@@ -1,0 +1,78 @@
+{
+  "unit_id": "ORDER-312",
+  "scope": "work_unit",
+  "reviewer": "/root/blackjack_accounting_review",
+  "authority": "user_delegated_agent_final",
+  "independent": true,
+  "reviewed_at": "2026-09-27T11:27:04.219457+09:00",
+  "timezone": "Asia/Seoul",
+  "subject": {"kind":"source","commit":"a0d4446f1290c22d6ef53b23e94e340439a5bf52","tree":"a4be8663f369da0048bc3031cab8070bcfdb1c86","manifest_sha256":null},
+  "verdict": "GO",
+  "required": [
+
+  ],
+  "approved_scope": "One chapter5 checker boundary admitting the exact already-approved ORDER-308 parser successor while preserving its historical public pin, plus explicit evidence reuse across the final merge. No parser/product/economy change or renewed public/full-product GO.",
+  "review": {
+    "observed_at": "2026-09-27T11:27:04.219457+09:00",
+    "observed_commit": "a0d4446f1290c22d6ef53b23e94e340439a5bf52",
+    "observed_tree": "a4be8663f369da0048bc3031cab8070bcfdb1c86",
+    "observed_worktree_clean": true,
+    "canonical_subject": "Directly invoked human_gates.current_agent_source_subject before report writes; it equaled clean HEAD/tree. Later root metadata closure is outside this observation.",
+    "independence": "No product/checker/helper authorship, official-suite execution, engine rerun or commit by reviewer; direct source, raw-stream, byte/hash and immutable Git-object review."
+  },
+  "population": {"changed_checker_files":1,"exact_parser_paths":1,"previous_self_cases_preserved":127,"new_boundary_cases":19,"new_positive_cases":4,"new_negative_cases":15,"final_self_cases":146,"historical_static_captures":18,"historical_pass":17,"historical_fail":1,"reused_successful_static_claims":16,"new_chapter5_captures":2,"new_bridge_captures":1,"reused_engine_runs":1,"engine_reruns":0},
+  "method": [
+    "Read the complete97-added/1-deleted diff, original raw failure, exact parser Git objects and new19 boundary cases.",
+    "Independently compared source slices of both old self functions, the existing hash checker and PUBLIC/CN maps; each remains byte-identical to731c60a.",
+    "Read all375 bridge lines, final normal/self146 and bridge raw captures, and independently rechecked184 evidence hashes plus the remote R2 renumber-only source body."
+  ],
+  "verified": {
+    "cause": "Original chapter5-first remains false/exit1 with one error: approved parser SHA7c635535 differs from historical39c1f2ab. It is a missing approved successor view, not bad rent text, changed gameplay or a new parser fix.",
+    "repair": "Only tools/story_demo_localization_audit.py with the exact old public pin is considered. Both immutable636a457/59d4f790 Git blobs must match their registered hashes and live raw must equal the approved successor before old bytes are returned for comparison. Wrong pin, missing/altered proof or live drift returns raw plus errors; other paths retain existing hash checks.",
+    "regression": "Old127 tests and public/CN maps/hash checker are unchanged. Four positive and15 negative new cases cover rollback, missing/trailing/amount/key/code/boundary mutation, wrong pins/paths and both missing or altered Git proofs. Final normal and146 self PASS at clean a0d4446; self elapsed4.487732292s.",
+    "bridge": "Final nine-path delta contains only the repaired checker plus eight documents. All1219 tracked source pins are equal except this non-runtime checker. Original18 raw captures and engine logs remain exact;16 other successful static claims and one5locale run are reused, not repeated or relabeled as final-head executions. The original preservation whole-HEAD allowlist is replaced by this bridge, not silently widened.",
+    "remote_and_protection": "Remote108c41b changed seven documents only. Its R2 plan is byte-identical after exactly two ORDER-310→ORDER-313 heading replacements; remote309/STATUS are exact and WORK_LOG/backlog receive only the specified link/number change. Existing80 queue rows preserve content, new total82. Old93 ledger, human/package evidence,40299/b136/meta9 and153 private receipts remain exact.",
+    "observed_evidence": "Final normal/self/bridge all exit0 with empty stderr/errors and unchanged1220/1220/1221 pins. Bridge's184 evidence-path hashes independently match. The one earlier engine result has43 user files unchanged historically; this review/bridge did not reopen user storage or create another engine run."
+  },
+  "source_bridge": {
+    "executed_commit": "731c60a073353c4e03cc0a09a35a4587acaba3a0",
+    "executed_tree": "cefa887a51f14f93554ea6a29b05eead8225b9bf",
+    "final_commit": "a0d4446f1290c22d6ef53b23e94e340439a5bf52",
+    "delta": "Exactly nine paths: the single chapter5 checker, ORDER-312 declaration, two queue files, STATUS, WORK_LOG, active309, active313 and the full-script-review backlog. Runtime/product/other tools are byte-identical; backlog changes make the merged candidate a new source, not merely a metadata wrapper.",
+    "reuse": "Original18 captures remain17 PASS/1 FAIL. Sixteen successful static claims and the one headless run are reused with explicit input/dependency proof, not rerun at final HEAD. Original chapter5 FAIL and old self127 remain immutable; final normal and self146 replace those two claims.",
+    "verification": "Read all375 bridge lines and official raw envelope; independently verified all184 referenced evidence hashes, all21 official capture envelopes/42 raw streams and three engine streams. All recorded before/after pins match; final tracked-source census1219 differs only at chapter5."
+  },
+  "findings_and_limits": [
+    "No mandatory unresolved defect in the single-checker repair or declared reuse boundary.",
+    "Remote R2 remains unimplemented; preserved old package GO1 and human OPEN45 are not promoted. Whole ORDER-302/full product/new package remain HOLD. Root closure checks occur after these reports and are unobserved."
+  ],
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "Actual rendered screenshots, manual input, audio judgment, all21 changed strings on screen, new package or release approval.",
+    "Full/legacy 24-week or 240-week suites, future ORDER-313 implementation and subsequent metadata closure checks."
+  ],
+  "evidence": {
+    ".git/full-game-localization/order310-check-312-bridge-first.json": "addc10ddd1ee6894be520c3f54f6e775a127627e58223a862e121092ee23562f",
+    ".git/full-game-localization/order312-evidence-bridge.py": "2f3d4355775898d39dc7b63b95a7f64a25a417eb36543636248568c68a11443b",
+    ".git/full-game-localization/order310-capture.py": "4172c81d1817e37f5cdc3ff4764f63b8dce0129bf52c0ab634f25575f34a06bb",
+    "tools/human_gates.py": "59b62b8b8ee0ab3cb33a6c99f7802f8118d85472a0a2942e80ed0781ee7b47a1",
+    ".git/full-game-localization/order310-check-chapter5-first.json": "098689fc5ae36c34689040fedd7809d318a7785af91b79918e145783a01ec76c",
+    ".git/full-game-localization/order310-check-chapter5-self-first.json": "4144d9eec0d9b4c7dc4bbe9be6ac6974fe816682586839e6ebb59870ed1a63f4",
+    ".git/full-game-localization/order310-check-312-chapter5-first.json": "259face24f90f7d2c6ca3a2b0bd0a7c8072544ce72c2f072f3f7cbcaedc76be2",
+    ".git/full-game-localization/order310-check-312-chapter5-self-first.json": "ee2702eff61af8b51ff096338e9fcda1e23533d7484fe89b0e32aa5e32dad990",
+    ".git/full-game-localization/order310-check-year5-self-first.json": "064ed6fb7b11e290c561014eca52ecf4dbe01d3ba53f350b81af330b53b12222",
+    ".git/full-game-localization/order310-check-preserve-first.json": "9add171608d707a2f478d85776e2d2d6693b709b890c3f3bb9f42fe0775bdf33",
+    ".git/full-game-localization/order310-check-preservation.py": "dfbd3cda55ecbecc6a44af5eada6f7c37e2d6659edefe38468794f9395be2a98",
+    ".git/full-game-localization/order310-check-pins.json": "db4f420f28f5c526da3adcb5ab690b7d062353772d25547ad4d3d4f20f11da07",
+    ".git/full-game-localization/order310-runtime-first/result.json": "ba0f36541c9aa5cf507c9e634343fe84aafe34b94a3db266f3814b1d091f642c",
+    ".git/full-game-localization/order310-runtime-first/stdout.log": "4debf10451dcdae56ce5d14b17f6dd94037a70c83f58c5d40339d69c030337f3",
+    ".git/full-game-localization/order310-runtime-first/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    ".git/full-game-localization/order310-runtime-first/godot.log": "4debf10451dcdae56ce5d14b17f6dd94037a70c83f58c5d40339d69c030337f3",
+    "tools/chapter5_human_reject_audit.py": "5f293f577329a3c5a26364e150fb5378159a7dad904f46a6e864456e5245c47c",
+    "tools/story_demo_localization_audit.py": "7c635535bb5a6f4361904d0334711e5bc8f0587681dcdf4f49d84adca7b3f320",
+    "tools/order305_demo_source_compat.py": "a6ba3bab8340df736eaf059abc7bb837ccf0474ea22ff66bda7c130619e09cad",
+    "tools/order310_demo_source_compat.py": "c2a3208d5515fc70025c536b8069dd1e530ea047ed0fcfc77dc2ea0cad2572cd"
+  }
+}

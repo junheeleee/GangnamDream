@@ -1,0 +1,79 @@
+{
+  "unit_id": "ORDER-310",
+  "scope": "work_unit",
+  "reviewer": "/root/blackjack_accounting_review",
+  "authority": "user_delegated_agent_final",
+  "independent": true,
+  "reviewed_at": "2026-09-27T11:27:04.219457+09:00",
+  "timezone": "Asia/Seoul",
+  "subject": {"kind":"source","commit":"a0d4446f1290c22d6ef53b23e94e340439a5bf52","tree":"a4be8663f369da0048bc3031cab8070bcfdb1c86","manifest_sha256":null},
+  "verdict": "GO",
+  "required": [
+
+  ],
+  "approved_scope": "The declared21 English prose strings only: five present-scene narration repairs, fifteen direct-dialogue quotation repairs and one paragraph break. The public-demo branch union and headless consumer contract were reviewed; whole ORDER-302, full product and new package remain HOLD.",
+  "review": {
+    "observed_at": "2026-09-27T11:27:04.219457+09:00",
+    "observed_commit": "a0d4446f1290c22d6ef53b23e94e340439a5bf52",
+    "observed_tree": "a4be8663f369da0048bc3031cab8070bcfdb1c86",
+    "observed_worktree_clean": true,
+    "canonical_subject": "Directly invoked human_gates.current_agent_source_subject before report writes; it equaled clean HEAD/tree. Later root metadata closure is outside this observation.",
+    "independence": "No product/checker/helper authorship, official-suite execution, engine rerun or commit by reviewer; direct source, raw-stream, byte/hash and immutable Git-object review."
+  },
+  "population": {"changed_strings":21,"product_files":3,"present_scene_strings":5,"quotation_only_strings":15,"paragraph_only_strings":1,"public_branch_union_scenes":11,"static_leaves_read":76,"controller_replacements_read":3,"m6_history_slots":5,"engine_executions":1,"headless_locales":5,"routes":5,"aggregate_months":30,"aggregate_weeks":120,"settlements":30,"rendered_screens":0},
+  "method": [
+    "Directly compared KO/EN default and moral-variant narration, choices and results across the eleven-scene public union, all21 changed strings, three controller substitutions and the five exact selected-choice history readers.",
+    "Read P-9/current-tense authority, M04 meet→measure or coffee→answer routing and the actual EN Daeun1/M6 choice0 path. Compared immutable product3-file diff and exact byte inverses.",
+    "Read isolated pre-autoload bootstrap/runner, actual three logs and preserved engine result. Independently decoded/hash-checked formal raw captures; no official test was rerun."
+  ],
+  "verified": {
+    "language": "Present narration is limited to meet's current five leaves; dialogue, just-completed rain/recollection, conditional 'would', contractions and each speaker's words remain intact. Quotation-only15 retain wording, inner 'why', numeric/currency/date/name tokens and existing line breaks. Reunion adds only the missing blank line before its final dialogue.",
+    "consumers": "M04 choice0 enters measure and choice1 enters coffee before answer. M06 replays five selected labels and uses three controller replacements; these are not additional authored scenes. EN Daeun1 produces the unknown-clerk text/result, both are read by the headless contract and M6=0 is applied, without inventing Daeun's name.",
+    "exact_preservation": "Independent preservation PASS verifies21 exact string deltas, full byte inverses, eight rejected mutations, consumer-function equality, original93 decisions, protected KO/JA/CN/TW/project/human/package files and40299 accepted leaves/b136/meta9/private153 receipts.",
+    "static_results": "EN coverage, zero-Hangul, regional localization, density and preservation PASS. Localization's14-event/100-leaf inventory and density's14 variants are separate denominators from this public11/76+3 review.",
+    "runtime": "Single731c60a headless execution passed in8.40057575s: exit0, exact success marker once,12 controller entries,5 locale routes,30 months/120 aggregate weeks/30 settlements, save5/story10. Fresh32-hex namespace preceded autoload;1221 source/helper pins and43 real-user files were unchanged; three raw streams contain no parse/script/engine/leak errors.",
+    "boundaries": "Density output's historical source4e80a63 and28/28 selector coverage are not newly executed coverage. The current run is not screenshots/native or full21 rendered proof. The historical package GO1 and human OPEN45 are not reissued."
+  },
+  "source_bridge": {
+    "executed_commit": "731c60a073353c4e03cc0a09a35a4587acaba3a0",
+    "executed_tree": "cefa887a51f14f93554ea6a29b05eead8225b9bf",
+    "final_commit": "a0d4446f1290c22d6ef53b23e94e340439a5bf52",
+    "delta": "Exactly nine paths: the single chapter5 checker, ORDER-312 declaration, two queue files, STATUS, WORK_LOG, active309, active313 and the full-script-review backlog. Runtime/product/other tools are byte-identical; backlog changes make the merged candidate a new source, not merely a metadata wrapper.",
+    "reuse": "Original18 captures remain17 PASS/1 FAIL. Sixteen successful static claims and the one headless run are reused with explicit input/dependency proof, not rerun at final HEAD. Original chapter5 FAIL and old self127 remain immutable; final normal and self146 replace those two claims.",
+    "verification": "Read all375 bridge lines and official raw envelope; independently verified all184 referenced evidence hashes, all21 official capture envelopes/42 raw streams and three engine streams. All recorded before/after pins match; final tracked-source census1219 differs only at chapter5."
+  },
+  "findings_and_limits": [
+    "No mandatory unresolved defect in this declared English repair.",
+    "ORDER-302 visual/new-candidate work, full product, remote R2 implementation and native/human/physical gates remain open; closure verification is not claimed."
+  ],
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "Actual rendered screenshots, manual input, audio judgment, all21 changed strings on screen, new package or release approval.",
+    "Full/legacy 24-week or 240-week suites, future ORDER-313 implementation and subsequent metadata closure checks."
+  ],
+  "evidence": {
+    ".git/full-game-localization/order310-check-312-bridge-first.json": "addc10ddd1ee6894be520c3f54f6e775a127627e58223a862e121092ee23562f",
+    ".git/full-game-localization/order312-evidence-bridge.py": "2f3d4355775898d39dc7b63b95a7f64a25a417eb36543636248568c68a11443b",
+    ".git/full-game-localization/order310-capture.py": "4172c81d1817e37f5cdc3ff4764f63b8dce0129bf52c0ab634f25575f34a06bb",
+    "tools/human_gates.py": "59b62b8b8ee0ab3cb33a6c99f7802f8118d85472a0a2942e80ed0781ee7b47a1",
+    ".git/full-game-localization/order310-check-preserve-first.json": "9add171608d707a2f478d85776e2d2d6693b709b890c3f3bb9f42fe0775bdf33",
+    ".git/full-game-localization/order310-check-preservation.py": "dfbd3cda55ecbecc6a44af5eada6f7c37e2d6659edefe38468794f9395be2a98",
+    ".git/full-game-localization/order310-check-pins.json": "db4f420f28f5c526da3adcb5ab690b7d062353772d25547ad4d3d4f20f11da07",
+    ".git/full-game-localization/order310-check-en-first.json": "904daf8125eaa003f79a38a01bae4a3733f0db5d9070316969e9b804d6fe5121",
+    ".git/full-game-localization/order310-check-hangul-first.json": "39b9f2cd58daebe0ced4d7bb3d4155b22c2a5d2c5766115717f5824afc763fbb",
+    ".git/full-game-localization/order310-check-localization-first.json": "8825b8d3ee8467eaae29ab766f4143ce2e766313fa7dafdb0bc37171664ea278",
+    ".git/full-game-localization/order310-check-density-first.json": "4bb8076aea995c6b81811709ca98bcdd21a01833c8decf3ca4d4d8742b42210b",
+    ".git/full-game-localization/order310-runtime-first/result.json": "ba0f36541c9aa5cf507c9e634343fe84aafe34b94a3db266f3814b1d091f642c",
+    ".git/full-game-localization/order310-runtime-first/stdout.log": "4debf10451dcdae56ce5d14b17f6dd94037a70c83f58c5d40339d69c030337f3",
+    ".git/full-game-localization/order310-runtime-first/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    ".git/full-game-localization/order310-runtime-first/godot.log": "4debf10451dcdae56ce5d14b17f6dd94037a70c83f58c5d40339d69c030337f3",
+    ".git/full-game-localization/order310-runtime.py": "d86cd5490fe5c40da17df3dc0f62f03cd53aff6d951f718275b94d9f725cb54e",
+    ".git/full-game-localization/order310-bootstrap.gd": "71725348f8db42d153ce65ff4af40dd08e18da6a336ff54a3af47c274038b8bb",
+    "tools/StoryDemoFourLanguageCheck.gd": "df12e1dd57eb768c40ac5beec563b845a03bac9639a4b9506050e14278f1d7eb",
+    "content/events_en/arc_events.json": "1ecd0007956e0c880827d442bceb3d0459b971d46497db3545eca91e2f80d735",
+    "content/events_en/core_loop_v2_events.json": "fc24d9810a65b7cfe824dddc6fe6413820d24fb974442f090f8c0593d9e8c601",
+    "playtests/order124/StoryChoiceM1M6Playtest.gd": "156bdda2571bc4b95f44b3a0e9d71a42193d0386919496f15be0d624753200ea"
+  }
+}

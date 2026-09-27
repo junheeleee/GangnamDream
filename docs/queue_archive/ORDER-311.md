@@ -1,8 +1,8 @@
-# Active Queue Spec: ORDER-311
+# Archived Queue Spec: ORDER-311
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-311 [QA] 310의 정확 영어 후계와 역사 핀을 분리한다
+#### [x] ORDER-311 [QA] 310의 정확 영어 후계와 역사 핀을 분리한다
 
 2026-09-27 Codex 선언. 310의 제품21문자열 수리로 변하는 EN arc/core/controller를
 현재 raw source로 검사하고, 기존 역사 검사에만 정확 역투영한다. 기존305/304
@@ -36,3 +36,14 @@ legacy 검사 전체는 금지하고 변경 경계의 별도 회귀만 실행한
 
 표적 검사 GO는 과거GO/전체제품/새패키지 GO가 아니다. 인간OPEN45·공개옛GO1·
 전체본편HOLD를 유지한다. 이 오더는 일회성 exact 호환이며 새 규범을 만들지 않는다.
+
+## 2026-09-27 완료 증거
+
+- source `a0d4446f1290c22d6ef53b23e94e340439a5bf52`, tree `a4be8663f369da0048bc3031cab8070bcfdb1c86`; [독립 보고](../agent_reviews/ORDER-311.json) 작업 한정 판정.
+- 생산자↔독자: `order310_demo_source_compat.py:109/120/187` exact3파일21leaf ↔ 다섯 역사 reader. 현재7파일 raw admission 후310→305 역투영, predecessor를 현재로 허용0. immutable305 helper 무수정.
+- 도달 경로: helper106·역사132, year5 정상 선행/self720(702+18), graph 정상 선행/self97(66+31), body 정상/self53, volume 정상/self14, legacy 경계6, 등록156 PASS. 전체 legacy/240주 엔진은 실행0.
+- volume EN graphhash1필드만 `f3d1d9e981f7f03a23a75c064f0b5567db35989f5ea701b3e4c4d7716c66f59b`로 동기화. 다른 관측/부채30/outlier12/runtimePENDING/humanOPEN 불변.
+- chapter5 최초 normal은 기존308후계 누락1FAIL, self127은PASS였다. 실패를 덮지 않고 별도312에서 수리하여 최종normal/self146 PASS. 이 오더의 허용목록을 넓혀 숨긴 것이 아니다.
+- `order310-check-312-bridge-first.json` SHA `addc10ddd1ee6894be520c3f54f6e775a127627e58223a862e121092ee23562f`: 이전18캡처(17PASS/1FAIL) 중16성공 재사용, chapter5 두 결과는 원형 보존/최종 대체. 원격 문서7개 병합의 제품/검사 변경0.
+- 바꾸는 상태: 검사 관측만. 게임/저장/선택/장기 결과0. 포기비용·서사 위치·장면 계층 해당 없음. 닫는 것: exact 영어 후계 호환만. 전체 제품/공개/인간/원어민/물리 GO0.
+- 규범 승격: 없음(일회성 exact 전이). 자동 게이트는 도달성·계약 증거이지 재미·깊이·문체의 증거가 아니다.

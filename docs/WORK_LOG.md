@@ -2,6 +2,17 @@
 
 > 이전 WORK·선언·검증 원문은 [287 보존본](queue_archive/ORDER-287.md)에 있다.
 
+## 2026-09-27 (Codex — 데모 영어 시제·대사 표기와 정확 후계 검수)
+
+- [310](queue_archive/ORDER-310.md): 상철 M04 첫 만남의 현재 행동5문구·데모 대사인용15·재혁 문단1, EN21문자열/3파일을 정렬했다. 기존 P-9 현재형 정본을 적용했고 지난 과거형8 제안은 철회했다. 선택/경제/토큰/다른 언어·과거 기록은 보존한다.
+- 제품4de3bbb, 실행731c60a, 최종 source `a0d4446f1290c22d6ef53b23e94e340439a5bf52` / tree `a4be8663f369da0048bc3031cab8070bcfdb1c86`. 비저자310/311/312 각 작업 한정 판정이며 전체302·본편·새package는 HOLD다.
+- 정적 모집단은11장면 분기합집합의76leaf+controller대체3, 수정21 전수 검수. 5언어 전용 엔진1회8.4006초·30개월/120주/30정산·저장5·StoryMode10 PASS, ENTRY12·3로그 오류/누수0. 사용자43파일·1221핀 불변. EN 무명직원 결과 소비/선택 확인, PNG/실제입력0.
+- [311](queue_archive/ORDER-311.md): 새helper106/역사132, year5정상+self720, graph97, body53, volume14, legacy경계6·등록156 PASS. EN graphhash1필드만 갱신, 부채30/outlier12·runtimePENDING 유지. 옛305핀을 덮지 않는다.
+- [312](queue_archive/ORDER-312.md): 기존308검사 후계를 구버전으로 오인한 chapter5 FAIL1은 보존하고 exact Git증명으로 수리했다. 최종normal/self146(127+19) PASS. bridge로 이전18캡처 중16성공과 엔진의 입력동일성을 최종에 결속, 재실행0. oldchapter5 normalFAIL/self127은 최종 결과로 대체하되 원형을 남긴다.
+- 원격108c41b/PR26의 본편R2계획은 로컬310과 번호가 겹쳐 [313](queue_active/ORDER-313.md)으로 원문 보존 병합했다. 수리7·판단5 및309의 현재형 정정 보존, 원격 제품/검사 변경0.
+- 공식40299/b136/meta9·private153·보류72·공개옛GO1·인간OPEN45 불변. 기존93판정은 byte prefix 보존, 새3작업만 별도 결속한다. 스킬의 원문·사용자 상태 보존과 표적 검수/독립 판정을 적용했다. 규범 일회성/기존정본 적용, 자동PASS는 재미·원어민·인간·물리·출시 승인 증거가 아니다.
+- 다음은302 잔여 KO/EN 실제화면·입력과 새후보 검수, 그 뒤303→309→313이다. 다른 장면의 전역 영어 시제와 실제 화면 관측은 완료로 부르지 않는다.
+
 ## 2026-09-27 (Claude — 본편 대본 판독 R2: 2장 M13~M24)
 
 - R2 판독 완료. story_map M13~M24 root 15장면 KO/EN을 `STORY_BIBLE` 인물 정본과 `DECISIONS` 2026-08-04 문체 규칙에 대조했다. 파일 수정 없이 [313](queue_active/ORDER-313.md)로 발행.
