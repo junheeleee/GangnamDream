@@ -134,7 +134,7 @@ func _resize_shell() -> void:
 	DisplayServer.window_set_size(wider)
 	await _capture("home_resized", wider)
 	var after := old_title.get_global_rect()
-	var preserved := _controller.get("_title") == old_title \
+	var preserved: bool = _controller.get("_title") == old_title \
 		and get_viewport().gui_get_focus_owner() == old_focus \
 		and bool(_controller.get("_compact")) == old_compact
 	_expect(preserved, "same-compact horizontal resize rebuilt title/focus/state")
@@ -217,11 +217,11 @@ func _modal_roundtrip(surface: String, open_key: Key, popup_property: String) ->
 		"%s confirm mutated gameplay behind modal" % surface)
 	await _tap(KEY_ESCAPE, "close %s and restore selected choice" % surface)
 	await _frames(8)
-	var restored := not is_instance_valid(story.get(popup_property)) \
+	var restored: bool = not is_instance_valid(story.get(popup_property)) \
 		and get_viewport().gui_get_focus_owner() == selected \
 		and _choice_focus_index() == 2
-	var state_unchanged := JSON.stringify(GameState.serialize(), "", true) == before
-	var phase_unchanged := _story_phase() == before_phase
+	var state_unchanged: bool = JSON.stringify(GameState.serialize(), "", true) == before
+	var phase_unchanged: bool = _story_phase() == before_phase
 	_expect(restored, "%s did not restore exact selected choice node" % surface)
 	_expect(state_unchanged and phase_unchanged, "%s changed choice/prose/gameplay state" % surface)
 	_modal_results.append({"surface": surface, "selected_choice": 2,
