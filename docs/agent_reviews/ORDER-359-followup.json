@@ -1,0 +1,33 @@
+{
+  "schema": "gangnamdream-independent-work-unit-review/v1",
+  "unit_id": "ORDER-359",
+  "scope": "work_unit",
+  "review_stage": "independent_source_bound_followup_after_358",
+  "decided_by": "/root/r3_route_probe",
+  "decision": "GO",
+  "verdict": "GO",
+  "subject": {"kind": "source", "commit": "0bfc2805fd1ebb21363174a5a779511a3208e03a", "tree": "4b16868392028273d78bf2055bcf9593f5f11724", "manifest_sha256": null},
+  "outcome": "GO for the20 existing-leaf year-four callback repair,12 refreshed receipts and bounded current-source integration. The direct prose/runtime assessment remains suitable, and the three previously blocking source-guard errors are resolved by358. This does not rewrite the earlier HOLD reports or grant full-game/package approval.",
+  "independence": "Product non-author. During the original359 review I directly read all20 before/after bodies, all12 receipt pairs, runtime/static helpers and results, and all four original PNGs. This follow-up reread the original and merged reviews, rehashed their14/5 private evidence links, independently checked immutable product/current-byte preservation and reviewed all358 implementation changes and37 recorded lane executions. No product or tracked file edits, engine rerun or acceptance-suite rerun were performed by this reviewer. Native-language approval is not claimed.",
+  "source_binding": {
+    "clean_resolver": "HEAD/tree and current_agent_source_subject independently equal the subject above with a clean worktree.",
+    "product": "acab8ea29d2ec392d1224513e005e8b8000a4535 directly follows e3a6e09d5a6e3398a4db764177352dc7755d0892:five eventJSON plus ledger,20 existing text leaves and12 existing receipts refreshed, no new leaves/receipts. Current content has no diff from this product commit.35086 leaves and35920 leaves are disjoint and unchanged.",
+    "runtime": "All16 saved runtime source pins, including the private runner, remain identical to current bytes. The saved34-entry real-user before/after maps are equal; that is not a census of every user-data location. Static6 product pins and runtime16 pins are bounded, not whole-source evidence or a clean-final-source rerun.",
+    "integration": "358's19 distinct final passing commands are selected from37 lane executions: initial19=16 PASS/3 FAIL, second5=4 PASS/1 FAIL, final13 all PASS plus six unchanged auxiliary results reused. The failed attempts remain intact. All execution before/after1375 source/text maps are stable; the final clean-source difference is the reviewed CLAUDE current-status row."
+  },
+  "prose_and_receipt_assessment": "Exactly arc_year4_close and arc_year4_close_father_passed, each year3_weighted/year3_eyes_open in KO/EN/JA/CN/TW, are count-neutral. The physical envelope inside a notebook versus an unlocked digital folder remains distinct; clinic notice, last contact, life/death-root differences, tokens and paragraph shape remain. EN paperwork/it and the corrected CN wording avoid a plural-document premise. No added climax, general tense rewrite, gameplay change or new feature was introduced. The12 Korean-direct receipt bindings, accepted40302/b141 and preserved prior140 batches remain valid. The initial exchange-fixture failure and three genuine stale-source rejections are retained.",
+  "resolved_finding": "The former EN arc_events, EN arc_midgame and ledger admission failures are resolved by the exact358 successor and all five consumer normal/self tests. Original313 pins/module and earlier failed results remain unchanged; the separate inventory issue belongs to ORDER-360.",
+  "runtime_evidence_and_limits": "The existing isolated StoryMode run observed16 prepared states: KO/EN x alive/passed x weighted/eyes_open x ghost absent/present,48 exact page-label comparisons and eight ghost-invariant pairs. All four original1280x800 PNGs were directly viewed without observed clipping/overlap, but cover only alive/ghost-absent first pages. Direct handlers, prepared turn192, completed typing and tween stepping are not natural input or normal-speed play. The13-month HUD reflects preparation, not observed calendar progression. MainGame scheduler execution, each death signal separately, all earlier priority-positive cases, year4 choices/results, all-state/full-body visual review and JA/ZH screens were not observed. The page expectations use the runtime page function and do not independently prove pagination quality.",
+  "preservation": "The prior115 decisions/93 reports and39 current product/protected paths are preserved. The original359 pre-merge protected20 proof is not falsely reused across the approved P-20 PROPOSALS change; the merged report's explicit19-of20 exception remains. Current P-20/148 prerequisites, human OPEN45, old exact-package public GO1, held72 and retained-meta9 keep their meanings.",
+  "required_findings": [],
+  "evidence": [
+    {"path": ".git/full-game-localization/order359-final-review.json", "sha256": "d3997e3d62751c65dc81b2b58c5a46e29ec39799bad976fc59974e0d5ff9511a"},
+    {"path": ".git/full-game-localization/order359-final-review-merged.json", "sha256": "cda242e4a8d6a4e6b814b540b4f0059cf23b488f416ba39f2559d4b3d6a67122"},
+    {"path": ".git/full-game-localization/order359-static-summary.json", "sha256": "5803bc6018a1337123e5215b4edaff340f38b940407b415c0aecbd7e263181af", "meaning": "Preserved6 PASS/1 FAIL, not retroactively changed"},
+    {"path": ".git/full-game-localization/order359-screen-l84hv0pu/result.json", "sha256": "89b943c8adfdde81de4e7219528815dd26628995878d3aa3e34dcce119676d8e"},
+    {"path": ".git/full-game-localization/order359-screen-l84hv0pu/cases.json", "sha256": "67a7b10a9be54ebff69b56527491cbd75d0e7a6dac1b1e1f2ec56abd5bd1675c"},
+    {"path": ".git/full-game-localization/order358-final-aggregate.json", "sha256": "27b6987d8695d6878fb6d90aa3bf1aaedf8875218ec95e4bbe18be5ce658bc84"}
+  ],
+  "unobserved": ["native_reader", "human_playtest", "physical_controller_feel", "New rendering/engine execution, natural input, normal-speed play, all-state/full-body visual review, JA/ZH screens, full playthrough and every user-data location.", "Clean-final-source rerun, full-shell audit, new package/export, overall prose completion, ORDER-360 inventory closure and release approval."],
+  "completion_statement": "Close only ORDER-359's declared callback repair and integration on this exact source. Full game/new package remain HOLD and human/native/physical gates OPEN; original failures and HOLD decisions remain preserved."
+}

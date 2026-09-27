@@ -4761,6 +4761,126 @@
         "path": "docs/agent_reviews/ORDER-359.json",
         "sha256": "cda242e4a8d6a4e6b814b540b4f0059cf23b488f416ba39f2559d4b3d6a67122"
       }
+    },
+    {
+      "id": "order-358-source-0bfc280-agent-review",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-28",
+      "decided_by": "/root/r3_route_probe",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-358",
+      "subject": {
+        "kind": "source",
+        "commit": "0bfc2805fd1ebb21363174a5a779511a3208e03a",
+        "tree": "4b16868392028273d78bf2055bcf9593f5f11724",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-358.json",
+          "sha256": "5883f850c83fae3fcc85c95b500b5fd5d1a133eec52867e6f1371b0e11f3bbce"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "fresh_rendered_screens",
+        "new_engine_execution",
+        "natural_input",
+        "full_240_week_playthrough",
+        "package_or_export_validation",
+        "full_shell_audit",
+        "full_chapter_or_all_English_tense_quality",
+        "internal_product_GO"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-358.json",
+        "sha256": "5883f850c83fae3fcc85c95b500b5fd5d1a133eec52867e6f1371b0e11f3bbce"
+      }
+    },
+    {
+      "id": "order-350-followup-source-0bfc280-agent-review",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-28",
+      "decided_by": "/root/r3_route_probe",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-350",
+      "subject": {
+        "kind": "source",
+        "commit": "0bfc2805fd1ebb21363174a5a779511a3208e03a",
+        "tree": "4b16868392028273d78bf2055bcf9593f5f11724",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-350-followup.json",
+          "sha256": "6e99c87cc8042590e133a009f320bc8a87e70c74ee14bcb2f40985b62bb1d082"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "fresh_rendered_screens",
+        "new_engine_execution",
+        "natural_input",
+        "full_240_week_playthrough",
+        "package_or_export_validation",
+        "full_shell_audit",
+        "full_chapter_or_all_English_tense_quality",
+        "internal_product_GO"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-350-followup.json",
+        "sha256": "6e99c87cc8042590e133a009f320bc8a87e70c74ee14bcb2f40985b62bb1d082"
+      }
+    },
+    {
+      "id": "order-359-followup-source-0bfc280-agent-review",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-28",
+      "decided_by": "/root/r3_route_probe",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-359",
+      "subject": {
+        "kind": "source",
+        "commit": "0bfc2805fd1ebb21363174a5a779511a3208e03a",
+        "tree": "4b16868392028273d78bf2055bcf9593f5f11724",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-359-followup.json",
+          "sha256": "aba54030e490e2f3797a608bddcfb0812729bd8414c59c192661b478dfc46418"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "fresh_rendered_screens",
+        "new_engine_execution",
+        "natural_input",
+        "full_240_week_playthrough",
+        "package_or_export_validation",
+        "full_shell_audit",
+        "full_chapter_or_all_English_tense_quality",
+        "internal_product_GO"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-359-followup.json",
+        "sha256": "aba54030e490e2f3797a608bddcfb0812729bd8414c59c192661b478dfc46418"
+      }
     }
   ]
 }

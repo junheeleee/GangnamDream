@@ -1,0 +1,61 @@
+{
+  "schema": "gangnamdream-independent-work-unit-review/v1",
+  "unit_id": "ORDER-358",
+  "scope": "work_unit",
+  "review_stage": "independent_source_bound_final",
+  "decided_by": "/root/r3_route_probe",
+  "decision": "GO",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "0bfc2805fd1ebb21363174a5a779511a3208e03a",
+    "tree": "4b16868392028273d78bf2055bcf9593f5f11724",
+    "manifest_sha256": null
+  },
+  "outcome": "GO for the declared current-source/historical-comparison integration only. The exact 350/359 successor is admitted without rewriting original guards, product prose, translation receipts or historical decisions. No required finding remains in this work unit. Separate 350 and 359 follow-up decisions assess their prose scopes; this is not an internal-product or package GO.",
+  "independence": "Non-author review. I read the complete new compatibility module, all five consumer diffs and both lane-registration diffs, relevant unchanged callers, private execution/preservation/aggregation helpers and the final documentation delta. I independently checked Git transitions, raw evidence hashes, source censuses and historical fixture identities. I identified/corroborated the chapter1 missing comparison and the year5 pre155/post155 overlap error; authors repaired them. I did not edit tracked files or rerun an acceptance CLI, importer or engine. Only private review reports were written.",
+  "source_binding": {
+    "clean": true,
+    "resolver": "current_agent_source_subject independently returned the exact subject above; HEAD/tree and empty porcelain were checked directly.",
+    "implementation_boundary": "Eight tools plus four documentation paths changed from declaration 53a507f9d4db9c25fb84c3c169a9611be870e496. The complete content diff against product acab8ea29d2ec392d1224513e005e8b8000a4535 is empty.",
+    "execution_boundary": "The three lane attempts ran at dirty declaration HEAD 53a507f, not the clean final commit. Every recorded execution has equal before/after maps over 1375 tracked source/text paths. Final execution bytes equal this candidate except CLAUDE.md's one reviewed current-status row. Its final SHA is 7ff318fccbc07cc95dcd12f5d445e6d478af01ac6fd3a67c73f1b11580e8f965. Queue/log/order metadata are outside that census. This is not a binary-asset or user-save census.",
+    "attempt_bridge": "Attempt1 to attempt2 changes exactly chapter1 and year5 consumers. Attempt2 to attempt3 changes exactly the new module and year5 consumer. All other captured paths remain equal. Final13 reruns cover the new module and all dependent consumer normal/self/historical commands. The six unchanged auxiliary commands reuse attempt1 evidence; their reviewed execution paths do not call the changed boundaries. The original316 live-caller corpus does call chapter1/year5 and is included in the rerun historical command.",
+    "final_module_sha256": "05b0037f7c08889c9cf4a7ed13fa64c09bbd6139cb8c5af53a554f4abb010e60",
+    "final_year5_sha256": "f4523007b3955eb3b2d7f4c0d437c688b81537a2a3e67a0bec46a66babc20497",
+    "final_chapter1_sha256": "5f5974d86fd3426b6ff7803f67fa2b3d476d60fe1ce0cdc06338bd3837219474"
+  },
+  "boundary_assessment": [
+    "Immutable direct-parent proofs match 350 ef89698 from d8fbf31: 22 paths, 86 text leaves, 42 refreshed plus 3 new receipts; and 359 acab8ea from e3a6e09: 6 paths, 20 existing leaves, 12 refreshed receipts. The leaf sets are disjoint. Current accepted total40302/b141 and other ledger metadata remain unchanged.",
+    "Current admission covers the complete38-path union. Raw bytes, parsed observations, claimed hashes, appended ghost priority and immutable Git proofs are bound. Only the exact KO/EN9-file49-leaf successor is inverted for historical comparison, composing into historical14-file68-leaf views. Locale targets, current inventory and ledger remain current.",
+    "Fresh invocation scopes verify all five original module byte hashes, import paths and ROOT identities. Pure verified-byte caching does not cache Git registration across invocations. Non-owned-row early return preserves the prior copied result; it does not bypass the enclosing composed proof or current admission.",
+    "Consumers retain admission failures rather than treating a historical projection as current approval. Graph indexed binding covers declared changed events and priority order, not every unrelated in-memory event; whole-file raw admission still rejects raw neighbor drift. Some existing diagnostic comparisons continue after accumulating admission errors, but cannot clear those errors or produce PASS.",
+    "Chapter1 adds only the audited/historical intersection excluding the original305 owner: KO arc_midgame. Its original305 functions, branch and fixed constants remain unchanged; 18 cases are additive. Year5 retains original309/313 cases. Its new350 overlap compares KO arc_year3_drama to immutable post155, verifies the pre155/post155 pair and exact155 payload, and retains the original11-path census with exemption false. The earlier explanatory count12 was wrong; code and measured set are11.",
+    "Original305/310/316/309/313 modules and original CLI meanings remain intact. Historical CLI successes are on verified isolated historical fixtures, never claims that those old current gates accept the present product. The full shell audit was not run or waived."
+  ],
+  "verification": {
+    "distinct_final_commands": 19,
+    "recorded_lane_executions": 37,
+    "attempts": ["final1: 19 commands,16 PASS/3 FAIL including one timeout", "final2: 5 commands,4 PASS/1 FAIL", "final3: 13 dependent commands,13 PASS; six auxiliary results reused from final1"],
+    "preserved_failures": "final1 chapter1 normal/self fail on the KO arc_midgame audited snapshot; year5 self times out at1800.083s with exit124 and empty stdout/stderr. final2 year5 self completes at1534.101s, exit1,1085 cases and four errors at KO arc_year3_drama: exact155 scope, full byte inverse, full hash inverse and exact census. None is relabeled PASS.",
+    "final_cases": {"new_boundary": 998, "historical": 957, "full_body": 112, "story_graph": 308, "chapter5": 146, "year5": 1085, "chapter1": 622, "localization": 264},
+    "historical_identity": "957=original305132+310106+31663 current-caller function cases, plus isolated unchanged309 CLI286 and313 CLI370. I checked final3 fixture module4/live15 at revision43f76f1 and module5/live19 at d8fbf31 against immutable Git hashes; observed import file=ROOT/path, empty stderr, exit0 and removed temporary roots.",
+    "final_timing": "year5 self947.195s; chapter1 self846.907s. Neither timed out. Chapter1 retains census full2/skip21/fallback1 and reports409 probes/27 full validations/19 full fallbacks. Its normal result still discloses24 missing slots and existing debt8/blocked3; these are not repaired or promoted here.",
+    "evidence_authentication": "All37 raw records match their three summaries, commands, indices, return codes and1375-path before/after maps. The aggregate's selected19 raw paths, hashes, stdout/stderr hashes and byte counts match. Performance profiling and focused545/13/18+6 checks are supplementary diagnostics, not additional successful lane commands or replacement for the final13 run."
+  },
+  "preservation": "Directly checked39 product/protected paths plus93 prior reports against aggregate hashes and preserved all115 prior decisions byte-for-byte from8536caa. Product content is unchanged. Original modules, human OPEN45, old exact-package public GO1, P-20 approval/148 prerequisites and localization retained-meta9/held72 keep their previous meanings.",
+  "required_findings": [],
+  "evidence": [
+    {"path": ".git/full-game-localization/order358-final-aggregate.json", "sha256": "27b6987d8695d6878fb6d90aa3bf1aaedf8875218ec95e4bbe18be5ce658bc84"},
+    {"path": ".git/full-game-localization/order358-final1-summary.json", "sha256": "d6d93b2817235664271478b3cb7e13cab35af7008fcc54f54474a3f7029d868a"},
+    {"path": ".git/full-game-localization/order358-final2-summary.json", "sha256": "71796f207dfc17b8fc87a100e66ddce9c79815b9733b0d1f1f01401a745e6284"},
+    {"path": ".git/full-game-localization/order358-final3-summary.json", "sha256": "ab335d7eb74ab54ffbb20c8d54ea8e6f98407917f832a402fb52b00de36a1aa5"},
+    {"path": ".git/full-game-localization/order358-final3-02.json", "sha256": "b78f995774c0ba43bc4c4d49c4a171ab7464d55330b5f9a9d1f61f8f76946e52"},
+    {"path": ".git/full-game-localization/order358-run-checks.py", "sha256": "9e35d502d160156ab6f8d53b5b18e78ddd81c116f37f7bc9c3e93d7923216452"},
+    {"path": ".git/full-game-localization/order358-aggregate.py", "sha256": "a7ddb030c5fce12ee4fa3a517bf4e6600a816fdbc76de56f612aedc6719eec01"},
+    {"path": ".git/full-game-localization/order358-preservation.py", "sha256": "7482e81ce83d36b63770e4089c1cfcef251f7ebcf7cbb36df6bd64c59edcec23"},
+    {"path": ".git/full-game-localization/order358-consumer-year5-overlap-focused.json", "sha256": "4bc1bb8912982dbe99cf2edfcf0e8477f1976b1aebb45e2f4b097fb6d6da9976"},
+    {"path": ".git/full-game-localization/order358-fastpath-focused.json", "sha256": "9ec77964c9bc911687d337c00c5876bbc7bbc7dd4e2fb4d78cef2000e501ffdf"}
+  ],
+  "unobserved": ["native_reader", "human_playtest", "physical_controller_feel", "New engine execution, fresh screenshots, natural input, normal-speed play and full240-week playthrough.", "A clean-final-commit rerun, full-shell audit, binary-asset or all-user-data census, package/export validation and release approval.", "Overall prose quality, all-English-tense normalization and the separate ORDER-360 inventory issue are not closed by these static checks."],
+  "completion_statement": "ORDER-358's declared integration is complete on this exact source. Full game and new package remain HOLD; human/native/physical gates remain OPEN. The development skill shaped the declared ownership, targeted evidence and non-author review; no new standing canon was introduced."
+}

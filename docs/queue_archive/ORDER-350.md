@@ -1,8 +1,32 @@
-# Active Queue Spec: ORDER-350
+# Archived Queue Spec: ORDER-350
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-350 [P1·본편] 3장 M25~M36 대본의 경로·회수·영어 정합을 고친다
+#### [x] ORDER-350 [P1·본편] 3장 M25~M36 대본의 경로·회수·영어 정합을 고친다
+
+
+## 2026-09-28 완료 — 독립 작업 한정 GO
+
+- 최종 source `0bfc2805fd1ebb21363174a5a779511a3208e03a`, tree
+  `4b16868392028273d78bf2055bcf9593f5f11724`에 비저자 `/root/r3_route_probe`가 판정했다.
+  [보고](../agent_reviews/ORDER-350-followup.json) SHA `6e99c87cc8042590e133a009f320bc8a87e70c74ee14bcb2f40985b62bb1d082`.
+- 3장86leaf/receipt45와 기존32준비상태 증거·358 통합 수리를 따로 확인한 후속 GO다. 다른 작업의 GO를 빌리지 않는다.
+- 명시19종 최종 PASS. 최초19실행의 chapter1 normal/self 실패2와 year5 시간초과1을
+  보존한다. KO midgame 비교 연결·호출1회 안의 증거 공유 뒤5명령재검사에서는
+  4 PASS/1 FAIL(year5의새350/옛155단계 혼동4assertion)을 기록했다. 옛155 등록경계를
+  보존하며 새350 교집합·155양성fixture를수리하고 비소유행반복파싱만피하도록 했다.
+  최종모듈/종속소비자13명령을재실행해 PASS, 보조6명령은비의존bridge로재사용했다.
+  총37실행/19종이며 세 번의전체차선/37종검사가아니다. 전후1375핀·단계별수정집합
+  (첫2·다음2,합집합3파일)을결속했다. 최종clean source 실행이나 전체shell/엔진 통과가아니다.
+- 원래350/359의 정적FAIL·HOLD 보고를 보존한다. 이번 제품 수정0,
+  기존115판정/93보고와 인간OPEN45·옛exact 공개GO1·공식40302/b141/meta9·보류72 불변.
+  본편·302 새package HOLD. 새 화면/입력/원어민/인간/물리 관측0이다.
+- 350 화면증거15핀 중 year_close KO/EN2는359 승인20leaf 전이로 이어진다.
+  모두 현재와 같은 옛 화면이라고 주장하지 않는다.359 runtime16핀은 현재와 같다.
+- 규범은 일회성/기존 WORK_UNIT·I18N 적용이며 새 승격0. 자동검사는 계약 증거이지
+  재미·깊이·문체나 사람 판정이 아니다. 아래 HOLD 기록은 당시 상태로 보존한다.
+
+## 아래는 선언 및 실행 중 기록 (원형 보존)
 
 **2026-09-27 Claude 발행.** 본편 대본 정합 검토 계획
 ([FULL_GAME_SCRIPT_REVIEW](../queue_backlog/FULL_GAME_SCRIPT_REVIEW.md))의 배치
