@@ -2,7 +2,7 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [ ] ORDER-359 [P1·본편] 4장 결산이 없는 두 번째 서류를 회상하지 않게 한다
+#### [~] ORDER-359 [P1·본편] 4장 결산이 없는 두 번째 서류를 회상하지 않게 한다
 
 2026-09-27 Codex 발행. 350 비저자 검토 중 발견한 직접 후속 소비자다.
 350에서 재혁 신청서가 없는 경로를 보증서만 있는 결산으로 수리했으므로,
@@ -31,6 +31,21 @@
   다시 쓰지 않으며 350에서 남겨 둔 “100주”/일반적 진실 회상·문체 채무로 확장하지 않는다.
 
 ## 읽기 전용 사전 확인 (2026-09-27, 구현 아님)
+
+### 2026-09-27 착수 — 만지는 파일
+
+- 기준 main `9586560`, 사용자 변경0. 원격 P-20 제안과 이전114판정/92보고를 보존한다.
+- root: `content/events/arc_year_close.json`·`content/events_en/arc_year_close.json`의
+  위4조건부 본문씩8leaf, `content/meta/full_game_localization.json`의 해당 기존12receipt만.
+- 번역 저자 `/root/screen_path_probe`: JA/zh-CN/zh-TW의 `arc_year_close.json`3파일,
+  위4leaf씩12개만 한국어에서 직접 수리한다. 사전 export 뒤 root가 시작 신호를 준다.
+- `/root/compat357`: private `order359-*` 정적/불변 검증. `/root/r3_route_probe`는
+  제품 비저자 읽기 전용 검수와 private 최종 보고만. root는 격리 StoryMode16상태 검증을
+  기존 bootstrap/helper 선례에 맞춰 준비하고 실행시 runner·사용자 전후 목록도 결속한다.
+- 마감 root: 위 선언 범위의 사양/큐/WORK_LOG/생성STATUS/CLAUDE 한 행 및
+  `docs/agent_reviews/ORDER-359.json`·새 agent 판정. tools/engine·기존350leaf·인간/공개
+  원장·사용자 저장·P-20은 수정하지 않는다. 358 source 연결은 별도 미착수다.
+- 일회성 작업 지시이며 원어민·인간·물리 관찰로 자동 결과를 승격하지 않는다.
 
 - 20leaf 모두 `{name}`2개/개행4개이며350의86leaf와 교집합0이다. JA/ZH는 생사 root
   사이에 기존 문장 차이가 있으므로 서로 복사하지 않는다. EN은 `two documents`만
