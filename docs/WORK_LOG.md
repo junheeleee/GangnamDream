@@ -7,7 +7,7 @@
 - [313](queue_active/ORDER-313.md)의 시간 연결·명함 행동·약 대사/시제·다은의 종이·병실 낮 선택을15문구에 반영했다. 실제 조건부 본문에도 같은 시간 결함이 있어 [356](queue_active/ORDER-356.md)5문구로 별도 선언·수리했다. 입원 뒤 지연의 새 이유나 첫 방문 단정은 만들지 않았다.
 - 제품 `ac02dbc6`의7JSON20문구·기존번역receipt9 외 raw/구조/효과/순서/토큰/개행 불변이다. 한국어에서 JA/CN/TW를 각각 수리하고 export전후6+6·check/import6쌍·옛batch6 stale거부를 확인했다. 공식40299/meta9·보류72·옛137이력 보존, 이력139(새번역0)이다. 처음 자체 대조가 잡은 root EN 들여쓰기2칸 변화는 원형 복원 후 같은 모집단을 재검증했다.
 - 정적9명령은 **6 PASS/3 FAIL**. localization264·audit·story consistency·i18n coverage·English Hangul·EN coverage PASS, full-body63중6실패·graph4오류·309guard의 현재입구 실패가 남았다. 선택79개는 실행 목록일 뿐 전체통과가 아니다. 실제 실패/로그를 보존하고 [357](queue_active/ORDER-357.md)에7JSON20leaf/receipt9 현재 경계와 KO/EN4파일11leaf 역사 비교 연결을 명시했다. 이전305/310/316/309 핀은 불변이다.
-- 개발 스킬에 따른 선행 선언·파일 소유 분리·원문 직접 번역·표적 검증과 비저자20문구 전수 사전 검토를 적용했다. 원고는 적합하지만 두 단위의 최종 source-bound 판정과 통합 검증이 남아 HOLD다. 상시 규범 추가0, 일회성/기존 I18N·P-9·WORK_UNIT 적용이다.
+- 개발 스킬에 따른 선행 선언·파일 소유 분리·원문 직접 번역·표적 검증과 비저자20문구 전수 검토를 적용했다. 최종 source `496142dc`/tree `9cdb6178`에서 원고는 적합, 통합 실패 때문에 [313](agent_reviews/ORDER-313.json)·[356](agent_reviews/ORDER-356.json) 각각 HOLD다. clean metadata wrapper `51953a9` 전체 차이/source resolver를 재확인한 v2 두 보고를 정확복사하고 최초 v1은 보존했다. 제품 검사 반복0, 기존108판정/86보고를 보존해110판정/88보고다. 상시 규범 추가0, 일회성/기존 I18N·P-9·WORK_UNIT 적용이다.
 - 새 엔진/화면/입력/원어민/인간/물리/패키지 관측0이며 자동 검사는 계약 증거이지 작품성이나 사람 판정이 아니다. 인간OPEN45·옛 공개GO1·본편/302 successor package HOLD, 외부출시·스토어·지출0이다. 다음은357 통합 수리다.
 
 ## 2026-09-27 (Codex — 1장 원고·번역 기록의 통합 검증 완료)

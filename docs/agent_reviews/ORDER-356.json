@@ -1,0 +1,241 @@
+{
+  "schema": "gangnamdream-independent-work-unit-review/v1",
+  "scope": "work_unit",
+  "review_stage": "independent_source_bound_final_v2_metadata_rebind",
+  "decided_by": "/root/screen_independent_review",
+  "decision": "HOLD",
+  "verdict": "HOLD",
+  "subject": {
+    "kind": "source",
+    "commit": "496142dc64800593ea0913920c51d5ef8feccbd4",
+    "tree": "9cdb617871151c40f9159a3575c1de1f0014a42d",
+    "manifest_sha256": null
+  },
+  "independence": "Nonauthor of all prose, receipts, implementation helpers and tests. Independently read all20 changed leaves against immutable originals and Korean context, inspected source consumers and saved raw results, and performed read-only Git/hash/JSON/receipt checks. Authored only the two new private final reports; no tracked file, engine, image, input or user-data mutation.",
+  "source_binding": {
+    "observed_at_utc": "2026-09-27T11:49:25.455132+00:00",
+    "observed_head": "51953a922b44903b37c67b0009b5dead0314051e",
+    "observed_tree": "942beac887551aca85e8a176e271cdf076e9dbfd",
+    "observed_clean": true,
+    "resolver": {
+      "kind": "source",
+      "commit": "496142dc64800593ea0913920c51d5ef8feccbd4",
+      "tree": "9cdb617871151c40f9159a3575c1de1f0014a42d",
+      "manifest_sha256": null
+    },
+    "product_commit": "ac02dbc6a18126dda25e8fea8562faff18c1a365",
+    "product_parent": "43f76f1bcd25665e765a7ddfff232020d837ca4f",
+    "delta": "The product commit is the direct child changing exactly7 event JSON files and1 portable ledger. All8 product bytes match final HEAD; subsequent changes are CLAUDE's current row and7 declared queue/status/log/spec documents. CLAUDE is source-bearing, so this review binds496142dc, not the earlier product commit.",
+    "execution_boundary": "All9 saved executions report declaration HEAD43f76f1 and dirty implementation state referencing order313-self-check.json. Current product hashes equal that record and the committed product. The envelopes do not contain per-command before/after whole-source or user-data censuses; none is inferred. No execution at clean496142dc is claimed.",
+    "original_clean_source_observation": {
+      "observed_at_utc": "2026-09-27T11:42:47.469750+00:00",
+      "observed_head": "496142dc64800593ea0913920c51d5ef8feccbd4",
+      "observed_tree": "9cdb617871151c40f9159a3575c1de1f0014a42d",
+      "observed_clean": true
+    },
+    "metadata_wrapper": {
+      "commit": "51953a922b44903b37c67b0009b5dead0314051e",
+      "changed_paths": [
+        "docs/queue_active/ORDER-357.md"
+      ],
+      "conclusion": "Independently read the complete496142dc→51953a9 diff: only unimplemented357 plan clarifications (current19/historical7 path unions and301-versus286 historical corpus boundary). No product, CLAUDE, tools, ledger, prior report or raw evidence bytes change. Fixed metadata-only resolver still identifies source496142dc. This is no approval of the unimplemented357 source or a587-case execution claim."
+    },
+    "writing_time_note": "Root's intentional357 spec edit began after the original clean source observation and was detected during report hash verification. V1 is preserved at its original bytes. This standalone V2 pins tracked evidence to immutable Git commits and records a fresh clean wrapper observation; it does not turn the9 earlier executions into new-source reruns."
+  },
+  "preservation": {
+    "combined_delta": "Exact7JSON/20 string leaves: ORDER31315 plus ORDER3565. Independent raw reconstruction using only those JSON-string substitutions matches each final file, proving no other raw formatting, scalar, key/order, array, effect, condition, route, paragraph/newline or token change.",
+    "ledger": "Only9 existing accepted receipts and derived accepted checksum change; two separate batches append after the exact original137. Current accepted total remains40299, batches139, retained internal metadata9 and its checksum unchanged, new translations0. All other ledger fields and accepted records are equal to43f76f1. The prior held72 boundary is not promoted or counted as completed.",
+    "ledger_sha256": "30ca5537b6457d1286522bbdda602f01c23ad6bce1c78d9f14e2dba45bce1ece",
+    "history": "Independently compared the complete108-decision ledger and86 existing report files to43f76f1: byte-identical. Human gates remain45 open/1 done; project.godot, public source/manifests, story map/rules/lifecycle, MainGame and the original305/310/316/309 compatibility modules are unchanged. Original309 and354 failure records are not revised or relabeled.",
+    "agent_ledger_sha256": "bc7f53b0cab4e709f229b4551fe762cabc3be89d2302414986f88f9df6b8ceec",
+    "human_ledger_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6",
+    "project_sha256": "78e98d7bdc1349570df6f2cc7ca6cbb11d4fc5451f5bbfdd338561653c7380c5"
+  },
+  "verification": {
+    "shared_execution_population": 9,
+    "passed": 6,
+    "failed": 3,
+    "timeouts": 0,
+    "counting": "These are the same shared9 commands for both units, not18 independent executions. The selection artifact lists79 checks including13 engine checks and executed_checks0; it is an impact list, not79 PASS.",
+    "passed_commands": [
+      "full_game_localization_self_test.py:264 cases",
+      "audit.py:errors0/warnings0",
+      "story_consistency_audit.py",
+      "i18n_coverage_check.py",
+      "english_hangul_audit.py",
+      "en_coverage_check.py"
+    ],
+    "failed_commands": [
+      "full_body_translation_scope.py --self-test:63 cases,6 failures",
+      "story_graph_contract_audit.py:4 errors",
+      "order309_source_compat.py --self-test:current admission fails;286-case corpus is not an overall PASS"
+    ],
+    "raw_review": "Rehashed all9 raw artifacts against the summary and read all finite outputs. Parsed localization's large embedded sections24/33/40/60/64 and their checks instead of treating intentional negative diagnostics as failures; actual check booleans pass and the final marker reports264. Its unittest stderr ends Ran264/OK. Counts overlap and are not summed.",
+    "receipt_review": "Independently bound every old export row and path-aware source digest to immutable43f76f1. Validated all6 fresh source/response pairs against current inventory and actual targets with merge write disabled, all6 private accepted receipt checksums against the two ledger batches, and all9 current source/target digests. All6 old batches are rejected as stale source manifests. No importer or test suite was rerun by this reviewer.",
+    "scope_limits": "Coverage/structure/no-Hangul passes do not certify prose naturalness, every runtime path, full native localization or render behavior."
+  },
+  "next_step": {
+    "order": "ORDER-357",
+    "status": "declared_unimplemented",
+    "review_boundary": "Read the proposal only; no implementation or GO is approved. A separate exact current8-file/20-leaf/receipt9 admission and bounded historical KO/EN4-file/11-leaf view must preserve actual current text, prepared-language9 leaves and receipts, old pins and regression evidence. Apply and independently verify that repair before reconsidering either unit.",
+    "no_inheritance": "Earlier309/355 GO and future357 outcomes cannot be borrowed as approval of this changed source."
+  },
+  "unobserved": [
+    "Work-unit source review only; no internal-product, public, release/package, native-reader, human-playtest or physical-controller GO.",
+    "No engine/game run, screen capture, natural input, full240-week route, medical-duration validation or fresh real user-save census.",
+    "The full79-check selected population, including all13 engine checks, was not run. No clean-final-source rerun or whole-source runtime provenance census is claimed.",
+    "Full EN-tense normalization, all15 M13–M24 roots as a fresh scene-quality audit, M21 EXPAND work, broader release debts and native JA/CN/TW quality remain outside this bounded20-leaf review.",
+    "Public GO1 remains attached only to the old exact package; human OPEN45, full-game INCOMPLETE/HOLD and successor-package HOLD remain."
+  ],
+  "unit_id": "ORDER-356",
+  "outcome": "HOLD. The5 conditional hospital descriptions and3 existing locale receipts are suitable and exactly preserved outside their declared edits. The shared current-source/historical comparison gates remain incomplete; this narrower unit does not inherit a GO from313 or any earlier source.",
+  "population": {
+    "target_text_leaves": 5,
+    "reviewed_text_leaves": 5,
+    "product_json_files": 5,
+    "existing_locale_receipts": 3,
+    "locales": [
+      "ko",
+      "en",
+      "ja",
+      "zh-CN",
+      "zh-TW"
+    ],
+    "exact_field": "arc_father_04_visit.description_if_known.arc_sangchul_03_seen",
+    "relationship": "Five distinct leaves share the five arc_events files with313; they are not counted among313's15 leaves. All20 combined leaves were reviewed."
+  },
+  "prose_decisions": [
+    "StoryMode._resolved_story_description selects the first matching description_if_known variant before the base description; arc_sangchul_03_seen therefore makes this an actual alternate consumer, not redundant unused copy.",
+    "Each locale adds weeks since the admission news and changes2 hours to nearly3, consistently with the corresponding base description. The normal MainGame callW89–92 and visitW96 preserve a several-week interval without inventing a specific date or reason.",
+    "The Daejeon arrival, Sangchul contact, same-evening seat, immediate Seoul-return pressure, seven-o-clock reply, corridor/door image, dialogue and father's not-yet-seeing-his-son beat are unchanged.",
+    "Exact JSON-string reconstruction proves all other text, paragraph/newline and token bytes, conditional key/order, visit choices/effects, W96 routing and future receipts are preserved. Japanese and both Chinese regions were assessed directly against Korean; this is not native approval."
+  ],
+  "required_findings": [
+    {
+      "id": "ORDER356-BLOCKER-01",
+      "severity": "blocking",
+      "status": "open",
+      "title": "The conditional repair is not admitted by the current exact source boundary",
+      "evidence": "The same saved graph and309 guard failures reject the combined changed arc_events and localization-ledger bytes. The shared files/ledger include356's five conditional leaves and3 receipts; passing local receipt checks does not admit these products.",
+      "resolution": "357 must bind the conditional leaves and3 receipts as their own declared unit population within the complete current8-file admission. No filename exception, rollback or old-pin refresh."
+    },
+    {
+      "id": "ORDER356-BLOCKER-02",
+      "severity": "blocking",
+      "status": "open",
+      "title": "Required historical source comparison still fails",
+      "evidence": "Shared full-body63 reports6 failures in exact source-observation/fingerprint preservation. The new Korean conditional source is part of the changed historical text population, and no accepted exact inverse for it exists yet.",
+      "resolution": "Verify the separate finite historical view including this conditional KO/EN pair, while leaving prepared locale text/current receipts untouched, then issue a separate source-bound356 follow-up."
+    }
+  ],
+  "known_out_of_scope": "The pre-existing few-days admission expectation versus weeks-later hospital placement is not medically or narratively closed. No new cause is added. Broader chapter2 prose and global EN tense are not repaired by this conditional-only unit.",
+  "evidence": [
+    {
+      "path": "docs/queue_active/ORDER-356.md",
+      "sha256": "e856e22ca25ef62feb91b41029fdb75e722ab6e34c16f9a7307ba374215a872c",
+      "git_commit": "496142dc64800593ea0913920c51d5ef8feccbd4"
+    },
+    {
+      "path": ".git/full-game-localization/order313-self-check.json",
+      "sha256": "48afa1eb9ced4910798962db6ef297b1d6c76d65d33019f5b4270c2b81a95912"
+    },
+    {
+      "path": ".git/full-game-localization/order313-self-review.md",
+      "sha256": "e8d5eb9e84800a16aec55780e88c3034e6d2b0bdb9f5fa90f12f9584e698deda"
+    },
+    {
+      "path": ".git/full-game-localization/order313-verify.py",
+      "sha256": "d0acf3557ef230251070da589d028ac42030f6aea563db691bb2e166975c54c6"
+    },
+    {
+      "path": ".git/full-game-localization/order313-static-summary.json",
+      "sha256": "e7cac9eca5be8d05ff76cfa608b6d4a648b2e3dc55a1fc27fbf6c4a0cf58d0d4"
+    },
+    {
+      "path": ".git/full-game-localization/order313-static-03.json",
+      "sha256": "2c8dd2acbbe35fed9f1b3335a2246e5be053b7a53d8d2cc7592f3a64b0778bab"
+    },
+    {
+      "path": ".git/full-game-localization/order313-static-04.json",
+      "sha256": "ea1476a175aea0ecaf9d2ce6d5e6a21d77d0f7fb86a018b1c1e215b7b03119ac"
+    },
+    {
+      "path": ".git/full-game-localization/order313-static-05.json",
+      "sha256": "c1966b621134a48d3bfcd6eed1c34f50a987c35c331f813bd97fcccc3baa7788"
+    },
+    {
+      "path": ".git/full-game-localization/order313-selection.json",
+      "sha256": "1ba80394a135219f378ae93f4e97fe21e86a7d0ee32cf9c44476a817d8b82f4b"
+    },
+    {
+      "path": "docs/queue_active/ORDER-357.md",
+      "sha256": "b5268ba9a8988cc27179bd7ff4b1393a10b2d8b536cd92c4a84680df67d1853b",
+      "git_commit": "496142dc64800593ea0913920c51d5ef8feccbd4"
+    },
+    {
+      "path": ".git/full-game-localization/order356-before-ja.source.jsonl",
+      "sha256": "ced98da7094f3443ecfaeb7671869b9c9d42e6174b6bf84a9575a8950e00bc07"
+    },
+    {
+      "path": ".git/full-game-localization/order356-after-ja.source.jsonl",
+      "sha256": "5d9274187afdc9fdaaab1989ef2517b7cbcb10e4ccb69cea821e81f1312e1afc"
+    },
+    {
+      "path": ".git/full-game-localization/order356-after-ja.response.jsonl",
+      "sha256": "2479024ff053bb1967616ebbc101c408d7436a5408c9c9386966112d0a338e94"
+    },
+    {
+      "path": ".git/full-game-localization/ja/full-ko-direct-2026-09-07.1/e1cdfea8cf03202f0117b12d99af0fc1e337c1b5ba705170d26fde45183d2a94.accepted.json",
+      "sha256": "648be56caef25dedeb3e4302dced832d3a9e6b21fafab63cd76149d4ed876501"
+    },
+    {
+      "path": ".git/full-game-localization/order356-before-zh-CN.source.jsonl",
+      "sha256": "416dfce84941a489f9732ebc187420299392923e377edcb342029612227e6485"
+    },
+    {
+      "path": ".git/full-game-localization/order356-after-zh-CN.source.jsonl",
+      "sha256": "1fa58913fcd2e2c770f697c022417fdafd6c9fd55da02acf2a0dbb7fe32e882d"
+    },
+    {
+      "path": ".git/full-game-localization/order356-after-zh-CN.response.jsonl",
+      "sha256": "308976a5760764d58a5285252ccfae9707f165c83ed2011c369c074ed73a3d2d"
+    },
+    {
+      "path": ".git/full-game-localization/zh-CN/full-ko-direct-2026-09-07.1/6e46a127e86d4b359bea1f885c5070f459da960c2563d7d2344967d1156d98db.accepted.json",
+      "sha256": "639659b443dc75d07732b08e23cb1a4cdb38bca31c2cdb8377148efc137f16de"
+    },
+    {
+      "path": ".git/full-game-localization/order356-before-zh-TW.source.jsonl",
+      "sha256": "8ce6fac01f7c22a7e7a5fae0335804db275f7ac2fe2d72cb9fb77261ef0dc8b3"
+    },
+    {
+      "path": ".git/full-game-localization/order356-after-zh-TW.source.jsonl",
+      "sha256": "d4f6c3e1925d49667f9981cbfd307c433bda07653b0648801df4ef85ef7c5c1a"
+    },
+    {
+      "path": ".git/full-game-localization/order356-after-zh-TW.response.jsonl",
+      "sha256": "ca9790371739f361e1aa6d3ab621a18dca877d8ff750395b8e91201ac076aede"
+    },
+    {
+      "path": ".git/full-game-localization/zh-TW/full-ko-direct-2026-09-07.1/7740a200e7b69b364d8b15f2caada2f062b399ca4928b731813d09968c4fca2d.accepted.json",
+      "sha256": "02e3bdf6d35c4fed9166ed436f1d4489d2077bf7030a243504a7a228eeb7ede2"
+    },
+    {
+      "path": ".git/full-game-localization/order356-final-review.json",
+      "sha256": "d5ad75cdef5540f9d68d3b5f180a1146f9727e6dd54e72efcdabe29048a9606c",
+      "role": "immutable original independent HOLD report"
+    },
+    {
+      "path": "docs/queue_active/ORDER-357.md",
+      "git_commit": "51953a922b44903b37c67b0009b5dead0314051e",
+      "sha256": "1fceb693e84ffdadc5dd234b656dff5f7ac9b880e5f9f9485397d3296280b1d1",
+      "role": "metadata-only plan clarification; not approved implementation"
+    }
+  ],
+  "completion_statement": "Retain ORDER356 open/HOLD. Conditional prose and receipt alignment are suitable, but both integration findings remain; no closure or wider GO is issued.",
+  "supersedes_for_recording": {
+    "path": ".git/full-game-localization/order356-final-review.json",
+    "sha256": "d5ad75cdef5540f9d68d3b5f180a1146f9727e6dd54e72efcdabe29048a9606c",
+    "reason": "Same HOLD decision and content/evidence review; adds explicit immutable tracked-evidence references and fresh metadata-wrapper binding."
+  }
+}

@@ -44,5 +44,10 @@
   같은 사실이 남는다. 저녁 초대·일곱 시 회신·방문 선택·게임효과는 바뀌지 않았다.
 - 313과 공유한 exact20leaf/receipt9 대조 및 정적9명령 **6 PASS/3 FAIL**이다.
   같은 검사를 두 번 실행한 것으로 세지 않는다. 전체79/엔진/화면/입력은 미실행이다.
-- 독립 사전 원고 검토는 적합, 최종 source-bound 판정 전이다. 현재 소스/과거 핀 통합은
-  [357](ORDER-357.md)에서 닫고 별도356 후속 판정한다. 본편/새package HOLD 유지.
+- 독립 원고 검토는 적합, 최종 source `496142dc64800593ea0913920c51d5ef8feccbd4`
+  /tree `9cdb617871151c40f9159a3575c1de1f0014a42d`의 별도356 판정은
+  [HOLD](../agent_reviews/ORDER-356.json)다. 보고 SHA
+  `c194a5b1dfa97db883f9ba3ee000c0720f9fb77548b3858443f280cfb758f5db`.
+  clean metadata wrapper `51953a9`에서 source resolver를 재확인한 v2 정확복사이며
+  최초 v1/공유9실행 원형을 보존한다. 현재 소스/과거 핀 통합은 [357](ORDER-357.md)에서
+  닫고 별도356 후속 판정한다. 제품 재실행0, 본편/새package HOLD 유지.

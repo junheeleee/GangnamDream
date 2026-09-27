@@ -97,8 +97,13 @@ R2다. story_map M13~M24 root 15장면(첫해 장부, 상철 인맥, 아버지 �
   i18n coverage·English Hangul·EN coverage. FAIL: full-body63중6실패, graph4오류,
   309guard286 corpus의 current admission. 실패와 stdout은 private `order313-static-*`에
   보존한다. 선택79개는 목록만 보았고 전량/엔진/240주 실행0이다.
-- 문구 전수 독립 사전 검토는 적합이다. 최종 source-bound 판정 전이며 위 통합 실패는
-  [357](ORDER-357.md)로 분리했다. 기존 핀을 덮거나 검사 통과로 바꾸지 않았다.
+- 문구 전수 독립 검토는 적합이며, 최종 source `496142dc64800593ea0913920c51d5ef8feccbd4`
+  /tree `9cdb617871151c40f9159a3575c1de1f0014a42d`에 결속한 작업 판정은
+  [HOLD](../agent_reviews/ORDER-313.json)다. 보고 SHA
+  `a2e412556b37a31198cc4091dfe1d83b06b630a6bd50d101fd92824861bf4ecf`.
+  위 통합 실패는 [357](ORDER-357.md)로 분리했고 기존 핀/실패 기록은 보존한다.
+  비저자는 clean metadata wrapper `51953a9`의 전체 차이와 source resolver를 확인했다.
+  최초 v1 보고는 보존하고 v2를 정확복사했으며 제품 검사를 반복한 것으로 세지 않는다.
 - 증거: `.git/full-game-localization/order313-self-check.json`, `order313-self-review.md`.
   root의 첫 raw 대조가 잡은 EN 들여쓰기2칸 변화는 원형으로 복원한 뒤 같은 검사를 통과했다.
   규범은 일회성/기존 P-9·I18N·WORK_UNIT 적용. 새 화면/인간/원어민/물리/package 관측0.

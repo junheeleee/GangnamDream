@@ -4479,5 +4479,86 @@
         "sha256": "aaaf02826f38412e818cc3ed7ce0aa3189574129f97a1127b9f386fbad3e4d49"
       }
     }
+    ,
+    {
+      "id": "order-313-source-496142d-agent-review",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-27",
+      "decided_by": "/root/screen_independent_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-313",
+      "subject": {
+        "kind": "source",
+        "commit": "496142dc64800593ea0913920c51d5ef8feccbd4",
+        "tree": "9cdb617871151c40f9159a3575c1de1f0014a42d",
+        "manifest_sha256": null
+      },
+      "verdict": "HOLD",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-313.json",
+          "sha256": "a2e412556b37a31198cc4091dfe1d83b06b630a6bd50d101fd92824861bf4ecf"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "fresh_rendered_screens",
+        "engine_execution",
+        "natural_input",
+        "full_240_week_playthrough",
+        "package_or_export_validation",
+        "complete_79_check_eight_file_selection",
+        "full_chapter_or_all_English_tense_quality",
+        "internal_product_GO"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-313.json",
+        "sha256": "a2e412556b37a31198cc4091dfe1d83b06b630a6bd50d101fd92824861bf4ecf"
+      }
+    },
+    {
+      "id": "order-356-source-496142d-agent-review",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-27",
+      "decided_by": "/root/screen_independent_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-356",
+      "subject": {
+        "kind": "source",
+        "commit": "496142dc64800593ea0913920c51d5ef8feccbd4",
+        "tree": "9cdb617871151c40f9159a3575c1de1f0014a42d",
+        "manifest_sha256": null
+      },
+      "verdict": "HOLD",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-356.json",
+          "sha256": "c194a5b1dfa97db883f9ba3ee000c0720f9fb77548b3858443f280cfb758f5db"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "fresh_rendered_screens",
+        "engine_execution",
+        "natural_input",
+        "full_240_week_playthrough",
+        "package_or_export_validation",
+        "complete_79_check_eight_file_selection",
+        "full_chapter_or_all_English_tense_quality",
+        "internal_product_GO"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-356.json",
+        "sha256": "c194a5b1dfa97db883f9ba3ee000c0720f9fb77548b3858443f280cfb758f5db"
+      }
+    }
   ]
 }
