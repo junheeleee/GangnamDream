@@ -70,6 +70,30 @@
 - 355 완료만으로309를 닫지 않는다.309 전체의 해당 검증 결과와 독립 후속 판정이 필요하다.
 - 기존354 15PASS/7FAIL·사람OPEN45·공개GO1·본편/새package HOLD 보존. 원어민/물리/출시GO0.
 
+## 실행 중 확인한 실제 경계
+
+- `chapter1-prose-source-compat`는 명시 전용23명령(21+always2)이다. 파일명 등록 검사와
+  별도로 명령·인자·누락·중복·실제 변경 경로를 대조한다. 기존 audit/context 중복 등록은
+  경로 합집합을 보존해 한 항목으로 합쳤다. 일반 자동 차선의 경로 조건은 넓히지 않았다.
+- chapter1 전체 normal에서 드러난 기존305의 두 사건 proof 불일치는 현재 raw/전체 관측을
+  먼저 결속하고 비교용 cache 복사본만 역투영해 수리했다. 실제 원고 cache·기존 pin은 유지한다.
+  위조 rollback/이웃/경로/주장/raw에 대한14개 경계 사례를 별도로 추가했다.
+- chapter1 self-test의156 positive 입력은 현재316 header 관측을 실제 gate와 같은 raw-bound
+  역사 view로 읽는다. 원래156 expected/음성 사례는 유지한다.267 wrapper가 먼저 return해
+  옛 registry 오류를 가리던 경계는 양쪽 오류를 누적하도록 연결했다. 기존305/310/316 module과
+  그 원형 corpus는 편집하지 않았지만 chapter1 positive 관측 연결은 수정했음을 구분한다.
+- year5 첫 self-test300초 timeout을 보존했다. Git proof는 검증 한 번 안에서만 새 snapshot을
+  공유하며 다음 검증·음성 fixture에서는 다시 읽는다.155 census는 별도로 fresh immutable
+  baseline을 확인한다. 최적화로 사례를 줄이거나 실패를 통과로 치환하지 않는다.
+- year5 전체798사례의 첫 완료는156 header positive 입력1 FAIL이었다. 해당 입력 한 곳을
+  현재309→316 raw-bound 역사 view에 연결했다. 기존 상수259(형 지정3포함262)·fixture·음성 사례는 불변이며,
+  옛 corpus8함수 중7개 원문 불변/1개 관측 연결수정으로 구분한다. 이전 FAIL은 보존한다.
+- chapter1 self-test600초 timeout도 보존한다. 같은 기존590사례의 과거 PASS 실행은
+  635.65~1097.08초였으므로 새14사례를 포함한604사례에1800초 상한을 적용한다.
+  완료 marker 전에는 PASS가 아니며 시간 상한 변경은 검사를 생략하거나 줄이는 것이 아니다.
+- 위 내용은 이번 실행·수리 기록이며 일회성이다. 규범은 기존 WORK_UNIT·정확 경계 원칙을
+  적용하고 새 정본 승격은 없다. 검증·독립 판정이 끝나기 전에는355/309 완료를 주장하지 않는다.
+
 확인된 실패 원문은 `.git/full-game-localization/order309-static-{03,04,05,08}.json`,
 읽기 전용 영향 계획은 `order309-compat-followup-plan.json`이다. 새 규범은 기존
 WORK_UNIT/I18N 보호 원칙 적용, 정확 소유·실행 지시는 일회성이다.

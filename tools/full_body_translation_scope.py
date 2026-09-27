@@ -42,6 +42,7 @@ from event_lifecycle import (  # noqa: E402
 from event_schedule import DeferredFollowUpError, deferred_follow_ups  # noqa: E402
 import order305_demo_source_compat as demo_source  # noqa: E402
 import order310_demo_source_compat as latest_demo_source  # noqa: E402
+import order309_source_compat as current_source  # noqa: E402
 
 
 SCHEMA_VERSION = 1
@@ -813,7 +814,7 @@ def _baseline_target_errors(
 
 def _order305_historical_events(events: Mapping[str, SourceEvent]) -> dict[str, SourceEvent]:
     """Copy only exact successor objects; current inventory/receipts stay raw."""
-    return {eid: replace(event, row=demo_source.project_payload(
+    return {eid: replace(event, row=current_source.project_payload(
         [event.row], event.source_file)[0]) for eid, event in events.items()}
 
 
@@ -943,7 +944,7 @@ def _source_file_digest(root: Path, errors: list[str]) -> str:
 
 def build_scope(root: Path | str = ROOT) -> tuple[dict[str, Any], list[str]]:
     repo = Path(root).resolve()
-    errors: list[str] = latest_demo_source.current_source_errors(repo)
+    errors: list[str] = current_source.current_source_errors(repo)
 
     lifecycle_inputs = collect_lifecycle_inputs(repo)
     lifecycle = evaluate_author_only(lifecycle_inputs)
@@ -1056,6 +1057,10 @@ def build_scope(root: Path | str = ROOT) -> tuple[dict[str, Any], list[str]]:
             "public_demo_remains_exact_m01_m06": True,
         },
         "hash_semantics": {
+            "historical_comparison_only": (
+                "ORDER-309 exact admitted Korean event vectors are inverted only when "
+                "comparing preceding source pins; inventory text, hashes and receipts stay current"
+            ),
             "event_ids": (
                 "sha256(UTF-8 sorted unique IDs joined by LF with one trailing LF)"
             ),
@@ -1155,12 +1160,66 @@ def build_scope(root: Path | str = ROOT) -> tuple[dict[str, Any], list[str]]:
     return report, list(dict.fromkeys(errors))
 
 
+def _source_history_observations(report: Mapping[str, Any]) -> tuple[dict[str, str], list[str]]:
+    """Compare old pins without relabeling the current inventory or receipts.
+
+    A historical leaf vector is substituted only for the exact current event
+    vector from verified Git blobs; neighbors, wrong paths and edited report
+    hashes remain visible. This view undoes 309 only, retaining the 305 source.
+    """
+    errors: list[str] = []
+    live: list[TextLeaf] = []
+    historical: list[TextLeaf] = []
+    expected_paths = {eid: relative for relative, changes in current_source.JSON_LEAVES.items()
+                      if relative.startswith("content/events/") for eid, _path in changes}
+    seen: set[str] = set()
+    for event in report.get(SCOPE_LIFECYCLE_SHIPPING, {}).get("events", []):
+        eid, relative = event["id"], event["source_file"]
+        if eid in expected_paths:
+            if relative != expected_paths[eid] or eid in seen:
+                errors.append(f"ORDER-309 current report event path/count is unbound: {eid}")
+            seen.add(eid)
+        leaves = tuple(TextLeaf(eid, row["path"], row["source"], row["chapter5_reader"])
+                       for row in event["leaves"])
+        live.extend(leaves)
+        if leaves_sha(leaves) != event["source_leaves_sha256"]:
+            errors.append(f"current event observation is unbound: {eid}")
+        replacement = leaves
+        if relative in current_source.PATHS:
+            try:
+                before, after = current_source.verified_blobs(relative)
+                old = next((row for row in json.loads(before) if row["id"] == eid), None)
+                new = next((row for row in json.loads(after) if row["id"] == eid), None)
+                if old is not None and new is not None:
+                    approved = collect_event_leaves(eid, new, errors)
+                    if leaves == approved:
+                        replacement = collect_event_leaves(eid, old, errors)
+                    elif eid in current_source.LIVE_EVENT_IDS.get(relative, ()):
+                        errors.append(f"ORDER-309 current report event is not the admitted successor: {relative}#{eid}")
+            except (OSError, ValueError) as exc:
+                errors.append(str(exc))
+        historical.extend(replacement)
+    if seen != set(expected_paths):
+        errors.append("ORDER-309 current report is missing an admitted source event")
+    static_ids = set(report.get(SCOPE_M07_M60_STATIC, {}).get("event_ids", []))
+    result: dict[str, str] = {}
+    for scope, ids in ((SCOPE_LIFECYCLE_SHIPPING, None), (SCOPE_M07_M60_STATIC, static_ids)):
+        selected_live = [leaf for leaf in live if ids is None or leaf.event_id in ids]
+        selected_history = [leaf for leaf in historical if ids is None or leaf.event_id in ids]
+        if leaves_sha(selected_live) != report.get(scope, {}).get("source_leaves_sha256"):
+            errors.append(f"current source observation hash is unbound: {scope}")
+        result[scope] = leaves_sha(selected_history)
+    return result, errors
+
+
 def _expected_observation_errors(report: Mapping[str, Any]) -> list[str]:
     errors: list[str] = []
     shipping = report.get(SCOPE_LIFECYCLE_SHIPPING, {})
     static = report.get(SCOPE_M07_M60_STATIC, {})
     protected = report.get("protected_demo_reuse", {})
     targets = report.get("target_structure_inventory", {})
+    historical, binding_errors = _source_history_observations(report)
+    errors.extend(binding_errors)
 
     observed = {
         "packaged_events": shipping.get("packaged_event_count"),
@@ -1172,7 +1231,7 @@ def _expected_observation_errors(report: Mapping[str, Any]) -> list[str]:
         ),
         "shipping_leaves": shipping.get("leaf_count"),
         "shipping_event_ids_sha256": shipping.get("event_ids_sha256"),
-        "shipping_source_leaves_sha256": shipping.get("source_leaves_sha256"),
+        "shipping_source_leaves_sha256": historical[SCOPE_LIFECYCLE_SHIPPING],
         "m07_m60_root_refs": static.get("map_root_ref_count"),
         "m07_m60_shipping_root_refs": static.get(
             "lifecycle_shipping_root_ref_count"
@@ -1191,7 +1250,7 @@ def _expected_observation_errors(report: Mapping[str, Any]) -> list[str]:
         "m07_m60_events": static.get("event_count"),
         "m07_m60_leaves": static.get("leaf_count"),
         "m07_m60_event_ids_sha256": static.get("event_ids_sha256"),
-        "m07_m60_source_leaves_sha256": static.get("source_leaves_sha256"),
+        "m07_m60_source_leaves_sha256": historical[SCOPE_M07_M60_STATIC],
         "deferred_added_events": static.get("deferred_added_event_count"),
         "deferred_added_leaves": static.get("deferred_added_leaf_count"),
         "protected_overlap_events": len(
@@ -1205,7 +1264,7 @@ def _expected_observation_errors(report: Mapping[str, Any]) -> list[str]:
                     if key == "shipping_source_leaves_sha256" else EXPECTED[key])
         if actual != expected:
             errors.append(
-                f"current source observation {key} drifted: "
+                f"source observation (309 historical view for text hashes) {key} drifted: "
                 f"expected={expected} actual={actual}"
             )
     for language in TARGET_LANGUAGES:
@@ -1511,16 +1570,57 @@ def run_self_test(root: Path | str = ROOT) -> tuple[list[str], int]:
         any("duplicate object key" in error for error in duplicate_errors),
     )
 
+    source_history, source_binding_errors = _source_history_observations(report)
     require(
         "source observations expose exact hashes",
         shipping.get("event_ids_sha256") == EXPECTED["shipping_event_ids_sha256"]
-        and shipping.get("source_leaves_sha256")
+        and not source_binding_errors
+        and source_history[SCOPE_LIFECYCLE_SHIPPING]
         == ORDER305_SHIPPING_SOURCE_SHA256
         and static.get("event_ids_sha256")
         == EXPECTED["m07_m60_event_ids_sha256"]
-        and static.get("source_leaves_sha256")
+        and source_history[SCOPE_M07_M60_STATIC]
         == EXPECTED["m07_m60_source_leaves_sha256"],
     )
+
+    # Recompute even the forged hashes: self-consistency is not source identity.
+    def rehash_observation(forged: dict[str, Any]) -> None:
+        all_leaves = []
+        for event in forged[SCOPE_LIFECYCLE_SHIPPING]["events"]:
+            leaves = tuple(TextLeaf(event["id"], row["path"], row["source"], row["chapter5_reader"])
+                           for row in event["leaves"])
+            event["source_leaves_sha256"] = leaves_sha(leaves)
+            all_leaves.extend(leaves)
+        forged[SCOPE_LIFECYCLE_SHIPPING]["source_leaves_sha256"] = leaves_sha(all_leaves)
+        static_ids = set(forged[SCOPE_M07_M60_STATIC]["event_ids"])
+        forged[SCOPE_M07_M60_STATIC]["source_leaves_sha256"] = leaves_sha(
+            leaf for leaf in all_leaves if leaf.event_id in static_ids)
+
+    for relative, changes in current_source.JSON_LEAVES.items():
+        if not relative.startswith("content/events/"):
+            continue
+        before, _after = current_source.verified_blobs(relative)
+        old_events = {event["id"]: event for event in json.loads(before)}
+        for event_id in sorted({eid for eid, _path in changes}):
+            for kind in ("rollback", "wrong-path-rollback", "neighbor", "wrong-hash", "missing"):
+                forged = copy.deepcopy(report)
+                rows = forged[SCOPE_LIFECYCLE_SHIPPING]["events"]
+                event = next(row for row in rows if row["id"] == event_id)
+                if kind == "missing":
+                    rows.remove(event)
+                elif kind == "neighbor":
+                    event["leaves"][0]["source"] += "!"
+                elif kind != "wrong-hash":
+                    old_leaves = {leaf.path: leaf.source for leaf in collect_event_leaves(event_id, old_events[event_id], [])}
+                    for leaf in event["leaves"]:
+                        leaf["source"] = old_leaves[leaf["path"]]
+                    if kind == "wrong-path-rollback":
+                        event["source_file"] = "content/events/unapproved.json"
+                rehash_observation(forged)
+                if kind == "wrong-hash":
+                    event["source_leaves_sha256"] = "0" * 64
+                require(f"ORDER-309 report rejects {kind}: {event_id}",
+                        bool(_expected_observation_errors(forged)))
 
     from full_game_localization import PROMPT_VERSION, Leaf
 

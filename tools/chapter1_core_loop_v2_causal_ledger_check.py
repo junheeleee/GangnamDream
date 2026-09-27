@@ -37,6 +37,7 @@ import meta_title_locale_successor as title_successor
 import order305_demo_source_compat as demo_source
 import order310_demo_source_compat as latest_demo_source
 import order316_header_source_compat as header_source
+import order309_source_compat as current_source
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -4572,7 +4573,7 @@ def order305_source_boundary_self_test() -> tuple[list[str], int]:
 
 def _audited_source_snapshot_errors(
         source_hashes: dict[str, str]) -> list[str]:
-    errors: list[str] = header_source.current_source_errors()
+    errors: list[str] = current_source.current_source_errors()
     meta_title_raw: bytes | None = None
     inventory_registry_raw: bytes | None = None
     if "autoloads/DataRegistry.gd" in source_hashes:
@@ -4704,9 +4705,25 @@ def _audited_source_snapshot_errors(
 
 def _proof_binding_digest(proof: dict[str, Any],
                           cache: dict[Path, Any]) -> str:
+    pointer = str(proof.get("pointer", ""))
+    if pointer.split("#", 1)[0] == demo_source.KO_PATH:
+        # This immutable proof predates the admitted demo prose. Project only
+        # its comparison snapshot, never the live cache or gameplay consumers.
+        # A forged old cached event cannot borrow the approved raw file.
+        path = ROOT / demo_source.KO_PATH
+        observed = _source_json_document(path, cache)
+        try:
+            errors = current_source.source_observation_errors(
+                path.read_bytes(), observed, demo_source.KO_PATH)
+        except OSError as exc:
+            errors = [str(exc)]
+        if errors:
+            return _semantic_digest(["unbound_current_proof_source", pointer, errors])
+        cache = dict(cache)
+        cache[path] = current_source.project_payload(observed, demo_source.KO_PATH)
     binding = [
         proof.get("kind"), proof.get("pointer"), proof.get("assertion"),
-        _source_digest(str(proof.get("pointer", "")), cache),
+        _source_digest(pointer, cache),
     ]
     return _semantic_digest(binding)
 
@@ -4725,6 +4742,44 @@ def _runtime_proof_references(value: Any) -> set[str]:
         for child in value:
             refs.update(_runtime_proof_references(child))
     return refs
+
+
+def order309_proof_binding_self_test(ledger: dict[str, Any]) -> tuple[list[str], int]:
+    """Keep the admitted live observation separate from its old proof digest."""
+    from unittest import mock
+    failures: list[str] = []
+    cases = 0
+    relative = demo_source.KO_PATH
+    path = ROOT / relative
+    before, after = demo_source.verified_blobs(relative)
+    live, old = json.loads(after), json.loads(before)
+    real_read_bytes = Path.read_bytes
+    for event_id in ("arc_sangchul_01_answer", "arc_temptation_clean"):
+        proof_id = "proof:data:story_event:" + event_id
+        proof = next(row for row in ledger["runtime_proof_registry"] if row["proof_id"] == proof_id)
+        expected = EXPECTED_RUNTIME_PROOF_BINDING_DIGESTS[proof_id]
+        for kind in ("approved", "cached-rollback", "neighbor", "raw-drift", "raw-rollback", "pointer", "assertion"):
+            observed = copy.deepcopy(live)
+            claim = copy.deepcopy(proof)
+            if kind == "cached-rollback":
+                observed = copy.deepcopy(old)
+            elif kind == "neighbor":
+                next(row for row in observed if row["id"] == event_id)["title"] += "!"
+            elif kind == "pointer":
+                claim["pointer"] += "/title"
+            elif kind == "assertion":
+                claim["assertion"] += " unapproved"
+            observed_before = _semantic_digest(observed)
+            altered = after + b"\n" if kind == "raw-drift" else before if kind == "raw-rollback" else after
+            def read_bytes(target, altered=altered):
+                return altered if target == path else real_read_bytes(target)
+            with mock.patch.object(Path, "read_bytes", read_bytes):
+                digest = _proof_binding_digest(claim, {path: observed})
+            cases += 1
+            if ((digest == expected) != (kind == "approved")
+                    or _semantic_digest(observed) != observed_before):
+                failures.append(f"ORDER-309 proof observation {event_id}: {kind}")
+    return failures, cases
 
 
 def _project_autoload_binding_mismatches(project_text: str) -> list[str]:
@@ -21342,10 +21397,18 @@ def self_test(ledger: dict[str, Any], baseline: dict[str, Any]) -> int:
         predecessor = ORDER155_AUDITED_SOURCE_FILE_TRANSITIONS.get(order156_path)
         historical_digest = (predecessor[1] if predecessor is not None
                              else EXPECTED_AUDITED_SOURCE_FILE_SHA256[order156_path])
+        observed_digest = _file_digest(order156_path)
+        if order156_path in header_source.PATHS:
+            # Use the same raw-bound historical observation as the real gate;
+            # this fixture still compares the original ORDER-156 successor.
+            observed_digest, header_errors = header_source.observed_byte_hash(
+                order156_path, observed_digest, (ROOT / order156_path).read_bytes())
+            if header_errors:
+                raise AssertionError("; ".join(header_errors))
         if historical_digest != order156_transition[0] \
                 or order215_modal_project_byte_hash(
                     order220_preview_project_byte_hash(
-                        _order243_history_byte_hash(_file_digest(order156_path), order156_path),
+                        _order243_history_byte_hash(observed_digest, order156_path),
                         order156_path), order156_path) != order156_transition[1]:
             raise AssertionError(
                 f"ORDER-156 exact source successor drifted {order156_path}")
@@ -26430,6 +26493,10 @@ def main() -> int:
             if preview_failures:
                 raise AssertionError("; ".join(preview_failures))
             cases += preview_cases
+            proof_failures, proof_cases = order309_proof_binding_self_test(ledger)
+            if proof_failures:
+                raise AssertionError("; ".join(proof_failures))
+            cases += proof_cases
             print(
                 "CHAPTER1_CAUSAL_LEDGER_SELF_TEST_OK "
                 f"cases={cases} runtime={time.monotonic() - self_test_started:.2f}s "
@@ -26474,6 +26541,7 @@ _NEW_RUN_OLD_OBSERVED_HASH = _order243_history_byte_hash
 
 def _new_run_chapter_snapshot_errors(source_hashes):
     relative = "autoloads/GameState.gd"
+    errors = []
     if relative in source_hashes:
         try:
             current = (ROOT / relative).read_bytes()
@@ -26481,9 +26549,9 @@ def _new_run_chapter_snapshot_errors(source_hashes):
                 relative, current, ORDER156_AUDITED_SOURCE_FILE_TRANSITIONS.get(relative, ("", ""))[1])
         except OSError as exc:
             errors = ["ORDER-267: cannot read physical GameState: " + str(exc)]
-        if errors:
-            return errors
-    return _NEW_RUN_OLD_SNAPSHOT_ERRORS(source_hashes)
+    # Preserve both current admission and predecessor registry diagnostics;
+    # an invalid predecessor must not hide the original scope regression.
+    return errors + _NEW_RUN_OLD_SNAPSHOT_ERRORS(source_hashes)
 
 
 def _new_run_chapter_observed_hash(claim, relative):

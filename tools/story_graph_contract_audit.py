@@ -20,6 +20,7 @@ from typing import Any, Callable
 
 import order305_demo_source_compat as order305_compat
 import order310_demo_source_compat as latest_demo_compat
+import order309_source_compat as current_source
 
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -403,7 +404,7 @@ def load_inputs() -> Inputs:
     # Admission uses the live bytes, never a historical projection. The KO/EN
     # indexes below consume these same snapshots rather than reopening them.
     source_bytes: dict[str, bytes] = {}
-    for relative in latest_demo_compat.LIVE_PATHS:
+    for relative in current_source.LIVE_PATHS:
         with open(os.path.join(ROOT, relative), "rb") as handle:
             source_bytes[relative] = handle.read()
     contract = load_json(CONTRACT_PATH)
@@ -425,14 +426,14 @@ def load_inputs() -> Inputs:
 
 def validate(data: Inputs) -> list[str]:
     errors: list[str] = []
-    if set(data.source_bytes) != set(latest_demo_compat.LIVE_PATHS):
-        errors.append("ORDER-310 current source snapshot paths drifted")
-    for relative in latest_demo_compat.LIVE_PATHS:
+    if set(data.source_bytes) != set(current_source.LIVE_PATHS):
+        errors.append("ORDER-309 current source snapshot paths drifted")
+    for relative in current_source.LIVE_PATHS:
         raw = data.source_bytes.get(relative)
         if not isinstance(raw, bytes):
-            errors.append(f"ORDER-310 current source snapshot missing: {relative}")
+            errors.append(f"ORDER-309 current source snapshot missing: {relative}")
             continue
-        source_errors = latest_demo_compat.source_errors(raw, relative)
+        source_errors = current_source.source_errors(raw, relative)
         errors.extend(source_errors)
         if source_errors:
             continue
@@ -440,19 +441,22 @@ def validate(data: Inputs) -> list[str]:
             "content/events/arc_events.json": data.events_ko,
             "content/events_en/arc_events.json": data.events_en,
             "content/events_en/core_loop_v2_events.json": data.events_en,
+            "content/events/arc_hyunsu.json": data.events_ko,
+            "content/events_en/arc_hyunsu.json": data.events_en,
+            "content/events_en/arc_midgame.json": data.events_en,
         }.get(relative)
         if indexed is not None:
             # In-memory mutation fixtures must not substitute a historical
             # changed event while presenting the approved live bytes as proof.
             # Leave unrelated graph mutation cases to their original checks.
-            changed_ids = latest_demo_compat.LIVE_EVENT_IDS[relative]
+            changed_ids = current_source.LIVE_EVENT_IDS[relative]
             for event in json.loads(raw):
                 event_id = event["id"]
                 if event_id not in changed_ids:
                     continue
                 if canonical_bytes(indexed.get(event_id)) != canonical_bytes(event):
                     errors.append(
-                        f"ORDER-310 indexed event differs from live snapshot: {relative}#{event_id}"
+                        f"ORDER-309 indexed event differs from live snapshot: {relative}#{event_id}"
                     )
     contract = data.contract
     if contract.get("schema_version") != 1:
@@ -574,7 +578,7 @@ def validate(data: Inputs) -> list[str]:
         if event is None:
             errors.append(f"demo source event missing: {path}#{event_id}")
             continue
-        historical_event = latest_demo_compat.project_payload([event], path)[0]
+        historical_event = current_source.project_payload([event], path)[0]
         semantic_rows.append({
             "path": path, "event_id": event_id, "event": historical_event,
         })
@@ -1191,6 +1195,32 @@ def run_self_test(base: Inputs) -> tuple[list[str], int]:
             data.events_en[event_id] = next(row for row in json.loads(before) if row["id"] == event_id)
         cases.append((f"order310_indexed_rollback:{relative}", rollback_latest_event))
 
+    # Additional cases, without replacing any original 305/310 corpus.
+    for relative in current_source.LIVE_PATHS:
+        def corrupt_current_raw(data: Inputs, relative: str = relative) -> None:
+            data.source_bytes[relative] += b"\n"
+        cases.append((f"order309_raw_drift:{relative}", corrupt_current_raw))
+
+        def missing_current_raw(data: Inputs, relative: str = relative) -> None:
+            data.source_bytes.pop(relative)
+        cases.append((f"order309_raw_missing:{relative}", missing_current_raw))
+    for relative, leaves in current_source.JSON_LEAVES.items():
+        for event_id, leaf_path in leaves:
+            def corrupt_current_leaf(data: Inputs, relative: str = relative,
+                                     event_id: str = event_id, leaf_path: tuple = leaf_path) -> None:
+                index = data.events_ko if relative.startswith("content/events/") else data.events_en
+                parent = index[event_id]
+                for key in leaf_path[:-1]:
+                    parent = parent[key]
+                parent[leaf_path[-1]] += " unapproved"
+            cases.append((f"order309_indexed_leaf:{relative}:{event_id}:{leaf_path}", corrupt_current_leaf))
+        def rollback_current_event(data: Inputs, relative: str = relative) -> None:
+            index = data.events_ko if relative.startswith("content/events/") else data.events_en
+            event_id = current_source.JSON_LEAVES[relative][0][0]
+            before, _after = current_source.verified_blobs(relative)
+            index[event_id] = next(row for row in json.loads(before) if row["id"] == event_id)
+        cases.append((f"order309_indexed_rollback:{relative}", rollback_current_event))
+
     @case("network_w52_prelaunch")
     def _(data: Inputs) -> None:
         data.main_source = data.main_source.replace(
@@ -1456,8 +1486,8 @@ def run_self_test(base: Inputs) -> tuple[list[str], int]:
         errors = validate(candidate)
         if not errors:
             failures.append(f"self-test mutation escaped: {name}")
-        if not name.startswith(("order305_", "order310_")) and any(
-            error.startswith(("ORDER-305", "ORDER-310")) for error in errors
+        if not name.startswith(("order305_", "order310_", "order309_")) and any(
+            error.startswith(("ORDER-305", "ORDER-310", "ORDER-309", "ORDER-316")) for error in errors
         ):
             failures.append(f"successor guard masked an original graph self-test: {name}")
     return failures, len(cases) + 1

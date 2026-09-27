@@ -14,6 +14,38 @@
   ],
   "fast_lanes": [
     {
+      "id": "chapter1-prose-source-compat",
+      "paths": [],
+      "owned_paths": [
+        "tools/order309_source_compat.py", "tools/full_body_translation_scope.py",
+        "tools/story_graph_contract_audit.py", "tools/chapter5_human_reject_audit.py",
+        "tools/year5_reference_route_audit.py", "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/audit_scope.json", "tools/audit.sh",
+        "content/events/arc_hyunsu.json", "content/events_en/arc_hyunsu.json",
+        "content/events_ja/arc_hyunsu.json", "content/events_zh-CN/arc_hyunsu.json",
+        "content/events_zh-TW/arc_hyunsu.json", "content/events_en/arc_midgame.json",
+        "content/events_en/core_loop_v2_events.json", "content/meta/full_game_localization.json",
+        "CLAUDE.md", "docs/CODEX_QUEUE.md", "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/queue_active/ORDER-355.md", "docs/queue_archive/ORDER-355.md",
+        "docs/queue_active/ORDER-309.md", "docs/queue_archive/ORDER-309.md",
+        "docs/WORK_LOG.md", "docs/STATUS.md", "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-355.json", "docs/agent_reviews/ORDER-309-followup.json"
+      ],
+      "tools": [
+        "tools/order309_source_compat.py --self-test",
+        "tools/order309_source_compat.py --historical-self-test",
+        "tools/full_body_translation_scope.py", "tools/full_body_translation_scope.py --self-test",
+        "tools/story_graph_contract_audit.py", "tools/story_graph_contract_audit.py --self-test",
+        "tools/chapter5_human_reject_audit.py", "tools/chapter5_human_reject_audit.py --self-test",
+        "tools/year5_reference_route_audit.py", "tools/year5_reference_route_audit.py --self-test",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py", "tools/chapter1_core_loop_v2_causal_ledger_check.py --self-test",
+        "tools/full_game_localization_self_test.py", "tools/audit.py", "tools/story_consistency_audit.py",
+        "tools/i18n_coverage_check.py", "tools/english_hangul_audit.py", "tools/en_coverage_check.py",
+        "tools/audit_select.py --verify", "tools/queue_index_self_test.py", "tools/agent_review_decisions_self_test.py"
+      ],
+      "why": "Explicit-only ORDER355: admit current 7/17 plus receipt9, invert only historical 4/8, retain original305/310/316 regression functions and five live consumers. Current inventory stays current. No engine, 240-week, full audit, native/physical/human or release claim; original309 and354 failed evidence remains unchanged."
+    },
+    {
       "id": "header-source-compat",
       "paths": [],
       "owned_paths": [
@@ -1792,9 +1824,14 @@
       "why": "Graphical safe-header runner contract and argument/isolation self-test only; actual scoped renders are explicitly launched separately with fresh pre-autoload storage."
     },
     {
-      "tool": "tools/order310_demo_source_compat.py --self-test",
-      "why": "Exact English21-string successor: raw current admission plus composed historical view, never an inherited public GO.",
+      "tool": "tools/order309_source_compat.py --self-test",
+      "why": "Latest exact current7/17+receipt9 admission and historical4/8 inverse; preceding305/310/316 modules and pins remain unchanged.",
       "paths": [
+        "tools/order309_source_compat.py", "tools/order316_header_source_compat.py",
+        "content/events/arc_hyunsu.json", "content/events_en/arc_hyunsu.json",
+        "content/events_ja/arc_hyunsu.json", "content/events_zh-CN/arc_hyunsu.json",
+        "content/events_zh-TW/arc_hyunsu.json", "content/events_en/arc_midgame.json",
+        "content/meta/full_game_localization.json",
         "tools/order310_demo_source_compat.py",
         "tools/order305_demo_source_compat.py",
         "tools/year5_reference_route_audit.py",
@@ -1808,9 +1845,10 @@
       ]
     },
     {
-      "tool": "tools/order310_demo_source_compat.py --historical-self-test",
-      "why": "현재310 raw source 검증 뒤 immutable305의 기존132회귀를 그대로 실행한다. 305/304 역사 핀·인간·package GO는 갱신하지 않는다",
+      "tool": "tools/order309_source_compat.py --historical-self-test",
+      "why": "Latest current admission precedes original305/310/316 regression functions; old standalone CLI current meaning is not relabeled as PASS.",
       "paths": [
+        "tools/order309_source_compat.py", "tools/order316_header_source_compat.py",
         "tools/order305_demo_source_compat.py",
         "tools/order310_demo_source_compat.py",
         "tools/story_graph_contract_audit.py",
@@ -2019,6 +2057,11 @@
       ]
     },
     {
+      "tool": "tools/full_body_translation_scope.py",
+      "paths": ["tools/full_body_translation_scope.py", "tools/order309_source_compat.py"],
+      "why": "Current full-body inventory and its explicitly separate historical source comparison."
+    },
+    {
       "tool": "tools/full_body_translation_scope.py --self-test",
       "why": "전체 출시 포함 원문1708/11680과 M07~M60 정적 closure192/1751·reader/foreshadow·author-only 제외·기존 번역 보호를 잠근다",
       "paths": [
@@ -2076,6 +2119,7 @@
         "systems/**",
         "scenes/**",
         "tools/audit.py",
+        "tools/*.py",
         "tools/event_lifecycle.py"
       ]
     },
@@ -2178,6 +2222,8 @@
         "CLAUDE.md",
         "AGENTS.md",
         "docs/context_manifest.json",
+        ".codex/skills/**",
+        ".codex/agents/**",
         "tools/context_manifest_check.py"
       ]
     },
@@ -4588,13 +4634,6 @@
       ]
     },
     {
-      "tool": "tools/audit.py",
-      "why": "도구 변경은 정적 감사로 회귀를 본다",
-      "paths": [
-        "tools/*.py"
-      ]
-    },
-    {
       "tool": "tools/player_surface_language_audit.py",
       "why": "플레이어 표면의 스탯 증감·해금·배수·웨이브·등급 시스템 언어 기준선 0 직접 검사",
       "paths": [
@@ -4698,15 +4737,6 @@
         "tools/queue_consistency_check.py",
         "docs/CODEX_QUEUE_L3_PENDING.md",
         "tools/queue_index.py"
-      ]
-    },
-    {
-      "tool": "tools/context_manifest_check.py",
-      "why": "스킬·에이전트 지침은 런타임 표면이 없다 — 문서 정합만 해당하며, 이 검사는 always 목록이라 실제로는 추가 비용이 0이다. 규칙이 없으면 스킬 한 줄 수정이 전체 감사(10분)를 부른다",
-      "paths": [
-        ".codex/skills/**",
-        "AGENTS.md",
-        ".codex/agents/**"
       ]
     },
     {
