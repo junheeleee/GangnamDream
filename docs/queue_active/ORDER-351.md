@@ -2,7 +2,7 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [ ] ORDER-351 [P1·본편] 4장 M37~M48 대본의 아버지 행방·영어 표기 정합을 고친다
+#### [~] ORDER-351 [P1·본편] 4장 M37~M48 대본의 아버지 행방·영어 표기 정합을 고친다
 
 **2026-09-27 Claude 발행.** 본편 대본 정합 검토 계획
 ([FULL_GAME_SCRIPT_REVIEW](../queue_backlog/FULL_GAME_SCRIPT_REVIEW.md))의 배치
@@ -21,6 +21,39 @@ R4다. story_map M37~M48 root 16장면(3년치 영수증, 민서 등장·재회,
 3. **순서는?** 3장 오더(ORDER-350) 뒤. 본편 HOLD와 사람 게이트는 바꾸지 않는다.
 
 ## 수리 목록
+
+### 2026-09-28 착수 — 만지는 파일과 증거 경계
+
+- 기준 main `2a6cafe86eecbdba1a48a9933e77e3eadf3bdcba`, 사용자 변경0.
+  350·359의 통합 후속 GO와 360 기록 수리 뒤 시작한다.
+- root 원고 소유: `content/events/arc_chapter_themes.json`,
+  `content/events/arc_drama.json`, `content/events_en/arc_chapter_themes.json`,
+  `content/events_en/arc_drama.json`, `content/events_en/arc_new_characters.json`.
+  아래 1~6번의 기존 text leaf만 수정한다. 기존 선택 수·순서·효과·flags·ID·
+  의료 경과·스케줄·채널·원화/수치·공개 패키지 불변, 새 장면/키0.
+- #1의 같은 W153 입원 단절은 `arc_y4_three_promises_jiyeon_and_deal`과
+  `arc_y4_three_promises_deal_only`에도 있으므로 기존 본문 세 변형을 함께 맞춘다.
+  #4는 기존 `description_if_known`의 실제 우선 소비 문장도 포함한다.
+  무연애 경로의 자기 야간 진료를 연인/새 인물 약속으로 바꾸지 않는다.
+- `/root/compat357` 번역 소유: `content/events_ja/`, `content/events_zh-CN/`,
+  `content/events_zh-TW/`의 `arc_chapter_themes.json`, `arc_drama.json` 6파일에서
+  바뀐 한국어 대응 leaf만 각각 한국어에서 직접 번역한다. 원고·원장 저작과 분리.
+  기존 병원 표기가 이미 같은 경우 다시 번역하지 않는다.
+- root 수용 소유: `content/meta/full_game_localization.json`의 해당 기존 receipt만.
+  원고 수정 전 source export, 수정 뒤 target 저작 전 export를 따로 보존하고
+  check/import로 결속한다. 새 전체판 완료·원어민 판정은 만들지 않는다.
+- `/root/r3_route_probe`는 원문·변형·전체 차이·증거를 독립 읽기 검수한다.
+  `/root/screen_path_probe`는 private 표적 검사/실제 StoryMode 표시 증거만 소유한다.
+  임시 harness·원문/검사 결과는 `.git/full-game-localization/order351-*`에 둔다.
+- 마감 소유: 이 사양·CODEX_QUEUE·WORK_LOG·생성 STATUS·CLAUDE 현재행,
+  새 `docs/agent_reviews/ORDER-351.json`·판정원장 append. 필요 시 이 사양의
+  archive 이동과 큐 두 파일 순번 -1만. 로그40KB 여백이 없어 기존 원문 전체를
+  새 `docs/history/WORK_LOG_2026-09-28_pre_order351.md`로 손실 없이 이동한 뒤 기록한다.
+- 먼저 영향 검사 목록을 확인하되 선택 개수를 실행 통과로 세지 않는다.
+  고정 해시 입구가 원고를 거절하면 실패를 보존하고 별도 검증 연결 오더를 선언한다.
+  옛 source pin·역사 판정·공개 demo·인간 원장을 덮지 않는다.
+- 이 선언은 일회성. 본편/새package HOLD·원어민/인간/물리 미관측과 자동 증거를
+  구분한다. 별도 심화 저작·민서 기억 결함·외부 출시·상점·지출·법률 인증0.
 
 | # | 위치 | 결함 | 수리 방향 |
 |---:|---|---|---|
