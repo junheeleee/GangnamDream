@@ -117,9 +117,14 @@
 - 검증: 이전2키→새2키 동시 migration/중복0/그 외 byte보존, 토큰5·개행 보존,
   story-demo 정적 감사·JA/중국어 표적·기존 full-game 수용핀, 격리된
   `StoryDemoFourLanguageCheck`의 exact marker와 stdout/Godot로그 오류 검사.
-  새 격리 user namespace/HOME/XDG만 사용하며 사용자 project.godot·저장·설정 불변.
+  pre-autoload 새 격리 user namespace를 사용하며 사용자 project.godot·저장·설정 불변.
 - legacy/public=false 별도 키, 원고의 월세·시제·인용·KO표기, 나머지 gameplay,
   과거 accepted/human/agent 원장과 공개 package는 제외한다. 새 receipt 수0.
   실제 렌더/입력은 실행 증거가 있을 때만 주장한다. headless 진행은 화면 관찰이 아니다.
 - 이 배치만으로 ORDER-302 전체/본편/새패키지 GO를 발급하지 않는다.
   잔여 항목2/5/6/7과 KO/EN 실제화면·새후보 판정은 계속 OPEN이다.
+
+실행 전 격리 검토: 기존 검사 `_ready`는 autoload보다 늦으므로 private SceneTree
+bootstrap에서 fresh32hex RuntimeQA 경로를 먼저 설정·검증한다. 전역 HOME을 재지정하지
+않고 실제 OS 경로와 모든 controller ENTRY를 결속하며 상속 probe 출력경로를 제거한다.
+사용자 두 저장 root 전후 census/hash를 대조한다. 이 실행 보완은 제품 변경이 아니다.
