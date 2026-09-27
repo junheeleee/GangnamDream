@@ -16,7 +16,7 @@ import re
 import sys
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Iterable
+from typing import Any, Callable, Iterable
 
 import order305_demo_source_compat as demo_source
 import order310_demo_source_compat as latest_demo_source
@@ -230,6 +230,39 @@ def _public_demo_working_source_hash_errors(
             f"sha256={actual_hash}, expected={effective_hash}"
         )
     return errors
+
+
+# ORDER-308 changed only this audit's exact rent parsing boundary and its tests.
+# The public package pin and the independent CN transition above stay historical.
+ORDER308_PARSER_PATH = "tools/story_demo_localization_audit.py"
+ORDER308_PARSER_COMMITS = (
+    "636a457fe44db3470cc37443c060230d4fbe2fbe",
+    "59d4f790ecfd84f023c5796039264e4bfe72cdcf",
+)
+ORDER308_PARSER_HASHES = (
+    "39c1f2ab38d273bc2f2f6d629008484f603edae083a9ebcf026a2c003c9f0ebe",
+    "7c635535bb5a6f4361904d0334711e5bc8f0587681dcdf4f49d84adca7b3f320",
+)
+
+
+def _order308_parser_history_view(
+    relative: str, historical_hash: str, raw: bytes, *,
+    read_blob: Callable[[str, str], bytes] = demo_source._git_blob,
+) -> tuple[bytes, list[str]]:
+    """Admit the exact live parser; expose its predecessor only for old pins."""
+    if relative != ORDER308_PARSER_PATH:
+        return raw, []
+    if historical_hash != ORDER308_PARSER_HASHES[0]:
+        return raw, ["ORDER-308: historical parser pin drifted"]
+    try:
+        before, after = (read_blob(commit, relative) for commit in ORDER308_PARSER_COMMITS)
+    except (OSError, ValueError) as exc:
+        return raw, [f"ORDER-308: immutable parser proof unavailable: {exc}"]
+    if (_sha256_bytes(before), _sha256_bytes(after)) != ORDER308_PARSER_HASHES:
+        return raw, ["ORDER-308: immutable parser proof hashes drifted"]
+    if raw != after:
+        return raw, ["ORDER-308: live parser is not the exact approved successor"]
+    return before, []
 
 
 # These are hashes of the rejected product's economic housing functions.  The
@@ -2162,6 +2195,8 @@ def validate_preserved_product_boundaries(model: AuditModel, errors: list[str]) 
             continue
         if relative in latest_demo_source.LIVE_PATHS:
             errors.extend(latest_demo_source.source_errors(raw, relative))
+        raw, parser_errors = _order308_parser_history_view(relative, expected_hash, raw)
+        errors.extend(parser_errors)
         actual_hash = _sha256_bytes(latest_demo_source.project_bytes(raw, relative))
         errors.extend(_public_demo_working_source_hash_errors(
             relative, expected_hash, actual_hash))
@@ -2697,6 +2732,66 @@ def _reviewed_public_source_self_tests() -> int:
     return cases
 
 
+def _order308_parser_source_self_tests() -> int:
+    """Separate exact-source boundaries; the existing 127 cases are unchanged."""
+    cases = 0
+
+    def check(ok: bool, message: str) -> None:
+        nonlocal cases
+        cases += 1
+        if not ok:
+            raise AssertionError("ORDER-308 parser boundary: " + message)
+
+    path = ORDER308_PARSER_PATH
+    old_hash, new_hash = ORDER308_PARSER_HASHES
+    before, after = (demo_source._git_blob(commit, path) for commit in ORDER308_PARSER_COMMITS)
+    raw = (ROOT / path).read_bytes()
+    check(PUBLIC_DEMO_FROZEN_FILES[path] == old_hash, "historical public pin changed")
+    check(_sha256_bytes(before) == old_hash and _sha256_bytes(after) == new_hash,
+          "immutable predecessor/successor proof changed")
+    projected, errors = _order308_parser_history_view(path, old_hash, raw)
+    check(raw == after and not errors and projected == before,
+          "exact current source did not restore historical bytes")
+    check(not _public_demo_working_source_hash_errors(path, old_hash, _sha256_bytes(projected)),
+          "approved parser did not reach the unchanged historical checker")
+
+    mutants = (
+        ("historical rollback", before),
+        ("missing bytes", b""),
+        ("trailing newline", after + b"\n"),
+        ("rent key", after.replace(b'ORTHODOX_RENT_KEY = "event::', b'ORTHODOX_RENT_KEY = "ui::', 1)),
+        ("rent amount", after.replace("월 70만원, 별도 관리비.".encode(), "월 7만원, 별도 관리비.".encode(), 1)),
+        ("unrelated parser code", after.replace(b"def target_text_errors(", b"def changed_target_text_errors(", 1)),
+        ("deleted boundary", after.replace(b'    if key != ORTHODOX_RENT_KEY', b'    if False and key != ORTHODOX_RENT_KEY', 1)),
+    )
+    for label, mutant in mutants:
+        projected, errors = _order308_parser_history_view(path, old_hash, mutant)
+        check(mutant != after and bool(errors) and projected == mutant,
+              label + " was admitted or hidden")
+    for label, historical in (("refreshed pin", new_hash), ("unknown pin", "0" * 64)):
+        projected, errors = _order308_parser_history_view(path, historical, after)
+        check(bool(errors) and projected == after, label + " was accepted")
+    for wrong_path in (path + ".other", "tools/story_demo_package_audit.py"):
+        projected, errors = _order308_parser_history_view(wrong_path, old_hash, after)
+        check(projected == after and not errors and bool(_public_demo_working_source_hash_errors(
+            wrong_path, old_hash, _sha256_bytes(projected))), "successor borrowed by " + wrong_path)
+
+    for bad_commit in ORDER308_PARSER_COMMITS:
+        def unavailable(commit: str, relative: str) -> bytes:
+            if commit == bad_commit:
+                raise ValueError("self-test missing immutable Git object")
+            return demo_source._git_blob(commit, relative)
+        projected, errors = _order308_parser_history_view(path, old_hash, after, read_blob=unavailable)
+        check(bool(errors) and projected == after, "missing Git proof was accepted: " + bad_commit)
+
+        def altered(commit: str, relative: str) -> bytes:
+            blob = demo_source._git_blob(commit, relative)
+            return blob + b"\n" if commit == bad_commit else blob
+        projected, errors = _order308_parser_history_view(path, old_hash, after, read_blob=altered)
+        check(bool(errors) and projected == after, "mutated Git proof was accepted: " + bad_commit)
+    return cases
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--self-test", action="store_true")
@@ -2705,6 +2800,7 @@ def main(argv: list[str] | None = None) -> int:
         try:
             cases = run_self_test()
             cases += _reviewed_public_source_self_tests()
+            cases += _order308_parser_source_self_tests()
         except AssertionError as exc:
             print(f"CHAPTER5_HUMAN_REJECT_SELF_TEST_FAIL {exc}", file=sys.stderr)
             return 1
