@@ -62,6 +62,8 @@
   마감 소유는 이 사양(archive 이동 포함)·CODEX_QUEUE·WORK_LOG·생성STATUS·
   CLAUDE 현재행·`docs/agent_reviews/ORDER-360.json`와
   `docs/agent_review_decisions.json`의 새 작업판정1개 append다.
+  archive 이동 뒤 연속 순번을 유지하는 `docs/CODEX_QUEUE_L3_PENDING.md`의
+  순서 숫자만 함께 소유한다. 기존 행 순서·문구·상태·링크는 불변이다.
 - `/root/compat357`: Git 기준/변경 leaf 추출 증거만
   `.git/full-game-localization/order360-*`에 작성한다. 추적 파일 비소유.
 - `/root/r3_route_probe`: 원문·수정 차이·검증 증거의 독립 판정과 private 보고만.
@@ -70,5 +72,15 @@
   기존 실패1회를 다시 기준 실행으로 반복하지 않고 보존한다. 선언 이후 수정본에
   normal/self-test·생성 최신성·영향선택의 관련 표적 검사만 실행한다.
 - 규범: 일회성 작업 지시이며 상시 규칙 승격0. 원어민/인간/물리 관측·출시 승인 아님.
+
+### 표적 검사 선택 근거
+
+- 두 제품 경로로 `audit_select --list`가 고른20개는 실행 결과가 아니다.
+  실제 수정은6개 본문 지문과 그 생성표이며 후보/검색규칙/사실/원문/게임플레이는
+  불변이다. 직접 소비자 normal·관련 self-test45와 context/queue를 실행하고,
+  생성 최신성은 normal 및 마감 STATUS check로 확인한다.
+- event lifecycle·본문/graph/역사 guard·번역·엔진2종 등 비변경 소비자를
+  이 지문 수리 때문에 재실행하지 않는다. 원고 수리의 기존358 표적19종 증거는
+  보존하며360의 새 실행/전체 감사 PASS로 세지 않는다.
 
 현재 상태: 선언. 제품2파일 수정 전·엔진 실행0·외부 제출0.
