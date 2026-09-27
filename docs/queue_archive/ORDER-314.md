@@ -1,8 +1,8 @@
-# Active Queue Spec: ORDER-314
+# Completed Queue Spec: ORDER-314
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-314 수리된 데모 KO/EN 실제 화면·입력 표적 검수
+#### [x] ORDER-314 수리된 데모 KO/EN 실제 화면·입력 표적 검수
 
 2026-09-27 착수. 사용자 개발·내부 검수 위임과 부모302의 잔여 화면 검수에 따른다.
 기준 clean main `149f339747805940868dcbfe758d5a83dfe81a31`.
@@ -95,3 +95,29 @@ root는 private `order314-followup-*` 결속 조사와 이 사양·큐·부모30
   최소 표면만 새 범위 선언 후 관측한다. 이유 없이95캡처 전체나720 묶음을 반복하지 않는다.
 - 결과는 같은 `ORDER-314`의 새 source 판정으로 별도 추가한다. 315/316 GO를 빌려 쓰지
   않으며, 부모302·본편·새패키지/인간 게이트를 자동으로 닫지 않는다. 일회성 후속 검수다.
+
+## 2026-09-27 후속 완료 — 동일 범위 결속 검수
+
+- 현재 관측 source `aaa2a4ba85c606c6f31543f9aef075d9385727cf`, tree
+  `99ff177a45760352759c5051500313ffd67ed8e5`. 원격 main의 정본·오더 추가를 보존해
+  병합했고, CLAUDE/정본 변경을 metadata 예외로 취급하지 않고 새 후보로 직접 확인했다.
+- 원래16표면은 `eb285b3`의95PNG·합성 입력, 수리된 공통 상단은 `d99f2037`의60PNG다.
+  새 엔진 실행0·새 PNG0이며 M04를 현재 후보에서 새로 보았다고 하지 않는다.
+  두 실행 source 이후 제품1906경로 바이트 불변, 옛→수리 후 차이는 상단 두파일의
+  기존5함수/추가2함수뿐이다. 그 외 StoryMode254·controller145함수와 본문 UI 생성은
+  byte-exact다. 옛 tracked1219핀 중1213불변, 차이6은 제품2/검사도구4다.
+- 독립 비저자가 공통 상단 소비자 매핑·361증거 hash·현재 사용자43파일을 다시 대조하고
+  필수 결함 `ORDER-314-SAFE-01`의 수리를 확인했다. [후속 보고](../agent_reviews/ORDER-314-followup.json)
+  의 작업한정 GO다. 옛 [REWORK](../agent_reviews/ORDER-314.json)는 원형으로 남긴다.
+- old M04 answer1/mental68과 header fixture answer0/mental76은 다른 경로다.
+  현재본 fresh M04·coffee·모든 원문·Large·원어민·사람·물리 입력·오디오·패키지는 미관측이다.
+- 새 원격 말투 정본의 M04~M05 단정과 기존 혼용 대사의 불일치는 화면 결함이 아니다.
+  대사를 평준화하지 않고 [353](../queue_active/ORDER-353.md) 별도 정본 설명 검수로 분리한다.
+  부모302의 새source 전체 수리 판단·새package/본편 HOLD, 인간OPEN45·옛 공개GO1 유지.
+- root 결속 증거: `order310-check-order314-followup-bridge.json`
+  SHA `bc532877f5eaf717ed2cc9c47669a488f30b73cf2786eee1de0287a8d3bba560`,
+  후속 source 결속 `order310-check-order314-followup-current.json`
+  SHA `0aae686253045af4a2967a30e8fc8915b3f0b28869607b63f89dfbd3ed9b2c16`.
+  두 파일은 `.git/full-game-localization/`의 불변 실행 원문이다.
+- 승격: 없음. 기존 INPUT_MATRIX/WORK_UNIT을 적용한 일회성 후속 검수이며 새 규범0.
+  자동 게이트는 도달성과 계약의 증거이며 재미·문체·인간 관찰 증거가 아니다.
