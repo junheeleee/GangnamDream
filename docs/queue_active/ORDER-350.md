@@ -1,0 +1,66 @@
+# Active Queue Spec: ORDER-350
+
+> Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
+
+#### [ ] ORDER-350 [P1·본편] 3장 M25~M36 대본의 경로·회수·영어 정합을 고친다
+
+**2026-09-27 Claude 발행.** 본편 대본 정합 검토 계획
+([FULL_GAME_SCRIPT_REVIEW](../queue_backlog/FULL_GAME_SCRIPT_REVIEW.md))의 배치
+R3다. story_map M25~M36 root 12장면(병실 뒤 통화, 서른다섯, 재혁 제안·정산·잠수,
+지연 출국, 반환점, 상철 추리·대면, 알면서 사는 값, 먼저 거는 전화, 35세 결산)을
+KO/EN으로 읽었다. 경로에 따라 사실이 갈리는 곳은 `MainGame.gd` 스케줄 조건과
+선택 플래그로 확인했다. 번호는 Codex 동시 발번과 겹치지 않도록 350번대를 쓴다.
+
+## 깊이 3문
+
+1. **왜 지금인가?** 3장은 재혁 투자 여부와 상철 진실이 갈리는 장이다. 뒤 장면이
+   앞 선택을 잘못 인용하면 플레이어가 "내 선택이 무시됐다"고 느낀다.
+2. **무엇을 바꾸지 않는가?** gameplay key, 선택 수, 효과, 이벤트 ID, 스케줄 조건,
+   경제 수치는 바꾸지 않는다. 8번만 기존 `description_variants` 구조를 쓴다.
+3. **순서는?** 2장 오더(ORDER-313) 뒤. 본편 HOLD와 사람 게이트는 바꾸지 않는다.
+
+## 수리 목록
+
+| # | 위치 | 결함 | 수리 방향 |
+|---:|---|---|---|
+| 1 | `content/events_en/arc_events.json` `arc_father_05_after_visit` 선택 2 결과 | KO는 민준이 “아버지도 잘 지내고 계세요. 걱정 마요.”라고 하고 아버지가 “…그래, 나도. 너도.”로 받는다. EN은 “I'm doing fine too. And so are you.” / “…Yeah. Me too.”로 화자와 뜻이 엉켰다. | “You take care too, Dad. Don't worry.” / “…Yeah. You too.” |
+| 2 | `content/events/arc_midgame.json` `arc_35_birthday` 본문·선택, 같은 EN | 게임 나이는 새해에 오르고(`GameState.gd` 1447행, “34세의 마지막 밤”), 5장 결말은 연말을 “38세 생일까지 7일”로 쓴다(`arc_drama.json` 10곳 이상). 그런데 이 장면은 M26(2월 무렵)에 생일로 “서른다섯이 됐다”고 한다. 생일이 2월이면 결말의 “38세 생일까지 7일”이 거짓이 된다. | **설날 장면으로 바꾼다.** 설에 한 살 먹는 한국식 나이와 맞고 결말 문장을 건드리지 않는다. 아버지 문자를 설 인사로(예: “설인데 무리해서 내려오지 마라. 떡국은 먹었냐.”), 선택 2의 “생일로 보내기로”를 “명절로 보내기로”로 바꾼다. “서른다섯이 됐다”, “33세에 시작했다. 2년이 지났다”는 유지한다. 이벤트 ID·플래그·스케줄 주석의 “생일” 표기는 저장 호환 때문에 두고 제목·본문만 고친다. |
+| 3 | 같은 장면 EN 선택 2 결과 | “chasing 3 billion”에 `won`이 빠졌다(통화 규칙). | “chasing 3 billion won”. |
+| 4 | `content/events_en/arc_events.json` `arc_jaehyuk_03_pitch` | 선택 3 문구가 “Refuse.”인데 KO는 “생각 좀 해볼게”(보류)다. 선택 2·3 결과만 작은따옴표 대사다. 본문과 결과가 과거/현재형을 한 장면 안에서 오간다. | 선택 3을 “Say you'll think about it—and start looking into it.”로. 대사 인용부호를 큰따옴표로 통일. 장면 안 시제를 현재형(`DECISIONS` 2026-08-04 P-9 4번)으로 맞춘다. |
+| 5 | `content/events_en/arc_midgame.json` `arc_jaehyuk_wait` | 본문이 “is next week” → “had always been” → “Why does he keep checking” → 주어 없는 “Opened KakaoTalk”으로 한 장면 안에서 시제와 문형이 흔들린다. | 현재형으로 통일하고 주어를 되살린다. |
+| 6 | `content/events/arc_midgame.json` `arc_midpoint_reckoning` 본문 둘째 문단, 같은 EN | “며칠 전 강남의 불빛 앞에서 … 물었다”는 `arc_why_gangnam_real`(t115~140)을 가리키지만 반환점(t≥121)이 스케줄 우선순위상 먼저 뜰 수 있다. | 날짜를 특정하지 않는 회상으로 바꾼다(예: “언젠가 스스로에게 왜 여기까지 왔는지 물은 적이 있었다.”). |
+| 7 | 같은 장면 선택 1 결과, 같은 EN | “지금까지 잃지 않은 게 다행인 거고”. 재혁에게 돈을 넣은 경로는 잠수(t≥116)로 이미 잃은 뒤다. | 모든 경로에서 참인 문장으로(예: “여기까지 버틴 게 다행인 거고”). |
+| 8 | `content/events/arc_drama.json` `arc_sangchul_deduction` 본문 첫 두 문단, 같은 EN | (a) “마음 어딘가에 걸어둔 채 **몇 주**가 지났다”. 인맥 자리는 M14, 이 장면은 M32로 1년 반 뒤다. (b) 회상 속 상철이 한PD건설 질문에 “저쪽은 섞이지 마”라고 답한 것으로 나온다. M14 원문에서 상철은 그 질문에 **화제를 돌렸고**, “섞이지 마”는 ‘수익 보장’ 무리를 두고 한 말이다. | (a) “한 해가 훌쩍 넘게 지났다” / “More than a year passed.” (b) “상철은 표정 하나 바꾸지 않고 화제를 돌렸다.” / “Sangchul changed the subject without a flicker.” |
+| 9 | `content/events/arc_year3_drama.json` `arc_minjun_first_call` 선택 2 결과, 같은 EN | 현수가 “어? {name}이? 오랜만이다”, “그냥, 공부”로 반말한다. 현수는 M19와 정본에서 “형”과 존댓말을 쓰고, M35에는 합격(공무원)이든 불합격(회계법인)이든 이미 일한다. | “어? 형? 오랜만이에요.” / “그냥, 퇴근했어요.”처럼 존댓말·재직 상태로 맞춘다. 대화 흐름과 약속 결과는 유지. |
+| 10 | 같은 장면 본문, 같은 EN | “지난 3년 가까이, 먼저 연락해본 적이 거의 없었다.” M13 선택 3, M15 선택 1, M19, M25 등에서 먼저 연락한 경로가 있다. | “이유 없이 먼저 걸어 본 전화는 거의 없었다”처럼 모든 경로에서 참인 문장으로. |
+| 11 | `content/events/arc_year_close.json` `arc_year3_close` | t=144에 **모든 런**에서 뜨는데 본문과 세 선택이 “재혁의 이름이 들어간 신청서(자기 서명)”와 “아버지의 오래된 보증서”를 올해 다시 연 서류로 전제한다. 신청서는 재혁에게 돈을 넣고 잠수 장면(`arc_jaehyuk_ghost_seen`)을 본 런에만 있다. `jaehyuk_refused` 런과 제안 전 런에서는 없는 서류를 꺼낸다. | 기존 `description_variants` 구조로 `arc_jaehyuk_ghost_seen`이 없는 런의 본문 변형을 추가한다(아버지 보증서만 다시 연 해). 선택지 문구가 변형을 지원하지 않으면 “두 서류”를 “올해 다시 연 서류”로 일반화한다. gameplay key와 플래그는 추가하지 않는다. |
+
+## 판단만 남기는 항목 (이 오더에서 고치지 않는다)
+
+- **M27 `arc_jaehyuk_03_pitch`가 읽는 `memory.m11_first_open_door`는 도달하지 않는
+  beat의 기억이다.** R1(ORDER-309) 판단 항목과 같은 뿌리다. M11 EXPAND 결정 때 함께
+  정리한다.
+- **M35 먼저 거는 전화는 beat 의도(직전 진실 선택을 실제 사람에게 들려준다)를 아직
+  반영하지 않는다.** 현재 원문은 아버지·현수에게 이유 없는 안부다. `work: EXPAND`
+  저작 때 다룬다.
+- **M25·M26·M31은 초기 원고의 짧은 교훈형 결말이 남아 있다**(“자각은 보통
+  그렇게 시작된다”, “버티는 사람이 남는 게임이기도 하다”). `DECISIONS` 2026-08-04
+  P-9 1번 위반이지만 세 beat 모두 EXPAND이므로 확장 저작 때 다시 쓴다.
+
+## 결함 아님으로 확인한 것
+
+- 재혁 정산 대기·잠수 장면은 투자 플래그(`jaehyuk_trusted_fully`/`jaehyuk_partial`,
+  `cast_has_flag(jaehyuk, invested)`)로만 열려 거절 경로에 “넣은 돈”이 나오지 않는다.
+- 병실 뒤 통화(`arc_father_05_after_visit`)는 `visited_father`로만 열려 병실 문을
+  열지 않은 경로에 “창원에서 돌아온 뒤로 통화가 달라졌다”가 나오지 않는다.
+- 상철의 “자네”와 반말: `STORY_BIBLE.md` 임상철 “말투 정본”(2026-09-27)에 맞다.
+- 재혁 성 “최”, 지연 “아버지 회사”: 정본과 맞다.
+
+## 완료 조건
+
+- 1~11번이 KO/EN(해당 시 JA/zh-CN/zh-TW 오버레이 포함)에 반영된다.
+- `python3 tools/en_coverage_check.py`와 `python3 tools/audit_select.py -- <변경 파일>`
+  PASS. 11번은 추가 변형이 실제 StoryMode에서 뜨는지 KO/EN 두 경로(`ghost_seen` 유무)로
+  확인한다. 해시 고정 검사가 걸리면 기존 소유 오더의 갱신 규칙을 따른다.
+- `WORK_LOG`와 이 사양 머리말·큐 행 상태를 함께 갱신한다.
+- 원어민·외부 플레이테스트 게이트는 OPEN으로 남는다.
