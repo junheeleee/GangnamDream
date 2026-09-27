@@ -96,3 +96,30 @@
 `locale/ui_zh-CN.json`, `locale/ui_zh-TW.json`이다. legacy/public=false 안내는
 별도키이며 묵시 확장하지 않는다. 두 키의 기존 portable accepted receipt0;
 공식 수용 수량과 과거 공개 GO를 임의 갱신하지 않는다. 구현/실제화면은 미실행.
+
+## 2026-09-27 배치 B 착수 — 공개 안내·회상 사실 2키
+
+기준 clean `a2a9c4b348577ed311dde637270cad8c0aef44c8`. 수리1/3만 실행한다.
+직업 오기는 플레이어가 민준과 다은의 일을 혼동하게 하고, 장소 오기는 자신의
+지연 선택 기억과 충돌한다. 선택·경제·상태 차이는 새로 만들지 않는 정합 수리다.
+
+- root: `playtests/order124/StoryChoiceM1M6Playtest.gd` 공개 baseline의
+  `편의점 야간 수입`→`야간 단기 일 수입`, M06 부모의 `3월, 버스 정류장에서`
+  →`3월, 빗길에서` 및 EN 해당 장소. 이미 중립인 EN 시작 안내는 보존한다.
+- 지역 저자 `/root/release_status_crosscheck`: `locale/ui_ja.json`,
+  `locale/ui_zh-CN.json`, `locale/ui_zh-TW.json`의 해당 부모 KO키2개 이동과
+  그 값의 직업/장소 substring만. 한국어에서 각 지역별 직접 저작, 다른 값 보존.
+- root 증거: 새 private `.git/full-game-localization/order302-b-*`,
+  기존 capture helper의 새 `b-*` label, 이 사양·큐·WORK_LOG·생성 STATUS·CLAUDE 상태행.
+- 독립 검수 `/root/blackjack_accounting_review`: 제품 저작 없이 두 키/세 지역6값
+  전수, private `order302-b-review*.json` 및 `docs/agent_reviews/ORDER-302-B.json`.
+  검사 준비 `/root/blackjack_accounting_tests`는 기존 전용 검사/격리를 읽기 전용 조사한다.
+- 검증: 이전2키→새2키 동시 migration/중복0/그 외 byte보존, 토큰5·개행 보존,
+  story-demo 정적 감사·JA/중국어 표적·기존 full-game 수용핀, 격리된
+  `StoryDemoFourLanguageCheck`의 exact marker와 stdout/Godot로그 오류 검사.
+  새 격리 user namespace/HOME/XDG만 사용하며 사용자 project.godot·저장·설정 불변.
+- legacy/public=false 별도 키, 원고의 월세·시제·인용·KO표기, 나머지 gameplay,
+  과거 accepted/human/agent 원장과 공개 package는 제외한다. 새 receipt 수0.
+  실제 렌더/입력은 실행 증거가 있을 때만 주장한다. headless 진행은 화면 관찰이 아니다.
+- 이 배치만으로 ORDER-302 전체/본편/새패키지 GO를 발급하지 않는다.
+  잔여 항목2/5/6/7과 KO/EN 실제화면·새후보 판정은 계속 OPEN이다.
