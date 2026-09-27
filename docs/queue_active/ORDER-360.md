@@ -83,4 +83,33 @@
   이 지문 수리 때문에 재실행하지 않는다. 원고 수리의 기존358 표적19종 증거는
   보존하며360의 새 실행/전체 감사 PASS로 세지 않는다.
 
-현재 상태: 선언. 제품2파일 수정 전·엔진 실행0·외부 제출0.
+## 구현·검증 증거 (2026-09-28)
+
+| 항목 | 관측 |
+|---|---|
+| 도달 경로 | 기존 generator1 exit0; normal/self45/context/queue4 PASS |
+| 생산자 ↔ 독자 | content_axes 6개 expected_content_sha256 ↔ release_content_inventory.py candidate_fingerprint/validate_source/render_report |
+| 바꾸는 상태 | 6 stale body SHA + 생성표 stale → exact6 raw SHA 치환/최신 표 |
+| 포기 시 잃는 것 | 기존359 normal7오류 계속; 원문 검토 이력 단절 |
+| 서사 위치 | 현재 KO/EN 후보11사건/8파일, 시간·화자·회상/서류 전제 수리의 검토 기록 |
+| 장면 계층 | N/A: 산문/화면 저작0·기존 산문 검토만 |
+| 닫는 것 | 현재 지문/생성표 불일치만; 본편/새package HOLD 유지 |
+
+- 기준별7축 재산출 exact, 후보 집합/파일/ID SHA·검색규칙·facts 동일.
+  gambling/sexuality `2f91f426`, fear/crime/alcohol `f4c7fd90`,
+  violence `bf5dd604`, language `556e929a`에서 추적했다.
+- root와 비저자가47 netleaf(KO13/EN34, 수정45/새ghost2) 전량을 읽고 기존20사실/
+  강도 변경 필요0을 판단했다. first-parent49편집/17사건버전/6commit을 결속하며
+  전체 분기 이력으로 확대하지 않는다. 359는 이 후보 지문 변화에 기여0이다.
+- private `order360-candidate-packet.json` SHA
+  `09e19c5d8de9d2eadd14ce1d596890383cb9de28945cb3255b938dadfc0b9680`;
+  `order360-final1-summary.json` SHA
+  `9c8517e1b51a67a8ab48dd529ae6ab876a5dbcff4cd63022b54c387340337896`.
+  전후1375경로 불변·timeout0. 생성1회와 표적4명령, 영향선택20개를 구분한다.
+- private `order360-preservation-final1.json` SHA
+  `14081284034c71bcff337847efdba73d150980e495c2a9fcf80bb120bda1157a`:
+  exact6치환 외 불변·118기존판정/96보고·인간/공개핀 보존.
+- 규범은 일회성, 기존 WORK_UNIT·콘텐츠 원장 정본 적용/새승격0.
+  새 엔진/화면/입력/원어민/인간/물리/package 관측0·외부 제출0.
+
+현재 상태: 구현·표적 검증 완료, clean source 별도 독립 최종 판정 대기.

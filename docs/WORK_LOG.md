@@ -2,6 +2,14 @@
 
 > 상단 안전 여백 수리 전 전체 원문은 [2026-09-27 보존본](history/WORK_LOG_2026-09-27_pre_header.md)에 있다. 보존본의 상대 링크는 당시 docs/WORK_LOG.md 위치 기준이다.
 
+## 2026-09-28 (Codex — Claude가 전달한 콘텐츠 검토 기록 불일치 수리)
+
+- [360](queue_active/ORDER-360.md): 기준 main `199da427`, 선행 선언 `86566d9`·검사/큐 순번 경계 보충 `f41efdb`. 두 제품 파일에서 current 후보6축의 본문 SHA와 생성표만 갱신했다. 기존 사실20개·강도·후보 ID/count/파일·검색규칙·language·frozen 공개 source/PCK/ZIP 핀은 그대로다. 실제 대본/번역/도구/게임플레이 수정0, 생성은 기존 `--write-report` 1회 exit0이다.
+- 각 저장 지문 도입 Git 기준(gambling/sexuality `2f91f426`, fear/crime/alcohol `f4c7fd90`, violence `bf5dd604`, language `556e929a`)을 현재 검색규칙으로 재산출해7축 exact 일치를 확인했다. 이후 후보11사건/8파일47leaf(KO13/EN34, 기존45수정/ghost2추가)를 root·비저자가 전량 읽었다. first-parent49편집/17사건버전/6원인commit을 원문에 결속했다. 원인은 `031f5e50`·`3fb98909`·`4de3bbb1`·`506e4c8f`·`ac02dbc6`·`ef896982`이며359는 후보 변화에 기여하지 않는다. 전체 분기 역사가 아니라 현재 후보의 순변경 비교다.
+- 시간·화자·영어 시제/인용부호·없는 회상/서류 전제를 바로잡은 변경이다. 병실의 `on the bed`·고시원 `first night`는 성적 묘사가 아니고, year3 결산의 기존 폭력 검색 오탐은 실제 폭행 추가가 아니다. 재혁 투자 압박/사기·아버지 약 복용/불안·성인 술자리의 기존 사실·강도 변경 필요0. 조건부 ghost 본문2개는 옛 기본 본문을 보존하며 기존5키 뒤에 붙은350 수리다. 새 콘텐츠·등급 판단을 만들지 않는다.
+- packet SHA `09e19c5d8de9d2eadd14ce1d596890383cb9de28945cb3255b938dadfc0b9680`, 추출257핀 전후 불변. 기존359 전달7실패/원본SHA를 보존하며 기준 검사는 반복하지 않았다. 영향20선택은 전체실행이 아니다. normal·self45·context·queue **4/4 PASS**, timeout/stderr0·각 전후1375텍스트경로/HEAD/status 불변, summary SHA `9c8517e1b51a67a8ab48dd529ae6ab876a5dbcff4cd63022b54c387340337896`. 선언HEAD dirty 실행이지 최종clean source에서 재실행한 주장이 아니다. 전체 엔진/플레이/과거358 검사는 반복0이다.
+- exact6필드·생성표 외 rawbytes 및 비소유 tracked 변경0, 기존118판정 rawprefix/96보고·인간OPEN45·옛공개GO1·P-20/148 원형 보존. 개발 스킬의 선행 선언·파일 소유 분리·표적 검사·독립 원문 대조를 적용했다. 규범 일회성/기존 WORK_UNIT·콘텐츠 원장, 새승격0. 자동 검사는 계약 증거이지 작품성·문체·사람 판정이 아니다. clean source 독립 최종 판정은 후속 마감에 결속한다. 새 화면/입력/원어민/인간/물리/package 관측0·본편/새package HOLD·외부출시/스토어/지출0이다.
+
 ## 2026-09-28 (Codex — 3장·다음 해 원고 수리의 통합 검증)
 
 - [358](queue_archive/ORDER-358.md): 도구8개에서 실제350/359 제품 전이의 원시 바이트·106leaf·receipt57을 검증한 뒤에만 KO/EN9파일49leaf를 역사 비교로 투영한다. 현재38경로 입구·역사합집합14파일68leaf를 분리하고, 새ghost 키는 역사 view에서만 제거한다. 실제 제품/번역/게임플레이 수정0, 현재 공식40302/b141/meta9·보류72와 현재본문11681/표준11548/M07~M601752는 불변이다.

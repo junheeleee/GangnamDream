@@ -131,13 +131,13 @@ PCK의 디렉터리·전 payload MD5·JSON·raster/audio import target과 ZIP의
 
 | 축 | 후보 사건/파일 | ID SHA-256 | KO/EN 본문 SHA-256 | 최고 사실 강도 |
 |---|---:|---|---|---|
-| 사행성·도박 | 137 / 43 | `e324a22a603bda179d3be12bee23fb8e8af3134e9cab56e953416e42d02bba7b` | `73d713bb1e8e88b09dd5254a956a607bf318c58093609f36fe234b2cfe94e967` | strong, moderate |
-| 선정성·성적 내용 | 124 / 26 | `b0b2306f0c7abfcbe7a13c0c46ace514434459be156759f9c6860f80778693aa` | `0ee3bece875afafc89e44e01558a371d9e51201bc8856f78e3ebe9921238fc44` | moderate, mild |
-| 폭력성 | 18 / 15 | `1d403db1107800e1e7c4a8d9d78c08361a840c6901fd8e93de83e609bf585a70` | `25d4565dadf90b8029a7490a0771d4171bdcc4efb204636f30c29f959900a3aa` | mild |
-| 공포 | 146 / 51 | `2c0b31f28649c41920b109674331366623b3600076d16a694a647fae6f26a5cb` | `c48bd3be2f9a463db71849f1e6e93e6793a28fe68f7e67cd4e229e5b89038aab` | moderate |
+| 사행성·도박 | 137 / 43 | `e324a22a603bda179d3be12bee23fb8e8af3134e9cab56e953416e42d02bba7b` | `3967fd8b6073e519053b13145cda852d18e81adb455bc2f82654255050279602` | strong, moderate |
+| 선정성·성적 내용 | 124 / 26 | `b0b2306f0c7abfcbe7a13c0c46ace514434459be156759f9c6860f80778693aa` | `1c340646c97d630cf1ebdf406c7edc71fe8ab1ad83e56bc84c2ff64cbb81b9ac` | moderate, mild |
+| 폭력성 | 18 / 15 | `1d403db1107800e1e7c4a8d9d78c08361a840c6901fd8e93de83e609bf585a70` | `9a91148a4849b0b02f564b046e16a5e8e6eba95012817cae7c8c021aa9600852` | mild |
+| 공포 | 146 / 51 | `2c0b31f28649c41920b109674331366623b3600076d16a694a647fae6f26a5cb` | `86e5e032f03952fc3bbd1a476e0e4a3a3197374dba98a620d27301dfa99df500` | moderate |
 | 언어 | 2 / 2 | `09cf036c8dac9dcefd776b9cf27b96efa7ed0ee396e74264bea545b480c8eca1` | `fc1a0465f31a6a2df2deb4559825e67c7f762fa2ebfdbaa45ae63e2fb75131c3` | mild |
-| 범죄 | 73 / 40 | `4e0463a4d699a58c1c3fc7fa856c80b4218417badce2d62ec0403d389294c0dd` | `32f7ea1215b192f695a19c6ed473ed5012ccb3e8c616d08b9947e50ba7613994` | moderate, strong |
-| 음주·흡연·약물 | 82 / 39 | `32942c5a49b64e9027b5a0071e1c95d6d205478ef05ea6ad25c5ad3c5d90433f` | `6923c047c60640505dae209e3102e4cf9e5ad22ecd9bd5f454caccd4e9229d5f` | moderate, mild |
+| 범죄 | 73 / 40 | `4e0463a4d699a58c1c3fc7fa856c80b4218417badce2d62ec0403d389294c0dd` | `3909aa7574de228b135c25936226f3c5bf1018bfc16b1585b212cf71be4cf933` | moderate, strong |
+| 음주·흡연·약물 | 82 / 39 | `32942c5a49b64e9027b5a0071e1c95d6d205478ef05ea6ad25c5ad3c5d90433f` | `3ab95d312b2b2d36bdd76293987362ac765786937153245652442fbb1c8c418d` | moderate, mild |
 | 생성형 AI | 기술 축 | — | — | disclosure_required, none |
 | 온라인 기능 | 기술 축 | — | — | none, external_link_only |
 
