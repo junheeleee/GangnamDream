@@ -1,8 +1,27 @@
-# Active Queue Spec: ORDER-313
+# Archived Queue Spec: ORDER-313
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-313 [P1·본편] 2장 M13~M24 대본의 시간·영어 정합을 고친다
+#### [x] ORDER-313 [P1·본편] 2장 M13~M24 대본의 시간·영어 정합을 고친다
+
+
+## 2026-09-27 완료 — 독립 작업 한정 GO
+
+- 최종 source `2faaaddc29f0a05704fe8bb353d3adac62172d39`, tree
+  `b6323f63625e64346f14cea7060c11f19ece9eff`에 비저자 `/root/screen_independent_review`가 판정했다.
+  [보고](../agent_reviews/ORDER-313-followup.json) SHA `c7e418c1cd48370ebc23572ff15d261c284eb1ac5a5c07ac696575ebc4c49a3f`.
+- 원래8개 수리15문구/receipt6와 두 통합 blocker를 각각 확인한 후속 GO다. 다른 작업의 GO를 빌리지 않는다.
+- 명시23명령 PASS, 새370·역사587(원형301 현재소비자/격리309286), 본문73·graph178·
+  chapter5146·year5879·chapter1604·localization264. 실행 전후1374 지문 동일,
+  dirty 선언HEAD 실행과 최종clean source는 CLAUDE 현재행1개 차이로 별도 결속했다.
+  clean commit 재실행·전체shell·엔진 실행으로 세지 않는다.
+- 원래313/356의6 PASS/3 FAIL과 최초HOLD 보고는 보존한다. 이번 제품 수정0,
+  기존110판정/88보고와 인간OPEN45·옛exact 공개GO1·공식40299/b139/meta9·보류72 불변.
+  본편·302 새package HOLD, 새 화면/입력/원어민/인간/물리 관측0이다.
+- 규범은 일회성/기존 WORK_UNIT·I18N 적용이며 새 승격0. 자동 검사는 계약 증거이지
+  재미·깊이·문체나 사람 판정이 아니다. 아래 실행 중 HOLD 기록은 당시 상태로 보존한다.
+
+## 아래는 선언 및 실행 중 기록 (원형 보존)
 
 ## 2026-09-27 착수 — 파일 소유와 증거 경계
 

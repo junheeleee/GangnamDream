@@ -1,0 +1,143 @@
+{
+  "schema": "gangnamdream-independent-work-unit-review/v1",
+  "scope": "work_unit",
+  "review_stage": "independent_source_bound_followup",
+  "decided_by": "/root/screen_independent_review",
+  "decision": "GO",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "2faaaddc29f0a05704fe8bb353d3adac62172d39",
+    "tree": "b6323f63625e64346f14cea7060c11f19ece9eff",
+    "manifest_sha256": null
+  },
+  "independence": "Nonauthor of all8 implementation tools and original313/356 prose/receipts. Independently read required canon/skill/specs, module and consumer diffs, raw results and preservation/source identities. Authored only private reviewer evidence/reports; no tracked, product, ledger, old-report, engine or user-data mutation.",
+  "source_binding": {
+    "observed_at_utc": "2026-09-27T12:54:28.355064+00:00",
+    "observed_head": "2faaaddc29f0a05704fe8bb353d3adac62172d39",
+    "observed_tree": "b6323f63625e64346f14cea7060c11f19ece9eff",
+    "observed_clean": true,
+    "resolver": {
+      "kind": "source",
+      "commit": "2faaaddc29f0a05704fe8bb353d3adac62172d39",
+      "tree": "b6323f63625e64346f14cea7060c11f19ece9eff",
+      "manifest_sha256": null
+    },
+    "execution_head": "24d0cef65d3ba4d7702a930e1a40a2af0a351eb7",
+    "execution_state": "All23 commands ran on fixed declared implementation bytes while HEAD was24d0cef and the implementation worktree was dirty; no clean2faaaddc execution is claimed.",
+    "executed_to_final_bridge": "All23 before/after snapshots contain the same1374 source/text pins. Final1373 pins match exactly; only CLAUDE.md differs, by one reviewed current-status row recording23 PASS and deferring unit decisions to the queue while retaining product/package HOLD. This is source-bearing documentation, so the final subject is2faaaddc rather than the execution declaration.",
+    "final_commit_delta": "Exactly8 declared tools plus CLAUDE.md and3 metadata documents (ORDER357 spec, WORK_LOG, STATUS). No product JSON, receipt, runtime, asset, project, human, public manifest or old report edit.",
+    "census_limit": "The execution census covers tracked source/text extensions plus the new module; it is not a complete binary-asset or real user-data census."
+  },
+  "verification": {
+    "exact_lane": "chapter2-prose-source-compat;21 explicit commands plus2 always checks, paths=[] explicit-only",
+    "commands": 23,
+    "passed": 23,
+    "failed": 0,
+    "timeouts": 0,
+    "cases": {
+      "new_current_boundary": 370,
+      "original305": 132,
+      "original310": 106,
+      "original316": 63,
+      "original309_isolated": 286,
+      "historical_total": 587,
+      "full_body": 73,
+      "story_graph": 178,
+      "chapter5": 146,
+      "year5": 879,
+      "chapter1": 604,
+      "localization": 264,
+      "agent_decision": 222
+    },
+    "population_note": "One shared23-command execution set supports the three separate decisions. Internal cases overlap and are not added into a distinct total; the isolated309286 is not a current-checkout309 CLI pass.",
+    "historical_identity": "Original305/310/316 self-tests run with actual current consumers (301). Original309 unmodified CLI runs separately in a fresh -I -B subprocess with verified immutable pre31343f76f1 module4/live15 bytes, recorded import file/ROOT identities, exact286 marker, exit0 and unchanged fixture bytes. Reviewer independently compared all19 fixture hashes with Git.",
+    "long_runs": "Year5 normal and879-case self-test pass; self-test525.066s, empty stderr. Chapter1 normal and604-case self-test pass; self-test719.467s, empty stderr, probes409/full_validations27/full_fallbacks19. Its existing internal full2/skip21/fallback1 census is retained, not represented as27 full playthroughs.",
+    "raw_review": "Independently read all finite stdout/stderr, authenticated all23 JSON and stream hashes, and matched each command to the declared lane. Localization's264-test stderr ends Ran264/OK; structured24/33/40/60/64 sections have all2824 embedded checks true. Expected rejected inputs/errors are successful negative controls, not failed executions or extra unit tests.",
+    "nonpromotion": "COVERAGE_GAP weeks25..48 authoritative24/48, Year5 reference_only/topology invalidated/r1b_allowed=false, audit-selector EXTRA notices and agent decision product_verdict=HOLD remain explicit."
+  },
+  "preservation": {
+    "baseline": "24d0cef65d3ba4d7702a930e1a40a2af0a351eb7",
+    "products": "All8 prior prose/receipt product bytes exactly equal ac02dbc6a18126dda25e8fea8562faff18c1a365 and reviewed source496142dc64800593ea0913920c51d5ef8feccbd4. No new translation or gameplay change.",
+    "history": "Original4 compatibility modules,21 protected paths, all88 prior reports and complete110-decision ledger remain byte-identical. Original313/356 HOLD reports and all9 original raw commands remain unchanged (6 PASS/3 FAIL);38 distinct linked evidence references were rehashed, including Git-pinned historical specs.",
+    "ledger": "Accepted40299, batches139, retained internal metadata9 and held72 boundary remain. The existing313/356 batches stay distinct; native_review OPEN and full_game_status INCOMPLETE are unchanged.",
+    "authority": "Human45 open/1 done and public GO1 remain byte-identical; public GO belongs only to the old exact package. Current internal_product resolver is HOLD with errors[]. ORDER302 successor package and full product remain HOLD."
+  },
+  "required_findings": [],
+  "required_in_scope_findings_remaining": 0,
+  "unobserved": [
+    "Work-unit source/integration decision only, not internal-product, public, release/package, native-reader, human-playtest or physical-controller GO.",
+    "The original79-check impact selection, including13 engine checks, was not run as a whole. This explicit23-command lane is not79 PASS or full audit.sh PASS.",
+    "The old309 direct CLI's current admission still means its immutable pre313 contract and is not claimed to accept the new product. Historical286 success is separate; old CLI calls/pins were not deleted or refreshed.",
+    "No new engine/game run, screen capture, natural input,240-week playthrough, user-save census, native-language reading, physical-controller or package observation.",
+    "Source inventory, structure, receipt and no-Hangul checks do not certify every scene's literary quality, full EN-tense normalization, whole-language native quality or runtime exposure.",
+    "All earlier broader release debt, including original309 and354 failures, remains unclosed by these decisions."
+  ],
+  "unit_id": "ORDER-313",
+  "outcome": "GO for the original15-leaf/6-receipt prose repair and its now-verified current-source/historical integration. The unchanged prose was previously independently found suitable; both original blocking findings are independently resolved here.",
+  "population": {
+    "target_text_leaves": 15,
+    "reviewed_text_leaves": 15,
+    "product_json_files": 7,
+    "existing_locale_receipts": 6,
+    "locales": [
+      "ko",
+      "en",
+      "ja",
+      "zh-CN",
+      "zh-TW"
+    ],
+    "distribution": "Network opening5; base father-visit opening5; EN network/visit choice text2; EN medication description/result2; EN Daeun result1. Separate356 conditional5/receipt3 are not added to this unit."
+  },
+  "independent_prose_reassessment": [
+    "The exact previously reviewed15 leaves are unchanged; their immutable review and38 shared supporting artifact references were rehashed. No repeat screen or new full-corpus reading is claimed.",
+    "About one month in the network opening matches M13 W49–52→M14 W53–56; the invented capital insight/next-day assertion is removed. EN first choice takes each card, matching Korean action/results.",
+    "Father-visit base text retains weeks of delay and nearly3-hour travel without inventing a delay cause or first-visit claim; EN choice today fits the scene rather than tonight.",
+    "Medication narration is present action while actual prior medication/doctor facts remain past; the dismissive knowing-does-not-help meaning is restored. Daeun's paper is a sheet for home, not a bus-only sheet.",
+    "This follow-up combines unchanged suitable prose/receipts with new independently inspected current admission and historical comparison evidence, rather than borrowing a prior or neighboring GO."
+  ],
+  "resolved_findings": [
+    {
+      "id": "ORDER313-BLOCKER-01",
+      "status": "resolved",
+      "resolution": "New exact live19 admission binds all8 current product files/20 leaves/9 receipts, including this unit15/6. New boundary370 and graph normal/178 pass. Raw/path/ID binding and rollback/mixture/receipt negatives demonstrate acceptance is not a filename exception or stale-source waiver."
+    },
+    {
+      "id": "ORDER313-BLOCKER-02",
+      "status": "resolved",
+      "resolution": "Finite new KO/EN4/11 inverse composes with old309 while full-body deliberately stops at post305. Full-body normal/73 and the actual five consumers pass; historical301 current-consumer plus isolated original309286 prove old pins/corpora remain meaningful. Current inventory is not replaced with old prose."
+    }
+  ],
+  "historical_record_policy": "The original report remains HOLD on496142dc and the original shared9 records remain6 PASS/3 FAIL. This later source-bound GO resolves their required findings prospectively; it does not rewrite those records or recategorize the old309 direct CLI failure as a pass.",
+  "evidence": [
+    {
+      "path": "docs/agent_reviews/ORDER-313.json",
+      "sha256": "a2e412556b37a31198cc4091dfe1d83b06b630a6bd50d101fd92824861bf4ecf"
+    },
+    {
+      "path": ".git/full-game-localization/order313-static-summary.json",
+      "sha256": "e7cac9eca5be8d05ff76cfa608b6d4a648b2e3dc55a1fc27fbf6c4a0cf58d0d4"
+    },
+    {
+      "path": ".git/full-game-localization/order357-review-final-binding.json",
+      "sha256": "c161e348b2a36fd972db36c871872a8d35e3171fe07502135f16ea3ddd81c243"
+    },
+    {
+      "path": ".git/full-game-localization/order357-final1-aggregate.json",
+      "sha256": "702607bffd534ce5eebe0990a78781ef6b21da6aed2c607a77782fe8ef92c9e8"
+    },
+    {
+      "path": ".git/full-game-localization/order357-review-partial-00-07.json",
+      "sha256": "f0166465af99209f5ebe709bfb464dcfa7012677f9d970d60ff9b640e5acde92"
+    },
+    {
+      "path": ".git/full-game-localization/order357-review-partial-08-22.json",
+      "sha256": "09bed0d7d9db5b5035d085da0bcca5573a5e552a2d4a2afa8cb0ad495c7a124f"
+    },
+    {
+      "path": ".git/full-game-localization/order357-self-review.md",
+      "sha256": "4967eae4edf974991b976efeadbcadef22a231edfaefb211e387ac90e2c3f8f1"
+    }
+  ],
+  "completion_statement": "ORDER313's original bounded repair and required source integration are complete at this observed source. No broader chapter, full-product or successor-package completion is authorized."
+}

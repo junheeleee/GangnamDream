@@ -4,16 +4,16 @@
 
 ## 2026-09-27 (Codex — 2장 원고·번역 기록의 통합 검증)
 
-- [357](queue_active/ORDER-357.md)의 도구8개를 수리해 앞서 고친 시간·영어20문구와 기존번역receipt9를 실제 검사 소비자에 연결했다. 실제 원고/번역/게임플레이 수정0이다. 현재19경로 입구와 KO/EN4파일11leaf 역사 비교를 분리하고 post305 본문 비교·EN midgame 양세대·Daeun indexed/raw·year5 역사합집합7을 보존한다.
+- [357](queue_archive/ORDER-357.md)의 도구8개를 수리해 앞서 고친 시간·영어20문구와 기존번역receipt9를 실제 검사 소비자에 연결했다. 실제 원고/번역/게임플레이 수정0이다. 현재19경로 입구와 KO/EN4파일11leaf 역사 비교를 분리하고 post305 본문 비교·EN midgame 양세대·Daeun indexed/raw·year5 역사합집합7을 보존한다.
 - 명시23명령 모두 PASS·timeout0. 새 경계370, 역사587(원형301 현재소비자 + 격리원형309286), 본문73·graph178·chapter5146·year5879·chapter1604·localization264이며 중복합산하지 않는다. 장기 두 검사525.066/719.467초다. 매 명령 전후1374소스·문서 SHA가 동일하며 aggregate SHA `702607bffd534ce5eebe0990a78781ef6b21da6aed2c607a77782fe8ef92c9e8`다. dirty 선언HEAD 실행이지 후속 clean commit 재실행이나 자산/사용자저장 전량 census가 아니다.
-- 원형305/310/316/309 모듈·상수·실패 기록을 유지한다. 옛309 직접CLI/전체shell을 PASS로 올리지 않는다. 소비자 양성 관측 갱신과 원형 corpus 불변을 구분한다. 기존313의6 PASS/3 FAIL·독립HOLD, 제품8·110판정/88보고·인간/공개/프로젝트는 그대로다. 최종 clean source에 대한357과313/356 각각의 후속 독립 판정은 아직 대기다.
+- 원형305/310/316/309 모듈·상수·실패 기록을 유지한다. 옛309 직접CLI/전체shell을 PASS로 올리지 않는다. 소비자 양성 관측 갱신과 원형 corpus 불변을 구분한다. 기존313의6 PASS/3 FAIL·독립HOLD, 제품8·110판정/88보고·인간/공개/프로젝트는 그대로다. 최종 clean source `2faaaddc`/tree `b6323f63`에서 [357](agent_reviews/ORDER-357.json), [313 후속](agent_reviews/ORDER-313-followup.json), [356 후속](agent_reviews/ORDER-356-followup.json)을 각각 독립 작업한정 GO로 닫았다. 검사 때와 source의 차이는 CLAUDE 현재행1개뿐임을 직접 결속했다. 기존110판정/88보고 원형에 새3개만 추가해113판정/91보고다. 다음은 큐의350 본편3장 경로·회수·영어 정합 수리다.
 - 개발 스킬의 선행 선언·파일 소유 분리·표적 검증·비저자 원문 검토를 적용했다. 규범은 일회성/기존 WORK_UNIT·I18N 적용이며 새 승격0. 자동검사는 계약 증거이지 재미·깊이·문체나 사람 판정이 아니다. 새 엔진/화면/입력/원어민/인간/물리/package 관측0, 인간OPEN45·옛공개GO1·본편/302 새package HOLD, 외부출시·스토어·지출0이다.
 
 ## 2026-09-27 (Codex — 2장 시간·영어 정합과 병실 조건부 본문 수리)
 
-- [313](queue_active/ORDER-313.md)의 시간 연결·명함 행동·약 대사/시제·다은의 종이·병실 낮 선택을15문구에 반영했다. 실제 조건부 본문에도 같은 시간 결함이 있어 [356](queue_active/ORDER-356.md)5문구로 별도 선언·수리했다. 입원 뒤 지연의 새 이유나 첫 방문 단정은 만들지 않았다.
+- [313](queue_archive/ORDER-313.md)의 시간 연결·명함 행동·약 대사/시제·다은의 종이·병실 낮 선택을15문구에 반영했다. 실제 조건부 본문에도 같은 시간 결함이 있어 [356](queue_archive/ORDER-356.md)5문구로 별도 선언·수리했다. 입원 뒤 지연의 새 이유나 첫 방문 단정은 만들지 않았다.
 - 제품 `ac02dbc6`의7JSON20문구·기존번역receipt9 외 raw/구조/효과/순서/토큰/개행 불변이다. 한국어에서 JA/CN/TW를 각각 수리하고 export전후6+6·check/import6쌍·옛batch6 stale거부를 확인했다. 공식40299/meta9·보류72·옛137이력 보존, 이력139(새번역0)이다. 처음 자체 대조가 잡은 root EN 들여쓰기2칸 변화는 원형 복원 후 같은 모집단을 재검증했다.
-- 정적9명령은 **6 PASS/3 FAIL**. localization264·audit·story consistency·i18n coverage·English Hangul·EN coverage PASS, full-body63중6실패·graph4오류·309guard의 현재입구 실패가 남았다. 선택79개는 실행 목록일 뿐 전체통과가 아니다. 실제 실패/로그를 보존하고 [357](queue_active/ORDER-357.md)에7JSON20leaf/receipt9 현재 경계와 KO/EN4파일11leaf 역사 비교 연결을 명시했다. 이전305/310/316/309 핀은 불변이다.
+- 정적9명령은 **6 PASS/3 FAIL**. localization264·audit·story consistency·i18n coverage·English Hangul·EN coverage PASS, full-body63중6실패·graph4오류·309guard의 현재입구 실패가 남았다. 선택79개는 실행 목록일 뿐 전체통과가 아니다. 실제 실패/로그를 보존하고 [357](queue_archive/ORDER-357.md)에7JSON20leaf/receipt9 현재 경계와 KO/EN4파일11leaf 역사 비교 연결을 명시했다. 이전305/310/316/309 핀은 불변이다.
 - 개발 스킬에 따른 선행 선언·파일 소유 분리·원문 직접 번역·표적 검증과 비저자20문구 전수 검토를 적용했다. 최종 source `496142dc`/tree `9cdb6178`에서 원고는 적합, 통합 실패 때문에 [313](agent_reviews/ORDER-313.json)·[356](agent_reviews/ORDER-356.json) 각각 HOLD다. clean metadata wrapper `51953a9` 전체 차이/source resolver를 재확인한 v2 두 보고를 정확복사하고 최초 v1은 보존했다. 제품 검사 반복0, 기존108판정/86보고를 보존해110판정/88보고다. 상시 규범 추가0, 일회성/기존 I18N·P-9·WORK_UNIT 적용이다.
 - 새 엔진/화면/입력/원어민/인간/물리/패키지 관측0이며 자동 검사는 계약 증거이지 작품성이나 사람 판정이 아니다. 인간OPEN45·옛 공개GO1·본편/302 successor package HOLD, 외부출시·스토어·지출0이다. 다음은357 통합 수리다.
 
@@ -23,7 +23,7 @@
 - 명시 전용23명령 모두 PASS. 새 경계286·원형305/310/316의301·본문범위63·story graph139·chapter5146·year5798·chapter1604·localization264 사례를 포함한다. 1장 전체665.260초/5년차467.445초이며 전체75명령·14엔진·240주·전체 shell 실행은 아니다. 원래309의5 PASS/4 FAIL, 별도옛310/316 CLI FAIL과354의15 PASS/7 FAIL은 원형 보존했다.
 - 실행 도중 확인한1장 proof2 불일치·156 header positive 관측·267 선행 오류 누락, year5의156 header positive 관측도 수리했다. 옛핀/모듈/원형305·310·316 corpus는 보존한다. 다만1장/5년차 소비자 self-test positive 입력은 수정했음을 구분하며, 5년차 corpus7함수는 그대로/1함수는 관측 연결1곳 변경이다. timeout300/600초와 실제 실패는 통과로 덮지 않았다. 1장의600초는 과거635.65~1097.08초 실행 비용을 확인한 뒤1800초 한도로 같은 전체 검사를 완료했다.
 - 최종 source `03059e52a20bdbaefcb194422a3d71ef53ea9833`/tree `88eadbea821bbe26ebf6dd288095fe66062e4cc1`에 [355 독립 판정](agent_reviews/ORDER-355.json)과 [309 후속 판정](agent_reviews/ORDER-309-followup.json)을 각각 결속했다. 23개 실행은 선언HEAD의 dirty 소스 바이트에서 이루어졌으며 새 clean commit에서 재실행했다고 세지 않는다. 실행/실패49개 증거 묶음 SHA `6467c49ae6d24d664576918e3a08e064b54bb3446162e0eff973aeaea29616ae`와 개별 실행 SHA/차이를 보고에 남긴다.
-- 355 GO만으로309를 닫지 않고 원래309의 두 통합 차단 항목을 별도 독립 검수해 작업 한정 GO로 닫았다. 이전106판정/84보고는 그대로, 새108판정/86보고다. 공식40299/b137/meta9·보류72·과거136batch·인간OPEN45·옛공개GO1은 불변이다. 다음은[313](queue_active/ORDER-313.md)의 본편2장 대본 시간·영어 정합 수리이며 아직 미실행이다.
+- 355 GO만으로309를 닫지 않고 원래309의 두 통합 차단 항목을 별도 독립 검수해 작업 한정 GO로 닫았다. 이전106판정/84보고는 그대로, 새108판정/86보고다. 공식40299/b137/meta9·보류72·과거136batch·인간OPEN45·옛공개GO1은 불변이다. 다음은[313](queue_archive/ORDER-313.md)의 본편2장 대본 시간·영어 정합 수리이며 아직 미실행이다.
 - 개발 스킬의 선행 선언·파일 소유 분리·현재 원문/역사 증거 구분·표적 검증·독립 판정으로 진행했다. 규범은 일회성/기존 WORK_UNIT·I18N 적용, 새 정본 승격0. 자동 검사는 계약 증거이지 재미·깊이·문체나 사람 판정이 아니다. 새 화면/입력/엔진/원어민/인간/물리패드/패키지 관측0, 외부출시·스토어·지출0. 전체 번역·본편·302 successor package는 HOLD다.
 
 ## 2026-09-27 (Codex — 1장 후반 장소·영어 수리, 통합 검증은 HOLD)
