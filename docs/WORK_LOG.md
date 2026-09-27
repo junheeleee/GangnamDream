@@ -2,6 +2,13 @@
 
 > 이전 WORK·선언·검증 원문은 [287 보존본](queue_archive/ORDER-287.md)에 있다.
 
+## 2026-09-27 (Claude — 본편 대본 판독 R1: 1장 후반 M07~M12)
+
+- 본편 대본 정합 계획 배치 R1 판독 완료. story_map M07~M12 root 6장면과 M05 재혁 선행 장면 KO/EN, `MainGame.gd` 재혁 스케줄을 읽었다. 파일 수정 없이 [305](queue_active/ORDER-305.md)로 발행.
+- 수리 3: 현수 결과(pass/fail)가 같은 고시원 옆방인데 "현수의 고시원으로 갔다"로 다른 건물처럼 읽힘, 고시원 작별 C3 EN 직역, 재혁 포장마차 EN만 현재형.
+- 판단 1: story_map M11 root `arc_jaehyuk_01_reunion`은 첫 연락 원문인데 M05 두 번째 만남 뒤에 배치돼 있다. 런타임은 두 이벤트가 같은 `arc_jaehyuk_reunion_seen`을 쓰고 `t>=19`에 한 번만 띄우므로 현재 화면의 이중 소개는 없다. M11 EXPAND 착수 전 원문 재작성 또는 beat 병합을 판정해야 한다.
+- 큐 3번에 삽입하고 뒤 행을 +1 재번호. queue_consistency·context_manifest PASS.
+
 ## 2026-09-27 (Codex — 데모 직업 안내·지연 회상 장소)
 
 - 승인302 B: 공개 시작 안내의 편의점 야간 수입을 야간 단기 일로, M06 지연 회상의 버스 정류장을 빗길로 고쳤다. controller3substring과 JA/CN/TW 각2키·2값만 변경. EN 시작 안내는 이미 중립이라 보존했다. 후보 `6c4cd0d`, tree `32831908d9a95a0028a8bcc6248a497f6cc6e287`.
