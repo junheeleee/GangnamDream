@@ -209,7 +209,12 @@ func _modal_roundtrip(surface: String, open_key: Key, popup_property: String) ->
 	var before := JSON.stringify(GameState.serialize(), "", true)
 	var before_phase := _story_phase()
 	await _tap(open_key, "open %s from selected choice 2" % surface)
-	_expect(is_instance_valid(story.get(popup_property)), "%s did not open" % surface)
+	if not is_instance_valid(story.get(popup_property)):
+		_fail("%s did not open; no subsequent confirm dispatched" % surface)
+		_modal_results.append({"surface": surface, "opened": false,
+			"selected_choice": 2, "phase": before_phase,
+			"gameplay_unchanged": JSON.stringify(GameState.serialize(), "", true) == before})
+		return
 	await _capture(surface, _size)
 	await _tap(KEY_ENTER, "%s modal confirm must not commit underlying story choice" % surface)
 	await _frames(6)
@@ -460,10 +465,12 @@ func _tap(code: Key, purpose: String) -> void:
 		var before := _focus_snapshot()
 		var event := InputEventKey.new()
 		event.keycode = code
+		event.physical_keycode = code
 		event.pressed = pressed
 		event.echo = false
 		Input.parse_input_event(event)
-		_inputs.append({"sequence": _inputs.size() + 1, "keycode": int(code), "pressed": pressed,
+		_inputs.append({"sequence": _inputs.size() + 1, "keycode": int(code),
+			"physical_keycode": int(code), "pressed": pressed,
 			"purpose": purpose, "method": "Input.parse_input_event synthetic",
 			"focus_before": before, "focus_after": _focus_snapshot(), "story": _story_phase()})
 		await _frames(2)

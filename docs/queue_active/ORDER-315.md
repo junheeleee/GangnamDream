@@ -13,6 +13,8 @@
 독립 비저자 검수/보고는 `/root/screen_independent_review`가 소유한다.
 root 문서 범위에 `CLAUDE.md` 현재행과 WORK_LOG 예산 롤링용
 `docs/history/WORK_LOG_2026-09-27_pre_header.md` 원문 보존본을 포함한다.
+검사 준비에서 확인된 복구 lock 부작용의 재발 방지 한 줄은 root가 개발 스킬의
+Verify 절에 승격한다. 제품 규범 변경이 아니라 실제 검사 격리 교훈이다.
 검사 helper·등록과 제품 저자를 분리하고 old314 증거·기존97판정은 무수정이다.
 
 ## 깊이 3문과 한 배치
@@ -57,3 +59,4 @@ root 문서 범위에 `CLAUDE.md` 현재행과 WORK_LOG 예산 롤링용
   부모302·본편·새패키지 HOLD, 옛 공개GO1·인간OPEN45·원어민/물리 입력 미관측은 유지한다.
 
 이 사양은 일회성 수리 지시이며 영구 안전영역·입력 규범은 기존 정본이 소유한다.
+승격: `.codex/skills/gangnamdream-dev/SKILL.md`:Verify의 Godot 검사 격리 교훈 한 줄.

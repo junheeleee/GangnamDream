@@ -77,6 +77,8 @@ Use only relevant ScreenshotQA scopes while iterating. Treat automated visual/au
 
 For headless Godot checks, require the exact success marker **and** scan both stdout and the Godot log for parse/script/engine errors. Godot may exit `0` or print a late marker after a script error, so exit status or marker alone is not evidence.
 
+Even `--check-only` can touch the real recovery lock and cannot validate autoload-dependent fixtures alone; use the proven pre-autoload isolated bootstrap for project checks, never a late Node `_ready()` override or an unisolated parse shortcut.
+
 **A green audit means the contracts held, not that the work is good.** Keep `docs/human_gates.json` as actual human-evidence history and use the separate delegated review procedure in `docs/WORK_UNIT.md` for current agent decisions. Report completed scope and unobserved limitations separately. Move a human gate to `done` only when a human judged it, with actual evidence; agent authority does not supply that observation.
 
 ## Close
