@@ -1,0 +1,90 @@
+{
+  "schema": "gangnamdream-independent-work-unit-review/v1",
+  "unit_id": "ORDER-360",
+  "scope": "work_unit",
+  "review_stage": "independent_source_bound_final",
+  "decided_by": "/root/r3_route_probe",
+  "decision": "GO",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "c94cd3ae19f22a015b3bd6b6e25afb17a8561242",
+    "tree": "3aca35e10dfe81c654aae44ea6b2451e91d819b5",
+    "manifest_sha256": null
+  },
+  "outcome": "GO only for reconciling the six current-source content fingerprints and their generated reviewer table after actual prose review. The existing qualitative facts and intensity descriptions need no amendment for these changes. No required finding remains in ORDER-360. This is not an age-rating, legal, internal-product, public-release or new-package GO.",
+  "independence": "Non-author review. I read CLAUDE, the development skill, WORK_UNIT, selected order and required QA/release sources; the collector, fingerprint consumer, private runner and preservation helper; all 47 net before/after text leaves and the two additional intermediate strings; raw check outputs and final documentation diff. I independently bound packet event objects and timeline leaf values to immutable Git, checked evidence hashes and final source identity. I did not edit tracked files, rerun acceptance CLIs, generate the report, launch Godot, import translations or open a package. Only this private review was written. This is agent reading, not a native-reader or human observation.",
+  "source_binding": {
+    "clean": true,
+    "resolver": "current_agent_source_subject independently returned the exact subject above; HEAD, tree and empty porcelain were also checked directly.",
+    "basis": "199da42747d1559f3ac15f2159a116ed177e7cbb",
+    "declarations": ["86566d9", "f41efdb2ea1b5a646bff10604d89fdd00ac9c620"],
+    "actual_edit": "Exactly six raw expected_content_sha256 substitutions in content_axes and the same six raw substitutions in generated CONTENT_RATING_INVENTORY.md. I reconstructed both candidate files from baseline bytes using only those substitutions. No event prose, translation, tool, gameplay, search rule, fact, intensity, candidate ID/count/file set, language-axis fingerprint or frozen public contract changed in ORDER-360.",
+    "product_sha256": {
+      "content/meta/release_content_inventory.json": "2ff675845e1017764eb67c1c9c330ecd3b3507fa0b40535757b00bba073a88b0",
+      "docs/CONTENT_RATING_INVENTORY.md": "e4514334474751543c0929036f8deeb2933d368e3e5ed8f2e146090e195bc43c"
+    },
+    "execution_bridge": "The four checks ran on dirty declaration HEAD f41efdb, whose two dirty files were the repaired inventory and generated table. They were not rerun at this clean final commit. Each recorded 1375-path tracked-text census, HEAD and status was unchanged during execution. Final source differs from those maps only in CLAUDE.md's one reviewed current-status row; queue/log/order closure metadata are excluded from the census. This is not a binary-asset or user-data census.",
+    "final_claude_sha256": "576ba7ece8fe11798ae794193880aafc35e1395b9b1c33699ea05983f5c00220",
+    "packet_bridge": "Extraction pinned 257 files before/after. Current event/tool bytes match the other 256 pins; the inventory pin differs only by the approved six substitutions. A preliminary reviewer assertion expecting all 257 current pins failed after the author had made that authorized inventory edit; the exact six-field bridge resolved it. No failed product check was hidden or relabeled. A local optional Node invocation was unavailable and performed no work; read-only jq/Git comparisons were used instead."
+  },
+  "reviewed_population": {
+    "fingerprint_semantics": "The unchanged consumer selects the union of KO category/tags and recursively searched KO/EN string values. It hashes sorted candidate IDs with each selected entire KO/EN event object as compact sorted-key JSON, not merely matched prose. File counts use KO owner paths. Reviewed search-noise candidates remain included.",
+    "baseline_sources": {
+      "gambling_and_sexuality": "2f91f4265613e57c8e3aaf34ab4f7f0971699f92",
+      "fear_crime_alcohol_tobacco_drugs": "f4c7fd9092b229d50ce4a742e64ffe42cb648b4c",
+      "violence": "bf5dd6049489bd6199b324d6c01c8f318178c112",
+      "language": "556e929ab8f6763a1c46db5fb85fd053cd7c40ed"
+    },
+    "baseline_evidence": "Independent Git hash-introduction searches agree with the packet. The collector recomputed all seven stored baseline fingerprints with unchanged scan/fact definitions and checked identical candidate IDs, ID digests, counts and owner files against current source. The later language-hash hit b18aa03f belongs to the frozen public block, not a new current-axis baseline.",
+    "changed_events": 11,
+    "changed_files": 8,
+    "net_leaves": 47,
+    "locale_leaves": {"ko": 13, "en": 34},
+    "operations": {"replace": 45, "add": 2},
+    "axis_changed_events_and_leaves": {"gambling": [1, 7], "sexuality": [2, 6], "violence": [2, 20], "fear": [3, 7], "crime": [3, 11], "alcohol_tobacco_drugs": [2, 5], "language": [0, 0]},
+    "history": "49 leaf edits in 17 event versions across six first-parent cause commits: 031f5e50, 3fb98909, 4de3bbb1, 506e4c8f, ac02dbc6 and ef896982. Shared axis leaves are deduplicated in net47. The two intermediate reunion values were read separately; they were later quote/paragraph adjustments, not omitted new content. This is the selected baseline-to-current first-parent transition history, not an exhaustive history of every Git branch. ORDER-359 changed neighbors but contributes no candidate-event change here.",
+    "gameplay_boundary": "All changed leaves are strings. No numeric effects, conditions, flags or choices were added/removed. The only conditional-map structural additions are the two ORDER-350 ghost keys, appended after the same five prior keys; each new value preserves the former default exactly."
+  },
+  "qualitative_assessment": [
+    "Gambling/crime: Jaehyuk's pitch keeps the three-million-won transfer, triple-principal urgency, horse-racing reference, partial exposure and fraud investigation. Tense/voice/quotation and investigate-after-saying-he-will-think wording do not introduce a new wagering or crime mechanism, stronger depiction or changed fact category. The existing strong/moderate descriptions remain applicable.",
+    "Sexuality: Father-visit edits establish elapsed weeks, nearly-three-hour travel and daytime wording. Its 'on the bed' search hit is the nonsexual substring in 'on the bedside table'. Goshiwon goodbye's 'first night he cried' is a nonsexual memory; its edit makes the remembered living conditions idiomatic. These do not alter intimacy, nudity or swimwear facts. Existing candidate membership and the explicit search-noise list are preserved, not silently pruned or expanded.",
+    "Violence: Jiyeon's crash edits are quotation punctuation and keep the existing minor collision/compensation facts. Year-three closure corrects an unearned application/two-document assumption, makes shared options count-neutral and preserves the old text under the ghost condition. Its existing 'beaten ... how to win' search hit is a competition metaphor in sangchul_truth_known, not newly added assault. No stronger injury or graphic violence is introduced.",
+    "Fear: Medication wording repairs tense and Father's dismissive meaning; the wait keeps the unanswered-message anxiety; midpoint wording removes an assumed recent Gangnam visit and an assumed loss-free past. Family-health uncertainty and economic pressure remain non-graphic. Nothing adds horror, jump-scares, self-harm or a different illness/death outcome.",
+    "Crime: Sangchul deduction corrects elapsed time and remembered behavior without changing the guarantee-fraud case, uncertain identity or evidence; temptation_clean clarifies that the refused two million won never arrived and standardizes a quotation. Existing fraud/financial-crime facts and strong/moderate classification language remain appropriate.",
+    "Alcohol/tobacco/drugs: Reunion edits correct narrator/pronoun and speaker perspective while leaving the adult drinking scene intact. Medication remains a health-context prescription reference, not illicit-drug use or misuse gameplay. The unchanged language-axis whole-event fingerprint supplies no reason to alter the limited-strong-language record.",
+    "All 20 existing qualitative facts and their intensity labels can remain unchanged for this reviewed delta. This assesses consistency with the repository's existing factual inventory; it does not decide an official rating or assert that all content is suitable for any audience."
+  ],
+  "verification": {
+    "distinct_executed_checks": 4,
+    "results": [
+      {"command": "release_content_inventory.py", "exit_code": 0, "duration_seconds": 6.231, "result": "PASS; exact normal marker and generated-report freshness"},
+      {"command": "release_content_inventory.py --self-test", "exit_code": 0, "duration_seconds": 9.112, "result": "PASS; 45 cases"},
+      {"command": "context_manifest_check.py", "exit_code": 0, "duration_seconds": 0.134, "result": "PASS"},
+      {"command": "queue_consistency_check.py", "exit_code": 0, "duration_seconds": 0.092, "result": "PASS"}
+    ],
+    "evidence_check": "I read all four raw outputs and rehashed result, entry, stdout/stderr, runner/helper and prior-failure artifact references. All match; stderr is empty and no timeout occurred. Source maps match before/after. The separate author generator --write-report exit0 is not a fifth check. The impact selector's 20 listed checks were not 20 executions; historical ORDER-358 results were neither rerun nor counted here.",
+    "failure_preservation": "The original ORDER-359 inventory command remains one failed run with seven diagnostics: six current body-hash mismatches and one stale generated table. Its raw result and artifacts are preserved. It was not rerun as an initial baseline or converted into a new PASS."
+  },
+  "preservation": "I rechecked all 103 protected-file hashes (96 existing reports plus seven explicit protected owners) and the entire unchanged prior 118-decision file. The helper also rejects any unowned tracked/untracked change and permits only the declared closure paths. Human OPEN45, old exact-package public GO1, P-20 approval/148 prerequisites, localization ledgers, gameplay and product prose retain their prior meanings. Public source/tree/PCK/ZIP values are unchanged bytes; no physical PCK or ZIP was opened or rebuilt. The following public report copy, one decision append and queue archive are root-owned closure, not pre-existing evidence claimed by this report.",
+  "required_findings": [],
+  "evidence": [
+    {"path": ".git/full-game-localization/order360-candidate-packet.json", "sha256": "09e19c5d8de9d2eadd14ce1d596890383cb9de28945cb3255b938dadfc0b9680"},
+    {"path": ".git/full-game-localization/order360-candidate-packet.md", "sha256": "4217f39bcbe34dea42a1bd6be596ee0679cad6d3da4d7cf7bf6be873c910a042"},
+    {"path": ".git/full-game-localization/order360-extract.py", "sha256": "43a20855435ee1824ed6f35f1ad3fd5bb93282ae44a96db19d65a4a14c9bfb3a"},
+    {"path": "tools/release_content_inventory.py", "sha256": "2f38afaf1fbbf30ed91c2aff194c1d7f61e73830f98b70a3e43fddc3f0addae2"},
+    {"path": ".git/full-game-localization/order360-final1-summary.json", "sha256": "9c8517e1b51a67a8ab48dd529ae6ab876a5dbcff4cd63022b54c387340337896"},
+    {"path": ".git/full-game-localization/order360-preservation-final1.json", "sha256": "14081284034c71bcff337847efdba73d150980e495c2a9fcf80bb120bda1157a"},
+    {"path": ".git/full-game-localization/order360-preservation-source.json", "sha256": "1f829238857c6c10dce7c79aa9c20d4fcd72bccf9a3c07551f650617aec1e257"},
+    {"path": ".git/full-game-localization/order360-run-checks.py", "sha256": "db0d743a280fd88f79142d5cf5c81d635ef92610f1acab383601851dca6d18ac"},
+    {"path": ".git/full-game-localization/order360-preservation.py", "sha256": "bf9c309508a0eb1007b1b00bc3540e0e49c1321322a80a9bf8ed735c7d207b0f"},
+    {"path": ".git/full-game-localization/order359-claude-inventory-result.json", "sha256": "82b1e38b3d3038962e748857409c7450844d787375efcab1736867d29a442c34"}
+  ],
+  "unobserved": [
+    "native_reader", "human_playtest", "physical_controller_feel",
+    "New engine execution, screenshot, audio listening, natural input, normal-speed or full-game playthrough.",
+    "Clean-final-commit acceptance rerun, full audit, physical package inspection/export, fresh submission form or external release.",
+    "Official age classification, legal sufficiency, marketing disclosure permission and general prose quality outside the selected delta."
+  ],
+  "completion_statement": "ORDER-360's declared inventory reconciliation is complete on this exact source. Full game and new package remain HOLD; actual human/native/physical and final rating/submission decisions remain separate. The development skill enforced scoped ownership, targeted verification and non-author evidence review; no new standing policy was introduced."
+}

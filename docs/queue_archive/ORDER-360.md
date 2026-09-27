@@ -2,7 +2,7 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-360 [P1·검증] 대본 수리 뒤 현재 콘텐츠 검토 지문을 다시 결속한다
+#### [x] ORDER-360 [P1·검증] 대본 수리 뒤 현재 콘텐츠 검토 지문을 다시 결속한다
 
 2026-09-27 Codex 발행. Claude의 P-20 승인 반영 커밋 `78d6fea`가 남긴
 검사 실패를 실제 현재 소스 `636ed302`에서 읽기 전용으로 확인한 후속이다.
@@ -112,4 +112,20 @@
 - 규범은 일회성, 기존 WORK_UNIT·콘텐츠 원장 정본 적용/새승격0.
   새 엔진/화면/입력/원어민/인간/물리/package 관측0·외부 제출0.
 
-현재 상태: 구현·표적 검증 완료, clean source 별도 독립 최종 판정 대기.
+## 독립 마감 (2026-09-28)
+
+- clean source `c94cd3ae19f22a015b3bd6b6e25afb17a8561242` /
+  tree `3aca35e10dfe81c654aae44ea6b2451e91d819b5`에 비저자
+  `/root/r3_route_probe`의 작업한정 GO를 결속했다. 필수 잔여 결함0.
+- `docs/agent_reviews/ORDER-360.json` SHA
+  `66724064490a8a7366a3b474b22e15f09327be8779eb6c6dd48c6c752f6d3b69`.
+  private 원본과 정확복사, 기존118판정/96보고에 새1개씩만 append한다.
+- 검증실행→clean source의 census 차이는 CLAUDE 현재행1개뿐이며 별도
+  `order360-preservation-source.json` SHA
+  `1f829238857c6c10dce7c79aa9c20d4fcd72bccf9a3c07551f650617aec1e257`에 결속했다.
+  원문257핀 중 갱신한 inventory1핀은 exact6필드로 연결하고 다른256핀은 동일하다.
+  검수자의 최초257핀 모두 동일 assertion 중단은 이 승인 수정과 구분해 보고에 남긴다.
+- 본편/새package HOLD·인간OPEN45·옛공개GO1·원어민/물리 미관측을 보존한다.
+  공개 출시·상점·지출·법률 인증0. 규범은 일회성, 새승격0.
+
+현재 상태: 완료. 다음 실행 우선순위는 CODEX_QUEUE 단일 정본을 따른다.
