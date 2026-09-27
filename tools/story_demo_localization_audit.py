@@ -78,6 +78,8 @@ STORY_DEMO_BUSINESS_NAMES = {
     "zh-TW": "Hanbit 流通",
 }
 ZH_TW_SHARED_SCRIPT_CHARACTERS = frozenset({"床"})
+ORTHODOX_RENT_KEY = "event::arc_sangchul_01_meet::description_orthodox"
+ORTHODOX_RENT_PHRASE = "월 칠십, 별도 관리비."
 
 
 @dataclass(frozen=True)
@@ -276,6 +278,21 @@ def ui_pairs() -> tuple[dict[str, Pair], list[str], dict[str, int]]:
     return merged, errors, counts
 
 
+def _orthodox_rent_validation_source(key: str, source: str) -> str:
+    """Spell out only the owned comma-delimited rent for the legacy parser.
+
+    Its colloquial regex backtracks from `칠십,` to `칠` at the comma. This
+    does not waive a money comparison or change the authored source/target.
+    Other keys, amounts, units and word/sign prefixes receive no new rewrite.
+    """
+    if key != ORTHODOX_RENT_KEY or source.count(ORTHODOX_RENT_PHRASE) != 1:
+        return source
+    match = re.search(r"(?<![\w+\-−])" + re.escape(ORTHODOX_RENT_PHRASE), source)
+    if match is None:
+        return source
+    return source[:match.start()] + "월 70만원, 별도 관리비." + source[match.end():]
+
+
 def target_text_errors(
     language: str,
     key: str,
@@ -300,7 +317,8 @@ def target_text_errors(
         # quantity parser (`첫 장면` -> `첫 장`, `건당 백` -> bare 100). Feed that
         # validator semantically equivalent explicit Korean, never generated
         # target text, so the strict number/counter gate remains meaningful.
-        validation_source = source.replace("첫 장면", "첫 번째 장면") \
+        validation_source = _orthodox_rent_validation_source(key, source) \
+            .replace("첫 장면", "첫 번째 장면") \
             .replace("건당 백", "건당 100만원") \
             .replace("보증금 천", "보증금 1,000만원") \
             .replace("월 오십오", "월 55만원")
@@ -504,7 +522,108 @@ def source_contract() -> tuple[
     return source, english, pairs, errors, counts
 
 
-def self_test() -> list[str]:
+def _orthodox_rent_self_test() -> tuple[list[str], dict[str, int]]:
+    failures: list[str] = []
+    counts = {"fixtures": 0, "mutations": 0, "boundaries": 0}
+
+    def check(kind: str, passed: bool, label: str) -> None:
+        counts[kind] += 1
+        if not passed:
+            failures.append(label)
+
+    event_id = "arc_sangchul_01_meet"
+    paths = {
+        "ko": ROOT / "content/events/arc_events.json",
+        "zh-CN": ROOT / "content/events_zh-CN/story_demo_events.json",
+        "zh-TW": ROOT / "content/events_zh-TW/story_demo_events.json",
+    }
+    rows: dict[str, dict[str, Any]] = {}
+    try:
+        for language, path in paths.items():
+            found = [row for row in read_json(path) if row.get("id") == event_id]
+            if len(found) != 1:
+                raise ValueError(f"{language}: expected one {event_id}")
+            rows[language] = found[0]
+        fields = ("description", "description_orthodox", "description_unorthodox")
+        for language in paths:
+            if any(not isinstance(rows[language].get(field), str) for field in fields):
+                raise ValueError(f"{language}: complete rent source/target leaf missing")
+    except (OSError, ValueError, TypeError, AttributeError) as exc:
+        return [f"actual rent fixtures could not load: {exc}"], counts
+
+    for field in fields:
+        key = f"event::{event_id}::{field}"
+        source = rows["ko"][field]
+        expected = source.replace(ORTHODOX_RENT_PHRASE, "월 70만원, 별도 관리비.", 1) \
+            if key == ORTHODOX_RENT_KEY else source
+        check("boundaries", _orthodox_rent_validation_source(key, source) == expected,
+              f"actual {field}: normalization changed outside its exact phrase")
+        for language, unit, deposit in (
+            ("zh-CN", "万韩元", "押金1000万韩元"),
+            ("zh-TW", "萬韓元", "押金1,000萬韓元"),
+        ):
+            target = rows[language][field]
+            rent = f"月租70{unit}"
+            if target.count(rent) != 1 or target.count(deposit) != 1:
+                failures.append(f"{language} {field}: actual money anchors changed")
+                continue
+            errors = target_text_errors(language, key, source, target)
+            check("fixtures", not errors,
+                  f"actual {language} {field} rejected: {errors}")
+            wrong_amounts = (7, 55, 700) if key == ORTHODOX_RENT_KEY else (7,)
+            for amount in wrong_amounts:
+                mutant = target.replace(rent, f"月租{amount}{unit}", 1)
+                errors = target_text_errors(language, key, source, mutant)
+                check("mutations", any("Korean-won values changed" in e for e in errors),
+                      f"{language} {field}: wrong {amount}-manwon rent escaped")
+            if key != ORTHODOX_RENT_KEY:
+                continue
+            mutations = (
+                ("deposit", target.replace(deposit, f"押金100{unit}", 1),
+                 "Korean-won values changed"),
+                ("currency-label", target.replace(rent, "月租70" + unit[0], 1),
+                 "Korean-won"),
+                ("placeholder", target.replace("{name}", "", 1),
+                 "placeholder/BBCode mismatch"),
+                ("missing-rent", target.replace(rent, "月租", 1),
+                 "Korean-won values changed"),
+                ("extra-money", target + f" 1{unit}。",
+                 "Korean-won values changed"),
+                ("numeric-prefix", target.replace(rent, f"月租170{unit}", 1),
+                 "Korean-won values changed"),
+                ("counter-instead-of-money", target.replace(rent, "月租70人", 1),
+                 "Korean-won values changed"),
+            )
+            for label, mutant, expected_error in mutations:
+                errors = target_text_errors(language, key, source, mutant)
+                check("mutations", mutant != target and any(expected_error in e for e in errors),
+                      f"{language} orthodox {label} mutation escaped: {errors}")
+
+    orthodox = rows["ko"]["description_orthodox"]
+    check("boundaries", orthodox.count(ORTHODOX_RENT_PHRASE) == 1,
+          "actual orthodox exact rent phrase missing or duplicated")
+    for key in (
+        "event::arc_sangchul_01_meet::description",
+        ORTHODOX_RENT_KEY + ".extra",
+        "ui::arc_sangchul_01_meet::description_orthodox",
+    ):
+        check("boundaries", _orthodox_rent_validation_source(key, orthodox) == orthodox,
+              f"orthodox rent normalization escaped its exact key: {key}")
+    for replacement in (
+        "월 칠십오, 별도 관리비.", "월 칠십만원, 별도 관리비.",
+        "월 -칠십, 별도 관리비.", "월 칠십%, 별도 관리비.",
+        "전월 칠십, 별도 관리비.", "1월 칠십, 별도 관리비.",
+        "+월 칠십, 별도 관리비.", "월 칠십. 별도 관리비.",
+        "월 70만원, 별도 관리비.", ORTHODOX_RENT_PHRASE * 2,
+    ):
+        mutant = orthodox.replace(ORTHODOX_RENT_PHRASE, replacement, 1)
+        check("boundaries", mutant != orthodox
+              and _orthodox_rent_validation_source(ORTHODOX_RENT_KEY, mutant) == mutant,
+              f"orthodox rent normalization accepted a different source: {replacement}")
+    return failures, counts
+
+
+def self_test(counts: dict[str, int] | None = None) -> list[str]:
     failures: list[str] = []
     valid_ja = target_text_errors("ja", "fixture", "민준은 {name}", "ミンジュンは{name}")
     if valid_ja:
@@ -534,6 +653,13 @@ def self_test() -> list[str]:
         failures.append(
             "description_memory_if_known dictionary leaves were not collected"
         )
+    rent_failures, rent_counts = _orthodox_rent_self_test()
+    failures.extend(rent_failures)
+    if counts is not None:
+        counts.update(rent_counts)
+        counts["fixtures"] += 4
+        counts["mutations"] += 4
+        counts["cases"] = sum(counts[kind] for kind in ("fixtures", "mutations", "boundaries"))
     return failures
 
 
@@ -542,12 +668,17 @@ def main() -> int:
     parser.add_argument("--self-test", action="store_true")
     args = parser.parse_args()
     if args.self_test:
-        failures = self_test()
+        counts: dict[str, int] = {}
+        failures = self_test(counts)
         if failures:
             for failure in failures:
                 print(f"STORY_DEMO_LOCALIZATION_SELF_TEST_FAIL {failure}", file=sys.stderr)
             return 1
-        print("STORY_DEMO_LOCALIZATION_SELF_TEST_OK mutations=4 fixtures=4")
+        print(
+            "STORY_DEMO_LOCALIZATION_SELF_TEST_OK "
+            f"mutations={counts['mutations']} fixtures={counts['fixtures']} "
+            f"boundaries={counts['boundaries']} cases={counts['cases']}"
+        )
         return 0
 
     source, english, pairs, errors, counts = source_contract()
