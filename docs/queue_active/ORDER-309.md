@@ -26,7 +26,7 @@ R1이다. Claude가 story_map M07~M12 root 장면(현수 결과, 고시원 작�
 |---:|---|---|---|
 | 1 | `content/events/arc_hyunsu.json` `hyunsu_result_fail`·`hyunsu_result_pass` 본문, 같은 EN 오버레이 | 결과 장면은 `t>=25`(M07)에 나오며 이때 민준과 현수는 같은 고시원 옆방이다(`hyunsu_study_together` 공용 주방, `arc_goshiwon_goodbye` C2 "불 켜진 옆방 … 이웃은 현수"). 그런데 fail은 "현수의 고시원으로 갔다 / went to Hyunsu's goshiwon", pass는 "현수가 사는 고시원 복도를 지나 / walked down the corridor of Hyunsu's goshiwon"이라 다른 건물처럼 읽힌다. | 같은 층 복도 끝 현수의 방 앞으로 가는 문장으로 KO/EN/JA/zh를 맞춘다(예: "복도 끝 현수의 방 앞으로 갔다" / "went down the hall to Hyunsu's door"). 이사 이후인 `hyunsu_pass_news`·`hyunsu_pivot`의 "현수가 사는 고시원으로 찾아갔다"는 맞으므로 두지 않는다. |
 | 2 | `content/events_en/arc_midgame.json` `arc_goshiwon_goodbye` 선택 3 결과 | KO "그런데 기억은 그 조건대로만 남지 않았다"가 EN "Memory did not preserve that time by its conditions alone."으로 직역돼 뜻이 흐리다. | 의미를 살린 자연스러운 문장으로 바꾼다(예: "Yet memory had not kept that time on those terms alone."). |
-| 3 | `content/events_en/core_loop_v2_events.json` `v2_jaehyuk_plain_reunion_echo` 본문·선택 결과 | KO는 과거형인데 EN만 현재형이다("they agree to meet", "Jaehyuk dresses", "asks"). 앞뒤 1장 EN 장면은 모두 과거형이다. | EN 본문과 두 선택 결과를 과거형으로 통일한다. C1 결과의 원문에 없는 "For the first time"은 원문대로 뺀다. |
+| 3 | `content/events_en/core_loop_v2_events.json` `v2_jaehyuk_plain_reunion_echo` 선택 1 결과 | 원문에 없는 "For the first time"이 붙어 있다. **2026-09-27 정정:** 처음 발행 때 이 장면의 EN 현재형을 과거형으로 바꾸라고 적었으나, `DECISIONS.md` 2026-08-04 P-9 4번이 "영어 서술 기본 시제는 현재형"으로 정했다. 이 장면의 현재형은 정본에 맞으므로 시제는 바꾸지 않는다. | "For the first time"만 원문대로 뺀다. 시제는 그대로 둔다. 과거형으로 쓰인 다른 EN 장면의 시제 정렬은 판독 배치마다 고치지 않고 R 배치가 끝난 뒤 한 번의 전역 정리로 다룬다(`FULL_GAME_SCRIPT_REVIEW.md`). |
 
 ## 판단만 남기는 항목 (이 오더에서 고치지 않는다)
 
