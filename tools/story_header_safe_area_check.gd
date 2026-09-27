@@ -42,13 +42,13 @@ func _run() -> void:
 	var raw_size := OS.get_environment("ORDER315_SIZE").split("x")
 	if raw_size.size() == 2:
 		_size = Vector2i(int(raw_size[0]), int(raw_size[1]))
-	var namespace := str(ProjectSettings.get_setting("application/config/custom_user_dir_name", ""))
+	var qa_namespace := str(ProjectSettings.get_setting("application/config/custom_user_dir_name", ""))
 	var namespace_pattern := RegEx.new()
 	namespace_pattern.compile("^GangnamDream_StoryDemo_RuntimeQA_[0-9a-f]{32}$")
 	if not _out.is_absolute_path() or not DirAccess.dir_exists_absolute(_out) \
 			or _lang not in ["ko", "en"] or _size not in SIZES \
 			or DisplayServer.get_name() == "headless" \
-			or namespace_pattern.search(namespace) == null \
+			or namespace_pattern.search(qa_namespace) == null \
 			or OS.get_user_data_dir() != OS.get_environment("ORDER315_EXPECTED_USER_PATH"):
 		_fail("invalid graphical launch, output, locale, size, or pre-autoload isolation")
 	for argument in OS.get_cmdline_user_args():
