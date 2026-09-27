@@ -5065,6 +5065,39 @@
         "zh-CN": "79f5eabdcb6e6fdb066209ddc0283c5f364aafac63d0401042632e842dde8c52",
         "zh-TW": "530dd90dc41a1b4977d0b20808d53daff1df9982fe9a2ac1ae3c3bb3cf46d1a1"
       }
+    },
+    {
+      "order": "ORDER-351",
+      "group": "events",
+      "roots": [
+        "arc_35_path_cost",
+        "arc_36_unexpected_hand",
+        "arc_36_unexpected_hand_person_deal",
+        "arc_father_call_on_ktx",
+        "arc_father_call_on_ktx_number",
+        "arc_y4_family_partner_collision",
+        "arc_y4_family_partner_collision_jiyeon",
+        "arc_y4_three_promises",
+        "arc_y4_three_promises_deal_only",
+        "arc_y4_three_promises_jiyeon_and_deal"
+      ],
+      "source_leaves": 16,
+      "target_leaves_by_locale": {
+        "ja": 16,
+        "zh-CN": 16,
+        "zh-TW": 16
+      },
+      "revalidated_existing_leaves": true,
+      "added_accepted_leaves": 0,
+      "source_review": "Korean-direct repair of father readmission/discharge continuity, count-neutral missed appointments including the unattached own-clinic route, and a definite phone-call result. Sixteen existing leaves per locale; no gameplay, new keys, medical outcome or schedule changes.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "ja": "f878729721b64f9600869a8a44ec0f14cb8e034f0c257ca3387dba92e98546e8",
+        "zh-CN": "c3bd943141c16b992274a2fd485bd691010387dce5c4b8b610fe0752c6db2ad9",
+        "zh-TW": "8412e26ebe5a8c23e357c125c78e93a3e2ed83a4762b51d879f5a88b94aa8248"
+      }
     }
   ],
   "accepted": {
@@ -11610,8 +11643,8 @@
         "target_sha256": "4ed50385d4bc8a1e09e3afbfec09e7b1d86396d482b30a2eb9b0b13e42449c41"
       },
       "events:arc_35_path_cost:/choices/1/result_text": {
-        "source_sha256": "68bbe49c3750e4cc61e0b63f94e95b703e40d8353ae998b491de2e594afe6a05",
-        "target_sha256": "5d738ee710d32d1a608c0b20899d44e9b6b2ec744cd92e8fe8acbbcde86ecf2a"
+        "source_sha256": "a2480d76e50405d449a51d843c09a8e83775eccc1e012086a478ea171269fada",
+        "target_sha256": "da1e5d000ee77a3364946b5cd7383ed94dbd2ed07530a43777b0fa463421153f"
       },
       "events:arc_35_path_cost:/choices/1/text": {
         "source_sha256": "d5fa78d2fe2a9fa774aa3b5654045a1a588922b09fc9e584895a3790866e532c",
@@ -12294,20 +12327,20 @@
         "target_sha256": "96969acc577455e01de12d71645208d1f652f5bf48f562a5d0daf41a2bd110f2"
       },
       "events:arc_36_unexpected_hand:/choices/1/result_text": {
-        "source_sha256": "0f335d305ecf25290afc9950ab2220649b37079b2610aa6870664173cdc155ea",
-        "target_sha256": "78a73eb8da66248ea2ebc3581cc1e4682c1220186a0e7eee22603fd64b65363d"
+        "source_sha256": "fdaa55ff8707b00307f446d4b715f0fc90cb259c49107f5d73153aff9affd215",
+        "target_sha256": "474266b2a9b318618b0ae8686e9c3eb15a98974b30a56823d4873e2aef8d3e4e"
       },
       "events:arc_36_unexpected_hand:/choices/1/text": {
-        "source_sha256": "b62010762ff05f810409dbda8d0f425f6924ecbc3533946afab51d385be790ca",
-        "target_sha256": "00bf74ad4310a6e1e8b8855a33bc8ddd1e4b1578c3fc0cc6fbf67924755a7911"
+        "source_sha256": "7ec903532c1445a97e3d2ee06c583ae2c585a992867e468c598388d4c8a5f5fb",
+        "target_sha256": "7b6d0f95d0decac435b680067fb1c1bbb7c177b2cc86e87aac84fe42754d6c76"
       },
       "events:arc_36_unexpected_hand:/description": {
-        "source_sha256": "3ef3bf89fd26dc75e2c78555448bba24fd67bf3b2a97e3dbe2e5e4cf95e7c200",
-        "target_sha256": "c831c9acc160dfd0ab4f3d0d9be9eb16bbd3d84010be686c120746744210c8c3"
+        "source_sha256": "41d074b5f525f4395da4d7bf03acd10464dfd108c57875a94387dab027f50bb0",
+        "target_sha256": "347721de09fe4f433f0d46e35e68a6df59f9416b2e770eb0a5e23f78770bb01b"
       },
       "events:arc_36_unexpected_hand:/description_if_known/arc_y4_three_promises_missed_father&arc_y4_three_promises_missed_person": {
-        "source_sha256": "4ca3dfa9b3fb54b940e95fcfe70502b9f50a468b5ea039b02f53048b1ff8e247",
-        "target_sha256": "f6a4f9dd52390cd3bd48c7934e01dddd28ca2229600dc88936147fecd3f36c85"
+        "source_sha256": "6e3c812a6f91c1821edfab0de40d5fbf35b5868211437ea6653996529cb8ec4d",
+        "target_sha256": "2a3d8d99c23e44eb7aa32c84cc5d02757dd87b7595d1ccf5412a24e1036fdaf5"
       },
       "events:arc_36_unexpected_hand:/title": {
         "source_sha256": "dd8216604deb1e29708122986defe2b8e09da993b6df32749737d2f179d14fa6",
@@ -12338,24 +12371,24 @@
         "target_sha256": "c214515d5bbf94e57dc5919cf67586fdfebd218acf4038aab15cec9734cda300"
       },
       "events:arc_36_unexpected_hand_person_deal:/choices/0/result_text": {
-        "source_sha256": "34fb112acc3fbcd6123f1a417ea8062c0e158bb0d6cdb4939fe3a995dd7b98e1",
-        "target_sha256": "7753536e7d2bb15ae0922e2e0753b157e8ebb2d8ed43e8868f71bb5f4263f3a3"
+        "source_sha256": "49b08e85f0e9ad35e7c2ebc9596034fe38b62435e138570e74fce4f67ca9b34e",
+        "target_sha256": "34efab30d16fe34b1131439ca8dde51231321e50f93d6efd194e9f4e97653982"
       },
       "events:arc_36_unexpected_hand_person_deal:/choices/0/text": {
-        "source_sha256": "4e7780124c94461fc123940c0df7864ba86bd2a3fe1132cf3ae15df31e655cdd",
-        "target_sha256": "26caaf7b604614d49774f9d6d29c2bfab76842a012723848afef2bf19f1efb49"
+        "source_sha256": "9d3173946e44ee32c695cce85a14b43cc5e7a2b313d5ad7250c08a81d2666979",
+        "target_sha256": "7b6d0f95d0decac435b680067fb1c1bbb7c177b2cc86e87aac84fe42754d6c76"
       },
       "events:arc_36_unexpected_hand_person_deal:/choices/1/result_text": {
-        "source_sha256": "14741594ad6024f4f5accde6c1f0dff4e3d68fd7ea4ae23905c41f3fbd128cb6",
-        "target_sha256": "56ac1dc37f5f05f1d58700ff698f4282e7de0996271892a6e43732b9ff9d9882"
+        "source_sha256": "b83b0f9b8fb32dec7967d71b14ae269b03306a2415ae71ba71c25186e8dd9b85",
+        "target_sha256": "a36c393fd6e411568b50a63390d31bfaad7ecc64d8b5fb53fe4de67f9f0ecec7"
       },
       "events:arc_36_unexpected_hand_person_deal:/choices/1/text": {
         "source_sha256": "b9f93ed905dbe2d35a83eb057b12cf76e7057b35aded1b2bef48549184df0209",
         "target_sha256": "a89038b83410c9d43a3a1926c4515a283b1d079fb2b6b60f11edce16c7645367"
       },
       "events:arc_36_unexpected_hand_person_deal:/description": {
-        "source_sha256": "91da3c5ca657f5b8ba14b9fc7883bc6798a402170fa93f542483fe1381acded5",
-        "target_sha256": "ae3fa207ff9321d8ceeb6487757eee59e67e5e651278c2fb6fc8cd5fcbc7bee1"
+        "source_sha256": "9c2dc0295269fc61e1bd60542d5c4115c3be8b98ad5529a6723c1e822c9603b8",
+        "target_sha256": "c11a7832474693d90b5996d6993cdb160164b6a57eec658c3bb3f560fe557daa"
       },
       "events:arc_36_unexpected_hand_person_deal:/title": {
         "source_sha256": "512c6ff29b708f8fbe2f537da988dbed80f0735a0aeced6c301b8fd3e6a17f1a",
@@ -12902,8 +12935,8 @@
         "target_sha256": "43f413c7b4c7b9b8bbacd022473abdcb663bb3f01d43b1debf2ee72e61d24b4a"
       },
       "events:arc_y4_family_partner_collision:/description": {
-        "source_sha256": "e6ee798bbbe3cc2e54bc0c53e03f2bdf87db256633f9ab500e9828458efa6dcb",
-        "target_sha256": "380c2022184b0d7c195543f9bd0152491414cd3374c8d96024f9c198fb3b609b"
+        "source_sha256": "e82778c23d9310800a161cf4b81d67fc7e112f3ffea0bc8f2aad22f9cdd96604",
+        "target_sha256": "488ed50175380a36f4b5c0a8f36f0d446fe73dc6a7ef3712aa1358f051cad9c1"
       },
       "events:arc_y4_family_partner_collision:/title": {
         "source_sha256": "8888ddee39a2670c94cd44eb6915365dd0173436327fdffddbc1995a2e2deb38",
@@ -12934,8 +12967,8 @@
         "target_sha256": "03223c0fb7608349cc042936f4c5fbd126d16eb34834a26d58bb450abc57de07"
       },
       "events:arc_y4_family_partner_collision_jiyeon:/description": {
-        "source_sha256": "81c21b998d95ac9b9a95751e084e91aaca441ee86a7357511e626807ef6cf533",
-        "target_sha256": "539f8bd0710a8914a69ea19faa0142851022fa7c9b34a8409ead56fba1cdb3a6"
+        "source_sha256": "ffe879a3fcd3158e1f1c5e47cf4181d6decdf149444d3d7e47ffa8e09887572d",
+        "target_sha256": "4df6012a48854ed6d3c756af72b65b89b8da0f89347227ec264142bdd2e100cc"
       },
       "events:arc_y4_family_partner_collision_jiyeon:/title": {
         "source_sha256": "11d53fba2c35f99fa82a737e25b1dc205f5d7fa874d90e28772d70167e1bd954",
@@ -12998,8 +13031,8 @@
         "target_sha256": "4587ef1369ff11b4e2acf8ddb4f713e5ca94a8a422ad889b1f19356e096da45c"
       },
       "events:arc_y4_three_promises:/description": {
-        "source_sha256": "3765868d62bf441af1468e842586cf50a018838c41b1d58efd066e36b3ef9fc7",
-        "target_sha256": "7f2d7212489043c8f9bd886c4ea1f6e2deb9112bda75749009324afd33a73a95"
+        "source_sha256": "df99002adc7e2682a41c30f8a5f7366fa23f5f282af8191aa0537cccbe17cef1",
+        "target_sha256": "684017d64307d3d5796cbc755880f00d35d1d91a1de8ced616f2421de8578c7f"
       },
       "events:arc_y4_three_promises:/description_memory_if_known/never_stop": {
         "source_sha256": "4c587080fe1ab9c62da4c13fcb55ae5060533b64a92e09cf78c997a600544972",
@@ -13042,8 +13075,8 @@
         "target_sha256": "f0ac4aa95ea9cce2f6d1297a42e0df39736e2790da2e173e636fdce1390d1769"
       },
       "events:arc_y4_three_promises_deal_only:/description": {
-        "source_sha256": "9e30014e9ccc875abde4e149a479e25a76f06fd3d16dc9a1337848f43e4b4426",
-        "target_sha256": "196324e5f07b614f405d5cab13748c816eb483af3683e70a53d2a7eb8942c680"
+        "source_sha256": "e1a5985f419b7fc5c9eb21e21ae726a1d3ec0105deb3a08d643194087840e9cc",
+        "target_sha256": "ac71ef4f5301c65a3aee2e4e27253d2f86dae4201a61e928c5ffbadbed928a9d"
       },
       "events:arc_y4_three_promises_deal_only:/description_memory_if_known/never_stop": {
         "source_sha256": "4c587080fe1ab9c62da4c13fcb55ae5060533b64a92e09cf78c997a600544972",
@@ -13086,8 +13119,8 @@
         "target_sha256": "dd7b46ac5c00d494d4721a5b6a3c69bed02f62ad765608496a5b08e58b061c56"
       },
       "events:arc_y4_three_promises_jiyeon_and_deal:/description": {
-        "source_sha256": "e0ab0bc7f48f03e5c69948569601dce14d4f27fa793e652d889d4c9bd19c0098",
-        "target_sha256": "3dac7f10f7cbe3b98b9ceededf61c0619824e67aae1b9397682f2588c6eacbed"
+        "source_sha256": "0d39d0b6bab52116cf7792c9c3f37b73c690420fc5e5884915a3d8eb74b33ecb",
+        "target_sha256": "5c7f85bf4e9b1f518ec2cabb45b71ee7f24b9c2d71a3ab9a25810a8008306300"
       },
       "events:arc_y4_three_promises_jiyeon_and_deal:/description_memory_if_known/never_stop": {
         "source_sha256": "4c587080fe1ab9c62da4c13fcb55ae5060533b64a92e09cf78c997a600544972",
@@ -13346,8 +13379,8 @@
         "target_sha256": "de6d0fca1933e9d9aa5108f2371d525ad7d3bc12d1f40e6ddcdd1a2680c384a7"
       },
       "events:arc_father_call_on_ktx:/description": {
-        "source_sha256": "236b9c25f67f0e88ec56d01f5cd72ea27fddb89264faafeecb8c62fd349d80c3",
-        "target_sha256": "349e03afb65d2a2771013a45a761fc9dd6d01eb4ad3ee1e5e2f988abc3de46d0"
+        "source_sha256": "99882d6b486699ad0854c76929d5dfdec91dfa4aef90bfc7a9d36414c0e71e03",
+        "target_sha256": "07a69291b7ae69f4179bd6bb244c6490eaa8f020fffbe32fbde3b8c4df8dd899"
       },
       "events:arc_father_call_on_ktx:/title": {
         "source_sha256": "a0424bbd485a2c78dce02a64497f23d040b798eea6376052fa154bd0d095127e",
@@ -13386,8 +13419,8 @@
         "target_sha256": "e751d8861faa7e31159eb07d844336c3faadefa9bf0def04805425c97ad18ee0"
       },
       "events:arc_father_call_on_ktx_number:/description": {
-        "source_sha256": "df18a7f828f18825ca2d8cf4bdf97017544d3dd05f689c746908818292aff698",
-        "target_sha256": "375a4929ffb2cf769ef0ec999f82ce26fb72bcb1ea3738d5eaa4b93fd44722d0"
+        "source_sha256": "7f9df155e0deb692bbe80e69566404d657b6ca410556943b7101c8eb742d2343",
+        "target_sha256": "d53120414b1b80ac4e695978e2a629ffd331d6ae273d60ad641ec85a0f73c856"
       },
       "events:arc_father_call_on_ktx_number:/title": {
         "source_sha256": "df584a8ec68b7b063fdee8667cb705cfe221a9833484512a7fb1d0dcd369279b",
@@ -64060,8 +64093,8 @@
         "target_sha256": "60214a2e70a3588b3cef8d262f005047469bf5936d63b18c0267775974400928"
       },
       "events:arc_35_path_cost:/choices/1/result_text": {
-        "source_sha256": "68bbe49c3750e4cc61e0b63f94e95b703e40d8353ae998b491de2e594afe6a05",
-        "target_sha256": "ffb27b7f1e6fc67617ffe2c95485861ac1f2b1aac5100ba1547b7f2b7b31cabe"
+        "source_sha256": "a2480d76e50405d449a51d843c09a8e83775eccc1e012086a478ea171269fada",
+        "target_sha256": "4e6ad73e5b6a857823cf31cee967280fabda5972285028dba812a7c46ec63459"
       },
       "events:arc_35_path_cost:/choices/1/text": {
         "source_sha256": "d5fa78d2fe2a9fa774aa3b5654045a1a588922b09fc9e584895a3790866e532c",
@@ -64744,20 +64777,20 @@
         "target_sha256": "99781c8308f828a3a71999d4171db3b73267518c11f02774081e4a635e7f8b5f"
       },
       "events:arc_36_unexpected_hand:/choices/1/result_text": {
-        "source_sha256": "0f335d305ecf25290afc9950ab2220649b37079b2610aa6870664173cdc155ea",
-        "target_sha256": "dca1fe9503251db19fb6e1bd908f07ed1bf861295ed761304ca6fcf15fd60677"
+        "source_sha256": "fdaa55ff8707b00307f446d4b715f0fc90cb259c49107f5d73153aff9affd215",
+        "target_sha256": "e9a1cf9d7669b567f29f1f75b2c67ab0975d12a97c21a3702c12b5f65fdc3dc9"
       },
       "events:arc_36_unexpected_hand:/choices/1/text": {
-        "source_sha256": "b62010762ff05f810409dbda8d0f425f6924ecbc3533946afab51d385be790ca",
-        "target_sha256": "125d98c4813ce7833797f6a3949db1306f157c5da6a982e115a9d34628064e35"
+        "source_sha256": "7ec903532c1445a97e3d2ee06c583ae2c585a992867e468c598388d4c8a5f5fb",
+        "target_sha256": "456382e924ab00da206c956918a3f1f603efbbdc5deca4696cff51aa2d1c4451"
       },
       "events:arc_36_unexpected_hand:/description": {
-        "source_sha256": "3ef3bf89fd26dc75e2c78555448bba24fd67bf3b2a97e3dbe2e5e4cf95e7c200",
-        "target_sha256": "cb9b5e4d8adf0399df3bc16dcee26d8305b35c202220f9b94b43bb15eca16ee2"
+        "source_sha256": "41d074b5f525f4395da4d7bf03acd10464dfd108c57875a94387dab027f50bb0",
+        "target_sha256": "33cfde255910b5418f4d6b0631090d468a5faed3c02900f1a7a16f46030d6015"
       },
       "events:arc_36_unexpected_hand:/description_if_known/arc_y4_three_promises_missed_father&arc_y4_three_promises_missed_person": {
-        "source_sha256": "4ca3dfa9b3fb54b940e95fcfe70502b9f50a468b5ea039b02f53048b1ff8e247",
-        "target_sha256": "2f37a5078de24e5ddb4114d25da5a20691e1bc2dad0e5f8e3e713b972ea12e90"
+        "source_sha256": "6e3c812a6f91c1821edfab0de40d5fbf35b5868211437ea6653996529cb8ec4d",
+        "target_sha256": "88ed9311c39a11ce3950e3bd2cb7a2939280b13402ee08a667422c641b783ef7"
       },
       "events:arc_36_unexpected_hand:/title": {
         "source_sha256": "dd8216604deb1e29708122986defe2b8e09da993b6df32749737d2f179d14fa6",
@@ -64788,24 +64821,24 @@
         "target_sha256": "b6851eebc95d17d5f184be872d3979a3cb573b0b4c8772206e80135c0f2f388b"
       },
       "events:arc_36_unexpected_hand_person_deal:/choices/0/result_text": {
-        "source_sha256": "34fb112acc3fbcd6123f1a417ea8062c0e158bb0d6cdb4939fe3a995dd7b98e1",
-        "target_sha256": "b194287af84c29bcd357fb85ae968c611d751d6953a8b0916da13803a8c77d89"
+        "source_sha256": "49b08e85f0e9ad35e7c2ebc9596034fe38b62435e138570e74fce4f67ca9b34e",
+        "target_sha256": "6245bc955466bb6f645929b90001f8a36585837d33875106156489ec4cac3c30"
       },
       "events:arc_36_unexpected_hand_person_deal:/choices/0/text": {
-        "source_sha256": "4e7780124c94461fc123940c0df7864ba86bd2a3fe1132cf3ae15df31e655cdd",
-        "target_sha256": "3e89167fa57228feb5281f7b4ad795cd00ff2b9e7532d2053f6fc6e5c7272c8a"
+        "source_sha256": "9d3173946e44ee32c695cce85a14b43cc5e7a2b313d5ad7250c08a81d2666979",
+        "target_sha256": "456382e924ab00da206c956918a3f1f603efbbdc5deca4696cff51aa2d1c4451"
       },
       "events:arc_36_unexpected_hand_person_deal:/choices/1/result_text": {
-        "source_sha256": "14741594ad6024f4f5accde6c1f0dff4e3d68fd7ea4ae23905c41f3fbd128cb6",
-        "target_sha256": "c164ee4c9a3556821598615ccad9aaa722184b8de90cda9ca02c842d8f9672d5"
+        "source_sha256": "b83b0f9b8fb32dec7967d71b14ae269b03306a2415ae71ba71c25186e8dd9b85",
+        "target_sha256": "436ca6bcaa516d27953f0af31faae8afa1fc194c1726e947e41865df6e7bd36f"
       },
       "events:arc_36_unexpected_hand_person_deal:/choices/1/text": {
         "source_sha256": "b9f93ed905dbe2d35a83eb057b12cf76e7057b35aded1b2bef48549184df0209",
         "target_sha256": "ec32ea79be3d63de2a79819a243f6c820d0e20a3ed319b1635012a96a5b9a944"
       },
       "events:arc_36_unexpected_hand_person_deal:/description": {
-        "source_sha256": "91da3c5ca657f5b8ba14b9fc7883bc6798a402170fa93f542483fe1381acded5",
-        "target_sha256": "48a573285146fdecf94e2de64fa0dacbd532712f356d2831e509250af25d41af"
+        "source_sha256": "9c2dc0295269fc61e1bd60542d5c4115c3be8b98ad5529a6723c1e822c9603b8",
+        "target_sha256": "f4faf9445762becba537961993d61ff4546ac730e9b07a0bd941959dc0bae208"
       },
       "events:arc_36_unexpected_hand_person_deal:/title": {
         "source_sha256": "512c6ff29b708f8fbe2f537da988dbed80f0735a0aeced6c301b8fd3e6a17f1a",
@@ -65352,8 +65385,8 @@
         "target_sha256": "ff5f21b8cde2512a4d1c6c0fd14b65a71679e024dab0901c83214a0d18dfe258"
       },
       "events:arc_y4_family_partner_collision:/description": {
-        "source_sha256": "e6ee798bbbe3cc2e54bc0c53e03f2bdf87db256633f9ab500e9828458efa6dcb",
-        "target_sha256": "8e4426677fca6e8404f4fe3d28b4d26941aa4f3304d88aff37bb4038c6f586fe"
+        "source_sha256": "e82778c23d9310800a161cf4b81d67fc7e112f3ffea0bc8f2aad22f9cdd96604",
+        "target_sha256": "33a97915cdb482b733b7214b958b01a0b08f51495eb7d773095decb232e4aea2"
       },
       "events:arc_y4_family_partner_collision:/title": {
         "source_sha256": "8888ddee39a2670c94cd44eb6915365dd0173436327fdffddbc1995a2e2deb38",
@@ -65384,8 +65417,8 @@
         "target_sha256": "4dac2215c11dbaa872e162a828ba77bdbc22d52677d0482516b2eb3077fb6418"
       },
       "events:arc_y4_family_partner_collision_jiyeon:/description": {
-        "source_sha256": "81c21b998d95ac9b9a95751e084e91aaca441ee86a7357511e626807ef6cf533",
-        "target_sha256": "d1145b74cf2319695dd6733baaab43dc8c8b85ff3e311e2c26f878e4a8ef1ff2"
+        "source_sha256": "ffe879a3fcd3158e1f1c5e47cf4181d6decdf149444d3d7e47ffa8e09887572d",
+        "target_sha256": "00974224102c2ba0fe3bad8aceb07b302b6f2d0104e51097b9a111cb4d78e5c3"
       },
       "events:arc_y4_family_partner_collision_jiyeon:/title": {
         "source_sha256": "11d53fba2c35f99fa82a737e25b1dc205f5d7fa874d90e28772d70167e1bd954",
@@ -65448,8 +65481,8 @@
         "target_sha256": "1c5b44f5551304f00ab12ad2e5c7a961e2db88507c0b0f878c8ac6b0031228a2"
       },
       "events:arc_y4_three_promises:/description": {
-        "source_sha256": "3765868d62bf441af1468e842586cf50a018838c41b1d58efd066e36b3ef9fc7",
-        "target_sha256": "9e4386a7d29d735f327c5fc29cba206688bb10a4c574edef2e789d2752ca7217"
+        "source_sha256": "df99002adc7e2682a41c30f8a5f7366fa23f5f282af8191aa0537cccbe17cef1",
+        "target_sha256": "8f5aa4ee2b86aea02711694037085fbd7324c046b88c8b6eb0b13647b97f614e"
       },
       "events:arc_y4_three_promises:/description_memory_if_known/never_stop": {
         "source_sha256": "4c587080fe1ab9c62da4c13fcb55ae5060533b64a92e09cf78c997a600544972",
@@ -65492,8 +65525,8 @@
         "target_sha256": "b6dfdd3f4753e8ea418b31f8bfe69ec18ddd730853f7b10cfae5ba31894200f4"
       },
       "events:arc_y4_three_promises_deal_only:/description": {
-        "source_sha256": "9e30014e9ccc875abde4e149a479e25a76f06fd3d16dc9a1337848f43e4b4426",
-        "target_sha256": "917400613fa0cff168595093c9b6402cb75fe5e29ae96e27243f8117142e825c"
+        "source_sha256": "e1a5985f419b7fc5c9eb21e21ae726a1d3ec0105deb3a08d643194087840e9cc",
+        "target_sha256": "61411b245b9cfe725d2b170b1ea014e4bac5d8f83113bac83dd44dac406aa38c"
       },
       "events:arc_y4_three_promises_deal_only:/description_memory_if_known/never_stop": {
         "source_sha256": "4c587080fe1ab9c62da4c13fcb55ae5060533b64a92e09cf78c997a600544972",
@@ -65536,8 +65569,8 @@
         "target_sha256": "06effc302775b2a96e961362b9d95a2de906b8d1054020e6b6c3d5e711e5334a"
       },
       "events:arc_y4_three_promises_jiyeon_and_deal:/description": {
-        "source_sha256": "e0ab0bc7f48f03e5c69948569601dce14d4f27fa793e652d889d4c9bd19c0098",
-        "target_sha256": "a83c8a2c694ed2c0fec77e90b240966edbb443ea3ebfb4d58c711dbf0bb42730"
+        "source_sha256": "0d39d0b6bab52116cf7792c9c3f37b73c690420fc5e5884915a3d8eb74b33ecb",
+        "target_sha256": "c2806ea73e53cebcbdba887b38568ed2041dba313f604a50736d57908329cd9a"
       },
       "events:arc_y4_three_promises_jiyeon_and_deal:/description_memory_if_known/never_stop": {
         "source_sha256": "4c587080fe1ab9c62da4c13fcb55ae5060533b64a92e09cf78c997a600544972",
@@ -65796,8 +65829,8 @@
         "target_sha256": "f2cca91653bb06ecd779839b5c51b43dae580e106727cc90490b554bc004a9a1"
       },
       "events:arc_father_call_on_ktx:/description": {
-        "source_sha256": "236b9c25f67f0e88ec56d01f5cd72ea27fddb89264faafeecb8c62fd349d80c3",
-        "target_sha256": "bccf470cff059860da803f8ff82686d339d860123e1956289d66b9f1053170f5"
+        "source_sha256": "99882d6b486699ad0854c76929d5dfdec91dfa4aef90bfc7a9d36414c0e71e03",
+        "target_sha256": "350a6e185929253a6339056de2e62fac8abd8031f077d3fe95324d2aabd2df62"
       },
       "events:arc_father_call_on_ktx:/title": {
         "source_sha256": "a0424bbd485a2c78dce02a64497f23d040b798eea6376052fa154bd0d095127e",
@@ -65836,8 +65869,8 @@
         "target_sha256": "da3b17b2449d74a1d1a8f1a09d10c25317b89f8fdc8f92c6db6a462adb36ea30"
       },
       "events:arc_father_call_on_ktx_number:/description": {
-        "source_sha256": "df18a7f828f18825ca2d8cf4bdf97017544d3dd05f689c746908818292aff698",
-        "target_sha256": "8ec8edb15dc3f90d6c8d153d69adaf6eb7d73f02870d139c54b8701f2de252ca"
+        "source_sha256": "7f9df155e0deb692bbe80e69566404d657b6ca410556943b7101c8eb742d2343",
+        "target_sha256": "4af60475b6694fba5d82370416d7ecc085089444f5f46ebd08c2749c2cba45e0"
       },
       "events:arc_father_call_on_ktx_number:/title": {
         "source_sha256": "df584a8ec68b7b063fdee8667cb705cfe221a9833484512a7fb1d0dcd369279b",
@@ -118442,8 +118475,8 @@
         "target_sha256": "95b5f53fd58eacaec5e23581195b9710483908e35a35c407985a97388a8b65a2"
       },
       "events:arc_35_path_cost:/choices/1/result_text": {
-        "source_sha256": "68bbe49c3750e4cc61e0b63f94e95b703e40d8353ae998b491de2e594afe6a05",
-        "target_sha256": "edf26e56ac868823e49426d54ef7bec628dd58d17b52cd5b5cf2b323a1df0c36"
+        "source_sha256": "a2480d76e50405d449a51d843c09a8e83775eccc1e012086a478ea171269fada",
+        "target_sha256": "2a42757aadc3fbe83b2ea1c42d6f57dc23034c5ee4a10caa40a36b67bb60547b"
       },
       "events:arc_35_path_cost:/choices/1/text": {
         "source_sha256": "d5fa78d2fe2a9fa774aa3b5654045a1a588922b09fc9e584895a3790866e532c",
@@ -119126,20 +119159,20 @@
         "target_sha256": "9c426582d7ce77e5241a55288204a01d8c095dc043f90bf26d0d6d2497cedc10"
       },
       "events:arc_36_unexpected_hand:/choices/1/result_text": {
-        "source_sha256": "0f335d305ecf25290afc9950ab2220649b37079b2610aa6870664173cdc155ea",
-        "target_sha256": "33b2218d55ccb95041c9335359353487e7685be8c333b09a02e390b9d663e354"
+        "source_sha256": "fdaa55ff8707b00307f446d4b715f0fc90cb259c49107f5d73153aff9affd215",
+        "target_sha256": "42570240d913f520069a17ec6f4d198b75589f79def5a1c7989808b17f1da13d"
       },
       "events:arc_36_unexpected_hand:/choices/1/text": {
-        "source_sha256": "b62010762ff05f810409dbda8d0f425f6924ecbc3533946afab51d385be790ca",
-        "target_sha256": "ae0e78985de2d4ea4756ecb4baec9da6df6f4f0df7f3c07e4395050a16a46128"
+        "source_sha256": "7ec903532c1445a97e3d2ee06c583ae2c585a992867e468c598388d4c8a5f5fb",
+        "target_sha256": "4a1f24eac37e4163e8fe3b524da293492d73267d3430a9e566180047d04dae2d"
       },
       "events:arc_36_unexpected_hand:/description": {
-        "source_sha256": "3ef3bf89fd26dc75e2c78555448bba24fd67bf3b2a97e3dbe2e5e4cf95e7c200",
-        "target_sha256": "a0e00716547790d7cfc386f32f79b6bee32e9cc66514605ebb89756e635b52b5"
+        "source_sha256": "41d074b5f525f4395da4d7bf03acd10464dfd108c57875a94387dab027f50bb0",
+        "target_sha256": "95cc12fc52b1519b5b758ccd00898b17817fe1b30e364a60e7a318ea01902b5a"
       },
       "events:arc_36_unexpected_hand:/description_if_known/arc_y4_three_promises_missed_father&arc_y4_three_promises_missed_person": {
-        "source_sha256": "4ca3dfa9b3fb54b940e95fcfe70502b9f50a468b5ea039b02f53048b1ff8e247",
-        "target_sha256": "cddfac5daa3777078efb353b9b678210f9d00c961a6a99f3a6ab8a797e2b51b5"
+        "source_sha256": "6e3c812a6f91c1821edfab0de40d5fbf35b5868211437ea6653996529cb8ec4d",
+        "target_sha256": "0fdedbef09325feb753d367ebd1dbd38ae048b9ebc37bc7fa622db450f3a4cfe"
       },
       "events:arc_36_unexpected_hand:/title": {
         "source_sha256": "dd8216604deb1e29708122986defe2b8e09da993b6df32749737d2f179d14fa6",
@@ -119170,24 +119203,24 @@
         "target_sha256": "6e55fabe604ac42758c180e5ed3c669f38424b447ca3a98e166f972be0b0fc88"
       },
       "events:arc_36_unexpected_hand_person_deal:/choices/0/result_text": {
-        "source_sha256": "34fb112acc3fbcd6123f1a417ea8062c0e158bb0d6cdb4939fe3a995dd7b98e1",
-        "target_sha256": "8ec5ddbfe4a7ecf3a732f72e43a67853b32774c1441feddb08593761f151447b"
+        "source_sha256": "49b08e85f0e9ad35e7c2ebc9596034fe38b62435e138570e74fce4f67ca9b34e",
+        "target_sha256": "c0bdf0c11343acc1f41d8b806eff9dbb129406f78ea5fa5c473275783dbb8401"
       },
       "events:arc_36_unexpected_hand_person_deal:/choices/0/text": {
-        "source_sha256": "4e7780124c94461fc123940c0df7864ba86bd2a3fe1132cf3ae15df31e655cdd",
-        "target_sha256": "35dc60d03f81c2009014aa1ab9fbbbf6c9ec17a1500aac289af40c63aace2a0e"
+        "source_sha256": "9d3173946e44ee32c695cce85a14b43cc5e7a2b313d5ad7250c08a81d2666979",
+        "target_sha256": "4a1f24eac37e4163e8fe3b524da293492d73267d3430a9e566180047d04dae2d"
       },
       "events:arc_36_unexpected_hand_person_deal:/choices/1/result_text": {
-        "source_sha256": "14741594ad6024f4f5accde6c1f0dff4e3d68fd7ea4ae23905c41f3fbd128cb6",
-        "target_sha256": "686cc266455a19b1c4b6f64d4c5fe959906765a4a60e4314b995f43050d16c92"
+        "source_sha256": "b83b0f9b8fb32dec7967d71b14ae269b03306a2415ae71ba71c25186e8dd9b85",
+        "target_sha256": "66b1a18f72f583a3e0c4bae0606ee2fef904c3d7678e520c75c92739c40ae6d4"
       },
       "events:arc_36_unexpected_hand_person_deal:/choices/1/text": {
         "source_sha256": "b9f93ed905dbe2d35a83eb057b12cf76e7057b35aded1b2bef48549184df0209",
         "target_sha256": "390778e7b23c64d313f9a8a99b5984fd6277e84f4a610d6c2133182aa6acf7cd"
       },
       "events:arc_36_unexpected_hand_person_deal:/description": {
-        "source_sha256": "91da3c5ca657f5b8ba14b9fc7883bc6798a402170fa93f542483fe1381acded5",
-        "target_sha256": "dfeb438f1a1d07c1bf1a167b1c50e28efd306a76d77a9e3bed99d0b8b39b7a7c"
+        "source_sha256": "9c2dc0295269fc61e1bd60542d5c4115c3be8b98ad5529a6723c1e822c9603b8",
+        "target_sha256": "79e4153d960f3df8ca6bf45d0b9f3d614bcfeaca991c5a974ce7a632c5218354"
       },
       "events:arc_36_unexpected_hand_person_deal:/title": {
         "source_sha256": "512c6ff29b708f8fbe2f537da988dbed80f0735a0aeced6c301b8fd3e6a17f1a",
@@ -119734,8 +119767,8 @@
         "target_sha256": "289657e03e021b438d4edf950e39d13ec419f6d9c0d936548de958e1b15edcbe"
       },
       "events:arc_y4_family_partner_collision:/description": {
-        "source_sha256": "e6ee798bbbe3cc2e54bc0c53e03f2bdf87db256633f9ab500e9828458efa6dcb",
-        "target_sha256": "449bd0ee0e79caabafa6787e153c1d1b4b67192b21dc6802dab2571d9830d640"
+        "source_sha256": "e82778c23d9310800a161cf4b81d67fc7e112f3ffea0bc8f2aad22f9cdd96604",
+        "target_sha256": "1d6d6b7b71a019fa3c60d74bb83d8f3d47c4e09745b74c0abd784fe85e2787a4"
       },
       "events:arc_y4_family_partner_collision:/title": {
         "source_sha256": "8888ddee39a2670c94cd44eb6915365dd0173436327fdffddbc1995a2e2deb38",
@@ -119766,8 +119799,8 @@
         "target_sha256": "adf096240968eebd32640ea1491ee0ecb58dfedc47d586f24704978dd878ec7d"
       },
       "events:arc_y4_family_partner_collision_jiyeon:/description": {
-        "source_sha256": "81c21b998d95ac9b9a95751e084e91aaca441ee86a7357511e626807ef6cf533",
-        "target_sha256": "c71fd08a35cf87da6a00ad5421856c3e601d16524f85c2e68ec705e5968dcaa7"
+        "source_sha256": "ffe879a3fcd3158e1f1c5e47cf4181d6decdf149444d3d7e47ffa8e09887572d",
+        "target_sha256": "0eb209ff75a434113631ae52ae0a0abffcfb006f4ba38f92758264e7d6a5544c"
       },
       "events:arc_y4_family_partner_collision_jiyeon:/title": {
         "source_sha256": "11d53fba2c35f99fa82a737e25b1dc205f5d7fa874d90e28772d70167e1bd954",
@@ -119830,8 +119863,8 @@
         "target_sha256": "ec9a3b0a45dcc0e03aa2ce67e0409ac087e80e27c620cdb347668d958fb8cd32"
       },
       "events:arc_y4_three_promises:/description": {
-        "source_sha256": "3765868d62bf441af1468e842586cf50a018838c41b1d58efd066e36b3ef9fc7",
-        "target_sha256": "e6591ab2d0198072f1b59451c3c396f757425491b8522b4c572b7c274fc17cfd"
+        "source_sha256": "df99002adc7e2682a41c30f8a5f7366fa23f5f282af8191aa0537cccbe17cef1",
+        "target_sha256": "025c68667717e3024045de4d10c39960bfc8e982324fb5ed65a7d648bdf5e0f8"
       },
       "events:arc_y4_three_promises:/description_memory_if_known/never_stop": {
         "source_sha256": "4c587080fe1ab9c62da4c13fcb55ae5060533b64a92e09cf78c997a600544972",
@@ -119874,8 +119907,8 @@
         "target_sha256": "6702fe9cda2cad6dcca4a67debaa21c8754e870d50aba4f304e47de6562f9898"
       },
       "events:arc_y4_three_promises_deal_only:/description": {
-        "source_sha256": "9e30014e9ccc875abde4e149a479e25a76f06fd3d16dc9a1337848f43e4b4426",
-        "target_sha256": "60afe68b8f7e506f66f40090eff16060064beca75f5d2b8ecfc9800bb76f0020"
+        "source_sha256": "e1a5985f419b7fc5c9eb21e21ae726a1d3ec0105deb3a08d643194087840e9cc",
+        "target_sha256": "6b88fb85d06b21bc8c97b9e837fa9d1ea94ad54edb48ea94d0da2fd147bde60f"
       },
       "events:arc_y4_three_promises_deal_only:/description_memory_if_known/never_stop": {
         "source_sha256": "4c587080fe1ab9c62da4c13fcb55ae5060533b64a92e09cf78c997a600544972",
@@ -119918,8 +119951,8 @@
         "target_sha256": "69c556c48a8b51a840f8d2a32908edf6f0a3777e67772c75ed445e14daf3f5d8"
       },
       "events:arc_y4_three_promises_jiyeon_and_deal:/description": {
-        "source_sha256": "e0ab0bc7f48f03e5c69948569601dce14d4f27fa793e652d889d4c9bd19c0098",
-        "target_sha256": "687753bab5ff7495d0b17218541cc4c42d478721f33efa030b0113960f58036c"
+        "source_sha256": "0d39d0b6bab52116cf7792c9c3f37b73c690420fc5e5884915a3d8eb74b33ecb",
+        "target_sha256": "a89166707e516cd3cc26d21393ef93c1ceb62e9d76a6758e34ada78ec00364f7"
       },
       "events:arc_y4_three_promises_jiyeon_and_deal:/description_memory_if_known/never_stop": {
         "source_sha256": "4c587080fe1ab9c62da4c13fcb55ae5060533b64a92e09cf78c997a600544972",
@@ -120178,8 +120211,8 @@
         "target_sha256": "374e4bca4fea34f749a02b7dc97deffc639ce3af1f2235379577011967912aa1"
       },
       "events:arc_father_call_on_ktx:/description": {
-        "source_sha256": "236b9c25f67f0e88ec56d01f5cd72ea27fddb89264faafeecb8c62fd349d80c3",
-        "target_sha256": "ca6fcbc827a9f0ca36c06166517262fd526c82348d64caf8f0342558bd625454"
+        "source_sha256": "99882d6b486699ad0854c76929d5dfdec91dfa4aef90bfc7a9d36414c0e71e03",
+        "target_sha256": "7cc6606ffae4f186c870283f47ca5a8ba5916f976718ecc2c81306440f70b311"
       },
       "events:arc_father_call_on_ktx:/title": {
         "source_sha256": "a0424bbd485a2c78dce02a64497f23d040b798eea6376052fa154bd0d095127e",
@@ -120218,8 +120251,8 @@
         "target_sha256": "0206ae79f01dccddb98ec1f9e0b3276686f08896bf19e5afc918893230171cb0"
       },
       "events:arc_father_call_on_ktx_number:/description": {
-        "source_sha256": "df18a7f828f18825ca2d8cf4bdf97017544d3dd05f689c746908818292aff698",
-        "target_sha256": "ba0ce2dab4deb85cf1f9b7c2bb75f01b996c29f09c1cddf03f4bd777912d579f"
+        "source_sha256": "7f9df155e0deb692bbe80e69566404d657b6ca410556943b7101c8eb742d2343",
+        "target_sha256": "ff75921f7f6b3feb7489f9ac49e1232c07448ce0cf2947fe1d771ee02d1225dc"
       },
       "events:arc_father_call_on_ktx_number:/title": {
         "source_sha256": "df584a8ec68b7b063fdee8667cb705cfe221a9833484512a7fb1d0dcd369279b",
@@ -166283,7 +166316,7 @@
       }
     }
   },
-  "accepted_sha256": "24694f7ddac111b7fcc18cb46a6dee598970c6cf976e6061de9e95b9b6fe70a8",
+  "accepted_sha256": "e84d147f6ada6eeaf5d46c3fd55af09eb1853d08d298461e62b0090e2c7a11d3",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {

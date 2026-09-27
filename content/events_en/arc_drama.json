@@ -613,7 +613,7 @@
   {
     "id": "arc_father_call_on_ktx",
     "title": "Eleven Minutes Ago",
-    "description": "The Seoul-bound KTX had pulled out of Changwon Jungang Station eleven minutes ago.\n{name} was returning from an errand in South Gyeongsang that might, eventually, turn into money. Father's hospital had been a fifteen-minute taxi ride from the station. {name} had paused on the platform, then taken his assigned seat for Seoul.\n\nThe phone on the tray table shifted a little whenever the train curved. On its screen was a call-log screenshot he had saved years ago.\nFather. Twenty-three seconds.\n\n\"You doing all right?\" \"Yeah.\" \"Okay. Hang up, then.\"\nSince moving to Seoul, every call between father and son could be cleared with a few strokes of a thumb. Who had hung up first had blurred. The number had not.\n\nAs the train neared a tunnel, {name}'s reflection deepened in the glass. His finger stopped between the screenshot and Father's contact.",
+    "description": "The Seoul-bound KTX had pulled out of Changwon Jungang Station eleven minutes ago.\n{name} was returning from an errand in South Gyeongsang that might, eventually, turn into money. The hospital where Father had been admitted again was a fifteen-minute taxi ride from the station. {name} had paused on the platform, then taken his assigned seat for Seoul.\n\nThe phone on the tray table shifted a little whenever the train curved. On its screen was a call-log screenshot he had saved years ago.\nFather. Twenty-three seconds.\n\n\"You doing all right?\" \"Yeah.\" \"Okay. Hang up, then.\"\nSince moving to Seoul, every call between father and son could be cleared with a few strokes of a thumb. Who had hung up first had blurred. The number had not.\n\nAs the train neared a tunnel, {name}'s reflection deepened in the glass. His finger stopped between the screenshot and Father's contact.",
     "choices": [
       {
         "text": "Open the saved twenty-three-second screenshot",
@@ -639,7 +639,7 @@
   {
     "id": "arc_father_call_on_ktx_number",
     "title": "Call",
-    "description": "Father's name sat at the center of the contact screen. Beneath it, the green call button trembled with the train.\n\n{name} tried the first words silently. \"Dad, it's me.\" Obvious words, yet no second sentence came. Was he keeping his hospital appointments? Why hadn't {name} gotten off in Changwon? What, exactly, did he believe he had accomplished in Seoul? Starting anywhere felt like avoiding everything else.\n\nThe train entered a tunnel. Hand, face, and call button appeared together in the black window. Saying he would think again after reaching Seoul was not yet a promise made to anyone. Whether to call was an action he could choose only here.",
+    "description": "Father's name sat at the center of the contact screen. Beneath it, the green call button trembled with the train.\n\n{name} tried the first words silently. \"Dad, it's me.\" Obvious words, yet no second sentence came. Had he slept at all since going back into hospital? Why hadn't {name} gotten off in Changwon? What, exactly, did he believe he had accomplished in Seoul? Starting anywhere felt like avoiding everything else.\n\nThe train entered a tunnel. Hand, face, and call button appeared together in the black window. Saying he would think again after reaching Seoul was not yet a promise made to anyone. Whether to call was an action he could choose only here.",
     "choices": [
       {
         "text": "Call him",
