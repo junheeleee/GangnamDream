@@ -10,6 +10,7 @@
 - 전체3leaf외 원고/게임효과/세언어/공개package/인간 ledger 변경0. 새엔진·화면·입력0이며 자동검사는 원어민·인간·물리패드 관찰이 아니다. 공개GO1은 옛 exact package만; 공식40299/b136/meta9·인간OPEN45·본편HOLD 불변.
 - 다음302는 공개 시작 안내 직업과 M06 회상 장소의 controller1+사전3파일/KO2키·지역6값을 선언한 뒤 수리한다. EN 시작안내는 이미 직업 중립이고 legacy 안내는 별도 범위다. 나머지 월세·시제·인용·KO표기·5locale runtime·실제화면은 미완료. 기존 EN문단 개행차는 형식 검수에 남겼다.
 - 프로젝트 개발 스킬의 작은 범위 선언·역사 보존·독립 전수·표적 검증을 적용했다. 규범은 일회성/기존 정본 적용이며 외부 출시·스토어 변경은 하지 않았다.
+- 마감 context·queue·queue-self25·human ledger·agent-self222·dashboard6종 PASS(`order302-demo-check-closure-*-first`); 별도 closure 보존 검사도 이전88판정 raw bytes·보고2개 정확복사·새304만 GO/302전체·본편HOLD를 확인했다. 큐77/진행74, 인간OPEN45/DONE1 유지. selector는 파일단위48개 목록만 확인했으며 M01~M06의3substring에 영향 없는 엔진·전체/240주 차선은 실행하지 않았다. 완료304 사양은 원문을 보존해 archive로 이동했다.
 
 ## 2026-09-26 (Claude — 체험판 대본 판독·본편 판독 계획)
 
