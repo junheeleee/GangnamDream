@@ -2,6 +2,14 @@
 
 > 상단 안전 여백 수리 전 전체 원문은 [2026-09-27 보존본](history/WORK_LOG_2026-09-27_pre_header.md)에 있다. 보존본의 상대 링크는 당시 docs/WORK_LOG.md 위치 기준이다.
 
+## 2026-09-27 (Codex — 1장 후반 장소·영어 수리, 통합 검증은 HOLD)
+
+- [309](queue_active/ORDER-309.md): 현수의 합격/불합격과 선택2 결과에서 다른 고시원을 방문한 듯한 표현을 KO/EN/JA/CN/TW15문구로 수리했다. 현재도 같은 집에 산다는 단정은 추가하지 않았다. 고시원 작별의 직역과 재혁 사진의 원문 없는 ‘처음’도 고쳐 총17 text leaf다. 게임플레이·문단/토큰·이사 후 장면·시제는 보존했다.
+- 제품 `506e4c8`의8파일, 최종 source `2d68cc28`/tree `db87204`. 새 한국어에 맞춘 기존 지역별3 receipt씩9개만 갱신하고40299개와 옛136batch/meta9/보류72는 보존했다. 이력만137로 추가(새번역0). pre-export3 보존·fresh check/import3지역·old batch3 stale거부·다른leaf/키/배열/효과0차이를 표적 검증했다.
+- 독립 검수는17원고·9receipt 적합, 전체 작업은 [HOLD](agent_reviews/ORDER-309.json)다. raw 정적9명령은5 PASS/4 FAIL(full-body scope·story graph·316 compatibility·year5 reference). 선택기는7원고74개/receipt포함8경로75개이며 전체/14엔진은 미실행이다. EN coverage 별도PASS·옛310 CLI 별도FAIL은 raw9와 구분한다. 테스트는 선언HEAD의 dirty 제품 바이트에서 실행했고 최종8SHA에 결속했으며 새 source 재실행으로 세지 않는다.
+- 새 원고 때문에 발생한 admission/역사 fingerprint 거절은 기존354 15PASS/7FAIL과 별도다. 옛핀을 덮거나 원고를 되돌리지 않고 [355](queue_active/ORDER-355.md)에4파일8leaf 역사 비교/현재7파일17leaf guard·live9receipt 비투영을 분리했다.355는 미착수,309는[~]/HOLD, 그 뒤313이다.
+- 마감 CLAUDE가18038B로예산을38B초과한 것을 같은 현재행 단축으로수리했다. 최초 c3ab 보고는 원형 보존하고 새source 추가판정을 받았다. 기존105판정/82보고·인간/프로젝트/공개manifest는 보존하고 새106번째HOLD만 추가했다. 개발 스킬의 선언·파일 소유 분리·직접 원문 대조·표적 QA·독립 판정을 적용했다. 규범은 일회성/기존 WORK_UNIT·I18N·P-9 적용, 새 승격0. 자동검사는 계약 증거이지 재미·깊이·문체 GO가 아니다. 새 화면/입력/엔진/원어민/인간/물리/패키지 관측0, 외부출시·스토어·지출0, 공개GO1·인간OPEN45·본편/새package HOLD 유지.
+
 ## 2026-09-27 (Codex — 다이사이·카지노 안전 여백 수리와 중국어 후속 검수 완료)
 
 - [354](queue_archive/ORDER-354.md)의 두 표시 함수만 조정해 제목·현금·규칙·나가기와 행동 버튼을 2.5% 안전 여백 안에 넣었다. 다이사이 다음선택 패널의 하단804→774로4px 잘림도 해소했다. 글꼴/버튼/문장 축소0·다른52/40함수 변경0·금전/저장/확률 계약 변경0이다.

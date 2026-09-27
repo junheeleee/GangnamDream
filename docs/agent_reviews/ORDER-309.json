@@ -1,0 +1,95 @@
+{
+  "schema": "gangnamdream-independent-work-unit-review/v1",
+  "unit_id": "ORDER-309",
+  "scope": "work_unit",
+  "review_stage": "final_source_addendum_v2",
+  "decided_by": "/root/screen_independent_review",
+  "decision": "HOLD",
+  "verdict": "HOLD",
+  "subject": {
+    "kind": "source",
+    "commit": "2d68cc28e4e129694ba561809536528cc4a3d913",
+    "tree": "db872040096edf995eb215a287d857216cf06bab",
+    "manifest_sha256": null
+  },
+  "independence": "The same nonauthor independently inspected the complete c3abf84→2d68cc28 diff, directly observed a clean Git/source resolver, and rehashed the eight reviewed product/receipt files and 18 referenced evidence artifacts. No product, engine, image or earlier report was modified.",
+  "prior_review": {
+    "path": ".git/full-game-localization/order309-final-review.json",
+    "sha256": "f56dc9426b458d29e0c522c41d8e8d8f91296dc27cccc9a4a4761cb28631cae7",
+    "subject_commit": "c3abf84cc8e49a0b48fb637a3c4b35c4cdab91c4",
+    "status": "Immutable original retained. Its full 17-leaf prose review, nine current receipt comparisons, exact evidence manifest, preservation checks, integration findings and limitations are incorporated here; this addendum updates candidate identity and selection scope only."
+  },
+  "source_binding": {
+    "observed_at_utc": "2026-09-27T09:47:48.280397+00:00",
+    "observed_head": "2d68cc28e4e129694ba561809536528cc4a3d913",
+    "observed_tree": "db872040096edf995eb215a287d857216cf06bab",
+    "observed_clean": true,
+    "changed_paths": [
+      "CLAUDE.md"
+    ],
+    "change_review": "Only CLAUDE.md's current-state row was shortened for its byte budget. The 17/9 text/receipt result, 5 PASS/4 FAIL integration HOLD, historical354 15/7, package/native/human boundaries and count facts retain their meaning. CLAUDE is not an identity exception, so this is a newly observed source subject rather than an inherited old-source decision.",
+    "CLAUDE_sha256": "45c6cf28504950451c322ae7c2f7584f12cf2b6242e9631cafaeee5b2f0abb74",
+    "product_files_sha256": {
+      "content/events/arc_hyunsu.json": "2449594b27187c761db5d94784c5caa0b57c61fa6eb1bdc3e619fc62971a49ca",
+      "content/events_en/arc_hyunsu.json": "3df4481d5e00fd578019d99dbb23e58821a27c665e4ffd7e1ec6db8b47611069",
+      "content/events_ja/arc_hyunsu.json": "852d611078d624ae8fd0c5f06cc7fe883ec83ba8a06c127cddf3cc0e8454c57f",
+      "content/events_zh-CN/arc_hyunsu.json": "92fb3f2f9fbd674d0d21d94441131336442fbd4a66f92baa9a473007c08a6832",
+      "content/events_zh-TW/arc_hyunsu.json": "39ea586335494400eda3f98a8dea909893d3b59a901ef253ce57d9db0554c064",
+      "content/events_en/arc_midgame.json": "b3adbc2d2e92e48564557931c05d58f09b3fd71e9e9d9997b872cae3a44eba02",
+      "content/events_en/core_loop_v2_events.json": "0f87d6f554563c776a5922e7126d5c3cd95f6924f1ad774b871c9fb0d5e5657a",
+      "content/meta/full_game_localization.json": "4a80832391bce8f0fced8e28ba3d9c5fd03e4b219ec6dab38d4ee6963fcccf35"
+    },
+    "referenced_evidence_files_rehashed_unchanged": 18,
+    "preservation": "The complete commit delta contains no other path. The previous 105-decision ledger, 82 reports, project/human/public manifest and historical source pins therefore retain the exact preservation proved by v1. The original v1 JSON hash was independently checked again."
+  },
+  "outcome": "HOLD remains independently warranted: the 17 targeted prose leaves and nine source/target receipt records are acceptable; the whole work unit's current-source admission and historical-comparison integration remains unresolved.",
+  "population": {
+    "read_text_leaves": 17,
+    "product_json_files": 7,
+    "current_receipt_rows": 9,
+    "accepted_total": 40299,
+    "new_accepted_leaves": 0,
+    "preserved_batches": 136,
+    "new_history_rows": 1
+  },
+  "checks": {
+    "saved_actual_commands": 9,
+    "pass": 5,
+    "fail": 4,
+    "execution_identity": "All nine retained raw captures still describe HEAD7717fd7 with eight dirty product/receipt files, bound to the unchanged final product bytes by the saved self-check. No command in those captures was run at c3abf84 or 2d68cc28, and no new run is claimed.",
+    "selection_scope_correction": "The immutable selected-checks artifact cited in v1 enumerates 74 checks for the seven prose files only (57 static, 3 documentation, 14 engine). The subsequently saved selection-with-ledger artifact was directly read: all eight product/receipt paths select 75 commands, adding gift_caption_locale_self_test.py, with unmatched_paths empty and executed_checks=0. It is selection evidence, not an executed gate. V1's 74 figure must not be read as the whole eight-file selection.",
+    "eight_file_selection_evidence": {"path": ".git/full-game-localization/order309-selection-with-ledger.json", "sha256": "9037ac8dd69d67054497437def43ae38e74afa45f068740588078f7c2e7b9df6"},
+    "full_eight_file_selection_completed": false,
+    "engine_checks_executed": 0,
+    "no_rerun": "No engine, image, package or unchanged static audit was rerun for this identity addendum. The four failed commands and the terminal-only observations retain exactly the evidence limits of v1."
+  },
+  "required_findings": [
+    {
+      "id": "309-INTEGRATION-01",
+      "status": "OPEN",
+      "severity": "blocking",
+      "finding": "The changed current source cannot satisfy its existing successor-admission/historical-comparison consumers; four saved commands fail.",
+      "required_action": "Declare a separate bounded compatibility unit for current admission and exact historical inverses. Bind the full seven-file/17-leaf repair and nine current receipts; distinguish live values from historical projections, preserve old305/310/316 modules, fixtures and raw evidence, and test the actual affected consumers plus tamper/rollback/neighbor negatives. Do not refresh old expected hashes or suppress these failures."
+    },
+    {
+      "id": "309-INTEGRATION-02",
+      "status": "OPEN",
+      "severity": "blocking",
+      "finding": "The declared whole-unit completion gate has not been established by the nine-command subset.",
+      "required_action": "Keep ORDER-309 active/HOLD. After the separately declared integration repair, provide the applicable bounded gate results and a fresh source-bound independent follow-up; do not infer completion from prose acceptance or another work unit's GO."
+    }
+  ],
+  "required_in_scope_findings_remaining": 2,
+  "limitations": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "fresh_rendered_screens",
+    "engine_execution",
+    "package_or_export_validation",
+    "full_chapter_or_all_English_tense_quality",
+    "internal_product_GO",
+    "complete_75_check_eight_file_selection"
+  ],
+  "completion_statement": "ORDER-309 remains active/HOLD. A declared bounded compatibility repair, its applicable verification and a fresh independent follow-up are required before closure. No broader source, internal-product, package, native or human GO is granted."
+}

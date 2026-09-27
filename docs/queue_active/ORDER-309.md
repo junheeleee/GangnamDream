@@ -23,7 +23,7 @@ clean main `912b2d766b11b59f96a98415bc054e1a3a864aab` / tree
   않음·음료 봉지·물소리·눈인사·질문하지 않음은 보존한다. 총17 text leaf만 변경한다.
 - 실제 결과 분기에는 현재 주거 가드가 없다. 같은 고시원에서 시작한 정본은 유지하되
   새 문장에 “우리 고시원/아직 옆방에 산다/자기 방에서 나왔다”를 덧붙이지 않는다.
-  복도 끝 현수 방 앞이라는 구체 장소만 써 이사 후 방문 경로에도 모순을 만들지 않는다.
+  복도를 따라 현수 방 앞에 가는 장소만 써 이사 후 방문 경로에도 모순을 만들지 않는다.
 - 저자 `/root/header_layout`: `content/events/arc_hyunsu.json`,
   `content/events_en/arc_hyunsu.json`, `content/events_ja/arc_hyunsu.json`,
   `content/events_zh-CN/arc_hyunsu.json`, `content/events_zh-TW/arc_hyunsu.json`의
@@ -32,7 +32,8 @@ clean main `912b2d766b11b59f96a98415bc054e1a3a864aab` / tree
   `content/meta/full_game_localization.json`의 해당 JA/CN/TW9 accepted행·파생hash·새 batch
   이력만. 기존 batches·다른 accepted행·source_revision·public 보호행은 덮지 않는다.
 - root: 이 사양→archive, 두 큐 순번, WORK_LOG/STATUS, CLAUDE 현재 한 행,
-  agent ledger 새309행 및 `docs/agent_reviews/ORDER-309.json` 정확복사. private
+  agent ledger 새309행 및 `docs/agent_reviews/ORDER-309.json` 정확복사. 최초보고도
+  `docs/agent_reviews/ORDER-309-initial.json`에 정확복사해 Git 밖 참조 의존을 줄인다. private
   `.git/full-game-localization/order309-*` source export/response/검사/자가 증거만.
 - `/root/screen_path_probe`: 읽기 전용 검사 영향 분석. `/root/screen_independent_review`:
   비저자 전수 판독·최종 source-bound 보고, private `order309-*review*.json`만.
@@ -42,6 +43,32 @@ clean main `912b2d766b11b59f96a98415bc054e1a3a864aab` / tree
   기존354의15 PASS/7 FAIL은 재실행 통과로 만들지 않고309 영향과 분리한다.
   새 화면·입력·엔진·인간·원어민·패키지 관측은 이 텍스트 수리에서 주장하지 않는다.
   규범은 일회성/기존 I18N·WORK_UNIT·P-9 적용이며 새 승격0이다.
+
+## 2026-09-27 실행 결과 — 원고 적합 / 통합 HOLD
+
+- 제품 `506e4c8ff6e4bf9265706845b4994b6203a05533`에서 원고7파일의 정확17 text leaf와
+  기존 JA/CN/TW receipt9를 수리했다. 게임플레이·배열 순서·토큰·문단·이사 후 장면은
+  불변이다. accepted40299/내부meta9는 그대로이며 이력만136→137(새 번역0)이다.
+- `export→check/import` 지역당3leaf, 새 source/target hash와 portable9행·checksum 결속,
+  다른 accepted행/옛136batch 불변, 이전3batch stale 거부를 확인했다. 독립 전수 판독17도
+  적합이다. 증거는 `.git/full-game-localization/order309-self-check.json` 및 L2 self-review다.
+- 저장한 정적9명령은5 PASS/4 FAIL. PASS는 full localization264회귀·audit·story consistency·
+  i18n coverage·English Hangul이다. FAIL은 full-body scope53중6실패, story graph2오류,
+  316 compatibility63경우 FAIL, year5 reference11오류다. 원문 변경으로 새로 거절된
+  successor/역사 fingerprint를 기존354 실패로 돌리지 않았다. 원래310 CLI FAIL과 EN
+  coverage PASS는 별도 터미널 관측이며 저장한9개에 합산하지 않는다.
+- 선택만 한 검사는 원고7경로74개, receipt 포함8경로75개(추가 gift_caption1)다.
+  이 전체/14엔진은 미실행이며9개를 전체 PASS로 바꾸지 않는다. 기존354 15/7도 원형 보존.
+- 최종 실제 source `2d68cc28e4e129694ba561809536528cc4a3d913` / tree
+  `db872040096edf995eb215a287d857216cf06bab`에 [독립 HOLD](../agent_reviews/ORDER-309.json).
+  원래 c3ab 보고와 마감 CLAUDE byte-budget 단축 뒤 추가 판정을 모두 보존했다.
+  9검사는 선언HEAD의 dirty 제품 바이트에서 실행했으며 최종8파일hash에 결속한다.
+  새 source에서 같은 검사를 재실행했다고 주장하지 않는다.
+- 통합을 [355](ORDER-355.md)로 분리한다. 새 gate 검증 뒤309의 새source 독립 후속이
+  있어야 닫는다. 본 오더는 **[~]/HOLD**, R2는 아직 착수하지 않는다.
+- 자동 검사는 계약 증거이지 재미·깊이·문체나 사람 판정이 아니다. 이번 규범은
+  일회성/기존 WORK_UNIT·I18N·P-9 적용, 새 승격0. 새 화면/엔진/입력/원어민/인간/
+  물리패드/패키지 관측0, 과거105판정·82보고·인간OPEN45·공개GO1 보존, 본편HOLD.
 
 ## 깊이 3문
 

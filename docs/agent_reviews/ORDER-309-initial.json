@@ -1,0 +1,275 @@
+{
+  "schema": "gangnamdream-independent-work-unit-review/v1",
+  "unit_id": "ORDER-309",
+  "scope": "work_unit",
+  "review_stage": "final_source",
+  "decided_by": "/root/screen_independent_review",
+  "independence": "Nonauthor of all seven product JSON files, localization receipt updates, and executed check helpers. Independently read all 17 changed text leaves against Korean and their complete immediate contexts. No engine, screenshot or product edit performed.",
+  "decision": "HOLD",
+  "verdict": "HOLD",
+  "subject": {
+    "kind": "source",
+    "commit": "c3abf84cc8e49a0b48fb637a3c4b35c4cdab91c4",
+    "tree": "d9d71aede7745c96c2c5bd40e965a6e82cac55a2",
+    "manifest_sha256": null
+  },
+  "outcome": "The specified prose repairs and nine current localization receipts are acceptable within their narrow text-only scope. The complete work unit remains HOLD because current-source admission and historical comparison consumers reject the new text and the declared integration gate is incomplete. This is not a request to revert good prose or to overwrite historical pins.",
+  "source_binding": {
+    "observed_at_utc": "2026-09-27T09:43:54.656097+00:00",
+    "observed_head": "c3abf84cc8e49a0b48fb637a3c4b35c4cdab91c4",
+    "observed_tree": "d9d71aede7745c96c2c5bd40e965a6e82cac55a2",
+    "observed_clean": true,
+    "baseline": "7717fd7f72b04c40d684a8c27c6e93cc546bda4c",
+    "product_commit": "506e4c8",
+    "source_delta": "Seven text JSON files plus the localization acceptance ledger; the only subsequent 506e4c8→final-source change is CLAUDE.md's factual current-state row. CLAUDE is not a metadata identity exemption.",
+    "product_sha256": {
+      "content/events/arc_hyunsu.json": "2449594b27187c761db5d94784c5caa0b57c61fa6eb1bdc3e619fc62971a49ca",
+      "content/events_en/arc_hyunsu.json": "3df4481d5e00fd578019d99dbb23e58821a27c665e4ffd7e1ec6db8b47611069",
+      "content/events_ja/arc_hyunsu.json": "852d611078d624ae8fd0c5f06cc7fe883ec83ba8a06c127cddf3cc0e8454c57f",
+      "content/events_zh-CN/arc_hyunsu.json": "92fb3f2f9fbd674d0d21d94441131336442fbd4a66f92baa9a473007c08a6832",
+      "content/events_zh-TW/arc_hyunsu.json": "39ea586335494400eda3f98a8dea909893d3b59a901ef253ce57d9db0554c064",
+      "content/events_en/arc_midgame.json": "b3adbc2d2e92e48564557931c05d58f09b3fd71e9e9d9997b872cae3a44eba02",
+      "content/events_en/core_loop_v2_events.json": "0f87d6f554563c776a5922e7126d5c3cd95f6924f1ad774b871c9fb0d5e5657a",
+      "content/meta/full_game_localization.json": "4a80832391bce8f0fced8e28ba3d9c5fd03e4b219ec6dab38d4ee6963fcccf35"
+    },
+    "actual_check_state": "Nine saved command captures identify HEAD 7717fd7 with eight dirty product/receipt files, not a clean final-source run. Their stated candidate hashes are supplied by order309-self-check.json and match the final eight files. No rerun at c3abf84 is claimed; these lightweight captures do not provide per-command whole-tree or user-data before/after censuses."
+  },
+  "population": {
+    "declared_and_read_text_leaves": 17,
+    "files": 7,
+    "hyunsu": "KO/EN/JA/zh-CN/zh-TW × [hyunsu_result_fail.description, hyunsu_result_pass.description, hyunsu_result_fail.choices[1].result_text] = 15; both source event contexts, all three failure-memory variants and both failure choices were read.",
+    "english_additional": "arc_goshiwon_goodbye.choices[2].result_text and v2_jaehyuk_plain_reunion_echo.choices[0].result_text, each compared directly with unchanged Korean and neighboring scene text.",
+    "receipt_records": 9,
+    "scope_limits": "Not a full M07–M12 chapter, all seven files' prose, all English tense, live-route, rendered, native or full-game review."
+  },
+  "source_review": [
+    {
+      "repair": "Hyunsu corridor/door",
+      "result": "ACCEPTABLE",
+      "reason": "All five languages replace a separate-goshiwon visit with movement along the hall to Hyunsu's door. The bag, result news, three-day silence, door/light, hesitation, four-year exam history and first-person relationship remain. No added assertion that Minjun still lives there."
+    },
+    {
+      "repair": "Failure choice 2 fourth-day encounter",
+      "result": "ACCEPTABLE",
+      "reason": "All five remove only the repeated trip to the goshiwon. No knock, retained bag, fourth day, long face-washing, stopped water, exchanged looks/nods and no questions remain; the communal sink/corridor still locates the encounter."
+    },
+    {
+      "repair": "Leaving-goshiwon English memory sentence",
+      "result": "ACCEPTABLE",
+      "reason": "Yet those were not the only things he remembered clearly refers to the peeling wallpaper, narrow room and summer smell without inventing happy memories, growth or a moral judgment. Korean meaning and paragraph rhythm are retained."
+    },
+    {
+      "repair": "Jaehyuk photo result",
+      "result": "ACCEPTABLE",
+      "reason": "Only the unsupported For the first time phrase and resulting sentence capitalization change. Present tense, non-uniform photograph, timer, shared frame and reunion promise remain."
+    }
+  ],
+  "route_boundary": {
+    "evidence": [
+      "scenes/MainGame.gd:7274",
+      "scenes/MainGame.gd:7779",
+      "systems/DemoCoreLoopV2.gd:10610",
+      "content/meta/story_map.json:500",
+      "content/meta/story_map.json:533"
+    ],
+    "finding": "The shared-goshiwon starting canon supports the repair, but legacy results at t≥25 and V2 receipt delivery have no current-housing guard. The chosen wording remains valid after a move and does not turn M07 design placement into a universal runtime guarantee.",
+    "preserved": "hyunsu_pivot, hyunsu_pass_news, dormant arc_y1_hyunsu_result_fail_after_move, schedules, effects, IDs, choice counts/order, map, rules and lifecycle unchanged. M05/M11 Jaehyuk structural question and global tense normalization remain outside this unit."
+  },
+  "receipt_review": {
+    "independently_verified": "Current before/after source exports, final responses and all three accepted receipt files bind exact field/path/Korean-source hashes and current target text hashes. Current accepted mapping differs in exactly three rows per locale; all other rows and top-level source/count/status fields remain unchanged.",
+    "accepted_total": 40299,
+    "added_accepted_leaves": 0,
+    "preserved_historical_batches": 136,
+    "new_history_rows": 1,
+    "source_receipt_rows": 3,
+    "locale_target_rows": 9,
+    "stale_controls": "Author's read helper and saved self-check report reject all three pre-repair source batches as stale source manifest. Independent comparison confirms the before and current Korean/source hashes differ; the reviewer did not rerun that helper.",
+    "receipts": [
+      {
+        "locale": "ja",
+        "count": 3,
+        "receipt_file": ".git/full-game-localization/ja/full-ko-direct-2026-09-07.1/08c9d5a5da5ca56ad10ce67464afdcf19020661bda9a1b708545f19c8ef95a7e.accepted.json",
+        "file_sha256": "c452e39f9eb2a2e48759716ec7c09272c6c83db345cadcacd45671b61a2fbf88",
+        "canonical_receipt_sha256": "474eda1f677ad99b7fc8d66d3b16d21ee6e77147ac8eef1fc888fea1ac226d8b"
+      },
+      {
+        "locale": "zh-CN",
+        "count": 3,
+        "receipt_file": ".git/full-game-localization/zh-CN/full-ko-direct-2026-09-07.1/b4152383fea90b6c4b4d0ecbc6b14ae8622d8f70819929c0ea188d0503120671.accepted.json",
+        "file_sha256": "d6df4318f67bef0e8f44ec2b7915ae0da4f4f7147d9db6a8feeea7850ca6a651",
+        "canonical_receipt_sha256": "7379deea56d6e539a01bb83a58c107516854f0e1dc29c15b94175ebe119b71e6"
+      },
+      {
+        "locale": "zh-TW",
+        "count": 3,
+        "receipt_file": ".git/full-game-localization/zh-TW/full-ko-direct-2026-09-07.1/2632fa748f9d02e8e74d32c3c867c3eea323adc23718ea6781e9f8fe14289b59.accepted.json",
+        "file_sha256": "6f754ea815e0e56523b739df550ecf6cfffe95073f19d1cb542eebbb64606b8a",
+        "canonical_receipt_sha256": "9aa59c06f154bcf159005ff32dee6740dad719161ac7efa4898ffc046fa6a56c"
+      }
+    ],
+    "native_review": "OPEN",
+    "rendered_review": "OPEN"
+  },
+  "checks": {
+    "saved_commands": 9,
+    "pass": 5,
+    "fail": 4,
+    "pass_commands": [
+      "full_game_localization_self_test.py (264 cases)",
+      "audit.py (0 errors/0 warnings)",
+      "story_consistency_audit.py (1813 events, 276 ledger)",
+      "i18n_coverage_check.py (EN strict 1813/1813 events, 35/35 endings; prepared locales skeleton)",
+      "english_hangul_audit.py (content_issues=0)"
+    ],
+    "failed_commands": [
+      {
+        "index": 3,
+        "command": "full_body_translation_scope.py --self-test",
+        "observed": "6 failures/53 cases: new EN core admission, previous controller successor admission, current Korean source fingerprints and historical preservation assumptions."
+      },
+      {
+        "index": 4,
+        "command": "story_graph_contract_audit.py",
+        "observed": "2 errors: EN core and StoryChoiceM1M6Playtest exact-successor rejection."
+      },
+      {
+        "index": 5,
+        "command": "order316_header_source_compat.py --self-test",
+        "observed": "FAIL files=2 live_files=8 cases=63; raw and live chapter5/chapter1 boundaries reject changed EN core."
+      },
+      {
+        "index": 8,
+        "command": "year5_reference_route_audit.py --self-test",
+        "observed": "11 errors: EN core rejection; non-target goodbye object; exact file/event delta and inverse failures involving Hyunsu and EN midgame. Historical constants were not rewritten."
+      }
+    ],
+    "execution_coverage": "The selector enumerated 74 checks (57 static, 3 documentation, 14 engine). This nine-command run is targeted evidence, not completion of that selection. All 14 engines and the complete selected suite were not run.",
+    "other_observations": "Parent additionally reported direct old310 FAIL and en_coverage_check PASS from terminal tool output only. No separate raw artifact was supplied; neither is counted among the nine immutable captures or used to claim a new independent PASS.",
+    "historical_boundary": "ORDER-354's earlier 15 PASS/7 FAIL remains separate and unchanged. The newly triggered ORDER-309 source-admission failures are not relabeled as that inherited debt.",
+    "raw_artifacts": [
+      {
+        "path": ".git/full-game-localization/order309-static-00.json",
+        "sha256": "60a9860c4174d3ac233e17089d1e14c6902484ce35c196112cbabbcf85559e3b",
+        "returncode": 0
+      },
+      {
+        "path": ".git/full-game-localization/order309-static-01.json",
+        "sha256": "632b633e084f64a7abb9d3e958fb7925a4cec59441c3d9b56cef2529be5b7505",
+        "returncode": 0
+      },
+      {
+        "path": ".git/full-game-localization/order309-static-02.json",
+        "sha256": "edbe40f45dd4112a64932304a746442116f856eaa94e1898184de4dabee51c9e",
+        "returncode": 0
+      },
+      {
+        "path": ".git/full-game-localization/order309-static-03.json",
+        "sha256": "eb9a134cc7acd568a36b457e4102c62c4f656482a61f74ab0a45180d9a9c64c6",
+        "returncode": 1
+      },
+      {
+        "path": ".git/full-game-localization/order309-static-04.json",
+        "sha256": "7b9f1a3c86e4366447b3233e7ed06f24d358647b58b50174b5323096169618fd",
+        "returncode": 1
+      },
+      {
+        "path": ".git/full-game-localization/order309-static-05.json",
+        "sha256": "641fcf20e9905a18d3f3753b09fb7d1ee05e7d3cd159ffdf27d0bbaf008ac619",
+        "returncode": 1
+      },
+      {
+        "path": ".git/full-game-localization/order309-static-06.json",
+        "sha256": "1040efece0afe5c6a27ac5c3f08f6e9fd5722a1b6f929be617c962b414438a43",
+        "returncode": 0
+      },
+      {
+        "path": ".git/full-game-localization/order309-static-07.json",
+        "sha256": "beba6014b0bd307ad6fd20e4b8f2f6a887416e7ee6b25eb457a99a4d129e0317",
+        "returncode": 0
+      },
+      {
+        "path": ".git/full-game-localization/order309-static-08.json",
+        "sha256": "3c4f3bc9833416515ce4e185797a50ad83332244a7e7430ca89d289bfd318ae3",
+        "returncode": 1
+      }
+    ]
+  },
+  "required_findings": [
+    {
+      "id": "309-INTEGRATION-01",
+      "status": "OPEN",
+      "severity": "blocking",
+      "finding": "The changed current source cannot satisfy its existing successor-admission/historical-comparison consumers; four saved commands fail.",
+      "required_action": "Declare a separate bounded compatibility unit for current admission and exact historical inverses. Bind the full seven-file/17-leaf repair and nine current receipts; distinguish live values from historical projections, preserve old305/310/316 modules, fixtures and raw evidence, and test the actual affected consumers plus tamper/rollback/neighbor negatives. Do not refresh old expected hashes or suppress these failures."
+    },
+    {
+      "id": "309-INTEGRATION-02",
+      "status": "OPEN",
+      "severity": "blocking",
+      "finding": "The declared whole-unit completion gate has not been established by the nine-command subset.",
+      "required_action": "Keep ORDER-309 active/HOLD. After the separately declared integration repair, provide the applicable bounded gate results and a fresh source-bound independent follow-up; do not infer completion from prose acceptance or another work unit's GO."
+    }
+  ],
+  "preservation": {
+    "baseline": "7717fd7f72b04c40d684a8c27c6e93cc546bda4c",
+    "independent_text_check": "Exactly 17 string leaves change in seven files. All other leaves, keys, array orders, gameplay, tokens and line/paragraph breaks are preserved; final hashes match the independently read candidate.",
+    "protected_paths": [
+      "project.godot",
+      "docs/human_gates.json",
+      "docs/agent_review_decisions.json",
+      "content/meta/story_map.json",
+      "content/meta/story_rules.json",
+      "content/meta/event_lifecycle.json",
+      "content/meta/release_content_inventory.json",
+      "scenes/MainGame.gd",
+      "systems/DemoCoreLoopV2.gd",
+      "content/events/arc_midgame.json",
+      "content/events/core_loop_v2_events.json",
+      "tools/order305_demo_source_compat.py",
+      "tools/order310_demo_source_compat.py",
+      "tools/order316_header_source_compat.py"
+    ],
+    "existing_report_files_byte_identical": 82,
+    "existing_decisions_byte_identical": 105,
+    "authority": "project.godot, human evidence, public release manifest and historical approval records remain unchanged. Public GO1 applies only to its old exact package; full product and successor package are not promoted.",
+    "user_data": "No engine or save interaction was performed by this reviewer. No fresh real-user-directory census is claimed for this text-only review."
+  },
+  "evidence": [
+    {
+      "path": ".git/full-game-localization/order309-verify.py",
+      "sha256": "c5b7772db5887b5523fc5c4ab8d35f7d1e16ae70c624f15a83fe873256e807c2"
+    },
+    {
+      "path": ".git/full-game-localization/order309-self-check.json",
+      "sha256": "95ef321bc78bf6c5dc7de5a68d56dc683410d632e845a439d8e925fc8c7aa813"
+    },
+    {
+      "path": ".git/full-game-localization/order309-static-summary.json",
+      "sha256": "73a411450733cb2a0e9114446e436befcf8c9b65f82e7f42f82f41e359bd5797"
+    },
+    {
+      "path": ".git/full-game-localization/order309-selected-checks.json",
+      "sha256": "c44294fcc88554eb1c308e8185784f1a7dfc28c221bbe4b486dd73fe103592d4"
+    },
+    {
+      "path": ".git/full-game-localization/order309-run-checks.py",
+      "sha256": "8c159fbd1019adcf45e789f1d84b844d6094d3b468c3f4becbc7e5139b761f66"
+    },
+    {
+      "path": ".git/full-game-localization/order309-self-review.md",
+      "sha256": "1d00cd852da225de869ca57d1526ee449329cefe54afa1bcf62b25f2f3c6bb91"
+    }
+  ],
+  "limitations": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "fresh_rendered_screens",
+    "engine_execution",
+    "package_or_export_validation",
+    "complete_74_check_selection",
+    "full_chapter_or_all_English_tense_quality",
+    "internal_product_GO"
+  ],
+  "completion_statement": "ORDER-309 remains HOLD: target prose and current receipt repair acceptable; integration incomplete. Automated contract results do not establish literary quality, native approval or release authority."
+}
