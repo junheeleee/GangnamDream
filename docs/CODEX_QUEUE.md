@@ -51,12 +51,12 @@
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
 | 1 | [~] | ORDER-315 · 데모·StoryMode 상단 안전 여백 수리 | [315](queue_active/ORDER-315.md) | 착수 · StoryMode/controller 상단2파일·전용검사 · 314 REWORK 수리 |
-| 7 | [~] | ORDER-316 · 상단 수리 exact 소스 후속 호환 | [316](queue_active/ORDER-316.md) | 315 제품 커밋 뒤 exact 두파일 · 과거 핀 보존 |
-| 2 | [~] | ORDER-314 · 수리된 데모 KO/EN 화면·입력 표적 검수 | [314](queue_active/ORDER-314.md) | 16표면 관측 · 상단 안전여백 REWORK · 후속315 |
-| 3 | [~] | ORDER-302 · 체험판 대본 사실·영어 정합 수리 | [302](queue_active/ORDER-302.md) | 대본/표적 입력 확인 · 화면314 REWORK/새후보 OPEN |
-| 4 | [ ] | ORDER-303 · 다이사이 중국어 현금·결과·복귀 실제 화면 | [303](queue_active/ORDER-303.md) | P0 대본 수리 후 착수 · 미실행 |
-| 5 | [ ] | ORDER-309 · 본편 1장 후반 대본 장소·영어 정합 | [309](queue_active/ORDER-309.md) | 303 뒤 착수 · 미실행 |
-| 6 | [ ] | ORDER-313 · 본편 2장 대본 시간·영어 정합 | [313](queue_active/ORDER-313.md) | 309 뒤 착수 · 원격 R2 보존 · 미실행 |
+| 2 | [~] | ORDER-316 · 상단 수리 exact 소스 후속 호환 | [316](queue_active/ORDER-316.md) | 315 제품 커밋 뒤 exact 두파일 · 과거 핀 보존 |
+| 3 | [~] | ORDER-314 · 수리된 데모 KO/EN 화면·입력 표적 검수 | [314](queue_active/ORDER-314.md) | 16표면 관측 · 상단 안전여백 REWORK · 후속315 |
+| 4 | [~] | ORDER-302 · 체험판 대본 사실·영어 정합 수리 | [302](queue_active/ORDER-302.md) | 대본/표적 입력 확인 · 화면314 REWORK/새후보 OPEN |
+| 5 | [ ] | ORDER-303 · 다이사이 중국어 현금·결과·복귀 실제 화면 | [303](queue_active/ORDER-303.md) | P0 대본 수리 후 착수 · 미실행 |
+| 6 | [ ] | ORDER-309 · 본편 1장 후반 대본 장소·영어 정합 | [309](queue_active/ORDER-309.md) | 303 뒤 착수 · 미실행 |
+| 7 | [ ] | ORDER-313 · 본편 2장 대본 시간·영어 정합 | [313](queue_active/ORDER-313.md) | 309 뒤 착수 · 원격 R2 보존 · 미실행 |
 
 
 
