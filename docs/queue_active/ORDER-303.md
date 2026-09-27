@@ -2,11 +2,15 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [ ] ORDER-303 [표시·입력] 다이사이 중국어 현금·결과·복귀의 실제 소비자를 검수한다
+#### [~] ORDER-303 [표시·입력] 다이사이 중국어 현금·결과·복귀의 실제 소비자를 검수한다
 
-**[ ] 2026-09-27 Codex 준비 — 사용자 승인 P0 ORDER-302 뒤에 착수한다.** 부모 ORDER-157.
-ORDER-301 source `9911c36f973149036f1b909e75ac8686f04a9543`의 11키/22값을
-clean main `4da937b7edb09018cb27b5d36a7e7248968b5feb`의 동일 제품에서 검수한다.
+**[~] 2026-09-27 Codex 착수 — 만지는 파일: 아래 파일 소유권의 private helper·신규 증거와 마감 문서만.** 부모 ORDER-157.
+ORDER-302 수리7항목 source GO가 선행을 충족했다. clean main
+`ca1de8e1add53e09f6e3c5687a5958c75603af67`에서 착수하며 source 후보는
+`ca2670ded596bf111f668c59535c3d3603bddda5` / tree
+`12403c916dca2284c138610727be2f4b42702220`다. ORDER-301 대상11키/22값과
+runtime6파일은 동일하되 CN/TW 전체 파일은 데모 수리 후 지문으로 새로 결속한다.
+CLAUDE 현재 행을 포함한 착수 commit 뒤 source를 다시 관측하며 옛 후보를 상속하지 않는다.
 설계 입력은 private `order301-root-next-scope.json`
 SHA `37246060b7e6dad488827481ce8310e9a3d6481974a512332d7ccafe7eccea08`다.
 기존 선택19키/금융 다른 게임 검사는 반복하지 않는다.
@@ -60,11 +64,11 @@ SHA `37246060b7e6dad488827481ce8310e9a3d6481974a512332d7ccafe7eccea08`다.
   독립보고 정확복사 `docs/agent_reviews/ORDER-303.json`.
 - root: 새 private `.git/full-game-localization/order303-render.py`,
   `order303-render-*` 실제 산출물/`order303-root-*`·`order303-check*` 기록.
-- observer 저자 `/root/blackjack_accounting_tests`: 새 private
+- observer 저자 `/root/header_layout`: 새 private
   `order303-status-observer.gd/.tscn`만.
-- 기대값/validator 저자 `/root/release_status_crosscheck`: 새 private
+- 기대값/validator 저자 `/root/screen_path_probe`: 새 private
   `order303-oracle.json`, `order303-validate.py`, `order303-oracle-*` 기록만.
-- 비저자 `/root/blackjack_accounting_review`: 새 private `order303-*review*.json`만.
+- 비저자 `/root/screen_independent_review`: 새 private `order303-*review*.json`만.
   observer/oracle/runner 비저자로 사전 및 최종 source-bound 품질 판정.
 - 제품 code/locale/receipt/assets/project/human/공개/서사/금전 계약 변경은 비소유.
 
@@ -87,4 +91,3 @@ helper 사전 독립 검수 후 위14PNG/24raw 및 비시각 결과를 실행한
 미구현 선언 `538b97f`가 원격 사용자 승인302와 번호가 겹쳐303으로 보존했다.
 helper 작성·엔진 실행0. 최초 선언은 `codex/daisai-status-declaration-538b97f`에 남는다.
 이 대기 항목을 실제 착수할 때 clean source를 갱신하고 소유권을 다시 선언한다.
-
