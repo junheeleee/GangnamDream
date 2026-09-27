@@ -19,6 +19,7 @@ from pathlib import Path
 from typing import Any, Iterable
 
 import order305_demo_source_compat as demo_source
+import order310_demo_source_compat as latest_demo_source
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -2041,6 +2042,7 @@ def validate_story_rules(model: AuditModel, errors: list[str]) -> None:
 
 
 def validate_preserved_product_boundaries(model: AuditModel, errors: list[str]) -> None:
+    errors.extend(latest_demo_source.current_source_errors())
     instant_block = _instant_legend_block(model.game_state)
     instant_hash = _sha256_text(instant_block) if instant_block else "missing"
     if instant_hash != EXPECTED_INSTANT_LEGEND_SHA256:
@@ -2158,9 +2160,9 @@ def validate_preserved_product_boundaries(model: AuditModel, errors: list[str]) 
         except OSError as exc:
             errors.append(f"public demo frozen file unavailable: {relative}: {exc}")
             continue
-        if relative in demo_source.PATHS:
-            errors.extend(demo_source.source_errors(raw, relative))
-        actual_hash = _sha256_bytes(demo_source.project_bytes(raw, relative))
+        if relative in latest_demo_source.LIVE_PATHS:
+            errors.extend(latest_demo_source.source_errors(raw, relative))
+        actual_hash = _sha256_bytes(latest_demo_source.project_bytes(raw, relative))
         errors.extend(_public_demo_working_source_hash_errors(
             relative, expected_hash, actual_hash))
 

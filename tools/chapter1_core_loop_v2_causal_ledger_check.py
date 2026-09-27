@@ -35,6 +35,7 @@ import main_game_locale_history as locale_history
 import meta_title_locale_history as meta_title_history
 import meta_title_locale_successor as title_successor
 import order305_demo_source_compat as demo_source
+import order310_demo_source_compat as latest_demo_source
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -4539,10 +4540,10 @@ def _order305_audited_source_observation(
     """A later prose-only successor does not refresh the legacy source pin."""
     if relative != demo_source.KO_PATH:
         return observed, []
-    errors = demo_source.source_errors(raw, relative)
+    errors = latest_demo_source.source_errors(raw, relative)
     if hashlib.sha256(raw).hexdigest() != observed:
         errors.append("ORDER-305: legacy observed hash is not bound to raw current bytes")
-    return (observed if errors else demo_source.project_byte_hash(observed, relative), errors)
+    return (observed if errors else latest_demo_source.project_byte_hash(observed, relative), errors)
 
 
 def order305_source_boundary_self_test() -> tuple[list[str], int]:
@@ -4570,7 +4571,7 @@ def order305_source_boundary_self_test() -> tuple[list[str], int]:
 
 def _audited_source_snapshot_errors(
         source_hashes: dict[str, str]) -> list[str]:
-    errors: list[str] = []
+    errors: list[str] = latest_demo_source.current_source_errors()
     meta_title_raw: bytes | None = None
     inventory_registry_raw: bytes | None = None
     if "autoloads/DataRegistry.gd" in source_hashes:

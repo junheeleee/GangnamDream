@@ -41,6 +41,7 @@ from event_lifecycle import (  # noqa: E402
 )
 from event_schedule import DeferredFollowUpError, deferred_follow_ups  # noqa: E402
 import order305_demo_source_compat as demo_source  # noqa: E402
+import order310_demo_source_compat as latest_demo_source  # noqa: E402
 
 
 SCHEMA_VERSION = 1
@@ -942,7 +943,7 @@ def _source_file_digest(root: Path, errors: list[str]) -> str:
 
 def build_scope(root: Path | str = ROOT) -> tuple[dict[str, Any], list[str]]:
     repo = Path(root).resolve()
-    errors: list[str] = demo_source.current_source_errors(repo)
+    errors: list[str] = latest_demo_source.current_source_errors(repo)
 
     lifecycle_inputs = collect_lifecycle_inputs(repo)
     lifecycle = evaluate_author_only(lifecycle_inputs)

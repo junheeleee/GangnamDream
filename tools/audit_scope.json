@@ -1753,10 +1753,27 @@
   ],
   "checks": [
     {
-      "tool": "tools/order305_demo_source_compat.py --self-test",
-      "why": "ORDER-305 승인 원고 5파일/23leaf exact successor만 허용하고 기존 공개·역사 소스 핀은 역투영으로 보존한다. 인간 또는 package GO가 아니다",
+      "tool": "tools/order310_demo_source_compat.py --self-test",
+      "why": "Exact English21-string successor: raw current admission plus composed historical view, never an inherited public GO.",
+      "paths": [
+        "tools/order310_demo_source_compat.py",
+        "tools/order305_demo_source_compat.py",
+        "tools/year5_reference_route_audit.py",
+        "tools/chapter5_human_reject_audit.py",
+        "tools/full_body_translation_scope.py",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/story_graph_contract_audit.py",
+        "content/events_en/arc_events.json",
+        "content/events_en/core_loop_v2_events.json",
+        "playtests/order124/StoryChoiceM1M6Playtest.gd"
+      ]
+    },
+    {
+      "tool": "tools/order310_demo_source_compat.py --historical-self-test",
+      "why": "현재310 raw source 검증 뒤 immutable305의 기존132회귀를 그대로 실행한다. 305/304 역사 핀·인간·package GO는 갱신하지 않는다",
       "paths": [
         "tools/order305_demo_source_compat.py",
+        "tools/order310_demo_source_compat.py",
         "tools/story_graph_contract_audit.py",
         "tools/year5_reference_route_audit.py",
         "tools/chapter5_human_reject_audit.py",
@@ -1967,6 +1984,7 @@
       "why": "전체 출시 포함 원문1708/11680과 M07~M60 정적 closure192/1751·reader/foreshadow·author-only 제외·기존 번역 보호를 잠근다",
       "paths": [
         "tools/order305_demo_source_compat.py",
+        "tools/order310_demo_source_compat.py",
         "content/meta/event_lifecycle.json",
         "content/meta/story_map.json",
         "content/events/**",
@@ -2142,6 +2160,7 @@
       "why": "M08~M50 월경계 owner·raw closure·typed scheduler·M01~M06 보호 계약의 변이 거부",
       "paths": [
         "tools/order305_demo_source_compat.py",
+        "tools/order310_demo_source_compat.py",
         "content/events/**",
         "content/events_en/**",
         "content/meta/story_graph_contract.json",
@@ -2160,6 +2179,7 @@
       "why": "실제 M08~M50 사건 그래프가 exact month owner·guard와 공개 데모 불변 계약을 지키는지 검사",
       "paths": [
         "tools/order305_demo_source_compat.py",
+        "tools/order310_demo_source_compat.py",
         "content/events/**",
         "content/events_en/**",
         "content/meta/story_graph_contract.json",
@@ -2279,6 +2299,7 @@
       "why": "마지막 해 career·startup exact route를 reference-only·non-live로 고정하고 배우·문서·선택·월간 여력·보호 hash 변이를 거부한다",
       "paths": [
         "tools/order305_demo_source_compat.py",
+        "tools/order310_demo_source_compat.py",
         "content/meta/narrative_spine.json",
         "content/meta/story_map.json",
         "content/meta/story_rules.json",
@@ -2634,6 +2655,7 @@
       "why": "ORDER-150 인간 REJECT 수리의 시간축·원격 연락·화자·legacy·공개 데모 동결 mutation 자체 검사",
       "paths": [
         "tools/order305_demo_source_compat.py",
+        "tools/order310_demo_source_compat.py",
         "tools/chapter5_human_reject_audit.py"
       ]
     },
@@ -2642,6 +2664,7 @@
       "why": "M49~M60 인간 REJECT 수리의 표현 projection·시간축·원격 사실·화자 계약·legacy 진입 차단과 M01~M06 공개 데모 동결 검사",
       "paths": [
         "tools/order305_demo_source_compat.py",
+        "tools/order310_demo_source_compat.py",
         "assets/event_visual_contracts.json",
         "autoloads/BGMPlayer.gd",
         "autoloads/GameState.gd",
@@ -2758,6 +2781,7 @@
       "why": "Chapter 1 48행 인과 원장·coverage gap·현재 exact debt snapshot",
       "paths": [
         "tools/order305_demo_source_compat.py",
+        "tools/order310_demo_source_compat.py",
         "content/meta/chapter1_core_loop_v2_causal_ledger.json",
         "tools/chapter1_core_loop_v2_causal_debt_baseline.json",
         "tools/chapter1_core_loop_v2_causal_ledger_check.py",
@@ -2807,6 +2831,7 @@
       "why": "Chapter 1 인과 원장 malformed·pointer·reader·coverage·baseline 변이 거부",
       "paths": [
         "tools/order305_demo_source_compat.py",
+        "tools/order310_demo_source_compat.py",
         "content/meta/chapter1_core_loop_v2_causal_ledger.json",
         "tools/chapter1_core_loop_v2_causal_debt_baseline.json",
         "tools/chapter1_core_loop_v2_causal_ledger_check.py",
@@ -4665,6 +4690,7 @@
       "why": "승인된 번역의 정확한 역사 지문 전이와 기존 non-live·보호 manifest를 순수 소스에서 대조한다",
       "paths": [
         "tools/order305_demo_source_compat.py",
+        "tools/order310_demo_source_compat.py",
         "tools/year5_reference_route_audit.py"
       ]
     },

@@ -19,6 +19,7 @@ from dataclasses import dataclass
 from typing import Any, Callable
 
 import order305_demo_source_compat as order305_compat
+import order310_demo_source_compat as latest_demo_compat
 
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -402,7 +403,7 @@ def load_inputs() -> Inputs:
     # Admission uses the live bytes, never a historical projection. The KO/EN
     # indexes below consume these same snapshots rather than reopening them.
     source_bytes: dict[str, bytes] = {}
-    for relative in order305_compat.PATHS:
+    for relative in latest_demo_compat.LIVE_PATHS:
         with open(os.path.join(ROOT, relative), "rb") as handle:
             source_bytes[relative] = handle.read()
     contract = load_json(CONTRACT_PATH)
@@ -424,33 +425,34 @@ def load_inputs() -> Inputs:
 
 def validate(data: Inputs) -> list[str]:
     errors: list[str] = []
-    if set(data.source_bytes) != set(order305_compat.PATHS):
-        errors.append("ORDER-305 current source snapshot paths drifted")
-    for relative in order305_compat.PATHS:
+    if set(data.source_bytes) != set(latest_demo_compat.LIVE_PATHS):
+        errors.append("ORDER-310 current source snapshot paths drifted")
+    for relative in latest_demo_compat.LIVE_PATHS:
         raw = data.source_bytes.get(relative)
         if not isinstance(raw, bytes):
-            errors.append(f"ORDER-305 current source snapshot missing: {relative}")
+            errors.append(f"ORDER-310 current source snapshot missing: {relative}")
             continue
-        source_errors = order305_compat.source_errors(raw, relative)
+        source_errors = latest_demo_compat.source_errors(raw, relative)
         errors.extend(source_errors)
         if source_errors:
             continue
         indexed = {
             "content/events/arc_events.json": data.events_ko,
             "content/events_en/arc_events.json": data.events_en,
+            "content/events_en/core_loop_v2_events.json": data.events_en,
         }.get(relative)
         if indexed is not None:
             # In-memory mutation fixtures must not substitute a historical
             # changed event while presenting the approved live bytes as proof.
             # Leave unrelated graph mutation cases to their original checks.
-            changed_ids = {patch[0] for patch in order305_compat.PATCHES[relative]}
+            changed_ids = latest_demo_compat.LIVE_EVENT_IDS[relative]
             for event in json.loads(raw):
                 event_id = event["id"]
                 if event_id not in changed_ids:
                     continue
                 if canonical_bytes(indexed.get(event_id)) != canonical_bytes(event):
                     errors.append(
-                        f"ORDER-305 indexed event differs from live snapshot: {relative}#{event_id}"
+                        f"ORDER-310 indexed event differs from live snapshot: {relative}#{event_id}"
                     )
     contract = data.contract
     if contract.get("schema_version") != 1:
@@ -572,7 +574,7 @@ def validate(data: Inputs) -> list[str]:
         if event is None:
             errors.append(f"demo source event missing: {path}#{event_id}")
             continue
-        historical_event = order305_compat.project_payload([event], path)[0]
+        historical_event = latest_demo_compat.project_payload([event], path)[0]
         semantic_rows.append({
             "path": path, "event_id": event_id, "event": historical_event,
         })
@@ -1158,6 +1160,37 @@ def run_self_test(base: Inputs) -> tuple[list[str], int]:
                      if row["id"] == "arc_sangchul_01_meet")
         data.events_ko[event["id"]] = event
 
+    # Separate successor cases leave all ORDER-305 and original graph fixtures
+    # intact, including the assertion that those original failures are unmasked.
+    for relative in latest_demo_compat.PATHS:
+        def mutate_latest_raw(data: Inputs, relative: str = relative) -> None:
+            data.source_bytes[relative] += b"\n"
+        cases.append((f"order310_raw_drift:{relative}", mutate_latest_raw))
+
+        def rollback_latest_raw(data: Inputs, relative: str = relative) -> None:
+            data.source_bytes[relative] = latest_demo_compat.verified_blobs(relative)[0]
+        cases.append((f"order310_raw_rollback:{relative}", rollback_latest_raw))
+
+        def missing_latest_raw(data: Inputs, relative: str = relative) -> None:
+            data.source_bytes.pop(relative)
+        cases.append((f"order310_raw_missing:{relative}", missing_latest_raw))
+
+    for relative, leaves in latest_demo_compat.JSON_LEAVES.items():
+        for event_id, leaf_path in leaves:
+            def mutate_latest_leaf(data: Inputs, event_id: str = event_id,
+                                   leaf_path: tuple = leaf_path) -> None:
+                parent = data.events_en[event_id]
+                for key in leaf_path[:-1]:
+                    parent = parent[key]
+                parent[leaf_path[-1]] += " unapproved"
+            cases.append((f"order310_indexed_leaf:{relative}:{event_id}:{leaf_path}", mutate_latest_leaf))
+
+        def rollback_latest_event(data: Inputs, relative: str = relative) -> None:
+            before, _after = latest_demo_compat.verified_blobs(relative)
+            event_id = latest_demo_compat.JSON_LEAVES[relative][0][0]
+            data.events_en[event_id] = next(row for row in json.loads(before) if row["id"] == event_id)
+        cases.append((f"order310_indexed_rollback:{relative}", rollback_latest_event))
+
     @case("network_w52_prelaunch")
     def _(data: Inputs) -> None:
         data.main_source = data.main_source.replace(
@@ -1423,10 +1456,10 @@ def run_self_test(base: Inputs) -> tuple[list[str], int]:
         errors = validate(candidate)
         if not errors:
             failures.append(f"self-test mutation escaped: {name}")
-        if not name.startswith("order305_") and any(
-            error.startswith("ORDER-305") for error in errors
+        if not name.startswith(("order305_", "order310_")) and any(
+            error.startswith(("ORDER-305", "ORDER-310")) for error in errors
         ):
-            failures.append(f"ORDER-305 guard masked an original graph self-test: {name}")
+            failures.append(f"successor guard masked an original graph self-test: {name}")
     return failures, len(cases) + 1
 
 
