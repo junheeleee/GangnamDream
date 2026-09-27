@@ -1,3 +1,34 @@
+# ORDER-304 — 재혁 EN3leaf 수정의 역사 검사 호환
+
+[x] 2026-09-27. 비저자 작업 한정 GO. ORDER-302 전체·본편·출시는 HOLD다.
+
+- source `ae0a302574998c5415ff7a2e0428f80006648cf5`, tree `a1360b304b37c8fbc3fe4377d631e5f8fe431b35`.
+- [독립 보고](../agent_reviews/ORDER-304.json) SHA `0202c23adebbc748d055c9720f400b16c4e786b185da89a4bb1687ba8cd2f76e`.
+- 정확한 EN 파일/객체 및3leaf 전이만 역투영한다. payload/context/bytes/hash와155
+  파일 census를 연결했으며 역사 hash/registry 및 raw 현재 원고는 바꾸지 않았다.
+- volume은 실제 `graph:en_mapped_immediate` SHA 한 값만 갱신. 저장 observations·
+  기존 부채30·outlier12·HOLD 불변이며 현재 report는 새 EN 본문을 그대로 계측한다.
+- 최초실패3오류와 새단문중복/155census 수리 중 실패2→1 원본을 보존했다.
+  `I'll be in touch.`는 다른 사건에도 있어 whole-file/whole-leaf identity로 구별했다.
+- 최종 year5 normal 및 self552(신규39포함), exact3leaf/토큰/개행/역치환 보존 PASS.
+  volume normal/self14는 같은 원고·baseline을 사용한8c57aa7 결과를 재사용한다.
+  EN coverage/Hangul/story-demo3종은 원고3fb9890 결과를 재사용한다.
+- 최종 private 원문: `order302-demo-check-year5-after-third.json`
+  `f5e9f6a41619a21d1f5f5cfa1bcb3bea3d1adffd392ca83beef9c3df9bce1fca`,
+  `year5-self-after-third` `968c49fa227f4cef6674c5a3b77d762bfb52c16213ab64dfca7ec1703e98db25`,
+  `preservation-third` `9bb2ac3eef8c97006d7675d77181b3bedeb1a50d72e1a30775ba78233900a334`.
+  모두 input1214 전후 동일/exit0/stderr0. 파일명 약칭의 prefix는 `order302-demo-check-`다.
+- 도달/상태: static 원문 대조만; gameplay/저장/효과/공개 package 변경0, 새엔진0,
+  화면0·입력0. producer=EN reunion3leaf, reader=기존 StoryMode overlay이며 이번에
+  실제 화면을 관찰하지 않았다. 포기 손실=오역 지속/과거검사실패, 서사위치=M05
+  기존 장면(신규저작0·tier 재판정 없음). 닫는 것=exact 역사 검사 호환만.
+- 자동 PASS는 품질 GO가 아니다. 위 GO는 비저자에게 검수받은 이 작업만이며,
+  사람·원어민·물리패드·새package·전체게임 판정은 미관측이다.
+- 규범 판정: 모두 일회성/기존 WORK_UNIT 보존·위임 규칙 적용, 새 정본 규칙 없음.
+  마감 metadata 검사는 후속 WORK_LOG에 별도 기록한다.
+
+## 착수 선언 원문 보존
+
 # Active Queue Spec: ORDER-304
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.

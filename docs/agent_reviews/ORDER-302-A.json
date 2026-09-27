@@ -1,0 +1,92 @@
+{
+  "unit_id": "ORDER-302-A",
+  "parent_unit_id": "ORDER-302",
+  "scope": "work_unit",
+  "reviewer": "/root/blackjack_accounting_review",
+  "authority": "user_delegated_agent_final",
+  "independent": true,
+  "reviewed_at": "2026-09-27T09:09:32+09:00",
+  "timezone": "Asia/Seoul",
+  "subject": {
+    "kind": "source",
+    "commit": "ae0a302574998c5415ff7a2e0428f80006648cf5",
+    "tree": "a1360b304b37c8fbc3fe4377d631e5f8fe431b35",
+    "manifest_sha256": null
+  },
+  "verdict": "HOLD",
+  "partial_scope_result": "GO",
+  "required": [
+    "Complete the remaining ORDER-302 facts, tense and quotation/formatting work; this three-leaf batch does not complete the parent order.",
+    "Obtain the remaining declared runtime/screens/new-candidate evidence and approvals without inheriting the historical public package GO."
+  ],
+  "required_for_partial_scope": [],
+  "approved_scope": "Only the three declared English perspective corrections in arc_jaehyuk_01_reunion, exact preservation and their static language evidence. ORDER-302 overall remains HOLD and in progress.",
+  "population": {
+    "english_changed_leaves": 3,
+    "korean_comparison_leaves": 3,
+    "unchanged_regional_comparison_leaves": 9,
+    "events_changed": 1,
+    "new_engine_runs": 0,
+    "new_screenshots": 0
+  },
+  "review": {
+    "observed_commit": "ae0a302574998c5415ff7a2e0428f80006648cf5",
+    "observed_tree": "a1360b304b37c8fbc3fe4377d631e5f8fe431b35",
+    "observed_worktree_clean": true,
+    "canonical_subject": "Independently invoked human_gates.current_agent_source_subject; equals clean HEAD and this subject.",
+    "baseline_commit": "9e418ee68fcdf5e338c45bf9fc5712c04d898754",
+    "english_product_commit": "3fb98909c0bb47ef1fff17964e6c227916791ffc",
+    "independence": "Reviewer authored neither English changes, compatibility checker nor capture/preservation helpers. Read-only source/raw/hash verification; no official audit or engine rerun."
+  },
+  "method": [
+    "Read project authority, skill, active declaration, Korean and English complete event including both choices and variants, Jaehyuk canon and localization voice guidance.",
+    "Directly read the corresponding complete description and two results in JA, zh-CN and zh-TW, not merely the auxiliary review summary.",
+    "Independently reconstructed the exact whole-file three-substring forward delta, checked immutable Git old/new file and event-object hashes, tokens/newline counts and scoped tracked diff.",
+    "Decoded and SHA/length-verified static capture streams and source-input maps; bridged earlier execution commits to the clean final candidate without claiming a rerun."
+  ],
+  "verified": {
+    "description": "our whole service → their whole service: third-person narration refers to the two former barracks companions; no narrator participation is implied.",
+    "choice_0": "You'll be in touch. → I'll be in touch.: Jaehyuk promises that he will initiate contact, matching 내가 연락할게 and the subsequent relationship context.",
+    "choice_1": "Why now, why you. → Why now—why me?: Minjun wonders why Jaehyuk contacted him now, preserving the Korean inward doubt rather than addressing Jaehyuk.",
+    "preservation": "Exact whole-file reconstruction proves all other strings, object fields, choices, order, IDs, effects and metadata unchanged. Each changed leaf retains its one {name}; newline counts remain 8/3/3. Existing single versus double quotation delimiters are not normalized in this batch.",
+    "regional_comparison": "JA/CN/TW all nine corresponding leaves already preserve the shared service history, Jaehyuk's contact promise and Minjun's why-me question. No regional rewrite is necessary for these three meanings; this is agent language review, not native approval.",
+    "language_gates": "At clean 3fb9890, EN coverage, English zero-Hangul and story-demo localization each passed with exit 0, empty stderr and 1214 unchanged input pins. Current English and checker bytes match those executions; only the later declared volume baseline/year5 checker differ among their pinned inputs.",
+    "compatibility": "The real year5/volume regressions and subsequent checker repairs are separately owned by ORDER-304. Final same-source year5 normal/self and preservation pass; this does not expand the English editing scope.",
+    "identity_and_limits": "Final preservation at ae0a302 confirms the three exact changed leaves and protected human gate/release inventory/project/audio manifest bytes. Baseline-to-final diff --check is clean; no new build or package is approved."
+  },
+  "findings_and_limits": [
+    "No mandatory defect found within the three English corrections.",
+    "Description has eight newlines in EN versus nine in KO/JA/CN/TW before and after this edit. The pre-existing missing blank line before the last spoken line belongs to the remaining formatting review, not a new regression.",
+    "Remaining ORDER-302 items 1,2,3,5,6,7 and full eleven-scene tense/quotation review remain open. This report is not a whole-order GO and must not create one in the decision ledger.",
+    "Historical public GO applies only to its exact old package. New source, future package, full product and casino UI QA do not inherit it."
+  ],
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "Actual rendering/input, glyphs, wrapping, audio, five-locale runtime, new package and new public-demo candidate approval.",
+    "Remaining whole-order work, full audit/240-week play, and future closure metadata/checks."
+  ],
+  "evidence": {
+    ".git/full-game-localization/order302-demo-check-en-first.json": "9dff857cbeb1b74d08ca5c403a33d340814139808c605042edf39924a9dab3fb",
+    ".git/full-game-localization/order302-demo-check-english-hangul-first.json": "bf74227f54e616031345b93499390b9f814d2ea00162a18255a9a8e4c1c114a9",
+    ".git/full-game-localization/order302-demo-check-story-demo-first.json": "be1943d1309f696f40dd633dbdebd51079c05d208567d579d9fd142d9a5f09ea",
+    ".git/full-game-localization/order302-demo-check-preservation-third.json": "9bb2ac3eef8c97006d7675d77181b3bedeb1a50d72e1a30775ba78233900a334",
+    ".git/full-game-localization/order302-demo-check-year5-after-third.json": "f5e9f6a41619a21d1f5f5cfa1bcb3bea3d1adffd392ca83beef9c3df9bce1fca",
+    ".git/full-game-localization/order302-demo-check-year5-self-after-third.json": "968c49fa227f4cef6674c5a3b77d762bfb52c16213ab64dfca7ec1703e98db25",
+    ".git/full-game-localization/order302-demo-check-capture.py": "fa8ae245089389ec945554b965abb88bf8b069e6043ade9096df6dc0aec657ae",
+    ".git/full-game-localization/order302-demo-preservation.py": "e2c1f0ed1ac1a3dd6d520b9f21aee384404c2346a6d442d58ce5acef5cab1eda",
+    "content/events/arc_events.json": "317cd11f8cf2cb29f15052fee16b17d5fef568fec1ed86dae26360ca5b5407ae",
+    "content/events_en/arc_events.json": "af12b86b48709bb2af0c52baf4036fc4ed902edb6e3cb5b1dc48dafb7de3a982",
+    "content/events_ja/story_demo_events.json": "661f9dcf1b958ab9edc5707ca3155e675670b1394fc2ce0e341c6d5456e28a08",
+    "content/events_zh-CN/story_demo_events.json": "4e749e041c7d463d26aa3c54da284b4d5da1455611b0af651b74a81b6048bbc8",
+    "content/events_zh-TW/story_demo_events.json": "33a5b165970675646d7144d42da92884eb3d4bc9b846635369d6ea2a3d5097a9",
+    "docs/I18N_GLOSSARY.md": "001c40708a3f65f58e36ba7cdf99e57055c2870a0d06e5d9f4f0ba59d9ad1d62",
+    "docs/STORY_BIBLE.md": "cdea7d74d8317e26f43f93ea749d87a8f483b96ddc36354490ef3449a4311a22",
+    "docs/CANON_MAP.md": "3cf3698fbe481522ecb5c306e30b5be004184bbdb4f0814054f9eacc1cb78446",
+    "tools/en_coverage_check.py": "adab57b9f18fe2f3b1232fcc471246a02331e8753e98280bb3450deaf23e0c44",
+    "tools/english_hangul_audit.py": "3b6403e5e6d54f561ae5933850a263e90f513b2376c7efe3e7248456dfc78d79",
+    "tools/story_demo_localization_audit.py": "39c1f2ab38d273bc2f2f6d629008484f603edae083a9ebcf026a2c003c9f0ebe",
+    "tools/human_gates.py": "59b62b8b8ee0ab3cb33a6c99f7802f8118d85472a0a2942e80ed0781ee7b47a1"
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "unit_id": "ORDER-304",
+  "scope": "work_unit",
+  "reviewer": "/root/blackjack_accounting_review",
+  "authority": "user_delegated_agent_final",
+  "independent": true,
+  "reviewed_at": "2026-09-27T09:09:32+09:00",
+  "timezone": "Asia/Seoul",
+  "subject": {
+    "kind": "source",
+    "commit": "ae0a302574998c5415ff7a2e0428f80006648cf5",
+    "tree": "a1360b304b37c8fbc3fe4377d631e5f8fe431b35",
+    "manifest_sha256": null
+  },
+  "verdict": "GO",
+  "required": [],
+  "approved_scope": "Exact historical-checker compatibility for ORDER-302 A's three English corrections and a single observed EN graph hash refresh. No historical registry expansion, debt waiver, new content approval or whole-product/release GO.",
+  "population": {
+    "approved_english_leaves": 3,
+    "history_checker_files": 1,
+    "volume_baseline_fields": 1,
+    "new_transition_self_checks": 39,
+    "final_year5_self_cases": 552,
+    "volume_self_cases": 14,
+    "captured_invocations_reviewed": 16,
+    "raw_streams_verified": 32,
+    "new_engine_runs": 0
+  },
+  "review": {
+    "observed_commit": "ae0a302574998c5415ff7a2e0428f80006648cf5",
+    "observed_tree": "a1360b304b37c8fbc3fe4377d631e5f8fe431b35",
+    "observed_worktree_clean": true,
+    "canonical_subject": "Independently invoked human_gates.current_agent_source_subject; equals this subject and clean HEAD.",
+    "declaration_commit": "8ea5502",
+    "first_compatibility_commit": "8c57aa7fa730a6c81a457f21fb125a1921607f5e",
+    "second_compatibility_commit": "ec779378252a5d73e474114dfe1fbe2bd85db8e0",
+    "independence": "Reviewer authored no product, audit, baseline or helper changes and ran no official suite/engine. Independently read each narrow source revision and verified existing raw evidence."
+  },
+  "method": [
+    "Read the active compatibility declaration, entire added inverse/self-test block, its payload/context/bytes/hash/census call sites, live raw source guard, and surrounding historical registry flow.",
+    "Independently recomputed old/new EN file and canonical event-object digests from fixed Git blobs and verified the exact three-edit forward whole-file reconstruction.",
+    "Read volume observation/hash/baseline comparison logic and the full capture/preservation helpers; independently reversed the single baseline hash to reproduce all old raw bytes.",
+    "Verified every one of 16 captures: raw base64/length/SHA/UTF-8 equality, completion, exit, clean unchanged HEAD/tree/status, 1214 unchanged input pins. All final-third inputs match current files; historical bridges differ only in the declared checker/baseline files."
+  ],
+  "verified": {
+    "exact_inverse": "Only the declared EN path and exact successor object are projected. Both immutable Git file/object SHA pairs and unique old anchors prove the full three-edit transition. Bytes return the proven predecessor only after complete current-byte identity; non-target rows, order, types, IDs and other text remain visible.",
+    "census_guard": "The direct ORDER-155 Git file census removes this single path only when the validated inverse actually changes current bytes and exactly equals the actual ORDER-155 baseline blob. Wrong path, no-op predecessor, modified current bytes or wrong baseline are retained; read failures retain the path and Git return status.",
+    "raw_boundary": "validate_manifest separately rejects any current raw EN file outside the approved successor before historical projection. Runtime/event-source census is not rewritten. Existing historical expected hashes and registries are unchanged.",
+    "self_test": "Final year5 normal and self-test at ae0a302 pass, exit 0, stderr empty; self-test reports 552 cases including 39 new transition checks. Added boundaries cover exact positive paths, payload immutability/idempotence, duplicate/type/order/ID/path changes, unrelated repeated phrase and exact census conditions.",
+    "volume": "Only source_hashes.graph:en_mapped_immediate changes from 6d1205134c795ecdca45761d15c6a5f660ce4434d80354419d574ebf3ff93838 to cca7462b8ee89b58801f13e661599397439acac9935d427d9e75f4034619f6c6. All observations/allowlisted findings and all other baseline bytes are preserved; this is not a character-count cancellation claim.",
+    "volume_evidence_bridge": "Volume normal and self-test14 passed at 8c57aa7. Their inputs match final except year5_reference_route_audit.py; volume imports no year5 audit adapter. Final preservation recomputed current volume report/baseline equality at ae0a302. These are reused evidence, not final-head volume reruns.",
+    "preserved_status": "30 known structural findings, 12 outliers, full_game_volume_status=HOLD, runtime_trace=PENDING and human_density_gate=OPEN remain. Year5 output remains reference_only/topology invalidated/r1b_allowed=false; no previous rejection is promoted.",
+    "limited_neighbor_review": "story_graph_contract demo semantic hash uses KO event slices, not this EN wording. chapter5_human_reject frozen-file set excludes EN arc_events and does not reference this Jaehyuk event. Read-only impact review found no additional affected raw-freeze gate; neither audit was rerun.",
+    "source_and_capture": "Final source diff is confined to declared English three substrings, compatibility checker, one volume hash and declared status/spec/queue metadata. Capture inputs are repository source pins, not original-user-save inventories; no user-save preservation or gameplay behavior is inferred."
+  },
+  "retained_failures": [
+    "At 3fb9890: year5 normal failed with three historical drift errors; volume normal failed with one EN graph hash drift. Both original results remain FAIL.",
+    "At 8c57aa7: year5 normal/self failed with two errors and preservation failed because the short new I'll phrase also exists in another event. Repair changed byte inverse to proven exact-predecessor return and preservation to full-leaf inverse.",
+    "At ec77937: year5 normal/self retained one direct Git census error; preservation passed. Final exact baseline-conditioned census repair resolves that remaining defect without broad path ignoring.",
+    "Earlier failed self-test invocations stopped at preflight and are not counted as completed suites. Only the final-third self-test supplies the 552-case PASS."
+  ],
+  "findings_and_limits": [
+    "No mandatory unresolved defect within the declared compatibility scope.",
+    "ORDER-302 remains HOLD/in progress; its three-leaf partial result is separate. Full product, historical public package, native and human approval boundaries are unchanged.",
+    "Post-review metadata closure, selector/context/queue/dashboard checks and decision-ledger writes are not yet observed and are not asserted PASS here."
+  ],
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "Engine/runtime, screens, audio, original user-save behavior, new package or new demo/release approval.",
+    "Full audit, 240-week play, remaining ORDER-302 work and subsequent closure metadata/checks."
+  ],
+  "evidence": {
+    ".git/full-game-localization/order302-demo-check-en-first.json": "9dff857cbeb1b74d08ca5c403a33d340814139808c605042edf39924a9dab3fb",
+    ".git/full-game-localization/order302-demo-check-english-hangul-first.json": "bf74227f54e616031345b93499390b9f814d2ea00162a18255a9a8e4c1c114a9",
+    ".git/full-game-localization/order302-demo-check-preservation-first.json": "87c1689b1a3c4f8c354a9da2e430e635f96ee53051223d784bf26b8d98ec0077",
+    ".git/full-game-localization/order302-demo-check-preservation-second.json": "9bd7da00e3303f4d282f42e8813fda2a186966648c8721e1c7a3ec88a1ca24a8",
+    ".git/full-game-localization/order302-demo-check-preservation-third.json": "9bb2ac3eef8c97006d7675d77181b3bedeb1a50d72e1a30775ba78233900a334",
+    ".git/full-game-localization/order302-demo-check-story-demo-first.json": "be1943d1309f696f40dd633dbdebd51079c05d208567d579d9fd142d9a5f09ea",
+    ".git/full-game-localization/order302-demo-check-volume-after.json": "2628eef14b41555e3244b52210dcce91b0fbb7746cfe235ff6b56da1bd4074f8",
+    ".git/full-game-localization/order302-demo-check-volume-before.json": "06df732b8a196a764d150cedcf48d8e47a57e3f97ebf6e338014974d44d0ecf7",
+    ".git/full-game-localization/order302-demo-check-volume-self-after.json": "9eba4fb9a20fb000c718da1fe3e17bbad8527ecc4b772cba72ba0d2b6875b1c8",
+    ".git/full-game-localization/order302-demo-check-year5-after-second.json": "52891dc6b6bd010c44e81245fa47d3c42ad7aec82f748dd58a0129946dcd4c97",
+    ".git/full-game-localization/order302-demo-check-year5-after-third.json": "f5e9f6a41619a21d1f5f5cfa1bcb3bea3d1adffd392ca83beef9c3df9bce1fca",
+    ".git/full-game-localization/order302-demo-check-year5-after.json": "387e53bd6484bc5ea1b928c48e018bb22623166fd2ea4a728550a3e4b731c733",
+    ".git/full-game-localization/order302-demo-check-year5-before.json": "afbc18820f283718d2a34696be30519eca5ad657817fe7de3b0d615731b81765",
+    ".git/full-game-localization/order302-demo-check-year5-self-after-second.json": "5ce86a95238d25a23e583599c415f12d80c301562bf895c70d75c5da61136da6",
+    ".git/full-game-localization/order302-demo-check-year5-self-after-third.json": "968c49fa227f4cef6674c5a3b77d762bfb52c16213ab64dfca7ec1703e98db25",
+    ".git/full-game-localization/order302-demo-check-year5-self-after.json": "cef6140ef16f341a269edb018bad4a3df81a440412e185328c177df9dade0379",
+    ".git/full-game-localization/order302-demo-check-capture.py": "fa8ae245089389ec945554b965abb88bf8b069e6043ade9096df6dc0aec657ae",
+    ".git/full-game-localization/order302-demo-preservation.py": "e2c1f0ed1ac1a3dd6d520b9f21aee384404c2346a6d442d58ce5acef5cab1eda",
+    "content/events_en/arc_events.json": "af12b86b48709bb2af0c52baf4036fc4ed902edb6e3cb5b1dc48dafb7de3a982",
+    "tools/year5_reference_route_audit.py": "e8520ba28198076b1de4d4d33b740db1f5277f431628808dfaa6938baf387a8b",
+    "tools/full_game_volume_baseline.json": "967bc33c6431cec2ffc2fcce3f47280d8b4c1ba25a1fa913f31cb2bc1c9c7a1d",
+    "tools/full_game_volume_audit.py": "d8b4f7ca391adf55a91e6eeb03a5013d2f155b1532fa1c10cb4379db881f9687",
+    "tools/story_graph_contract_audit.py": "b2131066f6b2388094d4e75210fc13efc91d355391bd597d36a2cd70d358bb52",
+    "tools/chapter5_human_reject_audit.py": "cd5832a0d3d93715d4b68f49abc7133a796ecfe0e29a3d285be161f53239835f",
+    "tools/human_gates.py": "59b62b8b8ee0ab3cb33a6c99f7802f8118d85472a0a2942e80ed0781ee7b47a1"
+  }
+}

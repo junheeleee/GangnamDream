@@ -3703,6 +3703,45 @@
         "path": "docs/agent_reviews/ORDER-301.json",
         "sha256": "bdf37301efdac47c612b98f3a3f774eee3efae7991b7eead265025e668c677b7"
       }
+    },
+    {
+      "id": "order-304-source-ae0a302-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-27",
+      "decided_by": "/root/blackjack_accounting_review",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-304",
+      "subject": {
+        "kind": "source",
+        "commit": "ae0a302574998c5415ff7a2e0428f80006648cf5",
+        "tree": "a1360b304b37c8fbc3fe4377d631e5f8fe431b35",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-304.json",
+          "sha256": "0202c23adebbc748d055c9720f400b16c4e786b185da89a4bb1687ba8cd2f76e"
+        },
+        {
+          "kind": "automated_contract",
+          "path": "docs/queue_archive/ORDER-304.md",
+          "sha256": "ad2079d8525221e12a12f06c850f84d6c133891a55f862fff7b32053f6c0c67c"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "Actual runtime, rendering, input, new package and the remaining ORDER-302 prose repairs.",
+        "Whole-product/release judgment, future metadata closure and any external publication."
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-304.json",
+        "sha256": "0202c23adebbc748d055c9720f400b16c4e786b185da89a4bb1687ba8cd2f76e"
+      }
     }
   ]
 }

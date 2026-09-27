@@ -78,4 +78,21 @@
 - EN `description`의 개행8 / KO·JA·CN·TW 개행9는 수정 전부터 있던 차이다.
   좋은 옷/시계/얼굴 지문 뒤 마지막 대사 앞 빈 줄은 수리5의 형식 전수에서 함께 본다.
   배치 A가 만든 회귀나 이번에 고친 항목으로 세지 않는다.
-- 배치 A에서 감지한 역사 검사/volume hash 호환은 별도 [304](ORDER-304.md)가 소유한다.
+- 배치 A에서 감지한 역사 검사/volume hash 호환은 별도 [304](../queue_archive/ORDER-304.md)가 소유한다.
+
+### 배치 A 완료와 다음 시작점 (2026-09-27)
+
+재혁 EN3leaf/3substring 수리는 원고 `3fb9890`, 검사 호환 포함 후보
+`ae0a302574998c5415ff7a2e0428f80006648cf5`에서 독립 부분 검수를 마쳤다.
+[302-A 보고](../agent_reviews/ORDER-302-A.json) SHA `538315b80cb77f6576caaf628b92e2a09b31494cc543b077a77e15ae07045c9c`.
+전체 ORDER-302는 HOLD이며 이 부분 결과가 전체 데모/새 package GO는 아니다.
+정확3leaf와 그 외 원고·KO/JA/CN/TW·게임효과·기존 공개/인간 원형 보존,
+언어3검사 및304 표적검사 PASS. 새엔진·화면·입력 관측0.
+
+다음은 수리1/3의 공개 시작 안내와 M06 회상 장소: controller의 `_show_home`
+공개 분기/`_install_story_demo_m6_event`, KO key2개와 세 지역 사전6값을 먼저
+선언한다. EN 시작안내 `Night-shift income`은 이미 직업 중립이다. 최소 파일은
+`playtests/order124/StoryChoiceM1M6Playtest.gd` + `locale/ui_ja.json`,
+`locale/ui_zh-CN.json`, `locale/ui_zh-TW.json`이다. legacy/public=false 안내는
+별도키이며 묵시 확장하지 않는다. 두 키의 기존 portable accepted receipt0;
+공식 수용 수량과 과거 공개 GO를 임의 갱신하지 않는다. 구현/실제화면은 미실행.
