@@ -2,7 +2,7 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [ ] ORDER-358 [P1·검증] 3장 원고 수리의 현재 소스와 역사 비교를 연결한다
+#### [~] ORDER-358 [P1·검증] 3장 원고 수리의 현재 소스와 역사 비교를 연결한다
 
 2026-09-27 Codex 발행. 350 원고를 고친 뒤 기존 313 exact raw guard가
 EN `arc_events`·`arc_midgame`을 실제로 거절했다. 번역 수용 전 실패 원문은
@@ -14,7 +14,25 @@ EN `arc_events`·`arc_midgame`을 실제로 거절했다. 번역 수용 전 실�
 `9edf3db751997c6e9be52c47d7f89b40e4e72066cba55c0a4408ef4470aef48b`다.
 350 제품 전용 커밋은 `ef896982207de456042e4288cba651553feb38b1`, 직접 부모는
 `d8fbf31cf3171bef1824bec87bdb88d026d77abc`다. 21JSON/86leaf + ledger만이며
-358 착수 때 이 경계를 다시 Git에서 검증한다. 359는 아직 미실행이다.
+358 착수 때 이 경계를 다시 Git에서 검증한다. 359 제품 커밋은
+`acab8ea29d2ec392d1224513e005e8b8000a4535`, 직접 부모는
+`e3a6e09d5a6e3398a4db764177352dc7755d0892`다. 5JSON 기존20leaf + ledger이며,
+16상태48페이지·기존12receipt의 별도 검수 결과는359 보고에 보존한다.
+
+## 2026-09-28 착수 선언
+
+- 기준 HEAD `8536caa936d0098eee0f3c1143b446d95f95016b`, clean main.
+  제품 두 커밋의 직접 부모와 파일집합22/6을 Git에서 확인했다.
+  구현 전 exact leaf/원시 SHA/ledger 차이를 재대조한다.
+- `/root/compat357`: 새 `tools/order350_source_compat.py`만 저작.
+- `/root/screen_path_probe`: 위 기존 소비자5개만 저작. 원형313/309/316/310/305
+  모듈·제품·다른 도구는 비소유다.
+- `/root`: `tools/audit_scope.json`·`tools/audit.sh`의 별도 명시 차선,
+  이 사양·350/359 후속 증거·두 큐·WORK_LOG·STATUS·CLAUDE 현재행·새 판정/보고.
+- `/root/r3_route_probe`: 읽기 전용 독립 전수 검수. 제품·구현 파일 수정0.
+- 새 guard → 소비자5의 normal/self-test → 새 명시 차선을 순서대로 실행한다.
+  원형 역사 CLI는 원래 파일/ROOT를 검증한 격리 fixture에서 실행하며 현재 소스의
+  통과로 부르지 않는다. 전체 감사·Godot·이미 완료된 화면 검사는 반복하지 않는다.
 
 ## 깊이 3문
 
