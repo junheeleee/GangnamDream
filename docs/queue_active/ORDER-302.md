@@ -123,3 +123,15 @@ root는 private `order302-source-candidate*` 증거·이 사양/큐/WORK_LOG/STA
 story-demo localization, 최신316 source admission이다. unchanged720·24주·240주·전체화면을
 기본 재실행하지 않으며 coffee/미관측문단/지역화면/원어민/물리 관측은 계속 미관측이다.
 이는 다음 단위의 준비 결과이며 이 부모의 최종 GO 보고는 아직 없다.
+
+### 2026-09-27 source 통합검수 착수
+
+위의 한 단위를 실행한다. root는 이 사양·큐·CLAUDE 현재행·WORK_LOG·생성 STATUS·
+agent 판정 원장과 private `order302-source-candidate*`, 기존 capture helper가 만드는
+`order310-check-order302-source-candidate-*`만 소유한다. `/root/screen_path_probe`는
+private `order302-source-candidate-bridge.py/json`의 보존·원래 증거 결속을 맡고,
+`/root/screen_independent_review`는 비저자로서 7항목을 직접 읽고 root의 clean freeze 후
+fresh resolver로 `docs/agent_reviews/ORDER-302.json`과 private 독립 근거만 작성한다.
+저작/검수 소유를 분리하며 source 검수 도중 제품·원고·번역을 추가 수정하지 않는다.
+새 결함은 범위를 분리한다. 새 엔진·이미지·720경로·검사기 self-test는 변경된 입력이나
+구체적 실패 없이는 반복하지 않는다. 이 단위는 일회성 결속이며 새package는 계속 별도다.
