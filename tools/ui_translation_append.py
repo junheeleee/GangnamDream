@@ -612,3 +612,226 @@ def current_proof(root: Path, baseline_commit: str, baseline: Mapping[str, bytes
             and (root / history.MAIN_GAME_PATH).read_bytes() == raw,
             "MainGame source changed during current admission")
     return result
+
+
+# Exact ORDER-384 fee correction. All earlier functions/pins remain unchanged.
+FEE_KEY = "매수 기본 수수료는 0.3%입니다. 컨디션이 나쁠수록 매수 비용이 높아질 수 있고, 매도 수수료는 0.5%입니다."
+FEE_BEFORE_COMMIT = "d91395c77ffefedf9ebc97429093c8693e91cf6f"
+FEE_AFTER_COMMIT = "5a553f0b33e293d8eac64d34827b051edf5ef8a7"
+FEE_TREES = ("798f33706a4775b10bc0bbf1d9cb57fbe54bbe0c", "601cfd2215bf8b1e76b5f085c973954da2d7e230")
+FEE_BLOBS = {
+    "locale/ui_zh-CN.json": ("7844844d919f670585d049fa9d456162da99950e", "576efe1ff9bc85c2943f88387fd6a35a9c28c1e3"),
+    "locale/ui_zh-TW.json": ("74c14f8e1a5f1aecb29ef33aab7d230e98424fe4", "2279e0f7e2aa36453f0262404fca07fcc6fb4163"),
+    "content/meta/full_game_localization.json": ("0f5c7e277b1d6247f89ba9b34f6e9c839f1dfffa", "8e7ff209bf61bf8d9789767f33841f045d8b4549"),
+}
+FEE_HASHES = {
+    "locale/ui_zh-CN.json": ("114f471c380087b035de8657b071f59cb455a4a56aa222c1e955ba8ea4f7405f", "b421c013dbe82a9bd23d3e71844ae7ef0e2e2fa6044b5e1895acfa24a03b24ec"),
+    "locale/ui_zh-TW.json": ("503e43c24e711fd0873d7b58532e50dfece8734b2efce9ef5dbb384636be4f88", "1ec60adc643a4046daf89f09b2f1a91f87b8e73cd7525d35fede827fc5c0b34e"),
+    "content/meta/full_game_localization.json": ("0594a077f52065d39e8b1d6203d3c0c56947957ee7c785c62510037ce8f74836", "f9cd86d8aab5fd591940d9065123e61f0af999f6318150625966078b81f96b91"),
+}
+FEE_TEXTS = {
+    "zh-CN": ("买入的基础手续费为0.3%。状态越差，买入成本可能越高，卖出手续费为0.5%。",
+              "买入基础费率0.3%；状态越差，成本可能越高。卖出费率0.5%。"),
+    "zh-TW": ("買入的基本手續費為 0.3%。狀態越差，買入成本可能越高；賣出手續費為 0.5%。",
+              "買入基本費率0.3%；狀態越差，成本可能越高。賣出費率0.5%。"),
+}
+FEE_REVIEW = ("Korean-direct concise fee guidance after actual CN499/TW505px over468px clipping. "
+              "Preserve buy base0.3%, condition-dependent higher buy cost and sell0.5%; no gameplay change. "
+              "Correction is not new coverage.")
+
+
+def _fee_comparison(snapshot: Mapping[str, bytes], before: Mapping[str, bytes],
+                    after: Mapping[str, bytes]) -> dict[str, bytes]:
+    """Comparison only: undo the fixed two fee targets and batch152, not appends."""
+    require(set(snapshot) in (set(PATHS), set(CURRENT_PATHS))
+            and set(before) == set(after) == set(PATHS), "fee correction snapshot population")
+    result = dict(snapshot)
+    receipt = receipt_id(FEE_KEY)
+    for locale, path in zip(LOCALES, UI_PATHS):
+        a, b = _Document(before[path]), _Document(after[path])
+        doc = b if snapshot[path] == after[path] else _Document(snapshot[path])
+        require(doc.value.get(FEE_KEY) == FEE_TEXTS[locale][1], "corrected fee rolled back/changed: " + locale)
+        start, end = doc.spans[(FEE_KEY,)]
+        bs, be = b.spans[(FEE_KEY,)]
+        require(doc.text[start:end] == b.text[bs:be], "corrected fee raw token changed")
+        first, last = a.spans[(FEE_KEY,)]
+        result[path] = (doc.text[:start] + a.text[first:last] + doc.text[end:]).encode()
+    a, b = _Document(before[LEDGER_PATH]), _Document(after[LEDGER_PATH])
+    doc = b if snapshot[LEDGER_PATH] == after[LEDGER_PATH] else _Document(snapshot[LEDGER_PATH])
+    value = doc.value
+    require(value["accepted_sha256"] == exchange.digest(value["accepted"]), "corrected fee accepted checksum")
+    require(len(value["batches"]) >= 152 and _ordered(value["batches"][151]) == _ordered(b.value["batches"][151]),
+            "fee correction batch missing/changed/reordered")
+    start, end = doc.spans[("batches", 150)][1], doc.spans[("batches", 151)][1]
+    bs, be = b.spans[("batches", 150)][1], b.spans[("batches", 151)][1]
+    require(doc.text[start:end] == b.text[bs:be], "fee correction batch raw changed")
+    edits = [(start, end, "")]
+    accepted = dict(value["accepted"])
+    for locale in LOCALES:
+        require(_ordered(value["accepted"][locale][receipt]) == _ordered(b.value["accepted"][locale][receipt]),
+                "corrected fee receipt changed: " + locale)
+        field = ("accepted", locale, receipt, "target_sha256")
+        start, end = doc.spans[field]
+        bs, be = b.spans[field]
+        require(doc.text[start:end] == b.text[bs:be], "corrected fee receipt raw token changed")
+        first, last = a.spans[field]
+        edits.append((start, end, a.text[first:last]))
+        accepted[locale] = {**value["accepted"][locale], receipt: a.value["accepted"][locale][receipt]}
+    start, end = doc.spans[("accepted_sha256",)]
+    edits.append((start, end, _ordered(exchange.digest(accepted)).decode()))
+    text = doc.text
+    for start, end, replacement in sorted(edits, reverse=True):
+        text = text[:start] + replacement + text[end:]
+    result[LEDGER_PATH] = text.encode()
+    return result
+
+
+def _validate_fee_correction(before: Mapping[str, bytes], after: Mapping[str, bytes],
+                             inventory: dict[str, Any]) -> dict[str, Any]:
+    require(set(before) == set(after) == set(PATHS), "fee correction requires exact three paths")
+    old = {p: _loads(v) for p, v in before.items()}
+    new = {p: _loads(v) for p, v in after.items()}
+    a, b = old[LEDGER_PATH], new[LEDGER_PATH]
+    require(len(a["batches"]) == 151 and len(b["batches"]) == 152
+            and sum(map(len, a["accepted"].values())) == sum(map(len, b["accepted"].values())) == 40886,
+            "fee correction must not increase coverage")
+    require(a["accepted_sha256"] == exchange.digest(a["accepted"])
+            and b["accepted_sha256"] == exchange.digest(b["accepted"]), "fee accepted checksum mismatch")
+    leaf = exchange.Leaf("ui", FEE_KEY, "runtime:static_ui", (FEE_KEY,), FEE_KEY, "ui_static_context")
+    selected = [row for row in inventory["leaves"] if row.id == leaf.id]
+    require(len(selected) == 1 and _ordered(vars(selected[0])) == _ordered(vars(leaf)),
+            "fee current Korean leaf/protection/support mismatch")
+    batch = b["batches"][151]
+    expected = {"order": "ORDER-384", "group": "ui_correction", "roots": [FEE_KEY], "source_leaves": 1,
+                "target_leaves_by_locale": {"ja": 0, "zh-CN": 1, "zh-TW": 1}, "original_order": "ORDER-383",
+                "source_review": FEE_REVIEW, "machine_validation": "PASS", "rendered_review": "OPEN", "native_review": "OPEN"}
+    maps = (HEADERS_FIELD, "receipt_sha256_by_locale", "before_target_sha256_by_locale")
+    require(isinstance(batch, dict) and set(batch) == set(expected) | set(maps)
+            and all(_ordered(batch[k]) == _ordered(v) for k, v in expected.items())
+            and all(isinstance(batch[k], dict) and set(batch[k]) == set(LOCALES) for k in maps),
+            "fee correction batch identity/population/count differs")
+    accepted = dict(a["accepted"])
+    manifests = {}
+    for locale, path in zip(LOCALES, UI_PATHS):
+        old_text, new_text = FEE_TEXTS[locale]
+        require(old[path].get(FEE_KEY) == old_text
+                and _ordered(new[path]) == _ordered({**old[path], FEE_KEY: new_text}), "fee UI differs beyond exact target")
+        require(not exchange.translation_errors(leaf, locale, new_text), "fee translation contract: " + locale)
+        previous = {"source_sha256": leaf.source_sha256, "target_sha256": exchange.digest(old_text)}
+        corrected = {"source_sha256": leaf.source_sha256, "target_sha256": exchange.digest(new_text)}
+        require(_ordered(a["accepted"][locale][leaf.id]) == _ordered(previous)
+                and batch["before_target_sha256_by_locale"][locale] == previous["target_sha256"],
+                "fee previous source/target receipt mismatch")
+        originals = [row for row in a["batches"] if row.get("order") == "ORDER-383" and row.get("group") == "ui"
+                     and FEE_KEY in row.get("roots", []) and row.get("target_leaves_by_locale", {}).get(locale) == 27]
+        require(len(originals) == 1 and set(originals[0].get(HEADERS_FIELD, {})) == {locale}
+                and set(originals[0].get("receipt_sha256_by_locale", {})) == {locale}
+                and _ordered(originals[0]["target_leaves_by_locale"]) == _ordered(
+                    {loc: 27 if loc == locale else 0 for loc in CURRENT_LOCALES})
+                and type(originals[0].get("source_leaves")) is int and originals[0]["source_leaves"] == 27
+                and len(originals[0]["roots"]) == len(set(originals[0]["roots"])) == 27
+                and originals[0][HEADERS_FIELD][locale].get("locale") == locale,
+                "fee correction lacks exactly one original locale batch")
+        header = batch[HEADERS_FIELD][locale]
+        require(header.get("source_revision") == FEE_BEFORE_COMMIT
+                and re.fullmatch(r"[0-9a-f]{64}", str(header.get("source_manifest_sha256", ""))),
+                "fee export revision/manifest malformed")
+        rebuilt = exchange.make_batch({**inventory, "source_manifest_sha256": header["source_manifest_sha256"]},
+                                      locale, selected, FEE_BEFORE_COMMIT, {path: old[path]}, {})[0]
+        require(_ordered(header) == _ordered(rebuilt), "fee official previous-target selection mismatch")
+        receipt = {"batch": header, "state": "accepted_machine_validated", "native_review": "OPEN",
+                   "translations": {leaf.id: corrected}}
+        require(batch["receipt_sha256_by_locale"][locale] == exchange.digest(receipt), "fee official receipt digest mismatch")
+        require(header["source_revision"] not in manifests or manifests[header["source_revision"]] == header["source_manifest_sha256"],
+                "fee locale source manifests disagree")
+        manifests[header["source_revision"]] = header["source_manifest_sha256"]
+        accepted[locale] = {**a["accepted"][locale], leaf.id: corrected}
+    expected_ledger = {**a, "accepted": accepted, "accepted_sha256": exchange.digest(accepted),
+                       "batches": [*a["batches"], batch]}
+    require(_ordered(b) == _ordered(expected_ledger), "fee changed an old batch, neighbor or ledger field")
+    require(_fee_comparison(after, before, after) == before, "fee full raw inverse differs outside exact correction")
+    return {"ui_by_locale": {loc: 0 for loc in CURRENT_LOCALES}, "receipts": 0, "batches": 0,
+            "corrections": 2, "correction_batches": 1, "source_manifests": manifests}
+
+
+def _fee_correction_proof(root: Path, inventory: dict[str, Any]) -> tuple[dict, dict, dict]:
+    require(set(FEE_BLOBS) == set(FEE_HASHES) == set(PATHS), "fee correction pin population")
+    revisions = (FEE_BEFORE_COMMIT, FEE_AFTER_COMMIT)
+    requests = [(c, c, "commit") for c in revisions] + [(t, t, "tree") for t in FEE_TREES]
+    requests += [(c + ":" + p, FEE_BLOBS[p][i], "blob") for p in PATHS for i, c in enumerate(revisions)]
+    values = _objects(root, requests)
+    for index in range(2):
+        headers = values[index].split(b"\n\n", 1)[0].splitlines()
+        require([h for h in headers if h.startswith(b"tree ")] == [b"tree " + FEE_TREES[index].encode()], "fee exact tree mismatch")
+        if index:
+            require([h for h in headers if h.startswith(b"parent ")] == [b"parent " + revisions[0].encode()], "fee direct parent mismatch")
+    require(_git(root, "diff", "--name-status", "-z", *revisions).split(b"\0")
+            == [v for p in sorted(PATHS) for v in (b"M", p.encode())] + [b""], "fee product path population differs")
+    before, after = {}, {}
+    for index, path in enumerate(PATHS):
+        old, new = values[4 + index * 2:6 + index * 2]
+        require(tuple(hashlib.sha256(v).hexdigest() for v in (old, new)) == FEE_HASHES[path], "fee immutable whole raw differs")
+        before[path], after[path] = old, new
+    return before, after, _validate_fee_correction(before, after, inventory)
+
+
+_FEE_OLD_VALIDATE_HISTORY = validate_history
+
+
+def validate_history(root: Path, baseline_commit: str, baseline: Mapping[str, bytes],
+                     current: Mapping[str, bytes], inventory: dict[str, Any]) -> dict[str, Any]:
+    """Current append history with only the two separately pinned corrections."""
+    head = _git(root, "rev-parse", "--verify", "HEAD^{commit}").decode().strip()
+    require(re.fullmatch(r"[0-9a-f]{40}", head) is not None, "invalid current Git candidate")
+    lineage = _git(root, "rev-list", "--first-parent", head).decode().splitlines()
+    if FEE_AFTER_COMMIT not in lineage:
+        return _FEE_OLD_VALIDATE_HISTORY(root, baseline_commit, baseline, current, inventory)
+    require(set(baseline) == set(current) and set(baseline) in (set(PATHS), set(CURRENT_PATHS)), "fee history snapshot population")
+    require(baseline_commit in lineage and lineage.index(baseline_commit) > lineage.index(FEE_AFTER_COMMIT),
+            "fee correction must be after the immutable caller baseline")
+    paths = CURRENT_PATHS if set(baseline) == set(CURRENT_PATHS) else PATHS
+    require(_snapshot(root, baseline_commit, paths) == baseline, "Git baseline differs from caller proof")
+    candidate = _snapshot(root, head, paths)
+    require(candidate == current, "submitted/current raw differs from actual Git candidate")
+    commits = _git(root, "log", "--first-parent", "--full-history", "--reverse", "--format=%H",
+                   baseline_commit + ".." + head, "--", *paths).decode().splitlines()
+    order = list(reversed(lineage[:lineage.index(baseline_commit)]))
+    require(len(set(commits)) == len(commits) and commits == [c for c in order if c in commits], "fee history order/population")
+    exact = {CORRECTION_AFTER_COMMIT: (_correction_proof, _correction_comparison),
+             FEE_AFTER_COMMIT: (_fee_correction_proof, _fee_comparison)}
+    corrections, transitions, manifests, totals = [], [], {}, Counter()
+    def comparison(snapshot):
+        for function, before, after in reversed(corrections):
+            snapshot = function(snapshot, before, after)
+        return snapshot
+    previous = dict(baseline)
+    for commit in commits:
+        raw = _objects(root, [(commit, commit, "commit")])[0]
+        parents = [h[7:].decode() for h in raw.split(b"\n\n", 1)[0].splitlines() if h.startswith(b"parent ")]
+        require(bool(parents) and parents[0] in lineage and _snapshot(root, parents[0], paths) == previous,
+                "omitted/noncontiguous fee receipt transition")
+        successor = _snapshot(root, commit, paths)
+        if commit in exact:
+            proof, inverse = exact[commit]
+            before, after, change = proof(root, inventory)
+            require({p: previous[p] for p in PATHS} == before and {p: successor[p] for p in PATHS} == after
+                    and all(previous[p] == successor[p] for p in paths if p not in PATHS), "fee lineage or protected JA differs")
+            corrections.append((inverse, before, after))
+        else:
+            change = validate_append(comparison(previous), comparison(successor), inventory)
+        for revision, expected in change["source_manifests"].items():
+            _git(root, "merge-base", "--is-ancestor", revision, parents[0])
+            require(_source_manifest_matches(root, inventory, expected), "KO/runtime source changed outside reviewed boundary")
+            if revision not in manifests:
+                manifests[revision] = _source_manifest(root, revision)
+            require(manifests[revision] == expected, "receipt source manifest differs from actual Git census")
+        transitions.append({"commit": commit, **change})
+        totals.update({k: change.get(k, 0) for k in ("receipts", "batches", "corrections", "correction_batches")})
+        previous = successor
+    require(previous == candidate and FEE_AFTER_COMMIT in commits, "fee history does not reconstruct current candidate")
+    combined = validate_append(baseline, comparison(candidate), inventory)
+    require(combined["receipts"] == totals["receipts"] and combined["batches"] == totals["batches"], "fee history/current census mismatch")
+    require(_git(root, "rev-parse", "--verify", "HEAD^{commit}").decode().strip() == head, "Git candidate changed during validation")
+    return {"head": head, "transitions": transitions, **combined, "append_batches": combined["batches"],
+            "batches": combined["batches"] + totals["correction_batches"],
+            "corrections": totals["corrections"], "correction_batches": totals["correction_batches"]}

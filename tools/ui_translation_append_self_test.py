@@ -1018,6 +1018,187 @@ def job_status_wrap_self_test() -> tuple[list[str], int]:
     return failures, cases
 
 
+def investment_fee_correction_self_test() -> tuple[list[str], int]:
+    """Exact384 controls only; one-leaf fixture, no collector or old suites."""
+    failures, cases = [], 0
+    def check(ok, label):
+        nonlocal cases
+        cases += 1
+        if not ok:
+            failures.append("fee correction: " + label)
+    def reject(action, label):
+        try:
+            action()
+        except (ValueError, OSError, KeyError, TypeError, IndexError, subprocess.TimeoutExpired):
+            check(True, label)
+        else:
+            check(False, label)
+    key, ledger = append.FEE_KEY, append.LEDGER_PATH
+    original = {p: (ROOT / p).read_bytes() for p in append.CURRENT_PATHS}
+    leaf = append.exchange.Leaf("ui", key, "runtime:static_ui", (key,), key, "ui_static_context")
+    inventory = {"leaves": [leaf], "source_manifest_sha256": append._source_manifest(ROOT, append.FEE_BEFORE_COMMIT)}
+    before, after, change = append._fee_correction_proof(ROOT, inventory)
+    check(change["corrections"] == 2 and change["correction_batches"] == 1
+          and change["receipts"] == change["batches"] == 0, "two corrected targets, no new coverage")
+    check(append._fee_comparison(after, before, after) == before, "whole raw inverse")
+    old_leaf = append.exchange.Leaf("ui", append.CORRECTION_KEY, "runtime:static_ui",
+                                   (append.CORRECTION_KEY,), append.CORRECTION_KEY, "ui_static_context")
+    old_before, old_after, _ = append._correction_proof(ROOT, {**inventory, "leaves": [old_leaf]})
+    comparison = append._correction_comparison(before, old_before, old_after)
+    check(len(append._loads(comparison[ledger])["batches"]) == 150,
+          "fee then380 inverse preserves original correction boundary")
+    reject(lambda: append.validate_append(before, after, inventory), "ordinary append does not permit corrections")
+    reject(lambda: append._validate_fee_correction(before, {**after, append.CURRENT_UI_PATHS[0]: original[append.CURRENT_UI_PATHS[0]]},
+                                                   inventory), "JA cannot enter three-path correction")
+    documents = {p: append._Document(raw) for p, raw in after.items()}
+    def mutate(path, field, value):
+        doc = documents[path]
+        start, end = doc.spans[field]
+        edits = [(start, end, append._ordered(value).decode())]
+        if path == ledger and field[0] == "accepted":
+            accepted = copy.deepcopy(doc.value["accepted"])
+            target = accepted
+            for part in field[1:-1]:
+                target = target[part]
+            target[field[-1]] = value
+            start, end = doc.spans[("accepted_sha256",)]
+            edits.append((start, end, append._ordered(append.exchange.digest(accepted)).decode()))
+        text = doc.text
+        for start, end, replacement in sorted(edits, reverse=True):
+            text = text[:start] + replacement + text[end:]
+        return {**after, path: text.encode()}
+    for path in append.PATHS:
+        reject(lambda p=path: append._validate_fee_correction(before, {**after, p: before[p]}, inventory), "mixed rollback " + path)
+        reject(lambda p=path: append._validate_fee_correction(before, {**after, p: after[p] + b"\n"}, inventory), "raw whitespace " + path)
+    for path in append.UI_PATHS:
+        reject(lambda p=path: append._validate_fee_correction(before, mutate(p, (key,), "changed fee"), inventory), "fee target " + path)
+        neighbor = next(k for k in documents[path].value if k != key)
+        reject(lambda p=path, k=neighbor: append._validate_fee_correction(before, mutate(p, (k,), "neighbor"), inventory), "UI neighbor " + path)
+    mutant = mutate(append.UI_PATHS[0], (append.CORRECTION_KEY,), append.CORRECTION_TEXTS["zh-CN"][0])
+    reject(lambda: append._correction_comparison(append._fee_comparison(mutant, before, after), old_before, old_after),
+           "old380 rollback is still rejected after fee inverse")
+    quoted = json.dumps(key, ensure_ascii=False).encode() + b":"
+    mutant = {**after, append.UI_PATHS[0]: after[append.UI_PATHS[0]].replace(quoted, quoted + b' "duplicate", ' + quoted, 1)}
+    reject(lambda: append._validate_fee_correction(before, mutant, inventory), "duplicate raw fee member")
+    for label, field, value in (
+        ("old source receipt", ("accepted", "zh-CN", leaf.id, "source_sha256"), "0" * 64),
+        ("target receipt and fresh checksum", ("accepted", "zh-TW", leaf.id, "target_sha256"), "0" * 64),
+        ("original383 locale batch", ("batches", 149, "target_leaves_by_locale", "zh-CN"), 0),
+        ("boolean source count", ("batches", 151, "source_leaves"), True),
+        ("extra correction root", ("batches", 151, "roots"), [key, "another key"]),
+        ("previous target claim", ("batches", 151, "before_target_sha256_by_locale", "zh-CN"), "0" * 64),
+        ("official receipt digest", ("batches", 151, "receipt_sha256_by_locale", "zh-TW"), "0" * 64),
+        ("previous-target selection", ("batches", 151, append.HEADERS_FIELD, "zh-CN", "selection_sha256"), "0" * 64),
+        ("official boolean count", ("batches", 151, append.HEADERS_FIELD, "zh-TW", "count"), True),
+        ("native claim", ("batches", 151, "native_review"), "GO"),
+    ):
+        reject(lambda f=field, v=value: append._validate_fee_correction(before, mutate(ledger, f, v), inventory), label)
+    rows = documents[ledger].value["batches"]
+    for label, value in (("missing correction", rows[:-1]), ("duplicate correction", [*rows, rows[-1]]),
+                         ("reordered correction", [*rows[:-2], rows[-1], rows[-2]])):
+        reject(lambda v=value: append._validate_fee_correction(before, mutate(ledger, ("batches",), v), inventory), label)
+    for field, value in (("source", "changed Korean"), ("protected", True)):
+        reject(lambda f=field, v=value: append._validate_fee_correction(before, after,
+               {**inventory, "leaves": [replace(leaf, **{f: v})]}), "current leaf " + field)
+    reject(lambda: append._validate_fee_correction(before, after, {**inventory, "leaves": [leaf, leaf]}), "duplicate source leaf")
+    doc = documents[ledger]
+    start, end = doc.spans[("accepted", "zh-CN", leaf.id, "target_sha256")]
+    token = doc.text[start:end]
+    escaped = token[:1] + "\\u%04x" % ord(token[1]) + token[2:]
+    reject(lambda: append._fee_comparison({**after, ledger: (doc.text[:start] + escaped + doc.text[end:]).encode()},
+                                          before, after), "same-value corrected hash raw escape")
+    real_git = append._git
+    with mock.patch.object(append, "_git", side_effect=OSError("fresh Git unavailable")):
+        reject(lambda: append._fee_correction_proof(ROOT, inventory), "no stale successful proof cache")
+    def forged(where, *args, **kwargs):
+        raw = real_git(where, *args, **kwargs)
+        return raw + b"forged" if args[:2] == ("cat-file", "--batch") else raw
+    with mock.patch.object(append, "_git", side_effect=forged):
+        reject(lambda: append._fee_correction_proof(ROOT, inventory), "forged immutable object stream")
+    def wrong_paths(where, *args, **kwargs):
+        return b"M\0outside.json\0" if args and args[0] == "diff" else real_git(where, *args, **kwargs)
+    with mock.patch.object(append, "_git", side_effect=wrong_paths):
+        reject(lambda: append._fee_correction_proof(ROOT, inventory), "product path population")
+    with mock.patch.object(append, "FEE_BEFORE_COMMIT", append.FEE_AFTER_COMMIT):
+        reject(lambda: append._fee_correction_proof(ROOT, inventory), "wrong direct parent")
+    check(append._fee_correction_proof(ROOT, inventory)[2] == change, "fresh valid proof restored")
+
+    # Exact transition is isolated, so later legitimate appends cannot make
+    # this fixed fixture pretend the live HEAD must still equal product384.
+    env = {**os.environ, "GIT_CONFIG_NOSYSTEM": "1", "GIT_CONFIG_GLOBAL": os.devnull,
+           "GIT_AUTHOR_NAME": "fee fixture", "GIT_AUTHOR_EMAIL": "fixture@example.invalid",
+           "GIT_COMMITTER_NAME": "fee fixture", "GIT_COMMITTER_EMAIL": "fixture@example.invalid"}
+    for name in ("GIT_DIR", "GIT_WORK_TREE", "GIT_INDEX_FILE"):
+        env.pop(name, None)
+    with tempfile.TemporaryDirectory(prefix="ui-fee-history-") as directory:
+        root = Path(directory)
+        def git(*args):
+            result = subprocess.run(("git", *args), cwd=root, env=env, capture_output=True, timeout=30)
+            if result.returncode:
+                raise RuntimeError(result.stderr.decode())
+        git("clone", "-q", "--shared", "--no-checkout", str(ROOT), str(root))
+        git("update-ref", "HEAD", append.FEE_AFTER_COMMIT)
+        git("read-tree", append.FEE_AFTER_COMMIT)
+        result = append.validate_history(root, append.FEE_BEFORE_COMMIT, before, after, inventory)
+        check(result["corrections"] == 2 and result["batches"] == result["correction_batches"] == 1
+              and result["receipts"] == result["append_batches"] == 0, "exact Git lineage with actual historical manifest")
+        reject(lambda: append.validate_history(root, append.FEE_BEFORE_COMMIT, before, before, inventory),
+               "current rollback differs from actual HEAD")
+        reject(lambda: append.validate_history(root, append.FEE_BEFORE_COMMIT, before, after,
+               {**inventory, "source_manifest_sha256": "0" * 64}), "current manifest mismatch")
+        extra = append.exchange.Leaf("ui", "합성 후속 문구", "runtime:static_ui", ("합성 후속 문구",),
+                                     "합성 후속 문구", "ui_static_context")
+        extended = {**inventory, "leaves": [leaf, extra]}
+        future, headers, hashes = dict(after), {}, {}
+        accepted = copy.deepcopy(doc.value["accepted"])
+        edits = []
+        for locale, path in zip(append.LOCALES, append.UI_PATHS):
+            text = "合成后续文字" if locale == "zh-CN" else "合成後續文字"
+            ui = documents[path]
+            end = ui.spans[(list(ui.value)[-1],)][1]
+            addition = ",\n  " + append._ordered(extra.owner).decode() + ": " + append._ordered(text).decode()
+            future[path] = (ui.text[:end] + addition + ui.text[end:]).encode()
+            row = {"source_sha256": extra.source_sha256, "target_sha256": append.exchange.digest(text)}
+            end = doc.spans[("accepted", locale, list(accepted[locale])[-1])][1]
+            addition = ",\n      " + append._ordered(extra.id).decode() + ": " + append._ordered(row).decode()
+            edits.append((end, end, addition))
+            accepted[locale][extra.id] = row
+            header = append.exchange.make_batch(extended, locale, [extra], append.FEE_AFTER_COMMIT, {}, {})[0]
+            headers[locale] = header
+            hashes[locale] = append.exchange.digest({"batch": header, "state": "accepted_machine_validated",
+                                                     "native_review": "OPEN", "translations": {extra.id: row}})
+        batch = {"order": "synthetic following fee correction", "group": "ui", "roots": [extra.owner], "source_leaves": 1,
+                 "target_leaves_by_locale": {"ja": 0, "zh-CN": 1, "zh-TW": 1}, "machine_validation": "PASS",
+                 "native_review": "OPEN", append.HEADERS_FIELD: headers, "receipt_sha256_by_locale": hashes}
+        end = doc.spans[("batches", 151)][1]
+        edits.append((end, end, ",\n    " + append._ordered(batch).decode()))
+        start, end = doc.spans[("accepted_sha256",)]
+        edits.append((start, end, append._ordered(append.exchange.digest(accepted)).decode()))
+        text = doc.text
+        for start, end, replacement in sorted(edits, reverse=True):
+            text = text[:start] + replacement + text[end:]
+        future[ledger] = text.encode()
+        rollback = dict(future)
+        ui = append._Document(future[append.UI_PATHS[0]])
+        start, end = ui.spans[(key,)]
+        rollback[append.UI_PATHS[0]] = (ui.text[:start] + append._ordered(append.FEE_TEXTS["zh-CN"][0]).decode() + ui.text[end:]).encode()
+        for label, snapshot in (("valid subsequent append", future), ("committed rollback", rollback),
+                                ("restoration does not erase rollback", future)):
+            for path, raw in snapshot.items():
+                target = root / path
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_bytes(raw)
+            git("add", "--", *append.PATHS)
+            git("commit", "-qm", label)
+            if label == "valid subsequent append":
+                result = append.validate_history(root, append.FEE_BEFORE_COMMIT, before, snapshot, extended)
+                check(result["receipts"] == 2 and result["corrections"] == 2 and result["batches"] == 2, label)
+            else:
+                reject(lambda value=snapshot: append.validate_history(root, append.FEE_BEFORE_COMMIT, before, value, extended), label)
+    check(all((ROOT / p).read_bytes() == raw for p, raw in original.items()), "live product bytes unchanged")
+    return failures, cases
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--synthetic-only", action="store_true", help="author development only; not current acceptance")
@@ -1025,7 +1206,14 @@ def main() -> int:
     parser.add_argument("--correction", action="store_true", help="exact two-target correction only; no old suite or collector")
     parser.add_argument("--main-modal", action="store_true", help="three rendering repairs and current-location bridge only")
     parser.add_argument("--job-status-wrap", action="store_true", help="current one-token career-wrap successor only; no old suites")
+    parser.add_argument("--investment-fee-correction", action="store_true", help="exact384 two-target correction only; no old suites")
     args = parser.parse_args()
+    if args.investment_fee_correction:
+        errors, cases = investment_fee_correction_self_test()
+        for error in errors:
+            print("UI_TRANSLATION_APPEND_ERROR " + error)
+        print(f"UI_TRANSLATION_APPEND_FEE_CORRECTION_{'FAIL' if errors else 'OK'} cases={cases}")
+        return int(bool(errors))
     if args.job_status_wrap:
         errors, cases = job_status_wrap_self_test()
         for error in errors:
@@ -1071,6 +1259,10 @@ def main() -> int:
         errors.extend(modal_errors)
         cases += modal_cases
         print(f"UI_TRANSLATION_APPEND_JOB_STATUS_WRAP cases={modal_cases}")
+        fee_errors, fee_cases = investment_fee_correction_self_test()
+        errors.extend(fee_errors)
+        cases += fee_cases
+        print(f"UI_TRANSLATION_APPEND_FEE_CORRECTION cases={fee_cases}")
     for error in errors:
         print("UI_TRANSLATION_APPEND_ERROR " + error)
     marker = "UI_TRANSLATION_APPEND_SYNTHETIC" if args.synthetic_only else "UI_TRANSLATION_APPEND_SELF_TEST"

@@ -14,6 +14,43 @@
   ],
   "fast_lanes": [
     {
+      "id": "investment-fee-correction",
+      "paths": [],
+      "owned_paths": [
+        "locale/ui_zh-CN.json",
+        "locale/ui_zh-TW.json",
+        "content/meta/full_game_localization.json",
+        "tools/ui_translation_append.py",
+        "tools/ui_translation_append_self_test.py",
+        "tools/audit_scope.json",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/WORK_LOG.md",
+        "docs/history/WORK_LOG_2026-09-07_localization.md",
+        "docs/STATUS.md",
+        "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-383.json",
+        "docs/agent_reviews/ORDER-384.json",
+        "docs/queue_active/ORDER-383.md",
+        "docs/queue_archive/ORDER-383.md",
+        "docs/queue_active/ORDER-384.md",
+        "docs/queue_archive/ORDER-384.md"
+      ],
+      "tools": [
+        "tools/ui_translation_append_self_test.py --investment-fee-correction",
+        "tools/order365_ui_receipt_compat.py",
+        "tools/full_body_translation_scope.py",
+        "tools/story_graph_contract_audit.py",
+        "tools/chapter5_human_reject_audit.py",
+        "tools/year5_reference_route_audit.py",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/zh_translation_audit.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Exact384 fee display correction: two existing CN/TW targets, no new coverage; immutable product and original locale383 receipts, full raw inverse and fresh append history. New focused controls plus current normals only, not old correction48/full suites or engine evidence."
+    },
+    {
       "id": "job-status-wrap",
       "paths": [],
       "owned_paths": [
@@ -2102,6 +2139,15 @@
     }
   ],
   "checks": [
+    {
+      "tool": "tools/ui_translation_append_self_test.py --investment-fee-correction",
+      "paths": [
+        "tools/ui_translation_append.py",
+        "tools/ui_translation_append_self_test.py"
+      ],
+      "why": "Verifier-change coverage for exact384 correction and subsequent append/rollback history; routine UI translation batches keep the normal admission path and do not trigger this focused suite.",
+      "godot": false
+    },
     {
       "tool": "tools/ui_translation_append_self_test.py --job-status-wrap",
       "why": "Current employed-career wrap successor only, preserving immutable381 and testing raw/Git/claim/manifest/call-location boundaries without replaying old suites.",
