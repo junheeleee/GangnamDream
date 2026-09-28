@@ -5494,6 +5494,140 @@
           "batch_id": "60e44a0e9306db8dc4298b9807d6af5f82da0bce927786fc09a8fa92c8a56e76"
         }
       }
+    },
+    {
+      "order": "ORDER-379",
+      "group": "ui",
+      "roots": [
+        "홍대 치킨",
+        "1층 · 18분",
+        "신촌 피자",
+        "3층 · 30분",
+        "여의도 사무실 야식",
+        "22층 · 45분",
+        "이대 야식",
+        "4층 · 25분",
+        "공덕역 카페",
+        "1층 · 14분",
+        "마포 공사장 도시락",
+        "1층 · 8분"
+      ],
+      "source_leaves": 12,
+      "target_leaves_by_locale": {
+        "ja": 12,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Korean-direct Japanese delivery destination/floor/time labels. Independent complete source comparison; existing values, public demo, runtime and gameplay unchanged. Agent review is not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "ja": "a3535c6019eadd425e1329f030c5f4fad1a2e600189ddfb6f6df938e1484cbdb"
+      },
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "f0388c864e66f04b8659754494b3f379d46f866d",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "d4f9690cf0f8b75bd4a8bebdf8bf142b9f89c486ab3402df8bf9d22ed8a1f929",
+          "selection_sha256": "f4542d2591f29502acb9946ae6149dbfda493f605c4b0cf90a4ae63e4705191d",
+          "count": 12,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "af609ea10bcb87bc4b8f9decf643e5a21e4345a2482635015fb9a24c8dd4e0e6"
+        }
+      }
+    },
+    {
+      "order": "ORDER-379",
+      "group": "ui",
+      "roots": [
+        "직업 선택",
+        "ui.job.entry_tier",
+        "성장",
+        "전문가",
+        "상위",
+        "현재 경력",
+        "무직 · 이번 주 구직 AP 사용됨",
+        "마포 첫 면접 완료 · 다음 지원 진행 중",
+        "승진",
+        "지원 스탯",
+        "지력 %d · 사회성 %d · 외모 %d",
+        "준비도",
+        "이력서 OK",
+        "이력서 필요",
+        "면접 OK",
+        "면접 필요",
+        "Tier %d · %s",
+        "↑↓ 후보 · LB/RB 티어 · 확인 지원",
+        "이 티어의 직업 데이터가 없습니다.",
+        "후보 %d-%d / %d — 스크롤 대신 후보 커서로 이동",
+        "지력 %d",
+        "외모 %d",
+        "사회성 %d",
+        "투자감각 %d",
+        "현금 %s",
+        "제한 없음",
+        "경력 조건 미충족",
+        "현재 직업",
+        "이력서 먼저 완성 필요",
+        "지원 조건 부족",
+        "/월",
+        "퇴근 뒤 저녁이 비교적 남는 자리",
+        "퇴근 뒤에도 일이 오래 남는 자리",
+        "퇴근 뒤 회복할 시간이 필요한 자리",
+        "{strain} · 조건: {requirements}",
+        "지원하기",
+        "직업 없음",
+        "지원",
+        "조건 확인",
+        "[b]패드[/b]  LB/RB 티어 · ↑↓ 후보 · %s %s · %s 뒤로  —  %s"
+      ],
+      "source_leaves": 40,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 40,
+        "zh-TW": 40
+      },
+      "source_review": "Korean-direct Chinese regional job chooser chrome and application requirements. Independent complete source comparison; existing values, public demo, runtime and gameplay unchanged. Agent review is not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "c3493226ccfb1d3e9534e3ff3f3470d934a4facae68dde412f0b9950e23186d8",
+        "zh-TW": "437db97b49658e17683a4a235b094ae5af307f6d70e2fb74565adb89367a9fe8"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "f0388c864e66f04b8659754494b3f379d46f866d",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "d4f9690cf0f8b75bd4a8bebdf8bf142b9f89c486ab3402df8bf9d22ed8a1f929",
+          "selection_sha256": "813ed8cdff792c2e32430ffc3cc11d89683f3fc1a6e78a830831888b4b6bbe61",
+          "count": 40,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "ca5fa342bb38f782929236b0caf81716a2c6c9332081f974141cf22926208662"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "f0388c864e66f04b8659754494b3f379d46f866d",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "d4f9690cf0f8b75bd4a8bebdf8bf142b9f89c486ab3402df8bf9d22ed8a1f929",
+          "selection_sha256": "a965835b8795e596c73a1d0ac674ee683335d51105b063fbbc954a68f1649aff",
+          "count": 40,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "c51eb1e3cae2b9b0b6e07cd93e63e186bf232d908e7812f8520e1ad531cd66d5"
+        }
+      }
     }
   ],
   "accepted": {
@@ -57953,6 +58087,54 @@
       "ui:비 오는 저녁 배달:/비 오는 저녁 배달": {
         "source_sha256": "8944973fe50f9d8fc80d069943e13a14ed65f422fdabc1287b2200b60bf18ca9",
         "target_sha256": "066e1b53aa960d7529edb9b41de909a6c60dd0a5da3a4f18197d91e542217602"
+      },
+      "ui:1층 · 14분:/1층 · 14분": {
+        "source_sha256": "38d9152a8f6e3c059c80105e2c555766d31bebf02851f8a3ef7cb3cf23d2c907",
+        "target_sha256": "f733a125494f47d67f21390a06d2b20e7efa35c94f21508dc576ab4b11857caa"
+      },
+      "ui:1층 · 18분:/1층 · 18분": {
+        "source_sha256": "69acec446b8f247d41a8202538189dd8821f4cdf0f61a34e7b4bfa8f60c8e336",
+        "target_sha256": "8a6d4ed7cfeaad32d27640186096857be1d6da973a5a185c067bcc6c695f7172"
+      },
+      "ui:1층 · 8분:/1층 · 8분": {
+        "source_sha256": "4c587c4a7501ea56b20f04d50f2e31b61089292fff8f5b73e6bb9fe616c9778f",
+        "target_sha256": "64a9626e196cfdbf7ea13176de3ccc19062e1abb77232426df7f3505f16d3c17"
+      },
+      "ui:22층 · 45분:/22층 · 45분": {
+        "source_sha256": "f0009fffef09005c61c34850e918bc6577bfa1563651f80fec273e381c5b2a3c",
+        "target_sha256": "9e9b4876bbc42ae66a25c96c2edc5eec9900c7035c95e742d949b7e7f395b702"
+      },
+      "ui:3층 · 30분:/3층 · 30분": {
+        "source_sha256": "28dd78da0ef6ebb5c1d3d247ee7b55ce088daeb5a50414772cac9090cc5ec048",
+        "target_sha256": "e20784b1499a96ac7678d7a51f6f5161cf24ae1479b16c9726ceba099dfe9724"
+      },
+      "ui:4층 · 25분:/4층 · 25분": {
+        "source_sha256": "3b587ea4bb7b01ae5c55c0406d4e462993c28bf23ac91ad56fbf4a79ce374fab",
+        "target_sha256": "e00e002b49a4ae47775a659519184f3d095272d72668f8fe73319507b55d2abb"
+      },
+      "ui:공덕역 카페:/공덕역 카페": {
+        "source_sha256": "b173d942e8f130841f17c5e01bf9de548a6a0f5e8794b12539dcb4aadad713cd",
+        "target_sha256": "7b3f45822f111efc193af756e05763872d7c1837af3f10953264c94885409937"
+      },
+      "ui:마포 공사장 도시락:/마포 공사장 도시락": {
+        "source_sha256": "6184caa33611e7373eb990bcb40d17d8b9a12a06f74cf12e95c5bb8aaf9442e6",
+        "target_sha256": "dd6a7249565ed61e9e32d24dfbc72526697b39bcecbd6fffe9f6659bea2728b7"
+      },
+      "ui:신촌 피자:/신촌 피자": {
+        "source_sha256": "bef156c1b780d701dfb91c63c73b4e98c540e4c6cdbb8b86fc777e923b0c0fa1",
+        "target_sha256": "60a334cf4db1778bad4bb1e61f40b8cfae14b917dbb329696650d79802d86b53"
+      },
+      "ui:여의도 사무실 야식:/여의도 사무실 야식": {
+        "source_sha256": "a56414ee0886b0877edf3d71b86d53f764d2f15f1f5c546ae68eb8ebe0f00c96",
+        "target_sha256": "5a4fd54c6416cd131e9c1eb364119a83759b0882516fa7e14511b293295a944a"
+      },
+      "ui:이대 야식:/이대 야식": {
+        "source_sha256": "2d05c79682a149cd8ab9d8ac5ce6e9567f1eb8dc669ea2752fff1ae0eaa83546",
+        "target_sha256": "792bfa0e93b972e7b3516f28402d52b5095de00b3796b6304ab64172f1963567"
+      },
+      "ui:홍대 치킨:/홍대 치킨": {
+        "source_sha256": "e037036f322c0f867e20102b064512e8abadf03879abe6eea77667e245ab6d64",
+        "target_sha256": "762db42d15d6985179af4394cd51af7ffc88ccfc9f35c0f503485dace8899bb4"
       }
     },
     "zh-CN": {
@@ -113207,6 +113389,166 @@
       "ui:비 오는 저녁 배달:/비 오는 저녁 배달": {
         "source_sha256": "8944973fe50f9d8fc80d069943e13a14ed65f422fdabc1287b2200b60bf18ca9",
         "target_sha256": "cbca59d24232b671026b2ebe577d60c3e725b1ae49e4dfcbc1393f41abad2e16"
+      },
+      "ui:/월:/~1월": {
+        "source_sha256": "ec29a6d711a100ab58bd23460c4ef30d0cbde25848a5e30466784b687f195a78",
+        "target_sha256": "4b5a8fb3db717ad1aa7ed5039bc085c29dcc62597adea90a9ecb0a2d8d8ead42"
+      },
+      "ui:Tier %d · %s:/Tier %d · %s": {
+        "source_sha256": "265a85350b5a9c1e074a592acd06a4f63e958f4422146cacfbdc57f75c08c025",
+        "target_sha256": "dc9e2430c8df5bac49bf906ec5e781daa384c8821a1a82b2149ef40084b7b1fb"
+      },
+      "ui:[b]패드[/b]  LB/RB 티어 · ↑↓ 후보 · %s %s · %s 뒤로  —  %s:/[b]패드[~1b]  LB~1RB 티어 · ↑↓ 후보 · %s %s · %s 뒤로  —  %s": {
+        "source_sha256": "a7d7dea0821dd30c5589e40bc08f168e8d5a4bb21efb9cbeebc8d83ab4f9fc0f",
+        "target_sha256": "fd14448decbf9e20b723bbdc2677abbd55888939b14ac374ae57e8e6b60c145c"
+      },
+      "ui:ui.job.entry_tier:/ui.job.entry_tier": {
+        "source_sha256": "36cc34fe2353b87664c1757a67720194ed374c755c3124dda191b61982ade7b0",
+        "target_sha256": "eccedd74436a00a1cc216e7d3de03cf0e9dd35907af805ec6793ebb8d4626e06"
+      },
+      "ui:{strain} · 조건: {requirements}:/{strain} · 조건: {requirements}": {
+        "source_sha256": "99fe8b480b01a3def13932b50130f1f86f05595c4292fd59c02277691b77aa84",
+        "target_sha256": "8ea5a58c6734740e3e49fc7ff01efe5099613f40fa88600c257fe1806047cff5"
+      },
+      "ui:↑↓ 후보 · LB/RB 티어 · 확인 지원:/↑↓ 후보 · LB~1RB 티어 · 확인 지원": {
+        "source_sha256": "4e4eab01ea78f60b3ac3197577f1d582e29b64293aadcadff740e456477d23f5",
+        "target_sha256": "481ca246eb38bee01829cfc9ec88acd494dc3b758cca5baf86337a1bdc817a81"
+      },
+      "ui:경력 조건 미충족:/경력 조건 미충족": {
+        "source_sha256": "b047e88897f80b87858ad730616c57065600e8afc24dd0788a237ba806cb2b93",
+        "target_sha256": "6554820a625fe2cccb5bf7f42c8d9ddc190a37df63a1fbb6ddd04e93d67ceb7c"
+      },
+      "ui:마포 첫 면접 완료 · 다음 지원 진행 중:/마포 첫 면접 완료 · 다음 지원 진행 중": {
+        "source_sha256": "13d4841d2ba42f0bfc819b2a0072035540510b4f78872976b731c7d58e9f2069",
+        "target_sha256": "f0f0e5495de4dc4693e52463f41ba14ed638bc4b9a3abd45ac3fcc451459a84a"
+      },
+      "ui:면접 OK:/면접 OK": {
+        "source_sha256": "be5a77e7e75ffc4f837f40cde92ee2a722c7fc69affa9824a83bfbe36afd05df",
+        "target_sha256": "ec4d663e9f9bbed05c073dfa8793068ed16e9f91c7f4c972df6a43e2cb409e26"
+      },
+      "ui:면접 필요:/면접 필요": {
+        "source_sha256": "616e9d3991c2956be90ba779cb0f531e4395d56a89cf0ec46cde55a069a256b4",
+        "target_sha256": "27e9c1f47c239b2f2434b0f52f407819de634588aed759592f83e4ea4b52abbc"
+      },
+      "ui:무직 · 이번 주 구직 AP 사용됨:/무직 · 이번 주 구직 AP 사용됨": {
+        "source_sha256": "a4701210bcde48ca2d0a8736389dda25c8765d98a4a61383e4a1e0ca476fa446",
+        "target_sha256": "0e65c374e720b7069aa2dfd4c7008ac56f5a6003e7959e965d08e21aba12ee3c"
+      },
+      "ui:사회성 %d:/사회성 %d": {
+        "source_sha256": "62ddad245619958d2fc07f70cf0056cf2aa2d7fc99c36d79e215b44526d3cec6",
+        "target_sha256": "a29c6d797959ce6a2757079a0eb50c62db688382e5e696ba75f3bdde1d962bbb"
+      },
+      "ui:상위:/상위": {
+        "source_sha256": "2ece06cd29f07d382fdc079bd4f0aea256c22f5c60bf78d4e2e5d00737f617ab",
+        "target_sha256": "863a9a3111c4bb92a1e4e342a26e86f2660ff55813cb99638dd65ac1d9f8ee41"
+      },
+      "ui:성장:/성장": {
+        "source_sha256": "1a06cbc9856cb71a4cf28398305a5fc7338d5815201f0897c604d0ffcb3422ae",
+        "target_sha256": "faad8242c70349b6f701114e336ad09f230d5ab1ea53898ec21841595dbdd9dd"
+      },
+      "ui:승진:/승진": {
+        "source_sha256": "a081f84a6fcaeaa1426539c35afa383d9af1f8ccf06c1d834ce6789b52239d91",
+        "target_sha256": "c0ce10c53b4517cdfec8d95412aef2549205db56076fc4f51f7de7ccf09ffd78"
+      },
+      "ui:외모 %d:/외모 %d": {
+        "source_sha256": "401ba25a6b2f4b7580e2c04173342c54a92ed96c228cfd5ff4481f206e06466a",
+        "target_sha256": "a01523835d647a203a153fe1580994c132f005aa6014933c03c5651118fc5616"
+      },
+      "ui:이 티어의 직업 데이터가 없습니다.:/이 티어의 직업 데이터가 없습니다.": {
+        "source_sha256": "5f3b7e594238b2565b164554688383208e43cddb708ca1e8633f6c9692259119",
+        "target_sha256": "856f6c9498c4930320d4e97f68d51673918551fbb380522f8b63c48c8b6d2fe0"
+      },
+      "ui:이력서 OK:/이력서 OK": {
+        "source_sha256": "3380632088142c3a56c3fb66738ebdff92dad75a15432f7d4598fd72ceadaa13",
+        "target_sha256": "390a914abbc5d46231ea734ab8c65632fda8e2c11d8708fc6bd1f9685cb56375"
+      },
+      "ui:이력서 먼저 완성 필요:/이력서 먼저 완성 필요": {
+        "source_sha256": "8abe6c63287ec2bb17f63b69c2381ba755fdb4f7ce033dba782005928d503b76",
+        "target_sha256": "55aafdd5995cebac2765b45c38cb6028e812cfa380a5bbf9bd78e91c4cd240f4"
+      },
+      "ui:이력서 필요:/이력서 필요": {
+        "source_sha256": "3e729e127f32ea9146fd5dad995f66894de61e41f00771349de1f2fb8f434b46",
+        "target_sha256": "b95b5b7ab1eb9b32ee4eb7b3905a9e852bb45ce457b3d030aff74df6bbbbc641"
+      },
+      "ui:전문가:/전문가": {
+        "source_sha256": "6e84980b03ee2e4215b3cd6737d0919062ac9d2d0acc7b579eba6c8786e61d1e",
+        "target_sha256": "a103e94844f6aaa2ee8125b7ae47a556e2319e73ab5016b26f663866789954e7"
+      },
+      "ui:제한 없음:/제한 없음": {
+        "source_sha256": "9bca15f4297bae0035003cf920d97610ec48418dddeb41bd49f0c06b257e3e9e",
+        "target_sha256": "a58e6f98b9ee7e5bd670eb0033e0f9861b8784d0cbe8dc2e1fb1db6354efb7f1"
+      },
+      "ui:조건 확인:/조건 확인": {
+        "source_sha256": "fd6cd2cbd9b9e7899453d1561ba33b6204423c6c5f38afe4eec680928c35f903",
+        "target_sha256": "ef4011c21acc5aeab176f0e0623ff202b8b6c461cb7e8181e8d4325079e437ce"
+      },
+      "ui:준비도:/준비도": {
+        "source_sha256": "7e83463e8fa65a95d355fb0dc21ddd8cac7dc2c2ae3289364275786aac2bbb19",
+        "target_sha256": "d0ff00c20be56c53dad141f03b0792c0c49eef891f5c3159224f9c216539998c"
+      },
+      "ui:지력 %d · 사회성 %d · 외모 %d:/지력 %d · 사회성 %d · 외모 %d": {
+        "source_sha256": "850964854f100ab91e60d34d952305d1dcbaab1af1a26f0ae09c71f7024a847b",
+        "target_sha256": "96bb5b0dd88d01f2a8bbf09cd673fb0ea7bc4c868b5275109ac5e42327f49740"
+      },
+      "ui:지력 %d:/지력 %d": {
+        "source_sha256": "6e744a5d2d9ca4ec53255caf60ce880ffeb526451d4774cccf39e7cdac46651a",
+        "target_sha256": "c616f15e23eafc7f3847cabd3abc8ecccf65732085bc06beaa4bae0d27a0187a"
+      },
+      "ui:지원 스탯:/지원 스탯": {
+        "source_sha256": "bbd417056c6d8ed989e2619dc19779e37d01d0ff687df529fc72bc30f35ffd59",
+        "target_sha256": "e95f2c17873a3dea8e8368c8b20b5490d47e582cfe96a8df2271083e1b11d6e8"
+      },
+      "ui:지원 조건 부족:/지원 조건 부족": {
+        "source_sha256": "2327be782f3dda8e249aeb16b3e2949c09494ea20035d9b5bc7403e31c818a91",
+        "target_sha256": "a8df5563ffe1d30662fab8bec703b0e115ed8b1fa9cf9244ce7ef8825ae556fd"
+      },
+      "ui:지원:/지원": {
+        "source_sha256": "541bfe4a5ee2784ce42123cee01d2258e0947afd2138866d047c99b9cdaab61d",
+        "target_sha256": "01bffdd458be94a7b74f59b84753c16e6232d1b30428bfe3499c71224b1d6fdd"
+      },
+      "ui:지원하기:/지원하기": {
+        "source_sha256": "3638eab82ddc1211901458dc0433d81e3b9a3746eb00ae6498b8f4b186875776",
+        "target_sha256": "01bffdd458be94a7b74f59b84753c16e6232d1b30428bfe3499c71224b1d6fdd"
+      },
+      "ui:직업 선택:/직업 선택": {
+        "source_sha256": "41e11479ec067e1f8e919188a39abdcf91d0a0cc9e3a4bdcce285b3ba3fb80fa",
+        "target_sha256": "57efb11cfbf95f43416dcc135768c753dd59991884ae41bbb27a798bd9311fa5"
+      },
+      "ui:직업 없음:/직업 없음": {
+        "source_sha256": "ecf461f7aca919fb11dc5fcfa5a3b2dcc15249bbe03c019c8ef244e96772b1d7",
+        "target_sha256": "2921d568f60212041a157d1116148fee29719052b41e0e447d325f352377c152"
+      },
+      "ui:퇴근 뒤 저녁이 비교적 남는 자리:/퇴근 뒤 저녁이 비교적 남는 자리": {
+        "source_sha256": "b183e3b09490ca4c2796fc03776bed6d23319ff09a18f7d82b1c3a5a6d4c9dcd",
+        "target_sha256": "7428dd7b5192b7553b24a3bde3ce56407c69d98147999cc07a89adebb93dc536"
+      },
+      "ui:퇴근 뒤 회복할 시간이 필요한 자리:/퇴근 뒤 회복할 시간이 필요한 자리": {
+        "source_sha256": "d885fbb43a6fff7646a8d393a5f92b3f412295f847b4aa03cb67497e9711078d",
+        "target_sha256": "02e0283e2c67766701b481c42b511b1f9149e058b3949eb0463602cac7592875"
+      },
+      "ui:퇴근 뒤에도 일이 오래 남는 자리:/퇴근 뒤에도 일이 오래 남는 자리": {
+        "source_sha256": "aa9c1c4ea977b192440cd5362556a5f7048b63d23b22eba46d4d329cf05a692b",
+        "target_sha256": "c17df4a478ffed8f39069be905bcfe8f759426df9847604be72665e0a38a0b00"
+      },
+      "ui:투자감각 %d:/투자감각 %d": {
+        "source_sha256": "b888919bb6489e76914f3c30d8482b4b9cab3d44b8921b353d32f872e268d416",
+        "target_sha256": "556db80dced912eb99a5e8b6a35c9303aec18379e5c76996f4f2ee48b38b9930"
+      },
+      "ui:현금 %s:/현금 %s": {
+        "source_sha256": "63cbfe0c4cb1b82d54bfa0df8141dc14fed16e1f2bb70245035ee6a353230d8b",
+        "target_sha256": "35ab5084b31642220ab365f736ecac924107169e39fb28de6e1a35326cdccffb"
+      },
+      "ui:현재 경력:/현재 경력": {
+        "source_sha256": "572163ef59aaca320ff74d69e2796db3602444f14f8765b779c64c88aacd7c85",
+        "target_sha256": "edaa54c14e85f633b344783214d49ace661f77118e76cda8531c2e636f2d5538"
+      },
+      "ui:현재 직업:/현재 직업": {
+        "source_sha256": "4805f8c6f9e0a548db136be1b9e2aa4b44c0f9721432edeefa7610a22f96e74c",
+        "target_sha256": "f6a39be1db58e1144937701de4656f4bdd92dca8ca5bd185e66e4d8621fbc6fb"
+      },
+      "ui:후보 %d-%d / %d — 스크롤 대신 후보 커서로 이동:/후보 %d-%d ~1 %d — 스크롤 대신 후보 커서로 이동": {
+        "source_sha256": "3718a9b9b569796944252eb9a553b9c682e07359f942a7c61fcdeb863523249e",
+        "target_sha256": "9b4021566fe8dd18507b75a92fbc27f7cdedff4144b4da3c62e29a1a560f50f3"
       }
     },
     "zh-TW": {
@@ -168461,10 +168803,170 @@
       "ui:비 오는 저녁 배달:/비 오는 저녁 배달": {
         "source_sha256": "8944973fe50f9d8fc80d069943e13a14ed65f422fdabc1287b2200b60bf18ca9",
         "target_sha256": "d26336dd0172c02fba3d34a69fba0c0006560c44b14dd75f99b937280c399f9d"
+      },
+      "ui:/월:/~1월": {
+        "source_sha256": "ec29a6d711a100ab58bd23460c4ef30d0cbde25848a5e30466784b687f195a78",
+        "target_sha256": "4b5a8fb3db717ad1aa7ed5039bc085c29dcc62597adea90a9ecb0a2d8d8ead42"
+      },
+      "ui:Tier %d · %s:/Tier %d · %s": {
+        "source_sha256": "265a85350b5a9c1e074a592acd06a4f63e958f4422146cacfbdc57f75c08c025",
+        "target_sha256": "6329a08bcdc07c1c1e3381586a0025fa92fbe623f7cfd3d976d6fd4bab006ab8"
+      },
+      "ui:[b]패드[/b]  LB/RB 티어 · ↑↓ 후보 · %s %s · %s 뒤로  —  %s:/[b]패드[~1b]  LB~1RB 티어 · ↑↓ 후보 · %s %s · %s 뒤로  —  %s": {
+        "source_sha256": "a7d7dea0821dd30c5589e40bc08f168e8d5a4bb21efb9cbeebc8d83ab4f9fc0f",
+        "target_sha256": "aa1d1f62b5af96df6b8e4a8dfa90721bc6d51e6ae30b9cf5b09dcccb724b2eea"
+      },
+      "ui:ui.job.entry_tier:/ui.job.entry_tier": {
+        "source_sha256": "36cc34fe2353b87664c1757a67720194ed374c755c3124dda191b61982ade7b0",
+        "target_sha256": "a7fa7a32f34ea1c61aae64cccd237becf290202fb159e723a5547dd9e6c63476"
+      },
+      "ui:{strain} · 조건: {requirements}:/{strain} · 조건: {requirements}": {
+        "source_sha256": "99fe8b480b01a3def13932b50130f1f86f05595c4292fd59c02277691b77aa84",
+        "target_sha256": "c355433d53ded5fdd101d9dde4c03e4e0810f4a1df2f65be62775e92ddf0d99b"
+      },
+      "ui:↑↓ 후보 · LB/RB 티어 · 확인 지원:/↑↓ 후보 · LB~1RB 티어 · 확인 지원": {
+        "source_sha256": "4e4eab01ea78f60b3ac3197577f1d582e29b64293aadcadff740e456477d23f5",
+        "target_sha256": "5a51889241f633968d6e9c782bfcc46defbfc444706ed1d520c232049a203205"
+      },
+      "ui:경력 조건 미충족:/경력 조건 미충족": {
+        "source_sha256": "b047e88897f80b87858ad730616c57065600e8afc24dd0788a237ba806cb2b93",
+        "target_sha256": "80602ed04a4cf1779c09168e10786cc6a4e56e40aec8d44a295a4a991ab3e393"
+      },
+      "ui:마포 첫 면접 완료 · 다음 지원 진행 중:/마포 첫 면접 완료 · 다음 지원 진행 중": {
+        "source_sha256": "13d4841d2ba42f0bfc819b2a0072035540510b4f78872976b731c7d58e9f2069",
+        "target_sha256": "bb6531847c5614856190de69b3d58b2f33c1cec768c1f10a8ec75464ed60e6ec"
+      },
+      "ui:면접 OK:/면접 OK": {
+        "source_sha256": "be5a77e7e75ffc4f837f40cde92ee2a722c7fc69affa9824a83bfbe36afd05df",
+        "target_sha256": "67d89d48ea436debee206733de1f8bb4adcec8b2a9cec4153898386916c83995"
+      },
+      "ui:면접 필요:/면접 필요": {
+        "source_sha256": "616e9d3991c2956be90ba779cb0f531e4395d56a89cf0ec46cde55a069a256b4",
+        "target_sha256": "088d353730b982babb5ccc650a988343aadca66e77ed4f4d92f6f389ac5d23e1"
+      },
+      "ui:무직 · 이번 주 구직 AP 사용됨:/무직 · 이번 주 구직 AP 사용됨": {
+        "source_sha256": "a4701210bcde48ca2d0a8736389dda25c8765d98a4a61383e4a1e0ca476fa446",
+        "target_sha256": "54f06644c07639c2d9303b0340871dcbbb5b5846b2354233fbf872120948fe51"
+      },
+      "ui:사회성 %d:/사회성 %d": {
+        "source_sha256": "62ddad245619958d2fc07f70cf0056cf2aa2d7fc99c36d79e215b44526d3cec6",
+        "target_sha256": "a29c6d797959ce6a2757079a0eb50c62db688382e5e696ba75f3bdde1d962bbb"
+      },
+      "ui:상위:/상위": {
+        "source_sha256": "2ece06cd29f07d382fdc079bd4f0aea256c22f5c60bf78d4e2e5d00737f617ab",
+        "target_sha256": "f5a8c55cd0ddeb856ba78ea1c791e35be5476d9da04c10a4fdd8b048b0963b64"
+      },
+      "ui:성장:/성장": {
+        "source_sha256": "1a06cbc9856cb71a4cf28398305a5fc7338d5815201f0897c604d0ffcb3422ae",
+        "target_sha256": "e6db5587f852c4bae60da9baf51b5e7ef8770c9ecc9da62d7f235f08209d99f3"
+      },
+      "ui:승진:/승진": {
+        "source_sha256": "a081f84a6fcaeaa1426539c35afa383d9af1f8ccf06c1d834ce6789b52239d91",
+        "target_sha256": "fb2f15c7ef5a67669906a7521366f7b364afac87403404b1c48015168b7e5c0c"
+      },
+      "ui:외모 %d:/외모 %d": {
+        "source_sha256": "401ba25a6b2f4b7580e2c04173342c54a92ed96c228cfd5ff4481f206e06466a",
+        "target_sha256": "a01523835d647a203a153fe1580994c132f005aa6014933c03c5651118fc5616"
+      },
+      "ui:이 티어의 직업 데이터가 없습니다.:/이 티어의 직업 데이터가 없습니다.": {
+        "source_sha256": "5f3b7e594238b2565b164554688383208e43cddb708ca1e8633f6c9692259119",
+        "target_sha256": "80d36505ab44730aef47cf40a08a81eb34610313bc1b9c667b1e8846da39e5f6"
+      },
+      "ui:이력서 OK:/이력서 OK": {
+        "source_sha256": "3380632088142c3a56c3fb66738ebdff92dad75a15432f7d4598fd72ceadaa13",
+        "target_sha256": "62d32acdc321147a359c209dfb85ad2e28bedc7c542a8188782774db6f3bb4e2"
+      },
+      "ui:이력서 먼저 완성 필요:/이력서 먼저 완성 필요": {
+        "source_sha256": "8abe6c63287ec2bb17f63b69c2381ba755fdb4f7ce033dba782005928d503b76",
+        "target_sha256": "b93dea36bed3228178c67ab38a751b4aa71f1b1c8a97919097e3fb444422f6a7"
+      },
+      "ui:이력서 필요:/이력서 필요": {
+        "source_sha256": "3e729e127f32ea9146fd5dad995f66894de61e41f00771349de1f2fb8f434b46",
+        "target_sha256": "b0f24ff25eae486f3848edb7556d4076e8d8d37d17eb04b32fdce1d23f201498"
+      },
+      "ui:전문가:/전문가": {
+        "source_sha256": "6e84980b03ee2e4215b3cd6737d0919062ac9d2d0acc7b579eba6c8786e61d1e",
+        "target_sha256": "6980ae3144a13fc9ab42a760dcb0ef50ecf638346fcaa7c29d32e6ca63affc8c"
+      },
+      "ui:제한 없음:/제한 없음": {
+        "source_sha256": "9bca15f4297bae0035003cf920d97610ec48418dddeb41bd49f0c06b257e3e9e",
+        "target_sha256": "f4bb86a0394a112c3c9bdf1836f677d6aab87e66ab8e18a8ed277593fdcd9d6c"
+      },
+      "ui:조건 확인:/조건 확인": {
+        "source_sha256": "fd6cd2cbd9b9e7899453d1561ba33b6204423c6c5f38afe4eec680928c35f903",
+        "target_sha256": "0d488ea3e9062d0064d27d468bab4ea2caf553fbf1d951298b3f1ba82413c4c0"
+      },
+      "ui:준비도:/준비도": {
+        "source_sha256": "7e83463e8fa65a95d355fb0dc21ddd8cac7dc2c2ae3289364275786aac2bbb19",
+        "target_sha256": "0f8b11d4d716f8ba964b82f86c5cc4b0e29849cb7063edeec3b1c246d09f5975"
+      },
+      "ui:지력 %d · 사회성 %d · 외모 %d:/지력 %d · 사회성 %d · 외모 %d": {
+        "source_sha256": "850964854f100ab91e60d34d952305d1dcbaab1af1a26f0ae09c71f7024a847b",
+        "target_sha256": "96bb5b0dd88d01f2a8bbf09cd673fb0ea7bc4c868b5275109ac5e42327f49740"
+      },
+      "ui:지력 %d:/지력 %d": {
+        "source_sha256": "6e744a5d2d9ca4ec53255caf60ce880ffeb526451d4774cccf39e7cdac46651a",
+        "target_sha256": "c616f15e23eafc7f3847cabd3abc8ecccf65732085bc06beaa4bae0d27a0187a"
+      },
+      "ui:지원 스탯:/지원 스탯": {
+        "source_sha256": "bbd417056c6d8ed989e2619dc19779e37d01d0ff687df529fc72bc30f35ffd59",
+        "target_sha256": "18791ca724dba85c159932918aebde20d67a1a6f38a0bc41ab417f4c8f58c966"
+      },
+      "ui:지원 조건 부족:/지원 조건 부족": {
+        "source_sha256": "2327be782f3dda8e249aeb16b3e2949c09494ea20035d9b5bc7403e31c818a91",
+        "target_sha256": "230d0b2322a169396c3da552cd063a744ad86ddf090c2d2d06d2389a75ba0835"
+      },
+      "ui:지원:/지원": {
+        "source_sha256": "541bfe4a5ee2784ce42123cee01d2258e0947afd2138866d047c99b9cdaab61d",
+        "target_sha256": "d5613d797fd485988d5744ff22d173d49cba634f30a42d15431a08ef254b47ab"
+      },
+      "ui:지원하기:/지원하기": {
+        "source_sha256": "3638eab82ddc1211901458dc0433d81e3b9a3746eb00ae6498b8f4b186875776",
+        "target_sha256": "d5613d797fd485988d5744ff22d173d49cba634f30a42d15431a08ef254b47ab"
+      },
+      "ui:직업 선택:/직업 선택": {
+        "source_sha256": "41e11479ec067e1f8e919188a39abdcf91d0a0cc9e3a4bdcce285b3ba3fb80fa",
+        "target_sha256": "1a180d12d7cdb46b3460abd4edd64d5b22d18e0ff4ba42148d47e3d52e4d2ca7"
+      },
+      "ui:직업 없음:/직업 없음": {
+        "source_sha256": "ecf461f7aca919fb11dc5fcfa5a3b2dcc15249bbe03c019c8ef244e96772b1d7",
+        "target_sha256": "14ff519619a6c79f44bf2b22bc393f4d641617f7cdae38e0265d9b23f362aa2f"
+      },
+      "ui:퇴근 뒤 저녁이 비교적 남는 자리:/퇴근 뒤 저녁이 비교적 남는 자리": {
+        "source_sha256": "b183e3b09490ca4c2796fc03776bed6d23319ff09a18f7d82b1c3a5a6d4c9dcd",
+        "target_sha256": "d18ed7b8110a5185f4e32708bfb87b104ae1caadfe658c0f55e3979910ca8500"
+      },
+      "ui:퇴근 뒤 회복할 시간이 필요한 자리:/퇴근 뒤 회복할 시간이 필요한 자리": {
+        "source_sha256": "d885fbb43a6fff7646a8d393a5f92b3f412295f847b4aa03cb67497e9711078d",
+        "target_sha256": "4951371071258df7eb581e5bb34283a9ed0c4e28f98ec2e0814016fe6342b29b"
+      },
+      "ui:퇴근 뒤에도 일이 오래 남는 자리:/퇴근 뒤에도 일이 오래 남는 자리": {
+        "source_sha256": "aa9c1c4ea977b192440cd5362556a5f7048b63d23b22eba46d4d329cf05a692b",
+        "target_sha256": "da10afe7599cc79360cc65ec401d7018db2a673e5855003dff9128ce4731732c"
+      },
+      "ui:투자감각 %d:/투자감각 %d": {
+        "source_sha256": "b888919bb6489e76914f3c30d8482b4b9cab3d44b8921b353d32f872e268d416",
+        "target_sha256": "8daf10cd12f0f3dde119209e4cc1c9936376324c9bd5f6a1fa31d5195f11f759"
+      },
+      "ui:현금 %s:/현금 %s": {
+        "source_sha256": "63cbfe0c4cb1b82d54bfa0df8141dc14fed16e1f2bb70245035ee6a353230d8b",
+        "target_sha256": "046bdf8cd95221d99934ec9db0f1ba7bb0cfa5dce01b726d590d1b5d7794699b"
+      },
+      "ui:현재 경력:/현재 경력": {
+        "source_sha256": "572163ef59aaca320ff74d69e2796db3602444f14f8765b779c64c88aacd7c85",
+        "target_sha256": "9fa73dd20f41b62155bc6bbe067e02038d635bba4298645595686475f51fc632"
+      },
+      "ui:현재 직업:/현재 직업": {
+        "source_sha256": "4805f8c6f9e0a548db136be1b9e2aa4b44c0f9721432edeefa7610a22f96e74c",
+        "target_sha256": "5b44a0a3a2b2699696bc8c7361845cf3b7ece8bf93cc29e44e998b8f8a847af3"
+      },
+      "ui:후보 %d-%d / %d — 스크롤 대신 후보 커서로 이동:/후보 %d-%d ~1 %d — 스크롤 대신 후보 커서로 이동": {
+        "source_sha256": "3718a9b9b569796944252eb9a553b9c682e07359f942a7c61fcdeb863523249e",
+        "target_sha256": "d1a0ddf311b84072f277db54355379b7cf7fea6ed6c7a1ec510c12b8a6facd88"
       }
     }
   },
-  "accepted_sha256": "bdafa7287246af36a84c80854611b553fede4064f01261b00799e7620a39b337",
+  "accepted_sha256": "54efb1a91a6239cd469413214d264082b5381cc82738dfcd54055b479069e068",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
