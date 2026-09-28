@@ -6056,7 +6056,7 @@ func _show_tutorial() -> void:
 	modal_body.add_child(_tutorial_card(
 		"health",
 		LocaleManager.ui_context("ui.tutorial.danger", "위험", "Danger"),
-		_tr("건강/정신력이 0이 되거나 빚이 -1억을 넘으면 끝납니다.", "It's over if Health/Mental hits 0, or if debt exceeds -KRW 100M."),
+		_tr("건강/정신력이 0이 되거나 순자산이 -1억 원 미만이면 끝납니다.", "It's over if Health/Mental hits 0, or if Net Worth falls below -KRW 100M."),
 		"#ff6b6b"))
 	modal_body.add_child(_wrap_label(
 		_tr("첫 주 추천: 구직활동으로 수입 0원 상태를 먼저 벗어나세요.",
