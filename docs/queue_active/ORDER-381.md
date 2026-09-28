@@ -53,3 +53,20 @@ WORK_LOG 용량이 부족하면 기존 `docs/history/WORK_LOG_2026-09-07_localiz
 - root만 proven pre-autoload 격리 엔진 실행. 원래379 실패4실행/380 GO를 보존하고
   독립 후속 판정까지 부모379 HOLD다. 공개GO1·인간OPEN45·본편/새package HOLD.
 외부출시·스토어·지출·법률 권한은 포함하지 않는다. 정확 수정/핀/검사계획은 일회성.
+
+## 실제 실행 결과·후속 경계
+- 제품 `b9b5c3d`, 검사 도구 포함 clean 실행 `a332f746636e677a4b77d9d97d08353bcf0addc1`.
+- L1: 새 self43·current guard·영향 consumer5·등록/context/queue/diff =11검사 PASS,
+  선택조회1은 검사로 세지 않는다. 전후 source census 불변.
+- L2: 13준비상태/13PNG·사전92lookup·5언어 합성 키보드40edges. 기존379의
+  10화면과 이번3소유표적은 정상. CN/TW 뒤로가기1px→50px(실제문구50px),
+  regional normal/bold 공유 font 및 ×11노드 glyph 확인. 실사용자34파일 불변.
+- 새 EN T3 경력란 `Public Agency Contract Worker · Tier 3 · Promotions 1/3`이
+  372/288px로 잘려 **전체 실행은 FAIL 그대로 보존**한다. 이는 이번 세 소비자
+  밖의 기존 status label이며 새382로 분리한다. KO/JA 추가 화면 정상이다.
+- 도달: 준비된 MainGame 취업 모달에서 E/Down/Q/Esc 실제 합성 dispatch.
+  생산자/독자: `_build_modal`/`_open_jobs` → `_open_modal`/`_refresh_job_pad_hint`.
+  상태: 표시폭·font·glyph만 변경; 경제/채용/정산0, 포기비용/서사위치/계층=N/A(UI).
+  취소 검사는 비어 있는 pending/bundle/resume와 local current_event sentinel을
+  명시 준비·복구했다. 자연 주차복귀/인간/원어민/물리 관측으로 바꾸지 않는다.
+- 최종 독립 판정은 원본 전체FAIL과 좁은 범위 증거를 함께 읽은 뒤 별도 기록한다.
