@@ -2,10 +2,10 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [ ] ORDER-362 [P1·검증] 4장 수리 뒤 콘텐츠 검토 지문 두 축을 다시 결속한다
+#### [~] ORDER-362 [P1·검증] 4장 수리 뒤 콘텐츠 검토 지문 두 축을 다시 결속한다
 
 2026-09-28 Codex 발행. 351의 실제 release inventory 실패를 분리한 후속이다.
-361 검증 연결 구현 뒤·352 새 집필 전에 수행한다. 구현·지문 갱신은 아직0이다.
+361 검증 연결 구현 뒤·352 새 집필 전에 수행한다. 2026-09-28 착수 선언이며 구현·지문 갱신은 아직0이다.
 361에서 발견한 기존360 기록의 Chapter1 연결 누락은 별도363이 이 작업 뒤에
 수리한다. 이 기록을 곧 다시 바꿀 예정이므로360만 먼저 연결해 같은 검사를
 반복하지 않는다. 361 GO를 이 작업의 선행으로 요구하는 순환 대기는 두지 않는다.
@@ -41,6 +41,30 @@
   export 필터·스토어는 비소유다. 사실 변화가 있으면 별도 범위를 선언한다.
 
 ## 완료 조건
+
+### 2026-09-28 착수 소유·검증 선언 (일회성)
+
+- 시작점 main `42fe58882e3e32b9eeeb86614c1b2fe88f88819e`, clean.
+  저자 `/root`만 위 제품 2파일을 수정한다. 비저자 `/root/r3_route_probe`는
+  실제 candidate event 전체와 원문 변경을 독립 검토하고 clean source 최종
+  보고를 `.git/full-game-localization/order362-independent-final-review.json`에 쓴다.
+  root가 검증 후 `docs/agent_reviews/ORDER-362.json`으로 보존하고
+  `docs/agent_decisions.json`에 새 work_unit 판단만 append한다.
+- CLAUDE·큐·WORK_UNIT와 QA/build/release 프로필 5정본을 확인했다.
+  기준 `c94cd3ae19f22a015b3bd6b6e25afb17a8561242`의 두 축을 재계산하고
+  현재까지 후보 집합·전체 KO/EN 사건 차이를 분해한다. 서사·등급 판단은
+  기존 사실/강도와의 일치 검토로 한정한다.
+- `audit_select.py --base 42fe58882e3e32b9eeeb86614c1b2fe88f88819e`로 영향도를
+  확인한다. 실제 실행은 inventory normal(생성문서 신선도 포함)/self-test,
+  context_manifest/queue_consistency, append 뒤 agent 결정 원장 검사다.
+  기존 생성기의 `--write-report`는 생성 작업이며 추가 테스트로 세지 않는다.
+  체크 전후 exact text source census와 원래351 실패 증거를 보존한다.
+- 원문/runtime/도구 변경0이므로 Godot·화면·240주·전체 감사·351/361의 통과
+  차선을 반복하지 않는다. 알려진 Chapter1 두 실패는363까지 보존하며
+  이를 이 오더의 PASS나 본편 GO로 바꾸지 않는다. 도구 소유 확장0.
+- 마감 소유는 위 명시 문서 외 완료 큐 이동용
+  `docs/CODEX_QUEUE_L3_PENDING.md` 순번, `docs/queue_archive/CODEX_QUEUE_2026-09.md`
+  완료 행/사양 이동이다. 기존 행·판정·원문은 보존한다.
 
 - 실제 원문 차이와 두 축 판단을 비저자가 전수 확인한다. normal/self-test,
   생성문서 신선도와 해당 표적 검증을 실행하고 원래3오류를 보존한다.
