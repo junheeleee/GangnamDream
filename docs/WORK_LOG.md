@@ -2,6 +2,17 @@
 
 이전 원문 전체는 [2026-09-28 이전 기록](history/WORK_LOG_2026-09-28_pre_order351.md)에 바이트 그대로 보존했다.
 
+## 2026-09-28 (Codex — 4장 대본 수리의 통합 판정 마감)
+
+- 마감 문서·큐 검사 PASS(active77/in_progress74), 판정 원장 self222 PASS(44.785초). 실행 기록은 `order363-metadata-integration-closure-{context,queue,agent}.json`에 별도 보존했다. 새2판정·2보고와 사양 보관을 검사한 결과이며, 과거 제품 검사 횟수에는 더하지 않는다.
+- 아버지의 재입원·퇴원 사이 설명, 병원 영문명, 다은의 호칭, 민서 전세 주석과 불분명한 행동/슬롯 표현을 고친 기존87문구·번역48갱신의 통합 검수를 마쳤다. 새 문구·게임 코드·수용 CLI·엔진/PNG 재실행0. 기존 실행을 현재와 결속하는 후속 검수다.
+- [351](queue_archive/ORDER-351.md)과 [361](queue_archive/ORDER-361.md)은 비저자의 별도 한정 GO다. source `6090555f19fe5e458c9074dbf4730596b95557cf`/tree `12515cdce2691f9a23a38e6bac428d11b9be1ec1`. [351 후속](agent_reviews/ORDER-351-followup.json) SHA `0b99631b68cd7424c4679b67faf16d19fdc5c7b7477f42110bb28d1a371fe9ef`, [361 후속](agent_reviews/ORDER-361-followup.json) SHA `375de9cf8e368fab8b0f5538bc4ed8e64a1a3363b610ec12e01da86ad85f355a`. 기존124판정/102보고는 raw 그대로, 새2건씩만 추가(126/104).
+- 351의 admission6경로는361 full-body162, 지문2축/생성표는362 원문검토·normal/self45, 361의1장두실패는363/364 normal/full689에 연결했다. 나머지 통과 결과는 같은 제품/도구 및 바뀐 필드와 소비자 경계의 비영향으로만 재사용한다. 기존 실패·전체검사 미실행 사실은 소급해 바꾸지 않는다.
+- private 보존 증거 `order351-361-followup-proof.json` SHA `9f1dc9a6b8a6f3fcd971d246ba78f3ba6c408af25b629eca608ffb162131b713`: 제품12 raw·기존124판정/102보고·334참조 artifact(원본PNG70 포함)를 실제 대조했다. 저자 정적 증거이며 독립 판정은 위 두 보고가 소유한다.
+- 첫 후속 context는351의17063B가16KB를 넘어 실패했다. 새 공동선언 전문을361로 옮겨 기존 기록 생략 없이15042/11996B로 정리한 뒤 context/queue PASS. 문서 한계 실패는 제품 수용 실패나 재실행으로 합산하지 않는다.
+- 개발 스킬의 파일 소유 분리·보존 증거·독립 판정에 따라 마감했다. 실제 원어민/인간/물리 관찰0, 기존64준비상태/70PNG는 자연 입력/연속 플레이가 아니다. Chapter1 부채8/blocked3/24슬롯gap, 민서 기억·산문 심화, 본편/새package HOLD 및 공개 GO1/인간OPEN45를 보존한다. 일회성/상시승격0/외부권한행사0.
+- 다음 안전한 후보(미착수): `JobHuntMiniGame._show_result()`의 제목2/반응8/설명8/몸 반응4, 정확22키×CN/TW=44값. `/root/screen_path_probe`가 JA 존재·두 중국어 사전/공식 receipt 부재와 MainGame→open(0/1) 소비자를 읽기 전용으로 확인했다. 새365 선언에는 사전2파일·정식44 receipt와 `order351_source_compat.py:387`의 원장 raw guard 후속 경계를 함께 명시해야 한다. 현재 핀 변경/우회·제품 수정·새 수용0. 완료/확인/지원서 검토로 제외, 블랙잭9키는 원문 규칙 의미 위험으로 보류,352는5장 선행 HOLD 유지.
+
 ## 2026-09-28 (Codex — 검토된 콘텐츠 기록과 1장 역사 비교 연결)
 
 - 마감 context/queue PASS(active79/in_progress76), 판정 원장 self222 PASS. 기존122개 원장 raw prefix와 새 보고2개의 private 원본 동일성·증거19개 SHA를 확인했다. 351/361의 다음 통합 검수는 기존 문구87·화면70PNG와 검증 결과의 변경 영향만 잇는 별도 범위이며 아직 미판정이다.
@@ -23,7 +34,7 @@
 
 - 비저자 [361 최종보고](agent_reviews/ORDER-361.json) SHA `eb4ddd52afed87de1100f0a654bce578c7c88665976b064179d150de3c2b2b84`를 private원본과 byte-identical로 보존했다. clean source `22f0d0ddbb42e393bf290ecaf0c664d28a3d5163`/tree `6246af71a02a922e36cb6756f8b37300ee85401f`에 결속한 HOLD이며 기존120판정/98보고 뒤 각1개만 append(121/99)했다. 실행→마감은 문서8변경+363추가뿐이고 검사한 코드/제품은 동일, 전체20실행과역사fixture 신원을 독립 재대조했다. 미결1원인/2실패와362→363 순서를 유지한다.
 
-- [361](queue_active/ORDER-361.md)의 새 경계·소비자5·등록2를 구현했다. 선언 `759150139201d231b9df06edd5cc1a1f1c9e8938` 뒤 정확8도구이며 제품·번역·원형6모듈·기존120판정/98보고·인간 원장을 보존했다. 현재351의 raw12경로/87기존문구/48갱신receipt, LIVE44/역사KOEN17파일107leaf만 결속한다.40302/b142/meta9/보류72 불변이다.
+- [361](queue_archive/ORDER-361.md)의 새 경계·소비자5·등록2를 구현했다. 선언 `759150139201d231b9df06edd5cc1a1f1c9e8938` 뒤 정확8도구이며 제품·번역·원형6모듈·기존120판정/98보고·인간 원장을 보존했다. 현재351의 raw12경로/87기존문구/48갱신receipt, LIVE44/역사KOEN17파일107leaf만 결속한다.40302/b142/meta9/보류72 불변이다.
 - 명시19종은 최초17PASS/2FAIL. full-body normal/self162가 원래351 admission6경로 실패를 해소했다. 새 경계795·역사1955·graph388·year51212(1316.355초)·chapter5146·locale264 PASS. 기존350 corpus와year5의155등록11/비도달 경계는 그대로다. 옛350 직접CLI·전체shell PASS를 주장하지 않는다.
 - chapter1 normal/self는 inventory snapshot mismatch로 각각 exit1(37.689/37.028초), self는 준비 단계 중단이다. 기존622/신규4사례 실행 완료0. 이전360의 정확6지문 갱신(eaa588…1764→2ff675…88b0)이 역사 비교 체인에 빠져 있음을 저자·비저자가 Git/소비자에서 각각 확인했다. [362](queue_archive/ORDER-362.md) 실제 내용 검토 후 [363](queue_archive/ORDER-363.md)에서 두 정확 기록 전이를 함께 연결하도록 새 범위를 선언했다. 원형pin 덮어쓰기·351의12경로 확장0이다.
 - 독립 검수로 receipt 반례2개의 정렬 직렬화가 의도한 손상보다 key순서에서 먼저 거절되는 약점을 보강했다. `self_test` 두 표현만 `_ordered`로 수정 후 해당1종795 재실행 PASS(77.975초), 최초 약한PASS도 보존했다. 두 표현을 치환하면 전체 AST가 같고 다른18 CLI는 해당 함수를 호출하지 않는다. 최종모듈 SHA `0d5de5fa6d80a87f1794f0ccfabee5b972feb195d09703474f040cb5481314ff`.
@@ -33,10 +44,10 @@
 ## 2026-09-28 (Codex — 4장 입퇴원·선택 문구·5언어 수리, 통합 HOLD)
 
 - 최종 clean 소스 `50e0d412fa6b35097319ca7a3c0e35b32c745f07`/tree `1ee7ddd995276504375d176282834804579375df`에 독립 [351 보고](agent_reviews/ORDER-351.json)를 결속했다. private 원본과 동일한 SHA `5097c0644efd03fc85946aa9bbeb1901ad4b8a44c0f8bdff841442c50453295a`이며 독립 원고87·PNG70장 검토 후 추가 필수 결함0, 통합 판정은 HOLD다. 옛119판정/97보고를 보존하고 각1개만 추가해120/98이며361·362 미구현/실패2종을 해소하거나 전체 출시를 승인한 기록이 아니다.
-- [351](queue_active/ORDER-351.md)의6문제 수리: 아버지 W153 재입원→W167 퇴원 뒤 식탁→W174 재입원을 세 관계 변형과 KTX 두 진입점에 맞췄다. 무연애의 자기 진료를 가짜 연인으로 바꾸지 않고 ‘지난 주말 가지 못한 곳’으로 회수한다. EN 병원명 Sungsim5곳·다은 호칭sir·전세 주석을 정리하고 선택 결과는 한 통의 전화로 확정했다. 민서의 전세 설명은 이전 설명 노출이 보장되지 않아 대사 밖 짧은 구절만 남겼다. M25 ‘퇴원 뒤’는 사양의 해석이지 당시 원문의 명시가 아니다.
+- [351](queue_archive/ORDER-351.md)의6문제 수리: 아버지 W153 재입원→W167 퇴원 뒤 식탁→W174 재입원을 세 관계 변형과 KTX 두 진입점에 맞췄다. 무연애의 자기 진료를 가짜 연인으로 바꾸지 않고 ‘지난 주말 가지 못한 곳’으로 회수한다. EN 병원명 Sungsim5곳·다은 호칭sir·전세 주석을 정리하고 선택 결과는 한 통의 전화로 확정했다. 민서의 전세 설명은 이전 설명 노출이 보장되지 않아 대사 밖 짧은 구절만 남겼다. M25 ‘퇴원 뒤’는 사양의 해석이지 당시 원문의 명시가 아니다.
 - 선언 `6297e8cbcd4e77278055b5e332f545ea32de90f9` 직접 다음 제품 `3f0aa92dc9c3bdefd6a333fa84481a318baad907`: 11JSON87기존문구(KO16/EN23/JA·CN·TW각16)+수용원장, 정확12파일이다. 새key/선택수/효과/의료2-of-3/스케줄/채널/경제 변경0. EN 민서 본문 개행8→6 외 토큰·문단 불변, 전체 허용문구 외 raw형식도 보존했다.
 - 한국어 직접 번역은 저자와 검수자를 분리해48개 전수 대조했다. pre/fresh2 export3쌍·새check/import3쌍·옛source stale거부3을 보존했다. 기존receipt48만 갱신하고40302/b142/meta9·보류72, 앞141batch를 유지한다. importer의 형식 재직렬화는 값/receipt를 유지한 채 원형 형식으로 복원했다. 독립검수의 KO조사2·EN수식2/직역투 지적을 수정했으며39+48문구에 남은 필수 결함0이다.
-- 명시 정적13명령 **11PASS/2FAIL**, locale self264 포함. full-body의 old350 successor6경로(drama5언어+ledger)와 콘텐츠crime/alcohol2지문+생성MD stale는 실패 그대로다. 별도[361](queue_active/ORDER-361.md)8도구 검증 연결, [362](queue_archive/ORDER-362.md)2파일 지문 재검토를 선언했으며 아직 미구현이다. 영향77선택은77실행/전체shell 통과가 아니다. 정적summary SHA `1086ab3eaf68f8c2d94968c2b6747eaae0da805686ccc8f172518d25dfcc22e3`.
+- 명시 정적13명령 **11PASS/2FAIL**, locale self264 포함. full-body의 old350 successor6경로(drama5언어+ledger)와 콘텐츠crime/alcohol2지문+생성MD stale는 실패 그대로다. 별도[361](queue_archive/ORDER-361.md)8도구 검증 연결, [362](queue_archive/ORDER-362.md)2파일 지문 재검토를 선언했으며 아직 미구현이다. 영향77선택은77실행/전체shell 통과가 아니다. 정적summary SHA `1086ab3eaf68f8c2d94968c2b6747eaae0da805686ccc8f172518d25dfcc22e3`.
 - 실제 격리 StoryMode 최초5실행 모두 PASS: 5언어64준비상태·254페이지 label·28선택결과·70PNG. 매번1375소스 및 원본 사용자34파일 전후 동일, marker/오류로그0이고 성공 QA namespace만 정리했다. 원시139artifact 재해시 일치. index SHA `e4f983f6fc234e9272e40677344fdb24db52c990e61ab097d4906b9bb6ead081`. root는 대표9PNG를 직접 읽어 새 잘림/겹침을 못 봤다. 직접handler/typing완료/준비상태이며 자연입력·정상통독·스케줄러 replay·70장 전량 root시각검수가 아니다. path-cost fixture의 조건flag는 실제router와 다르므로 자연 ingress로 세지 않는다.
 - 모든 제품 검사는 선언HEAD dirty바이트에서 했다. clean제품커밋에서 재실행한 것으로 세지 않는다. 이후 CLAUDE 현재행과 로그 원문 보관은 source-bearing이므로 별도 최종clean후보에 독립 판정을 결속한다. 현재351 통합HOLD, 기존119판정/97보고·인간OPEN45·옛exact공개GO1을 보존한다.
 - 마감 문서 검사 첫 회에서 CLAUDE 부팅 예산36바이트 초과가 확인돼 현재행만 간추렸다. 원래 FAIL은 `order351-metadata-first.json`에 보존했고 수정 후 context PASS, 새 큐80항목 정합 PASS다. 이전 WORK_LOG 39825바이트 원문 보관 SHA `18722b5a89b413dc912b35941d765cc0e2a3199042da7034fd08d7da6d272572`를 선언Git과 정확 대조했다.

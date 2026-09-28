@@ -2,6 +2,33 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
+## 2026-09-28 통합 후속 최종 마감
+
+- 비저자 `/root/r3_route_probe`의 이 작업 한정 GO. 범위: 4장 수리의 현재 소스 admission·역사 비교 연결.
+  source `6090555f19fe5e458c9074dbf4730596b95557cf`, tree `12515cdce2691f9a23a38e6bac428d11b9be1ec1`.
+  [새 후속 보고](../agent_reviews/ORDER-361-followup.json) SHA `375de9cf8e368fab8b0f5538bc4ed8e64a1a3363b610ec12e01da86ad85f355a`.
+  이전 HOLD 보고·실패를 수정하지 않고 새 판정 두 건만 append(126판정/104보고)했다.
+- 원래19종의17PASS/2FAIL·20실행은 그대로 보존한다. 실패한 Chapter1 normal/self는363/364의 실제 normal/full689로 해소했고, 나머지17 PASS는 동일 도구와 변경 필드/호출 경계 비영향을 확인한 범위로 재사용한다. 역사1955 현재 StoryMode 경계는consumer7에 연결한다.
+- 제품12파일·게임·번역·수용총량·인간/공개 기록은 불변이다. 이번 신규 제품 수정·
+  수용 CLI·엔진·화면 재실행0. 과거 actual 증거와 현재 byte 동일성 및 후속 수리의
+  영향 경계를 새 clean source에 결속한 판정이며, 전체 입력 동일을 주장하지 않는다.
+- 최초 후속 context는351 문서17063B/16000B 초과로 FAIL했다. 새 공동선언을361로
+  이동한 뒤 context/queue PASS(15042B/11996B). 이 문서 실패와 재검도 따로 보존한다.
+- 본편/새package HOLD·원어민/인간/물리 미관측·Chapter1 부채8/blocked3/24슬롯gap 유지.
+  4장 전체 품질·민서 기억·산문 심화는 승인하지 않는다. 원어민/인간 판정 발급0.
+- 일회성 후속, 상시 규범 승격0. 자동 계약은 재미·깊이·문체 또는 인간 관찰이 아니다.
+
+| L2 항목 | 측정값 / 위치 |
+|---|---|
+| 도달 경로 | 기존 full-body162·inventory45·Chapter1 normal/full689 실제 기록 |
+| 생산자 ↔ 독자 | content/events/arc_chapter_themes.json:862 → tools/order351_source_compat.py:387 → tools/chapter1_core_loop_v2_causal_ledger_check.py:5021 |
+| 바꾸는 상태 | 기존 범위 통합 HOLD → 새 source-bound work_unit GO |
+| 포기 시 잃는 것 | 기존 수리87문구와6경로 admission/2축 지문/1장2검사의 통합 판정 |
+| 서사 위치 | M37~M48; 기존 문구 수리6항목 한정 |
+| 장면 계층 | N/A: 새 장면 저작0·수리 통합 검수 |
+| 닫는 것 | ORDER-361 한정; 본편/새package·전체4장·미관측 게이트 제외 |
+
+
 ## 2026-09-28 통합 후속 착수 — 기존 수리의 최종 판정만
 
 - clean main `2b6a3829f70e1ac14a97b55a2294f59f25b66b02`에서 CLAUDE·큐·이 사양·
@@ -38,7 +65,7 @@
   source에 독립 GO를 결속했으며, 이 작업의 별도 후속 보고/판정까지 통합 HOLD다.
 - 새 화면·자연 입력·원어민·인간·물리 관찰0, 공개 GO·본편/새package HOLD 유지.
 
-#### [~] ORDER-361 [P1·검증] 4장 문구 수리의 현재 소스와 역사 비교를 연결한다
+#### [x] ORDER-361 [P1·검증] 4장 문구 수리의 현재 소스와 역사 비교를 연결한다
 
 2026-09-28 Codex 발행. 351에서 실제 관측한 full-body current admission
 6경로 실패의 별도 후속이다. 아래 착수 선언 후 구현한다.

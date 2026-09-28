@@ -1,0 +1,56 @@
+{
+  "schema": "gangnamdream-independent-work-unit-review/v1",
+  "unit_id": "ORDER-361",
+  "scope": "work_unit",
+  "review_stage": "independent_source_bound_followup_final",
+  "review_date": "2026-09-28",
+  "decided_by": "/root/r3_route_probe",
+  "decision": "GO",
+  "verdict": "GO",
+  "subject": {"kind": "source", "commit": "6090555f19fe5e458c9074dbf4730596b95557cf", "tree": "12515cdce2691f9a23a38e6bac428d11b9be1ec1", "manifest_sha256": null},
+  "outcome": "GO for ORDER-361's exact351 compatibility integration and declared downstream verification. Strict repair/full-suite evidence now resolves the blocked Chapter1 normal/self boundary. No required finding remains in this unit. This is an independent6090555 decision, not borrowed GO or completed Chapter1/Chapter4/main-game/new-package approval.",
+  "independence": "Non-author review under gangnamdream-dev/WORK_UNIT. Prior full module/five-consumer/registration/recorder and19-results/retry review is retained. Here I read later repairs/raw evidence/docs, checked current identities/hashes and reviewed the proof helper. No implementation/test/tracked authorship or acceptance CLI/engine rerun occurred.",
+  "source_binding": {
+    "observed_clean_head": "3f0ff46dd5ce0408120b823ccd018051ae4b22f6",
+    "observed_head_tree": "22d918040b30631030d565fca9b63a9e7f4a43fe",
+    "resolver": "Direct empty porcelain/resolver agree with6090555. The read wrapper diff changes only STATUS/active351/361. Source-bearing CLAUDE is included in the new subject.",
+    "current_module_sha256": "0d5de5fa6d80a87f1794f0ccfabee5b972feb195d09703474f040cb5481314ff",
+    "current_chapter1_checker_sha256": "49a408e6955f7c5263d4c9e37f8fb65a53d44141eb94b9eec09625c6af2b6f74",
+    "execution_bridge": "Since361, nonmetadata changes are inventory JSON/MD and three tools: Chapter1 checker,audit_scope,audit.sh. Other compatibility/consumer code is unchanged. Successful363/364's1840 map to current1842 differs only in docs, with zero code/product drift. This is explicit input bridging, not execution on the clean subject or all-input identity."
+  },
+  "implementation_assessment": {
+    "exact_scope": "351 remains12 raw paths/87 existing strings/48 receipt refreshes,0 new receipts. Admission44 paths; historical KO/EN17 files/107 leaves, new39 disjoint from old68. JA/zh/ledger stay current-only. Product12 still equal3f0aa92dc9c3bdefd6a333fa84481a318baad907.",
+    "strictness": "Whole-current admission, fresh Git/module identity, parent/raw proof, ordered payloads, exact receipts and neighbor/rollback rejection remain. Minseo's8-to6 newline exception is exact. Original six modules/pins unchanged; year5 original350 post155 registration retains11 paths, not12, and new351 has no155 overlap.",
+    "repair": "363 proves inventory-only360 six-field+362 two-field raw transitions through fresh Git object/type/length/hash and parent/tree evidence, without broadening351 or replacing pins. Its first full exposed a fixture alias defect: KO arc_midgame proof belongs to350, not351.364 restores only the missing/altered-proof mock owner to chapter3_source. One-line inverse reconstructs initial363 bytes; production/input/assertions/count unchanged. This restores strict tests, not a waiver."
+  },
+  "verification_and_reuse": {
+    "original361": "19 types/20 executions remain17PASS/2FAIL. Ordered serialization at two receipt-fixture expressions prevented premature key-order rejection; distinct retry795 passed77.975s with production unchanged. Chapter1 normal/self failed inventory snapshot; self stopped before622+four completed. Original failures/HOLD remain.",
+    "later_actual_results": "363 normal passed retaining debt8/blocked3/W25..48 missing24; consumer7/focused63 passed. First full failed1033.169s with two proof errors.364 targeted18 passed9.908s; distinct full passed1025.104s, exit0/stderr0/no timeout/exact marker689.689=622+351 four+363 63;18/63 are subsets. Raw census full2/skip21/fallback1 and probes409/full_validations27/full_fallbacks19 remain.",
+    "nonintersecting_consumers": "Chapter5 reads only public_story_demo_package_contract/export_contract from inventory; both unchanged. Historical1955=original305132+310106+31663+isolated309286+313370+350998, not a fresh current-source run. Original316 unchanged; its changed live Chapter1 boundary is connected by actual363 consumer7. Registration has separate363 evidence. Reuse follows actual reader intersections, not majority-file identity.",
+    "current_metadata": "Integration context failed at351 size17063>16000. Only new joint declaration moved to361 with351 link; prior history retained, sizes15042/11996. Repaired context/queue passed: metadata1FAIL+2PASS, not acceptance types. Recorder binds logs/post-HEAD/status, not full census. STATUS wrapper preserves subject. New acceptance/historical1955/engine runs0."
+  },
+  "preservation": {
+    "evidence": "Proof/helper were read and matched to Git/raw data;334 linked artifacts rehashed, including70 old PNGs, not334 executions.351 product/runtime/assets remain exact; its1375 map has10 current doc/inventory/tool differences listed in proof. No whole-map-current identity claim.",
+    "records": "124 decisions/102 reports equal baseline2b6a3829f70e1ac14a97b55a2294f59f25b66b02. Old351/361 HOLD and all failures remain, not retroactive PASS. Human SHA6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6 preserves OPEN45/done1/old public GO. No package opened/rebuilt.",
+    "closure": "Only private report writes. Later root copy/append/archive/STATUS closure is not yet observed; moving active specs are not evidence paths."
+  },
+  "required_findings": [],
+  "evidence": [
+    {"path": "docs/agent_reviews/ORDER-361.json", "sha256": "eb4ddd52afed87de1100f0a654bce578c7c88665976b064179d150de3c2b2b84"},
+    {"path": "docs/agent_reviews/ORDER-363.json", "sha256": "06905b26daf5c50b3d2f70df90854f8dc490362c37c97c6078407cebc77e51d4"},
+    {"path": "docs/agent_reviews/ORDER-364.json", "sha256": "9ff285f31aedc94bf8add9a00305d198654914bbd3d4c4456670afb3bec778d2"},
+    {"path": ".git/full-game-localization/order361-final-aggregate.json", "sha256": "a673ff5461764bfa3b07924ddb0e250010abf818c2f1b6bb76b4f95780cbd1ce"},
+    {"path": ".git/full-game-localization/order351-361-followup-proof.py", "sha256": "a1e90eaaf637968fe8f8406f68de79125ff760fe28ea6117c03ed5102c1aa565"},
+    {"path": ".git/full-game-localization/order351-361-followup-proof.json", "sha256": "9f1dc9a6b8a6f3fcd971d246ba78f3ba6c408af25b629eca608ffb162131b713"},
+    {"path": ".git/full-game-localization/order363-first-normal.json", "sha256": "0bbe5eddca67d04cc817392449a6ad23fe6118623ab71087f4bf6d0431ffa5d9"},
+    {"path": ".git/full-game-localization/order363-first-consumer.json", "sha256": "1c01987e3b5a64699e87c7c6e9bcda0364cdf9353e7d174181501f05a4aa1bdb"},
+    {"path": ".git/full-game-localization/order363-long-self.json", "sha256": "91514fe267e97df46a17c77c11e8c264b251190e12739c5908b2f64abb2bbc82"},
+    {"path": ".git/full-game-localization/order363-proof364-proof.json", "sha256": "f013b9727cd1745acfd67f2b93324c2180f04363e7f6b1a53568cff9e5b1fd57"},
+    {"path": ".git/full-game-localization/order363-repaired-self.json", "sha256": "6980b31e18c9f822bb81f5a1ea6635e35c8009c546c41777442bc1243d62178e"},
+    {"path": ".git/full-game-localization/order363-metadata-integration-source-context.json", "sha256": "241e78ef611c319ff0bcf6c073e343a3e23b2a922e55bc1564c13854e251ffdd"},
+    {"path": ".git/full-game-localization/order363-metadata-integration-source-repaired-context.json", "sha256": "50112552412393c5c682c9444854207e4b2c12cec92bf3fb218fa83d1743b5cc"},
+    {"path": ".git/full-game-localization/order363-metadata-integration-source-repaired-queue.json", "sha256": "14a93d0e813269f004bb5eb9ca4ca2b026e416504401b9c71d357cd5e6572841"}
+  ],
+  "unobserved": ["native_reader", "human_playtest", "physical_controller_feel", "Acceptance or engine rerun on6090555/current wrapper; new screenshots, natural input, full playthrough or fresh package inspection/build.", "Final age-rating, legal certification, external release readiness and whole-game quality. Text/Git preservation is not actual binary/package or current user-data observation."],
+  "remaining_scope": "Chapter1 debt8/blocked3 and W25..48 gaps remain. Minseo memory, scene deepening and whole-Chapter4 review are not repaired by compatibility code. Main game/new package remain HOLD, as do the unobserved human/native/physical gates. This scoped agent decision does not change the old public GO or grant internal_product GO."
+}

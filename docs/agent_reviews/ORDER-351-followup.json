@@ -1,0 +1,51 @@
+{
+  "schema": "gangnamdream-independent-work-unit-review/v1",
+  "unit_id": "ORDER-351",
+  "scope": "work_unit",
+  "review_stage": "independent_source_bound_followup_final",
+  "review_date": "2026-09-28",
+  "decided_by": "/root/r3_route_probe",
+  "decision": "GO",
+  "verdict": "GO",
+  "subject": {"kind": "source", "commit": "6090555f19fe5e458c9074dbf4730596b95557cf", "tree": "12515cdce2691f9a23a38e6bac428d11b9be1ec1", "manifest_sha256": null},
+  "outcome": "GO only for ORDER-351's six prose repairs,48 receipt refreshes and resolved integration gates. No required finding remains in this unit. Whole Chapter4, main game, new package and external release are not approved.",
+  "independence": "Non-author review under gangnamdream-dev/WORK_UNIT. I previously read all87 changed strings/48 Korean-direct translations and viewed all70 PNGs. Here I checked their current identity, downstream repairs/raw results and preservation helper; automatic proof is not the verdict. No product/test/tracked authorship or acceptance CLI/engine/new visual inspection occurred in this follow-up.",
+  "source_binding": {
+    "observed_clean_head": "3f0ff46dd5ce0408120b823ccd018051ae4b22f6",
+    "observed_head_tree": "22d918040b30631030d565fca9b63a9e7f4a43fe",
+    "resolver": "Direct empty porcelain/resolver agree with6090555. The read wrapper diff changes only STATUS and active351/361 docs, not product/checker bytes.",
+    "product": "All12 product paths equal3f0aa92dc9c3bdefd6a333fa84481a318baad907 (parent6297e8cbcd4e77278055b5e332f545ea32de90f9).87 replacements=KO16/EN23/JA16/CN16/TW16;48 existing receipts refreshed,0 new. Gameplay/effects/condition order/schedule unchanged. Ledger40302/b142,meta9,deferred72 retained.",
+    "not_whole_input_identity": "Each original1375 text map has10 current differences: CLAUDE, inventory JSON/MD, audit.sh/scope and five consumers. The proof lists them. Runtime/assets are unchanged; only inventory differs within content since the product commit. This is not full filesystem/binary/user/package inspection."
+  },
+  "prose_and_display_assessment": {
+    "prose": "Prior suitable judgment remains: W153/W167/W174 father chronology wording, both KTX ingresses, relationship-neutral W157, EN hospital/respect wording, optional-context-safe jeonse gloss outside speech, and the actual phone-call result. M25 establishes a Wednesday call, not explicit discharge. Original report retains detailed reasoning and out-of-scope EN tense debt.",
+    "historical_runtime": "Original five runs:64 prepared states/254 labels/28 choice-results/70 PNGs. My earlier70-image view at1280x800 found no new observed clipping/glyph/overlap defect. All139 original artifacts, including70 PNGs, remain exact. Recorded source/user34 maps were unchanged per run; no current user inspection or screenshot rerun occurred.",
+    "runtime_limits": "Actual StoryMode handlers with prepared states/accelerated typing, not natural input. W157 default is direct-only; known-priority cases separate. arc_35_goal_vertigo_seen versus router arc_goal_vertigo_seen limits path-cost evidence to queued display, not ingress. KTX acquisition was not replayed;70 PNGs do not visually cover all254 pages. Original report's limits remain."
+  },
+  "resolved_required_findings": [
+    {"finding": "Full-body rejected five arc_drama files and ledger.", "resolution": "361 exact12-path/87-leaf/48-receipt compatibility passed actual full-body normal/self162. Current bytes and later inventory nonintersection were checked; old exit1 preserved."},
+    {"finding": "Inventory crime/alcohol fingerprints and generated Markdown stale:3 errors.", "resolution": "362 prose review covered four candidate events/eight KO/EN descriptions;31 other KO/EN changes lie outside candidates. Only two hashes/two generated cells changed, with candidate IDs/counts/facts/intensity retained. Actual normal/self45 passed: not blind rehash or rating approval."},
+    {"finding": "361 then exposed Chapter1 inventory observation failure.", "resolution": "363 exact360+362 Git/raw bridge retains old pins; normal/consumer7 passed. Its later full failure was separately repaired by364's original350 mock-owner restoration. Distinct full689 passed, without relabeling the old failures."}
+  ],
+  "history_and_current_metadata": {
+    "failure_history": "351 static13 remain11PASS/2FAIL;361 remains19 types/20 executions,17PASS/2FAIL with self early stop.363 first full exit1/1033.169s is preserved. Repaired full exit0/1025.104s/689/empty stderr is separate;63 and18 are included subsets. Follow-up acceptance runs0.",
+    "metadata": "Integration context failed at351 size17063>16000. Moving the new joint declaration to361 and linking351 preserved prior records; sizes15042/11996. Repaired context/queue passed: metadata1FAIL+2PASS, not product tests. Recorder binds logs/post-HEAD/status, not full before/after census; wrapper preserves6090555.",
+    "preservation": "124 decisions/102 reports equal baseline2b6a3829f70e1ac14a97b55a2294f59f25b66b02; old351/361 HOLD unchanged. Human ledger SHA6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6 preserves OPEN45/done1/old public GO.334 linked artifacts were rehashed, not334 tests. Later root append/archive closure is not yet observed."
+  },
+  "required_findings": [],
+  "evidence": [
+    {"path": "docs/agent_reviews/ORDER-351.json", "sha256": "5097c0644efd03fc85946aa9bbeb1901ad4b8a44c0f8bdff841442c50453295a"},
+    {"path": "docs/agent_reviews/ORDER-361.json", "sha256": "eb4ddd52afed87de1100f0a654bce578c7c88665976b064179d150de3c2b2b84"},
+    {"path": "docs/agent_reviews/ORDER-362.json", "sha256": "80ce364d6c6a1a06098cb681ecc29d28f1b029e7f3a6e892fcfea7acdb62e9ca"},
+    {"path": "docs/agent_reviews/ORDER-363.json", "sha256": "06905b26daf5c50b3d2f70df90854f8dc490362c37c97c6078407cebc77e51d4"},
+    {"path": "docs/agent_reviews/ORDER-364.json", "sha256": "9ff285f31aedc94bf8add9a00305d198654914bbd3d4c4456670afb3bec778d2"},
+    {"path": ".git/full-game-localization/order351-results-index.json", "sha256": "e4f983f6fc234e9272e40677344fdb24db52c990e61ab097d4906b9bb6ead081"},
+    {"path": ".git/full-game-localization/order351-361-followup-proof.py", "sha256": "a1e90eaaf637968fe8f8406f68de79125ff760fe28ea6117c03ed5102c1aa565"},
+    {"path": ".git/full-game-localization/order351-361-followup-proof.json", "sha256": "9f1dc9a6b8a6f3fcd971d246ba78f3ba6c408af25b629eca608ffb162131b713"},
+    {"path": ".git/full-game-localization/order363-metadata-integration-source-context.json", "sha256": "241e78ef611c319ff0bcf6c073e343a3e23b2a922e55bc1564c13854e251ffdd"},
+    {"path": ".git/full-game-localization/order363-metadata-integration-source-repaired-context.json", "sha256": "50112552412393c5c682c9444854207e4b2c12cec92bf3fb218fa83d1743b5cc"},
+    {"path": ".git/full-game-localization/order363-metadata-integration-source-repaired-queue.json", "sha256": "14a93d0e813269f004bb5eb9ca4ca2b026e416504401b9c71d357cd5e6572841"}
+  ],
+  "unobserved": ["native_reader", "human_playtest", "physical_controller_feel", "New acceptance/engine runs or screenshots on6090555 or its metadata wrapper; natural input, full playthrough and acquisition/calendar progression.", "Fresh package inspection/build, legal or final age-rating certification and external release readiness."],
+  "remaining_scope": "Minseo's weak prior-acquaintance memory, scene deepening and whole-Chapter4 quality remain outside these six repairs. Main game/new package remain HOLD; existing localization/UI debt and human gates remain. A scoped agent GO does not establish native-language readiness, human approval or broader product GO."
+}

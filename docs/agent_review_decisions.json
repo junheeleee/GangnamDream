@@ -5096,6 +5096,78 @@
         "path": "docs/agent_reviews/ORDER-364.json",
         "sha256": "9ff285f31aedc94bf8add9a00305d198654914bbd3d4c4456670afb3bec778d2"
       }
+    },
+    {
+      "id": "order-351-source-6090555-followup-agent-review",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-28",
+      "decided_by": "/root/r3_route_probe",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-351",
+      "subject": {
+        "kind": "source",
+        "commit": "6090555f19fe5e458c9074dbf4730596b95557cf",
+        "tree": "12515cdce2691f9a23a38e6bac428d11b9be1ec1",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-351-followup.json",
+          "sha256": "0b99631b68cd7424c4679b67faf16d19fdc5c7b7477f42110bb28d1a371fe9ef"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "New engine run, screenshots, natural input, continuous route/calendar play or full-game playthrough.",
+        "New acceptance CLI execution or a clean-current-source rerun; prior results are bound by exact preservation and affected-consumer evidence.",
+        "Whole Chapter4 narrative quality, deferred Minseo memory/prose expansion, full localization, internal-product or new-package approval.",
+        "External release, storefront action, spending and rating/legal certification."
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-351-followup.json",
+        "sha256": "0b99631b68cd7424c4679b67faf16d19fdc5c7b7477f42110bb28d1a371fe9ef"
+      }
+    },
+    {
+      "id": "order-361-source-6090555-followup-agent-review",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-28",
+      "decided_by": "/root/r3_route_probe",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-361",
+      "subject": {
+        "kind": "source",
+        "commit": "6090555f19fe5e458c9074dbf4730596b95557cf",
+        "tree": "12515cdce2691f9a23a38e6bac428d11b9be1ec1",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-361-followup.json",
+          "sha256": "375de9cf8e368fab8b0f5538bc4ed8e64a1a3363b610ec12e01da86ad85f355a"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "New engine run, screenshots, natural input, continuous route/calendar play or full-game playthrough.",
+        "New acceptance CLI execution or a clean-current-source rerun; prior results are bound by exact preservation and affected-consumer evidence.",
+        "Whole Chapter4 narrative quality, deferred Minseo memory/prose expansion, full localization, internal-product or new-package approval.",
+        "External release, storefront action, spending and rating/legal certification."
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-361-followup.json",
+        "sha256": "375de9cf8e368fab8b0f5538bc4ed8e64a1a3363b610ec12e01da86ad85f355a"
+      }
     }
   ]
 }
