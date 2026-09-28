@@ -5430,6 +5430,70 @@
           "batch_id": "ba20caada78d9b1484f4039a61cafe1aee90ae12e73c7faabe322a333431b614"
         }
       }
+    },
+    {
+      "order": "ORDER-378",
+      "group": "ui",
+      "roots": [
+        "배달 루트 설정",
+        "비 오는 저녁 배달"
+      ],
+      "source_leaves": 2,
+      "target_leaves_by_locale": {
+        "ja": 2,
+        "zh-CN": 2,
+        "zh-TW": 2
+      },
+      "source_review": "Korean-direct Japanese, Simplified Chinese and Traditional Chinese authoring: two conditional delivery headers, six values independently reviewed against the live Aruba weather selector. No runtime, source, public-demo or existing-value change. Agent review only, native and release gates remain open.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "ja": "b9580b9a84506734946118be25d4f2d8c007a6d2f9e59d94a7141dbb1dc6a0c3",
+        "zh-CN": "2156ce0252d5c63e184eda927fce566944bd103cae52dfa20bc606b9ed7a28e5",
+        "zh-TW": "d62adb8f3324b9275fe6378f6a445f2e5dce6a45dcb961bd43c232799164725c"
+      },
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "a13c2d362167f13390075b88ae892fe4683db2d0",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "d4f9690cf0f8b75bd4a8bebdf8bf142b9f89c486ab3402df8bf9d22ed8a1f929",
+          "selection_sha256": "674146dc823489534503506515ad6977175c99b36dd762776db69503edda90ef",
+          "count": 2,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "7fde919d23f52b3bb82f24acc7f49f99f3a8f165156022c7dbdf4e7ad8e172f4"
+        },
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "a13c2d362167f13390075b88ae892fe4683db2d0",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "d4f9690cf0f8b75bd4a8bebdf8bf142b9f89c486ab3402df8bf9d22ed8a1f929",
+          "selection_sha256": "6680ee8ca91019813fd3f73947891e17486bb0b01cf364eba0011c8e217da7aa",
+          "count": 2,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "cced26c3b68878f76ef94bb5644531ed479972f8077d1453402f9ad4a6942ad9"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "a13c2d362167f13390075b88ae892fe4683db2d0",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "d4f9690cf0f8b75bd4a8bebdf8bf142b9f89c486ab3402df8bf9d22ed8a1f929",
+          "selection_sha256": "5eb13ee8a0fbaef281840a96d837c4916114cbc2a241c004daa0ff6456da1a18",
+          "count": 2,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "60e44a0e9306db8dc4298b9807d6af5f82da0bce927786fc09a8fa92c8a56e76"
+        }
+      }
     }
   ],
   "accepted": {
@@ -57881,6 +57945,14 @@
       "events:arc_year3_close:/description_if_known/arc_jaehyuk_ghost_seen": {
         "source_sha256": "19bed5a3c220607364198e9f3288dbe5db6b4f7a68d3c79066ac63642d7074d8",
         "target_sha256": "9253ca98adf15ed3bb7938a97f0e95f8a57f6e933674a192d7d9c9fd3d4e8406"
+      },
+      "ui:배달 루트 설정:/배달 루트 설정": {
+        "source_sha256": "25abdac83a268ddfd42cc9fec6a0d2de6ec5395945b7be5b08f027c869ab1470",
+        "target_sha256": "fcdfa72ae4d4b6b91e213f695e5fd0eb84093a27d6fdcdd1dbdb067be337f5a0"
+      },
+      "ui:비 오는 저녁 배달:/비 오는 저녁 배달": {
+        "source_sha256": "8944973fe50f9d8fc80d069943e13a14ed65f422fdabc1287b2200b60bf18ca9",
+        "target_sha256": "066e1b53aa960d7529edb9b41de909a6c60dd0a5da3a4f18197d91e542217602"
       }
     },
     "zh-CN": {
@@ -113127,6 +113199,14 @@
       "ui:화를 내는 손님:/화를 내는 손님": {
         "source_sha256": "2f00e9a49bceef162588c6192e9bf238f5c5db183fa86b7c7326b70c7d81dcaf",
         "target_sha256": "35a1dc0271987996d561be1195df90d0d15bc59f4bd85b8a9623e2dc9388b90c"
+      },
+      "ui:배달 루트 설정:/배달 루트 설정": {
+        "source_sha256": "25abdac83a268ddfd42cc9fec6a0d2de6ec5395945b7be5b08f027c869ab1470",
+        "target_sha256": "067d3a08af5400cc46ed72df389fa19023bfa1ed564051be877ab77174ef7a5b"
+      },
+      "ui:비 오는 저녁 배달:/비 오는 저녁 배달": {
+        "source_sha256": "8944973fe50f9d8fc80d069943e13a14ed65f422fdabc1287b2200b60bf18ca9",
+        "target_sha256": "cbca59d24232b671026b2ebe577d60c3e725b1ae49e4dfcbc1393f41abad2e16"
       }
     },
     "zh-TW": {
@@ -168373,10 +168453,18 @@
       "ui:화를 내는 손님:/화를 내는 손님": {
         "source_sha256": "2f00e9a49bceef162588c6192e9bf238f5c5db183fa86b7c7326b70c7d81dcaf",
         "target_sha256": "6f5ad1228de59ca5c9251a5436aae668c749f3027de248aa082146d94624760c"
+      },
+      "ui:배달 루트 설정:/배달 루트 설정": {
+        "source_sha256": "25abdac83a268ddfd42cc9fec6a0d2de6ec5395945b7be5b08f027c869ab1470",
+        "target_sha256": "846094af5c01aec92977ad5ae6a6caa217f1c5dae8bf3f034438678a8236ac5f"
+      },
+      "ui:비 오는 저녁 배달:/비 오는 저녁 배달": {
+        "source_sha256": "8944973fe50f9d8fc80d069943e13a14ed65f422fdabc1287b2200b60bf18ca9",
+        "target_sha256": "d26336dd0172c02fba3d34a69fba0c0006560c44b14dd75f99b937280c399f9d"
       }
     }
   },
-  "accepted_sha256": "48a58f91ab605e76c2d26e2e572cd82bdd03a27afc81449260badea1805cca49",
+  "accepted_sha256": "bdafa7287246af36a84c80854611b553fede4064f01261b00799e7620a39b337",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
