@@ -1,0 +1,57 @@
+{
+  "schema": "gangnamdream-independent-work-unit-review/v1",
+  "unit_id": "ORDER-364",
+  "scope": "work_unit",
+  "review_stage": "independent_source_bound_final",
+  "review_date": "2026-09-28",
+  "decided_by": "/root/r3_route_probe",
+  "decision": "GO",
+  "verdict": "GO",
+  "subject": {"kind": "source", "commit": "ebd408f330c6d71f736b9f274f85389fe79d9c5d", "tree": "5d6b9ce690df6e378696201ae5063cd308134d7e", "manifest_sha256": null},
+  "outcome": "GO only for ORDER-364's one-line restoration of the original immutable-proof owner in two existing negative cases. The inputs and rejection assertions remain unchanged; targeted18 and the complete689 both passed. No required finding remains in this bounded unit. This does not approve ORDER-351/361 integration, completed Chapter1, main game, new package or external release.",
+  "independence": "Non-author agent review under gangnamdream-dev and WORK_UNIT. I independently read the original358 import, the361 import delta, current delegation behavior, the preserved failure, narrow reproduction, separate declaration, repaired line, private wrapper and actual raw results. I authored no repair, test or tracked file and reran no acceptance CLI or engine. The prior PENDING draft is not final evidence. Agent review is not human/native/physical observation.",
+  "source_binding": {
+    "clean": true,
+    "resolver": "Direct HEAD/tree, empty porcelain and current_agent_source_subject() independently agree with the exact subject. Remote publication and later metadata closure are not claimed.",
+    "declaration": "989a92db8829154e116296e5c807a3877f0b73b0 separately declared ORDER-364 before the owner repair while preserving the existing ORDER-363 implementation and failed run.",
+    "first_checker_sha256": "16e815a6fc7249b1ca20d6155057039edd392cbf2b17919fc2fd3898e4c2e079",
+    "final_checker_sha256": "49a408e6955f7c5263d4c9e37f8fb65a53d44141eb94b9eec09625c6af2b6f74",
+    "exact_inverse": "Exactly one mock owner occurrence was changed. Replacing chapter3_source with its previous current_source spelling on that line reconstructs the complete initial363 checker SHA, proving all other checker bytes unchanged. The repaired code bytes are identical in targeted18, successful full and final clean source.",
+    "execution_bridge": "Targeted18 and successful full ran on declaration989a92db with three dirty implementation files, not the clean commit. Their 1840-path text maps are identical and each is unchanged before/after. Independent comparison to the clean source finds no path additions/removals and exactly eight documentation changes: CLAUDE, CODEX_QUEUE, STATUS, WORK_LOG and specs351/361/363/364. All code/product bytes match. Final document changes were directly read at the Git subject. Source context/queue records were separately checked; their recorder binds commands/logs and post-run HEAD/status, not a full before/after census. Archived active-spec paths are not used as evidence-file references."
+  },
+  "cause_and_repair_assessment": {
+    "original_owner": "At 0bfc2805fd1ebb21363174a5a779511a3208e03a, current_source imported order350_source_compat. At 22f0d0ddbb42e393bf290ecaf0c664d28a3d5163 the alias moved to order351_source_compat while original350 remained chapter3_source. The unchanged old fixture text therefore began mocking a different proof owner.",
+    "observed_failure": "KO arc_midgame is outside351 CURRENT_PATHS, so its current raw admission uses original350 proof. Mocking351.verified_blobs instead causes missing proof to return the unchanged comparison hash without source errors, or an unused altered pair to fall through to the old projection. The original two assertions fail. New363 inventory proof is not entered by this direct boundary test. The failure was exposed after the earlier inventory preparation blocker was removed.",
+    "repair": "Only mock.patch.object(current_source, 'verified_blobs', **kwargs) inside order350_source_boundary_self_test becomes mock.patch.object(chapter3_source, 'verified_blobs', **kwargs). The same missing/altered proof payloads, raw/claim values, expected rejection, loop count and production behavior remain. This restores original semantic ownership rather than weakening tests or replacing immutable pins.",
+    "scope_judgment": "The narrow owner restoration is appropriate: the real old proof still must reject missing/altered data, and no new production guard, shared module, gameplay or inventory change is required. The exact inverse and successful unchanged assertions support this judgment independently of the aggregate PASS count."
+  },
+  "verification": {
+    "targeted18": "Directly verified record f013b972… plus entry/stdout/stderr SHA references. Exact ORDER364_ORIGINAL_PROOF_BOUNDARY_OK cases=18 marker, exit0, 9.908s, timeout false and stderr empty. The wrapper invokes the original function and asserts both no failures and exactly18; it does not substitute new cases.",
+    "wrapper": "order364-proof.py reuses the unchanged order363 recorder through runpy and adds its own SHA to before/after state. Wrapper SHA7a9f5d89… and recorder SHAaa0e45cd… match the actual files. The order363-proof364 artifact prefix is a naming convention, not misattribution of the repair.",
+    "complete_full": "The successful full record, entry and raw logs were independently read/rehashed: exit0, 1025.104s, no timeout, empty stderr and exactly one success marker with cases=689. Actual stdout also retains census full=2 skip=21 fallback=1 and reports probes409/full_validations27/full_fallbacks19. The main sequence reaches the original18 boundary before the351 four and363 63 and prints success only after all finish. Thus the prior two failures now pass in the complete suite, not only in isolation. 689=existing622+351 four+363 63; targeted18/focused63 are included subsets, not added cases.",
+    "first_failure_preserved": "Original full remains exit1 at1033.169s with the two exact proof-boundary errors, record SHA91514fe2…. Its later351/363 blocks were not reached and are not retrospectively reported as completed. The original361 inventory normal/self failures also remain unchanged.",
+    "nonimpact": "Only full --self-test and the private proof wrapper call the modified function. The prior363 focused/normal/consumer/registration modes do not, so their preserved results are not invalidated by this line. Initial context/queue are evidence of their earlier documents; final source-document context/queue were actually rerun separately and passed (0.078s/0.042s, queue active81/in_progress78).",
+    "counts": "Combined363/364 declared acceptance evidence is8 types across9 executions, including the preserved failed first full. Separate metadata checks are not counted as new acceptance types, and the owner's narrow reproduction is diagnostic evidence rather than a full-suite PASS. No reviewer acceptance or engine rerun occurred."
+  },
+  "preservation": {
+    "prior_records": "At this final source, all100 prior reports and the complete122-decision ledger equal baseline543199909e0d56196d3f106dd490d45a486f4246 raw Git bytes. Ledger SHA524220265ea6c2b2e0e7b7aa1f35f4b50053b6eaf6c4efef054d939ffb4361e2.",
+    "human_public": "Human ledger SHA6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6 is unchanged: OPEN45/done1 and old exact public GO are preserved, not newly certified. Package contents were not reopened or rebuilt.",
+    "code_product": "Content, runtime, project settings, generated inventory report, original305/310/316/309/313/350 and current351 modules are unchanged against baseline. Original pins, negative assertions and production admission remain. Normal's debt8/blocked3 and24 missing W25..48 slots are not closed by this test-fixture repair.",
+    "remaining_scope": "ORDER-351/361 integration remains HOLD until separate source-bound reports and decisions. Main game/new package remain HOLD. Subsequent root-owned report copies, ledger append, queue archival and dashboard closure are outside the observations completed here."
+  },
+  "required_findings": [],
+  "evidence": [
+    {"path": ".git/full-game-localization/order363-proof364-proof.json", "sha256": "f013b9727cd1745acfd67f2b93324c2180f04363e7f6b1a53568cff9e5b1fd57"},
+    {"path": ".git/full-game-localization/order363-repaired-self.json", "sha256": "6980b31e18c9f822bb81f5a1ea6635e35c8009c546c41777442bc1243d62178e"},
+    {"path": ".git/full-game-localization/order363-repaired-self-entry.json", "sha256": "cd7a454eba1cb5adfe7aa8838783a98c0c6f4a7994abd0f6a57f82730b3139f5"},
+    {"path": ".git/full-game-localization/order363-repaired-self-stdout.log", "sha256": "1b2340e8ea6607d53078fc91f5ed5043fc33874ecf3cf7b5a7f64e96a29b8062"},
+    {"path": ".git/full-game-localization/order363-long-self.json", "sha256": "91514fe267e97df46a17c77c11e8c264b251190e12739c5908b2f64abb2bbc82"},
+    {"path": ".git/full-game-localization/order364-proof.py", "sha256": "7a9f5d89a213c134e971a6b0e72f94498b331cb0594dec6f057c2abfec5fc2ab"},
+    {"path": ".git/full-game-localization/order363-verify.py", "sha256": "aa0e45cdd95cc40f42970b07cac0c61c551cc834a39a2d0255574a0cc228a323"},
+    {"path": ".git/full-game-localization/order363-first-summary.json", "sha256": "5d5dfcd947101e792aa8424b728a020fdba0bba17560e89b931a4fbfc05c52d2"},
+    {"path": ".git/full-game-localization/order363-metadata-source-context.json", "sha256": "a0c0b55659914a5c02b03e26d20256ad785bec446549586d4130da7eee78bc93"},
+    {"path": ".git/full-game-localization/order363-metadata-source-queue.json", "sha256": "f93b5697679ef30080678309fba3f9bc92a0645948f481b46cb25703bc20875c"}
+  ],
+  "unobserved": ["native_reader", "human_playtest", "physical_controller_feel", "Acceptance rerun on final clean commit or after root's metadata closure.", "New engine, screenshots, natural input, full playthrough, whole-shell or history1955 rerun, fresh package inspection/build.", "External release, final age-rating or legal certification. Text census is not binary/package/user-data coverage."],
+  "automation_boundary": "A restored negative-test owner and completed contracts do not establish fun, narrative quality, native-language readiness, human approval or a broader product GO."
+}

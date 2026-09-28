@@ -4,11 +4,11 @@
 
 ## 2026-09-28 후속363/364 실행 — 통합 판정은 별도
 
-- [363](ORDER-363.md)의 exact inventory 관측 연결 및 [364](ORDER-364.md)의
+- [363](../queue_archive/ORDER-363.md)의 exact inventory 관측 연결 및 [364](../queue_archive/ORDER-364.md)의
   원형 반례 owner복원 뒤 Chapter1 normal과
   self689(기존622+361추가4+새63) 실제 PASS. 원래361의 두 exit1은 보존했다.
 - 현재 원문/번역/inventory·기존 판정·화면64준비상태/70PNG 불변. 363 clean
-  source 독립 판정 및 이 작업의 별도 후속 보고/판정까지 통합 HOLD다.
+  source에 독립 GO를 결속했으며, 이 작업의 별도 후속 보고/판정까지 통합 HOLD다.
 - 새 화면·자연 입력·원어민·인간·물리 관찰0, 공개 GO·본편/새package HOLD 유지.
 
 #### [~] ORDER-351 [P1·본편] 4장 M37~M48 대본의 아버지 행방·영어 표기 정합을 고친다
@@ -40,7 +40,7 @@ R4다. story_map M37~M48 root 16장면(3년치 영수증, 민서 등장·재회,
 - inventory normal 및 self45, context/queue 네 검사 PASS. 최초351의
   exit1·3오류와361의1장 두 실패는 역사 그대로 보존한다. 이번 수리는
   [362](../queue_archive/ORDER-362.md) clean source 독립 GO에 별도 결속했다. 본편 GO는 아니다.
-  [363](ORDER-363.md)의 역사 비교 연결과 실제 후속 검수 전까지351/361 HOLD다.
+  [363](../queue_archive/ORDER-363.md)의 역사 비교 연결과 실제 후속 검수 전까지351/361 HOLD다.
 
 ### 2026-09-28 후속361 — 검증 연결 구현, 통합 HOLD 유지
 
@@ -50,7 +50,7 @@ R4다. story_map M37~M48 root 16장면(3년치 영수증, 민서 등장·재회,
 - 361의 표적19종은17PASS/2FAIL. 1장 normal/self가 이전360의 콘텐츠 검토
   지문 변경을 역사 비교에 연결하지 못해 중단했다. 원형 pin은 그대로 보존한다.
   [362](../queue_archive/ORDER-362.md)의 crime/alcohol 두 지문 실제 검토 후,
-  [363](ORDER-363.md)이360·362의 정확한 기록 전이를 연결한다.
+  [363](../queue_archive/ORDER-363.md)이360·362의 정확한 기록 전이를 연결한다.
 - 351은362·363 뒤 실제 후속 검수까지 HOLD다. 과거 화면64준비상태/70PNG를
   다시 실행하거나 현재 자연 입력·원어민·인간·물리 패드 관찰로 바꾸지 않았다.
 

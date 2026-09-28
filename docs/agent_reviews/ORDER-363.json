@@ -1,0 +1,62 @@
+{
+  "schema": "gangnamdream-independent-work-unit-review/v1",
+  "unit_id": "ORDER-363",
+  "scope": "work_unit",
+  "review_stage": "independent_source_bound_final",
+  "review_date": "2026-09-28",
+  "decided_by": "/root/r3_route_probe",
+  "decision": "GO",
+  "verdict": "GO",
+  "subject": {"kind": "source", "commit": "ebd408f330c6d71f736b9f274f85389fe79d9c5d", "tree": "5d6b9ce690df6e378696201ae5063cd308134d7e", "manifest_sha256": null},
+  "outcome": "GO only for ORDER-363's exact inventory observation bridge, registration and preserved historical comparison, on this source containing the separately declared ORDER-364 fixture-owner repair. Required targeted checks and the complete 689-case self-test have passed, and no required finding remains in this bounded unit. This is not a completed Chapter1, main-game, new-package, external-release or legal/rating GO. ORDER-351/361 integration remains HOLD until separate source-bound follow-up decisions.",
+  "independence": "Non-author review. I personally read CLAUDE, gangnamdream-dev, WORK_UNIT, queue/specifications and applicable QA authorities; read the complete code/registration/recorder/consumer changes; independently compared immutable Git transitions and AST preservation; and read and rehashed the actual execution records and logs. The development skill governed explicit scope, ownership, preservation and targeted verification. I wrote no tracked file, product, translation, test or generator output and reran no acceptance CLI or engine. Drafts were not used as acceptance evidence.",
+  "source_binding": {
+    "clean": true,
+    "resolver": "Direct HEAD/tree and empty porcelain agree with current_agent_source_subject(): the exact subject above. At review main is one local commit ahead of origin; remote publication is not asserted.",
+    "implementation_sha256": {
+      "tools/chapter1_core_loop_v2_causal_ledger_check.py": "49a408e6955f7c5263d4c9e37f8fb65a53d44141eb94b9eec09625c6af2b6f74",
+      "tools/audit_scope.json": "8411098478ec90216c8eb083cbe4f3c1e40df2505bf5bd8adb3dc1c71d449693",
+      "tools/audit.sh": "5d828706a5e949b147cbfb3fe0b7d1f85d627ea8d6dc4ba06e66fb70df9de9b7"
+    },
+    "execution_bridge": "The first six checks and failed full run used declaration HEAD d0d586a16544fb0252c8073992d86df7cc2afea3 with three dirty tools and 1839 text paths. The targeted18 and successful full run used declaration HEAD 989a92db8829154e116296e5c807a3877f0b73b0 with three dirty tools and 1840 text paths. Each acceptance record binds equal before/after census, HEAD/tree/status, recorder SHA and preserved original failure hashes. Successful full and targeted18 have identical text maps. Comparing that tested map with this clean source finds the same 1840 paths and only the eight documentation changes below; all tested code/product bytes are identical. Tests were not rerun on the clean commit.",
+    "execution_to_source_document_changes": ["CLAUDE.md", "docs/CODEX_QUEUE.md", "docs/STATUS.md", "docs/WORK_LOG.md", "docs/queue_active/ORDER-351.md", "docs/queue_active/ORDER-361.md", "docs/queue_active/ORDER-363.md", "docs/queue_active/ORDER-364.md"],
+    "documentation": "I read the eight final documentation changes at the exact Git subject. They retain the first failure, distinguish 8 acceptance types from 9 executions, preserve debt/gaps and keep integration HOLD separate. Source-document context/queue checks are separately recorded; the initial context/queue successes apply only to their earlier documents. The later metadata recorder has commands, logs, markers, runner SHA and post-run HEAD/status, not the acceptance recorder's full before/after census. Final source reading and Git comparison supply the reviewed documentation bridge. Active specs will be archived by root and are not mutable evidence-file references here. Generated STATUS is pre-review closure output, not a new product decision; subsequent report/ledger/archive/dashboard closure remains root-owned."
+  },
+  "implementation_assessment": {
+    "exact_scope": "Only content/meta/release_content_inventory.json is historically projected. Current whole-source admission, exact raw SHA and observed-hash binding precede fresh proof. No rollback or recalculated claim can borrow approved history; unrelated paths receive zero projection. This is a comparison-only observation bridge, not an inventory rewrite or new source baseline.",
+    "git_and_raw_proof": "Each observation reads eight fresh Git objects: two product commits, two trees and four parent/product blobs. Expected object IDs/types/lengths and actual Git SHA1, product parent/tree headers and raw SHA256 pairs are checked. ORDER-360 product c94cd3ae19f22a015b3bd6b6e25afb17a8561242 directly follows f41efdb2ea1b5a646bff10604d89fdd00ac9c620; ORDER-362 product c7db93f7fc915a4d16fa5e8f63fa8b72343a6491 directly follows 6df5de6ac3a5db5b53391e55416bd423e38a1f0c. I independently verified these immutable boundaries. The contiguous middle blob is f7ca93d46b4349086d397647a7d1b9670e9306b4. Exactly six then two approved JSON hash literals are inversed; all remaining raw bytes must equal the actual predecessor. The result must equal the unchanged ORDER-156 pin. No successful proof is cached across calls.",
+    "inventory_raw_sha256_chain": ["eaa588e0401af69a9079aa2d11f105e4e57c6780e5030c517320a34a5f251764", "2ff675845e1017764eb67c1c9c330ecd3b3507fa0b40535757b00bba073a88b0", "f46041343731f5cd64b680f778cff9ee77ea0c67fe114536f27a557fe5c1ead0"],
+    "historical_preservation": "All 288 pre-existing uppercase assignments, including original101/151-156 pins, are unchanged. Reversing the four positive fixture helper-call substitutions reconstructs the original self_test body AST. Negative payloads/assertions and old corpus counts remain intact. The separately reviewed ORDER-364 owner line restores the original350 proof target rather than weakening rejection. Existing rules/commands remain; only one explicit lane, one focused check and its shell exit flag are added.",
+    "quality_judgment": "The strict current admission and full-raw immutable reconstruction address the actual inventory mismatch without admitting new prose, inventory facts, gameplay or a broader history exception. The focused negative cases reach both current admission and literal reconstruction independently. This scoped consistency judgment, rather than the PASS marker alone, supports GO."
+  },
+  "verification": {
+    "acceptance_population": "8 distinct acceptance types, 9 completed executions: initial6 PASS, first full FAIL, original-boundary18 PASS and repaired full PASS. Latest result of each type is PASS. Two source-document metadata executions are additional and are not included in that acceptance-run count. Selector output, author's narrow diagnosis, AST/read-only comparisons and earlier declarations are not extra acceptance successes.",
+    "first_six": "Independently verified all six result records, all entries and twelve raw logs via the summary's SHA links. Focused63 PASS 0.832s; normal PASS 35.748s; StoryMode boundary consumer7 PASS 8.189s; registration PASS 0.226s; context PASS 0.273s; queue PASS 0.276s. Exact markers, exit0, no timeout, empty stderr. The consumer source SHA 8cb37847748846002a65afcd8bcc33c48bc4e104c2339922649c9e5da9a3cade equals its entry and post-execution file. ORDER-364 changes only a self-test function not invoked by these six modes, so its exact one-line transition does not invalidate their functional results.",
+    "first_full_failure": "Preserved exit1, 1033.169s, no timeout. Census stdout full=2 skip=21 fallback=1; stderr reports ORDER-350 missing immutable proof and altered immutable proof. The run stops before the later ORDER-351 four and ORDER-363 63 cases. It is not relabeled PASS and does not retrospectively establish the previous 626-case completion.",
+    "targeted_owner_repair": "Original18 PASS, 9.908s, exact marker, exit0, no timeout and empty stderr. Separately attributable to ORDER-364; 18 is an included subset of the full suite.",
+    "successful_full": "Record, entry and raw logs directly read and rehashed: exit0, 1025.104s wall time, 2400s limit, timeout false, stderr empty. Exactly one CHAPTER1_CAUSAL_LEDGER_SELF_TEST_OK marker reports cases=689, runtime=1024.45s, probes=409, full_validations=27, full_fallbacks=19; census full=2 skip=21 fallback=1 is retained. The unchanged main sequence must complete the original350 boundary before ORDER-351 and ORDER-363 cases to print this marker. 689 = original622 + ORDER-351 four + ORDER-363 63; targeted18 and focused63 must not be added again.",
+    "metadata": "Source context PASS 0.078s and queue PASS 0.042s (active81/in_progress78), both exact markers and empty stderr; records and raw-log SHAs independently checked.",
+    "remaining_debt": "Normal still reports debt_codes=8, blocked=3 and W25..48 missing_slots=24, authoritative24/48. Validating the exact incomplete ledger does not resolve that debt or complete Chapter1."
+  },
+  "preservation": {
+    "baseline": "543199909e0d56196d3f106dd490d45a486f4246",
+    "records": "All 100 prior report files and the complete 122-decision ledger are byte-identical to baseline Git. Decision ledger SHA256 524220265ea6c2b2e0e7b7aa1f35f4b50053b6eaf6c4efef054d939ffb4361e2. No earlier decision is upgraded by this report.",
+    "human_public": "human_gates.json remains byte-identical, SHA256 6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6: actual OPEN45/done1 and old exact public-package GO remain unchanged. Public contract pins are preserved; package bytes were not newly inspected.",
+    "product_modules": "Baseline Git comparisons show content, runtime/autoloads, systems and project.godot unchanged; generated content-inventory report and original305/310/316/309/313/350 plus current351 modules are exact. Original ORDER-361 two failed records/logs and the first ORDER-363 full failure were rehashed without modification.",
+    "separate_followup": "ORDER-351 and ORDER-361 remain HOLD pending their own source-bound integration reports; this GO does not borrow or replace those verdicts. Main game/new package remain HOLD."
+  },
+  "required_findings": [],
+  "evidence": [
+    {"path": ".git/full-game-localization/order363-first-summary.json", "sha256": "5d5dfcd947101e792aa8424b728a020fdba0bba17560e89b931a4fbfc05c52d2"},
+    {"path": ".git/full-game-localization/order363-long-self.json", "sha256": "91514fe267e97df46a17c77c11e8c264b251190e12739c5908b2f64abb2bbc82"},
+    {"path": ".git/full-game-localization/order363-repaired-self.json", "sha256": "6980b31e18c9f822bb81f5a1ea6635e35c8009c546c41777442bc1243d62178e"},
+    {"path": ".git/full-game-localization/order363-proof364-proof.json", "sha256": "f013b9727cd1745acfd67f2b93324c2180f04363e7f6b1a53568cff9e5b1fd57"},
+    {"path": ".git/full-game-localization/order363-verify.py", "sha256": "aa0e45cdd95cc40f42970b07cac0c61c551cc834a39a2d0255574a0cc228a323"},
+    {"path": ".git/full-game-localization/order363-header-consumer.py", "sha256": "8cb37847748846002a65afcd8bcc33c48bc4e104c2339922649c9e5da9a3cade"},
+    {"path": ".git/full-game-localization/order363-metadata-source-context.json", "sha256": "a0c0b55659914a5c02b03e26d20256ad785bec446549586d4130da7eee78bc93"},
+    {"path": ".git/full-game-localization/order363-metadata-source-queue.json", "sha256": "f93b5697679ef30080678309fba3f9bc92a0645948f481b46cb25703bc20875c"},
+    {"path": ".git/full-game-localization/order363-metadata.py", "sha256": "79f63fe61967bc66d8fe64e3149b8f16a8da74dbed3ac6784daaa8077926acb5"}
+  ],
+  "unobserved": ["native_reader", "human_playtest", "physical_controller_feel", "New engine execution, screenshots, natural input, full playthrough or full-shell/history1955 rerun.", "Fresh package inspection/build, external release, final age-rating or legal certification.", "Acceptance rerun on the final clean commit and subsequent root-owned report/ledger/archive/dashboard closure. The text census is not a binary/package/user-data census."],
+  "automation_boundary": "Automatic contracts and this bounded source review are not human observation, fun, depth, native-language readiness or internal-product approval."
+}

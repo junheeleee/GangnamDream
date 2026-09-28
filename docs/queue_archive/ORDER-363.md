@@ -2,10 +2,22 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-363 [P1·검증] 콘텐츠 검토 기록의 정확한 후속값을 1장 역사 비교에 연결한다
+#### [x] ORDER-363 [P1·검증] 콘텐츠 검토 기록의 정확한 후속값을 1장 역사 비교에 연결한다
 
 2026-09-28 Codex 발행. 361의 실제 Chapter1 normal/self 실패를 분리한 후속이다.
 362의 본문 재검토와 지문 갱신 뒤 착수한다. 아래 선언 후 구현·표적 실행을 마쳤으며 원형pin 변경0이다.
+
+## 2026-09-28 독립 최종 마감
+
+- 비저자 `/root/r3_route_probe`의 ORDER-363 한정 work_unit GO.
+  clean source `ebd408f330c6d71f736b9f274f85389fe79d9c5d`, tree `5d6b9ce690df6e378696201ae5063cd308134d7e`.
+  [최종 보고](../agent_reviews/ORDER-363.json) SHA `06905b26daf5c50b3d2f70df90854f8dc490362c37c97c6078407cebc77e51d4`,
+  private 원본과 byte-identical이다. 과거122판정/100보고 불변, 363/364 별도2개씩 append.
+- 수용선8종9실행(8PASS/1FAIL)·최종8종PASS·self689와 동결 코드·정확 전이·원문 증거를 별도 검토했다.
+  원361의두 실패를 지우거나 당시626완료로 바꾸지 않았다. inventory/게임/번역/
+  공개 데모/인간 원장 불변. 351/361 통합 후속은 별도 보고·판정까지 HOLD다.
+- 363/364 사양을 archive로 이동한다. aggregate archive 수정0. 두 큐의 뒤 순번을
+  2씩 당기고351/361/WORK_LOG 상대링크만 갱신한다. 새 제품/공개 출시 GO가 아니다.
 
 ## 2026-09-28 실제 구현·실행 결과 — 최종 독립 판정 대기
 

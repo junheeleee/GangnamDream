@@ -4,11 +4,11 @@
 
 ## 2026-09-28 후속363/364 실행 — 통합 판정은 별도
 
-- [363](ORDER-363.md)의 exact inventory 관측 연결 및 [364](ORDER-364.md)의
+- [363](../queue_archive/ORDER-363.md)의 exact inventory 관측 연결 및 [364](../queue_archive/ORDER-364.md)의
   원형 반례 owner복원 뒤 Chapter1 normal과
   self689(기존622+361추가4+새63) 실제 PASS. 원래361의 두 exit1은 보존했다.
 - 현재 원문/번역/inventory·기존 판정·화면64준비상태/70PNG 불변. 363 clean
-  source 독립 판정 및 이 작업의 별도 후속 보고/판정까지 통합 HOLD다.
+  source에 독립 GO를 결속했으며, 이 작업의 별도 후속 보고/판정까지 통합 HOLD다.
 - 새 화면·자연 입력·원어민·인간·물리 관찰0, 공개 GO·본편/새package HOLD 유지.
 
 #### [~] ORDER-361 [P1·검증] 4장 문구 수리의 현재 소스와 역사 비교를 연결한다
@@ -39,7 +39,7 @@
   중단했으므로 기존622/신규4 corpus를 실행 완료로 세지 않는다.
   360의 정확6지문 갱신 `eaa588e0…1764`→`2ff67584…88b0`가 원인이며
   351 제품은 이 파일을 바꾸지 않았다. 351의12경로에 끼워 넣거나 원형 pin을
-  덮어쓰지 않고 [363](ORDER-363.md)을 [362](../queue_archive/ORDER-362.md) 뒤에 분리했다.
+  덮어쓰지 않고 [363](../queue_archive/ORDER-363.md)을 [362](../queue_archive/ORDER-362.md) 뒤에 분리했다.
 - 독립 검수에서 receipt 반례2곳의 정렬 직렬화가 의도한 손상 전에 key 순서로
   거절될 수 있음을 확인했다. `self_test`의 두 표현만 순서 보존 직렬화로 보강,
   새 경계 self795만 재실행 PASS(77.975초). 최초 약한 PASS도 원형 보존한다.

@@ -4,11 +4,12 @@
 
 ## 2026-09-28 (Codex — 검토된 콘텐츠 기록과 1장 역사 비교 연결)
 
-- [363](queue_active/ORDER-363.md): 선언 `d0d586a` 뒤 검사1·등록2만 수정했다. 현재 raw/관측SHA/선행 admission 결속 후 immutable Git8객체와 정확6+2필드 raw 역변환으로 원형156 기대값에 잇는다. pin·기존 negative·원형 모듈·게임 원문/번역·inventory·생성표 불변이다.
-- 첫 focused63·normal·StoryMode 소비자7·등록/context/queue 6PASS 뒤 full은1033.169초 기존 proof 반례2FAIL. [364](queue_active/ORDER-364.md)를 별도 선언 `989a92d`하고 원형 mock owner 한 줄만 복원했다. 표적18 및 full689 재검 PASS. 수용8종9실행(8PASS/1FAIL), 최종8종 PASS이며 마감 metadata검사는 별도다. 689=기존622+361의4+새63, focused63/표적18은 포함분이다.
+- 마감 context/queue PASS(active79/in_progress76), 판정 원장 self222 PASS. 기존122개 원장 raw prefix와 새 보고2개의 private 원본 동일성·증거19개 SHA를 확인했다. 351/361의 다음 통합 검수는 기존 문구87·화면70PNG와 검증 결과의 변경 영향만 잇는 별도 범위이며 아직 미판정이다.
+- [363](queue_archive/ORDER-363.md): 선언 `d0d586a` 뒤 검사1·등록2만 수정했다. 현재 raw/관측SHA/선행 admission 결속 후 immutable Git8객체와 정확6+2필드 raw 역변환으로 원형156 기대값에 잇는다. pin·기존 negative·원형 모듈·게임 원문/번역·inventory·생성표 불변이다.
+- 첫 focused63·normal·StoryMode 소비자7·등록/context/queue 6PASS 뒤 full은1033.169초 기존 proof 반례2FAIL. [364](queue_archive/ORDER-364.md)를 별도 선언 `989a92d`하고 원형 mock owner 한 줄만 복원했다. 표적18 및 full689 재검 PASS. 수용8종9실행(8PASS/1FAIL), 최종8종 PASS이며 마감 metadata검사는 별도다. 689=기존622+361의4+새63, focused63/표적18은 포함분이다.
 - normal의 debt8/blocked3·W25~48 24슬롯gap·원361 두실패·이번첫full실패를 보존한다. 첫검사1839/수리후1840 text 각각 전후동일, PASS실행 stderr/timeout0. 실행은 각각선언HEAD dirty3도구, clean commit 재실행0이다. 기존6PASS는 변경된 반례함수를 호출하지 않아 별도 반복0이다.
 - 비저자 정적 검수와 root AST 대조에서 기존상수/pin 불변, 양성4호출 외 기존self 본문 동일을 확인했다. 새 lane1/check1 등록 외 기존 목록 exact. 전체shell·역사1955·엔진·새화면/입력·240주 및 무관한361 통과검사 반복0.
-- source-bound 독립 최종 판정은 대기다. 351/361은 그 뒤 별도 후속 보고/판정까지 HOLD. 개발 스킬의 범위 선언·소유 분리·표적 실행·독립 검수를 적용했다. 과거122판정/100보고·인간OPEN45·공개GO1 보존, 원어민/인간/물리 미관측·본편/새package HOLD·외부출시/스토어/지출/법률 인증0이다.
+- 비저자 최종 한정 GO 두 건을 clean source `ebd408f330c6d71f736b9f274f85389fe79d9c5d`/tree `5d6b9ce690df6e378696201ae5063cd308134d7e`에 별도 결속했다. [363보고](agent_reviews/ORDER-363.json) SHA `06905b26daf5c50b3d2f70df90854f8dc490362c37c97c6078407cebc77e51d4`, [364보고](agent_reviews/ORDER-364.json) SHA `9ff285f31aedc94bf8add9a00305d198654914bbd3d4c4456670afb3bec778d2`는 각 private 원본과 동일하다. 새 판정/보고 각2개만 append(124/102)했다. 351/361은 그 뒤 별도 후속 보고/판정까지 HOLD. 개발 스킬의 범위 선언·소유 분리·표적 실행·독립 검수를 적용했다. 과거122판정/100보고·인간OPEN45·공개GO1 보존, 원어민/인간/물리 미관측·본편/새package HOLD·외부출시/스토어/지출/법률 인증0이다.
 
 ## 2026-09-28 (Codex — 4장 원문 수리 뒤 콘텐츠 검토 기록 두 축 갱신)
 
@@ -24,7 +25,7 @@
 
 - [361](queue_active/ORDER-361.md)의 새 경계·소비자5·등록2를 구현했다. 선언 `759150139201d231b9df06edd5cc1a1f1c9e8938` 뒤 정확8도구이며 제품·번역·원형6모듈·기존120판정/98보고·인간 원장을 보존했다. 현재351의 raw12경로/87기존문구/48갱신receipt, LIVE44/역사KOEN17파일107leaf만 결속한다.40302/b142/meta9/보류72 불변이다.
 - 명시19종은 최초17PASS/2FAIL. full-body normal/self162가 원래351 admission6경로 실패를 해소했다. 새 경계795·역사1955·graph388·year51212(1316.355초)·chapter5146·locale264 PASS. 기존350 corpus와year5의155등록11/비도달 경계는 그대로다. 옛350 직접CLI·전체shell PASS를 주장하지 않는다.
-- chapter1 normal/self는 inventory snapshot mismatch로 각각 exit1(37.689/37.028초), self는 준비 단계 중단이다. 기존622/신규4사례 실행 완료0. 이전360의 정확6지문 갱신(eaa588…1764→2ff675…88b0)이 역사 비교 체인에 빠져 있음을 저자·비저자가 Git/소비자에서 각각 확인했다. [362](queue_archive/ORDER-362.md) 실제 내용 검토 후 [363](queue_active/ORDER-363.md)에서 두 정확 기록 전이를 함께 연결하도록 새 범위를 선언했다. 원형pin 덮어쓰기·351의12경로 확장0이다.
+- chapter1 normal/self는 inventory snapshot mismatch로 각각 exit1(37.689/37.028초), self는 준비 단계 중단이다. 기존622/신규4사례 실행 완료0. 이전360의 정확6지문 갱신(eaa588…1764→2ff675…88b0)이 역사 비교 체인에 빠져 있음을 저자·비저자가 Git/소비자에서 각각 확인했다. [362](queue_archive/ORDER-362.md) 실제 내용 검토 후 [363](queue_archive/ORDER-363.md)에서 두 정확 기록 전이를 함께 연결하도록 새 범위를 선언했다. 원형pin 덮어쓰기·351의12경로 확장0이다.
 - 독립 검수로 receipt 반례2개의 정렬 직렬화가 의도한 손상보다 key순서에서 먼저 거절되는 약점을 보강했다. `self_test` 두 표현만 `_ordered`로 수정 후 해당1종795 재실행 PASS(77.975초), 최초 약한PASS도 보존했다. 두 표현을 치환하면 전체 AST가 같고 다른18 CLI는 해당 함수를 호출하지 않는다. 최종모듈 SHA `0d5de5fa6d80a87f1794f0ccfabee5b972feb195d09703474f040cb5481314ff`.
 - 총20실행으로 선택19종 최종17PASS/2FAIL을 기록했다. 실행마다 tracked+untracked text1836경로 전후 동일이며 binary/user-save census나 clean마감커밋 재실행이 아니다. 집계 `.git/full-game-localization/order361-final-aggregate.json` SHA `a673ff5461764bfa3b07924ddb0e250010abf818c2f1b6bb76b4f95780cbd1ce`. 역사1955=132+106+63+격리286+370+998의 실제 Git/module/ROOT·raw를 확인했다.
 - 351·361은 별도362→363 수리/후속 검수까지 HOLD다. 새 화면·엔진·자연 입력·원어민·인간·물리 관찰0이며 기존64준비상태/70PNG 증거를 재실행하거나 승격하지 않았다. 개발 스킬의 범위 선언·소유 분리·표적 실행·독립 전수검수를 적용했다. 새 규범은 일회성/상시승격0. 본편/새package HOLD·기존공개GO1/인간OPEN45·외부출시/스토어/지출/법률 인증0 유지.

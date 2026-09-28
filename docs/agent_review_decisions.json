@@ -5026,6 +5026,76 @@
         "path": "docs/agent_reviews/ORDER-362.json",
         "sha256": "80ce364d6c6a1a06098cb681ecc29d28f1b029e7f3a6e892fcfea7acdb62e9ca"
       }
+    },
+    {
+      "id": "order-363-source-ebd408f-agent-review",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-28",
+      "decided_by": "/root/r3_route_probe",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-363",
+      "subject": {
+        "kind": "source",
+        "commit": "ebd408f330c6d71f736b9f274f85389fe79d9c5d",
+        "tree": "5d6b9ce690df6e378696201ae5063cd308134d7e",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-363.json",
+          "sha256": "06905b26daf5c50b3d2f70df90854f8dc490362c37c97c6078407cebc77e51d4"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "New gameplay, engine execution, screen/input/audio observation, or full 240-week play.",
+        "Clean-final-source acceptance rerun, binary assets, player saves or package reinspection.",
+        "ORDER-351/361 follow-up approval, internal-product completion, public release or legal certification."
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-363.json",
+        "sha256": "06905b26daf5c50b3d2f70df90854f8dc490362c37c97c6078407cebc77e51d4"
+      }
+    },
+    {
+      "id": "order-364-source-ebd408f-agent-review",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-28",
+      "decided_by": "/root/r3_route_probe",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-364",
+      "subject": {
+        "kind": "source",
+        "commit": "ebd408f330c6d71f736b9f274f85389fe79d9c5d",
+        "tree": "5d6b9ce690df6e378696201ae5063cd308134d7e",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-364.json",
+          "sha256": "9ff285f31aedc94bf8add9a00305d198654914bbd3d4c4456670afb3bec778d2"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "New gameplay, engine execution, screen/input/audio observation, or full 240-week play.",
+        "Clean-final-source acceptance rerun, binary assets, player saves or package reinspection.",
+        "ORDER-351/361 follow-up approval, internal-product completion, public release or legal certification."
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-364.json",
+        "sha256": "9ff285f31aedc94bf8add9a00305d198654914bbd3d4c4456670afb3bec778d2"
+      }
     }
   ]
 }

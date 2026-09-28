@@ -2,9 +2,19 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-364 [P1·검증] 기존 두 반례가 손상시키는 증명의 원래 소유자를 복원한다
+#### [x] ORDER-364 [P1·검증] 기존 두 반례가 손상시키는 증명의 원래 소유자를 복원한다
 
 2026-09-28 Codex 발행·착수. 363의 실제 full self 실패에서 분리한 1단위/1배치.
+
+## 2026-09-28 독립 최종 마감
+
+- 비저자 `/root/r3_route_probe`의 ORDER-364 한정 work_unit GO.
+  clean source `ebd408f330c6d71f736b9f274f85389fe79d9c5d`, tree `5d6b9ce690df6e378696201ae5063cd308134d7e`.
+  [최종 보고](../agent_reviews/ORDER-364.json) SHA `9ff285f31aedc94bf8add9a00305d198654914bbd3d4c4456670afb3bec778d2`.
+  private 원본과 byte-identical이며,363 판정과 별도 unit_id로 append했다.
+- 원형 증명 소유자 한 줄 복원·입력/assert/반복수 보존·표적18/full689 원문을
+  독립 확인했다. 첫 full실패 및 인간·공개·기존122판정/100보고를 유지한다.
+  351/361 통합·본편/새package HOLD다. source 또는 공개 출시 전체 GO가 아니다.
 
 ## 2026-09-28 수리·실제 결과 — 독립 최종 대기
 
