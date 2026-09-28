@@ -5968,6 +5968,94 @@
           "batch_id": "ef9512c823ddc92b81288f0479c90d4133364584f87cf4c0bb5e5392b28d544e"
         }
       }
+    },
+    {
+      "order": "ORDER-388",
+      "group": "ui",
+      "roots": [
+        "은행 / 레버리지",
+        "대출은 행동력 무소비",
+        "신용 %d등급 (%s) · 점수 %d/100",
+        "레버리지 투자 — 2배 포지션",
+        "2배 포지션 창구는 아직 주문을 받지 않습니다. 손실 경고와 빠져나올 가격이 먼저 보일 때까지 주문서를 더 읽어 보세요.",
+        "%s · 월 %.2f%%",
+        "잔액 %s / 한도 %s",
+        "500만 상환",
+        "전액",
+        "현재 실행 가능한 대출/상환 버튼이 없습니다."
+      ],
+      "source_leaves": 10,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 10,
+        "zh-TW": 0
+      },
+      "source_review": "Korean-direct Chinese regional bank debt, monthly rate and repayment labels. Independent complete source comparison; existing values, public demo, runtime and gameplay unchanged. Agent review is not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "b623928d51e2b54c5a7d73918fece36d68f9305b50c22040ec308143ee81834b"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "22d32c7a69b27df050d5b2bcb768c009a6879838",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "f7edff836bb7f48d258f950335f868af46a55564345a8e2d0ac4cb0f08cb29b5",
+          "selection_sha256": "040fa1fa4abda3a54689d29aa7e89af6944fabbec6481d7b6ede786c8ef89d10",
+          "count": 10,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "c3e04c343a53102dfe1f66fa4619cce5128625447c0c68592b3dcf88ecc49b82"
+        }
+      }
+    },
+    {
+      "order": "ORDER-388",
+      "group": "ui",
+      "roots": [
+        "은행 / 레버리지",
+        "대출은 행동력 무소비",
+        "신용 %d등급 (%s) · 점수 %d/100",
+        "레버리지 투자 — 2배 포지션",
+        "2배 포지션 창구는 아직 주문을 받지 않습니다. 손실 경고와 빠져나올 가격이 먼저 보일 때까지 주문서를 더 읽어 보세요.",
+        "%s · 월 %.2f%%",
+        "잔액 %s / 한도 %s",
+        "500만 상환",
+        "전액",
+        "현재 실행 가능한 대출/상환 버튼이 없습니다."
+      ],
+      "source_leaves": 10,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 10
+      },
+      "source_review": "Korean-direct Chinese regional bank debt, monthly rate and repayment labels. Independent complete source comparison; existing values, public demo, runtime and gameplay unchanged. Agent review is not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-TW": "41ed3ea8fa57d6d8cd5be8d21f8243246b6e95cdf6b0caeeb433433dc24f9aa6"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "22d32c7a69b27df050d5b2bcb768c009a6879838",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "f7edff836bb7f48d258f950335f868af46a55564345a8e2d0ac4cb0f08cb29b5",
+          "selection_sha256": "a93d0b1baf2882e2f35eb8ef0c3bd8b1cd6c5e7fe28f6e2acd8e020aba05e1e0",
+          "count": 10,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "550b9c1c32d19c7f455d1a28124d0a98c4718d67a348208a4aa9f3af6d2ac717"
+        }
+      }
     }
   ],
   "accepted": {
@@ -114081,6 +114169,46 @@
       "ui:현재 들고 있는 자산만 요약:/현재 들고 있는 자산만 요약": {
         "source_sha256": "2395337b02d909f44eeeddd3f21f4de0f29973cfe1f600a3ebcb2852de5a369a",
         "target_sha256": "e5554ffb6a3eb00f0a12bc2d8f017a0fb0f073a03a1afb6287d604b8b6087477"
+      },
+      "ui:%s · 월 %.2f%%:/%s · 월 %.2f%%": {
+        "source_sha256": "0abc9f788d297ed4d2e9df795fb07dde35a6f21b5038aa1a1046f67037d758ce",
+        "target_sha256": "2bdc004468b72053170d2267d1199f71f848821ed403723bee985db2790c0b0f"
+      },
+      "ui:2배 포지션 창구는 아직 주문을 받지 않습니다. 손실 경고와 빠져나올 가격이 먼저 보일 때까지 주문서를 더 읽어 보세요.:/2배 포지션 창구는 아직 주문을 받지 않습니다. 손실 경고와 빠져나올 가격이 먼저 보일 때까지 주문서를 더 읽어 보세요.": {
+        "source_sha256": "96bb602da54497676bde4b381939b7e0271cae576b953aa13264af4d1cdbe990",
+        "target_sha256": "a8b183caac95c66dae8ae4e3b0e1cc4bbbd3bbc8e3b708d522a59d391dc70a67"
+      },
+      "ui:500만 상환:/500만 상환": {
+        "source_sha256": "aa7fba639b19c43754868eb987b66036111819854f58830c46f5ad5568d392e0",
+        "target_sha256": "4ddc0fdd3eec40bdfa9ea22c192ffbe5864933b0eb35913486c18764a82094c5"
+      },
+      "ui:대출은 행동력 무소비:/대출은 행동력 무소비": {
+        "source_sha256": "c73d057209a1eb4eeb7cfbe290ff05e8711d9588f877266424558849390d24db",
+        "target_sha256": "48024651afec335c891536501bb30594f8207dc452716e4643ed05d51edea123"
+      },
+      "ui:레버리지 투자 — 2배 포지션:/레버리지 투자 — 2배 포지션": {
+        "source_sha256": "06af96860ae1049eb4d7c33901b8a7c3c0d3a2102243c61eb23059133e1f2b23",
+        "target_sha256": "78c5bf38d3557f89ffcc04ecf9ffc6d5efde140732b13d6c08c315e0781d1b57"
+      },
+      "ui:신용 %d등급 (%s) · 점수 %d/100:/신용 %d등급 (%s) · 점수 %d~1100": {
+        "source_sha256": "fbd882bfb38c24568d7b5ae665761a2318fa50f3f9e74b261c6f8fefec410c61",
+        "target_sha256": "27d55ee97cd7bf6202c3befb39d87d56d5d30b4bae0e0a3ccfe218925c44c6bd"
+      },
+      "ui:은행 / 레버리지:/은행 ~1 레버리지": {
+        "source_sha256": "ccfc337b9154eca9768afead6ad6cf212334751ac713db792190c2736318c530",
+        "target_sha256": "38ce1f7dfbbe519e0f2457dd75d479ade0a8ca0e202fc0931d44566a9b8223ea"
+      },
+      "ui:잔액 %s / 한도 %s:/잔액 %s ~1 한도 %s": {
+        "source_sha256": "ca3d2f1802587c1517e0706fc2edc3c4221fa3344f8b15867e33bbeed695f25e",
+        "target_sha256": "8a0b8412455253670b96c09286ce1fd84927b3a4ce3651e7b416d54bb8285d67"
+      },
+      "ui:전액:/전액": {
+        "source_sha256": "a534ae25bdecf53a3564cb323117fc4556b421e74e452a933a3c1d17cc687c2a",
+        "target_sha256": "bf0079b9b1407e2b7ebab95452545fc5732bec51f27b700ba6d9042aa98dd446"
+      },
+      "ui:현재 실행 가능한 대출/상환 버튼이 없습니다.:/현재 실행 가능한 대출~1상환 버튼이 없습니다.": {
+        "source_sha256": "3e15276cfc144dd81badca1cbeb825f857a66bc6ea82b355df556b12c00a9ffb",
+        "target_sha256": "2361d9cfea28eab04a79746a0d14bf9f0d1395f11469ee6dfa732e93c1b0e5f5"
       }
     },
     "zh-TW": {
@@ -169687,10 +169815,50 @@
       "ui:현재 들고 있는 자산만 요약:/현재 들고 있는 자산만 요약": {
         "source_sha256": "2395337b02d909f44eeeddd3f21f4de0f29973cfe1f600a3ebcb2852de5a369a",
         "target_sha256": "27ccbf1cdf6a64986ad9323ddc7ad9d42db27bb9266cdaa1c57bbe2599e555ba"
+      },
+      "ui:%s · 월 %.2f%%:/%s · 월 %.2f%%": {
+        "source_sha256": "0abc9f788d297ed4d2e9df795fb07dde35a6f21b5038aa1a1046f67037d758ce",
+        "target_sha256": "2bdc004468b72053170d2267d1199f71f848821ed403723bee985db2790c0b0f"
+      },
+      "ui:2배 포지션 창구는 아직 주문을 받지 않습니다. 손실 경고와 빠져나올 가격이 먼저 보일 때까지 주문서를 더 읽어 보세요.:/2배 포지션 창구는 아직 주문을 받지 않습니다. 손실 경고와 빠져나올 가격이 먼저 보일 때까지 주문서를 더 읽어 보세요.": {
+        "source_sha256": "96bb602da54497676bde4b381939b7e0271cae576b953aa13264af4d1cdbe990",
+        "target_sha256": "ceb785c12c522216d50fcb4d6707e2da4f8f2b70a402cf7497cfdb61f70ba9f7"
+      },
+      "ui:500만 상환:/500만 상환": {
+        "source_sha256": "aa7fba639b19c43754868eb987b66036111819854f58830c46f5ad5568d392e0",
+        "target_sha256": "d6d8f1cf2ec4725c503d9a88191d1a6fa188fd100b9a66c583af02ff1fc675e1"
+      },
+      "ui:대출은 행동력 무소비:/대출은 행동력 무소비": {
+        "source_sha256": "c73d057209a1eb4eeb7cfbe290ff05e8711d9588f877266424558849390d24db",
+        "target_sha256": "875103cfefb07b219274c21122d9b75657890280e17e01539455e98ac9bc7df7"
+      },
+      "ui:레버리지 투자 — 2배 포지션:/레버리지 투자 — 2배 포지션": {
+        "source_sha256": "06af96860ae1049eb4d7c33901b8a7c3c0d3a2102243c61eb23059133e1f2b23",
+        "target_sha256": "7820bdb71f5063a69f815b27f84d2baa46c4e5b5322dd0089fa34895fab52ee9"
+      },
+      "ui:신용 %d등급 (%s) · 점수 %d/100:/신용 %d등급 (%s) · 점수 %d~1100": {
+        "source_sha256": "fbd882bfb38c24568d7b5ae665761a2318fa50f3f9e74b261c6f8fefec410c61",
+        "target_sha256": "82e8e2ee94165e79a2340b792803b5aea9ce1d87f87652f35b6d257101c41be7"
+      },
+      "ui:은행 / 레버리지:/은행 ~1 레버리지": {
+        "source_sha256": "ccfc337b9154eca9768afead6ad6cf212334751ac713db792190c2736318c530",
+        "target_sha256": "7909534f9b2902f5bd03b149c44199970a4a0a96c936052042ae52b5ed51bf00"
+      },
+      "ui:잔액 %s / 한도 %s:/잔액 %s ~1 한도 %s": {
+        "source_sha256": "ca3d2f1802587c1517e0706fc2edc3c4221fa3344f8b15867e33bbeed695f25e",
+        "target_sha256": "665798254c5e7729874779b7de6755f20c6c51428679045f7bbd0510277b2fd4"
+      },
+      "ui:전액:/전액": {
+        "source_sha256": "a534ae25bdecf53a3564cb323117fc4556b421e74e452a933a3c1d17cc687c2a",
+        "target_sha256": "8452b107f04e0759dce9761f0bc299a3d80087c803c275fae58403b114b85f9d"
+      },
+      "ui:현재 실행 가능한 대출/상환 버튼이 없습니다.:/현재 실행 가능한 대출~1상환 버튼이 없습니다.": {
+        "source_sha256": "3e15276cfc144dd81badca1cbeb825f857a66bc6ea82b355df556b12c00a9ffb",
+        "target_sha256": "9fb50e9b3f1eb28b8aeaa85200f1b782894146be2963b8b77145777a6f06ae6b"
       }
     }
   },
-  "accepted_sha256": "625fd1c062574fcf7dde841e5539554efc9973d2db986ab946b78e4dc1a68798",
+  "accepted_sha256": "9914d434112761015255a6dec986b439730bde352ba733fe69c35ec58c2c918e",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
