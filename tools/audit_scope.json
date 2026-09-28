@@ -14,6 +14,31 @@
   ],
   "fast_lanes": [
     {
+      "id": "chapter5-proof-scope",
+      "paths": [],
+      "owned_paths": [
+        "tools/chapter5_human_reject_audit.py",
+        "tools/chapter5_proof_scope_self_test.py",
+        "tools/audit_scope.json",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/WORK_LOG.md",
+        "docs/history/WORK_LOG_2026-09-07_localization.md",
+        "docs/STATUS.md",
+        "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-387.json",
+        "docs/queue_active/ORDER-387.md",
+        "docs/queue_archive/ORDER-387.md"
+      ],
+      "tools": [
+        "tools/chapter5_proof_scope_self_test.py",
+        "tools/chapter5_human_reject_audit.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Normal CLI invocation-local fresh proof only. Keep original validator, pins and historical self bodies unchanged; focused orchestration regressions and one real normal audit, not unrelated engine/full or historical corpus reruns."
+    },
+    {
       "id": "investment-footer",
       "paths": [],
       "owned_paths": [
@@ -3571,6 +3596,15 @@
         "tools/CoreChoiceSliceCheck.gd",
         "tools/EndingRouteIdentityCheck.gd",
         "tools/audit_scope.json"
+      ]
+    },
+    {
+      "tool": "tools/chapter5_proof_scope_self_test.py",
+      "why": "Normal Chapter 5 invocation fresh-proof lifecycle, fail-closed entry, raw validation and unchanged CLI boundaries without expensive historical corpus replay",
+      "paths": [
+        "tools/chapter5_human_reject_audit.py",
+        "tools/chapter5_proof_scope_self_test.py",
+        "tools/order365_ui_receipt_compat.py"
       ]
     },
     {

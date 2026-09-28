@@ -9,10 +9,12 @@ replace either the Godot route check or the required human M49-M60 replays.
 from __future__ import annotations
 
 import argparse
+import contextlib
 import copy
 import hashlib
 import json
 import re
+import subprocess
 import sys
 from dataclasses import dataclass
 from pathlib import Path
@@ -2800,6 +2802,18 @@ def _order308_parser_source_self_tests() -> int:
     return cases
 
 
+def _validate_current_model(model: AuditModel) -> list[str]:
+    """Share fresh proof only within this normal invocation; retain every check."""
+    with contextlib.ExitStack() as stack:
+        try:
+            stack.enter_context(ui_receipts.fresh_validation_proof())
+        except (OSError, ValueError, KeyError, TypeError, IndexError,
+                subprocess.TimeoutExpired) as exc:
+            return ["ORDER-365: whole current proof rejected: " + str(exc)]
+        # Do not relabel exceptions from the audit body as proof-entry failures.
+        return validate_model(model)
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--self-test", action="store_true")
@@ -2820,7 +2834,7 @@ def main(argv: list[str] | None = None) -> int:
     except (OSError, ValueError, json.JSONDecodeError) as exc:
         print(f"CHAPTER5_HUMAN_REJECT_AUDIT_FAIL load={exc}", file=sys.stderr)
         return 1
-    errors = validate_model(model)
+    errors = _validate_current_model(model)
     if errors:
         print(f"CHAPTER5_HUMAN_REJECT_AUDIT_FAIL errors={len(errors)}")
         for error in errors:
