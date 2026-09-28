@@ -51,6 +51,13 @@ append boundary. Run its focused self-test when changing the verifier, not for
 every unchanged translation batch; independent text review and changed-screen
 checks remain necessary. Native and release gates stay separate.
 
+An existing-target correction needs its own declared scope and fresh official
+export/check/import with `--replace-existing`, bound to the previous target hash.
+Preserve the original batch and receipt; record the correction separately and do
+not count it as new translation coverage. A reviewed exact Git correction proof
+does not authorize arbitrary edits through the append-only path. Check changed
+text in its actual label width before freezing the accepted append whenever possible.
+
 The full scope includes every event text variant and Chapter 5 reader, every
 ending variant, catalog text, and both static and dynamic UI. Packaged,
 shipping-eligible, and dormant-authoring denominators are reported separately;

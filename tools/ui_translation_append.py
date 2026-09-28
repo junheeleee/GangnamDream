@@ -15,7 +15,7 @@ from pathlib import Path
 from typing import Any, Mapping
 
 import full_game_localization as exchange
-from order351_source_compat import _Document, _ordered
+from order351_source_compat import _Document, _loads, _ordered
 
 LOCALES = ("zh-CN", "zh-TW")
 UI_PATHS = tuple(f"locale/ui_{locale}.json" for locale in LOCALES)
@@ -43,6 +43,30 @@ ARUBA_FONT_ANCHOR = (b"func _ready() -> void:\n\t_rng.randomize()\n"
 ARUBA_FONT_ADDITION = (b"\tvar local_theme := Theme.new()\n"
                        b"\tlocal_theme.default_font = FontKit.ui_regular()\n"
                        b"\ttheme = local_theme\n")
+
+# One reviewed correction, not permission to edit arbitrary accepted UI rows.
+# The product author supplies these immutable commit/blob pins before admission.
+CORRECTION_KEY = "마포 첫 면접 완료 · 다음 지원 진행 중"
+CORRECTION_BEFORE_COMMIT = "77272537e6938ba766f709c5f459c5b3109c8ad3"
+CORRECTION_AFTER_COMMIT = "14547a1e3c552616236c40693c368dcdfd86ebe4"
+CORRECTION_TREES = ("2b9c97a0b7d39da10fc2edac712b1ba8fb0e718f", "21a0dc6d5f8268c3be536b4d28800c13bf22ea0c")
+CORRECTION_BLOBS = {
+    "locale/ui_zh-CN.json": ("bfa0de38df1ba24c7deb34fecad77c2fdda616a7", "1dd77bc738b7d23fd4df6e43dc7755c7d5001a7b"),
+    "locale/ui_zh-TW.json": ("d0fe32e709e23c2f2459254a4a0a0fc48a38f5cd", "8411f9ccbef3d7c44e384ae07b57d31654a1dcf7"),
+    "content/meta/full_game_localization.json": ("2b073a19b698b00a8be4f3a877ae1af22959e4a3", "dd00caf06a13e26965e4214cf1ddccffe36f6be8"),
+}
+CORRECTION_HASHES = {
+    "locale/ui_zh-CN.json": ("809a80896d79cde7aefbb5084040e08737118a870fdd114218cef6105653456c", "1739c179a6cc929c811f41e6af7d37a0c2945a26c44cdd59e209fb2eaeac35a6"),
+    "locale/ui_zh-TW.json": ("1cb030b544d38eb793a1cd0fc7bbcb4fd84c8da992b4b42ec5c3bf9bd16f50d9", "d871fa4cfe8f177e22ad3a804cdadb99908913d11d1ca9121095486a634b204a"),
+    "content/meta/full_game_localization.json": ("1fb163fb26890d27c22dddaba4ebd1a624236e5b1643ede9210a2b5d92d0d650", "063cc7ce4ad53d8a7e80a71ee0b838aeeea2686722a34b92daef034074e5437c"),
+}
+CORRECTION_TEXTS = {
+    "zh-CN": ("麻浦首次面试已完成 · 正在申请下一份工作", "麻浦首次面试完成 · 后续应聘中"),
+    "zh-TW": ("已完成麻浦首次面試 · 正在應徵下一份工作", "麻浦首場面試完成 · 後續應徵中"),
+}
+CORRECTION_REVIEW = (
+    "Korean-direct concise status repair after actual 292px/288px clipping. Same first interview completed "
+    "and follow-up application in progress; no gameplay change. Correction is not new coverage.")
 
 
 def require(ok: bool, message: str) -> None:
@@ -313,6 +337,156 @@ def _source_manifest(root: Path, revision: str) -> str:
     return exchange.digest({path: hashlib.sha256(blobs[path]).hexdigest() for path in sorted(required)})
 
 
+def _correction_comparison(snapshot: Mapping[str, bytes], before: Mapping[str, bytes],
+                           after: Mapping[str, bytes]) -> dict[str, bytes]:
+    """Undo only the proved correction; never expose this as current UI data.
+
+    Later pure appends may follow it. Their bytes are retained, while the fixed
+    correction row, its two targets and checksum are restored for comparison.
+    """
+    require(set(snapshot) in (set(PATHS), set(CURRENT_PATHS))
+            and set(before) == set(after) == set(PATHS), "correction snapshot population")
+    result = dict(snapshot)
+    receipt = receipt_id(CORRECTION_KEY)
+    for locale, path in zip(LOCALES, UI_PATHS):
+        a, b = _Document(before[path]), _Document(after[path])
+        doc = b if snapshot[path] == after[path] else _Document(snapshot[path])
+        require(doc.value.get(CORRECTION_KEY) == CORRECTION_TEXTS[locale][1],
+                "corrected UI rolled back/changed: " + locale)
+        start, end = doc.spans[(CORRECTION_KEY,)]
+        bs, be = b.spans[(CORRECTION_KEY,)]
+        require(doc.text[start:end] == b.text[bs:be], "corrected UI token formatting changed: " + locale)
+        first, last = a.spans[(CORRECTION_KEY,)]
+        result[path] = (doc.text[:start] + a.text[first:last] + doc.text[end:]).encode()
+    a, b = _Document(before[LEDGER_PATH]), _Document(after[LEDGER_PATH])
+    doc = b if snapshot[LEDGER_PATH] == after[LEDGER_PATH] else _Document(snapshot[LEDGER_PATH])
+    value = doc.value
+    require(value["accepted_sha256"] == exchange.digest(value["accepted"]), "corrected accepted checksum")
+    require(len(value["batches"]) >= 149
+            and _ordered(value["batches"][148]) == _ordered(b.value["batches"][148]),
+            "correction batch missing/changed/reordered")
+    start, end = doc.spans[("batches", 147)][1], doc.spans[("batches", 148)][1]
+    bs, be = b.spans[("batches", 147)][1], b.spans[("batches", 148)][1]
+    require(doc.text[start:end] == b.text[bs:be], "correction batch raw formatting changed")
+    replacements = [(start, end, "")]
+    restored_accepted = dict(value["accepted"])
+    for locale in LOCALES:
+        require(_ordered(value["accepted"][locale][receipt]) == _ordered(b.value["accepted"][locale][receipt]),
+                "corrected source/target receipt changed: " + locale)
+        path = ("accepted", locale, receipt, "target_sha256")
+        start, end = doc.spans[path]
+        bs, be = b.spans[path]
+        require(doc.text[start:end] == b.text[bs:be], "corrected receipt token formatting changed: " + locale)
+        first, last = a.spans[path]
+        replacements.append((start, end, a.text[first:last]))
+        restored_accepted[locale] = {**value["accepted"][locale], receipt: {
+            **value["accepted"][locale][receipt],
+            "target_sha256": a.value["accepted"][locale][receipt]["target_sha256"]}}
+    start, end = doc.spans[("accepted_sha256",)]
+    replacements.append((start, end, _ordered(exchange.digest(restored_accepted)).decode()))
+    text = doc.text
+    for start, end, replacement in sorted(replacements, reverse=True):
+        text = text[:start] + replacement + text[end:]
+    result[LEDGER_PATH] = text.encode()
+    return result
+
+
+def _validate_correction(before: Mapping[str, bytes], after: Mapping[str, bytes],
+                         inventory: dict[str, Any]) -> dict[str, Any]:
+    """Exact two-target semantics, official receipts, census and full raw inverse."""
+    require(set(before) == set(after) == set(PATHS), "correction requires the exact three product paths")
+    # Reject semantic failures with the same strict decoder before building
+    # literal spans for the full raw inverse. No result survives this call.
+    old = {p: _loads(v) for p, v in before.items()}
+    new = {p: _loads(v) for p, v in after.items()}
+    a, b = old[LEDGER_PATH], new[LEDGER_PATH]
+    require(len(a["batches"]) == 148 and len(b["batches"]) == 149
+            and sum(map(len, a["accepted"].values())) == sum(map(len, b["accepted"].values())) == 40832,
+            "correction is two existing receipts, not new coverage")
+    require(a["accepted_sha256"] == exchange.digest(a["accepted"])
+            and b["accepted_sha256"] == exchange.digest(b["accepted"]), "correction accepted checksum mismatch")
+    expected_leaf = exchange.Leaf("ui", CORRECTION_KEY, "runtime:static_ui", (CORRECTION_KEY,),
+                                  CORRECTION_KEY, "ui_static_context")
+    selected = [leaf for leaf in inventory["leaves"] if leaf.id == expected_leaf.id]
+    require(len(selected) == 1 and _ordered(vars(selected[0])) == _ordered(vars(expected_leaf)),
+            "correction current Korean leaf/protection/support mismatch")
+    batch = b["batches"][148]
+    fields = {"order", "group", "roots", "source_leaves", "target_leaves_by_locale", "original_order",
+              "before_target_sha256_by_locale", "source_review", "machine_validation", "rendered_review",
+              "native_review", "receipt_sha256_by_locale", HEADERS_FIELD}
+    require(isinstance(batch, dict) and set(batch) == fields, "correction batch field population")
+    expected = {"order": "ORDER-380", "group": "ui_correction", "roots": [CORRECTION_KEY], "source_leaves": 1,
+                "target_leaves_by_locale": {"ja": 0, "zh-CN": 1, "zh-TW": 1}, "original_order": "ORDER-379",
+                "source_review": CORRECTION_REVIEW, "machine_validation": "PASS", "rendered_review": "OPEN",
+                "native_review": "OPEN"}
+    require(all(_ordered(batch[key]) == _ordered(value) for key, value in expected.items()),
+            "correction batch identity/count/review differs")
+    require(all(set(batch[key]) == set(LOCALES) for key in
+                (HEADERS_FIELD, "receipt_sha256_by_locale", "before_target_sha256_by_locale")),
+            "correction official receipt locales differ")
+    originals = [row for row in a["batches"] if row.get("order") == "ORDER-379"
+                 and row.get("group") == "ui" and CORRECTION_KEY in row.get("roots", [])]
+    require(len(originals) == 1, "correction does not identify exactly one original accepted unit")
+    manifests = {}
+    for locale, path in zip(LOCALES, UI_PATHS):
+        old_text, new_text = CORRECTION_TEXTS[locale]
+        require(old[path][CORRECTION_KEY] == old_text and new[path][CORRECTION_KEY] == new_text,
+                "correction exact old/new text differs: " + locale)
+        require(not exchange.translation_errors(expected_leaf, locale, new_text), "correction translation contract: " + locale)
+        previous = {"source_sha256": expected_leaf.source_sha256, "target_sha256": exchange.digest(old_text)}
+        corrected = {"source_sha256": expected_leaf.source_sha256, "target_sha256": exchange.digest(new_text)}
+        require(_ordered(a["accepted"][locale][expected_leaf.id]) == _ordered(previous)
+                and _ordered(b["accepted"][locale][expected_leaf.id]) == _ordered(corrected)
+                and batch["before_target_sha256_by_locale"][locale] == previous["target_sha256"],
+                "correction source/old/new target receipt mismatch: " + locale)
+        header = batch[HEADERS_FIELD][locale]
+        require(header.get("source_revision") == CORRECTION_BEFORE_COMMIT
+                and re.fullmatch(r"[0-9a-f]{64}", str(header.get("source_manifest_sha256", ""))),
+                "correction export revision/manifest malformed")
+        # Actual historical Git and current source are independently checked by
+        # validate_history, using the same source-change boundary as appends.
+        receipt_inventory = {**inventory, "source_manifest_sha256": header["source_manifest_sha256"]}
+        rebuilt = exchange.make_batch(receipt_inventory, locale, selected, CORRECTION_BEFORE_COMMIT, {path: old[path]}, {})[0]
+        require(_ordered(header) == _ordered(rebuilt), "correction official previous-target selection mismatch: " + locale)
+        receipt = {"batch": header, "state": "accepted_machine_validated", "native_review": "OPEN",
+                   "translations": {expected_leaf.id: corrected}}
+        require(batch["receipt_sha256_by_locale"][locale] == exchange.digest(receipt),
+                "correction official receipt digest mismatch: " + locale)
+        manifests[header["source_revision"]] = header["source_manifest_sha256"]
+    require(_correction_comparison(after, before, after) == before,
+            "correction changed bytes outside two targets/receipts/checksum/one batch")
+    return {"ui_by_locale": {loc: 0 for loc in CURRENT_LOCALES}, "receipts": 0, "batches": 0,
+            "corrections": 2, "correction_batches": 1, "source_manifests": manifests}
+
+
+def _correction_proof(root: Path, inventory: dict[str, Any]) -> tuple[dict, dict, dict]:
+    """Fresh Git proof of the single approved correction; no cached admission."""
+    require(set(CORRECTION_BLOBS) == set(CORRECTION_HASHES) == set(PATHS), "correction pin population")
+    revisions = (CORRECTION_BEFORE_COMMIT, CORRECTION_AFTER_COMMIT)
+    requests = [(revision, revision, "commit") for revision in revisions]
+    requests += [(tree, tree, "tree") for tree in CORRECTION_TREES]
+    requests += [(revision + ":" + path, CORRECTION_BLOBS[path][i], "blob")
+                 for path in PATHS for i, revision in enumerate(revisions)]
+    values = _objects(root, requests)
+    for index in range(2):
+        headers = values[index].split(b"\n\n", 1)[0].splitlines()
+        require([line for line in headers if line.startswith(b"tree ")] == [b"tree " + CORRECTION_TREES[index].encode()],
+                "correction exact tree mismatch")
+        if index:
+            require([line for line in headers if line.startswith(b"parent ")] == [b"parent " + revisions[0].encode()],
+                    "correction is not the exact direct-parent transition")
+    require(_git(root, "diff", "--name-status", "-z", *revisions).split(b"\0")
+            == [part for path in sorted(PATHS) for part in (b"M", path.encode())] + [b""],
+            "correction product transition is not exactly three modified paths")
+    before, after = {}, {}
+    for index, path in enumerate(PATHS):
+        old, new = values[4 + index * 2:6 + index * 2]
+        require((hashlib.sha256(old).hexdigest(), hashlib.sha256(new).hexdigest()) == CORRECTION_HASHES[path],
+                "correction immutable whole-file hashes differ: " + path)
+        before[path], after[path] = old, new
+    return before, after, _validate_correction(before, after, inventory)
+
+
 def validate_history(root: Path, baseline_commit: str, baseline: Mapping[str, bytes],
                      current: Mapping[str, bytes], inventory: dict[str, Any]) -> dict[str, Any]:
     """Fresh first-parent history: a committed rollback stays rejected even after restoration."""
@@ -335,13 +509,29 @@ def validate_history(root: Path, baseline_commit: str, baseline: Mapping[str, by
     totals = Counter()
     transitions = []
     source_manifests = {}
+    correction = None
+    corrected = False
     for commit in commits:
         raw = _objects(root, [(commit, commit, "commit")])[0]
         parents = [line[7:].decode() for line in raw.split(b"\n\n", 1)[0].splitlines() if line.startswith(b"parent ")]
         require(bool(parents) and parents[0] in lineage, "Git transition parent missing from current lineage")
         require(_snapshot(root, parents[0], paths) == previous, "omitted/noncontiguous UI receipt transition")
         successor = _snapshot(root, commit, paths)
-        change = validate_append(previous, successor, inventory)
+        if commit == CORRECTION_AFTER_COMMIT:
+            require(correction is None, "duplicate exact correction transition")
+            correction = _correction_proof(root, inventory)
+            old, new, change = correction
+            require({p: previous[p] for p in PATHS} == old and {p: successor[p] for p in PATHS} == new,
+                    "correction lineage snapshots differ from pinned blobs")
+            require(all(previous[p] == successor[p] for p in paths if p not in PATHS),
+                    "correction changed the protected Japanese snapshot")
+            corrected = True
+        elif corrected:
+            old, new, _ = correction
+            change = validate_append(_correction_comparison(previous, old, new),
+                                     _correction_comparison(successor, old, new), inventory)
+        else:
+            change = validate_append(previous, successor, inventory)
         for revision, expected in change["source_manifests"].items():
             _git(root, "merge-base", "--is-ancestor", revision, parents[0])
             require(_source_manifest_matches(root, inventory, expected),
@@ -350,16 +540,19 @@ def validate_history(root: Path, baseline_commit: str, baseline: Mapping[str, by
                 source_manifests[revision] = _source_manifest(root, revision)
             require(source_manifests[revision] == expected, "receipt source manifest differs from actual Git census")
         transitions.append({"commit": commit, **change})
-        totals.update({"receipts": change["receipts"], "batches": change["batches"]})
+        totals.update({key: change.get(key, 0) for key in ("receipts", "batches", "corrections", "correction_batches")})
         previous = successor
     require(previous == candidate, "Git history does not reconstruct current UI receipts")
     # Independently prove the full byte inverse, not just each incremental hop.
-    combined = validate_append(baseline, candidate, inventory)
+    comparison = _correction_comparison(candidate, *correction[:2]) if correction else candidate
+    combined = validate_append(baseline, comparison, inventory)
     require(combined["receipts"] == totals["receipts"] and combined["batches"] == totals["batches"],
             "history/current append census mismatch")
     require(_git(root, "rev-parse", "--verify", "HEAD^{commit}").decode().strip() == head,
             "Git candidate changed during validation")
-    return {"head": head, "transitions": transitions, **combined}
+    return {"head": head, "transitions": transitions, **combined, "append_batches": combined["batches"],
+            "batches": combined["batches"] + totals["correction_batches"],
+            "corrections": totals["corrections"], "correction_batches": totals["correction_batches"]}
 
 
 def current_proof(root: Path, baseline_commit: str, baseline: Mapping[str, bytes]) -> dict[str, Any]:

@@ -611,11 +611,206 @@ def three_locales_self_test() -> tuple[list[str], int]:
     return failures, cases
 
 
+def correction_self_test() -> tuple[list[str], int]:
+    """The exact 380 correction only; no collector, old corpus or consumer suite."""
+    failures, cases = [], 0
+    def check(ok, label):
+        nonlocal cases
+        cases += 1
+        if not ok:
+            failures.append("correction: " + label)
+    def reject(action, label):
+        try:
+            action()
+        except (ValueError, OSError, KeyError, TypeError, IndexError, subprocess.TimeoutExpired):
+            check(True, label)
+        else:
+            check(False, label)
+    key = append.CORRECTION_KEY
+    leaf = append.exchange.Leaf("ui", key, "runtime:static_ui", (key,), key, "ui_static_context")
+    # Explicit one-leaf fixture; the root's current normal separately invokes
+    # the actual collector. Its manifest below is reconstructed from real Git.
+    inventory = {"leaves": [leaf], "source_manifest_sha256": append._source_manifest(ROOT, append.CORRECTION_BEFORE_COMMIT)}
+    before, after, change = append._correction_proof(ROOT, inventory)
+    check(change["corrections"] == 2 and change["correction_batches"] == 1
+          and change["receipts"] == change["batches"] == 0, "two corrections, zero new translations")
+    check(append._correction_comparison(after, before, after) == before, "exact full raw inverse")
+    original = {p: (ROOT / p).read_bytes() for p in append.CURRENT_PATHS}
+    # Current files may already contain later valid appends. The exact fixed
+    # transition is tested in the isolated Git checkout below, not as HEAD.
+    reject(lambda: append.validate_append(before, after, inventory), "ordinary append still rejects the correction")
+    for path in append.PATHS:
+        reject(lambda p=path: append._validate_correction(before, {**after, p: before[p]}, inventory), "mixed rollback " + path)
+        reject(lambda p=path: append._validate_correction(before, {**after, p: after[p] + b"\n"}, inventory), "raw whitespace " + path)
+    reject(lambda: append._validate_correction(before, original, inventory), "extra path cannot expand correction scope")
+
+    after_documents = {path: append._Document(raw) for path, raw in after.items()}
+    def mutate(path, field, value):
+        doc = after_documents[path]
+        payload = copy.deepcopy(doc.value)
+        target = payload
+        for part in field[:-1]:
+            target = target[part]
+        target[field[-1]] = value
+        start, end = doc.spans[field]
+        edits = [(start, end, append._ordered(value).decode())]
+        if path == append.LEDGER_PATH and field[0] == "accepted":
+            start, end = doc.spans[("accepted_sha256",)]
+            edits.append((start, end, append._ordered(append.exchange.digest(payload["accepted"])).decode()))
+        text = doc.text
+        for start, end, replacement in sorted(edits, reverse=True):
+            text = text[:start] + replacement + text[end:]
+        return {**after, path: text.encode()}
+
+    ledger = append.LEDGER_PATH
+    for path in append.UI_PATHS:
+        for value in ("changed target", None):
+            reject(lambda p=path, v=value: append._validate_correction(before, mutate(p, (key,), v), inventory),
+                   "changed/nonstring exact target " + path + repr(value))
+        other = next(k for k in after_documents[path].value if k != key)
+        reject(lambda p=path, k=other: append._validate_correction(before, mutate(p, (k,), "neighbor"), inventory),
+               "existing neighbor target " + path)
+        quoted = json.dumps(key, ensure_ascii=False).encode() + b":"
+        duplicate = after[path].replace(quoted, quoted + b' "duplicate", ' + quoted, 1)
+        reject(lambda p=path, raw=duplicate: append._validate_correction(before, {**after, p: raw}, inventory),
+               "duplicate raw target " + path)
+    for label, field, value in (
+        ("source receipt", ("accepted", "zh-CN", leaf.id, "source_sha256"), "0" * 64),
+        ("target receipt with fresh checksum", ("accepted", "zh-TW", leaf.id, "target_sha256"), "0" * 64),
+        ("old batch", ("batches", 0, "order"), "changed"),
+        ("correction scope", ("batches", 148, "roots"), [key, "another key"]),
+        ("boolean source count", ("batches", 148, "source_leaves"), True),
+        ("null locale count", ("batches", 148, "target_leaves_by_locale", "zh-CN"), None),
+        ("old target claim", ("batches", 148, "before_target_sha256_by_locale", "zh-CN"), "0" * 64),
+        ("official digest", ("batches", 148, "receipt_sha256_by_locale", "zh-CN"), "0" * 64),
+        ("official previous-target selection", ("batches", 148, append.HEADERS_FIELD, "zh-CN", "selection_sha256"), "0" * 64),
+        ("boolean official count", ("batches", 148, append.HEADERS_FIELD, "zh-CN", "count"), True),
+        ("native claim", ("batches", 148, "native_review"), "GO"),
+    ):
+        reject(lambda f=field, v=value: append._validate_correction(before, mutate(ledger, f, v), inventory), label)
+    for field, value in (("source", "changed Korean"), ("protected", True), ("runtime_support", "unverified_consumer")):
+        reject(lambda f=field, v=value: append._validate_correction(before, after,
+                   {**inventory, "leaves": [replace(leaf, **{f: v})]}), "current leaf " + field)
+    reject(lambda: append._validate_correction(before, after, {**inventory, "leaves": [leaf, leaf]}), "duplicate current leaf")
+    doc = after_documents[ledger]
+    field = ("accepted", "zh-CN", leaf.id, "target_sha256")
+    start, end = doc.spans[field]
+    token = doc.text[start:end]
+    escaped = token[:1] + "\\u%04x" % ord(token[1]) + token[2:]
+    mutant = {**after, ledger: (doc.text[:start] + escaped + doc.text[end:]).encode()}
+    reject(lambda: append._correction_comparison(mutant, before, after), "same-value corrected target SHA raw escape")
+    batches = doc.value["batches"]
+    for label, rows in (("deleted correction batch", batches[:-1]),
+                        ("duplicate correction batch", [*batches, batches[-1]]),
+                        ("reordered correction batch", [*batches[:-2], batches[-1], batches[-2]])):
+        reject(lambda v=rows: append._validate_correction(before, mutate(ledger, ("batches",), v), inventory), label)
+    neighbor = next(k for k in doc.value["accepted"]["zh-CN"] if k != leaf.id)
+    reject(lambda: append._validate_correction(before, mutate(ledger,
+               ("accepted", "zh-CN", neighbor, "target_sha256"), "0" * 64), inventory), "old neighboring accepted receipt")
+    real_git = append._git
+    with mock.patch.object(append, "_git", side_effect=OSError("Git lost after success")):
+        reject(lambda: append._correction_proof(ROOT, inventory), "fresh missing immutable proof")
+    def forged(where, *args, **kwargs):
+        raw = real_git(where, *args, **kwargs)
+        return raw + b"forged" if args[:2] == ("cat-file", "--batch") else raw
+    with mock.patch.object(append, "_git", side_effect=forged):
+        reject(lambda: append._correction_proof(ROOT, inventory), "forged object stream")
+    def wrong_paths(where, *args, **kwargs):
+        return b"M\0outside.json\0" if args and args[0] == "diff" else real_git(where, *args, **kwargs)
+    with mock.patch.object(append, "_git", side_effect=wrong_paths):
+        reject(lambda: append._correction_proof(ROOT, inventory), "exact commit path population")
+    check(append._correction_proof(ROOT, inventory)[2] == change, "fresh valid proof after failures")
+
+    # A small shared-object clone materializes only the four UI/ledger files.
+    # All source objects remain real and read-only in the original repository.
+    env = {**os.environ, "GIT_CONFIG_NOSYSTEM": "1", "GIT_CONFIG_GLOBAL": os.devnull,
+           "GIT_AUTHOR_NAME": "correction fixture", "GIT_AUTHOR_EMAIL": "fixture@example.invalid",
+           "GIT_COMMITTER_NAME": "correction fixture", "GIT_COMMITTER_EMAIL": "fixture@example.invalid"}
+    for name in ("GIT_DIR", "GIT_WORK_TREE", "GIT_INDEX_FILE"):
+        env.pop(name, None)
+    with tempfile.TemporaryDirectory(prefix="ui-correction-history-") as directory:
+        root = Path(directory)
+        def git(*args):
+            result = subprocess.run(("git", *args), cwd=root, env=env, capture_output=True, timeout=30)
+            if result.returncode:
+                raise RuntimeError(result.stderr.decode())
+        git("clone", "-q", "--shared", "--no-checkout", str(ROOT), str(root))
+        git("update-ref", "HEAD", append.CORRECTION_AFTER_COMMIT)
+        git("read-tree", append.CORRECTION_AFTER_COMMIT)
+        check(append._snapshot(root, append.CORRECTION_AFTER_COMMIT, append.PATHS) == after,
+              "isolated exact committed correction bytes")
+        evidence = append.validate_history(root, append.CORRECTION_BEFORE_COMMIT, before, after, inventory)
+        check(evidence["corrections"] == 2 and evidence["correction_batches"] == evidence["batches"] == 1
+              and evidence["receipts"] == evidence["append_batches"] == 0, "isolated exact correction lineage")
+        # Synthetic subsequent append, explicitly not a runtime-source claim.
+        # It exercises the unchanged append validator after the exact inverse.
+        extra = append.exchange.Leaf("ui", "합성 후속 문구", "runtime:static_ui", ("합성 후속 문구",),
+                                     "합성 후속 문구", "ui_static_context")
+        extended = {**inventory, "leaves": [leaf, extra]}
+        future = dict(after)
+        def insert_member(raw, field, member, value):
+            document = append._Document(raw)
+            members = document.value
+            for part in field:
+                members = members[part]
+            last = len(members) - 1 if isinstance(members, list) else list(members)[-1]
+            end = document.spans[(*field, last)][1]
+            addition = ",\n    " + (append._ordered(member).decode() + ": " if member is not None else "") + append._ordered(value).decode()
+            return (document.text[:end] + addition + document.text[end:]).encode()
+        headers, hashes = {}, {}
+        for locale, path in zip(append.LOCALES, append.UI_PATHS):
+            text = "合成后续文字" if locale == "zh-CN" else "合成後續文字"
+            future[path] = insert_member(future[path], (), extra.owner, text)
+            row = {"source_sha256": extra.source_sha256, "target_sha256": append.exchange.digest(text)}
+            future[ledger] = insert_member(future[ledger], ("accepted", locale), extra.id, row)
+            header = append.exchange.make_batch(extended, locale, [extra], append.CORRECTION_AFTER_COMMIT, {}, {})[0]
+            headers[locale] = header
+            hashes[locale] = append.exchange.digest({"batch": header, "state": "accepted_machine_validated",
+                                                     "native_review": "OPEN", "translations": {extra.id: row}})
+        batch = {"order": "synthetic following append", "group": "ui", "roots": [extra.owner], "source_leaves": 1,
+                 "target_leaves_by_locale": {"ja": 0, "zh-CN": 1, "zh-TW": 1}, "machine_validation": "PASS",
+                 "native_review": "OPEN", append.HEADERS_FIELD: headers, "receipt_sha256_by_locale": hashes}
+        future[ledger] = insert_member(future[ledger], ("batches",), None, batch)
+        document = append._Document(future[ledger])
+        start, end = document.spans[("accepted_sha256",)]
+        digest = append._ordered(append.exchange.digest(document.value["accepted"])).decode()
+        future[ledger] = (document.text[:start] + digest + document.text[end:]).encode()
+        bad_ui = append._Document(future[append.UI_PATHS[0]])
+        start, end = bad_ui.spans[(key,)]
+        rollback = {**future, append.UI_PATHS[0]: (bad_ui.text[:start]
+                    + append._ordered(append.CORRECTION_TEXTS["zh-CN"][0]).decode() + bad_ui.text[end:]).encode()}
+        for label, snapshot in (("synthetic append after correction", future),
+                                ("committed corrected-key rollback", rollback),
+                                ("restoration cannot erase rollback", future)):
+            for path, raw in snapshot.items():
+                target = root / path
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_bytes(raw)
+            git("add", "--", *append.PATHS)
+            git("commit", "-qm", label)
+            if snapshot is future and label.startswith("synthetic"):
+                result = append.validate_history(root, append.CORRECTION_BEFORE_COMMIT, before, snapshot, extended)
+                check(result["receipts"] == 2 and result["corrections"] == 2 and result["batches"] == 2
+                      and result["append_batches"] == result["correction_batches"] == 1, label)
+            else:
+                reject(lambda value=snapshot: append.validate_history(root, append.CORRECTION_BEFORE_COMMIT,
+                                                                      before, value, extended), label)
+    check(all((ROOT / p).read_bytes() == raw for p, raw in original.items()), "actual product bytes unchanged")
+    return failures, cases
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--synthetic-only", action="store_true", help="author development only; not current acceptance")
     parser.add_argument("--three-locales", action="store_true", help="bounded JA/current47 change tests only; no historical suite")
+    parser.add_argument("--correction", action="store_true", help="exact two-target correction only; no old suite or collector")
     args = parser.parse_args()
+    if args.correction:
+        errors, cases = correction_self_test()
+        for error in errors:
+            print("UI_TRANSLATION_APPEND_ERROR " + error)
+        print(f"UI_TRANSLATION_APPEND_CORRECTION_{'FAIL' if errors else 'OK'} cases={cases}")
+        return int(bool(errors))
     if args.three_locales:
         errors, cases = three_locales_self_test()
         for error in errors:
@@ -633,6 +828,10 @@ def main() -> int:
         errors.extend(font_errors)
         cases += font_cases
         print(f"UI_TRANSLATION_APPEND_ARUBA_FONT cases={font_cases}")
+        correction_errors, correction_cases = correction_self_test()
+        errors.extend(correction_errors)
+        cases += correction_cases
+        print(f"UI_TRANSLATION_APPEND_CORRECTION cases={correction_cases}")
     for error in errors:
         print("UI_TRANSLATION_APPEND_ERROR " + error)
     marker = "UI_TRANSLATION_APPEND_SYNTHETIC" if args.synthetic_only else "UI_TRANSLATION_APPEND_SELF_TEST"
