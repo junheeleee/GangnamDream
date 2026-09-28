@@ -14,6 +14,130 @@ import full_game_localization as tool
 
 
 class ExchangeTests(unittest.TestCase):
+    def test_order367_ui_resume_four_answer_quantity(self):
+        """Two actual targets, equivalent numerals and fail-closed boundaries."""
+        from dataclasses import replace
+        import zh_translation_audit as zh
+
+        source = "끝까지 썼지만 네 답 옆에는 근거를 다시 채울 표시가 남았다."
+        leaf = tool.Leaf("ui", source, "runtime:static_ui", (source,), source,
+                         "ui_static_context")
+        originals = {
+            "zh-CN": "虽然写到了最后，四个回答旁仍留着需要重新补充依据的标记。",
+            "zh-TW": "雖然寫到了最後，四個回答旁仍留著要重新補上依據的記號。",
+        }
+        for locale, target in originals.items():
+            unit = "个" if locale == "zh-CN" else "個"
+            count = "四" + unit + "回答"
+            generic = zh.validate_text(locale, leaf.id, source, target)
+            with self.subTest(locale=locale, kind="original_generic_failure"):
+                self.assertTrue(any("quantity" in error and "4" in error
+                                    for error in generic), generic)
+            for numeral in ("四", "4", "４"):
+                normal = target.replace(count, numeral + unit + "回答")
+                with self.subTest(locale=locale, kind="normal", numeral=numeral):
+                    self.assertEqual(tool._ui_resume_answer_numbers(leaf, locale, normal),
+                                     (source.replace("네 답", "4개 답"),
+                                      target.replace(count, "4" + unit + "回答"), []))
+                    self.assertEqual(tool.translation_errors(leaf, locale, normal), [])
+
+            # No correct four elsewhere may rescue the wrong answer count,
+            # unit, noun or clause. The exact adapter must reject these.
+            mutations = {
+                "three": target.replace(count, "三" + unit + "回答"),
+                "five": target.replace(count, "五" + unit + "回答"),
+                "missing_count": target.replace(count, "回答"),
+                "missing_answers": target.replace(count, "四" + unit + "标记"),
+                "question_owner": target.replace(count, "四" + unit + "問題"),
+                "person_owner": target.replace(count, "四" + unit + "人"),
+                "wrong_unit": target.replace(count, "四次回答"),
+                "displaced_four": target.replace(count, "三" + unit + "回答") + "四" + unit + "回答。",
+                "duplicate_four": target.replace(count, count + "旁，" + count),
+                "duplicate_numeral": target.replace(count, "四四" + unit + "回答"),
+                "signed_plus": target.replace(count, "+4" + unit + "回答"),
+                "signed_minus": target.replace(count, "−4" + unit + "回答"),
+                "decimal": target.replace(count, "4.0" + unit + "回答"),
+                "at_least": target.replace(count, "至少" + count),
+                "approximate": target.replace(count, "大約" + count),
+                "negated": target.replace(count, "不是" + count),
+                "possessive": target.replace(count, "你的回答"),
+                "other_position": target.replace("回答旁", "回答後"),
+            }
+            for name, mutant in mutations.items():
+                with self.subTest(locale=locale, kind=name):
+                    self.assertTrue(tool.translation_errors(leaf, locale, mutant))
+                    normalized = tool._ui_resume_answer_numbers(leaf, locale, mutant)
+                    self.assertIsNotNone(normalized)
+                    self.assertEqual(normalized[:2], (source, mutant))
+                    self.assertTrue(normalized[2])
+
+            # An accepted quantity slot must not hide any unrelated diagnostic.
+            extra_values = {
+                "extra_four": target + "四人。",
+                "extra_native": target + "五次。",
+                "extra_half": target + "半天。",
+                "extra_financial_numeral": target + "肆人。",
+                "extra_digit": target + "7。",
+                "money": target + "4元。",
+                "won": target + ("4韩元。" if locale == "zh-CN" else "4韓元。"),
+                "token": target + " {name}",
+                "printf": target + " %d",
+                "newline": target + "\n",
+                "paragraph": target + "\n\n",
+                "hangul": target + " 한글",
+                "kana": target + " あ",
+                "script": target.replace(unit + "回答", ("個" if unit == "个" else "个") + "回答"),
+            }
+            for name, mutant in extra_values.items():
+                with self.subTest(locale=locale, kind=name):
+                    numeric_source, numeric_target, helper_errors = \
+                        tool._ui_resume_answer_numbers(leaf, locale, mutant)
+                    extra_quantity = name in {"extra_four", "extra_native", "extra_half",
+                                              "extra_financial_numeral", "extra_digit", "money", "won"}
+                    self.assertEqual(helper_errors,
+                                     ["source-bound resume answer count extra/duplicate quantity mismatch"]
+                                     if extra_quantity else [])
+                    generic_errors = zh.validate_text(locale, leaf.id, numeric_source, numeric_target)
+                    # Native suffix counts are a demonstrated generic blind
+                    # spot; the new exact helper must reject them directly.
+                    if name in {"extra_four", "extra_native", "extra_half", "extra_financial_numeral"}:
+                        self.assertEqual(generic_errors, [])
+                    else:
+                        self.assertTrue(generic_errors)
+                    combined = tool.translation_errors(leaf, locale, mutant)
+                    self.assertTrue(combined)
+                    self.assertTrue(set(generic_errors + helper_errors).issubset(combined))
+
+            for name, other in {
+                "source": replace(leaf, source=source + " "),
+                "owner": replace(leaf, owner=source + " "),
+                "path": replace(leaf, path=(source, "other")),
+                "group": replace(leaf, group="ui_unverified"),
+                "event": replace(leaf, group="events", owner="qa_event", path=("description",)),
+                "source_path": replace(leaf, source_path="runtime:demo_dynamic"),
+                "category": replace(leaf, category="ui_global_candidate"),
+                "template": replace(leaf, format_template=True),
+                "runtime_support": replace(leaf, runtime_support="unverified_consumer"),
+                "neighbor_source": replace(leaf, source=source.replace("네 답", "세 답")),
+            }.items():
+                with self.subTest(locale=locale, kind=name):
+                    self.assertIsNone(tool._ui_resume_answer_numbers(other, locale, target))
+                    expected = zh.validate_text(locale, other.id, other.source, target)
+                    self.assertTrue(expected)
+                    self.assertEqual(tool.translation_errors(other, locale, target),
+                                     sorted(set(expected)))
+        for locale in ("ja", "ko", "en", "zh", "zh-Hant"):
+            with self.subTest(kind="locale_off", locale=locale):
+                self.assertIsNone(tool._ui_resume_answer_numbers(leaf, locale, originals["zh-TW"]))
+                if locale == "ja":
+                    # Bypassing an inactive adapter must be exactly equivalent.
+                    expected = tool.translation_errors(leaf, locale, originals["zh-TW"])
+                    with patch.object(tool, "_ui_resume_answer_numbers", return_value=None):
+                        self.assertEqual(tool.translation_errors(leaf, locale, originals["zh-TW"]), expected)
+                else:
+                    self.assertEqual(tool.translation_errors(leaf, locale, originals["zh-TW"]),
+                                     ["unsupported locale"])
+
     def test_order266_ui_story_relationship_name_scope(self):
         """Fixed 24 families / 64 rows; actual four first, both real consumers."""
         import contextlib

@@ -3076,6 +3076,49 @@ def _ui_dice_title_numbers(locale: str, key: str, source: str, target: str):
     return source.replace("세 개", "3개", 1), numeric_target, []
 
 
+def _ui_resume_answer_numbers(leaf: Leaf, locale: str, target: str):
+    """Resolve 네 답 as four answers only in the owned resume-result leaf.
+
+    JobHuntMiniGame selects four resume questions per session, and this result
+    describes the marks beside those answers.  Do not generalize possessive 네
+    or license a count belonging to questions, marks, people or another leaf.
+    Only the bound numeral changes; the generic Chinese checks see every other
+    byte, including extra quantities, currency, script, tokens and newlines.
+    """
+    source = "끝까지 썼지만 네 답 옆에는 근거를 다시 채울 표시가 남았다."
+    if locale not in ("zh-CN", "zh-TW") or leaf.group != "ui" \
+            or leaf.owner != source or leaf.path != (source,) \
+            or leaf.source != source or leaf.source_path != "runtime:static_ui" \
+            or leaf.category != "ui_static_context" or leaf.format_template \
+            or leaf.runtime_support != "builtin_overlay_static_only":
+        return None
+    label = "source-bound resume answer count"
+    numbers = "0-9０-９零〇○一二两兩三四五六七八九十百千万萬亿億兆.,，．+＋−－-"
+    matches = list(re.finditer(
+        rf"[，,][ \t]*(?P<number>[{numbers}]+)[ \t]*[个個][ \t]*回答(?=旁)",
+        target,
+    ))
+    if len(matches) != 1:
+        return source, target, [label + " count/unit/owner/position mismatch"]
+    import unicodedata
+
+    match = matches[0]
+    if unicodedata.normalize("NFKC", match.group("number")) not in ("4", "四"):
+        return source, target, [label + " value/sign mismatch"]
+    start, end = match.span("number")
+    numeric_source = source.replace("네 답", "4개 답", 1)
+    numeric_target = target[:start] + "4" + target[end:]
+    # The generic checker does not recognize every unpaired native numeral.
+    # This exact source owns no other quantity. Inspect the remainder without
+    # removing it from the text passed to any of the generic checks.
+    remainder = target[:start] + target[end:]
+    errors = []
+    if re.search(r"[0-9０-９零〇○一二两兩三四五六七八九十百千万萬亿億兆"
+                 r"半壹贰貳叁參肆伍陆陸柒捌玖拾佰仟]", remainder):
+        errors.append(label + " extra/duplicate quantity mismatch")
+    return numeric_source, numeric_target, errors
+
+
 def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
     import ja_translation_pipeline as ja
     if leaf.group == "endings" and leaf.path == ("condition",):
@@ -3763,7 +3806,12 @@ def translation_errors(leaf: Leaf, locale: str, text: Any) -> list[str]:
     else:
         from zh_translation_audit import validate_text
         dice_numbers = _ui_dice_title_numbers(locale, leaf.id, leaf.source, text)
-        if dice_numbers is None:
+        resume_numbers = _ui_resume_answer_numbers(leaf, locale, text)
+        if resume_numbers is not None:
+            numeric_source, numeric_target, resume_errors = resume_numbers
+            errors = validate_text(locale, leaf.id, numeric_source, numeric_target)
+            errors.extend(resume_errors)
+        elif dice_numbers is None:
             errors = validate_text(locale, leaf.id, leaf.source, text)
         else:
             numeric_source, numeric_target, dice_errors = dice_numbers
