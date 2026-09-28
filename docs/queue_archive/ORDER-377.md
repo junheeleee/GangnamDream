@@ -1,3 +1,15 @@
+# ORDER-377 — 알바 화면 지역 글꼴 연결과 정확한 검증 승계
+
+[x] 2026-09-28. 독립 work_unit 한정 GO. 본편/새package GO가 아니다.
+
+- 최종 source `1fcba885993391398003f941bef40a84643a93c8`, tree `b62cad5fcef39dde59b1241719440cd732cba9a0`. [독립 보고](../agent_reviews/ORDER-377.json) SHA `05e61639c56c57c225b756f5069d18fc923f7786ec4b92f3f0b41e1c5936028a`.
+- 실제MainGame생성Aruba의font-base공란/CN22+TW22=44노드결함을확인해 _ready localTheme3행만수리했다(e97c49d). 동일helper수리후CN22+TW23=45노드PASS, 무작위손님차이로동일텍스트모집단재현은아니다. 별도동일인스턴스KO→EN→JA22+23+23=68노드PASS. exactGit parent/tree/1file/blobs와3행역삭제를증명해 옛manifest/Chapter1핀비교에만연결했으며실제현재raw/원문/핀은바꾸지않았다. 새compat모듈0; 기존self147본문보존+새font23=170PASS.
+- 현재 실제실행source81c1ef844f0d92b41ed1a1ae7ed878d4f0cd0cd9/tree6f3a07bfcf585429f4d091c99392850e5923544a. 정적14명령전부exit0, 합374.159초(명령별소요합계이며병렬화한실제화면시간과구별). 최종CLAUDE상태만추가되면불변제품/도구의영향연결이며재실행으로세지않는다. 전체감사·기존1955/689/240주/312 반복0. 기존liveness Pythonlauncher오탐FAIL은비소유·미변경·미재실행. Chapter1은기존debt8/blocked3/gap24 snapshot유효이지완료가아니다.
+- 기존137판정/115보고·공개GO1·인간OPEN45·원어민/물리OPEN을 보존했다. 본편/새package HOLD, 외부출시/스토어/지출/법률행위0. 자연 AP 진입·정산·전체플레이 관측0이며 음수stress는 주입한 표시분기다.
+- 승격0. 모집단·소유·표적계획은 일회성이다. gangnamdream-dev의 선행선언·파일분리·독립검수·격리실행을 적용했다.
+
+## 최초 선언 원문 보존
+
 # Active Queue Spec: ORDER-377
 
 #### [~] ORDER-377 — 알바 화면 지역 글꼴 연결과 정확한 검증 승계

@@ -1,0 +1,70 @@
+{
+  "schema": "gangnamdream-independent-work-unit-review/v1",
+  "unit_id": "ORDER-377",
+  "scope": "work_unit",
+  "review_stage": "independent_source_bound_final",
+  "review_date": "2026-09-28",
+  "independent": true,
+  "reviewer": "/root/r3_route_probe",
+  "decided_by": "/root/r3_route_probe",
+  "decision": "GO",
+  "verdict": "GO",
+  "required": [],
+  "subject": {
+    "kind": "source",
+    "commit": "1fcba885993391398003f941bef40a84643a93c8",
+    "tree": "b62cad5fcef39dde59b1241719440cd732cba9a0",
+    "manifest_sha256": null
+  },
+  "outcome": "GO for the exact three-line Aruba shared-locale font repair and its bounded source-manifest/Chapter1 comparison successor. The actual font defect is repaired, old proof authority remains protected, and no required blocker remains within this work_unit. No general source exemption, whole-project green or release approval follows.",
+  "independence": "I authored none of the runtime, proof code, tests or observers. I read the actual MainGame/Aruba/font consumer path, full runtime diff, all four changed tool diffs, frozen private font and rendering helpers, rejection corpus additions, all14 actual static records and raw font evidence. I directly viewed ORDER-376's24 new Chinese screenshots as supplementary actual-rendering evidence. I performed only read-only source/artifact comparisons, not acceptance CLI or engine reruns.",
+  "code_and_contract_review": [
+    "Product commit e97c49df8154112070110853682f442e14c9df17 directly follows9998e51a439d802a4aeb0e0b782da9771cebbf93 and changes only scenes/ArubaGame.gd: create local Theme, set default_font=FontKit.ui_regular(), assign theme before UI construction. No text, gameplay, layout value, font asset, global theme or MainGame code changes. The actual parent creates this child and preserves its settlement connection; the shared FontVariation reference follows locale changes.",
+    "ui_translation_append.aruba_font_predecessor verifies fresh Git objects with type, size and object hash; exact parent/tree and one modified path; successor ancestry/current HEAD blob; exact current SHA; and full raw reversal of the unique three inserted lines. Old-runtime rollback, neighboring/whitespace changes and a forged current claim do not acquire an accepted predecessor view.",
+    "Production current_proof checks actual Aruba raw before collect and binds the collector's current source hash to it, then confirms the runtime remains unchanged. Actual current inventory, leaf hashes and portable receipt headers are not rewritten. Only the manifest comparison may substitute the proved old Aruba hash; every other source hash still contributes. Each historical header independently remains bound to its own actual Git census. Old374 and new376 exports therefore retain distinct honest source identities.",
+    "The old365 current UI observation APIs remain actual-current. Its comparison-only runtime_observed_hash adds Aruba as one exact registered path after current admission and raw/claim binding, while retaining JobHunt's existing proof. Chapter1 only expands that comparison condition and diagnostic; its original Aruba expected hash058aa08f6963f8a68d98a6eb643ead0e3d4881df834658bc5a44168ffd3bb05e is unchanged. Outside paths get no projection and admission failure prevents Git projection.",
+    "Independent AST comparison found no changed prior uppercase assignment in the four tools. Original synthetic75/current72/historical self-function bodies are byte-identical; only a new font function and main invocation were added. The new23 cover exact inverse/current manifest, unchanged actual census, comparison binding, bad claim/path/admission, rollback/neighbor/each removed line, foreign source change, map/raw mismatch, mixed old ledger, missing/forged/wrong-population proof, committed-candidate rollback and fresh recovery after failed calls. The original corpus was not replaced by weaker new fixtures."
+  ],
+  "actual_font_observation": {
+    "first_failure": "On cca9239 the actual MainGame-created child had empty font_base and no shared FontKit identity in22 CN+22 TW nodes; missing CN万/元/准/标/韩 and TW一/元/般/萬/韓. Exit1 and44 node failures are preserved. The88 collected error lines reflect duplicated stdout/log channels, not88 distinct defective nodes. Source/player stayed unchanged; raw/finish/settlement/PNG0.",
+    "same_probe_repaired": "Byte-identical frozen probe helpers on e97c49df exited0 after8.871s. CN22+TW23=45 visible nodes have actual SC/TC bases, matching shared FontID and no missing glyph. This is the same helper and consumer path, not an identical text population: random customers differ. No font was injected by the harness.",
+    "ko_en_ja": "The separate prepared same-instance KO→EN→JA probe on81c1ef8 exited0 after9.691s.22+23+23=68 nodes retain the same MainGame/Aruba identity and shared font object while the base changes from Pretendard to NotoSansJP for Japanese. Glyphs and protected state pass; raw input, natural entry, finish, settlement and PNG counts are0. This is font-path evidence, not full KO/EN/JA layout review.",
+    "chinese_rendering": "ORDER-376 separately supplies34 prepared states/100 new keys/12PNGs per locale. I viewed all24 images and found no missing-glyph or clipping defect. The screenshots retain excluded English titles2, existing11px result text and money rounding; natural full-shift or physical-controller behavior was not observed. All referenced result artifacts were rehashed."
+  },
+  "static_execution": {
+    "source": "81c1ef844f0d92b41ed1a1ae7ed878d4f0cd0cd9",
+    "tree": "6f3a07bfcf585429f4d091c99392850e5923544a",
+    "commands": 14,
+    "exit_zero": 14,
+    "duration_seconds_sum": 374.159,
+    "self_cases": {"old_synthetic": 75, "old_current": 72, "new_font": 23, "total": 170},
+    "verification": "I read00..13 stdout/stderr and confirmed exact record/aggregate/entry-command equality, not all_pass alone. Every command exited0 with empty stderr and2922 tracked source hashes plus recorder helpers unchanged. The self marker is actual170, not the early16-case estimate. Normal365 reports accepted40734/b145 and historical_cases=0; current full-body, graph, Chapter5, Year5 and Chapter1 normals pass. Chapter1 still reports debt8/blocked3 and24 missing W25..48 slots. Chinese audit is skeleton/shipping0, registry163 and context/queue/English/diff checks pass. The selector's64 listed checks are not64 executions.",
+    "not_run": ["whole audit", "historical312", "historical1955", "Chapter1 full689", "full240-week", "unchanged known liveness command"]
+  },
+  "failure_preservation": "The original font failure is retained unchanged. The separate376 CN first screen attempt failed on a private inherited _open signature mismatch, produced no observations/PNGs, and was stopped as the isolated child only: exit-15/48.256s, not timeout. Exactly three private method-name occurrences were repaired; the subsequent CN run and first TW run pass. It was a helper defect, not evidence that the runtime font fix failed. Neither failure is retroactively relabeled PASS. Old export headers and the initial export-limit rejection note also remain.",
+  "source_and_history_preservation": "The independent resolver returns clean1fcba885993391398003f941bef40a84643a93c8/treeb62cad5fcef39dde59b1241719440cd732cba9a0. The entire execution-source→final diff is two CLAUDE status lines; current comparison of all2922 tested tracked hashes differs only there. Runtime/product/tool bytes remain those tested, so this is a dependency bridge rather than a final-source rerun. Direct Git comparison to cca9239 preserves all137 prior decisions,115 report files and human ledger SHA6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6, with public done1/open45 unchanged. Actual user34-file maps remain unchanged across successful probes/screens; isolated namespaces are retained as evidence.",
+  "remaining_boundaries": [
+    "The existing liveness Python-launcher false orphan is unchanged, outside scope and not rerun. No all-audits-green claim is made.",
+    "Prepared results are not full gameplay. In particular negative-stress convenience output is a directly injected display branch and is not naturally reachable as a current full-shift minimum result; raw input, real-time timeout and settlement remain unobserved.",
+    "Chinese translation acceptance belongs separately to ORDER-376. Other runtime/source changes still fail closed and require their own scope. Remaining translation/narrative work, full product and new package remain HOLD."
+  ],
+  "unobserved": ["native_reader", "human_playtest", "physical_controller_feel", "natural_full_shift", "new_package_runtime"],
+  "boundary": "Automated contracts do not establish fun, narrative depth, native style or human usability. This GO is only ORDER-377 work_unit on the exact source, with no human/public-release/store/legal/rating authority added.",
+  "evidence": {
+    "scenes/ArubaGame.gd": "e9744c1467a3043f91f77f7c9faa7ab2039e55777311e90b8ae43d889bfc4eeb",
+    "tools/ui_translation_append.py": "3fe7375c33f2311e1a808c911a02cb8a4e23cd44f6fcac0519615fb7cb771760",
+    "tools/ui_translation_append_self_test.py": "315abfb69ead0510180e103945da78f1484fa3c3212b8bd9cc179ddc4e42d518",
+    "tools/order365_ui_receipt_compat.py": "47855fe2ce7dd04b1c37e1d0ce0967ab35e37f180e430490bb696ce007ed748e",
+    "tools/chapter1_core_loop_v2_causal_ledger_check.py": "c94edb2a95d717d07b05c5182c633e70ee8ef7e5d2a7c5704a0691f6bb1066f5",
+    ".git/full-game-localization/order377-run.py": "0755ce4cb782451a3b0409eb23d39943b7c0517c15db5f7c58d6736a504aec75",
+    ".git/full-game-localization/order377-static-first/entry.json": "31c117ccee32bdeb77d82290bc9ff60c12efe017b3a2c468bf68780d4ed6194e",
+    ".git/full-game-localization/order377-static-first/result.json": "4d9f95a3013db2e4faffd8546fa8ea01f3219003544683f46b780c93e8d5ef80",
+    ".git/full-game-localization/order377-static-first/00.json": "821cfe3cbb3a3090d6b3887d8d9da88129e22384b7c173a6eff7c6d9f4134356",
+    ".git/full-game-localization/order376-font-first/result.json": "66c70bc58e33d880df85bcbeb7c9d8f6a7dff48213197a53b976fd5d007ed18a",
+    ".git/full-game-localization/order376-font-repaired/result.json": "4decae3a5635da5f03824d188b54dde45b237f657410680a7b73d7caa03d114b",
+    ".git/full-game-localization/order377-font-first/result.json": "d2dba155df515abb9fe067d28e48ba62a2c1aa44c1e0d39675b659780b1410a0",
+    ".git/full-game-localization/order376-screen-first-zh-CN/result.json": "3e1c108468cec029f920d19df8059c09377eeff3eb2151ced5e0e8fb8b765412",
+    ".git/full-game-localization/order376-screen-helper-fixed-zh-CN/result.json": "c945e9cf652622519dd167669117762a1652152d04acf00a920f22f8dc0c5f07",
+    ".git/full-game-localization/order376-screen-first-zh-TW/result.json": "44bd2e29d4633c69a576d25c5027558f760ec8aec608aaf46b505193757114db"
+  }
+}

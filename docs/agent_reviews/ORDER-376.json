@@ -1,0 +1,77 @@
+{
+  "schema": "gangnamdream-independent-work-unit-review/v1",
+  "unit_id": "ORDER-376",
+  "scope": "work_unit",
+  "review_stage": "independent_source_bound_final",
+  "review_date": "2026-09-28",
+  "independent": true,
+  "reviewer": "/root/r3_route_probe",
+  "decided_by": "/root/r3_route_probe",
+  "decision": "GO",
+  "verdict": "GO",
+  "required": [],
+  "subject": {
+    "kind": "source",
+    "commit": "1fcba885993391398003f941bef40a84643a93c8",
+    "tree": "b62cad5fcef39dde59b1241719440cd732cba9a0",
+    "manifest_sha256": null
+  },
+  "outcome": "GO only for the declared 100 Korean Aruba UI keys translated independently into zh-CN and zh-TW, their append-only acceptance, and bounded prepared rendering. The final 200 values preserve source meaning and have no remaining required language or observed rendering defect. This does not complete the whole screen's localization or authorize release.",
+  "independence": "I did not author or install either locale. I read all 100 Korean keys and both 100-value drafts against actual CUSTOMER_TYPES, delivery data, result/formatter consumers and the Chinese glossary; requested the two beat-count corrections; and independently chose the 12 risk-based screenshots per locale. I subsequently compared final drafts, official rows, receipts and product Git bytes, read the private observer/runner and raw evidence, and directly viewed every one of the 24 PNGs. No acceptance CLI, engine or import was rerun by me.",
+  "population": {
+    "unique_korean_keys": 100,
+    "locale_values_read": 200,
+    "customer_types": 8,
+    "customer_responses": 18,
+    "delivery_destinations": 6,
+    "product_files": 3,
+    "prepared_states_per_locale": 34,
+    "new_key_bindings_per_locale": 100,
+    "visible_node_observations_per_locale": 628,
+    "structural_bindings_per_locale": 544,
+    "pngs_directly_viewed": 24,
+    "raw_input_events": 0,
+    "reviewer_acceptance_or_engine_runs": 0
+  },
+  "quality_and_repairs": [
+    "All200 short values were reviewed, not a translation sample. Checkout terminology, receipt/points/exchange actions, customer voices, manager performance bonuses versus customer tips, Korean won, floors/minutes, night time, placeholders and whitespace remain faithful. Rain adds5000 won per completed delivery, while its extra Health cost is once per nonempty shift; the wording does not turn that cost into a per-order charge or identify a morally correct action.",
+    "Both initial translations changed the Korean one-beat lag to half a beat. The authors corrected only those values to CN慢一拍 and TW慢了一拍. I checked the repaired drafts, then confirmed the installed200 values are exactly those reviewed drafts. This is independent agent language review, not native-reader certification.",
+    "At1280x800 all24 selected images show the intended dialogue/actions, long performance-bonus feedback, refusal/timeout, result prose, six delivery rows and rainy118/120-minute ordered route without observed clipping or missing glyphs. The selected four-stop route is [2,1,3,0]; disabled extra orders, CTA and rain surcharge remain visible. Selection was reviewer risk-based, not random; the separate complete node/key bindings cover the100-key population.",
+    "Result prose uses the existing small11px auxiliary style. The displayed16/18万 or萬 outcomes and9万 or萬 route estimate retain the existing whole-ten-thousand money rounding, not new numerical changes. I observed the screenshots but do not certify human readability, timing pressure or physical-control feel."
+  ],
+  "product_and_exchange_binding": {
+    "product_commit": "03735216c274bf9665e5c61a8f8e259e886737f6",
+    "direct_parent": "e97c49df8154112070110853682f442e14c9df17",
+    "verification": "The product commit modifies exactly UI_CN, UI_TW and the localization ledger. Each dictionary is1181→1281 with every old key/value/order and raw prefix retained; each added100 equals its final draft. Accepted rows40534→40734 and batches144→145 preserve all old rows/batches and other ledger metadata; Japanese remains13112. Removing the new tails and restoring accepted_sha256 reproduces the complete old ledger bytes. Current product bytes equal that commit.",
+    "fresh_export": "The old cca9239 exports/responses are retained. Font repair required fresh e97c49df headers: only source_revision, source_manifest_sha256 and batch_id differ. All100 source rows and response rows per locale, including leaf source hashes and target text, are identical. The fresh manifest is d4f9690cf0f8b75bd4a8bebdf8bf142b9f89c486ab3402df8bf9d22ed8a1f929. Official accepted headers/rows/digests match installed values. The initial default-limit80 rejection of100 keys is retained in the exchange note, not relabeled as successful export."
+  },
+  "execution_and_failure_history": {
+    "execution_source": "81c1ef844f0d92b41ed1a1ae7ed878d4f0cd0cd9",
+    "execution_tree": "6f3a07bfcf585429f4d091c99392850e5923544a",
+    "cn": "The first screen attempt failed before observation because private _open(int,bool) collided with inherited _open(int,String,String). Raw parse errors, copied helpers, result and exit-15 after48.256s remain intact; timeout=false, screen/PNG evidence0. Exactly declaration/calls3 were renamed to _open_shift. The repaired CN run exited0 after51.277s, with34states/100keys/12PNGs and no error lines.",
+    "tw": "The corrected helper's first TW run exited0 after51.198s, with34states/100keys/12PNGs and no error lines. Both successful runs preserve source/helper maps and the actual34-file user-save map; isolated namespaces remain as evidence. I rehashed the artifacts referenced by both results.",
+    "static": "All14 recorded commands exited0 with empty stderr. I read all00..13 records and confirmed they equal aggregate.rows and entry.commands, including actual170 self cases, current receipt admission and five consumer normals. The last command only lists64 selected checks; it does not execute64 suites. Aggregate duration374.159s is the sum of command durations. No whole audit,312/1955/689 or240-week rerun is claimed."
+  },
+  "source_and_history_preservation": "The independent current_agent_source_subject resolver returns the exact clean subject above. Execution81c1ef8→final1fcba885 changes only two CLAUDE status lines; the2922 tested tracked hashes differ currently only at CLAUDE.md. This is an unchanged-dependency link, not acceptance rerun on the final subject. Direct Git comparison to cca9239 preserves the complete137-decision ledger,115 old report files and human ledger SHA6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6: done1/open45 unchanged. Old failures are not overwritten.",
+  "limitations": [
+    "These are directly prepared actual MainGame-created Aruba child screens. No natural AP entry, elapsed timeout, finish/closed settlement or raw input was exercised. The actual parent settlement connection stayed attached but was never invoked.",
+    "The negative-stress result is an injected display branch (good7/served0), not a naturally completed shift. The present full queue's minimum stress is+1; no natural full-shift reachability is claimed.",
+    "The two conditional delivery titles remain explicit English fallbacks. CARDS, unreachable fallbacks and positive-health result prose are excluded. This is not complete Chinese UI coverage.",
+    "The known liveness Python-launcher false orphan remains an unchanged, unrerun failure. Chapter1 remains snapshot-valid with debt8/blocked3 and W25..48 gap24, not complete. Public GO1, human OPEN45, remaining translations and full product/new package HOLD are unchanged."
+  ],
+  "unobserved": ["native_reader", "human_playtest", "physical_controller_feel", "natural_full_shift", "new_package_runtime"],
+  "boundary": "Automated gates establish contracts, not fun, narrative depth or human literary judgment. This independent GO applies only to ORDER-376 work_unit and the exact source subject; no store, legal, rating, human or external-release approval is supplied.",
+  "evidence": {
+    ".git/full-game-localization/order376-language-review.json": "33b5f0e0c41112e2478ea1cca6b21c2e9aa474f82f28d66b85038861af3dfac0",
+    ".git/full-game-localization/order376-append-precommit.json": "9295488b2579eeac98a66bc8ac2a1e6002c36bb6f887adafa5b648dada2f93c7",
+    "locale/ui_zh-CN.json": "88b2824e9cb90c19f4ab5886ce6082657049679725c1f188af94766b0e8ecbdb",
+    "locale/ui_zh-TW.json": "b30f5dda71c90968d81ba155530f2e21f06b1a4cae2e11899d291af6df6ccaea",
+    "content/meta/full_game_localization.json": "e886a54dffa10de9ae01508be5200f85aba96341fa700623a9b614232424bb6a",
+    ".git/full-game-localization/order376-check.gd": "7d7feb244107a9c6bcfd3f8ac38c1884d7a26354be8b4f7b16deaee99d7f30d1",
+    ".git/full-game-localization/order376-run.py": "e93d5728cd809a42a9886d2d222722a6f6380ee4aba56b27961e43b6dbf30813",
+    ".git/full-game-localization/order376-screen-first-zh-CN/result.json": "3e1c108468cec029f920d19df8059c09377eeff3eb2151ced5e0e8fb8b765412",
+    ".git/full-game-localization/order376-screen-helper-fixed-zh-CN/result.json": "c945e9cf652622519dd167669117762a1652152d04acf00a920f22f8dc0c5f07",
+    ".git/full-game-localization/order376-screen-first-zh-TW/result.json": "44bd2e29d4633c69a576d25c5027558f760ec8aec608aaf46b505193757114db",
+    ".git/full-game-localization/order377-static-first/result.json": "4d9f95a3013db2e4faffd8546fa8ea01f3219003544683f46b780c93e8d5ef80"
+  }
+}

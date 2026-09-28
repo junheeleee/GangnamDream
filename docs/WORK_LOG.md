@@ -2,6 +2,19 @@
 
 이전 원문 전체는 [2026-09-28 이전 기록](history/WORK_LOG_2026-09-28_pre_order351.md)에 바이트 그대로 보존했다.
 
+## 2026-09-28 (Codex — 편의점·배달 중국어 200문구와 누락 글꼴 수리)
+
+- [376](queue_archive/ORDER-376.md): 한국어100키×CN/TW=200값을 직접 저작하고 비저자가 전수 의미검수했다. 한 박자→半拍 오역2곳을 수리했다. 공식check/import와 raw역삭제 PASS, UI각1181→1281·수용40534→40734·batch144→145; JA13112·모든기존값/수용/metadata불변. 실제MainGame생성Aruba에서 지역별34준비상태·100키·PNG12(합68/200/24)를 node/string/SC·TC/font/glyph/경계로 검증하고 비저자가24PNG전수관찰했다. root는위험6PNG를대조했다. 조건식제목2의영어폴백은명시제외했다.
+- [377](queue_archive/ORDER-377.md): 실제MainGame생성Aruba의font-base공란/CN22+TW22=44노드결함을확인해 _ready localTheme3행만수리했다(e97c49d). 동일helper수리후CN22+TW23=45노드PASS, 무작위손님차이로동일텍스트모집단재현은아니다. 별도동일인스턴스KO→EN→JA22+23+23=68노드PASS. exactGit parent/tree/1file/blobs와3행역삭제를증명해 옛manifest/Chapter1핀비교에만연결했으며실제현재raw/원문/핀은바꾸지않았다. 새compat모듈0; 기존self147본문보존+새font23=170PASS.
+- 현재 실제실행source81c1ef844f0d92b41ed1a1ae7ed878d4f0cd0cd9/tree6f3a07bfcf585429f4d091c99392850e5923544a. 정적14명령전부exit0, 합374.159초(명령별소요합계이며병렬화한실제화면시간과구별). 최종CLAUDE상태만추가되면불변제품/도구의영향연결이며재실행으로세지않는다. 전체감사·기존1955/689/240주/312 반복0. 기존liveness Pythonlauncher오탐FAIL은비소유·미변경·미재실행. Chapter1은기존debt8/blocked3/gap24 snapshot유효이지완료가아니다.
+- 표적14명령은self170,365현재normal,현재consumer5,중국어기계검사,registry/context/queue/영어/diff/selector목록이다. 목록조회는실행된suite수로부르지않는다. 실제화면과정적검사를병행하고, 도구가바뀐이번에만self1회실행했다. 향후동일검사기단순번역append에서는self/역사코퍼스를반복하지않는다.
+- 실패원본보존: 초기에export기본limit80이100선정을거절해제품변경0, 명시limit100으로수리. 글꼴수리전원문header는폐기/조작없이보존하고수리후e97에서다시export했다. 100본문행은동일, 실제source_revision/manifest/batch_id만변경. CN첫화면은private _open 부모시그니처충돌로parseFAIL·관측/PNG0; 격리child하나만SIGTERM해300초무의미대기를피했고exit−15/48.256초 로그·helpers·result를보존했다. 선언/호출3곳만 _open_shift로변경한뒤CN34/100/12 PASS, TW동일helper첫실행PASS. 제품실패와관측도구실패를구분한다.
+- 모든완료실행의tracked/helper census·실사용자저장34파일불변, 격리namespace는증거로보존했다. raw입력0·자연AP진입0·실시간timeout0·finish/정산0. 음수stress결과는주입한표시분기이며현재전체shift자연완주도달성을주장하지않는다. 기존결과글꼴11px/만원반올림을그대로관찰했으며이번번역의수치변경이나사람가독성승인으로부르지않는다.
+- 기존137판정/115보고·인간원장SHA6ab5c927…c9f6·공개GO1·인간OPEN45 보존후새work_unit판정2건만추가한다. 원어민/인간/물리관측OPEN·meta9/보류72유지, 본편/새packageHOLD. gangnamdream-dev가선행선언·파일소유분리·독립검수·격리표적실행을정했다. 정본규범승격0, 외부출시/스토어/지출/법률인증0.
+- 다음안전한범위는확인된배달조건식제목2의collector/지역번역공백이다. 376에서제외된영어폴백을전체화면완역으로덮지않고다음선행선언으로처리한다. 새입력/패키지/전체스토리완주증거는이번작업으로늘지않았다.
+
+- 후속 읽기전용 진단: 배달제목2는 JA/CN/TW 모두없다. 조건식UI parser가 후행`.format`을 요구해 비포맷호출을 놓친다. runtime if/else는단일파일48→50호출·표적0→2가되지만폰트raw핀/원문manifest승계를다시열게된다. 다음번역배치에서동일조건·literal쌍의bounded parser 개선+신규leaf실집합확인+6값을함께선언하는안을권고한다. 무제한조건제거의타파일매칭증가는미확인, 새코드/collector전수검사/번역실행0. 이번관측도구학습: 상속fixture를재사용할때부모와같은이름의함수시그니처를먼저대조하면불필요한엔진실패를줄인다. 이는이번후속메모이며새정본규범승격0.
+
 ## 2026-09-28 (Codex — 취업 준비 중국어 188문구와 반복 검사 비용 축소)
 
 - 최종 마감 context/queue PASS(active77/in_progress74), 판정 원장 self222 PASS(47.334초,stderr빈값). 기존135판정/113보고의정확보존·새보고2개SHA·사양2개원문보관·나머지큐문구보존을별도읽기검사로확인했다. 이는기록마감검사이며제품실행14개에더하지않는다.
