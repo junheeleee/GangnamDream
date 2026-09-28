@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Admit only ORDER-365's two UI additions and official receipt append.
+"""Admit ORDER-365 and source-bound, append-only Chinese UI receipts above it.
 
 This is a current-observation boundary, not an event-history projection.
 ORDER-351 and its seven historical comparison APIs/corpora remain untouched.
@@ -20,6 +20,7 @@ from pathlib import Path
 from typing import Any, Mapping
 
 import order351_source_compat as previous
+import ui_translation_append as ui_append
 
 ROOT = Path(__file__).resolve().parents[1]
 LEDGER_PATH = "content/meta/full_game_localization.json"
@@ -106,6 +107,7 @@ RECEIPT_RAW_HASHES: dict[str, str] = {
 BATCH_HASH = "891413a2a8b707e09199205a5a3700d1c01a5ce810c1dbce075b2bb3667b021c"
 
 _ACTIVE_PROOF = contextvars.ContextVar("order365_ui_receipt_proof", default=None)
+_ACTIVE_CURRENT = contextvars.ContextVar("order365_current_ui_append", default=None)
 _sha = previous._sha
 _digest = previous._digest
 _ordered = previous._ordered
@@ -328,10 +330,13 @@ def fresh_validation_proof():
         _verify_transition(tuple((path, *proof[path]) for path in CURRENT_PATHS))
         _require(not previous.source_errors(proof[LEDGER_PATH][0], LEDGER_PATH),
                  "predecessor ledger does not bind to immutable351")
+        current = ui_append.current_proof(ROOT, AFTER_COMMIT, {p: proof[p][1] for p in CURRENT_PATHS})
         token = _ACTIVE_PROOF.set(proof)
+        current_token = _ACTIVE_CURRENT.set(current)
         try:
             yield
         finally:
+            _ACTIVE_CURRENT.reset(current_token)
             _ACTIVE_PROOF.reset(token)
 
 
@@ -341,12 +346,9 @@ def source_errors(raw: bytes, relative: str) -> list[str]:
     if not isinstance(raw, bytes):
         return ["ORDER-365: current source is not raw bytes " + relative]
     try:
-        if relative in CURRENT_PATHS:
-            _require(relative in FILE_HASHES and _sha(raw) == FILE_HASHES[relative][1],
-                     "current source exceeds exact approved successor " + relative)
         with fresh_validation_proof():
             if relative in CURRENT_PATHS:
-                _require(raw == _ACTIVE_PROOF.get()[relative][1], "current raw differs from Git " + relative)
+                _require(raw == _ACTIVE_CURRENT.get()["raw"][relative], "current raw differs from Git " + relative)
                 return []
             return previous.source_errors(raw, relative)
     except (OSError, ValueError, KeyError, TypeError, IndexError, subprocess.TimeoutExpired) as exc:
@@ -706,21 +708,19 @@ def main() -> int:
     args = parser.parse_args()
     errors, cases = current_source_errors(), 0
     if args.self_test and not errors:
-        failures, cases = self_test()
-        errors.extend(failures)
-        consumer_failures, consumer_cases = consumer_boundary_self_test()
-        errors.extend(consumer_failures)
-        cases += consumer_cases
-        print(f"ORDER365_UI_RECEIPT_CONSUMERS cases={consumer_cases} entry_points=5")
-        font_failures, font_cases = runtime_font_self_test()
-        errors.extend(font_failures)
-        cases += font_cases
-        print(f"ORDER365_UI_RECEIPT_FONT cases={font_cases}")
+        from ui_translation_append_self_test import historical_self_test
+        result = historical_self_test()
+        errors.extend(result["errors"])
+        cases = result["cases"]
+        print("ORDER365_HISTORICAL_CORPUS " + json.dumps(result, ensure_ascii=False, sort_keys=True))
+        print(f"ORDER365_HISTORICAL_{'FAIL' if result['errors'] else 'OK'} cases={cases} current_claim=false")
     for error in errors:
         print("ORDER365_UI_RECEIPT_ERROR " + error)
-    print(f"ORDER365_UI_RECEIPT_{'FAIL' if errors else 'OK'} current_files=3 ui_keys=44 "
-          f"new_receipts=44 batches=1 accepted=40346 batch_total=143 live_files={len(LIVE_PATHS)} "
-          f"historical_files=17 historical_leaves=107 cases={cases}")
+    ledger = _loads((ROOT / LEDGER_PATH).read_bytes())
+    accepted = sum(len(rows) for rows in ledger["accepted"].values())
+    print(f"ORDER365_UI_RECEIPT_{'FAIL' if errors else 'OK'} current_files=3 baseline_ui_keys=44 "
+          f"baseline_receipts=40346 baseline_batches=143 accepted={accepted} batch_total={len(ledger['batches'])} "
+          f"live_files={len(LIVE_PATHS)} historical_files=17 historical_leaves=107 historical_cases={cases}")
     return int(bool(errors))
 
 

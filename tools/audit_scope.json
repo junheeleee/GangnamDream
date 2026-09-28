@@ -14,6 +14,31 @@
   ],
   "fast_lanes": [
     {
+      "id": "ui-translation-append",
+      "paths": [],
+      "owned_paths": [
+        "tools/order365_ui_receipt_compat.py",
+        "tools/ui_translation_append.py",
+        "tools/ui_translation_append_self_test.py",
+        "tools/audit_scope.json",
+        "locale/ui_zh-CN.json",
+        "locale/ui_zh-TW.json",
+        "content/meta/full_game_localization.json",
+        "docs/I18N_INFRASTRUCTURE.md"
+      ],
+      "tools": [
+        "tools/order365_ui_receipt_compat.py",
+        "tools/ui_translation_append_self_test.py",
+        "tools/full_body_translation_scope.py",
+        "tools/story_graph_contract_audit.py",
+        "tools/chapter5_human_reject_audit.py",
+        "tools/year5_reference_route_audit.py",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Explicit-only verifier-development lane, not routine translation selection: portable CN/TW UI receipts, current KO binding, immutable365 raw inverse and rollback-safe Git history. Current46 observations remain actual. Original312 stays a separate historical fixture; no engine or long historical corpus."
+    },
+    {
       "id": "current-ui-receipt-compat",
       "paths": [],
       "owned_paths": [
@@ -2010,10 +2035,22 @@
   ],
   "checks": [
     {
+      "tool": "tools/ui_translation_append_self_test.py",
+      "why": "Bounded append-only UI/receipt Git fixtures and current46 raw/payload regressions; no private receipt dependency.",
+      "paths": [
+        "tools/ui_translation_append.py",
+        "tools/ui_translation_append_self_test.py",
+        "tools/order365_ui_receipt_compat.py",
+        "tools/full_game_localization.py"
+      ]
+    },
+    {
       "tool": "tools/order365_ui_receipt_compat.py",
       "why": "Bind current UI receipts and the exact local-font runtime successor to immutable product proofs.",
       "paths": [
         "tools/order365_ui_receipt_compat.py",
+        "tools/ui_translation_append.py",
+        "tools/ui_translation_append_self_test.py",
         "tools/order351_source_compat.py",
         "locale/ui_zh-CN.json",
         "locale/ui_zh-TW.json",
