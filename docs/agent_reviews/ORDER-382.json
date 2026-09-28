@@ -1,0 +1,70 @@
+{
+  "schema": "gangnamdream-independent-work-unit-review/v1",
+  "unit_id": "ORDER-382",
+  "scope": "work_unit",
+  "review_stage": "independent_source_bound_final",
+  "review_date": "2026-09-28",
+  "independent": true,
+  "reviewer": "/root/r3_route_probe",
+  "decided_by": "/root/r3_route_probe",
+  "decision": "GO",
+  "verdict": "GO",
+  "required": [
+
+  ],
+  "subject": {
+    "kind": "source",
+    "commit": "a3373df12763357bc5642affd738494055e550f0",
+    "tree": "9e75e7fab3f7fdf76d35bea3e36255a72025822f",
+    "manifest_sha256": null
+  },
+  "outcome": "GO only for the employed-career status wrapping repair, its finite historical-source compatibility and the five prepared T3 language screens. The old ORDER-381 whole-run FAIL and the first ORDER-382 static aggregate FAIL remain original failures; neither is retrospectively converted to PASS.",
+  "independence": "Non-author review of the one-token runtime change, all three tool diffs, frozen observer/runner and selection-retry code, individual static records, raw screen measurements and all five PNGs directly. Rehashed evidence and independently resolved the clean source. No engine, acceptance CLI, import or tracked edit was performed by this reviewer.",
+  "implementation": "Product 37a3479ad7ce5b640d580d9c50a1c52039adf49d directly follows ec26d1a69d08c7f7bd09293c396bc78ee89c9268 and changes only _label to _wrap_label in the employed branch. Text, 15px size, 288px column, job values and input logic are unchanged. The successor proof freshly binds actual current raw to exact 382 and 381 commit/tree/blob transitions, direct parents and sole changed path, then reverses the one token and prior three hunks to the immutable comparison source. Actual raw/hash admission remains distinct from comparison views. Original 381 bodies/pins and correction48 are preserved. The historical --main-modal43 CLI remains available but is no longer automatically selected for current source; current focused coverage is --job-status-wrap39. No bounded implementation blocker remains.",
+  "observations": {
+    "prepared_screens": 5,
+    "direct_png_review": 5,
+    "visible_nodes_checked": 135,
+    "new_raw_input_edges": 0,
+    "runtime": "First isolated run exits0 in13.471s with one ORDER382_UI_OK marker, empty stderr and no logged errors. Actual MainGame jobs/page2 rendering was observed in zh-CN, zh-TW, ko, en and ja; all five screens and 135 visible nodes pass their text/font/glyph/geometry checks.",
+    "layout": "EN full career text now occupies two measured lines, 268px and101px within288px, paragraph41px and Label49px. Its footer639..661 lies inside scroll111..740. The other four languages remain one line with Label23px and footer613..635. Body/page block gaps are8px. Direct PNG review found no new target clipping, overlap or missing glyph; unchanged candidate excerpts are not claimed to be complete prose.",
+    "input_reuse": "No new input was dispatched. Previous381 five prepared E/Down/Q/Esc sessions and40 synthetic edges are reused only through the exact whole-source one-token inverse and unchanged ControllerHints/JobSystem/project bytes. The prior entry/result before-after equality and original failed overall result are bound separately. This is not a new input, natural-return or physical-controller observation."
+  },
+  "static": "All original00..11 record objects exactly match aggregate rows. Eleven checks exit0 with empty stderr: focused39, current receipt guard, five normal consumers, registry, context, queue and diff. The twelfth command was a selection query incorrectly combining --base and --lane; it exits2 with usage stderr and the first aggregate remains all_pass=false. Only that query was retried using --list --lane: exit0/empty stderr, ten listed checks, four actual changed runtime/tool paths confirmed owned, checks_reexecuted=0. Thus13 command invocations comprise11 checks and2 query attempts, not13 successful tests. Historical/default suites, old43, unchanged correction48 and whole audit were not rerun. Chapter1 debt8/blocked3/W25..48 gap24 remain.",
+  "binding_and_preservation": "Execution used clean1ce6802f841618a8ff8e2c90e8627f6a7bc78629. Its2934 tracked inputs are equal before/after in static, query and runtime evidence; runtime also preserves all34 actual player files and restores prepared state. Final source differs only in two CLAUDE status rows and ORDER-382 result documentation; product/tools are identical, not rerun on final. Fresh current_agent_source_subject and clean Git HEAD/tree agree with subject. Against declarationec26d1a, previous144 decisions,122 reports and human ledger are byte-exact; translations and receipt ledger have no changes. Human SHA6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6 and public GO1/human OPEN45 remain. Original381 overall13-screen FAIL, its raw observations and prior379 failures are not overwritten.",
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "natural_ingress_and_return",
+    "hiring_and_settlement",
+    "all_modal_routes",
+    "new_package_runtime"
+  ],
+  "boundary": "Prepared1280x800 five-language T3 status scope only. Existing initial-JA background during same-instance language changes is outside modal target coverage; no global language-switch or complete-UI claim. Existing liveness debt and broader story/translation work are unchanged. This is not a full-product, human-gate, package or release GO.",
+  "evidence": {
+    "scenes/MainGame.gd": "eb9efa2243ae97e032ca13e64bae3f42558fe9618babe97c5bc3d21a05e23cea",
+    "tools/main_game_locale_history.py": "6802938bff5cb5c7461bb0a4c50e45a7b2c76d6ac511f04bd1ecd6df53571678",
+    "tools/ui_translation_append_self_test.py": "b73bf40318fb3689c2add214436670a325c77d163da06f0b969c2736f8306015",
+    "tools/audit_scope.json": "b02c347781af88541d2ca7b53367816158d20ad60dda747cb82f9f8d54213312",
+    ".git/full-game-localization/order382-check.gd": "a5897ea1e079900a05c799e02381ecec430433f5a9e3c1e831cb1741d47ece93",
+    ".git/full-game-localization/order382-check.tscn": "565b240d74354748103935b111df0b80cfbb1c50212fd29e8a35ba0c1e59147b",
+    ".git/full-game-localization/order382-run.py": "075122e19a899780cf28d32ddf7004f148c024bd9405152853c7c9c81015475b",
+    ".git/full-game-localization/order382-screen-first/result.json": "ba69ddf92c02b7c9a6ebe89c2eca3298f330a4ad3eaa62aa75f53ad9d8b55534",
+    ".git/full-game-localization/order382-screen-first/entry.json": "06d276718d122c25efdd159a782ae5cf346d776b027871cb36e33039f2ed2d05",
+    ".git/full-game-localization/order382-screen-first/order382-observations.json": "e942b3da32a29fd3713f68724720fe2841b142c8d4b9f7fb0710ad69e60f0e53",
+    ".git/full-game-localization/order382-screen-first/career-measurements.json": "76ec8d7e5b0cee6e106838a8019c739356895359186db774d1e0e8d23933cc23",
+    ".git/full-game-localization/order382-static-first/result.json": "c7228426868e5b4dadb16b638a7123b9fda8aca4ae2118c8c90efd2717540fc6",
+    ".git/full-game-localization/order382-static-first/entry.json": "425afd947afb9f53946ed66b7c057f5795c71985f96b992d5c046156e65f206f",
+    ".git/full-game-localization/order382-static-first/11.json": "0f74b83ed992779f3071d6243b7db4352a6245eeb2ed5e093dc0e64e4460193f",
+    ".git/full-game-localization/order382-selection-retry.json": "43b815d29421f8e40f7da8e257e687e4175219f4ccb18e9fd1ae1e85e2bea14f",
+    ".git/full-game-localization/order382-selection-retry.py": "cfbd95c708898e7433446679652153ef6130cf22fd477a9ae22cf68fba1185d9",
+    ".git/full-game-localization/order381-screen-first/result.json": "79060b8c5aeafecd5066d3cc5cd967150711a326fa214bf8e4f54c55b3e075f5",
+    ".git/full-game-localization/order381-screen-first/entry.json": "b3e1cf84003520ad351f27fdc6e19fe32622fdad0c9ecb1dbf59419fd97785bc",
+    ".git/full-game-localization/order381-screen-first/order381-observations.json": "916a8845eafa20199aef440eb921b49c0a3cd36589196817b40a267235c72f58",
+    ".git/full-game-localization/order382-independent-review.json": "63200c4f7c71a701c5b7973fe66b7ac862720871a20c49294b8afaea885b2697",
+    ".git/full-game-localization/order382-context-closure-first.json": "5e7c3eac1863141519d0bb9a6b3dd57099730e1f7ebf6ad277dcae527fc02170",
+    ".git/full-game-localization/order382-context-closure-retry.json": "3334a9590e6c0667d04c572307327da83c24c839d80a25c75604c428b7f17218"
+  },
+  "source_rebinding": "The previous source-bound review at2c72649d remains byte-exact and is retained as evidence, not overwritten. The subsequent context check on uncommitted closure metadata exited1: CLAUDE18010B exceeded18000B. That failure is separate from the eleven passing product/tool checks on1ce6802 and is preserved. Root reversed the pending closure, shortened only the current CLAUDE sentence by44B to17966B and added two ORDER-382 documentation lines. Its context-only retry records exit0/empty stderr and binds the current CLAUDE hash. I independently read the exact two-file diff, both records and fresh clean resolver. No runtime, tool, translation, ledger or prior evidence bytes changed; no engine/product/acceptance checks were repeated. Bounded GO and required[] therefore carry to this exact new subject. These two small closure records are root-recorded command/output evidence, not full before/after-census runtime records."
+}

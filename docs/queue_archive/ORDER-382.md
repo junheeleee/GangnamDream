@@ -1,3 +1,17 @@
+# ORDER-382 — 긴 경력 정보를 원문·글자 크기 그대로 읽게 한다
+
+[x] 2026-09-28. 독립 work_unit 한정 GO.
+
+- 최종 source `a3373df12763357bc5642affd738494055e550f0`, tree `9e75e7fab3f7fdf76d35bea3e36255a72025822f`.
+- [독립 최종 보고](../agent_reviews/ORDER-382.json)가 실제 관측·검사·해시·한계를 소유한다.
+- 제품은 MainGame 재직 상태의 기존 `_label`을 `_wrap_label`로 한 토큰 변경했다. 원문·번역·15px·열 폭·입력·경제·채용·정산 로직 불변.
+- 1280x800의 KO/EN/JA/CN/TW 준비 T3 화면만 검수했다. 이전381 전체13 FAIL은 역사 그대로 보존하며 이번 결과를 소급하지 않는다.
+- 새 입력은0이다. 이전40edges는 정확 제품 역상으로 연결한 과거 증거이며 자연복귀·인간·원어민·물리 패드 검증이 아니다.
+- 번역 수용40832/b149 불변. 공개GO1·인간OPEN45·본편/새package HOLD, 외부출시·지출·법률 인증0.
+- 규범 승격0. 정확 파일 소유·검사계획은 일회성이고 아래 선언 원문은 보존한다.
+
+## 최초 선언·진행 원문 보존
+
 # Active Queue Spec: ORDER-382
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
