@@ -859,3 +859,130 @@ def modal_font_predecessor(current, root=None):
     """Preserve the public pre381 comparison contract for admitted current382."""
     return _job_status_wrap_proof(current, root)[1]
 # END_JOB_STATUS_WRAP_HISTORY_382
+
+
+# BEGIN_INVESTMENT_FOOTER_HISTORY_386
+# Rendering-only successor: earlier functions and pins above remain historical.
+INVESTMENT_BEFORE_COMMIT = "ebe72d23f520101a616035e333d05defd4ba3356"
+INVESTMENT_AFTER_COMMIT = "6dacf74f7ece36bbf720a07b24a8d55fdcd06aa6"
+INVESTMENT_TREES = ("38575dd0150b2cdba3f58b1b3f0ebed622f68f65", "91ce8f0924f6f2a30c6df94ad9233f1e9472a4aa")
+INVESTMENT_BLOBS = ("4acea38b4d1a0641e7696d1af9ae2d9631dc4c13", "57a21ec92e0ca0a681aae4de5df1b7c5c24b1854")
+INVESTMENT_HASHES = ("eb9efa2243ae97e032ca13e64bae3f42558fe9618babe97c5bc3d21a05e23cea",
+                     "6432a5ceb5844c1fdc54265547053dc82db8808ea87f442058412f03d24eed90")
+INVESTMENT_REPLACEMENTS = (
+    ('\t_invest_page_body.add_child(_build_investment_page_caption(\n'
+     '\t\tpage_no,\n'
+     '\t\t_tr("↑↓ 자산 · ←→ 매수/매도 · LB/RB 페이지", "↑↓ asset · ←→ buy/sell · LB/RB page"),\n'
+     '\t\t"#5b9cf6"))\n',
+     '\tvar caption := _build_investment_page_caption(\n'
+     '\t\tpage_no,\n'
+     '\t\t_tr("↑↓ 자산 · ←→ 매수/매도 · LB/RB 페이지", "↑↓ asset · ←→ buy/sell · LB/RB page"),\n'
+     '\t\t"#5b9cf6")\n'
+     '\t_invest_page_body.add_child(caption)\n'
+     '\tvar caption_row := caption.get_child(0) as HBoxContainer\n'
+     '\tfor direction in [-1, 1]:\n'
+     '\t\tvar move_btn := _small_button("↑" if direction < 0 else "↓", "#243851")\n'
+     '\t\tmove_btn.custom_minimum_size = Vector2(46, 46)\n'
+     '\t\tmove_btn.size_flags_horizontal = Control.SIZE_SHRINK_CENTER\n'
+     '\t\tmove_btn.focus_mode = Control.FOCUS_NONE\n'
+     '\t\tmove_btn.disabled = rows.size() < 2\n'
+     '\t\tmove_btn.pressed.connect(func():\n'
+     '\t\t\tif _modal_kind != "investments" or not is_instance_valid(modal_layer) or not modal_layer.visible:\n'
+     '\t\t\t\treturn\n'
+     '\t\t\tif _invest_current_page_id() != "assets" or not is_instance_valid(_invest_page_body):\n'
+     '\t\t\t\treturn\n'
+     '\t\t\tif not is_instance_valid(caption) or caption.is_queued_for_deletion() or caption.get_parent() != _invest_page_body:\n'
+     '\t\t\t\treturn\n'
+     '\t\t\t_invest_move_asset(direction, false))\n'
+     '\t\tcaption_row.add_child(move_btn)\n'),
+    ('\tvar visible_count := mini(2, rows.size())\n'
+     '\tvar start_idx := clampi(_invest_pad_asset_idx - 1, 0, maxi(0, rows.size() - visible_count))\n',
+     '\tvar visible_count := 1\n\tvar start_idx := _invest_pad_asset_idx\n'),
+    ('func _invest_move_asset(delta: int) -> bool:\n'
+     '\tif _invest_pad_asset_ids.is_empty():\n\t\treturn true\n'
+     '\t_invest_pad_asset_idx = int(posmod(_invest_pad_asset_idx + delta, _invest_pad_asset_ids.size()))\n'
+     '\t_invest_pad_action_idx = 0\n\tAudioManager.play_ui_click()\n',
+     'func _invest_move_asset(delta: int, play_sound: bool = true) -> bool:\n'
+     '\tif _invest_pad_asset_ids.is_empty():\n\t\treturn true\n'
+     '\t_invest_pad_asset_idx = int(posmod(_invest_pad_asset_idx + delta, _invest_pad_asset_ids.size()))\n'
+     '\t_invest_pad_action_idx = 0\n\tif play_sound:\n\t\tAudioManager.play_ui_click()\n'),
+)
+
+
+def _investment_footer_proof(current, root=None):
+    """Fresh actual386 Git admission; return (pre386, pre381) comparison bytes."""
+    from pathlib import Path
+    root = Path(root) if root is not None else Path(__file__).resolve().parents[1]
+    if not isinstance(current, bytes) or hashlib.sha256(current).hexdigest() != INVESTMENT_HASHES[1]:
+        raise ValueError("ORDER-386: unapproved current MainGame raw")
+    stages = (
+        (MODAL_BEFORE_COMMIT, MODAL_AFTER_COMMIT, MODAL_TREES, MODAL_BLOBS, MODAL_HASHES),
+        (JOB_STATUS_BEFORE_COMMIT, JOB_STATUS_AFTER_COMMIT, JOB_STATUS_TREES, JOB_STATUS_BLOBS, JOB_STATUS_HASHES),
+        (INVESTMENT_BEFORE_COMMIT, INVESTMENT_AFTER_COMMIT, INVESTMENT_TREES, INVESTMENT_BLOBS, INVESTMENT_HASHES),
+    )
+    requests = []
+    for before, after, trees, blobs, _hashes in stages:
+        requests.extend((c, c, "commit") for c in (before, after))
+        requests.extend((t, t, "tree") for t in trees)
+        requests.extend((c + ":" + MAIN_GAME_PATH, oid, "blob") for c, oid in zip((before, after), blobs))
+    proof = _modal_git(root, "cat-file", "--batch", input=("\n".join(r[0] for r in requests) + "\n").encode())
+    values, cursor = [], 0
+    for _expression, wanted, kind in requests:
+        end = proof.index(b"\n", cursor)
+        oid, actual_kind, size = proof[cursor:end].decode().split()
+        size = int(size)
+        value = proof[end + 1:end + 1 + size]
+        if (size < 0 or oid != wanted or actual_kind != kind or len(value) != size
+                or hashlib.sha1(kind.encode() + b" " + str(size).encode() + b"\0" + value).hexdigest() != oid
+                or proof[end + 1 + size:end + 2 + size] != b"\n"):
+            raise ValueError("ORDER-386: forged immutable object")
+        values.append(value)
+        cursor = end + 2 + size
+    if cursor != len(proof):
+        raise ValueError("ORDER-386: trailing immutable proof bytes")
+    for stage, (before, after, trees, _blobs, hashes) in enumerate(stages):
+        offset = stage * 6
+        for index in range(2):
+            headers = values[offset + index].split(b"\n\n", 1)[0].splitlines()
+            if [h for h in headers if h.startswith(b"tree ")] != [b"tree " + trees[index].encode()]:
+                raise ValueError("ORDER-386: immutable tree differs")
+            if index and [h for h in headers if h.startswith(b"parent ")] != [b"parent " + before.encode()]:
+                raise ValueError("ORDER-386: direct parent differs")
+        if tuple(hashlib.sha256(v).hexdigest() for v in values[offset + 4:offset + 6]) != hashes:
+            raise ValueError("ORDER-386: immutable whole raw differs")
+        if _modal_git(root, "diff", "--name-status", "-z", before, after) != b"M\0" + MAIN_GAME_PATH.encode() + b"\0":
+            raise ValueError("ORDER-386: product path population differs")
+        if stage:
+            _modal_git(root, "merge-base", "--is-ancestor", stages[stage - 1][1], before)
+            if values[offset + 4] != values[offset - 1]:
+                raise ValueError("ORDER-386: nonconsecutive raw history")
+    _modal_git(root, "merge-base", "--is-ancestor", INVESTMENT_AFTER_COMMIT, "HEAD")
+    if _modal_git(root, "rev-parse", "HEAD:" + MAIN_GAME_PATH).decode().strip() != INVESTMENT_BLOBS[1]:
+        raise ValueError("ORDER-386: current Git MainGame differs")
+    if values[17] != current:
+        raise ValueError("ORDER-386: current/blob binding differs")
+    recovered = current
+    inverse_stages = ((INVESTMENT_REPLACEMENTS, values[16]),
+                      ((tuple(v.decode() for v in JOB_STATUS_REPLACEMENT),), values[10]),
+                      (MODAL_REPLACEMENTS, values[4]))
+    if tuple(len(parts) for parts, _ in inverse_stages) != (3, 1, 3):
+        raise ValueError("ORDER-386: inverse population differs")
+    for replacements, before in inverse_stages:
+        for old, new in reversed(replacements):
+            old, new = old.encode(), new.encode()
+            if not old or old == new or recovered.count(new) != 1:
+                raise ValueError("ORDER-386: inverse is not exact1")
+            recovered = recovered.replace(new, old, 1)
+        if recovered != before:
+            raise ValueError("ORDER-386: changes outside exact rendering repairs")
+    return values[16], recovered
+
+
+def investment_footer_predecessor(current, root=None):
+    return _investment_footer_proof(current, root)[0]
+
+
+def modal_font_predecessor(current, root=None):
+    """Keep the public pre381 comparison contract for admitted actual386."""
+    return _investment_footer_proof(current, root)[1]
+# END_INVESTMENT_FOOTER_HISTORY_386

@@ -14,6 +14,41 @@
   ],
   "fast_lanes": [
     {
+      "id": "investment-footer",
+      "paths": [],
+      "owned_paths": [
+        "scenes/MainGame.gd",
+        "tools/main_game_locale_history.py",
+        "tools/ui_translation_append.py",
+        "tools/ui_translation_append_self_test.py",
+        "tools/audit_scope.json",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/WORK_LOG.md",
+        "docs/history/WORK_LOG_2026-09-07_localization.md",
+        "docs/STATUS.md",
+        "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-386.json",
+        "docs/agent_reviews/ORDER-385-runtime-recheck.json",
+        "docs/queue_active/ORDER-385.md",
+        "docs/queue_archive/ORDER-385.md",
+        "docs/queue_active/ORDER-386.md",
+        "docs/queue_archive/ORDER-386.md"
+      ],
+      "tools": [
+        "tools/ui_translation_append_self_test.py --investment-footer",
+        "tools/order365_ui_receipt_compat.py",
+        "tools/full_body_translation_scope.py",
+        "tools/story_graph_contract_audit.py",
+        "tools/chapter5_human_reject_audit.py",
+        "tools/year5_reference_route_audit.py",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Exact386 selected investment card/navigation rendering: current raw and real Git386→382→381 inverse, actual call coordinates and pre386 official manifests. New bounded current controls and consumer normals; no historical self suites, translation re-import or engine claim."
+    },
+    {
       "id": "investment-fee-correction",
       "paths": [],
       "owned_paths": [
@@ -2140,6 +2175,17 @@
   ],
   "checks": [
     {
+      "tool": "tools/ui_translation_append_self_test.py --investment-footer",
+      "paths": [
+        "scenes/MainGame.gd",
+        "tools/main_game_locale_history.py",
+        "tools/ui_translation_append.py",
+        "tools/ui_translation_append_self_test.py"
+      ],
+      "why": "Current386 exact rendering admission, immutable composed history and official-manifest comparison. Routine dictionary/receipt appends use normal admission without triggering this source-change focused test.",
+      "godot": false
+    },
+    {
       "tool": "tools/ui_translation_append_self_test.py --investment-fee-correction",
       "paths": [
         "tools/ui_translation_append.py",
@@ -2150,12 +2196,8 @@
     },
     {
       "tool": "tools/ui_translation_append_self_test.py --job-status-wrap",
-      "why": "Current employed-career wrap successor only, preserving immutable381 and testing raw/Git/claim/manifest/call-location boundaries without replaying old suites.",
-      "paths": [
-        "scenes/MainGame.gd",
-        "tools/main_game_locale_history.py",
-        "tools/ui_translation_append_self_test.py"
-      ]
+      "why": "Historical382 explicit CLI and original39 body preserved. Current386 selection uses investment-footer instead of replaying an older HEAD-bound current-source test.",
+      "paths": []
     },
     {
       "tool": "tools/ui_translation_append_self_test.py --main-modal",

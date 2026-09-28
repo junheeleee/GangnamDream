@@ -835,3 +835,26 @@ def validate_history(root: Path, baseline_commit: str, baseline: Mapping[str, by
     return {"head": head, "transitions": transitions, **combined, "append_batches": combined["batches"],
             "batches": combined["batches"] + totals["correction_batches"],
             "corrections": totals["corrections"], "correction_batches": totals["correction_batches"]}
+
+
+# Exact386 adds a comparison for official headers exported after382/before386.
+# Keep actual source census and all earlier Git/header/correction checks intact.
+_INVESTMENT_OLD_MANIFEST_MATCHES = _source_manifest_matches
+
+
+def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: str) -> bool:
+    if "source_hashes" not in inventory:
+        return _INVESTMENT_OLD_MANIFEST_MATCHES(root, inventory, expected)
+    import main_game_locale_history as history
+    raw = (root / history.MAIN_GAME_PATH).read_bytes()
+    previous = history.investment_footer_predecessor(raw, root)
+    hashes = inventory["source_hashes"]
+    require(exchange.digest(hashes) == inventory["source_manifest_sha256"]
+            and hashes.get(history.MAIN_GAME_PATH) == hashlib.sha256(raw).hexdigest(),
+            "investment current source census/raw mismatch")
+    comparison = {**hashes, history.MAIN_GAME_PATH: hashlib.sha256(previous).hexdigest()}
+    if expected == exchange.digest(comparison):
+        return True
+    # Delegate the untouched actual census, never pretend comparison bytes were
+    # observed. The older bridge separately proves pre381/preAruba manifests.
+    return _INVESTMENT_OLD_MANIFEST_MATCHES(root, inventory, expected)

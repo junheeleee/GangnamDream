@@ -1199,6 +1199,124 @@ def investment_fee_correction_self_test() -> tuple[list[str], int]:
     return failures, cases
 
 
+def investment_footer_self_test() -> tuple[list[str], int]:
+    """Current386 only: exact rendering inverse, current calls and manifests."""
+    import main_game_locale_history as history
+    import ja_translation_pipeline as ja
+    failures, cases = [], 0
+    def check(ok, label):
+        nonlocal cases
+        cases += 1
+        if not ok:
+            failures.append("investment footer: " + label)
+    def reject(action, label):
+        try:
+            action()
+        except (ValueError, OSError, KeyError, TypeError, IndexError, subprocess.TimeoutExpired):
+            check(True, label)
+        else:
+            check(False, label)
+    sha = lambda value: hashlib.sha256(value).hexdigest()
+    path = history.MAIN_GAME_PATH
+    protected = (path, "tools/main_game_locale_history.py", "tools/ui_translation_append.py",
+                 "tools/ui_translation_append_self_test.py", "tools/audit_scope.json",
+                 "tools/ja_translation_pipeline.py", *append.CURRENT_PATHS)
+    original = {p: sha((ROOT / p).read_bytes()) for p in protected}
+    raw = (ROOT / path).read_bytes()
+    prior, old = history._investment_footer_proof(raw, ROOT)
+    check(sha(raw) == "6432a5ceb5844c1fdc54265547053dc82db8808ea87f442058412f03d24eed90"
+          and sha(prior) == "eb9efa2243ae97e032ca13e64bae3f42558fe9618babe97c5bc3d21a05e23cea"
+          and sha(old) == "3f42b49c99c94310436661e44c3029d0335b0998d467a7582c8d3524acf55532",
+          "independent whole current/pre386/pre381 pins")
+    check(history.investment_footer_predecessor(raw, ROOT) == prior
+          and history.modal_font_predecessor(raw, ROOT) == old, "direct and composed comparison contracts")
+    for name, previous in (("main_game_history", history._MODAL_OLD_PUBLIC), ("gift_caption", history._MODAL_OLD_GIFT)):
+        source, project, digest = (getattr(history, name + suffix) for suffix in
+                                  ("_source_errors", "_project_bytes", "_project_byte_hash"))
+        expected = previous[1](old, path)
+        check(not source(path, raw) and project(raw, path) == expected
+              and digest(sha(raw), path, raw) == sha(expected), name + " three actual current entrances")
+        check(digest("0" * 64, path, raw) == "0" * 64, name + " rejects forged observed claim")
+        for label, mutant in (("pre386 rollback", prior), ("pre381 rollback", old),
+                              ("raw whitespace", raw + b"\n"),
+                              ("neighbor", raw.replace(b"max_promotions\", 3", b"max_promotions\", 4", 1))):
+            check(mutant != raw and bool(source(path, mutant)) and project(mutant, path) == mutant
+                  and digest(sha(mutant), path, mutant) == sha(mutant), name + " rejects " + label)
+    for index, (before, after) in enumerate(history.INVESTMENT_REPLACEMENTS):
+        mutant = raw.replace(after.encode(), before.encode(), 1)
+        check(mutant != raw and bool(history.main_game_history_source_errors(path, mutant)),
+              "partial rendering rollback " + str(index))
+    for mutant in (b"", None):
+        reject(lambda value=mutant: history.investment_footer_predecessor(value, ROOT), "invalid raw type/empty")
+    real_git = history._modal_git
+    for label, target, replacement in (
+            ("missing object", ("cat-file", "--batch"), lambda value: b"missing\n"),
+            ("forged object", ("cat-file", "--batch"), lambda value: value.replace(b"tree ", b"Tree ", 1)),
+            ("trailing proof", ("cat-file", "--batch"), lambda value: value + b"extra"),
+            ("path population", ("diff", "--name-status"), lambda value: value + b"M\0neighbor.gd\0"),
+            ("HEAD rollback", ("rev-parse",), lambda value: history.INVESTMENT_BLOBS[0].encode() + b"\n")):
+        def altered(where, *args, **kwargs):
+            value = real_git(where, *args, **kwargs)
+            return replacement(value) if args[:len(target)] == target else value
+        with mock.patch.object(history, "_modal_git", side_effect=altered):
+            reject(lambda: history.modal_font_predecessor(raw, ROOT), label)
+    for name, value in (("INVESTMENT_BEFORE_COMMIT", history.INVESTMENT_AFTER_COMMIT),
+                        ("INVESTMENT_REPLACEMENTS", history.INVESTMENT_REPLACEMENTS[:-1]),
+                        ("JOB_STATUS_REPLACEMENT", (b"wrong", history.JOB_STATUS_REPLACEMENT[1])),
+                        ("MODAL_REPLACEMENTS", history.MODAL_REPLACEMENTS[:-1])):
+        with mock.patch.object(history, name, value):
+            reject(lambda: history.modal_font_predecessor(raw, ROOT), "immutable boundary " + name)
+    with mock.patch.object(history, "_modal_git", side_effect=OSError("lost proof after success")):
+        check(bool(history.main_game_history_source_errors(path, raw))
+              and history.gift_caption_project_bytes(raw, path) == raw, "lost fresh proof fails closed")
+        check(history.main_game_history_project_bytes(b"outside", "unowned.gd") == b"outside",
+              "other paths have zero projection")
+    check(history.modal_font_predecessor(raw, ROOT) == old, "fresh proof restored without success cache")
+
+    actual, actual_errors = ja.parse_ui_calls(path, raw.decode())
+    before, before_errors = ja.parse_ui_calls(path, prior.decode())
+    ordered = lambda calls: sorted(calls, key=lambda c: (c.path, c.line, c.api))
+    semantics = lambda calls: [(c.path, c.function, c.api, c.korean, c.english, c.context_id) for c in ordered(calls)]
+    check(not actual_errors and not before_errors and semantics(actual) == semantics(before),
+          "all KO/EN keys, functions, identities and call order unchanged")
+    check(any(a.line != b.line for a, b in zip(ordered(actual), ordered(before))),
+          "actual line shifts are observed, not historical coordinates")
+    # Exactly one actual UI collection; no original 381/382 or correction suites.
+    inventory = ja.collect_ui_inventory()
+    check(not inventory.errors and tuple(c for c in inventory.calls if c.path == path) == tuple(ordered(actual)),
+          "current collector exposes actual call locations")
+    hashes = {path: sha(raw), append.ARUBA_FONT_PATH: sha((ROOT / append.ARUBA_FONT_PATH).read_bytes()),
+              "unchanged.json": "1" * 64}
+    source = {"source_hashes": hashes, "source_manifest_sha256": append.exchange.digest(hashes)}
+    preserved = copy.deepcopy(source)
+    pre386 = {**hashes, path: sha(prior)}
+    pre381 = {**hashes, path: sha(old)}
+    pre_aruba = {**pre381, append.ARUBA_FONT_PATH: append.ARUBA_FONT_BEFORE_SHA256}
+    for label, expected in (("actual", source["source_manifest_sha256"]),
+                            ("pre386", append.exchange.digest(pre386)),
+                            ("pre381", append.exchange.digest(pre381)),
+                            ("pre381/preAruba", append.exchange.digest(pre_aruba))):
+        check(append._source_manifest_matches(ROOT, source, expected), "manifest comparison " + label)
+    check(source == preserved, "actual inventory never rewritten")
+    reject(lambda: append._source_manifest_matches(ROOT, {"source_hashes": pre386,
+           "source_manifest_sha256": append.exchange.digest(pre386)}, append.exchange.digest(pre386)),
+           "historical raw claim cannot masquerade as current")
+    reject(lambda: append._source_manifest_matches(ROOT, {**source, "source_manifest_sha256": "0" * 64},
+           append.exchange.digest(pre386)), "census hash mismatch")
+    mutant = {**hashes, "unchanged.json": "0" * 64}
+    check(not append._source_manifest_matches(ROOT, {"source_hashes": mutant,
+          "source_manifest_sha256": append.exchange.digest(mutant)}, append.exchange.digest(pre386)),
+          "unowned manifest difference not exempted")
+    with mock.patch.object(history, "_modal_git", side_effect=OSError("proof disappeared")):
+        reject(lambda: append._source_manifest_matches(ROOT, source, append.exchange.digest(pre386)),
+               "old official manifest still requires fresh proof")
+    check(append._source_manifest(ROOT, history.INVESTMENT_BEFORE_COMMIT) ==
+          "e35bbc10c1ec991f15141cbb7ba3baa6f4220661a223b10efcb397a29103cb85",
+          "actual Git pre386 official source census")
+    check(all(sha((ROOT / p).read_bytes()) == value for p, value in original.items()), "all observed files unchanged")
+    return failures, cases
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--synthetic-only", action="store_true", help="author development only; not current acceptance")
@@ -1207,7 +1325,14 @@ def main() -> int:
     parser.add_argument("--main-modal", action="store_true", help="three rendering repairs and current-location bridge only")
     parser.add_argument("--job-status-wrap", action="store_true", help="current one-token career-wrap successor only; no old suites")
     parser.add_argument("--investment-fee-correction", action="store_true", help="exact384 two-target correction only; no old suites")
+    parser.add_argument("--investment-footer", action="store_true", help="current386 rendering/source successor only; no old suites")
     args = parser.parse_args()
+    if args.investment_footer:
+        errors, cases = investment_footer_self_test()
+        for error in errors:
+            print("UI_TRANSLATION_APPEND_ERROR " + error)
+        print(f"INVESTMENT_FOOTER_SOURCE_SELF_TEST_{'FAIL' if errors else 'OK'} cases={cases}")
+        return int(bool(errors))
     if args.investment_fee_correction:
         errors, cases = investment_fee_correction_self_test()
         for error in errors:
@@ -1253,12 +1378,12 @@ def main() -> int:
         errors.extend(correction_errors)
         cases += correction_cases
         print(f"UI_TRANSLATION_APPEND_CORRECTION cases={correction_cases}")
-        # The exact381 body/explicit option remains historical; default checks
-        # the actual382 successor instead of pretending381 is still current.
-        modal_errors, modal_cases = job_status_wrap_self_test()
+        # Exact381/382 bodies and explicit options remain historical. The
+        # default current rendering check follows actual386 instead.
+        modal_errors, modal_cases = investment_footer_self_test()
         errors.extend(modal_errors)
         cases += modal_cases
-        print(f"UI_TRANSLATION_APPEND_JOB_STATUS_WRAP cases={modal_cases}")
+        print(f"UI_TRANSLATION_APPEND_INVESTMENT_FOOTER cases={modal_cases}")
         fee_errors, fee_cases = investment_fee_correction_self_test()
         errors.extend(fee_errors)
         cases += fee_cases
