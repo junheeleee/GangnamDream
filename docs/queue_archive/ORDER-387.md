@@ -1,3 +1,18 @@
+# ORDER-387 — Chapter 5 정상 검수의 중복 증명 비용 축소
+
+[x] 2026-09-29. 독립 work_unit 한정 GO. 본편/새package GO가 아니다.
+
+- 최종 source `88cad8363125db6c6836dcc5072c95d8d75e0649`, tree `387016ebfece238e787f02083b6059a6e0cbbb5f`. [독립 보고](../agent_reviews/ORDER-387.json) SHA `cd7e1cd906b0e29d1642d76ac4f9964f1e7000d06b0e43f07cbfc133b093b734`.
+- 실제 검사 source `ddd544952b717673281cf8067d5dfb215897b0ae`에서 전후 tracked/helper census가 동일했다. 최종 source는 CLAUDE 상태 요약만 추가했으며 새 제품 실행으로 세지 않는다.
+- 실제 정상 CLI 1회 76.769초, 이전 보존 baseline 292.847초 대비 73.8% 단축. command/exit/stdout/stderr byte-exact 동일. 단일 관측 비교이며 통제된 반복 benchmark나 실호출 횟수 계측은 아니다.
+- 새 focused 25개와 registry/context/queue/diff PASS. 최초 7명령 중 목록조회만 잘못 결합한 옵션으로 exit2/집계false; 원본을 보존하고 조회만 올바른 전용 차선으로 재실행 PASS. 총 8명령=6검사+조회실패1+조회재시도1, 과거 정상 baseline·역사 self/corpus·전체감사·엔진 반복0. 같은 호출의 증명 4→1은 구조와 명시 대역시험 근거이고 실측 호출 횟수로 부르지 않는다.
+- 기존 validate_model·핀·역사 self 본문을 보존하고 정상 CLI helper만 증명을 공유한다. 진입 실패만 대표 오류1/FAIL로 반환하고 본문 예외는 숨기지 않는다. 개별 raw 대조·종료 해제·다음 호출 새 증명을 유지한다.
+- 게임/번역/저장/공개후보 변경0, 수용40,928/b154·CN/TW UI각1,371 유지. 공개GO1·인간OPEN45·본편/새package HOLD. 원어민·인간·물리·새화면/입력 미관측. 남은 일중 UI와 기존 안내 선택테두리 약3px 잘림은 별도 작업으로 남는다.
+- 기존150판정 raw prefix/128보고·사람원장·원385 HOLD 및386 timeout/retry 원본 보존. 새 판정1개만 append한다. 외부출시/스토어/지출/법률행위0.
+- gangnamdream-dev의 선행선언·소유분리·독립검수·표적검증을 적용했다. 일회성 작업이며 새 게임 정본 규범 승격0. invocation-local 경계는 구현 docstring과 focused 회귀에 둔다. 자동PASS는 계약증거이며 재미·문체·사람GO가 아니다.
+
+## 최초 선언과 진행 원문 보존
+
 # Active Queue Spec: ORDER-387
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.

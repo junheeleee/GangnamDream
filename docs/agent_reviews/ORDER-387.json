@@ -1,0 +1,67 @@
+{
+  "schema": "gangnamdream-independent-work-unit-review/v1",
+  "unit_id": "ORDER-387",
+  "scope": "work_unit",
+  "independent": true,
+  "reviewer": "/root/r3_route_probe",
+  "reviewed_at": "2026-09-29",
+  "verdict": "GO",
+  "required": [],
+  "subject": {
+    "kind": "source",
+    "commit": "88cad8363125db6c6836dcc5072c95d8d75e0649",
+    "tree": "387016ebfece238e787f02083b6059a6e0cbbb5f",
+    "manifest_sha256": null
+  },
+  "conclusion": "Chapter 5 정상 감사 한 호출 안의 기존 fresh proof 공유를 한정 GO로 판정한다. 검사 항목·개별 raw 거부를 보존하면서 실제 정상 출력과 종료 결과가 동일했고 추가 차단 결함을 발견하지 못했다. Chapter 5 게임 완성이나 사람/출시 GO가 아니다.",
+  "review": {
+    "independence": "소스·시험·기록기 저작에 참여하지 않았다. 전체 변경 diff, 기존 proof context 연결, 새 focused 25메서드와 private 기록기 두 개, 원시 00..06 및 재조회 기록을 직접 읽었다. 검수자 수용 CLI·엔진 실행0.",
+    "code": "정상 main 호출만 _validate_current_model로 연결한다. ExitStack 진입에만 기존 proof 예외 처리가 적용되어 진입 실패는 명시 오류1개/기존 FAIL 규약이 되고 본문 및 context 종료 예외는 전파된다. 기존 validate_model·규칙·핀·역사 self 함수의 원문과 모듈 대입은 그대로다. 등록은 lane1/check1 추가이며 기존 항목은 동일하다.",
+    "lifecycle": "365→351→350→313→309의 ContextVar와 finally 복원을 직접 확인했다. 정상 호출 안에서 중첩 proof를 공유하되 개별 raw 비교는 계속하며 다음 외부 호출은 새 증명을 읽는다. 전역 성공 cache나 여러 감사 호출을 감싼 새 scope는 없다.",
+    "focused_boundary": "실제 context manager/raw guard/CLI orchestration을 쓰지만 비싼 Git proof leaves·predecessor context·model/body는 대역이다. 25메서드는 공유·다음 호출 재수집·raw 변조 거부·오류 순서·정상/실패/예외 cleanup·CLI를 검사한다. 이를 실제 Git 전체 반례나 옛 self corpus 실행으로 세지 않는다. 실행 전 발견한 정상 unittest stderr 불일치는 stream=sys.stdout로 수리됐다."
+  },
+  "execution": {
+    "tested_commit": "ddd544952b717673281cf8067d5dfb215897b0ae",
+    "tested_tree": "66e9ef928f2a1d136e4052f378504fc46a6f3569",
+    "checks": 6,
+    "selection_queries": 2,
+    "commands_total": 8,
+    "actual_normal_runs": 1,
+    "normal_seconds": 76.769,
+    "historical_baseline_seconds": 292.847,
+    "normal_result": "과거 ORDER-386 단독 retry와 command/exit/stdout/stderr byte-equivalent; exit0·stderr빈값·정상 marker. 과거 정상 감사는 재실행하지 않았다.",
+    "checks_result": "새 focused25, registry, context, queue, diff 및 정상 감사가 exit0/빈 stderr. registry의 EXTRA 안내는 숨기지 않았으며 AUDIT_SCOPE_VERIFY_OK registered=164를 확인했다.",
+    "failure_and_retry": "첫 목록조회는 --lane과 직접 파일 목록을 함께 주어 index5 exit2/usage stderr였고 최초 aggregate all_pass=false를 그대로 보존한다. 조회만 --list --lane chapter5-proof-scope로 재시도하여 exit0/빈 stderr, 등록5개 목록을 얻었다. 이는 검사5회 실행이 아니며 다른6검사 반복0이다.",
+    "source_binding": "fresh current_agent_source_subject와 clean HEAD/tree가 subject와 일치했다. first entry=before=after=retry before=after 및 개별7record=aggregate rows를 대조했다. 2,946 tracked의 실행 이후 현재 차이는 CLAUDE 현재 상태2행뿐이고 helper SHA는 동일하다. 제품·도구가 같은 최종 소스에 증거를 연결하며 최종 문서 커밋에서 검사를 재실행했다고 주장하지 않는다."
+  },
+  "preservation": "이전 실행 기준의 제품/원장 등 1,915경로를 현재와 직접 해시 대조했다. 선언5a00008 대비 기존150판정·128보고·인간 원장130파일 byte-exact, 인간 SHA256 6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6. 원 ORDER-385 HOLD/accepted-screen FAIL, ORDER-386 최초300초 timeout과292.847초 retry 원본을 재해시했다. 과거 실패를 소급 PASS로 바꾸지 않으며 공개 GO1/인간 OPEN45·본편/새 package HOLD 유지.",
+  "limits": [
+    "실제 proof 호출 횟수는 계측하지 않았다. 반복 구조의 공유와 대역 회수 증거를 실제 실행 횟수로 표현하지 않는다.",
+    "76.769초 대292.847초는 서로 다른 시점의 단일 실행 비교이며 통제된 반복 벤치마크·지속 성능 보장이 아니다.",
+    "게임/runtime/data/번역 수정0, 새 화면·입력·자연 플레이·역사 전체 self corpus·전체 감사·패키지 실행0. 기존 안내 CTA focus 테두리 위험 등 제품 잔여를 닫지 않는다."
+  ],
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "new_runtime_screens",
+    "natural_playthrough",
+    "actual_proof_call_count",
+    "full_game_and_new_package"
+  ],
+  "evidence": {
+    "tools/chapter5_human_reject_audit.py": "b0fc66fc88d3bb2ac1469985c5c1e2787c844c1ca0cdcaaa52b07ee31785491c",
+    "tools/chapter5_proof_scope_self_test.py": "60076b3fb463b7e76126028f6c1fcba3923634549f7288c78c467a10cf5195ac",
+    "tools/audit_scope.json": "7c2c43964bb6e081d464bbb730d128904a24a80bb1a7eb6240970d15c41f2ba0",
+    ".git/full-game-localization/order387-run.py": "30204733dd7714faebaa0a8d88dcadf3c938b810940a4be699f469b6d66b63e0",
+    ".git/full-game-localization/order387-selector-retry.py": "97635e9f35944fe52d78c0850104ee830b9646f4b5f947ab5506b84a1b0643f2",
+    ".git/full-game-localization/order387-static-first/entry.json": "c94f63fcedb091fae8f4df83ba2a81bb3c2eaf93c03517e23532b95e3e295eac",
+    ".git/full-game-localization/order387-static-first/result.json": "94cdd58ad89307c00d2937d0b5182cea859205c289bc2ed0cb86613c3f2f7d5a",
+    ".git/full-game-localization/order387-selector-retry.json": "5ffd2a29f6a954fe3e21b658a649fbca77c292bf2bd7708903fe81a6524537fe",
+    ".git/full-game-localization/order387-completion.json": "b7c44edba09a265235b1bf19f52e16eec5641d28b7c9622ab24350a3d2889553",
+    ".git/full-game-localization/order386-static-first/result.json": "85188b2a473d005daa0ef8fdcd867c697c04303ef0103fcdd9d8e6c26061fff3",
+    ".git/full-game-localization/order386-static-ch5-timeout-retry/result.json": "772979a21253be6c3659b75a6e04699bad925dd1af47106dc03e265283fab586",
+    ".git/full-game-localization/order385-independent-review.json": "2fe3cdac9c2af560d4c023eef08f60ccdcd935e4ef2f1b7b1ae6f494a42511b3",
+    ".git/full-game-localization/order385-screen-accepted-first/result.json": "1dbf4eea5f7b8f81325956a2cec7b726f70465ccd17ee16d95072db788179b2b"
+  }
+}
