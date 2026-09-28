@@ -1,0 +1,91 @@
+{
+  "schema": "gangnamdream-independent-work-unit-review/v1",
+  "unit_id": "ORDER-374",
+  "scope": "work_unit",
+  "review_stage": "independent_source_bound_final",
+  "review_date": "2026-09-28",
+  "independent": true,
+  "reviewer": "/root/r3_route_probe",
+  "decided_by": "/root/r3_route_probe",
+  "decision": "GO",
+  "verdict": "GO",
+  "required": [],
+  "subject": {
+    "kind": "source",
+    "commit": "9afe93a4ec7951647dd8e648e84b6494c27df592",
+    "tree": "a5769982d238b9fa8999a0347f160cb08a2599d1",
+    "manifest_sha256": null
+  },
+  "outcome": "GO for the 94 Korean JobHunt UI keys translated independently into zh-CN and zh-TW, their 188 accepted append-only values, and the declared prepared-screen QA. No required semantic or visible-rendering defect remains in this population. This is not native-reader approval, a new input-playthrough result, shipping-language expansion or whole-product GO.",
+  "independence": "I authored neither locale draft, product data, ledger, harness nor validator. Under gangnamdream-dev and WORK_UNIT I directly read all 188 translations against the Korean source and actual JobHunt consumers, the complete private observer/runner, both 28-state observation populations and all 24 original PNGs. I inspected actual logs and rehashed the 36 listed screen artifacts, then compared final Git/source and preservation evidence. I ran no import, acceptance CLI or engine; read-only parsing/hash/Git checks are reviewer verification, not new product tests.",
+  "population": {
+    "unique_ko_keys": 94,
+    "dynamic_question_hint_answer_keys": 80,
+    "static_keys": 14,
+    "locale_values": 188,
+    "locale_values_directly_reviewed": 188,
+    "new_receipts": 188,
+    "prepared_states": 56,
+    "directly_viewed_pngs": 24,
+    "new_raw_input_sessions": 0,
+    "old_ui_values_preserved_per_locale": 1087,
+    "old_accepted_receipts_preserved": 40346,
+    "current_accepted_receipts": 40534,
+    "current_batch_total": 144
+  },
+  "language_and_context_review": [
+    "Read all eight resume questions, their hints and three responses, all ten interview questions and three responses, and 14 static keys. The Korean is the direct source; English/Japanese relay or simplified-to-traditional conversion is not the review basis. Resume 자기소개서 remains CN 求职自述 and TW 求職自傳, distinct from 이력서/简历/履歷.",
+    "The 3/1/0 response differences retain their concrete responsibility, specificity and evasiveness without introducing a moral judgment or exposing score advice. The father's guarantee causing family debt, six-year gap, one/three/five-year plans, five-second pressure and %d countdown token remain intact. The translations do not invent a new result or change gameplay.",
+    "Two TW responses initially used habitual/future 我會 despite the Korean past-experience question. I requested past-tense wording; the author's final 我當時 versions are now exact past-experience responses. Direct v1-to-v2 comparison found only those two intended values changed. The v1 response remains preserved. CN had no mandatory semantic correction.",
+    "인사만 is conveyed as greeting/致意 without inventing a bow. Shared 확인 is confirmation/close in JobHunt and the five relevant MainGame consumers; 确认/確認 does not introduce a conflicting global meaning. 模拟面试/模擬面試 is consistent with the existing result label and action classification. LocaleManager's existing exact Korean-key lookup, override priority and fallback behavior are unchanged.",
+    "All 188 short values received direct review; no unreviewed linguistic sample is presented as the whole population. The phrasing is acceptable for this bounded agent review, not certification by a native Chinese reader. The source's weaker answers and its interview pressure are preserved rather than rewritten as better advice."
+  ],
+  "rendered_evidence": {
+    "execution_source": "872608f9998949eac438cac871c0de6f89783fed",
+    "execution_tree": "bae34983f432b610356600e7e3821b0a708c553f",
+    "cn": "First run PASS, exit0, 13.499 seconds; 28 prepared states, all94 keys bound to actual nodes, 12 PNGs and NotoSansSC route.",
+    "tw": "First run PASS, exit0, 13.560 seconds; 28 prepared states, all94 keys bound to actual nodes, 12 PNGs and NotoSansTC route.",
+    "visual_observation": "I directly viewed every original PNG: three long/risky question screens, six score-specific feedback screens, timeout and two CTA screens per locale. I observed no missing glyph, clipping or overlapping text. Long answers, feedback, countdown text and both confirmation labels remain readable within the captured 1280x800 view. This does not establish accessibility or physical-device readability.",
+    "binding": "The observer reads actual script question constants; oracle/source key, target text, node identity/role, timer/progress/state, font/glyph/bounds, key coverage and screenshot digests are cross-bound. All36 listed artifact hashes and byte lengths independently match. Both result/entry before maps equal after maps; each contains2918 tracked inputs. Actual player-directory maps preserve all34 files. stdout equals the nonempty Godot log, stderr is empty, the exact success marker is present and error fields are empty.",
+    "limits": "The full pools are directly prepared (8 resume/10 interview), not the ordinary random4/5 session. Feedback, timeout and result close use direct handler calls. Timer expiry is not elapsed waiting. Direct choice calls do not establish focus navigation: focus may remain on the first button while another score is prepared. The two closes per locale are not raw-input sessions. No natural MainGame ingress, AP settlement, controller or human experience was observed."
+  },
+  "product_and_reuse_binding": [
+    "Product commit2862faf64d79f54fb37268c44360918ca8b8a8c8 has direct parent19d7847cd627185dfecc43aeec15e8e4adbdb75c and exactly the two locale dictionaries plus full_game_localization ledger. Existing1087 values/order/raw prefix in each dictionary, previous40346 receipts, old143 batches and unrelated metadata remain preserved. New94 keys per locale exactly match the final direct-source drafts. JA is unchanged.",
+    "Official exchange source/response and accepted-receipt artifacts bind the same94 keys per locale. The CN first and TW repaired-v2 checks/imports are root executions; some exchange stdout existed as tool output rather than separate persisted CLI logs. I do not claim an independent import rerun or cryptographic proof that a historical export CLI was executed.",
+    "Old371 four synthetic input sessions and372 five-language font evidence retain their original sources and reports. Their259 runtime/scene/font dependencies are unchanged; the old result22 keys remain unchanged. This permits reuse only for that unchanged behavior, not a claim that the188 new strings were exercised by new raw input. The new56 prepared screens provide the new-text observation.",
+    "The14 root static records and aggregate match exactly, with exit0/empty stderr and2918 inputs unchanged. This includes the new147-case append self-test, receipt normal, five current consumer normals and Chinese preparation audit. The58-check selector output is a list, not58 executions. Existing Chapter1 debt8/blocked3 and W25..48 gap24 remain."
+  ],
+  "source_and_preservation": "Independent current_agent_source_subject() matches the clean subject above. Execution872608f to this subject differs only in two CLAUDE status lines; no engine or static test was rerun at the final subject. All tested2918 tracked hashes still match except CLAUDE, with unchanged product/code/helpers. Direct Git comparisons against19d7847 preserve135 existing decisions,113 report files and the entire human ledger byte-for-byte. Old public GO1 and human OPEN45 are not amended. The previous373 liveness FAIL remains a real, unrerun failure, not retrospectively PASS.",
+  "source_rebinding": "Rebound after metadata closure exposed CLAUDE 18037 bytes against an18000-byte budget (one real metadata failure, preserved in root's tool output). Root reports context PASS after shortening duplicate wording on one status line; I independently verified old18037/current17984 bytes, the exact one-line CLAUDE-only diff from128926d6 and the clean resolver. The execution872608f-to-final diff remains only two CLAUDE status lines. Product/code/evidence are unchanged and no product acceptance or engine was rerun. Original reports are byte-preserved as .v1.json; their earlier subjects are historical, not current approval. Root's metadata stash e40065edfd79086fdff483312004b18661ecb67b is separate closure preservation, not product-test evidence.",
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "new_text_raw_input_playthrough",
+    "natural_MainGame_ingress_and_AP_settlement",
+    "full_game_playthrough",
+    "new_package_runtime"
+  ],
+  "boundary": "The known Python dynamic-launcher liveness false positive is outside this work and remains unresolved. Remaining UI/story translation, Minseo memory/deepening, whole Chapter4, the full game, new package and external release remain HOLD. This GO is only ORDER-374 work_unit; no legal, rating, native, human or physical authority is supplied.",
+  "evidence": {
+    ".git/full-game-localization/order374-independent-review.v1.json": "64e951977f6a60ca29fcf7a8691b465b6357e91cd370061f96603e4cbf8df700",
+    ".git/full-game-localization/order374-korean.json": "2b197928e0cebd56747db65e8b5b49732f2b9126f181d0a971f6d6e2d51547a1",
+    ".git/full-game-localization/order374-zh-CN-draft.json": "ff5246ce9f9b9a4000823d06be2598f8d03a188d01d5867c91d9bd7f5fa04515",
+    ".git/full-game-localization/order374-zh-TW-draft.json": "a13a57a07db0ee8887c4f25f9b1c974073f2bcb9f65a78fed1ca0daac2e64090",
+    "locale/ui_zh-CN.json": "5f1ea95b94ec39abb3b080c0faff2dbc047d839df613656a39174519e2151464",
+    "locale/ui_zh-TW.json": "422baf07325a4c63993bb8459c45cabea8486841ba2c8c8682f399773af826b0",
+    "content/meta/full_game_localization.json": "b1a464fcee6fd7c358a6158b4e3ef06989427fd689d0f4b372f452dfc70f9243",
+    ".git/full-game-localization/order374-preservation.json": "abcd9860f8d7425cbcf152f206e0b851bc43c470fbc4c857042ed2a6b3724398",
+    ".git/full-game-localization/order374-check.gd": "beb9db007df2dbd781648d6ee5e5449438d4ebc62dd21f89b1d49b8532db1d2b",
+    ".git/full-game-localization/order374-check.tscn": "8d913661ca549a9f474647039e2f2d9f15ea5c8f9dbcfe52db46d4b7af3069cc",
+    ".git/full-game-localization/order374-run.py": "ae1e4cc5879985cf72114248e16b2abdab5149cfc519515323c068cbb2cbb43b",
+    ".git/full-game-localization/order374-screen-first-zh-CN/result.json": "34cdae8202cbda032dab3aeb136b19204362bea3422acdf9a6b27ce753c890b0",
+    ".git/full-game-localization/order374-screen-first-zh-CN/order374-observations.json": "d5b057a785170649b1f52003dc680a931171930b536624f393cd13b4c0f41f4f",
+    ".git/full-game-localization/order374-screen-first-zh-TW/result.json": "88e445a79d868d5f58bf8902d14280756f8b92cbc386d7f90766b17285da7e65",
+    ".git/full-game-localization/order374-screen-first-zh-TW/order374-observations.json": "990acdec7d299426fd52d2211a69bd26da0e8d3a98d6945fd7699a4579737f5e",
+    ".git/full-game-localization/order375-static-final/result.json": "231bf6df8adc446817ab20061c489d8d6a38ec1612bad1f7ba7fa636de4271d7",
+    ".git/full-game-localization/order371-independent-review.json": "7f63e126c007ece962d4769f71ae51c9d13df306fc4382e0441ef5e8f39d6e37",
+    ".git/full-game-localization/order372-independent-review.json": "5b39681ec7a5dc1f85c72687fdcc95b7171504c715718854f0fce9cf162d92c8",
+    ".git/full-game-localization/order373-independent-review.json": "b82e0e2bb911ef021fcc7b32e9e0f25329b9a775a93092adcbc5f12ab2cd2525"
+  }
+}

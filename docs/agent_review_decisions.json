@@ -5495,6 +5495,77 @@
         "path": "docs/agent_reviews/ORDER-373.json",
         "sha256": "b82e0e2bb911ef021fcc7b32e9e0f25329b9a775a93092adcbc5f12ab2cd2525"
       }
+    },
+    {
+      "id": "order-374-source-9afe93a-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-28",
+      "decided_by": "/root/r3_route_probe",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-374",
+      "subject": {
+        "kind": "source",
+        "commit": "9afe93a4ec7951647dd8e648e84b6494c27df592",
+        "tree": "a5769982d238b9fa8999a0347f160cb08a2599d1",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-374.json",
+          "sha256": "b2fd0efc692a35f9b3c8e087d725413cf91a55aefa3072c86baf7b04b500386d"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "new_text_raw_input_playthrough",
+        "natural_MainGame_ingress_and_AP_settlement",
+        "full_game_playthrough",
+        "new_package_runtime"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-374.json",
+        "sha256": "b2fd0efc692a35f9b3c8e087d725413cf91a55aefa3072c86baf7b04b500386d"
+      }
+    },
+    {
+      "id": "order-375-source-9afe93a-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-28",
+      "decided_by": "/root/r3_route_probe",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-375",
+      "subject": {
+        "kind": "source",
+        "commit": "9afe93a4ec7951647dd8e648e84b6494c27df592",
+        "tree": "a5769982d238b9fa8999a0347f160cb08a2599d1",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-375.json",
+          "sha256": "544f6dbfe0f4bf2963cf44118b08babea90e204193b940367b2dcb5b14ea341a"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "natural_full_game_playthrough",
+        "new_package_runtime",
+        "cryptographic_human_or_historical_export_authentication"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-375.json",
+        "sha256": "544f6dbfe0f4bf2963cf44118b08babea90e204193b940367b2dcb5b14ea341a"
+      }
     }
   ]
 }

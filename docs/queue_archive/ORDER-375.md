@@ -1,3 +1,15 @@
+# ORDER-375 — 중국어 UI 번역 증분의 재사용 가능한 검사 연결
+
+[x] 2026-09-28. 독립 work_unit 한정 GO. 본편/새package GO가 아니다.
+
+- 최종 source `9afe93a4ec7951647dd8e648e84b6494c27df592`, tree `a5769982d238b9fa8999a0347f160cb08a2599d1`. [독립 보고](../agent_reviews/ORDER-375.json) SHA `544f6dbfe0f4bf2963cf44118b08babea90e204193b940367b2dcb5b14ea341a`.
+- 적법한 신규CN/TW UI키+공식receipt append를 현재KO·실제Git source manifest·candidate3blob·first-parent이력·정확raw역삭제로 검증한다. 기존365/351 역사핀과 기존240+12+60본문은 유지했다. 새self147(합성75+현재72)과365현재normal·5consumer normal PASS. 원형312는 개발시점 불변 역사fixture1722파일로 별도PASS111.596초이며 현재관측으로 부르지 않는다. 새self는 도구가 바뀔 때만 자동선택하고 단순번역 추가에서는 반복하지 않는다.
+- 실제 새화면/정적14명령은872608f에서 실행했다. 마지막 CLAUDE 현재상태 갱신만 최종source에 영향 연결하며 재실행으로 부르지 않는다. 14명령 전부exit0이나 목록조회/등록검사를 포함하며 전체감사 통과가 아니다. 기존 liveness Python-launcher 오탐FAIL은 미변경·미재실행이다.
+- 기존135판정/113보고·공개GO1·인간OPEN45·원어민OPEN·meta9/보류72를 보존했다. 본편/새package HOLD, 외부출시/스토어/지출/법률권한행사0. 실제 사람·원어민·물리패드·전체플레이는 미관측이다.
+- 승격: docs/I18N_INFRASTRUCTURE.md의 신규 중국어 UI append 사용법. 소유·이 배치·회귀 모집단은 일회성. gangnamdream-dev의 선행선언·파일소유분리·독립검수·격리 표적실행을 적용했다.
+
+## 최초 선언 원문 보존
+
 # Active Queue Spec: ORDER-375
 
 #### [~] ORDER-375 — 검증된 UI 번역 append의 재사용 가능한 검사 연결
