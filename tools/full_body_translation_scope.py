@@ -46,6 +46,7 @@ import order309_source_compat as prior_source  # noqa: E402
 import order313_source_compat as chapter2_source  # noqa: E402
 import order350_source_compat as chapter3_source  # noqa: E402
 import order351_source_compat as current_source  # noqa: E402
+import order365_ui_receipt_compat as ui_receipts  # noqa: E402
 
 
 SCHEMA_VERSION = 1
@@ -947,7 +948,7 @@ def _source_file_digest(root: Path, errors: list[str]) -> str:
 
 def build_scope(root: Path | str = ROOT) -> tuple[dict[str, Any], list[str]]:
     repo = Path(root).resolve()
-    errors: list[str] = current_source.current_source_errors(repo)
+    errors: list[str] = ui_receipts.current_source_errors(repo)
 
     lifecycle_inputs = collect_lifecycle_inputs(repo)
     lifecycle = evaluate_author_only(lifecycle_inputs)
@@ -1167,13 +1168,13 @@ def _source_history_observations(report: Mapping[str, Any]) -> tuple[dict[str, A
     """Open one fresh, whole-live-source proof before deriving historical data."""
     empty = {SCOPE_LIFECYCLE_SHIPPING: "", SCOPE_M07_M60_STATIC: "", "denominators": {}}
     try:
-        with current_source.fresh_validation_proof():
-            errors = current_source.current_source_errors()
+        with ui_receipts.fresh_validation_proof():
+            errors = ui_receipts.current_source_errors()
             if errors:
                 return empty, errors
             return _admitted_source_history_observations(report)
     except (OSError, ValueError) as exc:
-        return empty, [f"ORDER-351 current source proof unavailable: {exc}"]
+        return empty, [f"ORDER-365 current source proof unavailable: {exc}"]
 
 
 def _admitted_source_history_observations(report: Mapping[str, Any]) -> tuple[dict[str, Any], list[str]]:

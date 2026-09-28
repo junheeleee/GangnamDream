@@ -24,6 +24,7 @@ import order309_source_compat as prior_source
 import order313_source_compat as chapter2_source
 import order350_source_compat as chapter3_source
 import order351_source_compat as current_source
+import order365_ui_receipt_compat as ui_receipts
 
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -407,7 +408,7 @@ def load_inputs() -> Inputs:
     # Admission uses the live bytes, never a historical projection. The KO/EN
     # indexes below consume these same snapshots rather than reopening them.
     source_bytes: dict[str, bytes] = {}
-    for relative in current_source.LIVE_PATHS:
+    for relative in ui_receipts.LIVE_PATHS:
         with open(os.path.join(ROOT, relative), "rb") as handle:
             source_bytes[relative] = handle.read()
     contract = load_json(CONTRACT_PATH)
@@ -431,22 +432,22 @@ def validate(data: Inputs) -> list[str]:
     # Fresh original-module/Git identity once per invocation; mutation cases
     # still submit their own whole live raw snapshot below, not disk substitutes.
     try:
-        with current_source.fresh_validation_proof():
+        with ui_receipts.fresh_validation_proof():
             return _validate_with_proof(data)
     except (OSError, ValueError) as exc:
-        return [f"ORDER-351 current proof unavailable: {exc}"]
+        return [f"ORDER-365 current proof unavailable: {exc}"]
 
 
 def _validate_with_proof(data: Inputs) -> list[str]:
     errors: list[str] = []
-    if set(data.source_bytes) != set(current_source.LIVE_PATHS):
+    if set(data.source_bytes) != set(ui_receipts.LIVE_PATHS):
         errors.append("ORDER-309 current source snapshot paths drifted")
-    for relative in current_source.LIVE_PATHS:
+    for relative in ui_receipts.LIVE_PATHS:
         raw = data.source_bytes.get(relative)
         if not isinstance(raw, bytes):
             errors.append(f"ORDER-309 current source snapshot missing: {relative}")
             continue
-        source_errors = current_source.source_errors(raw, relative)
+        source_errors = ui_receipts.source_errors(raw, relative)
         errors.extend(source_errors)
         if source_errors:
             continue

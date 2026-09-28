@@ -23,6 +23,7 @@ import order310_demo_source_compat as latest_demo_source
 import order316_header_source_compat as header_source
 import order350_source_compat as chapter3_source
 import order351_source_compat as current_source
+import order365_ui_receipt_compat as ui_receipts
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -2078,7 +2079,7 @@ def validate_story_rules(model: AuditModel, errors: list[str]) -> None:
 
 
 def validate_preserved_product_boundaries(model: AuditModel, errors: list[str]) -> None:
-    admission_errors = current_source.current_source_errors()
+    admission_errors = ui_receipts.current_source_errors()
     errors.extend(admission_errors)
     instant_block = _instant_legend_block(model.game_state)
     instant_hash = _sha256_text(instant_block) if instant_block else "missing"
@@ -2197,8 +2198,8 @@ def validate_preserved_product_boundaries(model: AuditModel, errors: list[str]) 
         except OSError as exc:
             errors.append(f"public demo frozen file unavailable: {relative}: {exc}")
             continue
-        source_errors = (current_source.source_errors(raw, relative)
-                         if relative in current_source.LIVE_PATHS else [])
+        source_errors = (ui_receipts.source_errors(raw, relative)
+                         if relative in ui_receipts.LIVE_PATHS else [])
         errors.extend(source_errors)
         raw, parser_errors = _order308_parser_history_view(relative, expected_hash, raw)
         errors.extend(parser_errors)

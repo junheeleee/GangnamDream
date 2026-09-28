@@ -40,6 +40,7 @@ import order310_demo_source_compat as latest_demo_source
 import order316_header_source_compat as header_source
 import order350_source_compat as chapter3_source
 import order351_source_compat as current_source
+import order365_ui_receipt_compat as ui_receipts
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -4923,7 +4924,7 @@ def order350_source_boundary_self_test() -> tuple[list[str], int]:
     targets = (set(current_source.HISTORICAL_PATHS)
                & set(EXPECTED_AUDITED_SOURCE_FILE_SHA256)) - {demo_source.KO_PATH}
     check(targets == {"content/events/arc_midgame.json"}, "exact additional audited intersection")
-    admission_errors = current_source.current_source_errors()
+    admission_errors = ui_receipts.current_source_errors()
     check(not admission_errors, "whole current source admission")
     relative = "content/events/arc_midgame.json"
     before, after = current_source.verified_blobs(relative)
@@ -5020,7 +5021,7 @@ def order351_source_boundary_self_test() -> tuple[list[str], int]:
 
 def _audited_source_snapshot_errors(
         source_hashes: dict[str, str]) -> list[str]:
-    admission_errors = current_source.current_source_errors()
+    admission_errors = ui_receipts.current_source_errors()
     errors: list[str] = list(admission_errors)
     meta_title_raw: bytes | None = None
     inventory_registry_raw: bytes | None = None

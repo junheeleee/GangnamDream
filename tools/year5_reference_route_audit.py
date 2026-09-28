@@ -33,6 +33,7 @@ import order309_source_compat as prior_source
 import order313_source_compat as chapter2_source
 import order350_source_compat as chapter3_source
 import order351_source_compat as current_source
+import order365_ui_receipt_compat as ui_receipts
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -11046,7 +11047,7 @@ def validate_manifest(
     # Reuse fresh immutable proof only inside this single validation. Every
     # self-test mutation calls this boundary again; no cross-case proof cache.
     try:
-        with current_source.fresh_validation_proof():
+        with ui_receipts.fresh_validation_proof():
             return _validate_manifest_with_proof(
                 manifest, context, extra_runtime_sources=extra_runtime_sources)
     except (OSError, ValueError) as exc:
@@ -11062,7 +11063,7 @@ def _validate_manifest_with_proof(
     extra_runtime_sources: Iterable[tuple[str, str]] = (),
 ) -> tuple[list[str], dict[str, int]]:
     errors: list[str] = []
-    errors.extend(current_source.current_source_errors())
+    errors.extend(ui_receipts.current_source_errors())
     errors.extend(order309_context_source_errors(context))
     try:
         errors.extend(order304_reunion_source_errors(

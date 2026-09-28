@@ -14,6 +14,48 @@
   ],
   "fast_lanes": [
     {
+      "id": "current-ui-receipt-compat",
+      "paths": [],
+      "owned_paths": [
+        "tools/order365_ui_receipt_compat.py",
+        "tools/full_body_translation_scope.py",
+        "tools/story_graph_contract_audit.py",
+        "tools/chapter5_human_reject_audit.py",
+        "tools/year5_reference_route_audit.py",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/audit.sh",
+        "tools/audit_scope.json",
+        "locale/ui_zh-CN.json",
+        "locale/ui_zh-TW.json",
+        "content/meta/full_game_localization.json",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/WORK_LOG.md",
+        "docs/STATUS.md",
+        "docs/agent_review_decisions.json",
+        "docs/queue_active/ORDER-365.md",
+        "docs/queue_archive/ORDER-365.md",
+        "docs/agent_reviews/ORDER-365.json",
+        "docs/queue_active/ORDER-366.md",
+        "docs/queue_archive/ORDER-366.md",
+        "docs/agent_reviews/ORDER-366.json"
+      ],
+      "tools": [
+        "tools/order365_ui_receipt_compat.py",
+        "tools/order365_ui_receipt_compat.py --self-test",
+        "tools/full_body_translation_scope.py",
+        "tools/story_graph_contract_audit.py",
+        "tools/chapter5_human_reject_audit.py",
+        "tools/year5_reference_route_audit.py",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/audit_select.py --verify",
+        "tools/queue_index_self_test.py",
+        "tools/agent_review_decisions_self_test.py"
+      ],
+      "why": "Explicit-only ORDER366: exact ORDER365 UI22 per CN/TW plus44 official receipts and one batch, current raw46 admission before unchanged event history17/107. Preserve old351/350/313/309/316/310/305 modules, historical aliases, corpora and pins. Current receipt/inventory counts stay40346/b143. Five current consumer normals and bounded mutation proof only; no historical1955/689, whole shell, engine/240-week, native/human/render or release claim."
+    },
+    {
       "id": "chapter1-inventory-history",
       "paths": [],
       "owned_paths": [
@@ -1967,6 +2009,28 @@
     }
   ],
   "checks": [
+    {
+      "tool": "tools/order365_ui_receipt_compat.py",
+      "paths": [
+        "tools/order365_ui_receipt_compat.py",
+        "tools/order351_source_compat.py",
+        "locale/ui_zh-CN.json",
+        "locale/ui_zh-TW.json",
+        "content/meta/full_game_localization.json",
+        "scenes/JobHuntMiniGame.gd"
+      ]
+    },
+    {
+      "tool": "tools/order365_ui_receipt_compat.py --self-test",
+      "paths": [
+        "tools/order365_ui_receipt_compat.py",
+        "tools/order351_source_compat.py",
+        "locale/ui_zh-CN.json",
+        "locale/ui_zh-TW.json",
+        "content/meta/full_game_localization.json",
+        "scenes/JobHuntMiniGame.gd"
+      ]
+    },
     {
       "tool": "tools/order351_source_compat.py",
       "paths": [
