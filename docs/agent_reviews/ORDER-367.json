@@ -1,0 +1,82 @@
+{
+  "schema": "gangnamdream-independent-work-unit-review/v1",
+  "unit_id": "ORDER-367",
+  "scope": "work_unit",
+  "review_stage": "independent_source_bound_final",
+  "review_date": "2026-09-28",
+  "independent": true,
+  "reviewer": "/root/r3_route_probe",
+  "decided_by": "/root/r3_route_probe",
+  "decision": "GO",
+  "verdict": "GO",
+  "required": [],
+  "subject": {
+    "kind": "source",
+    "commit": "15e6cc10cef8d9b031f27ff07b4a15d1d89f8cf8",
+    "tree": "6564372cff0d2b0061f92fc504d849523ff2ea90",
+    "manifest_sha256": null
+  },
+  "independence": "Non-author review under gangnamdream-dev and WORK_UNIT. I read the applicable canon/specifications, relevant actual prose or full code diffs, failure records and final evidence. I authored no translation, implementation, test or tracked file. I ran no acceptance CLI or engine; review-side operations were reads, Git/hash/AST comparisons and source resolution.",
+  "source_binding": {
+    "observed_clean": true,
+    "resolver": "Direct HEAD/tree, empty Git porcelain and current_agent_source_subject() independently agree with subject.",
+    "product": "The two Chinese UI files and localization ledger remain byte-identical to product 003b68c7491333285b2c545bd9c95761efea05c0, direct parent 3401d6283e1c1e83bedf0608afb2e7942d9c04c8.",
+    "final_execution": "The final fixed12 actually ran on this clean subject. Its 1792 tracked input byte-map, paths, HEAD/tree and private driver seal match before/after and current bytes. The separately captured outer process exited 0 and kept its narrower 1225-input map unchanged. Neither envelope is an all-files/package census."
+  },
+  "integration_history": [
+    "First fixed12 at 6f7865be: 9 PASS / 3 FAIL. JA pipeline and JA UI rejected the old V2 demo source contract; ZH rejected the legitimate four-answer static UI value. The failed attempt remains unchanged.",
+    "Second fixed12 at 9f3c16ab: 9 PASS / 3 FAIL. Original source-contract errors were repaired, but the old274 whole-pipeline seal rejected the new369 collect_demo hunk, yielding empty UI inventory; JA self raised StopIteration, ZH/JA UI raised KeyError. This was a real collector guard interaction, not established cache contamination. The failed attempt remains unchanged.",
+    "Final fixed12 at subject: 12 PASS, exact selected commands/unique launches/exit status and raw streams verified. Full localization265, JA self146, ZH self12623, public demo self55 and normal, English coverage, JA UI, audit registration, queue index, agent decisions222, context and queue all complete. No failed attempt is retroactively PASS."
+  ],
+  "old_seven_reuse": "ORDER-366 normal/self252/five consumer normals were executed earlier at product HEAD003b68c with the frozen eight tools and CLAUDE staged/dirty; they were not rerun on subject. Each 1225-input map now differs in exactly demo_localization_scope.py, first_start_notice_self_test.py, ja_translation_audit.py, ja_translation_pipeline.py and zh_translation_audit.py; 1220 inputs are identical. I independently checked the changed call paths: graph/chapter5/year5/chapter1/receipt helper do not invoke those new functions. Full-body uses unchanged localized_leaves/EXPECTED_EVENT_LEAVES through story-demo imports, not changed JA/ZH collection or validation; new top-level aliases do not execute those collectors. This byte plus semantic bridge supports reuse, not a claim of 19 fresh final-source tests.",
+  "preservation": "Final protected2871 evidence covers baseline6a568d97 non-owned tracked blobs and rejects out-of-scope changes. I also directly compared the existing126 decisions,104 reports and human ledger to that baseline: unchanged. Public demo contracts, original historical pins/modules, gameplay/runtime/assets and human OPEN status are preserved. Package bytes were protected where included; no package was opened or played.",
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_result_screen_rendering",
+    "natural_gameplay_ingress",
+    "full_game_playthrough",
+    "new_package_runtime"
+  ],
+  "boundary": "GO is only this declared work_unit at subject, not native certification, human or controller approval, all-locales completeness, full Chapter4, deepened Minseo-memory scenes, whole game, new package, rating/legal judgment or external release. Main-product/new-package HOLD and existing human gates remain unchanged.",
+  "evidence": {
+    ".git/full-game-localization/order365-named-first.json": "b589474c382f24503c4f66916b1f9d79b0cce978d0dc19d17b8fcea72c65c1ef",
+    ".git/full-game-localization/order365-named-repaired.json": "c1743a7f02df536ad805ee7b3e167e53a621858ba87b981e11e6d39a2ae3fad7",
+    ".git/full-game-localization/order365-named-final.json": "60cd6401bd5eb70c6f5765be2a43cf8c8226c81fdd5be6620b2ff2ee95338651",
+    ".git/full-game-localization/order366-named-final-outer.json": "d422bd977cd77d137bfdf11b726da26865bb4debea909bb583e257a565f213e7",
+    ".git/full-game-localization/order366-protected-final.json": "4e5656d6157b9c3bad31c15b49f1305955d88959642c004d9fe9b9b31972a597",
+    ".git/full-game-localization/order370-seven-reuse-bridge.json": "dec12ce61976e125506044a9fa91643bfd1cde5358fa25182d0a6c28c32713c9",
+    "tools/full_game_localization.py": "451ebb3cc82af713b8ae8765da5cde51568e02c752159e2490668b555dbce1e6",
+    "tools/full_game_localization_self_test.py": "c824a6cc7407e2a8b67e487f40fc05ea08cb419dee74f4edeef57ef1e73d441b",
+    ".git/full-game-localization/order367-preflight-quantity-failures.json": "9931c7c31ede00404c23a52f8429831e81aa07b20db59bf48802a472d5447cec",
+    ".git/full-game-localization/order367-author-targeted-first.json": "44f429faa639078552c49dc77bc1978465fb7d50aa179ba16357cda0367b2941",
+    ".git/full-game-localization/order367-author-targeted-repaired.json": "21b5ac2cc8a4fdce71d3653d74d3ed007d94b6167fbfc91923b2013b3ac1a5c7",
+    ".git/full-game-localization/order367-author-extra-probes.json": "853cdc754029647578c6314478685a9d1cc6b884e68531a2b615120cb63da56f",
+    ".git/full-game-localization/order367-author-targeted-second-repaired.json": "1c320eb3893c4f49933e26fe92d509b6be36081cc0565aa6e8033de2e73acf3b",
+    ".git/full-game-localization/order366-quantity-final.json": "e45ddc151e2fdb8dfa2b42565e5c89eaa501b237cc35ec7101cf3a1f1ca6d640"
+  },
+  "outcome": "GO for exact-source four-answer quantity validation in the two Chinese locales. The repaired helper accepts the legitimate count without creating a general quantity exemption; the reviewer-discovered half/financial-numeral omission is fixed and covered.",
+  "population": {
+    "owned_tools": 2,
+    "exact_korean_keys": 1,
+    "locales": 2,
+    "new_unittest_methods": 1,
+    "new_subtest_iterations": 97,
+    "preserved_old_tests": 264,
+    "final_full_suite_tests": 265
+  },
+  "direct_review": [
+    "Read the complete two-file diff, exact leaf identity/metadata gate and integration into translation_errors. The Korean source/owner/path, UI category, runtime support, non-format flag and locale must all match. Only one bound 4/四/４ answer-count span is normalized; all other target bytes still pass generic checks.",
+    "Wrong count/unit/ownership, negation, approximation, duplicate or added quantity are rejected. Extra quantity detection covers the whole remainder before and after the matched span, including 半 and financial Chinese numerals; token/script/newline/money diagnostics remain effective.",
+    "I identified that the earlier713ea helper accepted appended 半天 and 肆人 in both locales. Actual diagnostic probes confirmed four false acceptances. The final451ebb helper rejects them; no product wording was changed to satisfy the validator.",
+    "The original dice helper and other264 tests are unchanged in the final diff/AST comparison. The new test method has97 subtest iterations, not97 independent CLI tests. Final full265 completes on subject."
+  ],
+  "failure_history": [
+    "Both initial22-leaf preflights rejected legitimate four as invented quantity; preserved before repair.",
+    "The first targeted method failed four extra-quantity subcases (四人/五次). The first repair passed93 subtests but did not close the subsequently found 半天/肆人 blind spot.",
+    "A subsequent author patch accidentally matched the old dice helper; its second-repaired attempt failed four subcases and remains recorded. The old helper was restored exactly and only the new resume helper changed.",
+    "Root's final one-method97-subtest capture exited0 with final tool hashes; filename order366-quantity-final is recorder reuse, not a different task. The two later named12 failures are separate integration failures described above."
+  ],
+  "evidence_boundary": "The initial author failure preserves combined tool output with stdout/stderr unavailable separately and a post-failure source observation, not an invented before/after capture. Later split-channel and input seals are kept distinct."
+}

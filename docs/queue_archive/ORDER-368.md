@@ -1,3 +1,15 @@
+# ORDER-368 — 중국어 정적 UI 수량 소비자
+
+[x] 2026-09-28. 독립 work_unit 한정 GO, 필수 결함0. 본편/새package GO가 아니다.
+
+- source `15e6cc10cef8d9b031f27ff07b4a15d1d89f8cf8`, tree `6564372cff0d2b0061f92fc504d849523ff2ea90`. [독립 보고](../agent_reviews/ORDER-368.json) SHA `a0968401f3ffc7e693f20e8f478cee48bd819033cabd2a914d084b9a4bc3a237`.
+- 실제 legacy UI collector의 출처를 확인한 한 결과문만367의 full-game 해석에 연결했다. 임의 key-only validate_text와367 provenance-off는 원래 거절을 유지한다. 지역별 정상·잘못된 수량/소유자/추가량·출처·토큰·개행·문자 회귀를 확인했다. story-demo owner 실패 표시는 같은 UI 오류의 재인용이었으며 별개4개 누락으로 세지 않는다.
+- 첫 named12와 첫 수리 뒤 named12는 각각9 PASS/3 FAIL였으며 두 원형을 보존했다. 전자는 수량 소비자/과거 기대값, 후자는 collector 자체 코드 보호 충돌이었다. 수리 뒤 clean 최종 source에서 named12 및 demo scope self16+86, first-start 기존14+새 코드 경계를 실제 통과했다. 이전366의7개 통과는 원래003b68c staged 도구 source의 증거를 구분하여 재사용했다. 최종source에서19개를 모두 다시 실행했다고 주장하지 않는다.
+- 기존126판정/104보고·공개GO1·인간OPEN45·보류72 보존. 원어민·인간·물리패드·새 렌더/입력은 미관측이며 1장 debt8/blocked3/W25..48 gap24·5장·본편/새package HOLD를 유지한다.
+- 스킬의 직접저작·파일 소유 분리·독립 검수·표적검증을 적용했다. 이번 범위·전이·검증은 일회성. 상시 규칙 승격0. 외부출시·스토어·지출·법률 인증0.
+
+## 최초 선언 원문 보존
+
 # Active Queue Spec: ORDER-368
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.

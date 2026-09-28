@@ -1,0 +1,94 @@
+{
+  "schema": "gangnamdream-independent-work-unit-review/v1",
+  "unit_id": "ORDER-366",
+  "scope": "work_unit",
+  "review_stage": "independent_source_bound_final",
+  "review_date": "2026-09-28",
+  "independent": true,
+  "reviewer": "/root/r3_route_probe",
+  "decided_by": "/root/r3_route_probe",
+  "decision": "GO",
+  "verdict": "GO",
+  "required": [],
+  "subject": {
+    "kind": "source",
+    "commit": "15e6cc10cef8d9b031f27ff07b4a15d1d89f8cf8",
+    "tree": "6564372cff0d2b0061f92fc504d849523ff2ea90",
+    "manifest_sha256": null
+  },
+  "independence": "Non-author review under gangnamdream-dev and WORK_UNIT. I read the applicable canon/specifications, relevant actual prose or full code diffs, failure records and final evidence. I authored no translation, implementation, test or tracked file. I ran no acceptance CLI or engine; review-side operations were reads, Git/hash/AST comparisons and source resolution.",
+  "source_binding": {
+    "observed_clean": true,
+    "resolver": "Direct HEAD/tree, empty Git porcelain and current_agent_source_subject() independently agree with subject.",
+    "product": "The two Chinese UI files and localization ledger remain byte-identical to product 003b68c7491333285b2c545bd9c95761efea05c0, direct parent 3401d6283e1c1e83bedf0608afb2e7942d9c04c8.",
+    "final_execution": "The final fixed12 actually ran on this clean subject. Its 1792 tracked input byte-map, paths, HEAD/tree and private driver seal match before/after and current bytes. The separately captured outer process exited 0 and kept its narrower 1225-input map unchanged. Neither envelope is an all-files/package census."
+  },
+  "integration_history": [
+    "First fixed12 at 6f7865be: 9 PASS / 3 FAIL. JA pipeline and JA UI rejected the old V2 demo source contract; ZH rejected the legitimate four-answer static UI value. The failed attempt remains unchanged.",
+    "Second fixed12 at 9f3c16ab: 9 PASS / 3 FAIL. Original source-contract errors were repaired, but the old274 whole-pipeline seal rejected the new369 collect_demo hunk, yielding empty UI inventory; JA self raised StopIteration, ZH/JA UI raised KeyError. This was a real collector guard interaction, not established cache contamination. The failed attempt remains unchanged.",
+    "Final fixed12 at subject: 12 PASS, exact selected commands/unique launches/exit status and raw streams verified. Full localization265, JA self146, ZH self12623, public demo self55 and normal, English coverage, JA UI, audit registration, queue index, agent decisions222, context and queue all complete. No failed attempt is retroactively PASS."
+  ],
+  "old_seven_reuse": "ORDER-366 normal/self252/five consumer normals were executed earlier at product HEAD003b68c with the frozen eight tools and CLAUDE staged/dirty; they were not rerun on subject. Each 1225-input map now differs in exactly demo_localization_scope.py, first_start_notice_self_test.py, ja_translation_audit.py, ja_translation_pipeline.py and zh_translation_audit.py; 1220 inputs are identical. I independently checked the changed call paths: graph/chapter5/year5/chapter1/receipt helper do not invoke those new functions. Full-body uses unchanged localized_leaves/EXPECTED_EVENT_LEAVES through story-demo imports, not changed JA/ZH collection or validation; new top-level aliases do not execute those collectors. This byte plus semantic bridge supports reuse, not a claim of 19 fresh final-source tests.",
+  "preservation": "Final protected2871 evidence covers baseline6a568d97 non-owned tracked blobs and rejects out-of-scope changes. I also directly compared the existing126 decisions,104 reports and human ledger to that baseline: unchanged. Public demo contracts, original historical pins/modules, gameplay/runtime/assets and human OPEN status are preserved. Package bytes were protected where included; no package was opened or played.",
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_result_screen_rendering",
+    "natural_gameplay_ingress",
+    "full_game_playthrough",
+    "new_package_runtime"
+  ],
+  "boundary": "GO is only this declared work_unit at subject, not native certification, human or controller approval, all-locales completeness, full Chapter4, deepened Minseo-memory scenes, whole game, new package, rating/legal judgment or external release. Main-product/new-package HOLD and existing human gates remain unchanged.",
+  "evidence": {
+    ".git/full-game-localization/order365-named-first.json": "b589474c382f24503c4f66916b1f9d79b0cce978d0dc19d17b8fcea72c65c1ef",
+    ".git/full-game-localization/order365-named-repaired.json": "c1743a7f02df536ad805ee7b3e167e53a621858ba87b981e11e6d39a2ae3fad7",
+    ".git/full-game-localization/order365-named-final.json": "60cd6401bd5eb70c6f5765be2a43cf8c8226c81fdd5be6620b2ff2ee95338651",
+    ".git/full-game-localization/order366-named-final-outer.json": "d422bd977cd77d137bfdf11b726da26865bb4debea909bb583e257a565f213e7",
+    ".git/full-game-localization/order366-protected-final.json": "4e5656d6157b9c3bad31c15b49f1305955d88959642c004d9fe9b9b31972a597",
+    ".git/full-game-localization/order370-seven-reuse-bridge.json": "dec12ce61976e125506044a9fa91643bfd1cde5358fa25182d0a6c28c32713c9",
+    "tools/order365_ui_receipt_compat.py": "eb5a636518a7e51cae287adf8a5d29c083b03dd3f2bca5ab4433523351973027",
+    ".git/full-game-localization/order366-normal.json": "5911d3bdef3f0a86a226e8bdf6b6d6f855aaca462337b2e6bb010d2a8ec5196b",
+    ".git/full-game-localization/order366-self.json": "3bfa5945927821f6ce1c476247efa3b8e39e127828fde11d690aeca2c8e4ce5c",
+    ".git/full-game-localization/order366-fullbody.json": "ff9348d90fae7e72b3b5e8ca33eb2999feb97cb9976fd6418fb1169996a0af7b",
+    ".git/full-game-localization/order366-graph.json": "8769ca321bd086e6e0f4dc0447eba3fc485928958bc73571a75b18133a61e16b",
+    ".git/full-game-localization/order366-chapter5.json": "0604aea22d161c616d692d4a8da43689a75a880ac6a335682eb01ced112e953d",
+    ".git/full-game-localization/order366-year5.json": "d8a74b1e12df8ad987ae76ea1ad767a80ebd539047e9904180c828a5692f7d92",
+    ".git/full-game-localization/order366-chapter1.json": "bf8090f2d11ca182a8ca6ae7b3b93c5024e5537c5547f059884ffab1e92d18fc",
+    ".git/full-game-localization/order366-current-demo-final2.json": "00cc70707de9845e1058eecd13a7b3a2433e032036b06a629f99474a18da88c5",
+    ".git/full-game-localization/order366-notice-final.json": "e6c28a63a8ab221c41e4d82eadff007ead832ef39ea05b45178936d0ad6fcc12"
+  },
+  "outcome": "GO for the exact ORDER365 UI/receipt current-admission layer, five consumer connections and explicit audit registration. The historical comparison interfaces and corpus are preserved rather than refreshed to current hashes.",
+  "population": {
+    "current_owned_paths": 3,
+    "current_union_paths": 46,
+    "new_ui_values": 44,
+    "new_batches": 1,
+    "historical_json_paths": 17,
+    "historical_leaves": 107,
+    "helper_cases": 240,
+    "consumer_cases": 12,
+    "consumer_entrypoints": 5
+  },
+  "direct_review": [
+    "Read all558 final helper lines, five consumer diffs and both audit-registration diffs. Fresh Git object/type/length checks bind exact direct-parent commit/tree and actual before/after blobs. Current raw hashes plus byte equality, old351 module identity and JobHunt source identity precede admission.",
+    "Official receipt headers and all44 source/target hashes, locale, row order, raw/canonical bytes and ledger batch are bound. UI admission requires precisely22 ordered additions per locale and unchanged previous mappings. Ledger admission permits exactly44 new receipts and batch143, preserving prior receipts and metadata.",
+    "Whole46 current snapshots reject mixed, missing, extra, rollback and forged input. No old ledger projection is exposed to consumers. The previous historical17/107 interface and historical module aliases remain intact. Cached deterministic byte comparison is not a stale external proof cache; proof is refreshed per invocation.",
+    "The self252 comprises240 helper cases and12 actual five-entry consumer admission cases. This does not rerun the older1955 historical corpus or chapter1 full689. Earlier normal output still retains chapter1 debt8/blocked3 and weeks25..48 gap24, chapter5 human pending and year5 reference-only boundaries."
+  ],
+  "execution": {
+    "earlier_source": "003b68c7491333285b2c545bd9c95761efea05c0 with frozen staged/dirty eight tools and CLAUDE",
+    "earlier_runs": [
+      "normal",
+      "self252",
+      "full-body normal",
+      "graph normal",
+      "chapter5 normal",
+      "year5 normal",
+      "chapter1 normal"
+    ],
+    "earlier_pass": 7,
+    "current_additional": "Final fixed12 plus demo16+86 and notice14+34 were actually executed on subject; preservation is a separate read-only evidence check.",
+    "acceptance_reruns_by_reviewer": 0
+  }
+}

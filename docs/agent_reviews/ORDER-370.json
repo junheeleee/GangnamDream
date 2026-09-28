@@ -1,0 +1,76 @@
+{
+  "schema": "gangnamdream-independent-work-unit-review/v1",
+  "unit_id": "ORDER-370",
+  "scope": "work_unit",
+  "review_stage": "independent_source_bound_final",
+  "review_date": "2026-09-28",
+  "independent": true,
+  "reviewer": "/root/r3_route_probe",
+  "decided_by": "/root/r3_route_probe",
+  "decision": "GO",
+  "verdict": "GO",
+  "required": [],
+  "subject": {
+    "kind": "source",
+    "commit": "15e6cc10cef8d9b031f27ff07b4a15d1d89f8cf8",
+    "tree": "6564372cff0d2b0061f92fc504d849523ff2ea90",
+    "manifest_sha256": null
+  },
+  "independence": "Non-author review under gangnamdream-dev and WORK_UNIT. I read the applicable canon/specifications, relevant actual prose or full code diffs, failure records and final evidence. I authored no translation, implementation, test or tracked file. I ran no acceptance CLI or engine; review-side operations were reads, Git/hash/AST comparisons and source resolution.",
+  "source_binding": {
+    "observed_clean": true,
+    "resolver": "Direct HEAD/tree, empty Git porcelain and current_agent_source_subject() independently agree with subject.",
+    "product": "The two Chinese UI files and localization ledger remain byte-identical to product 003b68c7491333285b2c545bd9c95761efea05c0, direct parent 3401d6283e1c1e83bedf0608afb2e7942d9c04c8.",
+    "final_execution": "The final fixed12 actually ran on this clean subject. Its 1792 tracked input byte-map, paths, HEAD/tree and private driver seal match before/after and current bytes. The separately captured outer process exited 0 and kept its narrower 1225-input map unchanged. Neither envelope is an all-files/package census."
+  },
+  "integration_history": [
+    "First fixed12 at 6f7865be: 9 PASS / 3 FAIL. JA pipeline and JA UI rejected the old V2 demo source contract; ZH rejected the legitimate four-answer static UI value. The failed attempt remains unchanged.",
+    "Second fixed12 at 9f3c16ab: 9 PASS / 3 FAIL. Original source-contract errors were repaired, but the old274 whole-pipeline seal rejected the new369 collect_demo hunk, yielding empty UI inventory; JA self raised StopIteration, ZH/JA UI raised KeyError. This was a real collector guard interaction, not established cache contamination. The failed attempt remains unchanged.",
+    "Final fixed12 at subject: 12 PASS, exact selected commands/unique launches/exit status and raw streams verified. Full localization265, JA self146, ZH self12623, public demo self55 and normal, English coverage, JA UI, audit registration, queue index, agent decisions222, context and queue all complete. No failed attempt is retroactively PASS."
+  ],
+  "old_seven_reuse": "ORDER-366 normal/self252/five consumer normals were executed earlier at product HEAD003b68c with the frozen eight tools and CLAUDE staged/dirty; they were not rerun on subject. Each 1225-input map now differs in exactly demo_localization_scope.py, first_start_notice_self_test.py, ja_translation_audit.py, ja_translation_pipeline.py and zh_translation_audit.py; 1220 inputs are identical. I independently checked the changed call paths: graph/chapter5/year5/chapter1/receipt helper do not invoke those new functions. Full-body uses unchanged localized_leaves/EXPECTED_EVENT_LEAVES through story-demo imports, not changed JA/ZH collection or validation; new top-level aliases do not execute those collectors. This byte plus semantic bridge supports reuse, not a claim of 19 fresh final-source tests.",
+  "preservation": "Final protected2871 evidence covers baseline6a568d97 non-owned tracked blobs and rejects out-of-scope changes. I also directly compared the existing126 decisions,104 reports and human ledger to that baseline: unchanged. Public demo contracts, original historical pins/modules, gameplay/runtime/assets and human OPEN status are preserved. Package bytes were protected where included; no package was opened or played.",
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_result_screen_rendering",
+    "natural_gameplay_ingress",
+    "full_game_playthrough",
+    "new_package_runtime"
+  ],
+  "boundary": "GO is only this declared work_unit at subject, not native certification, human or controller approval, all-locales completeness, full Chapter4, deepened Minseo-memory scenes, whole game, new package, rating/legal judgment or external release. Main-product/new-package HOLD and existing human gates remain unchanged.",
+  "evidence": {
+    ".git/full-game-localization/order365-named-first.json": "b589474c382f24503c4f66916b1f9d79b0cce978d0dc19d17b8fcea72c65c1ef",
+    ".git/full-game-localization/order365-named-repaired.json": "c1743a7f02df536ad805ee7b3e167e53a621858ba87b981e11e6d39a2ae3fad7",
+    ".git/full-game-localization/order365-named-final.json": "60cd6401bd5eb70c6f5765be2a43cf8c8226c81fdd5be6620b2ff2ee95338651",
+    ".git/full-game-localization/order366-named-final-outer.json": "d422bd977cd77d137bfdf11b726da26865bb4debea909bb583e257a565f213e7",
+    ".git/full-game-localization/order366-protected-final.json": "4e5656d6157b9c3bad31c15b49f1305955d88959642c004d9fe9b9b31972a597",
+    ".git/full-game-localization/order370-seven-reuse-bridge.json": "dec12ce61976e125506044a9fa91643bfd1cde5358fa25182d0a6c28c32713c9",
+    "tools/ja_translation_pipeline.py": "62373cc5414de2d1d636a9fd181870d687974a76a80bdf1c1b38581a4b505d8a",
+    "tools/first_start_notice_self_test.py": "2cfde38a0eb88813300a528f3ef4b97d130ac23c529604f9f8a6eaf5dfa45cf0",
+    ".git/full-game-localization/order370-author-current-first.json": "ce620ffe8a18140e0c19ca92f7e407bcccf4e6e6a356e02dc7a821f008ca1acc",
+    ".git/full-game-localization/order366-notice-final.json": "e6c28a63a8ab221c41e4d82eadff007ead832ef39ea05b45178936d0ad6fcc12",
+    ".git/full-game-localization/order366-current-demo-final2.json": "00cc70707de9845e1058eecd13a7b3a2433e032036b06a629f99474a18da88c5",
+    ".git/full-game-localization/order370-named.py": "d77283a93f95da35b1bc95cc97cad3eaaf8fafd7d8a6a8dd20e2737ece86e057",
+    ".git/full-game-localization/order370-protected.py": "74d6168d12966fb1cfeff7636493e3843c10e672ad41f4705a7fb06667bbf065"
+  },
+  "outcome": "GO for the exact successor proof admitting the approved369 collect_demo caller change through the original274 whole-pipeline seal. The real current collector is restored without replacing historical pins or suppressing errors.",
+  "population": {
+    "owned_code_files": 2,
+    "original_notice_cases": 14,
+    "new_code_boundary_cases": 34,
+    "actual_collector_calls": 3466,
+    "legacy_ui_keys": 2949,
+    "migrated_context_ids": 29
+  },
+  "direct_review": [
+    "Read the complete pipeline appendix, first-start self-test diff, original274 block/pins and original14 test body. The old seal is retained. Exact marker multiplicity and appendix self-hash are checked before removing only this appendix; the remaining bytes must match369 whole-code SHA.",
+    "The exact three-line approved369 collect_demo hunk is inverted once to the original274 whole-code SHA. Fresh Git direct-parent and both historical file reads must match the reconstructed bytes. Missing, forged, rollback, extra-hunk or unrelated-byte changes fail closed.",
+    "Only the narrowly scoped historical read supplies original pipeline bytes to the unchanged274 helper; current observation returns actual current bytes. Other paths are untouched and read/callable aliases restore on both success and exceptions. No historical substitute leaks into runtime observations.",
+    "The old14 main is retained and invoked before new34; its preparation changes only to compare the proven predecessor. New34 cover current collection, appendices/hunks/unowned-byte mutation, non-bytes, bad Git/parent, recovery and scoped normal/exception restoration.",
+    "The new I18N instruction accurately records the discovered failure mode: inspect collector whole-file self-seals and invoke the actual collector, since helper-only checks can miss that guard. It does not authorize historical pin replacement."
+  ],
+  "execution": "Root's official final notice command completed original14 plus new34, exit0,11.285s,empty stderr and1225 identical inputs. The parsed original14 report has all14 passed,12 effective negatives and physical-file bytes preserved; 'physical' there is file-state terminology, not a controller playtest. Author new34-only/current collector3466/2949/29 evidence is separately labeled. Final named12 actually completes the formerly failing JA self and ZH/JA UI entrypoints.",
+  "failure_history": "The second named run's StopIteration/KeyError is preserved as a real whole-file admission interaction, not relabeled as cache failure or product success. Exact successor proof repairs that cause; it does not erase the first named run or inherit GO from any earlier source."
+}

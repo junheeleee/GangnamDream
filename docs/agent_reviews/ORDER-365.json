@@ -1,0 +1,87 @@
+{
+  "schema": "gangnamdream-independent-work-unit-review/v1",
+  "unit_id": "ORDER-365",
+  "scope": "work_unit",
+  "review_stage": "independent_source_bound_final",
+  "review_date": "2026-09-28",
+  "independent": true,
+  "reviewer": "/root/r3_route_probe",
+  "decided_by": "/root/r3_route_probe",
+  "decision": "GO",
+  "verdict": "GO",
+  "required": [],
+  "subject": {
+    "kind": "source",
+    "commit": "15e6cc10cef8d9b031f27ff07b4a15d1d89f8cf8",
+    "tree": "6564372cff0d2b0061f92fc504d849523ff2ea90",
+    "manifest_sha256": null
+  },
+  "independence": "Non-author review under gangnamdream-dev and WORK_UNIT. I read the applicable canon/specifications, relevant actual prose or full code diffs, failure records and final evidence. I authored no translation, implementation, test or tracked file. I ran no acceptance CLI or engine; review-side operations were reads, Git/hash/AST comparisons and source resolution.",
+  "source_binding": {
+    "observed_clean": true,
+    "resolver": "Direct HEAD/tree, empty Git porcelain and current_agent_source_subject() independently agree with subject.",
+    "product": "The two Chinese UI files and localization ledger remain byte-identical to product 003b68c7491333285b2c545bd9c95761efea05c0, direct parent 3401d6283e1c1e83bedf0608afb2e7942d9c04c8.",
+    "final_execution": "The final fixed12 actually ran on this clean subject. Its 1792 tracked input byte-map, paths, HEAD/tree and private driver seal match before/after and current bytes. The separately captured outer process exited 0 and kept its narrower 1225-input map unchanged. Neither envelope is an all-files/package census."
+  },
+  "integration_history": [
+    "First fixed12 at 6f7865be: 9 PASS / 3 FAIL. JA pipeline and JA UI rejected the old V2 demo source contract; ZH rejected the legitimate four-answer static UI value. The failed attempt remains unchanged.",
+    "Second fixed12 at 9f3c16ab: 9 PASS / 3 FAIL. Original source-contract errors were repaired, but the old274 whole-pipeline seal rejected the new369 collect_demo hunk, yielding empty UI inventory; JA self raised StopIteration, ZH/JA UI raised KeyError. This was a real collector guard interaction, not established cache contamination. The failed attempt remains unchanged.",
+    "Final fixed12 at subject: 12 PASS, exact selected commands/unique launches/exit status and raw streams verified. Full localization265, JA self146, ZH self12623, public demo self55 and normal, English coverage, JA UI, audit registration, queue index, agent decisions222, context and queue all complete. No failed attempt is retroactively PASS."
+  ],
+  "old_seven_reuse": "ORDER-366 normal/self252/five consumer normals were executed earlier at product HEAD003b68c with the frozen eight tools and CLAUDE staged/dirty; they were not rerun on subject. Each 1225-input map now differs in exactly demo_localization_scope.py, first_start_notice_self_test.py, ja_translation_audit.py, ja_translation_pipeline.py and zh_translation_audit.py; 1220 inputs are identical. I independently checked the changed call paths: graph/chapter5/year5/chapter1/receipt helper do not invoke those new functions. Full-body uses unchanged localized_leaves/EXPECTED_EVENT_LEAVES through story-demo imports, not changed JA/ZH collection or validation; new top-level aliases do not execute those collectors. This byte plus semantic bridge supports reuse, not a claim of 19 fresh final-source tests.",
+  "preservation": "Final protected2871 evidence covers baseline6a568d97 non-owned tracked blobs and rejects out-of-scope changes. I also directly compared the existing126 decisions,104 reports and human ledger to that baseline: unchanged. Public demo contracts, original historical pins/modules, gameplay/runtime/assets and human OPEN status are preserved. Package bytes were protected where included; no package was opened or played.",
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_result_screen_rendering",
+    "natural_gameplay_ingress",
+    "full_game_playthrough",
+    "new_package_runtime"
+  ],
+  "boundary": "GO is only this declared work_unit at subject, not native certification, human or controller approval, all-locales completeness, full Chapter4, deepened Minseo-memory scenes, whole game, new package, rating/legal judgment or external release. Main-product/new-package HOLD and existing human gates remain unchanged.",
+  "evidence": {
+    ".git/full-game-localization/order365-named-first.json": "b589474c382f24503c4f66916b1f9d79b0cce978d0dc19d17b8fcea72c65c1ef",
+    ".git/full-game-localization/order365-named-repaired.json": "c1743a7f02df536ad805ee7b3e167e53a621858ba87b981e11e6d39a2ae3fad7",
+    ".git/full-game-localization/order365-named-final.json": "60cd6401bd5eb70c6f5765be2a43cf8c8226c81fdd5be6620b2ff2ee95338651",
+    ".git/full-game-localization/order366-named-final-outer.json": "d422bd977cd77d137bfdf11b726da26865bb4debea909bb583e257a565f213e7",
+    ".git/full-game-localization/order366-protected-final.json": "4e5656d6157b9c3bad31c15b49f1305955d88959642c004d9fe9b9b31972a597",
+    ".git/full-game-localization/order370-seven-reuse-bridge.json": "dec12ce61976e125506044a9fa91643bfd1cde5358fa25182d0a6c28c32713c9",
+    ".git/full-game-localization/order365-language-review-first.json": "1571976c71d00f9d33959c665a017ffb0094117f114b284fc2a90e2c85ffc41c",
+    ".git/full-game-localization/order365-zh-CN-draft.json": "7b47346f716c34235b28b136e0c52050d2a856014e2db6f163959bacc1a68282",
+    ".git/full-game-localization/order365-zh-TW-draft.json": "3e6307a24909190b0445567b49faf7f0067a4c63f4a74bf2db026072d56a7450",
+    ".git/full-game-localization/order365-preservation.json": "0db97f5e273cdbb2f4ffc4ffa3c3e7dde05614a637d88ceb8604f0d7d7cb3ce8",
+    ".git/full-game-localization/order365-cn-applied-export.json": "5e7f755b0ee17f4aba786853c5c1bedcf41a510c2bc31f5dbac53c074c2bd375",
+    ".git/full-game-localization/order365-cn-applied-check.json": "6fb6d26ff31b65f20bc5dffa5919d8a53d421a1b34e7b5bd3a27dbfc892f8c76",
+    ".git/full-game-localization/order365-cn-applied-import.json": "03f86e85360f9fcfc4d491ecd9f1d932286cf365888974190d5aebb5e2f00039",
+    ".git/full-game-localization/order365-tw-applied-export.json": "574b75c0fa1679c614b892cfe6be8accd06c09f68780b352fd139d32131f40f3",
+    ".git/full-game-localization/order365-tw-applied-check.json": "2e670b84b41206c1b108b53bc9a8ab554140c8e67a991a99d8777fa2293f8fa2",
+    ".git/full-game-localization/order365-tw-applied-import.json": "773d7a654f506b7a492fb47377d6b6e36cb207a812bf90c13fb4aaa8e67818ed",
+    "locale/ui_zh-CN.json": "35e3b0a7a01976213d9d7aa4d709e2e9fb9b7c405e6ef09c038af9aae2fdf859",
+    "locale/ui_zh-TW.json": "c48b67ec15cc37c7af2cf2107bc0559876b6bb330d7c57791acf469175f19862",
+    "content/meta/full_game_localization.json": "bb5522252e7a8fd86203ea45f41575180e76b658ae2c7112162878975c3b1080"
+  },
+  "outcome": "GO for the exact 22 Korean JobHunt result keys translated directly into 44 Simplified/Traditional Chinese values and accepted as one narrowly bounded UI batch. No required semantic or integration finding remains after separately declared validator/consumer repairs.",
+  "population": {
+    "unique_ko_keys": 22,
+    "locale_values": 44,
+    "locales": [
+      "zh-CN",
+      "zh-TW"
+    ],
+    "new_ui_keys_per_locale": 22,
+    "changed_product_files": 3,
+    "accepted_before": 40302,
+    "accepted_after": 40346,
+    "batch_before": 142,
+    "batch_after": 143
+  },
+  "direct_review": [
+    "I read all22 Korean keys in JobHuntMiniGame result/title/body/stress context, all44 draft values, MainGame result handoff and LocaleManager static-overlay lookup. The accepted current44 values exactly match the independently reviewed drafts.",
+    "네 답 is four answers here, not second-person your answer: the resume branch selects exactly RESUME_QUESTIONS_PER_SESSION=4 and this sentence is the grade0 resume result. The separate five-question interview does not use it. 四个回答 / 四個回答 correctly retain that count.",
+    "Four quality levels and the separate positive/negative final stress result stay distinct; stress zero has no appended sentence. Translation does not invent a hiring outcome, diagnose stress or turn a follow-up question into an acceptance.",
+    "CN 求职自述/模拟面试/保存 and TW 求職自傳/模擬面試/儲存 reflect the regional register. Numbers, agent/action, tense relations, notes/folded-corner imagery and relaxed/tense shoulders remain faithful. The compressed TW follow-up title is acceptable, not a blocking meaning change. This is agent linguistic review, not native-reader certification.",
+    "No new token, formatting marker, newline or omitted target was introduced. KO/EN/runtime are unchanged; JA UI and previous CN/TW mappings remain unchanged."
+  ],
+  "receipt_binding": "I independently checked product parent/tree and the three raw inverses, current44 source/target digests and official accepted receipt raw/canonical hashes. Each locale's actual export/check/import captured exit0 with22 leaves and check/import changed_files=0. Old40302 accepted entries, old142 batches and metadata9 are preserved; only44 receipts plus batch143 were added. Tool output still says full_status=INCOMPLETE and human_gate=OPEN."
+}

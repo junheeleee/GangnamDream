@@ -1,3 +1,15 @@
+# ORDER-367 — 네 답의 수량 해석 수리
+
+[x] 2026-09-28. 독립 work_unit 한정 GO, 필수 결함0. 본편/새package GO가 아니다.
+
+- source `15e6cc10cef8d9b031f27ff07b4a15d1d89f8cf8`, tree `6564372cff0d2b0061f92fc504d849523ff2ea90`. [독립 보고](../agent_reviews/ORDER-367.json) SHA `9f96dd863ee4dc1791ce8021acdda2f75a1b88d2a1ed9b8ce1b2f2c99fb0d739`.
+- 정확한 UI leaf·전문·출처·category·CN/TW를 잠근 수량 해석을 추가했다. 맞는4답만 동등표현으로 정규화하며 나머지 수량·문자·금액·토큰·개행은 계속 검사한다. 기존264 테스트 본문과 dice 함수는 불변이다. 새1method97subtest 및 전체265 PASS. 최초수량실패2·저자표적실패·半天/肆人 false acceptance4·수정 중 잘못된 dice매칭 실패를 보존하고 최종 수리를 검증했다.
+- 첫 named12와 첫 수리 뒤 named12는 각각9 PASS/3 FAIL였으며 두 원형을 보존했다. 전자는 수량 소비자/과거 기대값, 후자는 collector 자체 코드 보호 충돌이었다. 수리 뒤 clean 최종 source에서 named12 및 demo scope self16+86, first-start 기존14+새 코드 경계를 실제 통과했다. 이전366의7개 통과는 원래003b68c staged 도구 source의 증거를 구분하여 재사용했다. 최종source에서19개를 모두 다시 실행했다고 주장하지 않는다.
+- 기존126판정/104보고·공개GO1·인간OPEN45·보류72 보존. 원어민·인간·물리패드·새 렌더/입력은 미관측이며 1장 debt8/blocked3/W25..48 gap24·5장·본편/새package HOLD를 유지한다.
+- 스킬의 직접저작·파일 소유 분리·독립 검수·표적검증을 적용했다. 이번 범위·전이·검증은 일회성. 상시 규칙 승격0. 외부출시·스토어·지출·법률 인증0.
+
+## 최초 선언 원문 보존
+
 # Active Queue Spec: ORDER-367
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.

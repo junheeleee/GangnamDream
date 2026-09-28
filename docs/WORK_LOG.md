@@ -2,6 +2,18 @@
 
 이전 원문 전체는 [2026-09-28 이전 기록](history/WORK_LOG_2026-09-28_pre_order351.md)에 바이트 그대로 보존했다.
 
+## 2026-09-28 (Codex — 취업 결과 중국어44와 검사 연결 수리)
+
+- 마감 context/queue PASS(active77/in_progress74), 판정 원장 self222 PASS. 완료 사양6개는 최초 선언 전문을 archive에 보존했다. 첫 private 마감 준비는 기존 원장의 비정규 쉼표줄 공백20B를 재직렬화하는 것을 막아 patch 출력 전 중단했고, 기존 raw prefix를 그대로 두고 새6행만 삽입하도록 수리했다. 제품 검사 실패로 합산하지 않으며 private `order370-closure-first-diagnostic.json`에 제한된 진단을 보존한다.
+- [365](queue_archive/ORDER-365.md): 자기소개서·모의면접 결과22키×간체/번체44값을 정식 수용했다. 지역별 한국어 직접 저작과 비저자 전수 검수. 수정 흔적·추가/예정 질문·어깨 긴장·호흡을 구별하며 채용 보장과 숨은 수치를 더하지 않았다. 공식40,346/b143·meta9, 사전각1087키. 기존40,302핀/142batch·JA·원문·runtime·공개/인간 증거를 보존했다. JA UI참조3028 대비 중국어각1941부재는 전체live분모가 아니다.
+- [367](queue_archive/ORDER-367.md)·[368](queue_archive/ORDER-368.md): ‘네 답’의4를 놓치던 정확 leaf 검사와 그 해석을 거치지 않던 정적 UI 소비자를 수리했다. 일반 key-only 검사는 그대로이며 기존264+새1method97subtest=전체265 PASS. 첫CLI locale누락2·실물수량실패2·작성자 표적/추가수사/잘못된patch 실패를 보존했다. 답·질문·사람·단위·추가량을 구별한다.
+- [366](queue_archive/ORDER-366.md): 현재46경로를 정확 UI44/receipt44/batch1에 결속했다. 역사17파일/107leaf·모듈/API/핀/corpus는 그대로다. 새7명령(normal/self252와5소비자)은003b68c의 staged 도구에서 통과했으며 최종 source 재실행으로 세지 않는다. 후속5도구가 해당 실행 경로를 바꾸지 않음을 비저자가 확인했다.
+- [369](queue_archive/ORDER-369.md): 첫 named12는9 PASS/3 FAIL. 그중 예전305 대본3leaf(+2자)가 구형 V2 기대값에 빠져 있던 기존 결함을 별도로 수리했다. 현재72사건/467leaf 관측을 유지하며 과거 manifest/역사핀은 보존하고 승인된 전이만 기대 copy에 연결했다. 공유 입력 변경 뒤 재검에서 별개 코드 봉인 충돌로9 PASS/3 FAIL을 확인했고 원형을 보존했다. 원래 실패 기록은 보존하며 공개story-demo와 구형V2 분모를 합치지 않는다.
+- [370](queue_archive/ORDER-370.md): 수집기의 원형274 코드·핀을 보존한 정확 후속 연결로 빈 UI 목록 결함을 수리했다. 실제 collector population/stats, 원래 first-start14 및 새 코드 음성을 검증했다. 최종 clean source에서 named12·demo scope16+86·first-start 기존/신규 self를 실제 통과했다. 과거 실패2회와 366의 이전 실행7개를 구분한다.
+- 최종 source `15e6cc10cef8d9b031f27ff07b4a15d1d89f8cf8` / tree `6564372cff0d2b0061f92fc504d849523ff2ea90`. 독립 work_unit GO6건을 기존126판정/104보고 뒤에만 추가(132/110). 자동검사는 계약 증거이지 재미·문체·인간 관찰이 아니다. 원어민·인간·물리패드·새화면/입력0, 공개GO1/인간OPEN45·1장 debt8/blocked3/24주 gap·5장·본편/새package HOLD 유지. 외부권한 행사0.
+- 다음 안전한 작업: 새44값의 실제 화면·합성입력을 별도 선언한다(아직 미착수). 읽기 전용 조사에서 기존 job runner는 자기소개서 결과1개를 직접 handler로 캡처하고 면접 결과/CTA를 검사하지 않았다. 후보는 지역2×등급4×모드2×stress부호3의 준비상태48, PNG20 및 별도 key press/release4세션이다. 준비 fixture를 정상도달·물리입력으로 세지 않고 과거 화면을 새 번역 증거로 재사용하지 않는다.
+- 사용 스킬: gangnamdream-dev의 KO 직접저작·파일 소유 분리·독립 검수·표적검증을 적용했다. 범위와 검증은 일회성이며, 반복 비용이 확인된 self-seal/실제 collector 사전 확인만 I18N 정본의1문장으로 승격했다.
+
 ## 2026-09-28 (Codex — 4장 대본 수리의 통합 판정 마감)
 
 - 마감 문서·큐 검사 PASS(active77/in_progress74), 판정 원장 self222 PASS(44.785초). 실행 기록은 `order363-metadata-integration-closure-{context,queue,agent}.json`에 별도 보존했다. 새2판정·2보고와 사양 보관을 검사한 결과이며, 과거 제품 검사 횟수에는 더하지 않는다.

@@ -1,0 +1,77 @@
+{
+  "schema": "gangnamdream-independent-work-unit-review/v1",
+  "unit_id": "ORDER-369",
+  "scope": "work_unit",
+  "review_stage": "independent_source_bound_final",
+  "review_date": "2026-09-28",
+  "independent": true,
+  "reviewer": "/root/r3_route_probe",
+  "decided_by": "/root/r3_route_probe",
+  "decision": "GO",
+  "verdict": "GO",
+  "required": [],
+  "subject": {
+    "kind": "source",
+    "commit": "15e6cc10cef8d9b031f27ff07b4a15d1d89f8cf8",
+    "tree": "6564372cff0d2b0061f92fc504d849523ff2ea90",
+    "manifest_sha256": null
+  },
+  "independence": "Non-author review under gangnamdream-dev and WORK_UNIT. I read the applicable canon/specifications, relevant actual prose or full code diffs, failure records and final evidence. I authored no translation, implementation, test or tracked file. I ran no acceptance CLI or engine; review-side operations were reads, Git/hash/AST comparisons and source resolution.",
+  "source_binding": {
+    "observed_clean": true,
+    "resolver": "Direct HEAD/tree, empty Git porcelain and current_agent_source_subject() independently agree with subject.",
+    "product": "The two Chinese UI files and localization ledger remain byte-identical to product 003b68c7491333285b2c545bd9c95761efea05c0, direct parent 3401d6283e1c1e83bedf0608afb2e7942d9c04c8.",
+    "final_execution": "The final fixed12 actually ran on this clean subject. Its 1792 tracked input byte-map, paths, HEAD/tree and private driver seal match before/after and current bytes. The separately captured outer process exited 0 and kept its narrower 1225-input map unchanged. Neither envelope is an all-files/package census."
+  },
+  "integration_history": [
+    "First fixed12 at 6f7865be: 9 PASS / 3 FAIL. JA pipeline and JA UI rejected the old V2 demo source contract; ZH rejected the legitimate four-answer static UI value. The failed attempt remains unchanged.",
+    "Second fixed12 at 9f3c16ab: 9 PASS / 3 FAIL. Original source-contract errors were repaired, but the old274 whole-pipeline seal rejected the new369 collect_demo hunk, yielding empty UI inventory; JA self raised StopIteration, ZH/JA UI raised KeyError. This was a real collector guard interaction, not established cache contamination. The failed attempt remains unchanged.",
+    "Final fixed12 at subject: 12 PASS, exact selected commands/unique launches/exit status and raw streams verified. Full localization265, JA self146, ZH self12623, public demo self55 and normal, English coverage, JA UI, audit registration, queue index, agent decisions222, context and queue all complete. No failed attempt is retroactively PASS."
+  ],
+  "old_seven_reuse": "ORDER-366 normal/self252/five consumer normals were executed earlier at product HEAD003b68c with the frozen eight tools and CLAUDE staged/dirty; they were not rerun on subject. Each 1225-input map now differs in exactly demo_localization_scope.py, first_start_notice_self_test.py, ja_translation_audit.py, ja_translation_pipeline.py and zh_translation_audit.py; 1220 inputs are identical. I independently checked the changed call paths: graph/chapter5/year5/chapter1/receipt helper do not invoke those new functions. Full-body uses unchanged localized_leaves/EXPECTED_EVENT_LEAVES through story-demo imports, not changed JA/ZH collection or validation; new top-level aliases do not execute those collectors. This byte plus semantic bridge supports reuse, not a claim of 19 fresh final-source tests.",
+  "preservation": "Final protected2871 evidence covers baseline6a568d97 non-owned tracked blobs and rejects out-of-scope changes. I also directly compared the existing126 decisions,104 reports and human ledger to that baseline: unchanged. Public demo contracts, original historical pins/modules, gameplay/runtime/assets and human OPEN status are preserved. Package bytes were protected where included; no package was opened or played.",
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "actual_result_screen_rendering",
+    "natural_gameplay_ingress",
+    "full_game_playthrough",
+    "new_package_runtime"
+  ],
+  "boundary": "GO is only this declared work_unit at subject, not native certification, human or controller approval, all-locales completeness, full Chapter4, deepened Minseo-memory scenes, whole game, new package, rating/legal judgment or external release. Main-product/new-package HOLD and existing human gates remain unchanged.",
+  "evidence": {
+    ".git/full-game-localization/order365-named-first.json": "b589474c382f24503c4f66916b1f9d79b0cce978d0dc19d17b8fcea72c65c1ef",
+    ".git/full-game-localization/order365-named-repaired.json": "c1743a7f02df536ad805ee7b3e167e53a621858ba87b981e11e6d39a2ae3fad7",
+    ".git/full-game-localization/order365-named-final.json": "60cd6401bd5eb70c6f5765be2a43cf8c8226c81fdd5be6620b2ff2ee95338651",
+    ".git/full-game-localization/order366-named-final-outer.json": "d422bd977cd77d137bfdf11b726da26865bb4debea909bb583e257a565f213e7",
+    ".git/full-game-localization/order366-protected-final.json": "4e5656d6157b9c3bad31c15b49f1305955d88959642c004d9fe9b9b31972a597",
+    ".git/full-game-localization/order370-seven-reuse-bridge.json": "dec12ce61976e125506044a9fa91643bfd1cde5358fa25182d0a6c28c32713c9",
+    "tools/demo_localization_scope.py": "b2a746520b31a505a9dc05b461a00240fb2a3191deeb5db026c949469b159e18",
+    "tools/ja_translation_audit.py": "a422d67ed72d10ae5048347ae620b9d290fe2c49eb579a6aff60cb822d9177a8",
+    "tools/ja_translation_pipeline.py": "62373cc5414de2d1d636a9fd181870d687974a76a80bdf1c1b38581a4b505d8a",
+    "tools/zh_translation_audit.py": "a4a81c927e4082c4d9fd60225902e9dfce0851f175ec1a9914b6aff6a4cccc0d",
+    "content/meta/demo_localization_scope.json": "9d50b64e6bc09d8e3e8e670fc48163ed5a0a419263cd0ffc601aac45c7abc7b6",
+    ".git/full-game-localization/order369-author-current-first.json": "7865bb035f5c4a37f4471a5e3500b1a7d7911bdbac857b0ec967cc907e5e7808",
+    ".git/full-game-localization/order366-current-demo-final2.json": "00cc70707de9845e1058eecd13a7b3a2433e032036b06a629f99474a18da88c5"
+  },
+  "outcome": "GO for an exact historical-to-current expectation bridge for the legacy V2 demo source contract, with all live observations retained. The original manifest and chapter1 historical pin are unchanged; no blind hash refresh or generic comparator relaxation is used.",
+  "population": {
+    "legacy_events": 72,
+    "legacy_text_leaves": 467,
+    "approved_changed_leaves": 3,
+    "unchanged_leaves": 464,
+    "expected_fields_changed_in_copy": 2,
+    "original_self_cases": 16,
+    "new_self_cases": 86,
+    "callers": 4
+  },
+  "direct_review": [
+    "Independently reconstructed the legacy vector and source history. The old contract40767 characters/f6b2... predates approved305; its three in-scope changes yield40769/43ec... (+3 name token, zero tense-length change, minus1 temptation wording). The other464 leaves are identical. This mismatch already existed at365 baseline6a568d97 and was not caused by the new Chinese UI values.",
+    "The changed leaves are arc_sangchul_01_answer choices0.result, choices1.result and arc_temptation_clean description in KO arc_events. Other305 rent wording falls outside this legacy72-event contract. The legacy scope is not the separate public M01-M06 fourteen-event/100-leaf approval.",
+    "Read the complete helper, all four callers and new86-case function. The proof binds the unchanged full manifest, original module/import identities, fresh immutable305 Git blobs, exact current KO raw and351 inverse to post305. Runtime event payload/owner order and all467 leaf paths bind to actual current source.",
+    "Only an expected copy's two observation fields change after exact3-leaf inverse reconstructs the old vector. Observed/runtime inputs remain unchanged. Full expected-versus-observed comparison rejects other count/key/ID changes; failure propagates errors with the old expectation, never a success fallback.",
+    "Generic compare_contract and original run_self_test remain unchanged. Old16 fixtures use the legitimately admitted current expected copy, while new86 cover rollback, rebound neighbor, forged Git, module identity, altered observation and nonmutation. Separate370 resolves the pipeline self-seal interaction discovered by the second named run."
+  ],
+  "execution": "Author new86-only evidence is not full acceptance. Root actually ran old16+new86 on final clean subject (10.949s, exit0, empty stderr,1225 unchanged); final named JA/ZH callers also passed. Original whole manifest raw9d50b64e... remains protected, preserving the historical chapter1 pin and existing public/human decisions."
+}

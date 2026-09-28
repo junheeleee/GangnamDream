@@ -1,3 +1,15 @@
+# ORDER-366 — 중국어 UI 수용의 현재 원장 입구
+
+[x] 2026-09-28. 독립 work_unit 한정 GO, 필수 결함0. 본편/새package GO가 아니다.
+
+- source `15e6cc10cef8d9b031f27ff07b4a15d1d89f8cf8`, tree `6564372cff0d2b0061f92fc504d849523ff2ea90`. [독립 보고](../agent_reviews/ORDER-366.json) SHA `0102d8f2c6239918101b7d5b9dc3f802067825f21b4e45aa38dd03bbea235a01`.
+- 새 helper·소비자5·등록2의8도구를 수정했다. 실제365 제품003b68c/directparent3401d62·3raw·공식receipt2·44핀·batch1을 결속하며 원장/사전 역삭제는 내부 증명에만 쓴다. 현재raw46과 역사17파일/107leaf를 구별하고 원형351 등 역사 모듈·핀·API/corpus를 보존했다. normal/self252(경계240+실제소비자12)와5소비자 normal PASS는 원실행 source의 증거다. 후속5도구는 이7명령의 실행 경로를 바꾸지 않는다는 독립 영향 검토로 결속했다.
+- 첫 named12와 첫 수리 뒤 named12는 각각9 PASS/3 FAIL였으며 두 원형을 보존했다. 전자는 수량 소비자/과거 기대값, 후자는 collector 자체 코드 보호 충돌이었다. 수리 뒤 clean 최종 source에서 named12 및 demo scope self16+86, first-start 기존14+새 코드 경계를 실제 통과했다. 이전366의7개 통과는 원래003b68c staged 도구 source의 증거를 구분하여 재사용했다. 최종source에서19개를 모두 다시 실행했다고 주장하지 않는다.
+- 기존126판정/104보고·공개GO1·인간OPEN45·보류72 보존. 원어민·인간·물리패드·새 렌더/입력은 미관측이며 1장 debt8/blocked3/W25..48 gap24·5장·본편/새package HOLD를 유지한다.
+- 스킬의 직접저작·파일 소유 분리·독립 검수·표적검증을 적용했다. 이번 범위·전이·검증은 일회성. 상시 규칙 승격0. 외부출시·스토어·지출·법률 인증0.
+
+## 최초 선언 원문 보존
+
 # Active Queue Spec: ORDER-366
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
