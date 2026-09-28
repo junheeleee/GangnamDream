@@ -2,6 +2,15 @@
 
 이전 원문 전체는 [2026-09-28 이전 기록](history/WORK_LOG_2026-09-28_pre_order351.md)에 바이트 그대로 보존했다.
 
+## 2026-09-28 (Codex — 4장 수리 검증 연결 구현, 별도 기록 연결 누락으로 HOLD)
+
+- [361](queue_active/ORDER-361.md)의 새 경계·소비자5·등록2를 구현했다. 선언 `759150139201d231b9df06edd5cc1a1f1c9e8938` 뒤 정확8도구이며 제품·번역·원형6모듈·기존120판정/98보고·인간 원장을 보존했다. 현재351의 raw12경로/87기존문구/48갱신receipt, LIVE44/역사KOEN17파일107leaf만 결속한다.40302/b142/meta9/보류72 불변이다.
+- 명시19종은 최초17PASS/2FAIL. full-body normal/self162가 원래351 admission6경로 실패를 해소했다. 새 경계795·역사1955·graph388·year51212(1316.355초)·chapter5146·locale264 PASS. 기존350 corpus와year5의155등록11/비도달 경계는 그대로다. 옛350 직접CLI·전체shell PASS를 주장하지 않는다.
+- chapter1 normal/self는 inventory snapshot mismatch로 각각 exit1(37.689/37.028초), self는 준비 단계 중단이다. 기존622/신규4사례 실행 완료0. 이전360의 정확6지문 갱신(eaa588…1764→2ff675…88b0)이 역사 비교 체인에 빠져 있음을 저자·비저자가 Git/소비자에서 각각 확인했다. [362](queue_active/ORDER-362.md) 실제 내용 검토 후 [363](queue_active/ORDER-363.md)에서 두 정확 기록 전이를 함께 연결하도록 새 범위를 선언했다. 원형pin 덮어쓰기·351의12경로 확장0이다.
+- 독립 검수로 receipt 반례2개의 정렬 직렬화가 의도한 손상보다 key순서에서 먼저 거절되는 약점을 보강했다. `self_test` 두 표현만 `_ordered`로 수정 후 해당1종795 재실행 PASS(77.975초), 최초 약한PASS도 보존했다. 두 표현을 치환하면 전체 AST가 같고 다른18 CLI는 해당 함수를 호출하지 않는다. 최종모듈 SHA `0d5de5fa6d80a87f1794f0ccfabee5b972feb195d09703474f040cb5481314ff`.
+- 총20실행으로 선택19종 최종17PASS/2FAIL을 기록했다. 실행마다 tracked+untracked text1836경로 전후 동일이며 binary/user-save census나 clean마감커밋 재실행이 아니다. 집계 `.git/full-game-localization/order361-final-aggregate.json` SHA `a673ff5461764bfa3b07924ddb0e250010abf818c2f1b6bb76b4f95780cbd1ce`. 역사1955=132+106+63+격리286+370+998의 실제 Git/module/ROOT·raw를 확인했다.
+- 351·361은 별도362→363 수리/후속 검수까지 HOLD다. 새 화면·엔진·자연 입력·원어민·인간·물리 관찰0이며 기존64준비상태/70PNG 증거를 재실행하거나 승격하지 않았다. 개발 스킬의 범위 선언·소유 분리·표적 실행·독립 전수검수를 적용했다. 새 규범은 일회성/상시승격0. 본편/새package HOLD·기존공개GO1/인간OPEN45·외부출시/스토어/지출/법률 인증0 유지.
+
 ## 2026-09-28 (Codex — 4장 입퇴원·선택 문구·5언어 수리, 통합 HOLD)
 
 - 최종 clean 소스 `50e0d412fa6b35097319ca7a3c0e35b32c745f07`/tree `1ee7ddd995276504375d176282834804579375df`에 독립 [351 보고](agent_reviews/ORDER-351.json)를 결속했다. private 원본과 동일한 SHA `5097c0644efd03fc85946aa9bbeb1901ad4b8a44c0f8bdff841442c50453295a`이며 독립 원고87·PNG70장 검토 후 추가 필수 결함0, 통합 판정은 HOLD다. 옛119판정/97보고를 보존하고 각1개만 추가해120/98이며361·362 미구현/실패2종을 해소하거나 전체 출시를 승인한 기록이 아니다.

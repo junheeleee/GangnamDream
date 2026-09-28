@@ -31,7 +31,8 @@ import order310_demo_source_compat as latest_demo_source
 import order316_header_source_compat as header_source
 import order309_source_compat as prior_source
 import order313_source_compat as chapter2_source
-import order350_source_compat as current_source
+import order350_source_compat as chapter3_source
+import order351_source_compat as current_source
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -6401,7 +6402,7 @@ def order309_context_source_errors(context: AuditContext) -> list[str]:
         with current_source.fresh_validation_proof():
             return _order309_context_source_errors_with_proof(context)
     except (OSError, ValueError) as exc:
-        return [f"ORDER-350: year5 indexed source proof unavailable: {exc}"]
+        return [f"ORDER-351: year5 indexed source proof unavailable: {exc}"]
 
 
 def _order309_context_source_errors_with_proof(context: AuditContext) -> list[str]:
@@ -6436,7 +6437,7 @@ def _order309_context_source_errors_with_proof(context: AuditContext) -> list[st
 
 
 def order309_transition_self_test(corpus_source=prior_source) -> tuple[list[str], int]:
-    """Retain 309/313 cases; call separately with 350 for its additive set.
+    """Retain 309/313/350 cases; call separately with 351 for its additive set.
 
     Historical negative values still come from the owning immutable transition.
     Positive observations bind the actual latest source, not an old live input.
@@ -6446,13 +6447,18 @@ def order309_transition_self_test(corpus_source=prior_source) -> tuple[list[str]
     failures: list[str] = []
     cases = 0
     owner = ("ORDER-355" if corpus_source is prior_source else
-             "ORDER-357" if corpus_source is chapter2_source else "ORDER-358")
+             "ORDER-357" if corpus_source is chapter2_source else
+             "ORDER-358" if corpus_source is chapter3_source else "ORDER-361")
 
     def check(ok: bool, label: str) -> None:
         nonlocal cases
         cases += 1
         if not ok:
             failures.append(owner + ": " + label)
+
+    if corpus_source is current_source:
+        check(not (set(corpus_source.PATHS) & set(ORDER155_SOURCE_FILE_TRANSITIONS)),
+              "new351 has no authored155 registered-path intersection")
 
     snapshots: dict[str, tuple[bytes, bytes]] = {}
     indexes: dict[str, dict[str, list[EventRecord]]] = {"ko": {}, "en": {}}
@@ -6464,7 +6470,7 @@ def order309_transition_self_test(corpus_source=prior_source) -> tuple[list[str]
         new = strict_loads(current.decode("utf-8"), path)
         old = strict_loads(previous.decode("utf-8"), path)
         check(not current_source.source_errors(current, path), path + " raw admission")
-        registered155 = (corpus_source is current_source
+        registered155 = (corpus_source is chapter3_source
                          and path in ORDER155_SOURCE_FILE_TRANSITIONS)
         if registered155:
             # This new 350 overlap is still an authored ORDER-155 product.
@@ -6568,7 +6574,7 @@ def order309_transition_self_test(corpus_source=prior_source) -> tuple[list[str]
         candidate.event_indexes[language][event_id].append(
             copy.deepcopy(candidate.event_indexes[language][event_id][0]))
         check(bool(order309_context_source_errors(candidate)), path + " indexed duplicate rejected")
-        if corpus_source is current_source and path.endswith("/arc_year_close.json"):
+        if corpus_source is chapter3_source and path.endswith("/arc_year_close.json"):
             candidate = copy.deepcopy(context)
             row = candidate.event_indexes[language]["arc_year3_close"][0].row
             row["description_if_known"] = dict(reversed(list(row["description_if_known"].items())))
@@ -13862,9 +13868,12 @@ def main() -> int:
         chapter2_failures, chapter2_cases = order309_transition_self_test(chapter2_source)
         failures.extend(chapter2_failures)
         cases += chapter2_cases
-        chapter3_failures, chapter3_cases = order309_transition_self_test(current_source)
+        chapter3_failures, chapter3_cases = order309_transition_self_test(chapter3_source)
         failures.extend(chapter3_failures)
         cases += chapter3_cases
+        chapter4_failures, chapter4_cases = order309_transition_self_test(current_source)
+        failures.extend(chapter4_failures)
+        cases += chapter4_cases
         if failures:
             for failure in failures:
                 print(f"YEAR5_REFERENCE_ROUTE_SELF_TEST_ERROR {failure}")

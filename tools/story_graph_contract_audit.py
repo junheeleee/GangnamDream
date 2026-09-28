@@ -22,7 +22,8 @@ import order305_demo_source_compat as order305_compat
 import order310_demo_source_compat as latest_demo_compat
 import order309_source_compat as prior_source
 import order313_source_compat as chapter2_source
-import order350_source_compat as current_source
+import order350_source_compat as chapter3_source
+import order351_source_compat as current_source
 
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -433,7 +434,7 @@ def validate(data: Inputs) -> list[str]:
         with current_source.fresh_validation_proof():
             return _validate_with_proof(data)
     except (OSError, ValueError) as exc:
-        return [f"ORDER-350 current proof unavailable: {exc}"]
+        return [f"ORDER-351 current proof unavailable: {exc}"]
 
 
 def _validate_with_proof(data: Inputs) -> list[str]:
@@ -1265,7 +1266,7 @@ def run_self_test(base: Inputs) -> tuple[list[str], int]:
         cases.append((f"order313_indexed_rollback:{relative}", rollback_new_event))
 
     # Keep the preceding 313 corpus above; 350/359 adds, never replaces it.
-    for relative in current_source.CURRENT_PATHS:
+    for relative in chapter3_source.CURRENT_PATHS:
         def corrupt_chapter3_raw(data: Inputs, relative: str = relative) -> None:
             data.source_bytes[relative] += b"\n"
         cases.append((f"order350_raw_drift:{relative}", corrupt_chapter3_raw))
@@ -1275,9 +1276,9 @@ def run_self_test(base: Inputs) -> tuple[list[str], int]:
         cases.append((f"order350_raw_missing:{relative}", missing_chapter3_raw))
 
         def rollback_chapter3_raw(data: Inputs, relative: str = relative) -> None:
-            data.source_bytes[relative] = current_source.verified_blobs(relative)[0]
+            data.source_bytes[relative] = chapter3_source.verified_blobs(relative)[0]
         cases.append((f"order350_raw_rollback:{relative}", rollback_chapter3_raw))
-    for relative, leaves in current_source.JSON_LEAVES.items():
+    for relative, leaves in chapter3_source.JSON_LEAVES.items():
         for event_id, leaf_path in leaves:
             def corrupt_chapter3_leaf(data: Inputs, relative: str = relative,
                                       event_id: str = event_id, leaf_path: tuple = leaf_path) -> None:
@@ -1290,8 +1291,8 @@ def run_self_test(base: Inputs) -> tuple[list[str], int]:
 
         def rollback_chapter3_event(data: Inputs, relative: str = relative) -> None:
             index = data.events_ko if relative.startswith("content/events/") else data.events_en
-            event_id = current_source.JSON_LEAVES[relative][0][0]
-            before, _after = current_source.verified_blobs(relative)
+            event_id = chapter3_source.JSON_LEAVES[relative][0][0]
+            before, _after = chapter3_source.verified_blobs(relative)
             index[event_id] = next(row for row in json.loads(before) if row["id"] == event_id)
         cases.append((f"order350_indexed_rollback:{relative}", rollback_chapter3_event))
 
@@ -1314,6 +1315,38 @@ def run_self_test(base: Inputs) -> tuple[list[str], int]:
             row["description_if_known"] = dict(reversed(list(row["description_if_known"].items())))
             data.source_bytes[relative] = json.dumps(rows, ensure_ascii=False).encode("utf-8")
         cases.append((f"order350_raw_condition_order:{relative}", reorder_conditions))
+
+    # A separate chapter-four corpus; the original 350 population above stays
+    # bound to its own immutable transition, including its two ghost leaves.
+    for relative in current_source.CURRENT_PATHS:
+        def corrupt_chapter4_raw(data: Inputs, relative: str = relative) -> None:
+            data.source_bytes[relative] += b"\n"
+        cases.append((f"order351_raw_drift:{relative}", corrupt_chapter4_raw))
+
+        def missing_chapter4_raw(data: Inputs, relative: str = relative) -> None:
+            data.source_bytes.pop(relative)
+        cases.append((f"order351_raw_missing:{relative}", missing_chapter4_raw))
+
+        def rollback_chapter4_raw(data: Inputs, relative: str = relative) -> None:
+            data.source_bytes[relative] = current_source.verified_blobs(relative)[0]
+        cases.append((f"order351_raw_rollback:{relative}", rollback_chapter4_raw))
+    for relative, leaves in current_source.JSON_LEAVES.items():
+        for event_id, leaf_path in leaves:
+            def corrupt_chapter4_leaf(data: Inputs, relative: str = relative,
+                                      event_id: str = event_id, leaf_path: tuple = leaf_path) -> None:
+                index = data.events_ko if relative.startswith("content/events/") else data.events_en
+                parent = index[event_id]
+                for key in leaf_path[:-1]:
+                    parent = parent[key]
+                parent[leaf_path[-1]] += " unapproved"
+            cases.append((f"order351_indexed_leaf:{relative}:{event_id}:{leaf_path}", corrupt_chapter4_leaf))
+
+        def rollback_chapter4_event(data: Inputs, relative: str = relative) -> None:
+            index = data.events_ko if relative.startswith("content/events/") else data.events_en
+            event_id = current_source.JSON_LEAVES[relative][0][0]
+            before, _after = current_source.verified_blobs(relative)
+            index[event_id] = next(row for row in json.loads(before) if row["id"] == event_id)
+        cases.append((f"order351_indexed_rollback:{relative}", rollback_chapter4_event))
 
     @case("network_w52_prelaunch")
     def _(data: Inputs) -> None:
@@ -1580,8 +1613,8 @@ def run_self_test(base: Inputs) -> tuple[list[str], int]:
         errors = validate(candidate)
         if not errors:
             failures.append(f"self-test mutation escaped: {name}")
-        if not name.startswith(("order305_", "order310_", "order309_", "order313_", "order350_")) and any(
-            error.startswith(("ORDER-305", "ORDER-310", "ORDER-309", "ORDER-313", "ORDER-316", "ORDER-350")) for error in errors
+        if not name.startswith(("order305_", "order310_", "order309_", "order313_", "order350_", "order351_")) and any(
+            error.startswith(("ORDER-305", "ORDER-310", "ORDER-309", "ORDER-313", "ORDER-316", "ORDER-350", "ORDER-351")) for error in errors
         ):
             failures.append(f"successor guard masked an original graph self-test: {name}")
     return failures, len(cases) + 1

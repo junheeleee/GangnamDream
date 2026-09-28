@@ -44,7 +44,8 @@ import order305_demo_source_compat as demo_source  # noqa: E402
 import order310_demo_source_compat as latest_demo_source  # noqa: E402
 import order309_source_compat as prior_source  # noqa: E402
 import order313_source_compat as chapter2_source  # noqa: E402
-import order350_source_compat as current_source  # noqa: E402
+import order350_source_compat as chapter3_source  # noqa: E402
+import order351_source_compat as current_source  # noqa: E402
 
 
 SCHEMA_VERSION = 1
@@ -1060,7 +1061,7 @@ def build_scope(root: Path | str = ROOT) -> tuple[dict[str, Any], list[str]]:
         },
         "hash_semantics": {
             "historical_comparison_only": (
-                "ORDER-350/359 and preceding exact admitted Korean event vectors are inverted only when "
+                "ORDER-351, ORDER-350/359 and preceding exact admitted Korean event vectors are inverted only when "
                 "comparing preceding source pins; inventory text, hashes and receipts stay current"
             ),
             "event_ids": (
@@ -1172,7 +1173,7 @@ def _source_history_observations(report: Mapping[str, Any]) -> tuple[dict[str, A
                 return empty, errors
             return _admitted_source_history_observations(report)
     except (OSError, ValueError) as exc:
-        return empty, [f"ORDER-350 current source proof unavailable: {exc}"]
+        return empty, [f"ORDER-351 current source proof unavailable: {exc}"]
 
 
 def _admitted_source_history_observations(report: Mapping[str, Any]) -> tuple[dict[str, Any], list[str]]:
@@ -1180,7 +1181,7 @@ def _admitted_source_history_observations(report: Mapping[str, Any]) -> tuple[di
 
     A historical leaf vector is substituted only for the exact current event
     vector from verified Git blobs; neighbors, wrong paths and edited report
-    hashes remain visible. Undo 359/350, 313/356 and 309 only, retaining 305.
+    hashes remain visible. Undo 351, 359/350, 313/356 and 309 only, retaining 305.
     Counts are derived from those same verified vectors, never rewritten in
     the current report. The new ghost leaf exists only in the current vector.
     """
@@ -1654,7 +1655,7 @@ def run_self_test(root: Path | str = ROOT) -> tuple[list[str], int]:
         forged[SCOPE_M07_M60_STATIC]["deferred_added_leaf_count"] = sum(leaf.event_id in deferred_ids for leaf in static_leaves)
         forged[SCOPE_M07_M60_STATIC]["immediate_closure_leaf_count"] = sum(leaf.event_id not in deferred_ids for leaf in static_leaves)
 
-    # Preserve preceding mutations and add 350/359, including leaf removal.
+    # Preserve preceding mutations (including 350/359 leaf removal) and add 351.
     for relative, changes in current_source.HISTORICAL_JSON_LEAVES.items():
         if not relative.startswith("content/events/"):
             continue
@@ -1679,8 +1680,10 @@ def run_self_test(root: Path | str = ROOT) -> tuple[list[str], int]:
                 rehash_observation(forged)
                 if kind == "wrong-hash":
                     event["source_leaves_sha256"] = "0" * 64
-                owner = ("ORDER-309" if relative in prior_source.PATHS else
-                         "ORDER-313" if relative in chapter2_source.PATHS else "ORDER-350")
+                owner = next((label for label, source in (
+                    ("ORDER-309", prior_source), ("ORDER-313", chapter2_source),
+                    ("ORDER-350", chapter3_source), ("ORDER-351", current_source),
+                ) if event_id in {eid for eid, _path in source.JSON_LEAVES.get(relative, ())}), "ORDER-351")
                 require(f"{owner} report rejects {kind}: {event_id}",
                         bool(_expected_observation_errors(forged)))
 

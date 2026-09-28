@@ -37,7 +37,8 @@ import meta_title_locale_successor as title_successor
 import order305_demo_source_compat as demo_source
 import order310_demo_source_compat as latest_demo_source
 import order316_header_source_compat as header_source
-import order350_source_compat as current_source
+import order350_source_compat as chapter3_source
+import order351_source_compat as current_source
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -4671,6 +4672,36 @@ def order350_source_boundary_self_test() -> tuple[list[str], int]:
         check(any("content/events_ja/arc_year_close.json" in error for error in errors)
               and not project.called,
               "actual audit rejects unrelated live-locale drift before additional projection")
+    return failures, cases
+
+
+def order351_source_boundary_self_test() -> tuple[list[str], int]:
+    """New chapter-four guards cannot bypass the preserved audited-file gate."""
+    from unittest import mock
+
+    failures: list[str] = []
+    cases = 1
+    # No new 351 path owns an audited pin: the existing KO-midgame case and
+    # original305 branch above remain the complete projection population.
+    if set(current_source.PATHS) & set(EXPECTED_AUDITED_SOURCE_FILE_SHA256):
+        failures.append("ORDER-351 unexpectedly adds an audited-file projection")
+    relative = "content/events/arc_midgame.json"
+    pin = EXPECTED_AUDITED_SOURCE_FILE_SHA256[relative]
+    read_bytes = Path.read_bytes
+    for new_path in (
+        "content/events/arc_chapter_themes.json",
+        "content/events_en/arc_chapter_themes.json",
+        "content/events_en/arc_new_characters.json",
+    ):
+        def altered_read(path: Path, new_path: str = new_path) -> bytes:
+            raw = read_bytes(path)
+            return raw + b"\n" if path == ROOT / new_path else raw
+        with mock.patch.object(Path, "read_bytes", altered_read), \
+                mock.patch.object(current_source, "observed_byte_hash") as project:
+            errors = _audited_source_snapshot_errors({relative: pin})
+            cases += 1
+            if not any(new_path in error for error in errors) or project.called:
+                failures.append("ORDER-351 new live path must fail before audited projection: " + new_path)
     return failures, cases
 
 
@@ -26615,6 +26646,10 @@ def main() -> int:
             if source_failures:
                 raise AssertionError("; ".join(source_failures))
             cases += source_cases
+            chapter4_failures, chapter4_cases = order351_source_boundary_self_test()
+            if chapter4_failures:
+                raise AssertionError("; ".join(chapter4_failures))
+            cases += chapter4_cases
             print(
                 "CHAPTER1_CAUSAL_LEDGER_SELF_TEST_OK "
                 f"cases={cases} runtime={time.monotonic() - self_test_started:.2f}s "

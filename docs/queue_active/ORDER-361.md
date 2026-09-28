@@ -7,6 +7,38 @@
 2026-09-28 Codex 발행. 351에서 실제 관측한 full-body current admission
 6경로 실패의 별도 후속이다. 아래 착수 선언 후 구현한다.
 
+## 2026-09-28 구현·표적 실행 — 통합 HOLD
+
+- 새 모듈/소비자5/등록2의 정확8도구만 구현했다. 제품12파일·전체content·
+  원형6모듈·기존120판정/98보고·인간 원장은 선언7591501과 동일하다.
+- 제품3f0aa92의 직접 부모6297e8c, 정확12 raw 전이/기존87문구/기존48receipt를
+  검증했다. 현재LIVE44와 역사KOEN17파일107leaf, 신규receipt0,
+  40302/b142/meta9/보류72를 유지하며 현재 inventory를 옛 본문으로 바꾸지 않는다.
+- 명시 차선19종 최초 **17PASS/2FAIL**. 새 경계795·역사1955·full-body162·
+  graph388·year51212·chapter5146·localization264사례 PASS다.
+  year5self1316.355초, timeout0. 옛350 직접 CLI/current 의미는 바꾸거나 면제하지 않았다.
+- chapter1 normal/self는 모두 `audited file snapshot mismatch
+  content/meta/release_content_inventory.json`으로 exit1. self는 fixture 준비에서
+  중단했으므로 기존622/신규4 corpus를 실행 완료로 세지 않는다.
+  360의 정확6지문 갱신 `eaa588e0…1764`→`2ff67584…88b0`가 원인이며
+  351 제품은 이 파일을 바꾸지 않았다. 351의12경로에 끼워 넣거나 원형 pin을
+  덮어쓰지 않고 [363](ORDER-363.md)을 [362](ORDER-362.md) 뒤에 분리했다.
+- 독립 검수에서 receipt 반례2곳의 정렬 직렬화가 의도한 손상 전에 key 순서로
+  거절될 수 있음을 확인했다. `self_test`의 두 표현만 순서 보존 직렬화로 보강,
+  새 경계 self795만 재실행 PASS(77.975초). 최초 약한 PASS도 원형 보존한다.
+  두 표현을 정규화한 전체 AST 동일/다른18 CLI의 해당 함수 비호출을 확인했다.
+- 총20실행에서 선택19종의 최종 **17PASS/2FAIL**, 매번 tracked+untracked text
+  1836경로 전후 동일. dirty 선언HEAD7591501에서 실행했고 clean 마감 소스에서
+  재실행한 것으로 세지 않는다. 집계 `.git/full-game-localization/order361-final-aggregate.json`
+  SHA `a673ff5461764bfa3b07924ddb0e250010abf818c2f1b6bb76b4f95780cbd1ce`.
+- 역사1955는 원형305132+310106+31663과 격리309286+313370+350998이다.
+  실제 Git/module/ROOT 신원 및 byte 보존을 확인한 fixture 증거이며 현재 옛 CLI의
+  PASS나 엔진/화면/자연 입력/전체240주 관찰이 아니다.
+- clean source에 비저자 판정을 결속한 뒤에도 위 실패가 남으면 HOLD다.
+  362→363 뒤 필요한 해당 검사와351/361 후속 검수를 수행한다.
+  새 범위는363 사양으로 선언만 했고 구현0. 규범은 일회성/기존 WORK_UNIT·I18N,
+  새 상시 규칙0. 본편/새package HOLD·원어민/인간/물리 OPEN·외부 출시0 유지.
+
 ## 2026-09-28 착수 — 파일 소유와 검증
 
 - 기준 `c580791ec534d82632a230bd77d14f5b99a6f041`, clean main. 현재 작업 프로필은

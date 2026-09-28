@@ -143,6 +143,12 @@ EVENT_LIFECYCLE_SELF_TEST_EXIT=$?
 echo "──────────────────────────────────────────"
 python3 tools/audit.py
 PY_EXIT=$?
+python3 tools/order351_source_compat.py
+ORDER351_SOURCE_CURRENT_EXIT=$?
+python3 tools/order351_source_compat.py --self-test
+ORDER351_SOURCE_COMPAT_EXIT=$?
+python3 tools/order351_source_compat.py --historical-self-test
+ORDER351_SOURCE_HISTORY_EXIT=$?
 python3 tools/order350_source_compat.py
 ORDER350_SOURCE_CURRENT_EXIT=$?
 python3 tools/order350_source_compat.py --self-test
@@ -1525,6 +1531,7 @@ echo "────────────────────────�
 # 게이트가 모든 검사 플래그를 모으므로, 실패 시 어떤 검사가 걸렸는지 이름으로
 # 알려 준다. 검사마다 ✗를 찍지 않는 경로가 있어 이름 없이는 추적이 어렵다.
 AUDIT_EXIT_FLAGS="
+  ORDER351_SOURCE_CURRENT_EXIT ORDER351_SOURCE_COMPAT_EXIT ORDER351_SOURCE_HISTORY_EXIT
   ORDER350_SOURCE_CURRENT_EXIT ORDER350_SOURCE_COMPAT_EXIT ORDER350_SOURCE_HISTORY_EXIT
   ORDER309_SOURCE_COMPAT_EXIT ORDER309_SOURCE_HISTORY_EXIT
   ORDER313_SOURCE_COMPAT_EXIT ORDER313_SOURCE_HISTORY_EXIT
