@@ -27,7 +27,10 @@ LEDGER_PATH = "content/meta/full_game_localization.json"
 LOCALES = ("zh-CN", "zh-TW")
 UI_PATHS = tuple(f"locale/ui_{locale}.json" for locale in LOCALES)
 CURRENT_PATHS = (*UI_PATHS, LEDGER_PATH)
-LIVE_PATHS = tuple(dict.fromkeys((*previous.LIVE_PATHS, *UI_PATHS)))
+LIVE_PATHS = tuple(dict.fromkeys((*previous.LIVE_PATHS, *ui_append.CURRENT_UI_PATHS)))
+# An additional current dictionary, not part of the immutable three-file365 delta.
+JA_BASELINE_BLOB = "11cdf6beae26d2eb2174af79253cfe802254079e"
+JA_BASELINE_SHA256 = "9881e43fc34ac67241dc4819068f0dcda8ee714119778d059ddd7088fce75f1d"
 PREVIOUS_MODULE_PATH = "tools/order351_source_compat.py"
 PREVIOUS_MODULE_SHA256 = "0d5de5fa6d80a87f1794f0ccfabee5b972feb195d09703474f040cb5481314ff"
 RUNTIME_PATH = "scenes/JobHuntMiniGame.gd"
@@ -331,7 +334,13 @@ def fresh_validation_proof():
         _verify_transition(tuple((path, *proof[path]) for path in CURRENT_PATHS))
         _require(not previous.source_errors(proof[LEDGER_PATH][0], LEDGER_PATH),
                  "predecessor ledger does not bind to immutable351")
-        current = ui_append.current_proof(ROOT, AFTER_COMMIT, {p: proof[p][1] for p in CURRENT_PATHS})
+        baseline = {p: proof[p][1] for p in CURRENT_PATHS}
+        ja_path = "locale/ui_ja.json"
+        ja_raw = ui_append._objects(ROOT, [(AFTER_COMMIT + ":" + ja_path, JA_BASELINE_BLOB, "blob")])[0]
+        _require(_sha(ja_raw) == JA_BASELINE_SHA256, "immutable Japanese baseline bytes differ")
+        baseline[ja_path] = ja_raw
+        current = ui_append.current_proof(ROOT, AFTER_COMMIT, baseline)
+        current["baseline_raw"] = baseline
         token = _ACTIVE_PROOF.set(proof)
         current_token = _ACTIVE_CURRENT.set(current)
         try:
@@ -348,7 +357,7 @@ def source_errors(raw: bytes, relative: str) -> list[str]:
         return ["ORDER-365: current source is not raw bytes " + relative]
     try:
         with fresh_validation_proof():
-            if relative in CURRENT_PATHS:
+            if relative in ui_append.CURRENT_PATHS:
                 _require(raw == _ACTIVE_CURRENT.get()["raw"][relative], "current raw differs from Git " + relative)
                 return []
             return previous.source_errors(raw, relative)
@@ -357,10 +366,10 @@ def source_errors(raw: bytes, relative: str) -> list[str]:
 
 
 def snapshot_errors(snapshot: Mapping[str, bytes]) -> list[str]:
-    """Admit the submitted whole46 snapshot, including both UI files and ledger."""
+    """Admit the submitted whole47 snapshot, including all UI files and ledger."""
     errors = []
     if set(snapshot) != set(LIVE_PATHS):
-        errors.append("ORDER-365: exact46 current snapshot paths drifted")
+        errors.append("ORDER-365: exact47 current snapshot paths drifted")
     try:
         with fresh_validation_proof():
             for relative in LIVE_PATHS:
@@ -722,7 +731,7 @@ def main() -> int:
         print("ORDER365_UI_RECEIPT_ERROR " + error)
     ledger = _loads((ROOT / LEDGER_PATH).read_bytes())
     accepted = sum(len(rows) for rows in ledger["accepted"].values())
-    print(f"ORDER365_UI_RECEIPT_{'FAIL' if errors else 'OK'} current_files=3 baseline_ui_keys=44 "
+    print(f"ORDER365_UI_RECEIPT_{'FAIL' if errors else 'OK'} current_files=4 baseline_ui_keys=44 "
           f"baseline_receipts=40346 baseline_batches=143 accepted={accepted} batch_total={len(ledger['batches'])} "
           f"live_files={len(LIVE_PATHS)} historical_files=17 historical_leaves=107 historical_cases={cases}")
     return int(bool(errors))

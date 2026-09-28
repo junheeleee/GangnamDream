@@ -21,6 +21,7 @@
         "tools/ui_translation_append.py",
         "tools/ui_translation_append_self_test.py",
         "tools/audit_scope.json",
+        "locale/ui_ja.json",
         "locale/ui_zh-CN.json",
         "locale/ui_zh-TW.json",
         "content/meta/full_game_localization.json",
@@ -36,7 +37,7 @@
         "tools/chapter1_core_loop_v2_causal_ledger_check.py",
         "tools/audit_select.py --verify"
       ],
-      "why": "Explicit-only verifier-development lane, not routine translation selection: portable CN/TW UI receipts, current KO binding, immutable365 raw inverse and rollback-safe Git history. Current46 observations remain actual. Original312 stays a separate historical fixture; no engine or long historical corpus."
+      "why": "Explicit-only verifier-development lane, not routine translation selection: portable JA/CN/TW UI receipts, current KO binding, immutable365 raw inverse and rollback-safe Git history. Current47 observations remain actual. Original312 stays a separate historical fixture; no engine or long historical corpus."
     },
     {
       "id": "current-ui-receipt-compat",
@@ -2035,8 +2036,25 @@
   ],
   "checks": [
     {
+      "tool": "tools/first_start_notice_self_test.py --delivery-headers",
+      "why": "Bounded same-selector literal collection and exact current-code/old-census separation; no historical suites.",
+      "paths": [
+        "tools/ja_translation_pipeline.py",
+        "tools/first_start_notice_self_test.py"
+      ]
+    },
+    {
+      "tool": "tools/ui_translation_append_self_test.py --three-locales",
+      "why": "Verifier-change-only three-locale append and current47 regressions; ordinary translation batches do not trigger this self-test.",
+      "paths": [
+        "tools/ui_translation_append.py",
+        "tools/ui_translation_append_self_test.py",
+        "tools/order365_ui_receipt_compat.py"
+      ]
+    },
+    {
       "tool": "tools/ui_translation_append_self_test.py",
-      "why": "Bounded append-only UI/receipt Git fixtures and current46 raw/payload regressions; no private receipt dependency.",
+      "why": "Bounded append-only UI/receipt Git fixtures and current raw/payload regressions; no private receipt dependency.",
       "paths": [
         "tools/ui_translation_append.py",
         "tools/ui_translation_append_self_test.py",
@@ -2052,6 +2070,7 @@
         "tools/ui_translation_append.py",
         "tools/ui_translation_append_self_test.py",
         "tools/order351_source_compat.py",
+        "locale/ui_ja.json",
         "locale/ui_zh-CN.json",
         "locale/ui_zh-TW.json",
         "content/meta/full_game_localization.json",

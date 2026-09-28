@@ -467,10 +467,161 @@ raise SystemExit(code)
                 "cases": 312 if not errors else 0, "errors": errors}
 
 
+def three_locales_self_test() -> tuple[list[str], int]:
+    """New JA boundary, unchanged CN/TW mode, and actual47; no old suite run."""
+    failures, cases = [], 0
+    def check(ok, label):
+        nonlocal cases
+        cases += 1
+        if not ok:
+            failures.append(label)
+    def reject(action, label):
+        try:
+            action()
+        except (ValueError, OSError, KeyError, TypeError, IndexError, subprocess.TimeoutExpired):
+            check(True, label)
+        else:
+            check(False, label)
+    env = {**os.environ, "GIT_CONFIG_NOSYSTEM": "1", "GIT_CONFIG_GLOBAL": os.devnull,
+           "GIT_AUTHOR_NAME": "isolated fixture", "GIT_AUTHOR_EMAIL": "fixture@example.invalid",
+           "GIT_COMMITTER_NAME": "isolated fixture", "GIT_COMMITTER_EMAIL": "fixture@example.invalid"}
+    for key in ("GIT_DIR", "GIT_WORK_TREE", "GIT_INDEX_FILE"):
+        env.pop(key, None)
+    with tempfile.TemporaryDirectory(prefix="ui-append-three-locales-") as directory:
+        root = Path(directory)
+        def git(*args):
+            result = subprocess.run(("git", *args), cwd=root, env=env, capture_output=True, timeout=30)
+            if result.returncode:
+                raise RuntimeError(result.stderr.decode())
+            return result.stdout.decode().strip()
+        def write(snapshot):
+            for path, raw in snapshot.items():
+                target = root / path
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_bytes(raw)
+        def commit(snapshot):
+            write(snapshot)
+            git("add", ".")
+            git("commit", "-qm", "bounded append fixture")
+            return git("rev-parse", "HEAD")
+        git("init", "-q")
+        import ja_translation_pipeline as ja
+        from third_party_notice_ui import SOURCE_PATHS
+        required = {"content/endings.json", "content/meta/event_lifecycle.json",
+                    "content/meta/demo_localization_scope.json", "playtests/order124/StoryChoiceM1M6Playtest.gd",
+                    *SOURCE_PATHS, *(v[0] for v in ja.CATALOG_SOURCES.values())}
+        write({p: b"{}\n" if p.endswith(".json") else b"# synthetic source\n" for p in required})
+        keys = ("배달 루트 설정", "비 오는 저녁 배달")
+        leaves = sorted([append.exchange.Leaf("ui", k, "runtime:static_ui", (k,), k, "ui_static_context")
+                         for k in keys], key=lambda leaf: leaf.id)
+        accepted = {loc: {"ui:old:/old": {"source_sha256": "1" * 64, "target_sha256": "2" * 64}}
+                    for loc in append.CURRENT_LOCALES}
+        ledger = {"schema_version": 1, "native_review": "OPEN", "accepted": accepted,
+                  "accepted_sha256": append.exchange.digest(accepted), "batches": [{"order": "immutable"}]}
+        before = {p: _raw({"old": "原文"}) for p in append.CURRENT_UI_PATHS}
+        before[append.LEDGER_PATH] = _raw(ledger)
+        baseline = commit(before)
+        inventory = {"leaves": leaves, "source_manifest_sha256": append._source_manifest(root, baseline)}
+        texts = {"ja": ("配達ルート設定", "雨の夕方の配達"),
+                 "zh-CN": ("配送路线设置", "雨天傍晚配送"), "zh-TW": ("配送路線設定", "雨天傍晚配送")}
+        def successor(locales):
+            values = {p: append.exchange.loads(raw.decode()) for p, raw in before.items()}
+            current, headers, hashes = values[append.LEDGER_PATH], {}, {}
+            for locale in locales:
+                rows = {}
+                for leaf in leaves:
+                    text = texts[locale][keys.index(leaf.owner)]
+                    values[f"locale/ui_{locale}.json"][leaf.owner] = text
+                    rows[leaf.id] = {"source_sha256": leaf.source_sha256, "target_sha256": append.exchange.digest(text)}
+                current["accepted"][locale].update(rows)
+                header = append.exchange.make_batch(inventory, locale, leaves, baseline, {}, {})[0]
+                headers[locale] = header
+                hashes[locale] = append.exchange.digest({"batch": header, "state": "accepted_machine_validated",
+                                                        "native_review": "OPEN", "translations": rows})
+            current["accepted_sha256"] = append.exchange.digest(current["accepted"])
+            current["batches"].append({"order": "three-locale-fixture", "group": "ui", "roots": list(keys),
+                "source_leaves": 2, "target_leaves_by_locale": {loc: 2 if loc in locales else 0 for loc in append.CURRENT_LOCALES},
+                "machine_validation": "PASS", "native_review": "OPEN", "receipt_sha256_by_locale": hashes,
+                append.HEADERS_FIELD: headers})
+            return {p: _raw(v) for p, v in values.items()}
+        after = successor(append.CURRENT_LOCALES)
+        check(append.validate_append(before, before, inventory)["receipts"] == 0, "unchanged4")
+        check(append.validate_append(before, after, inventory)["receipts"] == 6, "three locales6")
+        check(append.validate_append(before, successor(("ja",)), inventory)["receipts"] == 2, "JA-only2")
+        cn_after = successor(append.LOCALES)
+        check(append.validate_append(before, cn_after, inventory)["receipts"] == 4, "Chinese-only with observed JA")
+        check(append.validate_append({p: before[p] for p in append.PATHS}, {p: cn_after[p] for p in append.PATHS}, inventory)["receipts"] == 4,
+              "unchanged historical3 interface")
+        for path in append.CURRENT_PATHS:
+            reject(lambda p=path: append.validate_append(before, {**after, p: before[p]}, inventory), "mixed rollback " + path)
+            reject(lambda p=path: append.validate_append(before, {**after, p: after[p] + b"\n"}, inventory), "raw neighbor " + path)
+        ja_path = "locale/ui_ja.json"
+        for text in (None, True, "", "changed old"):
+            value = append.exchange.loads(after[ja_path].decode())
+            value["old" if text == "changed old" else keys[0]] = text
+            reject(lambda v=value: append.validate_append(before, {**after, ja_path: _raw(v)}, inventory), "JA nontext/old value " + repr(text))
+        raw_duplicate = after[ja_path].replace(b'"old":', b'"old": "duplicate", "old":', 1)
+        reject(lambda: append.validate_append(before, {**after, ja_path: raw_duplicate}, inventory), "raw duplicate JA")
+        for label, mutate in (
+            ("missing JA receipt", lambda v: v["accepted"]["ja"].pop(leaves[0].id)),
+            ("JA source SHA", lambda v: v["accepted"]["ja"][leaves[0].id].update(source_sha256="0" * 64)),
+            ("JA target SHA", lambda v: v["accepted"]["ja"][leaves[0].id].update(target_sha256="0" * 64)),
+            ("JA count bool", lambda v: v["batches"][-1]["target_leaves_by_locale"].update(ja=True)),
+            ("JA count null", lambda v: v["batches"][-1]["target_leaves_by_locale"].update(ja=None)),
+            ("root count bool", lambda v: v["batches"][-1].update(source_leaves=True)),
+            ("missing JA header", lambda v: v["batches"][-1][append.HEADERS_FIELD].pop("ja")),
+            ("JA header locale", lambda v: v["batches"][-1][append.HEADERS_FIELD]["ja"].update(locale="zh-CN")),
+            ("missing JA digest", lambda v: v["batches"][-1]["receipt_sha256_by_locale"].pop("ja")),
+        ):
+            value = append.exchange.loads(after[append.LEDGER_PATH].decode())
+            mutate(value)
+            value["accepted_sha256"] = append.exchange.digest(value["accepted"])
+            reject(lambda v=value: append.validate_append(before, {**after, append.LEDGER_PATH: _raw(v)}, inventory), label)
+        protected = {**inventory, "leaves": [replace(leaves[0], protected=True), leaves[1]]}
+        reject(lambda: append.validate_append(before, after, protected), "protected key")
+        value = append.exchange.loads(after["locale/ui_zh-CN.json"].decode())
+        value["old"] = "changed neighbor"
+        reject(lambda: append.validate_append(before, {**after, "locale/ui_zh-CN.json": _raw(value)}, inventory), "other locale old value")
+        commit(after)
+        check(append.validate_history(root, baseline, before, after, inventory)["receipts"] == 6, "committed4 append")
+        reject(lambda: append.validate_history(root, baseline, before, before, inventory), "submitted complete rollback")
+        with mock.patch.object(append, "_git", side_effect=OSError("Git lost")):
+            reject(lambda: append.validate_history(root, baseline, before, after, inventory), "fresh Git loss after success")
+        commit(before)
+        reject(lambda: append.validate_history(root, baseline, before, before, inventory), "committed rollback")
+        commit(after)
+        reject(lambda: append.validate_history(root, baseline, before, after, inventory), "rollback then restoration")
+    import order365_ui_receipt_compat as boundary
+    snapshot = {p: (ROOT / p).read_bytes() for p in boundary.LIVE_PATHS}
+    with boundary.fresh_validation_proof():
+        state = boundary._ACTIVE_CURRENT.get()
+        check(len(snapshot) == 47 and not boundary.snapshot_errors(snapshot), "actual47 current admission")
+        check(set(state["raw"]) == set(append.CURRENT_PATHS), "actual4 current UI/ledger exposure")
+        raw = snapshot["locale/ui_ja.json"]
+        check(not boundary.source_errors(raw, "locale/ui_ja.json") and
+              boundary.observed_byte_hash("locale/ui_ja.json", hashlib.sha256(raw).hexdigest(), raw)
+              == (hashlib.sha256(raw).hexdigest(), []), "JA actual identity, no historical projection")
+        for path in append.CURRENT_PATHS:
+            check(bool(boundary.snapshot_errors({**snapshot, path: snapshot[path] + b"\n"})), "actual submitted mutation " + path)
+        check(bool(boundary.source_observation_errors(raw, {}, "locale/ui_ja.json")), "unbound JA payload")
+        baseline_raw = state["baseline_raw"]["locale/ui_ja.json"]
+        if raw != baseline_raw:
+            check(bool(boundary.source_errors(baseline_raw, "locale/ui_ja.json")), "actual JA baseline rollback")
+    check(boundary._ACTIVE_CURRENT.get() is None, "current scope cleanup")
+    return failures, cases
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--synthetic-only", action="store_true", help="author development only; not current acceptance")
+    parser.add_argument("--three-locales", action="store_true", help="bounded JA/current47 change tests only; no historical suite")
     args = parser.parse_args()
+    if args.three_locales:
+        errors, cases = three_locales_self_test()
+        for error in errors:
+            print("UI_TRANSLATION_APPEND_ERROR " + error)
+        print(f"UI_TRANSLATION_APPEND_THREE_LOCALES_{'FAIL' if errors else 'OK'} cases={cases}")
+        return int(bool(errors))
     errors, cases = synthetic_self_test()
     print(f"UI_TRANSLATION_APPEND_SYNTHETIC cases={cases}")
     if not args.synthetic_only:

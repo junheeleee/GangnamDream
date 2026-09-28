@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate portable, append-only Chinese UI receipts above an immutable base.
+"""Validate portable, append-only prepared-language UI receipts above a base.
 
 The caller owns and verifies the historical base. This module admits actual
 current bytes; its inverse is an internal preservation proof, never a UI view.
@@ -21,6 +21,10 @@ LOCALES = ("zh-CN", "zh-TW")
 UI_PATHS = tuple(f"locale/ui_{locale}.json" for locale in LOCALES)
 LEDGER_PATH = "content/meta/full_game_localization.json"
 PATHS = (*UI_PATHS, LEDGER_PATH)
+# Keep the original CN/TW fixture interface. Production admits all three locales.
+CURRENT_LOCALES = ("ja", *LOCALES)
+CURRENT_UI_PATHS = tuple(f"locale/ui_{locale}.json" for locale in CURRENT_LOCALES)
+CURRENT_PATHS = (*CURRENT_UI_PATHS, LEDGER_PATH)
 HEADERS_FIELD = "official_receipt_headers_by_locale"
 
 # A separately reviewed font-only source transition. These are not replacement
@@ -59,11 +63,11 @@ def _tail(document: _Document, path: tuple, old: list, new: list) -> tuple:
 def _raw_inverse(before: bytes, after: bytes, relative: str) -> None:
     old, new = _Document(before), _Document(after)
     replacements = []
-    if relative in UI_PATHS:
+    if relative in CURRENT_UI_PATHS:
         if len(new.value) > len(old.value):
             replacements.append(_tail(new, (), list(old.value), list(new.value)))
     else:
-        for locale in LOCALES:
+        for locale in CURRENT_LOCALES:
             a, b = old.value["accepted"][locale], new.value["accepted"][locale]
             if len(b) > len(a):
                 replacements.append(_tail(new, ("accepted", locale), list(a), list(b)))
@@ -82,11 +86,14 @@ def _raw_inverse(before: bytes, after: bytes, relative: str) -> None:
 def validate_append(before: Mapping[str, bytes], after: Mapping[str, bytes],
                     inventory: dict[str, Any]) -> dict[str, Any]:
     """Pure transition checks, also used with explicit synthetic test fixtures."""
-    require(set(before) == set(after) == set(PATHS), "exact three-path snapshot required")
-    old = {path: _Document(before[path]).value for path in PATHS}
-    new = {path: _Document(after[path]).value for path in PATHS}
+    require(set(before) == set(after) and set(before) in (set(PATHS), set(CURRENT_PATHS)),
+            "exact three- or four-path snapshot required")
+    locales = CURRENT_LOCALES if set(before) == set(CURRENT_PATHS) else LOCALES
+    ui_paths = tuple(f"locale/ui_{locale}.json" for locale in locales)
+    old = {path: _Document(before[path]).value for path in before}
+    new = {path: _Document(after[path]).value for path in after}
     additions = {}
-    for locale, path in zip(LOCALES, UI_PATHS):
+    for locale, path in zip(locales, ui_paths):
         a, b = old[path], new[path]
         require(isinstance(a, dict) and isinstance(b, dict), "UI dictionary shape: " + locale)
         require(list(b)[:len(a)] == list(a)
@@ -113,14 +120,15 @@ def validate_append(before: Mapping[str, bytes], after: Mapping[str, bytes],
                 and _ordered({k: current[k] for k in previous}) == _ordered(previous),
                 "old receipt changed/deleted/reordered: " + locale)
         receipt_additions[locale] = {key: current[key] for key in list(current)[len(previous):]}
-    require(not receipt_additions["ja"], "Japanese receipt append is outside the two-file UI boundary")
+    require("ja" in locales or not receipt_additions["ja"],
+            "Japanese receipt requires the Japanese UI snapshot")
     require(isinstance(a["batches"], list) and isinstance(b["batches"], list)
             and _ordered(b["batches"][:len(a["batches"])]) == _ordered(a["batches"]),
             "old batches changed/deleted/reordered")
     batches = b["batches"][len(a["batches"]):]
     leaves = {leaf.id: leaf for leaf in inventory["leaves"]}
     require(len(leaves) == len(inventory["leaves"]), "duplicate current source leaf ID")
-    for locale in LOCALES:
+    for locale in locales:
         expected = {}
         for key, text in additions[locale].items():
             leaf = leaves.get(receipt_id(key))
@@ -131,7 +139,7 @@ def validate_append(before: Mapping[str, bytes], after: Mapping[str, bytes],
             require(not errors, "translation rejected " + locale + ":" + key + ": " + "; ".join(errors))
             expected[leaf.id] = {"source_sha256": leaf.source_sha256, "target_sha256": exchange.digest(text)}
         require(receipt_additions[locale] == expected, "UI/receipt/source/target additions differ: " + locale)
-    assigned = {locale: set() for locale in LOCALES}
+    assigned = {locale: set() for locale in locales}
     manifests = {}
     for batch in batches:
         require(isinstance(batch, dict) and batch.get("group") == "ui"
@@ -145,15 +153,15 @@ def validate_append(before: Mapping[str, bytes], after: Mapping[str, bytes],
                 "new batch roots/count mismatch")
         counts = batch.get("target_leaves_by_locale")
         require(isinstance(counts, dict) and set(counts) == {"ja", *LOCALES}
-                and type(counts["ja"]) is int and counts["ja"] == 0
-                and all(type(counts[loc]) is int and counts[loc] in (0, len(roots)) for loc in LOCALES),
+                and all(type(counts[loc]) is int and counts[loc] in (0, len(roots)) for loc in CURRENT_LOCALES)
+                and ("ja" in locales or counts["ja"] == 0),
                 "new batch locale/count mismatch")
-        locales = {loc for loc in LOCALES if counts[loc]}
+        batch_locales = {loc for loc in locales if counts[loc]}
         headers, hashes = batch.get(HEADERS_FIELD), batch.get("receipt_sha256_by_locale")
-        require(bool(locales) and isinstance(headers, dict) and isinstance(hashes, dict)
-                and set(headers) == set(hashes) == locales, "portable official receipt headers/locales missing")
+        require(bool(batch_locales) and isinstance(headers, dict) and isinstance(hashes, dict)
+                and set(headers) == set(hashes) == batch_locales, "portable official receipt headers/locales missing")
         ids = {receipt_id(key) for key in roots}
-        for locale in locales:
+        for locale in batch_locales:
             require(not assigned[locale].intersection(ids) and ids <= set(receipt_additions[locale]),
                     "duplicate/orphan/out-of-batch receipt: " + locale)
             header = headers[locale]
@@ -175,11 +183,11 @@ def validate_append(before: Mapping[str, bytes], after: Mapping[str, bytes],
             require(revision not in manifests or manifests[revision] == header["source_manifest_sha256"],
                     "one source revision claims different manifests")
             manifests[revision] = header["source_manifest_sha256"]
-    require(all(assigned[loc] == set(receipt_additions[loc]) for loc in LOCALES),
+    require(all(assigned[loc] == set(receipt_additions[loc]) for loc in locales),
             "new receipts lack exactly one official unit batch")
-    for path in PATHS:
+    for path in before:
         _raw_inverse(before[path], after[path], path)
-    return {"ui_by_locale": {loc: len(additions[loc]) for loc in LOCALES}, "batches": len(batches),
+    return {"ui_by_locale": {loc: len(additions[loc]) for loc in locales}, "batches": len(batches),
             "receipts": sum(len(v) for v in receipt_additions.values()), "source_manifests": manifests}
 
 
@@ -209,12 +217,12 @@ def _objects(root: Path, requests: list[tuple[str, str, str]]) -> list[bytes]:
     return result
 
 
-def _snapshot(root: Path, revision: str) -> dict[str, bytes]:
-    expressions = [revision + ":" + path for path in PATHS]
+def _snapshot(root: Path, revision: str, paths=PATHS) -> dict[str, bytes]:
+    expressions = [revision + ":" + path for path in paths]
     ids = _git(root, "rev-parse", *expressions).decode().splitlines()
-    require(len(ids) == len(PATHS) and all(re.fullmatch(r"[0-9a-f]{40}", oid) for oid in ids),
+    require(len(ids) == len(paths) and all(re.fullmatch(r"[0-9a-f]{40}", oid) for oid in ids),
             "current Git file identities malformed")
-    return dict(zip(PATHS, _objects(root, [(expr, oid, "blob") for expr, oid in zip(expressions, ids)])))
+    return dict(zip(paths, _objects(root, [(expr, oid, "blob") for expr, oid in zip(expressions, ids)])))
 
 
 def aruba_font_predecessor(root: Path, raw: bytes) -> bytes:
@@ -308,15 +316,18 @@ def _source_manifest(root: Path, revision: str) -> str:
 def validate_history(root: Path, baseline_commit: str, baseline: Mapping[str, bytes],
                      current: Mapping[str, bytes], inventory: dict[str, Any]) -> dict[str, Any]:
     """Fresh first-parent history: a committed rollback stays rejected even after restoration."""
+    require(set(baseline) == set(current) and set(baseline) in (set(PATHS), set(CURRENT_PATHS)),
+            "Git history snapshot population differs")
+    paths = CURRENT_PATHS if set(baseline) == set(CURRENT_PATHS) else PATHS
     head = _git(root, "rev-parse", "--verify", "HEAD^{commit}").decode().strip()
     require(re.fullmatch(r"[0-9a-f]{40}", head) is not None, "invalid current Git candidate")
     lineage = _git(root, "rev-list", "--first-parent", head).decode().splitlines()
     require(baseline_commit in lineage, "baseline is not on the current first-parent lineage")
-    require(_snapshot(root, baseline_commit) == baseline, "Git baseline differs from immutable caller proof")
-    candidate = _snapshot(root, head)
+    require(_snapshot(root, baseline_commit, paths) == baseline, "Git baseline differs from immutable caller proof")
+    candidate = _snapshot(root, head, paths)
     require(candidate == current, "submitted/current raw differs from actual Git candidate")
     commits = _git(root, "log", "--first-parent", "--full-history", "--reverse", "--format=%H",
-                   baseline_commit + ".." + head, "--", *PATHS).decode().splitlines()
+                   baseline_commit + ".." + head, "--", *paths).decode().splitlines()
     expected_order = list(reversed(lineage[:lineage.index(baseline_commit)]))
     require(len(set(commits)) == len(commits) and commits == [c for c in expected_order if c in commits],
             "Git transition history order/population malformed")
@@ -328,8 +339,8 @@ def validate_history(root: Path, baseline_commit: str, baseline: Mapping[str, by
         raw = _objects(root, [(commit, commit, "commit")])[0]
         parents = [line[7:].decode() for line in raw.split(b"\n\n", 1)[0].splitlines() if line.startswith(b"parent ")]
         require(bool(parents) and parents[0] in lineage, "Git transition parent missing from current lineage")
-        require(_snapshot(root, parents[0]) == previous, "omitted/noncontiguous UI receipt transition")
-        successor = _snapshot(root, commit)
+        require(_snapshot(root, parents[0], paths) == previous, "omitted/noncontiguous UI receipt transition")
+        successor = _snapshot(root, commit, paths)
         change = validate_append(previous, successor, inventory)
         for revision, expected in change["source_manifests"].items():
             _git(root, "merge-base", "--is-ancestor", revision, parents[0])
@@ -353,7 +364,11 @@ def validate_history(root: Path, baseline_commit: str, baseline: Mapping[str, by
 
 def current_proof(root: Path, baseline_commit: str, baseline: Mapping[str, bytes]) -> dict[str, Any]:
     """Production entry: collect once per caller context; never accept a supplied inventory."""
-    current = {path: (root / path).read_bytes() for path in PATHS}
+    if set(baseline) == set(PATHS):
+        # Preserve the old caller signature, but never leave JA unobserved.
+        baseline = {**baseline, **_snapshot(root, baseline_commit, ("locale/ui_ja.json",))}
+    require(set(baseline) == set(CURRENT_PATHS), "production requires all three UI dictionaries and ledger")
+    current = {path: (root / path).read_bytes() for path in CURRENT_PATHS}
     font_raw = (root / ARUBA_FONT_PATH).read_bytes()
     aruba_font_predecessor(root, font_raw)
     inventory = exchange.collect(root)

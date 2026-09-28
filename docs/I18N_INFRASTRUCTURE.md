@@ -37,14 +37,16 @@ Preview `audit_select.py --lane full-game-localization-overlays --list`, then ru
 that named lane; generic path selection with audit_scope edits can select unrelated
 legacy/runtime checks even when the translation batch changes no runtime.
 
-For new Chinese UI keys, `tools/ui_translation_append.py` connects accepted
+For new Japanese and Chinese UI keys, `tools/ui_translation_append.py` connects accepted
 additions to the existing historical audits without a new per-batch compatibility
 module. Keep the original import receipt's `batch` header in the ledger batch's
 `official_receipt_headers_by_locale`, retain its receipt digest, and commit the
-UI additions and matching ledger additions together. Validation binds current
+UI additions and matching ledger additions together. Its four-file snapshot includes
+all three locale dictionaries and the ledger, even when a batch targets fewer locales.
+Validation binds current
 Korean leaves, targets, actual Git source manifests and append history; removing
 the additions must restore the historical bytes exactly. Existing-key edits,
-deletions, protected-demo rows and other locale/group or source-manifest changes are outside this
+deletions, protected-demo rows and other group or source-manifest changes are outside this
 append boundary. Run its focused self-test when changing the verifier, not for
 every unchanged translation batch; independent text review and changed-screen
 checks remain necessary. Native and release gates stay separate.

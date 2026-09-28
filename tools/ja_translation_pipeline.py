@@ -6238,5 +6238,185 @@ def _current_demo_notice_raw_view(source=None):
 _notice_raw_view = _current_demo_notice_raw_view
 # END_CURRENT_DEMO_EXPECTATION_370
 
+# BEGIN_NONFORMAT_BRANCH_378
+# Current additions are collected separately from the sealed historical census.
+NONFORMAT_APPEND_SHA = "66fc1f87d0c72e05936f7ab9a80322a1396177b89c3329bf35c34ec51058a690"
+NONFORMAT_BEFORE_COMMIT = "d03d002ac82fb9e3cf9f8d41c216db776e609568"
+NONFORMAT_BEFORE_BLOB = "8885353cc64c2dd4e7ea2594facf56b271d643d2"
+NONFORMAT_BEFORE_SHA = "62373cc5414de2d1d636a9fd181870d687974a76a80bdf1c1b38581a4b505d8a"
+NONFORMAT_RUNTIME = "scenes/ArubaGame.gd"
+NONFORMAT_RUNTIME_SHA = "e9744c1467a3043f91f77f7c9faa7ab2039e55777311e90b8ae43d889bfc4eeb"
+NONFORMAT_PAIRS = (("비 오는 저녁 배달", "Rainy Evening Delivery"),
+                   ("배달 루트 설정", "Delivery Route Planning"))
+_NONFORMAT_OLD_PARSE = parse_ui_calls
+_NONFORMAT_OLD_COLLECT = collect_ui_inventory
+_NONFORMAT_OLD_PREDECESSOR = current_demo_pipeline_predecessor
+_NONFORMAT_OLD_CHECKS = _last11_meta_title_historical_checks
+
+
+def nonformat_pipeline_predecessor(raw):
+    """Remove only this sealed appendix; retain the exact preceding code blob."""
+    if not isinstance(raw, bytes) or Path(__file__).resolve() != ROOT / _NEW_RUN_JA:
+        raise ValueError("nonformat branch raw/import identity differs")
+    start, end = b"# BEGIN_NONFORMAT_BRANCH_378\n", b"# END_NONFORMAT_BRANCH_378\n\n"
+    if raw.count(start) != 1 or raw.count(end) != 1:
+        raise ValueError("nonformat branch appendix boundaries differ")
+    a, z = raw.index(start), raw.index(end) + len(end)
+    binding = ('NONFORMAT_APPEND_SHA = "' + NONFORMAT_APPEND_SHA + '"').encode()
+    span = raw[a:z]
+    if span.count(binding) != 1 or hashlib.sha256(span.replace(
+            binding, b'NONFORMAT_APPEND_SHA = "UNBOUND"', 1)).hexdigest() != NONFORMAT_APPEND_SHA:
+        raise ValueError("nonformat branch appendix seal differs")
+    previous = raw[:a] + raw[z:]
+    if hashlib.sha256(previous).hexdigest() != NONFORMAT_BEFORE_SHA:
+        raise ValueError("nonformat branch whole code inverse differs")
+    oid = _current_demo_git("rev-parse", NONFORMAT_BEFORE_COMMIT + ":" + _NEW_RUN_JA).decode().strip()
+    blob = _current_demo_git("show", NONFORMAT_BEFORE_COMMIT + ":" + _NEW_RUN_JA)
+    if oid != NONFORMAT_BEFORE_BLOB or blob != previous or hashlib.sha1(
+            b"blob " + str(len(blob)).encode() + b"\0" + blob).hexdigest() != oid:
+        raise ValueError("nonformat branch immutable code proof differs")
+    return previous
+
+
+def current_demo_pipeline_predecessor(raw):
+    return _NONFORMAT_OLD_PREDECESSOR(nonformat_pipeline_predecessor(raw))
+
+
+def nonformat_ui_calls(relative_path, source):
+    """Two plain literals around one shared, simple selector syntax.
+
+    Only a boolean name or zero-argument selector is supported. Nested ternaries,
+    string-valued conditions, formatting and mismatched conditions stay rejected.
+    Syntax does not prove purity; the admitted runtime registry binds the known
+    selector's actual source. This is not a general GDScript evaluator.
+    """
+    literal = r'"(?:\\.|[^"\\])*"'
+    branch = re.compile(r"^\s*(" + literal + r")\s+if\s+([A-Za-z_]\w*(?:\(\s*\))?)\s+else\s+(" + literal + r")\s*$", re.S)
+    functions = [(m.start(), m.group(1)) for m in GD_FUNCTION.finditer(source)]
+    offsets = [p for p, _ in functions]
+    calls, errors = [], []
+    for match in UI_PAIR_CALL_START.finditer(source):
+        try:
+            body, end = _balanced_call_body(source, match.start())
+            args = _split_gd_arguments(body)
+            if len(args) < 2 or not any(_has_condition_outside_strings(a) for a in args[:2]):
+                continue
+            if re.match(r"\s*\.format\s*\(", source[end:end + 96]):
+                continue  # The original formatted-branch parser remains the owner.
+            parsed = [branch.fullmatch(a) for a in args[:2]]
+            if len(args) != 2 or not all(parsed) or _normalize_gd_expression(parsed[0][2]) != _normalize_gd_expression(parsed[1][2]):
+                raise ValueError("requires two literal branches and the same simple selector")
+            if re.match(r"\s*(?:\.|%|\[)", source[end:end + 96]):
+                raise ValueError("post-lookup expression is not a plain branch")
+            index = bisect.bisect_right(offsets, match.start()) - 1
+            owner = functions[index][1] if index >= 0 else "<module>"
+            for part in (1, 3):
+                ko, en = (decode_gd_string(p[part]) for p in parsed)
+                if not ko.strip() or not en.strip():
+                    raise ValueError("empty branch literal")
+                calls.append(UiCall(relative_path, owner, source.count("\n", 0, match.start()) + 1,
+                                    "branch", ko, en))
+        except (ValueError, IndexError) as exc:
+            errors.append(f"{relative_path}: nonformat UI branch: {exc}")
+    return calls, errors
+
+
+def parse_ui_calls(relative_path, source):
+    old, errors = _NONFORMAT_OLD_PARSE(relative_path, source)
+    if relative_path != NONFORMAT_RUNTIME:
+        return old, errors  # Other discovered conditional surfaces need their own scope.
+    added, extra_errors = nonformat_ui_calls(relative_path, source)
+    return sorted([*old, *added], key=lambda call: call.line), [*errors, *extra_errors]
+
+
+def _nonformat_registry_errors(calls):
+    from collections import Counter
+    expected = Counter((NONFORMAT_RUNTIME, "open", "branch", ko, en, "") for ko, en in NONFORMAT_PAIRS)
+    actual = Counter((c.path, c.function, c.api, c.korean, c.english, c.context_id) for c in calls)
+    return [] if actual == expected else ["nonformat UI branch: exact two-title registry differs"]
+
+
+def _nonformat_collect(contract=None):
+    from unittest.mock import patch
+    captures, extra_errors = {}, []
+    def historical_parse(path, source):
+        if path != NONFORMAT_RUNTIME:
+            return _NONFORMAT_OLD_PARSE(path, source)
+        additions, errors = nonformat_ui_calls(path, source)
+        # The old collector may parse a file again in an older comparison scope.
+        if additions or errors:
+            captures[(path, hashlib.sha256(source.encode()).hexdigest())] = additions
+            extra_errors.extend(errors)
+        return _NONFORMAT_OLD_PARSE(path, source)
+    with patch.object(sys.modules[__name__], "parse_ui_calls", historical_parse):
+        baseline = _NONFORMAT_OLD_COLLECT(contract)
+    added = [call for rows in captures.values() for call in rows]
+    extra_errors.extend(_nonformat_registry_errors(added))
+    if captures.keys() != {(NONFORMAT_RUNTIME, NONFORMAT_RUNTIME_SHA)}:
+        extra_errors.append("nonformat UI branch: current owner/raw population differs")
+    if baseline.errors or extra_errors:
+        return _gift_replace(baseline, errors=tuple([*baseline.errors, *extra_errors]))
+    if any(c.korean in {ko for ko, _ in NONFORMAT_PAIRS} for c in baseline.calls):
+        return _gift_replace(baseline, errors=("nonformat UI branch: old inventory overlap",))
+    result = _new_run_log_inventory(baseline, (*baseline.calls, *added), contract)
+    # Preserve existing translation cache IDs and hashes, not just KO lookup keys.
+    previous_entries = {e.source: e for e in baseline.legacy_entries}
+    entries = tuple(previous_entries.get(e.source, _gift_replace(e, key="ui::branch::" + hashlib.sha1(e.source.encode()).hexdigest()))
+                    for e in result.legacy_entries)
+    result = _gift_replace(result, legacy_entries=entries,
+                          legacy_blueprint={e.source: {"$entry": e.key} for e in entries})
+    result.stats["nonformat_added_calls"] = len(added)
+    result.stats["nonformat_previous_stats"] = dict(baseline.stats)
+    result.stats["nonformat_previous_calls_sha256"] = hashlib.sha256(json.dumps(
+        [vars(c) for c in baseline.calls], ensure_ascii=False, sort_keys=True).encode()).hexdigest()
+    result.stats["nonformat_previous_entries_sha256"] = hashlib.sha256(json.dumps(
+        [(e.key, e.source, e.source_hash) for e in baseline.legacy_entries],
+        ensure_ascii=False).encode()).hexdigest()
+    changed = {"source_calls", "legacy_calls", "branch_variant_calls", "legacy_keys",
+               "parameter_total_ui_call_occurrences", "parameter_legacy_pair_call_occurrences",
+               "parameter_legacy_korean_source_keys", "parameter_legacy_korean_source_keys_sha256"}
+    preserved = (tuple(e for e in entries if e.source in previous_entries) == baseline.legacy_entries
+                 and {k: v for k, v in result.legacy_blueprint.items() if k in previous_entries} == baseline.legacy_blueprint
+                 and result.planned_context_entries == baseline.planned_context_entries
+                 and result.planned_context_blueprint == baseline.planned_context_blueprint
+                 and result.observed_context_entries == baseline.observed_context_entries
+                 and result.observed_context_blueprint == baseline.observed_context_blueprint
+                 and all(result.stats.get(k) == v for k, v in baseline.stats.items() if k not in changed))
+    if not preserved:
+        return _gift_replace(result, errors=("nonformat UI branch: unrelated inventory fields changed",))
+    result.stats["nonformat_preserved_fields_verified"] = True
+    return result
+
+
+@contextmanager
+def nonformat_historical_inventory():
+    """Explicit old-census scope for unchanged historical tests, never current QA."""
+    from unittest.mock import patch
+    nonformat_pipeline_predecessor(Path(__file__).read_bytes())
+    with patch.object(sys.modules[__name__], "parse_ui_calls", _NONFORMAT_OLD_PARSE), \
+            patch.object(sys.modules[__name__], "collect_ui_inventory", _NONFORMAT_OLD_COLLECT), \
+            patch.object(sys.modules[__name__], "_last11_meta_title_historical_checks", _NONFORMAT_OLD_CHECKS):
+        yield
+
+
+def _nonformat_historical_checks(inventory):
+    keys = {ko for ko, _ in NONFORMAT_PAIRS}
+    added = [c for c in inventory.calls if c.korean in keys]
+    errors = [*inventory.errors, *_nonformat_registry_errors(added)]
+    if errors:
+        return _gift_replace(inventory, errors=tuple(errors)), 0, errors
+    with nonformat_historical_inventory():
+        baseline = _NONFORMAT_OLD_COLLECT()
+        remaining = tuple(c for c in inventory.calls if c.korean not in keys)
+        if remaining != baseline.calls:
+            errors = ["nonformat UI branch: historical remaining calls differ"]
+            return _gift_replace(inventory, errors=tuple(errors)), 0, errors
+        return _NONFORMAT_OLD_CHECKS(baseline)
+
+
+collect_ui_inventory = _nonformat_collect
+_last11_meta_title_historical_checks = _nonformat_historical_checks
+# END_NONFORMAT_BRANCH_378
+
 if __name__ == "__main__":
     sys.exit(main())

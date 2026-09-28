@@ -367,5 +367,124 @@ def main():
     return int(bool(old_exit or failures))
 
 
+_DELIVERY_OLD_NORMAL = normal
+_DELIVERY_OLD_HISTORY_VIEW = historical_view
+_DELIVERY_OLD_MAIN = main
+
+
+def normal(current, previous):
+    # The unchanged14 assert the notice transition's historical census, not378.
+    with pipeline.nonformat_historical_inventory():
+        return _DELIVERY_OLD_NORMAL(current, previous)
+
+
+@contextmanager
+def historical_view(previous, observation):
+    with pipeline.nonformat_historical_inventory():
+        with _DELIVERY_OLD_HISTORY_VIEW(previous, observation):
+            yield
+
+
+def delivery_headers_self_test():
+    """One actual collection plus bounded parser/code/registry mutations."""
+    failures, cases = [], 0
+    def check(ok, label):
+        nonlocal cases
+        cases += 1
+        if not ok:
+            failures.append(label)
+    def reject(action, label):
+        try:
+            action()
+        except (ValueError, OSError, TypeError):
+            check(True, label)
+        else:
+            check(False, label)
+    before = pins()
+    raw = (ROOT / PIPELINE).read_bytes()
+    prior = pipeline.nonformat_pipeline_predecessor(raw)
+    check(sha(prior) == pipeline.NONFORMAT_BEFORE_SHA, "whole historical code inverse")
+    check(sha(pipeline.current_demo_pipeline_predecessor(raw)) == PIPELINE_SHA, "unchanged274 code pin")
+    inventory = pipeline.collect_ui_inventory()
+    print("DELIVERY_HEADERS_COLLECTION " + json.dumps({"errors": inventory.errors,
+          "stats": inventory.stats}, ensure_ascii=False))
+    keys = {ko for ko, _ in pipeline.NONFORMAT_PAIRS}
+    added = [c for c in inventory.calls if c.korean in keys]
+    remaining = [c for c in inventory.calls if c.korean not in keys]
+    previous_stats = inventory.stats.get("nonformat_previous_stats", {})
+    check(not inventory.errors, "actual collector errors: " + repr(inventory.errors))
+    check(not pipeline._nonformat_registry_errors(added), "actual exact two-title registry")
+    if len(added) != 2 or inventory.errors:
+        return failures, cases, {"collector_errors": inventory.errors, "current_stats": inventory.stats}
+    check(len(inventory.calls) == 3468 and inventory.stats.get("legacy_keys") == 2951
+          and previous_stats.get("source_calls") == 3466 and previous_stats.get("legacy_keys") == 2949,
+          "separate current and historical census")
+    check(sha(json.dumps([vars(c) for c in remaining], ensure_ascii=False, sort_keys=True).encode())
+          == inventory.stats.get("nonformat_previous_calls_sha256"), "all prior calls unchanged")
+    old_entries = [(e.key, e.source, e.source_hash) for e in inventory.legacy_entries if e.source not in keys]
+    check(sha(json.dumps(old_entries, ensure_ascii=False).encode())
+          == inventory.stats.get("nonformat_previous_entries_sha256"), "all prior IDs/source hashes unchanged")
+    check(inventory.stats.get("nonformat_preserved_fields_verified") is True,
+          "prior entries/blueprints/context/nonowned stats unchanged")
+    plain = 'func open():\n\tLocaleManager.ui("비" if wet() else "맑음", "Rain" if wet() else "Clear")\n'
+    added_plain, parse_errors = pipeline.nonformat_ui_calls("fixture.gd", plain)
+    check(not parse_errors and [(c.korean, c.english) for c in added_plain] == [("비", "Rain"), ("맑음", "Clear")], "same selector pairs")
+    for label, value in (
+        ("different conditions", plain.replace('"Rain" if wet()', '"Rain" if dry()')),
+        ("condition literal", plain.replace('wet()', 'weather == "rain"')),
+        ("nested condition", plain.replace('"비" if wet()', '"비" if wet() else "눈" if cold()')),
+        ("unpaired argument", plain.replace('"Rain" if wet() else "Clear"', '"Rain"')),
+        ("third argument", plain.replace('else "Clear")', 'else "Clear", true)')),
+        ("empty literal", plain.replace('"비"', '""')),
+        ("format operator", plain.replace('else "Clear")', 'else "Clear") % 2')),
+        ("property suffix", plain.replace('else "Clear")', 'else "Clear").length()')),
+    ):
+        _calls, errors = pipeline.nonformat_ui_calls("fixture.gd", value)
+        check(bool(errors), label)
+    formatted = plain.replace('else "Clear")', 'else "Clear").format({})')
+    check(pipeline.nonformat_ui_calls("fixture.gd", formatted) == ([], []), "formatted branch stays with old parser")
+    check(pipeline.parse_ui_calls("fixture.gd", formatted) == pipeline._NONFORMAT_OLD_PARSE("fixture.gd", formatted),
+          "formatted parser output unchanged")
+    check(pipeline.nonformat_ui_calls("fixture.gd", 'func open():\n\tLocaleManager.ui("비", "Rain")\n') == ([], []),
+          "literal call not duplicated")
+    for label, calls in (("missing pair", added[:1]), ("duplicate pair", [*added, added[0]]),
+                         ("owner drift", [replace(added[0], function="other"), added[1]]),
+                         ("English drift", [replace(added[0], english="Other"), added[1]])):
+        check(bool(pipeline._nonformat_registry_errors(calls)), label)
+    for label, mutant in (("old code rollback", prior), ("code whitespace", raw + b"\n"),
+                          ("neighbor code", raw.replace(b'DEFAULT_MODEL = ', b'OTHER_MODEL = ', 1)),
+                          ("appendix mutation", raw.replace(b'exact two-title registry differs', b'exact two-title registry altered', 1))):
+        reject(lambda v=mutant: pipeline.nonformat_pipeline_predecessor(v), label)
+    with patch.object(pipeline, "_current_demo_git", side_effect=OSError("proof unavailable")):
+        reject(lambda: pipeline.nonformat_pipeline_predecessor(raw), "later Git loss after success")
+    git0 = pipeline._current_demo_git
+    def forged(*args):
+        result = git0(*args)
+        return result + b"x" if args[0] == "show" else result
+    with patch.object(pipeline, "_current_demo_git", side_effect=forged):
+        reject(lambda: pipeline.nonformat_pipeline_predecessor(raw), "forged Git blob after success")
+    check(pipeline.nonformat_pipeline_predecessor(raw) == prior, "fresh proof restored")
+    check(before == pins(), "physical inputs unchanged")
+    check(sha((ROOT / pipeline.NONFORMAT_RUNTIME).read_bytes()) == pipeline.NONFORMAT_RUNTIME_SHA,
+          "runtime raw unchanged")
+    return failures, cases, {"current_stats": inventory.stats, "added": [asdict(c) for c in added],
+                            "historical_suite_invocations": 0}
+
+
+def main():
+    if sys.argv[1:] == ["--delivery-headers"]:
+        try:
+            failures, cases, evidence = delivery_headers_self_test()
+        except Exception:
+            failures, cases, evidence = [traceback.format_exc()], 0, {}
+        print(json.dumps({"scope": "current nonformat delivery titles; original14/34 not rerun",
+                          "failures": failures, "cases": cases, **evidence}, ensure_ascii=False))
+        print("DELIVERY_HEADERS_SELF_TEST_" + ("FAIL" if failures else "OK") + f" cases={cases}")
+        return int(bool(failures))
+    print("FIRST_START_NOTICE_HISTORICAL_CENSUS current_nonformat_claim=false")
+    with pipeline.nonformat_historical_inventory():
+        return _DELIVERY_OLD_MAIN()
+
+
 if __name__ == "__main__":
     raise SystemExit(main())
