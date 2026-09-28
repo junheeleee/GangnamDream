@@ -1,0 +1,67 @@
+# ORDER-391 — 투자 패드 안내 중국어8값·실제 글꼴 연결
+
+#### [~] ORDER-391 [P0·현지화] 투자 패드 안내 중국어8값·실제 글꼴 연결
+
+**[~] 착수 — 2026-09-29.** 부모 ORDER-157, 사용자 개발·검수 위임.
+
+## 문제·판정 단위
+
+투자 화면의 패드 전용 안내4키가 CN/TW에서 영어로 남는다. 각 지역 한국어 직접
+번역4값, 총8값을 한 화면의 네 상태로 검수한다. normal_font 명시 연결은 없으나
+실제 결함은 아직 미관측이다. 실제 유효 font를 먼저 확인하고 잘못된 경로일 때만
+기존 FontKit regular 연결2줄을 수리한다. 입력·거래 규칙 변경0.
+
+깊이3문: 제거하면 페이지/자산/행동/뒤로 안내가 영어로 남는다. 장기 상태와
+경쟁 선택은 번역 작업에 해당하지 않으며 돈/AP/저장/서사 변화0을 보존한다.
+8값은 같은 소비자의 조건 분기이고 작은 모집단이므로 독립 검수 전량 대상이다.
+
+## 파일 소유·착수 범위
+
+- Root: `locale/ui_zh-CN.json`, `locale/ui_zh-TW.json`,
+  `content/meta/full_game_localization.json` 신규8값/2배치 append.
+  `scenes/MainGame.gd`는 `_open_investments`의 실제 유효 font 결함이 확인될 때만
+  `_invest_pad_hint_label` normal_font 기존 `_font_regular` 연결2줄. KO/EN/JA
+  문구·입력·폰트 크기·게임 상태는 불변. 조건 미충족 시 제품코드 변경0.
+- `/root/compat357`: 조건부 font 수리가 생길 때만
+  `tools/main_game_locale_history.py`, `tools/ui_translation_append.py`,
+  `tools/ui_translation_append_self_test.py`, `tools/audit_scope.json`의 exact
+  Git/raw 역삭제 successor와 해당 focused 반례/차선. 기존핀·원형함수·실패 보존.
+  JA pipeline/audit 변경0, 범용 예외·source 허위 대체·checker 완화0.
+- `/root/screen_path_probe`: private `order391-check.gd`, `order391-check.tscn`,
+  `order391-run.py` 및 격리 화면 증거만. 준비상태·font 관측 저자, 제품 변경0.
+- `/root/r3_route_probe`: 비저자 번역8값·조건부 코드/도구·helper·실제PNG 및
+  최종 source 독립 검수, private `order391-independent-review.json`.
+- 기록: 이 사양·큐2개·CLAUDE·WORK_LOG·STATUS·필요시 기존
+  `docs/history/WORK_LOG_2026-09-07_localization.md` 손실 없는 이동,
+  `docs/agent_reviews/ORDER-391.json`, `docs/agent_review_decisions.json`,
+  `docs/queue_archive/ORDER-391.md`; private `order391-*` 교환·검증·보존증거.
+
+## 정확한 번역 키
+
+1. `[b]패드[/b]  LB/RB 페이지 · %s 뒤로  —  %s`
+2. `[b]패드[/b]  LB/RB 페이지 · 거래 가능한 자산 없음`
+3. `거래 불가`
+4. `[b]패드[/b]  LB/RB 페이지 · ↑↓ 자산 · ←→ 행동 · %s %s · %s 뒤로  —  %s`
+
+각 key 소비자는 `_refresh_invest_pad_hint`, placeholder2/0/0/4·BBCode·버튼
+브랜드/페이지/행동/자산 인수 순서를 보존한다. 기존 JA4값·receipt0은 변경0.
+
+## 검증·비포함
+
+- 공식 export/check/import2배치, 한국어 의미·숫자·토큰·지역문자 전량검수,
+  기존 dictionary/receipt raw 역삭제. 새 source가 생기면 실제 Git 변경을 먼저
+  분리 commit하고 exact bridge와 focused 반례를 검수한다.
+- CN/TW × 비자산페이지/자산없음/거래불가/거래가능 4상태를 실제 MainGame
+  1280×800에서 관측. draft preview와 공식 dictionary cache주입0을 구분한다.
+  normal/bold 실효 font·glyph·BBCode·인수·경계/잘림·preautoload 격리·실사용자
+  저장 불변·typed복원을 확인한다. font수리 시 KO/EN/JA 최소 회귀 추가.
+- 영향 normal consumer5·JA UI/ZH/ENcoverage·context/queue/diff 및 차선조회만.
+  source검증 변경 때만 새 focused 반례. Chapter1 인과검사는 관측된 소요에 맞춰
+  처음부터720초 상한, 다른 표적 검사 병렬화. 변경 없는 역사 self·전체감사·240주0.
+- 준비된 pad상태는 자연진입/복귀·실입력·물리패드 증거가 아니다. 거래/콜백0.
+  기존11px크기·선택테두리 약3px잘림·동적상품/자산명 전수는 별도 후속.
+- GameState/경제/저장/project.godot/공개데모/사람원장/출시언어 불변.
+  기존154판정/132보고·역사 실패/GO/HOLD/OPEN 보존. 공개GO1·인간OPEN45·
+  본편/새package HOLD, 원어민/인간/물리 미관측. 외부출시/스토어/지출/법률0.
+- 규범: 기존 I18N/WORK_UNIT 재사용·새 상시규범0. 위 모집단·분담·검증은 일회성.
+  자동PASS는 계약증거이며 재미·깊이·문체·원어민/인간/출시GO가 아니다.
