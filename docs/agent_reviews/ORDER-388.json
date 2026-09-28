@@ -1,0 +1,77 @@
+{
+  "schema": "gangnamdream-independent-work-unit-review/v1",
+  "unit_id": "ORDER-388",
+  "scope": "work_unit",
+  "independent": true,
+  "reviewer": "/root/r3_route_probe",
+  "reviewed_at": "2026-09-29",
+  "verdict": "GO",
+  "required": [],
+  "subject": {
+    "kind": "source",
+    "commit": "fe3fac7b17057c52974cb6bbc0c1a8beaef4ffee",
+    "tree": "c62f1151a2f3129ec70be993617933f845d5315e",
+    "manifest_sha256": null
+  },
+  "conclusion": "은행·대출 UI 한국어 10키의 CN/TW 신규 20값과 선언된 실제 소비 화면을 한정 GO로 판정한다. 의미와 표시에서 필수 수정 사항을 발견하지 않았다. 전체 은행 완역·실제 거래·인간 또는 출시 GO가 아니다.",
+  "review": {
+    "independence": "번역·제품·검증기 저작에 참여하지 않았다. 한국어 실제 소비자와 20초안/수용값, 제품3파일 diff, 공식 교환/영수증, 동결 GD/runner 전체, 원시 실행 기록을 직접 읽었다. 검수자 수용 CLI·엔진 실행0.",
+    "meaning": "신용 등급과 100점 점수, 월 이율과 부채잔액/총한도, AP 무소비와 무이자, 500만원 상환과 전액 상환 요청을 구별했다. 2배 포지션을 수익 보장으로 바꾸지 않았고 원문에 없는 해금 수치를 넣지 않았다. 전액 버튼은 상환 요청이며 실제 현금으로 제한되는 처리의 완료를 보장하는 문장이 아니다. CN/TW를 각각 한국어에서 전량 대조했고 지역 용어와 토큰/금액/부호를 확인했다. 원어민 판정은 아니다.",
+    "product_and_receipts": "제품 b6945e0e253f73779afde9a9a2df4d93f11dd13d의 직접 부모는 선언22d32c7이다. 변경은 locale/ui_zh-CN.json·ui_zh-TW.json 각10 추가와 현지화 원장뿐이다. 각1371 기존값은 동일하고 신규값은 draft/response와 정확히 같다. export/check/import 각2배치20값, 공식 receipt2의 header·digest·신규accepted20을 대조했다. 기존40928 accepted/154 batches와 기타 원장 metadata를 보존하며40948/b156이 됐다. 전체 diff와 raw append 증거에서 기존 raw 재서식 변경을 발견하지 않았다.",
+    "visual": "draft-preflight 4PNG와 accepted-dictionary 4PNG를 별도로 모두 직접 봤다. 각 실행은 CN/TW 잠김/열림4준비상태, 고유20lookup·48실제노드/48binding이다. 실제 사전 실행은 cache 주입0이며 긴 잠금 안내, 월1.04%/1.50%, 신용9등급/18점, 0원 및500만원 부채,1400만원 한도와 상환 버튼의 잘림·누락·겹침을 관찰하지 않았다. SC/TC 폰트·glyph·문구/경계 측정과 원시48노드 PASS를 대조했다.",
+    "execution": "preflight12.742초와 accepted12.890초는 각각 exit0/marker1/빈 stderr·오류0이다. accepted 결과의10 artifact SHA를 재해시했고 entry=before=after 및 실사용자34파일 전후 동일을 확인했다. 실제 MainGame의 은행 페이지를 직접 준비해 호출한 관측이며 raw입력·대출/상환/레버리지 콜백·거래·정산0이다. 전체 typed 준비/복원, locale catalog 차이 제한, 격리 namespace를 확인했다. 원래 저장은 변경하지 않았고 증거용 격리 namespace는 보존했다."
+  },
+  "static_and_binding": {
+    "tested_commit": "b6945e0e253f73779afde9a9a2df4d93f11dd13d",
+    "tested_tree": "03cbd29cd86864b89c4a5a525e8f295a6b3c753e",
+    "checks": 10,
+    "selection_queries": 1,
+    "commands_total": 11,
+    "wall_seconds": 411.112,
+    "result": "current receipt guard·5 normal consumers·ZH·context·queue·diff의10검사와 차선조회1 모두 exit0/빈 stderr. 개별00..10 기록을 aggregate와 대조했고 entry/before/after가 동일하다. 조회된11개는 추가 실행이 아니다. Chapter1 310.887초의 SNAPSHOT_VALID는 debt8/blocked3 및 W25..48 gap24를 보존한 결과다.",
+    "final_bridge": "fresh current_agent_source_subject 및 clean Git HEAD/tree가 위 subject와 일치한다. 실제 실행 b6945e0에서 최종 fe3fac7로의 전체 diff는 CLAUDE 현재 상태2행뿐이다. 제품·도구·helper가 동일한 최종 소스에 실행 증거를 연결하며 최종 문서 커밋에서 제품 검사를 재실행한 것으로 세지 않는다."
+  },
+  "preservation": "선언22d32c7 대비 기존151판정·129보고·인간 원장131파일을 byte-exact 대조했다. 인간 SHA256은6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6이다. 원 ORDER-385 HOLD/accepted-screen FAIL 및 ORDER-386 최초 timeout/retry 결과를 이전 독립보고의 SHA와 재대조했다. 이를 소급 PASS로 바꾸지 않았다. KO/EN/JA·runtime·경제/조건·저장·공개 콘텐츠 변경0, 공개GO1/인간OPEN45·본편/새package HOLD 유지.",
+  "limits": [
+    "동적 상품명·신용 형용사·배경 영어·pad 부모 템플릿·레거시 전체 은행은 비소유/미완료다. 이번 준비값 밖의 모든 등급·금액 폭 또는 전체 은행 화면을 검수했다고 주장하지 않는다.",
+    "neutral focus 표시이며 기존 선택 CTA 테두리 약3px 잘림을 수리하거나 focus/입력 사용성을 승인하지 않는다.",
+    "초기 private oracle의 draft schema 조정은 엔진 전 준비 수정이다. 이번 공식 교환·preflight·accepted·정적 기록에 실패 실행은 없으며, 과거 다른 작업의 실패는 그대로 남겼다.",
+    "변경 없는 self/역사 corpus·전체 감사·240주·패키지는 재실행하지 않았다. root closure validator는 작성자 자동 증거이며 이 독립 판정을 대신하지 않는다."
+  ],
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "natural_ingress_and_return",
+    "actual_borrow_repay_or_leverage_transaction",
+    "full_bank_localization",
+    "full_game_and_new_package"
+  ],
+  "evidence": {
+    "locale/ui_zh-CN.json": "17498c882db7c63bedcc8a7035d63f3433a61e7f75b1dd248f717aeb9acbdef5",
+    "locale/ui_zh-TW.json": "850ad59442c80262c94b108a6479662c39326a9705db04cbc64adcbb2535c829",
+    "content/meta/full_game_localization.json": "9feb9fbcaa06acae6ef3341546c0a0e79c9703df08d6f575d0fb73a8e133600c",
+    ".git/full-game-localization/order388-zh-CN-draft.json": "385d51d472b3f9331f43a020e4b6e8c4a9b7575f3e5ae3880dc9ff55cb587663",
+    ".git/full-game-localization/order388-zh-TW-draft.json": "247f0ebb6bd30813fd36468a4f4de6faaeb7df0d1b98cdd59ac2783a39f949e0",
+    ".git/full-game-localization/order388-export-result.json": "bdf6a750c16a95c93f09957d6f6648b33ec1a051e1bdddabadd13cd2689acbf5",
+    ".git/full-game-localization/order388-response-check-result.json": "700d16e9cea7ebce068ec303ca572f01ceab27924a0038bc1d284ab4e89cca23",
+    ".git/full-game-localization/order388-zh-CN-import.txt": "a48cc730908060f1ee79f8c29647220ada72eb4c4b72a1b3a59033e3fe6f8d3f",
+    ".git/full-game-localization/order388-zh-TW-import.txt": "33074c35fef0a7a8e2844111b95b4d3f12a825f3dc52694916eecdfb17dbf0b7",
+    ".git/full-game-localization/order388-append-precommit.json": "323db1ab72d3c96d4fbeb7814a8c682b219e30b31cf0c38441b7d53e0c520112",
+    ".git/full-game-localization/zh-CN/full-ko-direct-2026-09-07.1/c3e04c343a53102dfe1f66fa4619cce5128625447c0c68592b3dcf88ecc49b82.accepted.json": "720a5ad4973e2f8dbb637c26df5b5a3878f200c7c2851db93e7a554ba9f24ced",
+    ".git/full-game-localization/zh-TW/full-ko-direct-2026-09-07.1/550b9c1c32d19c7f455d1a28124d0a98c4718d67a348208a4aa9f3af6d2ac717.accepted.json": "7b20fa60a8f3c4613426ac2738eba41dda23ddbab40f34b7439dee98f1348e08",
+    ".git/full-game-localization/order388-check.gd": "7dd50d554a9ce742653b4a421357dcd3b8c99f0ad5fa674f952b49231a38667b",
+    ".git/full-game-localization/order388-check.tscn": "41abc654e433ee388349580ad44e1ff1a27f0772906498d6854c371b23652f5a",
+    ".git/full-game-localization/order388-run.py": "1b8058419248f952b03bcb3eef16612c2d377ce283eeb4180c2bc4c394c739d3",
+    ".git/full-game-localization/order388-screen-preflight-first/result.json": "d041b54795f05702a81083c7e87f24f7427dbceb95c5fe07ad991f3772529e74",
+    ".git/full-game-localization/order388-screen-accepted-first/result.json": "be9e70258621127d1d48144b430f20ade4b7845f63aeeecd3f7c39e81aabbb44",
+    ".git/full-game-localization/order388-screen-accepted-first/entry.json": "b1de65a69e08510f567b91281c734abbe1d473b27c90a61a0158c2f07367487e",
+    ".git/full-game-localization/order388-screen-accepted-first/order388-observations.json": "5b04080a4f3b525f7a0d27411a2d115c62a30d74e23ca1b5979992cdee1c2d29",
+    ".git/full-game-localization/order388-static-first/entry.json": "39f191ea993a46d58ba22202948df7b6cdb0c80f1d0a9b9c8750c1ff08652c63",
+    ".git/full-game-localization/order388-static-first/result.json": "902f3bdd17c88e1c3395789271a6c6c5523fe3efbddeec1c00bd1cf8cd22799e",
+    ".git/full-game-localization/order385-independent-review.json": "2fe3cdac9c2af560d4c023eef08f60ccdcd935e4ef2f1b7b1ae6f494a42511b3",
+    ".git/full-game-localization/order385-screen-accepted-first/result.json": "1dbf4eea5f7b8f81325956a2cec7b726f70465ccd17ee16d95072db788179b2b",
+    ".git/full-game-localization/order386-static-first/result.json": "85188b2a473d005daa0ef8fdcd867c697c04303ef0103fcdd9d8e6c26061fff3",
+    ".git/full-game-localization/order386-static-ch5-timeout-retry/result.json": "772979a21253be6c3659b75a6e04699bad925dd1af47106dc03e265283fab586"
+  }
+}

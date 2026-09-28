@@ -1,3 +1,18 @@
+# ORDER-388 — 은행·대출 중국어 UI20값
+
+[x] 2026-09-29. 독립 work_unit 한정 GO.
+
+- 마감검증 첫 실행의 이력 개행 이중 계산 FAIL은 최초 helper/trace로 보존했다. old history102,453B+원문 suffix3,231B=105,684B exact를 별도 에이전트도 확인했다. 제품·원문 변경 없이 검사기 기대식만 수리해 마감검증 재시도 PASS.
+- 은행·대출의 월 이율·부채잔액/총한도·신용·AP 무소비·500만원/전액 상환·레버리지 잠금 안내10키를 CN/TW에서 각각 한국어 직접 번역했다. 새20값, 공식40,948/b156·CN/TW UI각1,381. KO/EN/JA·기존 UI/receipt raw·경제·저장·런타임 변경0.
+- 공식 export/check/import 각2배치·20값 전수 독립 의미검수·append 역삭제 PASS. 정적10검사+차선조회1 PASS(411.112초), 변경없는 self·전체감사·240주 재실행0. 실제 은행 소비자에서 2지역×잠김/열림4준비상태로10키 union·20lookup·48노드/4PNG를 관측했다(12.890초). 예비cache폭검사와 수용사전cache주입0 실행을 구분했다. 첫장 영향검사가310.887초로 최장이라 다음 배치는 이 항목부터 병렬 배정할 수 있다(검사 생략/성능개선 실측 주장은 아님).
+- 각 실행 전후 tracked/helper census·실사용자 저장 불변, 준비상태 전체 typed 복원·SC/TC font/glyph/경계 PASS. 대출/상환/매매·새 입력0. 기존151판정 raw prefix/129보고·사람원장·원385 HOLD 및386 timeout/retry 원본 보존, 새 work_unit GO1개만 append.
+- 검사 source `b6945e0e253f73779afde9a9a2df4d93f11dd13d`에서 전후 census 동일. 최종 source `fe3fac7b17057c52974cb6bbc0c1a8beaef4ffee` tree `c62f1151a2f3129ec70be993617933f845d5315e`는 CLAUDE 상태 요약만 추가했고 별도 제품 재실행으로 세지 않는다.
+- [독립 보고](../agent_reviews/ORDER-388.json) SHA `035c49998c31cc11deb2a70447ae808fc8124498fe55a74b1f7b13db6ec94158`.
+- 동적 대출상품명·신용 형용사·패드 부모문구·레거시 은행 전체와 기존 선택테두리 약3px 잘림은 미완료다. 자연진입/복귀·실제 거래·원어민·인간·물리 미관측. 공개GO1·인간OPEN45·본편/새package HOLD 유지, 전체은행 완역이나 출시GO가 아니다.
+- gangnamdream-dev의 선행선언·파일 소유분리·비저자 검수·격리/표적검증을 적용했다. 기존 I18N/WORK_UNIT 정본 재사용·상시규범 승격0·이번 모집단/검사계획은 일회성. 외부출시/스토어/지출/법률행위0. 자동PASS는 계약증거이며 재미·깊이·문체·사람GO의 증거가 아니다.
+
+## 최초 선언과 진행 원문 보존
+
 # Active Queue Spec: ORDER-388
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.

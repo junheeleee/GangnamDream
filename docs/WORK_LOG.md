@@ -2,6 +2,17 @@
 
 이전 원문 전체는 [2026-09-28 이전 기록](history/WORK_LOG_2026-09-28_pre_order351.md)에 바이트 그대로 보존했다.
 
+## 2026-09-29 (Codex — 중국어 은행 잔액·월 이율·상환 안내)
+
+- 마감검증 첫 실행은 이력 이동 구분 개행을 두 번 계산해 FAIL했다. 최초 helper/trace를 private `order388-closure-check-first*`로 보존했다. 원문 suffix3,231B가 이미 개행을 포함해 기존 이력102,453B+원문=105,684B와 정확히 같음을 별도 에이전트도 대조했다. 제품/이력 변경 없이 검사기 기대식만 바로잡아 마감검증 재시도 PASS.
+- 은행·대출의 월 이율·부채잔액/총한도·신용·AP 무소비·500만원/전액 상환·레버리지 잠금 안내10키를 CN/TW에서 각각 한국어 직접 번역했다. 새20값, 공식40,948/b156·CN/TW UI각1,381. KO/EN/JA·기존 UI/receipt raw·경제·저장·런타임 변경0.
+- 공식 export/check/import 각2배치·20값 전수 독립 의미검수·append 역삭제 PASS. 정적10검사+차선조회1 PASS(411.112초), 변경없는 self·전체감사·240주 재실행0. 실제 은행 소비자에서 2지역×잠김/열림4준비상태로10키 union·20lookup·48노드/4PNG를 관측했다(12.890초). 예비cache폭검사와 수용사전cache주입0 실행을 구분했다. 첫장 영향검사가310.887초로 최장이라 다음 배치는 이 항목부터 병렬 배정할 수 있다(검사 생략/성능개선 실측 주장은 아님).
+- 각 실행 전후 tracked/helper census·실사용자 저장 불변, 준비상태 전체 typed 복원·SC/TC font/glyph/경계 PASS. 대출/상환/매매·새 입력0. 기존151판정 raw prefix/129보고·사람원장·원385 HOLD 및386 timeout/retry 원본 보존, 새 work_unit GO1개만 append.
+- 검사 source `b6945e0e253f73779afde9a9a2df4d93f11dd13d`에서 전후 census 동일. 최종 source `fe3fac7b17057c52974cb6bbc0c1a8beaef4ffee` tree `c62f1151a2f3129ec70be993617933f845d5315e`는 CLAUDE 상태 요약만 추가했고 별도 제품 재실행으로 세지 않는다. [독립 검수](agent_reviews/ORDER-388.json) work_unit GO.
+- 동적 대출상품명·신용 형용사·패드 부모문구·레거시 은행 전체와 기존 선택테두리 약3px 잘림은 미완료다. 자연진입/복귀·실제 거래·원어민·인간·물리 미관측. 공개GO1·인간OPEN45·본편/새package HOLD 유지, 전체은행 완역이나 출시GO가 아니다.
+- gangnamdream-dev의 선행선언·파일 소유분리·비저자 검수·격리/표적검증을 적용했다. 기존 I18N/WORK_UNIT 정본 재사용·상시규범 승격0·이번 모집단/검사계획은 일회성. 외부출시/스토어/지출/법률행위0. 자동PASS는 계약증거이며 재미·깊이·문체·사람GO의 증거가 아니다.
+- 다음 읽기전용 후보는 신용4등급과 튜토리얼 위험 context의 CN/TW10값이다. 보통은 context로 분리하고 위험의 튜토리얼 fallback 영향을 함께 소유해야 한다. 대출상품명2는 동적 get_loan_name의 unverified 소비자라 정확 provider 별도 선언 전 단순 UI append 불가. JA상품명2/CN·TW각6의 명시 사전부재를 완역/모두영어로 세지 않는다(보통은 기존 plain fallback). 새 저작0, 기존 선택테두리 잘림도 별도 국소 수리로 남긴다.
+
 ## 2026-09-29 (Codex — 같은 검수의 중복 증명 비용 축소)
 
 - 실제 정상 CLI 1회 76.769초, 이전 보존 baseline 292.847초 대비 73.8% 단축. command/exit/stdout/stderr byte-exact 동일. 단일 관측 비교이며 통제된 반복 benchmark나 실호출 횟수 계측은 아니다.
@@ -120,14 +131,3 @@
 - 최종 source `15e6cc10cef8d9b031f27ff07b4a15d1d89f8cf8` / tree `6564372cff0d2b0061f92fc504d849523ff2ea90`. 독립 work_unit GO6건을 기존126판정/104보고 뒤에만 추가(132/110). 자동검사는 계약 증거이지 재미·문체·인간 관찰이 아니다. 원어민·인간·물리패드·새화면/입력0, 공개GO1/인간OPEN45·1장 debt8/blocked3/24주 gap·5장·본편/새package HOLD 유지. 외부권한 행사0.
 - 다음 안전한 작업: 새44값의 실제 화면·합성입력을 별도 선언한다(아직 미착수). 읽기 전용 조사에서 기존 job runner는 자기소개서 결과1개를 직접 handler로 캡처하고 면접 결과/CTA를 검사하지 않았다. 후보는 지역2×등급4×모드2×stress부호3의 준비상태48, PNG20 및 별도 key press/release4세션이다. 준비 fixture를 정상도달·물리입력으로 세지 않고 과거 화면을 새 번역 증거로 재사용하지 않는다.
 - 사용 스킬: gangnamdream-dev의 KO 직접저작·파일 소유 분리·독립 검수·표적검증을 적용했다. 범위와 검증은 일회성이며, 반복 비용이 확인된 self-seal/실제 collector 사전 확인만 I18N 정본의1문장으로 승격했다.
-
-## 2026-09-28 (Codex — 4장 대본 수리의 통합 판정 마감)
-
-- 마감 문서·큐 검사 PASS(active77/in_progress74), 판정 원장 self222 PASS(44.785초). 실행 기록은 `order363-metadata-integration-closure-{context,queue,agent}.json`에 별도 보존했다. 새2판정·2보고와 사양 보관을 검사한 결과이며, 과거 제품 검사 횟수에는 더하지 않는다.
-- 아버지의 재입원·퇴원 사이 설명, 병원 영문명, 다은의 호칭, 민서 전세 주석과 불분명한 행동/슬롯 표현을 고친 기존87문구·번역48갱신의 통합 검수를 마쳤다. 새 문구·게임 코드·수용 CLI·엔진/PNG 재실행0. 기존 실행을 현재와 결속하는 후속 검수다.
-- [351](queue_archive/ORDER-351.md)과 [361](queue_archive/ORDER-361.md)은 비저자의 별도 한정 GO다. source `6090555f19fe5e458c9074dbf4730596b95557cf`/tree `12515cdce2691f9a23a38e6bac428d11b9be1ec1`. [351 후속](agent_reviews/ORDER-351-followup.json) SHA `0b99631b68cd7424c4679b67faf16d19fdc5c7b7477f42110bb28d1a371fe9ef`, [361 후속](agent_reviews/ORDER-361-followup.json) SHA `375de9cf8e368fab8b0f5538bc4ed8e64a1a3363b610ec12e01da86ad85f355a`. 기존124판정/102보고는 raw 그대로, 새2건씩만 추가(126/104).
-- 351의 admission6경로는361 full-body162, 지문2축/생성표는362 원문검토·normal/self45, 361의1장두실패는363/364 normal/full689에 연결했다. 나머지 통과 결과는 같은 제품/도구 및 바뀐 필드와 소비자 경계의 비영향으로만 재사용한다. 기존 실패·전체검사 미실행 사실은 소급해 바꾸지 않는다.
-- private 보존 증거 `order351-361-followup-proof.json` SHA `9f1dc9a6b8a6f3fcd971d246ba78f3ba6c408af25b629eca608ffb162131b713`: 제품12 raw·기존124판정/102보고·334참조 artifact(원본PNG70 포함)를 실제 대조했다. 저자 정적 증거이며 독립 판정은 위 두 보고가 소유한다.
-- 첫 후속 context는351의17063B가16KB를 넘어 실패했다. 새 공동선언 전문을361로 옮겨 기존 기록 생략 없이15042/11996B로 정리한 뒤 context/queue PASS. 문서 한계 실패는 제품 수용 실패나 재실행으로 합산하지 않는다.
-- 개발 스킬의 파일 소유 분리·보존 증거·독립 판정에 따라 마감했다. 실제 원어민/인간/물리 관찰0, 기존64준비상태/70PNG는 자연 입력/연속 플레이가 아니다. Chapter1 부채8/blocked3/24슬롯gap, 민서 기억·산문 심화, 본편/새package HOLD 및 공개 GO1/인간OPEN45를 보존한다. 일회성/상시승격0/외부권한행사0.
-- 다음 안전한 후보(미착수): `JobHuntMiniGame._show_result()`의 제목2/반응8/설명8/몸 반응4, 정확22키×CN/TW=44값. `/root/screen_path_probe`가 JA 존재·두 중국어 사전/공식 receipt 부재와 MainGame→open(0/1) 소비자를 읽기 전용으로 확인했다. 새365 선언에는 사전2파일·정식44 receipt와 `order351_source_compat.py:387`의 원장 raw guard 후속 경계를 함께 명시해야 한다. 현재 핀 변경/우회·제품 수정·새 수용0. 완료/확인/지원서 검토로 제외, 블랙잭9키는 원문 규칙 의미 위험으로 보류,352는5장 선행 HOLD 유지.
