@@ -1,0 +1,82 @@
+{
+  "schema": "gangnamdream-independent-work-unit-review/v1",
+  "scope": "work_unit",
+  "independent": true,
+  "reviewer": "/root/r3_route_probe",
+  "reviewed_at": "2026-09-29",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "e395638ebb5e72f5964dfa0142211a9c778f63e7",
+    "tree": "65a6111513b7fdd3cf1c38adc3b2e7071c9c2368",
+    "manifest_sha256": null
+  },
+  "required": [],
+  "unit_id": "ORDER-386",
+  "conclusion": "선택 카드·하단 안내 가시성과 새 마우스 자산 이동 수리를 한정 GO로 판정한다. 새 22화면과 합성 입력에서 원385의 footer 차단 결함이 해소됐고 소유 범위의 추가 blocker가 없다.",
+  "source_binding": {
+    "tested_commit": "06e95b460e7775d5ef1679265faf37aeff074331",
+    "tested_tree": "6a35a74cff757738c371b8984a3243e996c86025",
+    "observed": "fresh current_agent_source_subject와 clean Git HEAD/tree가 subject와 일치한다. 테스트 이후 diff는 CLAUDE 상태 2행뿐이다. 기록된 2,942 tracked 파일의 현재 대조에서도 CLAUDE만 달라 제품·도구·사전은 동일하며 private helper SHA도 동결값이다.",
+    "limitation": "최종 문서 커밋에서 엔진·제품 검사를 재실행한 것은 아니다."
+  },
+  "code_review": "runtime commit 6dacf74f7ece36bbf720a07b24a8d55fdcd06aa6의 MainGame 두 함수와 네 도구 전체 diff, observer/runner를 비저자로 직접 읽었다. 46px·FOCUS_NONE 이동 버튼, modal/page/caption 생존 guard, 기존 ID/posmod·선택 reset·매매 동작 보존을 확인했다. 호환층은 fresh Git 18객체와 exact386→382→381 역상을 비교용으로만 합성하며 actual raw와 기존 핀/역사 함수는 보존한다. manifest 비교는 현재 raw/claim 선행 결속을 유지한다.",
+  "runtime_review": {
+    "actual_dictionary": true,
+    "engine_runs": 1,
+    "exit_code": 0,
+    "duration_seconds": 67.968,
+    "prepared_fixtures": 17,
+    "screens": 22,
+    "pngs_directly_viewed": 22,
+    "lookups": 42,
+    "nodes": 248,
+    "bindings": 248,
+    "visual": "원385 CN/TW 12화면과 다섯 언어 first/last 10화면을 모두 직접 봤다. footer·매수/매도·캡션과 ↑↓가 보이며 새 잘림/겹침을 관찰하지 못했다. CN/TW available-trade footer가 기존 y744..766에서 y627..649로 옮겨져 clip 하단740 안에 들어간 것을 원시 좌표로 확인했다.",
+    "inputs": "5언어 × 8 down/up 쌍=80 edges와 mouse motion60, 합140 synthetic events. key20/mouse button60/motion60, 실제 pressed30, trade0. parse/flush 전후와 정착 index·ID를 읽어 첫/끝 순환과 중간 자산 전체 접근을 확인했다. 직접 pressed.emit/이동 함수 호출이나 물리 입력이 아니다.",
+    "isolation": "248노드의 font/glyph/text/geometry와 actual=expected binding, PNG22 SHA 및 result의 28 artifact SHA를 대조했다. entry.before=result.before=result.after, 실제 사용자34파일 불변, 17 fixture typed 복원, 140 event의 global 불변·flush 전 동일·기대 index 일치를 확인했다. pre-autoload namespace와 marker1/오류0도 원문 확인했다."
+  },
+  "static_evidence": {
+    "command_kinds": 12,
+    "checks": 11,
+    "selection_queries": 1,
+    "execution_attempts": 13,
+    "first": "00..11 개별 record와 aggregate를 대조했다. 첫 12명령 중 ch5만 300초 timeout(exit null, stdout/stderr에 기록된 문자열 None), 다른 11명령은 exit0/빈 stderr였다. 첫 aggregate all_pass=false를 보존한다. 이는 성공이나 확인된 제품 assertion 실패가 아니다.",
+    "retry": "같은 clean 실행 소스에서 ch5 하나만 420초 상한으로 단독 재시도하여 exit0/빈 stderr/정확 성공 marker, 292.847초를 관측했다. retry entry가 최초 result SHA를 결속한다. 다른 11명령과 엔진은 반복하지 않았다.",
+    "final": "현행 focused 45사례, receipt guard(40928/b154), full-body source inventory, graph, ch5/year5/ch1 normal, 등록/context/queue/diff가 통과했다. 선택 조회는 검사 수와 구분한다. 최초와 retry 각각 전후 source가 동일하다.",
+    "retained": "Chapter1 debt8/blocked3/W25..48 gap24 유지. 원형 역사 self·전체 감사·변경 없는 JA/ZH audit·240주 완주·새 export/import는 실행하지 않았다. 검수자는 수용 CLI/엔진 실행0."
+  },
+  "preservation": "6d8f623 대비 기존 148판정·126보고·인간 원장 128파일을 byte-exact 대조했다. 인간 SHA256 6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6. 원 ORDER-385 HOLD·예비/실제 FAIL과 PNG는 그대로이며 과거 판정을 소급 PASS로 바꾸지 않는다. 공개 GO1/인간 OPEN45·본편/새 package HOLD 유지.",
+  "limits": [
+    "1280×800의 준비 상태 관찰이다. 자연 진입/복귀, 실제 매매·정산, 전체 자산/모든 해상도와 전역 언어 전환 무누출은 검증하지 않았다.",
+    "한 화면 두 카드에서 선택한 한 카드로 바뀌는 UX 교환을 명시한다. 실제 mouse ↑↓로 다섯 자산 모두 접근·양끝 순환을 관측했다. single-asset 비활성화는 코드 판독이며 별도 실제 상태 실행은 아니다.",
+    "기존 안내 CTA focus 테두리 약 3px 잘림은 미수리다. 중립 focus PNG를 해당 focus 수리나 패드 표시 전체 GO로 확대하지 않는다.",
+    "KO/EN/JA와 기존 혼합 언어 표면은 배치·기하·입력 회귀 관찰일 뿐 새 번역 수용이 아니다. 원어민·인간·물리 체감 또는 전체 게임/새 패키지/출시 GO가 아니다."
+  ],
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "natural_entry_and_return",
+    "actual_trading_and_settlement",
+    "full_game_and_new_package"
+  ],
+  "evidence": {
+    "scenes/MainGame.gd": "6432a5ceb5844c1fdc54265547053dc82db8808ea87f442058412f03d24eed90",
+    "tools/main_game_locale_history.py": "54cca3816a747d2f3f9f75b2253c6a5bfe7bf630e813cfe0b084d38e2c9feecb",
+    "tools/ui_translation_append.py": "f6405485b67e0d8b5791a09eae12fef13283f7e95670a76dc5a72c021148b3dd",
+    "tools/ui_translation_append_self_test.py": "fbc00209312860c365467a02e3a612cc3db516622bb1cf4703b701cd4fa82c34",
+    "tools/audit_scope.json": "2c06e57074d4eb68327445137ffff7b081da9f658e32d7f8fd291d0d5d3a0451",
+    ".git/full-game-localization/order386-check.gd": "0f4abe8cda94eb9a371f9cfa21eb1c43aef360f397ec8e8c2fddcc8f3cabd1da",
+    ".git/full-game-localization/order386-run.py": "d6f3e394383951bcd871ccb1a2e1088a12f3d3b3c1416387b8188ea21ddbde6b",
+    ".git/full-game-localization/order386-check.tscn": "ded7cee00eb48da68a3f85e8a0d700fe9b249a4f640f8cdddb0e317ec36d9c30",
+    ".git/full-game-localization/order386-screen-first/result.json": "3d40d026d665095f6a587bc1b8c61a66cfb544ad5af2b65d2937c79e6e65054b",
+    ".git/full-game-localization/order386-screen-first/entry.json": "a65cbab4298e24c6f1874403788810fb8a9636c2638f49a9f440d133ec3bd4a0",
+    ".git/full-game-localization/order386-screen-first/order386-observations.json": "74ecc02acfc36b1038c50c244fdb6c13f3fc245f1a8e7d4f3f63ef7545c69828",
+    ".git/full-game-localization/order386-static-first/result.json": "85188b2a473d005daa0ef8fdcd867c697c04303ef0103fcdd9d8e6c26061fff3",
+    ".git/full-game-localization/order386-static-ch5-timeout-retry/result.json": "772979a21253be6c3659b75a6e04699bad925dd1af47106dc03e265283fab586",
+    ".git/full-game-localization/order386-static-ch5-timeout-retry/entry.json": "f730c2a3a4c5ce4b712ab03756fe8f8fe013fcd3560fe78fc7df656a49c98acb",
+    ".git/full-game-localization/order385-independent-review.json": "2fe3cdac9c2af560d4c023eef08f60ccdcd935e4ef2f1b7b1ae6f494a42511b3",
+    ".git/full-game-localization/order385-screen-accepted-first/result.json": "1dbf4eea5f7b8f81325956a2cec7b726f70465ccd17ee16d95072db788179b2b"
+  }
+}

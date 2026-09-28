@@ -2,6 +2,17 @@
 
 이전 원문 전체는 [2026-09-28 이전 기록](history/WORK_LOG_2026-09-28_pre_order351.md)에 바이트 그대로 보존했다.
 
+## 2026-09-29 (Codex — 거래 안내 잘림 수리와 다섯 언어 자산 이동)
+
+- 선언ebe72d2→제품6dacf74→도구06e95b4. 선택한 상세카드1개와46px 마우스 ↑/↓로 세로공간을 확보했다. 전체자산ID/순환·매매callback·경제는 그대로이며 중복 클릭음만 억제했다. caption의FOCUS_NONE·modal/page/queued삭제가드는 기존 확인키 의미와 오래된 버튼 재진입을 보존한다. 동시2카드비교→한카드상세는 하단안내/매매가시성을 위한 내부판단이다.
+- 현재 Git386→382→381의18객체·3전이·정확역상으로 source호환을 결속했다. 원형 함수/핀/self본문은 보존하고 현행focused45를 선택했다. 실제호출좌표/전체KOEN문구/consumer와pre386공식manifest를 구별하며 수용40928/b154·JA/CN/TW사전·원장변경0이다.
+- 실제검사source06e95b4:1280×800 22PNG/248node·binding/42lookup/17fixture/5언어 PASS,67.968초. CN/TW원12상태와5언어모든5자산보유+저컨디션첫/끝10화면을 봤다. footer y744..766→627..649/clip740; 새버튼과caption폭·글리프·비중첩도PASS. 비저자22장전수직접검수, root는EN첫/TW거래/JA끝3장을직접대조했다.
+- 실제경로에합성주입140건=키20edges+마우스버튼60edges+motion60,pressed30·매매0. 모든자산접근·첫끝순환·중간선택·release추가효과0·돈/AP/보유/이력/registry불변,17fixture전체typed복원과실사용자34파일·sourcecensus불변. 물리패드/원어민/인간·자연진입/복귀·실제정산·pad표시전체는미관측이다.
+- 정적최초12명령 중11exit0·ch5하나300초timeout,aggregatefalse를원형보존했다. 이전같은검사가294.917초였으며 제품결함출력은없었다. 다른11/엔진반복없이ch5만420초상한으로단독재실행해292.847초PASS·stderr빈값. 총13명령실행,현재11종검사+조회1·반복1; 과거self·전체감사·240주·새export/import는0. 1장debt8/blocked3/gap24와human pending등기존한계유지.
+- 최종상태source는CLAUDE현재행만추가한후독립보고386GO/385-runtime-recheckGO에결속했다. 기존148판정/126보고·원385HOLD/실패·인간원장SHA·공개GO1/인간OPEN45는보존하고현재한정판정2개만append한다. 본편/새packageHOLD와기존guide CTA focus약3px잘림은닫지않는다.
+- 다음안전후보는남은은행중국어UI와정상검사중복비용이다. 읽기전용추적상Chapter5가current_source_errors1회+demo JA/CN/TW source_errors3회로큰현재proof를4회열고있다(2082/2201행). 다음별도범위에서호출내fresh_validation_proof공유4→1을검토하며전역cache/검사생략은하지않는다. 성능개선구현·시간측정은아직0이다.
+- 개발스킬의선행선언·파일소유분리·비저자검수·격리/표적검증을따랐다. 이번시간제한학습은원래294.917초인검사에300초를둔경계였고실패1개만단독확인했다. 상시규범승격0·범위/모집단일회성,외부출시/스토어/지출/법률행위0. 자동PASS는계약증거이지재미·문체·사람GO가아니다.
+
 ## 2026-09-28 (Codex — 중국어 거래·보유42문구 부분 수용, 하단 안내 수리 대기)
 
 - 공식21키×CN/TW42값을 추가해40,928/b154·UI각1,371. 선언 f05a166/479cb9d → 제품06479bf. 한국어 직접 독립저작·비저자42전수 의미검수·공식check/import·원형역삭제 PASS, 기존번역/receipt·KO/EN/JA·runtime·사용자변경 보존.
@@ -110,20 +121,3 @@
 - 첫 후속 context는351의17063B가16KB를 넘어 실패했다. 새 공동선언 전문을361로 옮겨 기존 기록 생략 없이15042/11996B로 정리한 뒤 context/queue PASS. 문서 한계 실패는 제품 수용 실패나 재실행으로 합산하지 않는다.
 - 개발 스킬의 파일 소유 분리·보존 증거·독립 판정에 따라 마감했다. 실제 원어민/인간/물리 관찰0, 기존64준비상태/70PNG는 자연 입력/연속 플레이가 아니다. Chapter1 부채8/blocked3/24슬롯gap, 민서 기억·산문 심화, 본편/새package HOLD 및 공개 GO1/인간OPEN45를 보존한다. 일회성/상시승격0/외부권한행사0.
 - 다음 안전한 후보(미착수): `JobHuntMiniGame._show_result()`의 제목2/반응8/설명8/몸 반응4, 정확22키×CN/TW=44값. `/root/screen_path_probe`가 JA 존재·두 중국어 사전/공식 receipt 부재와 MainGame→open(0/1) 소비자를 읽기 전용으로 확인했다. 새365 선언에는 사전2파일·정식44 receipt와 `order351_source_compat.py:387`의 원장 raw guard 후속 경계를 함께 명시해야 한다. 현재 핀 변경/우회·제품 수정·새 수용0. 완료/확인/지원서 검토로 제외, 블랙잭9키는 원문 규칙 의미 위험으로 보류,352는5장 선행 HOLD 유지.
-
-## 2026-09-28 (Codex — 검토된 콘텐츠 기록과 1장 역사 비교 연결)
-
-- 마감 context/queue PASS(active79/in_progress76), 판정 원장 self222 PASS. 기존122개 원장 raw prefix와 새 보고2개의 private 원본 동일성·증거19개 SHA를 확인했다. 351/361의 다음 통합 검수는 기존 문구87·화면70PNG와 검증 결과의 변경 영향만 잇는 별도 범위이며 아직 미판정이다.
-- [363](queue_archive/ORDER-363.md): 선언 `d0d586a` 뒤 검사1·등록2만 수정했다. 현재 raw/관측SHA/선행 admission 결속 후 immutable Git8객체와 정확6+2필드 raw 역변환으로 원형156 기대값에 잇는다. pin·기존 negative·원형 모듈·게임 원문/번역·inventory·생성표 불변이다.
-- 첫 focused63·normal·StoryMode 소비자7·등록/context/queue 6PASS 뒤 full은1033.169초 기존 proof 반례2FAIL. [364](queue_archive/ORDER-364.md)를 별도 선언 `989a92d`하고 원형 mock owner 한 줄만 복원했다. 표적18 및 full689 재검 PASS. 수용8종9실행(8PASS/1FAIL), 최종8종 PASS이며 마감 metadata검사는 별도다. 689=기존622+361의4+새63, focused63/표적18은 포함분이다.
-- normal의 debt8/blocked3·W25~48 24슬롯gap·원361 두실패·이번첫full실패를 보존한다. 첫검사1839/수리후1840 text 각각 전후동일, PASS실행 stderr/timeout0. 실행은 각각선언HEAD dirty3도구, clean commit 재실행0이다. 기존6PASS는 변경된 반례함수를 호출하지 않아 별도 반복0이다.
-- 비저자 정적 검수와 root AST 대조에서 기존상수/pin 불변, 양성4호출 외 기존self 본문 동일을 확인했다. 새 lane1/check1 등록 외 기존 목록 exact. 전체shell·역사1955·엔진·새화면/입력·240주 및 무관한361 통과검사 반복0.
-- 비저자 최종 한정 GO 두 건을 clean source `ebd408f330c6d71f736b9f274f85389fe79d9c5d`/tree `5d6b9ce690df6e378696201ae5063cd308134d7e`에 별도 결속했다. [363보고](agent_reviews/ORDER-363.json) SHA `06905b26daf5c50b3d2f70df90854f8dc490362c37c97c6078407cebc77e51d4`, [364보고](agent_reviews/ORDER-364.json) SHA `9ff285f31aedc94bf8add9a00305d198654914bbd3d4c4456670afb3bec778d2`는 각 private 원본과 동일하다. 새 판정/보고 각2개만 append(124/102)했다. 351/361은 그 뒤 별도 후속 보고/판정까지 HOLD. 개발 스킬의 범위 선언·소유 분리·표적 실행·독립 검수를 적용했다. 과거122판정/100보고·인간OPEN45·공개GO1 보존, 원어민/인간/물리 미관측·본편/새package HOLD·외부출시/스토어/지출/법률 인증0이다.
-
-## 2026-09-28 (Codex — 4장 원문 수리 뒤 콘텐츠 검토 기록 두 축 갱신)
-
-- 마감 context/queue PASS(active80/in_progress76), agent 원장 self222 PASS. 121개 원장 raw prefix·기존99보고·인간 원장·8개 보고 증거 SHA·새 보고 원본 동일성과 metadata-only 마감을 확인했다. 다음363은 읽기 전용으로 최소 연결 지점과4개 양성 fixture를 확인했으며 아직 구현·검사 실행0이다.
-
-- [362](queue_archive/ORDER-362.md): 선언 `be6bd91`/경로 정정 `6df5de6` 뒤 inventory 두 SHA와 기존 생성표만 갱신했다. 저자·비저자가 네 후보 사건 KO/EN 전문과 변경8문구를 각각 읽었고, 퇴원/재입원 설명 외 행위·강도 변화0이다. 나머지31문구는 후보 밖이다. 7축 후보 ID/개수/파일·기존 facts/intensity·다른5축 지문 불변이다.
-- inventory normal/self45·context·queue 4검사 PASS, 각 전후1838 text source 동일·stderr/timeout0. 결과 summary SHA `0efc347597e19382af1efbbdbb376e08c048b372bce6cab3fef61ca2ec3dd49f`; dirty 제품 실행과 clean source 최종 독립 판정은 구분한다. 영향선택20은 실행20이 아니다. 원351 exit1·3오류와361의1장 두 실패를 보존했고363에서만 역사 비교를 연결한다.
-- 비저자 최종 GO를 clean source `c7db93f7fc915a4d16fa5e8f63fa8b72343a6491`/tree `96b70c27fd4a833c6b1150742b19da38415f59f0`에 결속했다. [보고](agent_reviews/ORDER-362.json) SHA `80ce364d6c6a1a06098cb681ecc29d28f1b029e7f3a6e892fcfea7acdb62e9ca`는 private 원본과 동일하며 새 판정/보고 각1개만 추가(122/100)했다. 게임 원문/번역/코드 추가 변경0, 공개 데모·기존121판정/99보고·인간 원장 보존. 원어민/인간/물리·새 화면/입력·법률/외부 출시 관찰·행동0이며 본편/새package HOLD다. 지시는 일회성·상시 규범 승격0, 개발 스킬의 실제 원문 검토·독립 검수·표적 검증을 적용했다.

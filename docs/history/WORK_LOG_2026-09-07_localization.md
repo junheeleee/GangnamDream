@@ -1117,3 +1117,20 @@
 - 독립 검수로 receipt 반례2개의 정렬 직렬화가 의도한 손상보다 key순서에서 먼저 거절되는 약점을 보강했다. `self_test` 두 표현만 `_ordered`로 수정 후 해당1종795 재실행 PASS(77.975초), 최초 약한PASS도 보존했다. 두 표현을 치환하면 전체 AST가 같고 다른18 CLI는 해당 함수를 호출하지 않는다. 최종모듈 SHA `0d5de5fa6d80a87f1794f0ccfabee5b972feb195d09703474f040cb5481314ff`.
 - 총20실행으로 선택19종 최종17PASS/2FAIL을 기록했다. 실행마다 tracked+untracked text1836경로 전후 동일이며 binary/user-save census나 clean마감커밋 재실행이 아니다. 집계 `.git/full-game-localization/order361-final-aggregate.json` SHA `a673ff5461764bfa3b07924ddb0e250010abf818c2f1b6bb76b4f95780cbd1ce`. 역사1955=132+106+63+격리286+370+998의 실제 Git/module/ROOT·raw를 확인했다.
 - 351·361은 별도362→363 수리/후속 검수까지 HOLD다. 새 화면·엔진·자연 입력·원어민·인간·물리 관찰0이며 기존64준비상태/70PNG 증거를 재실행하거나 승격하지 않았다. 개발 스킬의 범위 선언·소유 분리·표적 실행·독립 전수검수를 적용했다. 새 규범은 일회성/상시승격0. 본편/새package HOLD·기존공개GO1/인간OPEN45·외부출시/스토어/지출/법률 인증0 유지.
+
+## 2026-09-28 (Codex — 검토된 콘텐츠 기록과 1장 역사 비교 연결)
+
+- 마감 context/queue PASS(active79/in_progress76), 판정 원장 self222 PASS. 기존122개 원장 raw prefix와 새 보고2개의 private 원본 동일성·증거19개 SHA를 확인했다. 351/361의 다음 통합 검수는 기존 문구87·화면70PNG와 검증 결과의 변경 영향만 잇는 별도 범위이며 아직 미판정이다.
+- [363](queue_archive/ORDER-363.md): 선언 `d0d586a` 뒤 검사1·등록2만 수정했다. 현재 raw/관측SHA/선행 admission 결속 후 immutable Git8객체와 정확6+2필드 raw 역변환으로 원형156 기대값에 잇는다. pin·기존 negative·원형 모듈·게임 원문/번역·inventory·생성표 불변이다.
+- 첫 focused63·normal·StoryMode 소비자7·등록/context/queue 6PASS 뒤 full은1033.169초 기존 proof 반례2FAIL. [364](queue_archive/ORDER-364.md)를 별도 선언 `989a92d`하고 원형 mock owner 한 줄만 복원했다. 표적18 및 full689 재검 PASS. 수용8종9실행(8PASS/1FAIL), 최종8종 PASS이며 마감 metadata검사는 별도다. 689=기존622+361의4+새63, focused63/표적18은 포함분이다.
+- normal의 debt8/blocked3·W25~48 24슬롯gap·원361 두실패·이번첫full실패를 보존한다. 첫검사1839/수리후1840 text 각각 전후동일, PASS실행 stderr/timeout0. 실행은 각각선언HEAD dirty3도구, clean commit 재실행0이다. 기존6PASS는 변경된 반례함수를 호출하지 않아 별도 반복0이다.
+- 비저자 정적 검수와 root AST 대조에서 기존상수/pin 불변, 양성4호출 외 기존self 본문 동일을 확인했다. 새 lane1/check1 등록 외 기존 목록 exact. 전체shell·역사1955·엔진·새화면/입력·240주 및 무관한361 통과검사 반복0.
+- 비저자 최종 한정 GO 두 건을 clean source `ebd408f330c6d71f736b9f274f85389fe79d9c5d`/tree `5d6b9ce690df6e378696201ae5063cd308134d7e`에 별도 결속했다. [363보고](agent_reviews/ORDER-363.json) SHA `06905b26daf5c50b3d2f70df90854f8dc490362c37c97c6078407cebc77e51d4`, [364보고](agent_reviews/ORDER-364.json) SHA `9ff285f31aedc94bf8add9a00305d198654914bbd3d4c4456670afb3bec778d2`는 각 private 원본과 동일하다. 새 판정/보고 각2개만 append(124/102)했다. 351/361은 그 뒤 별도 후속 보고/판정까지 HOLD. 개발 스킬의 범위 선언·소유 분리·표적 실행·독립 검수를 적용했다. 과거122판정/100보고·인간OPEN45·공개GO1 보존, 원어민/인간/물리 미관측·본편/새package HOLD·외부출시/스토어/지출/법률 인증0이다.
+
+## 2026-09-28 (Codex — 4장 원문 수리 뒤 콘텐츠 검토 기록 두 축 갱신)
+
+- 마감 context/queue PASS(active80/in_progress76), agent 원장 self222 PASS. 121개 원장 raw prefix·기존99보고·인간 원장·8개 보고 증거 SHA·새 보고 원본 동일성과 metadata-only 마감을 확인했다. 다음363은 읽기 전용으로 최소 연결 지점과4개 양성 fixture를 확인했으며 아직 구현·검사 실행0이다.
+
+- [362](queue_archive/ORDER-362.md): 선언 `be6bd91`/경로 정정 `6df5de6` 뒤 inventory 두 SHA와 기존 생성표만 갱신했다. 저자·비저자가 네 후보 사건 KO/EN 전문과 변경8문구를 각각 읽었고, 퇴원/재입원 설명 외 행위·강도 변화0이다. 나머지31문구는 후보 밖이다. 7축 후보 ID/개수/파일·기존 facts/intensity·다른5축 지문 불변이다.
+- inventory normal/self45·context·queue 4검사 PASS, 각 전후1838 text source 동일·stderr/timeout0. 결과 summary SHA `0efc347597e19382af1efbbdbb376e08c048b372bce6cab3fef61ca2ec3dd49f`; dirty 제품 실행과 clean source 최종 독립 판정은 구분한다. 영향선택20은 실행20이 아니다. 원351 exit1·3오류와361의1장 두 실패를 보존했고363에서만 역사 비교를 연결한다.
+- 비저자 최종 GO를 clean source `c7db93f7fc915a4d16fa5e8f63fa8b72343a6491`/tree `96b70c27fd4a833c6b1150742b19da38415f59f0`에 결속했다. [보고](agent_reviews/ORDER-362.json) SHA `80ce364d6c6a1a06098cb681ecc29d28f1b029e7f3a6e892fcfea7acdb62e9ca`는 private 원본과 동일하며 새 판정/보고 각1개만 추가(122/100)했다. 게임 원문/번역/코드 추가 변경0, 공개 데모·기존121판정/99보고·인간 원장 보존. 원어민/인간/물리·새 화면/입력·법률/외부 출시 관찰·행동0이며 본편/새package HOLD다. 지시는 일회성·상시 규범 승격0, 개발 스킬의 실제 원문 검토·독립 검수·표적 검증을 적용했다.

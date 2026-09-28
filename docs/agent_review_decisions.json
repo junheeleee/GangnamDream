@@ -5958,6 +5958,76 @@
         "path": "docs/agent_reviews/ORDER-385.json",
         "sha256": "2fe3cdac9c2af560d4c023eef08f60ccdcd935e4ef2f1b7b1ae6f494a42511b3"
       }
+    },
+    {
+      "id": "order-386-source-e395638-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-29",
+      "decided_by": "/root/r3_route_probe",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-386",
+      "subject": {
+        "kind": "source",
+        "commit": "e395638ebb5e72f5964dfa0142211a9c778f63e7",
+        "tree": "65a6111513b7fdd3cf1c38adc3b2e7071c9c2368",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-386.json",
+          "sha256": "3fff44037dffef5e67774f3f0202241f33e54c4eb874b7b9f43d2fe83b4385dc"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "natural_entry_and_return",
+        "actual_trading_and_settlement",
+        "full_game_and_new_package"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-386.json",
+        "sha256": "3fff44037dffef5e67774f3f0202241f33e54c4eb874b7b9f43d2fe83b4385dc"
+      }
+    },
+    {
+      "id": "order-385-source-e395638-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-29",
+      "decided_by": "/root/r3_route_probe",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-385",
+      "subject": {
+        "kind": "source",
+        "commit": "e395638ebb5e72f5964dfa0142211a9c778f63e7",
+        "tree": "65a6111513b7fdd3cf1c38adc3b2e7071c9c2368",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-385-runtime-recheck.json",
+          "sha256": "b1f85c70609b675018d5a8d3120d694e002de55a54e30669f5b982e26f89dbb5"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "natural_entry_and_return",
+        "actual_trading_and_settlement",
+        "full_game_and_new_package"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-385-runtime-recheck.json",
+        "sha256": "b1f85c70609b675018d5a8d3120d694e002de55a54e30669f5b982e26f89dbb5"
+      }
     }
   ]
 }

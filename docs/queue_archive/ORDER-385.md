@@ -1,3 +1,16 @@
+# ORDER-385 — 중국어 거래·보유42문구 화면 수리 재검수
+
+[x] 2026-09-29. 독립 work_unit 한정 GO. 본편/새package GO가 아니다.
+
+- 최종 source `e395638ebb5e72f5964dfa0142211a9c778f63e7`, tree `65a6111513b7fdd3cf1c38adc3b2e7071c9c2368`. [독립 보고](../agent_reviews/ORDER-385-runtime-recheck.json) SHA `b1f85c70609b675018d5a8d3120d694e002de55a54e30669f5b982e26f89dbb5`.
+- 기존21키×CN/TW42값·40928수용/b154는 불변. 실제사전 원래12상태·42lookup을 새 수리에서 확인해 footer2결함을 닫았다. 옛385 HOLD와 예비/실제 실패12PNG씩은 원형 보존하며 새 source의 재검수 GO를 별도 기록했다.
+- 격리1280×800 실제22PNG/248node·binding/17fixture/5언어140자동입력·mouse signal30·trade0 PASS,67.968초. 최초 정적12명령 중11exit0/ch5하나300초timeout을 보존하고 그 하나만 단독292.847초exit0으로 재검수했다. 현재focused45·receipt guard·consumer5·등록/context/queue/diff와차선조회만, 전체감사/과거self/240주/번역재수용0.
+- 기존148판정/126보고와 원385 HOLD·실패·PNG를 보존하고 현재 source의 한정 GO만 append했다. 공개GO1/인간OPEN45·본편/새packageHOLD 유지.
+- 원어민·인간·물리·자연진입/복귀·실제매매/정산·패드표시 전체는 미관측이다. 외부출시/스토어/지출/법률행위0.
+- 승격 없음: UI/입력·WORK_UNIT 기존 규칙 재사용. 모집단·소유·표적계획은 일회성이다. 개발스킬의 선행선언·소유분리·독립검수·격리실행을 적용했다. 자동PASS는 계약증거이며 재미·문체·사람GO가 아니다.
+
+## 최초 선언과 진행 원문 보존
+
 # Active Queue Spec: ORDER-385
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.

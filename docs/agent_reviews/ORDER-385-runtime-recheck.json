@@ -1,0 +1,73 @@
+{
+  "schema": "gangnamdream-independent-work-unit-review/v1",
+  "scope": "work_unit",
+  "independent": true,
+  "reviewer": "/root/r3_route_probe",
+  "reviewed_at": "2026-09-29",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "e395638ebb5e72f5964dfa0142211a9c778f63e7",
+    "tree": "65a6111513b7fdd3cf1c38adc3b2e7071c9c2368",
+    "manifest_sha256": null
+  },
+  "required": [],
+  "unit_id": "ORDER-385",
+  "review_kind": "runtime_recheck_after_ORDER_386",
+  "conclusion": "원385의 한국어21키×CN/TW42문구 부분 수용은 유지하고, 새 실제 사전 화면에서 차단 footer 결함이 해소됐으므로 현재 source의 ORDER-385 work_unit을 한정 GO로 판정한다. 이전 HOLD와 실패는 별도 역사 기록으로 보존한다.",
+  "source_binding": {
+    "tested_commit": "06e95b460e7775d5ef1679265faf37aeff074331",
+    "tested_tree": "6a35a74cff757738c371b8984a3243e996c86025",
+    "observed": "fresh current_agent_source_subject와 clean Git HEAD/tree가 subject와 일치한다. 테스트 이후 diff는 CLAUDE 상태 2행뿐이다. 기록된 2,942 tracked 파일의 현재 대조에서도 CLAUDE만 달라 제품·도구·사전은 동일하며 private helper SHA도 동결값이다.",
+    "limitation": "최종 문서 커밋에서 엔진·제품 검사를 재실행한 것은 아니다."
+  },
+  "reviewed_population": {
+    "korean_keys": 21,
+    "locale_values": 42,
+    "new_translations": 0,
+    "new_accepted_receipts": 0,
+    "meaning": "기존 독립 전수 의미 검수의 같은42값을 byte 결속해 재사용한다. 1/3/12개월·금액·부호·placeholder·위험 등급·조건부 비용, 평단/보유 평가액 구별과 매수/매도 공용 전량=全部를 보존했다. 이번에는 새 문구를 저작하거나 원어민 검수로 승격하지 않았다.",
+    "product": "두 사전과 원장 SHA가 원385 보고 및 현재 파일과 일치한다. 각 UI1371키, accepted40928/b154로 추가 수용0. 원본 공식 교환/receipt 검수는 동일 제품에 대한 기존 보고를 참조한다."
+  },
+  "runtime_recheck": {
+    "previous": "원385 예비·실제 실행은 각12 진단 PNG 중 footer2결함으로 전체 FAIL이며 strict accepted PNG0이었다. 현재 보고는 그 결과를 덮지 않는다.",
+    "current": "actual dictionary/cache injection0의 새386 실행은 exit0/22PNG/42lookup/248node·binding/오류0다. 원래 CN/TW12와 추가5언어 first/last10 모두 직접 열람했다. footer는 y627..649, clip bottom740으로 완전히 표시되며 매수·매도와 안내를 삭제하거나 폰트를 축소하지 않았다.",
+    "interaction": "새140 synthetic events로 mouse ↑↓ 포함 전체5자산 접근·양끝 순환을 확인했다. 한 카드 표시로 줄어든 인접 카드 직접 클릭은 새 이동 버튼으로 보완한다. 실제 매매나 자연 진입 관찰은 아니다.",
+    "preservation": "entry/result 원본·실제 사용자34파일 불변, 17준비·복구 및 PNG/artifact SHA를 확인했다. 범위 밖 asset name/background의 전체 번역을 주장하지 않는다."
+  },
+  "static_evidence": {
+    "final": "새386의 11검사+조회1을 결속한다. 최초 ch5 300초 timeout으로 aggregate false를 보존하며, 같은 코드의 ch5 단독 292.847초 성공을 추가해 12종/13실행으로 구분한다. focused45 및 current receipt/consumer normal PASS, 기존 debt8/blocked3/gap24 유지.",
+    "reuse": "원385 정적 결과를 새 runtime 검사라고 부르지 않는다. 새 실행은 06e95b4이며 최종 CLAUDE-only 커밋에서 재실행0이다. 검수자 engine/수용 CLI0."
+  },
+  "preservation": "6d8f623 대비 기존 148판정·126보고·인간 원장 128파일을 byte-exact 대조했다. 인간 SHA256 6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6. 원 ORDER-385 HOLD·예비/실제 FAIL과 PNG는 그대로이며 과거 판정을 소급 PASS로 바꾸지 않는다. 공개 GO1/인간 OPEN45·본편/새 package HOLD 유지.",
+  "limits": [
+    "1280×800의 준비 상태 관찰이다. 자연 진입/복귀, 실제 매매·정산, 전체 자산/모든 해상도와 전역 언어 전환 무누출은 검증하지 않았다.",
+    "한 화면 두 카드에서 선택한 한 카드로 바뀌는 UX 교환을 명시한다. 실제 mouse ↑↓로 다섯 자산 모두 접근·양끝 순환을 관측했다. single-asset 비활성화는 코드 판독이며 별도 실제 상태 실행은 아니다.",
+    "기존 안내 CTA focus 테두리 약 3px 잘림은 미수리다. 중립 focus PNG를 해당 focus 수리나 패드 표시 전체 GO로 확대하지 않는다.",
+    "KO/EN/JA와 기존 혼합 언어 표면은 배치·기하·입력 회귀 관찰일 뿐 새 번역 수용이 아니다. 원어민·인간·물리 체감 또는 전체 게임/새 패키지/출시 GO가 아니다."
+  ],
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "natural_entry_and_return",
+    "actual_trading_and_settlement",
+    "full_game_and_new_package"
+  ],
+  "evidence": {
+    "locale/ui_zh-CN.json": "ec236c88c1d77006e76eb4f309aa8936c9d386f2f1c77d39cc41bd2541d27e25",
+    "locale/ui_zh-TW.json": "80b9fd396d85c4c4340a7975e68c5128cfa6e5b5674227e8882c2d6663238cb0",
+    "content/meta/full_game_localization.json": "d2aa1fb11f901965a874de859cdd24bb9727402a4619cf818ed35df880ead44f",
+    "scenes/MainGame.gd": "6432a5ceb5844c1fdc54265547053dc82db8808ea87f442058412f03d24eed90",
+    ".git/full-game-localization/order385-draft-review.json": "226f1044873a54fc6ad46453c1549ec576455aa27c5fd3a59c63ebda2a6117c1",
+    ".git/full-game-localization/order385-independent-review.json": "2fe3cdac9c2af560d4c023eef08f60ccdcd935e4ef2f1b7b1ae6f494a42511b3",
+    ".git/full-game-localization/order385-screen-preflight-first/result.json": "66258ad31db4aae2893a09380edd77ee37f46b4769805a29cb75b9f2980ff53c",
+    ".git/full-game-localization/order385-screen-accepted-first/result.json": "1dbf4eea5f7b8f81325956a2cec7b726f70465ccd17ee16d95072db788179b2b",
+    ".git/full-game-localization/order386-screen-first/result.json": "3d40d026d665095f6a587bc1b8c61a66cfb544ad5af2b65d2937c79e6e65054b",
+    ".git/full-game-localization/order386-screen-first/entry.json": "a65cbab4298e24c6f1874403788810fb8a9636c2638f49a9f440d133ec3bd4a0",
+    ".git/full-game-localization/order386-screen-first/order386-observations.json": "74ecc02acfc36b1038c50c244fdb6c13f3fc245f1a8e7d4f3f63ef7545c69828",
+    ".git/full-game-localization/order386-static-first/result.json": "85188b2a473d005daa0ef8fdcd867c697c04303ef0103fcdd9d8e6c26061fff3",
+    ".git/full-game-localization/order386-static-ch5-timeout-retry/result.json": "772979a21253be6c3659b75a6e04699bad925dd1af47106dc03e265283fab586",
+    ".git/full-game-localization/order386-static-ch5-timeout-retry/entry.json": "f730c2a3a4c5ce4b712ab03756fe8f8fe013fcd3560fe78fc7df656a49c98acb"
+  }
+}
