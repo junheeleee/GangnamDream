@@ -2,9 +2,9 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [ ] ORDER-382 [P0·UI 수리] 영어 경력란의 긴 직업명·승진 정보를 모두 읽게 한다
+#### [~] ORDER-382 [P0·UI 수리] 영어 경력란의 긴 직업명·승진 정보를 모두 읽게 한다
 
-부모381/157. 2026-09-28 실제 화면 결함 확인 후 다음 실행 대기; 구현 전이다.
+부모381/157. 2026-09-28 착수 — 아래 파일 소유를 확정하고 선언 뒤 구현한다.
 제품 기준 `b9b5c3d1cb3c6fd177cd8e03aed7fac2086b9032`, 관측 clean `a332f746636e677a4b77d9d97d08353bcf0addc1`.
 
 ## 깊이 3문·한 배치
@@ -15,7 +15,7 @@
 372px/288px, KO207/JA261/CN244/TW259px는 같은288px 안에 들어왔다.
 원본 `.git/full-game-localization/order381-screen-first`는 전체FAIL 그대로 보존한다.
 
-## 착수 때 확정할 정확한 파일 소유
+## 확정한 정확한 파일 소유
 - 제품: `scenes/MainGame.gd`의 `_build_job_status_strip()` 재직 branch 한 곳,
   `status_box.add_child(_label(` → `_wrap_label(` 한 토큰만. 같은 기존 helper의
   WORD_SMART/clip=false/EXPAND_FILL 사용. 원문·번역·15px·레이아웃 열 폭·경제·입력 불변.
@@ -28,6 +28,10 @@
 - root: 사양/완료 archive·큐2·CLAUDE 현재행·WORK_LOG/허용 history·생성 STATUS·
   새 agent 보고/원장·private382 증거. 독립 비저자 검수, root 단독 격리 엔진 실행.
 착수 선언 commit 뒤 구현하며381 frozen helper/report와 인간 원장은 바꾸지 않는다.
+실행 역할: root는 제품1곳과 문서·판정 정리, compat357은 위 도구3파일,
+screen_path_probe는 private382 관찰기/실행기만, r3_route_probe는 독립 비저자 검수.
+root만 격리 엔진과 수용 명령을 실행한다. WORK_LOG의 오래된 완결 항목은 필요 시
+`docs/history/WORK_LOG_2026-09-07_localization.md`로 바이트 보존 이동한다.
 
 ## 검증·한계
 - 실제 EN T3의 전체문구·행수·높이·후속 카드/하단 영역을1280x800에서 확인한다.
