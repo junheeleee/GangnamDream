@@ -5804,6 +5804,60 @@
           "batch_id": "3a32e724fd3ad665312764bf1e2054ec8e6b8c1a6b9dca9d1b465d5ca4aa4499"
         }
       }
+    },
+    {
+      "order": "ORDER-384",
+      "group": "ui_correction",
+      "roots": [
+        "매수 기본 수수료는 0.3%입니다. 컨디션이 나쁠수록 매수 비용이 높아질 수 있고, 매도 수수료는 0.5%입니다."
+      ],
+      "source_leaves": 1,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 1,
+        "zh-TW": 1
+      },
+      "original_order": "ORDER-383",
+      "before_target_sha256_by_locale": {
+        "zh-CN": "92efc760c1c6bf44cd98c336e255bc548b510c501001209066234894d25d2a5c",
+        "zh-TW": "95118c70f427f94e83d872ea49f4871bbbb7c6bd52aa7e82b4ad02af36e019db"
+      },
+      "source_review": "Korean-direct concise fee guidance after actual CN499/TW505px over468px clipping. Preserve buy base0.3%, condition-dependent higher buy cost and sell0.5%; no gameplay change. Correction is not new coverage.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "5ed346973c00ef2bdca816abee9ff7777ac0d2fc24e827bbe2e0942aaa891a1a",
+        "zh-TW": "d9383d0427a8203f10dc116d468ed67fe13cf66870803af6b669e953316df2a5"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "d91395c77ffefedf9ebc97429093c8693e91cf6f",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "e35bbc10c1ec991f15141cbb7ba3baa6f4220661a223b10efcb397a29103cb85",
+          "selection_sha256": "def6371d642b9ffa46d6b2909616caf1c320993f559fecd821dcf9629c6272c0",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "20d84707cf5b3476d688a1f6dbc7cc458aac5ecd3954d1284397145117f5450f"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "d91395c77ffefedf9ebc97429093c8693e91cf6f",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "e35bbc10c1ec991f15141cbb7ba3baa6f4220661a223b10efcb397a29103cb85",
+          "selection_sha256": "a7f92f54d2f07716a57dd8df7e4361b76af89e8ce98ab26ee5fcd1a2b30d1bc1",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "3bab65fb43a8cf546b3827e615fc7578739a62efe4f9d98fbfeffb05be168db5"
+        }
+      }
     }
   ],
   "accepted": {
@@ -113764,7 +113818,7 @@
       },
       "ui:매수 기본 수수료는 0.3%입니다. 컨디션이 나쁠수록 매수 비용이 높아질 수 있고, 매도 수수료는 0.5%입니다.:/매수 기본 수수료는 0.3%입니다. 컨디션이 나쁠수록 매수 비용이 높아질 수 있고, 매도 수수료는 0.5%입니다.": {
         "source_sha256": "74f3f2dd9e3758ae6e820dc751b3a103581c6e412257aadb56413776a7e0ad07",
-        "target_sha256": "92efc760c1c6bf44cd98c336e255bc548b510c501001209066234894d25d2a5c"
+        "target_sha256": "9733119944f38ff98f42c5b177b675eff46efd6bc0eba2ca352ee8de9670675b"
       },
       "ui:변동:/변동": {
         "source_sha256": "4dd76876214c1c9228b1f04a2a087e7a9598a90645f7ea17b942f54f4cfa14be",
@@ -169286,7 +169340,7 @@
       },
       "ui:매수 기본 수수료는 0.3%입니다. 컨디션이 나쁠수록 매수 비용이 높아질 수 있고, 매도 수수료는 0.5%입니다.:/매수 기본 수수료는 0.3%입니다. 컨디션이 나쁠수록 매수 비용이 높아질 수 있고, 매도 수수료는 0.5%입니다.": {
         "source_sha256": "74f3f2dd9e3758ae6e820dc751b3a103581c6e412257aadb56413776a7e0ad07",
-        "target_sha256": "95118c70f427f94e83d872ea49f4871bbbb7c6bd52aa7e82b4ad02af36e019db"
+        "target_sha256": "c3062d5a7d08854c3c92d601c4f2dc55e52ad8db5b18330311c8593e916deb89"
       },
       "ui:변동:/변동": {
         "source_sha256": "4dd76876214c1c9228b1f04a2a087e7a9598a90645f7ea17b942f54f4cfa14be",
@@ -169358,7 +169412,7 @@
       }
     }
   },
-  "accepted_sha256": "afc303ea5ae1d06c677e17e18ce1f46ce8dd1e5352e5a76bfe1c9243be06fbf8",
+  "accepted_sha256": "5140d862d14cbd8278d59c4737e92c2bf4b2264504e26a795e2a167b5110a81b",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
