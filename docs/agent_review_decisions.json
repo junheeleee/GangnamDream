@@ -5923,6 +5923,41 @@
         "path": "docs/agent_reviews/ORDER-384.json",
         "sha256": "010ea0c19f44ae639b606d87d8ff0ff3143f739e2f2f712abe144d5a9356357a"
       }
+    },
+    {
+      "id": "order-385-source-06479bf-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-28",
+      "decided_by": "/root/r3_route_probe",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-385",
+      "subject": {
+        "kind": "source",
+        "commit": "06479bf6e8ebce8e788df35544c64be2dc330f86",
+        "tree": "433809009288f8db278cf8d8990134bdaa03420c",
+        "manifest_sha256": null
+      },
+      "verdict": "HOLD",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-385.json",
+          "sha256": "2fe3cdac9c2af560d4c023eef08f60ccdcd935e4ef2f1b7b1ae6f494a42511b3"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "natural_entry_and_return",
+        "natural_trading_and_settlement",
+        "full_game_and_new_package"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-385.json",
+        "sha256": "2fe3cdac9c2af560d4c023eef08f60ccdcd935e4ef2f1b7b1ae6f494a42511b3"
+      }
     }
   ]
 }

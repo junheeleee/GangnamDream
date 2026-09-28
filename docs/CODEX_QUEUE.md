@@ -50,7 +50,7 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-385 · 중국어 거래 카드·보유 요약42문구 | [385](queue_active/ORDER-385.md) | 착수 · KO 직접21키/locale·표적화면·독립 검수 |
+| 1 | [~] | ORDER-385 · 중국어 거래 카드·보유 요약42문구 | [385](queue_active/ORDER-385.md) | 공식42수용 · 실제화면12중2 하단 안내 잘림 · 수리 HOLD |
 | 2 | [~] | ORDER-302 · 체험판 대본 사실·영어 정합 수리 | [302](queue_active/ORDER-302.md) | 수리7항목 source GO · successor package 별도 선언/검수 HOLD |
 | 3 | [ ] | ORDER-352 · 본편 5장 대본 이름·시간·회수 정합 | [352](queue_active/ORDER-352.md) | 5장 HOLD 수리 닫힌 뒤 착수 · 미실행 |
 

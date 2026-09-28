@@ -2,6 +2,16 @@
 
 이전 원문 전체는 [2026-09-28 이전 기록](history/WORK_LOG_2026-09-28_pre_order351.md)에 바이트 그대로 보존했다.
 
+## 2026-09-28 (Codex — 중국어 거래·보유42문구 부분 수용, 하단 안내 수리 대기)
+
+- 공식21키×CN/TW42값을 추가해40,928/b154·UI각1,371. 선언 f05a166/479cb9d → 제품06479bf. 한국어 직접 독립저작·비저자42전수 의미검수·공식check/import·원형역삭제 PASS, 기존번역/receipt·KO/EN/JA·runtime·사용자변경 보존.
+- 정적11검사+조회1 exit0, 병렬 374.114초. 변경없는 self·전체감사·240주는 반복하지 않았다. 현행consumer5와원장·중국어 검증이며 1장debt8/blocked3/gap24 등 기존 한계는 유지한다.
+- 격리 예비12PNG와 실제사전12PNG 모두 footer2결함으로 전체FAIL. 실제42lookup/116binding·글리프/문구폭은 정상이지만 CN/TW 저컨디션+보유정보에서 하단 안내가 y744..766으로clip하단740 밖에 있다. strict수용PNG0≠실제캡처0. 실패와 모든진단이미지를 보존했다.
+- root가위험2PNG, 비저자가예비/실제12장씩을직접대조했다. 실제사전cache주입0, 두관측source/실사용자34파일불변·전체fixture복원·매매/새입력0. 원어민·인간·물리/자연진입 미관측, UI전체/출시완료로 세지 않는다.
+- 새독립 [385 HOLD](agent_reviews/ORDER-385.json)를 source `06479bf6e8ebce8e788df35544c64be2dc330f86`에결속했다. 새1판정/1보고만append(148/126), 이전147/125·인간원장원형·공개GO1/인간OPEN45·본편/새packageHOLD 보존. 해당active사양은닫지않는다.
+- 다음안전한 작업은 하단 안내의 실제배치 수리다. 두보유카드경계까지확인할 별도범위로 선언한다. 은행10키/20값은읽기전용후속후보로만정리했으며 새저작0. 기존guide focus약3px잘림도미수리다. 첫oracle잘못된경로실패는엔진전이며 transcript-note, locale registry전이비교는실행전수리로 구분했다.
+- 개발스킬의선행선언·파일소유분리·독립검수·격리/표적실행을적용했다. 상시규범승격0·범위/계획일회성·외부출시/스토어/지출/법률행위0. 자동PASS는계약증거이지재미·문체·사람GO가아니다.
+
 ## 2026-09-28 (Codex — 중국어 투자 안내54문구·수수료 표시 수리)
 
 - 선언383 ecd2864/f9ec207 → 제품2ba6d9b, 실제 fee 잘림 확인 뒤 별도384 d91395c 선언 → 교정5a553f0. 간체27+번체27=54 새문구, 이어 기존 fee2값만 축약. 공식40,886/b152; 새coverage54·교정coverage0. JA·KO/EN·MainGame·project·공개데모 불변.
@@ -117,14 +127,3 @@
 - [362](queue_archive/ORDER-362.md): 선언 `be6bd91`/경로 정정 `6df5de6` 뒤 inventory 두 SHA와 기존 생성표만 갱신했다. 저자·비저자가 네 후보 사건 KO/EN 전문과 변경8문구를 각각 읽었고, 퇴원/재입원 설명 외 행위·강도 변화0이다. 나머지31문구는 후보 밖이다. 7축 후보 ID/개수/파일·기존 facts/intensity·다른5축 지문 불변이다.
 - inventory normal/self45·context·queue 4검사 PASS, 각 전후1838 text source 동일·stderr/timeout0. 결과 summary SHA `0efc347597e19382af1efbbdbb376e08c048b372bce6cab3fef61ca2ec3dd49f`; dirty 제품 실행과 clean source 최종 독립 판정은 구분한다. 영향선택20은 실행20이 아니다. 원351 exit1·3오류와361의1장 두 실패를 보존했고363에서만 역사 비교를 연결한다.
 - 비저자 최종 GO를 clean source `c7db93f7fc915a4d16fa5e8f63fa8b72343a6491`/tree `96b70c27fd4a833c6b1150742b19da38415f59f0`에 결속했다. [보고](agent_reviews/ORDER-362.json) SHA `80ce364d6c6a1a06098cb681ecc29d28f1b029e7f3a6e892fcfea7acdb62e9ca`는 private 원본과 동일하며 새 판정/보고 각1개만 추가(122/100)했다. 게임 원문/번역/코드 추가 변경0, 공개 데모·기존121판정/99보고·인간 원장 보존. 원어민/인간/물리·새 화면/입력·법률/외부 출시 관찰·행동0이며 본편/새package HOLD다. 지시는 일회성·상시 규범 승격0, 개발 스킬의 실제 원문 검토·독립 검수·표적 검증을 적용했다.
-
-## 2026-09-28 (Codex — 4장 수리 검증 연결 구현, 별도 기록 연결 누락으로 HOLD)
-
-- 비저자 [361 최종보고](agent_reviews/ORDER-361.json) SHA `eb4ddd52afed87de1100f0a654bce578c7c88665976b064179d150de3c2b2b84`를 private원본과 byte-identical로 보존했다. clean source `22f0d0ddbb42e393bf290ecaf0c664d28a3d5163`/tree `6246af71a02a922e36cb6756f8b37300ee85401f`에 결속한 HOLD이며 기존120판정/98보고 뒤 각1개만 append(121/99)했다. 실행→마감은 문서8변경+363추가뿐이고 검사한 코드/제품은 동일, 전체20실행과역사fixture 신원을 독립 재대조했다. 미결1원인/2실패와362→363 순서를 유지한다.
-
-- [361](queue_archive/ORDER-361.md)의 새 경계·소비자5·등록2를 구현했다. 선언 `759150139201d231b9df06edd5cc1a1f1c9e8938` 뒤 정확8도구이며 제품·번역·원형6모듈·기존120판정/98보고·인간 원장을 보존했다. 현재351의 raw12경로/87기존문구/48갱신receipt, LIVE44/역사KOEN17파일107leaf만 결속한다.40302/b142/meta9/보류72 불변이다.
-- 명시19종은 최초17PASS/2FAIL. full-body normal/self162가 원래351 admission6경로 실패를 해소했다. 새 경계795·역사1955·graph388·year51212(1316.355초)·chapter5146·locale264 PASS. 기존350 corpus와year5의155등록11/비도달 경계는 그대로다. 옛350 직접CLI·전체shell PASS를 주장하지 않는다.
-- chapter1 normal/self는 inventory snapshot mismatch로 각각 exit1(37.689/37.028초), self는 준비 단계 중단이다. 기존622/신규4사례 실행 완료0. 이전360의 정확6지문 갱신(eaa588…1764→2ff675…88b0)이 역사 비교 체인에 빠져 있음을 저자·비저자가 Git/소비자에서 각각 확인했다. [362](queue_archive/ORDER-362.md) 실제 내용 검토 후 [363](queue_archive/ORDER-363.md)에서 두 정확 기록 전이를 함께 연결하도록 새 범위를 선언했다. 원형pin 덮어쓰기·351의12경로 확장0이다.
-- 독립 검수로 receipt 반례2개의 정렬 직렬화가 의도한 손상보다 key순서에서 먼저 거절되는 약점을 보강했다. `self_test` 두 표현만 `_ordered`로 수정 후 해당1종795 재실행 PASS(77.975초), 최초 약한PASS도 보존했다. 두 표현을 치환하면 전체 AST가 같고 다른18 CLI는 해당 함수를 호출하지 않는다. 최종모듈 SHA `0d5de5fa6d80a87f1794f0ccfabee5b972feb195d09703474f040cb5481314ff`.
-- 총20실행으로 선택19종 최종17PASS/2FAIL을 기록했다. 실행마다 tracked+untracked text1836경로 전후 동일이며 binary/user-save census나 clean마감커밋 재실행이 아니다. 집계 `.git/full-game-localization/order361-final-aggregate.json` SHA `a673ff5461764bfa3b07924ddb0e250010abf818c2f1b6bb76b4f95780cbd1ce`. 역사1955=132+106+63+격리286+370+998의 실제 Git/module/ROOT·raw를 확인했다.
-- 351·361은 별도362→363 수리/후속 검수까지 HOLD다. 새 화면·엔진·자연 입력·원어민·인간·물리 관찰0이며 기존64준비상태/70PNG 증거를 재실행하거나 승격하지 않았다. 개발 스킬의 범위 선언·소유 분리·표적 실행·독립 전수검수를 적용했다. 새 규범은 일회성/상시승격0. 본편/새package HOLD·기존공개GO1/인간OPEN45·외부출시/스토어/지출/법률 인증0 유지.

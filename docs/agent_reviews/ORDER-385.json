@@ -1,0 +1,113 @@
+{
+  "schema": "gangnamdream-independent-work-unit-review/v1",
+  "unit_id": "ORDER-385",
+  "scope": "work_unit",
+  "independent": true,
+  "reviewer": "/root/r3_route_probe",
+  "reviewed_at": "2026-09-28",
+  "verdict": "HOLD",
+  "subject": {
+    "kind": "source",
+    "commit": "06479bf6e8ebce8e788df35544c64be2dc330f86",
+    "tree": "433809009288f8db278cf8d8990134bdaa03420c",
+    "manifest_sha256": null
+  },
+  "required": [
+    {
+      "id": "localized_trade_footer_clipped",
+      "severity": "blocking_work_unit_completion",
+      "finding": "CN/TW available-trade 화면에서 하단 안내의 rect y=744..766이 clipping ancestor 하단 y=740 밖에 있어 안내 전체가 보이지 않는다.",
+      "completion_condition": "별도 선언된 runtime 배치 수리로 두 언어의 안내와 거래 조작 영역을 보존하고 실제 수용 사전 화면에서 가시성·경계를 다시 확인해야 한다. 번역 삭제, 검사 완화 또는 나머지 10화면의 관찰 PASS로 이 결함을 닫지 않는다."
+    }
+  ],
+  "conclusion": "한국어 21키×CN/TW 42값의 전수 의미 검수와 공식 부분 수용은 적합하다. 그러나 실제 수용 사전 실행은 footer 2결함으로 전체 FAIL이다. ORDER-385를 완료하거나 화면 전체 GO로 기록할 수 없다.",
+  "reviewed_population": {
+    "unique_korean_keys": 21,
+    "locale_values": 42,
+    "authorship": "CN/TW 초안 저작에 참여하지 않은 독립 검수. 한국어 원문·실제 소비자와 두 지역 문구 전량 대조.",
+    "meaning": "기간 1/3/12개월, 금액·부호·수익률 placeholder, 리스크 등급과 조건부 매수 비용을 보존한다. 평단/보유 평가액은 실현 이익으로 바꾸지 않았다. 공용 '전량'은 매수 현금과 매도 보유량 양쪽에 맞는 중립 '全部'다.",
+    "semantic_verdict": "GO_WITHIN_42_VALUES_ONLY",
+    "current_targets_equal_reviewed_drafts": true
+  },
+  "official_acceptance_and_preservation": {
+    "baseline_commit": "479cb9d4fd7045b832d3aea58591e95316e60738",
+    "ui_keys_each_locale_before_after": [1350, 1371],
+    "accepted_before_after": [40886, 40928],
+    "batches_before_after": [152, 154],
+    "observed": "공식 export/check/import 각 지역 21값의 기록 및 두 accepted receipt를 읽었다. receipt header는 추가 batch와 일치하고 42 source/target receipt 쌍은 현재 원장과 일치한다. 42 target digest와 원장 accepted checksum을 독립 대조했다. 현재 사전 42값은 검수 초안과 동일하다.",
+    "old_data": "Git baseline 대비 기존 UI 값 전부, 40,886 accepted 항목, 152 batch와 나머지 원장 metadata가 동일하다. 제품 diff는 UI2/원장3파일이며 그 밖의 변경은 CLAUDE 상태 문구다. KO/EN/JA·runtime·검사 도구 변경은 없다.",
+    "history": "같은 baseline 대비 기존 147판정/125보고 및 인간 원장을 byte-exact 확인했다. 인간 원장 SHA256 6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6. 공개 GO1/인간 OPEN45는 새 인간 증거로 승격하지 않는다."
+  },
+  "actual_screen_review": {
+    "mode": "accepted-dictionary",
+    "source": "06479bf6e8ebce8e788df35544c64be2dc330f86",
+    "overall_pass": false,
+    "exit_code": 1,
+    "prepared_screens": 12,
+    "individually_passing_screen_observations": 10,
+    "failing_screen_observations": 2,
+    "diagnostic_pngs_captured_and_directly_viewed": 12,
+    "strict_result_accepted_pngs": 0,
+    "lookups": 42,
+    "bindings": 116,
+    "nodes_text_fit_and_glyph_complete": 116,
+    "nodes_passing_all_geometry_checks": 114,
+    "draft_cache_injections": 0,
+    "new_raw_input_events": 0,
+    "trade_signals": 0,
+    "direct_visual_findings": "CN/TW 각각 available-trade, empty-assets, history-building, holdings-empty, holdings-five, unavailable-toast의 실제 PNG 12장을 전부 직접 봤다. 두 available-trade 하단 안내가 보이지 않는 것을 원시 node/clip 좌표와 대조했다. 문구 폭은 CN244/TW258px로 816px 안에 들어가므로 문구 자체 폭 초과와 구별한다. 나머지 표적 문구·숫자는 관찰한 화면에서 읽을 수 있었다.",
+    "failure_identity": "두 locale footer의 rect [232,744,816,22], ancestor [232,111,816,629]. 전체 result.pass=false와 관측 failures 2개를 그대로 유지한다. strict result.pngs=[]는 실제 PNG 미생성이 아니라 전체 수용 실패다.",
+    "isolation": "실행 entry.before == result.before == result.after, 실제 플레이어 파일 34개 before/after 동일, fixture별 전체 typed 복원 및 locale registry의 원문 결속을 확인했다. artifact/PNG SHA를 대조했다. 미리 준비한 현금·컨디션·자산/보유·이력 및 빈 거래 상태이며 자연 플레이 도달성 증거가 아니다."
+  },
+  "static_evidence": {
+    "actual_commands": 12,
+    "checks": 11,
+    "selection_queries": 1,
+    "all_exit_zero": true,
+    "all_stderr_empty": true,
+    "wall_seconds": 374.114,
+    "source_unchanged": true,
+    "tracked_census": 2940,
+    "inspection": "00..11 개별 원시 record/stdout/stderr와 aggregate 대응을 읽고 동일성을 확인했다. 현행 receipt guard, full-body source inventory, graph, chapter5, year5, chapter1, ZH, 등록, context, queue, diff 검사와 영향 조회다. 조회 출력 42개는 실행한 검사 수가 아니다.",
+    "retained_limits": "Chapter1 debt8/blocked3/W25..48 gap24 및 source-inventory-only 경계를 유지한다. 전체 감사, 변경 없는 self/역사 corpus, 기존 fee46, JA 전체 검사, 240주 완주는 이번에 재실행하지 않았다. 검수자는 수용 CLI·엔진을 실행하지 않았다."
+  },
+  "preserved_failures_and_limits": [
+    "없는 locale/catalog_en.json을 oracle 경로로 넣은 최초 시도는 엔진/폴더 생성 전 실패했다. 보존 note는 tool transcript 전사이며 원시 engine log가 아니다.",
+    "실행 전 locale registry 비교는 실제 source/catalog의 세 text 필드 전이를 결속하도록 수정됐다. 이것을 별도의 실패 엔진 실행으로 세지 않는다.",
+    "초안 cache 예비 실행도 같은 footer 2결함으로 전체 FAIL이다. 해당 원본을 보존하며 실제 사전 실행과 혼동하지 않는다.",
+    "기존 guide CTA focus 약 3px 잘림은 이번 수리·검증 범위가 아니다. 중립 focus 준비 화면을 focus/input GO로 확대하지 않는다.",
+    "자산명·배경·부모 pad 등 범위 밖 표면의 전체 번역/언어 전환 무누출은 주장하지 않는다. 실제 매매·정산·자연 진입/복귀·게임 전체·새 패키지·외부 출시는 GO가 아니다.",
+    "후속 배치 수리는 읽기 전용 후보일 뿐이다. ORDER-386 선언/구현/검증 완료를 주장하지 않는다."
+  ],
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "natural_entry_and_return",
+    "natural_trading_and_settlement",
+    "full_game_and_new_package"
+  ],
+  "evidence": {
+    "locale/ui_zh-CN.json": "ec236c88c1d77006e76eb4f309aa8936c9d386f2f1c77d39cc41bd2541d27e25",
+    "locale/ui_zh-TW.json": "80b9fd396d85c4c4340a7975e68c5128cfa6e5b5674227e8882c2d6663238cb0",
+    "content/meta/full_game_localization.json": "d2aa1fb11f901965a874de859cdd24bb9727402a4619cf818ed35df880ead44f",
+    ".git/full-game-localization/order385-draft-review.json": "226f1044873a54fc6ad46453c1549ec576455aa27c5fd3a59c63ebda2a6117c1",
+    ".git/full-game-localization/order385-export-result.json": "839cdbea22b761eca0e42316c6e72c26673253ff8d62a1e34c6e4f09aabb17b3",
+    ".git/full-game-localization/order385-response-check-result.json": "c6034c885d70c60a26c47c41e0e31308b61d1962cdf80f27121d376bdaecdc9f",
+    ".git/full-game-localization/order385-zh-CN-import.txt": "2fbba88b45e727c5bc8f5c8e4e47109a2fe8ff0c7bc1522ca566de16f1d21cce",
+    ".git/full-game-localization/order385-zh-TW-import.txt": "3c1f58b72b63a45e4628afe60ac93fd5cab244f31925a73c1e2fd26b0658d2e1",
+    ".git/full-game-localization/order385-append-precommit.json": "7d0ff26d5f0010fbc2636daf8bd4e45987cdc16041db8ff07f9d69071d0f7902",
+    ".git/full-game-localization/zh-CN/full-ko-direct-2026-09-07.1/3f11d6e5fe37732150fb4d297ae0c888a3e4b7a8cadfeb2be4601f43959fc30e.accepted.json": "c2fd72901bf962c1c4bdbb9087a84007a680a7c92ffd57017b9381e0cae82d6d",
+    ".git/full-game-localization/zh-TW/full-ko-direct-2026-09-07.1/ef9512c823ddc92b81288f0479c90d4133364584f87cf4c0bb5e5392b28d544e.accepted.json": "ba06a8d09b82b0e784ba451ed2e8bc9cca04809dc99d47a0b90f5381d1eadcc1",
+    ".git/full-game-localization/order385-screen-accepted-first/result.json": "1dbf4eea5f7b8f81325956a2cec7b726f70465ccd17ee16d95072db788179b2b",
+    ".git/full-game-localization/order385-screen-accepted-first/entry.json": "fdb84a36e5c93f4910be851594953e0e38b63098f0c2e0b4d4676992dd619894",
+    ".git/full-game-localization/order385-screen-accepted-first/order385-observations.json": "dfcf6db1d21666f618c385fbb57684989bfa3102e8b0c571ca1044612747384f",
+    ".git/full-game-localization/order385-static-first/result.json": "f14e24deb489fcf66c2c9de0ffff15a0d8e8db8b11243209d65478c94203c386",
+    ".git/full-game-localization/order385-static-first/entry.json": "b3e71d865a5f1a1150c3fedef564df07eb6b198f2ab29bfc3911a4a2c736ed03",
+    ".git/full-game-localization/order385-screen-preflight-first/result.json": "66258ad31db4aae2893a09380edd77ee37f46b4769805a29cb75b9f2980ff53c",
+    ".git/full-game-localization/order385-preflight-preengine-note.json": "519a5c831ac34709fd48e3fa90c28b332cd7aa9c1fb18833bc400bebd4be68d3",
+    ".git/full-game-localization/order385-check.gd": "d55205551f8a206be8875ecc42bb7ef834f2fce6e3d7025f87a02f99524c1e07",
+    ".git/full-game-localization/order385-run.py": "7f3bee89263f1702382d9e403174ae51e588763887e8b7c0e1b74a096cbf5a75",
+    ".git/full-game-localization/order385-check.tscn": "0bf6bd88ced5feb5a85c4b5577c33f448619378646a53a459434538a1fdef990"
+  }
+}
