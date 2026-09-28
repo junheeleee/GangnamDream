@@ -2011,6 +2011,7 @@
   "checks": [
     {
       "tool": "tools/order365_ui_receipt_compat.py",
+      "why": "Bind current UI receipts and the exact local-font runtime successor to immutable product proofs.",
       "paths": [
         "tools/order365_ui_receipt_compat.py",
         "tools/order351_source_compat.py",
@@ -2022,6 +2023,7 @@
     },
     {
       "tool": "tools/order365_ui_receipt_compat.py --self-test",
+      "why": "Reject receipt, raw-source, font-successor, and proof mutations at current consumer boundaries.",
       "paths": [
         "tools/order365_ui_receipt_compat.py",
         "tools/order351_source_compat.py",

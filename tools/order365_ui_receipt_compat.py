@@ -64,6 +64,19 @@ DEPENDENCIES: dict[str, tuple[str, str]] = {
     PREVIOUS_MODULE_PATH: ("c95e392bac6668c788932ed1ad41874d1c620dbb", PREVIOUS_MODULE_SHA256),
     RUNTIME_PATH: ("59e66b4f502a0da3bd33a5fd8f0247fa2eef606b", "d737a4fcda1619dab86a3da89a726a385d1b4751002217616c9b366917301d4b"),
 }
+# The original runtime dependency above remains the ORDER-365 comparison.
+# Only this separately proved local-font successor is admitted as current.
+FONT_BEFORE_COMMIT = "73adabd958429d746c9197eb4ce86b979e7c7cf0"
+FONT_AFTER_COMMIT = "fb007ebecb2f0d877635f1215e657d185c64f731"
+FONT_BEFORE_TREE = "5e64fb40f49ebe16862bf063f6fec2dec46606be"
+FONT_AFTER_TREE = "07277884cb0ac50b9d05edfe4872c4d13c30db7f"
+FONT_AFTER_BLOB = "60d1714ba4604694bbf71bd6e8e61ca13b882c2e"
+FONT_AFTER_SHA256 = "d7394c2308cad6f5f0712b0bcfced9d4e23c69132e8ad55d74a1cf9d365d7618"
+FONT_ANCHOR = (b"func _ready() -> void:\n"
+               b"\tset_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)\n")
+FONT_ADDITION = (b"\tvar local_theme := Theme.new()\n"
+                 b"\tlocal_theme.default_font = FontKit.ui_regular()\n"
+                 b"\ttheme = local_theme\n")
 RECEIPT_BATCHES: dict[str, dict] = {
     "zh-CN": {
         "kind": "full_game_localization_batch", "schema_version": 1, "locale": "zh-CN",
@@ -132,6 +145,36 @@ def _read_objects(requests: list[tuple[str, str, str]]) -> list[bytes]:
     return objects
 
 
+def _runtime_predecessor(raw: bytes) -> bytes:
+    """Prove the exact three-line font change; never admit its old raw rollback."""
+    _require(isinstance(raw, bytes) and _sha(raw) == FONT_AFTER_SHA256,
+             "ORDER-372 current runtime exceeds exact font successor " + RUNTIME_PATH)
+    old_blob, old_sha = DEPENDENCIES[RUNTIME_PATH]
+    objects = _read_objects([
+        (FONT_BEFORE_COMMIT, FONT_BEFORE_COMMIT, "commit"),
+        (FONT_AFTER_COMMIT, FONT_AFTER_COMMIT, "commit"),
+        (FONT_BEFORE_TREE, FONT_BEFORE_TREE, "tree"),
+        (FONT_AFTER_TREE, FONT_AFTER_TREE, "tree"),
+        (FONT_BEFORE_COMMIT + ":" + RUNTIME_PATH, old_blob, "blob"),
+        (FONT_AFTER_COMMIT + ":" + RUNTIME_PATH, FONT_AFTER_BLOB, "blob"),
+    ])
+    old_headers, new_headers = (body.split(b"\n\n", 1)[0].splitlines() for body in objects[:2])
+    _require([s for s in old_headers if s.startswith(b"tree ")] == [b"tree " + FONT_BEFORE_TREE.encode()]
+             and [s for s in new_headers if s.startswith(b"tree ")] == [b"tree " + FONT_AFTER_TREE.encode()]
+             and [s for s in new_headers if s.startswith(b"parent ")] == [b"parent " + FONT_BEFORE_COMMIT.encode()],
+             "ORDER-372 exact direct parent/tree mismatch")
+    _require(_git("diff", "--name-status", "-z", FONT_BEFORE_COMMIT, FONT_AFTER_COMMIT).split(b"\0")
+             == [b"M", RUNTIME_PATH.encode(), b""], "ORDER-372 exact one-file transition mismatch")
+    before, after = objects[4:]
+    _require(_sha(before) == old_sha and _sha(after) == FONT_AFTER_SHA256 and after == raw,
+             "ORDER-372 immutable/current runtime mismatch")
+    _require(before.count(FONT_ANCHOR) == after.count(FONT_ANCHOR + FONT_ADDITION) == 1
+             and FONT_ADDITION not in before and after.count(FONT_ADDITION) == 1
+             and after.replace(FONT_ANCHOR + FONT_ADDITION, FONT_ANCHOR, 1) == before,
+             "ORDER-372 bytes outside exact local font addition changed")
+    return before
+
+
 def _read_proof() -> dict[str, tuple[bytes, bytes]]:
     _require(all(re.fullmatch(r"[0-9a-f]{40}", value or "") for value in
                  (BEFORE_COMMIT, AFTER_COMMIT, BEFORE_TREE, AFTER_TREE))
@@ -155,7 +198,9 @@ def _read_proof() -> dict[str, tuple[bytes, bytes]]:
              "exact three-file transition population mismatch")
     _require(set(DEPENDENCIES) == {PREVIOUS_MODULE_PATH, RUNTIME_PATH}, "proof dependency population drifted")
     for (path, (_oid, digest)), raw in zip(DEPENDENCIES.items(), objects[10:]):
-        _require(_sha(raw) == digest and (ROOT / path).read_bytes() == raw,
+        current = (ROOT / path).read_bytes()
+        comparison = _runtime_predecessor(current) if path == RUNTIME_PATH else current
+        _require(_sha(raw) == digest and comparison == raw,
                  "original module/runtime bytes drifted " + path)
     _require(DEPENDENCIES[PREVIOUS_MODULE_PATH][1] == PREVIOUS_MODULE_SHA256
              and previous.ROOT == ROOT and Path(previous.__file__).resolve() == ROOT / PREVIOUS_MODULE_PATH,
@@ -349,6 +394,21 @@ def observed_byte_hash(relative: str, observed: str, raw: bytes) -> tuple[str, l
     return observed, errors
 
 
+def runtime_observed_hash(relative: str, observed: str, raw: bytes, *,
+                          current_admitted: bool) -> tuple[str, list[str]]:
+    """Comparison-only font inverse, separate from the actual-current UI API."""
+    if relative != RUNTIME_PATH:
+        return observed, []
+    try:
+        _require(current_admitted, "ORDER-372 current admission failed before runtime comparison")
+        _require(isinstance(raw, bytes) and _sha(raw) == observed,
+                 "ORDER-372 runtime observation is not bound to current raw")
+        with fresh_validation_proof():
+            return _sha(_runtime_predecessor(raw)), []
+    except (OSError, ValueError, KeyError, TypeError, IndexError, subprocess.TimeoutExpired) as exc:
+        return observed, ["ORDER-365: runtime comparison rejected: " + str(exc)]
+
+
 def self_test() -> tuple[list[str], int]:
     from unittest import mock
     failures, cases = [], 0
@@ -473,6 +533,112 @@ def self_test() -> tuple[list[str], int]:
     return failures, cases
 
 
+def runtime_font_self_test() -> tuple[list[str], int]:
+    """Bounded font successor cases; the original receipt/corpus tests stay intact."""
+    from unittest import mock
+    import chapter1_core_loop_v2_causal_ledger_check as chapter1
+
+    failures, cases = [], 0
+
+    def check(ok: bool, label: str) -> None:
+        nonlocal cases
+        cases += 1
+        if not ok:
+            failures.append("ORDER-372 font boundary: " + label)
+
+    current = (ROOT / RUNTIME_PATH).read_bytes()
+    old = _runtime_predecessor(current)
+    old_sha, current_sha = _sha(old), _sha(current)
+
+    def observe(raw=current, claim=current_sha, admitted=True, relative=RUNTIME_PATH):
+        return runtime_observed_hash(relative, claim, raw, current_admitted=admitted)
+
+    check(old_sha == DEPENDENCIES[RUNTIME_PATH][1]
+          == chapter1.EXPECTED_AUDITED_SOURCE_FILE_SHA256[RUNTIME_PATH], "immutable old pins retained")
+    check(current_sha == FONT_AFTER_SHA256 and observe() == (old_sha, []), "exact current comparison")
+    check(not chapter1._audited_source_snapshot_errors({RUNTIME_PATH: old_sha}), "actual chapter1 snapshot entry")
+    check(RUNTIME_PATH not in LIVE_PATHS and len(LIVE_PATHS) == 46, "runtime dependency is not a new live UI path")
+    check(observe(claim=old_sha)[0] == old_sha and bool(observe(claim=old_sha)[1]), "stale observed hash rejected")
+    with mock.patch(__name__ + "._runtime_predecessor", wraps=_runtime_predecessor) as inverse:
+        value, errors = observe(admitted=False)
+        check(value == current_sha and bool(errors) and not inverse.called, "failed admission cannot project")
+    with mock.patch(__name__ + "._git", side_effect=AssertionError("unrelated path must not request proof")):
+        check(observe(relative=RUNTIME_PATH + ".other") == (current_sha, []), "other path is not projected")
+    for value in (None, "not bytes", bytearray(current)):
+        result, errors = observe(raw=value)
+        check(result == current_sha and bool(errors), "nonbyte observed runtime " + type(value).__name__)
+    variants = [
+        ("full rollback", old), ("leading space", b" " + current),
+        ("trailing newline", current + b"\n"), ("empty", b""),
+        ("wrong weight", current.replace(b"FontKit.ui_regular()", b"FontKit.ui_bold()")),
+        ("wrong font", current.replace(b"FontKit.ui_regular()", b"SystemFont.new()")),
+        ("wrong theme", current.replace(b"\ttheme = local_theme\n", b"\ttheme = Theme.new()\n")),
+        ("global theme", current.replace(b"\ttheme = local_theme\n", b"\tThemeDB.default_theme = local_theme\n")),
+        ("duplicate addition", current.replace(FONT_ADDITION, FONT_ADDITION * 2)),
+        ("neighbor gameplay", current.replace(b"_stress_delta += 2", b"_stress_delta += 3")),
+        ("neighbor text", current.replace("취업 준비".encode(), "취업 준비!".encode())),
+    ]
+    lines = FONT_ADDITION.splitlines(keepends=True)
+    for bits in itertools.product((0, 1), repeat=3):
+        if bits != (1, 1, 1):
+            partial = b"".join(line for line, keep in zip(lines, bits) if keep)
+            variants.append(("partial addition " + str(bits), current.replace(FONT_ADDITION, partial)))
+    read_bytes = Path.read_bytes
+    for label, mutant in variants:
+        claim = _sha(mutant)
+        actual, errors = observe(raw=mutant, claim=claim)
+        check(mutant != current and actual == claim and bool(errors), label + " observed bytes")
+
+        def changed_runtime(path):
+            return mutant if path == ROOT / RUNTIME_PATH else read_bytes(path)
+
+        with mock.patch.object(Path, "read_bytes", changed_runtime):
+            check(bool(source_errors(read_bytes(ROOT / LEDGER_PATH), LEDGER_PATH)), label + " current dependency")
+    with mock.patch.object(chapter1, "_file_digest", return_value="0" * 64):
+        errors = chapter1._audited_source_snapshot_errors({RUNTIME_PATH: old_sha})
+        check(any("not bound to current raw" in error for error in errors)
+              and any("audited file snapshot mismatch " + RUNTIME_PATH in error for error in errors),
+              "chapter1 forged hash still reaches original mismatch")
+
+    real_git = _git
+    for label in ("missing", "forged", "wrong population"):
+        def changed_git(*args, **kwargs):
+            if args[0] == "cat-file" and FONT_AFTER_COMMIT.encode() in (kwargs.get("input") or b""):
+                if label == "missing":
+                    return b""
+                if label == "forged":
+                    return b"0" * 40 + b" blob 1\nx\n"
+            if args[0] == "diff" and FONT_AFTER_COMMIT in args and label == "wrong population":
+                return b"M\0scenes/Other.gd\0"
+            return real_git(*args, **kwargs)
+
+        with mock.patch(__name__ + "._git", changed_git):
+            result, errors = observe()
+            check(result == current_sha and bool(errors), "warm successor-only " + label + " proof")
+        check(observe() == (old_sha, []), "fresh recovery after " + label)
+    # Corrupt each of the six successor objects, not the earlier ORDER-365 proof.
+    for object_index in range(6):
+        def altered_object(*args, **kwargs):
+            raw = real_git(*args, **kwargs)
+            if args[0] != "cat-file" or FONT_AFTER_COMMIT.encode() not in (kwargs.get("input") or b""):
+                return raw
+            cursor = 0
+            for index in range(6):
+                end = raw.index(b"\n", cursor)
+                size = int(raw[cursor:end].split()[2])
+                cursor = end + 1
+                if index == object_index:
+                    return raw[:cursor] + bytes([raw[cursor] ^ 1]) + raw[cursor + 1:]
+                cursor += size + 1
+            raise AssertionError("missing successor object")
+
+        with mock.patch(__name__ + "._git", altered_object):
+            result, errors = observe()
+            check(result == current_sha and bool(errors), "altered successor object " + str(object_index))
+    check(observe() == (old_sha, []) and _ACTIVE_PROOF.get() is None, "fresh proof restored without leaked scope")
+    return failures, cases
+
+
 def consumer_boundary_self_test() -> tuple[list[str], int]:
     """Five real current entry points, one raw mutation each; no legacy suites."""
     from unittest import mock
@@ -546,6 +712,10 @@ def main() -> int:
         errors.extend(consumer_failures)
         cases += consumer_cases
         print(f"ORDER365_UI_RECEIPT_CONSUMERS cases={consumer_cases} entry_points=5")
+        font_failures, font_cases = runtime_font_self_test()
+        errors.extend(font_failures)
+        cases += font_cases
+        print(f"ORDER365_UI_RECEIPT_FONT cases={font_cases}")
     for error in errors:
         print("ORDER365_UI_RECEIPT_ERROR " + error)
     print(f"ORDER365_UI_RECEIPT_{'FAIL' if errors else 'OK'} current_files=3 ui_keys=44 "

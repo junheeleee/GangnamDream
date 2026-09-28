@@ -5122,6 +5122,14 @@ def _audited_source_snapshot_errors(
                 else:
                     expected_digest = successor[1]
             observed_digest = _file_digest(relative_path)
+            if relative_path == ui_receipts.RUNTIME_PATH:
+                try:
+                    observed_digest, source_errors = ui_receipts.runtime_observed_hash(
+                        relative_path, observed_digest, (ROOT / relative_path).read_bytes(),
+                        current_admitted=not admission_errors)
+                    errors.extend(source_errors)
+                except OSError as exc:
+                    errors.append(f"ORDER-372: current job-hunt source unavailable: {exc}")
             if relative_path == ORDER363_INVENTORY_PATH:
                 try:
                     observed_digest, source_errors = _order363_inventory_observation(

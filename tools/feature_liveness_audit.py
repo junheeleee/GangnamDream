@@ -40,7 +40,7 @@ STANDALONE_PREFIXES = ("tools/test_",)
 
 
 def scripts() -> list[Path]:
-    return sorted(p for p in ROOT.rglob("*.gd") if ".godot" not in p.parts)
+    return sorted(p for p in ROOT.rglob("*.gd") if not {".godot", ".git"}.intersection(p.relative_to(ROOT).parts))
 
 
 def searchable_text() -> dict[Path, str]:
@@ -50,7 +50,7 @@ def searchable_text() -> dict[Path, str]:
     # scripts as dead even though their isolated export project loads them.
     for pattern in ("*.gd", "*.tscn", "*.tres", "*.cfg", "*.godot"):
         for path in ROOT.rglob(pattern):
-            if ".godot" in path.parts:
+            if {".godot", ".git"}.intersection(path.relative_to(ROOT).parts):
                 continue
             try:
                 out[path] = path.read_text(encoding="utf-8", errors="ignore")
