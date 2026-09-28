@@ -119,6 +119,8 @@ partition. The active manifest owns only the currently reached context rows,
 including each surviving ID, Korean source, allowed English variants, owner
 function, and call count; it does not rewrite the historical snapshot.
 
+Before changing collector code, check its whole-file self-seal and invoke the real collector (helper-only tests can miss that guard); preserve historical pins through an exact successor proof rather than replacing them.
+
 ORDER-97 adds a separate parameterized-template contract without reopening the
 historical context meanings. Its migration revision measured `3,310 calls = 3,273 legacy +
 37 context` and 2,780 unique legacy Korean keys. Later W1 and controller surfaces

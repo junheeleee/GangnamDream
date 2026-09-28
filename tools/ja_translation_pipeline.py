@@ -6156,5 +6156,87 @@ collect_ui_inventory = _notice_collect_ui_inventory
 _last11_meta_title_historical_checks = _notice_historical_checks
 # END_FIRST_START_NOTICE_274
 
+# BEGIN_CURRENT_DEMO_EXPECTATION_370
+CURRENT_DEMO_APPEND_SHA = "b2506e8d3391b7d204ddf527a4d580088a51a14207cf114f5353c1e3c60e4f87"
+CURRENT_DEMO_BEFORE_COMMIT = "f9af121036f44d7d37722f67a182480c565dcb22"
+CURRENT_DEMO_AFTER_COMMIT = "9f3c16ab6c3a3dc8bc8482fc20d30ce4a8f7aa8c"
+CURRENT_DEMO_BEFORE_SHA = "0cc15618245c679bf891244a59ce408b2476283d8f683fde7d22b838a37973f5"
+CURRENT_DEMO_AFTER_SHA = "022a84fbc009329e8f96f7d99575167d9bb1eb84a8bae2b4b5a308ce0fec3a8e"
+CURRENT_DEMO_OLD_HUNK = (
+    '    manifest = read_json(ROOT / "content/meta/demo_localization_scope.json")\n'
+    '    errors.extend(demo_scope.compare_contract(\n'
+    '        manifest.get("source_contract"), observed\n'
+    '    ))\n'
+)
+CURRENT_DEMO_NEW_HUNK = (
+    '    manifest = read_json(ROOT / "content/meta/demo_localization_scope.json")\n'
+    '    expected, expectation_errors = demo_scope.current_source_contract(manifest, observed, runtime)\n'
+    '    errors.extend(expectation_errors)\n'
+    '    errors.extend(demo_scope.compare_contract(\n'
+    '        expected, observed\n'
+    '    ))\n'
+)
+_CURRENT_DEMO_OLD_NOTICE_RAW_VIEW = _notice_raw_view
+
+
+def _current_demo_git(*args):
+    import subprocess
+    result = subprocess.run(("git", "--no-replace-objects", *args), cwd=ROOT,
+                            capture_output=True, timeout=30)
+    if result.returncode:
+        raise ValueError("current-demo immutable Git proof unavailable")
+    return result.stdout
+
+
+def current_demo_pipeline_predecessor(raw):
+    """Prove only the exact369 caller plus this appendix; return immutable274."""
+    if not isinstance(raw, bytes) or Path(__file__).resolve() != ROOT / _NEW_RUN_JA:
+        raise ValueError("current-demo raw/import identity differs")
+    start, end = b"# BEGIN_CURRENT_DEMO_EXPECTATION_370\n", b"# END_CURRENT_DEMO_EXPECTATION_370\n\n"
+    if raw.count(start) != 1 or raw.count(end) != 1:
+        raise ValueError("current-demo appendix boundaries differ")
+    a, z = raw.index(start), raw.index(end) + len(end)
+    span = raw[a:z]
+    binding = ('CURRENT_DEMO_APPEND_SHA = "' + CURRENT_DEMO_APPEND_SHA + '"').encode()
+    if span.count(binding) != 1 or hashlib.sha256(span.replace(
+            binding, b'CURRENT_DEMO_APPEND_SHA = "UNBOUND"', 1)).hexdigest() != CURRENT_DEMO_APPEND_SHA:
+        raise ValueError("current-demo appendix seal differs")
+    after = raw[:a] + raw[z:]
+    new, old = CURRENT_DEMO_NEW_HUNK.encode(), CURRENT_DEMO_OLD_HUNK.encode()
+    if after.count(new) != 1 or hashlib.sha256(after).hexdigest() != CURRENT_DEMO_AFTER_SHA:
+        raise ValueError("current-demo whole369 code/caller differs")
+    before = after.replace(new, old, 1)
+    if hashlib.sha256(before).hexdigest() != CURRENT_DEMO_BEFORE_SHA:
+        raise ValueError("current-demo whole274 inverse differs")
+    # Fresh proof on every outer call: earlier success never masks lost Git data.
+    if _current_demo_git("rev-parse", CURRENT_DEMO_AFTER_COMMIT + "^").decode().strip() != CURRENT_DEMO_BEFORE_COMMIT:
+        raise ValueError("current-demo exact369 parent differs")
+    for revision, expected in ((CURRENT_DEMO_BEFORE_COMMIT, before), (CURRENT_DEMO_AFTER_COMMIT, after)):
+        if _current_demo_git("show", revision + ":" + _NEW_RUN_JA) != expected:
+            raise ValueError("current-demo immutable369 code blob differs")
+    return before
+
+
+def _current_demo_notice_raw_view(source=None):
+    """Admit real current bytes; only the old reader sees its scoped code view."""
+    import subprocess
+    current = {}
+    try:
+        current = {p: (ROOT / p).read_bytes() for p in (NOTICE_PATH, _NEW_RUN_JA)}
+        if source is not None:
+            current[NOTICE_PATH] = source.encode("utf-8")
+        predecessor = current_demo_pipeline_predecessor(current[_NEW_RUN_JA])
+        with _notice_previous_reads({_NEW_RUN_JA: predecessor}):
+            historical_current, previous, errors = _CURRENT_DEMO_OLD_NOTICE_RAW_VIEW(source)
+        if historical_current != {**current, _NEW_RUN_JA: predecessor}:
+            raise ValueError("current-demo historical reader observation differs")
+        return current, previous, errors
+    except (OSError, ValueError, TypeError, UnicodeError, subprocess.TimeoutExpired) as exc:
+        return current, {}, ["current-demo code admission: " + str(exc)]
+
+
+_notice_raw_view = _current_demo_notice_raw_view
+# END_CURRENT_DEMO_EXPECTATION_370
+
 if __name__ == "__main__":
     sys.exit(main())

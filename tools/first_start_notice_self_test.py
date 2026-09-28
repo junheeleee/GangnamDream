@@ -59,7 +59,7 @@ def pins():
 
 def prepare():
     current, previous, errors = pipeline._notice_raw_view()
-    if errors or sha(current[PIPELINE]) != PIPELINE_SHA:
+    if errors or sha(pipeline.current_demo_pipeline_predecessor(current[PIPELINE])) != PIPELINE_SHA:
         raise AssertionError("current notice/code source: " + repr(errors))
     raw = (ROOT / OLD_SELF).read_bytes()
     hook = ENTRY_HOOK.encode()
@@ -239,6 +239,132 @@ def main():
         "effective_negatives": sum(r["effective_negative"] for r in results), "old_suites": 0}, ensure_ascii=False, indent=2))
     print("FIRST_START_NOTICE_SELF_TEST_" + ("OK" if passed else "FAIL") + " cases=14")
     return 0 if passed else 1
+
+
+def current_code_self_test():
+    """Exact369 caller/370 adapter controls; none replaces the original14."""
+    failures, cases = [], 0
+
+    def check(ok, label):
+        nonlocal cases
+        cases += 1
+        if not ok:
+            failures.append("current-demo code boundary: " + label)
+
+    raw = (ROOT / PIPELINE).read_bytes()
+    before = pins()
+    read0, text0 = Path.read_bytes, Path.read_text
+    previous = pipeline.current_demo_pipeline_predecessor(raw)
+    check(sha(previous) == PIPELINE_SHA, "exact historical274 code")
+    current, old, errors = pipeline._notice_raw_view()
+    check(not errors and current[PIPELINE] == raw and current[START] == (ROOT / START).read_bytes(),
+          "current observation returns actual raw")
+    check(sha(old[PIPELINE]) == pipeline.NOTICE_PIPELINE_PREVIOUS_SHA,
+          "older reader still receives pre274 code")
+    inventory = pipeline.collect_ui_inventory()
+    check(not inventory.errors and len(inventory.calls) == 3466
+          and inventory.stats.get("legacy_keys") == 2949
+          and inventory.stats.get("migrated_context_ids") == 29, "actual collector population and stats")
+    check(Path.read_bytes is read0 and Path.read_text is text0, "normal read restoration")
+
+    begin, end = b"# BEGIN_CURRENT_DEMO_EXPECTATION_370\n", b"# END_CURRENT_DEMO_EXPECTATION_370\n\n"
+    a, z = raw.index(begin), raw.index(end) + len(end)
+    span = raw[a:z]
+    no_append = raw[:a] + raw[z:]
+    new, old_hunk = pipeline.CURRENT_DEMO_NEW_HUNK.encode(), pipeline.CURRENT_DEMO_OLD_HUNK.encode()
+    mutations = (
+        ("full old274 rollback", previous), ("369 without appendix", no_append),
+        ("missing caller only", raw.replace(new, old_hunk, 1)),
+        ("duplicate caller", raw.replace(new, new + new, 1)),
+        ("changed caller", raw.replace(b"expected, expectation_errors = demo_scope.current_source_contract",
+                                        b"expected, expectation_errors = demo_scope.other_source_contract", 1)),
+        ("duplicate appendix", raw[:z] + span + raw[z:]),
+        ("missing appendix start", raw.replace(begin, b"", 1)),
+        ("missing appendix end", raw.replace(end, b"", 1)),
+        ("appendix implementation", raw.replace(b"predecessor = current_demo_pipeline_predecessor(",
+                                               b"predecessor = other_pipeline_predecessor(", 1)),
+        ("seal forged", raw.replace(pipeline.CURRENT_DEMO_APPEND_SHA.encode(), b"0" * 64, 1)),
+        ("outside function", raw.replace(b"def git_private_path(filename:", b"def other_private_path(filename:", 1)),
+        ("old pin changed", raw.replace(pipeline.NOTICE_PIPELINE_PREVIOUS_SHA.encode(), b"0" * 64, 1)),
+        ("leading whitespace", b" " + raw), ("trailing newline", raw + b"\n"), ("empty", b""),
+    )
+    for label, mutant in mutations:
+        rejected = False
+        try:
+            pipeline.current_demo_pipeline_predecessor(mutant)
+        except (OSError, ValueError, TypeError):
+            rejected = True
+        def altered_read(path):
+            return mutant if path == ROOT / PIPELINE else read0(path)
+        with patch.object(Path, "read_bytes", altered_read), patch.object(
+                pipeline, "_CURRENT_DEMO_OLD_NOTICE_RAW_VIEW",
+                side_effect=AssertionError("historical reader must not run")) as historical:
+            returned, projected, guard_errors = pipeline._notice_raw_view()
+        check(rejected and bool(guard_errors) and not projected and not historical.called
+              and returned.get(PIPELINE) == mutant, label)
+    for invalid in (None, "not raw bytes", bytearray(raw)):
+        try:
+            pipeline.current_demo_pipeline_predecessor(invalid)
+        except (ValueError, TypeError):
+            check(True, "nonbytes rejected")
+        else:
+            check(False, "nonbytes rejected")
+    actual_git = pipeline._current_demo_git
+    for label, fake in (
+        ("missing Git", lambda *args: (_ for _ in ()).throw(OSError("missing immutable proof"))),
+        ("forged Git blob", lambda *args: b"forged" if args[0] == "show" else actual_git(*args)),
+        ("wrong parent", lambda *args: b"0" * 40 + b"\n" if args[0] == "rev-parse" else actual_git(*args)),
+    ):
+        with patch.object(pipeline, "_current_demo_git", side_effect=fake), patch.object(
+                pipeline, "_CURRENT_DEMO_OLD_NOTICE_RAW_VIEW",
+                side_effect=AssertionError("historical reader must not run")) as historical:
+            returned, projected, guard_errors = pipeline._notice_raw_view()
+        check(bool(guard_errors) and not projected and not historical.called and returned.get(PIPELINE) == raw, label)
+        recovered, _old, guard_errors = pipeline._notice_raw_view()
+        check(not guard_errors and recovered[PIPELINE] == raw, label + " recovery")
+    original_reader = pipeline._CURRENT_DEMO_OLD_NOTICE_RAW_VIEW
+    inside = {}
+    other = ROOT / "content/meta/demo_localization_scope.json"
+    other_raw = other.read_bytes()
+    def observed_reader(source):
+        inside.update(code=(ROOT / PIPELINE).read_bytes() == previous,
+                      text=(ROOT / PIPELINE).read_text(encoding="utf-8") == previous.decode(),
+                      other=other.read_bytes() == other_raw)
+        return original_reader(source)
+    with patch.object(pipeline, "_CURRENT_DEMO_OLD_NOTICE_RAW_VIEW", side_effect=observed_reader):
+        _current, _old, guard_errors = pipeline._notice_raw_view()
+    check(not guard_errors and inside == {"code": True, "text": True, "other": True}, "scoped read only")
+    check(Path.read_bytes is read0 and Path.read_text is text0, "observed reader restoration")
+    caught = False
+    def exploding_reader(source):
+        if (ROOT / PIPELINE).read_bytes() != previous:
+            raise AssertionError("exception fixture not in predecessor scope")
+        raise RuntimeError("deliberate current-demo restoration exception")
+    with patch.object(pipeline, "_CURRENT_DEMO_OLD_NOTICE_RAW_VIEW", side_effect=exploding_reader):
+        try:
+            pipeline._notice_raw_view()
+        except RuntimeError as exc:
+            caught = str(exc) == "deliberate current-demo restoration exception"
+    check(caught and Path.read_bytes is read0 and Path.read_text is text0, "exception restoration")
+    current, _old, guard_errors = pipeline._notice_raw_view()
+    check(not guard_errors and current[PIPELINE] == raw, "recovery after exception")
+    check(before == pins(), "physical inputs unchanged")
+    return failures, cases
+
+
+_ORIGINAL_FIXED14_MAIN = main
+
+
+def main():
+    old_exit = _ORIGINAL_FIXED14_MAIN()
+    try:
+        failures, cases = current_code_self_test()
+    except Exception:
+        failures, cases = [traceback.format_exc()], 0
+    print(json.dumps({"scope": "exact369 caller/current370 code boundary, separate from fixed14",
+                      "failures": failures, "cases": cases}, ensure_ascii=False))
+    print("FIRST_START_NOTICE_CURRENT_CODE_" + ("FAIL" if failures else "OK") + f" cases={cases}")
+    return int(bool(old_exit or failures))
 
 
 if __name__ == "__main__":
