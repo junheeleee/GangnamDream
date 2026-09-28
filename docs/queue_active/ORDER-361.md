@@ -2,18 +2,32 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-## 2026-09-28 통합 후속 착수
+## 2026-09-28 통합 후속 착수 — 기존 수리의 최종 판정만
 
-- [351의 후속 선언](ORDER-351.md#2026-09-28-통합-후속-착수--기존-수리의-최종-판정만)과
-  같은 clean 기준에서 읽기 전용 증거 결속·별도361 판정을 수행한다. 신규 구현0.
-  root는 이 사양/큐/마감 기록, compat357은 private 보존 증거, r3_route_probe는
-  비저자 최종 보고만 소유한다. 기존124판정/102보고·실패·제품 바이트 불변이다.
-- 원19종17PASS/2FAIL·20실행과 receipt 반례 보강을 보존한다. 바뀐 두 검사에는
-  363/364의 실제 normal/full689를 결속하며 나머지17 PASS는 도구/입력/독자 경계의
-  차이 비영향을 확인한 범위만 재사용한다. 기존역사1955 및 engine 재실행0이다.
-- 새 보고 `ORDER-361-followup.json`은 실제 clean source에 결속한다. 이전 HOLD
-  보고를 수정하지 않는다. Chapter1 부채8/blocked3/24슬롯gap·351 화면 관측 한계·
-  본편/새package HOLD·인간/원어민/물리 미관측은 그대로다. 일회성/외부권한0.
+- clean main `2b6a3829f70e1ac14a97b55a2294f59f25b66b02`에서 CLAUDE·큐·이 사양·
+  WORK_UNIT·개발 스킬을 재확인했다. QA 프로필 5정본은 직전 전량 독해 뒤 변경0.
+  선행363/364는 각 독립 GO와 실제 normal/full689로 마감했다. 새 제품 저작0.
+- root 소유: 351·이 사양·큐2·CLAUDE 현재행·WORK_LOG·생성 STATUS, 기존 원장
+  append와 새 `docs/agent_reviews/ORDER-351-followup.json`,
+  `docs/agent_reviews/ORDER-361-followup.json`; GO인 사양만 archive로 이동한다.
+  이전124판정/102보고는 덮어쓰지 않는다. 현재행은 선언에서 먼저 source로 고정한다.
+- `/root/compat357`은 private `order351-361-followup-proof.py/.json`만 소유한다.
+  제품12파일·48receipt·게임/화면 자산·기존 보고/실패/검사 artifact의 byte 동일성과
+  변경 경계를 읽기 전용으로 결속한다. 도구·제품·수용 검사 실행/수정0이다.
+- 비저자 `/root/r3_route_probe`가 기존 전수 문구87/PNG70 검토와 현재 동일성을
+  직접 대조하고361/362 및363/364의 수리·실제 로그를 읽어 두 별도 unit 판정한다.
+  private 최종 보고 두 개만 작성한다. 통합 GO를 사전에 가정하지 않는다.
+- 351의 old admission6경로는361 full-body normal/self162, inventory2축/생성표는
+  362 실제 검토·normal/self45, 361의 Chapter1 두 실패는363/364 normal/full689에
+  각각 연결한다. 기존 실패를 PASS로 고치거나 미실행 corpus를 소급하지 않는다.
+- 전체 입력 동일을 주장하지 않는다. 362 inventory의 candidate SHA 두 필드는
+  chapter5의 공개 계약 독자와 불교차이고, 역사1955의 현재 Chapter1 StoryMode
+  경계는363의 consumer7 증거로 잇는다. 코드 차이와 호출 경계를 별도로 확인한다.
+- 이번은 기존 수리 통합 검토 1배치이며 원고·번역·엔진·새 PNG/입력·기존 장시간
+  검사 반복0. 마감 metadata context/queue/판정/STATUS만 변경 뒤 검증한다.
+  여섯 문구 결함 범위 밖인 민서 기억·산문 심화·4장 전체 품질은 닫지 않는다.
+  본편/새package HOLD, 원어민/인간/물리 미관측·공개 GO·인간 원장 불변.
+- 일회성 후속이며 상시 규범 승격0, 외부 출시·스토어·지출·법률 인증0이다.
 
 ## 2026-09-28 후속363/364 실행 — 통합 판정은 별도
 
