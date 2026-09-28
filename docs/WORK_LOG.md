@@ -2,6 +2,12 @@
 
 이전 원문 전체는 [2026-09-28 이전 기록](history/WORK_LOG_2026-09-28_pre_order351.md)에 바이트 그대로 보존했다.
 
+## 2026-09-28 (Codex — 4장 원문 수리 뒤 콘텐츠 검토 기록 두 축 갱신)
+
+- [362](queue_active/ORDER-362.md): 선언 `be6bd91`/경로 정정 `6df5de6` 뒤 inventory 두 SHA와 기존 생성표만 갱신했다. 저자·비저자가 네 후보 사건 KO/EN 전문과 변경8문구를 각각 읽었고, 퇴원/재입원 설명 외 행위·강도 변화0이다. 나머지31문구는 후보 밖이다. 7축 후보 ID/개수/파일·기존 facts/intensity·다른5축 지문 불변이다.
+- inventory normal/self45·context·queue 4검사 PASS, 각 전후1838 text source 동일·stderr/timeout0. 결과 summary SHA `0efc347597e19382af1efbbdbb376e08c048b372bce6cab3fef61ca2ec3dd49f`; dirty 제품 실행과 clean source 최종 독립 판정은 구분한다. 영향선택20은 실행20이 아니다. 원351 exit1·3오류와361의1장 두 실패를 보존했고363에서만 역사 비교를 연결한다.
+- source-bound 독립 최종 판정은 아직 대기다. 게임 원문/번역/코드 추가 변경0, 공개 데모·기존121판정/99보고·인간 원장 보존. 원어민/인간/물리·새 화면/입력·법률/외부 출시 관찰·행동0이며 본편/새package HOLD다. 지시는 일회성·상시 규범 승격0, 개발 스킬의 실제 원문 검토·독립 검수·표적 검증을 적용했다.
+
 ## 2026-09-28 (Codex — 4장 수리 검증 연결 구현, 별도 기록 연결 누락으로 HOLD)
 
 - 비저자 [361 최종보고](agent_reviews/ORDER-361.json) SHA `eb4ddd52afed87de1100f0a654bce578c7c88665976b064179d150de3c2b2b84`를 private원본과 byte-identical로 보존했다. clean source `22f0d0ddbb42e393bf290ecaf0c664d28a3d5163`/tree `6246af71a02a922e36cb6756f8b37300ee85401f`에 결속한 HOLD이며 기존120판정/98보고 뒤 각1개만 append(121/99)했다. 실행→마감은 문서8변경+363추가뿐이고 검사한 코드/제품은 동일, 전체20실행과역사fixture 신원을 독립 재대조했다. 미결1원인/2실패와362→363 순서를 유지한다.

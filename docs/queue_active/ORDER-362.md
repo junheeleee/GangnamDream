@@ -10,6 +10,48 @@
 수리한다. 이 기록을 곧 다시 바꿀 예정이므로360만 먼저 연결해 같은 검사를
 반복하지 않는다. 361 GO를 이 작업의 선행으로 요구하는 순환 대기는 두지 않는다.
 
+## 2026-09-28 구현·검토 결과 — clean source 독립 최종 판정 대기
+
+- 선언 `be6bd91` 및 원장 경로 정정 `6df5de6` 뒤 제품 2파일만 변경했다.
+  기준360 `c94cd3ae19f22a015b3bd6b6e25afb17a8561242`부터 시작점까지
+  KO/EN 변경은351의39문구, 이 중 후보 사건의 description 8개(4사건×2언어)다.
+  나머지31문구는 7축 후보 밖이며 전량 읽었다. 새 구조·조건·효과·선택 변경0.
+- `arc_y4_family_partner_collision_jiyeon`: 퇴원 후 첫 서울 방문 명시.
+  crime 검색은 기존 결과의 `표를 사기 전에` 오탐으로 이미 등록되어 있다.
+  범죄 행위·강도 변화가 아니다. `arc_y4_three_promises`와 `_deal_only`,
+  `_jiyeon_and_deal`은 재입원 명시이며 기존 약표 대조/복용 확인의 건강 서사다.
+  네 사건 KO/EN 전문·조건문·선택·결과 및 전후 본문을 저자와 비저자가
+  각각 읽어 기존 facts/intensity 유지가 타당함을 확인했다.
+- crime 후보73/40파일·ID SHA `4e0463a4d699a58c1c3fc7fa856c80b4218417badce2d62ec0403d389294c0dd`,
+  alcohol 후보82/39파일·ID SHA `32942c5a49b64e9027b5a0071e1c95d6d205478ef05ea6ad25c5ad3c5d90433f`
+  불변. 다른5축 content SHA와 7축 후보 집합도 동일하다.
+- content SHA만 crime `3909aa7574de228b135c25936226f3c5bf1018bfc16b1585b212cf71be4cf933`
+  → `f4fd635402ca61ce5632576a11b5d461a7e3cd32ed85f7a5eea80ba4e1e834dd`,
+  alcohol `3ab95d312b2b2d36bdd76293987362ac765786937153245652442fbb1c8c418d`
+  → `421a29f3f803fa35668b14a1b64a8ffd101616dfc7d9b6d5b863ab42cc924ef4`.
+  기존 생성기로 표를 재생성했고 같은 두 셀 외 raw 변경0이다.
+- inventory raw SHA `2ff675845e1017764eb67c1c9c330ecd3b3507fa0b40535757b00bba073a88b0`
+  → `f46041343731f5cd64b680f778cff9ee77ea0c67fe114536f27a557fe5c1ead0`.
+  생성표 SHA `c306b061c4b89aef40eb10c1833e0b06e0eff919d7941eb30986625c79f9d9d0`.
+- 표적4검사: inventory normal(6.420초), self45(9.176초), context(0.280초),
+  queue(0.262초) 모두 exit0·정확 marker·stderr0·timeout0. 각 전후1838개
+  tracked/untracked text source census 동일. 영향선택20개는 실행20개가 아니다.
+  실행은 `6df5de6` 위 dirty 제품 바이트에서 했으며 clean commit 재실행은 아니다.
+  이후 마감 문서 변경과 검사한 제품의 동일성을 최종 검수에서 대조한다.
+- 후보 packet `.git/full-game-localization/order362-candidate-packet.json` SHA
+  `8de9115ab734b6941a0446782c8c0b8f0ffd8a02f26a3d10f0bed1e29faadae8`,
+  결과 summary `order362-first-summary.json` SHA
+  `0efc347597e19382af1efbbdbb376e08c048b372bce6cab3fef61ca2ec3dd49f`.
+  원351 실패 stdout SHA `62ecd8616a661e9b35d8f4384206b07e1312f02b1d09ff661530b764eacdaff9`
+  및 exit1·3오류를 보존했다. 선언 이전 증거/인간 판정을 고쳐 PASS로 만들지 않았다.
+- 독립 원문 검수 `/root/r3_route_probe`는 두 SHA를 Git에서 별도 재계산했고
+  기존 facts/intensity 변경 필요0을 보고했다. 최종 clean-source 판정은 별도다.
+  등급·법률 인증·원어민/인간/물리·새 엔진/화면/자연 입력·전체240주 관찰0.
+  351/361 통합과 본편/새package HOLD 유지. 다음363만 역사 비교를 수리한다.
+- 규범 판정: 이 오더의 실행·검증·소유 지시는 일회성이다. 기존 WORK_UNIT과
+  콘텐츠 인벤토리 정본 적용이며 상시 규범 신규 승격0. 스킬은 선행 선언,
+  파일 소유 분리, 실제 원문 검토, 표적 검증과 독립 판정을 적용하는 데 사용했다.
+
 ## 깊이 3문
 
 1. 왜 지금인가: 현재 본문과 검토 기록을 일치시켜 변경 사실을 숨기지 않는다.
