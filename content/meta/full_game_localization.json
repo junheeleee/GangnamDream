@@ -5098,6 +5098,48 @@
         "zh-CN": "c3bd943141c16b992274a2fd485bd691010387dce5c4b8b610fe0752c6db2ad9",
         "zh-TW": "8412e26ebe5a8c23e357c125c78e93a3e2ed83a4762b51d879f5a88b94aa8248"
       }
+    },
+    {
+      "order": "ORDER-365",
+      "group": "ui",
+      "roots": [
+        "자기소개서 완성",
+        "모의 면접 종료",
+        "첫 장으로 돌아간 원고",
+        "마지막 답 뒤 이어진 질문",
+        "멈춰 다시 읽은 줄",
+        "메모가 남은 면접",
+        "끝까지 쓴 한 장",
+        "예정된 마지막 질문",
+        "다시 고칠 표시가 많은 초안",
+        "일찍 닫힌 수첩",
+        "첫 장으로 돌아가 경력 문장을 한 번 더 고쳤다.",
+        "면접관이 정해 둔 시간을 넘겨 다음 질문을 꺼냈다.",
+        "경력 문장 옆에 고쳐 쓸 표시 하나가 남았다.",
+        "면접관은 답변 하나를 적고 마지막 질문까지 이어 갔다.",
+        "마지막 줄까지 썼지만 접힌 모서리나 메모는 남지 않았다.",
+        "면접관은 고개를 한 번 끄덕인 뒤 예정된 질문만 마쳤다.",
+        "끝까지 썼지만 네 답 옆에는 근거를 다시 채울 표시가 남았다.",
+        "면접관은 수첩을 먼저 닫았고, 방 안의 침묵이 길어졌다.",
+        "화면을 닫고도 어깨의 힘이 오래 빠지지 않았다.",
+        "마지막 문장을 저장하자 막혔던 숨이 조금 풀렸다.",
+        "문을 닫고 나와도 어깨의 힘이 오래 빠지지 않았다.",
+        "밖으로 나오자 막혔던 숨이 조금 풀렸다."
+      ],
+      "source_leaves": 22,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 22,
+        "zh-TW": 22
+      },
+      "source_review": "Independent Korean-direct CN/TW22 job-hunt result keys; nonauthor full44 values and22 literal readers. Four resume answers, grade-specific paper/interviewer reactions and stress-sign body reactions preserved without added hiring outcomes or hidden scores. JA/KO/EN/runtime/public/human and existing40302 unchanged. Actual render/input/native/full-product review remain OPEN.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "31e2c627590e744bd407cac91055c109236e91ba9b35341c67c3bfb4e4d0bd00",
+        "zh-TW": "d6a568875ccf8430287fab8891a552cf1efa8d44a4cd828dbf3b749656d2882a"
+      }
     }
   ],
   "accepted": {
@@ -111931,6 +111973,94 @@
       "events:arc_year3_close:/description_if_known/arc_jaehyuk_ghost_seen": {
         "source_sha256": "19bed5a3c220607364198e9f3288dbe5db6b4f7a68d3c79066ac63642d7074d8",
         "target_sha256": "ea97d0f76ef22ee7d8c964b6ec1aba5998d26960128370992d1350a559a38be5"
+      },
+      "ui:경력 문장 옆에 고쳐 쓸 표시 하나가 남았다.:/경력 문장 옆에 고쳐 쓸 표시 하나가 남았다.": {
+        "source_sha256": "1b125bf4eac7dc2dccdec8e0a8e612464e9358a70669a9b0ecefae57d115c20b",
+        "target_sha256": "245a11bb4f552adbaa94ac33a6497f4342c8c831dcb24ce60e6f06b89c92a4c5"
+      },
+      "ui:끝까지 썼지만 네 답 옆에는 근거를 다시 채울 표시가 남았다.:/끝까지 썼지만 네 답 옆에는 근거를 다시 채울 표시가 남았다.": {
+        "source_sha256": "b97267a30a66394826ef4339bccd03448fe8ac1e4c0a92240078823f9992f3c1",
+        "target_sha256": "2a483788ac5530b2144c77218ef4ce6933adfbc95c375e3c70da3c446e44cef5"
+      },
+      "ui:끝까지 쓴 한 장:/끝까지 쓴 한 장": {
+        "source_sha256": "3d1b53e6d9f1afca49503df30529d72407c5b9f21456fe2f381a69bf8e7caffb",
+        "target_sha256": "8e8085e8facf40a8482b482df8bfff3970b90277df9cf955f02d9b3de7328de5"
+      },
+      "ui:다시 고칠 표시가 많은 초안:/다시 고칠 표시가 많은 초안": {
+        "source_sha256": "e52fe1c01fec87355a994e0d88e179c6e77c290c2528593a3448c957068dd328",
+        "target_sha256": "26218e134fd6967032df0546599e3da792384ba4018ddf5cb5dc655ac6d0c6a2"
+      },
+      "ui:마지막 답 뒤 이어진 질문:/마지막 답 뒤 이어진 질문": {
+        "source_sha256": "bead635356be9cc1839cf4100c2f9d5f4b114f12cdd9e454e9517489c3d2acf2",
+        "target_sha256": "fb115cbbcea46e102551ff55c2e71453f6993236286e0e37ad39baf21b4c98c6"
+      },
+      "ui:마지막 문장을 저장하자 막혔던 숨이 조금 풀렸다.:/마지막 문장을 저장하자 막혔던 숨이 조금 풀렸다.": {
+        "source_sha256": "dd9007cce4497d87371eee7beed4441c7f9660fd7e57fe0df3ad553f1cbbf81b",
+        "target_sha256": "9984efa857e22a980af5a23cbb7283ba49133e93cfd85dc2295a62fc675b65a6"
+      },
+      "ui:마지막 줄까지 썼지만 접힌 모서리나 메모는 남지 않았다.:/마지막 줄까지 썼지만 접힌 모서리나 메모는 남지 않았다.": {
+        "source_sha256": "9a9c9c84365db8a4c8647d8a5ec2a4b8c86d1def86ab7a668af47798c73be374",
+        "target_sha256": "fa646e5a0e1f6ae14d8fc59676f1c328044cec22d6e64fbec470cd76cb5c7792"
+      },
+      "ui:멈춰 다시 읽은 줄:/멈춰 다시 읽은 줄": {
+        "source_sha256": "59f028b6f68d3ee10822d0d9fa395a413c75f7e7e3fff10957c06514276160df",
+        "target_sha256": "7ede3d0a58b54740a0ebecc9224211b7fcc1d02966ffcb3b216b39d507854973"
+      },
+      "ui:메모가 남은 면접:/메모가 남은 면접": {
+        "source_sha256": "660cec54db70eeaab97edd46b2d9f63156179d82379becff4720966a2577cbc0",
+        "target_sha256": "30afecea62cfabfa5cd2bfb962f263783223975d3b10641d68076cffbd199316"
+      },
+      "ui:면접관은 고개를 한 번 끄덕인 뒤 예정된 질문만 마쳤다.:/면접관은 고개를 한 번 끄덕인 뒤 예정된 질문만 마쳤다.": {
+        "source_sha256": "4bd567c3bc34bd78d93a197d3a330e4106f9e4ca21f71c670c05876757a55fea",
+        "target_sha256": "51f550367923381483f28ce0716f1b7852416d27e09ce2acf73f15f144a22040"
+      },
+      "ui:면접관은 답변 하나를 적고 마지막 질문까지 이어 갔다.:/면접관은 답변 하나를 적고 마지막 질문까지 이어 갔다.": {
+        "source_sha256": "36ae4e462c66cf6966811911774a17297258adbc0372f38aa81f4bb30131ed38",
+        "target_sha256": "a1dbbed45090a538ad4c9b6af1a29f9bbcb566f721c2fa42eeb9cb7258f51345"
+      },
+      "ui:면접관은 수첩을 먼저 닫았고, 방 안의 침묵이 길어졌다.:/면접관은 수첩을 먼저 닫았고, 방 안의 침묵이 길어졌다.": {
+        "source_sha256": "d0143339b0da403fba5f645bdaa38bd8178b602da26da64d04dbb0fc0ae6654f",
+        "target_sha256": "ef85a696671432f475ac74f5e54e1c753905d198d15847348d4d93562ae3d1f5"
+      },
+      "ui:면접관이 정해 둔 시간을 넘겨 다음 질문을 꺼냈다.:/면접관이 정해 둔 시간을 넘겨 다음 질문을 꺼냈다.": {
+        "source_sha256": "e65419ded354e9d63f5425c881b0d384c2ebed2de7116df5f3b8a56267f22521",
+        "target_sha256": "74f2590a710fa95ff0bb86d8afb51ea3e89903321da8fabb61add2d29439c39a"
+      },
+      "ui:모의 면접 종료:/모의 면접 종료": {
+        "source_sha256": "62e7d52350a9c76ae23b095d7558795cdb3cf93d54660f1d6b05183f41b0cff1",
+        "target_sha256": "f783ddfb7b019d7352ad929920990a016133e0e574fe16012864d55319510ca9"
+      },
+      "ui:문을 닫고 나와도 어깨의 힘이 오래 빠지지 않았다.:/문을 닫고 나와도 어깨의 힘이 오래 빠지지 않았다.": {
+        "source_sha256": "069ccfeb4bac460a4d7cbc516f8511211ab822c8019f5b012b2c55e72618408e",
+        "target_sha256": "be90796c7b9f299d6320aa9ab3af875eb0c8da3de69fc7935d0a9589bea59f51"
+      },
+      "ui:밖으로 나오자 막혔던 숨이 조금 풀렸다.:/밖으로 나오자 막혔던 숨이 조금 풀렸다.": {
+        "source_sha256": "d16991303ac772a339099e6dc2ea691a9cc8ae809838aa72347d46ccc016c8c4",
+        "target_sha256": "c56b4111ec352de82e7d86bd7539c31ee7b3f5b058fcc76fdf6a809321bc2147"
+      },
+      "ui:예정된 마지막 질문:/예정된 마지막 질문": {
+        "source_sha256": "1e4b49f998d01e61488686342094a95090fd891173cdcf9d8332b436df0c6db9",
+        "target_sha256": "24be638c8b5f0e425b3bde1c8e6f5e09a6f9afe393f100d9306ceb00e6e6e3ae"
+      },
+      "ui:일찍 닫힌 수첩:/일찍 닫힌 수첩": {
+        "source_sha256": "c4d900ab2441af5e6e4956413a68929bb5ff6aba73ea5ce91a5c19a99f56b858",
+        "target_sha256": "1701ad7f9cb975f0c18e5248d4a89207664e090fdeaf3a4036139b61262d3b5b"
+      },
+      "ui:자기소개서 완성:/자기소개서 완성": {
+        "source_sha256": "d4334856904f00a318752e764f07789374ec3e7d5e69477f99d59906c24f1f2a",
+        "target_sha256": "bd3839bb2a75d64e86ab1e4843a33ea0a3b0831f962860dc788a6e332c58d79f"
+      },
+      "ui:첫 장으로 돌아가 경력 문장을 한 번 더 고쳤다.:/첫 장으로 돌아가 경력 문장을 한 번 더 고쳤다.": {
+        "source_sha256": "21424c5fa3d6b8865f84144a876109d0e65d25e4c945c536cdcb2922de33a4be",
+        "target_sha256": "28fafccc1deffdc68d45863704642721b402d90c50d859572dd304f43875a39a"
+      },
+      "ui:첫 장으로 돌아간 원고:/첫 장으로 돌아간 원고": {
+        "source_sha256": "434b9afacb3ddd20eaee79f82270643bdac6aa656db1bc2c65663f5eddc91091",
+        "target_sha256": "0bab5f5bc025300d91dd77b69cc13b215e6568d4c6720e05e80d45eb06eaf568"
+      },
+      "ui:화면을 닫고도 어깨의 힘이 오래 빠지지 않았다.:/화면을 닫고도 어깨의 힘이 오래 빠지지 않았다.": {
+        "source_sha256": "7892bccca819958cea9e4304eeaa43038793aefc6e6b8e61e84a747f03dc0c54",
+        "target_sha256": "024981b7a8577fe7856c12a590038a4b3c0922cad324e94259bf5730edb35b12"
       }
     },
     "zh-TW": {
@@ -166313,10 +166443,98 @@
       "events:arc_year3_close:/description_if_known/arc_jaehyuk_ghost_seen": {
         "source_sha256": "19bed5a3c220607364198e9f3288dbe5db6b4f7a68d3c79066ac63642d7074d8",
         "target_sha256": "5ce23a67dc22d90c50c47c1a1aef6daec6502d084ee0a828d5b746be1669020f"
+      },
+      "ui:경력 문장 옆에 고쳐 쓸 표시 하나가 남았다.:/경력 문장 옆에 고쳐 쓸 표시 하나가 남았다.": {
+        "source_sha256": "1b125bf4eac7dc2dccdec8e0a8e612464e9358a70669a9b0ecefae57d115c20b",
+        "target_sha256": "cf9fd953aed555b24f0e0c4738615998312343762f3b430839c7e3863916fe91"
+      },
+      "ui:끝까지 썼지만 네 답 옆에는 근거를 다시 채울 표시가 남았다.:/끝까지 썼지만 네 답 옆에는 근거를 다시 채울 표시가 남았다.": {
+        "source_sha256": "b97267a30a66394826ef4339bccd03448fe8ac1e4c0a92240078823f9992f3c1",
+        "target_sha256": "b1e8ed00ffb880c1cd15323bb5298bdea6da94c9526a35d701fe2d34922a91a8"
+      },
+      "ui:끝까지 쓴 한 장:/끝까지 쓴 한 장": {
+        "source_sha256": "3d1b53e6d9f1afca49503df30529d72407c5b9f21456fe2f381a69bf8e7caffb",
+        "target_sha256": "84ebb11b084d2fe74ed9b80310d9f130357297e20d47ac326add30f71baac639"
+      },
+      "ui:다시 고칠 표시가 많은 초안:/다시 고칠 표시가 많은 초안": {
+        "source_sha256": "e52fe1c01fec87355a994e0d88e179c6e77c290c2528593a3448c957068dd328",
+        "target_sha256": "a303fe4a4f26b0468c35cc648152e1259b03f63139eedaf977514da5fea0f410"
+      },
+      "ui:마지막 답 뒤 이어진 질문:/마지막 답 뒤 이어진 질문": {
+        "source_sha256": "bead635356be9cc1839cf4100c2f9d5f4b114f12cdd9e454e9517489c3d2acf2",
+        "target_sha256": "c1f9ae00c16a2db63759710a942dcba3064e377711fcf50cdaa192d056084c96"
+      },
+      "ui:마지막 문장을 저장하자 막혔던 숨이 조금 풀렸다.:/마지막 문장을 저장하자 막혔던 숨이 조금 풀렸다.": {
+        "source_sha256": "dd9007cce4497d87371eee7beed4441c7f9660fd7e57fe0df3ad553f1cbbf81b",
+        "target_sha256": "71d57027747563568632899db967d000d428bf6a5e19ada48e625c9918d3f74e"
+      },
+      "ui:마지막 줄까지 썼지만 접힌 모서리나 메모는 남지 않았다.:/마지막 줄까지 썼지만 접힌 모서리나 메모는 남지 않았다.": {
+        "source_sha256": "9a9c9c84365db8a4c8647d8a5ec2a4b8c86d1def86ab7a668af47798c73be374",
+        "target_sha256": "154c114176f516154dffeaff1c50563ac5486334eb6cbb97f568763194add4af"
+      },
+      "ui:멈춰 다시 읽은 줄:/멈춰 다시 읽은 줄": {
+        "source_sha256": "59f028b6f68d3ee10822d0d9fa395a413c75f7e7e3fff10957c06514276160df",
+        "target_sha256": "c52179e6116ab7609700bd1dfdef5e7cc8f988ae527b8abef926225701e294e3"
+      },
+      "ui:메모가 남은 면접:/메모가 남은 면접": {
+        "source_sha256": "660cec54db70eeaab97edd46b2d9f63156179d82379becff4720966a2577cbc0",
+        "target_sha256": "b678c88d2c8679b8b4530a6327597a6ec36bbef04ba872e0e5349dcd9bf2f042"
+      },
+      "ui:면접관은 고개를 한 번 끄덕인 뒤 예정된 질문만 마쳤다.:/면접관은 고개를 한 번 끄덕인 뒤 예정된 질문만 마쳤다.": {
+        "source_sha256": "4bd567c3bc34bd78d93a197d3a330e4106f9e4ca21f71c670c05876757a55fea",
+        "target_sha256": "2b0bfa7abe69b63ed44e03bc76cd2b814f1166814b196cffd4401ee9cd191e7e"
+      },
+      "ui:면접관은 답변 하나를 적고 마지막 질문까지 이어 갔다.:/면접관은 답변 하나를 적고 마지막 질문까지 이어 갔다.": {
+        "source_sha256": "36ae4e462c66cf6966811911774a17297258adbc0372f38aa81f4bb30131ed38",
+        "target_sha256": "21f66a40dc1d9a928fe9086ef4dcb41ede8b566cd907d938d171312fda6f7526"
+      },
+      "ui:면접관은 수첩을 먼저 닫았고, 방 안의 침묵이 길어졌다.:/면접관은 수첩을 먼저 닫았고, 방 안의 침묵이 길어졌다.": {
+        "source_sha256": "d0143339b0da403fba5f645bdaa38bd8178b602da26da64d04dbb0fc0ae6654f",
+        "target_sha256": "da175997dbb457636369b18046bb9d618d983a0fde66d98e7288e5ca51924ec6"
+      },
+      "ui:면접관이 정해 둔 시간을 넘겨 다음 질문을 꺼냈다.:/면접관이 정해 둔 시간을 넘겨 다음 질문을 꺼냈다.": {
+        "source_sha256": "e65419ded354e9d63f5425c881b0d384c2ebed2de7116df5f3b8a56267f22521",
+        "target_sha256": "177ce914bc4ee95ae9e11d689afa3394cdb7f7c2fdc977032df1e6162055f4f9"
+      },
+      "ui:모의 면접 종료:/모의 면접 종료": {
+        "source_sha256": "62e7d52350a9c76ae23b095d7558795cdb3cf93d54660f1d6b05183f41b0cff1",
+        "target_sha256": "b8bbf46d56d62239900419e55e41894823d4bd2970cb72dbc57caf502d41a080"
+      },
+      "ui:문을 닫고 나와도 어깨의 힘이 오래 빠지지 않았다.:/문을 닫고 나와도 어깨의 힘이 오래 빠지지 않았다.": {
+        "source_sha256": "069ccfeb4bac460a4d7cbc516f8511211ab822c8019f5b012b2c55e72618408e",
+        "target_sha256": "ade838d5a0d753a9ac2abcd8e2b0e05cc46d1719b04eca872d2710ea4f9bc8ab"
+      },
+      "ui:밖으로 나오자 막혔던 숨이 조금 풀렸다.:/밖으로 나오자 막혔던 숨이 조금 풀렸다.": {
+        "source_sha256": "d16991303ac772a339099e6dc2ea691a9cc8ae809838aa72347d46ccc016c8c4",
+        "target_sha256": "4c8a35e902b4de3153b32b85540e10293fe3b041b300e8470d71c3f45097b393"
+      },
+      "ui:예정된 마지막 질문:/예정된 마지막 질문": {
+        "source_sha256": "1e4b49f998d01e61488686342094a95090fd891173cdcf9d8332b436df0c6db9",
+        "target_sha256": "d4253517de61793fd504f5c14b27522ebf1d3c2aad5e7e370522178ecc0d1522"
+      },
+      "ui:일찍 닫힌 수첩:/일찍 닫힌 수첩": {
+        "source_sha256": "c4d900ab2441af5e6e4956413a68929bb5ff6aba73ea5ce91a5c19a99f56b858",
+        "target_sha256": "960c36300ab0038e602ab50491f58ddada50cd626295a79858dc610f244970c3"
+      },
+      "ui:자기소개서 완성:/자기소개서 완성": {
+        "source_sha256": "d4334856904f00a318752e764f07789374ec3e7d5e69477f99d59906c24f1f2a",
+        "target_sha256": "2038498401e470bc51283b6527d2b6268e4cc422c664e8b715df2fad30196116"
+      },
+      "ui:첫 장으로 돌아가 경력 문장을 한 번 더 고쳤다.:/첫 장으로 돌아가 경력 문장을 한 번 더 고쳤다.": {
+        "source_sha256": "21424c5fa3d6b8865f84144a876109d0e65d25e4c945c536cdcb2922de33a4be",
+        "target_sha256": "fe9bfa69658d3c59b0b21b2693d92fc3c39b7bd14d35b020712251f8f8c30863"
+      },
+      "ui:첫 장으로 돌아간 원고:/첫 장으로 돌아간 원고": {
+        "source_sha256": "434b9afacb3ddd20eaee79f82270643bdac6aa656db1bc2c65663f5eddc91091",
+        "target_sha256": "2a5fb68f598334de8c4208701d32cbf8ed80e11facd4ea912072200cba5aa51a"
+      },
+      "ui:화면을 닫고도 어깨의 힘이 오래 빠지지 않았다.:/화면을 닫고도 어깨의 힘이 오래 빠지지 않았다.": {
+        "source_sha256": "7892bccca819958cea9e4304eeaa43038793aefc6e6b8e61e84a747f03dc0c54",
+        "target_sha256": "1ac6f8cc76035d62a890ab9c783a371de418630cea4959fad132e5586ee52df0"
       }
     }
   },
-  "accepted_sha256": "e84d147f6ada6eeaf5d46c3fd55af09eb1853d08d298461e62b0090e2c7a11d3",
+  "accepted_sha256": "c0c797cf86d2f1485f3a95a4b7e8018451fecc44d3db5f06feee4baac3c68264",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
