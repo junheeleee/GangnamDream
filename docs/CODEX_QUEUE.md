@@ -53,8 +53,8 @@
 | 1 | [~] | ORDER-302 · 체험판 대본 사실·영어 정합 수리 | [302](queue_active/ORDER-302.md) | 수리7항목 source GO · successor package 별도 선언/검수 HOLD |
 | 2 | [~] | ORDER-351 · 본편 4장 대본 아버지 행방·영어 표기 정합 | [351](queue_active/ORDER-351.md) | 문구87·화면64상태 · 검증 연결 구현 · 363 뒤 후속 판정 · HOLD |
 | 3 | [~] | ORDER-361 · 4장 수리 현재·역사 검증 연결 | [361](queue_active/ORDER-361.md) | 검증 연결 구현 · 19종17PASS/2FAIL →363 · HOLD |
-| 4 | [~] | ORDER-363 · 콘텐츠 검토 기록의 1장 역사 비교 연결 | [363](queue_active/ORDER-363.md) | normal·표적6PASS / full1FAIL · 기존 proof 반례2 →364 · HOLD |
-| 5 | [~] | ORDER-364 · 기존 반례의 proof 소유자 복원 | [364](queue_active/ORDER-364.md) | 착수 · mock 대상1줄 · 원형 반례 보존 |
+| 4 | [~] | ORDER-363 · 콘텐츠 검토 기록의 1장 역사 비교 연결 | [363](queue_active/ORDER-363.md) | 정확 inventory 연결 · normal/self689 PASS · 독립 최종 대기 |
+| 5 | [~] | ORDER-364 · 기존 반례의 proof 소유자 복원 | [364](queue_active/ORDER-364.md) | 원형 owner1줄 복원 · 표적18/full689 PASS · 독립 최종 대기 |
 | 6 | [ ] | ORDER-352 · 본편 5장 대본 이름·시간·회수 정합 | [352](queue_active/ORDER-352.md) | 5장 HOLD 수리 닫힌 뒤 착수 · 미실행 |
 
 

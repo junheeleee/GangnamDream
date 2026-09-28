@@ -6,6 +6,36 @@
 
 2026-09-28 Codex 발행·착수. 363의 실제 full self 실패에서 분리한 1단위/1배치.
 
+## 2026-09-28 수리·실제 결과 — 독립 최종 대기
+
+- 선언 `989a92db8829154e116296e5c807a3877f0b73b0` 뒤 mock owner 한 줄만 복원.
+  원형358 `0bfc2805fd1ebb21363174a5a779511a3208e03a`의 current_source는350였다.
+  입력·assert·반복수·production·원형모듈 변경0. 역치환하면363 첫코드 SHA
+  `16e815a6fc7249b1ca20d6155057039edd392cbf2b17919fc2fd3898e4c2e079`와 전체 raw 동일.
+  최종 SHA `49a408e6955f7c5263d4c9e37f8fb65a53d44141eb94b9eec09625c6af2b6f74`.
+- 기존18 표적검사 exit0/9.908초, record SHA
+  `f013b9727cd1745acfd67f2b93324c2180f04363e7f6b1a53568cff9e5b1fd57`.
+  marker `ORDER364_ORIGINAL_PROOF_BOUNDARY_OK cases=18`.
+- full689 재검 exit0/1025.104초, record SHA `6980b31e18c9f822bb81f5a1ea6635e35c8009c546c41777442bc1243d62178e`.
+  marker `CHAPTER1_CAUSAL_LEDGER_SELF_TEST_OK cases=689`. 두 실행의 text1840 전후
+  동일·stderr/timeout0. 363 첫 full실패는1033.169초 exit1로 따로 보존한다.
+- 최초363의6PASS는 이번 바뀐 self 함수에 도달하지 않는다. 제품 코드·등록·소비자
+  바이트 동일 및 차이 비영향으로 재사용하며 같은 검사를 이유 없이 반복하지 않는다.
+  context/queue는 각 당시 문서의 PASS이며 최종 문서는 별도 마감 검사로 결속한다.
+  전체689 안에 표적18/focused63 포함. 기존622/신규4/신규63을 삭제·면제하지 않았다.
+- clean source-bound 독립 최종 판정은 대기다. 게임 원문/번역/공개/인간 기록 불변,
+  351/361 통합·본편·새package HOLD. 자동계약은 재미·원어민/인간/물리 관측이 아니다.
+
+| L2 항목 | 측정값 / 위치 |
+|---|---|
+| 도달 경로 | ORDER364_ORIGINAL_PROOF_BOUNDARY_OK cases=18; full689 exit0 |
+| 생산자 ↔ 독자 | tools/order350_source_compat.py:530 ↔ tools/chapter1_core_loop_v2_causal_ledger_check.py:4967 |
+| 바꾸는 상태 | 잘못된351 mock 소유자 → 원형350 owner; 같은 assertion2 FAIL→PASS |
+| 포기 시 잃는 것 | missing immutable proof / altered immutable proof, 원형350 반례2 |
+| 서사 위치 | N/A: 기존 KO midgame 검증 fixture; 제품0변경 |
+| 장면 계층 | N/A: 장면 저작0 |
+| 닫는 것 | 반례 소유자 오류1; 출시/본편 품질 판정0 |
+
 ## 착수 전 깊이 3문
 
 1. 왜 지금인가: 이전 inventory 실패가 가렸던 기존 반례2개가 실제 full 실행에서

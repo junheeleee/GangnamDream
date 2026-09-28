@@ -2,6 +2,14 @@
 
 이전 원문 전체는 [2026-09-28 이전 기록](history/WORK_LOG_2026-09-28_pre_order351.md)에 바이트 그대로 보존했다.
 
+## 2026-09-28 (Codex — 검토된 콘텐츠 기록과 1장 역사 비교 연결)
+
+- [363](queue_active/ORDER-363.md): 선언 `d0d586a` 뒤 검사1·등록2만 수정했다. 현재 raw/관측SHA/선행 admission 결속 후 immutable Git8객체와 정확6+2필드 raw 역변환으로 원형156 기대값에 잇는다. pin·기존 negative·원형 모듈·게임 원문/번역·inventory·생성표 불변이다.
+- 첫 focused63·normal·StoryMode 소비자7·등록/context/queue 6PASS 뒤 full은1033.169초 기존 proof 반례2FAIL. [364](queue_active/ORDER-364.md)를 별도 선언 `989a92d`하고 원형 mock owner 한 줄만 복원했다. 표적18 및 full689 재검 PASS. 수용8종9실행(8PASS/1FAIL), 최종8종 PASS이며 마감 metadata검사는 별도다. 689=기존622+361의4+새63, focused63/표적18은 포함분이다.
+- normal의 debt8/blocked3·W25~48 24슬롯gap·원361 두실패·이번첫full실패를 보존한다. 첫검사1839/수리후1840 text 각각 전후동일, PASS실행 stderr/timeout0. 실행은 각각선언HEAD dirty3도구, clean commit 재실행0이다. 기존6PASS는 변경된 반례함수를 호출하지 않아 별도 반복0이다.
+- 비저자 정적 검수와 root AST 대조에서 기존상수/pin 불변, 양성4호출 외 기존self 본문 동일을 확인했다. 새 lane1/check1 등록 외 기존 목록 exact. 전체shell·역사1955·엔진·새화면/입력·240주 및 무관한361 통과검사 반복0.
+- source-bound 독립 최종 판정은 대기다. 351/361은 그 뒤 별도 후속 보고/판정까지 HOLD. 개발 스킬의 범위 선언·소유 분리·표적 실행·독립 검수를 적용했다. 과거122판정/100보고·인간OPEN45·공개GO1 보존, 원어민/인간/물리 미관측·본편/새package HOLD·외부출시/스토어/지출/법률 인증0이다.
+
 ## 2026-09-28 (Codex — 4장 원문 수리 뒤 콘텐츠 검토 기록 두 축 갱신)
 
 - 마감 context/queue PASS(active80/in_progress76), agent 원장 self222 PASS. 121개 원장 raw prefix·기존99보고·인간 원장·8개 보고 증거 SHA·새 보고 원본 동일성과 metadata-only 마감을 확인했다. 다음363은 읽기 전용으로 최소 연결 지점과4개 양성 fixture를 확인했으며 아직 구현·검사 실행0이다.

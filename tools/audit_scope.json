@@ -14,6 +14,33 @@
   ],
   "fast_lanes": [
     {
+      "id": "chapter1-inventory-history",
+      "paths": [],
+      "owned_paths": [
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/audit_scope.json",
+        "tools/audit.sh",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/WORK_LOG.md",
+        "docs/STATUS.md",
+        "docs/agent_review_decisions.json",
+        "docs/queue_active/ORDER-351.md",
+        "docs/queue_active/ORDER-361.md",
+        "docs/queue_active/ORDER-363.md",
+        "docs/queue_archive/ORDER-363.md",
+        "docs/agent_reviews/ORDER-363.json"
+      ],
+      "tools": [
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py --inventory-history-self-test",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py --self-test",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Explicit-only ORDER363: bind the current inventory raw observation to immutable reviewed ORDER360/362 field-only transitions before historical Chapter1 comparison. Preserve original101/151-156 pins, all existing cases, debt, human evidence and public package. No runtime, prose, translation, engine or whole-shell rerun."
+    },
+    {
       "id": "chapter4-prose-source-compat",
       "paths": [],
       "owned_paths": [
@@ -3379,6 +3406,15 @@
       "paths": [
         "scenes/SeoulCycleBoard.gd",
         "tools/demo_core_loop_v2_audit.py"
+      ]
+    },
+    {
+      "tool": "tools/chapter1_core_loop_v2_causal_ledger_check.py --inventory-history-self-test",
+      "why": "Chapter1의 검토된 inventory360/362 exact raw/Git 전이·관측 결속 및 변조 거절",
+      "paths": [
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "content/meta/release_content_inventory.json",
+        "tools/audit_scope.json"
       ]
     },
     {

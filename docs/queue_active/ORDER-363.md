@@ -5,7 +5,60 @@
 #### [~] ORDER-363 [P1·검증] 콘텐츠 검토 기록의 정확한 후속값을 1장 역사 비교에 연결한다
 
 2026-09-28 Codex 발행. 361의 실제 Chapter1 normal/self 실패를 분리한 후속이다.
-362의 본문 재검토와 지문 갱신 뒤 착수한다. 구현·pin 변경·검사 재실행0.
+362의 본문 재검토와 지문 갱신 뒤 착수한다. 아래 선언 후 구현·표적 실행을 마쳤으며 원형pin 변경0이다.
+
+## 2026-09-28 실제 구현·실행 결과 — 최종 독립 판정 대기
+
+- 정확3도구만 수정했다. 현재 raw와 관측 SHA 및 선행 admission을 먼저 확인한
+  뒤 새로 읽은 immutable Git 8객체의 신원·내용을 검증한다. 360의6필드와362의
+  2필드만 raw literal로 역변환하여 원래156 SHA에 연결한다. 캐시·새 공용 모듈0.
+- 기존101/151~156 상수·pin·원형 모듈·`_file_digest` 불변. 363의 기존 함수 변경은
+  snapshot gate/self_test/main 3개이며364는 기존반례 mock owner 한 줄이다. 양성 fixture4곳의 함수명만 원복하면
+  기존 self_test 전체 AST와 동일하다. 새63사례는 현재원문/claim 결속, rollback,
+  공백·인접필드·사실·공개pin·다른경로·Git 위조/누락/timeout·성공 뒤 실패를 검사한다.
+- 최초 표적6종 PASS 후 full1FAIL을 보존하고,364의 원형 mock owner 한 줄 복원 뒤
+  표적18 및 full689 실제 PASS. 수용선은8종9실행(8PASS/1FAIL), 최종8종 PASS다.
+  실제 **689=기존622+361추가4+새63**이며 focused63·표적18은689에 포함되어 별도 합산하지 않는다.
+  normal은 `debt_codes=8 blocked=3` 및 기존 W25~48 24슬롯 gap을 그대로 보고한다.
+  이는 ledger snapshot 검증이지 인과 부채 해소나 완성된1장·본편 GO가 아니다.
+- 기존316→Chapter1 StoryMode 경계7사례 PASS. 보조 파일 SHA `8cb37847748846002a65afcd8bcc33c48bc4e104c2339922649c9e5da9a3cade`를
+  실행 entry와 사후 현재바이트에서 재대조했다. 전체316 corpus 재실행0.
+- 최초6종 및 첫full은 tracked+untracked text1839,364 표적18/재full은1840경로다.
+  각각 HEAD/tree/status·실행기 SHA·원361 실패2개/로그와 전후 census가 동일하다.
+  PASS 실행의 stderr/timeout0이며 실패1건은그대로다. 실행은 각 선언HEAD
+  dirty3도구 기준이며 clean마감커밋에서 재실행했다고 주장하지 않는다.
+- audit의 기존 lane/check 등록은 전량 동일하며 새 explicit-only lane1/check1과
+  shell 표적호출/exit flag만 추가했다. 선택목록6은 별도 수용 실행6이 아니다.
+  shell 전체·역사1955·엔진·화면·240주·다른361 통과검사 재실행0.
+- 최초361의 normal/self exit1 및 이번363의1033.169초 full실패를 보존한다. 원361 self는 당시 준비단계
+  실패였고, 이번689 완료를 과거626 완료로 소급하지 않는다. 게임 원문·번역·
+  inventory·생성 콘텐츠표·공개 데모·기존122판정/100보고·인간 원장 변경0.
+- 비저자 정적 검토와 원형358 대조에서364의 exact owner 복원을 확인했다. clean source와 원문 실행증거를 결속한 최종
+  판정은 별도 대기다. 351/361 통합 후속도 별도 검수/보고까지 HOLD다.
+
+| 검사 | 실제 결과 | record SHA256 |
+|---|---|---|
+| focused | exit0 / 0.832초 | `e36949ad0fa805f06640166eb9237c5b7f18e0778c99c819d03c1de48874e927` |
+| normal | exit0 / 35.748초 | `0bbe5eddca67d04cc817392449a6ad23fe6118623ab71087f4bf6d0431ffa5d9` |
+| consumer | exit0 / 8.189초 | `1c01987e3b5a64699e87c7c6e9bcda0364cdf9353e7d174181501f05a4aa1bdb` |
+| registration | exit0 / 0.226초 | `f0558de9bbd59aeced6df737ef67120ab28d53fbfb33e6ab4b9a2bafdaa4d56a` |
+| context | exit0 / 0.273초 | `4c547e208d87c0f207014cbeac8cc388b5ba85e2586ec9e083fbb0994cf3f993` |
+| queue | exit0 / 0.276초 | `99981b5d7edc9f41baa8142c197f059addf7b1b9387ac6ae010ed0dc1c83e0ee` |
+| self | exit0 / 1025.104초 | `6980b31e18c9f822bb81f5a1ea6635e35c8009c546c41777442bc1243d62178e` |
+
+| L2 항목 | 측정값 / 위치 |
+|---|---|
+| 도달 경로 | CHAPTER1_INVENTORY_HISTORY_SELF_TEST_OK cases=63; CHAPTER1_CAUSAL_LEDGER_SELF_TEST_OK cases=689 |
+| 생산자 ↔ 독자 | tools/chapter1_core_loop_v2_causal_ledger_check.py:4459 → :4578 → :5124; 양성 fixture :4601 |
+| 바꾸는 상태 | inventory snapshot mismatch exit1 ×2 → normal exit0 / self689 exit0 |
+| 포기 시 잃는 것 | order361-first-11/12: inventory snapshot mismatch; 역사 fixture 준비 중단 |
+| 서사 위치 | N/A: 검증 연결; Ch4 원문351·inventory360/362는 그대로 |
+| 장면 계층 | N/A: 게임/장면/화면 저작0 |
+| 닫는 것 | 역사 비교 연결 결함1과 별도364 반례의 owner복원; 351/361 통합·본편·새package HOLD 유지 |
+
+자동 계약은 재미·깊이·문체 또는 원어민/인간/물리 감각 관측이 아니다.
+개발 스킬의 선행 선언·파일 소유 분리·표적 검증·독립 검수를 적용했다.
+일회성 수리이며 상시 규범 승격·외부 출시/스토어/지출/법률 인증0이다.
 
 ## 2026-09-28 실제 첫 실행 — 기존 반례의 증명 소유자 오류로 HOLD
 

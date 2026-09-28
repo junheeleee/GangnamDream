@@ -23,6 +23,7 @@ import itertools
 import json
 import os
 import re
+import subprocess
 import sys
 import tempfile
 import time
@@ -4447,6 +4448,318 @@ def _file_digest(relative_path: str) -> str:
     return hashlib.sha256(payload).hexdigest()
 
 
+# ORDER-363 is an observation bridge, not a new inventory or source baseline.
+# All ORDER-101/151-156 pins above remain the historical comparison authority.
+ORDER363_INVENTORY_PATH = "content/meta/release_content_inventory.json"
+ORDER363_INVENTORY_HASHES = (
+    "eaa588e0401af69a9079aa2d11f105e4e57c6780e5030c517320a34a5f251764",
+    "2ff675845e1017764eb67c1c9c330ecd3b3507fa0b40535757b00bba073a88b0",
+    "f46041343731f5cd64b680f778cff9ee77ea0c67fe114536f27a557fe5c1ead0",
+)
+ORDER363_INVENTORY_TRANSITIONS = (
+    (
+        "c94cd3ae19f22a015b3bd6b6e25afb17a8561242",
+        "f41efdb2ea1b5a646bff10604d89fdd00ac9c620",
+        "3aca35e10dfe81c654aae44ea6b2451e91d819b5",
+        "e38ec469fe5550912c99560531f03f9f4ae2988d",
+        "f7ca93d46b4349086d397647a7d1b9670e9306b4",
+        ("gambling", "sexuality", "violence", "fear", "crime", "alcohol_tobacco_drugs"),
+    ),
+    (
+        "c7db93f7fc915a4d16fa5e8f63fa8b72343a6491",
+        "6df5de6ac3a5db5b53391e55416bd423e38a1f0c",
+        "96b70c27fd4a833c6b1150742b19da38415f59f0",
+        "f7ca93d46b4349086d397647a7d1b9670e9306b4",
+        "be41b58761b4045deafd527534d7472655841adf",
+        ("crime", "alcohol_tobacco_drugs"),
+    ),
+)
+
+
+def _order363_inventory_git_read(requests: list[tuple[str, str, str]]) -> list[bytes]:
+    """Read fresh objects in one process; verify identities, not Git exit alone.
+
+    No success cache survives this call. A later missing/corrupt Git object must
+    fail even after a prior successful observation in the same Python process.
+    """
+    process = subprocess.run(
+        ("git", "--no-replace-objects", "cat-file", "--batch"), cwd=ROOT,
+        input="".join(expression + "\n" for expression, _, _ in requests).encode("ascii"),
+        capture_output=True, timeout=30)
+    if process.returncode:
+        raise ValueError("ORDER-363: immutable Git proof unavailable")
+    output, cursor, objects = process.stdout, 0, []
+    for expression, expected_oid, kind in requests:
+        end = output.find(b"\n", cursor)
+        header = output[cursor:end].split() if end >= 0 else []
+        if len(header) != 3 or header[:2] != [expected_oid.encode(), kind.encode()] \
+                or not header[2].isdigit():
+            raise ValueError("ORDER-363: Git object identity/type mismatch " + expression)
+        size = int(header[2])
+        raw = output[end + 1:end + 1 + size]
+        cursor = end + 1 + size
+        if len(raw) != size or output[cursor:cursor + 1] != b"\n" \
+                or hashlib.sha1(kind.encode() + b" " + str(size).encode()
+                                + b"\0" + raw).hexdigest() != expected_oid:
+            raise ValueError("ORDER-363: Git object bytes mismatch " + expression)
+        cursor += 1
+        objects.append(raw)
+    if cursor != len(output):
+        raise ValueError("ORDER-363: trailing Git proof data")
+    return objects
+
+
+def _order363_inventory_inverse(before: bytes, after: bytes, axes: tuple[str, ...]) -> bytes:
+    """Replace only the reviewed candidate hash literals; retain every raw byte."""
+    # Reuse the already imported, immutable source module's strict duplicate/
+    # non-finite JSON parser and literal spans, not any of its prose projections.
+    old_doc, new_doc = current_source._Document(before), current_source._Document(after)
+    old_axes, new_axes = old_doc.value["content_axes"], new_doc.value["content_axes"]
+    old_ids = [axis["id"] for axis in old_axes]
+    new_ids = [axis["id"] for axis in new_axes]
+    if old_ids != new_ids or len(set(old_ids)) != len(old_ids) \
+            or len(set(axes)) != len(axes) or not set(axes) <= set(old_ids):
+        raise ValueError("ORDER-363: inventory axis identity/order mismatch")
+    replacements = []
+    for axis in axes:
+        index = old_ids.index(axis)
+        leaf = ("content_axes", index, "candidate_scan", "expected_content_sha256")
+        old_value = old_axes[index]["candidate_scan"]["expected_content_sha256"]
+        new_value = new_axes[index]["candidate_scan"]["expected_content_sha256"]
+        if not all(isinstance(value, str) and re.fullmatch(r"[0-9a-f]{64}", value)
+                   for value in (old_value, new_value)) or old_value == new_value:
+            raise ValueError("ORDER-363: reviewed content hash delta mismatch " + axis)
+        old_start, old_end = old_doc.spans[leaf]
+        start, end = new_doc.spans[leaf]
+        replacements.append((start, end, old_doc.text[old_start:old_end]))
+    text = new_doc.text
+    for start, end, literal in sorted(replacements, reverse=True):
+        text = text[:start] + literal + text[end:]
+    inverse = text.encode("utf-8")
+    if inverse != before:
+        raise ValueError("ORDER-363: bytes outside reviewed inventory hash fields changed")
+    return inverse
+
+
+def _order363_inventory_verified_history() -> tuple[bytes, bytes]:
+    requests = []
+    for commit, parent, tree, before_oid, after_oid, _axes in ORDER363_INVENTORY_TRANSITIONS:
+        requests.extend((
+            (commit, commit, "commit"), (tree, tree, "tree"),
+            (parent + ":" + ORDER363_INVENTORY_PATH, before_oid, "blob"),
+            (commit + ":" + ORDER363_INVENTORY_PATH, after_oid, "blob"),
+        ))
+    objects = _order363_inventory_git_read(requests)
+    pairs = []
+    for index, (_commit, parent, tree, _before_oid, _after_oid, axes) in enumerate(
+            ORDER363_INVENTORY_TRANSITIONS):
+        commit_raw, _tree_raw, before, after = objects[index * 4:index * 4 + 4]
+        headers = commit_raw.split(b"\n\n", 1)[0].splitlines()
+        if [line for line in headers if line.startswith(b"parent ")] != [b"parent " + parent.encode()] \
+                or [line for line in headers if line.startswith(b"tree ")] != [b"tree " + tree.encode()]:
+            raise ValueError("ORDER-363: exact product parent/tree mismatch")
+        if tuple(hashlib.sha256(raw).hexdigest() for raw in (before, after)) \
+                != ORDER363_INVENTORY_HASHES[index:index + 2]:
+            raise ValueError("ORDER-363: immutable inventory raw hash mismatch")
+        _order363_inventory_inverse(before, after, axes)
+        pairs.append((before, after))
+    if pairs[0][1] != pairs[1][0]:
+        raise ValueError("ORDER-363: 360/362 inventory bytes are not contiguous")
+    # Compose the real raw inverses 362 -> 360 -> the unchanged ORDER-156 pin.
+    intermediate = _order363_inventory_inverse(*pairs[1], ORDER363_INVENTORY_TRANSITIONS[1][5])
+    previous = _order363_inventory_inverse(
+        pairs[0][0], intermediate, ORDER363_INVENTORY_TRANSITIONS[0][5])
+    if hashlib.sha256(previous).hexdigest() != ORDER156_AUDITED_SOURCE_FILE_TRANSITIONS[
+            ORDER363_INVENTORY_PATH][1]:
+        raise ValueError("ORDER-363: unchanged ORDER-156 comparison pin mismatch")
+    return previous, pairs[1][1]
+
+
+def _order363_inventory_observation(
+        relative: str, observed: str, raw: bytes, *, current_admitted: bool) -> tuple[str, list[str]]:
+    """Admit the exact current observation before consulting any history."""
+    if relative != ORDER363_INVENTORY_PATH:
+        return observed, []
+    errors = []
+    if not current_admitted:
+        errors.append("ORDER-363: current source admission failed before inventory projection")
+    if not isinstance(raw, bytes) or hashlib.sha256(raw).hexdigest() != ORDER363_INVENTORY_HASHES[2]:
+        errors.append("ORDER-363: inventory is not the exact current raw source")
+    if not isinstance(raw, bytes) or hashlib.sha256(raw).hexdigest() != observed:
+        errors.append("ORDER-363: inventory observed hash is not bound to current raw bytes")
+    if errors:
+        return observed, errors
+    try:
+        previous, current = _order363_inventory_verified_history()
+        if raw != current:
+            raise ValueError("ORDER-363: observed inventory differs from verified Git source")
+        return hashlib.sha256(previous).hexdigest(), []
+    except (OSError, ValueError, KeyError, TypeError, IndexError, subprocess.TimeoutExpired) as exc:
+        return observed, ["ORDER-363: inventory history rejected: " + str(exc)]
+
+
+def _order363_inventory_fixture_hash(relative: str) -> str:
+    """Positive fixtures use the real gate; negative _file_digest mocks stay raw."""
+    observed = _file_digest(relative)
+    if relative == ORDER363_INVENTORY_PATH:
+        observed, errors = _order363_inventory_observation(
+            relative, observed, (ROOT / relative).read_bytes(), current_admitted=True)
+        if errors:
+            raise AssertionError("; ".join(errors))
+    return observed
+
+
+def order363_inventory_history_self_test() -> tuple[list[str], int]:
+    """Bounded inventory-only corpus; never substitutes for the legacy suite."""
+    failures: list[str] = []
+    cases = 0
+
+    def check(ok: bool, label: str) -> None:
+        nonlocal cases
+        cases += 1
+        if not ok:
+            failures.append("ORDER-363 inventory history: " + label)
+
+    requests = []
+    for commit, parent, tree, before_oid, after_oid, _axes in ORDER363_INVENTORY_TRANSITIONS:
+        requests.extend((
+            (commit, commit, "commit"), (tree, tree, "tree"),
+            (parent + ":" + ORDER363_INVENTORY_PATH, before_oid, "blob"),
+            (commit + ":" + ORDER363_INVENTORY_PATH, after_oid, "blob"),
+        ))
+    objects = _order363_inventory_git_read(requests)
+    before, middle, after = objects[2], objects[3], objects[7]
+    path = ORDER363_INVENTORY_PATH
+    current_hash = hashlib.sha256(after).hexdigest()
+    old_hash = ORDER156_AUDITED_SOURCE_FILE_TRANSITIONS[path][1]
+    check((ROOT / path).read_bytes() == after, "fixture is the real current raw source")
+    actual, errors = _order363_inventory_observation(
+        path, current_hash, after, current_admitted=True)
+    check(actual == old_hash and not errors, "real Git-backed 362 then 360 inverse")
+
+    def changed(keys: tuple, value: Any) -> bytes:
+        document = json.loads(after)
+        row = document
+        for key in keys[:-1]:
+            row = row[key]
+        if keys[-1] not in row:
+            raise AssertionError("inventory mutation must address an existing field")
+        row[keys[-1]] = value
+        # Preserve the file's formatting so each semantic probe is localized.
+        return (json.dumps(document, ensure_ascii=False, indent=2) + "\n").encode()
+
+    scan = ("content_axes", 5, "candidate_scan")
+    mutations = (
+        ("pre-360 rollback", before), ("post-360 rollback", middle),
+        ("trailing whitespace", after + b" "), ("leading whitespace", b" " + after),
+        ("raw reformat", json.dumps(json.loads(after), ensure_ascii=False).encode()),
+        ("reviewed hash mutation", changed((*scan, "expected_content_sha256"), "0" * 64)),
+        ("neighbor candidate count", changed((*scan, "expected_event_count"), -1)),
+        ("neighbor ID hash", changed((*scan, "expected_ids_sha256"), "0" * 64)),
+        ("neighbor search rule", changed((*scan, "tokens_ko"), ["unapproved"])),
+        ("unchanged language hash", changed(("content_axes", 4, "candidate_scan",
+                                             "expected_content_sha256"), "0" * 64)),
+        ("fact content", changed(("content_axes", 5, "facts", 0, "summary_ko"), "unapproved")),
+        ("public package pin", changed(("public_story_demo_package_contract", "package_source_commit"), "0" * 40)),
+        ("corpus fact", changed(("corpus_contract", "ko_events"), -1)),
+        ("axis order", changed(("content_axes",), list(reversed(json.loads(after)["content_axes"])))),
+        ("duplicate key", after.replace(b'{', b'{"schema_version":1,', 1)),
+        ("non-finite JSON", after.replace(b'{', b'{"unapproved":NaN,', 1)),
+        ("invalid JSON", b"{"), ("empty raw", b""),
+    )
+    for label, raw in mutations:
+        claim = hashlib.sha256(raw).hexdigest()
+        with patch(f"{__name__}._order363_inventory_verified_history") as project:
+            actual, errors = _order363_inventory_observation(
+                path, claim, raw, current_admitted=True)
+            check(actual == claim and bool(errors) and not project.called,
+                  label + " fails before Git projection, including recalculated claim")
+    for label, raw, claim, admitted in (
+        ("unbound old claim", after, old_hash, True),
+        ("forged current claim", after, "0" * 64, True),
+        ("altered raw borrows current claim", after + b"\n", current_hash, True),
+        ("failed whole-source admission", after, current_hash, False),
+        ("non-byte raw", after.decode(), current_hash, True),
+    ):
+        with patch(f"{__name__}._order363_inventory_verified_history") as project:
+            actual, errors = _order363_inventory_observation(
+                path, claim, raw, current_admitted=admitted)
+            check(actual == claim and bool(errors) and not project.called, label)
+    for relative in (
+        "elsewhere/release_content_inventory.json", "./" + path, str(ROOT / path),
+        path + ".other", "docs/CONTENT_RATING_INVENTORY.md", "content/meta/story_rules.json",
+    ):
+        with patch(f"{__name__}._order363_inventory_verified_history") as project:
+            actual, errors = _order363_inventory_observation(
+                relative, current_hash, after, current_admitted=False)
+            check(actual == current_hash and not errors and not project.called,
+                  "other path has zero projection: " + relative)
+
+    # Reach the literal reconstruction guard independently of the admission
+    # hash, so these probes cannot pass merely because the current SHA differs.
+    for label, raw in mutations[6:]:
+        try:
+            _order363_inventory_inverse(middle, raw, ORDER363_INVENTORY_TRANSITIONS[1][5])
+        except (ValueError, KeyError, TypeError, IndexError):
+            check(True, "literal guard: " + label)
+        else:
+            check(False, "literal guard: " + label)
+    for axes in (("crime",), ("crime", "alcohol_tobacco_drugs", "language"),
+                 ("crime", "crime", "alcohol_tobacco_drugs")):
+        try:
+            _order363_inventory_inverse(middle, after, axes)
+        except ValueError:
+            check(True, "removed/expanded/duplicated field scope")
+        else:
+            check(False, "removed/expanded/duplicated field scope")
+
+    def batch_output(payloads: list[bytes]) -> bytes:
+        return b"".join(oid.encode() + b" " + kind.encode() + b" "
+                        + str(len(raw)).encode() + b"\n" + raw + b"\n"
+                        for (_, oid, kind), raw in zip(requests, payloads))
+
+    valid_output = batch_output(objects)
+    bad_outputs = [
+        ("missing object after prior success", requests[0][1].encode() + b" missing\n"),
+        ("forged object ID", b"0" * 40 + valid_output[40:]),
+        ("wrong object type", valid_output.replace(b" commit ", b" blob ", 1)),
+        ("truncated object", valid_output[:-2]),
+        ("trailing proof bytes", valid_output + b"unapproved\n"),
+    ]
+    for index, label in ((0, "360 product parent"), (1, "360 tree"),
+                         (2, "360 parent blob"), (3, "360 product blob"),
+                         (4, "362 product parent"), (5, "362 tree"),
+                         (6, "362 parent blob"), (7, "362 product blob")):
+        altered = list(objects)
+        if index in (0, 4):
+            altered[index] = altered[index].replace(b"parent ", b"parent 0", 1)
+        else:
+            altered[index] += b" "
+        bad_outputs.append((label, batch_output(altered)))
+    for label, output in bad_outputs:
+        with patch.object(subprocess, "run", return_value=subprocess.CompletedProcess(
+                ["git"], 0, output, b"")) as git_read:
+            actual, errors = _order363_inventory_observation(
+                path, current_hash, after, current_admitted=True)
+            check(actual == current_hash and any("Git object" in error or "trailing Git" in error
+                                                for error in errors) and git_read.call_count == 1,
+                  "fresh proof rejection: " + label)
+    for label, kwargs in (
+        ("Git nonzero", {"return_value": subprocess.CompletedProcess(["git"], 1, b"", b"missing")}),
+        ("Git unavailable", {"side_effect": OSError("missing Git fixture")}),
+        ("Git timeout", {"side_effect": subprocess.TimeoutExpired(["git"], 30)}),
+    ):
+        with patch.object(subprocess, "run", **kwargs) as git_read:
+            actual, errors = _order363_inventory_observation(
+                path, current_hash, after, current_admitted=True)
+            check(actual == current_hash and any("history rejected" in error for error in errors)
+                  and git_read.call_count == 1, label)
+    actual, errors = _order363_inventory_observation(
+        path, current_hash, after, current_admitted=True)
+    check(actual == old_hash and not errors, "fresh valid proof still works after failures")
+    return failures, cases
+
+
 def _order243_history_byte_hash(current_hash: str, relative: str) -> str:
     """Bind a live hash observation to raw; historical claims remain unchanged."""
     if relative != locale_history.MAIN_GAME_PATH:
@@ -4651,7 +4964,7 @@ def order350_source_boundary_self_test() -> tuple[list[str], int]:
         ("missing immutable proof", {"side_effect": ValueError("missing proof")}),
         ("altered immutable proof", {"return_value": (before, after + b"\n")}),
     ):
-        with mock.patch.object(current_source, "verified_blobs", **kwargs):
+        with mock.patch.object(chapter3_source, "verified_blobs", **kwargs):
             actual, errors = _order350_audited_source_observation(
                 relative, new_hash, after, current_admitted=True)
             check(actual == new_hash and bool(errors), label)
@@ -4808,6 +5121,14 @@ def _audited_source_snapshot_errors(
                 else:
                     expected_digest = successor[1]
             observed_digest = _file_digest(relative_path)
+            if relative_path == ORDER363_INVENTORY_PATH:
+                try:
+                    observed_digest, source_errors = _order363_inventory_observation(
+                        relative_path, observed_digest, (ROOT / relative_path).read_bytes(),
+                        current_admitted=not admission_errors)
+                    errors.extend(source_errors)
+                except OSError as exc:
+                    errors.append(f"ORDER-363: current inventory source unavailable: {exc}")
             if relative_path in header_source.PATHS:
                 try:
                     observed_digest, source_errors = header_source.observed_byte_hash(
@@ -21308,7 +21629,7 @@ def self_test(ledger: dict[str, Any], baseline: dict[str, Any]) -> int:
         successor = ORDER156_AUDITED_SOURCE_FILE_TRANSITIONS.get(relative_path)
         current_digest = successor[1] if successor is not None else current_digest
         if EXPECTED_AUDITED_SOURCE_FILE_SHA256.get(relative_path) != transition[0] \
-                or _file_digest(relative_path) != current_digest:
+                or _order363_inventory_fixture_hash(relative_path) != current_digest:
             raise AssertionError(f"ORDER-151 exact source transition drifted {relative_path}")
         rewritten_history = dict(EXPECTED_AUDITED_SOURCE_FILE_SHA256)
         rewritten_history[relative_path] = transition[1]
@@ -21379,7 +21700,7 @@ def self_test(ledger: dict[str, Any], baseline: dict[str, Any]) -> int:
             != order153_transition[0] \
             or order153_transition[1] != order155_release_transition[0] \
             or order155_release_transition[1] != order156_release_transition[0] \
-            or _file_digest(order153_path) != order156_release_transition[1]:
+            or _order363_inventory_fixture_hash(order153_path) != order156_release_transition[1]:
         raise AssertionError("ORDER-153 exact source successor drifted")
     cases += 1
 
@@ -21484,7 +21805,7 @@ def self_test(ledger: dict[str, Any], baseline: dict[str, Any]) -> int:
         current_digest = (order156_successor[1] if order156_successor is not None
                           else order155_transition[1])
         if order155_predecessors.get(order155_path) != order155_transition[0] \
-                or _file_digest(order155_path) != current_digest:
+                or _order363_inventory_fixture_hash(order155_path) != current_digest:
             raise AssertionError(
                 f"ORDER-155 exact source successor drifted {order155_path}")
         cases += 1
@@ -21542,7 +21863,7 @@ def self_test(ledger: dict[str, Any], baseline: dict[str, Any]) -> int:
         predecessor = ORDER155_AUDITED_SOURCE_FILE_TRANSITIONS.get(order156_path)
         historical_digest = (predecessor[1] if predecessor is not None
                              else EXPECTED_AUDITED_SOURCE_FILE_SHA256[order156_path])
-        observed_digest = _file_digest(order156_path)
+        observed_digest = _order363_inventory_fixture_hash(order156_path)
         if order156_path in header_source.PATHS:
             # Use the same raw-bound historical observation as the real gate;
             # this fixture still compares the original ORDER-156 successor.
@@ -26595,6 +26916,7 @@ def self_test(ledger: dict[str, Any], baseline: dict[str, Any]) -> int:
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--self-test", action="store_true")
+    parser.add_argument("--inventory-history-self-test", action="store_true")
     parser.add_argument("--require-complete-chapter-one", action="store_true")
     parser.add_argument(
         "--dump-audited-maps", action="store_true",
@@ -26604,6 +26926,20 @@ def main() -> int:
         help=("print the read-only Python-built W24 replacement manifest; "
               "it is never accepted as ledger input"))
     args = parser.parse_args()
+    if args.inventory_history_self_test:
+        if any((args.self_test, args.require_complete_chapter_one,
+                args.dump_audited_maps, args.dump_synthetic_complete_manifest)):
+            parser.error("--inventory-history-self-test must be run alone")
+        try:
+            failures, cases = order363_inventory_history_self_test()
+            if failures:
+                raise AssertionError("; ".join(failures))
+        except (OSError, ValueError, AssertionError, KeyError, TypeError, IndexError,
+                subprocess.TimeoutExpired) as exc:
+            print(f"CHAPTER1_INVENTORY_HISTORY_SELF_TEST_FAIL {exc}", file=sys.stderr)
+            return 1
+        print(f"CHAPTER1_INVENTORY_HISTORY_SELF_TEST_OK cases={cases}")
+        return 0
     if args.dump_audited_maps:
         print(json.dumps({
             "byte_length": FROZEN_AUDITED_MAPS_BYTE_LENGTH,
@@ -26650,6 +26986,10 @@ def main() -> int:
             if chapter4_failures:
                 raise AssertionError("; ".join(chapter4_failures))
             cases += chapter4_cases
+            inventory_failures, inventory_cases = order363_inventory_history_self_test()
+            if inventory_failures:
+                raise AssertionError("; ".join(inventory_failures))
+            cases += inventory_cases
             print(
                 "CHAPTER1_CAUSAL_LEDGER_SELF_TEST_OK "
                 f"cases={cases} runtime={time.monotonic() - self_test_started:.2f}s "

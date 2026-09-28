@@ -2,6 +2,15 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
+## 2026-09-28 후속363/364 실행 — 통합 판정은 별도
+
+- [363](ORDER-363.md)의 exact inventory 관측 연결 및 [364](ORDER-364.md)의
+  원형 반례 owner복원 뒤 Chapter1 normal과
+  self689(기존622+361추가4+새63) 실제 PASS. 원래361의 두 exit1은 보존했다.
+- 현재 원문/번역/inventory·기존 판정·화면64준비상태/70PNG 불변. 363 clean
+  source 독립 판정 및 이 작업의 별도 후속 보고/판정까지 통합 HOLD다.
+- 새 화면·자연 입력·원어민·인간·물리 관찰0, 공개 GO·본편/새package HOLD 유지.
+
 #### [~] ORDER-361 [P1·검증] 4장 문구 수리의 현재 소스와 역사 비교를 연결한다
 
 2026-09-28 Codex 발행. 351에서 실제 관측한 full-body current admission
