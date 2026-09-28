@@ -6157,11 +6157,12 @@ func _build_modal():
 	modal_title_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	modal_header.add_child(modal_title_label)
 	modal_pad_hint_label = _label("", 12, "#7f8794")
+	modal_pad_hint_label.clip_text = false
 	modal_pad_hint_label.visible = false
 	modal_pad_hint_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	modal_pad_hint_label.size_flags_horizontal = Control.SIZE_SHRINK_END
 	modal_header.add_child(modal_pad_hint_label)
-	modal_close_button = _small_button("✕", "#242433")
+	modal_close_button = _small_button("×", "#242433")
 	modal_close_button.custom_minimum_size = Vector2(44, 42)
 	modal_close_button.size_flags_horizontal = Control.SIZE_SHRINK_END
 	modal_close_button.pressed.connect(_cancel_modal)
@@ -18353,6 +18354,8 @@ func _open_jobs():
 	_job_pad_hint_label.custom_minimum_size = Vector2(0, 24)
 	_job_pad_hint_label.add_theme_font_size_override("normal_font_size", 11)
 	_job_pad_hint_label.add_theme_color_override("default_color", Color("#8f98a8"))
+	if _font_regular:
+		_job_pad_hint_label.add_theme_font_override("normal_font", _font_regular)
 	if _font_bold:
 		_job_pad_hint_label.add_theme_font_override("bold_font", _font_bold)
 	modal_body.add_child(_job_pad_hint_label)
