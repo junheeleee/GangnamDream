@@ -1,3 +1,17 @@
+# ORDER-390 — 시작 안내 파산 설명·일중 UI23값
+
+[x] 2026-09-29. 독립 work_unit 한정 GO.
+
+- 시작 안내 파산 조건 KO/EN1쌍을 빚이 아니라 순자산<-1억원으로 바로잡았다. CN/TW tutorial11키씩22값과 JA 새키1을 한국어 직접 번역했다. 공식40,981/b161·CN/TW UI각1,397. JA구키와 기존UI/receipt raw를 보존했고 GameState·경제·저장·공개데모 변경0.
+- 공식 export/check/import 각3배치·23값 독립 원문검수·append 역삭제 PASS. 정적14검사+차선조회1 PASS(839.300초). 실제 tutorial CN/TW 상하단과 KO/EN/JA 수정위험본문7PNG(16.778초)를 관측했고, 초안cache 폭 예비검사와 수용사전cache주입0을 구분했다. exact source successor·current collector·JA구키 보존 반례를 검사했고 변경 없는 역사self·전체감사·240주 반복0. 독립 검수에서 발견한 branch2 ID 재발급을 수리하고 비소유2,950 Entry/blueprint 전량을 보존했다. 개발 중 봉인 실패도 보존했다. 초기CN首周는 숫자검사가 ordinal_week1로 인식하지 못해 원본실패를 보존하고 第1周로 명시, 원배치11값 재검수 및23값 표적재검사PASS; checker완화0. 새 source 경계 focused57반례 PASS. 인과원장 첫 실행420초 timeout을 실패로 보존하고, 동일 clean source에서 해당1명령만720초 상한으로 재실행했다. 위 시간은 첫 묶음과 재실행 합계이며 통과한13검사+조회1은 반복하지 않았다.
+- 각 실행 전후 tracked/helper census·실사용자 저장 불변, 준비상태 typed복원·지역 font/glyph/경계 PASS. 거래·새 입력0. 기존153판정 raw prefix/131보고·사람원장·과거실패/GO/HOLD/OPEN을 보존하고 새 work_unit GO1개만 append했다.
+- 검사 source `c2e05ead21e56489062fe3a76358e4af5778b2ee`에서 전후 census 동일. 최종 source `c9e88a962fe5ceb103089459420705d3ddf3ab80` tree `960b5d6ee0008dab8fcf86cbbce66372588cac3b`는 CLAUDE 상태 요약만 추가했고 별도 제품 재실행으로 세지 않는다.
+- [독립 보고](../agent_reviews/ORDER-390.json) SHA `fe8098cecf2aa60a5887eb5413ebba2cb31b275b7ae7dcf5b58ada60648a1010`.
+- 동적 대출상품명·패드 부모문구·남은 일중 UI와 기존 선택테두리 약3px 잘림은 남았다. 준비 스크롤은 입력 증거가 아니며 후속 언어는 재사용 패널의 커진 높이에서 관측했다. 자연진입 레이아웃/복귀·실제 거래·원어민·인간·물리 미관측. 공개GO1·인간OPEN45·본편/새package HOLD 유지, 전체 번역/출시GO가 아니다.
+- gangnamdream-dev의 선행선언·파일 소유분리·비저자 검수·격리/표적검증을 적용했다. 기존 I18N/WORK_UNIT 정본 재사용·상시규범 승격0·이번 모집단/검사계획은 일회성. 외부출시/스토어/지출/법률행위0. 자동PASS는 계약증거이며 재미·깊이·문체·사람GO의 증거가 아니다. 효율 조사에서 Chapter1 정상 경로의 current admission 최소3회 반복(snapshot 및 JobHunt/Aruba 관측)을 읽기 전용으로 확인했다. 시간 비중은 미계측이며 공유 검증 최적화는 이번 범위에 구현하지 않았다.
+
+## 최초 선언과 진행 원문 보존
+
 # Active Queue Spec: ORDER-390
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
