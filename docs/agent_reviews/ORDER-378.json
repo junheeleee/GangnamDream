@@ -1,0 +1,97 @@
+{
+  "schema": "gangnamdream-independent-work-unit-review/v1",
+  "unit_id": "ORDER-378",
+  "scope": "work_unit",
+  "review_stage": "independent_source_bound_final",
+  "review_date": "2026-09-28",
+  "independent": true,
+  "reviewer": "/root/r3_route_probe",
+  "decided_by": "/root/r3_route_probe",
+  "decision": "GO",
+  "verdict": "GO",
+  "required": [],
+  "subject": {
+    "kind": "source",
+    "commit": "0d1d4bd587be6e7fa338ae020475b31073980c34",
+    "tree": "c4b3903590be7e491a08084e8a4b57876955da8e",
+    "manifest_sha256": null
+  },
+  "outcome": "GO only for collecting the two existing Aruba delivery headers, accepting their six JA/CN/TW translations, the bounded three-locale append compatibility, and their six prepared rendered screens. No required blocker remains in this work_unit. This is not whole-UI completion, a historical-suite rerun, a human gate or release approval.",
+  "independence": "I authored no product, implementation, test or observer. I read the Korean runtime context, all six proposed/final values, all six tool diffs and private observer/runner code; directly viewed all six actual PNGs; read all15 command records and their stdout/stderr; and independently compared hashes, Git identities, receipts and protected history. I performed no acceptance CLI, engine, import or product edit. Translation advice and review are not native-reader certification.",
+  "language_and_product": {
+    "population": "scenes/ArubaGame.gd::open, line391: two Korean title keys, two existing English branches, three target locales, six new values. Clear/rain selection is the existing weather/surge predicate; runtime and KO/EN text are unchanged.",
+    "values": {
+      "배달 루트 설정": {"ja": "配達ルート設定", "zh-CN": "配送路线设置", "zh-TW": "外送路線設定"},
+      "비 오는 저녁 배달": {"ja": "雨の夕方の配達", "zh-CN": "雨天傍晚配送", "zh-TW": "雨天傍晚外送"}
+    },
+    "judgment": "The concise noun titles retain route-setting versus rainy-evening delivery meaning and regional delivery terminology. Independent review requested replacing the initial CN/TW 雨中傍晚 wording with 雨天傍晚; these two corrections were accepted before official import. No quantities, rewards, route effects or gameplay claims were introduced. The initial wording survives in the conversation/tool record, not a separate raw draft artifact.",
+    "acceptance": "Direct comparison to f539989 confirms only two appended keys in each UI dictionary, with every old key/value retained: JA3028→3030, CN/TW1281→1283. Official source/response headers, final values, six independently recomputed source/target hashes and three accepted-receipt digests match the ledger. Source revision is a13c2d362167f13390075b88ae892fe4683db2d0. Old40734 accepted records,145 batches and non-owned ledger metadata remain exact; current accepted40740/b146 contains exactly six additions and one batch. Native and ledger rendered-review fields remain OPEN; this report separately owns the observed screens. No claim authenticates human authorship or an export merely from its header."
+  },
+  "implementation_review": [
+    "The collector addition is fenced to actual ArubaGame.gd raw identity, open owner and an exact two-pair registry. Both public parser and captured collection leave other paths to their old parser. Same simple selector and literal branches are recognized; formatted calls stay with the old owner. Syntax alone is not claimed to prove selector purity. The unrelated CoreLoopPlanner candidates are not admitted.",
+    "The appended pipeline block has a self seal and fresh Git predecessor binding; removing it restores the protected predecessor. Current3468 calls/2951 keys are separate from historical3466/2949. Existing entries including IDs/source hashes, calls, blueprint, context rows and non-owned statistics are checked against the old inventory. Historical context restores both old collector and checker aliases; original notice14/current34 bodies and pins remain unchanged.",
+    "The existing append verifier now admits actual JA/CN/TW UI files plus ledger, while preserving the old three-file CN/TW fixture interface and ORDER365 pins. A three-file production baseline receives JA from the same immutable baseline commit, not a guessed current file. Portable official receipts, current/historical source manifests, exact old raw reversal, existing values/receipts, strict counts and first-parent rollback checks still gate admission. Current LIVE_FILES adds JA to47; historical comparison APIs are not converted into current-source exemptions. No new compatibility module or five-consumer code change was introduced.",
+    "Default/old self-test bodies and their historical authority remain intact. The newly selected delivery-header33 and three-locale44 suites are separate finite tests. Ordinary UI appends do not trigger verifier-development self-tests merely because their input changes. All five affected normal consumers were actually exercised against the expanded live admission boundary."
+  ],
+  "rendered_observation": {
+    "execution_source": "82bd7009c3120a0e3949d072323e8558c04dd082",
+    "execution_tree": "c729142a86c1dc68dfd0d775252cd483e784d44e",
+    "prepared_screens": 6,
+    "visible_node_observations": 66,
+    "pngs_directly_viewed": 6,
+    "raw_input_events": 0,
+    "exit_code": 0,
+    "duration_seconds": 12.881,
+    "finding": "JA/CN/TW clear/rain titles are correctly present and legible in all six1280x800 PNGs, with no observed header clipping or missing glyph. Each of11 visible nodes per screen has the matching shared JP/SC/TC font reference, glyph coverage and measured viewport/ancestor/text bounds. Builtin dictionary hit, LocaleManager.ui return, actual header text and the same header ObjectID agree. No title key enters the miss list and no community override or injected font supplies the result.",
+    "provenance": "The actual MainGame creates the same Aruba instance. Six direct prepared opens are explicitly recorded; local UI state changes are expected, while each preparation's typed global state, locale-independent transition state and teardown protection compare equal. The frozen observer reports no finish, closed signal, settlement or natural ingress. All12 referenced raw artifacts, including six PNGs, were independently rehashed; entry fields match result. Pre-autoload isolated path markers agree, namespace is retained, and the recorded real-player34-file maps are equal. Source2925 and six private helper hashes are identical before/after.",
+    "remaining_surface": "The JA screens still show six English delivery destination names and six floor/minute labels: twelve existing missing dictionary keys, not twelve newly broken headers. CN/TW background MainGame misses also remain outside these titles. This is not zero-miss or complete-delivery-UI evidence."
+  },
+  "static_execution": {
+    "source": "82bd7009c3120a0e3949d072323e8558c04dd082",
+    "commands": 15,
+    "checks": 14,
+    "selection_queries": 1,
+    "exit_zero": 15,
+    "new_self_cases": {"delivery_headers": 33, "three_locales": 44, "total": 77},
+    "duration_seconds_sum": 424.456,
+    "finding": "All00..14 individual JSON records equal their aggregate rows, with exit0 and empty stderr. I read their actual output rather than relying on all_pass: new33/44, current ORDER3654files/47live, full-body, graph, Chapter5, Year5, Chapter1, JA UI, ZH, registry, context, queue and diff checks pass. Chapter1 explicitly retains debt8/blocked3/W25..48 missing24; ZH remains skeleton/shipping0. Index14 only lists66 selected checks and does not execute them. Maximum three separate processes ran concurrently;424.456 seconds is their duration sum, not wall time. The whole2925 tracked map and three recorder helpers remain unchanged.",
+    "not_rerun": ["old notice14/current34", "old append/default and historical312", "historical1955", "Chapter1 full689", "whole audit", "natural240-week play", "unchanged liveness command"]
+  },
+  "preserved_failures": [
+    "Author development attempt1 exited1: an IndexError in a negative fixture obscured the collector diagnostic; no successful case count is borrowed from it. Attempt2 also failed after diagnostic improvement, revealing out-of-scope conditional candidates. Exact Aruba fencing then produced development33 PASS, followed separately by the clean acceptance33 PASS. The second diagnostic JSON explicitly transcribes tool session94118 and is not an independently captured raw stdout file.",
+    "Official import normalized five existing JA line indents. The strict raw-inverse guard correctly rejected this before the ledger patch. Restoring those five original tab indents preserves old bytes and accepted target/receipt values; final UI diff contains only the two append keys per locale. The rejection JSON explicitly transcribes tool session51734, not a separate original traceback stream. Neither rejection is retroactively labeled PASS."
+  ],
+  "source_and_history_binding": "The read-only current_agent_source_subject resolver independently returns the exact clean subject above. Git execution-source→final diff is only one CLAUDE status row; independently rehashing the2925 recorded tracked inputs also finds only CLAUDE different. Product, tools and runtime are therefore linked by unchanged bytes, not claimed rerun on the final commit. Direct Git comparison to f539989 preserves all139 prior decisions,117 report files and human ledger SHA6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6. Existing public GO1/human OPEN45 and historical failures remain unchanged.",
+  "unobserved": ["native_reader", "human_playtest", "physical_controller_feel", "natural_full_shift", "route_selection_and_settlement", "new_package_runtime"],
+  "boundary": "Remaining UI/narrative work and the full product/new package remain HOLD. The existing liveness Python-launcher false orphan was not changed or rerun. Prepared rendering and automated source contracts do not establish native style, human usability, fun, legal/rating compliance or release approval. This decision closes only ORDER-378 on this exact source.",
+  "evidence": {
+    "scenes/ArubaGame.gd": "e9744c1467a3043f91f77f7c9faa7ab2039e55777311e90b8ae43d889bfc4eeb",
+    "locale/ui_ja.json": "4c9534efc27f77a06e1956677b00e3c75a7ed687e0d78ee0d583f3990f16f953",
+    "locale/ui_zh-CN.json": "13acb41af137bee2da154148c29595ae29a056860eb39811ce42336a00fed35b",
+    "locale/ui_zh-TW.json": "e986278d3748edf58385700a0da2d0f0b836da5eaafe616ed95ac9dadf9050d8",
+    "content/meta/full_game_localization.json": "7beafd40e5095c546c05a1f0feb4e7a4453f6ed2b173e4aba025f7195a3dbd55",
+    "tools/ja_translation_pipeline.py": "2b68f06da7108ce8a3f21b51fc6cf148ac1979a336bf76d425382e106e47af11",
+    "tools/first_start_notice_self_test.py": "f2873846aaebb6dec043b13e6b698d88c7fd5f5665e2927ec876b5efcc1adc4e",
+    "tools/ui_translation_append.py": "9daea7d9dfbf8db7780a6a6c68fb196494108e048d6ffd88221afef4bbd4badf",
+    "tools/ui_translation_append_self_test.py": "837ad520f24e99ce1136e961799bee9897d7392114ce8a6a3c76a87dac461d6e",
+    "tools/order365_ui_receipt_compat.py": "6295a3a16b231123b6d75808828e365e50c604cb11ebd132b01b4154b5c6578f",
+    "tools/audit_scope.json": "80e1613b071462e0ae5ccfcc73934aaae9e85c6d5f263715decf100d81a514ab",
+    ".git/full-game-localization/order378-drafts.json": "890a4cfb890f6933ea82eb543fecaca429f5142751c40a466e29830964a2622c",
+    ".git/full-game-localization/order378-append-precommit.json": "b79b47479e034786dad233884cbe2b3f794cfece1330ee3ae5bd0b1f7479bd4e",
+    ".git/full-game-localization/ja/full-ko-direct-2026-09-07.1/7fde919d23f52b3bb82f24acc7f49f99f3a8f165156022c7dbdf4e7ad8e172f4.accepted.json": "37148247fa84d418d6a5617d475b5bf1760dcf3568b82a231f19aa781fbdf57c",
+    ".git/full-game-localization/zh-CN/full-ko-direct-2026-09-07.1/cced26c3b68878f76ef94bb5644531ed479972f8077d1453402f9ad4a6942ad9.accepted.json": "11c2f07c3fae1a70c060e6a38362dd0f8e1104d3eca531de9433954c89cfb489",
+    ".git/full-game-localization/zh-TW/full-ko-direct-2026-09-07.1/60e44a0e9306db8dc4298b9807d6af5f82da0bce927786fc09a8fa92c8a56e76.accepted.json": "2dc3fc1d8d81403241f3af714e32f0c06484fbc1fbaa099c5ede5875f4e31dec",
+    ".git/full-game-localization/order378-screen-first/result.json": "844a3b9b049f7165904b51d03843b0e216dcf4df765dd08cbdcbba57749ce272",
+    ".git/full-game-localization/order378-screen-first/order378-observations.json": "6a5b4917676832d0bd0a454b9fe501bbcc175fd58754542bae23295eb8bd6b74",
+    ".git/full-game-localization/order378-static-first/result.json": "66e0827572b3f40dabef5f89dcf2db5a5d1f9bfb75b21acab023347ec983c45d",
+    ".git/full-game-localization/order378-static-first/entry.json": "8b143fbd43a2e4c1c51b0200156e8f4f14bfb6874427369c55c5e24acdce2aac",
+    ".git/full-game-localization/order378-static-run.py": "96a3713d1ef811e5fefb50bb7dcebad64e90ee546b6a0ae666ec7f5c674b07b1",
+    ".git/full-game-localization/order378-run.py": "d18524b197b05569db8fd591537c6e5299a440e1cede385dd4165f3a01514e6c",
+    ".git/full-game-localization/order378-check.gd": "49e91b15891cab1971f50051486c6c18338fc3d17be60584ed4e07cfa4c458f6",
+    ".git/full-game-localization/order378-check.tscn": "c37d5a005274c78e2ce19b5e2d582e8d57af4bfe5fe63074efb77c5f378419d6",
+    ".git/full-game-localization/order378-collector-first.json": "7571e854067d21edcc2cb6737e1bba66377a8c11707c9790cdce86d020896fbe",
+    ".git/full-game-localization/order378-collector-second.json": "10cf303e622ca38b9e2cdd550af5dde79c639fa2967559971a852b8216b548b1",
+    ".git/full-game-localization/order378-collector-third.json": "d8feed050c55cbb5bf546a1f72fe737d5c861c477951f38245ddd94d7850381a",
+    ".git/full-game-localization/order378-import-format-rejection.json": "ad85afe973f2a84cea1ef917b57c093b9194c94edc7ec836d5acfd15eb4b1d8a"
+  }
+}

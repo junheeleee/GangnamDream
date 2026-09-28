@@ -2,6 +2,17 @@
 
 이전 원문 전체는 [2026-09-28 이전 기록](history/WORK_LOG_2026-09-28_pre_order351.md)에 바이트 그대로 보존했다.
 
+## 2026-09-28 (Codex — 배달 제목 세 언어 완역과 수집 누락 수리)
+
+- 마감 context/queue PASS(active77/in_progress74), 판정 원장 형식·Git subject·기록 SHA 검증 PASS. 기존139판정 raw prefix/117보고·인간원장불변, 새보고1개/private원본일치, 초기사양전문 archive보존을확인했다. 전체원장 self는반복하지않았으며 이검사는새제품검사15개와별도다.
+- [378](queue_archive/ORDER-378.md): 비 오는 저녁/배달 루트 제목2×JA/CN/TW6값을 한국어에서 직접 작성·독립전수검수·공식수용했다. CN/TW의 초기 雨中傍晚 어순을 雨天傍晚로 정리했다. source2/target6, UI3030/1283/1283·수용40740/b146(JA13114/CN13813/TW13813), 기존40734수용/145batch·모든기존번역값·인간판정 불변이다.
+- 비포맷 조건식 collector는 ArubaGame.gd::open의 exact runtime SHA와 KO/EN2쌍만 승인한다. 기존코드역삭제·역사3466호출/2949키·옛ID/hash/context/blueprint를보존하고현재3468/2951로분리했다. 실제추가후보 CoreLoopPlanner8은비소유로제외했다. 새호환모듈0, 기존append만JA까지확장해실제3사전+원장4파일/전체47경로를검증한다. 옛CN/TW3파일 fixture API·365원형핀·기존self본문은그대로다.
+- clean82bd700/treec729142의정적15명령exit0/stderr0: 새self33+44=77, current guard, 영향consumer5, JA/CN/TW기계검사, registry/context/queue/diff, 영향목록조회1. 마지막목록은선택된검사전부실행이아니다. 최대3개프로세스병렬이며소요합424.456초는벽시계시간이아니다. 바뀌지않은역사14/34·312/1955/689·240주·전체감사0. Chapter1은기존debt8/blocked3/W25~48 gap24를유지한snapshot유효이고전체완료가아니다.
+- 실제MainGame이생성한Aruba동일인스턴스에서맑음/비×JA/CN/TW6준비화면·각11노드·6PNG PASS(12.881초). 사전→LocaleManager→실제Label·JP/SC/TC공유글꼴/누락glyph/1280×800경계를검증했다. root위험3PNG, 비저자6PNG전수관찰. source2925/helper·실사용자저장34파일전후불변, 격리namespace보존. 새raw입력/자연진입/finish/정산/전체shift0; 원어민·인간·물리·새package관측으로승격하지않는다.
+- 실패보존: 저자collector첫음성fixture IndexError가진단을가려실패, 다음진단은범위밖조건식후보를발견해실패했다. 오류출력보강과Aruba owner제한후개발33PASS, 이후clean통합33PASS는구분한다. 두번째개발실패는tool session94118전사기록이며별도raw stdout파일이아니다. 공식import가JA기존5줄tab을space로정규화해raw역삭제가거절한1회도session51734전사로보존했다. 그5줄들여쓰기만정확복원후역삭제PASS; 기존값/영수증변경0, 실패후제품commit전수리다.
+- 최종0d1d4bd/treec4b3903는실행source에서CLAUDE상태1행만변경했다. 독립보고·증거SHA를해당source에결속해work_unit만GO. 기존139판정/117보고·공개GO1·인간OPEN45·meta9/보류72·liveness launcher오탐FAIL을보존하며본편/새packageHOLD다. gangnamdream-dev에따라선행선언·저작파일분리·독립검수·격리실행을적용했다. 지속규범은I18N_INFRASTRUCTURE기존append단락의3언어사용법만갱신, 나머지는일회성이다. 외부출시/스토어/지출/법률인증0.
+- 다음후보읽기전용확인: JA배달목적지명/층·시간12키는사전부재로영어폴백한다(ArubaGame.gd239~244→_delivery_label→Button). CN/TW는376에서이미수용되어재작업대상이아니다. 이번6제목완료를배달UI전체완역으로부르지않고, 남은UI는같은소비자별로묶어별도선행선언후진행한다. 중국어다음경량후보는MainGame직업선택창40키/80값, 투자데스크79키/158값은수치·표시검수후순위이며공통현금키1개를중복수용하지않는다. 상세읽기전용후보는`.git/full-game-localization/order378-next-ui-candidates.json`에보존했고새구현/검사/수용0이다.
+
 ## 2026-09-28 (Codex — 편의점·배달 중국어 200문구와 누락 글꼴 수리)
 
 - [376](queue_archive/ORDER-376.md): 한국어100키×CN/TW=200값을 직접 저작하고 비저자가 전수 의미검수했다. 한 박자→半拍 오역2곳을 수리했다. 공식check/import와 raw역삭제 PASS, UI각1181→1281·수용40534→40734·batch144→145; JA13112·모든기존값/수용/metadata불변. 실제MainGame생성Aruba에서 지역별34준비상태·100키·PNG12(합68/200/24)를 node/string/SC·TC/font/glyph/경계로 검증하고 비저자가24PNG전수관찰했다. root는위험6PNG를대조했다. 조건식제목2의영어폴백은명시제외했다.

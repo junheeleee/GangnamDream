@@ -1,3 +1,15 @@
+# ORDER-378 — 배달 조건식 제목의 세 언어 번역
+
+[x] 2026-09-28. 독립 work_unit 한정 GO. 본편/새package GO가 아니다.
+
+- 최종 source `0d1d4bd587be6e7fa338ae020475b31073980c34`, tree `c4b3903590be7e491a08084e8a4b57876955da8e`. [독립 보고](../agent_reviews/ORDER-378.json) SHA `f3c917bd810d15c8c745b9217025eecaa4717f2b50767a5f91a3769f0f1df5c2`.
+- ArubaGame.open 조건식 KO제목2를 정확 owner/raw/두 쌍 registry로 수집하고 JA/CN/TW6값을 공식 수용했다. 수집3466/2949→3468/2951, 기존 ID/hash·context·blueprint 보존. 기존 append를 실제3사전+원장4파일/전체47경로로 연결하되 역사365의3파일핀과 원형self는 보존. UI JA3030/CN1283/TW1283, 수용40740/b146(JA13114/CN13813/TW13813). 새compat모듈·runtime변경0.
+- 실행source82bd7009c3120a0e3949d072323e8558c04dd082/treec729142a86c1dc68dfd0d775252cd483e784d44e에서 공식6값check/import·새self33+44·current guard·영향consumer5·언어/등록/문서/diff검사와 영향목록1을 포함한15명령exit0/stderr0. 최대3개 정적프로세스 병렬, 명령소요합424.456초(실제벽시계시간 아님). 별도실제MainGame→Aruba의 맑음/비×3언어6준비화면·66노드·6PNG를12.881초에 관측, root3PNG/비저자6PNG 검토. tracked2925/helper/실사용자34파일 전후불변. 최종source는 CLAUDE현재행1개만 달라 제품·도구 재실행으로 세지 않는다.
+- 기존139판정/117보고·공개GO1·인간OPEN45·원어민/물리OPEN을 보존했다. 본편/새package HOLD, 외부출시/스토어/지출/법률행위0. 자연 AP 진입·정산·새입력·전체플레이 관측0이다.
+- 승격: I18N_INFRASTRUCTURE의 3언어 append 사용법. 모집단·소유·표적계획은 일회성이다. gangnamdream-dev의 선행선언·파일분리·독립검수·격리실행을 적용했다.
+
+## 최초 선언 원문 보존
+
 # Active Queue Spec: ORDER-378
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
