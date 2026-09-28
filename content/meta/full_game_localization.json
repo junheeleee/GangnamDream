@@ -5282,6 +5282,154 @@
           "batch_id": "ccfae462e23787b0129fde416a8445a0a5abc15d1443ff42a9246722bc8ced73"
         }
       }
+    },
+    {
+      "order": "ORDER-376",
+      "group": "ui",
+      "roots": [
+        " (비 할증 %s)",
+        "\"계산 전에 말씀해 주셔야 해요\"",
+        "\"많이 기다리셨죠. 바로 계산해 드릴게요\"",
+        "\"많이 드신 것 같은데, 물도 같이 찾으세요?\"",
+        "\"잠깐만요\" 다른 손님 먼저",
+        "\"죄송합니다\" 차분히 대응",
+        "%d번째  %s",
+        "%s  [%s]  팁 +%s",
+        "%s · %s에게 뭐라고 할까",
+        "1층 · 14분",
+        "1층 · 18분",
+        "1층 · 8분",
+        "22층 · 45분",
+        "3층 · 30분",
+        "4층 · 25분",
+        "8시간 근무 중 비가 오는 저녁 피크 %d분입니다. 완료한 건마다 비 할증 %s이 붙고, 빗길 운행으로 건강이 1 더 줄어듭니다.",
+        "8시간 근무 중 저녁 피크 %d분입니다. 배달할 순서대로 선택하세요. 다시 선택하면 취소됩니다.",
+        "간신히 진정됐다.",
+        "결과: ",
+        "계단을 내려갈 때마다 다리가 한 박자 늦게 따라왔다.",
+        "계산",
+        "계산 손님",
+        "고맙다며 갔다.",
+        "공덕역 카페",
+        "교환",
+        "교환 손님",
+        "근무 종료  %d / %d명 응대 성공",
+        "급함",
+        "긴급!",
+        "누구를 먼저 상대할지 고른다.",
+        "느긋",
+        "다음 손님이 계산대로 다가온다.",
+        "단골",
+        "단골 할머니",
+        "뒤에 있을 거라고 알아서 찾으라 한다",
+        "등록번호 확인 후 찾아준다",
+        "루트 설정",
+        "마포 공사장 도시락",
+        "못 본 척한다",
+        "무시하고 다른 손님 먼저",
+        "문을 나설 때는 굳었던 어깨가 조금 풀려 있었다.",
+        "문의",
+        "바쁜 척 빠르게 처리한다",
+        "반갑게 인사하며 응대한다",
+        "방향만 손으로 가리킨다",
+        "배달 완료 — %d건",
+        "배달 출발",
+        "불만",
+        "빗속 배달 완료 — %d건 · 비 할증 +%s",
+        "빠르게 스캔한다",
+        "상품 위치를 묻는 손님",
+        "새벽 1시 47분. 냉장고 모터음 사이로 계산대 앞 손님 셋이 겹쳤다.",
+        "섭섭해하셨다.",
+        "세뱃돈 같은 거라며 주셨다.",
+        "소요 %d분 / %d분 (여유 %d분)  |  예상 추가 수입 +%s%s",
+        "손님은 고맙다며 2천 원을 계산대에 두고 갔다.",
+        "손님은 고맙다며 팁 천 원을 두고 갔다.",
+        "손님은 기다려야 한다며 불만을 보였다.",
+        "손님은 다시 오지 않겠다며 나갔다.",
+        "손님은 미안했다며 팁 천 원을 계산대에 두고 갔다.",
+        "손님은 불만스러운 표정으로 택배를 찾았다.",
+        "손님은 점장에게 항의하겠다고 했다.",
+        "손님은 한숨을 쉬며 기다렸다.",
+        "손님은 혼자 한참 매장을 헤맸다.",
+        "신촌 피자",
+        "실패  ",
+        "심야  01:47",
+        "야! 왜 이렇게 느려!",
+        "야... 소주 어디 있어요?",
+        "여의도 사무실 야식",
+        "영수증 보고 재적립 처리",
+        "영수증 확인 후 즉시 교환",
+        "응대 %d/%d · 성공 %d · 남은 손님 %d · 기본 수당 %s",
+        "이거 어제 샀는데 불량이에요.",
+        "이대 야식",
+        "저기, 삼각김밥 어디 있어요?",
+        "저기요, 계산이요.",
+        "점장에게 물어봐야 한다고 설명",
+        "점장이 교환 기록을 확인하고 성과수당 2천 원을 붙였다.",
+        "점장이 빠른 응대 기록을 보고 성과수당 2천 원을 붙였다.",
+        "점장이 사후 적립 기록을 보고 성과수당 천 원을 붙였다.",
+        "진열대까지 함께 가서 안내한다",
+        "참다가 나가버렸다",
+        "찾아갔다.",
+        "처리  ",
+        "총각, 오늘 대타예요? 나는 매일 이 시간에 오는데.",
+        "취객",
+        "취한 손님",
+        "친절하게 안내한다",
+        "택배",
+        "택배 손님",
+        "택배 여기 맡겼는데요.",
+        "퇴근 뒤에도 손끝의 긴장이 풀리지 않았다.",
+        "퇴근하기",
+        "편의점 야간 근무",
+        "포인트",
+        "포인트 손님",
+        "포인트 카드요! 이거 적립됐어요?",
+        "홍대 치킨",
+        "화를 내는 손님"
+      ],
+      "source_leaves": 100,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 100,
+        "zh-TW": 100
+      },
+      "source_review": "Korean-direct CN/TW independently authored 100 keys each: 8 convenience customer types, 18 responses, 6 delivery destinations, prompts, urgency, payout and result prose. Nonauthor full200 review; existing facts, Korean money and rain per-order surge/one extra Health cost preserved. Conditional delivery titles2 and CARDS excluded. Internal/legacy reader only; no public, native, physical or complete-product claim.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "6d4d8f5bb386709e6061685ac3976f5127ca69cde42a0437a209f4f31ac1b743",
+        "zh-TW": "1679fb39cd112f0b62cc45229a76acf1b918cc7cdd90d388a5e5871a3fa2b02b"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "e97c49df8154112070110853682f442e14c9df17",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "d4f9690cf0f8b75bd4a8bebdf8bf142b9f89c486ab3402df8bf9d22ed8a1f929",
+          "selection_sha256": "d8a73302d03a08a5bc180b4dac4e79caf2c40c820a5f71b25c107f4db9f6a569",
+          "count": 100,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "44a279660f8f7eec7a6cd5e9d27f66bc675b1e716779e9bbda5ab510d3fcc288"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "e97c49df8154112070110853682f442e14c9df17",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "d4f9690cf0f8b75bd4a8bebdf8bf142b9f89c486ab3402df8bf9d22ed8a1f929",
+          "selection_sha256": "3e458af7c319ec8593887ee16e546e23e28e3af70b7152f741f433bfd8e0a1e3",
+          "count": 100,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "ba20caada78d9b1484f4039a61cafe1aee90ae12e73c7faabe322a333431b614"
+        }
+      }
     }
   ],
   "accepted": {
@@ -112579,6 +112727,406 @@
       "ui:확인:/확인": {
         "source_sha256": "5b16c1210ecb33dcb431f717312059df893f4c17c37f14439456965a85ce1ffc",
         "target_sha256": "e73ef24093ded05c54e4615e5b7f18dc85a03c9a16903fc573901b05302db3b3"
+      },
+      "ui: (비 할증 %s):/ (비 할증 %s)": {
+        "source_sha256": "65072b9b2d6dded59db8fce34339c39d45b10c14fcb6b6655c1f92ee22f8ef73",
+        "target_sha256": "28b335ab4e9cefa6d970e23172abf1d6d3d5529c032be6cb8063618060dba504"
+      },
+      "ui:\"계산 전에 말씀해 주셔야 해요\":/\"계산 전에 말씀해 주셔야 해요\"": {
+        "source_sha256": "8593bd2cf2f23cc5bd848d3fe781dc38614e13f3e35939d80b2fd6ed443f0473",
+        "target_sha256": "a401e39872e26b392d5a8da589e928435cf43707b8d3d334f8f87ca910cc8f97"
+      },
+      "ui:\"많이 기다리셨죠. 바로 계산해 드릴게요\":/\"많이 기다리셨죠. 바로 계산해 드릴게요\"": {
+        "source_sha256": "7b2fda2979d203577ffe3c3ce3bd1be145fc258e5702e1c94c9b55cf603c9017",
+        "target_sha256": "a46a7ebbe8e57b0cbc25781d3c1ab5e3ee67360f5cf6d29169b5f71950959f99"
+      },
+      "ui:\"많이 드신 것 같은데, 물도 같이 찾으세요?\":/\"많이 드신 것 같은데, 물도 같이 찾으세요?\"": {
+        "source_sha256": "a76d829f5a01e07ed276951b411cc54713c654be9cad1b497828beda7bb73647",
+        "target_sha256": "d9966be6cb66e89bb47720e86630c8fe1c445611d76371579f60c9d17d98310b"
+      },
+      "ui:\"잠깐만요\" 다른 손님 먼저:/\"잠깐만요\" 다른 손님 먼저": {
+        "source_sha256": "faa3c3db36a9a9bad340fbff7a245e38aadf2c2bd86d18452ec3911802e7aa15",
+        "target_sha256": "6cb7ec78d2e56a116edaef2b3452fad904d5353d0a8a1fa315ef4830039081c4"
+      },
+      "ui:\"죄송합니다\" 차분히 대응:/\"죄송합니다\" 차분히 대응": {
+        "source_sha256": "749020042139e42cb1b05e464af8fb94ffa075c3cba98fa59f67e5cf86b8f709",
+        "target_sha256": "7118f42658b3a9bf198b6e6a9f432a447c93e32e7a0cf0fa326dcceea5763132"
+      },
+      "ui:%d번째  %s:/%d번째  %s": {
+        "source_sha256": "e1bb16a489d43196d4359fcb6a2487152cf53389be0bb0e1356fc21705a78524",
+        "target_sha256": "b3a331168d6ae1ff155b9bbc291d035845b28eb03c3664b023b64ac7f2b3c7fa"
+      },
+      "ui:%s  [%s]  팁 +%s:/%s  [%s]  팁 +%s": {
+        "source_sha256": "28394a9bd8bff5d0386448b24026fd3583d21f588282088b518d6eeaf77ddda8",
+        "target_sha256": "f7fd6cb570b1f8246531ab0fd8db90d12b3a973de1a5238747029c20e0ac3e49"
+      },
+      "ui:%s · %s에게 뭐라고 할까:/%s · %s에게 뭐라고 할까": {
+        "source_sha256": "0f0b40d2fc813bbec88f92caec3682d69b4cc3abd5a7925cbfb7372f984b1ec1",
+        "target_sha256": "8bab22459bd9f008a0d4ae1ac7a2043bd9e79de73c51929b8cfec35540f5a238"
+      },
+      "ui:1층 · 14분:/1층 · 14분": {
+        "source_sha256": "38d9152a8f6e3c059c80105e2c555766d31bebf02851f8a3ef7cb3cf23d2c907",
+        "target_sha256": "26761bc888f726a7d09582db8549224a04a28631ba7f7bdce9da17893835a0e2"
+      },
+      "ui:1층 · 18분:/1층 · 18분": {
+        "source_sha256": "69acec446b8f247d41a8202538189dd8821f4cdf0f61a34e7b4bfa8f60c8e336",
+        "target_sha256": "ab818bd1a056cb615e6e5d642cc39cc44e499c3d1a332366101628bfd5a9e340"
+      },
+      "ui:1층 · 8분:/1층 · 8분": {
+        "source_sha256": "4c587c4a7501ea56b20f04d50f2e31b61089292fff8f5b73e6bb9fe616c9778f",
+        "target_sha256": "f94658204e1da8c6d9feca6d21b637e62deabf7b1716377f4621cd326aa75b18"
+      },
+      "ui:22층 · 45분:/22층 · 45분": {
+        "source_sha256": "f0009fffef09005c61c34850e918bc6577bfa1563651f80fec273e381c5b2a3c",
+        "target_sha256": "aa0fd10a355ea31835d1605da832c5ad209d5235e11693b6dfe19486162da5b2"
+      },
+      "ui:3층 · 30분:/3층 · 30분": {
+        "source_sha256": "28dd78da0ef6ebb5c1d3d247ee7b55ce088daeb5a50414772cac9090cc5ec048",
+        "target_sha256": "f27bf54b27a023175609812a063f3c2ffec66278442d8aa90741479d7c144e5d"
+      },
+      "ui:4층 · 25분:/4층 · 25분": {
+        "source_sha256": "3b587ea4bb7b01ae5c55c0406d4e462993c28bf23ac91ad56fbf4a79ce374fab",
+        "target_sha256": "430646f39e70e4229f28fd2114baa2973fe015ed2eb3703ae500c55f0a02974f"
+      },
+      "ui:8시간 근무 중 비가 오는 저녁 피크 %d분입니다. 완료한 건마다 비 할증 %s이 붙고, 빗길 운행으로 건강이 1 더 줄어듭니다.:/8시간 근무 중 비가 오는 저녁 피크 %d분입니다. 완료한 건마다 비 할증 %s이 붙고, 빗길 운행으로 건강이 1 더 줄어듭니다.": {
+        "source_sha256": "1bc7f4e4714034afe25dacbbb63763c9da470c002766c2b42b4d682c2e345e19",
+        "target_sha256": "d425c4189bae894f4eabe1739e49df2fa1aef611fe65db02d19ae66ca6108ca8"
+      },
+      "ui:8시간 근무 중 저녁 피크 %d분입니다. 배달할 순서대로 선택하세요. 다시 선택하면 취소됩니다.:/8시간 근무 중 저녁 피크 %d분입니다. 배달할 순서대로 선택하세요. 다시 선택하면 취소됩니다.": {
+        "source_sha256": "3ca15e1b77866e1df70e3b9e8ed27215391ae051add515264958a076bef2fa36",
+        "target_sha256": "e5331e2f3ae406127d8a36f275dc96a5c45bf1cbb92fa48b92871c8130ceba55"
+      },
+      "ui:간신히 진정됐다.:/간신히 진정됐다.": {
+        "source_sha256": "577cdc407c933db31d537b974f926fcf056b97c6e0533d6c97c0c880b6e601b7",
+        "target_sha256": "0c9e86df207c63e0c51a38b5365324f640a718d445af0204b901c0b34e38eff4"
+      },
+      "ui:결과: :/결과: ": {
+        "source_sha256": "cccc7598fda2f1196ed1095e1cf1c48f40c644c33bb0f5a7413245d0f866e2b1",
+        "target_sha256": "a0c94e4f2604f109af41932aa459969b7bbf04f821e146675fb3c4497db86681"
+      },
+      "ui:계단을 내려갈 때마다 다리가 한 박자 늦게 따라왔다.:/계단을 내려갈 때마다 다리가 한 박자 늦게 따라왔다.": {
+        "source_sha256": "8945b51e9d8d3159bf7ded10eed5a3f69c1dbbb097d7dc7969559802f1c47327",
+        "target_sha256": "ee6bf9caa54105cef9c223868e4eeb18fbba55733ed3baf9ffe811e8bc97ce3e"
+      },
+      "ui:계산 손님:/계산 손님": {
+        "source_sha256": "9576a660943924dd5a5759ab58cab9fccac6cf6f5118e9b58af37cc6a348c6ed",
+        "target_sha256": "6a4c2734ea230fa66b485c7febc35b808aace5e939623644ce2ab5df31529656"
+      },
+      "ui:계산:/계산": {
+        "source_sha256": "a2f3310a886cdf4f6bdd5bce992149cb0613aa653876ead5ae1574db5a4ef1c6",
+        "target_sha256": "220c177d399156b83a269f603fb786c946786b298837f9a739408052615da308"
+      },
+      "ui:고맙다며 갔다.:/고맙다며 갔다.": {
+        "source_sha256": "88a70509800ece0141b83ce065ec56766f629aa0d9d44ed409125b5ad083fdda",
+        "target_sha256": "35efdb16351164f2651b0b3a9d622ea3da11e8639d5f1768928774e3461839e2"
+      },
+      "ui:공덕역 카페:/공덕역 카페": {
+        "source_sha256": "b173d942e8f130841f17c5e01bf9de548a6a0f5e8794b12539dcb4aadad713cd",
+        "target_sha256": "4aae70e4680487d093a43fdc28bc98d6c379fb3eb556d2f7432543ecfbe65406"
+      },
+      "ui:교환 손님:/교환 손님": {
+        "source_sha256": "dcc415e73696a9253aaf21517f52069174b6a59e5263269b7c39440ef794b005",
+        "target_sha256": "e90fad10660e06c1f12531a270db038214adb009536c22ccd708813ba779b170"
+      },
+      "ui:교환:/교환": {
+        "source_sha256": "7fdb66b5ae69eaf27d5f90d50e2e76d3f64749f7e4d02809cbcf458abf7d3834",
+        "target_sha256": "3d5c4a384cd96d0c2f316a8e8bbe575dd76be2b7fa39bf18081ed9da2998844e"
+      },
+      "ui:근무 종료  %d / %d명 응대 성공:/근무 종료  %d ~1 %d명 응대 성공": {
+        "source_sha256": "cb411987fdee164af7a017452e0ef30b4e3bc92cc4ec2969fcc737c75398bf59",
+        "target_sha256": "0541f0dbc2b261d28d59c3de7a006b6d987ac483f728165a4dbafc3f741a6ccf"
+      },
+      "ui:급함:/급함": {
+        "source_sha256": "bd07586176cac8f2b453613eaa6308c18cc5f4786720244fe46e8c076ba2bea0",
+        "target_sha256": "9fec27fc97d3a6605c5224480c97dab5b6c7c7f5f7664b384d6f101bc6e933da"
+      },
+      "ui:긴급!:/긴급!": {
+        "source_sha256": "5a651ee9dbc3aebf3dc948d14aee3b02d9242103f8d7ad508b412c3d76e6471c",
+        "target_sha256": "b518ef73d4746d782ab99e9e68e487db698ee76ea1fe8a7204ac1a7e362e69dd"
+      },
+      "ui:누구를 먼저 상대할지 고른다.:/누구를 먼저 상대할지 고른다.": {
+        "source_sha256": "5c634c54280d53b62518f8ac358cfa426d5fda48ad43395a09bd5531a40a9c93",
+        "target_sha256": "b00d7cf09927f35dc94b3893a13707c1e1c57e533679940f0b6860fe6a208a16"
+      },
+      "ui:느긋:/느긋": {
+        "source_sha256": "9c63ad122784def131a21f3065a2b4864301be0467491bc6068489076ab2d311",
+        "target_sha256": "ce647516d232d7d230abfe688b4f2f8cd7cef51e36a33dcb6ddef55d791dfefe"
+      },
+      "ui:다음 손님이 계산대로 다가온다.:/다음 손님이 계산대로 다가온다.": {
+        "source_sha256": "fb6a0056e494c2910980cc31e5a001f07f7a632f532201da7bdd31d3260f77ec",
+        "target_sha256": "63daacc171388f63fc4e4c208a3dcfb3651c97beca02d32a571ad015591aef8d"
+      },
+      "ui:단골 할머니:/단골 할머니": {
+        "source_sha256": "9b44a0877ad5a8ca81380c32773a8a04a2ca0b714ab6b14ef3b9096e9bcc2d03",
+        "target_sha256": "6a950b4de730299994aae8df74575ba8c7643a454d581f2a6a126740d62b41a7"
+      },
+      "ui:단골:/단골": {
+        "source_sha256": "1f8001222949e6689a4272545e2de9e971621e6460f4ed3944604f3af5153477",
+        "target_sha256": "e27acde4ce99e636ced53ed6bf792432295b96cf294fd3fc3f11d2fe7ac5e93d"
+      },
+      "ui:뒤에 있을 거라고 알아서 찾으라 한다:/뒤에 있을 거라고 알아서 찾으라 한다": {
+        "source_sha256": "cbe7b8273da1532b44c4317af50a7ba4ff4075c5a0c90467690bfc0ec8d0ca02",
+        "target_sha256": "b99e48e317ccee095e7893691e51e7bbe688689c61d80c8a5a9372b0c84f3641"
+      },
+      "ui:등록번호 확인 후 찾아준다:/등록번호 확인 후 찾아준다": {
+        "source_sha256": "a89591fc2b2a4885cc19828d3a3180e319dbd72674a716d62b793d28d14d3ec2",
+        "target_sha256": "a01c5dd429e045b256b87882dded73cfe0f96100cce9ef10130733542b2a4413"
+      },
+      "ui:루트 설정:/루트 설정": {
+        "source_sha256": "4fff9cd1e114e62a9bf4705ac92febea3766652d8f51717c3c2410d304938dee",
+        "target_sha256": "783cc64c44a9b319e150cb6a07df57c73e44613e4ca962081bf019ca387c9712"
+      },
+      "ui:마포 공사장 도시락:/마포 공사장 도시락": {
+        "source_sha256": "6184caa33611e7373eb990bcb40d17d8b9a12a06f74cf12e95c5bb8aaf9442e6",
+        "target_sha256": "a0bfe7729beecc058c85eb71a646273f16c56067d24290db73e8c44af9830f8b"
+      },
+      "ui:못 본 척한다:/못 본 척한다": {
+        "source_sha256": "429e82596400eb525ada05b052cb487913d02af787ad662a52ab5eb3d9c04aa9",
+        "target_sha256": "b4c1051880575ff8b3ee8bae55174cfd5147dd38c4a605e00fce4415ebe51012"
+      },
+      "ui:무시하고 다른 손님 먼저:/무시하고 다른 손님 먼저": {
+        "source_sha256": "fcf8a18db931fac667ef265480063f2ce6baa50ea58bb7a1250a47be2c580674",
+        "target_sha256": "5d520393c1d473c6e2c9294d64fe5d5e297c5321b138e15f2a6a2e705f937120"
+      },
+      "ui:문을 나설 때는 굳었던 어깨가 조금 풀려 있었다.:/문을 나설 때는 굳었던 어깨가 조금 풀려 있었다.": {
+        "source_sha256": "af1ece5a172a53dad88ef77f8a2d1156d96e4db587ba11578a3b9e7a0dbb6389",
+        "target_sha256": "48653979e690acb9a4d7a085e22d9893016648268d2b25da9ede9028dc804242"
+      },
+      "ui:문의:/문의": {
+        "source_sha256": "87828b1486f83f10af0912ae995b1ed530295001fd8c14fa19bebe1becc2d4e2",
+        "target_sha256": "f8456dbb2158b35b1d6a2a7dcc76e5eb186ba71fd6e025d6a66e471da53382df"
+      },
+      "ui:바쁜 척 빠르게 처리한다:/바쁜 척 빠르게 처리한다": {
+        "source_sha256": "55febb45583012ba61c57b5bd176b58ee303a04c84af3c0e8efe84f0c0746e29",
+        "target_sha256": "466881fa989a7f3cd031a5778da858af8589c5001ef75518cf4e1dfe9c342bed"
+      },
+      "ui:반갑게 인사하며 응대한다:/반갑게 인사하며 응대한다": {
+        "source_sha256": "ab6ffb6a207fe4dbbb360909f8ed65434b5af26a7a65869c06da2eea034eb15a",
+        "target_sha256": "94ea51bc1313991d698cc1021aba7c39033c25bb1a0ad3bac4445f3b6d347492"
+      },
+      "ui:방향만 손으로 가리킨다:/방향만 손으로 가리킨다": {
+        "source_sha256": "0949d0dbd63878d75c4bcbeb4fdb2aea69dde9ebcb2e5ca6ad720ecf6fac31dd",
+        "target_sha256": "032627e66ff39a4b0c0d8f3f21323c70b92b6a61286db6ecf1633e30d6acec96"
+      },
+      "ui:배달 완료 — %d건:/배달 완료 — %d건": {
+        "source_sha256": "68015c71dcb23ee68370db88d83ead57404df9420e70e13522b4e2e4613ec58a",
+        "target_sha256": "6db74270faad59a7dc9c4e9bb3f8064cbf8137c442d637428ff01bdfef431e18"
+      },
+      "ui:배달 출발:/배달 출발": {
+        "source_sha256": "ebadb1319538fc3982af44c102ea279b449fd0d86027711830c555ce6c8839f2",
+        "target_sha256": "c1080e497e14006b7b2f29efc5d49b45768cb7a53a56b6bb5ed75a2efb9a1e86"
+      },
+      "ui:불만:/불만": {
+        "source_sha256": "788b71a7fc61790c45f04bb4fd832a82ce0aea6fb276717d6737ee780e16e7c5",
+        "target_sha256": "bfbb6509ad6180ce4d2f895aab4ba9441e099e51c78ef0c3f8996eacd6ac69be"
+      },
+      "ui:빗속 배달 완료 — %d건 · 비 할증 +%s:/빗속 배달 완료 — %d건 · 비 할증 +%s": {
+        "source_sha256": "aecc59c2fd6ee4bfd4c5dd4e0d1e286877ba7b5f364cba5dac5cf999f294feba",
+        "target_sha256": "cac957b9f7a0dc8158f6a1bb52ade207f74745199e001743a29f81ed35954d0c"
+      },
+      "ui:빠르게 스캔한다:/빠르게 스캔한다": {
+        "source_sha256": "da346f742622dfa987b3c07a7c75ec58b78901074c1ceef9bfd3c4014a1d3362",
+        "target_sha256": "a764d757a6c12e2ab3467a5e8fec8863f31eb246e7c1afb322fe1f536213029a"
+      },
+      "ui:상품 위치를 묻는 손님:/상품 위치를 묻는 손님": {
+        "source_sha256": "a1a0605f1e2854ed12d2d17ad1e3155937d01eb7703df47e4ab4a04f57b37046",
+        "target_sha256": "ae7103ffc38badc02a265a5cd3d5aa68a8c665d7190a7a905a8019ff941c3bdc"
+      },
+      "ui:새벽 1시 47분. 냉장고 모터음 사이로 계산대 앞 손님 셋이 겹쳤다.:/새벽 1시 47분. 냉장고 모터음 사이로 계산대 앞 손님 셋이 겹쳤다.": {
+        "source_sha256": "4ca864e3f47013c234d7574d0bb7e1882e6f39eabed5489749f2913921fc7d63",
+        "target_sha256": "701f2e5e89588ff14e1a3b6d06b22807fe95013e5e7a0ee9a2359c20afb68555"
+      },
+      "ui:섭섭해하셨다.:/섭섭해하셨다.": {
+        "source_sha256": "3a57935e56c05f8480caf20f7652472bc60ebc3bd33dbb30813880c9d7257dc9",
+        "target_sha256": "81e1766012bfad2ac1c23c38ce73825d30f268bbe3689ec9bcd98ada6d69fd6a"
+      },
+      "ui:세뱃돈 같은 거라며 주셨다.:/세뱃돈 같은 거라며 주셨다.": {
+        "source_sha256": "95fe330e68547d06db7d21dd0c1b5ecbed5bb2076c45171f97b4cf058b98709c",
+        "target_sha256": "5ece7c5c22001241fb2a85495f88b0a0ad02cccb1487f5419f00a16bdd481cac"
+      },
+      "ui:소요 %d분 / %d분 (여유 %d분)  |  예상 추가 수입 +%s%s:/소요 %d분 ~1 %d분 (여유 %d분)  |  예상 추가 수입 +%s%s": {
+        "source_sha256": "bcf4c7ecf8c78bcdee2f4026354698865b3589246cbbf05fccabe2c61e2c9f86",
+        "target_sha256": "d156d0103611b5a10c90be11d5a048afbc3cc2d0cdfec18902cf9d983eeb23e7"
+      },
+      "ui:손님은 고맙다며 2천 원을 계산대에 두고 갔다.:/손님은 고맙다며 2천 원을 계산대에 두고 갔다.": {
+        "source_sha256": "b63d3535530dc955a1ab5206fba91a17e2b5723e5cb3d774ce2d9fbe0b829e13",
+        "target_sha256": "76d18830b4f0092e9f6dc2d3dc520d1d686367ad87e0073e40eff4a0008012a5"
+      },
+      "ui:손님은 고맙다며 팁 천 원을 두고 갔다.:/손님은 고맙다며 팁 천 원을 두고 갔다.": {
+        "source_sha256": "6c6ef1a12dd3e342b111da9f09cc397115324646712851f2d54c7d059e2b9e3b",
+        "target_sha256": "319d095ed58d9ff6f0e7f571242b6a25608bd8750993b05284c4b05921c0acf9"
+      },
+      "ui:손님은 기다려야 한다며 불만을 보였다.:/손님은 기다려야 한다며 불만을 보였다.": {
+        "source_sha256": "3680be76977f08f16492e9c7ac05e3f3fa6960defafbf76b2ec055cd873fc632",
+        "target_sha256": "811bdb68be005fa84d875812b41aa8431827e28106e3d83536c66292c34bc4a0"
+      },
+      "ui:손님은 다시 오지 않겠다며 나갔다.:/손님은 다시 오지 않겠다며 나갔다.": {
+        "source_sha256": "a96a4e611ee338afc481cfedb43428de94d07f87e4a419b3a323939e23ec085a",
+        "target_sha256": "9e58ace59171967ca529b899ed3b7287a4115d721405eac1f80c2c75683f57e8"
+      },
+      "ui:손님은 미안했다며 팁 천 원을 계산대에 두고 갔다.:/손님은 미안했다며 팁 천 원을 계산대에 두고 갔다.": {
+        "source_sha256": "f8c7c6ffe929666a97117c7d74e5ac9d5f4eee1b6d5eee415485f5d3d47d8093",
+        "target_sha256": "bf89d70565c35254df1d7a4c0b913d05f29613d0b042dfa27c849722d444821b"
+      },
+      "ui:손님은 불만스러운 표정으로 택배를 찾았다.:/손님은 불만스러운 표정으로 택배를 찾았다.": {
+        "source_sha256": "aee5769d4a4e87b0ce511ed3f1d56c674259f97f572af2b0914a47dbd3158a00",
+        "target_sha256": "1d12f1b58687a4b1675ac6a117593ef4b0c3dc45180db5926670525d0009fa31"
+      },
+      "ui:손님은 점장에게 항의하겠다고 했다.:/손님은 점장에게 항의하겠다고 했다.": {
+        "source_sha256": "e469911936d1e88bc45a93932bfe3eafbbe263c517fd3fe41e1a5424b6880ebe",
+        "target_sha256": "d62e1d4d6d6c419229245383bdf5c9274b531ed11238ae66efabc9630bdb6da8"
+      },
+      "ui:손님은 한숨을 쉬며 기다렸다.:/손님은 한숨을 쉬며 기다렸다.": {
+        "source_sha256": "d16869be312c8ce0b5c019838bbe93e0051418d5be5fa94aa9f900bcfd8f4116",
+        "target_sha256": "2787406831de384db8c67a77cd0326b01e6d4e4e297b384ad8c0f77ad2a4aabf"
+      },
+      "ui:손님은 혼자 한참 매장을 헤맸다.:/손님은 혼자 한참 매장을 헤맸다.": {
+        "source_sha256": "51b81140111991978479734315476bb7d67eb77654a1b33c88baa5c2b477f3e5",
+        "target_sha256": "267ccfea276dc051be211d1b392aac5ed4668302fa451597ade73eda36c7d50c"
+      },
+      "ui:신촌 피자:/신촌 피자": {
+        "source_sha256": "bef156c1b780d701dfb91c63c73b4e98c540e4c6cdbb8b86fc777e923b0c0fa1",
+        "target_sha256": "e9cd2a42438b6ebe3e2838963098693e82f93c080751a92926b18dd48b3f4e27"
+      },
+      "ui:실패  :/실패  ": {
+        "source_sha256": "e07b6ad7fe82794b3e0e10d05de03c29174434ce77371f2dff4b7f76169683d2",
+        "target_sha256": "e6c9be934eb3cd1b6a60f6c68f4c28158d704bd40aec0399aaf3427780150005"
+      },
+      "ui:심야  01:47:/심야  01:47": {
+        "source_sha256": "b072d31e1b930702c95016a9959cdd785237ff8a5adea866ce8871ae569796d6",
+        "target_sha256": "04e6aff6f2d67b6e3cba841e6bb79aa6ea9454ec36e5beb561542aef9bf91f89"
+      },
+      "ui:야! 왜 이렇게 느려!:/야! 왜 이렇게 느려!": {
+        "source_sha256": "e1f250750f6c1eb10bb71fafd27f21641fdffcd2f91fe7e9ef54828ac8ee9e7b",
+        "target_sha256": "7f353e40b05c5271a0dab37336cda0e27c09d67f68e4b7efe954e04852ed06b0"
+      },
+      "ui:야... 소주 어디 있어요?:/야... 소주 어디 있어요?": {
+        "source_sha256": "c2f79f104fb13a2a52920bb368d46f2df96ac7e670cbec56b28605e829229845",
+        "target_sha256": "bb4fd5465d2cd3041c16c5142f3d6b8bb2c5aa87499b0a2e2148146ec7a42267"
+      },
+      "ui:여의도 사무실 야식:/여의도 사무실 야식": {
+        "source_sha256": "a56414ee0886b0877edf3d71b86d53f764d2f15f1f5c546ae68eb8ebe0f00c96",
+        "target_sha256": "eba4182f77fdbec748ed07e4f848c373f5ddd18b2b7748f8c868e27a4fe0a105"
+      },
+      "ui:영수증 보고 재적립 처리:/영수증 보고 재적립 처리": {
+        "source_sha256": "f01e4db79277c497417de0cb99748fdc7560360f7ece26b2e0aa71e51a219d81",
+        "target_sha256": "659c4de486e4b90be60f9caf6e0f07d9c034bf08eefe734e8181f0ceea0480f2"
+      },
+      "ui:영수증 확인 후 즉시 교환:/영수증 확인 후 즉시 교환": {
+        "source_sha256": "32fcfed3cd6d67d0869fabe7132700cbb674136faa4254da8342c0865c5a4084",
+        "target_sha256": "a02b6c17c2725504527c82bee5c4d95f89f25ec990fd9fec70da643b47364e64"
+      },
+      "ui:응대 %d/%d · 성공 %d · 남은 손님 %d · 기본 수당 %s:/응대 %d~1%d · 성공 %d · 남은 손님 %d · 기본 수당 %s": {
+        "source_sha256": "0640103c3a0ed26b281db18e2245cec4010d329667cf9ed81090e0547a5083ad",
+        "target_sha256": "61d7e13479b29dde1c93a235456bdc4f59dc9e809c11c600655fade6f81abac9"
+      },
+      "ui:이거 어제 샀는데 불량이에요.:/이거 어제 샀는데 불량이에요.": {
+        "source_sha256": "03e1a032aae78d197f5aed00726c1f0b49c2618d3e0e0e6336f1296f52606a2b",
+        "target_sha256": "752a7cae1bbe3268c5bee404edf6ed0b831519988a1045a1c77d6271da531c96"
+      },
+      "ui:이대 야식:/이대 야식": {
+        "source_sha256": "2d05c79682a149cd8ab9d8ac5ce6e9567f1eb8dc669ea2752fff1ae0eaa83546",
+        "target_sha256": "257b41e5440403b242bee4c610af0369eb306367ad7dcdc0821657715a6d4769"
+      },
+      "ui:저기, 삼각김밥 어디 있어요?:/저기, 삼각김밥 어디 있어요?": {
+        "source_sha256": "1267fe34e62e1c4e19a5ef0fe380a25c327fb3e78efd901b9bc0665fbd5360d8",
+        "target_sha256": "e9209f0bb58880cc4cc806962d211e8cdb9d377ee63275d6c117d1ab0d1afa12"
+      },
+      "ui:저기요, 계산이요.:/저기요, 계산이요.": {
+        "source_sha256": "87952952924fcb171a481c4219842c1d6ec14d316336c361c688596d6d9ebc70",
+        "target_sha256": "a3b20a1306c8158fa35454fb0f85e50bdee39e4d6f9d8b401db2259e4936074c"
+      },
+      "ui:점장에게 물어봐야 한다고 설명:/점장에게 물어봐야 한다고 설명": {
+        "source_sha256": "d9dfd66f3eebec3741dc63cd3be79e0e564589044157d44b42a9f9cd7deb5162",
+        "target_sha256": "6d6e1e64e2637c0f4699ed0fd5118b67251644c8d20b4899059f274d66edc7c7"
+      },
+      "ui:점장이 교환 기록을 확인하고 성과수당 2천 원을 붙였다.:/점장이 교환 기록을 확인하고 성과수당 2천 원을 붙였다.": {
+        "source_sha256": "cda236f9c8a0893536060ac35bf96f83488d77915aabac8c4862a99c98beaf53",
+        "target_sha256": "66875611348fe5f769e7810763ea870084d339c0082d6c0d73d33e3407556ee2"
+      },
+      "ui:점장이 빠른 응대 기록을 보고 성과수당 2천 원을 붙였다.:/점장이 빠른 응대 기록을 보고 성과수당 2천 원을 붙였다.": {
+        "source_sha256": "f70c6bf6614a0edc78fe6b16bc522f60ed19eb8315405a1e9fb4acf2c4051e35",
+        "target_sha256": "5767cbaff2f69d3d81dca5afdebab2b17bb3a3a627ede86a137c8241ef5b36c7"
+      },
+      "ui:점장이 사후 적립 기록을 보고 성과수당 천 원을 붙였다.:/점장이 사후 적립 기록을 보고 성과수당 천 원을 붙였다.": {
+        "source_sha256": "ebf8122c163df089affe7ceff42ccaae504ed636b166f671115031a14926a80e",
+        "target_sha256": "a4f81c5a1f7ab0728fffe55db84ff15b367dfc336a5ab782d12dd70aa72d2523"
+      },
+      "ui:진열대까지 함께 가서 안내한다:/진열대까지 함께 가서 안내한다": {
+        "source_sha256": "116a89150f080f8dc68dca6c64aecd72e2e22b80f84f70742462b94278ba3661",
+        "target_sha256": "90cb4e01065b280173b17a35e986582aec9d12a38a9fcba4e1ff34613b7d53ba"
+      },
+      "ui:참다가 나가버렸다:/참다가 나가버렸다": {
+        "source_sha256": "b9e98a45ffc5431fd3295610af6020b8bed3526098fab798c2fd98e053e36451",
+        "target_sha256": "e68e791a2766ec26be4e353b50ba5b57cedc1f7d6dc168f61a71eb67ffd9c337"
+      },
+      "ui:찾아갔다.:/찾아갔다.": {
+        "source_sha256": "f1621e4984b2a21c55ccbe44d9f439e0823520909793625170d87182c8bf153a",
+        "target_sha256": "a70b3d0fccf5006501bbd8921a68b40cb33db4395c610614d547c9144632b2bd"
+      },
+      "ui:처리  :/처리  ": {
+        "source_sha256": "3dc5ca83819f5a75751aef3eabaec34a6ddc75e22f9d466965e4db25f4e5822b",
+        "target_sha256": "f124a1fb422f8c399cbfec19bdca15a94b459f5fb49fcb1df929e7ed1a3e0b7d"
+      },
+      "ui:총각, 오늘 대타예요? 나는 매일 이 시간에 오는데.:/총각, 오늘 대타예요? 나는 매일 이 시간에 오는데.": {
+        "source_sha256": "77702553ae8794312b39c1b9c5eb32136eaa48a712ba5f6168d0eb3d255c0570",
+        "target_sha256": "7cf520078ef29492114921e2140196f5ed13c12054371b9767460e2a269304af"
+      },
+      "ui:취객:/취객": {
+        "source_sha256": "7bfc9c0051644023452c80986031558e691545dce0658dee0c6f6fe0b633c7c5",
+        "target_sha256": "d8b29db727d86ec2cbfe534837a38e73dab24172a711ea1dd1fcb1c45fff70aa"
+      },
+      "ui:취한 손님:/취한 손님": {
+        "source_sha256": "5fec7309be2fc936645888b4af16f35e98b4e64ba32b064aa23914a81c1344dd",
+        "target_sha256": "fccac7540646dfc3f1c6b803f5c39fc71a6a4d1c0622f50f33772099b24cd535"
+      },
+      "ui:친절하게 안내한다:/친절하게 안내한다": {
+        "source_sha256": "21f22bf0ebefff047b09aa2b9a264812dd576e24a726d5f138d9e4693af9d81c",
+        "target_sha256": "9122f65b7ef2e0a30467a4b0892a0c40fd00d09881c6b3e0676e0909401a5d55"
+      },
+      "ui:택배 손님:/택배 손님": {
+        "source_sha256": "6b41f9ea07e7ebdb2dd40468a6b35fc8771e2ccceabc8dac1ba5e5480f5cd7b4",
+        "target_sha256": "324ca28a2c64e12380c2456ff838556d55be79ba2a15d3660205b95ed125ff2f"
+      },
+      "ui:택배 여기 맡겼는데요.:/택배 여기 맡겼는데요.": {
+        "source_sha256": "71d0bceed0816137224c724baff0b5073d59f8a3c461ce3f46aae1a5d01faa62",
+        "target_sha256": "b89be23d6cb6879051afc0b4d7c0ce69a0ebefcb8e5202cd75ca6b7e2cee3a88"
+      },
+      "ui:택배:/택배": {
+        "source_sha256": "b4f64b11b68b2d4924c4faee153d09de0a3308871a43d4c2083ef4e5d3613594",
+        "target_sha256": "4fb2964f3c06d39c4df0d8d2f51b1fcf6f7fefc2230343a0e98c5423a53d366c"
+      },
+      "ui:퇴근 뒤에도 손끝의 긴장이 풀리지 않았다.:/퇴근 뒤에도 손끝의 긴장이 풀리지 않았다.": {
+        "source_sha256": "06560a3acc12365a8375152e2deb4ad4d9ee0560df3b49d8aad73bc76d28f4d8",
+        "target_sha256": "8e52ec51420a3ebebe15d0c3a51e74e794feb15eb516b3caf0aa51c98c8c3928"
+      },
+      "ui:퇴근하기:/퇴근하기": {
+        "source_sha256": "5193442368244379ae91eecfb79b53a850ee6ad49ee30af8d49530dd1dcc2e66",
+        "target_sha256": "d673a1d695b3aa02d747be2a7546aa5006542d4019ba0f5ceb5635ba78dcfb21"
+      },
+      "ui:편의점 야간 근무:/편의점 야간 근무": {
+        "source_sha256": "8e8a32402e3e23fe9f95c1862cbf8f0b1bc2f362c568465a4eaae2395ff81c2e",
+        "target_sha256": "d3a3d2258580ca7e4c267f68269b4f7671de7fab91173bf2821867043a4b98b7"
+      },
+      "ui:포인트 손님:/포인트 손님": {
+        "source_sha256": "3f8f98ec2e13b49a1957debc50c2609fc528d54e15f114d18157b8a949b74a90",
+        "target_sha256": "d7c77388a9cd24d2c2f8a80fad9db66dd8c2e28f32e39fc88724d4372f46b0c4"
+      },
+      "ui:포인트 카드요! 이거 적립됐어요?:/포인트 카드요! 이거 적립됐어요?": {
+        "source_sha256": "0cc1d945986904db0a72c9e455afaed3dbc9cc99f2b47b44782b2e769c2fa765",
+        "target_sha256": "3b0bbf7ae9e7cf6462046b903fb8a9f7e6264c68229179e82c75790397e58351"
+      },
+      "ui:포인트:/포인트": {
+        "source_sha256": "42d810ba0b6d8a6e0c297319e61dd6e399ac58f45e1d65e988c352314e674be2",
+        "target_sha256": "d9252222ea18cfbbeb9bf22a7f4e9dbccef060d93b4c2382a4cc782ffc1ff19d"
+      },
+      "ui:홍대 치킨:/홍대 치킨": {
+        "source_sha256": "e037036f322c0f867e20102b064512e8abadf03879abe6eea77667e245ab6d64",
+        "target_sha256": "a806a16a817847c07141ac7ff909fd7747daf5da13e99b8887f149fcf3bb4a32"
+      },
+      "ui:화를 내는 손님:/화를 내는 손님": {
+        "source_sha256": "2f00e9a49bceef162588c6192e9bf238f5c5db183fa86b7c7326b70c7d81dcaf",
+        "target_sha256": "35a1dc0271987996d561be1195df90d0d15bc59f4bd85b8a9623e2dc9388b90c"
       }
     },
     "zh-TW": {
@@ -167425,10 +167973,410 @@
       "ui:확인:/확인": {
         "source_sha256": "5b16c1210ecb33dcb431f717312059df893f4c17c37f14439456965a85ce1ffc",
         "target_sha256": "da2432dcd7dbe5d7f9804620d32cfd35dafc2d5f5d8646692360b331e48f17ed"
+      },
+      "ui: (비 할증 %s):/ (비 할증 %s)": {
+        "source_sha256": "65072b9b2d6dded59db8fce34339c39d45b10c14fcb6b6655c1f92ee22f8ef73",
+        "target_sha256": "28b335ab4e9cefa6d970e23172abf1d6d3d5529c032be6cb8063618060dba504"
+      },
+      "ui:\"계산 전에 말씀해 주셔야 해요\":/\"계산 전에 말씀해 주셔야 해요\"": {
+        "source_sha256": "8593bd2cf2f23cc5bd848d3fe781dc38614e13f3e35939d80b2fd6ed443f0473",
+        "target_sha256": "0861c2d3a06641e916a70d22a3cfe8e50884c517963e49f5b60bbaab52b9ca20"
+      },
+      "ui:\"많이 기다리셨죠. 바로 계산해 드릴게요\":/\"많이 기다리셨죠. 바로 계산해 드릴게요\"": {
+        "source_sha256": "7b2fda2979d203577ffe3c3ce3bd1be145fc258e5702e1c94c9b55cf603c9017",
+        "target_sha256": "c2a2ceb871caa653c64952a67e3392f55399e4eb4e685d42a0b8c924e9b09cc1"
+      },
+      "ui:\"많이 드신 것 같은데, 물도 같이 찾으세요?\":/\"많이 드신 것 같은데, 물도 같이 찾으세요?\"": {
+        "source_sha256": "a76d829f5a01e07ed276951b411cc54713c654be9cad1b497828beda7bb73647",
+        "target_sha256": "96cf57e3130922930068d4647c74be755e5c7e534f3350abecf1f28cca3dd081"
+      },
+      "ui:\"잠깐만요\" 다른 손님 먼저:/\"잠깐만요\" 다른 손님 먼저": {
+        "source_sha256": "faa3c3db36a9a9bad340fbff7a245e38aadf2c2bd86d18452ec3911802e7aa15",
+        "target_sha256": "c81a79c0e99f43ffe438eb74a62f26a5fef27ede179df7348a231efa85e6f8f2"
+      },
+      "ui:\"죄송합니다\" 차분히 대응:/\"죄송합니다\" 차분히 대응": {
+        "source_sha256": "749020042139e42cb1b05e464af8fb94ffa075c3cba98fa59f67e5cf86b8f709",
+        "target_sha256": "7afb5a0e8958b80e224bdd96152c793d9dff5d48c7c5fe6674a98793c47250b3"
+      },
+      "ui:%d번째  %s:/%d번째  %s": {
+        "source_sha256": "e1bb16a489d43196d4359fcb6a2487152cf53389be0bb0e1356fc21705a78524",
+        "target_sha256": "d7ad3804c47620f042e544a0477c659f6649fa890ec0145a7f0c2c65d9d73a99"
+      },
+      "ui:%s  [%s]  팁 +%s:/%s  [%s]  팁 +%s": {
+        "source_sha256": "28394a9bd8bff5d0386448b24026fd3583d21f588282088b518d6eeaf77ddda8",
+        "target_sha256": "8e983bab6af243b475924ca3bdfccfdb4f6014db14a1b08d066c1b20a4120466"
+      },
+      "ui:%s · %s에게 뭐라고 할까:/%s · %s에게 뭐라고 할까": {
+        "source_sha256": "0f0b40d2fc813bbec88f92caec3682d69b4cc3abd5a7925cbfb7372f984b1ec1",
+        "target_sha256": "16488630416dc021288c7d11b20af48da3d0b76568ee8c3767499295eb7afff3"
+      },
+      "ui:1층 · 14분:/1층 · 14분": {
+        "source_sha256": "38d9152a8f6e3c059c80105e2c555766d31bebf02851f8a3ef7cb3cf23d2c907",
+        "target_sha256": "89f157142b5f796acd062e0798a98154d1930832f45532170cc026f184a1acdf"
+      },
+      "ui:1층 · 18분:/1층 · 18분": {
+        "source_sha256": "69acec446b8f247d41a8202538189dd8821f4cdf0f61a34e7b4bfa8f60c8e336",
+        "target_sha256": "aac5ec3efac5a84549b91bb35e26815d203e2d28cced018f29d4e33dde4abe07"
+      },
+      "ui:1층 · 8분:/1층 · 8분": {
+        "source_sha256": "4c587c4a7501ea56b20f04d50f2e31b61089292fff8f5b73e6bb9fe616c9778f",
+        "target_sha256": "57aa52bd3c6a3ac956787c47a7267e4695a5dc616fafd7b6e0266c638c6efcd1"
+      },
+      "ui:22층 · 45분:/22층 · 45분": {
+        "source_sha256": "f0009fffef09005c61c34850e918bc6577bfa1563651f80fec273e381c5b2a3c",
+        "target_sha256": "47c82e6a9e9a1feb9953b749a43091e8990c698f5788f3d1b352404ab717cde2"
+      },
+      "ui:3층 · 30분:/3층 · 30분": {
+        "source_sha256": "28dd78da0ef6ebb5c1d3d247ee7b55ce088daeb5a50414772cac9090cc5ec048",
+        "target_sha256": "1ee79b6a01b7eac0e10f1dd7c4d83c981d6f8f8501a942b9fe7018880963c624"
+      },
+      "ui:4층 · 25분:/4층 · 25분": {
+        "source_sha256": "3b587ea4bb7b01ae5c55c0406d4e462993c28bf23ac91ad56fbf4a79ce374fab",
+        "target_sha256": "eb945e4609156fd82c74d3ec57e6965ed66f0227b4523d03c6b42b121c07b079"
+      },
+      "ui:8시간 근무 중 비가 오는 저녁 피크 %d분입니다. 완료한 건마다 비 할증 %s이 붙고, 빗길 운행으로 건강이 1 더 줄어듭니다.:/8시간 근무 중 비가 오는 저녁 피크 %d분입니다. 완료한 건마다 비 할증 %s이 붙고, 빗길 운행으로 건강이 1 더 줄어듭니다.": {
+        "source_sha256": "1bc7f4e4714034afe25dacbbb63763c9da470c002766c2b42b4d682c2e345e19",
+        "target_sha256": "14422f842f7da3e5e34d35c95906ecf366684dabb44499d872d465eff6c045e5"
+      },
+      "ui:8시간 근무 중 저녁 피크 %d분입니다. 배달할 순서대로 선택하세요. 다시 선택하면 취소됩니다.:/8시간 근무 중 저녁 피크 %d분입니다. 배달할 순서대로 선택하세요. 다시 선택하면 취소됩니다.": {
+        "source_sha256": "3ca15e1b77866e1df70e3b9e8ed27215391ae051add515264958a076bef2fa36",
+        "target_sha256": "f102dcdf84da276a91f31f6fe0d8d5ee55110df7a6e2505a2458ce29737c17c4"
+      },
+      "ui:간신히 진정됐다.:/간신히 진정됐다.": {
+        "source_sha256": "577cdc407c933db31d537b974f926fcf056b97c6e0533d6c97c0c880b6e601b7",
+        "target_sha256": "3883fd7d4c83e391ae6472fb8402b9096bfd8549778263628bb28b0d27311765"
+      },
+      "ui:결과: :/결과: ": {
+        "source_sha256": "cccc7598fda2f1196ed1095e1cf1c48f40c644c33bb0f5a7413245d0f866e2b1",
+        "target_sha256": "54d3f02778ddbd845b7a5b4ecbb756a930987562c2228b4d505288038611e5b9"
+      },
+      "ui:계단을 내려갈 때마다 다리가 한 박자 늦게 따라왔다.:/계단을 내려갈 때마다 다리가 한 박자 늦게 따라왔다.": {
+        "source_sha256": "8945b51e9d8d3159bf7ded10eed5a3f69c1dbbb097d7dc7969559802f1c47327",
+        "target_sha256": "8220324954abc87b69400a20eb26d484ddfcfacfdcccba6cc8bd96add62fe001"
+      },
+      "ui:계산 손님:/계산 손님": {
+        "source_sha256": "9576a660943924dd5a5759ab58cab9fccac6cf6f5118e9b58af37cc6a348c6ed",
+        "target_sha256": "d64d77c0ab4a606cc908db9e948c333e4c8aa97ea81824366fb4e264615b06cd"
+      },
+      "ui:계산:/계산": {
+        "source_sha256": "a2f3310a886cdf4f6bdd5bce992149cb0613aa653876ead5ae1574db5a4ef1c6",
+        "target_sha256": "babbf07bb6759874f8cde3a4016e1438fd7789f1626488962f484ad7e7aa0e9b"
+      },
+      "ui:고맙다며 갔다.:/고맙다며 갔다.": {
+        "source_sha256": "88a70509800ece0141b83ce065ec56766f629aa0d9d44ed409125b5ad083fdda",
+        "target_sha256": "9271e085a8f85b602ab8c97d7ced3eb83d223296e5eda6ff0ee1240a51d207a2"
+      },
+      "ui:공덕역 카페:/공덕역 카페": {
+        "source_sha256": "b173d942e8f130841f17c5e01bf9de548a6a0f5e8794b12539dcb4aadad713cd",
+        "target_sha256": "53fd0f9b9e7bc2541eebec1acc6fd7dec96f75e5264bef6fdb214e2ccf7b6b2b"
+      },
+      "ui:교환 손님:/교환 손님": {
+        "source_sha256": "dcc415e73696a9253aaf21517f52069174b6a59e5263269b7c39440ef794b005",
+        "target_sha256": "a75f7efd2908bdfa07079a54b308ae35f5784a20e95902ddbd9fef59f52f862f"
+      },
+      "ui:교환:/교환": {
+        "source_sha256": "7fdb66b5ae69eaf27d5f90d50e2e76d3f64749f7e4d02809cbcf458abf7d3834",
+        "target_sha256": "c0f4f1fa24f5f0556f8e4d272f3896dfb19e30ee4e0c85f07d183124aeddca53"
+      },
+      "ui:근무 종료  %d / %d명 응대 성공:/근무 종료  %d ~1 %d명 응대 성공": {
+        "source_sha256": "cb411987fdee164af7a017452e0ef30b4e3bc92cc4ec2969fcc737c75398bf59",
+        "target_sha256": "e53807a56925a56d8ca88e04cb57cab023bc1d36b02fc676162acf434bdf6bed"
+      },
+      "ui:급함:/급함": {
+        "source_sha256": "bd07586176cac8f2b453613eaa6308c18cc5f4786720244fe46e8c076ba2bea0",
+        "target_sha256": "d6b050ea488220f0d2b126b5b864476736edbcfa6dcfbfae3b920b47657a9999"
+      },
+      "ui:긴급!:/긴급!": {
+        "source_sha256": "5a651ee9dbc3aebf3dc948d14aee3b02d9242103f8d7ad508b412c3d76e6471c",
+        "target_sha256": "adcce94e39612eab0a166edb650efab5bbae8b6dfc2eabec9a0e635ab921f5f6"
+      },
+      "ui:누구를 먼저 상대할지 고른다.:/누구를 먼저 상대할지 고른다.": {
+        "source_sha256": "5c634c54280d53b62518f8ac358cfa426d5fda48ad43395a09bd5531a40a9c93",
+        "target_sha256": "b27474127afe3fb47cd9370aa25ba1b09175a14c92617b8609bd3b2a87952641"
+      },
+      "ui:느긋:/느긋": {
+        "source_sha256": "9c63ad122784def131a21f3065a2b4864301be0467491bc6068489076ab2d311",
+        "target_sha256": "ce647516d232d7d230abfe688b4f2f8cd7cef51e36a33dcb6ddef55d791dfefe"
+      },
+      "ui:다음 손님이 계산대로 다가온다.:/다음 손님이 계산대로 다가온다.": {
+        "source_sha256": "fb6a0056e494c2910980cc31e5a001f07f7a632f532201da7bdd31d3260f77ec",
+        "target_sha256": "47093a79b732d347925a5fea7527ccd6f69421362b8cc7270091cf472bee6363"
+      },
+      "ui:단골 할머니:/단골 할머니": {
+        "source_sha256": "9b44a0877ad5a8ca81380c32773a8a04a2ca0b714ab6b14ef3b9096e9bcc2d03",
+        "target_sha256": "98924f969e4b55e27c63c7bcd759349f5a2c28a7aa85df7685158ca36607732f"
+      },
+      "ui:단골:/단골": {
+        "source_sha256": "1f8001222949e6689a4272545e2de9e971621e6460f4ed3944604f3af5153477",
+        "target_sha256": "ea2c7c8dc13799b7ee4656f54b3632f2ffdf9e1a4f89d771bb207d439639e492"
+      },
+      "ui:뒤에 있을 거라고 알아서 찾으라 한다:/뒤에 있을 거라고 알아서 찾으라 한다": {
+        "source_sha256": "cbe7b8273da1532b44c4317af50a7ba4ff4075c5a0c90467690bfc0ec8d0ca02",
+        "target_sha256": "0d4029f9a19304b822447c7f5066e33e5033f34d63cd204c199549f8a7aa4852"
+      },
+      "ui:등록번호 확인 후 찾아준다:/등록번호 확인 후 찾아준다": {
+        "source_sha256": "a89591fc2b2a4885cc19828d3a3180e319dbd72674a716d62b793d28d14d3ec2",
+        "target_sha256": "3a51f4a242fb83e6130e3e08274ae7cc4c5045d58b20098e156760c16ec09794"
+      },
+      "ui:루트 설정:/루트 설정": {
+        "source_sha256": "4fff9cd1e114e62a9bf4705ac92febea3766652d8f51717c3c2410d304938dee",
+        "target_sha256": "770bc70b9c0b3653bf6e3d6a34199d26f89fc0477b66334ae110e917d11ca8f2"
+      },
+      "ui:마포 공사장 도시락:/마포 공사장 도시락": {
+        "source_sha256": "6184caa33611e7373eb990bcb40d17d8b9a12a06f74cf12e95c5bb8aaf9442e6",
+        "target_sha256": "06780d23c1ddbb52ccd3df7fc64eb0d22baefaa82e21ac865489db9be8d7f5a7"
+      },
+      "ui:못 본 척한다:/못 본 척한다": {
+        "source_sha256": "429e82596400eb525ada05b052cb487913d02af787ad662a52ab5eb3d9c04aa9",
+        "target_sha256": "dc69ad8b6c6bb5cffd9bb993b7db498ac25951eb9f81eb09f77b537ac58f7270"
+      },
+      "ui:무시하고 다른 손님 먼저:/무시하고 다른 손님 먼저": {
+        "source_sha256": "fcf8a18db931fac667ef265480063f2ce6baa50ea58bb7a1250a47be2c580674",
+        "target_sha256": "a01416619a782b95b71d2f61b13f935c9f9d830548a42b8fb236d01cbaabd135"
+      },
+      "ui:문을 나설 때는 굳었던 어깨가 조금 풀려 있었다.:/문을 나설 때는 굳었던 어깨가 조금 풀려 있었다.": {
+        "source_sha256": "af1ece5a172a53dad88ef77f8a2d1156d96e4db587ba11578a3b9e7a0dbb6389",
+        "target_sha256": "752245dc861ca7f79e1930207f21ce124d971c15c751fd9da1135bd40a9a52c1"
+      },
+      "ui:문의:/문의": {
+        "source_sha256": "87828b1486f83f10af0912ae995b1ed530295001fd8c14fa19bebe1becc2d4e2",
+        "target_sha256": "2c4c3aacf902089196fcb2473ba33a9b284af92af0a2785c78ff7099170f13bd"
+      },
+      "ui:바쁜 척 빠르게 처리한다:/바쁜 척 빠르게 처리한다": {
+        "source_sha256": "55febb45583012ba61c57b5bd176b58ee303a04c84af3c0e8efe84f0c0746e29",
+        "target_sha256": "bd0b39fea7568a5ef751a3c3d9aa046e1664dcaad5032211f26a4c78e7a27cde"
+      },
+      "ui:반갑게 인사하며 응대한다:/반갑게 인사하며 응대한다": {
+        "source_sha256": "ab6ffb6a207fe4dbbb360909f8ed65434b5af26a7a65869c06da2eea034eb15a",
+        "target_sha256": "0137aad47f22fabb8c7645fd19d1df536bf5ba6748b20dd294d6f47f0933091d"
+      },
+      "ui:방향만 손으로 가리킨다:/방향만 손으로 가리킨다": {
+        "source_sha256": "0949d0dbd63878d75c4bcbeb4fdb2aea69dde9ebcb2e5ca6ad720ecf6fac31dd",
+        "target_sha256": "c41ad5deae396ddc6453b8c0829494cc9b6c552c7191b9fecdf932e4c030e606"
+      },
+      "ui:배달 완료 — %d건:/배달 완료 — %d건": {
+        "source_sha256": "68015c71dcb23ee68370db88d83ead57404df9420e70e13522b4e2e4613ec58a",
+        "target_sha256": "22ee3b0bd7fd2f3891bd9d72f3f96465f13a61ccfe81fec99476f4ac4cc554d9"
+      },
+      "ui:배달 출발:/배달 출발": {
+        "source_sha256": "ebadb1319538fc3982af44c102ea279b449fd0d86027711830c555ce6c8839f2",
+        "target_sha256": "401ac2c30581f216a4ecb88507861420d0d6bf55f06018b947119bcc0b20d6b2"
+      },
+      "ui:불만:/불만": {
+        "source_sha256": "788b71a7fc61790c45f04bb4fd832a82ce0aea6fb276717d6737ee780e16e7c5",
+        "target_sha256": "445410eaff9233708dbdfc25b3351816ebbf59d79a80fb7da91de38d117366a3"
+      },
+      "ui:빗속 배달 완료 — %d건 · 비 할증 +%s:/빗속 배달 완료 — %d건 · 비 할증 +%s": {
+        "source_sha256": "aecc59c2fd6ee4bfd4c5dd4e0d1e286877ba7b5f364cba5dac5cf999f294feba",
+        "target_sha256": "07f0586de596750ba379e3b404bd3744eac303fafdedc42b1d4d93d60cb4cbc2"
+      },
+      "ui:빠르게 스캔한다:/빠르게 스캔한다": {
+        "source_sha256": "da346f742622dfa987b3c07a7c75ec58b78901074c1ceef9bfd3c4014a1d3362",
+        "target_sha256": "6cb42e0de1c19264eb57aa7cdd227562eaead84db02b7a8afc0a37e9801ac689"
+      },
+      "ui:상품 위치를 묻는 손님:/상품 위치를 묻는 손님": {
+        "source_sha256": "a1a0605f1e2854ed12d2d17ad1e3155937d01eb7703df47e4ab4a04f57b37046",
+        "target_sha256": "2b29a22ce2046f4f3f6bf20f69056827d24e3fe00137e53a5153acf558d6212f"
+      },
+      "ui:새벽 1시 47분. 냉장고 모터음 사이로 계산대 앞 손님 셋이 겹쳤다.:/새벽 1시 47분. 냉장고 모터음 사이로 계산대 앞 손님 셋이 겹쳤다.": {
+        "source_sha256": "4ca864e3f47013c234d7574d0bb7e1882e6f39eabed5489749f2913921fc7d63",
+        "target_sha256": "47eab91c0fd84d9787f6b86ae5a4f75b7ae8e1e6ccae387e7831029526d27440"
+      },
+      "ui:섭섭해하셨다.:/섭섭해하셨다.": {
+        "source_sha256": "3a57935e56c05f8480caf20f7652472bc60ebc3bd33dbb30813880c9d7257dc9",
+        "target_sha256": "ea195caf98ca53a5a2d65d94fb388bd995a7d8a60e0f59705bd211c4f5a6224b"
+      },
+      "ui:세뱃돈 같은 거라며 주셨다.:/세뱃돈 같은 거라며 주셨다.": {
+        "source_sha256": "95fe330e68547d06db7d21dd0c1b5ecbed5bb2076c45171f97b4cf058b98709c",
+        "target_sha256": "0693394cae96844f74a0f1dee44931a57f48427379ea38aec217d0e4a144be56"
+      },
+      "ui:소요 %d분 / %d분 (여유 %d분)  |  예상 추가 수입 +%s%s:/소요 %d분 ~1 %d분 (여유 %d분)  |  예상 추가 수입 +%s%s": {
+        "source_sha256": "bcf4c7ecf8c78bcdee2f4026354698865b3589246cbbf05fccabe2c61e2c9f86",
+        "target_sha256": "2fd404471bae65ea22e395ae684a917589caed8e7484d3727b8789c6027cb49b"
+      },
+      "ui:손님은 고맙다며 2천 원을 계산대에 두고 갔다.:/손님은 고맙다며 2천 원을 계산대에 두고 갔다.": {
+        "source_sha256": "b63d3535530dc955a1ab5206fba91a17e2b5723e5cb3d774ce2d9fbe0b829e13",
+        "target_sha256": "d49c9abff2f3f45cc26b1eb458809879b09f50a8443481a535c00bc08f18c207"
+      },
+      "ui:손님은 고맙다며 팁 천 원을 두고 갔다.:/손님은 고맙다며 팁 천 원을 두고 갔다.": {
+        "source_sha256": "6c6ef1a12dd3e342b111da9f09cc397115324646712851f2d54c7d059e2b9e3b",
+        "target_sha256": "a150262ef0002fab0c2cefe4c73fd1e53c226beb023479491c2f015691ef8f0d"
+      },
+      "ui:손님은 기다려야 한다며 불만을 보였다.:/손님은 기다려야 한다며 불만을 보였다.": {
+        "source_sha256": "3680be76977f08f16492e9c7ac05e3f3fa6960defafbf76b2ec055cd873fc632",
+        "target_sha256": "22237c3c8b40d43c5bf89730f2959685baf8671650f75a1400a9bf3cea518bf3"
+      },
+      "ui:손님은 다시 오지 않겠다며 나갔다.:/손님은 다시 오지 않겠다며 나갔다.": {
+        "source_sha256": "a96a4e611ee338afc481cfedb43428de94d07f87e4a419b3a323939e23ec085a",
+        "target_sha256": "2d75b5902d80b1cec0cbdfc1914ad3405e524cb92074c3dbe0c2df1611cea089"
+      },
+      "ui:손님은 미안했다며 팁 천 원을 계산대에 두고 갔다.:/손님은 미안했다며 팁 천 원을 계산대에 두고 갔다.": {
+        "source_sha256": "f8c7c6ffe929666a97117c7d74e5ac9d5f4eee1b6d5eee415485f5d3d47d8093",
+        "target_sha256": "3e246170b5cdc49b773330b70d400b73bd7ad1ca1ee13db6bc22dbe4e5ff5511"
+      },
+      "ui:손님은 불만스러운 표정으로 택배를 찾았다.:/손님은 불만스러운 표정으로 택배를 찾았다.": {
+        "source_sha256": "aee5769d4a4e87b0ce511ed3f1d56c674259f97f572af2b0914a47dbd3158a00",
+        "target_sha256": "e489f41822257b202df7171267afef737cfd1bba3ced0f33980951620c865836"
+      },
+      "ui:손님은 점장에게 항의하겠다고 했다.:/손님은 점장에게 항의하겠다고 했다.": {
+        "source_sha256": "e469911936d1e88bc45a93932bfe3eafbbe263c517fd3fe41e1a5424b6880ebe",
+        "target_sha256": "b1120956282c324a648e2a726643bc72d7b933bcf25aeda282966039aac82bb5"
+      },
+      "ui:손님은 한숨을 쉬며 기다렸다.:/손님은 한숨을 쉬며 기다렸다.": {
+        "source_sha256": "d16869be312c8ce0b5c019838bbe93e0051418d5be5fa94aa9f900bcfd8f4116",
+        "target_sha256": "33fb6f76caa743b492cc2093b00cb3bc785a0efa1e71cec3d7bd80a97352d182"
+      },
+      "ui:손님은 혼자 한참 매장을 헤맸다.:/손님은 혼자 한참 매장을 헤맸다.": {
+        "source_sha256": "51b81140111991978479734315476bb7d67eb77654a1b33c88baa5c2b477f3e5",
+        "target_sha256": "631e0e903b3e7e5f8ca7bae3f4db01b2eb02716023eb0be514aeb652d6abba5b"
+      },
+      "ui:신촌 피자:/신촌 피자": {
+        "source_sha256": "bef156c1b780d701dfb91c63c73b4e98c540e4c6cdbb8b86fc777e923b0c0fa1",
+        "target_sha256": "62d18d343baa21184d0a9cc6bb19f38c3549dc70b640b4ecd37a54247cf59fc9"
+      },
+      "ui:실패  :/실패  ": {
+        "source_sha256": "e07b6ad7fe82794b3e0e10d05de03c29174434ce77371f2dff4b7f76169683d2",
+        "target_sha256": "5894e357f8912511c28dfeb7163d80c5ad5922b63232203329cad0135a5b1d6a"
+      },
+      "ui:심야  01:47:/심야  01:47": {
+        "source_sha256": "b072d31e1b930702c95016a9959cdd785237ff8a5adea866ce8871ae569796d6",
+        "target_sha256": "04e6aff6f2d67b6e3cba841e6bb79aa6ea9454ec36e5beb561542aef9bf91f89"
+      },
+      "ui:야! 왜 이렇게 느려!:/야! 왜 이렇게 느려!": {
+        "source_sha256": "e1f250750f6c1eb10bb71fafd27f21641fdffcd2f91fe7e9ef54828ac8ee9e7b",
+        "target_sha256": "6c46c481ef8df5027413521f0d69bd7aea6a1fe5bec4952725d56e70e4bccd41"
+      },
+      "ui:야... 소주 어디 있어요?:/야... 소주 어디 있어요?": {
+        "source_sha256": "c2f79f104fb13a2a52920bb368d46f2df96ac7e670cbec56b28605e829229845",
+        "target_sha256": "1d2fb033ad33e9c1cc5ec735c911c96bdd2a60ee9ceed537af948a40a15cadd3"
+      },
+      "ui:여의도 사무실 야식:/여의도 사무실 야식": {
+        "source_sha256": "a56414ee0886b0877edf3d71b86d53f764d2f15f1f5c546ae68eb8ebe0f00c96",
+        "target_sha256": "16bbe089d79f18759b95f4774df9e062c28ab47b8d0a4f8ec99483e166ca7c36"
+      },
+      "ui:영수증 보고 재적립 처리:/영수증 보고 재적립 처리": {
+        "source_sha256": "f01e4db79277c497417de0cb99748fdc7560360f7ece26b2e0aa71e51a219d81",
+        "target_sha256": "37b2235db10db37f54a054a682d0935df30fe863679d895e4433dc0e95496a0d"
+      },
+      "ui:영수증 확인 후 즉시 교환:/영수증 확인 후 즉시 교환": {
+        "source_sha256": "32fcfed3cd6d67d0869fabe7132700cbb674136faa4254da8342c0865c5a4084",
+        "target_sha256": "71381c8aae1c713ac97e312d8b4e19279066a4ab85eef16c068ec84315529361"
+      },
+      "ui:응대 %d/%d · 성공 %d · 남은 손님 %d · 기본 수당 %s:/응대 %d~1%d · 성공 %d · 남은 손님 %d · 기본 수당 %s": {
+        "source_sha256": "0640103c3a0ed26b281db18e2245cec4010d329667cf9ed81090e0547a5083ad",
+        "target_sha256": "889cf30cc04b5699350a8ca7ceebecd4cbc3287d8c441fd2f18617edb455ea4d"
+      },
+      "ui:이거 어제 샀는데 불량이에요.:/이거 어제 샀는데 불량이에요.": {
+        "source_sha256": "03e1a032aae78d197f5aed00726c1f0b49c2618d3e0e0e6336f1296f52606a2b",
+        "target_sha256": "bc9bde5fbed40a68cb5f5a757ff70a6f903c61aa01a9871dacbd6bcd1d01b62e"
+      },
+      "ui:이대 야식:/이대 야식": {
+        "source_sha256": "2d05c79682a149cd8ab9d8ac5ce6e9567f1eb8dc669ea2752fff1ae0eaa83546",
+        "target_sha256": "679b6a36eaba2d9ed2486d67d3ecea070e3444f426c2d3f89ad9050e8fa08596"
+      },
+      "ui:저기, 삼각김밥 어디 있어요?:/저기, 삼각김밥 어디 있어요?": {
+        "source_sha256": "1267fe34e62e1c4e19a5ef0fe380a25c327fb3e78efd901b9bc0665fbd5360d8",
+        "target_sha256": "dfad8541f1d72f7984e8fc106c5f25d56d3bdfe9534f3630530354ebc907b73c"
+      },
+      "ui:저기요, 계산이요.:/저기요, 계산이요.": {
+        "source_sha256": "87952952924fcb171a481c4219842c1d6ec14d316336c361c688596d6d9ebc70",
+        "target_sha256": "bc5419401362cd2b456a5803b88a60275b1f50ee281e75b00bcda092c025f019"
+      },
+      "ui:점장에게 물어봐야 한다고 설명:/점장에게 물어봐야 한다고 설명": {
+        "source_sha256": "d9dfd66f3eebec3741dc63cd3be79e0e564589044157d44b42a9f9cd7deb5162",
+        "target_sha256": "39103a11ad134499d5647f42beb5ad66be550af8044f750c917c232fbeb55ada"
+      },
+      "ui:점장이 교환 기록을 확인하고 성과수당 2천 원을 붙였다.:/점장이 교환 기록을 확인하고 성과수당 2천 원을 붙였다.": {
+        "source_sha256": "cda236f9c8a0893536060ac35bf96f83488d77915aabac8c4862a99c98beaf53",
+        "target_sha256": "aa0c3c55d464d9e25e2a692ea7da281b0d0565b55e8ba0bca1c6b144a1bfccf9"
+      },
+      "ui:점장이 빠른 응대 기록을 보고 성과수당 2천 원을 붙였다.:/점장이 빠른 응대 기록을 보고 성과수당 2천 원을 붙였다.": {
+        "source_sha256": "f70c6bf6614a0edc78fe6b16bc522f60ed19eb8315405a1e9fb4acf2c4051e35",
+        "target_sha256": "e1711eadf435785aef8ed386d893f915fb0b75d28dbb41fdc135d935348bb51a"
+      },
+      "ui:점장이 사후 적립 기록을 보고 성과수당 천 원을 붙였다.:/점장이 사후 적립 기록을 보고 성과수당 천 원을 붙였다.": {
+        "source_sha256": "ebf8122c163df089affe7ceff42ccaae504ed636b166f671115031a14926a80e",
+        "target_sha256": "6c33dde8784d336aae7236b7d2627bec09b169d8a40c7ef59c13e075da469a7a"
+      },
+      "ui:진열대까지 함께 가서 안내한다:/진열대까지 함께 가서 안내한다": {
+        "source_sha256": "116a89150f080f8dc68dca6c64aecd72e2e22b80f84f70742462b94278ba3661",
+        "target_sha256": "de6783f8a4ce49d78b013aaffd2a9ba0694ef18b362f6ddec82126e94e3a775b"
+      },
+      "ui:참다가 나가버렸다:/참다가 나가버렸다": {
+        "source_sha256": "b9e98a45ffc5431fd3295610af6020b8bed3526098fab798c2fd98e053e36451",
+        "target_sha256": "9885b3a22e793fe8c7d686e3b50357e987c748c1834d36912b9f592f5cb5ac9d"
+      },
+      "ui:찾아갔다.:/찾아갔다.": {
+        "source_sha256": "f1621e4984b2a21c55ccbe44d9f439e0823520909793625170d87182c8bf153a",
+        "target_sha256": "148b201ec928b72d9c0312b6d92ad88e1e0165f34a51a4d701eae11d67aec142"
+      },
+      "ui:처리  :/처리  ": {
+        "source_sha256": "3dc5ca83819f5a75751aef3eabaec34a6ddc75e22f9d466965e4db25f4e5822b",
+        "target_sha256": "05b050501bb02edbe839fd5339f90d1840f89c7481c1c5365a3d947ee8b6fdb5"
+      },
+      "ui:총각, 오늘 대타예요? 나는 매일 이 시간에 오는데.:/총각, 오늘 대타예요? 나는 매일 이 시간에 오는데.": {
+        "source_sha256": "77702553ae8794312b39c1b9c5eb32136eaa48a712ba5f6168d0eb3d255c0570",
+        "target_sha256": "e3a97e0caf0e95b2307a81db746165f6f569072d11ba308adb7fd09d282fe8a0"
+      },
+      "ui:취객:/취객": {
+        "source_sha256": "7bfc9c0051644023452c80986031558e691545dce0658dee0c6f6fe0b633c7c5",
+        "target_sha256": "d8b29db727d86ec2cbfe534837a38e73dab24172a711ea1dd1fcb1c45fff70aa"
+      },
+      "ui:취한 손님:/취한 손님": {
+        "source_sha256": "5fec7309be2fc936645888b4af16f35e98b4e64ba32b064aa23914a81c1344dd",
+        "target_sha256": "208c71cd818303ef7513a05bd6ae66ae22c7a79810cb861b4e429ad0a3a6ab8c"
+      },
+      "ui:친절하게 안내한다:/친절하게 안내한다": {
+        "source_sha256": "21f22bf0ebefff047b09aa2b9a264812dd576e24a726d5f138d9e4693af9d81c",
+        "target_sha256": "22f13376eff32fbcb0acbdf4530c11587efbfed7a7fda73252f63decbe3c8dcd"
+      },
+      "ui:택배 손님:/택배 손님": {
+        "source_sha256": "6b41f9ea07e7ebdb2dd40468a6b35fc8771e2ccceabc8dac1ba5e5480f5cd7b4",
+        "target_sha256": "767edabcc48a9137c0cad1eef6fc8cdf7c550173d2792b4a9a525d7226464eff"
+      },
+      "ui:택배 여기 맡겼는데요.:/택배 여기 맡겼는데요.": {
+        "source_sha256": "71d0bceed0816137224c724baff0b5073d59f8a3c461ce3f46aae1a5d01faa62",
+        "target_sha256": "635ee775e9e35e0ac40e94e6b87398558032ca3b36c6fabf308260f865a38a05"
+      },
+      "ui:택배:/택배": {
+        "source_sha256": "b4f64b11b68b2d4924c4faee153d09de0a3308871a43d4c2083ef4e5d3613594",
+        "target_sha256": "c72502b7dfb227da4a1847e4d5cea748f618affe81c3eb55624ab273c2d21a9d"
+      },
+      "ui:퇴근 뒤에도 손끝의 긴장이 풀리지 않았다.:/퇴근 뒤에도 손끝의 긴장이 풀리지 않았다.": {
+        "source_sha256": "06560a3acc12365a8375152e2deb4ad4d9ee0560df3b49d8aad73bc76d28f4d8",
+        "target_sha256": "56903bd1caf1ceb3fe14f91169c01df8b3c78bd7ee5d53e482f0862dc1af2dbb"
+      },
+      "ui:퇴근하기:/퇴근하기": {
+        "source_sha256": "5193442368244379ae91eecfb79b53a850ee6ad49ee30af8d49530dd1dcc2e66",
+        "target_sha256": "45d8df217586866ab2357abaedc58b5e366a3e97a7e9f31c36db7f229fb34700"
+      },
+      "ui:편의점 야간 근무:/편의점 야간 근무": {
+        "source_sha256": "8e8a32402e3e23fe9f95c1862cbf8f0b1bc2f362c568465a4eaae2395ff81c2e",
+        "target_sha256": "cb960eccbe235230dd35b1022173cba34967c341c78a420023f1a277433e508a"
+      },
+      "ui:포인트 손님:/포인트 손님": {
+        "source_sha256": "3f8f98ec2e13b49a1957debc50c2609fc528d54e15f114d18157b8a949b74a90",
+        "target_sha256": "d316f9af53b3c362265d470eb7c5e377e5d400063e98c2cd27ef8990e238a83f"
+      },
+      "ui:포인트 카드요! 이거 적립됐어요?:/포인트 카드요! 이거 적립됐어요?": {
+        "source_sha256": "0cc1d945986904db0a72c9e455afaed3dbc9cc99f2b47b44782b2e769c2fa765",
+        "target_sha256": "4cf0cf90a7189cc82b34f5a10ca3d01ea86024a3266007a1da70e531568a8aed"
+      },
+      "ui:포인트:/포인트": {
+        "source_sha256": "42d810ba0b6d8a6e0c297319e61dd6e399ac58f45e1d65e988c352314e674be2",
+        "target_sha256": "02eae373e538460a47880858e2eed038475b42d346e02be6b3d458d910e327ad"
+      },
+      "ui:홍대 치킨:/홍대 치킨": {
+        "source_sha256": "e037036f322c0f867e20102b064512e8abadf03879abe6eea77667e245ab6d64",
+        "target_sha256": "0fa92aae956a60e640517ff85f72468ffb1d3fa17cae8b7c2543ef9a309680c7"
+      },
+      "ui:화를 내는 손님:/화를 내는 손님": {
+        "source_sha256": "2f00e9a49bceef162588c6192e9bf238f5c5db183fa86b7c7326b70c7d81dcaf",
+        "target_sha256": "6f5ad1228de59ca5c9251a5436aae668c749f3027de248aa082146d94624760c"
       }
     }
   },
-  "accepted_sha256": "539b9e6e339d1ce81f8767401619b3dbfcd2745c298f1783ac585a9f360d0df0",
+  "accepted_sha256": "48a58f91ab605e76c2d26e2e572cd82bdd03a27afc81449260badea1805cca49",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
