@@ -5858,6 +5858,116 @@
           "batch_id": "3bab65fb43a8cf546b3827e615fc7578739a62efe4f9d98fbfeffb05be168db5"
         }
       }
+    },
+    {
+      "order": "ORDER-385",
+      "group": "ui",
+      "roots": [
+        "거래 가능 자산 없음",
+        "시장 데이터 없음",
+        "자산 %d/%d",
+        "↑↓ 자산 · ←→ 매수/매도 · LB/RB 페이지",
+        "컨디션이 나쁠수록 매수 비용이 기본 0.3%보다 높아질 수 있습니다. 매도 수수료는 0.5%입니다.",
+        "표시 %d-%d / %d — 스크롤 대신 자산 커서로 이동",
+        "보유 포지션",
+        "현재 들고 있는 자산만 요약",
+        "아직 보유 자산이 없습니다. 거래 페이지에서 작은 금액으로 시작하세요.",
+        "원금 %s → 현재 %s  (%+.1f%%)",
+        "외 %d개 포지션",
+        "매수 %s",
+        "전량",
+        "매도 %s",
+        "가능한 거래가 없습니다",
+        "리스크 %d/5",
+        "가격 기록 축적 중",
+        "1개월 %+.1f%%",
+        "3개월 %+.1f%%",
+        "12개월 %+.1f%%",
+        "보유 평가액 %s  |  평단 %s  |  수익률 %+.1f%%"
+      ],
+      "source_leaves": 21,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 21,
+        "zh-TW": 0
+      },
+      "source_review": "Korean-direct Chinese regional investment trade cards and holdings summary. Independent complete source comparison; existing values, public demo, runtime and gameplay unchanged. Agent review is not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "15c74630d416ec05331d857ae5f4b161bf68382b871a09ffc15b315f3b4332c5"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "479cb9d4fd7045b832d3aea58591e95316e60738",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "e35bbc10c1ec991f15141cbb7ba3baa6f4220661a223b10efcb397a29103cb85",
+          "selection_sha256": "c7b83a7d9664d5214242fe0aeccfe03ad1abbe8a0e389e2e828486bcf43a65c1",
+          "count": 21,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "3f11d6e5fe37732150fb4d297ae0c888a3e4b7a8cadfeb2be4601f43959fc30e"
+        }
+      }
+    },
+    {
+      "order": "ORDER-385",
+      "group": "ui",
+      "roots": [
+        "거래 가능 자산 없음",
+        "시장 데이터 없음",
+        "자산 %d/%d",
+        "↑↓ 자산 · ←→ 매수/매도 · LB/RB 페이지",
+        "컨디션이 나쁠수록 매수 비용이 기본 0.3%보다 높아질 수 있습니다. 매도 수수료는 0.5%입니다.",
+        "표시 %d-%d / %d — 스크롤 대신 자산 커서로 이동",
+        "보유 포지션",
+        "현재 들고 있는 자산만 요약",
+        "아직 보유 자산이 없습니다. 거래 페이지에서 작은 금액으로 시작하세요.",
+        "원금 %s → 현재 %s  (%+.1f%%)",
+        "외 %d개 포지션",
+        "매수 %s",
+        "전량",
+        "매도 %s",
+        "가능한 거래가 없습니다",
+        "리스크 %d/5",
+        "가격 기록 축적 중",
+        "1개월 %+.1f%%",
+        "3개월 %+.1f%%",
+        "12개월 %+.1f%%",
+        "보유 평가액 %s  |  평단 %s  |  수익률 %+.1f%%"
+      ],
+      "source_leaves": 21,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 21
+      },
+      "source_review": "Korean-direct Chinese regional investment trade cards and holdings summary. Independent complete source comparison; existing values, public demo, runtime and gameplay unchanged. Agent review is not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-TW": "297e924380aa9044355e2b97906ef2b798c8ce9565b59b8bf5f120e79db3c1a9"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "479cb9d4fd7045b832d3aea58591e95316e60738",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "e35bbc10c1ec991f15141cbb7ba3baa6f4220661a223b10efcb397a29103cb85",
+          "selection_sha256": "6b5a73c170da196f64938648a0ea0bd82981b5b53b49cd9287e32bde18bf5040",
+          "count": 21,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "ef9512c823ddc92b81288f0479c90d4133364584f87cf4c0bb5e5392b28d544e"
+        }
+      }
     }
   ],
   "accepted": {
@@ -113887,6 +113997,90 @@
       "ui:현재가:/현재가": {
         "source_sha256": "4606cc8e031754e90134a8c78925f95e45de69cd29f98a3469ff465904224a84",
         "target_sha256": "d9b0f404260ad8cfb95f5b59814a1777a38a0b50ffdea33b93cbec45006dc3df"
+      },
+      "ui:12개월 %+.1f%%:/12개월 %+.1f%%": {
+        "source_sha256": "90f770bdc89e8368439d0a12263f0a20fa6b008c2b6ed5ba301dcd8b65dc57e9",
+        "target_sha256": "26a7949d2b63307a4af2aafc9cef20185eab451346191fcb22f902a892358945"
+      },
+      "ui:1개월 %+.1f%%:/1개월 %+.1f%%": {
+        "source_sha256": "0c1edb0c34918b327e01661d33bbea61ee6472224d61275d0a98ea39627a40d0",
+        "target_sha256": "0817856c7902c537c0ef98cead06f9cc5d11531915e81fdd3c955ef8ad6c4230"
+      },
+      "ui:3개월 %+.1f%%:/3개월 %+.1f%%": {
+        "source_sha256": "c3f8c776065718b8d7e0a4a089c160ef39725219b8aa9d8b03772c5ca3a27f0e",
+        "target_sha256": "74e2d5aaf6de9b452d9596ce18b2a8b00d5713b02cf9ac6d1f5cb203248981aa"
+      },
+      "ui:↑↓ 자산 · ←→ 매수/매도 · LB/RB 페이지:/↑↓ 자산 · ←→ 매수~1매도 · LB~1RB 페이지": {
+        "source_sha256": "bde24d92500164e007c6a6eb7a57fdfa0d036f0641a9b8347e6cdb0ca62c1e57",
+        "target_sha256": "6f0746d739ce2d4f27a2f75890dbbafed32cc9db1a6bb9ccba86c71ef1432343"
+      },
+      "ui:가격 기록 축적 중:/가격 기록 축적 중": {
+        "source_sha256": "60b304ade42decf0180e7c8dc1b9b50404ad62f6e8b7df8a1083196de19c952a",
+        "target_sha256": "1d76265c98d9bbcdc92a4a87ec9a7af53efd6f86e9dbc7f8207b8c7a74142649"
+      },
+      "ui:가능한 거래가 없습니다:/가능한 거래가 없습니다": {
+        "source_sha256": "5c38170a99caa9601c5aeb83a6c0abba77c62a147be41cd82fe423a96b8cbfac",
+        "target_sha256": "989cb12076ae65ce55d405638fd9be901d9703b7c0a3466a17de6a7664ca8d97"
+      },
+      "ui:거래 가능 자산 없음:/거래 가능 자산 없음": {
+        "source_sha256": "872b3b1a53eb3d2bc4bb544e34c10f96fb3845fe8d426d756a7e126f4c74fed2",
+        "target_sha256": "0a94ae58c6479a919176df035c975384a1c9bfef1e15a2ed355be7223786c6ec"
+      },
+      "ui:리스크 %d/5:/리스크 %d~15": {
+        "source_sha256": "3fbb784cb5fc12307dd76226ecbc5056bac5e7fe2b97da85cf1994be365cc934",
+        "target_sha256": "eb497a0fc386730a43bd25730d3fb92fce786e3b4f8918ffbbe345f5babc3dc4"
+      },
+      "ui:매도 %s:/매도 %s": {
+        "source_sha256": "93c7fe782d79e706392c64e30e5134787f318e33d6431fdfdcfb3f3997ae44a7",
+        "target_sha256": "63b59eb12a815a1eb578a837519e725e601f776a70b076d373418103e6f94e1a"
+      },
+      "ui:매수 %s:/매수 %s": {
+        "source_sha256": "91c91542c075cfe886d7373e7a61fbe48a82ab4e8bfb23c45eb5dec15dfdc442",
+        "target_sha256": "812ef3edf985c32b5f83e2f5b69b8534fc4300ad701e7ede0f43387e4bd05110"
+      },
+      "ui:보유 평가액 %s  |  평단 %s  |  수익률 %+.1f%%:/보유 평가액 %s  |  평단 %s  |  수익률 %+.1f%%": {
+        "source_sha256": "ca10baa31d72427d90320ca8938edd47c703eaeb2c374515c4b640d37e2458f4",
+        "target_sha256": "ebdb80526451b8c02201752fa87ae08720d134ee2704d9fa0c2ac1b35b42b9ba"
+      },
+      "ui:보유 포지션:/보유 포지션": {
+        "source_sha256": "0f0127b5f7167dfce9e8df3306a88530751bb78c6911706b53805d3be8e4053a",
+        "target_sha256": "94a064bf9ed0bc42b6370c6f768e5e93cb63792387c017f09dba6ebe85a9af9d"
+      },
+      "ui:시장 데이터 없음:/시장 데이터 없음": {
+        "source_sha256": "93656505e713859366dc2b3789c30a27b0ec6988970fe0714afe87ae21e8da11",
+        "target_sha256": "a35287b121745615992eef484d7910022bbb4cbb649a61fafa69a76a1609e161"
+      },
+      "ui:아직 보유 자산이 없습니다. 거래 페이지에서 작은 금액으로 시작하세요.:/아직 보유 자산이 없습니다. 거래 페이지에서 작은 금액으로 시작하세요.": {
+        "source_sha256": "a1dadb45af79c9b6bc6ebb9ec898273c3635bb1157f0af1da51ba207db414fba",
+        "target_sha256": "6d7c53ab160a9248d138a9032119c2c61ed57cae18b5d0c8b40dd771af9e8e59"
+      },
+      "ui:외 %d개 포지션:/외 %d개 포지션": {
+        "source_sha256": "0e97baf76cc9c15080cb93b1fd0277f9fd0872a4f05114bd5dcccdde796ced63",
+        "target_sha256": "28fd5b98c8e7e6af31eddbf6a1ff0ddc4177ae2a1c78099516b800831e344c5d"
+      },
+      "ui:원금 %s → 현재 %s  (%+.1f%%):/원금 %s → 현재 %s  (%+.1f%%)": {
+        "source_sha256": "7e16bb569fa0e0312019c23e53d3a451e52ca9f0f35841ce76797d2e44e45f69",
+        "target_sha256": "a4ebd41e7be9578dd7227eb66ce0b6f31eaa8eb503af007ba1bde1760a52fa27"
+      },
+      "ui:자산 %d/%d:/자산 %d~1%d": {
+        "source_sha256": "e9cbd9cf77d5cc2c9a4b19d9162e5a2bf9173b5db87cb5bc1758da5d2220de1c",
+        "target_sha256": "e47c6961a4a7f8def157e32a37e4f0628585a241cc86d81b78ba0cb966e543e8"
+      },
+      "ui:전량:/전량": {
+        "source_sha256": "1c4719a6e11e71651f423c6a3605521bab563b67a2b9c8979953864ec3e73b0e",
+        "target_sha256": "75c6a84eb51b7c067a9bfa59feb3eb92bd8c5403e11caf88ac8465ef1d687a67"
+      },
+      "ui:컨디션이 나쁠수록 매수 비용이 기본 0.3%보다 높아질 수 있습니다. 매도 수수료는 0.5%입니다.:/컨디션이 나쁠수록 매수 비용이 기본 0.3%보다 높아질 수 있습니다. 매도 수수료는 0.5%입니다.": {
+        "source_sha256": "c9e5967b1f9c54a199f2ef94e34f4fe0a02a60c59d7be174bbba189d648cda5e",
+        "target_sha256": "4f44299d84a31fcd4af150b0cca32eacb6d0683c6d39b1ec800dcfb79359daf3"
+      },
+      "ui:표시 %d-%d / %d — 스크롤 대신 자산 커서로 이동:/표시 %d-%d ~1 %d — 스크롤 대신 자산 커서로 이동": {
+        "source_sha256": "b2357e757084d6ff450754d35a935ec22e6118fdb76d3f30bf8a0a7101765dfe",
+        "target_sha256": "15ff38233bdb085c7b4d3332400c20159a5c683f85e21fd738e07856bd220290"
+      },
+      "ui:현재 들고 있는 자산만 요약:/현재 들고 있는 자산만 요약": {
+        "source_sha256": "2395337b02d909f44eeeddd3f21f4de0f29973cfe1f600a3ebcb2852de5a369a",
+        "target_sha256": "e5554ffb6a3eb00f0a12bc2d8f017a0fb0f073a03a1afb6287d604b8b6087477"
       }
     },
     "zh-TW": {
@@ -169409,10 +169603,94 @@
       "ui:현재가:/현재가": {
         "source_sha256": "4606cc8e031754e90134a8c78925f95e45de69cd29f98a3469ff465904224a84",
         "target_sha256": "36a72e26d5db45d7225540427c7a75115a6ba21c532ca291b46049d59cc19e02"
+      },
+      "ui:12개월 %+.1f%%:/12개월 %+.1f%%": {
+        "source_sha256": "90f770bdc89e8368439d0a12263f0a20fa6b008c2b6ed5ba301dcd8b65dc57e9",
+        "target_sha256": "8521aec7882bc6507b6824463c7c34f4dadc81a9a6a679b555af675ebc6a37eb"
+      },
+      "ui:1개월 %+.1f%%:/1개월 %+.1f%%": {
+        "source_sha256": "0c1edb0c34918b327e01661d33bbea61ee6472224d61275d0a98ea39627a40d0",
+        "target_sha256": "c554ce2be785aa09a44c7e2f9d417fff4c965fc0c95c495fe23c2498759dcbcf"
+      },
+      "ui:3개월 %+.1f%%:/3개월 %+.1f%%": {
+        "source_sha256": "c3f8c776065718b8d7e0a4a089c160ef39725219b8aa9d8b03772c5ca3a27f0e",
+        "target_sha256": "c1e5fe672943739383bb4275f58dc3063ee35da4d595554f196a6edeaee63f65"
+      },
+      "ui:↑↓ 자산 · ←→ 매수/매도 · LB/RB 페이지:/↑↓ 자산 · ←→ 매수~1매도 · LB~1RB 페이지": {
+        "source_sha256": "bde24d92500164e007c6a6eb7a57fdfa0d036f0641a9b8347e6cdb0ca62c1e57",
+        "target_sha256": "ef73d404a06e67eb8eab8e6d32cc7325c65360243684e47b8c0a8eaba55a7be4"
+      },
+      "ui:가격 기록 축적 중:/가격 기록 축적 중": {
+        "source_sha256": "60b304ade42decf0180e7c8dc1b9b50404ad62f6e8b7df8a1083196de19c952a",
+        "target_sha256": "9c4647b726828f21f603747afe05a65801fefe305e16c0238ace2ca91a88f79d"
+      },
+      "ui:가능한 거래가 없습니다:/가능한 거래가 없습니다": {
+        "source_sha256": "5c38170a99caa9601c5aeb83a6c0abba77c62a147be41cd82fe423a96b8cbfac",
+        "target_sha256": "3d0c1d9dc993d164f734ecd3ab667df8d15a113973459021e33c0088fb9d5ece"
+      },
+      "ui:거래 가능 자산 없음:/거래 가능 자산 없음": {
+        "source_sha256": "872b3b1a53eb3d2bc4bb544e34c10f96fb3845fe8d426d756a7e126f4c74fed2",
+        "target_sha256": "22cf6fc0170d850d02a77aa0fec14d2a322c2bd00d2e05fc4025f6a1dd689513"
+      },
+      "ui:리스크 %d/5:/리스크 %d~15": {
+        "source_sha256": "3fbb784cb5fc12307dd76226ecbc5056bac5e7fe2b97da85cf1994be365cc934",
+        "target_sha256": "f365a2ab3a963282a69d3ef29270720352df1bebade901af535c2fbf5fa2b78b"
+      },
+      "ui:매도 %s:/매도 %s": {
+        "source_sha256": "93c7fe782d79e706392c64e30e5134787f318e33d6431fdfdcfb3f3997ae44a7",
+        "target_sha256": "fdffbf33ca4d1658fc2b2ec9ec4b5b35a93b002a11e50886c5ac03d257ab789c"
+      },
+      "ui:매수 %s:/매수 %s": {
+        "source_sha256": "91c91542c075cfe886d7373e7a61fbe48a82ab4e8bfb23c45eb5dec15dfdc442",
+        "target_sha256": "81ca88f4e52260d6004e0b8c6a0fc63578d36a9e5d4365fe7cf17cc1e965dd0f"
+      },
+      "ui:보유 평가액 %s  |  평단 %s  |  수익률 %+.1f%%:/보유 평가액 %s  |  평단 %s  |  수익률 %+.1f%%": {
+        "source_sha256": "ca10baa31d72427d90320ca8938edd47c703eaeb2c374515c4b640d37e2458f4",
+        "target_sha256": "5b4c20692093d3bd75e35f7edda0abe15ebf74c5365537e6d158baf8de02712a"
+      },
+      "ui:보유 포지션:/보유 포지션": {
+        "source_sha256": "0f0127b5f7167dfce9e8df3306a88530751bb78c6911706b53805d3be8e4053a",
+        "target_sha256": "18dcc8479226410cccbc8a099504b05276f15dca95e5f7736434e120b361d2b3"
+      },
+      "ui:시장 데이터 없음:/시장 데이터 없음": {
+        "source_sha256": "93656505e713859366dc2b3789c30a27b0ec6988970fe0714afe87ae21e8da11",
+        "target_sha256": "24ddad95787d3a1a1092ba232ee77b30c54d861c1667a70ac6ee3595040a9ed0"
+      },
+      "ui:아직 보유 자산이 없습니다. 거래 페이지에서 작은 금액으로 시작하세요.:/아직 보유 자산이 없습니다. 거래 페이지에서 작은 금액으로 시작하세요.": {
+        "source_sha256": "a1dadb45af79c9b6bc6ebb9ec898273c3635bb1157f0af1da51ba207db414fba",
+        "target_sha256": "235b6a8e2ec3e92d455cb925973d5075c2407db5928c2c7c003e264f1fd01fd3"
+      },
+      "ui:외 %d개 포지션:/외 %d개 포지션": {
+        "source_sha256": "0e97baf76cc9c15080cb93b1fd0277f9fd0872a4f05114bd5dcccdde796ced63",
+        "target_sha256": "0c5b87c5b89d7e32e983c2a53b793b488515c3b2b66c15165726c9f2544525ba"
+      },
+      "ui:원금 %s → 현재 %s  (%+.1f%%):/원금 %s → 현재 %s  (%+.1f%%)": {
+        "source_sha256": "7e16bb569fa0e0312019c23e53d3a451e52ca9f0f35841ce76797d2e44e45f69",
+        "target_sha256": "a883f1b26804586c22d66315e66cff32f249a0e58f7817be1878c3f9ec4788be"
+      },
+      "ui:자산 %d/%d:/자산 %d~1%d": {
+        "source_sha256": "e9cbd9cf77d5cc2c9a4b19d9162e5a2bf9173b5db87cb5bc1758da5d2220de1c",
+        "target_sha256": "18fbbab10b87f995dbfdcd5b20ab5c0029f6e5a204d0175fb55d3be7d1bce842"
+      },
+      "ui:전량:/전량": {
+        "source_sha256": "1c4719a6e11e71651f423c6a3605521bab563b67a2b9c8979953864ec3e73b0e",
+        "target_sha256": "75c6a84eb51b7c067a9bfa59feb3eb92bd8c5403e11caf88ac8465ef1d687a67"
+      },
+      "ui:컨디션이 나쁠수록 매수 비용이 기본 0.3%보다 높아질 수 있습니다. 매도 수수료는 0.5%입니다.:/컨디션이 나쁠수록 매수 비용이 기본 0.3%보다 높아질 수 있습니다. 매도 수수료는 0.5%입니다.": {
+        "source_sha256": "c9e5967b1f9c54a199f2ef94e34f4fe0a02a60c59d7be174bbba189d648cda5e",
+        "target_sha256": "c48873b1202cfc1087440b62c409b5dd1cf45c32e781220518455db6db4f13b8"
+      },
+      "ui:표시 %d-%d / %d — 스크롤 대신 자산 커서로 이동:/표시 %d-%d ~1 %d — 스크롤 대신 자산 커서로 이동": {
+        "source_sha256": "b2357e757084d6ff450754d35a935ec22e6118fdb76d3f30bf8a0a7101765dfe",
+        "target_sha256": "489b916f679215eac7e4e3b14fd8112794e111fdd07bc80f9f763f67c0ac10bc"
+      },
+      "ui:현재 들고 있는 자산만 요약:/현재 들고 있는 자산만 요약": {
+        "source_sha256": "2395337b02d909f44eeeddd3f21f4de0f29973cfe1f600a3ebcb2852de5a369a",
+        "target_sha256": "27ccbf1cdf6a64986ad9323ddc7ad9d42db27bb9266cdaa1c57bbe2599e555ba"
       }
     }
   },
-  "accepted_sha256": "5140d862d14cbd8278d59c4737e92c2bf4b2264504e26a795e2a167b5110a81b",
+  "accepted_sha256": "625fd1c062574fcf7dde841e5539554efc9973d2db986ab946b78e4dc1a68798",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
