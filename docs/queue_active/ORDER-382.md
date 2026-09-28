@@ -42,3 +42,19 @@ root만 격리 엔진과 수용 명령을 실행한다. WORK_LOG의 오래된 �
 - 전역모달·자연게임플레이·인간/원어민/물리패드·새package 완료를 주장하지 않는다.
   공개GO1·인간OPEN45·본편/새package HOLD. 외부출시·스토어·지출·법률 권한 없음.
 이 exact범위·검사계획은 일회성이며 새 상시규범은 아니다.
+
+## 실제 실행·완료 경계
+- 제품 `37a3479`, clean 실행 `1ce6802f841618a8ff8e2c90e8627f6a7bc78629`.
+- 도달: 실제 MainGame `_open_jobs`/`_set_job_page(2)` 준비, 5언어 T3/5PNG/135 visible nodes PASS.
+  영어 두 줄268/101px, paragraph41/Label49px, 하단639..661px가 scroll111..740px 안에 있다.
+  KO/JA/CN/TW는 한 줄/Label23px·하단613..635px 유지. 여섯 세로 간격은 각8px.
+- 생산자/독자: MainGame `_build_job_status_strip`의 재직 Label → `_open_jobs` modal_body.
+  상태: AUTOWRAP_OFF/clip=true→WORD_SMART/clip=false; 원문·15px·288px열·직업 수치 불변.
+  포기비용/서사위치/장면계층=N/A(UI 수리), 닫는 것=영어 경력란 잘림만.
+- L1: 새self39/currentguard/영향consumer5/registry/context/queue/diff의11검사는 첫 실행PASS.
+  목록조회에서 --base/--lane 인자 조합 오류 exit2가 나서 최초aggregate FAIL은 보존했다.
+  유효한 --list --lane으로 그 조회만 재시도PASS, 실제4변경파일의 lane 소유도 별도확인.
+- source2934/실사용자34파일 전후불변. 새입력0, 기존38140edges는 한 토큰 전체 역상과
+  ControllerHints/JobSystem/project 불변을 결속해 재사용했다. 이전38113화면 FAIL은 미수정.
+  자연 진입·복귀/글로벌 언어 전환/원어민/인간/물리/본편·새package GO를 주장하지 않는다.
+- 최종 독립 판정과 해시·원실행은 별도 source-bound 보고가 소유한다.
