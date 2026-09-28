@@ -576,3 +576,39 @@ def current_proof(root: Path, baseline_commit: str, baseline: Mapping[str, bytes
     require((root / ARUBA_FONT_PATH).read_bytes() == font_raw, "Aruba runtime changed during validation")
     return {"raw": current, "evidence": evidence,
             "source_hashes": inventory["source_hashes"], "source_manifest_sha256": inventory["source_manifest_sha256"]}
+
+
+# MainGame rendering-only successor. Earlier manifest/header proofs stay exact.
+_MODAL_OLD_MANIFEST_MATCHES = _source_manifest_matches
+_MODAL_OLD_CURRENT_PROOF = current_proof
+
+
+def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: str) -> bool:
+    # The unchanged isolated append/correction fixtures supply only a manifest,
+    # not a current-source census. Keep their original exact-equality meaning;
+    # production current_proof always supplies and verifies source_hashes.
+    if "source_hashes" not in inventory:
+        return _MODAL_OLD_MANIFEST_MATCHES(root, inventory, expected)
+    import main_game_locale_history as history
+    raw = (root / history.MAIN_GAME_PATH).read_bytes()
+    previous = history.modal_font_predecessor(raw, root)
+    hashes = inventory["source_hashes"]
+    require(exchange.digest(hashes) == inventory["source_manifest_sha256"]
+            and hashes.get(history.MAIN_GAME_PATH) == hashlib.sha256(raw).hexdigest(),
+            "MainGame current source census/raw mismatch")
+    if expected == inventory["source_manifest_sha256"]:
+        return True
+    comparison = {**hashes, history.MAIN_GAME_PATH: hashlib.sha256(previous).hexdigest()}
+    return _MODAL_OLD_MANIFEST_MATCHES(root, {**inventory, "source_hashes": comparison,
+                                           "source_manifest_sha256": exchange.digest(comparison)}, expected)
+
+
+def current_proof(root: Path, baseline_commit: str, baseline: Mapping[str, bytes]) -> dict[str, Any]:
+    import main_game_locale_history as history
+    raw = (root / history.MAIN_GAME_PATH).read_bytes()
+    history.modal_font_predecessor(raw, root)
+    result = _MODAL_OLD_CURRENT_PROOF(root, baseline_commit, baseline)
+    require(result["source_hashes"].get(history.MAIN_GAME_PATH) == hashlib.sha256(raw).hexdigest()
+            and (root / history.MAIN_GAME_PATH).read_bytes() == raw,
+            "MainGame source changed during current admission")
+    return result

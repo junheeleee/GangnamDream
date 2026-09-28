@@ -6418,5 +6418,109 @@ collect_ui_inventory = _nonformat_collect
 _last11_meta_title_historical_checks = _nonformat_historical_checks
 # END_NONFORMAT_BRANCH_378
 
+# BEGIN_MODAL_LOCATION_381
+MODAL_PIPELINE_APPEND_SHA = "5af639c07ad061f3e8982c9f02c282c951114fab809821dd56da41049db15cd2"
+MODAL_PIPELINE_BEFORE_COMMIT = "280a030e65c0a64b77517b70e244ab2c7f170ed2"
+MODAL_PIPELINE_BEFORE_BLOB = "4cacac1f6c197f7201215df55fd7f50ac29030d9"
+MODAL_PIPELINE_BEFORE_SHA = "2b68f06da7108ce8a3f21b51fc6cf148ac1979a336bf76d425382e106e47af11"
+_MODAL_PIPELINE_OLD_PREDECESSOR = current_demo_pipeline_predecessor
+_MODAL_PIPELINE_OLD_NONFORMAT = nonformat_pipeline_predecessor
+_MODAL_LOCATION_OLD_COLLECT = collect_ui_inventory
+_MODAL_LOCATION_OLD_CHECKS = _last11_meta_title_historical_checks
+
+
+def modal_pipeline_predecessor(raw):
+    """Only this sealed current-location appendix is removed for old readers."""
+    if not isinstance(raw, bytes) or Path(__file__).resolve() != ROOT / _NEW_RUN_JA:
+        raise ValueError("modal-location code raw/import identity differs")
+    start, end = b"# BEGIN_MODAL_LOCATION_381\n", b"# END_MODAL_LOCATION_381\n\n"
+    if raw.count(start) != 1 or raw.count(end) != 1:
+        raise ValueError("modal-location appendix boundaries differ")
+    a, z = raw.index(start), raw.index(end) + len(end)
+    span = raw[a:z]
+    binding = ('MODAL_PIPELINE_APPEND_SHA = "' + MODAL_PIPELINE_APPEND_SHA + '"').encode()
+    if span.count(binding) != 1 or hashlib.sha256(span.replace(
+            binding, b'MODAL_PIPELINE_APPEND_SHA = "UNBOUND"', 1)).hexdigest() != MODAL_PIPELINE_APPEND_SHA:
+        raise ValueError("modal-location appendix seal differs")
+    previous = raw[:a] + raw[z:]
+    if hashlib.sha256(previous).hexdigest() != MODAL_PIPELINE_BEFORE_SHA:
+        raise ValueError("modal-location whole predecessor differs")
+    blob = _current_demo_git("show", MODAL_PIPELINE_BEFORE_COMMIT + ":" + _NEW_RUN_JA)
+    if blob != previous or hashlib.sha1(b"blob " + str(len(blob)).encode() + b"\0" + blob).hexdigest() != MODAL_PIPELINE_BEFORE_BLOB:
+        raise ValueError("modal-location immutable code blob differs")
+    return previous
+
+
+def current_demo_pipeline_predecessor(raw):
+    return _NONFORMAT_OLD_PREDECESSOR(_MODAL_PIPELINE_OLD_NONFORMAT(modal_pipeline_predecessor(raw)))
+
+
+def nonformat_pipeline_predecessor(raw):
+    # Direct historical callers use this entry too, not just the notice entry.
+    return _MODAL_PIPELINE_OLD_NONFORMAT(modal_pipeline_predecessor(raw))
+
+
+def modal_rebind_inventory(inventory, raw):
+    """Keep identities and semantics; bind MainGame locations to admitted raw."""
+    from collections import Counter
+    previous = _gift_history.modal_font_predecessor(raw, ROOT)
+    path = _gift_history.MAIN_GAME_PATH
+    old_calls, old_errors = parse_ui_calls(path, previous.decode())
+    actual, errors = parse_ui_calls(path, raw.decode())
+    # The collector's established ordering is (path, line, API), whereas the
+    # parser preserves lexical API order among calls sharing one source line.
+    old_calls.sort(key=lambda c: (c.path, c.line, c.api))
+    actual.sort(key=lambda c: (c.path, c.line, c.api))
+    semantic = lambda c: (c.path, c.function, c.api, c.korean, c.english, c.context_id)
+    if old_errors or errors or Counter(map(semantic, old_calls)) != Counter(map(semantic, actual)):
+        raise ValueError("modal-location current/predecessor UI semantics differ")
+    # Ordered occurrences disambiguate repeated identical literals. Every old
+    # coordinate must occur in the actual predecessor, never guessed by offset.
+    if tuple(c for c in inventory.calls if c.path == path) != tuple(old_calls):
+        raise ValueError("modal-location supplied predecessor call coordinates differ")
+    if list(map(semantic, old_calls)) != list(map(semantic, actual)):
+        raise ValueError("modal-location source call order differs")
+    replacements = iter(actual)
+    calls = tuple(next(replacements) if c.path == path else c for c in inventory.calls)
+    contexts = {e.source: e.context for e in _gift_caption_inventory_view(inventory, calls).legacy_entries}
+    entries = tuple(_gift_replace(e, context=contexts[e.source]) for e in inventory.legacy_entries)
+    if [(e.key, e.source, e.source_hash, e.context_id, e.format_template) for e in entries] != [
+            (e.key, e.source, e.source_hash, e.context_id, e.format_template) for e in inventory.legacy_entries]:
+        raise ValueError("modal-location translation identity changed")
+    return _gift_replace(inventory, calls=calls, legacy_entries=entries)
+
+
+def _modal_location_collect(contract=None):
+    try:
+        raw = (ROOT / _gift_history.MAIN_GAME_PATH).read_bytes()
+        # The saved collector must see actual runtime bytes at its admission
+        # boundary; only its already scoped older readers receive old views.
+        baseline = _MODAL_LOCATION_OLD_COLLECT(contract)
+        if baseline.errors:
+            return baseline
+        result = modal_rebind_inventory(baseline, raw)
+        if (ROOT / _gift_history.MAIN_GAME_PATH).read_bytes() != raw:
+            raise ValueError("modal-location runtime changed during collection")
+        return result
+    except (OSError, ValueError, TypeError, KeyError, IndexError) as exc:
+        return UiInventory((), (), {}, (), {}, (), {}, ("modal-location admission: " + str(exc),), {})
+
+
+def _modal_location_historical_checks(inventory):
+    try:
+        baseline = _MODAL_LOCATION_OLD_COLLECT()
+        current = modal_rebind_inventory(baseline, (ROOT / _gift_history.MAIN_GAME_PATH).read_bytes())
+        if inventory != current:
+            raise ValueError("modal-location supplied current inventory differs")
+        return _MODAL_LOCATION_OLD_CHECKS(baseline)
+    except (OSError, ValueError, TypeError, KeyError, IndexError) as exc:
+        errors = ["modal-location comparison: " + str(exc)]
+        return _gift_replace(inventory, errors=tuple([*inventory.errors, *errors])), 0, errors
+
+
+collect_ui_inventory = _modal_location_collect
+_last11_meta_title_historical_checks = _modal_location_historical_checks
+# END_MODAL_LOCATION_381
+
 if __name__ == "__main__":
     sys.exit(main())

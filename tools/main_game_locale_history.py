@@ -643,3 +643,127 @@ main_game_history_source_errors = _new_run_public_source_errors
 main_game_history_project_bytes = _new_run_public_project_bytes
 main_game_history_project_byte_hash = _new_run_public_project_hash
 # END_NEW_RUN_LOG_HISTORY_267
+
+# BEGIN_MODAL_FONT_HISTORY_381
+# Current admission only. Every older definition and pin above stays intact.
+MODAL_BEFORE_COMMIT = "280a030e65c0a64b77517b70e244ab2c7f170ed2"
+MODAL_AFTER_COMMIT = "b9b5c3d1cb3c6fd177cd8e03aed7fac2086b9032"
+MODAL_TREES = ("00171f2c015f7a049d3f51c9c183234ee0a0ae19", "ee670cf4827aad07e9386b0773f714d402db5ebe")
+MODAL_BLOBS = ("99d5f16fc40ae94b1e6ff219c102e01bcd70cd35", "48e038af02412ef82decdb451b9e9b1d7135235e")
+MODAL_HASHES = ("3f42b49c99c94310436661e44c3029d0335b0998d467a7582c8d3524acf55532",
+                "6c26e3db61c810cd52022128a459a7160abf49c6a0c3d085f196755f9e232f8d")
+MODAL_REPLACEMENTS = (
+    ('\tmodal_pad_hint_label = _label("", 12, "#7f8794")\n',
+     '\tmodal_pad_hint_label = _label("", 12, "#7f8794")\n\tmodal_pad_hint_label.clip_text = false\n'),
+    ('\tmodal_close_button = _small_button("✕", "#242433")\n',
+     '\tmodal_close_button = _small_button("×", "#242433")\n'),
+    ('\tif _font_bold:\n\t\t_job_pad_hint_label.add_theme_font_override("bold_font", _font_bold)\n',
+     '\tif _font_regular:\n\t\t_job_pad_hint_label.add_theme_font_override("normal_font", _font_regular)\n'
+     '\tif _font_bold:\n\t\t_job_pad_hint_label.add_theme_font_override("bold_font", _font_bold)\n'),
+)
+
+
+def _modal_git(root, *args, input=None):
+    import subprocess
+    result = subprocess.run(("git", "--no-replace-objects", *args), cwd=root,
+                            input=input, capture_output=True, timeout=30)
+    if result.returncode:
+        raise ValueError("ORDER-381: immutable Git proof unavailable")
+    return result.stdout
+
+
+def modal_font_predecessor(current, root=None):
+    """Prove the exact three repairs afresh; return comparison-only old bytes."""
+    from pathlib import Path
+    root = Path(root) if root is not None else Path(__file__).resolve().parents[1]
+    if not isinstance(current, bytes) or hashlib.sha256(current).hexdigest() != MODAL_HASHES[1]:
+        raise ValueError("ORDER-381: unapproved current MainGame raw")
+    requests = [(c, c, "commit") for c in (MODAL_BEFORE_COMMIT, MODAL_AFTER_COMMIT)]
+    requests += [(t, t, "tree") for t in MODAL_TREES]
+    requests += [(c + ":" + MAIN_GAME_PATH, oid, "blob") for c, oid in
+                 zip((MODAL_BEFORE_COMMIT, MODAL_AFTER_COMMIT), MODAL_BLOBS)]
+    raw = _modal_git(root, "cat-file", "--batch", input=("\n".join(r[0] for r in requests) + "\n").encode())
+    values, cursor = [], 0
+    for _expression, wanted, kind in requests:
+        end = raw.index(b"\n", cursor)
+        oid, actual_kind, size = raw[cursor:end].decode().split()
+        size = int(size)
+        value = raw[end + 1:end + 1 + size]
+        if (oid != wanted or actual_kind != kind or len(value) != size
+                or hashlib.sha1(kind.encode() + b" " + str(size).encode() + b"\0" + value).hexdigest() != oid
+                or raw[end + 1 + size:end + 2 + size] != b"\n"):
+            raise ValueError("ORDER-381: forged immutable object")
+        values.append(value)
+        cursor = end + 2 + size
+    if cursor != len(raw):
+        raise ValueError("ORDER-381: trailing immutable proof bytes")
+    for index in range(2):
+        headers = values[index].split(b"\n\n", 1)[0].splitlines()
+        if [h for h in headers if h.startswith(b"tree ")] != [b"tree " + MODAL_TREES[index].encode()]:
+            raise ValueError("ORDER-381: immutable tree differs")
+        if index and [h for h in headers if h.startswith(b"parent ")] != [b"parent " + MODAL_BEFORE_COMMIT.encode()]:
+            raise ValueError("ORDER-381: direct parent differs")
+    if _modal_git(root, "diff", "--name-status", "-z", MODAL_BEFORE_COMMIT, MODAL_AFTER_COMMIT) != b"M\0" + MAIN_GAME_PATH.encode() + b"\0":
+        raise ValueError("ORDER-381: exact product path population differs")
+    _modal_git(root, "merge-base", "--is-ancestor", MODAL_AFTER_COMMIT, "HEAD")
+    if _modal_git(root, "rev-parse", "HEAD:" + MAIN_GAME_PATH).decode().strip() != MODAL_BLOBS[1]:
+        raise ValueError("ORDER-381: current Git MainGame differs")
+    before, after = values[4:]
+    if after != current or tuple(hashlib.sha256(v).hexdigest() for v in (before, after)) != MODAL_HASHES:
+        raise ValueError("ORDER-381: whole raw/blob binding differs")
+    recovered = after
+    if len(MODAL_REPLACEMENTS) != 3:
+        raise ValueError("ORDER-381: inverse population differs")
+    for a, b in reversed(MODAL_REPLACEMENTS):
+        a, b = a.encode(), b.encode()
+        if not a or a == b or recovered.count(b) != 1:
+            raise ValueError("ORDER-381: inverse is not exact1")
+        recovered = recovered.replace(b, a, 1)
+    if recovered != before:
+        raise ValueError("ORDER-381: changes outside the exact three repairs")
+    return before
+
+
+_MODAL_OLD_PUBLIC = (main_game_history_source_errors, main_game_history_project_bytes,
+                     main_game_history_project_byte_hash)
+_MODAL_OLD_GIFT = (gift_caption_source_errors, gift_caption_project_bytes, gift_caption_project_byte_hash)
+
+
+def _modal_dispatch(functions, mode, relative, current, claim=None):
+    import subprocess
+    if relative != MAIN_GAME_PATH:
+        return (functions[0](relative, current) if mode == 0 else functions[1](current, relative)
+                if mode == 1 else functions[2](claim, relative, current))
+    if mode == 2 and (not isinstance(current, bytes) or hashlib.sha256(current).hexdigest() != claim):
+        return claim
+    try:
+        previous = modal_font_predecessor(current)
+    except (OSError, ValueError, TypeError, IndexError, UnicodeError, subprocess.TimeoutExpired) as exc:
+        return ["ORDER-381: current modal admission: " + str(exc)] if mode == 0 else current if mode == 1 else claim
+    return (functions[0](relative, previous) if mode == 0 else functions[1](previous, relative)
+            if mode == 1 else functions[2](hashlib.sha256(previous).hexdigest(), relative, previous))
+
+
+def main_game_history_source_errors(relative, current):
+    return _modal_dispatch(_MODAL_OLD_PUBLIC, 0, relative, current)
+
+
+def main_game_history_project_bytes(current, relative):
+    return _modal_dispatch(_MODAL_OLD_PUBLIC, 1, relative, current)
+
+
+def main_game_history_project_byte_hash(claim, relative, current):
+    return _modal_dispatch(_MODAL_OLD_PUBLIC, 2, relative, current, claim)
+
+
+def gift_caption_source_errors(relative, current):
+    return _modal_dispatch(_MODAL_OLD_GIFT, 0, relative, current)
+
+
+def gift_caption_project_bytes(current, relative):
+    return _modal_dispatch(_MODAL_OLD_GIFT, 1, relative, current)
+
+
+def gift_caption_project_byte_hash(claim, relative, current):
+    return _modal_dispatch(_MODAL_OLD_GIFT, 2, relative, current, claim)
+# END_MODAL_FONT_HISTORY_381

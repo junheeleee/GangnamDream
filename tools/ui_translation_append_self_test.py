@@ -799,12 +799,133 @@ def correction_self_test() -> tuple[list[str], int]:
     return failures, cases
 
 
+def main_modal_self_test() -> tuple[list[str], int]:
+    """Only the three MainGame repairs, actual locations and manifest bridge."""
+    import main_game_locale_history as history
+    import ja_translation_pipeline as ja
+    failures, cases = [], 0
+    def check(ok, label):
+        nonlocal cases
+        cases += 1
+        if not ok:
+            failures.append("Main modal: " + label)
+    def reject(action, label):
+        try:
+            action()
+        except (ValueError, OSError, KeyError, TypeError, IndexError, subprocess.TimeoutExpired):
+            check(True, label)
+        else:
+            check(False, label)
+    path = history.MAIN_GAME_PATH
+    paths = (path, "tools/main_game_locale_history.py", "tools/ja_translation_pipeline.py",
+             "tools/ui_translation_append.py", "tools/ui_translation_append_self_test.py", *append.CURRENT_PATHS)
+    original = {p: (ROOT / p).read_bytes() for p in paths}
+    raw = original[path]
+    sha = lambda value: hashlib.sha256(value).hexdigest()
+    old = history.modal_font_predecessor(raw, ROOT)
+    check(sha(old) == "3f42b49c99c94310436661e44c3029d0335b0998d467a7582c8d3524acf55532"
+          and sha(raw) == "6c26e3db61c810cd52022128a459a7160abf49c6a0c3d085f196755f9e232f8d",
+          "independent whole runtime pins")
+    for name, previous in (("main_game_history", history._MODAL_OLD_PUBLIC), ("gift_caption", history._MODAL_OLD_GIFT)):
+        source, project, digest = (getattr(history, name + suffix) for suffix in
+                                    ("_source_errors", "_project_bytes", "_project_byte_hash"))
+        check(not source(path, raw), name + " current raw")
+        check(project(raw, path) == previous[1](old, path), name + " complete prior chain")
+        check(digest(sha(raw), path, raw) == sha(previous[1](old, path)), name + " observed hash bound")
+        check(digest("0" * 64, path, raw) == "0" * 64, name + " wrong claim stays unchanged")
+        for label, mutant in (("rollback", old), ("space", raw + b"\n"),
+                              ("neighbor", raw.replace(b"modal_header = HBoxContainer.new()", b"modal_header = VBoxContainer.new()", 1))):
+            check(bool(source(path, mutant)) and project(mutant, path) == mutant
+                  and digest(sha(mutant), path, mutant) == sha(mutant), name + " reject " + label)
+    for index, (a, b) in enumerate(history.MODAL_REPLACEMENTS):
+        reject(lambda x=a, y=b: history.modal_font_predecessor(raw.replace(y.encode(), x.encode(), 1), ROOT),
+               "partial repair " + str(index))
+    check(history.main_game_history_project_bytes(b"outside", "unowned.gd") ==
+          history._MODAL_OLD_PUBLIC[1](b"outside", "unowned.gd"), "off-path dispatch unchanged")
+    with mock.patch.object(history, "_modal_git", side_effect=OSError("lost Git after success")):
+        check(bool(history.gift_caption_source_errors(path, raw))
+              and history.main_game_history_project_bytes(raw, path) == raw, "fresh proof loss fails closed")
+    real_git = history._modal_git
+    def forged(where, *args, **kwargs):
+        value = real_git(where, *args, **kwargs)
+        return value + b"forged" if args[:2] == ("cat-file", "--batch") else value
+    with mock.patch.object(history, "_modal_git", side_effect=forged):
+        reject(lambda: history.modal_font_predecessor(raw, ROOT), "forged Git stream")
+    with mock.patch.object(history, "MODAL_REPLACEMENTS", history.MODAL_REPLACEMENTS[:-1]):
+        reject(lambda: history.modal_font_predecessor(raw, ROOT), "missing inverse")
+    with mock.patch.object(history, "MODAL_BEFORE_COMMIT", history.MODAL_AFTER_COMMIT):
+        reject(lambda: history.modal_font_predecessor(raw, ROOT), "forged parent")
+    check(history.modal_font_predecessor(raw, ROOT) == old, "fresh proof restored without cache")
+
+    code = original["tools/ja_translation_pipeline.py"]
+    check(sha(ja.modal_pipeline_predecessor(code)) == "2b68f06da7108ce8a3f21b51fc6cf148ac1979a336bf76d425382e106e47af11",
+          "collector original whole body exact")
+    check(sha(ja.nonformat_pipeline_predecessor(code)) == ja.NONFORMAT_BEFORE_SHA,
+          "direct old378 reader receives exact predecessor")
+    check(sha(ja.current_demo_pipeline_predecessor(code)) == ja.CURRENT_DEMO_BEFORE_SHA,
+          "direct notice reader receives exact predecessor")
+    reject(lambda: ja.modal_pipeline_predecessor(code + b"\n"), "collector neighbor bytes")
+    # Exactly one real current UI collection; no full corpus/receipt/old suite.
+    inventory = ja.collect_ui_inventory()
+    actual, parse_errors = ja.parse_ui_calls(path, raw.decode())
+    prior, prior_errors = ja.parse_ui_calls(path, old.decode())
+    actual.sort(key=lambda c: (c.path, c.line, c.api))
+    prior.sort(key=lambda c: (c.path, c.line, c.api))
+    check(not inventory.errors and not parse_errors and not prior_errors, "actual collector admission")
+    check(tuple(c for c in inventory.calls if c.path == path) == tuple(actual), "actual MainGame call coordinates")
+    check(any(a.line != b.line for a, b in zip(actual, prior))
+          and [(c.function, c.api, c.korean, c.english, c.context_id) for c in actual] ==
+              [(c.function, c.api, c.korean, c.english, c.context_id) for c in prior], "only coordinates changed")
+    positions = iter(prior)
+    prior_calls = tuple(next(positions) if c.path == path else c for c in inventory.calls)
+    contexts = {e.source: e.context for e in ja._gift_caption_inventory_view(inventory, prior_calls).legacy_entries}
+    baseline = replace(inventory, calls=prior_calls,
+                       legacy_entries=tuple(replace(e, context=contexts[e.source]) for e in inventory.legacy_entries))
+    check(ja.modal_rebind_inventory(baseline, raw) == inventory, "all current fields reconstructed exactly")
+    target = next(i for i, call in enumerate(prior_calls) if call.path == path)
+    for label, calls in (("missing", prior_calls[:target] + prior_calls[target + 1:]),
+                          ("duplicate", (*prior_calls, prior_calls[target])),
+                          ("wrong line", tuple(replace(c, line=c.line + 1) if c.path == path else c for c in prior_calls))):
+        reject(lambda rows=calls: ja.modal_rebind_inventory(replace(baseline, calls=rows), raw), "call location " + label)
+    # Synthetic source-map fixture tests the comparison composition only. The
+    # root's five current normals bind the full actual source census separately.
+    aruba = (ROOT / append.ARUBA_FONT_PATH).read_bytes()
+    hashes = {path: sha(raw), append.ARUBA_FONT_PATH: sha(aruba), "unchanged.json": "1" * 64}
+    source = {"source_hashes": hashes, "source_manifest_sha256": append.exchange.digest(hashes)}
+    preserved = copy.deepcopy(source)
+    before_modal = {**hashes, path: sha(old)}
+    before_both = {**before_modal, append.ARUBA_FONT_PATH: append.ARUBA_FONT_BEFORE_SHA256}
+    for label, expected in (("current", source["source_manifest_sha256"]),
+                            ("prior MainGame", append.exchange.digest(before_modal)),
+                            ("prior MainGame and Aruba", append.exchange.digest(before_both))):
+        check(append._source_manifest_matches(ROOT, source, expected), "manifest " + label)
+    check(source == preserved, "source census remains actual")
+    mutant = {**hashes, path: sha(old)}
+    reject(lambda: append._source_manifest_matches(ROOT, {"source_hashes": mutant,
+               "source_manifest_sha256": append.exchange.digest(mutant)}, "0" * 64), "manifest rollback source claim")
+    mutant = {**hashes, "unchanged.json": "0" * 64}
+    check(not append._source_manifest_matches(ROOT, {"source_hashes": mutant,
+          "source_manifest_sha256": append.exchange.digest(mutant)}, append.exchange.digest(before_both)), "manifest neighbor not exempted")
+    with mock.patch.object(history, "_modal_git", side_effect=OSError("proof unavailable")):
+        reject(lambda: append._source_manifest_matches(ROOT, source, source["source_manifest_sha256"]),
+               "even equal current manifest does not hide lost proof")
+    check(all((ROOT / p).read_bytes() == value for p, value in original.items()), "runtime/tools/UI/ledger unchanged")
+    return failures, cases
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--synthetic-only", action="store_true", help="author development only; not current acceptance")
     parser.add_argument("--three-locales", action="store_true", help="bounded JA/current47 change tests only; no historical suite")
     parser.add_argument("--correction", action="store_true", help="exact two-target correction only; no old suite or collector")
+    parser.add_argument("--main-modal", action="store_true", help="three rendering repairs and current-location bridge only")
     args = parser.parse_args()
+    if args.main_modal:
+        errors, cases = main_modal_self_test()
+        for error in errors:
+            print("UI_TRANSLATION_APPEND_ERROR " + error)
+        print(f"MAIN_MODAL_SOURCE_SELF_TEST_{'FAIL' if errors else 'OK'} cases={cases}")
+        return int(bool(errors))
     if args.correction:
         errors, cases = correction_self_test()
         for error in errors:
@@ -832,6 +953,10 @@ def main() -> int:
         errors.extend(correction_errors)
         cases += correction_cases
         print(f"UI_TRANSLATION_APPEND_CORRECTION cases={correction_cases}")
+        modal_errors, modal_cases = main_modal_self_test()
+        errors.extend(modal_errors)
+        cases += modal_cases
+        print(f"UI_TRANSLATION_APPEND_MAIN_MODAL cases={modal_cases}")
     for error in errors:
         print("UI_TRANSLATION_APPEND_ERROR " + error)
     marker = "UI_TRANSLATION_APPEND_SYNTHETIC" if args.synthetic_only else "UI_TRANSLATION_APPEND_SELF_TEST"
