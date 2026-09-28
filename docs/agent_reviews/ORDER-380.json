@@ -1,0 +1,80 @@
+{
+  "schema": "gangnamdream-independent-work-unit-review/v1",
+  "unit_id": "ORDER-380",
+  "scope": "work_unit",
+  "review_stage": "independent_source_bound_final",
+  "review_date": "2026-09-28",
+  "independent": true,
+  "reviewer": "/root/r3_route_probe",
+  "decided_by": "/root/r3_route_probe",
+  "decision": "GO",
+  "verdict": "GO",
+  "required": [],
+  "subject": {
+    "kind": "source",
+    "commit": "ffc564fcaee1d28826f19819f51f996dc7241a80",
+    "tree": "33b44313d226190f55cf0ea73f8f1211b6482490",
+    "manifest_sha256": null
+  },
+  "outcome": "GO only for the two existing CN/TW job-status corrections, their exact receipt/Git correction bridge, and their four actual prepared status observations. Both preserve meaning and fit217/288 pixels. ORDER-379 remains HOLD for its unchanged T3 runtime font/back-hint failures; the whole fourth screen run is still FAIL.",
+  "independence": "I authored neither target value nor verifier/test/observer. I read the Korean consumer and old/new targets, the complete two-tool diff and focused corpus, individual raw outputs, official exchange/receipt/Git evidence and scope-proof code. I directly viewed all four corrected T2/T4 PNGs and independently rehashed/bound their actual node observations. I performed no acceptance CLI, engine, import or tracked edit.",
+  "correction": {
+    "ko_key": "마포 첫 면접 완료 · 다음 지원 진행 중",
+    "zh-CN": "麻浦首次面试完成 · 后续应聘中",
+    "zh-TW": "麻浦首場面試完成 · 後續應徵中",
+    "judgment": "These concise labels retain the completed first Mapo interview and ongoing subsequent application. Neither implies passing, hiring or a new event. The Korean runtime branch is unchanged; no quantity, token, newline or gameplay field changes.",
+    "transition": "Exact direct-parent product transition77272537e6938ba766f709c5f459c5b3109c8ad3→14547a1e3c552616236c40693c368dcdfd86ebe4 changes two UI values and their ledger acceptance. Independently reversing the two UI tokens restores previous raw bytes; all other values/order remain exact. Reverting the two accepted target hashes/checksum and removing correction batch149 restores the entire prior ledger meaning. Old148 batches are exact; coverage stays40832, batches148→149. Source revision772725 and manifest d4f9690cf0f8b75bd4a8bebdf8bf142b9f89c486ab3402df8bf9d22ed8a1f929, old-target digests, source/response/accepted headers, canonical receipt digests and current target hashes were independently compared."
+  },
+  "implementation_review": [
+    "The new bridge verifies the exact three-path direct-parent Git transition with fresh object type/length/hash, commit/tree/blob and whole-raw binding. It validates the two replacements, old/new accepted records, official replace-existing headers and previous-target hashes, source identity, strict raw spans and protected ledger metadata. Escaped equivalent corrected accepted-target SHA tokens are rejected rather than silently normalized.",
+    "Current working bytes must equal the admitted Git candidate. Every first-parent transition is checked; only the registered correction receives a comparison-only inverse of its two values, two accepted hashes, checksum and one batch. The original strict append verifier then checks the remaining bytes. Actual current raw data is returned unchanged. Later ordinary appends work, while a committed rollback followed by restoration still fails history validation.",
+    "Existing generic validate_append, raw inverse, current proof, source-manifest functions, constants and old self-test bodies are preserved; only validate_history and self main receive the new connection. The inappropriate actual-HEAD-equals-fixed-correction assertion was removed and placed in the isolated Git fixture. Parsing reuse is local to identical raw data within one invocation, with strict semantic validation and copied mutable records; it is not a persistent success cache or bypass of full raw comparison.",
+    "The focused corpus exercises valid correction and later append, immutable Git tampering/missing proof, neighbor/metadata/receipt/source/count/format changes, exact token spans and rollback/recovery. It uses its declared finite source fixture rather than claiming a fresh whole historical corpus. No new blocker remains in this bounded implementation."
+  ],
+  "rendered_observation": {
+    "corrected_status_screens": 4,
+    "pngs_directly_viewed": 4,
+    "old_width_pixels": 292,
+    "new_width_pixels": 217,
+    "inner_width_pixels": 288,
+    "raw_input_events": 0,
+    "finding": "CN/TW T2 and T4 show the exact final status, including its last character, at217/288 pixels and23/23 height. Shared regional font, glyph coverage and geometric checks pass for these four status nodes. Third/fourth observer and runner are unchanged; the independent scope proof reads the actual fourth observations and PNG bindings, not a repaired success label.",
+    "whole_run_boundary": "Fourth-corrected exit1 remains: ten actual captures but zero strict accepted PNG entries. Four T3 runtime failures remain, plus eight separately retained failed close-glyph nodes. The narrower four-status proof does not convert that whole run to PASS. Visible pad/cross drawing does not certify missing bundled glyphs. Prepared direct handlers/forced-pad presentation are not natural input or reachability; background JA surfaces from the same instance are outside modal scope."
+  },
+  "actual_static_execution": {
+    "source": "f30de0d4e29aba5f637d7359d2282a9f2ba0c420",
+    "commands": 13,
+    "checks": 12,
+    "selection_queries": 1,
+    "exit_zero": 13,
+    "focused_cases": 48,
+    "focused_seconds": 108.233,
+    "wall_seconds": 254.533,
+    "duration_seconds_sum": 606.546,
+    "finding": "All00..12 individual records equal their aggregate rows, with exit0 and empty stderr. The new focused48, current ORDER365 normal, five normal consumers, ZH normal, registry/context/queue/diff checks pass; the final selection command only lists44 checks. Recorded2928 tracked inputs and three private helper hashes are unchanged before/after. Chapter1 retains debt8/blocked3/W25..48 gap24. Historical/default suites, full audit, engine gameplay and unchanged liveness were not rerun."
+  },
+  "preserved_failures": "The first author development attempt timed out at180 seconds with zero observed completed cases. Its JSON is an author transcription of session34045, not independently captured complete raw stdout or a before/after census; its frozen hashes identify the later repaired tools, not the timed-out execution. The later actual clean-source focused48 PASS is separate and does not retroactively pass that attempt. ORDER-379 first/second/third failures and the fourth whole-run failure remain immutable evidence.",
+  "source_and_history_binding": "The fresh read-only source resolver returns this exact clean subject. Git execution-source→final diff contains only two CLAUDE status rows; independent rehash of all2928 recorded inputs finds only CLAUDE different. Product, verifier and runtime bytes are unchanged and linked, not rerun on final. Direct Git comparison to f0388c8 preserves140 previous decisions,118 reports and human ledger SHA6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6, public GO1/human OPEN45 and earlier failures.",
+  "unobserved": ["native_reader", "human_playtest", "physical_controller_feel", "natural_gameplay", "all_job_routes", "new_package_runtime"],
+  "boundary": "No new translation coverage is claimed. This bounded correction GO does not approve ORDER-379, every visible glyph, global language switching, complete UI, the full product, a new package, a human gate or release. Existing liveness debt is unchanged and untested here.",
+  "evidence": {
+    "locale/ui_zh-CN.json": "1739c179a6cc929c811f41e6af7d37a0c2945a26c44cdd59e209fb2eaeac35a6",
+    "locale/ui_zh-TW.json": "d871fa4cfe8f177e22ad3a804cdadb99908913d11d1ca9121095486a634b204a",
+    "content/meta/full_game_localization.json": "063cc7ce4ad53d8a7e80a71ee0b838aeeea2686722a34b92daef034074e5437c",
+    "tools/ui_translation_append.py": "8fdbca3ed9a7d2716741262be4a5e6e8bfd536da5536e30097ef52b3f93c43eb",
+    "tools/ui_translation_append_self_test.py": "e8be6746ed3b85cb11ab55d3d8c84a3a5629e614575ecae1a72a96cd6755a588",
+    ".git/full-game-localization/order380-language-review.json": "132e510b6d1c3bd4234e056c4e8bd1546a28a9c1c076885dc74195723039d5fb",
+    ".git/full-game-localization/order380-drafts.json": "b265b6b413ee7a23f38bec4e84d4d83ec81aae87c97a7682b3628b02f9993d8c",
+    ".git/full-game-localization/zh-CN/full-ko-direct-2026-09-07.1/7db8b90fa79d5eff1e14b296ab7445eb0decd31f8a3bdec35060914c11931df0.accepted.json": "8f1d1487f55d7a22b2914e9133f65662498be345378db74d68ff8326c8a9442f",
+    ".git/full-game-localization/zh-TW/full-ko-direct-2026-09-07.1/e3c626080f07571b44ddd6ff89a8a01fa1f0a9c6e5f308cca56690765276fbac.accepted.json": "2682510336e97db1a19e091b680df00960203b8e0ef1a3d035942694773b4823",
+    ".git/full-game-localization/order380-static-first/result.json": "60a9008cd926895693856a4407cdf392584415e48c27153fdfa381bb118e4a97",
+    ".git/full-game-localization/order380-static-first/entry.json": "5b472c25701cadee632353142fc97e312faadf3caa089ae1c4f36225f53940df",
+    ".git/full-game-localization/order380-correction-development-first.json": "78636618ee99c6d5db15f35cc685c1b5f9ba08286885e0bc950d2f5c15008298",
+    ".git/full-game-localization/order380-screen-proof.json": "1adc10a87f9055a9970d9f4feb9fef528dd141f956f90e30da6c26aaea10aedd",
+    ".git/full-game-localization/order380-screen-proof.py": "4f24ca7473aed3dd97db73cb3cbeeb254ab55b82394a29ecfe3623062ce3d3dc",
+    ".git/full-game-localization/order379-screen-first/result.json": "ad0c63608367e901fbc6e701d05507eff2d01a248073dfc12aa17d7b39200a4c",
+    ".git/full-game-localization/order379-screen-second/result.json": "7e886f06b899cabe4cf8812c07b55933d2104cb41ac70b079e84bf28b226f389",
+    ".git/full-game-localization/order379-screen-third-diagnostic/result.json": "74f46b6d777305348aa6ddedcaf0fa88ab0f0eed1a87516ec41a8554a68284f2",
+    ".git/full-game-localization/order379-screen-fourth-corrected/result.json": "493de96d285ec765d575c556f0ef08d3c1d9139067e38fd91639e0a7cafcf3a5"
+  }
+}

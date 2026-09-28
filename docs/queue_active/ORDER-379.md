@@ -50,3 +50,13 @@ JobSystem 잠금 사유·공개 demo·실사용자 저장·인간 원장·출시
 ## 규범 판정
 이 모집단·파일·표적실행 계획은 일회성이다. 기존 I18N append/언어/관측 규칙을
 재사용하며 새 정본 규칙은 만들지 않는다.
+
+## 2026-09-28 현재 판정 — HOLD
+
+92값의 공식 수용/독립 문장 검수와 92 lookup은 확인했으나 전체 화면 GO가 아니다.
+380에서 CN/TW 상태2값을 교정했고 T2/T4의 실제 잘림4관측은 해소했다.
+패드 T3의 modal_pad_hint_label(50px/1px)과 직업 RichTextLabel의 지역 normal font
+연결 누락이 두 지역에 남는다. 기존 닫기 ✕의 bundled glyph 부채8도 별도 보존한다.
+first/second/third/fourth 실행 원본과 [독립 HOLD 보고](../agent_reviews/ORDER-379.json)를
+유지한다. 다음 작업은 이 런타임 수리의 별도 파일 범위를 먼저 선언하고 구현한다.
+자연진입·실제입력·원어민·인간·물리·출시 GO로 확장하지 않는다.

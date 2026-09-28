@@ -5669,6 +5669,76 @@
         "path": "docs/agent_reviews/ORDER-378.json",
         "sha256": "f3c917bd810d15c8c745b9217025eecaa4717f2b50767a5f91a3769f0f1df5c2"
       }
+    },
+    {
+      "id": "order-379-source-ffc564f-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-28",
+      "decided_by": "/root/r3_route_probe",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-379",
+      "subject": {
+        "kind": "source",
+        "commit": "ffc564fcaee1d28826f19819f51f996dc7241a80",
+        "tree": "33b44313d226190f55cf0ea73f8f1211b6482490",
+        "manifest_sha256": null
+      },
+      "verdict": "HOLD",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-379.json",
+          "sha256": "50c65ebe5385f32e21916b3c3a07769989d10c35cf6c26153a990dffc5076a2c"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "natural_gameplay",
+        "all_job_routes",
+        "new_package_runtime"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-379.json",
+        "sha256": "50c65ebe5385f32e21916b3c3a07769989d10c35cf6c26153a990dffc5076a2c"
+      }
+    },
+    {
+      "id": "order-380-source-ffc564f-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-28",
+      "decided_by": "/root/r3_route_probe",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-380",
+      "subject": {
+        "kind": "source",
+        "commit": "ffc564fcaee1d28826f19819f51f996dc7241a80",
+        "tree": "33b44313d226190f55cf0ea73f8f1211b6482490",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-380.json",
+          "sha256": "d0fe4dff8826ebd1529a907d129afd38b6a54ae5c9b29ed28ec0bd0fdd570da1"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "natural_gameplay",
+        "all_job_routes",
+        "new_package_runtime"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-380.json",
+        "sha256": "d0fe4dff8826ebd1529a907d129afd38b6a54ae5c9b29ed28ec0bd0fdd570da1"
+      }
     }
   ]
 }

@@ -1,3 +1,16 @@
+# ORDER-380 — 중국어 직업 상태 잘림·교정 증명
+
+[x] 2026-09-28. 독립 work_unit 한정 GO. 부모 ORDER-379 화면 배치는 HOLD다.
+
+- 최종 source `ffc564fcaee1d28826f19819f51f996dc7241a80`, tree `33b44313d226190f55cf0ea73f8f1211b6482490`. [독립 보고](../agent_reviews/ORDER-380.json).
+- 기존 상태 1키×CN/TW 2값을 공식 replace-existing 영수증으로 교정. accepted40832 불변, batch148→149. 교정은 신규 번역 수가 아니다. 제품 전이 `7727253→14547a1` 세 경로만 허용하며 append 일반 경계는 유지한다.
+- clean 실행 `f30de0d4e29aba5f637d7359d2282a9f2ba0c420`: 표적12검사+선택조회1, 새 교정 self와 current guard/consumer5 포함 PASS. 실행→최종 소스 차이는 보고가 소유한다.
+- 10준비화면/92lookup을 다시 관측했고 CN/TW T2/T4 상태4관측은 292px에서 217.0px로 줄어 288px 안에 들어왔다. 실제 제품/typed state/실사용자 파일 불변. 전체 화면 결과는 패드 T3 두 결함×2지역 때문에 여전히 FAIL이며 기존 닫기 glyph 부채8도 보존한다.
+- first/second/third/fourth 실패 원본을 삭제하거나 PASS로 바꾸지 않았다. 자연진입·새입력·채용·정산·원어민·인간·물리 관측0, 공개GO1·인간OPEN45 보존. 본편/새package HOLD.
+- 승격: I18N_INFRASTRUCTURE의 기존 수용 절에 기존값 교정의 별도 영수증/비중복 집계 및 수용 동결 전 실제 폭 확인 원칙. 정확 키·commit·검사/소유 범위는 일회성이다.
+
+## 최초 선언 원문 보존
+
 # Active Queue Spec: ORDER-380
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.

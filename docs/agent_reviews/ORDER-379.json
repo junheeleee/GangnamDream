@@ -1,0 +1,64 @@
+{
+  "schema": "gangnamdream-independent-work-unit-review/v1",
+  "unit_id": "ORDER-379",
+  "scope": "work_unit",
+  "review_stage": "independent_source_bound_final",
+  "review_date": "2026-09-28",
+  "independent": true,
+  "reviewer": "/root/r3_route_probe",
+  "decided_by": "/root/r3_route_probe",
+  "decision": "HOLD",
+  "verdict": "HOLD",
+  "required": [
+    "Connect the actual T3 job pad-hint RichTextLabel normal font to the owned regional font and verify CN/TW font identity and glyph coverage without relying on unverified system fallback.",
+    "Repair the actual modal back-hint label's one-pixel inner width and verify that the CN/TW T3 back instruction is readable in the real job modal."
+  ],
+  "subject": {
+    "kind": "source",
+    "commit": "ffc564fcaee1d28826f19819f51f996dc7241a80",
+    "tree": "33b44313d226190f55cf0ea73f8f1211b6482490",
+    "manifest_sha256": null
+  },
+  "outcome": "The 92 translations and their acceptance history are sound, and ORDER-380 repairs the two clipped status values. ORDER-379 remains HOLD because its actual T3 consumer still fails normal-font coverage and back-hint layout. The fourth whole-screen run remains FAIL; a narrower status correction does not close this unit.",
+  "independence": "I authored no translation, implementation, observer or acceptance test. I directly compared all 92 values with Korean runtime context, read the observer/runner and relevant verifier changes, inspected the original acceptance and subsequent correction, read individual command outputs and screen observations, and directly viewed all ten third-run PNGs plus four corrected fourth-run PNGs. I performed no acceptance CLI, engine, import or tracked edit. Advice and semantic review are not native-reader certification.",
+  "language_and_acceptance": {
+    "population": "52 unique Korean keys: twelve JA Aruba delivery destination/floor-minute values and forty job chooser values in each of CN/TW, including the ui.job.entry_tier context key; 92 locale values total.",
+    "judgment": "JA locations and floor/minute numbers retain their Korean meaning. CN/TW preserve resume/interview readiness rather than acceptance or hiring, application state, amounts and placeholders. Shared application and growth labels do not introduce a contradictory meaning in the inspected consumers. The two status values corrected by ORDER-380 retain completed first interview and ongoing subsequent application, not successful hiring.",
+    "product_binding": "Product c1603017732de4053771f908ece71416704434bd appends only UI_JA/CN/TW and ledger: all old UI values/order/raw bytes reverse exactly, and official source/response headers, accepted receipts and all 92 source/target hashes agree. Accepted40740/b146 becomes40832/b148. The later exact ORDER-380 correction changes two existing values and adds correction batch149 without increasing coverage; accepted remains40832. Existing accepted rows, old batches and human/native fields are preserved outside that declared correction."
+  },
+  "actual_rendering": {
+    "prepared_screens": 10,
+    "dictionary_lookups": 92,
+    "direct_png_views": {"third_diagnostic": 10, "fourth_corrected": 4},
+    "raw_input_events": 0,
+    "fourth_exit_code": 1,
+    "fourth_actual_captures": 10,
+    "fourth_strict_accepted_png_entries": 0,
+    "observations": "JA clear/rain screens show all twelve new delivery values legibly. The corrected CN/TW status in T2/T4 measures217/288 pixels instead of292/288, with the final character visible, proper regional shared font and glyph coverage. Fourth-run failures are the four unchanged T3 runtime observations: each locale's back hint measures50 pixels in a one-pixel inner width, and each pad-hint RichTextLabel has an unbound normal font while only its bold font is regional. Pad text is visibly drawn, but that does not establish bundled-font coverage or certify fallback. It is not described here as visually garbled.",
+    "close_glyph_debt": "All eight job-screen modal close buttons retain a failed U+2715 glyph observation. The exact existing MainGame.modal_close_button object, Button type, text, single missing glyph and otherwise strict geometry/font checks are separately bound to the original failed node; those nodes remain passed=false. A cross is visible in the screenshots, but no all-visible-glyph PASS or fallback guarantee follows. This residual debt is not erased by separating it from the translated text scope.",
+    "provenance": "Actual MainGame-created controls are observed in ten prepared states, with direct modal/page handlers and a forced Xbox presentation on T3. No physical input, natural route, hiring, finish or settlement was exercised. Source and recorded real-player34-file maps are unchanged; isolated bootstrap paths and retained namespace are recorded. Dictionary lookups and template/span coverage are not proof that every key has a unique visible callsite. The dimmed background retains JA surfaces from first construction of the same instance, so this review covers the target modal, not global language-switch correctness."
+  },
+  "static_evidence": "The original ORDER-379 run has13 commands:12 checks plus one selection query, all exit0 with empty stderr and unchanged2927 tracked inputs; wall170.042s/sum446.557s. The later ORDER-380 run separately has12 checks plus one query, including new correction48 and five normal consumers, all exit0 and unchanged2928 inputs. These are distinct recorded runs, not26 distinct tests or fresh historical-suite execution. Chapter1 debt8/blocked3/W25..48 gap24 remains. Static normal checks do not override the actual whole-screen FAIL.",
+  "failure_preservation": "First screen FAIL on the existing close glyph, second FAIL on the new CN status clipping, third diagnostic FAIL with all ten captures, and fourth corrected whole-screen FAIL are preserved with their original results/helpers. Third diagnostic continuation collects evidence without relaxing PASS. The narrow ORDER-380 scope proof accepts only four corrected status observations and explicitly retains whole_order379=false. No original failure is retroactively PASS.",
+  "source_and_history_binding": "Read-only current_agent_source_subject independently resolves the subject above on a clean tree. Executed f30de0d4e29aba5f637d7359d2282a9f2ba0c420/tree646cf653a67c0444cfd511f541a074f6e2207c56 differs from final only in two CLAUDE status rows; rehashing all2928 recorded inputs finds only CLAUDE changed. Product/tools/runtime are byte-linked, not claimed rerun on final. Direct Git comparison to declaration f0388c8 preserves all140 prior decisions,118 reports and human ledger SHA6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6, including public GO1/human OPEN45.",
+  "unobserved": ["native_reader", "human_playtest", "physical_controller_feel", "natural_gameplay", "all_job_routes", "new_package_runtime"],
+  "boundary": "This HOLD is for ORDER-379, not rejection of the accepted language population. Pending runtime consumer repairs require their own declared scope and real observations. Existing liveness debt is unchanged and not rerun. Whole product, new package, complete UI translation, human gates and release remain outside this decision.",
+  "evidence": {
+    "scenes/MainGame.gd": "3f42b49c99c94310436661e44c3029d0335b0998d467a7582c8d3524acf55532",
+    "scenes/ArubaGame.gd": "e9744c1467a3043f91f77f7c9faa7ab2039e55777311e90b8ae43d889bfc4eeb",
+    "locale/ui_ja.json": "029c0d494aeec2a414bb985dbbbda37cc0ea9811cf262d980e3d3634db995fe2",
+    "locale/ui_zh-CN.json": "1739c179a6cc929c811f41e6af7d37a0c2945a26c44cdd59e209fb2eaeac35a6",
+    "locale/ui_zh-TW.json": "d871fa4cfe8f177e22ad3a804cdadb99908913d11d1ca9121095486a634b204a",
+    "content/meta/full_game_localization.json": "063cc7ce4ad53d8a7e80a71ee0b838aeeea2686722a34b92daef034074e5437c",
+    ".git/full-game-localization/order379-language-review.json": "a873220519c74740991e06273047609234e1388317e3b41673c3701bc363d06a",
+    ".git/full-game-localization/order379-append-precommit.json": "6fb6243db7739934179a8a11d64f747b884841aee075e8b645080a3358eb435c",
+    ".git/full-game-localization/order379-response-check-result.json": "a48449ba6e4120d310ba6e6bc1655ae86dfcd0aa621152e2ce2a98359c874b2b",
+    ".git/full-game-localization/order379-static-first/result.json": "251383508e80f67d894026a297d1a6db48fa38794c29f9fc2f58fa74f71eddaf",
+    ".git/full-game-localization/order379-screen-first/result.json": "ad0c63608367e901fbc6e701d05507eff2d01a248073dfc12aa17d7b39200a4c",
+    ".git/full-game-localization/order379-screen-second/result.json": "7e886f06b899cabe4cf8812c07b55933d2104cb41ac70b079e84bf28b226f389",
+    ".git/full-game-localization/order379-screen-third-diagnostic/result.json": "74f46b6d777305348aa6ddedcaf0fa88ab0f0eed1a87516ec41a8554a68284f2",
+    ".git/full-game-localization/order379-screen-fourth-corrected/result.json": "493de96d285ec765d575c556f0ef08d3c1d9139067e38fd91639e0a7cafcf3a5",
+    ".git/full-game-localization/order380-screen-proof.json": "1adc10a87f9055a9970d9f4feb9fef528dd141f956f90e30da6c26aaea10aedd",
+    ".git/full-game-localization/order380-static-first/result.json": "60a9008cd926895693856a4407cdf392584415e48c27153fdfa381bb118e4a97"
+  }
+}
