@@ -5628,6 +5628,60 @@
           "batch_id": "c51eb1e3cae2b9b0b6e07cd93e63e186bf232d908e7812f8520e1ad531cd66d5"
         }
       }
+    },
+    {
+      "order": "ORDER-380",
+      "group": "ui_correction",
+      "roots": [
+        "마포 첫 면접 완료 · 다음 지원 진행 중"
+      ],
+      "source_leaves": 1,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 1,
+        "zh-TW": 1
+      },
+      "original_order": "ORDER-379",
+      "before_target_sha256_by_locale": {
+        "zh-CN": "f0f0e5495de4dc4693e52463f41ba14ed638bc4b9a3abd45ac3fcc451459a84a",
+        "zh-TW": "bb6531847c5614856190de69b3d58b2f33c1cec768c1f10a8ec75464ed60e6ec"
+      },
+      "source_review": "Korean-direct concise status repair after actual 292px/288px clipping. Same first interview completed and follow-up application in progress; no gameplay change. Correction is not new coverage.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "c6f0d48b638cd4089fcb47ae8855a6192432d1cae3c22670902c96612d045082",
+        "zh-TW": "9ba5eb08ca9e8f9e4cbd497b2b48014d07cba138049b66ce115f47721cd51b2d"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "77272537e6938ba766f709c5f459c5b3109c8ad3",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "d4f9690cf0f8b75bd4a8bebdf8bf142b9f89c486ab3402df8bf9d22ed8a1f929",
+          "selection_sha256": "b5387a57e0766f1b2a8b0ff90ee6fe47217a3b4b7865fd5c3cf433b7d29b57a1",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "7db8b90fa79d5eff1e14b296ab7445eb0decd31f8a3bdec35060914c11931df0"
+        },
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "77272537e6938ba766f709c5f459c5b3109c8ad3",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "d4f9690cf0f8b75bd4a8bebdf8bf142b9f89c486ab3402df8bf9d22ed8a1f929",
+          "selection_sha256": "7dd7a9c5d686361d2b3d0a3664471e5f5a27d9892151396068288952ecaf79b4",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "e3c626080f07571b44ddd6ff89a8a01fa1f0a9c6e5f308cca56690765276fbac"
+        }
+      }
     }
   ],
   "accepted": {
@@ -113420,7 +113474,7 @@
       },
       "ui:마포 첫 면접 완료 · 다음 지원 진행 중:/마포 첫 면접 완료 · 다음 지원 진행 중": {
         "source_sha256": "13d4841d2ba42f0bfc819b2a0072035540510b4f78872976b731c7d58e9f2069",
-        "target_sha256": "f0f0e5495de4dc4693e52463f41ba14ed638bc4b9a3abd45ac3fcc451459a84a"
+        "target_sha256": "8a44a2df98fbca9ac9b6de899435f7e6a6ef3752c181ec5bafe919ddbddd6aed"
       },
       "ui:면접 OK:/면접 OK": {
         "source_sha256": "be5a77e7e75ffc4f837f40cde92ee2a722c7fc69affa9824a83bfbe36afd05df",
@@ -168834,7 +168888,7 @@
       },
       "ui:마포 첫 면접 완료 · 다음 지원 진행 중:/마포 첫 면접 완료 · 다음 지원 진행 중": {
         "source_sha256": "13d4841d2ba42f0bfc819b2a0072035540510b4f78872976b731c7d58e9f2069",
-        "target_sha256": "bb6531847c5614856190de69b3d58b2f33c1cec768c1f10a8ec75464ed60e6ec"
+        "target_sha256": "af89fa2d34158aae09dfc5d12ada83c7de6d0120faf4e536b4050f74ee9b8bcd"
       },
       "ui:면접 OK:/면접 OK": {
         "source_sha256": "be5a77e7e75ffc4f837f40cde92ee2a722c7fc69affa9824a83bfbe36afd05df",
@@ -168966,7 +169020,7 @@
       }
     }
   },
-  "accepted_sha256": "54efb1a91a6239cd469413214d264082b5381cc82738dfcd54055b479069e068",
+  "accepted_sha256": "10cac1e280143887a7484c757eeffc5745f924465ca66d8c16c57584bea48c5c",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
