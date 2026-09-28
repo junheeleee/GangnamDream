@@ -300,6 +300,9 @@ var _feedback_lbl: Label
 func _ready() -> void:
 	_rng.randomize()
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	var local_theme := Theme.new()
+	local_theme.default_font = FontKit.ui_regular()
+	theme = local_theme
 	_build_base_ui()
 	visible = false
 	set_process(false)
