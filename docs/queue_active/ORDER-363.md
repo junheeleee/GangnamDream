@@ -2,10 +2,43 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [ ] ORDER-363 [P1·검증] 콘텐츠 검토 기록의 정확한 후속값을 1장 역사 비교에 연결한다
+#### [~] ORDER-363 [P1·검증] 콘텐츠 검토 기록의 정확한 후속값을 1장 역사 비교에 연결한다
 
 2026-09-28 Codex 발행. 361의 실제 Chapter1 normal/self 실패를 분리한 후속이다.
 362의 본문 재검토와 지문 갱신 뒤 착수한다. 구현·pin 변경·검사 재실행0.
+
+## 2026-09-28 착수 선언 — 1배치, 구현 전
+
+- clean main `543199909e0d56196d3f106dd490d45a486f4246`에서 시작한다.
+  CLAUDE·큐·선택 사양·WORK_UNIT·개발 스킬을 재확인했고 QA/build/release
+  5정본은 전회 전량 읽은 뒤 현재까지 변경0임을 Git으로 확인했다.
+- `/root/compat357`만 `tools/chapter1_core_loop_v2_causal_ledger_check.py`를
+  저작한다. inventory exact 관측 helper, immutable 전이 검증, 원래 양성 fixture
+  4곳 연결, 새 반례 및 `--inventory-history-self-test` 표적 CLI만 소유한다.
+  101/151~156 pin·기존622+361의4사례·본편 원장/부채·원형 모듈은 보존한다.
+- root는 `tools/audit_scope.json`, `tools/audit.sh`의 새 표적 CLI 등록만 소유한다.
+  기존 등록·호출은 지우거나 완화하지 않는다. private 실행 recorder와 metadata
+  (이 사양·351/361 후속·큐2·WORK_LOG·CLAUDE 현재행·생성 STATUS·새 보고/판정
+  append·완료 사양 이동/상대링크)도 root가 소유한다. 기존 보고/판정 변경0.
+- `/root/r3_route_probe`는 제품 저작 없이 모든 전이·차이·반례·실행 증거와
+  clean source를 독립 검수한다. private 최종 보고를 root가 exact 보존한다.
+- 실제362 제품 `c7db93f7fc915a4d16fa5e8f63fa8b72343a6491`, 직접 부모
+  `6df5de6ac3a5db5b53391e55416bd423e38a1f0c`, tree
+  `96b70c27fd4a833c6b1150742b19da38415f59f0`. inventory raw
+  `2ff675845e1017764eb67c1c9c330ecd3b3507fa0b40535757b00bba073a88b0`
+  → `f46041343731f5cd64b680f778cff9ee77ea0c67fe114536f27a557fe5c1ead0`.
+  360 직접 부모 `f41efdb2ea1b5a646bff10604d89fdd00ac9c620`도 Git에서 확인한다.
+  360 후/362 전 동일 blob `f7ca93d46b4349086d397647a7d1b9670e9306b4`.
+- 영향 목록을 읽되 실행 수로 세지 않는다. 최초 실행은 새 focused CLI,
+  Chapter1 normal/self, 기존316의 Chapter1 StoryMode 한 경로 소비자 표본,
+  audit 선택/등록 정합·context/queue로 한정한다. normal/self가 현재 실패한
+  게이트이므로 실제 재실행한다. 전체1955 history·엔진·240주·전체 shell과
+  무관한361 통과 검사는 반복하지 않는다.
+- 매 검사 전후 tracked/untracked text census·원 실패2개·stdout/stderr·marker와
+  사례 수를 보존한다. 변경 후의 PASS와 이전 FAIL을 따로 기록한다. 실패가
+  생기면 원인을 고치되 새 범위는 별도 선언한다. 새 gameplay/번역/화면/등급0.
+- 이 선언은 일회성이다. 363 내부 판정 뒤에도351/361 통합 후속 판정은 별도
+  증거·보고이며 본편/새package HOLD·인간/원어민/물리 미관측·옛공개GO를 유지한다.
 
 ## 깊이 3문
 
