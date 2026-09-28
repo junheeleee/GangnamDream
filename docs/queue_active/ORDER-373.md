@@ -17,7 +17,9 @@
 ## 소유·비소유
 
 - `/root/compat357`: `tools/order365_ui_receipt_compat.py`의 runtime 후속 admission과
-  경계 self-test; `tools/audit_scope.json`의 기존365 두 등록 why 누락만 수정.
+  경계 self-test; `tools/audit_scope.json`의 기존365 두 등록 why 누락만 수정;
+  `tools/chapter1_core_loop_v2_causal_ledger_check.py`의 JobHunt 역사 snapshot 비교
+  한 곳만 새 명시적 역비교 API로 연결한다. 기존 핀과 actual-current API는 유지한다.
 - root: `tools/feature_liveness_audit.py`에서 저장소 메타데이터 .git만 양쪽 탐색 제외,
   private `order373-*` 표적 검사/보존/closure 증거; 큐2파일·이 사양→archive·
   CLAUDE 현재행·WORK_LOG·생성STATUS·신규 review373·판정1행.
