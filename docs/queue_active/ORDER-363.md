@@ -7,6 +7,24 @@
 2026-09-28 Codex 발행. 361의 실제 Chapter1 normal/self 실패를 분리한 후속이다.
 362의 본문 재검토와 지문 갱신 뒤 착수한다. 구현·pin 변경·검사 재실행0.
 
+## 2026-09-28 실제 첫 실행 — 기존 반례의 증명 소유자 오류로 HOLD
+
+- 선언 뒤3도구 구현. focused63·normal·기존316 StoryMode 소비자7·등록·context·
+  queue, 6종 PASS. summary SHA `5d5dfcd947101e792aa8424b728a020fdba0bba17560e89b931a4fbfc05c52d2`.
+- full self는1033.169초 exit1, timeout0, 전후1839 text 동일. record
+  `.git/full-game-localization/order363-long-self.json` SHA
+  `91514fe267e97df46a17c77c11e8c264b251190e12739c5908b2f64abb2bbc82`.
+  stdout `CHAPTER1_CAUSAL_LEDGER_SELF_TEST_CENSUS full=2 skip=21 fallback=1`;
+  stderr는 ORDER-350 `missing immutable proof`/`altered immutable proof` 두 반례다.
+  이 실행은 뒤351의4·363의63사례에 도달하지 않았고689완료 주장은0이다.
+- 비저자가 원형358의 import와 실제2×2 재현을 대조했다. 361의 alias350→351
+  변경으로 기존 두 반례의 mock이 실제 proof 소유자350 대신351을 겨냥했다.
+  새363 관측 호출은 재현4경우 모두0. 원형350을 손상시키면 같은 raw/claim/assert가
+  그대로 거절한다. 새 제품 경계 강화나 반례 완화 대신 원래 mock 소유자만 복원한다.
+- 이 수리는 inventory 관측 밖이므로 별도 [364](ORDER-364.md)에 선언한다.
+  이전361 두 실패 및 이번 full 실패를 보존하고 실제 full 재완료·독립 후속 판정까지
+  363·351·361 HOLD다. 새 원고/번역/엔진/화면/인간 관찰0이다.
+
 ## 2026-09-28 착수 선언 — 1배치, 구현 전
 
 - clean main `543199909e0d56196d3f106dd490d45a486f4246`에서 시작한다.
