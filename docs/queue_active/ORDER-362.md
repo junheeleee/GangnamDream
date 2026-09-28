@@ -49,7 +49,7 @@
   실제 candidate event 전체와 원문 변경을 독립 검토하고 clean source 최종
   보고를 `.git/full-game-localization/order362-independent-final-review.json`에 쓴다.
   root가 검증 후 `docs/agent_reviews/ORDER-362.json`으로 보존하고
-  `docs/agent_decisions.json`에 새 work_unit 판단만 append한다.
+  `docs/agent_review_decisions.json`에 새 work_unit 판단만 append한다.
 - CLAUDE·큐·WORK_UNIT와 QA/build/release 프로필 5정본을 확인했다.
   기준 `c94cd3ae19f22a015b3bd6b6e25afb17a8561242`의 두 축을 재계산하고
   현재까지 후보 집합·전체 KO/EN 사건 차이를 분해한다. 서사·등급 판단은
