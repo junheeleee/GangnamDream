@@ -2,9 +2,9 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [ ] ORDER-381 [P0·UI 수리] 패드 안내를 지역 글꼴과 실제 표시 폭에 연결한다
+#### [~] ORDER-381 [P0·UI 수리] 패드 안내를 지역 글꼴과 실제 표시 폭에 연결한다
 
-부모 ORDER-379/157. 2026-09-28 읽기 전용 분석 뒤 실행 대기이며 구현·완료가 아니다.
+부모 ORDER-379/157. 2026-09-28 착수 — 아래 파일 소유를 확정하고 별도 선언 뒤 구현한다.
 기준 제품 `ffc564fcaee1d28826f19819f51f996dc7241a80`.
 
 ## 확인된 결함·깊이 3문
@@ -35,7 +35,11 @@ close 부채8이며 380의 상태4관측 217/288px PASS는 다시 번역하지 �
   생성 STATUS, agent 원장/381 및 부모379의 새 후속 보고(기존379 보고 보존).
   private381 helper/evidence.
 - 독립 검수자: 제품/도구 비저자. 실제 diff·증거·PNG와 최종 source 판정.
-착수 때 역할과 파일 소유를 확정해 별도 선언 commit 후 구현한다. 새 모듈 연쇄나
+실행 역할: root는 제품·정본·격리 엔진 실행과 정리, compat357은 위 도구5파일,
+screen_path_probe는 private381 관찰기/실행기만, r3_route_probe는 독립 읽기 검수다.
+WORK_LOG 용량이 부족하면 기존 `docs/history/WORK_LOG_2026-09-07_localization.md`로
+오래된 완결 항목만 바이트 보존 이동한다. 기존379 관찰기와 실패 증거는 동결한다.
+새 모듈 연쇄나
 위 경계 밖 변경이 필요하면 구현 전에 범위를 다시 선언한다.
 
 ## 검증·완료 경계

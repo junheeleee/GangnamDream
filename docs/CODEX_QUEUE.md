@@ -50,7 +50,7 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [ ] | ORDER-381 · 패드 안내 글꼴·뒤로가기 폭·닫기 glyph | [381](queue_active/ORDER-381.md) | 다음 수리 · 실제 결함3곳·범위 확정 / 구현 전 |
+| 1 | [~] | ORDER-381 · 패드 안내 글꼴·뒤로가기 폭·닫기 glyph | [381](queue_active/ORDER-381.md) | 착수 · 제품3곳/호환도구5·독립 화면·입력 검수 |
 | 2 | [~] | ORDER-379 · 배달 일본어12·직업 중국어80 | [379](queue_active/ORDER-379.md) | HOLD · 번역92·lookup92 확인 / 381 패드 안내 수리 후 재판정 |
 | 3 | [~] | ORDER-302 · 체험판 대본 사실·영어 정합 수리 | [302](queue_active/ORDER-302.md) | 수리7항목 source GO · successor package 별도 선언/검수 HOLD |
 | 4 | [ ] | ORDER-352 · 본편 5장 대본 이름·시간·회수 정합 | [352](queue_active/ORDER-352.md) | 5장 HOLD 수리 닫힌 뒤 착수 · 미실행 |
