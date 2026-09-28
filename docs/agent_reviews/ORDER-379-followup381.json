@@ -1,0 +1,43 @@
+{
+  "schema": "gangnamdream-independent-work-unit-review/v1",
+  "unit_id": "ORDER-379",
+  "scope": "work_unit",
+  "review_stage": "independent_source_bound_followup381",
+  "review_date": "2026-09-28",
+  "independent": true,
+  "reviewer": "/root/r3_route_probe",
+  "decided_by": "/root/r3_route_probe",
+  "decision": "GO",
+  "verdict": "GO",
+  "required": [],
+  "subject": {
+    "kind": "source",
+    "commit": "14e97bfe4076f4e0b0ab669fbb1dcdfb56bfcb59",
+    "tree": "cb569d4a21a7b7569ee7c7b8818ec82f0fb7068f",
+    "manifest_sha256": null
+  },
+  "outcome": "Bounded follow-up GO for the original ORDER-379 population: JA delivery12 and CN/TW job40x2, with the two accepted ORDER-380 status corrections and original ten prepared screens. The required T3 regional-font/back-width defects and separately tracked close glyph debt are now resolved in that population. The previous HOLD report remains unchanged; this is a new source-bound judgment, not a retroactive PASS.",
+  "independence_and_language": "I did not author the translations, runtime repairs or test tools. Earlier direct Korean-to-target review of all92 values and the two concise ORDER-380 corrections remains applicable: all three UI files and the receipt ledger are byte-identical to the reviewed post-correction source. No new prose or coverage is claimed. Official accepted total40832/b149 remains; correction batch149 added no coverage. The wording retains work/application readiness rather than promising hiring, and the corrected status retains completed first interview plus ongoing subsequent application.",
+  "actual_observation": "I directly viewed all13 new PNGs and read raw node/text/input records. Original JA clear/rain plus CN/TW T1..T4, ten screens, have no failed visible nodes. JA destinations/info, Chinese modal labels and corrected T2/T4 status remain readable; the status remains217/288 pixels. Previously failing T3 back hints now fit50/50, regional normal/bold RichText fits391x24/CN and418x24/TW within816x24, and all observed close × nodes have bundled glyphs. Actual92 dictionary lookups bind to final values. Lookup population is not a claim that all92 keys appear visibly in these ten preparations.",
+  "input_and_limits": "Five-language synthetic E/Down/Q/Esc down/up sessions total40 edges and show expected page/cursor/cancel transitions with release no-ops and protected state unchanged. They are prepared modal navigation, not full natural play or physical pad input. Forced Xbox prepares glyph presentation only. A recorded temporary local current_event sentinel and empty pending/bundle/resume isolate cancel; natural week return, hiring and settlement are unobserved. The persistent JA background from initial instance construction is outside modal scope.",
+  "whole_failure_remains": "The encompassing 13-screen run is still exit1/pass=false: new additional EN T3 career status is visibly clipped at372/288, although its owned back/rich/close targets pass. It has13 captured PNGs but zero full-run strict accepted entries. A separately reviewed narrow proof checks the unchanged failed report's original ten screens and owned targets without exempting or erasing that English node. English status is outside the original JA/CN/TW92-value population and remains OPEN for a separate follow-up planned as ORDER-382; no all-13-screen GO is asserted.",
+  "verification_and_binding": "Current receipt guard and five normal consumers pass in the 381 clean a332f746 execution; new focused43 and registry/context/queue/diff complete11 checks plus one selection query. All12 individual rows match their aggregate, exit0/empty stderr; selection's100 listed checks were not executed. Recorded2931 source inputs and actual34 player files stayed unchanged. Fresh resolver returns this exact final source; a332f746→14e97bfe changes only CLAUDE status and ORDER-381 documentation, not product/tools. This is an explicit dependency bridge, not a final-source engine rerun. Existing142 decisions,120 reports and human ledger are byte-exact against bc00edf, including public GO1/human OPEN45.",
+  "preservation": "The original ORDER-379 HOLD, ORDER-380 bounded GO and all four prior failed screen results were independently rehashed unchanged. Their historical failures stay failures; current proof resolves only the stated requirements. Earlier static/source/receipt evidence is reused only where current bytes and dependency changes were verified. Historical verifier suites and unchanged correction48 were not rerun.",
+  "unobserved": ["native_reader", "human_playtest", "physical_controller_feel", "natural_ingress_and_return", "hiring_and_settlement", "all_job_routes", "new_package_runtime"],
+  "boundary": "No full UI, global language-switch, all13-screen, full-product, new-package, human-gate or release approval. Existing11px hint sizing and unrelated liveness debt remain outside this work unit. Main product/new package remain HOLD.",
+  "evidence": {
+    "locale/ui_ja.json": "029c0d494aeec2a414bb985dbbbda37cc0ea9811cf262d980e3d3634db995fe2",
+    "locale/ui_zh-CN.json": "1739c179a6cc929c811f41e6af7d37a0c2945a26c44cdd59e209fb2eaeac35a6",
+    "locale/ui_zh-TW.json": "d871fa4cfe8f177e22ad3a804cdadb99908913d11d1ca9121095486a634b204a",
+    "content/meta/full_game_localization.json": "063cc7ce4ad53d8a7e80a71ee0b838aeeea2686722a34b92daef034074e5437c",
+    "scenes/MainGame.gd": "6c26e3db61c810cd52022128a459a7160abf49c6a0c3d085f196755f9e232f8d",
+    ".git/full-game-localization/order379-language-review.json": "a873220519c74740991e06273047609234e1388317e3b41673c3701bc363d06a",
+    ".git/full-game-localization/order379-independent-review.json": "50c65ebe5385f32e21916b3c3a07769989d10c35cf6c26153a990dffc5076a2c",
+    ".git/full-game-localization/order380-independent-review.json": "d0fe4dff8826ebd1529a907d129afd38b6a54ae5c9b29ed28ec0bd0fdd570da1",
+    ".git/full-game-localization/order381-static-first/result.json": "027d1b36e2ef0ce263ddb01cac314abe1babbf6628c915aca4af2bac654bf3ab",
+    ".git/full-game-localization/order381-screen-first/result.json": "79060b8c5aeafecd5066d3cc5cd967150711a326fa214bf8e4f54c55b3e075f5",
+    ".git/full-game-localization/order381-screen-first/order381-observations.json": "916a8845eafa20199aef440eb921b49c0a3cd36589196817b40a267235c72f58",
+    ".git/full-game-localization/order381-scope-proof.json": "b6adbe7c6727f03f62c06d272895e3467db3d2c9dfcb4946c8430eb069dbf9d1",
+    ".git/full-game-localization/order381-scope-proof.py": "03498b3084f873b084b1bea51ca33bb7dd029dc619f2d4dfbd2d512643654f5a"
+  }
+}

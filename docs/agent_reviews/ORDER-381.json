@@ -1,0 +1,52 @@
+{
+  "schema": "gangnamdream-independent-work-unit-review/v1",
+  "unit_id": "ORDER-381",
+  "scope": "work_unit",
+  "review_stage": "independent_source_bound_final",
+  "review_date": "2026-09-28",
+  "independent": true,
+  "reviewer": "/root/r3_route_probe",
+  "decided_by": "/root/r3_route_probe",
+  "decision": "GO",
+  "verdict": "GO",
+  "required": [],
+  "subject": {
+    "kind": "source",
+    "commit": "14e97bfe4076f4e0b0ab669fbb1dcdfb56bfcb59",
+    "tree": "cb569d4a21a7b7569ee7c7b8818ec82f0fb7068f",
+    "manifest_sha256": null
+  },
+  "outcome": "GO only for the three declared MainGame rendering repairs, their finite source/collector/receipt compatibility, and isolated synthetic navigation. This is not a PASS for all 13 screens: the unrelated EN career-status label still clips at 372/288 pixels and remains OPEN for a separate follow-up planned as ORDER-382.",
+  "independence": "Non-author review of the runtime three-hunk diff, all five tool changes, observer/runner and narrow-proof code, individual static outputs, raw node/input records and all 13 PNGs directly. I rehashed the 19 screen artifacts and compared actual Git/source/protection evidence. No acceptance CLI, engine, import or tracked edit was performed by this reviewer.",
+  "implementation": "Product b9b5c3d1cb3c6fd177cd8e03aed7fac2086b9032 directly follows 280a030e65c0a64b77517b70e244ab2c7f170ed2: back-label clip_text=false, shared regular normal_font for the RichText pad hint, and U2715 replaced by U00D7. No input, hiring or economy logic changed. Fresh Git object/parent/tree/full-raw proof admits only that three-hunk transition. Historical comparison views stay separate from actual runtime/source hashes. The sealed collector appendix preserves old code and semantic entries while rebinding MainGame coordinates to actual calls; direct historical entry points receive the exact prior layers. Existing append/correction bodies and pins remain intact. Same-line calls use the established collector ordering, not relaxed equality. No bounded code blocker remains.",
+  "observations": {
+    "direct_png_review": 13,
+    "original_379_screens_pass": 10,
+    "owned_close_nodes_pass": 11,
+    "owned_back_nodes_pass": 5,
+    "owned_rich_nodes_pass": 5,
+    "finding": "CN/TW back text now measures 50/50 pixels; the regional regular/bold pad text fits 391x24 and 418x24 within 816x24. KO/EN/JA owned controls also pass font, glyph, geometry and separation checks. All observed close nodes use the shared font and supported ×. I saw no owned-target clipping in the PNGs.",
+    "input": "Five prepared T3 sessions dispatch E/Down/Q/Esc press and release through actual parse/flush: 40 unique synthetic edges, expected page/cursor/cancel transitions, release no-ops and unchanged protected global/boundary state. Forced Xbox is display preparation, not physical controller evidence. Empty pending/bundle/resume state and a temporary local current_event sentinel prevent natural week routing; the sentinel and fixtures are restored. Natural return, hiring and settlement were not observed.",
+    "whole_run": "Original first run remains exit1/pass=false/all_visible_nodes_passed=false, with 13 captures and zero strict accepted PNG entries. Its sole failed node is the EN status Label, all glyphs present but text_fits=false at 372/288. The failed full validator is not claimed to have passed. The separate narrow proof rechecks original ten screens, owned controls and the unchanged input validator without altering the failed report."
+  },
+  "static": "Clean a332f746636e677a4b77d9d97d08353bcf0addc1 ran 12 commands: 11 checks plus one selection query, not 100 executed checks. All individual 00..11 records equal aggregate rows, exit0 and empty stderr. Focused self43, current receipt guard and five normal consumers pass. Chapter1 debt8/blocked3/W25..48 gap24 remain. Wall214.533 seconds differs from summed command521.917 seconds. Historical/default suites, unchanged correction48, whole audit and full play were not rerun.",
+  "binding_and_preservation": "Fresh resolver independently returns this exact clean subject. Execution a332f746 -> final14e97bfe changes only two CLAUDE status rows and ORDER-381 result documentation; product/tools are identical, not rerun on final. Recorded2931 inputs and real-player34 files are identical before/after execution. Against bc00edf, translations3/receipt ledger, previous142 decisions,120 reports and human ledger remain byte-exact; human SHA6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6, public GO1/human OPEN45 are preserved.",
+  "failures_preserved": "All four earlier ORDER-379 failed runs remain unchanged. The current whole-run FAIL also remains. The earlier collector-order development failure is preserved as author tool-output transcription, not complete raw execution/census evidence; its process exit0 did not mean validation success. Later clean focused43 and normal results are separate.",
+  "unobserved": ["native_reader", "human_playtest", "physical_controller_feel", "natural_ingress_and_return", "hiring_and_settlement", "all_modal_routes", "new_package_runtime"],
+  "boundary": "Prepared 1280x800 modal scope only. Existing 11px hint sizing remains. Background JA from initial same-instance construction is not global language-switch coverage. No full UI, all-13-screen, whole product, human gate, new package or release GO; unrelated existing liveness debt is unchanged.",
+  "evidence": {
+    "scenes/MainGame.gd": "6c26e3db61c810cd52022128a459a7160abf49c6a0c3d085f196755f9e232f8d",
+    "tools/main_game_locale_history.py": "27ff5e2c2fade9cedb470a0b693870eddea55e17824e71343a951130c6bd9ecc",
+    "tools/ja_translation_pipeline.py": "49a61bdb0c2ce06a1656f4a3b6c4794b3ad40945bab3cdaf1507a5a1ee66bec2",
+    "tools/ui_translation_append.py": "ce401adff2464506dc02f605adc767e2a49a686fd6d62ad031018d5977e14f16",
+    "tools/ui_translation_append_self_test.py": "e5ceb85812d30a4914bf0694a4b5968fc469e6f8715ed7021b5f17b97ee4a0a8",
+    "tools/audit_scope.json": "6f9daad6997af6f8584bfbf353d6cac6ea26b50416b0c3ebfacd293d8b441e92",
+    ".git/full-game-localization/order381-static-first/result.json": "027d1b36e2ef0ce263ddb01cac314abe1babbf6628c915aca4af2bac654bf3ab",
+    ".git/full-game-localization/order381-static-first/entry.json": "e9788e6fab84a0da8daa24d005196966d58b744aa923a6ba7dfc9cde22e6184b",
+    ".git/full-game-localization/order381-screen-first/result.json": "79060b8c5aeafecd5066d3cc5cd967150711a326fa214bf8e4f54c55b3e075f5",
+    ".git/full-game-localization/order381-screen-first/order381-observations.json": "916a8845eafa20199aef440eb921b49c0a3cd36589196817b40a267235c72f58",
+    ".git/full-game-localization/order381-scope-proof.json": "b6adbe7c6727f03f62c06d272895e3467db3d2c9dfcb4946c8430eb069dbf9d1",
+    ".git/full-game-localization/order381-scope-proof.py": "03498b3084f873b084b1bea51ca33bb7dd029dc619f2d4dfbd2d512643654f5a",
+    ".git/full-game-localization/order381-author-development.json": "c193c6ecfc5f60326dc1fea8514d4434704aa3bc7054602a5a3e4b003378d06b"
+  }
+}

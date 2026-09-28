@@ -1,3 +1,17 @@
+# ORDER-379 — 취업 안내 표시 수리와 번역 화면 후속 판정
+
+[x] 2026-09-28. 독립 work_unit 한정 GO.
+
+- 최종 source `14e97bfe4076f4e0b0ab669fbb1dcdfb56bfcb59`, tree `cb569d4a21a7b7569ee7c7b8818ec82f0fb7068f`.
+- [독립 최종 보고](../agent_reviews/ORDER-379-followup381.json)가 실제 검수 모집단·실행 결과·해시·한계를 소유한다.
+- 제품은 MainGame 세 곳만 수정: 뒤로가기 자연 폭, 취업 안내 regional normal font, bundled 지원 닫기 ×. 입력/경제/채용/정산 로직 변경0.
+- 준비 화면과 합성 키 입력만 검증했다. 추가 영어 T3 경력란372/288px 때문에 13화면 전체 실행은 FAIL이며 그대로 보존한다. 새382가 해당 비소유 결함을 맡는다. 자연플레이/원어민/인간/물리 패드 또는 전체 UI 완료 판정이 아니다.
+- 기존 [379 HOLD](../agent_reviews/ORDER-379.json)·[380 한정 GO](../agent_reviews/ORDER-380.json)와 이전 실패 네 실행을 보존한다. 새 후속 판정은 새 source/scope에만 적용한다.
+- 번역 수용40832/b149 불변. 공개GO1·인간OPEN45·본편/새package HOLD, 외부출시·지출·법률 인증0.
+- 규범 승격0. 아래 원문은 일회성 파일 소유·검사 계획 및 당시 상태다.
+
+## 최초 선언·진행 원문 보존
+
 # Active Queue Spec: ORDER-379
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.

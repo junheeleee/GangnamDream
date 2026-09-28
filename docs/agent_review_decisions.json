@@ -5739,6 +5739,78 @@
         "path": "docs/agent_reviews/ORDER-380.json",
         "sha256": "d0fe4dff8826ebd1529a907d129afd38b6a54ae5c9b29ed28ec0bd0fdd570da1"
       }
+    },
+    {
+      "id": "order-381-source-14e97bf-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-28",
+      "decided_by": "/root/r3_route_probe",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-381",
+      "subject": {
+        "kind": "source",
+        "commit": "14e97bfe4076f4e0b0ab669fbb1dcdfb56bfcb59",
+        "tree": "cb569d4a21a7b7569ee7c7b8818ec82f0fb7068f",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-381.json",
+          "sha256": "f6efcd550b63c25b4904bdba4e457f720c9411b7740b3ab9a2148373323e0410"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "natural_ingress_and_return",
+        "hiring_and_settlement",
+        "all_modal_routes",
+        "new_package_runtime"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-381.json",
+        "sha256": "f6efcd550b63c25b4904bdba4e457f720c9411b7740b3ab9a2148373323e0410"
+      }
+    },
+    {
+      "id": "order-379-source-14e97bf-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-28",
+      "decided_by": "/root/r3_route_probe",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-379",
+      "subject": {
+        "kind": "source",
+        "commit": "14e97bfe4076f4e0b0ab669fbb1dcdfb56bfcb59",
+        "tree": "cb569d4a21a7b7569ee7c7b8818ec82f0fb7068f",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-379-followup381.json",
+          "sha256": "6991e01eb46676ea68e978104f0823f4aedd93f9ecf1e663dd49787532ee1a55"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "natural_ingress_and_return",
+        "hiring_and_settlement",
+        "all_job_routes",
+        "new_package_runtime"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-379-followup381.json",
+        "sha256": "6991e01eb46676ea68e978104f0823f4aedd93f9ecf1e663dd49787532ee1a55"
+      }
     }
   ]
 }
