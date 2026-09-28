@@ -6100,6 +6100,42 @@
         "path": "docs/agent_reviews/ORDER-388.json",
         "sha256": "035c49998c31cc11deb2a70447ae808fc8124498fe55a74b1f7b13db6ec94158"
       }
+    },
+    {
+      "id": "order-389-source-ecf8ffd-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-29",
+      "decided_by": "/root/r3_route_probe",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-389",
+      "subject": {
+        "kind": "source",
+        "commit": "ecf8ffd708fc6a68762ad0ff2f307f24a1872fc0",
+        "tree": "00578bd77a4b43e89a503329126393cfce364e4e",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-389.json",
+          "sha256": "3442d0f4eca51ba190713a78fe83e47fe113ca933207476184145eb84994854e"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "natural_ingress_and_return",
+        "transactions_and_settlement",
+        "whole_bank_and_tutorial_quality",
+        "full_game_and_new_package"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-389.json",
+        "sha256": "3442d0f4eca51ba190713a78fe83e47fe113ca933207476184145eb84994854e"
+      }
     }
   ]
 }

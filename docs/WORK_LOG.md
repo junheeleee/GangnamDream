@@ -2,6 +2,16 @@
 
 이전 원문 전체는 [2026-09-28 이전 기록](history/WORK_LOG_2026-09-28_pre_order351.md)에 바이트 그대로 보존했다.
 
+## 2026-09-29 (Codex — 중국어 신용등급·튜토리얼 위험 안내)
+
+- 신용등급4단계와 튜토리얼 위험 제목5키를 CN/TW에서 한국어 직접 번역했다. 새10값, 공식40,958/b158·CN/TW UI각1,386. 신용위험과 종료위험 context를 분리하고 기존 plain보통·투자주의 배지를 보존했다. KO/EN/JA·기존 UI/receipt raw·경제·저장·런타임 변경0.
+- 공식 export/check/import 각2배치·10값 전수 독립 의미검수·append 역삭제 PASS. 정적10검사+차선조회1 PASS(372.094초), 변경 없는 self·전체감사·240주 재실행0. 실제 은행4등급·튜토리얼의 지역별5화면, 총10PNG/10목표Label과 별도1~10등급 getter20회(22.763초)를 관측했다. 초안cache 예비폭과 수용사전cache주입0을 구분한다. 최장 검사 선배정 실행시간은 직전411.112초와 별도 기록하며 동일환경 성능보장으로 해석하지 않는다. 최초 static 호출의 잘못된 full SHA 인수는 clean-head guard가 제품검사 시작 전에 거부했다. 원본 order389-static-invocation-failure.json 보존 후 관측 SHA로 정정했으며 제품/검사기 수정과 중복 제품검사0.
+- 각 실행 전후 tracked/helper census·실사용자 저장 불변, 준비상태 typed 복원·SC/TC font/glyph/경계 PASS. 거래·새 입력0. 기존152판정 raw prefix/130보고·사람원장·원385 HOLD 및386 timeout/retry와388 closure기대식 실패 원본 보존, 새 work_unit GO1개만 append.
+- 검사 source `e7a172df5a358eb4dadc9dc14ecebba28aa9a5b4`에서 전후 census 동일. 최종 source `ecf8ffd708fc6a68762ad0ff2f307f24a1872fc0` tree `00578bd77a4b43e89a503329126393cfce364e4e`는 CLAUDE 상태 요약만 추가했고 별도 제품 재실행으로 세지 않는다. [독립 검수](agent_reviews/ORDER-389.json) work_unit GO.
+- 동적 대출상품명·패드 부모문구·레거시 은행/튜토리얼 전체와 기존 선택테두리 약3px 잘림은 미완료다. 준비 스크롤은 입력 증거가 아니며 자연진입/복귀·실제 거래·원어민·인간·물리 미관측. 공개GO1·인간OPEN45·본편/새package HOLD 유지, 전체은행/튜토리얼 완역이나 출시GO가 아니다.
+- gangnamdream-dev의 선행선언·파일 소유분리·비저자 검수·격리/표적검증을 적용했다. 기존 I18N/WORK_UNIT 정본 재사용·상시규범 승격0·이번 모집단/검사계획은 일회성. 외부출시/스토어/지출/법률행위0. 자동PASS는 계약증거이며 재미·깊이·문체·사람GO의 증거가 아니다.
+- 다음 읽기전용 후보는 MainGame::_show_tutorial의 미수용 CN/TW11키22값이다(389위험제목 제외). 다만 MainGame.gd:6059의 기존 KO/EN/JA 빚 -1억 설명은 GameState.gd:4293~4297의 실제 순자산<-1억 조건과 달라 별도 선언 후 원문/JA 정합 수리를 먼저 해야 한다. 패드4키8값은 RichText 일반폰트 연결 확인을 별도 선언한다. collector는 모두 정적 지원이지만 동적 대출상품명은 여전히 provider 연결이 필요하다. 다음은 이 준비화면을 재사용하여 검수 저작비를 줄인다. 이번 새범위 저작/수리0.
+
 ## 2026-09-29 (Codex — 중국어 은행 잔액·월 이율·상환 안내)
 
 - 마감검증 첫 실행은 이력 이동 구분 개행을 두 번 계산해 FAIL했다. 최초 helper/trace를 private `order388-closure-check-first*`로 보존했다. 원문 suffix3,231B가 이미 개행을 포함해 기존 이력102,453B+원문=105,684B와 정확히 같음을 별도 에이전트도 대조했다. 제품/이력 변경 없이 검사기 기대식만 바로잡아 마감검증 재시도 PASS.
@@ -119,15 +129,3 @@
 - 실패는 보존한다: wrong expected-head 선행거절은엔진0, 첫CN은제품font경로실패, 보충first는하네스숫자계약실패, 첫6static은3PASS/3FAIL(원시별도파일없음/도구출력), author측정wrapper파일명오기는함수실행전실패다. 서로합쳐제품결함수로세지않는다.
 - 다음 안전한 작업: 중국어 CTA·제목·타이머와 핵심질문24키×2 후보는 읽기전용으로만 선별했다. 아직 새번역착수0. 사용자는 다국어 작업규모와 완성시점을 물었고, 한영출시준비와 일중후속지원 분리를 권고했지만 새출시언어변경은 승인되지않아현범위유지. 일·중·번체 전체 live 잔량/원어민·사람·물리관측이 남아완료날짜확약0.
 - 재발방지 학습: 전역 fallback_font만으로 실제 소비자 font가 연결됐다고 추정하지 않고 get_theme_font의 base경로를 확인한다. 이 사례기록은검증정본추가가아니다. 사용스킬 gangnamdream-dev: 선행선언·파일분리·독립검수·격리검증·원문보존. 범위/증거는일회성. 외부출시·스토어·지출·법률인증0.
-
-## 2026-09-28 (Codex — 취업 결과 중국어44와 검사 연결 수리)
-
-- 마감 context/queue PASS(active77/in_progress74), 판정 원장 self222 PASS. 완료 사양6개는 최초 선언 전문을 archive에 보존했다. 첫 private 마감 준비는 기존 원장의 비정규 쉼표줄 공백20B를 재직렬화하는 것을 막아 patch 출력 전 중단했고, 기존 raw prefix를 그대로 두고 새6행만 삽입하도록 수리했다. 제품 검사 실패로 합산하지 않으며 private `order370-closure-first-diagnostic.json`에 제한된 진단을 보존한다.
-- [365](queue_archive/ORDER-365.md): 자기소개서·모의면접 결과22키×간체/번체44값을 정식 수용했다. 지역별 한국어 직접 저작과 비저자 전수 검수. 수정 흔적·추가/예정 질문·어깨 긴장·호흡을 구별하며 채용 보장과 숨은 수치를 더하지 않았다. 공식40,346/b143·meta9, 사전각1087키. 기존40,302핀/142batch·JA·원문·runtime·공개/인간 증거를 보존했다. JA UI참조3028 대비 중국어각1941부재는 전체live분모가 아니다.
-- [367](queue_archive/ORDER-367.md)·[368](queue_archive/ORDER-368.md): ‘네 답’의4를 놓치던 정확 leaf 검사와 그 해석을 거치지 않던 정적 UI 소비자를 수리했다. 일반 key-only 검사는 그대로이며 기존264+새1method97subtest=전체265 PASS. 첫CLI locale누락2·실물수량실패2·작성자 표적/추가수사/잘못된patch 실패를 보존했다. 답·질문·사람·단위·추가량을 구별한다.
-- [366](queue_archive/ORDER-366.md): 현재46경로를 정확 UI44/receipt44/batch1에 결속했다. 역사17파일/107leaf·모듈/API/핀/corpus는 그대로다. 새7명령(normal/self252와5소비자)은003b68c의 staged 도구에서 통과했으며 최종 source 재실행으로 세지 않는다. 후속5도구가 해당 실행 경로를 바꾸지 않음을 비저자가 확인했다.
-- [369](queue_archive/ORDER-369.md): 첫 named12는9 PASS/3 FAIL. 그중 예전305 대본3leaf(+2자)가 구형 V2 기대값에 빠져 있던 기존 결함을 별도로 수리했다. 현재72사건/467leaf 관측을 유지하며 과거 manifest/역사핀은 보존하고 승인된 전이만 기대 copy에 연결했다. 공유 입력 변경 뒤 재검에서 별개 코드 봉인 충돌로9 PASS/3 FAIL을 확인했고 원형을 보존했다. 원래 실패 기록은 보존하며 공개story-demo와 구형V2 분모를 합치지 않는다.
-- [370](queue_archive/ORDER-370.md): 수집기의 원형274 코드·핀을 보존한 정확 후속 연결로 빈 UI 목록 결함을 수리했다. 실제 collector population/stats, 원래 first-start14 및 새 코드 음성을 검증했다. 최종 clean source에서 named12·demo scope16+86·first-start 기존/신규 self를 실제 통과했다. 과거 실패2회와 366의 이전 실행7개를 구분한다.
-- 최종 source `15e6cc10cef8d9b031f27ff07b4a15d1d89f8cf8` / tree `6564372cff0d2b0061f92fc504d849523ff2ea90`. 독립 work_unit GO6건을 기존126판정/104보고 뒤에만 추가(132/110). 자동검사는 계약 증거이지 재미·문체·인간 관찰이 아니다. 원어민·인간·물리패드·새화면/입력0, 공개GO1/인간OPEN45·1장 debt8/blocked3/24주 gap·5장·본편/새package HOLD 유지. 외부권한 행사0.
-- 다음 안전한 작업: 새44값의 실제 화면·합성입력을 별도 선언한다(아직 미착수). 읽기 전용 조사에서 기존 job runner는 자기소개서 결과1개를 직접 handler로 캡처하고 면접 결과/CTA를 검사하지 않았다. 후보는 지역2×등급4×모드2×stress부호3의 준비상태48, PNG20 및 별도 key press/release4세션이다. 준비 fixture를 정상도달·물리입력으로 세지 않고 과거 화면을 새 번역 증거로 재사용하지 않는다.
-- 사용 스킬: gangnamdream-dev의 KO 직접저작·파일 소유 분리·독립 검수·표적검증을 적용했다. 범위와 검증은 일회성이며, 반복 비용이 확인된 self-seal/실제 collector 사전 확인만 I18N 정본의1문장으로 승격했다.

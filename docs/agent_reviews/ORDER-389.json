@@ -1,0 +1,77 @@
+{
+  "schema": "gangnamdream-independent-work-unit-review/v1",
+  "unit_id": "ORDER-389",
+  "scope": "work_unit",
+  "independent": true,
+  "reviewer": "/root/r3_route_probe",
+  "reviewed_at": "2026-09-29",
+  "verdict": "GO",
+  "required": [],
+  "subject": {
+    "kind": "source",
+    "commit": "ecf8ffd708fc6a68762ad0ff2f307f24a1872fc0",
+    "tree": "00578bd77a4b43e89a503329126393cfce364e4e",
+    "manifest_sha256": null
+  },
+  "decision_basis": [
+    "Non-author review of all five Korean keys and all ten CN/TW values, actual shared consumers, official exchange/receipt records, product diff, observer code and runtime evidence. No product, helper or translation authorship; no acceptance CLI or engine execution by this reviewer.",
+    "Credit labels preserve 우량/보통/주의/위험 as CN 优良/一般/注意/风险 and TW 優良/普通/注意/風險. Tutorial warning uses separate 危险/危險. ui.credit.standard_grade and ui.tutorial.danger correctly separate shared Korean meanings; existing plain 보통 and ui.investment.warning_badge remain unchanged.",
+    "The five-per-locale additions match the reviewed drafts and official Korean-source responses. Product commit e7a172df5a358eb4dadc9dc14ecebba28aa9a5b4 changes only the two UI dictionaries and localization ledger. Existing dictionary values and accepted records are retained: UI 1381→1386 each, accepted 40948→40958, batches 156→158. Two official five-row receipts match their source headers and new ledger rows; JA/runtime/economy/thresholds are unchanged.",
+    "Directly viewed all ten preflight PNGs and all ten accepted-dictionary PNGs. The ten owned labels are complete and readable without observed overlap or clipping. CN credit line width is 176/792px, TW 186/792px; each tutorial danger title is 28/486px at y559, height22. Actual SC/TC shared font, glyph and ancestor bounds observations agree.",
+    "Runtime evidence passes at its exact tested source. Fresh source resolver and Git diff confirm final clean ecf8ffd changes only two CLAUDE status rows from tested e7a172df; product, runtime and tool bytes are identical. This is a dependency binding, not a fresh engine/static run on the final documentation commit."
+  ],
+  "observed_execution": {
+    "preflight": "Draft-cache preview at c5da50576cd0af8f92e31a9274cb3c5eed0f7a21: exit0, 22.823s, ten PNGs. This is not accepted-dictionary evidence.",
+    "accepted": "Actual accepted dictionaries at e7a172df5a358eb4dadc9dc14ecebba28aa9a5b4: exit0, 22.763s, ten lookups, ten prepared screens/ten measured target nodes/ten PNGs, zero draft injection. Twenty actual unmapped grade getters cover grades1–10 per locale and are not counted as rendered screens. Four protected lookups retain plain Normal and investment-warning context.",
+    "isolation": "Both runtime records have exact entry/before/after 2950 tracked-file maps and identical actual-player 34-file maps. All 16 artifacts per runtime result were rehashed, including PNGs, observations and logs. Pre-autoload isolated namespaces are retained for evidence; original saves were not deleted. Raw input, transactions and settlement are zero; typed preparation/restoration and catalog locale transitions are explicit.",
+    "static": "Eleven commands at clean e7a172df: ten checks plus one lane-list query, all exit0/empty stderr; wall372.094s. Individual 00..10 records match aggregate rows, and entry/before/after source maps match. Checks comprise chapter1, receipt admission, full-body inventory, story graph, chapter5, year5, Chinese audit, context, queue and diff. The query's eleven listed commands were not an additional executed suite. Chapter1 debt8/blocked3/W25–48 gap24 remain.",
+    "initial_invocation_failure": "The preserved operator record reports a mistyped full source SHA refused by the clean-head guard before test-folder/check execution, product_tests_run=0. The argument alone was corrected; this is neither a product failure nor a successful test, and no checker/product repair is claimed."
+  },
+  "preservation": {
+    "baseline": "c5da50576cd0af8f92e31a9274cb3c5eed0f7a21",
+    "existing_decisions": 152,
+    "existing_reports": 130,
+    "agent_ledger_sha256_before_closure": "d202a82446ef52f0e67c69711e9e6c7d63e6268c122f6ef7411763bfc1f41699",
+    "human_ledger_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6",
+    "finding": "Existing decision ledger, all 130 report files and human ledger directly compared byte-identical with the declaration baseline. Historical ORDER-385 HOLD and ORDER-386 timeout/retry are not superseded or reclassified. Public GO1/human OPEN45 and full-game/new-package HOLD remain separate."
+  },
+  "limits": [
+    "GO covers only the declared ten translations and their target-label consumer evidence. Page census is not whole-page geometry or translation approval; bank loan product names, legacy bank parent text and surrounding tutorial English remain outside scope.",
+    "The existing Korean/English tutorial bankruptcy body describes debt rather than the intended net-asset condition; it is not repaired or approved here. The tutorial title can pass independently of that acknowledged body defect.",
+    "Prepared financial fixtures and direct modal calls are not natural progression, ingress, return, transactions or playtests. Neutral focus does not repair the known focused-CTA border clipping. Whole historical/self suites, unchanged JA audit and full240-week play were not repeated.",
+    "Agent language and pixel review is not native-reader approval, legal/rating advice, physical-controller evidence, full localization completion or release approval."
+  ],
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "natural_ingress_and_return",
+    "transactions_and_settlement",
+    "whole_bank_and_tutorial_quality",
+    "full_game_and_new_package"
+  ],
+  "evidence": {
+    "locale/ui_zh-CN.json": "32aaa3f3f496189a85e492a61c13e59c04f35c0ddbacf0583d23c860615abc39",
+    "locale/ui_zh-TW.json": "ffc54dd7be06e4b55b11505a2fb68481b1c0abb2d9caa40819ebbbd9f41e792e",
+    "content/meta/full_game_localization.json": "21bb246b069a8485d709beb2189a9c9a56ad0b7c7971216f7cce952df747e407",
+    ".git/full-game-localization/order389-zh-CN-draft.json": "b77042ad472cf288bc392ac8f89cc7aee1eea4d470a66364ff5241d29eb354db",
+    ".git/full-game-localization/order389-zh-TW-draft.json": "f39e9cb1d0ac9effdbe839004b750286996958efd13aa8c395df06bda54da901",
+    ".git/full-game-localization/order389-export-result.json": "3ee08d96c28d3a2194e5d6f47747016c297b3ad45f6c0dcaddcb401433f00ca2",
+    ".git/full-game-localization/order389-response-check-result.json": "face1355db638d108befff29ea479ad2fee2e35201ad978a5c0d63826a98dfc4",
+    ".git/full-game-localization/order389-append-precommit.json": "a20569beda68a883b96bec413f8b25d1893aa84f3624e32d500decf143aea6cd",
+    ".git/full-game-localization/order389-zh-CN-import.txt": "51c8cdf94ea2e38d2c95a2e9dfaab3a9e5ba54b34965b356c0dd9e4690b0eeea",
+    ".git/full-game-localization/order389-zh-TW-import.txt": "e1394360fe7cd9a8758fc4ad0ef5d7540218f71e258d65b6218163d17e4e76f1",
+    ".git/full-game-localization/zh-CN/full-ko-direct-2026-09-07.1/cde6750b3a79f2cde9aa77d07f973b6659923084bd85e3f9f644f51196e4a1fa.accepted.json": "9628d827aa1b7e23ab9a2b1b10148eb8649c18ab9f19c792e144d04b48202bc2",
+    ".git/full-game-localization/zh-TW/full-ko-direct-2026-09-07.1/5cfbd3b1576c965aa98711ffc6a724752d56b25dfacf03b8feb7ef8b3cc99c76.accepted.json": "95e53474d05cfd0cdd7bad2fbb03c05e9b3deb305ffe9908017301438ed53fa4",
+    ".git/full-game-localization/order389-static-invocation-failure.json": "fc425f94eedf6abf567e06b016a9468d766e1997430f216b0760ab5750f1897a",
+    ".git/full-game-localization/order389-static-first/entry.json": "399f1a5126f57fc6be35d609cbe1b5dab461d049d13274ab5d5761d348ab86ab",
+    ".git/full-game-localization/order389-static-first/result.json": "501bcdfd388b3d1c7ccbbbe859a6e9940ee8be7532f794223d5c89a147a33f9a",
+    ".git/full-game-localization/order389-screen-preflight-first/result.json": "668fa5bc4cb74adce5d5436a06d0fe04f3dc5840e97ab4d95991d65b4b441405",
+    ".git/full-game-localization/order389-screen-accepted-first/result.json": "7eb5d912105b05c66d4d51e7920c5698f0bc8e78d0b098001a7a966d7a84fa94",
+    ".git/full-game-localization/order389-screen-accepted-first/entry.json": "1a5257bcfe15cdf45f5682ccfb3038cb2284c95751541dd87373a88f3ccd13a1",
+    ".git/full-game-localization/order389-screen-accepted-first/order389-observations.json": "f64e4819677cdc5e33d78f0ae1c5a447848fe62b41c0cb741ec738941aba3682",
+    ".git/full-game-localization/order389-run.py": "5167e2b2a40b5a298be328dd3c69d92ad2a2b7cc919ec7774f3b632109f206d8",
+    ".git/full-game-localization/order389-check.gd": "f248803e5a2b3cd26439eb626375b1924a5c1647a3bf4444f7392c88d9713151",
+    ".git/full-game-localization/order389-check.tscn": "d762559d82eeb68bf66847b98b06081b2db70612def3b13316b9b5c7297cdf62"
+  }
+}

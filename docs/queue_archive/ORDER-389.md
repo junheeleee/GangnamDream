@@ -1,3 +1,17 @@
+# ORDER-389 — 신용등급·튜토리얼 중국어 UI10값
+
+[x] 2026-09-29. 독립 work_unit 한정 GO.
+
+- 신용등급4단계와 튜토리얼 위험 제목5키를 CN/TW에서 한국어 직접 번역했다. 새10값, 공식40,958/b158·CN/TW UI각1,386. 신용위험과 종료위험 context를 분리하고 기존 plain보통·투자주의 배지를 보존했다. KO/EN/JA·기존 UI/receipt raw·경제·저장·런타임 변경0.
+- 공식 export/check/import 각2배치·10값 전수 독립 의미검수·append 역삭제 PASS. 정적10검사+차선조회1 PASS(372.094초), 변경 없는 self·전체감사·240주 재실행0. 실제 은행4등급·튜토리얼의 지역별5화면, 총10PNG/10목표Label과 별도1~10등급 getter20회(22.763초)를 관측했다. 초안cache 예비폭과 수용사전cache주입0을 구분한다. 최장 검사 선배정 실행시간은 직전411.112초와 별도 기록하며 동일환경 성능보장으로 해석하지 않는다. 최초 static 호출의 잘못된 full SHA 인수는 clean-head guard가 제품검사 시작 전에 거부했다. 원본 order389-static-invocation-failure.json 보존 후 관측 SHA로 정정했으며 제품/검사기 수정과 중복 제품검사0.
+- 각 실행 전후 tracked/helper census·실사용자 저장 불변, 준비상태 typed 복원·SC/TC font/glyph/경계 PASS. 거래·새 입력0. 기존152판정 raw prefix/130보고·사람원장·원385 HOLD 및386 timeout/retry와388 closure기대식 실패 원본 보존, 새 work_unit GO1개만 append.
+- 검사 source `e7a172df5a358eb4dadc9dc14ecebba28aa9a5b4`에서 전후 census 동일. 최종 source `ecf8ffd708fc6a68762ad0ff2f307f24a1872fc0` tree `00578bd77a4b43e89a503329126393cfce364e4e`는 CLAUDE 상태 요약만 추가했고 별도 제품 재실행으로 세지 않는다.
+- [독립 보고](../agent_reviews/ORDER-389.json) SHA `3442d0f4eca51ba190713a78fe83e47fe113ca933207476184145eb84994854e`.
+- 동적 대출상품명·패드 부모문구·레거시 은행/튜토리얼 전체와 기존 선택테두리 약3px 잘림은 미완료다. 준비 스크롤은 입력 증거가 아니며 자연진입/복귀·실제 거래·원어민·인간·물리 미관측. 공개GO1·인간OPEN45·본편/새package HOLD 유지, 전체은행/튜토리얼 완역이나 출시GO가 아니다.
+- gangnamdream-dev의 선행선언·파일 소유분리·비저자 검수·격리/표적검증을 적용했다. 기존 I18N/WORK_UNIT 정본 재사용·상시규범 승격0·이번 모집단/검사계획은 일회성. 외부출시/스토어/지출/법률행위0. 자동PASS는 계약증거이며 재미·깊이·문체·사람GO의 증거가 아니다.
+
+## 최초 선언과 진행 원문 보존
+
 # Active Queue Spec: ORDER-389
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
