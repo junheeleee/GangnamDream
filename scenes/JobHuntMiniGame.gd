@@ -248,6 +248,9 @@ var _timer_bar: ProgressBar
 # ── 초기화 ───────────────────────────────────────────────────────
 func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	var local_theme := Theme.new()
+	local_theme.default_font = FontKit.ui_regular()
+	theme = local_theme
 	_build_base_ui()
 	visible = false
 	set_process(false)
