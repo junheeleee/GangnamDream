@@ -5682,6 +5682,128 @@
           "batch_id": "e3c626080f07571b44ddd6ff89a8a01fa1f0a9c6e5f308cca56690765276fbac"
         }
       }
+    },
+    {
+      "order": "ORDER-383",
+      "group": "ui",
+      "roots": [
+        "거래",
+        "보유",
+        "은행",
+        "AP",
+        "현금",
+        "순자산",
+        "대출",
+        "용어",
+        "투자 용어",
+        "투자 / 매수·매도",
+        "투자 데스크",
+        "거래/보유/시장/은행을 페이지로 나눴습니다. 조회는 무료, 매수·매도만 행동력 1을 씁니다.",
+        "투자 화면 읽는 법",
+        "거래 전에 알아둘 것",
+        "조회는 무료입니다. 매수·매도 주문을 확정할 때만 행동력 1을 씁니다.",
+        "현재가",
+        "자산 1단위가 지금 거래되는 가격입니다. 보유 수량과는 별개입니다.",
+        "위험 등급 1-5",
+        "가격 변동폭의 상대 등급입니다. 손실 확률이나 수익을 보장하지 않습니다.",
+        "변동",
+        "거래 수수료",
+        "매수 기본 수수료는 0.3%입니다. 컨디션이 나쁠수록 매수 비용이 높아질 수 있고, 매도 수수료는 0.5%입니다.",
+        "비용",
+        "레버리지",
+        "수익·손실 모두 2배입니다. 포지션 가치가 노출액의 35% 아래로 떨어지면 강제 청산됩니다.",
+        "ui.investment.warning_badge",
+        "투자 데스크 열기"
+      ],
+      "source_leaves": 27,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 27,
+        "zh-TW": 0
+      },
+      "source_review": "Korean-direct Chinese regional investment onboarding and header. Independent complete source comparison; existing values, public demo, runtime and gameplay unchanged. Agent review is not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "60127cb4a4c52d73571a466d2e60a9eca4c562501b4d3cfb38998615582e6093"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "f9ec2070d45c587715d46b6095e3dd0a226ae0b2",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "e35bbc10c1ec991f15141cbb7ba3baa6f4220661a223b10efcb397a29103cb85",
+          "selection_sha256": "3ce71675a927a268a3b358190761cf678d241bfcc83abe9bb8dae1a92d31150c",
+          "count": 27,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "49298d97435f04ae8df5637bdb99488b938fdddde4a0cb87ac8783a443e9ad44"
+        }
+      }
+    },
+    {
+      "order": "ORDER-383",
+      "group": "ui",
+      "roots": [
+        "거래",
+        "보유",
+        "은행",
+        "AP",
+        "현금",
+        "순자산",
+        "대출",
+        "용어",
+        "투자 용어",
+        "투자 / 매수·매도",
+        "투자 데스크",
+        "거래/보유/시장/은행을 페이지로 나눴습니다. 조회는 무료, 매수·매도만 행동력 1을 씁니다.",
+        "투자 화면 읽는 법",
+        "거래 전에 알아둘 것",
+        "조회는 무료입니다. 매수·매도 주문을 확정할 때만 행동력 1을 씁니다.",
+        "현재가",
+        "자산 1단위가 지금 거래되는 가격입니다. 보유 수량과는 별개입니다.",
+        "위험 등급 1-5",
+        "가격 변동폭의 상대 등급입니다. 손실 확률이나 수익을 보장하지 않습니다.",
+        "변동",
+        "거래 수수료",
+        "매수 기본 수수료는 0.3%입니다. 컨디션이 나쁠수록 매수 비용이 높아질 수 있고, 매도 수수료는 0.5%입니다.",
+        "비용",
+        "레버리지",
+        "수익·손실 모두 2배입니다. 포지션 가치가 노출액의 35% 아래로 떨어지면 강제 청산됩니다.",
+        "ui.investment.warning_badge",
+        "투자 데스크 열기"
+      ],
+      "source_leaves": 27,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 27
+      },
+      "source_review": "Korean-direct Chinese regional investment onboarding and header. Independent complete source comparison; existing values, public demo, runtime and gameplay unchanged. Agent review is not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-TW": "10035d1f60de94f52dc7342d39384909b1fd81b0549e25852eb9ebbec0878c2b"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "f9ec2070d45c587715d46b6095e3dd0a226ae0b2",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "e35bbc10c1ec991f15141cbb7ba3baa6f4220661a223b10efcb397a29103cb85",
+          "selection_sha256": "5b3ab6e9f0bf69a647fd4704e08d81eacb2f5f4dac5435e04d39f7b250659366",
+          "count": 27,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "3a32e724fd3ad665312764bf1e2054ec8e6b8c1a6b9dca9d1b465d5ca4aa4499"
+        }
+      }
     }
   ],
   "accepted": {
@@ -113603,6 +113725,114 @@
       "ui:후보 %d-%d / %d — 스크롤 대신 후보 커서로 이동:/후보 %d-%d ~1 %d — 스크롤 대신 후보 커서로 이동": {
         "source_sha256": "3718a9b9b569796944252eb9a553b9c682e07359f942a7c61fcdeb863523249e",
         "target_sha256": "9b4021566fe8dd18507b75a92fbc27f7cdedff4144b4da3c62e29a1a560f50f3"
+      },
+      "ui:AP:/AP": {
+        "source_sha256": "6604ba4e1f90858f30ef4bd774ffb2cda37e004242e6ae063d7f795513293fb4",
+        "target_sha256": "65a639b9e28e43f5ee4c76da088737d88c2a8eecb3a25b47eac7d2ab876f2c0f"
+      },
+      "ui:ui.investment.warning_badge:/ui.investment.warning_badge": {
+        "source_sha256": "75a68b6aca28f9bed7c8b3d1327bffb2305d85e079e861720410685fcdeb9bc4",
+        "target_sha256": "a21fb269292ea1d348f36a74083bde34bac82b76827a6f21aca014d32a6d8359"
+      },
+      "ui:가격 변동폭의 상대 등급입니다. 손실 확률이나 수익을 보장하지 않습니다.:/가격 변동폭의 상대 등급입니다. 손실 확률이나 수익을 보장하지 않습니다.": {
+        "source_sha256": "a7e5a86dd29f4f6ae4e4563e16feab898ef843c7e2a04b7cdd37d254361c0139",
+        "target_sha256": "49e68b1b110a5e156ebd4415d0ae32ed7d803786c4c789423c92b49d6bc46f6c"
+      },
+      "ui:거래 수수료:/거래 수수료": {
+        "source_sha256": "96608cadef2e180e246b3c480a780e5832033b1336fc9c65b43b138e6079cd77",
+        "target_sha256": "8b0f7d2785c32e3c5fe59e324ffc12170621bd0f7613f5cac4d0a42b6104d82b"
+      },
+      "ui:거래 전에 알아둘 것:/거래 전에 알아둘 것": {
+        "source_sha256": "3719e8cee878d6c20aa8e4dc29b38116354dfaa90a2006062fb8d64439f08670",
+        "target_sha256": "2d157130c5d3dcbdf82a1d975a0e83200c2a2282ac78b373e765b5996edd3eef"
+      },
+      "ui:거래/보유/시장/은행을 페이지로 나눴습니다. 조회는 무료, 매수·매도만 행동력 1을 씁니다.:/거래~1보유~1시장~1은행을 페이지로 나눴습니다. 조회는 무료, 매수·매도만 행동력 1을 씁니다.": {
+        "source_sha256": "0b0b1933ce4e874cd8d8f2807cfed29a9f55b339b3037c5d803054769e5b76de",
+        "target_sha256": "c5ca282ea6cd5ffe7448579fde6ea7d047c51e4a9936bf136e2a3d163cd5a508"
+      },
+      "ui:거래:/거래": {
+        "source_sha256": "fa3fa12892870debd3df549b69e36c541ec04d607c782b1a0ecae11a850c23e5",
+        "target_sha256": "5d2c6ccb785685270933ba0f42bc30a461fcbb9359dd3fd870770162d4cc391c"
+      },
+      "ui:대출:/대출": {
+        "source_sha256": "0ae3dd13690bd950fb1eeb5812a2595971e4112cf2173ed9cd4c3f7a50f1fbe7",
+        "target_sha256": "d0cec3135970a535e46882da6ac425d010e36fdf3b8340f26726f6db6a224c71"
+      },
+      "ui:레버리지:/레버리지": {
+        "source_sha256": "9efd5680809e596f1e5cbdca9375cfd8f4ab76cd6cc510a1a246175ad0e2a730",
+        "target_sha256": "335afd259fde5fe2fa7e121d4e230fdaf08a6d7f94f6b5419e8cac5eac8c5c57"
+      },
+      "ui:매수 기본 수수료는 0.3%입니다. 컨디션이 나쁠수록 매수 비용이 높아질 수 있고, 매도 수수료는 0.5%입니다.:/매수 기본 수수료는 0.3%입니다. 컨디션이 나쁠수록 매수 비용이 높아질 수 있고, 매도 수수료는 0.5%입니다.": {
+        "source_sha256": "74f3f2dd9e3758ae6e820dc751b3a103581c6e412257aadb56413776a7e0ad07",
+        "target_sha256": "92efc760c1c6bf44cd98c336e255bc548b510c501001209066234894d25d2a5c"
+      },
+      "ui:변동:/변동": {
+        "source_sha256": "4dd76876214c1c9228b1f04a2a087e7a9598a90645f7ea17b942f54f4cfa14be",
+        "target_sha256": "10aeae10307f904fca60cc17a107abd4d950fe569ad96fb93856f76dadf2cc86"
+      },
+      "ui:보유:/보유": {
+        "source_sha256": "e910c807c4a324feffd3b9907511f27cebe9d43515258b90345d46bd821e9e52",
+        "target_sha256": "94a064bf9ed0bc42b6370c6f768e5e93cb63792387c017f09dba6ebe85a9af9d"
+      },
+      "ui:비용:/비용": {
+        "source_sha256": "18153e9dd9d09de3e9702900c7faf5bfa45423006c925595a7163638439b1bc5",
+        "target_sha256": "99bff7b3139a7f932a6e779a27647edd9a9ebdbfe0214800adc12433513a6c87"
+      },
+      "ui:수익·손실 모두 2배입니다. 포지션 가치가 노출액의 35% 아래로 떨어지면 강제 청산됩니다.:/수익·손실 모두 2배입니다. 포지션 가치가 노출액의 35% 아래로 떨어지면 강제 청산됩니다.": {
+        "source_sha256": "3597c4f993ba9f04b78a1d43967bffdabc2538bfd3e7963acfcd107b3b612d18",
+        "target_sha256": "735176cfeb2ddd605799d43a48c7f76e863d5d4312512eaee489dadfe2752952"
+      },
+      "ui:순자산:/순자산": {
+        "source_sha256": "f855f578134573a63b2780d4289159917b4e6be01af771a12ccdccd260cea296",
+        "target_sha256": "2eac0d39e1fc7ed7fad42750050913287b5ae7648da56d43636aa1773391e89e"
+      },
+      "ui:용어:/용어": {
+        "source_sha256": "1e41545cff60a24d85a278710e09bfa20137991129eae651eff6686bb898ec5f",
+        "target_sha256": "28d3a79f0f7c395a84b6df3dda8d41ae7d03499d40dfb58fd808358d10fa49fa"
+      },
+      "ui:위험 등급 1-5:/위험 등급 1-5": {
+        "source_sha256": "90feab6617b6bb6ac69f7b61dbb16a92dbe8f561916263b58e9e6ebcce717c39",
+        "target_sha256": "7ab2325c96f32f766b4fab5b6b5ddd4334aef2bc4b91222ee08e97b32f6df00d"
+      },
+      "ui:은행:/은행": {
+        "source_sha256": "dbc11b4864cc89320329ad40b548cdc8df81a96a63154ca82eaacb0a923f9436",
+        "target_sha256": "8ac68bc7b08f90570eae920fd0f9555cd49d2ad80d47a85532b6c33666e27852"
+      },
+      "ui:자산 1단위가 지금 거래되는 가격입니다. 보유 수량과는 별개입니다.:/자산 1단위가 지금 거래되는 가격입니다. 보유 수량과는 별개입니다.": {
+        "source_sha256": "83287d27195e31c0c68549e450145c71c1f4a238272793beb51047c3a96e6abc",
+        "target_sha256": "a203dd001b24d43c2bbcb7e56581afffd1407093d109b6ca79e56dade030d9f5"
+      },
+      "ui:조회는 무료입니다. 매수·매도 주문을 확정할 때만 행동력 1을 씁니다.:/조회는 무료입니다. 매수·매도 주문을 확정할 때만 행동력 1을 씁니다.": {
+        "source_sha256": "5ebc530d4976f2555b716b1eeede758c938052fd97b6a6d33c7e6dcdfd05ba3e",
+        "target_sha256": "cc50c0b884d4020877b49fd6dda9e6deb58bc4ab0eb935fc4c09f19666fab768"
+      },
+      "ui:투자 / 매수·매도:/투자 ~1 매수·매도": {
+        "source_sha256": "db30d23c1ba61c495e4cb7a562a85aa3a74385cb6816c99e394fa9894ccbd87c",
+        "target_sha256": "e80b1b7e1a3bd9a4350d3588d2ba2c90df5961e0b1ea386612fc1a43c60b2f7e"
+      },
+      "ui:투자 데스크 열기:/투자 데스크 열기": {
+        "source_sha256": "a19e146aa3d4adb33ee0f1d9d09fa92e74d726038a5daf47e9e03861bdad21bd",
+        "target_sha256": "b1c241ef5c64b4b08b08249d1a83b58719a10cf9d3fd93644dbd5d767805a83d"
+      },
+      "ui:투자 데스크:/투자 데스크": {
+        "source_sha256": "2cad900f1af2e4e03cda4dde51dc6cfd73f2f5d22382cb7a3c9817bed7f8c4f5",
+        "target_sha256": "40d18c6ce9b456d0ca3626a898f23ea1c4076308c04759e5ec21cfb3cf1bbee5"
+      },
+      "ui:투자 용어:/투자 용어": {
+        "source_sha256": "6ad71769c5f00031a672d549f780777cb3fbb33482816ac6d6d0dedf7c56ed5e",
+        "target_sha256": "408e0c999a538551d9024ed0eb3efdc94df50252d4f296321e6ed04dd587cc53"
+      },
+      "ui:투자 화면 읽는 법:/투자 화면 읽는 법": {
+        "source_sha256": "50ac7eff6ae33045dd166880dc1b0bbd4880b653c2aad09b302745ea03c1b353",
+        "target_sha256": "0dcf61685391357e9add8d2e92944aa500b1160f987f6a8a67b8a94a90af0815"
+      },
+      "ui:현금:/현금": {
+        "source_sha256": "66a42ec689df0f5e24ca94df028c64ee8d4771aa6f1921f9eafed4c73aca8800",
+        "target_sha256": "c5ed0bfde89315344192c7f29d57bdfe8c97e46081d144ce6054ca8ca963f214"
+      },
+      "ui:현재가:/현재가": {
+        "source_sha256": "4606cc8e031754e90134a8c78925f95e45de69cd29f98a3469ff465904224a84",
+        "target_sha256": "d9b0f404260ad8cfb95f5b59814a1777a38a0b50ffdea33b93cbec45006dc3df"
       }
     },
     "zh-TW": {
@@ -169017,10 +169247,118 @@
       "ui:후보 %d-%d / %d — 스크롤 대신 후보 커서로 이동:/후보 %d-%d ~1 %d — 스크롤 대신 후보 커서로 이동": {
         "source_sha256": "3718a9b9b569796944252eb9a553b9c682e07359f942a7c61fcdeb863523249e",
         "target_sha256": "d1a0ddf311b84072f277db54355379b7cf7fea6ed6c7a1ec510c12b8a6facd88"
+      },
+      "ui:AP:/AP": {
+        "source_sha256": "6604ba4e1f90858f30ef4bd774ffb2cda37e004242e6ae063d7f795513293fb4",
+        "target_sha256": "65a639b9e28e43f5ee4c76da088737d88c2a8eecb3a25b47eac7d2ab876f2c0f"
+      },
+      "ui:ui.investment.warning_badge:/ui.investment.warning_badge": {
+        "source_sha256": "75a68b6aca28f9bed7c8b3d1327bffb2305d85e079e861720410685fcdeb9bc4",
+        "target_sha256": "a21fb269292ea1d348f36a74083bde34bac82b76827a6f21aca014d32a6d8359"
+      },
+      "ui:가격 변동폭의 상대 등급입니다. 손실 확률이나 수익을 보장하지 않습니다.:/가격 변동폭의 상대 등급입니다. 손실 확률이나 수익을 보장하지 않습니다.": {
+        "source_sha256": "a7e5a86dd29f4f6ae4e4563e16feab898ef843c7e2a04b7cdd37d254361c0139",
+        "target_sha256": "8a0db42cd0e83ff706f286761d8d18721ce0bdc6fd2c3b1f2816651046e34165"
+      },
+      "ui:거래 수수료:/거래 수수료": {
+        "source_sha256": "96608cadef2e180e246b3c480a780e5832033b1336fc9c65b43b138e6079cd77",
+        "target_sha256": "f88978854cff81b6fe25621eb0691d412493154b6f3e006675cc02afacf6f491"
+      },
+      "ui:거래 전에 알아둘 것:/거래 전에 알아둘 것": {
+        "source_sha256": "3719e8cee878d6c20aa8e4dc29b38116354dfaa90a2006062fb8d64439f08670",
+        "target_sha256": "4fd8fba7cc2975b2141fa5e2ea005f078eb66c2353367bcb12e4a26cfbf1921b"
+      },
+      "ui:거래/보유/시장/은행을 페이지로 나눴습니다. 조회는 무료, 매수·매도만 행동력 1을 씁니다.:/거래~1보유~1시장~1은행을 페이지로 나눴습니다. 조회는 무료, 매수·매도만 행동력 1을 씁니다.": {
+        "source_sha256": "0b0b1933ce4e874cd8d8f2807cfed29a9f55b339b3037c5d803054769e5b76de",
+        "target_sha256": "adbaf5c35a51f642dec70f48e3e2b172802b6d51eff7991b43d25c2958177e4e"
+      },
+      "ui:거래:/거래": {
+        "source_sha256": "fa3fa12892870debd3df549b69e36c541ec04d607c782b1a0ecae11a850c23e5",
+        "target_sha256": "5d2c6ccb785685270933ba0f42bc30a461fcbb9359dd3fd870770162d4cc391c"
+      },
+      "ui:대출:/대출": {
+        "source_sha256": "0ae3dd13690bd950fb1eeb5812a2595971e4112cf2173ed9cd4c3f7a50f1fbe7",
+        "target_sha256": "a2669494c327fd94035e8599202c13e7dd9d394b677cf590500b6a41f74e9d3e"
+      },
+      "ui:레버리지:/레버리지": {
+        "source_sha256": "9efd5680809e596f1e5cbdca9375cfd8f4ab76cd6cc510a1a246175ad0e2a730",
+        "target_sha256": "5f36205a9d604bdb8262105fbf25cf77d32fd2f12ab8b654c5982beadc5b466e"
+      },
+      "ui:매수 기본 수수료는 0.3%입니다. 컨디션이 나쁠수록 매수 비용이 높아질 수 있고, 매도 수수료는 0.5%입니다.:/매수 기본 수수료는 0.3%입니다. 컨디션이 나쁠수록 매수 비용이 높아질 수 있고, 매도 수수료는 0.5%입니다.": {
+        "source_sha256": "74f3f2dd9e3758ae6e820dc751b3a103581c6e412257aadb56413776a7e0ad07",
+        "target_sha256": "95118c70f427f94e83d872ea49f4871bbbb7c6bd52aa7e82b4ad02af36e019db"
+      },
+      "ui:변동:/변동": {
+        "source_sha256": "4dd76876214c1c9228b1f04a2a087e7a9598a90645f7ea17b942f54f4cfa14be",
+        "target_sha256": "bdf41a74b2170a5e103c2d7f4b42b5f05d1dbef3be074885b1e6674f15ca473a"
+      },
+      "ui:보유:/보유": {
+        "source_sha256": "e910c807c4a324feffd3b9907511f27cebe9d43515258b90345d46bd821e9e52",
+        "target_sha256": "5ddac3340876db6ecf3bfca9172a6171bb88590823b4383595486ac4ca16adb8"
+      },
+      "ui:비용:/비용": {
+        "source_sha256": "18153e9dd9d09de3e9702900c7faf5bfa45423006c925595a7163638439b1bc5",
+        "target_sha256": "7e14d0c8bf51b96696c1ea4a2c2f819358e7c372243868e28c07b122a59058c5"
+      },
+      "ui:수익·손실 모두 2배입니다. 포지션 가치가 노출액의 35% 아래로 떨어지면 강제 청산됩니다.:/수익·손실 모두 2배입니다. 포지션 가치가 노출액의 35% 아래로 떨어지면 강제 청산됩니다.": {
+        "source_sha256": "3597c4f993ba9f04b78a1d43967bffdabc2538bfd3e7963acfcd107b3b612d18",
+        "target_sha256": "0b2f4d56c605a5737a20796caa4b90e1f4c30eb0c5eb0569adacf3b148a11269"
+      },
+      "ui:순자산:/순자산": {
+        "source_sha256": "f855f578134573a63b2780d4289159917b4e6be01af771a12ccdccd260cea296",
+        "target_sha256": "90ad6bd9131d51402845aa50444cc72b2486e3ffc82dcf647293f690dc0945dd"
+      },
+      "ui:용어:/용어": {
+        "source_sha256": "1e41545cff60a24d85a278710e09bfa20137991129eae651eff6686bb898ec5f",
+        "target_sha256": "d411bfed6d34caf6f0d41a9f0735cbd842619997d0763483a65786e3dd3e9ef8"
+      },
+      "ui:위험 등급 1-5:/위험 등급 1-5": {
+        "source_sha256": "90feab6617b6bb6ac69f7b61dbb16a92dbe8f561916263b58e9e6ebcce717c39",
+        "target_sha256": "1f787baf6bb419a4aebe67f850d166c86e4a5c143a6fd4c0939c0d8ecf89d9dd"
+      },
+      "ui:은행:/은행": {
+        "source_sha256": "dbc11b4864cc89320329ad40b548cdc8df81a96a63154ca82eaacb0a923f9436",
+        "target_sha256": "698f75b46efec0a6f1385ef9ddbb71bab6539b10865ad71e4dbd7b843f10b841"
+      },
+      "ui:자산 1단위가 지금 거래되는 가격입니다. 보유 수량과는 별개입니다.:/자산 1단위가 지금 거래되는 가격입니다. 보유 수량과는 별개입니다.": {
+        "source_sha256": "83287d27195e31c0c68549e450145c71c1f4a238272793beb51047c3a96e6abc",
+        "target_sha256": "59b8e3a3698376fc67531d2df6652ad8eef42940c4b3dd3a74cd4a0fbedce82a"
+      },
+      "ui:조회는 무료입니다. 매수·매도 주문을 확정할 때만 행동력 1을 씁니다.:/조회는 무료입니다. 매수·매도 주문을 확정할 때만 행동력 1을 씁니다.": {
+        "source_sha256": "5ebc530d4976f2555b716b1eeede758c938052fd97b6a6d33c7e6dcdfd05ba3e",
+        "target_sha256": "ffc991a8b005d64734f1e1df64305436975cf64395306a03c609fec1d4327549"
+      },
+      "ui:투자 / 매수·매도:/투자 ~1 매수·매도": {
+        "source_sha256": "db30d23c1ba61c495e4cb7a562a85aa3a74385cb6816c99e394fa9894ccbd87c",
+        "target_sha256": "ba2f9f63ffc64b15253181dceb90b2bccc5106e5ea0b87034f0688b1bf37f893"
+      },
+      "ui:투자 데스크 열기:/투자 데스크 열기": {
+        "source_sha256": "a19e146aa3d4adb33ee0f1d9d09fa92e74d726038a5daf47e9e03861bdad21bd",
+        "target_sha256": "5d1541c75fb099b53ee651b76623898d695471a8d17536007503766d6af17929"
+      },
+      "ui:투자 데스크:/투자 데스크": {
+        "source_sha256": "2cad900f1af2e4e03cda4dde51dc6cfd73f2f5d22382cb7a3c9817bed7f8c4f5",
+        "target_sha256": "c2775920ea833ec8b2338d0c3c58f31cd29cdf17b1f97eb79f8d6c630bf2c1f6"
+      },
+      "ui:투자 용어:/투자 용어": {
+        "source_sha256": "6ad71769c5f00031a672d549f780777cb3fbb33482816ac6d6d0dedf7c56ed5e",
+        "target_sha256": "20c27b25365bb29aa217f76926382e5e11a021c983356dad3a8d9a3f12834a3a"
+      },
+      "ui:투자 화면 읽는 법:/투자 화면 읽는 법": {
+        "source_sha256": "50ac7eff6ae33045dd166880dc1b0bbd4880b653c2aad09b302745ea03c1b353",
+        "target_sha256": "c02f47a09c1a6e3030fec153d631cd092b5b749a0055fba299cee49a987416f2"
+      },
+      "ui:현금:/현금": {
+        "source_sha256": "66a42ec689df0f5e24ca94df028c64ee8d4771aa6f1921f9eafed4c73aca8800",
+        "target_sha256": "7711317f526607b2ea77d08f54af0dde81c91232b31f05407fadc38ec5937824"
+      },
+      "ui:현재가:/현재가": {
+        "source_sha256": "4606cc8e031754e90134a8c78925f95e45de69cd29f98a3469ff465904224a84",
+        "target_sha256": "36a72e26d5db45d7225540427c7a75115a6ba21c532ca291b46049d59cc19e02"
       }
     }
   },
-  "accepted_sha256": "10cac1e280143887a7484c757eeffc5745f924465ca66d8c16c57584bea48c5c",
+  "accepted_sha256": "afc303ea5ae1d06c677e17e18ce1f46ce8dd1e5352e5a76bfe1c9243be06fbf8",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
