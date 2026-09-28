@@ -1,3 +1,15 @@
+# ORDER-371 — 중국어 취업 결과의 실제 화면과 합성 입력 검증
+
+[x] 2026-09-28. 독립 work_unit 한정 GO. 본편/새package GO가 아니다.
+
+- 최종 source `2842b3fa2f3f16de41f5e6e96f55cc53c482beb0`, tree `576bc6aec64fcd5d04261866888604a37222a86b`. [독립 보고](../agent_reviews/ORDER-371.json) SHA `7f63e126c007ece962d4769f71ae51c9d13df306fc4382e0441ef5e8f39d6e37`.
+- CN/TW 각각24준비 결과·2합성 입력세션·10PNG, 합48/4/20. 실제 문항은4/5개이며 점수/스트레스·한쌍당선택1회·닫기1회·숨긴뒤입력0을 구분했다. 준비된 상태는 정상도달성 주장이 아니다. 첫CN폰트경로FAIL은 원형 보존하고372 제품수리 뒤 같은 모집단을 재검증했다.
+- 실제 엔진371은fb007eb, 보충372/정적373은8b77841에서 실행했다. 최종 source의 변경은 보존 보고와 독립 영향 연결로 구분하며 최종source 재실행으로 재명명하지 않는다. 정적16검사 중15PASS/기존liveness오탐1FAIL이며 전체감사 통과는 아니다.
+- 기존132판정/110보고·공개GO1·인간OPEN45·공식40346/b143·원어민OPEN을 보존했다. MainGame 진입/AP·다른해상도·물리입력·인간/원어민·전체상품은 미관측이다. 본편/새package HOLD, 외부권한행사0.
+- 자동검사는 계약 증거이지 재미·깊이·문체 판정이 아니다. 스킬의 선언·소유분리·독립검수·격리 표적실행을 적용했다. 규범은 전부 일회성, 상시승격0.
+
+## 최초 선언 원문 보존
+
 # Active Queue Spec: ORDER-371
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.

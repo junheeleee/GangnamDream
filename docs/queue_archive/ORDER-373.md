@@ -1,3 +1,15 @@
+# ORDER-373 — 글꼴 수정의 정확한 검사 승계와 메타데이터 탐색 분리
+
+[x] 2026-09-28. 독립 work_unit 한정 GO. 본편/새package GO가 아니다.
+
+- 최종 source `2842b3fa2f3f16de41f5e6e96f55cc53c482beb0`, tree `576bc6aec64fcd5d04261866888604a37222a86b`. [독립 보고](../agent_reviews/ORDER-373.json) SHA `b82e0e2bb911ef021fcc7b32e9e0f25329b9a775a93092adcbc5f12ab2cd2525`.
+- 원래365 d737 runtime핀·번역44/receipt44/b143와351이하 역사모듈을 유지하고 정확fb007eb의1파일3행 전이만 immutable Git6객체로 승인했다. Chapter1의 역사 비교 한곳은 실제 raw/hash/선행수용 후 별도역비교 API를 사용한다. 기존252+신규60=312 자체검사 및5현재consumer normal을 통과했다. scope설명누락2를 고쳤고 .git를 scripts/reference 양쪽에서 제외했다. 11개합성탐색fixture는PASS지만 liveness normal은 기존 Python generated launcher를 못읽는 tools/story_header_safe_area_check.gd 오탐1로FAIL 유지하며 baseline/예외를 늘리지 않았다.
+- 실제 엔진371은fb007eb, 보충372/정적373은8b77841에서 실행했다. 최종 source의 변경은 보존 보고와 독립 영향 연결로 구분하며 최종source 재실행으로 재명명하지 않는다. 정적16검사 중15PASS/기존liveness오탐1FAIL이며 전체감사 통과는 아니다.
+- 기존132판정/110보고·공개GO1·인간OPEN45·공식40346/b143·원어민OPEN을 보존했다. MainGame 진입/AP·다른해상도·물리입력·인간/원어민·전체상품은 미관측이다. 본편/새package HOLD, 외부권한행사0.
+- 자동검사는 계약 증거이지 재미·깊이·문체 판정이 아니다. 스킬의 선언·소유분리·독립검수·격리 표적실행을 적용했다. 규범은 전부 일회성, 상시승격0.
+
+## 최초 선언 원문 보존
+
 # Active Queue Spec: ORDER-373
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.

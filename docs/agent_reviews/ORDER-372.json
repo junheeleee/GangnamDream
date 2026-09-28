@@ -1,0 +1,71 @@
+{
+  "schema": "gangnamdream-independent-work-unit-review/v1",
+  "unit_id": "ORDER-372",
+  "scope": "work_unit",
+  "review_stage": "independent_source_bound_final",
+  "review_date": "2026-09-28",
+  "independent": true,
+  "reviewer": "/root/r3_route_probe",
+  "decided_by": "/root/r3_route_probe",
+  "decision": "GO",
+  "verdict": "GO",
+  "required": [],
+  "subject": {
+    "kind": "source",
+    "commit": "2842b3fa2f3f16de41f5e6e96f55cc53c482beb0",
+    "tree": "576bc6aec64fcd5d04261866888604a37222a86b",
+    "manifest_sha256": null
+  },
+  "outcome": "GO for the exact three-line local JobHunt theme binding and its declared rendering/regression population. The repair supplies FontKit.ui_regular() to these controls without changing gameplay, wording, styles, global font routing or shared theme owners.",
+  "independence": "Non-author review under gangnamdream-dev and WORK_UNIT. I read the full product diff and private observer/runner, actual records, failure history and all six original supplement PNGs; the twenty Chinese PNGs and input records were also directly reviewed under371. I ran no engine or acceptance CLI and edited no product, harness or tracked file.",
+  "product_review": [
+    "Actual product commit fb007ebecb2f0d877635f1215e657d185c64f731 has direct parent73adabd958429d746c9197eb4ce86b979e7c7cf0 and modifies only scenes/JobHuntMiniGame.gd. The addition creates a local Theme, assigns its default_font to the existing shared FontKit.ui_regular() object, and binds it before UI construction. Removing exactly these three lines restores the original whole runtime bytes.",
+    "The initial371 failure was a real font-routing problem: JobHunt did not set a font/theme, MainGame did not later inject one, and UIStyle's ThemeDB fallback did not override the built-in control theme font. No harness-only font injection was used to obtain the repaired result.",
+    "FontKit, UIStyle, MainGame, project configuration, actual fonts, text, scoring, stress, AP and finish behavior are unchanged. Shared FontVariation identity permits the existing locale change to replace its base without reconstructing the JobHunt instance."
+  ],
+  "population": {
+    "supplement_instances": 1,
+    "language_order": ["ko", "en", "ja", "zh-CN", "zh-TW"],
+    "mode_count": 2,
+    "first_question_screens": 10,
+    "prepared_grade2_stress0_result_screens": 10,
+    "visible_label_button_observations": 140,
+    "empty_feedback_labels_included": 10,
+    "direct_finish_calls": 10,
+    "raw_input_events": 0,
+    "directly_viewed_supplement_pngs": 6,
+    "separate371_population": "48 prepared results,4 synthetic input sessions and20 PNGs; not added to this supplement as natural play."
+  },
+  "actual_observations": [
+    "All20 ordered screens were read, including every visible Label/Button's text, actual font object/base, size, shape dimensions and containing bounds. One instance170540402284, one theme and shared font-9223371911495416344 remain identical. KO/EN use Pretendard; JA/SC/TC use the dedicated corresponding Noto fonts. Missing glyph arrays are empty; all measured text fits. This includes pre-existing English fallback questions and headers, not full locale completeness.",
+    "All five transitions retain existing controls and the same shared font object while changing its base. Actual allowed deltas are locale, default player-name localization, settings.language and the isolated settings file hash; TW retains the preceding default player name. Across each locale's two modes every protected snapshot exactly equals its post-transition snapshot. These intentional language deltas are not falsely described as total global-state equality.",
+    "Real open resets each mode to score0/q_idx0 and first-choice focus. Results are explicitly prepared to score9, stress0 and terminal question index4/5, then settled40frames. Direct _on_finish(2) calls close once with grade2/stress0, hidden visibility and cleared focus. They are not raw input evidence. Teardown has empty protected delta and disposes the instance.",
+    "Viewed all KO/EN/JA resume/interview result PNGs at1280x800. No observed glyph loss, clipping or overlap. Body13 and auxiliary small text are unchanged; no physical-device or distance-readability claim follows.",
+    "Rehashed all12 result artifacts and five frozen helper copies. Actual raw stdout/Godot log has exactly one final success marker, empty stderr and no engine/script errors. The repaired oracle records numeric TYPE_FLOAT=3; strict numeric-value validation accepts exact finite INT/FLOAT values while refusing bool/string, wrong values or wrong array sizes."
+  ],
+  "execution": "The supplement ran on clean8b7784121baea8167c85b447f17a9dc160d71334, exit0/12.999s,20screens/5transitions/10directcloses/6PNG/raw0. Complete tracked census2911 and original-player files34 are exact before/after. Pre-autoload isolated bootstrap and retained namespace/logs protect real saves. This was not rerun on the final subject.",
+  "failure_history": "The first supplement attempt remains exit1/2.641s with exact-oracle-validation failure before any instance, screen or capture. Its report did not measure parsed numeric types. The subsequent helper-only numeric contract repair and new type observation explain the corrected run without claiming that the first failure was a product rendering failure. The original371 font failure is separately retained; neither failure is retroactively PASS.",
+  "source_binding": "Direct clean HEAD/tree and current_agent_source_subject() agree with subject. Relative to the successful supplement/static source8b77841, current changes only two CLAUDE status lines. Relative to371's fb007eb, only declaration/queue/CLAUDE and Python audit files differ; actual product/runtime/assets/imported engine inputs are unchanged. Reviewed preservation proof supports this semantic and byte bridge, not a fictitious final-source rerun.",
+  "preservation": "Existing132 decisions,110 reports, human ledger, locale data, receipts and public package history are unchanged. Product restoration is exactly three lines. The accompanying static run is15PASS/1 documented liveness FAIL and does not constitute an all-green audit.",
+  "unobserved": [
+    "native_reader", "human_playtest", "physical_controller_feel",
+    "natural_gameplay_ingress", "MainGame_AP_settlement", "timeout_path",
+    "other_viewport_sizes", "full_game_playthrough", "new_package_runtime"
+  ],
+  "boundary": "Only the local font repair and declared standalone surfaces are approved. The first-question population is one randomized question per language/mode, not every question. Human OPEN45/public GO1 are unchanged; whole game, new package, release and wider localization remain HOLD/outside this work_unit.",
+  "evidence": {
+    "scenes/JobHuntMiniGame.gd": "d7394c2308cad6f5f0712b0bcfced9d4e23c69132e8ad55d74a1cf9d365d7618",
+    "autoloads/FontKit.gd": "08b4ec9d8d22bd1055b9528b63de5be8cdbaf2c0eafcde19a7fdad95cc44e212",
+    "autoloads/UIStyle.gd": "0fdab19adf16e3b75d0f897aae03dd7554737ce447760da97fd066ba404c53c9",
+    ".git/full-game-localization/order371-screen-first-zh-CN/result.json": "57a0a8d65d826fbb5f3b6882215e102815d920cf24a0f4087bb8c2b6193e5111",
+    ".git/full-game-localization/order371-screen-repaired-zh-CN/result.json": "5be40b8974cd700ae43ed933d3e082be29a3e77103a6bca3ea3511f06d6a3a17",
+    ".git/full-game-localization/order371-screen-repaired-zh-TW/result.json": "9ce773f0e16f141a8222eafba7d8d9a3557bdaeda787bbe912f91e92798c0bed",
+    ".git/full-game-localization/order372-font-first-all/result.json": "033f4a66449ec1eee7c0f5867fb6a159b6eab78d4146ac31316472332403b46a",
+    ".git/full-game-localization/order372-font-repaired-all/result.json": "b204b94d03c6057159e064f58b3ba69c4c38746a2a4e0686c55d2d487af630c8",
+    ".git/full-game-localization/order372-font-repaired-all/order372-observations.json": "92b9336dc723739e385e0a49b21038be48a027ad98f6869c5dc61b7c79e95400",
+    ".git/full-game-localization/order372-check.gd": "3b38fdd4ab6cc57ccb6f8e22b036c7f73dcca99b86c6231be66b662872e5267c",
+    ".git/full-game-localization/order372-check.tscn": "325b0584389277c0e7198d9f2627e74e9e506a8b8b69e7b83e5ede7e85db374c",
+    ".git/full-game-localization/order372-run.py": "c6b234b933475f7d30165ef1f4c9f5999c60cf74ba10c7b7d9841eee5e31b47a",
+    ".git/full-game-localization/order373-preserved-final.json": "a055353ead657b3aaef3a9629ae9cc7d47d8ef606a4ade8dae2d3fc4def8386b"
+  }
+}

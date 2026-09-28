@@ -1,0 +1,63 @@
+{
+  "schema": "gangnamdream-independent-work-unit-review/v1",
+  "unit_id": "ORDER-371",
+  "scope": "work_unit",
+  "review_stage": "independent_source_bound_final",
+  "review_date": "2026-09-28",
+  "independent": true,
+  "reviewer": "/root/r3_route_probe",
+  "decided_by": "/root/r3_route_probe",
+  "decision": "GO",
+  "verdict": "GO",
+  "required": [],
+  "subject": {
+    "kind": "source",
+    "commit": "2842b3fa2f3f16de41f5e6e96f55cc53c482beb0",
+    "tree": "576bc6aec64fcd5d04261866888604a37222a86b",
+    "manifest_sha256": null
+  },
+  "outcome": "GO only for the declared CN/TW JobHunt result-rendering and synthetic-key observation population after the separately declared local-font repair. This is not whole-minigame localization, natural-play, human, physical-controller, full-game or package approval.",
+  "independence": "Non-author review using gangnamdream-dev, WORK_UNIT and the selected UI/input authorities. I read the product path, complete private observer/runner contracts, raw records and failures, and directly viewed all 20 original repaired PNGs. I authored no product, translation or harness and ran no engine or acceptance CLI. Review operations were read-only Git, JSON, hash and image inspection, plus source resolution.",
+  "population": {
+    "locales": ["zh-CN", "zh-TW"],
+    "prepared_results": 48,
+    "synthetic_input_sessions": 4,
+    "input_answered_questions": 18,
+    "directly_viewed_pngs": 20,
+    "recorded_input_edges": 206,
+    "viewport": [1280, 800]
+  },
+  "direct_review": [
+    "Read all 24 prepared rows per locale: two modes, four grades and final stress -1/0/+1. These Cartesian states deliberately include combinations not proven naturally reachable. Exact ordered result text, grade/stress separation, zero-stress omission, glyph presence, shaping, bounds, settled visibility and CTA focus match the oracle and actual node records.",
+    "Read both real-open input sessions per locale. The resume session answers four questions with scores 3/1/0/3, yielding score7, grade1 and stress-1. The interview session answers five with scores 0/1/3/1/0, yielding score5, grade0 and final stress+2. These paths use injected InputEventKey press/release pairs, actual focus movement and choice/finish signals, not direct result/choice/finish calls or field writes.",
+    "Read all 104 CN and 102 TW recorded event edges and handler boundaries: one confirmation press produces the expected single activation, release adds none, directional pairs do not choose, result CTA closes once, and an additional hidden pair has no effect. Event pairs are synthetic and same-frame; this does not observe a held physical key, a controller or a human.",
+    "Viewed all ten original PNGs in each locale, not a contact sheet. No missing glyph, clipping or overlap was observed at 1280x800. Result body13/stress11 sizes remain small and unchanged; this is not 10-foot readability certification. Existing English header/Confirm and question fallbacks outside the 22 keys per locale remain visible and are not described as fully localized.",
+    "The strengthened runner binds row/event windows, alternating key edges, actual node IDs/text, locale-specific SC/TC font paths, PNG headers/digests and hidden no-op evidence. I rehashed every recorded artifact and frozen helper for both successful runs. Geometry flags were considered with their actual dimensions and the observer implementation, not treated as a human judgment."
+  ],
+  "execution": {
+    "zh_CN": {"exit": 0, "seconds": 35.539, "prepared": 24, "input_sessions": 2, "pngs": 10, "event_edges": 104},
+    "zh_TW": {"exit": 0, "seconds": 35.406, "prepared": 24, "input_sessions": 2, "pngs": 10, "event_edges": 102},
+    "envelope": "Both ran on clean fb007ebecb2f0d877635f1215e657d185c64f731, not on the final subject. Each has exit0, one exact success marker, empty stderr, no fatal Godot/log errors, and unchanged complete tracked census2910 plus actual original-player file map34. Pre-autoload bootstrap establishes separate namespaces; evidence and namespace files are retained. No original player data was modified."
+  },
+  "failure_history": "The first CN execution remains exit1: before any capture, actual result fonts had empty base paths and missing Chinese glyphs. Six logical diagnostics include incomplete population; duplicate stdout/Godot lines are not twelve distinct defects. PNG0 means no first-run tofu screenshot was observed. Reading MainGame, UIStyle and JobHunt showed no inherited theme binding for these controls; the product repair belongs to ORDER-372. The original failed result, logs and frozen helpers remain unchanged and are not retroactively PASS.",
+  "source_binding": "Direct clean HEAD/tree and current_agent_source_subject() agree with subject. The two successful runtime byte maps differ from current only in CLAUDE/queue documentation and four Python audit/registration files; the scene, autoloads, systems, locale/content and imported font/assets remain identical. The source preservation helper and direct Git diff support reusing these actual fb007eb executions; no final-source engine rerun is claimed. The later 8b77841-to-subject delta is exactly two CLAUDE status lines.",
+  "preservation": "Existing132 decisions,110 reports, human ledger SHA6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6, locale/receipt data and old public GO remain unchanged. The static follow-up is 15PASS/1 documented liveness FAIL, not an all-green audit.",
+  "unobserved": [
+    "native_reader", "human_playtest", "physical_controller_feel",
+    "natural_gameplay_ingress", "MainGame_AP_settlement", "timeout_path",
+    "other_viewport_sizes", "full_game_playthrough", "new_package_runtime"
+  ],
+  "boundary": "Prepared results and synthetic input sessions are separate populations. No package was opened or played. Existing human OPEN45, public GO1 and main-product/new-package HOLD retain their original meanings. Remaining UI translation and broader scene quality are outside this work_unit.",
+  "evidence": {
+    ".git/full-game-localization/order371-screen-first-zh-CN/result.json": "57a0a8d65d826fbb5f3b6882215e102815d920cf24a0f4087bb8c2b6193e5111",
+    ".git/full-game-localization/order371-screen-repaired-zh-CN/result.json": "5be40b8974cd700ae43ed933d3e082be29a3e77103a6bca3ea3511f06d6a3a17",
+    ".git/full-game-localization/order371-screen-repaired-zh-CN/order371-observations.json": "7e3098b8f1e93e3334f1020d6c68d75e24a2bdcc6285175d500085ed8349620f",
+    ".git/full-game-localization/order371-screen-repaired-zh-TW/result.json": "9ce773f0e16f141a8222eafba7d8d9a3557bdaeda787bbe912f91e92798c0bed",
+    ".git/full-game-localization/order371-screen-repaired-zh-TW/order371-observations.json": "f9053d15cac45c02b02b27fd9c582a37fb3dc1e8a8c258d1f3fb9327cb844c02",
+    ".git/full-game-localization/order371-run.py": "f0bfd8664eb7ae18b971a5bec4e9d7abb00c7f450207e635f1df37a924e7396f",
+    ".git/full-game-localization/order371-check.gd": "a36de468262bbf2cf31b975925afd40e2327bad27409d37a04ab7e3630363695",
+    ".git/full-game-localization/order371-check.tscn": "df26afb7c86bf63dd5a50b0473fab86dc0a900fb83e3d2667f5321c75834cc90",
+    ".git/full-game-localization/order373-preserved-final.json": "a055353ead657b3aaef3a9629ae9cc7d47d8ef606a4ade8dae2d3fc4def8386b",
+    "scenes/JobHuntMiniGame.gd": "d7394c2308cad6f5f0712b0bcfced9d4e23c69132e8ad55d74a1cf9d365d7618"
+  }
+}

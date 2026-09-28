@@ -1,3 +1,15 @@
+# ORDER-372 — 취업 준비 화면의 공유 언어 글꼴 연결
+
+[x] 2026-09-28. 독립 work_unit 한정 GO. 본편/새package GO가 아니다.
+
+- 최종 source `2842b3fa2f3f16de41f5e6e96f55cc53c482beb0`, tree `576bc6aec64fcd5d04261866888604a37222a86b`. [독립 보고](../agent_reviews/ORDER-372.json) SHA `5b39681ec7a5dc1f85c72687fdcc95b7171504c715718854f0fce9cf162d92c8`.
+- JobHunt _ready의 로컬 Theme3행만 수정. 실제 SC/TC 결과 소비자와 한 인스턴스 ko→en→ja→CN→TW의20화면/140visible노드·10직접준비종료·6PNG를 관측했다. 첫보충 실행은 JSON숫자배열 계약에서 화면생성 전 실패했고, 엄격한 숫자타입/값검사로 수리한 다음 실제float타입을 기록했다. 이 보충은 입력 관측이 아니다.
+- 실제 엔진371은fb007eb, 보충372/정적373은8b77841에서 실행했다. 최종 source의 변경은 보존 보고와 독립 영향 연결로 구분하며 최종source 재실행으로 재명명하지 않는다. 정적16검사 중15PASS/기존liveness오탐1FAIL이며 전체감사 통과는 아니다.
+- 기존132판정/110보고·공개GO1·인간OPEN45·공식40346/b143·원어민OPEN을 보존했다. MainGame 진입/AP·다른해상도·물리입력·인간/원어민·전체상품은 미관측이다. 본편/새package HOLD, 외부권한행사0.
+- 자동검사는 계약 증거이지 재미·깊이·문체 판정이 아니다. 스킬의 선언·소유분리·독립검수·격리 표적실행을 적용했다. 규범은 전부 일회성, 상시승격0.
+
+## 최초 선언 원문 보존
+
 # Active Queue Spec: ORDER-372
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.

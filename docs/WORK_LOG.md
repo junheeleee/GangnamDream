@@ -2,6 +2,17 @@
 
 이전 원문 전체는 [2026-09-28 이전 기록](history/WORK_LOG_2026-09-28_pre_order351.md)에 바이트 그대로 보존했다.
 
+## 2026-09-28 (Codex — 취업 준비의 언어 글꼴과 실제 화면·입력)
+
+- 사용자 질문에 대한 최신 번역량 집계: 언어별 발견 문자열17,489개(확인된소비자17,172+미확인UI후보317, author-only741 포함) 기준 번역문존재 JA15,737/90.0%, CN·TW각13,797/78.9%. 현재 원문·번역 hash가 일치하는 수용기록은 JA13,112/75.0%, CN·TW각13,617/77.9%; 기존분모17,374는과거snapshot이다. 본문·엔딩·catalog는각12,747/13,490=94.5%존재, 확인된UI는JA2,990/3,682=81.2%, CN·TW각1,050/3,682=28.5%. 문자열존재/기계수용을 원어민·인간·출시완료율로 해석하지 않는다. private 최신원본 `.git/full-game-localization/order373-current-translation-status.json`, read-only inventory3회 및 비저자source/target hash교차확인, stale receipt0. 새번역0.
+- [371](queue_archive/ORDER-371.md): 새 중국어 결과44의 실제 소비자를 준비48상태와 정상 합성입력4세션으로 분리했다. first CN은 실제 노드의 project font_base가 비어 CJK glyph조회FAIL(문구/배치/저장정상, PNG0). 테스트에 글꼴을 주입하지 않고 제품372로 분리했다. 수리후CN/TW 각24/2/10PNG PASS, key206edges 전수·선택/종료1회·release추가0·hidden추가0. 비저자가20PNG 직접 확인. Confirm/모드제목 등 남은 영어폴백은 번역완료로 세지 않는다.
+- [372](queue_archive/ORDER-372.md): JobHunt 로컬 Theme에 FontKit.ui_regular 공유참조를 연결하는3행만 수정. 수치/문구/크기/전역/저장/공개manifest불변. 같은instance의5언어전환·20화면/140노드·준비종료10·KO/EN/JA PNG6 PASS. 첫보충oracle type계약FAIL은0instance/0screen으로 보존, 재실행에서JSON TYPE_FLOAT를 관측했다. 준비결과/directclose는 자연플레이·입력 증거가 아니다.
+- [373](queue_archive/ORDER-373.md): 고정 runtime 검사가 실제3행 수리를 거절하여 exact후속Git증명을 분리했다. oldpin/actual-currentAPI/역사7모듈·기존252cases불변, 새60을 더해312PASS.5현재consumer normal과등록/언어/표면/fixture 통과. 정적16중15PASS/1FAIL: .git 제외후에도 과거 Python generated launcher315를 못읽는 header GD의 liveness오탐1이 남는다. 이것을 전체녹색으로 바꾸거나 baseline을 늘리지 않았다. 별도 표적수리가 다음 검사작업이다.
+- 실행전후2910/2911 tracked census와실제사용자34파일을 결속했다.371실행sourcefb007eb,372/373실행8b77841이며 마지막 CLAUDE 현재행만 갱신한최종source `2842b3fa2f3f16de41f5e6e96f55cc53c482beb0`에는 byte/의미영향으로 연결했다. 새실행으로재명명0. 기존132판정/110보고·인간rawSHA/OPEN45·공개GO1·번역40346/b143·보류72 보존. 새한정GO3건만append. 본편/새package HOLD.
+- 실패는 보존한다: wrong expected-head 선행거절은엔진0, 첫CN은제품font경로실패, 보충first는하네스숫자계약실패, 첫6static은3PASS/3FAIL(원시별도파일없음/도구출력), author측정wrapper파일명오기는함수실행전실패다. 서로합쳐제품결함수로세지않는다.
+- 다음 안전한 작업: 중국어 CTA·제목·타이머와 핵심질문24키×2 후보는 읽기전용으로만 선별했다. 아직 새번역착수0. 사용자는 다국어 작업규모와 완성시점을 물었고, 한영출시준비와 일중후속지원 분리를 권고했지만 새출시언어변경은 승인되지않아현범위유지. 일·중·번체 전체 live 잔량/원어민·사람·물리관측이 남아완료날짜확약0.
+- 재발방지 학습: 전역 fallback_font만으로 실제 소비자 font가 연결됐다고 추정하지 않고 get_theme_font의 base경로를 확인한다. 이 사례기록은검증정본추가가아니다. 사용스킬 gangnamdream-dev: 선행선언·파일분리·독립검수·격리검증·원문보존. 범위/증거는일회성. 외부출시·스토어·지출·법률인증0.
+
 ## 2026-09-28 (Codex — 취업 결과 중국어44와 검사 연결 수리)
 
 - 마감 context/queue PASS(active77/in_progress74), 판정 원장 self222 PASS. 완료 사양6개는 최초 선언 전문을 archive에 보존했다. 첫 private 마감 준비는 기존 원장의 비정규 쉼표줄 공백20B를 재직렬화하는 것을 막아 patch 출력 전 중단했고, 기존 raw prefix를 그대로 두고 새6행만 삽입하도록 수리했다. 제품 검사 실패로 합산하지 않으며 private `order370-closure-first-diagnostic.json`에 제한된 진단을 보존한다.

@@ -1,0 +1,82 @@
+{
+  "schema": "gangnamdream-independent-work-unit-review/v1",
+  "unit_id": "ORDER-373",
+  "scope": "work_unit",
+  "review_stage": "independent_source_bound_final",
+  "review_date": "2026-09-28",
+  "independent": true,
+  "reviewer": "/root/r3_route_probe",
+  "decided_by": "/root/r3_route_probe",
+  "decision": "GO",
+  "verdict": "GO",
+  "required": [],
+  "subject": {
+    "kind": "source",
+    "commit": "2842b3fa2f3f16de41f5e6e96f55cc53c482beb0",
+    "tree": "576bc6aec64fcd5d04261866888604a37222a86b",
+    "manifest_sha256": null
+  },
+  "outcome": "GO only for exact local-font successor admission, its single historical snapshot consumer, two registration descriptions and .git scanner exclusion. The default liveness command still FAILS on a separately evidenced pre-existing dynamic-launcher false positive. This is not an all-green audit or internal-product GO.",
+  "independence": "Non-author review under gangnamdream-dev and WORK_UNIT. I read the full four-file diff, relevant original proof/admission and snapshot code, private recorder/regression/preservation helper, all16 actual records and their aggregate. I authored none of these and ran no acceptance CLI, old corpus or engine. Read-only source resolution, Git/hash comparisons and raw evidence inspection support this decision.",
+  "population": {
+    "owned_code_registration_files": 4,
+    "executed_commands": 16,
+    "passed_commands": 15,
+    "failed_commands": 1,
+    "receipt_self_cases": 312,
+    "receipt_self_components": {"original": 240, "consumer": 12, "font_successor": 60},
+    "scanner_fixture_files": 11,
+    "historical1955_reruns": 0,
+    "chapter1_full689_reruns": 0,
+    "reviewer_acceptance_or_engine_runs": 0
+  },
+  "direct_code_review": [
+    "The original runtime d737a4fc pin and previous351 import identity remain. A separate successor proof binds actual current d7394c23 raw to fb007eb/directparent73adabd, two commits/two trees/two blobs, independently computed Git object type/length/SHA1, exact changed-path population1 and literal three-line inverse. Old raw rollback, partial/duplicate/wrong-font/theme additions, neighbor text/gameplay and corrupted proof objects fail closed.",
+    "_read_proof now compares only this approved current runtime to its proven predecessor when validating the original dependency. It does not change UI/ledger historical contracts. Existing actual-current observed_byte_hash still returns the actual hash. New runtime_observed_hash is explicitly comparison-only; raw/claim binding and successful whole-current admission precede projection, unrelated paths bypass it and failed admission cannot call the inverse.",
+    "Chapter1 adds only the JobHunt path call after _file_digest. It supplies actual raw and the result of current_source_errors(); original expected pins and final mismatch checks remain. Existing receipt self-test and consumer corpus bodies are unchanged, with60 font cases appended separately.",
+    "audit_scope changes only the missing why fields of the existing normal/self registrations. No check population, lane or historical corpus is relaxed.",
+    "Liveness changes only the two scanner filters: .git and the already excluded .godot components are evaluated relative to ROOT. Genuine nested staging projects remain searched. The11 fixture files cover .git/.godot in census and reference collection, nested metadata and a repository whose outer parent itself contains .git. No baseline or standalone allowlist is enlarged."
+  ],
+  "execution": {
+    "source": "8b7784121baea8167c85b447f17a9dc160d71334",
+    "tree": "34b64fd3f22614ace0a89c71ba7abdf8342f58da",
+    "envelope": "Clean source with2911 tracked inputs identical before/after. All16 record command/stdout/stderr/exit bodies were read, and aggregate.rows exactly equals the ordered00..15 records. Current differs only in two CLAUDE lines; these commands were not rerun on final subject.",
+    "passed": [
+      "receipt normal", "receipt self312", "full-body normal", "story graph normal",
+      "chapter5 normal", "year5 normal", "chapter1 normal",
+      "liveness scoped11-file regression", "audit selection list", "audit registration verify",
+      "context", "queue", "English Hangul", "player-surface language", "surface coherence"
+    ],
+    "chapter1": "SNAPSHOT_VALID debt_codes8/blocked3 with W25..48 gap24 retained; not whole Chapter1 completion.",
+    "selection_limit": "audit_select lists28 possible checks; listing them is not executing28. This work executed only the16 declared commands. No engine, whole audit or historical1955/689 suite was repeated."
+  },
+  "remaining_failure": {
+    "command": "python3 tools/feature_liveness_audit.py",
+    "exit": 1,
+    "new_orphan_reported": "tools/story_header_safe_area_check.gd",
+    "reason": "The actual Python launcher tools/run_story_header_safe_area_check.py:47 embeds a generated TSCN referencing this script. The original searchable_text patterns omit *.py, so this existing reachable check is statically misclassified. The .git exclusion neither creates that missing pattern nor repairs it.",
+    "disposition": "Retain this real FAIL and raw record; a separate narrowly declared scanner follow-up is needed. The current .git exclusion is supported by its exact diff and regression, so this independent pre-existing defect is not a blocker for the explicitly bounded373 work_unit. It remains a blocker to saying the default liveness gate or all audits are green.",
+    "recorder": "The final recorder classifies only an exact singleton new-orphan list as the documented failure. It retains all_pass=false and exits failure; it does not convert this command to PASS."
+  },
+  "failure_preservation": "The pre-repair runtime whole-byte rejection, absent registration descriptions and private .git false-orphan cause remain documented. The author's preliminary wrapper FileNotFoundError occurred before focused tests and is not a product failure or a successful run; author-focused60 is not substituted for root's actual312 record. The371 product font failure and372 zero-instance oracle failure remain separately preserved. No past failure is rewritten.",
+  "source_binding": "Independent current_agent_source_subject() agrees with clean HEAD2842b3fa/tree576bc6ae. Direct8b77841-to-subject diff is CLAUDE only, exactly two status lines. Existing132 decisions/110 reports/human ledger and non-owned content/locale/assets/autoloads/system inputs are identical to baselinea2228692. The only runtime change remains the separately approved372 exact three lines. Successful371/372 engine records keep their actual execution sources; unchanged runtime/imported dependencies and non-executed Python/doc deltas support reuse, not fresh final-source execution.",
+  "unobserved": [
+    "native_reader", "human_playtest", "physical_controller_feel",
+    "natural_gameplay_ingress", "full_game_playthrough", "new_package_runtime"
+  ],
+  "boundary": "Scoped GO does not close remaining liveness debt, full Chapter4/Minseo scene work, localization backlog, human OPEN45, whole game, new package, legal/rating or external release gates. Old public GO1 is preserved, not expanded. Machine contract success is not proof of entertainment or human readability.",
+  "evidence": {
+    "tools/order365_ui_receipt_compat.py": "289453b77a80ac0c9922fad4e8968d3b79cfbe26466991bd377b48a20a1f6891",
+    "tools/chapter1_core_loop_v2_causal_ledger_check.py": "a4c1393d9aa5d5554ee41061137af8d2c8dc04c05ead8ce534c32b3db29d9c2f",
+    "tools/audit_scope.json": "4b8b00911a3966ff8a3b3da713c75f26296b886baebba8a9de8e34002ba83843",
+    "tools/feature_liveness_audit.py": "0e0fed207af8c59e55e15c04ad13af960ee2b41ae353cf38054191ce9ca52158",
+    ".git/full-game-localization/order373-static-final/result.json": "0281d18d3e482f60aed4c8ef8bb040a4037fbab284313762710b608dbe4ef63b",
+    ".git/full-game-localization/order373-static-final/entry.json": "cae930fe2121757f7f4528f9dd38ddd004bdf4c9f339ad41b6d2a432381ab824",
+    ".git/full-game-localization/order373-static-final/07.json": "9cad65f45291227fb17ba309ca98a1868225494d5dc442f3d1635f41419097fc",
+    ".git/full-game-localization/order373-static-final/08.json": "f8c2cc4287bf57fbe28d9a21b56d7dd33173d7f5ce0b7f2ef38fa93cf6187b67",
+    ".git/full-game-localization/order373-run.py": "6dcf41d9cb76f5431a7b7c5014a5ef70eb78e45c576bd1f6d88e8a23e234ee73",
+    ".git/full-game-localization/order373-liveness-test.py": "0e5cd26e21f59c58a88c80dd44361cda5ea2b08916ffbfbe5f93ef1a6e7aa05d",
+    ".git/full-game-localization/order373-preserved-final.json": "a055353ead657b3aaef3a9629ae9cc7d47d8ef606a4ade8dae2d3fc4def8386b",
+    ".git/full-game-localization/order373-preserve.py": "b642c95d14c05ae09d2cacbb2451d350e19127e5edc2feee185b360b473f84ed"
+  }
+}
