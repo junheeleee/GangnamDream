@@ -14,6 +14,37 @@
   ],
   "fast_lanes": [
     {
+      "id": "job-status-wrap",
+      "paths": [],
+      "owned_paths": [
+        "scenes/MainGame.gd",
+        "tools/main_game_locale_history.py",
+        "tools/ui_translation_append_self_test.py",
+        "tools/audit_scope.json",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/WORK_LOG.md",
+        "docs/history/WORK_LOG_2026-09-07_localization.md",
+        "docs/STATUS.md",
+        "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-382.json",
+        "docs/queue_active/ORDER-382.md",
+        "docs/queue_archive/ORDER-382.md"
+      ],
+      "tools": [
+        "tools/ui_translation_append_self_test.py --job-status-wrap",
+        "tools/order365_ui_receipt_compat.py",
+        "tools/full_body_translation_scope.py",
+        "tools/story_graph_contract_audit.py",
+        "tools/chapter5_human_reject_audit.py",
+        "tools/year5_reference_route_audit.py",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Exact employed-career label-to-wrap token, fresh current382 plus immutable381 Git/raw composition, unchanged actual call locations and source-manifest comparison. New bounded controls and current consumer normals only; no historical43/correction48/full suite or engine claim."
+    },
+    {
       "id": "main-modal-font",
       "paths": [],
       "owned_paths": [
@@ -2072,15 +2103,18 @@
   ],
   "checks": [
     {
-      "tool": "tools/ui_translation_append_self_test.py --main-modal",
-      "why": "Bounded MainGame modal width/font/glyph successor and actual call-location proof; unchanged historical corpora are not replayed.",
+      "tool": "tools/ui_translation_append_self_test.py --job-status-wrap",
+      "why": "Current employed-career wrap successor only, preserving immutable381 and testing raw/Git/claim/manifest/call-location boundaries without replaying old suites.",
       "paths": [
         "scenes/MainGame.gd",
         "tools/main_game_locale_history.py",
-        "tools/ja_translation_pipeline.py",
-        "tools/ui_translation_append.py",
         "tools/ui_translation_append_self_test.py"
       ]
+    },
+    {
+      "tool": "tools/ui_translation_append_self_test.py --main-modal",
+      "why": "Historical381-only explicit CLI and original43 body preserved. Current382 selection uses job-status-wrap instead of replaying an older HEAD-bound current-source test.",
+      "paths": []
     },
     {
       "tool": "tools/first_start_notice_self_test.py --delivery-headers",

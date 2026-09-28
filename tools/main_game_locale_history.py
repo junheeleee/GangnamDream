@@ -767,3 +767,95 @@ def gift_caption_project_bytes(current, relative):
 def gift_caption_project_byte_hash(claim, relative, current):
     return _modal_dispatch(_MODAL_OLD_GIFT, 2, relative, current, claim)
 # END_MODAL_FONT_HISTORY_381
+
+
+# BEGIN_JOB_STATUS_WRAP_HISTORY_382
+# Keep the complete ORDER-381 implementation above as its historical contract.
+# The successor proves both actual Git transitions without spoofing old HEAD.
+JOB_STATUS_BEFORE_COMMIT = "ec26d1a69d08c7f7bd09293c396bc78ee89c9268"
+JOB_STATUS_AFTER_COMMIT = "37a3479ad7ce5b640d580d9c50a1c52039adf49d"
+JOB_STATUS_TREES = ("5cbd6ec1234bc9b8d01caf0d74be20699df648b3", "89846b1b925864511d7972041199436ac7db9de3")
+JOB_STATUS_BLOBS = ("48e038af02412ef82decdb451b9e9b1d7135235e", "4acea38b4d1a0641e7696d1af9ae2d9631dc4c13")
+JOB_STATUS_HASHES = ("6c26e3db61c810cd52022128a459a7160abf49c6a0c3d085f196755f9e232f8d",
+                     "eb9efa2243ae97e032ca13e64bae3f42558fe9618babe97c5bc3d21a05e23cea")
+JOB_STATUS_REPLACEMENT = (
+    b'\t\tstatus_box.add_child(_label(\n\t\t\t"%s \xc2\xb7 Tier %d \xc2\xb7 %s %d/%d" % [\n',
+    b'\t\tstatus_box.add_child(_wrap_label(\n\t\t\t"%s \xc2\xb7 Tier %d \xc2\xb7 %s %d/%d" % [\n',
+)
+_JOB_STATUS_OLD_MODAL_PREDECESSOR = modal_font_predecessor
+
+
+def _job_status_wrap_proof(current, root=None):
+    """Fresh current admission; return (pre382, pre381) comparison bytes only."""
+    from pathlib import Path
+    root = Path(root) if root is not None else Path(__file__).resolve().parents[1]
+    if not isinstance(current, bytes) or hashlib.sha256(current).hexdigest() != JOB_STATUS_HASHES[1]:
+        raise ValueError("ORDER-382: unapproved current MainGame raw")
+    stages = (
+        (MODAL_BEFORE_COMMIT, MODAL_AFTER_COMMIT, MODAL_TREES, MODAL_BLOBS, MODAL_HASHES),
+        (JOB_STATUS_BEFORE_COMMIT, JOB_STATUS_AFTER_COMMIT, JOB_STATUS_TREES, JOB_STATUS_BLOBS, JOB_STATUS_HASHES),
+    )
+    requests = []
+    for before_commit, after_commit, trees, blobs, _hashes in stages:
+        requests.extend((c, c, "commit") for c in (before_commit, after_commit))
+        requests.extend((t, t, "tree") for t in trees)
+        requests.extend((c + ":" + MAIN_GAME_PATH, oid, "blob") for c, oid in
+                        zip((before_commit, after_commit), blobs))
+    raw = _modal_git(root, "cat-file", "--batch", input=("\n".join(r[0] for r in requests) + "\n").encode())
+    values, cursor = [], 0
+    for _expression, wanted, kind in requests:
+        end = raw.index(b"\n", cursor)
+        oid, actual_kind, size = raw[cursor:end].decode().split()
+        size = int(size)
+        value = raw[end + 1:end + 1 + size]
+        if (size < 0 or oid != wanted or actual_kind != kind or len(value) != size
+                or hashlib.sha1(kind.encode() + b" " + str(size).encode() + b"\0" + value).hexdigest() != oid
+                or raw[end + 1 + size:end + 2 + size] != b"\n"):
+            raise ValueError("ORDER-382: forged immutable object")
+        values.append(value)
+        cursor = end + 2 + size
+    if cursor != len(raw):
+        raise ValueError("ORDER-382: trailing immutable proof bytes")
+    for stage, (before_commit, after_commit, trees, _blobs, hashes) in enumerate(stages):
+        offset = stage * 6
+        for index in range(2):
+            headers = values[offset + index].split(b"\n\n", 1)[0].splitlines()
+            if [h for h in headers if h.startswith(b"tree ")] != [b"tree " + trees[index].encode()]:
+                raise ValueError("ORDER-382: immutable tree differs")
+            if index and [h for h in headers if h.startswith(b"parent ")] != [b"parent " + before_commit.encode()]:
+                raise ValueError("ORDER-382: direct parent differs")
+        if tuple(hashlib.sha256(v).hexdigest() for v in values[offset + 4:offset + 6]) != hashes:
+            raise ValueError("ORDER-382: whole raw/blob binding differs")
+        if _modal_git(root, "diff", "--name-status", "-z", before_commit, after_commit) != b"M\0" + MAIN_GAME_PATH.encode() + b"\0":
+            raise ValueError("ORDER-382: exact product path population differs")
+    _modal_git(root, "merge-base", "--is-ancestor", MODAL_AFTER_COMMIT, JOB_STATUS_BEFORE_COMMIT)
+    _modal_git(root, "merge-base", "--is-ancestor", JOB_STATUS_AFTER_COMMIT, "HEAD")
+    if _modal_git(root, "rev-parse", "HEAD:" + MAIN_GAME_PATH).decode().strip() != JOB_STATUS_BLOBS[1]:
+        raise ValueError("ORDER-382: current Git MainGame differs")
+    pre381, post381, pre382, post382 = values[4], values[5], values[10], values[11]
+    if current != post382 or pre382 != post381:
+        raise ValueError("ORDER-382: current or consecutive raw binding differs")
+    a, b = JOB_STATUS_REPLACEMENT
+    if not a or a == b or post382.count(b) != 1 or post382.replace(b, a, 1) != pre382:
+        raise ValueError("ORDER-382: change outside the exact employed-status token")
+    recovered = pre382
+    if len(MODAL_REPLACEMENTS) != 3:
+        raise ValueError("ORDER-382: prior inverse population differs")
+    for a, b in reversed(MODAL_REPLACEMENTS):
+        a, b = a.encode(), b.encode()
+        if not a or a == b or recovered.count(b) != 1:
+            raise ValueError("ORDER-382: prior inverse is not exact1")
+        recovered = recovered.replace(b, a, 1)
+    if recovered != pre381:
+        raise ValueError("ORDER-382: changes outside the prior exact three repairs")
+    return pre382, pre381
+
+
+def job_status_wrap_predecessor(current, root=None):
+    return _job_status_wrap_proof(current, root)[0]
+
+
+def modal_font_predecessor(current, root=None):
+    """Preserve the public pre381 comparison contract for admitted current382."""
+    return _job_status_wrap_proof(current, root)[1]
+# END_JOB_STATUS_WRAP_HISTORY_382

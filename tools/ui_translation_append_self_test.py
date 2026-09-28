@@ -913,13 +913,125 @@ def main_modal_self_test() -> tuple[list[str], int]:
     return failures, cases
 
 
+def job_status_wrap_self_test() -> tuple[list[str], int]:
+    """Only ORDER-382's exact successor, current locations and manifest chain."""
+    import main_game_locale_history as history
+    import ja_translation_pipeline as ja
+    failures, cases = [], 0
+    def check(ok, label):
+        nonlocal cases
+        cases += 1
+        if not ok:
+            failures.append("Job status wrap: " + label)
+    def reject(action, label):
+        try:
+            action()
+        except (ValueError, OSError, KeyError, TypeError, IndexError, subprocess.TimeoutExpired):
+            check(True, label)
+        else:
+            check(False, label)
+    sha = lambda value: hashlib.sha256(value).hexdigest()
+    path = history.MAIN_GAME_PATH
+    protected = (path, "tools/main_game_locale_history.py", "tools/ui_translation_append_self_test.py",
+                 "tools/audit_scope.json", "tools/ja_translation_pipeline.py", "tools/ui_translation_append.py",
+                 *append.CURRENT_PATHS)
+    original = {p: sha((ROOT / p).read_bytes()) for p in protected}
+    raw = (ROOT / path).read_bytes()
+    prior, old = history._job_status_wrap_proof(raw, ROOT)
+    check(sha(raw) == "eb9efa2243ae97e032ca13e64bae3f42558fe9618babe97c5bc3d21a05e23cea"
+          and sha(prior) == "6c26e3db61c810cd52022128a459a7160abf49c6a0c3d085f196755f9e232f8d"
+          and sha(old) == "3f42b49c99c94310436661e44c3029d0335b0998d467a7582c8d3524acf55532",
+          "independent whole runtime pins")
+    check(history.job_status_wrap_predecessor(raw, ROOT) == prior
+          and history.modal_font_predecessor(raw, ROOT) == old, "one-stage and public composed contracts")
+    check(prior.count(history.JOB_STATUS_REPLACEMENT[0]) == 1
+          and prior.replace(*history.JOB_STATUS_REPLACEMENT, 1) == raw, "one token exact whole inverse")
+    for name, previous in (("main_game_history", history._MODAL_OLD_PUBLIC), ("gift_caption", history._MODAL_OLD_GIFT)):
+        source, project, digest = (getattr(history, name + suffix) for suffix in
+                                    ("_source_errors", "_project_bytes", "_project_byte_hash"))
+        expected = previous[1](old, path)
+        check(not source(path, raw) and project(raw, path) == expected
+              and digest(sha(raw), path, raw) == sha(expected), name + " all three current entrances")
+        check(digest("0" * 64, path, raw) == "0" * 64, name + " wrong observed claim")
+        for label, mutant in (("rollback381", prior), ("rollback pre381", old), ("space", raw + b"\n"),
+                              ("neighbor", raw.replace(b"max_promotions\", 3", b"max_promotions\", 4", 1))):
+            check(mutant != raw and bool(source(path, mutant)) and project(mutant, path) == mutant
+                  and digest(sha(mutant), path, mutant) == sha(mutant), name + " rejects " + label)
+    for label, mutant in (("empty", b""), ("wrong type", None),
+                          ("duplicate token", raw + history.JOB_STATUS_REPLACEMENT[1])):
+        reject(lambda value=mutant: history.job_status_wrap_predecessor(value, ROOT), label)
+    with mock.patch.object(history, "_modal_git", side_effect=OSError("lost proof after success")):
+        check(bool(history.main_game_history_source_errors(path, raw))
+              and history.gift_caption_project_bytes(raw, path) == raw, "fresh proof loss fails closed")
+        check(history.main_game_history_project_bytes(b"outside", "unowned.gd") == b"outside",
+              "other paths do not project or require successor proof")
+    real_git = history._modal_git
+    for label, target, replacement in (
+            ("missing object", ("cat-file", "--batch"), lambda value: b"missing\n"),
+            ("forged object", ("cat-file", "--batch"), lambda value: value.replace(b"tree ", b"Tree ", 1)),
+            ("trailing proof", ("cat-file", "--batch"), lambda value: value + b"extra"),
+            ("path population", ("diff", "--name-status"), lambda value: value + b"M\0neighbor.gd\0"),
+            ("HEAD rollback", ("rev-parse",), lambda value: history.JOB_STATUS_BLOBS[0].encode() + b"\n")):
+        def altered(where, *args, **kwargs):
+            value = real_git(where, *args, **kwargs)
+            return replacement(value) if args[:len(target)] == target else value
+        with mock.patch.object(history, "_modal_git", side_effect=altered):
+            reject(lambda: history.modal_font_predecessor(raw, ROOT), label)
+    for name, value in (("JOB_STATUS_BEFORE_COMMIT", history.JOB_STATUS_AFTER_COMMIT),
+                        ("JOB_STATUS_REPLACEMENT", (b"wrong", history.JOB_STATUS_REPLACEMENT[1])),
+                        ("MODAL_REPLACEMENTS", history.MODAL_REPLACEMENTS[:-1])):
+        with mock.patch.object(history, name, value):
+            reject(lambda: history.modal_font_predecessor(raw, ROOT), "immutable boundary " + name)
+    check(history.modal_font_predecessor(raw, ROOT) == old, "fresh proof restores without prior success cache")
+
+    # One current collector, not the unchanged 381/378/380 historical suites.
+    actual, actual_errors = ja.parse_ui_calls(path, raw.decode())
+    before, before_errors = ja.parse_ui_calls(path, prior.decode())
+    check(not actual_errors and not before_errors and actual == before,
+          "same-line token keeps every actual call field and coordinate")
+    inventory = ja.collect_ui_inventory()
+    check(not inventory.errors and tuple(c for c in inventory.calls if c.path == path) ==
+          tuple(sorted(actual, key=lambda c: (c.path, c.line, c.api))), "collector exposes actual call coordinates")
+    hashes = {path: sha(raw), append.ARUBA_FONT_PATH: sha((ROOT / append.ARUBA_FONT_PATH).read_bytes()),
+              "unchanged.json": "1" * 64}
+    source = {"source_hashes": hashes, "source_manifest_sha256": append.exchange.digest(hashes)}
+    preserved = copy.deepcopy(source)
+    comparison = {**hashes, path: sha(old)}
+    older = {**comparison, append.ARUBA_FONT_PATH: append.ARUBA_FONT_BEFORE_SHA256}
+    for label, expected in (("actual", source["source_manifest_sha256"]),
+                            ("pre381", append.exchange.digest(comparison)),
+                            ("pre381 and preAruba", append.exchange.digest(older))):
+        check(append._source_manifest_matches(ROOT, source, expected), "manifest comparison " + label)
+    check(source == preserved, "actual inventory is not rewritten")
+    mutant = {**hashes, path: sha(prior)}
+    reject(lambda: append._source_manifest_matches(ROOT, {"source_hashes": mutant,
+           "source_manifest_sha256": append.exchange.digest(mutant)}, append.exchange.digest(comparison)),
+           "old raw claim cannot mask current manifest")
+    mutant = {**hashes, "unchanged.json": "0" * 64}
+    check(not append._source_manifest_matches(ROOT, {"source_hashes": mutant,
+          "source_manifest_sha256": append.exchange.digest(mutant)}, append.exchange.digest(older)),
+          "unowned manifest difference is not exempted")
+    with mock.patch.object(history, "_modal_git", side_effect=OSError("proof disappeared")):
+        reject(lambda: append._source_manifest_matches(ROOT, source, source["source_manifest_sha256"]),
+               "equal actual manifest still requires fresh proof")
+    check(all(sha((ROOT / p).read_bytes()) == value for p, value in original.items()), "all observed files unchanged")
+    return failures, cases
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--synthetic-only", action="store_true", help="author development only; not current acceptance")
     parser.add_argument("--three-locales", action="store_true", help="bounded JA/current47 change tests only; no historical suite")
     parser.add_argument("--correction", action="store_true", help="exact two-target correction only; no old suite or collector")
     parser.add_argument("--main-modal", action="store_true", help="three rendering repairs and current-location bridge only")
+    parser.add_argument("--job-status-wrap", action="store_true", help="current one-token career-wrap successor only; no old suites")
     args = parser.parse_args()
+    if args.job_status_wrap:
+        errors, cases = job_status_wrap_self_test()
+        for error in errors:
+            print("UI_TRANSLATION_APPEND_ERROR " + error)
+        print(f"JOB_STATUS_WRAP_SOURCE_SELF_TEST_{'FAIL' if errors else 'OK'} cases={cases}")
+        return int(bool(errors))
     if args.main_modal:
         errors, cases = main_modal_self_test()
         for error in errors:
@@ -953,10 +1065,12 @@ def main() -> int:
         errors.extend(correction_errors)
         cases += correction_cases
         print(f"UI_TRANSLATION_APPEND_CORRECTION cases={correction_cases}")
-        modal_errors, modal_cases = main_modal_self_test()
+        # The exact381 body/explicit option remains historical; default checks
+        # the actual382 successor instead of pretending381 is still current.
+        modal_errors, modal_cases = job_status_wrap_self_test()
         errors.extend(modal_errors)
         cases += modal_cases
-        print(f"UI_TRANSLATION_APPEND_MAIN_MODAL cases={modal_cases}")
+        print(f"UI_TRANSLATION_APPEND_JOB_STATUS_WRAP cases={modal_cases}")
     for error in errors:
         print("UI_TRANSLATION_APPEND_ERROR " + error)
     marker = "UI_TRANSLATION_APPEND_SYNTHETIC" if args.synthetic_only else "UI_TRANSLATION_APPEND_SELF_TEST"
