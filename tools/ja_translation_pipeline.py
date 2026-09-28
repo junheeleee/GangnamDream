@@ -6522,5 +6522,86 @@ collect_ui_inventory = _modal_location_collect
 _last11_meta_title_historical_checks = _modal_location_historical_checks
 # END_MODAL_LOCATION_381
 
+# BEGIN_TUTORIAL_COPY_390
+TUTORIAL_PIPELINE_APPEND_SHA = "b1e3228252629b055fd8cb108daf9163dbec81c785c31f8498c1a7d29cbca586"
+TUTORIAL_PIPELINE_BEFORE_BLOB = "2a3c978c76879e51b20a7540153858e094fdd5fc"
+TUTORIAL_PIPELINE_BEFORE_SHA = "49a61bdb0c2ce06a1656f4a3b6c4794b3ad40945bab3cdaf1507a5a1ee66bec2"
+_TUTORIAL_OLD_MODAL_PIPELINE_PREDECESSOR = modal_pipeline_predecessor
+
+
+def tutorial_pipeline_predecessor(raw):
+    """Prove this code appendix before any saved collector sees its old bytes."""
+    if not isinstance(raw, bytes) or Path(__file__).resolve() != ROOT / _NEW_RUN_JA:
+        raise ValueError("tutorial-copy code raw/import identity differs")
+    start, end = b"# BEGIN_TUTORIAL_COPY_390\n", b"# END_TUTORIAL_COPY_390\n\n"
+    if raw.count(start) != 1 or raw.count(end) != 1:
+        raise ValueError("tutorial-copy appendix boundaries differ")
+    a, z = raw.index(start), raw.index(end) + len(end)
+    span = raw[a:z]
+    binding = ('TUTORIAL_PIPELINE_APPEND_SHA = "' + TUTORIAL_PIPELINE_APPEND_SHA + '"').encode()
+    if span.count(binding) != 1 or hashlib.sha256(span.replace(
+            binding, b'TUTORIAL_PIPELINE_APPEND_SHA = "UNBOUND"', 1)).hexdigest() != TUTORIAL_PIPELINE_APPEND_SHA:
+        raise ValueError("tutorial-copy appendix seal differs")
+    previous = raw[:a] + raw[z:]
+    if hashlib.sha256(previous).hexdigest() != TUTORIAL_PIPELINE_BEFORE_SHA:
+        raise ValueError("tutorial-copy whole predecessor differs")
+    blob = _current_demo_git("show", _gift_history.TUTORIAL_BEFORE_COMMIT + ":" + _NEW_RUN_JA)
+    if blob != previous or hashlib.sha1(b"blob " + str(len(blob)).encode() + b"\0" + blob).hexdigest() != TUTORIAL_PIPELINE_BEFORE_BLOB:
+        raise ValueError("tutorial-copy immutable code blob differs")
+    return previous
+
+
+def modal_pipeline_predecessor(raw):
+    return _TUTORIAL_OLD_MODAL_PIPELINE_PREDECESSOR(tutorial_pipeline_predecessor(raw))
+
+
+def _tutorial_copy_call_views(raw):
+    """Actual source and pre381 views differ in exactly the approved one pair."""
+    previous = _gift_history.modal_font_predecessor(raw, ROOT)
+    path = _gift_history.MAIN_GAME_PATH
+    before, old_errors = parse_ui_calls(path, previous.decode())
+    actual, errors = parse_ui_calls(path, raw.decode())
+    before.sort(key=lambda c: (c.path, c.line, c.api))
+    actual.sort(key=lambda c: (c.path, c.line, c.api))
+    old_selector = (path, "_show_tutorial", "legacy", _gift_history.TUTORIAL_OLD_KO,
+                    _gift_history.TUTORIAL_OLD_EN, "")
+    new_selector = (path, "_show_tutorial", "legacy", _gift_history.TUTORIAL_NEW_KO,
+                    _gift_history.TUTORIAL_NEW_EN, "")
+    semantic = lambda c: (c.path, c.function, c.api, c.korean, c.english, c.context_id)
+    old_semantic, new_semantic = list(map(semantic, before)), list(map(semantic, actual))
+    if (old_errors or errors or old_semantic.count(old_selector) != 1
+            or new_semantic.count(new_selector) != 1
+            or any(c.korean == _gift_history.TUTORIAL_OLD_KO for c in actual)
+            or [new_selector if row == old_selector else row for row in old_semantic] != new_semantic):
+        raise ValueError("tutorial-copy exact current/predecessor selector or unowned semantics differ")
+    return tuple(before), tuple(actual)
+
+
+def modal_rebind_inventory(inventory, raw):
+    """Expose the new Korean key/English pair; retain only old comparison views."""
+    before, actual = _tutorial_copy_call_views(raw)
+    path = _gift_history.MAIN_GAME_PATH
+    if inventory.errors or tuple(c for c in inventory.calls if c.path == path) != before:
+        raise ValueError("tutorial-copy supplied predecessor inventory differs")
+    replacements = iter(actual)
+    calls = tuple(next(replacements) if c.path == path else c for c in inventory.calls)
+    result = _gift_caption_inventory_view(inventory, calls)
+    old_ko, new_ko = _gift_history.TUTORIAL_OLD_KO, _gift_history.TUTORIAL_NEW_KO
+    old_entries = {e.source: e for e in inventory.legacy_entries}
+    new_entries = {e.source: e for e in result.legacy_entries}
+    if (set(old_entries) - set(new_entries) != {old_ko}
+            or set(new_entries) - set(old_entries) != {new_ko}):
+        raise ValueError("tutorial-copy source identity changed outside its one key")
+    # Rebuilding locations must not renumber unrelated entries, including the
+    # two explicit ui::branch IDs introduced by the unchanged378 collector.
+    entries = tuple(_gift_replace(old_entries[e.source], context=e.context)
+                    if e.source in old_entries else e for e in result.legacy_entries)
+    blueprint = {e.source: {"$entry": e.key} for e in entries}
+    if any(_gift_replace(e, context=old_entries[e.source].context) != old_entries[e.source]
+           for e in entries if e.source in old_entries):
+        raise ValueError("tutorial-copy unowned entry identity changed")
+    return _gift_replace(result, legacy_entries=entries, legacy_blueprint=blueprint)
+# END_TUTORIAL_COPY_390
+
 if __name__ == "__main__":
     sys.exit(main())

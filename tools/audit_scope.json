@@ -14,6 +14,47 @@
   ],
   "fast_lanes": [
     {
+      "id": "tutorial-copy",
+      "paths": [],
+      "owned_paths": [
+        "scenes/MainGame.gd",
+        "locale/ui_ja.json",
+        "locale/ui_zh-CN.json",
+        "locale/ui_zh-TW.json",
+        "content/meta/full_game_localization.json",
+        "tools/main_game_locale_history.py",
+        "tools/ja_translation_pipeline.py",
+        "tools/ja_translation_audit.py",
+        "tools/ui_translation_append.py",
+        "tools/ui_translation_append_self_test.py",
+        "tools/audit_scope.json",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/WORK_LOG.md",
+        "docs/history/WORK_LOG_2026-09-07_localization.md",
+        "docs/STATUS.md",
+        "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-390.json",
+        "docs/queue_active/ORDER-390.md",
+        "docs/queue_archive/ORDER-390.md"
+      ],
+      "tools": [
+        "tools/ui_translation_append_self_test.py --tutorial-copy",
+        "tools/order365_ui_receipt_compat.py",
+        "tools/full_body_translation_scope.py",
+        "tools/story_graph_contract_audit.py",
+        "tools/chapter5_human_reject_audit.py",
+        "tools/year5_reference_route_audit.py",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/ja_translation_audit.py --scope ui",
+        "tools/zh_translation_audit.py",
+        "tools/en_coverage_check.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Exact390 tutorial source-pair correction and23 official translations: fresh Git/raw inverse, actual new source/coordinates, immutable retained Japanese old key and old-header comparison. Bounded current focused and normal consumers only; no original historical suites or engine claims."
+    },
+    {
       "id": "chapter5-proof-scope",
       "paths": [],
       "owned_paths": [
@@ -2200,14 +2241,22 @@
   ],
   "checks": [
     {
-      "tool": "tools/ui_translation_append_self_test.py --investment-footer",
+      "tool": "tools/ui_translation_append_self_test.py --tutorial-copy",
       "paths": [
         "scenes/MainGame.gd",
         "tools/main_game_locale_history.py",
+        "tools/ja_translation_pipeline.py",
+        "tools/ja_translation_audit.py",
         "tools/ui_translation_append.py",
         "tools/ui_translation_append_self_test.py"
       ],
-      "why": "Current386 exact rendering admission, immutable composed history and official-manifest comparison. Routine dictionary/receipt appends use normal admission without triggering this source-change focused test.",
+      "why": "Current390 exact copy admission, collector identity/location preservation and retained-JA/current-target separation. Routine UI/receipt appends use normal admission without replaying this source-change suite.",
+      "godot": false
+    },
+    {
+      "tool": "tools/ui_translation_append_self_test.py --investment-footer",
+      "paths": [],
+      "why": "Historical386 explicit CLI and original45 body preserved. Current390 selection uses tutorial-copy rather than replaying an older HEAD-bound current-source test.",
       "godot": false
     },
     {

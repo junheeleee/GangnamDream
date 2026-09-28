@@ -1317,6 +1317,157 @@ def investment_footer_self_test() -> tuple[list[str], int]:
     return failures, cases
 
 
+def tutorial_copy_self_test() -> tuple[list[str], int]:
+    """Current390 exact source correction; no historical/full self invocation."""
+    import main_game_locale_history as history
+    import ja_translation_pipeline as ja
+    import ja_translation_audit as audit
+    failures, cases = [], 0
+    def check(ok, label):
+        nonlocal cases
+        cases += 1
+        if not ok:
+            failures.append("tutorial copy: " + label)
+    def reject(action, label):
+        try:
+            action()
+        except (ValueError, OSError, KeyError, TypeError, IndexError, subprocess.TimeoutExpired):
+            check(True, label)
+        else:
+            check(False, label)
+    sha = lambda value: hashlib.sha256(value).hexdigest()
+    path = history.MAIN_GAME_PATH
+    protected = (path, "tools/main_game_locale_history.py", "tools/ui_translation_append.py",
+                 "tools/ui_translation_append_self_test.py", "tools/audit_scope.json",
+                 "tools/ja_translation_pipeline.py", "tools/ja_translation_audit.py", *append.CURRENT_PATHS)
+    original = {p: sha((ROOT / p).read_bytes()) for p in protected}
+    raw = (ROOT / path).read_bytes()
+    prior, pre386, old = history._tutorial_copy_proof(raw, ROOT)
+    check(sha(raw) == "db5d0dc1f8890ea5ae3e0b9d1f212c2a316be50ef3265804dbde9dba0279a8ff"
+          and sha(prior) == "6432a5ceb5844c1fdc54265547053dc82db8808ea87f442058412f03d24eed90"
+          and sha(pre386) == "eb9efa2243ae97e032ca13e64bae3f42558fe9618babe97c5bc3d21a05e23cea"
+          and sha(old) == "3f42b49c99c94310436661e44c3029d0335b0998d467a7582c8d3524acf55532",
+          "independent current/pre390/pre386/pre381 whole pins")
+    check(raw.replace(history.TUTORIAL_REPLACEMENT[1].encode(),
+                      history.TUTORIAL_REPLACEMENT[0].encode(), 1) == prior,
+          "one pair inverse preserves every other byte")
+    for name, previous in (("main_game_history", history._MODAL_OLD_PUBLIC), ("gift_caption", history._MODAL_OLD_GIFT)):
+        source, project, digest = (getattr(history, name + suffix) for suffix in
+                                  ("_source_errors", "_project_bytes", "_project_byte_hash"))
+        expected = previous[1](old, path)
+        check(not source(path, raw) and project(raw, path) == expected
+              and digest(sha(raw), path, raw) == sha(expected), name + " actual three entrances")
+        check(digest("0" * 64, path, raw) == "0" * 64, name + " rejects forged observed hash")
+        for label, mutant in (("rollback", prior), ("whitespace", raw + b"\n"),
+                              ("KO-only rollback", raw.replace(history.TUTORIAL_NEW_KO.encode(), history.TUTORIAL_OLD_KO.encode(), 1)),
+                              ("EN-only rollback", raw.replace(history.TUTORIAL_NEW_EN.encode(), history.TUTORIAL_OLD_EN.encode(), 1)),
+                              ("neighbor", raw.replace(b"max_promotions\", 3", b"max_promotions\", 4", 1))):
+            check(mutant != raw and bool(source(path, mutant)) and project(mutant, path) == mutant
+                  and digest(sha(mutant), path, mutant) == sha(mutant), name + " rejects " + label)
+    for mutant in (b"", None):
+        reject(lambda value=mutant: history.tutorial_copy_predecessor(value, ROOT), "invalid raw type/empty")
+    real_git = history._modal_git
+    for label, target, replacement in (
+            ("missing object", ("cat-file", "--batch"), lambda value: b"missing\n"),
+            ("forged object", ("cat-file", "--batch"), lambda value: value.replace(b"tree ", b"Tree ", 1)),
+            ("trailing proof", ("cat-file", "--batch"), lambda value: value + b"extra"),
+            ("path population", ("diff", "--name-status"), lambda value: value + b"M\0neighbor.gd\0"),
+            ("HEAD rollback", ("rev-parse",), lambda value: history.TUTORIAL_BLOBS[0].encode() + b"\n")):
+        def altered(where, *args, **kwargs):
+            value = real_git(where, *args, **kwargs)
+            return replacement(value) if args[:len(target)] == target else value
+        with mock.patch.object(history, "_modal_git", side_effect=altered):
+            reject(lambda: history.modal_font_predecessor(raw, ROOT), label)
+    for name, value in (("TUTORIAL_BEFORE_COMMIT", history.TUTORIAL_AFTER_COMMIT),
+                        ("TUTORIAL_REPLACEMENT", (history.TUTORIAL_REPLACEMENT[0] + " ", history.TUTORIAL_REPLACEMENT[1]))):
+        with mock.patch.object(history, name, value):
+            reject(lambda: history.modal_font_predecessor(raw, ROOT), "immutable boundary " + name)
+    with mock.patch.object(history, "_modal_git", side_effect=OSError("lost after success")):
+        check(bool(history.main_game_history_source_errors(path, raw))
+              and history.gift_caption_project_bytes(raw, path) == raw, "lost proof fails closed")
+        check(history.main_game_history_project_bytes(b"outside", "unowned.gd") == b"outside", "other path projection zero")
+    check(history.modal_font_predecessor(raw, ROOT) == old, "fresh proof recovers without cross-call cache")
+
+    # One actual collector call and one explicitly historical comparison view;
+    # no old self suites and no historical source passed as current raw.
+    inventory = ja.collect_ui_inventory()
+    before, actual = ja._tutorial_copy_call_views(raw)
+    check(not inventory.errors and tuple(c for c in inventory.calls if c.path == path) == actual,
+          "actual collector current pair and all source coordinates")
+    old_ko, new_ko = history.TUTORIAL_OLD_KO, history.TUTORIAL_NEW_KO
+    check(old_ko not in inventory.blueprint and new_ko in inventory.blueprint
+          and sum(c.korean == new_ko for c in inventory.calls) == 1,
+          "new key exact1 and old key zero current calls")
+    baseline = ja._MODAL_LOCATION_OLD_COLLECT()
+    rebound = ja.modal_rebind_inventory(baseline, raw)
+    check(rebound == inventory, "whole current inventory roundtrip including context layers/stats")
+    existing = {e.source: e for e in baseline.legacy_entries if e.source != old_ko}
+    check(all(replace(e, context=existing[e.source].context) == existing[e.source]
+              and inventory.legacy_blueprint[e.source] == baseline.legacy_blueprint[e.source]
+              for e in inventory.legacy_entries if e.source in existing)
+          and set(existing) == {e.source for e in inventory.legacy_entries if e.source != new_ko},
+          "every unowned entry field and blueprint ID preserved, including branch IDs")
+    old_entry = next(e for e in baseline.legacy_entries if e.source == old_ko)
+    new_entry = next(e for e in inventory.legacy_entries if e.source == new_ko)
+    check(old_entry.source_hash != new_entry.source_hash and old_entry.key != new_entry.key,
+          "source change gets new source identity, never a historical hash")
+    index = next(i for i, call in enumerate(baseline.calls) if call.path == path)
+    for label, calls in (("missing", baseline.calls[:index] + baseline.calls[index + 1:]),
+                         ("duplicate", baseline.calls + (baseline.calls[index],)),
+                         ("wrong location", baseline.calls[:index] + (replace(baseline.calls[index], line=0),) + baseline.calls[index + 1:])):
+        reject(lambda rows=calls: ja.modal_rebind_inventory(replace(baseline, calls=rows), raw), label + " predecessor calls")
+    code = (ROOT / "tools/ja_translation_pipeline.py").read_bytes()
+    check(sha(ja.tutorial_pipeline_predecessor(code)) == ja.TUTORIAL_PIPELINE_BEFORE_SHA,
+          "whole prior collector code and immutable blob")
+    check(sha(ja.nonformat_pipeline_predecessor(code)) == ja.NONFORMAT_BEFORE_SHA
+          and sha(ja.current_demo_pipeline_predecessor(code)) == ja.CURRENT_DEMO_BEFORE_SHA,
+          "direct older collector entry contracts preserved")
+    reject(lambda: ja.tutorial_pipeline_predecessor(code + b"\n"), "code neighbor drift")
+    targets = audit.read_json(ROOT / "locale/ui_ja.json")
+    retained, errors = audit.tutorial_retained_ja_entries(inventory, targets)
+    check(not errors and set(retained) == {old_ko}, "only exact historical Japanese target retained")
+    for target in ({**targets, old_ko: "changed"}, {k: v for k, v in targets.items() if k != old_ko}):
+        found, errors = audit.tutorial_retained_ja_entries(inventory, target)
+        check(not found and bool(errors), "changed/missing retired target rejected")
+    found, errors = audit.tutorial_retained_ja_entries(baseline, targets)
+    check(not found and bool(errors), "retired source cannot be supplied as current")
+    leaf_id = "ui:" + old_ko + ":/" + old_ko.replace("~", "~0").replace("/", "~1")
+    with mock.patch.object(audit, "read_json", return_value={"accepted": {"ja": {leaf_id: {}}}}):
+        found, errors = audit.tutorial_retained_ja_entries(inventory, targets)
+        check(not found and bool(errors), "retired source receipt forbidden")
+    with mock.patch.object(history, "_modal_git", side_effect=lambda where, *args, **kwargs:
+                           b"{}" if args[:1] == ("show",) else real_git(where, *args, **kwargs)):
+        found, errors = audit.tutorial_retained_ja_entries(inventory, targets)
+        check(not found and bool(errors), "forged historical Japanese blob rejected")
+    errors = []
+    audit.walk_blueprint("ui", {new_ko: inventory.blueprint[new_ko]}, {}, {new_entry.key: new_entry}, errors)
+    check(bool(errors), "missing new Japanese target still fails original checker")
+
+    hashes = {path: sha(raw), append.ARUBA_FONT_PATH: sha((ROOT / append.ARUBA_FONT_PATH).read_bytes()),
+              "unchanged.json": "1" * 64}
+    source = {"source_hashes": hashes, "source_manifest_sha256": append.exchange.digest(hashes)}
+    preserved = copy.deepcopy(source)
+    manifests = [hashes, {**hashes, path: sha(prior)}, {**hashes, path: sha(pre386)}, {**hashes, path: sha(old)},
+                 {**hashes, path: sha(old), append.ARUBA_FONT_PATH: append.ARUBA_FONT_BEFORE_SHA256}]
+    for index, view in enumerate(manifests):
+        check(append._source_manifest_matches(ROOT, source, append.exchange.digest(view)), "exact manifest stage " + str(index))
+    check(source == preserved, "current census never rewritten")
+    reject(lambda: append._source_manifest_matches(ROOT, {"source_hashes": manifests[1],
+           "source_manifest_sha256": append.exchange.digest(manifests[1])}, append.exchange.digest(manifests[1])),
+           "historical raw claim cannot masquerade as current")
+    reject(lambda: append._source_manifest_matches(ROOT, {**source, "source_manifest_sha256": "0" * 64},
+           append.exchange.digest(manifests[1])), "forged manifest")
+    altered_hashes = {**hashes, "unchanged.json": "0" * 64}
+    check(not append._source_manifest_matches(ROOT, {"source_hashes": altered_hashes,
+          "source_manifest_sha256": append.exchange.digest(altered_hashes)}, append.exchange.digest(manifests[1])),
+          "neighbor source manifest never exempted")
+    with mock.patch.object(history, "_modal_git", side_effect=OSError("proof disappeared")):
+        reject(lambda: append._source_manifest_matches(ROOT, source, append.exchange.digest(manifests[1])),
+               "old header admission requires fresh proof")
+    check(all(sha((ROOT / p).read_bytes()) == value for p, value in original.items()), "all observed files unchanged")
+    return failures, cases
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--synthetic-only", action="store_true", help="author development only; not current acceptance")
@@ -1326,7 +1477,14 @@ def main() -> int:
     parser.add_argument("--job-status-wrap", action="store_true", help="current one-token career-wrap successor only; no old suites")
     parser.add_argument("--investment-fee-correction", action="store_true", help="exact384 two-target correction only; no old suites")
     parser.add_argument("--investment-footer", action="store_true", help="current386 rendering/source successor only; no old suites")
+    parser.add_argument("--tutorial-copy", action="store_true", help="current390 source-pair, collector and retained-JA boundaries only")
     args = parser.parse_args()
+    if args.tutorial_copy:
+        errors, cases = tutorial_copy_self_test()
+        for error in errors:
+            print("UI_TRANSLATION_APPEND_ERROR " + error)
+        print(f"TUTORIAL_COPY_SOURCE_SELF_TEST_{'FAIL' if errors else 'OK'} cases={cases}")
+        return int(bool(errors))
     if args.investment_footer:
         errors, cases = investment_footer_self_test()
         for error in errors:
@@ -1378,12 +1536,12 @@ def main() -> int:
         errors.extend(correction_errors)
         cases += correction_cases
         print(f"UI_TRANSLATION_APPEND_CORRECTION cases={correction_cases}")
-        # Exact381/382 bodies and explicit options remain historical. The
-        # default current rendering check follows actual386 instead.
-        modal_errors, modal_cases = investment_footer_self_test()
+        # Exact381/382/386 bodies and explicit options remain historical. The
+        # default current source check follows actual390, including its copy.
+        modal_errors, modal_cases = tutorial_copy_self_test()
         errors.extend(modal_errors)
         cases += modal_cases
-        print(f"UI_TRANSLATION_APPEND_INVESTMENT_FOOTER cases={modal_cases}")
+        print(f"UI_TRANSLATION_APPEND_TUTORIAL_COPY cases={modal_cases}")
         fee_errors, fee_cases = investment_fee_correction_self_test()
         errors.extend(fee_errors)
         cases += fee_cases

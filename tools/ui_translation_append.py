@@ -858,3 +858,24 @@ def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: st
     # Delegate the untouched actual census, never pretend comparison bytes were
     # observed. The older bridge separately proves pre381/preAruba manifests.
     return _INVESTMENT_OLD_MANIFEST_MATCHES(root, inventory, expected)
+
+
+# Exact390 changes one source pair. Actual leaves/census remain current; this
+# bridge admits the pre390 official header census only after fresh raw proof.
+_TUTORIAL_OLD_MANIFEST_MATCHES = _source_manifest_matches
+
+
+def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: str) -> bool:
+    if "source_hashes" not in inventory:
+        return _TUTORIAL_OLD_MANIFEST_MATCHES(root, inventory, expected)
+    import main_game_locale_history as history
+    raw = (root / history.MAIN_GAME_PATH).read_bytes()
+    previous = history.tutorial_copy_predecessor(raw, root)
+    hashes = inventory["source_hashes"]
+    require(exchange.digest(hashes) == inventory["source_manifest_sha256"]
+            and hashes.get(history.MAIN_GAME_PATH) == hashlib.sha256(raw).hexdigest(),
+            "tutorial current source census/raw mismatch")
+    comparison = {**hashes, history.MAIN_GAME_PATH: hashlib.sha256(previous).hexdigest()}
+    if expected == exchange.digest(comparison):
+        return True
+    return _TUTORIAL_OLD_MANIFEST_MATCHES(root, inventory, expected)

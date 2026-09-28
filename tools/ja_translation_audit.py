@@ -374,5 +374,54 @@ def main() -> int:
     return 0
 
 
+# Exact390 retains one superseded Japanese key without making it a live source.
+_TUTORIAL_OLD_RETIRED_ENTRIES = retired_relationship_ui_entries
+_TUTORIAL_OLD_CHECK_UI_SCOPE = check_ui_scope
+TUTORIAL_RETAINED_JA_BLOB = "588a055a6f6440c5117587b182ff193b9ac2ae31"
+TUTORIAL_RETAINED_JA = "健康／精神力が0になったり、借金が-1億ウォンを超えると終了します。"
+
+
+def tutorial_retained_ja_entries(inventory: UiInventory, actual: Any) -> tuple[dict[str, Entry], list[str]]:
+    """One immutable old target, zero current calls/receipts; no extra-key grant."""
+    import ja_translation_pipeline as pipeline
+    import main_game_locale_history as history
+    try:
+        raw = (ROOT / history.MAIN_GAME_PATH).read_bytes()
+        _before, calls = pipeline._tutorial_copy_call_views(raw)
+        if inventory.errors or tuple(c for c in inventory.calls if c.path == history.MAIN_GAME_PATH) != calls:
+            raise ValueError("supplied current inventory differs")
+        key = history.TUTORIAL_OLD_KO
+        if key in inventory.blueprint or history.TUTORIAL_NEW_KO not in inventory.blueprint:
+            raise ValueError("retained/current source identities differ")
+        previous = history._modal_git(ROOT, "show", history.TUTORIAL_BEFORE_COMMIT + ":locale/ui_ja.json")
+        if hashlib.sha1(b"blob " + str(len(previous)).encode() + b"\0" + previous).hexdigest() != TUTORIAL_RETAINED_JA_BLOB:
+            raise ValueError("immutable Japanese blob differs")
+        if json.loads(previous)[key] != TUTORIAL_RETAINED_JA or not isinstance(actual, dict) or actual.get(key) != TUTORIAL_RETAINED_JA:
+            raise ValueError("retained Japanese target changed/missing")
+        ledger = read_json(ROOT / "content/meta/full_game_localization.json")
+        leaf_id = "ui:" + key + ":/" + key.replace("~", "~0").replace("/", "~1")
+        if any(leaf_id in rows for rows in ledger["accepted"].values()):
+            raise ValueError("retired source unexpectedly has an accepted receipt")
+        entry = Entry("retained-ui::tutorial-copy", key, "scenes/MainGame.gd::_show_tutorial (retired exact source)")
+        return {key: entry}, []
+    except (OSError, ValueError, TypeError, KeyError, IndexError) as exc:
+        return {}, ["tutorial retained JA: " + str(exc)]
+
+
+def retired_relationship_ui_entries(inventory: UiInventory) -> tuple[dict[str, Entry], list[str]]:
+    entries, errors = _TUTORIAL_OLD_RETIRED_ENTRIES(inventory)
+    retained, extra_errors = tutorial_retained_ja_entries(inventory, read_json(ROOT / "locale/ui_ja.json"))
+    return ({}, [*errors, *extra_errors]) if errors or extra_errors else ({**entries, **retained}, [])
+
+
+def check_ui_scope(actual: Any, errors: list[str]) -> int:
+    # The original checker still validates all rows and rejects every other
+    # extra. Bind its supplied dictionary too, not only the disk counterpart.
+    import main_game_locale_history as history
+    if not isinstance(actual, dict) or actual.get(history.TUTORIAL_OLD_KO) != TUTORIAL_RETAINED_JA:
+        errors.append("ui: exact retained tutorial target changed/missing")
+    return _TUTORIAL_OLD_CHECK_UI_SCOPE(actual, errors)
+
+
 if __name__ == "__main__":
     sys.exit(main())
