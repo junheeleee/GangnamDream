@@ -1,0 +1,92 @@
+{
+  "schema": "gangnamdream-independent-work-unit-review/v1",
+  "unit_id": "ORDER-361",
+  "scope": "work_unit",
+  "review_stage": "independent_source_bound_final",
+  "decided_by": "/root/r3_route_probe",
+  "decision": "HOLD",
+  "verdict": "HOLD",
+  "subject": {
+    "kind": "source",
+    "commit": "22f0d0ddbb42e393bf290ecaf0c664d28a3d5163",
+    "tree": "6246af71a02a922e36cb6756f8b37300ee85401f",
+    "manifest_sha256": null
+  },
+  "outcome": "The scoped ORDER-351 admission and historical-comparison implementation is suitable within the passing evidence, and the original six-path full-body admission failure is resolved. ORDER-361 is nevertheless HOLD: both required Chapter1 commands fail on an older inventory-observation transition omitted after ORDER-360. No pin or failure is waived. ORDER-362 followed by the declared, unimplemented ORDER-363 and new source-bound follow-up review are required before closing ORDER-361 or ORDER-351. This is not an internal-product, full-localization, public-release or new-package GO.",
+  "independence": "Non-author review. I read CLAUDE, gangnamdream-dev, WORK_UNIT, the selected queue/spec and localization source/receipt references; independently decomposed the immutable product transition; read the complete new 784-line module, all five consumer diffs, both registration diffs and the private recorder/aggregator; authenticated all nineteen first result envelopes and their entry/stdout/stderr hashes, the single retry, historical fixture identities and final source bridge. I did not author product, translation, tracked implementation or ledger changes, run an acceptance CLI, launch Godot or rerun the aggregator. Only this private report was written. The development skill kept this review within source/receipt compatibility, targeted evidence and non-author ownership.",
+  "source_binding": {
+    "clean_head": "c2cbf985bf4a6488e1cec448ec4959eaec6108ca",
+    "clean_head_tree": "a891fe51ccc38be86fcb3b7743a209445677c190",
+    "resolver": "current_agent_source_subject independently returned the exact subject above. Porcelain was empty. The later c2cbf985 wrapper changes only generated docs/STATUS.md; it does not replace the source subject.",
+    "execution_head": "759150139201d231b9df06edd5cc1a1f1c9e8938",
+    "execution_bridge": "The nineteen first commands and one receipt-fixture retry ran at the dirty declaration HEAD with seven modified tools and one new module, not at this clean candidate. Each run sealed an identical before/after 1836-path tracked-plus-untracked text census, Git identity/status and recorder hash. Between first and retry only the new module changed. I independently normalized the two _canonical(mutant) calls in self_test to _ordered(mutant) and obtained exact whole-module AST equality. The other eighteen command paths do not call this new self_test; their recorded successes and failures are reused unchanged, not rerun or upgraded.",
+    "final_bridge": "I independently compared the final recorded census against current bytes: eight documentation paths changed and ORDER-363.md was added, yielding 1837 text paths. These match every before/after hash in source-bridge evidence. All tested code and product bytes match. I read the documentation delta, including the source-bearing CLAUDE row, HOLD wording, 362-to-363 sequence and generated status. L3 pending changes are numeric-only across its 53 numbered rows. This census excludes binary assets, packages and player data.",
+    "final_module_sha256": "0d5de5fa6d80a87f1794f0ccfabee5b972feb195d09703474f040cb5481314ff"
+  },
+  "implementation_assessment": [
+    "Immutable product 3f0aa92dc9c3bdefd6a333fa84481a318baad907 has direct parent 6297e8cbcd4e77278055b5e332f545ea32de90f9 and exactly twelve changed paths: eleven event JSONs with 87 existing string replacements, plus 48 existing receipt refreshes. KO16, EN23, JA/CN/TW16 each; new key/receipt0; accepted40302 and batches141-to-142. Independent Git decomposition found no changed gameplay value, list length, mapping order or non-text leaf. Current content remains byte-identical to that product commit.",
+    "The new layer verifies whole raw files, exact ordered payload restoration, immutable Git parent/population and receipt source/target bindings before comparison. Its LIVE union is44; historical KO/EN union17 files/107 leaves. The new five-file39-leaf set has no leaf intersection with the old68 historical leaves. JA/ZH text and the localization ledger are never projected into historical inventory. Minseo's EN description newline8-to-6 exception is exact-event/path/pair-bound; other token/paragraph checks remain intact.",
+    "Fresh outer validation rechecks original module/import identity and immutable Git evidence; nested proof reuse is limited to that invocation. Failed proof cannot authorize older-layer fallback. Changed rows require exact ordered equality, while malformed, duplicate, wrong-path, neighboring-field, key-order, rollback and mixed-source observations retain rejection. Current report counts and text remain current; only admitted comparison vectors are projected.",
+    "All six predecessor modules and consumer-level fixed assignments are unchanged. Old350 is retained as a distinct alias for its corpus, conditional-priority/ghost cases and year5's exact post155 exception. ORDER-155 registration remains eleven paths with the authored overlap retained rather than exempted; new351 has zero registered155-path intersection. Existing Chapter1 functions, except main's additive test call, remain AST-identical; its new four cases were authored but did not execute because repository preparation failed.",
+    "The audit registration adds one explicit lane and three module checks without altering older entries or commands. The recorder binds individual markers, exit/timeout/error contracts, hashes and source state, and isolates each process group for timeout cleanup. The aggregator preserves original attempts and authenticates the narrow retry; it is a record of automatic contracts, not an independent quality approval."
+  ],
+  "execution_review": {
+    "distinct_selected_commands": 19,
+    "recorded_executions": 20,
+    "initial_passed": 17,
+    "initial_failed": 2,
+    "final_passed": 17,
+    "final_failed": 2,
+    "timeouts": 0,
+    "case_counts": {
+      "new_module_self": 795,
+      "historical_total": 1955,
+      "full_body_self": 162,
+      "story_graph_self": 388,
+      "year5_self": 1212,
+      "chapter5_self": 146,
+      "localization_self": 264,
+      "queue_index_fixtures": 25,
+      "agent_decision_self": 222
+    },
+    "history": "Read all six corpus records: original305132 + original310106 + original31663 run their unchanged functions against actual current consumers; isolated309286 +313370 +350998 run unchanged CLIs on verified historical roots. I rehashed their respective15/19/38 recorded live files against Git43f76f1/d8fbf31/6297e8c and matched all module4/5/6 SHA/import paths and ROOT identities. Each child exited0 with empty stderr and the exact original marker; the temporary roots were removed. This is not a new claim that an old direct CLI admits today's source.",
+    "receipt_fixture_repair": "The first795-case PASS is preserved but superseded. Sorted serialization could reject receipt mutants for key order before their intended field damage. Only two calls were changed to order-preserving serialization; the corrected795-case retry exited0 in77.975s with unchanged source census. There was no production API or corpus-population change. Other eighteen results, including both failures, remain original evidence.",
+    "scope": "All nineteen result/entry/stdout/stderr hashes and the retry match their referenced raw artifacts. Year5 self ran1316.355s and reports ORDER155 source_files11. Current full-body output remains SOURCE_INVENTORY_ONLY, shipping11681 leaves/static1752, runtime_claim0/native_quality_claim0. Chapter1 self terminated before its corpus: neither old622 nor new4 cases are claimed as completed. The three later metadata checks are separate from these20 executions; their recorded context, queue81 and diff-check results pass."
+  },
+  "required_findings": [
+    {
+      "id": "chapter1-inventory-history-gap",
+      "status": "OPEN",
+      "severity": "blocking_work_unit_completion",
+      "evidence": "First11 normal exit1,37.689s and first12 self exit1,37.028s. Both have empty stdout. Normal stderr contains only the inventory snapshot error and errors=1; self stderr reports repository fixture invalid for that same path.",
+      "cause": "chapter1_core_loop_v2_causal_ledger_check.py:3497 retains its original inventory pin and its151/153/155/156 chain ends at raw SHA eaa588e0401af69a9079aa2d11f105e4e57c6780e5030c517320a34a5f251764. ORDER-360 commit c94cd3ae19f22a015b3bd6b6e25afb17a8561242 changed exactly six expected_content_sha256 fields to produce raw2ff675845e1017764eb67c1c9c330ecd3b3507fa0b40535757b00bba073a88b0. Independent Git comparison confirms c94's parent has the former, while c94, the351 parent/product,361 declaration and current tree all have the latter. The file is outside351's twelve-path transition and KO/EN historical projection; the final comparison at the Chapter1 snapshot boundary therefore rejects it. This is a pre-existing integration omission exposed by these runs, not a new prose or receipt change.",
+      "follow_up": "Keep the original pins and both failed records. After ORDER-362's actual two-axis prose/fingerprint review, ORDER-363 must implement its declared inventory-only exact360/362 observation bridge and run the required Chapter1 checks. Its future commit/hash and PASS are not assumed here. Reassess351/361 on the resulting exact source; do not expand the351 module or waive the failure."
+    }
+  ],
+  "preservation": "Independently rehashed all106 protected paths from the aggregate: six original modules,98 existing reports, the entire120-decision ledger and human evidence ledger are unchanged. Current content is identical to the351 product. Original failed351/360/361 evidence and earlier reports retain their meanings. Public GO1, human OPEN45, accepted40302/b142/meta9/deferred72, P-20 approval and148 prerequisites are not promoted or rewritten. Package references remain textually preserved; no binary package was opened or rebuilt. Root owns subsequent byte-identical public report copying and a single decision append.",
+  "runtime_reuse": "No engine or screen run occurred in ORDER-361. ORDER-351's separate report remains the source for its64 prepared states,254 labels,28 choice results and70 directly reviewed PNGs. It used prepared StoryMode queues/handlers, not natural input or a continuous calendar/route replay, and retains its documented ingress-fixture limits. Unchanged product/game bytes preserve relevance, not fresh execution or expanded runtime assurance. The older350/359 screen evidence is not reissued as a current-source run.",
+  "evidence": [
+    {"path": ".git/full-game-localization/order361-final-aggregate.json", "sha256": "a673ff5461764bfa3b07924ddb0e250010abf818c2f1b6bb76b4f95780cbd1ce"},
+    {"path": ".git/full-game-localization/order361-first-summary.json", "sha256": "6cb1d5c563ae87d65704c3f270d774e323412c17c0869c3455f5c933e3909b4a"},
+    {"path": ".git/full-game-localization/order361-receipt-fixtures-summary.json", "sha256": "74395b4b9492c49a883844d08a21e46f3af39fa4e9db6b7ab68d0d8fb5ab47c2"},
+    {"path": ".git/full-game-localization/order361-receipt-fixtures-01.json", "sha256": "cef22f82681ee24a50f1d57f92f1e9adc8bd11de6ecaada3f31d132d6631f5af"},
+    {"path": ".git/full-game-localization/order361-first-02.json", "sha256": "6e63f60eb9efcc50544a4a664d1b5252ba76a85431fbfe908239198c18397453"},
+    {"path": ".git/full-game-localization/order361-first-11.json", "sha256": "c715bcc36ef7cd6619e14945bd4d555085650e02cff95a9dc3023d96fe632a34"},
+    {"path": ".git/full-game-localization/order361-first-12.json", "sha256": "6a7f02a8a0c60bec5ae8e61ce74b308ff69b37d1b5458dc42180c116faec428c"},
+    {"path": ".git/full-game-localization/order361-source-bridge.json", "sha256": "38be8aa13457e53f74658325f1060d1fdd0921677e366b58ae9fb29a9691d0ca"},
+    {"path": ".git/full-game-localization/order361-source-metadata-checks.json", "sha256": "03ffe5a8243e804d3a82813720c7da143ad212afb23d525e61b7266a9a925d52"},
+    {"path": ".git/full-game-localization/order361-runner.py", "sha256": "4ae8a9a083e360777b448633c44a1ac3263453e79021bbfd430559e21c565c63"},
+    {"path": ".git/full-game-localization/order361-aggregate.py", "sha256": "56594a6573f73823db276a9a81ff91913ff495824fa02bd909964c2dcfc471e7"},
+    {"path": ".git/full-game-localization/order361-module-before-receipt-fixtures.py", "sha256": "77533005d16fea832d2681ee18ed2fea82e45fea74ca6db3c1fbd52f1ce00af8"},
+    {"path": "docs/agent_reviews/ORDER-351.json", "sha256": "5097c0644efd03fc85946aa9bbeb1901ad4b8a44c0f8bdff841442c50453295a"}
+  ],
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "New engine execution, screenshots, audio listening, physical or natural input, normal-speed/full240-week play and gameplay route ingress.",
+    "A clean-final-commit acceptance rerun, the full audit shell, binary assets, real-player data or package contents.",
+    "Successful Chapter1 corpus completion and the future ORDER-362/363 implementation or acceptance."
+  ],
+  "completion_statement": "Automatic gates establish bounded contracts, not fun, depth, prose quality or human approval. This review records a source-bound ORDER-361 HOLD with one identified integration cause and two preserved failing commands. Full game and new package remain HOLD; no release, store, expenditure, legal-certification or human/native/physical authority is exercised."
+}

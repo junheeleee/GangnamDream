@@ -4956,6 +4956,41 @@
         "path": "docs/agent_reviews/ORDER-351.json",
         "sha256": "5097c0644efd03fc85946aa9bbeb1901ad4b8a44c0f8bdff841442c50453295a"
       }
+    },
+    {
+      "id": "order-361-source-22f0d0d-agent-review",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-28",
+      "decided_by": "/root/r3_route_probe",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-361",
+      "subject": {
+        "kind": "source",
+        "commit": "22f0d0ddbb42e393bf290ecaf0c664d28a3d5163",
+        "tree": "6246af71a02a922e36cb6756f8b37300ee85401f",
+        "manifest_sha256": null
+      },
+      "verdict": "HOLD",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-361.json",
+          "sha256": "eb4ddd52afed87de1100f0a654bce578c7c88665976b064179d150de3c2b2b84"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "New engine execution, screenshots, audio listening, physical or natural input, normal-speed/full240-week play and gameplay route ingress.",
+        "A clean-final-commit acceptance rerun, the full audit shell, binary assets, real-player data or package contents.",
+        "Successful Chapter1 corpus completion and the future ORDER-362/363 implementation or acceptance."
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-361.json",
+        "sha256": "eb4ddd52afed87de1100f0a654bce578c7c88665976b064179d150de3c2b2b84"
+      }
     }
   ]
 }

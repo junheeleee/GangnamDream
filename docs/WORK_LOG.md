@@ -4,6 +4,8 @@
 
 ## 2026-09-28 (Codex — 4장 수리 검증 연결 구현, 별도 기록 연결 누락으로 HOLD)
 
+- 비저자 [361 최종보고](agent_reviews/ORDER-361.json) SHA `eb4ddd52afed87de1100f0a654bce578c7c88665976b064179d150de3c2b2b84`를 private원본과 byte-identical로 보존했다. clean source `22f0d0ddbb42e393bf290ecaf0c664d28a3d5163`/tree `6246af71a02a922e36cb6756f8b37300ee85401f`에 결속한 HOLD이며 기존120판정/98보고 뒤 각1개만 append(121/99)했다. 실행→마감은 문서8변경+363추가뿐이고 검사한 코드/제품은 동일, 전체20실행과역사fixture 신원을 독립 재대조했다. 미결1원인/2실패와362→363 순서를 유지한다.
+
 - [361](queue_active/ORDER-361.md)의 새 경계·소비자5·등록2를 구현했다. 선언 `759150139201d231b9df06edd5cc1a1f1c9e8938` 뒤 정확8도구이며 제품·번역·원형6모듈·기존120판정/98보고·인간 원장을 보존했다. 현재351의 raw12경로/87기존문구/48갱신receipt, LIVE44/역사KOEN17파일107leaf만 결속한다.40302/b142/meta9/보류72 불변이다.
 - 명시19종은 최초17PASS/2FAIL. full-body normal/self162가 원래351 admission6경로 실패를 해소했다. 새 경계795·역사1955·graph388·year51212(1316.355초)·chapter5146·locale264 PASS. 기존350 corpus와year5의155등록11/비도달 경계는 그대로다. 옛350 직접CLI·전체shell PASS를 주장하지 않는다.
 - chapter1 normal/self는 inventory snapshot mismatch로 각각 exit1(37.689/37.028초), self는 준비 단계 중단이다. 기존622/신규4사례 실행 완료0. 이전360의 정확6지문 갱신(eaa588…1764→2ff675…88b0)이 역사 비교 체인에 빠져 있음을 저자·비저자가 Git/소비자에서 각각 확인했다. [362](queue_active/ORDER-362.md) 실제 내용 검토 후 [363](queue_active/ORDER-363.md)에서 두 정확 기록 전이를 함께 연결하도록 새 범위를 선언했다. 원형pin 덮어쓰기·351의12경로 확장0이다.
