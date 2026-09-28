@@ -2,7 +2,7 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
-#### [~] ORDER-362 [P1·검증] 4장 수리 뒤 콘텐츠 검토 지문 두 축을 다시 결속한다
+#### [x] ORDER-362 [P1·검증] 4장 수리 뒤 콘텐츠 검토 지문 두 축을 다시 결속한다
 
 2026-09-28 Codex 발행. 351의 실제 release inventory 실패를 분리한 후속이다.
 361 검증 연결 구현 뒤·352 새 집필 전에 수행한다. 2026-09-28 착수 선언이며 구현·지문 갱신은 아직0이다.
@@ -10,7 +10,30 @@
 수리한다. 이 기록을 곧 다시 바꿀 예정이므로360만 먼저 연결해 같은 검사를
 반복하지 않는다. 361 GO를 이 작업의 선행으로 요구하는 순환 대기는 두지 않는다.
 
-## 2026-09-28 구현·검토 결과 — clean source 독립 최종 판정 대기
+## 독립 마감 (2026-09-28)
+
+- 비저자 `/root/r3_route_probe`의 한정 work_unit GO, clean source `c7db93f7fc915a4d16fa5e8f63fa8b72343a6491`,
+  tree `96b70c27fd4a833c6b1150742b19da38415f59f0`. [보고](../agent_reviews/ORDER-362.json) SHA
+  `80ce364d6c6a1a06098cb681ecc29d28f1b029e7f3a6e892fcfea7acdb62e9ca`, private 최종 원본과 byte-identical이다.
+- 기존121판정/99보고를 그대로 두고 각1개만 추가한다. 인간 원장·원351 실패·
+  361의두 실패·공개 데모 불변. 351/361 통합 및 본편/새package HOLD다.
+- 완료 사양만 archive로 이동한다. aggregate archive 변경0, 활성 큐 나머지
+  순번 -1 및351/361/WORK_LOG의362 상대 링크 이동만 반영한다.
+- 마감 metadata 검사: context PASS(boot30398), queue PASS(active80/in_progress76),
+  agent 원장 self222 PASS(product HOLD/human unchanged). 기존 판정121개 raw prefix,
+  보고99개·인간 원장·보고 증거8개 SHA·새 보고 원본 동일성을 별도로 확인했다.
+
+| 항목 | 관측 |
+|---|---|
+| 도달 경로 | RELEASE_CONTENT_INVENTORY_OK; RELEASE_CONTENT_INVENTORY_SELF_TEST_OK cases=45; context/queue PASS |
+| 생산자 ↔ 독자 | content/meta/release_content_inventory.json:689,747 ↔ tools/release_content_inventory.py:437,2041,2999 |
+| 바꾸는 상태 | stale body SHA 2 + 생성표 stale → exact2 SHA 치환/최신 표 |
+| 포기 시 잃는 것 | order351-static-first-10-stdout.log: ERROR 3; 내용 검토 이력 불일치 |
+| 서사 위치 | Ch4 arc_y4_family_partner_collision_jiyeon/three_promises/deal_only/jiyeon_and_deal; KOEN 8description |
+| 장면 계층 | N/A: 산문/화면 저작0, 기존 후보4사건 전문 검토 |
+| 닫는 것 | 두 검토 지문·생성표 불일치만; Chapter1 2FAIL →363, 351/361 HOLD |
+
+## 2026-09-28 구현 직후 기록 — 이후 최종 판정은 위 마감 절
 
 - 선언 `be6bd91` 및 원장 경로 정정 `6df5de6` 뒤 제품 2파일만 변경했다.
   기준360 `c94cd3ae19f22a015b3bd6b6e25afb17a8561242`부터 시작점까지

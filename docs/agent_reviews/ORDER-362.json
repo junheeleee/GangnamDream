@@ -1,0 +1,114 @@
+{
+  "schema": "gangnamdream-independent-work-unit-review/v1",
+  "unit_id": "ORDER-362",
+  "scope": "work_unit",
+  "review_stage": "independent_source_bound_final",
+  "review_date": "2026-09-28",
+  "decided_by": "/root/r3_route_probe",
+  "decision": "GO",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "c7db93f7fc915a4d16fa5e8f63fa8b72343a6491",
+    "tree": "96b70c27fd4a833c6b1150742b19da38415f59f0",
+    "manifest_sha256": null
+  },
+  "outcome": "GO only for ORDER-362's reconciliation of the two current-source content fingerprints and the same two generated-table cells, after independent prose review. No required finding remains in this bounded work unit. ORDER-351 and ORDER-361 integration remains HOLD pending ORDER-363 and source-bound follow-up review. This is not an internal-product, age-rating, legal, public-release or new-package GO.",
+  "independence": "Non-author agent review. I personally read CLAUDE, gangnamdream-dev, WORK_UNIT, the selected order, the required five QA/build/content-inventory authorities, the fingerprint consumer and private recorder. I independently recomputed the candidate sets and whole-event fingerprints from immutable Git without using the author's extractor, read all four changed candidate events in KO/EN with their choices/results and all eight before/after descriptions, enumerated all 39 ORDER-351 KO/EN changed leaves, and directly verified the final documentation, source identity and raw evidence. The development skill governed declaration/ownership separation, preservation and targeted verification. I authored no product, tracked file, translation, generator output or acceptance test; only this private review was written. Agent reading is not native-reader or human observation.",
+  "source_binding": {
+    "clean": true,
+    "observation": "Direct HEAD/tree and empty porcelain agree with current_agent_source_subject(), which independently returned the exact subject above. main is one local commit ahead of origin; remote publication is not asserted.",
+    "starting_source": "42fe58882e3e32b9eeeb86614c1b2fe88f88819e",
+    "last_reviewed_inventory_source": "c94cd3ae19f22a015b3bd6b6e25afb17a8561242",
+    "order351_parent": "6297e8cbcd4e77278055b5e332f545ea32de90f9",
+    "order351_product": "3f0aa92dc9c3bdefd6a333fa84481a318baad907",
+    "git_bridge": "The product commit's direct parent is the stated ORDER-351 parent. KO/EN event bytes are identical from the ORDER-360 reviewed source to that parent, and from the ORDER-351 product commit to the reviewed ORDER-362 source. Thus no intervening event-prose change is omitted from this delta.",
+    "exact_edit": "I reconstructed each of the two current files from starting-source bytes with exactly the approved two SHA substitutions. Raw equality holds. Search rules, candidates, facts, intensity, other five content fingerprints, language axis, frozen public contract and all other bytes remain unchanged. content/tools Git diff contains only release_content_inventory.json; no prose, locale receipt, runtime, gameplay, asset or tool change belongs to ORDER-362.",
+    "product_sha256": {
+      "content/meta/release_content_inventory.json": "f46041343731f5cd64b680f778cff9ee77ea0c67fe114536f27a557fe5c1ead0",
+      "docs/CONTENT_RATING_INVENTORY.md": "c306b061c4b89aef40eb10c1833e0b06e0eff919d7941eb30986625c79f9d9d0"
+    },
+    "execution_bridge": "All four checks ran on declaration HEAD 6df5de6ac3a5db5b53391e55416bd423e38a1f0c with exactly the two repaired product files dirty, not on this final clean commit. Each entry/result records identical before/after state, HEAD, status, recorder hash and 1838 tracked/untracked text-path hashes. Independent comparison to current source finds the same 1838 paths, no additions/removals, identical tested product/tool bytes, and only the six reviewed documentation changes listed below. This text census is not a binary-asset, package or user-data census. The tests were not rerun after those documentation changes.",
+    "execution_to_source_document_changes": [
+      "CLAUDE.md",
+      "docs/CODEX_QUEUE.md",
+      "docs/STATUS.md",
+      "docs/WORK_LOG.md",
+      "docs/queue_active/ORDER-351.md",
+      "docs/queue_active/ORDER-362.md"
+    ],
+    "documentation_assessment": "The current row, queue, work log, ORDER-351 follow-up and ORDER-362 result correctly distinguish the four executed checks, independent prose review, pending final decision and remaining ORDER-363 integration work. Generated STATUS is pre-closure evidence, not a new product decision. Final report copy, decision append, queue archival and dashboard regeneration are root-owned subsequent metadata closure and are not claimed as already observed here."
+  },
+  "reviewed_population": {
+    "fingerprint_semantics": "The unchanged consumer selects candidate IDs by KO category/tags or recursively searched KO/EN string values. Sorted candidates are hashed with their complete KO and EN event objects as compact sorted-key JSON. A changed non-matching description still changes the selected event's hash. File counts are KO owner files; declared search noise remains included.",
+    "order351_ko_en_delta": {"files": 5, "existing_string_leaves": 39, "ko": 16, "en": 23, "candidate_leaves": 8, "outside_all_seven_axis_candidates": 31},
+    "actual_current_prose_read": "Four distinct candidate event IDs, each full KO and EN event object, plus eight old descriptions; exact selected change is description only. All other event fields, choice structure, results, conditions, flags and effects are unchanged. The other 31 changed leaves were independently enumerated and classified outside all seven candidate sets; this report does not claim a new full-game prose reread.",
+    "candidate_paths": ["content/events/arc_chapter_themes.json", "content/events_en/arc_chapter_themes.json"],
+    "events": [
+      {"id": "arc_y4_family_partner_collision_jiyeon", "axis": "crime", "leaf": "description", "ko_line": 1292, "en_line": 527},
+      {"id": "arc_y4_three_promises", "axis": "alcohol_tobacco_drugs", "leaf": "description", "ko_line": 886, "en_line": 366},
+      {"id": "arc_y4_three_promises_jiyeon_and_deal", "axis": "alcohol_tobacco_drugs", "leaf": "description", "ko_line": 948, "en_line": 390},
+      {"id": "arc_y4_three_promises_deal_only", "axis": "alcohol_tobacco_drugs", "leaf": "description", "ko_line": 1010, "en_line": 414}
+    ],
+    "crime": {
+      "event_count": 73,
+      "file_count": 40,
+      "ids_sha256": "4e0463a4d699a58c1c3fc7fa856c80b4218417badce2d62ec0403d389294c0dd",
+      "old_content_sha256": "3909aa7574de228b135c25936226f3c5bf1018bfc16b1585b212cf71be4cf933",
+      "new_content_sha256": "f4fd635402ca61ce5632576a11b5d461a7e3cd32ed85f7a5eea80ba4e1e834dd"
+    },
+    "alcohol_tobacco_drugs": {
+      "event_count": 82,
+      "file_count": 39,
+      "ids_sha256": "32942c5a49b64e9027b5a0071e1c95d6d205478ef05ea6ad25c5ad3c5d90433f",
+      "old_content_sha256": "3ab95d312b2b2d36bdd76293987362ac765786937153245652442fbb1c8c418d",
+      "new_content_sha256": "421a29f3f803fa35668b14a1b64a8ffd101616dfc7d9b6d5b863ab42cc924ef4"
+    },
+    "independent_recalculation": "All seven baseline fingerprints reproduce the ORDER-360 ledger exactly. All seven current candidate ID lists, owner-file sets, event/file counts and ID hashes equal baseline. Only the two hashes above differ; the other five whole-event content hashes are exact."
+  },
+  "qualitative_assessment": [
+    "Crime: the Jiyeon family-table event adds Father's first Seoul visit after hospital discharge. Its existing Korean result contains '표를 사기 전에', a ticket-purchase substring rather than fraud. The declared search-noise classification remains correct. Neither its unchanged choices/results nor its new description adds crime, stronger depiction or a new crime mechanism.",
+    "Alcohol/tobacco/drugs: the three promises variants clarify that Father has been admitted again. The ward call, nurse, medication chart, omitted evening dose, health check and protagonist's own clinic route are already present. These remain health/medicine references, not new illicit-drug use, misuse gameplay, smoking or drinking. Existing tobacco_and_medicine_references mild and adult_social_drinking moderate facts need no amendment for this delta.",
+    "The existing factual descriptions and intensity labels can remain unchanged for these eight reviewed text changes. Hospital chronology clarification does not establish a new medical outcome or change event behavior. This is consistency review against the repository's existing inventory, not a legal or official age-rating determination."
+  ],
+  "verification": {
+    "executed_check_types": 4,
+    "executions": 4,
+    "results": [
+      {"name": "release_content_inventory.py", "exit_code": 0, "seconds": 6.42, "result": "PASS; exact normal marker and generated-report freshness", "record_sha256": "ecc5cbbad77952d9f4c1be096f56c3e192c207a1241dbd1b4c2f819590794647"},
+      {"name": "release_content_inventory.py --self-test", "exit_code": 0, "seconds": 9.176, "result": "PASS; 45 cases", "record_sha256": "582e2f4cccd928433a0bd34a98689a404e5a7c5ed8b14a8471c8618692d39b58"},
+      {"name": "context_manifest_check.py", "exit_code": 0, "seconds": 0.28, "result": "PASS", "record_sha256": "230e3104c236cbbfe2c09bf3201efeeb7d8390706852d02037866a414dab4918"},
+      {"name": "queue_consistency_check.py", "exit_code": 0, "seconds": 0.262, "result": "PASS; active81/in_progress77", "record_sha256": "e11640416f830bcc7c030f989f2e99ceffe73e61b4c209cd5b23c4188db69ae7"}
+    ],
+    "raw_evidence_review": "I directly read all four raw stdout/stderr pairs and independently rehashed all four result records, all four entry records and all eight logs against their recorded references. Every reference agrees; stderr is empty, timeout is false, and each expected full-line marker occurs once without error output. Entries bind the actual commands and 300-second limits. Each result binds its recorder hash and equal before/after census. The summary's PASS is corroborating machine evidence, not the independent verdict by itself.",
+    "count_boundary": "The impact selector's 20 selected checks are not 20 executions. The author's separate --write-report invocation is generation, not a fifth acceptance check. No acceptance CLI, Godot, screen capture, full audit or earlier ORDER-351/361 test was rerun by this reviewer."
+  },
+  "preservation": {
+    "prior_decisions": "All bytes of the prior 121-decision ledger equal starting source; SHA256 3b611c14e7d5d87a14f4b079e895686bbf9a5cd487e5b49235402937abe47670.",
+    "prior_reports": "All 99 existing docs/agent_reviews files independently compared byte-for-byte with starting-source Git and are unchanged.",
+    "human": "human_gates.json is byte-identical to starting source, SHA256 6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6; OPEN45/done1 remain unchanged. The old exact public-package GO is neither revised nor inherited.",
+    "original_order351_failure": "The original release-inventory execution remains exit1, 7.298s, no timeout, empty stderr, with exactly three stdout errors: crime content mismatch, alcohol_tobacco_drugs content mismatch and stale generated report. I rehashed its record and read its full 519-byte stdout; original evidence is not rewritten or relabeled PASS.",
+    "remaining_integration": "ORDER-361's two Chapter1 failures remain historical failures, including self-test fixture rejection before its corpus ran. ORDER-363, after this inventory change, owns the exact ORDER-360/362 inventory-history bridge. Successful new checks and separate follow-up review are required before changing ORDER-351/361 HOLD. This work-unit GO does not close those gates.",
+    "public_contract": "The two-substitution raw reconstruction preserves the entire frozen public-source/tree/manifest/PCK/ZIP contract. Package files were not opened, rebuilt or freshly tested. Source inventory, package inclusion and playable reachability remain distinct."
+  },
+  "required_findings": [],
+  "evidence": [
+    {"path": ".git/full-game-localization/order362-candidate-packet.json", "sha256": "8de9115ab734b6941a0446782c8c0b8f0ffd8a02f26a3d10f0bed1e29faadae8"},
+    {"path": ".git/full-game-localization/order362-first-summary.json", "sha256": "0efc347597e19382af1efbbdbb376e08c048b372bce6cab3fef61ca2ec3dd49f"},
+    {"path": ".git/full-game-localization/order362-verify.py", "sha256": "38c73e4a900393af6facda65ef2687c72acf15f5954821e8146327df17381be5"},
+    {"path": "tools/release_content_inventory.py", "sha256": "2f38afaf1fbbf30ed91c2aff194c1d7f61e73830f98b70a3e43fddc3f0addae2"},
+    {"path": ".git/full-game-localization/order351-static-first-10.json", "sha256": "a3c236566b021bd54e6cca8e3abc1fc1335ba53cdc4a8b565a54a94fd0f3e3f3"},
+    {"path": ".git/full-game-localization/order351-static-first-10-stdout.log", "sha256": "62ecd8616a661e9b35d8f4384206b07e1312f02b1d09ff661530b764eacdaff9"},
+    {"path": "docs/agent_reviews/ORDER-351.json", "sha256": "5097c0644efd03fc85946aa9bbeb1901ad4b8a44c0f8bdff841442c50453295a"},
+    {"path": "docs/agent_reviews/ORDER-361.json", "sha256": "eb4ddd52afed87de1100f0a654bce578c7c88665976b064179d150de3c2b2b84"}
+  ],
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "New engine execution, screenshots, audio listening, natural input, normal-speed play or a full 240-week playthrough.",
+    "Fresh physical package/PCK/ZIP inspection, package build, external release, live submission forms, final age-rating or legal certification.",
+    "Acceptance-test rerun on the final clean commit or after subsequent root-owned metadata closure."
+  ],
+  "automation_boundary": "Automatic checks establish their recorded contracts, not fun, depth, prose quality, native language readiness or human approval. This GO follows the bounded independent artifact/prose review and does not promote automatic PASS into a broader product GO."
+}

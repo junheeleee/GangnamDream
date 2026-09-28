@@ -30,7 +30,7 @@ R4다. story_map M37~M48 root 16장면(3년치 영수증, 민서 등장·재회,
   생성표만 갱신했다. 다른 문구·게임 코드·번역 수용은 추가 변경0이다.
 - inventory normal 및 self45, context/queue 네 검사 PASS. 최초351의
   exit1·3오류와361의1장 두 실패는 역사 그대로 보존한다. 이번 수리는
-  [362](ORDER-362.md) clean source 독립 최종 판정에 별도 결속한다.
+  [362](../queue_archive/ORDER-362.md) clean source 독립 GO에 별도 결속했다. 본편 GO는 아니다.
   [363](ORDER-363.md)의 역사 비교 연결과 실제 후속 검수 전까지351/361 HOLD다.
 
 ### 2026-09-28 후속361 — 검증 연결 구현, 통합 HOLD 유지
@@ -40,7 +40,7 @@ R4다. story_map M37~M48 root 16장면(3년치 영수증, 민서 등장·재회,
   PASS를 관측했다. 기존87문구/48receipt와 게임 코드는 추가 변경하지 않았다.
 - 361의 표적19종은17PASS/2FAIL. 1장 normal/self가 이전360의 콘텐츠 검토
   지문 변경을 역사 비교에 연결하지 못해 중단했다. 원형 pin은 그대로 보존한다.
-  [362](ORDER-362.md)의 crime/alcohol 두 지문 실제 검토 후,
+  [362](../queue_archive/ORDER-362.md)의 crime/alcohol 두 지문 실제 검토 후,
   [363](ORDER-363.md)이360·362의 정확한 기록 전이를 연결한다.
 - 351은362·363 뒤 실제 후속 검수까지 HOLD다. 과거 화면64준비상태/70PNG를
   다시 실행하거나 현재 자연 입력·원어민·인간·물리 패드 관찰로 바꾸지 않았다.
@@ -77,7 +77,7 @@ R4다. story_map M37~M48 root 16장면(3년치 영수증, 민서 등장·재회,
   `e4f983f6fc234e9272e40677344fdb24db52c990e61ab097d4906b9bb6ead081`,
   정적 summary SHA `1086ab3eaf68f8c2d94968c2b6747eaae0da805686ccc8f172518d25dfcc22e3`.
   선언HEAD의 dirty 제품 바이트에서 검사했으며 뒤 clean commit 재실행은 아니다.
-- 별도 [361](ORDER-361.md) 검증 연결과 [362](ORDER-362.md) 콘텐츠 지문
+- 별도 [361](ORDER-361.md) 검증 연결과 [362](../queue_archive/ORDER-362.md) 콘텐츠 지문
   재검토를 선언했다. 두 후속은 미구현이며351 통합 HOLD를 해제하지 않는다.
   최종 후보 독립 판정은 새 별도 보고에 결속한다. 이전119판정/97보고와
   인간OPEN45·옛공개GO1, 본편/새package HOLD를 보존한다.

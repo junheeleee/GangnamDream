@@ -4991,6 +4991,41 @@
         "path": "docs/agent_reviews/ORDER-361.json",
         "sha256": "eb4ddd52afed87de1100f0a654bce578c7c88665976b064179d150de3c2b2b84"
       }
+    },
+    {
+      "id": "order-362-source-c7db93f-agent-review",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-28",
+      "decided_by": "/root/r3_route_probe",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-362",
+      "subject": {
+        "kind": "source",
+        "commit": "c7db93f7fc915a4d16fa5e8f63fa8b72343a6491",
+        "tree": "96b70c27fd4a833c6b1150742b19da38415f59f0",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-362.json",
+          "sha256": "80ce364d6c6a1a06098cb681ecc29d28f1b029e7f3a6e892fcfea7acdb62e9ca"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "New engine execution, screenshots, natural input, audio listening or full 240-week play.",
+        "A clean-final-commit acceptance rerun, binary assets, real-player data or package contents.",
+        "Official rating, legal certification, release authorization, Chapter1 success or ORDER-351/361 integrated approval."
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-362.json",
+        "sha256": "80ce364d6c6a1a06098cb681ecc29d28f1b029e7f3a6e892fcfea7acdb62e9ca"
+      }
     }
   ]
 }
