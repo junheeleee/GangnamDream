@@ -151,8 +151,10 @@ def _demo_runtime(errors: list[str]) -> tuple[dict[str, Any], dict[str, Any]]:
 
     observed, runtime, scope_errors = demo_scope.build_scope()
     manifest = read_json(ROOT / "content/meta/demo_localization_scope.json")
+    expected, expectation_errors = demo_scope.current_source_contract(manifest, observed, runtime)
+    scope_errors.extend(expectation_errors)
     scope_errors.extend(demo_scope.compare_contract(
-        manifest.get("source_contract"), observed
+        expected, observed
     ))
     scope_errors.extend(demo_scope.boundary_errors(
         runtime["event_ids"], manifest

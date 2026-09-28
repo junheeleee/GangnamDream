@@ -645,8 +645,10 @@ def collect_demo() -> tuple[list[Entry], dict[str, Any]]:
 
     observed, runtime, errors = demo_scope.build_scope()
     manifest = read_json(ROOT / "content/meta/demo_localization_scope.json")
+    expected, expectation_errors = demo_scope.current_source_contract(manifest, observed, runtime)
+    errors.extend(expectation_errors)
     errors.extend(demo_scope.compare_contract(
-        manifest.get("source_contract"), observed
+        expected, observed
     ))
     errors.extend(demo_scope.boundary_errors(runtime["event_ids"], manifest))
     if errors:

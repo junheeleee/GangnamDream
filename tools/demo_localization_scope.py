@@ -15,6 +15,7 @@ import copy
 import hashlib
 import json
 import re
+import subprocess
 import sys
 from collections import Counter
 from dataclasses import dataclass
@@ -789,6 +790,149 @@ def compare_contract(expected: Any, observed: Any, path: str = "source_contract"
     return errors
 
 
+CURRENT_CONTRACT_MANIFEST_SHA256 = "9d50b64e6bc09d8e3e8e670fc48163ed5a0a419263cd0ffc601aac45c7abc7b6"
+CURRENT_CONTRACT_305_MODULE_SHA256 = "a6ba3bab8340df736eaf059abc7bb837ccf0474ea22ff66bda7c130619e09cad"
+CURRENT_CONTRACT_351_MODULE_SHA256 = "0d5de5fa6d80a87f1794f0ccfabee5b972feb195d09703474f040cb5481314ff"
+CURRENT_CONTRACT_KO_PATH = "content/events/arc_events.json"
+CURRENT_CONTRACT_KO_SHA256 = "4abc2a1e0b61ac4ba9d130aff5a47f696eea27dfdd841ec88f1f4449972768f6"
+CURRENT_CONTRACT_305_LEAVES = (
+    ("arc_sangchul_01_answer", ("choices", 0, "result_text")),
+    ("arc_sangchul_01_answer", ("choices", 1, "result_text")),
+    ("arc_temptation_clean", ("description",)),
+)
+CURRENT_CONTRACT_TEXT_PINS = (
+    (40767, "f6b2fc837269a7bba45dfe39a2ae2376381bee70f03c8656c1073cc74cc8d433"),
+    (40769, "43ec49da45e09df4fff5a6dc1da61510bb7ea7f69e128953f3b9544ae880ffb2"),
+)
+
+
+def _contract_require(ok: bool, detail: str) -> None:
+    if not ok:
+        raise ValueError("ORDER-369 current source contract: " + detail)
+
+
+def _contract_305_blobs() -> tuple[bytes, bytes]:
+    """Fresh immutable evidence, deliberately outside the old module's cache."""
+    import order305_demo_source_compat as original
+
+    blobs = []
+    for revision in (original.BEFORE_COMMIT, original.AFTER_COMMIT):
+        result = subprocess.run(
+            ("git", "--no-replace-objects", "show", revision + ":" + CURRENT_CONTRACT_KO_PATH),
+            cwd=ROOT, capture_output=True, timeout=30,
+        )
+        _contract_require(result.returncode == 0, "immutable305 Git blob unavailable")
+        blobs.append(result.stdout)
+    original._verify_transition(*blobs, CURRENT_CONTRACT_KO_PATH)
+    return tuple(blobs)
+
+
+def _current_contract_proof() -> dict[str, Any]:
+    import order305_demo_source_compat as original
+    import order351_source_compat as history
+
+    for module, relative, digest in (
+        (original, "tools/order305_demo_source_compat.py", CURRENT_CONTRACT_305_MODULE_SHA256),
+        (history, "tools/order351_source_compat.py", CURRENT_CONTRACT_351_MODULE_SHA256),
+    ):
+        _contract_require(module.ROOT == ROOT and Path(module.__file__).resolve() == ROOT / relative
+                          and hashlib.sha256((ROOT / relative).read_bytes()).hexdigest() == digest,
+                          "immutable module/import identity drifted " + relative)
+    manifest_raw = MANIFEST_PATH.read_bytes()
+    _contract_require(hashlib.sha256(manifest_raw).hexdigest() == CURRENT_CONTRACT_MANIFEST_SHA256,
+                      "historical manifest raw drifted")
+    manifest = original._loads(manifest_raw)
+    sources = {relative: (ROOT / relative).read_bytes()
+               for relative in manifest["source_contract"]["event_owner_counts"]}
+    current = sources[CURRENT_CONTRACT_KO_PATH]
+    _contract_require(hashlib.sha256(current).hexdigest() == CURRENT_CONTRACT_KO_SHA256,
+                      "current KO raw drifted or rolled back")
+    before, after = _contract_305_blobs()
+    with history.fresh_validation_proof():
+        _contract_require(not history.source_errors(current, CURRENT_CONTRACT_KO_PATH),
+                          "current KO admission failed")
+        _contract_require(history.inverse_current_bytes(current, CURRENT_CONTRACT_KO_PATH) == after,
+                          "current KO does not bind to immutable post305")
+    return {"manifest": manifest_raw, "before": before, "after": after, "sources": sources}
+
+
+def _current_contract_view(
+    manifest: dict[str, Any], observed: dict[str, Any], runtime: dict[str, Any],
+    proof: dict[str, Any],
+) -> dict[str, Any]:
+    """Prove the three-leaf intersection; never rewrite actual runtime/observed."""
+    import order305_demo_source_compat as original
+
+    ordered = lambda value: json.dumps(value, ensure_ascii=False, allow_nan=False, separators=(",", ":"))
+    _contract_require(hashlib.sha256(proof["manifest"]).hexdigest() == CURRENT_CONTRACT_MANIFEST_SHA256,
+                      "historical manifest proof drifted")
+    sealed = original._loads(proof["manifest"])
+    _contract_require(ordered(manifest) == ordered(sealed), "submitted manifest is not bound to raw")
+    expected = copy.deepcopy(sealed["source_contract"])
+    old_pin, new_pin = CURRENT_CONTRACT_TEXT_PINS
+    _contract_require((expected["event_text_ko_chars"], expected["event_text_sha256"]) == old_pin,
+                      "historical text expectation drifted")
+    original._verify_transition(proof["before"], proof["after"], CURRENT_CONTRACT_KO_PATH)
+    old_rows = {row["id"]: row for row in original._loads(proof["before"])}
+    new_rows = {row["id"]: row for row in original._loads(proof["after"])}
+    sources = proof["sources"]
+    _contract_require(set(sources) == set(expected["event_owner_counts"]), "source owner population drifted")
+    _contract_require(hashlib.sha256(sources[CURRENT_CONTRACT_KO_PATH]).hexdigest() == CURRENT_CONTRACT_KO_SHA256,
+                      "current raw proof drifted or rolled back")
+    disk_events, disk_owners = {}, {}
+    for owner, raw in sources.items():
+        payload = original._loads(raw)
+        rows = payload if isinstance(payload, list) else payload["events"]
+        for row in rows:
+            event_id = row["id"]
+            _contract_require(event_id not in disk_events, "duplicate event identity")
+            disk_events[event_id], disk_owners[event_id] = row, owner
+    ids = runtime["event_ids"]
+    _contract_require(isinstance(ids, list) and ids == sorted(set(ids)) and len(ids) == 72
+                      and sha_rows(ids) == expected["visible_event_ids_sha256"], "exact72 event identity drifted")
+    for event_id in ids:
+        _contract_require(runtime["owners"][event_id] == disk_owners[event_id]
+                          and ordered(runtime["events"][event_id]) == ordered(disk_events[event_id]),
+                          "runtime event is not bound to current raw " + event_id)
+    leaves = event_text_leaves(ids, disk_events, disk_owners)
+    _contract_require(len(leaves) == 467 and runtime["leaves"] == leaves, "exact467 leaf identity/order drifted")
+    leaf_hash = lambda rows: sha_rows(f"{leaf.event_id}\0{leaf.path}\0{leaf.source}" for leaf in rows)
+    _contract_require((sum(len(leaf.source) for leaf in leaves), leaf_hash(leaves)) == new_pin,
+                      "current text fingerprint drifted")
+    _contract_require(observed["event_text_ko_chars"] == new_pin[0]
+                      and observed["event_text_sha256"] == new_pin[1], "observed text is not bound to current leaves")
+    restored, matched = [], []
+    for leaf in leaves:
+        selector = (leaf.event_id, leaf.tokens)
+        if selector in CURRENT_CONTRACT_305_LEAVES:
+            before = _value_at_tokens(old_rows[leaf.event_id], leaf.tokens)
+            after = _value_at_tokens(new_rows[leaf.event_id], leaf.tokens)
+            _contract_require(leaf.owner == CURRENT_CONTRACT_KO_PATH and leaf.source == after and before != after,
+                              "approved305 leaf mismatch " + leaf.path)
+            restored.append(TextLeaf(leaf.event_id, leaf.tokens, before, leaf.owner))
+            matched.append(selector)
+        else:
+            restored.append(leaf)
+    _contract_require(set(matched) == set(CURRENT_CONTRACT_305_LEAVES) and len(matched) == 3,
+                      "exact three-leaf intersection drifted")
+    _contract_require((sum(len(leaf.source) for leaf in restored), leaf_hash(restored)) == old_pin,
+                      "remaining464 leaves do not bind to historical fingerprint")
+    expected["event_text_ko_chars"], expected["event_text_sha256"] = new_pin
+    _contract_require(not compare_contract(expected, observed), "observed scope outside the two-field successor")
+    return expected
+
+
+def current_source_contract(
+    manifest: dict[str, Any], observed: dict[str, Any], runtime: dict[str, Any],
+) -> tuple[dict[str, Any], list[str]]:
+    """An exact current expectation copy; old manifest and actual observations survive."""
+    expected = copy.deepcopy(manifest.get("source_contract", {})) if isinstance(manifest, dict) else {}
+    try:
+        return _current_contract_view(manifest, observed, runtime, _current_contract_proof()), []
+    except (OSError, ValueError, KeyError, TypeError, IndexError, AttributeError, subprocess.TimeoutExpired) as exc:
+        return expected, ["ORDER-369 current expectation rejected: " + str(exc)]
+
+
 def _value_at_tokens(value: Any, tokens: tuple[Any, ...]) -> Any:
     current = value
     for token in tokens:
@@ -1314,6 +1458,130 @@ def run_self_test(
     return []
 
 
+def current_source_contract_self_test() -> tuple[list[str], int]:
+    """Bounded current-expectation tests, separate from the original corpus."""
+    from unittest import mock
+    import order305_demo_source_compat as original
+    import order351_source_compat as history
+
+    failures, cases = [], 0
+
+    def check(ok, label):
+        nonlocal cases
+        cases += 1
+        if not ok:
+            failures.append("ORDER-369 boundary: " + label)
+
+    manifest = read_json(MANIFEST_PATH)
+    observed, runtime, scope_errors = build_scope()
+    proof = _current_contract_proof()
+    original_inputs = copy.deepcopy((manifest, observed, runtime, proof))
+    expected, errors = current_source_contract(manifest, observed, runtime)
+    check(not scope_errors and not errors and not compare_contract(expected, observed), "current positive")
+    check((manifest, observed, runtime, proof) == original_inputs, "no input mutation")
+    changed = {key for key in expected if expected[key] != manifest["source_contract"][key]}
+    check(changed == {"event_text_ko_chars", "event_text_sha256"}, "only two expectation fields")
+    check(len(compare_contract(manifest["source_contract"], observed)) == 2, "generic comparator stays exact")
+    check(len(runtime["event_ids"]) == 72 and len(runtime["leaves"]) == 467, "actual denominator")
+
+    def rejects(m=manifest, o=observed, r=runtime, p=proof):
+        try:
+            _current_contract_view(m, o, r, p)
+        except (OSError, ValueError, KeyError, TypeError, IndexError, AttributeError):
+            return True
+        return False
+
+    for key in observed:
+        altered = dict(observed)
+        altered[key] = None
+        check(rejects(o=altered), "observed field " + key)
+    for field, value in (("event_text_ko_chars", 40769), ("event_text_sha256", CURRENT_CONTRACT_TEXT_PINS[1][1]),
+                         ("event_text_count", 466), ("visible_event_count", 71), ("extra", True)):
+        altered = copy.deepcopy(manifest)
+        altered["source_contract"][field] = value
+        check(rejects(m=altered), "manifest field " + field)
+    altered = copy.deepcopy(manifest)
+    del altered["source_contract"]["event_text_sha256"]
+    check(rejects(m=altered), "missing manifest expectation")
+    for key in ("before", "after", "manifest"):
+        for raw in (b"", proof[key] + b"\n"):
+            check(rejects(p={**proof, key: raw}), "missing/altered proof " + key)
+    check(rejects(p={**proof, "before": proof["after"], "after": proof["before"]}), "swapped transition")
+
+    current_raw = proof["sources"][CURRENT_CONTRACT_KO_PATH]
+    for raw in (proof["before"], proof["after"], b"", b" " + current_raw, current_raw + b"\n"):
+        changed_proof = {**proof, "sources": {**proof["sources"], CURRENT_CONTRACT_KO_PATH: raw}}
+        check(rejects(p=changed_proof), "old/post305/empty/raw-format current source")
+    old_rows = {row["id"]: row for row in original._loads(proof["before"])}
+    current_rows = original._loads(current_raw)
+    for mask in range(1, 8):
+        payload = copy.deepcopy(current_rows)
+        rows = {row["id"]: row for row in payload}
+        for bit, (event_id, path) in enumerate(CURRENT_CONTRACT_305_LEAVES):
+            if mask & (1 << bit):
+                original._parent(rows[event_id], path)[path[-1]] = _value_at_tokens(old_rows[event_id], path)
+        raw = (json.dumps(payload, ensure_ascii=False, indent=2) + "\n").encode()
+        changed_proof = {**proof, "sources": {**proof["sources"], CURRENT_CONTRACT_KO_PATH: raw}}
+        check(rejects(p=changed_proof), "partial/full three-leaf rollback " + str(mask))
+    for ids in (runtime["event_ids"][:-1], [*runtime["event_ids"], "unknown"],
+                [*runtime["event_ids"], runtime["event_ids"][0]], list(reversed(runtime["event_ids"]))):
+        check(rejects(r={**runtime, "event_ids": ids}), "event population/order")
+    check(rejects(r={**runtime, "leaves": runtime["leaves"][:-1]}), "leaf population")
+    check(rejects(r={**runtime, "leaves": list(reversed(runtime["leaves"]))}), "leaf order")
+    first_id = runtime["event_ids"][0]
+    check(rejects(r={**runtime, "owners": {**runtime["owners"], first_id: "content/events/elsewhere.json"}}),
+          "forged runtime owner")
+    changed_proof = {**proof, "sources": {**proof["sources"], "content/events/elsewhere.json": b"[]"}}
+    check(rejects(p=changed_proof), "extra raw owner")
+    # Bind an independently changed, unowned event to both raw and runtime.
+    # Rejection must come from the 467/464 fingerprints, not stale payload binding.
+    altered_runtime = copy.deepcopy(runtime)
+    event_id = "story_prologue_goal"
+    owner = runtime["owners"][event_id]
+    payload = original._loads(proof["sources"][owner])
+    rows = payload if isinstance(payload, list) else payload["events"]
+    event = next(row for row in rows if row["id"] == event_id)
+    event["description"] += " 변조"
+    altered_runtime["events"][event_id] = copy.deepcopy(event)
+    altered_runtime["leaves"] = event_text_leaves(runtime["event_ids"], altered_runtime["events"], runtime["owners"])
+    altered_observed = dict(observed)
+    altered_observed["event_text_ko_chars"] = sum(len(leaf.source) for leaf in altered_runtime["leaves"])
+    altered_observed["event_text_sha256"] = sha_rows(
+        f"{leaf.event_id}\0{leaf.path}\0{leaf.source}" for leaf in altered_runtime["leaves"])
+    changed_proof = {**proof, "sources": {**proof["sources"], owner: json.dumps(payload, ensure_ascii=False).encode()}}
+    check(rejects(o=altered_observed, r=altered_runtime, p=changed_proof), "changed neighbor with rebound observation")
+    for bad in (None, [], {}, {"event_ids": []}):
+        check(rejects(r=bad), "malformed runtime")
+
+    real_run = subprocess.run
+    for mode in ("missing", "forged"):
+        def changed_git(command, *args, **kwargs):
+            if list(command[:4]) == ["git", "--no-replace-objects", "show", original.BEFORE_COMMIT + ":" + CURRENT_CONTRACT_KO_PATH]:
+                return subprocess.CompletedProcess(command, 1 if mode == "missing" else 0, b"forged", b"missing")
+            return real_run(command, *args, **kwargs)
+        with mock.patch.object(subprocess, "run", side_effect=changed_git):
+            rejected_view, rejected_errors = current_source_contract(manifest, observed, runtime)
+            check(bool(rejected_errors) and rejected_view == manifest["source_contract"], "fresh Git " + mode)
+        view, recovered_errors = current_source_contract(manifest, observed, runtime)
+        check(not recovered_errors and view == expected, "Git recovery " + mode)
+    with mock.patch.object(history, "inverse_current_bytes", return_value=b"forged"):
+        view, rejected_errors = current_source_contract(manifest, observed, runtime)
+        check(bool(rejected_errors) and view == manifest["source_contract"], "unproven current-to-post305 composition")
+    with mock.patch.object(original, "ROOT", ROOT / "not-the-original-import"):
+        _view, rejected_errors = current_source_contract(manifest, observed, runtime)
+        check(bool(rejected_errors), "module import identity")
+    real_read = Path.read_bytes
+    for relative in (CURRENT_CONTRACT_KO_PATH, str(MANIFEST_PATH.relative_to(ROOT))):
+        def changed_read(path):
+            raw = real_read(path)
+            return raw + b"\n" if path == ROOT / relative else raw
+        with mock.patch.object(Path, "read_bytes", changed_read):
+            _view, rejected_errors = current_source_contract(manifest, observed, runtime)
+            check(bool(rejected_errors), "actual raw entry " + relative)
+    check((manifest, observed, runtime, proof) == original_inputs, "all fixtures preserve original inputs")
+    return failures, cases
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
@@ -1332,7 +1600,9 @@ def main() -> int:
         print("DEMO_I18N_SCOPE_FAIL — manifest missing")
         return 1
     manifest = read_json(MANIFEST_PATH)
-    errors.extend(compare_contract(manifest.get("source_contract"), observed))
+    expected, expectation_errors = current_source_contract(manifest, observed, runtime)
+    errors.extend(expectation_errors)
+    errors.extend(compare_contract(expected, observed))
     errors.extend(boundary_errors(runtime["event_ids"], manifest))
     routes, bypasses = route_errors()
     errors.extend(routes)
@@ -1373,7 +1643,11 @@ def main() -> int:
         )
 
     if args.self_test:
-        errors.extend(run_self_test(manifest, observed, runtime))
+        current_manifest = {**manifest, "source_contract": expected}
+        errors.extend(run_self_test(current_manifest, observed, runtime))
+        current_failures, current_cases = current_source_contract_self_test()
+        errors.extend(current_failures)
+        print(f"DEMO_I18N_CURRENT_SOURCE_SELF_TEST_{'FAIL' if current_failures else 'OK'} cases={current_cases}")
     if errors:
         print(f"DEMO_I18N_SCOPE_FAIL errors={len(errors)}")
         for error in errors[:200]:

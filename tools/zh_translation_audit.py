@@ -9920,6 +9920,55 @@ def _story_demo_exclusive_ui_pairs(
     return exclusive, errors
 
 
+def _legacy_resume_answer_leaf(
+    inventory: UiInventory, entry: Any, key: str, source: str,
+):
+    """Recover only the actual static collector's owned resume-result Leaf.
+
+    The numeric contract remains in full_game_localization.  A matching key
+    alone is insufficient: require the inventory entry, blueprint and real
+    legacy callsite.  Do not pin the collector's sort-index diagnostic alias.
+    """
+    expected = "끝까지 썼지만 네 답 옆에는 근거를 다시 채울 표시가 남았다."
+    if source != expected or inventory.errors \
+            or sum(item is entry for item in inventory.legacy_entries) != 1 \
+            or entry.source != source or entry.context_id or entry.format_template \
+            or inventory.legacy_blueprint.get(source) != {"$entry": entry.key}:
+        return None
+    calls = [call for call in inventory.calls if call.korean == source]
+    if len(calls) != 1:
+        return None
+    call = calls[0]
+    if (call.path, call.function, call.api, call.context_id) != (
+            "scenes/JobHuntMiniGame.gd", "_show_result", "legacy", "") \
+            or call.line <= 0 or entry.context != f"UI / {call.path}:{call.line}" \
+            or re.fullmatch(
+                r"ui::[0-9]{4,}::" + hashlib.sha1(source.encode()).hexdigest()[:12],
+                entry.key,
+            ) is None:
+        return None
+    from full_game_localization import Leaf
+
+    # Same field construction as full_game_localization.collect's ui.entries
+    # branch, not a fabricated event/dynamic/context-owner admission.
+    leaf = Leaf("ui", source, "runtime:static_ui", (source,), source,
+                "ui_static_context", format_template=entry.format_template)
+    return leaf if key == leaf.id else None
+
+
+def _legacy_ui_text_errors(
+    lang: str, key: str, source: str, target: Any,
+    inventory: UiInventory, entry: Any,
+) -> list[str]:
+    leaf = _legacy_resume_answer_leaf(inventory, entry, key, source) \
+        if lang in LANGUAGES else None
+    if leaf is None:
+        return validate_text(lang, key, source, target)
+    from full_game_localization import translation_errors
+
+    return translation_errors(leaf, lang, target)
+
+
 def static_ui_coverage(
     lang: str, runtime: dict[str, Any], strict: bool,
     actual_override: Optional[dict[str, Any]] = None,
@@ -10016,7 +10065,8 @@ def static_ui_coverage(
         # inventory alias below for diagnostics, not source-bound validation.
         pointer = source.replace("~", "~0").replace("/", "~1")
         validation_key = f"ui:{source}:/{pointer}"
-        for error in validate_text(lang, validation_key, source, target):
+        for error in _legacy_ui_text_errors(
+                lang, validation_key, source, target, inventory, entry):
             errors.append(f"{lang}:{entry.key}: {error}")
     context_covered = 0
     for context_id in sorted(expected_context):
@@ -20612,11 +20662,155 @@ def _race_finish_self_test() -> tuple[int, list[str]]:
     return len(controls), failures
 
 
+def _resume_static_ui_self_test(runtime: dict[str, Any]) -> tuple[int, list[str]]:
+    """Exercise the actual static consumer without broadening generic counts."""
+    from dataclasses import replace
+    import full_game_localization as full
+
+    cases = 0
+    failures: list[str] = []
+
+    def check(name: str, condition: bool) -> None:
+        nonlocal cases
+        cases += 1
+        if not condition:
+            failures.append("resume static UI " + name)
+
+    source = "끝까지 썼지만 네 답 옆에는 근거를 다시 채울 표시가 남았다."
+    key = f"ui:{source}:/{source}"
+    inventory = _static_ui_inventory()
+    entries = [entry for entry in inventory.legacy_entries if entry.source == source]
+    check("one real legacy entry", len(entries) == 1)
+    if len(entries) != 1:
+        return cases, failures
+    entry = entries[0]
+    leaf = _legacy_resume_answer_leaf(inventory, entry, key, source)
+    collected = [item for item in full.collect()["leaves"] if item.id == key]
+    check("full collector metadata equality", leaf is not None and collected == [leaf])
+    if leaf is None:
+        return cases, failures
+    call = next(item for item in inventory.calls if item.korean == source)
+
+    def with_entry(other):
+        return replace(inventory, legacy_entries=tuple(
+            other if item is entry else item for item in inventory.legacy_entries))
+
+    def with_call(other):
+        return replace(inventory, calls=tuple(
+            other if item is call else item for item in inventory.calls))
+
+    originals = {
+        "zh-CN": "虽然写到了最后，四个回答旁仍留着需要重新补充依据的标记。",
+        "zh-TW": "雖然寫到了最後，四個回答旁仍留著要重新補上依據的記號。",
+    }
+    for lang, target in originals.items():
+        unit = "个" if lang == "zh-CN" else "個"
+        count = "四" + unit + "回答"
+        actual = read_json(ROOT / "locale" / f"ui_{lang}.json")
+        check(lang + " actual target", actual.get(source) == target)
+        check(lang + " generic unchanged", validate_text(lang, key, source, target) == [
+            "unmatched target entity quantity invented: 4"])
+        for numeral in ("四", "4", "４"):
+            normal = target.replace(count, numeral + unit + "回答")
+            check(lang + " numeral " + numeral,
+                  _legacy_ui_text_errors(lang, key, source, normal, inventory, entry) == [])
+        mutations = {
+            "three": target.replace(count, "三" + unit + "回答"),
+            "five": target.replace(count, "五" + unit + "回答"),
+            "missing": target.replace(count, "回答"),
+            "owner": target.replace(count, "四" + unit + "人"),
+            "unit": target.replace(count, "四次回答"),
+            "duplicate": target.replace(count, count + "旁，" + count),
+            "displaced": target.replace(count, "三" + unit + "回答") + count + "。",
+            "extra_native": target + "四人。",
+            "extra_half": target + "半天。",
+            "extra_financial": target + "肆人。",
+            "money": target + "4元。",
+            "token": target + " {name}",
+            "printf": target + " %d",
+            "newline": target + "\n",
+            "script": target.replace(unit + "回答", ("個" if lang == "zh-CN" else "个") + "回答"),
+        }
+        for name, mutant in mutations.items():
+            expected = full.translation_errors(leaf, lang, mutant)
+            check(lang + " reject " + name, bool(expected) and
+                  _legacy_ui_text_errors(lang, key, source, mutant, inventory, entry) == expected)
+
+        # Each altered entry is installed into the test inventory so these
+        # cases test its fields, not merely the object-membership guard.
+        off = [
+            ("key", inventory, entry, key + ":other", source),
+            ("source", inventory, entry, key, source + " "),
+            ("detached entry", inventory, replace(entry), key, source),
+            ("missing entry", replace(inventory, legacy_entries=tuple(
+                item for item in inventory.legacy_entries if item is not entry)), entry, key, source),
+            ("duplicate entry", replace(inventory, legacy_entries=inventory.legacy_entries + (entry,)), entry, key, source),
+            ("blueprint", replace(inventory, legacy_blueprint={
+                **inventory.legacy_blueprint, source: {"$entry": "other"}}), entry, key, source),
+            ("collector error", replace(inventory, errors=("fixture collector error",)), entry, key, source),
+            ("missing call", replace(inventory, calls=tuple(
+                item for item in inventory.calls if item is not call)), entry, key, source),
+            ("duplicate call", replace(inventory, calls=inventory.calls + (call,)), entry, key, source),
+        ]
+        for field, value in (("source", source + " "), ("context_id", "ui.other"),
+                             ("format_template", True), ("context", "UI / other:1"),
+                             ("key", "ui::0000::wrong")):
+            other = replace(entry, **{field: value})
+            other_inventory = with_entry(other)
+            if field == "key":
+                other_inventory = replace(other_inventory, legacy_blueprint={
+                    **inventory.legacy_blueprint, source: {"$entry": other.key}})
+            off.append(("entry " + field, other_inventory, other, key, source))
+        for field, value in (("path", "scenes/Other.gd"), ("function", "_other"),
+                             ("api", "context"), ("context_id", "ui.other"),
+                             ("korean", source + " ")):
+            off.append(("call " + field, with_call(replace(call, **{field: value})),
+                        entry, key, source))
+        for name, candidate, candidate_entry, candidate_key, candidate_source in off:
+            generic = validate_text(lang, candidate_key, candidate_source, target)
+            check(lang + " off " + name,
+                  _legacy_resume_answer_leaf(candidate, candidate_entry, candidate_key, candidate_source) is None
+                  and _legacy_ui_text_errors(lang, candidate_key, candidate_source, target,
+                                             candidate, candidate_entry) == generic)
+
+        # Sorting or source-line movement is not a new owner or a new leaf.
+        moved_call = replace(call, line=call.line + 1)
+        moved_entry = replace(entry, context=f"UI / {call.path}:{moved_call.line}")
+        moved_inventory = replace(with_entry(moved_entry), calls=tuple(
+            moved_call if item is call else item for item in inventory.calls))
+        check(lang + " line movement", _legacy_resume_answer_leaf(
+            moved_inventory, moved_entry, key, source) == leaf)
+        alias_entry = replace(entry, key="ui::9999::" + hashlib.sha1(source.encode()).hexdigest()[:12])
+        alias_inventory = replace(with_entry(alias_entry), legacy_blueprint={
+            **inventory.legacy_blueprint, source: {"$entry": alias_entry.key}})
+        check(lang + " sort alias movement", _legacy_resume_answer_leaf(
+            alias_inventory, alias_entry, key, source) == leaf)
+
+        covered = static_ui_coverage(lang, runtime, False, actual)
+        check(lang + " live static consumer", covered[-1] == [] and
+              covered[4:6] == (EXPECTED_STORY_DEMO_EXCLUSIVE_UI_KEYS,) * 2)
+        changed = dict(actual)
+        changed[source] = mutations["three"]
+        rejected = static_ui_coverage(lang, runtime, False, changed)
+        expected_errors = [f"{lang}:{entry.key}: {error}" for error in
+                           full.translation_errors(leaf, lang, changed[source])]
+        check(lang + " mutated static consumer", rejected[:6] == covered[:6]
+              and bool(expected_errors) and rejected[-1] == expected_errors)
+    for lang in ("ja", "ko", "en", "zh", "zh-Hant"):
+        check("locale off " + lang,
+              _legacy_ui_text_errors(lang, key, source, originals["zh-TW"], inventory, entry)
+              == validate_text(lang, key, source, originals["zh-TW"]))
+    return cases, failures
+
+
 def run_self_test(
     manifest: dict[str, Any], runtime: dict[str, Any],
 ) -> list[str]:
     failures: list[str] = []
     cases, life_failures = _life_scene_parser_self_test()
+    resume_cases, resume_failures = _resume_static_ui_self_test(runtime)
+    cases += resume_cases
+    failures.extend(resume_failures)
     metre_cases, metre_failures = _race_metre_self_test()
     cases += metre_cases
     failures.extend(metre_failures)
@@ -22281,8 +22475,10 @@ def main() -> int:
 
     manifest = read_json(demo_scope.MANIFEST_PATH)
     observed, runtime, errors = demo_scope.build_scope()
+    expected, expectation_errors = demo_scope.current_source_contract(manifest, observed, runtime)
+    errors.extend(expectation_errors)
     errors.extend(demo_scope.compare_contract(
-        manifest.get("source_contract"), observed
+        expected, observed
     ))
     errors.extend(demo_scope.boundary_errors(runtime["event_ids"], manifest))
     errors.extend(chinese_contract_errors(manifest))
