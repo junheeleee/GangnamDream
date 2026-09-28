@@ -2,6 +2,19 @@
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
 
+## 2026-09-28 통합 후속 착수
+
+- [351의 후속 선언](ORDER-351.md#2026-09-28-통합-후속-착수--기존-수리의-최종-판정만)과
+  같은 clean 기준에서 읽기 전용 증거 결속·별도361 판정을 수행한다. 신규 구현0.
+  root는 이 사양/큐/마감 기록, compat357은 private 보존 증거, r3_route_probe는
+  비저자 최종 보고만 소유한다. 기존124판정/102보고·실패·제품 바이트 불변이다.
+- 원19종17PASS/2FAIL·20실행과 receipt 반례 보강을 보존한다. 바뀐 두 검사에는
+  363/364의 실제 normal/full689를 결속하며 나머지17 PASS는 도구/입력/독자 경계의
+  차이 비영향을 확인한 범위만 재사용한다. 기존역사1955 및 engine 재실행0이다.
+- 새 보고 `ORDER-361-followup.json`은 실제 clean source에 결속한다. 이전 HOLD
+  보고를 수정하지 않는다. Chapter1 부채8/blocked3/24슬롯gap·351 화면 관측 한계·
+  본편/새package HOLD·인간/원어민/물리 미관측은 그대로다. 일회성/외부권한0.
+
 ## 2026-09-28 후속363/364 실행 — 통합 판정은 별도
 
 - [363](../queue_archive/ORDER-363.md)의 exact inventory 관측 연결 및 [364](../queue_archive/ORDER-364.md)의
