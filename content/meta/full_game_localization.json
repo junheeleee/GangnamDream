@@ -6134,6 +6134,131 @@
           "batch_id": "5cfbd3b1576c965aa98711ffc6a724752d56b25dfacf03b8feb7ef8b3cc99c76"
         }
       }
+    },
+    {
+      "order": "ORDER-390",
+      "group": "ui",
+      "roots": [
+        "건강/정신력이 0이 되거나 순자산이 -1억 원 미만이면 끝납니다."
+      ],
+      "source_leaves": 1,
+      "target_leaves_by_locale": {
+        "ja": 1,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Korean-direct tutorial guidance with net-worth bankruptcy explanation. Independent complete source comparison; existing values and public demo unchanged; source copy fixes net-worth threshold wording only, gameplay unchanged. Agent review is not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "ja": "283a299fd4d1d37a9b4400548a8ddfa16fc2fbe7a2227d1ad407a337ec5ac3ed"
+      },
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "4c3fd2a7407cfbc27ddf83c16cad009a1508f22f",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "b017b1460f3e6a6f7656336a3230036b5ca4f2ca7c80cbea332e39ec8d8b6ed7",
+          "selection_sha256": "90749cea14d213f3611d0568e13f3b5edf68926fda147217b7a1917348639ac1",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "6df5252c72cbc6091cfefed0cf2848d9f6c1929efb86ab4f089537e1bbcb1c44"
+        }
+      }
+    },
+    {
+      "order": "ORDER-390",
+      "group": "ui",
+      "roots": [
+        "강남드림 — 시작 안내",
+        "33세, 통장 50만 원. 5년 안에 자산 30억을 만들고 강남에 입성하세요.",
+        "목표",
+        "자산 30억. 시간은 60개월뿐입니다.",
+        "행동",
+        "매주 AP로 구직, 투자, 자기계발, 휴식, 미니게임을 선택합니다.",
+        "방향",
+        "안정적인 방법은 느리지만 버팁니다. 빠른 방법은 앞서가지만 한 번에 무너질 수 있습니다.",
+        "건강/정신력이 0이 되거나 순자산이 -1억 원 미만이면 끝납니다.",
+        "첫 주 추천: 구직활동으로 수입 0원 상태를 먼저 벗어나세요.",
+        "시작하기 ›"
+      ],
+      "source_leaves": 11,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 11,
+        "zh-TW": 0
+      },
+      "source_review": "Korean-direct tutorial guidance with net-worth bankruptcy explanation. Independent complete source comparison; existing values and public demo unchanged; source copy fixes net-worth threshold wording only, gameplay unchanged. Agent review is not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "6f78d29c341c0bab78bca6c7d23a6f7b2916c25191c8e9c2e315f07cc51072dd"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "4c3fd2a7407cfbc27ddf83c16cad009a1508f22f",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "b017b1460f3e6a6f7656336a3230036b5ca4f2ca7c80cbea332e39ec8d8b6ed7",
+          "selection_sha256": "b305296ce18448f5d571fa4752c3d1b4e3704eeef4e47065df84a63d5c0016e3",
+          "count": 11,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "1363e8dc1b4001aea0ca3b4abf4395162979a5878bac56161525ed0aadb8ab2a"
+        }
+      }
+    },
+    {
+      "order": "ORDER-390",
+      "group": "ui",
+      "roots": [
+        "강남드림 — 시작 안내",
+        "33세, 통장 50만 원. 5년 안에 자산 30억을 만들고 강남에 입성하세요.",
+        "목표",
+        "자산 30억. 시간은 60개월뿐입니다.",
+        "행동",
+        "매주 AP로 구직, 투자, 자기계발, 휴식, 미니게임을 선택합니다.",
+        "방향",
+        "안정적인 방법은 느리지만 버팁니다. 빠른 방법은 앞서가지만 한 번에 무너질 수 있습니다.",
+        "건강/정신력이 0이 되거나 순자산이 -1억 원 미만이면 끝납니다.",
+        "첫 주 추천: 구직활동으로 수입 0원 상태를 먼저 벗어나세요.",
+        "시작하기 ›"
+      ],
+      "source_leaves": 11,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 11
+      },
+      "source_review": "Korean-direct tutorial guidance with net-worth bankruptcy explanation. Independent complete source comparison; existing values and public demo unchanged; source copy fixes net-worth threshold wording only, gameplay unchanged. Agent review is not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-TW": "677b8a290cdbc439a9bbb017d941223293fd1667b420f521485cf98fe281ce82"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "4c3fd2a7407cfbc27ddf83c16cad009a1508f22f",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "b017b1460f3e6a6f7656336a3230036b5ca4f2ca7c80cbea332e39ec8d8b6ed7",
+          "selection_sha256": "4ba6c3573d99bd6349adc2c6ea14c7984bee27d85acdf02465a2e5060d5c8e56",
+          "count": 11,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "ee1d3288bbce4c8eaed50017034f9018f1e7f0d4251a78216720d4d068b3ce82"
+        }
+      }
     }
   ],
   "accepted": {
@@ -58641,6 +58766,10 @@
       "ui:홍대 치킨:/홍대 치킨": {
         "source_sha256": "e037036f322c0f867e20102b064512e8abadf03879abe6eea77667e245ab6d64",
         "target_sha256": "762db42d15d6985179af4394cd51af7ffc88ccfc9f35c0f503485dace8899bb4"
+      },
+      "ui:건강/정신력이 0이 되거나 순자산이 -1억 원 미만이면 끝납니다.:/건강~1정신력이 0이 되거나 순자산이 -1억 원 미만이면 끝납니다.": {
+        "source_sha256": "9efc8b06d39a292ddff42a9c0ef8481d9ca7c9e7a36a420788bf74aa00bdf9b4",
+        "target_sha256": "0bcbc0e2767c0ae3020ef0dc50fcae980d9b39e279b7fafd84b88f9f2c0a8a02"
       }
     },
     "zh-CN": {
@@ -114307,6 +114436,50 @@
       "ui:주의:/주의": {
         "source_sha256": "d33fcf42baac9dc1c945bd2054cd2f1aea515277264c064402286189f7818dbf",
         "target_sha256": "a21fb269292ea1d348f36a74083bde34bac82b76827a6f21aca014d32a6d8359"
+      },
+      "ui:33세, 통장 50만 원. 5년 안에 자산 30억을 만들고 강남에 입성하세요.:/33세, 통장 50만 원. 5년 안에 자산 30억을 만들고 강남에 입성하세요.": {
+        "source_sha256": "6b4846c32f29f35242c4b056184c64b9899f08f498050a8bb80ec2cbb8e31a01",
+        "target_sha256": "4fb8ae3f5a43df9b57c9222956c64e6a96b9b04c908ef9711069acce85950315"
+      },
+      "ui:강남드림 — 시작 안내:/강남드림 — 시작 안내": {
+        "source_sha256": "da3ce0ee85b208ea72a97decde3adab47117ddad807e33ce8cd1b4d94646aaa4",
+        "target_sha256": "56ac0490a429d6a70ea0b6d50e7d24e8ebde9a97ad083d60c4538558c431c753"
+      },
+      "ui:건강/정신력이 0이 되거나 순자산이 -1억 원 미만이면 끝납니다.:/건강~1정신력이 0이 되거나 순자산이 -1억 원 미만이면 끝납니다.": {
+        "source_sha256": "9efc8b06d39a292ddff42a9c0ef8481d9ca7c9e7a36a420788bf74aa00bdf9b4",
+        "target_sha256": "8b4cd401c45d5db837db6ebfe960718f3113ae0f8b100f9b2ac0ce1801611ffc"
+      },
+      "ui:매주 AP로 구직, 투자, 자기계발, 휴식, 미니게임을 선택합니다.:/매주 AP로 구직, 투자, 자기계발, 휴식, 미니게임을 선택합니다.": {
+        "source_sha256": "8b5ae7dfb77547a4ab8e5ba6f425360786e022ef6b0e4ed9d261bc99a133e6a7",
+        "target_sha256": "83b37f6301598f1f5f0761ce521b2b251358c93328827543811fcbcca3cee1a2"
+      },
+      "ui:목표:/목표": {
+        "source_sha256": "415f09bdc5492b423a09afed7e1c2b7393f970269a6277ce55f1b42aaa2155e8",
+        "target_sha256": "ccaca9c09e067d0f55dc2fd88a1a1b98185b17ca65d42ca12c01ee1efd978869"
+      },
+      "ui:방향:/방향": {
+        "source_sha256": "4bc6059a518e23aa439d0af405d7bf6c0914873f1a307966a8cb4ad8e9e4b4ad",
+        "target_sha256": "cc1ed99f767f55422e00348e15504a4c42fbafb0caf0b004efbb42f8bb768143"
+      },
+      "ui:시작하기 ›:/시작하기 ›": {
+        "source_sha256": "8c46a638e0456d933e1dbb2fc0efc79361416d75b825e6b62cc352b2adcb7ae6",
+        "target_sha256": "335b01bb8581bf0328fb59344816a9fb04515051df78687fb0443c308b18a8f4"
+      },
+      "ui:안정적인 방법은 느리지만 버팁니다. 빠른 방법은 앞서가지만 한 번에 무너질 수 있습니다.:/안정적인 방법은 느리지만 버팁니다. 빠른 방법은 앞서가지만 한 번에 무너질 수 있습니다.": {
+        "source_sha256": "7c0857cad42ec2fd1726aba9f50cf5bfb74b6c1a0b6eb4fb1b99aafcec64ac53",
+        "target_sha256": "d5fcc3b77e4bd7a772f76807a11d39aac2dac3e45b14ce7a83c3cca1209967c6"
+      },
+      "ui:자산 30억. 시간은 60개월뿐입니다.:/자산 30억. 시간은 60개월뿐입니다.": {
+        "source_sha256": "6a28eb7a84a818586f128164d054de2b76712fb2d64f39f5a101027ee6e68bb7",
+        "target_sha256": "227a6eb9cfc440a5fabd97a83a4c2d0eba6966125806816520b73698a62e8b7c"
+      },
+      "ui:첫 주 추천: 구직활동으로 수입 0원 상태를 먼저 벗어나세요.:/첫 주 추천: 구직활동으로 수입 0원 상태를 먼저 벗어나세요.": {
+        "source_sha256": "b49fd338abfc76abf82d4c1a94a4b2379767a39b9d4e0a61fdfe3ccd633b60b3",
+        "target_sha256": "179e34aca83776b2ef066cebb62fe44e53f7042d9afc3cd6009e5d3d8b935be4"
+      },
+      "ui:행동:/행동": {
+        "source_sha256": "256b705158e9e332d62017b3ba7ede8427ca0b5fad8a1369079b3965a1f83c9e",
+        "target_sha256": "5e498e6059c50fb186d4d666e464fff3a43149e5181a9ad8e85494d4e493715e"
       }
     },
     "zh-TW": {
@@ -169973,10 +170146,54 @@
       "ui:주의:/주의": {
         "source_sha256": "d33fcf42baac9dc1c945bd2054cd2f1aea515277264c064402286189f7818dbf",
         "target_sha256": "a21fb269292ea1d348f36a74083bde34bac82b76827a6f21aca014d32a6d8359"
+      },
+      "ui:33세, 통장 50만 원. 5년 안에 자산 30억을 만들고 강남에 입성하세요.:/33세, 통장 50만 원. 5년 안에 자산 30억을 만들고 강남에 입성하세요.": {
+        "source_sha256": "6b4846c32f29f35242c4b056184c64b9899f08f498050a8bb80ec2cbb8e31a01",
+        "target_sha256": "946a5998e1179dd69ee2fb33b986d9081dc5d5aba59c9b1aa411660662a6acf2"
+      },
+      "ui:강남드림 — 시작 안내:/강남드림 — 시작 안내": {
+        "source_sha256": "da3ce0ee85b208ea72a97decde3adab47117ddad807e33ce8cd1b4d94646aaa4",
+        "target_sha256": "be62c17674b8e78ea0856786b0627924f695f808b6597f59f754b57c28d7e240"
+      },
+      "ui:건강/정신력이 0이 되거나 순자산이 -1억 원 미만이면 끝납니다.:/건강~1정신력이 0이 되거나 순자산이 -1억 원 미만이면 끝납니다.": {
+        "source_sha256": "9efc8b06d39a292ddff42a9c0ef8481d9ca7c9e7a36a420788bf74aa00bdf9b4",
+        "target_sha256": "7e1e15a0815b5532e4abd579e64d9d1aadcaac51e69e18731958bc1c49c5858d"
+      },
+      "ui:매주 AP로 구직, 투자, 자기계발, 휴식, 미니게임을 선택합니다.:/매주 AP로 구직, 투자, 자기계발, 휴식, 미니게임을 선택합니다.": {
+        "source_sha256": "8b5ae7dfb77547a4ab8e5ba6f425360786e022ef6b0e4ed9d261bc99a133e6a7",
+        "target_sha256": "a432339db06ee95588730fc2591fbf7b08878c6e22834f6a4e010495209b2147"
+      },
+      "ui:목표:/목표": {
+        "source_sha256": "415f09bdc5492b423a09afed7e1c2b7393f970269a6277ce55f1b42aaa2155e8",
+        "target_sha256": "7c1313c73b81ebd8454ec544222e4587a0d2cf48481a0e1081eddbae42de8578"
+      },
+      "ui:방향:/방향": {
+        "source_sha256": "4bc6059a518e23aa439d0af405d7bf6c0914873f1a307966a8cb4ad8e9e4b4ad",
+        "target_sha256": "cc1ed99f767f55422e00348e15504a4c42fbafb0caf0b004efbb42f8bb768143"
+      },
+      "ui:시작하기 ›:/시작하기 ›": {
+        "source_sha256": "8c46a638e0456d933e1dbb2fc0efc79361416d75b825e6b62cc352b2adcb7ae6",
+        "target_sha256": "74fea4ca1889f719f20dbf05cd41f1294c1cf2cca25a24aa2ce1433d56c1b9f9"
+      },
+      "ui:안정적인 방법은 느리지만 버팁니다. 빠른 방법은 앞서가지만 한 번에 무너질 수 있습니다.:/안정적인 방법은 느리지만 버팁니다. 빠른 방법은 앞서가지만 한 번에 무너질 수 있습니다.": {
+        "source_sha256": "7c0857cad42ec2fd1726aba9f50cf5bfb74b6c1a0b6eb4fb1b99aafcec64ac53",
+        "target_sha256": "88713be3ed6be1713fe6fe546d24ae39d43bfd9e4af2f9c0aff2c1abbc9c05b9"
+      },
+      "ui:자산 30억. 시간은 60개월뿐입니다.:/자산 30억. 시간은 60개월뿐입니다.": {
+        "source_sha256": "6a28eb7a84a818586f128164d054de2b76712fb2d64f39f5a101027ee6e68bb7",
+        "target_sha256": "f3281ec95a0794ac78cc2444b76e75d461c9a75dd6515c3f37f9acb2cb17e3c8"
+      },
+      "ui:첫 주 추천: 구직활동으로 수입 0원 상태를 먼저 벗어나세요.:/첫 주 추천: 구직활동으로 수입 0원 상태를 먼저 벗어나세요.": {
+        "source_sha256": "b49fd338abfc76abf82d4c1a94a4b2379767a39b9d4e0a61fdfe3ccd633b60b3",
+        "target_sha256": "141454f347c823ff5c07d7b0a921a8a50be325dbf61618554e94902bab84bebd"
+      },
+      "ui:행동:/행동": {
+        "source_sha256": "256b705158e9e332d62017b3ba7ede8427ca0b5fad8a1369079b3965a1f83c9e",
+        "target_sha256": "bd16592c745ecde76c597e966f9c49d74d23405f31ce1790392890c770a98d38"
       }
     }
   },
-  "accepted_sha256": "f997da85f38dc12d5d116f1f21233abbed7d8e07114078f433b3410a82bcabb6",
+  "accepted_sha256": "7be7a1615eb618a01fa2e8cdae0a9b830038d03fecb886072b50eba85af87cf2",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
