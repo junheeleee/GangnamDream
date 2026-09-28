@@ -19095,17 +19095,34 @@ func _render_investment_assets_page() -> void:
 		return
 	_invest_pad_asset_idx = clampi(_invest_pad_asset_idx, 0, rows.size() - 1)
 	var page_no := _tr("자산 %d/%d", "Asset %d/%d") % [_invest_pad_asset_idx + 1, rows.size()]
-	_invest_page_body.add_child(_build_investment_page_caption(
+	var caption := _build_investment_page_caption(
 		page_no,
 		_tr("↑↓ 자산 · ←→ 매수/매도 · LB/RB 페이지", "↑↓ asset · ←→ buy/sell · LB/RB page"),
-		"#5b9cf6"))
+		"#5b9cf6")
+	_invest_page_body.add_child(caption)
+	var caption_row := caption.get_child(0) as HBoxContainer
+	for direction in [-1, 1]:
+		var move_btn := _small_button("↑" if direction < 0 else "↓", "#243851")
+		move_btn.custom_minimum_size = Vector2(46, 46)
+		move_btn.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+		move_btn.focus_mode = Control.FOCUS_NONE
+		move_btn.disabled = rows.size() < 2
+		move_btn.pressed.connect(func():
+			if _modal_kind != "investments" or not is_instance_valid(modal_layer) or not modal_layer.visible:
+				return
+			if _invest_current_page_id() != "assets" or not is_instance_valid(_invest_page_body):
+				return
+			if not is_instance_valid(caption) or caption.is_queued_for_deletion() or caption.get_parent() != _invest_page_body:
+				return
+			_invest_move_asset(direction, false))
+		caption_row.add_child(move_btn)
 	if GameState.mental < 70:
 		_invest_page_body.add_child(_wrap_label(
 			_tr("컨디션이 나쁠수록 매수 비용이 기본 0.3%보다 높아질 수 있습니다. 매도 수수료는 0.5%입니다.",
 			"Poorer condition can raise the buy cost above the 0.3% base fee. The sell fee is 0.5%."),
 			12, "#f0b429"))
-	var visible_count := mini(2, rows.size())
-	var start_idx := clampi(_invest_pad_asset_idx - 1, 0, maxi(0, rows.size() - visible_count))
+	var visible_count := 1
+	var start_idx := _invest_pad_asset_idx
 	var end_idx := mini(rows.size(), start_idx + visible_count)
 	for i in range(start_idx, end_idx):
 		_invest_page_body.add_child(_build_investment_asset_card(rows[i]))
@@ -19495,12 +19512,13 @@ func _invest_pad_actions(asset_id: String) -> Array:
 			})
 	return actions
 
-func _invest_move_asset(delta: int) -> bool:
+func _invest_move_asset(delta: int, play_sound: bool = true) -> bool:
 	if _invest_pad_asset_ids.is_empty():
 		return true
 	_invest_pad_asset_idx = int(posmod(_invest_pad_asset_idx + delta, _invest_pad_asset_ids.size()))
 	_invest_pad_action_idx = 0
-	AudioManager.play_ui_click()
+	if play_sound:
+		AudioManager.play_ui_click()
 	if _invest_current_page_id() == "assets" and is_instance_valid(_invest_page_body):
 		_render_investment_page()
 	else:
