@@ -6056,6 +6056,84 @@
           "batch_id": "550b9c1c32d19c7f455d1a28124d0a98c4718d67a348208a4aa9f3af6d2ac717"
         }
       }
+    },
+    {
+      "order": "ORDER-389",
+      "group": "ui",
+      "roots": [
+        "우량",
+        "ui.credit.standard_grade",
+        "주의",
+        "위험",
+        "ui.tutorial.danger"
+      ],
+      "source_leaves": 5,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 5,
+        "zh-TW": 0
+      },
+      "source_review": "Korean-direct Chinese regional credit-grade adjectives and tutorial danger context. Independent complete source comparison; existing values, public demo, runtime and gameplay unchanged. Agent review is not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "45264f961cdd747f85a9b43151e01345213b181e46c0be9a25e17cf68797bc6a"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "c5da50576cd0af8f92e31a9274cb3c5eed0f7a21",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "f7edff836bb7f48d258f950335f868af46a55564345a8e2d0ac4cb0f08cb29b5",
+          "selection_sha256": "ed65e450316af3ae61c4b2492e8b400f06ef31e6ce68758443645ccba5f24228",
+          "count": 5,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "cde6750b3a79f2cde9aa77d07f973b6659923084bd85e3f9f644f51196e4a1fa"
+        }
+      }
+    },
+    {
+      "order": "ORDER-389",
+      "group": "ui",
+      "roots": [
+        "우량",
+        "ui.credit.standard_grade",
+        "주의",
+        "위험",
+        "ui.tutorial.danger"
+      ],
+      "source_leaves": 5,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 5
+      },
+      "source_review": "Korean-direct Chinese regional credit-grade adjectives and tutorial danger context. Independent complete source comparison; existing values, public demo, runtime and gameplay unchanged. Agent review is not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-TW": "108154ccb03fe443c710ac2242a49c24853e04b100a84850ff04d3f909132b8d"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "c5da50576cd0af8f92e31a9274cb3c5eed0f7a21",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "f7edff836bb7f48d258f950335f868af46a55564345a8e2d0ac4cb0f08cb29b5",
+          "selection_sha256": "0c72408480e889f93a4dd990a56cf2901f13a6df96cbbb7705d17be59375a31c",
+          "count": 5,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "5cfbd3b1576c965aa98711ffc6a724752d56b25dfacf03b8feb7ef8b3cc99c76"
+        }
+      }
     }
   ],
   "accepted": {
@@ -114209,6 +114287,26 @@
       "ui:현재 실행 가능한 대출/상환 버튼이 없습니다.:/현재 실행 가능한 대출~1상환 버튼이 없습니다.": {
         "source_sha256": "3e15276cfc144dd81badca1cbeb825f857a66bc6ea82b355df556b12c00a9ffb",
         "target_sha256": "2361d9cfea28eab04a79746a0d14bf9f0d1395f11469ee6dfa732e93c1b0e5f5"
+      },
+      "ui:ui.credit.standard_grade:/ui.credit.standard_grade": {
+        "source_sha256": "5e7e7e660c6ea47988c028ff42a291be168e77b7ac2c5077e60a522c5b375f94",
+        "target_sha256": "413e82982765d8c7fd3b4f55b40253ba12bd00485501f3cc873b2ca752b455d5"
+      },
+      "ui:ui.tutorial.danger:/ui.tutorial.danger": {
+        "source_sha256": "91a088c6925c9219798d34bd463a821a3e26ca741e36a65375ed4c3da96f5298",
+        "target_sha256": "d11e24d999b316dc0dab5b0a53bacee7134966c1c669e5a17ef596d99ac7d61c"
+      },
+      "ui:우량:/우량": {
+        "source_sha256": "f4c0bfa9b59a12f79c6a7f50b05ec7a1a846d8bd7ed9e20f754e7124ee987962",
+        "target_sha256": "b986f8fbf1f41774bfb7004ff3b259721114de5ac4f36438f2815e370d04606b"
+      },
+      "ui:위험:/위험": {
+        "source_sha256": "831c5eae8c4c0bbf6ebfe2e8ebc5837d42760209e831b494c0426e4e634550da",
+        "target_sha256": "42da66ffcdacde50193016d0c3571afbb9ab5710bb9dd596f1f4eaabf46d0a4e"
+      },
+      "ui:주의:/주의": {
+        "source_sha256": "d33fcf42baac9dc1c945bd2054cd2f1aea515277264c064402286189f7818dbf",
+        "target_sha256": "a21fb269292ea1d348f36a74083bde34bac82b76827a6f21aca014d32a6d8359"
       }
     },
     "zh-TW": {
@@ -169855,10 +169953,30 @@
       "ui:현재 실행 가능한 대출/상환 버튼이 없습니다.:/현재 실행 가능한 대출~1상환 버튼이 없습니다.": {
         "source_sha256": "3e15276cfc144dd81badca1cbeb825f857a66bc6ea82b355df556b12c00a9ffb",
         "target_sha256": "9fb50e9b3f1eb28b8aeaa85200f1b782894146be2963b8b77145777a6f06ae6b"
+      },
+      "ui:ui.credit.standard_grade:/ui.credit.standard_grade": {
+        "source_sha256": "5e7e7e660c6ea47988c028ff42a291be168e77b7ac2c5077e60a522c5b375f94",
+        "target_sha256": "56cff2524a871f12f991a566efa134de34d4cd4708e644022d008c05dd2354b0"
+      },
+      "ui:ui.tutorial.danger:/ui.tutorial.danger": {
+        "source_sha256": "91a088c6925c9219798d34bd463a821a3e26ca741e36a65375ed4c3da96f5298",
+        "target_sha256": "662be698cb211a11254061d7c9e847709d9c06d79b7fd7ea1fcabf216c06f8a3"
+      },
+      "ui:우량:/우량": {
+        "source_sha256": "f4c0bfa9b59a12f79c6a7f50b05ec7a1a846d8bd7ed9e20f754e7124ee987962",
+        "target_sha256": "4c635c4f1b389f2eeaa2f7980dccf01e6a3f54af12babf3bef5e7abd9fedd863"
+      },
+      "ui:위험:/위험": {
+        "source_sha256": "831c5eae8c4c0bbf6ebfe2e8ebc5837d42760209e831b494c0426e4e634550da",
+        "target_sha256": "ea4f59591dbdeae33ced881c218400b1bea4b549550daac0a072f8f34855a91e"
+      },
+      "ui:주의:/주의": {
+        "source_sha256": "d33fcf42baac9dc1c945bd2054cd2f1aea515277264c064402286189f7818dbf",
+        "target_sha256": "a21fb269292ea1d348f36a74083bde34bac82b76827a6f21aca014d32a6d8359"
       }
     }
   },
-  "accepted_sha256": "9914d434112761015255a6dec986b439730bde352ba733fe69c35ec58c2c918e",
+  "accepted_sha256": "f997da85f38dc12d5d116f1f21233abbed7d8e07114078f433b3410a82bcabb6",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
