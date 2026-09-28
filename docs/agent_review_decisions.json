@@ -5847,6 +5847,82 @@
         "path": "docs/agent_reviews/ORDER-382.json",
         "sha256": "ad00f80435c9730738cc0a78d4930f23784c83c0932da1c74959c73fe54b1656"
       }
+    },
+    {
+      "id": "order-383-source-453eeb4-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-28",
+      "decided_by": "/root/r3_route_probe",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-383",
+      "subject": {
+        "kind": "source",
+        "commit": "453eeb4bd0911c21fc4f18107e268bf2f7d25b89",
+        "tree": "869285e7aee15532aa22e70aa0b6add3d340be48",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-383.json",
+          "sha256": "5a34278ec21a8cb26f41d638acf9ec488160a7b308bcfbef23ad10561bab5c81"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "natural_ingress",
+        "natural_return",
+        "focus_navigation_task",
+        "trade_or_settlement",
+        "complete_investment_ui",
+        "new_package"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-383.json",
+        "sha256": "5a34278ec21a8cb26f41d638acf9ec488160a7b308bcfbef23ad10561bab5c81"
+      }
+    },
+    {
+      "id": "order-384-source-453eeb4-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-09-28",
+      "decided_by": "/root/r3_route_probe",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-384",
+      "subject": {
+        "kind": "source",
+        "commit": "453eeb4bd0911c21fc4f18107e268bf2f7d25b89",
+        "tree": "869285e7aee15532aa22e70aa0b6add3d340be48",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-384.json",
+          "sha256": "010ea0c19f44ae639b606d87d8ff0ff3143f739e2f2f712abe144d5a9356357a"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "natural_ingress",
+        "natural_return",
+        "focus_navigation_task",
+        "trade_or_settlement",
+        "complete_investment_ui",
+        "new_package"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-384.json",
+        "sha256": "010ea0c19f44ae639b606d87d8ff0ff3143f739e2f2f712abe144d5a9356357a"
+      }
     }
   ]
 }

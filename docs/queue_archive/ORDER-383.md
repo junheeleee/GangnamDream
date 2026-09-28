@@ -1,3 +1,15 @@
+# ORDER-383 — 중국어 투자 첫 안내·공용 상단
+
+[x] 2026-09-28. 독립 work_unit 한정 GO. 본편/새package GO가 아니다.
+
+- 최종 source `453eeb4bd0911c21fc4f18107e268bf2f7d25b89`, tree `869285e7aee15532aa22e70aa0b6add3d340be48`. [독립 보고](../agent_reviews/ORDER-383.json) SHA `5a34278ec21a8cb26f41d638acf9ec488160a7b308bcfbef23ad10561bab5c81`.
+- KO 직접 간체27·번체27 새값과 공식 영수증54. JA/원문/runtime 불변. 공식40,886·b152는 후속384 교정batch1을 포함한다. 첫 검사에서 번체 제목의 일본어 구분점1을 중점으로 바꿔 번체 check만 재시도했다. 첫6PNG 전체FAIL은 보존하고 후속384의 중립포커스6PNG로 안내·상단·용어 제목54 binding만 수용했다.
+- 383 static11검사/조회1 PASS. 384 static12검사/조회1 PASS (330.564s), UI_TRANSLATION_APPEND_FEE_CORRECTION_OK cases=46. 격리 실제화면 14.469s·6PNG·54lookup/binding·raw입력0. 소스/실사용자34파일 보존. 원래383 전체FAIL과 실패 관측은 그대로 남는다. 빈 카드8개는 비표시컨테이너로 font/glyph N/A·자식문자/경계 엄격검사 유지. 중립focus는 fixture일 뿐이며 CN선택CTA 약3px 테두리 잘림은 미수리다.
+- 기존145판정/123보고·공개GO1·인간OPEN45·원어민/물리OPEN을 보존했다. 본편/새package HOLD, 외부출시/스토어/지출/법률행위0. 자연 AP 진입·정산·새입력·전체플레이 관측0이다.
+- 승격 없음: 기존 I18N 규칙 재사용. 모집단·소유·표적계획은 일회성이다. gangnamdream-dev의 선행선언·파일분리·독립검수·격리실행을 적용했다.
+
+## 최초 선언 원문 보존
+
 # Active Queue Spec: ORDER-383
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.

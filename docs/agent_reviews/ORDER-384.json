@@ -1,0 +1,71 @@
+{
+  "schema": "gangnamdream-independent-work-unit-review/v1",
+  "scope": "work_unit",
+  "review_stage": "independent_source_bound_final",
+  "review_date": "2026-09-28",
+  "independent": true,
+  "reviewer": "/root/r3_route_probe",
+  "decided_by": "/root/r3_route_probe",
+  "decision": "GO",
+  "verdict": "GO",
+  "required": [],
+  "subject": {
+    "kind": "source",
+    "commit": "453eeb4bd0911c21fc4f18107e268bf2f7d25b89",
+    "tree": "869285e7aee15532aa22e70aa0b6add3d340be48",
+    "manifest_sha256": null
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "natural_ingress",
+    "natural_return",
+    "focus_navigation_task",
+    "trade_or_settlement",
+    "complete_investment_ui",
+    "new_package"
+  ],
+  "preservation": "Fresh resolver and clean Git agree with the subject. Against declaration ecd2864, all 145 prior decisions, 123 JSON reports and human_gates.json are byte-identical; human SHA256 6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6. Existing public GO1/human OPEN45 and full-product/new-package HOLD are not changed.",
+  "known_unrepaired_risk": "Original383 focused CN CTA extends about 2.995px beyond its clipping ScrollContainer. The new observer explicitly releases focus and verifies settled scale1; it does not fix or accept focused navigation. This bounded GO is not whole-UI, input, product, release, legal or native approval.",
+  "unit_id": "ORDER-384",
+  "conclusion": "GO only for two concise Chinese fee translations and their exact receipt/history admission, plus neutral-focus prepared-display verification. No runtime or focus-behavior repair is accepted.",
+  "population": {
+    "korean_fee_keys": 1,
+    "corrected_values": 2,
+    "unchanged_parent_values": 52,
+    "new_coverage": 0,
+    "accepted": 40886,
+    "batches": 152
+  },
+  "method": "Non-author read the full original54 Korean/Chinese pairs again, current two corrections, exact product3-file diff and official receipts, all new compatibility/self/registry code, frozen observer/runner, original six and new six PNGs, raw nodes/logs and individual static records. Reviewer ran no acceptance suite or engine and changed no tracked file.",
+  "quality": "CN 买入基础费率0.3%；状态越差，成本可能越高。卖出费率0.5%。 / TW 買入基本費率0.3%；狀態越差，成本可能越高。賣出費率0.5%。 preserve base buy rate, condition-dependent possible increase and distinct sell rate. The middle cost clause unambiguously continues the buy context. Fee2 changed from499/505px to401px at the same14px and468px allocation; both PNGs show the entire0.5% ending.",
+  "implementation": "Exact product5a553f0←d91395c changes only two UI values, two target hashes, accepted checksum and ui_correction batch152. Original151 batches/JA/other accepted records and old383 receipts are preserved. Independently recomputed canonical target/receipt/accepted digests. New append suffix checks fresh immutable commit/tree/blob/type/length/hash, exact3-path transition, locale-specific original383 receipt ownership and full raw inverse. Reverse384→380 comparison is internal only; current_proof returns actual raw. Every intervening append is checked so rollback→restore stays rejected. Earlier code prefix, constants and existing self bodies are retained; no blanket mutable-target exception or new compatibility module.",
+  "execution": {
+    "author_development": "One focused46 PASS at dirty tool development state5a553f0,102.345s; distinct from current acceptance.",
+    "clean_static": "At exact subject453eeb4:12 checks+one selection query,13 records all exit0/empty stderr; focused46=106.525s. Individual rows/entry/result exact and2937-source before=after. Parallel wall330.564s; summed command time830.135s, not wall time.",
+    "consumers": "Current receiptguard accepted40886/b152 plus full-body, storygraph, chapter5, year5 and chapter1 normal paths, ZH normal, registry, context, queue and diff. Chapter1 debt8/blocked3/gap24 and full-body inventory-only limits preserved. Lane query lists11; it is not11 additional executions.",
+    "render": "One clean-source current run14.469s,exit0/one marker/no errors;54 lookup/six PNG/two Terms callbacks/raw0/trade0. All six PNGs directly reviewed and all twelve result artifacts rehashed. 88 nodes:8 exact empty disabled card font/glyph-N/A containers retain geometry,80 textual nodes remain strict. Source2937 and actual-player34 before=after; flags restored. Namespace retained for evidence."
+  },
+  "failure_history": "Original383 whole render remains FAIL and immutable. Fee ellipsis is fixed; empty-container font applicability and local/global measurement are observer corrections; focused CTA clipping remains separate. Original TW separator first machine FAIL→single-character retry also remains in parent evidence. No claim of retroactive PASS or full focused interaction.",
+  "review_limit": "UI font sizes, layout, runtime, gameplay/economy, KO/EN/JA and package content were not edited for this correction. Old correction48, full self/history, full240-week and unrelated JA audit were not rerun. The development result is not added to the12 clean checks.",
+  "evidence": {
+    "locale/ui_zh-CN.json": "b421c013dbe82a9bd23d3e71844ae7ef0e2e2fa6044b5e1895acfa24a03b24ec",
+    "locale/ui_zh-TW.json": "1ec60adc643a4046daf89f09b2f1a91f87b8e73cd7525d35fede827fc5c0b34e",
+    "content/meta/full_game_localization.json": "f9cd86d8aab5fd591940d9065123e61f0af999f6318150625966078b81f96b91",
+    ".git/full-game-localization/order383-screen-first/result.json": "3f02180f7532e4114e0960941e7f9b19bc284f699d1cdca5ce7eb948d1ecfd35",
+    ".git/full-game-localization/order384-screen-first/result.json": "8030986d061a7f5fe70ad521d7bb098889ef79e854cbfa5f42256d5a49a41abe",
+    ".git/full-game-localization/order384-screen-first/order384-observations.json": "3451bfb09c9702d1412d6db91a780b57ca48fe1310798ebe45e41c9917746975",
+    ".git/full-game-localization/order384-static-first/result.json": "dcd671bb569b2d35863fd5a5c9d70a6c74bdf8b3bbfde9509dbed9cc1812ca07",
+    "tools/ui_translation_append.py": "a793bab8f8db1aa18d91e5ff90c287232be8f04bd9e95eeee35817b4554b8b8c",
+    "tools/ui_translation_append_self_test.py": "a04fb245c29246aa16c81ce475c9cbc11c746e0fa04b06d213e9392ced15621e",
+    "tools/audit_scope.json": "8ae1760e75be0768e08ad7718bdfe302e6c7fea086c86b0dd62a40b8854edd42",
+    ".git/full-game-localization/order384-fee-dev-first.json": "022b1fcef5d87d812d85cdc109fe0c51687336d92c16a4b9169dafbf87b1b408",
+    ".git/full-game-localization/order384-check-result.json": "48f851c090d5147805d8e8c897ff5de9a83935775c437fbd072993923d527ad7",
+    ".git/full-game-localization/order384-static-first/entry.json": "25c7d338d7aa5e6bbe0be4336c3c98a4af7a285ef9b36fb2870dfc6f1ba5d7f2",
+    ".git/full-game-localization/order384-check.gd": "a1318ea42870e3c5a917faa0369209555ac2897bd775bbf6a8089ccdf7c6a3df",
+    ".git/full-game-localization/order384-run.py": "03613f7831d98990049e2584d44a4c3aa3981972e3a029639a78a123d34d58b3",
+    ".git/full-game-localization/zh-CN/full-ko-direct-2026-09-07.1/20d84707cf5b3476d688a1f6dbc7cc458aac5ecd3954d1284397145117f5450f.accepted.json": "dc2fa56510f4ba3e981905ff7b96385e223bdda2476eadc0c4f31750866d09a5",
+    ".git/full-game-localization/zh-TW/full-ko-direct-2026-09-07.1/3bab65fb43a8cf546b3827e615fc7578739a62efe4f9d98fbfeffb05be168db5.accepted.json": "631c78b4db3cb15305dc03f8bed3860d4a04f1bed58ab930136ee29d884488be"
+  }
+}

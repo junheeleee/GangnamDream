@@ -1,3 +1,15 @@
+# ORDER-384 — 중국어 수수료 안내 잘림 수리
+
+[x] 2026-09-28. 독립 work_unit 한정 GO. 본편/새package GO가 아니다.
+
+- 최종 source `453eeb4bd0911c21fc4f18107e268bf2f7d25b89`, tree `869285e7aee15532aa22e70aa0b6add3d340be48`. [독립 보고](../agent_reviews/ORDER-384.json) SHA `010ea0c19f44ae639b606d87d8ff0ff3143f739e2f2f712abe144d5a9356357a`.
+- 기존 수수료2값만 축약해 기본 매수0.3%·상태악화 시 매수비용 증가 가능성·매도0.5%를 보존했다. 두 화면 모두 같은14px에서401/468px로 끝까지 표시된다. 수용수 증감0, 기존383 batch/영수증은 보존하고 target2/checksum·교정batch1만 갱신했다. actual parent/tree/blob/raw를 결속한 정확 교정 proof와 이전380 비교역상 합성 및 표적 반례를 추가했다.
+- 383 static11검사/조회1 PASS. 384 static12검사/조회1 PASS (330.564s), UI_TRANSLATION_APPEND_FEE_CORRECTION_OK cases=46. 격리 실제화면 14.469s·6PNG·54lookup/binding·raw입력0. 소스/실사용자34파일 보존. 원래383 전체FAIL과 실패 관측은 그대로 남는다. 빈 카드8개는 비표시컨테이너로 font/glyph N/A·자식문자/경계 엄격검사 유지. 중립focus는 fixture일 뿐이며 CN선택CTA 약3px 테두리 잘림은 미수리다.
+- 기존145판정/123보고·공개GO1·인간OPEN45·원어민/물리OPEN을 보존했다. 본편/새package HOLD, 외부출시/스토어/지출/법률행위0. 자연 AP 진입·정산·새입력·전체플레이 관측0이다.
+- 승격 없음: 기존 I18N 규칙 재사용. 모집단·소유·표적계획은 일회성이다. gangnamdream-dev의 선행선언·파일분리·독립검수·격리실행을 적용했다.
+
+## 최초 선언 원문 보존
+
 # Active Queue Spec: ORDER-384
 
 > Canonical status and execution order are indexed in `docs/CODEX_QUEUE.md`.
