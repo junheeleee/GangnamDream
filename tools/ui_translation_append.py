@@ -23,6 +23,23 @@ LEDGER_PATH = "content/meta/full_game_localization.json"
 PATHS = (*UI_PATHS, LEDGER_PATH)
 HEADERS_FIELD = "official_receipt_headers_by_locale"
 
+# A separately reviewed font-only source transition. These are not replacement
+# receipt/manifest pins: actual current source and old export headers stay intact.
+ARUBA_FONT_PATH = "scenes/ArubaGame.gd"
+ARUBA_FONT_BEFORE_COMMIT = "9998e51a439d802a4aeb0e0b782da9771cebbf93"
+ARUBA_FONT_AFTER_COMMIT = "e97c49df8154112070110853682f442e14c9df17"
+ARUBA_FONT_BEFORE_TREE = "4d1997a138cefbf52de9f35f7b4530e5020098ad"
+ARUBA_FONT_AFTER_TREE = "2fcdee19ca18b7ca9d73c4301f2ba08338b51a9d"
+ARUBA_FONT_BEFORE_BLOB = "de6cd3120dd2d9dedec0d06d84e641fe98499c8f"
+ARUBA_FONT_AFTER_BLOB = "d993990160a7a77c6c0b3113ce62ffe484563a73"
+ARUBA_FONT_BEFORE_SHA256 = "058aa08f6963f8a68d98a6eb643ead0e3d4881df834658bc5a44168ffd3bb05e"
+ARUBA_FONT_AFTER_SHA256 = "e9744c1467a3043f91f77f7c9faa7ab2039e55777311e90b8ae43d889bfc4eeb"
+ARUBA_FONT_ANCHOR = (b"func _ready() -> void:\n\t_rng.randomize()\n"
+                     b"\tset_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)\n")
+ARUBA_FONT_ADDITION = (b"\tvar local_theme := Theme.new()\n"
+                       b"\tlocal_theme.default_font = FontKit.ui_regular()\n"
+                       b"\ttheme = local_theme\n")
+
 
 def require(ok: bool, message: str) -> None:
     if not ok:
@@ -200,6 +217,51 @@ def _snapshot(root: Path, revision: str) -> dict[str, bytes]:
     return dict(zip(PATHS, _objects(root, [(expr, oid, "blob") for expr, oid in zip(expressions, ids)])))
 
 
+def aruba_font_predecessor(root: Path, raw: bytes) -> bytes:
+    """Exact comparison-only inverse; old runtime bytes are never current input."""
+    require(isinstance(raw, bytes) and hashlib.sha256(raw).hexdigest() == ARUBA_FONT_AFTER_SHA256,
+            "Aruba current runtime differs from exact font successor")
+    values = _objects(root, [
+        (ARUBA_FONT_BEFORE_COMMIT, ARUBA_FONT_BEFORE_COMMIT, "commit"),
+        (ARUBA_FONT_AFTER_COMMIT, ARUBA_FONT_AFTER_COMMIT, "commit"),
+        (ARUBA_FONT_BEFORE_TREE, ARUBA_FONT_BEFORE_TREE, "tree"),
+        (ARUBA_FONT_AFTER_TREE, ARUBA_FONT_AFTER_TREE, "tree"),
+        (ARUBA_FONT_BEFORE_COMMIT + ":" + ARUBA_FONT_PATH, ARUBA_FONT_BEFORE_BLOB, "blob"),
+        (ARUBA_FONT_AFTER_COMMIT + ":" + ARUBA_FONT_PATH, ARUBA_FONT_AFTER_BLOB, "blob"),
+    ])
+    old_headers, new_headers = (value.split(b"\n\n", 1)[0].splitlines() for value in values[:2])
+    require([line for line in old_headers if line.startswith(b"tree ")] == [b"tree " + ARUBA_FONT_BEFORE_TREE.encode()]
+            and [line for line in new_headers if line.startswith(b"tree ")] == [b"tree " + ARUBA_FONT_AFTER_TREE.encode()]
+            and [line for line in new_headers if line.startswith(b"parent ")] == [b"parent " + ARUBA_FONT_BEFORE_COMMIT.encode()],
+            "Aruba exact font parent/tree mismatch")
+    require(_git(root, "diff", "--name-status", "-z", ARUBA_FONT_BEFORE_COMMIT, ARUBA_FONT_AFTER_COMMIT).split(b"\0")
+            == [b"M", ARUBA_FONT_PATH.encode(), b""], "Aruba font transition is not exactly one modified file")
+    _git(root, "merge-base", "--is-ancestor", ARUBA_FONT_AFTER_COMMIT, "HEAD")
+    require(_git(root, "rev-parse", "HEAD:" + ARUBA_FONT_PATH).decode().strip() == ARUBA_FONT_AFTER_BLOB,
+            "actual Git candidate does not retain the exact Aruba font successor")
+    before, after = values[4:]
+    require(hashlib.sha256(before).hexdigest() == ARUBA_FONT_BEFORE_SHA256 and after == raw,
+            "Aruba font Git blobs/current raw mismatch")
+    require(before.count(ARUBA_FONT_ANCHOR) == after.count(ARUBA_FONT_ANCHOR + ARUBA_FONT_ADDITION) == 1
+            and ARUBA_FONT_ADDITION not in before and after.count(ARUBA_FONT_ADDITION) == 1
+            and after.replace(ARUBA_FONT_ANCHOR + ARUBA_FONT_ADDITION, ARUBA_FONT_ANCHOR, 1) == before,
+            "Aruba source changed outside exact local font three lines")
+    return before
+
+
+def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: str) -> bool:
+    """Keep actual inventory; normalize one proved font file only for comparison."""
+    if expected == inventory["source_manifest_sha256"]:
+        return True
+    hashes = inventory["source_hashes"]
+    require(exchange.digest(hashes) == inventory["source_manifest_sha256"], "current source census digest mismatch")
+    raw = (root / ARUBA_FONT_PATH).read_bytes()
+    require(hashes.get(ARUBA_FONT_PATH) == hashlib.sha256(raw).hexdigest(), "Aruba source census not bound to current raw")
+    predecessor = aruba_font_predecessor(root, raw)
+    comparison = {**hashes, ARUBA_FONT_PATH: hashlib.sha256(predecessor).hexdigest()}
+    return exchange.digest(comparison) == expected
+
+
 def _source_manifest(root: Path, revision: str) -> str:
     """Reproduce collect's source-file census from actual historical Git blobs.
 
@@ -271,7 +333,7 @@ def validate_history(root: Path, baseline_commit: str, baseline: Mapping[str, by
         change = validate_append(previous, successor, inventory)
         for revision, expected in change["source_manifests"].items():
             _git(root, "merge-base", "--is-ancestor", revision, parents[0])
-            require(expected == inventory["source_manifest_sha256"],
+            require(_source_manifest_matches(root, inventory, expected),
                     "KO/runtime source changed; use a separate source-change review, not UI append")
             if revision not in source_manifests:
                 source_manifests[revision] = _source_manifest(root, revision)
@@ -292,11 +354,17 @@ def validate_history(root: Path, baseline_commit: str, baseline: Mapping[str, by
 def current_proof(root: Path, baseline_commit: str, baseline: Mapping[str, bytes]) -> dict[str, Any]:
     """Production entry: collect once per caller context; never accept a supplied inventory."""
     current = {path: (root / path).read_bytes() for path in PATHS}
+    font_raw = (root / ARUBA_FONT_PATH).read_bytes()
+    aruba_font_predecessor(root, font_raw)
     inventory = exchange.collect(root)
+    require(inventory["source_hashes"].get(ARUBA_FONT_PATH) == hashlib.sha256(font_raw).hexdigest(),
+            "collected Aruba source not bound to admitted actual font bytes")
     errors = [row for row in inventory["unsupported"]
               if row["kind"] in {"static_ui_contract", "demo_dynamic_contract"}]
     require(not errors, "current source collector contract failed: " + str(errors))
     evidence = validate_history(root, baseline_commit, baseline, current, inventory)
     require(all((root / path).read_bytes() == raw for path, raw in current.items()),
             "current UI/receipt bytes changed during validation")
-    return {"raw": current, "evidence": evidence}
+    require((root / ARUBA_FONT_PATH).read_bytes() == font_raw, "Aruba runtime changed during validation")
+    return {"raw": current, "evidence": evidence,
+            "source_hashes": inventory["source_hashes"], "source_manifest_sha256": inventory["source_manifest_sha256"]}

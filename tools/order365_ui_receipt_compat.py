@@ -31,6 +31,7 @@ LIVE_PATHS = tuple(dict.fromkeys((*previous.LIVE_PATHS, *UI_PATHS)))
 PREVIOUS_MODULE_PATH = "tools/order351_source_compat.py"
 PREVIOUS_MODULE_SHA256 = "0d5de5fa6d80a87f1794f0ccfabee5b972feb195d09703474f040cb5481314ff"
 RUNTIME_PATH = "scenes/JobHuntMiniGame.gd"
+RUNTIME_COMPARISON_PATHS = (RUNTIME_PATH, ui_append.ARUBA_FONT_PATH)
 KEYS = (
     "자기소개서 완성", "모의 면접 종료", "첫 장으로 돌아간 원고", "마지막 답 뒤 이어진 질문",
     "멈춰 다시 읽은 줄", "메모가 남은 면접", "끝까지 쓴 한 장", "예정된 마지막 질문",
@@ -399,14 +400,17 @@ def observed_byte_hash(relative: str, observed: str, raw: bytes) -> tuple[str, l
 def runtime_observed_hash(relative: str, observed: str, raw: bytes, *,
                           current_admitted: bool) -> tuple[str, list[str]]:
     """Comparison-only font inverse, separate from the actual-current UI API."""
-    if relative != RUNTIME_PATH:
+    if relative not in RUNTIME_COMPARISON_PATHS:
         return observed, []
     try:
-        _require(current_admitted, "ORDER-372 current admission failed before runtime comparison")
+        owner = "ORDER-377" if relative == ui_append.ARUBA_FONT_PATH else "ORDER-372"
+        _require(current_admitted, owner + " current admission failed before runtime comparison")
         _require(isinstance(raw, bytes) and _sha(raw) == observed,
-                 "ORDER-372 runtime observation is not bound to current raw")
+                 owner + " runtime observation is not bound to current raw")
         with fresh_validation_proof():
-            return _sha(_runtime_predecessor(raw)), []
+            predecessor = (ui_append.aruba_font_predecessor(ROOT, raw)
+                           if relative == ui_append.ARUBA_FONT_PATH else _runtime_predecessor(raw))
+            return _sha(predecessor), []
     except (OSError, ValueError, KeyError, TypeError, IndexError, subprocess.TimeoutExpired) as exc:
         return observed, ["ORDER-365: runtime comparison rejected: " + str(exc)]
 

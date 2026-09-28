@@ -294,6 +294,104 @@ def current_self_test() -> tuple[list[str], int]:
     return failures, cases
 
 
+def aruba_font_self_test() -> tuple[list[str], int]:
+    """Current font/manifest comparison boundaries; no runtime or receipt writes."""
+    import order365_ui_receipt_compat as boundary
+    failures, cases = [], 0
+    def check(ok, label):
+        nonlocal cases
+        cases += 1
+        if not ok:
+            failures.append("Aruba font: " + label)
+    def rejected(action, label):
+        try:
+            action()
+        except (OSError, ValueError, KeyError, TypeError, IndexError, subprocess.TimeoutExpired):
+            check(True, label)
+        else:
+            check(False, label)
+    path = append.ARUBA_FONT_PATH
+    raw = (ROOT / path).read_bytes()
+    observed = hashlib.sha256(raw).hexdigest()
+    before = append.aruba_font_predecessor(ROOT, raw)
+    old_hash = hashlib.sha256(before).hexdigest()
+    check(old_hash == append.ARUBA_FONT_BEFORE_SHA256, "exact three-line full raw inverse")
+    with boundary.fresh_validation_proof():
+        state = boundary._ACTIVE_CURRENT.get()
+        inventory = {key: copy.deepcopy(state[key]) for key in ("source_hashes", "source_manifest_sha256")}
+        unchanged = copy.deepcopy(inventory)
+        old_manifest = append._source_manifest(ROOT, append.ARUBA_FONT_BEFORE_COMMIT)
+        check(append._source_manifest_matches(ROOT, inventory, inventory["source_manifest_sha256"]),
+              "actual current manifest is retained")
+        check(append._source_manifest_matches(ROOT, inventory, old_manifest), "old manifest comparison only after exact proof")
+        check(inventory == unchanged and inventory["source_hashes"][path] == observed, "actual source census was not projected")
+        check(boundary.runtime_observed_hash(path, observed, raw, current_admitted=True) == (old_hash, []),
+              "Chapter1 comparison uses old pin with current raw")
+        claim, errors = boundary.runtime_observed_hash(path, "0" * 64, raw, current_admitted=True)
+        check(claim == "0" * 64 and bool(errors), "unbound observed claim")
+        check(boundary.runtime_observed_hash("outside/" + path, observed, raw, current_admitted=True) == (observed, []),
+              "other path has zero projection")
+        with mock.patch.object(append, "_git", wraps=append._git) as git:
+            claim, errors = boundary.runtime_observed_hash(path, observed, raw, current_admitted=False)
+            check(claim == observed and bool(errors) and not git.called, "admission failure before any Git projection")
+        for label, mutant in (("old raw rollback", before), ("whitespace", raw + b"\n"),
+                              ("neighbor", raw.replace(b"\t_rng.randomize()", b"\t_rng.randomize() # changed", 1))):
+            rejected(lambda value=mutant: append.aruba_font_predecessor(ROOT, value), label)
+        for index, line in enumerate(append.ARUBA_FONT_ADDITION.splitlines(keepends=True)):
+            rejected(lambda part=line: append.aruba_font_predecessor(ROOT, raw.replace(part, b"", 1)),
+                     "font line removed " + str(index))
+        altered = copy.deepcopy(inventory)
+        neighbor = next(key for key in altered["source_hashes"] if key != path)
+        altered["source_hashes"][neighbor] = "0" * 64
+        altered["source_manifest_sha256"] = append.exchange.digest(altered["source_hashes"])
+        check(not append._source_manifest_matches(ROOT, altered, old_manifest), "other source is not exempted")
+        altered = copy.deepcopy(inventory)
+        altered["source_hashes"][path] = old_hash
+        altered["source_manifest_sha256"] = append.exchange.digest(altered["source_hashes"])
+        rejected(lambda: append._source_manifest_matches(ROOT, altered, "0" * 64), "source map claim must bind actual raw")
+        snapshot = {p: (ROOT / p).read_bytes() for p in boundary.LIVE_PATHS}
+        old_sources = append._snapshot(ROOT, append.ARUBA_FONT_AFTER_COMMIT)
+        check(bool(boundary.snapshot_errors({**snapshot, append.LEDGER_PATH: old_sources[append.LEDGER_PATH]})),
+              "new current dictionaries with pre376 ledger rollback")
+        # Even an old manifest matching old receipts must not admit a rollback
+        # of the actual runtime. The production entry checks this before collect.
+        read_bytes = Path.read_bytes
+        def old_runtime(file):
+            return before if file.resolve() == ROOT / path else read_bytes(file)
+        with mock.patch.object(Path, "read_bytes", old_runtime), \
+                mock.patch.object(append.exchange, "collect", wraps=append.exchange.collect) as collector:
+            try:
+                append.current_proof(ROOT, boundary.AFTER_COMMIT,
+                                     {p: boundary._ACTIVE_PROOF.get()[p][1] for p in append.PATHS})
+            except ValueError:
+                check(not collector.called, "runtime rollback rejected before collector/manifest shortcut")
+            else:
+                check(False, "runtime rollback rejected before collector/manifest shortcut")
+        real_git = append._git
+        with mock.patch.object(append, "_git", side_effect=OSError("Git unavailable after successful proof")):
+            claim, errors = boundary.runtime_observed_hash(path, observed, raw, current_admitted=True)
+            check(claim == observed and bool(errors), "fresh missing proof after previous success")
+        def forged_git(where, *args, **kwargs):
+            value = real_git(where, *args, **kwargs)
+            return value + b"forged" if args[:2] == ("cat-file", "--batch") else value
+        with mock.patch.object(append, "_git", side_effect=forged_git):
+            claim, errors = boundary.runtime_observed_hash(path, observed, raw, current_admitted=True)
+            check(claim == observed and bool(errors), "forged immutable object stream")
+        def wrong_population(where, *args, **kwargs):
+            return b"M\0outside.gd\0" if args and args[0] == "diff" else real_git(where, *args, **kwargs)
+        with mock.patch.object(append, "_git", side_effect=wrong_population):
+            rejected(lambda: append.aruba_font_predecessor(ROOT, raw), "wrong exact transition population")
+        def rolled_back_head(where, *args, **kwargs):
+            if args == ("rev-parse", "HEAD:" + path):
+                return (append.ARUBA_FONT_BEFORE_BLOB + "\n").encode()
+            return real_git(where, *args, **kwargs)
+        with mock.patch.object(append, "_git", side_effect=rolled_back_head):
+            rejected(lambda: append.aruba_font_predecessor(ROOT, raw), "Git candidate rollback despite supplied current bytes")
+        check(boundary.runtime_observed_hash(path, observed, raw, current_admitted=True) == (old_hash, []),
+              "fresh valid proof after failed invocations")
+    return failures, cases
+
+
 def historical_self_test() -> dict:
     """Unchanged 240+12+60 CLI on a sealed pre-375 source tree, never current PASS."""
     source = append._git(ROOT, "rev-parse", HISTORICAL_COMMIT + "^{commit}").decode().strip()
@@ -380,6 +478,10 @@ def main() -> int:
         errors.extend(current_errors)
         cases += current_cases
         print(f"UI_TRANSLATION_APPEND_CURRENT cases={current_cases}")
+        font_errors, font_cases = aruba_font_self_test()
+        errors.extend(font_errors)
+        cases += font_cases
+        print(f"UI_TRANSLATION_APPEND_ARUBA_FONT cases={font_cases}")
     for error in errors:
         print("UI_TRANSLATION_APPEND_ERROR " + error)
     marker = "UI_TRANSLATION_APPEND_SYNTHETIC" if args.synthetic_only else "UI_TRANSLATION_APPEND_SELF_TEST"
