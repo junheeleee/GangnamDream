@@ -18427,7 +18427,7 @@ func _build_job_status_strip() -> Control:
 	else:
 		var promo_count := int(GameState.current_job.get("promotion_count", 0))
 		var max_promo := int(GameState.current_job.get("max_promotions", 3))
-		status_box.add_child(_label(
+		status_box.add_child(_wrap_label(
 			"%s · Tier %d · %s %d/%d" % [
 				GameState.get_job_display_name(),
 				int(GameState.current_job.get("tier", 1)),
