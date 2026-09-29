@@ -4,6 +4,25 @@
 
 **[~] 착수 — 2026-09-29.** 부모 ORDER-157, 사용자 개발·검수 위임.
 
+**2026-09-29 Claude 인계 결과 (Codex 주간 한도 소진으로 사용자 지시에 따라 이어받음).**
+- 8값: 공식 `full_game_localization.py` export→check→import `--accept` CN/TW 각1배치
+  `FULL_LOCALIZATION_BATCH_VALID leaves=4`. 용어는 기존 사전 다수형을 따랐다(CN `手柄`·
+  `翻页`·`返回`, TW `手把`·`換頁`·`返回`; `←→ 행동`은 거래 동작 선택이라 `操作`).
+  `locale/ui_zh-CN.json`·`locale/ui_zh-TW.json` 각 +4행 append, 기존 값 변경0.
+- 화면: Godot `4.6.2.stable.official.71f334935`(Linux, xvfb opengl3, 1280×800), 실제
+  MainGame `_open_investments` + `ControllerHints.force_brand_for_qa(XBOX)`로 CN/TW ×
+  비자산페이지/자산없음/거래불가/거래가능 8PNG 관측. 네 key 모두 번역문·placeholder
+  순서(`B 返回`, `A 买入 10万韩元`/`A 无法交易`, 페이지·자산명) 정상.
+- font: `normal_font` 실효값은 `Open Sans SemiBold`(라틴 primary)이고 한자는 primary에
+  없지만 fallback으로 8PNG 모두 두부 없이 렌더링됐다. 사양의 조건(실제 결함 관측)이
+  성립하지 않아 **`MainGame.gd` 수리0**, `/root/compat357` 도구 변경0.
+- 검사: `audit_select` 대상 중 `full_game_runtime_trace_audit`(self/normal)은 **수정 전
+  `origin/main`에서도 같은 seal drift로 실패**(이 작업 무관), STATUS는 커밋 전 stale만 실패.
+- **열린 것:** 비저자 독립 검수 0(작성자 Claude 자체 확인만) → work_unit GO를 기록하지
+  않는다. 원장 receipt append·private `order391-*` 증거는 이 환경에 없다. 자산명
+  `Hanseong Electronics`가 CN/TW에서 영어로 남고, 상단 `Next Week ›`·인물 카드·우측
+  패널 영어 누출은 기존 CN/TW 미번역(ORDER-157) 범위로 관측만 했다.
+
 ## 문제·판정 단위
 
 투자 화면의 패드 전용 안내4키가 CN/TW에서 영어로 남는다. 각 지역 한국어 직접
