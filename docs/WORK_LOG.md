@@ -2,6 +2,12 @@
 
 이전 원문 전체는 [2026-09-28 이전 기록](history/WORK_LOG_2026-09-28_pre_order351.md)에 바이트 그대로 보존했다.
 
+## 2026-09-29 (Claude — Codex 인계: 투자 패드 안내 중국어 8값)
+
+- Codex 주간 한도 소진으로 사용자 지시에 따라 [391](queue_active/ORDER-391.md)을 이어받았다. CN/TW 패드 안내 4키×2 = 8값을 공식 export/check/import로 반영했다(`BATCH_VALID leaves=4` ×2). 기존 값 변경0.
+- 이 환경에 Godot 4.6.2 공식판을 받아 xvfb로 실제 MainGame 투자 화면 CN/TW 4상태 8PNG를 관측했다. 번역·placeholder 정상, 한자는 fallback으로 두부0이라 사양 조건상 font 코드 수리0.
+- `full_game_runtime_trace_audit` 실패는 수정 전 main에서도 재현(무관). 비저자 독립 검수는 없어 GO를 기록하지 않고 큐에 OPEN으로 남겼다. CN/TW 자산명·상단·우측 패널 영어 누출은 기존 미번역 범위로 관측만 했다.
+
 ## 2026-09-29 (Codex — 시작 안내 파산 설명·일중 번역)
 
 - 시작 안내 파산 조건 KO/EN1쌍을 빚이 아니라 순자산<-1억원으로 바로잡았다. CN/TW tutorial11키씩22값과 JA 새키1을 한국어 직접 번역했다. 공식40,981/b161·CN/TW UI각1,397. JA구키와 기존UI/receipt raw를 보존했고 GameState·경제·저장·공개데모 변경0.

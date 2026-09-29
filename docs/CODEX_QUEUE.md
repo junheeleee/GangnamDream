@@ -50,7 +50,7 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-391 · 투자 패드 안내 중국어8값·실제 글꼴 | [391](queue_active/ORDER-391.md) | 착수 · CN/TW8값·4상태 · font 실측 후 조건부 수리 |
+| 1 | [~] | ORDER-391 · 투자 패드 안내 중국어8값·실제 글꼴 | [391](queue_active/ORDER-391.md) | 8값 반영·CN/TW 8PNG 관측·font 수리 불요 · 비저자 검수 OPEN |
 | 2 | [~] | ORDER-302 · 체험판 대본 사실·영어 정합 수리 | [302](queue_active/ORDER-302.md) | 수리7항목 source GO · successor package 별도 선언/검수 HOLD |
 | 3 | [ ] | ORDER-352 · 본편 5장 대본 이름·시간·회수 정합 | [352](queue_active/ORDER-352.md) | 5장 HOLD 수리 닫힌 뒤 착수 · 미실행 |
 
