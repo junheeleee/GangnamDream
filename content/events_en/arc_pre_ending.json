@@ -178,7 +178,7 @@
       },
       {
         "text": "Send Daeun the original again. Do not file until her own scope and deadline return.",
-        "result_text": "From a chair beside the counter, {name} sent one image containing both the name field and the addendum. Daeun did not reply with permission to write for her. She returned one sheet bearing the permitted scope and end date in her own hand. At the bottom: I DO NOT CONSENT BEYOND THESE TERMS. HAN DAEUN.\n\nThe clerk checked her hand and date, then ruled through every field outside that scope. {name} added not one mark. Even after the filing stamp landed, a clear clip kept the consent sheet separate, dividing what Daeun had permitted from what she had not."
+        "result_text": "From a chair beside the counter, {name} sent one image containing both the name field and the addendum. Daeun did not reply with permission to write for her. She returned one sheet bearing the permitted scope and end date in her own hand. At the bottom: I DO NOT CONSENT BEYOND THESE TERMS. KIM DAEUN.\n\nThe clerk checked her hand and date, then ruled through every field outside that scope. {name} added not one mark. Even after the filing stamp landed, a clear clip kept the consent sheet separate, dividing what Daeun had permitted from what she had not."
       },
       {
         "text": "Fill the field from an old identity copy that is not current consent.",
@@ -212,7 +212,7 @@
   {
     "id": "arc_y5_general_name_boundary_exact",
     "title": "Someone Else's Name",
-    "description": "At 6:17 on Thursday evening, {name} called an agent to ask about one of three saved listings around 2.5 billion won.\n\n‘Should I treat this as a single buyer? No one will join as a co-owner? I also need to know whether you'll use a co-borrower or guarantor in the loan consultation. Without either, we'll have to redraw the feasible range.’\n\nA copy of the final repayment confirmation from Year One lay beneath the phone. It bore the date when {name} finished six years of payments after Father trusted someone else and signed his own name. No new co-owner or guarantor had been written into any document.",
+    "description": "At 6:17 on Thursday evening, {name} called an agent to ask about one of three saved listings around 2.5 billion won.\n\n\"Should I treat this as a single buyer? No one will join as a co-owner? I also need to know whether you'll use a co-borrower or guarantor in the loan consultation. Without either, we'll have to redraw the feasible range.\"\n\nA copy of the final repayment confirmation lay beneath the phone. It bore the date when {name} finished six years of payments after Father trusted someone else and signed his own name. No new co-owner or guarantor had been written into any document.",
     "description_memory_if_known": {
       "chapter5_general_minseo_arrival_0": "Earlier, {name} had told Minseo, ‘I think I'm starting to get it.’ She said arrival would bring the next question. The question returned not after he obtained a home, but in the blank name field before any contract.\n\nThe agent asked, ‘What rule should I use when I recalculate?’ Between narrowing the possible range and putting someone else's name in the blank, only {name}'s own rule could be settled now.",
       "chapter5_general_minseo_arrival_1": "Earlier, {name} had told Minseo, ‘I haven't arrived yet.’ She did not declare arrival for him. The agent's question today was whose name he would pull in before arriving.\n\nThe agent asked, ‘What rule should I use when I recalculate?’ Between narrowing the possible range and putting someone else's name in the blank, only {name}'s own rule could be settled now."
@@ -231,7 +231,7 @@
   {
     "id": "arc_y5_general_debt_memory_reconnect",
     "title": "After Repayment, Before Arrival",
-    "description": "With twenty weeks left in the final year, {name} set a copy of the final repayment confirmation from Year One beside the notebook page from the week he answered Minseo's message. Three saved addresses remained on his phone.\n\nNo line yet joined the date the repayment ended to the answer he had actually sent Minseo. He would invent no answer Minseo had not given, no answer Father was no longer there to give, and no home he did not own.",
+    "description": "With twenty weeks left in the final year, {name} set a copy of the final repayment confirmation beside the notebook page from the week he answered Minseo's message. Three saved addresses remained on his phone.\n\nNo line yet joined the date the repayment ended to the answer he had actually sent Minseo. He would invent no answer Minseo had not given, no answer Father was no longer there to give, and no home he did not own.",
     "description_memory_if_known": {
       "chapter5_general_name_boundary_0": "Nine weeks earlier, {name} asked to see only the range possible with his name and his money. The cost of using no other name was a narrower range.\n\nTonight he would carry that rule into a private record sent to no one. Between the record button and the folded copy, {name} had to choose one medium on his side.",
       "chapter5_general_name_boundary_1": "Nine weeks earlier, {name} ended the consultation without adding another name. No new listing sheet or viewing time appeared.\n\nTonight he would carry that stop into a private record sent to no one. Between the record button and the folded copy, {name} had to choose one medium on his side."
@@ -239,7 +239,7 @@
     "choices": [
       {
         "text": "Put the repayment date and that day's answer into one private voice memo",
-      "result_text": "{name} started recording and read the final repayment-confirmation date from Year One. Then he spoke only the answer he had actually sent in reply to Minseo's message. He stopped after thirty-one seconds and put both dates in the title.\n\nThe memo stayed on his phone. He sent it to no one, and no read receipt or reply appeared. The three saved addresses remained comparison information."
+      "result_text": "{name} started recording and read the final repayment-confirmation date. Then he spoke only the answer he had actually sent in reply to Minseo's message. He stopped after thirty-one seconds and put both dates in the title.\n\nThe memo stayed on his phone. He sent it to no one, and no read receipt or reply appeared. The three saved addresses remained comparison information."
       },
       {
         "text": "Carry the repayment copy and a note bearing that day's answer to the cafe, and sit alone",
@@ -462,7 +462,7 @@
   {
     "id": "arc_y5_room_consent_receipt",
     "title": "The Clear Clip",
-    "description": "Even after the meeting ended, Daeun's handwritten sheet was not attached to the contract. In black ink it held the permitted scope, its end date, and the sentence, 'I do not consent beyond this range.' Sangchul's unverified clauses appeared below in a different hand. Jaehyuk's guarantee PDF lay in a separate stack.\n\nDaeun picked up a clear clip. 'Don't merge them, Minjun. This isn't part of the contract. It records exactly how far I spoke.'\n\n{name} matched the page counts on the four copies. One original remained at the center of the table, the rounded back of the clip catching the ceiling light.",
+    "description": "Even after the meeting ended, Daeun's handwritten sheet was not attached to the contract. In black ink it held the permitted scope, its end date, and the sentence, 'I do not consent beyond this range.' Sangchul's unverified clauses appeared below in a different hand. Jaehyuk's guarantee PDF lay in a separate stack.\n\nDaeun picked up a clear clip. \"Don't merge them, Minjun. This isn't part of the contract. It records exactly how far I spoke.\"\n\n{name} matched the page counts on the four copies. One original remained at the center of the table, the rounded back of the clip catching the ceiling light.",
     "choices": [
       {
         "text": "Keep the handwritten original separate from the contract, preserved by its own clip and capture time.",
