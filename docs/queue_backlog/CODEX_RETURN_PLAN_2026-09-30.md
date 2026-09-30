@@ -114,9 +114,36 @@ MainGame 투자 화면 기준 실측은 다음과 같다. Label·Button은 정�
 | `_invest_pad_hint_label`, `_people_pad_hint_label` | `ab6f52fe`로 수리. CN→Noto Sans SC, TW→Noto Sans TC, 누락 0 |
 | `event_body`(MainGame.gd 5366), `log_box`(5703), `ticker_rtl`(5732) | 미수리 |
 
+### 전 화면 계측 (2026-09-30 Claude, 브랜치 head 기준)
+
+ScreenshotQA의 start·story·job·casino·people·title·ending 경로를 KO·zh-CN으로 돌렸다.
+캡처 160회마다 화면에 보이는 비ASCII 텍스트 컨트롤의 해석 폰트를 확인했고, Godot 기본
+폰트를 쓰는 고유 컨트롤이 77개 나왔다(임시 탐침, 커밋 안 함). 범위는 다음과 같다.
+
+| 위치 | 대상 | 비고 |
+|---|---|---|
+| `StartMenu.gd` | 메인 메뉴 버튼 전부(계속하기·새 이야기·불러오기·기록·설정·게임 종료), 부제·"아무 키나 누르세요"·조작 안내, 불러오기 화면(제목·슬롯·페이지·뒤로), 콘텐츠 안내 화면 | **첫 화면 전체다.** 이 파일에서 폰트를 직접 지정한 곳은 제목 3곳(`FontKit.ui_bold()`)뿐이다. |
+| `SplashScreen.gd` | 언어 선택 버튼("한국어 KO" 등) | |
+| `StoryMode.gd` | 기록 화면 페이지 버튼("슬롯 1–5 [PageUp]") | |
+| `MainGame.gd` | `event_body`·`log_box`·`ticker_rtl` | 위 표와 같다. |
+
+Label·Button이 MainGame에서는 정상인 것은 MainGame이 개별 지정하기 때문이다. 전역
+경로(`UIStyle`의 `ThemeDB.fallback_font`)는 어떤 컨트롤에도 닿지 않는다. 따라서 아래
+범위 3의 **(a) 전역 수리를 권고한다.** 개별 지정으로는 StartMenu 한 파일에만 수십 곳이
+필요하다. (a)의 가장 작은 형태는 UIStyle이 기본 폰트를 FontKit regular로 두는 한 곳
+수정이다(예: 프로젝트 Theme의 `default_font`, 또는 `ThemeDB.get_default_theme().default_font`).
+전 화면 캡처 전후 비교로 줄바꿈·잘림을 판정한다.
+
+같은 실행에서 기존 ScreenshotQA 단언 4건이 실패했다(탐침은 실패 뒤에도 계속 진행함).
+395와 별개로 394에서 판정한다.
+- ORDER-97 기록 페이지 버튼 기대값 "슬롯 1–5"와 실제 "슬롯 1–5  [PageUp]"가 다르다(KO).
+- 장면 설정 툴팁 기대값이 영어 "Scene settings (F10)"인데 실제는 "场景设置（F10）"다(zh-CN). 번역 뒤 기대값이 낡은 것으로 보인다.
+- `clean_run_title` 관찰 문구 "lost the exact observational copy"(KO·zh-CN).
+
 ### 깊이 3문
 
 1. **왜 지금인가?** 391의 폰트 판정과 Steam Deck 출시 가독성이 이 경로에 걸려 있다.
+   플레이어가 가장 먼저 보는 시작 메뉴가 OS 폰트에 기대고 있다.
 2. **무엇을 바꾸지 않는가?** 글자 크기·색·문구. 폰트 역할(regular/bold)만 FontKit 경로로 맞춘다.
 3. **GO는 어떻게 되는가?** 화면 변화가 있으므로 KO/EN/JA/CN/TW 해당 화면의 실제 캡처로 판정한다.
 
