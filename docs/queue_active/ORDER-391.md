@@ -6,6 +6,10 @@
 
 ## 2026-09-30 원격 인계 반영 후 재개 지점 — 미완료
 
+- 통합 source `e89f3ed`에서 `order365_ui_receipt_compat.py` normal1회 실패:
+  `UI/receipt/source/target additions differ: zh-CN`. 공식40,981/b161·historical_cases0.
+  원본 `.git/full-game-localization/order391-upstream-receipt-check.json` 보존;
+  과거391 초안PASS로 덮지 않고 현 사전/수용원장 불일치 수리를 남긴다.
 - 원격 `0f5852d`가 통합한 `bdbd10f`의 CN/TW8값을 보존한다. 아래 Codex 기록은
   원격 수신 전 로컬 후보 `18dd16d`의 검사다. Claude 값은 일부 다르므로 이를
   현재 사전 PASS로 바꿔 쓰지 않는다. 수용원장40,981/b161은 아직 그대로다.

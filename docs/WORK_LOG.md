@@ -4,6 +4,8 @@
 
 ## 2026-09-30 (Codex — Claude 원격 인계 보존·미완료 범위 정합)
 
+- 통합 `e89f3ed` 표적 receipt 검사1회 FAIL: `UI/receipt/source/target additions differ: zh-CN`.
+  원본 private `order391-upstream-receipt-check.json` 보존. 새 검사 완화/원장위조0.
 - 동기화가 거부되어 원격을 읽었고 `0f5852d`/`bdbd10f`의 Claude 인계를 확인했다.
   CN/TW 각4값과 아래 작성자 기록을 그대로 보존한다. 직전 Codex 항목의
   제품 미반영/검사PASS는 원격 수신 전 로컬 후보의 기록이지 현 사전의 증거가 아니다.
