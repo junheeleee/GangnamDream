@@ -2,6 +2,21 @@
 
 이전 원문 전체는 [2026-09-28 이전 기록](history/WORK_LOG_2026-09-28_pre_order351.md)에 바이트 그대로 보존했다.
 
+## 2026-09-30 (Codex — 투자 패드 안내 초안8값·검수 미완료)
+
+- ORDER-391 선언 `18dd16d` main/origin 반영. 한국어 직접 CN/TW4키씩8값 초안,
+  source `18dd16d6020b2dcae8484f4b70af3261a6ccd91e` 공식 export/check 각2배치
+  PASS. 각 `FULL_LOCALIZATION_BATCH_VALID leaves=4`, 병렬 check7.914초,
+  source/response 전후 동일. private `order391-*` 교환·결과 보존.
+- 화면 저자/비저자 검수자가 사용한도로 실패했고 9/30 재확인 시 일반 사용 불가.
+  반복 위임·리셋/지출0. `gangnamdream-dev`/WORK_UNIT의 독립 검수 조건을
+  통과하지 못했으므로 import/accept·코드수리·완료판정0. 실제font/PNG 미관측.
+  제품/사전/수용원장/공개데모/사람원장/154판정/132보고 불변, 공식40,981/b161.
+- 재개는 원문8값 독립검수와 격리된 실제font 확인부터. 조건부 source수리 시
+  별도 sourcecommit·exact proof·새 export 결속 후 수용한다. 이전 실패/초안을
+  덮지 않는다. 기존 검사·전체감사·240주 반복0, 공개GO1·인간OPEN45·본편HOLD.
+  자동PASS는 계약증거이며 재미·깊이·문체·원어민/인간/물리/출시GO가 아니다.
+
 ## 2026-09-29 (Codex — 시작 안내 파산 설명·일중 번역)
 
 - 시작 안내 파산 조건 KO/EN1쌍을 빚이 아니라 순자산<-1억원으로 바로잡았다. CN/TW tutorial11키씩22값과 JA 새키1을 한국어 직접 번역했다. 공식40,981/b161·CN/TW UI각1,397. JA구키와 기존UI/receipt raw를 보존했고 GameState·경제·저장·공개데모 변경0.

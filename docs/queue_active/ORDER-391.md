@@ -4,6 +4,22 @@
 
 **[~] 착수 — 2026-09-29.** 부모 ORDER-157, 사용자 개발·검수 위임.
 
+## 2026-09-30 재개 지점 — 미완료
+
+- 선언 `18dd16d6020b2dcae8484f4b70af3261a6ccd91e` main/origin 동기화.
+  한국어 직접 CN/TW4값씩 초안, 같은 source의 공식 export/check2배치 PASS.
+  각 `FULL_LOCALIZATION_BATCH_VALID ... leaves=4`, 병렬 check7.914초,
+  source/response 전후 hash 동일. import/accept0, 공식40,981/b161 그대로.
+- private `.git/full-game-localization/order391-{zh-CN,zh-TW}-draft.json`,
+  `-source.jsonl`, `-response.jsonl`, `order391-export-result.json`,
+  `order391-response-check-result.json` 및 `order391-resume.md` 보존.
+- 화면 저자와 독립 검수자가 사용한도로 실패했다. 2026-09-30 확인 시 일반
+  사용 불가이며 자동 재시도·크레딧 리셋/지출0. helper3개·실제font/PNG·독립
+  의미판정·최종GO는 아직 없다. 코드 부재만으로 폰트 결함을 확정하지 않는다.
+- 제품/공식사전/수용원장/검사도구 변경0. 재개 시 남은 독립 의미검수와 격리
+  font 실측부터 진행한다. source 변경 시 기존 export를 덮지 말고 새 후보로
+  export/check를 다시 결속한다. 변경 없는 기존 검사·확인된 실패를 반복하지 않는다.
+
 ## 문제·판정 단위
 
 투자 화면의 패드 전용 안내4키가 CN/TW에서 영어로 남는다. 각 지역 한국어 직접
