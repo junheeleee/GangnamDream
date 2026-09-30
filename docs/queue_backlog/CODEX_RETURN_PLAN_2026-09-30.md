@@ -42,6 +42,7 @@ Codex는 돌아오면 **먼저 main의 검사를 복구하고(392), 이미 만�
 |---:|---|---|---|
 | 1 | ORDER-392 (신규) | main 수용원장 불일치 복구 | 없음 |
 | 2 | ORDER-393 (신규) | UI 글자 칸 OS 폰트 의존 제거 | 392 |
+| 2b | ORDER-398 2장 F1 (P0 선행) | `arc_jaehyuk_aftermath` 선택 라벨의 내부 경로 태그 노출과 조건 없는 선택. 문장 배치를 기다리지 않고 먼저 고친다 | 392 |
 | 3 | ORDER-391 (기존) | 중국어 8값 독립검수·실제 폰트 화면 | 392·393 |
 | 4 | ORDER-394 (신규) | PR #30 이전부터 실패하던 main 검사 6종 원인 분리 | 392 |
 | 5 | ORDER-302 (기존) | 체험판 대본 수리 successor package | 394 |
@@ -52,6 +53,7 @@ Codex는 돌아오면 **먼저 main의 검사를 복구하고(392), 이미 만�
 | 7d | ORDER-398 (신규·부모) | 문장 개선 프로그램: 전체 1,708 사건을 [기준서](PROSE_REVISION_MASTER_PLAN.md)와 [목록](PROSE_REVISION_INVENTORY.md)으로 A→C상위→B→E 순 배치 처리. 395~397은 첫 배치다 | 397 |
 | 7d' | ORDER-399 (신규) | 이야기 본문 `{name}`을 이름(민준/Minjun)으로 치환(DECISIONS 2026-09-30) | 394 |
 | 7e | ORDER-398 배치: [1장](PROSE_REVISION_CH1.md) | 1장 63장면 판독 완료. 사실 결함 6건, 재작성 7장면, 끝·예고 약 25곳. 주인공 이름 표기는 사용자 판단 | 398 |
+| 7f | ORDER-398 배치: [2장](PROSE_REVISION_CH2.md) | 2장 53장면 판독 완료: 사실·표면 결함 8건(P0 1건), 재작성 7장면, 끝·예고 약 30곳 | 398 |
 | 8 | ORDER-150→151→156→146→148→137·138 (기존) | 5장 HOLD 사슬 | 기존 게이트 |
 | 9 | ORDER-149 (기존) | 프롤로그 세 비트 속도 | 기존 게이트 |
 | 10 | ORDER-157·158 (기존) | 본편 JA/ZH 번역 | 5장 원문 안정 뒤 |
@@ -320,8 +322,9 @@ gameplay key·효과·선택 수는 바꾸지 않는다. 완료 조건: `en_cove
    - 정본 기본 이름이면 언어별 이름을 쓴다: 민준 / Minjun / ミンジュン / ZH 용어집 표기.
    - 사용자 지정 이름이면 그대로 쓴다.
 2. UI 정보 표면(프로필·저장 슬롯 등)은 전체 이름을 유지한다. 명패(`ImageRegistry` "player")는 VN 관례에 따라 이름만 쓰는 것을 기본으로 하되, 화면별로 정해 기록한다.
-3. 텍스트를 비교하는 QA 기대값(ScreenshotQA·ChoicePreview·NewRunLog 등 "김민준"/"Kim Minjun" 단언)을 같은 커밋에서 갱신한다.
-4. 데모 공개 빌드(BUILD `2026.08.31.1`)는 동결이다. 이 변경은 successor 후보와 본편에 들어간다.
+3. 공식 자기소개·명의 문맥 4곳(`arc_sangchul_mirror_receipt` "보호자 {name}입니다", `v2_daeun_return_after_distance` "{name}입니다", `arc_temptation_fallout` "{name} 명의", `hidden_011` "{name}님")은 전체 이름으로 고정한다(2장 지시서 F6).
+4. 텍스트를 비교하는 QA 기대값(ScreenshotQA·ChoicePreview·NewRunLog 등 "김민준"/"Kim Minjun" 단언)을 같은 커밋에서 갱신한다.
+5. 데모 공개 빌드(BUILD `2026.08.31.1`)는 동결이다. 이 변경은 successor 후보와 본편에 들어간다.
 
 ### 완료 조건
 - 저장소 전체에서 이야기 경로가 전체 이름을 내는 곳이 0곳임을 grep과 런타임 표본으로 확인한다.

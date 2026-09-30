@@ -42,6 +42,8 @@
 | F5 | `arc_year1_close` 변형 `jaehyuk_scammed` | "재혁이 사라진 해였다." `jaehyuk_scammed`를 세우는 곳은 `arc_jaehyuk_ghost_decision` 하나뿐이다. 그 체인은 `t >= 116`에 열리고(`MainGame.gd` 7835), 33세 마감은 `t == 48`이다(7184). 따라서 이 변형은 1회차에서 도달할 수 없다. | NG+에서 플래그가 이월되는지만 확인한다. 이월되지 않으면 변형을 지운다(inert 금지). |
 | F6 | `arc_goshiwon_goodbye` 변형 `wants_out_of_gosiwon` | "30개월의 요령을 다 익힌 뒤에야". 이 장면은 이사 시점에 열리므로 고시원 체류 기간이 30개월로 고정되지 않는다. | 경과 기간을 단정하지 않는 문장으로 바꾼다(R7). |
 
+| F7 | `arc_intro_02_dad_call` EN 선택 라벨 | EN에만 "[Saver mindset]" 등 태그가 있고 KO에는 없다(2장 지시서 F7에서 발견). | EN 태그를 지워 KO와 맞춘다. |
+
 ## 장면별 판정
 
 표기:
