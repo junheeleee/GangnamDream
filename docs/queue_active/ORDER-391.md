@@ -4,7 +4,21 @@
 
 **[~] 착수 — 2026-09-29.** 부모 ORDER-157, 사용자 개발·검수 위임.
 
-## 2026-09-30 재개 지점 — 미완료
+## 2026-09-30 원격 인계 반영 후 재개 지점 — 미완료
+
+- 원격 `0f5852d`가 통합한 `bdbd10f`의 CN/TW8값을 보존한다. 아래 Codex 기록은
+  원격 수신 전 로컬 후보 `18dd16d`의 검사다. Claude 값은 일부 다르므로 이를
+  현재 사전 PASS로 바꿔 쓰지 않는다. 수용원장40,981/b161은 아직 그대로다.
+- Claude 작성자 보고8PNG·공식 import의 원본 파일은 이 로컬에 없다. 원본 회수
+  또는 새 격리관측·현재 사전 공식 교환/원장 연결을 마쳐야 한다. 기존8값을
+  로컬 초안으로 덮지 않는다. 현 주인의 값·raw 보존과 source/target freshness를
+  함께 확인하며 기존 receipt가 있었다고 재구성하지 않는다.
+- Open Sans primary와 한자 fallback은 인계 보고이며 직접 관측이 아니다.
+  두부 없음만으로 I18N_INFRASTRUCTURE의 SC/TC primary 경로를 증명하지 못한다.
+  실제 지역font 확인 후 조건부2줄 수리 여부를 판단한다. 독립 검수 사용한도
+  HOLD, 새GO0. 원래 source/도구 수리 범위를 확대하지 않는다.
+
+## 원격 수신 전 로컬 진행 기록 (2026-09-30)
 
 - 선언 `18dd16d6020b2dcae8484f4b70af3261a6ccd91e` main/origin 동기화.
   한국어 직접 CN/TW4값씩 초안, 같은 source의 공식 export/check2배치 PASS.
@@ -19,6 +33,25 @@
 - 제품/공식사전/수용원장/검사도구 변경0. 재개 시 남은 독립 의미검수와 격리
   font 실측부터 진행한다. source 변경 시 기존 export를 덮지 말고 새 후보로
   export/check를 다시 결속한다. 변경 없는 기존 검사·확인된 실패를 반복하지 않는다.
+
+**2026-09-29 Claude 인계 결과 (Codex 주간 한도 소진으로 사용자 지시에 따라 이어받음).**
+- 8값: 공식 `full_game_localization.py` export→check→import `--accept` CN/TW 각1배치
+  `FULL_LOCALIZATION_BATCH_VALID leaves=4`. 용어는 기존 사전 다수형을 따랐다(CN `手柄`·
+  `翻页`·`返回`, TW `手把`·`換頁`·`返回`; `←→ 행동`은 거래 동작 선택이라 `操作`).
+  `locale/ui_zh-CN.json`·`locale/ui_zh-TW.json` 각 +4행 append, 기존 값 변경0.
+- 화면: Godot `4.6.2.stable.official.71f334935`(Linux, xvfb opengl3, 1280×800), 실제
+  MainGame `_open_investments` + `ControllerHints.force_brand_for_qa(XBOX)`로 CN/TW ×
+  비자산페이지/자산없음/거래불가/거래가능 8PNG 관측. 네 key 모두 번역문·placeholder
+  순서(`B 返回`, `A 买入 10万韩元`/`A 无法交易`, 페이지·자산명) 정상.
+- font: `normal_font` 실효값은 `Open Sans SemiBold`(라틴 primary)이고 한자는 primary에
+  없지만 fallback으로 8PNG 모두 두부 없이 렌더링됐다. 사양의 조건(실제 결함 관측)이
+  성립하지 않아 **`MainGame.gd` 수리0**, `/root/compat357` 도구 변경0.
+- 검사: `audit_select` 대상 중 `full_game_runtime_trace_audit`(self/normal)은 **수정 전
+  `origin/main`에서도 같은 seal drift로 실패**(이 작업 무관), STATUS는 커밋 전 stale만 실패.
+- **열린 것:** 비저자 독립 검수 0(작성자 Claude 자체 확인만) → work_unit GO를 기록하지
+  않는다. 원장 receipt append·private `order391-*` 증거는 이 환경에 없다. 자산명
+  `Hanseong Electronics`가 CN/TW에서 영어로 남고, 상단 `Next Week ›`·인물 카드·우측
+  패널 영어 누출은 기존 CN/TW 미번역(ORDER-157) 범위로 관측만 했다.
 
 ## 문제·판정 단위
 

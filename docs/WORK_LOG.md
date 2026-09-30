@@ -2,6 +2,16 @@
 
 이전 원문 전체는 [2026-09-28 이전 기록](history/WORK_LOG_2026-09-28_pre_order351.md)에 바이트 그대로 보존했다.
 
+## 2026-09-30 (Codex — Claude 원격 인계 보존·미완료 범위 정합)
+
+- 동기화가 거부되어 원격을 읽었고 `0f5852d`/`bdbd10f`의 Claude 인계를 확인했다.
+  CN/TW 각4값과 아래 작성자 기록을 그대로 보존한다. 직전 Codex 항목의
+  제품 미반영/검사PASS는 원격 수신 전 로컬 후보의 기록이지 현 사전의 증거가 아니다.
+- 현 사전8값의 수용원장 추가0, 원본 export/import receipt·8PNG는 이 로컬에
+  없다. 인계의 Open Sans primary/한자 fallback 보고만으로 프로젝트 소유
+  SC/TC 우선경로를 승인하지 않는다. 현재 값·원문·지역font·receipt 연결은 미완료.
+  비저자 검수 사용한도 HOLD, 원문 코드 변경0·새GO0·기존 인간/공개판정 보존.
+
 ## 2026-09-30 (Codex — 투자 패드 안내 초안8값·검수 미완료)
 
 - ORDER-391 선언 `18dd16d` main/origin 반영. 한국어 직접 CN/TW4키씩8값 초안,
@@ -16,6 +26,12 @@
   별도 sourcecommit·exact proof·새 export 결속 후 수용한다. 이전 실패/초안을
   덮지 않는다. 기존 검사·전체감사·240주 반복0, 공개GO1·인간OPEN45·본편HOLD.
   자동PASS는 계약증거이며 재미·깊이·문체·원어민/인간/물리/출시GO가 아니다.
+
+## 2026-09-29 (Claude — Codex 인계: 투자 패드 안내 중국어 8값)
+
+- Codex 주간 한도 소진으로 사용자 지시에 따라 [391](queue_active/ORDER-391.md)을 이어받았다. CN/TW 패드 안내 4키×2 = 8값을 공식 export/check/import로 반영했다(`BATCH_VALID leaves=4` ×2). 기존 값 변경0.
+- 이 환경에 Godot 4.6.2 공식판을 받아 xvfb로 실제 MainGame 투자 화면 CN/TW 4상태 8PNG를 관측했다. 번역·placeholder 정상, 한자는 fallback으로 두부0이라 사양 조건상 font 코드 수리0.
+- `full_game_runtime_trace_audit` 실패는 수정 전 main에서도 재현(무관). 비저자 독립 검수는 없어 GO를 기록하지 않고 큐에 OPEN으로 남겼다. CN/TW 자산명·상단·우측 패널 영어 누출은 기존 미번역 범위로 관측만 했다.
 
 ## 2026-09-29 (Codex — 시작 안내 파산 설명·일중 번역)
 
