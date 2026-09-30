@@ -137,9 +137,8 @@ P-9 1번은 "장면의 마지막 문장은 이미지나 행동으로 끝낸다"�
 - **시제 규칙과 실제 원고가 반대다.** `DECISIONS.md` P-9 4번은 "영어 서술 기본 시제는
   현재형"이다(데모 24주 36건 측정에서 나옴). 본편 영어 본문의 과거/현재 동사 표지를
   세면 과거형 비율이 데모 arc 92%, 기타 69%, y1 98%, y3 96%, y4 99%, y5 100%다.
-  영어 소설의 표준도, 한국어 원문도 과거형이다. **권고: P-9 4번을 "과거형 기본, 현재형은
-  의도한 장면에만"으로 재판정한다.** 현재형으로 맞추려면 수천 건을 고쳐야 하고 얻는
-  것이 없다. 정본 규칙 변경이므로 사용자가 결정한다.
+  영어 소설의 표준도, 한국어 원문도 과거형이다. **사용자 승인으로 재판정했다(DECISIONS
+  2026-09-30): 과거형 기본, 현재형은 의도한 장면에만.** 정본 문장은 `I18N_GLOSSARY.md`.
 - 직역투: "That connected call had not been treatment"(치료가 되지는 않았고) →
   "That call had cured nothing". "Minjun did not lay the two over each other as if they
   were the same call" → "He didn't let one call stand in for the other". "the ward's
