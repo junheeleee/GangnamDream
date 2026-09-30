@@ -202,7 +202,7 @@ main 이력을 커밋 단위로 거슬러 올라가 처음 실패한 커밋을 �
 | `full_game_runtime_trace_audit` runner seal | `03059e52` (9/27) 이후 `tools/audit.sh` 6회 수정 | `AUDIT_RUNNER_SHA256`(c906ff8b…)는 9/12 `ea7bf234` 버전이다. 이후 추가된 검사 13개의 `*_EXIT` 변수는 모두 마지막 집계 목록에 들어 있어 실패 전파는 유지된다(Claude가 diff를 대조함). | 현재 `audit.sh`로 재봉인하고, 주석에 추가된 13개 EXIT를 적는다. |
 | `order350_source_compat`·`order351_source_compat` | `003b68c7` (9/28, 351 승인 뒤 첫 중국어 번역 추가) | 두 검사가 `full_game_localization.json`을 승인 당시 successor 바이트로 고정한다. 그래서 이후 정상적인 번역 수용이 모두 "successor 초과"가 된다. 이후 모든 번역 커밋에서 계속 실패한다. | 구조 수리다. ledger는 append-only 검증(`ui_translation_append`/원장 digest)으로 확인하고, 350/351 소유 원문 leaf만 exact로 고정한다. 392와 같이 설계한다. |
 | `ci_localization_reconciliation_self_test` | `a332f746` (9/28) | `tools/main_game_locale_history.py`가 바뀌었는데 `new_run_log_locale_self_test.py`의 ORDER267 `BINDING["code"]` 핀(734fab4d…, 9/20 `3adb96da` 버전)을 갱신하지 않았다. | 현재 파일로 핀과 inverse를 갱신하거나, 역사 검사를 해당 커밋 시점 파일로 읽게 바꾼다. |
-| `full_body_translation_scope --self-test` | (측정 중) | | |
+| `full_body_translation_scope --self-test` | 점진적 악화 (Codex 9/29 기록 420초 timeout → Claude 측정 3000초에도 미완료) | 멈춘 게 아니라 느려지는 구조다. faulthandler 스택을 보면 `build_scope`→`order365_ui_receipt_compat.fresh_validation_proof`→`ui_translation_append.validate_history`가 UI·원장 경로 커밋 242개를 매번 처음부터 재생한다. 커밋마다 10.8MB `full_game_localization.json`을 `order313_source_compat._loads`→`_canonical`(json.dumps)로 여러 번 재직렬화하고, 자체 검사는 이를 여러 번 부른다. 이력이 늘수록 시간이 선형 이상으로 는다. | 성공 캐시가 아니라 **내용 주소 memo**로 푼다. git blob sha를 키로 파싱·정규화 결과를 한 프로세스 안에서만 재사용하고, 판정은 매번 새로 한다. 또는 한 실행에서 proof를 한 번만 만들어 넘긴다. "mutable success cache 금지" 원칙과 충돌하지 않는지 파일 머리말 계약과 대조한다. |
 
 공통 교훈: 해시로 고정한 파일을 고치는 커밋은 같은 커밋에서 고정값도 갱신해야
 한다. 한 번 놓치면 이후 모든 커밋에서 빨간 줄이 되고, 새 사고가 그 속에 묻힌다.
