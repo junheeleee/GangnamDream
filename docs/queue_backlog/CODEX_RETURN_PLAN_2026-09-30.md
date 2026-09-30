@@ -161,6 +161,25 @@ MainGame 투자 화면 기준 실측은 다음과 같다. Label·Button은 정�
 - `full_body_translation_scope --self-test` (timeout; 시간 예산인지 무한 대기인지)
 - `ci_localization_reconciliation_self_test` (ORDER267 prerequisite)
 
+### Claude 사전 진단 (2026-09-30, main `9fb7ff21` 깨끗한 worktree)
+
+main 이력을 커밋 단위로 거슬러 올라가 처음 실패한 커밋을 찾았다. **여섯 가지 모두
+콘텐츠 결함이 아니다.** 의도된 수정 뒤에 해시·계약·기준값을 갱신하지 않은 것이
+다섯, 설계상 정상 추가를 막는 구조가 하나다.
+
+| 검사 | 처음 실패 | 원인 | 권고 처리 |
+|---|---|---|---|
+| `exposed_state_consistency_audit` ① `hyunsu_result_pass` KO/EN | `506e4c8f` (9/27, ORDER-309 1장 수리) | 민준·현수가 같은 고시원 옆방이라는 정본에 맞춰 "현수가 사는 고시원"을 "복도를 따라 걸어가 현수의 방문 앞"으로 바꿨다. 검사는 `exposed_event_state_contracts.json` 2349행의 `hyunsu_residence` 문맥으로 옛 문구를 요구한다. | 문장은 정본이 맞다. 문맥을 1장 옆방 정본에 맞는 값(예: `chapter_one_canon`, 스케줄러 소유 확인)으로 바꾸거나, 옆방 문맥용 판정 문구로 교체한다. |
+| `exposed_state_consistency_audit` ② `arc_minjun_first_call` | `ef896982` (9/27, ORDER-350 3장 수리) | 현수 대사가 "그냥, 공부."에서 "오늘은 출근 안 해요."로 바뀌어 `employment` 도메인이 감지된다. 계약(958행)에는 `father_life, location, relationship`만 있다. | 사실은 맞다. 합격이면 공무원, 불합격이면 35~50주 `hyunsu_pivot` 재취업이고, 이 장면은 130~155주다. 계약에 `employment`를 선언하고, 가드 근거로 불합격 경로 재취업 시점을 적는다. |
+| `full_game_volume_audit` graph ko/en mapped hash | `506e4c8f` (같은 1장 수리) | 의도된 산문 수정 뒤 관측 기준값을 갱신하지 않았다. 이후 3·4장 수리도 해시를 바꿨다. | ORDER-142 규칙대로 현재 head에서 M01~M60 차이를 검토한 뒤 한 번 갱신한다. |
+| `full_game_runtime_trace_audit` runner seal | `03059e52` (9/27) 이후 `tools/audit.sh` 6회 수정 | `AUDIT_RUNNER_SHA256`(c906ff8b…)는 9/12 `ea7bf234` 버전이다. 이후 추가된 검사 13개의 `*_EXIT` 변수는 모두 마지막 집계 목록에 들어 있어 실패 전파는 유지된다(Claude가 diff를 대조함). | 현재 `audit.sh`로 재봉인하고, 주석에 추가된 13개 EXIT를 적는다. |
+| `order350_source_compat`·`order351_source_compat` | `003b68c7` (9/28, 351 승인 뒤 첫 중국어 번역 추가) | 두 검사가 `full_game_localization.json`을 승인 당시 successor 바이트로 고정한다. 그래서 이후 정상적인 번역 수용이 모두 "successor 초과"가 된다. 이후 모든 번역 커밋에서 계속 실패한다. | 구조 수리다. ledger는 append-only 검증(`ui_translation_append`/원장 digest)으로 확인하고, 350/351 소유 원문 leaf만 exact로 고정한다. 392와 같이 설계한다. |
+| `ci_localization_reconciliation_self_test` | `a332f746` (9/28) | `tools/main_game_locale_history.py`가 바뀌었는데 `new_run_log_locale_self_test.py`의 ORDER267 `BINDING["code"]` 핀(734fab4d…, 9/20 `3adb96da` 버전)을 갱신하지 않았다. | 현재 파일로 핀과 inverse를 갱신하거나, 역사 검사를 해당 커밋 시점 파일로 읽게 바꾼다. |
+| `full_body_translation_scope --self-test` | (측정 중) | | |
+
+공통 교훈: 해시로 고정한 파일을 고치는 커밋은 같은 커밋에서 고정값도 갱신해야
+한다. 한 번 놓치면 이후 모든 커밋에서 빨간 줄이 되고, 새 사고가 그 속에 묻힌다.
+
 ### 완료 조건
 
 - 여섯 검사의 판정표를 WORK_LOG와 이 사양에 남긴다. 수리한 것은 PASS, 이관한 것은
