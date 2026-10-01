@@ -6,7 +6,7 @@
 
 ## 진행 상태
 
-2026-10-01 Claude가 F1(청혼 시간)·F2(연애 기간)·F3·F4(현수 공시 기간)·F7("그해")·F13(약혼 단계의 "아내"→다은)과 `year_three_half`의 본문 계약어·폴백 내부어(P1)를 KO/EN/JA/zh에 반영했다. 같은 날 배치6에서 `arc_y4_borrowed_name`·`_self`·`_document_gap`의 선택 예고·결산문, `arc_y4_bill_night`·`_unattached`, `arc_y4_year_close_daeun`·`_unattached`의 계약어를 걷었다. 줄어 420자 아래로 떨어진 두 장면은 해설 대신 감각 묘사로 보강했다. 지연 변형(F12 판정 대기)·`three_promises`·`unexpected_hand`·`body_witness`·`family_*`·`year4_close`는 남았다.
+2026-10-01 Claude가 F1(청혼 시간)·F2(연애 기간)·F3·F4(현수 공시 기간)·F7("그해")·F13(약혼 단계의 "아내"→다은)과 `year_three_half`의 본문 계약어·폴백 내부어(P1)를 KO/EN/JA/zh에 반영했다. 같은 날 배치6에서 `arc_y4_borrowed_name`·`_self`·`_document_gap`의 선택 예고·결산문, `arc_y4_bill_night`·`_unattached`, `arc_y4_year_close_daeun`·`_unattached`의 계약어를 걷었다. 줄어 420자 아래로 떨어진 두 장면은 해설 대신 감각 묘사로 보강했다. 지연 변형(F12 판정 대기)·`three_promises`·`unexpected_hand`·`body_witness`·`family_*`·`year4_close`는 남았다. F4 중 `arc_hyunsu_lifeline_call`은 제품 비도달(`min_turn 9999`)이고 데모 고정 파일 `arc_events.json` 안에 있어 원문으로 되돌렸다.
 
 ## 결론
 

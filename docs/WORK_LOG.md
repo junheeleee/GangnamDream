@@ -12,6 +12,7 @@
 - **5장 정점·4장 내부어:** `arc_pre_ending_father_call`의 해설 꼬리 두 곳을 지웠다(대사는 보존). `arc_pre_ending_winter`는 현재형을 과거형으로 바꾸고 교훈 세 줄과 "갚아낸 빚"을 지웠다. `arc_year_three_half`의 계약어와 손상 폴백의 "배타 영수증"은 젖어 번진 메모라는 장면으로 바꿨다. 등급 fear 축 지문을 갱신했다.
 - **5장 판정·예고(배치5):** `arc_daeun_final_choice`의 서술자 판정과 현재형, `arc_late_game_push`·`arc_37_ending_peace`의 선택지 예고와 생사 추상어, `arc_minseo_03_arrival`의 계약어("자기 쪽 기록으로만", "반응을 빌리지 않고"), `arc_minseo_03b_not_arrived`의 교훈 두 줄과 "민준" 하드코딩(F10)을 고쳤다. 원격 민서의 무읽음·무답장 사실은 보존했다.
 - **4장 계약어(배치6):** `arc_y4_borrowed_name` 3변형의 선택 예고·결산문, `arc_y4_bill_night`·`_unattached`의 다은 대사와 계약어, `arc_y4_year_close_daeun`·`_unattached`의 결산문을 19잎×5언어로 고쳤다. 줄어든 `_document_gap`·`bill_night_unattached`가 `narrative_continuity`의 고립 소장면(420자 이하)에 걸려, 해설을 되살리지 않고 손가락·물컵 같은 감각 묘사로 보강해 통과시켰다. 지연 변형 6개는 F12 판정 대기로 건드리지 않았다.
+- **데모 계약 회귀 복구:** 배치1에서 고친 `arc_hyunsu_lifeline_call`("공시 4년 만에")은 `min_turn 9999`라 제품에서 나오지 않는데, 출시 데모가 원문 바이트를 고정한 `arc_events.json` 안에 있어 CI의 데모 현지화 검사 4개(JA_DEMO_INVENTORY·JA_DEMO_AUDIT·DEMO_I18N_SCOPE·_SELF_TEST)를 깼다. 5언어 파일과 영수증 18건을 기준 커밋 `89cb4450`으로 되돌렸다. 앞으로 `arc_events.json`은 건드리지 않는다.
 - **남김:** 엔딩 E12(개발자 목소리), 얇은 엔딩 재작성, 4장 계약어 표는 다음 배치다. 결정 기록(DECISIONS)에 위임을 적는 일은 자동 승인 정책이 막아 하지 않았다.
 
 ## 2026-09-29 (Claude — Codex 인계: 투자 패드 안내 중국어 8값)
