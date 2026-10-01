@@ -2,22 +2,14 @@
 
 이전 원문 전체는 [2026-09-28 이전 기록](history/WORK_LOG_2026-09-28_pre_order351.md)에 바이트 그대로 보존했다.
 
-## 2026-10-01 (Claude — 4·5장 관계·시간 표기 수리)
+## 2026-10-01 (Claude — Codex 부재 중 직접 수리 3배치)
 
-- 4장 지시서 F1·F2·F3·F4·F7·F13과 5장 F2·F6을 KO/EN에 고치고 JA/zh-CN/zh-TW 16문단을 공식 export/check/import로 반영했다. 수용원장 영수증 48건을 갱신했다.
-- 청혼 체인(t150 이후 언제든 열림)은 시점이 고정되지 않아 "5년이 거의 끝나간다"·"4년을 함께"·"5년 전 편의점"을 시점 중립 표현으로 바꿨다. `arc_daeun_the_test`(t182, 예식 t200 이전 가능)의 "아내/처가"는 다은 이름으로 바꿨다. `arc_jiyeon_wedding_gap`은 연인 확정 뒤라 KO 대사를 반말로 맞췄다. JA는 이미 반말이었다.
-- 5장 F1("오랜 친구")은 비연애 경로의 정상 본문이라 판독 오류로 정정했다.
-- `release_content_inventory`의 sexuality·fear 축 내용 해시가 바뀌었다. 바뀐 문구는 연도·호칭뿐이고 표현 강도에는 변화가 없어 지문만 갱신했다. 보고서도 재생성했다.
-- 검사: speech_register·chapter4_causal_route·peak_scene_chain·audit·en/i18n·english_hangul·multilingual·release_content_inventory·narrative_continuity·chapter5 2종·ending_distinctness·context_manifest·diff-check PASS. `story_graph_contract_audit`의 MainGame 원문 승인 실패는 수리 전 커밋 `89cb4450`에서도 재현된다(기존 폰트 수리 커밋 때문).
-
-## 2026-10-01 (Claude — 엔딩 사실 결함 직접 수리)
-
-- 사용자 지시("너 스스로 판단하고 개선해야해")에 따라 [엔딩 지시서](queue_backlog/PROSE_REVISION_ENDINGS.md) E1~E11·E13을 직접 고쳤다. KO·EN 텍스트와 JA·zh-CN·zh-TW 69문단을 공식 export/check/import(`--replace-existing --accept`)로 반영하고, 커밋된 수용원장 영수증 207건을 같은 해시로 갱신했다.
-- **E1(P0):** `empty_house`는 아버지가 살아 있지만 화해하지 않은 런에서도 열린다. 기본 본문을 살아 있는 아버지 기준으로 바꾸고, 사망 문장은 `father_passed` 변형으로 옮겼다. `_resolved_ending_description`은 아버지가 살아 있으면 이 엔딩의 사망 전제 변형을 건너뛴다(MainGame 6줄). 지시서 E2(마지막 연락 수단)는 "끝내 지키지 못한 약속"으로 수단을 중립화했다.
-- **나머지:** 파산 2엔딩의 고시원 고정, 중복된 마지막 두 문장, 조건에 없는 액수(3억·10억·5억), 편의점 시작, "6년 전", 화해한 아버지에게 "미뤘던 전화", 부부 존대, 쓰러진 날의 아버지 연락처, "민준" 하드코딩을 고쳤다. `release_content_inventory.json`의 corpus 엔딩 해시와 생성 보고서를 갱신했다. 공개 데모 패키지 계약 해시는 바꾸지 않았다.
-- **검사:** ending_distinctness·en/i18n coverage·english_hangul·speech_register·peak_scene_chain·multilingual_surface·chapter5 3종·narrative_continuity·audit·release_content_inventory·full_game_localization_self_test·context_manifest·`git diff --check` PASS. 이 환경에는 Godot가 없어 GDScript 컴파일은 CI가 확인한다.
-- **기존 실패(이번 변경과 무관):** `zh_translation_audit` KeyError와 수용원장 `ui:%d년 차` 오류는 이 브랜치 HEAD에서, `ci_localization_reconciliation_self_test`와 `chapter5_human_reject_audit`는 main에서도 재현된다. MainGame 원문 승인 이력(ORDER-390)은 Codex가 들일 때 이번 6줄을 포함해 갱신해야 한다.
-- **남김:** E12(`instant_legend` 개발자 목소리 삭제)와 교훈·재작성 항목은 다음 배치다.
+- 사용자 지시("너 스스로 판단하고 개선해야해")로 지시서 항목을 직접 고쳤다. 각 배치는 KO/EN 수정 → JA·zh-CN·zh-TW 공식 export/check/import → 수용원장 영수증 → `release_content_inventory` 지문·보고서 → 관련 검사 순서다.
+- **엔딩 사실(`3643da2b`):** `empty_house`는 살아 있지만 화해하지 않은 아버지 런에서도 열린다. 그래서 기본 본문을 생존 기준으로 바꾸고 사망 문장은 `father_passed` 변형으로 옮겼다. 아버지가 살아 있으면 사망 전제 변형을 건너뛴다(MainGame 6줄). 그 밖에 E3~E11·E13(고시원 고정, 액수, 편의점, 6년, 미뤘던 전화, 부부 존대, 하드코딩)을 고쳤다.
+- **4·5장 표기(`65be1dee`):** 청혼 체인의 고정 시점 "5년" 표현, 예식 전 "아내/처가", 연인 확정 뒤 지연의 존대, 연애·공시 기간을 고쳤다. 5장 F1은 판독 오류로 정정했다. 등급 축 sexuality·fear 지문은 연도·호칭만 바뀌어 강도 변화 없이 갱신했다.
+- **엔딩 교훈 삭제(이번):** 10엔딩 52문단에서 주제문·교훈 줄을 지웠다. "빠르게. 더럽게."의 판정어, "그걸로 충분한 밤", "30억으로도 못 사는", "강남은 목적지였다", "그도 하나의 강남드림" 등이다. 번역도 같은 줄만 지웠고, 언어별 삭제 줄 수가 0건 차이로 일치한다.
+- **검사:** ending_distinctness·en/i18n·english_hangul·speech_register·multilingual·peak·audit·chapter4/5 경로·release_content_inventory·diff-check PASS. 이 환경에 Godot가 없어 컴파일은 CI가 본다. `zh_translation_audit` KeyError·수용원장 `ui:%d년 차`·`story_graph_contract_audit`의 MainGame 원문 승인(ORDER-390)은 수리 전 브랜치에서도, `ci_localization_reconciliation_self_test`·`chapter5_human_reject_audit`는 main에서도 실패한다. Codex가 들일 때 ORDER-390 승인 이력을 이번 MainGame 6줄과 함께 갱신해야 한다.
+- **남김:** 엔딩 E12(개발자 목소리)와 얇은 엔딩 재작성, 5장 교훈·4장 계약어는 다음 배치다. 결정 기록(DECISIONS)에 위임을 적는 일은 자동 승인 정책이 막아 하지 않았다.
 
 ## 2026-09-29 (Claude — Codex 인계: 투자 패드 안내 중국어 8값)
 
