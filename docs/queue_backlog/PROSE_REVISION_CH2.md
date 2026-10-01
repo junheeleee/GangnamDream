@@ -4,6 +4,10 @@
 > 전부 직접 읽고 내린 장면별 판정이다. EN은 KO를 고친 커밋에서 다시 옮긴다(E4).
 > 월 추정이 틀린 장면은 실제 스케줄(`MainGame.gd`)로 확인해 판정했다.
 
+## 진행 상태
+
+2026-10-01 Claude가 배치10에서 F2·F3을 KO/EN/JA/zh에 반영했다. **F1(P0)은 아직 열려 있다.** `arc_jaehyuk_aftermath`는 출시 데모가 원문 바이트를 고정한 `content/events/arc_events.json` 안에 있어, Codex가 데모 계약 갱신(`demo_localization_scope`의 ORDER-369 pin)과 함께 경로명 태그 제거·선택 조건화를 해야 한다. F4(`arc_jiyeon_03_offer`)도 같은 파일이다. F5(호칭)·F6(ORDER-399)·F7(데모 EN)·F8(수첩 반복)은 판정 또는 별도 오더가 필요하다.
+
 ## 결론
 
 2장의 좋은 장면은 1장보다 깊다. 기준 장면으로 쓸 만한 것은 다음과 같다.

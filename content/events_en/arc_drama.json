@@ -58,7 +58,7 @@
   {
     "id": "arc_sangchul_deduction_decision",
     "title": "The Same Man",
-    "description": "The two records glowed side by side.\n\nThe case number matching Father's paid-in-full certificate.\nThe brokerage address matching the office of the unnamed Mr. Im.\nThe registered owner of that office: Im Sangchul.\n\nIt might not be enough to convict anyone in court. It was enough for a son to know who had been sitting across from him.\n\nThe man who taught him charts at the same café table. The man who had known whose son Minjun was when he offered that first cup of coffee.\n\n3:26 a.m. His finger hovered between the next page and the close button.",
+    "description": "The two records glowed side by side.\n\nThe case number matching Father's paid-in-full certificate.\nThe brokerage address matching the office of the unnamed Mr. Im.\nThe registered owner of that office: Im Sangchul.\n\nIt might not be enough to convict anyone in court. It was enough for a son to know who had been sitting across from him.\n\nThe man who taught him charts at the same office desk. The man who had known whose son Minjun was when he offered that first cup of coffee.\n\n3:26 a.m. His finger hovered between the next page and the close button.",
     "choices": [
       {
         "text": "Dig deeper — trace Sangchul's old transactions",
@@ -87,11 +87,11 @@
     "choices": [
       {
         "text": "\"That man named Im — do you happen to know his full name?\"",
-        "result_text": "\"Im... Sangchul, I think he said. Why?\"\n\nMinjun couldn't answer.\n\nLim. Sang. Chul.\n\nThe broker who ruined his father back then. That man is Minjun's mentor right now. The one who sits across from him at the same café, teaching him how to read charts.\n\nThe hand holding the phone went cold."
+        "result_text": "\"Im... Sangchul, I think he said. Why?\"\n\nMinjun couldn't answer.\n\nLim. Sang. Chul.\n\nThe broker who ruined his father back then. That man is Minjun's mentor right now. The one who sits across from him at the same office desk, teaching him how to read charts.\n\nThe hand holding the phone went cold."
       },
       {
         "text": "\"Do you know where he is now?\"",
-        "result_text": "\"No idea. Somewhere in Gangnam, I suppose.\"\n\nMinjun knows.\n\nNot just somewhere in Gangnam — Im Sangchul still sits at the same table in the same café. Teaching Minjun how to trade charts.\n\nDad doesn't know. He has no idea that man has walked right into the middle of his son's life."
+        "result_text": "\"No idea. Somewhere in Gangnam, I suppose.\"\n\nMinjun knows.\n\nNot just somewhere in Gangnam — Im Sangchul still sits at the same desk in the same office. Teaching Minjun how to trade charts.\n\nDad doesn't know. He has no idea that man has walked right into the middle of his son's life."
       },
       {
         "text": "(He couldn't say a word)",
