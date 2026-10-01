@@ -78,14 +78,14 @@
   {
     "id": "arc_36_unexpected_hand",
     "title": "The Cost of Two Empty Places",
-    "description": "Monday morning, the ward call with Father and the other plan {name} had missed over the weekend both turned gray. A hospital rescheduling fee and the fare required to move again appeared on separate ledger lines. The two contact windows kept only their unanswered times.\n\n{name} did not claim he could reopen both. He could either confirm the ward’s next medication-review time or send two times he could actually get to the place he had missed last weekend. Only one confirmed place would reopen.\n\nReception hours kept shrinking. {name} chose which of the two missed targets would receive an actual new time this week.",
+    "description": "Monday morning, the ward call with Father and the other plan {name} had missed over the weekend both turned gray. A hospital rescheduling fee and the fare required to move again appeared on separate ledger lines. The two contact windows kept only their unanswered times.\n\n{name} opened and closed the two contact windows in turn. This week's calendar had few hours he could actually clear.",
     "description_if_known": {
-      "arc_y4_three_promises_missed_father&arc_y4_three_promises_missed_person": "Monday morning, Father’s appointment and the other plan {name} had missed that day both turned gray. A hospital rescheduling fee and the fare required to move again appeared on separate ledger lines. The two contact windows kept only their unanswered times.\n\n{name} did not claim he could reopen both. He could either confirm the ward’s next medication-review time or send the other contact window two times he could actually clear this week. Only one confirmed place would reopen.\n\nReception hours kept shrinking. {name} chose which of the two missed targets would receive an actual new time this week."
+      "arc_y4_three_promises_missed_father&arc_y4_three_promises_missed_person": "Monday morning, Father’s appointment and the other plan {name} had missed that day both turned gray. A hospital rescheduling fee and the fare required to move again appeared on separate ledger lines. The two contact windows kept only their unanswered times.\n\n{name} opened and closed the two contact windows in turn. This week's calendar had few hours he could actually clear."
     },
     "choices": [
       {
         "text": "Call the ward again and confirm a time to review Father's medication",
-        "result_text": "{name} called the ward and began with the medication check he had missed over the weekend. The nurse gave him the next available call, Tuesday at 4:10, and he saved the time beside the ward number.\n\nOne call did not invent a medical outcome. It did leave an actual record of when Father's channel would open again."
+        "result_text": "{name} called the ward and began with the medication check he had missed over the weekend. The nurse gave him the next available call, Tuesday at 4:10, and he saved the time beside the ward number.\n\nHe did not hear Father's voice. Only the ward number stood out, bold, in Tuesday's square."
       },
       {
         "text": "Send the times he can get there this week",
@@ -96,22 +96,22 @@
   {
     "id": "arc_36_unexpected_hand_father_deal",
     "title": "Between the Ward and the Review Room",
-    "description": "Monday morning, the missed ward call with Father and the canceled contract-review seat remained on one screen. One side showed the next window for reviewing his medication; the other showed the deadline for paying for another source-document review.\n\n{name} did not use the place he had kept over the weekend as an excuse. He could repair only one channel this week. He had to give an actual time either to the ward or to the review room.\n\nThe canceled deposit was not coming back. The ward had only one more call window that week. Reopening one place also meant confirming that the other would stay closed.",
+    "description": "Monday morning, the missed ward call with Father and the canceled contract-review seat remained on one screen. One side showed the next window for reviewing his medication; the other showed the deadline for paying for another source-document review.\n\nHe could repair only one channel this week.\n\nThe canceled deposit was not coming back. The ward had only one more call window that week.",
     "choices": [
       {
         "text": "Call the ward again and confirm a time to review Father's medication",
-        "result_text": "{name} called the ward and began with the medication check he had missed over the weekend. The nurse gave him the next available call, Tuesday at 4:10, and he saved the time beside the ward number.\n\nThe review seat closed. Without inventing a medical outcome, the ward was the only channel he actually reopened this week."
+        "result_text": "{name} called the ward and began with the medication check he had missed over the weekend. The nurse gave him the next available call, Tuesday at 4:10, and he saved the time beside the ward number.\n\nThe review seat closed. The only square that reopened on this week's calendar was the ward."
       },
       {
         "text": "Confirm a new time to read the source contract in the review room",
-        "result_text": "{name} asked the deal lead to send the issuer and shortfall table before they met again. He confirmed a Wednesday six o'clock seat and put the added deposit and liability-end-date check in the same note.\n\nHe did not reschedule the ward call. The channel reopened this week and the one still blank remained under different names."
+        "result_text": "{name} asked the deal lead to send the issuer and shortfall table before they met again. He confirmed a Wednesday six o'clock seat and put the added deposit and liability-end-date check in the same note.\n\nHe did not reschedule the ward call. No time was written beside the ward number."
       }
     ]
   },
   {
     "id": "arc_36_unexpected_hand_person_deal",
     "title": "The Waiting Place and the Review Room",
-    "description": "Monday morning, the contact window for the place {name} had failed to reach last weekend remained on the same screen as the canceled contract-review seat. One side carried an unanswered time; the other, a nonrefundable deposit.\n\n{name} did not write that both could still fit. He had to make time either for the place he had missed last weekend or for the contract-review room.\n\nThe canceled deposit was not coming back, and both channels' next openings ended within the week. Before his hand could schedule anything, his chest tightened at the fact that either choice would close one door again.",
+    "description": "Monday morning, the contact window for the place {name} had failed to reach last weekend remained on the same screen as the canceled contract-review seat. One side carried an unanswered time; the other, a nonrefundable deposit. {name} took a sip of cold coffee and thumbed between the two screens. Outside, a Monday-morning bus stopped at the stop twice and pulled away.\n\nThe canceled deposit was not coming back, and both channels' next openings ended within the week. Before his hand could schedule anything, his chest tightened at the fact that either choice would close one door again.",
     "choices": [
       {
         "text": "Send the times he can get there this week",
@@ -363,7 +363,7 @@
       "pivoted_to_safe": "As on the day he changed direction to cap the loss, he had to mark the channel he would surrender first. Safety did not mean writing that all three could still fit.",
       "plays_hand": "The list of cards he still held contained more than money: people and channels that would still answer. This weekend was where he had to spend one of them for real."
     },
-    "description": "Saturday, 3:18 p.m. Three times overlapped on {name}'s phone. At four he had a call to reconcile the medication chart with the ward where Father had been admitted again; at four thirty, a review of the deal's source terms; at five, a promise with Daeun outside the convenience store where they first met. Once travel was included, he could keep only one.\n\nDaeun wrote, ‘I'll wait where we first agreed.’ The deal lead would hold the review seat only until 4:40. Father had limited access to the ward phone and would answer once, at four. No one canceled another promise for him.\n\n{name} put all three alerts on one screen and pressed the one he would protect. The other two already carried their closing times.",
+    "description": "Saturday, 3:18 p.m. Three times overlapped on {name}'s phone. At four he had a call to reconcile the medication chart with the ward where Father had been admitted again; at four thirty, a review of the deal's source terms; at five, a promise with Daeun outside the convenience store where they first met. Once travel was included, he could keep only one.\n\nDaeun wrote, ‘I'll wait where we first agreed.’ The deal lead would hold the review seat only until 4:40. Father had limited access to the ward phone and would answer once, at four. No one canceled another promise for him.\n\n{name}'s thumb hovered over the three alerts. The clock at the top of the screen turned to 3:19.",
     "choices": [
       {
         "text": "Keep the four o'clock call and reconcile Father's medications",
@@ -411,7 +411,7 @@
       "pivoted_to_safe": "As on the day he changed direction to cap the loss, he had to mark the channel he would surrender first. Safety did not mean writing that all three could still fit.",
       "plays_hand": "The list of cards he still held contained more than money: people and channels that would still answer. This weekend was where he had to spend one of them for real."
     },
-    "description": "Saturday, 3:18 p.m. No partner's name appeared in {name}'s calendar. Instead, a four o'clock call with the ward where Father had been admitted again, a four-thirty review of the source terms, and the 5:10 cutoff for his own after-hours clinic overlapped on one screen. His fingertips had been trembling since morning.\n\nThe ward could connect once at four. The deal lead had already charged a seat deposit. The clinic instructions said intake existed only if the patient arrived and showed identification. No one else could enter any of the three windows for him.\n\n{name} did not fill the empty space with an invented lover, friend, or broker. He chose the one place he would actually reach today: Father, his own body, or the deal.",
+    "description": "Saturday, 3:18 p.m. Three times overlapped on {name}'s phone: a four o'clock call with the ward where Father had been admitted again, a four-thirty review of the source terms, and the 5:10 cutoff for his own after-hours clinic. His fingertips had been trembling since morning.\n\nThe ward could connect once at four. The deal lead had already charged a seat deposit. The clinic instructions said intake existed only if the patient arrived and showed identification. No one else could enter any of the three windows for him.\n\n{name} pressed his shaking hands between his knees and scrolled the three alerts up and down.",
     "choices": [
       {
         "text": "Keep the ward call at four and verify Father's medications",
@@ -419,18 +419,18 @@
       },
       {
         "text": "Go to after-hours intake and show someone his own symptoms",
-        "result_text": "{name} placed his identification on the intake desk and gave the time the tremor had started. A nurse repeated his blood pressure and sent the symptom record to the night physician. Only after a waiting number appeared did {name} sit down.\n\nThe ward call closed, and the deal lead canceled the seat. The only person actually examined today was {name} himself."
+        "result_text": "{name} placed his identification on the intake desk and gave the time the tremor had started. A nurse repeated his blood pressure and sent the symptom record to the night physician. Only after a waiting number appeared did {name} sit down.\n\nThe ward call closed, and the deal lead canceled the seat."
       },
       {
         "text": "Go to the review room and verify the source terms and gap",
-        "result_text": "{name} reached the review room at 4:27 and marked the issuer, liability end date, and added fees in the source terms. The deal lead pointed first to the guarantor box when he saw that {name} had come alone; {name} said he was confirming figures only.\n\nThe ward took no more calls, and clinic intake closed. The document kept a completed-review time. No other person's name appeared in the room."
+        "result_text": "{name} reached the review room at 4:27 and marked the issuer, liability end date, and added fees in the source terms. The deal lead pointed first to the guarantor box when he saw that {name} had come alone; {name} said he was confirming figures only.\n\nThe ward took no more calls, and clinic intake closed. The document kept a completed-review time, and the guarantor box stayed empty."
       }
     ]
   },
   {
     "id": "arc_y4_body_witness",
     "title": "Daeun at Two A.M.",
-    "description": "At 2:12 a.m., the bell rang for the third time. When {name} opened the door, Daeun saw his sweat-soaked shirt, shaking hand, and the cup on the floor. She stopped one step short. \"Minjun, may I hold your arm? Or should I call emergency services first?\"\n\nThe laptop showed a client-file deadline of 2:30. After-hours intake was an eleven-minute taxi ride away; eighteen minutes remained to finish the file. He could not do both.\n\nDaeun did not decide for him. {name} had to open the door and seek care, return to the client deadline, or send Daeun away and endure alone.",
+    "description": "At 2:12 a.m., the bell rang for the third time. When {name} opened the door, Daeun saw his sweat-soaked shirt, shaking hand, and the cup on the floor. She stopped one step short. \"Minjun, may I hold your arm? Or should I call emergency services first?\"\n\nThe laptop showed a client-file deadline of 2:30. After-hours intake was an eleven-minute taxi ride away; eighteen minutes remained to finish the file. He could not do both.\n\nDaeun stood in the entryway, looking only at {name}'s wrist.",
     "description_memory_if_known": {
       "arc_y4_missed_cost_seen&arc_y4_missed_cost_repaired_father": "Just before this, {name} had called the ward and confirmed Tuesday's medication-review time with Father. That call did not decide the medical outcome, and tonight still left a real choice between his own body and the deadline.",
       "arc_y4_missed_cost_seen&arc_y4_missed_cost_repaired_person": "Just before this, {name} had sent Daeun two hours he could truly clear and locked the confirmed one into his calendar. The earlier wait remained, and no one could open his own medical channel for him tonight.",
@@ -478,19 +478,19 @@
   {
     "id": "arc_y4_body_witness_hyunsu",
     "title": "The Door Still Shut",
-    "description": "At 2:12 a.m., {name} sat on the entryway floor with an after-hours help page open. His fingertips shook, and a tight line ran from his left temple into his neck. The screen held an emergency-call button, a client-file deadline of 2:30, and the final intake time.\n\nNo continuing partner or reconnected friend could be assumed to be in the room. Unless {name} spoke, the only other person who could know about his body was a medical dispatcher.\n\nHe had to share his location and seek care, submit the deadline file, or contact neither and endure alone.",
+    "description": "At 2:12 a.m., {name} sat on the entryway floor with an after-hours help page open. His fingertips shook, and a tight line ran from his left temple into his neck. The screen held an emergency-call button, a client-file deadline of 2:30, and the final intake time.\n\nThe corridor sensor light went off and on again. The cold of the floor tiles came up through his trousers, and the palm gripping his phone was slick. Only the laptop fan kept a steady hum deeper in the room.\n\nUnless {name} spoke, no one knew what was happening to his body.",
     "description_memory_if_known": {
       "arc_y4_missed_cost_seen&arc_y4_missed_cost_repaired_father": "Just before this, {name} had called the ward and confirmed Tuesday's medication-review time with Father. The call did not decide the medical outcome, and no new person appeared to handle his own care tonight.",
       "arc_y4_missed_cost_seen&arc_y4_missed_cost_repaired_person": "Just before this, {name} had sent his clinic two workable times and locked the confirmed one into his calendar. The booking did not heal him, and walking through the door tonight remained his own action.",
       "arc_y4_missed_cost_seen&arc_y4_missed_cost_repaired_deal": "Just before this, {name} had confirmed another source-contract review seat and its added deposit. The recovered review time sharpened tonight's deadline but did not examine his trembling hand."
     },
     "description_if_known": {
-      "hyunsu_reconnected": "At 2:12 a.m., a reconnected Hyunsu saw {name}'s fingertips shake on a video call. Hyunsu was elsewhere and could not be treated as if he had arrived in the room. \"Hyung, read your address to emergency services first. I won't end the call.\"\n\nThe laptop showed the client deadline of 2:30 and the final after-hours intake time. Hyunsu could neither call nor open the door for him.\n\n{name} had to share his location and seek care, end the call and submit the file, or hand it to no one and endure alone."
+      "hyunsu_reconnected": "At 2:12 a.m., a reconnected Hyunsu saw {name}'s fingertips shake on a video call. The room behind Hyunsu on the screen was dark. \"Hyung, read your address to emergency services first. I won't end the call.\"\n\nThe laptop showed the client deadline of 2:30 and the final after-hours intake time. Hyunsu could neither call nor open the door for him."
     },
     "choices": [
       {
         "text": "Read the address and onset time to emergency services, then unlock the door",
-        "result_text": "{name} read the address, onset time, and location of the pain in separate sentences. He kept the call open, unlocked the entryway, and let the corridor light into the room.\n\nThe client file closed unsubmitted. The footsteps that entered later belonged not to an unnamed savior, but to medical staff following the dispatch record."
+        "result_text": "{name} read the address, onset time, and location of the pain in separate sentences. He kept the call open, unlocked the entryway, and let the corridor light into the room.\n\nThe client file closed unsubmitted. A little later, paramedics' footsteps sounded in the corridor."
       },
       {
         "text": "Close the help screen and submit the client file by 2:30",
@@ -505,7 +505,7 @@
   {
     "id": "arc_y4_family_partner_collision",
     "title": "A Future at the Same Table",
-    "description": "At three on Saturday afternoon, Father had come to Seoul for the first time since leaving hospital. His restaurant reservation was for six. Daeun said she could open the door with {name} if she received the address by 5:30. At the same time, a client offered the full overdue fee if {name} worked on-site from five to ten.\n\n{name} could send Daeun the address and enter together, draw a boundary by saying he would go alone, or take the paid assignment and leave the table empty.\n\nNeither Father nor Daeun was described as already seated. The movement and address {name} sent now would determine who actually attended.",
+    "description": "At three on Saturday afternoon, Father had come to Seoul for the first time since leaving hospital. His restaurant reservation was for six. Daeun said she could open the door with {name} if she received the address by 5:30. At the same time, a client offered the full overdue fee if {name} worked on-site from five to ten.\n\nThe restaurant address sat copied on {name}'s phone, not yet sent to anyone.",
     "choices": [
       {
         "text": "Send Daeun the address and open the restaurant door together",
@@ -513,11 +513,11 @@
       },
       {
         "text": "Tell Daeun he will go alone and arrive at the family table",
-        "result_text": "{name} wrote to Daeun, ‘I will keep this as a place where I answer alone today.’ She did not call that an agreement. She replied, \"Do not say you chose it because of me.\"\n\n{name} entered the restaurant before six and sat across from Father. No name was attached to the empty chair. He missed the paid assignment; only the responsibility to explain why he came alone remained at the table."
+        "result_text": "{name} wrote to Daeun, ‘I will keep this as a place where I answer alone today.’ She did not call that an agreement. She replied, \"Do not say you chose it because of me.\"\n\n{name} entered the restaurant before six and sat across from Father. The chair beside him stayed empty. He missed the paid assignment; only the responsibility to explain why he came alone remained at the table."
       },
       {
         "text": "Cancel the restaurant and go to the paid site at five",
-        "result_text": "{name} canceled two places at the restaurant and sent Daeun and Father the same line separately: ‘I am going to the paid site today. I will not pretend the two of you met.’\n\nHis site entry was recorded at five, and the fee was paid. No soup was served at the restaurant. Daeun and Father remained people who had never seen each other's expression."
+        "result_text": "{name} canceled two places at the restaurant and sent Daeun and Father the same line separately: ‘I have to go to the site today. I'm sorry.’\n\nHis site entry was recorded at five, and the fee was paid. No soup was served at the restaurant. Daeun and Father remained people who had never seen each other's expression."
       }
     ]
   },
@@ -543,11 +543,11 @@
   {
     "id": "arc_y4_family_commitment_none",
     "title": "Soup Set for Two",
-    "description": "At three on Saturday afternoon, the family restaurant reservation was for six. This route could assume no partner who might attend. At the same time, a client offered the overdue fee if {name} worked on-site from five to ten.\n\n{name} could arrive alone at the restaurant, confirm a new date with family and go to the site, or take the paid job without creating another promise.\n\nNo lover's or friend's name was needed for the empty chair. Only {name}'s movement and sent record would determine attendance or absence.",
+    "description": "At three on Saturday afternoon, the family restaurant reservation was for six. At the same time, a client offered the overdue fee if {name} worked on-site from five to ten.\n\nThe reservation text read: six o'clock, two people. {name} switched between that message and the site notice. The phone's glow spread across a cup of cold barley tea on the desk. A delivery motorbike passed the window twice; three hours remained until six. The battery icon in the corner of the screen had quietly turned red.",
     "choices": [
       {
         "text": "Decline the paid site and arrive alone at the family table",
-        "result_text": "{name} declined the site and entered the restaurant before six. The family member looked once at the empty chair and said only, \"You came alone.\"\n\n{name} invented no absent person's circumstances. He stated only that he had chosen to come alone. Two bowls arrived, and the paid fee went to someone else."
+        "result_text": "{name} declined the site and entered the restaurant before six. The family member looked once at the empty chair and said only, \"You came alone.\"\n\nTwo bowls arrived, and the paid fee went to someone else."
       },
       {
         "text": "Confirm next Saturday with family, then go to the paid site",
@@ -555,18 +555,18 @@
       },
       {
         "text": "Cancel the table without a new date and go to the paid site",
-        "result_text": "{name} told the restaurant and family that he would not come, adding no new date. At five, his name entered the site log.\n\nThe fee was paid, and the family table expired. No partner appeared in the empty chair, and no friend was invented as someone who had waited instead."
+        "result_text": "{name} told the restaurant and family that he would not come, adding no new date. At five, his name entered the site log.\n\nThe fee was paid, and the family table expired."
       }
     ]
   },
   {
     "id": "arc_y4_family_table_missed",
     "title": "The Table Never Set",
-    "description": "At 7:20 on Saturday evening, {name} still had not left for the restaurant. The family reservation closed at eight. His phone held one line: ‘Are you coming today?’ This record contained no partner's name and no soup that had already been served.\n\nA taxi could still get him there alone before the last order. He could call and set a new date the other side confirmed. If he did nothing, both the table and any repair would close.\n\n{name} chose an action for the remaining forty minutes, not a late apology.",
+    "description": "At 7:20 on Saturday evening, {name} still had not left for the restaurant. The family reservation closed at eight. His phone held one line: ‘Are you coming today?’\n\nA taxi could still get him there alone before the last order. He could call and set a new date the other side confirmed.\n\nForty minutes remained.",
     "choices": [
       {
         "text": "Take a taxi and arrive alone before the last order",
-        "result_text": "{name} sent his expected arrival and got into a taxi. At 7:57, he opened the restaurant door. The family member was waiting at a table with only water.\n\n\"You did come.\" Two bowls arrived late after that. The fare and waiting time remained together. No name was attached to the empty chair."
+        "result_text": "{name} sent his expected arrival and got into a taxi. At 7:57, he opened the restaurant door. The family member was waiting at a table with only water.\n\n\"You did come.\" Two bowls arrived late after that. The fare and waiting time remained together."
       },
       {
         "text": "Call now and set a new date and place the other side confirms",
@@ -574,7 +574,7 @@
       },
       {
         "text": "Make no contact and let the reservation and repair expire",
-        "result_text": "{name} closed the draft and watched eight o'clock pass. The reservation canceled automatically, and no new date appeared.\n\nNo one's reaction was invented. After the screen went dark, only the reservation's closing time and one unanswered line remained."
+        "result_text": "{name} closed the draft and watched eight o'clock pass. The reservation canceled automatically, and no new date appeared.\n\nAfter the screen went dark, only the reservation's closing time and one unanswered line remained."
       }
     ]
   },

@@ -8,7 +8,7 @@
 
 ## 진행 상태
 
-2026-10-01 Claude가 F2(지난해)·F6(지연 반말), `pre_ending_father_call`·`pre_ending_winter`·`daeun_final_choice`·`late_game_push`·`37_ending_peace`·`minseo_03_arrival`·`minseo_03b` 표 행, F5·F10을 KO/EN/JA/zh에 반영했다. F1은 판독 오류로 정정했다. 나머지는 남았다.
+2026-10-01 Claude가 F2(지난해)·F6(지연 반말), `pre_ending_father_call`·`pre_ending_winter`·`daeun_final_choice`·`late_game_push`·`37_ending_peace`·`minseo_03_arrival`·`minseo_03b` 표 행, F5·F10을 KO/EN/JA/zh에 반영했다. F1은 판독 오류로 정정했다. 같은 날 배치7에서 4장 표에 함께 걸린 `arc_daeun_the_test`의 서술자 도덕 판정을 지웠다. 나머지는 남았다.
 
 ## 결론
 

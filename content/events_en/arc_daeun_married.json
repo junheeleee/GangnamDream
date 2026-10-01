@@ -36,11 +36,11 @@
     "choices": [
       {
         "text": "\"Forget it. Daeun isn't a document.\"",
-        "result_text": "Sangchul shrugged. \"Well. Your call.\"\n\nThe road home was long. Gangnam drifted a step further away.\nAnd yet, strangely, his steps were light.\n\n{name} understood now why that smile was familiar. That year, someone had smiled just like that while introducing a man to his father."
+        "result_text": "Sangchul shrugged. \"Well. Your call.\"\n\nThe road home was long. Gangnam drifted a step further away.\n\n{name} understood now why that smile was familiar. That year, someone had smiled just like that while introducing a man to his father."
       },
       {
         "text": "\"...Just her stamp, right.\" (Borrows Daeun's name)",
-        "result_text": "Daeun stamped the papers without asking a thing. Because she trusts {name}.\n\nThe moment he turned that trust into a document, {name} became Sangchul.\nStarted out hating him, ended up doing that to Daeun.\n\nGangnam came a step closer. And something, soundlessly, cracked."
+        "result_text": "Daeun turned the first page and stopped. \"You said it was fine.\" She stamped the papers without reading the rest.\n\nOn the subway home, {name}'s face showed in the window. The corners of his mouth were turned up. It was a smile he'd seen somewhere before.\n\nGangnam came a step closer. And something, soundlessly, cracked."
       }
     ]
   },
