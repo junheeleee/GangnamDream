@@ -91,7 +91,7 @@
     "title": "The Inner Room",
     "description": "Sangchul led {name} to a room at the end of the hall.\n\nThe lighting was lower than in the usual office. The blinds were drawn all the way down, and the numbers on the papers on the table were of a different order of magnitude. Beside the ashtray, a few business cards lay face-down — names hidden.\n\n\"Figured you could sit in here now.\" Sangchul offered a seat. The voice was warm, as always.\n\nIt was a greyer room. The chair looked comfortable, which made it worse. It felt like something would begin the moment he sat down. The kind of beginning you can't walk back from.",
     "description_if_known": {
-      "sangchul_truth_known": "Sangchul led Minjun to a room at the end of the hall.\n\nTo eyes that knew the truth, even the lighting of that room looked different. The hand that had broken his father was now holding this door open.\n\n\"Figured you could sit in here now.\" The voice offering the seat was as warm as ever.\n\nThat was the coldest part."
+      "sangchul_truth_known": "Sangchul led {name} to a room at the end of the hall.\n\nTo eyes that knew the truth, even the lighting of that room looked different. The hand that had broken his father was now holding this door open.\n\n\"Figured you could sit in here now.\" The voice offering the seat was as warm as ever.\n\nThat was the coldest part."
     },
     "choices": [
       {
@@ -100,7 +100,7 @@
       },
       {
         "text": "Turn back at the door",
-        "result_text": "\"Next time.\" He shut the door and stepped out into the hall.\n\nWalking out under the fluorescent lights, no sound came from behind him. Sangchul was not a man who held people back. That was his way.\n\nThe strength it takes to turn away gets written in no ledger anywhere. Still, {name} figured it had earned its keep."
+        "result_text": "\"Next time.\" He shut the door and stepped out into the hall.\n\nWalking out under the fluorescent lights, no sound came from behind him. Sangchul was not a man who held people back. That was his way.\n\nThe strength it takes to turn away gets written in no ledger anywhere."
       }
     ]
   },

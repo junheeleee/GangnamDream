@@ -457,7 +457,7 @@
         "expected_event_count": 137,
         "expected_file_count": 43,
         "expected_ids_sha256": "e324a22a603bda179d3be12bee23fb8e8af3134e9cab56e953416e42d02bba7b",
-        "expected_content_sha256": "3967fd8b6073e519053b13145cda852d18e81adb455bc2f82654255050279602"
+        "expected_content_sha256": "e900fa510a5e243e1efd47c1171584f9144937f08fd39b71f39fe7e81478193f"
       },
       "facts": [
         {
@@ -530,7 +530,7 @@
         "tokens_ko": ["키스", "입을 맞", "첫날밤", "첫밤", "침대 위", "밤의 나머지", "불을 껐", "서로를 원"],
         "tokens_en": ["kiss", "first night", "on the bed", "rest of the night", "turned off the light", "wanted each other"],
         "reviewed_search_noise_ids": ["arc_y4_father_final_contact_present"],
-        "expected_event_count": 124, "expected_file_count": 26, "expected_ids_sha256": "b0b2306f0c7abfcbe7a13c0c46ace514434459be156759f9c6860f80778693aa", "expected_content_sha256": "57a62e5fc89758001d9d8663bb21a0883495646c913499274e34f02ff5020770"
+        "expected_event_count": 124, "expected_file_count": 26, "expected_ids_sha256": "b0b2306f0c7abfcbe7a13c0c46ace514434459be156759f9c6860f80778693aa", "expected_content_sha256": "774677165b00bebadf6b2208cc0a26e6fc7a956bcd2f668d72637e75c3f143b5"
       },
       "facts": [
         {
@@ -588,8 +588,8 @@
         "categories": [], "tags": [],
         "tokens_ko": ["폭행", "폭력", "구타", "뺨", "주먹", "피투성이", "선혈", "살해", "칼로 찔", "목을 졸", "무릎에 피", "앞바퀴를 쳤", "충돌"],
         "tokens_en": ["assault", "violence", "beaten", "slapped", "punched", "bloodied", "murder", "stabbed", "strangled", "knee was bleeding", "clipped the front wheel"],
-        "reviewed_search_noise_ids": ["amb_coin_00", "arc_35_unorthodox_weight", "arc_daeun_first_night", "arc_sangchul_confrontation", "arc_year3_close", "cafe_bluff_caught", "callback_ignored_hyunsu_warning_echo", "callback_recommitted_to_job_echo", "inv_portfolio_review", "job_colleague_conflict", "kx_coin_noraebang", "startup_team_conflict", "story_knee_choice", "story_knee_witness"],
-        "expected_event_count": 18, "expected_file_count": 15, "expected_ids_sha256": "1d403db1107800e1e7c4a8d9d78c08361a840c6901fd8e93de83e609bf585a70", "expected_content_sha256": "9a91148a4849b0b02f564b046e16a5e8e6eba95012817cae7c8c021aa9600852"
+        "reviewed_search_noise_ids": ["amb_coin_00", "arc_daeun_first_night", "arc_sangchul_confrontation", "arc_year3_close", "cafe_bluff_caught", "callback_ignored_hyunsu_warning_echo", "callback_recommitted_to_job_echo", "inv_portfolio_review", "job_colleague_conflict", "kx_coin_noraebang", "startup_team_conflict", "story_knee_choice", "story_knee_witness"],
+        "expected_event_count": 17, "expected_file_count": 14, "expected_ids_sha256": "b036299411ccb065182412b7accbfaf66efdab32d05c81d8b6c6bb6a3d3dc125", "expected_content_sha256": "82510709a7eb6770b77e13b4a381dfb1fc225d02201d0e604ce127001a04ba9f"
       },
       "facts": [
         {
@@ -616,7 +616,7 @@
         "categories": ["anxiety"], "tags": ["anxiety"],
         "tokens_ko": ["공포", "두려", "무서", "겁이", "협박", "위협", "불안", "공황", "악몽", "위독", "돌아가셨", "사망", "임종", "애도"],
         "tokens_en": ["terror", "afraid", "fear", "threat", "anxiety", "panic", "nightmare", "critically ill", "passed away", "death", "grief"],
-        "expected_event_count": 146, "expected_file_count": 51, "expected_ids_sha256": "2c0b31f28649c41920b109674331366623b3600076d16a694a647fae6f26a5cb", "expected_content_sha256": "ea7550052e8ea54cb4ca8bf8a889aa2da54d36f49707da1b438f37e51c9fda6f"
+        "expected_event_count": 145, "expected_file_count": 51, "expected_ids_sha256": "a6a6ec729442836b7328d965a645391fc8d5c8750c22535ff2e6928a5750c2da", "expected_content_sha256": "75313d3d1bc4ed16e94e521f2cebbedbd05e54990acd8cd4226dd7b51e83aa13"
       },
       "facts": [
         {

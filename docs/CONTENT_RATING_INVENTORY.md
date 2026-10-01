@@ -131,10 +131,10 @@ PCK의 디렉터리·전 payload MD5·JSON·raster/audio import target과 ZIP의
 
 | 축 | 후보 사건/파일 | ID SHA-256 | KO/EN 본문 SHA-256 | 최고 사실 강도 |
 |---|---:|---|---|---|
-| 사행성·도박 | 137 / 43 | `e324a22a603bda179d3be12bee23fb8e8af3134e9cab56e953416e42d02bba7b` | `3967fd8b6073e519053b13145cda852d18e81adb455bc2f82654255050279602` | strong, moderate |
-| 선정성·성적 내용 | 124 / 26 | `b0b2306f0c7abfcbe7a13c0c46ace514434459be156759f9c6860f80778693aa` | `57a62e5fc89758001d9d8663bb21a0883495646c913499274e34f02ff5020770` | moderate, mild |
-| 폭력성 | 18 / 15 | `1d403db1107800e1e7c4a8d9d78c08361a840c6901fd8e93de83e609bf585a70` | `9a91148a4849b0b02f564b046e16a5e8e6eba95012817cae7c8c021aa9600852` | mild |
-| 공포 | 146 / 51 | `2c0b31f28649c41920b109674331366623b3600076d16a694a647fae6f26a5cb` | `ea7550052e8ea54cb4ca8bf8a889aa2da54d36f49707da1b438f37e51c9fda6f` | moderate |
+| 사행성·도박 | 137 / 43 | `e324a22a603bda179d3be12bee23fb8e8af3134e9cab56e953416e42d02bba7b` | `e900fa510a5e243e1efd47c1171584f9144937f08fd39b71f39fe7e81478193f` | strong, moderate |
+| 선정성·성적 내용 | 124 / 26 | `b0b2306f0c7abfcbe7a13c0c46ace514434459be156759f9c6860f80778693aa` | `774677165b00bebadf6b2208cc0a26e6fc7a956bcd2f668d72637e75c3f143b5` | moderate, mild |
+| 폭력성 | 17 / 14 | `b036299411ccb065182412b7accbfaf66efdab32d05c81d8b6c6bb6a3d3dc125` | `82510709a7eb6770b77e13b4a381dfb1fc225d02201d0e604ce127001a04ba9f` | mild |
+| 공포 | 145 / 51 | `a6a6ec729442836b7328d965a645391fc8d5c8750c22535ff2e6928a5750c2da` | `75313d3d1bc4ed16e94e521f2cebbedbd05e54990acd8cd4226dd7b51e83aa13` | moderate |
 | 언어 | 2 / 2 | `09cf036c8dac9dcefd776b9cf27b96efa7ed0ee396e74264bea545b480c8eca1` | `fc1a0465f31a6a2df2deb4559825e67c7f762fa2ebfdbaa45ae63e2fb75131c3` | mild |
 | 범죄 | 73 / 40 | `4e0463a4d699a58c1c3fc7fa856c80b4218417badce2d62ec0403d389294c0dd` | `f4fd635402ca61ce5632576a11b5d461a7e3cd32ed85f7a5eea80ba4e1e834dd` | moderate, strong |
 | 음주·흡연·약물 | 82 / 39 | `32942c5a49b64e9027b5a0071e1c95d6d205478ef05ea6ad25c5ad3c5d90433f` | `7726b07a2373f4a97b43a077524e856702e68defa15c8c8492bb67b7c79a7fb6` | moderate, mild |
@@ -143,7 +143,7 @@ PCK의 디렉터리·전 payload MD5·JSON·raster/audio import target과 ZIP의
 
 명시 검토한 검색 오탐(후보 해시에는 남겨 검색 규칙 변화도 드러낸다):
 - 선정성·성적 내용: `arc_y4_father_final_contact_present`
-- 폭력성: `amb_coin_00`, `arc_35_unorthodox_weight`, `arc_daeun_first_night`, `arc_sangchul_confrontation`, `arc_year3_close`, `cafe_bluff_caught`, `callback_ignored_hyunsu_warning_echo`, `callback_recommitted_to_job_echo`, `inv_portfolio_review`, `job_colleague_conflict`, `kx_coin_noraebang`, `startup_team_conflict`, `story_knee_choice`, `story_knee_witness`
+- 폭력성: `amb_coin_00`, `arc_daeun_first_night`, `arc_sangchul_confrontation`, `arc_year3_close`, `cafe_bluff_caught`, `callback_ignored_hyunsu_warning_echo`, `callback_recommitted_to_job_echo`, `inv_portfolio_review`, `job_colleague_conflict`, `kx_coin_noraebang`, `startup_team_conflict`, `story_knee_choice`, `story_knee_witness`
 - 범죄: `arc_y4_family_partner_collision_jiyeon`
 - 음주·흡연·약물: `arc_36_body_signal`
 

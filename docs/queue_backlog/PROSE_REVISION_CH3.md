@@ -7,7 +7,7 @@
 
 ## 진행 상태
 
-2026-10-01 Claude가 배치10에서 F1·F2·F4·F5와 F3의 연애 기간을 KO/EN/JA/zh에 반영했다. F3의 동거 서술("같은 방")은 `ROMANCE_SYSTEM` 대조가 필요해 남겼고, F6(다은 고향과 부산 예식장)은 정본 판정이 필요하다. 도덕 해설 표와 장면별 판정은 남았다.
+2026-10-01 Claude가 배치10에서 F1·F2·F4·F5와 F3의 연애 기간을 KO/EN/JA/zh에 반영했다. F3의 동거 서술("같은 방")은 `ROMANCE_SYSTEM` 대조가 필요해 남겼고, F6(다은 고향과 부산 예식장)은 정본 판정이 필요하다. 같은 날 도덕 해설 표 중 `cost_of_knowing`·`sangchul_deeper_room`·`35_orthodox/unorthodox_weight`를 반영했다. `arc_jaehyuk_04b_counter`는 데모 고정 파일이라 Codex 7k에 넣었다. 장면별 판정은 남았다.
 
 ## 결론
 
