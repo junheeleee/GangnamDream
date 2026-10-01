@@ -43,7 +43,7 @@
     },
     "choices": [
       {
-        "text": "\"I'll get there, Father.\" — said it inwardly",
+        "text": "\"I'll get there, Father.\" — said it out loud",
         "result_text": "The words came out.\n\nNo one heard. Father isn't here. Did it anyway. That's what's possible right now."
       },
       {
@@ -226,8 +226,8 @@
         "result_text": "\"See you in Gangnam. I'm on my way there too.\"\n\nAfter the read receipt, Jiyeon's answer arrived. \"Then I'll see you in Gangnam, oppa. For sure.\" The formality disappeared for the first time. The sentence was short, and therefore unmistakable.\n\n{name} saved the office address on his map. Neither had fully arrived, but this time they were moving toward the same promise. The familiar map of Seoul looked, for a moment, like another city."
       },
       {
-        "text": "\"That decision has to be yours. Not because of me.\"",
-        "result_text": "\"The decision has to be for you. It cannot be because of me.\"\n\nJiyeon answered after a pause. \"I know. It is for me. I'm more certain because I built something in Busan first. But you are one of the reasons, oppa.\"\n\n{name} did not try to correct the sentence. Her year in Busan had proved the difference between including someone in a reason and abandoning herself for him. The key in the photograph still rested beneath her own name."
+        "text": "\"The decision has to be for you. It cannot be because of me.\"",
+        "result_text": "\"The decision has to be for you. It cannot be because of me.\"\n\nJiyeon answered after a pause. \"I know. It is for me. I'm more certain because I built something in Busan first. But you are one of the reasons, oppa.\"\n\n{name} did not try to correct the sentence. Her two years in Busan had proved the difference between including someone in a reason and abandoning herself for him. The key in the photograph still rested beneath her own name."
       }
     ]
   },

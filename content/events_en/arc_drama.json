@@ -804,7 +804,7 @@
     "choices": [
       {
         "text": "Read back the medications, oxygen-check time, and next test, then take the guardian contact",
-        "result_text": "{name} read back each medication name and administration time, the oxygen-check time, and the next test. The nurse corrected one time, and Minjun's number remained first on the guardian contact list.\n\nNo sentence said that Father was cured. What had been settled was who would answer the next call and what he would ask. Minjun left the list open and set the first alarm."
+        "result_text": "{name} read back each medication name and administration time, the oxygen-check time, and the next test. The nurse corrected one time, and {name}'s number remained first on the guardian contact list.\n\nNo sentence said that Father was cured. What had been settled was who would answer the next call and what he would ask. {name} left the list open and set the first alarm."
       },
       {
         "text": "Cancel work through the next test and make time in which he cannot miss the ward's call",
