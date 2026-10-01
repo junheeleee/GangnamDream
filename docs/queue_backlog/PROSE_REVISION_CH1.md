@@ -5,6 +5,10 @@
 > 판독 결과이므로 여기 적힌 수정은 그대로 실행한다. EN은 KO를 고친 커밋에서 다시 옮긴다(E4).
 > 여파(callback) 장면과 일반 사건은 이 문서 범위 밖이다(목록 C·E층).
 
+## 진행 상태
+
+2026-10-01 Claude가 F6을 KO/EN/JA/zh에 반영했다. F1·F3·F4·F7은 데모 원문 고정 파일 `arc_events.json` 안이라 데모 계약 갱신과 함께 Codex가 처리한다. F2는 `arc_father_call_on_ktx_memory`에 `description_if_known.told_dad_okay` 변형을 더하는 일인데, `exposed_event_state_contracts.json`과 수용원장 배치(ORDER-164 roots)를 함께 갱신해야 해서 남겼다. F5는 NG+ 이월 확인 뒤 삭제 판정이 필요하다.
+
 ## 결론
 
 1장은 **장면 설계가 가장 좋은 장**이다. 대포통장(`arc_temptation_01`)의 월세 메모와 04:20 알람,

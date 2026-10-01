@@ -6492,8 +6492,8 @@
         "target_sha256": "2d7a0d1e8f9e551e8b3c3a876f3cdbb6925384cc67ed4e3ea26c25a99deaa766"
       },
       "events:arc_goshiwon_goodbye:/description_if_known/wants_out_of_gosiwon": {
-        "source_sha256": "224d6f219d27d0eac84808da936e7f8674de503b7d8dc258dd3dd1f1861c6f85",
-        "target_sha256": "9e96e2c44593942873ce5cab7e9a34d859e2212728ccee78f491d55e0aed1aa0"
+        "source_sha256": "2a720986147048dfa6bd29f95aab4424bc34aab797de98c2144aa781e317c0f0",
+        "target_sha256": "939ead490b31e2cdef5ffdda0501e8cee892186d3075e11188e8983fef96e9ee"
       },
       "events:arc_goshiwon_goodbye:/title": {
         "source_sha256": "8f9af1487e4fc39138e78e8e3d20c7bfe8ff4fda233804af469a01923ace676d",
@@ -59014,8 +59014,8 @@
         "target_sha256": "7e7f52f9a0d8b4ab19d3526540a516a9ba14df9b1705e32a376ab8f4ac56c901"
       },
       "events:arc_goshiwon_goodbye:/description_if_known/wants_out_of_gosiwon": {
-        "source_sha256": "224d6f219d27d0eac84808da936e7f8674de503b7d8dc258dd3dd1f1861c6f85",
-        "target_sha256": "26bd71087a5a11457067e45a27a42ab041bf71696f25eb3951205abd3bcf9931"
+        "source_sha256": "2a720986147048dfa6bd29f95aab4424bc34aab797de98c2144aa781e317c0f0",
+        "target_sha256": "b5bccc91f44539490ec78e9c7947f7ad2d6dd42de3295af56d3bb1ac3ebbd9e6"
       },
       "events:arc_goshiwon_goodbye:/title": {
         "source_sha256": "8f9af1487e4fc39138e78e8e3d20c7bfe8ff4fda233804af469a01923ace676d",
@@ -114752,8 +114752,8 @@
         "target_sha256": "20e3d8d17403bde2a8589a49c84dbd82a52ba77afa1ead5b5befb570f0ebcaea"
       },
       "events:arc_goshiwon_goodbye:/description_if_known/wants_out_of_gosiwon": {
-        "source_sha256": "224d6f219d27d0eac84808da936e7f8674de503b7d8dc258dd3dd1f1861c6f85",
-        "target_sha256": "5dc78251e3ae5b12e517ae6f604bd0087603dcbb7a0d45c5a3256971490fdc69"
+        "source_sha256": "2a720986147048dfa6bd29f95aab4424bc34aab797de98c2144aa781e317c0f0",
+        "target_sha256": "eb2cbeca6f18ddf8c041355d5dd677412f07d71c8450a0027702aa4e7193bdc3"
       },
       "events:arc_goshiwon_goodbye:/title": {
         "source_sha256": "8f9af1487e4fc39138e78e8e3d20c7bfe8ff4fda233804af469a01923ace676d",
@@ -170337,7 +170337,7 @@
       }
     }
   },
-  "accepted_sha256": "b35e3520e495cf6949565493461b50d63fe43744dd94bc69b50185ad4bea9c22",
+  "accepted_sha256": "71586cc5f37ff6b07a36417c09b01743636c327bfeb80cab7a581c9e0ad3e184",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
