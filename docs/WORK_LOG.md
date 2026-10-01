@@ -2,6 +2,14 @@
 
 이전 원문 전체는 [2026-09-28 이전 기록](history/WORK_LOG_2026-09-28_pre_order351.md)에 바이트 그대로 보존했다.
 
+## 2026-10-01 (Claude — 4·5장 관계·시간 표기 수리)
+
+- 4장 지시서 F1·F2·F3·F4·F7·F13과 5장 F2·F6을 KO/EN에 고치고 JA/zh-CN/zh-TW 16문단을 공식 export/check/import로 반영했다. 수용원장 영수증 48건을 갱신했다.
+- 청혼 체인(t150 이후 언제든 열림)은 시점이 고정되지 않아 "5년이 거의 끝나간다"·"4년을 함께"·"5년 전 편의점"을 시점 중립 표현으로 바꿨다. `arc_daeun_the_test`(t182, 예식 t200 이전 가능)의 "아내/처가"는 다은 이름으로 바꿨다. `arc_jiyeon_wedding_gap`은 연인 확정 뒤라 KO 대사를 반말로 맞췄다. JA는 이미 반말이었다.
+- 5장 F1("오랜 친구")은 비연애 경로의 정상 본문이라 판독 오류로 정정했다.
+- `release_content_inventory`의 sexuality·fear 축 내용 해시가 바뀌었다. 바뀐 문구는 연도·호칭뿐이고 표현 강도에는 변화가 없어 지문만 갱신했다. 보고서도 재생성했다.
+- 검사: speech_register·chapter4_causal_route·peak_scene_chain·audit·en/i18n·english_hangul·multilingual·release_content_inventory·narrative_continuity·chapter5 2종·ending_distinctness·context_manifest·diff-check PASS. `story_graph_contract_audit`의 MainGame 원문 승인 실패는 수리 전 커밋 `89cb4450`에서도 재현된다(기존 폰트 수리 커밋 때문).
+
 ## 2026-10-01 (Claude — 엔딩 사실 결함 직접 수리)
 
 - 사용자 지시("너 스스로 판단하고 개선해야해")에 따라 [엔딩 지시서](queue_backlog/PROSE_REVISION_ENDINGS.md) E1~E11·E13을 직접 고쳤다. KO·EN 텍스트와 JA·zh-CN·zh-TW 69문단을 공식 export/check/import(`--replace-existing --accept`)로 반영하고, 커밋된 수용원장 영수증 207건을 같은 해시로 갱신했다.

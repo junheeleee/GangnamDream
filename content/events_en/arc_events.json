@@ -1392,7 +1392,7 @@
   {
     "id": "arc_hyunsu_lifeline_call",
     "title": "Someone You Can Call",
-    "description": "There was nothing in your hand.\n\n{name} scrolled up and down the contact list.\nSomeone you could call.\nMore precisely — someone you could call in this state.\n\nHyunsu's name was there.\n\nThat business card. One photo of him in a suit after four years of exam prep.\n'It's thanks to you, hyung.' That sentence.",
+    "description": "There was nothing in your hand.\n\n{name} scrolled up and down the contact list.\nSomeone you could call.\nMore precisely — someone you could call in this state.\n\nHyunsu's name was there.\n\nThat business card. One photo of him in a suit at the end of a long run of exam prep.\n'It's thanks to you, hyung.' That sentence.",
     "choices": [
       {
         "text": "Call him",

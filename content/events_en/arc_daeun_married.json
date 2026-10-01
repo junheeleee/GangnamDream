@@ -32,22 +32,22 @@
   {
     "id": "arc_daeun_the_test",
     "title": "The Shortcut",
-    "description": "The deadline was close. One step short of Gangnam.\n\nSangchul pushed a coffee across the table.\n\"There is one way. Take out a loan under your in-laws' name, hold the property under your wife's name — and you skip the taxes, the regulations, all of it.\"\n\n\"Your wife doesn't even need to know. Just get her stamp on the papers.\"\n\nUsing his wife as a name on a document. And Gangnam would be in reach.\nSangchul smiled. It was a smile he'd seen somewhere before.",
+    "description": "The deadline was close. One step short of Gangnam.\n\nSangchul pushed a coffee across the table.\n\"There is one way. Take out a loan on Daeun's side, hold the property under Daeun's name — and you skip the taxes, the regulations, all of it.\"\n\n\"Daeun doesn't even need to know. Just get her stamp on the papers.\"\n\nUsing Daeun as a name on a document. And Gangnam would be in reach.\nSangchul smiled. It was a smile he'd seen somewhere before.",
     "choices": [
       {
         "text": "\"Forget it. Daeun isn't a document.\"",
-        "result_text": "Sangchul shrugged. \"Well. Your call.\"\n\nThe road home was long. Gangnam drifted a step further away.\nAnd yet, strangely, his steps were light.\n\n{name} understood now why that smile was familiar. Five years ago, that's how someone had smiled while introducing a deal to his father."
+        "result_text": "Sangchul shrugged. \"Well. Your call.\"\n\nThe road home was long. Gangnam drifted a step further away.\nAnd yet, strangely, his steps were light.\n\n{name} understood now why that smile was familiar. That year, someone had smiled just like that while introducing a man to his father."
       },
       {
-        "text": "\"...Just her stamp, right.\" (Borrows his wife's name)",
-        "result_text": "Daeun stamped the papers without asking a thing. Because she trusts {name}.\n\nThe moment he turned that trust into a document, {name} became Sangchul.\nStarted out hating him, ended up doing that to his own wife.\n\nGangnam came a step closer. And something, soundlessly, cracked."
+        "text": "\"...Just her stamp, right.\" (Borrows Daeun's name)",
+        "result_text": "Daeun stamped the papers without asking a thing. Because she trusts {name}.\n\nThe moment he turned that trust into a document, {name} became Sangchul.\nStarted out hating him, ended up doing that to Daeun.\n\nGangnam came a step closer. And something, soundlessly, cracked."
       }
     ]
   },
   {
     "id": "arc_daeun_final_choice",
     "title": "The Last Step",
-    "description": "One document remained, looking like the last shortcut to Gangnam.\n\nYears ago, {name} had put the property under Daeun's name. If he turned the trust he borrowed then into permission to sell today, there would be no going back.\n\nThe contract lay before him. From the kitchen came the sound of a knife touching the cutting board.\n\"Minjun, is it okay if I put scallions in the rolled omelet?\"\n\nDaeun was asking about one small preference at dinner. {name} was about to decide the shape of her whole life without asking at all.",
+    "description": "One document remained, looking like the last shortcut to Gangnam.\n\nLast year, {name} had put the property under Daeun's name. If he turned the trust he borrowed then into permission to sell today, there would be no going back.\n\nThe contract lay before him. From the kitchen came the sound of a knife touching the cutting board.\n\"Minjun, is it okay if I put scallions in the rolled omelet?\"\n\nDaeun was asking about one small preference at dinner. {name} was about to decide the shape of her whole life without asking at all.",
     "choices": [
       {
         "text": "Count the knife beats from the kitchen instead of reading the contract.",
@@ -59,7 +59,7 @@
       }
     ],
     "description_if_known": {
-      "namsan_lock_daeun": "One document remained, looking like the last shortcut to Gangnam.\n\nYears ago, {name} had put the property under Daeun's name. If he turned the trust he borrowed then into permission to sell today, there would be no going back.\n\nAs he reached for the pen, the lock on the Namsan railing came back to him. The night they had said they would find it in ten years. That lock would still be there.\n\nFrom the kitchen came the sound of a knife on a cutting board.\n\"Minjun, is it okay if I put scallions in the rolled omelet?\"\n\nDaeun was asking about one small preference at dinner. {name} was about to decide the shape of her whole life without asking at all."
+      "namsan_lock_daeun": "One document remained, looking like the last shortcut to Gangnam.\n\nLast year, {name} had put the property under Daeun's name. If he turned the trust he borrowed then into permission to sell today, there would be no going back.\n\nAs he reached for the pen, the lock on the Namsan railing came back to him. The night they had said they would find it in ten years. That lock would still be there.\n\nFrom the kitchen came the sound of a knife on a cutting board.\n\"Minjun, is it okay if I put scallions in the rolled omelet?\"\n\nDaeun was asking about one small preference at dinner. {name} was about to decide the shape of her whole life without asking at all."
     }
   },
   {

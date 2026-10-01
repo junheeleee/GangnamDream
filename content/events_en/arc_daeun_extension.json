@@ -39,7 +39,7 @@
   {
     "id": "arc_daeun_year4_together",
     "title": "She Got There First",
-    "description": "On the commute home, a photograph arrived from Daeun: a new business card, its corners still perfectly sharp. A message followed beneath it.\n\n\"I got a job! It's a small company in Gangnam.\"\n\n{name} began typing congratulations, then stopped. He had spent four years naming Gangnam as his destination.\n\nDaeun would be the first to commute there. The news was unquestionably good, yet something heavy followed the happiness into his chest.\n\nThe train window reflected a smile that had not quite formed. Even joy for someone else could carry a piece of his own story.",
+    "description": "On the commute home, a photograph arrived from Daeun: a new business card, its corners still perfectly sharp. A message followed beneath it.\n\n\"I got a job! It's a small company in Gangnam.\"\n\n{name} began typing congratulations, then stopped. He had spent more than three years naming Gangnam as his destination.\n\nDaeun would be the first to commute there. The news was unquestionably good, yet something heavy followed the happiness into his chest.\n\nThe train window reflected a smile that had not quite formed. Even joy for someone else could carry a piece of his own story.",
     "choices": [
       {
         "text": "\"That's great. When I get there, let's grab a cafe nearby.\" — happy for her",
@@ -51,7 +51,7 @@
       }
     ],
     "description_if_known": {
-      "daeun_romance_started": "Daeun found a job at a small company in Gangnam. At dinner, she offered her new business card with both hands. It still carried the smell of fresh coating.\n\nThey had been together for three years, long enough to know each other's morning faces and tired footsteps. Daeun smiled. \"Looks like I reached Gangnam first, Minjun.\"\n\n\"Cheater.\" {name} laughed, but the card's edge remained against his fingertip. Daeun could build a life anywhere without him. He was grateful that someone like that still chose to stay, and a little afraid that one day the choice might change."
+      "daeun_romance_started": "Daeun found a job at a small company in Gangnam. At dinner, she offered her new business card with both hands. It still carried the smell of fresh coating.\n\nThey had been together through several seasons, long enough to know each other's morning faces and tired footsteps. Daeun smiled. \"Looks like I reached Gangnam first, Minjun.\"\n\n\"Cheater.\" {name} laughed, but the card's edge remained against his fingertip. Daeun could build a life anywhere without him. He was grateful that someone like that still chose to stay, and a little afraid that one day the choice might change."
     }
   },
   {
@@ -92,7 +92,7 @@
   {
     "id": "arc_daeun_year4_quiet",
     "title": "Today's Seoul",
-    "description": "Daeun had been commuting to her Gangnam office for two months. The alley photographs she sent at lunch now contained shops {name} recognized. That day, a window seat in a café arrived with a message.\n\n\"When are you coming to Gangnam, Minjun? I found a café near work.\"\n\nFour of the five years were gone, and the goal remained some distance away. Once, her words would have touched urgency first.\n\nInstead, {name} smiled at the empty chair across from the camera. Knowing someone had gone ahead and saved a place made Seoul feel less far away today.",
+    "description": "Daeun had been commuting to her Gangnam office for two months. The alley photographs she sent at lunch now contained shops {name} recognized. That day, a window seat in a café arrived with a message.\n\n\"When are you coming to Gangnam, Minjun? I found a café near work.\"\n\nThey were well into the fourth of the five years, and the goal remained some distance away. Once, her words would have touched urgency first.\n\nInstead, {name} smiled at the empty chair across from the camera. Knowing someone had gone ahead and saved a place made Seoul feel less far away today.",
     "description_if_known": {
       "jiyeon_respectfully_distanced": "Daeun had been commuting to her Gangnam office for two months. That day, a photograph of a café window seat arrived with a message. \"When are you coming to Gangnam, Minjun? I found a café near work.\"\n\n{name} paused before replying. When Jiyeon visited Seoul the month before, he had told her there was someone in his life. Daeun knew nothing about that difficult conversation.\n\nThe chair across from the camera was empty. For the first time, he could see the shape of the choice he had never described. He sent Daeun a smile and wrote the promise without hesitation."
     },
