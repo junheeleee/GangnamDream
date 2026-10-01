@@ -11,6 +11,7 @@
 - **검사:** ending_distinctness·en/i18n·english_hangul·speech_register·multilingual·peak·audit·chapter4/5 경로·release_content_inventory·diff-check PASS. 이 환경에 Godot가 없어 컴파일은 CI가 본다. `zh_translation_audit` KeyError·수용원장 `ui:%d년 차`·`story_graph_contract_audit`의 MainGame 원문 승인(ORDER-390)은 수리 전 브랜치에서도, `ci_localization_reconciliation_self_test`·`chapter5_human_reject_audit`는 main에서도 실패한다. Codex가 들일 때 ORDER-390 승인 이력을 이번 MainGame 6줄과 함께 갱신해야 한다.
 - **5장 정점·4장 내부어:** `arc_pre_ending_father_call`의 해설 꼬리 두 곳을 지웠다(대사는 보존). `arc_pre_ending_winter`는 현재형을 과거형으로 바꾸고 교훈 세 줄과 "갚아낸 빚"을 지웠다. `arc_year_three_half`의 계약어와 손상 폴백의 "배타 영수증"은 젖어 번진 메모라는 장면으로 바꿨다. 등급 fear 축 지문을 갱신했다.
 - **5장 판정·예고(배치5):** `arc_daeun_final_choice`의 서술자 판정과 현재형, `arc_late_game_push`·`arc_37_ending_peace`의 선택지 예고와 생사 추상어, `arc_minseo_03_arrival`의 계약어("자기 쪽 기록으로만", "반응을 빌리지 않고"), `arc_minseo_03b_not_arrived`의 교훈 두 줄과 "민준" 하드코딩(F10)을 고쳤다. 원격 민서의 무읽음·무답장 사실은 보존했다.
+- **4장 계약어(배치6):** `arc_y4_borrowed_name` 3변형의 선택 예고·결산문, `arc_y4_bill_night`·`_unattached`의 다은 대사와 계약어, `arc_y4_year_close_daeun`·`_unattached`의 결산문을 19잎×5언어로 고쳤다. 줄어든 `_document_gap`·`bill_night_unattached`가 `narrative_continuity`의 고립 소장면(420자 이하)에 걸려, 해설을 되살리지 않고 손가락·물컵 같은 감각 묘사로 보강해 통과시켰다. 지연 변형 6개는 F12 판정 대기로 건드리지 않았다.
 - **남김:** 엔딩 E12(개발자 목소리), 얇은 엔딩 재작성, 4장 계약어 표는 다음 배치다. 결정 기록(DECISIONS)에 위임을 적는 일은 자동 승인 정책이 막아 하지 않았다.
 
 ## 2026-09-29 (Claude — Codex 인계: 투자 패드 안내 중국어 8값)

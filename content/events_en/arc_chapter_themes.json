@@ -581,14 +581,14 @@
   {
     "id": "arc_y4_borrowed_name",
     "title": "The Blank for a Name",
-    "description": "A proposed co-obligor agreement lay open in the review room. It named Hangang First Finance as lender, 180 million won as principal, November 30, 2030 as maturity, and the project interest plus {name}'s deposit-return claim as collateral. Daeun's proposed box was empty, and neither signature line held a mark.\n\nAfter reading early recovery and joint liability, Daeun said, \"Time we spent living together does not mean you may borrow my name. Decide whether you want time to review or a person to carry the liability.\"\n\n{name} could request a smaller revision under his name alone, give Daeun the full copy and ask only whether she wished to review, or withdraw the name request and close today's deal window. None created Daeun's consent or signature in advance.",
+    "description": "A proposed co-obligor agreement lay open in the review room. It named Hangang First Finance as lender, 180 million won as principal, November 30, 2030 as maturity, and the project interest plus {name}'s deposit-return claim as collateral. Daeun's proposed box was empty, and neither signature line held a mark.\n\nAfter reading early recovery and joint liability, Daeun said, \"Time we spent living together does not mean you may borrow my name. Decide whether you want time to review or a person to carry the liability.\"",
     "description_memory_if_known": {
       "arc_y4_family_partner_daeun": "The earlier family-table record identified Daeun as the person in the relationship route. It did not decide whether she attended that table, and her name and signature still required separate consent here."
     },
     "choices": [
       {
         "text": "Delete the co-obligor box and receive a revision under his name",
-        "result_text": "{name} struck out the co-obligor box and requested a revision with only his name. The principal ceiling fell to 110 million won, and the required equity line grew.\n\nDaeun checked the deleted box and put down the pen. \"I can see that time we lived together was not converted into contract scale.\" Another person's name was protected; the larger scale was lost."
+        "result_text": "{name} struck out the co-obligor box and requested a revision with only his name. The principal ceiling fell to 110 million won, and the required equity line grew.\n\nDaeun checked the deleted box and put down the pen. \"I can see that time we lived together was not converted into contract scale.\""
       },
       {
         "text": "Give Daeun the full copy and ask only about review in three days",
@@ -596,7 +596,7 @@
       },
       {
         "text": "Withdraw the request for Daeun's name and close the deal window",
-        "result_text": "{name} deleted the co-obligor box, wrote ‘request to use another person's name withdrawn,’ and filed it. The deal lead confirmed that the current scale and rate would not be preserved.\n\nDaeun watched until the filing screen showed no trace of her name, then stood first. The relationship still carried responsibility; the deal window closed."
+        "result_text": "{name} deleted the co-obligor box, wrote ‘request to use another person's name withdrawn,’ and filed it. The deal lead confirmed that the current scale and rate would not be preserved.\n\nDaeun watched until the filing screen showed no trace of her name, then stood first."
       }
     ]
   },
@@ -625,7 +625,7 @@
   {
     "id": "arc_y4_borrowed_name_self",
     "title": "The Co-Obligor Box Left Blank",
-    "description": "The proposal before the deal lead named Hangang First Finance as lender, 180 million won as principal, November 30, 2030 as maturity, and the project interest plus {name}'s deposit-return claim as collateral. The co-obligor box was blank, and no other person's name entered the room.\n\n\"One other name restores the scale. It does not have to be a lover,\" the lead said.\n\nWithout using another person's name, {name} could fix a smaller solo scale, file a counteroffer containing his name alone, or withdraw the deal window. Writing someone down as a possibility was not an option.",
+    "description": "The proposal before the deal lead named Hangang First Finance as lender, 180 million won as principal, November 30, 2030 as maturity, and the project interest plus {name}'s deposit-return claim as collateral. The co-obligor box was blank, and no other person's name entered the room.\n\n\"One other name restores the scale. It does not have to be a lover,\" the lead said.",
     "description_memory_if_known": {
       "arc_y4_family_no_partner": "The earlier family-table record had no partner who might attend. This co-obligor box could not be filled by inventing a lover or friend later; only terms {name} actually filed under his own name remained."
     },
@@ -636,18 +636,18 @@
       },
       {
         "text": "File a counteroffer with only his name, ceiling, and loss limit",
-        "result_text": "{name} filed a counteroffer for 90 million won in principal, a 20-million-won loss ceiling, and his name alone. The lead promised no approval and returned only a filing number.\n\nThe scale fell again, but the subject of every condition was fixed as {name}. The other-name box disappeared from the document."
+        "result_text": "{name} filed a counteroffer for 90 million won in principal, a 20-million-won loss ceiling, and his name alone. The lead promised no approval and returned only a filing number.\n\nThe scale fell again. The other-name box disappeared from the document."
       },
       {
         "text": "Withdraw both the other-name request and today's deal window",
-        "result_text": "{name} filed: ‘No use of another person's name; current proposal withdrawn.’ The lead confirmed that the same terms would not reopen.\n\n{name} surrendered no name and left no deal window open. Beneath the corridor light, only the withdrawal number remained visible."
+        "result_text": "{name} filed: ‘No use of another person's name; current proposal withdrawn.’ The lead confirmed that the same terms would not reopen.\n\nBeneath the corridor light, only the withdrawal number remained visible."
       }
     ]
   },
   {
     "id": "arc_y4_borrowed_name_document_gap",
     "title": "A Blank Among the Records",
-    "description": "A public terms page, the deal lead's summary, and {name}'s calculation notes lay on the desk. No single source stated lender, principal, maturity, and collateral together. A name box existed while the beginning and end of liability could not be confirmed.\n\n{name} wrote that if any one of the four fields was missing, no other person's name or signature would enter the file. He could formally request complete terms and pause the process, submit reduced conditions under his name alone, or withdraw because the records conflicted.\n\nThere was no option to fill the blanks by inference or manufacture another person's consent.",
+    "description": "A public terms page, the deal lead's summary, and {name}'s calculation notes lay on the desk. No single source stated lender, principal, maturity, and collateral together. A name box existed while the beginning and end of liability could not be confirmed.\n\n{name} laid the three pages side by side and ran a finger down the same line on each. All three times, the finger stopped at the lender field. The highlighter stayed capped, and only the monitor's glow floated on the cold coffee.\n\n{name} wrote that if any one of the four fields was missing, no other person's name or signature would enter the file.",
     "description_memory_if_known": {
       "arc_y4_family_no_partner": "The earlier family-table record had no partner who might attend. The documentary blanks could not be filled with an invented lover's or friend's name either; all four fields had to come from an official source."
     },
@@ -662,14 +662,14 @@
       },
       {
         "text": "Withdraw the name request and deal because the four fields are missing",
-        "result_text": "{name} filed: ‘Cannot verify lender, principal, maturity, and collateral together.’ He added no claim that any document had been received or signed.\n\nThe inquiry and deal windows closed together. Beneath the withdrawal were no other person's name and no new file."
+        "result_text": "{name} filed: ‘Cannot verify lender, principal, maturity, and collateral together.’\n\nThe inquiry and deal windows closed together. Beneath the withdrawal were no other person's name and no new file."
       }
     ]
   },
   {
     "id": "arc_y4_bill_night",
     "title": "The Night the Bills Arrived",
-    "description": "At 11:47 p.m., a 487,300-won bill issued by Changwon Sungsim Hospital's billing office would close at 11:59. Seoul East After-Hours Clinic also ended intake at midnight for {name}'s trembling fingers and double vision. Father's ward offered one 11:50 call to reconcile medications, the transfer referral, and the guardian contact chain.\n\nDaeun had come inside after {name}'s message, but she touched no button. \"Choose whether to pay, show someone your body, or coordinate Father's ward. Do not turn it into my choice.\"\n\nOnly one action could finish in twelve minutes. Paying a hospital bill was not clinical coordination, and seeking care for himself did not arrange Father's ward.",
+    "description": "At 11:47 p.m., a 487,300-won bill issued by Changwon Sungsim Hospital's billing office would close at 11:59. Seoul East After-Hours Clinic also ended intake at midnight for {name}'s trembling fingers and double vision. Father's ward offered one 11:50 call to reconcile medications, the transfer referral, and the guardian contact chain.\n\nDaeun had come inside after {name}'s message, but she touched no button. \"Minjun, your hands are shaking. Just do the one thing you can do now.\"\n\nOnly one action could finish in twelve minutes.",
     "description_memory_if_known": {
       "arc_y4_borrowed_name_reduced_to_self": "At the earlier name window, {name} deleted the other-person box and left only a reduced offer under his name. The lower scale was fixed, but it paid none of tonight's bill and completed no medical action.",
       "arc_y4_borrowed_name_partner_review_only": "At the earlier name window, {name} gave his partner a review copy only and asked for neither a name nor a signature. That limit still meant Daeun had not made tonight's payment or medical decision for him.",
@@ -680,7 +680,7 @@
     "choices": [
       {
         "text": "Pay the billing office 487,300 won before midnight",
-        "result_text": "{name} completed identity and item verification and sent 487,300 won at 11:58. A receipt number from Changwon Sungsim Hospital appeared.\n\nAfter-hours intake and the 11:50 coordination call passed. The money arrived, but Father's current medication list, transfer referral, and guardian contact chain were not confirmed. Daeun observed only the payment screen and added no completion."
+        "result_text": "{name} completed identity and item verification and sent 487,300 won at 11:58. A receipt number from Changwon Sungsim Hospital appeared.\n\nAfter-hours intake and the 11:50 coordination call passed. The money arrived, but Father's current medication list, transfer referral, and guardian contact chain were not confirmed. Daeun looked at the payment screen without a word."
       },
       {
         "text": "Leave for after-hours intake and register his own symptoms",
@@ -721,7 +721,7 @@
   {
     "id": "arc_y4_bill_night_unattached",
     "title": "One Call and Open Screens",
-    "description": "At 11:47 p.m., the 487,300-won bill from Changwon Sungsim Hospital would close at 11:59, and Seoul East After-Hours Clinic ended intake at midnight. Father's ward offered one 11:50 call to reconcile medications, the transfer referral, and the guardian contact chain.\n\nNo partner was in the room. {name}'s fingertips shook, and every window required his identity, movement, or voice. Sending money, seeking care for his own body, and clinically connecting Father's ward could not substitute for one another.\n\nWithout handing the decision to an invented person, {name} chose one action for the next twelve minutes.",
+    "description": "At 11:47 p.m., the 487,300-won bill from Changwon Sungsim Hospital would close at 11:59, and Seoul East After-Hours Clinic ended intake at midnight. Father's ward offered one 11:50 call to reconcile medications, the transfer referral, and the guardian contact chain.\n\n{name} was alone in the room. His fingertips shook, and every window opened only to his own identity, movement, or voice. Three notifications stacked at the top of the phone, and his shaking hand knocked the water glass on the desk once.\n\nTwelve minutes remained.",
     "description_memory_if_known": {
       "arc_y4_borrowed_name_reduced_to_self": "At the earlier name window, {name} deleted the other-person box and left only a reduced offer under his name. The lower scale was fixed, but it paid none of tonight's bill and completed no medical action.",
       "arc_y4_borrowed_name_partner_review_only": "At the earlier name window, {name} gave the other side a review copy only and asked for neither a name nor a signature. That record could not invent a partner in this room or delegate tonight's choice.",

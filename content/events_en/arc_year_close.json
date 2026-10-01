@@ -213,19 +213,19 @@
       "father_crisis_contact_called": "The seconds of the connected ward call remained beside the distance he had not traveled to Changwon. The call did not decide the medical outcome, but it changed what he had actually done during the crisis.",
       "father_crisis_contact_missed": "The ward's message and the time he replied that today was impossible remained side by side. He did not need to invent the unknown outcome for the time of his deferral to remain."
     },
-    "description": "The cafe had played its year-end closing announcement twice, but Daeun still sat across from {name} in her coat. The table held the actual times of what he had completed, the blanks left by what he had missed, a physical follow-up notice, and a family bill still waiting for an answer.\n\n\"Minjun, don't decide it with a promise this time. Do one thing now. Let me see what you cancel to make it real too.\"\n\nInstead of explaining what he would protect in the final year, {name} had to complete one action with the phone and calendar.",
+    "description": "The cafe had played its year-end closing announcement twice, but Daeun still sat across from {name} in her coat. The table held the actual times of what he had completed, the blanks left by what he had missed, a physical follow-up notice, and a family bill still waiting for an answer.\n\n\"Minjun, don't decide it with a promise this time. Do one thing now. Let me see what you cancel to make it real too.\"",
     "choices": [
       {
         "text": "Cancel the overlapping night meeting and confirm Saturday evening with Daeun",
-        "result_text": "{name} sent the cancellation to the night meeting first. Only after the delivery mark appeared did he save Saturday evening and show Daeun the calendar.\n\nBefore smiling, Daeun checked the cancellation time. \"If a day comes when you can't make it, tell me before I have to wait.\"\n\nInstead of a promise to protect the relationship, one money schedule actually closed."
+        "result_text": "{name} sent the cancellation to the night meeting first. Only after the delivery mark appeared did he save Saturday evening and show Daeun the calendar.\n\nBefore smiling, Daeun checked the cancellation time. \"If a day comes when you can't make it, tell me before I have to wait.\""
       },
       {
         "text": "Book the physical follow-up in his own name and cancel the night work around it",
-        "result_text": "{name} used the number on the notice to book the earliest follow-up in his own name. After the confirmation arrived, he removed the night work on both sides of it.\n\nDaeun said, \"Don't make it an appointment you need me to verify, Minjun. It's your body.\"\n\nWithout handing his care to Daeun, he left the time lost to the goal visible on the calendar."
+        "result_text": "{name} used the number on the notice to book the earliest follow-up in his own name. After the confirmation arrived, he removed the night work on both sides of it.\n\nDaeun said, \"You don't have to report back to me, Minjun. It's your body.\""
       },
       {
         "text": "Verify the family bill's issuer, amount, and deadline, then answer with his own limit",
-        "result_text": "{name} called the issuer and asked them to read the amount and deadline back to him. Beneath the verified text, he wrote the limit he could bear now and sent the answer. Daeun's name appeared nowhere.\n\nDaeun looked at the arrival and response times side by side. \"Now you can't end it by saying only that you paid.\"\n\nThe family bill became a responsibility with dates, not hidden debt."
+        "result_text": "{name} called the issuer and asked them to read the amount and deadline back to him. Beneath the verified text, he wrote the limit he could bear now and sent the answer.\n\nDaeun looked at the arrival and response times side by side. \"Now you can't end it by saying only that you paid.\""
       }
     ]
   },
@@ -261,19 +261,19 @@
       "father_crisis_contact_called": "The seconds of the connected ward call remained beside the distance he had not traveled to Changwon. The call did not decide the medical outcome, but it changed what he had actually done during the crisis.",
       "father_crisis_contact_missed": "The ward's message and the time he replied that today was impossible remained side by side. He did not need to invent the unknown outcome for the time of his deferral to remain."
     },
-    "description": "Late at night, {name} opened the year's records at the desk in his current room. What he had actually completed, what he had missed, a physical follow-up notice, and a family bill still waiting for an answer carried different timestamps. The chair across from him was empty. No one's dialogue filled it.\n\nNo person absent from the current record arrived by default. Instead of a promise waiting for someone's approval, only actions {name} could complete alone remained.\n\nHe had to put one boundary for the final year into the actual calendar and call log, along with the work that would close because of it.",
+    "description": "Late at night, {name} opened the year's records at the desk in his current room. What he had actually completed, what he had missed, a physical follow-up notice, and a family bill still waiting for an answer carried different timestamps. The chair across from him was empty.",
     "choices": [
       {
         "text": "Leave one hour next week for another person, then cancel the overlapping night work",
-        "result_text": "{name} left one hour open in the following week's calendar and canceled the overlapping night work. He did not write who would receive the time. He did not fill the blank with a lover or friend the current record could not prove.\n\nThere was no one attached to the promise yet. Even so, one square left open for another person and the speed surrendered for it now existed."
+        "result_text": "{name} left one hour open in the following week's calendar and canceled the overlapping night work. He did not write who would receive the time.\n\nThere was no one attached to the promise yet. The open square stayed white on the calendar."
       },
       {
         "text": "Book the physical follow-up in his own name and cancel the night work around it",
-        "result_text": "{name} used the number on the notice to book the earliest follow-up in his own name. When the confirmation arrived, he removed the night work around it and saved the lower projection as it was.\n\nThere was no one to supervise or receive proof. Responsibility for his body and the slower figures both stayed with {name}."
+        "result_text": "{name} used the number on the notice to book the earliest follow-up in his own name. When the confirmation arrived, he removed the night work around it and saved the lower projection as it was."
       },
       {
         "text": "Verify the family bill's issuer, amount, and deadline, then answer with the limit he can bear",
-        "result_text": "{name} called the issuer and verified the text, amount, and deadline. He neither promised to repay everything nor cover it with someone else's name. He sent the limit he could bear now.\n\nWhen the call ended, both the response time and the range he could not answer remained. There was no heroic sentence that solved it, but the present boundary became fact."
+        "result_text": "{name} called the issuer and verified the text, amount, and deadline. He neither promised to repay everything nor cover it with someone else's name. He sent the limit he could bear now.\n\nWhen the call ended, both the response time and the range he could not answer remained."
       }
     ]
   },
