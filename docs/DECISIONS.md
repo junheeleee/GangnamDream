@@ -1,5 +1,14 @@
 # Gangnam Dream Decisions
 
+## 2026-10-01 (4·5장 문장 지시서의 판정 3건 — 사용자 승인)
+
+사용자가 Claude 권고 3건을 승인했다("권고 3건 진행해").
+
+- **4장 지연 연인 변형 6개는 author_only로 둔다.** `jiyeon_romance_started`의 생산자는 `arc_jiyeon_year5_return`·`arc_jiyeon_y5_feelings` 둘뿐이고 둘 다 `t >= 193`이다. 그래서 t169~190에 `_chapter_four_relationship_event_id`가 고르는 `_jiyeon` 변형(`three_promises_jiyeon_and_deal`, `body_witness_jiyeon`, `family_partner_collision_jiyeon`, `borrowed_name_jiyeon`, `bill_night_jiyeon`, `year_close_jiyeon`)은 자연 플레이에서 열리지 않는다. 4장 지연 연인 경로는 정본이 아니다. 4장 F8(지연 말투)은 수리하지 않는다.
+- **`instant_legend`의 개발자 목소리 문장을 지운다.** "— 당신은 설계되지 않은 길을 찾아냈다. 이건 거의 일어나지 않는 일이다."는 플레이어를 2인칭으로 부르며 설계를 해설한다. 2026-10-01 5개 언어에서 지웠다.
+- **`arc_daeun_later_echo`의 "저도 여기 있어요" 선택은 함께하는 경로에만 연다.** 헤어진 경로에서도 열려 있어 사실과 어긋난다.
+- **구현 소유:** 문장 삭제는 Claude가 끝냈다. 앞의 둘은 Codex가 맡는다(`docs/queue_backlog/CODEX_RETURN_PLAN_2026-09-30.md` 7k). author_only 전환은 `MainGame.gd` 분기, `event_lifecycle.json`, `chapter4_causal_route_audit.py`의 승격 목록, `HiddenFeatureCheck.gd` 주입, 심의 목록 수치를 한 작업에서 함께 바꿔야 한다. `later_echo`는 데모 원문 고정 파일(`content/events/arc_events.json`) 안이라 데모 계약 갱신과 함께 들인다.
+
 ## 2026-09-30 (이야기 본문의 주인공은 이름으로 부른다)
 
 사용자가 Claude 권고를 승인했다. 지금은 `{name}`이 `GameState.player_name` 전체("김민준" /

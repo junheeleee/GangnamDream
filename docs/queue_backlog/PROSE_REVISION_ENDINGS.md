@@ -9,7 +9,7 @@
 
 ## 진행 상태
 
-2026-10-01 Claude가 E1~E11·E13과 "서술자 판정·교훈·반복" 표 전부를 KO/EN/JA/zh-CN/zh-TW에 직접 반영했다(WORK_LOG 같은 날짜). 같은 날 배치8에서 얇은 엔딩 다섯(`full_circle`·`guardian`·`second_love`·`crypto_ghost`·`writer`)의 기본 본문을 재작성했다. `writer`의 `detailed_description`·`epilogue`는 런타임이 표시하지 않아 손대지 않았다. E12만 남았다(사용자 판정).
+2026-10-01 Claude가 E1~E11·E13과 "서술자 판정·교훈·반복" 표 전부를 KO/EN/JA/zh-CN/zh-TW에 직접 반영했다(WORK_LOG 같은 날짜). 같은 날 배치8에서 얇은 엔딩 다섯(`full_circle`·`guardian`·`second_love`·`crypto_ghost`·`writer`)의 기본 본문을 재작성했다. `writer`의 `detailed_description`·`epilogue`는 런타임이 표시하지 않아 손대지 않았다. E12(개발자 목소리)는 사용자 승인으로 5언어에서 지웠다(DECISIONS 2026-10-01).
 
 ## 결론
 

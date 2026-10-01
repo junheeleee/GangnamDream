@@ -6340,8 +6340,8 @@
   "accepted": {
     "ja": {
       "endings:instant_legend:/description": {
-        "source_sha256": "a653458e3f43fa789739781caa9eb21d5eaa99ffb582e4b793740ac82b7428c8",
-        "target_sha256": "1b4bce106b51216921f462546e9f9464aa548e8fbc30a057480dc99c52431244"
+        "source_sha256": "267dd27d6caa51bd651468d6e5be8f6a0b7931c57e0947043acae4a9eeba81e4",
+        "target_sha256": "5b3b1c4590fa489dddc5fe37eac0cfb4e05db886c69dad2c2d42929809d45138"
       },
       "endings:instant_legend:/title": {
         "source_sha256": "d958e4c504fae89c42205c98ea4c277a464b0fcb0895360f32804744e40bf2ad",
@@ -58862,8 +58862,8 @@
     },
     "zh-CN": {
       "endings:instant_legend:/description": {
-        "source_sha256": "a653458e3f43fa789739781caa9eb21d5eaa99ffb582e4b793740ac82b7428c8",
-        "target_sha256": "5fed838a1c258cc521d52f59b461d9ca7f551fed15b52cd20e370005494591d3"
+        "source_sha256": "267dd27d6caa51bd651468d6e5be8f6a0b7931c57e0947043acae4a9eeba81e4",
+        "target_sha256": "c975820535979388de767694e9ee6ca05d59d8ec3fd499ffaf75b10fb3749a4c"
       },
       "endings:instant_legend:/title": {
         "source_sha256": "d958e4c504fae89c42205c98ea4c277a464b0fcb0895360f32804744e40bf2ad",
@@ -114600,8 +114600,8 @@
     },
     "zh-TW": {
       "endings:instant_legend:/description": {
-        "source_sha256": "a653458e3f43fa789739781caa9eb21d5eaa99ffb582e4b793740ac82b7428c8",
-        "target_sha256": "c4f1539aa0a2cd12d709d58a002c9f12846c1c27f9a17aaf011cbcd471551078"
+        "source_sha256": "267dd27d6caa51bd651468d6e5be8f6a0b7931c57e0947043acae4a9eeba81e4",
+        "target_sha256": "81e99e312777a072374fe077be01ccb08526b61104be9ae5b68d55aeaa1989ef"
       },
       "endings:instant_legend:/title": {
         "source_sha256": "d958e4c504fae89c42205c98ea4c277a464b0fcb0895360f32804744e40bf2ad",
@@ -170337,7 +170337,7 @@
       }
     }
   },
-  "accepted_sha256": "71586cc5f37ff6b07a36417c09b01743636c327bfeb80cab7a581c9e0ad3e184",
+  "accepted_sha256": "bee1cf03d92b9c56e89a5763abeffec3c83f8f8717e86d951aa3bd80d8d2562f",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {

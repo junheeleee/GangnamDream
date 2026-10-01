@@ -8,7 +8,7 @@
 
 ## 진행 상태
 
-2026-10-01 Claude가 F2(지난해)·F6(지연 반말), `pre_ending_father_call`·`pre_ending_winter`·`daeun_final_choice`·`late_game_push`·`37_ending_peace`·`minseo_03_arrival`·`minseo_03b` 표 행, F5·F10을 KO/EN/JA/zh에 반영했다. F1은 판독 오류로 정정했다. 같은 날 배치7에서 4장 표에 함께 걸린 `arc_daeun_the_test`의 서술자 도덕 판정을 지웠다. 배치9에서 F3·F4·F7을 고쳤다. F9(`arc_daeun_later_echo`)는 데모 고정 파일 `arc_events.json` 안이라 Codex가 데모 계약 갱신과 함께 처리해야 한다. 나머지는 남았다.
+2026-10-01 Claude가 F2(지난해)·F6(지연 반말), `pre_ending_father_call`·`pre_ending_winter`·`daeun_final_choice`·`late_game_push`·`37_ending_peace`·`minseo_03_arrival`·`minseo_03b` 표 행, F5·F10을 KO/EN/JA/zh에 반영했다. F1은 판독 오류로 정정했다. 같은 날 배치7에서 4장 표에 함께 걸린 `arc_daeun_the_test`의 서술자 도덕 판정을 지웠다. 배치9에서 F3·F4·F7을 고쳤다. `later_echo`의 "저도 여기 있어요" 선택은 사용자가 함께하는 경로 전용으로 판정했다(구현 Codex 7k). F9(`arc_daeun_later_echo`)는 데모 고정 파일 `arc_events.json` 안이라 Codex가 데모 계약 갱신과 함께 처리해야 한다. 나머지는 남았다.
 
 ## 결론
 
