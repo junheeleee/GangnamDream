@@ -2,6 +2,15 @@
 
 이전 원문 전체는 [2026-09-28 이전 기록](history/WORK_LOG_2026-09-28_pre_order351.md)에 바이트 그대로 보존했다.
 
+## 2026-10-01 (Claude — 엔딩 사실 결함 직접 수리)
+
+- 사용자 지시("너 스스로 판단하고 개선해야해")에 따라 [엔딩 지시서](queue_backlog/PROSE_REVISION_ENDINGS.md) E1~E11·E13을 직접 고쳤다. KO·EN 텍스트와 JA·zh-CN·zh-TW 69문단을 공식 export/check/import(`--replace-existing --accept`)로 반영하고, 커밋된 수용원장 영수증 207건을 같은 해시로 갱신했다.
+- **E1(P0):** `empty_house`는 아버지가 살아 있지만 화해하지 않은 런에서도 열린다. 기본 본문을 살아 있는 아버지 기준으로 바꾸고, 사망 문장은 `father_passed` 변형으로 옮겼다. `_resolved_ending_description`은 아버지가 살아 있으면 이 엔딩의 사망 전제 변형을 건너뛴다(MainGame 6줄). 지시서 E2(마지막 연락 수단)는 "끝내 지키지 못한 약속"으로 수단을 중립화했다.
+- **나머지:** 파산 2엔딩의 고시원 고정, 중복된 마지막 두 문장, 조건에 없는 액수(3억·10억·5억), 편의점 시작, "6년 전", 화해한 아버지에게 "미뤘던 전화", 부부 존대, 쓰러진 날의 아버지 연락처, "민준" 하드코딩을 고쳤다. `release_content_inventory.json`의 corpus 엔딩 해시와 생성 보고서를 갱신했다. 공개 데모 패키지 계약 해시는 바꾸지 않았다.
+- **검사:** ending_distinctness·en/i18n coverage·english_hangul·speech_register·peak_scene_chain·multilingual_surface·chapter5 3종·narrative_continuity·audit·release_content_inventory·full_game_localization_self_test·context_manifest·`git diff --check` PASS. 이 환경에는 Godot가 없어 GDScript 컴파일은 CI가 확인한다.
+- **기존 실패(이번 변경과 무관):** `zh_translation_audit` KeyError와 수용원장 `ui:%d년 차` 오류는 이 브랜치 HEAD에서, `ci_localization_reconciliation_self_test`와 `chapter5_human_reject_audit`는 main에서도 재현된다. MainGame 원문 승인 이력(ORDER-390)은 Codex가 들일 때 이번 6줄을 포함해 갱신해야 한다.
+- **남김:** E12(`instant_legend` 개발자 목소리 삭제)와 교훈·재작성 항목은 다음 배치다.
+
 ## 2026-09-29 (Claude — Codex 인계: 투자 패드 안내 중국어 8값)
 
 - Codex 주간 한도 소진으로 사용자 지시에 따라 [391](queue_active/ORDER-391.md)을 이어받았다. CN/TW 패드 안내 4키×2 = 8값을 공식 export/check/import로 반영했다(`BATCH_VALID leaves=4` ×2). 기존 값 변경0.
