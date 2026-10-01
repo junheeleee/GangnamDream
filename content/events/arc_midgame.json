@@ -2824,7 +2824,7 @@
       "milestone"
     ],
     "cooldown": 9999,
-    "description": "일요일 밤, {name}은 현재 방의 불을 하나만 남기고 지난 세 달의 기록을 바닥에 날짜순으로 놓았다. 약속 한 곳에는 완료 시각이 있었고 두 곳에는 다시 열리지 않는 창구의 날짜가 있었다. 몸의 기록에는 진료·마감·혼자 버팀 가운데 하나가, 가족 식탁에는 함께·혼자·놓침 가운데 하나가 남아 있었다.\n\n휴대전화 달력과 결제 내역, 짧게 적어 둔 메모의 시간이 서로 맞는지 하나씩 대조했다. 완료 표시만 모으면 빠르게 산 달처럼 보였고, 닫힌 날짜만 모으면 아무것도 지키지 못한 달처럼 보였다. 둘 다 사실의 절반이었다.\n\n{name}은 자를 대고 종이에 세 줄을 그었다. 약속, 몸, 가족. 확인되지 않는 칸에는 이유를 만들어 넣지 않고 빗금만 쳤다. 손상된 기록에서 없는 사람이나 행동을 복원하지 않았다.\n\n마지막으로 세 기록을 한 뼘 떨어뜨려 놓고 처음부터 다시 읽었다. 다음 달 첫 장에 가져갈 것은 결심이 아니라, 자기가 실제로 도착한 시각과 끝내 도착하지 못한 날짜였다.",
+    "description": "일요일 밤, {name}은 현재 방의 불을 하나만 남기고 지난 세 달의 기록을 바닥에 날짜순으로 놓았다. 약속 한 곳에는 완료 시각이 있었고 두 곳에는 다시 열리지 않는 창구의 날짜가 있었다. 몸의 기록에는 진료·마감·혼자 버팀 가운데 하나가, 가족 식탁에는 함께·혼자·놓침 가운데 하나가 남아 있었다.\n\n휴대전화 달력과 결제 내역, 짧게 적어 둔 메모의 시간이 서로 맞는지 하나씩 대조했다. 완료 표시만 모으면 빠르게 산 달처럼 보였고, 닫힌 날짜만 모으면 아무것도 지키지 못한 달처럼 보였다. 둘 다 사실의 절반이었다.\n\n{name}은 자를 대고 종이에 세 줄을 그었다. 약속, 몸, 가족. 확인되지 않는 칸에는 빗금만 쳤다.\n\n마지막으로 세 기록을 한 뼘 떨어뜨려 놓고 처음부터 다시 읽었다. 다음 달 첫 장에 가져갈 것은 결심이 아니라, 자기가 실제로 도착한 시각과 끝내 도착하지 못한 날짜였다.",
     "choices": [
       {
         "text": "완료 시각과 빈칸을 그대로 잠근다",
@@ -2863,7 +2863,7 @@
       "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen&arc_y4_three_promises_protected_deal&arc_y4_three_promises_missed_father&arc_y4_three_promises_missed_person&arc_y4_body_chose_alone&arc_y4_family_attended_together": "일요일 밤, {name}은 세 기록을 날짜순으로 놓았다. 거래 마감을 지킨 대신 아버지 쪽과 겹친 약속은 닫혔다. 몸은 혼자 버텼고, 가족 식탁에는 실제 동행자와 함께 앉았다.\n\n거래와 식탁은 끝났지만 몸과 두 약속은 남았다. 함께 앉은 사람에게 그 빈칸의 책임을 넘기지 않기로 했다.",
       "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen&arc_y4_three_promises_protected_deal&arc_y4_three_promises_missed_father&arc_y4_three_promises_missed_person&arc_y4_body_chose_alone&arc_y4_family_attended_alone": "일요일 밤, {name}은 세 기록을 날짜순으로 놓았다. 거래 마감을 지킨 대신 아버지 쪽과 겹친 약속은 닫혔다. 몸도 가족 식탁도 혼자 감당했다.\n\n완료된 거래 하나와 혼자였던 두 기록이 남았다. 다음 달에는 성공과 버팀을 같은 말로 쓰지 않기로 했다.",
       "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen&arc_y4_three_promises_protected_deal&arc_y4_three_promises_missed_father&arc_y4_three_promises_missed_person&arc_y4_body_chose_alone&arc_y4_family_missed": "일요일 밤, {name}은 세 기록을 날짜순으로 놓았다. 거래 마감을 지킨 대신 아버지 쪽과 겹친 약속은 닫혔다. 몸은 혼자 버텼고 가족 식탁은 놓쳤다.\n\n거래 완료 시각 아래로 아버지·겹친 약속·식탁·몸의 빈칸이 이어졌다. 다음 달은 그중 하나도 거래의 성과로 상계하지 못한다.",
-      "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen": "일요일 밤, {name}은 세 기록의 공통 표지만 확인했다. 약속·몸·가족 장면을 지나왔다는 사실은 남았지만, 어느 결과였는지 증명할 배타 영수증이 손상되어 있었다.\n\n{name}은 빈칸을 추정으로 메우지 않았다. 확인되는 시각만 옮기고 나머지는 모르는 값으로 다음 달에 넘겼다."
+      "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen": "일요일 밤, {name}은 세 기록의 제목만 겨우 알아봤다. 약속·몸·가족의 날들을 지나왔다는 사실은 남았지만, 어느 쪽으로 끝났는지 적어 둔 메모는 물에 젖어 번져 있었다.\n\n{name}은 번진 칸을 억지로 읽지 않았다. 읽히는 시각만 옮겨 적고, 나머지는 빈칸으로 다음 달에 넘겼다."
     },
     "description_memory_if_known": {
       "arc_y4_three_promises_seen": "세 장의 기록은 같은 크기가 아니었다. {name}은 휴대전화 화면을 끈 뒤 종이 모서리를 맞추고, 완료 시각에는 짧은 밑줄을, 닫힌 날짜에는 끝이 막힌 선을 그었다. 손가락이 한 줄에서 오래 머물 때마다 다음 줄로 억지로 넘어가지 않고 그날의 이동과 기다림을 다시 떠올렸다.\n\n세 기록을 나란히 두자 이번 계절의 모양이 보였다. 지킨 일은 놓친 일을 지우지 않았고, 놓친 일도 실제로 도착한 시간을 거짓으로 만들지는 않았다. 성공이나 실패라는 한 단어로 접기에는 서로 다른 값들이었다.\n\n{name}은 세 줄을 잘라 하나의 긴 종이로 겹쳤다. 다음 달에 다시 펼쳤을 때 어느 칸이 왜 비었는지 알아볼 수 있도록 접히는 방향까지 달리했다."

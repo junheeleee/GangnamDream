@@ -469,7 +469,7 @@
   {
     "id": "arc_year_three_half",
     "title": "三行的代價",
-    "description": "星期天晚上，{name}只留著目前房間裡的一盞燈，把過去三個月的紀錄按日期排在地板上。一個約定有完成時間，另外兩個則留下了窗口不會再開放的日期。身體的紀錄裡留下看診、趕截止時間、獨自撐住其中一種；家人餐桌上則留下共同出席、獨自出席、錯過其中一種。\n\n逐一比對手機行事曆、付款紀錄和簡短備忘裡的時間是否吻合。只看完成標記，像是過得飛快的月份；只看關閉的日期，又像什麼都沒守住的月份。兩者都只是一半的事實。\n\n{name}拿尺在紙上畫了三行。約定、身體、家人。無法確認的格子，不編造理由填入，只畫上斜線。不從受損的紀錄裡復原不存在的人或行動。\n\n最後把三份紀錄隔開一個手掌的距離，從頭再讀一遍。要帶到下個月第一頁的，不是決心，而是自己確實抵達的時間，以及終究沒有抵達的日期。",
+    "description": "星期天晚上，{name}只留著目前房間裡的一盞燈，把過去三個月的紀錄按日期排在地板上。一個約定有完成時間，另外兩個則留下了窗口不會再開放的日期。身體的紀錄裡留下看診、趕截止時間、獨自撐住其中一種；家人餐桌上則留下共同出席、獨自出席、錯過其中一種。\n\n逐一比對手機行事曆、付款紀錄和簡短備忘裡的時間是否吻合。只看完成標記，像是過得飛快的月份；只看關閉的日期，又像什麼都沒守住的月份。兩者都只是一半的事實。\n\n{name}拿尺在紙上畫了三行。約定、身體、家人。無法確認的格子，只畫上斜線。\n\n最後把三份紀錄隔開一個手掌的距離，從頭再讀一遍。要帶到下個月第一頁的，不是決心，而是自己確實抵達的時間，以及終究沒有抵達的日期。",
     "choices": [
       {
         "text": "將完成時間與空格原樣鎖定",
@@ -504,7 +504,7 @@
       "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen&arc_y4_three_promises_protected_deal&arc_y4_three_promises_missed_father&arc_y4_three_promises_missed_person&arc_y4_body_chose_alone&arc_y4_family_attended_together": "星期天晚上，{name}把三份紀錄按日期排好。守住了交易的截止時間，代價是父親那邊和撞期約定的時段關閉。身體獨自撐著，家人餐桌上則和實際同行的人一起坐下。\n\n交易和聚餐結束了，身體和兩個約定卻還留下未了之事。決定不把那些空格的責任推給同桌的人。",
       "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen&arc_y4_three_promises_protected_deal&arc_y4_three_promises_missed_father&arc_y4_three_promises_missed_person&arc_y4_body_chose_alone&arc_y4_family_attended_alone": "星期天晚上，{name}把三份紀錄按日期排好。守住了交易的截止時間，代價是父親那邊和撞期約定的時段關閉。身體和家人餐桌都獨自承擔。\n\n留下一筆完成的交易，以及兩份獨自一人的紀錄。決定下個月不再把成功和撐住寫成同一回事。",
       "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen&arc_y4_three_promises_protected_deal&arc_y4_three_promises_missed_father&arc_y4_three_promises_missed_person&arc_y4_body_chose_alone&arc_y4_family_missed": "星期天晚上，{name}把三份紀錄按日期排好。守住了交易的截止時間，代價是父親那邊和撞期約定的時段關閉。身體獨自撐著，也錯過了家人的聚餐。\n\n交易完成時間下面，接連是父親、撞期約定、餐桌、身體的空格。到了下個月，也無法用交易的成果抵銷其中任何一項。",
-      "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen": "星期天晚上，{name}只確認了三份紀錄共有的標記。經歷過約定、身體、家人場景的事實還在，但能證明究竟是哪個結果的互斥憑證已經受損。\n\n{name}沒有用推測填補空格。只抄下確認得到的時間，其餘則以未知值留到下個月。"
+      "arc_y4_three_promises_seen&arc_y4_body_witness_seen&arc_y4_family_table_seen": "星期天晚上，{name}只勉強認出了三份紀錄的標題。走過約定、身體、家人那些日子的事實還在，但寫著每件事怎麼收場的便條，已經被水浸濕暈開了。\n\n{name}沒有硬去辨認暈開的格子。只抄下還看得清的時間，其餘留作空白，留到下個月。"
     },
     "description_memory_if_known": {
       "arc_y4_three_promises_seen": "三張紀錄的大小並不相同。{name}關掉手機螢幕，對齊紙張邊角，在完成時間下面畫上短短的底線，在關閉的日期旁畫上封住盡頭的線。每當手指久久停在某一行，便不勉強移向下一行，而是重新想起那一天的移動與等待。\n\n把三份紀錄並排放好，這個季節的形狀便浮現了。守住的事情沒有抹去錯過的事情，錯過的事情也沒有讓確實抵達的時間變成謊言。那些不同的代價，無法摺進成功或失敗這一個詞裡。\n\n{name}剪下三行，疊成一張長紙。連摺疊方向都刻意不同，好讓下個月再翻開時，能看懂哪一格為什麼空著。"
@@ -685,8 +685,7 @@
         "result_text": "「就那樣吧。」父親說。「你呢？」\n\n{name}笑著說：「我也就那樣啊。」電話那頭，父親也短短笑了一聲。"
       }
     ]
-  }
-,
+  },
   {
     "id": "arc_hyunsu_night_talk",
     "title": "凌晨2點，泡麵",
@@ -1075,8 +1074,7 @@
         "result_text": "反正只去這一次。那就好好去。放大了25億韓元物件的格局圖。\n\n手指停在一間房上。以前，大概會把那裡當成父親來首爾時住的房間。父親已經不可能再來了。即使如此，也沒辦法立刻用別人的名字填上那個空格。\n\n30億韓元。在紙上重新寫下的目標金額下面，同時出現了家的形狀，以及一個要空著的位置。"
       }
     ]
-  }
-,
+  },
   {
     "id": "arc_sangchul_offguard",
     "title": "Im Sangchul的破綻",

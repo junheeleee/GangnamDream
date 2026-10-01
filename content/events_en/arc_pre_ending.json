@@ -19,16 +19,16 @@
   {
     "id": "arc_pre_ending_winter",
     "title": "The Fifth Winter",
-    "description": "The fifth winter came.\n\n{name} opened the assets screen. Closed it. Didn't open it again.\n\nNot 3 billion. That much was clear now.\nNot a number you flip in the weeks remaining.\n\nThe goal he'd set five years ago — Gangnam. Those words felt far away now.\nWas it failure? The question rose, and strangely didn't linger long.\n\nSnow began to fall beyond the window of the room where he now lived.\nThe room and the view had changed more than once, but tonight this place was unmistakably {name}'s own.\n\nIt was the same winter as five years ago. The person watching it was not the same.",
+    "description": "The fifth winter came.\n\n{name} opened the assets screen. Closed it. Didn't open it again.\n\nIt wasn't 3 billion. That much was clear now.\nIt wasn't a number the remaining weeks could turn around.\n\nThe goal he'd set five years ago — Gangnam. Those words felt far away now.\nWas it failure? The question rose, and strangely didn't linger long.\n\nSnow began to fall beyond the window of the room where he now lived.\nThe room and the view had changed more than once, but tonight this place was unmistakably {name}'s own.\n\nIt was the same winter as five years ago. The person watching it was not the same.",
     "description_low_mental": "The fifth winter.\n\n{name} didn't even have the strength to open the assets screen.\n\nNot 3 billion. Gangnam was far.\nThe fact pressed on his chest — and what scared him more was how used to the weight he'd become.\n\nWhen did it get like this.\nA life where just getting up burned all of the day's energy.\n\nOutside, snow fell.\n{name} watched it for a long time. Thinking nothing.",
     "choices": [
       {
         "text": "Write down what these five years left you",
-        "result_text": "He opened the notebook.\n\nGangnam: didn't make it.\nUnder that, slowly, he wrote other things.\n\nFive years survived. Debt paid off. People he'd come to know. Things he'd learned.\nNo longer fooled. The number of times he fell and got back up.\n\nIn numbers it wasn't 3 billion.\nBut what was written in the notebook — those were things 3 billion couldn't buy.\n\n{name} closed the notebook. The snow kept falling."
+        "result_text": "He opened the notebook.\n\nGangnam: didn't make it.\nUnder that, slowly, he wrote other things.\n\nFive years survived. People he'd come to know. Things he'd learned.\nNo longer fooled. The number of times he fell and got back up.\n\n{name} closed the notebook. The snow kept falling."
       },
       {
         "text": "Just watch the snow — sort nothing out",
-        "result_text": "He decided not to sort it out.\n\nWhether it was five years well-lived or poorly-lived — there was no need to conclude it now.\nThat only comes into view later, from further away.\n\nFor now, snow was simply falling.\n{name} sat by the window and watched.\n\nNeither warm nor cold, a strangely peaceful night."
+        "result_text": "He decided not to sort it out.\n\nWhether it was five years well-lived or poorly-lived — there was no need to conclude it now.\n\nFor now, snow was simply falling.\n{name} sat by the window and watched."
       }
     ]
   },
@@ -39,11 +39,11 @@
     "choices": [
       {
         "text": "\"Dad, I never said it — but it was okay. All of it.\"",
-        "result_text": "The other end went quiet.\n\nFor a long time.\n\nThen Father said something he'd never said in his life.\n\"...Thank you. And I'm sorry. Both.\"\n\n{name} looked at the ceiling. His eyes burned.\nThe six years of debt, the five years of struggle — all of it grew small before this one call.\n\n\"Dad. Gangnam or not, I'm coming down soon. Let's eat together.\"\n\"...Yeah. Let's do that.\""
+        "result_text": "The other end went quiet.\n\nFor a long time.\n\nThen Father said something he'd never said in his life.\n\"...Thank you. And I'm sorry. Both.\"\n\n{name} looked at the ceiling. His eyes burned.\n\n\"Dad. Gangnam or not, I'm coming down soon. Let's eat together.\"\n\"...Yeah. Let's do that.\""
       },
       {
         "text": "\"Is something wrong? Your voice sounds...\"",
-        "result_text": "\"No. I just... wanted to hear your voice.\"\n\nIt was the first time Father had said that.\n\n{name} held the phone to his ear for a long while.\nThere was so much to say, but none of it came out.\n\nIn the end, all he said was \"...Me too, Dad.\"\n\nThere are nights when that's enough.\nAfter hanging up, {name} watched out the window a long time. Gangnam far or near, tonight that didn't matter."
+        "result_text": "\"No. I just... wanted to hear your voice.\"\n\nIt was the first time Father had said that.\n\n{name} held the phone to his ear for a long while.\nThere was so much to say, but none of it came out.\n\nIn the end, all he said was \"...Me too, Dad.\"\n\nAfter hanging up, {name} watched out the window a long time."
       }
     ]
   },

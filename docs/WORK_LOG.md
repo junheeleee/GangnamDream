@@ -9,7 +9,8 @@
 - **4·5장 표기(`65be1dee`):** 청혼 체인의 고정 시점 "5년" 표현, 예식 전 "아내/처가", 연인 확정 뒤 지연의 존대, 연애·공시 기간을 고쳤다. 5장 F1은 판독 오류로 정정했다. 등급 축 sexuality·fear 지문은 연도·호칭만 바뀌어 강도 변화 없이 갱신했다.
 - **엔딩 교훈 삭제(이번):** 10엔딩 52문단에서 주제문·교훈 줄을 지웠다. "빠르게. 더럽게."의 판정어, "그걸로 충분한 밤", "30억으로도 못 사는", "강남은 목적지였다", "그도 하나의 강남드림" 등이다. 번역도 같은 줄만 지웠고, 언어별 삭제 줄 수가 0건 차이로 일치한다.
 - **검사:** ending_distinctness·en/i18n·english_hangul·speech_register·multilingual·peak·audit·chapter4/5 경로·release_content_inventory·diff-check PASS. 이 환경에 Godot가 없어 컴파일은 CI가 본다. `zh_translation_audit` KeyError·수용원장 `ui:%d년 차`·`story_graph_contract_audit`의 MainGame 원문 승인(ORDER-390)은 수리 전 브랜치에서도, `ci_localization_reconciliation_self_test`·`chapter5_human_reject_audit`는 main에서도 실패한다. Codex가 들일 때 ORDER-390 승인 이력을 이번 MainGame 6줄과 함께 갱신해야 한다.
-- **남김:** 엔딩 E12(개발자 목소리)와 얇은 엔딩 재작성, 5장 교훈·4장 계약어는 다음 배치다. 결정 기록(DECISIONS)에 위임을 적는 일은 자동 승인 정책이 막아 하지 않았다.
+- **5장 정점·4장 내부어:** `arc_pre_ending_father_call`의 해설 꼬리 두 곳을 지웠다(대사는 보존). `arc_pre_ending_winter`는 현재형을 과거형으로 바꾸고 교훈 세 줄과 "갚아낸 빚"을 지웠다. `arc_year_three_half`의 계약어와 손상 폴백의 "배타 영수증"은 젖어 번진 메모라는 장면으로 바꿨다. 등급 fear 축 지문을 갱신했다.
+- **남김:** 엔딩 E12(개발자 목소리), 얇은 엔딩 재작성, 4장 계약어 표, 5장 서술자 판정 표는 다음 배치다. 결정 기록(DECISIONS)에 위임을 적는 일은 자동 승인 정책이 막아 하지 않았다.
 
 ## 2026-09-29 (Claude — Codex 인계: 투자 패드 안내 중국어 8값)
 
