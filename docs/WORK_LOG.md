@@ -15,6 +15,7 @@
 - **데모 계약 회귀 복구:** 배치1에서 고친 `arc_hyunsu_lifeline_call`("공시 4년 만에")은 `min_turn 9999`라 제품에서 나오지 않는데, 출시 데모가 원문 바이트를 고정한 `arc_events.json` 안에 있어 CI의 데모 현지화 검사 4개(JA_DEMO_INVENTORY·JA_DEMO_AUDIT·DEMO_I18N_SCOPE·_SELF_TEST)를 깼다. 5언어 파일과 영수증 18건을 기준 커밋 `89cb4450`으로 되돌렸다. 앞으로 `arc_events.json`은 건드리지 않는다.
 - **4장 계약어·5장 도덕 판정(배치7):** `arc_y4_three_promises`·`_deal_only`, `arc_36_unexpected_hand` 3변형, `arc_y4_body_witness`·`_hyunsu`, `arc_y4_family_*` 비지연 3장면, `arc_year4_close`의 설계 규칙 문장("없는 연인이나 친구의 이름으로", "누구의 반응도 발명되지 않았다", "이 경로에는 파트너를")과 선택 예고를 32잎×5언어로 걷었다. `arc_daeun_the_test`는 "임상철이 됐다"·"발걸음은 가벼웠다"를 지우고, 다은이 첫 장에서 손을 멈췄다가 "괜찮다고 했잖아요"라며 읽지 않기로 하는 장면과 지하철 유리창에 비친 익숙한 웃음으로 바꿨다(4장 F6). 420자 아래로 준 세 장면은 감각 묘사로 보강했다. 등급 축 alcohol("복용표" 토큰) 지문만 갱신했다.
 - **얇은 엔딩 재작성(배치8):** `full_circle`·`guardian`·`second_love`·`crypto_ghost`·`writer`의 기본 본문을 지시서 권고대로 다시 썼다(변형은 같은 꼬리 문단을 유지, 11잎×5언어). full_circle은 꺼지는 텔레비전과 공장 기름 밴 손, guardian은 지난 삶에서 들지 못한 짐 가방, second_love는 교훈 줄 대신 설탕 뺀 머그잔과 김 서린 유리, crypto_ghost는 새로고침하는 엄지와 식은 국, writer는 경로 고정 사건 목록과 판매 기록 대신 새벽 3시의 첫 문장으로 바꿨다. 작은따옴표 대사는 큰따옴표로 바꿨다. 라우팅·조건·DIK 키는 그대로이고 엔딩 corpus 지문만 갱신했다.
+- **장면 음악 회귀 복구:** 배치7이 `arc_year4_close`의 `arc_y4_midpoint_receipt_seen` 변형을 두 문단으로 줄여, 셋째 문단에 걸린 음악 신호가 사라졌다(CI `SCENE_AUDIO`). 해설을 되살리지 않고 뭉개진 볼펜 자국을 짚는 문단을 넣어 세 문단으로 복구했다(5언어). 앞으로 문단을 지울 때 `scene_audio_contract_check`를 함께 돌린다.
 - **남김:** 엔딩 E12(개발자 목소리), 4장 지연 변형(F12), `_person_deal` 대상, 권고 3건은 사용자 판정이 필요하다. 결정 기록(DECISIONS)에 위임을 적는 일은 자동 승인 정책이 막아 하지 않았다.
 
 ## 2026-09-29 (Claude — Codex 인계: 투자 패드 안내 중국어 8값)

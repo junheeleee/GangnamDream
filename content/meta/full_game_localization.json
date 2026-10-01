@@ -15332,8 +15332,8 @@
         "target_sha256": "dce480b40bc6bc31acabe3b471772771b6af278252834b388ab3d101f2242efa"
       },
       "events:arc_year4_close:/description_if_known/arc_y4_midpoint_receipt_seen": {
-        "source_sha256": "bebc68b66b7a8e0e6a3d90a3d71e18dd69371c074232d5b6d3b331808b27f4c6",
-        "target_sha256": "9b9804f87edfca7ba71d293f37576ddd5052d1fe6620728bf28f35f1de092040"
+        "source_sha256": "8439804c27c1da644263f1a5f32ed6542ffa39f882298aa27d5f9db10c31cdec",
+        "target_sha256": "ce9adb5cffdf13097db2aead5e887de500c1779fb6f5ce833d048f737b9f875b"
       },
       "events:arc_year4_close:/description_if_known/arc_y4_year_close_protected_body": {
         "source_sha256": "bdd2b679ed0bf15a76c225011657d75b2ca5ebfaa1370af19656507b14ee8904",
@@ -67854,8 +67854,8 @@
         "target_sha256": "799c38fcc8c9875e36a8f97eb24b94b47f0af393cbe707f2b11cd6f4a0330419"
       },
       "events:arc_year4_close:/description_if_known/arc_y4_midpoint_receipt_seen": {
-        "source_sha256": "bebc68b66b7a8e0e6a3d90a3d71e18dd69371c074232d5b6d3b331808b27f4c6",
-        "target_sha256": "324fb73244bdb68184e0a06a2c8c7a09b5c923d73e0982da6fdd2564faf644c8"
+        "source_sha256": "8439804c27c1da644263f1a5f32ed6542ffa39f882298aa27d5f9db10c31cdec",
+        "target_sha256": "14ffb90814eb42a7b684d27890756b3228140b7dc4071ff67b33404b854320c0"
       },
       "events:arc_year4_close:/description_if_known/arc_y4_year_close_protected_body": {
         "source_sha256": "bdd2b679ed0bf15a76c225011657d75b2ca5ebfaa1370af19656507b14ee8904",
@@ -123592,8 +123592,8 @@
         "target_sha256": "c4faff2419d18fb31dc39aa89d7d8c4617af2e3985a2bffdddf874bb0dbc795f"
       },
       "events:arc_year4_close:/description_if_known/arc_y4_midpoint_receipt_seen": {
-        "source_sha256": "bebc68b66b7a8e0e6a3d90a3d71e18dd69371c074232d5b6d3b331808b27f4c6",
-        "target_sha256": "c13410c565a92e99900c2c20df228e3672b5a024e4b3f38afaf6e70ab183c67f"
+        "source_sha256": "8439804c27c1da644263f1a5f32ed6542ffa39f882298aa27d5f9db10c31cdec",
+        "target_sha256": "bbea893a3bc35ff6677f454752cd01aae97a374e0a802b1adbd8762f26e96ee9"
       },
       "events:arc_year4_close:/description_if_known/arc_y4_year_close_protected_body": {
         "source_sha256": "bdd2b679ed0bf15a76c225011657d75b2ca5ebfaa1370af19656507b14ee8904",
@@ -170337,7 +170337,7 @@
       }
     }
   },
-  "accepted_sha256": "32064c054e31adabda5fdab634f8d6dc6fbeede93da7f893eb4fb2218268467a",
+  "accepted_sha256": "7723affa328a3b80ec87320692d99db5eaf98e31f30b743b486c053c5714c554",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
