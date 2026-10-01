@@ -231,7 +231,7 @@
   {
     "id": "arc_late_game_push",
     "title": "Twelve-Week Check",
-    "description": "At 5:47 on Wednesday morning, exactly twelve weeks had passed since the final year began. {name} pushed aside the order window left open overnight and printed the fills in date order. As the printer released the last page, the first train scraped along the wet tracks outside.\n\nThere were two more red lines than green ones. Each losing date had a written reason for entry, but some rows left the reason for exit blank. One square remained before the loss limit on the notebook's first page. Raising it would make more orders possible; keeping it would leave the distance to the Gangnam price alert unchanged for now.\n\nA little over three hours remained before the 9 a.m. scheduled-order cutoff. Quantity and price sat in a draft with only Confirm untouched. {name} did not pretend to choose the ending. The act available now was smaller and exact: widen that square, keep it, or leave no order and preserve one day of observation.",
+    "description": "At 5:47 on Wednesday morning, exactly twelve weeks had passed since the final year began. {name} pushed aside the order window left open overnight and printed the fills in date order. As the printer released the last page, the first train scraped along the wet tracks outside.\n\nThere were two more red lines than green ones. Each losing date had a written reason for entry, but some rows left the reason for exit blank. One square remained before the loss limit on the notebook's first page. Raising it would make more orders possible; keeping it would leave the distance to the Gangnam price alert unchanged for now.\n\nA little over three hours remained before the 9 a.m. scheduled-order cutoff. Quantity and price sat in a draft with only Confirm untouched.",
     "choices": [
       {
         "text": "Raise the loss limit by one square and write the order conditions.",
@@ -1189,7 +1189,7 @@
   {
     "id": "arc_37_ending_peace",
     "title": "Whatever the End",
-    "description": "At 10:47 on Tuesday night, {name} stopped at the long crosswalk on Gangnam-daero. Apartment lights showed between rain-cleared glass towers. In his first year in Seoul he had looked up at price boards here. Tonight one phone screen held the final contract-execution time, the asset ledger, and chats he still had not answered.\n\nLittle time remained. Whether the ledger had crossed three billion won took one line to verify. Whose name he had borrowed and whose call he had postponed appeared in no total. Whether Father could be reached through a number or only a photograph did not erase what still had to be said.\n\nThe walk signal came on and the green 27 began to fall. {name} refused to cover the past with whatever happens, these years are mine. Before crossing, he could leave one exact thing: a boundary to keep through the end, a dated record joining the balance at thirty-three to today, or the first sentence he owed Father.",
+    "description": "At 10:47 on Tuesday night, {name} stopped at the long crosswalk on Gangnam-daero. Apartment lights showed between rain-cleared glass towers. In his first year in Seoul he had looked up at price boards here. Tonight one phone screen held the final contract-execution time, the asset ledger, and chats he still had not answered.\n\nLittle time remained. Whether the ledger had crossed three billion won took one line to verify. Whose name he had borrowed and whose call he had postponed appeared in no total.\n\nThe walk signal came on and the green 27 began to fall. {name} refused to cover the past with whatever happens, these years are mine.",
     "choices": [
       {
       "text": "Write and lock one boundary he will not cross before the end.",
@@ -1201,7 +1201,7 @@
       },
       {
         "text": "Record the first sentence he will say to Father as an actual voice memo.",
-        "result_text": "{name} pressed Record. ‘Dad, this time I'll tell you why I came this far without hiding behind the number.’ No second sentence followed, but the first and its time remained.\n\nIf a call could still connect, he could play it in person. If only a photograph remained, he would have to say it there again. Either way, later, when I've organized it was no longer available. He saved the memo as the signal reached 8."
+        "result_text": "{name} pressed Record. ‘Dad, this time I'll tell you why I came this far without hiding behind the number.’ No second sentence followed, but the first and its time remained.\n\nLater, when I've organized it was no longer an excuse he could use. He saved the memo as the signal reached 8."
       }
     ],
     "description_if_known": {

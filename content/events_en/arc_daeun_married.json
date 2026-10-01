@@ -47,7 +47,7 @@
   {
     "id": "arc_daeun_final_choice",
     "title": "The Last Step",
-    "description": "One document remained, looking like the last shortcut to Gangnam.\n\nLast year, {name} had put the property under Daeun's name. If he turned the trust he borrowed then into permission to sell today, there would be no going back.\n\nThe contract lay before him. From the kitchen came the sound of a knife touching the cutting board.\n\"Minjun, is it okay if I put scallions in the rolled omelet?\"\n\nDaeun was asking about one small preference at dinner. {name} was about to decide the shape of her whole life without asking at all.",
+    "description": "One document remained, looking like the last shortcut to Gangnam.\n\nLast year, {name} had put the property under Daeun's name. If he turned the trust he borrowed then into permission to sell today, there would be no going back.\n\nThe contract lay before him. From the kitchen came the sound of a knife touching the cutting board.\n\"Minjun, is it okay if I put scallions in the rolled omelet?\"\n\nDaeun was asking about one small preference at dinner.",
     "choices": [
       {
         "text": "Count the knife beats from the kitchen instead of reading the contract.",
@@ -59,7 +59,7 @@
       }
     ],
     "description_if_known": {
-      "namsan_lock_daeun": "One document remained, looking like the last shortcut to Gangnam.\n\nLast year, {name} had put the property under Daeun's name. If he turned the trust he borrowed then into permission to sell today, there would be no going back.\n\nAs he reached for the pen, the lock on the Namsan railing came back to him. The night they had said they would find it in ten years. That lock would still be there.\n\nFrom the kitchen came the sound of a knife on a cutting board.\n\"Minjun, is it okay if I put scallions in the rolled omelet?\"\n\nDaeun was asking about one small preference at dinner. {name} was about to decide the shape of her whole life without asking at all."
+      "namsan_lock_daeun": "One document remained, looking like the last shortcut to Gangnam.\n\nLast year, {name} had put the property under Daeun's name. If he turned the trust he borrowed then into permission to sell today, there would be no going back.\n\nAs he reached for the pen, the lock on the Namsan railing came back to him. The night they had said they would find it in ten years. That lock would still be there.\n\nFrom the kitchen came the sound of a knife on a cutting board.\n\"Minjun, is it okay if I put scallions in the rolled omelet?\"\n\nDaeun was asking about one small preference at dinner."
     }
   },
   {
