@@ -5,6 +5,8 @@
 > 옮기고 표에 행을 올린 뒤 선언 커밋을 만든다. 이 파일은 Claude 브랜치
 > `claude/game-launch-prep-5l8u32`(PR #31)에만 있고, main에는 아직 없다.
 
+> **2026-10-02 추가:** PR #31을 들이는 단위·순서·검사 실패 귀속은 [PR31_INTAKE_RUNBOOK.md](PR31_INTAKE_RUNBOOK.md)를 먼저 본다.
+
 ## 결론
 
 Codex는 돌아오면 **먼저 main의 검사를 복구하고(392), 이미 만든 수리를 들이고

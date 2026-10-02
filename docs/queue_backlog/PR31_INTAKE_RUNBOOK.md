@@ -66,6 +66,20 @@ main 9fb7ff21
 PR 원장과 충돌하고, 2,700줄 원장 diff를 손으로 합쳐야 한다. 들인 뒤 다시 계산하는 편이 싸다.
 다만 B3(352 초안)을 이번에 받지 않기로 하면 2번이 불가능하므로 CODEX_RETURN_PLAN 순서를 따른다.
 
-## 검사 실패 귀속
+## 검사 실패 귀속 (2026-10-02 로컬 실측)
 
-(측정 중 — 아래 표를 채운다)
+CI `tools/audit.sh`가 실패로 보고하는 33개 검사를 커밋 경계마다 로컬에서 직접 돌렸다
+(커밋 순서: main → `b0efea56` → `9db4a6e5` → `ab6f52fe` → 문서 → `89cb4450` → HEAD `446eab5d`).
+
+| 처음 실패한 곳 | 검사 | 원인 | 푸는 곳 |
+|---|---|---|---|
+| **main에서 이미 실패** (20개) | `ORDER365_UI_RECEIPT_*`(2), `ORDER351_SOURCE_*`(3), `ORDER350_SOURCE_*`(3), `ORDER309_SOURCE_*`(2), `ORDER313_SOURCE_*`(2), `META_TITLE_HISTORY_RECONCILIATION`, `CI_LOCALIZATION_RECONCILIATION`, `STORY_GRAPH_CONTRACT*`(2), `FULL_GAME_RUNTIME_TRACE_*`(2), `YEAR5_REFERENCE_ROUTE`, `CHAPTER5_HUMAN_REJECT`, `PEAK_CHAIN`, `EXPOSED_STATE`, `CHAPTER1_CAUSAL_LEDGER*`(2) | 이 PR과 무관 | 392·394 |
+| **폰트 수리 `ab6f52fe`** (4개) | `JA_UI`, `JA_DEMO_PIPELINE_SELF_TEST`, `ZH_DEMO_AUDIT`, `ZH_DEMO_SELF_TEST` | `MainGame.gd` 원문이 승인 상태와 달라지면 정적 UI 목록이 `migrated_context_ids` 없이 돌아오고 `ja_translation_audit.py`·`zh_translation_audit.py`가 KeyError로 죽는다. 352 초안 탓이 아니다(`b0efea56`·`9db4a6e5`에서는 통과) | ORDER-390 승인 이력에 `ab6f52fe`(4줄)와 `3643da2b`(6줄)를 넣는다 |
+| **문장 수리 B4** (1개) | `CHAPTER1_INVENTORY_HISTORY` | `release_content_inventory.json` 원문 바이트 고정(ORDER-363) | 위 "B4 뒤 처리" |
+| 로컬에서는 통과 | `FEATURE_LIVENESS` | CI에서만 실패. 환경 차이로 보인다(이 PR 이전 CI에서도 실패) | 394에서 확인 |
+| 모든 지점에서 통과 | `JA_DEMO_INVENTORY`, `JA_DEMO_AUDIT`, `DEMO_I18N_SCOPE`, `DEMO_I18N_SELF_TEST` | 2026-10-01 한때 B4가 데모 고정 파일을 건드려 깨졌다가 `467c4175`에서 복구됐다 | 없음 |
+
+**정정:** PR 코멘트 5905049937은 `ORDER309/313`, `META_TITLE`, `PEAK_CHAIN`, `JA_UI`, `JA_DEMO_PIPELINE`,
+`ZH_DEMO_*`, `CHAPTER1_CAUSAL_LEDGER*`, `FEATURE_LIVENESS`를 352 초안 탓으로 추정했다. 실측으로는
+`JA_UI`·`JA_DEMO_PIPELINE`·`ZH_DEMO_*` 4개는 폰트 수리 커밋의 `MainGame.gd` 변경 때문이다. 나머지는
+main에서 이미 실패한다(로컬 기준). 352 초안(`b0efea56`)이 새로 깨는 검사는 이 33개 안에 없다.
