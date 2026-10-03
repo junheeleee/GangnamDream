@@ -60,7 +60,7 @@ MainGame::_gift_reaction / _gift_repeat_line / _ap_give_gift의 아래 기존 �
 - 실제 전달마다 AP1→0·재고2→1·정확 affinity·contact/axis/place/flags/log 변화만 허용,
   깊은 typed 상태복원으로 이전값·형식까지 확인한다. 직접전달24회와 item_used signal0은
   별도계수하며 confirm/raw/다음턴/구매/3hit열림은 실행하지 않는다.
-- 실제 event_body RichTextLabel18px·SC/TC·자연 타이핑완료·전체본문/높이/경계 계측,
+- 실제 event_body RichTextLabel의 scene-first 19px·SC/TC·자연 타이핑완료·전체본문/높이/경계 계측,
   locale당 다은 부담반응·지연 도록반응·아버지 반복반응 3대표PNG(총6).
   나머지 실측노드는 screenshot직접열람과 구분한다. 두 기록 템플릿도 실제로그와 대조.
 - source/helper/player 파일 불변 및 마지막 typed복원. 최종후보 normal receipt/fullbody/
@@ -69,6 +69,12 @@ MainGame::_gift_reaction / _gift_repeat_line / _ap_give_gift의 아래 기존 �
   실패원본을 보존하고 실패영향만 재검사한다.
 
 ## 알려진 별도 위험·경계
+
+첫 실행 sourcecff41a6의 24회 상태효과/typed복원/전체본문은 PASS이나 지역서체는 FAIL이다.
+static QA도 실제 _render_event에서 scene-first=true/19px로 전환되므로 최초18px/false
+예상은 검사 오류다. commitment{}는 부가 ledger 없음과 정확본문으로 확인한다.
+Open Sans 기본서체의 FontKit 미연결은 실제 제품결함이며 별도 [416](ORDER-416.md)이 소유한다.
+최초 helper/실패원본은 보존하고 새 -r1 helper로 같은24회/6PNG를 검수한다.
 
 ROMANCE_SYSTEM §1과 기존 _gift_eligible/_gift_reaction의 지연 연애전 호칭이 충돌한다.
 이번 번역은 KO를 보존하고 지연 검수는 jiyeon_romance_started=true 및 다은연애false에서만
