@@ -1,0 +1,140 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-416",
+  "reviewer": "/root/independent392",
+  "scope": "Only event_body normal_font/bold_font bindings in MainGame::_build_story_panel; five-language same-instance body/font observation and shared repaired gift-delivery regression.",
+  "independence": "Root authored the two product lines; receipt_bridge392 authored five-locale private observers and receipt_tests392 authored separate415-r1 observers. Reviewer only read code/helpers/raw outputs, reconciled hashes and personally opened all five416 PNGs plus six415-r1 PNGs. No reviewer engine/audit execution.",
+  "source_review": {
+    "checkpoint": "a69432127b2b36d409c77e2cd3dc563c1477c14a",
+    "parent": "7ec1b4086001afc5ec7c100ff8f9f8db4efeed9c",
+    "checkpoint_tree": "6b335dde758c3839cc4b933b57217c1986be7682",
+    "main_sha256": "3f5d667883960d5defe8c3c3af326d077f8957d8703e0e1928ec327b97c2770b",
+    "result": "Exactly two additions bind normal_font to _font_regular and bold_font to _font_bold. The unique whole-file inverse exactly reproduces Main at cff41a6. FontKit, sizes, scene-first routing, gameplay, translation data and save behavior are unchanged.",
+    "original_defect": "Initial415 actual nodes used default Open Sans with no shared regional FontKit ownership. Visible fallback glyphs did not satisfy the specified font contract. The independent preflight also missed this until actual observation; initial failed artifacts remain preserved."
+  },
+  "population": {
+    "languages": [
+      "ko",
+      "en",
+      "ja",
+      "zh-CN",
+      "zh-TW"
+    ],
+    "same_main_instances": 1,
+    "same_body_instances": 1,
+    "font_role_resource_ids_stable": true,
+    "actual_contact_displays": 5,
+    "pngs": 5,
+    "deliveries_in_this_observer": 0
+  },
+  "runtime_review": {
+    "result": "PASS at ae51a7d:15.885s, exit0, exact marker, empty engine/script error set and stdout/stderr/Godot logs checked.",
+    "font_routes": "KO/EN regular and bold Pretendard with bundled fallbacks; JA primary Noto Sans JP400/700; CN/TW primary Noto Sans SC/TC400/700 with the required bundled fallback routes. Same regular/bold resource IDs survive all five actual locale changes. All probes use owned nonzero glyphs and no OS fallback.",
+    "visual": "All five original1280×800 PNGs opened. Actual normal body19px stays on one fitting line inside width1192: KO370, EN659, JA700, CN418, TW418px. No target clipping/tofu/overlap.",
+    "state": "All five before/after-display typed states match. Locale-dependent catalog/name/settings projections were validated before locale-only normalization; raw locale transition deltas are expected, not claimed zero. Prepared KO restoration, saved state restoration and teardown are exact. Stat/log/trade/purchase/item-use/pressed/finalization signals0.",
+    "isolation": "Source census2995/helper11/player34 before=after, failed415 preserved and all artifact/source/helper hashes independently rechecked.",
+    "limits": "Only normal text was rendered. Bold is a resolved-resource/weight/glyph-probe check, not a rendered bold-span test; separate TextServer probes are not internal shaped-RID inspection. KO's pre-fixture HUD retains2026/60months while locale-refreshed HUDs show2029/24months; this prepared-fixture difference is neither a product defect claim nor a full-HUD/date-regression PASS. Hardcoded Korean brand/info/save and other adjacent HUD remain outside scope."
+  },
+  "shared415_regression": "Same final source additionally passed24 prepared CN/TW gift deliveries, six representative PNGs and full typed effects/restoration. No duplicate engine execution was requested.",
+  "evidence": {
+    "runtime": {
+      "path": ".git/full-game-localization/order416-screen-final/result.json",
+      "sha256": "4fa0ceca17a9bb262def6ab275fde5fb2575ae1c5a7591398c365ad7f3048f21"
+    },
+    "observations": {
+      "path": ".git/full-game-localization/order416-screen-final/order416-observations.json",
+      "sha256": "156dce483be4947ad3fd0550a5b25057bc990f2a16effb5476d3bc17f6aba8cf"
+    },
+    "oracle": {
+      "path": ".git/full-game-localization/order416-screen-final/oracle.json",
+      "sha256": "a7d4493d90e57d479557026f6afc6ed8fff034ea727d877b9b6e52e94309d669"
+    },
+    "initial415_failure": {
+      "path": ".git/full-game-localization/order415-screen-final/result.json",
+      "sha256": "f5277dc3390dea648a39acf8d9a15a67e56e3bb9c8f927a8e80a37a64eaaafe3"
+    },
+    "shared415_runtime": {
+      "path": ".git/full-game-localization/order415-r1-screen-final/result.json",
+      "sha256": "3052bd9ec54562d74db2dac1d546283e14d92df5ef03b0ba182a50af41df5e9f"
+    }
+  },
+  "verdict": "GO",
+  "decision_scope": "work_unit",
+  "subject": {
+    "kind": "source",
+    "commit": "ae51a7d910055019a74be53d267f4a2f7d56cb5a",
+    "tree": "60356f31375ace07ff54fe4c6ae459053a1479b3",
+    "manifest_sha256": null
+  },
+  "final_static": {
+    "initial_run": {
+      "path": ".git/full-game-localization/order417-static-final/result.json",
+      "sha256": "56bce42f4432153dae31dd800c15c32b3de7b39ab7c1e48c2042265fadb69b12",
+      "wall_seconds": 742.036,
+      "all_pass": false,
+      "commands": 13,
+      "passed_rows": 12,
+      "failed_row": 9
+    },
+    "first_metadata_repair": {
+      "path": ".git/full-game-localization/order417-metadata-repair1/result.json",
+      "sha256": "f56ac358066fdbfd6fd10345db9447b1b2e4372f7803607e7bb44851dec3921c",
+      "wall_seconds": 0.593,
+      "all_pass": false
+    },
+    "final_metadata_repair": {
+      "path": ".git/full-game-localization/order417-metadata-repair2/result.json",
+      "sha256": "73dc494230a665aa20c89d28155be1c517fbd912382a937786f021fc548a0282",
+      "wall_seconds": 0.606,
+      "all_pass": true
+    },
+    "reviewed_result": "All 13 initial stdout/stderr rows and all six metadata-repair rows were read; each embedded row equals its original JSON. Final gate combines the twelve original successful rows with the repaired queue PASS; context/diff additionally pass after the metadata change. Initial aggregates remain false. No passing engine/focused/expensive normal command was repeated.",
+    "failures_and_repair": "Initial queue rejected ordinal -1. First repair changed only the five leading ordinals and still failed because the included continuation sequence was not adjusted. Final repair shifts all affected ordinals consistently; active80/in_progress77, with order, state, wording and targets unchanged. Author/root and independent preflight missed the queue ordering defect; initial independent acceptance of the first partial ordinal repair was incomplete.",
+    "source_identity": {
+      "tested_product": "ae51a7d910055019a74be53d267f4a2f7d56cb5a",
+      "observed_clean_metadata_head": "20afb17c090954313928a98d8850878bb87c7822",
+      "observed_metadata_tree": "e35e9ec2884d285743c962daa3d8dddf69b8e6f0",
+      "result": "Exact Git diff product→metadata HEAD contains only docs/CODEX_QUEUE.md and docs/CODEX_QUEUE_L3_PENDING.md. Removing ordinal tokens makes both whole files byte-identical. Both paths are fixed allowed metadata; product subject remains the tested ae51a7d/tree60356f31."
+    },
+    "preservation": "Initial normal before=after tracked2995/helpers85/inputs10/prior9. Repair1 before=after2995/86/10/10; repair2 before=after2995/87/10/11. Full maps rehashed against retained files, and final current tracked map matched repair2. Initial runtime/focused evidence remained unchanged.",
+    "retained_limits": "Chapter1 377.012s: debt8/blocked3 and W25..48 missing24, authoritative24/48. Year5 remains reference_only, topology invalidated, product_consumers0 and r1b_allowed=false. ZH audit is skeleton/shipping0; full-body inventory runtime_claim0/native_quality_claim0. Lane list proposes12 checks; listing itself is not their execution. Registered166. No whole audit, historical suites or240-week run."
+  },
+  "preservation": {
+    "comparison_base": "a5312df241f0d7db48494400c76953222cdfbfbe",
+    "existing_decisions": 172,
+    "existing_reports": 150,
+    "decision_file_sha256": "79b14ec2ed7a040eb7a82472a6224647d31c590f18d99d488185485538c2e16e",
+    "human_file_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6",
+    "result": "Existing decision file, all 150 reports, human ledger, release inventory, project.godot, GameState, FontKit, JA dictionary, JA pipeline/audit and historical UI self-test are byte-identical to the base. Public GO1 and human OPEN45 retained.",
+    "full_game": "HOLD",
+    "new_package": "HOLD"
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "external_release_or_store_approval",
+    "whole_game_or_new_package_GO"
+  ],
+  "remaining_gate": "No unresolved blocker inside this exact unit and tested source. Full game/new package remain HOLD; B3/B4, native/human/physical gates, unrelated UI/story/voice issues and external release remain outside this GO.",
+  "freeze": {
+    "method": "Created once after all retained evidence, failed attempts and final metadata repair were reviewed. Original evidence owns exhaustive node, screenshot, source/helper/player and row maps; this report binds those originals rather than duplicating their full census.",
+    "rewrite_allowed": false
+  },
+  "independent": true,
+  "status": "completed",
+  "private_review": {
+    "path": ".git/full-game-localization/order416-independent-review.json",
+    "sha256": "6c1a37035df3eca60699204d471bfb8f4abe417465d3497927032c7bd7bc22cb"
+  },
+  "unit_evidence": {
+    "도달 경로": "ORDER416_UI_OK screens=5 locales=5 same_body=1 raw=0 actions=0 bold_resource_only=1",
+    "생산자 ↔ 독자": "MainGame::_build_story_panel ↔ _show_contact_reaction/event_body",
+    "바꾸는 상태": "Default bodyfont→shared normal/bold; product lines+2; state/rules0 change",
+    "포기 시 잃는 것": "Reaction body regional fonts on KO/EN/JA/CN/TW",
+    "서사 위치": "N/A: common body UI",
+    "장면 계층": "N/A: UI",
+    "닫는 것": "ORDER-416 work_unit only; bold span/natural ingress unobserved"
+  }
+}
+

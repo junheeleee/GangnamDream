@@ -6834,5 +6834,111 @@
         "sha256": "70ecc08d8e1faa63dcbdcc0a51b226aa037009c828715416228fb4868fa9de52"
       }
     }
+    ,
+    {
+      "id": "order-415-source-ae51a7d-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-10-04",
+      "decided_by": "/root/independent392",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-415",
+      "subject": {
+        "kind": "source",
+        "commit": "ae51a7d910055019a74be53d267f4a2f7d56cb5a",
+        "tree": "60356f31375ace07ff54fe4c6ae459053a1479b3",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-415.json",
+          "sha256": "58aba6d6ff44923df12f947a2570b47ad346e36a4990942ba3aa9a44a335d516"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "natural ingress/confirmation/time progression",
+        "whole-game translation/package/release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-415.json",
+        "sha256": "58aba6d6ff44923df12f947a2570b47ad346e36a4990942ba3aa9a44a335d516"
+      }
+    }
+    ,
+    {
+      "id": "order-416-source-ae51a7d-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-10-04",
+      "decided_by": "/root/independent392",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-416",
+      "subject": {
+        "kind": "source",
+        "commit": "ae51a7d910055019a74be53d267f4a2f7d56cb5a",
+        "tree": "60356f31375ace07ff54fe4c6ae459053a1479b3",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-416.json",
+          "sha256": "3b12f5ca48adfceb4ad557a855b240aba8ae36840f09ba273e63fb8e6cbf784d"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "natural ingress/confirmation/time progression",
+        "whole-game translation/package/release",
+        "rendered bold span/full HUD regression"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-416.json",
+        "sha256": "3b12f5ca48adfceb4ad557a855b240aba8ae36840f09ba273e63fb8e6cbf784d"
+      }
+    }
+    ,
+    {
+      "id": "order-417-source-ae51a7d-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-10-04",
+      "decided_by": "/root/independent392",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-417",
+      "subject": {
+        "kind": "source",
+        "commit": "ae51a7d910055019a74be53d267f4a2f7d56cb5a",
+        "tree": "60356f31375ace07ff54fe4c6ae459053a1479b3",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-417.json",
+          "sha256": "2ee2b11253f1dd5f451103c2fefb109405f89f826ae9c083e7ad71d909ad1a74"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "natural ingress/confirmation/time progression",
+        "whole-game translation/package/release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-417.json",
+        "sha256": "2ee2b11253f1dd5f451103c2fefb109405f89f826ae9c083e7ad71d909ad1a74"
+      }
+    }
   ]
 }

@@ -2,6 +2,18 @@
 
 이전 원문 전체는 [2026-10-04 구직 메뉴까지의 기록](history/WORK_LOG_2026-10-04_pre_order405.md)에 바이트 그대로 보존했다.
 
+## 2026-10-04 (Codex — 선물·본문서체·정확원문 검수 마감)
+
+- [415](queue_archive/ORDER-415.md)·[416](queue_archive/ORDER-416.md)·
+  [417](queue_archive/ORDER-417.md) sourceae51a7d/tree60356f3 독립 범위한정 GO.
+  독립보고3개와 판정172→175개, 과거150보고/인간원장 바이트 보존.
+- 중국어32값·실제24전달 상태/복원·5언어 본문 font 연결·focused131을 마감했다.
+  최초runtime FAIL과 queue 음수/연속성 두 FAIL은 보존하며 수리한 범위만 재검수했다.
+- [418](queue_active/ORDER-418.md) 연락19키 CN/TW저작·helper를 이어간다.
+  CLAUDE는 metadata 허용경로가 아니므로 다음418 제품후보에서 상태를 갱신한다.
+- 일회성/상시규범승격0. 자동PASS는 계약증거이지 재미·문체·출시GO가 아니다.
+  본편/새packageHOLD·공개GO1·인간OPEN45·원어민/인간/물리미관측 유지.
+
 ## 2026-10-04 (Codex — 검증된 선물·본문서체 main 반영, 연락 중국어 착수)
 
 - 제품 sourceae51a7d/tree60356f3: 수리415-r1 실제24전달/6PNG 28.177초,
@@ -24,9 +36,9 @@
 - 415 sourcecff41a6 첫실행27.560초/exit1: 24전달 상태효과/typed복원/전체본문 PASS,
   48조건실패 보존. static QA도 scene-first=true/본문19px/제목36px인 경로를 사전검수에서
   놓쳤다. 18px/false는 검사오류지만 실제 Open Sans/비소유 CJK 폴백은 제품결함이다.
-- [416](queue_active/ORDER-416.md) 제품a694321: _build_story_panel의 normal/bold
+- [416](queue_archive/ORDER-416.md) 제품a694321: _build_story_panel의 normal/bold
   FontKit연결 두 줄만 추가. 기존 stable리소스로 언어전환을 따르며 크기/조건/게임상태0변경.
-- [417](queue_active/ORDER-417.md): 정상receipt가 이전412 raw핀으로 거부한 것을
+- [417](queue_archive/ORDER-417.md): 정상receipt가 이전412 raw핀으로 거부한 것을
   확인했다. 이전proof/핀을 그대로 보존하며12단계Git/10inverse·12manifest 및 새focused만
   추가한다. 새두화면helper는 첫실패/원본helper를 보존하고 검증후에만 원격에 반영한다.
 - 시간 절감: 정적QA 메타가 scene-first를 끈다고 가정하지 말고, 실제 소비자 호출 뒤
@@ -36,7 +48,7 @@
 
 ## 2026-10-04 (Codex — 선물 전달 중국어32값 수용 후보)
 
-- [415](queue_active/ORDER-415.md): 반응10·반복4·기록2를 KO직접 CN/TW각16값으로
+- [415](queue_archive/ORDER-415.md): 반응10·반복4·기록2를 KO직접 CN/TW각16값으로
   저작했고 독립 전수의미/목소리/Roman/%s/끝공백 검수 PASS. 공식export/check
   10.301/10.445초PASS, import·raw역상으로 이전사전/receipt전량 보존.
 - accepted41252/b185→41284/b187, CN/TW1531→1547키씩. JA/KO/EN·게임규칙 변경0.
@@ -56,7 +68,7 @@
   focused94·기존교정/append거부 보존, source2990/helper71/입력5/최초증거80 불변.
 - 다음 교정에서는 값싼 focused부터 통과한 뒤 비싼 소비자 검사를 시작한다.
   이번 사전검수에서 순서의존을 놓친 비용을 줄이는 일회성 실행 개선이며 새 규범0.
-- [415 착수](queue_active/ORDER-415.md): 선물반응10·반복4·기록2, CN/TW각16값.
+- [415 착수](queue_archive/ORDER-415.md): 선물반응10·반복4·기록2, CN/TW각16값.
   실제전달24회·대표6PNG만 예정, 저작/화면helper/독립검수 소유분리.
   지연 연애전 호칭의 정본충돌은 보존·별도수리 대상이며 이번에는 연애후 fixture만 검수한다.
 - Claude B3 KO7편 재독: 미도착 민서 통화의 cafe/초상 동석표현, legacy thought_after의
