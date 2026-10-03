@@ -6513,6 +6513,41 @@
         "path": "docs/agent_reviews/ORDER-405.json",
         "sha256": "4a1ae26a79ebd47c8b2374815ef0012dd603663fb2ea3b7d90b9359e78fb76ae"
       }
+    },
+    {
+      "id": "order-406-source-b073248-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-10-04",
+      "decided_by": "/root/independent392",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-406",
+      "subject": {
+        "kind": "source",
+        "commit": "b0732484cff2fc88dd3a95db5ee8e9cf293c750d",
+        "tree": "6ceb4712b7036405de01157bcabcc3336a00fa03",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-406.json",
+          "sha256": "0f1f41d864ca2b94edbe0c9275b9c62307523896e17aa0285803b5341007c943"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "Natural employment/time progression, promotion execution, other eligibility branches, actual input/confirm/Back/cancel",
+        "Other resolutions/menus and complete employed-menu translation or layout",
+        "Full240-week play, whole-game completion, new package or release approval"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-406.json",
+        "sha256": "0f1f41d864ca2b94edbe0c9275b9c62307523896e17aa0285803b5341007c943"
+      }
     }
   ]
 }

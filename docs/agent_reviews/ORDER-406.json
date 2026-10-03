@@ -1,0 +1,128 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-406",
+  "reviewer": "/root/independent392",
+  "authority": "independent agent review; internal bounded source unit only",
+  "verdict": "GO",
+  "status": "completed",
+  "subject": {
+    "kind": "source",
+    "commit": "b0732484cff2fc88dd3a95db5ee8e9cf293c750d",
+    "tree": "6ceb4712b7036405de01157bcabcc3336a00fa03",
+    "manifest_sha256": null
+  },
+  "independence": "Non-author of product, translations, tools and helpers. Read-only source/raw evidence review; directly viewed all5 original PNGs. No engine/audit reruns.",
+  "scope": "One employed-work-menu eligibility label: exact KO/EN pair removes hidden 35%; one new JA, zh-CN and zh-TW UI value with three official accepted receipts. Six declared bridge tools only. Prepared job_01 branch at 1280x800 in five locales.",
+  "source_review": {
+    "product_checkpoint": "cd42885dacadd57af6c2dd5b88c8e3dafbf218cc",
+    "export_base": "ddf85888e0f430043cb782e181e03c6498ccd22e",
+    "main_sha256": "bda4961c1a377edcaee454b83937c3a580bce029b3a802ef293118f3f2d3823d",
+    "result": "Exact MainGame one-line inverse restores parent bytes. Eligibility conditions, JobSystem calculations and neighbors unchanged. KO-direct targets express review eligibility, not guaranteed promotion: JA 今月の昇進審査の対象です！; CN 本月符合晋升评审条件！; TW 本月符合升遷評審資格！",
+    "retained_ja": "Old JA probability key/value remains byte-exact; no current call or accepted receipt.",
+    "bridge": "All six diffs reviewed: fresh nine-stage Git/raw proof, exact inverse, seven predecessor meanings, sealed two-pair collector/current coordinates, exact retired-JA allowance, nine manifest combinations. Prior bodies/pins/392 split remain byte-exact. Actual font census binds before fast return; no broad waiver/cache."
+  },
+  "exchange_review": {
+    "result": "3 exports/checks/imports match ddf8588 headers, selection/batch/self-digests, exact source/target and receipts. Reverse only new3 UI members/accepted rows/batches and derived checksum: four whole raw files equal export-base Git.",
+    "accepted": 41122,
+    "batches": 176,
+    "ui_counts": {
+      "ja": 3044,
+      "zh-CN": 1467,
+      "zh-TW": 1467
+    },
+    "native_gate": "OPEN",
+    "rendered_receipt_gate": "OPEN",
+    "artifacts": {
+      ".git/full-game-localization/order406-static-export.json": "5ccd3e4a9a680437e6c87b0992c6694fcfab25fe38e12ae3da1ea260777ac8b2",
+      ".git/full-game-localization/order406-static-check.json": "38fd7df1d1c96a382261fdf441efbaefcb71063df09b0bf00844874043fa4222",
+      ".git/full-game-localization/order406-append-precommit.json": "9d11cb004e2503682d0dd68c7eca35b0fccb6803a1327f19fea4bb35fa4fead8"
+    },
+    "accepted_receipts": [
+      {
+        "locale": "ja",
+        "batch": "6c3a25498ae3b4482bb00c0d800d69614d9d9e1fbc580a9ce6c9e45404bc1764",
+        "file_sha256": "704b73cfee863ff74f6a57b9277523334e03e9a08fde28262275a3fd1786e1ce"
+      },
+      {
+        "locale": "zh-CN",
+        "batch": "9616ab849d07fc4d1dea1ffb8288999938959edc32a4412e3fdcee69492838c5",
+        "file_sha256": "8f232a0d5b79112bf932d98606cb292601a17e5c8a1ba672356ab298e07db38e"
+      },
+      {
+        "locale": "zh-TW",
+        "batch": "031dd369898b7f95581d194e2a41adcc780bf0740d56eaa90bffda595a0e1585",
+        "file_sha256": "2e97f97c41dcec9bd6093968bb42a08210e921ace2640b32ede3fb4c8f0c2ea1"
+      }
+    ],
+    "receipt_path_template": ".git/full-game-localization/{locale}/full-ko-direct-2026-09-07.1/{batch}.accepted.json"
+  },
+  "runtime_review": {
+    "directory": ".git/full-game-localization/order406-screen-final",
+    "result_sha256": "baa8c4c1a1c9d0b285299307e383c00697d758c06b0ddb7655f2a2672708fa92",
+    "observations_sha256": "2e651b804529eda1e28718c2abbaf77c5051f5b00d1b80bca1fd13d89c41ff29",
+    "result": "First runtime PASS12.931s, exit0/errors0; all11 artifact SHA/bytes verified. Directly viewed all5 PNGs: target1/locale, old35%0, accepted lookup/text exact,13px/one line, widths118/244/169/143/143 within736, heights17/17/20/20/20 within20; all bounds contain target.",
+    "fonts": "Actual regular KO/EN Pretendard; JA JP400/CN SC400/TW TC400; fallback paths/weights exact, all glyphs owned/nonzero/primary. Separate TextServer shaping of actual Label font/size, not internal Label shaping introspection.",
+    "fixture_and_restore": "Actual job_01: tenure6/threshold6,perf60,promotion0<max3,income/base salary1320000,startup/creatorfalse. Five typed before/restored and prepared/observed pairs equal; warmup5delta0; teardown unchanged. Isolated pre-autoload namespace; player34/source2973/helper29 unchanged; 24 oracle source hashes rechecked. No actions/input executed.",
+    "pngs": [
+      "ko-eligible.png",
+      "en-eligible.png",
+      "ja-eligible.png",
+      "zh-CN-eligible.png",
+      "zh-TW-eligible.png"
+    ],
+    "png_hashes": "The independently rehashed result.json binds all five PNG hashes."
+  },
+  "preflight_corrections": [
+    "Before execution, current-Aruba census binding moved ahead of fast return and a forged-census negative added; independently checked.",
+    "Exchange runner adds pre-execution destination guards and timeout evidence retention. Final JA count corrected to actual3044 before candidate freeze."
+  ],
+  "preservation": {
+    "old_decisions": 163,
+    "old_reports": 141,
+    "human_ledger_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6",
+    "human_done": 1,
+    "human_open": 45,
+    "result": "Frozen Git delta preserves old reports/decisions/human gates/public package/assets/autoloads/job data. Prior405 PASS, original FAIL and inherited helpers retain hashes. Older350/351 limitations are not waived."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "Natural employment/time progression, promotion execution, other eligibility branches, actual input/confirm/Back/cancel",
+    "Other resolutions/menus and complete employed-menu translation or layout",
+    "Full240-week play, whole-game completion, new package or release approval"
+  ],
+  "release_boundary": "Target label only. Incidental EN/CN/TW Tenure visibly clips to Tenur; adjacent CN/TW English fallback remains. No whole-menu text-fit/translation GO. Public M01-M06 GO remains its old exact scope; native gates and full/main/new-package HOLD stay unchanged.",
+  "remaining_blocks": [],
+  "promotion": "No human/native/public/full-release gate promotion.",
+  "normal_review": {
+    "directory": ".git/full-game-localization/order406-static-final",
+    "result_sha256": "8b8f0015def247f7672c3c9e2d4897fb83d0a701b88bafdd11a1fb552250f784",
+    "timeout_row_sha256": "b57c0b8313a3539420e91212fe765acf3955e906c3507ca8a0c7d161f0db10a9",
+    "original_result": "all_pass=false: Chapter1 timeout720.015s,exit=null/stdout0/stderr0; not PASS or diagnosed product failure. Other13 exit0/stderr0; wall720.849s. All14 raw rows read; source2973/helper31 and runner SHA unchanged.",
+    "focused": "Only new --promotion-review:150 cases,historical_cases0,PASS105.557s. Read focused code/negative cases plus original output; no older suite rerun.",
+    "remaining_limits": "JA UI beta; full-body SOURCE_INVENTORY_ONLY; ZH skeleton/shipping0; Year5 reference_only/topology invalidated; audit_select --list is a query, not execution of its121 suggestions.",
+    "retry": {
+      "directory": ".git/full-game-localization/order406-static-chapter1-r1",
+      "result_sha256": "be516002a21397624efb12106db37f5bf263f24cf63d9c3b690cd7ba8597f7c2",
+      "result": "Only Chapter1 rerun,1200s deadline:PASS684.920s/exit0/stderr0. Same b073 source2973/helper32 before=after; original17 files independently rehashed unchanged. Raw row/entry equal aggregate. Debt8/blocked3/gap24 remain.",
+      "combined": "12 normal +1 new focused +1 query satisfied by original13 PASS plus one retry PASS. Original aggregate stays false; no passing-row or screenshot rerun."
+    }
+  },
+  "reviewed_at": "2026-10-04 Asia/Seoul",
+  "decision_summary": "Bounded ORDER-406 internal GO on exact b073 source. Source/three official accepted values/five target PNGs and 14 unique required commands satisfied across preserved attempts; not release or human approval.",
+  "independent": true,
+  "private_review": {
+    "path": ".git/full-game-localization/order406-independent-review.json",
+    "sha256": "0abee335af59afa0d533a2b58871a46851dfe8b1b0c9afd031aae812b77f6687"
+  },
+  "unit_evidence": {
+    "도달 경로": "ORDER406_UI_OK screens=5 keys=1 locales=5 raw=0 actions=0",
+    "생산자 ↔ 독자": "locale/ui_ja.json + locale/ui_zh-CN.json + locale/ui_zh-TW.json new1 each → scenes/MainGame.gd:15113",
+    "바꾸는 상태": "MainGame1 pair hidden-probability removed; UI3043/1466/1466→3044/1467/1467; accepted41119/b173→41122/b176",
+    "포기 시 잃는 것": "_open_cat_work eligibility notice retains hidden35%; week N/A",
+    "서사 위치": "N/A: UI notice; story/conditions/calculations unchanged",
+    "장면 계층": "N/A: UI",
+    "닫는 것": "ORDER-406 exact work_unit only; full-game/new-package HOLD"
+  }
+}

@@ -1,6 +1,21 @@
 # ORDER-406 — 승진 안내의 숨은 확률 비노출 수리
 
-#### [~] ORDER-406 [P1·UI 정합] 승진 안내의 숨은 확률 비노출 수리
+#### [x] ORDER-406 [P1·UI 정합] 승진 안내의 숨은 확률 비노출 수리
+
+**완료 — 2026-10-04.** source `b0732484cff2fc88dd3a95db5ee8e9cf293c750d` /
+tree `6ceb4712b7036405de01157bcabcc3336a00fa03`에 한정한 독립 내부 GO.
+KO/EN 한 줄 수리·JA/CN/TW3값 공식3batch, UI3044/1467/1467·accepted41122/b176.
+실제5언어1280×800 PNG/5lookup/5Label, 대상13px 한줄·잘림0.
+runtime12.931초 PASS, source2973/helper29/player34 불변·typed5 복원.
+normal14명령 중13 PASS, Chapter1만 초회720초timeout을 원본FAIL로 보존했다.
+같은후보·코드변경0·1200초 제한 단독r1 684.920초 PASS이며 통과13개/화면은 재실행0.
+Chapter1 debt8/blocked3/W25~48gap24, Year5 reference_only/invalidated/r1bfalse는 유지.
+원어민/인간/물리·자연취업/승진/Back·전체 메뉴·타해상도 미관측.
+인접 EN Tenur 잘림과 CN/TW 영어 잔여는 별도 범위이며 전체 메뉴 GO가 아니다.
+[독립 보고](../agent_reviews/ORDER-406.json)에 원본 실패·재시도·실제 화면 SHA를 결속한다.
+상시규범 추가0/일회성. 공개GO1·인간OPEN45·본편/새packageHOLD 보존.
+
+## 착수 사양 원문
 
 **[~] 착수 — 2026-10-04.** 사용자 계속 개발·검수·main 커밋/푸시 위임.
 404/405 실제 소비자 조사에서 MainGame::_open_cat_work의 조건 충족 문구가
