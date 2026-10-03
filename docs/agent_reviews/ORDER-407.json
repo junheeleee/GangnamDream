@@ -1,0 +1,159 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-407",
+  "reviewer": "/root/independent392",
+  "review_role": "Non-author reviewer; no product/helper edits.",
+  "subject": {
+    "kind": "source",
+    "commit": "9e3705a8d1b631adcd9f5aff861b6883e2696867",
+    "tree": "913e1964a21d41e0ae9015949be77a93a4c3b81c",
+    "manifest_sha256": null
+  },
+  "verdict": "GO",
+  "scope": "Only 15 Korean work/promotion/business UI keys, 15 independently authored values per zh-CN/zh-TW, two official batches, and six prepared actual MainGame work-menu screens.",
+  "review_method": "Direct Korean/glossary/consumer comparison of all30 values; official raw/header/receipt and inverse review; helper/inherited-code review; all12 attempted PNGs, typed/geometry/font evidence and normal originals. No engine/audit reruns.",
+  "source_review": {
+    "export_base": "be6f508cce5c802a86385804bbb86e29a0e5ad01",
+    "changed_paths": [
+      "CLAUDE.md",
+      "docs/WORK_LOG.md",
+      "locale/ui_zh-CN.json",
+      "locale/ui_zh-TW.json",
+      "content/meta/full_game_localization.json"
+    ],
+    "semantic_result": "All30 preserve salary/month units, inclusive60以上, performance-gate readiness without guaranteed promotion, review timing, neutral career/income preview, and regional 晋升/升遷/任职/年資. Format types/order, 100,60+, em dashes, split titles and next-rank prefix's trailing2spaces remain.",
+    "implementation_preservation": "MainGame SHA bda4961c1a377edcaee454b83937c3a580bce029b3a802ef293118f3f2d3823d is identical at base/candidate. No source/tools/KO/EN/JA/gameplay/font/save/ending/project/public-demo changes."
+  },
+  "official_acceptance": {
+    "new_values": 30,
+    "new_batches": 2,
+    "accepted_total": 41152,
+    "batches_total": 178,
+    "ui_counts": {
+      "ja": 3044,
+      "zh-CN": 1482,
+      "zh-TW": 1482
+    },
+    "common_source_manifest_sha256": "3f7c86cd9328bfce8d8b69b23a7fb1972a4474f4c660afba6b0b47076d995159",
+    "verification": "Checked all30 responses against drafts, exact headers/revision/selection/source/target hashes, receipt digests and ledger links. Removing only new15 UI members per locale, new30 records/two batches and restoring the derived hash recovers entire pre-unit raw bytes. JA unchanged. Official two-export/two-check exit0/stderr0 and before=after.",
+    "export_seconds": 9.62,
+    "check_seconds": 9.535,
+    "receipts": [
+      {
+        "locale": "zh-CN",
+        "batch_id": "cf38aecbc93b6f3591534fd34bc1320809a5f482d9ba1a52653f6426f14976c7",
+        "sha256": "dea2446bf86b5cce9f0097538a8db0b0e3e340537e9b3c5845fd1cf8086e3324"
+      },
+      {
+        "locale": "zh-TW",
+        "batch_id": "857aaa6aecde1a1d0c5295d4660a9dacfaf201b09c9ee8350ab6caecb1c0cef6",
+        "sha256": "3a0c116eb07563fd0ca220963e55f0474a338d2028a997cc6588db01fcbb31e8"
+      }
+    ]
+  },
+  "repairs_and_failed_attempts": [
+    "Preflight caught stale ledger baseline161; root corrected to176 before execution. No official-run failure.",
+    "Original screen-final stays FAIL:13.035s/exit1/six branch-dictionary assertions (12 lines across stdout/Godot log). Numeric values matched but JSON-float oracle types differed. All6 original PNGs viewed; aggregate not promoted.",
+    "New r1 converts only five losslessly integral expected fields (tenure,threshold,performance,promotion_count,max_promotions), verifies exact14 keys/types/values and raw/normalized/actual typed evidence. Actual state and strict restoration unchanged. This type mismatch was missed in initial preflight."
+  ],
+  "preservation": {
+    "previous_decisions": 164,
+    "previous_reports": 142,
+    "human_gates_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6",
+    "statement": "Existing agent history and human ledger are unchanged at the candidate. Public M01-M06 GO1, human OPEN45, and full-game/main/new-package HOLD remain distinct."
+  },
+  "limitations": [
+    "No native_reader/human_playtest/physical_controller_feel observation.",
+    "Prepared static surfaces only; no natural entry/Back/actions/promotion/playthrough or406 eligibility-screen rerun.",
+    "Shared preview checked only on declared cards, not every consumer/resolution. Glyphs are separate actual-font shaping probes, not internal shaped RIDs.",
+    "Existing EN Tenure clipping and above60 versus >=60 remain; unrelated/background untranslated surfaces excluded."
+  ],
+  "artifacts": {
+    "export": {
+      "path": ".git/full-game-localization/order407-static-export.json",
+      "sha256": "739d04fb0e3752d573643cfead44510e2a447092ee9efdea10c254512a0c1a9b"
+    },
+    "check": {
+      "path": ".git/full-game-localization/order407-static-check.json",
+      "sha256": "681064085ef813d61fcdac819c3b00a4a347147cab7cc40f7417e1eb361344b6"
+    },
+    "append_inverse": {
+      "path": ".git/full-game-localization/order407-append-precommit.json",
+      "sha256": "d270252abd530ddb43fab39d0e46d62225b3c25f185433c29803d53f3813ca94"
+    },
+    "first_failed_result": {
+      "path": ".git/full-game-localization/order407-screen-final/result.json",
+      "sha256": "cf1fbaee3fc12876374940c2cd6d4845fc3959dc98584a8e413ec76357fe8d4a"
+    },
+    "first_failed_observations": {
+      "path": ".git/full-game-localization/order407-screen-final/order407-observations.json",
+      "sha256": "bf2db278509f3a3913d0cb9910edbd3913b6cd902ab3d5d70f931900901e149e"
+    },
+    "runtime_result": {
+      "path": ".git/full-game-localization/order407-screen-corrected1/result.json",
+      "sha256": "d3a78ec7ff5f6f6026bd0c2f0429b539c940361aa6f6448dd1e7d8b579c2facb"
+    },
+    "runtime_observations": {
+      "path": ".git/full-game-localization/order407-screen-corrected1/order407-observations.json",
+      "sha256": "224293b1925e2a76414481ff519f73c9331975ed1db6cee962f7280fbc972fe8"
+    },
+    "runtime_entry": {
+      "path": ".git/full-game-localization/order407-screen-corrected1/entry.json",
+      "sha256": "54dd241d5a39c05756728a95f393f312e8cf4ed763d6018acb83a161a8eeaee6"
+    },
+    "normal_result": {
+      "path": ".git/full-game-localization/order407-static-final/result.json",
+      "sha256": "9ac1205c2b5505220ded03226568988311da38d6156f663f2ec672a6a57bf09f"
+    }
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel"
+  ],
+  "verdict_boundary": "Delegated internal ORDER-407 acceptance only on the exact subject above; not full-game, package, native-language or human approval.",
+  "runtime_review": {
+    "result": "PASS",
+    "seconds": 13.265,
+    "screens": 6,
+    "locales": 2,
+    "lookup_rows": 30,
+    "distinct_keys_per_locale": 15,
+    "binding_records": 52,
+    "bound_node_occurrences": 56,
+    "modal_text_rows": 86,
+    "cards": 4,
+    "typed_restorations": 6,
+    "branch_type_comparisons": 6,
+    "evidence": "All6 corrected and all6 failed-attempt originals directly viewed. Targets had no observed clipping/tofu/overlap at1280x800. All86 modal text rows fit, ellipsis waiver0; actual SC/TC fonts, nonzero owned glyphs and regional CJK primary routes passed.",
+    "fixture_scope": "Actual job_03: A capped3/tenure0/perf60/salary3110000/business enabled/terminal flags false; B count0/tenure12/perf59/salary2240000/business false; C count0/tenure11/perf60/base salary/business false. Registry/next-tier names and two-field augmentation inverse match. A cards2 per locale, B/C0. Scroll0/no bar; targets/cards contained.",
+    "state_and_logs": "Six before/restored and prepared/observed typed pairs equal; warmup deltas0. Exact marker once; exit0/stderr0/error0. Input/confirm/pressed/callback/promotion/trade/finalization counters0.",
+    "preservation": "Tracked2975/helper35/player34 unchanged. Original FAIL/artifacts/32helpers preserved; all artifact/helper hashes rechecked. Binding52 includes nested gate reuse/shared preview, not52 unique nodes."
+  },
+  "normal_review": {
+    "result": "PASS",
+    "normal_commands": 11,
+    "selection_queries": 1,
+    "seconds": 776.969,
+    "source_files": 2975,
+    "helpers": 33,
+    "evidence": "All12 raw rows read and rehashed; entry/copied runner and aggregate match. exit0/stderr0; before=after at subject. List-query42 means suggestions, not executions. No historical/focused/JA-only/full-audit/240-week reruns.",
+    "retained_limits": "Chapter1:776.493s/debt8/blocked3/missing24 weeks(24/48 authoritative). Year5 reference_only/invalidated. Full-body inventory-only/runtime0/native0. ZH skeleton/shipping0. Receipt41152/b178/historical_cases0."
+  },
+  "artifact_note": "Result seals entry/oracle/logs/PNG hashes/helpers; observations retain exhaustive rows. Normal result retains12 command rows. Receipts: .git/full-game-localization/<locale>/full-ko-direct-2026-09-07.1/<batch_id>.accepted.json.",
+  "independent": true,
+  "status": "completed",
+  "private_review": {
+    "path": ".git/full-game-localization/order407-independent-review.json",
+    "sha256": "c5af28fe5ce434a2ce24c297a1d934d2e6e710585249dba3ba753a94fbe0160b"
+  },
+  "unit_evidence": {
+    "도달 경로": "ORDER407_UI_OK screens=6 keys=15 locales=2 raw=0 actions=0",
+    "생산자 ↔ 독자": "locale/ui_zh-CN.json + locale/ui_zh-TW.json new15 each → scenes/MainGame.gd:_open_cat_work / _ap_action_preview",
+    "바꾸는 상태": "UI CN/TW1467→1482 each; JA3044 unchanged; accepted41122/b176→41152/b178",
+    "포기 시 잃는 것": "15 work/promotion/business keys remain English fallback in CN/TW; week N/A",
+    "서사 위치": "N/A: existing UI only; conditions/calculations/story unchanged",
+    "장면 계층": "N/A: UI",
+    "닫는 것": "ORDER-407 exact work_unit only; full-game/new-package HOLD"
+  }
+}

@@ -1,6 +1,21 @@
 # ORDER-407 — 직장·승진·사업 안내 중국어 소비자 마감
 
-#### [~] ORDER-407 [P1·현지화] 직장·승진·사업 안내 중국어 소비자 마감
+#### [x] ORDER-407 [P1·현지화] 직장·승진·사업 안내 중국어 소비자 마감
+
+## 완료 — 2026-10-04
+
+- source `9e3705a8d1b631adcd9f5aff861b6883e2696867`, tree `913e1964a21d41e0ae9015949be77a93a4c3b81c`.
+- 기존KO15키·CN/TW30값·공식2batch; accepted41152/b178·UI1482씩·JA3044불변.
+- 실제6PNG·30lookup·52binding기록/56노드등장·86text·4cards 직접 검수.
+  최초 runtime FAIL6은 JSON float/실제int 비교 결함으로 보존; 새r1에서 expected
+  정수5필드만 lossless 정규화하고 typed전량검사 유지,13.265초PASS.
+- normal11+조회1 PASS776.969초(Chapter1 776.493초); source2975/helper33불변.
+  runtime은 helper35/player34·typed복원6·warmupdelta0·실제입력/행동0.
+- [독립 전수 검수](../agent_reviews/ORDER-407.json) GO. 공개GO1·인간OPEN45·
+  본편/새packageHOLD와 원어민/인간/물리 미관측 유지. EN2결함은 별도수리.
+- 일회성 사양, 상시규범 추가0. 자동PASS는 도달성/계약 증거이지 재미·깊이·문체·출시GO가 아니다.
+
+아래 착수 원문은 보존한다.
 
 **[~] 착수 — 2026-10-04.** 사용자 계속 개발·검수·main 커밋/푸시 위임.
 406 실제 화면에서 직장 메뉴의 CN/TW 영어 폴백을 확인했다.

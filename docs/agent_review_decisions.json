@@ -6548,6 +6548,42 @@
         "path": "docs/agent_reviews/ORDER-406.json",
         "sha256": "0f1f41d864ca2b94edbe0c9275b9c62307523896e17aa0285803b5341007c943"
       }
+    },
+    {
+      "id": "order-407-source-9e3705a-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-10-04",
+      "decided_by": "/root/independent392",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-407",
+      "subject": {
+        "kind": "source",
+        "commit": "9e3705a8d1b631adcd9f5aff861b6883e2696867",
+        "tree": "913e1964a21d41e0ae9015949be77a93a4c3b81c",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-407.json",
+          "sha256": "bd002b7a1c6efd567eb7021e7a8d96ac289d14c643c231a8f384501f6474df4c"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "No native_reader/human_playtest/physical_controller_feel observation.",
+        "Prepared static surfaces only; no natural entry/Back/actions/promotion/playthrough or406 eligibility-screen rerun.",
+        "Shared preview checked only on declared cards, not every consumer/resolution. Glyphs are separate actual-font shaping probes, not internal shaped RIDs.",
+        "Existing EN Tenure clipping and above60 versus >=60 remain; unrelated/background untranslated surfaces excluded."
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-407.json",
+        "sha256": "bd002b7a1c6efd567eb7021e7a8d96ac289d14c643c231a8f384501f6474df4c"
+      }
     }
   ]
 }

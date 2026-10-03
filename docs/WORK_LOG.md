@@ -2,9 +2,26 @@
 
 이전 원문 전체는 [2026-10-04 구직 메뉴까지의 기록](history/WORK_LOG_2026-10-04_pre_order405.md)에 바이트 그대로 보존했다.
 
+## 2026-10-04 (Codex — 직장 중국어 화면 마감·검수 중복 제거 착수)
+
+- [407 완료](queue_archive/ORDER-407.md): 월급·승진·사업/콘텐츠 안내 CN/TW30값,
+  실제6PNG의 신규15키 전부·30lookup·52binding기록/56노드등장을 확인했다.
+  [독립 보고](agent_reviews/ORDER-407.json)는 source9e3705a/tree913e196에 한정GO다.
+- 최초runtime13.035초 FAIL6은 JSON숫자/실제int 비교 결함. 원본을 보존하고
+  새r1에서 expected정수5필드만 lossless정규화, typed복원/키타입검사 그대로
+  13.265초PASS. source2975/helper35/player34 불변·실제입력/행동0.
+- normal11+조회1 PASS776.969초·Chapter1 776.493초; source2975/helper33불변.
+  debt8/blocked3/gap24·Year5 reference_only/invalidated·ZH shipping0 유지.
+  자동PASS는 도달성/계약 증거이지 재미·깊이·문체·출시GO가 아니다.
+- [408 착수](queue_active/ORDER-408.md): Chapter1 동일 snapshot 안의 proof3회를
+  기존fresh context1회로 묶는 도구 한정수리. 저작/회귀/독립검수 파일 소유 분리.
+  이전시간을 비교 기준으로 재사용하며 구버전 재실행·새 화면검사 없이 효과를 측정한다.
+- EN근속폭/60이상 의미·Claude B3/B4는 별도후속. 공개GO1·인간OPEN45·
+  본편/새packageHOLD·원어민/인간/물리 미관측 유지. 상시규범 추가0/일회성.
+
 ## 2026-10-04 (Codex — 직장·승진·사업 중국어30값 수용)
 
-- [407](queue_active/ORDER-407.md): 월급·승진조건·다음직급·사업/콘텐츠 카드의
+- [407](queue_archive/ORDER-407.md): 월급·승진조건·다음직급·사업/콘텐츠 카드의
   기존KO15키를 CN/TW 각각 직접 번역했다. 비저자 전수30 원문검수 통과.
 - 공식 export/check 각2배치 PASS(9.620/9.535초), import·append inverse로
   기존 raw 보존. CN/TW1482키씩, JA3044불변·accepted41152/b178.
@@ -26,7 +43,7 @@
 - 공개GO1·인간OPEN45·본편/새packageHOLD. Chapter1 gap24/debt8/blocked3와
   Year5 invalidated/reference_only 잔여는 그대로다. 원어민/인간/물리 미관측.
 - 실제 EN Tenur 잘림·above60/실제>=60 불일치, 인접CN/TW 영어 잔여를 확인했다.
-  [407](queue_active/ORDER-407.md)은 기존15KO키의 CN/TW30값만 추가한다.
+  [407](queue_archive/ORDER-407.md)은 기존15KO키의 CN/TW30값만 추가한다.
   최소3상태×2언어6PNG로 신규키전부 검수하며406 eligible 화면은 반복하지 않는다.
 - 속도 조사: Chapter1 같은 snapshot 내부의 UI admission이 세 번 열림을
   코드상 확인했다(:5024,:5127 → compat:419). 호출당235초대 실측과 맞는 병목
