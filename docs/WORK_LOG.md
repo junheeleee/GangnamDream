@@ -2,6 +2,16 @@
 
 이전 원문 전체는 [2026-10-04 구직 메뉴까지의 기록](history/WORK_LOG_2026-10-04_pre_order405.md)에 바이트 그대로 보존했다.
 
+## 2026-10-04 (Codex — 자기계발 중국어30값 수용 후보)
+
+- [410](queue_active/ORDER-410.md): 독서·운동·명상·투자공부의 설명/누적 기록과
+  AP 소진 안내15키를 CN/TW 각각 직접 번역했다. 비저자 전수30값 원문대조 통과.
+- 공식 export/check 각2batch PASS(10.065/10.121초), import·append inverse로
+  이전 raw 전량 보존. CN/TW1497키씩·JA3044불변·accepted41182/b180.
+- 코드·조건·보상·기존사전/receipt·공개demo·인간증거 변경0. 최종후보 고정 뒤
+  실제4PNG·normal11+조회1만 검수한다. 현재는 최종GO 전이다.
+  공개GO1·인간OPEN45·본편/새packageHOLD·원어민/인간/물리 미관측 유지.
+
 ## 2026-10-04 (Codex — 근속 표시 수리 마감·자기계발 중국어 착수)
 
 - [409 완료](queue_archive/ORDER-409.md): sourcea457419/tree9379241 독립GO.

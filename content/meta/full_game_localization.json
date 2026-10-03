@@ -7008,6 +7008,104 @@
           "batch_id": "857aaa6aecde1a1d0c5295d4660a9dacfaf201b09c9ee8350ab6caecb1c0cef6"
         }
       }
+    },
+    {
+      "order": "ORDER-410",
+      "group": "ui",
+      "roots": [
+        "행동력이 없습니다",
+        "자기계발",
+        "이번 주, 무엇을 갈고닦을까.",
+        "독서",
+        "책 한 권만큼 넓어진다",
+        "운동",
+        "몸을 만든다 — 사람 쪽 시간",
+        "명상",
+        "숨을 고르고 머리를 비운다",
+        "투자공부",
+        "돈이 되기 전의 눈을 만든다",
+        "독서 — {n}권째",
+        "운동 — {n}주차",
+        "명상 — {n}회째",
+        "투자공부 — {n}회째"
+      ],
+      "source_leaves": 15,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 15,
+        "zh-TW": 0
+      },
+      "source_review": "Korean-direct self-development modal descriptions, book/week/session progress and AP-empty toast; four activities, placeholders and count units preserved. Existing translations, gameplay and public demo unchanged. Agent review is not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "771cb775b525e17aeada22807149416d89c1b63f224529166be7ad40fc27df5f"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "92450c24c5597f82d6b8094ea0bd7003c3148718",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "a0c6f2c09b3d47c9f1b06652f71fc8c8640bd86209d9166a9e8744819c09afcd",
+          "selection_sha256": "7063bb411c1961bb9f2e7f2aa651db31602cd77a4326a845100bd96d22c24721",
+          "count": 15,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "b4df8f797e3ee33613e489dab91619672efe1a81e07492801b86462df98789ba"
+        }
+      }
+    },
+    {
+      "order": "ORDER-410",
+      "group": "ui",
+      "roots": [
+        "행동력이 없습니다",
+        "자기계발",
+        "이번 주, 무엇을 갈고닦을까.",
+        "독서",
+        "책 한 권만큼 넓어진다",
+        "운동",
+        "몸을 만든다 — 사람 쪽 시간",
+        "명상",
+        "숨을 고르고 머리를 비운다",
+        "투자공부",
+        "돈이 되기 전의 눈을 만든다",
+        "독서 — {n}권째",
+        "운동 — {n}주차",
+        "명상 — {n}회째",
+        "투자공부 — {n}회째"
+      ],
+      "source_leaves": 15,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 15
+      },
+      "source_review": "Korean-direct self-development modal descriptions, book/week/session progress and AP-empty toast; four activities, placeholders and count units preserved. Existing translations, gameplay and public demo unchanged. Agent review is not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-TW": "424b4674b2752dc8ed508a616a066233333359fb7607b803eeabb9eea1c5c244"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "92450c24c5597f82d6b8094ea0bd7003c3148718",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "a0c6f2c09b3d47c9f1b06652f71fc8c8640bd86209d9166a9e8744819c09afcd",
+          "selection_sha256": "2c1353f288d0adf59d0b8e66ccc8b4766c6aae14eadabe4d010045ff23d2acc0",
+          "count": 15,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "a04624d2fd9b07c793ed56d679fd5feb7b9a46b094eab151acef2e09fb3b6ce4"
+        }
+      }
     }
   ],
   "accepted": {
@@ -115573,6 +115671,66 @@
       "ui:콘텐츠 제작  —  채널을 키운다:/콘텐츠 제작  —  채널을 키운다": {
         "source_sha256": "9d9e69eaa45d6f8d8a629d271dc71ca829de9378f913f21010a400b0cac85c95",
         "target_sha256": "c14987ffc4a67bea6ad875a433d35bb569cb408174f9a6d8b4a9fc6cfdad7152"
+      },
+      "ui:독서 — {n}권째:/독서 — {n}권째": {
+        "source_sha256": "ef5ce0e7f2abaf60c5f535551a179e6634f17603802ca5777e8eff4139d28547",
+        "target_sha256": "6ce0c648536ee45089c3ed3d07b0bbefe3dfd225b14667e08381507b15aa0b76"
+      },
+      "ui:독서:/독서": {
+        "source_sha256": "16a0b279eceb5cafb5cd629a90cad6b58e0226ec41206cfdced47f05670395b9",
+        "target_sha256": "ec988ac973358d5916c55f20b89c8edb4fb13e81afc54cda04a96dad33be3952"
+      },
+      "ui:돈이 되기 전의 눈을 만든다:/돈이 되기 전의 눈을 만든다": {
+        "source_sha256": "437c36a2941740f16948de7477f6fb39bc591dce8896dec6cc97c2497db822ed",
+        "target_sha256": "55b0683f84545db48393ab161fe8fec5da2f8299fa7fdfc8a6e5e4042dea57bb"
+      },
+      "ui:명상 — {n}회째:/명상 — {n}회째": {
+        "source_sha256": "9e28bc63e3a45ad96fc909d407cc4c30626a9fd682a345754be5de19e2b10fcb",
+        "target_sha256": "1ba8af2887364bf06050568719d6fd9f93baab573340f33eb78eb033e8da63e6"
+      },
+      "ui:명상:/명상": {
+        "source_sha256": "e58254be0bf8d614820e4de98d8655604055c53fce800cf74caaa53311189445",
+        "target_sha256": "43d5eaf1710c60776e22a15fcc65e5c14232f1167941a695507b92edf8096c5e"
+      },
+      "ui:몸을 만든다 — 사람 쪽 시간:/몸을 만든다 — 사람 쪽 시간": {
+        "source_sha256": "b27402a181e841ee2ad047d7f6d3e9eabc98cb980365015305ea1bfa4541d09c",
+        "target_sha256": "ff8f4e1351f9bc8395515a993bc56b1fb47edfea4264a928d92dbf0fbb9f585b"
+      },
+      "ui:숨을 고르고 머리를 비운다:/숨을 고르고 머리를 비운다": {
+        "source_sha256": "ea804e862929938bb33c837c8709cc174d37bbd82e4bb543626317f0e99edf3f",
+        "target_sha256": "52b190492258d7c77a62cd1315bcb3b4be04546855ea6215ecad90dbecbeef76"
+      },
+      "ui:운동 — {n}주차:/운동 — {n}주차": {
+        "source_sha256": "0f783209defa03026e9af6da1b56b5ee2b56a48a239a235c9db7326670bc1383",
+        "target_sha256": "289da28b5fc491d281e6dc7172e2db29b8fef3b720113b0faa4126d39d7e0526"
+      },
+      "ui:운동:/운동": {
+        "source_sha256": "fde53ba1c6be55ed9d28d339adabcf9c08a833ff35b4ff627a53538fa3585e11",
+        "target_sha256": "9676d317a59cb2e3288e565b7c6a540468a70f611407733afc00b07594c51847"
+      },
+      "ui:이번 주, 무엇을 갈고닦을까.:/이번 주, 무엇을 갈고닦을까.": {
+        "source_sha256": "5b5fca5ca34b9ffe26fef0a85a9968c122798b6db46d9e4a43d88b51719c24ba",
+        "target_sha256": "085f28e94bee004efe031cbba8c621cc4ef385bca694df169b4b8a0f73dce550"
+      },
+      "ui:자기계발:/자기계발": {
+        "source_sha256": "160d702bd77b476fefea8531bcced82be620d2b8edc034989a3aec81c24aae52",
+        "target_sha256": "ed212113121a0d5f5aa79ca5db8bac914de88723edc1148ac1c0d5a7181d6852"
+      },
+      "ui:책 한 권만큼 넓어진다:/책 한 권만큼 넓어진다": {
+        "source_sha256": "e96ea43b879a5d7493df7164245caddf4e981f582b90bc54ac379e07c860ddb6",
+        "target_sha256": "59126376e2320610191b2025da796f3f05504e070254162b8346daf0304ef206"
+      },
+      "ui:투자공부 — {n}회째:/투자공부 — {n}회째": {
+        "source_sha256": "00b44218c9a386e72209444639a76396a0717fc8e7167c875ed3f6e145ed8754",
+        "target_sha256": "c6e24998f540fb7d785638d013817b7ecf8b5781605656102f2e7ada4486e01b"
+      },
+      "ui:투자공부:/투자공부": {
+        "source_sha256": "0d8f9c105e27c1eb7f3d64a24cf41b52ce4a32efed5b0b7ec8410681835648f0",
+        "target_sha256": "0e69a400b500a747caddf87c5fe193a17ad3a0e9ce8a946dd335dcb5b7a70db9"
+      },
+      "ui:행동력이 없습니다:/행동력이 없습니다": {
+        "source_sha256": "b5d645fa4086ce41cdc65fe2face8d2832722ad9480e5d8d326e0088663a0866",
+        "target_sha256": "4ee42bd83d925f8faaacec296035b6e54f79813902c8c42477d0794b2ccb2a87"
       }
     },
     "zh-TW": {
@@ -171623,10 +171781,70 @@
       "ui:콘텐츠 제작  —  채널을 키운다:/콘텐츠 제작  —  채널을 키운다": {
         "source_sha256": "9d9e69eaa45d6f8d8a629d271dc71ca829de9378f913f21010a400b0cac85c95",
         "target_sha256": "5c88264bc8244c4c73fa64792c9093fe27c96fbf800738923fae588b0effc4d5"
+      },
+      "ui:독서 — {n}권째:/독서 — {n}권째": {
+        "source_sha256": "ef5ce0e7f2abaf60c5f535551a179e6634f17603802ca5777e8eff4139d28547",
+        "target_sha256": "afbae9f0f23adbe67107119fbec4acb32fa2c03e1435c86f30184167b70f8d10"
+      },
+      "ui:독서:/독서": {
+        "source_sha256": "16a0b279eceb5cafb5cd629a90cad6b58e0226ec41206cfdced47f05670395b9",
+        "target_sha256": "d338ea2089b9585c0e64ca62fd1a62a3ea27084a46721f420b99fd5adb2f90e5"
+      },
+      "ui:돈이 되기 전의 눈을 만든다:/돈이 되기 전의 눈을 만든다": {
+        "source_sha256": "437c36a2941740f16948de7477f6fb39bc591dce8896dec6cc97c2497db822ed",
+        "target_sha256": "55945551179012712b2d4a511271775411349297c04dd61ac0bcf6e7544f5020"
+      },
+      "ui:명상 — {n}회째:/명상 — {n}회째": {
+        "source_sha256": "9e28bc63e3a45ad96fc909d407cc4c30626a9fd682a345754be5de19e2b10fcb",
+        "target_sha256": "1ba8af2887364bf06050568719d6fd9f93baab573340f33eb78eb033e8da63e6"
+      },
+      "ui:명상:/명상": {
+        "source_sha256": "e58254be0bf8d614820e4de98d8655604055c53fce800cf74caaa53311189445",
+        "target_sha256": "43d5eaf1710c60776e22a15fcc65e5c14232f1167941a695507b92edf8096c5e"
+      },
+      "ui:몸을 만든다 — 사람 쪽 시간:/몸을 만든다 — 사람 쪽 시간": {
+        "source_sha256": "b27402a181e841ee2ad047d7f6d3e9eabc98cb980365015305ea1bfa4541d09c",
+        "target_sha256": "761f8bdf3054d426a79ccb774d160ad775610ac54ab4cc3139259cc453a2ef8b"
+      },
+      "ui:숨을 고르고 머리를 비운다:/숨을 고르고 머리를 비운다": {
+        "source_sha256": "ea804e862929938bb33c837c8709cc174d37bbd82e4bb543626317f0e99edf3f",
+        "target_sha256": "cef633f3a856a995f0891e8ac3ae42e57274dd91300bd8396664daf11d25ec59"
+      },
+      "ui:운동 — {n}주차:/운동 — {n}주차": {
+        "source_sha256": "0f783209defa03026e9af6da1b56b5ee2b56a48a239a235c9db7326670bc1383",
+        "target_sha256": "c582ff48a87dc7a1b35b8fef7620749b127e9138527caf55d24af74703ae9543"
+      },
+      "ui:운동:/운동": {
+        "source_sha256": "fde53ba1c6be55ed9d28d339adabcf9c08a833ff35b4ff627a53538fa3585e11",
+        "target_sha256": "d16e204cdeef8f0ba043263bf53b30b4ce47add643043146419523e14ea57d47"
+      },
+      "ui:이번 주, 무엇을 갈고닦을까.:/이번 주, 무엇을 갈고닦을까.": {
+        "source_sha256": "5b5fca5ca34b9ffe26fef0a85a9968c122798b6db46d9e4a43d88b51719c24ba",
+        "target_sha256": "e58448438ec9c06dd93ef52f79c10b073fa7073d94b6b7ae7924ae27b406f1f0"
+      },
+      "ui:자기계발:/자기계발": {
+        "source_sha256": "160d702bd77b476fefea8531bcced82be620d2b8edc034989a3aec81c24aae52",
+        "target_sha256": "8380ce95be89da7bce85a88546cdb5525517c880384f47872217faeeb3724118"
+      },
+      "ui:책 한 권만큼 넓어진다:/책 한 권만큼 넓어진다": {
+        "source_sha256": "e96ea43b879a5d7493df7164245caddf4e981f582b90bc54ac379e07c860ddb6",
+        "target_sha256": "fa72bc31891dc94f631eab329418e696f21678517d263e435ddb3241353cc6a8"
+      },
+      "ui:투자공부 — {n}회째:/투자공부 — {n}회째": {
+        "source_sha256": "00b44218c9a386e72209444639a76396a0717fc8e7167c875ed3f6e145ed8754",
+        "target_sha256": "e9414cba8c3f1ecc3fba449ce3562e9a1bc8cbb8abfe1ae75b5fe7610894dbb7"
+      },
+      "ui:투자공부:/투자공부": {
+        "source_sha256": "0d8f9c105e27c1eb7f3d64a24cf41b52ce4a32efed5b0b7ec8410681835648f0",
+        "target_sha256": "5cf93c4304814084b16e3f3ace6d4a911e4f9be441a69246bfc0ba6ac0955fe2"
+      },
+      "ui:행동력이 없습니다:/행동력이 없습니다": {
+        "source_sha256": "b5d645fa4086ce41cdc65fe2face8d2832722ad9480e5d8d326e0088663a0866",
+        "target_sha256": "7f60f41b869d45318b772d487bdccfcda01f04b7f1e4704de3629877c42f949e"
       }
     }
   },
-  "accepted_sha256": "63e0060f5c22856bb968f49fa3d7f722327dac87542b9c87bba1f13509f09c8a",
+  "accepted_sha256": "6e66ebf55400155cffdd64d701999d102ae28acb1518e490813273a6a869f02b",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
