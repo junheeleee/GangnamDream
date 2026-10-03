@@ -6805,6 +6805,111 @@
           "batch_id": "170fbd76af2683fc4e1c94ab7c6538249f7ea2dce9f810a25feb86f64b3ac5b9"
         }
       }
+    },
+    {
+      "order": "ORDER-406",
+      "group": "ui",
+      "roots": [
+        "이번 달 승진 판정 대상!"
+      ],
+      "source_leaves": 1,
+      "target_leaves_by_locale": {
+        "ja": 1,
+        "zh-CN": 0,
+        "zh-TW": 0
+      },
+      "source_review": "Korean-direct promotion review eligibility notice without the hidden numeric probability. Eligibility is not a promotion promise; actual conditions and calculations unchanged. Old JA row and receipts preserved; agent review is not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "ja": "7807a012ca0018cfcca18c09910cac75867f3e6748c945842b069266f77586a3"
+      },
+      "official_receipt_headers_by_locale": {
+        "ja": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "ja",
+          "source_revision": "ddf85888e0f430043cb782e181e03c6498ccd22e",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "3f7c86cd9328bfce8d8b69b23a7fb1972a4474f4c660afba6b0b47076d995159",
+          "selection_sha256": "04eb555de77027982704770090bddd8b73bc7db7d3b192c5cdcf9e0b8da46242",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "6c3a25498ae3b4482bb00c0d800d69614d9d9e1fbc580a9ce6c9e45404bc1764"
+        }
+      }
+    },
+    {
+      "order": "ORDER-406",
+      "group": "ui",
+      "roots": [
+        "이번 달 승진 판정 대상!"
+      ],
+      "source_leaves": 1,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 1,
+        "zh-TW": 0
+      },
+      "source_review": "Korean-direct promotion review eligibility notice without the hidden numeric probability. Eligibility is not a promotion promise; actual conditions and calculations unchanged. Old JA row and receipts preserved; agent review is not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "9561980ec5ac3e38af2ab2b3a3cb334fb210d77eb5734e992661741cc3cebf06"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "ddf85888e0f430043cb782e181e03c6498ccd22e",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "3f7c86cd9328bfce8d8b69b23a7fb1972a4474f4c660afba6b0b47076d995159",
+          "selection_sha256": "a9a795d6a31a1a5eb0e03d7a30a57fc4823a8a32802d204616fbaee57a1f566a",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "9616ab849d07fc4d1dea1ffb8288999938959edc32a4412e3fdcee69492838c5"
+        }
+      }
+    },
+    {
+      "order": "ORDER-406",
+      "group": "ui",
+      "roots": [
+        "이번 달 승진 판정 대상!"
+      ],
+      "source_leaves": 1,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 1
+      },
+      "source_review": "Korean-direct promotion review eligibility notice without the hidden numeric probability. Eligibility is not a promotion promise; actual conditions and calculations unchanged. Old JA row and receipts preserved; agent review is not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-TW": "7d1cc593631e65b3ade1665a2949745c01a0a72ec2d7bc5e1d9de573d1dee1df"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "ddf85888e0f430043cb782e181e03c6498ccd22e",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "3f7c86cd9328bfce8d8b69b23a7fb1972a4474f4c660afba6b0b47076d995159",
+          "selection_sha256": "eaae43a6ae439484ca66732c570952ff5672ca35ab730a02f0778633d3076a70",
+          "count": 1,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "031dd369898b7f95581d194e2a41adcc780bf0740d56eaa90bffda595a0e1585"
+        }
+      }
     }
   ],
   "accepted": {
@@ -59316,6 +59421,10 @@
       "ui:건강/정신력이 0이 되거나 순자산이 -1억 원 미만이면 끝납니다.:/건강~1정신력이 0이 되거나 순자산이 -1억 원 미만이면 끝납니다.": {
         "source_sha256": "9efc8b06d39a292ddff42a9c0ef8481d9ca7c9e7a36a420788bf74aa00bdf9b4",
         "target_sha256": "0bcbc0e2767c0ae3020ef0dc50fcae980d9b39e279b7fafd84b88f9f2c0a8a02"
+      },
+      "ui:이번 달 승진 판정 대상!:/이번 달 승진 판정 대상!": {
+        "source_sha256": "74f01d12ff1dcaef86bb618a9443a640b1b59e79d2a89c0545c87b840ef7438a",
+        "target_sha256": "a4cff79acc4067ac4031c3c271e87e0128b593512ca019f7ccc195c6aff1a398"
       }
     },
     "zh-CN": {
@@ -115302,6 +115411,10 @@
       "ui:투자 집중  —  차트를 들여다본다:/투자 집중  —  차트를 들여다본다": {
         "source_sha256": "339854da9032cbbdc5fe75dc1555239762d1ba1ad6e3e3e4373624017c61233a",
         "target_sha256": "274a2a1f369d63b2cae852b8458e04b5590967b13a71759654822364f3133279"
+      },
+      "ui:이번 달 승진 판정 대상!:/이번 달 승진 판정 대상!": {
+        "source_sha256": "74f01d12ff1dcaef86bb618a9443a640b1b59e79d2a89c0545c87b840ef7438a",
+        "target_sha256": "c41b78562a9e5ff45bae69cdf50d18388dc94be1c32a39d9f810bfae77b18218"
       }
     },
     "zh-TW": {
@@ -171288,10 +171401,14 @@
       "ui:투자 집중  —  차트를 들여다본다:/투자 집중  —  차트를 들여다본다": {
         "source_sha256": "339854da9032cbbdc5fe75dc1555239762d1ba1ad6e3e3e4373624017c61233a",
         "target_sha256": "0f8ea8e13f3f7b3fc49f594bb3c85ab0231fe30af6ca2402cddca49c797437da"
+      },
+      "ui:이번 달 승진 판정 대상!:/이번 달 승진 판정 대상!": {
+        "source_sha256": "74f01d12ff1dcaef86bb618a9443a640b1b59e79d2a89c0545c87b840ef7438a",
+        "target_sha256": "0ba175be14a6eb06e1c07f055d5c0c6b67b033dc7baf1fc8dc330d69719eece7"
       }
     }
   },
-  "accepted_sha256": "3ab59faed7676164271f3e7973578fd2e6ebfe2eba6d63e0160cfc1d98729fe4",
+  "accepted_sha256": "d3b6bca208f7c52f0ce1fd1fa6ff12acf0c8a3b7051698bdebcc9e3539c362c3",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
