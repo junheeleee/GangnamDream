@@ -2,9 +2,23 @@
 
 이전 원문 전체는 [2026-10-04 구직 메뉴까지의 기록](history/WORK_LOG_2026-10-04_pre_order405.md)에 바이트 그대로 보존했다.
 
+## 2026-10-04 (Codex — 자기계발 중국어 마감·주거 안내 착수)
+
+- [410 완료](queue_archive/ORDER-410.md): sourcebbda283/treec729353 독립GO.
+  CN/TW30값·실제4PNG·22대상·30lookup/30binding, 16.177초PASS.
+  8카드72px·subtitle최대290/418px·toast78/280px와 자연소멸을 확인했다.
+  높이초과 가설은 재현되지 않아 코드수정0. typed4/source2982/helper41/player34 보존.
+- normal11+조회1 PASS597.934초·Chapter1 306.230초. 첫 static runner는
+  괄호누락으로 검사시작 전 실패(명령0)했고 원본보존·새r1수리 후 전수통과했다.
+  최종source2982/helper48/입력10/이전증거4 불변. source커밋 main푸시완료.
+- [411 착수](queue_active/ORDER-411.md): 현재주거·월비용·보증금·부족액19키,
+  CN/TW38값·5상태각언어10화면. 지역저작/화면helper/독립검수 파일소유를 분리한다.
+- 일회성/상시규범추가0. 자동PASS는 계약증거이지 재미·문체·출시GO가 아니다.
+  공개GO1·인간OPEN45·본편/새packageHOLD·원어민/인간/물리미관측 유지.
+
 ## 2026-10-04 (Codex — 자기계발 중국어30값 수용 후보)
 
-- [410](queue_active/ORDER-410.md): 독서·운동·명상·투자공부의 설명/누적 기록과
+- [410](queue_archive/ORDER-410.md): 독서·운동·명상·투자공부의 설명/누적 기록과
   AP 소진 안내15키를 CN/TW 각각 직접 번역했다. 비저자 전수30값 원문대조 통과.
 - 공식 export/check 각2batch PASS(10.065/10.121초), import·append inverse로
   이전 raw 전량 보존. CN/TW1497키씩·JA3044불변·accepted41182/b180.
@@ -19,7 +33,7 @@
   실제5언어5PNG/15대상·typed복원5·source/helper/player 보존,12.935초PASS.
 - focused136·영향검사/조회 합계15명령583.771초PASS, Chapter1 285.997초.
   accepted41152/b178·기존번역/receipt·debt8/blocked3/gap24 불변. 구현2커밋 main 푸시.
-- [410 착수](queue_active/ORDER-410.md): 자기계발15키 CN/TW30값만 추가한다.
+- [410 착수](queue_archive/ORDER-410.md): 자기계발15키 CN/TW30값만 추가한다.
   간체/TW초안/화면helper/독립검수 소유 분리. AP1누적12 모달+AP0toast 각언어2화면.
 - 일회성/상시규범추가0. 자동PASS는 계약 증거이지 재미·문체·출시GO가 아니다.
   공개GO1·인간OPEN45·본편/새packageHOLD·원어민/인간/물리미관측 유지.
