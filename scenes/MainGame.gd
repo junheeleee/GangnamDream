@@ -14434,6 +14434,7 @@ func _make_essential_action_card(title: String, subtitle: String, icon_id: Strin
 		row.add_child(axis_badge)
 
 		var axis_lbl := _label(_axis_label(axis_tag), 10, _axis_color(axis_tag) if not disabled else "#5a6070")
+		axis_lbl.clip_text = false
 		axis_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		axis_lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		axis_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
