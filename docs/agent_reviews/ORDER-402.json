@@ -1,0 +1,397 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-402",
+  "subject": {
+    "kind": "source",
+    "commit": "1bda1fc2ce6fd2f709face369116e5b04ff7ad9d",
+    "tree": "99007ae7e013dba8d8bb535254fb99182ba32b88",
+    "manifest_sha256": null
+  },
+  "scope": "work_unit",
+  "reviewer": "/root/independent392",
+  "reviewed_at": "2026-10-04",
+  "status": "reviewed",
+  "verdict": "GO",
+  "authority": "Delegated internal exact-source work-unit review only; not human/native/physical-device/public-release approval.",
+  "independence": {
+    "product_author": "/root",
+    "bridge_and_focused_author": "/root/receipt_bridge392",
+    "runtime_helper_and_observer_author": "/root/receipt_tests392",
+    "reviewer_authored_product_tools_helpers": false,
+    "reviewer_engine_or_heavy_test_runs": 0,
+    "reviewer_actions": "Read source/spec/instructions and official engine source; reviewed both helper versions and bridge diffs; independently checked Git/raw preservation, artifact hashes, typed evidence and actual PNGs. Only this private review file is owned."
+  },
+  "decision_summary": "GO for exact ORDER-402 source1bda1fc2 only: final Atlas containment repaired in five prepared locales; portrait60px, texture identity, semantic page/cursor and protected state preserved. Final runtime,81 focused cases and13 normal checks+one selection query pass. Existing EN4 text-width residuals and all external/human/native gates remain unapproved.",
+  "source_review": {
+    "baseline_commit": "51f913c2c81746a4c5dc2b7cdc55a0c19b7936b3",
+    "baseline_tree": "c56f55f2dd1b5bd0412c11f0a75967796ac7ef70",
+    "product_transitions": [
+      {
+        "before": "11cb081d64d48b26af6a09921ce34ff04e859399",
+        "after": "ef41993805c7ce6e68ffbef8336b83cec6f7e744",
+        "result": "First MainGame-only four-line attempt; retained failed checkpoint."
+      },
+      {
+        "before": "7cf2ed99560da06b44966f0ff6c0b6fd6031c63d",
+        "after": "30a147848f7640e1b5f0c9c0e18b946cdf8a2ce4",
+        "result": "MainGame-only lifecycle correction; actual parents/path populations independently verified."
+      }
+    ],
+    "main_game_sha256": {
+      "before": "ed116a1d4dae6dc0fcac708204c97eaadf988070e501c0bb1df437be6e38170d",
+      "failed_checkpoint": "b8a03419633a837b5493ddc22569c6f256ac91e602551eb5327cf0e71dabb881",
+      "final": "473aab2946d2b76a6263e57fc36facfc24de83629fddf88f3005200a81a15e7d"
+    },
+    "implementation": "Net eight added lines in _build_people_action_card: Atlas-only closure reads max(60, actual MarginContainer combined minimum) on ready one-shot and minimum_size_changed, guarded by valid nodes and in-tree card. No image shrinking/clipping, common-builder, portrait, text, action or input-handler edits.",
+    "independent_whole_raw_inverse": "Removing the independently specified exact eight-line hunk recovers the complete baseline MainGame bytes.",
+    "changed_paths": [
+      "CLAUDE.md",
+      "docs/queue_active/ORDER-402.md",
+      "scenes/MainGame.gd",
+      "tools/audit_scope.json",
+      "tools/main_game_locale_history.py",
+      "tools/ui_translation_append.py",
+      "tools/ui_translation_append_self_test.py"
+    ],
+    "diagnosis": "Observed first after height64 versus themed minimum72. Godot 4.6.2 MarginContainer adds cached theme margins; theme cache is updated on tree entry. The corrected lifecycle binding was then observed at72.",
+    "diagnosis_primary_sources": [
+      "https://raw.githubusercontent.com/godotengine/godot/4.6.2-stable/scene/gui/margin_container.cpp",
+      "https://raw.githubusercontent.com/godotengine/godot/4.6.2-stable/scene/theme/theme_owner.cpp",
+      "https://raw.githubusercontent.com/godotengine/godot/4.6.2-stable/scene/gui/control.cpp"
+    ]
+  },
+  "bridge_review": {
+    "result": "PASS on final source; no broad historical waiver found.",
+    "proof": "Seven immutable Git/raw stages including both actual product transitions; direct parents, trees, blobs, path populations, ancestry, raw continuity and current HEAD are bound. Final-to-checkpoint-to-pre402 inverses must equal the combined inverse. Failed checkpoint is rejected as current.",
+    "public_contracts": "pre402/pre393/pre390/pre386/pre381 return meanings preserved. Manifest wrapper compares a copied pre402 view, never rewrites actual source census or original official headers. Existing393/392 and older code prefixes/pins preserved.",
+    "focused": {
+      "path": ".git/full-game-localization/order402-static-focused-repaired1.json",
+      "sha256": "adf11574847fac2a7b277304b839a295fa6aa49c34cae25a9e522ec6179c3f49",
+      "cases": 81,
+      "historical_cases": 0,
+      "exit_code": 0,
+      "stderr_empty": true,
+      "seconds": 30.517702458,
+      "stdout_sha256": "e2790a3789241a3ab8ec5def9d230fa4cd887af2c6c3649ab894305062df23c6"
+    },
+    "controls": "Pure inverses independently reject partial/duplicate/moved/neighbor/rollback edits, Atlas/lifecycle guard removal and shared/portrait/gameplay mutations. Fresh missing/forged/trailing objects, wrong tree, re-signed wrong parent, HEAD rollback, forged census and unrelated-source changes fail closed. Actual collector identities/current coordinates and complete inventory roundtrip checked; no success cache.",
+    "audit_lane": "Only current people-card-height lane and historical393 selection routing changed; other lanes/check entries independently preserved."
+  },
+  "attempts": [
+    {
+      "id": "before-final",
+      "source": "51f913c2c81746a4c5dc2b7cdc55a0c19b7936b3",
+      "directory": ".git/full-game-localization/order402-screen-before-final",
+      "result_sha256": "badaafb5012800ce0885218251691b7f474b0fbcded3e5563a861d4d1f490e0f",
+      "observations_sha256": "ba654cd59d489d6955b5edeb10d847f1e6eb86fcc9c9601f77ca508957ba9160",
+      "engine_exit": 0,
+      "seconds": 15.06,
+      "aggregate_pass": false,
+      "finding": "Valid engine observation of15 Atlas defects: card60/margin72/image128x64/content gap-5/image bottom8px outside. Runner expected15 defective cards but existing EN cast width residual made16; original FAIL preserved.",
+      "reassessment": ".git/full-game-localization/order402-before-assessment.json",
+      "reassessment_sha256": "b241bd02e31ea73ac7d50f23f00d1afb042a9e5bf56414fd040315b8a0d32c39",
+      "reassessment_boundary": "Read-only exact-original-hash assessment, no engine rerun and no relabeling failed result."
+    },
+    {
+      "id": "after-final-rejected",
+      "source": "44828f376da1713953532ae7ffaf031a55f03e8a",
+      "directory": ".git/full-game-localization/order402-screen-after-final",
+      "result_sha256": "cd145eb8cb161ca926a2d5825ef25a9332563e50e862b5b4047d3c9abbfdb364",
+      "observations_sha256": "4c5edf509585f80462e2738ce563e3a179f9fab50fafe238366d99503f9bbb76",
+      "engine_exit": 1,
+      "seconds": 15.154,
+      "finding": "All15 Atlas cards64 versus final margin72, image bottom4px outside/content gap-1. The early verbal60px report was corrected against raw64px evidence.",
+      "focused_failure": {
+        "path": ".git/full-game-localization/order402-static-focused.json",
+        "sha256": "7e314e2a2522f2557fd198d7200849b9da285837975b2f0a2c4213409e3e09df",
+        "cases": 58,
+        "exit": 1,
+        "reason": "One self-prefix assertion counted its marker string literal too. Only standalone marker-line counting was corrected; older code prefixes were independently byte-verified."
+      },
+      "normal_cancellation": {
+        "path": ".git/full-game-localization/order402-static-final-cancellation.json",
+        "sha256": "af20a5327c242d0c9061cef0b424453382cf5b4bb98ecfa995480b82bafdb01f",
+        "exit_reported": 143,
+        "completed_rows": 0,
+        "runner_result_exists": false,
+        "provenance": "Root tool-transcript attestation, not a runner completion result; entry/runner originals retained; no PASS."
+      }
+    },
+    {
+      "id": "repaired1-checkpoint",
+      "source": "7193831066ca9486e8815a18de9de8d6fd28dc0e",
+      "directory": ".git/full-game-localization/order402-screen-repaired1",
+      "result_sha256": "11d7d762ee4a090538876389ad4179f0737fa326cc6ecad085a79e490ee9133e",
+      "observations_sha256": "ba681ca04cd21f091a09906fdfa9e6612fcdccd1b9a8811c0d05cfad3758a9c2",
+      "engine_exit": 0,
+      "seconds": 15.017,
+      "finding": "Product+marker checkpoint passed geometry with exact EN residuals retained; not promoted to final integrated source."
+    },
+    {
+      "id": "integrated-final",
+      "source": "1bda1fc2ce6fd2f709face369116e5b04ff7ad9d",
+      "result": "Final runtime15.040s PASS, focused81/0historical30.518s PASS, normal13+one query595.434s PASS; same exact source and preserved originals."
+    }
+  ],
+  "preflight_boundary": {
+    "path": ".git/full-game-localization/order402-repaired1-preflight-failure.json",
+    "sha256": "022576a00408740cd2f08e3e3768b9f2500bf58fe20578bf879c15c8a083d410",
+    "engine_started": false,
+    "evidence_directory_created": false,
+    "reason": "Clean-source guard rejected30a1478 while the marker test file was being edited; author stderr transcription preserved, not an engine failure."
+  },
+  "runtime_review": {
+    "directory": ".git/full-game-localization/order402-screen-integrated-final",
+    "result_sha256": "a5b93fcfe09a4199b4c4a91f82eb8751549c8f00b61a50b18949ebcdf9f2d84f",
+    "observations_sha256": "90e97cd7bb7ec2b5d1a5f64c801c08d3af50fb636844661d7b68239b54ba2078",
+    "oracle_sha256": "47753505dcc26c78859553fecddcea03330a56e233f831ffd70223851b1577ad",
+    "helper_sha256": {
+      "gd": "3ddc82cd2767e8e95655345a059b70571413228fc395444d7c274a5442af71d6",
+      "runner": "6f22b89d49cf5ed4f03e8e85292ac89f6ee34ecb1431d25ffe33d7982e7e4796"
+    },
+    "exit_code": 0,
+    "seconds": 15.04,
+    "engine_log_errors": 0,
+    "repair_pass": true,
+    "all_text_fits": false,
+    "phases_directly_viewed": [
+      "before-final: all10 original PNGs",
+      "integrated-final: all10 original PNGs",
+      "rejected after-final: zh-CN-network original PNG plus all geometry rows"
+    ],
+    "png_names_each_complete_phase": [
+      "ko-cast.png",
+      "ko-network.png",
+      "en-cast.png",
+      "en-network.png",
+      "ja-cast.png",
+      "ja-network.png",
+      "zh-CN-cast.png",
+      "zh-CN-network.png",
+      "zh-TW-cast.png",
+      "zh-TW-network.png"
+    ],
+    "geometry": "Prepared real MainGame1280x800, five locales:15 Atlas cards72px with unchanged128x64 texture, margin72 and adjacent card/content gaps7px; five portrait cards60px with actual42x52 texture and custom minimum42x42. All card/margin/row/icon/texture containment, last-card/modal bounds and text-node bounds pass. No new visible overlap/cropping/tofu observed in scoped PNGs.",
+    "preserved_identity": "20 actual card comparisons retain texture/atlas/material, image custom sizes, clip flags, text and font sizes. Exact EN4 residual font-route/size/measurement/bounds/clip signatures unchanged.",
+    "state_and_input": "Five full prepared/display/restored typed fixture roundtrips and five cast→network→cast page roundtrips; one final teardown preserves protected state. All five actual AP warmup deltas are empty.20 direct semantic InputEventAction rows: next→down→up→previous yield[1,0]→[1,1]→[1,0]→[0,0] with network/VIP/network/father fn+arg. All protected deltas empty.",
+    "zero_boundary": "Pressed/trade/finalization0 are connected runtime signal counters. Raw-input/confirm/callback0 are helper call-graph non-invocation claims, not independent runtime counters. Cleanup is _close_modal(false,false), not natural Back.",
+    "independent_artifact_verification": "Original result/observations/logs/oracle/captures/helper hashes checked, all10 PNG hashes checked;2964 tracked files,14 helper files and34 actual player files rehashed against final before/after census and unchanged."
+  },
+  "residuals": {
+    "exact_english_badges": [
+      {
+        "screen": "en-cast",
+        "card": 0,
+        "text": "PEOPLE",
+        "measured_width": 45
+      },
+      {
+        "screen": "en-network",
+        "card": 0,
+        "text": "MONEY",
+        "measured_width": 44
+      },
+      {
+        "screen": "en-network",
+        "card": 1,
+        "text": "MONEY",
+        "measured_width": 44
+      },
+      {
+        "screen": "en-network",
+        "card": 2,
+        "text": "PEOPLE",
+        "measured_width": 45
+      }
+    ],
+    "common_signature": "All four remain12px Pretendard Bold, label42x18, measured height15; visible/card/modal/clipping bounds true. Words visible in PNGs but width-fit false by2/3px. Full exact signatures match original baseline; no new/changed residual admitted.",
+    "disposition": "Not repaired or approved as text-fit PASS. Separate later work; no unconditional text_3 exemption."
+  },
+  "preservation_review": {
+    "dictionary_sizes": {
+      "ja_unchanged": true,
+      "zh-CN": 1441,
+      "zh-TW": 1441
+    },
+    "accepted_values": 41069,
+    "batches": 169,
+    "old_decisions": 159,
+    "old_reports": 137,
+    "accepted_ledger_sha256": "6aef6488765686233d15936186b5026c82814f115fe4d066c94f439e139e6f51",
+    "decision_ledger_sha256": "a37e04bf55e4c2f0b6ea210dda745903a59b484e366247dfbc73777a9d017884",
+    "human_ledger_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6",
+    "boundary": "All dictionary/accepted receipt/source inventory/story/font/theme/image/project/public-demo/human-gate files and159 decisions/137 old reports unchanged from declared baseline.34 player files and older393/400/401 helpers/evidence retained. No receipt export/import/authorship or native translation approval in402.",
+    "historical_gates": "Original350/351 pin failures not rerun or converted to PASS. Public user GO1/human OPEN45/full-game and new-package HOLD unchanged.",
+    "independent_historical_artifacts": "All before/failed-after/checkpoint original artifact and14 copied-helper hashes verified; previous393/400/401 accepted runtime result hashes unchanged."
+  },
+  "static_review": {
+    "status": "PASS",
+    "directory": ".git/full-game-localization/order402-static-repaired-final",
+    "result_sha256": "122498e17cf99b35ff512ff0553e8e995b0d7ff86598d512b7be5bcadb1b2742",
+    "entry_sha256": "3a536e0edc7a9e1737d47109657051a942cf9dccaec06b1e6515cde9c796ff13",
+    "runner_sha256": "1332a3ad86764d6edd3821c5442d61816475fe681f8e0f078ae72adb81130250",
+    "wall_seconds": 595.434,
+    "normal_checks": 13,
+    "selection_queries": 1,
+    "source_unchanged": true,
+    "tracked_files": 2964,
+    "helper_files": 15,
+    "rows": [
+      {
+        "index": 0,
+        "command": "python3 tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "exit": 0,
+        "stderr_empty": true,
+        "seconds": 594.961,
+        "sha256": "8bd6a41855993c1439f8a8a892adfeef3d3cfe4ea36f5291a762ebdae1958c19"
+      },
+      {
+        "index": 1,
+        "command": "python3 tools/order365_ui_receipt_compat.py",
+        "exit": 0,
+        "stderr_empty": true,
+        "seconds": 189.185,
+        "sha256": "bc1eae1d621d19038f771f36439ba6d65adf514f523502114f4556612b0fbf57"
+      },
+      {
+        "index": 2,
+        "command": "python3 tools/full_body_translation_scope.py",
+        "exit": 0,
+        "stderr_empty": true,
+        "seconds": 191.351,
+        "sha256": "830798cee0e42804d1d1e3dc2095227b17421c7d5d1bd85b3d6d193d32f26af9"
+      },
+      {
+        "index": 3,
+        "command": "python3 tools/story_graph_contract_audit.py",
+        "exit": 0,
+        "stderr_empty": true,
+        "seconds": 191.421,
+        "sha256": "f80e48014509425eaeab19151787c31565972a4f22ab34aeb8608c287707f5b0"
+      },
+      {
+        "index": 4,
+        "command": "python3 tools/chapter5_human_reject_audit.py",
+        "exit": 0,
+        "stderr_empty": true,
+        "seconds": 191.833,
+        "sha256": "71ef032073bc7437dacb6c1afa362da69e76497b3af2dc0428dc1052ab95a2ac"
+      },
+      {
+        "index": 5,
+        "command": "python3 tools/year5_reference_route_audit.py",
+        "exit": 0,
+        "stderr_empty": true,
+        "seconds": 204.912,
+        "sha256": "3d06a10aa9aec38150b816271e20bd3985d543260de7fda1183f248324e604eb"
+      },
+      {
+        "index": 6,
+        "command": "python3 tools/ja_translation_audit.py --scope ui",
+        "exit": 0,
+        "stderr_empty": true,
+        "seconds": 9.724,
+        "sha256": "22140c0267405a639580952536eccdec43697d8887af20bdfcd4bb561dd24411"
+      },
+      {
+        "index": 7,
+        "command": "python3 tools/zh_translation_audit.py",
+        "exit": 0,
+        "stderr_empty": true,
+        "seconds": 26.442,
+        "sha256": "fec3b9686533d92400157073a7b1b2dba27d2113bff2cf031030f58ecb2ce586"
+      },
+      {
+        "index": 8,
+        "command": "python3 tools/en_coverage_check.py",
+        "exit": 0,
+        "stderr_empty": true,
+        "seconds": 0.103,
+        "sha256": "4d46ad57aa54adf3a8a0c174b816bf291e418f8fc68a13037ef1bd2e8c545ec4"
+      },
+      {
+        "index": 9,
+        "command": "python3 tools/context_manifest_check.py",
+        "exit": 0,
+        "stderr_empty": true,
+        "seconds": 0.084,
+        "sha256": "2c8e1a34fbae42f661110cf2ba2ee1c09aa378a2d95e2d42e530b74985f0df69"
+      },
+      {
+        "index": 10,
+        "command": "python3 tools/queue_consistency_check.py",
+        "exit": 0,
+        "stderr_empty": true,
+        "seconds": 0.048,
+        "sha256": "a69cb1d8441e48a7b02aea4b0a9c58937489994f6f40e7558b897c5c6d80c531"
+      },
+      {
+        "index": 11,
+        "command": "git diff --check",
+        "exit": 0,
+        "stderr_empty": true,
+        "seconds": 0.016,
+        "sha256": "57bc90026b688d33e0e9c561422dd9fbb3bf75c1d10262f7c830bcf3279f821c"
+      },
+      {
+        "index": 12,
+        "command": "python3 tools/audit_select.py --verify",
+        "exit": 0,
+        "stderr_empty": true,
+        "seconds": 0.048,
+        "sha256": "2c0ceb0e303c8313ca953995c2553753100c6003b60ae986ea5f6f8536ac9325"
+      },
+      {
+        "index": 13,
+        "command": "python3 tools/audit_select.py --base 51f913c2c81746a4c5dc2b7cdc55a0c19b7936b3 --list",
+        "exit": 0,
+        "stderr_empty": true,
+        "seconds": 0.19,
+        "sha256": "53f2636016af3f239fe9fc201d85bd6db072ed1728ebfc9354ceb6b39962925d"
+      }
+    ],
+    "boundaries": [
+      "Chapter1 is snapshot-valid only: debt8,blocked3,coverage gap24,authoritative24/48; not completed Chapter1.",
+      "Year5 is reference_only/topology invalidated with product_consumers0 and r1b_allowed=false.",
+      "Full-body is SOURCE_INVENTORY_ONLY with runtime/native claim0; graph self_tests0 and Chapter5 human gates pending/public demo frozen.",
+      "JA UI clean2980 remains beta; ZH remains skeleton/shipping0 despite SC1550/1550 and TC1580/1580 font-route glyph checks.",
+      "Audit registry verify164 includes existing EXTRA notices. General --base --list lists97 potential checks; list does not run them and was not an explicit --lane invocation. Only declared bounded checks plus focused were executed."
+    ]
+  },
+  "limitations": [
+    "Only prepared people cast/network modal at1280x800 in five locales; no natural ingress/return or other screen/resolution/global-UI approval.",
+    "Only direct next/down/up/previous semantic handler events. First/last boundary wrapping, REST index2 activation, confirm/gameplay/cancel/Back, OS raw or physical-controller behavior unobserved.",
+    "Existing EN4 width residuals,11px hint, focus treatment and unrelated background-language/translation gaps remain outside this repair.",
+    "Separate TextServer font probes are not internal Label/RichTextLabel glyph-RID inspection; no new general font/native readability approval.",
+    "No whole historical self suites, full audit,240-week run, B3/B4 prose integration or store/package/release decision.",
+    "Existing chapter/debt/reference/native/human restrictions retain their own gates;402 GO cannot inherit or grant them."
+  ],
+  "normative_disposition": "One-off exact repair/evidence workflow; no new standing norm to promote.",
+  "blockers": [],
+  "independent": true,
+  "private_review": {
+    "path": ".git/full-game-localization/order402-independent-review.json",
+    "sha256": "d4671033550cd35315da440826bdb1d69295de9257362c8a87c73524f604be23"
+  },
+  "unit_evidence": {
+    "도달 경로": "ORDER402_UI_OK mode=after screens=10 navigation=20 raw=0 actions=0",
+    "생산자 ↔ 독자": "scenes/MainGame.gd:15517 → MarginContainer combined minimum / order402-observations.json actual card rect",
+    "바꾸는 상태": "network card60/content72/gap−5 → card72/content72/gap7; portrait60; gameplay0",
+    "포기 시 잃는 것": "_ap_network/_ap_vip_network/_ap_free_time card containment; week N/A",
+    "서사 위치": "N/A: UI geometry; no prose or story conditions",
+    "장면 계층": "N/A: UI",
+    "닫는 것": "ORDER-402 only; EN4 width residuals remain"
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "natural_ingress_and_return",
+    "os_raw_confirm_cancel_and_boundary_wrap",
+    "all_text_fit_and_english_badge_repair",
+    "other_screens_resolutions_and_platforms",
+    "11px_legibility_and_focus_approval",
+    "full_game_and_new_package",
+    "public_release"
+  ]
+}

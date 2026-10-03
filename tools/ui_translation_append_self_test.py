@@ -1468,6 +1468,588 @@ def tutorial_copy_self_test() -> tuple[list[str], int]:
     return failures, cases
 
 
+def _split_receipt_transaction_self_test(before, pending, complete, inventory) -> tuple[list[str], int]:
+    """A rejected ingress must not leave a reusable pending state."""
+    errors = []
+    state = append._SplitReceiptHistory(ROOT, inventory)
+    invalid = {**pending, append.LEDGER_PATH: pending[append.LEDGER_PATH] + b"\n"}
+    for commit, previous, successor, expected in (
+            (append.SPLIT_INGRESS_COMMIT, before, invalid, "split ingress snapshots differ from proof"),
+            (append.SPLIT_REPAIR_COMMIT, pending, complete, "orphan/duplicate split receipt recovery")):
+        try:
+            state.step(commit, previous, successor)
+        except ValueError as exc:
+            if expected not in str(exc):
+                errors.append("split receipt transaction: wrong rejection boundary: " + str(exc))
+        else:
+            errors.append("split receipt transaction: invalid ingress/recovery was accepted")
+        if state.proof is not None or state.completed:
+            errors.append("split receipt transaction: rejected ingress changed state")
+    return errors, 2
+
+
+def _split_receipt_binding_self_test(before, pending, complete, inventory) -> tuple[list[str], int]:
+    """Small independently rerunnable semantic/raw controls, with valid checksums."""
+    failures, cases = [], 0
+    ledger = append.LEDGER_PATH
+    document = append._Document(complete[ledger])
+
+    def reject(action, label, expected=None):
+        nonlocal cases
+        cases += 1
+        try:
+            action()
+        except (ValueError, OSError, KeyError, TypeError, IndexError, subprocess.TimeoutExpired) as exc:
+            if expected is not None and expected not in str(exc):
+                failures.append("split receipt binding: " + label + " rejected at wrong boundary: " + str(exc))
+        else:
+            failures.append("split receipt binding: " + label + " was accepted")
+
+    key = "[b]패드[/b]  LB/RB 페이지 · %s 뒤로  —  %s"
+    row_id = append.receipt_id(key)
+    for locale, path in zip(append.LOCALES, append.UI_PATHS):
+        for field in ("source_sha256", "target_sha256"):
+            accepted = copy.deepcopy(document.value["accepted"])
+            accepted[locale][row_id][field] = "0" * 64
+            edits = []
+            for address, value in ((("accepted", locale, row_id, field), "0" * 64),
+                                   (("accepted_sha256",), append.exchange.digest(accepted))):
+                start, end = document.spans[address]
+                edits.append((start, end, append._ordered(value).decode()))
+            text = document.text
+            for start, end, value in sorted(edits, reverse=True):
+                text = text[:start] + value + text[end:]
+            candidate = {**complete, ledger: text.encode()}
+            reject(lambda value=candidate: append._validate_split_receipt(before, pending, value, inventory),
+                   locale + " checksum-valid " + field, "UI/receipt/source/target additions differ: " + locale)
+        ui = append._Document(complete[path])
+        neighbor = next(name for name in ui.value if name != key)
+        for label, address, value, expected in (
+                ("preserved target", (key,), "changed", "split delivery is not the exact four preserved targets"),
+                ("old neighbor", (neighbor,), "changed", "old UI member/order/value changed: " + locale)):
+            start, end = ui.spans[address]
+            raw = (ui.text[:start] + append._ordered(value).decode() + ui.text[end:]).encode()
+            changed_pending, changed_complete = {**pending, path: raw}, {**complete, path: raw}
+            reject(lambda a=changed_pending, b=changed_complete: append._validate_split_receipt(before, a, b, inventory),
+                   locale + " both pending/complete " + label, expected)
+        changed_pending = {**pending, path: pending[path] + b"\n"}
+        changed_complete = {**complete, path: complete[path] + b"\n"}
+        reject(lambda a=changed_pending, b=changed_complete: append._validate_split_receipt(before, a, b, inventory),
+               locale + " both pending/complete whitespace", "bytes outside exact additions changed: " + path)
+    with mock.patch.object(append, "SPLIT_REPAIR_TREE", "3d6b582384591fc6504d95ea54c51e6d9fefe97a"):
+        reject(lambda: append._split_receipt_proof(ROOT, inventory), "wrong exact repair tree")
+    blobs = dict(append.SPLIT_BLOBS)
+    path = append.UI_PATHS[0]
+    blobs[path] = (blobs[path][0], blobs[path][0], blobs[path][2])
+    with mock.patch.object(append, "SPLIT_BLOBS", blobs):
+        reject(lambda: append._split_receipt_proof(ROOT, inventory), "wrong pending blob pin")
+    state = append._SplitReceiptHistory(ROOT, inventory)
+    state.step(append.SPLIT_INGRESS_COMMIT, before, pending)
+    interim = state.step("4" * 40, pending, pending)
+    recovered = state.step(append.SPLIT_REPAIR_COMMIT, pending, complete)
+    state.finish()
+    cases += 1
+    if interim["receipts"] != 0 or interim["batches"] != 0 or recovered["receipts"] != 8:
+        failures.append("split receipt binding: unchanged pending observation changed acceptance")
+    transaction_errors, transaction_cases = _split_receipt_transaction_self_test(before, pending, complete, inventory)
+    failures.extend(transaction_errors)
+    cases += transaction_cases
+    return failures, cases
+
+
+def split_receipt_self_test() -> tuple[list[str], int]:
+    """Exact392 proof and production split state only; no historical suite replay."""
+    failures, cases = [], 0
+
+    def check(ok, label):
+        nonlocal cases
+        cases += 1
+        if not ok:
+            failures.append("split receipt: " + label)
+
+    def reject(action, label):
+        try:
+            action()
+        except (ValueError, OSError, KeyError, TypeError, IndexError, subprocess.TimeoutExpired):
+            check(True, label)
+        else:
+            check(False, label)
+
+    # These independently named real source keys are not synthetic translations.
+    keys = (
+        "[b]패드[/b]  LB/RB 페이지 · %s 뒤로  —  %s",
+        "[b]패드[/b]  LB/RB 페이지 · ↑↓ 자산 · ←→ 행동 · %s %s · %s 뒤로  —  %s",
+        "[b]패드[/b]  LB/RB 페이지 · 거래 가능한 자산 없음",
+        "거래 불가",
+    )
+    source_revision = "18dd16d6020b2dcae8484f4b70af3261a6ccd91e"
+    ids = {append.receipt_id(key) for key in keys}
+    sha = lambda raw: hashlib.sha256(raw).hexdigest()
+    protected = (*append.CURRENT_PATHS, "scenes/MainGame.gd",
+                 "tools/order350_source_compat.py", "tools/order351_source_compat.py")
+    observed = {path: sha((ROOT / path).read_bytes()) for path in protected}
+    collected = append.exchange.collect(ROOT)
+    leaves = [leaf for leaf in collected["leaves"] if leaf.id in ids]
+    check(len(leaves) == 4 and {leaf.owner for leaf in leaves} == set(keys), "four actual Korean source leaves")
+    inventory = {**collected, "leaves": leaves}
+    before, pending, complete, change = append._split_receipt_proof(ROOT, inventory)
+    ledger = append.LEDGER_PATH
+    check(change["receipts"] == 8 and change["batches"] == 2
+          and all(change["ui_by_locale"][locale] == 4 for locale in append.LOCALES),
+          "exact eight receipts in two official batches")
+    check(pending[ledger] == before[ledger]
+          and all(complete[path] == pending[path] for path in complete if path != ledger),
+          "ingress changes dictionaries only; repair changes ledger only")
+    check(append._validate_split_receipt(before, pending, complete, inventory) == change,
+          "pure exact transition agrees with fresh Git proof")
+    check(append.validate_append(before, complete, inventory) == change,
+          "unchanged ordinary append validator proves complete composite")
+    reject(lambda: append.validate_append(before, pending, inventory), "old missing-receipt failure remains rejected")
+    reject(lambda: append.validate_append(pending, complete, inventory), "ordinary append cannot excuse orphan receipt recovery")
+
+    documents = {path: append._Document(raw) for path, raw in complete.items()}
+    base_batches = len(append._Document(before[ledger]).value["batches"])
+
+    def mutate(snapshot, path, field, value):
+        doc = documents[path] if snapshot is complete else append._Document(snapshot[path])
+        start, end = doc.spans[field]
+        return {**snapshot, path: (doc.text[:start] + append._ordered(value).decode() + doc.text[end:]).encode()}
+
+    def bad_complete(candidate, label):
+        reject(lambda: append._validate_split_receipt(before, pending, candidate, inventory), label)
+
+    for path in complete:
+        reject(lambda p=path: append._validate_split_receipt(before, pending,
+               {p2: raw for p2, raw in complete.items() if p2 != p}, inventory), "missing snapshot path " + path)
+        bad_complete({**complete, path: complete[path] + b"\n"}, "whole raw whitespace " + path)
+    bad_complete({**complete, "outside.json": b"{}\n"}, "unowned snapshot path")
+    reject(lambda: append._validate_split_receipt(before, complete, complete, inventory), "receipts cannot predate repair")
+    reject(lambda: append._validate_split_receipt(before, pending, pending, inventory), "missing complete ledger")
+    reject(lambda: append._validate_split_receipt(before, before, complete, inventory), "missing UI ingress")
+
+    for locale, path in zip(append.LOCALES, append.UI_PATHS):
+        for key in keys:
+            bad_complete(mutate(complete, path, (key,), "错误文字" if locale == "zh-CN" else "錯誤文字"),
+                         locale + " target value " + key)
+        key = keys[0]
+        row_id = append.receipt_id(key)
+        rows = copy.deepcopy(documents[ledger].value["accepted"][locale])
+        rows.pop(row_id)
+        bad_complete(mutate(complete, ledger, ("accepted", locale), rows), locale + " missing receipt")
+        rows = copy.deepcopy(documents[ledger].value["accepted"][locale])
+        rows["ui:orphan:/orphan"] = rows[row_id]
+        bad_complete(mutate(complete, ledger, ("accepted", locale), rows), locale + " orphan receipt")
+        doc = documents[ledger]
+        start, end = doc.spans[("accepted", locale, row_id)]
+        duplicated = doc.text[:end] + ",\n      " + append._ordered(row_id).decode() + ": " + doc.text[start:end] + doc.text[end:]
+        bad_complete({**complete, ledger: duplicated.encode()}, locale + " duplicate raw receipt member")
+
+    for index, locale in enumerate(append.LOCALES, base_batches):
+        batch = documents[ledger].value["batches"][index]
+        header_path = ("batches", index, append.HEADERS_FIELD, locale)
+        check(batch[append.HEADERS_FIELD][locale]["source_revision"] == source_revision,
+              locale + " preserved original export revision")
+        for field, value in (("source_revision", "0" * 40), ("source_manifest_sha256", "0" * 64),
+                             ("selection_sha256", "0" * 64), ("batch_id", "0" * 64),
+                             ("count", True), ("native_review", "PASS")):
+            bad_complete(mutate(complete, ledger, (*header_path, field), value), locale + " official header " + field)
+        bad_complete(mutate(complete, ledger, ("batches", index, append.HEADERS_FIELD), {}),
+                     locale + " missing official header")
+        bad_complete(mutate(complete, ledger, ("batches", index, "receipt_sha256_by_locale", locale), "0" * 64),
+                     locale + " official receipt digest")
+        bad_complete(mutate(complete, ledger, ("batches", index, "roots"), [*keys[:-1], keys[0]]),
+                     locale + " duplicate batch root")
+        bad_complete(mutate(complete, ledger, ("batches", index, "roots"), [*keys[:-1], "orphan"]),
+                     locale + " orphan batch root")
+    batches = documents[ledger].value["batches"]
+    bad_complete(mutate(complete, ledger, ("batches",), batches[:-1]), "missing official batch")
+    bad_complete(mutate(complete, ledger, ("batches",), [*batches, batches[-1]]), "duplicate official batch")
+    for label, changed in (("missing", leaves[:-1]), ("duplicate", [*leaves, leaves[0]]),
+                           ("changed Korean", [replace(leaves[0], source="변경된 한국어"), *leaves[1:]]),
+                           ("protected", [replace(leaves[0], protected=True), *leaves[1:]])):
+        reject(lambda rows=changed: append._validate_split_receipt(before, pending, complete,
+               {**inventory, "leaves": rows}), label + " current source leaf")
+    binding_errors, binding_cases = _split_receipt_binding_self_test(before, pending, complete, inventory)
+    failures.extend(binding_errors)
+    cases += binding_cases
+
+    # Only fresh immutable object transport is perturbed; no cached success,
+    # forged HEAD or substituted current source inventory is used for a pass.
+    real_git = append._git
+    with mock.patch.object(append, "_git", side_effect=OSError("fresh Git unavailable")):
+        reject(lambda: append._split_receipt_proof(ROOT, inventory), "missing fresh Git proof")
+    def forged_objects(where, *args, **kwargs):
+        raw = real_git(where, *args, **kwargs)
+        return raw + b"forged" if args[:2] == ("cat-file", "--batch") else raw
+    with mock.patch.object(append, "_git", side_effect=forged_objects):
+        reject(lambda: append._split_receipt_proof(ROOT, inventory), "wrong immutable object stream")
+    def wrong_paths(where, *args, **kwargs):
+        return b"M\0outside.json\0" if args and args[0] == "diff" else real_git(where, *args, **kwargs)
+    with mock.patch.object(append, "_git", side_effect=wrong_paths):
+        reject(lambda: append._split_receipt_proof(ROOT, inventory), "wrong changed-path population")
+    with mock.patch.object(append, "SPLIT_INGRESS_COMMIT", source_revision):
+        reject(lambda: append._split_receipt_proof(ROOT, inventory), "wrong ingress commit")
+    with mock.patch.object(append, "SPLIT_REPAIR_COMMIT", source_revision):
+        reject(lambda: append._split_receipt_proof(ROOT, inventory), "wrong repair commit")
+    reject(lambda: append._split_receipt_proof(ROOT, {**inventory, "source_manifest_sha256": "0" * 64}),
+           "wrong current source manifest")
+
+    ingress, repair = append.SPLIT_INGRESS_COMMIT, append.SPLIT_REPAIR_COMMIT
+    def state():
+        return append._SplitReceiptHistory(ROOT, inventory)
+    fresh = state()
+    check(fresh.step("1" * 40, before, before) is None, "unrelated transition is not claimed")
+    fresh.finish()
+    opened = state()
+    opened_change = opened.step(ingress, before, pending)
+    check(opened_change["receipts"] == 0 and opened_change["batches"] == 0,
+          "pending ingress never counted as accepted receipts")
+    reject(opened.finish, "unresolved pending HEAD")
+    reject(lambda: state().step(repair, pending, complete), "orphan repair")
+    reject(lambda: opened.step(ingress, before, pending), "duplicate ingress")
+    reject(lambda: opened.step("2" * 40, pending, complete), "wrong recovery commit")
+    reject(lambda: opened.step("2" * 40, pending, before), "rollback while pending")
+    reject(lambda: opened.step(repair, before, complete), "wrong repair predecessor")
+    reject(lambda: opened.step(repair, pending, {**complete, ledger: complete[ledger] + b"\n"}),
+           "wrong repair raw successor")
+    closed = state()
+    closed.step(ingress, before, pending)
+    check(closed.step(repair, pending, complete) == change, "exact production state recovery")
+    closed.finish()
+    check(closed.step("3" * 40, complete, complete) is None, "ordinary post-repair transition retains normal validation")
+    reject(lambda: closed.step(repair, pending, complete), "duplicate repair")
+    reject(lambda: closed.step(ingress, before, pending), "ingress replay after recovery")
+    check(append._split_receipt_proof(ROOT, inventory)[3] == change, "fresh valid proof after fault controls")
+    check(all(sha((ROOT / path).read_bytes()) == value for path, value in observed.items()),
+          "product source and original350/351 modules unchanged")
+    return failures, cases
+
+
+def pad_hint_font_self_test() -> tuple[list[str], int]:
+    """Current393 four font lines only; no earlier self suites or split replay."""
+    import main_game_locale_history as history
+    import ja_translation_pipeline as ja
+    failures, cases = [], 0
+    def check(ok, label):
+        nonlocal cases
+        cases += 1
+        if not ok:
+            failures.append("pad hint font: " + label)
+    def reject(action, label):
+        try:
+            action()
+        except (ValueError, OSError, KeyError, TypeError, IndexError, subprocess.TimeoutExpired):
+            check(True, label)
+        else:
+            check(False, label)
+    sha = lambda value: hashlib.sha256(value).hexdigest()
+    path = history.MAIN_GAME_PATH
+    protected = (path, "tools/main_game_locale_history.py", "tools/ui_translation_append.py",
+                 "tools/ui_translation_append_self_test.py", "tools/audit_scope.json",
+                 "tools/ja_translation_pipeline.py", "tools/ja_translation_audit.py", *append.CURRENT_PATHS)
+    observed = {p: sha((ROOT / p).read_bytes()) for p in protected}
+    raw = (ROOT / path).read_bytes()
+    prior, pre390, pre386, old = history._pad_hint_font_proof(raw, ROOT)
+    check(tuple(sha(v) for v in (raw, prior, pre390, pre386, old)) == (
+        "ed116a1d4dae6dc0fcac708204c97eaadf988070e501c0bb1df437be6e38170d",
+        "db5d0dc1f8890ea5ae3e0b9d1f212c2a316be50ef3265804dbde9dba0279a8ff",
+        "6432a5ceb5844c1fdc54265547053dc82db8808ea87f442058412f03d24eed90",
+        "eb9efa2243ae97e032ca13e64bae3f42558fe9618babe97c5bc3d21a05e23cea",
+        "3f42b49c99c94310436661e44c3029d0335b0998d467a7582c8d3524acf55532"),
+        "independent current/pre393/pre390/pre386/pre381 whole pins")
+    check(history.pad_hint_font_predecessor(raw, ROOT) == prior
+          and history.tutorial_copy_predecessor(raw, ROOT) == pre390
+          and history.investment_footer_predecessor(raw, ROOT) == pre386
+          and history.modal_font_predecessor(raw, ROOT) == old, "all direct predecessor contracts")
+    reject(lambda: history._tutorial_copy_proof(raw, ROOT), "original390 still rejects non390 current raw")
+    for code, marker in (("tools/main_game_locale_history.py", b"# BEGIN_PAD_HINT_FONT_HISTORY_393"),
+                         ("tools/ui_translation_append.py", b"# BEGIN_PAD_HINT_FONT_MANIFEST_393")):
+        current_code = (ROOT / code).read_bytes()
+        original = append._git(ROOT, "show", history.PAD_HINT_BEFORE_COMMIT + ":" + code)
+        check(current_code.count(marker) == 1 and current_code.split(marker)[0].rstrip(b"\n") + b"\n" == original,
+              "complete older code/pins preserved: " + code)
+    check(history._pad_hint_font_inverse(raw, prior) == prior, "pure four-line inverse")
+    # Exercise inverse semantics directly, without the outer whole-file digest
+    # rejecting first and masking an incomplete/relocated inverse.
+    for index, (before, after) in enumerate(history.PAD_HINT_REPLACEMENTS):
+        before, after = before.encode(), after.encode()
+        for label, mutant in (("partial", raw.replace(after, before, 1)),
+                              ("duplicate", raw + after),
+                              ("moved", raw.replace(after, before, 1) + after)):
+            reject(lambda value=mutant: history._pad_hint_font_inverse(value, prior), label + " consumer " + str(index))
+    reject(lambda: history._pad_hint_font_inverse(raw + b"\n", prior), "pure raw whitespace")
+    reject(lambda: history._pad_hint_font_inverse(raw.replace(b"max_promotions\", 3", b"max_promotions\", 4", 1), prior),
+           "pure unowned neighbor")
+    for name, previous in (("main_game_history", history._MODAL_OLD_PUBLIC), ("gift_caption", history._MODAL_OLD_GIFT)):
+        source, project, digest = (getattr(history, name + suffix) for suffix in
+                                  ("_source_errors", "_project_bytes", "_project_byte_hash"))
+        expected = previous[1](old, path)
+        check(not source(path, raw) and project(raw, path) == expected
+              and digest(sha(raw), path, raw) == sha(expected), name + " three actual current entrances")
+        check(digest("0" * 64, path, raw) == "0" * 64, name + " rejects forged observed claim")
+        for label, mutant in (("rollback", prior), ("whitespace", raw + b"\n")):
+            check(bool(source(path, mutant)) and project(mutant, path) == mutant
+                  and digest(sha(mutant), path, mutant) == sha(mutant), name + " rejects " + label)
+    for value in (b"", None):
+        reject(lambda value=value: history.pad_hint_font_predecessor(value, ROOT), "invalid raw type/empty")
+    real_git = history._modal_git
+    for label, target, replacement in (
+            ("missing object", ("cat-file", "--batch"), lambda value: b"missing\n"),
+            ("forged object", ("cat-file", "--batch"), lambda value: value.replace(b"tree ", b"Tree ", 1)),
+            ("trailing proof", ("cat-file", "--batch"), lambda value: value + b"extra"),
+            ("path population", ("diff", "--name-status"), lambda value: value + b"M\0neighbor.gd\0"),
+            ("HEAD rollback", ("rev-parse",), lambda value: history.PAD_HINT_BLOBS[0].encode() + b"\n")):
+        def altered(where, *args, **kwargs):
+            value = real_git(where, *args, **kwargs)
+            return replacement(value) if args[:len(target)] == target else value
+        with mock.patch.object(history, "_modal_git", side_effect=altered):
+            reject(lambda: history.pad_hint_font_predecessor(raw, ROOT), label)
+    for name, value in (("PAD_HINT_BEFORE_COMMIT", history.PAD_HINT_AFTER_COMMIT),
+                        ("PAD_HINT_TREES", tuple(reversed(history.PAD_HINT_TREES))),
+                        ("PAD_HINT_BLOBS", tuple(reversed(history.PAD_HINT_BLOBS))),
+                        ("PAD_HINT_REPLACEMENTS", history.PAD_HINT_REPLACEMENTS[:-1]),
+                        ("TUTORIAL_REPLACEMENT", (history.TUTORIAL_REPLACEMENT[0] + " ", history.TUTORIAL_REPLACEMENT[1])),
+                        ("MODAL_REPLACEMENTS", history.MODAL_REPLACEMENTS[:-1])):
+        with mock.patch.object(history, name, value):
+            reject(lambda: history.modal_font_predecessor(raw, ROOT), "immutable boundary " + name)
+    with mock.patch.object(history, "_modal_git", side_effect=OSError("lost after success")):
+        check(bool(history.main_game_history_source_errors(path, raw))
+              and history.gift_caption_project_bytes(raw, path) == raw, "lost proof fails closed")
+        check(history.main_game_history_project_bytes(b"outside", "unowned.gd") == b"outside", "off-path dispatch preserved")
+    check(history.modal_font_predecessor(raw, ROOT) == old, "fresh proof restores without success cache")
+
+    actual, actual_errors = ja.parse_ui_calls(path, raw.decode())
+    before, before_errors = ja.parse_ui_calls(path, prior.decode())
+    ordered = lambda calls: sorted(calls, key=lambda c: (c.path, c.line, c.api))
+    semantics = lambda calls: [(c.path, c.function, c.api, c.korean, c.english, c.context_id) for c in ordered(calls)]
+    check(not actual_errors and not before_errors and semantics(actual) == semantics(before),
+          "all Korean/English keys, functions, identities and call order unchanged")
+    shifts = [a.line - b.line for a, b in zip(ordered(actual), ordered(before))]
+    check(set(shifts) <= {0, 2, 4} and 2 in shifts and 4 in shifts, "actual two consumer line shifts")
+    # One real collector call exercises the seal, current call rebinding and
+    # migrated-context metadata that raw-only helper tests cannot cover.
+    inventory = ja.collect_ui_inventory()
+    check(not inventory.errors and tuple(c for c in inventory.calls if c.path == path) == tuple(ordered(actual))
+          and "migrated_context_ids" in inventory.stats, "actual collector and migrated contexts intact")
+    baseline = ja._MODAL_LOCATION_OLD_COLLECT()
+    check(ja.modal_rebind_inventory(baseline, raw) == inventory,
+          "whole collector identity/blueprint/context/stats roundtrip")
+
+    hashes = {path: sha(raw), append.ARUBA_FONT_PATH: sha((ROOT / append.ARUBA_FONT_PATH).read_bytes()),
+              "unchanged.json": "1" * 64}
+    source = {"source_hashes": hashes, "source_manifest_sha256": append.exchange.digest(hashes)}
+    preserved = copy.deepcopy(source)
+    views = [hashes, *({**hashes, path: sha(value)} for value in (prior, pre390, pre386, old)),
+             {**hashes, path: sha(old), append.ARUBA_FONT_PATH: append.ARUBA_FONT_BEFORE_SHA256}]
+    for index, view in enumerate(views):
+        check(append._source_manifest_matches(ROOT, source, append.exchange.digest(view)), "manifest stage " + str(index))
+    check(source == preserved, "actual source inventory never rewritten")
+    reject(lambda: append._source_manifest_matches(ROOT, {"source_hashes": views[1],
+           "source_manifest_sha256": append.exchange.digest(views[1])}, append.exchange.digest(views[1])),
+           "historical raw cannot masquerade as actual current source")
+    reject(lambda: append._source_manifest_matches(ROOT, {**source, "source_manifest_sha256": "0" * 64},
+           append.exchange.digest(views[1])), "forged current census")
+    neighbor = {**hashes, "unchanged.json": "0" * 64}
+    check(not append._source_manifest_matches(ROOT, {"source_hashes": neighbor,
+          "source_manifest_sha256": append.exchange.digest(neighbor)}, append.exchange.digest(views[1])),
+          "unowned source difference never exempted")
+    with mock.patch.object(history, "_modal_git", side_effect=OSError("proof disappeared")):
+        reject(lambda: append._source_manifest_matches(ROOT, source, append.exchange.digest(views[1])),
+               "old official header still requires fresh source proof")
+    check(all(sha((ROOT / p).read_bytes()) == value for p, value in observed.items()), "all observed files unchanged")
+    return failures, cases
+
+
+# BEGIN_PEOPLE_CARD_HEIGHT_SELF_TEST_402
+def people_card_height_self_test() -> tuple[list[str], int]:
+    """Current402 local height only; no historical self suites or split replay."""
+    import main_game_locale_history as history
+    import ja_translation_pipeline as ja
+    failures, cases = [], 0
+    def check(ok, label):
+        nonlocal cases
+        cases += 1
+        if not ok:
+            failures.append("people card height: " + label)
+    def reject(action, label, message=None):
+        try:
+            action()
+        except (ValueError, OSError, KeyError, TypeError, IndexError, subprocess.TimeoutExpired) as exc:
+            check(message is None or message in str(exc), label)
+        else:
+            check(False, label)
+    sha = lambda value: hashlib.sha256(value).hexdigest()
+    path = history.MAIN_GAME_PATH
+    protected = (path, "tools/main_game_locale_history.py", "tools/ui_translation_append.py",
+                 "tools/ui_translation_append_self_test.py", "tools/audit_scope.json",
+                 "tools/ja_translation_pipeline.py", "tools/ja_translation_audit.py", *append.CURRENT_PATHS)
+    observed = {p: sha((ROOT / p).read_bytes()) for p in protected}
+    raw = (ROOT / path).read_bytes()
+    prior, pre393, pre390, pre386, old = history._people_card_height_proof(raw, ROOT)
+    check(tuple(sha(v) for v in (raw, prior, pre393, pre390, pre386, old)) == (
+        "473aab2946d2b76a6263e57fc36facfc24de83629fddf88f3005200a81a15e7d",
+        "ed116a1d4dae6dc0fcac708204c97eaadf988070e501c0bb1df437be6e38170d",
+        "db5d0dc1f8890ea5ae3e0b9d1f212c2a316be50ef3265804dbde9dba0279a8ff",
+        "6432a5ceb5844c1fdc54265547053dc82db8808ea87f442058412f03d24eed90",
+        "eb9efa2243ae97e032ca13e64bae3f42558fe9618babe97c5bc3d21a05e23cea",
+        "3f42b49c99c94310436661e44c3029d0335b0998d467a7582c8d3524acf55532"),
+        "independent current/pre402/pre393/pre390/pre386/pre381 raw pins")
+    check(history.people_card_height_predecessor(raw, ROOT) == prior
+          and history.pad_hint_font_predecessor(raw, ROOT) == pre393
+          and history.tutorial_copy_predecessor(raw, ROOT) == pre390
+          and history.investment_footer_predecessor(raw, ROOT) == pre386
+          and history.modal_font_predecessor(raw, ROOT) == old, "all direct predecessor contracts")
+    reject(lambda: history._pad_hint_font_proof(raw, ROOT), "original393 still rejects non393 current raw")
+    for code, marker in (("tools/main_game_locale_history.py", b"# BEGIN_PEOPLE_CARD_HEIGHT_HISTORY_402"),
+                         ("tools/ui_translation_append.py", b"# BEGIN_PEOPLE_CARD_HEIGHT_MANIFEST_402"),
+                         ("tools/ui_translation_append_self_test.py", b"# BEGIN_PEOPLE_CARD_HEIGHT_SELF_TEST_402")):
+        current_code = (ROOT / code).read_bytes()
+        original = append._git(ROOT, "show", history.PEOPLE_CARD_BEFORE_COMMIT + ":" + code)
+        if code.endswith("_self_test.py"):
+            original = original.split(b"def main() -> int:")[0].rstrip(b"\n") + b"\n"
+        check(current_code.splitlines().count(marker) == 1 and current_code.split(marker)[0].rstrip(b"\n") + b"\n" == original,
+              "complete older code/pins preserved: " + code)
+    check(history._people_card_height_inverse(raw, prior) == prior, "pure local inverse")
+    intermediate = append._git(ROOT, "show", history.PEOPLE_CARD_AFTER_COMMIT + ":" + path)
+    check(sha(intermediate) == "b8a03419633a837b5493ddc22569c6f256ac91e602551eb5327cf0e71dabb881",
+          "failed first candidate retained as exact checkpoint")
+    reject(lambda: history.people_card_height_predecessor(intermediate, ROOT), "failed checkpoint is not current")
+    for label, previous, following, replacement in (
+            ("initial", prior, intermediate, history.PEOPLE_CARD_INITIAL_REPLACEMENT),
+            ("repair", intermediate, raw, history.PEOPLE_CARD_REPAIR_REPLACEMENT)):
+        check(history._people_card_height_step_inverse(following, previous, replacement) == previous,
+              "exact individual product inverse " + label)
+        old_hunk, new_hunk = (part.encode() for part in replacement)
+        for fault, mutant in (("partial", following.replace(new_hunk, new_hunk[:len(new_hunk)//2], 1)),
+                              ("duplicate", following + new_hunk),
+                              ("moved", following.replace(new_hunk, old_hunk, 1) + new_hunk),
+                              ("neighbor", following + b"\n"), ("rollback", previous)):
+            reject(lambda value=mutant, before=previous, pair=replacement:
+                   history._people_card_height_step_inverse(value, before, pair), label + " pure " + fault)
+    before, after = (part.encode() for part in history.PEOPLE_CARD_REPLACEMENT)
+    for label, mutant in (("rollback", prior), ("partial", raw.replace(after, after[:len(after)//2], 1)),
+                          ("duplicate", raw + after), ("moved", raw.replace(after, before, 1) + after),
+                          ("whitespace", raw + b"\n")):
+        reject(lambda value=mutant: history._people_card_height_inverse(value, prior), "pure " + label)
+    # Exercise the actual local Atlas-only guard independently of raw hashes.
+    guard, changed_guard = b"\tif thumb is AtlasTexture:\n", b"\tif true:\n"
+    check(raw.count(guard) == 1, "actual Atlas guard exact1")
+    reject(lambda: history._people_card_height_inverse(raw.replace(guard, changed_guard, 1), prior),
+           "pure Atlas guard changed")
+    for label, line in (
+            ("tree/instance guard", b"\t\t\t\t\tif is_instance_valid(btn) and is_instance_valid(child) and btn.is_inside_tree():\n"),
+            ("ready hook", b"\t\t\t\tbtn.ready.connect(fit_height, CONNECT_ONE_SHOT)\n"),
+            ("minimum change hook", b"\t\t\t\tchild.minimum_size_changed.connect(fit_height)\n")):
+        check(raw.count(line) == 1, "lifecycle control exact1 " + label)
+        reject(lambda line=line: history._people_card_height_inverse(raw.replace(line, b"", 1), prior),
+               "pure removed " + label)
+    for label, old_line, new_line in (
+            ("common builder", b"btn.custom_minimum_size = Vector2(0, 56)", b"btn.custom_minimum_size = Vector2(0, 57)"),
+            ("portrait dimensions", b"else Vector2(42, 42)", b"else Vector2(43, 43)"),
+            ("gameplay neighbor", b'\tvar max_promotions := int(GameState.current_job.get("max_promotions", 3))',
+             b'\tvar max_promotions := int(GameState.current_job.get("max_promotions", 4))')):
+        check(raw.count(old_line) == 1, "control target exact1 " + label)
+        reject(lambda a=old_line, b=new_line: history._people_card_height_inverse(raw.replace(a, b, 1), prior),
+               "pure unowned " + label)
+    for name, previous in (("main_game_history", history._MODAL_OLD_PUBLIC), ("gift_caption", history._MODAL_OLD_GIFT)):
+        source, project, digest = (getattr(history, name + suffix) for suffix in
+                                  ("_source_errors", "_project_bytes", "_project_byte_hash"))
+        expected = previous[1](old, path)
+        check(not source(path, raw) and project(raw, path) == expected
+              and digest(sha(raw), path, raw) == sha(expected), name + " three actual current entrances")
+        check(digest("0" * 64, path, raw) == "0" * 64, name + " rejects forged observed claim")
+        for label, mutant in (("rollback", prior), ("failed checkpoint", intermediate), ("whitespace", raw + b"\n")):
+            check(bool(source(path, mutant)) and project(mutant, path) == mutant
+                  and digest(sha(mutant), path, mutant) == sha(mutant), name + " rejects " + label)
+    for value in (b"", None):
+        reject(lambda value=value: history.people_card_height_predecessor(value, ROOT), "invalid raw type/empty")
+    real_git = history._modal_git
+    for label, target, replacement in (
+            ("missing object", ("cat-file", "--batch"), lambda value: b"missing\n"),
+            ("forged object", ("cat-file", "--batch"), lambda value: value.replace(b"tree ", b"Tree ", 1)),
+            ("trailing proof", ("cat-file", "--batch"), lambda value: value + b"extra"),
+            ("path population", ("diff", "--name-status"), lambda value: value + b"M\0neighbor.gd\0"),
+            ("HEAD rollback", ("rev-parse",), lambda value: history.PEOPLE_CARD_REPAIR_BLOBS[0].encode() + b"\n")):
+        def altered(where, *args, **kwargs):
+            value = real_git(where, *args, **kwargs)
+            return replacement(value) if args[:len(target)] == target else value
+        with mock.patch.object(history, "_modal_git", side_effect=altered):
+            reject(lambda: history.people_card_height_predecessor(raw, ROOT), label)
+    for name in ("PEOPLE_CARD_TREES", "PEOPLE_CARD_REPAIR_TREES"):
+        with mock.patch.object(history, name, tuple(reversed(getattr(history, name)))):
+            reject(lambda: history.people_card_height_predecessor(raw, ROOT),
+                   "valid objects wrong tree binding " + name, "immutable tree differs")
+    # Re-sign the malformed parent object so its SHA check cannot mask the
+    # direct-parent assertion. All other immutable objects remain actual.
+    after_commit = history.PEOPLE_CARD_REPAIR_AFTER_COMMIT
+    original = real_git(ROOT, "cat-file", "commit", after_commit)
+    parent = b"parent " + history.PEOPLE_CARD_REPAIR_BEFORE_COMMIT.encode()
+    check(original.count(parent + b"\n") == 1, "actual product direct parent exact1")
+    forged = original.replace(parent, b"parent " + history.PEOPLE_CARD_BEFORE_COMMIT.encode(), 1)
+    forged_oid = hashlib.sha1(b"commit " + str(len(forged)).encode() + b"\0" + forged).hexdigest()
+    old_block = after_commit.encode() + b" commit " + str(len(original)).encode() + b"\n" + original + b"\n"
+    new_block = forged_oid.encode() + b" commit " + str(len(forged)).encode() + b"\n" + forged + b"\n"
+    def resigned_parent(where, *args, **kwargs):
+        if args[:2] != ("cat-file", "--batch"):
+            return real_git(where, *args, **kwargs)
+        incoming = kwargs["input"].replace(forged_oid.encode(), after_commit.encode())
+        data = real_git(where, *args, **{**kwargs, "input": incoming})
+        if data.count(old_block) != 1:
+            raise ValueError("parent-control immutable population differs")
+        return data.replace(old_block, new_block, 1)
+    with mock.patch.object(history, "PEOPLE_CARD_REPAIR_AFTER_COMMIT", forged_oid), \
+            mock.patch.object(history, "_modal_git", side_effect=resigned_parent):
+        reject(lambda: history.people_card_height_predecessor(raw, ROOT),
+               "re-signed forged single pre402-to-final parent", "direct parent differs")
+    with mock.patch.object(history, "_modal_git", side_effect=OSError("lost after success")):
+        check(bool(history.main_game_history_source_errors(path, raw))
+              and history.gift_caption_project_bytes(raw, path) == raw, "lost proof fails closed")
+        check(history.main_game_history_project_bytes(b"outside", "unowned.gd") == b"outside", "off-path dispatch preserved")
+    check(history.modal_font_predecessor(raw, ROOT) == old, "fresh proof restores without success cache")
+
+    actual, actual_errors = ja.parse_ui_calls(path, raw.decode())
+    before_calls, before_errors = ja.parse_ui_calls(path, prior.decode())
+    ordered = lambda calls: sorted(calls, key=lambda c: (c.path, c.line, c.api))
+    semantics = lambda calls: [(c.path, c.function, c.api, c.korean, c.english, c.context_id) for c in ordered(calls)]
+    check(not actual_errors and not before_errors and semantics(actual) == semantics(before_calls),
+          "all Korean/English keys, functions, identities and order unchanged")
+    shifts = [a.line - b.line for a, b in zip(ordered(actual), ordered(before_calls))]
+    expected_shift = after.count(b"\n") - before.count(b"\n")
+    check(set(shifts) <= {0, expected_shift} and (expected_shift == 0 or expected_shift in shifts),
+          "actual local hunk line shifts only")
+    inventory = ja.collect_ui_inventory()
+    check(not inventory.errors and tuple(c for c in inventory.calls if c.path == path) == tuple(ordered(actual))
+          and "migrated_context_ids" in inventory.stats, "actual collector and migrated contexts intact")
+    baseline = ja._MODAL_LOCATION_OLD_COLLECT()
+    check(ja.modal_rebind_inventory(baseline, raw) == inventory,
+          "whole collector identity/blueprint/context/stats roundtrip")
+
+    hashes = {path: sha(raw), append.ARUBA_FONT_PATH: sha((ROOT / append.ARUBA_FONT_PATH).read_bytes()),
+              "unchanged.json": "1" * 64}
+    source = {"source_hashes": hashes, "source_manifest_sha256": append.exchange.digest(hashes)}
+    preserved = copy.deepcopy(source)
+    views = [hashes, *({**hashes, path: sha(value)} for value in (prior, pre393, pre390, pre386, old)),
+             {**hashes, path: sha(old), append.ARUBA_FONT_PATH: append.ARUBA_FONT_BEFORE_SHA256}]
+    for index, view in enumerate(views):
+        check(append._source_manifest_matches(ROOT, source, append.exchange.digest(view)), "manifest stage " + str(index))
+    check(source == preserved, "actual source inventory never rewritten")
+    reject(lambda: append._source_manifest_matches(ROOT, {"source_hashes": views[1],
+           "source_manifest_sha256": append.exchange.digest(views[1])}, append.exchange.digest(views[1])),
+           "historical raw cannot masquerade as actual current source")
+    reject(lambda: append._source_manifest_matches(ROOT, {**source, "source_manifest_sha256": "0" * 64},
+           append.exchange.digest(views[1])), "forged current census")
+    neighbor = {**hashes, "unchanged.json": "0" * 64}
+    check(not append._source_manifest_matches(ROOT, {"source_hashes": neighbor,
+          "source_manifest_sha256": append.exchange.digest(neighbor)}, append.exchange.digest(views[1])),
+          "unowned source difference never exempted")
+    with mock.patch.object(history, "_modal_git", side_effect=OSError("proof disappeared")):
+        reject(lambda: append._source_manifest_matches(ROOT, source, append.exchange.digest(views[1])),
+               "old official header still requires fresh source proof")
+    check(all(sha((ROOT / p).read_bytes()) == value for p, value in observed.items()), "all observed files unchanged")
+    return failures, cases
+# END_PEOPLE_CARD_HEIGHT_SELF_TEST_402
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--synthetic-only", action="store_true", help="author development only; not current acceptance")
@@ -1478,7 +2060,28 @@ def main() -> int:
     parser.add_argument("--investment-fee-correction", action="store_true", help="exact384 two-target correction only; no old suites")
     parser.add_argument("--investment-footer", action="store_true", help="current386 rendering/source successor only; no old suites")
     parser.add_argument("--tutorial-copy", action="store_true", help="current390 source-pair, collector and retained-JA boundaries only")
+    parser.add_argument("--split-receipt", action="store_true", help="exact392 split UI/receipt proof and state only; no historical suites")
+    parser.add_argument("--pad-hint-font", action="store_true", help="current393 four font lines, source and collector only; no historical suites")
+    parser.add_argument("--people-card-height", action="store_true", help="current402 local people-card height and source boundary only; no historical suites")
     args = parser.parse_args()
+    if args.people_card_height:
+        errors, cases = people_card_height_self_test()
+        for error in errors:
+            print("UI_TRANSLATION_APPEND_ERROR " + error)
+        print(f"UI_TRANSLATION_APPEND_PEOPLE_CARD_HEIGHT_{'FAIL' if errors else 'OK'} cases={cases} historical_cases=0")
+        return int(bool(errors))
+    if args.pad_hint_font:
+        errors, cases = pad_hint_font_self_test()
+        for error in errors:
+            print("UI_TRANSLATION_APPEND_ERROR " + error)
+        print(f"UI_TRANSLATION_APPEND_PAD_HINT_FONT_{'FAIL' if errors else 'OK'} cases={cases} historical_cases=0")
+        return int(bool(errors))
+    if args.split_receipt:
+        errors, cases = split_receipt_self_test()
+        for error in errors:
+            print("UI_TRANSLATION_APPEND_ERROR " + error)
+        print(f"UI_TRANSLATION_APPEND_SPLIT_RECEIPT_{'FAIL' if errors else 'OK'} cases={cases} historical_cases=0")
+        return int(bool(errors))
     if args.tutorial_copy:
         errors, cases = tutorial_copy_self_test()
         for error in errors:
@@ -1536,12 +2139,12 @@ def main() -> int:
         errors.extend(correction_errors)
         cases += correction_cases
         print(f"UI_TRANSLATION_APPEND_CORRECTION cases={correction_cases}")
-        # Exact381/382/386 bodies and explicit options remain historical. The
-        # default current source check follows actual390, including its copy.
-        modal_errors, modal_cases = tutorial_copy_self_test()
+        # Earlier source bodies and explicit options remain historical. The
+        # default current source check follows actual402's local height repair.
+        modal_errors, modal_cases = people_card_height_self_test()
         errors.extend(modal_errors)
         cases += modal_cases
-        print(f"UI_TRANSLATION_APPEND_TUTORIAL_COPY cases={modal_cases}")
+        print(f"UI_TRANSLATION_APPEND_PEOPLE_CARD_HEIGHT cases={modal_cases}")
         fee_errors, fee_cases = investment_fee_correction_self_test()
         errors.extend(fee_errors)
         cases += fee_cases

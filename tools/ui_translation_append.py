@@ -780,7 +780,7 @@ _FEE_OLD_VALIDATE_HISTORY = validate_history
 
 def validate_history(root: Path, baseline_commit: str, baseline: Mapping[str, bytes],
                      current: Mapping[str, bytes], inventory: dict[str, Any]) -> dict[str, Any]:
-    """Current append history with only the two separately pinned corrections."""
+    """Current append history with two pinned corrections and one split delivery."""
     head = _git(root, "rev-parse", "--verify", "HEAD^{commit}").decode().strip()
     require(re.fullmatch(r"[0-9a-f]{40}", head) is not None, "invalid current Git candidate")
     lineage = _git(root, "rev-list", "--first-parent", head).decode().splitlines()
@@ -800,6 +800,7 @@ def validate_history(root: Path, baseline_commit: str, baseline: Mapping[str, by
     exact = {CORRECTION_AFTER_COMMIT: (_correction_proof, _correction_comparison),
              FEE_AFTER_COMMIT: (_fee_correction_proof, _fee_comparison)}
     corrections, transitions, manifests, totals = [], [], {}, Counter()
+    split_receipts = _SplitReceiptHistory(root, inventory)
     def comparison(snapshot):
         for function, before, after in reversed(corrections):
             snapshot = function(snapshot, before, after)
@@ -811,7 +812,10 @@ def validate_history(root: Path, baseline_commit: str, baseline: Mapping[str, by
         require(bool(parents) and parents[0] in lineage and _snapshot(root, parents[0], paths) == previous,
                 "omitted/noncontiguous fee receipt transition")
         successor = _snapshot(root, commit, paths)
-        if commit in exact:
+        change = split_receipts.step(commit, previous, successor)
+        if change is not None:
+            pass
+        elif commit in exact:
             proof, inverse = exact[commit]
             before, after, change = proof(root, inventory)
             require({p: previous[p] for p in PATHS} == before and {p: successor[p] for p in PATHS} == after
@@ -828,6 +832,7 @@ def validate_history(root: Path, baseline_commit: str, baseline: Mapping[str, by
         transitions.append({"commit": commit, **change})
         totals.update({k: change.get(k, 0) for k in ("receipts", "batches", "corrections", "correction_batches")})
         previous = successor
+    split_receipts.finish()
     require(previous == candidate and FEE_AFTER_COMMIT in commits, "fee history does not reconstruct current candidate")
     combined = validate_append(baseline, comparison(candidate), inventory)
     require(combined["receipts"] == totals["receipts"] and combined["batches"] == totals["batches"], "fee history/current census mismatch")
@@ -879,3 +884,230 @@ def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: st
     if expected == exchange.digest(comparison):
         return True
     return _TUTORIAL_OLD_MANIFEST_MATCHES(root, inventory, expected)
+
+
+# A single reviewed split delivery: PR30 supplied the UI, but its official
+# receipts arrived later. This is not permission for ordinary unreceipted UI.
+# Historical snapshots remain actual Git bytes, including the incomplete hop.
+SPLIT_SOURCE_COMMIT = "18dd16d6020b2dcae8484f4b70af3261a6ccd91e"
+SPLIT_PR_COMMIT = "0f5852d0dfdf775628304f490e166cb10df6087e"
+SPLIT_BEFORE_COMMIT = "ad0468703ea2dcc8c9c8b02877a32e5001771d1c"
+SPLIT_INGRESS_COMMIT = "e89f3ede95ff7ee7d0501d8d98bb2b7774f81b01"
+SPLIT_REMOTE_COMMIT = "9db4a6e55e84b38453c901a928ca03d88cd46b1b"
+SPLIT_REBASED_COMMIT = "2efa189f16c75727e32631f62c2436e57370899d"
+# Filled only from the separately committed, ledger-only recovery product.
+SPLIT_REPAIR_BEFORE_COMMIT = "ee9e1b4bdcc47611b7eff2febd8d1cafb832b47f"
+SPLIT_REPAIR_COMMIT = "f5c966ac1a6cf107f6ff9d70c570baaa1671b75d"
+SPLIT_REPAIR_TREE = "a8cb8527202bb7fc5db9e19dc372b08626d880f0"
+SPLIT_SOURCE_MANIFEST = "b017b1460f3e6a6f7656336a3230036b5ca4f2ca7c80cbea332e39ec8d8b6ed7"
+SPLIT_KEYS = (
+    "[b]패드[/b]  LB/RB 페이지 · %s 뒤로  —  %s",
+    "[b]패드[/b]  LB/RB 페이지 · ↑↓ 자산 · ←→ 행동 · %s %s · %s 뒤로  —  %s",
+    "[b]패드[/b]  LB/RB 페이지 · 거래 가능한 자산 없음",
+    "거래 불가",
+)
+SPLIT_TEXTS = {
+    "zh-CN": ("[b]手柄[/b]  LB/RB 翻页 · %s 返回  —  %s",
+              "[b]手柄[/b]  LB/RB 翻页 · ↑↓ 资产 · ←→ 操作 · %s %s · %s 返回  —  %s",
+              "[b]手柄[/b]  LB/RB 翻页 · 无可交易资产", "无法交易"),
+    "zh-TW": ("[b]手把[/b]  LB/RB 換頁 · %s 返回  —  %s",
+              "[b]手把[/b]  LB/RB 換頁 · ↑↓ 資產 · ←→ 操作 · %s %s · %s 返回  —  %s",
+              "[b]手把[/b]  LB/RB 換頁 · 無可交易資產", "無法交易"),
+}
+# Each tuple is (before ingress, pending UI, completed receipt) blob identity.
+SPLIT_BLOBS = {
+    "locale/ui_ja.json": ("dc942362324588cfa7e87743f6326fb0f733e2f9",) * 3,
+    "locale/ui_zh-CN.json": ("94b3b95065bc472cd363151ec2284878665cef9e",
+                            "d23531948e68dc577b9ec41ac5393f7e9143b363",
+                            "d23531948e68dc577b9ec41ac5393f7e9143b363"),
+    "locale/ui_zh-TW.json": ("6b29ec2886557498c1668e358367c1840be0c1b4",
+                            "ef8ffd284f6db52e26008da1aba04c173ae0706b",
+                            "ef8ffd284f6db52e26008da1aba04c173ae0706b"),
+    LEDGER_PATH: ("215ec9b09c904b4a31007a27e71224f0dea35183",
+                  "215ec9b09c904b4a31007a27e71224f0dea35183",
+                  "d51070e1153fe13e4ad33ef728a00e37bb7b5523"),
+}
+SPLIT_HASHES = {
+    "locale/ui_ja.json": ("a79f7121f4182e734f8607280a4579ff72462d66d11d1740d9f055ba66cbc201",) * 3,
+    "locale/ui_zh-CN.json": ("b53aac7673f7f99e4ad7f47f39a97c414af66e1e7083ac485ee577d8e39d7df9",
+                            "7c59c959fd51f81229266e66908693f4d9a9b701a653ef16e2f715dd91e7d634",
+                            "7c59c959fd51f81229266e66908693f4d9a9b701a653ef16e2f715dd91e7d634"),
+    "locale/ui_zh-TW.json": ("8477a0be540c097afd3d2bb83f4dc4cd5ef8f3ad21adfe29c98cc3e84d45cddd",
+                            "2f87e6af17c99f064da29990410136acb93da73cd16a306d4b1a8716898d286f",
+                            "2f87e6af17c99f064da29990410136acb93da73cd16a306d4b1a8716898d286f"),
+    LEDGER_PATH: ("4ea329b45a0a85a9ad9af81a13e1497d628d34608a5099114dcc97f5538ed730",
+                  "4ea329b45a0a85a9ad9af81a13e1497d628d34608a5099114dcc97f5538ed730",
+                  "2bbf79be726b098ea325cf47b864f3e772aadda71770887d2abd9e8519dbd110"),
+}
+
+
+def _validate_split_receipt(before: Mapping[str, bytes], pending: Mapping[str, bytes],
+                            complete: Mapping[str, bytes], inventory: dict[str, Any]) -> dict[str, Any]:
+    """Pure exact eight-value repair; ordinary append owns all receipt checks."""
+    require(set(before) == set(pending) == set(complete) == set(CURRENT_PATHS),
+            "split receipt requires all four observed paths")
+    require(pending[LEDGER_PATH] == before[LEDGER_PATH]
+            and all(pending[p] == complete[p] for p in CURRENT_UI_PATHS)
+            and before[CURRENT_UI_PATHS[0]] == pending[CURRENT_UI_PATHS[0]],
+            "split delivery changed an existing receipt, UI or Japanese bytes")
+    for locale, path in zip(LOCALES, UI_PATHS):
+        old, new = _loads(before[path]), _loads(pending[path])
+        require(list(new)[len(old):] == list(SPLIT_KEYS)
+                and tuple(new.get(key) for key in SPLIT_KEYS) == SPLIT_TEXTS[locale],
+                "split delivery is not the exact four preserved targets: " + locale)
+    old, new = _loads(before[LEDGER_PATH]), _loads(complete[LEDGER_PATH])
+    require(len(old["batches"]) == 161 and len(new["batches"]) == 163
+            and sum(map(len, old["accepted"].values())) == 40981
+            and sum(map(len, new["accepted"].values())) == 40989,
+            "split receipt coverage/batch population differs")
+    for locale, batch in zip(LOCALES, new["batches"][161:]):
+        require(batch.get("order") == "ORDER-391" and batch.get("roots") == list(SPLIT_KEYS)
+                and batch.get("rendered_review") == "OPEN"
+                and batch.get("target_leaves_by_locale") == {loc: 4 if loc == locale else 0 for loc in CURRENT_LOCALES},
+                "split receipt original batch identity/order/review differs")
+        header = batch.get(HEADERS_FIELD, {}).get(locale, {})
+        require(header.get("source_revision") == SPLIT_SOURCE_COMMIT
+                and header.get("source_manifest_sha256") == SPLIT_SOURCE_MANIFEST,
+                "split receipt original export revision/manifest differs")
+    change = validate_append(before, complete, inventory)
+    require(change["ui_by_locale"] == {"ja": 0, "zh-CN": 4, "zh-TW": 4}
+            and change["receipts"] == 8 and change["batches"] == 2,
+            "split receipt combined append census differs")
+    return change
+
+
+def _split_receipt_proof(root: Path, inventory: dict[str, Any]) -> tuple[dict, dict, dict, dict]:
+    """Fresh fixed provenance plus raw inverse; never manufacture old receipts."""
+    require(set(SPLIT_BLOBS) == set(SPLIT_HASHES) == set(CURRENT_PATHS), "split receipt pin population")
+    commits = {
+        SPLIT_SOURCE_COMMIT: ("3d6b582384591fc6504d95ea54c51e6d9fefe97a", ("86d7c12c103f21c494bd34ce025f09dc47264a82",)),
+        "bdbd10f43c690d882b41596f531878ebe0bb4901": ("ab7becfd7bae5ea4f5b96b927eee49e510c0e980", (SPLIT_SOURCE_COMMIT,)),
+        SPLIT_PR_COMMIT: ("ab7becfd7bae5ea4f5b96b927eee49e510c0e980", (SPLIT_SOURCE_COMMIT, "bdbd10f43c690d882b41596f531878ebe0bb4901")),
+        SPLIT_BEFORE_COMMIT: ("54d46263d44f281847c86b0a73a92dbe6bac2ce4", ("d74a65233a7a8dae490e25cadefefe565fa440eb",)),
+        SPLIT_INGRESS_COMMIT: ("f3c0250ba567382b833b8e1f5be5f55fc458789e", (SPLIT_BEFORE_COMMIT, SPLIT_PR_COMMIT)),
+        "b0efea56e8d45a5d43bab0717ab15c469b7b53ec": ("e555ed7e39cdb6e3bc0b4df28beec65f40aef075", (SPLIT_PR_COMMIT,)),
+        SPLIT_REMOTE_COMMIT: ("414f31432e107874c2305c23a195b002837237f7", ("b0efea56e8d45a5d43bab0717ab15c469b7b53ec",)),
+        SPLIT_REBASED_COMMIT: ("fe3866c24ee20050557e44bf3364f0e5bc33e4c2", (SPLIT_PR_COMMIT,)),
+        SPLIT_REPAIR_COMMIT: (SPLIT_REPAIR_TREE, (SPLIT_REPAIR_BEFORE_COMMIT,)),
+    }
+    require(all(re.fullmatch(r"[0-9a-f]{40}", value)
+                for commit, (tree, parents) in commits.items() for value in (commit, tree, *parents)),
+            "split receipt immutable commit/tree/parent pins malformed")
+    requests = [(commit, commit, "commit") for commit in commits]
+    requests += [(tree, tree, "tree") for tree, _ in commits.values()]
+    values = _objects(root, requests)
+    for (commit, (tree, parents)), raw in zip(commits.items(), values):
+        headers = raw.split(b"\n\n", 1)[0].splitlines()
+        require([h for h in headers if h.startswith(b"tree ")] == [b"tree " + tree.encode()]
+                and [h for h in headers if h.startswith(b"parent ")] == [b"parent " + p.encode() for p in parents],
+                "split receipt exact commit parent/tree mismatch: " + commit)
+    phases = {SPLIT_SOURCE_COMMIT: 0, SPLIT_BEFORE_COMMIT: 0,
+              SPLIT_PR_COMMIT: 1, SPLIT_INGRESS_COMMIT: 1,
+              "b0efea56e8d45a5d43bab0717ab15c469b7b53ec": 1, SPLIT_REPAIR_BEFORE_COMMIT: 1,
+              SPLIT_REMOTE_COMMIT: 2, SPLIT_REBASED_COMMIT: 2, SPLIT_REPAIR_COMMIT: 2}
+    expressions = [(commit + ":" + path, SPLIT_BLOBS[path][phase])
+                   for commit, phase in phases.items() for path in CURRENT_PATHS]
+    require(_git(root, "rev-parse", *(expression for expression, _ in expressions)).decode().splitlines()
+            == [oid for _, oid in expressions], "split receipt actual Git path/blob identity differs")
+    requests = [(SPLIT_SOURCE_COMMIT + ":" + p, SPLIT_BLOBS[p][0], "blob") for p in CURRENT_PATHS]
+    requests += [(SPLIT_INGRESS_COMMIT + ":" + p, SPLIT_BLOBS[p][1], "blob") for p in CURRENT_PATHS]
+    requests += [(SPLIT_REPAIR_COMMIT + ":" + p, SPLIT_BLOBS[p][2], "blob") for p in CURRENT_PATHS]
+    raws = _objects(root, requests)
+    snapshots = [dict(zip(CURRENT_PATHS, raws[index * 4:(index + 1) * 4])) for index in range(3)]
+    for phase, snapshot in enumerate(snapshots):
+        require(all(hashlib.sha256(raw).hexdigest() == SPLIT_HASHES[path][phase] for path, raw in snapshot.items()),
+                "split receipt immutable whole-file raw mismatch")
+    for commit in (SPLIT_REMOTE_COMMIT, SPLIT_REBASED_COMMIT, SPLIT_REPAIR_COMMIT):
+        parent = commits[commit][1][0]
+        require(_git(root, "diff", "--name-status", "-z", parent, commit).split(b"\0")
+                == [b"M", LEDGER_PATH.encode(), b""], "split recovery is not exactly one modified ledger")
+    _git(root, "merge-base", "--is-ancestor", SPLIT_SOURCE_COMMIT, SPLIT_BEFORE_COMMIT)
+    lineage = _git(root, "rev-list", "--first-parent", SPLIT_REPAIR_COMMIT).decode().splitlines()
+    require(SPLIT_INGRESS_COMMIT in lineage, "split recovery does not follow the actual main ingress")
+    change = _validate_split_receipt(*snapshots, inventory)
+    require(_source_manifest_matches(root, inventory, SPLIT_SOURCE_MANIFEST),
+            "split receipt source no longer matches the actual current census")
+    require(_source_manifest(root, SPLIT_SOURCE_COMMIT) == SPLIT_SOURCE_MANIFEST,
+            "split receipt export manifest differs from actual historical Git source")
+    return *snapshots, change
+
+
+class _SplitReceiptHistory:
+    """One validation-call state only; incomplete history cannot yield success."""
+
+    def __init__(self, root: Path, inventory: dict[str, Any]) -> None:
+        self.root, self.inventory = root, inventory
+        self.proof = None
+        self.completed = False
+
+    def step(self, commit: str, previous: Mapping[str, bytes], successor: Mapping[str, bytes]) -> dict | None:
+        def same(snapshot, expected):
+            return set(snapshot) in (set(PATHS), set(CURRENT_PATHS)) and snapshot == {p: expected[p] for p in snapshot}
+
+        if commit == SPLIT_INGRESS_COMMIT:
+            require(self.proof is None, "duplicate split UI ingress")
+            proof = _split_receipt_proof(self.root, self.inventory)
+            before, pending, _, _ = proof
+            require(same(previous, before) and same(successor, pending), "split ingress snapshots differ from proof")
+            self.proof = proof
+            return {"ui_by_locale": {loc: 0 for loc in CURRENT_LOCALES}, "receipts": 0, "batches": 0,
+                    "pending_ui_by_locale": {"zh-CN": 4, "zh-TW": 4}, "source_manifests": {}}
+        if commit == SPLIT_REPAIR_COMMIT:
+            require(self.proof is not None and not self.completed, "orphan/duplicate split receipt recovery")
+            _, pending, complete, change = self.proof
+            require(same(previous, pending) and same(successor, complete), "split recovery snapshots differ from proof")
+            self.completed = True
+            return change
+        if self.proof is not None and not self.completed:
+            require(same(previous, self.proof[1]) and same(successor, self.proof[1]),
+                    "scoped UI/receipt changed while the exact split delivery was pending")
+            return {"ui_by_locale": {loc: 0 for loc in CURRENT_LOCALES}, "receipts": 0, "batches": 0,
+                    "source_manifests": {}}
+        return None
+
+    def finish(self) -> None:
+        require(self.proof is None or self.completed, "split UI delivery still lacks its exact official receipts")
+
+
+# BEGIN_PAD_HINT_FONT_MANIFEST_393
+# Keep the actual census and every older manifest/split-receipt proof intact.
+_PAD_HINT_OLD_MANIFEST_MATCHES = _source_manifest_matches
+
+
+def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: str) -> bool:
+    if "source_hashes" not in inventory:
+        return _PAD_HINT_OLD_MANIFEST_MATCHES(root, inventory, expected)
+    import main_game_locale_history as history
+    raw = (root / history.MAIN_GAME_PATH).read_bytes()
+    previous = history.pad_hint_font_predecessor(raw, root)
+    hashes = inventory["source_hashes"]
+    require(exchange.digest(hashes) == inventory["source_manifest_sha256"]
+            and hashes.get(history.MAIN_GAME_PATH) == hashlib.sha256(raw).hexdigest(),
+            "pad hint current source census/raw mismatch")
+    comparison = {**hashes, history.MAIN_GAME_PATH: hashlib.sha256(previous).hexdigest()}
+    if expected == exchange.digest(comparison):
+        return True
+    return _PAD_HINT_OLD_MANIFEST_MATCHES(root, inventory, expected)
+# END_PAD_HINT_FONT_MANIFEST_393
+
+
+# BEGIN_PEOPLE_CARD_HEIGHT_MANIFEST_402
+# Actual census remains current; old official receipts are not rewritten.
+_PEOPLE_CARD_OLD_MANIFEST_MATCHES = _source_manifest_matches
+
+
+def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: str) -> bool:
+    if "source_hashes" not in inventory:
+        return _PEOPLE_CARD_OLD_MANIFEST_MATCHES(root, inventory, expected)
+    import main_game_locale_history as history
+    raw = (root / history.MAIN_GAME_PATH).read_bytes()
+    previous = history.people_card_height_predecessor(raw, root)
+    hashes = inventory["source_hashes"]
+    require(exchange.digest(hashes) == inventory["source_manifest_sha256"]
+            and hashes.get(history.MAIN_GAME_PATH) == hashlib.sha256(raw).hexdigest(),
+            "people card current source census/raw mismatch")
+    comparison = {**hashes, history.MAIN_GAME_PATH: hashlib.sha256(previous).hexdigest()}
+    if expected == exchange.digest(comparison):
+        return True
+    return _PEOPLE_CARD_OLD_MANIFEST_MATCHES(root, inventory, expected)
+# END_PEOPLE_CARD_HEIGHT_MANIFEST_402

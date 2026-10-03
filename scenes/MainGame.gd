@@ -15512,6 +15512,14 @@ func _build_people_action_card(action: Dictionary, index: int) -> Button:
 		thumb,
 		_action_axis_tag_for_card(str(action.get("fn", ""))))
 	btn.custom_minimum_size = Vector2(0, 60)
+	if thumb is AtlasTexture:
+		for child in btn.get_children():
+			if child is MarginContainer:
+				var fit_height := func() -> void:
+					if is_instance_valid(btn) and is_instance_valid(child) and btn.is_inside_tree():
+						btn.custom_minimum_size.y = maxf(60.0, child.get_combined_minimum_size().y)
+				btn.ready.connect(fit_height, CONNECT_ONE_SHOT)
+				child.minimum_size_changed.connect(fit_height)
 	btn.focus_mode = Control.FOCUS_NONE
 	btn.set_meta("people_action_idx", index)
 	btn.set_meta("people_action_accent", str(action.get("accent", "#8a5a9a")))

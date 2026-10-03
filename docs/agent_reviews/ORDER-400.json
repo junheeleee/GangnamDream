@@ -1,0 +1,522 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-400",
+  "reviewer": "/root/independent392",
+  "reviewer_role": "Independent non-author; no translation, importer, product, or observer authorship. Read-only inspection and this private report only.",
+  "reviewed_at": "2026-10-03",
+  "status": "COMPLETE",
+  "verdict": "GO",
+  "authority": "user_delegated_agent_final",
+  "scope": "work_unit",
+  "blockers": [],
+  "subject": {
+    "kind": "source",
+    "commit": "f149e67c557e6a6d15520609ccdbd7aea8eda28d",
+    "tree": "27196a1c85438d0e4b24e968600f0fb07f7489c6",
+    "manifest_sha256": null
+  },
+  "source_comparison": {
+    "before_commit": "28b3ebb9d96596f8bfc59bac4c9d7fd8605dc7ad",
+    "exact_changed_paths": [
+      "CLAUDE.md",
+      "content/meta/full_game_localization.json",
+      "locale/ui_zh-CN.json",
+      "locale/ui_zh-TW.json"
+    ],
+    "final_clean_head_and_tree_independently_confirmed": true,
+    "reviewer_tracked_edits": 0,
+    "reviewer_engine_or_normal_test_reruns": 0
+  },
+  "draft_review": {
+    "scope": "Every one of 32 Korean keys and both independently authored regional translations (64 values), checked against their actual MainGame callers and I18N glossaries.",
+    "result": "PASS",
+    "zh_CN_sha256": "27bc99f45659c1bde8267f0b60c6abb44a2a3d36395d03c95377e6b515970b8e",
+    "zh_TW_sha256": "c12ba0429553268c09daceb5e1b06b725cbafb27620eb6ab54c45d78384acc96",
+    "duplicates": 0,
+    "existing_key_overlap_before_acceptance": 0,
+    "exact_spec_key_order": true,
+    "placeholder_and_BBCode_sequence_equal": true,
+    "blocking_findings": [],
+    "all_values_reviewed": [
+      [
+        "사람 · 관계",
+        "人物 · 关系",
+        "人物 · 關係"
+      ],
+      [
+        "인맥·휴식",
+        "人脉·休息",
+        "人脈·休息"
+      ],
+      [
+        "전화드리기",
+        "打电话问候",
+        "致電"
+      ],
+      [
+        "전화하기",
+        "打电话",
+        "打電話"
+      ],
+      [
+        "전화 걸어보기",
+        "试着打电话",
+        "試著打電話"
+      ],
+      [
+        "한 잔 하기",
+        "喝一杯",
+        "喝一杯"
+      ],
+      [
+        "만나기",
+        "见面",
+        "見面"
+      ],
+      [
+        "안부 묻기",
+        "问候近况",
+        "問問近況"
+      ],
+      [
+        "닿지 않음",
+        "联系不上",
+        "無法聯繫"
+      ],
+      [
+        "선물로 마음을 전한다",
+        "用礼物表达心意",
+        "用禮物傳達心意"
+      ],
+      [
+        "%d주 뒤에 다시 선물할 수 있다",
+        "%d周后可以再次送礼",
+        "%d週後可再次送禮"
+      ],
+      [
+        "선물하기",
+        "送礼",
+        "送禮"
+      ],
+      [
+        "인맥 넓히기",
+        "拓展人脉",
+        "拓展人脈"
+      ],
+      [
+        "모르는 사람들 사이로 섞인다",
+        "与陌生人打交道",
+        "和不認識的人交流"
+      ],
+      [
+        "VIP 인맥",
+        "VIP 人脉",
+        "VIP 人脈"
+      ],
+      [
+        "더 높은 곳의 사람들을 만난다",
+        "结识更高阶层的人",
+        "結識更高社會階層的人"
+      ],
+      [
+        "자유시간",
+        "自由时间",
+        "自由時間"
+      ],
+      [
+        "한강을 걷거나 그냥 쉰다",
+        "沿汉江散步，或只是休息",
+        "在漢江邊散步，或只是休息"
+      ],
+      [
+        "만난 사람",
+        "认识的人",
+        "認識的人"
+      ],
+      [
+        "행동력",
+        "行动力",
+        "行動力"
+      ],
+      [
+        "곁에 있는 사람을 챙긴다",
+        "关心身边的人",
+        "照顧身邊的人"
+      ],
+      [
+        "새 인맥과 회복 행동",
+        "拓展人脉与恢复状态",
+        "新的人脈與休養活動"
+      ],
+      [
+        "아직 연락할 사람이 없습니다.",
+        "还没有可以联系的人。",
+        "目前還沒有可以聯繫的人。"
+      ],
+      [
+        "행동 없음",
+        "无可选行动",
+        "無行動"
+      ],
+      [
+        "[b]패드[/b]  LB/RB 페이지 · ↑↓ 행동 · %s 선택 · %s 뒤로  —  %s",
+        "[b]手柄[/b]  LB/RB 翻页 · ↑↓ 行动 · %s 选择 · %s 返回  —  %s",
+        "[b]手把[/b]  LB/RB 換頁 · ↑↓ 行動 · %s 選擇 · %s 返回  —  %s"
+      ],
+      [
+        "%s와의 대화가 더 미뤄지고 있다.",
+        "与%s的交谈一拖再拖。",
+        "與%s的對話越拖越久。"
+      ],
+      [
+        "혼자 강남에 가는 사람은 없다.",
+        "没有人能独自走到江南。",
+        "沒有人是獨自走到江南的。"
+      ],
+      [
+        "끊어지기 직전",
+        "几近断联",
+        "關係瀕臨斷裂"
+      ],
+      [
+        "멀어지는 중",
+        "渐渐疏远",
+        "逐漸疏遠"
+      ],
+      [
+        "알아가는 중",
+        "逐渐熟悉",
+        "逐漸了解彼此"
+      ],
+      [
+        "서먹한 편",
+        "有些生疏",
+        "有些生疏"
+      ],
+      [
+        "아직 낯선",
+        "还很陌生",
+        "仍然陌生"
+      ]
+    ],
+    "semantic_findings": [
+      "Father-only 전화드리기 keeps a respectfully framed telephone action; it remains distinct from ordinary calling and the failed-call attempt. No relationship fact or outcome is added.",
+      "Gift cooldown retains the same single integer number of weeks and future availability. Gift readiness, rest and networking descriptions do not assert a reward or new mechanic.",
+      "The status sentence follows Korean delayed conversation, rather than importing the different existing English wording about waiting too long.",
+      "The Gangnam aphorism keeps 江南 as place and aspiration; the river retains 汉江/漢江. No character name is converted into an invented Han name.",
+      "Warmth terms preserve the distinction between unfamiliar/awkward/developing relations and act-4 imminent rupture/drifting. 几近断联 and 關係瀕臨斷裂 describe risk, not an already-broken relationship.",
+      "The hint preserves [b]...[/b], LB/RB, arrows, spacing structure, and the ordered three substitutions: south, east, selected action title. 手柄/手把 and 翻页/換頁 follow the existing regional glossary."
+    ]
+  },
+  "source_consumers_read": [
+    "MainGame::_open_cat_people",
+    "MainGame::_people_pages",
+    "MainGame::_contact_channel_id",
+    "MainGame::_contact_channel_verb",
+    "MainGame::_people_actions_for_page",
+    "MainGame::_build_people_status_strip",
+    "MainGame::_render_people_page",
+    "MainGame::_refresh_people_pad_hint",
+    "MainGame::_people_status_line",
+    "MainGame::_relationship_warmth_label",
+    "MainGame::_ap_act_index"
+  ],
+  "helper_design_review": {
+    "status": "PASS",
+    "actual_lookup_distinct_from_consumer_binding": true,
+    "requested_and_observed_strengthening": [
+      "Warmth uses turn144/145, directly crossing act3/act4, with affinity19/20/44/45/74/75.",
+      "All24 warmth boundary values are separately recorded, including existing Close75 without adding it to the32-key population.",
+      "Actual RichTextLabel hint font_size==11 is explicitly asserted."
+    ],
+    "scope": "Accepted dictionaries only; actual MainGame prepared modal, no dictionary/cache/font/theme injection; 8screens and10getter fixtures with typed state restoration; actual resolved fonts plus separate shaping probes, not internal Label shaping inspection."
+  },
+  "official_exchange_review": {
+    "status": "PASS",
+    "source_revision": "28b3ebb9d96596f8bfc59bac4c9d7fd8605dc7ad",
+    "source_tree": "6634fb684747ed8d5a7ab3e0e3740b94add9f80e",
+    "source_manifest_sha256": "22cbbeb2b84f05223c42b2d329e414f96dcb5822986e484ff028c6a43b7d4c11",
+    "export_evidence_sha256": "4aaff80fa986b07d86186ec7043546638fc04a2faa5c4f8db05ad0ff6160be30",
+    "check_evidence_sha256": "b634cb6d83a7150347403ef1597ea6d732b3ecf5109ad08437bae382b5f1e5e0",
+    "source_response_exact64": true,
+    "official_source_headers_exact_in_receipts_and_ledger": true,
+    "receipt_checksums_and_64_source_target_digests_independently_verified": true,
+    "export_and_check_original_raw_states_equal_and_all_8_exit0_stderr_empty": true,
+    "accepted_receipts": [
+      {
+        "locale": "zh-CN",
+        "part": 1,
+        "batch_id": "2431b2fbb305b320a52e8251c81170a480d9d63ed18473ef8e8ce950e0b42d9e",
+        "file_sha256": "d908f652a045a104dee45385ff4325f18ad68d60416c298dcf127438f833697c",
+        "receipt_sha256": "a08aca10a0b67a3a742993c75302fc95107de084b0f067624683e62f3e44cd2f"
+      },
+      {
+        "locale": "zh-CN",
+        "part": 2,
+        "batch_id": "5c90974d6b1983afc653ddbb8b93beb8a3101634b62e08fe4c0ddd3a5d70ec9b",
+        "file_sha256": "729d42e625c348b4d9da51e0fa5d39997ba3cf321b67c7b789585c32908952a1",
+        "receipt_sha256": "673c2bbcbcedd1a4ec843bd8a17c7381aac6bd49cdfcf349a787cea3ed3f21ad"
+      },
+      {
+        "locale": "zh-TW",
+        "part": 1,
+        "batch_id": "31e9ac3325b659e3c5e718be7eac29bf69b218b334a6bdfce8984befe6707ab2",
+        "file_sha256": "1c049d5a43dfb9f0f573225c80bc8afef1e0be8c07d051002ce68fd61e0650e7",
+        "receipt_sha256": "58f58d15273fd730611cfb0f62594aa953ef434ca4fdb513489b0047348d4b1b"
+      },
+      {
+        "locale": "zh-TW",
+        "part": 2,
+        "batch_id": "7142d53d7841de2e1022c9382f944a461c0d6aa0e0f61c1bff5da46295f2d424",
+        "file_sha256": "f101e88e2c9408d2818cd8f3dea97d3c1dcbb604c7d60953b2bd93f82f3eb954",
+        "receipt_sha256": "52c1c6649817bbd846c87ca3046521d214cf47de2b5531e474f30ec2422b24da"
+      }
+    ],
+    "method": "Official export/check subprocesses; official f.main importer via byte-preserving patch-emission wrapper, followed by apply_patch acceptance. Import wrapper is not represented as a separate subprocess raw run."
+  },
+  "runtime_review": {
+    "status": "PASS_BOUNDED_PREPARED_SURFACES_AND_GETTERS",
+    "evidence_directory": ".git/full-game-localization/order400-screen-accepted-ap-warmup",
+    "author_observer": "/root/receipt_tests392",
+    "independent_observer": "/root/independent392",
+    "result_sha256": "a03addf61247bfdd88810bfabefc42e350a554443b2cbc0612cf0526500180a7",
+    "observations_sha256": "413f754bcca67cb7df731d360915f16b7bb46e38857d61405526c07685cd7155",
+    "oracle_sha256": "80cc5c50f76956476f867b08d404d6e973acd5f955909eb614ea833b78f539d7",
+    "helper_sha256": "358874e6c0fce40057b16385f0452424096dfd53a13657c7e86ba01c81cf9539",
+    "runner_sha256": "bd0ef8cf7cd6b66b5b2a0999094275e38fb56bdd59e8f51f7c9ebb483be779da",
+    "duration_seconds": 14.499,
+    "exit_code": 0,
+    "raw_stdout_and_godot_log_success_marker_count_each": 1,
+    "stderr_empty": true,
+    "parse_script_engine_or_leak_errors": 0,
+    "fresh_preautoload_namespace_verified": true,
+    "tracked_files_unchanged": 2960,
+    "helper_files_unchanged": 8,
+    "real_player_files_before_after_equal": 34,
+    "all_recorded_artifact_hashes_independently_recomputed": true,
+    "actual_screen_nodes": 88,
+    "actual_consumer_bindings": 182,
+    "accepted_lookups": 64,
+    "coverage_per_locale": 32,
+    "screen_keys_per_locale": 25,
+    "getter_only_keys_per_locale": [
+      "전화하기",
+      "전화 걸어보기",
+      "한 잔 하기",
+      "안부 묻기",
+      "선물로 마음을 전한다",
+      "멀어지는 중",
+      "아직 낯선"
+    ],
+    "getter_scope": "Six contact verbs; both act3/4 warmth branches at six affinity boundaries; both status branches; gift ready and cooldown3; network social49/50. This does not claim that all64 values were visually rendered.",
+    "warmth_boundary_rows": 24,
+    "typed_prepared_observed_and_saved_restored_equal": 18,
+    "actual_font_role_rows": 96,
+    "separate_shaped_glyph_rows": 966,
+    "font_findings": "All inspected resolved fonts use SC or TC primary and correct regular400/bold700 weights, exact project-owned fallback paths/weights, nonempty glyphs, no missing glyph, and primary CJK glyphs. Actual-size separate TextServer probes are not inspection of Label/RichTextLabel internal shaped RIDs. Actual PNGs were separately viewed.",
+    "screen_warmups": {
+      "count": 8,
+      "method": "After preparing each screen fixture, call actual _ap_status_text once and preserve full typed before/after and exact delta. Do not insert or normalize cache values.",
+      "allowed_delta_paths": [
+        "/protected/game_save/flags/demo_director_kind_turn",
+        "/protected/game_save/flags/demo_director_locked_kind"
+      ],
+      "observed_changes": "Only the two mixed fixtures changed demo_director_kind_turn from1 to145; all six other warmups had zero delta. No other fields changed. Each memoized turn equals prepared turn and kind is decision.",
+      "subsequent_display_delta": 0,
+      "saved_flags_fully_restored": true,
+      "limitation": "Display immutability is asserted after this documented actual-getter preparation, not for a cold modal opening on arbitrarily changed GameState.turn."
+    },
+    "failed_run_preserved": {
+      "directory": ".git/full-game-localization/order400-screen-accepted-final",
+      "result_sha256": "40d335c19abf03487ff36b030e2ac71826c1715b15889d64caf3e2add35a4859",
+      "duration_seconds": 14.08,
+      "exit_code": 1,
+      "findings": "Two mixed prepared-vs-observed failures from the existing actual AP status getter memoizing turn1 to145. All restoration deltas were zero; source/player unchanged. Original helper, logs, observations and8PNG remain preserved. The successful rerun has its own label and did not rewrite this failure."
+    },
+    "direct_visual_review": "All eight original1280x800 PNGs opened independently. No missing glyph/tofu, visible BBCode, clipping or text overlap found in the scoped translations. Initial, empty, network and mixed surfaces each examined in both locales.",
+    "png_sha256": {
+      "zh-CN-initial.png": "ed693a0bc0588ee826e9e1a0c6ef3a37201b9f561936f467cb2e295b0a053779",
+      "zh-CN-empty.png": "ca353d51983f47006e1e2261e7ba4610586cea6c3cd6bcd542f8d0d58634c30e",
+      "zh-CN-network.png": "c5f3c5af35f8b44dcfc25e2120bafe9412811aec03ebb1cb44978be7251e1e98",
+      "zh-CN-mixed.png": "7765d77dc29b60f33fc7abe734fcf31e66c9acf69815460fbee3dac5d438dcc7",
+      "zh-TW-initial.png": "b6859d61cbf37cb6e03be71ac150eda0209a290bbd524312b293ed3b54eaaa86",
+      "zh-TW-empty.png": "0c7e230bf617c1f90cdf8eea524a60ac8ebb5760a1eed9b75496da2c35c47384",
+      "zh-TW-network.png": "9a65c5320a791e6b91006bbb5b57877421e18f74bd89b18094ea1147f467afd3",
+      "zh-TW-mixed.png": "f7428d6f7510c32a1efea970de94302eeae60fc79fecc27d793255a9a7c5d7b5"
+    },
+    "unresolved_out_of_scope_visual_findings": [
+      "Network thumbnail bottoms protrude below the60px action-card bounds; no general thumbnail/card geometry approval.",
+      "Existing11px pad hint, focus-border styling, AP/1CHOICE/MONEY/PEOPLE/Free badges, contact-unavailable reason, dynamic names and unrefreshed prepared background HUD remain outside the translated32-key slice."
+    ],
+    "no_input_action_or_injection_claim": "Helper call sites were read: no raw input dispatch, contact/gift/trade action or callback invocation, and no dictionary/cache/font/theme assignment. Forced pad branding and GameState fixture preparation are explicit; trade signals observed0. Literal zero fields do not establish physical input observation."
+  },
+  "static_review": {
+    "status": "PASS_WITH_PRESERVED_EXISTING_LIMITATIONS",
+    "directory": ".git/full-game-localization/order400-static-final",
+    "author": "/root",
+    "result_sha256": "63953ddf3f0af424253aa5183aca075f0d73c4b3308cf5f8239a389ca5dd4ad8",
+    "entry_sha256": "8040706e26377cd90e061f2e347740bbc4df74ff15b7a85254b6ea1706eddbd5",
+    "runner_sha256": "be8614b25c9060962e3efe427ff7eaa4659eafefcb22acb1d891efb3928d2a17",
+    "wall_seconds": 520.257,
+    "maximum_workers": 3,
+    "normal_checks": 11,
+    "read_only_audit_lane_queries": 1,
+    "all12_exit0_stderr_empty": true,
+    "raw_rows_equal_aggregate_and_entry_commands": true,
+    "entry_before_equals_result_before_after": true,
+    "tracked2960_current_hashes_independently_match": true,
+    "rows": [
+      {
+        "index": 0,
+        "command": "python3 tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "seconds": 519.784,
+        "result": "SNAPSHOT_VALID; debt_codes8/blocked3 and coverage gap24 remain, authoritative24/48. Not Chapter1 product completion."
+      },
+      {
+        "index": 1,
+        "command": "python3 tools/order365_ui_receipt_compat.py",
+        "seconds": 164.599,
+        "result": "UI_RECEIPT_OK accepted41053/batch167, historical_cases0."
+      },
+      {
+        "index": 2,
+        "command": "python3 tools/full_body_translation_scope.py",
+        "seconds": 165.92,
+        "result": "SOURCE_INVENTORY_ONLY; runtime_claim0/native_quality_claim0."
+      },
+      {
+        "index": 3,
+        "command": "python3 tools/story_graph_contract_audit.py",
+        "seconds": 165.589,
+        "result": "PASS; self_tests0; human playtest remains open."
+      },
+      {
+        "index": 4,
+        "command": "python3 tools/chapter5_human_reject_audit.py",
+        "seconds": 166.226,
+        "result": "PASS; human gates pending and public M01-M06 demo frozen."
+      },
+      {
+        "index": 5,
+        "command": "python3 tools/year5_reference_route_audit.py",
+        "seconds": 178.967,
+        "result": "reference_only/topology invalidated/product_consumers0/r1b_allowed false."
+      },
+      {
+        "index": 6,
+        "command": "python3 tools/zh_translation_audit.py",
+        "seconds": 25.308,
+        "result": "skeleton; CN/TW legacy UI1231/2951, SC1550/1550 and TC1579/1579 glyphs, shipping0."
+      },
+      {
+        "index": 7,
+        "command": "python3 tools/en_coverage_check.py",
+        "seconds": 0.101,
+        "result": "clean"
+      },
+      {
+        "index": 8,
+        "command": "python3 tools/context_manifest_check.py",
+        "seconds": 0.085,
+        "result": "PASS docs482/classified482/invariants15."
+      },
+      {
+        "index": 9,
+        "command": "python3 tools/queue_consistency_check.py",
+        "seconds": 0.049,
+        "result": "PASS active78/in_progress75."
+      },
+      {
+        "index": 10,
+        "command": "git diff --check",
+        "seconds": 0.016,
+        "result": "PASS"
+      },
+      {
+        "index": 11,
+        "command": "python3 tools/audit_select.py --base 28b3ebb9d96596f8bfc59bac4c9d7fd8605dc7ad --list",
+        "seconds": 0.144,
+        "result": "Read-only query lists42 checks for4 changed paths; it did not execute those42. The predeclared bounded11-check lane was executed."
+      }
+    ],
+    "not_reexecuted": [
+      "ORDER393 focused suite",
+      "unchanged JA runtime",
+      "historical self suites",
+      "whole audit",
+      "240-week runs",
+      "old350/351 live CLI blockade"
+    ],
+    "historical_boundary": "Old350/351 source/pin/receipt obligations and previously documented live CLI failures are unchanged, not waived or represented as newly passing."
+  },
+  "preservation_review": {
+    "status": "PASS",
+    "method": "Independently reversed only new dictionary members, accepted receipt members and four batch objects using raw JSON token spans, restored only accepted_sha256, and required byte equality with the baseline Git blobs.",
+    "dictionary_old_new_per_locale": [
+      1401,
+      1433
+    ],
+    "accepted_old_new": [
+      40989,
+      41053
+    ],
+    "batches_old_new": [
+      163,
+      167
+    ],
+    "all64_accepted_values_exact_reviewed_drafts": true,
+    "CN_raw_inverse_exact": true,
+    "TW_raw_inverse_exact": true,
+    "ledger_raw_inverse_exact": true,
+    "accepted_sha256_recomputed_matches": true,
+    "current_file_sha256": {
+      "locale/ui_zh-CN.json": "1c530ff541cf1e1d57c1efb7bb2d0cc83d679f197c45d46174c799415ec0cf45",
+      "locale/ui_zh-TW.json": "f23303cae0fe475b6143d723a55b61361a3511b32ecd6b9b4875e4930c82f439",
+      "content/meta/full_game_localization.json": "4f63a0ada16640e68981426fc7ea2c097e808ca757be2ce8ef8ca673ea8f586c",
+      "docs/human_gates.json": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6",
+      "docs/agent_review_decisions.json": "ed2c373c76144bf31d4419e1fa6bc8600d69444fa09ead26733a65b47322e124"
+    },
+    "historical_agent_decisions": 157,
+    "historical_agent_reports": 135,
+    "human_gate_done_open": [
+      1,
+      45
+    ],
+    "all_other_tracked_paths_unchanged": true,
+    "preserved": "MainGame, FontKit/fonts, gameplay/economy, project.godot, tools, JA, all story prose, shared names/badges, historical UI/receipts/reviews, human ledger and frozen public demo."
+  },
+  "limitations": [
+    "Agent review only; no native-speaker, human, physical-controller or natural-reachability observation.",
+    "Prepared UI and getters do not establish full people-menu translation or exercise contact/gift/trade callbacks.",
+    "Existing dynamic names, shared badges, weekly relationship surfaces, 11px hint/focus-border design and B3/B4 prose are outside this unit.",
+    "No full-game, new-package, store or public release GO is implied."
+  ],
+  "decision_summary": "GO only for ORDER-400 on the exact source subject:64 Korean-direct Chinese people-menu values, four official exchange batches/64 receipts, append-only preservation, eight prepared screens plus complete32-key consumer/getter coverage per locale, and the declared current static lane. Native, human, physical input, natural traversal, full people UI, overall layout and release approval remain unobserved or excluded.",
+  "review_diagnostic_note": "One read-only hash verification attempt initially resolved bare helper basenames from the repository root and raised FileNotFoundError. It made no writes and ran no product tests; the corrected read-only verification used .git/full-game-localization and passed all artifact/helper/source comparisons.",
+  "independent": true,
+  "private_review": {
+    "path": ".git/full-game-localization/order400-independent-review.json",
+    "sha256": "e3ee67b22c6d2fee63f003c63379643e7bb57c2f8c0c8d39108de0bda085e900"
+  },
+  "unit_evidence": {
+    "도달 경로": "ORDER400_UI_OK screens=8 keys=32 locales=2 raw=0 actions=0;25 screen +7 getter keys/locale",
+    "생산자 ↔ 독자": "locale/ui_zh-CN.json + ui_zh-TW.json → MainGame people modal nine consumers",
+    "바꾸는 상태": "new localized64 strings;1401→1433/locale;40989/b163→41053/b167",
+    "포기 시 잃는 것": "contact/gift/rest/relationship guidance32 keys per locale",
+    "서사 위치": "N/A: existing people UI; no story changes",
+    "장면 계층": "N/A: UI, no scene prose",
+    "닫는 것": "ORDER-400 only"
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "natural_ingress_and_return",
+    "all64_values_visually_rendered",
+    "other_resolutions_and_platforms",
+    "full_people_ui",
+    "overall_layout_approval",
+    "full_game_and_new_package",
+    "public_release"
+  ]
+}

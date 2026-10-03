@@ -1089,3 +1089,271 @@ def modal_font_predecessor(current, root=None):
     """Keep the public pre381 comparison contract for admitted actual390."""
     return _tutorial_copy_proof(current, root)[2]
 # END_TUTORIAL_COPY_HISTORY_390
+
+# BEGIN_PAD_HINT_FONT_HISTORY_393
+# Exact rendering successor. Earlier bodies and pins remain historical; no
+# historical HEAD is substituted when proving the actual current source.
+PAD_HINT_BEFORE_COMMIT = "b48bc211092c14b80b51b3d8c8f06a4d79b84919"
+PAD_HINT_AFTER_COMMIT = "d0a7c9cf38b8d64f65bf0c9020bbb9ce0a1de91b"
+PAD_HINT_TREES = ("cba97af32d67a79891fd57489fe742783a340e4c", "c3bc87da49fc23388648ca9466092e522eac5cb4")
+PAD_HINT_BLOBS = ("f527d67772081a38ffd75e5a47426e5e5f7ff74e", "c0bfef9cff660c40351c8ae046f75f5fc776c536")
+PAD_HINT_HASHES = ("db5d0dc1f8890ea5ae3e0b9d1f212c2a316be50ef3265804dbde9dba0279a8ff",
+                   "ed116a1d4dae6dc0fcac708204c97eaadf988070e501c0bb1df437be6e38170d")
+PAD_HINT_REPLACEMENTS = tuple(
+    ('\tif _font_bold:\n\t\t_' + label + '_pad_hint_label.add_theme_font_override("bold_font", _font_bold)\n',
+     '\tif _font_regular:\n\t\t_' + label + '_pad_hint_label.add_theme_font_override("normal_font", _font_regular)\n'
+     '\tif _font_bold:\n\t\t_' + label + '_pad_hint_label.add_theme_font_override("bold_font", _font_bold)\n')
+    for label in ("people", "invest")
+)
+
+
+def _pad_hint_font_inverse(current, before):
+    """Pure comparison-only exact four-line inverse, also tested without hashes."""
+    if not isinstance(current, bytes) or not isinstance(before, bytes) or len(PAD_HINT_REPLACEMENTS) != 2:
+        raise ValueError("ORDER-393: inverse population/type differs")
+    recovered = current
+    for old, new in reversed(PAD_HINT_REPLACEMENTS):
+        old, new = old.encode(), new.encode()
+        if (not old or old == new or before.count(old) != 1 or before.count(new) != 0
+                or recovered.count(new) != 1):
+            raise ValueError("ORDER-393: font inverse is not exact1 at each consumer")
+        recovered = recovered.replace(new, old, 1)
+    if recovered != before:
+        raise ValueError("ORDER-393: changes outside exact four font lines")
+    return recovered
+
+
+def _pad_hint_font_proof(current, root=None):
+    """Fresh actual393 proof; return pre393/pre390/pre386/pre381 comparisons."""
+    from pathlib import Path
+    root = Path(root) if root is not None else Path(__file__).resolve().parents[1]
+    if not isinstance(current, bytes) or hashlib.sha256(current).hexdigest() != PAD_HINT_HASHES[1]:
+        raise ValueError("ORDER-393: unapproved current MainGame raw")
+    stages = (
+        (MODAL_BEFORE_COMMIT, MODAL_AFTER_COMMIT, MODAL_TREES, MODAL_BLOBS, MODAL_HASHES),
+        (JOB_STATUS_BEFORE_COMMIT, JOB_STATUS_AFTER_COMMIT, JOB_STATUS_TREES, JOB_STATUS_BLOBS, JOB_STATUS_HASHES),
+        (INVESTMENT_BEFORE_COMMIT, INVESTMENT_AFTER_COMMIT, INVESTMENT_TREES, INVESTMENT_BLOBS, INVESTMENT_HASHES),
+        (TUTORIAL_BEFORE_COMMIT, TUTORIAL_AFTER_COMMIT, TUTORIAL_TREES, TUTORIAL_BLOBS, TUTORIAL_HASHES),
+        (PAD_HINT_BEFORE_COMMIT, PAD_HINT_AFTER_COMMIT, PAD_HINT_TREES, PAD_HINT_BLOBS, PAD_HINT_HASHES),
+    )
+    requests = []
+    for before, after, trees, blobs, _hashes in stages:
+        requests.extend((c, c, "commit") for c in (before, after))
+        requests.extend((t, t, "tree") for t in trees)
+        requests.extend((c + ":" + MAIN_GAME_PATH, oid, "blob") for c, oid in zip((before, after), blobs))
+    proof = _modal_git(root, "cat-file", "--batch", input=("\n".join(r[0] for r in requests) + "\n").encode())
+    values, cursor = [], 0
+    for _expression, wanted, kind in requests:
+        end = proof.index(b"\n", cursor)
+        oid, actual_kind, size = proof[cursor:end].decode().split()
+        size = int(size)
+        value = proof[end + 1:end + 1 + size]
+        if (size < 0 or oid != wanted or actual_kind != kind or len(value) != size
+                or hashlib.sha1(kind.encode() + b" " + str(size).encode() + b"\0" + value).hexdigest() != oid
+                or proof[end + 1 + size:end + 2 + size] != b"\n"):
+            raise ValueError("ORDER-393: forged immutable object")
+        values.append(value)
+        cursor = end + 2 + size
+    if cursor != len(proof):
+        raise ValueError("ORDER-393: trailing immutable proof bytes")
+    for stage, (before, after, trees, _blobs, hashes) in enumerate(stages):
+        offset = stage * 6
+        for index in range(2):
+            headers = values[offset + index].split(b"\n\n", 1)[0].splitlines()
+            if [h for h in headers if h.startswith(b"tree ")] != [b"tree " + trees[index].encode()]:
+                raise ValueError("ORDER-393: immutable tree differs")
+            if index and [h for h in headers if h.startswith(b"parent ")] != [b"parent " + before.encode()]:
+                raise ValueError("ORDER-393: direct parent differs")
+        if tuple(hashlib.sha256(v).hexdigest() for v in values[offset + 4:offset + 6]) != hashes:
+            raise ValueError("ORDER-393: immutable whole raw differs")
+        if _modal_git(root, "diff", "--name-status", "-z", before, after) != b"M\0" + MAIN_GAME_PATH.encode() + b"\0":
+            raise ValueError("ORDER-393: product path population differs")
+        if stage:
+            _modal_git(root, "merge-base", "--is-ancestor", stages[stage - 1][1], before)
+            if values[offset + 4] != values[offset - 1]:
+                raise ValueError("ORDER-393: nonconsecutive raw history")
+    _modal_git(root, "merge-base", "--is-ancestor", PAD_HINT_AFTER_COMMIT, "HEAD")
+    if _modal_git(root, "rev-parse", "HEAD:" + MAIN_GAME_PATH).decode().strip() != PAD_HINT_BLOBS[1]:
+        raise ValueError("ORDER-393: current Git MainGame differs")
+    if values[29] != current:
+        raise ValueError("ORDER-393: current/blob binding differs")
+    recovered = _pad_hint_font_inverse(current, values[28])
+    inverse_stages = (((TUTORIAL_REPLACEMENT,), values[22]),
+                      (INVESTMENT_REPLACEMENTS, values[16]),
+                      ((tuple(v.decode() for v in JOB_STATUS_REPLACEMENT),), values[10]),
+                      (MODAL_REPLACEMENTS, values[4]))
+    if tuple(len(parts) for parts, _ in inverse_stages) != (1, 3, 1, 3):
+        raise ValueError("ORDER-393: prior inverse population differs")
+    for replacements, before in inverse_stages:
+        for old, new in reversed(replacements):
+            old, new = old.encode(), new.encode()
+            if not old or old == new or recovered.count(new) != 1:
+                raise ValueError("ORDER-393: prior inverse is not exact1")
+            recovered = recovered.replace(new, old, 1)
+        if recovered != before:
+            raise ValueError("ORDER-393: changes outside prior exact copy/rendering repairs")
+    return values[28], values[22], values[16], recovered
+
+
+def pad_hint_font_predecessor(current, root=None):
+    return _pad_hint_font_proof(current, root)[0]
+
+
+def tutorial_copy_predecessor(current, root=None):
+    return _pad_hint_font_proof(current, root)[1]
+
+
+def investment_footer_predecessor(current, root=None):
+    return _pad_hint_font_proof(current, root)[2]
+
+
+def modal_font_predecessor(current, root=None):
+    """Keep the public pre381 comparison contract for admitted actual393."""
+    return _pad_hint_font_proof(current, root)[3]
+# END_PAD_HINT_FONT_HISTORY_393
+
+
+# BEGIN_PEOPLE_CARD_HEIGHT_HISTORY_402
+# Two actual MainGame-only transitions; the first failed rendering candidate
+# remains an immutable checkpoint, not an accepted current source.
+# Earlier source functions and immutable pins remain unchanged.
+PEOPLE_CARD_BEFORE_COMMIT = "11cb081d64d48b26af6a09921ce34ff04e859399"
+PEOPLE_CARD_AFTER_COMMIT = "ef41993805c7ce6e68ffbef8336b83cec6f7e744"
+PEOPLE_CARD_TREES = ("c1b5356fdf06d3ada42aaf0c3cad5df11be9b051", "6a0fece7aa64f03cc048cffe28f039a1a0d1ec1c")
+PEOPLE_CARD_BLOBS = ("c0bfef9cff660c40351c8ae046f75f5fc776c536", "f1343051117712d9e53c0b1bd57a43a8d31d7f65")
+PEOPLE_CARD_HASHES = ("ed116a1d4dae6dc0fcac708204c97eaadf988070e501c0bb1df437be6e38170d",
+                      "b8a03419633a837b5493ddc22569c6f256ac91e602551eb5327cf0e71dabb881")
+PEOPLE_CARD_INITIAL_REPLACEMENT = ("\tbtn.custom_minimum_size = Vector2(0, 60)\n\tbtn.focus_mode = Control.FOCUS_NONE\n\tbtn.set_meta(\"people_action_idx\", index)\n",
+                           "\tbtn.custom_minimum_size = Vector2(0, 60)\n\tif thumb is AtlasTexture:\n\t\tfor child in btn.get_children():\n\t\t\tif child is MarginContainer:\n\t\t\t\tbtn.custom_minimum_size.y = maxf(btn.custom_minimum_size.y, child.get_combined_minimum_size().y)\n\tbtn.focus_mode = Control.FOCUS_NONE\n\tbtn.set_meta(\"people_action_idx\", index)\n")
+PEOPLE_CARD_REPAIR_BEFORE_COMMIT = "7cf2ed99560da06b44966f0ff6c0b6fd6031c63d"
+PEOPLE_CARD_REPAIR_AFTER_COMMIT = "30a147848f7640e1b5f0c9c0e18b946cdf8a2ce4"
+PEOPLE_CARD_REPAIR_TREES = ("91c0e44d8ab34ef7107bec8dd5938846a55d9471", "47dac749bb10ad2a54272ead3d0590a1cd495d59")
+PEOPLE_CARD_REPAIR_BLOBS = ("f1343051117712d9e53c0b1bd57a43a8d31d7f65", "d79d63645ed9b4b5fa9062380fca28942add169a")
+PEOPLE_CARD_REPAIR_HASHES = ("b8a03419633a837b5493ddc22569c6f256ac91e602551eb5327cf0e71dabb881",
+                           "473aab2946d2b76a6263e57fc36facfc24de83629fddf88f3005200a81a15e7d")
+PEOPLE_CARD_REPAIR_REPLACEMENT = (
+    PEOPLE_CARD_INITIAL_REPLACEMENT[1],
+    "\tbtn.custom_minimum_size = Vector2(0, 60)\n\tif thumb is AtlasTexture:\n\t\tfor child in btn.get_children():\n\t\t\tif child is MarginContainer:\n\t\t\t\tvar fit_height := func() -> void:\n\t\t\t\t\tif is_instance_valid(btn) and is_instance_valid(child) and btn.is_inside_tree():\n\t\t\t\t\t\tbtn.custom_minimum_size.y = maxf(60.0, child.get_combined_minimum_size().y)\n\t\t\t\tbtn.ready.connect(fit_height, CONNECT_ONE_SHOT)\n\t\t\t\tchild.minimum_size_changed.connect(fit_height)\n\tbtn.focus_mode = Control.FOCUS_NONE\n\tbtn.set_meta(\"people_action_idx\", index)\n")
+PEOPLE_CARD_REPLACEMENT = (PEOPLE_CARD_INITIAL_REPLACEMENT[0], PEOPLE_CARD_REPAIR_REPLACEMENT[1])
+
+
+def _people_card_height_step_inverse(current, before, replacement):
+    """Pure exact local inverse; no digest gate can mask semantic controls."""
+    if (not isinstance(current, bytes) or not isinstance(before, bytes)
+            or not isinstance(replacement, tuple) or len(replacement) != 2
+            or any(not isinstance(part, str) for part in replacement)):
+        raise ValueError("ORDER-402: inverse population/type differs")
+    old, new = (part.encode() for part in replacement)
+    if (not old or old == new or before.count(old) != 1 or before.count(new) != 0
+            or current.count(new) != 1):
+        raise ValueError("ORDER-402: local inverse is not exact1")
+    recovered = current.replace(new, old, 1)
+    if recovered != before:
+        raise ValueError("ORDER-402: changes outside exact people-card height")
+    return recovered
+
+
+def _people_card_height_inverse(current, before):
+    """Exact combined final-to-pre402 inverse, independent of immutable hashes."""
+    return _people_card_height_step_inverse(current, before, PEOPLE_CARD_REPLACEMENT)
+
+
+def _people_card_height_proof(current, root=None):
+    """Fresh actual402 proof; pre402/pre393/pre390/pre386/pre381 comparisons."""
+    from pathlib import Path
+    root = Path(root) if root is not None else Path(__file__).resolve().parents[1]
+    if not isinstance(current, bytes) or hashlib.sha256(current).hexdigest() != PEOPLE_CARD_REPAIR_HASHES[1]:
+        raise ValueError("ORDER-402: unapproved current MainGame raw")
+    stages = (
+        (MODAL_BEFORE_COMMIT, MODAL_AFTER_COMMIT, MODAL_TREES, MODAL_BLOBS, MODAL_HASHES),
+        (JOB_STATUS_BEFORE_COMMIT, JOB_STATUS_AFTER_COMMIT, JOB_STATUS_TREES, JOB_STATUS_BLOBS, JOB_STATUS_HASHES),
+        (INVESTMENT_BEFORE_COMMIT, INVESTMENT_AFTER_COMMIT, INVESTMENT_TREES, INVESTMENT_BLOBS, INVESTMENT_HASHES),
+        (TUTORIAL_BEFORE_COMMIT, TUTORIAL_AFTER_COMMIT, TUTORIAL_TREES, TUTORIAL_BLOBS, TUTORIAL_HASHES),
+        (PAD_HINT_BEFORE_COMMIT, PAD_HINT_AFTER_COMMIT, PAD_HINT_TREES, PAD_HINT_BLOBS, PAD_HINT_HASHES),
+        (PEOPLE_CARD_BEFORE_COMMIT, PEOPLE_CARD_AFTER_COMMIT, PEOPLE_CARD_TREES, PEOPLE_CARD_BLOBS, PEOPLE_CARD_HASHES),
+        (PEOPLE_CARD_REPAIR_BEFORE_COMMIT, PEOPLE_CARD_REPAIR_AFTER_COMMIT, PEOPLE_CARD_REPAIR_TREES,
+         PEOPLE_CARD_REPAIR_BLOBS, PEOPLE_CARD_REPAIR_HASHES),
+    )
+    requests = []
+    for before, after, trees, blobs, _hashes in stages:
+        requests.extend((c, c, "commit") for c in (before, after))
+        requests.extend((t, t, "tree") for t in trees)
+        requests.extend((c + ":" + MAIN_GAME_PATH, oid, "blob") for c, oid in zip((before, after), blobs))
+    proof = _modal_git(root, "cat-file", "--batch", input=("\n".join(r[0] for r in requests) + "\n").encode())
+    values, cursor = [], 0
+    for _expression, wanted, kind in requests:
+        end = proof.index(b"\n", cursor)
+        oid, actual_kind, size = proof[cursor:end].decode().split()
+        size = int(size)
+        value = proof[end + 1:end + 1 + size]
+        if (size < 0 or oid != wanted or actual_kind != kind or len(value) != size
+                or hashlib.sha1(kind.encode() + b" " + str(size).encode() + b"\0" + value).hexdigest() != oid
+                or proof[end + 1 + size:end + 2 + size] != b"\n"):
+            raise ValueError("ORDER-402: forged immutable object")
+        values.append(value)
+        cursor = end + 2 + size
+    if cursor != len(proof):
+        raise ValueError("ORDER-402: trailing immutable proof bytes")
+    for stage, (before, after, trees, _blobs, hashes) in enumerate(stages):
+        offset = stage * 6
+        for index in range(2):
+            headers = values[offset + index].split(b"\n\n", 1)[0].splitlines()
+            if [h for h in headers if h.startswith(b"tree ")] != [b"tree " + trees[index].encode()]:
+                raise ValueError("ORDER-402: immutable tree differs")
+            if index and [h for h in headers if h.startswith(b"parent ")] != [b"parent " + before.encode()]:
+                raise ValueError("ORDER-402: direct parent differs")
+        if tuple(hashlib.sha256(v).hexdigest() for v in values[offset + 4:offset + 6]) != hashes:
+            raise ValueError("ORDER-402: immutable whole raw differs")
+        if _modal_git(root, "diff", "--name-status", "-z", before, after) != b"M\0" + MAIN_GAME_PATH.encode() + b"\0":
+            raise ValueError("ORDER-402: product path population differs")
+        if stage:
+            _modal_git(root, "merge-base", "--is-ancestor", stages[stage - 1][1], before)
+            if values[offset + 4] != values[offset - 1]:
+                raise ValueError("ORDER-402: nonconsecutive raw history")
+    _modal_git(root, "merge-base", "--is-ancestor", PEOPLE_CARD_REPAIR_AFTER_COMMIT, "HEAD")
+    if _modal_git(root, "rev-parse", "HEAD:" + MAIN_GAME_PATH).decode().strip() != PEOPLE_CARD_REPAIR_BLOBS[1]:
+        raise ValueError("ORDER-402: current Git MainGame differs")
+    if values[41] != current:
+        raise ValueError("ORDER-402: current/blob binding differs")
+    recovered = _people_card_height_inverse(current, values[34])
+    intermediate = _people_card_height_step_inverse(current, values[40], PEOPLE_CARD_REPAIR_REPLACEMENT)
+    if _people_card_height_step_inverse(intermediate, values[34], PEOPLE_CARD_INITIAL_REPLACEMENT) != recovered:
+        raise ValueError("ORDER-402: stagewise and combined inverses differ")
+    recovered = _pad_hint_font_inverse(recovered, values[28])
+    inverse_stages = (((TUTORIAL_REPLACEMENT,), values[22]),
+                      (INVESTMENT_REPLACEMENTS, values[16]),
+                      ((tuple(v.decode() for v in JOB_STATUS_REPLACEMENT),), values[10]),
+                      (MODAL_REPLACEMENTS, values[4]))
+    if tuple(len(parts) for parts, _ in inverse_stages) != (1, 3, 1, 3):
+        raise ValueError("ORDER-402: prior inverse population differs")
+    for replacements, before in inverse_stages:
+        for old, new in reversed(replacements):
+            old, new = old.encode(), new.encode()
+            if not old or old == new or recovered.count(new) != 1:
+                raise ValueError("ORDER-402: prior inverse is not exact1")
+            recovered = recovered.replace(new, old, 1)
+        if recovered != before:
+            raise ValueError("ORDER-402: changes outside prior exact copy/rendering repairs")
+    return values[34], values[28], values[22], values[16], recovered
+
+
+def people_card_height_predecessor(current, root=None):
+    return _people_card_height_proof(current, root)[0]
+
+
+def pad_hint_font_predecessor(current, root=None):
+    return _people_card_height_proof(current, root)[1]
+
+
+def tutorial_copy_predecessor(current, root=None):
+    return _people_card_height_proof(current, root)[2]
+
+
+def investment_footer_predecessor(current, root=None):
+    return _people_card_height_proof(current, root)[3]
+
+
+def modal_font_predecessor(current, root=None):
+    """Keep the public pre381 comparison contract for admitted actual402."""
+    return _people_card_height_proof(current, root)[4]
+# END_PEOPLE_CARD_HEIGHT_HISTORY_402

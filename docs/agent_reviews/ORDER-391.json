@@ -1,0 +1,129 @@
+{
+  "schema": "gangnamdream-independent-work-unit-review/v1",
+  "unit_id": "ORDER-391",
+  "scope": "work_unit",
+  "independent": true,
+  "reviewer": "/root/independent392",
+  "reviewed_at": "2026-10-03",
+  "verdict": "GO",
+  "required": [],
+  "subject": {
+    "kind": "source",
+    "commit": "dd3f5794f21e56902838b83e03d3260d06f64c41",
+    "tree": "6c904aebf1da912ec4e7722a1d9f1d99e2c25efe",
+    "manifest_sha256": null
+  },
+  "decision_basis": {
+    "unit_id": "ORDER-391",
+    "verdict": "GO",
+    "scope": "work_unit",
+    "subject_commit": "dd3f5794f21e56902838b83e03d3260d06f64c41",
+    "subject_tree": "6c904aebf1da912ec4e7722a1d9f1d99e2c25efe",
+    "basis": "Separately assessed the active ORDER-391 requirements and all eight current translations against Korean, rather than automatically inheriting ORDER-393 GO. ORDER-392 supplied independently reviewed exact official receipt/source provenance; current393 normal receipt validation binds those unchanged records to the exact font-only successor. Current CN/TW four-state eight PNGs and KO/EN/JA investment regression PNGs satisfy its remaining bounded screen/font requirements.",
+    "translation_review": [
+      {
+        "meaning": "pad, LB/RB pages, back, page label",
+        "zh-CN": "[b]手柄[/b]  LB/RB 翻页 · %s 返回  —  %s",
+        "zh-TW": "[b]手把[/b]  LB/RB 換頁 · %s 返回  —  %s",
+        "placeholders": 2
+      },
+      {
+        "meaning": "pad, LB/RB pages, no tradable assets",
+        "zh-CN": "[b]手柄[/b]  LB/RB 翻页 · 无可交易资产",
+        "zh-TW": "[b]手把[/b]  LB/RB 換頁 · 無可交易資產",
+        "placeholders": 0
+      },
+      {
+        "meaning": "trade unavailable",
+        "zh-CN": "无法交易",
+        "zh-TW": "無法交易",
+        "placeholders": 0
+      },
+      {
+        "meaning": "pad, page/asset/trade-action selection, confirm action, back, asset name",
+        "zh-CN": "[b]手柄[/b]  LB/RB 翻页 · ↑↓ 资产 · ←→ 操作 · %s %s · %s 返回  —  %s",
+        "zh-TW": "[b]手把[/b]  LB/RB 換頁 · ↑↓ 資產 · ←→ 操作 · %s %s · %s 返回  —  %s",
+        "placeholders": 4
+      }
+    ],
+    "translation_finding": "All eight values preserve Korean meaning, BBCode, 2/0/0/4 placeholder populations and argument order. 操作 correctly refers to selectable trade actions here. Regional forms and existing pad terminology match each locale; actual A action/B back and page/asset values are observed.",
+    "source_binding_limit": "No new export/check/import or duplicate receipts were created in393. The original official headers remain at source18dd16d and retain their historical rendered_review/native_review OPEN values. Current binding is the exact immutable source-successor proof plus normal365 on dd3f, not a claim that the old export was produced from dd3f. Record this distinction in391 closure; do not overwrite historical receipts or failed observations.",
+    "missing_in_scope_requirements": [],
+    "not_included": [
+      "people translations or other UI",
+      "dynamic asset-name completeness",
+      "11px legibility and existing focus border clipping",
+      "natural ingress/return or physical input",
+      "native/human judgment",
+      "full-game/package/release approval"
+    ]
+  },
+  "unit_evidence": {
+    "도달 경로": "ORDER393_UI_OK: CN/TW investment4states×2=8 PNG +KO/EN/JA investment3 PNG",
+    "생산자 ↔ 독자": "locale/ui_zh-CN.json +ui_zh-TW.json → MainGame._refresh_invest_pad_hint",
+    "바꾸는 상태": "8 existing translations/40989 receipts unchanged; SC/TC normal-font rendering verified",
+    "포기 시 잃는 것": "investment page/empty/blocked/trade guidance4keys×2",
+    "서사 위치": "N/A: investment navigation UI",
+    "장면 계층": "N/A: no prose",
+    "닫는 것": "ORDER-391 only, separately reviewed after392 receipt recovery and393 font fix"
+  },
+  "source_binding": "Original18dd headers/receipt raw and historical rendered/native OPEN retained. No new export/check/import in393; exact successor and current normal365 rebind current source without duplicates.",
+  "evidence": {
+    "independent_review_path": ".git/full-game-localization/order393-independent-review.json",
+    "independent_review_sha256": "df0edfeb85a7c47377367da1803773451cebbf4dae425f873b057acbab579a7d",
+    "runtime_result_sha256": "8c064e170561c593eaf1f486f5cc8a410f6cba92f1f10af28bd3d8aa833cbe1f",
+    "static_result_sha256": "a71d2c95dbb45488e34d96673ec1a0a8943ca1bba5dc6942f24da577d827df57",
+    "focused_sha256": "0b5d1037b4669b171b5feccb1de075d341894602be5916097743ddaf8633ad9d",
+    "receipt_recovery_report": "docs/agent_reviews/ORDER-392.json"
+  },
+  "preservation": {
+    "baseline": "b48bc211092c14b80b51b3d8c8f06a4d79b84919",
+    "changed_tracked_paths": [
+      "CLAUDE.md",
+      "scenes/MainGame.gd",
+      "tools/audit_scope.json",
+      "tools/main_game_locale_history.py",
+      "tools/ui_translation_append.py",
+      "tools/ui_translation_append_self_test.py"
+    ],
+    "other_tracked_paths_unchanged": 2951,
+    "existing_agent_decisions_unchanged": 155,
+    "existing_agent_reports_unchanged": 133,
+    "accepted_receipts": 40989,
+    "batches": 163,
+    "ledger_sha256": "2bbf79be726b098ea325cf47b864f3e772aadda71770887d2abd9e8519dbd110",
+    "human_ledger_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6",
+    "public_go": 1,
+    "human_open": 45,
+    "unchanged_domains": [
+      "all dictionaries and accepted receipt bytes",
+      "story prose and data",
+      "GameState/economy/save/project.godot",
+      "FontKit/UIStyle and all bundled fonts/assets",
+      "public demo and human evidence",
+      "original ORDER-350/351 code and preexisting blocked history",
+      "all existing agent decisions and reports"
+    ],
+    "git_diff_check": "PASS on the complete baseline-to-candidate change, independently read-only checked"
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "natural_ingress_and_return",
+    "global_font_or_theme_completion",
+    "full_localization",
+    "11px_legibility_approval",
+    "other_resolutions_and_platforms",
+    "full_game_and_new_package",
+    "public_release"
+  ],
+  "limits": [
+    "people translations or other UI",
+    "dynamic asset-name completeness",
+    "11px legibility and existing focus border clipping",
+    "natural ingress/return or physical input",
+    "native/human judgment",
+    "full-game/package/release approval"
+  ]
+}

@@ -30,9 +30,150 @@
 - **3장 도덕 해설(사용자 "응"):** `arc_y3_cost_of_knowing`의 선택지 나열·"출처가 깨끗해지는 것은 아니었다", `arc_y3_sangchul_deeper_room`의 자기 승인 문장을 지우고, `arc_35_orthodox_weight`·`_unorthodox_weight`를 분류어("정석의 무게")와 격언 없이 적금 자동이체 알림·새벽 3시 7분의 매도 버튼으로 다시 썼다. 하드코딩 "민준/Minjun" 2곳도 `{name}`으로 바꿨다. 9잎×5언어. 비정석 장면에서 "불안"이 빠져 등급 fear·violence 후보에서 빠졌으므로(사실 항목 참조 없음, violence는 원래 검색 잡음) 두 축의 수·목록 지문과 gambling·sexuality 지문을 갱신했다. `arc_jaehyuk_04b_counter`는 데모 고정 파일이라 7k에 넣었다. CI 대조 실패 집합은 기존 29개 그대로다.
 - **남김:** 4장 `_person_deal`은 2026-10-03 사용자 위임으로 판정했다(DECISIONS 2026-10-03: 합치지 않고 다은 경로 DIK·야간 진료 기본 본문·중립 선택문). 구현은 지연 변형·`later_echo`와 함께 Codex 7k다.
 
+## 2026-10-04 (Codex — 인물 Atlas 카드 이미지 돌출 수리)
+
+- [402](queue_archive/ORDER-402.md): 그림크기를 유지한 채 카드만 실제내용 최소높이를
+  따르도록 국소8줄 수리. 최초60/내용72/간격−5 → 첫수리64/72/−1 FAIL →
+  ready+최소높이신호의 최종72/72/+7 PASS. 초상카드60·그림128×64 유지.
+- source1bda1fc2/tree99007ae7,5언어10PNG 전량독립검수·20semantic 이동,
+  typed복원5·사용자34파일·2964tracked불변.15.040초, geometry0.
+  OS raw/물리/자연Back/confirm/끝경계wrap은 관측하지 않았다.
+- focused81/historical0 PASS30.518초; normal13+영향조회1 PASS595.434초.
+  영향목록97개 자체를 실행한 것은 아니다. Chapter1 debt8/blocked3/gap24,
+  year5 reference_only/invalidated 유지. 전체감사/240주/역사self 반복0.
+- before aggregateFAIL·첫제품64px FAIL·자기marker검사FAIL·normal중단143·
+  dirty clean-guard 차단을 모두 보존, 실패후소스를 새로 묶어 재관측했다.
+- [비저자 보고](agent_reviews/ORDER-402.json)의 exact work_unit만 내부GO.
+  EN 배지폭잔여4건은 all_text_fits=false로 남기며 다음403에서 따로 수리한다.
+  수용raw41,069/b169·기존159판정/137보고·인간원장·공개GO1/인간OPEN45 보존.
+  본편/새packageHOLD, 원어민/인간/물리·B3/B4 미관측/별도잔여. 자동PASS≠출시GO.
+- gangnamdream-dev의 격리실행·실패보존·저작/검수분리 적용. 상시규범0/일회성.
+  다음403 선언: 축배지 실제글자폭 수용·공유메뉴 회귀, 검증허용집합을 유지한
+  새 manifest wrapper의 호출내 중복증명 축소. 외부출시/스토어/지출/법률0.
+
+## 2026-10-03 (Codex — 인물 모달 중국어 배지·연락 불가16값)
+
+- [401](queue_archive/ORDER-401.md): CN/TW8키씩16값을 공식2교환으로 수용.
+  각사전1,433→1,441, 원장41,053/b167→41,069/b169, 기존raw 역삭제일치.
+  공용 사람축을 좁히던 CN 人物→人을 수용 전에 고치고16값 전수 재검수했다.
+- source d3b1079b/tree6f2cb008, 실제1280×800 CN/TW4PNG에8키/locale.
+  40bindings·16lookups·8AP술어·8typed복원, 사용자34파일·tracked2962불변.
+  22모달노드+별도smallSET2의24font역할/별도glyph111 PASS. smallSET은 실제12px,
+  68×22panel/56×18label/글자36×18이며 자연HUD screenshot으로 합치지 않았다.
+- 첫런11.297초PASS, 정적11검사+차선조회1 PASS575.374초. 이전400/393 런 반복0,
+  역사self/전체감사/240주0. Chapter1 debt8/blocked3/gap24·year5 reference_only 유지.
+- [비저자 보고](agent_reviews/ORDER-401.json)의 exact work_unit만 내부GO.
+  source/사전 주입·입력·연락/선물/거래/finalizer0. 기존158판정/136보고·인간원장
+  불변, 공개GO1·인간OPEN45·본편/새packageHOLD. 자연진입/공유타화면/원어민/인간/
+  물리패드·11px/포커스·그림돌출·B3/B4 미관측/별도잔여. 자동PASS는 출시GO가 아니다.
+- gangnamdream-dev의 독립검수·표적실행·과거증거보존 적용. 상시규범0/일회성.
+  다음402는 실제보인 Atlas카드 돌출만 먼저계측후수리한다. 외부출시/스토어/지출/법률0.
+
+## 2026-10-03 (Codex — 인물 메뉴 중국어 연락·선물·관계 안내64값)
+
+- [400](queue_archive/ORDER-400.md): 한국어 직접 CN/TW32키씩64값을 공식4교환으로
+  수용했다. 사전 각1,401→1,433, 원장40,989/b163→41,053/b167. 원본 importer를
+  호출하고 byte-preserving apply_patch로 수용했으며 기존값/receipt raw 역삭제일치.
+- 고정 f149e67c/tree27196a1c에서 실제MainGame1280×800의 CN/TW4상태씩8PNG.
+  locale별25키 화면·7키 실제getter,182bindings·64lookups·24warmth경계와
+  typed복원18건·사용자34파일불변. 대상88text노드/96font역할·별도glyph966PASS.
+  독립검수자와root가8PNG전량 직접읽음. 전체64값 screenshot주장은 아니다.
+- 첫 mixed2화면은 실제 AP주차memoization 때문에 준비불변검사가 실패했다.
+  실패8PNG/로그를 보존하고 실제APgetter warmup의 두flag만 허용·기록하도록
+  helper만 보강했다. 재관측14.499초, 제품/400고정후tracked·과거393증거 변경0.
+- 현행정적11검사+변경차선조회1 PASS(520.257초), source전후2,960파일불변.
+  Chapter1 debt8/blocked3/gap24·year5 reference_only/invalidated 잔여보존.
+  역사self/전체감사/240주/기존JA화면 재실행0. 자동PASS는 본편GO가 아니다.
+- [독립보고](agent_reviews/ORDER-400.json)의 이 work_unit만 내부GO.
+  기존157판정/135보고/인간원장·공개GO1/인간OPEN45 보존, 본편/새packageHOLD.
+  11px/포커스·network썸네일돌출·영문배지/연락불가사유/동적이름·자연진입/입력·
+  원어민/인간/물리·B3/B4 원고는 별도잔여다. raw입력/선물/거래/콜백0.
+- gangnamdream-dev의 선행선언·저작/검수분리·표적검수 적용. 상시규범0/일회성.
+  다음401은 같은모달에 실제남은8키16값을 선언한다. 외부출시/스토어/지출/법률0.
+
+## 2026-10-03 (Codex — 투자·인물 안내 지역 글꼴과 투자 중국어 검수 마감)
+
+- 393: 실제 Open Sans/외부fallback을 측정한 뒤 normal_font4줄만 연결했다.
+  제품d0a7c9c는 Claude ab6f52fe MainGame과 동일. current source dd3f5794,
+  tree6c904aeb. 사전/원장/게임/FontKit/공개데모 변경0.
+- before4PNG→after16PNG·52font역할·별도glyph1530행·같은label언어전환10,
+  typed복원18·실사용자34파일불변. TextServer 별도probe를 내부RichText RID
+  관측으로 부르지 않는다. raw입력/거래/콜백0. 독립검수자20PNG전량 직접확인.
+- exact Git/raw4줄역삭제 bridge·focused54 PASS 원본로그, current정적13검사+
+  조회1 PASS(462.402초/2957tracked불변). Chapter1 debt8/blocked3/gap24와
+  year5 reference_only/invalidated 유지. 역사self/전체감사/240주 반복0.
+- helper 예약어 parse실패와 JSON float/int 비교실패는 원본보존 후 해당화면만
+  재실행했다. 실제 font수치가 맞던 후자는 제품결함이 아니다.
+- 391은8값 KO의미/지역문자/인수·원본receipt·CN/TW4상태와KO/EN/JA 투자회귀를
+  따로 검수해GO. 392의18dd header를 보존한 current successor결속이며,
+  새export/import 재실행0·역사rendered/native OPEN 유지·공식40,989/b163.
+- [393](agent_reviews/ORDER-393.json)와 [391](agent_reviews/ORDER-391.json) 각각
+  내부work_unit판정만 추가. 기존155판정/133보고/인간원장·공개GO1/인간OPEN45
+  보존, 본편/새packageHOLD. 기존11px/focus3px·동적이름·자연입력·원어민/인간/물리
+  미관측. 작은 글씨를 가독성승인으로 과장하지 않는다.
+- gangnamdream-dev의 선행선언·소유분리·독립검수·표적실행 적용. 상시규범0/일회성.
+  과거 로그 두 항목은 바이트 그대로 기존현지화보존본에 이동. 다음400은
+  모달32키/CN-TW64값을 선언했고 저작·화면 검수를 분리해 이어간다. 외부권한행사0.
+
+## 2026-10-03 (Codex — Claude 인계 원장·검증 연결 복구)
+
+- [392](queue_archive/ORDER-392.md): 이미 반영된 CN/TW 패드8값을 보존하고
+  공식8receipt/2batch만 복구했다.40,981/b161→40,989/b163, 원장 byte는
+  Claude `9db4a6e5`와 동일. 기존receipt/JA/원문/게임/공개데모 변경0.
+- PR31 최신 return-plan/runbook을 읽고 B3 미수용 시 허용된392-first 경로를
+  택했다. 검수 안 된 원고/폰트를 함께 합치지 않았다. 실제 Git18dd 원문 census,
+  보존 source rows/공식 header, 현8값/hash/digest/역삭제를 재검증했다.
+  이는 새 역사 재검증이지 당시 원본 import 실행/화면 증거의 재발급이 아니다.
+- exact PR30 두 부모·실제 main 유입e89·원격원장·복구f5c966a만 고정하고
+  일반 append 판정은 유지했다. 미회복/고아/중복/중간 drift를 거절한다.
+  focused 작성자 전사86+보강13+최종영향2 PASS; 최신97 전량실행 주장은 없다.
+  private `order392-development-evidence.json`에 helper2오류·lane인자거절·
+  큐순번FAIL도 구분 보존했다. 순번 수리와 과거 WORK_LOG 손실 없는 이동 완료.
+- clean source `f043387a`/tree`909fd3f8` 표적10명령 모두exit0/stderr0,
+  452.627초·tracked2,955개 전후불변. 독립검수는8값/전이/반례 전수 및 보호
+  2,041경로 불변을 확인해 이 work_unit만GO. 기존154판정/132보고와 인간
+  원장은 보존하고 판정1건만 추가했다. 기계PASS는 게임 전체 품질GO가 아니다.
+- Chapter1 debt8/blocked3/gap24, year5 reference_only/invalidated, 원형350의
+  5언어arc_drama+원장 및351원장 pin 실패는 이전부터의 별도잔여다. 원형검사
+  수정/역사self반복/전체감사/240주/엔진0. 공개GO1·인간OPEN45·본편/새packageHOLD.
+- 다음 읽기전용 분석: 투자·인물 pad label은 normal_font가 빠졌고 FontKit은
+  안정적인 JP/SC/TC 역할객체를 이미 제공한다. 전역theme 선행 없이 로컬 수리
+  가능하나 실제font/화면은391 OPEN이다. 투자2줄은391 조건범위, 인물까지4줄은
+  별도393 선언이 필요하다. MainGame/source successor와 실제5언어 화면을 묶고,
+  인물 CN/TW 미번역·전역font·11px/포커스잘림을 완료로 과장하지 않는다.
+- gangnamdream-dev로 선행선언·파일소유분리·독립검수·표적검증. 새 상시규범0,
+  계획은일회성. B3/B4 원고와 누적원장은 이후별도검수. 외부출시/스토어/지출/법률0.
+
+## 2026-09-30 (Codex — Claude 원격 인계 보존·미완료 범위 정합)
+
+- 통합 `e89f3ed` 표적 receipt 검사1회 FAIL: `UI/receipt/source/target additions differ: zh-CN`.
+  원본 private `order391-upstream-receipt-check.json` 보존. 새 검사 완화/원장위조0.
+- 동기화가 거부되어 원격을 읽었고 `0f5852d`/`bdbd10f`의 Claude 인계를 확인했다.
+  CN/TW 각4값과 아래 작성자 기록을 그대로 보존한다. 직전 Codex 항목의
+  제품 미반영/검사PASS는 원격 수신 전 로컬 후보의 기록이지 현 사전의 증거가 아니다.
+- 현 사전8값의 수용원장 추가0, 원본 export/import receipt·8PNG는 이 로컬에
+  없다. 인계의 Open Sans primary/한자 fallback 보고만으로 프로젝트 소유
+  SC/TC 우선경로를 승인하지 않는다. 현재 값·원문·지역font·receipt 연결은 미완료.
+  비저자 검수 사용한도 HOLD, 원문 코드 변경0·새GO0·기존 인간/공개판정 보존.
+
+## 2026-09-30 (Codex — 투자 패드 안내 초안8값·검수 미완료)
+
+- ORDER-391 선언 `18dd16d` main/origin 반영. 한국어 직접 CN/TW4키씩8값 초안,
+  source `18dd16d6020b2dcae8484f4b70af3261a6ccd91e` 공식 export/check 각2배치
+  PASS. 각 `FULL_LOCALIZATION_BATCH_VALID leaves=4`, 병렬 check7.914초,
+  source/response 전후 동일. private `order391-*` 교환·결과 보존.
+- 화면 저자/비저자 검수자가 사용한도로 실패했고 9/30 재확인 시 일반 사용 불가.
+  반복 위임·리셋/지출0. `gangnamdream-dev`/WORK_UNIT의 독립 검수 조건을
+  통과하지 못했으므로 import/accept·코드수리·완료판정0. 실제font/PNG 미관측.
+  제품/사전/수용원장/공개데모/사람원장/154판정/132보고 불변, 공식40,981/b161.
+- 재개는 원문8값 독립검수와 격리된 실제font 확인부터. 조건부 source수리 시
+  별도 sourcecommit·exact proof·새 export 결속 후 수용한다. 이전 실패/초안을
+  덮지 않는다. 기존 검사·전체감사·240주 반복0, 공개GO1·인간OPEN45·본편HOLD.
+  자동PASS는 계약증거이며 재미·깊이·문체·원어민/인간/물리/출시GO가 아니다.
+
 ## 2026-09-29 (Claude — Codex 인계: 투자 패드 안내 중국어 8값)
 
-- Codex 주간 한도 소진으로 사용자 지시에 따라 [391](queue_active/ORDER-391.md)을 이어받았다. CN/TW 패드 안내 4키×2 = 8값을 공식 export/check/import로 반영했다(`BATCH_VALID leaves=4` ×2). 기존 값 변경0.
+- Codex 주간 한도 소진으로 사용자 지시에 따라 [391](queue_archive/ORDER-391.md)을 이어받았다. CN/TW 패드 안내 4키×2 = 8값을 공식 export/check/import로 반영했다(`BATCH_VALID leaves=4` ×2). 기존 값 변경0.
 - 이 환경에 Godot 4.6.2 공식판을 받아 xvfb로 실제 MainGame 투자 화면 CN/TW 4상태 8PNG를 관측했다. 번역·placeholder 정상, 한자는 fallback으로 두부0이라 사양 조건상 font 코드 수리0.
 - `full_game_runtime_trace_audit` 실패는 수정 전 main에서도 재현(무관). 비저자 독립 검수는 없어 GO를 기록하지 않고 큐에 OPEN으로 남겼다. CN/TW 자산명·상단·우측 패널 영어 누출은 기존 미번역 범위로 관측만 했다.
 

@@ -1,8 +1,71 @@
 # ORDER-391 — 투자 패드 안내 중국어8값·실제 글꼴 연결
 
+[x] 2026-10-03. 독립 work_unit GO, blocker0.
+source `dd3f5794f21e56902838b83e03d3260d06f64c41`,
+tree `6c904aebf1da912ec4e7722a1d9f1d99e2c25efe`.
+
+- 재개 기록 소유 Root, 별도 비저자 /root/independent392. 구 담당자의 과거
+  사용한도 HOLD와 아래 원문을 보존하며 현재 권한 대기로 바꾸지 않는다.
+- 한국어 원문과 CN/TW8값·BBCode·placeholder2/0/0/4 전수 의미검수.
+  392의 원본18dd 공식header/8receipt와 현8값 보존,40,989/b163 그대로.
+- 393의 exact font-only source successor와 현재 normal365로 결속했다.
+  새source에서 export/check/import를 다시 실행한 주장이 아니며 역사
+  rendered_review/native_review OPEN도 변경하지 않았다.
+- 현 CN/TW투자4상태8PNG+KO/EN/JA투자3PNG에서 지정font/인수/경계 검수.
+  [별도 독립 보고](../agent_reviews/ORDER-391.json); 393 GO의 자동승계가 아니다.
+- 11px/focus3px·동적자산명·자연진입/복귀·실입력·원어민/인간/물리·출시는 비포함.
+  공개GO1·인간OPEN45·본편/새packageHOLD 유지. 스킬의 독립 판정/표적검증 적용,
+  기존규범재사용·새상시규범0. 아래 작업지시는 일회성.
+
+## 최초 선언과 진행 원문 보존
+
+# ORDER-391 — 투자 패드 안내 중국어8값·실제 글꼴 연결
+
 #### [~] ORDER-391 [P0·현지화] 투자 패드 안내 중국어8값·실제 글꼴 연결
 
 **[~] 착수 — 2026-09-29.** 부모 ORDER-157, 사용자 개발·검수 위임.
+
+## 2026-10-03 재개
+
+- PR31 `9db4a6e5` 공식8receipt/2batch와 exact Git 이력 복구를
+  [ORDER-392](../queue_archive/ORDER-392.md)에서 완료했다. 공식40,989/b163,
+  현재 표적10검사·독립 work_unit GO. 기존8값은 보존하며 화면/font GO는 아니다.
+- 독립 검수 실행 가능. 과거 사용한도 HOLD는 당시 기록으로 남기며 현재의
+  재개 차단으로 쓰지 않는다. 실제 지역 primary font/화면 검수는 아직 OPEN이다.
+
+## 2026-09-30 원격 인계 반영 후 재개 지점 — 미완료
+
+- 통합 source `e89f3ed`에서 `order365_ui_receipt_compat.py` normal1회 실패:
+  `UI/receipt/source/target additions differ: zh-CN`. 공식40,981/b161·historical_cases0.
+  원본 `.git/full-game-localization/order391-upstream-receipt-check.json` 보존;
+  과거391 초안PASS로 덮지 않고 현 사전/수용원장 불일치 수리를 남긴다.
+- 원격 `0f5852d`가 통합한 `bdbd10f`의 CN/TW8값을 보존한다. 아래 Codex 기록은
+  원격 수신 전 로컬 후보 `18dd16d`의 검사다. Claude 값은 일부 다르므로 이를
+  현재 사전 PASS로 바꿔 쓰지 않는다. 수용원장40,981/b161은 아직 그대로다.
+- Claude 작성자 보고8PNG·공식 import의 원본 파일은 이 로컬에 없다. 원본 회수
+  또는 새 격리관측·현재 사전 공식 교환/원장 연결을 마쳐야 한다. 기존8값을
+  로컬 초안으로 덮지 않는다. 현 주인의 값·raw 보존과 source/target freshness를
+  함께 확인하며 기존 receipt가 있었다고 재구성하지 않는다.
+- Open Sans primary와 한자 fallback은 인계 보고이며 직접 관측이 아니다.
+  두부 없음만으로 I18N_INFRASTRUCTURE의 SC/TC primary 경로를 증명하지 못한다.
+  실제 지역font 확인 후 조건부2줄 수리 여부를 판단한다. 독립 검수 사용한도
+  HOLD, 새GO0. 원래 source/도구 수리 범위를 확대하지 않는다.
+
+## 원격 수신 전 로컬 진행 기록 (2026-09-30)
+
+- 선언 `18dd16d6020b2dcae8484f4b70af3261a6ccd91e` main/origin 동기화.
+  한국어 직접 CN/TW4값씩 초안, 같은 source의 공식 export/check2배치 PASS.
+  각 `FULL_LOCALIZATION_BATCH_VALID ... leaves=4`, 병렬 check7.914초,
+  source/response 전후 hash 동일. import/accept0, 공식40,981/b161 그대로.
+- private `.git/full-game-localization/order391-{zh-CN,zh-TW}-draft.json`,
+  `-source.jsonl`, `-response.jsonl`, `order391-export-result.json`,
+  `order391-response-check-result.json` 및 `order391-resume.md` 보존.
+- 화면 저자와 독립 검수자가 사용한도로 실패했다. 2026-09-30 확인 시 일반
+  사용 불가이며 자동 재시도·크레딧 리셋/지출0. helper3개·실제font/PNG·독립
+  의미판정·최종GO는 아직 없다. 코드 부재만으로 폰트 결함을 확정하지 않는다.
+- 제품/공식사전/수용원장/검사도구 변경0. 재개 시 남은 독립 의미검수와 격리
+  font 실측부터 진행한다. source 변경 시 기존 export를 덮지 말고 새 후보로
+  export/check를 다시 결속한다. 변경 없는 기존 검사·확인된 실패를 반복하지 않는다.
 
 **2026-09-29 Claude 인계 결과 (Codex 주간 한도 소진으로 사용자 지시에 따라 이어받음).**
 - 8값: 공식 `full_game_localization.py` export→check→import `--accept` CN/TW 각1배치
