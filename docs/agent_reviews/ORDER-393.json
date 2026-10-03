@@ -1,0 +1,274 @@
+{
+  "schema": 1,
+  "reviewer": "/root/independent392",
+  "reviewed_at": "2026-10-03",
+  "unit_id": "ORDER-393",
+  "verdict": "GO",
+  "authority": "user_delegated_agent_final",
+  "scope": "work_unit",
+  "subject": {
+    "kind": "source",
+    "commit": "dd3f5794f21e56902838b83e03d3260d06f64c41",
+    "tree": "6c904aebf1da912ec4e7722a1d9f1d99e2c25efe",
+    "manifest_sha256": null
+  },
+  "independence": {
+    "product_author": "/root",
+    "bridge_author": "/root/receipt_bridge392",
+    "runtime_observer": "/root/receipt_tests392",
+    "reviewer_tracked_edits": 0,
+    "reviewer_engine_runs": 0,
+    "reviewer_authored_product_or_test_code": false,
+    "method": "Direct read-only review of specification, local and upstream product code, exact source bridge, focused test and lane, original helpers/logs/observations, all four before PNGs and all sixteen accepted after PNGs; independently checked evidence hashes and source identity. No repeated normal or historical test execution."
+  },
+  "blockers": [],
+  "product_review": {
+    "changed_product_files": [
+      "scenes/MainGame.gd"
+    ],
+    "added_product_lines": 4,
+    "consumers": [
+      "_open_cat_people._people_pad_hint_label",
+      "_open_investments._invest_pad_hint_label"
+    ],
+    "upstream_commit": "ab6f52fe40ad29ca99c007b3e8ddfeb101f10883",
+    "upstream_MainGame_raw_identical": true,
+    "MainGame_sha256": "ed116a1d4dae6dc0fcac708204c97eaadf988070e501c0bb1df437be6e38170d",
+    "finding": "Exactly two guarded normal_font overrides use the existing shared FontKit regular role. Existing bold overrides, wording, sizes, input and gameplay remain unchanged. The existing job hint uses the same local pattern. Global theme repair is not a prerequisite for these two consumers."
+  },
+  "before": {
+    "directory": ".git/full-game-localization/order393-screen-before-parse-fix",
+    "commit": "b48bc211092c14b80b51b3d8c8f06a4d79b84919",
+    "tree": "cba97af32d67a79891fd57489fe742783a340e4c",
+    "result_sha256": "789272dfbe45919e1ae6c78b309b430410a346bb4bdc581f7a128c3440d0141b",
+    "observations_sha256": "ada24bb017f835b480b0183671113c764d51b4be6fdccccdef35f04afab20618",
+    "duration_seconds": 10.605,
+    "exit_code": 0,
+    "source_and_helpers_unchanged": true,
+    "real_player_unchanged": true,
+    "directly_viewed_pngs": [
+      "zh-CN-trade",
+      "zh-CN-people",
+      "zh-TW-trade",
+      "zh-TW-people"
+    ],
+    "defect": "All four actual normal fonts were Open Sans SemiBold, not FontKit regular. The separate actual-font CJK probe selected Apple SD Gothic Neo and/or PingFang HK outside the project-owned chain. Bold already used SC/TC shared roles at weight 700. No tofu was visible, but that did not satisfy deterministic regional-primary routing. Conditional product-repair requirement therefore was met."
+  },
+  "after": {
+    "directory": ".git/full-game-localization/order393-screen-after-number-fix",
+    "result_sha256": "8c064e170561c593eaf1f486f5cc8a410f6cba92f1f10af28bd3d8aa833cbe1f",
+    "observations_sha256": "455329ab2d9104ab6440f41e965cff1dc4948da6e30631f6bc562296acf8e317",
+    "helper_gd_sha256": "c2dbed4dd08908dd39f239658711bd9380ff00f48005f9cd958fa82bab535afd",
+    "runner_sha256": "720d2ad88cd177977ca3a480238347198818132cbf812e1ba5d705566a0590cd",
+    "duration_seconds": 27.385,
+    "exit_code": 0,
+    "errors": [],
+    "source_and_helpers_unchanged": true,
+    "real_player_file_count": 34,
+    "real_player_unchanged": true,
+    "actual_resolution": [
+      1280,
+      800
+    ],
+    "directly_viewed_pngs": [
+      "zh-CN-page",
+      "zh-CN-empty",
+      "zh-CN-blocked",
+      "zh-CN-trade",
+      "zh-CN-people",
+      "zh-TW-page",
+      "zh-TW-empty",
+      "zh-TW-blocked",
+      "zh-TW-trade",
+      "zh-TW-people",
+      "ko-trade",
+      "ko-people",
+      "en-trade",
+      "en-people",
+      "ja-trade",
+      "ja-people"
+    ],
+    "visual_finding": "All sixteen actual PNGs show the hint within its bounds, on one line, without observed hint clipping, tofu, overlap or exposed BBCode. Button and argument order matches the source and dictionary. Bold heading and normal spans remain distinct. This is not 11px readability or whole-screen translation approval.",
+    "actual_font_observations": 52,
+    "separate_glyph_probe_rows": 1530,
+    "font_finding": "All resolved normal/bold resources equal the corresponding stable FontKit roles. CN/TW/JA use SC/TC/JP primary resources with 400/700 variable weights. KO/EN use the intended static Pretendard regular/bold files. Exact fallback paths and weights, regional CJK primary precedence, nonempty glyph probes, owned-chain RIDs and missing-glyph absence pass.",
+    "shape_boundary": "Glyph RID evidence is separate TextServer shaping of each actual label's resolved font and displayed span. It is not direct inspection of RichTextLabel internal shaped RIDs. Original PNGs separately establish visible rendering.",
+    "same_open_label_locale_mutations": 10,
+    "mutation_route": [
+      "zh-CN",
+      "zh-TW",
+      "ja",
+      "ko",
+      "en",
+      "zh-CN"
+    ],
+    "mutation_finding": "Both hint nodes and both stable role identities remain the same while locale changes alter their primary route. Bounds and text binding pass. Source-bound catalogue/name/settings checks distinguish permitted locale effects from protected state; refresh itself adds no protected delta.",
+    "typed_screen_fixture_restorations": 16,
+    "typed_mutation_fixture_restorations": 2,
+    "all_typed_restorations_and_round_trips_pass": true,
+    "raw_input_events": 0,
+    "trade_calls": 0,
+    "trade_signals": 0,
+    "gameplay_callback_calls": 0,
+    "dictionary_font_theme_cache_injection": false,
+    "isolation": "Existing StoryNameplateBootstrap selected a fresh exact namespace before autoloads. Both markers match. Prepared GameState and catalogue fixtures are recorded and restored; actual player files are unchanged. Forced pad branding is not physical or natural input evidence."
+  },
+  "source_bridge_and_tests": {
+    "finding": "The complete previous main_game_locale_history and ui_translation_append prefixes remain unchanged. New proof rechecks five immutable Git stages, object hashes/types, trees, direct parents, one-file product diffs, ancestry, whole raw continuity and actual HEAD MainGame blob. Exactly one four-line inverse at the two unique consumers recovers pre393 raw; previous inverse stages remain exact. Manifest comparison copies only the MainGame hash internally and delegates the untouched actual inventory. No mutable PASS cache, historical HEAD spoof, arbitrary source replacement or general waiver was found. ORDER-392 split state machine and original append/history bodies remain intact.",
+    "focused_evidence": ".git/full-game-localization/order393-static-focused.json",
+    "focused_sha256": "0b5d1037b4669b171b5feccb1de075d341894602be5916097743ddaf8633ad9d",
+    "focused_cases": 54,
+    "focused_historical_cases": 0,
+    "focused_exit_code": 0,
+    "focused_seconds": 24.995,
+    "focused_stdout": "UI_TRANSLATION_APPEND_PAD_HINT_FONT_OK cases=54 historical_cases=0\n",
+    "focused_stderr": "",
+    "focused_provenance": "Actual author subprocess stdout/stderr, timestamps, command, exact before/after HEAD and eleven file hashes retained; independently hash-verified. This is not a transcription or an independent rerun.",
+    "focused_coverage": "Pure inverse partial/duplicate/moved/neighbor faults bypass the outer digest gate. Tests cover public predecessor and source/project/hash entrances, immutable Git faults, rollback/lost proof, unchanged actual collector semantics and current coordinates, whole inventory/blueprint/context/stats roundtrip, all admitted manifest stages and counterfeit census/unowned-source rejection.",
+    "lane": "Explicit pad-hint-font lane has no automatic paths, bounded owned paths and the current focused plus required normal consumers. Historical tutorial-copy CLI/body remains historical; no older suite is reported as rerun."
+  },
+  "normal_validation": {
+    "directory": ".git/full-game-localization/order393-static-final",
+    "result_sha256": "a71d2c95dbb45488e34d96673ec1a0a8943ca1bba5dc6942f24da577d827df57",
+    "entry_sha256": "8a8d193e8b8d82034b04ea3d0d1383d217689f5f51414b8fe10d3d6e15ec4849",
+    "runner_sha256": "742e0e199790498e4b1fcabf7d40b76136cbd48b2c9fbca9748abe00e3571862",
+    "all_pass": true,
+    "normal_checks": 13,
+    "additional_lane_list": 1,
+    "all_exit_zero_and_stderr_empty": true,
+    "wall_seconds": 462.402,
+    "source_unchanged": true,
+    "tracked_census_count": 2957,
+    "raw_rows_match_result_and_entry": true,
+    "limits": [
+      "Chapter1 is SNAPSHOT_VALID with debt_codes=8, blocked=3 and W25..48 gap=24, not completion.",
+      "Year5 remains reference_only, topology invalidated, product_consumers=0 and r1b_allowed=false.",
+      "Full-body result is SOURCE_INVENTORY_ONLY with runtime_claim=0 and native_quality_claim=0.",
+      "JA UI clean 2980 remains beta; ZH UI1199/2951 remains skeleton and shipping=0.",
+      "Whole audit, historical self suites and 240-week tests were not run."
+    ]
+  },
+  "preservation": {
+    "baseline": "b48bc211092c14b80b51b3d8c8f06a4d79b84919",
+    "changed_tracked_paths": [
+      "CLAUDE.md",
+      "scenes/MainGame.gd",
+      "tools/audit_scope.json",
+      "tools/main_game_locale_history.py",
+      "tools/ui_translation_append.py",
+      "tools/ui_translation_append_self_test.py"
+    ],
+    "other_tracked_paths_unchanged": 2951,
+    "existing_agent_decisions_unchanged": 155,
+    "existing_agent_reports_unchanged": 133,
+    "accepted_receipts": 40989,
+    "batches": 163,
+    "ledger_sha256": "2bbf79be726b098ea325cf47b864f3e772aadda71770887d2abd9e8519dbd110",
+    "human_ledger_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6",
+    "public_go": 1,
+    "human_open": 45,
+    "unchanged_domains": [
+      "all dictionaries and accepted receipt bytes",
+      "story prose and data",
+      "GameState/economy/save/project.godot",
+      "FontKit/UIStyle and all bundled fonts/assets",
+      "public demo and human evidence",
+      "original ORDER-350/351 code and preexisting blocked history",
+      "all existing agent decisions and reports"
+    ],
+    "git_diff_check": "PASS on the complete baseline-to-candidate change, independently read-only checked"
+  },
+  "preserved_failures": [
+    {
+      "directory": "order393-screen-before-first",
+      "result_sha256": "2dd55b57ac7b07b33f8f57c7619d2c44c981bda98424f910a1fe1df5ebddc6b5",
+      "reason": "Reserved namespace variable caused a helper parse error. The original helper, logs and failed result remain; the valid before run changes only that variable name."
+    },
+    {
+      "directory": "order393-screen-after-final",
+      "result_sha256": "8c00174caa380f05255761769992325d6f479bd0f83a7fab8296925a3619b07f",
+      "reason": "Expected fallback weights parsed as JSON floats were compared against actual integer arrays. All 52 numerical route values already matched. The only retry change casts expected weights to int before comparison. Failed logs, helper, observations and sixteen PNGs remain unmodified; no retroactive PASS."
+    }
+  ],
+  "separate_closure_review": {
+    "unit_id": "ORDER-391",
+    "verdict": "GO",
+    "scope": "work_unit",
+    "subject_commit": "dd3f5794f21e56902838b83e03d3260d06f64c41",
+    "subject_tree": "6c904aebf1da912ec4e7722a1d9f1d99e2c25efe",
+    "basis": "Separately assessed the active ORDER-391 requirements and all eight current translations against Korean, rather than automatically inheriting ORDER-393 GO. ORDER-392 supplied independently reviewed exact official receipt/source provenance; current393 normal receipt validation binds those unchanged records to the exact font-only successor. Current CN/TW four-state eight PNGs and KO/EN/JA investment regression PNGs satisfy its remaining bounded screen/font requirements.",
+    "translation_review": [
+      {
+        "meaning": "pad, LB/RB pages, back, page label",
+        "zh-CN": "[b]手柄[/b]  LB/RB 翻页 · %s 返回  —  %s",
+        "zh-TW": "[b]手把[/b]  LB/RB 換頁 · %s 返回  —  %s",
+        "placeholders": 2
+      },
+      {
+        "meaning": "pad, LB/RB pages, no tradable assets",
+        "zh-CN": "[b]手柄[/b]  LB/RB 翻页 · 无可交易资产",
+        "zh-TW": "[b]手把[/b]  LB/RB 換頁 · 無可交易資產",
+        "placeholders": 0
+      },
+      {
+        "meaning": "trade unavailable",
+        "zh-CN": "无法交易",
+        "zh-TW": "無法交易",
+        "placeholders": 0
+      },
+      {
+        "meaning": "pad, page/asset/trade-action selection, confirm action, back, asset name",
+        "zh-CN": "[b]手柄[/b]  LB/RB 翻页 · ↑↓ 资产 · ←→ 操作 · %s %s · %s 返回  —  %s",
+        "zh-TW": "[b]手把[/b]  LB/RB 換頁 · ↑↓ 資產 · ←→ 操作 · %s %s · %s 返回  —  %s",
+        "placeholders": 4
+      }
+    ],
+    "translation_finding": "All eight values preserve Korean meaning, BBCode, 2/0/0/4 placeholder populations and argument order. 操作 correctly refers to selectable trade actions here. Regional forms and existing pad terminology match each locale; actual A action/B back and page/asset values are observed.",
+    "source_binding_limit": "No new export/check/import or duplicate receipts were created in393. The original official headers remain at source18dd16d and retain their historical rendered_review/native_review OPEN values. Current binding is the exact immutable source-successor proof plus normal365 on dd3f, not a claim that the old export was produced from dd3f. Record this distinction in391 closure; do not overwrite historical receipts or failed observations.",
+    "missing_in_scope_requirements": [],
+    "not_included": [
+      "people translations or other UI",
+      "dynamic asset-name completeness",
+      "11px legibility and existing focus border clipping",
+      "natural ingress/return or physical input",
+      "native/human judgment",
+      "full-game/package/release approval"
+    ]
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "natural_ingress_and_return",
+    "global_font_or_theme_completion",
+    "full_localization",
+    "11px_legibility_approval",
+    "other_resolutions_and_platforms",
+    "full_game_and_new_package",
+    "public_release"
+  ],
+  "final_boundary": "Separate internal GO for ORDER-393 two-hint font routing and ORDER-391 eight investment guidance values plus their bounded font/screens on exact dd3f/tree6c904. Human ledger remains public GO1/open45; full game and new package remain HOLD. No native, physical, human or release observation is inferred from automated PASS or this independent agent review.",
+  "independent": true,
+  "observed_product_source": {
+    "kind": "source",
+    "commit": "dd3f5794f21e56902838b83e03d3260d06f64c41",
+    "tree": "6c904aebf1da912ec4e7722a1d9f1d99e2c25efe",
+    "observed_clean": true,
+    "product_commit": "d0a7c9cf38b8d64f65bf0c9020bbb9ce0a1de91b",
+    "product_tree": "c3bc87da49fc23388648ca9466092e522eac5cb4",
+    "product_parent": "b48bc211092c14b80b51b3d8c8f06a4d79b84919"
+  },
+  "unit_evidence": {
+    "도달 경로": "ORDER393_UI_OK mode=after screens=16 captures=16 raw=0 trades=0",
+    "생산자 ↔ 독자": "FontKit.ui_regular → MainGame._open_cat_people/_open_investments normal_font",
+    "바꾸는 상태": "normal Open Sans/OS fallback → owned JP/SC/TC or KO/EN role; player state unchanged",
+    "포기 시 잃는 것": "two pad hints: regional-primary routing",
+    "서사 위치": "N/A: UI font binding",
+    "장면 계층": "N/A: no prose",
+    "닫는 것": "ORDER-393 two hints only"
+  },
+  "review_provenance": {
+    "path": ".git/full-game-localization/order393-independent-review.json",
+    "sha256": "df0edfeb85a7c47377367da1803773451cebbf4dae425f873b057acbab579a7d"
+  }
+}

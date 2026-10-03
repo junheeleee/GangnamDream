@@ -1,5 +1,23 @@
 # ORDER-393 — 투자·인물 패드 안내의 지역 글꼴 연결
 
+[x] 2026-10-03. 독립 work_unit GO, blocker0. source `dd3f5794f21e56902838b83e03d3260d06f64c41`,
+tree `6c904aebf1da912ec4e7722a1d9f1d99e2c25efe`.
+
+- 실제 Open Sans/OS fallback을 먼저 확인하고 기존 shared normal_font4줄만
+  연결했다. Claude ab6f52fe MainGame과 byte-exact. 사전/게임/FontKit 변경0.
+- after16PNG·52font·같은label언어전환10·typed복원18·사용자34파일불변.
+  glyph1530행은 실제 font의 별도 TextServer probe이며 internal RichText RID 주장이 아니다.
+- focused54 PASS(원본로그), 정적13검사+차선조회1 PASS·462.402초·tracked2957불변.
+  before namespace예약어/after JSON숫자타입 helper 실패2회 원본보존.
+- [독립 보고](../agent_reviews/ORDER-393.json). 391은 별도 판정으로 마감.
+  사람 영어fallback은400 후속. 11px/focus/동적이름/자연입력/원어민/출시GO0.
+- 기존155판정/133보고·공개GO1/인간OPEN45·본편/새packageHOLD 보존.
+  gangnamdream-dev의 선언·소유분리·독립검수·표적검증 적용. 새상시규범0/일회성.
+
+## 최초 선언 원문 보존
+
+# ORDER-393 — 투자·인물 패드 안내의 지역 글꼴 연결
+
 #### [~] ORDER-393 [P0·UI] 투자·인물 패드 안내의 지역 글꼴 연결
 
 **[~] 착수 — 2026-10-03.** 사용자 계속 개발·검수 위임, Claude PR31

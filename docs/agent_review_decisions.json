@@ -6207,6 +6207,84 @@
         "path": "docs/agent_reviews/ORDER-392.json",
         "sha256": "2f48e86558d7e51ab103444fb098417e3e5e9f49fd7183b179e12be5e64c69f5"
       }
+    },
+    {
+      "id": "order-391-source-dd3f579-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-10-03",
+      "decided_by": "/root/independent392",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-391",
+      "subject": {
+        "kind": "source",
+        "commit": "dd3f5794f21e56902838b83e03d3260d06f64c41",
+        "tree": "6c904aebf1da912ec4e7722a1d9f1d99e2c25efe",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-391.json",
+          "sha256": "7b680df8c90db555ca2fd7fb17ac49165d69d0ba3207110a3a0b5b0763cadc04"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "natural_ingress_and_return",
+        "global_font_or_theme_completion",
+        "full_localization",
+        "11px_legibility_approval",
+        "other_resolutions_and_platforms",
+        "full_game_and_new_package",
+        "public_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-391.json",
+        "sha256": "7b680df8c90db555ca2fd7fb17ac49165d69d0ba3207110a3a0b5b0763cadc04"
+      }
+    },
+    {
+      "id": "order-393-source-dd3f579-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-10-03",
+      "decided_by": "/root/independent392",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-393",
+      "subject": {
+        "kind": "source",
+        "commit": "dd3f5794f21e56902838b83e03d3260d06f64c41",
+        "tree": "6c904aebf1da912ec4e7722a1d9f1d99e2c25efe",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-393.json",
+          "sha256": "6286903be515c8b500d132c9cb0587696bb7dd02ddf081cc7022248d26cfdd56"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "natural_ingress_and_return",
+        "global_font_or_theme_completion",
+        "full_localization",
+        "11px_legibility_approval",
+        "other_resolutions_and_platforms",
+        "full_game_and_new_package",
+        "public_release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-393.json",
+        "sha256": "6286903be515c8b500d132c9cb0587696bb7dd02ddf081cc7022248d26cfdd56"
+      }
     }
   ]
 }

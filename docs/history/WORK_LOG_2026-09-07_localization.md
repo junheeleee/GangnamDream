@@ -1181,3 +1181,28 @@
 - 첫마감context는CLAUDE18037B/상한18000B로37B초과FAIL했다(도구출력보존). 원본마감metadata는정확10경로만stash e40065edfd79086fdff483312004b18661ecb67b에보존하고CLAUDE1행의중복표현만축약해PASS. 독립보고v1도private에원형보존한뒤최종clean소스로다시결속했다. 게임·번역·도구·실제화면검사를재실행한것이아니다.
 - 효율화학습은정본I18N한곳에만추가했다: 검사기변경때만self를돌리고 번역변경에는source-bound수용·독립문장검수·바뀐실제화면을집중한다. 사용스킬gangnamdream-dev가선행선언·파일분리·격리검증을정했다. 외부출시/스토어/지출/법률인증0.
 - 다음 안전한 읽기전용후보: ArubaGame의 편의점 응대51·배달정보12·안내/결과39, CN/TW각102키. 사전/기존수용/public121키와중복0을직접대조했으나공식collector확정·새범위선언전이므로미착수다. 일반CARDS원고/미도달fallback/positive-health는제외하고기존`보통`/`완료`값을보존한다. 실제내부/legacy소비자이며공개StoryMode정상도달주장0. 소스SHA058aa08f6963f8a68d98a6eb643ead0e3d4881df834658bc5a44168ffd3bb05e, 선정키SHA2adc950cdbf62137ad654ef9a57a562ccfb80512875f9a8da21a1cd4170849b6. 새수용/엔진/제품변경0.
+## 2026-09-28 (Codex — 배달 제목 세 언어 완역과 수집 누락 수리)
+
+- 마감 context/queue PASS(active77/in_progress74), 판정 원장 형식·Git subject·기록 SHA 검증 PASS. 기존139판정 raw prefix/117보고·인간원장불변, 새보고1개/private원본일치, 초기사양전문 archive보존을확인했다. 전체원장 self는반복하지않았으며 이검사는새제품검사15개와별도다.
+- [378](queue_archive/ORDER-378.md): 비 오는 저녁/배달 루트 제목2×JA/CN/TW6값을 한국어에서 직접 작성·독립전수검수·공식수용했다. CN/TW의 초기 雨中傍晚 어순을 雨天傍晚로 정리했다. source2/target6, UI3030/1283/1283·수용40740/b146(JA13114/CN13813/TW13813), 기존40734수용/145batch·모든기존번역값·인간판정 불변이다.
+- 비포맷 조건식 collector는 ArubaGame.gd::open의 exact runtime SHA와 KO/EN2쌍만 승인한다. 기존코드역삭제·역사3466호출/2949키·옛ID/hash/context/blueprint를보존하고현재3468/2951로분리했다. 실제추가후보 CoreLoopPlanner8은비소유로제외했다. 새호환모듈0, 기존append만JA까지확장해실제3사전+원장4파일/전체47경로를검증한다. 옛CN/TW3파일 fixture API·365원형핀·기존self본문은그대로다.
+- clean82bd700/treec729142의정적15명령exit0/stderr0: 새self33+44=77, current guard, 영향consumer5, JA/CN/TW기계검사, registry/context/queue/diff, 영향목록조회1. 마지막목록은선택된검사전부실행이아니다. 최대3개프로세스병렬이며소요합424.456초는벽시계시간이아니다. 바뀌지않은역사14/34·312/1955/689·240주·전체감사0. Chapter1은기존debt8/blocked3/W25~48 gap24를유지한snapshot유효이고전체완료가아니다.
+- 실제MainGame이생성한Aruba동일인스턴스에서맑음/비×JA/CN/TW6준비화면·각11노드·6PNG PASS(12.881초). 사전→LocaleManager→실제Label·JP/SC/TC공유글꼴/누락glyph/1280×800경계를검증했다. root위험3PNG, 비저자6PNG전수관찰. source2925/helper·실사용자저장34파일전후불변, 격리namespace보존. 새raw입력/자연진입/finish/정산/전체shift0; 원어민·인간·물리·새package관측으로승격하지않는다.
+- 실패보존: 저자collector첫음성fixture IndexError가진단을가려실패, 다음진단은범위밖조건식후보를발견해실패했다. 오류출력보강과Aruba owner제한후개발33PASS, 이후clean통합33PASS는구분한다. 두번째개발실패는tool session94118전사기록이며별도raw stdout파일이아니다. 공식import가JA기존5줄tab을space로정규화해raw역삭제가거절한1회도session51734전사로보존했다. 그5줄들여쓰기만정확복원후역삭제PASS; 기존값/영수증변경0, 실패후제품commit전수리다.
+- 최종0d1d4bd/treec4b3903는실행source에서CLAUDE상태1행만변경했다. 독립보고·증거SHA를해당source에결속해work_unit만GO. 기존139판정/117보고·공개GO1·인간OPEN45·meta9/보류72·liveness launcher오탐FAIL을보존하며본편/새packageHOLD다. gangnamdream-dev에따라선행선언·저작파일분리·독립검수·격리실행을적용했다. 지속규범은I18N_INFRASTRUCTURE기존append단락의3언어사용법만갱신, 나머지는일회성이다. 외부출시/스토어/지출/법률인증0.
+- 다음후보읽기전용확인: JA배달목적지명/층·시간12키는사전부재로영어폴백한다(ArubaGame.gd239~244→_delivery_label→Button). CN/TW는376에서이미수용되어재작업대상이아니다. 이번6제목완료를배달UI전체완역으로부르지않고, 남은UI는같은소비자별로묶어별도선행선언후진행한다. 중국어다음경량후보는MainGame직업선택창40키/80값, 투자데스크79키/158값은수치·표시검수후순위이며공통현금키1개를중복수용하지않는다. 상세읽기전용후보는`.git/full-game-localization/order378-next-ui-candidates.json`에보존했고새구현/검사/수용0이다.
+
+## 2026-09-28 (Codex — 편의점·배달 중국어 200문구와 누락 글꼴 수리)
+
+- [376](queue_archive/ORDER-376.md): 한국어100키×CN/TW=200값을 직접 저작하고 비저자가 전수 의미검수했다. 한 박자→半拍 오역2곳을 수리했다. 공식check/import와 raw역삭제 PASS, UI각1181→1281·수용40534→40734·batch144→145; JA13112·모든기존값/수용/metadata불변. 실제MainGame생성Aruba에서 지역별34준비상태·100키·PNG12(합68/200/24)를 node/string/SC·TC/font/glyph/경계로 검증하고 비저자가24PNG전수관찰했다. root는위험6PNG를대조했다. 조건식제목2의영어폴백은명시제외했다.
+- [377](queue_archive/ORDER-377.md): 실제MainGame생성Aruba의font-base공란/CN22+TW22=44노드결함을확인해 _ready localTheme3행만수리했다(e97c49d). 동일helper수리후CN22+TW23=45노드PASS, 무작위손님차이로동일텍스트모집단재현은아니다. 별도동일인스턴스KO→EN→JA22+23+23=68노드PASS. exactGit parent/tree/1file/blobs와3행역삭제를증명해 옛manifest/Chapter1핀비교에만연결했으며실제현재raw/원문/핀은바꾸지않았다. 새compat모듈0; 기존self147본문보존+새font23=170PASS.
+- 현재 실제실행source81c1ef844f0d92b41ed1a1ae7ed878d4f0cd0cd9/tree6f3a07bfcf585429f4d091c99392850e5923544a. 정적14명령전부exit0, 합374.159초(명령별소요합계이며병렬화한실제화면시간과구별). 최종CLAUDE상태만추가되면불변제품/도구의영향연결이며재실행으로세지않는다. 전체감사·기존1955/689/240주/312 반복0. 기존liveness Pythonlauncher오탐FAIL은비소유·미변경·미재실행. Chapter1은기존debt8/blocked3/gap24 snapshot유효이지완료가아니다.
+- 표적14명령은self170,365현재normal,현재consumer5,중국어기계검사,registry/context/queue/영어/diff/selector목록이다. 목록조회는실행된suite수로부르지않는다. 실제화면과정적검사를병행하고, 도구가바뀐이번에만self1회실행했다. 향후동일검사기단순번역append에서는self/역사코퍼스를반복하지않는다.
+- 실패원본보존: 초기에export기본limit80이100선정을거절해제품변경0, 명시limit100으로수리. 글꼴수리전원문header는폐기/조작없이보존하고수리후e97에서다시export했다. 100본문행은동일, 실제source_revision/manifest/batch_id만변경. CN첫화면은private _open 부모시그니처충돌로parseFAIL·관측/PNG0; 격리child하나만SIGTERM해300초무의미대기를피했고exit−15/48.256초 로그·helpers·result를보존했다. 선언/호출3곳만 _open_shift로변경한뒤CN34/100/12 PASS, TW동일helper첫실행PASS. 제품실패와관측도구실패를구분한다.
+- 모든완료실행의tracked/helper census·실사용자저장34파일불변, 격리namespace는증거로보존했다. raw입력0·자연AP진입0·실시간timeout0·finish/정산0. 음수stress결과는주입한표시분기이며현재전체shift자연완주도달성을주장하지않는다. 기존결과글꼴11px/만원반올림을그대로관찰했으며이번번역의수치변경이나사람가독성승인으로부르지않는다.
+- 기존137판정/115보고·인간원장SHA6ab5c927…c9f6·공개GO1·인간OPEN45 보존후새work_unit판정2건만추가한다. 원어민/인간/물리관측OPEN·meta9/보류72유지, 본편/새packageHOLD. gangnamdream-dev가선행선언·파일소유분리·독립검수·격리표적실행을정했다. 정본규범승격0, 외부출시/스토어/지출/법률인증0.
+- 다음안전한범위는확인된배달조건식제목2의collector/지역번역공백이다. 376에서제외된영어폴백을전체화면완역으로덮지않고다음선행선언으로처리한다. 새입력/패키지/전체스토리완주증거는이번작업으로늘지않았다.
+
+- 후속 읽기전용 진단: 배달제목2는 JA/CN/TW 모두없다. 조건식UI parser가 후행`.format`을 요구해 비포맷호출을 놓친다. runtime if/else는단일파일48→50호출·표적0→2가되지만폰트raw핀/원문manifest승계를다시열게된다. 다음번역배치에서동일조건·literal쌍의bounded parser 개선+신규leaf실집합확인+6값을함께선언하는안을권고한다. 무제한조건제거의타파일매칭증가는미확인, 새코드/collector전수검사/번역실행0. 이번관측도구학습: 상속fixture를재사용할때부모와같은이름의함수시그니처를먼저대조하면불필요한엔진실패를줄인다. 이는이번후속메모이며새정본규범승격0.
+
+취업 준비 중국어188값·반복 검사 비용 축소 기록은 [현지화 보존본](history/WORK_LOG_2026-09-07_localization.md)에 원문 그대로 이동했다.

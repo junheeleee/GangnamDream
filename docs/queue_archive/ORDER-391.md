@@ -1,5 +1,26 @@
 # ORDER-391 — 투자 패드 안내 중국어8값·실제 글꼴 연결
 
+[x] 2026-10-03. 독립 work_unit GO, blocker0.
+source `dd3f5794f21e56902838b83e03d3260d06f64c41`,
+tree `6c904aebf1da912ec4e7722a1d9f1d99e2c25efe`.
+
+- 재개 기록 소유 Root, 별도 비저자 /root/independent392. 구 담당자의 과거
+  사용한도 HOLD와 아래 원문을 보존하며 현재 권한 대기로 바꾸지 않는다.
+- 한국어 원문과 CN/TW8값·BBCode·placeholder2/0/0/4 전수 의미검수.
+  392의 원본18dd 공식header/8receipt와 현8값 보존,40,989/b163 그대로.
+- 393의 exact font-only source successor와 현재 normal365로 결속했다.
+  새source에서 export/check/import를 다시 실행한 주장이 아니며 역사
+  rendered_review/native_review OPEN도 변경하지 않았다.
+- 현 CN/TW투자4상태8PNG+KO/EN/JA투자3PNG에서 지정font/인수/경계 검수.
+  [별도 독립 보고](../agent_reviews/ORDER-391.json); 393 GO의 자동승계가 아니다.
+- 11px/focus3px·동적자산명·자연진입/복귀·실입력·원어민/인간/물리·출시는 비포함.
+  공개GO1·인간OPEN45·본편/새packageHOLD 유지. 스킬의 독립 판정/표적검증 적용,
+  기존규범재사용·새상시규범0. 아래 작업지시는 일회성.
+
+## 최초 선언과 진행 원문 보존
+
+# ORDER-391 — 투자 패드 안내 중국어8값·실제 글꼴 연결
+
 #### [~] ORDER-391 [P0·현지화] 투자 패드 안내 중국어8값·실제 글꼴 연결
 
 **[~] 착수 — 2026-09-29.** 부모 ORDER-157, 사용자 개발·검수 위임.
