@@ -2,6 +2,28 @@
 
 이전 원문 전체는 [2026-09-28 이전 기록](history/WORK_LOG_2026-09-28_pre_order351.md)에 바이트 그대로 보존했다.
 
+## 2026-10-04 (Codex — 행동 축 영어 배지 글자폭 수리)
+
+- [403](queue_archive/ORDER-403.md): axis Label의 clip_text 한 줄 수리로
+  EN6의 MONEY44/PEOPLE45 대 label42 부족해소. 실제35축배지 전부fit,
+  label44/45·panel60/61, floor58·font12·여백8+8 유지.
+- source1294899/tree5e30d8e, 전후5언어20PNG 전량독립검수.
+  after18.811초·typed복원10·warmup5 delta0·사용자34/tracked2966불변.
+  cast5노드/mixed5공유component를 자연모달/PNG와 구분했다. 실제입력/행동0.
+- 비축180행 신규fit회귀0, 기존resume preview4의ellipsis는 남는다.
+  all_text_fits=false·Atlas72/초상60/work82/mixed56 유지. 전체UI승인 아님.
+- exact403 source bridge·focused107/historical0 PASS45.479초. 동일7manifest
+  비교의fresh증명25회8.516초→7회2.446초, 이 표적의 비용만 줄였다.
+  원본census/이전proofbody/실패402 raw 거부와 호출간fresh검사를 보존했다.
+- normal13+선택조회1 PASS561.336초, 목록96개 자체 실행0.
+  Chapter1 debt8/blocked3/gap24·year5 reference_only/invalidated 보존.
+  [비저자 보고](agent_reviews/ORDER-403.json)의 exact work_unit만 내부GO.
+- 기존160판정/138보고·수용41,069/b169·인간원장·공개GO1/인간OPEN45 보존.
+  원어민/인간/물리·자연진입/Back/OS raw/다른해상도·11px/포커스·B3/B4 미관측/별도잔여.
+  본편/새packageHOLD. 자동PASS≠출시GO, 외부출시/스토어/지출/법률0.
+- gangnamdream-dev의 격리관측·독립검수·기존증거보존을 적용했다. 상시규범0/일회성.
+  다음404는 실제일메뉴 중국어9키×2언어18값·공식2교환·두fixture4PNG만 선언한다.
+
 ## 2026-10-04 (Codex — 인물 Atlas 카드 이미지 돌출 수리)
 
 - [402](queue_archive/ORDER-402.md): 그림크기를 유지한 채 카드만 실제내용 최소높이를

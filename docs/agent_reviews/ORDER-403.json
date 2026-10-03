@@ -1,0 +1,941 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-403",
+  "subject": {
+    "kind": "source",
+    "commit": "12948992e3cb9331adb96a0b96928c3ee818dddd",
+    "tree": "5e30d8eea3375fbaabc767e1a7d152678027d4e0",
+    "manifest_sha256": null
+  },
+  "scope": "work_unit",
+  "reviewer": "/root/independent392",
+  "reviewed_at": "2026-10-04",
+  "status": "reviewed",
+  "verdict": "GO",
+  "authority": "Delegated internal exact-source work-unit review only; not human/native/physical-device/public-release approval.",
+  "independence": {
+    "product_author": "/root",
+    "bridge_and_focused_author": "/root/receipt_bridge392",
+    "runtime_helper_and_observer_author": "/root/receipt_tests392",
+    "reviewer_authored_product_tools_helpers": false,
+    "reviewer_engine_or_heavy_test_runs": 0,
+    "reviewer_actions": "Read the full declared specification, applicable repository instructions, actual consumers, new helper/runner and final code. Independently verified exact Git/raw inverse, prior code preservation, artifact/hash/typed evidence, all 20 before/after PNGs and every normal result. Only this private review file is owned."
+  },
+  "decision_summary": "GO for exact ORDER-403 source12948992 only. The one-line axis Label repair makes all 35 observed badges fit without shrinking text, changing words or losing previously fitting adjacent text. Both actual consumers, five cast node measurements and five isolated mixed components retain geometry and protected state. Runtime, 107 new focused cases and 13 normal checks plus one selection query pass. Four preexisting intended preview ellipses remain; all_text_fits=false. No broader release, translation-completeness or human gate is closed.",
+  "source_review": {
+    "baseline_commit": "3ab189eb38cd6fcfe534dbf11ce6ed1b470255e4",
+    "baseline_tree": "871a61f22387327a555e8b05a6deac643f639270",
+    "product_commit": "652c53e541c025be67efb73d9613a52ff05615d4",
+    "product_tree": "2d76927bafc7dfdc00c929cdb3c52b017cb0fec3",
+    "product_blobs": {
+      "before": "d79d63645ed9b4b5fa9062380fca28942add169a",
+      "after": "011511d838985d811bed8f87cbc94c64967f1fcf"
+    },
+    "main_game_sha256": {
+      "before": "473aab2946d2b76a6263e57fc36facfc24de83629fddf88f3005200a81a15e7d",
+      "after": "4c86abe5880d49128a511da36ad361f76c4290c10103d976e1dd33d66294d6bf"
+    },
+    "implementation": "Exactly one added line, axis_lbl.clip_text = false, inside _make_essential_action_card. Shared _label, title/subtitle/preview/AP/keycap, axis words, 58px badge floor, actual12px font and final8px left/right padding are unchanged.",
+    "independent_inverse": "Removing the independently specified exact one-line addition recovers the whole baseline MainGame bytes; actual direct parent, trees, blob and MainGame-only product path population verified.",
+    "consumer_review": "Only _build_people_action_card and _cat_modal_button supply a nonempty axis in actual callers. People money/human and unemployed/social0 work money were observed. Current study cards supply empty axis; mixed is an isolated actual-builder component only.",
+    "changed_paths": [
+      "scenes/MainGame.gd",
+      "CLAUDE.md",
+      "tools/main_game_locale_history.py",
+      "tools/ui_translation_append.py",
+      "tools/ui_translation_append_self_test.py",
+      "tools/audit_scope.json"
+    ],
+    "source_sha256": {
+      "scenes/MainGame.gd": "4c86abe5880d49128a511da36ad361f76c4290c10103d976e1dd33d66294d6bf",
+      "CLAUDE.md": "0e1619375645319a9fdd4faf7ae720334a3c27de8e299fdc7ec98b1792cf9870",
+      "tools/main_game_locale_history.py": "c7c1d27f41693ccef71136a2fc70db5b62769c56940dce12adfd568cebc509f5",
+      "tools/ui_translation_append.py": "ab798f5bcba3ae694f8d4830ee47ab50483160af8162166cd31322e94ae6d497",
+      "tools/ui_translation_append_self_test.py": "b10d779643c5c1536e33dbe885cb7b6dcf652cca32898409bffb89fb98e4775b",
+      "tools/audit_scope.json": "b98c6c8826ee702902d776f7c5025ee5ba6b3b800f00a693d072b1bfe776d38b"
+    }
+  },
+  "bridge_review": {
+    "result": "PASS; no broad source or historical waiver found.",
+    "proof": "New eight-stage immutable Git/raw proof retains the seven older stages, including both actual402 transitions. It checks object identity/content, direct parents, trees/blobs, exact MainGame-only path population, ancestry, raw continuity, current HEAD/blob and complete inverses. The failed402 b8 checkpoint remains evidence, not an admitted current or manifest view.",
+    "manifest_contract": "Each new matcher call freshly proves actual current plus six predecessor raw views once. Exactly seven current-Aruba combinations and pre381 MainGame x preAruba are admitted. The latter still needs actual Aruba raw/census binding and a separate fresh inverse. The current-Aruba short circuit matches the unchanged older contract. Actual inventory is not rewritten; no global/mutable/cross-call success cache. No-source_hashes synthetic fixtures retain the old delegate.",
+    "preservation": "Complete older history/append file prefixes and all previous self-test bodies before main are byte-exact. Only new403/default-current CLI selection and historical402 path selection changed; unrelated audit rules/lanes are unchanged.",
+    "focused": {
+      "path": ".git/full-game-localization/order403-static-focused.json",
+      "sha256": "5f6e9b5a3dde5747e0d447e9b1ad9eefe252140dea5c55872b1aa712ca2c1838",
+      "stdout_sha256": "80ffd6e2ab9f75b3a15318715deba8c54b11232663491565358fd0a7ac76e0a7",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "time_sha256": "cf3d06a2d409c3109f56496d6654a0d6a9aac9b72d265c4747cf2ea924cdd202",
+      "exit_code": 0,
+      "duration_seconds": 45.47917375,
+      "stdout": "UI_TRANSLATION_APPEND_AXIS_BADGE_MANIFEST_COST comparisons=7 fresh_proof_calls=7 legacy_proof_calls=25 fresh_seconds=2.445892 legacy_seconds=8.515862\nUI_TRANSLATION_APPEND_AXIS_BADGE_FIT_OK cases=107 historical_cases=0\n",
+      "protected_files_count": 11,
+      "prior402_artifacts_sha256": {
+        ".git/full-game-localization/order402-static-focused-repaired1.json": "adf11574847fac2a7b277304b839a295fa6aa49c34cae25a9e522ec6179c3f49",
+        ".git/full-game-localization/order402-static-focused-repaired1.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        ".git/full-game-localization/order402-static-focused-repaired1.stdout.log": "e2790a3789241a3ab8ec5def9d230fa4cd887af2c6c3649ab894305062df23c6",
+        ".git/full-game-localization/order402-static-focused-repaired1.time.json": "07cbc2390f05f45a41a83ac9aaa39d97aa455a7617af3c512e0ad634ee72c262",
+        ".git/full-game-localization/order402-static-focused.json": "7e314e2a2522f2557fd198d7200849b9da285837975b2f0a2c4213409e3e09df",
+        ".git/full-game-localization/order402-static-focused.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        ".git/full-game-localization/order402-static-focused.stdout.log": "e3d4a0b719aaf7e9da7a9d935d5e0cc214547308585c291d7642aca8bd1407e0",
+        ".git/full-game-localization/order402-static-focused.time.json": "0a960b6e599664c0b60ecdfc69263bac81e3a21d979536bd9f7869c8d28ef642"
+      },
+      "cases": 107,
+      "historical_cases": 0,
+      "stderr_empty": true,
+      "first_execution": true
+    },
+    "controls": "Pure inverse rejects rollback/partial/duplicate/moved/whitespace and shared-label/badge-width/people-lifecycle/gameplay edits without relying only on a hash gate. Missing/forged/trailing Git objects, path population, wrong tree, re-signed wrong direct parent, HEAD rollback and unavailable proof fail closed. Seven old manifest combinations are compared against the unchanged wrapper; only pre403 is added. Failed402, six wrong preAruba pairs, forged census/historical-as-current and unowned source change are rejected. Success followed by Git/HEAD/raw loss is re-proved and rejected on the next call; recovery also re-proves. Actual collector identities, current coordinates and complete inventory roundtrip are checked.",
+    "cost_measurement": {
+      "comparisons": 7,
+      "new_fresh_proof_calls": 7,
+      "old_fresh_proof_calls": 25,
+      "new_seconds": 2.445892,
+      "old_seconds": 8.515862,
+      "scope": "Same actual eight-stage Git proof; seven preexisting admissible combinations using the focused test's three-entry source_hashes fixture. Local repeated-proof cost only, not full-census/whole-check/game performance or comparison against recorded402 timings."
+    }
+  },
+  "runtime_review": {
+    "before": {
+      "directory": ".git/full-game-localization/order403-screen-before-final",
+      "result_sha256": "8097b86e25aaebc22de16e5c57ec7be115f539d9055a58401c03b43bde1147ed",
+      "observations_sha256": "c689d3455b8a188c797fadfb94aba0ea7c62d62784244379f4b5494aff2bf836",
+      "entry_sha256": "67511eb266cca39d36361ee1eac8a43197db44048c3b4042ee1aa502c5d47e27",
+      "oracle_sha256": "85f1db95d09e733100df2c1f4dca9b2f7d68029eedb8e9b95cc1bc9953fc002d",
+      "stdout_sha256": "6a565c29a50aa907ead14ed0c4573f5aec7c477c37668a950fc314ab458bfc96",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "godot_log_sha256": "6a565c29a50aa907ead14ed0c4573f5aec7c477c37668a950fc314ab458bfc96",
+      "source_commit": "3ab189eb38cd6fcfe534dbf11ce6ed1b470255e4",
+      "source_tree": "871a61f22387327a555e8b05a6deac643f639270",
+      "duration_seconds": 18.855,
+      "pass_result": true,
+      "observation_complete": true,
+      "repair_pass": false,
+      "exit_code": 0,
+      "all_text_fits": false,
+      "axis_count": 35,
+      "axis_defects": [
+        {
+          "case": "en-network",
+          "index": 0,
+          "axis": "money",
+          "text": "MONEY",
+          "fit": false,
+          "label_width": 42,
+          "label_minimum": 1,
+          "measured": [
+            44,
+            15
+          ],
+          "panel_width": 58,
+          "clip_text": true
+        },
+        {
+          "case": "en-network",
+          "index": 1,
+          "axis": "money",
+          "text": "MONEY",
+          "fit": false,
+          "label_width": 42,
+          "label_minimum": 1,
+          "measured": [
+            44,
+            15
+          ],
+          "panel_width": 58,
+          "clip_text": true
+        },
+        {
+          "case": "en-network",
+          "index": 2,
+          "axis": "human",
+          "text": "PEOPLE",
+          "fit": false,
+          "label_width": 42,
+          "label_minimum": 1,
+          "measured": [
+            45,
+            15
+          ],
+          "panel_width": 58,
+          "clip_text": true
+        },
+        {
+          "case": "en-work",
+          "index": 0,
+          "axis": "money",
+          "text": "MONEY",
+          "fit": false,
+          "label_width": 42,
+          "label_minimum": 1,
+          "measured": [
+            44,
+            15
+          ],
+          "panel_width": 58,
+          "clip_text": true
+        },
+        {
+          "case": "en-work",
+          "index": 1,
+          "axis": "money",
+          "text": "MONEY",
+          "fit": false,
+          "label_width": 42,
+          "label_minimum": 1,
+          "measured": [
+            44,
+            15
+          ],
+          "panel_width": 58,
+          "clip_text": true
+        },
+        {
+          "case": "en-cast-node-only",
+          "index": 0,
+          "axis": "human",
+          "text": "PEOPLE",
+          "fit": false,
+          "label_width": 42,
+          "label_minimum": 1,
+          "measured": [
+            45,
+            15
+          ],
+          "panel_width": 58,
+          "clip_text": true
+        }
+      ],
+      "non_target_ellipsis": [
+        {
+          "case": "en-work",
+          "index": 1,
+          "text_index": 2,
+          "signature": {
+            "text": "LOW · AP 1 · Intelligence 0–2 · Resume progress · 1–3W: application bonus",
+            "font_size": 12,
+            "font": {
+              "base": "res://assets/fonts/Pretendard-Regular.ttf",
+              "role": "regular",
+              "primary_weight": -1,
+              "fallback_paths": [
+                "res://assets/fonts/NotoSansJP-Variable.ttf",
+                "res://assets/fonts/NotoColorEmoji.ttf"
+              ],
+              "fallback_weights": [
+                400,
+                -1
+              ]
+            },
+            "role": "hint_text",
+            "clip_text": true,
+            "overrun": 3,
+            "measured": [
+              393,
+              15
+            ]
+          },
+          "node_size": [
+            348,
+            18
+          ],
+          "text_fits": false
+        },
+        {
+          "case": "ja-work",
+          "index": 1,
+          "text_index": 2,
+          "signature": {
+            "text": "低リスク・AP 1・知力 0～2・履歴書の完成・1～3週：応募ボーナス",
+            "font_size": 12,
+            "font": {
+              "base": "res://assets/fonts/NotoSansJP-Variable.ttf",
+              "role": "regular",
+              "primary_weight": 400,
+              "fallback_paths": [
+                "res://assets/fonts/Pretendard-Regular.ttf",
+                "res://assets/fonts/NotoColorEmoji.ttf"
+              ],
+              "fallback_weights": [
+                -1,
+                -1
+              ]
+            },
+            "role": "hint_text",
+            "clip_text": true,
+            "overrun": 3,
+            "measured": [
+              366,
+              18
+            ]
+          },
+          "node_size": [
+            348,
+            18
+          ],
+          "text_fits": false
+        },
+        {
+          "case": "zh-CN-work",
+          "index": 1,
+          "text_index": 2,
+          "signature": {
+            "text": "LOW · AP 1 · Intelligence 0–2 · Resume progress · 1–3W: application bonus",
+            "font_size": 12,
+            "font": {
+              "base": "res://assets/fonts/NotoSansSC-Variable.ttf",
+              "role": "regular",
+              "primary_weight": 400,
+              "fallback_paths": [
+                "res://assets/fonts/Pretendard-Regular.ttf",
+                "res://assets/fonts/NotoSansJP-Variable.ttf",
+                "res://assets/fonts/NotoColorEmoji.ttf"
+              ],
+              "fallback_weights": [
+                -1,
+                400,
+                -1
+              ]
+            },
+            "role": "hint_text",
+            "clip_text": true,
+            "overrun": 3,
+            "measured": [
+              440,
+              18
+            ]
+          },
+          "node_size": [
+            348,
+            18
+          ],
+          "text_fits": false
+        },
+        {
+          "case": "zh-TW-work",
+          "index": 1,
+          "text_index": 2,
+          "signature": {
+            "text": "LOW · AP 1 · Intelligence 0–2 · Resume progress · 1–3W: application bonus",
+            "font_size": 12,
+            "font": {
+              "base": "res://assets/fonts/NotoSansTC-Variable.ttf",
+              "role": "regular",
+              "primary_weight": 400,
+              "fallback_paths": [
+                "res://assets/fonts/Pretendard-Regular.ttf",
+                "res://assets/fonts/NotoSansJP-Variable.ttf",
+                "res://assets/fonts/NotoColorEmoji.ttf"
+              ],
+              "fallback_weights": [
+                -1,
+                400,
+                -1
+              ]
+            },
+            "role": "hint_text",
+            "clip_text": true,
+            "overrun": 3,
+            "measured": [
+              440,
+              18
+            ]
+          },
+          "node_size": [
+            348,
+            18
+          ],
+          "text_fits": false
+        }
+      ],
+      "non_target_comparison_count": 0,
+      "pngs": [
+        {
+          "file": "ko-network.png",
+          "sha256": "6f510a8df4f4b179a3a707524f7175447850d5dbe76ad64d24b216736c23339a",
+          "bytes": 238606
+        },
+        {
+          "file": "ko-work.png",
+          "sha256": "38fea597c9eb7c60923ff903886cbccb947bae0c0a3b6cd9d3e5838b2710da4c",
+          "bytes": 228744
+        },
+        {
+          "file": "en-network.png",
+          "sha256": "78a56e2b0ad474c13b19b059ed9bf655497c1872eb01f57ecfb8b713eb138247",
+          "bytes": 246005
+        },
+        {
+          "file": "en-work.png",
+          "sha256": "c1c03584de951c537a50cb0ce062d5d28f230b51839dfc477e775e1b1bb0682d",
+          "bytes": 230510
+        },
+        {
+          "file": "ja-network.png",
+          "sha256": "be19500c9c20b65daed24e69358a4a07b31e528c5b11073a2ac2c6b6110806d9",
+          "bytes": 257415
+        },
+        {
+          "file": "ja-work.png",
+          "sha256": "404a5404393b8d139c76cc50f1827f3d6b2903e13bb9cc87fa1f55ecd63436c4",
+          "bytes": 240324
+        },
+        {
+          "file": "zh-CN-network.png",
+          "sha256": "df02514c3e3e4e29f75ee46b0bf43372b7158e243b01e3b3705497a205b8b235",
+          "bytes": 249542
+        },
+        {
+          "file": "zh-CN-work.png",
+          "sha256": "24a9d96457fea60a0888dd5ec4d9e012dd5943956c11da85ca6d9d779b2206fe",
+          "bytes": 230303
+        },
+        {
+          "file": "zh-TW-network.png",
+          "sha256": "2f169e382b62a0bc198e2c33602278903169540cbfe1cefecb562f1a36e31b7c",
+          "bytes": 255089
+        },
+        {
+          "file": "zh-TW-work.png",
+          "sha256": "b427cf90518536e65392f1327a6ff2dd172f79f119d5b6c17012523e0de66292",
+          "bytes": 230784
+        }
+      ],
+      "source_tracked_count": 2966,
+      "helpers_count": 17,
+      "player_files_count": 34,
+      "namespace": "/Users/junheelee/Library/Application Support/GangnamDream_StoryNameplateQA_0aac3bbb6a9b9331fc317fe72ce7a458",
+      "typed_restore_count": 10,
+      "mixed_component_restore_count": 5,
+      "warmup_count": 5
+    },
+    "after": {
+      "directory": ".git/full-game-localization/order403-screen-after-final",
+      "result_sha256": "f129db47adc03615fdcb3d7f8a1e8df8bb810a4b4ac195ffc31501223cfd2409",
+      "observations_sha256": "21d4ba9ac6d6ef68d9654e1334752a7a21db15e2c7ace4ca74c9ce02fe1c1ade",
+      "entry_sha256": "1a1456bf85417aade84cd009c593e1015fc4d0475ff924c1ae3fc5d7e125838a",
+      "oracle_sha256": "a8cc7316e7b60ae0ee69b7c6c04ef5339b127906c34993fd6e322c584a5b9d86",
+      "stdout_sha256": "cef7fbbc60bb39503b3f0f88ebcfecbd0669c50439836bd167b615ab34c6076a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "godot_log_sha256": "cef7fbbc60bb39503b3f0f88ebcfecbd0669c50439836bd167b615ab34c6076a",
+      "source_commit": "12948992e3cb9331adb96a0b96928c3ee818dddd",
+      "source_tree": "5e30d8eea3375fbaabc767e1a7d152678027d4e0",
+      "duration_seconds": 18.811,
+      "pass_result": true,
+      "observation_complete": true,
+      "repair_pass": true,
+      "exit_code": 0,
+      "all_text_fits": false,
+      "axis_count": 35,
+      "axis_defects": [],
+      "non_target_ellipsis": [
+        {
+          "case": "en-work",
+          "index": 1,
+          "text_index": 2,
+          "signature": {
+            "text": "LOW · AP 1 · Intelligence 0–2 · Resume progress · 1–3W: application bonus",
+            "font_size": 12,
+            "font": {
+              "base": "res://assets/fonts/Pretendard-Regular.ttf",
+              "role": "regular",
+              "primary_weight": -1,
+              "fallback_paths": [
+                "res://assets/fonts/NotoSansJP-Variable.ttf",
+                "res://assets/fonts/NotoColorEmoji.ttf"
+              ],
+              "fallback_weights": [
+                400,
+                -1
+              ]
+            },
+            "role": "hint_text",
+            "clip_text": true,
+            "overrun": 3,
+            "measured": [
+              393,
+              15
+            ]
+          },
+          "node_size": [
+            346,
+            18
+          ],
+          "text_fits": false
+        },
+        {
+          "case": "ja-work",
+          "index": 1,
+          "text_index": 2,
+          "signature": {
+            "text": "低リスク・AP 1・知力 0～2・履歴書の完成・1～3週：応募ボーナス",
+            "font_size": 12,
+            "font": {
+              "base": "res://assets/fonts/NotoSansJP-Variable.ttf",
+              "role": "regular",
+              "primary_weight": 400,
+              "fallback_paths": [
+                "res://assets/fonts/Pretendard-Regular.ttf",
+                "res://assets/fonts/NotoColorEmoji.ttf"
+              ],
+              "fallback_weights": [
+                -1,
+                -1
+              ]
+            },
+            "role": "hint_text",
+            "clip_text": true,
+            "overrun": 3,
+            "measured": [
+              366,
+              18
+            ]
+          },
+          "node_size": [
+            348,
+            18
+          ],
+          "text_fits": false
+        },
+        {
+          "case": "zh-CN-work",
+          "index": 1,
+          "text_index": 2,
+          "signature": {
+            "text": "LOW · AP 1 · Intelligence 0–2 · Resume progress · 1–3W: application bonus",
+            "font_size": 12,
+            "font": {
+              "base": "res://assets/fonts/NotoSansSC-Variable.ttf",
+              "role": "regular",
+              "primary_weight": 400,
+              "fallback_paths": [
+                "res://assets/fonts/Pretendard-Regular.ttf",
+                "res://assets/fonts/NotoSansJP-Variable.ttf",
+                "res://assets/fonts/NotoColorEmoji.ttf"
+              ],
+              "fallback_weights": [
+                -1,
+                400,
+                -1
+              ]
+            },
+            "role": "hint_text",
+            "clip_text": true,
+            "overrun": 3,
+            "measured": [
+              440,
+              18
+            ]
+          },
+          "node_size": [
+            348,
+            18
+          ],
+          "text_fits": false
+        },
+        {
+          "case": "zh-TW-work",
+          "index": 1,
+          "text_index": 2,
+          "signature": {
+            "text": "LOW · AP 1 · Intelligence 0–2 · Resume progress · 1–3W: application bonus",
+            "font_size": 12,
+            "font": {
+              "base": "res://assets/fonts/NotoSansTC-Variable.ttf",
+              "role": "regular",
+              "primary_weight": 400,
+              "fallback_paths": [
+                "res://assets/fonts/Pretendard-Regular.ttf",
+                "res://assets/fonts/NotoSansJP-Variable.ttf",
+                "res://assets/fonts/NotoColorEmoji.ttf"
+              ],
+              "fallback_weights": [
+                -1,
+                400,
+                -1
+              ]
+            },
+            "role": "hint_text",
+            "clip_text": true,
+            "overrun": 3,
+            "measured": [
+              440,
+              18
+            ]
+          },
+          "node_size": [
+            348,
+            18
+          ],
+          "text_fits": false
+        }
+      ],
+      "non_target_comparison_count": 180,
+      "pngs": [
+        {
+          "file": "ko-network.png",
+          "sha256": "065a9ead954290fe0951b7f4a12f36448a2505dd89537f4af5e9ab43c652714f",
+          "bytes": 238484
+        },
+        {
+          "file": "ko-work.png",
+          "sha256": "38fea597c9eb7c60923ff903886cbccb947bae0c0a3b6cd9d3e5838b2710da4c",
+          "bytes": 228744
+        },
+        {
+          "file": "en-network.png",
+          "sha256": "d661ce8af3b6d315e6d13f387c2969043327de807743b9ace086c67f8cef350f",
+          "bytes": 245995
+        },
+        {
+          "file": "en-work.png",
+          "sha256": "3a8d3ed725b36c3fe30b0f21aa96aab4f853329e644ed66da1e1dc8fe63886e5",
+          "bytes": 230596
+        },
+        {
+          "file": "ja-network.png",
+          "sha256": "368eff57efa6c9370888bb41d55bded6ba3141177847cf91a12890433c839ebe",
+          "bytes": 257707
+        },
+        {
+          "file": "ja-work.png",
+          "sha256": "86501f5700e0d60bc9fa476b91a69a30d83a11f6edc0bb128703008c32b2dce1",
+          "bytes": 240618
+        },
+        {
+          "file": "zh-CN-network.png",
+          "sha256": "268b00873ad961b98b1bd076e1a282460be4781a84ed3ef4d6f928f376de192e",
+          "bytes": 250304
+        },
+        {
+          "file": "zh-CN-work.png",
+          "sha256": "772dcbcf3af4eb5db937281f09ecbd68ca9641b9951ad48fef1266d010ac8a80",
+          "bytes": 231287
+        },
+        {
+          "file": "zh-TW-network.png",
+          "sha256": "3e98103f9c5d93dd38172c44ad4d3060ec527306c2b40bb84fd0b55e04025cac",
+          "bytes": 256386
+        },
+        {
+          "file": "zh-TW-work.png",
+          "sha256": "6e8aee8c5c122f4da6e24c01d794dd4ba60b4e0ab3ff3d1ed4eaf1bec3d15018",
+          "bytes": 232450
+        }
+      ],
+      "source_tracked_count": 2966,
+      "helpers_count": 17,
+      "player_files_count": 34,
+      "namespace": "/Users/junheelee/Library/Application Support/GangnamDream_StoryNameplateQA_e61abd3ec5d70bcf072f71fc8176210f",
+      "typed_restore_count": 10,
+      "mixed_component_restore_count": 5,
+      "warmup_count": 5
+    },
+    "direct_visual_review": "Independently opened all ten original before PNGs and all ten original after PNGs at1280x800: KO/EN/JA/zh-CN/zh-TW x network/work. Target badge text is contained after repair; no newly cut previously fitting neighboring text, overlap or thumbnail/card protrusion observed. Existing controller focus outlines and11px hints are outside this repair.",
+    "node_only_scope": "Five cast portrait checks and five mixed shared-builder probes are actual runtime-node measurements, not additional PNGs. Mixed has no current natural caller and is not a reachability or action-result claim.",
+    "measurement_summary": {
+      "axis_badges": 35,
+      "screen_axis_badges": 25,
+      "cast_node_only_badges": 5,
+      "mixed_component_badges": 5,
+      "before_axis_defects": 6,
+      "after_axis_defects": 0,
+      "non_axis_comparison_rows": 180,
+      "nonempty_text_font_probes": 215,
+      "english_money": "Label42->44px; panel58->60px; unchanged measured44px/12px font.",
+      "english_people": "Label42->45px; panel58->61px; unchanged measured45px/12px font.",
+      "english_mixed": "Measured38px fits42px Label in58px panel both phases; component only.",
+      "preserved_geometry": "All35 card/margin/row/icon/texture actual sizes and image identity match before. Network15 card72/image128x64; work10 card82/image128x74 with unchanged custom minimum; cast5 card60/image42x52; mixed5 card56/icon42x48.",
+      "non_target_new_fit_loss": 0,
+      "existing_intended_preview_ellipsis": 4,
+      "all_text_fits": false,
+      "ellipsis_boundary": "Only actual hint_text Labels with clip_text=true and OVERRUN_TRIM_ELLIPSIS remain nonfitting. EN/JA/CN/TW work second-card preview text/font/measurement/overrun and bounds are preserved. EN available width348->346px is recorded; other three remain348px. Previously fitting non-target text remains fitting."
+    },
+    "state_and_isolation": "Fresh StoryNameplateBootstrap namespace precedes autoloads; exact success marker and both stdout/Godot logs checked, stderr empty and engine error0. Each phase has10 typed prepared/display/restored cases, five unchanged mixed component states and five real AP warmups with delta0. Work current_job={} and social_skill0 plus startup_launched/creator_started/arc_intro_meal_seen=false independently read from typed snapshots; deep current_job/full state restoration verified. All34 actual user files,2966 tracked files and17 runtime helpers are hash-preserved.",
+    "zero_action_boundary": "Raw/confirm/callback zero follows the helper call graph; pressed/trade/finalization zero is checked by connected runtime signal counters. UI is opened by actual display methods, not natural input. No dictionary, cache, font or theme injection. No natural Back/cancel observation.",
+    "font_boundary": "Actual resolved font/size/fallback/weight and separate TextServer shaping probes were checked for all215 nonempty text nodes. This is not direct inspection of internal Label glyph RIDs, native-reader review or physical-screen testing.",
+    "helper_sha256": {
+      "order403-run.py": "4c86166674c4a5097602bdf730f95da181b2c1e2c1b9970462590fb9b9d141de",
+      "order403-check.gd": "0aebb1f5fbad787b59d63def9a0cbd869783415fb199e345591ecc5d3805fbfe",
+      "order403-check.tscn": "7eb44fdac8ad33664943eb1da71c71563543e9008ba83cf4073cb75739838f37",
+      "order402-run.py": "6f22b89d49cf5ed4f03e8e85292ac89f6ee34ecb1431d25ffe33d7982e7e4796",
+      "order402-check.gd": "3ddc82cd2767e8e95655345a059b70571413228fc395444d7c274a5442af71d6",
+      "order402-check.tscn": "ae473c69c86d00d6b3027a3c0c706e42d3c8f2c83a0a201b821738a1b07c9ed5",
+      "order401-run.py": "f6be2b0a06d6ebd547c4f0d318a1a7e1182e9b37ecfd7be21a92989e75ca3d6f",
+      "order401-check.gd": "48211847212c2e39455f51dc6f6fb5c18ae7a134b8485c4c091b6c26b7463743",
+      "order401-check.tscn": "921ea603e6ec45570136b7eab8e37a94924fe8822e0cdd0c7b221a7490cd7242",
+      "order400-run.py": "bd0ef8cf7cd6b66b5b2a0999094275e38fb56bdd59e8f51f7c9ebb483be779da",
+      "order400-check.gd": "358874e6c0fce40057b16385f0452424096dfd53a13657c7e86ba01c81cf9539",
+      "order400-check.tscn": "f3765e5ee788affadf8c5354a367cca6c33d873db3de353be3922f861cbe936b",
+      "order393-run.py": "720d2ad88cd177977ca3a480238347198818132cbf812e1ba5d705566a0590cd",
+      "order393-check.gd": "c2dbed4dd08908dd39f239658711bd9380ff00f48005f9cd958fa82bab535afd",
+      "order393-check.tscn": "d739279a515f9245ef1346aecd9706eb39beaf1e8558d9a5504385d0b1061cfe",
+      "order371-run.py": "f0bfd8664eb7ae18b971a5bec4e9d7abb00c7f450207e635f1df37a924e7396f",
+      "order371-check.gd": "a36de468262bbf2cf31b975925afd40e2327bad27409d37a04ab7e3630363695"
+    }
+  },
+  "normal_review": {
+    "directory": ".git/full-game-localization/order403-static-final",
+    "result_sha256": "86e513e10d1c01180ab822575ab6b19cb4353c54c03939f32f36c6a8920b8d1d",
+    "entry_sha256": "e3cbd3f49ab495c59a9de8eb238c0a82905361e5db9754fc6bfce3e00f96c837",
+    "runner_sha256": "9ddc38958af3bfaa6393cc65584a9a9c32689e586a00f7b7d4670ad8da1ee8a8",
+    "rows": [
+      {
+        "index": 0,
+        "path": ".git/full-game-localization/order403-static-final/00.json",
+        "sha256": "26059c9c4682b4584511e4ddda8104d17088e24e4f36d26065da378cb60e5dab",
+        "command": [
+          "python3",
+          "tools/chapter1_core_loop_v2_causal_ledger_check.py"
+        ],
+        "exit": 0,
+        "seconds": 560.866
+      },
+      {
+        "index": 1,
+        "path": ".git/full-game-localization/order403-static-final/01.json",
+        "sha256": "60295798dff45c01321b0cc5bda588c60e846350c062bf09cf3bbce77d157724",
+        "command": [
+          "python3",
+          "tools/order365_ui_receipt_compat.py"
+        ],
+        "exit": 0,
+        "seconds": 178.237
+      },
+      {
+        "index": 2,
+        "path": ".git/full-game-localization/order403-static-final/02.json",
+        "sha256": "7610ea266d464d02453fd71d2bc8b8005badda456e9b6d31e4dafbec266c7047",
+        "command": [
+          "python3",
+          "tools/full_body_translation_scope.py"
+        ],
+        "exit": 0,
+        "seconds": 179.374
+      },
+      {
+        "index": 3,
+        "path": ".git/full-game-localization/order403-static-final/03.json",
+        "sha256": "8fe35a2dd0b0d6fb5290dac33d213fe6a7f1b2fe923fdcc40a1e2441e371857a",
+        "command": [
+          "python3",
+          "tools/story_graph_contract_audit.py"
+        ],
+        "exit": 0,
+        "seconds": 179.69
+      },
+      {
+        "index": 4,
+        "path": ".git/full-game-localization/order403-static-final/04.json",
+        "sha256": "e15afebb4db70f899990b73bf1e0c7b1be8a10d1a642076036fbb343009937d9",
+        "command": [
+          "python3",
+          "tools/chapter5_human_reject_audit.py"
+        ],
+        "exit": 0,
+        "seconds": 180.482
+      },
+      {
+        "index": 5,
+        "path": ".git/full-game-localization/order403-static-final/05.json",
+        "sha256": "fff0f1edd8bbcef27e1377f4fdcff7269e24a7c1eca944474e8e7a4413058f4d",
+        "command": [
+          "python3",
+          "tools/year5_reference_route_audit.py"
+        ],
+        "exit": 0,
+        "seconds": 194.806
+      },
+      {
+        "index": 6,
+        "path": ".git/full-game-localization/order403-static-final/06.json",
+        "sha256": "b387dad579e3ced03f06a5aaaee452a5e238569d0f391692f4547400d88178a6",
+        "command": [
+          "python3",
+          "tools/ja_translation_audit.py",
+          "--scope",
+          "ui"
+        ],
+        "exit": 0,
+        "seconds": 10.182
+      },
+      {
+        "index": 7,
+        "path": ".git/full-game-localization/order403-static-final/07.json",
+        "sha256": "beaed16b11b60a202ef8d42d6b5f88c483a581ff541a170f6df4b7d1a0a49bfa",
+        "command": [
+          "python3",
+          "tools/zh_translation_audit.py"
+        ],
+        "exit": 0,
+        "seconds": 27.213
+      },
+      {
+        "index": 8,
+        "path": ".git/full-game-localization/order403-static-final/08.json",
+        "sha256": "24ba7ba8780d62586e084c6503c50473b19bdc22af080aff6572cbfd65b8235f",
+        "command": [
+          "python3",
+          "tools/en_coverage_check.py"
+        ],
+        "exit": 0,
+        "seconds": 0.098
+      },
+      {
+        "index": 9,
+        "path": ".git/full-game-localization/order403-static-final/09.json",
+        "sha256": "46c69609c16eb0ecc337da7f0b992794a03dbcc9179282d423381fcee23d9d10",
+        "command": [
+          "python3",
+          "tools/context_manifest_check.py"
+        ],
+        "exit": 0,
+        "seconds": 0.085
+      },
+      {
+        "index": 10,
+        "path": ".git/full-game-localization/order403-static-final/10.json",
+        "sha256": "a69cb1d8441e48a7b02aea4b0a9c58937489994f6f40e7558b897c5c6d80c531",
+        "command": [
+          "python3",
+          "tools/queue_consistency_check.py"
+        ],
+        "exit": 0,
+        "seconds": 0.048
+      },
+      {
+        "index": 11,
+        "path": ".git/full-game-localization/order403-static-final/11.json",
+        "sha256": "57bc90026b688d33e0e9c561422dd9fbb3bf75c1d10262f7c830bcf3279f821c",
+        "command": [
+          "git",
+          "diff",
+          "--check"
+        ],
+        "exit": 0,
+        "seconds": 0.016
+      },
+      {
+        "index": 12,
+        "path": ".git/full-game-localization/order403-static-final/12.json",
+        "sha256": "b23631adc612263b0c19d1b2b2070522decfbbf2709b824bd14d18183dfaca72",
+        "command": [
+          "python3",
+          "tools/audit_select.py",
+          "--verify"
+        ],
+        "exit": 0,
+        "seconds": 0.055
+      },
+      {
+        "index": 13,
+        "path": ".git/full-game-localization/order403-static-final/13.json",
+        "sha256": "dc942943f04c5dd481800b05dcf6d8e2b0f84d3a566bf32b17d71b088829a16d",
+        "command": [
+          "python3",
+          "tools/audit_select.py",
+          "--base",
+          "3ab189eb38cd6fcfe534dbf11ce6ed1b470255e4",
+          "--list"
+        ],
+        "exit": 0,
+        "seconds": 0.182
+      }
+    ],
+    "all_pass": true,
+    "source_unchanged": true,
+    "wall_seconds": 561.336,
+    "tracked_files_count": 2966,
+    "helpers_count": 18,
+    "workers": 3,
+    "normal_checks": 13,
+    "selection_queries": 1,
+    "all_stderr_empty": true,
+    "source_commit": "12948992e3cb9331adb96a0b96928c3ee818dddd",
+    "read_original_rows": true,
+    "limitations": {
+      "chapter1": "Snapshot valid only: debt_codes8, blocked3, W25..48 gap24, authoritative24/48 remain.",
+      "year5": "reference_only, topology invalidated, product_consumers0, qa_consumers1, r1b_allowed=false remain.",
+      "full_body": "SOURCE_INVENTORY_ONLY; runtime_claim0/native_quality_claim0.",
+      "story_graph": "PASS with self_tests0; human playtest gate not closed.",
+      "chapter5": "Public M01-M06 frozen and human_gates pending.",
+      "japanese": "UI2980, legacy2951/2951, context29/29, migrated29/29; beta status remains.",
+      "chinese": "Skeleton, shipping0; existing legacy1239/2951, context10/29, dynamic150/701 and direct English bypass11 remain.",
+      "english": "Static coverage contract pass does not mean the entire actual game screen is English: KO background content remains outside this modal repair.",
+      "audit_selection": "--base3ab189e --list returned96 potential checks for six changed files. This was one selection query, not96 executions and not an explicit fast-lane run. Registration164 and Godot guard6 passed; existing EXTRA notices were retained."
+    },
+    "not_run_by_reviewer": [
+      "engine",
+      "focused suite",
+      "normal audits",
+      "historical suites",
+      "whole audit",
+      "240-week run"
+    ]
+  },
+  "preservation": {
+    "accepted_values_total": 41069,
+    "accepted_batches": 169,
+    "accepted_by_locale": {
+      "ja": 13127,
+      "zh-CN": 13971,
+      "zh-TW": 13971
+    },
+    "ui_dictionary_keys": {
+      "zh-CN": 1441,
+      "zh-TW": 1441
+    },
+    "older_decisions": 160,
+    "older_reports": 138,
+    "human_gates": {
+      "done": 1,
+      "open": 45
+    },
+    "public_user_go_count": 1,
+    "raw_sha256": {
+      "locale/ui_zh-CN.json": "bb3f3b3f6a28a1981ef35a8709244d3356a38c180cefda30ffce6d5a786a8bb1",
+      "locale/ui_zh-TW.json": "3f29fa5f5a5cde907ececa2f1f71d2565eefdff2e5339eb08eea9943f99ec02d",
+      "locale/ui_ja.json": "a79f7121f4182e734f8607280a4579ff72462d66d11d1740d9f055ba66cbc201",
+      "content/meta/full_game_localization.json": "6aef6488765686233d15936186b5026c82814f115fe4d066c94f439e139e6f51",
+      "docs/agent_review_decisions.json": "76d67ecfca7a3485956e80e4c6d84ab18150f192a1bef71818e1f01a29850b2d",
+      "docs/human_gates.json": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6"
+    },
+    "scope": "Outside the six declared source paths, all tracked data, source inventory, translations, font/theme/assets/project, story/gameplay/public demo, prior reports/decisions and human ledger bytes are unchanged. Older source proof bodies/pins remain intact. Seventeen inherited/current runtime helpers match the sealed before/after copies.",
+    "older402_private_evidence": "Eight focused original files rehashed against recorded SHA; eight additional before/failed-after/checkpoint/final runtime result-observation and cancellation/preflight attestation files rehashed against prior402 recorded SHA. Failures were not overwritten or promoted.",
+    "historical350_351": "Existing historical CLI source-pin/ledger mismatch boundaries are unchanged; new current consumers/focused PASS does not reclassify those old CLI failures."
+  },
+  "attempts_and_corrections": [
+    "One403 before engine execution: observation_complete=true and repair_pass=false, preserving six actual axis deficiencies and four intended ellipses.",
+    "One403 after engine execution and one new focused execution: both pass on final12948992. No403 failed engine/focused attempt.",
+    "Before execution, reviewer requested exact intended-preview classification and all nonempty font checks; author added them only to new403 helpers. The same final17 helper hashes are used for both phases.",
+    "Before execution, bridge author narrowed the new prefix-test main delimiter to an independent function line so an older string literal cannot cause a false split. Prior402 body remains unchanged.",
+    "Reviewer first read-only user-file hash probe misread a {sha256,bytes} record as a string; corrected schema access verified all34 files. No product/helper mutation or engine/audit rerun occurred."
+  ],
+  "unobserved": [
+    "Natural entry, Back/cancel, OS raw input and physical controller/device use.",
+    "Resolutions other than1280x800, all work-menu states, all shared consumers beyond the declared two-surface fixture.",
+    "Mixed natural caller/reachability and actual action effects or confirmations.",
+    "Complete localization, native-reader quality, human playtesting, accessibility/taste approval.",
+    "Full-game/new-package/public release approval or a whole-pipeline performance improvement.",
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel"
+  ],
+  "remaining_blocks": [],
+  "promotion": "One-off work-unit implementation and evidence; no new standing norm.",
+  "release_boundary": "Public demo GO1 is preserved; full-game/new-package release remains HOLD and human OPEN45 remains OPEN.",
+  "independent": true,
+  "private_review": {
+    "path": ".git/full-game-localization/order403-independent-review.json",
+    "sha256": "5a942acf6b66dc9959b89f7acf402b14b466540f3792eccc2479524afe10975d"
+  },
+  "unit_evidence": {
+    "도달 경로": "ORDER403_UI_OK mode=after screens=10 casts=5 mixed=5 raw=0 actions=0",
+    "생산자 ↔ 독자": "scenes/MainGame.gd:14436 axis_lbl → _build_people_action_card / _cat_modal_button",
+    "바꾸는 상태": "EN6 label42→44/45; panel58→60/61; axis defects6→0; nonaxis fit-loss0/180",
+    "포기 시 잃는 것": "_ap_network/_ap_vip_network/_ap_free_time/_ap_job_hunt/_ap_write_resume axis text; week N/A",
+    "서사 위치": "N/A: UI geometry; no story changes",
+    "장면 계층": "N/A: UI",
+    "닫는 것": "ORDER-403 only; existing preview ellipsis4 retained"
+  }
+}
