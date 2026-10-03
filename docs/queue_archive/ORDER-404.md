@@ -1,3 +1,24 @@
+# ORDER-404 — 무직 취업 메뉴 중국어 안내 완료
+
+#### [x] ORDER-404 [P1·현지화] 무직 취업 메뉴 중국어 안내 9종
+**[x] 완료 — 2026-10-04.** exact source0dad800b/tree f7612721의 해당 work_unit만 내부 GO.
+
+- CN/TW9키씩18값·공식2교환 수용, 사전각1450/원장41087·171batch.
+  기존UI/receipt는 새구간 역삭제로 raw 완전복원; 원문·JA·게임조건 변경0.
+- 비저자18값 전수, 실제초기/마포후4PNG 전량직접검수. 18lookup·28binding,
+  10카드82px·70text행fit·preview최대313/348px. 새ellipsis면제0.
+- runtime11.022초 exit0/양측로그오류0; typed복원4·APwarmupdelta0,
+  사용자34/2968tracked/20helpers불변. 403초기PNG는6키 이전관측에만 사용.
+- normal11+선택조회1 PASS620.616초. 영향목록42개 자체 실행0; 전체감사/240주/역사self0.
+  Chapter1 debt8/blocked3/gap24·year5 reference_only/invalidated 유지.
+- [독립 보고](../agent_reviews/ORDER-404.json)과 판정원장의 exact source·work_unit 결속.
+  기존161판정/139보고·인간원장/공개GO1/인간OPEN45 보존, 본편/새package HOLD.
+  자연진입·Back·실제행동·원어민·인간·물리·다른화면/해상도 미관측.
+- 새 상시규범0, 원 사양은 일회성. 자동PASS≠재미/문체/출시GO.
+  외부출시/스토어/지출/법률0. 다음405 돈·투자모달32값 별도선언.
+
+## 선언 원문 — byte-exact 보존
+
 # ORDER-404 — 무직 취업 메뉴 중국어 안내 9종
 
 #### [~] ORDER-404 [P1·현지화] 무직 취업 메뉴 중국어 안내 9종

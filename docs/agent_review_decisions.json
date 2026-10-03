@@ -6439,6 +6439,42 @@
         "path": "docs/agent_reviews/ORDER-403.json",
         "sha256": "7231ea08622485c123dd61fa4aa2b9f1169ef157a6cd779061653f6f8efef814"
       }
+    },
+    {
+      "id": "order-404-source-0dad800-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-10-04",
+      "decided_by": "/root/independent392",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-404",
+      "subject": {
+        "kind": "source",
+        "commit": "0dad800b98423a643dc8a5b4daddead7f01e927a",
+        "tree": "f76127215a43abb64b6e60b8354e371447b6d69b",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-404.json",
+          "sha256": "af8cef2180e6e8a1a95c2500ff0dce9d59259f0c8415fc906bd0312e175b9cbc"
+        }
+      ],
+      "unobserved": [
+        "Native-reader review and human playtest; no native/human gate closed.",
+        "Natural post-Mapo reachability, entry/Back/cancel, button presses, action outcomes, raw or physical controller input.",
+        "Employed/promotion/startup/creator branches, other shared consumers, other resolutions and complete localization/text-fit quality.",
+        "Fun/depth/accessibility/taste approval, whole-game/new-package/public release approval.",
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-404.json",
+        "sha256": "af8cef2180e6e8a1a95c2500ff0dce9d59259f0c8415fc906bd0312e175b9cbc"
+      }
     }
   ]
 }

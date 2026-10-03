@@ -2,6 +2,22 @@
 
 이전 원문 전체는 [2026-09-28 이전 기록](history/WORK_LOG_2026-09-28_pre_order351.md)에 바이트 그대로 보존했다.
 
+## 2026-10-04 (Codex — 구직·지원서·면접 준비 중국어 안내)
+
+- [404](queue_archive/ORDER-404.md): CN/TW9키씩18값 공식2교환 수용.
+  사전각1,441→1,450, 원장41,069/b169→41,087/b171. 기존raw 역삭제일치.
+  CN자소서 용어와 TW취업조건 단정은 수용 전 고쳐18값 전수 재검수했다.
+- source0dad800/treef761272, 실제1280×800 초기/마포후4PNG 전량직접검수.
+  18lookup·28binding·10카드82px·70글자행fit, preview최대313/348px.
+  첫런11.022초·오류0·typed복원4/warmupdelta0·사용자34파일불변.
+- normal11+선택조회1 PASS620.616초; 목록42개는 조회만, 전체감사·240주·역사self0.
+  Chapter1 debt8/blocked3/gap24·year5 reference_only/invalidated 보존.
+  [독립 보고](agent_reviews/ORDER-404.json)의 해당work_unit만 내부GO.
+- 기존161판정/139보고·인간원장·공개GO1/인간OPEN45 보존. 본편/새packageHOLD.
+  자연진입/행동/Back·다른화면·원어민/인간/물리 미관측. 자동PASS≠출시GO.
+- gangnamdream-dev의 격리·저작/검수분리 적용. 상시규범0/일회성.
+  다음405 돈·투자모달32값만 선언. 외부출시/스토어/지출/법률0.
+
 ## 2026-10-04 (Codex — 행동 축 영어 배지 글자폭 수리)
 
 - [403](queue_archive/ORDER-403.md): axis Label의 clip_text 한 줄 수리로
