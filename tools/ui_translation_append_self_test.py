@@ -1725,6 +1725,141 @@ def split_receipt_self_test() -> tuple[list[str], int]:
     return failures, cases
 
 
+def pad_hint_font_self_test() -> tuple[list[str], int]:
+    """Current393 four font lines only; no earlier self suites or split replay."""
+    import main_game_locale_history as history
+    import ja_translation_pipeline as ja
+    failures, cases = [], 0
+    def check(ok, label):
+        nonlocal cases
+        cases += 1
+        if not ok:
+            failures.append("pad hint font: " + label)
+    def reject(action, label):
+        try:
+            action()
+        except (ValueError, OSError, KeyError, TypeError, IndexError, subprocess.TimeoutExpired):
+            check(True, label)
+        else:
+            check(False, label)
+    sha = lambda value: hashlib.sha256(value).hexdigest()
+    path = history.MAIN_GAME_PATH
+    protected = (path, "tools/main_game_locale_history.py", "tools/ui_translation_append.py",
+                 "tools/ui_translation_append_self_test.py", "tools/audit_scope.json",
+                 "tools/ja_translation_pipeline.py", "tools/ja_translation_audit.py", *append.CURRENT_PATHS)
+    observed = {p: sha((ROOT / p).read_bytes()) for p in protected}
+    raw = (ROOT / path).read_bytes()
+    prior, pre390, pre386, old = history._pad_hint_font_proof(raw, ROOT)
+    check(tuple(sha(v) for v in (raw, prior, pre390, pre386, old)) == (
+        "ed116a1d4dae6dc0fcac708204c97eaadf988070e501c0bb1df437be6e38170d",
+        "db5d0dc1f8890ea5ae3e0b9d1f212c2a316be50ef3265804dbde9dba0279a8ff",
+        "6432a5ceb5844c1fdc54265547053dc82db8808ea87f442058412f03d24eed90",
+        "eb9efa2243ae97e032ca13e64bae3f42558fe9618babe97c5bc3d21a05e23cea",
+        "3f42b49c99c94310436661e44c3029d0335b0998d467a7582c8d3524acf55532"),
+        "independent current/pre393/pre390/pre386/pre381 whole pins")
+    check(history.pad_hint_font_predecessor(raw, ROOT) == prior
+          and history.tutorial_copy_predecessor(raw, ROOT) == pre390
+          and history.investment_footer_predecessor(raw, ROOT) == pre386
+          and history.modal_font_predecessor(raw, ROOT) == old, "all direct predecessor contracts")
+    reject(lambda: history._tutorial_copy_proof(raw, ROOT), "original390 still rejects non390 current raw")
+    for code, marker in (("tools/main_game_locale_history.py", b"# BEGIN_PAD_HINT_FONT_HISTORY_393"),
+                         ("tools/ui_translation_append.py", b"# BEGIN_PAD_HINT_FONT_MANIFEST_393")):
+        current_code = (ROOT / code).read_bytes()
+        original = append._git(ROOT, "show", history.PAD_HINT_BEFORE_COMMIT + ":" + code)
+        check(current_code.count(marker) == 1 and current_code.split(marker)[0].rstrip(b"\n") + b"\n" == original,
+              "complete older code/pins preserved: " + code)
+    check(history._pad_hint_font_inverse(raw, prior) == prior, "pure four-line inverse")
+    # Exercise inverse semantics directly, without the outer whole-file digest
+    # rejecting first and masking an incomplete/relocated inverse.
+    for index, (before, after) in enumerate(history.PAD_HINT_REPLACEMENTS):
+        before, after = before.encode(), after.encode()
+        for label, mutant in (("partial", raw.replace(after, before, 1)),
+                              ("duplicate", raw + after),
+                              ("moved", raw.replace(after, before, 1) + after)):
+            reject(lambda value=mutant: history._pad_hint_font_inverse(value, prior), label + " consumer " + str(index))
+    reject(lambda: history._pad_hint_font_inverse(raw + b"\n", prior), "pure raw whitespace")
+    reject(lambda: history._pad_hint_font_inverse(raw.replace(b"max_promotions\", 3", b"max_promotions\", 4", 1), prior),
+           "pure unowned neighbor")
+    for name, previous in (("main_game_history", history._MODAL_OLD_PUBLIC), ("gift_caption", history._MODAL_OLD_GIFT)):
+        source, project, digest = (getattr(history, name + suffix) for suffix in
+                                  ("_source_errors", "_project_bytes", "_project_byte_hash"))
+        expected = previous[1](old, path)
+        check(not source(path, raw) and project(raw, path) == expected
+              and digest(sha(raw), path, raw) == sha(expected), name + " three actual current entrances")
+        check(digest("0" * 64, path, raw) == "0" * 64, name + " rejects forged observed claim")
+        for label, mutant in (("rollback", prior), ("whitespace", raw + b"\n")):
+            check(bool(source(path, mutant)) and project(mutant, path) == mutant
+                  and digest(sha(mutant), path, mutant) == sha(mutant), name + " rejects " + label)
+    for value in (b"", None):
+        reject(lambda value=value: history.pad_hint_font_predecessor(value, ROOT), "invalid raw type/empty")
+    real_git = history._modal_git
+    for label, target, replacement in (
+            ("missing object", ("cat-file", "--batch"), lambda value: b"missing\n"),
+            ("forged object", ("cat-file", "--batch"), lambda value: value.replace(b"tree ", b"Tree ", 1)),
+            ("trailing proof", ("cat-file", "--batch"), lambda value: value + b"extra"),
+            ("path population", ("diff", "--name-status"), lambda value: value + b"M\0neighbor.gd\0"),
+            ("HEAD rollback", ("rev-parse",), lambda value: history.PAD_HINT_BLOBS[0].encode() + b"\n")):
+        def altered(where, *args, **kwargs):
+            value = real_git(where, *args, **kwargs)
+            return replacement(value) if args[:len(target)] == target else value
+        with mock.patch.object(history, "_modal_git", side_effect=altered):
+            reject(lambda: history.pad_hint_font_predecessor(raw, ROOT), label)
+    for name, value in (("PAD_HINT_BEFORE_COMMIT", history.PAD_HINT_AFTER_COMMIT),
+                        ("PAD_HINT_TREES", tuple(reversed(history.PAD_HINT_TREES))),
+                        ("PAD_HINT_BLOBS", tuple(reversed(history.PAD_HINT_BLOBS))),
+                        ("PAD_HINT_REPLACEMENTS", history.PAD_HINT_REPLACEMENTS[:-1]),
+                        ("TUTORIAL_REPLACEMENT", (history.TUTORIAL_REPLACEMENT[0] + " ", history.TUTORIAL_REPLACEMENT[1])),
+                        ("MODAL_REPLACEMENTS", history.MODAL_REPLACEMENTS[:-1])):
+        with mock.patch.object(history, name, value):
+            reject(lambda: history.modal_font_predecessor(raw, ROOT), "immutable boundary " + name)
+    with mock.patch.object(history, "_modal_git", side_effect=OSError("lost after success")):
+        check(bool(history.main_game_history_source_errors(path, raw))
+              and history.gift_caption_project_bytes(raw, path) == raw, "lost proof fails closed")
+        check(history.main_game_history_project_bytes(b"outside", "unowned.gd") == b"outside", "off-path dispatch preserved")
+    check(history.modal_font_predecessor(raw, ROOT) == old, "fresh proof restores without success cache")
+
+    actual, actual_errors = ja.parse_ui_calls(path, raw.decode())
+    before, before_errors = ja.parse_ui_calls(path, prior.decode())
+    ordered = lambda calls: sorted(calls, key=lambda c: (c.path, c.line, c.api))
+    semantics = lambda calls: [(c.path, c.function, c.api, c.korean, c.english, c.context_id) for c in ordered(calls)]
+    check(not actual_errors and not before_errors and semantics(actual) == semantics(before),
+          "all Korean/English keys, functions, identities and call order unchanged")
+    shifts = [a.line - b.line for a, b in zip(ordered(actual), ordered(before))]
+    check(set(shifts) <= {0, 2, 4} and 2 in shifts and 4 in shifts, "actual two consumer line shifts")
+    # One real collector call exercises the seal, current call rebinding and
+    # migrated-context metadata that raw-only helper tests cannot cover.
+    inventory = ja.collect_ui_inventory()
+    check(not inventory.errors and tuple(c for c in inventory.calls if c.path == path) == tuple(ordered(actual))
+          and "migrated_context_ids" in inventory.stats, "actual collector and migrated contexts intact")
+    baseline = ja._MODAL_LOCATION_OLD_COLLECT()
+    check(ja.modal_rebind_inventory(baseline, raw) == inventory,
+          "whole collector identity/blueprint/context/stats roundtrip")
+
+    hashes = {path: sha(raw), append.ARUBA_FONT_PATH: sha((ROOT / append.ARUBA_FONT_PATH).read_bytes()),
+              "unchanged.json": "1" * 64}
+    source = {"source_hashes": hashes, "source_manifest_sha256": append.exchange.digest(hashes)}
+    preserved = copy.deepcopy(source)
+    views = [hashes, *({**hashes, path: sha(value)} for value in (prior, pre390, pre386, old)),
+             {**hashes, path: sha(old), append.ARUBA_FONT_PATH: append.ARUBA_FONT_BEFORE_SHA256}]
+    for index, view in enumerate(views):
+        check(append._source_manifest_matches(ROOT, source, append.exchange.digest(view)), "manifest stage " + str(index))
+    check(source == preserved, "actual source inventory never rewritten")
+    reject(lambda: append._source_manifest_matches(ROOT, {"source_hashes": views[1],
+           "source_manifest_sha256": append.exchange.digest(views[1])}, append.exchange.digest(views[1])),
+           "historical raw cannot masquerade as actual current source")
+    reject(lambda: append._source_manifest_matches(ROOT, {**source, "source_manifest_sha256": "0" * 64},
+           append.exchange.digest(views[1])), "forged current census")
+    neighbor = {**hashes, "unchanged.json": "0" * 64}
+    check(not append._source_manifest_matches(ROOT, {"source_hashes": neighbor,
+          "source_manifest_sha256": append.exchange.digest(neighbor)}, append.exchange.digest(views[1])),
+          "unowned source difference never exempted")
+    with mock.patch.object(history, "_modal_git", side_effect=OSError("proof disappeared")):
+        reject(lambda: append._source_manifest_matches(ROOT, source, append.exchange.digest(views[1])),
+               "old official header still requires fresh source proof")
+    check(all(sha((ROOT / p).read_bytes()) == value for p, value in observed.items()), "all observed files unchanged")
+    return failures, cases
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--synthetic-only", action="store_true", help="author development only; not current acceptance")
@@ -1736,7 +1871,14 @@ def main() -> int:
     parser.add_argument("--investment-footer", action="store_true", help="current386 rendering/source successor only; no old suites")
     parser.add_argument("--tutorial-copy", action="store_true", help="current390 source-pair, collector and retained-JA boundaries only")
     parser.add_argument("--split-receipt", action="store_true", help="exact392 split UI/receipt proof and state only; no historical suites")
+    parser.add_argument("--pad-hint-font", action="store_true", help="current393 four font lines, source and collector only; no historical suites")
     args = parser.parse_args()
+    if args.pad_hint_font:
+        errors, cases = pad_hint_font_self_test()
+        for error in errors:
+            print("UI_TRANSLATION_APPEND_ERROR " + error)
+        print(f"UI_TRANSLATION_APPEND_PAD_HINT_FONT_{'FAIL' if errors else 'OK'} cases={cases} historical_cases=0")
+        return int(bool(errors))
     if args.split_receipt:
         errors, cases = split_receipt_self_test()
         for error in errors:
@@ -1800,12 +1942,12 @@ def main() -> int:
         errors.extend(correction_errors)
         cases += correction_cases
         print(f"UI_TRANSLATION_APPEND_CORRECTION cases={correction_cases}")
-        # Exact381/382/386 bodies and explicit options remain historical. The
-        # default current source check follows actual390, including its copy.
-        modal_errors, modal_cases = tutorial_copy_self_test()
+        # Earlier source bodies and explicit options remain historical. The
+        # default current source check follows actual393's four font lines.
+        modal_errors, modal_cases = pad_hint_font_self_test()
         errors.extend(modal_errors)
         cases += modal_cases
-        print(f"UI_TRANSLATION_APPEND_TUTORIAL_COPY cases={modal_cases}")
+        print(f"UI_TRANSLATION_APPEND_PAD_HINT_FONT cases={modal_cases}")
         fee_errors, fee_cases = investment_fee_correction_self_test()
         errors.extend(fee_errors)
         cases += fee_cases

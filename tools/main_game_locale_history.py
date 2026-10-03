@@ -1089,3 +1089,125 @@ def modal_font_predecessor(current, root=None):
     """Keep the public pre381 comparison contract for admitted actual390."""
     return _tutorial_copy_proof(current, root)[2]
 # END_TUTORIAL_COPY_HISTORY_390
+
+# BEGIN_PAD_HINT_FONT_HISTORY_393
+# Exact rendering successor. Earlier bodies and pins remain historical; no
+# historical HEAD is substituted when proving the actual current source.
+PAD_HINT_BEFORE_COMMIT = "b48bc211092c14b80b51b3d8c8f06a4d79b84919"
+PAD_HINT_AFTER_COMMIT = "d0a7c9cf38b8d64f65bf0c9020bbb9ce0a1de91b"
+PAD_HINT_TREES = ("cba97af32d67a79891fd57489fe742783a340e4c", "c3bc87da49fc23388648ca9466092e522eac5cb4")
+PAD_HINT_BLOBS = ("f527d67772081a38ffd75e5a47426e5e5f7ff74e", "c0bfef9cff660c40351c8ae046f75f5fc776c536")
+PAD_HINT_HASHES = ("db5d0dc1f8890ea5ae3e0b9d1f212c2a316be50ef3265804dbde9dba0279a8ff",
+                   "ed116a1d4dae6dc0fcac708204c97eaadf988070e501c0bb1df437be6e38170d")
+PAD_HINT_REPLACEMENTS = tuple(
+    ('\tif _font_bold:\n\t\t_' + label + '_pad_hint_label.add_theme_font_override("bold_font", _font_bold)\n',
+     '\tif _font_regular:\n\t\t_' + label + '_pad_hint_label.add_theme_font_override("normal_font", _font_regular)\n'
+     '\tif _font_bold:\n\t\t_' + label + '_pad_hint_label.add_theme_font_override("bold_font", _font_bold)\n')
+    for label in ("people", "invest")
+)
+
+
+def _pad_hint_font_inverse(current, before):
+    """Pure comparison-only exact four-line inverse, also tested without hashes."""
+    if not isinstance(current, bytes) or not isinstance(before, bytes) or len(PAD_HINT_REPLACEMENTS) != 2:
+        raise ValueError("ORDER-393: inverse population/type differs")
+    recovered = current
+    for old, new in reversed(PAD_HINT_REPLACEMENTS):
+        old, new = old.encode(), new.encode()
+        if (not old or old == new or before.count(old) != 1 or before.count(new) != 0
+                or recovered.count(new) != 1):
+            raise ValueError("ORDER-393: font inverse is not exact1 at each consumer")
+        recovered = recovered.replace(new, old, 1)
+    if recovered != before:
+        raise ValueError("ORDER-393: changes outside exact four font lines")
+    return recovered
+
+
+def _pad_hint_font_proof(current, root=None):
+    """Fresh actual393 proof; return pre393/pre390/pre386/pre381 comparisons."""
+    from pathlib import Path
+    root = Path(root) if root is not None else Path(__file__).resolve().parents[1]
+    if not isinstance(current, bytes) or hashlib.sha256(current).hexdigest() != PAD_HINT_HASHES[1]:
+        raise ValueError("ORDER-393: unapproved current MainGame raw")
+    stages = (
+        (MODAL_BEFORE_COMMIT, MODAL_AFTER_COMMIT, MODAL_TREES, MODAL_BLOBS, MODAL_HASHES),
+        (JOB_STATUS_BEFORE_COMMIT, JOB_STATUS_AFTER_COMMIT, JOB_STATUS_TREES, JOB_STATUS_BLOBS, JOB_STATUS_HASHES),
+        (INVESTMENT_BEFORE_COMMIT, INVESTMENT_AFTER_COMMIT, INVESTMENT_TREES, INVESTMENT_BLOBS, INVESTMENT_HASHES),
+        (TUTORIAL_BEFORE_COMMIT, TUTORIAL_AFTER_COMMIT, TUTORIAL_TREES, TUTORIAL_BLOBS, TUTORIAL_HASHES),
+        (PAD_HINT_BEFORE_COMMIT, PAD_HINT_AFTER_COMMIT, PAD_HINT_TREES, PAD_HINT_BLOBS, PAD_HINT_HASHES),
+    )
+    requests = []
+    for before, after, trees, blobs, _hashes in stages:
+        requests.extend((c, c, "commit") for c in (before, after))
+        requests.extend((t, t, "tree") for t in trees)
+        requests.extend((c + ":" + MAIN_GAME_PATH, oid, "blob") for c, oid in zip((before, after), blobs))
+    proof = _modal_git(root, "cat-file", "--batch", input=("\n".join(r[0] for r in requests) + "\n").encode())
+    values, cursor = [], 0
+    for _expression, wanted, kind in requests:
+        end = proof.index(b"\n", cursor)
+        oid, actual_kind, size = proof[cursor:end].decode().split()
+        size = int(size)
+        value = proof[end + 1:end + 1 + size]
+        if (size < 0 or oid != wanted or actual_kind != kind or len(value) != size
+                or hashlib.sha1(kind.encode() + b" " + str(size).encode() + b"\0" + value).hexdigest() != oid
+                or proof[end + 1 + size:end + 2 + size] != b"\n"):
+            raise ValueError("ORDER-393: forged immutable object")
+        values.append(value)
+        cursor = end + 2 + size
+    if cursor != len(proof):
+        raise ValueError("ORDER-393: trailing immutable proof bytes")
+    for stage, (before, after, trees, _blobs, hashes) in enumerate(stages):
+        offset = stage * 6
+        for index in range(2):
+            headers = values[offset + index].split(b"\n\n", 1)[0].splitlines()
+            if [h for h in headers if h.startswith(b"tree ")] != [b"tree " + trees[index].encode()]:
+                raise ValueError("ORDER-393: immutable tree differs")
+            if index and [h for h in headers if h.startswith(b"parent ")] != [b"parent " + before.encode()]:
+                raise ValueError("ORDER-393: direct parent differs")
+        if tuple(hashlib.sha256(v).hexdigest() for v in values[offset + 4:offset + 6]) != hashes:
+            raise ValueError("ORDER-393: immutable whole raw differs")
+        if _modal_git(root, "diff", "--name-status", "-z", before, after) != b"M\0" + MAIN_GAME_PATH.encode() + b"\0":
+            raise ValueError("ORDER-393: product path population differs")
+        if stage:
+            _modal_git(root, "merge-base", "--is-ancestor", stages[stage - 1][1], before)
+            if values[offset + 4] != values[offset - 1]:
+                raise ValueError("ORDER-393: nonconsecutive raw history")
+    _modal_git(root, "merge-base", "--is-ancestor", PAD_HINT_AFTER_COMMIT, "HEAD")
+    if _modal_git(root, "rev-parse", "HEAD:" + MAIN_GAME_PATH).decode().strip() != PAD_HINT_BLOBS[1]:
+        raise ValueError("ORDER-393: current Git MainGame differs")
+    if values[29] != current:
+        raise ValueError("ORDER-393: current/blob binding differs")
+    recovered = _pad_hint_font_inverse(current, values[28])
+    inverse_stages = (((TUTORIAL_REPLACEMENT,), values[22]),
+                      (INVESTMENT_REPLACEMENTS, values[16]),
+                      ((tuple(v.decode() for v in JOB_STATUS_REPLACEMENT),), values[10]),
+                      (MODAL_REPLACEMENTS, values[4]))
+    if tuple(len(parts) for parts, _ in inverse_stages) != (1, 3, 1, 3):
+        raise ValueError("ORDER-393: prior inverse population differs")
+    for replacements, before in inverse_stages:
+        for old, new in reversed(replacements):
+            old, new = old.encode(), new.encode()
+            if not old or old == new or recovered.count(new) != 1:
+                raise ValueError("ORDER-393: prior inverse is not exact1")
+            recovered = recovered.replace(new, old, 1)
+        if recovered != before:
+            raise ValueError("ORDER-393: changes outside prior exact copy/rendering repairs")
+    return values[28], values[22], values[16], recovered
+
+
+def pad_hint_font_predecessor(current, root=None):
+    return _pad_hint_font_proof(current, root)[0]
+
+
+def tutorial_copy_predecessor(current, root=None):
+    return _pad_hint_font_proof(current, root)[1]
+
+
+def investment_footer_predecessor(current, root=None):
+    return _pad_hint_font_proof(current, root)[2]
+
+
+def modal_font_predecessor(current, root=None):
+    """Keep the public pre381 comparison contract for admitted actual393."""
+    return _pad_hint_font_proof(current, root)[3]
+# END_PAD_HINT_FONT_HISTORY_393

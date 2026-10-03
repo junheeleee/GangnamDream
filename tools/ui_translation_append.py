@@ -1067,3 +1067,25 @@ class _SplitReceiptHistory:
 
     def finish(self) -> None:
         require(self.proof is None or self.completed, "split UI delivery still lacks its exact official receipts")
+
+
+# BEGIN_PAD_HINT_FONT_MANIFEST_393
+# Keep the actual census and every older manifest/split-receipt proof intact.
+_PAD_HINT_OLD_MANIFEST_MATCHES = _source_manifest_matches
+
+
+def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: str) -> bool:
+    if "source_hashes" not in inventory:
+        return _PAD_HINT_OLD_MANIFEST_MATCHES(root, inventory, expected)
+    import main_game_locale_history as history
+    raw = (root / history.MAIN_GAME_PATH).read_bytes()
+    previous = history.pad_hint_font_predecessor(raw, root)
+    hashes = inventory["source_hashes"]
+    require(exchange.digest(hashes) == inventory["source_manifest_sha256"]
+            and hashes.get(history.MAIN_GAME_PATH) == hashlib.sha256(raw).hexdigest(),
+            "pad hint current source census/raw mismatch")
+    comparison = {**hashes, history.MAIN_GAME_PATH: hashlib.sha256(previous).hexdigest()}
+    if expected == exchange.digest(comparison):
+        return True
+    return _PAD_HINT_OLD_MANIFEST_MATCHES(root, inventory, expected)
+# END_PAD_HINT_FONT_MANIFEST_393

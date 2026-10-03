@@ -14,6 +14,42 @@
   ],
   "fast_lanes": [
     {
+      "id": "pad-hint-font",
+      "paths": [],
+      "owned_paths": [
+        "scenes/MainGame.gd",
+        "tools/main_game_locale_history.py",
+        "tools/ui_translation_append.py",
+        "tools/ui_translation_append_self_test.py",
+        "tools/audit_scope.json",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/WORK_LOG.md",
+        "docs/history/WORK_LOG_2026-09-07_localization.md",
+        "docs/STATUS.md",
+        "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-393.json",
+        "docs/queue_active/ORDER-391.md",
+        "docs/queue_active/ORDER-393.md",
+        "docs/queue_archive/ORDER-393.md"
+      ],
+      "tools": [
+        "tools/ui_translation_append_self_test.py --pad-hint-font",
+        "tools/order365_ui_receipt_compat.py",
+        "tools/full_body_translation_scope.py",
+        "tools/story_graph_contract_audit.py",
+        "tools/chapter5_human_reject_audit.py",
+        "tools/year5_reference_route_audit.py",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/ja_translation_audit.py --scope ui",
+        "tools/zh_translation_audit.py",
+        "tools/en_coverage_check.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Exact393 four normal_font lines only: immutable current Git/raw inverse, real collector source and coordinates, pre393 official source census comparison. Older bodies/pins and392 split proof remain intact; no historical self suites, dictionary/ledger edits or engine claim."
+    },
+    {
       "id": "split-receipt",
       "paths": [],
       "owned_paths": [
@@ -2274,6 +2310,17 @@
   ],
   "checks": [
     {
+      "tool": "tools/ui_translation_append_self_test.py --pad-hint-font",
+      "paths": [
+        "scenes/MainGame.gd",
+        "tools/main_game_locale_history.py",
+        "tools/ui_translation_append.py",
+        "tools/ui_translation_append_self_test.py"
+      ],
+      "why": "Current393 exact four-line font successor, pure inverse and fresh Git/raw/source proof, current collector identity/coordinates and original manifest composition. Only this new boundary is replayed for source changes.",
+      "godot": false
+    },
+    {
       "tool": "tools/ui_translation_append_self_test.py --split-receipt",
       "paths": [
         "tools/ui_translation_append.py",
@@ -2284,15 +2331,8 @@
     },
     {
       "tool": "tools/ui_translation_append_self_test.py --tutorial-copy",
-      "paths": [
-        "scenes/MainGame.gd",
-        "tools/main_game_locale_history.py",
-        "tools/ja_translation_pipeline.py",
-        "tools/ja_translation_audit.py",
-        "tools/ui_translation_append.py",
-        "tools/ui_translation_append_self_test.py"
-      ],
-      "why": "Current390 exact copy admission, collector identity/location preservation and retained-JA/current-target separation. Routine UI/receipt appends use normal admission without replaying this source-change suite.",
+      "paths": [],
+      "why": "Historical390 explicit CLI and original source-copy body preserved. Current393 selection uses pad-hint-font rather than replaying an older HEAD-bound current-source test.",
       "godot": false
     },
     {
