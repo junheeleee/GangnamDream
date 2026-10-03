@@ -2283,6 +2283,348 @@ def axis_badge_fit_self_test() -> tuple[list[str], int]:
 # END_AXIS_BADGE_FIT_SELF_TEST_403
 
 
+# BEGIN_PROMOTION_REVIEW_SELF_TEST_406
+def promotion_review_self_test() -> tuple[list[str], int]:
+    """Current406 pair, collector, retained target and three receipts; no old suites."""
+    import main_game_locale_history as history
+    import ja_translation_pipeline as ja
+    import ja_translation_audit as audit
+    failures, cases = [], 0
+    def check(ok, label):
+        nonlocal cases
+        cases += 1
+        if not ok:
+            failures.append("promotion review: " + label)
+    def reject(action, label, message=None):
+        try:
+            action()
+        except (ValueError, OSError, KeyError, TypeError, IndexError, subprocess.TimeoutExpired) as exc:
+            check(message is None or message in str(exc), label)
+        else:
+            check(False, label)
+    sha = lambda value: hashlib.sha256(value).hexdigest()
+    path = history.MAIN_GAME_PATH
+    protected = (path, "tools/main_game_locale_history.py", "tools/ui_translation_append.py",
+                 "tools/ui_translation_append_self_test.py", "tools/audit_scope.json",
+                 "tools/ja_translation_pipeline.py", "tools/ja_translation_audit.py", *append.CURRENT_PATHS)
+    observed = {p: sha((ROOT / p).read_bytes()) for p in protected}
+    raw = (ROOT / path).read_bytes()
+    predecessors = history._promotion_review_copy_proof(raw, ROOT)
+    prior, pre403, pre402, pre393, pre390, pre386, old = predecessors
+    check(tuple(sha(v) for v in (raw, *predecessors)) == (
+        "bda4961c1a377edcaee454b83937c3a580bce029b3a802ef293118f3f2d3823d",
+        "4c86abe5880d49128a511da36ad361f76c4290c10103d976e1dd33d66294d6bf",
+        "473aab2946d2b76a6263e57fc36facfc24de83629fddf88f3005200a81a15e7d",
+        "ed116a1d4dae6dc0fcac708204c97eaadf988070e501c0bb1df437be6e38170d",
+        "db5d0dc1f8890ea5ae3e0b9d1f212c2a316be50ef3265804dbde9dba0279a8ff",
+        "6432a5ceb5844c1fdc54265547053dc82db8808ea87f442058412f03d24eed90",
+        "eb9efa2243ae97e032ca13e64bae3f42558fe9618babe97c5bc3d21a05e23cea",
+        "3f42b49c99c94310436661e44c3029d0335b0998d467a7582c8d3524acf55532"),
+        "independent current and seven predecessor pins")
+    for index, name in enumerate(("promotion_review", "axis_badge_fit", "people_card_height",
+                                  "pad_hint_font", "tutorial_copy", "investment_footer", "modal_font")):
+        check(getattr(history, name + "_predecessor")(raw, ROOT) == predecessors[index],
+              "direct predecessor contract " + name)
+    reject(lambda: history._axis_badge_fit_proof(raw, ROOT), "original403 still rejects non403 current raw")
+    for code, marker in (("tools/main_game_locale_history.py", b"# BEGIN_PROMOTION_REVIEW_HISTORY_406"),
+                         ("tools/ui_translation_append.py", b"# BEGIN_PROMOTION_REVIEW_MANIFEST_406"),
+                         ("tools/ui_translation_append_self_test.py", b"# BEGIN_PROMOTION_REVIEW_SELF_TEST_406")):
+        current_code = (ROOT / code).read_bytes()
+        original = append._git(ROOT, "show", history.PROMOTION_BEFORE_COMMIT + ":" + code)
+        if code.endswith("_self_test.py"):
+            original = original.split(b"\ndef main() -> int:\n")[0]
+        check(current_code.splitlines().count(marker) == 1 and current_code.startswith(original)
+              and not current_code[len(original):current_code.index(marker)].strip(),
+              "entire older code/pins preserved: " + code)
+    code = (ROOT / "tools/ja_translation_audit.py").read_bytes()
+    a, z = b"# BEGIN_PROMOTION_REVIEW_RETAINED_JA_406\n", b"# END_PROMOTION_REVIEW_RETAINED_JA_406\n\n"
+    check(code[:code.index(a)] + code[code.index(z) + len(z):] == append._git(
+          ROOT, "show", history.PROMOTION_BEFORE_COMMIT + ":tools/ja_translation_audit.py"),
+          "entire older Japanese audit preserved")
+    check(history._promotion_review_copy_inverse(raw, prior) == prior, "pure exact anchored inverse")
+    before, after = (part.encode() for part in history.PROMOTION_REPLACEMENT)
+    intermediate = append._git(ROOT, "show", history.PEOPLE_CARD_AFTER_COMMIT + ":" + path)
+    for label, mutant in (
+            ("rollback", prior), ("partial", raw.replace(after, after[:len(after)//2], 1)),
+            ("duplicate", raw + after), ("moved", raw.replace(after, before, 1) + after),
+            ("KO-only", raw.replace(history.PROMOTION_NEW_KO.encode(), history.PROMOTION_OLD_KO.encode(), 1)),
+            ("EN-only", raw.replace(history.PROMOTION_NEW_EN.encode(), history.PROMOTION_OLD_EN.encode(), 1)),
+            ("condition", raw.replace(b"if tenure >= threshold and perf >= 60:", b"if tenure >= threshold and perf >= 59:", 1)),
+            ("neighbor", raw.replace(b'var promo_count = int(GameState.current_job.get("promotion_count", 0))',
+                                    b'var promo_count = int(GameState.current_job.get("promotion_count", 1))', 1)),
+            ("whitespace", raw + b"\n"), ("failed402", intermediate)):
+        check(mutant != raw, "independent control differs " + label)
+        reject(lambda value=mutant: history._promotion_review_copy_inverse(value, prior), "pure " + label)
+    for name, previous in (("main_game_history", history._MODAL_OLD_PUBLIC), ("gift_caption", history._MODAL_OLD_GIFT)):
+        source, project, digest = (getattr(history, name + suffix) for suffix in
+                                  ("_source_errors", "_project_bytes", "_project_byte_hash"))
+        expected = previous[1](old, path)
+        check(not source(path, raw) and project(raw, path) == expected
+              and digest(sha(raw), path, raw) == sha(expected), name + " three actual entrances")
+        check(digest("0" * 64, path, raw) == "0" * 64, name + " rejects forged observed claim")
+    for value in (b"", None):
+        reject(lambda value=value: history.promotion_review_predecessor(value, ROOT), "invalid raw type/empty")
+    real_git = history._modal_git
+    for label, target, replacement in (
+            ("missing object", ("cat-file", "--batch"), lambda value: b"missing\n"),
+            ("forged object", ("cat-file", "--batch"), lambda value: value.replace(b"tree ", b"Tree ", 1)),
+            ("trailing proof", ("cat-file", "--batch"), lambda value: value + b"extra"),
+            ("path population", ("diff", "--name-status"), lambda value: value + b"M\0neighbor.gd\0"),
+            ("HEAD rollback", ("rev-parse",), lambda value: history.PROMOTION_BLOBS[0].encode() + b"\n")):
+        def altered(where, *args, **kwargs):
+            value = real_git(where, *args, **kwargs)
+            return replacement(value) if args[:len(target)] == target else value
+        with mock.patch.object(history, "_modal_git", side_effect=altered):
+            reject(lambda: history.promotion_review_predecessor(raw, ROOT), label)
+    for name in ("PROMOTION_TREES",):
+        with mock.patch.object(history, name, tuple(reversed(getattr(history, name)))):
+            reject(lambda: history.promotion_review_predecessor(raw, ROOT),
+                   "valid objects wrong tree binding " + name, "immutable tree differs")
+    # Re-sign the malformed parent object so its SHA check cannot mask the
+    # direct-parent assertion. All other immutable objects remain actual.
+    after_commit = history.PROMOTION_AFTER_COMMIT
+    original = real_git(ROOT, "cat-file", "commit", after_commit)
+    parent = b"parent " + history.PROMOTION_BEFORE_COMMIT.encode()
+    check(original.count(parent + b"\n") == 1, "actual product direct parent exact1")
+    forged = original.replace(parent, b"parent " + history.PEOPLE_CARD_REPAIR_BEFORE_COMMIT.encode(), 1)
+    forged_oid = hashlib.sha1(b"commit " + str(len(forged)).encode() + b"\0" + forged).hexdigest()
+    old_block = after_commit.encode() + b" commit " + str(len(original)).encode() + b"\n" + original + b"\n"
+    new_block = forged_oid.encode() + b" commit " + str(len(forged)).encode() + b"\n" + forged + b"\n"
+    def resigned_parent(where, *args, **kwargs):
+        if args[:2] != ("cat-file", "--batch"):
+            return real_git(where, *args, **kwargs)
+        incoming = kwargs["input"].replace(forged_oid.encode(), after_commit.encode())
+        data = real_git(where, *args, **{**kwargs, "input": incoming})
+        if data.count(old_block) != 1:
+            raise ValueError("parent-control immutable population differs")
+        return data.replace(old_block, new_block, 1)
+    with mock.patch.object(history, "PROMOTION_AFTER_COMMIT", forged_oid), \
+            mock.patch.object(history, "_modal_git", side_effect=resigned_parent):
+        reject(lambda: history.promotion_review_predecessor(raw, ROOT),
+               "re-signed wrong direct parent", "direct parent differs")
+    with mock.patch.object(history, "_modal_git", side_effect=OSError("lost after success")):
+        check(bool(history.main_game_history_source_errors(path, raw))
+              and history.gift_caption_project_bytes(raw, path) == raw, "lost proof fails closed")
+        check(history.main_game_history_project_bytes(b"outside", "unowned.gd") == b"outside", "off-path dispatch preserved")
+    check(history.modal_font_predecessor(raw, ROOT) == old, "fresh proof restores without success cache")
+
+    actual, parse_errors = ja.parse_ui_calls(path, raw.decode())
+    previous_calls, previous_errors = ja.parse_ui_calls(path, prior.decode())
+    ordered = lambda calls: tuple(sorted(calls, key=lambda c: (c.path, c.line, c.api)))
+    before_calls, actual_calls = ja._promotion_review_call_views(raw)
+    check(not parse_errors and not previous_errors and actual_calls == ordered(actual),
+          "fresh two-pair view exposes actual source coordinates")
+    old_ko, new_ko = history.PROMOTION_OLD_KO, history.PROMOTION_NEW_KO
+    expected_prior = tuple(replace(c, korean=new_ko, english=history.PROMOTION_NEW_EN)
+                           if c.korean == old_ko else c for c in ordered(previous_calls))
+    check(expected_prior == actual_calls, "pre406 versus actual exactly one KO/EN pair, no coordinate change")
+    reject(lambda: ja._PROMOTION_OLD_TUTORIAL_CALL_VIEWS(raw), "unchanged390 one-pair body still rejects added change")
+    # Independent semantic controls deliberately bypass only the raw/hash gate.
+    with mock.patch.object(history, "modal_font_predecessor", return_value=old):
+        for label, mutant in (
+                ("KO-only", raw.replace(new_ko.encode(), old_ko.encode(), 1)),
+                ("EN-only", raw.replace(history.PROMOTION_NEW_EN.encode(), history.PROMOTION_OLD_EN.encode(), 1)),
+                ("wrong owner", raw.replace(b"func _open_cat_work():", b"func _unowned_work():", 1)),
+                ("duplicate pair", raw + after),
+                ("tutorial lost", raw.replace(history.TUTORIAL_NEW_KO.encode(), history.TUTORIAL_OLD_KO.encode(), 1))):
+            reject(lambda value=mutant: ja._promotion_review_call_views(value), "semantic " + label,
+                   "two selectors")
+    inventory = ja.collect_ui_inventory()
+    check(not inventory.errors and tuple(c for c in inventory.calls if c.path == path) == actual_calls
+          and "migrated_context_ids" in inventory.stats, "real current collector, coordinates and contexts")
+    check(old_ko not in inventory.blueprint and new_ko in inventory.blueprint
+          and sum(c.korean == new_ko for c in inventory.calls) == 1
+          and history.TUTORIAL_OLD_KO not in inventory.blueprint
+          and history.TUTORIAL_NEW_KO in inventory.blueprint, "two old sources absent, both new sources live")
+    baseline = ja._MODAL_LOCATION_OLD_COLLECT()
+    check(ja.modal_rebind_inventory(baseline, raw) == inventory,
+          "whole inventory identity/blueprint/context/stats roundtrip")
+    # Use the original390 rebinder only on explicit parser comparison tuples.
+    # This is not a historical current-source proof or historical test suite.
+    with mock.patch.object(ja, "_tutorial_copy_call_views", return_value=(before_calls, ordered(previous_calls))):
+        prior_inventory = ja._PROMOTION_OLD_REBIND_INVENTORY(baseline, prior)
+    existing = {e.source: e for e in prior_inventory.legacy_entries if e.source != old_ko}
+    check(all(replace(e, context=existing[e.source].context) == existing[e.source]
+              and inventory.legacy_blueprint[e.source] == prior_inventory.legacy_blueprint[e.source]
+              for e in inventory.legacy_entries if e.source in existing)
+          and set(existing) == {e.source for e in inventory.legacy_entries if e.source != new_ko}
+          and len(inventory.legacy_entries) == len(prior_inventory.legacy_entries),
+          "all unowned entries including390 tutorial and branch IDs remain identical")
+    check(inventory.planned_context_entries == prior_inventory.planned_context_entries
+          and inventory.observed_context_entries == prior_inventory.observed_context_entries
+          and inventory.planned_context_blueprint == prior_inventory.planned_context_blueprint
+          and inventory.observed_context_blueprint == prior_inventory.observed_context_blueprint,
+          "all context layers unchanged")
+    old_entry = next(e for e in prior_inventory.legacy_entries if e.source == old_ko)
+    new_entry = next(e for e in inventory.legacy_entries if e.source == new_ko)
+    check(old_entry.source_hash != new_entry.source_hash and old_entry.key != new_entry.key,
+          "new source has fresh identity")
+    index = next(i for i, call in enumerate(baseline.calls) if call.path == path)
+    for label, calls in (("missing", baseline.calls[:index] + baseline.calls[index + 1:]),
+                         ("duplicate", baseline.calls + (baseline.calls[index],)),
+                         ("coordinate", baseline.calls[:index] + (replace(baseline.calls[index], line=0),) + baseline.calls[index + 1:])):
+        reject(lambda rows=calls: ja.modal_rebind_inventory(replace(baseline, calls=rows), raw),
+               label + " supplied predecessor")
+    code = (ROOT / "tools/ja_translation_pipeline.py").read_bytes()
+    previous_code = ja.promotion_pipeline_predecessor(code)
+    check(previous_code == append._git(ROOT, "show", history.PROMOTION_BEFORE_COMMIT + ":tools/ja_translation_pipeline.py"),
+          "new appendix inverse restores immutable whole prior collector")
+    check(sha(ja.tutorial_pipeline_predecessor(previous_code)) == ja.TUTORIAL_PIPELINE_BEFORE_SHA,
+          "historical tutorial entrance gets explicit pre406 byte view only")
+    check(sha(ja.nonformat_pipeline_predecessor(code)) == ja.NONFORMAT_BEFORE_SHA
+          and sha(ja.current_demo_pipeline_predecessor(code)) == ja.CURRENT_DEMO_BEFORE_SHA,
+          "direct older entrances follow new global modal predecessor")
+    for label, mutant in (("neighbor", code + b"\n"),
+                          ("appendix", code.replace(b"def _promotion_review_call_views(raw):",
+                                                   b"def _promotion_review_call_views(raw): # changed", 1)),
+                          ("duplicate appendix", code + code[code.index(b"# BEGIN_PROMOTION_REVIEW_COLLECTOR_406\n"):])):
+        reject(lambda value=mutant: ja.promotion_pipeline_predecessor(value), "collector self seal " + label)
+    targets = audit.read_json(ROOT / "locale/ui_ja.json")
+    retained, errors = audit.promotion_retained_ja_entries(inventory, targets)
+    check(not errors and set(retained) == {old_ko}, "one exact retained promotion target")
+    tutorial, errors = audit.tutorial_retained_ja_entries(inventory, targets)
+    check(not errors and set(tutorial) == {history.TUTORIAL_OLD_KO}, "unchanged tutorial retained body accepts current calls")
+    combined, errors = audit.retired_relationship_ui_entries(inventory)
+    earlier, earlier_errors = audit._PROMOTION_OLD_RETIRED_ENTRIES(inventory)
+    check(not errors and not earlier_errors and set(combined) - set(earlier) == {old_ko}
+          and {k: combined[k] for k in earlier} == earlier, "retired allowlist adds only exact one key")
+    for target in ({**targets, old_ko: "changed"}, {k: v for k, v in targets.items() if k != old_ko}):
+        found, errors = audit.promotion_retained_ja_entries(inventory, target)
+        check(not found and bool(errors), "changed/missing retired target rejected")
+    found, errors = audit.promotion_retained_ja_entries(prior_inventory, targets)
+    check(not found and bool(errors), "old live calls cannot masquerade as current")
+    for locale in append.CURRENT_LOCALES:
+        with mock.patch.object(audit, "read_json", return_value={"accepted": {locale: {append.receipt_id(old_ko): {}}}}):
+            found, errors = audit.promotion_retained_ja_entries(inventory, targets)
+            check(not found and bool(errors), "retired receipt forbidden " + locale)
+    with mock.patch.object(history, "_modal_git", side_effect=lambda where, *args, **kwargs:
+                           b"{}" if args[:1] == ("show",) else real_git(where, *args, **kwargs)):
+        found, errors = audit.promotion_retained_ja_entries(inventory, targets)
+        check(not found and bool(errors), "forged retained Japanese blob rejected")
+    for values in ({}, {new_ko: targets[new_ko], "unowned-extra-key": "余分"}):
+        errors = []
+        audit.walk_blueprint("ui", {new_ko: inventory.blueprint[new_ko]}, values, {new_entry.key: new_entry}, errors)
+        check(bool(errors), "original checker still rejects missing/extra target")
+
+    hashes = {path: sha(raw), append.ARUBA_FONT_PATH: sha((ROOT / append.ARUBA_FONT_PATH).read_bytes()),
+              "unchanged.json": "1" * 64}
+    source = {"source_hashes": hashes, "source_manifest_sha256": append.exchange.digest(hashes)}
+    preserved = copy.deepcopy(source)
+    views = [hashes, *({**hashes, path: sha(value)} for value in predecessors),
+             {**hashes, path: sha(old), append.ARUBA_FONT_PATH: append.ARUBA_FONT_BEFORE_SHA256}]
+    check(len(views) == len({append.exchange.digest(v) for v in views}) == 9,
+          "independent exact nine manifest combinations")
+    real_proof = history._promotion_review_copy_proof
+    for index, view in enumerate(views):
+        with mock.patch.object(history, "_promotion_review_copy_proof", wraps=real_proof) as proof:
+            check(append._source_manifest_matches(ROOT, source, append.exchange.digest(view)),
+                  "manifest stage " + str(index))
+            check(proof.call_count == 1, "one fresh proof per comparison " + str(index))
+    invalid = {"unknown": "0" * 64,
+               "failed402": append.exchange.digest({**hashes, path: sha(intermediate)})}
+    for index, view in enumerate(views[:-2]):
+        invalid["wrong preAruba pair " + str(index)] = append.exchange.digest(
+            {**view, append.ARUBA_FONT_PATH: append.ARUBA_FONT_BEFORE_SHA256})
+    for label, expected in invalid.items():
+        check(not append._source_manifest_matches(ROOT, source, expected), "reject " + label)
+    check(source == preserved, "actual source inventory never rewritten")
+    reject(lambda: append._source_manifest_matches(ROOT, {"source_hashes": views[1],
+           "source_manifest_sha256": append.exchange.digest(views[1])}, append.exchange.digest(views[1])),
+           "historical raw cannot masquerade as actual current source")
+    reject(lambda: append._source_manifest_matches(ROOT, {**source, "source_manifest_sha256": "0" * 64},
+           append.exchange.digest(views[1])), "forged current census")
+    neighbor = {**hashes, "unchanged.json": "0" * 64}
+    check(not append._source_manifest_matches(ROOT, {"source_hashes": neighbor,
+          "source_manifest_sha256": append.exchange.digest(neighbor)}, append.exchange.digest(views[2])),
+          "unowned source difference never exempted")
+    with mock.patch.object(append, "aruba_font_predecessor", wraps=append.aruba_font_predecessor) as font:
+        check(append._source_manifest_matches(ROOT, source, append.exchange.digest(views[0]))
+              and font.call_count == 0, "current-Aruba short circuit preserved after fresh MainGame proof")
+        check(append._source_manifest_matches(ROOT, source, append.exchange.digest(views[-1]))
+              and font.call_count == 1, "preAruba requires separate fresh font proof")
+    with mock.patch.object(append, "aruba_font_predecessor", side_effect=OSError("font proof lost")):
+        reject(lambda: append._source_manifest_matches(ROOT, source, append.exchange.digest(views[-1])),
+               "lost Aruba proof rejects old font combination")
+    # Every call starts again: passing actual current manifest cannot bypass proof,
+    # and a later raw/Git/HEAD fault cannot borrow the previous call's success.
+    real_read = Path.read_bytes
+    def head_fault(where, *args, **kwargs):
+        if args == ("rev-parse", "HEAD:" + path):
+            return history.PROMOTION_BLOBS[0].encode() + b"\n"
+        return real_git(where, *args, **kwargs)
+    def raw_fault(file):
+        data = real_read(file)
+        return data + b"\n" if file == ROOT / path else data
+    faults = (("Git", mock.patch.object(history, "_modal_git", side_effect=OSError("lost after pass"))),
+              ("HEAD", mock.patch.object(history, "_modal_git", side_effect=head_fault)),
+              ("raw", mock.patch.object(Path, "read_bytes", raw_fault)))
+    for label, fault in faults:
+        with mock.patch.object(history, "_promotion_review_copy_proof", wraps=real_proof) as proof:
+            check(append._source_manifest_matches(ROOT, source, append.exchange.digest(views[0]))
+                  and proof.call_count == 1, label + " first call freshly passes")
+            with fault:
+                reject(lambda: append._source_manifest_matches(ROOT, source, append.exchange.digest(views[0])),
+                       label + " next call fails")
+            check(proof.call_count == 2, label + " next call performed fresh proof")
+            check(append._source_manifest_matches(ROOT, source, append.exchange.digest(views[0]))
+                  and proof.call_count == 3, label + " recovery freshly proves again")
+    synthetic = {"source_manifest_sha256": "synthetic"}
+    check(append._source_manifest_matches(ROOT, synthetic, "synthetic")
+          == append._PROMOTION_OLD_MANIFEST_MATCHES(ROOT, synthetic, "synthetic"),
+          "source-hash-free synthetic delegate preserved")
+    forged_font = {**hashes, append.ARUBA_FONT_PATH: "0" * 64}
+    forged_font_digest = append.exchange.digest(forged_font)
+    reject(lambda: append._source_manifest_matches(ROOT,
+           {"source_hashes": forged_font, "source_manifest_sha256": forged_font_digest}, forged_font_digest),
+           "matching current expected cannot bypass actual Aruba census", "Aruba source census")
+
+    # Reuse the real current entry for a one-leaf append comparison. The
+    # separate normal production pass owns full collection/history replay.
+    leaf = append.exchange.Leaf("ui", new_ko, "runtime:static_ui", (new_ko,),
+                                new_entry.source, "ui_static_context", format_template=new_entry.format_template)
+    before_ui = append._snapshot(ROOT, history.PROMOTION_AFTER_COMMIT, append.CURRENT_PATHS)
+    after_ui = {p: (ROOT / p).read_bytes() for p in append.CURRENT_PATHS}
+    narrow = {"leaves": [leaf], "source_manifest_sha256": "comparison supplied by official headers"}
+    change = append.validate_append(before_ui, after_ui, narrow)
+    check(change["ui_by_locale"] == {locale: 1 for locale in append.CURRENT_LOCALES}
+          and change["receipts"] == 3 and change["batches"] == 3,
+          "actual three locales append one source-bound target and official receipt each")
+    current_head = append._git(ROOT, "rev-parse", "HEAD").decode().strip()
+    current_manifest = append._source_manifest(ROOT, current_head)
+    for revision, expected in change["source_manifests"].items():
+        append._git(ROOT, "merge-base", "--is-ancestor", revision, "HEAD")
+        check(append._source_manifest(ROOT, revision) == expected == current_manifest,
+              "official header actual Git census and current source unchanged")
+    ledger = json.loads(after_ui[append.LEDGER_PATH])
+    old_ledger = json.loads(before_ui[append.LEDGER_PATH])
+    check(all(append.receipt_id(old_ko) not in ledger["accepted"][locale] for locale in append.CURRENT_LOCALES),
+          "old promotion source has zero accepted receipts")
+    for locale in append.CURRENT_LOCALES:
+        target = json.loads(after_ui["locale/ui_" + locale + ".json"])[new_ko]
+        check(ledger["accepted"][locale][leaf.id] == {
+              "source_sha256": leaf.source_sha256, "target_sha256": append.exchange.digest(target)},
+              "actual current leaf and target freshness " + locale)
+        for field in ("source_sha256", "target_sha256"):
+            mutant = copy.deepcopy(ledger)
+            mutant["accepted"][locale][leaf.id][field] = "0" * 64
+            mutant["accepted_sha256"] = append.exchange.digest(mutant["accepted"])
+            altered = {**after_ui, append.LEDGER_PATH: _raw(mutant)}
+            reject(lambda value=altered: append.validate_append(before_ui, value, narrow),
+                   "fresh receipt mismatch " + locale + " " + field, "source/target additions differ")
+    first_new = len(old_ledger["batches"])
+    for label in ("missing official header", "duplicate batch"):
+        mutant = copy.deepcopy(ledger)
+        if label == "missing official header":
+            mutant["batches"][first_new].pop(append.HEADERS_FIELD)
+        else:
+            mutant["batches"].append(copy.deepcopy(mutant["batches"][first_new]))
+        altered = {**after_ui, append.LEDGER_PATH: _raw(mutant)}
+        reject(lambda value=altered: append.validate_append(before_ui, value, narrow), label)
+    check(all(sha((ROOT / p).read_bytes()) == value for p, value in observed.items()), "all observed files unchanged")
+    return failures, cases
+# END_PROMOTION_REVIEW_SELF_TEST_406
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--synthetic-only", action="store_true", help="author development only; not current acceptance")
@@ -2297,7 +2639,14 @@ def main() -> int:
     parser.add_argument("--pad-hint-font", action="store_true", help="current393 four font lines, source and collector only; no historical suites")
     parser.add_argument("--people-card-height", action="store_true", help="current402 local people-card height and source boundary only; no historical suites")
     parser.add_argument("--axis-badge-fit", action="store_true", help="current403 axis fit, source and exact manifest equivalence only; no historical suites")
+    parser.add_argument("--promotion-review", action="store_true", help="current406 pair, actual collector, retained JA and three receipts only; no historical suites")
     args = parser.parse_args()
+    if args.promotion_review:
+        errors, cases = promotion_review_self_test()
+        for error in errors:
+            print("UI_TRANSLATION_APPEND_ERROR " + error)
+        print(f"UI_TRANSLATION_APPEND_PROMOTION_REVIEW_{'FAIL' if errors else 'OK'} cases={cases} historical_cases=0")
+        return int(bool(errors))
     if args.axis_badge_fit:
         errors, cases = axis_badge_fit_self_test()
         for error in errors:
@@ -2380,11 +2729,11 @@ def main() -> int:
         cases += correction_cases
         print(f"UI_TRANSLATION_APPEND_CORRECTION cases={correction_cases}")
         # Earlier source bodies and explicit options remain historical. The
-        # default current source check follows actual403's axis-label clip repair.
-        modal_errors, modal_cases = axis_badge_fit_self_test()
+        # default current source check follows actual406's exact promotion pair.
+        modal_errors, modal_cases = promotion_review_self_test()
         errors.extend(modal_errors)
         cases += modal_cases
-        print(f"UI_TRANSLATION_APPEND_AXIS_BADGE_FIT cases={modal_cases}")
+        print(f"UI_TRANSLATION_APPEND_PROMOTION_REVIEW cases={modal_cases}")
         fee_errors, fee_cases = investment_fee_correction_self_test()
         errors.extend(fee_errors)
         cases += fee_cases

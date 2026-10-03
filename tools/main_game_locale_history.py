@@ -1493,3 +1493,149 @@ def modal_font_predecessor(current, root=None):
     """Preserve the public pre381 comparison contract for actual403."""
     return _axis_badge_fit_proof(current, root)[5]
 # END_AXIS_BADGE_FIT_HISTORY_403
+
+
+# BEGIN_PROMOTION_REVIEW_HISTORY_406
+# Exact one-pair copy successor; all earlier bodies/pins remain immutable.
+PROMOTION_BEFORE_COMMIT = "b615316abf5b3f7cc198c5ee78eac904e6c4cde1"
+PROMOTION_AFTER_COMMIT = "cd42885dacadd57af6c2dd5b88c8e3dafbf218cc"
+PROMOTION_TREES = ("d853788caf9aeca73585218409df7065ade029e1", "eb7efb98dc1fa0e696305f9ddcf8d1dc85719ce2")
+PROMOTION_BLOBS = ("011511d838985d811bed8f87cbc94c64967f1fcf", "660f0f98b9a3ac3f2809d9bdb8a1856b51e410ba")
+PROMOTION_HASHES = ("4c86abe5880d49128a511da36ad361f76c4290c10103d976e1dd33d66294d6bf",
+                    "bda4961c1a377edcaee454b83937c3a580bce029b3a802ef293118f3f2d3823d")
+PROMOTION_OLD_KO = "이번 달 승진 판정 대상!  (35% 확률)"
+PROMOTION_NEW_KO = "이번 달 승진 판정 대상!"
+PROMOTION_OLD_EN = "Up for promotion this month!  (35% chance)"
+PROMOTION_NEW_EN = "Eligible for a promotion review this month!"
+PROMOTION_REPLACEMENT = (
+    "\t\t\tif tenure >= threshold and perf >= 60:\n\t\t\t\tmodal_body.add_child(_wrap_label(_tr(\"이번 달 승진 판정 대상!  (35% 확률)\", \"Up for promotion this month!  (35% chance)\"), 13, _info_text_hex(\"#f0b429\", 0.02)))\n\t\t\telif tenure >= threshold:\n",
+    "\t\t\tif tenure >= threshold and perf >= 60:\n\t\t\t\tmodal_body.add_child(_wrap_label(_tr(\"이번 달 승진 판정 대상!\", \"Eligible for a promotion review this month!\"), 13, _info_text_hex(\"#f0b429\", 0.02)))\n\t\t\telif tenure >= threshold:\n")
+
+
+def _promotion_review_copy_inverse(current, before):
+    """One exact anchored pair inverse; no hashes can hide semantic controls."""
+    if (not isinstance(current, bytes) or not isinstance(before, bytes)
+            or not isinstance(PROMOTION_REPLACEMENT, tuple) or len(PROMOTION_REPLACEMENT) != 2
+            or any(not isinstance(part, str) for part in PROMOTION_REPLACEMENT)):
+        raise ValueError("ORDER-406: inverse population/type differs")
+    old, new = (part.encode() for part in PROMOTION_REPLACEMENT)
+    if (not old or old == new or before.count(old) != 1 or before.count(new) != 0
+            or current.count(new) != 1):
+        raise ValueError("ORDER-406: local inverse is not exact1")
+    recovered = current.replace(new, old, 1)
+    if recovered != before:
+        raise ValueError("ORDER-406: changes outside exact promotion review copy")
+    return recovered
+
+
+def _promotion_review_copy_proof(current, root=None):
+    """Fresh actual406 proof; seven exact comparison-only predecessors."""
+    from pathlib import Path
+    root = Path(root) if root is not None else Path(__file__).resolve().parents[1]
+    if not isinstance(current, bytes) or hashlib.sha256(current).hexdigest() != PROMOTION_HASHES[1]:
+        raise ValueError("ORDER-406: unapproved current MainGame raw")
+    stages = (
+        (MODAL_BEFORE_COMMIT, MODAL_AFTER_COMMIT, MODAL_TREES, MODAL_BLOBS, MODAL_HASHES),
+        (JOB_STATUS_BEFORE_COMMIT, JOB_STATUS_AFTER_COMMIT, JOB_STATUS_TREES, JOB_STATUS_BLOBS, JOB_STATUS_HASHES),
+        (INVESTMENT_BEFORE_COMMIT, INVESTMENT_AFTER_COMMIT, INVESTMENT_TREES, INVESTMENT_BLOBS, INVESTMENT_HASHES),
+        (TUTORIAL_BEFORE_COMMIT, TUTORIAL_AFTER_COMMIT, TUTORIAL_TREES, TUTORIAL_BLOBS, TUTORIAL_HASHES),
+        (PAD_HINT_BEFORE_COMMIT, PAD_HINT_AFTER_COMMIT, PAD_HINT_TREES, PAD_HINT_BLOBS, PAD_HINT_HASHES),
+        (PEOPLE_CARD_BEFORE_COMMIT, PEOPLE_CARD_AFTER_COMMIT, PEOPLE_CARD_TREES, PEOPLE_CARD_BLOBS, PEOPLE_CARD_HASHES),
+        (PEOPLE_CARD_REPAIR_BEFORE_COMMIT, PEOPLE_CARD_REPAIR_AFTER_COMMIT, PEOPLE_CARD_REPAIR_TREES,
+         PEOPLE_CARD_REPAIR_BLOBS, PEOPLE_CARD_REPAIR_HASHES),
+        (AXIS_BADGE_BEFORE_COMMIT, AXIS_BADGE_AFTER_COMMIT, AXIS_BADGE_TREES, AXIS_BADGE_BLOBS, AXIS_BADGE_HASHES),
+        (PROMOTION_BEFORE_COMMIT, PROMOTION_AFTER_COMMIT, PROMOTION_TREES, PROMOTION_BLOBS, PROMOTION_HASHES),
+    )
+    requests = []
+    for before, after, trees, blobs, _hashes in stages:
+        requests.extend((c, c, "commit") for c in (before, after))
+        requests.extend((t, t, "tree") for t in trees)
+        requests.extend((c + ":" + MAIN_GAME_PATH, oid, "blob") for c, oid in zip((before, after), blobs))
+    proof = _modal_git(root, "cat-file", "--batch", input=("\n".join(r[0] for r in requests) + "\n").encode())
+    values, cursor = [], 0
+    for _expression, wanted, kind in requests:
+        end = proof.index(b"\n", cursor)
+        oid, actual_kind, size = proof[cursor:end].decode().split()
+        size = int(size)
+        value = proof[end + 1:end + 1 + size]
+        if (size < 0 or oid != wanted or actual_kind != kind or len(value) != size
+                or hashlib.sha1(kind.encode() + b" " + str(size).encode() + b"\0" + value).hexdigest() != oid
+                or proof[end + 1 + size:end + 2 + size] != b"\n"):
+            raise ValueError("ORDER-406: forged immutable object")
+        values.append(value)
+        cursor = end + 2 + size
+    if cursor != len(proof):
+        raise ValueError("ORDER-406: trailing immutable proof bytes")
+    for stage, (before, after, trees, _blobs, hashes) in enumerate(stages):
+        offset = stage * 6
+        for index in range(2):
+            headers = values[offset + index].split(b"\n\n", 1)[0].splitlines()
+            if [h for h in headers if h.startswith(b"tree ")] != [b"tree " + trees[index].encode()]:
+                raise ValueError("ORDER-406: immutable tree differs")
+            if index and [h for h in headers if h.startswith(b"parent ")] != [b"parent " + before.encode()]:
+                raise ValueError("ORDER-406: direct parent differs")
+        if tuple(hashlib.sha256(v).hexdigest() for v in values[offset + 4:offset + 6]) != hashes:
+            raise ValueError("ORDER-406: immutable whole raw differs")
+        if _modal_git(root, "diff", "--name-status", "-z", before, after) != b"M\0" + MAIN_GAME_PATH.encode() + b"\0":
+            raise ValueError("ORDER-406: product path population differs")
+        if stage:
+            _modal_git(root, "merge-base", "--is-ancestor", stages[stage - 1][1], before)
+            if values[offset + 4] != values[offset - 1]:
+                raise ValueError("ORDER-406: nonconsecutive raw history")
+    _modal_git(root, "merge-base", "--is-ancestor", PROMOTION_AFTER_COMMIT, "HEAD")
+    if _modal_git(root, "rev-parse", "HEAD:" + MAIN_GAME_PATH).decode().strip() != PROMOTION_BLOBS[1]:
+        raise ValueError("ORDER-406: current Git MainGame differs")
+    if values[53] != current:
+        raise ValueError("ORDER-406: current/blob binding differs")
+    pre406 = _promotion_review_copy_inverse(current, values[52])
+    pre403 = _axis_badge_fit_inverse(pre406, values[46])
+    recovered = _people_card_height_inverse(pre403, values[34])
+    intermediate = _people_card_height_step_inverse(pre403, values[40], PEOPLE_CARD_REPAIR_REPLACEMENT)
+    if _people_card_height_step_inverse(intermediate, values[34], PEOPLE_CARD_INITIAL_REPLACEMENT) != recovered:
+        raise ValueError("ORDER-406: stagewise and combined inverses differ")
+    recovered = _pad_hint_font_inverse(recovered, values[28])
+    inverse_stages = (((TUTORIAL_REPLACEMENT,), values[22]),
+                      (INVESTMENT_REPLACEMENTS, values[16]),
+                      ((tuple(v.decode() for v in JOB_STATUS_REPLACEMENT),), values[10]),
+                      (MODAL_REPLACEMENTS, values[4]))
+    if tuple(len(parts) for parts, _ in inverse_stages) != (1, 3, 1, 3):
+        raise ValueError("ORDER-406: prior inverse population differs")
+    for replacements, before in inverse_stages:
+        for old, new in reversed(replacements):
+            old, new = old.encode(), new.encode()
+            if not old or old == new or recovered.count(new) != 1:
+                raise ValueError("ORDER-406: prior inverse is not exact1")
+            recovered = recovered.replace(new, old, 1)
+        if recovered != before:
+            raise ValueError("ORDER-406: changes outside prior exact copy/rendering repairs")
+    return pre406, pre403, values[34], values[28], values[22], values[16], recovered
+
+
+
+def promotion_review_predecessor(current, root=None):
+    return _promotion_review_copy_proof(current, root)[0]
+
+
+def axis_badge_fit_predecessor(current, root=None):
+    return _promotion_review_copy_proof(current, root)[1]
+
+
+def people_card_height_predecessor(current, root=None):
+    return _promotion_review_copy_proof(current, root)[2]
+
+
+def pad_hint_font_predecessor(current, root=None):
+    return _promotion_review_copy_proof(current, root)[3]
+
+
+def tutorial_copy_predecessor(current, root=None):
+    return _promotion_review_copy_proof(current, root)[4]
+
+
+def investment_footer_predecessor(current, root=None):
+    return _promotion_review_copy_proof(current, root)[5]
+
+
+def modal_font_predecessor(current, root=None):
+    return _promotion_review_copy_proof(current, root)[6]
+# END_PROMOTION_REVIEW_HISTORY_406

@@ -1146,3 +1146,34 @@ def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: st
                   ARUBA_FONT_PATH: hashlib.sha256(previous_font).hexdigest()}
     return expected == exchange.digest(comparison)
 # END_AXIS_BADGE_FIT_MANIFEST_403
+
+
+# BEGIN_PROMOTION_REVIEW_MANIFEST_406
+_PROMOTION_OLD_MANIFEST_MATCHES = _source_manifest_matches
+
+
+def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: str) -> bool:
+    if "source_hashes" not in inventory:
+        return _PROMOTION_OLD_MANIFEST_MATCHES(root, inventory, expected)
+    import main_game_locale_history as history
+    raw = (root / history.MAIN_GAME_PATH).read_bytes()
+    predecessors = history._promotion_review_copy_proof(raw, root)
+    require(isinstance(predecessors, tuple) and len(predecessors) == 7,
+            "promotion review exact predecessor population differs")
+    hashes = inventory["source_hashes"]
+    require(exchange.digest(hashes) == inventory["source_manifest_sha256"]
+            and hashes.get(history.MAIN_GAME_PATH) == hashlib.sha256(raw).hexdigest(),
+            "promotion review current source census/raw mismatch")
+    font_raw = (root / ARUBA_FONT_PATH).read_bytes()
+    require(hashes.get(ARUBA_FONT_PATH) == hashlib.sha256(font_raw).hexdigest(),
+            "Aruba source census not bound to current raw")
+    # Exactly eight current-Aruba views; failed402 remains excluded.
+    for main_raw in (raw, *predecessors):
+        comparison = {**hashes, history.MAIN_GAME_PATH: hashlib.sha256(main_raw).hexdigest()}
+        if expected == exchange.digest(comparison):
+            return True
+    previous_font = aruba_font_predecessor(root, font_raw)
+    comparison = {**hashes, history.MAIN_GAME_PATH: hashlib.sha256(predecessors[-1]).hexdigest(),
+                  ARUBA_FONT_PATH: hashlib.sha256(previous_font).hexdigest()}
+    return expected == exchange.digest(comparison)
+# END_PROMOTION_REVIEW_MANIFEST_406

@@ -6603,5 +6603,92 @@ def modal_rebind_inventory(inventory, raw):
     return _gift_replace(result, legacy_entries=entries, legacy_blueprint=blueprint)
 # END_TUTORIAL_COPY_390
 
+# BEGIN_PROMOTION_REVIEW_COLLECTOR_406
+PROMOTION_PIPELINE_APPEND_SHA = "fc731061e6c284d29ba46fca6db7ccf7de7e232b2e46249e531f492a62acdd4d"
+PROMOTION_PIPELINE_BEFORE_SHA = "6489aa667a5424de3af6524f170a88261358c442b883a9b52f5026a519df81d0"
+PROMOTION_PIPELINE_BEFORE_BLOB = "f12cf4351bb07a62bd47cbb6e6a8424200664006"
+_PROMOTION_OLD_MODAL_PIPELINE_PREDECESSOR = modal_pipeline_predecessor
+_PROMOTION_OLD_TUTORIAL_CALL_VIEWS = _tutorial_copy_call_views
+_PROMOTION_OLD_REBIND_INVENTORY = modal_rebind_inventory
+
+
+def promotion_pipeline_predecessor(raw):
+    """Remove only the sealed406 appendix, returning actual pre406 code bytes."""
+    if not isinstance(raw, bytes) or Path(__file__).resolve() != ROOT / _NEW_RUN_JA:
+        raise ValueError("promotion-review code raw/import identity differs")
+    start, end = b"# BEGIN_PROMOTION_REVIEW_COLLECTOR_406\n", b"# END_PROMOTION_REVIEW_COLLECTOR_406\n\n"
+    if raw.count(start) != 1 or raw.count(end) != 1:
+        raise ValueError("promotion-review appendix boundaries differ")
+    a, z = raw.index(start), raw.index(end) + len(end)
+    span = raw[a:z]
+    binding = ('PROMOTION_PIPELINE_APPEND_SHA = "' + PROMOTION_PIPELINE_APPEND_SHA + '"').encode()
+    if span.count(binding) != 1 or hashlib.sha256(span.replace(
+            binding, b'PROMOTION_PIPELINE_APPEND_SHA = "UNBOUND"', 1)).hexdigest() != PROMOTION_PIPELINE_APPEND_SHA:
+        raise ValueError("promotion-review appendix seal differs")
+    previous = raw[:a] + raw[z:]
+    if hashlib.sha256(previous).hexdigest() != PROMOTION_PIPELINE_BEFORE_SHA:
+        raise ValueError("promotion-review whole predecessor differs")
+    blob = _current_demo_git("show", _gift_history.PROMOTION_BEFORE_COMMIT + ":" + _NEW_RUN_JA)
+    if blob != previous or hashlib.sha1(b"blob " + str(len(blob)).encode() + b"\0" + blob).hexdigest() != PROMOTION_PIPELINE_BEFORE_BLOB:
+        raise ValueError("promotion-review immutable code blob differs")
+    return previous
+
+
+def modal_pipeline_predecessor(raw):
+    return _PROMOTION_OLD_MODAL_PIPELINE_PREDECESSOR(promotion_pipeline_predecessor(raw))
+
+
+def _promotion_review_call_views(raw):
+    """Current calls differ from pre381 in the two declared source pairs only."""
+    previous = _gift_history.modal_font_predecessor(raw, ROOT)
+    path = _gift_history.MAIN_GAME_PATH
+    before, old_errors = parse_ui_calls(path, previous.decode())
+    actual, errors = parse_ui_calls(path, raw.decode())
+    before.sort(key=lambda c: (c.path, c.line, c.api))
+    actual.sort(key=lambda c: (c.path, c.line, c.api))
+    semantic = lambda c: (c.path, c.function, c.api, c.korean, c.english, c.context_id)
+    pairs = tuple(((path, owner, "legacy", old_ko, old_en, ""),
+                   (path, owner, "legacy", new_ko, new_en, "")) for owner, old_ko, old_en, new_ko, new_en in (
+        ("_show_tutorial", _gift_history.TUTORIAL_OLD_KO, _gift_history.TUTORIAL_OLD_EN,
+         _gift_history.TUTORIAL_NEW_KO, _gift_history.TUTORIAL_NEW_EN),
+        ("_open_cat_work", _gift_history.PROMOTION_OLD_KO, _gift_history.PROMOTION_OLD_EN,
+         _gift_history.PROMOTION_NEW_KO, _gift_history.PROMOTION_NEW_EN)))
+    old_semantic, new_semantic = list(map(semantic, before)), list(map(semantic, actual))
+    replacements = dict(pairs)
+    if (old_errors or errors or len(replacements) != 2
+            or any(old_semantic.count(old) != 1 or new_semantic.count(new) != 1
+                   or any(c.korean == old[3] for c in actual) for old, new in pairs)
+            or [replacements.get(row, row) for row in old_semantic] != new_semantic):
+        raise ValueError("promotion-review exact two selectors or unowned semantics differ")
+    return tuple(before), tuple(actual)
+
+
+# The unchanged tutorial-retained audit must compare with actual current calls.
+# Its historical one-pair body remains above and saved for explicit comparisons.
+_tutorial_copy_call_views = _promotion_review_call_views
+
+
+def modal_rebind_inventory(inventory, raw):
+    before, actual = _promotion_review_call_views(raw)
+    path = _gift_history.MAIN_GAME_PATH
+    if inventory.errors or tuple(c for c in inventory.calls if c.path == path) != before:
+        raise ValueError("promotion-review supplied predecessor inventory differs")
+    replacements = iter(actual)
+    calls = tuple(next(replacements) if c.path == path else c for c in inventory.calls)
+    result = _gift_caption_inventory_view(inventory, calls)
+    old_entries = {e.source: e for e in inventory.legacy_entries}
+    new_entries = {e.source: e for e in result.legacy_entries}
+    if (set(old_entries) - set(new_entries) != {_gift_history.TUTORIAL_OLD_KO, _gift_history.PROMOTION_OLD_KO}
+            or set(new_entries) - set(old_entries) != {_gift_history.TUTORIAL_NEW_KO, _gift_history.PROMOTION_NEW_KO}):
+        raise ValueError("promotion-review source identity changed outside its two keys")
+    entries = tuple(_gift_replace(old_entries[e.source], context=e.context)
+                    if e.source in old_entries else e for e in result.legacy_entries)
+    blueprint = {e.source: {"$entry": e.key} for e in entries}
+    if any(_gift_replace(e, context=old_entries[e.source].context) != old_entries[e.source]
+           for e in entries if e.source in old_entries):
+        raise ValueError("promotion-review unowned entry identity changed")
+    return _gift_replace(result, legacy_entries=entries, legacy_blueprint=blueprint)
+# END_PROMOTION_REVIEW_COLLECTOR_406
+
 if __name__ == "__main__":
     sys.exit(main())

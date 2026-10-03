@@ -14,6 +14,46 @@
   ],
   "fast_lanes": [
     {
+      "id": "promotion-review",
+      "paths": [],
+      "owned_paths": [
+        "scenes/MainGame.gd",
+        "locale/ui_ja.json",
+        "locale/ui_zh-CN.json",
+        "locale/ui_zh-TW.json",
+        "content/meta/full_game_localization.json",
+        "tools/main_game_locale_history.py",
+        "tools/ja_translation_pipeline.py",
+        "tools/ja_translation_audit.py",
+        "tools/ui_translation_append.py",
+        "tools/ui_translation_append_self_test.py",
+        "tools/audit_scope.json",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/WORK_LOG.md",
+        "docs/STATUS.md",
+        "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-406.json",
+        "docs/queue_active/ORDER-406.md",
+        "docs/queue_archive/ORDER-406.md"
+      ],
+      "tools": [
+        "tools/ui_translation_append_self_test.py --promotion-review",
+        "tools/order365_ui_receipt_compat.py",
+        "tools/full_body_translation_scope.py",
+        "tools/story_graph_contract_audit.py",
+        "tools/chapter5_human_reject_audit.py",
+        "tools/year5_reference_route_audit.py",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/ja_translation_audit.py --scope ui",
+        "tools/zh_translation_audit.py",
+        "tools/en_coverage_check.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Exact406 promotion review KO/EN pair only: nine-stage fresh source proof, sealed two-pair actual collector, immutable retained JA row, exact9 manifest set and three fresh official receipts. Older bodies/pins remain byte-exact; no historical suite, cross-call cache or gameplay change."
+    },
+    {
       "id": "axis-badge-fit",
       "paths": [],
       "owned_paths": [
@@ -2378,14 +2418,22 @@
   ],
   "checks": [
     {
-      "tool": "tools/ui_translation_append_self_test.py --axis-badge-fit",
+      "tool": "tools/ui_translation_append_self_test.py --promotion-review",
       "paths": [
         "scenes/MainGame.gd",
         "tools/main_game_locale_history.py",
+        "tools/ja_translation_pipeline.py",
+        "tools/ja_translation_audit.py",
         "tools/ui_translation_append.py",
         "tools/ui_translation_append_self_test.py"
       ],
-      "why": "Current403 exact axis-label successor with pure inverse, fresh Git/raw/HEAD binding, real collector, exact8 manifest set versus original7, and no cross-call proof reuse.",
+      "why": "Current406 exact promotion pair, fresh Git/raw/HEAD and exact9 manifests, real two-pair collector/self-seal, old JA retained boundary and three official current receipts.",
+      "godot": false
+    },
+    {
+      "tool": "tools/ui_translation_append_self_test.py --axis-badge-fit",
+      "paths": [],
+      "why": "Historical403 explicit CLI and original focused body preserved. Current406 selection uses promotion-review rather than replaying an older HEAD-bound source test.",
       "godot": false
     },
     {

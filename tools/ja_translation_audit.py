@@ -423,5 +423,52 @@ def check_ui_scope(actual: Any, errors: list[str]) -> int:
     return _TUTORIAL_OLD_CHECK_UI_SCOPE(actual, errors)
 
 
+# BEGIN_PROMOTION_REVIEW_RETAINED_JA_406
+_PROMOTION_OLD_RETIRED_ENTRIES = retired_relationship_ui_entries
+_PROMOTION_OLD_CHECK_UI_SCOPE = check_ui_scope
+PROMOTION_RETAINED_JA_BLOB = "dc942362324588cfa7e87743f6326fb0f733e2f9"
+PROMOTION_RETAINED_JA = "今月の昇進判定対象！   (35% 確率)"
+
+
+def promotion_retained_ja_entries(inventory: UiInventory, actual: Any) -> tuple[dict[str, Entry], list[str]]:
+    """Retain only the immutable retired target; never a live source/receipt."""
+    import ja_translation_pipeline as pipeline
+    import main_game_locale_history as history
+    try:
+        raw = (ROOT / history.MAIN_GAME_PATH).read_bytes()
+        _before, calls = pipeline._promotion_review_call_views(raw)
+        if inventory.errors or tuple(c for c in inventory.calls if c.path == history.MAIN_GAME_PATH) != calls:
+            raise ValueError("supplied current inventory differs")
+        key = history.PROMOTION_OLD_KO
+        if key in inventory.blueprint or history.PROMOTION_NEW_KO not in inventory.blueprint:
+            raise ValueError("retained/current source identities differ")
+        previous = history._modal_git(ROOT, "show", history.PROMOTION_BEFORE_COMMIT + ":locale/ui_ja.json")
+        if hashlib.sha1(b"blob " + str(len(previous)).encode() + b"\0" + previous).hexdigest() != PROMOTION_RETAINED_JA_BLOB:
+            raise ValueError("immutable Japanese blob differs")
+        if json.loads(previous)[key] != PROMOTION_RETAINED_JA or not isinstance(actual, dict) or actual.get(key) != PROMOTION_RETAINED_JA:
+            raise ValueError("retained Japanese target changed/missing")
+        ledger = read_json(ROOT / "content/meta/full_game_localization.json")
+        leaf_id = "ui:" + key + ":/" + key.replace("~", "~0").replace("/", "~1")
+        if any(leaf_id in rows for rows in ledger["accepted"].values()):
+            raise ValueError("retired source unexpectedly has an accepted receipt")
+        entry = Entry("retained-ui::promotion-review", key, "scenes/MainGame.gd::_open_cat_work (retired exact source)")
+        return {key: entry}, []
+    except (OSError, ValueError, TypeError, KeyError, IndexError) as exc:
+        return {}, ["promotion retained JA: " + str(exc)]
+
+
+def retired_relationship_ui_entries(inventory: UiInventory) -> tuple[dict[str, Entry], list[str]]:
+    entries, errors = _PROMOTION_OLD_RETIRED_ENTRIES(inventory)
+    retained, extra_errors = promotion_retained_ja_entries(inventory, read_json(ROOT / "locale/ui_ja.json"))
+    return ({}, [*errors, *extra_errors]) if errors or extra_errors else ({**entries, **retained}, [])
+
+
+def check_ui_scope(actual: Any, errors: list[str]) -> int:
+    import main_game_locale_history as history
+    if not isinstance(actual, dict) or actual.get(history.PROMOTION_OLD_KO) != PROMOTION_RETAINED_JA:
+        errors.append("ui: exact retained promotion target changed/missing")
+    return _PROMOTION_OLD_CHECK_UI_SCOPE(actual, errors)
+# END_PROMOTION_REVIEW_RETAINED_JA_406
+
 if __name__ == "__main__":
     sys.exit(main())
