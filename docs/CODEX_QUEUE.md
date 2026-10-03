@@ -50,11 +50,11 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| -1 | [~] | ORDER-417 · 본문 서체 수리의 정확 원문 증명 | [417](queue_active/ORDER-417.md) | 착수 · 만지는 파일: Main 원문 이력·UI receipt manifest 연결·새 focused 검사/차선·기록 |
-| 0 | [~] | ORDER-416 · 실제 반응 본문의 지역 서체 누락 수리 | [416](queue_active/ORDER-416.md) | 착수 · 만지는 파일: MainGame::_build_story_panel의 본문 normal/bold 서체 연결·새 private helper·기록 |
-| 1 | [~] | ORDER-415 · 선물 뒤 인물 반응과 기록 중국어 | [415](queue_active/ORDER-415.md) | 수용 후보 · 실제24회 상태/복원PASS·본문서체FAIL · 416 수리 뒤 최종검수 |
-| 2 | [~] | ORDER-302 · 체험판 대본 사실·영어 정합 수리 | [302](queue_active/ORDER-302.md) | 수리7항목 source GO · successor package 별도 선언/검수 HOLD |
-| 3 | [ ] | ORDER-352 · 본편 5장 대본 이름·시간·회수 정합 | [352](queue_active/ORDER-352.md) | 5장 HOLD 수리 닫힌 뒤 착수 · 미실행 |
+| 1 | [~] | ORDER-417 · 본문 서체 수리의 정확 원문 증명 | [417](queue_active/ORDER-417.md) | 착수 · 만지는 파일: Main 원문 이력·UI receipt manifest 연결·새 focused 검사/차선·기록 |
+| 2 | [~] | ORDER-416 · 실제 반응 본문의 지역 서체 누락 수리 | [416](queue_active/ORDER-416.md) | 착수 · 만지는 파일: MainGame::_build_story_panel의 본문 normal/bold 서체 연결·새 private helper·기록 |
+| 3 | [~] | ORDER-415 · 선물 뒤 인물 반응과 기록 중국어 | [415](queue_active/ORDER-415.md) | 수용 후보 · 실제24회 상태/복원PASS·본문서체FAIL · 416 수리 뒤 최종검수 |
+| 4 | [~] | ORDER-302 · 체험판 대본 사실·영어 정합 수리 | [302](queue_active/ORDER-302.md) | 수리7항목 source GO · successor package 별도 선언/검수 HOLD |
+| 5 | [ ] | ORDER-352 · 본편 5장 대본 이름·시간·회수 정합 | [352](queue_active/ORDER-352.md) | 5장 HOLD 수리 닫힌 뒤 착수 · 미실행 |
 
 
 
