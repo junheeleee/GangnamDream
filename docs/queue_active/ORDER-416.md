@@ -19,7 +19,8 @@
 
 - Root: scenes/MainGame.gd::_build_story_panel의 event_body normal_font/bold_font 연결만.
   큐·이 사양·CLAUDE·WORK_LOG·생성STATUS·완료archive·agent review 보고/판정 원장.
-- /root/receipt_tests392: 새 private415-r1 및416 검사helper만. 기존helper/실패원본 수정0.
+- /root/receipt_tests392: 새 private415-r1 검사helper만. 기존helper/실패원본 수정0.
+- /root/receipt_bridge392: 새 private416 다섯 언어 실제본문 검사helper만.
 - /root/independent392: 읽기전용 코드·실제노드·PNG·검사 독립검수와 최종보고.
 - FontKit·GameState·번역사전/원장·폰트파일·StoryMode·씬상태/크기·입력·공개demo·
   인간원장·project.godot·출시manifest 비소유. 범용 검사/새기능0.
@@ -27,6 +28,7 @@
 ## 검수
 
 - 정확 MainGame raw 차이로 두 font override 외 코드/문구/조건 불변을 검증한다.
+  이전 raw를 잠근 기존 검사 admission의 후속 증명은 별도 [417](ORDER-417.md)이 소유한다.
 - pre-autoload 격리된 실제 MainGame, 1280×800, 415 CN/TW24전달/6PNG를 함께 재검수.
   이전48실패를 보존하며 정상19px·scene-first와 빈 commitment를 정직하게 관측한다.
 - 동일 생성본문에서 KO/EN/JA/CN/TW 언어 전환, regular/bold 실제 해석 객체·웨이트·
