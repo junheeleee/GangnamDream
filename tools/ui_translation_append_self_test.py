@@ -1887,7 +1887,7 @@ def people_card_height_self_test() -> tuple[list[str], int]:
     raw = (ROOT / path).read_bytes()
     prior, pre393, pre390, pre386, old = history._people_card_height_proof(raw, ROOT)
     check(tuple(sha(v) for v in (raw, prior, pre393, pre390, pre386, old)) == (
-        "b8a03419633a837b5493ddc22569c6f256ac91e602551eb5327cf0e71dabb881",
+        "473aab2946d2b76a6263e57fc36facfc24de83629fddf88f3005200a81a15e7d",
         "ed116a1d4dae6dc0fcac708204c97eaadf988070e501c0bb1df437be6e38170d",
         "db5d0dc1f8890ea5ae3e0b9d1f212c2a316be50ef3265804dbde9dba0279a8ff",
         "6432a5ceb5844c1fdc54265547053dc82db8808ea87f442058412f03d24eed90",
@@ -1910,6 +1910,22 @@ def people_card_height_self_test() -> tuple[list[str], int]:
         check(current_code.splitlines().count(marker) == 1 and current_code.split(marker)[0].rstrip(b"\n") + b"\n" == original,
               "complete older code/pins preserved: " + code)
     check(history._people_card_height_inverse(raw, prior) == prior, "pure local inverse")
+    intermediate = append._git(ROOT, "show", history.PEOPLE_CARD_AFTER_COMMIT + ":" + path)
+    check(sha(intermediate) == "b8a03419633a837b5493ddc22569c6f256ac91e602551eb5327cf0e71dabb881",
+          "failed first candidate retained as exact checkpoint")
+    reject(lambda: history.people_card_height_predecessor(intermediate, ROOT), "failed checkpoint is not current")
+    for label, previous, following, replacement in (
+            ("initial", prior, intermediate, history.PEOPLE_CARD_INITIAL_REPLACEMENT),
+            ("repair", intermediate, raw, history.PEOPLE_CARD_REPAIR_REPLACEMENT)):
+        check(history._people_card_height_step_inverse(following, previous, replacement) == previous,
+              "exact individual product inverse " + label)
+        old_hunk, new_hunk = (part.encode() for part in replacement)
+        for fault, mutant in (("partial", following.replace(new_hunk, new_hunk[:len(new_hunk)//2], 1)),
+                              ("duplicate", following + new_hunk),
+                              ("moved", following.replace(new_hunk, old_hunk, 1) + new_hunk),
+                              ("neighbor", following + b"\n"), ("rollback", previous)):
+            reject(lambda value=mutant, before=previous, pair=replacement:
+                   history._people_card_height_step_inverse(value, before, pair), label + " pure " + fault)
     before, after = (part.encode() for part in history.PEOPLE_CARD_REPLACEMENT)
     for label, mutant in (("rollback", prior), ("partial", raw.replace(after, after[:len(after)//2], 1)),
                           ("duplicate", raw + after), ("moved", raw.replace(after, before, 1) + after),
@@ -1920,6 +1936,13 @@ def people_card_height_self_test() -> tuple[list[str], int]:
     check(raw.count(guard) == 1, "actual Atlas guard exact1")
     reject(lambda: history._people_card_height_inverse(raw.replace(guard, changed_guard, 1), prior),
            "pure Atlas guard changed")
+    for label, line in (
+            ("tree/instance guard", b"\t\t\t\t\tif is_instance_valid(btn) and is_instance_valid(child) and btn.is_inside_tree():\n"),
+            ("ready hook", b"\t\t\t\tbtn.ready.connect(fit_height, CONNECT_ONE_SHOT)\n"),
+            ("minimum change hook", b"\t\t\t\tchild.minimum_size_changed.connect(fit_height)\n")):
+        check(raw.count(line) == 1, "lifecycle control exact1 " + label)
+        reject(lambda line=line: history._people_card_height_inverse(raw.replace(line, b"", 1), prior),
+               "pure removed " + label)
     for label, old_line, new_line in (
             ("common builder", b"btn.custom_minimum_size = Vector2(0, 56)", b"btn.custom_minimum_size = Vector2(0, 57)"),
             ("portrait dimensions", b"else Vector2(42, 42)", b"else Vector2(43, 43)"),
@@ -1935,7 +1958,7 @@ def people_card_height_self_test() -> tuple[list[str], int]:
         check(not source(path, raw) and project(raw, path) == expected
               and digest(sha(raw), path, raw) == sha(expected), name + " three actual current entrances")
         check(digest("0" * 64, path, raw) == "0" * 64, name + " rejects forged observed claim")
-        for label, mutant in (("rollback", prior), ("whitespace", raw + b"\n")):
+        for label, mutant in (("rollback", prior), ("failed checkpoint", intermediate), ("whitespace", raw + b"\n")):
             check(bool(source(path, mutant)) and project(mutant, path) == mutant
                   and digest(sha(mutant), path, mutant) == sha(mutant), name + " rejects " + label)
     for value in (b"", None):
@@ -1946,21 +1969,23 @@ def people_card_height_self_test() -> tuple[list[str], int]:
             ("forged object", ("cat-file", "--batch"), lambda value: value.replace(b"tree ", b"Tree ", 1)),
             ("trailing proof", ("cat-file", "--batch"), lambda value: value + b"extra"),
             ("path population", ("diff", "--name-status"), lambda value: value + b"M\0neighbor.gd\0"),
-            ("HEAD rollback", ("rev-parse",), lambda value: history.PEOPLE_CARD_BLOBS[0].encode() + b"\n")):
+            ("HEAD rollback", ("rev-parse",), lambda value: history.PEOPLE_CARD_REPAIR_BLOBS[0].encode() + b"\n")):
         def altered(where, *args, **kwargs):
             value = real_git(where, *args, **kwargs)
             return replacement(value) if args[:len(target)] == target else value
         with mock.patch.object(history, "_modal_git", side_effect=altered):
             reject(lambda: history.people_card_height_predecessor(raw, ROOT), label)
-    with mock.patch.object(history, "PEOPLE_CARD_TREES", tuple(reversed(history.PEOPLE_CARD_TREES))):
-        reject(lambda: history.people_card_height_predecessor(raw, ROOT), "valid objects wrong tree binding", "immutable tree differs")
+    for name in ("PEOPLE_CARD_TREES", "PEOPLE_CARD_REPAIR_TREES"):
+        with mock.patch.object(history, name, tuple(reversed(getattr(history, name)))):
+            reject(lambda: history.people_card_height_predecessor(raw, ROOT),
+                   "valid objects wrong tree binding " + name, "immutable tree differs")
     # Re-sign the malformed parent object so its SHA check cannot mask the
     # direct-parent assertion. All other immutable objects remain actual.
-    after_commit = history.PEOPLE_CARD_AFTER_COMMIT
+    after_commit = history.PEOPLE_CARD_REPAIR_AFTER_COMMIT
     original = real_git(ROOT, "cat-file", "commit", after_commit)
-    parent = b"parent " + history.PEOPLE_CARD_BEFORE_COMMIT.encode()
+    parent = b"parent " + history.PEOPLE_CARD_REPAIR_BEFORE_COMMIT.encode()
     check(original.count(parent + b"\n") == 1, "actual product direct parent exact1")
-    forged = original.replace(parent, b"parent " + history.PAD_HINT_AFTER_COMMIT.encode(), 1)
+    forged = original.replace(parent, b"parent " + history.PEOPLE_CARD_BEFORE_COMMIT.encode(), 1)
     forged_oid = hashlib.sha1(b"commit " + str(len(forged)).encode() + b"\0" + forged).hexdigest()
     old_block = after_commit.encode() + b" commit " + str(len(original)).encode() + b"\n" + original + b"\n"
     new_block = forged_oid.encode() + b" commit " + str(len(forged)).encode() + b"\n" + forged + b"\n"
@@ -1972,10 +1997,10 @@ def people_card_height_self_test() -> tuple[list[str], int]:
         if data.count(old_block) != 1:
             raise ValueError("parent-control immutable population differs")
         return data.replace(old_block, new_block, 1)
-    with mock.patch.object(history, "PEOPLE_CARD_AFTER_COMMIT", forged_oid), \
+    with mock.patch.object(history, "PEOPLE_CARD_REPAIR_AFTER_COMMIT", forged_oid), \
             mock.patch.object(history, "_modal_git", side_effect=resigned_parent):
         reject(lambda: history.people_card_height_predecessor(raw, ROOT),
-               "re-signed wrong direct parent", "direct parent differs")
+               "re-signed forged single pre402-to-final parent", "direct parent differs")
     with mock.patch.object(history, "_modal_git", side_effect=OSError("lost after success")):
         check(bool(history.main_game_history_source_errors(path, raw))
               and history.gift_caption_project_bytes(raw, path) == raw, "lost proof fails closed")

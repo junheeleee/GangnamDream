@@ -1214,7 +1214,8 @@ def modal_font_predecessor(current, root=None):
 
 
 # BEGIN_PEOPLE_CARD_HEIGHT_HISTORY_402
-# Exact measured MainGame-only product successor; bind actual immutable objects.
+# Two actual MainGame-only transitions; the first failed rendering candidate
+# remains an immutable checkpoint, not an accepted current source.
 # Earlier source functions and immutable pins remain unchanged.
 PEOPLE_CARD_BEFORE_COMMIT = "11cb081d64d48b26af6a09921ce34ff04e859399"
 PEOPLE_CARD_AFTER_COMMIT = "ef41993805c7ce6e68ffbef8336b83cec6f7e744"
@@ -1222,17 +1223,27 @@ PEOPLE_CARD_TREES = ("c1b5356fdf06d3ada42aaf0c3cad5df11be9b051", "6a0fece7aa64f0
 PEOPLE_CARD_BLOBS = ("c0bfef9cff660c40351c8ae046f75f5fc776c536", "f1343051117712d9e53c0b1bd57a43a8d31d7f65")
 PEOPLE_CARD_HASHES = ("ed116a1d4dae6dc0fcac708204c97eaadf988070e501c0bb1df437be6e38170d",
                       "b8a03419633a837b5493ddc22569c6f256ac91e602551eb5327cf0e71dabb881")
-PEOPLE_CARD_REPLACEMENT = ("\tbtn.custom_minimum_size = Vector2(0, 60)\n\tbtn.focus_mode = Control.FOCUS_NONE\n\tbtn.set_meta(\"people_action_idx\", index)\n",
+PEOPLE_CARD_INITIAL_REPLACEMENT = ("\tbtn.custom_minimum_size = Vector2(0, 60)\n\tbtn.focus_mode = Control.FOCUS_NONE\n\tbtn.set_meta(\"people_action_idx\", index)\n",
                            "\tbtn.custom_minimum_size = Vector2(0, 60)\n\tif thumb is AtlasTexture:\n\t\tfor child in btn.get_children():\n\t\t\tif child is MarginContainer:\n\t\t\t\tbtn.custom_minimum_size.y = maxf(btn.custom_minimum_size.y, child.get_combined_minimum_size().y)\n\tbtn.focus_mode = Control.FOCUS_NONE\n\tbtn.set_meta(\"people_action_idx\", index)\n")
+PEOPLE_CARD_REPAIR_BEFORE_COMMIT = "7cf2ed99560da06b44966f0ff6c0b6fd6031c63d"
+PEOPLE_CARD_REPAIR_AFTER_COMMIT = "30a147848f7640e1b5f0c9c0e18b946cdf8a2ce4"
+PEOPLE_CARD_REPAIR_TREES = ("91c0e44d8ab34ef7107bec8dd5938846a55d9471", "47dac749bb10ad2a54272ead3d0590a1cd495d59")
+PEOPLE_CARD_REPAIR_BLOBS = ("f1343051117712d9e53c0b1bd57a43a8d31d7f65", "d79d63645ed9b4b5fa9062380fca28942add169a")
+PEOPLE_CARD_REPAIR_HASHES = ("b8a03419633a837b5493ddc22569c6f256ac91e602551eb5327cf0e71dabb881",
+                           "473aab2946d2b76a6263e57fc36facfc24de83629fddf88f3005200a81a15e7d")
+PEOPLE_CARD_REPAIR_REPLACEMENT = (
+    PEOPLE_CARD_INITIAL_REPLACEMENT[1],
+    "\tbtn.custom_minimum_size = Vector2(0, 60)\n\tif thumb is AtlasTexture:\n\t\tfor child in btn.get_children():\n\t\t\tif child is MarginContainer:\n\t\t\t\tvar fit_height := func() -> void:\n\t\t\t\t\tif is_instance_valid(btn) and is_instance_valid(child) and btn.is_inside_tree():\n\t\t\t\t\t\tbtn.custom_minimum_size.y = maxf(60.0, child.get_combined_minimum_size().y)\n\t\t\t\tbtn.ready.connect(fit_height, CONNECT_ONE_SHOT)\n\t\t\t\tchild.minimum_size_changed.connect(fit_height)\n\tbtn.focus_mode = Control.FOCUS_NONE\n\tbtn.set_meta(\"people_action_idx\", index)\n")
+PEOPLE_CARD_REPLACEMENT = (PEOPLE_CARD_INITIAL_REPLACEMENT[0], PEOPLE_CARD_REPAIR_REPLACEMENT[1])
 
 
-def _people_card_height_inverse(current, before):
+def _people_card_height_step_inverse(current, before, replacement):
     """Pure exact local inverse; no digest gate can mask semantic controls."""
     if (not isinstance(current, bytes) or not isinstance(before, bytes)
-            or not isinstance(PEOPLE_CARD_REPLACEMENT, tuple) or len(PEOPLE_CARD_REPLACEMENT) != 2
-            or any(not isinstance(part, str) for part in PEOPLE_CARD_REPLACEMENT)):
+            or not isinstance(replacement, tuple) or len(replacement) != 2
+            or any(not isinstance(part, str) for part in replacement)):
         raise ValueError("ORDER-402: inverse population/type differs")
-    old, new = (part.encode() for part in PEOPLE_CARD_REPLACEMENT)
+    old, new = (part.encode() for part in replacement)
     if (not old or old == new or before.count(old) != 1 or before.count(new) != 0
             or current.count(new) != 1):
         raise ValueError("ORDER-402: local inverse is not exact1")
@@ -1242,11 +1253,16 @@ def _people_card_height_inverse(current, before):
     return recovered
 
 
+def _people_card_height_inverse(current, before):
+    """Exact combined final-to-pre402 inverse, independent of immutable hashes."""
+    return _people_card_height_step_inverse(current, before, PEOPLE_CARD_REPLACEMENT)
+
+
 def _people_card_height_proof(current, root=None):
     """Fresh actual402 proof; pre402/pre393/pre390/pre386/pre381 comparisons."""
     from pathlib import Path
     root = Path(root) if root is not None else Path(__file__).resolve().parents[1]
-    if not isinstance(current, bytes) or hashlib.sha256(current).hexdigest() != PEOPLE_CARD_HASHES[1]:
+    if not isinstance(current, bytes) or hashlib.sha256(current).hexdigest() != PEOPLE_CARD_REPAIR_HASHES[1]:
         raise ValueError("ORDER-402: unapproved current MainGame raw")
     stages = (
         (MODAL_BEFORE_COMMIT, MODAL_AFTER_COMMIT, MODAL_TREES, MODAL_BLOBS, MODAL_HASHES),
@@ -1255,6 +1271,8 @@ def _people_card_height_proof(current, root=None):
         (TUTORIAL_BEFORE_COMMIT, TUTORIAL_AFTER_COMMIT, TUTORIAL_TREES, TUTORIAL_BLOBS, TUTORIAL_HASHES),
         (PAD_HINT_BEFORE_COMMIT, PAD_HINT_AFTER_COMMIT, PAD_HINT_TREES, PAD_HINT_BLOBS, PAD_HINT_HASHES),
         (PEOPLE_CARD_BEFORE_COMMIT, PEOPLE_CARD_AFTER_COMMIT, PEOPLE_CARD_TREES, PEOPLE_CARD_BLOBS, PEOPLE_CARD_HASHES),
+        (PEOPLE_CARD_REPAIR_BEFORE_COMMIT, PEOPLE_CARD_REPAIR_AFTER_COMMIT, PEOPLE_CARD_REPAIR_TREES,
+         PEOPLE_CARD_REPAIR_BLOBS, PEOPLE_CARD_REPAIR_HASHES),
     )
     requests = []
     for before, after, trees, blobs, _hashes in stages:
@@ -1292,12 +1310,15 @@ def _people_card_height_proof(current, root=None):
             _modal_git(root, "merge-base", "--is-ancestor", stages[stage - 1][1], before)
             if values[offset + 4] != values[offset - 1]:
                 raise ValueError("ORDER-402: nonconsecutive raw history")
-    _modal_git(root, "merge-base", "--is-ancestor", PEOPLE_CARD_AFTER_COMMIT, "HEAD")
-    if _modal_git(root, "rev-parse", "HEAD:" + MAIN_GAME_PATH).decode().strip() != PEOPLE_CARD_BLOBS[1]:
+    _modal_git(root, "merge-base", "--is-ancestor", PEOPLE_CARD_REPAIR_AFTER_COMMIT, "HEAD")
+    if _modal_git(root, "rev-parse", "HEAD:" + MAIN_GAME_PATH).decode().strip() != PEOPLE_CARD_REPAIR_BLOBS[1]:
         raise ValueError("ORDER-402: current Git MainGame differs")
-    if values[35] != current:
+    if values[41] != current:
         raise ValueError("ORDER-402: current/blob binding differs")
     recovered = _people_card_height_inverse(current, values[34])
+    intermediate = _people_card_height_step_inverse(current, values[40], PEOPLE_CARD_REPAIR_REPLACEMENT)
+    if _people_card_height_step_inverse(intermediate, values[34], PEOPLE_CARD_INITIAL_REPLACEMENT) != recovered:
+        raise ValueError("ORDER-402: stagewise and combined inverses differ")
     recovered = _pad_hint_font_inverse(recovered, values[28])
     inverse_stages = (((TUTORIAL_REPLACEMENT,), values[22]),
                       (INVESTMENT_REPLACEMENTS, values[16]),
