@@ -1,0 +1,209 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-414",
+  "reviewer": "/root/independent392",
+  "verdict": "GO",
+  "scope": "Internal acceptance of exactly two existing Japanese gift-description corrections, their first official receipts, the exact correction bridge and two prepared consumer screens. Not whole-game or release approval.",
+  "subject": {
+    "kind": "source",
+    "commit": "c5e7b4e03f871e4a4a509c851cacb54cd255a7f0",
+    "tree": "3bef1595624a0a937a86550232cdff74c3992c97",
+    "manifest_sha256": null
+  },
+  "independence": {
+    "authored_translations_product_helpers_or_tests": false,
+    "executed_engine_or_audits": false,
+    "method": "Read declared scope and required repository instructions; directly compare Korean/legacy/new Japanese and actual consumers; read complete new helpers, bridge/test/lane diffs and all initial/repaired raw command rows; directly view both original PNGs; independently reconcile Git, JSON, raw inverse, receipt digests, typed restoration and SHA-256 maps. Only this final private report was written.",
+    "skill": "gangnamdream-dev preserved queue ownership, exact candidate identity, isolated runtime and human-gate boundaries."
+  },
+  "population": {
+    "corrected_existing_values": 2,
+    "new_ui_keys": 0,
+    "first_official_receipts": 2,
+    "new_correction_batches": 1,
+    "accepted_before_after": [
+      41250,
+      41252
+    ],
+    "batches_before_after": [
+      184,
+      185
+    ],
+    "dictionary_keys_unchanged": {
+      "ja": 3044,
+      "zh-CN": 1531,
+      "zh-TW": 1531
+    },
+    "source_review": [
+      {
+        "ko": "밑줄 그을 자리가 많은 책",
+        "old_ja": "下線が引かれすぎた本",
+        "accepted_ja": "線を引きたい箇所がたくさんある本",
+        "judgment": "PASS: restores prospective underline-worthy passages; removes invented already-excessive underlining."
+      },
+      {
+        "ko": "값이 먼저 보이는 선물",
+        "old_ja": "価値が先に見える贈り物",
+        "accepted_ja": "値段が先に目に入る贈り物",
+        "judgment": "PASS: explicitly restores price coming into view first, not abstract value."
+      }
+    ],
+    "semantic_limits": "Korean-direct agent review of both values; no placeholder, condition, character fact or gameplay change. Not native-language approval."
+  },
+  "provenance_and_acceptance": {
+    "legacy_origin_commit": "aaeba142d08278c310505000bcc126a699493479",
+    "legacy_origin_blob": "53e3610ead0fdcaae7c7c4b787b27f9fdcb4fc67",
+    "legacy_origin_raw_sha256": "550378458bee465a4d89a0be9ba6e2d18029fd8fbbeb8982b3c99a961708b0fc",
+    "legacy_findings": "Direct blame/history and original blob identify the two legacy targets. Neither ID had an accepted JA receipt or prior JA-target batch claim before this transition; no former official receipt was invented.",
+    "product_parent": "04da1afdf956cad72ffb6641871d4bafa420e82d",
+    "product_commit": "88cf816dfa5f2430ae0f4bde574ba90f23e1956f",
+    "product_tree": "d9da30a8b96db6f64566acba6f37b1e82496b7ef",
+    "product_paths": [
+      "locale/ui_ja.json",
+      "content/meta/full_game_localization.json"
+    ],
+    "official_exchange": "One JA export/check/import with --replace-existing, binding both real previous-target digests. Export 9.705s and check 9.698s PASS. Header/source/selection/previous-target/target/receipt digests were independently compared; reversing two raw JA tokens and first receipts/batch/checksum exactly recovers all prior bytes.",
+    "header_source_manifest_sha256": "2dcad242e99f1a1403d736948872c1b09c353d08d416395c93a189dbc492b108",
+    "receipt_digest": "0ea54561d6f8f0603b1d60fc7a421b0ee60168ee03df3f856e63b6c5e36c78c2"
+  },
+  "bridge_review": {
+    "result": "PASS after narrow ordering repair",
+    "method": "Fresh 13 immutable objects bind two commits, two trees, eight four-snapshot blobs and the legacy-origin blob; direct parent and exactly two changed product paths are required. Whole current admission separately binds current source census, manifest and HEAD.",
+    "preserved_contracts": "Four-file raw inverse; old receipt/batch bytes and CN/TW; generic append rejection of existing-value edits; prior correction/split helpers, source-history/pipeline and all historical focused bodies. Only the declared history branch/counters, new correction helpers and new focused dispatch were added.",
+    "focused": "94 cases PASS, historical_cases=0, 93.468s. Actual pinned transition plus bounded two-leaf fixture, fault injections and synthetic subsequent append/rollback. This is not a rerun of older suites or independent whole-history enumeration.",
+    "repaired_tool_sha256": {
+      "tools/ui_translation_append.py": "d7b3bc182ed46f89ebc7d0db08dededb65ec1e8268c4e07c9f764f6b6ee9f7db",
+      "tools/ui_translation_append_self_test.py": "f4d54b0ec63efaa17487af6ae1b3be0dd602646aee4c4ba66fa6f4b5aac68cc2"
+    }
+  },
+  "runtime_review": {
+    "actual_executed_subject": "47462fc784274a55f53d5b381becea8985f1d026",
+    "actual_executed_tree": "bade1910cb0d296a24224d41e598cf85b31ab7cc",
+    "duration_seconds": 9.583,
+    "result": "First and only engine execution PASS: exit0, exact success marker once, empty stderr and no errors in stdout/Godot log.",
+    "population": "JA1280x800, two original PNGs directly viewed, two lookups, four actual description bindings and four target cards, two complete typed restorations.",
+    "consumers": [
+      "_gift_display_desc -> _build_gift_shelf_card",
+      "_gift_display_desc -> _open_gift_picker"
+    ],
+    "observed": "Both corrected descriptions fully visible together. Actual NotoSansJP variable regular weight400 at14px; one line, measured224px/book and168px/perfume within470–496px available. No target clipping, tofu or overlap observed. Adjacent card gaps10px; shelf scroll161, picker scroll0.",
+    "state": "Prepared gosiwon, money float500000, turn145, eight actual catalog gifts each quantity int2, Daeun met/affinity8/AP1/cooldown0. Prepared=observed and before=restored including MainGame.turn_action_log; teardown unchanged. Real player34 files, source2990 and runtime helpers53 unchanged and independently rehashed.",
+    "reuse_binding": "No engine rerun on c5e7b4e. Exact tracked comparison proves only ui_translation_append.py and its self-test changed from actual runtime subject; all game, dictionary, receipt, font, scene and runtime-helper bytes are identical.",
+    "measurement_limits": "Separate TextServer probe uses actual resolved node font/size, not internal Label shaped RID. Connected action signals were zero; raw/confirm/move/purchase/delivery zero claims are helper-callgraph facts, not instrumented natural-user traces."
+  },
+  "attempts_and_repairs": [
+    {
+      "attempt": "Initial static15 at47462fc",
+      "all_pass": false,
+      "wall_seconds": 876.304,
+      "failed_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        14
+      ],
+      "preserved_passing_indices": [
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ],
+      "cause": "Order-sensitive _ordered compared ID-sorted current leaves with declaration-ordered expected leaves. The same expected ordering also mismatched the official previous-target map. Focused failed at its initial proof; six current consumers cascaded from that admission rejection. Separately query14 combined mutually exclusive --base and --lane options."
+    },
+    {
+      "attempt": "Tool-only repaired candidate c5e7b4e",
+      "all_pass": true,
+      "wall_seconds": 776.335,
+      "executed_indices": [
+        1,
+        0,
+        2,
+        3,
+        4,
+        5,
+        6,
+        14
+      ],
+      "repair": "Sort both expected and selected leaves by ID; retain duplicate count, exact fields/protection, declared roots and all raw ordering checks. Add ID/reverse traversal positives and explicit duplicate boundary. New private runner executes focused first, then only failed consumers; query uses --lane ja-gift-copy --list alone.",
+      "composition": "Eight repaired rows plus seven unchanged original PASS rows form the final15-command evidence (13 normal checks, one focused check, one list query). Original aggregate remains false; passing rows and runtime were not rerun."
+    }
+  ],
+  "review_process_findings": [
+    "Author/root/independent preflight missed the leaf-order dependence and incompatible query options; execution exposed both. They are recorded as tooling failures, not successful checks or Japanese rendering failures.",
+    "Before the first engine launch, independent review corrected the runner expectation from all scroll positions>0 to >=0 with shelf-only>0; both target cards still require full containment. No failed engine attempt occurred.",
+    "A reviewer-only read/hash reconciliation initially treated player-map metadata dictionaries as hash strings; corrected the read-only assertion and completed all hash comparisons. No evidence or product bytes were changed."
+  ],
+  "final_static_limits": {
+    "chapter1": "PASS349.519s; debt8, blocked3 and W25..48 missing24/authoritative24of48 remain.",
+    "receipt": "PASS313.736s; accepted41252/b185, historical_cases0.",
+    "fullbody": "PASS315.724s, SOURCE_INVENTORY_ONLY; runtime_claim0/native_quality_claim0.",
+    "year5": "PASS332.861s, reference_only/topology invalidated/product_consumers0/r1b_allowed=false.",
+    "languages": "Original JA UI beta, ZH skeleton/shipping0 and EN checks retained unchanged; not whole-translation approval.",
+    "query": "Corrected lane list printed13 suggested checks; list output is not execution evidence."
+  },
+  "preservation": {
+    "final_maps_rehashed": {
+      "tracked": 2990,
+      "helpers": 71,
+      "inputs": 5,
+      "initial_static_and_runtime_files": 80
+    },
+    "before_equals_after": true,
+    "prior_413_runtime_static_files_rehashed": 86,
+    "prior_decisions_unchanged": 171,
+    "prior_reports_unchanged": 149,
+    "human_ledger_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6",
+    "prior_decisions_sha256": "c2dd3d73c602a8643f393a59c83d6f85945245f807c47682d4233443c1e25a11",
+    "unchanged": "MainGame/KO/EN/CN/TW, all other JA values, catalog/prices/conditions, older receipts/batches, public demo and player files. Human OPEN45/public GO1 preserved."
+  },
+  "evidence": {
+    "private_root": ".git/full-game-localization/",
+    "sha256": {
+      "order414-static-export.json": "06961eb22cda8de504ce0e164a54ec922c3c047dfc4acb3a1f119f7a9e5a78cc",
+      "order414-static-check.json": "c492020a5287b94ed91cf1c56a4b3f7dbe6bb9449ba28e375de58eade0310bcb",
+      "order414-append-precommit.json": "bc37337460a95361149982aae0fed46fd0c8cbcd5bab43168a95f756ab858267",
+      "ja/full-ko-direct-2026-09-07.1/63acfad29ab579c5b730d5a7059de72892a31b8bda44d6af872160728e3ca9fc.accepted.json": "b865a520b295f2196377ba2b7cc2e6b16c761c6fffacd40572e27310a3656925",
+      "order414-screen-final/result.json": "9d6429955ffc3f3b704f1cbd1b0a69816f6a9a67663077e8eec8d94f05153145",
+      "order414-screen-final/entry.json": "91d963b5e9f96feb5787447680b02490bc9c5e2987f73796cb2c0cc4f7ffe864",
+      "order414-screen-final/oracle.json": "64524163188f73ec656e175a606d610b859d3efa6d53ee97d2a6c7e990df63a6",
+      "order414-screen-final/order414-observations.json": "027b5706b673e518f77187668784fcd466694517fa69af7105d8beb8a3e8168b",
+      "order414-screen-final/ja-A.png": "c6016a81447b6bee86ddaf9b8189d01870f8850563e9d00f77ffee1bddd0ba5f",
+      "order414-screen-final/ja-B.png": "c5eacaff84a29379ab420d1fca868fad899428590487a680672dbc87dd373f99",
+      "order414-static-final/result.json": "6e978ae676b1c6b6812048b417056f0893de129aec0295153585f69b964a935f",
+      "order414-static-repair1/result.json": "14dacef23c0a442650392e084d362d7788c396ef32812aa0124b920ff79d128a",
+      "order414-static-repair1/entry.json": "f1b809afe77b797631f12a59c36054b756fc56380f1ec7ecb07867e73f1d9cae",
+      "order414-static-repair1/runner.py": "4becd4b1c32e6dafbf2106f39e79b53a071e3be539da9e3859d4096e3aa6b4ce",
+      "order413-independent-review.json": "0ebaa9e8fdbba2262ca613b357e27ccbd460e5d17e4044f3c8b2112d2eb89d52"
+    },
+    "note": "Bound result/entry files retain complete raw command rows, source/helper/input maps, logs, artifact hashes and restoration data; they were directly reconciled rather than duplicated here."
+  },
+  "unobserved": [
+    "Native Japanese or actual human judgment; natural ingress/Back; physical controller or keyboard/mouse tasks.",
+    "Gift purchase/delivery/confirmation, passage of game time, long-session persistence or gameplay outcomes.",
+    "Other gift text, all-menu/full-game translation, broader layout quality, Claude B3/B4 completion, whole-game/new-package/release approval."
+  ],
+  "remaining_gate": "Full game and new package remain HOLD; all pre-existing human/native/physical gates retain their state. No unresolved blocker remains within this exact two-value414 scope.",
+  "freeze": "Created once after final original evidence reconciliation; no post-seal edits authorized.",
+  "independent": true,
+  "status": "completed",
+  "private_review": {
+    "path": ".git/full-game-localization/order414-independent-review.json",
+    "sha256": "942af46dbe21c9d0f6eb1d70c13164cbf253ac19181616bf9abe0ce3a847e672"
+  },
+  "unit_evidence": {
+    "도달 경로": "ORDER414_UI_OK screens=2 keys=2 locales=1 raw=0 actions=0; focused94/normal13/query1 PASS",
+    "생산자 ↔ 독자": "MainGame::_gift_display_desc ↔ _build_gift_shelf_card/_open_gift_picker; JA2 existing values",
+    "바꾸는 상태": "2 mistranslations → 2 corrected values; new keys0/first receipts2; gameplay0",
+    "포기 시 잃는 것": "essay_book/perfume description × shelf/picker; week N/A",
+    "서사 위치": "N/A: existing gift descriptions",
+    "장면 계층": "N/A: UI",
+    "닫는 것": "ORDER-414 work_unit only; full-game/new-package HOLD"
+  }
+}

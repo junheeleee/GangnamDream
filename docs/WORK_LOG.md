@@ -2,9 +2,29 @@
 
 이전 원문 전체는 [2026-10-04 구직 메뉴까지의 기록](history/WORK_LOG_2026-10-04_pre_order405.md)에 바이트 그대로 보존했다.
 
+## 2026-10-04 (Codex — 일본어 선물 의미 수리 마감·중국어 반응 착수)
+
+- [414 완료](queue_archive/ORDER-414.md): sourcec5e7b4e/tree3bef159 독립GO.
+  JA2값·첫receipt2/batch1, accepted41252/b185. 두 소비자 실제2PNG/4binding·
+  JP14px224/168px·typed복원2·9.583초PASS. runtime subject47462fc와 게임bytes동일.
+- 최초15명령 FAIL876.304초를 보존했다. declaration순서/ID순서 비교 오탐과
+  --base/--lane 동시조회 오류를 고쳐 실패8개만776.335초PASS, 기존7PASS 재사용.
+  focused94·기존교정/append거부 보존, source2990/helper71/입력5/최초증거80 불변.
+- 다음 교정에서는 값싼 focused부터 통과한 뒤 비싼 소비자 검사를 시작한다.
+  이번 사전검수에서 순서의존을 놓친 비용을 줄이는 일회성 실행 개선이며 새 규범0.
+- [415 착수](queue_active/ORDER-415.md): 선물반응10·반복4·기록2, CN/TW각16값.
+  실제전달24회·대표6PNG만 예정, 저작/화면helper/독립검수 소유분리.
+  지연 연애전 호칭의 정본충돌은 보존·별도수리 대상이며 이번에는 연애후 fixture만 검수한다.
+- Claude B3 KO7편 재독: 미도착 민서 통화의 cafe/초상 동석표현, legacy thought_after의
+  연락근거 없는 replay가능성, 아버지8개월 산문과48주 주석 불일치를 확인했다.
+  두 번째는 현재foreground진입 증거가 없으며 새플레이 결함으로 확대하지 않는다.
+  B3/B4 겹침은 미도착 본문/조건문4leaf; 병합/최종승인 전 별도 선언한다.
+- 자동PASS는 계약증거이지 재미·문체·출시GO가 아니다. 공개GO1·인간OPEN45·
+  본편/새packageHOLD·원어민/인간/물리미관측 유지. 일회성/승격없음.
+
 ## 2026-10-04 (Codex — 일본어 선물 설명 의미 수리 후보)
 
-- [414](queue_active/ORDER-414.md): 에세이집은 앞으로 밑줄을 그을 만한 대목,
+- [414](queue_archive/ORDER-414.md): 에세이집은 앞으로 밑줄을 그을 만한 대목,
   향수는 추상적 가치가 아니라 먼저 눈에 띄는 가격으로 JA2값을 교정했다.
   KO직접 비저자 의미대조 PASS, 공식export/check 각9.705/9.698초 PASS,
   --replace-existing 수용 및 JA/원장 전체raw 역상 확인. 제품2path commit88cf816.
@@ -24,7 +44,7 @@
 - normal11+목록조회1 PASS670.350초. source2988/helper64/입력10/이전증거4 불변,
   runtime helper50/실사용자34파일 보존. accepted41250/b184·기존raw/JA/게임조건불변.
   Chapter1 debt8/blocked3/gap24·Year5 reference_only/invalidated·전체번역INCOMPLETE 유지.
-- [414 착수](queue_active/ORDER-414.md): 에세이집의 이미과잉밑줄·향수의 가격→가치
+- [414 착수](queue_archive/ORDER-414.md): 에세이집의 이미과잉밑줄·향수의 가격→가치
   JA두 오역만 교정한다. 사전key추가0/수정값2/첫공식receipt2는 별도계수한다.
   저작/교정proof/새focused/독립검수 소유를 나누고 실제JA2화면만 재검수한다.
 - 다음미번역은 선물반응10·반복대사4·로그2의 CN/TW16키로 실물에서 확인했다.
