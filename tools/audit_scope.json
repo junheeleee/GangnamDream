@@ -14,6 +14,40 @@
   ],
   "fast_lanes": [
     {
+      "id": "people-card-height",
+      "paths": [],
+      "owned_paths": [
+        "scenes/MainGame.gd",
+        "tools/main_game_locale_history.py",
+        "tools/ui_translation_append.py",
+        "tools/ui_translation_append_self_test.py",
+        "tools/audit_scope.json",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/WORK_LOG.md",
+        "docs/STATUS.md",
+        "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-402.json",
+        "docs/queue_active/ORDER-402.md",
+        "docs/queue_archive/ORDER-402.md"
+      ],
+      "tools": [
+        "tools/ui_translation_append_self_test.py --people-card-height",
+        "tools/order365_ui_receipt_compat.py",
+        "tools/full_body_translation_scope.py",
+        "tools/story_graph_contract_audit.py",
+        "tools/chapter5_human_reject_audit.py",
+        "tools/year5_reference_route_audit.py",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/ja_translation_audit.py --scope ui",
+        "tools/zh_translation_audit.py",
+        "tools/en_coverage_check.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Exact402 local people Atlas-card height only: fresh actual Git/raw inverse, real collector identities and coordinates, comparison-only historical official manifests. Existing393 bodies/pins and392 split receipts remain intact. Focused boundary plus current normal consumers; no historical self suites, dictionary/ledger edits or engine claim."
+    },
+    {
       "id": "pad-hint-font",
       "paths": [],
       "owned_paths": [
@@ -2310,14 +2344,20 @@
   ],
   "checks": [
     {
-      "tool": "tools/ui_translation_append_self_test.py --pad-hint-font",
+      "tool": "tools/ui_translation_append_self_test.py --people-card-height",
       "paths": [
         "scenes/MainGame.gd",
         "tools/main_game_locale_history.py",
         "tools/ui_translation_append.py",
         "tools/ui_translation_append_self_test.py"
       ],
-      "why": "Current393 exact four-line font successor, pure inverse and fresh Git/raw/source proof, current collector identity/coordinates and original manifest composition. Only this new boundary is replayed for source changes.",
+      "why": "Current402 exact local height successor, pure inverse controls and fresh Git/raw/current HEAD binding, real collector identity/coordinates and preserved official manifest composition. Only the new boundary is replayed for source changes.",
+      "godot": false
+    },
+    {
+      "tool": "tools/ui_translation_append_self_test.py --pad-hint-font",
+      "paths": [],
+      "why": "Historical393 explicit CLI and original focused body preserved. Current402 selection uses people-card-height rather than replaying an older HEAD-bound current-source test.",
       "godot": false
     },
     {

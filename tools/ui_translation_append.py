@@ -1089,3 +1089,25 @@ def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: st
         return True
     return _PAD_HINT_OLD_MANIFEST_MATCHES(root, inventory, expected)
 # END_PAD_HINT_FONT_MANIFEST_393
+
+
+# BEGIN_PEOPLE_CARD_HEIGHT_MANIFEST_402
+# Actual census remains current; old official receipts are not rewritten.
+_PEOPLE_CARD_OLD_MANIFEST_MATCHES = _source_manifest_matches
+
+
+def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: str) -> bool:
+    if "source_hashes" not in inventory:
+        return _PEOPLE_CARD_OLD_MANIFEST_MATCHES(root, inventory, expected)
+    import main_game_locale_history as history
+    raw = (root / history.MAIN_GAME_PATH).read_bytes()
+    previous = history.people_card_height_predecessor(raw, root)
+    hashes = inventory["source_hashes"]
+    require(exchange.digest(hashes) == inventory["source_manifest_sha256"]
+            and hashes.get(history.MAIN_GAME_PATH) == hashlib.sha256(raw).hexdigest(),
+            "people card current source census/raw mismatch")
+    comparison = {**hashes, history.MAIN_GAME_PATH: hashlib.sha256(previous).hexdigest()}
+    if expected == exchange.digest(comparison):
+        return True
+    return _PEOPLE_CARD_OLD_MANIFEST_MATCHES(root, inventory, expected)
+# END_PEOPLE_CARD_HEIGHT_MANIFEST_402

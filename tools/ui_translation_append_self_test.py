@@ -1860,6 +1860,171 @@ def pad_hint_font_self_test() -> tuple[list[str], int]:
     return failures, cases
 
 
+# BEGIN_PEOPLE_CARD_HEIGHT_SELF_TEST_402
+def people_card_height_self_test() -> tuple[list[str], int]:
+    """Current402 local height only; no historical self suites or split replay."""
+    import main_game_locale_history as history
+    import ja_translation_pipeline as ja
+    failures, cases = [], 0
+    def check(ok, label):
+        nonlocal cases
+        cases += 1
+        if not ok:
+            failures.append("people card height: " + label)
+    def reject(action, label, message=None):
+        try:
+            action()
+        except (ValueError, OSError, KeyError, TypeError, IndexError, subprocess.TimeoutExpired) as exc:
+            check(message is None or message in str(exc), label)
+        else:
+            check(False, label)
+    sha = lambda value: hashlib.sha256(value).hexdigest()
+    path = history.MAIN_GAME_PATH
+    protected = (path, "tools/main_game_locale_history.py", "tools/ui_translation_append.py",
+                 "tools/ui_translation_append_self_test.py", "tools/audit_scope.json",
+                 "tools/ja_translation_pipeline.py", "tools/ja_translation_audit.py", *append.CURRENT_PATHS)
+    observed = {p: sha((ROOT / p).read_bytes()) for p in protected}
+    raw = (ROOT / path).read_bytes()
+    prior, pre393, pre390, pre386, old = history._people_card_height_proof(raw, ROOT)
+    check(tuple(sha(v) for v in (raw, prior, pre393, pre390, pre386, old)) == (
+        "b8a03419633a837b5493ddc22569c6f256ac91e602551eb5327cf0e71dabb881",
+        "ed116a1d4dae6dc0fcac708204c97eaadf988070e501c0bb1df437be6e38170d",
+        "db5d0dc1f8890ea5ae3e0b9d1f212c2a316be50ef3265804dbde9dba0279a8ff",
+        "6432a5ceb5844c1fdc54265547053dc82db8808ea87f442058412f03d24eed90",
+        "eb9efa2243ae97e032ca13e64bae3f42558fe9618babe97c5bc3d21a05e23cea",
+        "3f42b49c99c94310436661e44c3029d0335b0998d467a7582c8d3524acf55532"),
+        "independent current/pre402/pre393/pre390/pre386/pre381 raw pins")
+    check(history.people_card_height_predecessor(raw, ROOT) == prior
+          and history.pad_hint_font_predecessor(raw, ROOT) == pre393
+          and history.tutorial_copy_predecessor(raw, ROOT) == pre390
+          and history.investment_footer_predecessor(raw, ROOT) == pre386
+          and history.modal_font_predecessor(raw, ROOT) == old, "all direct predecessor contracts")
+    reject(lambda: history._pad_hint_font_proof(raw, ROOT), "original393 still rejects non393 current raw")
+    for code, marker in (("tools/main_game_locale_history.py", b"# BEGIN_PEOPLE_CARD_HEIGHT_HISTORY_402"),
+                         ("tools/ui_translation_append.py", b"# BEGIN_PEOPLE_CARD_HEIGHT_MANIFEST_402"),
+                         ("tools/ui_translation_append_self_test.py", b"# BEGIN_PEOPLE_CARD_HEIGHT_SELF_TEST_402")):
+        current_code = (ROOT / code).read_bytes()
+        original = append._git(ROOT, "show", history.PEOPLE_CARD_BEFORE_COMMIT + ":" + code)
+        if code.endswith("_self_test.py"):
+            original = original.split(b"def main() -> int:")[0].rstrip(b"\n") + b"\n"
+        check(current_code.count(marker) == 1 and current_code.split(marker)[0].rstrip(b"\n") + b"\n" == original,
+              "complete older code/pins preserved: " + code)
+    check(history._people_card_height_inverse(raw, prior) == prior, "pure local inverse")
+    before, after = (part.encode() for part in history.PEOPLE_CARD_REPLACEMENT)
+    for label, mutant in (("rollback", prior), ("partial", raw.replace(after, after[:len(after)//2], 1)),
+                          ("duplicate", raw + after), ("moved", raw.replace(after, before, 1) + after),
+                          ("whitespace", raw + b"\n")):
+        reject(lambda value=mutant: history._people_card_height_inverse(value, prior), "pure " + label)
+    # Exercise the actual local Atlas-only guard independently of raw hashes.
+    guard, changed_guard = b"\tif thumb is AtlasTexture:\n", b"\tif true:\n"
+    check(raw.count(guard) == 1, "actual Atlas guard exact1")
+    reject(lambda: history._people_card_height_inverse(raw.replace(guard, changed_guard, 1), prior),
+           "pure Atlas guard changed")
+    for label, old_line, new_line in (
+            ("common builder", b"btn.custom_minimum_size = Vector2(0, 56)", b"btn.custom_minimum_size = Vector2(0, 57)"),
+            ("portrait dimensions", b"else Vector2(42, 42)", b"else Vector2(43, 43)"),
+            ("gameplay neighbor", b'\tvar max_promotions := int(GameState.current_job.get("max_promotions", 3))',
+             b'\tvar max_promotions := int(GameState.current_job.get("max_promotions", 4))')):
+        check(raw.count(old_line) == 1, "control target exact1 " + label)
+        reject(lambda a=old_line, b=new_line: history._people_card_height_inverse(raw.replace(a, b, 1), prior),
+               "pure unowned " + label)
+    for name, previous in (("main_game_history", history._MODAL_OLD_PUBLIC), ("gift_caption", history._MODAL_OLD_GIFT)):
+        source, project, digest = (getattr(history, name + suffix) for suffix in
+                                  ("_source_errors", "_project_bytes", "_project_byte_hash"))
+        expected = previous[1](old, path)
+        check(not source(path, raw) and project(raw, path) == expected
+              and digest(sha(raw), path, raw) == sha(expected), name + " three actual current entrances")
+        check(digest("0" * 64, path, raw) == "0" * 64, name + " rejects forged observed claim")
+        for label, mutant in (("rollback", prior), ("whitespace", raw + b"\n")):
+            check(bool(source(path, mutant)) and project(mutant, path) == mutant
+                  and digest(sha(mutant), path, mutant) == sha(mutant), name + " rejects " + label)
+    for value in (b"", None):
+        reject(lambda value=value: history.people_card_height_predecessor(value, ROOT), "invalid raw type/empty")
+    real_git = history._modal_git
+    for label, target, replacement in (
+            ("missing object", ("cat-file", "--batch"), lambda value: b"missing\n"),
+            ("forged object", ("cat-file", "--batch"), lambda value: value.replace(b"tree ", b"Tree ", 1)),
+            ("trailing proof", ("cat-file", "--batch"), lambda value: value + b"extra"),
+            ("path population", ("diff", "--name-status"), lambda value: value + b"M\0neighbor.gd\0"),
+            ("HEAD rollback", ("rev-parse",), lambda value: history.PEOPLE_CARD_BLOBS[0].encode() + b"\n")):
+        def altered(where, *args, **kwargs):
+            value = real_git(where, *args, **kwargs)
+            return replacement(value) if args[:len(target)] == target else value
+        with mock.patch.object(history, "_modal_git", side_effect=altered):
+            reject(lambda: history.people_card_height_predecessor(raw, ROOT), label)
+    with mock.patch.object(history, "PEOPLE_CARD_TREES", tuple(reversed(history.PEOPLE_CARD_TREES))):
+        reject(lambda: history.people_card_height_predecessor(raw, ROOT), "valid objects wrong tree binding", "immutable tree differs")
+    # Re-sign the malformed parent object so its SHA check cannot mask the
+    # direct-parent assertion. All other immutable objects remain actual.
+    after_commit = history.PEOPLE_CARD_AFTER_COMMIT
+    original = real_git(ROOT, "cat-file", "commit", after_commit)
+    parent = b"parent " + history.PEOPLE_CARD_BEFORE_COMMIT.encode()
+    check(original.count(parent + b"\n") == 1, "actual product direct parent exact1")
+    forged = original.replace(parent, b"parent " + history.PAD_HINT_AFTER_COMMIT.encode(), 1)
+    forged_oid = hashlib.sha1(b"commit " + str(len(forged)).encode() + b"\0" + forged).hexdigest()
+    old_block = after_commit.encode() + b" commit " + str(len(original)).encode() + b"\n" + original + b"\n"
+    new_block = forged_oid.encode() + b" commit " + str(len(forged)).encode() + b"\n" + forged + b"\n"
+    def resigned_parent(where, *args, **kwargs):
+        if args[:2] != ("cat-file", "--batch"):
+            return real_git(where, *args, **kwargs)
+        incoming = kwargs["input"].replace(forged_oid.encode(), after_commit.encode())
+        data = real_git(where, *args, **{**kwargs, "input": incoming})
+        if data.count(old_block) != 1:
+            raise ValueError("parent-control immutable population differs")
+        return data.replace(old_block, new_block, 1)
+    with mock.patch.object(history, "PEOPLE_CARD_AFTER_COMMIT", forged_oid), \
+            mock.patch.object(history, "_modal_git", side_effect=resigned_parent):
+        reject(lambda: history.people_card_height_predecessor(raw, ROOT),
+               "re-signed wrong direct parent", "direct parent differs")
+    with mock.patch.object(history, "_modal_git", side_effect=OSError("lost after success")):
+        check(bool(history.main_game_history_source_errors(path, raw))
+              and history.gift_caption_project_bytes(raw, path) == raw, "lost proof fails closed")
+        check(history.main_game_history_project_bytes(b"outside", "unowned.gd") == b"outside", "off-path dispatch preserved")
+    check(history.modal_font_predecessor(raw, ROOT) == old, "fresh proof restores without success cache")
+
+    actual, actual_errors = ja.parse_ui_calls(path, raw.decode())
+    before_calls, before_errors = ja.parse_ui_calls(path, prior.decode())
+    ordered = lambda calls: sorted(calls, key=lambda c: (c.path, c.line, c.api))
+    semantics = lambda calls: [(c.path, c.function, c.api, c.korean, c.english, c.context_id) for c in ordered(calls)]
+    check(not actual_errors and not before_errors and semantics(actual) == semantics(before_calls),
+          "all Korean/English keys, functions, identities and order unchanged")
+    shifts = [a.line - b.line for a, b in zip(ordered(actual), ordered(before_calls))]
+    expected_shift = after.count(b"\n") - before.count(b"\n")
+    check(set(shifts) <= {0, expected_shift} and (expected_shift == 0 or expected_shift in shifts),
+          "actual local hunk line shifts only")
+    inventory = ja.collect_ui_inventory()
+    check(not inventory.errors and tuple(c for c in inventory.calls if c.path == path) == tuple(ordered(actual))
+          and "migrated_context_ids" in inventory.stats, "actual collector and migrated contexts intact")
+    baseline = ja._MODAL_LOCATION_OLD_COLLECT()
+    check(ja.modal_rebind_inventory(baseline, raw) == inventory,
+          "whole collector identity/blueprint/context/stats roundtrip")
+
+    hashes = {path: sha(raw), append.ARUBA_FONT_PATH: sha((ROOT / append.ARUBA_FONT_PATH).read_bytes()),
+              "unchanged.json": "1" * 64}
+    source = {"source_hashes": hashes, "source_manifest_sha256": append.exchange.digest(hashes)}
+    preserved = copy.deepcopy(source)
+    views = [hashes, *({**hashes, path: sha(value)} for value in (prior, pre393, pre390, pre386, old)),
+             {**hashes, path: sha(old), append.ARUBA_FONT_PATH: append.ARUBA_FONT_BEFORE_SHA256}]
+    for index, view in enumerate(views):
+        check(append._source_manifest_matches(ROOT, source, append.exchange.digest(view)), "manifest stage " + str(index))
+    check(source == preserved, "actual source inventory never rewritten")
+    reject(lambda: append._source_manifest_matches(ROOT, {"source_hashes": views[1],
+           "source_manifest_sha256": append.exchange.digest(views[1])}, append.exchange.digest(views[1])),
+           "historical raw cannot masquerade as actual current source")
+    reject(lambda: append._source_manifest_matches(ROOT, {**source, "source_manifest_sha256": "0" * 64},
+           append.exchange.digest(views[1])), "forged current census")
+    neighbor = {**hashes, "unchanged.json": "0" * 64}
+    check(not append._source_manifest_matches(ROOT, {"source_hashes": neighbor,
+          "source_manifest_sha256": append.exchange.digest(neighbor)}, append.exchange.digest(views[1])),
+          "unowned source difference never exempted")
+    with mock.patch.object(history, "_modal_git", side_effect=OSError("proof disappeared")):
+        reject(lambda: append._source_manifest_matches(ROOT, source, append.exchange.digest(views[1])),
+               "old official header still requires fresh source proof")
+    check(all(sha((ROOT / p).read_bytes()) == value for p, value in observed.items()), "all observed files unchanged")
+    return failures, cases
+# END_PEOPLE_CARD_HEIGHT_SELF_TEST_402
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--synthetic-only", action="store_true", help="author development only; not current acceptance")
@@ -1872,7 +2037,14 @@ def main() -> int:
     parser.add_argument("--tutorial-copy", action="store_true", help="current390 source-pair, collector and retained-JA boundaries only")
     parser.add_argument("--split-receipt", action="store_true", help="exact392 split UI/receipt proof and state only; no historical suites")
     parser.add_argument("--pad-hint-font", action="store_true", help="current393 four font lines, source and collector only; no historical suites")
+    parser.add_argument("--people-card-height", action="store_true", help="current402 local people-card height and source boundary only; no historical suites")
     args = parser.parse_args()
+    if args.people_card_height:
+        errors, cases = people_card_height_self_test()
+        for error in errors:
+            print("UI_TRANSLATION_APPEND_ERROR " + error)
+        print(f"UI_TRANSLATION_APPEND_PEOPLE_CARD_HEIGHT_{'FAIL' if errors else 'OK'} cases={cases} historical_cases=0")
+        return int(bool(errors))
     if args.pad_hint_font:
         errors, cases = pad_hint_font_self_test()
         for error in errors:
@@ -1943,11 +2115,11 @@ def main() -> int:
         cases += correction_cases
         print(f"UI_TRANSLATION_APPEND_CORRECTION cases={correction_cases}")
         # Earlier source bodies and explicit options remain historical. The
-        # default current source check follows actual393's four font lines.
-        modal_errors, modal_cases = pad_hint_font_self_test()
+        # default current source check follows actual402's local height repair.
+        modal_errors, modal_cases = people_card_height_self_test()
         errors.extend(modal_errors)
         cases += modal_cases
-        print(f"UI_TRANSLATION_APPEND_PAD_HINT_FONT cases={modal_cases}")
+        print(f"UI_TRANSLATION_APPEND_PEOPLE_CARD_HEIGHT cases={modal_cases}")
         fee_errors, fee_cases = investment_fee_correction_self_test()
         errors.extend(fee_errors)
         cases += fee_cases
