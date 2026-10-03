@@ -2,6 +2,16 @@
 
 이전 원문 전체는 [2026-10-04 구직 메뉴까지의 기록](history/WORK_LOG_2026-10-04_pre_order405.md)에 바이트 그대로 보존했다.
 
+## 2026-10-04 (Codex — Chapter1 단일 호출 proof 수명 수리)
+
+- [408](queue_active/ORDER-408.md): 기존267까지 원문을 보존한28줄 appendix만
+  추가했다. 기존fresh context 안에서 delegate1회, 진입실패 최초오류 보존,
+  delegate/종료 예외전파·token복원·호출간 캐시0을 유지한다.
+- 별도 focused 검사와 전용 audit 차선을 추가한다. 새로운 저작이나 판정기준
+  변경은 없으며 최종후보에서 focused1회·실제Chapter1 normal1회로 검수한다.
+  기존407 Chapter1 776.493초는 재실행 없이 비교 기준으로 사용한다.
+- 제품·번역원장·공개demo·인간증거 변경0. 현재는 코드후보이며 최종GO 전이다.
+
 ## 2026-10-04 (Codex — 직장 중국어 화면 마감·검수 중복 제거 착수)
 
 - [407 완료](queue_archive/ORDER-407.md): 월급·승진·사업/콘텐츠 안내 CN/TW30값,

@@ -14,6 +14,29 @@
   ],
   "fast_lanes": [
     {
+      "id": "chapter1-ui-proof-reuse",
+      "paths": [],
+      "owned_paths": [
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/chapter1_ui_proof_reuse_check.py",
+        "tools/audit_scope.json",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/WORK_LOG.md",
+        "docs/STATUS.md",
+        "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-408.json",
+        "docs/queue_active/ORDER-408.md",
+        "docs/queue_archive/ORDER-408.md"
+      ],
+      "tools": [
+        "tools/chapter1_ui_proof_reuse_check.py",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Exact408 tool-only appendix: share existing fresh UI proof within one Chapter1 snapshot, preserve prefix/267 delegation and all diagnostics, no cross-call cache. Focused control-flow probes plus one real normal admission; product/receipts/immutable proof unchanged."
+    },
+    {
       "id": "promotion-review",
       "paths": [],
       "owned_paths": [
@@ -2417,6 +2440,15 @@
     }
   ],
   "checks": [
+    {
+      "tool": "tools/chapter1_ui_proof_reuse_check.py",
+      "paths": [
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/chapter1_ui_proof_reuse_check.py"
+      ],
+      "why": "One-call UI proof lifetime, original prefix/267 delegation, first-error retention, exact diagnostics, exception/token restoration and fresh following-call rejection. Scoped spies are control-flow evidence, not a replacement for real immutable admission.",
+      "godot": false
+    },
     {
       "tool": "tools/ui_translation_append_self_test.py --promotion-review",
       "paths": [
