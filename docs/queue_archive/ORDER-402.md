@@ -1,3 +1,32 @@
+# ORDER-402 — 인물 Atlas 카드 돌출 수리 내부 검수 완료
+
+**[x] 완료 — 2026-10-04.** 비저자 /root/independent392의 work_unit GO.
+source 1bda1fc2ce6fd2f709face369116e5b04ff7ad9d,
+tree99007ae7e013dba8d8bb535254fb99182ba32b88.
+[독립 보고](../agent_reviews/ORDER-402.json)·agent_review_decisions 소유.
+
+- 5언어 network15의60px카드/72px내용/내용간−5px를 국소8줄로 수리했다.
+  ready 및 minimum_size_changed가 실제 themed 최소높이를 수용한다.
+  최종 card72/content72/내용간+7px, 그림128×64와 초상5카드60px 보존.
+- 최종1280×800의10PNG 전량 독립검수,20semantic 페이지/커서 입력·typed복원5,
+  사용자34파일·tracked2964·runtime helper14 불변.15.040초PASS.
+  자연도달/Back/confirm/OS raw·물리입력·커서끝경계 wrap 관측은 아니다.
+- focused81/historical0 PASS30.518초, normal13+영향조회1 PASS595.434초.
+  영향조회는97검사 목록만 출력했다. 그97개를 실행한 것은 아니다.
+  Chapter1 debt8/blocked3/gap24·year5 reference_only/invalidated 보존.
+- 최초 before aggregateFAIL은 유효엔진관측을 별도분석으로 결속했다.
+  첫수리64px실패·focused marker검사1실패·normal중단143·clean guard실행전차단
+  원본을 보존했다. 제품수리/검사수리 뒤 새후보로 다시 관측했으며 실패를 지우지 않았다.
+- EN MONEY/PEOPLE의 폭2/3px잔여4건은 exact비악화만 확인했다.
+  all_text_fits=false이며 다음403의 별도수리다. 일반메뉴 전체 가독성GO가 아니다.
+- 사전·원장41,069/b169·기존159판정/137보고·인간원장·공개demo 불변.
+  원어민/인간/물리·자연진입/복귀·다른해상도·11px/포커스·B3/B4는 별도잔여.
+  공개GO1·인간OPEN45·본편/새packageHOLD. 자동PASS는 출시GO가 아니다.
+- 상시규범0/일회성, 기존UI/I18N·WORK_UNIT·gangnamdream-dev 적용.
+  아래 최종 실행사양 원문을 보존한다.
+
+## 착수·수리 사양 원문
+
 # ORDER-402 — 인물 인맥·휴식 카드 이미지 돌출 수리
 
 #### [~] ORDER-402 [P0·UI] 인물 인맥·휴식 카드 이미지 돌출 수리

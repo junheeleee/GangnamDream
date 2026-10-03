@@ -2,6 +2,27 @@
 
 이전 원문 전체는 [2026-09-28 이전 기록](history/WORK_LOG_2026-09-28_pre_order351.md)에 바이트 그대로 보존했다.
 
+## 2026-10-04 (Codex — 인물 Atlas 카드 이미지 돌출 수리)
+
+- [402](queue_archive/ORDER-402.md): 그림크기를 유지한 채 카드만 실제내용 최소높이를
+  따르도록 국소8줄 수리. 최초60/내용72/간격−5 → 첫수리64/72/−1 FAIL →
+  ready+최소높이신호의 최종72/72/+7 PASS. 초상카드60·그림128×64 유지.
+- source1bda1fc2/tree99007ae7,5언어10PNG 전량독립검수·20semantic 이동,
+  typed복원5·사용자34파일·2964tracked불변.15.040초, geometry0.
+  OS raw/물리/자연Back/confirm/끝경계wrap은 관측하지 않았다.
+- focused81/historical0 PASS30.518초; normal13+영향조회1 PASS595.434초.
+  영향목록97개 자체를 실행한 것은 아니다. Chapter1 debt8/blocked3/gap24,
+  year5 reference_only/invalidated 유지. 전체감사/240주/역사self 반복0.
+- before aggregateFAIL·첫제품64px FAIL·자기marker검사FAIL·normal중단143·
+  dirty clean-guard 차단을 모두 보존, 실패후소스를 새로 묶어 재관측했다.
+- [비저자 보고](agent_reviews/ORDER-402.json)의 exact work_unit만 내부GO.
+  EN 배지폭잔여4건은 all_text_fits=false로 남기며 다음403에서 따로 수리한다.
+  수용raw41,069/b169·기존159판정/137보고·인간원장·공개GO1/인간OPEN45 보존.
+  본편/새packageHOLD, 원어민/인간/물리·B3/B4 미관측/별도잔여. 자동PASS≠출시GO.
+- gangnamdream-dev의 격리실행·실패보존·저작/검수분리 적용. 상시규범0/일회성.
+  다음403 선언: 축배지 실제글자폭 수용·공유메뉴 회귀, 검증허용집합을 유지한
+  새 manifest wrapper의 호출내 중복증명 축소. 외부출시/스토어/지출/법률0.
+
 ## 2026-10-03 (Codex — 인물 모달 중국어 배지·연락 불가16값)
 
 - [401](queue_archive/ORDER-401.md): CN/TW8키씩16값을 공식2교환으로 수용.
