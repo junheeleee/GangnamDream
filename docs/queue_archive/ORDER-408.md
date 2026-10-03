@@ -1,6 +1,20 @@
 # ORDER-408 — 번역 검수의 Chapter1 동일 호출 중복 증명 제거
 
-#### [~] ORDER-408 [P1·검수 효율] 번역 검수의 Chapter1 동일 호출 중복 증명 제거
+#### [x] ORDER-408 [P1·검수 효율] 번역 검수의 Chapter1 동일 호출 중복 증명 제거
+
+## 완료 — 2026-10-04
+
+- source `fb46b9f770adf7d9a7e753e18e6a2223665750f9`, tree `5204c3300a71e3f97968bf3da76977f417f4ead6`.
+- focused19방법 PASS0.324초·실제 Chapter1 PASS269.825초·전체7명령270.322초.
+  원본 stdout·debt8/blocked3/gap24 유지, source2978/helper37/prior6 불변.
+- 이전407실측776.493초 대비506.668초 감소. 동시 실행한 다른 검사들이 달라
+  통제된 벤치마크나 일반적 속도 보장이 아니다. 구버전 재실행0.
+- [독립 원문 검수](../agent_reviews/ORDER-408.json) 한정GO. scoped double의
+  제어흐름 증거와 실제 normal의 immutable admission 증거를 구분했다.
+- 제품·번역·원래proof/pin·공개demo·인간증거 변경0, 새Godot/화면/입력0.
+  공개GO1·인간OPEN45·본편/새packageHOLD 유지. 상시규범추가0/일회성.
+
+## 원래 선언
 
 **[~] 착수 — 2026-10-04.** 사용자 검수 효율·계속 개발·main 커밋/푸시 위임.
 406 Chapter1 초회720초 timeout, 단독재시도684.920초를 실측했다.

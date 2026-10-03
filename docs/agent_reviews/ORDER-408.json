@@ -1,0 +1,120 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-408",
+  "reviewer": "/root/independent392",
+  "review_role": "Independent non-author review; owned only this private report. No test or Godot reruns.",
+  "subject": {
+    "kind": "source",
+    "commit": "fb46b9f770adf7d9a7e753e18e6a2223665750f9",
+    "tree": "5204c3300a71e3f97968bf3da76977f417f4ead6",
+    "manifest_sha256": null
+  },
+  "verdict": "GO",
+  "scope": "One Chapter1 snapshot-call lifetime wrapper, its new scoped regression check and exact audit lane; no product/localization or general proof-cache redesign.",
+  "population_and_method": "Read the active declaration, existing snapshot and 267 delegate, receipt context/admission/font-comparison functions, all 28 added wrapper lines, all 424 focused-test lines, audit registration, private runner and final five-path diff. Original focused/normal/cheap rows and hashes inspected without rerunning tests.",
+  "source_review": {
+    "declaration": "ed476048c7c2e2aa21d3cc64eb4a8b2941b0ba73",
+    "changed_paths": [
+      "CLAUDE.md",
+      "docs/WORK_LOG.md",
+      "tools/audit_scope.json",
+      "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+      "tools/chapter1_ui_proof_reuse_check.py"
+    ],
+    "chapter_sha256": "94a9570c8aec50e58a499cfc8968636edd909770b62a0105258f09a0622fb6cc",
+    "old_chapter_sha256": "c94edb2a95d717d07b05c5182c633e70ee8ef7e5d2a7c5704a0691f6bb1066f5",
+    "inverse": "Removing only the 1,264-byte new appendix reproduces the entire declaration-era chapter file, including 267 and main. The focused real Git check also matches the original file at 407 product 9e3705a8.",
+    "semantics": "The saved callable is the complete 267 delegate. ExitStack catches only context-entry failures in the existing narrow exception family. The delegate runs once even after a caught entry failure; its exceptions and exit exceptions propagate without retry. A missing first-entry error is prepended without mutating the returned diagnostic list; an already-present identical error is not duplicated. Existing diagnostics retain their relative order. Context tokens reset on exit; nested calls preserve the outer proof/current objects. No cross-call cache or proof/pin changes."
+  },
+  "focused_review": {
+    "test_methods": 19,
+    "process_seconds": 0.324,
+    "unittest_seconds": 0.13,
+    "result": "PASS",
+    "coverage": "Real Git whole-prefix/main/267 preservation; saved actual delegate with both font-comparison call sites; scoped 3-to-1 outer-read equivalence; diagnostics order and list/input identity; all narrow entry faults; transient failure followed by successful fallback remains failure; delegate/exit exceptions; late entry cleanup; nested two-token preservation; next-call failure/recovery; admission failure blocks both historical font projections; per-raw and submitted-hash guards.",
+    "evidence_boundary": "Control-flow tests retain the real context and raw guards but replace expensive proof leaves, predecessor context/admission and font inverses with scoped doubles. Git/HEAD faults are injected exceptions, not altered Git objects/HEAD. The raw mismatch alters a synthetic admission certificate, not repository files. These demonstrate fresh call/control flow, not actual immutable-proof rejection or a general performance benchmark; the separate normal owns real admission."
+  },
+  "repairs": [
+    "Preflight found private runner expected CHAPTER1_UI_PROOF_REUSE_OK while the new check emits CHAPTER1_UI_PROOF_REUSE_CHECK_OK. Root corrected this one expectation before the first execution; no failed run was discarded."
+  ],
+  "preservation": {
+    "statement": "Only the five declared paths changed. Runtime/gameplay/KO/EN/JA/CN/TW/receipt ledger, original proof modules/pins, public demo and human evidence remain unchanged. Existing 407 PASS/FAIL evidence and report remain sealed.",
+    "human_gates_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6",
+    "public_go": 1,
+    "human_open": 45,
+    "full_game_main_new_package": "HOLD",
+    "source_files": 2978,
+    "helpers": 37,
+    "prior_artifact_hashes": 6,
+    "previous_decisions": 165,
+    "previous_reports": 143,
+    "verification": "Before/after maps are identical. Independently rehashed all 37 helpers and six pinned 407 artifacts; original proof modules, MainGame, decision ledger and human ledger also match declaration Git bytes."
+  },
+  "limitations": [
+    "No new screen, Godot, natural input, playthrough, native-language or physical-controller observation.",
+    "Chapter1 snapshot debt 8, blocked 3 and missing 24 weeks remain; successful validation is not complete Chapter1 approval.",
+    "Historical suites, separate receipt/locale suites, full audit and 240-week execution were not rerun.",
+    "EN Tenure clipping/above60 meaning and Claude B3/B4 remain separate follow-ups."
+  ],
+  "artifacts": {
+    "focused": {
+      "path": ".git/full-game-localization/order408-static-final/01.json",
+      "sha256": "eca5335c0d673281d2c0fa5448f79d951d0056a66dff8664f911e7dcada87ed2"
+    },
+    "focused_source": {
+      "path": "tools/chapter1_ui_proof_reuse_check.py",
+      "sha256": "e02cd0a72509865cb14c81eaeac3afa322dbd19d75e86409ecfab6950b4c023e"
+    },
+    "runner": {
+      "path": ".git/full-game-localization/order408-static-run.py",
+      "sha256": "99a2836ebfe9da7ca2bd5f82301a70e3bbfe409663c84b29e5f3603b8833ff1d"
+    },
+    "baseline": {
+      "path": ".git/full-game-localization/order407-static-final/result.json",
+      "sha256": "9ac1205c2b5505220ded03226568988311da38d6156f663f2ec672a6a57bf09f"
+    },
+    "normal": {
+      "path": ".git/full-game-localization/order408-static-final/00.json",
+      "sha256": "43355dd7d9671f397f2ace9b23b7d3e773c19f9a8f712b6533569bd9b553a42d"
+    },
+    "result": {
+      "path": ".git/full-game-localization/order408-static-final/result.json",
+      "sha256": "5f84fde03da8e2c3384ffe2a1de4921840261467983ef30ce39d1c13da5c5e81"
+    },
+    "entry": {
+      "path": ".git/full-game-localization/order408-static-final/entry.json",
+      "sha256": "7bbbdaa99ea0a73ea1545da86475dc07df76317487316303a26bd282f00952bf"
+    }
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel"
+  ],
+  "verdict_boundary": "Delegated internal ORDER-408 tool-only acceptance on the exact subject; no product, package, native-language or human approval.",
+  "normal_review": {
+    "result": "PASS",
+    "commands": 7,
+    "chapter1_seconds": 269.825,
+    "wall_seconds": 270.322,
+    "evidence": "Read all seven raw command rows; all exit0/stderr0. Rehashed each row, aggregate, entry and copied runner. Aggregate rows and entry match; source before=after. Exact normal stdout matches the preserved 407 normal: COVERAGE_GAP weeks25..48/missing24/authoritative24of48 and SNAPSHOT_VALID debt8/blocked3.",
+    "scope": "One actual Chapter1 immutable/current admission, one focused run, audit registration verification, explicit lane list query, context, queue and diff. Query lists five selected checks; no additional executions inferred.",
+    "timing": "Preserved 407 normal 776.493 seconds versus current 269.825 seconds (observed difference 506.668 seconds). No old-version rerun. Different sibling concurrency: 407 had three workers/heavy peers; 408 two workers/cheap peers. This is a single-run observation, not a controlled benchmark, guaranteed speedup or omitted proof."
+  },
+  "artifact_note": "Aggregate owns all seven original rows and source/helper/prior SHA maps; no transcript-only test evidence. Reports of real admission and scoped mock behavior remain separate.",
+  "independent": true,
+  "status": "completed",
+  "private_review": {
+    "path": ".git/full-game-localization/order408-independent-review.json",
+    "sha256": "fb384ed7607a6ec40da7cf57d6020a3a5a4d5a97fb1c39e632404c613f18d05f"
+  },
+  "unit_evidence": {
+    "도달 경로": "CHAPTER1_UI_PROOF_REUSE_CHECK_OK cases=19; CHAPTER1_CAUSAL_LEDGER_SNAPSHOT_VALID debt_codes=8 blocked=3",
+    "생산자 ↔ 독자": "tools/chapter1_core_loop_v2_causal_ledger_check.py:27074 → _UI_PROOF_REUSE_OLD_SNAPSHOT_ERRORS / fresh_validation_proof",
+    "바꾸는 상태": "snapshot outer proof 3→1; normal 776.493→269.825s (single-run concurrency differs); product0",
+    "포기 시 잃는 것": "next translation snapshot repeats identical UI proof twice; week N/A",
+    "서사 위치": "N/A: validation tool only",
+    "장면 계층": "N/A: tool",
+    "닫는 것": "ORDER-408 exact work_unit only; product/package HOLD"
+  }
+}

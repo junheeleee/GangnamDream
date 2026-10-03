@@ -2,9 +2,22 @@
 
 이전 원문 전체는 [2026-10-04 구직 메뉴까지의 기록](history/WORK_LOG_2026-10-04_pre_order405.md)에 바이트 그대로 보존했다.
 
+## 2026-10-04 (Codex — 검수시간 단축 마감·근속 안내 수리 착수)
+
+- [408 완료](queue_archive/ORDER-408.md): sourcefb46b9f/tree5204c33,
+  독립 GO·focused19 PASS·실제 Chapter1 269.825초·7명령270.322초.
+  기존407 776.493초와 비교하되 다른 동시검사 조건의 단일실측으로 한정한다.
+  원본stdout/debt8/blocked3/gap24·source2978/helper37/prior6 불변.
+- [409 착수](queue_active/ORDER-409.md): 실제 EN Tenur 잘림과 above60/실제>=60
+  안내 불일치2곳만 수리한다. 한국어키·사전·기존receipt·게임조건은 그대로다.
+  bridge/새focused/root화면 관측 파일 소유를 나누며 단일상태5언어만 검수한다.
+- 자동PASS는 도달성/계약 증거이지 재미·깊이·문체·출시GO가 아니다.
+  공개GO1·인간OPEN45·본편/새packageHOLD·원어민/인간/물리 미관측 유지.
+  상시규범추가0/일회성. 검증된408 source는 main에 푸시했다.
+
 ## 2026-10-04 (Codex — Chapter1 단일 호출 proof 수명 수리)
 
-- [408](queue_active/ORDER-408.md): 기존267까지 원문을 보존한28줄 appendix만
+- [408](queue_archive/ORDER-408.md): 기존267까지 원문을 보존한28줄 appendix만
   추가했다. 기존fresh context 안에서 delegate1회, 진입실패 최초오류 보존,
   delegate/종료 예외전파·token복원·호출간 캐시0을 유지한다.
 - 별도 focused 검사와 전용 audit 차선을 추가한다. 새로운 저작이나 판정기준
@@ -23,7 +36,7 @@
 - normal11+조회1 PASS776.969초·Chapter1 776.493초; source2975/helper33불변.
   debt8/blocked3/gap24·Year5 reference_only/invalidated·ZH shipping0 유지.
   자동PASS는 도달성/계약 증거이지 재미·깊이·문체·출시GO가 아니다.
-- [408 착수](queue_active/ORDER-408.md): Chapter1 동일 snapshot 안의 proof3회를
+- [408 착수](queue_archive/ORDER-408.md): Chapter1 동일 snapshot 안의 proof3회를
   기존fresh context1회로 묶는 도구 한정수리. 저작/회귀/독립검수 파일 소유 분리.
   이전시간을 비교 기준으로 재사용하며 구버전 재실행·새 화면검사 없이 효과를 측정한다.
 - EN근속폭/60이상 의미·Claude B3/B4는 별도후속. 공개GO1·인간OPEN45·
