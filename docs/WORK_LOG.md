@@ -2,6 +2,23 @@
 
 이전 원문 전체는 [2026-10-04 구직 메뉴까지의 기록](history/WORK_LOG_2026-10-04_pre_order405.md)에 바이트 그대로 보존했다.
 
+## 2026-10-04 (Codex — 검증된 선물·본문서체 main 반영, 연락 중국어 착수)
+
+- 제품 sourceae51a7d/tree60356f3: 수리415-r1 실제24전달/6PNG 28.177초,
+  416 동일본문5언어/5PNG 15.885초, 417 focused131 55.225초 PASS.
+  실제player34·typed복원·원본실패 보존. bold는 리소스/probe만, 실제bold-span0.
+- 공통13명령742.036초에서 큐 음수순번1건 FAIL, 나머지12 PASS.
+  첫순번수리도 이어보기 연속성 FAIL을 보존했다. 전체80행 순번만 정렬한
+  metadata20afb17에서 queue/context/diff0.606초PASS. 비싼PASS/화면 재실행0.
+  author/root/독립 사전검수 누락을 기록한다. main20afb17 push 완료.
+- [418](queue_active/ORDER-418.md) 선언: 기존연락19키 CN/TW각19값·38receipt/2batch.
+  한국어직접 저작/실제소비helper/독립검수 소유분리. 기존 선물키와 중복0.
+  contact의 stress(-3)는 별도필드가 아니라 mental(+3)로 합산됨을 사전확인했다.
+- 반복검사 비용 원인으로 validate_history의 연속append에서 같은 comparison을
+  재계산하는 구간을 읽기전용 확인했다. 지역 재사용 후보이며 절감시간 미측정/수정0.
+- 자동PASS는 계약증거이지 재미·문체·출시GO가 아니다. 본편/새packageHOLD,
+  공개GO1·인간OPEN45·원어민/인간/물리미관측 유지. 일회성/승격없음.
+
 ## 2026-10-04 (Codex — 실제 반응 본문 지역서체 결함 수리 후보)
 
 - 415 sourcecff41a6 첫실행27.560초/exit1: 24전달 상태효과/typed복원/전체본문 PASS,
