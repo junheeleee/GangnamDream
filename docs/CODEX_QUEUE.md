@@ -50,9 +50,10 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-391 · 투자 패드 안내 중국어8값·실제 글꼴 | [391](queue_active/ORDER-391.md) | Claude8값 보존 · 원장 불일치 재현 · 원본화면/독립검수 OPEN · 사용한도 HOLD |
-| 2 | [~] | ORDER-302 · 체험판 대본 사실·영어 정합 수리 | [302](queue_active/ORDER-302.md) | 수리7항목 source GO · successor package 별도 선언/검수 HOLD |
-| 3 | [ ] | ORDER-352 · 본편 5장 대본 이름·시간·회수 정합 | [352](queue_active/ORDER-352.md) | 5장 HOLD 수리 닫힌 뒤 착수 · 미실행 |
+| 1 | [~] | ORDER-392 · 중국어 UI8값 공식 원장·이력 복구 | [392](queue_active/ORDER-392.md) | exact split 전이 선언 · 구현/독립검수 진행 |
+| 2 | [~] | ORDER-391 · 투자 패드 안내 중국어8값·실제 글꼴 | [391](queue_active/ORDER-391.md) | Claude8값 보존 · 원장 수리392 · 실제font/화면 검수 OPEN |
+| 3 | [~] | ORDER-302 · 체험판 대본 사실·영어 정합 수리 | [302](queue_active/ORDER-302.md) | 수리7항목 source GO · successor package 별도 선언/검수 HOLD |
+| 4 | [ ] | ORDER-352 · 본편 5장 대본 이름·시간·회수 정합 | [352](queue_active/ORDER-352.md) | 5장 HOLD 수리 닫힌 뒤 착수 · 미실행 |
 
 
 
