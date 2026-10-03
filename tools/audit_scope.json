@@ -14,6 +14,39 @@
   ],
   "fast_lanes": [
     {
+      "id": "split-receipt",
+      "paths": [],
+      "owned_paths": [
+        "content/meta/full_game_localization.json",
+        "tools/ui_translation_append.py",
+        "tools/ui_translation_append_self_test.py",
+        "tools/audit_scope.json",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/WORK_LOG.md",
+        "docs/history/WORK_LOG_2026-09-07_localization.md",
+        "docs/STATUS.md",
+        "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-392.json",
+        "docs/queue_active/ORDER-391.md",
+        "docs/queue_active/ORDER-392.md",
+        "docs/queue_archive/ORDER-392.md",
+        "docs/queue_archive/CODEX_QUEUE_2026-09.md"
+      ],
+      "tools": [
+        "tools/ui_translation_append_self_test.py --split-receipt",
+        "tools/order365_ui_receipt_compat.py",
+        "tools/full_body_translation_scope.py",
+        "tools/story_graph_contract_audit.py",
+        "tools/chapter5_human_reject_audit.py",
+        "tools/year5_reference_route_audit.py",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Exact392 reconciliation of the already-merged eight CN/TW UI values with two preserved official391 batches. Fresh immutable Git/raw/source proof and bounded split-state rejection controls plus current normal consumers only. Original350/351 and other historical failures remain separate evidence; no historical self suites, product text/font change, engine or release claim."
+    },
+    {
       "id": "tutorial-copy",
       "paths": [],
       "owned_paths": [
@@ -2240,6 +2273,15 @@
     }
   ],
   "checks": [
+    {
+      "tool": "tools/ui_translation_append_self_test.py --split-receipt",
+      "paths": [
+        "tools/ui_translation_append.py",
+        "tools/ui_translation_append_self_test.py"
+      ],
+      "why": "Exact392 split-ingress/receipt-repair proof and production state-machine controls only. The original append tests, historical suites and their failures are not replaced or promoted by this focused result.",
+      "godot": false
+    },
     {
       "tool": "tools/ui_translation_append_self_test.py --tutorial-copy",
       "paths": [

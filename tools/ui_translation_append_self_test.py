@@ -1468,6 +1468,263 @@ def tutorial_copy_self_test() -> tuple[list[str], int]:
     return failures, cases
 
 
+def _split_receipt_transaction_self_test(before, pending, complete, inventory) -> tuple[list[str], int]:
+    """A rejected ingress must not leave a reusable pending state."""
+    errors = []
+    state = append._SplitReceiptHistory(ROOT, inventory)
+    invalid = {**pending, append.LEDGER_PATH: pending[append.LEDGER_PATH] + b"\n"}
+    for commit, previous, successor, expected in (
+            (append.SPLIT_INGRESS_COMMIT, before, invalid, "split ingress snapshots differ from proof"),
+            (append.SPLIT_REPAIR_COMMIT, pending, complete, "orphan/duplicate split receipt recovery")):
+        try:
+            state.step(commit, previous, successor)
+        except ValueError as exc:
+            if expected not in str(exc):
+                errors.append("split receipt transaction: wrong rejection boundary: " + str(exc))
+        else:
+            errors.append("split receipt transaction: invalid ingress/recovery was accepted")
+        if state.proof is not None or state.completed:
+            errors.append("split receipt transaction: rejected ingress changed state")
+    return errors, 2
+
+
+def _split_receipt_binding_self_test(before, pending, complete, inventory) -> tuple[list[str], int]:
+    """Small independently rerunnable semantic/raw controls, with valid checksums."""
+    failures, cases = [], 0
+    ledger = append.LEDGER_PATH
+    document = append._Document(complete[ledger])
+
+    def reject(action, label, expected=None):
+        nonlocal cases
+        cases += 1
+        try:
+            action()
+        except (ValueError, OSError, KeyError, TypeError, IndexError, subprocess.TimeoutExpired) as exc:
+            if expected is not None and expected not in str(exc):
+                failures.append("split receipt binding: " + label + " rejected at wrong boundary: " + str(exc))
+        else:
+            failures.append("split receipt binding: " + label + " was accepted")
+
+    key = "[b]패드[/b]  LB/RB 페이지 · %s 뒤로  —  %s"
+    row_id = append.receipt_id(key)
+    for locale, path in zip(append.LOCALES, append.UI_PATHS):
+        for field in ("source_sha256", "target_sha256"):
+            accepted = copy.deepcopy(document.value["accepted"])
+            accepted[locale][row_id][field] = "0" * 64
+            edits = []
+            for address, value in ((("accepted", locale, row_id, field), "0" * 64),
+                                   (("accepted_sha256",), append.exchange.digest(accepted))):
+                start, end = document.spans[address]
+                edits.append((start, end, append._ordered(value).decode()))
+            text = document.text
+            for start, end, value in sorted(edits, reverse=True):
+                text = text[:start] + value + text[end:]
+            candidate = {**complete, ledger: text.encode()}
+            reject(lambda value=candidate: append._validate_split_receipt(before, pending, value, inventory),
+                   locale + " checksum-valid " + field, "UI/receipt/source/target additions differ: " + locale)
+        ui = append._Document(complete[path])
+        neighbor = next(name for name in ui.value if name != key)
+        for label, address, value, expected in (
+                ("preserved target", (key,), "changed", "split delivery is not the exact four preserved targets"),
+                ("old neighbor", (neighbor,), "changed", "old UI member/order/value changed: " + locale)):
+            start, end = ui.spans[address]
+            raw = (ui.text[:start] + append._ordered(value).decode() + ui.text[end:]).encode()
+            changed_pending, changed_complete = {**pending, path: raw}, {**complete, path: raw}
+            reject(lambda a=changed_pending, b=changed_complete: append._validate_split_receipt(before, a, b, inventory),
+                   locale + " both pending/complete " + label, expected)
+        changed_pending = {**pending, path: pending[path] + b"\n"}
+        changed_complete = {**complete, path: complete[path] + b"\n"}
+        reject(lambda a=changed_pending, b=changed_complete: append._validate_split_receipt(before, a, b, inventory),
+               locale + " both pending/complete whitespace", "bytes outside exact additions changed: " + path)
+    with mock.patch.object(append, "SPLIT_REPAIR_TREE", "3d6b582384591fc6504d95ea54c51e6d9fefe97a"):
+        reject(lambda: append._split_receipt_proof(ROOT, inventory), "wrong exact repair tree")
+    blobs = dict(append.SPLIT_BLOBS)
+    path = append.UI_PATHS[0]
+    blobs[path] = (blobs[path][0], blobs[path][0], blobs[path][2])
+    with mock.patch.object(append, "SPLIT_BLOBS", blobs):
+        reject(lambda: append._split_receipt_proof(ROOT, inventory), "wrong pending blob pin")
+    state = append._SplitReceiptHistory(ROOT, inventory)
+    state.step(append.SPLIT_INGRESS_COMMIT, before, pending)
+    interim = state.step("4" * 40, pending, pending)
+    recovered = state.step(append.SPLIT_REPAIR_COMMIT, pending, complete)
+    state.finish()
+    cases += 1
+    if interim["receipts"] != 0 or interim["batches"] != 0 or recovered["receipts"] != 8:
+        failures.append("split receipt binding: unchanged pending observation changed acceptance")
+    transaction_errors, transaction_cases = _split_receipt_transaction_self_test(before, pending, complete, inventory)
+    failures.extend(transaction_errors)
+    cases += transaction_cases
+    return failures, cases
+
+
+def split_receipt_self_test() -> tuple[list[str], int]:
+    """Exact392 proof and production split state only; no historical suite replay."""
+    failures, cases = [], 0
+
+    def check(ok, label):
+        nonlocal cases
+        cases += 1
+        if not ok:
+            failures.append("split receipt: " + label)
+
+    def reject(action, label):
+        try:
+            action()
+        except (ValueError, OSError, KeyError, TypeError, IndexError, subprocess.TimeoutExpired):
+            check(True, label)
+        else:
+            check(False, label)
+
+    # These independently named real source keys are not synthetic translations.
+    keys = (
+        "[b]패드[/b]  LB/RB 페이지 · %s 뒤로  —  %s",
+        "[b]패드[/b]  LB/RB 페이지 · ↑↓ 자산 · ←→ 행동 · %s %s · %s 뒤로  —  %s",
+        "[b]패드[/b]  LB/RB 페이지 · 거래 가능한 자산 없음",
+        "거래 불가",
+    )
+    source_revision = "18dd16d6020b2dcae8484f4b70af3261a6ccd91e"
+    ids = {append.receipt_id(key) for key in keys}
+    sha = lambda raw: hashlib.sha256(raw).hexdigest()
+    protected = (*append.CURRENT_PATHS, "scenes/MainGame.gd",
+                 "tools/order350_source_compat.py", "tools/order351_source_compat.py")
+    observed = {path: sha((ROOT / path).read_bytes()) for path in protected}
+    collected = append.exchange.collect(ROOT)
+    leaves = [leaf for leaf in collected["leaves"] if leaf.id in ids]
+    check(len(leaves) == 4 and {leaf.owner for leaf in leaves} == set(keys), "four actual Korean source leaves")
+    inventory = {**collected, "leaves": leaves}
+    before, pending, complete, change = append._split_receipt_proof(ROOT, inventory)
+    ledger = append.LEDGER_PATH
+    check(change["receipts"] == 8 and change["batches"] == 2
+          and all(change["ui_by_locale"][locale] == 4 for locale in append.LOCALES),
+          "exact eight receipts in two official batches")
+    check(pending[ledger] == before[ledger]
+          and all(complete[path] == pending[path] for path in complete if path != ledger),
+          "ingress changes dictionaries only; repair changes ledger only")
+    check(append._validate_split_receipt(before, pending, complete, inventory) == change,
+          "pure exact transition agrees with fresh Git proof")
+    check(append.validate_append(before, complete, inventory) == change,
+          "unchanged ordinary append validator proves complete composite")
+    reject(lambda: append.validate_append(before, pending, inventory), "old missing-receipt failure remains rejected")
+    reject(lambda: append.validate_append(pending, complete, inventory), "ordinary append cannot excuse orphan receipt recovery")
+
+    documents = {path: append._Document(raw) for path, raw in complete.items()}
+    base_batches = len(append._Document(before[ledger]).value["batches"])
+
+    def mutate(snapshot, path, field, value):
+        doc = documents[path] if snapshot is complete else append._Document(snapshot[path])
+        start, end = doc.spans[field]
+        return {**snapshot, path: (doc.text[:start] + append._ordered(value).decode() + doc.text[end:]).encode()}
+
+    def bad_complete(candidate, label):
+        reject(lambda: append._validate_split_receipt(before, pending, candidate, inventory), label)
+
+    for path in complete:
+        reject(lambda p=path: append._validate_split_receipt(before, pending,
+               {p2: raw for p2, raw in complete.items() if p2 != p}, inventory), "missing snapshot path " + path)
+        bad_complete({**complete, path: complete[path] + b"\n"}, "whole raw whitespace " + path)
+    bad_complete({**complete, "outside.json": b"{}\n"}, "unowned snapshot path")
+    reject(lambda: append._validate_split_receipt(before, complete, complete, inventory), "receipts cannot predate repair")
+    reject(lambda: append._validate_split_receipt(before, pending, pending, inventory), "missing complete ledger")
+    reject(lambda: append._validate_split_receipt(before, before, complete, inventory), "missing UI ingress")
+
+    for locale, path in zip(append.LOCALES, append.UI_PATHS):
+        for key in keys:
+            bad_complete(mutate(complete, path, (key,), "错误文字" if locale == "zh-CN" else "錯誤文字"),
+                         locale + " target value " + key)
+        key = keys[0]
+        row_id = append.receipt_id(key)
+        rows = copy.deepcopy(documents[ledger].value["accepted"][locale])
+        rows.pop(row_id)
+        bad_complete(mutate(complete, ledger, ("accepted", locale), rows), locale + " missing receipt")
+        rows = copy.deepcopy(documents[ledger].value["accepted"][locale])
+        rows["ui:orphan:/orphan"] = rows[row_id]
+        bad_complete(mutate(complete, ledger, ("accepted", locale), rows), locale + " orphan receipt")
+        doc = documents[ledger]
+        start, end = doc.spans[("accepted", locale, row_id)]
+        duplicated = doc.text[:end] + ",\n      " + append._ordered(row_id).decode() + ": " + doc.text[start:end] + doc.text[end:]
+        bad_complete({**complete, ledger: duplicated.encode()}, locale + " duplicate raw receipt member")
+
+    for index, locale in enumerate(append.LOCALES, base_batches):
+        batch = documents[ledger].value["batches"][index]
+        header_path = ("batches", index, append.HEADERS_FIELD, locale)
+        check(batch[append.HEADERS_FIELD][locale]["source_revision"] == source_revision,
+              locale + " preserved original export revision")
+        for field, value in (("source_revision", "0" * 40), ("source_manifest_sha256", "0" * 64),
+                             ("selection_sha256", "0" * 64), ("batch_id", "0" * 64),
+                             ("count", True), ("native_review", "PASS")):
+            bad_complete(mutate(complete, ledger, (*header_path, field), value), locale + " official header " + field)
+        bad_complete(mutate(complete, ledger, ("batches", index, append.HEADERS_FIELD), {}),
+                     locale + " missing official header")
+        bad_complete(mutate(complete, ledger, ("batches", index, "receipt_sha256_by_locale", locale), "0" * 64),
+                     locale + " official receipt digest")
+        bad_complete(mutate(complete, ledger, ("batches", index, "roots"), [*keys[:-1], keys[0]]),
+                     locale + " duplicate batch root")
+        bad_complete(mutate(complete, ledger, ("batches", index, "roots"), [*keys[:-1], "orphan"]),
+                     locale + " orphan batch root")
+    batches = documents[ledger].value["batches"]
+    bad_complete(mutate(complete, ledger, ("batches",), batches[:-1]), "missing official batch")
+    bad_complete(mutate(complete, ledger, ("batches",), [*batches, batches[-1]]), "duplicate official batch")
+    for label, changed in (("missing", leaves[:-1]), ("duplicate", [*leaves, leaves[0]]),
+                           ("changed Korean", [replace(leaves[0], source="변경된 한국어"), *leaves[1:]]),
+                           ("protected", [replace(leaves[0], protected=True), *leaves[1:]])):
+        reject(lambda rows=changed: append._validate_split_receipt(before, pending, complete,
+               {**inventory, "leaves": rows}), label + " current source leaf")
+    binding_errors, binding_cases = _split_receipt_binding_self_test(before, pending, complete, inventory)
+    failures.extend(binding_errors)
+    cases += binding_cases
+
+    # Only fresh immutable object transport is perturbed; no cached success,
+    # forged HEAD or substituted current source inventory is used for a pass.
+    real_git = append._git
+    with mock.patch.object(append, "_git", side_effect=OSError("fresh Git unavailable")):
+        reject(lambda: append._split_receipt_proof(ROOT, inventory), "missing fresh Git proof")
+    def forged_objects(where, *args, **kwargs):
+        raw = real_git(where, *args, **kwargs)
+        return raw + b"forged" if args[:2] == ("cat-file", "--batch") else raw
+    with mock.patch.object(append, "_git", side_effect=forged_objects):
+        reject(lambda: append._split_receipt_proof(ROOT, inventory), "wrong immutable object stream")
+    def wrong_paths(where, *args, **kwargs):
+        return b"M\0outside.json\0" if args and args[0] == "diff" else real_git(where, *args, **kwargs)
+    with mock.patch.object(append, "_git", side_effect=wrong_paths):
+        reject(lambda: append._split_receipt_proof(ROOT, inventory), "wrong changed-path population")
+    with mock.patch.object(append, "SPLIT_INGRESS_COMMIT", source_revision):
+        reject(lambda: append._split_receipt_proof(ROOT, inventory), "wrong ingress commit")
+    with mock.patch.object(append, "SPLIT_REPAIR_COMMIT", source_revision):
+        reject(lambda: append._split_receipt_proof(ROOT, inventory), "wrong repair commit")
+    reject(lambda: append._split_receipt_proof(ROOT, {**inventory, "source_manifest_sha256": "0" * 64}),
+           "wrong current source manifest")
+
+    ingress, repair = append.SPLIT_INGRESS_COMMIT, append.SPLIT_REPAIR_COMMIT
+    def state():
+        return append._SplitReceiptHistory(ROOT, inventory)
+    fresh = state()
+    check(fresh.step("1" * 40, before, before) is None, "unrelated transition is not claimed")
+    fresh.finish()
+    opened = state()
+    opened_change = opened.step(ingress, before, pending)
+    check(opened_change["receipts"] == 0 and opened_change["batches"] == 0,
+          "pending ingress never counted as accepted receipts")
+    reject(opened.finish, "unresolved pending HEAD")
+    reject(lambda: state().step(repair, pending, complete), "orphan repair")
+    reject(lambda: opened.step(ingress, before, pending), "duplicate ingress")
+    reject(lambda: opened.step("2" * 40, pending, complete), "wrong recovery commit")
+    reject(lambda: opened.step("2" * 40, pending, before), "rollback while pending")
+    reject(lambda: opened.step(repair, before, complete), "wrong repair predecessor")
+    reject(lambda: opened.step(repair, pending, {**complete, ledger: complete[ledger] + b"\n"}),
+           "wrong repair raw successor")
+    closed = state()
+    closed.step(ingress, before, pending)
+    check(closed.step(repair, pending, complete) == change, "exact production state recovery")
+    closed.finish()
+    check(closed.step("3" * 40, complete, complete) is None, "ordinary post-repair transition retains normal validation")
+    reject(lambda: closed.step(repair, pending, complete), "duplicate repair")
+    reject(lambda: closed.step(ingress, before, pending), "ingress replay after recovery")
+    check(append._split_receipt_proof(ROOT, inventory)[3] == change, "fresh valid proof after fault controls")
+    check(all(sha((ROOT / path).read_bytes()) == value for path, value in observed.items()),
+          "product source and original350/351 modules unchanged")
+    return failures, cases
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--synthetic-only", action="store_true", help="author development only; not current acceptance")
@@ -1478,7 +1735,14 @@ def main() -> int:
     parser.add_argument("--investment-fee-correction", action="store_true", help="exact384 two-target correction only; no old suites")
     parser.add_argument("--investment-footer", action="store_true", help="current386 rendering/source successor only; no old suites")
     parser.add_argument("--tutorial-copy", action="store_true", help="current390 source-pair, collector and retained-JA boundaries only")
+    parser.add_argument("--split-receipt", action="store_true", help="exact392 split UI/receipt proof and state only; no historical suites")
     args = parser.parse_args()
+    if args.split_receipt:
+        errors, cases = split_receipt_self_test()
+        for error in errors:
+            print("UI_TRANSLATION_APPEND_ERROR " + error)
+        print(f"UI_TRANSLATION_APPEND_SPLIT_RECEIPT_{'FAIL' if errors else 'OK'} cases={cases} historical_cases=0")
+        return int(bool(errors))
     if args.tutorial_copy:
         errors, cases = tutorial_copy_self_test()
         for error in errors:

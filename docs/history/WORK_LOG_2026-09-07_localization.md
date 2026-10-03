@@ -1168,3 +1168,16 @@
 - 실패는 보존한다: wrong expected-head 선행거절은엔진0, 첫CN은제품font경로실패, 보충first는하네스숫자계약실패, 첫6static은3PASS/3FAIL(원시별도파일없음/도구출력), author측정wrapper파일명오기는함수실행전실패다. 서로합쳐제품결함수로세지않는다.
 - 다음 안전한 작업: 중국어 CTA·제목·타이머와 핵심질문24키×2 후보는 읽기전용으로만 선별했다. 아직 새번역착수0. 사용자는 다국어 작업규모와 완성시점을 물었고, 한영출시준비와 일중후속지원 분리를 권고했지만 새출시언어변경은 승인되지않아현범위유지. 일·중·번체 전체 live 잔량/원어민·사람·물리관측이 남아완료날짜확약0.
 - 재발방지 학습: 전역 fallback_font만으로 실제 소비자 font가 연결됐다고 추정하지 않고 get_theme_font의 base경로를 확인한다. 이 사례기록은검증정본추가가아니다. 사용스킬 gangnamdream-dev: 선행선언·파일분리·독립검수·격리검증·원문보존. 범위/증거는일회성. 외부출시·스토어·지출·법률인증0.
+
+## 2026-09-28 (Codex — 취업 준비 중국어 188문구와 반복 검사 비용 축소)
+
+- 최종 마감 context/queue PASS(active77/in_progress74), 판정 원장 self222 PASS(47.334초,stderr빈값). 기존135판정/113보고의정확보존·새보고2개SHA·사양2개원문보관·나머지큐문구보존을별도읽기검사로확인했다. 이는기록마감검사이며제품실행14개에더하지않는다.
+- [374](queue_archive/ORDER-374.md): 간체·번체94키씩, 자소서8/면접10의 질문·힌트·선택과 제목·타이머·반응·시간초과·CTA를 한국어에서 지역별 직접 번역. 비저자188값 전수대조 중 번체2문장의 과거경험 시제만 수정했다. 최종 official check/import188 PASS. UI각1087→1181, 수용40346→40534, batch143→144; JA13112·oldreceipt/batch/metadata·oldUIraw를 보존했다. import CLI는도구출력으로보존하며 별도원시로그파일이있다고쓰지않는다.
+- 실제1280×800 격리화면은 CN/TW각28준비상태·94키·12PNG(총56/188/24) PASS.18문항 전수와 score3/1/0양모드·timeout·CTA를 실제노드값/SC·TCfont/glyph/줄바꿈/경계로 확인했다. 비저자가24PNG를 직접검수, root는긴문항6PNG를대조. 새raw입력0·자연진입0·실시간timeout0, 저장/실사용자34파일 불변. 옛371합성입력4/준비48와372다섯언어는각259개runtime/scenefont불변hash로 영향연결했고 새188화면증거를대신하지않았다.
+- [375](queue_archive/ORDER-375.md): 매번새번역때문에역사잠금모듈을새로쓰던병목을제거. 신규CN/TW UI+receipt만 현재KO/실제Git원문manifest/현재blob/first-parent이력/정확역삭제로수용한다. 기존값·공백·원장·이력rollback·위조는거절. 독립검수의manifest동시위조/현재원문결속·bool/int경계지적을수리했다. 도구개발용self147=합성75+현재72 PASS; routine번역은self자동trigger에서제외했다. 승격: I18N_INFRASTRUCTURE의append사용법1단락. 나머지배치지시는일회성.
+- 표적14명령 전부exit0(새self147,365normal,현재consumer5,중국어기계검사,등록/context/queue/영어/diff/selector목록). Chapter1은 SNAPSHOT_VALID debt8/blocked3·24주gap유지이지완료가아니다. 원형312=240+12+60은author의불변역사fixture1722파일에서111.596초PASS·핀불변으로분리했다. 옛1955/689/full240주·원형312재실행0, 기존liveness Pythonlauncher오탐FAIL미변경·미재실행. 전체감사통과주장0.
+- 새실행source872608f에서전후trackedcensus·helper·사용자저장이동일했다. 최종source `9afe93a4ec7951647dd8e648e84b6494c27df592`는CLAUDE상태만추가해의존성으로연결한다. 기존135판정/113보고와인간rawSHA·OPEN45/공개GO1을보존하고새work_unit GO2건만append. 원어민/인간/물리관측과일중잔여UI는남았으며본편/새package HOLD.
+- 실패이력보존: 선언번호helper문법오류는후속선언에서수정, ledger읽기용KeyError와patch hunk거절은제품변경전실패, 도구변경을overlay전용lane에넣은선택은의도대로범위초과거절(검사실행0). 개발자가수리한음성경계와실제게임결함을혼동하지않는다. 첫실제CN/TW각각PASS, 숨긴재실행없음.
+- 첫마감context는CLAUDE18037B/상한18000B로37B초과FAIL했다(도구출력보존). 원본마감metadata는정확10경로만stash e40065edfd79086fdff483312004b18661ecb67b에보존하고CLAUDE1행의중복표현만축약해PASS. 독립보고v1도private에원형보존한뒤최종clean소스로다시결속했다. 게임·번역·도구·실제화면검사를재실행한것이아니다.
+- 효율화학습은정본I18N한곳에만추가했다: 검사기변경때만self를돌리고 번역변경에는source-bound수용·독립문장검수·바뀐실제화면을집중한다. 사용스킬gangnamdream-dev가선행선언·파일분리·격리검증을정했다. 외부출시/스토어/지출/법률인증0.
+- 다음 안전한 읽기전용후보: ArubaGame의 편의점 응대51·배달정보12·안내/결과39, CN/TW각102키. 사전/기존수용/public121키와중복0을직접대조했으나공식collector확정·새범위선언전이므로미착수다. 일반CARDS원고/미도달fallback/positive-health는제외하고기존`보통`/`완료`값을보존한다. 실제내부/legacy소비자이며공개StoryMode정상도달주장0. 소스SHA058aa08f6963f8a68d98a6eb643ead0e3d4881df834658bc5a44168ffd3bb05e, 선정키SHA2adc950cdbf62137ad654ef9a57a562ccfb80512875f9a8da21a1cd4170849b6. 새수용/엔진/제품변경0.
