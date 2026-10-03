@@ -3206,6 +3206,9 @@ def ja_gift_copy_self_test() -> tuple[list[str], int]:
 
     validate = append._validate_legacy_ja_gift_correction
     inverse = append._legacy_ja_gift_comparison
+    for label, ordered_leaves in (("ID order", leaves), ("reverse ID order", list(reversed(leaves)))):
+        check(validate(before, after, {**inventory, "leaves": ordered_leaves}) == change,
+              "current leaf traversal permutation accepted: " + label)
     for path in append.CURRENT_PATHS:
         reject(lambda p=path: validate(before, {**after, p: after[p] + b"\n"}, inventory), "neighbor raw whitespace " + path)
         reject(lambda p=path: validate({k: raw for k, raw in before.items() if k != p}, after, inventory), "missing snapshot " + path)
@@ -3281,7 +3284,8 @@ def ja_gift_copy_self_test() -> tuple[list[str], int]:
         reject(lambda v=value: validate(before, edit(after, ledger, ("batches",), v), inventory), label)
     for field, value in (("source", "changed KO"), ("protected", True), ("runtime_support", "unverified_consumer")):
         reject(lambda f=field, v=value: validate(before, after, {**inventory, "leaves": [replace(first, **{f: v}), leaves[1]]}), "current leaf " + field)
-    reject(lambda: validate(before, after, {**inventory, "leaves": leaves + [first]}), "duplicate current leaf")
+    reject(lambda: validate(before, after, {**inventory, "leaves": leaves + [first]}), "duplicate current leaf",
+           "legacy JA gift current Korean leaf/protection/support differs")
     start, end = docs[ja].spans[(keys[0],)]
     token = docs[ja].text[start:end]
     escaped = token[:1] + "\\u%04x" % ord(token[1]) + token[2:]

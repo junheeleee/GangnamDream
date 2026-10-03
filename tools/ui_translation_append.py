@@ -1349,9 +1349,10 @@ def _validate_legacy_ja_gift_correction(before: Mapping[str, bytes], after: Mapp
             and sum(map(len, b["accepted"].values())) == 41252, "legacy JA gift first receipt/batch census differs")
     require(all(v["accepted_sha256"] == exchange.digest(v["accepted"]) for v in (a, b)),
             "legacy JA gift accepted checksum mismatch")
-    leaves = [exchange.Leaf("ui", key, "runtime:static_ui", (key,), key, "ui_static_context") for key in LEGACY_GIFT_KEYS]
+    leaves = sorted((exchange.Leaf("ui", key, "runtime:static_ui", (key,), key, "ui_static_context")
+                     for key in LEGACY_GIFT_KEYS), key=lambda leaf: leaf.id)
     ids = {leaf.id for leaf in leaves}
-    selected = [leaf for leaf in inventory["leaves"] if leaf.id in ids]
+    selected = sorted((leaf for leaf in inventory["leaves"] if leaf.id in ids), key=lambda leaf: leaf.id)
     require(len(selected) == 2 and _ordered({leaf.id: vars(leaf) for leaf in selected})
             == _ordered({leaf.id: vars(leaf) for leaf in leaves}), "legacy JA gift current Korean leaf/protection/support differs")
     require(not ids.intersection(a["accepted"]["ja"])
