@@ -7354,6 +7354,106 @@
           "batch_id": "63acfad29ab579c5b730d5a7059de72892a31b8bda44d6af872160728e3ca9fc"
         }
       }
+    },
+    {
+      "order": "ORDER-415",
+      "group": "ui",
+      "roots": [
+        "민준씨, 이거 고르는 데 얼마나 서 있었어요?",
+        "고마워요, 민준씨. 잘 볼게요.",
+        "…이런 거 받으면, 나 뭘 돌려줘야 할지 모르겠어요.",
+        "오빠, 이거 기억하고 있었어?",
+        "고마워. …나 이런 거 많아.",
+        "이런 거 처음 받아봐.",
+        "고마워. 잘 쓸게.",
+        "…뭘 이런 걸 다.",
+        "그래, 고맙다. 돈 아껴 써라.",
+        "고맙다.",
+        "…민준씨, 또 이거네요.",
+        "…또 이거야?",
+        "…또 뭘 사왔냐.",
+        "…또 이거네.",
+        "🎁 선물 — ",
+        "✓ 🎁 선물 · %s"
+      ],
+      "source_leaves": 16,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 16,
+        "zh-TW": 0
+      },
+      "source_review": "Korean-direct gift response10, repeat4 and action-log2 keys, authored separately for Chinese regions. Character distance, post-romance Jiyeon voice, Roman names, placeholders and trailing space preserved. Existing pre-romance honorific conflict is not approved or repaired. Existing translations, gift rules and public demo unchanged; not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "e950a1d26d4d9de58257d624f16d0785ddae1d815bdb37c8ee9e039ccadaf57a"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "a5312df241f0d7db48494400c76953222cdfbfbe",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "2dcad242e99f1a1403d736948872c1b09c353d08d416395c93a189dbc492b108",
+          "selection_sha256": "2aa8c75c025ae742913bd753de3c6892c365f21d5b7f14634a73c761b300fa0e",
+          "count": 16,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "9d8afb6e46cf3effe49bdb99f48e2eb3dcf9b3dfec00cb46fd056d57fcb24ffb"
+        }
+      }
+    },
+    {
+      "order": "ORDER-415",
+      "group": "ui",
+      "roots": [
+        "민준씨, 이거 고르는 데 얼마나 서 있었어요?",
+        "고마워요, 민준씨. 잘 볼게요.",
+        "…이런 거 받으면, 나 뭘 돌려줘야 할지 모르겠어요.",
+        "오빠, 이거 기억하고 있었어?",
+        "고마워. …나 이런 거 많아.",
+        "이런 거 처음 받아봐.",
+        "고마워. 잘 쓸게.",
+        "…뭘 이런 걸 다.",
+        "그래, 고맙다. 돈 아껴 써라.",
+        "고맙다.",
+        "…민준씨, 또 이거네요.",
+        "…또 이거야?",
+        "…또 뭘 사왔냐.",
+        "…또 이거네.",
+        "🎁 선물 — ",
+        "✓ 🎁 선물 · %s"
+      ],
+      "source_leaves": 16,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 16
+      },
+      "source_review": "Korean-direct gift response10, repeat4 and action-log2 keys, authored separately for Chinese regions. Character distance, post-romance Jiyeon voice, Roman names, placeholders and trailing space preserved. Existing pre-romance honorific conflict is not approved or repaired. Existing translations, gift rules and public demo unchanged; not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-TW": "0b76326249afd641f0e83804a750e668c52af9c86ae7ba9201db23d2af222d71"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "a5312df241f0d7db48494400c76953222cdfbfbe",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "2dcad242e99f1a1403d736948872c1b09c353d08d416395c93a189dbc492b108",
+          "selection_sha256": "ce183696aeb4c4d559cec2c106ad589c78b22390cf3bacb39b66fead061d0f3d",
+          "count": 16,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "d8e665d72e312ce1dfa2f91d6da299c47c614283737693b7337cc1806c37b6f9"
+        }
+      }
     }
   ],
   "accepted": {
@@ -116123,6 +116223,70 @@
       "ui:행동력이 없습니다 — 다음 달에:/행동력이 없습니다 — 다음 달에": {
         "source_sha256": "d6a9d7530f91064ea2b86a61ff3b412f116bc4cdcfc79fa3b6c6349ed51ad5f6",
         "target_sha256": "ccf42841c93ab95801c404c24d1f51a9cb649c46b03049f28fee8f7bacc1e71a"
+      },
+      "ui:…또 뭘 사왔냐.:/…또 뭘 사왔냐.": {
+        "source_sha256": "5e30b28aa3bfd6d102c43659c051d0253bcfae05fe76f10d9c70a3ab122b3c39",
+        "target_sha256": "56a02b04e5a2b9fbc8edbb0a3e57e21155442a564638d2517a560b23fc21962d"
+      },
+      "ui:…또 이거네.:/…또 이거네.": {
+        "source_sha256": "7abe1f63f5daa4d8eb73383f92d1d284e2ada86da956bfbefa8914f0d89dd4fc",
+        "target_sha256": "e5938d4ee9763e8e5bcaa6457d3d9b6e4a92264518dd2e47f1c4325b19e13cf5"
+      },
+      "ui:…또 이거야?:/…또 이거야?": {
+        "source_sha256": "b0022c3235794fa8ed378f753fbe0d8d8121b29f671939cadd3a790b788c6d22",
+        "target_sha256": "77ff8456cf1a913c54cadc9506e6ff4bb3f1ddb545128ccac1b934897149e879"
+      },
+      "ui:…뭘 이런 걸 다.:/…뭘 이런 걸 다.": {
+        "source_sha256": "48ff881979098cd7343c64955be82b9a81710edd8105f0d5a9e383af626d6a7c",
+        "target_sha256": "998cfb45d5f0f87c303087822fd419ae65a6d5b837455be32dce0cbe944fd8d5"
+      },
+      "ui:…민준씨, 또 이거네요.:/…민준씨, 또 이거네요.": {
+        "source_sha256": "3a6b63c603e54dcd07fbac846910781286130725b653d948d9a0fc9e2d1ddd95",
+        "target_sha256": "b68d73c5b8876326477ee8707b6dad508d01166fc56ff32d541778c1c6fbd1d8"
+      },
+      "ui:…이런 거 받으면, 나 뭘 돌려줘야 할지 모르겠어요.:/…이런 거 받으면, 나 뭘 돌려줘야 할지 모르겠어요.": {
+        "source_sha256": "bd7b5f7af77e961834fb2e52119640b1108bd82e47f83ee1a63fbafccc7bd08d",
+        "target_sha256": "791dd2caacf05d6dc94a29225a7232c9a1000c226ccadd67eaa7eaae6278b233"
+      },
+      "ui:✓ 🎁 선물 · %s:/✓ 🎁 선물 · %s": {
+        "source_sha256": "cbfe994f0a481e255334db3f9122a59d8132c8025fd1de4ef2c4e813f34b5a12",
+        "target_sha256": "c24d4304d4a1a518c410d0b63444c5d7a8445b751140d773b4e6464e59592875"
+      },
+      "ui:고마워. …나 이런 거 많아.:/고마워. …나 이런 거 많아.": {
+        "source_sha256": "8ad5a98227a32b6d35338ad5d1274f4408296887e8b60242d61f055514ddfde5",
+        "target_sha256": "37d5fcb4f89eb2741771aff98c83f10d2a4a3dc1f2da560369056749532358f2"
+      },
+      "ui:고마워. 잘 쓸게.:/고마워. 잘 쓸게.": {
+        "source_sha256": "4a5cb49c295c4fa64ce4b458f3cf9cf48f7d7a0ab1d3e55cee4ca8e747582dce",
+        "target_sha256": "b7491b10feb8bc5eb90d1c229034505fb0665fa60e4791e7343a1cb2d720a0e0"
+      },
+      "ui:고마워요, 민준씨. 잘 볼게요.:/고마워요, 민준씨. 잘 볼게요.": {
+        "source_sha256": "48f0daffa2c6438a2d74351b168bdc6451d2f4e811fc413c53124443c27dfe21",
+        "target_sha256": "3d8b79ecdd4f5e72cf169d37db6c8a387e8ba202b050199648743c5f7f6dfa18"
+      },
+      "ui:고맙다.:/고맙다.": {
+        "source_sha256": "7672f35e6a969cff6b2ac872b0fe626ed4a1674e7edfbc4a5689a37241d3164f",
+        "target_sha256": "bd465dd86322a5e1626e3b69bedc84557ff2d008d044dc93b4d255ba7a3c5c3d"
+      },
+      "ui:그래, 고맙다. 돈 아껴 써라.:/그래, 고맙다. 돈 아껴 써라.": {
+        "source_sha256": "13e81ec9d802e7749a3c72dc3d7a4df4305769e36c087393fb019261bd627e9c",
+        "target_sha256": "d013bc449a08263c92c420c24d58600d56e4b35687e51c42391bc9a4eda4fed7"
+      },
+      "ui:민준씨, 이거 고르는 데 얼마나 서 있었어요?:/민준씨, 이거 고르는 데 얼마나 서 있었어요?": {
+        "source_sha256": "4e27d97786f845885facd3f0d132b61289c5b0968ad2cc7fd887b787468538e9",
+        "target_sha256": "de56e04db8e4e52348d1faef91317fbbb3048d2573b24d8c29cd3f4cf5d83bd9"
+      },
+      "ui:오빠, 이거 기억하고 있었어?:/오빠, 이거 기억하고 있었어?": {
+        "source_sha256": "4d65bc05c4038efd5812326023dfff05ff51e7e21b0c55a7bf1f8a5a4520fb6f",
+        "target_sha256": "2b5859934b9b7843e978157a09053c8125417efaa90c9172e207fc694fda8b76"
+      },
+      "ui:이런 거 처음 받아봐.:/이런 거 처음 받아봐.": {
+        "source_sha256": "0c43ce7d1fe7da297c6a1081ecb74b89a5249bc979714748c3a3ba1990db5b98",
+        "target_sha256": "d1d9f08ba8bff0c4ce7223c0a55a37bd2887ff8d6e6aeb676a073b0d2fcad299"
+      },
+      "ui:🎁 선물 — :/🎁 선물 — ": {
+        "source_sha256": "78e3ae80597110f2ec6b95be694d9ff4ae54a6302fbc0569a933d24cac116d12",
+        "target_sha256": "ba7f4185f9f64b2769d2b06440966bd1c300f2f214d1453f9a29594e7a6c3304"
       }
     },
     "zh-TW": {
@@ -172369,10 +172533,74 @@
       "ui:행동력이 없습니다 — 다음 달에:/행동력이 없습니다 — 다음 달에": {
         "source_sha256": "d6a9d7530f91064ea2b86a61ff3b412f116bc4cdcfc79fa3b6c6349ed51ad5f6",
         "target_sha256": "e5821fc02b2946b2c5dcc46df4ab22e41d9a4149315360a55cd81c55e2e82b97"
+      },
+      "ui:…또 뭘 사왔냐.:/…또 뭘 사왔냐.": {
+        "source_sha256": "5e30b28aa3bfd6d102c43659c051d0253bcfae05fe76f10d9c70a3ab122b3c39",
+        "target_sha256": "8699eddf1be6843ba8edbca62bdff225e7e1a187a3c0201f2a3e5045ac0e8207"
+      },
+      "ui:…또 이거네.:/…또 이거네.": {
+        "source_sha256": "7abe1f63f5daa4d8eb73383f92d1d284e2ada86da956bfbefa8914f0d89dd4fc",
+        "target_sha256": "fbc74022d6bf14ea38bb4b4c84c2993a4cfabcc0ef0478120250da83a716b4be"
+      },
+      "ui:…또 이거야?:/…또 이거야?": {
+        "source_sha256": "b0022c3235794fa8ed378f753fbe0d8d8121b29f671939cadd3a790b788c6d22",
+        "target_sha256": "cca33d90875d3e611bce5c136454c74e5758e06f3993c8cd79b795ee6f7fd5fb"
+      },
+      "ui:…뭘 이런 걸 다.:/…뭘 이런 걸 다.": {
+        "source_sha256": "48ff881979098cd7343c64955be82b9a81710edd8105f0d5a9e383af626d6a7c",
+        "target_sha256": "0f14e271005ecf36cc28341fccb9058b2543e84cc14add7f1cec866170babca0"
+      },
+      "ui:…민준씨, 또 이거네요.:/…민준씨, 또 이거네요.": {
+        "source_sha256": "3a6b63c603e54dcd07fbac846910781286130725b653d948d9a0fc9e2d1ddd95",
+        "target_sha256": "c6a666f525dc139f2df3c849cc65f5745a248a9b42f7d9bc892f8862a615c77c"
+      },
+      "ui:…이런 거 받으면, 나 뭘 돌려줘야 할지 모르겠어요.:/…이런 거 받으면, 나 뭘 돌려줘야 할지 모르겠어요.": {
+        "source_sha256": "bd7b5f7af77e961834fb2e52119640b1108bd82e47f83ee1a63fbafccc7bd08d",
+        "target_sha256": "8f7fae2d575a2c755fa599dab0b3e43cf00bdb0de9b7bf1290d95c381a9032fd"
+      },
+      "ui:✓ 🎁 선물 · %s:/✓ 🎁 선물 · %s": {
+        "source_sha256": "cbfe994f0a481e255334db3f9122a59d8132c8025fd1de4ef2c4e813f34b5a12",
+        "target_sha256": "81a0b2b93de1a2ad33216f22d3dd3b83546585ebeb794367fad41dce0e1fb45a"
+      },
+      "ui:고마워. …나 이런 거 많아.:/고마워. …나 이런 거 많아.": {
+        "source_sha256": "8ad5a98227a32b6d35338ad5d1274f4408296887e8b60242d61f055514ddfde5",
+        "target_sha256": "d0ec8b238b7e80542747493d3637c591717d97e76f9bf40692318ffd1165ba0c"
+      },
+      "ui:고마워. 잘 쓸게.:/고마워. 잘 쓸게.": {
+        "source_sha256": "4a5cb49c295c4fa64ce4b458f3cf9cf48f7d7a0ab1d3e55cee4ca8e747582dce",
+        "target_sha256": "504277ca0fd19c98eb9caaf43095e5621ed8be159d230991f3f5e2d6658af75c"
+      },
+      "ui:고마워요, 민준씨. 잘 볼게요.:/고마워요, 민준씨. 잘 볼게요.": {
+        "source_sha256": "48f0daffa2c6438a2d74351b168bdc6451d2f4e811fc413c53124443c27dfe21",
+        "target_sha256": "03d5d72217426845af595e9a97c555bea8293d74fe0dd9bd63be80dd12b2b0ac"
+      },
+      "ui:고맙다.:/고맙다.": {
+        "source_sha256": "7672f35e6a969cff6b2ac872b0fe626ed4a1674e7edfbc4a5689a37241d3164f",
+        "target_sha256": "59acd6e71fd1177e6cfbc718f622cdc873c618358a6d8e231270b7ff6eea1d53"
+      },
+      "ui:그래, 고맙다. 돈 아껴 써라.:/그래, 고맙다. 돈 아껴 써라.": {
+        "source_sha256": "13e81ec9d802e7749a3c72dc3d7a4df4305769e36c087393fb019261bd627e9c",
+        "target_sha256": "df43a1b8f3d6917df6442151fb2c8c05e6d6737d97a04295368cab85789255f1"
+      },
+      "ui:민준씨, 이거 고르는 데 얼마나 서 있었어요?:/민준씨, 이거 고르는 데 얼마나 서 있었어요?": {
+        "source_sha256": "4e27d97786f845885facd3f0d132b61289c5b0968ad2cc7fd887b787468538e9",
+        "target_sha256": "b3b982f3d68f74dc4e8ff29aed7c2f9ab979a36b226b53e6e27fb6d53ac06736"
+      },
+      "ui:오빠, 이거 기억하고 있었어?:/오빠, 이거 기억하고 있었어?": {
+        "source_sha256": "4d65bc05c4038efd5812326023dfff05ff51e7e21b0c55a7bf1f8a5a4520fb6f",
+        "target_sha256": "ce39e02a81fea981e9d10bbbab756a5acaeaba28f8f7e33f743173db6390c9f8"
+      },
+      "ui:이런 거 처음 받아봐.:/이런 거 처음 받아봐.": {
+        "source_sha256": "0c43ce7d1fe7da297c6a1081ecb74b89a5249bc979714748c3a3ba1990db5b98",
+        "target_sha256": "d2b3fdfe4ba28462e178e0122c102962b62c915ab47bb69824613cfc6a84d61b"
+      },
+      "ui:🎁 선물 — :/🎁 선물 — ": {
+        "source_sha256": "78e3ae80597110f2ec6b95be694d9ff4ae54a6302fbc0569a933d24cac116d12",
+        "target_sha256": "819f9f379c7361ed66a22aa9a50106ca585a0e2214c31ca1ea23543cbff27d70"
       }
     }
   },
-  "accepted_sha256": "51f13e6258d70b51622387bf9610314470bd6b4ae27674194065c823b002fdd5",
+  "accepted_sha256": "f320edf8cf94465700e2dc5b00c76f57457e3293f5e0aeb2534ebf7e5961995d",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
