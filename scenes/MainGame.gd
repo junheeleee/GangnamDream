@@ -15193,6 +15193,8 @@ func _open_cat_people():
 	_people_pad_hint_label.custom_minimum_size = Vector2(0, 22)
 	_people_pad_hint_label.add_theme_font_size_override("normal_font_size", 11)
 	_people_pad_hint_label.add_theme_color_override("default_color", Color("#8f98a8"))
+	if _font_regular:
+		_people_pad_hint_label.add_theme_font_override("normal_font", _font_regular)
 	if _font_bold:
 		_people_pad_hint_label.add_theme_font_override("bold_font", _font_bold)
 	modal_body.add_child(_people_pad_hint_label)
@@ -19411,6 +19413,8 @@ func _open_investments():
 	_invest_pad_hint_label.custom_minimum_size = Vector2(0, 24)
 	_invest_pad_hint_label.add_theme_font_size_override("normal_font_size", 11)
 	_invest_pad_hint_label.add_theme_color_override("default_color", Color("#8f98a8"))
+	if _font_regular:
+		_invest_pad_hint_label.add_theme_font_override("normal_font", _font_regular)
 	if _font_bold:
 		_invest_pad_hint_label.add_theme_font_override("bold_font", _font_bold)
 	modal_body.add_child(_invest_pad_hint_label)
