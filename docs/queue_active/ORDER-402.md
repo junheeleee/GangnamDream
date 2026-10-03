@@ -72,3 +72,16 @@
   결속한 별도 분석으로 사용한다. after는 해당4건의 exact text/font/size/width/
   measured/bounds·clip 서명을 대조해 비악화만 검증하고 잔여를 별도기록한다.
   무조건 text_3 면제·전역 text-fit PASS·배지수리 승인은 아니다. 새 text 결함은 실패다.
+
+## 같은 범위의 첫 after 반려·수리
+
+- 44828f3 after-final은 network15카드가64px/최종margin72px로 남아 FAIL이다.
+  트리 진입 전 최초 최소값만으로는 최종 여백을 반영하지 못한다. 기존 실패10PNG·
+  source/helper·사용자파일 증거는 보존한다. 초기 조회에 더해 실제 margin의
+  minimum_size_changed를 국소 연결하여60px 하한과 최종내용 높이를 함께 유지한다.
+- focused58 중 prefix marker 자체를 문자열로도 쓰는 검사1건이 FAIL이었다.
+  exact marker 행만 세도록 고치며 원본 실패를 보존한다. 정상 소비자검사는 제품
+  실패 확인 직후 중단(exit143); 미완료를 통과로 기록하지 않는다.
+- 새 clean 후보에서 먼저 같은 runtime 전량과 새 focused만 재검증하고 통과 뒤
+  normal 소비자13+선택조회1을 실행한다. 현행 JA UI·차선등록 검사도 포함한다.
+  제품 실패를 발견한 채 오래 걸리는 후속 검사를 계속하지 않는다. 일회성.
