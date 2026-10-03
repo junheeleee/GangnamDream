@@ -50,7 +50,7 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-405 · 돈·투자 모달 중국어 안내 16종 | [405](queue_active/ORDER-405.md) | 착수 · CN/TW32값·공식2교환·실제네상태8화면 |
+| 1 | [~] | ORDER-406 · 승진 안내의 숨은 확률 비노출 수리 | [406](queue_active/ORDER-406.md) | 착수 · KO/EN1줄·JA/CN/TW3값·실제5언어화면 |
 | 2 | [~] | ORDER-302 · 체험판 대본 사실·영어 정합 수리 | [302](queue_active/ORDER-302.md) | 수리7항목 source GO · successor package 별도 선언/검수 HOLD |
 | 3 | [ ] | ORDER-352 · 본편 5장 대본 이름·시간·회수 정합 | [352](queue_active/ORDER-352.md) | 5장 HOLD 수리 닫힌 뒤 착수 · 미실행 |
 

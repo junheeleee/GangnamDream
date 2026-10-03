@@ -6475,6 +6475,44 @@
         "path": "docs/agent_reviews/ORDER-404.json",
         "sha256": "af8cef2180e6e8a1a95c2500ff0dce9d59259f0c8415fc906bd0312e175b9cbc"
       }
+    },
+    {
+      "id": "order-405-source-5958417-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-10-04",
+      "decided_by": "/root/independent392",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-405",
+      "subject": {
+        "kind": "source",
+        "commit": "595841756cf061af2f35781407ce8244b0026536",
+        "tree": "c168e5f97dc9f47a226b40c7de354e1ad07b47a8",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-405.json",
+          "sha256": "4a1ae26a79ebd47c8b2374815ef0012dd603663fb2ea3b7d90b9359e78fb76ae"
+        }
+      ],
+      "unobserved": [
+        "Actual human/native-speaker review",
+        "Physical controller or natural Back/cancel",
+        "Natural employment/story ingress or executed side job/trade/forecast",
+        "Other shared consumers, languages and resolutions",
+        "Employed promotion hidden35% display repair; separate scope",
+        "Full-game completion, full240-week play, fun/polish and new package/release approval",
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-405.json",
+        "sha256": "4a1ae26a79ebd47c8b2374815ef0012dd603663fb2ea3b7d90b9359e78fb76ae"
+      }
     }
   ]
 }

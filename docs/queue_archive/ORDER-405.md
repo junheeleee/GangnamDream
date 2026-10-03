@@ -1,3 +1,27 @@
+# ORDER-405 — 완료 · 돈·투자 모달 중국어 안내
+
+- 2026-10-04: source `595841756cf061af2f35781407ce8244b0026536`, tree
+  `c168e5f97dc9f47a226b40c7de354e1ad07b47a8`의 CN/TW16키씩32값.
+  공식2batch, UI1450→1466씩, receipt41087/b171→41119/b173.
+- actual1280×800 네 준비상태×두언어8PNG,32lookup/72binding,
+  22cards82px·modal190/card154 text strict fit; 최장preview343/348px·waiver0.
+  실제9만원 getter/formatter와 직업별4제목·두잠금·투자/무료분석 표시 검증.
+- 최초 CN 月租 정본검사 실패는 房租余裕→月租余裕로 고쳐 CN만 재검사,
+  전수 독립 의미검수 재수행. TW는 원본PASS를 보존해 반복0.
+- 최초 runtime14.817초 FAIL은 helper의 market축빈값 기대오류.
+  실제 소비자는 _action_axis_tag_for_card의 money이며 제품수정0.
+  원본/helper23/실패8PNG를 보존한 새r1에서 money축과무료/AP표시를 따로검증,
+  14.857초 PASS. 새8PNG·helper26·제품source·플레이어34파일 보존.
+- normal11종+audit_select조회1 PASS666.615초, source2,971파일/helper27 불변.
+  query는 실행목록이 아니라 영향목록이며 전체감사/240주/역사self 반복0.
+- 위임 내부 work_unit GO 범위만. 자동검사는 재미·깊이·문체/출시GO가 아니다.
+  공개GO1/인간OPEN45·본편/새packageHOLD 보존.
+  자연진입·Back/입력·실제알바/예측/거래·원어민/인간/물리관측0.
+- 상시규범 추가0; 아래 실행사양은 일회성. 새승진확률비노출 수리는406으로 분리.
+- 상세 독립 원본과 SHA는 [ORDER-405 보고](../agent_reviews/ORDER-405.json)에 결속한다.
+
+## 원래 활성 사양 — 원문 보존
+
 # ORDER-405 — 돈·투자 모달 중국어 안내 16종
 
 #### [~] ORDER-405 [P1·현지화] 돈·투자 모달 중국어 안내 16종
