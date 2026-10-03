@@ -1,3 +1,25 @@
+# ORDER-401 — 인물 모달 잔여 중국어16값 내부 검수 완료
+
+**[x] 완료 — 2026-10-03.** 비저자 /root/independent392의 work_unit GO.
+source d3b1079b0c3d199f1090ce90a998f725ce6d53d2,
+tree6f2cb008ba4436a8953b5fb8771e9a3b889fe35e.
+[독립 보고](../agent_reviews/ORDER-401.json)·agent_review_decisions 소유.
+
+- CN/TW8키씩16값·2공식교환. 각사전1433→1441, 원장41053/b167→41069/b169.
+  사람의 공용 human 의미를 좁히던 CN 人物→人을 수용 전 고친 뒤16값 전수 재검수.
+  기존UI/receipt raw 역삭제 byte-exact. JA/MainGame/FontKit/게임조건/공개demo 불변.
+- 4실제PNG에8키/locale,40bindings/16lookup, AP반례8행·typed복원8건,
+  22모달text+2별도smallSET·24font역할/별도glyph111·사용자34파일불변.
+  smallSET은 실제12px bold700/68×22panel이며 PNG에 합치지 않는다.
+- 첫런11.297초PASS; 정적11+차선조회1 PASS575.374초,tracked2962불변.
+  Chapter1 debt8/blocked3/gap24·year5 reference_only/invalidated 유지.
+- 인물모달 전체/공유모든화면/자연행동도달/입력/원어민/인간/물리 미관측.
+  그림돌출·11px/포커스·이름/AP1·B3/B4·본편/새packageHOLD 보존.
+  기존158판정/136보고·공개GO1·인간OPEN45 불변. 다음402는 별도기하수리다.
+- 상시규범0, 기존I18N/WORK_UNIT 적용. 아래 일회성 원본사양 보존.
+
+## 착수 시점 사양 원문
+
 # ORDER-401 — 인물 모달 중국어 잔여 배지·연락 불가 안내
 
 #### [~] ORDER-401 [P0·현지화] 인물 모달 중국어 잔여 배지·연락 불가 안내

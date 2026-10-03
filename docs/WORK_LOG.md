@@ -2,6 +2,24 @@
 
 이전 원문 전체는 [2026-09-28 이전 기록](history/WORK_LOG_2026-09-28_pre_order351.md)에 바이트 그대로 보존했다.
 
+## 2026-10-03 (Codex — 인물 모달 중국어 배지·연락 불가16값)
+
+- [401](queue_archive/ORDER-401.md): CN/TW8키씩16값을 공식2교환으로 수용.
+  각사전1,433→1,441, 원장41,053/b167→41,069/b169, 기존raw 역삭제일치.
+  공용 사람축을 좁히던 CN 人物→人을 수용 전에 고치고16값 전수 재검수했다.
+- source d3b1079b/tree6f2cb008, 실제1280×800 CN/TW4PNG에8키/locale.
+  40bindings·16lookups·8AP술어·8typed복원, 사용자34파일·tracked2962불변.
+  22모달노드+별도smallSET2의24font역할/별도glyph111 PASS. smallSET은 실제12px,
+  68×22panel/56×18label/글자36×18이며 자연HUD screenshot으로 합치지 않았다.
+- 첫런11.297초PASS, 정적11검사+차선조회1 PASS575.374초. 이전400/393 런 반복0,
+  역사self/전체감사/240주0. Chapter1 debt8/blocked3/gap24·year5 reference_only 유지.
+- [비저자 보고](agent_reviews/ORDER-401.json)의 exact work_unit만 내부GO.
+  source/사전 주입·입력·연락/선물/거래/finalizer0. 기존158판정/136보고·인간원장
+  불변, 공개GO1·인간OPEN45·본편/새packageHOLD. 자연진입/공유타화면/원어민/인간/
+  물리패드·11px/포커스·그림돌출·B3/B4 미관측/별도잔여. 자동PASS는 출시GO가 아니다.
+- gangnamdream-dev의 독립검수·표적실행·과거증거보존 적용. 상시규범0/일회성.
+  다음402는 실제보인 Atlas카드 돌출만 먼저계측후수리한다. 외부출시/스토어/지출/법률0.
+
 ## 2026-10-03 (Codex — 인물 메뉴 중국어 연락·선물·관계 안내64값)
 
 - [400](queue_archive/ORDER-400.md): 한국어 직접 CN/TW32키씩64값을 공식4교환으로
