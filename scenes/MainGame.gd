@@ -15110,7 +15110,7 @@ func _open_cat_work():
 			modal_body.add_child(_wrap_label(
 				_tr("업무 성과  %d / 100  [%s]  (기준: 60+)", "Performance  %d / 100  [%s]  (req: 60+)") % [perf, perf_gate], 12, perf_color))
 			if tenure >= threshold and perf >= 60:
-				modal_body.add_child(_wrap_label(_tr("이번 달 승진 판정 대상!  (35% 확률)", "Up for promotion this month!  (35% chance)"), 13, _info_text_hex("#f0b429", 0.02)))
+				modal_body.add_child(_wrap_label(_tr("이번 달 승진 판정 대상!", "Eligible for a promotion review this month!"), 13, _info_text_hex("#f0b429", 0.02)))
 			elif tenure >= threshold:
 				modal_body.add_child(_wrap_label(_tr("근속 기간 충족. 업무 성과를 60 이상으로 올리세요.", "Tenure met. Raise performance above 60."), 13, _info_text_hex("#f0b429", 0.02)))
 			else:
