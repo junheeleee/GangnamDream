@@ -2,6 +2,28 @@
 
 이전 원문 전체는 [2026-09-28 이전 기록](history/WORK_LOG_2026-09-28_pre_order351.md)에 바이트 그대로 보존했다.
 
+## 2026-10-03 (Codex — 인물 메뉴 중국어 연락·선물·관계 안내64값)
+
+- [400](queue_archive/ORDER-400.md): 한국어 직접 CN/TW32키씩64값을 공식4교환으로
+  수용했다. 사전 각1,401→1,433, 원장40,989/b163→41,053/b167. 원본 importer를
+  호출하고 byte-preserving apply_patch로 수용했으며 기존값/receipt raw 역삭제일치.
+- 고정 f149e67c/tree27196a1c에서 실제MainGame1280×800의 CN/TW4상태씩8PNG.
+  locale별25키 화면·7키 실제getter,182bindings·64lookups·24warmth경계와
+  typed복원18건·사용자34파일불변. 대상88text노드/96font역할·별도glyph966PASS.
+  독립검수자와root가8PNG전량 직접읽음. 전체64값 screenshot주장은 아니다.
+- 첫 mixed2화면은 실제 AP주차memoization 때문에 준비불변검사가 실패했다.
+  실패8PNG/로그를 보존하고 실제APgetter warmup의 두flag만 허용·기록하도록
+  helper만 보강했다. 재관측14.499초, 제품/400고정후tracked·과거393증거 변경0.
+- 현행정적11검사+변경차선조회1 PASS(520.257초), source전후2,960파일불변.
+  Chapter1 debt8/blocked3/gap24·year5 reference_only/invalidated 잔여보존.
+  역사self/전체감사/240주/기존JA화면 재실행0. 자동PASS는 본편GO가 아니다.
+- [독립보고](agent_reviews/ORDER-400.json)의 이 work_unit만 내부GO.
+  기존157판정/135보고/인간원장·공개GO1/인간OPEN45 보존, 본편/새packageHOLD.
+  11px/포커스·network썸네일돌출·영문배지/연락불가사유/동적이름·자연진입/입력·
+  원어민/인간/물리·B3/B4 원고는 별도잔여다. raw입력/선물/거래/콜백0.
+- gangnamdream-dev의 선행선언·저작/검수분리·표적검수 적용. 상시규범0/일회성.
+  다음401은 같은모달에 실제남은8키16값을 선언한다. 외부출시/스토어/지출/법률0.
+
 ## 2026-10-03 (Codex — 투자·인물 안내 지역 글꼴과 투자 중국어 검수 마감)
 
 - 393: 실제 Open Sans/외부fallback을 측정한 뒤 normal_font4줄만 연결했다.

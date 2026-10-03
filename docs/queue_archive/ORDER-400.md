@@ -1,3 +1,24 @@
+# ORDER-400 — 인물 메뉴 중국어64값 내부 검수 완료
+
+**[x] 완료 — 2026-10-03.** 비저자 /root/independent392의 work_unit GO.
+source f149e67c557e6a6d15520609ccdbd7aea8eda28d,
+tree27196a1c85438d0e4b24e968600f0fb07f7489c6.
+[독립 보고](../agent_reviews/ORDER-400.json)·agent_review_decisions 소유.
+
+- CN/TW32키씩64값·4공식교환. 각사전1401→1433, 수용원장40989/b163→41053/b167.
+  기존 사전/원장 raw 역삭제 byte-exact. gameplay/JA/MainGame/FontKit/공개데모 불변.
+- 8실제PNG: locale별25키화면+7키getter,182bindings/64lookup/24경계.
+  18typed복원·88text노드·96font역할/별도glyph966·실사용자34파일불변.
+- 첫 AP memoization 준비누락 실패원본 보존, 실제getter warmup을 기록한 helper-only
+  보강 후14.499초PASS. 코드·사전 주입·실입력·행동호출0, 자연도달 주장은0.
+- 11정적검사+차선조회1 PASS520.257초,tracked2960불변. 역사self/전체/240주 반복0.
+- 원어민/인간/물리패드 미관측. 작은글씨/기존포커스·그림돌출·잔여영문/동적이름·
+  B3/B4 원고·본편/새packageHOLD 보존. 공개GO1·인간OPEN45와 기존157판정/135보고 보존.
+- 상시규범0, 기존I18N/WORK_UNIT 적용. 원본 사양의 모집단·소유·검사 계획은 일회성.
+  아래 착수 시점 사양은 원문 보존본이며 현재 상태를 덮지 않는다.
+
+## 착수 시점 사양 원문
+
 # ORDER-400 — 인물 메뉴 중국어 연락·관계 안내 32키
 
 #### [~] ORDER-400 [P0·현지화] 인물 메뉴 중국어 연락·관계 안내 32키
