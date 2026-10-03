@@ -1,6 +1,34 @@
 # WORK_LOG.md — 강남드림 작업 기록
 
-이전 원문 전체는 [2026-09-28 이전 기록](history/WORK_LOG_2026-09-28_pre_order351.md)에 바이트 그대로 보존했다.
+이전 원문 전체는 [2026-09-28 이전 기록](history/WORK_LOG_2026-09-28_pre_order351.md)에 바이트 그대로 보존했다. 2026-09-28 Codex 후반 항목은 [별도 보관본](history/WORK_LOG_2026-09-28_codex_late.md)에 있다.
+
+## 2026-10-03 (Claude — 2장 수첩·5장 "5년" 적용 대기 초안)
+
+- Codex가 PR #31 들이기를 하는 동안 충돌을 피하려고 콘텐츠·원장을 건드리지 않고 문서 초안만 썼다: [PROSE_DRAFT_CH2_CH5_2026-10-03.md](queue_backlog/PROSE_DRAFT_CH2_CH5_2026-10-03.md).
+- `arc_year_one_mark`는 공책 두 칸 대신 거래내역 출력지 입금 줄 옆에 이름을 적는 일로, `arc_year2_close`는 배경(눈 내린 주택가 골목)과 어긋난 "책상 위 수첩 세 칸"을 가로등 아래 은행 명세표 뒷면으로 바꿨다. CH2 지시서 51·104행의 끝 논설 삭제도 같은 초안에 넣었다.
+- 5장 "5년"은 숫자 대신 고시원·편의점 카운터를 가리키게 했다. 추가로 `hyunsu_year5_call` 첫 줄 "막판이었다. 강남까지 정말 얼마 안 남았다."가 자산 조건 없이 뜨는 사실 결함을 찾아 초안에 넣었다.
+- 적용(KO/EN·JA/zh 공식 경로·원장·등급 지문·검사)은 Codex가 들이기 뒤 한 배치로 한다. 검사는 문서 검사만 돌렸다.
+
+## 2026-10-01 (Claude — Codex 부재 중 직접 수리 3배치)
+
+- 사용자 지시("너 스스로 판단하고 개선해야해")로 지시서 항목을 직접 고쳤다. 배치마다 KO/EN → JA·zh 공식 export/check/import → 영수증 → 심의 지문·보고서 → 검사.
+- **엔딩 사실(`3643da2b`):** `empty_house`는 살아 있지만 화해하지 않은 아버지 런에서도 열린다. 그래서 기본 본문을 생존 기준으로 바꾸고 사망 문장은 `father_passed` 변형으로 옮겼다. 아버지가 살아 있으면 사망 전제 변형을 건너뛴다(MainGame 6줄). 그 밖에 E3~E11·E13(고시원 고정, 액수, 편의점, 6년, 미뤘던 전화, 부부 존대, 하드코딩)을 고쳤다.
+- **4·5장 표기(`65be1dee`):** 청혼 체인의 고정 시점 "5년" 표현, 예식 전 "아내/처가", 연인 확정 뒤 지연의 존대, 연애·공시 기간을 고쳤다. 5장 F1은 판독 오류로 정정했다. 등급 축 sexuality·fear 지문은 연도·호칭만 바뀌어 강도 변화 없이 갱신했다.
+- **엔딩 교훈 삭제(이번):** 10엔딩 52문단의 주제문·교훈 줄을 지웠다("더럽게", "충분한 밤", "30억으로도 못 사는" 등). 번역도 같은 줄만 지웠고 언어별 삭제 줄 수가 일치한다.
+- **검사:** ending_distinctness·en/i18n·english_hangul·speech_register·multilingual·peak·audit·chapter4/5 경로·release_content_inventory·diff-check PASS. 이 환경에 Godot가 없어 컴파일은 CI가 본다. `zh_translation_audit` KeyError·수용원장 `ui:%d년 차`·`story_graph_contract_audit`의 MainGame 원문 승인(ORDER-390)은 수리 전 브랜치에서도, `ci_localization_reconciliation_self_test`·`chapter5_human_reject_audit`는 main에서도 실패한다. Codex가 들일 때 ORDER-390 승인 이력을 이번 MainGame 6줄과 함께 갱신해야 한다.
+- **5장 정점·4장 내부어:** `arc_pre_ending_father_call`의 해설 꼬리 두 곳을 지웠다(대사는 보존). `arc_pre_ending_winter`는 현재형을 과거형으로 바꾸고 교훈 세 줄과 "갚아낸 빚"을 지웠다. `arc_year_three_half`의 계약어와 손상 폴백의 "배타 영수증"은 젖어 번진 메모라는 장면으로 바꿨다. 등급 fear 축 지문을 갱신했다.
+- **5장 판정·예고(배치5):** `arc_daeun_final_choice`의 서술자 판정과 현재형, `arc_late_game_push`·`arc_37_ending_peace`의 선택지 예고와 생사 추상어, `arc_minseo_03_arrival`의 계약어("자기 쪽 기록으로만", "반응을 빌리지 않고"), `arc_minseo_03b_not_arrived`의 교훈 두 줄과 "민준" 하드코딩(F10)을 고쳤다. 원격 민서의 무읽음·무답장 사실은 보존했다.
+- **4장 계약어(배치6):** `arc_y4_borrowed_name` 3변형의 선택 예고·결산문, `arc_y4_bill_night`·`_unattached`의 다은 대사와 계약어, `arc_y4_year_close_daeun`·`_unattached`의 결산문을 19잎×5언어로 고쳤다. 줄어든 `_document_gap`·`bill_night_unattached`가 `narrative_continuity`의 고립 소장면(420자 이하)에 걸려, 해설을 되살리지 않고 손가락·물컵 같은 감각 묘사로 보강해 통과시켰다. 지연 변형 6개는 F12 판정 대기로 건드리지 않았다.
+- **데모 계약 회귀 복구:** 배치1에서 고친 `arc_hyunsu_lifeline_call`("공시 4년 만에")은 `min_turn 9999`라 제품에서 나오지 않는데, 출시 데모가 원문 바이트를 고정한 `arc_events.json` 안에 있어 CI의 데모 현지화 검사 4개(JA_DEMO_INVENTORY·JA_DEMO_AUDIT·DEMO_I18N_SCOPE·_SELF_TEST)를 깼다. 5언어 파일과 영수증 18건을 기준 커밋 `89cb4450`으로 되돌렸다. 앞으로 `arc_events.json`은 건드리지 않는다.
+- **4장 계약어·5장 도덕 판정(배치7):** `arc_y4_three_promises`·`_deal_only`, `arc_36_unexpected_hand` 3변형, `arc_y4_body_witness`·`_hyunsu`, `arc_y4_family_*` 비지연 3장면, `arc_year4_close`의 설계 규칙 문장("없는 연인이나 친구의 이름으로", "누구의 반응도 발명되지 않았다", "이 경로에는 파트너를")과 선택 예고를 32잎×5언어로 걷었다. `arc_daeun_the_test`는 "임상철이 됐다"·"발걸음은 가벼웠다"를 지우고, 다은이 첫 장에서 손을 멈췄다가 "괜찮다고 했잖아요"라며 읽지 않기로 하는 장면과 지하철 유리창에 비친 익숙한 웃음으로 바꿨다(4장 F6). 420자 아래로 준 세 장면은 감각 묘사로 보강했다. 등급 축 alcohol("복용표" 토큰) 지문만 갱신했다.
+- **얇은 엔딩 재작성(배치8):** `full_circle`·`guardian`·`second_love`·`crypto_ghost`·`writer`의 기본 본문을 지시서 권고대로 다시 썼다(변형은 같은 꼬리 문단을 유지, 11잎×5언어). full_circle은 꺼지는 텔레비전과 공장 기름 밴 손, guardian은 지난 삶에서 들지 못한 짐 가방, second_love는 교훈 줄 대신 설탕 뺀 머그잔과 김 서린 유리, crypto_ghost는 새로고침하는 엄지와 식은 국, writer는 경로 고정 사건 목록과 판매 기록 대신 새벽 3시의 첫 문장으로 바꿨다. 작은따옴표 대사는 큰따옴표로 바꿨다. 라우팅·조건·DIK 키는 그대로이고 엔딩 corpus 지문만 갱신했다.
+- **장면 음악 회귀 복구:** 배치7이 `arc_year4_close`의 `arc_y4_midpoint_receipt_seen` 변형을 두 문단으로 줄여, 셋째 문단에 걸린 음악 신호가 사라졌다(CI `SCENE_AUDIO`). 해설을 되살리지 않고 뭉개진 볼펜 자국을 짚는 문단을 넣어 세 문단으로 복구했다(5언어). 앞으로 문단을 지울 때 `scene_audio_contract_check`를 함께 돌린다.
+- **4·5장 사실 결함(배치9):** 4장 F9(결혼 견적 결과문 "3천만원이 넘는 돈", 차감 수치 불변)·F10(`arc_y4_father_crisis_stabilized` "민준"→`{name}`)·F11("새벽 12시"→"자정"), 5장 F3(`arc_father_legacy` 선택1 "소리 내어 말했다")·F4("했어요"→"보세요")·F7(`arc_jiyeon_year5_return` 선택 문구를 결과와 일치, "부산 2년")을 5언어에 반영했다(10잎). 5장 F9(`arc_daeun_later_echo`)는 데모 고정 파일 `arc_events.json` 안이라 건너뛰었다. `arc_father_legacy` 본문·회상 3잎은 이번 변경 전부터 수용원장 source 지문이 어긋나 있어(보류 커밋 계열로 추정) 손대지 않았다. CI 실패 목록은 기존과 같다.
+- **2·3장 사실 결함(배치10):** 3장 F1(재혁 "군대 선임"→"동기")·F2(현수 공시 "4년"→"여섯 해가 넘는 시험", 제목 포함)·F3(다은 연애 기간 "2년이 넘었다"→"몇 계절", 동거 서술은 ROMANCE 대조 필요로 남김)·F4(지연 첫 만남 "상철의 소개"→"빗길의 사고")·F5(상철을 만나는 곳 "같은 카페"→"같은 사무실, 같은 책상"), 2장 F2("편의점 밖에서 보는 다은"→"약속을 잡고 만나는")·F3("남은 4년"→"남은 시간", 밤의 장소를 편의점 휴게 의자로)를 12잎×5언어에 반영했다. 2장 F1(P0, `arc_jaehyuk_aftermath` 선택지의 `[crossed_line 경로]` 같은 경로명 노출)과 F4(`arc_jiyeon_03_offer`)는 데모 고정 파일 `arc_events.json` 안이라 손대지 못했다. 엄격해진 검증기에 맞춰 zh의 "两个不同的世界"(원문에 없는 수량), JA "三年目"(원문 3년째)도 고쳤다. 등급 sexuality·fear·alcohol 축 지문만 갱신했다(강도 불변).
+- **1장(배치11):** F6(`arc_goshiwon_goodbye` 변형의 "30개월"→"고시원의 요령")만 5언어에 반영했다. F1·F3·F4·F7은 데모 고정 파일 `arc_events.json` 안이다. F2(KTX 회상이 `told_dad_okay` 경로의 실제 대사와 다름)는 회상 변형 추가가 노출 상태 계약(`exposed_event_state_contracts`)과 번역 장부 배치 구조를 함께 건드려 Codex 몫으로 남겼다. F5(도달 불가 변형)는 삭제 판정이 필요하다. 등급 sexuality 축 지문만 갱신했다.
+- **사용자 판정 3건("권고 3건 진행해"):** DECISIONS 2026-10-01에 기록했다. `instant_legend`의 개발자 목소리 문장은 5언어에서 지웠다(엔딩 corpus 지문 갱신). 지연 변형 author_only 전환과 `later_echo` 선택 조건은 각각 검사 도구 승격 목록·lifecycle 원장·코드 분기와 데모 고정 파일 계약을 함께 바꿔야 해 Codex 복귀 계획 7k로 넘겼다.
+- **3장 도덕 해설(사용자 "응"):** `arc_y3_cost_of_knowing`의 선택지 나열·"출처가 깨끗해지는 것은 아니었다", `arc_y3_sangchul_deeper_room`의 자기 승인 문장을 지우고, `arc_35_orthodox_weight`·`_unorthodox_weight`를 분류어("정석의 무게")와 격언 없이 적금 자동이체 알림·새벽 3시 7분의 매도 버튼으로 다시 썼다. 하드코딩 "민준/Minjun" 2곳도 `{name}`으로 바꿨다. 9잎×5언어. 비정석 장면에서 "불안"이 빠져 등급 fear·violence 후보에서 빠졌으므로(사실 항목 참조 없음, violence는 원래 검색 잡음) 두 축의 수·목록 지문과 gambling·sexuality 지문을 갱신했다. `arc_jaehyuk_04b_counter`는 데모 고정 파일이라 7k에 넣었다. CI 대조 실패 집합은 기존 29개 그대로다.
+- **남김:** 4장 `_person_deal`은 2026-10-03 사용자 위임으로 판정했다(DECISIONS 2026-10-03: 합치지 않고 다은 경로 DIK·야간 진료 기본 본문·중립 선택문). 구현은 지연 변형·`later_echo`와 함께 Codex 7k다.
 
 ## 2026-10-04 (Codex — 인물 Atlas 카드 이미지 돌출 수리)
 
@@ -200,43 +228,3 @@
 - 최종상태source는CLAUDE현재행만추가한후독립보고386GO/385-runtime-recheckGO에결속했다. 기존148판정/126보고·원385HOLD/실패·인간원장SHA·공개GO1/인간OPEN45는보존하고현재한정판정2개만append한다. 본편/새packageHOLD와기존guide CTA focus약3px잘림은닫지않는다.
 - 다음안전후보는남은은행중국어UI와정상검사중복비용이다. 읽기전용추적상Chapter5가current_source_errors1회+demo JA/CN/TW source_errors3회로큰현재proof를4회열고있다(2082/2201행). 다음별도범위에서호출내fresh_validation_proof공유4→1을검토하며전역cache/검사생략은하지않는다. 성능개선구현·시간측정은아직0이다.
 - 개발스킬의선행선언·파일소유분리·비저자검수·격리/표적검증을따랐다. 이번시간제한학습은원래294.917초인검사에300초를둔경계였고실패1개만단독확인했다. 상시규범승격0·범위/모집단일회성,외부출시/스토어/지출/법률행위0. 자동PASS는계약증거이지재미·문체·사람GO가아니다.
-
-## 2026-09-28 (Codex — 중국어 거래·보유42문구 부분 수용, 하단 안내 수리 대기)
-
-- 공식21키×CN/TW42값을 추가해40,928/b154·UI각1,371. 선언 f05a166/479cb9d → 제품06479bf. 한국어 직접 독립저작·비저자42전수 의미검수·공식check/import·원형역삭제 PASS, 기존번역/receipt·KO/EN/JA·runtime·사용자변경 보존.
-- 정적11검사+조회1 exit0, 병렬 374.114초. 변경없는 self·전체감사·240주는 반복하지 않았다. 현행consumer5와원장·중국어 검증이며 1장debt8/blocked3/gap24 등 기존 한계는 유지한다.
-- 격리 예비12PNG와 실제사전12PNG 모두 footer2결함으로 전체FAIL. 실제42lookup/116binding·글리프/문구폭은 정상이지만 CN/TW 저컨디션+보유정보에서 하단 안내가 y744..766으로clip하단740 밖에 있다. strict수용PNG0≠실제캡처0. 실패와 모든진단이미지를 보존했다.
-- root가위험2PNG, 비저자가예비/실제12장씩을직접대조했다. 실제사전cache주입0, 두관측source/실사용자34파일불변·전체fixture복원·매매/새입력0. 원어민·인간·물리/자연진입 미관측, UI전체/출시완료로 세지 않는다.
-- 새독립 [385 HOLD](agent_reviews/ORDER-385.json)를 source `06479bf6e8ebce8e788df35544c64be2dc330f86`에결속했다. 새1판정/1보고만append(148/126), 이전147/125·인간원장원형·공개GO1/인간OPEN45·본편/새packageHOLD 보존. 해당active사양은닫지않는다.
-- 다음안전한 작업은 하단 안내의 실제배치 수리다. 두보유카드경계까지확인할 별도범위로 선언한다. 은행10키/20값은읽기전용후속후보로만정리했으며 새저작0. 기존guide focus약3px잘림도미수리다. 첫oracle잘못된경로실패는엔진전이며 transcript-note, locale registry전이비교는실행전수리로 구분했다.
-- 개발스킬의선행선언·파일소유분리·독립검수·격리/표적실행을적용했다. 상시규범승격0·범위/계획일회성·외부출시/스토어/지출/법률행위0. 자동PASS는계약증거이지재미·문체·사람GO가아니다.
-
-## 2026-09-28 (Codex — 중국어 투자 안내54문구·수수료 표시 수리)
-
-- 선언383 ecd2864/f9ec207 → 제품2ba6d9b, 실제 fee 잘림 확인 뒤 별도384 d91395c 선언 → 교정5a553f0. 간체27+번체27=54 새문구, 이어 기존 fee2값만 축약. 공식40,886/b152; 새coverage54·교정coverage0. JA·KO/EN·MainGame·project·공개데모 불변.
-- 383의 비용/위험/레버리지54문구를 비저자가 KO에서 전량 검수했다. 번체 첫check의 U+30FB 구분점 실패와 첫6PNG 전체FAIL을 보존. 수수료가 간체499/번체505px로468px를 넘어 매도0.5%를 숨긴 실제 결함을 원문 의미·글자크기 유지해 수리했다.
-- 384 표적결과: static12검사+조회1 PASS; UI_TRANSLATION_APPEND_FEE_CORRECTION_OK cases=46; 실제1280×800 중립focus6PNG·54lookup/구조binding PASS, 소스 및 실사용자34파일 전후동일. 빈 카드8개는 글자가 없는 컨테이너로 분리했으나 자식문자·glyph/font·경계 검사는 유지했다. localtext폭과 변환global경계를 분리했다.
-- 기존383 CN선택CTA 테두리 약3px 잘림은 미수리다. 포커스 해제 준비를 제품수리로 세지 않는다. 자연진입/복귀·거래/정산·새입력·원어민/인간/물리·전체투자UI 미관측. 자산카드/보유/시장/은행·용어본문은 이번 완료가 아니다.
-- 383/384 독립 source-bound work_unit만 GO. 기존145판정/123보고는 byte보존하고2판정/2보고를 append한다. human SHA6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6, 공개GO1·인간OPEN45·본편/새package HOLD 유지. 외부출시/스토어/지출/법률행위0.
-- 다음 안전한 저작 후보는 거래카드·보유 요약/빈상태21키×2언어42값이며 읽기 조사만 했다. 새큐 선언 전 저작0. focus테두리의 국소 수리 후보도 읽기 조사만 진행했다. 승격0: 기존 I18N/위임 규칙 재사용, 이번 범위·도구핀·검사계획은 일회성. gangnamdream-dev의 선행선언·소유분리·표적실행·독립검수를 적용했다.
-
-## 2026-09-28 (Codex — 영어 경력 정보의 잘림 수리)
-
-- 제품 `37a3479`: 재직 상태의 `_label`→`_wrap_label` 한 토큰. 원문·15px·열 폭·입력·직업 수치를 보존했다. 5언어 준비 T3 화면의 실제 줄·높이·후속 영역과 표적 검사·독립 판정은 [382](agent_reviews/ORDER-382.json)가 소유한다.
-- 최종 source `a3373df12763357bc5642affd738494055e550f0`. 기존144판정·122보고 뒤 새1건만 append. 수용40832/b149·인간원장·공개GO1·인간OPEN45 유지, 본편/새package HOLD. 기존381 전체13 FAIL 보존. 새 입력0/과거40edges는 영향 연결이며 원어민·인간·물리·자연복귀 미관측이다.
-- 개발 스킬의 정확 파일 소유·독립 화면 검수·격리 실행을 적용했다. 변경 없는13전체 화면·역사 self·전체감사·240주 반복0. 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다. 상시규범 승격·외부권한 행사0.
-
-## 2026-09-28 (Codex — 취업창 패드 안내의 글꼴·잘림·닫기 수리)
-
-- 제품 `b9b5c3d`: MainGame 3곳(+4/-1)만 수리. 뒤로가기 자연 폭·지역 normal font·bundled ×를 연결했다. 준비 화면과 합성 키 입력의 실제 결과는 [381](agent_reviews/ORDER-381.json), 번역92의 후속 한정 GO는 [379](agent_reviews/ORDER-379-followup381.json)가 소유한다.
-- 최종 source `14e97bfe4076f4e0b0ab669fbb1dcdfb56bfcb59`. 기존379 HOLD/380 GO/실패4회 및142판정·120보고 뒤 새2건만 append. 수용40832/b149·인간원장·사용자 파일 보존, 본편/새package HOLD. 원어민·인간·물리 패드 미관측.
-- 개발 스킬의 파일 소유 분리·독립 검수·격리 실행을 적용했다. self43/영향consumer5 포함11검사+조회1 PASS. 전체13화면은 새 영어 경력란372/288px 때문에 FAIL 보존; 다음382는 원문·15px를 유지하는 줄바꿈 한 토큰 수리(구현 전). 변경 없는 역사 self/전체감사/240주 반복0. 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다. 상시규범 승격·외부권한 행사0.
-
-## 2026-09-28 (Codex — 배달 일본어·취업 중국어와 잘림 수리)
-
-- 379: JA 배달12·CN/TW 취업80값을 공식 수용했다. 전체92 독립 문장 검수/lookup 확인, 화면은 HOLD. 380은 상태2값만 짧게 교정해 CN/TW T2/T4에서 292px→217.0px/288px로 잘림을 해소했다. 40832/b149이며 교정2는 새 번역으로 세지 않는다.
-- 표적검사379의12+조회1, 교정 뒤380의12+조회1 PASS. 380 신규 self·현행consumer5만 재검증하고 무관한 역사 self/전체감사/240주는 반복0. 10실화면 준비 관측에서 패드 뒤로가기50px/1px·RichText normal font 누락이 두 지역에 남았다. 기존 닫기 glyph 부채8, 첫 세 실패와 교정 뒤 전체FAIL 원본을 보존한다.
-- [379 HOLD](agent_reviews/ORDER-379.json) / [380 GO](agent_reviews/ORDER-380.json), 최종 source `ffc564fcaee1d28826f19819f51f996dc7241a80`. 기존140판정/118보고 뒤 각2개 append. 공개GO1·인간OPEN45·stash·사용자변경 보존. 본편/새package HOLD, 새입력/채용/정산/원어민/인간/물리 관측 및 외부출시·지출0.
-- 개발 스킬의 파일 소유 분리·독립 검수·격리/표적 검증을 적용했다. 승격: I18N 수용 절의 별도교정·비중복집계와 동결 전 실제폭 확인. 나머지 일회성. 다음은 패드 안내/닫기 glyph 런타임 수리 별도 선언. 자동 게이트는 도달 가능성과 계약 충족의 증거이지 재미·깊이·문체의 증거가 아니다.
-
-배달 제목·편의점·배달 중국어의 이전 상세 기록은 [현지화 보존본](history/WORK_LOG_2026-09-07_localization.md)에 원문 그대로 보존했다.

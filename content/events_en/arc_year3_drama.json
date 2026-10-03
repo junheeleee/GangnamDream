@@ -21,7 +21,7 @@
   {
     "id": "arc_jiyeon_year3",
     "title": "Three Years Later",
-    "description": "Han Jiyeon's name appeared in a KakaoTalk alert. {name} would have had to scroll a long way to find where their last conversation ended. The new message was brief and polite.\n\n\"It's been a while. How have you been since then?\"\n\nSangchul's introduction. The first short trades. A day when two different worlds had briefly touched. Two years had passed. \"Life got busy\" did not quite explain how neatly the silence had accumulated.\n\n{name} opened the reply field. Before the typing indicator vanished, he had to decide how much truth to send.",
+    "description": "Han Jiyeon's name appeared in a KakaoTalk alert. {name} would have had to scroll a long way to find where their last conversation ended. The new message was brief and polite.\n\n\"It's been a while. How have you been since then?\"\n\nThe accident on the rain-slick road. The first short trades. A day when two different worlds had briefly touched. Two years had passed. \"Life got busy\" did not quite explain how neatly the silence had accumulated.\n\n{name} opened the reply field. Before the typing indicator vanished, he had to decide how much truth to send.",
     "choices": [
       {
         "text": "\"I'm doing okay. Nice to hear from you.\" — straightforward",
@@ -36,14 +36,14 @@
   {
     "id": "arc_father_legacy",
     "title": "An Empty Chair",
-    "description": "Forty-eight weeks had passed since Father died. The calendar marked the same place with one small dot.\n\nThere was no memorial table. In whatever room {name} now called home in Seoul, he stood Father's photograph beside the folded medicine packet. The room had changed; the work clothes and braced shoulders in the photograph had not.\n\nHe knew the distance to three billion won without opening a calculator. Today the harder figure was how he would explain that distance to Father.\n\n\"Did you have to suffer this much?\" Father might have asked. Or perhaps, \"What did you get for it?\"\n\n{name} placed an empty chair across from the photograph and sat for a long time.",
+    "description": "More than eight months had passed since Father died. The calendar marked the same place with one small dot.\n\nThere was no memorial table. In whatever room {name} now called home in Seoul, he stood Father's photograph beside the folded medicine packet. The room had changed; the work clothes and braced shoulders in the photograph had not.\n\nHe knew the distance to three billion won without opening a calculator. Today the harder figure was how he would explain that distance to Father.\n\n\"Did you have to suffer this much?\" Father might have asked. Or perhaps, \"What did you get for it?\"\n\n{name} placed an empty chair across from the photograph and sat for a long time.",
     "description_memory_if_known": {
-      "chapter5_general_debt_memory_reconnect_0": "Four weeks earlier, {name} put the final repayment-confirmation date from Year One and the answer he had actually given Minseo into the same thirty-one-second voice memo. He sent it to no one. Its timestamp now met the date on the medicine packet beside Father's photograph.",
+      "chapter5_general_debt_memory_reconnect_0": "Four weeks earlier, {name} put the final repayment-confirmation date and the answer he had actually given Minseo into the same thirty-one-second voice memo. He sent it to no one. Its timestamp now met the date on the medicine packet beside Father's photograph.",
       "chapter5_general_debt_memory_reconnect_1": "Four weeks earlier, {name} carried the final repayment-confirmation copy and a separate note bearing his own answer to that cafe and sat alone. Minseo did not come, and no new message appeared. The empty place across from him then met the empty chair before Father's photograph now."
     },
     "choices": [
       {
-        "text": "\"I'll get there, Father.\" — said it inwardly",
+        "text": "\"I'll get there, Father.\" — said it out loud",
         "result_text": "The words came out.\n\nNo one heard. Father isn't here. Did it anyway. That's what's possible right now."
       },
       {
@@ -105,11 +105,11 @@
   {
     "id": "arc_y3_cost_of_knowing",
     "title": "The Cost of Knowing",
-    "description": "Four days after the last time {name} sat across from Im Sangchul, a real-estate consultant from one of Sangchul's gatherings sent a proposal. The review deadline was six that evening.\n\nSangchul's name appeared nowhere in the attachment. {name} still remembered the table where the number had first changed hands. The return looked good, and declining would close this contact for good.\n\nBefore touching the e-signature field, {name} wrote the contact's source in the notebook. This was the first deal after knowing the truth. Use the network, cut it loose, or use it once and close it — today's action would make the answer real.",
+    "description": "Four days after the last time {name} sat across from Im Sangchul, a real-estate consultant from one of Sangchul's gatherings sent a proposal. The review deadline was six that evening.\n\nSangchul's name appeared nowhere in the attachment. {name} still remembered the table where the number had first changed hands. The return looked good, and declining would close this contact for good.\n\nBefore touching the e-signature field, {name} wrote the contact's source in the notebook. This was the first deal after knowing the truth. The pen tip hovered a long while beside the clock, which read 5:12.",
     "choices": [
       {
         "text": "Use it. This is my network now. His crimes don't transfer to me.",
-        "result_text": "{name} closed the notebook that named the source and sent the e-signature. The deal closed and the return arrived.\n\nSangchul's name was absent beside the consultant's. {name} still knew which table had started the contact. Writing down the source did not clean it."
+        "result_text": "{name} closed the notebook that named the source and sent the e-signature. The deal closed and the return arrived.\n\nSangchul's name was absent beside the consultant's. {name} still knew which table had started the contact. At the bottom of the notebook, the source he had written that day was still there."
       },
       {
         "text": "Not doing this deal. If it came from there, it all gets cut.",
@@ -226,8 +226,8 @@
         "result_text": "\"See you in Gangnam. I'm on my way there too.\"\n\nAfter the read receipt, Jiyeon's answer arrived. \"Then I'll see you in Gangnam, oppa. For sure.\" The formality disappeared for the first time. The sentence was short, and therefore unmistakable.\n\n{name} saved the office address on his map. Neither had fully arrived, but this time they were moving toward the same promise. The familiar map of Seoul looked, for a moment, like another city."
       },
       {
-        "text": "\"That decision has to be yours. Not because of me.\"",
-        "result_text": "\"The decision has to be for you. It cannot be because of me.\"\n\nJiyeon answered after a pause. \"I know. It is for me. I'm more certain because I built something in Busan first. But you are one of the reasons, oppa.\"\n\n{name} did not try to correct the sentence. Her year in Busan had proved the difference between including someone in a reason and abandoning herself for him. The key in the photograph still rested beneath her own name."
+        "text": "\"The decision has to be for you. It cannot be because of me.\"",
+        "result_text": "\"The decision has to be for you. It cannot be because of me.\"\n\nJiyeon answered after a pause. \"I know. It is for me. I'm more certain because I built something in Busan first. But you are one of the reasons, oppa.\"\n\n{name} did not try to correct the sentence. Her two years in Busan had proved the difference between including someone in a reason and abandoning herself for him. The key in the photograph still rested beneath her own name."
       }
     ]
   },
@@ -541,7 +541,7 @@
   {
     "id": "arc_y5_final_father_answer_alive",
     "title": "What to Leave While Father Is Still Here",
-    "description": "On the night before the final signature, {name} opened Father's contact beside the sent time on the non-transfer notice to Sangchul. Between the guarantor field from five years ago and the paper that had stopped today, only one sentence remained for him to carry across.\n\nThis was no longer a night for sorting records. {name} could send a sentence of responsibility now, save the first question he would not evade on their next call, or close the contact and leave today's name between the two papers.",
+    "description": "On the night before the final signature, {name} opened Father's contact beside the sent time on the non-transfer notice to Sangchul. Between the guarantor field from more than ten years ago and the paper that had stopped today, only one sentence remained for him to carry across.\n\nThis was no longer a night for sorting records. {name} could send a sentence of responsibility now, save the first question he would not evade on their next call, or close the contact and leave today's name between the two papers.",
     "chapter5_finale_reads": {
       "texts": [
         [

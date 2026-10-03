@@ -54,7 +54,7 @@
   {
     "id": "arc_daeun_proposal",
     "title": "The Last Cup",
-    "description": "Five years are almost up.\n\nAn evening cafe. Across the table, Daeun worried at the paper sleeve around her cold coffee. The same figures had sat on {name}'s phone for days: the price of a ring, the cash he had left, the distance still separating him from Gangnam.\n\n\"Minjun, why are you so quiet tonight?\"\n\nInstead of answering, {name} slipped a hand into his pocket, then pulled it back out. His fingertips had caught the corner of a small box. Daeun waited with no idea what was there.",
+    "description": "The five years he had set at thirty-three were already more than half gone.\n\nAn evening cafe. Across the table, Daeun worried at the paper sleeve around her cold coffee. The same figures had sat on {name}'s phone for days: the price of a ring, the cash he had left, the distance still separating him from Gangnam.\n\n\"Minjun, why are you so quiet tonight?\"\n\nInstead of answering, {name} slipped a hand into his pocket, then pulled it back out. His fingertips had caught the corner of a small box. Daeun waited with no idea what was there.",
     "choices": [
       {
         "text": "Turn the phone face down. Ask where she wants to be next year.",
@@ -80,11 +80,11 @@
   {
     "id": "arc_daeun_proposal_answer",
     "title": "The Proposal",
-    "description": "Daeun sat down again. The sounds of the cafe seemed to take one step back from the table.\n\n{name}'s thumb pressed against the corner of the box in his pocket. He had hesitated for days. The price of a ring could have been seed money — and for the first time, doing that math made him ashamed.\n\nAcross from him sat the person who had endured four years in this cramped city beside him. Whether he reached Gangnam or not, she had stayed.\n\nDaeun waited. Not rushing him, simply looking at him.\n\nThis was the moment.",
+    "description": "Daeun sat down again. The sounds of the cafe seemed to take one step back from the table.\n\n{name}'s thumb pressed against the corner of the box in his pocket. He had hesitated for days. The price of a ring could have been seed money — and for the first time, doing that math made him ashamed.\n\nAcross from him sat the person who had endured year after year in this cramped city beside him. Whether he reached Gangnam or not, she had stayed.\n\nDaeun waited. Not rushing him, simply looking at him.\n\nThis was the moment.",
     "choices": [
       {
         "text": "Take out the box. \"I haven't reached Gangnam yet — but I want to make this promise first.\"",
-        "result_text": "The box opened on the table. Daeun's gaze stopped on the ring. She drew one breath and found no words.\n\nHer hand flew to her mouth. Her eyes reddened in an instant.\n\"...Idiot. How many times do I have to tell you? Gangnam doesn't matter.\"\n\"That's why I'm asking. Even without Gangnam, you were enough for me.\"\n\nDaeun nodded hard, over and over.\n\nThe woman who had handed him a rice ball at a convenience store five years ago was now the person he had promised his life to.\nFive years that couldn't be counted in numbers, all fit into one ring on one finger."
+        "result_text": "The box opened on the table. Daeun's gaze stopped on the ring. She drew one breath and found no words.\n\nHer hand flew to her mouth. Her eyes reddened in an instant.\n\"...Idiot. How many times do I have to tell you? Gangnam doesn't matter.\"\n\"That's why I'm asking. Even without Gangnam, you were enough for me.\"\n\nDaeun nodded hard, over and over.\n\nThe woman who had handed him a rice ball at a convenience store at dawn when he was thirty-three was now the person he had promised his life to.\nAll the time that couldn't be counted in numbers, all fit into one ring on one finger."
       },
       {
         "text": "Put the box away. \"Just a little more... when I'm ready.\" (Not yet)",
@@ -92,7 +92,7 @@
       }
     ],
     "description_if_known": {
-      "daeun_first_night": "Daeun sat down again. The sounds of the cafe seemed to take one step back from the table.\n\n{name}'s thumb pressed against the corner of the box in his pocket. He had hesitated for days. The price of a ring could have been seed money — and for the first time, doing that math made him ashamed.\n\nAcross from him sat the person who had endured four years in this cramped city beside him. Whether he reached Gangnam or not, she had stayed.\n\nHe remembered that rainy night: her hand before the light went out, the grey light of morning. Perhaps he had already known then that she was the one.\n\nDaeun waited. Not rushing him, simply looking at him.\n\nThis was the moment.",
+      "daeun_first_night": "Daeun sat down again. The sounds of the cafe seemed to take one step back from the table.\n\n{name}'s thumb pressed against the corner of the box in his pocket. He had hesitated for days. The price of a ring could have been seed money — and for the first time, doing that math made him ashamed.\n\nAcross from him sat the person who had endured year after year in this cramped city beside him. Whether he reached Gangnam or not, she had stayed.\n\nHe remembered that rainy night: her hand before the light went out, the grey light of morning. Perhaps he had already known then that she was the one.\n\nDaeun waited. Not rushing him, simply looking at him.\n\nThis was the moment.",
       "daeun_seen_by_gifts": "Daeun sat down again. The sounds of the cafe seemed to take one step back from the table.\n\n{name}'s thumb pressed against the corner of the box in his pocket. He had hesitated for days. The price of a ring could have been seed money — and for the first time, doing that math made him ashamed.\n\nCanned coffee, socks, a scarf. Things that cost very little, yet Daeun had smiled for so long each time. He had never given her anything expensive. Instead, each time, he had truly seen her.\n\nDaeun waited. Not rushing him, simply looking at him.\n\nThis was the moment."
     }
   }
