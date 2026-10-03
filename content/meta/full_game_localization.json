@@ -6910,6 +6910,104 @@
           "batch_id": "031dd369898b7f95581d194e2a41adcc780bf0740d56eaa90bffda595a0e1585"
         }
       }
+    },
+    {
+      "order": "ORDER-407",
+      "group": "ui",
+      "roots": [
+        "%s — 월급 %s",
+        "── 승진 현황 ──",
+        "최고 직급 달성 — 더 높은 직종으로 이직을 고려하세요.",
+        "근속",
+        "%d / %d개월",
+        "승진 준비됨",
+        "기준 미달",
+        "업무 성과  %d / 100  [%s]  (기준: 60+)",
+        "근속 기간 충족. 업무 성과를 60 이상으로 올리세요.",
+        "%d개월 후 승진 판정 — 그때까지 성과를 쌓아라.",
+        "다음 직급 예시  ",
+        "남는 행동력은 투자·자기계발·관계에 쓰자.",
+        "창업 업무  —  내 사업을 키운다",
+        "콘텐츠 제작  —  채널을 키운다",
+        "이후  경력과 월수입"
+      ],
+      "source_leaves": 15,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 15,
+        "zh-TW": 0
+      },
+      "source_review": "Korean-direct employed career/promotion status and startup/content card copy; performance thresholds, months, pay formatting and shared preview meaning preserved. Existing translations, gameplay and public demo unchanged. Agent review is not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "eef11765797d4a6f41a7693e9c9a4ae68c025d876736b3b149500e01220cfacf"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "be6f508cce5c802a86385804bbb86e29a0e5ad01",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "3f7c86cd9328bfce8d8b69b23a7fb1972a4474f4c660afba6b0b47076d995159",
+          "selection_sha256": "b9cfc1da3ef06d68002ff11757601e88144d6bb4074e3442e28b011113b040ea",
+          "count": 15,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "cf38aecbc93b6f3591534fd34bc1320809a5f482d9ba1a52653f6426f14976c7"
+        }
+      }
+    },
+    {
+      "order": "ORDER-407",
+      "group": "ui",
+      "roots": [
+        "%s — 월급 %s",
+        "── 승진 현황 ──",
+        "최고 직급 달성 — 더 높은 직종으로 이직을 고려하세요.",
+        "근속",
+        "%d / %d개월",
+        "승진 준비됨",
+        "기준 미달",
+        "업무 성과  %d / 100  [%s]  (기준: 60+)",
+        "근속 기간 충족. 업무 성과를 60 이상으로 올리세요.",
+        "%d개월 후 승진 판정 — 그때까지 성과를 쌓아라.",
+        "다음 직급 예시  ",
+        "남는 행동력은 투자·자기계발·관계에 쓰자.",
+        "창업 업무  —  내 사업을 키운다",
+        "콘텐츠 제작  —  채널을 키운다",
+        "이후  경력과 월수입"
+      ],
+      "source_leaves": 15,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 15
+      },
+      "source_review": "Korean-direct employed career/promotion status and startup/content card copy; performance thresholds, months, pay formatting and shared preview meaning preserved. Existing translations, gameplay and public demo unchanged. Agent review is not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-TW": "726cc0e81a030679e6ab5c167fe7d12dc904a084efed1674a98ed5a98c55e1c9"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "be6f508cce5c802a86385804bbb86e29a0e5ad01",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "3f7c86cd9328bfce8d8b69b23a7fb1972a4474f4c660afba6b0b47076d995159",
+          "selection_sha256": "c5c13ae7b66eff3e9d11a950a793270364fddefcc59654afef050da85b073023",
+          "count": 15,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "857aaa6aecde1a1d0c5295d4660a9dacfaf201b09c9ee8350ab6caecb1c0cef6"
+        }
+      }
     }
   ],
   "accepted": {
@@ -115415,6 +115513,66 @@
       "ui:이번 달 승진 판정 대상!:/이번 달 승진 판정 대상!": {
         "source_sha256": "74f01d12ff1dcaef86bb618a9443a640b1b59e79d2a89c0545c87b840ef7438a",
         "target_sha256": "c41b78562a9e5ff45bae69cdf50d18388dc94be1c32a39d9f810bfae77b18218"
+      },
+      "ui:%d / %d개월:/%d ~1 %d개월": {
+        "source_sha256": "c4f69f724f02d2e9f0ef1a0d1e97f94e8a48cd272f209415cebe544b264bb5e9",
+        "target_sha256": "a3b4c7cd357c06b877b26f796837f75d85d7a919caaca5a84a6a8ee9e7f291be"
+      },
+      "ui:%d개월 후 승진 판정 — 그때까지 성과를 쌓아라.:/%d개월 후 승진 판정 — 그때까지 성과를 쌓아라.": {
+        "source_sha256": "22a981cb1d0194a8341329d16fc2bcd868971d93e595403450bef276ccff7809",
+        "target_sha256": "ae3b5c5bb1edf66f05840a94fd35161d7f8c4a5dc2a10bb53a88b12743ac95a5"
+      },
+      "ui:%s — 월급 %s:/%s — 월급 %s": {
+        "source_sha256": "6557c275f1951f25400d88d2ed6de061b297b18e0854d2b74186feeb7247c922",
+        "target_sha256": "d4935b0618bd0fcaf30d1af24d98226b72e87f7aad5fb608f736a34cdc984308"
+      },
+      "ui:── 승진 현황 ──:/── 승진 현황 ──": {
+        "source_sha256": "eacb3d96acae694fbf28c7026ff154c25d89ccd81f5ba3d22e06152d1255d171",
+        "target_sha256": "08830090d2e46da4ec2986f28911c15b6e1b4b9017d49e3c28099cfcab0a01c5"
+      },
+      "ui:근속 기간 충족. 업무 성과를 60 이상으로 올리세요.:/근속 기간 충족. 업무 성과를 60 이상으로 올리세요.": {
+        "source_sha256": "8728329c62909a297a6f27734b56f4e28708c42d23dc960c15395f96d833dab7",
+        "target_sha256": "05918a49eecddb1333ff9d16ca2c058860e47fd25406752062168e524f33db80"
+      },
+      "ui:근속:/근속": {
+        "source_sha256": "7f88997cc3676aaef05ad30d131f8a737f7c4cce1ab5dc3a0c7eadec94460481",
+        "target_sha256": "fdd714efc9052906dc946b9d9f1f35e534b6d1f06049a6a59886a7e40501776b"
+      },
+      "ui:기준 미달:/기준 미달": {
+        "source_sha256": "3cfb4ed937c23e07277629ebe4c925883581d39eb489b4de39c5489e1a77e06a",
+        "target_sha256": "b9884b3236b4595ab434c34f97f9ab33567c8912d72e5d912b88a72c28c828fd"
+      },
+      "ui:남는 행동력은 투자·자기계발·관계에 쓰자.:/남는 행동력은 투자·자기계발·관계에 쓰자.": {
+        "source_sha256": "2c36025015af3557a77b2e6c18ba3872f5631a3f255073dfd6a8c84a2e1d98e3",
+        "target_sha256": "708e436aa96fbef393a4ddd7e2206269b6180cbf3db17eec82aa366160d3cf37"
+      },
+      "ui:다음 직급 예시  :/다음 직급 예시  ": {
+        "source_sha256": "fb083ec7063cf6c9d2126172366d5d7e58723efd3eb1e73c5a0f4c4af54ad2e4",
+        "target_sha256": "a0a1a0748c86ab40654a18425bce1697e894f47dae222991b3ac1bdca3b46234"
+      },
+      "ui:승진 준비됨:/승진 준비됨": {
+        "source_sha256": "17213f29689b7ac00ad01462531c08e2ed9fa9fcdfeedf25e77de0bda6679712",
+        "target_sha256": "62f9bf295b5e7847403d7b7ad00208bbf0eeb76d28ad5c80de11c4850a713131"
+      },
+      "ui:업무 성과  %d / 100  [%s]  (기준: 60+):/업무 성과  %d ~1 100  [%s]  (기준: 60+)": {
+        "source_sha256": "66a2e0575fdce838f5334a784643859c972db97662147044a1277bf339c18f95",
+        "target_sha256": "8315b848e741b437e922c98daa103f3bafcc75139d975ee1ac8b8ba443d26031"
+      },
+      "ui:이후  경력과 월수입:/이후  경력과 월수입": {
+        "source_sha256": "b215dea57f5db77cb320c1faa7f710a4ac8f2d0decf72cc9afb44d2eb9a98be2",
+        "target_sha256": "3633a4c30d8ef327fe6596f2dc074b9db13cff2e29be3235ad8805cb669c9cbb"
+      },
+      "ui:창업 업무  —  내 사업을 키운다:/창업 업무  —  내 사업을 키운다": {
+        "source_sha256": "a843a01a6b5f91132975470774c8068a6148f9c223767d37ea9bc6eac1885f4a",
+        "target_sha256": "0dc5422f5d774ab67c023317bfba56cf3d32a376643540b94805d0a17eb2026c"
+      },
+      "ui:최고 직급 달성 — 더 높은 직종으로 이직을 고려하세요.:/최고 직급 달성 — 더 높은 직종으로 이직을 고려하세요.": {
+        "source_sha256": "b2a14aeb626695daa46d97033dfef37db927224d20dc0cae832b8bcb1ec6f582",
+        "target_sha256": "ca92f20285fb77b759bb6c9c436d6ca3a165435027b8a8118e78e1330d169097"
+      },
+      "ui:콘텐츠 제작  —  채널을 키운다:/콘텐츠 제작  —  채널을 키운다": {
+        "source_sha256": "9d9e69eaa45d6f8d8a629d271dc71ca829de9378f913f21010a400b0cac85c95",
+        "target_sha256": "c14987ffc4a67bea6ad875a433d35bb569cb408174f9a6d8b4a9fc6cfdad7152"
       }
     },
     "zh-TW": {
@@ -171405,10 +171563,70 @@
       "ui:이번 달 승진 판정 대상!:/이번 달 승진 판정 대상!": {
         "source_sha256": "74f01d12ff1dcaef86bb618a9443a640b1b59e79d2a89c0545c87b840ef7438a",
         "target_sha256": "0ba175be14a6eb06e1c07f055d5c0c6b67b033dc7baf1fc8dc330d69719eece7"
+      },
+      "ui:%d / %d개월:/%d ~1 %d개월": {
+        "source_sha256": "c4f69f724f02d2e9f0ef1a0d1e97f94e8a48cd272f209415cebe544b264bb5e9",
+        "target_sha256": "4e2df2cafdec8a8a371e38181d0704b47c0f7a59a414d02f70db3cc7813e668b"
+      },
+      "ui:%d개월 후 승진 판정 — 그때까지 성과를 쌓아라.:/%d개월 후 승진 판정 — 그때까지 성과를 쌓아라.": {
+        "source_sha256": "22a981cb1d0194a8341329d16fc2bcd868971d93e595403450bef276ccff7809",
+        "target_sha256": "eef10540fe705632fbe79456f536e02c1ffa6a694818840f4d76f662c6f2f471"
+      },
+      "ui:%s — 월급 %s:/%s — 월급 %s": {
+        "source_sha256": "6557c275f1951f25400d88d2ed6de061b297b18e0854d2b74186feeb7247c922",
+        "target_sha256": "d4935b0618bd0fcaf30d1af24d98226b72e87f7aad5fb608f736a34cdc984308"
+      },
+      "ui:── 승진 현황 ──:/── 승진 현황 ──": {
+        "source_sha256": "eacb3d96acae694fbf28c7026ff154c25d89ccd81f5ba3d22e06152d1255d171",
+        "target_sha256": "c3ead3177f8d068d727a9c30814a83785e881ea3733807b3e80186962f5d0a03"
+      },
+      "ui:근속 기간 충족. 업무 성과를 60 이상으로 올리세요.:/근속 기간 충족. 업무 성과를 60 이상으로 올리세요.": {
+        "source_sha256": "8728329c62909a297a6f27734b56f4e28708c42d23dc960c15395f96d833dab7",
+        "target_sha256": "25496291b586b626dca3ca6fc14ae4d7374adb604e1403ee491e9e1418dc2105"
+      },
+      "ui:근속:/근속": {
+        "source_sha256": "7f88997cc3676aaef05ad30d131f8a737f7c4cce1ab5dc3a0c7eadec94460481",
+        "target_sha256": "020607f004531de4bdaea83c7058094d5e2e1e139535aa9ff46cc73905efa768"
+      },
+      "ui:기준 미달:/기준 미달": {
+        "source_sha256": "3cfb4ed937c23e07277629ebe4c925883581d39eb489b4de39c5489e1a77e06a",
+        "target_sha256": "6844ff5fbc82026e47f759ff9ab60df21d103a2fc1e819f99bac985989b36904"
+      },
+      "ui:남는 행동력은 투자·자기계발·관계에 쓰자.:/남는 행동력은 투자·자기계발·관계에 쓰자.": {
+        "source_sha256": "2c36025015af3557a77b2e6c18ba3872f5631a3f255073dfd6a8c84a2e1d98e3",
+        "target_sha256": "086ddb3b9e9728b69e67011e2f4a0185debd879a27cd54c49eb92057b3366175"
+      },
+      "ui:다음 직급 예시  :/다음 직급 예시  ": {
+        "source_sha256": "fb083ec7063cf6c9d2126172366d5d7e58723efd3eb1e73c5a0f4c4af54ad2e4",
+        "target_sha256": "104698e38e39f9c26beb40a1578f090ce76b380d882f1a73ee4c8ad9a2671dac"
+      },
+      "ui:승진 준비됨:/승진 준비됨": {
+        "source_sha256": "17213f29689b7ac00ad01462531c08e2ed9fa9fcdfeedf25e77de0bda6679712",
+        "target_sha256": "4e21a31659e59d7df76303fbbf34f29ac93db0556ba5ef6ee3e7b1828e7d2e31"
+      },
+      "ui:업무 성과  %d / 100  [%s]  (기준: 60+):/업무 성과  %d ~1 100  [%s]  (기준: 60+)": {
+        "source_sha256": "66a2e0575fdce838f5334a784643859c972db97662147044a1277bf339c18f95",
+        "target_sha256": "c83791eb70776127ac0c1bc3385f68939fc7085b494b38e302f7bf81b494ea06"
+      },
+      "ui:이후  경력과 월수입:/이후  경력과 월수입": {
+        "source_sha256": "b215dea57f5db77cb320c1faa7f710a4ac8f2d0decf72cc9afb44d2eb9a98be2",
+        "target_sha256": "d10e0ee7889fa8b94c42743d3831fa5f721ccda2ddc8d516a02d7233eb520424"
+      },
+      "ui:창업 업무  —  내 사업을 키운다:/창업 업무  —  내 사업을 키운다": {
+        "source_sha256": "a843a01a6b5f91132975470774c8068a6148f9c223767d37ea9bc6eac1885f4a",
+        "target_sha256": "06aad82a143f3ca8899a2060020aef60f1377a5c8ac91ac7e856f49d960b9ecd"
+      },
+      "ui:최고 직급 달성 — 더 높은 직종으로 이직을 고려하세요.:/최고 직급 달성 — 더 높은 직종으로 이직을 고려하세요.": {
+        "source_sha256": "b2a14aeb626695daa46d97033dfef37db927224d20dc0cae832b8bcb1ec6f582",
+        "target_sha256": "a2d9bd485e4e1b6376dcc3c51a9af547f2d13de57610ca4b4973fdd6b47061c6"
+      },
+      "ui:콘텐츠 제작  —  채널을 키운다:/콘텐츠 제작  —  채널을 키운다": {
+        "source_sha256": "9d9e69eaa45d6f8d8a629d271dc71ca829de9378f913f21010a400b0cac85c95",
+        "target_sha256": "5c88264bc8244c4c73fa64792c9093fe27c96fbf800738923fae588b0effc4d5"
       }
     }
   },
-  "accepted_sha256": "d3b6bca208f7c52f0ce1fd1fa6ff12acf0c8a3b7051698bdebcc9e3539c362c3",
+  "accepted_sha256": "63e0060f5c22856bb968f49fa3d7f722327dac87542b9c87bba1f13509f09c8a",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
