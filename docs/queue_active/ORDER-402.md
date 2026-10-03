@@ -25,6 +25,7 @@
 - /root/receipt_bridge392: tools/main_game_locale_history.py,
   tools/ui_translation_append.py, tools/ui_translation_append_self_test.py,
   tools/audit_scope.json의 이번 exact successor/표적 차선만.
+  private order402-bridge-draft.patch는 이 저자의 단독 소유다.
   source 증거는 Git/raw 역변환으로 기존393을 보존한다. 넓은pin면제 금지.
 - /root/receipt_tests392: private order402-check.gd·.tscn·order402-run.py와
   .git/full-game-localization/order402-* 새 계측자료. 과거400/401/393 helper·증거불변.
@@ -58,3 +59,16 @@
   일회성 범위다. 원어민/인간/물리패드·자연진입/복귀·11px/포커스·다른화면·B3/B4
   미관측/별도잔여. 공개GO1·인간OPEN45·본편/새package HOLD 보존.
   외부출시/스토어/지출/법률0.
+
+## 2026-10-04 before 실측과 잔여 범위
+
+- 51f913c의 10PNG/20semantic 관측: network15카드60px, 최종margin 최소72px,
+  이미지64px. 카드간7px지만 내용간−5px, 이미지가 카드 아래8px 돌출한다.
+  portrait5카드60px/그림custom42×42 보존. 이 실측으로 Atlas 국소높이를 수리한다.
+- before-final 엔진/GD 관측은 완료했으나 runner가 결함카드15만 예상해 실패했다.
+  기존 EN cast 배지까지 세면16이며 EN MONEY2/PEOPLE2의 actual12px 글자44/45px가
+  label42px보다2/3px 넓다. 노드·모달 bounds는 정상이고 PNG에서는 단어가 보인다.
+  이 실패원본을 수정하거나 PASS로 바꾸지 않는다. before 재부팅 없이 원본hash를
+  결속한 별도 분석으로 사용한다. after는 해당4건의 exact text/font/size/width/
+  measured/bounds·clip 서명을 대조해 비악화만 검증하고 잔여를 별도기록한다.
+  무조건 text_3 면제·전역 text-fit PASS·배지수리 승인은 아니다. 새 text 결함은 실패다.
