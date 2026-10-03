@@ -2050,6 +2050,239 @@ def people_card_height_self_test() -> tuple[list[str], int]:
 # END_PEOPLE_CARD_HEIGHT_SELF_TEST_402
 
 
+# BEGIN_AXIS_BADGE_FIT_SELF_TEST_403
+def axis_badge_fit_self_test() -> tuple[list[str], int]:
+    """Current403 axis-only boundary and single-call manifest equivalence; no historical suites."""
+    import main_game_locale_history as history
+    import ja_translation_pipeline as ja
+    import time
+    failures, cases = [], 0
+    def check(ok, label):
+        nonlocal cases
+        cases += 1
+        if not ok:
+            failures.append("axis badge fit: " + label)
+    def reject(action, label, message=None):
+        try:
+            action()
+        except (ValueError, OSError, KeyError, TypeError, IndexError, subprocess.TimeoutExpired) as exc:
+            check(message is None or message in str(exc), label)
+        else:
+            check(False, label)
+    sha = lambda value: hashlib.sha256(value).hexdigest()
+    path = history.MAIN_GAME_PATH
+    protected = (path, "tools/main_game_locale_history.py", "tools/ui_translation_append.py",
+                 "tools/ui_translation_append_self_test.py", "tools/audit_scope.json",
+                 "tools/ja_translation_pipeline.py", "tools/ja_translation_audit.py", *append.CURRENT_PATHS)
+    observed = {p: sha((ROOT / p).read_bytes()) for p in protected}
+    raw = (ROOT / path).read_bytes()
+    prior, pre402, pre393, pre390, pre386, old = history._axis_badge_fit_proof(raw, ROOT)
+    check(tuple(sha(v) for v in (raw, prior, pre402, pre393, pre390, pre386, old)) == (
+        "4c86abe5880d49128a511da36ad361f76c4290c10103d976e1dd33d66294d6bf",
+        "473aab2946d2b76a6263e57fc36facfc24de83629fddf88f3005200a81a15e7d",
+        "ed116a1d4dae6dc0fcac708204c97eaadf988070e501c0bb1df437be6e38170d",
+        "db5d0dc1f8890ea5ae3e0b9d1f212c2a316be50ef3265804dbde9dba0279a8ff",
+        "6432a5ceb5844c1fdc54265547053dc82db8808ea87f442058412f03d24eed90",
+        "eb9efa2243ae97e032ca13e64bae3f42558fe9618babe97c5bc3d21a05e23cea",
+        "3f42b49c99c94310436661e44c3029d0335b0998d467a7582c8d3524acf55532"),
+        "independent current/pre403/pre402/pre393/pre390/pre386/pre381 raw pins")
+    check(history.axis_badge_fit_predecessor(raw, ROOT) == prior
+          and history.people_card_height_predecessor(raw, ROOT) == pre402
+          and history.pad_hint_font_predecessor(raw, ROOT) == pre393
+          and history.tutorial_copy_predecessor(raw, ROOT) == pre390
+          and history.investment_footer_predecessor(raw, ROOT) == pre386
+          and history.modal_font_predecessor(raw, ROOT) == old, "all direct predecessor contracts")
+    reject(lambda: history._people_card_height_proof(raw, ROOT), "original402 still rejects non402 current raw")
+    for code, marker in (("tools/main_game_locale_history.py", b"# BEGIN_AXIS_BADGE_FIT_HISTORY_403"),
+                         ("tools/ui_translation_append.py", b"# BEGIN_AXIS_BADGE_FIT_MANIFEST_403"),
+                         ("tools/ui_translation_append_self_test.py", b"# BEGIN_AXIS_BADGE_FIT_SELF_TEST_403")):
+        current_code = (ROOT / code).read_bytes()
+        original = append._git(ROOT, "show", history.AXIS_BADGE_BEFORE_COMMIT + ":" + code)
+        if code.endswith("_self_test.py"):
+            original = original.split(b"\ndef main() -> int:\n")[0].rstrip(b"\n") + b"\n"
+        check(current_code.splitlines().count(marker) == 1 and current_code.split(marker)[0].rstrip(b"\n") + b"\n" == original,
+              "complete older code/pins preserved: " + code)
+    check(history._axis_badge_fit_inverse(raw, prior) == prior, "pure local inverse")
+    intermediate = append._git(ROOT, "show", history.PEOPLE_CARD_AFTER_COMMIT + ":" + path)
+    check(sha(intermediate) == "b8a03419633a837b5493ddc22569c6f256ac91e602551eb5327cf0e71dabb881",
+          "failed402 checkpoint kept as failure")
+    before, after = (part.encode() for part in history.AXIS_BADGE_REPLACEMENT)
+    for label, mutant in (("rollback", prior), ("partial", raw.replace(after, after[:len(after)//2], 1)),
+                          ("duplicate", raw + after), ("moved", raw.replace(after, before, 1) + after),
+                          ("whitespace", raw + b"\n"), ("failed402", intermediate)):
+        reject(lambda value=mutant: history._axis_badge_fit_inverse(value, prior), "pure " + label)
+    for label, original, changed in (
+            ("axis clip", b"axis_lbl.clip_text = false", b"axis_lbl.clip_text = true"),
+            ("shared label clip", b"\tlabel.clip_text = true", b"\tlabel.clip_text = false"),
+            ("badge width", b"axis_badge.custom_minimum_size = Vector2(58, 30)", b"axis_badge.custom_minimum_size = Vector2(59, 30)"),
+            ("people lifecycle", b"\t\t\t\tchild.minimum_size_changed.connect(fit_height)\n", b""),
+            ("gameplay neighbor", b'\tvar max_promotions := int(GameState.current_job.get("max_promotions", 3))',
+             b'\tvar max_promotions := int(GameState.current_job.get("max_promotions", 4))')):
+        check(raw.count(original) == 1, "control target exact1 " + label)
+        reject(lambda a=original, b=changed: history._axis_badge_fit_inverse(raw.replace(a, b, 1), prior),
+               "pure unowned " + label)
+    for name, previous in (("main_game_history", history._MODAL_OLD_PUBLIC), ("gift_caption", history._MODAL_OLD_GIFT)):
+        source, project, digest = (getattr(history, name + suffix) for suffix in
+                                  ("_source_errors", "_project_bytes", "_project_byte_hash"))
+        expected = previous[1](old, path)
+        check(not source(path, raw) and project(raw, path) == expected
+              and digest(sha(raw), path, raw) == sha(expected), name + " three actual current entrances")
+        check(digest("0" * 64, path, raw) == "0" * 64, name + " rejects forged observed claim")
+        for label, mutant in (("rollback", prior), ("failed checkpoint", intermediate), ("whitespace", raw + b"\n")):
+            check(bool(source(path, mutant)) and project(mutant, path) == mutant
+                  and digest(sha(mutant), path, mutant) == sha(mutant), name + " rejects " + label)
+    for value in (b"", None):
+        reject(lambda value=value: history.axis_badge_fit_predecessor(value, ROOT), "invalid raw type/empty")
+    real_git = history._modal_git
+    for label, target, replacement in (
+            ("missing object", ("cat-file", "--batch"), lambda value: b"missing\n"),
+            ("forged object", ("cat-file", "--batch"), lambda value: value.replace(b"tree ", b"Tree ", 1)),
+            ("trailing proof", ("cat-file", "--batch"), lambda value: value + b"extra"),
+            ("path population", ("diff", "--name-status"), lambda value: value + b"M\0neighbor.gd\0"),
+            ("HEAD rollback", ("rev-parse",), lambda value: history.AXIS_BADGE_BLOBS[0].encode() + b"\n")):
+        def altered(where, *args, **kwargs):
+            value = real_git(where, *args, **kwargs)
+            return replacement(value) if args[:len(target)] == target else value
+        with mock.patch.object(history, "_modal_git", side_effect=altered):
+            reject(lambda: history.axis_badge_fit_predecessor(raw, ROOT), label)
+    for name in ("AXIS_BADGE_TREES",):
+        with mock.patch.object(history, name, tuple(reversed(getattr(history, name)))):
+            reject(lambda: history.axis_badge_fit_predecessor(raw, ROOT),
+                   "valid objects wrong tree binding " + name, "immutable tree differs")
+    # Re-sign the malformed parent object so its SHA check cannot mask the
+    # direct-parent assertion. All other immutable objects remain actual.
+    after_commit = history.AXIS_BADGE_AFTER_COMMIT
+    original = real_git(ROOT, "cat-file", "commit", after_commit)
+    parent = b"parent " + history.AXIS_BADGE_BEFORE_COMMIT.encode()
+    check(original.count(parent + b"\n") == 1, "actual product direct parent exact1")
+    forged = original.replace(parent, b"parent " + history.PEOPLE_CARD_REPAIR_BEFORE_COMMIT.encode(), 1)
+    forged_oid = hashlib.sha1(b"commit " + str(len(forged)).encode() + b"\0" + forged).hexdigest()
+    old_block = after_commit.encode() + b" commit " + str(len(original)).encode() + b"\n" + original + b"\n"
+    new_block = forged_oid.encode() + b" commit " + str(len(forged)).encode() + b"\n" + forged + b"\n"
+    def resigned_parent(where, *args, **kwargs):
+        if args[:2] != ("cat-file", "--batch"):
+            return real_git(where, *args, **kwargs)
+        incoming = kwargs["input"].replace(forged_oid.encode(), after_commit.encode())
+        data = real_git(where, *args, **{**kwargs, "input": incoming})
+        if data.count(old_block) != 1:
+            raise ValueError("parent-control immutable population differs")
+        return data.replace(old_block, new_block, 1)
+    with mock.patch.object(history, "AXIS_BADGE_AFTER_COMMIT", forged_oid), \
+            mock.patch.object(history, "_modal_git", side_effect=resigned_parent):
+        reject(lambda: history.axis_badge_fit_predecessor(raw, ROOT),
+               "re-signed wrong direct parent", "direct parent differs")
+    with mock.patch.object(history, "_modal_git", side_effect=OSError("lost after success")):
+        check(bool(history.main_game_history_source_errors(path, raw))
+              and history.gift_caption_project_bytes(raw, path) == raw, "lost proof fails closed")
+        check(history.main_game_history_project_bytes(b"outside", "unowned.gd") == b"outside", "off-path dispatch preserved")
+    check(history.modal_font_predecessor(raw, ROOT) == old, "fresh proof restores without success cache")
+
+    actual, actual_errors = ja.parse_ui_calls(path, raw.decode())
+    before_calls, before_errors = ja.parse_ui_calls(path, prior.decode())
+    ordered = lambda calls: sorted(calls, key=lambda c: (c.path, c.line, c.api))
+    semantics = lambda calls: [(c.path, c.function, c.api, c.korean, c.english, c.context_id) for c in ordered(calls)]
+    check(not actual_errors and not before_errors and semantics(actual) == semantics(before_calls),
+          "all Korean/English keys, functions, identities and order unchanged")
+    shifts = [a.line - b.line for a, b in zip(ordered(actual), ordered(before_calls))]
+    expected_shift = after.count(b"\n") - before.count(b"\n")
+    check(set(shifts) <= {0, expected_shift} and (expected_shift == 0 or expected_shift in shifts),
+          "actual local hunk line shifts only")
+    inventory = ja.collect_ui_inventory()
+    check(not inventory.errors and tuple(c for c in inventory.calls if c.path == path) == tuple(ordered(actual))
+          and "migrated_context_ids" in inventory.stats, "actual collector and migrated contexts intact")
+    baseline = ja._MODAL_LOCATION_OLD_COLLECT()
+    check(ja.modal_rebind_inventory(baseline, raw) == inventory,
+          "whole collector identity/blueprint/context/stats roundtrip")
+
+    hashes = {path: sha(raw), append.ARUBA_FONT_PATH: sha((ROOT / append.ARUBA_FONT_PATH).read_bytes()),
+              "unchanged.json": "1" * 64}
+    source = {"source_hashes": hashes, "source_manifest_sha256": append.exchange.digest(hashes)}
+    preserved = copy.deepcopy(source)
+    views = [hashes, *({**hashes, path: sha(value)} for value in (prior, pre402, pre393, pre390, pre386, old)),
+             {**hashes, path: sha(old), append.ARUBA_FONT_PATH: append.ARUBA_FONT_BEFORE_SHA256}]
+    check(len(views) == len({append.exchange.digest(v) for v in views}) == 8,
+          "independent exact eight manifest combinations")
+    real_proof = history._axis_badge_fit_proof
+    new_seconds = legacy_seconds = 0.0
+    legacy_calls = 0
+    for index, view in enumerate(views):
+        expected = append.exchange.digest(view)
+        begin = time.monotonic()
+        with mock.patch.object(history, "_axis_badge_fit_proof", wraps=real_proof) as proof:
+            check(append._source_manifest_matches(ROOT, source, expected), "manifest stage " + str(index))
+            check(proof.call_count == 1, "one fresh proof per comparison " + str(index))
+        if index != 1:
+            new_seconds += time.monotonic() - begin
+            begin = time.monotonic()
+            with mock.patch.object(history, "_axis_badge_fit_proof", wraps=real_proof) as proof:
+                check(append._AXIS_BADGE_OLD_MANIFEST_MATCHES(ROOT, source, expected),
+                      "unchanged old wrapper accepts existing combination " + str(index))
+                legacy_calls += proof.call_count
+            legacy_seconds += time.monotonic() - begin
+    check(not append._AXIS_BADGE_OLD_MANIFEST_MATCHES(ROOT, source, append.exchange.digest(views[1])),
+          "pre403 is the only added combination")
+    print(f"UI_TRANSLATION_APPEND_AXIS_BADGE_MANIFEST_COST comparisons=7 fresh_proof_calls=7 "
+          f"legacy_proof_calls={legacy_calls} fresh_seconds={new_seconds:.6f} legacy_seconds={legacy_seconds:.6f}")
+    invalid = {"unknown": "0" * 64,
+               "failed402": append.exchange.digest({**hashes, path: sha(intermediate)})}
+    for index, view in enumerate(views[:-2]):
+        invalid["wrong preAruba pair " + str(index)] = append.exchange.digest(
+            {**view, append.ARUBA_FONT_PATH: append.ARUBA_FONT_BEFORE_SHA256})
+    for label, expected in invalid.items():
+        check(not append._source_manifest_matches(ROOT, source, expected), "reject " + label)
+        if label in {"unknown", "failed402"}:
+            check(not append._AXIS_BADGE_OLD_MANIFEST_MATCHES(ROOT, source, expected),
+                  "unchanged old wrapper also rejects " + label)
+    check(source == preserved, "actual source inventory never rewritten")
+    reject(lambda: append._source_manifest_matches(ROOT, {"source_hashes": views[1],
+           "source_manifest_sha256": append.exchange.digest(views[1])}, append.exchange.digest(views[1])),
+           "historical raw cannot masquerade as actual current source")
+    reject(lambda: append._source_manifest_matches(ROOT, {**source, "source_manifest_sha256": "0" * 64},
+           append.exchange.digest(views[1])), "forged current census")
+    neighbor = {**hashes, "unchanged.json": "0" * 64}
+    check(not append._source_manifest_matches(ROOT, {"source_hashes": neighbor,
+          "source_manifest_sha256": append.exchange.digest(neighbor)}, append.exchange.digest(views[2])),
+          "unowned source difference never exempted")
+    with mock.patch.object(append, "aruba_font_predecessor", wraps=append.aruba_font_predecessor) as font:
+        check(append._source_manifest_matches(ROOT, source, append.exchange.digest(views[0]))
+              and font.call_count == 0, "current-Aruba short circuit preserved after fresh MainGame proof")
+        check(append._source_manifest_matches(ROOT, source, append.exchange.digest(views[-1]))
+              and font.call_count == 1, "preAruba requires separate fresh font proof")
+    with mock.patch.object(append, "aruba_font_predecessor", side_effect=OSError("font proof lost")):
+        reject(lambda: append._source_manifest_matches(ROOT, source, append.exchange.digest(views[-1])),
+               "lost Aruba proof rejects old font combination")
+    # Every call starts again: passing actual current manifest cannot bypass proof,
+    # and a later raw/Git/HEAD fault cannot borrow the previous call's success.
+    real_read = Path.read_bytes
+    def head_fault(where, *args, **kwargs):
+        if args == ("rev-parse", "HEAD:" + path):
+            return history.AXIS_BADGE_BLOBS[0].encode() + b"\n"
+        return real_git(where, *args, **kwargs)
+    def raw_fault(file):
+        data = real_read(file)
+        return data + b"\n" if file == ROOT / path else data
+    faults = (("Git", mock.patch.object(history, "_modal_git", side_effect=OSError("lost after pass"))),
+              ("HEAD", mock.patch.object(history, "_modal_git", side_effect=head_fault)),
+              ("raw", mock.patch.object(Path, "read_bytes", raw_fault)))
+    for label, fault in faults:
+        with mock.patch.object(history, "_axis_badge_fit_proof", wraps=real_proof) as proof:
+            check(append._source_manifest_matches(ROOT, source, append.exchange.digest(views[0]))
+                  and proof.call_count == 1, label + " first call freshly passes")
+            with fault:
+                reject(lambda: append._source_manifest_matches(ROOT, source, append.exchange.digest(views[0])),
+                       label + " next call fails")
+            check(proof.call_count == 2, label + " next call performed fresh proof")
+            check(append._source_manifest_matches(ROOT, source, append.exchange.digest(views[0]))
+                  and proof.call_count == 3, label + " recovery freshly proves again")
+    synthetic = {"source_manifest_sha256": "synthetic"}
+    check(append._source_manifest_matches(ROOT, synthetic, "synthetic")
+          == append._AXIS_BADGE_OLD_MANIFEST_MATCHES(ROOT, synthetic, "synthetic"),
+          "source-hash-free synthetic delegate preserved")
+    check(all(sha((ROOT / p).read_bytes()) == value for p, value in observed.items()), "all observed files unchanged")
+    return failures, cases
+# END_AXIS_BADGE_FIT_SELF_TEST_403
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--synthetic-only", action="store_true", help="author development only; not current acceptance")
@@ -2063,7 +2296,14 @@ def main() -> int:
     parser.add_argument("--split-receipt", action="store_true", help="exact392 split UI/receipt proof and state only; no historical suites")
     parser.add_argument("--pad-hint-font", action="store_true", help="current393 four font lines, source and collector only; no historical suites")
     parser.add_argument("--people-card-height", action="store_true", help="current402 local people-card height and source boundary only; no historical suites")
+    parser.add_argument("--axis-badge-fit", action="store_true", help="current403 axis fit, source and exact manifest equivalence only; no historical suites")
     args = parser.parse_args()
+    if args.axis_badge_fit:
+        errors, cases = axis_badge_fit_self_test()
+        for error in errors:
+            print("UI_TRANSLATION_APPEND_ERROR " + error)
+        print(f"UI_TRANSLATION_APPEND_AXIS_BADGE_FIT_{'FAIL' if errors else 'OK'} cases={cases} historical_cases=0")
+        return int(bool(errors))
     if args.people_card_height:
         errors, cases = people_card_height_self_test()
         for error in errors:
@@ -2140,11 +2380,11 @@ def main() -> int:
         cases += correction_cases
         print(f"UI_TRANSLATION_APPEND_CORRECTION cases={correction_cases}")
         # Earlier source bodies and explicit options remain historical. The
-        # default current source check follows actual402's local height repair.
-        modal_errors, modal_cases = people_card_height_self_test()
+        # default current source check follows actual403's axis-label clip repair.
+        modal_errors, modal_cases = axis_badge_fit_self_test()
         errors.extend(modal_errors)
         cases += modal_cases
-        print(f"UI_TRANSLATION_APPEND_PEOPLE_CARD_HEIGHT cases={modal_cases}")
+        print(f"UI_TRANSLATION_APPEND_AXIS_BADGE_FIT cases={modal_cases}")
         fee_errors, fee_cases = investment_fee_correction_self_test()
         errors.extend(fee_errors)
         cases += fee_cases

@@ -1357,3 +1357,139 @@ def modal_font_predecessor(current, root=None):
     """Keep the public pre381 comparison contract for admitted actual402."""
     return _people_card_height_proof(current, root)[4]
 # END_PEOPLE_CARD_HEIGHT_HISTORY_402
+
+
+# BEGIN_AXIS_BADGE_FIT_HISTORY_403
+# Exact MainGame-only axis-label successor, bound to actual immutable objects.
+# All older functions and pins remain byte-exact, including the failed402 checkpoint.
+AXIS_BADGE_BEFORE_COMMIT = "3ab189eb38cd6fcfe534dbf11ce6ed1b470255e4"
+AXIS_BADGE_AFTER_COMMIT = "652c53e541c025be67efb73d9613a52ff05615d4"
+AXIS_BADGE_TREES = ("871a61f22387327a555e8b05a6deac643f639270", "2d76927bafc7dfdc00c929cdb3c52b017cb0fec3")
+AXIS_BADGE_BLOBS = ("d79d63645ed9b4b5fa9062380fca28942add169a", "011511d838985d811bed8f87cbc94c64967f1fcf")
+AXIS_BADGE_HASHES = ("473aab2946d2b76a6263e57fc36facfc24de83629fddf88f3005200a81a15e7d",
+                     "4c86abe5880d49128a511da36ad361f76c4290c10103d976e1dd33d66294d6bf")
+AXIS_BADGE_REPLACEMENT = (
+    '\t\tvar axis_lbl := _label(_axis_label(axis_tag), 10, _axis_color(axis_tag) if not disabled else "#5a6070")\n\t\taxis_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER\n',
+    '\t\tvar axis_lbl := _label(_axis_label(axis_tag), 10, _axis_color(axis_tag) if not disabled else "#5a6070")\n\t\taxis_lbl.clip_text = false\n\t\taxis_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER\n')
+
+
+def _axis_badge_fit_inverse(current, before):
+    """Pure exact axis-only inverse, independent of all digest checks."""
+    if (not isinstance(current, bytes) or not isinstance(before, bytes)
+            or not isinstance(AXIS_BADGE_REPLACEMENT, tuple) or len(AXIS_BADGE_REPLACEMENT) != 2
+            or any(not isinstance(part, str) for part in AXIS_BADGE_REPLACEMENT)):
+        raise ValueError("ORDER-403: inverse population/type differs")
+    old, new = (part.encode() for part in AXIS_BADGE_REPLACEMENT)
+    if (not old or old == new or before.count(old) != 1 or before.count(new) != 0
+            or current.count(new) != 1):
+        raise ValueError("ORDER-403: local inverse is not exact1")
+    recovered = current.replace(new, old, 1)
+    if recovered != before:
+        raise ValueError("ORDER-403: changes outside exact axis badge fit")
+    return recovered
+
+
+def _axis_badge_fit_proof(current, root=None):
+    """One fresh actual403 proof; pre403 and all five earlier comparisons."""
+    from pathlib import Path
+    root = Path(root) if root is not None else Path(__file__).resolve().parents[1]
+    if not isinstance(current, bytes) or hashlib.sha256(current).hexdigest() != AXIS_BADGE_HASHES[1]:
+        raise ValueError("ORDER-403: unapproved current MainGame raw")
+    stages = (
+        (MODAL_BEFORE_COMMIT, MODAL_AFTER_COMMIT, MODAL_TREES, MODAL_BLOBS, MODAL_HASHES),
+        (JOB_STATUS_BEFORE_COMMIT, JOB_STATUS_AFTER_COMMIT, JOB_STATUS_TREES, JOB_STATUS_BLOBS, JOB_STATUS_HASHES),
+        (INVESTMENT_BEFORE_COMMIT, INVESTMENT_AFTER_COMMIT, INVESTMENT_TREES, INVESTMENT_BLOBS, INVESTMENT_HASHES),
+        (TUTORIAL_BEFORE_COMMIT, TUTORIAL_AFTER_COMMIT, TUTORIAL_TREES, TUTORIAL_BLOBS, TUTORIAL_HASHES),
+        (PAD_HINT_BEFORE_COMMIT, PAD_HINT_AFTER_COMMIT, PAD_HINT_TREES, PAD_HINT_BLOBS, PAD_HINT_HASHES),
+        (PEOPLE_CARD_BEFORE_COMMIT, PEOPLE_CARD_AFTER_COMMIT, PEOPLE_CARD_TREES, PEOPLE_CARD_BLOBS, PEOPLE_CARD_HASHES),
+        (PEOPLE_CARD_REPAIR_BEFORE_COMMIT, PEOPLE_CARD_REPAIR_AFTER_COMMIT, PEOPLE_CARD_REPAIR_TREES,
+         PEOPLE_CARD_REPAIR_BLOBS, PEOPLE_CARD_REPAIR_HASHES),
+        (AXIS_BADGE_BEFORE_COMMIT, AXIS_BADGE_AFTER_COMMIT, AXIS_BADGE_TREES, AXIS_BADGE_BLOBS, AXIS_BADGE_HASHES),
+    )
+    requests = []
+    for before, after, trees, blobs, _hashes in stages:
+        requests.extend((c, c, "commit") for c in (before, after))
+        requests.extend((t, t, "tree") for t in trees)
+        requests.extend((c + ":" + MAIN_GAME_PATH, oid, "blob") for c, oid in zip((before, after), blobs))
+    proof = _modal_git(root, "cat-file", "--batch", input=("\n".join(r[0] for r in requests) + "\n").encode())
+    values, cursor = [], 0
+    for _expression, wanted, kind in requests:
+        end = proof.index(b"\n", cursor)
+        oid, actual_kind, size = proof[cursor:end].decode().split()
+        size = int(size)
+        value = proof[end + 1:end + 1 + size]
+        if (size < 0 or oid != wanted or actual_kind != kind or len(value) != size
+                or hashlib.sha1(kind.encode() + b" " + str(size).encode() + b"\0" + value).hexdigest() != oid
+                or proof[end + 1 + size:end + 2 + size] != b"\n"):
+            raise ValueError("ORDER-403: forged immutable object")
+        values.append(value)
+        cursor = end + 2 + size
+    if cursor != len(proof):
+        raise ValueError("ORDER-403: trailing immutable proof bytes")
+    for stage, (before, after, trees, _blobs, hashes) in enumerate(stages):
+        offset = stage * 6
+        for index in range(2):
+            headers = values[offset + index].split(b"\n\n", 1)[0].splitlines()
+            if [h for h in headers if h.startswith(b"tree ")] != [b"tree " + trees[index].encode()]:
+                raise ValueError("ORDER-403: immutable tree differs")
+            if index and [h for h in headers if h.startswith(b"parent ")] != [b"parent " + before.encode()]:
+                raise ValueError("ORDER-403: direct parent differs")
+        if tuple(hashlib.sha256(v).hexdigest() for v in values[offset + 4:offset + 6]) != hashes:
+            raise ValueError("ORDER-403: immutable whole raw differs")
+        if _modal_git(root, "diff", "--name-status", "-z", before, after) != b"M\0" + MAIN_GAME_PATH.encode() + b"\0":
+            raise ValueError("ORDER-403: product path population differs")
+        if stage:
+            _modal_git(root, "merge-base", "--is-ancestor", stages[stage - 1][1], before)
+            if values[offset + 4] != values[offset - 1]:
+                raise ValueError("ORDER-403: nonconsecutive raw history")
+    _modal_git(root, "merge-base", "--is-ancestor", AXIS_BADGE_AFTER_COMMIT, "HEAD")
+    if _modal_git(root, "rev-parse", "HEAD:" + MAIN_GAME_PATH).decode().strip() != AXIS_BADGE_BLOBS[1]:
+        raise ValueError("ORDER-403: current Git MainGame differs")
+    if values[47] != current:
+        raise ValueError("ORDER-403: current/blob binding differs")
+    pre403 = _axis_badge_fit_inverse(current, values[46])
+    recovered = _people_card_height_inverse(pre403, values[34])
+    intermediate = _people_card_height_step_inverse(pre403, values[40], PEOPLE_CARD_REPAIR_REPLACEMENT)
+    if _people_card_height_step_inverse(intermediate, values[34], PEOPLE_CARD_INITIAL_REPLACEMENT) != recovered:
+        raise ValueError("ORDER-403: stagewise and combined inverses differ")
+    recovered = _pad_hint_font_inverse(recovered, values[28])
+    inverse_stages = (((TUTORIAL_REPLACEMENT,), values[22]),
+                      (INVESTMENT_REPLACEMENTS, values[16]),
+                      ((tuple(v.decode() for v in JOB_STATUS_REPLACEMENT),), values[10]),
+                      (MODAL_REPLACEMENTS, values[4]))
+    if tuple(len(parts) for parts, _ in inverse_stages) != (1, 3, 1, 3):
+        raise ValueError("ORDER-403: prior inverse population differs")
+    for replacements, before in inverse_stages:
+        for old, new in reversed(replacements):
+            old, new = old.encode(), new.encode()
+            if not old or old == new or recovered.count(new) != 1:
+                raise ValueError("ORDER-403: prior inverse is not exact1")
+            recovered = recovered.replace(new, old, 1)
+        if recovered != before:
+            raise ValueError("ORDER-403: changes outside prior exact copy/rendering repairs")
+    return pre403, values[34], values[28], values[22], values[16], recovered
+
+def axis_badge_fit_predecessor(current, root=None):
+    return _axis_badge_fit_proof(current, root)[0]
+
+
+def people_card_height_predecessor(current, root=None):
+    return _axis_badge_fit_proof(current, root)[1]
+
+
+def pad_hint_font_predecessor(current, root=None):
+    return _axis_badge_fit_proof(current, root)[2]
+
+
+def tutorial_copy_predecessor(current, root=None):
+    return _axis_badge_fit_proof(current, root)[3]
+
+
+def investment_footer_predecessor(current, root=None):
+    return _axis_badge_fit_proof(current, root)[4]
+
+
+def modal_font_predecessor(current, root=None):
+    """Preserve the public pre381 comparison contract for actual403."""
+    return _axis_badge_fit_proof(current, root)[5]
+# END_AXIS_BADGE_FIT_HISTORY_403

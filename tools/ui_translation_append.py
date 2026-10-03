@@ -1111,3 +1111,38 @@ def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: st
         return True
     return _PEOPLE_CARD_OLD_MANIFEST_MATCHES(root, inventory, expected)
 # END_PEOPLE_CARD_HEIGHT_MANIFEST_402
+
+
+# BEGIN_AXIS_BADGE_FIT_MANIFEST_403
+# One fresh proof per comparison call; no cross-call or mutable success cache.
+_AXIS_BADGE_OLD_MANIFEST_MATCHES = _source_manifest_matches
+
+
+def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: str) -> bool:
+    if "source_hashes" not in inventory:
+        return _AXIS_BADGE_OLD_MANIFEST_MATCHES(root, inventory, expected)
+    import main_game_locale_history as history
+    raw = (root / history.MAIN_GAME_PATH).read_bytes()
+    predecessors = history._axis_badge_fit_proof(raw, root)
+    require(isinstance(predecessors, tuple) and len(predecessors) == 6,
+            "axis badge exact predecessor population differs")
+    hashes = inventory["source_hashes"]
+    require(exchange.digest(hashes) == inventory["source_manifest_sha256"]
+            and hashes.get(history.MAIN_GAME_PATH) == hashlib.sha256(raw).hexdigest(),
+            "axis badge current source census/raw mismatch")
+    # Exact seven current-Aruba combinations: actual + pre403 + old five.
+    # The failed402 intermediate raw is deliberately absent.
+    for main_raw in (raw, *predecessors):
+        comparison = {**hashes, history.MAIN_GAME_PATH: hashlib.sha256(main_raw).hexdigest()}
+        if expected == exchange.digest(comparison):
+            return True
+    # Preserve the old chain's only eighth combination and its short circuit:
+    # pre381 MainGame with preAruba, proved freshly only after the above misses.
+    font_raw = (root / ARUBA_FONT_PATH).read_bytes()
+    require(hashes.get(ARUBA_FONT_PATH) == hashlib.sha256(font_raw).hexdigest(),
+            "Aruba source census not bound to current raw")
+    previous_font = aruba_font_predecessor(root, font_raw)
+    comparison = {**hashes, history.MAIN_GAME_PATH: hashlib.sha256(predecessors[-1]).hexdigest(),
+                  ARUBA_FONT_PATH: hashlib.sha256(previous_font).hexdigest()}
+    return expected == exchange.digest(comparison)
+# END_AXIS_BADGE_FIT_MANIFEST_403

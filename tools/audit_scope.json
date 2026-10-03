@@ -14,6 +14,40 @@
   ],
   "fast_lanes": [
     {
+      "id": "axis-badge-fit",
+      "paths": [],
+      "owned_paths": [
+        "scenes/MainGame.gd",
+        "tools/main_game_locale_history.py",
+        "tools/ui_translation_append.py",
+        "tools/ui_translation_append_self_test.py",
+        "tools/audit_scope.json",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/CODEX_QUEUE_L3_PENDING.md",
+        "docs/WORK_LOG.md",
+        "docs/STATUS.md",
+        "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-403.json",
+        "docs/queue_active/ORDER-403.md",
+        "docs/queue_archive/ORDER-403.md"
+      ],
+      "tools": [
+        "tools/ui_translation_append_self_test.py --axis-badge-fit",
+        "tools/order365_ui_receipt_compat.py",
+        "tools/full_body_translation_scope.py",
+        "tools/story_graph_contract_audit.py",
+        "tools/chapter5_human_reject_audit.py",
+        "tools/year5_reference_route_audit.py",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/ja_translation_audit.py --scope ui",
+        "tools/zh_translation_audit.py",
+        "tools/en_coverage_check.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Exact403 axis-label clip only: fresh actual Git/raw inverse, real collector identities and coordinates, and one fresh proof per exact8 manifest comparison. Original402/393 bodies and failed402 checkpoint remain intact. Same normal consumers; no cross-call cache, dictionary/ledger edits or engine claim."
+    },
+    {
       "id": "people-card-height",
       "paths": [],
       "owned_paths": [
@@ -2344,14 +2378,20 @@
   ],
   "checks": [
     {
-      "tool": "tools/ui_translation_append_self_test.py --people-card-height",
+      "tool": "tools/ui_translation_append_self_test.py --axis-badge-fit",
       "paths": [
         "scenes/MainGame.gd",
         "tools/main_game_locale_history.py",
         "tools/ui_translation_append.py",
         "tools/ui_translation_append_self_test.py"
       ],
-      "why": "Current402 exact local height successor, pure inverse controls and fresh Git/raw/current HEAD binding, real collector identity/coordinates and preserved official manifest composition. Only the new boundary is replayed for source changes.",
+      "why": "Current403 exact axis-label successor with pure inverse, fresh Git/raw/HEAD binding, real collector, exact8 manifest set versus original7, and no cross-call proof reuse.",
+      "godot": false
+    },
+    {
+      "tool": "tools/ui_translation_append_self_test.py --people-card-height",
+      "paths": [],
+      "why": "Historical402 explicit CLI and original focused body preserved. Current403 selection uses axis-badge-fit rather than replaying an older HEAD-bound current-source test.",
       "godot": false
     },
     {
