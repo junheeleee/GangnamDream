@@ -1,5 +1,23 @@
 # ORDER-392 — 선반영 중국어 UI8값의 공식 수용원장·이력 복구
 
+[x] 2026-10-03. 독립 work_unit 한정 GO, blocker0.
+
+- source `f043387a7374d12aac883ff6e5553dc5ef2d24c9`, tree
+  `909fd3f81875c04e326b4211f9f199e5bd6db5eb`.
+- Claude 원장 `9db4a6e5`와 byte-exact 복구:40,981/b161→40,989/b163.
+  기존8 UI값·JA·기존receipt/batch/metadata·게임/공개데모/인간증거 불변.
+- 현재 표적10명령 exit0/stderr0,452.627초, tracked2,955개 전후불변.
+  focused 초회86+보강13+최종영향2는 작성자 stdout전사. 최신97 전량재실행 아님.
+- [독립 보고](../agent_reviews/ORDER-392.json). 실제 화면/지역font는391 OPEN.
+  Chapter1 debt8/blocked3/gap24, year5 reference_only/invalidated, 기존350/351
+  pin 실패 보존. 전체감사·240주·엔진·원어민/인간/물리·출시 승인0.
+- gangnamdream-dev의 선행선언·파일 소유분리·독립검수·표적검증을 적용했다.
+  기존 I18N/WORK_UNIT 규범 재사용, 상시규범 승격0; 아래 작업계획은 일회성.
+
+## 최초 선언과 진행 원문 보존
+
+# ORDER-392 — 선반영 중국어 UI8값의 공식 수용원장·이력 복구
+
 #### [~] ORDER-392 [P0·현지화] 선반영 중국어 UI8값의 공식 수용원장·이력 복구
 
 **[~] 착수 — 2026-10-03.** 사용자 개발·검수 위임, Claude PR31 인계 B2.

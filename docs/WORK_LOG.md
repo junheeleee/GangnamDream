@@ -2,6 +2,35 @@
 
 이전 원문 전체는 [2026-09-28 이전 기록](history/WORK_LOG_2026-09-28_pre_order351.md)에 바이트 그대로 보존했다.
 
+## 2026-10-03 (Codex — Claude 인계 원장·검증 연결 복구)
+
+- [392](queue_archive/ORDER-392.md): 이미 반영된 CN/TW 패드8값을 보존하고
+  공식8receipt/2batch만 복구했다.40,981/b161→40,989/b163, 원장 byte는
+  Claude `9db4a6e5`와 동일. 기존receipt/JA/원문/게임/공개데모 변경0.
+- PR31 최신 return-plan/runbook을 읽고 B3 미수용 시 허용된392-first 경로를
+  택했다. 검수 안 된 원고/폰트를 함께 합치지 않았다. 실제 Git18dd 원문 census,
+  보존 source rows/공식 header, 현8값/hash/digest/역삭제를 재검증했다.
+  이는 새 역사 재검증이지 당시 원본 import 실행/화면 증거의 재발급이 아니다.
+- exact PR30 두 부모·실제 main 유입e89·원격원장·복구f5c966a만 고정하고
+  일반 append 판정은 유지했다. 미회복/고아/중복/중간 drift를 거절한다.
+  focused 작성자 전사86+보강13+최종영향2 PASS; 최신97 전량실행 주장은 없다.
+  private `order392-development-evidence.json`에 helper2오류·lane인자거절·
+  큐순번FAIL도 구분 보존했다. 순번 수리와 과거 WORK_LOG 손실 없는 이동 완료.
+- clean source `f043387a`/tree`909fd3f8` 표적10명령 모두exit0/stderr0,
+  452.627초·tracked2,955개 전후불변. 독립검수는8값/전이/반례 전수 및 보호
+  2,041경로 불변을 확인해 이 work_unit만GO. 기존154판정/132보고와 인간
+  원장은 보존하고 판정1건만 추가했다. 기계PASS는 게임 전체 품질GO가 아니다.
+- Chapter1 debt8/blocked3/gap24, year5 reference_only/invalidated, 원형350의
+  5언어arc_drama+원장 및351원장 pin 실패는 이전부터의 별도잔여다. 원형검사
+  수정/역사self반복/전체감사/240주/엔진0. 공개GO1·인간OPEN45·본편/새packageHOLD.
+- 다음 읽기전용 분석: 투자·인물 pad label은 normal_font가 빠졌고 FontKit은
+  안정적인 JP/SC/TC 역할객체를 이미 제공한다. 전역theme 선행 없이 로컬 수리
+  가능하나 실제font/화면은391 OPEN이다. 투자2줄은391 조건범위, 인물까지4줄은
+  별도393 선언이 필요하다. MainGame/source successor와 실제5언어 화면을 묶고,
+  인물 CN/TW 미번역·전역font·11px/포커스잘림을 완료로 과장하지 않는다.
+- gangnamdream-dev로 선행선언·파일소유분리·독립검수·표적검증. 새 상시규범0,
+  계획은일회성. B3/B4 원고와 누적원장은 이후별도검수. 외부출시/스토어/지출/법률0.
+
 ## 2026-09-30 (Codex — Claude 원격 인계 보존·미완료 범위 정합)
 
 - 통합 `e89f3ed` 표적 receipt 검사1회 FAIL: `UI/receipt/source/target additions differ: zh-CN`.

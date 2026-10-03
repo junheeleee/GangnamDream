@@ -6,8 +6,9 @@
 
 ## 2026-10-03 재개
 
-- PR31 `9db4a6e5` 공식8receipt/2batch를 확인했다. 원장과 exact Git 이력 복구는
-  새 [ORDER-392](ORDER-392.md)로 분리 선언했다. 기존8값은 보존한다.
+- PR31 `9db4a6e5` 공식8receipt/2batch와 exact Git 이력 복구를
+  [ORDER-392](../queue_archive/ORDER-392.md)에서 완료했다. 공식40,989/b163,
+  현재 표적10검사·독립 work_unit GO. 기존8값은 보존하며 화면/font GO는 아니다.
 - 독립 검수 실행 가능. 과거 사용한도 HOLD는 당시 기록으로 남기며 현재의
   재개 차단으로 쓰지 않는다. 실제 지역 primary font/화면 검수는 아직 OPEN이다.
 

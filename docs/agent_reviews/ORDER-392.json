@@ -1,0 +1,70 @@
+{
+  "schema": "gangnamdream-independent-work-unit-review/v1",
+  "unit_id": "ORDER-392",
+  "scope": "work_unit",
+  "independent": true,
+  "reviewer": "/root/independent392",
+  "reviewed_at": "2026-10-03",
+  "verdict": "GO",
+  "required": [],
+  "subject": {
+    "kind": "source",
+    "commit": "f043387a7374d12aac883ff6e5553dc5ef2d24c9",
+    "tree": "909fd3f81875c04e326b4211f9f199e5bd6db5eb",
+    "manifest_sha256": null
+  },
+  "decision_basis": [
+    "Non-author review of all eight preserved KO-to-CN/TW values, official receipts, actual Git source manifest, raw preservation, exact split transitions, final code and counterexamples. Blockers0. No product authorship by reviewer.",
+    "Ledger-only recovery f5c966ac equals upstream9db4a6e5 byte-for-byte. All40981 old accepted records,161 batches, Japanese and other metadata preserved; official total40989/b163. The replay helper exactly matches preserved18dd16d source rows and official headers using actual Git census; it is current historical revalidation, not fabricated original import evidence.",
+    "Fixed proof distinguishes the actual two-parent PR30 from the two-parent main ingress e89f3ed, proves remote receipts and ledger-only recovery by commit/tree/blob/raw, rejects incomplete/orphan/duplicate/intervening scoped drift, then returns to ordinary append rules. Original validate_append, first history body and source-manifest functions remain unchanged. Final rejected ingress does not mutate pending state.",
+    "Against9fb7ff21,2041 protected source/locale/runtime/font/public-demo/human-and-agent-ledger/report/350-351 paths were independently checked unchanged. Old WORK_LOG tail is present byte-exact in its archive."
+  ],
+  "observed_execution": {
+    "static": "Ten current commands all exit0 and empty stderr,452.627s wall. All raw rows match aggregate. Candidate clean before/after;2955 tracked hashes unchanged. Six current normal consumers plus registration/context/queue/diff; no engine or full audit.",
+    "focused": "Author stdout transcriptions: initial86, strengthened semantic/raw subset13, final transactional-impact subset2 PASS. Four weak hash cases replaced; final suite defines97 cases. No complete97-case final execution or raw focused-log artifact is claimed.",
+    "scope_limits": "Chapter1 remains SNAPSHOT_VALID with debt8/blocked3/W25-48 gap24. Year5 remains reference_only/invalidated. Normal PASS is not product or release GO."
+  },
+  "unit_evidence": {
+    "도달 경로": "order392-static/01.json: ORDER365_UI_RECEIPT_OK accepted=40989 batch_total=163",
+    "생산자 ↔ 독자": "9db4a6e5:full_game_localization.json → ui_translation_append._split_receipt_proof → validate_history",
+    "바꾸는 상태": "official ledger40981/b161 →40989/b163; player state unchanged",
+    "포기 시 잃는 것": "order365_ui_receipt_compat: existing8-value UI/receipt mismatch",
+    "서사 위치": "N/A: receipt history only",
+    "장면 계층": "N/A: no prose or runtime change",
+    "닫는 것": "ORDER-392 only; ORDER-391 font/screen OPEN"
+  },
+  "preservation": {
+    "baseline": "9fb7ff21c32caa50d74ed62a9d5ef46e4d1f92c8",
+    "existing_decisions": 154,
+    "existing_reports": 132,
+    "human_ledger_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6",
+    "protected_paths_unchanged": 2041
+  },
+  "preserved_failures": [
+    "ORDER350 exact pins already differ in five-language arc_drama plus ledger after351; ORDER351 differs in ledger after later legitimate append. Neither original checker was changed or rerun.",
+    "Development helper receipt shape/constant errors, lane argument rejection and queue numbering failure retained as tool-output transcriptions in order392-development-evidence.json."
+  ],
+  "limits": [
+    "GO only for this receipt/history work unit. UI text, fonts, gameplay and story unchanged.",
+    "391 regional-primary font and actual-screen review remain OPEN. B3/B4 prose not integrated; later cumulative receipts require separate reconciliation.",
+    "Public GO1/human OPEN45 and full-game/new-package HOLD preserved. No native, human, physical-device, external publication, store, spending or legal claim."
+  ],
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "regional_font_and_screen",
+    "natural_ingress_and_return",
+    "full_game_and_new_package"
+  ],
+  "evidence": {
+    "content/meta/full_game_localization.json": "2bbf79be726b098ea325cf47b864f3e772aadda71770887d2abd9e8519dbd110",
+    "tools/ui_translation_append.py": "ca433784bf1942379f5f1d8d6dd2219e5a57b0395a363dff97c41f2f34824742",
+    "tools/ui_translation_append_self_test.py": "b37ece4a54291f21e828e4ef478975e9c67448bee47de2383c2c417f68750e11",
+    "tools/audit_scope.json": "d5b4194da2eb2785c773b50dbb4fc488d31f1a9845dd3c348885d91a11362ce1",
+    ".git/full-game-localization/order392-source-recheck.json": "286a66f4babd73aae54c7b8e6920d3325104faf80dc68c5f71d7d8965c89afaa",
+    ".git/full-game-localization/order392-development-evidence.json": "0c61b63f2fb3d993cb0764020b83b7b185fd851e4a7304656a5d759a0c435ded",
+    ".git/full-game-localization/order392-static/entry.json": "3df36ffdce287817e50238ef0fe3e2650baa85081ea3c2cec55f78b19ea70bfd",
+    ".git/full-game-localization/order392-static/result.json": "e48bcac8ffb818fe95104937f38a5141fed5da6bcafbdd509c6a4649f044a6e3"
+  }
+}
