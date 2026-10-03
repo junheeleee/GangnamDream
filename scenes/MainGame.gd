@@ -15100,6 +15100,7 @@ func _open_cat_work():
 			modal_body.add_child(tenure_row)
 			var tenure_lbl = _label(_tr("근속", "Tenure"), 12, "#7a8496")
 			tenure_lbl.custom_minimum_size = Vector2(36, 0)
+			tenure_lbl.clip_text = false
 			tenure_row.add_child(tenure_lbl)
 			tenure_row.add_child(_mini_progress_meter(tenure, threshold, "#8f98a8"))
 			var months_lbl = _label(_tr("%d / %d개월", "%d / %d mo") % [tenure, threshold], 12, "#aab3c5")
@@ -15112,7 +15113,7 @@ func _open_cat_work():
 			if tenure >= threshold and perf >= 60:
 				modal_body.add_child(_wrap_label(_tr("이번 달 승진 판정 대상!", "Eligible for a promotion review this month!"), 13, _info_text_hex("#f0b429", 0.02)))
 			elif tenure >= threshold:
-				modal_body.add_child(_wrap_label(_tr("근속 기간 충족. 업무 성과를 60 이상으로 올리세요.", "Tenure met. Raise performance above 60."), 13, _info_text_hex("#f0b429", 0.02)))
+				modal_body.add_child(_wrap_label(_tr("근속 기간 충족. 업무 성과를 60 이상으로 올리세요.", "Tenure met. Raise performance to at least 60."), 13, _info_text_hex("#f0b429", 0.02)))
 			else:
 				var left = threshold - tenure
 				modal_body.add_child(_wrap_label(
