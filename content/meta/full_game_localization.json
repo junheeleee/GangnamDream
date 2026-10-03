@@ -6619,6 +6619,92 @@
           "batch_id": "e75cbfe1295ce5f3ff113bc8aa356349acbbba5adc05555c3e95fed31a7df1bd"
         }
       }
+    },
+    {
+      "order": "ORDER-404",
+      "group": "ui",
+      "roots": [
+        "일 · 커리어",
+        "아직 직업이 없다. 수입이 0원이다. 무엇이든 시작해야 한다.",
+        "구직활동  —  일자리를 찾아 지원한다",
+        "지원 계속  —  마포 면접 이후 다음 지원처를 고른다",
+        "자소서 작성  —  지원서를 다듬는다",
+        "모의 면접  —  말하는 연습을 한다",
+        "중간 위험 · AP 1 · 조건 충족 시 취업 · 1~3주: 첫 월급",
+        "낮은 위험 · AP 1 · 지력 0~2 · 이력서 완성 · 1~3주: 지원 보너스",
+        "낮은 위험 · AP 1 · 사회성 0~2 · 운 0~1 · 1~3주: 면접 보너스"
+      ],
+      "source_leaves": 9,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 9,
+        "zh-TW": 0
+      },
+      "source_review": "Korean-direct unemployed work menu initial and post-Mapo applications, cover letter and interview preparation guidance. Independent full source comparison; existing translations, gameplay and public demo unchanged. Agent review is not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "b4e6375f625d94f0866b5d94f406b02739ac9e23fcff4ce9315adf9a00e7d63d"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "39e1fdbbe0ab571b2cd9c468f62e42b7927af5f2",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "c260482830bc0c76ca6986b89c6e4c5b1c9f964025706dad478e1f23eaecb661",
+          "selection_sha256": "8ed9fa342fd809b68ee0c92427eee2a9ac33022c3fc76cfaaa7318714fca4e03",
+          "count": 9,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "2c1178ce8b5c38522425512e00d4a54b0c1dcd15960da31aa17294e75355bad4"
+        }
+      }
+    },
+    {
+      "order": "ORDER-404",
+      "group": "ui",
+      "roots": [
+        "일 · 커리어",
+        "아직 직업이 없다. 수입이 0원이다. 무엇이든 시작해야 한다.",
+        "구직활동  —  일자리를 찾아 지원한다",
+        "지원 계속  —  마포 면접 이후 다음 지원처를 고른다",
+        "자소서 작성  —  지원서를 다듬는다",
+        "모의 면접  —  말하는 연습을 한다",
+        "중간 위험 · AP 1 · 조건 충족 시 취업 · 1~3주: 첫 월급",
+        "낮은 위험 · AP 1 · 지력 0~2 · 이력서 완성 · 1~3주: 지원 보너스",
+        "낮은 위험 · AP 1 · 사회성 0~2 · 운 0~1 · 1~3주: 면접 보너스"
+      ],
+      "source_leaves": 9,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 9
+      },
+      "source_review": "Korean-direct unemployed work menu initial and post-Mapo applications, cover letter and interview preparation guidance. Independent full source comparison; existing translations, gameplay and public demo unchanged. Agent review is not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-TW": "69b6482fe7b1f68a24d64e6c6832678b3529f50f788494d2f7dc8ddade97e005"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "39e1fdbbe0ab571b2cd9c468f62e42b7927af5f2",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "c260482830bc0c76ca6986b89c6e4c5b1c9f964025706dad478e1f23eaecb661",
+          "selection_sha256": "92bb8666a74959e913a8735f2112790e762a8b16de8c6f3470ed0cf0ac0c2433",
+          "count": 9,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "8f17826343c71c6d1c6e7f495b3a0b0dffa66aebe4590c50c2ae54c956aa2e25"
+        }
+      }
     }
   ],
   "accepted": {
@@ -115016,6 +115102,42 @@
       "ui:확정:/확정": {
         "source_sha256": "545328a2779ee58446bb3dd5e246980e52d507002d65a29e314ebc0d472ea5cb",
         "target_sha256": "7dbb2380e25cfa8940b85d81ac788c38ece98b288c530070a63428f6cdcde75f"
+      },
+      "ui:구직활동  —  일자리를 찾아 지원한다:/구직활동  —  일자리를 찾아 지원한다": {
+        "source_sha256": "8be4167ac2dbc211fbe3d77a44fa20cbecf7b6ff7d771871255d9c0322023b31",
+        "target_sha256": "3296084bb4472e9ece48c2048be47333f5977f03b7b56802d5900110032d00d9"
+      },
+      "ui:낮은 위험 · AP 1 · 사회성 0~2 · 운 0~1 · 1~3주: 면접 보너스:/낮은 위험 · AP 1 · 사회성 0~02 · 운 0~01 · 1~03주: 면접 보너스": {
+        "source_sha256": "cf4f19baa11189112d7623f1dc33fe7acfe9c540dec1077cbb05ff7e4ad5127b",
+        "target_sha256": "e9860cfca329c1ec16a75899d70739eb260e9e0d973dbb32ae7fad3950c052ac"
+      },
+      "ui:낮은 위험 · AP 1 · 지력 0~2 · 이력서 완성 · 1~3주: 지원 보너스:/낮은 위험 · AP 1 · 지력 0~02 · 이력서 완성 · 1~03주: 지원 보너스": {
+        "source_sha256": "0c8fe5010ebca45b62e3e0879d262f3979cbd9c1352ebdf0fe2e99fe2c261919",
+        "target_sha256": "39ca8e8771fa9778f96643551017b491cc5dd4fce1ec255b6fe9a4665007c98f"
+      },
+      "ui:모의 면접  —  말하는 연습을 한다:/모의 면접  —  말하는 연습을 한다": {
+        "source_sha256": "ad6a1bddcf30b19b84230adfecdc5f9a043cce51f7c7d9cd4a2abfdc3d8b486b",
+        "target_sha256": "47e99a12f54b099993a39a0cf0ae5c8cd15a1491058efd1e61a38e0705bd5951"
+      },
+      "ui:아직 직업이 없다. 수입이 0원이다. 무엇이든 시작해야 한다.:/아직 직업이 없다. 수입이 0원이다. 무엇이든 시작해야 한다.": {
+        "source_sha256": "a2eae146cdc91b8a20ed17ccb1b62c122b1f6e21d748f8996467c9f10e1dcf46",
+        "target_sha256": "9311c3782807261e8e7d4cf0d2cbc8517f6b49e0b9eedff6f77e84f2c7cbaac6"
+      },
+      "ui:일 · 커리어:/일 · 커리어": {
+        "source_sha256": "e48bc81cfaba54c41df9218ae62b5fad7b2f11d305c882d300d787ea6cd16884",
+        "target_sha256": "6a0857f8256caa289a9c6271ceee19a8efca11fe18af1918fa3d9ac1f5f27e9c"
+      },
+      "ui:자소서 작성  —  지원서를 다듬는다:/자소서 작성  —  지원서를 다듬는다": {
+        "source_sha256": "d93bed989d73b598fa3602646f775e55ce074e03e6fd603ecc5c595a7bed1216",
+        "target_sha256": "05585f5ffa86c44521c3d9213e7acf1df0f5d6a99bc1e1a159ee27e2c7ebeef3"
+      },
+      "ui:중간 위험 · AP 1 · 조건 충족 시 취업 · 1~3주: 첫 월급:/중간 위험 · AP 1 · 조건 충족 시 취업 · 1~03주: 첫 월급": {
+        "source_sha256": "e1dbf00bdec577ae98d872c5c179964ab2496a611268b05b9120e2a157990850",
+        "target_sha256": "6edef042e0a19fa686903bf5a162e9f84789f9c20d5608dab2fef68bf12eca37"
+      },
+      "ui:지원 계속  —  마포 면접 이후 다음 지원처를 고른다:/지원 계속  —  마포 면접 이후 다음 지원처를 고른다": {
+        "source_sha256": "3dd40766aa055772525970168afed48fba6d046fad2ae8631d7d7999709af766",
+        "target_sha256": "65920ffe85cd4f3354b25a0548b827da545a6c8a6c77a73bf3d77158bc922019"
       }
     },
     "zh-TW": {
@@ -170902,10 +171024,46 @@
       "ui:확정:/확정": {
         "source_sha256": "545328a2779ee58446bb3dd5e246980e52d507002d65a29e314ebc0d472ea5cb",
         "target_sha256": "eeb0d3f969e0c3cf04d777e071e53b4a05763812877867d7997fbb7cf45f042d"
+      },
+      "ui:구직활동  —  일자리를 찾아 지원한다:/구직활동  —  일자리를 찾아 지원한다": {
+        "source_sha256": "8be4167ac2dbc211fbe3d77a44fa20cbecf7b6ff7d771871255d9c0322023b31",
+        "target_sha256": "f1696532f0c3ff34b2db480f38f2de95990646ba479cd400ac3ee11e369a2e7d"
+      },
+      "ui:낮은 위험 · AP 1 · 사회성 0~2 · 운 0~1 · 1~3주: 면접 보너스:/낮은 위험 · AP 1 · 사회성 0~02 · 운 0~01 · 1~03주: 면접 보너스": {
+        "source_sha256": "cf4f19baa11189112d7623f1dc33fe7acfe9c540dec1077cbb05ff7e4ad5127b",
+        "target_sha256": "b8785d2d669ff64a1af514615dacf55ce18d5448f2951962052d7ea9c6e7b1c9"
+      },
+      "ui:낮은 위험 · AP 1 · 지력 0~2 · 이력서 완성 · 1~3주: 지원 보너스:/낮은 위험 · AP 1 · 지력 0~02 · 이력서 완성 · 1~03주: 지원 보너스": {
+        "source_sha256": "0c8fe5010ebca45b62e3e0879d262f3979cbd9c1352ebdf0fe2e99fe2c261919",
+        "target_sha256": "f65ad883b2663761a8009da6e6ec3dd72812c202fc56188a25637b9ca3f33a8e"
+      },
+      "ui:모의 면접  —  말하는 연습을 한다:/모의 면접  —  말하는 연습을 한다": {
+        "source_sha256": "ad6a1bddcf30b19b84230adfecdc5f9a043cce51f7c7d9cd4a2abfdc3d8b486b",
+        "target_sha256": "fd879b04d4ccea62dde3d4a58d25f3afc73c8977dc2d534ec1dccbe29b37a37a"
+      },
+      "ui:아직 직업이 없다. 수입이 0원이다. 무엇이든 시작해야 한다.:/아직 직업이 없다. 수입이 0원이다. 무엇이든 시작해야 한다.": {
+        "source_sha256": "a2eae146cdc91b8a20ed17ccb1b62c122b1f6e21d748f8996467c9f10e1dcf46",
+        "target_sha256": "0dad0cd5814d9240eee09d863b9a7afdde2f3e2300c5d937de4f5dc9456be819"
+      },
+      "ui:일 · 커리어:/일 · 커리어": {
+        "source_sha256": "e48bc81cfaba54c41df9218ae62b5fad7b2f11d305c882d300d787ea6cd16884",
+        "target_sha256": "6c569a7eff5e6a69382438349c71e65a20854333e4e214f9a16170600a3dc78a"
+      },
+      "ui:자소서 작성  —  지원서를 다듬는다:/자소서 작성  —  지원서를 다듬는다": {
+        "source_sha256": "d93bed989d73b598fa3602646f775e55ce074e03e6fd603ecc5c595a7bed1216",
+        "target_sha256": "f07da4bded16aac2c5483916a0e7166c63e0cdcaa66462662bf6605f612a2a8c"
+      },
+      "ui:중간 위험 · AP 1 · 조건 충족 시 취업 · 1~3주: 첫 월급:/중간 위험 · AP 1 · 조건 충족 시 취업 · 1~03주: 첫 월급": {
+        "source_sha256": "e1dbf00bdec577ae98d872c5c179964ab2496a611268b05b9120e2a157990850",
+        "target_sha256": "c4dafb919bdb2aad58bcc7e6ee1403a3c5ff6a8ea9f7bc484462c4718c7fcaf0"
+      },
+      "ui:지원 계속  —  마포 면접 이후 다음 지원처를 고른다:/지원 계속  —  마포 면접 이후 다음 지원처를 고른다": {
+        "source_sha256": "3dd40766aa055772525970168afed48fba6d046fad2ae8631d7d7999709af766",
+        "target_sha256": "0aa17db4bab645c67540b6f5890bf57c5d4e948e338e1470532e73515ef0ae1c"
       }
     }
   },
-  "accepted_sha256": "6f83be081118860bbb2bcee010b1aa504af084766231f2db7299a983e771e891",
+  "accepted_sha256": "c30abb19d84de08f7add4e1dc3011f3be24e657ed5ee81de439cef5b8d1ee0fd",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
