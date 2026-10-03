@@ -5367,6 +5367,8 @@ func _build_story_panel(parent):
 	event_body.bbcode_enabled = true
 	event_body.fit_content = true
 	event_body.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+	event_body.add_theme_font_override("normal_font", _font_regular)
+	event_body.add_theme_font_override("bold_font", _font_bold)
 	event_body.add_theme_font_size_override("normal_font_size", 18)
 	event_body.add_theme_color_override("default_color", Color("#c8d0df"))
 	layout.add_child(event_body)
