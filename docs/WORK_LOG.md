@@ -2,6 +2,17 @@
 
 이전 원문 전체는 [2026-10-04 구직 메뉴까지의 기록](history/WORK_LOG_2026-10-04_pre_order405.md)에 바이트 그대로 보존했다.
 
+## 2026-10-04 (Codex — 선물 중국어30값 수용 후보)
+
+- [413](queue_active/ORDER-413.md): 진열대 안내2·선물 짧은설명8·전달 준비/차단5를
+  KO직접 CN/TW각15값으로 저작했고 비저자30값 전수 의미대조를 통과했다.
+  실제 人/生活 메뉴명·가격과마음 대비·주/월·%d/%s를 보존하고 숨은반응 추가0.
+- 공식export/check 각2batch PASS10.200/10.293초·import·append inverse로 기존raw 전량보존.
+  accepted41220/b182→41250/b184, CN/TW1516→1531키씩·JA3044불변.
+- 코드·가격·수량·AP·관계조건·기존사전/receipt·공개demo·인간원장 변경0.
+  최종source 동결 뒤14PNG와 normal11+조회1을 판정한다. 현재 최종GO 전이며
+  자동PASS는 계약증거이지 재미·문체·출시GO가 아니다. 본편/새packageHOLD 유지.
+
 ## 2026-10-04 (Codex — 선물 가격 잘림 마감·선물 중국어 안내 착수)
 
 - [412 완료](queue_archive/ORDER-412.md): source916e51b/tree0f772c7 독립GO.

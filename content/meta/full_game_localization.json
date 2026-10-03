@@ -7212,6 +7212,104 @@
           "batch_id": "a4d6744b41f1e8123225b28863b1f5ae53cec08a79e0b91fa42474e9e516d4cc"
         }
       }
+    },
+    {
+      "order": "ORDER-413",
+      "group": "ui",
+      "roots": [
+        "— 선물 —",
+        "사람 메뉴에서 인연에게 전달할 수 있다. 마음은 가격표에 없다.",
+        "밤을 견디는 사람에게 어울리는, 값싸고 다정한 것",
+        "실용적이라 오히려 마음이 보이는 선물",
+        "밑줄 그을 자리가 많은 책",
+        "좋아한 전시를 기억해야만 고를 수 있는 것",
+        "추운 데서 오래 서 있는 사람을 떠올리게 하는 것",
+        "값이 먼저 보이는 선물",
+        "누구에게나 좋지만 누구에게도 특별하지 않을 수 있는 것",
+        "가장 비싼 답. 정답이 아닐 때 가장 크게 어긋난다",
+        "행동력이 없습니다 — 다음 달에",
+        "아직 이르다 — %d주 뒤에",
+        "전달할 선물이 없다. 생활 메뉴에서 산다.",
+        "선물하기 · %s",
+        "무엇을 건넬까. 값이 아니라, 이 사람의 이야기를 떠올린다."
+      ],
+      "source_leaves": 15,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 15,
+        "zh-TW": 0
+      },
+      "source_review": "Korean-direct gift shelf and eight short item descriptions, recipient picker and three pre-action blocks; price-versus-care meaning, actual menu labels, month/week and placeholders preserved without revealing hidden gift reactions. Existing translations, gameplay and public demo unchanged. Agent review is not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "44de2fec15bb7da4f7499be11a1ac0e3beba02fb25ec45e7647c86631749f102"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "2660eaf84775f4d25159924a64dc3c647b2d567e",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "2dcad242e99f1a1403d736948872c1b09c353d08d416395c93a189dbc492b108",
+          "selection_sha256": "c2f646f07fe1efb4fbe8ac0e8fb16107c53321f0d44aa77afbb09e81a253b309",
+          "count": 15,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "f22249820487d93b026b4893edc0c85fa031c6b0658017d4d6026ca101a4918a"
+        }
+      }
+    },
+    {
+      "order": "ORDER-413",
+      "group": "ui",
+      "roots": [
+        "— 선물 —",
+        "사람 메뉴에서 인연에게 전달할 수 있다. 마음은 가격표에 없다.",
+        "밤을 견디는 사람에게 어울리는, 값싸고 다정한 것",
+        "실용적이라 오히려 마음이 보이는 선물",
+        "밑줄 그을 자리가 많은 책",
+        "좋아한 전시를 기억해야만 고를 수 있는 것",
+        "추운 데서 오래 서 있는 사람을 떠올리게 하는 것",
+        "값이 먼저 보이는 선물",
+        "누구에게나 좋지만 누구에게도 특별하지 않을 수 있는 것",
+        "가장 비싼 답. 정답이 아닐 때 가장 크게 어긋난다",
+        "행동력이 없습니다 — 다음 달에",
+        "아직 이르다 — %d주 뒤에",
+        "전달할 선물이 없다. 생활 메뉴에서 산다.",
+        "선물하기 · %s",
+        "무엇을 건넬까. 값이 아니라, 이 사람의 이야기를 떠올린다."
+      ],
+      "source_leaves": 15,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 15
+      },
+      "source_review": "Korean-direct gift shelf and eight short item descriptions, recipient picker and three pre-action blocks; price-versus-care meaning, actual menu labels, month/week and placeholders preserved without revealing hidden gift reactions. Existing translations, gameplay and public demo unchanged. Agent review is not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-TW": "728374f253754d9c8154ee2a92ebe4c7b66008bc6ca3e169cd0efc233adebfbf"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "2660eaf84775f4d25159924a64dc3c647b2d567e",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "2dcad242e99f1a1403d736948872c1b09c353d08d416395c93a189dbc492b108",
+          "selection_sha256": "67ae8ee4a348c72190c5dd9f6f2a67f24415f7854d49a7aee1f382654040295c",
+          "count": 15,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "38539a08000002a83a02335ace8330c60804f0cbf97caa75ed15070f6d6112b2"
+        }
+      }
     }
   ],
   "accepted": {
@@ -115913,6 +116011,66 @@
       "ui:현재 주거  —  %s:/현재 주거  —  %s": {
         "source_sha256": "376f2448eab0274da10c016f5fd69e7ccaa1610585dbfc65a3520887be19e5f7",
         "target_sha256": "5604b3e01b5db6fb74051daf9a3b4ffc125a1293188209bc8acd2d63a3179a4a"
+      },
+      "ui:— 선물 —:/— 선물 —": {
+        "source_sha256": "7595df5140e019c0f17d843fe41b91a3dac611c95021f734b56646ebfb8fdf4b",
+        "target_sha256": "fbc805fdbc68192d11dac902f5013812490ca348f25ea3c28e3f81aa9cb7fd57"
+      },
+      "ui:가장 비싼 답. 정답이 아닐 때 가장 크게 어긋난다:/가장 비싼 답. 정답이 아닐 때 가장 크게 어긋난다": {
+        "source_sha256": "1ecf7452515c8fb87bfd1a87955f3884bc242ee47578443ae1242ecfc0c33104",
+        "target_sha256": "58a1ea42b1e17efd6babebe4f354655d4f0c944091f3c23dd934c6cdbe66b7b7"
+      },
+      "ui:값이 먼저 보이는 선물:/값이 먼저 보이는 선물": {
+        "source_sha256": "51bd582e25aa592c3be914d971807d586e8b28f8055bc7f2341f6653edcb886a",
+        "target_sha256": "b203bf3077b15bebbdc4a9ac11367729848c6817dc1a03afb3bda5a9928694fa"
+      },
+      "ui:누구에게나 좋지만 누구에게도 특별하지 않을 수 있는 것:/누구에게나 좋지만 누구에게도 특별하지 않을 수 있는 것": {
+        "source_sha256": "64972065a56dafa40b198de0781ecb2ad5007eef5fa04ad7582c377c3bee6268",
+        "target_sha256": "9c0bd8952c5bd01a55bb703785371b8371b275b3a567a200225e429050f30e70"
+      },
+      "ui:무엇을 건넬까. 값이 아니라, 이 사람의 이야기를 떠올린다.:/무엇을 건넬까. 값이 아니라, 이 사람의 이야기를 떠올린다.": {
+        "source_sha256": "c144b2d9c6e5f794e979c5d1780d4585e1f9abcd6250e221218caea9406ba2be",
+        "target_sha256": "22ee56402915f2595adf5dbd817505e3eec31ccf9c9ce72e73016b9fd65ae74b"
+      },
+      "ui:밑줄 그을 자리가 많은 책:/밑줄 그을 자리가 많은 책": {
+        "source_sha256": "a3124254ea5e8bcc71f236317da1187111c31ef1f4c30fc788073abd0a223580",
+        "target_sha256": "7d38e040dae2af6e31b5769b846a9cfb94b50b14e667f34b967e9c36432da3a4"
+      },
+      "ui:밤을 견디는 사람에게 어울리는, 값싸고 다정한 것:/밤을 견디는 사람에게 어울리는, 값싸고 다정한 것": {
+        "source_sha256": "30b372942fdaab69d50445cd2f2f49d11239b0600348d01731a832dc36ff200e",
+        "target_sha256": "cf9fa89ee45c91ba254515c8b67aec3f8bac966ff13d16cb916e289bd325c886"
+      },
+      "ui:사람 메뉴에서 인연에게 전달할 수 있다. 마음은 가격표에 없다.:/사람 메뉴에서 인연에게 전달할 수 있다. 마음은 가격표에 없다.": {
+        "source_sha256": "cfe0bc323f8556b34778749a1cbc4110e7f94d1564b25d9528aeb0cc02009953",
+        "target_sha256": "b67f77f298051068c4149daa3808cd18b6f611f0c38de74ab7cf7f195e197241"
+      },
+      "ui:선물하기 · %s:/선물하기 · %s": {
+        "source_sha256": "22082c20e2ba596e7cff68e3d18171db16aa9dae3494e353860feecf9e3a15c4",
+        "target_sha256": "f4ab65543814aff7e1aa4d299e38f21761d9aefcaff99ef37fd8c9dee2411231"
+      },
+      "ui:실용적이라 오히려 마음이 보이는 선물:/실용적이라 오히려 마음이 보이는 선물": {
+        "source_sha256": "7bda882d51495665c0e8e1ea119d866a7a114a7f760c1d90265abf009244c4f5",
+        "target_sha256": "a98aaceefb03d640f9d305edd73b061083fd7a7ee55e936793c525c3ffb1eb7f"
+      },
+      "ui:아직 이르다 — %d주 뒤에:/아직 이르다 — %d주 뒤에": {
+        "source_sha256": "87a3c073896f763175c8c2229870590ec303fc3483d581bdd163d6aafc74fc42",
+        "target_sha256": "2b92961b423c480d84b5fd3277b8f834f3349838e3325ed4bc1686846a4527ce"
+      },
+      "ui:전달할 선물이 없다. 생활 메뉴에서 산다.:/전달할 선물이 없다. 생활 메뉴에서 산다.": {
+        "source_sha256": "a6900686ac5e388b2142bb8ef86b6ab2774ba48c37e3f7d242fdf0f106155def",
+        "target_sha256": "3d89d190553010168ac53ec740a1b5e76c7c610ff601aa153299ad5e47f26fb5"
+      },
+      "ui:좋아한 전시를 기억해야만 고를 수 있는 것:/좋아한 전시를 기억해야만 고를 수 있는 것": {
+        "source_sha256": "e0993ece17e2f08c6a84bf8b2d791d55a8146a43c353b215a09c9a3a4ca51e63",
+        "target_sha256": "93cc709359e626b6d9786296958bbc4df8dd9988683536ee5324b6bf6f7d1ecc"
+      },
+      "ui:추운 데서 오래 서 있는 사람을 떠올리게 하는 것:/추운 데서 오래 서 있는 사람을 떠올리게 하는 것": {
+        "source_sha256": "4d9e9f84eac1b19607e277dd540d931fc4e0b467827d38e577b80c1062e6fc7d",
+        "target_sha256": "6521b77985664a4d02fab485a062c5d127b78f1a27a1790d3d1e30664f3dc38a"
+      },
+      "ui:행동력이 없습니다 — 다음 달에:/행동력이 없습니다 — 다음 달에": {
+        "source_sha256": "d6a9d7530f91064ea2b86a61ff3b412f116bc4cdcfc79fa3b6c6349ed51ad5f6",
+        "target_sha256": "ccf42841c93ab95801c404c24d1f51a9cb649c46b03049f28fee8f7bacc1e71a"
       }
     },
     "zh-TW": {
@@ -172099,10 +172257,70 @@
       "ui:현재 주거  —  %s:/현재 주거  —  %s": {
         "source_sha256": "376f2448eab0274da10c016f5fd69e7ccaa1610585dbfc65a3520887be19e5f7",
         "target_sha256": "21009c131a98b6db1d1c18fa40259ada97e0e8a331d4b216b5300f72038a72b6"
+      },
+      "ui:— 선물 —:/— 선물 —": {
+        "source_sha256": "7595df5140e019c0f17d843fe41b91a3dac611c95021f734b56646ebfb8fdf4b",
+        "target_sha256": "902d7e55f2b13642ff92cc6d1fb2841f05029777c37a47707948ec1a59d3e762"
+      },
+      "ui:가장 비싼 답. 정답이 아닐 때 가장 크게 어긋난다:/가장 비싼 답. 정답이 아닐 때 가장 크게 어긋난다": {
+        "source_sha256": "1ecf7452515c8fb87bfd1a87955f3884bc242ee47578443ae1242ecfc0c33104",
+        "target_sha256": "dda568f8bbe8ee1a5b3d127b76c995a3aa125df681b7f485223f0a357b2b64ff"
+      },
+      "ui:값이 먼저 보이는 선물:/값이 먼저 보이는 선물": {
+        "source_sha256": "51bd582e25aa592c3be914d971807d586e8b28f8055bc7f2341f6653edcb886a",
+        "target_sha256": "2fdea470222ed8ecc94bce0dfbb2f172e002fb81bf51f3c50feb7d39e2e981c1"
+      },
+      "ui:누구에게나 좋지만 누구에게도 특별하지 않을 수 있는 것:/누구에게나 좋지만 누구에게도 특별하지 않을 수 있는 것": {
+        "source_sha256": "64972065a56dafa40b198de0781ecb2ad5007eef5fa04ad7582c377c3bee6268",
+        "target_sha256": "918074535e63fb9071b6a43df8c54c67e99865f32470dc2111c2ce74b49c1316"
+      },
+      "ui:무엇을 건넬까. 값이 아니라, 이 사람의 이야기를 떠올린다.:/무엇을 건넬까. 값이 아니라, 이 사람의 이야기를 떠올린다.": {
+        "source_sha256": "c144b2d9c6e5f794e979c5d1780d4585e1f9abcd6250e221218caea9406ba2be",
+        "target_sha256": "0d4df16807161199fdb77fce99d823ab735b4172b8239d8fdaf4b707ad94753b"
+      },
+      "ui:밑줄 그을 자리가 많은 책:/밑줄 그을 자리가 많은 책": {
+        "source_sha256": "a3124254ea5e8bcc71f236317da1187111c31ef1f4c30fc788073abd0a223580",
+        "target_sha256": "e387db65126ad8fdf790d0324a7a0502ecf32ebce1027a345423708b87a1d89f"
+      },
+      "ui:밤을 견디는 사람에게 어울리는, 값싸고 다정한 것:/밤을 견디는 사람에게 어울리는, 값싸고 다정한 것": {
+        "source_sha256": "30b372942fdaab69d50445cd2f2f49d11239b0600348d01731a832dc36ff200e",
+        "target_sha256": "26bb7e86416c613cfcfeaf5498c6b3ae1983b2c332f9e664dd6737e6f75520d5"
+      },
+      "ui:사람 메뉴에서 인연에게 전달할 수 있다. 마음은 가격표에 없다.:/사람 메뉴에서 인연에게 전달할 수 있다. 마음은 가격표에 없다.": {
+        "source_sha256": "cfe0bc323f8556b34778749a1cbc4110e7f94d1564b25d9528aeb0cc02009953",
+        "target_sha256": "59fac72eb5ffbe93a7178297e9c061e1add082744652adcf12b186c5bb7cd127"
+      },
+      "ui:선물하기 · %s:/선물하기 · %s": {
+        "source_sha256": "22082c20e2ba596e7cff68e3d18171db16aa9dae3494e353860feecf9e3a15c4",
+        "target_sha256": "b2e15829c03b0842bce53089640dcab56a217ffed2d0c0323da4d4ae4c3ca73b"
+      },
+      "ui:실용적이라 오히려 마음이 보이는 선물:/실용적이라 오히려 마음이 보이는 선물": {
+        "source_sha256": "7bda882d51495665c0e8e1ea119d866a7a114a7f760c1d90265abf009244c4f5",
+        "target_sha256": "99e84c829ce936868f8eff1ac3bddd56a7b8b224b8ddcd9ca1e177caf53bedaa"
+      },
+      "ui:아직 이르다 — %d주 뒤에:/아직 이르다 — %d주 뒤에": {
+        "source_sha256": "87a3c073896f763175c8c2229870590ec303fc3483d581bdd163d6aafc74fc42",
+        "target_sha256": "f84a136f06f716200d93bbda32066960fcf8b4d5f07accd4fdf44c4aaadf8e87"
+      },
+      "ui:전달할 선물이 없다. 생활 메뉴에서 산다.:/전달할 선물이 없다. 생활 메뉴에서 산다.": {
+        "source_sha256": "a6900686ac5e388b2142bb8ef86b6ab2774ba48c37e3f7d242fdf0f106155def",
+        "target_sha256": "4ac7b1a1d53f56bcfdc11be312f54018f6265dd298d6056c3e5d95838208a0e1"
+      },
+      "ui:좋아한 전시를 기억해야만 고를 수 있는 것:/좋아한 전시를 기억해야만 고를 수 있는 것": {
+        "source_sha256": "e0993ece17e2f08c6a84bf8b2d791d55a8146a43c353b215a09c9a3a4ca51e63",
+        "target_sha256": "c963d4ad22286194a403072ed6b51e6e309badbca3d7a8c2c0ba6da2a2440598"
+      },
+      "ui:추운 데서 오래 서 있는 사람을 떠올리게 하는 것:/추운 데서 오래 서 있는 사람을 떠올리게 하는 것": {
+        "source_sha256": "4d9e9f84eac1b19607e277dd540d931fc4e0b467827d38e577b80c1062e6fc7d",
+        "target_sha256": "c49170ae14dacdf0d0ac5df1b3440e707471c5f92a5112dd3d34faff242b1e63"
+      },
+      "ui:행동력이 없습니다 — 다음 달에:/행동력이 없습니다 — 다음 달에": {
+        "source_sha256": "d6a9d7530f91064ea2b86a61ff3b412f116bc4cdcfc79fa3b6c6349ed51ad5f6",
+        "target_sha256": "e5821fc02b2946b2c5dcc46df4ab22e41d9a4149315360a55cd81c55e2e82b97"
       }
     }
   },
-  "accepted_sha256": "15b99f784bd26d7226fb68766055d8c8e712a86958b34475f1d0d4dea272e89e",
+  "accepted_sha256": "01c3a6b32c9c31a80687e0730c331b5e89653e3702955d119d31a1a484c43d97",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
