@@ -1,0 +1,154 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-409",
+  "reviewer": "/root/independent392",
+  "review_role": "Independent non-author of product, bridge, focused test and runtime/static helpers. Wrote only this private report; no test, engine or official-exchange reruns.",
+  "subject": {
+    "kind": "source",
+    "commit": "a457419f9f8ccc96c50f67c6dcaa2e7bfede03c0",
+    "tree": "937924127c972cf0bbac3af6ec50a17ed2336dfa",
+    "manifest_sha256": null
+  },
+  "scope": "Only the career tenure label clipping fix and inclusive-60 English warning, their exact source-compatibility/collector bindings and five prepared work-menu screens.",
+  "population_and_method": "Read active409 scope, complete two-hunk Main diff and actual consumers, all new bridge/focused/helper/runner bodies, inherited font/rect/typed-state paths, audit registration, immutable original logs/JSON and every one of the five original PNGs. Rehashed artifact/helper/source bindings without running the checks myself.",
+  "source_review": {
+    "main_checkpoint": "8d570d8b26cd834122b890615180d33a6a5c5443",
+    "parent": "8b62fea21b41802cffbeadee5fb006535b2f86dc",
+    "main_sha256": "9eb5c522e8be5f81ee56ba683f9d1db61d2625b38acf96b99169d7b7aed7c976",
+    "edits": "Exactly tenure_lbl.clip_text=false after minimum36 and EN above60→to at least60. KO key and >=60/tenure/probability/job compensation/action logic unchanged. Shared label/months/meter/font implementations unchanged.",
+    "semantics": "New EN correctly includes 60, matching Korean 60 이상 and the actual >=60 gate. Unchanged JA/CN/TW equivalents remain inclusive. The warning asks the player to raise performance, not a promise of promotion.",
+    "bridge": "Fresh ten-stage Git object/hash/direct-parent/path/ancestry/HEAD proof; both current hunks inverse exactly, followed by all prior inverses including both402 transitions. Eight comparison predecessors and exactly ten manifest combinations; rejected402 intermediate excluded. Current Main/Aruba census bound before acceptance. No cross-call cache or census rewrite.",
+    "collector": "Sealed409 appendix reverses to the complete old module. Three source-pair changes since the historical comparison include only one new same-KO English change now; current call coordinates update, Korean leaf/source identities and selection sets do not. Both retained-JA readers see current calls. Previous module bodies/pins and JA audit are intact.",
+    "raw_preservation": "Independently confirmed history/manifest old prefixes, self-test historical body prefix and whole pipeline appendix inverse; pipeline seal d00d80e05b50d03a23a278ced47061b914565a3abfc26fddb089102247482cf5. Diff population is Main, three bridge tools, focused tool, audit_scope, CLAUDE and WORK_LOG only."
+  },
+  "focused_review": {
+    "cases": 136,
+    "historical_cases": 0,
+    "process_seconds": 52.209,
+    "result": "PASS",
+    "coverage": "Actual sixty Git objects/ten stages/eight predecessor raw pins; public source/project/hash entrances; pure two-hunk partial/duplicate/moved/neighbor/condition/KO mutations; actual collector and whole inventory/context/leaf identity; sealed pipeline inverse; unchanged dictionaries/receipts; exact ten manifest views; next-call Git/HEAD/raw failure and fresh recovery.",
+    "boundary": "Git corruption/ancestor/HEAD faults use scoped response doubles over real objects; repository Git objects are not edited. Re-signed wrong-parent case reaches semantic direct-parent rejection. Actual positive admission/collector and separate normal checks complement these counterexamples. No historical focused suites rerun."
+  },
+  "runtime_review": {
+    "result": "PASS",
+    "attempts": 1,
+    "seconds": 12.935,
+    "resolution": [
+      1280,
+      800
+    ],
+    "locales": [
+      "ko",
+      "en",
+      "ja",
+      "zh-CN",
+      "zh-TW"
+    ],
+    "screens": 5,
+    "lookup_observations": 15,
+    "target_labels": 15,
+    "fixture": "Real localized registry job_03 copied and augmented only with promotion_count0/effective_salary2240000; tenure12=threshold12, performance59, max3, monthly_income2240000, four startup/creator flags false. Five exact 14-field typed readbacks and registry augmentation inverses.",
+    "visual": "Personally opened all five PNGs. No clipping, tofu or overlap observed in the three target labels. Tenure is full EN44px and other locale36px floor; actual font14px. Months stays72px, both gaps8px. Meter width604px EN/612px others, positive contained fill at anchor1 with unchanged2px insets. Warning13px is one line in every locale; measured widths259/265/405/288/275 within736px.",
+    "fonts": "Actual node regular font/size, exact primary/fallback paths and weights, nonempty owned nonzero glyph probes, regional primary letters, bounds/modal/scroll containment all pass. Probes separately shape using each actual resolved font; they do not inspect Label internal shaped RIDs.",
+    "isolation": "Pre-autoload separate QA namespace; five full prepared==observed and before==restored typed pairs, five AP warmups with zero delta, registry unchanged, teardown delta0. Source2980/helper38/real-player34 before==after and artifact11/oracle27 hashes independently matched. No dictionary/font/cache injection.",
+    "actions": "No actions/confirm/promotion/callback/raw events by helper call graph; pressed/trade/finalization counters zero. Cleanup _close_modal(false,false) is not natural Back/input evidence."
+  },
+  "preservation": {
+    "accepted": 41152,
+    "batches": 178,
+    "new_translation_acceptance": 0,
+    "previous_decisions": 166,
+    "previous_reports": 144,
+    "human_gates_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6",
+    "public_go": 1,
+    "human_open": 45,
+    "full_game_main_new_package": "HOLD",
+    "statement": "JA/CN/TW dictionaries and whole receipt/header ledger, human ledger, previous decisions and all144 reports are byte-identical to parent8b62fea. Original407 FAIL/PASS and408 results/reports retained; no public-demo or human-evidence change.",
+    "static_source_files": 2980,
+    "static_helpers": 41,
+    "static_prior_hashes": 8
+  },
+  "repairs": [],
+  "limitations": [
+    "Single prepared B state and 1280x800 only; no other states/resolutions or whole-menu/whole-game text-fit/translation approval.",
+    "No natural ingress, Back, physical controller, promotion outcome, playthrough, native-language human or user observation. Root authors/executed helpers; independent review is source/artifact/image review only.",
+    "Chapter1 debt8/blocked3/24 missing weeks, Year5 reference_only/invalidated and other release debts retain their separate status.",
+    "B3/B4 prose, unrelated UI fallback/visual quality and full-game/new-package release remain out of scope; no historical-suite/full-audit/240-week rerun."
+  ],
+  "artifacts": {
+    "runtime": {
+      "path": ".git/full-game-localization/order409-screen-final/result.json",
+      "sha256": "a9a776ffa557dcc9e9875921bd68a9b63ed4dd497342de51e6259d5033966e05"
+    },
+    "observations": {
+      "path": ".git/full-game-localization/order409-screen-final/order409-observations.json",
+      "sha256": "960c6ea2f3d7b2facdd2e47491f23d42cd2286a0464fc2ebc69f6fa53385b9bf"
+    },
+    "oracle": {
+      "path": ".git/full-game-localization/order409-screen-final/oracle.json",
+      "sha256": "3f2c02de26674b50e2ebe5f41928b0a8609b9b1304dfab6aff93794ac29044af"
+    },
+    "runtime_entry": {
+      "path": ".git/full-game-localization/order409-screen-final/entry.json",
+      "sha256": "469198e4afb7197ee4787987d5810e53783a167c8d30a73fcd64d4ba849e2aec"
+    },
+    "focused": {
+      "path": ".git/full-game-localization/order409-static-final/00.json",
+      "sha256": "a9d6fe51a3ce2af6056a249d50f3c4d035b2deaa0af7ad890ab1adaa14f82015"
+    },
+    "runtime_logs": {
+      "stdout_and_godot_sha256": "b987ac1e760e959b02b842433251e70937491acd582bcfd55763d64cdb7ee9f2",
+      "stderr": "empty"
+    },
+    "pngs": "All five file names, bytes and SHA256 values are in the bound runtime result; each original PNG was directly viewed, and each hash checked against that record.",
+    "static_runner": {
+      "path": ".git/full-game-localization/order409-static-run.py",
+      "sha256": "4d542bec084f6753a8386a5cf5d991377abf0c9658c90546d59357e7d6e31a64"
+    },
+    "static_result": {
+      "path": ".git/full-game-localization/order409-static-final/result.json",
+      "sha256": "50f132ede32328330319fc4b110e55f4d85cbcababb818c212400ff5bc16b488"
+    },
+    "static_entry": {
+      "path": ".git/full-game-localization/order409-static-final/entry.json",
+      "sha256": "6dfc8aa204245b0f2b7471dc4d470a31aa9a972cc3fe29de8dcc0a44e2fc5b2c"
+    },
+    "chapter1": {
+      "path": ".git/full-game-localization/order409-static-final/06.json",
+      "sha256": "3bdacb24580f536db8295e7f473d5f493342b6b98b2f2f22f1641f4a34af7a87"
+    }
+  },
+  "verdict": "GO",
+  "normal_review": {
+    "result": "PASS",
+    "commands": 15,
+    "partition": "One new focused check, thirteen affected normal commands (including registry/context/queue/diff) and one explicit lane query.",
+    "wall_seconds": 583.771,
+    "chapter1_seconds": 285.997,
+    "method": "Read all15 original stdout/stderr rows and aggregate; matched every separate row to aggregate and entry commands, rehashed frozen tracked2980/helper41/prior8, and confirmed before==after. All exit0/stderr empty, no timeout.",
+    "boundaries": "Chapter1 keeps debt8/blocked3 and missing24 weeks (24/48 authoritative). Year5 remains reference_only/topology invalidated with r1b_allowed=false; full-body is SOURCE_INVENTORY_ONLY, runtime/native claims0; JA UI is beta; ZH is skeleton/shipping0. Chapter5 human gates remain pending. Query suggested13 checks; the15 actual command rows own execution claims, not query output."
+  },
+  "unobserved": [
+    "Native-language human review",
+    "Human playtest",
+    "Physical controller",
+    "Natural ingress/Back",
+    "Other states/resolutions",
+    "Full-game/new-package approval"
+  ],
+  "independent": true,
+  "status": "completed",
+  "private_review": {
+    "path": ".git/full-game-localization/order409-independent-review.json",
+    "sha256": "f68362bdce122fa52fb685a82b508a16bf781a45554ad4d0aea6d87bb06f18b4"
+  },
+  "unit_evidence": {
+    "도달 경로": "ORDER409_UI_OK screens=5 keys=3 locales=5 raw=0 actions=0; UI_TRANSLATION_APPEND_CAREER_TENURE_OK cases=136 historical_cases=0",
+    "생산자 ↔ 독자": "scenes/MainGame.gd:15103 tenure_lbl → HBox 14px Label; scenes/MainGame.gd:15116 → _wrap_label13",
+    "바꾸는 상태": "EN tenure width36→44px; above60→at least60; actual >=60 and accepted41152/b178 unchanged",
+    "포기 시 잃는 것": "_open_cat_work English tenure name and inclusive60 warning; week N/A",
+    "서사 위치": "N/A: existing career UI display only",
+    "장면 계층": "N/A: UI",
+    "닫는 것": "ORDER-409 exact work_unit only; full-game/new-package HOLD"
+  }
+}

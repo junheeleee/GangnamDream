@@ -2,9 +2,21 @@
 
 이전 원문 전체는 [2026-10-04 구직 메뉴까지의 기록](history/WORK_LOG_2026-10-04_pre_order405.md)에 바이트 그대로 보존했다.
 
+## 2026-10-04 (Codex — 근속 표시 수리 마감·자기계발 중국어 착수)
+
+- [409 완료](queue_archive/ORDER-409.md): sourcea457419/tree9379241 독립GO.
+  EN Tenure가44px로 전부 표시되고 실제60이상과 영어안내가 일치한다.
+  실제5언어5PNG/15대상·typed복원5·source/helper/player 보존,12.935초PASS.
+- focused136·영향검사/조회 합계15명령583.771초PASS, Chapter1 285.997초.
+  accepted41152/b178·기존번역/receipt·debt8/blocked3/gap24 불변. 구현2커밋 main 푸시.
+- [410 착수](queue_active/ORDER-410.md): 자기계발15키 CN/TW30값만 추가한다.
+  간체/TW초안/화면helper/독립검수 소유 분리. AP1누적12 모달+AP0toast 각언어2화면.
+- 일회성/상시규범추가0. 자동PASS는 계약 증거이지 재미·문체·출시GO가 아니다.
+  공개GO1·인간OPEN45·본편/새packageHOLD·원어민/인간/물리미관측 유지.
+
 ## 2026-10-04 (Codex — 근속 표시·영어 승진 안내 수리 후보)
 
-- [409](queue_active/ORDER-409.md) 선언f051e05 후 Main-only8d570d8:
+- [409](queue_archive/ORDER-409.md) 선언f051e05 후 Main-only8d570d8:
   tenure_lbl만 clip=false,36px최소폭·월수72·간격8·진행바EXPAND 보존.
   EN above60→at least60을 실제>=60·KO60이상과 정렬했다. 조건·확률 변경0.
 - KO키·기존JA/CN/TW·영수증 전량을 보존하는10단계 source 연결과 새focused를
@@ -18,7 +30,7 @@
   독립 GO·focused19 PASS·실제 Chapter1 269.825초·7명령270.322초.
   기존407 776.493초와 비교하되 다른 동시검사 조건의 단일실측으로 한정한다.
   원본stdout/debt8/blocked3/gap24·source2978/helper37/prior6 불변.
-- [409 착수](queue_active/ORDER-409.md): 실제 EN Tenur 잘림과 above60/실제>=60
+- [409 착수](queue_archive/ORDER-409.md): 실제 EN Tenur 잘림과 above60/실제>=60
   안내 불일치2곳만 수리한다. 한국어키·사전·기존receipt·게임조건은 그대로다.
   bridge/새focused/root화면 관측 파일 소유를 나누며 단일상태5언어만 검수한다.
 - 자동PASS는 도달성/계약 증거이지 재미·깊이·문체·출시GO가 아니다.

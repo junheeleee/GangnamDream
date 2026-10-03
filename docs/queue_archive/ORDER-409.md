@@ -1,6 +1,21 @@
 # ORDER-409 — 직장 근속 표시 폭·영어 승진 기준 수리
 
-#### [~] ORDER-409 [P1·UI] 직장 근속 표시 폭·영어 승진 기준 수리
+#### [x] ORDER-409 [P1·UI] 직장 근속 표시 폭·영어 승진 기준 수리
+
+## 완료 — 2026-10-04
+
+- source `a457419f9f8ccc96c50f67c6dcaa2e7bfede03c0`, tree `937924127c972cf0bbac3af6ec50a17ed2336dfa`.
+- EN Tenure36→44px 전체표시, above60→at least60. KO키·조건>=60·월수72·간격8 불변.
+- 5언어 실제5PNG·15대상·15lookup·5typed전량복원·regional primary PASS12.935초.
+  source2980/helper38/player34 보존. 준비된 B상태/1280×800 한정, 실제입력/행동0.
+- focused136 PASS52.209초·전체15명령583.771초(Chapter1 285.997초),
+  source2980/helper41/prior8 불변. 신규수용0·accepted41152/b178·기존사전/영수증 보존.
+- [독립 원문·화면 검수](../agent_reviews/ORDER-409.json) GO. main 구현2커밋 푸시완료.
+  Chapter1 debt8/blocked3/gap24·공개GO1·인간OPEN45·본편/새packageHOLD 유지.
+- 일회성 사양/상시규범추가0. 자동PASS는 계약증거이지 재미·문체·출시GO가 아니다.
+  자연진입/Back·원어민/인간/물리패드 미관측. 다음은 자기계발 CN/TW15키다.
+
+아래 착수 원문은 보존한다.
 
 **[~] 착수 — 2026-10-04.** 사용자 계속 개발·검수·main 커밋/푸시 위임.
 406/407 실제 화면에서 확인한 EN 근속명 잘림과 inclusive60 오역만 수리한다.
