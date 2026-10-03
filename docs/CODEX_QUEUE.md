@@ -50,7 +50,7 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-413 · 선물 진열대·전달 전 준비 안내 중국어 소비자 마감 | [413](queue_active/ORDER-413.md) | 착수 · 만지는 파일: CN/TW15키씩·공식receipt30/2batch·14화면helper·기록 |
+| 1 | [~] | ORDER-414 · 일본어 선물 설명 두 의미 교정 | [414](queue_active/ORDER-414.md) | 착수 · 만지는 파일: JA2값·첫receipt2/1batch·append교정proof/self_test/audit_scope·2화면helper·기록 |
 | 2 | [~] | ORDER-302 · 체험판 대본 사실·영어 정합 수리 | [302](queue_active/ORDER-302.md) | 수리7항목 source GO · successor package 별도 선언/검수 HOLD |
 | 3 | [ ] | ORDER-352 · 본편 5장 대본 이름·시간·회수 정합 | [352](queue_active/ORDER-352.md) | 5장 HOLD 수리 닫힌 뒤 착수 · 미실행 |
 

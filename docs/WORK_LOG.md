@@ -2,9 +2,27 @@
 
 이전 원문 전체는 [2026-10-04 구직 메뉴까지의 기록](history/WORK_LOG_2026-10-04_pre_order405.md)에 바이트 그대로 보존했다.
 
+## 2026-10-04 (Codex — 선물 중국어 마감·일본어 의미 교정 착수)
+
+- [413 완료](queue_archive/ORDER-413.md): source483b188/treecdcd11e,
+  CN/TW30값 KO직접·독립 전수대조 및 실제14PNG 검수 통과.
+  46표시연결/30lookup/32상품카드 모두fullfit, 진열대62px·선택60px·실제SC/TC.
+  안내6개 자연소멸2836~2856ms·typed10회복원,32.320초PASS·raw/action0.
+- normal11+목록조회1 PASS670.350초. source2988/helper64/입력10/이전증거4 불변,
+  runtime helper50/실사용자34파일 보존. accepted41250/b184·기존raw/JA/게임조건불변.
+  Chapter1 debt8/blocked3/gap24·Year5 reference_only/invalidated·전체번역INCOMPLETE 유지.
+- [414 착수](queue_active/ORDER-414.md): 에세이집의 이미과잉밑줄·향수의 가격→가치
+  JA두 오역만 교정한다. 사전key추가0/수정값2/첫공식receipt2는 별도계수한다.
+  저작/교정proof/새focused/독립검수 소유를 나누고 실제JA2화면만 재검수한다.
+- 다음미번역은 선물반응10·반복대사4·로그2의 CN/TW16키로 실물에서 확인했다.
+  아직저작/수용하지 않았으며414뒤 별도선언한다.
+- 일회성/상시규범추가0. 자동PASS는 계약증거이지 재미·문체·출시GO가 아니다.
+  공개GO1·인간OPEN45·본편/새packageHOLD·원어민/인간/물리미관측 유지.
+  준비화면이며 자연진입/Back/실제구매·전달 관측0. 배경KO보드·인명Roman폴백은 별도.
+
 ## 2026-10-04 (Codex — 선물 중국어30값 수용 후보)
 
-- [413](queue_active/ORDER-413.md): 진열대 안내2·선물 짧은설명8·전달 준비/차단5를
+- [413](queue_archive/ORDER-413.md): 진열대 안내2·선물 짧은설명8·전달 준비/차단5를
   KO직접 CN/TW각15값으로 저작했고 비저자30값 전수 의미대조를 통과했다.
   실제 人/生活 메뉴명·가격과마음 대비·주/월·%d/%s를 보존하고 숨은반응 추가0.
 - 공식export/check 각2batch PASS10.200/10.293초·import·append inverse로 기존raw 전량보존.
@@ -20,7 +38,7 @@
   가격만 실제폭을 확보하며 62px최소폭·14px서체·가격/조건 불변. after15.596초PASS.
 - focused137·영향검사/조회15명령652.284초PASS. source2986/helper58/입력10/이전4 불변,
   accepted41220/b182·JA/CN/TW사전·과거receipt 보존. 구현50d5e35·916e51b main푸시.
-- [413 착수](queue_active/ORDER-413.md): 선물진열대2·짧은설명8·전달준비5,
+- [413 착수](queue_archive/ORDER-413.md): 선물진열대2·짧은설명8·전달준비5,
   CN/TW각15값·14PNG 표적. 지역저작/화면helper/비저자검수 소유분리.
 - 전수대조에서 기존JA 에세이집의 ‘이미 지나친 밑줄’과 향수의 ‘가격→가치’ 의미2곳을
   확인했다. 이번가격수리·중문추가와 섞지 않고 이후 별도 existing-target correction으로 처리한다.
