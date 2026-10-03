@@ -27,7 +27,8 @@ PR31 runbook의 B3 원고 미수용 시 허용하는 original392-first 경로를
   `tools/audit_scope.json`만. 새 focused 차선과 fail-closed 반례.
 - `/root/independent392`: 읽기 전용 독립 검수.8값·receipt·실제 Git source
   manifest·원시 역삭제·전이/반례·최종 후보를 직접 확인한다.
-- Root 기록: 이 사양·`docs/CODEX_QUEUE.md`·`docs/queue_active/ORDER-391.md`,
+- Root 기록: 이 사양·`docs/CODEX_QUEUE.md`·`docs/CODEX_QUEUE_L3_PENDING.md`
+  (활성 행 추가/완료에 따른 순번만 기계적으로 이동)·`docs/queue_active/ORDER-391.md`,
   `CLAUDE.md`·`docs/WORK_LOG.md`·생성 `docs/STATUS.md`, 필요시 기존
   `docs/history/WORK_LOG_2026-09-07_localization.md` 손실 없는 이동,
   `docs/agent_reviews/ORDER-392.json`·`docs/agent_review_decisions.json`,
