@@ -14463,6 +14463,8 @@ func _make_essential_action_card(title: String, subtitle: String, icon_id: Strin
 
 	var badge_lbl := _label(badge_text, 11, "#a7f3d0" if free_action and not disabled else "#aab3c5")
 	badge_lbl.set_meta("moral_role", "choice_badge_text")
+	if icon_id == "shop" and not forced_badge.is_empty():
+		badge_lbl.clip_text = false
 	if forced_badge == _tr("잠금", "Locked"):
 		badge_lbl.add_theme_color_override("font_color", Color("#6d7282"))
 	badge_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
