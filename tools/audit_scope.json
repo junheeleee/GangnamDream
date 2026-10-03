@@ -14,6 +14,40 @@
   ],
   "fast_lanes": [
     {
+      "id": "career-tenure",
+      "paths": [],
+      "owned_paths": [
+        "scenes/MainGame.gd",
+        "tools/main_game_locale_history.py",
+        "tools/ja_translation_pipeline.py",
+        "tools/ui_translation_append.py",
+        "tools/ui_translation_append_self_test.py",
+        "tools/audit_scope.json",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/WORK_LOG.md",
+        "docs/STATUS.md",
+        "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-409.json",
+        "docs/queue_active/ORDER-409.md",
+        "docs/queue_archive/ORDER-409.md"
+      ],
+      "tools": [
+        "tools/ui_translation_append_self_test.py --career-tenure",
+        "tools/order365_ui_receipt_compat.py",
+        "tools/full_body_translation_scope.py",
+        "tools/story_graph_contract_audit.py",
+        "tools/chapter5_human_reject_audit.py",
+        "tools/year5_reference_route_audit.py",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/ja_translation_audit.py --scope ui",
+        "tools/zh_translation_audit.py",
+        "tools/en_coverage_check.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Exact409 tenure clipping/inclusive60 English repair: same Korean leaves and accepted receipts, ten-stage fresh Git proof/eight inverses, three actual collector pairs and exact10 manifests. Five prepared work-menu screens separately; no historical suite or whole audit."
+    },
+    {
       "id": "chapter1-ui-proof-reuse",
       "paths": [],
       "owned_paths": [
@@ -2441,6 +2475,18 @@
   ],
   "checks": [
     {
+      "tool": "tools/ui_translation_append_self_test.py --career-tenure",
+      "paths": [
+        "scenes/MainGame.gd",
+        "tools/main_game_locale_history.py",
+        "tools/ja_translation_pipeline.py",
+        "tools/ui_translation_append.py",
+        "tools/ui_translation_append_self_test.py"
+      ],
+      "why": "Current409 two anchored edits, ten immutable stages, eight inverses, same-Korean source/leaf identity, current collector English/coordinates, unchanged dictionaries/receipts and exact10 manifests.",
+      "godot": false
+    },
+    {
       "tool": "tools/chapter1_ui_proof_reuse_check.py",
       "paths": [
         "tools/chapter1_core_loop_v2_causal_ledger_check.py",
@@ -2451,15 +2497,8 @@
     },
     {
       "tool": "tools/ui_translation_append_self_test.py --promotion-review",
-      "paths": [
-        "scenes/MainGame.gd",
-        "tools/main_game_locale_history.py",
-        "tools/ja_translation_pipeline.py",
-        "tools/ja_translation_audit.py",
-        "tools/ui_translation_append.py",
-        "tools/ui_translation_append_self_test.py"
-      ],
-      "why": "Current406 exact promotion pair, fresh Git/raw/HEAD and exact9 manifests, real two-pair collector/self-seal, old JA retained boundary and three official current receipts.",
+      "paths": [],
+      "why": "Historical406 explicit CLI and original body retained. Current409 selection uses career-tenure rather than repeating the older HEAD-bound source test.",
       "godot": false
     },
     {

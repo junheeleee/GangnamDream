@@ -2625,6 +2625,269 @@ def promotion_review_self_test() -> tuple[list[str], int]:
 # END_PROMOTION_REVIEW_SELF_TEST_406
 
 
+# BEGIN_CAREER_TENURE_SELF_TEST_409
+def career_tenure_self_test() -> tuple[list[str], int]:
+    """Current409 two-line repair only; no historical suites or rendered claims."""
+    import main_game_locale_history as history
+    import ja_translation_pipeline as ja
+    failures, cases = [], 0
+    def check(ok, label):
+        nonlocal cases
+        cases += 1
+        if not ok:
+            failures.append("career tenure: " + label)
+    def reject(action, label, message=None):
+        try:
+            action()
+        except (ValueError, OSError, KeyError, TypeError, IndexError, subprocess.TimeoutExpired) as exc:
+            check(message is None or message in str(exc), label)
+        else:
+            check(False, label)
+    sha = lambda value: hashlib.sha256(value).hexdigest()
+    path = history.MAIN_GAME_PATH
+    before_commit = "8b62fea21b41802cffbeadee5fb006535b2f86dc"
+    after_commit = "8d570d8b26cd834122b890615180d33a6a5c5443"
+    check((history.TENURE_BEFORE_COMMIT, history.TENURE_AFTER_COMMIT) == (before_commit, after_commit),
+          "independent exact MainGame-only checkpoint pair")
+    protected = (path, "tools/main_game_locale_history.py", "tools/ui_translation_append.py",
+                 "tools/ui_translation_append_self_test.py", "tools/audit_scope.json",
+                 "tools/ja_translation_pipeline.py", "tools/ja_translation_audit.py", *append.CURRENT_PATHS)
+    observed = {p: sha((ROOT / p).read_bytes()) for p in protected}
+    raw = (ROOT / path).read_bytes()
+    prefixes = ("MODAL", "JOB_STATUS", "INVESTMENT", "TUTORIAL", "PAD_HINT", "PEOPLE_CARD",
+                "PEOPLE_CARD_REPAIR", "AXIS_BADGE", "PROMOTION", "TENURE")
+    stages = [tuple(getattr(history, prefix + suffix) for suffix in
+                    ("_BEFORE_COMMIT", "_AFTER_COMMIT", "_TREES", "_BLOBS", "_HASHES"))
+              for prefix in prefixes]
+    real_git = history._modal_git
+    trace, batches = [], []
+    def traced(where, *args, **kwargs):
+        value = real_git(where, *args, **kwargs)
+        trace.append((args, kwargs.get("input")))
+        if args == ("cat-file", "--batch"):
+            batches.append(value)
+        return value
+    with mock.patch.object(history, "_modal_git", side_effect=traced):
+        predecessors = history._career_tenure_proof(raw, ROOT)
+    prior, pre406, pre403, pre402, pre393, pre390, pre386, old = predecessors
+    check(tuple(sha(value) for value in (raw, *predecessors)) == (
+        "9eb5c522e8be5f81ee56ba683f9d1db61d2625b38acf96b99169d7b7aed7c976",
+        "bda4961c1a377edcaee454b83937c3a580bce029b3a802ef293118f3f2d3823d",
+        "4c86abe5880d49128a511da36ad361f76c4290c10103d976e1dd33d66294d6bf",
+        "473aab2946d2b76a6263e57fc36facfc24de83629fddf88f3005200a81a15e7d",
+        "ed116a1d4dae6dc0fcac708204c97eaadf988070e501c0bb1df437be6e38170d",
+        "db5d0dc1f8890ea5ae3e0b9d1f212c2a316be50ef3265804dbde9dba0279a8ff",
+        "6432a5ceb5844c1fdc54265547053dc82db8808ea87f442058412f03d24eed90",
+        "eb9efa2243ae97e032ca13e64bae3f42558fe9618babe97c5bc3d21a05e23cea",
+        "3f42b49c99c94310436661e44c3029d0335b0998d467a7582c8d3524acf55532"),
+        "current and eight independent predecessor raw pins")
+    expected_requests = []
+    for before, after, trees, _blobs, _hashes in stages:
+        expected_requests.extend((before, after, *trees, before + ":" + path, after + ":" + path))
+    check([data for args, data in trace if args == ("cat-file", "--batch")]
+          == [("\n".join(expected_requests) + "\n").encode()], "all sixty immutable objects requested once")
+    check([args for args, _ in trace if args[:1] == ("diff",)] == [
+          ("diff", "--name-status", "-z", before, after) for before, after, *_ in stages],
+          "all ten MainGame-only path populations checked")
+    expected_ancestry = [("merge-base", "--is-ancestor", stages[i - 1][1], stages[i][0]) for i in range(1, 10)]
+    expected_ancestry.append(("merge-base", "--is-ancestor", after_commit, "HEAD"))
+    check([args for args, _ in trace if args[:1] == ("merge-base",)] == expected_ancestry,
+          "all nine stage links and current HEAD ancestry checked")
+    check([args for args, _ in trace if args[:1] == ("rev-parse",)] == [("rev-parse", "HEAD:" + path)],
+          "actual current HEAD blob checked")
+    for index, name in enumerate(("career_tenure", "promotion_review", "axis_badge_fit", "people_card_height",
+                                  "pad_hint_font", "tutorial_copy", "investment_footer", "modal_font")):
+        check(getattr(history, name + "_predecessor")(raw, ROOT) == predecessors[index], "predecessor " + name)
+    reject(lambda: history._promotion_review_copy_proof(raw, ROOT), "unchanged406 rejects non406 current raw")
+    for code, marker in (("tools/main_game_locale_history.py", b"# BEGIN_CAREER_TENURE_HISTORY_409"),
+                         ("tools/ui_translation_append.py", b"# BEGIN_CAREER_TENURE_MANIFEST_409"),
+                         ("tools/ui_translation_append_self_test.py", b"# BEGIN_CAREER_TENURE_SELF_TEST_409")):
+        current_code = (ROOT / code).read_bytes()
+        original = append._git(ROOT, "show", before_commit + ":" + code)
+        if code.endswith("_self_test.py"):
+            original = original.split(b"\ndef main() -> int:\n")[0]
+        check(current_code.splitlines().count(marker) == 1 and current_code.startswith(original)
+              and not current_code[len(original):current_code.index(marker)].strip(), "older bodies/pins preserved " + code)
+    check((ROOT / "tools/ja_translation_audit.py").read_bytes() == append._git(
+          ROOT, "show", before_commit + ":tools/ja_translation_audit.py"), "Japanese audit unchanged")
+    check(len(history.TENURE_REPLACEMENTS) == 2 and history._career_tenure_inverse(raw, prior) == prior,
+          "exact two anchored changes inverse to actual predecessor")
+    for index, (before, after) in enumerate(history.TENURE_REPLACEMENTS):
+        before, after = before.encode(), after.encode()
+        for label, mutant in (("partial", raw.replace(after, after[:len(after)//2], 1)),
+                              ("rollback one", raw.replace(after, before, 1)), ("duplicate", raw + after),
+                              ("moved", raw.replace(after, before, 1) + after)):
+            reject(lambda value=mutant: history._career_tenure_inverse(value, prior), "hunk " + str(index) + " " + label)
+    for label, source, target in (
+            ("tenure floor", b"tenure_lbl.custom_minimum_size = Vector2(36, 0)", b"tenure_lbl.custom_minimum_size = Vector2(37, 0)"),
+            ("months floor", b"months_lbl.custom_minimum_size = Vector2(72, 0)", b"months_lbl.custom_minimum_size = Vector2(73, 0)"),
+            ("row separation", b'tenure_row.add_theme_constant_override("separation", 8)', b'tenure_row.add_theme_constant_override("separation", 9)'),
+            ("wrong label", b"tenure_lbl.clip_text = false", b"months_lbl.clip_text = false"),
+            ("clip retained", b"tenure_lbl.clip_text = false", b"tenure_lbl.clip_text = true"),
+            ("condition", b"if tenure >= threshold and perf >= 60:", b"if tenure >= threshold and perf > 60:"),
+            ("Korean source", history.TENURE_KO.encode(), (history.TENURE_KO + " ").encode())):
+        check(raw.count(source) == 1, "negative control exact1 " + label)
+        reject(lambda a=source, b=target: history._career_tenure_inverse(raw.replace(a, b, 1), prior), "unowned " + label)
+    for label, mutant in (("whole rollback", prior), ("whitespace", raw + b"\n"), ("invalid type", None)):
+        reject(lambda value=mutant: history.career_tenure_predecessor(value, ROOT), label)
+    # Corrupt one actual immutable commit payload at each of the ten stages.
+    # This is a scoped Git-output fault; real objects/repository are never edited.
+    batch = batches[0]
+    offsets, cursor = [], 0
+    for _ in range(60):
+        end = batch.index(b"\n", cursor)
+        size = int(batch[cursor:end].split()[2])
+        offsets.append(end + 1)
+        cursor = end + 2 + size
+    check(cursor == len(batch), "actual sixty-object output decoded exactly")
+    for stage, prefix in enumerate(prefixes):
+        offset = offsets[stage * 6 + 1]
+        mutant = batch[:offset] + bytes([batch[offset] ^ 1]) + batch[offset + 1:]
+        with mock.patch.object(history, "_modal_git", side_effect=lambda where, *args, altered=mutant, **kw:
+                               altered if args == ("cat-file", "--batch") else real_git(where, *args, **kw)):
+            reject(lambda: history._career_tenure_proof(raw, ROOT), "immutable stage " + prefix, "forged immutable object")
+    for label, target, replacement in (
+            ("missing object", ("cat-file", "--batch"), lambda value: b"missing\n"),
+            ("trailing proof", ("cat-file", "--batch"), lambda value: value + b"extra"),
+            ("path population", ("diff", "--name-status"), lambda value: value + b"M\0neighbor.gd\0"),
+            ("HEAD rollback", ("rev-parse",), lambda value: history.TENURE_BLOBS[0].encode() + b"\n")):
+        def altered(where, *args, **kwargs):
+            value = real_git(where, *args, **kwargs)
+            return replacement(value) if args[:len(target)] == target else value
+        with mock.patch.object(history, "_modal_git", side_effect=altered):
+            reject(lambda: history.career_tenure_predecessor(raw, ROOT), label)
+    for target in expected_ancestry:
+        def unavailable(where, *args, **kwargs):
+            if args == target:
+                raise ValueError("synthetic unavailable ancestor")
+            return real_git(where, *args, **kwargs)
+        with mock.patch.object(history, "_modal_git", side_effect=unavailable):
+            reject(lambda: history.career_tenure_predecessor(raw, ROOT), "ancestor " + target[-1], "unavailable ancestor")
+    with mock.patch.object(history, "TENURE_TREES", tuple(reversed(history.TENURE_TREES))):
+        reject(lambda: history.career_tenure_predecessor(raw, ROOT), "valid objects wrong tree", "immutable tree differs")
+    original = real_git(ROOT, "cat-file", "commit", after_commit)
+    parent = b"parent " + before_commit.encode()
+    check(original.count(parent + b"\n") == 1, "actual direct parent exact1")
+    forged = original.replace(parent, b"parent " + history.PROMOTION_BEFORE_COMMIT.encode(), 1)
+    forged_oid = hashlib.sha1(b"commit " + str(len(forged)).encode() + b"\0" + forged).hexdigest()
+    old_block = after_commit.encode() + b" commit " + str(len(original)).encode() + b"\n" + original + b"\n"
+    new_block = forged_oid.encode() + b" commit " + str(len(forged)).encode() + b"\n" + forged + b"\n"
+    def resigned_parent(where, *args, **kwargs):
+        if args != ("cat-file", "--batch"):
+            return real_git(where, *args, **kwargs)
+        incoming = kwargs["input"].replace(forged_oid.encode(), after_commit.encode())
+        data = real_git(where, *args, **{**kwargs, "input": incoming})
+        if data.count(old_block) != 1:
+            raise ValueError("parent-control population differs")
+        return data.replace(old_block, new_block, 1)
+    with mock.patch.object(history, "TENURE_AFTER_COMMIT", forged_oid), mock.patch.object(history, "_modal_git", side_effect=resigned_parent):
+        reject(lambda: history.career_tenure_predecessor(raw, ROOT), "re-signed wrong parent", "direct parent differs")
+    for name, previous in (("main_game_history", history._MODAL_OLD_PUBLIC), ("gift_caption", history._MODAL_OLD_GIFT)):
+        source, project, digest = (getattr(history, name + suffix) for suffix in ("_source_errors", "_project_bytes", "_project_byte_hash"))
+        expected = previous[1](old, path)
+        check(not source(path, raw) and project(raw, path) == expected and digest(sha(raw), path, raw) == sha(expected), name + " current entrances")
+        check(bool(source(path, prior)) and project(prior, path) == prior and digest("0" * 64, path, raw) == "0" * 64,
+              name + " rollback/unbound hash fail closed")
+
+    ordered = lambda calls: tuple(sorted(calls, key=lambda c: (c.path, c.line, c.api)))
+    prior_calls, prior_errors = ja.parse_ui_calls(path, prior.decode())
+    actual, actual_errors = ja.parse_ui_calls(path, raw.decode())
+    pre381_calls, actual_calls = ja._career_tenure_call_views(raw)
+    prior_calls = ordered(prior_calls)
+    check(not prior_errors and not actual_errors and actual_calls == ordered(actual), "actual parser/current view coordinates")
+    clip_line = raw[:raw.index(b"\t\t\ttenure_lbl.clip_text = false\n")].count(b"\n") + 1
+    expected_calls = tuple(replace(call, english=history.TENURE_NEW_EN if call.korean == history.TENURE_KO else call.english,
+                                   line=call.line + (call.line >= clip_line)) for call in prior_calls)
+    check(expected_calls == actual_calls and sum(c.korean == history.TENURE_KO for c in actual_calls) == 1,
+          "same Korean selectors/order, one English update, exact insertion-line shift")
+    with mock.patch.object(history, "modal_font_predecessor", return_value=old):
+        for label, mutant in (("old English", raw.replace(history.TENURE_NEW_EN.encode(), history.TENURE_OLD_EN.encode(), 1)),
+                              ("new Korean", raw.replace(history.TENURE_KO.encode(), (history.TENURE_KO + " ").encode(), 1)),
+                              ("wrong owner", raw.replace(b"func _open_cat_work():", b"func _unowned_work():", 1))):
+            reject(lambda value=mutant: ja._career_tenure_call_views(value), "semantic-only " + label)
+    inventory = ja.collect_ui_inventory()
+    baseline = ja._MODAL_LOCATION_OLD_COLLECT()
+    check(not inventory.errors and tuple(c for c in inventory.calls if c.path == path) == actual_calls
+          and ja.modal_rebind_inventory(baseline, raw) == inventory, "actual full collector rebinding")
+    with mock.patch.object(ja, "_promotion_review_call_views", return_value=(pre381_calls, prior_calls)):
+        prior_inventory = ja._TENURE_OLD_REBIND_INVENTORY(baseline, prior)
+    old_entries = {e.source: e for e in prior_inventory.legacy_entries}
+    new_entries = {e.source: e for e in inventory.legacy_entries}
+    check(set(old_entries) == set(new_entries) and inventory.legacy_blueprint == prior_inventory.legacy_blueprint
+          and all(replace(entry, context=old_entries[key].context) == old_entries[key] for key, entry in new_entries.items()),
+          "all legacy source/key/format identities and selection set unchanged except context coordinates")
+    expected_contexts = {e.source: e.context for e in ja._gift_caption_inventory_view(prior_inventory, inventory.calls).legacy_entries}
+    check(all(entry.context == expected_contexts[key] for key, entry in new_entries.items()), "every context uses actual source coordinates")
+    for field in ("planned_context_entries", "observed_context_entries", "planned_context_blueprint", "observed_context_blueprint", "stats"):
+        check(getattr(inventory, field) == getattr(prior_inventory, field), "unchanged context layer " + field)
+    leaf = lambda entry: append.exchange.Leaf("ui", entry.source, "runtime:static_ui", (entry.source,), entry.source,
+                                               "ui_static_context", format_template=entry.format_template)
+    check({key: (leaf(e).id, leaf(e).source_sha256) for key, e in old_entries.items()} ==
+          {key: (leaf(e).id, leaf(e).source_sha256) for key, e in new_entries.items()}, "every Korean-source leaf identity unchanged")
+    code = (ROOT / "tools/ja_translation_pipeline.py").read_bytes()
+    check(ja.career_tenure_pipeline_predecessor(code) == append._git(ROOT, "show", before_commit + ":tools/ja_translation_pipeline.py"),
+          "collector appendix inverse preserves complete old module")
+    for label, mutant in (("neighbor", code + b"\n"), ("appendix", code.replace(b"def _career_tenure_call_views(raw):", b"def _career_tenure_call_views(raw): # changed", 1))):
+        check(mutant != code, "collector control differs " + label)
+        reject(lambda value=mutant: ja.career_tenure_pipeline_predecessor(value), "collector seal " + label)
+    before_ui = append._snapshot(ROOT, before_commit, append.CURRENT_PATHS)
+    after_ui = {p: (ROOT / p).read_bytes() for p in append.CURRENT_PATHS}
+    check(after_ui == before_ui, "all three dictionaries and whole official receipt/header ledger byte-identical")
+    ledger = json.loads(after_ui[append.LEDGER_PATH])
+    check(sum(len(rows) for rows in ledger["accepted"].values()) == 41152 and len(ledger["batches"]) == 178
+          and ledger["accepted_sha256"] == append.exchange.digest(ledger["accepted"]), "accepted41152/batches178 and checksum preserved")
+    for locale in ("zh-CN", "zh-TW"):
+        entry = new_entries[history.TENURE_KO]
+        target = json.loads(after_ui["locale/ui_" + locale + ".json"])[history.TENURE_KO]
+        check(ledger["accepted"][locale][leaf(entry).id] == {"source_sha256": leaf(entry).source_sha256,
+              "target_sha256": append.exchange.digest(target)}, "existing unchanged source/target receipt " + locale)
+
+    hashes = {path: sha(raw), append.ARUBA_FONT_PATH: sha((ROOT / append.ARUBA_FONT_PATH).read_bytes()), "unchanged.json": "1" * 64}
+    source = {"source_hashes": hashes, "source_manifest_sha256": append.exchange.digest(hashes)}
+    preserved = copy.deepcopy(source)
+    views = [hashes, *({**hashes, path: sha(value)} for value in predecessors),
+             {**hashes, path: sha(old), append.ARUBA_FONT_PATH: append.ARUBA_FONT_BEFORE_SHA256}]
+    check(len(views) == len({append.exchange.digest(view) for view in views}) == 10, "exact ten manifest views")
+    real_proof = history._career_tenure_proof
+    for index, view in enumerate(views):
+        with mock.patch.object(history, "_career_tenure_proof", wraps=real_proof) as proof:
+            check(append._source_manifest_matches(ROOT, source, append.exchange.digest(view)) and proof.call_count == 1,
+                  "one fresh proof for allowed manifest " + str(index))
+    intermediate = append._git(ROOT, "show", history.PEOPLE_CARD_AFTER_COMMIT + ":" + path)
+    invalid = ["0" * 64, append.exchange.digest({**hashes, path: sha(intermediate)})]
+    invalid += [append.exchange.digest({**view, append.ARUBA_FONT_PATH: append.ARUBA_FONT_BEFORE_SHA256}) for view in views[:-2]]
+    for index, expected in enumerate(invalid):
+        check(not append._source_manifest_matches(ROOT, source, expected), "unknown/failed402/wrong-font manifest " + str(index))
+    check(source == preserved, "actual census never rewritten")
+    reject(lambda: append._source_manifest_matches(ROOT, {"source_hashes": views[1], "source_manifest_sha256": append.exchange.digest(views[1])},
+                                                   append.exchange.digest(views[1])), "historical raw masquerading as current")
+    reject(lambda: append._source_manifest_matches(ROOT, {**source, "source_manifest_sha256": "0" * 64}, append.exchange.digest(hashes)), "forged census digest")
+    neighbor = {**hashes, "unchanged.json": "0" * 64}
+    check(not append._source_manifest_matches(ROOT, {"source_hashes": neighbor, "source_manifest_sha256": append.exchange.digest(neighbor)},
+                                              append.exchange.digest(views[1])), "unowned source difference not exempted")
+    forged_font = {**hashes, append.ARUBA_FONT_PATH: "0" * 64}
+    reject(lambda: append._source_manifest_matches(ROOT, {"source_hashes": forged_font, "source_manifest_sha256": append.exchange.digest(forged_font)},
+                                                   append.exchange.digest(forged_font)), "current expected cannot bypass Aruba raw census", "Aruba source census")
+    real_read = Path.read_bytes
+    def head_fault(where, *args, **kwargs):
+        return history.TENURE_BLOBS[0].encode() + b"\n" if args == ("rev-parse", "HEAD:" + path) else real_git(where, *args, **kwargs)
+    def raw_fault(file):
+        value = real_read(file)
+        return value + b"\n" if file == ROOT / path else value
+    for label, fault in (("Git", mock.patch.object(history, "_modal_git", side_effect=OSError("lost after success"))),
+                         ("HEAD", mock.patch.object(history, "_modal_git", side_effect=head_fault)),
+                         ("raw", mock.patch.object(Path, "read_bytes", raw_fault))):
+        with mock.patch.object(history, "_career_tenure_proof", wraps=real_proof) as proof:
+            check(append._source_manifest_matches(ROOT, source, append.exchange.digest(hashes)), label + " first success")
+            with fault:
+                reject(lambda: append._source_manifest_matches(ROOT, source, append.exchange.digest(hashes)), label + " fresh failure")
+            check(append._source_manifest_matches(ROOT, source, append.exchange.digest(hashes)) and proof.call_count == 3,
+                  label + " fresh recovery, no cross-call cache")
+    check(all(sha((ROOT / p).read_bytes()) == value for p, value in observed.items()), "all observed source/dictionary/receipt bytes unchanged")
+    return failures, cases
+# END_CAREER_TENURE_SELF_TEST_409
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--synthetic-only", action="store_true", help="author development only; not current acceptance")
@@ -2640,7 +2903,14 @@ def main() -> int:
     parser.add_argument("--people-card-height", action="store_true", help="current402 local people-card height and source boundary only; no historical suites")
     parser.add_argument("--axis-badge-fit", action="store_true", help="current403 axis fit, source and exact manifest equivalence only; no historical suites")
     parser.add_argument("--promotion-review", action="store_true", help="current406 pair, actual collector, retained JA and three receipts only; no historical suites")
+    parser.add_argument("--career-tenure", action="store_true", help="current409 tenure width/English pair and unchanged receipt identity only; no historical suites")
     args = parser.parse_args()
+    if args.career_tenure:
+        errors, cases = career_tenure_self_test()
+        for error in errors:
+            print("UI_TRANSLATION_APPEND_ERROR " + error)
+        print(f"UI_TRANSLATION_APPEND_CAREER_TENURE_{'FAIL' if errors else 'OK'} cases={cases} historical_cases=0")
+        return int(bool(errors))
     if args.promotion_review:
         errors, cases = promotion_review_self_test()
         for error in errors:
@@ -2729,11 +2999,11 @@ def main() -> int:
         cases += correction_cases
         print(f"UI_TRANSLATION_APPEND_CORRECTION cases={correction_cases}")
         # Earlier source bodies and explicit options remain historical. The
-        # default current source check follows actual406's exact promotion pair.
-        modal_errors, modal_cases = promotion_review_self_test()
+        # default current source check follows actual409's exact tenure repair.
+        modal_errors, modal_cases = career_tenure_self_test()
         errors.extend(modal_errors)
         cases += modal_cases
-        print(f"UI_TRANSLATION_APPEND_PROMOTION_REVIEW cases={modal_cases}")
+        print(f"UI_TRANSLATION_APPEND_CAREER_TENURE cases={modal_cases}")
         fee_errors, fee_cases = investment_fee_correction_self_test()
         errors.extend(fee_errors)
         cases += fee_cases

@@ -6690,5 +6690,100 @@ def modal_rebind_inventory(inventory, raw):
     return _gift_replace(result, legacy_entries=entries, legacy_blueprint=blueprint)
 # END_PROMOTION_REVIEW_COLLECTOR_406
 
+# BEGIN_CAREER_TENURE_COLLECTOR_409
+TENURE_PIPELINE_APPEND_SHA = "d00d80e05b50d03a23a278ced47061b914565a3abfc26fddb089102247482cf5"
+TENURE_PIPELINE_BEFORE_SHA = "c26eff24e0c2d42ab00a0bf48c4b4d529814d9aa7973300349cc5d3bad303be7"
+TENURE_PIPELINE_BEFORE_BLOB = "c0a904cc61cb6945888cf80b840e4ea5940b3feb"
+_TENURE_OLD_MODAL_PIPELINE_PREDECESSOR = modal_pipeline_predecessor
+_TENURE_OLD_TUTORIAL_CALL_VIEWS = _tutorial_copy_call_views
+_TENURE_OLD_PROMOTION_CALL_VIEWS = _promotion_review_call_views
+_TENURE_OLD_REBIND_INVENTORY = modal_rebind_inventory
+
+
+def career_tenure_pipeline_predecessor(raw):
+    """Remove only this sealed appendix before invoking the preserved406 chain."""
+    if not isinstance(raw, bytes) or Path(__file__).resolve() != ROOT / _NEW_RUN_JA:
+        raise ValueError("career-tenure code raw/import identity differs")
+    start, end = b"# BEGIN_CAREER_TENURE_COLLECTOR_409\n", b"# END_CAREER_TENURE_COLLECTOR_409\n\n"
+    if raw.count(start) != 1 or raw.count(end) != 1:
+        raise ValueError("career-tenure appendix boundaries differ")
+    a, z = raw.index(start), raw.index(end) + len(end)
+    span = raw[a:z]
+    binding = ('TENURE_PIPELINE_APPEND_SHA = "' + TENURE_PIPELINE_APPEND_SHA + '"').encode()
+    if span.count(binding) != 1 or hashlib.sha256(span.replace(
+            binding, b'TENURE_PIPELINE_APPEND_SHA = "UNBOUND"', 1)).hexdigest() != TENURE_PIPELINE_APPEND_SHA:
+        raise ValueError("career-tenure appendix seal differs")
+    previous = raw[:a] + raw[z:]
+    if hashlib.sha256(previous).hexdigest() != TENURE_PIPELINE_BEFORE_SHA:
+        raise ValueError("career-tenure whole predecessor differs")
+    blob = _current_demo_git("show", _gift_history.TENURE_BEFORE_COMMIT + ":" + _NEW_RUN_JA)
+    if blob != previous or hashlib.sha1(b"blob " + str(len(blob)).encode() + b"\0" + blob).hexdigest() != TENURE_PIPELINE_BEFORE_BLOB:
+        raise ValueError("career-tenure immutable code blob differs")
+    return previous
+
+
+def modal_pipeline_predecessor(raw):
+    return _TENURE_OLD_MODAL_PIPELINE_PREDECESSOR(career_tenure_pipeline_predecessor(raw))
+
+
+def _career_tenure_call_views(raw):
+    """Expose current English/locations while preserving every Korean identity."""
+    previous = _gift_history.modal_font_predecessor(raw, ROOT)
+    path = _gift_history.MAIN_GAME_PATH
+    before, old_errors = parse_ui_calls(path, previous.decode())
+    actual, errors = parse_ui_calls(path, raw.decode())
+    before.sort(key=lambda c: (c.path, c.line, c.api))
+    actual.sort(key=lambda c: (c.path, c.line, c.api))
+    semantic = lambda c: (c.path, c.function, c.api, c.korean, c.english, c.context_id)
+    pairs = tuple(((path, owner, "legacy", old_ko, old_en, ""),
+                   (path, owner, "legacy", new_ko, new_en, "")) for owner, old_ko, old_en, new_ko, new_en in (
+        ("_show_tutorial", _gift_history.TUTORIAL_OLD_KO, _gift_history.TUTORIAL_OLD_EN,
+         _gift_history.TUTORIAL_NEW_KO, _gift_history.TUTORIAL_NEW_EN),
+        ("_open_cat_work", _gift_history.PROMOTION_OLD_KO, _gift_history.PROMOTION_OLD_EN,
+         _gift_history.PROMOTION_NEW_KO, _gift_history.PROMOTION_NEW_EN),
+        ("_open_cat_work", _gift_history.TENURE_KO, _gift_history.TENURE_OLD_EN,
+         _gift_history.TENURE_KO, _gift_history.TENURE_NEW_EN)))
+    old_semantic, new_semantic = list(map(semantic, before)), list(map(semantic, actual))
+    replacements = dict(pairs)
+    retired = {_gift_history.TUTORIAL_OLD_KO, _gift_history.PROMOTION_OLD_KO}
+    if (old_errors or errors or len(replacements) != 3
+            or any(old_semantic.count(old) != 1 or new_semantic.count(new) != 1
+                   or old in new_semantic for old, new in pairs)
+            or any(c.korean in retired for c in actual)
+            or sum(c.korean == _gift_history.TENURE_KO for c in before) != 1
+            or sum(c.korean == _gift_history.TENURE_KO for c in actual) != 1
+            or [replacements.get(row, row) for row in old_semantic] != new_semantic):
+        raise ValueError("career-tenure exact three selectors or unowned semantics differ")
+    return tuple(before), tuple(actual)
+
+
+# Both retained-JA readers must see the current calls, not an earlier EN view.
+_tutorial_copy_call_views = _career_tenure_call_views
+_promotion_review_call_views = _career_tenure_call_views
+
+
+def modal_rebind_inventory(inventory, raw):
+    before, actual = _career_tenure_call_views(raw)
+    path = _gift_history.MAIN_GAME_PATH
+    if inventory.errors or tuple(c for c in inventory.calls if c.path == path) != before:
+        raise ValueError("career-tenure supplied predecessor inventory differs")
+    replacements = iter(actual)
+    calls = tuple(next(replacements) if c.path == path else c for c in inventory.calls)
+    result = _gift_caption_inventory_view(inventory, calls)
+    old_entries = {e.source: e for e in inventory.legacy_entries}
+    new_entries = {e.source: e for e in result.legacy_entries}
+    if (set(old_entries) - set(new_entries) != {_gift_history.TUTORIAL_OLD_KO, _gift_history.PROMOTION_OLD_KO}
+            or set(new_entries) - set(old_entries) != {_gift_history.TUTORIAL_NEW_KO, _gift_history.PROMOTION_NEW_KO}
+            or _gift_history.TENURE_KO not in old_entries or _gift_history.TENURE_KO not in new_entries):
+        raise ValueError("career-tenure Korean source identities changed")
+    entries = tuple(_gift_replace(old_entries[e.source], context=e.context)
+                    if e.source in old_entries else e for e in result.legacy_entries)
+    blueprint = {e.source: {"$entry": e.key} for e in entries}
+    if any(_gift_replace(e, context=old_entries[e.source].context) != old_entries[e.source]
+           for e in entries if e.source in old_entries):
+        raise ValueError("career-tenure unowned entry identity changed")
+    return _gift_replace(result, legacy_entries=entries, legacy_blueprint=blueprint)
+# END_CAREER_TENURE_COLLECTOR_409
+
 if __name__ == "__main__":
     sys.exit(main())

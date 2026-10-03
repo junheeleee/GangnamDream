@@ -2,6 +2,16 @@
 
 이전 원문 전체는 [2026-10-04 구직 메뉴까지의 기록](history/WORK_LOG_2026-10-04_pre_order405.md)에 바이트 그대로 보존했다.
 
+## 2026-10-04 (Codex — 근속 표시·영어 승진 안내 수리 후보)
+
+- [409](queue_active/ORDER-409.md) 선언f051e05 후 Main-only8d570d8:
+  tenure_lbl만 clip=false,36px최소폭·월수72·간격8·진행바EXPAND 보존.
+  EN above60→at least60을 실제>=60·KO60이상과 정렬했다. 조건·확률 변경0.
+- KO키·기존JA/CN/TW·영수증 전량을 보존하는10단계 source 연결과 새focused를
+  분리 저작했다. 실제 영어값/호출좌표만 갱신하며 역사 모듈/pin은 그대로다.
+  최종후보를 고정한 뒤 B상태5언어·표적normal/focused를 검수한다. 현재 GO 전.
+- 공개GO1·인간OPEN45·본편/새packageHOLD·원어민/인간/물리 미관측 유지.
+
 ## 2026-10-04 (Codex — 검수시간 단축 마감·근속 안내 수리 착수)
 
 - [408 완료](queue_archive/ORDER-408.md): sourcefb46b9f/tree5204c33,

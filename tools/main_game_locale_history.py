@@ -1639,3 +1639,164 @@ def investment_footer_predecessor(current, root=None):
 def modal_font_predecessor(current, root=None):
     return _promotion_review_copy_proof(current, root)[6]
 # END_PROMOTION_REVIEW_HISTORY_406
+
+
+# BEGIN_CAREER_TENURE_HISTORY_409
+# Exact local label fit and EN-only successor; all earlier bodies/pins stay intact.
+TENURE_BEFORE_COMMIT = "8b62fea21b41802cffbeadee5fb006535b2f86dc"
+TENURE_AFTER_COMMIT = "8d570d8b26cd834122b890615180d33a6a5c5443"
+TENURE_TREES = ("b597754994398b94be04b4df0aa03b7a59f3a5c4", "be896f3530c7707cfe6127987ef7960163938c25")
+TENURE_BLOBS = ("660f0f98b9a3ac3f2809d9bdb8a1856b51e410ba", "f1d2399dde9422b8417497f76b1f5bf8d5029822")
+TENURE_HASHES = ("bda4961c1a377edcaee454b83937c3a580bce029b3a802ef293118f3f2d3823d",
+                 "9eb5c522e8be5f81ee56ba683f9d1db61d2625b38acf96b99169d7b7aed7c976")
+TENURE_KO = "근속 기간 충족. 업무 성과를 60 이상으로 올리세요."
+TENURE_OLD_EN = "Tenure met. Raise performance above 60."
+TENURE_NEW_EN = "Tenure met. Raise performance to at least 60."
+TENURE_REPLACEMENTS = (
+    (
+        '\t\t\tvar tenure_lbl = _label(_tr("근속", "Tenure"), 12, "#7a8496")\n\t\t\ttenure_lbl.custom_minimum_size = Vector2(36, 0)\n\t\t\ttenure_row.add_child(tenure_lbl)\n',
+        '\t\t\tvar tenure_lbl = _label(_tr("근속", "Tenure"), 12, "#7a8496")\n\t\t\ttenure_lbl.custom_minimum_size = Vector2(36, 0)\n\t\t\ttenure_lbl.clip_text = false\n\t\t\ttenure_row.add_child(tenure_lbl)\n',
+    ),
+    (
+        '\t\t\telif tenure >= threshold:\n\t\t\t\tmodal_body.add_child(_wrap_label(_tr("근속 기간 충족. 업무 성과를 60 이상으로 올리세요.", "Tenure met. Raise performance above 60."), 13, _info_text_hex("#f0b429", 0.02)))\n\t\t\telse:\n',
+        '\t\t\telif tenure >= threshold:\n\t\t\t\tmodal_body.add_child(_wrap_label(_tr("근속 기간 충족. 업무 성과를 60 이상으로 올리세요.", "Tenure met. Raise performance to at least 60."), 13, _info_text_hex("#f0b429", 0.02)))\n\t\t\telse:\n',
+    ),
+)
+
+
+def _career_tenure_inverse(current, before):
+    """Undo exactly both anchored edits; this pure boundary does not trust hashes."""
+    if (not isinstance(current, bytes) or not isinstance(before, bytes)
+            or not isinstance(TENURE_REPLACEMENTS, tuple) or len(TENURE_REPLACEMENTS) != 2
+            or any(not isinstance(pair, tuple) or len(pair) != 2
+                   or any(not isinstance(part, str) for part in pair)
+                   for pair in TENURE_REPLACEMENTS)):
+        raise ValueError("ORDER-409: inverse population/type differs")
+    recovered = current
+    for old, new in reversed(TENURE_REPLACEMENTS):
+        old, new = old.encode(), new.encode()
+        if (not old or old == new or before.count(old) != 1 or before.count(new) != 0
+                or recovered.count(new) != 1):
+            raise ValueError("ORDER-409: local inverse is not exact2")
+        recovered = recovered.replace(new, old, 1)
+    if recovered != before:
+        raise ValueError("ORDER-409: changes outside exact career tenure repairs")
+    return recovered
+
+
+def _career_tenure_proof(current, root=None):
+    """Fresh ten-stage proof; eight comparison-only predecessors, never a cache."""
+    from pathlib import Path
+    root = Path(root) if root is not None else Path(__file__).resolve().parents[1]
+    if not isinstance(current, bytes) or hashlib.sha256(current).hexdigest() != TENURE_HASHES[1]:
+        raise ValueError("ORDER-409: unapproved current MainGame raw")
+    stages = (
+        (MODAL_BEFORE_COMMIT, MODAL_AFTER_COMMIT, MODAL_TREES, MODAL_BLOBS, MODAL_HASHES),
+        (JOB_STATUS_BEFORE_COMMIT, JOB_STATUS_AFTER_COMMIT, JOB_STATUS_TREES, JOB_STATUS_BLOBS, JOB_STATUS_HASHES),
+        (INVESTMENT_BEFORE_COMMIT, INVESTMENT_AFTER_COMMIT, INVESTMENT_TREES, INVESTMENT_BLOBS, INVESTMENT_HASHES),
+        (TUTORIAL_BEFORE_COMMIT, TUTORIAL_AFTER_COMMIT, TUTORIAL_TREES, TUTORIAL_BLOBS, TUTORIAL_HASHES),
+        (PAD_HINT_BEFORE_COMMIT, PAD_HINT_AFTER_COMMIT, PAD_HINT_TREES, PAD_HINT_BLOBS, PAD_HINT_HASHES),
+        (PEOPLE_CARD_BEFORE_COMMIT, PEOPLE_CARD_AFTER_COMMIT, PEOPLE_CARD_TREES, PEOPLE_CARD_BLOBS, PEOPLE_CARD_HASHES),
+        (PEOPLE_CARD_REPAIR_BEFORE_COMMIT, PEOPLE_CARD_REPAIR_AFTER_COMMIT, PEOPLE_CARD_REPAIR_TREES,
+         PEOPLE_CARD_REPAIR_BLOBS, PEOPLE_CARD_REPAIR_HASHES),
+        (AXIS_BADGE_BEFORE_COMMIT, AXIS_BADGE_AFTER_COMMIT, AXIS_BADGE_TREES, AXIS_BADGE_BLOBS, AXIS_BADGE_HASHES),
+        (PROMOTION_BEFORE_COMMIT, PROMOTION_AFTER_COMMIT, PROMOTION_TREES, PROMOTION_BLOBS, PROMOTION_HASHES),
+        (TENURE_BEFORE_COMMIT, TENURE_AFTER_COMMIT, TENURE_TREES, TENURE_BLOBS, TENURE_HASHES),
+    )
+    requests = []
+    for before, after, trees, blobs, _hashes in stages:
+        requests.extend((c, c, "commit") for c in (before, after))
+        requests.extend((t, t, "tree") for t in trees)
+        requests.extend((c + ":" + MAIN_GAME_PATH, oid, "blob") for c, oid in zip((before, after), blobs))
+    proof = _modal_git(root, "cat-file", "--batch", input=("\n".join(r[0] for r in requests) + "\n").encode())
+    values, cursor = [], 0
+    for _expression, wanted, kind in requests:
+        end = proof.index(b"\n", cursor)
+        oid, actual_kind, size = proof[cursor:end].decode().split()
+        size = int(size)
+        value = proof[end + 1:end + 1 + size]
+        if (size < 0 or oid != wanted or actual_kind != kind or len(value) != size
+                or hashlib.sha1(kind.encode() + b" " + str(size).encode() + b"\0" + value).hexdigest() != oid
+                or proof[end + 1 + size:end + 2 + size] != b"\n"):
+            raise ValueError("ORDER-409: forged immutable object")
+        values.append(value)
+        cursor = end + 2 + size
+    if cursor != len(proof):
+        raise ValueError("ORDER-409: trailing immutable proof bytes")
+    for stage, (before, after, trees, _blobs, hashes) in enumerate(stages):
+        offset = stage * 6
+        for index in range(2):
+            headers = values[offset + index].split(b"\n\n", 1)[0].splitlines()
+            if [h for h in headers if h.startswith(b"tree ")] != [b"tree " + trees[index].encode()]:
+                raise ValueError("ORDER-409: immutable tree differs")
+            if index and [h for h in headers if h.startswith(b"parent ")] != [b"parent " + before.encode()]:
+                raise ValueError("ORDER-409: direct parent differs")
+        if tuple(hashlib.sha256(v).hexdigest() for v in values[offset + 4:offset + 6]) != hashes:
+            raise ValueError("ORDER-409: immutable whole raw differs")
+        if _modal_git(root, "diff", "--name-status", "-z", before, after) != b"M\0" + MAIN_GAME_PATH.encode() + b"\0":
+            raise ValueError("ORDER-409: product path population differs")
+        if stage:
+            _modal_git(root, "merge-base", "--is-ancestor", stages[stage - 1][1], before)
+            if values[offset + 4] != values[offset - 1]:
+                raise ValueError("ORDER-409: nonconsecutive raw history")
+    _modal_git(root, "merge-base", "--is-ancestor", TENURE_AFTER_COMMIT, "HEAD")
+    if _modal_git(root, "rev-parse", "HEAD:" + MAIN_GAME_PATH).decode().strip() != TENURE_BLOBS[1]:
+        raise ValueError("ORDER-409: current Git MainGame differs")
+    if values[59] != current:
+        raise ValueError("ORDER-409: current/blob binding differs")
+    pre409 = _career_tenure_inverse(current, values[58])
+    pre406 = _promotion_review_copy_inverse(pre409, values[52])
+    pre403 = _axis_badge_fit_inverse(pre406, values[46])
+    recovered = _people_card_height_inverse(pre403, values[34])
+    intermediate = _people_card_height_step_inverse(pre403, values[40], PEOPLE_CARD_REPAIR_REPLACEMENT)
+    if _people_card_height_step_inverse(intermediate, values[34], PEOPLE_CARD_INITIAL_REPLACEMENT) != recovered:
+        raise ValueError("ORDER-409: stagewise and combined inverses differ")
+    recovered = _pad_hint_font_inverse(recovered, values[28])
+    inverse_stages = (((TUTORIAL_REPLACEMENT,), values[22]),
+                      (INVESTMENT_REPLACEMENTS, values[16]),
+                      ((tuple(v.decode() for v in JOB_STATUS_REPLACEMENT),), values[10]),
+                      (MODAL_REPLACEMENTS, values[4]))
+    if tuple(len(parts) for parts, _ in inverse_stages) != (1, 3, 1, 3):
+        raise ValueError("ORDER-409: prior inverse population differs")
+    for replacements, before in inverse_stages:
+        for old, new in reversed(replacements):
+            old, new = old.encode(), new.encode()
+            if not old or old == new or recovered.count(new) != 1:
+                raise ValueError("ORDER-409: prior inverse is not exact1")
+            recovered = recovered.replace(new, old, 1)
+        if recovered != before:
+            raise ValueError("ORDER-409: changes outside prior exact copy/rendering repairs")
+    return pre409, pre406, pre403, values[34], values[28], values[22], values[16], recovered
+
+
+def career_tenure_predecessor(current, root=None):
+    return _career_tenure_proof(current, root)[0]
+
+
+def promotion_review_predecessor(current, root=None):
+    return _career_tenure_proof(current, root)[1]
+
+
+def axis_badge_fit_predecessor(current, root=None):
+    return _career_tenure_proof(current, root)[2]
+
+
+def people_card_height_predecessor(current, root=None):
+    return _career_tenure_proof(current, root)[3]
+
+
+def pad_hint_font_predecessor(current, root=None):
+    return _career_tenure_proof(current, root)[4]
+
+
+def tutorial_copy_predecessor(current, root=None):
+    return _career_tenure_proof(current, root)[5]
+
+
+def investment_footer_predecessor(current, root=None):
+    return _career_tenure_proof(current, root)[6]
+
+
+def modal_font_predecessor(current, root=None):
+    return _career_tenure_proof(current, root)[7]
+# END_CAREER_TENURE_HISTORY_409
