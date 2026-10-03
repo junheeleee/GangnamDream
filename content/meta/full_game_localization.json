@@ -6535,6 +6535,90 @@
           "batch_id": "7142d53d7841de2e1022c9382f944a461c0d6aa0e0f61c1bff5da46295f2d424"
         }
       }
+    },
+    {
+      "order": "ORDER-401",
+      "group": "ui",
+      "roots": [
+        "돈",
+        "사람",
+        "무료",
+        "이제 닿지 않는 번호다.",
+        "더는 걸 수 없는 번호가 됐다.",
+        "그녀는 자기 세계로 돌아갔다.",
+        "확정",
+        "1회 선택"
+      ],
+      "source_leaves": 8,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 8,
+        "zh-TW": 0
+      },
+      "source_review": "Korean-direct people-menu shared badges and unreachable-contact guidance. Independent full source comparison; existing translations, gameplay and public demo unchanged. Agent review is not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "e80c17cbd643f99f71e2591b1d431cfea4baa7de463fcf03246fd32aa3fad13c"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "ff4164024692c1590fee01d53554af1faf340766",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "22cbbeb2b84f05223c42b2d329e414f96dcb5822986e484ff028c6a43b7d4c11",
+          "selection_sha256": "9fc840910b6f1f2333a355a0e059c92ba04ba168d9130e8c5b65d5f4de2c01ac",
+          "count": 8,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "381ddacd41ac2228d1cdfb8b3b4e425bc93c4ceefd9a655694179d09af0d595c"
+        }
+      }
+    },
+    {
+      "order": "ORDER-401",
+      "group": "ui",
+      "roots": [
+        "돈",
+        "사람",
+        "무료",
+        "이제 닿지 않는 번호다.",
+        "더는 걸 수 없는 번호가 됐다.",
+        "그녀는 자기 세계로 돌아갔다.",
+        "확정",
+        "1회 선택"
+      ],
+      "source_leaves": 8,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 8
+      },
+      "source_review": "Korean-direct people-menu shared badges and unreachable-contact guidance. Independent full source comparison; existing translations, gameplay and public demo unchanged. Agent review is not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-TW": "701114bc9d0b5f975d687ba5aeac983197699a6a5d7898f9f0a14e7cdd5734c2"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "ff4164024692c1590fee01d53554af1faf340766",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "22cbbeb2b84f05223c42b2d329e414f96dcb5822986e484ff028c6a43b7d4c11",
+          "selection_sha256": "727e402edb53114e60f3d9339261ba9a1657b6252ea4807f99f9e7f720456c6d",
+          "count": 8,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "e75cbfe1295ce5f3ff113bc8aa356349acbbba5adc05555c3e95fed31a7df1bd"
+        }
+      }
     }
   ],
   "accepted": {
@@ -114900,6 +114984,38 @@
       "ui:혼자 강남에 가는 사람은 없다.:/혼자 강남에 가는 사람은 없다.": {
         "source_sha256": "4075ce7f7bc062960bd63a0b2e005e265e732fb42978d36b76c60e9454491ab9",
         "target_sha256": "c2b7e6cfe8b04597c907ffb0f92d8784d5db9cf5970c2c867da1172c3710ae8d"
+      },
+      "ui:1회 선택:/1회 선택": {
+        "source_sha256": "fcd6f271bf4650302f1804947ff9a2f60d55a247c96870dea5df21326c1e9869",
+        "target_sha256": "33ea4fb3a2c4c3c6d01157f58694ec0215c109681085f94a3c1e91c0642a01d7"
+      },
+      "ui:그녀는 자기 세계로 돌아갔다.:/그녀는 자기 세계로 돌아갔다.": {
+        "source_sha256": "90566df7b006a322bf8e740a553163b93679669475ddff64edb861220881aff8",
+        "target_sha256": "7165065ed751960a3245398ca8a1f92880e8acec25bce53aaaf7727bc3d81591"
+      },
+      "ui:더는 걸 수 없는 번호가 됐다.:/더는 걸 수 없는 번호가 됐다.": {
+        "source_sha256": "5269ca684d8e1692d79b4ea9f54999340be5207ec3f2c3828f7e6bb1f3a63b3a",
+        "target_sha256": "902e9cebe90b0f4b9e68d7e033d1169fd90bb42978c6c3de7ca8b9d182ff7d28"
+      },
+      "ui:돈:/돈": {
+        "source_sha256": "8a0fdb40359b5d8a28522abcddb2b53c514e9d6bb6489b51a06d482898866ab9",
+        "target_sha256": "689e4b40c72f696ba7612a7f9d97860b08a0549ecd238111a3044773bd23d455"
+      },
+      "ui:무료:/무료": {
+        "source_sha256": "f6bdf7e54d861ddbb62a4f2ea16e162522011600b6a042beffe62ea2a4017cf5",
+        "target_sha256": "461568f45c064d25fbdaf244c420542f59971bfaa271c1a8966694d44449e53d"
+      },
+      "ui:사람:/사람": {
+        "source_sha256": "41e8664b1c26dce65e4f9646aee93905b6b1b3ed2bc5218d6bcec2fc02612990",
+        "target_sha256": "485336b42db5fa985acfa32e0f6793afc05353b11d9f7dca86f67190c5b31fc0"
+      },
+      "ui:이제 닿지 않는 번호다.:/이제 닿지 않는 번호다.": {
+        "source_sha256": "7e2f882edba130f9dd5f4a12d1c843ad6290fbee7fc78e1d7dad2033b914eb9d",
+        "target_sha256": "861720862281207ef7100c00b06e4a0c158605202d1c15df01ff5ce49e30b847"
+      },
+      "ui:확정:/확정": {
+        "source_sha256": "545328a2779ee58446bb3dd5e246980e52d507002d65a29e314ebc0d472ea5cb",
+        "target_sha256": "7dbb2380e25cfa8940b85d81ac788c38ece98b288c530070a63428f6cdcde75f"
       }
     },
     "zh-TW": {
@@ -170754,10 +170870,42 @@
       "ui:혼자 강남에 가는 사람은 없다.:/혼자 강남에 가는 사람은 없다.": {
         "source_sha256": "4075ce7f7bc062960bd63a0b2e005e265e732fb42978d36b76c60e9454491ab9",
         "target_sha256": "092964d0c07e9c78e7cb2e5fa8c8770f505afd8c40c1a7c00a953987309dde36"
+      },
+      "ui:1회 선택:/1회 선택": {
+        "source_sha256": "fcd6f271bf4650302f1804947ff9a2f60d55a247c96870dea5df21326c1e9869",
+        "target_sha256": "be4726c5618376ce4c7e039f3151ed3f85099832a86664c51d74baa8466962e9"
+      },
+      "ui:그녀는 자기 세계로 돌아갔다.:/그녀는 자기 세계로 돌아갔다.": {
+        "source_sha256": "90566df7b006a322bf8e740a553163b93679669475ddff64edb861220881aff8",
+        "target_sha256": "7165065ed751960a3245398ca8a1f92880e8acec25bce53aaaf7727bc3d81591"
+      },
+      "ui:더는 걸 수 없는 번호가 됐다.:/더는 걸 수 없는 번호가 됐다.": {
+        "source_sha256": "5269ca684d8e1692d79b4ea9f54999340be5207ec3f2c3828f7e6bb1f3a63b3a",
+        "target_sha256": "f2fd0171a32bc096d7389e5ce816b9146cb6a3bcbdd9b6b46769885766079bd9"
+      },
+      "ui:돈:/돈": {
+        "source_sha256": "8a0fdb40359b5d8a28522abcddb2b53c514e9d6bb6489b51a06d482898866ab9",
+        "target_sha256": "d721319e6e8c5a20a46c8c15b83559838fb088ac742510a6f7cbe8336bf3f3cd"
+      },
+      "ui:무료:/무료": {
+        "source_sha256": "f6bdf7e54d861ddbb62a4f2ea16e162522011600b6a042beffe62ea2a4017cf5",
+        "target_sha256": "690805575dd87f59844241d1a59bef701223b312c8ace845cc73878c162d899d"
+      },
+      "ui:사람:/사람": {
+        "source_sha256": "41e8664b1c26dce65e4f9646aee93905b6b1b3ed2bc5218d6bcec2fc02612990",
+        "target_sha256": "485336b42db5fa985acfa32e0f6793afc05353b11d9f7dca86f67190c5b31fc0"
+      },
+      "ui:이제 닿지 않는 번호다.:/이제 닿지 않는 번호다.": {
+        "source_sha256": "7e2f882edba130f9dd5f4a12d1c843ad6290fbee7fc78e1d7dad2033b914eb9d",
+        "target_sha256": "118a73c3c1231a14ee86fcb058ec4521a57a8852857cebabf3d217be45e76698"
+      },
+      "ui:확정:/확정": {
+        "source_sha256": "545328a2779ee58446bb3dd5e246980e52d507002d65a29e314ebc0d472ea5cb",
+        "target_sha256": "eeb0d3f969e0c3cf04d777e071e53b4a05763812877867d7997fbb7cf45f042d"
       }
     }
   },
-  "accepted_sha256": "d825710d0c9cee1fabec3fe2c3bc2f28a8badcf682e216bdf9947826658347dd",
+  "accepted_sha256": "6f83be081118860bbb2bcee010b1aa504af084766231f2db7299a983e771e891",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
