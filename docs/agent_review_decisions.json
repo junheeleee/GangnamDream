@@ -6692,6 +6692,41 @@
         "path": "docs/agent_reviews/ORDER-410.json",
         "sha256": "e14ddc2a8fb691fac009cbcd8bfcba441344398bc64d6c3abed284455b4f947c"
       }
+    },
+    {
+      "id": "order-411-source-5f40003-agent-final",
+      "delegation_id": "user-2026-09-09-codex-game-quality",
+      "decided_at": "2026-10-04",
+      "decided_by": "/root/independent392",
+      "authority": "user_delegated_agent_final",
+      "scope": "work_unit",
+      "unit_id": "ORDER-411",
+      "subject": {
+        "kind": "source",
+        "commit": "5f40003af611af74e2a03e60ffa38b0376050f38",
+        "tree": "2aeb3e9d04080a1572af6c7182de596dd8b0ea59",
+        "manifest_sha256": null
+      },
+      "verdict": "GO",
+      "evidence": [
+        {
+          "kind": "source_review",
+          "path": "docs/agent_reviews/ORDER-411.json",
+          "sha256": "dd5ddda0eb661ff422c23d3db1ce5e6c0ba9369dad8129e57015ae5b3a239ce1"
+        }
+      ],
+      "unobserved": [
+        "native_reader",
+        "human_playtest",
+        "physical_controller_feel",
+        "natural ingress/Back/action/time advancement",
+        "gift-shelf/full-modal scroll",
+        "full-game translation/240-week/package/release"
+      ],
+      "record": {
+        "path": "docs/agent_reviews/ORDER-411.json",
+        "sha256": "dd5ddda0eb661ff422c23d3db1ce5e6c0ba9369dad8129e57015ae5b3a239ce1"
+      }
     }
   ]
 }

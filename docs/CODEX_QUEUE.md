@@ -50,7 +50,7 @@
 
 | 순서 | 상태 | 항목 | 실행 사양 | 현재 게이트 |
 |---:|:---:|---|---|---|
-| 1 | [~] | ORDER-411 · 생활 주거 상태·다음 주거 중국어 소비자 마감 | [411](queue_active/ORDER-411.md) | 착수 · 만지는 파일: CN/TW19키씩·수용원장·private10화면·기록 |
+| 1 | [~] | ORDER-412 · 선물 진열대 가격 앞자리 잘림 수리 | [412](queue_active/ORDER-412.md) | 착수 · 만지는 파일: MainGame 선물badge·source연결2도구·focused·audit차선·5언어화면·기록 |
 | 2 | [~] | ORDER-302 · 체험판 대본 사실·영어 정합 수리 | [302](queue_active/ORDER-302.md) | 수리7항목 source GO · successor package 별도 선언/검수 HOLD |
 | 3 | [ ] | ORDER-352 · 본편 5장 대본 이름·시간·회수 정합 | [352](queue_active/ORDER-352.md) | 5장 HOLD 수리 닫힌 뒤 착수 · 미실행 |
 

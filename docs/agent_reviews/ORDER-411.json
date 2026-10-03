@@ -1,0 +1,196 @@
+{
+  "schema_version": 1,
+  "unit_id": "ORDER-411",
+  "verdict": "GO",
+  "subject": {
+    "kind": "source",
+    "commit": "5f40003af611af74e2a03e60ffa38b0376050f38",
+    "tree": "2aeb3e9d04080a1572af6c7182de596dd8b0ea59",
+    "manifest_sha256": null
+  },
+  "reviewer": {
+    "agent": "/root/independent392",
+    "independent_non_author": true,
+    "product_translation_helper_authorship": false,
+    "engine_audit_reruns": 0,
+    "write_scope": "Only this private review"
+  },
+  "population": {
+    "source_keys": 19,
+    "legacy": 18,
+    "context": 1,
+    "locales": [
+      "zh-CN",
+      "zh-TW"
+    ],
+    "values": 38,
+    "printf_templates": 9,
+    "printf_tokens_per_locale": 16,
+    "actual_screens": 10
+  },
+  "method": "Applied gangnamdream-dev/CLAUDE/WORK_UNIT/ORDER-411/localization glossaries. Read all38 values against KO/consumers, all new helpers, source diff/raw inverse, receipts, runtime JSON/logs/all10 PNGs and all12 normal/query rows. Independently rehashed evidence/protected maps. Skill kept ownership, targeted QA and human/release boundaries.",
+  "source_review": {
+    "base": "c2ce765b00079ec1be333ea3203e166140f06f1d",
+    "changed_paths": [
+      "CLAUDE.md",
+      "content/meta/full_game_localization.json",
+      "docs/WORK_LOG.md",
+      "locale/ui_zh-CN.json",
+      "locale/ui_zh-TW.json"
+    ],
+    "main_unchanged_sha256": "9eb5c522e8be5f81ee56ba683f9d1db61d2625b38acf96b99169d7b7aed7c976",
+    "semantic_result": "All38 accepted: shared-home presentation vs own economic contract, monthly expense/deposit/required cash/shortfall and KRW remain distinct. Regional housing names retain jeonse, not purchase. 精神力/江南,9 templates/16%s order and B/D em-dash split preserved; status titles unsplit.",
+    "context": "Existing ui.housing.now_status context ID/source 현재; four names use existing two-reader leaves.",
+    "fix": {
+      "phase": "Before official acceptance",
+      "initial_CN_sha256": "008f9769a991faa6ca48d0734f95af2d60dcdc524bfd7bf77b8283da9dd4d6b4",
+      "old_phrase": "精神上就越从容",
+      "corrected_phrase": "精神力就越充裕",
+      "reason": "Initial CN softened the named 정신력 stat into general ease. Author restored existing 精神力 term; independent reviewer reread all38.",
+      "final_CN_sha256": "fdb32f422b761fa4963d55111363e51b3f5636e62935d6b5e9818d9c24285367",
+      "TW_sha256": "799648e34c3f324d465789b3ad84638a983a96a1d3b5d06bcb24429b1d44f231"
+    },
+    "raw_preservation": "Independent JSON-span inverse removed only19+19 values/38receipts/2batches and restored prior checksum: whole dictionaries/ledger byte-exact to baseline Git; JA unchanged. Recomputed38 source/target hashes; draft=response=UI=receipt/header=ledger.",
+    "accepted": {
+      "before": 41182,
+      "after": 41220,
+      "batches_before": 180,
+      "batches_after": 182,
+      "ui_CN": 1516,
+      "ui_TW": 1516,
+      "ui_JA": 3044
+    }
+  },
+  "exchange": {
+    "export": {
+      "path": ".git/full-game-localization/order411-static-export.json",
+      "sha256": "feec18c67548a9546ca0c7212adbc62e56bbab19f7476b2c5cdbc307496d575f",
+      "seconds": 10.058
+    },
+    "check": {
+      "path": ".git/full-game-localization/order411-static-check.json",
+      "sha256": "9ced623b63b695846bead4bf12ae4d8efe807169ae7cace11d686fbcfcedaf9f",
+      "seconds": 10.07
+    },
+    "append": {
+      "path": ".git/full-game-localization/order411-append-precommit.json",
+      "sha256": "ed718d71206a543c7cb6401e08f1c2f1455f07d21e8294f6836a37d4bbe6cae1"
+    },
+    "receipt_files": [
+      {
+        "path": ".git/full-game-localization/zh-CN/full-ko-direct-2026-09-07.1/bb02da297ba019d5b06f9fb833a135ea1861e8a9875059bf1fdc1d06b188d5dc.accepted.json",
+        "sha256": "ba62e52c591b2bb91091e9281bcb046ba56c207adbcd26bc3c62d68f65d58101",
+        "semantic_digest": "5de977a686ccb930290cbfd78654bf21ee7fd945ca63b6a27b929bb53342fbe7"
+      },
+      {
+        "path": ".git/full-game-localization/zh-TW/full-ko-direct-2026-09-07.1/a4d6744b41f1e8123225b28863b1f5ae53cec08a79e0b91fa42474e9e516d4cc.accepted.json",
+        "sha256": "826d7ec5a64dad5c01b1ab78290b42b9c78150d236393347881705edc87dc7c7",
+        "semantic_digest": "6e38f963e3eca0361c449d290388804a8f928f908f8432a7a633f06c91ca34c3"
+      }
+    ],
+    "result": "Two batches,19 leaves+header20 rows each; export/check/import all machine-valid. Existing180 batches and old receipt bytes preserved. Native OPEN."
+  },
+  "runtime": {
+    "folder": ".git/full-game-localization/order411-screen-final",
+    "result_sha256": "14d4ff16df30452dbc6858799abbdb3874e52aeab2d1b87da30a0a6cf4f05d51",
+    "observations_sha256": "4943805cf220f4bcb23a5fcc892d4a0c2c4f47f1b859575ff0504bf39ed62f61",
+    "entry_sha256": "07d237d323fc842c7aac929c4436e642376e9a8f3d8f182cc2ddb346bb25fc05",
+    "oracle_sha256": "9d03ca4e76a8e7816af29b71dc25372c4f73f73a70b4e356e7065a5fbf68e7a6",
+    "stdout_and_godot_log_sha256": "5ad7e50317c7efae49f48cc570a55bfe121d544c91d4e6103f823bfb41dfb6f2",
+    "attempts": 1,
+    "pass": true,
+    "seconds": 17.285,
+    "exit": 0,
+    "errors": [],
+    "measured": {
+      "screens": 10,
+      "lookups": 38,
+      "bindings": 84,
+      "target_rows": 88,
+      "housing_cards": 20,
+      "typed_restorations": 10,
+      "source_files": 2984,
+      "helpers": 44,
+      "player_files": 34
+    },
+    "branches": "A gosiwon500000→locked oneroom short7500000; B oneroom40000000→eligible villa; C shared villa40000000→apartment short90000000; D shared villa130000000→eligible apartment; E apartment150000000→no next. Actual registry/getters/regional money and C/D wedding/divorce flags match source.",
+    "geometry": "88 rows full-fit/one visible line;20 cards82px/gap10/contained. Max move subtitle361/410px, current-cost333/460, note392/728, now badge28/46. Scroll0 with visible bar for gifts; whole-scroll completion excluded.",
+    "fonts": "88 actual-font rows rechecked: SC/TC primary400/700, exact fallbacks, owned nonzero glyphs/CJK-primary. Header24/intro13/note-subtitle-badge14/title15/preview12px. Separate shaping probe, not internal Label RID inspection.",
+    "visual": "Opened all10 originals: no target tofu/truncation/overlap. Gift English/scroll continuation and apparent coffee-price leading-digit clipping remain outside scope; no confirmed CN gift-name defect.",
+    "state": "Ten full typed restores/display invariants, deltas0; housing string4/money float3/registry floats. No font/theme/dictionary/cache injection. Source2984/helper44/player34 and prior410 maps rehashed unchanged.",
+    "actions": "Pressed/trade/finalization counters0; raw/confirm/move/purchase0 by helper call graph, not global interception.",
+    "png_files": [
+      "zh-CN-A.png",
+      "zh-CN-B.png",
+      "zh-CN-C.png",
+      "zh-CN-D.png",
+      "zh-CN-E.png",
+      "zh-TW-A.png",
+      "zh-TW-B.png",
+      "zh-TW-C.png",
+      "zh-TW-D.png",
+      "zh-TW-E.png"
+    ],
+    "png_binding": "All10 PNG bytes rehashed against immutable result.json/pngs and observations/captures; hashes retained in those bound originals."
+  },
+  "normal": {
+    "folder": ".git/full-game-localization/order411-static-final",
+    "result_sha256": "278f21fea42815eb90f266c3ea927be845732d524c7080b15f9a6088fcc79d5a",
+    "entry_sha256": "97fe77606e457c1d4b85d7a8e2769193ae127de09c5a9f83fc252329ad2805e6",
+    "runner_sha256": "52863c9fc9d01d6dc47a450ceac57a79f8acdb1a4167a3199a24063b00ff96f0",
+    "all_pass": true,
+    "seconds": 635.627,
+    "commands": 12,
+    "normal": 11,
+    "list_query": 1,
+    "verification": "All12 raw rows exit0/stderr empty; aggregate==rows, entry/runner agree. Before==after2984source/54helper/10input/4prior and current rehash match.",
+    "chapter1": "325.394s SNAPSHOT_VALID; debt8/blocked3 and W25..48 gap24 authoritative24/48 retained.",
+    "year5": "309.744s reference_only/topology invalidated/product_consumers0; no route activation.",
+    "limits": "42 suggestions were queried, not executed. Fullbody inventory-only, Ch5 human pending, ZH skeleton/shipping0/legacy1313of2951/context11of29. Old focused/JA/history/whole/240-week reruns0.",
+    "runtime_or_normal_failures": 0
+  },
+  "preservation": {
+    "reports": 146,
+    "decisions": 168,
+    "human_sha256": "6ab5c927c9f327aa2892c231d49fe144c1c154cb6069fc539f4f3f8e9c30c9f6",
+    "public_go": 1,
+    "human_open": 45,
+    "full_game": "HOLD",
+    "new_package": "HOLD",
+    "old_records_raw_unchanged": true,
+    "unchanged": "Main/GameState/FontKit/conditions/costs/saves/time/endings/KO/EN/JA/tools/assets/inventory/public/human unchanged."
+  },
+  "predecessor_provenance": {
+    "unit_id": "ORDER-410",
+    "reference_sha256": "2a868e2c173704043aa5b685545c6f688062f5031ad3cbf9086c85c7893ebb49",
+    "recovered_original": ".git/full-game-localization/order410-independent-review-original-2a868e2.json",
+    "current_private": ".git/full-game-localization/order410-independent-review.json",
+    "current_private_sha256": "db3f8b75260a73061aa21a4fc4d84ba3ed6e69b4e64ae6d957efe12594b5d3ff",
+    "note": "Root wrapped intermediate410 before reviewer shortened wording. Exact old bytes recovered from tracked fields; both hashes verified, same subject/verdict/runtime/static. Both preserved; no new410 approval."
+  },
+  "unobserved": [
+    "native_reader",
+    "human_playtest",
+    "physical_controller_feel",
+    "natural ingress/Back/action/time advancement",
+    "gift-shelf/full-modal scroll",
+    "full-game translation/240-week/package/release"
+  ],
+  "conclusion": "GO only for ORDER-411 at this source. No in-scope defect/blocker. Full-game/new-package HOLD; automated contracts are not native/human/physical approval.",
+  "report_write_contract": "Composed before writing; created once, then SHA-frozen.",
+  "independent": true,
+  "status": "completed",
+  "private_review": {
+    "path": ".git/full-game-localization/order411-independent-review.json",
+    "sha256": "e1f44aa6d4d491ca87c980040e43e46755670d690cf92a5dee995496b55b6d02"
+  },
+  "unit_evidence": {
+    "도달 경로": "ORDER411_UI_OK screens=10 keys=19 locales=2 raw=0 actions=0; normal11+query1 exit0",
+    "생산자 ↔ 독자": "locale/ui_zh-CN.json·ui_zh-TW.json → MainGame::_open_cat_life / GameState::get_housing_display_name",
+    "바꾸는 상태": "CN/TW19키씩 영어폴백→중국어; accepted41182/b180→41220/b182; gameplay unchanged",
+    "포기 시 잃는 것": "현재주거·월부담·보증금·부족액19source 안내; week N/A",
+    "서사 위치": "N/A: existing housing UI",
+    "장면 계층": "N/A: UI",
+    "닫는 것": "ORDER-411 exact work_unit only; full-game/new-package HOLD"
+  }
+}

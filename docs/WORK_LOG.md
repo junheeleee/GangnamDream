@@ -2,9 +2,24 @@
 
 이전 원문 전체는 [2026-10-04 구직 메뉴까지의 기록](history/WORK_LOG_2026-10-04_pre_order405.md)에 바이트 그대로 보존했다.
 
+## 2026-10-04 (Codex — 주거 중국어 마감·선물가격 표시 수리 착수)
+
+- [411 완료](queue_archive/ORDER-411.md): source5f40003/tree2aeb3e9 독립GO.
+  CN/TW38값·10PNG·88대상·38lookup/84binding,17.285초PASS.
+  주거20카드82px·최대부제361/410px·typed복원10/source2984/helper44/player34 보존.
+- normal11+조회1 PASS635.627초·Chapter1 325.394초.
+  source2984/helper54/입력10/이전증거4 불변. 원장41220/b182·기존사전/receipt 보존.
+- [412 착수](queue_active/ORDER-412.md): 화면에서 확인한 선물가격 앞자리잘림을 먼저 수리한다.
+  선물shop가격badge만 실제글자폭을 반영하고 5언어8가격 전후를 비교한다. 선물15키 번역은 후속.
+- 410 private보고 중간본을 root가 먼저 복사한 경합은 추적보고 필드에서 exact원문을
+  복원해 SHA2a868e2와 일치시켰다. 현private db3f8b7·기존보고/판정 모두 보존했고
+  후보/판정/실행증거 차이0이다. 411최종보고는 단1회 작성·SHA봉인 후 복사했다.
+- 일회성/상시규범추가0. 자동PASS는 계약증거이지 재미·문체·출시GO가 아니다.
+  공개GO1·인간OPEN45·본편/새packageHOLD·원어민/인간/물리미관측 유지.
+
 ## 2026-10-04 (Codex — 주거 중국어38값 수용 후보)
 
-- [411](queue_active/ORDER-411.md): 현재주거·월부담·보증금·부족액·다음계약의
+- [411](queue_archive/ORDER-411.md): 현재주거·월부담·보증금·부족액·다음계약의
   legacy14/context1/주거명4를 KO직접 CN/TW19값씩 저작했다.
   비저자 검수에서 CN 정신력 명사의 일반감정 치환1곳을 수정한 뒤38값 전수수용.
 - 공식 export/check 각2batch PASS(10.058/10.070초), import·append inverse로
@@ -22,7 +37,7 @@
 - normal11+조회1 PASS597.934초·Chapter1 306.230초. 첫 static runner는
   괄호누락으로 검사시작 전 실패(명령0)했고 원본보존·새r1수리 후 전수통과했다.
   최종source2982/helper48/입력10/이전증거4 불변. source커밋 main푸시완료.
-- [411 착수](queue_active/ORDER-411.md): 현재주거·월비용·보증금·부족액19키,
+- [411 착수](queue_archive/ORDER-411.md): 현재주거·월비용·보증금·부족액19키,
   CN/TW38값·5상태각언어10화면. 지역저작/화면helper/독립검수 파일소유를 분리한다.
 - 일회성/상시규범추가0. 자동PASS는 계약증거이지 재미·문체·출시GO가 아니다.
   공개GO1·인간OPEN45·본편/새packageHOLD·원어민/인간/물리미관측 유지.
