@@ -2,6 +2,21 @@
 
 이전 원문 전체는 [2026-10-04 구직 메뉴까지의 기록](history/WORK_LOG_2026-10-04_pre_order405.md)에 바이트 그대로 보존했다.
 
+## 2026-10-04 (Codex — 실제 반응 본문 지역서체 결함 수리 후보)
+
+- 415 sourcecff41a6 첫실행27.560초/exit1: 24전달 상태효과/typed복원/전체본문 PASS,
+  48조건실패 보존. static QA도 scene-first=true/본문19px/제목36px인 경로를 사전검수에서
+  놓쳤다. 18px/false는 검사오류지만 실제 Open Sans/비소유 CJK 폴백은 제품결함이다.
+- [416](queue_active/ORDER-416.md) 제품a694321: _build_story_panel의 normal/bold
+  FontKit연결 두 줄만 추가. 기존 stable리소스로 언어전환을 따르며 크기/조건/게임상태0변경.
+- [417](queue_active/ORDER-417.md): 정상receipt가 이전412 raw핀으로 거부한 것을
+  확인했다. 이전proof/핀을 그대로 보존하며12단계Git/10inverse·12manifest 및 새focused만
+  추가한다. 새두화면helper는 첫실패/원본helper를 보존하고 검증후에만 원격에 반영한다.
+- 시간 절감: 정적QA 메타가 scene-first를 끈다고 가정하지 말고, 실제 소비자 호출 뒤
+  노드의 크기와 지역서체를 먼저 확인한다. 이번 일회성 사전검수 누락 기록이며 새규범0.
+- 자동PASS는 계약증거이지 재미·문체·출시GO가 아니다. 공개GO1·인간OPEN45·
+  본편/새packageHOLD·원어민/인간/물리미관측 보존. 기존 데모/사용자변경 수정0.
+
 ## 2026-10-04 (Codex — 선물 전달 중국어32값 수용 후보)
 
 - [415](queue_active/ORDER-415.md): 반응10·반복4·기록2를 KO직접 CN/TW각16값으로

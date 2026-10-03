@@ -1954,3 +1954,165 @@ def investment_footer_predecessor(current, root=None):
 def modal_font_predecessor(current, root=None):
     return _gift_price_badge_proof(current, root)[8]
 # END_GIFT_PRICE_BADGE_HISTORY_412
+
+
+# BEGIN_REACTION_BODY_FONT_HISTORY_417
+# The previous bodies and pins stay immutable. Only the observed two-line fix is new.
+REACTION_FONT_BEFORE_COMMIT = "7ec1b4086001afc5ec7c100ff8f9f8db4efeed9c"
+REACTION_FONT_AFTER_COMMIT = "a69432127b2b36d409c77e2cd3dc563c1477c14a"
+REACTION_FONT_TREES = ("717ad6d76dc623f0dbe7f53997c1571c79e7f166", "6b335dde758c3839cc4b933b57217c1986be7682")
+REACTION_FONT_BLOBS = ("0fb8d1027b7068c132636168c23e6d42d8d57cce", "db80933c419ec86086a9d007eb4a47d94f50baff")
+REACTION_FONT_HASHES = ("2e4cb063d12de4b35abad634df1bdb8772c358b3eead7b030a781d3b86c43433",
+                        "3f5d667883960d5defe8c3c3af326d077f8957d8703e0e1928ec327b97c2770b")
+REACTION_FONT_REPLACEMENT = (
+    '\tevent_body.size_flags_vertical = Control.SIZE_SHRINK_BEGIN\n\tevent_body.add_theme_font_size_override("normal_font_size", 18)\n',
+    '\tevent_body.size_flags_vertical = Control.SIZE_SHRINK_BEGIN\n\tevent_body.add_theme_font_override("normal_font", _font_regular)\n\tevent_body.add_theme_font_override("bold_font", _font_bold)\n\tevent_body.add_theme_font_size_override("normal_font_size", 18)\n',
+)
+
+
+def _reaction_body_font_inverse(current, before):
+    """Undo the unique guarded insertion; this pure boundary does not trust hashes."""
+    if (not isinstance(current, bytes) or not isinstance(before, bytes)
+            or not isinstance(REACTION_FONT_REPLACEMENT, tuple) or len(REACTION_FONT_REPLACEMENT) != 2
+            or any(not isinstance(part, str) for part in REACTION_FONT_REPLACEMENT)):
+        raise ValueError("ORDER-417: inverse population/type differs")
+    old, new = (part.encode() for part in REACTION_FONT_REPLACEMENT)
+    if (not old or old == new or before.count(old) != 1 or before.count(new) != 0
+            or current.count(new) != 1):
+        raise ValueError("ORDER-417: local inverse is not exact1")
+    recovered = current.replace(new, old, 1)
+    if recovered != before:
+        raise ValueError("ORDER-417: changes outside exact reaction body font repair")
+    return recovered
+
+
+def _reaction_body_font_proof(current, root=None):
+    """Fresh twelve-stage proof; ten comparison-only predecessors, never a cache."""
+    from pathlib import Path
+    root = Path(root) if root is not None else Path(__file__).resolve().parents[1]
+    if not isinstance(current, bytes) or hashlib.sha256(current).hexdigest() != REACTION_FONT_HASHES[1]:
+        raise ValueError("ORDER-417: unapproved current MainGame raw")
+    stages = (
+        (MODAL_BEFORE_COMMIT, MODAL_AFTER_COMMIT, MODAL_TREES, MODAL_BLOBS, MODAL_HASHES),
+        (JOB_STATUS_BEFORE_COMMIT, JOB_STATUS_AFTER_COMMIT, JOB_STATUS_TREES, JOB_STATUS_BLOBS, JOB_STATUS_HASHES),
+        (INVESTMENT_BEFORE_COMMIT, INVESTMENT_AFTER_COMMIT, INVESTMENT_TREES, INVESTMENT_BLOBS, INVESTMENT_HASHES),
+        (TUTORIAL_BEFORE_COMMIT, TUTORIAL_AFTER_COMMIT, TUTORIAL_TREES, TUTORIAL_BLOBS, TUTORIAL_HASHES),
+        (PAD_HINT_BEFORE_COMMIT, PAD_HINT_AFTER_COMMIT, PAD_HINT_TREES, PAD_HINT_BLOBS, PAD_HINT_HASHES),
+        (PEOPLE_CARD_BEFORE_COMMIT, PEOPLE_CARD_AFTER_COMMIT, PEOPLE_CARD_TREES, PEOPLE_CARD_BLOBS, PEOPLE_CARD_HASHES),
+        (PEOPLE_CARD_REPAIR_BEFORE_COMMIT, PEOPLE_CARD_REPAIR_AFTER_COMMIT, PEOPLE_CARD_REPAIR_TREES,
+         PEOPLE_CARD_REPAIR_BLOBS, PEOPLE_CARD_REPAIR_HASHES),
+        (AXIS_BADGE_BEFORE_COMMIT, AXIS_BADGE_AFTER_COMMIT, AXIS_BADGE_TREES, AXIS_BADGE_BLOBS, AXIS_BADGE_HASHES),
+        (PROMOTION_BEFORE_COMMIT, PROMOTION_AFTER_COMMIT, PROMOTION_TREES, PROMOTION_BLOBS, PROMOTION_HASHES),
+        (TENURE_BEFORE_COMMIT, TENURE_AFTER_COMMIT, TENURE_TREES, TENURE_BLOBS, TENURE_HASHES),
+        (GIFT_PRICE_BEFORE_COMMIT, GIFT_PRICE_AFTER_COMMIT, GIFT_PRICE_TREES, GIFT_PRICE_BLOBS, GIFT_PRICE_HASHES),
+        (REACTION_FONT_BEFORE_COMMIT, REACTION_FONT_AFTER_COMMIT, REACTION_FONT_TREES, REACTION_FONT_BLOBS, REACTION_FONT_HASHES),
+    )
+    requests = []
+    for before, after, trees, blobs, _hashes in stages:
+        requests.extend((c, c, "commit") for c in (before, after))
+        requests.extend((t, t, "tree") for t in trees)
+        requests.extend((c + ":" + MAIN_GAME_PATH, oid, "blob") for c, oid in zip((before, after), blobs))
+    proof = _modal_git(root, "cat-file", "--batch", input=("\n".join(r[0] for r in requests) + "\n").encode())
+    values, cursor = [], 0
+    for _expression, wanted, kind in requests:
+        end = proof.index(b"\n", cursor)
+        oid, actual_kind, size = proof[cursor:end].decode().split()
+        size = int(size)
+        value = proof[end + 1:end + 1 + size]
+        if (size < 0 or oid != wanted or actual_kind != kind or len(value) != size
+                or hashlib.sha1(kind.encode() + b" " + str(size).encode() + b"\0" + value).hexdigest() != oid
+                or proof[end + 1 + size:end + 2 + size] != b"\n"):
+            raise ValueError("ORDER-417: forged immutable object")
+        values.append(value)
+        cursor = end + 2 + size
+    if cursor != len(proof):
+        raise ValueError("ORDER-417: trailing immutable proof bytes")
+    for stage, (before, after, trees, _blobs, hashes) in enumerate(stages):
+        offset = stage * 6
+        for index in range(2):
+            headers = values[offset + index].split(b"\n\n", 1)[0].splitlines()
+            if [h for h in headers if h.startswith(b"tree ")] != [b"tree " + trees[index].encode()]:
+                raise ValueError("ORDER-417: immutable tree differs")
+            if index and [h for h in headers if h.startswith(b"parent ")] != [b"parent " + before.encode()]:
+                raise ValueError("ORDER-417: direct parent differs")
+        if tuple(hashlib.sha256(v).hexdigest() for v in values[offset + 4:offset + 6]) != hashes:
+            raise ValueError("ORDER-417: immutable whole raw differs")
+        if _modal_git(root, "diff", "--name-status", "-z", before, after) != b"M\0" + MAIN_GAME_PATH.encode() + b"\0":
+            raise ValueError("ORDER-417: product path population differs")
+        if stage:
+            _modal_git(root, "merge-base", "--is-ancestor", stages[stage - 1][1], before)
+            if values[offset + 4] != values[offset - 1]:
+                raise ValueError("ORDER-417: nonconsecutive raw history")
+    _modal_git(root, "merge-base", "--is-ancestor", REACTION_FONT_AFTER_COMMIT, "HEAD")
+    if _modal_git(root, "rev-parse", "HEAD:" + MAIN_GAME_PATH).decode().strip() != REACTION_FONT_BLOBS[1]:
+        raise ValueError("ORDER-417: current Git MainGame differs")
+    if values[71] != current:
+        raise ValueError("ORDER-417: current/blob binding differs")
+    pre416 = _reaction_body_font_inverse(current, values[70])
+    pre412 = _gift_price_badge_inverse(pre416, values[64])
+    pre409 = _career_tenure_inverse(pre412, values[58])
+    pre406 = _promotion_review_copy_inverse(pre409, values[52])
+    pre403 = _axis_badge_fit_inverse(pre406, values[46])
+    recovered = _people_card_height_inverse(pre403, values[34])
+    intermediate = _people_card_height_step_inverse(pre403, values[40], PEOPLE_CARD_REPAIR_REPLACEMENT)
+    if _people_card_height_step_inverse(intermediate, values[34], PEOPLE_CARD_INITIAL_REPLACEMENT) != recovered:
+        raise ValueError("ORDER-417: stagewise and combined inverses differ")
+    recovered = _pad_hint_font_inverse(recovered, values[28])
+    inverse_stages = (((TUTORIAL_REPLACEMENT,), values[22]),
+                      (INVESTMENT_REPLACEMENTS, values[16]),
+                      ((tuple(v.decode() for v in JOB_STATUS_REPLACEMENT),), values[10]),
+                      (MODAL_REPLACEMENTS, values[4]))
+    if tuple(len(parts) for parts, _ in inverse_stages) != (1, 3, 1, 3):
+        raise ValueError("ORDER-417: prior inverse population differs")
+    for replacements, before in inverse_stages:
+        for old, new in reversed(replacements):
+            old, new = old.encode(), new.encode()
+            if not old or old == new or recovered.count(new) != 1:
+                raise ValueError("ORDER-417: prior inverse is not exact1")
+            recovered = recovered.replace(new, old, 1)
+        if recovered != before:
+            raise ValueError("ORDER-417: changes outside prior exact copy/rendering repairs")
+    return pre416, pre412, pre409, pre406, pre403, values[34], values[28], values[22], values[16], recovered
+
+
+
+def reaction_body_font_predecessor(current, root=None):
+    return _reaction_body_font_proof(current, root)[0]
+
+
+def gift_price_badge_predecessor(current, root=None):
+    return _reaction_body_font_proof(current, root)[1]
+
+
+def career_tenure_predecessor(current, root=None):
+    return _reaction_body_font_proof(current, root)[2]
+
+
+def promotion_review_predecessor(current, root=None):
+    return _reaction_body_font_proof(current, root)[3]
+
+
+def axis_badge_fit_predecessor(current, root=None):
+    return _reaction_body_font_proof(current, root)[4]
+
+
+def people_card_height_predecessor(current, root=None):
+    return _reaction_body_font_proof(current, root)[5]
+
+
+def pad_hint_font_predecessor(current, root=None):
+    return _reaction_body_font_proof(current, root)[6]
+
+
+def tutorial_copy_predecessor(current, root=None):
+    return _reaction_body_font_proof(current, root)[7]
+
+
+def investment_footer_predecessor(current, root=None):
+    return _reaction_body_font_proof(current, root)[8]
+
+
+def modal_font_predecessor(current, root=None):
+    return _reaction_body_font_proof(current, root)[9]
+
+# END_REACTION_BODY_FONT_HISTORY_417

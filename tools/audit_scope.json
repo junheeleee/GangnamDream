@@ -14,6 +14,47 @@
   ],
   "fast_lanes": [
     {
+      "id": "reaction-body-font",
+      "paths": [],
+      "owned_paths": [
+        "scenes/MainGame.gd",
+        "locale/ui_zh-CN.json",
+        "locale/ui_zh-TW.json",
+        "content/meta/full_game_localization.json",
+        "tools/main_game_locale_history.py",
+        "tools/ui_translation_append.py",
+        "tools/reaction_body_font_self_test.py",
+        "tools/audit_scope.json",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/WORK_LOG.md",
+        "docs/STATUS.md",
+        "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-415.json",
+        "docs/queue_active/ORDER-415.md",
+        "docs/queue_archive/ORDER-415.md",
+        "docs/agent_reviews/ORDER-416.json",
+        "docs/queue_active/ORDER-416.md",
+        "docs/queue_archive/ORDER-416.md",
+        "docs/agent_reviews/ORDER-417.json",
+        "docs/queue_active/ORDER-417.md",
+        "docs/queue_archive/ORDER-417.md"
+      ],
+      "tools": [
+        "tools/reaction_body_font_self_test.py",
+        "tools/order365_ui_receipt_compat.py",
+        "tools/full_body_translation_scope.py",
+        "tools/story_graph_contract_audit.py",
+        "tools/chapter5_human_reject_audit.py",
+        "tools/year5_reference_route_audit.py",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/zh_translation_audit.py",
+        "tools/en_coverage_check.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Exact416 normal/bold body FontKit binding and417 fresh twelve-stage proof, actual current collector and twelve manifests. Chinese415 append shares normal consumers; five-locale font and twenty-four delivery evidence stay separate. Old focused suites/full audit/240-week not repeated."
+    },
+    {
       "id": "ja-gift-copy",
       "paths": [],
       "owned_paths": [
@@ -2541,6 +2582,12 @@
   ],
   "checks": [
     {
+      "tool": "tools/reaction_body_font_self_test.py",
+      "paths": ["scenes/MainGame.gd", "tools/main_game_locale_history.py", "tools/ui_translation_append.py", "tools/reaction_body_font_self_test.py"],
+      "why": "Current416 two font overrides: exact12-stage Git proof, actual collector, retained receipts and twelve manifest views; old focused bodies stay unchanged.",
+      "godot": false
+    },
+    {
       "tool": "tools/ui_translation_append_self_test.py --ja-gift-copy",
       "paths": [
         "tools/ui_translation_append.py",
@@ -2551,12 +2598,7 @@
     },
     {
       "tool": "tools/ui_translation_append_self_test.py --gift-price-badge",
-      "paths": [
-        "scenes/MainGame.gd",
-        "tools/main_game_locale_history.py",
-        "tools/ui_translation_append.py",
-        "tools/ui_translation_append_self_test.py"
-      ],
+      "paths": [],
       "why": "Current412 shop/forced-badge guard and intrinsic price width; immutable11 stages/nine inverses, same Korean and English leaves, actual collector coordinates, unchanged dictionaries/receipts and exact11 manifests.",
       "godot": false
     },

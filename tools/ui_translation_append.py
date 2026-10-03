@@ -1427,3 +1427,34 @@ def _legacy_ja_gift_proof(root: Path, inventory: dict[str, Any]) -> tuple[dict, 
     _git(root, "merge-base", "--is-ancestor", LEGACY_GIFT_ORIGIN_COMMIT, LEGACY_GIFT_BEFORE_COMMIT)
     return before, after, _validate_legacy_ja_gift_correction(before, after, inventory)
 # END_LEGACY_JA_GIFT_CORRECTION_414
+
+
+# BEGIN_REACTION_BODY_FONT_MANIFEST_417
+_REACTION_FONT_OLD_MANIFEST_MATCHES = _source_manifest_matches
+
+
+def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: str) -> bool:
+    if "source_hashes" not in inventory:
+        return _REACTION_FONT_OLD_MANIFEST_MATCHES(root, inventory, expected)
+    import main_game_locale_history as history
+    raw = (root / history.MAIN_GAME_PATH).read_bytes()
+    predecessors = history._reaction_body_font_proof(raw, root)
+    require(isinstance(predecessors, tuple) and len(predecessors) == 10,
+            "reaction body font exact predecessor population differs")
+    hashes = inventory["source_hashes"]
+    require(exchange.digest(hashes) == inventory["source_manifest_sha256"]
+            and hashes.get(history.MAIN_GAME_PATH) == hashlib.sha256(raw).hexdigest(),
+            "reaction body font current source census/raw mismatch")
+    font_raw = (root / ARUBA_FONT_PATH).read_bytes()
+    require(hashes.get(ARUBA_FONT_PATH) == hashlib.sha256(font_raw).hexdigest(),
+            "Aruba source census not bound to current raw")
+    # The original eleven manifests plus this current raw; failed402 stays excluded.
+    for main_raw in (raw, *predecessors):
+        comparison = {**hashes, history.MAIN_GAME_PATH: hashlib.sha256(main_raw).hexdigest()}
+        if expected == exchange.digest(comparison):
+            return True
+    previous_font = aruba_font_predecessor(root, font_raw)
+    comparison = {**hashes, history.MAIN_GAME_PATH: hashlib.sha256(predecessors[-1]).hexdigest(),
+                  ARUBA_FONT_PATH: hashlib.sha256(previous_font).hexdigest()}
+    return expected == exchange.digest(comparison)
+# END_REACTION_BODY_FONT_MANIFEST_417
