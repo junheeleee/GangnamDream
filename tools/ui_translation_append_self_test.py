@@ -1907,7 +1907,7 @@ def people_card_height_self_test() -> tuple[list[str], int]:
         original = append._git(ROOT, "show", history.PEOPLE_CARD_BEFORE_COMMIT + ":" + code)
         if code.endswith("_self_test.py"):
             original = original.split(b"def main() -> int:")[0].rstrip(b"\n") + b"\n"
-        check(current_code.count(marker) == 1 and current_code.split(marker)[0].rstrip(b"\n") + b"\n" == original,
+        check(current_code.splitlines().count(marker) == 1 and current_code.split(marker)[0].rstrip(b"\n") + b"\n" == original,
               "complete older code/pins preserved: " + code)
     check(history._people_card_height_inverse(raw, prior) == prior, "pure local inverse")
     before, after = (part.encode() for part in history.PEOPLE_CARD_REPLACEMENT)
