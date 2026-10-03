@@ -2,6 +2,17 @@
 
 이전 원문 전체는 [2026-10-04 구직 메뉴까지의 기록](history/WORK_LOG_2026-10-04_pre_order405.md)에 바이트 그대로 보존했다.
 
+## 2026-10-04 (Codex — 선물 가격 전체폭 수리 후보)
+
+- [412](queue_active/ORDER-412.md): before45386cc 실제5언어10PNG·40가격에서
+  KO8정상/EN·JA·CN·TW32잘림을 확인했다. Label46px에 실제50~118px가 필요했다.
+- Main-only50d5e35는 shop+비어있지않은 forced badge만 clip=false로 두어
+  실제문자 최소폭을 전달한다. 62px최소폭·14px서체·가격8개·구매조건·원문/번역 불변.
+- before 관측PASS15.146초와 수리PASS=false를 분리했다. 제목·수량·설명40개가
+  모두 fit인 기준선을 보존하고 after에서도 전량fit을 요구한다. source2986/helper47/player34 불변.
+- 새source 연결·focused와 영향검사를 병렬 준비하며 최종후보 검수 전이다.
+  일회성/상시규범추가0. 공개GO1·인간OPEN45·본편/새packageHOLD를 보존한다.
+
 ## 2026-10-04 (Codex — 주거 중국어 마감·선물가격 표시 수리 착수)
 
 - [411 완료](queue_archive/ORDER-411.md): source5f40003/tree2aeb3e9 독립GO.

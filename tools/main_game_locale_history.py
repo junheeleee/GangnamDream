@@ -1800,3 +1800,157 @@ def investment_footer_predecessor(current, root=None):
 def modal_font_predecessor(current, root=None):
     return _career_tenure_proof(current, root)[7]
 # END_CAREER_TENURE_HISTORY_409
+
+
+# BEGIN_GIFT_PRICE_BADGE_HISTORY_412
+# One guarded gift-price layout change; all earlier bodies/pins stay intact.
+GIFT_PRICE_BEFORE_COMMIT = "45386ccac552962e04ad377f3e92b263475a73ea"
+GIFT_PRICE_AFTER_COMMIT = "50d5e3586d05e141439ce5e59d18466a9ffc523c"
+GIFT_PRICE_TREES = ("66dc86faf891a9cdccd23a35a855acced00499d7", "3e2eb2753671143b10c6b9d2235212d0b646b5d3")
+GIFT_PRICE_BLOBS = ("f1d2399dde9422b8417497f76b1f5bf8d5029822", "0fb8d1027b7068c132636168c23e6d42d8d57cce")
+GIFT_PRICE_HASHES = ("9eb5c522e8be5f81ee56ba683f9d1db61d2625b38acf96b99169d7b7aed7c976",
+                     "2e4cb063d12de4b35abad634df1bdb8772c358b3eead7b030a781d3b86c43433")
+GIFT_PRICE_REPLACEMENT = (
+    '\tvar badge_lbl := _label(badge_text, 11, "#a7f3d0" if free_action and not disabled else "#aab3c5")\n\tbadge_lbl.set_meta("moral_role", "choice_badge_text")\n\tif forced_badge == _tr("잠금", "Locked"):\n',
+    '\tvar badge_lbl := _label(badge_text, 11, "#a7f3d0" if free_action and not disabled else "#aab3c5")\n\tbadge_lbl.set_meta("moral_role", "choice_badge_text")\n\tif icon_id == "shop" and not forced_badge.is_empty():\n\t\tbadge_lbl.clip_text = false\n\tif forced_badge == _tr("잠금", "Locked"):\n',
+)
+
+
+def _gift_price_badge_inverse(current, before):
+    """Undo the unique guarded insertion; this pure boundary does not trust hashes."""
+    if (not isinstance(current, bytes) or not isinstance(before, bytes)
+            or not isinstance(GIFT_PRICE_REPLACEMENT, tuple) or len(GIFT_PRICE_REPLACEMENT) != 2
+            or any(not isinstance(part, str) for part in GIFT_PRICE_REPLACEMENT)):
+        raise ValueError("ORDER-412: inverse population/type differs")
+    old, new = (part.encode() for part in GIFT_PRICE_REPLACEMENT)
+    if (not old or old == new or before.count(old) != 1 or before.count(new) != 0
+            or current.count(new) != 1):
+        raise ValueError("ORDER-412: local inverse is not exact1")
+    recovered = current.replace(new, old, 1)
+    if recovered != before:
+        raise ValueError("ORDER-412: changes outside exact gift price badge repair")
+    return recovered
+
+
+def _gift_price_badge_proof(current, root=None):
+    """Fresh eleven-stage proof; nine comparison-only predecessors, never a cache."""
+    from pathlib import Path
+    root = Path(root) if root is not None else Path(__file__).resolve().parents[1]
+    if not isinstance(current, bytes) or hashlib.sha256(current).hexdigest() != GIFT_PRICE_HASHES[1]:
+        raise ValueError("ORDER-412: unapproved current MainGame raw")
+    stages = (
+        (MODAL_BEFORE_COMMIT, MODAL_AFTER_COMMIT, MODAL_TREES, MODAL_BLOBS, MODAL_HASHES),
+        (JOB_STATUS_BEFORE_COMMIT, JOB_STATUS_AFTER_COMMIT, JOB_STATUS_TREES, JOB_STATUS_BLOBS, JOB_STATUS_HASHES),
+        (INVESTMENT_BEFORE_COMMIT, INVESTMENT_AFTER_COMMIT, INVESTMENT_TREES, INVESTMENT_BLOBS, INVESTMENT_HASHES),
+        (TUTORIAL_BEFORE_COMMIT, TUTORIAL_AFTER_COMMIT, TUTORIAL_TREES, TUTORIAL_BLOBS, TUTORIAL_HASHES),
+        (PAD_HINT_BEFORE_COMMIT, PAD_HINT_AFTER_COMMIT, PAD_HINT_TREES, PAD_HINT_BLOBS, PAD_HINT_HASHES),
+        (PEOPLE_CARD_BEFORE_COMMIT, PEOPLE_CARD_AFTER_COMMIT, PEOPLE_CARD_TREES, PEOPLE_CARD_BLOBS, PEOPLE_CARD_HASHES),
+        (PEOPLE_CARD_REPAIR_BEFORE_COMMIT, PEOPLE_CARD_REPAIR_AFTER_COMMIT, PEOPLE_CARD_REPAIR_TREES,
+         PEOPLE_CARD_REPAIR_BLOBS, PEOPLE_CARD_REPAIR_HASHES),
+        (AXIS_BADGE_BEFORE_COMMIT, AXIS_BADGE_AFTER_COMMIT, AXIS_BADGE_TREES, AXIS_BADGE_BLOBS, AXIS_BADGE_HASHES),
+        (PROMOTION_BEFORE_COMMIT, PROMOTION_AFTER_COMMIT, PROMOTION_TREES, PROMOTION_BLOBS, PROMOTION_HASHES),
+        (TENURE_BEFORE_COMMIT, TENURE_AFTER_COMMIT, TENURE_TREES, TENURE_BLOBS, TENURE_HASHES),
+        (GIFT_PRICE_BEFORE_COMMIT, GIFT_PRICE_AFTER_COMMIT, GIFT_PRICE_TREES, GIFT_PRICE_BLOBS, GIFT_PRICE_HASHES),
+    )
+    requests = []
+    for before, after, trees, blobs, _hashes in stages:
+        requests.extend((c, c, "commit") for c in (before, after))
+        requests.extend((t, t, "tree") for t in trees)
+        requests.extend((c + ":" + MAIN_GAME_PATH, oid, "blob") for c, oid in zip((before, after), blobs))
+    proof = _modal_git(root, "cat-file", "--batch", input=("\n".join(r[0] for r in requests) + "\n").encode())
+    values, cursor = [], 0
+    for _expression, wanted, kind in requests:
+        end = proof.index(b"\n", cursor)
+        oid, actual_kind, size = proof[cursor:end].decode().split()
+        size = int(size)
+        value = proof[end + 1:end + 1 + size]
+        if (size < 0 or oid != wanted or actual_kind != kind or len(value) != size
+                or hashlib.sha1(kind.encode() + b" " + str(size).encode() + b"\0" + value).hexdigest() != oid
+                or proof[end + 1 + size:end + 2 + size] != b"\n"):
+            raise ValueError("ORDER-412: forged immutable object")
+        values.append(value)
+        cursor = end + 2 + size
+    if cursor != len(proof):
+        raise ValueError("ORDER-412: trailing immutable proof bytes")
+    for stage, (before, after, trees, _blobs, hashes) in enumerate(stages):
+        offset = stage * 6
+        for index in range(2):
+            headers = values[offset + index].split(b"\n\n", 1)[0].splitlines()
+            if [h for h in headers if h.startswith(b"tree ")] != [b"tree " + trees[index].encode()]:
+                raise ValueError("ORDER-412: immutable tree differs")
+            if index and [h for h in headers if h.startswith(b"parent ")] != [b"parent " + before.encode()]:
+                raise ValueError("ORDER-412: direct parent differs")
+        if tuple(hashlib.sha256(v).hexdigest() for v in values[offset + 4:offset + 6]) != hashes:
+            raise ValueError("ORDER-412: immutable whole raw differs")
+        if _modal_git(root, "diff", "--name-status", "-z", before, after) != b"M\0" + MAIN_GAME_PATH.encode() + b"\0":
+            raise ValueError("ORDER-412: product path population differs")
+        if stage:
+            _modal_git(root, "merge-base", "--is-ancestor", stages[stage - 1][1], before)
+            if values[offset + 4] != values[offset - 1]:
+                raise ValueError("ORDER-412: nonconsecutive raw history")
+    _modal_git(root, "merge-base", "--is-ancestor", GIFT_PRICE_AFTER_COMMIT, "HEAD")
+    if _modal_git(root, "rev-parse", "HEAD:" + MAIN_GAME_PATH).decode().strip() != GIFT_PRICE_BLOBS[1]:
+        raise ValueError("ORDER-412: current Git MainGame differs")
+    if values[65] != current:
+        raise ValueError("ORDER-412: current/blob binding differs")
+    pre412 = _gift_price_badge_inverse(current, values[64])
+    pre409 = _career_tenure_inverse(pre412, values[58])
+    pre406 = _promotion_review_copy_inverse(pre409, values[52])
+    pre403 = _axis_badge_fit_inverse(pre406, values[46])
+    recovered = _people_card_height_inverse(pre403, values[34])
+    intermediate = _people_card_height_step_inverse(pre403, values[40], PEOPLE_CARD_REPAIR_REPLACEMENT)
+    if _people_card_height_step_inverse(intermediate, values[34], PEOPLE_CARD_INITIAL_REPLACEMENT) != recovered:
+        raise ValueError("ORDER-412: stagewise and combined inverses differ")
+    recovered = _pad_hint_font_inverse(recovered, values[28])
+    inverse_stages = (((TUTORIAL_REPLACEMENT,), values[22]),
+                      (INVESTMENT_REPLACEMENTS, values[16]),
+                      ((tuple(v.decode() for v in JOB_STATUS_REPLACEMENT),), values[10]),
+                      (MODAL_REPLACEMENTS, values[4]))
+    if tuple(len(parts) for parts, _ in inverse_stages) != (1, 3, 1, 3):
+        raise ValueError("ORDER-412: prior inverse population differs")
+    for replacements, before in inverse_stages:
+        for old, new in reversed(replacements):
+            old, new = old.encode(), new.encode()
+            if not old or old == new or recovered.count(new) != 1:
+                raise ValueError("ORDER-412: prior inverse is not exact1")
+            recovered = recovered.replace(new, old, 1)
+        if recovered != before:
+            raise ValueError("ORDER-412: changes outside prior exact copy/rendering repairs")
+    return pre412, pre409, pre406, pre403, values[34], values[28], values[22], values[16], recovered
+
+
+def gift_price_badge_predecessor(current, root=None):
+    return _gift_price_badge_proof(current, root)[0]
+
+
+def career_tenure_predecessor(current, root=None):
+    return _gift_price_badge_proof(current, root)[1]
+
+
+def promotion_review_predecessor(current, root=None):
+    return _gift_price_badge_proof(current, root)[2]
+
+
+def axis_badge_fit_predecessor(current, root=None):
+    return _gift_price_badge_proof(current, root)[3]
+
+
+def people_card_height_predecessor(current, root=None):
+    return _gift_price_badge_proof(current, root)[4]
+
+
+def pad_hint_font_predecessor(current, root=None):
+    return _gift_price_badge_proof(current, root)[5]
+
+
+def tutorial_copy_predecessor(current, root=None):
+    return _gift_price_badge_proof(current, root)[6]
+
+
+def investment_footer_predecessor(current, root=None):
+    return _gift_price_badge_proof(current, root)[7]
+
+
+def modal_font_predecessor(current, root=None):
+    return _gift_price_badge_proof(current, root)[8]
+# END_GIFT_PRICE_BADGE_HISTORY_412

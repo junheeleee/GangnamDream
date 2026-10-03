@@ -14,6 +14,39 @@
   ],
   "fast_lanes": [
     {
+      "id": "gift-price-badge",
+      "paths": [],
+      "owned_paths": [
+        "scenes/MainGame.gd",
+        "tools/main_game_locale_history.py",
+        "tools/ui_translation_append.py",
+        "tools/ui_translation_append_self_test.py",
+        "tools/audit_scope.json",
+        "CLAUDE.md",
+        "docs/CODEX_QUEUE.md",
+        "docs/WORK_LOG.md",
+        "docs/STATUS.md",
+        "docs/agent_review_decisions.json",
+        "docs/agent_reviews/ORDER-412.json",
+        "docs/queue_active/ORDER-412.md",
+        "docs/queue_archive/ORDER-412.md"
+      ],
+      "tools": [
+        "tools/ui_translation_append_self_test.py --gift-price-badge",
+        "tools/order365_ui_receipt_compat.py",
+        "tools/full_body_translation_scope.py",
+        "tools/story_graph_contract_audit.py",
+        "tools/chapter5_human_reject_audit.py",
+        "tools/year5_reference_route_audit.py",
+        "tools/chapter1_core_loop_v2_causal_ledger_check.py",
+        "tools/ja_translation_audit.py --scope ui",
+        "tools/zh_translation_audit.py",
+        "tools/en_coverage_check.py",
+        "tools/audit_select.py --verify"
+      ],
+      "why": "Exact412 gift shop price clipping repair only: unchanged KO/EN keys, locale values, prices and accepted receipts; eleven-stage fresh Git proof/nine predecessors, current collector positions and exact11 manifests. Five-language before/after gift screens separately; no historical suite or whole audit."
+    },
+    {
       "id": "career-tenure",
       "paths": [],
       "owned_paths": [
@@ -2475,15 +2508,20 @@
   ],
   "checks": [
     {
-      "tool": "tools/ui_translation_append_self_test.py --career-tenure",
+      "tool": "tools/ui_translation_append_self_test.py --gift-price-badge",
       "paths": [
         "scenes/MainGame.gd",
         "tools/main_game_locale_history.py",
-        "tools/ja_translation_pipeline.py",
         "tools/ui_translation_append.py",
         "tools/ui_translation_append_self_test.py"
       ],
-      "why": "Current409 two anchored edits, ten immutable stages, eight inverses, same-Korean source/leaf identity, current collector English/coordinates, unchanged dictionaries/receipts and exact10 manifests.",
+      "why": "Current412 shop/forced-badge guard and intrinsic price width; immutable11 stages/nine inverses, same Korean and English leaves, actual collector coordinates, unchanged dictionaries/receipts and exact11 manifests.",
+      "godot": false
+    },
+    {
+      "tool": "tools/ui_translation_append_self_test.py --career-tenure",
+      "paths": [],
+      "why": "Historical409 explicit CLI and original focused body preserved. Current412 selection uses gift-price-badge instead of repeating the older HEAD-bound source test.",
       "godot": false
     },
     {

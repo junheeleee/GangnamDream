@@ -1208,3 +1208,34 @@ def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: st
                   ARUBA_FONT_PATH: hashlib.sha256(previous_font).hexdigest()}
     return expected == exchange.digest(comparison)
 # END_CAREER_TENURE_MANIFEST_409
+
+
+# BEGIN_GIFT_PRICE_BADGE_MANIFEST_412
+_GIFT_PRICE_OLD_MANIFEST_MATCHES = _source_manifest_matches
+
+
+def _source_manifest_matches(root: Path, inventory: dict[str, Any], expected: str) -> bool:
+    if "source_hashes" not in inventory:
+        return _GIFT_PRICE_OLD_MANIFEST_MATCHES(root, inventory, expected)
+    import main_game_locale_history as history
+    raw = (root / history.MAIN_GAME_PATH).read_bytes()
+    predecessors = history._gift_price_badge_proof(raw, root)
+    require(isinstance(predecessors, tuple) and len(predecessors) == 9,
+            "gift price badge exact predecessor population differs")
+    hashes = inventory["source_hashes"]
+    require(exchange.digest(hashes) == inventory["source_manifest_sha256"]
+            and hashes.get(history.MAIN_GAME_PATH) == hashlib.sha256(raw).hexdigest(),
+            "gift price badge current source census/raw mismatch")
+    font_raw = (root / ARUBA_FONT_PATH).read_bytes()
+    require(hashes.get(ARUBA_FONT_PATH) == hashlib.sha256(font_raw).hexdigest(),
+            "Aruba source census not bound to current raw")
+    # The original ten manifests plus this current raw; failed402 stays excluded.
+    for main_raw in (raw, *predecessors):
+        comparison = {**hashes, history.MAIN_GAME_PATH: hashlib.sha256(main_raw).hexdigest()}
+        if expected == exchange.digest(comparison):
+            return True
+    previous_font = aruba_font_predecessor(root, font_raw)
+    comparison = {**hashes, history.MAIN_GAME_PATH: hashlib.sha256(predecessors[-1]).hexdigest(),
+                  ARUBA_FONT_PATH: hashlib.sha256(previous_font).hexdigest()}
+    return expected == exchange.digest(comparison)
+# END_GIFT_PRICE_BADGE_MANIFEST_412
