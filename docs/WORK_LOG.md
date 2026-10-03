@@ -2,9 +2,23 @@
 
 이전 원문 전체는 [2026-10-04 구직 메뉴까지의 기록](history/WORK_LOG_2026-10-04_pre_order405.md)에 바이트 그대로 보존했다.
 
+## 2026-10-04 (Codex — 선물 가격 잘림 마감·선물 중국어 안내 착수)
+
+- [412 완료](queue_archive/ORDER-412.md): source916e51b/tree0f772c7 독립GO.
+  5언어 before/after 각10PNG·40가격: 잘림32→0, 제목·수량·설명40개 전량fit.
+  가격만 실제폭을 확보하며 62px최소폭·14px서체·가격/조건 불변. after15.596초PASS.
+- focused137·영향검사/조회15명령652.284초PASS. source2986/helper58/입력10/이전4 불변,
+  accepted41220/b182·JA/CN/TW사전·과거receipt 보존. 구현50d5e35·916e51b main푸시.
+- [413 착수](queue_active/ORDER-413.md): 선물진열대2·짧은설명8·전달준비5,
+  CN/TW각15값·14PNG 표적. 지역저작/화면helper/비저자검수 소유분리.
+- 전수대조에서 기존JA 에세이집의 ‘이미 지나친 밑줄’과 향수의 ‘가격→가치’ 의미2곳을
+  확인했다. 이번가격수리·중문추가와 섞지 않고 이후 별도 existing-target correction으로 처리한다.
+- 일회성/상시규범추가0. 자동PASS는 계약증거이지 재미·문체·출시GO가 아니다.
+  공개GO1·인간OPEN45·본편/새packageHOLD·자연진입/원어민/인간/물리미관측 유지.
+
 ## 2026-10-04 (Codex — 선물 가격 전체폭 수리 후보)
 
-- [412](queue_active/ORDER-412.md): before45386cc 실제5언어10PNG·40가격에서
+- [412](queue_archive/ORDER-412.md): before45386cc 실제5언어10PNG·40가격에서
   KO8정상/EN·JA·CN·TW32잘림을 확인했다. Label46px에 실제50~118px가 필요했다.
 - Main-only50d5e35는 shop+비어있지않은 forced badge만 clip=false로 두어
   실제문자 최소폭을 전달한다. 62px최소폭·14px서체·가격8개·구매조건·원문/번역 불변.
@@ -20,7 +34,7 @@
   주거20카드82px·최대부제361/410px·typed복원10/source2984/helper44/player34 보존.
 - normal11+조회1 PASS635.627초·Chapter1 325.394초.
   source2984/helper54/입력10/이전증거4 불변. 원장41220/b182·기존사전/receipt 보존.
-- [412 착수](queue_active/ORDER-412.md): 화면에서 확인한 선물가격 앞자리잘림을 먼저 수리한다.
+- [412 착수](queue_archive/ORDER-412.md): 화면에서 확인한 선물가격 앞자리잘림을 먼저 수리한다.
   선물shop가격badge만 실제글자폭을 반영하고 5언어8가격 전후를 비교한다. 선물15키 번역은 후속.
 - 410 private보고 중간본을 root가 먼저 복사한 경합은 추적보고 필드에서 exact원문을
   복원해 SHA2a868e2와 일치시켰다. 현private db3f8b7·기존보고/판정 모두 보존했고
