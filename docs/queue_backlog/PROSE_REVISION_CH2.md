@@ -34,7 +34,7 @@
 | F5 | 지연의 연애 전 호칭 | `arc_jiyeon_truth_moment`와 `_05_epilogue`는 "오빠"를 쓴다. 같은 비트의 짝 장면 `arc_jiyeon_truth_warned`는 "민준 씨"를 쓴다. 한 비트 안에서 호칭이 갈린다. | 1장 F4와 같은 판단으로 통일한다. 정본 표의 "연애 전 존댓말"과 짝 장면의 "민준 씨"를 기준으로 권고한다. |
 | F6 | ORDER-399 보완 | 공식 자기소개·명의 문맥의 `{name}` 4곳: `arc_sangchul_mirror_receipt` "보호자 {name}입니다", `v2_daeun_return_after_distance` "{name}입니다", `arc_temptation_fallout` "{name} 명의", `hidden_011` "{name}님". 이름으로 치환하면 "보호자 민준입니다"가 된다. | 이 4곳은 전체 이름 토큰 또는 문자열로 고정한다. ORDER-399 범위에 넣는다. |
 | F7 | 1장 보완: `arc_intro_02_dad_call` EN 선택 라벨 | EN에만 "[Saver mindset]", "[Investor mindset]", "[Founder mindset]"이 있고 KO에는 없다(공개 데모 두 번째 장면). 성향 선택 장면(`arc_spec_*`)의 "[퀀트형]" 류 표시는 KO/EN 모두 있는 의도된 표시라 결함이 아니다. | EN에서 태그를 지워 KO와 맞춘다. 302 successor와 함께 들인다. |
-| F8 | 연말 수첩 장치의 반복 | 세 장면이 모두 수첩 한 페이지를 칸으로 나눈다: 1장 마감 `arc_year1_close`("지킨 것/미룬 것" 두 칸), 새해 `arc_year_one_mark`("혼자 끝낸 일/사람이 열어 준 일" 두 칸), 2장 마감 `arc_year2_close`(세 칸). 같은 장치가 한 달 간격으로 이어지고 매년 반복된다. | 장치는 1장 마감에만 둔다. `year_one_mark`는 달력의 연락 한 칸만, `year2_close`는 다른 사물로 닫는다. 3~5년 마감도 같은 기준으로 확인한다(3장 이후 지시서). |
+| F8 | 연말 수첩 장치의 반복 | 세 장면이 모두 수첩 한 페이지를 칸으로 나눈다: 1장 마감 `arc_year1_close`("지킨 것/미룬 것" 두 칸), 새해 `arc_year_one_mark`("혼자 끝낸 일/사람이 열어 준 일" 두 칸), 2장 마감 `arc_year2_close`(세 칸). 같은 장치가 한 달 간격으로 이어지고 매년 반복된다. | 장치는 1장 마감에만 둔다. `year_one_mark`는 달력의 연락 한 칸만, `year2_close`는 다른 사물로 닫는다. 3~5년 마감도 같은 기준으로 확인한다(3장 이후 지시서). 2026-10-03 적용 대기 초안: [PROSE_DRAFT_CH2_CH5_2026-10-03.md](PROSE_DRAFT_CH2_CH5_2026-10-03.md) A·B(51·104행 함께). |
 
 ## 장면별 판정
 
