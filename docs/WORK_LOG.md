@@ -2,6 +2,17 @@
 
 이전 원문 전체는 [2026-10-04 구직 메뉴까지의 기록](history/WORK_LOG_2026-10-04_pre_order405.md)에 바이트 그대로 보존했다.
 
+## 2026-10-04 (Codex — 주거 중국어38값 수용 후보)
+
+- [411](queue_active/ORDER-411.md): 현재주거·월부담·보증금·부족액·다음계약의
+  legacy14/context1/주거명4를 KO직접 CN/TW19값씩 저작했다.
+  비저자 검수에서 CN 정신력 명사의 일반감정 치환1곳을 수정한 뒤38값 전수수용.
+- 공식 export/check 각2batch PASS(10.058/10.070초), import·append inverse로
+  이전raw 전량보존. CN/TW1516키씩·JA3044불변·accepted41220/b182.
+- 코드·주거조건·비용·돈·시간·기존사전/receipt·공개demo·인간원장 변경0.
+  최종후보 고정 후 실제5상태×2언어10PNG와 normal11+조회1을 검수한다.
+  자동PASS는 계약증거이며 현재 최종GO 전, 본편/새packageHOLD다.
+
 ## 2026-10-04 (Codex — 자기계발 중국어 마감·주거 안내 착수)
 
 - [410 완료](queue_archive/ORDER-410.md): sourcebbda283/treec729353 독립GO.

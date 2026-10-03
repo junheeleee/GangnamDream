@@ -7106,6 +7106,112 @@
           "batch_id": "a04624d2fd9b07c793ed56d679fd5feb7b9a46b094eab151acef2e09fb3b6ce4"
         }
       }
+    },
+    {
+      "order": "ORDER-411",
+      "group": "ui",
+      "roots": [
+        "생활",
+        "주거는 삶의 질이다. 더 나은 곳으로 갈수록 정신력에 여유가 생긴다.",
+        "지금 사는 신혼집과 내 이름으로 남겨 두는 주거 계약은 따로 표시된다.",
+        "현재 생활  —  %s",
+        "현재 주거  —  %s",
+        "내 주거 계약의 월 부담 %s · 현금 %s",
+        "월 고정비 %s · 현금 %s",
+        "다음 주거 없음",
+        "이제 목표는 강남 입성 자산을 만드는 것이다.",
+        "내 주거 계약 갱신  —  %s  (월 %s / 보증금 %s)",
+        "이사  —  %s  (월 %s / 보증금 %s)",
+        "다음 주거 계약  —  %s",
+        "다음 이사  —  %s",
+        "필요 현금 %s · 부족액 %s",
+        "ui.housing.now_status",
+        "고시원",
+        "원룸",
+        "빌라 전세",
+        "아파트 전세"
+      ],
+      "source_leaves": 19,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 19,
+        "zh-TW": 0
+      },
+      "source_review": "Korean-direct housing status, monthly obligations, deposits, shortfall and next-home labels; context owner and housing names preserved without changing eligibility or ownership meaning. Existing translations, gameplay and public demo unchanged. Agent review is not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-CN": "5de977a686ccb930290cbfd78654bf21ee7fd945ca63b6a27b929bb53342fbe7"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-CN": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-CN",
+          "source_revision": "c2ce765b00079ec1be333ea3203e166140f06f1d",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "a0c6f2c09b3d47c9f1b06652f71fc8c8640bd86209d9166a9e8744819c09afcd",
+          "selection_sha256": "29b808e5dc8325aea8f3a41fd30070adf51da626a28d4882a5f619629f29af54",
+          "count": 19,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "bb02da297ba019d5b06f9fb833a135ea1861e8a9875059bf1fdc1d06b188d5dc"
+        }
+      }
+    },
+    {
+      "order": "ORDER-411",
+      "group": "ui",
+      "roots": [
+        "생활",
+        "주거는 삶의 질이다. 더 나은 곳으로 갈수록 정신력에 여유가 생긴다.",
+        "지금 사는 신혼집과 내 이름으로 남겨 두는 주거 계약은 따로 표시된다.",
+        "현재 생활  —  %s",
+        "현재 주거  —  %s",
+        "내 주거 계약의 월 부담 %s · 현금 %s",
+        "월 고정비 %s · 현금 %s",
+        "다음 주거 없음",
+        "이제 목표는 강남 입성 자산을 만드는 것이다.",
+        "내 주거 계약 갱신  —  %s  (월 %s / 보증금 %s)",
+        "이사  —  %s  (월 %s / 보증금 %s)",
+        "다음 주거 계약  —  %s",
+        "다음 이사  —  %s",
+        "필요 현금 %s · 부족액 %s",
+        "ui.housing.now_status",
+        "고시원",
+        "원룸",
+        "빌라 전세",
+        "아파트 전세"
+      ],
+      "source_leaves": 19,
+      "target_leaves_by_locale": {
+        "ja": 0,
+        "zh-CN": 0,
+        "zh-TW": 19
+      },
+      "source_review": "Korean-direct housing status, monthly obligations, deposits, shortfall and next-home labels; context owner and housing names preserved without changing eligibility or ownership meaning. Existing translations, gameplay and public demo unchanged. Agent review is not native or release approval.",
+      "machine_validation": "PASS",
+      "rendered_review": "OPEN",
+      "native_review": "OPEN",
+      "receipt_sha256_by_locale": {
+        "zh-TW": "6e38f963e3eca0361c449d290388804a8f928f908f8432a7a633f06c91ca34c3"
+      },
+      "official_receipt_headers_by_locale": {
+        "zh-TW": {
+          "kind": "full_game_localization_batch",
+          "schema_version": 1,
+          "locale": "zh-TW",
+          "source_revision": "c2ce765b00079ec1be333ea3203e166140f06f1d",
+          "prompt_version": "full-ko-direct-2026-09-07.1",
+          "source_manifest_sha256": "a0c6f2c09b3d47c9f1b06652f71fc8c8640bd86209d9166a9e8744819c09afcd",
+          "selection_sha256": "0e102826f20f4219707a170d09e3860c232bf1e2431a7ba1e909e81f182d39ea",
+          "count": 19,
+          "source_language": "ko",
+          "native_review": "OPEN",
+          "batch_id": "a4d6744b41f1e8123225b28863b1f5ae53cec08a79e0b91fa42474e9e516d4cc"
+        }
+      }
     }
   ],
   "accepted": {
@@ -115731,6 +115837,82 @@
       "ui:행동력이 없습니다:/행동력이 없습니다": {
         "source_sha256": "b5d645fa4086ce41cdc65fe2face8d2832722ad9480e5d8d326e0088663a0866",
         "target_sha256": "4ee42bd83d925f8faaacec296035b6e54f79813902c8c42477d0794b2ccb2a87"
+      },
+      "ui:ui.housing.now_status:/ui.housing.now_status": {
+        "source_sha256": "f586555edf8adc8de429ab64e2122a7f78e4c20d84dab8c879b968a9dec1e686",
+        "target_sha256": "0faaae86905d365824632e8f02288d84056bd2b47adede2a169643509fb36303"
+      },
+      "ui:고시원:/고시원": {
+        "source_sha256": "a52ee78594c084781d55e709f2c0e03d71e157210a180be6bfc3902db0b55d65",
+        "target_sha256": "7b1218bcbee055fc6dd3b9bc234ce671e5123579258da94b54a419f2aa454bad"
+      },
+      "ui:내 주거 계약 갱신  —  %s  (월 %s / 보증금 %s):/내 주거 계약 갱신  —  %s  (월 %s ~1 보증금 %s)": {
+        "source_sha256": "bf2913960241211cc50923d91bfb21f415f18d016fda32f51b4cfedd752569aa",
+        "target_sha256": "9258466c84cc786687ce9288148d6d2b8bce99cfdd6774b1ea47a3cd481c1cf2"
+      },
+      "ui:내 주거 계약의 월 부담 %s · 현금 %s:/내 주거 계약의 월 부담 %s · 현금 %s": {
+        "source_sha256": "d5ee07a370ca286dfaecf8543b0ee2bec9dd8738b461c3b498ad531d13c67f84",
+        "target_sha256": "5cacff1377c189c8da0d0ccd0ba4da4fa2eae41390fe3fadd371ede479f86e58"
+      },
+      "ui:다음 이사  —  %s:/다음 이사  —  %s": {
+        "source_sha256": "2bfe5dd04ac1801f3a6e1c91c4966c24ffccc2bee368b7dd97565be5bcb1018e",
+        "target_sha256": "c2a804354c91e99e6f6c2b8fd6d5f38620fa0486da8e84a013c288040b3b6e40"
+      },
+      "ui:다음 주거 계약  —  %s:/다음 주거 계약  —  %s": {
+        "source_sha256": "a3fce6ae9b1725b09cefa47270fca41947465435ddcb4339c43acf0542cad81a",
+        "target_sha256": "d4cb202703d052e0fc4b6ce9e397a2913f2db3a6d021d7b4d3e36eb3f31416c1"
+      },
+      "ui:다음 주거 없음:/다음 주거 없음": {
+        "source_sha256": "cbc0b06f09c166ee4494392dcb16d78f1560738bc40c458031046126a0a431fe",
+        "target_sha256": "8033f21840fd9915d14269561bb9bf44af22f75e1764becad319b5e1c0d4e3de"
+      },
+      "ui:빌라 전세:/빌라 전세": {
+        "source_sha256": "cbeea07d31af602ee31c0523bf0590268ef4771577acc6a0475f286a5b8ae1ee",
+        "target_sha256": "342f288370465081b42ff44a23c2d6bfb16ee02d3c66c89a9f08bd8b4d2af254"
+      },
+      "ui:생활:/생활": {
+        "source_sha256": "153b566f48a2a37d7b02934e7472f7be9dec62224b62af1de06e8be2ce4d9aa1",
+        "target_sha256": "d8b043c25235220d1d7d3f7321cbc3df21875345342f40fbf72783c174b15408"
+      },
+      "ui:아파트 전세:/아파트 전세": {
+        "source_sha256": "2ab0b666eb7c8436738f98856a4892e7f8b7105f3cc90d42276ab3b5d385da58",
+        "target_sha256": "dcdb05b21c1f7c6c55337e64a7522e993810744dc6bf9d08d4f82e5fe7057d88"
+      },
+      "ui:원룸:/원룸": {
+        "source_sha256": "922cacd41f03639000253ff1bab982f9e702e9ba2b3bc3eaa250a27c0bdb0e9f",
+        "target_sha256": "177f7981c7baa7613d9d7fd282769a4625146b5338c81eab2e56c3fc1d91696c"
+      },
+      "ui:월 고정비 %s · 현금 %s:/월 고정비 %s · 현금 %s": {
+        "source_sha256": "3c462d9ad1690106e2db55b8f8d4febb8f82464a8c007383c23b1782c95ed771",
+        "target_sha256": "3735762163c3e6c7abe8183aa9c639a1c09901c67b0ece4d861196304bde813e"
+      },
+      "ui:이사  —  %s  (월 %s / 보증금 %s):/이사  —  %s  (월 %s ~1 보증금 %s)": {
+        "source_sha256": "f608f222b8e5f21757a34e1580e517582f5157f73b506d995b9afc83028d28c9",
+        "target_sha256": "33ea81be253e10fcb04a2adf4c588f591cc4ee73b05704bb49c4c781a1d312f3"
+      },
+      "ui:이제 목표는 강남 입성 자산을 만드는 것이다.:/이제 목표는 강남 입성 자산을 만드는 것이다.": {
+        "source_sha256": "2b8f03681e9aec5b1ae3a99deda31807b94409a7ce2884795fc88e5a9190c8f5",
+        "target_sha256": "b7574029c46751695acccedf705055a207c03c19549f5125bff6e895b184f9aa"
+      },
+      "ui:주거는 삶의 질이다. 더 나은 곳으로 갈수록 정신력에 여유가 생긴다.:/주거는 삶의 질이다. 더 나은 곳으로 갈수록 정신력에 여유가 생긴다.": {
+        "source_sha256": "ab7d77e36754ba84f6054515344af78d1d55fecf05004b142a48ede1a60c8050",
+        "target_sha256": "bc80980ea7e257361b290935a910502c3f4890457f3b72a1cb4c248ebf8f4565"
+      },
+      "ui:지금 사는 신혼집과 내 이름으로 남겨 두는 주거 계약은 따로 표시된다.:/지금 사는 신혼집과 내 이름으로 남겨 두는 주거 계약은 따로 표시된다.": {
+        "source_sha256": "65ae5988de5ef371cafdf179074297b1e21bd29693a59e254e1b54cc74fbf853",
+        "target_sha256": "63646287118823987ca0447853b15d12a496bd9fd8e98a4c7684cd587259020c"
+      },
+      "ui:필요 현금 %s · 부족액 %s:/필요 현금 %s · 부족액 %s": {
+        "source_sha256": "3b9f3c5914242c2a83a2d87ad57d6d4f6cf3049026f7775e6e0534d79ba7f6b2",
+        "target_sha256": "1616e311a024eebb4e4509d1223b5cbb18ff9252167da293674c933984e7521e"
+      },
+      "ui:현재 생활  —  %s:/현재 생활  —  %s": {
+        "source_sha256": "1d25100bf23aa2b3f9b622b3fc721754bcba3271d724c229649e48a348152264",
+        "target_sha256": "8117026d7ef92e778485a3f25676ffb130035daf602a2c26052964ec6081bc57"
+      },
+      "ui:현재 주거  —  %s:/현재 주거  —  %s": {
+        "source_sha256": "376f2448eab0274da10c016f5fd69e7ccaa1610585dbfc65a3520887be19e5f7",
+        "target_sha256": "5604b3e01b5db6fb74051daf9a3b4ffc125a1293188209bc8acd2d63a3179a4a"
       }
     },
     "zh-TW": {
@@ -171841,10 +172023,86 @@
       "ui:행동력이 없습니다:/행동력이 없습니다": {
         "source_sha256": "b5d645fa4086ce41cdc65fe2face8d2832722ad9480e5d8d326e0088663a0866",
         "target_sha256": "7f60f41b869d45318b772d487bdccfcda01f04b7f1e4704de3629877c42f949e"
+      },
+      "ui:ui.housing.now_status:/ui.housing.now_status": {
+        "source_sha256": "f586555edf8adc8de429ab64e2122a7f78e4c20d84dab8c879b968a9dec1e686",
+        "target_sha256": "70bfe7c9df1d0518d098869648eee91e380cabddb9f449c18ab554503376f099"
+      },
+      "ui:고시원:/고시원": {
+        "source_sha256": "a52ee78594c084781d55e709f2c0e03d71e157210a180be6bfc3902db0b55d65",
+        "target_sha256": "ab355cc637c61709e891106fbca34780543138835e0f5f67ce9d25f7702efc29"
+      },
+      "ui:내 주거 계약 갱신  —  %s  (월 %s / 보증금 %s):/내 주거 계약 갱신  —  %s  (월 %s ~1 보증금 %s)": {
+        "source_sha256": "bf2913960241211cc50923d91bfb21f415f18d016fda32f51b4cfedd752569aa",
+        "target_sha256": "44f9e770cc565b9f064eee62c31843f96195f63966cae7d00a3614be22f4c532"
+      },
+      "ui:내 주거 계약의 월 부담 %s · 현금 %s:/내 주거 계약의 월 부담 %s · 현금 %s": {
+        "source_sha256": "d5ee07a370ca286dfaecf8543b0ee2bec9dd8738b461c3b498ad531d13c67f84",
+        "target_sha256": "25385abfc686e395675fa006f7935d07f62cb5273ba6fa298f8c8e5c3eb73e4f"
+      },
+      "ui:다음 이사  —  %s:/다음 이사  —  %s": {
+        "source_sha256": "2bfe5dd04ac1801f3a6e1c91c4966c24ffccc2bee368b7dd97565be5bcb1018e",
+        "target_sha256": "4686c5e37db96e7a37132c1a3b05eb8ab09b9d0f34a65aa4afee706eaf07c457"
+      },
+      "ui:다음 주거 계약  —  %s:/다음 주거 계약  —  %s": {
+        "source_sha256": "a3fce6ae9b1725b09cefa47270fca41947465435ddcb4339c43acf0542cad81a",
+        "target_sha256": "c7fa7b8fe761fa2fe804e46027e1b045a0a071c7b27c249b846126b9f75e6b55"
+      },
+      "ui:다음 주거 없음:/다음 주거 없음": {
+        "source_sha256": "cbc0b06f09c166ee4494392dcb16d78f1560738bc40c458031046126a0a431fe",
+        "target_sha256": "e46a02e08e3aa86d73a2c15113035774e692cd8857b0fa946adfc05cb6ac90f2"
+      },
+      "ui:빌라 전세:/빌라 전세": {
+        "source_sha256": "cbeea07d31af602ee31c0523bf0590268ef4771577acc6a0475f286a5b8ae1ee",
+        "target_sha256": "b941c6ca66933fd4a9e6b1121ace6660c3ea777b4af04ffee8841d72f256be98"
+      },
+      "ui:생활:/생활": {
+        "source_sha256": "153b566f48a2a37d7b02934e7472f7be9dec62224b62af1de06e8be2ce4d9aa1",
+        "target_sha256": "d8b043c25235220d1d7d3f7321cbc3df21875345342f40fbf72783c174b15408"
+      },
+      "ui:아파트 전세:/아파트 전세": {
+        "source_sha256": "2ab0b666eb7c8436738f98856a4892e7f8b7105f3cc90d42276ab3b5d385da58",
+        "target_sha256": "dcdb05b21c1f7c6c55337e64a7522e993810744dc6bf9d08d4f82e5fe7057d88"
+      },
+      "ui:원룸:/원룸": {
+        "source_sha256": "922cacd41f03639000253ff1bab982f9e702e9ba2b3bc3eaa250a27c0bdb0e9f",
+        "target_sha256": "af57f1a1fd5a212663cc93b8713015dffcf1aa36db086e81a61edbd67f6ce8d4"
+      },
+      "ui:월 고정비 %s · 현금 %s:/월 고정비 %s · 현금 %s": {
+        "source_sha256": "3c462d9ad1690106e2db55b8f8d4febb8f82464a8c007383c23b1782c95ed771",
+        "target_sha256": "5f6c302232563bc5d5cb8da369e555cddc04b3da24b546ca0f922b755d33a49f"
+      },
+      "ui:이사  —  %s  (월 %s / 보증금 %s):/이사  —  %s  (월 %s ~1 보증금 %s)": {
+        "source_sha256": "f608f222b8e5f21757a34e1580e517582f5157f73b506d995b9afc83028d28c9",
+        "target_sha256": "3f26fde1816f4dd2597aec883ae6269b7976d60b3ce62e077116c4eba93372de"
+      },
+      "ui:이제 목표는 강남 입성 자산을 만드는 것이다.:/이제 목표는 강남 입성 자산을 만드는 것이다.": {
+        "source_sha256": "2b8f03681e9aec5b1ae3a99deda31807b94409a7ce2884795fc88e5a9190c8f5",
+        "target_sha256": "822a2bdb8c0f3598913367f0ed120b649a20a604a6caf6d4c715b66d5d30456f"
+      },
+      "ui:주거는 삶의 질이다. 더 나은 곳으로 갈수록 정신력에 여유가 생긴다.:/주거는 삶의 질이다. 더 나은 곳으로 갈수록 정신력에 여유가 생긴다.": {
+        "source_sha256": "ab7d77e36754ba84f6054515344af78d1d55fecf05004b142a48ede1a60c8050",
+        "target_sha256": "cbe6830b591d99c2f275a77f1ac4a15bb0d878b5d8faff2ab18f012a13a8116b"
+      },
+      "ui:지금 사는 신혼집과 내 이름으로 남겨 두는 주거 계약은 따로 표시된다.:/지금 사는 신혼집과 내 이름으로 남겨 두는 주거 계약은 따로 표시된다.": {
+        "source_sha256": "65ae5988de5ef371cafdf179074297b1e21bd29693a59e254e1b54cc74fbf853",
+        "target_sha256": "b0880389778bedf5c6bbd8523b2ab77ee9c1dddffef14d5a9b055a6a2da74b6f"
+      },
+      "ui:필요 현금 %s · 부족액 %s:/필요 현금 %s · 부족액 %s": {
+        "source_sha256": "3b9f3c5914242c2a83a2d87ad57d6d4f6cf3049026f7775e6e0534d79ba7f6b2",
+        "target_sha256": "978884d6eb0b1af2c5e1f3746cde31a70ce783e0f62a2b75229e65323449d8bd"
+      },
+      "ui:현재 생활  —  %s:/현재 생활  —  %s": {
+        "source_sha256": "1d25100bf23aa2b3f9b622b3fc721754bcba3271d724c229649e48a348152264",
+        "target_sha256": "1bf6a88f73769f3b9dbdddcbb7715a3b5f3ab83cff60f377d0528070fa3f78f1"
+      },
+      "ui:현재 주거  —  %s:/현재 주거  —  %s": {
+        "source_sha256": "376f2448eab0274da10c016f5fd69e7ccaa1610585dbfc65a3520887be19e5f7",
+        "target_sha256": "21009c131a98b6db1d1c18fa40259ada97e0e8a331d4b216b5300f72038a72b6"
       }
     }
   },
-  "accepted_sha256": "6e66ebf55400155cffdd64d701999d102ae28acb1518e490813273a6a869f02b",
+  "accepted_sha256": "15b99f784bd26d7226fb68766055d8c8e712a86958b34475f1d0d4dea272e89e",
   "retained_internal_metadata": {
     "ja": {
       "endings:instant_legend:/condition": {
